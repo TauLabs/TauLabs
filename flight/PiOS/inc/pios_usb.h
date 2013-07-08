@@ -35,8 +35,8 @@
 /* Global functions */
 extern int32_t PIOS_USB_Reenumerate();
 extern int32_t PIOS_USB_ChangeConnectionState(bool connected);
-extern bool PIOS_USB_CableConnected(uint8_t id);
-extern bool PIOS_USB_CheckAvailable(uint32_t id);
+extern bool PIOS_USB_CableConnected(uintptr_t id);
+extern bool PIOS_USB_CheckAvailable(uintptr_t id);
 
 #endif /* PIOS_USB_H */
 

@@ -123,10 +123,10 @@ struct pios_dsm_cfg {
 
 extern const struct pios_rcvr_driver pios_dsm_rcvr_driver;
 
-extern int32_t PIOS_DSM_Init(uint32_t *dsm_id,
+extern int32_t PIOS_DSM_Init(uintptr_t *dsm_id,
 			     const struct pios_dsm_cfg *cfg,
 			     const struct pios_com_driver *driver,
-			     uint32_t lower_id,
+			     uintptr_t lower_id,
 			     enum pios_dsm_proto proto,
 			     uint8_t bind);
 

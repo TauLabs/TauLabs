@@ -67,12 +67,12 @@ void PIOS_Board_Init(void) {
 	/* Activate the HID-only USB configuration */
 	PIOS_USB_DESC_HID_ONLY_Init();
 
-	uint32_t pios_usb_id;
+	uintptr_t pios_usb_id;
 	if (PIOS_USB_Init(&pios_usb_id, &pios_usb_main_cfg)) {
 		PIOS_Assert(0);
 	}
 #if defined(PIOS_INCLUDE_USB_HID) && defined(PIOS_INCLUDE_COM_MSG)
-	uint32_t pios_usb_hid_id;
+	uintptr_t pios_usb_hid_id;
 	if (PIOS_USB_HID_Init(&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {
 		PIOS_Assert(0);
 	}

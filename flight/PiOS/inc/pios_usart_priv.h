@@ -50,8 +50,8 @@ struct pios_usart_cfg {
 	bool rxtx_swap;
 };
 
-extern int32_t PIOS_USART_Init(uint32_t * usart_id, const struct pios_usart_cfg * cfg);
-extern const struct pios_usart_cfg * PIOS_USART_GetConfig(uint32_t usart_id);
+extern int32_t PIOS_USART_Init(uintptr_t * usart_id, const struct pios_usart_cfg * cfg);
+extern const struct pios_usart_cfg * PIOS_USART_GetConfig(uintptr_t usart_id);
 
 #endif /* PIOS_USART_PRIV_H */
 

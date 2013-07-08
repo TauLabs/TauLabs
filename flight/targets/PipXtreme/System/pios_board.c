@@ -54,7 +54,7 @@ uintptr_t pios_com_telem_uart_telem_id;
 uintptr_t pios_com_telem_uart_flexi_id;
 uintptr_t pios_com_telemetry_id;
 #if defined(PIOS_INCLUDE_PPM)
-uint32_t pios_ppm_rcvr_id;
+uintptr_t pios_ppm_rcvr_id;
 #endif
 #if defined(PIOS_INCLUDE_RFM22B)
 uint32_t pios_rfm22b_id;
@@ -139,12 +139,12 @@ void PIOS_Board_Init(void) {
 #endif
 
 	/*Initialize the USB device */
-	uint32_t pios_usb_id;
+	uintptr_t pios_usb_id;
 	PIOS_USB_Init(&pios_usb_id, &pios_usb_main_cfg);
 
 	/* Configure the USB HID port */
 	{
-		uint32_t pios_usb_hid_id;
+		uintptr_t pios_usb_hid_id;
 		if (PIOS_USB_HID_Init(&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {
 			PIOS_Assert(0);
 		}
@@ -163,7 +163,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_USB_CDC)
 	if (usb_cdc_present)
 	{
-		uint32_t pios_usb_cdc_id;
+		uintptr_t pios_usb_cdc_id;
 		if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
 			PIOS_Assert(0);
 		}
@@ -182,7 +182,7 @@ void PIOS_Board_Init(void) {
 	/* Configure the telemetry serial port */
 #ifndef PIOS_RFM22B_DEBUG_ON_TELEM
 	{
-		uint32_t pios_usart1_id;
+		uintptr_t pios_usart1_id;
 		if (PIOS_USART_Init(&pios_usart1_id, &pios_usart_serial_cfg)) {
 			PIOS_Assert(0);
 		}
@@ -204,7 +204,7 @@ void PIOS_Board_Init(void) {
 	OPLinkSettingsGet(&oplinkSettings);
 	if (oplinkSettings.PPM == OPLINKSETTINGS_PPM_TRUE)
 	{
-		uint32_t pios_ppm_id;
+		uintptr_t pios_ppm_id;
 		PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
 
 		if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id))
@@ -215,7 +215,7 @@ void PIOS_Board_Init(void) {
 
 	/* Configure the flexi serial port */
 	{
-		uint32_t pios_usart3_id;
+		uintptr_t pios_usart3_id;
 		if (PIOS_USART_Init(&pios_usart3_id, &pios_usart_telem_flexi_cfg)) {
 			PIOS_Assert(0);
 		}

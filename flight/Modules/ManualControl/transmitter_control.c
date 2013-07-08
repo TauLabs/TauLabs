@@ -199,7 +199,7 @@ int32_t transmitter_control_update()
 	for (uint8_t n = 0; 
 	     n < MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM && n < MANUALCONTROLCOMMAND_CHANNEL_NUMELEM;
 	     ++n) {
-		extern uint32_t pios_rcvr_group_map[];
+		extern uintptr_t pios_rcvr_group_map[];
 
 		if (settings.ChannelGroups[n] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 			cmd.Channel[n] = PIOS_RCVR_INVALID;
@@ -210,7 +210,7 @@ int32_t transmitter_control_update()
 
 		// If a channel has timed out this is not valid data and we shouldn't update anything
 		// until we decide to go to failsafe
-		if(cmd.Channel[n] == PIOS_RCVR_TIMEOUT)
+		if(cmd.Channel[n] == (uint16_t) PIOS_RCVR_TIMEOUT)
 			valid_input_detected = false;
 		else
 			scaledChannel[n] = scaleChannel(cmd.Channel[n], settings.ChannelMax[n],	settings.ChannelMin[n], settings.ChannelNeutral[n]);
@@ -591,14 +591,14 @@ static void resetRcvrActivity(struct rcvr_activity_fsm * fsm)
 	fsm->sample_count = 0;
 }
 
-static void updateRcvrActivitySample(uint32_t rcvr_id, uint16_t samples[], uint8_t max_channels) {
+static void updateRcvrActivitySample(uintptr_t rcvr_id, uint16_t samples[], uint8_t max_channels) {
 	for (uint8_t channel = 1; channel <= max_channels; channel++) {
 		// Subtract 1 because channels are 1 indexed
 		samples[channel - 1] = PIOS_RCVR_Read(rcvr_id, channel);
 	}
 }
 
-static bool updateRcvrActivityCompare(uint32_t rcvr_id, struct rcvr_activity_fsm * fsm)
+static bool updateRcvrActivityCompare(uintptr_t rcvr_id, struct rcvr_activity_fsm * fsm)
 {
 	bool activity_updated = false;
 
@@ -661,7 +661,7 @@ static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm)
 		resetRcvrActivity(fsm);
 	}
 
-	extern uint32_t pios_rcvr_group_map[];
+	extern uintptr_t pios_rcvr_group_map[];
 	if (!pios_rcvr_group_map[fsm->group]) {
 		/* Unbound group, skip it */
 		goto group_completed;

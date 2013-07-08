@@ -14,7 +14,7 @@ struct pios_tim_dev {
 	uint8_t num_channels;
 
 	const struct pios_tim_callbacks * callbacks;
-	uint32_t context;
+	uintptr_t context;
 };
 
 #if 0
@@ -105,7 +105,7 @@ int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg)
 	return 0;
 }
 
-int32_t PIOS_TIM_InitChannels(uint32_t * tim_id, const struct pios_tim_channel * channels, uint8_t num_channels, const struct pios_tim_callbacks * callbacks, uint32_t context)
+int32_t PIOS_TIM_InitChannels(uintptr_t * tim_id, const struct pios_tim_channel * channels, uint8_t num_channels, const struct pios_tim_callbacks * callbacks, uintptr_t context)
 {
 	PIOS_Assert(channels);
 	PIOS_Assert(num_channels);
@@ -146,7 +146,7 @@ int32_t PIOS_TIM_InitChannels(uint32_t * tim_id, const struct pios_tim_channel *
 		}
 	}
 
-	*tim_id = (uint32_t)tim_dev;
+	*tim_id = (uintptr_t)tim_dev;
 
 	return(0);
 
@@ -255,14 +255,14 @@ static void PIOS_TIM_generic_irq_handler(TIM_TypeDef * timer)
 				if (edge_count < 16) {
 					/* Call the overflow callback first */
 					if (tim_dev->callbacks->overflow) {
-						(*tim_dev->callbacks->overflow)((uint32_t)tim_dev,
+						(*tim_dev->callbacks->overflow)((uintptr_t)tim_dev,
 									tim_dev->context,
 									j,
 									overflow_count);
 					}
 					/* Call the edge callback second */
 					if (tim_dev->callbacks->edge) {
-						(*tim_dev->callbacks->edge)((uint32_t)tim_dev,
+						(*tim_dev->callbacks->edge)((uintptr_t)tim_dev,
 									tim_dev->context,
 									j,
 									edge_count);
@@ -270,26 +270,26 @@ static void PIOS_TIM_generic_irq_handler(TIM_TypeDef * timer)
 				} else {
 					/* Call the edge callback first */
 					if (tim_dev->callbacks->edge) {
-						(*tim_dev->callbacks->edge)((uint32_t)tim_dev,
+						(*tim_dev->callbacks->edge)((uintptr_t)tim_dev,
 									tim_dev->context,
 									j,
 									edge_count);
 					}
 					/* Call the overflow callback second */
 					if (tim_dev->callbacks->overflow) {
-						(*tim_dev->callbacks->overflow)((uint32_t)tim_dev,
+						(*tim_dev->callbacks->overflow)((uintptr_t)tim_dev,
 									tim_dev->context,
 									j,
 									overflow_count);
 					}
 				}
 			} else if (overflow_event && tim_dev->callbacks->overflow) {
-				(*tim_dev->callbacks->overflow)((uint32_t)tim_dev,
+				(*tim_dev->callbacks->overflow)((uintptr_t)tim_dev,
 								tim_dev->context,
 								j,
 								overflow_count);
 			} else if (edge_event && tim_dev->callbacks->edge) {
-				(*tim_dev->callbacks->edge)((uint32_t)tim_dev,
+				(*tim_dev->callbacks->edge)((uintptr_t)tim_dev,
 							tim_dev->context,
 							j,
 							edge_count);

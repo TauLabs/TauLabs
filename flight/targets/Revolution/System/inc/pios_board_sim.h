@@ -53,11 +53,11 @@
 #define PIOS_UDP_RX_BUFFER_SIZE		PIOS_COM_BUFFER_SIZE
 #define PIOS_TCP_RX_BUFFER_SIZE		PIOS_COM_BUFFER_SIZE
 
-extern uint32_t pios_com_telem_rf_id;
-extern uint32_t pios_com_telem_usb_id;
-extern uint32_t pios_com_gps_id;
-extern uint32_t pios_com_debug_id;
-extern uint32_t pios_com_spectrum_id;
+extern uintptr_t pios_com_telem_rf_id;
+extern uintptr_t pios_com_telem_usb_id;
+extern uintptr_t pios_com_gps_id;
+extern uintptr_t pios_com_debug_id;
+extern uintptr_t pios_com_spectrum_id;
 
 #define PIOS_COM_TELEM_RF                       (pios_com_telem_rf_id)
 #define PIOS_COM_TELEM_USB                      (pios_com_telem_usb_id)

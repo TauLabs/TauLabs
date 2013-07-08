@@ -102,12 +102,13 @@ extern const struct pios_com_driver pios_serial_com_driver;
 extern const struct pios_com_driver pios_udp_com_driver;
 extern const struct pios_com_driver pios_tcp_com_driver;
 
-uint32_t pios_com_telem_rf_id;
-uint32_t pios_com_telem_usb_id;
-uint32_t pios_com_gps_id;
-uint32_t pios_com_aux_id;
-uint32_t pios_com_spectrum_id;
-uint32_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
+uintptr_t pios_com_debug_id;
+uintptr_t pios_com_telem_rf_id;
+uintptr_t pios_com_telem_usb_id;
+uintptr_t pios_com_gps_id;
+uintptr_t pios_com_aux_id;
+uintptr_t pios_com_spectrum_id;
+uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 /**
  * PIOS_Board_Init()
@@ -153,7 +154,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && 1
 	{
-		uint32_t pios_tcp_telem_rf_id;
+		uintptr_t pios_tcp_telem_rf_id;
 		if (PIOS_TCP_Init(&pios_tcp_telem_rf_id, &pios_tcp_telem_cfg)) {
 			PIOS_Assert(0);
 		}
@@ -172,7 +173,7 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && 0
 	{
-		uint32_t pios_udp_telem_rf_id;
+		uintptr_t pios_udp_telem_rf_id;
 		if (PIOS_UDP_Init(&pios_udp_telem_rf_id, &pios_udp_telem_cfg)) {
 			PIOS_Assert(0);
 		}
@@ -192,7 +193,7 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_GPS)
 	{
-		uint32_t pios_tcp_gps_id;
+		uintptr_t pios_tcp_gps_id;
 		if (PIOS_TCP_Init(&pios_tcp_gps_id, &pios_tcp_gps_cfg)) {
 			PIOS_Assert(0);
 		}
@@ -209,9 +210,9 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
 	GCSReceiverInitialize();
-	uint32_t pios_gcsrcvr_id;
+	uintptr_t pios_gcsrcvr_id;
 	PIOS_GCSRCVR_Init(&pios_gcsrcvr_id);
-	uint32_t pios_gcsrcvr_rcvr_id;
+	uintptr_t pios_gcsrcvr_rcvr_id;
 	if (PIOS_RCVR_Init(&pios_gcsrcvr_rcvr_id, &pios_gcsrcvr_rcvr_driver, pios_gcsrcvr_id)) {
 		PIOS_Assert(0);
 	}

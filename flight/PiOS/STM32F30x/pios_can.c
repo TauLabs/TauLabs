@@ -36,10 +36,10 @@
 #include "pios_can_priv.h"
 
 /* Provide a COM driver */
-static void PIOS_CAN_RegisterRxCallback(uint32_t can_id, pios_com_callback rx_in_cb, uint32_t context);
-static void PIOS_CAN_RegisterTxCallback(uint32_t can_id, pios_com_callback tx_out_cb, uint32_t context);
-static void PIOS_CAN_TxStart(uint32_t can_id, uint16_t tx_bytes_avail);
-static void PIOS_CAN_RxStart(uint32_t can_id, uint16_t rx_bytes_avail);
+static void PIOS_CAN_RegisterRxCallback(uintptr_t can_id, pios_com_callback rx_in_cb, uintptr_t context);
+static void PIOS_CAN_RegisterTxCallback(uintptr_t can_id, pios_com_callback tx_out_cb, uintptr_t context);
+static void PIOS_CAN_TxStart(uintptr_t can_id, uint16_t tx_bytes_avail);
+static void PIOS_CAN_RxStart(uintptr_t can_id, uint16_t rx_bytes_avail);
 
 const struct pios_com_driver pios_can_com_driver = {
 	.tx_start   = PIOS_CAN_TxStart,
@@ -57,9 +57,9 @@ struct pios_can_dev {
 	enum pios_can_dev_magic     magic;
 	const struct pios_can_cfg  *cfg;
 	pios_com_callback rx_in_cb;
-	uint32_t rx_in_context;
+	uintptr_t rx_in_context;
 	pios_com_callback tx_out_cb;
-	uint32_t tx_out_context;
+	uintptr_t tx_out_context;
 };
 
 // Local constants
@@ -131,7 +131,7 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 	if (can_dev->cfg->tx.gpio != 0)
 		GPIO_Init(can_dev->cfg->tx.gpio, (GPIO_InitTypeDef *)&can_dev->cfg->tx.init);
 
-	*can_id = (uint32_t)can_dev;
+	*can_id = (uintptr_t)can_dev;
 
 	CAN_DeInit(can_dev->cfg->regs);
 	CAN_Init(can_dev->cfg->regs, (CAN_InitTypeDef *)&can_dev->cfg->init);
@@ -160,7 +160,7 @@ out_fail:
 	return(-1);
 }
 
-static void PIOS_CAN_RxStart(uint32_t can_id, uint16_t rx_bytes_avail)
+static void PIOS_CAN_RxStart(uintptr_t can_id, uint16_t rx_bytes_avail)
 {
 	struct pios_can_dev *can_dev = (struct pios_can_dev *)can_id;
 	
@@ -170,7 +170,7 @@ static void PIOS_CAN_RxStart(uint32_t can_id, uint16_t rx_bytes_avail)
 	CAN_ITConfig(can_dev->cfg->regs, CAN_IT_FMP1, ENABLE);
 }
 
-static void PIOS_CAN_TxStart(uint32_t can_id, uint16_t tx_bytes_avail)
+static void PIOS_CAN_TxStart(uintptr_t can_id, uint16_t tx_bytes_avail)
 {
 	struct pios_can_dev *can_dev = (struct pios_can_dev *)can_id;
 	
@@ -182,7 +182,7 @@ static void PIOS_CAN_TxStart(uint32_t can_id, uint16_t tx_bytes_avail)
 	USB_HP_CAN1_TX_IRQHandler();
 }
 
-static void PIOS_CAN_RegisterRxCallback(uint32_t can_id, pios_com_callback rx_in_cb, uint32_t context)
+static void PIOS_CAN_RegisterRxCallback(uintptr_t can_id, pios_com_callback rx_in_cb, uintptr_t context)
 {
 	struct pios_can_dev *can_dev = (struct pios_can_dev *)can_id;
 
@@ -197,7 +197,7 @@ static void PIOS_CAN_RegisterRxCallback(uint32_t can_id, pios_com_callback rx_in
 	can_dev->rx_in_cb = rx_in_cb;
 }
 
-static void PIOS_CAN_RegisterTxCallback(uint32_t can_id, pios_com_callback tx_out_cb, uint32_t context)
+static void PIOS_CAN_RegisterTxCallback(uintptr_t can_id, pios_com_callback tx_out_cb, uintptr_t context)
 {
 	struct pios_can_dev *can_dev = (struct pios_can_dev *)can_id;
 
