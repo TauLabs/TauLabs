@@ -304,13 +304,15 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_FLASH)
 	/* Inititialize all flash drivers */
-	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
+	if (PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg) != 0)
+		panic(1);
 
 	/* Register the partition table */
 	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
 
 	/* Mount all filesystems */
-	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
+	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS) != 0)
+		panic(1);
 #endif	/* PIOS_INCLUDE_FLASH */
 
 	/* Initialize UAVObject libraries */
