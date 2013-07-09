@@ -59,7 +59,7 @@ static uint16_t calibrationCount=0;
 void baro_airspeedGetAnalog(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
 {
 	//Wait until our turn
-	vTaskDelayUntil(lastSysTime, SAMPLING_DELAY_MS_MPXV / portTICK_RATE_MS);
+	vTaskDelayUntil(lastSysTime, SAMPLING_DELAY_MS_MPXV * portTICK_RATE_MS);
 
 	//Ensure that the ADC pin is properly configured
 	if(airspeedADCPin <0){ //It's not, so revert to former sensor type

@@ -60,7 +60,7 @@ static uint16_t calibrationCount=0;
 void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
 {
 	//Wait until our turn.
-	vTaskDelayUntil(lastSysTime, SAMPLING_DELAY_MS_ETASV3 / portTICK_RATE_MS);
+	vTaskDelayUntil(lastSysTime, SAMPLING_DELAY_MS_ETASV3 * portTICK_RATE_MS);
 
 	static uint32_t calibrationSum = 0;
 	AirspeedSettingsData airspeedSettingsData;
