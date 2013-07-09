@@ -77,6 +77,12 @@ bool FlyingF3::queryCapabilities(BoardCapabilities capability)
     return false;
 }
 
+QStringList FlyingF3::queryChannelBanks()
+{
+    return QStringList(QStringList() << "1-4" << "5-7" << "8-10" << "11");
+}
+
+
 /**
  * @brief FlyingF3::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support

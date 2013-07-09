@@ -67,6 +67,12 @@ bool CopterControl::queryCapabilities(BoardCapabilities capability)
     return false;
 }
 
+QStringList CopterControl::queryChannelBanks()
+{
+    return QStringList(QStringList() << "1-3" <<  "4" << "5,7-8" << "6,9-10");
+}
+
+
 QString CopterControl::shortName()
 {
     return QString("CopterControl");
