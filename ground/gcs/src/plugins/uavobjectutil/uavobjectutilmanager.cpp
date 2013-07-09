@@ -444,6 +444,9 @@ FirmwareIAPObj::DataFields UAVObjectUtilManager::getFirmwareIap()
 /**
   * Get the UAV Board model, for anyone interested. Return format is:
   * (Board Type << 8) + BoardRevision.
+  *
+  *  NOTE: Should get deprecated as a public method now, in favour
+  *  of getBoardType and subsequent board capability queries.
   */
 int UAVObjectUtilManager::getBoardModel()
 {

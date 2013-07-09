@@ -78,6 +78,11 @@ bool Revolution::queryCapabilities(BoardCapabilities capability)
     return false;
 }
 
+QStringList Revolution::queryChannelBanks()
+{
+    return QStringList(QStringList() << "1-2" << "3" << "4" << "5-6");
+}
+
 /**
  * @brief Revolution::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support

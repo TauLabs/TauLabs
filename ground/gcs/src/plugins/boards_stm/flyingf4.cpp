@@ -77,6 +77,12 @@ bool FlyingF4::queryCapabilities(BoardCapabilities capability)
     return false;
 }
 
+QStringList FlyingF4::queryChannelBanks()
+{
+    return QStringList(QStringList() << "1-4" << "5-8");
+}
+
+
 /**
  * @brief FlyingF4::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
