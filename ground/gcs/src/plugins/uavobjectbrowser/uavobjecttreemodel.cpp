@@ -44,7 +44,7 @@ UAVObjectTreeModel::UAVObjectTreeModel(QObject *parent, bool categorize, bool us
     m_recentlyUpdatedTimeout(500), // ms
     m_recentlyUpdatedColor(QColor(255, 230, 230)),
     m_manuallyChangedColor(QColor(230, 230, 255)),
-    m_updatedOnlyColor(QColor(255,255,0)),
+    m_updatedOnlyColor(QColor(174,207,250,255)),
     m_useScientificFloatNotation(useScientificNotation)
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
