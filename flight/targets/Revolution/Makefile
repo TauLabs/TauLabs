@@ -67,7 +67,6 @@ MODULES += ManualControl
 MODULES += Stabilization
 MODULES += Actuator
 MODULES += FirmwareIAP
-MODULES += Airspeed/revolution
 MODULES += Telemetry
 
 OPTMODULES += GPS
@@ -81,6 +80,7 @@ OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += Battery
 OPTMODULES += VibrationAnalysis
+OPTMODULES += Airspeed/revolution
 
 PYMODULES = 
 #FlightPlan
@@ -167,6 +167,7 @@ SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
+SRC += $(MATHLIB)/atmospheric_math.c
 
 ## PIOS Hardware (STM32F4xx)
 include $(PIOS)/STM32F4xx/library.mk

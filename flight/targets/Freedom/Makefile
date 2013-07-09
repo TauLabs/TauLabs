@@ -43,7 +43,6 @@ MODULES += Actuator
 MODULES += ManualControl
 MODULES += Stabilization
 MODULES += FirmwareIAP
-#MODULES += Airspeed/revolution
 MODULES += Telemetry
 
 OPTMODULES += GPS
@@ -60,6 +59,7 @@ OPTMODULES += Battery
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += ComUsbBridge
+OPTMODULES += Airspeed/revolution
 
 PYMODULES = 
 #FlightPlan
@@ -147,6 +147,7 @@ SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/pid.c
 SRC += $(MATHLIB)/misc_math.c
+SRC += $(MATHLIB)/atmospheric_math.c
 
 ## For RFM22b
 SRC += $(RSCODE)/berlekamp.c
@@ -161,6 +162,8 @@ include $(PIOS)/STM32F4xx/library.mk
 SRC += $(PIOSCOMMON)/pios_mpu6000.c
 SRC += $(PIOSCOMMON)/pios_bma180.c
 SRC += $(PIOSCOMMON)/pios_etasv3.c
+SRC += $(PIOSCOMMON)/pios_mpxv5004.c
+SRC += $(PIOSCOMMON)/pios_mpxv7002.c
 SRC += $(PIOSCOMMON)/pios_gcsrcvr.c
 SRC += $(PIOSCOMMON)/pios_l3gd20.c
 SRC += $(PIOSCOMMON)/pios_hmc5883.c

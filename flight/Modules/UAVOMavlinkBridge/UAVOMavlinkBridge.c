@@ -165,46 +165,46 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	}
 
 	if (GPSPositionHandle() == NULL ){
-		gpsPosData.Altitude=0;
-		gpsPosData.GeoidSeparation=0;
-		gpsPosData.Groundspeed=0;
-		gpsPosData.HDOP=0;
-		gpsPosData.Heading=0;
-		gpsPosData.Latitude=0;
-		gpsPosData.Longitude=0;
-		gpsPosData.PDOP=0;
-		gpsPosData.Satellites=0;
-		gpsPosData.Status=0;
-		gpsPosData.VDOP=0;
+		gpsPosData.Altitude = 0;
+		gpsPosData.GeoidSeparation = 0;
+		gpsPosData.Groundspeed = 0;
+		gpsPosData.HDOP = 0;
+		gpsPosData.Heading = 0;
+		gpsPosData.Latitude = 0;
+		gpsPosData.Longitude = 0;
+		gpsPosData.PDOP = 0;
+		gpsPosData.Satellites = 0;
+		gpsPosData.Status = 0;
+		gpsPosData.VDOP = 0;
 	}
 
 	if (FlightBatteryStateHandle() == NULL ) {
-		batState.AvgCurrent=0;
-		batState.BoardSupplyVoltage=0;
-		batState.ConsumedEnergy=0;
-		batState.Current=0;
-		batState.EstimatedFlightTime=0;
-		batState.PeakCurrent=0;
-		batState.Voltage=0;
+		batState.AvgCurrent = 0;
+		batState.BoardSupplyVoltage = 0;
+		batState.ConsumedEnergy = 0;
+		batState.Current = 0;
+		batState.EstimatedFlightTime = 0;
+		batState.PeakCurrent = 0;
+		batState.Voltage = 0;
 	}
 
 	if (AirspeedActualHandle() == NULL ) {
-		airspeedActual.CalibratedAirspeed=0;
-		airspeedActual.TrueAirspeed=0;
-		airspeedActual.alpha=0;
-		airspeedActual.beta=0;
+		airspeedActual.CalibratedAirspeed = 0;
+		airspeedActual.TrueAirspeed = 0;
+		airspeedActual.alpha = 0;
+		airspeedActual.beta = 0;
 	}
 
 	if (HomeLocationHandle() == NULL ) {
 		homeLocation.Set=HOMELOCATION_SET_FALSE;
-		homeLocation.Latitude=0;
-		homeLocation.Longitude=0;
-		homeLocation.Altitude=0;
-		homeLocation.Be[0]=0;
-		homeLocation.Be[1]=0;
-		homeLocation.Be[2]=0;
-		homeLocation.GroundTemperature=15;
-		homeLocation.SeaLevelPressure=1013;
+		homeLocation.Latitude = 0;
+		homeLocation.Longitude = 0;
+		homeLocation.Altitude = 0;
+		homeLocation.Be[0] = 0;
+		homeLocation.Be[1] = 0;
+		homeLocation.Be[2] = 0;
+		homeLocation.GroundTemperature = (STANDARD_AIR_TEMPERATURE - CELSIUS2KELVIN) * 10;
+		homeLocation.SeaLevelPressure = STANDARD_AIR_SEA_LEVEL_PRESSURE/1000;
 	}
 
 	uint16_t msg_length;
