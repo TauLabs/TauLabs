@@ -930,6 +930,9 @@ all_ut_xml: $(addsuffix _xml, $(addprefix ut_, $(ALL_UNITTESTS)))
 .PHONY: all_ut_run
 all_ut_run: $(addsuffix _run, $(addprefix ut_, $(ALL_UNITTESTS)))
 
+.PHONY: all_ut_gcov
+all_ut_gcov: | $(addsuffix _gcov, $(addprefix ut_, $(ALL_UNITTESTS)))
+
 .PHONY: all_ut_clean
 all_ut_clean:
 	$(V0) @echo " CLEAN      $@"
@@ -939,6 +942,7 @@ all_ut_clean:
 define UT_TEMPLATE
 .PHONY: ut_$(1)
 ut_$(1): ut_$(1)_run
+ut_$(1)_gcov: | ut_$(1)_xml
 
 ut_$(1)_%: $$(UT_OUT_DIR)
 	$(V1) mkdir -p $(UT_OUT_DIR)/$(1)
