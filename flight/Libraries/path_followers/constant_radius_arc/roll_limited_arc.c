@@ -67,8 +67,8 @@ float roll_limited_arc_follower(PositionActualData *positionActual, VelocityActu
 	float gamma = atan2f(velocityActual->Down, sqrtf(powf(velocityActual->North, 2) + powf(velocityActual->East, 2)));
 
 	// Fixme: Tuning values shouldn't be hard coded
-	float k4 = 7.5/true_airspeed_desired;
-	float k5 = 0.4;
+    float k4 = 7.5f/true_airspeed_desired;
+    float k5 = 0.4f;
 
 	// Determine sense of arc path
 	int8_t lambda;
@@ -98,7 +98,7 @@ float roll_limited_arc_follower(PositionActualData *positionActual, VelocityActu
 	float d_tilde_dot = -lambda*V*sinf(psi_tilde)*cosf(gamma) + W*cosf(psi - psi_wind);
 
 	float M4;
-	if (d_min > 1e3)
+    if (d_min > 1e3f)
 		M4 = tanf(phi_max) - V*V/(d_min*GRAVITY)*cosf(gamma_max)*cosf(psi_tilde_thresh);
 	else
 		M4 = tanf(phi_max)*(1 - cosf(gamma_max)*cosf(psi_tilde_thresh));

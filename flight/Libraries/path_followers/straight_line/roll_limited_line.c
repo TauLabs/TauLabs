@@ -74,8 +74,8 @@ float roll_limited_line_follower(PositionActualData *positionActual, VelocityAct
 	// Roll command
 	float roll_c_R;
 
-	float k1 = 3.9/true_airspeed_desired; // Dividing by airspeed ensures that roll rates stay constant with increasing scale
-	float k2 = 1;
+    float k1 = 3.9f/true_airspeed_desired; // Dividing by airspeed ensures that roll rates stay constant with increasing scale
+    float k2 = 1.0f;
 
 	float chi_q=atan2f(q[1], q[0]);
 	float psi_tilde = circular_modulus_rad(psi - chi_q); // This is the difference between the vehicle heading and the path heading

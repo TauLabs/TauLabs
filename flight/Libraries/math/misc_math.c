@@ -116,7 +116,7 @@ float circular_modulus_rad(float err)
 enum arc_center_results find_arc_center(float start_point[2], float end_point[2], float radius, bool clockwise, bool minor, float center[2])
 {
 	// Sanity check
-	if(fabsf(start_point[0] - end_point[0]) < 1e-6 && fabsf(start_point[1] - end_point[1]) < 1e-6){
+	if(fabsf(start_point[0] - end_point[0]) < 1e-6f && fabsf(start_point[1] - end_point[1]) < 1e-6f){
 		// This means that the start point and end point are directly on top of each other. In the
 		// case of coincident points, there is not enough information to define the circle
 		center[0]=NAN;
@@ -155,7 +155,7 @@ enum arc_center_results find_arc_center(float start_point[2], float end_point[2]
 
 	d = sqrtf(d2);
 
-	if (fabsf(p_n) < 1e-3 && fabsf(p_e) < 1e-3) {
+	if (fabsf(p_n) < 1e-3f && fabsf(p_e) < 1e-3f) {
 		center[0] = m_n;
 		center[1] = m_e;
 	}
