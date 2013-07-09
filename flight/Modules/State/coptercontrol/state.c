@@ -239,7 +239,7 @@ static void StateTask(void *parameters)
 			getSensorsCC(prelim_accels, prelim_gyros, &gyro_queue, glblAtt, &gyrosBias, &sensorSettings);
 		}
 
-		int8_t groundTemperature = round(prelim_accels[3]);
+		int8_t groundTemperature = round(prelim_accels[3]) * 10; // Convert into tenths of degrees
 
 		HomeLocationGroundTemperatureSet(&groundTemperature);
 	}
@@ -352,7 +352,7 @@ static void StateTask(void *parameters)
 
 				// Convert from millibar to Pa
 				float staticAirDensity = staticPressure * 100 * 0.003483613507536f /
-				    (homeLocation.GroundTemperature + CELSIUS2KELVIN);
+				    (homeLocation.GroundTemperature/10 + CELSIUS2KELVIN);
 
 				gps_airspeed_update(&gpsVelocityData, staticAirDensity);
 #endif
