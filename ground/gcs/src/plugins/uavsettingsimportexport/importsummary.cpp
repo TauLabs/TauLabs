@@ -118,7 +118,7 @@ void ImportSummaryDialog::doTheSaving()
         QCheckBox *box = dynamic_cast<QCheckBox*>(ui->importSummaryList->cellWidget(i,0));
         if (box->isChecked()) {
             UAVObject* obj = objManager->getObject(uavObjectName);
-            utilManager->saveObjectToSD(obj);
+            utilManager->saveObjectToFlash(obj);
             this->repaint();
         }
     }

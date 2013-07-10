@@ -118,7 +118,7 @@ void smartSaveButton::processOperation(QPushButton * button,bool save)
                 qDebug()<<"SMARTSAVEBUTTON"<<"Save try number"<<i<<"Object"<<obj->getName();
                 connect(utilMngr,SIGNAL(saveCompleted(int,bool)),this,SLOT(saving_finished(int,bool)));
                 connect(&timer,SIGNAL(timeout()),&loop,SLOT(quit()));
-                utilMngr->saveObjectToSD(obj);
+                utilMngr->saveObjectToFlash(obj);
                 timer.start(3000);
                 loop.exec();
                 if(timer.isActive())

@@ -69,7 +69,7 @@ public:
     deviceDescriptorStruct getBoardDescriptionStruct();
     static bool descriptionToStructure(QByteArray desc,deviceDescriptorStruct & struc);
     UAVObjectManager* getObjectManager();
-    void saveObjectToSD(UAVObject *obj);
+    void saveObjectToFlash(UAVObject *obj);
 
     QMap<QString, UAVObject::Metadata> readMetadata(metadataSetEnum metadataReadType);
     QMap<QString, UAVObject::Metadata> readAllNonSettingsMetadata();
@@ -98,7 +98,6 @@ private:
     QMap<QString, UAVObject::Metadata> metadataChecklist;
 
 private slots:
-    //void transactionCompleted(UAVObject *obj, bool success);
     void objectPersistenceTransactionCompleted(UAVObject* obj, bool success);
     void objectPersistenceUpdated(UAVObject * obj);
     void objectPersistenceOperationFailed();

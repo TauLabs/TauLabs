@@ -492,7 +492,10 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             // Get object and update its data
             obj = updateObject(objId, instId, data);
             if (obj == NULL)
-                    error = true;
+            {
+                qDebug() << "[telemetry.cpp] Received an object update for an object we don't know about";
+                error = true;
+            }
         }
         else
         {
@@ -512,6 +515,8 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             }
             else
             {
+                qDebug() << "[telemetry.cpp] Received an acknowledged object update for an object we don't know about";
+                qDebug() << "[telemetry.cpp] TODO: should we send a NACK in reply rather than just ignore this?";
                 error = true;
             }
         }
@@ -553,6 +558,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             // Check if object exists:
             if (obj != NULL)
             {
+                qDebug() << "[telemetry.cpp] We asked for an object that does not exist (" << objId << "), got a Nack";
                 emit nackReceived(obj);
             }
             else

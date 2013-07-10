@@ -450,7 +450,7 @@ bool VehicleConfigurationHelper::saveChangesToController(bool save)
                         innerTimeoutTimer.start(INNER_TIMEOUT);
 
                         // Persist object in controller
-                        utilMngr->saveObjectToSD(obj);
+                        utilMngr->saveObjectToFlash(obj);
                         if (!m_transactionOK) {
                             m_eventLoop.exec();
                         }

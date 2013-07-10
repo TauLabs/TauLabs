@@ -247,7 +247,7 @@ void ConfigTaskWidget::saveObjectToSD(UAVObject *obj)
     // central place (and one central queue)
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
-    utilMngr->saveObjectToSD(obj);
+    utilMngr->saveObjectToFlash(obj);
 }
 
 

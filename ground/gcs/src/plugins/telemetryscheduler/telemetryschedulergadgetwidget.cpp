@@ -397,7 +397,7 @@ void TelemetrySchedulerGadgetWidget::saveSchedule()
         UAVDataObject * obj = dynamic_cast<UAVDataObject*>(objManager->getObject(uavObjectName));
         if (obj) {
             UAVMetaObject * meta = obj->getMetaObject();
-            getObjectUtilManager()->saveObjectToSD(meta);
+            getObjectUtilManager()->saveObjectToFlash(meta);
         }
     }
 }
