@@ -271,7 +271,7 @@ void Telemetry::updateObject(UAVObject* obj, quint32 eventType)
 void Telemetry::transactionSuccess(UAVObject* obj)
 {
     if (updateTransactionMap(obj,false)) {
-        qDebug() << "[telemetry.cpp] Transaction succeeded " << obj->getObjID() << " " << obj->getInstID();
+        qDebug() << "[telemetry.cpp] Transaction succeeded " << obj->getObjID() << " " << obj->getInstID() << obj->getName();
         obj->emitTransactionCompleted(true);
     } else {
         qDebug() << "[telemetry.cpp] Received an ACK we were not expecting";
@@ -293,7 +293,7 @@ void Telemetry::transactionFailure(UAVObject* obj)
     // Here we need to check for true or false as a NAK can occur for OBJ_REQ or an
     // object set
     if (updateTransactionMap(obj, true) || updateTransactionMap(obj, false)) {
-        qDebug() << "[telemetry.cpp] Transaction failed " << obj->getObjID() << " " << obj->getInstID();
+        qDebug() << "[telemetry.cpp] Transaction failed " << obj->getObjID() << obj->getInstID() << obj->getName();;
         obj->emitTransactionCompleted(false);
     } else {
         qDebug() << "[telemetry.cpp] Received a NACK we were not expecting";
@@ -310,7 +310,7 @@ void Telemetry::transactionFailure(UAVObject* obj)
 void Telemetry::transactionRequestCompleted(UAVObject* obj)
 {
     if (updateTransactionMap(obj,true)) {
-        qDebug() << "[telemetry.cpp] Transaction succeeded " << obj->getObjID() << " " << obj->getInstID();
+        qDebug() << "[telemetry.cpp] Transaction succeeded" << obj->getObjID() << obj->getInstID() << obj->getName();
         obj->emitTransactionCompleted(true);
     } else {
         qDebug() << "[telemetry.cpp] Received an ACK we were not expecting";

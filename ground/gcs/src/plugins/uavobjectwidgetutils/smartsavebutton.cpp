@@ -170,7 +170,7 @@ void smartSaveButton::processOperation(QPushButton * button,bool save)
             // Note: in case of link timeout, the telemetry layer will retry up to 2 times, we don't
             // need to retry ourselves here.
             //
-            // Note 2: saveObjectToFlash manages save operations in a queue, so there is guarantee that
+            // Note 2: saveObjectToFlash manages save operations in a queue, so there is no guarantee that
             // the first "saveCompleted" signal is for the object we just asked to save.
             timer.start(2000);
             loop.exec();
