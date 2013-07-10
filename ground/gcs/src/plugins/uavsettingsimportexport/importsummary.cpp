@@ -2,6 +2,7 @@
  ******************************************************************************
  *
  * @file       importsummary.cpp
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @author     (C) 2011 The OpenPilot Team, http://www.openpilot.org
  * @addtogroup GCSPlugins GCS Plugins
  * @{
