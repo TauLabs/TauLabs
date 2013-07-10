@@ -71,8 +71,8 @@ private slots:
 private:
     quint32 current_objectID;
     UAVDataObject * current_object;
-    bool up_result;
-    bool sv_result;
+    bool upload_result;
+    bool save_result;
     QEventLoop loop;
     QList<UAVDataObject *> objects;
     QMap<QPushButton *,buttonTypeEnum> buttonList;

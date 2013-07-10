@@ -159,6 +159,7 @@ void UAVObjectUtilManager::saveNextObject()
     // or "Error".
     connect(objectPersistence, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(objectPersistenceUpdated(UAVObject *)));
     saveState = AWAITING_ACK;
+    qDebug() << "[saveObjectToFlash] Moving on to AWAITING_ACK";
 
     ObjectPersistence::DataFields data;
     data.Operation = ObjectPersistence::OPERATION_SAVE;
@@ -167,11 +168,14 @@ void UAVObjectUtilManager::saveNextObject()
     data.InstanceID = obj->getInstID();
     objectPersistence->setData(data);
     objectPersistence->updated();
-    // Now: we are going to get two "objectUpdated" messages (one coming from GCS, one coming from Flight, which
-    // will confirm the object was properly received by both sides) and then one "transactionCompleted" indicating
-    // that the Flight side did not only receive the object but it did receive it without error. Last we will get
-    // a last "objectUpdated" message coming from flight side, where we'll get the results of the objectPersistence
-    // operation we asked for (saved, other).
+    // Now: we are going to get the following:
+    // - two "objectUpdated" messages (one coming from GCS, one coming from Flight, which will confirm the object
+    //   was properly received by both sides). This is because the metadata of objectPersistence has "FlightUpdateOnChange"
+    //   set to true.
+    //  - then one "transactionCompleted" indicating that the Flight side did not only receive the object but it did
+    //    receive it without error (that message will be triggered by reception of the ACK).
+    //  - Last we will get one last "objectUpdated" message coming from flight side, where we'll get the results of
+    //    the objectPersistence operation we asked for (saved, other).
 }
 
 
@@ -180,21 +184,24 @@ void UAVObjectUtilManager::saveNextObject()
   * @param[in] The object just transacted.  Must be ObjectPersistance
   * @param[in] success Indicates that the transaction did not time out
   *
-  * After a failed transaction (usually timeout) resends the save request.  After a succesful
-  * transaction will then wait for a save completed update from the autopilot.
+  * After a failed transaction (usually timeout) simply drops the save request and emits a failure
+  * signal (saveCompleted with 'false').  After a succesful
+  * transaction it will then wait for a "save completed" update from the autopilot.
   */
 void UAVObjectUtilManager::objectPersistenceTransactionCompleted(UAVObject* obj, bool success)
 {
     if(success) {
         Q_ASSERT(obj->getName().compare("ObjectPersistence") == 0);
         Q_ASSERT(saveState == AWAITING_ACK);
-        // Two things can happen:
+        // Two things can happen then:
         // Either the Object Save Request did actually go through, and then we should get in
         // "AWAITING_COMPLETED" mode, or the Object Save Request did _not_ go through, for example
-        // because the object does not exist and then we will never get a subsequent update.
+        // because the object does not exist and then we will never get a subsequent update - the flight firmware
+        // does not update the objectPersistence UAVO with "Error", it just ignores the request.
         // For this reason, we will arm a 1 second timer to make provision for this and not block
         // the queue:
         saveState = AWAITING_COMPLETED;
+        qDebug() << "[saveObjectToFlash] Moving on to AWAITING_COMPLETED";
         disconnect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectPersistenceTransactionCompleted(UAVObject*,bool)));
         failureTimer.start(2000); // Create a timeout
     } else {
@@ -207,7 +214,7 @@ void UAVObjectUtilManager::objectPersistenceTransactionCompleted(UAVObject* obj,
         queue.dequeue(); // We can now remove the object, it failed anyway.
         saveState = IDLE;
         // Careful below: objectPersistence contains a field 'ObjectID' that corresponds to
-        // the objectID we want to save/load, etc. Don't confuse with the OBJID of the Objectpersistence
+        // the objectID we wanted to save. Don't confuse with the OBJID of the Objectpersistence
         // UAVO itself!
         emit saveCompleted(objectPersistence->getObjectID(), false);
         saveNextObject();
@@ -222,9 +229,6 @@ void UAVObjectUtilManager::objectPersistenceTransactionCompleted(UAVObject* obj,
 void UAVObjectUtilManager::objectPersistenceOperationFailed()
 {
     if(saveState == AWAITING_COMPLETED) {
-        //TODO: some warning that this operation failed somehow
-        // We have to disconnect the object persistence 'updated' signal
-        // and ask to save the next object:
 
         ObjectPersistence * objectPersistence = ObjectPersistence::GetInstance(getObjectManager());
         Q_ASSERT(objectPersistence);
@@ -252,13 +256,18 @@ void UAVObjectUtilManager::objectPersistenceUpdated(UAVObject * obj)
 {
     Q_ASSERT(obj);
     Q_ASSERT(obj->getObjID() == ObjectPersistence::OBJID);
+
+    if (saveState != AWAITING_COMPLETED) {
+        // We'll get two of those before we're in AWAITING_COMPLETED state...
+        return;
+    }
+
     ObjectPersistence::DataFields objectPersistence = ((ObjectPersistence *)obj)->getData();
 
-    if(saveState == AWAITING_COMPLETED && objectPersistence.Operation == ObjectPersistence::OPERATION_ERROR) {
+    if (objectPersistence.Operation == ObjectPersistence::OPERATION_ERROR) {
         failureTimer.stop();
         objectPersistenceOperationFailed();
-    } else if (saveState == AWAITING_COMPLETED &&
-               objectPersistence.Operation == ObjectPersistence::OPERATION_COMPLETED) {
+    } else if (objectPersistence.Operation == ObjectPersistence::OPERATION_COMPLETED) {
         failureTimer.stop();
         // Check right object saved
         UAVObject* savingObj = queue.head();
@@ -270,7 +279,7 @@ void UAVObjectUtilManager::objectPersistenceUpdated(UAVObject * obj)
         obj->disconnect(this);
         queue.dequeue(); // We can now remove the object, it's done.
         saveState = IDLE;
-
+        qDebug() << "[saveObjectToFlash] Object save succeeded";
         emit saveCompleted(objectPersistence.ObjectID, true);
         saveNextObject();
     }
