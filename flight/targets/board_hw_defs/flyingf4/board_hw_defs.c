@@ -301,7 +301,7 @@ static const struct pios_flash_sector_range m25p16_sectors[] = {
 	{
 		.base_sector = 0,
 		.last_sector = 31,
-		.sector_size = 64 * 1024,
+		.sector_size = FLASH_SECTOR_64KB,
 	},
 };
 
