@@ -18,7 +18,6 @@ public:
     void setName(QString &name);
 private slots:
     void minMaxUpdated();
-    void neutralUpdated(int);
     void groupUpdated();
     void channelDropdownUpdated(int);
     void channelNumberUpdated(int);
