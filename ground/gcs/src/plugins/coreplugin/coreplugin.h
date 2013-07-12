@@ -4,6 +4,7 @@
  * @file       coreplugin.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
@@ -50,7 +51,8 @@ public:
 
 public slots:
     void remoteArgument(const QString&);
-
+signals:
+    void splashMessages(QString);
 private:
     MainWindow *m_mainWindow;
 };

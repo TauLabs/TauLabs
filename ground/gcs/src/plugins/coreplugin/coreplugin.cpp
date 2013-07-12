@@ -4,6 +4,7 @@
  * @file       coreplugin.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
@@ -39,6 +40,7 @@ using namespace Core::Internal;
 CorePlugin::CorePlugin() :
     m_mainWindow(new MainWindow)
 {
+    connect(m_mainWindow,SIGNAL(splashMessages(QString)),this,SIGNAL(splashMessages(QString)));
 }
 
 CorePlugin::~CorePlugin()

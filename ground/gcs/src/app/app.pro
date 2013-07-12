@@ -5,9 +5,14 @@ TEMPLATE = app
 TARGET = $$GCS_APP_TARGET
 DESTDIR = $$GCS_APP_PATH
 QT += xml
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    customsplash.cpp
+
+
 include(../rpath.pri)
 include(../libs/utils/utils.pri)
+
+HEADERS += customsplash.h
 
 LIBS *= -l$$qtLibraryName(ExtensionSystem) -l$$qtLibraryName(Aggregation)
 
@@ -28,3 +33,6 @@ win32 {
 }
 
 OTHER_FILES += taulabs.rc
+
+RESOURCES += \
+    app_resource.qrc

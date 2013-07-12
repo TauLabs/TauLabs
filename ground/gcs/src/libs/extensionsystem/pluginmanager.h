@@ -3,12 +3,14 @@
  *
  * @file       pluginmanager.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
- * @brief      
  * @see        The GNU Public License (GPL) Version 3
- * @defgroup   
+ * @addtogroup libs GCS Libraries
  * @{
- * 
+ * @addtogroup extensionsystem Extension System
+ * @{
+ * @brief Plugin Manager Class
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 
@@ -116,6 +118,7 @@ signals:
 
     void pluginsChanged();
     void pluginsLoadEnded();
+    void splashMessages(QString);
 private slots:
     void startTests();
 
