@@ -32,11 +32,6 @@
 #ifndef PIOS_HCSR04_H
 #define PIOS_HCSR04_H
 
-/* Public Functions */
-extern int32_t PIOS_HCSR04_Get(void);
-extern int32_t PIOS_HCSR04_Completed(void);
-extern void PIOS_HCSR04_Trigger(void);
-
 #endif /* PIOS_HCSR04_H */
 
 /**

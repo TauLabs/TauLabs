@@ -183,7 +183,7 @@ int32_t PIOS_HCSR04_Init(uintptr_t *hcsr04_id, const struct pios_hcsr04_cfg *cfg
 	return 0;
 }
 
-void PIOS_HCSR04_Trigger(void)
+static void PIOS_HCSR04_Trigger(void)
 {
 	GPIO_SetBits(dev->cfg->trigger.gpio, dev->cfg->trigger.init.GPIO_Pin);
 	PIOS_DELAY_WaituS(15);
@@ -196,12 +196,12 @@ void PIOS_HCSR04_Trigger(void)
  * \output -1 Channel not available
  * \output >0 Channel value
  */
-int32_t PIOS_HCSR04_Get(void)
+static int32_t PIOS_HCSR04_Get(void)
 {
 	return dev->CaptureValue[0];
 }
 
-int32_t PIOS_HCSR04_Completed(void)
+static int32_t PIOS_HCSR04_Completed(void)
 {
 	return dev->CapCounter[0];
 }
