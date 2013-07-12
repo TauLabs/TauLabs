@@ -42,7 +42,7 @@ static void PIOS_HCSR04_Task(void *parameters);
 
 /* Local Variables */
 /* 100 ms timeout without updates on channels */
-const static uint32_t HCSR04_PWM_SUPERVISOR_TIMEOUT = 100000;
+const static uint32_t HCSR04_SUPERVISOR_TIMEOUT = 100000;
 
 enum pios_hcsr04_dev_magic {
     PIOS_HCSR04_DEV_MAGIC = 0xab3029aa,
@@ -221,7 +221,7 @@ static void PIOS_HCSR04_tim_overflow_cb(uintptr_t tim_id, uintptr_t context, uin
 	}
 
 	hcsr04_dev->us_since_update[channel] += count;
-	if (hcsr04_dev->us_since_update[channel] >= HCSR04_PWM_SUPERVISOR_TIMEOUT) {
+	if (hcsr04_dev->us_since_update[channel] >= HCSR04_SUPERVISOR_TIMEOUT) {
 		hcsr04_dev->CaptureState[channel]    = 0;
 		hcsr04_dev->RiseValue[channel]       = 0;
 		hcsr04_dev->FallValue[channel]       = 0;
