@@ -31,10 +31,9 @@
  * filter_validate Validate a filter has is safe to run and 
  * has a correct and matching driver
  * @param[in] filter    the filter to check
- * @param[in] id        the handle for the filter to process
  * @return true if safe, false if not
  */
-bool filter_interface_validate(struct filter_driver *filter, uintptr_t id)
+bool filter_interface_validate(struct filter_driver *filter)
 {
 	if (filter == NULL)
 		return false;

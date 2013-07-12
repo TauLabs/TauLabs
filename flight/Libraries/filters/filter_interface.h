@@ -166,7 +166,7 @@ struct filter_driver {
 	} sub_driver;
 };
 
-bool filter_interface_validate(struct filter_driver *filter, uintptr_t id);
+bool filter_interface_validate(struct filter_driver *filter);
 
 #endif /* FILTER_INTERFACE_H */
 
