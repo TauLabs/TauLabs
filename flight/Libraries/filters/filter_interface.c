@@ -45,5 +45,9 @@ bool filter_interface_validate(struct filter_driver *filter)
 		return (filter->sub_driver.driver_generic.magic == FILTER_GENERIC_MAGIC);
 	}
 
+	// Check required methods are defined
+	if (filter->init == NULL || filter->start == NULL || filter->process == NULL)
+		return false;
+
 	return false;
 }
