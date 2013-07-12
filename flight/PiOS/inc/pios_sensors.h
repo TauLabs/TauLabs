@@ -69,7 +69,7 @@ struct pios_sensor_baro_data {
 //! Pios sensor structure for generic sonar data
 struct pios_sensor_sonar_data {
 	float altitude;
-	bool range;
+	bool in_range;
 };
 
 //! The types of sensors this module supports
