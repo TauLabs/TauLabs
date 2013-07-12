@@ -67,7 +67,7 @@ int main()
 	PIOS_Board_Init();
 
 	/* Initialize modules */
-	MODULE_INITIALISE_ALL
+	MODULE_INITIALISE_ALL(PIOS_WDG_Clear);
 
 	/* swap the stack to use the IRQ stack */
 	Stack_Change();
