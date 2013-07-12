@@ -227,6 +227,7 @@ CFLAGS += -O$(OPT)
 ifeq ($(DEBUG),NO)
 CFLAGS += -ffunction-sections
 endif
+CFLAGS += -fshort-enums
 
 CFLAGS += -mcpu=$(MCU) -mthumb
 CFLAGS += $(CDEFS)

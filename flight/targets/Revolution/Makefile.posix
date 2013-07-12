@@ -315,6 +315,8 @@ CFLAGS += -fomit-frame-pointer
 
 CFLAGS += -Wall
 CFLAGS += -Werror
+CFLAGS += -fshort-enums
+
 # Compiler flags to generate dependency files:
 CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
 

@@ -304,6 +304,7 @@ CFLAGS += $(CDEFS)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
 CFLAGS += -fomit-frame-pointer
+CFLAGS += -fshort-enums
 
 CFLAGS += -Wall
 CFLAGS += -Werror
