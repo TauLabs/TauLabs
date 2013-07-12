@@ -47,7 +47,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 static int32_t cf_interface_get_state(uintptr_t id, float pos[3], float vel[3],
 		float attitude[4], float gyro_bias[3], float airspeed[1]);
 
-struct filter_driver cf_filter_driver = {
+const struct filter_driver cf_filter_driver = {
 	.class = FILTER_CLASS_S3,
 
 	// this will initialize the SE(3)+ infrastrcture too
@@ -336,8 +336,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 	}
 
 	float mag_err[3];
-	if ( mag != NULL )
-	{
+	if ( mag != NULL ) {
 		// Rotate gravity to body frame and cross with accels
 		float brot[3];
 		float Rbe[3][3];
@@ -346,7 +345,8 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 
 		HomeLocationData homeLocation;
 		HomeLocationGet(&homeLocation);
-		// If the mag is producing bad data don't use it (normally bad calibration)
+
+		// Only use the mag when home location is available
 		if  (homeLocation.Set == HOMELOCATION_SET_TRUE) {
 			rot_mult(Rbe, homeLocation.Be, brot, false);
 
@@ -405,7 +405,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 		cf->q[3] = -cf->q[3];
 	}
 
-	// Renomalize
+	// Renormalize
 	float qmag;
 	qmag = sqrtf(cf->q[0]*cf->q[0] + cf->q[1]*cf->q[1] + cf->q[2]*cf->q[2] + cf->q[3]*cf->q[3]);
 	cf->q[0] = cf->q[0] / qmag;
@@ -444,7 +444,7 @@ static int32_t cf_interface_get_state(uintptr_t id, float pos[3], float vel[3],
 	if (!cf_interface_validate(cf))
 		return -1;
 
-	if (attitude){
+	if (attitude) {
 		attitude[0] = cf->q[0];
 		attitude[1] = cf->q[1];
 		attitude[2] = cf->q[2];
@@ -537,7 +537,7 @@ static void accumulate_gyro(struct cf_interface_data *cf, float *gyros)
 static void apply_accel_filter(struct cf_interface_data *cf, const float * raw, float * filtered)
 {
 	const float alpha = cf->accel_alpha;
-	if(cf->accel_filter_enabled) {
+	if (cf->accel_filter_enabled) {
 		filtered[0] = filtered[0] * alpha + raw[0] * (1 - alpha);
 		filtered[1] = filtered[1] * alpha + raw[1] * (1 - alpha);
 		filtered[2] = filtered[2] * alpha + raw[2] * (1 - alpha);
