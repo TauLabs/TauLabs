@@ -10,6 +10,7 @@ OBJDUMP = $(TCHAIN_PREFIX)objdump
 SIZE    = $(TCHAIN_PREFIX)size
 NM      = $(TCHAIN_PREFIX)nm
 STRIP   = $(TCHAIN_PREFIX)strip
+GCOV    = $(TCHAIN_PREFIX)gcov
 INSTALL = install
 
 THUMB   = -mthumb
@@ -58,6 +59,7 @@ MSG_JTAG_PROGRAM     = ${quote} JTAG-PGM  $(MSG_EXTRA) ${quote}
 MSG_JTAG_WIPE        = ${quote} JTAG-WIPE $(MSG_EXTRA) ${quote}
 MSG_PADDING          = ${quote} PADDING   $(MSG_EXTRA) ${quote}
 MSG_FLASH_IMG        = ${quote} FLASH_IMG $(MSG_EXTRA) ${quote}
+MSG_GCOV             = ${quote} GCOV      $(MSG_EXTRA) ${quote}
 
 toprel = $(subst $(realpath $(TOP))/,,$(abspath $(1)))
 
@@ -158,30 +160,34 @@ endef
 
 # Compile: create object files from C source files.
 define COMPILE_C_TEMPLATE
+$(OUTDIR)/$(notdir $(basename $(1))).o : EXTRA_FLAGS := $(2)
 $(OUTDIR)/$(notdir $(basename $(1))).o : $(1)
 	@echo $(MSG_COMPILING) $$(call toprel, $$<)
-	$(V1) $(CC) -c $(THUMB) $$(CFLAGS) $$(CONLYFLAGS) $$< -o $$@
+	$(V1) $(CC) -c $(THUMB) $$(CFLAGS) $$(CONLYFLAGS) $$(EXTRA_FLAGS) $$< -o $$@
 endef
 
 # Compile: create object files from C source files. ARM-only
 define COMPILE_C_ARM_TEMPLATE
+$(OUTDIR)/$(notdir $(basename $(1))).o : EXTRA_FLAGS := $(2)
 $(OUTDIR)/$(notdir $(basename $(1))).o : $(1)
 	@echo $(MSG_COMPILING_ARM) $$(call toprel, $$<)
-	$(V1) $(CC) -c $$(CFLAGS) $$(CONLYFLAGS) $$< -o $$@
+	$(V1) $(CC) -c $$(CFLAGS) $$(CONLYFLAGS) $$(EXTRA_FLAGS) $$< -o $$@
 endef
 
 # Compile: create object files from C++ source files.
 define COMPILE_CXX_TEMPLATE
+$(OUTDIR)/$(notdir $(basename $(1))).o : EXTRA_FLAGS := $(2)
 $(OUTDIR)/$(notdir $(basename $(1))).o : $(1)
 	@echo $(MSG_COMPILINGCXX) $$(call toprel, $$<)
-	$(V1) $(CXX) -c $(THUMB) $$(CFLAGS) $$(CPPFLAGS) $$(CXXFLAGS) $$< -o $$@
+	$(V1) $(CXX) -c $(THUMB) $$(CFLAGS) $$(CPPFLAGS) $$(CXXFLAGS) $$(EXTRA_FLAGS) $$< -o $$@
 endef
 
 # Compile: create object files from C++ source files. ARM-only
 define COMPILE_CXX_ARM_TEMPLATE
 $(OUTDIR)/$(notdir $(basename $(1))).o : $(1)
+$(OUTDIR)/$(notdir $(basename $(1))).o : EXTRA_FLAGS := $(2)
 	@echo $(MSG_COMPILINGCXX_ARM) $$(call toprel, $$<)
-	$(V1) $(CPP) -c $$(CFLAGS) $$(CPPFLAGS) $$(CXXFLAGS) $$< -o $$@
+	$(V1) $(CPP) -c $$(CFLAGS) $$(CPPFLAGS) $$(CXXFLAGS) $$(EXTRA_FLAGS) $$< -o $$@
 endef
 
 # Link: create ELF output file from object files.
@@ -268,3 +274,13 @@ wipe:
 		-c "shutdown"
 endef
 
+# Generate GCOV summary
+#  $(1) = name of source file to analyze with gcov
+define GCOV_TEMPLATE
+$(OUTDIR)/$(1).gcov: $(OUTDIR)/$$(basename $(1)).gcda
+	$(V0) @echo $(MSG_GCOV) $$(call toprel, $$@)
+	$(V1) ( \
+	  cd $(OUTDIR) && \
+	  $(GCOV) $(1) 2>&1 > /dev/null ; \
+	)
+endef
