@@ -70,7 +70,7 @@ int32_t StateInitialize(void)
 	}	
 
 	// Check this filter is safe to run
-	if (!filter_interface_validate(current_filter, running_filter_id))
+	if (!filter_interface_validate(current_filter))
 		goto FAIL;
 	if (current_filter->init(&running_filter_id) != 0)
 		goto FAIL;

@@ -123,7 +123,7 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, ui
 	// TODO: check error codes
 
 	// Make sure we are safe to get the class specific driver
-	if (!filter_interface_validate(upper_driver, id))
+	if (!filter_interface_validate(upper_driver))
 		return -1;
 	struct filter_s3 *driver = &(upper_driver->sub_driver.driver_s3);
 
