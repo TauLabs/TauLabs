@@ -2,6 +2,7 @@
  ******************************************************************************
  *
  * @file       importsummary.cpp
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @author     (C) 2011 The OpenPilot Team, http://www.openpilot.org
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -118,7 +119,7 @@ void ImportSummaryDialog::doTheSaving()
         QCheckBox *box = dynamic_cast<QCheckBox*>(ui->importSummaryList->cellWidget(i,0));
         if (box->isChecked()) {
             UAVObject* obj = objManager->getObject(uavObjectName);
-            utilManager->saveObjectToSD(obj);
+            utilManager->saveObjectToFlash(obj);
             this->repaint();
         }
     }
