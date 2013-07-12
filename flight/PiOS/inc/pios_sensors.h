@@ -31,7 +31,7 @@
 #ifndef PIOS_SENSOR_H
 #define PIOS_SENSOR_H
 
-#include "pios.h"
+#include <stdbool.h>
 #include "stdint.h"
 #include "FreeRTOS.h"
 #include "queue.h"
