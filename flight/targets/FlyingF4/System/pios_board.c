@@ -303,13 +303,7 @@ void PIOS_Board_Init(void) {
 
 
 #if defined(PIOS_INCLUDE_FLASH)
-	if (PIOS_SPI_Init(&pios_spi_flash_id, &pios_spi_flash_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-
 	/* Inititialize all flash drivers */
-	if (PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_flash_id, 0, &flash_m25p_cfg) != 0)
-		panic(1);
 	if (PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg) != 0)
 		panic(1);
 
@@ -319,8 +313,13 @@ void PIOS_Board_Init(void) {
 	/* Mount all filesystems */
 	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS) != 0)
 		panic(1);
-	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS) != 0)
+
+#if defined(PIOS_INCLUDE_EXTERNAL_FLASH_WAYPOINTS)
+	/* Use external flash chip to store waypoints */
+	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_external_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS) != 0)
 		panic(1);
+#endif /* PIOS_INCLUDE_EXTERNAL_FLASH_WAYPOINTS */
+
 #endif	/* PIOS_INCLUDE_FLASH */
 
 	/* Initialize UAVObject libraries */
