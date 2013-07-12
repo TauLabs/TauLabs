@@ -1149,11 +1149,8 @@ void PIOS_Board_Init(void) {
 	}
 
 #if defined(PIOS_INCLUDE_HCSR04)
-    {
-        PIOS_TIM_InitClock(&tim_15_cfg);
         uintptr_t pios_hcsr04_id;
         PIOS_HCSR04_Init(&pios_hcsr04_id, &pios_hcsr04_cfg);
-    }
 #endif
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
