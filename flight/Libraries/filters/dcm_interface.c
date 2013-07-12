@@ -39,7 +39,7 @@ static int32_t dcm_interface_update(uintptr_t id, float gyros[3], float accels[3
 static int32_t dcm_interface_get_state(uintptr_t id, float pos[3], float vel[3],
 		float attitude[4], float gyro_bias[3], float airspeed[1]);
 
-struct filter_driver dcm_filter_driver = {
+const struct filter_driver dcm_filter_driver = {
 	.class = FILTER_CLASS_S3,
 
 	// this will initialize the SE(3)+ infrastrcture too
