@@ -1151,7 +1151,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_HCSR04)
     {
         PIOS_TIM_InitClock(&tim_15_cfg);
-        uint32_t pios_hcsr04_id;
+        uintptr_t pios_hcsr04_id;
         PIOS_HCSR04_Init(&pios_hcsr04_id, &pios_hcsr04_cfg);
     }
 #endif

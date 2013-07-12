@@ -45,7 +45,7 @@ struct pios_hcsr04_cfg {
 
 extern const struct pios_rcvr_driver pios_pwm_rcvr_driver;
 
-extern int32_t PIOS_HCSR04_Init(uint32_t *pwm_id, const struct pios_hcsr04_cfg *cfg);
+extern int32_t PIOS_HCSR04_Init(uintptr_t *hcsr04_id, const struct pios_hcsr04_cfg *cfg);
 
 #endif /* PIOS_HCSR04_PRIV_H */
 

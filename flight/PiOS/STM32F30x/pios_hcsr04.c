@@ -103,8 +103,8 @@ static bool PIOS_HCSR04_validate(struct pios_hcsr04_dev *dev)
 	return 0;
 }
 
-static void PIOS_HCSR04_tim_overflow_cb(uint32_t id, uint32_t context, uint8_t channel, uint16_t count);
-static void PIOS_HCSR04_tim_edge_cb(uint32_t id, uint32_t context, uint8_t channel, uint16_t count);
+static void PIOS_HCSR04_tim_overflow_cb(uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
+static void PIOS_HCSR04_tim_edge_cb(uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
 const static struct pios_tim_callbacks tim_callbacks = {
 	.overflow = PIOS_HCSR04_tim_overflow_cb,
 	.edge     = PIOS_HCSR04_tim_edge_cb,
@@ -113,7 +113,7 @@ const static struct pios_tim_callbacks tim_callbacks = {
 /**
  * Initialises all the pins
  */
-int32_t PIOS_HCSR04_Init(uint32_t *hcsr04_id, const struct pios_hcsr04_cfg *cfg)
+int32_t PIOS_HCSR04_Init(uintptr_t *hcsr04_id, const struct pios_hcsr04_cfg *cfg)
 {
 	PIOS_DEBUG_Assert(hcsr04_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -135,8 +135,8 @@ int32_t PIOS_HCSR04_Init(uint32_t *hcsr04_id, const struct pios_hcsr04_cfg *cfg)
 	hcsr04_dev->FallValue[0]    = 0;
 	hcsr04_dev->CaptureValue[0] = -1;
 
-	uint32_t tim_id;
-	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, &tim_callbacks, (uint32_t)hcsr04_dev)) {
+	uintptr_t tim_id;
+	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, &tim_callbacks, (uintptr_t)hcsr04_dev)) {
 		return -1;
 	}
 
@@ -171,7 +171,7 @@ int32_t PIOS_HCSR04_Init(uint32_t *hcsr04_id, const struct pios_hcsr04_cfg *cfg)
 
 	GPIO_Init(hcsr04_dev->cfg->trigger.gpio, (GPIO_InitTypeDef *)&hcsr04_dev->cfg->trigger.init);
 
-	*hcsr04_id = (uint32_t)hcsr04_dev;
+	*hcsr04_id = (uintptr_t)hcsr04_dev;
 
 	portBASE_TYPE result = xTaskCreate(PIOS_HCSR04_Task, (const signed char *)"pios_hcsr04",
 	                                   HCSR04_TASK_STACK, NULL, HCSR04_TASK_PRIORITY,
@@ -206,7 +206,7 @@ int32_t PIOS_HCSR04_Completed(void)
 	return dev->CapCounter[0];
 }
 
-static void PIOS_HCSR04_tim_overflow_cb(uint32_t tim_id, uint32_t context, uint8_t channel, uint16_t count)
+static void PIOS_HCSR04_tim_overflow_cb(uintptr_t tim_id, uintptr_t context, uint8_t channel, uint16_t count)
 {
 	struct pios_hcsr04_dev *hcsr04_dev = (struct pios_hcsr04_dev *)context;
 
@@ -230,7 +230,7 @@ static void PIOS_HCSR04_tim_overflow_cb(uint32_t tim_id, uint32_t context, uint8
 	}
 }
 
-static void PIOS_HCSR04_tim_edge_cb(uint32_t tim_id, uint32_t context, uint8_t chan_idx, uint16_t count)
+static void PIOS_HCSR04_tim_edge_cb(uintptr_t tim_id, uintptr_t context, uint8_t chan_idx, uint16_t count)
 {
 	/* Recover our device context */
 	struct pios_hcsr04_dev *hcsr04_dev = (struct pios_hcsr04_dev *)context;
