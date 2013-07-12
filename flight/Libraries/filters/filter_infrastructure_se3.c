@@ -85,7 +85,7 @@ int32_t filter_infrastructure_se3_init(struct filter_infrastructure_se3_data **d
 	// Create the data queues
 	s3_data->gyroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	s3_data->accelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	s3_data->magQueue = xQueueCreate(2, sizeof(UAVObjEvent));
+	s3_data->magQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	s3_data->baroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	s3_data->gpsQueue = xQueueCreate(1, sizeof(UAVObjEvent));
 	s3_data->gpsVelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
@@ -235,7 +235,7 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, ui
  * to convert to NED which allows it to be done with all floating
  * calculations
  *
- * @TODO: refactor into coordinate convrsions
+ * @TODO: refactor into coordinate conversions
  *
  * @param[in] Current GPS coordinates
  * @param[out] NED frame coordinates
