@@ -761,6 +761,9 @@ static int32_t receiveObject(UAVTalkConnectionData *connection, uint8_t type, ui
 			}
 			else
 			{
+
+				// We don't know this object, and we complain about it
+				sendNack(connection, objId);
 				ret = -1;
 			}
 			break;

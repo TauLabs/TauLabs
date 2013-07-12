@@ -2,6 +2,7 @@
  ******************************************************************************
  *
  * @file       configtaskwidget.cpp
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *
  * @addtogroup GCSPlugins GCS Plugins
@@ -247,7 +248,7 @@ void ConfigTaskWidget::saveObjectToSD(UAVObject *obj)
     // central place (and one central queue)
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
-    utilMngr->saveObjectToSD(obj);
+    utilMngr->saveObjectToFlash(obj);
 }
 
 

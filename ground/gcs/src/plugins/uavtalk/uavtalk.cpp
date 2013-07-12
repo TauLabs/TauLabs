@@ -492,7 +492,10 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             // Get object and update its data
             obj = updateObject(objId, instId, data);
             if (obj == NULL)
-                    error = true;
+            {
+                qDebug() << "[telemetry.cpp] Received an object update for an object we don't know about";
+                error = true;
+            }
         }
         else
         {
@@ -512,6 +515,9 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             }
             else
             {
+                qDebug() << "[telemetry.cpp] Received an acknowledged object update for an object we don't know about";
+                // UAVTALK Protocol update 2013.07.10 (E. Lafargue): send a NACK packet for this ObjID
+                transmitNack(objId);
                 error = true;
             }
         }
@@ -543,7 +549,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             error = true;
         }
         break;
-    case TYPE_NACK: // We have received a NACK for an object that does not exist on the far end.
+    case TYPE_NACK: // We have received a NACK for an object that does not exist on the remote end.
                     // (but should exist on our end)
         // All instances, not allowed for NACK messages
         if (!allInstances)
@@ -553,11 +559,13 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             // Check if object exists:
             if (obj != NULL)
             {
+                qDebug() << "[telemetry.cpp] This object does not exist on the remote end (" << objId << "), got a Nack";
                 emit nackReceived(obj);
             }
             else
             {
-             error = true;
+                qDebug() << "[telemetry.cpp] Got a Nack for an object we don't know about either, that's really bad - " << objId;
+                error = true;
             }
         }
         break;
@@ -565,13 +573,14 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
         // All instances, not allowed for ACK messages
         if (!allInstances)
         {
-            qDebug() << "Got ack for instance: " << instId;
             // Get object
             obj = objMngr->getObject(objId, instId);
+            qDebug() << "[uavtalk.cpp] Got ack for instance: " << instId << "of object" << objId;
             // Check if we actually know this object (tiny chance the ObjID
             // could be unknown and got through CRC check...)
             if (obj != NULL)
             {
+                qDebug() << "[uavtalk.cpp] Obj name: " << obj->getName();
                 emit ackReceived(obj);
             }
             else

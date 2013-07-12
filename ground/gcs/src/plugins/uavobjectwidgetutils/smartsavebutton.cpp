@@ -2,6 +2,7 @@
  ******************************************************************************
  *
  * @file       smartsavebutton.cpp
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *
  * @addtogroup GCSPlugins GCS Plugins
@@ -32,6 +33,13 @@ smartSaveButton::smartSaveButton()
 
 }
 
+/**
+ * @brief smartSaveButton::addButtons
+ * Called only by the ConfigTaskWidget when adding the smart save buttons, depending
+ * on whether we want Apply, Save, or Apply & Save.
+ * @param save
+ * @param apply
+ */
 void smartSaveButton::addButtons(QPushButton *save, QPushButton *apply)
 {
     buttonList.insert(save,save_button);
@@ -39,16 +47,34 @@ void smartSaveButton::addButtons(QPushButton *save, QPushButton *apply)
     connect(save,SIGNAL(clicked()),this,SLOT(processClick()));
     connect(apply,SIGNAL(clicked()),this,SLOT(processClick()));
 }
+
+/**
+ * @brief smartSaveButton::addApplyButton
+ * Called only by the ConfigTaskWidget when adding the smart save buttons, depending
+ * on whether we want Apply, Save, or Apply & Save.
+ * @param apply
+ */
 void smartSaveButton::addApplyButton(QPushButton *apply)
 {
     buttonList.insert(apply,apply_button);
     connect(apply,SIGNAL(clicked()),this,SLOT(processClick()));
 }
+
+/**
+ * @brief smartSaveButton::addSaveButton
+ * Called only by the ConfigTaskWidget when adding the smart save buttons, depending
+ * on whether we want Apply, Save, or Apply & Save.
+ * @param save
+ */
 void smartSaveButton::addSaveButton(QPushButton *save)
 {
     buttonList.insert(save,save_button);
     connect(save,SIGNAL(clicked()),this,SLOT(processClick()));
 }
+
+/**
+ * @brief smartSaveButton::processClick
+ */
 void smartSaveButton::processClick()
 {
     emit beginOp();
@@ -62,6 +88,13 @@ void smartSaveButton::processClick()
 
 }
 
+/**
+ * @brief smartSaveButton::processOperation
+ * This is where actual operation processing takes place.
+ * @param button
+ * @param save is true if we want to issue a saveObjectToFlash request after sending it to the
+ *             remote side
+ */
 void smartSaveButton::processOperation(QPushButton * button,bool save)
 {
     emit preProcessOperations();
@@ -80,63 +113,78 @@ void smartSaveButton::processOperation(QPushButton * button,bool save)
         UAVObject::Metadata mdata= obj->getMetadata();
         if(UAVObject::GetGcsAccess(mdata)==UAVObject::ACCESS_READONLY)
             continue;
-        up_result=false;
-        current_object=obj;
-        for(int i=0;i<3;++i)
-        {
-            qDebug()<<"SMARTSAVEBUTTON"<<"Upload try number"<<i<<"Object"<<obj->getName();
-            connect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)),this,SLOT(transaction_finished(UAVObject*, bool)));
-            connect(&timer,SIGNAL(timeout()),&loop,SLOT(quit()));
-            obj->updated();
-            timer.start(3000);
-            //qDebug()<<"begin loop";
-            loop.exec();
-            if(timer.isActive())
-            {
-                qDebug()<<"SMARTSAVEBUTTON"<<"Upload did not timeout"<<i<<"Object"<<obj->getName();
-            }
-            else
-                qDebug()<<"SMARTSAVEBUTTON"<<"Upload TIMEOUT"<<i<<"Object"<<obj->getName();
-            timer.stop();
-            disconnect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)),this,SLOT(transaction_finished(UAVObject*, bool)));
-            disconnect(&timer,SIGNAL(timeout()),&loop,SLOT(quit()));
-            if(up_result)
-                break;
-        }
-        if(up_result==false)
-        {
-            qDebug()<<"SMARTSAVEBUTTON"<<"Object upload error:"<<obj->getName();
-            error=true;
+        upload_result = false;
+        current_object = obj;
+
+        // We only allow to send/save Settings objects using this method
+        if (!obj->isSettings()) {
+            qDebug() << "[smartsavebutton.cpp] Error, tried to apply/save a non-settings object";
             continue;
         }
-        sv_result=false;
+
+        qDebug() << "[smartsavebutton.cpp] Sending object to remote end - " << obj->getName();
+        connect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)),this,SLOT(transaction_finished(UAVObject*, bool)));
+        connect(&timer,SIGNAL(timeout()),&loop,SLOT(quit()));
+        obj->updated();
+        // Three things can happen now:
+        // - If object is ACK'ed then we'll get a transactionCompleted signal once ACK arrives
+        //   with a success value at 'true'
+        // - If remote side does not know it, or object is not ACK'ed then we'll get a timeout, which we catch below
+        // - If object is ACK'ed and message gets lost, we'll get a transactionCompleted with a
+        //   success value at 'false'
+        //
+        // Note: settings objects should always be ACK'ed, so a timeout should always be because of a lost
+        //       message over the telemetry link.
+        //
+        // Note 2: the telemetry link does max 3 tries with 250ms interval when sending an object
+        //         update over the link
+        timer.start(1000);
+        loop.exec();
+        if (!timer.isActive())
+            qDebug() << "[smartsavebutton.cpp] Upload timeout for object" << obj->getName();
+        timer.stop();
+        disconnect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)),this,SLOT(transaction_finished(UAVObject*, bool)));
+        disconnect(&timer,SIGNAL(timeout()),&loop,SLOT(quit()));
+
+        if(upload_result==false) {
+            qDebug() << "[smartsavebutton.cpp] Object upload error:" << obj->getName();
+            error = true;
+            continue;
+        }
+
+        // Now object is uploaded, we can move on to saving it to flash:
+        save_result=false;
         current_objectID=obj->getObjID();
+
         if(save && (obj->isSettings()))
         {
-            for(int i=0;i<3;++i)
+            qDebug() << "[smartsavebutton.cpp] Save request for object" << obj->getName();
+            connect(utilMngr,SIGNAL(saveCompleted(int,bool)),this,SLOT(saving_finished(int,bool)));
+            connect(&timer,SIGNAL(timeout()),&loop,SLOT(quit()));
+            utilMngr->saveObjectToFlash(obj);
+            // Now, here is what will happen:
+            // - saveObjectToFlash is going to attempt the save operation
+            // - If save succeeds, then it will issue a saveCompleted signal with the ObjectID and 'true'
+            // - If save fails, either because of error or timeout, then it will issue a saveCompleted signal
+            //   with the ObjectID and 'false'.
+            //
+            // Note: in case of link timeout, the telemetry layer will retry up to 2 times, we don't
+            // need to retry ourselves here.
+            //
+            // Note 2: saveObjectToFlash manages save operations in a queue, so there is no guarantee that
+            // the first "saveCompleted" signal is for the object we just asked to save.
+            timer.start(2000);
+            loop.exec();
+            if(!timer.isActive())
+                qDebug() << "[smartsavebutton.cpp] Saving timeout for object" << obj->getName();
+            timer.stop();
+            disconnect(utilMngr,SIGNAL(saveCompleted(int,bool)),this,SLOT(saving_finished(int,bool)));
+            disconnect(&timer,SIGNAL(timeout()),&loop,SLOT(quit()));
+
+            if( save_result == false)
             {
-                qDebug()<<"SMARTSAVEBUTTON"<<"Save try number"<<i<<"Object"<<obj->getName();
-                connect(utilMngr,SIGNAL(saveCompleted(int,bool)),this,SLOT(saving_finished(int,bool)));
-                connect(&timer,SIGNAL(timeout()),&loop,SLOT(quit()));
-                utilMngr->saveObjectToSD(obj);
-                timer.start(3000);
-                loop.exec();
-                if(timer.isActive())
-                {
-                    qDebug()<<"SMARTSAVEBUTTON"<<"Saving did not timeout"<<i<<"Object"<<obj->getName();
-                }
-                else
-                    qDebug()<<"SMARTSAVEBUTTON"<<"Saving TIMEOUT"<<i<<"Object"<<obj->getName();
-                timer.stop();
-                disconnect(utilMngr,SIGNAL(saveCompleted(int,bool)),this,SLOT(saving_finished(int,bool)));
-                disconnect(&timer,SIGNAL(timeout()),&loop,SLOT(quit()));
-                if(sv_result)
-                    break;
-            }
-            if(sv_result==false)
-            {
-                qDebug()<<"SMARTSAVEBUTTON"<<"failed to save:"<<obj->getName();
-                error=true;
+                qDebug() << "[smartsavebutton.cpp] failed to save:" << obj->getName();
+                error = true;
             }
         }
     }
@@ -156,45 +204,72 @@ void smartSaveButton::processOperation(QPushButton * button,bool save)
     emit endOp();
 }
 
+/**
+ * @brief smartSaveButton::setObjects
+ * Sets all monitored objects in one operation
+ * @param list
+ */
 void smartSaveButton::setObjects(QList<UAVDataObject *> list)
 {
     objects=list;
 }
 
+/**
+ * @brief smartSaveButton::addObject
+ * The smartSaveButton contains a list of objects it will work with, addObject
+ * is used to add a new object to a smartSaveButton instance.
+ * @param obj
+ */
 void smartSaveButton::addObject(UAVDataObject * obj)
 {
     Q_ASSERT(obj);
     if(!objects.contains(obj))
         objects.append(obj);
 }
+
+/**
+ * @brief smartSaveButton::removeObject
+ * The smartSaveButton contains a list of objects it will work with, addObject
+ * is used to remove an object from a smartSaveButton instance.
+ * @param obj
+ */
 void smartSaveButton::removeObject(UAVDataObject * obj)
 {
     if(objects.contains(obj))
         objects.removeAll(obj);
 }
+
+/**
+ * @brief smartSaveButton::removeAllObjects
+ * Remove all tracked objects at once.
+ */
 void smartSaveButton::removeAllObjects()
 {
     objects.clear();
 }
+
 void smartSaveButton::clearObjects()
 {
     objects.clear();
 }
+
 void smartSaveButton::transaction_finished(UAVObject* obj, bool result)
 {
     if(current_object==obj)
     {
-        up_result=result;
+        upload_result=result;
         loop.quit();
     }
 }
 
 void smartSaveButton::saving_finished(int id, bool result)
 {
+    // The saveOjectToFlash method manages its own save queue, so we can be
+    // in a situation where we get a saving_finished message for an object
+    // which is not the one we're interested in, hence the check below:
     if((quint32)id==current_objectID)
     {
-        sv_result=result;
-        //qDebug()<<"saving_finished result="<<result;
+        save_result=result;
         loop.quit();
     }
 }
