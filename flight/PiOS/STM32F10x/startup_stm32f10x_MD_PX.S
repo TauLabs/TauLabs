@@ -2,19 +2,20 @@
   ******************************************************************************
   * @file      startup_stm32f10x_md.s
   * @author    MCD Application Team / Angus Peart
-  * @version   V3.1.2
-  * @date      09/28/2009
+  * @version   V3.5.0
+  * @date      11-March-2011
   * @brief     STM32F10x Medium Density Devices vector table for RIDE7 toolchain.
   *            This module performs:
   *                - Set the initial SP
   *                - Set the initial PC == Reset_Handler,
   *                - Set the vector table entries with the exceptions ISR address
+  *                - Configure the clock system 
   *                - Branches to main in the C library (which eventually
   *                  calls main()).
   *            After Reset the Cortex-M3 processor is in Thread mode,
   *            priority is Privileged, and the Stack is set to Main.
-  *******************************************************************************
-  * @copy
+  ******************************************************************************
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -23,7 +24,8 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
   *
-  * <h2><center>&copy; COPYRIGHT 2009 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  ******************************************************************************
   */
     
   .syntax unified

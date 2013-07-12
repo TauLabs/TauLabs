@@ -1140,7 +1140,7 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 	case 0x80:		/* TxE only.  TRA + MSL + BUSY have been cleared before we got here. */
 		/* Ignore */
 		{
-			static volatile bool halt = FALSE;
+			static volatile bool halt = false;
 			while (halt) ;
 		}
 		break;

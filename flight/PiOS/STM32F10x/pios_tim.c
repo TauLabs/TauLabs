@@ -91,7 +91,7 @@ int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg)
 	}
 
 	/* Configure the dividers for this timer */
-	TIM_TimeBaseInit(cfg->timer, cfg->time_base_init);
+	TIM_TimeBaseInit(cfg->timer, (TIM_TimeBaseInitTypeDef*)cfg->time_base_init);
 
 	/* Configure internal timer clocks */
 	TIM_InternalClockConfig(cfg->timer);
@@ -100,7 +100,7 @@ int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg)
 	TIM_Cmd(cfg->timer, ENABLE);
 
 	/* Enable Interrupts */
-	NVIC_Init(&cfg->irq.init);
+	NVIC_Init((NVIC_InitTypeDef*)&cfg->irq.init);
 
 	return 0;
 }
@@ -139,7 +139,7 @@ int32_t PIOS_TIM_InitChannels(uintptr_t * tim_id, const struct pios_tim_channel 
 			PIOS_Assert(0);
 			break;
 		}
-		GPIO_Init(chan->pin.gpio, &chan->pin.init);
+		GPIO_Init(chan->pin.gpio, (GPIO_InitTypeDef*)&chan->pin.init);
 
 		if (chan->remap) {
 			GPIO_PinRemapConfig(chan->remap, ENABLE);
