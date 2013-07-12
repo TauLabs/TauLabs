@@ -283,6 +283,9 @@ void OutputChannelForm::sendChannelTest(int value)
     if (ui.actuatorRev->isChecked())
             value = ui.actuatorMin->value() - value + ui.actuatorMax->value();	// the channel is reversed
 
+    // update the label
+    ui.actuatorValue->setText(QString::number(value));
+
     if (ui.actuatorLink->checkState() && parent())
     {	// the channel is linked to other channels
         QList<OutputChannelForm*> outputChannelForms = parent()->findChildren<OutputChannelForm*>();
@@ -301,6 +304,7 @@ void OutputChannelForm::sendChannelTest(int value)
             if (outputChannelForm->ui.actuatorNeutral->value() == val) continue;
 
             outputChannelForm->ui.actuatorNeutral->setValue(val);
+            outputChannelForm->ui.actuatorValue->setText(QString::number(val));
         }
     }
 
