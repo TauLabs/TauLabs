@@ -31,7 +31,7 @@
 #include <QSlider>
 #include <QtDesigner/QDesignerExportWidget>
 
-class QDESIGNER_WIDGET_EXPORT TextBubbleSlider : public QSlider
+class TextBubbleSlider : public QSlider
 {
     Q_OBJECT
 
