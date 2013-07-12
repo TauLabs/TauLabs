@@ -34,50 +34,6 @@ include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
 # Set to YES to compile for debugging
 DEBUG ?= YES
 
-# Set to YES to use the Servo output pins for debugging via scope or logic analyser
-ENABLE_DEBUG_PINS ?= NO
-
-# Set to Yes to enable the AUX UART which is mapped on the S1 (Tx) and S2 (Rx) servo outputs
-ENABLE_AUX_UART ?= NO
-
-#
-USE_BOOTLOADER ?= NO
-
-# List of modules to include
-MODULES += Actuator ManualControl Stabilization 
-MODULES += FirmwareIAP
-
-ifeq ($(FILTER_ARCHITECTURE),YES)
-MODULES += State
-else
-MODULES += Attitude/revolution
-endif
-
-OPTMODULES += PathPlanner
-OPTMODULES += AltitudeHold 
-OPTMODULES += VtolPathFollower 
-OPTMODULES += FixedWingPathFollower
-OPTMODULES += GroundPathFollower
-OPTMODULES += CameraStab
-OPTMODULES += OveroSync/simulated
-OPTMODULES += Autotune
-
-# To run simulation instead of connect to SITL
-MODULES += Sensors/simulated
-MODULES += SimVisualization 
-
-MODULES += Telemetry
-
-BLONLY_CDEFS += -DBOARD_TYPE=$(BOARD_TYPE)
-BLONLY_CDEFS += -DBOARD_REVISION=$(BOARD_REVISION)
-BLONLY_CDEFS += -DHW_TYPE=$(HW_TYPE)
-BLONLY_CDEFS += -DBOOTLOADER_VERSION=$(BOOTLOADER_VERSION)
-BLONLY_CDEFS += -DFW_BANK_BASE=$(FW_BANK_BASE)
-BLONLY_CDEFS += -DFW_BANK_SIZE=$(FW_BANK_SIZE)
-BLONLY_CDEFS += -DFW_DESC_SIZE=$(FW_DESC_SIZE)
-
-DEBUG ?= NO
-
 # Include objects that are just nice information to show
 STACK_DIAGNOSTICS ?= NO
 MIXERSTATUS_DIAGNOSTICS ?= NO
@@ -126,7 +82,6 @@ CFLAGS += $(BLONLY_CDEFS)
 
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
-MODULES += Attitude/revolution
 MODULES += FirmwareIAP
 
 OPTMODULES += PathPlanner
@@ -137,6 +92,12 @@ OPTMODULES += GroundPathFollower
 OPTMODULES += CameraStab
 OPTMODULES += OveroSync/simulated
 OPTMODULES += Autotune
+
+ifeq ($(FILTER_ARCHITECTURE),YES)
+MODULES += State
+else
+MODULES += Attitude/revolution
+endif
 
 # To run simulation instead of connect to SITL
 MODULES += Sensors/simulated
@@ -153,7 +114,6 @@ PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(MATHLIB)
-PIOSINC = $(PIOS)/inc
 PIOSPOSIX = $(PIOS)/osx
 PIOSCOMMON = $(TOP)/flight/PiOS/Common
 PIOSBOARDS = $(PIOS)/Boards
@@ -280,7 +240,15 @@ EXTRAINCDIRS  += $(OPUAVOBJINC)
 EXTRAINCDIRS  += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(MATHLIBINC)
-EXTRAINCDIRS  += $(FLIGTH)
+
+EXTRAINCDIRS  += $(PIOSCOMMON)
+EXTRAINCDIRS  += $(PIOSBOARDS)
+
+EXTRAINCDIRS  += $(CMSISDIR)
+EXTRAINCDIRS  += $(BOOTINC)
+EXTRAINCDIRS  += $(HWDEFSINC)
+
+EXTRAINCDIRS  += $(OPSYSTEM)
 EXTRAINCDIRS  += $(PIOSPOSIX)
 EXTRAINCDIRS  += $(RTOSINCDIR)
 #EXTRAINCDIRS  += $(APPLIBDIR)
