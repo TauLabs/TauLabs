@@ -34,14 +34,9 @@
 // Include particular filters to get their handles
 #include "cf_interface.h"
 
-#include "accels.h"
 #include "attitudeactual.h"
-#include "gyros.h"
 #include "gyrosbias.h"
-#include "magnetometer.h"
-#include "positionactual.h"
 #include "statefilter.h"
-#include "velocityactual.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 2448
@@ -49,7 +44,7 @@
 
 // Private variables
 static xTaskHandle stateTaskHandle;
-static struct filter_driver *current_filter = NULL;
+static struct filter_driver *current_filter;
 static uintptr_t running_filter_id;
 
 // Private functions
@@ -103,7 +98,6 @@ int32_t StateStart(void)
 	attitude.q4 = 0;
 	AttitudeActualSet(&attitude);
 
-	// Cannot trust the values to init right above if BL runs
 	GyrosBiasData gyrosBias;
 	GyrosBiasGet(&gyrosBias);
 	gyrosBias.x = 0;
