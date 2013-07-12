@@ -4,9 +4,10 @@
  * @file       main.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
- * @brief      
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Main() file
  * @see        The GNU Public License (GPL) Version 3
- * @defgroup   
+ * @defgroup   app GCS main application group
  * @{
  * 
  *****************************************************************************/
@@ -46,6 +47,10 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
+
+#include <QPixmap>
+#include "customsplash.h"
+#include <QBitmap>
 
 enum { OptionIndent = 4, DescriptionIndent = 24 };
 
@@ -261,6 +266,12 @@ int main(int argc, char **argv)
     QTranslator translator;
     QTranslator qtTranslator;
 
+    QPixmap pixmap(":/images/resources/tau_trans.png");
+    CustomSplash splash(pixmap,Qt::WindowStaysOnTopHint);
+    splash.show();
+
+    splash.showMessage("Loading translations",Qt::AlignCenter | Qt::AlignBottom,Qt::black);
+
     const QString &creatorTrPath = QCoreApplication::applicationDirPath()
                                    + QLatin1String(SHARE_PATH "/translations");
     if (translator.load(QLatin1String("taulabs_") + locale, creatorTrPath)) {
@@ -282,7 +293,7 @@ int main(int argc, char **argv)
 
     const QStringList pluginPaths = getPluginPaths();
     pluginManager.setPluginPaths(pluginPaths);
-
+    splash.showMessage("Parsing command line options",Qt::AlignCenter | Qt::AlignBottom,Qt::black);
     const QStringList arguments = app.arguments();
     QMap<QString, QString> foundAppOptions;
     if (arguments.size() > 1) {
@@ -315,6 +326,7 @@ int main(int argc, char **argv)
             break;
         }
     }
+    splash.showMessage(QLatin1String("Checking core plugin"),Qt::AlignCenter | Qt::AlignBottom,Qt::black);
     if (!coreplugin) {
         QString nativePaths = QDir::toNativeSeparators(pluginPaths.join(QLatin1String(",")));
         const QString reason = QCoreApplication::translate("Application", "Could not find 'Core.pluginspec' in %1").arg(nativePaths);
@@ -339,10 +351,12 @@ int main(int argc, char **argv)
         printHelp(QFileInfo(app.applicationFilePath()).baseName(), pluginManager);
         return 0;
     }
+
     const bool isFirstInstance = !app.isRunning();
     if (!isFirstInstance && foundAppOptions.contains(QLatin1String(CLIENT_OPTION)))
         return sendArguments(app, pluginManager.arguments()) ? 0 : -1;
 
+    QObject::connect(&pluginManager,SIGNAL(splashMessages(QString)),&splash,SLOT(showMessage(const QString)));
     pluginManager.loadPlugins();
     if (coreplugin->hasError()) {
         displayError(msgCoreLoadFailure(coreplugin->errorString()));
@@ -367,8 +381,8 @@ int main(int argc, char **argv)
         QObject::connect(&app, SIGNAL(messageReceived(QString)), coreplugin->plugin(), SLOT(remoteArgument(QString)));
     }
     QObject::connect(&app, SIGNAL(fileOpenRequest(QString)), coreplugin->plugin(), SLOT(remoteArgument(QString)));
-
     // Do this after the event loop has started
     QTimer::singleShot(100, &pluginManager, SLOT(startTests()));
+    splash.close();
     return app.exec();
 }
