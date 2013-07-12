@@ -29,7 +29,7 @@
 #include "openpilot.h"
 #include "filter_interface.h"
 
-#if !defined(FILTER_INFRASTRUCTURE_SE3)
+#ifndef FILTER_INFRASTRUCTURE_SE3
 #define FILTER_INFRASTRUCTURE_SE3
 
 // This should probably be opaque and the init should return uintptr_t
