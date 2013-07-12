@@ -31,7 +31,6 @@
 #ifndef PIOS_HCSR04_PRIV_H
 #define PIOS_HCSR04_PRIV_H
 
-#include <pios.h>
 #include <pios_stm32.h>
 
 #include <pios_tim_priv.h>
@@ -42,8 +41,6 @@ struct pios_hcsr04_cfg {
     uint8_t num_channels;
     struct stm32_gpio trigger;
 };
-
-extern const struct pios_rcvr_driver pios_pwm_rcvr_driver;
 
 extern int32_t PIOS_HCSR04_Init(uintptr_t *hcsr04_id, const struct pios_hcsr04_cfg *cfg);
 
