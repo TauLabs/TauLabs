@@ -288,8 +288,12 @@ static void PIOS_HCSR04_tim_edge_cb(uintptr_t tim_id, uintptr_t context, uint8_t
 
 static void PIOS_HCSR04_Task(void *parameters)
 {
-	int32_t value = 0, timeout = 10;
-	float coeff   = 0.25, height_out = 0, height_in = 0;
+	int32_t value    = 0;
+	int32_t timeout  = 10;
+	float coeff      = 0.25;
+	float height_out = 0;
+	float height_in  = 0;
+
 	PIOS_HCSR04_Trigger();
 
 	while (1) {
@@ -306,7 +310,8 @@ static void PIOS_HCSR04_Task(void *parameters)
 				data.in_range = true;
 				xQueueSend(dev->queue, (void *)&data, 0);
 			} else {
-				if (value <= 150) data.altitude = -1;
+				if (value <= 150)
+					data.altitude = -1;
 				data.in_range = false;
 				xQueueSend(dev->queue, (void *)&data, 0);
 			}
