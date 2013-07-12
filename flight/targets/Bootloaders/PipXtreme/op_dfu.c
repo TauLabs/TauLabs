@@ -144,7 +144,7 @@ void processComand(uint8_t *xReceive_Buffer) {
 		if (((DeviceState == BLidle) && (Data0 < numberOfDevices))
 				|| (DeviceState == DFUidle)) {
 			if (Data0 > 0)
-				OPDfuIni(TRUE);
+				OPDfuIni(true);
 			DeviceState = DFUidle;
 			currentProgrammingDestination = devicesTable[Data0].programmingType;
 			currentDeviceCanRead = devicesTable[Data0].readWriteFlags & 0x01;
@@ -157,7 +157,7 @@ void processComand(uint8_t *xReceive_Buffer) {
 				result = PIOS_BL_HELPER_FLASH_Ini();
 				break;
 			case Remote_flash_via_spi:
-				result = TRUE;
+				result = true;
 				break;
 			default:
 				DeviceState = Last_operation_failed;
@@ -182,7 +182,7 @@ void processComand(uint8_t *xReceive_Buffer) {
 				SizeOfLastPacket = Data1;
 
 				if (isBiggerThanAvailable(TransferType, (SizeOfTransfer - 1)
-						* 14 * 4 + SizeOfLastPacket * 4) == TRUE) {
+						* 14 * 4 + SizeOfLastPacket * 4) == true) {
 					DeviceState = outsideDevCapabilities;
 					Aditionals = (uint32_t) Command;
 				} else {
@@ -193,7 +193,7 @@ void processComand(uint8_t *xReceive_Buffer) {
 							result = PIOS_BL_HELPER_FLASH_Start();
 							break;
 						case Remote_flash_via_spi:
-							result = FALSE;
+							result = false;
 							break;
 						default:
 							break;
@@ -238,7 +238,7 @@ void processComand(uint8_t *xReceive_Buffer) {
 						}
 						break;
 					case Remote_flash_via_spi:
-						result = FALSE; // No support for this for the PipX
+						result = false; // No support for this for the PipX
 						break;
 					default:
 						result = 0;
@@ -261,7 +261,7 @@ void processComand(uint8_t *xReceive_Buffer) {
 		}
 		break;
 	case Req_Capabilities:
-		OPDfuIni(TRUE);
+		OPDfuIni(true);
 		Buffer[0] = 0x01;
 		Buffer[1] = Rep_Capabilities;
 		if (Data0 == 0) {
@@ -430,7 +430,7 @@ uint8_t isBiggerThanAvailable(DFUTransfer type, uint32_t size) {
 		return (size > currentDevice.sizeOfDescription) ? 1 : 0;
 		break;
 	default:
-		return TRUE;
+		return true;
 	}
 }
 
@@ -455,15 +455,15 @@ void sendData(uint8_t * buf, uint16_t size) {
 bool flash_read(uint8_t * buffer, uint32_t adr, DFUProgType type) {
 	switch (type) {
 	case Remote_flash_via_spi:
-		return FALSE; // We should not get this for the PipX
+		return false; // We should not get this for the PipX
 		break;
 	case Self_flash:
 		for (uint8_t x = 0; x < 4; ++x) {
 			buffer[x] = *PIOS_BL_HELPER_FLASH_If_Read(adr + x);
 		}
-		return TRUE;
+		return true;
 		break;
 	default:
-		return FALSE;
+		return false;
 	}
 }

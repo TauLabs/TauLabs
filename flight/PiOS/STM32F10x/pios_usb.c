@@ -127,7 +127,7 @@ int32_t PIOS_USB_Init(uintptr_t * usb_id, const struct pios_usb_cfg * cfg)
 	pios_usb_com_id = (uintptr_t) usb_dev;
 
 	/* Enable the USB Interrupts */
-	NVIC_Init(&usb_dev->cfg->irq.init);
+	NVIC_Init((NVIC_InitTypeDef*)&usb_dev->cfg->irq.init);
 
 	/* Select USBCLK source */
 	RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_1Div5);

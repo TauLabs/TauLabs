@@ -61,10 +61,10 @@ uint8_t tempcount = 0;
 /* Extern variables ----------------------------------------------------------*/
 DFUStates DeviceState;
 int16_t status = 0;
-uint8_t JumpToApp = FALSE;
-uint8_t GO_dfu = FALSE;
-uint8_t USB_connected = FALSE;
-uint8_t User_DFU_request = FALSE;
+uint8_t JumpToApp = false;
+uint8_t GO_dfu = false;
+uint8_t USB_connected = false;
+uint8_t User_DFU_request = false;
 static uint8_t mReceive_Buffer[63];
 /* Private function prototypes -----------------------------------------------*/
 uint32_t LedPWM(uint32_t pwm_period, uint32_t pwm_sweep_steps, uint32_t count);
@@ -78,32 +78,32 @@ int main() {
 	
 	USB_connected = PIOS_USB_CableConnected(0);
 
-	if (PIOS_IAP_CheckRequest() == TRUE) {
+	if (PIOS_IAP_CheckRequest() == true) {
 		PIOS_DELAY_WaitmS(1000);
-		User_DFU_request = TRUE;
+		User_DFU_request = true;
 		PIOS_IAP_ClearRequest();
 	}
 
-	GO_dfu = (USB_connected == TRUE) || (User_DFU_request == TRUE);
+	GO_dfu = (USB_connected == true) || (User_DFU_request == true);
 
-	if (GO_dfu == TRUE) {
+	if (GO_dfu == true) {
 		PIOS_Board_Init();
-		if (User_DFU_request == TRUE)
+		if (User_DFU_request == true)
 			DeviceState = DFUidle;
 		else
 			DeviceState = BLidle;
 	} else
-		JumpToApp = TRUE;
+		JumpToApp = true;
 
 	uint32_t stopwatch = 0;
 	uint32_t prev_ticks = PIOS_DELAY_GetuS();
-	while (TRUE) {
+	while (true) {
 		/* Update the stopwatch */
 		uint32_t elapsed_ticks = PIOS_DELAY_GetuSSince(prev_ticks);
 		prev_ticks += elapsed_ticks;
 		stopwatch += elapsed_ticks;
 
-		if (JumpToApp == TRUE)
+		if (JumpToApp == true)
 			jump_to_app();
 
 		switch (DeviceState) {
@@ -159,7 +159,7 @@ int main() {
 			stopwatch = 0;
 		if ((stopwatch > 6 * 1000 * 1000) && (DeviceState
 				== BLidle))
-			JumpToApp = TRUE;
+			JumpToApp = true;
 
 		processRX();
 		DataDownload(start);
@@ -202,6 +202,6 @@ uint8_t processRX() {
 	if (PIOS_COM_MSG_Receive(PIOS_COM_TELEM_USB, mReceive_Buffer, sizeof(mReceive_Buffer))) {
 		processComand(mReceive_Buffer);
 	}
-	return TRUE;
+	return true;
 }
 
