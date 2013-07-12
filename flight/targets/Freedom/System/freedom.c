@@ -102,10 +102,10 @@ initTask(void *parameters)
 {
 	/* board driver init */
 	PIOS_Board_Init();
-	
+
 	/* Initialize modules */
-	MODULE_INITIALISE_ALL;
-	
+	MODULE_INITIALISE_ALL(PIOS_WDG_Clear);
+
 	/* terminate this task */
 	vTaskDelete(NULL);
 }
