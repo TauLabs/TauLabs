@@ -10237,8 +10237,8 @@ General Semiconductor</description>
 <part name="V4" library="led" deviceset="LED" device="CHIP-LED0805" value="red!">
 <attribute name="ABAS" value="11214"/>
 </part>
-<part name="R8" library="rcl" deviceset="R-EU_" device="R0603" value="330R">
-<attribute name="ABAS" value="11711"/>
+<part name="R8" library="rcl" deviceset="R-EU_" device="R0603" value="1k2">
+<attribute name="ABAS" value="11182"/>
 </part>
 <part name="V6" library="led" deviceset="LED" device="CHIP-LED0805" value="green!">
 <attribute name="ABAS" value="11215"/>

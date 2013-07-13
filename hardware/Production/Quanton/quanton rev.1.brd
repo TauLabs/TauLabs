@@ -28772,8 +28772,8 @@ design rules under a new name.</description>
 <element name="V4" library="led" package="CHIP-LED0805" value="red!" x="47.375" y="40.375" rot="R90">
 <attribute name="ABAS" value="11214" x="47.375" y="40.375" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="R8" library="rcl" package="R0603" value="330R" x="33.625" y="35.875" rot="R270">
-<attribute name="ABAS" value="11711" x="33.625" y="35.875" size="1.778" layer="27" rot="R270" display="off"/>
+<element name="R8" library="rcl" package="R0603" value="1k2" x="33.625" y="35.875" rot="R270">
+<attribute name="ABAS" value="11182" x="33.625" y="35.875" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
 <element name="V6" library="led" package="CHIP-LED0805" value="green!" x="47.375" y="42.375" rot="R90">
 <attribute name="ABAS" value="11215" x="47.375" y="42.375" size="1.778" layer="27" rot="R90" display="off"/>
