@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.2">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="yes"/>
@@ -10029,7 +10029,7 @@ General Semiconductor</description>
 <part name="VCC17" library="supply1" deviceset="VCCINT" device="" value="PWM5"/>
 <part name="VCC18" library="supply1" deviceset="VCCINT" device="" value="PWM6"/>
 <part name="VCC20" library="supply1" deviceset="VCCINT" device="" value="PWM8"/>
-<part name="D3" library="stm32" deviceset="STM32F10XRXT6" device="">
+<part name="D3" library="stm32" deviceset="STM32F10XRXT6" device="" value="STM32F405RGT6">
 <attribute name="ABAS" value="12531"/>
 </part>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
@@ -10237,8 +10237,8 @@ General Semiconductor</description>
 <part name="V4" library="led" deviceset="LED" device="CHIP-LED0805" value="red!">
 <attribute name="ABAS" value="11214"/>
 </part>
-<part name="R8" library="rcl" deviceset="R-EU_" device="R0603" value="330R">
-<attribute name="ABAS" value="11711"/>
+<part name="R8" library="rcl" deviceset="R-EU_" device="R0603" value="1k2">
+<attribute name="ABAS" value="11182"/>
 </part>
 <part name="V6" library="led" deviceset="LED" device="CHIP-LED0805" value="green!">
 <attribute name="ABAS" value="11215"/>
@@ -10537,6 +10537,9 @@ General Semiconductor</description>
 <sheets>
 <sheet>
 <plain>
+<text x="289.56" y="25.4" size="1.778" layer="91">Copyright 2012 - 2013 by Quantec Networks GmbH
+http://www.quantec-networks.de/quanton/
+Licensed under CC-BY-SA-NC</text>
 </plain>
 <instances>
 <instance part="FRAME2" gate="G$1" x="0" y="0"/>
@@ -11564,6 +11567,9 @@ General Semiconductor</description>
 </sheet>
 <sheet>
 <plain>
+<text x="289.56" y="25.4" size="1.778" layer="91">Copyright 2012 - 2013 by Quantec Networks GmbH
+http://www.quantec-networks.de/quanton/
+Licensed under CC-BY-SA-NC</text>
 </plain>
 <instances>
 <instance part="FRAME3" gate="G$1" x="0" y="0"/>
@@ -12594,6 +12600,9 @@ General Semiconductor</description>
 </sheet>
 <sheet>
 <plain>
+<text x="289.56" y="25.4" size="1.778" layer="91">Copyright 2012 - 2013 by Quantec Networks GmbH
+http://www.quantec-networks.de/quanton/
+Licensed under CC-BY-SA-NC</text>
 </plain>
 <instances>
 <instance part="FRAME11" gate="G$1" x="0" y="0"/>
@@ -13144,6 +13153,9 @@ General Semiconductor</description>
 </sheet>
 <sheet>
 <plain>
+<text x="289.56" y="25.4" size="1.778" layer="91">Copyright 2012 - 2013 by Quantec Networks GmbH
+http://www.quantec-networks.de/quanton/
+Licensed under CC-BY-SA-NC</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
@@ -13362,4 +13374,10 @@ General Semiconductor</description>
 </sheets>
 </schematic>
 </drawing>
+<compatibility>
+<note version="6.3" minversion="6.2.2" severity="warning">
+Since Version 6.2.2 text objects can contain more than one line,
+which will not be processed correctly with this version.
+</note>
+</compatibility>
 </eagle>
