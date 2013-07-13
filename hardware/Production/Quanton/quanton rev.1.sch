@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.2">
+<eagle version="6.4">
 <drawing>
 <settings>
 <setting alwaysvectorfont="yes"/>
@@ -10029,7 +10029,7 @@ General Semiconductor</description>
 <part name="VCC17" library="supply1" deviceset="VCCINT" device="" value="PWM5"/>
 <part name="VCC18" library="supply1" deviceset="VCCINT" device="" value="PWM6"/>
 <part name="VCC20" library="supply1" deviceset="VCCINT" device="" value="PWM8"/>
-<part name="D3" library="stm32" deviceset="STM32F10XRXT6" device="">
+<part name="D3" library="stm32" deviceset="STM32F10XRXT6" device="" value="STM32F405RGT6">
 <attribute name="ABAS" value="12531"/>
 </part>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
