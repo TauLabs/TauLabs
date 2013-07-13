@@ -10537,6 +10537,9 @@ General Semiconductor</description>
 <sheets>
 <sheet>
 <plain>
+<text x="289.56" y="25.4" size="1.778" layer="91">Copyright 2012 - 2013 by Quantec Networks GmbH
+http://www.quantec-networks.de/quanton/
+Licensed under CC-BY-SA-NC</text>
 </plain>
 <instances>
 <instance part="FRAME2" gate="G$1" x="0" y="0"/>
@@ -11564,6 +11567,9 @@ General Semiconductor</description>
 </sheet>
 <sheet>
 <plain>
+<text x="289.56" y="25.4" size="1.778" layer="91">Copyright 2012 - 2013 by Quantec Networks GmbH
+http://www.quantec-networks.de/quanton/
+Licensed under CC-BY-SA-NC</text>
 </plain>
 <instances>
 <instance part="FRAME3" gate="G$1" x="0" y="0"/>
@@ -12594,6 +12600,9 @@ General Semiconductor</description>
 </sheet>
 <sheet>
 <plain>
+<text x="289.56" y="25.4" size="1.778" layer="91">Copyright 2012 - 2013 by Quantec Networks GmbH
+http://www.quantec-networks.de/quanton/
+Licensed under CC-BY-SA-NC</text>
 </plain>
 <instances>
 <instance part="FRAME11" gate="G$1" x="0" y="0"/>
@@ -13144,6 +13153,9 @@ General Semiconductor</description>
 </sheet>
 <sheet>
 <plain>
+<text x="289.56" y="25.4" size="1.778" layer="91">Copyright 2012 - 2013 by Quantec Networks GmbH
+http://www.quantec-networks.de/quanton/
+Licensed under CC-BY-SA-NC</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
@@ -13362,4 +13374,10 @@ General Semiconductor</description>
 </sheets>
 </schematic>
 </drawing>
+<compatibility>
+<note version="6.3" minversion="6.2.2" severity="warning">
+Since Version 6.2.2 text objects can contain more than one line,
+which will not be processed correctly with this version.
+</note>
+</compatibility>
 </eagle>
