@@ -686,6 +686,71 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 
 #endif	/* PIOS_INCLUDE_FLASH */
 
+#if defined(PIOS_INCLUDE_HCSR04)
+static const TIM_TimeBaseInitTypeDef tim_4_time_base = {
+	.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / 1000000) - 1,
+	.TIM_ClockDivision = TIM_CKD_DIV1,
+	.TIM_CounterMode = TIM_CounterMode_Up,
+	.TIM_Period = 0xFFFF,
+	.TIM_RepetitionCounter = 0x0000,
+};
+
+static const struct pios_tim_clock_cfg tim_4_cfg = {
+	.timer = TIM4,
+	.time_base_init = &tim_4_time_base,
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = TIM4_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		},
+	},
+};
+
+#include <pios_hcsr04_priv.h>
+
+static const struct pios_tim_channel pios_tim_hcsr04_port[] = {
+	{
+		.timer = TIM4,
+		.timer_chan = TIM_Channel_2,
+		.pin   = {
+			.gpio = GPIOB,
+			.init = {
+				.GPIO_Pin   = GPIO_Pin_7,
+				.GPIO_Mode  = GPIO_Mode_AF,
+				.GPIO_Speed = GPIO_Speed_2MHz,
+				.GPIO_PuPd  = GPIO_PuPd_DOWN
+			},
+			.pin_source     = GPIO_PinSource7,
+		},
+		.remap = GPIO_AF_TIM4,
+	},
+};
+
+const struct pios_hcsr04_cfg pios_hcsr04_cfg = {
+	.tim_ic_init = {
+		.TIM_ICPolarity  = TIM_ICPolarity_Rising,
+		.TIM_ICSelection = TIM_ICSelection_DirectTI,
+		.TIM_ICPrescaler = TIM_ICPSC_DIV1,
+		.TIM_ICFilter    = 0x0,
+	},
+	.channels     = pios_tim_hcsr04_port,
+	.num_channels = NELEMENTS(pios_tim_hcsr04_port),
+	.trigger = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_6,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+		},
+	},
+};
+
+#endif	/* PIOS_INCLUDE_HCSR04 */
+
 #if defined(PIOS_INCLUDE_USART)
 
 #include "pios_usart_priv.h"
@@ -1554,7 +1619,7 @@ static const struct pios_tim_channel pios_tim_servoport_all_pins[] = {
 	9:  TIM8_CH1  (PC6)		(IN2)
 	10: TIM8_CH2  (PC7)		(IN3)
 	11: TIM8_CH3  (PC8)		(IN4)
-	12: TIM2_CH1  (PA15)	(IN5)
+	12: TIM2_CH1  (PA15)		(IN5)
 	13: TIM2_CH2  (PB3)		(IN6)
 	14: TIM5_CH1  (PA0)		(IN7)
 	15: TIM5_CH2  (PA1)		(IN8)
