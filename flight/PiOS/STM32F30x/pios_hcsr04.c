@@ -303,11 +303,11 @@ static void PIOS_HCSR04_Task(void *parameters)
 
 	while (1) {
 		struct pios_sensor_sonar_data data;
-		// Compute the current altitude
+		// Compute the current ranging distance
 		if (PIOS_HCSR04_Completed()) {
 			value = PIOS_HCSR04_Get();
-			// from 2.5cm to 2.5m
-			if ((value > 150) && (value < 15000)) {
+			// from 2.55cm to 4m
+			if ((value > 150) && (value < 23529)) {
 				height_in  = value * 0.00034f / 2.0f;
 				height_out = (height_out * (1 - coeff)) + (height_in * coeff);
 
