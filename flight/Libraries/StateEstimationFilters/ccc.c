@@ -59,7 +59,7 @@ void CottonComplementaryCorrection(float *accels, float *gyros, const float delT
 	grav_b[1] = -(2 * (glblAtt->q[2] * glblAtt->q[3] + glblAtt->q[0] * glblAtt->q[1]));
 	grav_b[2] = -(glblAtt->q[0] * glblAtt->q[0] - glblAtt->q[1] * glblAtt->q[1] -
 					  glblAtt->q[2] * glblAtt->q[2] + glblAtt->q[3] * glblAtt->q[3]);
-	CrossProduct((const float *)accels, (const float *)grav_b, accel_err_b);
+	CrossProduct(accels, grav_b, accel_err_b);
 	
 	// Account for accel magnitude
 	float accel_mag = VectorMagnitude(accels);
