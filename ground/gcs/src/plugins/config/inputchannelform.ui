@@ -479,16 +479,6 @@ margin:1px;</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="11">
-    <widget class="QPushButton" name="pb_channelReverse">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>Reverse</string>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -505,7 +495,6 @@ margin:1px;</string>
   <tabstop>channelMin</tabstop>
   <tabstop>channelNeutral</tabstop>
   <tabstop>channelMax</tabstop>
-  <tabstop>pb_channelReverse</tabstop>
  </tabstops>
  <resources/>
  <connections/>
