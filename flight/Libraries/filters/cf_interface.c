@@ -307,13 +307,13 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 	grot[0] = -(2 * (cf->q[1] * cf->q[3] - cf->q[0] * cf->q[2]));
 	grot[1] = -(2 * (cf->q[2] * cf->q[3] + cf->q[0] * cf->q[1]));
 	grot[2] = -(cf->q[0]*cf->q[0] - cf->q[1]*cf->q[1] - cf->q[2]*cf->q[2] + cf->q[3]*cf->q[3]);
-	CrossProduct((const float *) accels, (const float *) grot, accel_err);
+	CrossProduct(accels, grot, accel_err);
 
 	// Apply same filtering to the rotated attitude to match delays
 	apply_accel_filter(cf, grot, grot_filtered);
 
 	// Compute the error between the predicted direction of gravity and smoothed acceleration
-	CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
+	CrossProduct(accels_filtered, grot_filtered, accel_err);
 
 	float grot_mag;
 	if (cf->accel_filter_enabled)
@@ -364,7 +364,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 			if (bmag < 1 || mag_len < 1)
 				mag_err[0] = mag_err[1] = mag_err[2] = 0;
 			else
-				CrossProduct((const float *) mag, (const float *) brot, mag_err);
+				CrossProduct(mag, brot, mag_err);
 
 			if (mag_err[2] != mag_err[2])
 				mag_err[2] = 0;
