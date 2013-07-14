@@ -36,20 +36,32 @@ Utils--StyledBar { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:
 		border-radius: 2px;
 		margin 10px 10px;
 		}
-	QSlider::add-page:horizontal {
+
+	QSlider::add-page:horizontal[state="inverted"] {
+		background: rgb(249,117,76);
+		border: 1px solid #777;
+		height: 1px;
+		border-radius: 4px;
+		}
+	QSlider::add-page:horizontal[state="normal"] {
 		background: #fff;
 		border: 1px solid #777;
 		height: 1px;
 		border-radius: 4px;
 		}
 
- 	QSlider::sub-page:horizontal {
- 		background: rgb(249,117,76);
- 		border: 1px solid #777;
+	QSlider::sub-page:horizontal[state="inverted"] {
+		background: #fff;
+		border: 1px solid #777;
 		height: 1px;
 		border-radius: 4px;
 		}
-
+	QSlider::sub-page:horizontal[state="normal"] {
+		background: rgb(249,117,76);
+		border: 1px solid #777;
+		height: 1px;
+		border-radius: 4px;
+		}
 
  	QSlider::handle:horizontal {
      		background: rgb(196,196,196);
