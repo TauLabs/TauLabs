@@ -369,11 +369,26 @@ static void update_baro(struct pios_sensor_baro_data *baro)
  * Update the sonar uavo from the data from the sonar queue
  * @param [in] sonar raw sonar data
  */
+#define NORTH 0
+#define EAST  1
+#define DOWN  2
 static void update_sonar(struct pios_sensor_sonar_data *sonar)
 {
+	AttitudeActualData attitude;
+	AttitudeActualGet(&attitude);
+
+	float Rbe[3][3];
+	Quaternion2R(&attitude.q1, Rbe);
+	float range_body[3] = {sonar->range, 0, 0}; // Assuming the sensor is pointed straight down.
+	float range_earth[3];
+	rot_mult(Rbe, range_body, range_earth, true);
+
 	SonarAltitudeData sonarAltitude;
 	SonarAltitudeGet(&sonarAltitude);
-	sonarAltitude.Range = sonar->range;
+
+	sonarAltitude.Range[NORTH] = range_earth[0];
+	sonarAltitude.Range[EAST]  = range_earth[1];
+	sonarAltitude.Range[DOWN]  = range_earth[2];
 	if (sonar->valid_range)
 		sonarAltitude.RangingStatus = SONARALTITUDE_RANGINGSTATUS_INRANGE;
 	else
