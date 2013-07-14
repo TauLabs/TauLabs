@@ -501,13 +501,13 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	grot[0] = -(2 * (cf_q[1] * cf_q[3] - cf_q[0] * cf_q[2]));
 	grot[1] = -(2 * (cf_q[2] * cf_q[3] + cf_q[0] * cf_q[1]));
 	grot[2] = -(cf_q[0]*cf_q[0] - cf_q[1]*cf_q[1] - cf_q[2]*cf_q[2] + cf_q[3]*cf_q[3]);
-	CrossProduct((const float *) &accelsData.x, (const float *) grot, accel_err);
+	CrossProduct(&accelsData.x, grot, accel_err);
 
 	// Apply same filtering to the rotated attitude to match delays
 	apply_accel_filter(grot,grot_filtered);
 
 	// Compute the error between the predicted direction of gravity and smoothed acceleration
-	CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
+	CrossProduct(accels_filtered, grot_filtered, accel_err);
 
 	float grot_mag;
 	if (complementary_filter_state.accel_filter_enabled)
@@ -564,7 +564,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 			if (bmag < 1 || mag_len < 1)
 				mag_err[0] = mag_err[1] = mag_err[2] = 0;
 			else
-				CrossProduct((const float *) &mag.x, (const float *) brot, mag_err);
+				CrossProduct(&mag.x, brot, mag_err);
 
 			if (mag_err[2] != mag_err[2])
 				mag_err[2] = 0;
