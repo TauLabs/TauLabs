@@ -49,17 +49,19 @@ enum pios_hcsr04_dev_magic {
     PIOS_HCSR04_DEV_MAGIC = 0xab3029aa,
 };
 
+#define PIOS_HCSR04_NUM_CHANNELS 1
+
 struct pios_hcsr04_dev {
 	const struct pios_hcsr04_cfg *cfg;
 	xTaskHandle task;
 	xQueueHandle queue;
 
-	uint8_t CaptureState[1];
-	uint16_t RiseValue[1];
-	uint16_t FallValue[1];
-	uint32_t CaptureValue[1];
-	uint32_t CapCounter[1];
-	uint32_t us_since_update[1];
+	uint8_t CaptureState[PIOS_HCSR04_NUM_CHANNELS];
+	uint16_t RiseValue[PIOS_HCSR04_NUM_CHANNELS];
+	uint16_t FallValue[PIOS_HCSR04_NUM_CHANNELS];
+	uint32_t CaptureValue[PIOS_HCSR04_NUM_CHANNELS];
+	uint32_t CapCounter[PIOS_HCSR04_NUM_CHANNELS];
+	uint32_t us_since_update[PIOS_HCSR04_NUM_CHANNELS];
 	enum pios_hcsr04_dev_magic magic;
 };
 
@@ -131,10 +133,12 @@ int32_t PIOS_HCSR04_Init(uintptr_t *hcsr04_id, const struct pios_hcsr04_cfg *cfg
 	dev  = hcsr04_dev;
 
 	/* Flush counter variables */
-	hcsr04_dev->CaptureState[0] = 0;
-	hcsr04_dev->RiseValue[0]    = 0;
-	hcsr04_dev->FallValue[0]    = 0;
-	hcsr04_dev->CaptureValue[0] = -1;
+	for (uint8_t i = 0; i < PIOS_HCSR04_NUM_CHANNELS; i++) {
+		hcsr04_dev->CaptureState[i] = 0;
+		hcsr04_dev->RiseValue[i]    = 0;
+		hcsr04_dev->FallValue[i]    = 0;
+		hcsr04_dev->CaptureValue[i] = -1;
+	}
 
 	uintptr_t tim_id;
 	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, &tim_callbacks, (uintptr_t)hcsr04_dev)) {
