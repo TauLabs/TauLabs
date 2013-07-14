@@ -373,11 +373,11 @@ static void update_sonar(struct pios_sensor_sonar_data *sonar)
 {
 	SonarAltitudeData sonarAltitude;
 	SonarAltitudeGet(&sonarAltitude);
-	sonarAltitude.Altitude = sonar->altitude;
-	if (sonar->in_range)
-		sonarAltitude.Range = SONARALTITUDE_RANGE_INRANGE;
+	sonarAltitude.Range = sonar->range;
+	if (sonar->valid_range)
+		sonarAltitude.RangingStatus = SONARALTITUDE_RANGINGSTATUS_INRANGE;
 	else
-		sonarAltitude.Range = SONARALTITUDE_RANGE_OUTOFRANGE;
+		sonarAltitude.RangingStatus = SONARALTITUDE_RANGINGSTATUS_OUTOFRANGE;
 
 	SonarAltitudeSet(&sonarAltitude);
 }

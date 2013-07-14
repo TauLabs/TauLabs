@@ -307,13 +307,13 @@ static void PIOS_HCSR04_Task(void *parameters)
 				height_in  = value * 0.00034f / 2.0f;
 				height_out = (height_out * (1 - coeff)) + (height_in * coeff);
 
-				data.altitude = height_out; // m/us
-				data.in_range = true;
+				data.range = height_out; // m/us
+				data.valid_range = true;
 				xQueueSend(dev->queue, (void *)&data, 0);
 			} else {
 				if (value <= 150)
-					data.altitude = -1;
-				data.in_range = false;
+					data.range = -1;
+				data.valid_range = false;
 				xQueueSend(dev->queue, (void *)&data, 0);
 			}
 
