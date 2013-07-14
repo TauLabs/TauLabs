@@ -296,28 +296,6 @@ margin:1px;</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="8">
-    <widget class="QCheckBox" name="actuatorRev">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>45</width>
-       <height>25</height>
-      </size>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
-     </property>
-     <property name="toolTip">
-      <string>Check to invert the channel.</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="1">
     <widget class="QLabel" name="legend0">
      <property name="sizePolicy">
@@ -354,10 +332,29 @@ margin:1px;</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="8">
-    <widget class="QLabel" name="legend4">
+   <item row="1" column="7">
+    <widget class="QSpinBox" name="actuatorMax">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>Maximum PWM value, beware of not overdriving your servo.</string>
+     </property>
+     <property name="maximum">
+      <number>65535</number>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QLabel" name="legend2">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -383,7 +380,7 @@ font:bold;
 margin:1px;</string>
      </property>
      <property name="text">
-      <string>Rev</string>
+      <string>Neutral (see tooltip)</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -427,58 +424,10 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </item>
-   <item row="1" column="7">
-    <widget class="QSpinBox" name="actuatorMax">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>25</height>
-      </size>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
-     </property>
-     <property name="toolTip">
-      <string>Maximum PWM value, beware of not overdriving your servo.</string>
-     </property>
-     <property name="maximum">
-      <number>9999</number>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="4">
-    <widget class="QLabel" name="legend2">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <italic>false</italic>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
-color: rgb(255, 255, 255);
-border-radius: 5;
-font:bold;
-margin:1px;</string>
-     </property>
+   <item row="1" column="8">
+    <widget class="QPushButton" name="pb_reverseActuator">
      <property name="text">
-      <string>Neutral (see tooltip)</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <string>Reverse</string>
      </property>
     </widget>
    </item>
@@ -495,7 +444,7 @@ margin:1px;</string>
   <tabstop>actuatorMin</tabstop>
   <tabstop>actuatorNeutral</tabstop>
   <tabstop>actuatorMax</tabstop>
-  <tabstop>actuatorRev</tabstop>
+  <tabstop>pb_reverseActuator</tabstop>
   <tabstop>actuatorLink</tabstop>
  </tabstops>
  <resources/>

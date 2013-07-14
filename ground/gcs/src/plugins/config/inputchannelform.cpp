@@ -69,17 +69,24 @@ void inputChannelForm::setName(QString &name)
   */
 void inputChannelForm::minMaxUpdated()
 {
-    bool reverse = ui->channelMin->value() > ui->channelMax->value();
+    bool reverse = (ui->channelMin->value() > ui->channelMax->value());
     if(reverse) {
         ui->channelNeutral->setMinimum(ui->channelMax->value());
         ui->channelNeutral->setMaximum(ui->channelMin->value());
+
+        // Set the QSlider groove colors so that the fill is on the side of the minimum value
+        ui->channelNeutral->setProperty("state", "inverted");
     } else {
         ui->channelNeutral->setMinimum(ui->channelMin->value());
         ui->channelNeutral->setMaximum(ui->channelMax->value());
+
+        // Set the QSlider groove colors so that the fill is on the side of the minimum value
+        ui->channelNeutral->setProperty("state", "normal");
     }
-    ui->channelRev->setChecked(reverse);
     ui->channelNeutral->setInvertedAppearance(reverse);
-    ui->channelNeutral->setInvertedControls(reverse);
+
+    // Force refresh of style sheet.
+    ui->channelNeutral->setStyle(QApplication::style());
 }
 
 /**
