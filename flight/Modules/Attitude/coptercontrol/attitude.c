@@ -447,9 +447,9 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 	static float gyro_temp_bias[3] = {0,0,0};
 
 	// Scale the gyros
-	float gyros_out[3] = {gyros->x * sensorSettings.GyroScale[0],
-	                      gyros->y * sensorSettings.GyroScale[1],
-	                      gyros->z * sensorSettings.GyroScale[2]};
+	float gyros_out[3] = {gyros->x * sensorSettings.GyroScale[0] - gyro_temp_bias[0],
+	                      gyros->y * sensorSettings.GyroScale[1] - gyro_temp_bias[1],
+	                      gyros->z * sensorSettings.GyroScale[2] - gyro_temp_bias[2]};
 
 	if (rotate) {
 		float gyros[3];
@@ -471,9 +471,9 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 
 	if(bias_correct_gyro) {
 		// Applying integral component here so it can be seen on the gyros and correct bias
-		gyrosData->x -= gyro_temp_bias[0] + gyro_correct_int[0];
-		gyrosData->y -= gyro_temp_bias[1] + gyro_correct_int[1];
-		gyrosData->z -= gyro_temp_bias[2] + gyro_correct_int[2];
+		gyrosData->x -= gyro_correct_int[0];
+		gyrosData->y -= gyro_correct_int[1];
+		gyrosData->z -= gyro_correct_int[2];
 	}
 
 	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try

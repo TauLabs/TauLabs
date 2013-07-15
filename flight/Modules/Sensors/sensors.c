@@ -261,9 +261,9 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 {
 	// Scale the gyros
 	float gyros_out[3] = {
-	    gyros->x * gyro_scale[0],
-	    gyros->y * gyro_scale[1],
-	    gyros->z * gyro_scale[2]
+	    gyros->x * gyro_scale[0] - gyro_temp_bias[0],
+	    gyros->y * gyro_scale[1] - gyro_temp_bias[1],
+	    gyros->z * gyro_scale[2] - gyro_temp_bias[2]
 	};
 
 	GyrosData gyrosData;
@@ -289,9 +289,9 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 		// Apply bias correction to the gyros from the state estimator
 		GyrosBiasData gyrosBias;
 		GyrosBiasGet(&gyrosBias);
-		gyrosData.x -= gyrosBias.x + gyro_temp_bias[0];
-		gyrosData.y -= gyrosBias.y + gyro_temp_bias[1];
-		gyrosData.z -= gyrosBias.z + gyro_temp_bias[2];
+		gyrosData.x -= gyrosBias.x;
+		gyrosData.y -= gyrosBias.y;
+		gyrosData.z -= gyrosBias.z;
 	}
 
 	GyrosSet(&gyrosData);
