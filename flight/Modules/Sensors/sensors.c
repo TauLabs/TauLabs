@@ -261,14 +261,23 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 {
 	// Scale the gyros
 	float gyros_out[3] = {
-	    gyros->x * gyro_scale[0] - gyro_temp_bias[0],
-	    gyros->y * gyro_scale[1] - gyro_temp_bias[1],
-	    gyros->z * gyro_scale[2] - gyro_temp_bias[2]
+	    gyros->x * gyro_scale[0],
+	    gyros->y * gyro_scale[1],
+	    gyros->z * gyro_scale[2]
 	};
 
 	GyrosData gyrosData;
-
 	gyrosData.temperature = gyros->temperature;
+
+	// Update the bias due to the temperature
+	updateTemperatureComp(gyrosData.temperature, gyro_temp_bias);
+
+	// Apply temperature bias correction before the rotation
+	if (bias_correct_gyro) {
+		gyros_out[0] -= gyro_temp_bias[0];
+		gyros_out[1] -= gyro_temp_bias[1];
+		gyros_out[2] -= gyro_temp_bias[2];
+	}
 
 	if (rotate) {
 		float gyros[3];
@@ -282,9 +291,6 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 		gyrosData.z = gyros_out[2];
 	}
 
-	// Update the bias due to the temperature
-	updateTemperatureComp(gyrosData.temperature, gyro_temp_bias);
-	
 	if (bias_correct_gyro) {
 		// Apply bias correction to the gyros from the state estimator
 		GyrosBiasData gyrosBias;

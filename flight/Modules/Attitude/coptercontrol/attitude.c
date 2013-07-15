@@ -89,7 +89,7 @@ static void accumulate_gyro_compute();
 static void accumulate_gyro_zero();
 
 //! Store a gyro sample
-static void accumulate_gyro(GyrosData *gyrosData, float *gyro_temp_bias);
+static void accumulate_gyro(float gyros_out[3], float *gyro_temp_bias);
 
 static float accelKi = 0;
 static float accelKp = 0;
@@ -447,9 +447,22 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 	static float gyro_temp_bias[3] = {0,0,0};
 
 	// Scale the gyros
-	float gyros_out[3] = {gyros->x * sensorSettings.GyroScale[0] - gyro_temp_bias[0],
-	                      gyros->y * sensorSettings.GyroScale[1] - gyro_temp_bias[1],
-	                      gyros->z * sensorSettings.GyroScale[2] - gyro_temp_bias[2]};
+	float gyros_out[3] = {gyros->x * sensorSettings.GyroScale[0],
+	                      gyros->y * sensorSettings.GyroScale[1],
+	                      gyros->z * sensorSettings.GyroScale[2]};
+
+	// When computing the bias accumulate samples
+	accumulate_gyro(gyros_out, gyro_temp_bias);
+
+	// Update the bias due to the temperature
+	updateTemperatureComp(gyrosData->temperature, gyro_temp_bias);
+
+	// Apply temperature bias correction before the rotation
+	if (bias_correct_gyro) {
+		gyros_out[0] -= gyro_temp_bias[0];
+		gyros_out[1] -= gyro_temp_bias[1];
+		gyros_out[2] -= gyro_temp_bias[2];
+	}
 
 	if (rotate) {
 		float gyros[3];
@@ -462,12 +475,6 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 		gyrosData->y = gyros_out[1];
 		gyrosData->z = gyros_out[2];
 	}
-
-	// When computing the bias accumulate samples
-	accumulate_gyro(gyrosData, gyro_temp_bias);
-
-	// Update the bias due to the temperature
-	updateTemperatureComp(gyrosData->temperature, gyro_temp_bias);
 
 	if(bias_correct_gyro) {
 		// Applying integral component here so it can be seen on the gyros and correct bias
@@ -519,15 +526,15 @@ static void accumulate_gyro_zero()
  * @param [in] gyrosData The samples of data to accumulate
  * @param [in] gyro_temp_bias The current temperature bias to account for
  */
-static void accumulate_gyro(GyrosData *gyrosData, float *gyro_temp_bias)
+static void accumulate_gyro(float gyros_out[3], float *gyro_temp_bias)
 {
 	if (!accumulating_gyro)
 		return;
 
 	accumulated_gyro_samples++;
-	accumulated_gyro[0] += (gyrosData->x - gyro_temp_bias[0]);
-	accumulated_gyro[1] += (gyrosData->y - gyro_temp_bias[1]);
-	accumulated_gyro[2] += (gyrosData->z - gyro_temp_bias[2]);
+	accumulated_gyro[0] += (gyros_out[0] - gyro_temp_bias[0]);
+	accumulated_gyro[1] += (gyros_out[1] - gyro_temp_bias[1]);
+	accumulated_gyro[2] += (gyros_out[2] - gyro_temp_bias[2]);
 }
 
 /**
