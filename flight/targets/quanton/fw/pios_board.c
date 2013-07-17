@@ -521,6 +521,9 @@ void PIOS_Board_Init(void) {
 	uint8_t hw_DSMxBind;
 	HwQuantonDSMxBindGet(&hw_DSMxBind);
 
+	/* init sensor queue registration */
+	PIOS_SENSORS_Init();
+
 	/* UART1 Port */
 	uint8_t hw_uart1;
 	HwQuantonUart1Get(&hw_uart1);
@@ -1134,8 +1137,6 @@ void PIOS_Board_Init(void) {
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(200);
 	PIOS_WDG_Clear();
-
-	PIOS_SENSORS_Init();
 
 #if defined(PIOS_INCLUDE_MPU6000)
 	if (PIOS_MPU6000_Init(pios_spi_gyro_accel_id, 0, &pios_mpu6000_cfg) != 0)
