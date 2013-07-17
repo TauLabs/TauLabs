@@ -118,9 +118,13 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 	dev->cfg = cfg;
 	dev->i2c_id = i2c_id;
 
-#ifdef PIOS_HMC5883_HAS_GPIOS
-	PIOS_EXTI_Init(cfg->exti_cfg);
-#endif
+	/* check if we are using an irq line */
+	if (cfg->exti_cfg != NULL) {
+		PIOS_EXTI_Init(cfg->exti_cfg);
+
+		dev->data_ready_sema = xSemaphoreCreateMutex();
+		PIOS_Assert(dev->data_ready_sema != NULL);
+	}
 
 	if (PIOS_HMC5883_Config(cfg) != 0)
 		return -2;
@@ -132,8 +136,6 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 						 &dev->task);
 
 	PIOS_Assert(result == pdPASS);
-
-	dev->data_ready_sema = xSemaphoreCreateMutex();
 
 	return 0;
 }
