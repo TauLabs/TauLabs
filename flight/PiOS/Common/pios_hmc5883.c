@@ -318,8 +318,9 @@ static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 			break;
 	}
 	
-	// This should not be necessary but for some reason it is coming out of continuous conversion mode
-	PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, PIOS_HMC5883_MODE_CONTINUOUS);
+	// PIOS_HMC5883_MODE_CONTINUOUS: This should not be necessary but for some reason it is coming out of continuous conversion mode
+	// PIOS_HMC5883_MODE_SINGLE: This triggers the next measurement
+	PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, dev->cfg->Mode);
 	
 	return 0;
 }
@@ -435,7 +436,7 @@ bool PIOS_HMC5883_IRQHandler(void)
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xSemaphoreGiveFromISR(dev->data_ready_sema, &xHigherPriorityTaskWoken);
 
-    return xHigherPriorityTaskWoken == pdTRUE;
+	return xHigherPriorityTaskWoken == pdTRUE;
 }
 
 /**
@@ -443,15 +444,47 @@ bool PIOS_HMC5883_IRQHandler(void)
  */
 static void PIOS_HMC5883_Task(void *parameters)
 {
-	while(1) {
-		if(PIOS_HMC5883_Validate(dev) != 0) {
-			vTaskDelay(100 * portTICK_RATE_MS);
-			continue;
-		}
+	while (PIOS_HMC5883_Validate(dev) != 0) {
+		vTaskDelay(100 / portTICK_RATE_MS);
+	}
 
-		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE) {
-			vTaskDelay(100 * portTICK_RATE_MS);
-			continue;
+	portTickType sample_delay;
+
+	switch (dev->cfg->M_ODR) {
+	case PIOS_HMC5883_ODR_0_75:
+		sample_delay = 1000 / 0.75f / portTICK_RATE_MS + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_1_5:
+		sample_delay = 1000 / 1.5f / portTICK_RATE_MS + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_3:
+		sample_delay = 1000 / 3.0f / portTICK_RATE_MS + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_7_5:
+		sample_delay = 1000 / 7.5f / portTICK_RATE_MS + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_15:
+		sample_delay = 1000 / 15.0f / portTICK_RATE_MS + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_30:
+		sample_delay = 1000 / 30.0f / portTICK_RATE_MS + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_75:
+	default:
+		sample_delay = 1000 / 75.0f / portTICK_RATE_MS + 0.99999f;
+		break;
+	}
+
+	portTickType now = xTaskGetTickCount();
+
+	while (1) {
+		if (dev->cfg->Mode == PIOS_HMC5883_MODE_CONTINUOUS) {
+			if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE) {
+				vTaskDelay(100 / portTICK_RATE_MS);
+				continue;
+			}
+		} else {
+			vTaskDelayUntil(&now, sample_delay);
 		}
 
 		struct pios_sensor_mag_data mag_data;

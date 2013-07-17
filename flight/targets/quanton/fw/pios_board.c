@@ -555,6 +555,7 @@ void PIOS_Board_Init(void) {
 
 				// no irq line for external sensors
 				pios_hmc5883_cfg.exti_cfg = NULL;
+				pios_hmc5883_cfg.Mode = PIOS_HMC5883_MODE_SINGLE;
 
 				// setup sensor orientation
 				uint8_t ExtMagOrientation;
@@ -761,6 +762,7 @@ void PIOS_Board_Init(void) {
 
 				// no irq line for external sensors
 				pios_hmc5883_cfg.exti_cfg = NULL;
+				pios_hmc5883_cfg.Mode = PIOS_HMC5883_MODE_SINGLE;
 
 				// setup sensor orientation
 				uint8_t ExtMagOrientation;
