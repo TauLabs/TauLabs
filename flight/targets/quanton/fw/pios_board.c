@@ -81,14 +81,13 @@ static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
 	},
 };
 
-static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
+static struct pios_hmc5883_cfg pios_hmc5883_cfg = {
 	.exti_cfg = &pios_exti_hmc5883_cfg,
 	.M_ODR = PIOS_HMC5883_ODR_75,
 	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
 	.Gain = PIOS_HMC5883_GAIN_1_9,
 	.Mode = PIOS_HMC5883_MODE_CONTINUOUS,
 	.orientation = PIOS_HMC5883_TOP_90DEG,
-
 };
 #endif /* PIOS_INCLUDE_HMC5883 */
 
@@ -255,6 +254,8 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
  * 5 pulses - internal I2C bus locked
  * 6 pulses - uart1 I2C bus locked
  * 7 pulses - uart3 I2C bus locked
+ * 8 pulses - HMC5883 on uart1 I2C
+ * 9 pulses - HMC5883 on uart3 I2C
  */
 void panic(int32_t code) {
 	while(1){
@@ -541,9 +542,59 @@ void PIOS_Board_Init(void) {
 		if (PIOS_I2C_Init(&pios_i2c_usart1_adapter_id, &pios_i2c_usart1_adapter_cfg)) {
 			PIOS_Assert(0);
 		}
+
 		if (PIOS_I2C_CheckClear(pios_i2c_usart1_adapter_id) != 0)
 			panic(6);
-#endif	/* PIOS_INCLUDE_I2C */
+
+#if defined(PIOS_INCLUDE_HMC5883)
+		{
+			uint8_t Magnetometer;
+			HwQuantonMagnetometerGet(&Magnetometer);
+
+			if (Magnetometer == HWQUANTON_MAGNETOMETER_EXTERNALI2CUART1) {
+
+				// no irq line for external sensors
+				pios_hmc5883_cfg.exti_cfg = NULL;
+
+				// setup sensor orientation
+				uint8_t ExtMagOrientation;
+				HwQuantonExtMagOrientationGet(&ExtMagOrientation);
+
+				switch (ExtMagOrientation) {
+				case HWQUANTON_EXTMAGORIENTATION_TOP0DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_0DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_TOP90DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_90DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_TOP180DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_180DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_TOP270DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_270DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_BOTTOM0DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_0DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_BOTTOM90DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_90DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_BOTTOM180DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_180DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_BOTTOM270DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_270DEG;
+					break;
+				}
+
+				// init sensor
+				PIOS_HMC5883_Init(pios_i2c_usart1_adapter_id, &pios_hmc5883_cfg);
+				if (PIOS_HMC5883_Test() != 0)
+					panic(8);
+			}
+		}
+#endif /* PIOS_INCLUDE_HMC5883 */
+#endif /* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART1_DSM2:
 	case HWQUANTON_UART1_DSMX10BIT:
@@ -700,6 +751,55 @@ void PIOS_Board_Init(void) {
 		}
 		if (PIOS_I2C_CheckClear(pios_i2c_usart3_adapter_id) != 0)
 			panic(7);
+
+#if defined(PIOS_INCLUDE_HMC5883)
+		{
+			uint8_t Magnetometer;
+			HwQuantonMagnetometerGet(&Magnetometer);
+
+			if (Magnetometer == HWQUANTON_MAGNETOMETER_EXTERNALI2CUART3) {
+
+				// no irq line for external sensors
+				pios_hmc5883_cfg.exti_cfg = NULL;
+
+				// setup sensor orientation
+				uint8_t ExtMagOrientation;
+				HwQuantonExtMagOrientationGet(&ExtMagOrientation);
+
+				switch (ExtMagOrientation) {
+				case HWQUANTON_EXTMAGORIENTATION_TOP0DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_0DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_TOP90DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_90DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_TOP180DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_180DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_TOP270DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_270DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_BOTTOM0DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_0DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_BOTTOM90DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_90DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_BOTTOM180DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_180DEG;
+					break;
+				case HWQUANTON_EXTMAGORIENTATION_BOTTOM270DEG:
+					pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_270DEG;
+					break;
+				}
+
+				// init sensor
+				PIOS_HMC5883_Init(pios_i2c_usart3_adapter_id, &pios_hmc5883_cfg);
+				if (PIOS_HMC5883_Test() != 0)
+					panic(9);
+			}
+		}
+#endif /* PIOS_INCLUDE_HMC5883 */
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART3_DSM2:
@@ -1105,9 +1205,16 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_I2C)
 #if defined(PIOS_INCLUDE_HMC5883)
-	PIOS_HMC5883_Init(pios_i2c_internal_adapter_id, &pios_hmc5883_cfg);
-	if (PIOS_HMC5883_Test() != 0)
-		panic(3);
+	{
+		uint8_t Magnetometer;
+		HwQuantonMagnetometerGet(&Magnetometer);
+
+		if (Magnetometer == HWQUANTON_MAGNETOMETER_INTERNAL) {
+			PIOS_HMC5883_Init(pios_i2c_internal_adapter_id, &pios_hmc5883_cfg);
+			if (PIOS_HMC5883_Test() != 0)
+				panic(3);
+		}
+	}
 #endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
