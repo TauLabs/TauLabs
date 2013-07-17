@@ -589,7 +589,8 @@ void PIOS_Board_Init(void) {
 				}
 
 				// init sensor
-				PIOS_HMC5883_Init(pios_i2c_usart1_adapter_id, &pios_hmc5883_cfg);
+				if (PIOS_HMC5883_Init(pios_i2c_usart1_adapter_id, &pios_hmc5883_cfg) != 0)
+					panic(8);
 				if (PIOS_HMC5883_Test() != 0)
 					panic(8);
 			}
@@ -796,7 +797,8 @@ void PIOS_Board_Init(void) {
 				}
 
 				// init sensor
-				PIOS_HMC5883_Init(pios_i2c_usart3_adapter_id, &pios_hmc5883_cfg);
+				if (PIOS_HMC5883_Init(pios_i2c_usart3_adapter_id, &pios_hmc5883_cfg) != 0)
+					panic(9);
 				if (PIOS_HMC5883_Test() != 0)
 					panic(9);
 			}
@@ -1212,7 +1214,8 @@ void PIOS_Board_Init(void) {
 		HwQuantonMagnetometerGet(&Magnetometer);
 
 		if (Magnetometer == HWQUANTON_MAGNETOMETER_INTERNAL) {
-			PIOS_HMC5883_Init(pios_i2c_internal_adapter_id, &pios_hmc5883_cfg);
+			if (PIOS_HMC5883_Init(pios_i2c_internal_adapter_id, &pios_hmc5883_cfg) != 0)
+				panic(3);
 			if (PIOS_HMC5883_Test() != 0)
 				panic(3);
 		}
