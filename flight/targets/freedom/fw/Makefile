@@ -27,7 +27,7 @@
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 TOP      := $(realpath $(WHEREAMI)/../../../../)
 include $(TOP)/make/firmware-defs.mk
-include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
+include ../board-info/board-info.mk
 
 # @startgroup Compile Options
 # @groupbrief Set developer code and compile options
