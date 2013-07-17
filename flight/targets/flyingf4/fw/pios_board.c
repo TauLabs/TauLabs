@@ -51,14 +51,13 @@
 
 #if defined(PIOS_INCLUDE_HMC5883)
 #include "pios_hmc5883.h"
-static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
+static struct pios_hmc5883_cfg pios_hmc5883_cfg = {
 	.exti_cfg = NULL,
 	.M_ODR = PIOS_HMC5883_ODR_75,
 	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
 	.Gain = PIOS_HMC5883_GAIN_1_9,
-	.Mode = PIOS_HMC5883_MODE_CONTINUOUS,
-	.orientation = PIOS_HMC5883_TOP_90DEG,
-
+	.Mode = PIOS_HMC5883_MODE_SINGLE,
+	.orientation = PIOS_HMC5883_TOP_0DEG,
 };
 #endif /* PIOS_INCLUDE_HMC5883 */
 
@@ -856,10 +855,43 @@ void PIOS_Board_Init(void) {
 		panic(6);
 
 #if defined(PIOS_INCLUDE_HMC5883)
-	if (PIOS_HMC5883_Init(pios_i2c_10dof_adapter_id, &pios_hmc5883_cfg) != 0)
-		panic(3);
-	if (PIOS_HMC5883_Test() != 0)
-		panic(3);
+	{
+		// setup sensor orientation
+		uint8_t ExtMagOrientation;
+		HwFlyingF4ExtMagOrientationGet(&ExtMagOrientation);
+
+		switch (ExtMagOrientation) {
+		case HWFLYINGF4_EXTMAGORIENTATION_TOP0DEG:
+			pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_0DEG;
+			break;
+		case HWFLYINGF4_EXTMAGORIENTATION_TOP90DEG:
+			pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_90DEG;
+			break;
+		case HWFLYINGF4_EXTMAGORIENTATION_TOP180DEG:
+			pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_180DEG;
+			break;
+		case HWFLYINGF4_EXTMAGORIENTATION_TOP270DEG:
+			pios_hmc5883_cfg.orientation = PIOS_HMC5883_TOP_270DEG;
+			break;
+		case HWFLYINGF4_EXTMAGORIENTATION_BOTTOM0DEG:
+			pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_0DEG;
+			break;
+		case HWFLYINGF4_EXTMAGORIENTATION_BOTTOM90DEG:
+			pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_90DEG;
+			break;
+		case HWFLYINGF4_EXTMAGORIENTATION_BOTTOM180DEG:
+			pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_180DEG;
+			break;
+		case HWFLYINGF4_EXTMAGORIENTATION_BOTTOM270DEG:
+			pios_hmc5883_cfg.orientation = PIOS_HMC5883_BOTTOM_270DEG;
+			break;
+		}
+
+		if (PIOS_HMC5883_Init(pios_i2c_10dof_adapter_id, &pios_hmc5883_cfg) != 0)
+			panic(3);
+		if (PIOS_HMC5883_Test() != 0)
+			panic(3);
+	}
 #endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
