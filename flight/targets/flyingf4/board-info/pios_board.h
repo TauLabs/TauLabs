@@ -111,7 +111,6 @@ TIM8  |           |           |           |
 //------------------------
 #define PIOS_I2C_MAX_DEVS				1
 extern uint32_t pios_i2c_10dof_adapter_id;
-#define PIOS_I2C_MAIN_ADAPTER			(pios_i2c_10dof_adapter_id)	//this is dirty and should be removed in favor a cleaner sensor api
 
 //-------------------------
 // PIOS_USART
