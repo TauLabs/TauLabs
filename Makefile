@@ -574,13 +574,12 @@ FLIGHTLIB     := $(ROOT_DIR)/flight/Libraries
 OPMODULEDIR   := $(ROOT_DIR)/flight/Modules
 OPUAVOBJ      := $(ROOT_DIR)/flight/targets/UAVObjects
 OPUAVTALK     := $(ROOT_DIR)/flight/targets/UAVTalk
-HWDEFS        := $(ROOT_DIR)/flight/targets/board_hw_defs
 DOXYGENDIR    := $(ROOT_DIR)/flight/Doc/Doxygen
 SHAREDAPIDIR  := $(ROOT_DIR)/shared/api
 OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
-# $(2) = Name of board used in source tree (e.g. CopterControl)
+# $(2) = Unused
 # $(3) = Short name for board (e.g. CC)
 # $(4) = Host sim variant (e.g. posix, osx, win32)
 # $(5) = Build output type (e.g. elf, exe)
@@ -590,7 +589,7 @@ sim_$(4)_$(1): sim_$(4)_$(1)_$(5)
 
 sim_$(4)_$(1)_%: uavobjects_flight
 	$(V1) mkdir -p $(BUILD_DIR)/sim_$(4)_$(1)/dep
-	$(V1) cd $(ROOT_DIR)/flight/targets/$(2) && \
+	$(V1) cd $(ROOT_DIR)/flight/targets/$(1)/fw && \
 		$$(MAKE) --no-print-directory \
 		--file=Makefile.$(4) \
 		BOARD_NAME=$(1) \
@@ -608,7 +607,7 @@ sim_$(4)_$(1)_%: uavobjects_flight
 		OPMODULEDIR=$(OPMODULEDIR) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \
-		HWDEFSINC=$(HWDEFS)/$(1) \
+		HWDEFSINC=$(ROOT_DIR)/flight/targets/$(1)/board-info \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
 		SHAREDAPIDIR=$(SHAREDAPIDIR) \
@@ -622,7 +621,7 @@ sim_$(4)_$(1)_clean:
 endef
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
-# $(2) = Name of board used in source tree (e.g. CopterControl)
+# $(2) = Unused
 # $(3) = Short name for board (e.g CC)
 define FW_TEMPLATE
 .PHONY: $(1) fw_$(1)
@@ -647,7 +646,7 @@ fw_$(1)_%: uavobjects_flight
 		OPMODULEDIR=$(OPMODULEDIR) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \
-		HWDEFSINC=$(HWDEFS)/$(1) \
+		HWDEFSINC=$(ROOT_DIR)/flight/targets/$(1)/board-info \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
 		SHAREDAPIDIR=$(SHAREDAPIDIR) \
