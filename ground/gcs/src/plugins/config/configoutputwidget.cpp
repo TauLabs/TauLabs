@@ -254,7 +254,7 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
         // init min,max,neutral
         int minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
         int maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
-        outputChannelForm->minmax(minValue, maxValue);
+        outputChannelForm->setMinmax(minValue, maxValue);
 
         int neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
         outputChannelForm->setNeutral(neutral);
@@ -303,7 +303,7 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
     {
         int minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
         int maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
-        outputChannelForm->minmax(minValue, maxValue);
+        outputChannelForm->setMinmax(minValue, maxValue);
 
         int neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
         outputChannelForm->setNeutral(neutral);

@@ -44,11 +44,11 @@ public:
     int index() const;
 
 public slots:
-    void max(int maximum);
+    void setMax(int maximum);
     int max() const;
-    void min(int minimum);
+    void setMin(int minimum);
     int min() const;
-    void minmax(int minimum, int maximum);
+    void setMinmax(int minimum, int maximum);
     void setNeutral(int value);
     int neutral() const;
     void enableChannelTest(bool state);
