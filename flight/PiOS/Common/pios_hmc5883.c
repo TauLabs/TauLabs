@@ -80,12 +80,6 @@ static struct hmc5883_dev * PIOS_HMC5883_alloc(void)
 		vPortFree(hmc5883_dev);
 		return NULL;
 	}
-	
-	hmc5883_dev->data_ready_sema = xSemaphoreCreateMutex();
-	if (hmc5883_dev->data_ready_sema == NULL) {
-		vPortFree(hmc5883_dev);
-		return NULL;
-	}
 
 	return(hmc5883_dev);
 }
