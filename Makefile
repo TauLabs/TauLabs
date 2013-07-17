@@ -631,7 +631,7 @@ fw_$(1): fw_$(1)_tlfw
 
 fw_$(1)_%: uavobjects_flight
 	$(V1) mkdir -p $(BUILD_DIR)/fw_$(1)/dep
-	$(V1) cd $(ROOT_DIR)/flight/targets/$(2) && \
+	$(V1) cd $(ROOT_DIR)/flight/targets/$(1)/fw && \
 		$$(MAKE) -r --no-print-directory \
 		BOARD_NAME=$(1) \
 		BOARD_SHORT_NAME=$(3) \
