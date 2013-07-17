@@ -1105,7 +1105,7 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_I2C)
 #if defined(PIOS_INCLUDE_HMC5883)
-	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
+	PIOS_HMC5883_Init(pios_i2c_internal_adapter_id, &pios_hmc5883_cfg);
 	if (PIOS_HMC5883_Test() != 0)
 		panic(3);
 #endif
