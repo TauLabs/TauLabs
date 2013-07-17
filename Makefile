@@ -58,6 +58,9 @@ export V1    := $(AT)
 else ifeq ($(V), 1)
 endif
 
+ALL_BOARDS :=
+include $(ROOT_DIR)/flight/targets/*/target-defs.mk
+
 # Make sure we know a few things about the architecture before including
 # the tools.mk to ensure that we download/install the right tools.
 UNAME := $(shell uname)
@@ -803,32 +806,6 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bl_$(1), $$(BL_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
-
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini freedom quanton discoveryf4 flyingf4 flyingf3 sparky
-
-# Friendly names of each board (used to find source tree)
-coptercontrol_friendly := CopterControl
-pipxtreme_friendly     := PipXtreme
-revolution_friendly    := Revolution
-revomini_friendly      := RevoMini
-freedom_friendly       := Freedom
-quanton_friendly       := Quanton
-flyingf4_friendly      := FlyingF4
-discoveryf4_friendly   := DiscoveryF4
-flyingf3_friendly      := FlyingF3
-sparky_friendly        := Sparky
-
-# Short names of each board (used to display board name in parallel builds)
-coptercontrol_short    := 'cc  '
-pipxtreme_short        := 'pipx'
-revolution_short       := 'revo'
-revomini_short         := 'rm  '
-freedom_short          := 'free'
-quanton_short          := 'quan'
-flyingf4_short         := 'fly4'
-discoveryf4_short      := 'dif4'
-flyingf3_short         := 'fly3'
-sparky_short           := 'sprk'
 
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
