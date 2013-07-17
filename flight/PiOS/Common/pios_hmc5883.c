@@ -296,6 +296,26 @@ static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 			mag_data->y = mag_x;
 			mag_data->z = -mag_z;
 			break;
+		case PIOS_HMC5883_BOTTOM_0DEG:
+			mag_data->x = -mag_x;
+			mag_data->y = -mag_y;
+			mag_data->z = mag_z;
+			break;
+		case PIOS_HMC5883_BOTTOM_90DEG:
+			mag_data->x = mag_y;
+			mag_data->y = -mag_x;
+			mag_data->z = mag_z;
+			break;
+		case PIOS_HMC5883_BOTTOM_180DEG:
+			mag_data->x = mag_x;
+			mag_data->y = mag_y;
+			mag_data->z = mag_z;
+			break;
+		case PIOS_HMC5883_BOTTOM_270DEG:
+			mag_data->x = -mag_y;
+			mag_data->y = mag_x;
+			mag_data->z = mag_z;
+			break;
 	}
 	
 	// This should not be necessary but for some reason it is coming out of continuous conversion mode
