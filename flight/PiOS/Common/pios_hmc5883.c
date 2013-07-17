@@ -197,17 +197,16 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
  *              1  |  0   |  Negative Bias
  *              1  |  1   |  Sleep Mode
  */
-static uint8_t CTRLB = 0x00;
 static int32_t PIOS_HMC5883_Config(const struct pios_hmc5883_cfg * cfg)
 {
 	uint8_t CTRLA = 0x00;
 	uint8_t MODE = 0x00;
-	CTRLB = 0;
+	uint8_t CTRLB = 0;
 	
 	CTRLA |= (uint8_t) (cfg->M_ODR | cfg->Meas_Conf);
 	CTRLB |= (uint8_t) (cfg->Gain);
 	MODE |= (uint8_t) (cfg->Mode);
-	
+
 	// CRTL_REGA
 	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_A, CTRLA) != 0)
 		return -1;
@@ -224,52 +223,51 @@ static int32_t PIOS_HMC5883_Config(const struct pios_hmc5883_cfg * cfg)
 }
 
 /**
+ * Get the mag sensitivity based on the active settings
+ * @returns Sensitivity in LSB / Ga
+ */
+static uint16_t PIOS_HMC5883_Config_GetSensitivity()
+{
+	switch (dev->cfg->Gain) {
+	case PIOS_HMC5883_GAIN_0_88:
+		return PIOS_HMC5883_Sensitivity_0_88Ga;
+	case PIOS_HMC5883_GAIN_1_3:
+		return PIOS_HMC5883_Sensitivity_1_3Ga;
+	case PIOS_HMC5883_GAIN_1_9:
+		return PIOS_HMC5883_Sensitivity_1_9Ga;
+	case PIOS_HMC5883_GAIN_2_5:
+		return PIOS_HMC5883_Sensitivity_2_5Ga;
+	case PIOS_HMC5883_GAIN_4_0:
+		return PIOS_HMC5883_Sensitivity_4_0Ga;
+	case PIOS_HMC5883_GAIN_4_7:
+		return PIOS_HMC5883_Sensitivity_4_7Ga;
+	case PIOS_HMC5883_GAIN_5_6:
+		return PIOS_HMC5883_Sensitivity_5_6Ga;
+	case PIOS_HMC5883_GAIN_8_1:
+		return PIOS_HMC5883_Sensitivity_8_1Ga;
+	}
+
+	return 0;
+}
+
+/**
  * @brief Read current X, Z, Y values (in that order)
  * \param[out] int16_t array of size 3 to store X, Z, and Y magnetometer readings
  * \return 0 for success or -1 for failure
  */
 static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 {
-	if(PIOS_HMC5883_Validate(dev) != 0)
+	if (PIOS_HMC5883_Validate(dev) != 0)
 		return -1;
 
 	uint8_t buffer[6];
-	int32_t sensitivity;
 	
 	if (PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_XMSB_REG, buffer, 6) != 0) {
 		return -1;
 	}
-		
-	switch (CTRLB & 0xE0) {
-		case 0x00:
-			sensitivity =  PIOS_HMC5883_Sensitivity_0_88Ga;
-			break;
-		case 0x20:
-			sensitivity = PIOS_HMC5883_Sensitivity_1_3Ga;
-			break;
-		case 0x40:
-			sensitivity = PIOS_HMC5883_Sensitivity_1_9Ga;
-			break;
-		case 0x60:
-			sensitivity = PIOS_HMC5883_Sensitivity_2_5Ga;
-			break;
-		case 0x80:
-			sensitivity = PIOS_HMC5883_Sensitivity_4_0Ga;
-			break;
-		case 0xA0:
-			sensitivity = PIOS_HMC5883_Sensitivity_4_7Ga;
-			break;
-		case 0xC0:
-			sensitivity = PIOS_HMC5883_Sensitivity_5_6Ga;
-			break;
-		case 0xE0:
-			sensitivity = PIOS_HMC5883_Sensitivity_8_1Ga;
-			break;
-		default:
-			PIOS_Assert(0);
-	}
 
 	int16_t mag_x, mag_y, mag_z;
+	uint16_t sensitivity = PIOS_HMC5883_Config_GetSensitivity();
 	mag_x = ((int16_t) ((uint16_t) buffer[0] << 8) + buffer[1]) * 1000 / sensitivity;
 	mag_z = ((int16_t) ((uint16_t) buffer[2] << 8) + buffer[3]) * 1000 / sensitivity;
 	mag_y = ((int16_t) ((uint16_t) buffer[4] << 8) + buffer[5]) * 1000 / sensitivity;
@@ -289,7 +287,7 @@ static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 		case PIOS_HMC5883_TOP_180DEG:
 			mag_data->x = mag_x;
 			mag_data->y = -mag_y;
-			mag_data->z = -mag_z;		
+			mag_data->z = -mag_z;
 			break;
 		case PIOS_HMC5883_TOP_270DEG:
 			mag_data->x = mag_y;

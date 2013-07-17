@@ -83,14 +83,16 @@
 #define PIOS_HMC5883_MODE_SLEEP			0x03
 
 /* Sensitivity Conversion Values */
-#define PIOS_HMC5883_Sensitivity_0_88Ga		1370	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_1_3Ga		1090	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_1_9Ga		820	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_2_5Ga		660	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_4_0Ga		440	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_4_7Ga		390	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_5_6Ga		330	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_8_1Ga		230	// LSB/Ga  --> NOT RECOMMENDED
+enum pios_hmc5883_sensitivity {
+	PIOS_HMC5883_Sensitivity_0_88Ga = 1370, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_1_3Ga  = 1090, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_1_9Ga  = 820, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_2_5Ga  = 660, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_4_0Ga  = 440, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_4_7Ga  = 390, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_5_6Ga  = 330, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_8_1Ga  = 230, // LSB/Ga  --> NOT RECOMMENDED
+};
 
 enum pios_hmc5883_orientation { // clockwise rotation from board forward
 	PIOS_HMC5883_TOP_0DEG       = 0x00,
