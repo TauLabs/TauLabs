@@ -101,7 +101,7 @@ static int32_t PIOS_HMC5883_Validate(struct hmc5883_dev *dev)
 
 /**
  * @brief Initialize the HMC5883 magnetometer sensor.
- * @return none
+ * @return 0 on success
  */
 int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 {
@@ -195,24 +195,16 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
  */
 static int32_t PIOS_HMC5883_Config(const struct pios_hmc5883_cfg * cfg)
 {
-	uint8_t CTRLA = 0x00;
-	uint8_t MODE = 0x00;
-	uint8_t CTRLB = 0;
-	
-	CTRLA |= (uint8_t) (cfg->M_ODR | cfg->Meas_Conf);
-	CTRLB |= (uint8_t) (cfg->Gain);
-	MODE |= (uint8_t) (cfg->Mode);
-
 	// CRTL_REGA
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_A, CTRLA) != 0)
+	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_A, cfg->M_ODR | cfg->Meas_Conf) != 0)
 		return -1;
 	
 	// CRTL_REGB
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_B, CTRLB) != 0)
+	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_B, cfg->Gain) != 0)
 		return -1;
 	
 	// Mode register
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, MODE) != 0) 
+	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, cfg->Mode) != 0)
 		return -1;
 	
 	return 0;
@@ -256,17 +248,52 @@ static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 	if (PIOS_HMC5883_Validate(dev) != 0)
 		return -1;
 
-	uint8_t buffer[6];
-	
-	if (PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_XMSB_REG, buffer, 6) != 0) {
+	/* don't use PIOS_HMC5883_Read and PIOS_HMC5883_Write here because the task could be
+	 * switched out of context in between which would give the sensor less time to capture
+	 * the next sample.
+	 */
+	uint8_t addr_read = PIOS_HMC5883_DATAOUT_XMSB_REG;
+	uint8_t buffer_read[6];
+
+	// PIOS_HMC5883_MODE_CONTINUOUS: This should not be necessary but for some reason it is coming out of continuous conversion mode
+	// PIOS_HMC5883_MODE_SINGLE: This triggers the next measurement
+	uint8_t buffer_write[2] = {
+		PIOS_HMC5883_MODE_REG,
+		dev->cfg->Mode
+	};
+
+	const struct pios_i2c_txn txn_list[] = {
+		{
+			.info = __func__,
+			.addr = PIOS_HMC5883_I2C_ADDR,
+			.rw = PIOS_I2C_TXN_WRITE,
+			.len = sizeof(addr_read),
+			.buf = &addr_read,
+		},
+		{
+			.info = __func__,
+			.addr = PIOS_HMC5883_I2C_ADDR,
+			.rw = PIOS_I2C_TXN_READ,
+			.len = sizeof(buffer_read),
+			.buf = buffer_read,
+		},
+		{
+			.info = __func__,
+			.addr = PIOS_HMC5883_I2C_ADDR,
+			.rw = PIOS_I2C_TXN_WRITE,
+			.len = sizeof(buffer_write),
+			.buf = buffer_write,
+		},
+	};
+
+	if (PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list)) != 0)
 		return -1;
-	}
 
 	int16_t mag_x, mag_y, mag_z;
 	uint16_t sensitivity = PIOS_HMC5883_Config_GetSensitivity();
-	mag_x = ((int16_t) ((uint16_t) buffer[0] << 8) + buffer[1]) * 1000 / sensitivity;
-	mag_z = ((int16_t) ((uint16_t) buffer[2] << 8) + buffer[3]) * 1000 / sensitivity;
-	mag_y = ((int16_t) ((uint16_t) buffer[4] << 8) + buffer[5]) * 1000 / sensitivity;
+	mag_x = ((int16_t) ((uint16_t)buffer_read[0] << 8) + buffer_read[1]) * 1000 / sensitivity;
+	mag_z = ((int16_t) ((uint16_t)buffer_read[2] << 8) + buffer_read[3]) * 1000 / sensitivity;
+	mag_y = ((int16_t) ((uint16_t)buffer_read[4] << 8) + buffer_read[5]) * 1000 / sensitivity;
 
 	// Define "0" when the fiducial is in the front left of the board
 	switch (dev->cfg->orientation) {
@@ -311,10 +338,6 @@ static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 			mag_data->z = mag_z;
 			break;
 	}
-	
-	// PIOS_HMC5883_MODE_CONTINUOUS: This should not be necessary but for some reason it is coming out of continuous conversion mode
-	// PIOS_HMC5883_MODE_SINGLE: This triggers the next measurement
-	PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, dev->cfg->Mode);
 	
 	return 0;
 }
@@ -400,7 +423,7 @@ static int32_t PIOS_HMC5883_Write(uint8_t address, uint8_t buffer)
 		}
 		,
 	};
-	;
+
 	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
 }
 
