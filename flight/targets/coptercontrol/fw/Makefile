@@ -27,7 +27,12 @@
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 TOP      := $(realpath $(WHEREAMI)/../../../../)
 include $(TOP)/make/firmware-defs.mk
-include ../board-info/board-info.mk
+
+
+TARGET_BASE_DIR := $(realpath $(WHEREAMI)/../)
+BOARD_INFO_DIR := $(TARGET_BASE_DIR)/board-info
+
+include $(BOARD_INFO_DIR)/board-info.mk
 
 # @startgroup Compile Options
 # @groupbrief Set developer code and compile options
@@ -137,7 +142,6 @@ MATHLIBINC = $(FLIGHTLIB)/math
 PIOSINC = $(PIOS)/inc
 PIOSSTM32F10X = $(PIOS)/STM32F10x
 PIOSCOMMON = $(PIOS)/Common
-PIOSBOARDS = $(PIOS)/Boards
 APPLIBDIR = $(PIOSSTM32F10X)/Libraries
 STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F10x_StdPeriph_Driver
@@ -421,7 +425,7 @@ EXTRAINCDIRS  += $(MATHLIBINC)
 EXTRAINCDIRS  += $(PIOSSTM32F10X)
 EXTRAINCDIRS  += $(PIOSSTM32F10X)/inc
 EXTRAINCDIRS  += $(PIOSCOMMON)
-EXTRAINCDIRS  += $(PIOSBOARDS)
+EXTRAINCDIRS  += $(BOARD_INFO_DIR)
 EXTRAINCDIRS  += $(STMSPDINCDIR)
 EXTRAINCDIRS  += $(STMUSBINCDIR)
 EXTRAINCDIRS  += $(CMSISDIR)

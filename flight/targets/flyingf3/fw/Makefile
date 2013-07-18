@@ -27,7 +27,11 @@
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 TOP      := $(realpath $(WHEREAMI)/../../../../)
 include $(TOP)/make/firmware-defs.mk
-include ../board-info/board-info.mk
+
+TARGET_BASE_DIR := $(realpath $(WHEREAMI)/../)
+BOARD_INFO_DIR := $(TARGET_BASE_DIR)/board-info
+
+include $(BOARD_INFO_DIR)/board-info.mk
 
 # @startgroup Compile Options
 # @groupbrief Set developer code and compile options
@@ -74,7 +78,6 @@ RSCODE = $(FLIGHTLIB)/rscode
 RSCODEINC = $(FLIGHTLIB)/rscode
 PIOSSTM32F30X = $(PIOS)/STM32F30x
 PIOSCOMMON = $(PIOS)/Common
-PIOSBOARDS = $(PIOS)/Boards
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 APPLIBDIR = $(PIOSSTM32F30X)/Libraries
 STMLIBDIR = $(APPLIBDIR)
@@ -172,7 +175,7 @@ EXTRAINCDIRS += $(MATHLIBINC)
 EXTRAINCDIRS += $(RSCODEINC)
 EXTRAINCDIRS += $(PIOSSTM32F30X)
 EXTRAINCDIRS += $(PIOSCOMMON)
-EXTRAINCDIRS += $(PIOSBOARDS)
+EXTRAINCDIRS += $(BOARD_INFO_DIR)
 EXTRAINCDIRS += $(STMSPDINCDIR)
 EXTRAINCDIRS += $(CMSISDIR)
 EXTRAINCDIRS += $(BOOTINC)

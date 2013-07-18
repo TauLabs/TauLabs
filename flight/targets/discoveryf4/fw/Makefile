@@ -27,7 +27,11 @@
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 TOP      := $(realpath $(WHEREAMI)/../../../../)
 include $(TOP)/make/firmware-defs.mk
-include ../board-info/board-info.mk
+
+TARGET_BASE_DIR := $(realpath $(WHEREAMI)/../)
+BOARD_INFO_DIR := $(TARGET_BASE_DIR)/board-info
+
+include $(BOARD_INFO_DIR)/board-info.mk
 
 # Set developer code and compile options
 # Set to YES for debugging
@@ -49,7 +53,6 @@ MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(FLIGHTLIB)/math
 PIOSSTM32F4XX = $(PIOS)/STM32F4xx
 PIOSCOMMON = $(PIOS)/Common
-PIOSBOARDS = $(PIOS)/Boards
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 APPLIBDIR = $(PIOSSTM32F4XX)/Libraries
 STMLIBDIR = $(APPLIBDIR)
@@ -124,7 +127,7 @@ EXTRAINCDIRS += $(FLIGHTLIBINC)
 EXTRAINCDIRS += $(MATHLIBINC)
 EXTRAINCDIRS += $(PIOSSTM32F4XX)
 EXTRAINCDIRS += $(PIOSCOMMON)
-EXTRAINCDIRS += $(PIOSBOARDS)
+EXTRAINCDIRS += $(BOARD_INFO_DIR)
 EXTRAINCDIRS += $(STMSPDINCDIR)
 EXTRAINCDIRS += $(CMSISDIR)
 EXTRAINCDIRS += $(BOOTINC)
