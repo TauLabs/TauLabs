@@ -369,6 +369,8 @@ void PIOS_Board_Init(void) {
 	PIOS_TIM_InitClock(&tim_10_cfg);
 	PIOS_TIM_InitClock(&tim_11_cfg);
 	PIOS_TIM_InitClock(&tim_12_cfg);
+	// Timers used for HCSR04
+	PIOS_TIM_InitClock(&tim_4_cfg);
 
 	/* IAP System Setup */
 	PIOS_IAP_Init();
