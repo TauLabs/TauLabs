@@ -53,7 +53,7 @@ static xTaskHandle taskHandle;
 */
 int32_t PIOS_Brushless_Init(const struct pios_brushless_cfg * cfg)
 {
-	uint32_t tim_id;
+	uintptr_t tim_id;
 	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, NULL, 0)) {
 		return -1;
 	}
