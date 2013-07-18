@@ -256,8 +256,8 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 
 /**
  * Indicate a target-specific error code when a component fails to initialize
- * 1 pulse - L3GD20
- * 2 pulses - LSM303
+ * 1 pulse - MPU9150 - no irq
+ * 2 pulses - MPU9150 - failed configuration or task starting
  * 3 pulses - internal I2C bus locked
  * 4 pulses - external I2C bus locked
  * 5 pulses - flash
@@ -812,9 +812,11 @@ void PIOS_Board_Init(void) {
 	{
 #endif /* PIOS_INCLUDE_MPU6050 */
 
-		if (PIOS_MPU9150_Init(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW, &pios_mpu9150_cfg) != 0)
-			panic(2);
-		if (PIOS_MPU9150_Test() != 0)
+		int retval;
+		retval = PIOS_MPU9150_Init(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW, &pios_mpu9150_cfg);
+		if (retval == -10)
+			panic(1); // indicate missing IRQ separately
+		if (retval != 0)
 			panic(2);
 
 		// To be safe map from UAVO enum to driver enum

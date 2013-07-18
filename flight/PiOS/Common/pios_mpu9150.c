@@ -166,10 +166,10 @@ int32_t PIOS_MPU9150_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 
 	// Wait 5 ms for data ready interrupt and make sure it happens
 	// twice
-	if (xSemaphoreTake(dev->data_ready_sema, 5) != pdTRUE)
-		return -233;
-	if (xSemaphoreTake(dev->data_ready_sema, 5) != pdTRUE)
-		return -234;
+	if ((xSemaphoreTake(dev->data_ready_sema, 5) != pdTRUE) ||
+		(xSemaphoreTake(dev->data_ready_sema, 5) != pdTRUE)) {
+		return -10;
+	}
 
 	int result = xTaskCreate(PIOS_MPU9150_Task, (const signed char *)"PIOS_MPU9150_Task",
 						 MPU9150_TASK_STACK, NULL, MPU9150_TASK_PRIORITY,
