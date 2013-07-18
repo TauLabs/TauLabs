@@ -62,8 +62,6 @@ OPTMODULES =
 MODULES = RadioComBridge
 
 # Paths
-OPSYSTEM = ./System
-OPSYSTEMINC = $(OPSYSTEM)/inc
 OPUAVTALKINC = $(OPUAVTALK)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 OPTESTS  = ./Tests
@@ -106,8 +104,8 @@ ifndef TESTAPP
 SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/PipXtreme/pipxtrememod.c
-SRC += $(OPSYSTEM)/pipxtreme.c
-SRC += $(OPSYSTEM)/pios_board.c
+SRC += pipxtreme.c
+SRC += pios_board.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
 SRC += $(OPUAVOBJ)/eventdispatcher.c
@@ -151,7 +149,7 @@ SRC += $(PIOSSTM32F10X)/pios_usb_hid.c
 SRC += $(PIOSSTM32F10X)/pios_usb_cdc.c
 SRC += $(PIOSSTM32F10X)/pios_usb_hid_istr.c
 SRC += $(PIOSSTM32F10X)/pios_usb_hid_pwr.c
-SRC += $(OPSYSTEM)/pios_usb_board_data.c
+SRC += pios_usb_board_data.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
@@ -243,9 +241,7 @@ ASRCARM =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
-EXTRAINCDIRS  =  $(OPSYSTEM)
 EXTRAINCDIRS  += $(SHAREDAPIDIR)
-EXTRAINCDIRS  += $(OPSYSTEMINC)
 EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
 EXTRAINCDIRS  += $(OPUAVOBJ)

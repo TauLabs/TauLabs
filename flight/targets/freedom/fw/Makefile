@@ -69,8 +69,6 @@ PYMODULES =
 #FlightPlan
 
 # Paths
-OPSYSTEM = ./System
-OPSYSTEMINC = $(OPSYSTEM)/inc
 OPUAVTALKINC = $(OPUAVTALK)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 PIOSINC = $(PIOS)/inc
@@ -127,9 +125,9 @@ SRC += $(PYSRC)
 SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
-SRC += $(OPSYSTEM)/freedom.c
-SRC += $(OPSYSTEM)/pios_board.c
-SRC += $(OPSYSTEM)/pios_usb_board_data.c
+SRC += freedom.c
+SRC += pios_board.c
+SRC += pios_usb_board_data.c
 SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
@@ -220,7 +218,6 @@ ASRCARM =
 EXTRAINCDIRS  += $(SHAREDAPIDIR)
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
-EXTRAINCDIRS  += $(OPSYSTEMINC)
 EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
 EXTRAINCDIRS  += $(OPUAVOBJ)

@@ -129,8 +129,6 @@ MODULES += Stabilization Actuator ManualControl FirmwareIAP
 MODULES += Telemetry
 
 # Paths
-OPSYSTEM = ./System
-OPSYSTEMINC = $(OPSYSTEM)/inc
 OPUAVTALKINC = $(OPUAVTALK)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 OPTESTS  = ./Tests
@@ -179,8 +177,8 @@ SRC += ${foreach MOD, ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
-SRC += $(OPSYSTEM)/coptercontrol.c
-SRC += $(OPSYSTEM)/pios_board.c
+SRC += coptercontrol.c
+SRC += pios_board.c
 SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
@@ -284,7 +282,7 @@ SRC += $(PIOSSTM32F10X)/pios_usb_cdc.c
 SRC += $(PIOSSTM32F10X)/pios_usb_hid_istr.c
 SRC += $(PIOSSTM32F10X)/pios_usb_hid_pwr.c
 SRC += $(PIOSSTM32F10X)/pios_flash_internal.c
-SRC += $(OPSYSTEM)/pios_usb_board_data.c
+SRC += pios_usb_board_data.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
@@ -409,9 +407,7 @@ ASRCARM =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
-EXTRAINCDIRS  =  $(OPSYSTEM)
 EXTRAINCDIRS  += $(SHAREDAPIDIR)
-EXTRAINCDIRS  += $(OPSYSTEMINC)
 EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
 EXTRAINCDIRS  += $(OPUAVOBJ)

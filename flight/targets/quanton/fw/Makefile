@@ -62,8 +62,6 @@ OPTMODULES += ComUsbBridge
 OPTMODULES += Airspeed/revolution
 
 # Paths
-OPSYSTEM = ./System
-OPSYSTEMINC = $(OPSYSTEM)/inc
 OPUAVTALKINC = $(OPUAVTALK)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 PIOSINC = $(PIOS)/inc
@@ -101,9 +99,9 @@ include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
-SRC += $(OPSYSTEM)/quanton.c
-SRC += $(OPSYSTEM)/pios_board.c
-SRC += $(OPSYSTEM)/pios_usb_board_data.c
+SRC += quanton.c
+SRC += pios_board.c
+SRC += pios_usb_board_data.c
 SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
@@ -163,7 +161,6 @@ CPPSRC =
 EXTRAINCDIRS += $(SHAREDAPIDIR)
 EXTRAINCDIRS += $(PIOS)
 EXTRAINCDIRS += $(PIOSINC)
-EXTRAINCDIRS += $(OPSYSTEMINC)
 EXTRAINCDIRS += $(OPUAVTALK)
 EXTRAINCDIRS += $(OPUAVTALKINC)
 EXTRAINCDIRS += $(OPUAVOBJ)
