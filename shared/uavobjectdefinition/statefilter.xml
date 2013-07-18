@@ -1,0 +1,10 @@
+<xml>
+    <object name="StateFilter" singleinstance="true" settings="true">
+        <description>Filter selection for the new filter architecture</description>
+        <field name="Filter" units="" type="enum" elements="1" options="Complementary" defaultvalue="Complementary"/>
+        <access gcs="readwrite" flight="readwrite"/>
+        <telemetrygcs acked="true" updatemode="onchange" period="0"/>
+        <telemetryflight acked="true" updatemode="onchange" period="0"/>
+        <logging updatemode="manual" period="0"/>
+    </object>
+</xml>
