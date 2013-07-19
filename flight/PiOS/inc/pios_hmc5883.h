@@ -95,14 +95,14 @@ enum pios_hmc5883_sensitivity {
 };
 
 enum pios_hmc5883_orientation { // clockwise rotation from board forward
-	PIOS_HMC5883_TOP_0DEG       = 0x00,
-	PIOS_HMC5883_TOP_90DEG      = 0x01,
-	PIOS_HMC5883_TOP_180DEG     = 0x02,
-	PIOS_HMC5883_TOP_270DEG     = 0x03,
-	PIOS_HMC5883_BOTTOM_0DEG    = 0x04,
-	PIOS_HMC5883_BOTTOM_90DEG   = 0x05,
-	PIOS_HMC5883_BOTTOM_180DEG  = 0x06,
-	PIOS_HMC5883_BOTTOM_270DEG  = 0x07
+	PIOS_HMC5883_TOP_0DEG,
+	PIOS_HMC5883_TOP_90DEG,
+	PIOS_HMC5883_TOP_180DEG,
+	PIOS_HMC5883_TOP_270DEG,
+	PIOS_HMC5883_BOTTOM_0DEG,
+	PIOS_HMC5883_BOTTOM_90DEG,
+	PIOS_HMC5883_BOTTOM_180DEG,
+	PIOS_HMC5883_BOTTOM_270DEG
 };
 
 struct pios_hmc5883_cfg {
@@ -111,7 +111,7 @@ struct pios_hmc5883_cfg {
 	uint8_t Meas_Conf;	/* Measurement Configuration,: Normal, positive bias, or negative bias --> here below the relative define */
 	uint8_t Gain;		/* Gain Configuration, select the full scale --> here below the relative define (See datasheet page 11 for more details) */
 	uint8_t Mode;
-	enum pios_hmc5883_orientation orientation;
+	enum pios_hmc5883_orientation Default_Orientation;
 };
 
 struct pios_hmc5883_data {
@@ -123,6 +123,7 @@ struct pios_hmc5883_data {
 /* Public Functions */
 extern int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg * cfg);
 extern int32_t PIOS_HMC5883_Test(void);
+extern int32_t PIOS_HMC5883_SetOrientation(enum pios_hmc5883_orientation orientation);
 extern bool PIOS_HMC5883_IRQHandler();
 #endif /* PIOS_HMC5883_H */
 

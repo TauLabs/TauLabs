@@ -53,6 +53,7 @@ struct hmc5883_dev {
 	xTaskHandle task;
 	xSemaphoreHandle data_ready_sema;
 	enum pios_hmc5883_dev_magic magic;
+	enum pios_hmc5883_orientation orientation;
 };
 
 /* Local Variables */
@@ -111,6 +112,7 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 
 	dev->cfg = cfg;
 	dev->i2c_id = i2c_id;
+	dev->orientation = cfg->Default_Orientation;
 
 	/* check if we are using an irq line */
 	if (cfg->exti_cfg != NULL) {
@@ -130,6 +132,20 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 						 &dev->task);
 
 	PIOS_Assert(result == pdPASS);
+
+	return 0;
+}
+
+/**
+ * @brief Updates the HMC5883 chip orientation.
+ * @returns 0 for success or -1 for failure
+ */
+int32_t PIOS_HMC5883_SetOrientation(enum pios_hmc5883_orientation orientation)
+{
+	if (PIOS_HMC5883_Validate(dev) != 0)
+		return -1;
+
+	dev->orientation = orientation;
 
 	return 0;
 }
@@ -296,7 +312,7 @@ static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 	mag_y = ((int16_t) ((uint16_t)buffer_read[4] << 8) + buffer_read[5]) * 1000 / sensitivity;
 
 	// Define "0" when the fiducial is in the front left of the board
-	switch (dev->cfg->orientation) {
+	switch (dev->orientation) {
 		case PIOS_HMC5883_TOP_0DEG:
 			mag_data->x = -mag_x;
 			mag_data->y = mag_y;
