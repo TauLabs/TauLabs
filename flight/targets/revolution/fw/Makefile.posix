@@ -126,7 +126,7 @@ SRC += ${OUTDIR}/InitMods.c
 
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
-SRC += revolution.c
+SRC += main.c
 SRC += pios_board_sim.c
 SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
