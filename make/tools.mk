@@ -479,7 +479,7 @@ libkml_install: LIBKML_INSTALL_DIR := $(TOOLS_DIR)/libkml
 libkml_install: LIBKML_BUILD_DIR := $(DL_DIR)/libkml-build
 libkml_install: libkml_clean
         # download the source
-	$(V0) @echo " DOWNLOAD     $(LIBKML_URL) @ $(OPENOCD_REV)"
+	$(V0) @echo " DOWNLOAD     $(LIBKML_URL) @ $(LIBKML_REV)"
 	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -rf "$(LIBKML_BUILD_DIR)"
 	$(V1) mkdir -p "$(LIBKML_BUILD_DIR)"
 	$(V1) git clone --no-checkout $(LIBKML_URL) "$(LIBKML_BUILD_DIR)"
