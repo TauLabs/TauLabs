@@ -3,6 +3,7 @@
 *
 * @file       mappointitem.h
 * @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      A graphicsItem representing a MapPointItem
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget

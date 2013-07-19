@@ -3,6 +3,7 @@
 *
 * @file       uavmapfollowtype.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      An enum representing the various map follow modes
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget

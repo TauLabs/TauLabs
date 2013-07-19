@@ -3,6 +3,7 @@
 *
 * @file       mapripform.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      Form to be used with the MapRipper class
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
