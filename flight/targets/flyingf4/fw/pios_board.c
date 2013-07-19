@@ -856,26 +856,32 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_HMC5883)
 	{
-		if (PIOS_HMC5883_Init(pios_i2c_10dof_adapter_id, &pios_hmc5883_external_cfg) != 0)
-			panic(3);
-		if (PIOS_HMC5883_Test() != 0)
-			panic(3);
+		uint8_t Magnetometer;
+		HwFlyingF4MagnetometerGet(&Magnetometer);
 
-		// setup sensor orientation
-		uint8_t ExtMagOrientation;
-		HwFlyingF4ExtMagOrientationGet(&ExtMagOrientation);
+		if (Magnetometer == HWFLYINGF4_MAGNETOMETER_EXTERNALI2C) {
 
-		enum pios_hmc5883_orientation hmc5883_orientation = \
-			(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP0DEG) ? PIOS_HMC5883_TOP_0DEG : \
-			(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP90DEG) ? PIOS_HMC5883_TOP_90DEG : \
-			(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP180DEG) ? PIOS_HMC5883_TOP_180DEG : \
-			(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP270DEG) ? PIOS_HMC5883_TOP_270DEG : \
-			(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM0DEG) ? PIOS_HMC5883_BOTTOM_0DEG : \
-			(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM90DEG) ? PIOS_HMC5883_BOTTOM_90DEG : \
-			(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM180DEG) ? PIOS_HMC5883_BOTTOM_180DEG : \
-			(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM270DEG) ? PIOS_HMC5883_BOTTOM_270DEG : \
-			pios_hmc5883_external_cfg.Default_Orientation;
-		PIOS_HMC5883_SetOrientation(hmc5883_orientation);
+			if (PIOS_HMC5883_Init(pios_i2c_10dof_adapter_id, &pios_hmc5883_external_cfg) != 0)
+				panic(3);
+			if (PIOS_HMC5883_Test() != 0)
+				panic(3);
+
+			// setup sensor orientation
+			uint8_t ExtMagOrientation;
+			HwFlyingF4ExtMagOrientationGet(&ExtMagOrientation);
+
+			enum pios_hmc5883_orientation hmc5883_orientation = \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP0DEG) ? PIOS_HMC5883_TOP_0DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP90DEG) ? PIOS_HMC5883_TOP_90DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP180DEG) ? PIOS_HMC5883_TOP_180DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP270DEG) ? PIOS_HMC5883_TOP_270DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM0DEG) ? PIOS_HMC5883_BOTTOM_0DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM90DEG) ? PIOS_HMC5883_BOTTOM_90DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM180DEG) ? PIOS_HMC5883_BOTTOM_180DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM270DEG) ? PIOS_HMC5883_BOTTOM_270DEG : \
+				pios_hmc5883_external_cfg.Default_Orientation;
+			PIOS_HMC5883_SetOrientation(hmc5883_orientation);
+		}
 	}
 #endif
 
