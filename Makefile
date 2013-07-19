@@ -681,6 +681,7 @@ endef
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
 # $(2) = Unused
+# $(3) = Short name for board (e.g CC)
 define BL_TEMPLATE
 .PHONY: bl_$(1)
 bl_$(1): bl_$(1)_bin
@@ -741,6 +742,8 @@ bl_$(1)_clean:
 endef
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
+# $(2) = Unused
+# $(3) = Short name for board (e.g CC)
 define BU_TEMPLATE
 .PHONY: bu_$(1)
 bu_$(1): bu_$(1)_tlfw
