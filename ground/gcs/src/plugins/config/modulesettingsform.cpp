@@ -75,6 +75,7 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
     // Link the checkboxes
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Airspeed, ModuleSettings::ADMINSTATE_AIRSPEED);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Battery, ModuleSettings::ADMINSTATE_BATTERY);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_ComBridge, ModuleSettings::ADMINSTATE_COMUSBBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_GPS, ModuleSettings::ADMINSTATE_GPS);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_OveroSync, ModuleSettings::ADMINSTATE_OVEROSYNC);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_VibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
@@ -98,6 +99,8 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
     addUAVObjectToWidgetRelation(batteryStateName, "Voltage", moduleSettingsWidget->le_liveVoltageReading);
     addUAVObjectToWidgetRelation(batteryStateName, "Current", moduleSettingsWidget->le_liveCurrentReading);
 
+    addUAVObjectToWidgetRelation(moduleSettingsName, "ComUsbBridgeSpeed", moduleSettingsWidget->cb_combridgeSpeed);
+
     addUAVObjectToWidgetRelation(moduleSettingsName, "GPSSpeed", moduleSettingsWidget->cb_gpsSpeed);
 
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "SampleRate", moduleSettingsWidget->sb_sampleRate);
@@ -115,6 +118,9 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
 
     moduleSettingsWidget->gb_Battery->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_Battery->setProperty(falseString.toAscii(), "Disabled");
+
+    moduleSettingsWidget->gb_ComBridge->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->gb_ComBridge->setProperty(falseString.toAscii(), "Disabled");
 
     moduleSettingsWidget->gb_GPS->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_GPS->setProperty(falseString.toAscii(), "Disabled");

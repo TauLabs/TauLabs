@@ -991,8 +991,10 @@ void ConfigTaskWidget::connectWidgetUpdatesToSlot(QWidget * widget,const char* f
         connect(cb,SIGNAL(clicked()),this,function);
     }
     else if(qobject_cast<QLabel *>(widget))
-    {
-
+    { // Nothing to connect
+    }
+    else if(qobject_cast<QLineEdit *>(widget))
+    { // Nothing to connect
     }
     else
         qDebug() << __FUNCTION__ << "widget to uavobject relation not implemented for widget: " << widget->objectName()  << "of class:" << widget->metaObject()->className();
@@ -1040,6 +1042,12 @@ void ConfigTaskWidget::disconnectWidgetUpdatesToSlot(QWidget * widget,const char
     else if(QPushButton * cb=qobject_cast<QPushButton *>(widget))
     {
         disconnect(cb,SIGNAL(clicked()),this,function);
+    }
+    else if(qobject_cast<QLabel *>(widget))
+    { // Nothing to disconnect
+    }
+    else if(qobject_cast<QLineEdit *>(widget))
+    { // Nothing to disconnect
     }
     else
         qDebug() << __FUNCTION__ << "widget to uavobject relation not implemented for widget: " << widget->objectName()  << "of class:" << widget->metaObject()->className();
