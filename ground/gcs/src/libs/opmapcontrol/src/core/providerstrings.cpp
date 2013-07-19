@@ -37,33 +37,22 @@ namespace core {
 
     ProviderStrings::ProviderStrings()
     {
-//        VersionGoogleMap = "m@132";
-//        VersionGoogleSatellite = "71";
-//        VersionGoogleLabels = "h@132";
-//        VersionGoogleTerrain = "t@125,r@132";
-        // Google version strings
-        VersionGoogleMap = "m@132";
-        VersionGoogleSatellite = "71";
-        VersionGoogleLabels = "h@132";
-        VersionGoogleTerrain = "t@125,r@132";
+        VersionGoogleMap = "m@221000000";
+        VersionGoogleSatellite = "132";
+        VersionGoogleLabels = "h@221000000";
+        VersionGoogleTerrain = "t@131,r@221000000";
         SecGoogleWord = "Galileo";
 
         // Google (China) version strings
-        VersionGoogleMapChina = "m@132";
-        VersionGoogleSatelliteChina = "s@71";
-        VersionGoogleLabelsChina = "h@132";
-        VersionGoogleTerrainChina = "t@125,r@132";
+        VersionGoogleMapChina = "m@221000000";
+        VersionGoogleSatelliteChina = "s@132";
+        VersionGoogleLabelsChina = "h@221000000";
+        VersionGoogleTerrainChina = "t@131,r@221000000";
 
         // Google (Korea) version strings
-        VersionGoogleMapKorea = "kr1.12";
-        VersionGoogleSatelliteKorea = "66";
-        VersionGoogleLabelsKorea = "kr1t.12";
-
-        /// <summary>
-        /// Google Maps API generated using http://greatmaps.codeplex.com/
-        /// from http://code.google.com/intl/en-us/apis/maps/signup.html
-        /// </summary>
-        GoogleMapsAPIKey = "ABQIAAAAWaQgWiEBF3lW97ifKnAczhRAzBk5Igf8Z5n2W3hNnMT0j2TikxTLtVIGU7hCLLHMAuAMt-BO5UrEWA";
+        VersionGoogleMapKorea = "m@221000000";
+        VersionGoogleSatelliteKorea = "132";
+        VersionGoogleLabelsKorea = "h@221000000";
 
         // Yahoo version strings
         VersionYahooMap = "4.3";
