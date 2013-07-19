@@ -23,12 +23,9 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #####
 
-WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
-TOP      := $(realpath $(WHEREAMI)/../../../../)
-
 override THUMB :=
-include $(TOP)/make/firmware-defs.mk
-include ../board-info/board-info.mk
+include $(MAKE_INC_DIR)/firmware-defs.mk
+include $(BOARD_INFO_DIR)/board-info.mk
 
 # Set developer code and compile options
 # Set to YES to compile for debugging
@@ -101,8 +98,6 @@ MODULES += SimVisualization
 MODULES += Telemetry
 
 # Paths
-OPSYSTEM = ./System
-OPSYSTEMINC = $(OPSYSTEM)/inc
 OPUAVTALKINC = $(OPUAVTALK)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 PIOSINC = $(PIOS)/inc
@@ -110,7 +105,7 @@ FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(MATHLIB)
 PIOSPOSIX = $(PIOS)/osx
-PIOSCOMMON = $(TOP)/flight/PiOS/Common
+PIOSCOMMON = $(ROOT_DIR)/flight/PiOS/Common
 PIOSBOARDS = $(PIOS)/Boards
 PIOSPOSIXLIB = $(PIOSPOSIX)/Libraries
 APPLIBDIR = $(PIOSPOSIX)/Libraries
@@ -143,8 +138,8 @@ SRC += ${OUTDIR}/InitMods.c
 
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
-SRC += $(OPSYSTEM)/revolution.c
-SRC += $(OPSYSTEM)/pios_board_sim.c
+SRC += revolution.c
+SRC += pios_board_sim.c
 SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
@@ -219,10 +214,10 @@ CPPSRCARM =
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
 EXTRAINCDIRS  += $(SHAREDAPIDIR)
-EXTRAINCDIRS  += $(OPSYSTEMINC)
+EXTRAINCDIRS  += .
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
-EXTRAINCDIRS  += $(TOP)/flight/PiOS/inc
+EXTRAINCDIRS  += $(ROOT_DIR)/flight/PiOS/inc
 EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
 EXTRAINCDIRS  += $(OPUAVOBJ)
@@ -232,17 +227,15 @@ EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(MATHLIBINC)
 
 EXTRAINCDIRS  += $(PIOSCOMMON)
-EXTRAINCDIRS  += $(PIOSBOARDS)
 
 EXTRAINCDIRS  += $(CMSISDIR)
 EXTRAINCDIRS  += $(BOOTINC)
-EXTRAINCDIRS  += $(HWDEFSINC)
 
-EXTRAINCDIRS  += $(OPSYSTEM)
 EXTRAINCDIRS  += $(PIOSPOSIX)
 EXTRAINCDIRS  += $(RTOSINCDIR)
 #EXTRAINCDIRS  += $(APPLIBDIR)
 EXTRAINCDIRS  += $(RTOSSRCDIR)/portable/GCC/Posix
+EXTRAINCDIRS  += $(BOARD_INFO_DIR)
 
 EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
@@ -331,14 +324,14 @@ LDFLAGS += -L$(OUTDIR)
 # Define programs and commands.
 REMOVE  = rm -f
 
-$(OUTDIR)/sim_firmwareinfo.c: $(TOP)/make/templates/firmwareinfotemplate_sim.c
-	$(V1) python $(TOP)/make/scripts/version-info.py \
-		--path=$(TOP) \
+$(OUTDIR)/sim_firmwareinfo.c: $(ROOT_DIR)/make/templates/firmwareinfotemplate_sim.c
+	$(V1) python $(ROOT_DIR)/make/scripts/version-info.py \
+		--path=$(ROOT_DIR) \
 		--template=$^ \
 		--outfile=$@ \
 		--type=9 \
 		--revision=1 \
-		--uavodir=$(TOP)/shared/uavobjectdefinition
+		--uavodir=$(ROOT_DIR)/shared/uavobjectdefinition
 
 # List of all source files.
 SRC       += $(OUTDIR)/sim_firmwareinfo.c
