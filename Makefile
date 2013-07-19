@@ -680,7 +680,7 @@ fw_$(1)_clean:
 endef
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
-# $(2) = Name of board used in source tree (e.g. CopterControl)
+# $(2) = Unused
 define BL_TEMPLATE
 .PHONY: bl_$(1)
 bl_$(1): bl_$(1)_bin
@@ -691,7 +691,7 @@ bl_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
 bl_$(1)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
 bl_$(1)_%:
 	$(V1) mkdir -p $$(OUTDIR)/dep
-	$(V1) cd $(ROOT_DIR)/flight/targets/Bootloaders/$(2) && \
+	$(V1) cd $(ROOT_DIR)/flight/targets/$(1)/bl && \
 		$$(MAKE) -r --no-print-directory \
 		BOARD_NAME=$(1) \
 		BOARD_SHORT_NAME=$(3) \

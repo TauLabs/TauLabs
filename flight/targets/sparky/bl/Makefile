@@ -1,50 +1,47 @@
- #####
- # Project: OpenPilot INS_BOOTLOADER
- #    
- #  
- # Makefile for OpenPilot INS project
- #
- # The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
- #    
- # 
- # This program is free software; you can redistribute it and/or modify 
- # it under the terms of the GNU General Public License as published by 
- # the Free Software Foundation; either version 3 of the License, or 
- # (at your option) any later version.
- # 
- # This program is distributed in the hope that it will be useful, but 
- # WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- # or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
- # for more details.
- # 
- # You should have received a copy of the GNU General Public License along 
- # with this program; if not, write to the Free Software Foundation, Inc., 
- # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- #####
+###############################################################################
+# @file       Makefile
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+# @addtogroup 
+# @{
+# @addtogroup 
+# @{
+# @brief Makefile to build bootloader for Sparky board.
+###############################################################################
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+# for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
 
-WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
-TOP      := $(realpath $(WHEREAMI)/../../../../)
-include $(TOP)/make/firmware-defs.mk
-include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
+include $(MAKE_INC_DIR)/firmware-defs.mk
+include $(BOARD_INFO_DIR)/board-info.mk
 
 # Set developer code and compile options
 # Set to YES for debugging
 DEBUG ?= NO
 
 # Paths
-REVO_BL = $(WHEREAMI)
-REVO_BLINC = $(REVO_BL)/inc
 PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
-PIOSSTM32F4XX = $(PIOS)/STM32F4xx
+PIOSSTM32F30X = $(PIOS)/STM32F30x
 PIOSCOMMON = $(PIOS)/Common
-PIOSBOARDS = $(PIOS)/Boards
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
-APPLIBDIR = $(PIOSSTM32F4XX)/Libraries
+APPLIBDIR = $(PIOSSTM32F30X)/Libraries
 STMLIBDIR = $(APPLIBDIR)
-STMSPDDIR = $(STMLIBDIR)/STM32F4xx_StdPeriph_Driver
+STMSPDDIR = $(STMLIBDIR)/STM32F30x_StdPeriph_Driver
 STMSPDSRCDIR = $(STMSPDDIR)/src
 STMSPDINCDIR = $(STMSPDDIR)/inc
+
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
@@ -55,8 +52,8 @@ SRC += pios_board.c
 SRC += pios_usb_board_data.c
 SRC += op_dfu.c
 
-## PIOS Hardware (STM32F4xx)
-include $(PIOS)/STM32F4xx/library.mk
+## PIOS Hardware (STM32F30x)
+include $(PIOS)/STM32F30x/library.mk
 
 # PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_board_info.c
@@ -84,13 +81,11 @@ CPPSRCARM =
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
-EXTRAINCDIRS  += $(PIOSSTM34FXX)
+EXTRAINCDIRS  += $(PIOSSTM32F30X)
 EXTRAINCDIRS  += $(PIOSCOMMON)
-EXTRAINCDIRS  += $(PIOSBOARDS)
 EXTRAINCDIRS  += $(STMSPDINCDIR)
 EXTRAINCDIRS  += $(CMSISDIR)
-EXTRAINCDIRS  += $(REVO_BLINC)
-EXTRAINCDIRS  += $(HWDEFSINC)
+EXTRAINCDIRS  += $(BOARD_INFO_DIR)
 
 # List any extra directories to look for library files here.
 # Also add directories where the linker should search for
@@ -107,7 +102,7 @@ EXTRA_LIBDIRS =
 EXTRA_LIBS =
 
 # Path to Linker-Scripts
-LINKERSCRIPTPATH = $(PIOSSTM32FXX)
+LINKERSCRIPTPATH = $(PIOSSTM32F30X)
 
 # Optimization level, can be [0, 1, 2, 3, s]. 
 # 0 = turn off optimization. s = optimize for size.
@@ -131,7 +126,7 @@ DEBUGF = dwarf-2
 
 # Place project-specific -D (define) and/or 
 # -U options for C here.
-CDEFS = -DSTM32F4XX
+CDEFS = -DSTM32F30X
 CDEFS += -DSYSCLK_FREQ=$(SYSCLK_FREQ)
 CDEFS += -DHSE_VALUE=$(OSCILLATOR_FREQ)
 CDEFS += -DUSE_STDPERIPH_DRIVER
@@ -177,8 +172,8 @@ endif
 
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
-CFLAGS += -DSTM32F4XX
-CFLAGS += -DMEM_SIZE=1024000000
+CFLAGS += -DSTM32F30X
+CFLAGS += -DMEM_SIZE=262144
 
 CFLAGS += -g$(DEBUGF)
 CFLAGS += -O$(OPT)
@@ -222,7 +217,6 @@ ifeq ($(DEBUG),NO)
 LDFLAGS += -Wl,-static
 endif
 LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
-LDFLAGS += -lc
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += $(MATH_LIB)
 LDFLAGS += -lc -lgcc 

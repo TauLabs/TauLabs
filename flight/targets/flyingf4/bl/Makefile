@@ -1,44 +1,41 @@
- #####
- # Project: OpenPilot INS_BOOTLOADER
- #    
- #  
- # Makefile for OpenPilot INS project
- #
- # The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
- #    
- # 
- # This program is free software; you can redistribute it and/or modify 
- # it under the terms of the GNU General Public License as published by 
- # the Free Software Foundation; either version 3 of the License, or 
- # (at your option) any later version.
- # 
- # This program is distributed in the hope that it will be useful, but 
- # WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- # or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
- # for more details.
- # 
- # You should have received a copy of the GNU General Public License along 
- # with this program; if not, write to the Free Software Foundation, Inc., 
- # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- #####
+###############################################################################
+# @file       Makefile
+# @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+# @addtogroup 
+# @{
+# @addtogroup 
+# @{
+# @brief Makefile to build bootloader for flying f4 board.
+###############################################################################
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+# for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
 
-WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
-TOP      := $(realpath $(WHEREAMI)/../../../../)
-include $(TOP)/make/firmware-defs.mk
-include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
+include $(MAKE_INC_DIR)/firmware-defs.mk
+include $(BOARD_INFO_DIR)/board-info.mk
 
 # Set developer code and compile options
 # Set to YES for debugging
 DEBUG ?= NO
 
 # Paths
-REVO_BL = $(WHEREAMI)
-REVO_BLINC = $(REVO_BL)/inc
 PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 PIOSSTM32F4XX = $(PIOS)/STM32F4xx
 PIOSCOMMON = $(PIOS)/Common
-PIOSBOARDS = $(PIOS)/Boards
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 APPLIBDIR = $(PIOSSTM32F4XX)/Libraries
 STMLIBDIR = $(APPLIBDIR)
@@ -86,11 +83,9 @@ EXTRAINCDIRS  += $(PIOSINC)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(PIOSSTM34FXX)
 EXTRAINCDIRS  += $(PIOSCOMMON)
-EXTRAINCDIRS  += $(PIOSBOARDS)
 EXTRAINCDIRS  += $(STMSPDINCDIR)
 EXTRAINCDIRS  += $(CMSISDIR)
-EXTRAINCDIRS  += $(REVO_BLINC)
-EXTRAINCDIRS  += $(HWDEFSINC)
+EXTRAINCDIRS  += $(BOARD_INFO_DIR)
 
 # List any extra directories to look for library files here.
 # Also add directories where the linker should search for
@@ -178,7 +173,6 @@ endif
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
 CFLAGS += -DSTM32F4XX
-CFLAGS += -DMEM_SIZE=1024000000
 
 CFLAGS += -g$(DEBUGF)
 CFLAGS += -O$(OPT)
@@ -222,7 +216,6 @@ ifeq ($(DEBUG),NO)
 LDFLAGS += -Wl,-static
 endif
 LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
-LDFLAGS += -lc
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += $(MATH_LIB)
 LDFLAGS += -lc -lgcc 

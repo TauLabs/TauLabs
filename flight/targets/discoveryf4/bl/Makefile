@@ -6,7 +6,7 @@
 # @{
 # @addtogroup 
 # @{
-# @brief Makefile to build bootloader for flying f4 board.
+# @brief Makefile to build bootloader for the discoveryF4 eval board.
 ###############################################################################
 #
 # This program is free software; you can redistribute it and/or modify
@@ -24,18 +24,14 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
-TOP      := $(realpath $(WHEREAMI)/../../../../)
-include $(TOP)/make/firmware-defs.mk
-include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
+include $(MAKE_INC_DIR)/firmware-defs.mk
+include $(BOARD_INFO_DIR)/board-info.mk
 
 # Set developer code and compile options
 # Set to YES for debugging
 DEBUG ?= NO
 
 # Paths
-REVO_BL = $(WHEREAMI)
-REVO_BLINC = $(REVO_BL)/inc
 PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 PIOSSTM32F4XX = $(PIOS)/STM32F4xx
@@ -91,8 +87,7 @@ EXTRAINCDIRS  += $(PIOSCOMMON)
 EXTRAINCDIRS  += $(PIOSBOARDS)
 EXTRAINCDIRS  += $(STMSPDINCDIR)
 EXTRAINCDIRS  += $(CMSISDIR)
-EXTRAINCDIRS  += $(REVO_BLINC)
-EXTRAINCDIRS  += $(HWDEFSINC)
+EXTRAINCDIRS  += $(BOARD_INFO_DIR)
 
 # List any extra directories to look for library files here.
 # Also add directories where the linker should search for
