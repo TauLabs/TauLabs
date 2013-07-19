@@ -44,7 +44,8 @@ OPMapGadgetConfiguration::OPMapGadgetConfiguration(QString classId,  QSettings* 
 	m_uavSymbol(QString::fromUtf8(":/uavs/images/mapquad.png")),
     m_maxUpdateRate(2000),	// ms
     m_settings(qSettings),
-    m_opacity(1)
+    m_opacity(1),
+    m_geoLanguage("autoDetect")
 {
 
     //if a saved configuration exists load it
@@ -64,11 +65,14 @@ OPMapGadgetConfiguration::OPMapGadgetConfiguration(QString classId,  QSettings* 
         float userImageHorizontalScale = qSettings->value("userImageHorizontalScale").toFloat();
         float userImageVerticalScale = qSettings->value("userImageVerticalScale").toFloat();
         QString userImageLocation = qSettings->value("userImageLocation").toString();
-
+        QString language = qSettings->value("geolanguage").toString();
         m_opacity=qSettings->value("overlayOpacity",1).toReal();
 
         if (!mapProvider.isEmpty()){
             m_mapProvider = mapProvider;
+        }
+        if (!language.isEmpty()){
+            m_geoLanguage = language;
         }
         m_defaultZoom = zoom;
         m_defaultLatitude = latitude;
@@ -114,6 +118,7 @@ IUAVGadgetConfiguration * OPMapGadgetConfiguration::clone()
     m->m_userImageHorizontalScale=m_userImageHorizontalScale;
     m->m_userImageVerticalScale=m_userImageVerticalScale;
     m->m_userImageLocation=m_userImageLocation;
+    m->m_geoLanguage = m_geoLanguage;
 
     return m;
 }
@@ -135,6 +140,7 @@ void OPMapGadgetConfiguration::saveConfig() const {
    m_settings->setValue("userImageHorizontalScale", m_userImageHorizontalScale);
    m_settings->setValue("userImageVerticalScale", m_userImageVerticalScale);
    m_settings->setValue("userImageLocation", m_userImageLocation);
+   m_settings->setValue("geolanguage",m_geoLanguage);
 }
 void OPMapGadgetConfiguration::saveConfig(QSettings* qSettings) const {
    qSettings->setValue("mapProvider", m_mapProvider);
@@ -152,4 +158,5 @@ void OPMapGadgetConfiguration::saveConfig(QSettings* qSettings) const {
    qSettings->setValue("userImageHorizontalScale", m_userImageHorizontalScale);
    qSettings->setValue("userImageVerticalScale", m_userImageVerticalScale);
    qSettings->setValue("userImageLocation", m_userImageLocation);
+   qSettings->setValue("geolanguage",m_geoLanguage);
 }

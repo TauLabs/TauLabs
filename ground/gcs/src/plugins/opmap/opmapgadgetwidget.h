@@ -122,6 +122,7 @@ public:
     void setUserImageVerticalScale(double userImageVerticalScale);
 
     bool getGPSPosition(double &latitude, double &longitude, double &altitude);
+    void setGeoCodingLanguage(QString language);
 signals:
     void defaultLocationAndZoomChanged(double lng,double lat,double zoom);
     void overlayOpacityChanged(qreal);
