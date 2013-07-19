@@ -25,7 +25,7 @@
 
 # Set bash shell for all OSs except MS Windows
 ifndef COMSPEC
-SHELL := /bin/bash
+SHELL := bash
 endif
 
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
