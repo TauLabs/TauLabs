@@ -32,7 +32,8 @@
 #ifndef PIOS_HMC5883_H
 #define PIOS_HMC5883_H
 
-#include <pios.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 /* HMC5883 Addresses */
 #define PIOS_HMC5883_I2C_ADDR			0x1E

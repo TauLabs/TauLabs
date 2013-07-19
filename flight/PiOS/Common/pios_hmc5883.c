@@ -31,6 +31,7 @@
 
 /* Project Includes */
 #include "pios.h"
+#include "pios_hmc5883_priv.h"
 
 #if defined(PIOS_INCLUDE_HMC5883)
 

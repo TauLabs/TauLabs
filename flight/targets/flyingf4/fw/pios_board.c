@@ -50,7 +50,7 @@
  */
 
 #if defined(PIOS_INCLUDE_HMC5883)
-#include "pios_hmc5883.h"
+#include "pios_hmc5883_priv.h"
 static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
 	.M_ODR = PIOS_HMC5883_ODR_75,
 	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,

@@ -25,9 +25,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "pios.h"
 #include "i2c_vm_asm.h"		/* I2C_VM_* assembler */
 #include <stdint.h>		/* uint32_t */
-#include "pios_hmc5883.h"	/* PIOS_HMC5883_* */
+#include "pios_hmc5883_priv.h"	/* PIOS_HMC5883_* */
 
 const uint32_t vmprog_op_mag_baro[] = {
 	I2C_VM_ASM_DELAY(255),

@@ -49,7 +49,7 @@
  */
 
 #if defined(PIOS_INCLUDE_HMC5883)
-#include "pios_hmc5883.h"
+#include "pios_hmc5883_priv.h"
 static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
 	.vector = PIOS_HMC5883_IRQHandler,
 	.line = EXTI_Line7,
