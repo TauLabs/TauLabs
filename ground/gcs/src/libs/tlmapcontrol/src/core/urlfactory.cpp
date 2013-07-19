@@ -90,6 +90,11 @@ namespace core {
 
     void UrlFactory::TryCorrectGoogleVersions()
     {
+        static bool versionRetrieved = false;
+        if (versionRetrieved){
+            return;
+        }
+
         QMutexLocker locker(&mutex);
         if(CorrectGoogleVersions && !IsCorrectGoogleVersions())
         {
@@ -169,7 +174,7 @@ namespace core {
 #endif //DEBUG_URLFACTORY
             }
             reply->deleteLater();
-
+            versionRetrieved = true;
         }
 
     }
