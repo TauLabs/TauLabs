@@ -32,7 +32,8 @@
 #ifndef PIOS_HMC5883_H
 #define PIOS_HMC5883_H
 
-#include <pios.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 /* HMC5883 Addresses */
 #define PIOS_HMC5883_I2C_ADDR			0x1E
@@ -83,31 +84,39 @@
 #define PIOS_HMC5883_MODE_SLEEP			0x03
 
 /* Sensitivity Conversion Values */
-#define PIOS_HMC5883_Sensitivity_0_88Ga		1370	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_1_3Ga		1090	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_1_9Ga		820	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_2_5Ga		660	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_4_0Ga		440	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_4_7Ga		390	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_5_6Ga		330	// LSB/Ga
-#define PIOS_HMC5883_Sensitivity_8_1Ga		230	// LSB/Ga  --> NOT RECOMMENDED
+enum pios_hmc5883_sensitivity {
+	PIOS_HMC5883_Sensitivity_0_88Ga = 1370, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_1_3Ga  = 1090, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_1_9Ga  = 820, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_2_5Ga  = 660, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_4_0Ga  = 440, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_4_7Ga  = 390, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_5_6Ga  = 330, // LSB/Ga
+	PIOS_HMC5883_Sensitivity_8_1Ga  = 230, // LSB/Ga  --> NOT RECOMMENDED
+};
 
-enum pios_hmc5883_orientation { // clockwise rotation from board forward
-	PIOS_HMC5883_TOP_0DEG    = 0x00,
-	PIOS_HMC5883_TOP_90DEG   = 0x01,
-	PIOS_HMC5883_TOP_180DEG  = 0x02,
-	PIOS_HMC5883_TOP_270DEG  = 0x03
+enum pios_hmc5883_orientation {
+	// clockwise rotation from board forward while looking at top side
+	// 0 degree is chip mark on upper left corner
+	PIOS_HMC5883_TOP_0DEG,
+	PIOS_HMC5883_TOP_90DEG,
+	PIOS_HMC5883_TOP_180DEG,
+	PIOS_HMC5883_TOP_270DEG,
+	// clockwise rotation from board forward while looking at bottom side
+	// 0 degree is chip mark on upper left corner
+	PIOS_HMC5883_BOTTOM_0DEG,
+	PIOS_HMC5883_BOTTOM_90DEG,
+	PIOS_HMC5883_BOTTOM_180DEG,
+	PIOS_HMC5883_BOTTOM_270DEG
 };
 
 struct pios_hmc5883_cfg {
-#ifdef PIOS_HMC5883_HAS_GPIOS
 	const struct pios_exti_cfg * exti_cfg; /* Pointer to the EXTI configuration */
-#endif
 	uint8_t M_ODR;		/* OUTPUT DATA RATE --> here below the relative define (See datasheet page 11 for more details) */
 	uint8_t Meas_Conf;	/* Measurement Configuration,: Normal, positive bias, or negative bias --> here below the relative define */
 	uint8_t Gain;		/* Gain Configuration, select the full scale --> here below the relative define (See datasheet page 11 for more details) */
 	uint8_t Mode;
-	enum pios_hmc5883_orientation orientation;
+	enum pios_hmc5883_orientation Default_Orientation;
 };
 
 struct pios_hmc5883_data {
@@ -119,6 +128,7 @@ struct pios_hmc5883_data {
 /* Public Functions */
 extern int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg * cfg);
 extern int32_t PIOS_HMC5883_Test(void);
+extern int32_t PIOS_HMC5883_SetOrientation(enum pios_hmc5883_orientation orientation);
 extern bool PIOS_HMC5883_IRQHandler();
 #endif /* PIOS_HMC5883_H */
 
