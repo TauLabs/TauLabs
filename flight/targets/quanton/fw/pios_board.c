@@ -50,7 +50,7 @@
  */
 #if defined(PIOS_INCLUDE_HMC5883)
 #include "pios_hmc5883.h"
-static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
+static const struct pios_exti_cfg pios_exti_hmc5883_internal_cfg __exti_config = {
 	.vector = PIOS_HMC5883_IRQHandler,
 	.line = EXTI_Line1,
 	.pin = {
@@ -81,13 +81,22 @@ static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
 	},
 };
 
-static struct pios_hmc5883_cfg pios_hmc5883_cfg = {
-	.exti_cfg = &pios_exti_hmc5883_cfg,
+static const struct pios_hmc5883_cfg pios_hmc5883_internal_cfg = {
+	.exti_cfg = &pios_exti_hmc5883_internal_cfg,
 	.M_ODR = PIOS_HMC5883_ODR_75,
 	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
 	.Gain = PIOS_HMC5883_GAIN_1_9,
 	.Mode = PIOS_HMC5883_MODE_CONTINUOUS,
 	.Default_Orientation = PIOS_HMC5883_TOP_90DEG,
+};
+
+static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
+	.exti_cfg = NULL,
+	.M_ODR = PIOS_HMC5883_ODR_75,
+	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
+	.Gain = PIOS_HMC5883_GAIN_1_9,
+	.Mode = PIOS_HMC5883_MODE_SINGLE,
+	.Default_Orientation = PIOS_HMC5883_TOP_0DEG,
 };
 #endif /* PIOS_INCLUDE_HMC5883 */
 
@@ -555,12 +564,8 @@ void PIOS_Board_Init(void) {
 			HwQuantonMagnetometerGet(&Magnetometer);
 
 			if (Magnetometer == HWQUANTON_MAGNETOMETER_EXTERNALI2CUART1) {
-				// no irq line for external sensors
-				pios_hmc5883_cfg.exti_cfg = NULL;
-				pios_hmc5883_cfg.Mode = PIOS_HMC5883_MODE_SINGLE;
-
 				// init sensor
-				if (PIOS_HMC5883_Init(pios_i2c_usart1_adapter_id, &pios_hmc5883_cfg) != 0)
+				if (PIOS_HMC5883_Init(pios_i2c_usart1_adapter_id, &pios_hmc5883_external_cfg) != 0)
 					panic(8);
 				if (PIOS_HMC5883_Test() != 0)
 					panic(8);
@@ -731,12 +736,8 @@ void PIOS_Board_Init(void) {
 			HwQuantonMagnetometerGet(&Magnetometer);
 
 			if (Magnetometer == HWQUANTON_MAGNETOMETER_EXTERNALI2CUART3) {
-				// no irq line for external sensors
-				pios_hmc5883_cfg.exti_cfg = NULL;
-				pios_hmc5883_cfg.Mode = PIOS_HMC5883_MODE_SINGLE;
-
 				// init sensor
-				if (PIOS_HMC5883_Init(pios_i2c_usart3_adapter_id, &pios_hmc5883_cfg) != 0)
+				if (PIOS_HMC5883_Init(pios_i2c_usart3_adapter_id, &pios_hmc5883_external_cfg) != 0)
 					panic(9);
 				if (PIOS_HMC5883_Test() != 0)
 					panic(9);
@@ -1151,7 +1152,7 @@ void PIOS_Board_Init(void) {
 		HwQuantonMagnetometerGet(&Magnetometer);
 
 		if (Magnetometer == HWQUANTON_MAGNETOMETER_INTERNAL) {
-			if (PIOS_HMC5883_Init(pios_i2c_internal_adapter_id, &pios_hmc5883_cfg) != 0)
+			if (PIOS_HMC5883_Init(pios_i2c_internal_adapter_id, &pios_hmc5883_internal_cfg) != 0)
 				panic(3);
 			if (PIOS_HMC5883_Test() != 0)
 				panic(3);
@@ -1173,7 +1174,7 @@ void PIOS_Board_Init(void) {
 				(ExtMagOrientation == HWQUANTON_EXTMAGORIENTATION_BOTTOM90DEG) ? PIOS_HMC5883_BOTTOM_90DEG : \
 				(ExtMagOrientation == HWQUANTON_EXTMAGORIENTATION_BOTTOM180DEG) ? PIOS_HMC5883_BOTTOM_180DEG : \
 				(ExtMagOrientation == HWQUANTON_EXTMAGORIENTATION_BOTTOM270DEG) ? PIOS_HMC5883_BOTTOM_270DEG : \
-				pios_hmc5883_cfg.Default_Orientation;
+				pios_hmc5883_external_cfg.Default_Orientation;
 			PIOS_HMC5883_SetOrientation(hmc5883_orientation);
 		}
 	}

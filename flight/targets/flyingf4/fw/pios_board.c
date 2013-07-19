@@ -51,7 +51,7 @@
 
 #if defined(PIOS_INCLUDE_HMC5883)
 #include "pios_hmc5883.h"
-static struct pios_hmc5883_cfg pios_hmc5883_cfg = {
+static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
 	.exti_cfg = NULL,
 	.M_ODR = PIOS_HMC5883_ODR_75,
 	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
@@ -856,7 +856,7 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_HMC5883)
 	{
-		if (PIOS_HMC5883_Init(pios_i2c_10dof_adapter_id, &pios_hmc5883_cfg) != 0)
+		if (PIOS_HMC5883_Init(pios_i2c_10dof_adapter_id, &pios_hmc5883_external_cfg) != 0)
 			panic(3);
 		if (PIOS_HMC5883_Test() != 0)
 			panic(3);
@@ -874,7 +874,7 @@ void PIOS_Board_Init(void) {
 			(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM90DEG) ? PIOS_HMC5883_BOTTOM_90DEG : \
 			(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM180DEG) ? PIOS_HMC5883_BOTTOM_180DEG : \
 			(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM270DEG) ? PIOS_HMC5883_BOTTOM_270DEG : \
-			pios_hmc5883_cfg.Default_Orientation;
+			pios_hmc5883_external_cfg.Default_Orientation;
 		PIOS_HMC5883_SetOrientation(hmc5883_orientation);
 	}
 #endif
