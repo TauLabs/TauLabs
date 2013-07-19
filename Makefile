@@ -200,6 +200,7 @@ help:
 	@echo "           \"CONFIG+=LIGHTWEIGHT_GCS\"  - Build a lightweight GCS suitable for low-powered platforms"
 	@echo "           \"CONFIG+=SDL\"              - Enable joystick and gamepad support"
 	@echo "           \"CONFIG+=OSG\"              - Enable OpenSceneGraph support"
+	@echo "           \"CONFIG+=KML\"              - Enable KML file support"
 	@echo "     gcs_clean            - Remove the Ground Control System (GCS) application"
 	@echo
 	@echo "   [AndroidGCS]"
