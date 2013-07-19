@@ -322,6 +322,93 @@ static const struct pios_spi_cfg pios_spi_2_rcflyer_internal_cfg = {
 	},
 };
 
+/*
+ * Chebuzz Shield Config
+ *   External SPI Bus
+ */
+static const struct pios_spi_cfg pios_spi_2_chebuzz_external_cfg = {
+	.regs = SPI2,
+	.remap = GPIO_AF_5,
+	.init = {
+		.SPI_Mode              = SPI_Mode_Master,
+		.SPI_Direction         = SPI_Direction_2Lines_FullDuplex,
+		.SPI_DataSize          = SPI_DataSize_8b,
+		.SPI_NSS               = SPI_NSS_Soft,
+		.SPI_FirstBit          = SPI_FirstBit_MSB,
+		.SPI_CRCPolynomial     = 7,
+		.SPI_CPOL              = SPI_CPOL_Low,
+		.SPI_CPHA              = SPI_CPHA_1Edge,
+		.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8,
+	},
+	.use_crc = false,
+	.sclk = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_13,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+		.pin_source = GPIO_PinSource13,
+	},
+	.miso = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_14,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+		.pin_source = GPIO_PinSource14,
+	},
+	.mosi = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_15,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+		.pin_source = GPIO_PinSource15,
+	},
+	.slave_count = 3,
+	.ssel = {
+		{
+			.gpio = GPIOB,
+			.init = {
+				.GPIO_Pin = GPIO_Pin_10,
+				.GPIO_Speed = GPIO_Speed_50MHz,
+				.GPIO_Mode  = GPIO_Mode_OUT,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd = GPIO_PuPd_UP
+			},
+		},
+		{
+			.gpio = GPIOB,
+			.init = {
+				.GPIO_Pin = GPIO_Pin_11,
+				.GPIO_Speed = GPIO_Speed_50MHz,
+				.GPIO_Mode  = GPIO_Mode_OUT,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd = GPIO_PuPd_UP
+			},
+		},
+		{
+			.gpio = GPIOB,
+			.init = {
+				.GPIO_Pin = GPIO_Pin_13,
+				.GPIO_Speed = GPIO_Speed_50MHz,
+				.GPIO_Mode  = GPIO_Mode_OUT,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd = GPIO_PuPd_UP
+			},
+		},
+	},
+};
+
 uint32_t pios_spi_2_id;
 void PIOS_SPI_2_irq_handler(void)
 {
@@ -332,6 +419,73 @@ void PIOS_SPI_2_irq_handler(void)
 /* SPI3 Interface */
 void PIOS_SPI_3_irq_handler(void);
 void SPI3_IRQHandler(void) __attribute__((alias("PIOS_SPI_3_irq_handler")));
+/*
+ * Chebuzz Shield Config
+ *   - Flash with CS on PB12
+ */
+static const struct pios_spi_cfg pios_spi_3_chebuzz_internal_cfg = {
+	.regs = SPI3,
+	.remap = GPIO_AF_6,
+	.init = {
+		.SPI_Mode              = SPI_Mode_Master,
+		.SPI_Direction         = SPI_Direction_2Lines_FullDuplex,
+		.SPI_DataSize          = SPI_DataSize_8b,
+		.SPI_NSS               = SPI_NSS_Soft,
+		.SPI_FirstBit          = SPI_FirstBit_MSB,
+		.SPI_CRCPolynomial     = 7,
+		.SPI_CPOL              = SPI_CPOL_Low,
+		.SPI_CPHA              = SPI_CPHA_1Edge,
+		.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8,
+	},
+	.use_crc = false,
+	.sclk = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_3,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+		.pin_source = GPIO_PinSource3,
+	},
+	.miso = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_4,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+		.pin_source = GPIO_PinSource4,
+	},
+	.mosi = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_5,
+			.GPIO_Speed = GPIO_Speed_50MHz,
+			.GPIO_Mode = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL
+		},
+		.pin_source = GPIO_PinSource5,
+	},
+	.slave_count = 1,
+	.ssel = {
+		{
+			.gpio = GPIOB,
+			.init = {
+				.GPIO_Pin = GPIO_Pin_12,
+				.GPIO_Speed = GPIO_Speed_50MHz,
+				.GPIO_Mode  = GPIO_Mode_OUT,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd = GPIO_PuPd_UP
+			},
+		},
+	},
+};
+
 
 /*
  * RC Flyer Shield Config
