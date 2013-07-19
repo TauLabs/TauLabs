@@ -106,7 +106,7 @@ namespace core {
             qDebug()<<"Correct GoogleVersion";
 #endif //DEBUG_URLFACTORY
             setIsCorrectGoogleVersions(true);
-            QString url = "http://maps.google.com";
+            QString url = "https://maps.google.com";
 
             qheader.setUrl(QUrl(url));
             qheader.setRawHeader("User-Agent",UserAgent);
@@ -124,7 +124,8 @@ namespace core {
                 return;
             }
             QString html=QString(reply->readAll());
-            QRegExp reg("\"*http://mt0.google.com/vt/lyrs=m@(\\d*)",Qt::CaseInsensitive);
+\
+            QRegExp reg("\"*https?://mt\\D?\\d.google.com/vt/lyrs=m@(\\d*)",Qt::CaseInsensitive);
             if(reg.indexIn(html)!=-1)
             {
                 QStringList gc=reg.capturedTexts();
@@ -135,7 +136,7 @@ namespace core {
 #endif //DEBUG_URLFACTORY
             }
 
-            reg=QRegExp("\"*http://mt0.google.com/vt/lyrs=h@(\\d*)",Qt::CaseInsensitive);
+            reg=QRegExp("\"*https?://mt\\D?\\d.google.com/vt/lyrs=h@(\\d*)",Qt::CaseInsensitive);
             if(reg.indexIn(html)!=-1)
             {
                 QStringList gc=reg.capturedTexts();
@@ -145,18 +146,18 @@ namespace core {
                 qDebug()<<"TryCorrectGoogleVersions, VersionGoogleLabels: "<<VersionGoogleLabels;
 #endif //DEBUG_URLFACTORY
             }
-            reg=QRegExp("\"*http://khm0.google.com/kh/v=(\\d*)",Qt::CaseInsensitive);
+            reg=QRegExp("\"*https?://khm\\D?\\d.google.com/kh/v=(\\d*)",Qt::CaseInsensitive);
             if(reg.indexIn(html)!=-1)
             {
                 QStringList gc=reg.capturedTexts();
                 VersionGoogleSatellite = gc[1];
                 VersionGoogleSatelliteKorea = VersionGoogleSatellite;
                 VersionGoogleSatelliteChina = "s@" + VersionGoogleSatellite;
-
+#ifdef DEBUG_URLFACTORY
                 qDebug()<<"TryCorrectGoogleVersions, VersionGoogleSatellite: "<<VersionGoogleSatellite;
-
+#endif //DEBUG_URLFACTORY
             }
-            reg=QRegExp("\"*http://mt0.google.com/vt/lyrs=t@(\\d*),r@(\\d*)",Qt::CaseInsensitive);
+            reg=QRegExp("\"*https?://mt\\D?\\d./vt/lyrs=t@(\\d*),r@(\\d*)",Qt::CaseInsensitive);
             if(reg.indexIn(html)!=-1)
             {
                 QStringList gc=reg.capturedTexts();
