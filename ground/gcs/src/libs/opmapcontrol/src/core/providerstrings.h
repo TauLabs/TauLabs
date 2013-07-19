@@ -36,7 +36,6 @@ namespace core {
     public:
         ProviderStrings();
         static const QString levelsForSigPacSpainMap[];
-        QString GoogleMapsAPIKey;
         // Google version strings
         QString VersionGoogleMap;
         QString VersionGoogleSatellite;

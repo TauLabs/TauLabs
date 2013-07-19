@@ -79,7 +79,7 @@ namespace core {
             {
                 QTextStream stream(&file);
                 stream.setCodec("UTF-8");
-                stream>>ret;
+                ret = stream.readAll();
             }
         }
 #ifdef DEBUG_GetGeocoderFromCache
@@ -147,7 +147,7 @@ namespace core {
             {
                 QTextStream stream(&file);
                 stream.setCodec("UTF-8");
-                stream>>ret;
+                ret = stream.readAll();
             }
         }
 #ifdef DEBUG_CACHE

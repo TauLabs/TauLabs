@@ -85,7 +85,8 @@ namespace core {
                 <<"uk"
                 <<"vi"
                 <<"zh-CN"
-                <<"zh-TW";
+                <<"zh-TW"
+                <<"AUTO";
 
     }
     QString LanguageType::toShortString(Types type)

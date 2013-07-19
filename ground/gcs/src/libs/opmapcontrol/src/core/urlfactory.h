@@ -40,9 +40,10 @@
 #include "geodecoderstatus.h"
 #include <QTime>
 #include "cache.h"
-#include "placemark.h"
 #include <QTextCodec>
 #include "cmath"
+#include <QMessageBox>
+#include "QDomElement"
 
 namespace core {
     class UrlFactory: public QObject,public ProviderStrings
@@ -56,10 +57,17 @@ namespace core {
         QNetworkProxy Proxy;
         UrlFactory();
         ~UrlFactory();
+        struct geoCodingStruct
+        {
+            QString address;
+            internals::PointLatLng coordinates;
+        };
         QString MakeImageUrl(const MapType::Types &type,const core::Point &pos,const int &zoom,const QString &language);
-        internals::PointLatLng GetLatLngFromGeodecoder(const QString &keywords,GeoCoderStatusCode::Types &status);
-        Placemark GetPlacemarkFromGeocoder(internals::PointLatLng location);
+        QList <UrlFactory::geoCodingStruct> GetLatLngFromGeodecoder(const QString &keywords,GeoCoderStatusCode::Types &status,const QString &language);
+        QList <UrlFactory::geoCodingStruct> GetPlacemarkFromGeocoder(internals::PointLatLng location, GeoCoderStatusCode::Types &status, const QString &language);
+        double GetElevationFromCoordinate(const internals::PointLatLng &coordinate, GeoCoderStatusCode::Types &status);
         int Timeout;
+
     private:
         void GetSecGoogleWords(const core::Point &pos,  QString &sec1, QString &sec2);
         int GetServerNum(const core::Point &pos,const int &max) const;
@@ -72,16 +80,17 @@ namespace core {
         static const double EarthRadiusKm;
         double GetDistance(internals::PointLatLng p1,internals::PointLatLng p2);
         QMutex mutex;
-
+        QList<UrlFactory::geoCodingStruct> GetGeoCodingFromXML(QString xml, GeoCoderStatusCode::Types &status);
+        QByteArray FetchWebRequest(QString url, QNetworkReply::NetworkError &result);
     protected:
         static short timelapse;
         QString LanguageStr;
         bool IsCorrectGoogleVersions();
         void setIsCorrectGoogleVersions(bool value);
-        QString MakeGeocoderUrl(QString keywords);
+        QString MakeGeocoderUrl(QString keywords, const QString &language);
         QString MakeReverseGeocoderUrl(internals::PointLatLng &pt,const QString &language);
-        internals::PointLatLng GetLatLngFromGeocoderUrl(const QString &url,const bool &useCache, GeoCoderStatusCode::Types &status);
-        Placemark GetPlacemarkFromReverseGeocoderUrl(const QString &url,const bool &useCache);
+        QList <UrlFactory::geoCodingStruct> GetLatLngFromGeocoderUrl(const QString &url,const bool &useCache, GeoCoderStatusCode::Types &status);
+        QList <UrlFactory::geoCodingStruct>  GetPlacemarkFromReverseGeocoderUrl(const QString &url,const bool &useCache, GeoCoderStatusCode::Types &status);
     };
 
 }

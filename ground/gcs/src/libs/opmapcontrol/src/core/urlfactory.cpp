@@ -498,195 +498,142 @@ namespace core {
             sec1 = "&s=";
         }
     }
-    QString UrlFactory::MakeGeocoderUrl(QString keywords)
+
+    QString UrlFactory::MakeGeocoderUrl(QString keywords,const QString &language)
     {
         QString key = keywords.replace(' ', '+');
-        return QString("http://maps.google.com/maps/geo?q=%1&output=csv&key=%2").arg(key).arg(GoogleMapsAPIKey);
+        if(language.contains("AUTO"))
+            return QString("http://maps.googleapis.com/maps/api/geocode/xml?address=%0&sensor=false").arg(key);
+        else
+            return QString("http://maps.googleapis.com/maps/api/geocode/xml?address=%0&sensor=false&language=%1").arg(key).arg(language);
     }
+
     QString UrlFactory::MakeReverseGeocoderUrl(internals::PointLatLng &pt,const QString &language)
     {
-
-        return QString("http://maps.google.com/maps/geo?hl=%1&ll=%2,%3&output=csv&key=%4").arg(language).arg(QString::number(pt.Lat())).arg(QString::number(pt.Lng())).arg(GoogleMapsAPIKey);
-
+        if(language.contains("AUTO"))
+            return QString("http://maps.googleapis.com/maps/api/geocode/xml?latlng=%0,%1&sensor=false").arg(QString::number(pt.Lat(), 'f', 7)).arg(QString::number(pt.Lng(), 'f', 7));
+        else
+            return QString("http://maps.googleapis.com/maps/api/geocode/xml?latlng=%0,%1&sensor=false&language=%2").arg(QString::number(pt.Lat(), 'f', 7)).arg(QString::number(pt.Lng(), 'f', 7)).arg(language);
     }
-    internals::PointLatLng UrlFactory::GetLatLngFromGeodecoder(const QString &keywords, GeoCoderStatusCode::Types &status)
+
+    QList <UrlFactory::geoCodingStruct>  UrlFactory::GetLatLngFromGeodecoder(const QString &keywords, GeoCoderStatusCode::Types &status,const QString &language)
     {
-        return GetLatLngFromGeocoderUrl(MakeGeocoderUrl(keywords),UseGeocoderCache,status);
+        return GetLatLngFromGeocoderUrl(MakeGeocoderUrl(keywords,language),UseGeocoderCache,status);
     }
-    internals::PointLatLng UrlFactory::GetLatLngFromGeocoderUrl(const QString &url, const bool &useCache, GeoCoderStatusCode::Types &status)
+
+    QList <UrlFactory::geoCodingStruct> UrlFactory::GetLatLngFromGeocoderUrl(const QString &url, const bool &useCache, GeoCoderStatusCode::Types &status)
     {
+        QList <geoCodingStruct> results;
 #ifdef DEBUG_URLFACTORY
         qDebug()<<"Entered GetLatLngFromGeocoderUrl:";
 #endif //DEBUG_URLFACTORY
-        status = GeoCoderStatusCode::Unknow;
-        internals::PointLatLng ret(0,0);
-        QString urlEnd = url.mid(url.indexOf("geo?q=")+6);
+        status = GeoCoderStatusCode::UNKNOWN_ERROR;
+        QString urlEnd = url.mid(url.indexOf("xml?address=")+12,url.indexOf("&sensor")-url.indexOf("xml?address=")-12);
         urlEnd.replace( QRegExp(
-                "[^"
-                "A-Z,a-z,0-9,"
-                "\\^,\\&,\\',\\@,"
-                "\\{,\\},\\[,\\],"
-                "\\,,\\$,\\=,\\!,"
-                "\\-,\\#,\\(,\\),"
-                "\\%,\\.,\\+,\\~,\\_"
-                "]"), "_" );
+                            "[^"
+                            "A-Z,a-z,0-9,"
+                            "\\^,\\&,\\',\\@,"
+                            "\\{,\\},\\[,\\],"
+                            "\\,,\\$,\\=,\\!,"
+                            "\\-,\\#,\\(,\\),"
+                            "\\%,\\.,\\+,\\~,\\_"
+                            "]"), "_" );
 
         QString geo = useCache ? Cache::Instance()->GetGeocoderFromCache(urlEnd) : "";
-
         if(geo.isNull()|geo.isEmpty())
         {
 #ifdef DEBUG_URLFACTORY
             qDebug()<<"GetLatLngFromGeocoderUrl:Not in cache going internet";
 #endif //DEBUG_URLFACTORY
-            QNetworkReply *reply;
-            QNetworkRequest qheader;
-            QNetworkAccessManager network;
-            network.setProxy(Proxy);
-            qheader.setUrl(QUrl(url));
-            qheader.setRawHeader("User-Agent",UserAgent);
-            reply=network.get(qheader);
+            QNetworkReply::NetworkError error;
+            geo = FetchWebRequest(url,error);
 #ifdef DEBUG_URLFACTORY
             qDebug()<<"GetLatLngFromGeocoderUrl:URL="<<url;
+            qDebug()<<"Finished?"<< error;
 #endif //DEBUG_URLFACTORY
-            QTime time;
-            time.start();
-            while( (!(reply->isFinished()) || (time.elapsed()>(6*Timeout))) ){QCoreApplication::processEvents(QEventLoop::AllEvents);}
-#ifdef DEBUG_URLFACTORY
-            qDebug()<<"Finished?"<<reply->error()<<" abort?"<<(time.elapsed()>Timeout*6);
-#endif //DEBUG_URLFACTORY
-            if( (reply->error()!=QNetworkReply::NoError) | (time.elapsed()>Timeout*6))
+            if(error !=QNetworkReply::NoError)
             {
 #ifdef DEBUG_URLFACTORY
                 qDebug()<<"GetLatLngFromGeocoderUrl::Network error";
 #endif //DEBUG_URLFACTORY
-                return internals::PointLatLng(0,0);
+                return results;
             }
             {
 #ifdef DEBUG_URLFACTORY
                 qDebug()<<"GetLatLngFromGeocoderUrl:Reply ok";
 #endif //DEBUG_URLFACTORY
-                geo=reply->readAll();
-
-
+                results = GetGeoCodingFromXML(geo,status);
                 // cache geocoding
-                if(useCache && geo.startsWith("200"))
+                if(useCache && status == GeoCoderStatusCode::OK)
                 {
                     Cache::Instance()->CacheGeocoder(urlEnd, geo);
                 }
             }
-            reply->deleteLater();
         }
-
-
-        // parse values
-        // true : 200,4,56.1451640,22.0681787
-        // false: 602,0,0,0
-        {
-            QStringList values = geo.split(',');
-            if(values.count() == 4)
-            {
-                status = (GeoCoderStatusCode::Types) QString(values[0]).toInt();
-                if(status == GeoCoderStatusCode::G_GEO_SUCCESS)
-                {
-                    double lat = QString(values[2]).toDouble();
-                    double lng = QString(values[3]).toDouble();
-
-                    ret = internals::PointLatLng(lat, lng);
-#ifdef DEBUG_URLFACTORY
-                    qDebug()<<"Lat="<<lat<<" Lng="<<lng;
-#endif //DEBUG_URLFACTORY
-                }
-            }
-        }
-        return ret;
+        else
+            results = GetGeoCodingFromXML(geo,status);
+        return results;
     }
 
-    Placemark UrlFactory::GetPlacemarkFromGeocoder(internals::PointLatLng location)
+    QList <UrlFactory::geoCodingStruct> UrlFactory::GetPlacemarkFromGeocoder(internals::PointLatLng location, GeoCoderStatusCode::Types &status,const QString &language)
     {
-        return GetPlacemarkFromReverseGeocoderUrl(MakeReverseGeocoderUrl(location, LanguageStr), UsePlacemarkCache);
+        return GetPlacemarkFromReverseGeocoderUrl(MakeReverseGeocoderUrl(location, language), UsePlacemarkCache,status);
     }
 
-    Placemark UrlFactory::GetPlacemarkFromReverseGeocoderUrl(const QString &url, const bool &useCache)
+    QList <UrlFactory::geoCodingStruct> UrlFactory::GetPlacemarkFromReverseGeocoderUrl(const QString &url, const bool &useCache, GeoCoderStatusCode::Types &status)
     {
-
-        Placemark ret("");
+        QList <geoCodingStruct> results;
 #ifdef DEBUG_URLFACTORY
-        qDebug()<<"Entered GetPlacemarkFromReverseGeocoderUrl:";
+        qDebug()<<"Entered GetLatLngFromGeocoderUrl:";
 #endif //DEBUG_URLFACTORY
-        // status = GeoCoderStatusCode::Unknow;
-        QString urlEnd = url.right(url.indexOf("geo?hl="));
+        status = GeoCoderStatusCode::UNKNOWN_ERROR;
+        QString urlEnd = url.mid(url.indexOf("xml?latlng=")+11,url.indexOf("&sensor")-url.indexOf("xml?latlng=")-11);
         urlEnd.replace( QRegExp(
-                "[^"
-                "A-Z,a-z,0-9,"
-                "\\^,\\&,\\',\\@,"
-                "\\{,\\},\\[,\\],"
-                "\\,,\\$,\\=,\\!,"
-                "\\-,\\#,\\(,\\),"
-                "\\%,\\.,\\+,\\~,\\_"
-                "]"), "_" );
+                            "[^"
+                            "A-Z,a-z,0-9,"
+                            "\\^,\\&,\\',\\@,"
+                            "\\{,\\},\\[,\\],"
+                            "\\,,\\$,\\=,\\!,"
+                            "\\-,\\#,\\(,\\),"
+                            "\\%,\\.,\\+,\\~,\\_"
+                            "]"), "_" );
 
-        QString reverse = useCache ? Cache::Instance()->GetPlacemarkFromCache(urlEnd) : "";
-
-        if(reverse.isNull()|reverse.isEmpty())
+        QString geo = useCache ? Cache::Instance()->GetPlacemarkFromCache(urlEnd) : "";
+        if(geo.isNull()|geo.isEmpty())
         {
 #ifdef DEBUG_URLFACTORY
             qDebug()<<"GetLatLngFromGeocoderUrl:Not in cache going internet";
 #endif //DEBUG_URLFACTORY
-            QNetworkReply *reply;
-            QNetworkRequest qheader;
-            QNetworkAccessManager network;
-            network.setProxy(Proxy);
-            qheader.setUrl(QUrl(url));
-            qheader.setRawHeader("User-Agent",UserAgent);
-            reply=network.get(qheader);
+            QNetworkReply::NetworkError error;
+            geo = FetchWebRequest(url,error);
 #ifdef DEBUG_URLFACTORY
             qDebug()<<"GetLatLngFromGeocoderUrl:URL="<<url;
+            qDebug()<<"Finished?"<< error;
 #endif //DEBUG_URLFACTORY
-            QTime time;
-            time.start();
-            while( (!(reply->isFinished()) || (time.elapsed()>(6*Timeout))) ){QCoreApplication::processEvents(QEventLoop::AllEvents);}
-#ifdef DEBUG_URLFACTORY
-            qDebug()<<"Finished?"<<reply->error()<<" abort?"<<(time.elapsed()>Timeout*6);
-#endif //DEBUG_URLFACTORY
-            if( (reply->error()!=QNetworkReply::NoError) | (time.elapsed()>Timeout*6))
+            if(error !=QNetworkReply::NoError)
             {
 #ifdef DEBUG_URLFACTORY
                 qDebug()<<"GetLatLngFromGeocoderUrl::Network error";
 #endif //DEBUG_URLFACTORY
-                return ret;
+                return results;
             }
             {
 #ifdef DEBUG_URLFACTORY
                 qDebug()<<"GetLatLngFromGeocoderUrl:Reply ok";
 #endif //DEBUG_URLFACTORY
-                QByteArray a=(reply->readAll());
-                QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-                reverse = codec->toUnicode(a);
-#ifdef DEBUG_URLFACTORY
-                qDebug()<<reverse;
-#endif //DEBUG_URLFACTORY
+                results = GetGeoCodingFromXML(geo,status);
                 // cache geocoding
-                if(useCache && reverse.startsWith("200"))
+                if(useCache && status == GeoCoderStatusCode::OK)
                 {
-                    Cache::Instance()->CachePlacemark(urlEnd, reverse);
+                    Cache::Instance()->CachePlacemark(urlEnd, geo);
                 }
             }
-            reply->deleteLater();
         }
-
-
-        // parse values
-        // true : 200,4,56.1451640,22.0681787
-        // false: 602,0,0,0
-        if(reverse.startsWith("200"))
-        {
-            QString acc = reverse.left(reverse.indexOf('\"'));
-            ret = Placemark(reverse.remove(reverse.indexOf('\"')));
-            ret.SetAccuracy ((int)  (( (QString) acc.split(',')[1]).toInt())    );
-
-        }
-        return ret;
+        else
+            results = GetGeoCodingFromXML(geo,status);
+        return results;
     }
+
     double UrlFactory::GetDistance(internals::PointLatLng p1, internals::PointLatLng p2)
     {
         double dLat1InRad = p1.Lat() * (M_PI / 180);
@@ -699,5 +646,81 @@ namespace core {
         double c = 2 * atan2(sqrt(a), sqrt(1 - a));
         double dDistance = EarthRadiusKm * c;
         return dDistance;
+    }
+
+    QList<UrlFactory::geoCodingStruct> UrlFactory::GetGeoCodingFromXML(QString xml,GeoCoderStatusCode::Types &status)
+    {
+        QList<UrlFactory::geoCodingStruct> ret;
+        QDomDocument doc;
+        doc.setContent(xml);
+        QDomElement docElem = doc.documentElement();
+        status=GeoCoderStatusCode::TypeByStr(docElem.elementsByTagName("status").at(0).toElement().text());
+        if(status != GeoCoderStatusCode::OK)
+            return ret;
+        QDomNodeList resultsList=docElem.elementsByTagName("result");
+        for(int ii=0;ii<resultsList.count();++ii)
+        {
+            QDomNode result=resultsList.at(ii);
+            QString address=result.namedItem("formatted_address").toElement().text();
+            QDomNode location =result.namedItem("geometry").namedItem("location");
+            double lat = location.namedItem("lat").toElement().text().toDouble();
+            double lng = location.namedItem("lng").toElement().text().toDouble();
+            geoCodingStruct temp;
+            temp.coordinates=internals::PointLatLng(lat, lng);
+            temp.address=address;
+            ret.append(temp);
+        }
+        return ret;
+    }
+
+    QByteArray UrlFactory::FetchWebRequest(QString url,QNetworkReply::NetworkError &result)
+    {
+        QNetworkReply *networkReply;
+        QNetworkRequest requestHeader;
+        QNetworkAccessManager network;
+        QEventLoop eventLoop;
+        QTimer timeoutTimer;
+        QByteArray ret;
+        timeoutTimer.setSingleShot(true);
+        connect(&network, SIGNAL(finished(QNetworkReply*)),
+                &eventLoop, SLOT(quit()));
+        connect(&timeoutTimer, SIGNAL(timeout()), &eventLoop, SLOT(quit()));
+        network.setProxy(Proxy);
+        requestHeader.setUrl(QUrl(url));
+        requestHeader.setRawHeader("User-Agent",UserAgent);
+        networkReply=network.get(requestHeader);
+        timeoutTimer.start(Timeout);
+        eventLoop.exec();
+        if(!timeoutTimer.isActive())
+        {
+            result = QNetworkReply::TimeoutError;
+            return ret;
+        }
+        timeoutTimer.stop();
+        result = networkReply->error();
+        ret = networkReply->readAll();
+        return ret;
+    }
+
+    double UrlFactory::GetElevationFromCoordinate(const internals::PointLatLng &coordinate,GeoCoderStatusCode::Types &status)
+    {
+        QNetworkReply::NetworkError netResult;
+        status = GeoCoderStatusCode::UNKNOWN_ERROR;
+        QString url = QString("http://maps.googleapis.com/maps/api/elevation/xml?locations=%0,%1&sensor=false").arg(QString::number(coordinate.Lat(), 'f', 7)).arg(QString::number(coordinate.Lng(), 'f', 7));
+        QByteArray answer = FetchWebRequest(url,netResult);
+        if(netResult != QNetworkReply::NoError)
+            return 0;
+        QDomDocument doc;
+        doc.setContent(answer);
+        qDebug()<<url<<answer;
+        QDomElement docElem = doc.documentElement();
+        status=GeoCoderStatusCode::TypeByStr(docElem.elementsByTagName("status").at(0).toElement().text());
+        if(status != GeoCoderStatusCode::OK)
+            return 0;
+        QDomNodeList resultsList=docElem.elementsByTagName("result");
+        if(resultsList.count() > 0)
+            return resultsList.at(0).namedItem("elevation").toElement().text().toDouble();
+        else
+            return 0;
     }
 }
