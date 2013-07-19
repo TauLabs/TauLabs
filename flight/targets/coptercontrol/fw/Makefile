@@ -24,14 +24,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
-TOP      := $(realpath $(WHEREAMI)/../../../../)
-include $(TOP)/make/firmware-defs.mk
-
-
-TARGET_BASE_DIR := $(realpath $(WHEREAMI)/../)
-BOARD_INFO_DIR := $(TARGET_BASE_DIR)/board-info
-
+include $(MAKE_INC_DIR)/firmware-defs.mk
 include $(BOARD_INFO_DIR)/board-info.mk
 
 # @startgroup Compile Options

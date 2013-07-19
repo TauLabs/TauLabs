@@ -61,7 +61,7 @@ MSG_PADDING          = ${quote} PADDING   $(MSG_EXTRA) ${quote}
 MSG_FLASH_IMG        = ${quote} FLASH_IMG $(MSG_EXTRA) ${quote}
 MSG_GCOV             = ${quote} GCOV      $(MSG_EXTRA) ${quote}
 
-toprel = $(subst $(realpath $(TOP))/,,$(abspath $(1)))
+toprel = $(subst $(realpath $(ROOT_DIR))/,,$(abspath $(1)))
 
 # Display compiler version information.
 .PHONY: gccversion
@@ -126,16 +126,16 @@ endef
 define TLFW_TEMPLATE
 FORCE:
 
-$(1).firmwareinfo.c: $(1) $(TOP)/make/templates/firmwareinfotemplate.c FORCE
+$(1).firmwareinfo.c: $(1) $(ROOT_DIR)/make/templates/firmwareinfotemplate.c FORCE
 	@echo $(MSG_FWINFO) $$(call toprel, $$@)
-	$(V1) python $(TOP)/make/scripts/version-info.py \
-		--path=$(TOP) \
-		--template=$(TOP)/make/templates/firmwareinfotemplate.c \
+	$(V1) python $(ROOT_DIR)/make/scripts/version-info.py \
+		--path=$(ROOT_DIR) \
+		--template=$(ROOT_DIR)/make/templates/firmwareinfotemplate.c \
 		--outfile=$$@ \
 		--image=$(1) \
 		--type=$(2) \
 		--revision=$(3) \
-		--uavodir=$(TOP)/shared/uavobjectdefinition
+		--uavodir=$(ROOT_DIR)/shared/uavobjectdefinition
 
 $(eval $(call COMPILE_C_TEMPLATE, $(1).firmwareinfo.c))
 
@@ -242,7 +242,7 @@ OOCD_EXE ?= openocd
 # debug level
 OOCD_JTAG_SETUP  = -d0
 # interface and board/target settings (using the OOCD target-library here)
-OOCD_JTAG_SETUP += -s $(TOP)/flight/Project/OpenOCD
+OOCD_JTAG_SETUP += -s $(ROOT_DIR)/flight/Project/OpenOCD
 OOCD_JTAG_SETUP += -f $(4) -f $(5)
 
 # initialize
