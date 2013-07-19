@@ -28,12 +28,10 @@ ifndef COMSPEC
 SHELL := bash
 endif
 
-WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
-TOP      := $(realpath $(WHEREAMI)/../../../)
-include $(TOP)/make/firmware-defs.mk
-include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
+include $(MAKE_INC_DIR)/firmware-defs.mk
+include $(BOARD_INFO_DIR)/board-info.mk
 
-toprel = $(subst $(realpath $(TOP))/,,$(abspath $(1)))
+toprel = $(subst $(realpath $(ROOT_DIR))/,,$(abspath $(1)))
 
 .PHONY: FORCE
 FORCE:
@@ -41,8 +39,8 @@ FORCE:
 .PHONY: bin
 bin: $(OUTDIR)/$(TARGET).bin
 
-BL_BIN := $(TOP)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
-FW_BIN := $(TOP)/build/fw_$(BOARD_NAME)/fw_$(BOARD_NAME).bin
+BL_BIN := $(ROOT_DIR)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
+FW_BIN := $(ROOT_DIR)/build/fw_$(BOARD_NAME)/fw_$(BOARD_NAME).bin
 FWINFO_BIN := $(FW_BIN).firmwareinfo.bin
 
 # force this target as FW_PRE_PAD could have been changed without us knowing
