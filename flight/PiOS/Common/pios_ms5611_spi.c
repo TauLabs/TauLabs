@@ -178,7 +178,6 @@ int32_t PIOS_MS5611_SPI_Init(uint32_t spi_id, uint32_t slave_num, const struct p
  * Claim the MS5611 device semaphore
  * \return 0 if no error
  * \return -1 if timeout before claiming semaphore
- * \return -2 if failed to claim SPI bus
  */
 static int32_t PIOS_MS5611_ClaimDevice(void)
 {
