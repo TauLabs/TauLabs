@@ -151,7 +151,7 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     // **************
     // create the central map widget
 
-    m_map = new mapcontrol::OPMapWidget();	// create the map object
+    m_map = new mapcontrol::TLMapWidget();	// create the map object
 
     m_map->setFrameStyle(QFrame::NoFrame);      // no border frame
     m_map->setBackgroundBrush(QBrush(Utils::StyleHelper::baseColor())); // tile background
@@ -1095,12 +1095,17 @@ void OPMapGadgetWidget::setPosition(QPointF pos)
 
     m_map->SetCurrentPosition(internals::PointLatLng(latitude, longitude));
 }
+void OPMapGadgetWidget::setGeoCodingLanguage(QString language)
+{
+    if (!m_widget || !m_map)
+        return;
+    m_map->configuration->SetLanguage(mapcontrol::Helper::LanguageTypeFromString(language));
+}
 
 void OPMapGadgetWidget::setMapProvider(QString provider)
 {
 	if (!m_widget || !m_map)
 		return;
-//
     m_map->SetMapType(mapcontrol::Helper::MapTypeFromString(provider));
 }
 
@@ -2186,8 +2191,8 @@ void OPMapGadgetWidget::on_tbFind_clicked()
 {
     QPalette pal = m_widget->leFind->palette();
 
-    int result=m_map->SetCurrentPositionByKeywords(m_widget->leFind->text());
-    if(result==core::GeoCoderStatusCode::G_GEO_SUCCESS)
+    GeoCoderStatusCode::Types result=m_map->SetCurrentPositionByKeywords(m_widget->leFind->text());
+    if(result==core::GeoCoderStatusCode::OK)
     {
         pal.setColor( m_widget->leFind->backgroundRole(), Qt::green);
         m_widget->leFind->setPalette(pal);

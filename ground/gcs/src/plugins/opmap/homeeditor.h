@@ -29,7 +29,7 @@
 #define HOMEEDITOR_H
 
 #include <QDialog>
-#include "opmapcontrol/opmapcontrol.h"
+#include "tlmapcontrol/tlmapcontrol.h"
 
 using namespace mapcontrol;
 
