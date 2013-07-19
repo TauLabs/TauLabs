@@ -94,11 +94,15 @@ enum pios_hmc5883_sensitivity {
 	PIOS_HMC5883_Sensitivity_8_1Ga  = 230, // LSB/Ga  --> NOT RECOMMENDED
 };
 
-enum pios_hmc5883_orientation { // clockwise rotation from board forward
+enum pios_hmc5883_orientation {
+	// clockwise rotation from board forward while looking at top side
+	// 0 degree is chip mark on upper left corner
 	PIOS_HMC5883_TOP_0DEG,
 	PIOS_HMC5883_TOP_90DEG,
 	PIOS_HMC5883_TOP_180DEG,
 	PIOS_HMC5883_TOP_270DEG,
+	// clockwise rotation from board forward while looking at bottom side
+	// 0 degree is chip mark on upper left corner
 	PIOS_HMC5883_BOTTOM_0DEG,
 	PIOS_HMC5883_BOTTOM_90DEG,
 	PIOS_HMC5883_BOTTOM_180DEG,
