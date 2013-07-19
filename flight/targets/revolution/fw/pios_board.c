@@ -49,7 +49,7 @@
  */
 
 #if defined(PIOS_INCLUDE_HMC5883)
-#include "pios_hmc5883.h"
+#include "pios_hmc5883_priv.h"
 static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
 	.vector = PIOS_HMC5883_IRQHandler,
 	.line = EXTI_Line5,
@@ -87,7 +87,7 @@ static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
 	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
 	.Gain = PIOS_HMC5883_GAIN_1_9,
 	.Mode = PIOS_HMC5883_MODE_CONTINUOUS,
-	.orientation = PIOS_HMC5883_TOP_270DEG,
+	.Default_Orientation = PIOS_HMC5883_TOP_270DEG,
 };
 #endif /* PIOS_INCLUDE_HMC5883 */
 

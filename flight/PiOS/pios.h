@@ -132,9 +132,6 @@
 #if defined(PIOS_INCLUDE_HMC5843)
 #include <pios_hmc5843.h>
 #endif
-#if defined(PIOS_INCLUDE_HMC5883)
-#include <pios_hmc5883.h>
-#endif
 #if defined(PIOS_INCLUDE_HMC5983)
 #include <pios_hmc5983.h>
 #endif

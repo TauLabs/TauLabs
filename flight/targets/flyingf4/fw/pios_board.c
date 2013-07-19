@@ -50,51 +50,13 @@
  */
 
 #if defined(PIOS_INCLUDE_HMC5883)
-#include "pios_hmc5883.h"
-// TODO: assign a pin for this and enable PIOS_HMC5883_HAS_GPIOS
-#ifdef PIOS_HMC5883_HAS_GPIOS
-static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
-	.vector = PIOS_HMC5883_IRQHandler,
-	.line = EXTI_Line1,
-	.pin = {
-		.gpio = GPIOC,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_1,
-			.GPIO_Speed = GPIO_Speed_100MHz,
-			.GPIO_Mode = GPIO_Mode_IN,
-			.GPIO_OType = GPIO_OType_OD,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL,
-		},
-	},
-	.irq = {
-		.init = {
-			.NVIC_IRQChannel = EXTI1_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
-			.NVIC_IRQChannelSubPriority = 0,
-			.NVIC_IRQChannelCmd = ENABLE,
-		},
-	},
-	.exti = {
-		.init = {
-			.EXTI_Line = EXTI_Line1, // matches above GPIO pin
-			.EXTI_Mode = EXTI_Mode_Interrupt,
-			.EXTI_Trigger = EXTI_Trigger_Rising,
-			.EXTI_LineCmd = ENABLE,
-		},
-	},
-};
-#endif
-
-static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
-#ifdef PIOS_HMC5883_HAS_GPIOS
-	.exti_cfg = &pios_exti_hmc5883_cfg,
-#endif
+#include "pios_hmc5883_priv.h"
+static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
 	.M_ODR = PIOS_HMC5883_ODR_75,
 	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
 	.Gain = PIOS_HMC5883_GAIN_1_9,
-	.Mode = PIOS_HMC5883_MODE_CONTINUOUS,
-	.orientation = PIOS_HMC5883_TOP_90DEG,
-
+	.Mode = PIOS_HMC5883_MODE_SINGLE,
+	.Default_Orientation = PIOS_HMC5883_TOP_0DEG,
 };
 #endif /* PIOS_INCLUDE_HMC5883 */
 
@@ -510,6 +472,9 @@ void PIOS_Board_Init(void) {
 	uint8_t hw_DSMxBind;
 	HwFlyingF4DSMxBindGet(&hw_DSMxBind);
 
+	/* init sensor queue registration */
+	PIOS_SENSORS_Init();
+
 	/* UART1 Port */
 	uint8_t hw_uart1;
 	HwFlyingF4Uart1Get(&hw_uart1);
@@ -801,8 +766,6 @@ void PIOS_Board_Init(void) {
 	PIOS_DELAY_WaitmS(200);
 	PIOS_WDG_Clear();
 
-	PIOS_SENSORS_Init();
-
 #if defined(PIOS_INCLUDE_I2C)
 	if (PIOS_I2C_Init(&pios_i2c_10dof_adapter_id, &pios_i2c_10dof_adapter_cfg)) {
 		PIOS_DEBUG_Assert(0);
@@ -887,20 +850,46 @@ void PIOS_Board_Init(void) {
 	PIOS_DELAY_WaitmS(50);
 	PIOS_WDG_Clear();
 
-	if (PIOS_I2C_CheckClear(PIOS_I2C_MAIN_ADAPTER) != 0)
+	if (PIOS_I2C_CheckClear(pios_i2c_10dof_adapter_id) != 0)
 		panic(6);
 
 #if defined(PIOS_INCLUDE_HMC5883)
-	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
-	if (PIOS_HMC5883_Test() != 0)
-		panic(3);
+	{
+		uint8_t Magnetometer;
+		HwFlyingF4MagnetometerGet(&Magnetometer);
+
+		if (Magnetometer == HWFLYINGF4_MAGNETOMETER_EXTERNALI2C) {
+
+			if (PIOS_HMC5883_Init(pios_i2c_10dof_adapter_id, &pios_hmc5883_external_cfg) != 0)
+				panic(3);
+			if (PIOS_HMC5883_Test() != 0)
+				panic(3);
+
+			// setup sensor orientation
+			uint8_t ExtMagOrientation;
+			HwFlyingF4ExtMagOrientationGet(&ExtMagOrientation);
+
+			enum pios_hmc5883_orientation hmc5883_orientation = \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP0DEGCW) ? PIOS_HMC5883_TOP_0DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP90DEGCW) ? PIOS_HMC5883_TOP_90DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP180DEGCW) ? PIOS_HMC5883_TOP_180DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP270DEGCW) ? PIOS_HMC5883_TOP_270DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM0DEGCW) ? PIOS_HMC5883_BOTTOM_0DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM90DEGCW) ? PIOS_HMC5883_BOTTOM_90DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM180DEGCW) ? PIOS_HMC5883_BOTTOM_180DEG : \
+				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM270DEGCW) ? PIOS_HMC5883_BOTTOM_270DEG : \
+				pios_hmc5883_external_cfg.Default_Orientation;
+			PIOS_HMC5883_SetOrientation(hmc5883_orientation);
+		}
+	}
 #endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
 	PIOS_WDG_Clear();
 
 #if defined(PIOS_INCLUDE_MS5611)
-	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_10dof_adapter_id);
+	if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_10dof_adapter_id) != 0)
+		panic(4);
 	if (PIOS_MS5611_Test() != 0)
 		panic(4);
 #endif
