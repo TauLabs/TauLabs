@@ -470,25 +470,32 @@ astyle_clean:
 
 
 # Set up libkml
-LIBKML_DIR := $(TOOLS_DIR)/libkml-1.2.0
-LIBKML_BUILD_DIR := $(DL_DIR)/libkml-1.2.0
 
 .PHONY: libkml_install
 libkml_install: | $(DL_DIR) $(TOOLS_DIR)
-libkml_install: LIBKML_URL := http://libkml.googlecode.com/files/libkml-1.2.0.tar.gz
-libkml_install: LIBKML_FILE := $(notdir $(LIBKML_URL))
+libkml_install: LIBKML_URL := https://github.com/kubark42/libkml.git
+libkml_install: LIBKML_REV  := dac5550be5180111c8db7be6b73c83831e8f59e1
+libkml_install: LIBKML_INSTALL_DIR := $(TOOLS_DIR)/libkml
+libkml_install: LIBKML_BUILD_DIR := $(DL_DIR)/libkml-build
 libkml_install: libkml_clean
         # download the source
-	$(V0) @echo " DOWNLOAD     $(LIBKML_URL)"
-	$(V1) wget --continue  -P "$(DL_DIR)" "$(LIBKML_URL)"
-	$(V1) tar -C $(DL_DIR) -xzf "$(DL_DIR)/$(LIBKML_FILE)"
+	$(V0) @echo " DOWNLOAD     $(LIBKML_URL) @ $(OPENOCD_REV)"
+	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -rf "$(LIBKML_BUILD_DIR)"
+	$(V1) mkdir -p "$(LIBKML_BUILD_DIR)"
+	$(V1) git clone --no-checkout $(LIBKML_URL) "$(LIBKML_BUILD_DIR)"
+	$(V1) ( \
+	  cd $(LIBKML_BUILD_DIR) ; \
+	  git checkout -q $(LIBKML_REV) ; \
+	)
 
         # build and install
-	$(V0) @echo " BUILD        $(LIBKML_DIR)"
+	$(V0) @echo " BUILD        $(LIBKML_INSTALL_DIR)"
 	$(V1) mkdir -p "$(LIBKML_BUILD_DIR)/build"
 	$(V1) ( \
+	  cd $(LIBKML_BUILD_DIR) ; \
+	  ./autogen.sh ; \
 	  cd $(LIBKML_BUILD_DIR)/build ; \
-	  ../configure --prefix="$(LIBKML_DIR)"; \
+	  ../configure --prefix="$(LIBKML_INSTALL_DIR)"; \
 	  make ; \
 	  make install ; \
 	)
@@ -498,7 +505,7 @@ libkml_install: libkml_clean
 
 .PHONY: libkml_clean
 libkml_clean:
-	$(V0) @echo " CLEAN        $(LIBKML_DIR)"
-	$(V1) [ ! -d "$(LIBKML_DIR)" ] || $(RM) -r "$(LIBKML_DIR)"
+	$(V0) @echo " CLEAN        $(LIBKML_INSTALL_DIR)"
+	$(V1) [ ! -d "$(LIBKML_INSTALL_DIR)" ] || $(RM) -r "$(LIBKML_INSTALL_DIR)"
 	$(V0) @echo " CLEAN        $(LIBKML_BUILD_DIR)"
 	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -r "$(LIBKML_BUILD_DIR)"
