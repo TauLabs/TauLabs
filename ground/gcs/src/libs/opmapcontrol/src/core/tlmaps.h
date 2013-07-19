@@ -49,15 +49,15 @@
 #include "../internals/projections/platecarreeprojectionpergo.h"
 
 namespace core {
-    class OPMaps: public MemoryCache,public AllLayersOfType,public UrlFactory
+    class TLMaps: public MemoryCache,public AllLayersOfType,public UrlFactory
     {
 
 
     public:
 
-        ~OPMaps();
+        ~TLMaps();
 
-        static OPMaps* Instance();
+        static TLMaps* Instance();
         bool ImportFromGMDB(const QString &file);
         bool ExportToGMDB(const QString &file);
         /// <summary>
@@ -75,18 +75,16 @@ namespace core {
         void setAccessMode(const AccessMode::Types& mode){accessmode=mode;}
         int RetryLoadTile;
         diagnostics GetDiagnostics();
-
-    private:
         bool useMemoryCache;
         LanguageType::Types Language;
         AccessMode::Types accessmode;
         //  PureImageCache ImageCacheLocal;//TODO Criar acesso Get Set
         TileCacheQueue TileDBcacheQueue;
-        OPMaps();
-        OPMaps(const OPMaps &)  : MemoryCache(), AllLayersOfType(), UrlFactory() {}
+        TLMaps();
+        TLMaps(const TLMaps &)  : MemoryCache(), AllLayersOfType(), UrlFactory() {}
 
-        OPMaps& operator=(OPMaps const&){ return *this; }
-        static OPMaps* m_pInstance;
+        TLMaps& operator=(TLMaps const&){ return *this; }
+        static TLMaps* m_pInstance;
         diagnostics diag;
         QMutex errorvars;
         quint8 lastZoom;
@@ -94,11 +92,6 @@ namespace core {
         int quadCoordBottom;
         QImage imScaled;
         int leastCommonZoom;
-    protected:
-        // MemoryCache TilesInMemory;
-
-
-
     };
 
 }

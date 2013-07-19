@@ -152,17 +152,16 @@ namespace mapcontrol
         static QStringList UAVTrailTypes(){return UAVTrailType::TypesList();}
     };
 
-    class OPMapWidget:public QGraphicsView
+    class TLMapWidget:public QGraphicsView
     {
         Q_OBJECT
 
-        // Q_PROPERTY(int MaxZoom READ MaxZoom WRITE SetMaxZoom)
         Q_PROPERTY(int MinZoom READ MinZoom WRITE SetMinZoom)
-                Q_PROPERTY(bool ShowTileGridLines READ ShowTileGridLines WRITE SetShowTileGridLines)
-                Q_PROPERTY(double Zoom READ ZoomTotal WRITE SetZoom)
-                Q_PROPERTY(qreal Rotate READ Rotate WRITE SetRotate)
-                Q_ENUMS(internals::MouseWheelZoomType::Types)
-                Q_ENUMS(internals::GeoCoderStatusCode::Types)
+        Q_PROPERTY(bool ShowTileGridLines READ ShowTileGridLines WRITE SetShowTileGridLines)
+        Q_PROPERTY(double Zoom READ ZoomTotal WRITE SetZoom)
+        Q_PROPERTY(qreal Rotate READ Rotate WRITE SetRotate)
+        Q_ENUMS(internals::MouseWheelZoomType::Types)
+        Q_ENUMS(internals::GeoCoderStatusCode::Types)
 
     public:
                 QSize sizeHint() const;
@@ -173,8 +172,8 @@ namespace mapcontrol
         * @param config pointer to configuration classed to be used
         * @return
         */
-        OPMapWidget(QWidget *parent=0,Configuration *config=new Configuration);
-        ~OPMapWidget();
+        TLMapWidget(QWidget *parent=0,Configuration *config=new Configuration);
+        ~TLMapWidget();
 
         /**
         * @brief Returns true if map is showing gridlines

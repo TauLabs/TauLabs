@@ -107,7 +107,7 @@ void MapRipper::finish()
         int countOk = 0;
         bool goodtile=false;
         //  Stuff.Shuffle<Point>(ref list);
-        QVector<core::MapType::Types> types = OPMaps::Instance()->GetAllLayersOfType(type);
+        QVector<core::MapType::Types> types = TLMaps::Instance()->GetAllLayersOfType(type);
         int all=points.count();
         for(int i = 0; i < all; i++)
         {
@@ -121,7 +121,7 @@ void MapRipper::finish()
                 foreach(core::MapType::Types type,types)
                 {
                     emit providerChanged(core::MapType::StrByType(type),zoom);
-                    QByteArray img = OPMaps::Instance()->GetImageFromServer(type, p, zoom);
+                    QByteArray img = TLMaps::Instance()->GetImageFromServer(type, p, zoom);
                     if(img.length()!=0)
                     {
                         goodtile=true;

@@ -1,6 +1,6 @@
 #ifndef OPMAP_CONTROL_H_
 #define OPMAP_CONTROL_H_
-#include "src/mapwidget/opmapwidget.h"
+#include "src/mapwidget/tlmapwidget.h"
 namespace mapcontrol
 {
     struct customData

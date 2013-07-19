@@ -26,13 +26,13 @@
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include "opmapwidget.h"
+#include "tlmapwidget.h"
 #include "waypointitem.h"
 #include "gpsitem.h"
 
 namespace mapcontrol
 {
-    GPSItem::GPSItem(MapGraphicItem *map, OPMapWidget *parent, QString uavPic) :
+    GPSItem::GPSItem(MapGraphicItem *map, TLMapWidget *parent, QString uavPic) :
         mapwidget(parent),
         showtrail(true),
         showtrailline(true),

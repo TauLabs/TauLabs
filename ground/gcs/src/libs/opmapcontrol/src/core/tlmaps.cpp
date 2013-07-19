@@ -24,7 +24,7 @@
 * with this program; if not, write to the Free Software Foundation, Inc., 
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#include "opmaps.h"
+#include "tlmaps.h"
 #include "extensionsystem/pluginmanager.h"
 #include "utils/coordinateconversions.h"
 #include "QDebug"
@@ -35,15 +35,15 @@
 using namespace projections;
 
 namespace core {
-    OPMaps* OPMaps::m_pInstance=0;
+    TLMaps* TLMaps::m_pInstance=0;
 
-    OPMaps* OPMaps::Instance()
+    TLMaps* TLMaps::Instance()
     {
         if(!m_pInstance)
-            m_pInstance=new OPMaps;
+            m_pInstance=new TLMaps;
         return m_pInstance;
     }
-    OPMaps::OPMaps():
+    TLMaps::TLMaps():
         RetryLoadTile(2),useMemoryCache(true),lastZoom(0),quadCoordRight(0),quadCoordBottom(0)
     {
         accessmode=AccessMode::ServerAndCache;
@@ -54,7 +54,7 @@ namespace core {
     }
 
 
-    OPMaps::~OPMaps()
+    TLMaps::~TLMaps()
     {
         TileDBcacheQueue.wait();
     }
@@ -70,7 +70,7 @@ namespace core {
      * @param projection Projection type for the map
      * @return
      */
-    QByteArray OPMaps::GetImageFromFile(const MapType::Types &type,const core::Point &pos,const int &zoom, double hScale, double vScale, QString userImageFileName, internals::PureProjection *projection)
+    QByteArray TLMaps::GetImageFromFile(const MapType::Types &type,const core::Point &pos,const int &zoom, double hScale, double vScale, QString userImageFileName, internals::PureProjection *projection)
     {
 
 
@@ -295,7 +295,7 @@ namespace core {
      * @param zoom Quadtile zoom level
      * @return
      */
-    QByteArray OPMaps::GetImageFromServer(const MapType::Types &type,const Point &pos,const int &zoom)
+    QByteArray TLMaps::GetImageFromServer(const MapType::Types &type,const Point &pos,const int &zoom)
     {
 
 #ifdef DEBUG_TIMINGS
@@ -451,9 +451,9 @@ namespace core {
                     default:
                         break;
                     }
-
+#ifdef DEBUG_GMAPS
                     qDebug() << "qheader: " << qheader.url();
-
+#endif //DEBUG_GMAPS
                     reply=network.get(qheader);
                     tT.start(Timeout);
                     q.exec();
@@ -522,16 +522,16 @@ namespace core {
         return ret;
     }
 
-    bool OPMaps::ExportToGMDB(const QString &file)
+    bool TLMaps::ExportToGMDB(const QString &file)
     {
         return Cache::Instance()->ImageCache.ExportMapDataToDB(Cache::Instance()->ImageCache.GtileCache()+QDir::separator()+"Data.qmdb",file);
     }
-    bool OPMaps::ImportFromGMDB(const QString &file)
+    bool TLMaps::ImportFromGMDB(const QString &file)
     {
         return Cache::Instance()->ImageCache.ExportMapDataToDB(file,Cache::Instance()->ImageCache.GtileCache()+QDir::separator()+"Data.qmdb");
     }
 
-    diagnostics OPMaps::GetDiagnostics()
+    diagnostics TLMaps::GetDiagnostics()
     {
         diagnostics i;
         errorvars.lock();

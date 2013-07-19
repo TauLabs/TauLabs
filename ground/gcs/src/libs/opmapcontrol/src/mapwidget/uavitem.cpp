@@ -26,7 +26,7 @@
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include "opmapwidget.h"
+#include "tlmapwidget.h"
 #include <math.h>
 
 #include "uavitem.h"
@@ -37,7 +37,7 @@ namespace mapcontrol
 
     double UAVItem::groundspeed_mps_filt = 0;
 
-    UAVItem::UAVItem(MapGraphicItem *map, OPMapWidget *parent, QString uavPic) :
+    UAVItem::UAVItem(MapGraphicItem *map, TLMapWidget *parent, QString uavPic) :
         mapwidget(parent),
         showtrail(true),
         showtrailline(true),

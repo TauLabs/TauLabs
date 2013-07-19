@@ -39,22 +39,22 @@ Configuration::Configuration()
 }
 void Configuration::SetAccessMode(core::AccessMode::Types const& type)
 {
-    core::OPMaps::Instance()->setAccessMode(type);
+    core::TLMaps::Instance()->setAccessMode(type);
 }
 core::AccessMode::Types Configuration::AccessMode()
 {
-    return core::OPMaps::Instance()->GetAccessMode();
+    return core::TLMaps::Instance()->GetAccessMode();
 }
 void Configuration::SetLanguage(core::LanguageType::Types const& type)
 {
-    core::OPMaps::Instance()->setLanguage(type);
+    core::TLMaps::Instance()->setLanguage(type);
 }
 core::LanguageType::Types Configuration::Language()
 {
-    return core::OPMaps::Instance()->GetLanguage();
+    return core::TLMaps::Instance()->GetLanguage();
 }
 void Configuration::SetUseMemoryCache(bool const& value)
 {
-    core::OPMaps::Instance()->setUseMemoryCache(value);
+    core::TLMaps::Instance()->setUseMemoryCache(value);
 }
 }

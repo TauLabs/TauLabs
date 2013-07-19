@@ -26,12 +26,12 @@
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include "opmapwidget.h"
+#include "tlmapwidget.h"
 
 #include "homeitem.h"
 namespace mapcontrol
 {
-    HomeItem::HomeItem(MapGraphicItem* map, OPMapWidget* parent):
+    HomeItem::HomeItem(MapGraphicItem* map, TLMapWidget* parent):
         safe(true),
         mapwidget(parent),
         showsafearea(true),

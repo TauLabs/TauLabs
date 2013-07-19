@@ -36,7 +36,7 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QFileDialog>
 
-#include "opmapcontrol/opmapcontrol.h"
+#include "tlmapcontrol/tlmapcontrol.h"
 #include "utils/pathutils.h"
 #include "ui_opmapgadgetoptionspage.h"
 

@@ -44,7 +44,7 @@ namespace internals {
         dragPoint=Point(0,0);
         CanDragMap=true;
         tilesToload=0;
-        OPMaps::Instance();
+        TLMaps::Instance();
     }
     Core::~Core()
     {
@@ -84,7 +84,7 @@ namespace internals {
         MtileLoadQueue.unlock();
 
         if(task.HasValue())
-            if(loaderLimit.tryAcquire(1,OPMaps::Instance()->Timeout))
+            if(loaderLimit.tryAcquire(1,TLMaps::Instance()->Timeout))
             {
             MtileToload.lock();
             --tilesToload;
@@ -108,7 +108,7 @@ namespace internals {
 #endif //DEBUG_CORE
 
                         Tile* t = new Tile(task.Zoom, task.Pos);
-                        QVector<MapType::Types> layers= OPMaps::Instance()->GetAllLayersOfType(GetMapType());
+                        QVector<MapType::Types> layers= TLMaps::Instance()->GetAllLayersOfType(GetMapType());
 
                         foreach(MapType::Types tl,layers)
                         {
@@ -121,18 +121,18 @@ namespace internals {
                                 // tile number inversion(BottomLeft -> TopLeft) for pergo maps
                                 if(tl == MapType::PergoTurkeyMap)
                                 {
-                                    tileImage = OPMaps::Instance()->GetImageFromServer(tl, Point(task.Pos.X(), maxOfTiles.Height() - task.Pos.Y()), task.Zoom);
+                                    tileImage = TLMaps::Instance()->GetImageFromServer(tl, Point(task.Pos.X(), maxOfTiles.Height() - task.Pos.Y()), task.Zoom);
                                 }
                                 else if(tl == MapType::UserImage)
                                 {
-                                    tileImage = OPMaps::Instance()->GetImageFromFile(tl, task.Pos, task.Zoom, userImageHorizontalScale, userImageVerticalScale, userImageLocation, Projection());
+                                    tileImage = TLMaps::Instance()->GetImageFromFile(tl, task.Pos, task.Zoom, userImageHorizontalScale, userImageVerticalScale, userImageLocation, Projection());
                                 }
                                 else // ok
                                 {
 #ifdef DEBUG_CORE
                                     qDebug()<<"start getting image"<<" ID="<<debug;
 #endif //DEBUG_CORE
-                                    tileImage = OPMaps::Instance()->GetImageFromServer(tl, task.Pos, task.Zoom);
+                                    tileImage = TLMaps::Instance()->GetImageFromServer(tl, task.Pos, task.Zoom);
 #ifdef DEBUG_CORE
                                     qDebug()<<"Core::run:gotimage size:"<<tileImage.count()<<" ID="<<debug;
 #endif //DEBUG_CORE
@@ -152,7 +152,7 @@ namespace internals {
 
                                     break;
                                 }
-                                else if(OPMaps::Instance()->RetryLoadTile > 0)
+                                else if(TLMaps::Instance()->RetryLoadTile > 0)
                                 {
 #ifdef DEBUG_CORE
                                     qDebug()<<"ProcessLoadTask: " << task.ToString()<< " -> empty tile, retry " << retry<<" ID="<<debug;;
@@ -165,7 +165,7 @@ namespace internals {
                                     }
                                 }
                             }
-                            while((++retry < OPMaps::Instance()->RetryLoadTile) && (tl == MapType::UserImage));
+                            while((++retry < TLMaps::Instance()->RetryLoadTile) && (tl == MapType::UserImage));
                         }
 
                         if(t->Overlays.count() > 0)
@@ -196,9 +196,9 @@ namespace internals {
                     // last buddy cleans stuff ;}
                     if(last)
                     {
-                        OPMaps::Instance()->kiberCacheLock.lockForWrite();
-                        OPMaps::Instance()->TilesInMemory.RemoveMemoryOverload();
-                        OPMaps::Instance()->kiberCacheLock.unlock();
+                        TLMaps::Instance()->kiberCacheLock.lockForWrite();
+                        TLMaps::Instance()->TilesInMemory.RemoveMemoryOverload();
+                        TLMaps::Instance()->kiberCacheLock.unlock();
 
                         MtileDrawingList.lock();
                         {
@@ -231,7 +231,7 @@ namespace internals {
     diagnostics Core::GetDiagnostics()
     {
         MrunningThreads.lock();
-        diag=OPMaps::Instance()->GetDiagnostics();
+        diag=TLMaps::Instance()->GetDiagnostics();
         diag.runningThreads=runningThreads;
         MrunningThreads.unlock();
         return diag;
@@ -444,31 +444,36 @@ namespace internals {
     }
     void Core::OnMapClose()
     {
-        //        if(waitOnEmptyTasks != null)
-        //        {
-        //           try
-        //           {
-        //              waitOnEmptyTasks.Set();
-        //              waitOnEmptyTasks.Close();
-        //           }
-        //           catch
-        //           {
-        //           }
-        //        }
-
         CancelAsyncTasks();
     }
+
+    QList<UrlFactory::geoCodingStruct> Core::GetAddressesFromCoordinates(PointLatLng coord,GeoCoderStatusCode::Types &status)
+    {
+        return TLMaps::Instance()->GetPlacemarkFromGeocoder(coord,status,LanguageType().toShortString(TLMaps::Instance()->GetLanguage()));
+    }
+
+    QList<UrlFactory::geoCodingStruct> Core::GetCoordinatesFromAddress(QString const &address,GeoCoderStatusCode::Types &status)
+    {
+        return TLMaps::Instance()->GetLatLngFromGeodecoder(address,status,LanguageType().toShortString(TLMaps::Instance()->GetLanguage()));
+    }
+
+    double Core::GetElevationFromCoordinates(PointLatLng coord,GeoCoderStatusCode::Types &status)
+    {
+        return TLMaps::Instance()->GetElevationFromCoordinate(coord,status);
+    }
+
     GeoCoderStatusCode::Types Core::SetCurrentPositionByKeywords(QString const& keys)
     {
-        GeoCoderStatusCode::Types status = GeoCoderStatusCode::Unknow;
-        PointLatLng pos = OPMaps::Instance()->GetLatLngFromGeodecoder(keys, status);
-        if(!pos.IsEmpty() && (status == GeoCoderStatusCode::G_GEO_SUCCESS))
+        GeoCoderStatusCode::Types status = GeoCoderStatusCode::UNKNOWN_ERROR;
+        QList <UrlFactory::geoCodingStruct> ret=TLMaps::Instance()->GetLatLngFromGeodecoder(keys, status,LanguageType().toShortString(TLMaps::Instance()->GetLanguage()));
+        if((ret.length() > 0) && (status == GeoCoderStatusCode::OK))
         {
+            PointLatLng pos = ret.at(0).coordinates;
             SetCurrentPosition(pos);
         }
-
         return status;
     }
+
     RectLatLng Core::CurrentViewArea()
     {
         PointLatLng p = Projection()->FromPixelToLatLng(-renderOffset.X(), -renderOffset.Y(), Zoom());

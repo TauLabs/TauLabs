@@ -39,7 +39,7 @@
 namespace mapcontrol
 {
     class WayPointItem;
-    class OPMapWidget;
+    class TLMapWidget;
     /**
 * @brief A QGraphicsItem representing the UAV
 *
@@ -52,7 +52,7 @@ namespace mapcontrol
 
     public:
         enum { Type = UserType + TYPE_GPSITEM };
-        GPSItem(MapGraphicItem* map,OPMapWidget* parent, QString uavPic=QString::fromUtf8(":/uavs/images/mapquad.png"));
+        GPSItem(MapGraphicItem* map,TLMapWidget* parent, QString uavPic=QString::fromUtf8(":/uavs/images/mapquad.png"));
         ~GPSItem();
         /**
         * @brief Sets the UAV position
@@ -190,7 +190,7 @@ namespace mapcontrol
         internals::PointLatLng lastcoord;
         QPixmap pic;
         core::Point localposition;
-        OPMapWidget* mapwidget;
+        TLMapWidget* mapwidget;
         QGraphicsItemGroup* trail;
         QGraphicsItemGroup * trailLine;
         internals::PointLatLng lasttrailline;

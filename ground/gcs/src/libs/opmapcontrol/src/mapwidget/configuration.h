@@ -32,7 +32,7 @@
 #include <QPen>
 #include <QString>
 #include <QFont>
-#include "../core/opmaps.h"
+#include "../core/tlmaps.h"
 #include "../core/accessmode.h"
 #include "../core/cache.h"
 namespace mapcontrol
@@ -129,14 +129,14 @@ public:
     *
     * @return
     */
-    bool UseMemoryCache(){return core::OPMaps::Instance()->UseMemoryCache();}
+    bool UseMemoryCache(){return core::TLMaps::Instance()->UseMemoryCache();}
 
     /**
     * @brief  Returns the currently used memory for tiles
     *
     * @return
     */
-    double TileMemoryUsed()const{return core::OPMaps::Instance()->TilesInMemory.MemoryCacheSize();}
+    double TileMemoryUsed()const{return core::TLMaps::Instance()->TilesInMemory.MemoryCacheSize();}
 
     /**
     * @brief  Sets the size of the memory for tiles
@@ -144,7 +144,7 @@ public:
     * @param  value size in Mb to use for tiles
     * @return
     */
-    void SetTileMemorySize(int const& value){core::OPMaps::Instance()->TilesInMemory.setMemoryCacheCapacity(value);}
+    void SetTileMemorySize(int const& value){core::TLMaps::Instance()->TilesInMemory.setMemoryCacheCapacity(value);}
 
     /**
     * @brief Sets the location for the SQLite Database used for caching and the geocoding cache files

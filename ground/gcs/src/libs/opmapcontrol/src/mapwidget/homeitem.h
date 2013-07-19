@@ -40,7 +40,7 @@ namespace mapcontrol
         Q_INTERFACES(QGraphicsItem)
     public:
         enum { Type = UserType + TYPE_HOMEITEM };
-        HomeItem(MapGraphicItem* map,OPMapWidget* parent);
+        HomeItem(MapGraphicItem* map,TLMapWidget* parent);
         void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                     QWidget *widget);
         QRectF boundingRect() const;
@@ -56,7 +56,7 @@ namespace mapcontrol
         void RefreshToolTip();
     private:
 
-        OPMapWidget* mapwidget;
+        TLMapWidget* mapwidget;
         QPixmap pic;
         core::Point localposition;
         internals::PointLatLng coord;

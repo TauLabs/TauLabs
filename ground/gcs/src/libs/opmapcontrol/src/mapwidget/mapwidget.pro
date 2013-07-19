@@ -5,7 +5,6 @@ include(../../../../taulabslibrary.pri)
 
 # DESTDIR = ../build
 SOURCES += mapgraphicitem.cpp \
-    opmapwidget.cpp \
     configuration.cpp \
     mappointitem.cpp \
     waypointitem.cpp \
@@ -18,7 +17,8 @@ SOURCES += mapgraphicitem.cpp \
     traillineitem.cpp \
     mapline.cpp \
     mapcircle.cpp \
-    waypointcurve.cpp
+    waypointcurve.cpp \
+    tlmapwidget.cpp
 
 LIBS += -L../build \
     -lcore \
@@ -32,7 +32,6 @@ POST_TARGETDEPS  += ../build/libcore.a
 POST_TARGETDEPS  += ../build/libinternals.a
 
 HEADERS += mapgraphicitem.h \
-    opmapwidget.h \
     configuration.h \
     mappointitem.h \
     waypointitem.h \
@@ -47,11 +46,13 @@ HEADERS += mapgraphicitem.h \
     traillineitem.h \
     mapline.h \
     mapcircle.h \
-    waypointcurve.h
+    waypointcurve.h \
+    tlmapwidget.h
 QT += opengl
 QT += network
 QT += sql
 QT += svg
+QT += xml
 RESOURCES += mapresources.qrc
 
 FORMS += \

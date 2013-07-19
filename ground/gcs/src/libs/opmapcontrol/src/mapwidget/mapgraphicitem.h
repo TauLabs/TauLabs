@@ -42,7 +42,7 @@
 namespace mapcontrol
 {
     class WayPointItem;
-    class OPMapWidget;
+    class TLMapWidget;
     /**
     * @brief The main graphicsItem used on the widget, contains the map and map logic
     *
@@ -50,7 +50,7 @@ namespace mapcontrol
     */
     class MapGraphicItem:public QObject,public QGraphicsItem
     {
-        friend class mapcontrol::OPMapWidget;
+        friend class mapcontrol::TLMapWidget;
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)
     public:

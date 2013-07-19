@@ -39,7 +39,7 @@
 namespace mapcontrol
 {
     class WayPointItem;
-    class OPMapWidget;
+    class TLMapWidget;
     /**
 * @brief A QGraphicsItem representing the UAV
 *
@@ -52,7 +52,7 @@ namespace mapcontrol
 
     public:
         enum { Type = UserType + TYPE_UAVITEM };
-        UAVItem(MapGraphicItem* map,OPMapWidget* parent, QString uavPic=QString::fromUtf8(":/uavs/images/mapquad.png"));
+        UAVItem(MapGraphicItem* map,TLMapWidget* parent, QString uavPic=QString::fromUtf8(":/uavs/images/mapquad.png"));
         ~UAVItem();
 
         /**
@@ -213,7 +213,7 @@ namespace mapcontrol
         void updateTextOverlay();
     private:
         void generateArrowhead();
-        OPMapWidget* mapwidget;
+        TLMapWidget* mapwidget;
         QPolygonF arrowHead;
         QLineF arrowShaft;
         UAVMapFollowType::Types mapfollowtype;

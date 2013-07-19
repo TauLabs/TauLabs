@@ -48,7 +48,7 @@
 #include "projections/platecarreeprojection.h"
 #include "projections/platecarreeprojectionpergo.h"
 #include "../core/geodecoderstatus.h"
-#include "../core/opmaps.h"
+#include "../core/tlmaps.h"
 #include "../core/diagnostics.h"
 
 #include <QSemaphore>
@@ -59,7 +59,7 @@
 
 namespace mapcontrol
 {
-    class OPMapControl;
+    class TLMapControl;
     class MapGraphicItem;
 }
 
@@ -69,7 +69,7 @@ namespace internals {
     {
         Q_OBJECT
 
-        friend class mapcontrol::OPMapControl;
+        friend class mapcontrol::TLMapControl;
         friend class mapcontrol::MapGraphicItem;
     public:
         Core();
@@ -196,6 +196,9 @@ namespace internals {
 
         diagnostics GetDiagnostics();
 
+        QList<UrlFactory::geoCodingStruct> GetAddressesFromCoordinates(PointLatLng coord, GeoCoderStatusCode::Types &status);
+        QList<UrlFactory::geoCodingStruct> GetCoordinatesFromAddress(const QString &address, GeoCoderStatusCode::Types &status);
+        double GetElevationFromCoordinates(PointLatLng coord, GeoCoderStatusCode::Types &status);
     signals:
         void OnCurrentPositionChanged(internals::PointLatLng point);
         void OnTileLoadComplete();
