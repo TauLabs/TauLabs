@@ -195,11 +195,9 @@ static int32_t PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
 	if (PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, PIOS_MPU60X0_PWRMGMT_IMU_RST) != 0)
 		return -1;
 
-	// Reset sensors signal path
-	PIOS_MPU9150_SetReg(PIOS_MPU60X0_USER_CTRL_REG, PIOS_MPU60X0_USERCTL_GYRO_RST);
-
 	// Give chip some time to initialize
-	PIOS_DELAY_WaitmS(10);
+	PIOS_DELAY_WaitmS(50);
+	PIOS_WDG_Clear();
 
 	//Power management configuration
 	PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);
