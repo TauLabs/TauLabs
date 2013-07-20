@@ -109,9 +109,10 @@
 #define CPULOAD_LIMIT_CRITICAL		95
 
 /*
- * This has been calibrated 2013/03/11 using next @ 6d21c7a590619ebbc074e60cab5e134e65c9d32b.
+ * This has been calibrated 2013/07/20 using b0a3b349ddeaf3fc124a418da703577b2d6233e0
+ * FreeRTOS 7.5.0, gcc-arm-none-eabi-4_7-2013q1, -Os
  * Calibration has been done by disabling the init task, breaking into debugger after
- * approximately after 60 seconds, then doing the following math:
+ * approximately 60 seconds, then doing the following math:
  *
  * IDLE_COUNTS_PER_SEC_AT_NO_LOAD = (uint32_t)((double)idleCounter / xTickCount * 1000 + 0.5)
  *
@@ -119,7 +120,7 @@
  * configuration like number of task priorities or similar changes.
  * A change in the cpu load calculation or the idle task handler will invalidate this as well.
  */
-#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (6984538)
+#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (6995810)
 
 #define REVOLUTION
 
