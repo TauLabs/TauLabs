@@ -256,8 +256,8 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 
 /**
  * Indicate a target-specific error code when a component fails to initialize
- * 1 pulse - L3GD20
- * 2 pulses - LSM303
+ * 1 pulse - MPU9150 - no irq
+ * 2 pulses - MPU9150 - failed configuration or task starting
  * 3 pulses - internal I2C bus locked
  * 4 pulses - external I2C bus locked
  * 5 pulses - flash
@@ -812,9 +812,11 @@ void PIOS_Board_Init(void) {
 	{
 #endif /* PIOS_INCLUDE_MPU6050 */
 
-		if (PIOS_MPU9150_Init(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW, &pios_mpu9150_cfg) != 0)
-			panic(2);
-		if (PIOS_MPU9150_Test() != 0)
+		int retval;
+		retval = PIOS_MPU9150_Init(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW, &pios_mpu9150_cfg);
+		if (retval == -10)
+			panic(1); // indicate missing IRQ separately
+		if (retval != 0)
 			panic(2);
 
 		// To be safe map from UAVO enum to driver enum
@@ -851,6 +853,33 @@ void PIOS_Board_Init(void) {
 				PIOS_MPU9150_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 				break;
 		}
+
+		uint8_t hw_mpu9150_dlpf;
+		HwSparkyMPU9150DLPFGet(&hw_mpu9150_dlpf);
+		enum pios_mpu60x0_filter mpu9150_dlpf = \
+		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
+		    pios_mpu9150_cfg.default_filter;
+		PIOS_MPU9150_SetLPF(mpu9150_dlpf);
+
+		uint8_t hw_mpu9150_samplerate;
+		HwSparkyMPU9150RateGet(&hw_mpu9150_samplerate);
+		uint16_t mpu9150_samplerate = \
+		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_200) ? 200 : \
+		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_333) ? 333 : \
+		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_500) ? 500 : \
+		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_666) ? 666 : \
+		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_1000) ? 1000 : \
+		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_2000) ? 2000 : \
+		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_4000) ? 4000 : \
+		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_8000) ? 8000 : \
+		    pios_mpu9150_cfg.default_samplerate;
+		PIOS_MPU9150_SetSampleRate(mpu9150_samplerate);	
 	}
 
 #endif /* PIOS_INCLUDE_MPU9150 */
