@@ -33,7 +33,7 @@
 #include "uavobjectwidgetutils/configtaskwidget.h"
 
 namespace Ui {
-    class Module_Settings_Widget;
+    class ModuleSettingsWidget;
 }
 
 class ModuleSettingsForm : public ConfigTaskWidget
@@ -57,7 +57,7 @@ private:
     static QString trueString;
     static QString falseString;
 
-    Ui::Module_Settings_Widget *moduleSettingsWidget;
+    Ui::ModuleSettingsWidget *moduleSettingsWidget;
 };
 
 #endif // MODULESETTINGSFORM_H
