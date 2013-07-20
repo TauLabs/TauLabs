@@ -947,6 +947,14 @@ int32_t PIOS_I2C_Init(uint32_t * i2c_id, const struct pios_i2c_adapter_cfg * cfg
 	 * since the sem_ready mutex is used in the initial state.
 	 */
 	vSemaphoreCreateBinary(i2c_adapter->sem_ready);
+
+	/* 
+	 * The ready semaphore should only be available once a
+	 * transaction is completed so we must take it to prevent
+	 * aborting the first transaction
+	 */
+	xSemaphoreTake(i2c_adapter->sem_ready, portMAX_DELAY);
+
 	i2c_adapter->sem_busy = xSemaphoreCreateMutex();
 #else
 	i2c_adapter->busy = 0;
