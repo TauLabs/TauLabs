@@ -33,6 +33,7 @@
 ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(parent)
 {
     ui = new Ui::ModuleSettingsWidget();
+    ui->setupUi(this);
 }
 
 ConfigModuleWidget::~ConfigModuleWidget()
