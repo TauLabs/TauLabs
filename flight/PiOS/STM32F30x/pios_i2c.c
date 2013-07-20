@@ -695,6 +695,12 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 	i2c_adapter->first_txn = &txn_list[0];
 	i2c_adapter->last_txn = &txn_list[num_txns - 1];
 	i2c_adapter->active_txn = i2c_adapter->first_txn;
+
+#ifdef USE_FREERTOS
+	/* Make sure the done/ready semaphore is consumed before we start */
+	semaphore_success &= (xSemaphoreTake(i2c_adapter->sem_ready, timeout) == pdTRUE);
+#endif
+
 	i2c_adapter->callback = NULL;
 	i2c_adapter->bus_error = false;
 	i2c_adapter->nack = false;
@@ -705,6 +711,7 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 	/* Wait for the transfer to complete */
 #ifdef USE_FREERTOS
 	semaphore_success = (xSemaphoreTake(i2c_adapter->sem_ready, timeout) == pdTRUE);
+	xSemaphoreGive(i2c_adapter->sem_ready);
 #else
 	/* Spin waiting for the transfer to finish */
 	while (!i2c_adapter_fsm_terminated(i2c_adapter)) ;
