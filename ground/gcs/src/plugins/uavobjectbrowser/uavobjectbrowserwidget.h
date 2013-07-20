@@ -29,8 +29,8 @@
 #define UAVOBJECTBROWSERWIDGET_H_
 
 #include <QModelIndex>
-#include <QtGui/QWidget>
-#include <QtGui/QTreeView>
+#include <QWidget>
+#include <QTreeView>
 #include "objectpersistence.h"
 #include "uavobjecttreemodel.h"
 
@@ -62,13 +62,7 @@ private slots:
 private:
     UAVObjectTreeModel *m_model;
 
-    int topmostData;
-    int bottommostData;
-    int topmostSettings;
-    int bottommostSettings;
-
-    bool m_updateViewFlagData;
-    bool m_updateViewFlagSettings;
+    bool m_updateTreeViewFlag;
 
     QTimer m_updateViewTimer;
 
