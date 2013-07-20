@@ -26,16 +26,17 @@
 #ifndef CONFIGMODULEWIDGET_H
 #define CONFIGMODULEWIDGET_H
 
-#include "ui_modulesettingsform.h"
+#include "ui_modules.h"
 
 #include "uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 
+#include "modulesettingsform.h"
 
 namespace Ui {
-    class ModuleSettingsWidget;
+    class Modules;
 }
 
 class ConfigModuleWidget: public ConfigTaskWidget
@@ -47,7 +48,7 @@ public:
         ~ConfigModuleWidget();
 
 private:
-    Ui::ModuleSettingsWidget *ui;
+    Ui::Modules *ui;
 
 private slots:
 

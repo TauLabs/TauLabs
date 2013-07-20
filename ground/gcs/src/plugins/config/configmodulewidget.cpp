@@ -32,8 +32,15 @@
 
 ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(parent)
 {
-    ui = new Ui::ModuleSettingsWidget();
+    ui = new Ui::Modules();
     ui->setupUi(this);
+
+    // Create the general modules page
+    ModuleSettingsForm *optionalModuleSettings =
+            new ModuleSettingsForm(this, ui->saveButton, ui->applyButton, ui->reloadButton);
+    QString modulesTabText = ui->tabWidget->tabText(ui->tabWidget->indexOf(ui->general));
+    ui->tabWidget->removeTab(ui->tabWidget->indexOf(ui->general));
+    ui->tabWidget->addTab(optionalModuleSettings, modulesTabText);
 }
 
 ConfigModuleWidget::~ConfigModuleWidget()
@@ -48,6 +55,7 @@ void ConfigModuleWidget::resizeEvent(QResizeEvent *event)
 
 void ConfigModuleWidget::enableControls(bool enable)
 {
+    Q_UNUSED(enable);
 }
 /**
  * @}

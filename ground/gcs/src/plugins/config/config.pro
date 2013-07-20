@@ -96,7 +96,8 @@ FORMS += airframe.ui \
     pipxtreme.ui \
     mixercurve.ui \
     autotune.ui \
-    hwfieldselector.ui
+    hwfieldselector.ui \
+    modules.ui
 RESOURCES += configgadget.qrc
 
 
