@@ -43,12 +43,6 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
 {
     defaultHWSettingsWidget->setupUi(this);
 
-    // Add modules widget. Don't forget to remove placeholder "Modules" widget first.
-    ModuleSettingsForm *optionalModuleSettings = new ModuleSettingsForm(this, defaultHWSettingsWidget->saveButton, defaultHWSettingsWidget->applyButton, defaultHWSettingsWidget->reloadButton);
-    QString modulesTabText = defaultHWSettingsWidget->tabWidget->tabText(defaultHWSettingsWidget->tabWidget->indexOf(defaultHWSettingsWidget->modules_placeholder));
-    defaultHWSettingsWidget->tabWidget->removeTab(defaultHWSettingsWidget->tabWidget->indexOf(defaultHWSettingsWidget->modules_placeholder));
-    defaultHWSettingsWidget->tabWidget->addTab(optionalModuleSettings, modulesTabText); //Add the widget to the UI
-
     //TODO: This is a bit ugly. It sets up a form with no elements. The
     //result is that there is no formatting-- such as scrolling and stretching behavior--, so
     //this has to be manually added in the code.
@@ -82,7 +76,7 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
     }
 
     if (unknown_board) {
-        QLabel *label = new QLabel("  No recognized board detected.\n  Hardware tab will refresh once a known board is detected.", defaultHWSettingsWidget->hardware);
+        QLabel *label = new QLabel("  No recognized board detected.\n  Hardware tab will refresh once a known board is detected.", this);
         label->resize(385, 200);
     }
 
@@ -123,7 +117,7 @@ void DefaultHwSettingsWidget::updateFields()
     Q_ASSERT(settingSelected);
     Q_ASSERT(hwSettingsObject != NULL);
 
-    QLayout *layout = defaultHWSettingsWidget->scrollAreaWidgetContents->layout();
+    QLayout *layout = defaultHWSettingsWidget->portSettingsFrame->layout();
     for (int i = 0; i < fieldWidgets.size(); i++)
         layout->removeWidget(fieldWidgets[i]);
     fieldWidgets.clear();
