@@ -7,7 +7,7 @@ SUBDIRS   = \
     aggregation \
     extensionsystem \
     utils \
-    opmapcontrol \
+    tlmapcontrol \
     qwt \
     qextserialport \
     libqxt
