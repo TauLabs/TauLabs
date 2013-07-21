@@ -107,6 +107,7 @@ UAVOBJSRCFILENAMES += groundpathfollowersettings
 
 UAVOBJSRCFILENAMES += txpidsettings
 
+UAVOBJSRCFILENAMES += pathsegmentactive
 UAVOBJSRCFILENAMES += pathsegmentdescriptor
 UAVOBJSRCFILENAMES += pathstatus
 UAVOBJSRCFILENAMES += pathfollowerstatus

@@ -102,6 +102,7 @@ UAVOBJSRCFILENAMES += altitudeholddesired
 UAVOBJSRCFILENAMES += waypoint
 UAVOBJSRCFILENAMES += waypointactive
 
+UAVOBJSRCFILENAMES += pathsegmentactive
 UAVOBJSRCFILENAMES += pathsegmentdescriptor
 UAVOBJSRCFILENAMES += pathstatus
 UAVOBJSRCFILENAMES += pathfollowerstatus
