@@ -31,6 +31,8 @@
 #include "positionactual.h"
 #include "fixedwingairspeeds.h"
 
+#define APPROX_INFINITY_ORBITS 1e10
+
 // private functions
 
 void simple_hold_position(void)
@@ -67,7 +69,7 @@ void simple_hold_position(void)
 	pathSegmentDescriptor.FinalVelocity = fixedWingAirspeeds.BestClimbRateSpeed;
 	pathSegmentDescriptor.DesiredAcceleration = 0;
 	pathSegmentDescriptor.PathCurvature = 1/radius;
-	pathSegmentDescriptor.NumberOfOrbits = 1e8; //TODO: Define this really large floating-point value as a magic number
+	pathSegmentDescriptor.NumberOfOrbits = APPROX_INFINITY_ORBITS;
 	pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 	PathSegmentDescriptorInstSet(1, &pathSegmentDescriptor);
 }

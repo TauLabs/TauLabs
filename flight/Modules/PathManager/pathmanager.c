@@ -75,7 +75,6 @@ static struct PathManagerGlobals{
 // Private variables
 static bool module_enabled;
 static xTaskHandle taskHandle;
-static xQueueHandle queue;
 static FixedWingAirspeedsData fixedWingAirspeeds;
 static PathManagerSettingsData pathManagerSettings;
 static PathManagerStatusData pathManagerStatus;
@@ -131,9 +130,6 @@ int32_t PathManagerInitialize()
 		PathSegmentActiveInitialize();
 
 		FixedWingAirspeedsInitialize(); //TODO: This shouldn't really be here, as it's airframe specific
-
-		// Create object queue
-		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent)); //TODO: Is this even necessary?
 
 		// Allocate memory
 		previousLocus = (struct PreviousLocus *) pvPortMalloc(sizeof(struct PreviousLocus));
@@ -253,7 +249,7 @@ static void pathManagerTask(void *parameters)
 		if (advanceSegment_flag) {
 			advanceSegment();
 		} else if (lastSysTime-segmentTimer > pathManagerStatus.Timeout*1000*portTICK_RATE_MS) { // Check if we have timed out
-			// TODO: Handle the buffer overflow in xTaskGetTickCount
+			// No possiblitiy of buffer overflow because portTickType is a long
 			pathManagerStatus.Status = PATHMANAGERSTATUS_STATUS_TIMEDOUT;
 			PathManagerStatusSet(&pathManagerStatus);
 		} else if (lastSysTime-overshootTimer > OVERSHOOT_TIMER_MS*portTICK_RATE_MS) { // Once every second or so, check for higher-level path planner failure

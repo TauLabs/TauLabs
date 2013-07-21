@@ -92,14 +92,14 @@ enum path_planner_states direct_path_planner(uint16_t numberOfWaypoints)
 		switch (waypoint.Mode) {
 		case WAYPOINT_MODE_CIRCLEPOSITIONRIGHT:
 			path_is_circle = true;
-			number_of_orbits = 1e8; //TODO: Define this really large floating-point value as a magic number
+			number_of_orbits = APPROX_INFINITY_ORBITS;
 		case WAYPOINT_MODE_FLYCIRCLERIGHT:
 		case WAYPOINT_MODE_DRIVECIRCLERIGHT:
 			curvature = 1.0f/waypoint.ModeParameters;
 			break;
 		case WAYPOINT_MODE_CIRCLEPOSITIONLEFT:
 			path_is_circle = true;
-			number_of_orbits = 1e8; //TODO: Define this really large floating-point value as a magic number
+			number_of_orbits = APPROX_INFINITY_ORBITS;
 		case WAYPOINT_MODE_FLYCIRCLELEFT:
 		case WAYPOINT_MODE_DRIVECIRCLELEFT:
 			curvature = -1.0f/waypoint.ModeParameters;

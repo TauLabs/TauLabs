@@ -44,7 +44,7 @@
 		<field name="RollLimit" units="deg" type="uint8" elements="1" elementnames="" defaultvalue="35" />
 
 		<!-- maximum allowed pitch angles and setpoint for neutral pitch -->
-		<field name="PitchLimit" units="deg" type="float" elements="3" elementnames="Min,Neutral,Max" defaultvalue="-10,0,10" />
+		<field name="PitchLimit" units="deg" type="float" elements="2" elementnames="Min,Max" defaultvalue="-10,10" />
 
 		<!-- minimum and maximum allowed throttle and setpoint for cruise speed -->
 		<field name="ThrottleLimit" units="" type="float" elements="3" elementnames="Min,Neutral,Max" defaultvalue="0.0,0.5,1.0" />

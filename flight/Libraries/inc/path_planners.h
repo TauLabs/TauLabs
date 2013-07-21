@@ -27,6 +27,8 @@
 #ifndef PATHS_LIBRARY_H_
 #define PATHS_LIBRARY_H_
 
+#define APPROX_INFINITY_ORBITS 1e10
+
 enum path_planner_states {PATH_PLANNER_SUCCESS, PATH_PLANNER_PROCESSING, PATH_PLANNER_STUCK, PATH_PLANNER_INSUFFICIENT_MEMORY};
 
 enum path_planner_states direct_path_planner(uint16_t numberOfWaypoints);
