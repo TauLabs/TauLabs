@@ -33,7 +33,7 @@
 
 // private functions
 
-void simple_return_to_home()
+void simple_return_to_home(void)
 {
 	PathSegmentDescriptorData pathSegmentDescriptor;
 	

@@ -64,16 +64,15 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 	// Check for memory before generating new path descriptors. This is a little harder
 	// since we don't know how many switching loci we'll need ahead of time. However, a
 	// rough guess is we'll need twice as many loci as we do waypoints
-	if(1) //There is enough memory
-	{
+	if(1) { //There is enough memory
 		// Generate the path segment descriptors
 		for (int i=UAVObjGetNumInstances(PathSegmentDescriptorHandle()); i<UAVObjGetNumInstances(WaypointHandle())+1; i++) {
 			//TODO: Ensure there is enough memory before generating
 			PathSegmentDescriptorCreateInstance();
 		}
-	}
-	else
+	} else {
 		return PATH_PLANNER_INSUFFICIENT_MEMORY;
+	}
 
 	PathSegmentDescriptorData pathSegmentDescriptor_first;
 
@@ -92,7 +91,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 
 	uint16_t offset = 1;
 
-	for(int wptIdx=0; wptIdx<numberOfWaypoints; wptIdx++) {
+	for (int wptIdx=0; wptIdx<numberOfWaypoints; wptIdx++) {
 		WaypointData waypoint;
 		WaypointInstGet(wptIdx, &waypoint);
 
@@ -121,9 +120,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 		}
 
 		// Only add fillets if the radius is greater than 0, and this is not the last waypoint
-		if (fillet_radius>0 && wptIdx<numberOfWaypoints-1)
-		{
-
+		if (fillet_radius>0 && wptIdx<numberOfWaypoints-1) {
 			// Determine tangent direction of old and new segment.
 			PathSegmentDescriptorData pathSegmentDescriptor_old;
 			PathSegmentDescriptorInstGet(wptIdx-1+offset, &pathSegmentDescriptor_old);
@@ -164,10 +161,10 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				q_future[2] = 0;
 				q_future_mag = VectorMagnitude(q_future); //Normalize
 
-			}
-			//In the case of line-arc intersections, calculate the tangent of the new section.
-			else if (curvature == 0 && 
+			} else if (curvature == 0 &&
 						(waypoint_future.ModeParameters != 0 && !future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
+				//In the case of line-arc intersections, calculate the tangent of the new section.
+
 				/**
 				 * Old segment: straight line
 				 */
@@ -197,9 +194,9 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				q_future[1] = lambda*(swl_current[0] - arcCenter_NE[0]);
 				q_future[2] = 0;
 				q_future_mag = VectorMagnitude(q_future); //Normalize
-			}
-			//In the case of arc-line intersections, calculate the tangent of the old section.
-			else if (curvature != 0 && (waypoint_future.ModeParameters == 0 || future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
+			} else if (curvature != 0 && (waypoint_future.ModeParameters == 0 || future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
+				//In the case of arc-line intersections, calculate the tangent of the old section.
+
 				/**
 				 * Old segment: Vector perpendicular to the vector from arc center to tangent point
 				 */
@@ -233,9 +230,9 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				q_future [1] = swl_future[1] - swl_current[1];
 				q_future [2] = 0;
 				q_future_mag = VectorMagnitude(q_future); //Normalize
-			}
-			//In the case of arc-arc intersections, calculate the tangent of the old and new sections.
-			else if (curvature != 0 && (waypoint_future.ModeParameters != 0 && !future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
+			} else if (curvature != 0 && (waypoint_future.ModeParameters != 0 && !future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
+				//In the case of arc-arc intersections, calculate the tangent of the old and new sections.
+
 				/**
 				 * Old segment: Vector perpendicular to the vector from arc center to tangent point
 				 */
@@ -324,8 +321,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 					uint8_t ret;
 					ret = addNonCircleToSwitchingLoci(f1, finalVelocity, curvature, wptIdx+offset);
 					offset += ret;
-				}
-				else {
+				} else {
 					uint8_t ret;
 					ret = addCircleToSwitchingLoci(f1, finalVelocity, curvature, number_of_orbits, R, wptIdx+offset);
 					offset += ret;
@@ -348,8 +344,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				if (theta > 0) {  // Change in direction is clockwise, so fillets are clockwise
 					eta = gamma - PI/2.0f;
 					sigma = gamma + theta - PI/2.0f;
-				}
-				else {
+				} else {
 					eta = gamma + PI/2.0f;
 					sigma = gamma + theta + PI/2.0f;
 				}
@@ -391,8 +386,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				pathSegmentDescriptor.NumberOfOrbits = 0;
 				pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 				PathSegmentDescriptorInstSet(wptIdx+offset, &pathSegmentDescriptor);
-			}
-			else if (theta != 0) { // The two tangents have different directions
+			} else if (theta != 0) { // The two tangents have different directions
 				// Find minimum radius R that permits the fillet to be completed before arriving at the next waypoint.
 				// In any case, do not allow R to be 0
 				// Fixme: The vehicle might not be able to follow this path so the path manager should indicate this.
@@ -417,8 +411,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 					uint8_t ret;
 					ret = addNonCircleToSwitchingLoci(f1, finalVelocity, curvature, wptIdx+offset);
 					offset += ret;
-				}
-				else {
+				} else {
 					uint8_t ret;
 					ret = addCircleToSwitchingLoci(f1, finalVelocity, curvature, number_of_orbits, R, wptIdx+offset);
 					offset += ret;
@@ -441,31 +434,25 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				pathSegmentDescriptor.NumberOfOrbits = 0;
 				pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 				PathSegmentDescriptorInstSet(wptIdx+offset, &pathSegmentDescriptor);
-			}
-			else { // In this case, the two tangents are colinear
+			} else { // In this case, the two tangents are colinear
 				if ( !path_is_circle ) {
 					uint8_t ret;
 					ret = addNonCircleToSwitchingLoci(waypoint.Position, finalVelocity, curvature, wptIdx+offset);
 					offset += ret;
-				}
-				else {
+				} else {
 					uint8_t ret;
 					ret = addCircleToSwitchingLoci(waypoint.Position, finalVelocity, curvature, number_of_orbits, fillet_radius, wptIdx+offset);
 					offset += ret;
 				}
-
 			}
-		}
-		else if (wptIdx==numberOfWaypoints-1) // This is the final waypoint
-		{
+		} else if (wptIdx==numberOfWaypoints-1) { // This is the final waypoint
 			// In the case of pure circles, the given waypoint is for a circle center
 			// so we have to convert it into a pair of switching loci.
 			if ( !path_is_circle ) {
 				uint8_t ret;
 				ret = addNonCircleToSwitchingLoci(waypoint.Position, finalVelocity, curvature, wptIdx+offset);
 				offset += ret;
-			}
-			else {
+			} else {
 				uint8_t ret;
 				ret = addCircleToSwitchingLoci(waypoint.Position, finalVelocity, curvature, number_of_orbits, fillet_radius, wptIdx+offset);
 				offset += ret;
@@ -489,14 +476,12 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 static uint8_t addNonCircleToSwitchingLoci(float position[3], float finalVelocity, 
 														 float curvature, uint16_t index)
 {
-
 	PathSegmentDescriptorData pathSegmentDescriptor;
 
 	pathSegmentDescriptor.FinalVelocity = finalVelocity;
 	pathSegmentDescriptor.DesiredAcceleration = 0;
 	pathSegmentDescriptor.NumberOfOrbits = 0;
 	pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
-
 
 	if (index >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
 		PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
@@ -596,8 +581,7 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 		pathSegmentDescriptor.NumberOfOrbits = number_of_orbits;
 		pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 		PathSegmentDescriptorInstSet(index+offset, &pathSegmentDescriptor);
-	}
-	else {
+	} else {
 		// Since index 0 is always the vehicle's location, then if the vehicle is already inside the circle
 		// on the index 1, then we don't have any information to help determine from which way the vehicle
 		// will be approaching. In that case, use the vehicle velocity

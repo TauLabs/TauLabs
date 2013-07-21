@@ -82,11 +82,11 @@ static PathSegmentDescriptorData pathSegmentDescriptor_current;
 static portTickType segmentTimer;
 
 // Private functions
-static bool checkGoalCondition();
-static void checkOvershoot();
+static bool checkGoalCondition(void);
+static void checkOvershoot(void);
 static void pathManagerTask(void *parameters);
 static void settingsUpdated(UAVObjEvent * ev);
-static void advanceSegment();
+static void advanceSegment(void);
 
 /**
  * Module initialization
@@ -267,7 +267,7 @@ static void pathManagerTask(void *parameters)
  * @brief advanceSegment FIXME: Currently, this will read as many PathSegmentDescriptor instances as there are, not as many
  * as exist in the program. This condition occurs when a long program is replaced by a short one.
  */
-static void advanceSegment()
+static void advanceSegment(void)
 {
 	PathSegmentDescriptorData pathSegmentDescriptor_past;
 	PathSegmentDescriptorInstGet(pathManagerStatus.ActiveSegment, &pathSegmentDescriptor_past);
@@ -346,7 +346,7 @@ static void advanceSegment()
 // This is not a strict end to the segment, as some amount of error will always
 // creep in. Instead, come within either a preset distance or a preset time of
 // the goal condition.
-static bool checkGoalCondition()
+static bool checkGoalCondition(void)
 {
 	bool advanceSegment_flag = false;
 
@@ -392,7 +392,7 @@ static bool checkGoalCondition()
 //motion descriptor,it has no concept of where the path ends. It will simply keep following it to infinity
 //if we don't stop it.
 //So while we don't know why the navigation manager failed, we know we don't want the plane flying off.
-static void checkOvershoot()
+static void checkOvershoot(void)
 {
 	// TODO: Check for overshoot with non-infinite arcs, too.
 	if (pathSegmentDescriptor_current.PathCurvature == 0) {

@@ -95,7 +95,7 @@ static xQueueHandle pathManagerStatusQueue;
 
 // Private functions
 static void SettingsUpdatedCb(UAVObjEvent * ev);
-static void updateDestination();
+static void updateDestination(void);
 
 static void airspeedController(struct ControllerOutput *airspeedControl, float calibrated_airspeed_error, float altitudeError, float dT);
 static void totalEnergyController(struct ControllerOutput *energyControl, float true_airspeed_desired,
@@ -445,7 +445,7 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 /**
  * @brief updateDestination Takes path segment descriptors and writes the path to the PathDesired UAVO
  */
-static void updateDestination()
+static void updateDestination(void)
 {
 	PathSegmentDescriptorData pathSegmentDescriptor_old;
 

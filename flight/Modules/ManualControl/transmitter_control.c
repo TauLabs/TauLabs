@@ -95,7 +95,6 @@ static bool                       settings_updated;
 static void update_actuator_desired(ManualControlCommandData * cmd);
 static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged);
-//static uint8_t get_flight_mode();
 static void set_flight_mode();
 static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);

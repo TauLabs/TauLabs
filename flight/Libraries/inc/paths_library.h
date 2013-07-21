@@ -27,8 +27,8 @@
 #ifndef PATHS_LIBRARY_H_
 #define PATHS_LIBRARY_H_
 
-void simple_return_to_home();
-void simple_hold_position();
-void example_program();
+void simple_return_to_home(void);
+void simple_hold_position(void);
+void example_program(void);
 
 #endif // PATHS_LIBRARY_H_

@@ -98,8 +98,8 @@ static void pathfollowerTask(void *parameters);
 static void FlightStatusUpdatedCb(UAVObjEvent * ev);
 
 static void SettingsUpdatedCb(UAVObjEvent * ev);
-static void updateDestination();
-static int8_t updateFixedWingDesiredStabilization();
+static void updateDestination(void);
+static int8_t updateFixedWingDesiredStabilization(void);
 
 static void airspeedController(struct ControllerOutput *airspeedControl, float calibrated_airspeed_error, float altitudeError, float dT);
 static void totalEnergyController(struct ControllerOutput *energyControl, float true_airspeed_desired,
@@ -253,7 +253,7 @@ static void pathfollowerTask(void *parameters)
 /**
  * @brief
  */
-int8_t updateFixedWingDesiredStabilization()
+int8_t updateFixedWingDesiredStabilization(void)
 {
 	// Check if the path manager has updated.
 	UAVObjEvent ev;
@@ -478,8 +478,7 @@ static void simple_heading_controller(struct ControllerOutput *headingControl, P
 
 		float k_path  = fixedwingpathfollowerSettings.VectorFollowingGain / true_airspeed_desired; //Divide gain by airspeed so that the vector field scales with airspeed
 		courseDesired_R = simple_line_follower(positionActual, pathDesired, chi_inf, k_path, k_psi_int, &(integral->line_error), dT);
-	}
-	else {
+	} else {
 		float k_orbit = fixedwingpathfollowerSettings.OrbitFollowingGain/true_airspeed_desired;  //Divide gain by airspeed so that the vector field scales with airspeed
 		courseDesired_R = simple_arc_follower(positionActual, pathDesired->End, arc_radius, SIGN(curvature), k_orbit, k_psi_int, &(integral->arc_error), dT);
 	}
@@ -520,8 +519,7 @@ static void roll_constrained_heading_controller(struct ControllerOutput *heading
 	if (curvature == 0) { // Straight line has no curvature
 		roll_c_R = roll_limited_line_follower(positionActual, velocityActual, pathDesired, true_airspeed,
 											  true_airspeed_desired, headingActual_R, gamma_max, phi_max);
-	}
-	else { // Curve following
+	} else { // Curve following
 		roll_c_R = roll_limited_arc_follower(positionActual, velocityActual, pathDesired->End, SIGN(pathDesired->Curvature), arc_radius,
 										true_airspeed, true_airspeed_desired, headingActual_R, gamma_max, phi_max);
 	}
@@ -554,7 +552,7 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 /**
  * @brief updateDestination Takes path segment descriptors and writes the path to the PathDesired UAVO
  */
-static void updateDestination()
+static void updateDestination(void)
 {
 	PathSegmentDescriptorData pathSegmentDescriptor_old;
 
@@ -570,14 +568,12 @@ static void updateDestination()
 				pathDesired->Start[2]=positionActual.Down;
 
 				// TODO: Figure out if this can't happen in normal behavior. Consider adding a warning if so.
-			}
-			else {
+			} else {
 			//TODO: Set off a warning
 
 			return;
 			}
-	}
-	else {
+	} else {
 		pathDesired->Start[0]=pathSegmentDescriptor_old.SwitchingLocus[0];
 		pathDesired->Start[1]=pathSegmentDescriptor_old.SwitchingLocus[1];
 		pathDesired->Start[2]=pathSegmentDescriptor_old.SwitchingLocus[2];
@@ -597,8 +593,7 @@ static void updateDestination()
 		pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];
 
 		pathDesired->Curvature = 0;
-	}
-	else { // ...but for an arc, use the switching loci to calculate the arc center
+	} else { // ...but for an arc, use the switching loci to calculate the arc center
 		float *oldPosition_NE = pathDesired->Start;
 		float *newPosition_NE = pathSegmentDescriptor->SwitchingLocus;
 		float arcCenter_NE[2];
@@ -610,8 +605,7 @@ static void updateDestination()
 			pathDesired->End[0]=arcCenter_NE[0];
 			pathDesired->End[1]=arcCenter_NE[1];
 			pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];
-		}
-		else { //---- This is bad, but we have to handle it.----///
+		} else { //---- This is bad, but we have to handle it.----///
 			// The path manager should catch this and handle it, but in case it doesn't we'll circle around the midpoint. This
 			// way we still maintain positive control, and will satisfy the path requirements, making sure we don't get stuck
 			pathDesired->End[0]=(oldPosition_NE[0] + newPosition_NE[0])/2.0f;

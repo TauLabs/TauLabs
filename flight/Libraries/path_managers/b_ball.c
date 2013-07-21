@@ -38,8 +38,7 @@ bool b_ball_goal_test(float position_NE[2], float swtiching_locus_NE[2], float t
 	// This method is less robust to error than the half-plane. It is cheaper and simpler, but those are it's only two advantages
 	float d[2] = {position_NE[0] - swtiching_locus_NE[0], position_NE[1] - swtiching_locus_NE[1]};
 
-	if (sqrtf(powf(d[0], 2) + powf(d[1], 2)) < threshold_distance)
-	{
+	if (sqrtf(powf(d[0], 2) + powf(d[1], 2)) < threshold_distance) {
 		advanceSegment_flag = true;
 	}
 

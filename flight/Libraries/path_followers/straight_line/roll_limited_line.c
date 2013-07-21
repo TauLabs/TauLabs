@@ -87,8 +87,7 @@ float roll_limited_line_follower(PositionActualData *positionActual, VelocityAct
 		roll_c_R = phi_max;
 	else if (psi_tilde > psi_tilde_thresh)
 		roll_c_R = -phi_max;
-	else
-	{
+	else {
 		float M1 = tanf(phi_max);
 		float M2 = GRAVITY/2.0f * M1 * cosf(psi_tilde_thresh) * cosf(gamma_max);
 		roll_c_R = -bound_sym((k1*err_xt_dot + bound_sym(k2*(k1*err_xt + err_xt_dot), M2))/(GRAVITY*cosf(psi_tilde)*cosf(gamma)), M1);

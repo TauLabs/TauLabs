@@ -5,7 +5,7 @@
  * @addtogroup TauLabsMath Tau Labs math support libraries
  * @{
  *
- * @file       math_misc.c
+ * @file       misc_math.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Miscellaneous math support
  *
@@ -135,8 +135,7 @@ enum arc_center_results find_arc_center(float start_point[2], float end_point[2]
 			(clockwise == false && minor == false)) { //clockwise minor OR counterclockwise major
 		p_n = -(end_point[1] - start_point[1]);
 		p_e =  (end_point[0] - start_point[0]);
-	}
-	else { //counterclockwise minor OR clockwise major
+	} else { //counterclockwise minor OR clockwise major
 		p_n =  (end_point[1] - start_point[1]);
 		p_e = -(end_point[0] - start_point[0]);
 	}
@@ -158,8 +157,7 @@ enum arc_center_results find_arc_center(float start_point[2], float end_point[2]
 	if (fabsf(p_n) < 1e-3f && fabsf(p_e) < 1e-3f) {
 		center[0] = m_n;
 		center[1] = m_e;
-	}
-	else {
+	} else {
 		center[0] = m_n + p_n * d;
 		center[1] = m_e + p_e * d;
 	}

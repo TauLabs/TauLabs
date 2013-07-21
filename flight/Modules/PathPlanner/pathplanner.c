@@ -72,11 +72,11 @@ static uint8_t guidanceType = NOMANAGER;
 // Private functions
 static void pathPlannerTask(void *parameters);
 static void settingsUpdated(UAVObjEvent * ev);
-static void createPathBox();
-static void createPathStar();
-static void createPathLogo();
-static void createPathHoldPosition();
-static void createPathReturnToHome();
+static void createPathBox(void);
+static void createPathStar(void);
+static void createPathLogo(void);
+static void createPathHoldPosition(void);
+static void createPathReturnToHome(void);
 static enum path_planner_states processWaypoints(PathPlannerSettingsPlannerAlgorithmOptions plannerAlgorithm);
 
 
@@ -204,8 +204,7 @@ static void pathPlannerTask(void *parameters)
 
 						guidanceType = PATHPLANNER;
 						process_waypoints_flag = true;
-					}
-					else {
+					} else {
 						// No path? In that case, burn some time and loop back to beginning. This is something that should be fixed as this takes the final form.
 						guidanceType = NOMANAGER;
 						vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
@@ -312,7 +311,7 @@ static void settingsUpdated(UAVObjEvent * ev)
  ******************
  ******************/
 
-static void createPathReturnToHome()
+static void createPathReturnToHome(void)
 {
 	WaypointData waypoint;
 
@@ -335,7 +334,7 @@ static void createPathReturnToHome()
 	PathPlannerStatusSet(&pathPlannerStatus);
 }
 
-static void createPathHoldPosition()
+static void createPathHoldPosition(void)
 {
 	WaypointData waypoint;
 
@@ -358,7 +357,7 @@ static void createPathHoldPosition()
 	PathPlannerStatusSet(&pathPlannerStatus);
 }
 
-static void createPathBox()
+static void createPathBox(void)
 {
 	float airspeedDesired;
 	FixedWingAirspeedsBestClimbRateSpeedGet(&airspeedDesired);
@@ -413,7 +412,7 @@ static void createPathBox()
 }
 
 
-static void createPathStar()
+static void createPathStar(void)
 {
 	float airspeedDesired;
 	FixedWingAirspeedsBestClimbRateSpeedGet(&airspeedDesired);
@@ -461,7 +460,7 @@ static void createPathStar()
 }
 
 
-static void createPathLogo()
+static void createPathLogo(void)
 {
 	float scale = 1;
 

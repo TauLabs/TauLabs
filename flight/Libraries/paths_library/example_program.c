@@ -33,7 +33,7 @@
 
 // private functions
 
-void example_program()
+void example_program(void)
 {
 	PathSegmentDescriptorData pathSegmentDescriptor;
 	

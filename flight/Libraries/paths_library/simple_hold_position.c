@@ -33,7 +33,7 @@
 
 // private functions
 
-void simple_hold_position()
+void simple_hold_position(void)
 {
 	PathSegmentDescriptorData pathSegmentDescriptor;
 	

@@ -112,8 +112,7 @@ enum path_planner_states direct_path_planner(uint16_t numberOfWaypoints)
 			uint8_t ret;
 			ret = addNonCircleToSwitchingLoci(waypoint.Position, final_velocity, curvature, wptIdx+offset);
 			offset += ret;
-		}
-		else {
+		} else {
 			uint8_t ret;
 			ret = addCircleToSwitchingLoci(waypoint.Position, final_velocity, curvature, number_of_orbits, wptIdx+offset);
 			offset += ret;
@@ -217,8 +216,7 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 		pathSegmentDescriptor.NumberOfOrbits = number_of_orbits;
 		pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 		PathSegmentDescriptorInstSet(index+1, &pathSegmentDescriptor);
-	}
-	else {
+	} else {
 		// Add instances if necessary
 		if (index >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
