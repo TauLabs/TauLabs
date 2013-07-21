@@ -41,496 +41,545 @@
 
 #include "openpilot.h"
 #include "physical_constants.h"
-#include "paths.h"
-#include "misc_math.h"
-#include "atmospheric_math.h"
-#include "path_followers.h"
-
-#include "airspeedactual.h"
-#include "attitudeactual.h"
+#include "fixedwingpathfollower.h"
 #include "fixedwingairspeeds.h"
-#include "fixedwingpathfollowersettings.h"
-#include "homelocation.h"
-#include "modulesettings.h"
+
 #include "positionactual.h"
-#include "stabilizationdesired.h" // object that will be updated by the module
-#include "stabilizationsettings.h"
-#include "systemsettings.h"
 #include "velocityactual.h"
+#include "flightstatus.h"
+#include "airspeedactual.h"
+#include "stabilizationdesired.h"
+#include "pathdesired.h"
+#include "systemsettings.h"
 
 #include "coordinate_conversions.h"
 
-#include "fixedwingpathfollower.h"
-#include "pathsegmentdescriptor.h"
-#include "pathfollowerstatus.h"
-#include "pathmanagerstatus.h"
-
 // Private constants
+#define MAX_QUEUE_SIZE 4
+#define STACK_SIZE_BYTES 750
+#define TASK_PRIORITY (tskIDLE_PRIORITY+2)
+#define CRITICAL_ERROR_THRESHOLD_MS 5000	//Time in [ms] before an error becomes a critical error
 
 // Private types
-struct ControllerOutput {
-	float roll;
-	float pitch;
-	float yaw;
-	float throttle;
-};
+static struct Integral {
+	float totalEnergyError;
+	float airspeedError;
 
-struct ErrorIntegral {
-	float total_energy_error;
-	float calibrated_airspeed_error;
-	float line_error;
-	float arc_error;
-};
+	float lineError;
+	float circleError;
+} *integral;
 
 // Private variables
-static PathDesiredData *pathDesired;
-static PathSegmentDescriptorData *pathSegmentDescriptor;
-static FixedWingPathFollowerSettingsData fixedwingpathfollowerSettings;
-static FixedWingAirspeedsData fixedWingAirspeeds;
-static struct ErrorIntegral *integral;
-static uint16_t activeSegment;
-static uint8_t pathCounter;
-static float arc_radius;
-static xQueueHandle pathManagerStatusQueue;
+extern bool flightStatusUpdate;
+static bool homeOrbit = true;
 
 // Private functions
-static void SettingsUpdatedCb(UAVObjEvent * ev);
-static void updateDestination(void);
-
-static void airspeedController(struct ControllerOutput *airspeedControl, float calibrated_airspeed_error, float altitudeError, float dT);
-static void totalEnergyController(struct ControllerOutput *energyControl, float true_airspeed_desired,
-						   float true_airspeed_actual, float altitude_desired_NED, float altitude_actual_NED, float dT);
-static void simple_heading_controller(struct ControllerOutput *headingControl, PositionActualData *positionActual, float curvature, float courseActual_R, float true_airspeed_desired, float dT);
-static void roll_constrained_heading_controller(struct ControllerOutput *headingControl, float headingActual_R, PositionActualData *positionActual, VelocityActualData *velocityActual, float curvature, float true_airspeed, float true_airspeed_desired);
+static uint8_t waypointFollowing(uint8_t flightMode, FixedWingPathFollowerSettingsCCData fixedwingpathfollowerSettings);
+static float bound(float val, float min, float max);
+static float followStraightLine(float r[3], float q[3], float p[3],
+				float heading, float chi_inf, float k_path,
+				float k_psi_int, float delT);
+static float followOrbit(float c[3], float rho, bool direction, float p[3],
+			 float phi, float k_orbit, float k_psi_int, float delT);
 
 void initializeFixedWingPathFollower()
 {
-	// Initialize UAVOs
-	FixedWingPathFollowerSettingsInitialize();
-	FixedWingAirspeedsInitialize();
-	AirspeedActualInitialize();
-
-	// Register callbacks
-	FixedWingAirspeedsConnectCallback(SettingsUpdatedCb);
-	FixedWingPathFollowerSettingsConnectCallback(SettingsUpdatedCb);
-
-	// Register queues
-	pathManagerStatusQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	PathManagerStatusConnectQueue(pathManagerStatusQueue);
-
-	// Allocate memory
-	integral = (struct ErrorIntegral *) pvPortMalloc(sizeof(struct ErrorIntegral));
-	memset(integral, 0, sizeof(struct ErrorIntegral));
-
-	pathSegmentDescriptor = (PathSegmentDescriptorData *) pvPortMalloc(sizeof(PathSegmentDescriptorData));
-	memset(pathSegmentDescriptor, 0, sizeof(PathSegmentDescriptorData));
-
-	pathDesired = (PathDesiredData *) pvPortMalloc(sizeof(PathDesiredData));
-	memset(pathDesired, 0, sizeof(PathDesiredData));
-
-	// Load all settings
-	SettingsUpdatedCb((UAVObjEvent *)NULL);
+	integral = (struct Integral *)pvPortMalloc(sizeof(struct Integral));
+	memset(integral, 0, sizeof(struct Integral));
 }
 
-void zeroGuidanceIntegral()
+uint8_t updateFixedWingDesiredStabilization(uint8_t flightMode, FixedWingPathFollowerSettingsCCData fixedwingpathfollowerSettings)
 {
-	integral->total_energy_error = 0;
-	integral->calibrated_airspeed_error = 0;
-	integral->line_error = 0;
-	integral->arc_error = 0;
-}
 
+	// Compute path follower commands
+	switch (flightMode) {
+	case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
+	case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+		waypointFollowing(flightMode, fixedwingpathfollowerSettings);
+		break;
+	default:
+		// Be cleaner and reset integrals
+		integral->totalEnergyError = 0;
+		integral->airspeedError = 0;
+		integral->lineError = 0;
+		integral->circleError = 0;
 
-/**
- * @brief
- */
-int8_t updateFixedWingDesiredStabilization()
-{
-	// Check if the path manager has updated.
-	UAVObjEvent ev;
-	if (xQueueReceive(pathManagerStatusQueue, &ev, 0) == pdTRUE)
-	{
-		PathManagerStatusData pathManagerStatusData;
-		PathManagerStatusGet(&pathManagerStatusData);
-
-		// Fixme: This isn't a very elegant check. Since the manager can update it's state with new loci, but
-		// still have the original ActiveSegment, the pathcounter was introduced. It only changes when the
-		// path manager gets a new path. Since this pathcounter variable doesn't do anything else, it's a bit
-		// of a waste of space right now. Logically, the path planner should set this variable but since we
-		// can't be sure a path planner is running, it works better on the level of the path manager.
-		if (activeSegment != pathManagerStatusData.ActiveSegment || pathCounter != pathManagerStatusData.PathCounter)
-		{
-			activeSegment = pathManagerStatusData.ActiveSegment;
-			pathCounter = pathManagerStatusData.PathCounter;
-
-			updateDestination();
-		}
+		break;
 	}
 
-	float dT = fixedwingpathfollowerSettings.UpdatePeriod / 1000.0f; //Convert from [ms] to [s]
+	return 0;
+
+}
+
+/**
+ * Compute desired attitude from the desired velocity
+ *
+ * Takes in @ref NedActual which has the acceleration in the 
+ * NED frame as the feedback term and then compares the 
+ * @ref VelocityActual against the @ref VelocityDesired
+ */
+uint8_t waypointFollowing(uint8_t flightMode, FixedWingPathFollowerSettingsCCData fixedwingpathfollowerSettings)
+{
+	float dT = fixedwingpathfollowerSettings.UpdatePeriod / 1000.0f;	//Convert from [ms] to [s]
 
 	VelocityActualData velocityActual;
-	StabilizationDesiredData stabilizationDesired;
-	float true_airspeed;
-	float calibrated_airspeed;
+	StabilizationDesiredData stabDesired;
+	float trueAirspeed;
 
-	float true_airspeed_desired;
-	float calibrated_airspeed_desired;
-	float calibrated_airspeed_error;
+	float calibratedAirspeedActual;
+	float airspeedDesired;
+	float airspeedError;
 
-	float altitudeDesired_NED;
-	float altitudeError_NED;
+	float pitchCommand;
+
+	float powerCommand;
+	float headingError_R;
+	float rollCommand;
+
+	//TODO: Move these out of the loop
+	FixedWingAirspeedsData fixedwingAirspeeds;
+	FixedWingAirspeedsGet(&fixedwingAirspeeds);
 
 	VelocityActualGet(&velocityActual);
-	StabilizationDesiredGet(&stabilizationDesired);
+	StabilizationDesiredGet(&stabDesired);
+	// TODO: Create UAVO that merges airspeed together
+	AirspeedActualTrueAirspeedGet(&trueAirspeed);
 
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
 
-	// Current airspeed
-	AirspeedActualTrueAirspeedGet(&true_airspeed);
-	AirspeedActualCalibratedAirspeedGet(&calibrated_airspeed);
+	PathDesiredData pathDesired;
+	PathDesiredGet(&pathDesired);
 
-	// Current course
-	float courseActual_R = atan2f(velocityActual.East, velocityActual.North);
+	if (flightStatusUpdate) {
 
-	// Current heading
-	float headingActual_D;
-	AttitudeActualYawGet(&headingActual_D);
-	float headingActual_R = headingActual_D * DEG2RAD;
+		//Reset integrals
+		integral->totalEnergyError = 0;
+		integral->airspeedError = 0;
+		integral->lineError = 0;
+		integral->circleError = 0;
 
-	/**
-	 * Compute setpoints.
-	 */
-	/**
-	 * TODO: These setpoints only need to be set once per locus update
-	 */
-	// Set the desired altitude
-	altitudeDesired_NED = pathDesired->End[2];
+		if (flightMode == FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME) {
+			// Simple Return To Home mode: climb 10 meters and fly to home position
 
-	// Set desired calibrated airspeed, bounded by airframe limits
-	calibrated_airspeed_desired = bound_min_max(pathDesired->EndingVelocity, fixedWingAirspeeds.StallSpeedDirty, fixedWingAirspeeds.AirSpeedMax);
+			pathDesired.Start[PATHDESIRED_START_NORTH] =
+			    positionActual.North;
+			pathDesired.Start[PATHDESIRED_START_EAST] =
+			    positionActual.East;
+			pathDesired.Start[PATHDESIRED_START_DOWN] =
+			    positionActual.Down;
+			pathDesired.End[PATHDESIRED_END_NORTH] = 0;
+			pathDesired.End[PATHDESIRED_END_EAST] = 0;
+			pathDesired.End[PATHDESIRED_END_DOWN] =
+			    positionActual.Down - 10;
+			pathDesired.StartingVelocity =
+			    fixedwingAirspeeds.BestClimbRateSpeed;
+			pathDesired.EndingVelocity =
+			    fixedwingAirspeeds.BestClimbRateSpeed;
+			pathDesired.Mode = PATHDESIRED_MODE_FLYVECTOR;
 
-	// Set the desired true airspeed, assuming STP atmospheric conditions. This isn't ideal, but we don't have a reliable source of temperature or pressure
-	struct AirParameters air_STP = initialize_air_structure();
-	true_airspeed_desired = cas2tas(calibrated_airspeed_desired, -positionActual.Down, &air_STP);
+			homeOrbit = false;
+		} else if (flightMode == FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD) {
+			// Simple position hold: stay at present altitude and position
 
-	/**
-	 * Compute setpoint errors
-	 */
-	// Airspeed error
-	calibrated_airspeed_error = calibrated_airspeed_desired - calibrated_airspeed;
+			//Offset by one so that the start and end points don't perfectly coincide
+			pathDesired.Start[PATHDESIRED_START_NORTH] =
+			    positionActual.North - 1;
+			pathDesired.Start[PATHDESIRED_START_EAST] =
+			    positionActual.East;
+			pathDesired.Start[PATHDESIRED_START_DOWN] =
+			    positionActual.Down;
+			pathDesired.End[PATHDESIRED_END_NORTH] =
+			    positionActual.North;
+			pathDesired.End[PATHDESIRED_END_EAST] =
+			    positionActual.East;
+			pathDesired.End[PATHDESIRED_END_DOWN] =
+			    positionActual.Down;
+			pathDesired.StartingVelocity =
+			    fixedwingAirspeeds.BestClimbRateSpeed;
+			pathDesired.EndingVelocity =
+			    fixedwingAirspeeds.BestClimbRateSpeed;
+			pathDesired.Mode = PATHDESIRED_MODE_FLYVECTOR;
+		}
+		PathDesiredSet(&pathDesired);
 
-	// Altitude error
-	altitudeError_NED = altitudeDesired_NED - positionActual.Down;
-
-	/**
-	 * Compute controls
-	 */
-	// Compute airspeed control
-	struct ControllerOutput airspeedControl;
-	airspeedController(&airspeedControl, calibrated_airspeed_error, altitudeError_NED, dT);
-
-	// Compute altitude control
-	struct ControllerOutput totalEnergyControl;
-	totalEnergyController(&totalEnergyControl, true_airspeed_desired, true_airspeed, altitudeDesired_NED, positionActual.Down, dT);
-
-	// Compute heading control
-	struct ControllerOutput headingControl;
-	switch (fixedwingpathfollowerSettings.FollowerAlgorithm) {
-	case FIXEDWINGPATHFOLLOWERSETTINGS_FOLLOWERALGORITHM_ROLLLIMITED:
-		roll_constrained_heading_controller(&headingControl, headingActual_R, &positionActual, &velocityActual, pathDesired->Curvature, true_airspeed, true_airspeed_desired);
-		break;
-	case FIXEDWINGPATHFOLLOWERSETTINGS_FOLLOWERALGORITHM_SIMPLE:
-	default:
-		simple_heading_controller(&headingControl, &positionActual, pathDesired->Curvature, courseActual_R, true_airspeed_desired, dT);
-		break;
+		flightStatusUpdate = false;
 	}
 
+	/**
+	 * Compute speed error (required for throttle and pitch)
+	 */
 
-	// Sum all controllers
-	stabilizationDesired.Throttle = bound_min_max(headingControl.throttle + airspeedControl.throttle + totalEnergyControl.throttle,
-												  fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_MIN],
-												  fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_MAX]);
-	stabilizationDesired.Roll     = bound_sym(headingControl.roll + airspeedControl.roll + totalEnergyControl.roll,
-												  fixedwingpathfollowerSettings.RollLimit);
-	stabilizationDesired.Pitch    = bound_min_max(headingControl.pitch + airspeedControl.pitch + totalEnergyControl.pitch,
-												  fixedwingpathfollowerSettings.PitchLimit[FIXEDWINGPATHFOLLOWERSETTINGS_PITCHLIMIT_MIN],
-												  fixedwingpathfollowerSettings.PitchLimit[FIXEDWINGPATHFOLLOWERSETTINGS_PITCHLIMIT_MAX]);
-	stabilizationDesired.Yaw      = headingControl.yaw + airspeedControl.yaw + totalEnergyControl.yaw; // Coordinated flight control only works when stabilizationDesired.Yaw == 0
+	// Current airspeed
+	calibratedAirspeedActual = trueAirspeed;	//BOOOOOOOOOO!!! Where's the conversion from TAS to CAS?
 
-	// Set stabilization modes
-	stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE; //This needs to be EnhancedAttitude control
-	stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE; //This needs to be EnhancedAttitude control
-	stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT;
+	// Current heading
+	float headingActual_R =
+	    atan2f(velocityActual.East, velocityActual.North);
 
-	StabilizationDesiredSet(&stabilizationDesired);
+	// Desired airspeed
+	airspeedDesired = pathDesired.EndingVelocity;
 
-	return 0;
-}
+	// Airspeed error
+	airspeedError = airspeedDesired - calibratedAirspeedActual;
 
+	/**
+	 * Compute desired throttle command
+	 */
 
-static void airspeedController(struct ControllerOutput *airspeedControl, float calibrated_airspeed_error, float altitudeError_NED, float dT)
-{
-	// This is the throttle value required for level flight at the given airspeed
-	float feedForwardThrottle = fixedwingpathfollowerSettings.ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLELIMIT_NEUTRAL];
+	//Proxy because instead of m*(1/2*v^2+g*h), it's v^2+2*gh. This saves processing power
+	float totalEnergyProxySetpoint = powf(pathDesired.EndingVelocity,
+					      2.0f) -
+	    2.0f * GRAVITY * pathDesired.End[2];
+	float totalEnergyProxyActual =
+	    powf(trueAirspeed, 2.0f) - 2.0f * GRAVITY * positionActual.Down;
+	float errorTotalEnergy =
+	    totalEnergyProxySetpoint - totalEnergyProxyActual;
 
+	float throttle_kp =
+	    fixedwingpathfollowerSettings.
+	    ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGSCC_THROTTLEPI_KP];
+	float throttle_ki = fixedwingpathfollowerSettings.ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGSCC_THROTTLEPI_KI];
+	float throttle_ilimit = fixedwingpathfollowerSettings.ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGSCC_THROTTLEPI_ILIMIT];
 
+	//Integrate with bound. Make integral leaky for better performance. Approximately 30s time constant.
+	if (throttle_ilimit > 0.0f) {
+		integral->totalEnergyError =
+		    bound(integral->totalEnergyError + errorTotalEnergy * dT,
+			  -throttle_ilimit / throttle_ki,
+			  throttle_ilimit / throttle_ki) * (1.0f -
+							    1.0f / (1.0f +
+								    30.0f /
+								    dT));
+	}
+
+	powerCommand = errorTotalEnergy * throttle_kp
+	    + integral->totalEnergyError * throttle_ki;
+
+	float throttlelimit_neutral =
+	    fixedwingpathfollowerSettings.
+	    ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGSCC_THROTTLELIMIT_NEUTRAL];
+	float throttlelimit_min =
+	    fixedwingpathfollowerSettings.
+	    ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGSCC_THROTTLELIMIT_MIN];
+	float throttlelimit_max =
+	    fixedwingpathfollowerSettings.
+	    ThrottleLimit[FIXEDWINGPATHFOLLOWERSETTINGSCC_THROTTLELIMIT_MAX];
+
+	// set throttle
+	stabDesired.Throttle = bound(powerCommand + throttlelimit_neutral,
+				     throttlelimit_min, throttlelimit_max);
 	/**
 	 * Compute desired pitch command
 	 */
 
-#define AIRSPEED_KP      fixedwingpathfollowerSettings.AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDPI_KP]
-#define AIRSPEED_KI      fixedwingpathfollowerSettings.AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDPI_KI]
-#define AIRSPEED_ILIMIT	 fixedwingpathfollowerSettings.AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGS_AIRSPEEDPI_ILIMIT]
+	float airspeed_kp =
+	    fixedwingpathfollowerSettings.
+	    AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGSCC_AIRSPEEDPI_KP];
+	float airspeed_ki =
+	    fixedwingpathfollowerSettings.
+	    AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGSCC_AIRSPEEDPI_KI];
+	float airspeed_ilimit =
+	    fixedwingpathfollowerSettings.
+	    AirspeedPI[FIXEDWINGPATHFOLLOWERSETTINGSCC_AIRSPEEDPI_ILIMIT];
 
-	if (AIRSPEED_KI > 0.0f) {
+	if (airspeed_ki > 0.0f) {
 		//Integrate with saturation
-		integral->calibrated_airspeed_error=bound_sym(integral->calibrated_airspeed_error + calibrated_airspeed_error * dT,
-													  AIRSPEED_ILIMIT/AIRSPEED_KI);
+		integral->airspeedError =
+		    bound(integral->airspeedError + airspeedError * dT,
+			  -airspeed_ilimit / airspeed_ki,
+			  airspeed_ilimit / airspeed_ki);
 	}
-
 	//Compute the cross feed from altitude to pitch, with saturation
-#define PITCHCROSSFEED_KP fixedwingpathfollowerSettings.AltitudeErrorToPitchCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_ALTITUDEERRORTOPITCHCROSSFEED_KP]
-#define PITCHCROSSFEED_MIN	fixedwingpathfollowerSettings.AltitudeErrorToPitchCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_ALTITUDEERRORTOPITCHCROSSFEED_KP]
-#define PITCHCROSSFEED_MAX fixedwingpathfollowerSettings.AltitudeErrorToPitchCrossFeed[FIXEDWINGPATHFOLLOWERSETTINGS_ALTITUDEERRORTOPITCHCROSSFEED_KP]
-	float altitudeErrorToPitchCommandComponent=bound_min_max(altitudeError_NED* PITCHCROSSFEED_KP, -PITCHCROSSFEED_MIN, PITCHCROSSFEED_MAX);
+	float pitchcrossfeed_kp =
+	    fixedwingpathfollowerSettings.
+	    VerticalToPitchCrossFeed
+	    [FIXEDWINGPATHFOLLOWERSETTINGSCC_VERTICALTOPITCHCROSSFEED_KP];
+	float pitchcrossfeed_min =
+	    fixedwingpathfollowerSettings.
+	    VerticalToPitchCrossFeed
+	    [FIXEDWINGPATHFOLLOWERSETTINGSCC_VERTICALTOPITCHCROSSFEED_MAX];
+	float pitchcrossfeed_max =
+	    fixedwingpathfollowerSettings.
+	    VerticalToPitchCrossFeed
+	    [FIXEDWINGPATHFOLLOWERSETTINGSCC_VERTICALTOPITCHCROSSFEED_MAX];
+	float alitudeError = -(pathDesired.End[2] - positionActual.Down);	//Negative to convert from Down to altitude
+	float altitudeToPitchCommandComponent =
+	    bound(alitudeError * pitchcrossfeed_kp,
+		  -pitchcrossfeed_min,
+		  pitchcrossfeed_max);
+
+	//Compute the pitch command as err*Kp + errInt*Ki + X_feed.
+	pitchCommand = -(airspeedError * airspeed_kp
+			 + integral->airspeedError * airspeed_ki) +
+	    altitudeToPitchCommandComponent;
 
 	//Saturate pitch command
-#define PITCHLIMIT_NEUTRAL  fixedwingpathfollowerSettings.PitchLimit[FIXEDWINGPATHFOLLOWERSETTINGS_PITCHLIMIT_NEUTRAL]
+	float pitchlimit_neutral =
+	    fixedwingpathfollowerSettings.
+	    PitchLimit[FIXEDWINGPATHFOLLOWERSETTINGSCC_PITCHLIMIT_NEUTRAL];
+	float pitchlimit_min =
+	    fixedwingpathfollowerSettings.
+	    PitchLimit[FIXEDWINGPATHFOLLOWERSETTINGSCC_PITCHLIMIT_MIN];
+	float pitchlimit_max =
+	    fixedwingpathfollowerSettings.
+	    PitchLimit[FIXEDWINGPATHFOLLOWERSETTINGSCC_PITCHLIMIT_MAX];
 
-	// Assign airspeed controller outputs
-	airspeedControl->throttle = feedForwardThrottle;
-	airspeedControl->roll = 0;
-	airspeedControl->pitch = -(calibrated_airspeed_error*AIRSPEED_KP + integral->calibrated_airspeed_error*AIRSPEED_KI) + altitudeErrorToPitchCommandComponent + PITCHLIMIT_NEUTRAL; //TODO: This needs to be taken out once EnhancedAttitude is merged
-	airspeedControl->yaw = 0;
-}
+	stabDesired.Pitch = bound(pitchlimit_neutral +
+				  pitchCommand, pitchlimit_min, pitchlimit_max);
 
+	/**
+	 * Compute desired roll command
+	 */
 
-/**
- * @brief totalEnergyController This controller uses a PID to stabilize the total kinetic and potential energy.
- * @param energyControl Output structure
- * @param true_airspeed_desired True airspeed setpoint (Use true airspeed for kinetic energy)
- * @param true_airspeed_actual True airspeed estimation
- * @param altitude_desired_NED Down altitude desired (-height)
- * @param altitude_actual_NED Current Down estimation
- * @param dT
- */
-static void totalEnergyController(struct ControllerOutput *energyControl, float true_airspeed_desired, float true_airspeed_actual, float altitude_desired_NED, float altitude_actual_NED, float dT)
-{
-	//Proxy because instead of m*(1/2*v^2+g*h), it's v^2+2*gh. This saves processing power
-	float totalEnergyProxySetpoint=powf(true_airspeed_desired, 2.0f) - 2.0f*9.8f*altitude_desired_NED;
-	float totalEnergyProxyActual=powf(true_airspeed_actual, 2.0f) - 2.0f*9.8f*altitude_actual_NED;
-	float errorTotalEnergy= totalEnergyProxySetpoint - totalEnergyProxyActual;
+	float p[3] =
+	    { positionActual.North, positionActual.East, positionActual.Down };
+	float *c = pathDesired.End;
+	float *r = pathDesired.Start;
+	float q[3] = { pathDesired.End[0] - pathDesired.Start[0],
+		pathDesired.End[1] - pathDesired.Start[1],
+		pathDesired.End[2] - pathDesired.Start[2]
+	};
 
-#define THROTTLE_KP fixedwingpathfollowerSettings.ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLEPI_KP]
-#define THROTTLE_KI fixedwingpathfollowerSettings.ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLEPI_KI]
-#define THROTTLE_ILIMIT fixedwingpathfollowerSettings.ThrottlePI[FIXEDWINGPATHFOLLOWERSETTINGS_THROTTLEPI_ILIMIT]
-
-	//Integrate with bound. Make integral leaky for better performance. Approximately 30s time constant.
-	if (THROTTLE_KI > 0.0f) {
-		integral->total_energy_error=bound_sym(integral->total_energy_error+errorTotalEnergy*dT,
-											   THROTTLE_ILIMIT/THROTTLE_KI)*(1.0f-1.0f/(1.0f+30.0f/dT));
-	}
-
-	// Assign altitude controller outputs
-	energyControl->throttle = errorTotalEnergy*THROTTLE_KP + integral->total_energy_error*THROTTLE_KI;
-	energyControl->roll = 0;
-	energyControl->pitch = 0;
-	energyControl->yaw = 0;
-}
-
-
-/**
- * @brief simple_heading_controller This calculates the heading setpoint as a function of a vector field directed onto a path. This is
- * based off of research into Lyanpov controllers, performed by R. Beard at Bringham Young University, Utah, USA.
- * @param[out] headingControl Output structure
- * @param[in] positionActual
- * @param[in] curvature
- * @param[in] courseActual_R
- * @param[in] true_airspeed_desired
- * @param[in] dT
- */
-static void simple_heading_controller(struct ControllerOutput *headingControl, PositionActualData *positionActual, float curvature, float courseActual_R, float true_airspeed_desired, float dT)
-{
+	float k_path = fixedwingpathfollowerSettings.VectorFollowingGain / pathDesired.EndingVelocity;	//Divide gain by airspeed so that the turn rate is independent of airspeed
+	float k_orbit = fixedwingpathfollowerSettings.OrbitFollowingGain / pathDesired.EndingVelocity;	//Divide gain by airspeed so that the turn rate is independent of airspeed
 	float k_psi_int = fixedwingpathfollowerSettings.FollowerIntegralGain;
+//========================================
+	//SHOULD NOT BE HARD CODED
 
-	float courseDesired_R;
+	bool direction;
 
-	if (curvature == 0) { // Straight line has no curvature
-		//========================================
-		//SHOULD NOT BE HARD CODED
+	float chi_inf = PI / 4.0f;	//THIS NEEDS TO BE A FUNCTION OF HOW LONG OUR PATH IS.
 
-		float chi_inf = PI/4.0f; //Fixme: This should be a function of how long the path is
+	//Saturate chi_inf. I.e., never approach the path at a steeper angle than 45 degrees
+	chi_inf = chi_inf < PI / 4.0f ? PI / 4.0f : chi_inf;
+//========================================      
 
-		//Saturate chi_inf, i.e., never allow an approach path steeper angle than 90 degrees
-		chi_inf = fabsf(chi_inf) > PI/2.0f ? PI/2.0f : fabsf(chi_inf);
-		//========================================
+	float rho;
+	float headingCommand_R;
 
-		float k_path  = fixedwingpathfollowerSettings.VectorFollowingGain / true_airspeed_desired; //Divide gain by airspeed so that the vector field scales with airspeed
-		courseDesired_R = simple_line_follower(positionActual, pathDesired, chi_inf, k_path, k_psi_int, &(integral->line_error), dT);
-	}
-	else {
-		float k_orbit = fixedwingpathfollowerSettings.OrbitFollowingGain/true_airspeed_desired;  //Divide gain by airspeed so that the vector field scales with airspeed
-		courseDesired_R = simple_arc_follower(positionActual, pathDesired->End, arc_radius, SIGN(curvature), k_orbit, k_psi_int, &(integral->arc_error), dT);
-	}
+	float pncn = p[0] - c[0];
+	float pece = p[1] - c[1];
+	float d = sqrtf(pncn * pncn + pece * pece);
 
-	// Course error, wrapped to [-pi,pi]
-	float courseError_R = circular_modulus_rad(courseDesired_R - courseActual_R);
+//Assume that we want a 15 degree bank angle. This should yield a nice, non-agressive turn
+#define ROLL_FOR_HOLDING_CIRCLE 15.0f
+	//Calculate radius, rho, using r*omega=v and omega = g/V_g * tan(phi)
+	//THIS SHOULD ONLY BE CALCULATED ONCE, INSTEAD OF EVERY TIME
+	rho = powf(pathDesired.EndingVelocity,
+		 2) / (GRAVITY * tanf(fabs(ROLL_FOR_HOLDING_CIRCLE * DEG2RAD)));
 
-	// Assign heading controller outputs
-	headingControl->throttle = 0;
-	headingControl->roll = (courseError_R * fixedwingpathfollowerSettings.HeadingPI[FIXEDWINGPATHFOLLOWERSETTINGS_HEADINGPI_KP]) * RAD2DEG;
-	headingControl->pitch = 0;
-	headingControl->yaw = 0;
-}
+	typedef enum {
+		LINE,
+		ORBIT
+	} pathTypes_t;
 
+	pathTypes_t pathType;
 
-/**
- * @brief roll_constrained_heading_controller This calculates the heading setpoint as a function of a vector field directed
- * onto a path, and taking into account the UAVs roll limits. This is based off of research into Lyanpov controllers,
- * performed by R. Beard at Bringham Young University, Utah, USA.
- * @param[out] headingControl Output structure
- * @param[in] headingActual_R
- * @param[in] positionActual
- * @param[in] velocityActual
- * @param[in] curvature
- * @param[in] true_airspeed
- * @param[in] true_airspeed_desired
- */
-static void roll_constrained_heading_controller(struct ControllerOutput *headingControl, float headingActual_R,
-								 PositionActualData *positionActual, VelocityActualData *velocityActual,
-								 float curvature, float true_airspeed, float true_airspeed_desired)
-{
-	float phi_max = fixedwingpathfollowerSettings.RollLimit * DEG2RAD;
-	float gamma_max = fixedwingpathfollowerSettings.PitchLimit[FIXEDWINGPATHFOLLOWERSETTINGS_PITCHLIMIT_MAX] * DEG2RAD; // Flight path angle is in fact only loosely coupled to pitch
-
-	// Calculate roll command
-	float roll_c_R;
-
-	if (curvature == 0) { // Straight line has no curvature
-		roll_c_R = roll_limited_line_follower(positionActual, velocityActual, pathDesired, true_airspeed,
-											  true_airspeed_desired, headingActual_R, gamma_max, phi_max);
-	}
-	else { // Curve following
-		roll_c_R = roll_limited_arc_follower(positionActual, velocityActual, pathDesired->End, SIGN(pathDesired->Curvature), arc_radius,
-										true_airspeed, true_airspeed_desired, headingActual_R, gamma_max, phi_max);
-	}
-
-	// Assign heading controller outputs
-	headingControl->throttle = 0;
-	headingControl->roll = roll_c_R * RAD2DEG;
-	headingControl->pitch = 0;
-	headingControl->yaw = 0;
-}
-
-
-/**
- * @brief SettingsUpdatedCb Updates settings when relevant UAVO are written
- * @param[in] ev UAVObject event
- */
-static void SettingsUpdatedCb(UAVObjEvent * ev)
-{
-	if (ev == NULL || ev->obj == FixedWingPathFollowerSettingsHandle())
-		FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
-	if (ev == NULL || ev->obj == FixedWingAirspeedsHandle())
-		FixedWingAirspeedsGet(&fixedWingAirspeeds);
-	if (ev == NULL || ev->obj == PathManagerStatusHandle())
-	{
-
-	}
-}
-
-
-/**
- * @brief updateDestination Takes path segment descriptors and writes the path to the PathDesired UAVO
- */
-static void updateDestination(void)
-{
-	PathSegmentDescriptorData pathSegmentDescriptor_old;
-
-	int8_t ret;
-	ret = PathSegmentDescriptorInstGet(activeSegment-1, &pathSegmentDescriptor_old);
-	if(ret != 0) {
-			if (activeSegment == 0) { // This means we're going to the first switching locus.
-				PositionActualData positionActual;
-				PositionActualGet(&positionActual);
-
-				pathDesired->Start[0]=positionActual.North;
-				pathDesired->Start[1]=positionActual.East;
-				pathDesired->Start[2]=positionActual.Down;
-
-				// TODO: Figure out if this can't happen in normal behavior. Consider adding a warning if so.
-			}
-			else {
-			//TODO: Set off a warning
-
-			return;
-			}
-	}
-	else {
-		pathDesired->Start[0]=pathSegmentDescriptor_old.SwitchingLocus[0];
-		pathDesired->Start[1]=pathSegmentDescriptor_old.SwitchingLocus[1];
-		pathDesired->Start[2]=pathSegmentDescriptor_old.SwitchingLocus[2];
-	}
-
-	ret = PathSegmentDescriptorInstGet(activeSegment, pathSegmentDescriptor);
-	if(ret != 0) {
-			//TODO: Set off a warning
-
-			return;
-	}
-
-	// For a straight line use the switching locus as the vector endpoint...
-	if(pathSegmentDescriptor->PathCurvature == 0) {
-		pathDesired->End[0]=pathSegmentDescriptor->SwitchingLocus[0];
-		pathDesired->End[1]=pathSegmentDescriptor->SwitchingLocus[1];
-		pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];
-
-		pathDesired->Curvature = 0;
-	}
-	else { // ...but for an arc, use the switching loci to calculate the arc center
-		float *oldPosition_NE = pathDesired->Start;
-		float *newPosition_NE = pathSegmentDescriptor->SwitchingLocus;
-		float arcCenter_NE[2];
-		enum arc_center_results ret;
-
-		ret = find_arc_center(oldPosition_NE, newPosition_NE, 1.0f/pathSegmentDescriptor->PathCurvature, pathSegmentDescriptor->PathCurvature > 0, pathSegmentDescriptor->ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR, arcCenter_NE);
-
-		if (ret == ARC_CENTER_FOUND) {
-			pathDesired->End[0]=arcCenter_NE[0];
-			pathDesired->End[1]=arcCenter_NE[1];
-			pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];
+	//Determine if we should fly on a line or orbit path.
+	switch (flightMode) {
+	case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
+		if (d < rho + 5.0f * pathDesired.EndingVelocity || homeOrbit == true) {	//When approx five seconds from the circle, start integrating into it
+			pathType = ORBIT;
+			homeOrbit = true;
+		} else {
+			pathType = LINE;
 		}
-		else { //---- This is bad, but we have to handle it.----///
-			// The path manager should catch this and handle it, but in case it doesn't we'll circle around the midpoint. This
-			// way we still maintain positive control, and will satisfy the path requirements, making sure we don't get stuck
-			pathDesired->End[0]=(oldPosition_NE[0] + newPosition_NE[0])/2.0f;
-			pathDesired->End[1]=(oldPosition_NE[1] + newPosition_NE[1])/2.0f;
-			pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];
+		break;
+	case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+		pathType = ORBIT;
+		break;
+	default:
+		pathType = LINE;
+		break;
+	}
 
-			// TODO: Set alarm warning
-			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER, SYSTEMALARMS_ALARM_WARNING);
+	//Check to see if we've gone past our destination. Since the path follower
+	//is simply following a vector, it has no concept of where the vector ends.
+	//It will simply keep following it to infinity if we don't stop it. So while
+	//we don't know why the commutation to the next point failed, we don't know
+	//we don't want the plane flying off.
+	if (pathType == LINE) {
+
+		//Compute the norm squared of the horizontal path length
+		//IT WOULD BE NICE TO ONLY DO THIS ONCE PER WAYPOINT UPDATE, INSTEAD OF
+		//EVERY LOOP
+		float pathLength2 = q[0] * q[0] + q[1] * q[1];
+
+		//Perform a quick vector math operation, |a| < a.b/|a| = |b|cos(theta),
+		//to test if we've gone past the waypoint. Add in a distance equal to 5s
+		//of flight time, for good measure to make sure we don't add jitter.
+		if (((p[0] - r[0]) * q[0] + (p[1] - r[1]) * q[1]) >
+		    pathLength2 + 5.0f * pathDesired.EndingVelocity) {
+			//Whoops, we've really overflown our destination point, and haven't
+			//received any instructions. Start circling
+			//flightMode will reset the next time a waypoint changes, so there's
+			//no danger of it getting stuck in orbit mode.
+			flightMode = FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD;
+			pathType = ORBIT;
+		}
+	}
+
+	switch (pathType) {
+	case ORBIT:
+		if (pathDesired.Mode == PATHDESIRED_MODE_FLYCIRCLELEFT) {
+			direction = false;
+		} else {
+			//In the case where the direction is undefined, always fly in a
+			//clockwise fashion
+			direction = true;
 		}
 
-		uint8_t max_avg_roll_D;
-		FixedWingPathFollowerSettingsRollLimitGet(&max_avg_roll_D);
-
-		//Calculate arc_radius using r*omega=v and omega = g/V_g*tan(max_avg_roll_D)
-		float min_radius = powf(pathSegmentDescriptor->FinalVelocity, 2)/(9.805f*tanf(max_avg_roll_D*DEG2RAD));
-		arc_radius = fabsf(1.0f/pathSegmentDescriptor->PathCurvature) > min_radius ? fabsf(1.0f/pathSegmentDescriptor->PathCurvature) : min_radius;
-		pathDesired->Curvature = SIGN(pathSegmentDescriptor->PathCurvature) / arc_radius;
+		headingCommand_R =
+		    followOrbit(c, rho, direction, p, headingActual_R, k_orbit,
+				k_psi_int, dT);
+		break;
+	case LINE:
+		headingCommand_R =
+		    followStraightLine(r, q, p, headingActual_R, chi_inf,
+				       k_path, k_psi_int, dT);
+		break;
 	}
 
-	//-------------------------------------------------//
-	//FIXME: Inspect pathDesired values for NaN or Inf.//
-	//-------------------------------------------------//
+	//Calculate heading error
+	headingError_R = headingCommand_R - headingActual_R;
 
-	pathDesired->EndingVelocity = pathSegmentDescriptor->FinalVelocity;
+	//Wrap heading error around circle
+	if (headingError_R < -PI)
+		headingError_R += 2.0f * PI;
+	if (headingError_R > PI)
+		headingError_R -= 2.0f * PI;
 
-#if defined(PATHDESIRED_DIAGNOSTICS)
-	PathDesiredSet(pathDesired);
+	//GET RID OF THE RAD2DEG. IT CAN BE FACTORED INTO HeadingPI
+	float rolllimit_neutral =
+	    fixedwingpathfollowerSettings.
+	    RollLimit[FIXEDWINGPATHFOLLOWERSETTINGSCC_ROLLLIMIT_NEUTRAL];
+	float rolllimit_min =
+	    fixedwingpathfollowerSettings.
+	    RollLimit[FIXEDWINGPATHFOLLOWERSETTINGSCC_ROLLLIMIT_MIN];
+	float rolllimit_max =
+	    fixedwingpathfollowerSettings.
+	    RollLimit[FIXEDWINGPATHFOLLOWERSETTINGSCC_ROLLLIMIT_MAX];
+	float headingpi_kp =
+	    fixedwingpathfollowerSettings.
+	    HeadingPI[FIXEDWINGPATHFOLLOWERSETTINGSCC_HEADINGPI_KP];
+	rollCommand = (headingError_R * headingpi_kp) * RAD2DEG;
+
+	//Turn heading 
+
+	stabDesired.Roll = bound(rolllimit_neutral +
+				 rollCommand, rolllimit_min, rolllimit_max);
+
+#ifdef SIM_OSX
+	fprintf(stderr, " headingError_R: %f, rollCommand: %f\n",
+		headingError_R, rollCommand);
 #endif
+
+	/**
+	 * Compute desired yaw command
+	 */
+	// Coordinated flight, so we reset the desired yaw.
+	stabDesired.Yaw = 0;
+
+	stabDesired.
+	    StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] =
+	    STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+	stabDesired.
+	    StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] =
+	    STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+	stabDesired.
+	    StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] =
+	    STABILIZATIONDESIRED_STABILIZATIONMODE_NONE;
+
+	StabilizationDesiredSet(&stabDesired);
+
+	//Stuff some debug variables into PathDesired, because right now these
+	//fields aren't being used.
+	pathDesired.ModeParameters[0] = pitchCommand;
+	pathDesired.ModeParameters[1] = airspeedError;
+	pathDesired.ModeParameters[2] = integral->airspeedError;
+	pathDesired.ModeParameters[3] = alitudeError;
+	pathDesired.UID = errorTotalEnergy;
+
+	PathDesiredSet(&pathDesired);
+
+	return 0;
+}
+
+/**
+ * Calculate command for following simple vector based line. Taken from R.
+ * Beard at BYU.
+ */
+float followStraightLine(float r[3], float q[3], float p[3], float psi,
+			 float chi_inf, float k_path, float k_psi_int,
+			 float delT)
+{
+	float chi_q = atan2f(q[1], q[0]);
+	while (chi_q - psi < -PI) {
+		chi_q += 2.0f * PI;
+	}
+	while (chi_q - psi > PI) {
+		chi_q -= 2.0f * PI;
+	}
+
+	float err_p = -sinf(chi_q) * (p[0] - r[0]) + cosf(chi_q) * (p[1] - r[1]);
+	integral->lineError += delT * err_p;
+	float psi_command = chi_q - chi_inf * 2.0f / PI * atanf(k_path * err_p) -
+	    k_psi_int * integral->lineError;
+
+	return psi_command;
+}
+
+/**
+ * Calculate command for following simple vector based orbit. Taken from R.
+ * Beard at BYU.
+ */
+float followOrbit(float c[3], float rho, bool direction, float p[3], float psi,
+		  float k_orbit, float k_psi_int, float delT)
+{
+	float pncn = p[0] - c[0];
+	float pece = p[1] - c[1];
+	float d = sqrtf(pncn * pncn + pece * pece);
+
+	float err_orbit = d - rho;
+	integral->circleError += err_orbit * delT;
+
+	float phi = atan2f(pece, pncn);
+	while (phi - psi < -PI) {
+		phi = phi + 2.0f * PI;
+	}
+	while (phi - psi > PI) {
+		phi = phi - 2.0f * PI;
+	}
+
+	float psi_command = (direction == true) ?
+	    phi + (PI / 2.0f + atanf(k_orbit * err_orbit) +
+		   k_psi_int * integral->circleError) : phi - (PI / 2.0f +
+							       atanf(k_orbit *
+								     err_orbit) +
+							       k_psi_int *
+							       integral->
+							       circleError);
+
+#ifdef SIM_OSX
+	fprintf(stderr,
+		"actual heading: %f, circle error: %f, circl integral: %f, heading command: %f",
+		psi, err_orbit, integral->circleError, psi_command);
+#endif
+	return psi_command;
+}
+
+/**
+ * Bound input value between limits
+ */
+static float bound(float val, float min, float max)
+{
+	if (val < min) {
+		val = min;
+	} else if (val > max) {
+		val = max;
+	}
+	return val;
 }
 
 /**
