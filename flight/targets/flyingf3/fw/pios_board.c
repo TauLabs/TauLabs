@@ -278,7 +278,7 @@ void PIOS_Board_Init(void) {
 
 	/* Delay system */
 	PIOS_DELAY_Init();
-	
+
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 
 #if defined(PIOS_INCLUDE_LED)
@@ -289,9 +289,6 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_SPI)
 	if (PIOS_SPI_Init(&pios_spi_internal_id, &pios_spi_internal_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-	if (PIOS_SPI_Init(&pios_spi_external_id, &pios_spi_external_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
 #endif
@@ -337,7 +334,7 @@ void PIOS_Board_Init(void) {
 	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_internal_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
 	PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_internal_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS);
 #endif
-	
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
@@ -1140,6 +1137,34 @@ void PIOS_Board_Init(void) {
 			PIOS_Assert(0);
 		PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
 #endif
+#if defined(PIOS_INCLUDE_SPI)
+		if (PIOS_SPI_Init(&pios_spi_2_id, &pios_spi_2_rcflyer_internal_cfg)) {
+			PIOS_DEBUG_Assert(0);
+		}
+		if (PIOS_SPI_Init(&pios_spi_3_id, &pios_spi_3_rcflyer_external_cfg)) {
+			PIOS_DEBUG_Assert(0);
+		}
+#if defined(PIOS_INCLUDE_MS5611_SPI)
+		if (PIOS_MS5611_SPI_Init(pios_spi_2_id, 1, &pios_ms5611_cfg) != 0) {
+			PIOS_Assert(0);
+		}
+#endif	/* PIOS_INCLUDE_MS5611_SPI */
+#endif	/* PIOS_INCLUDE_SPI */
+		break;
+	case HWFLYINGF3_SHIELD_CHEBUZZ:
+#if defined(PIOS_INCLUDE_I2C) && defined(PIOS_INCLUDE_MS5611)
+		if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_external_id) != 0) {
+			PIOS_Assert(0);
+		}
+#endif	/* PIOS_INCLUDE_I2C && PIOS_INCLUDE_MS5611 */
+#if defined(PIOS_INCLUDE_SPI)
+		if (PIOS_SPI_Init(&pios_spi_2_id, &pios_spi_2_chebuzz_external_cfg)) {
+			PIOS_DEBUG_Assert(0);
+		}
+		if (PIOS_SPI_Init(&pios_spi_3_id, &pios_spi_3_chebuzz_internal_cfg)) {
+			PIOS_DEBUG_Assert(0);
+		}
+#endif	/* PIOS_INCLUDE_SPI */
 		break;
 	case HWFLYINGF3_SHIELD_NONE:
 		break;
