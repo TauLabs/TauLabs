@@ -117,8 +117,6 @@ int32_t PathPlannerInitialize()
 #endif
 
 	if(module_enabled) {
-		PathManagerSettingsInitialize();
-		PathManagerStatusInitialize();
 		PathPlannerSettingsInitialize();
 		PathPlannerStatusInitialize();
 		PathSegmentDescriptorInitialize();

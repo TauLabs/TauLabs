@@ -127,7 +127,6 @@ int32_t PathManagerInitialize()
 	if (module_enabled) {
 		PathManagerStatusInitialize();
 		PathManagerSettingsInitialize();
-		PathSegmentDescriptorInitialize();
 
 		FixedWingAirspeedsInitialize(); //TODO: This shouldn't really be here, as it's airframe specific
 

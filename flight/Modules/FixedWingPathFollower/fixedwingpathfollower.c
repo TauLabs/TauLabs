@@ -145,17 +145,11 @@ int32_t FixedWingPathFollowerInitialize()
 		return false;
 
 	// Initialize UAVOs necessary for all pathfinders
-	FlightStatusInitialize();
 	PathFollowerStatusInitialize();
-	PathManagerStatusInitialize();
-	PositionActualInitialize();
-	StabilizationDesiredInitialize();
-	VelocityActualInitialize();
 
 	// Initialize UAVO for fixed-wing flight
 	FixedWingPathFollowerSettingsInitialize();
 	FixedWingAirspeedsInitialize();
-	AirspeedActualInitialize();
 
 
 #if defined(PATHDESIRED_DIAGNOSTICS)
