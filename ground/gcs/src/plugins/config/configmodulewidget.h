@@ -1,13 +1,12 @@
 /**
  ******************************************************************************
- *
- * @file       configtelemetrytwidget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       configmodulewidget.h
+ * @brief      Configure the optional modules
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
  * @{
- * @brief Telemetry configuration panel
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,35 +23,38 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef CONFIGCCHWWIDGET_H
-#define CONFIGCCHWWIDGET_H
+#ifndef CONFIGMODULEWIDGET_H
+#define CONFIGMODULEWIDGET_H
 
-#include "ui_cc_hw_settings.h"
+#include "ui_modules.h"
 
-#include "../uavobjectwidgetutils/configtaskwidget.h"
+#include "uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
-#include <QtGui/QWidget>
-#include <QList>
-#include "smartsavebutton.h"
 
+#include "modulesettingsform.h"
 
-class ConfigCCHWWidget: public ConfigTaskWidget
+namespace Ui {
+    class Modules;
+}
+
+class ConfigModuleWidget: public ConfigTaskWidget
 {
     Q_OBJECT
 
 public:
-    ConfigCCHWWidget(QWidget *parent = 0);
-    ~ConfigCCHWWidget();
-private slots:
-    void openHelp();
-    void refreshValues();
-    void widgetsContentsChanged();
+        ConfigModuleWidget(QWidget *parent = 0);
+        ~ConfigModuleWidget();
 
 private:
-    Ui_CC_HW_Widget *m_CC_HW_Widget;
-    QSvgRenderer *m_renderer;
+    Ui::Modules *ui;
+
+private slots:
+
+protected:
+        void resizeEvent(QResizeEvent *event);
+        virtual void enableControls(bool enable);
 };
 
-#endif // CONFIGCCHWWIDGET_H
+#endif // CONFIGMODULEWIDGET_H
