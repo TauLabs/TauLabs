@@ -502,9 +502,9 @@ static const uint8_t ss_reg_71[] = {  0x2B, 0x23}; // rfm22_modulation_mode_cont
 static inline uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time)
 {
 	if(end_time >= start_time)
-		return (end_time - start_time) * portTICK_RATE_MS;
+		return TICKS2MS(end_time - start_time);
 	// Rollover
-	return ((portMAX_DELAY - start_time) + end_time) * portTICK_RATE_MS;
+	return TICKS2MS((portMAX_DELAY - start_time) + end_time);
 }
 
 bool PIOS_RFM22B_validate(struct pios_rfm22b_dev * rfm22b_dev)
@@ -862,7 +862,7 @@ static void PIOS_RFM22B_Task(void *parameters)
 #endif /* PIOS_WDG_RFM22B */
 
 		// Wait for a signal indicating an external interrupt or a pending send/receive request.
-		if (xSemaphoreTake(rfm22b_dev->isrPending,  ISR_TIMEOUT / portTICK_RATE_MS) == pdTRUE) {
+		if (xSemaphoreTake(rfm22b_dev->isrPending,  MS2TICKS(ISR_TIMEOUT)) == pdTRUE) {
 			lastEventTicks = xTaskGetTickCount();
 
 			// Process events through the state machine.

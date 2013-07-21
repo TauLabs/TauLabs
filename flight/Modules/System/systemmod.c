@@ -217,8 +217,8 @@ static void systemTask(void *parameters)
 
 		UAVObjEvent ev;
 		int delayTime = flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED ?
-			SYSTEM_UPDATE_PERIOD_MS / portTICK_RATE_MS / (LED_BLINK_RATE_HZ * 2) :
-			SYSTEM_UPDATE_PERIOD_MS / portTICK_RATE_MS;
+			MS2TICKS(SYSTEM_UPDATE_PERIOD_MS) / (LED_BLINK_RATE_HZ * 2) :
+			MS2TICKS(SYSTEM_UPDATE_PERIOD_MS);
 
 		if(xQueueReceive(objectPersistenceQueue, &ev, delayTime) == pdTRUE) {
 			// If object persistence is updated call the callback
@@ -416,7 +416,7 @@ static void updateStats()
 
 	// Get stats and update
 	SystemStatsGet(&stats);
-	stats.FlightTime = xTaskGetTickCount() * portTICK_RATE_MS;
+	stats.FlightTime = TICKS2MS(xTaskGetTickCount());
 #if defined(ARCH_POSIX) || defined(ARCH_WIN32)
 	// POSIX port of FreeRTOS doesn't have xPortGetFreeHeapSize()
 	stats.HeapRemaining = 10240;
@@ -434,11 +434,11 @@ static void updateStats()
 
 	portTickType now = xTaskGetTickCount();
 	if (now > lastTickCount) {
-		uint32_t dT = (xTaskGetTickCount() - lastTickCount) * portTICK_RATE_MS;	// in ms
+		float dT = TICKS2MS(xTaskGetTickCount() - lastTickCount) / 1000.0f;
 
 		// In the case of a slightly miscalibrated max idle count, make sure CPULoad does
 		// not go negative and set an alarm inappropriately.
-		float idleFraction = ((float)idleCounter / ((float)dT / 1000.0f)) / (float)IDLE_COUNTS_PER_SEC_AT_NO_LOAD;
+		float idleFraction = ((float)idleCounter / (dT)) / (float)IDLE_COUNTS_PER_SEC_AT_NO_LOAD;
 		if (idleFraction > 1)
 			stats.CPULoad = 0;
 		else

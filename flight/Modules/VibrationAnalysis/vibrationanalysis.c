@@ -259,7 +259,7 @@ static void VibrationAnalysisTask(void *parameters)
 	
 	
 /** These values are useful for insight into the Fourier transform performed by this module.
-	float freq_sample = 1.0f/(sampleRate_ms * portTICK_RATE_MS);
+	float freq_sample = 1.0f/MS2TICKS(sampleRate_ms);
 	float freq_nyquist = f_s/2.0f;
 	uint16_t num_samples = vtd->fft_window_size;
  */
@@ -268,14 +268,14 @@ static void VibrationAnalysisTask(void *parameters)
 	VibrationAnalysisOutputData vibrationAnalysisOutputData;
 	sample_count = 0;
 	lastSysTime = xTaskGetTickCount();
-	lastSettingsUpdateTime = xTaskGetTickCount() - SETTINGS_THROTTLING_MS * portTICK_RATE_MS;
+	lastSettingsUpdateTime = xTaskGetTickCount() - MS2TICKS(SETTINGS_THROTTLING_MS);
 
 	
 	// Main module task, never exit from while loop
 	while(1)
 	{
 		// Only check settings once every 100ms
-		if(xTaskGetTickCount() - lastSettingsUpdateTime > SETTINGS_THROTTLING_MS * portTICK_RATE_MS){
+		if(xTaskGetTickCount() - lastSettingsUpdateTime > MS2TICKS(SETTINGS_THROTTLING_MS)){
 			//First check if the analysis is active
 			VibrationAnalysisSettingsTestingStatusGet(&runAnalysisFlag);
 			
@@ -312,11 +312,11 @@ static void VibrationAnalysisTask(void *parameters)
 		}
 		
 		// If not enough time has passed, keep accumulating data
-		if(xTaskGetTickCount() - lastSysTime < sampleRate_ms * portTICK_RATE_MS){
+		if(xTaskGetTickCount() - lastSysTime < MS2TICKS(sampleRate_ms)) {
 			continue;
 		}
 		
-		lastSysTime += sampleRate_ms * portTICK_RATE_MS;
+		lastSysTime += MS2TICKS(sampleRate_ms);
 		
 		
 		//Calculate averaged values

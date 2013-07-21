@@ -674,7 +674,7 @@ static bool i2c_vm_send_uavo (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_
  */
 static bool i2c_vm_delay (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t imm_hi, uint8_t imm_lo)
 {
-	vTaskDelay((SIMM_VAL(imm_hi, imm_lo)) / portTICK_RATE_MS);
+	vTaskDelay(MS2TICKS(SIMM_VAL(imm_hi, imm_lo)));
 
 	vm_state->uavo.pc++;
 	return true;

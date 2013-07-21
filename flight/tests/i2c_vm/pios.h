@@ -11,6 +11,8 @@
 #include <stdbool.h>
 
 #define NELEMENTS(x) (sizeof(x) / sizeof(*(x)))
+#define TICKS2MS(t)	((t) * portTICK_RATE_MS) // portTICK_RATE_MS is in [ms/tick]. It is poorly named, see
+#define MS2TICKS(m)	((m) / portTICK_RATE_MS) // http://sourceforge.net/tracker/?func=detail&aid=3498382&group_id=111543&atid=659636
 
 #if defined(PIOS_INCLUDE_I2C)
 #include <pios_i2c.h>

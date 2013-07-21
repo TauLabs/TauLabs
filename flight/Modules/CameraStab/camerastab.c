@@ -121,7 +121,7 @@ int32_t CameraStabInitialize(void)
 
 		// make sure that all inputs[] are zeroed
 		memset(csd, 0, sizeof(struct CameraStab_data));
-		csd->lastSysTime = xTaskGetTickCount() - SAMPLE_PERIOD_MS / portTICK_RATE_MS;
+		csd->lastSysTime = xTaskGetTickCount() - MS2TICKS(SAMPLE_PERIOD_MS);
 
 		AttitudeActualInitialize();
 		CameraStabSettingsInitialize();
@@ -140,7 +140,7 @@ int32_t CameraStabInitialize(void)
 			.instId = 0,
 			.event = 0,
 		};
-		EventPeriodicCallbackCreate(&ev, attitudeUpdated, SAMPLE_PERIOD_MS / portTICK_RATE_MS);
+		EventPeriodicCallbackCreate(&ev, attitudeUpdated, MS2TICKS(SAMPLE_PERIOD_MS));
 
 		return 0;
 	}
@@ -171,7 +171,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 
 	// Check how long since last update, time delta between calls in ms
 	portTickType thisSysTime = xTaskGetTickCount();
-	float dT_ms = (thisSysTime - csd->lastSysTime) * portTICK_RATE_MS;
+	float dT_ms = TICKS2MS(thisSysTime - csd->lastSysTime);
 	csd->lastSysTime = thisSysTime;
 
 	if (dT_ms <= 0)
@@ -279,7 +279,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 
 		// Set output channels
 		output = bound_sym((attitude + csd->inputs[i]) / settings->OutputRange[i], 1.0f);
-		if (thisSysTime / portTICK_RATE_MS > LOAD_DELAY) {
+		if (TICKS2MS(thisSysTime) > LOAD_DELAY) {
 			switch (i) {
 			case ROLL:
 				CameraDesiredRollSet(&output);

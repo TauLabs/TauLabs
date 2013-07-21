@@ -170,7 +170,7 @@ static void SensorsTask(void *parameters)
 			PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 			lastSysTime = xTaskGetTickCount();
 			AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
-			vTaskDelayUntil(&lastSysTime, SENSOR_PERIOD / portTICK_RATE_MS);
+			vTaskDelayUntil(&lastSysTime, MS2TICKS(SENSOR_PERIOD));
 		}
 
 		struct pios_sensor_gyro_data gyros;
