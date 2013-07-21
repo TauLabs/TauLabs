@@ -164,9 +164,12 @@ int32_t PIOS_MPU9150_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 	/* Set up EXTI line */
 	PIOS_EXTI_Init(cfg->exti_cfg);
 
-	//Wait 5 ms for data ready interrupt
-	if (xSemaphoreTake(dev->data_ready_sema, 5) != pdTRUE)
-		return -233;
+	// Wait 5 ms for data ready interrupt and make sure it happens
+	// twice
+	if ((xSemaphoreTake(dev->data_ready_sema, 5) != pdTRUE) ||
+		(xSemaphoreTake(dev->data_ready_sema, 5) != pdTRUE)) {
+		return -10;
+	}
 
 	int result = xTaskCreate(PIOS_MPU9150_Task, (const signed char *)"PIOS_MPU9150_Task",
 						 MPU9150_TASK_STACK, NULL, MPU9150_TASK_PRIORITY,
@@ -192,11 +195,9 @@ static int32_t PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
 	if (PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, PIOS_MPU60X0_PWRMGMT_IMU_RST) != 0)
 		return -1;
 
-	// Reset sensors signal path
-	PIOS_MPU9150_SetReg(PIOS_MPU60X0_USER_CTRL_REG, PIOS_MPU60X0_USERCTL_GYRO_RST);
-
 	// Give chip some time to initialize
-	PIOS_DELAY_WaitmS(10);
+	PIOS_DELAY_WaitmS(50);
+	PIOS_WDG_Clear();
 
 	//Power management configuration
 	PIOS_MPU9150_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, cfg->Pwr_mgmt_clk);

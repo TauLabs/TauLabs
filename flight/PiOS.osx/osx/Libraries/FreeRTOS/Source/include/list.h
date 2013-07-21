@@ -1,60 +1,65 @@
 /*
-    FreeRTOS V7.0.1 - Copyright (C) 2011 Real Time Engineers Ltd.
-	
+    FreeRTOS V7.5.0 - Copyright (C) 2013 Real Time Engineers Ltd.
 
-	FreeRTOS supports many tools and architectures. V7.0.0 is sponsored by:
-	Atollic AB - Atollic provides professional embedded systems development 
-	tools for C/C++ development, code analysis and test automation.  
-	See http://www.atollic.com
-	
+    VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
 
     ***************************************************************************
      *                                                                       *
-     *    FreeRTOS tutorial books are available in pdf and paperback.        *
-     *    Complete, revised, and edited pdf reference manuals are also       *
-     *    available.                                                         *
+     *    FreeRTOS provides completely free yet professionally developed,    *
+     *    robust, strictly quality controlled, supported, and cross          *
+     *    platform software that has become a de facto standard.             *
      *                                                                       *
-     *    Purchasing FreeRTOS documentation will not only help you, by       *
-     *    ensuring you get running as quickly as possible and with an        *
-     *    in-depth knowledge of how to use FreeRTOS, it will also help       *
-     *    the FreeRTOS project to continue with its mission of providing     *
-     *    professional grade, cross platform, de facto standard solutions    *
-     *    for microcontrollers - completely free of charge!                  *
+     *    Help yourself get started quickly and support the FreeRTOS         *
+     *    project by purchasing a FreeRTOS tutorial book, reference          *
+     *    manual, or both from: http://www.FreeRTOS.org/Documentation        *
      *                                                                       *
-     *    >>> See http://www.FreeRTOS.org/Documentation for details. <<<     *
-     *                                                                       *
-     *    Thank you for using FreeRTOS, and thank you for your support!      *
+     *    Thank you!                                                         *
      *                                                                       *
     ***************************************************************************
-
 
     This file is part of the FreeRTOS distribution.
 
     FreeRTOS is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License (version 2) as published by the
-    Free Software Foundation AND MODIFIED BY the FreeRTOS exception.
-    >>>NOTE<<< The modification to the GPL is included to allow you to
-    distribute a combined work that includes FreeRTOS without being obliged to
-    provide the source code for proprietary components outside of the FreeRTOS
-    kernel.  FreeRTOS is distributed in the hope that it will be useful, but
-    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-    more details. You should have received a copy of the GNU General Public
-    License and the FreeRTOS license exception along with FreeRTOS; if not it
-    can be viewed here: http://www.freertos.org/a00114.html and also obtained
-    by writing to Richard Barry, contact details for whom are available on the
-    FreeRTOS WEB site.
+    Free Software Foundation >>!AND MODIFIED BY!<< the FreeRTOS exception.
+
+    >>! NOTE: The modification to the GPL is included to allow you to distribute
+    >>! a combined work that includes FreeRTOS without being obliged to provide
+    >>! the source code for proprietary components outside of the FreeRTOS
+    >>! kernel.
+
+    FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+    FOR A PARTICULAR PURPOSE.  Full license text is available from the following
+    link: http://www.freertos.org/a00114.html
 
     1 tab == 4 spaces!
 
-    http://www.FreeRTOS.org - Documentation, latest information, license and
-    contact details.
+    ***************************************************************************
+     *                                                                       *
+     *    Having a problem?  Start by reading the FAQ "My application does   *
+     *    not run, what could be wrong?"                                     *
+     *                                                                       *
+     *    http://www.FreeRTOS.org/FAQHelp.html                               *
+     *                                                                       *
+    ***************************************************************************
 
-    http://www.SafeRTOS.com - A version that is certified for use in safety
-    critical systems.
+    http://www.FreeRTOS.org - Documentation, books, training, latest versions,
+    license and Real Time Engineers Ltd. contact details.
 
-    http://www.OpenRTOS.com - Commercial support, development, porting,
-    licensing and training services.
+    http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+    including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+    compatible FAT file system, and our tiny thread aware UDP/IP stack.
+
+    http://www.OpenRTOS.com - Real Time Engineers ltd license FreeRTOS to High
+    Integrity Systems to sell under the OpenRTOS brand.  Low cost OpenRTOS
+    licenses offer ticketed support, indemnification and middleware.
+
+    http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+    engineered and independently SIL3 certified version for use in safety and
+    mission critical applications that require provable dependability.
+
+    1 tab == 4 spaces!
 */
 
 /*
@@ -89,6 +94,38 @@
 #ifndef LIST_H
 #define LIST_H
 
+/*
+ * The list structure members are modified from within interrupts, and therefore
+ * by rights should be declared volatile.  However, they are only modified in a
+ * functionally atomic way (within critical sections of with the scheduler
+ * suspended) and are either passed by reference into a function or indexed via
+ * a volatile variable.  Therefore, in all use cases tested so far, the volatile
+ * qualifier can be omitted in order to provide a moderate performance
+ * improvement without adversely affecting functional behaviour.  The assembly
+ * instructions generated by the IAR, ARM and GCC compilers when the respective
+ * compiler's options were set for maximum optimisation has been inspected and
+ * deemed to be as intended.  That said, as compiler technology advances, and
+ * especially if aggressive cross module optimisation is used (a use case that
+ * has not been exercised to any great extend) then it is feasible that the
+ * volatile qualifier will be needed for correct optimisation.  It is expected
+ * that a compiler removing essential code because, without the volatile
+ * qualifier on the list structure members and with aggressive cross module
+ * optimisation, the compiler deemed the code unnecessary will result in
+ * complete and obvious failure of the scheduler.  If this is ever experienced
+ * then the volatile qualifier can be inserted in the relevant places within the
+ * list structures by simply defining configLIST_VOLATILE to volatile in
+ * FreeRTOSConfig.h (as per the example at the bottom of this comment block).  
+ * If configLIST_VOLATILE is not defined then the preprocessor directives below 
+ * will simply #define configLIST_VOLATILE away completely.
+ *
+ * To use volatile list structure members then add the following line to
+ * FreeRTOSConfig.h (without the quotes):
+ * "#define configLIST_VOLATILE volatile"
+ */
+#ifndef configLIST_VOLATILE
+	#define configLIST_VOLATILE
+#endif /* configSUPPORT_CROSS_MODULE_OPTIMISATION */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -97,19 +134,19 @@ extern "C" {
  */
 struct xLIST_ITEM
 {
-	portTickType xItemValue;				/*< The value being listed.  In most cases this is used to sort the list in descending order. */
-	volatile struct xLIST_ITEM * pxNext;	/*< Pointer to the next xListItem in the list. */
-	volatile struct xLIST_ITEM * pxPrevious;/*< Pointer to the previous xListItem in the list. */
-	void * pvOwner;							/*< Pointer to the object (normally a TCB) that contains the list item.  There is therefore a two way link between the object containing the list item and the list item itself. */
-	void * pvContainer;						/*< Pointer to the list in which this list item is placed (if any). */
+	configLIST_VOLATILE portTickType xItemValue;	/*< The value being listed.  In most cases this is used to sort the list in descending order. */
+	struct xLIST_ITEM * configLIST_VOLATILE pxNext;	/*< Pointer to the next xListItem in the list. */
+	struct xLIST_ITEM * configLIST_VOLATILE pxPrevious;/*< Pointer to the previous xListItem in the list. */
+	void * pvOwner;									/*< Pointer to the object (normally a TCB) that contains the list item.  There is therefore a two way link between the object containing the list item and the list item itself. */
+	void * configLIST_VOLATILE pvContainer;			/*< Pointer to the list in which this list item is placed (if any). */
 };
-typedef struct xLIST_ITEM xListItem;		/* For some reason lint wants this as two separate definitions. */
+typedef struct xLIST_ITEM xListItem;				/* For some reason lint wants this as two separate definitions. */
 
 struct xMINI_LIST_ITEM
 {
-	portTickType xItemValue;
-	volatile struct xLIST_ITEM *pxNext;
-	volatile struct xLIST_ITEM *pxPrevious;
+	configLIST_VOLATILE portTickType xItemValue;
+	struct xLIST_ITEM * configLIST_VOLATILE pxNext;
+	struct xLIST_ITEM * configLIST_VOLATILE pxPrevious;
 };
 typedef struct xMINI_LIST_ITEM xMiniListItem;
 
@@ -118,9 +155,9 @@ typedef struct xMINI_LIST_ITEM xMiniListItem;
  */
 typedef struct xLIST
 {
-	volatile unsigned portBASE_TYPE uxNumberOfItems;
-	volatile xListItem * pxIndex;			/*< Used to walk through the list.  Points to the last item returned by a call to pvListGetOwnerOfNextEntry (). */
-	volatile xMiniListItem xListEnd;		/*< List item that contains the maximum possible item value meaning it is always at the end of the list and is therefore used as a marker. */
+	configLIST_VOLATILE unsigned portBASE_TYPE uxNumberOfItems;
+	xListItem * configLIST_VOLATILE pxIndex;		/*< Used to walk through the list.  Points to the last item returned by a call to pvListGetOwnerOfNextEntry (). */
+	xMiniListItem xListEnd;							/*< List item that contains the maximum possible item value meaning it is always at the end of the list and is therefore used as a marker. */
 } xList;
 
 /*
@@ -130,7 +167,16 @@ typedef struct xLIST
  * \page listSET_LIST_ITEM_OWNER listSET_LIST_ITEM_OWNER
  * \ingroup LinkedList
  */
-#define listSET_LIST_ITEM_OWNER( pxListItem, pxOwner )		( pxListItem )->pvOwner = ( void * ) ( pxOwner )
+#define listSET_LIST_ITEM_OWNER( pxListItem, pxOwner )		( ( pxListItem )->pvOwner = ( void * ) ( pxOwner ) )
+
+/*
+ * Access macro to get the owner of a list item.  The owner of a list item
+ * is the object (usually a TCB) that contains the list item.
+ *
+ * \page listSET_LIST_ITEM_OWNER listSET_LIST_ITEM_OWNER
+ * \ingroup LinkedList
+ */
+#define listGET_LIST_ITEM_OWNER( pxListItem )		( pxListItem )->pvOwner
 
 /*
  * Access macro to set the value of the list item.  In most cases the value is
@@ -139,10 +185,10 @@ typedef struct xLIST
  * \page listSET_LIST_ITEM_VALUE listSET_LIST_ITEM_VALUE
  * \ingroup LinkedList
  */
-#define listSET_LIST_ITEM_VALUE( pxListItem, xValue )		( pxListItem )->xItemValue = ( xValue )
+#define listSET_LIST_ITEM_VALUE( pxListItem, xValue )		( ( pxListItem )->xItemValue = ( xValue ) )
 
 /*
- * Access macro the retrieve the value of the list item.  The value can
+ * Access macro to retrieve the value of the list item.  The value can
  * represent anything - for example a the priority of a task, or the time at
  * which a task should be unblocked.
  *
@@ -167,7 +213,7 @@ typedef struct xLIST
  * \page listLIST_IS_EMPTY listLIST_IS_EMPTY
  * \ingroup LinkedList
  */
-#define listLIST_IS_EMPTY( pxList )				( ( pxList )->uxNumberOfItems == ( unsigned portBASE_TYPE ) 0 )
+#define listLIST_IS_EMPTY( pxList )				( ( portBASE_TYPE ) ( ( pxList )->uxNumberOfItems == ( unsigned portBASE_TYPE ) 0 ) )
 
 /*
  * Access macro to return the number of items in the list.
@@ -193,17 +239,17 @@ typedef struct xLIST
  * \page listGET_OWNER_OF_NEXT_ENTRY listGET_OWNER_OF_NEXT_ENTRY
  * \ingroup LinkedList
  */
-#define listGET_OWNER_OF_NEXT_ENTRY( pxTCB, pxList )									\
-{																						\
-xList * const pxConstList = ( pxList );													\
-	/* Increment the index to the next item and return the item, ensuring */			\
-	/* we don't return the marker used at the end of the list.  */						\
-	( pxConstList )->pxIndex = ( pxConstList )->pxIndex->pxNext;						\
-	if( ( pxConstList )->pxIndex == ( xListItem * ) &( ( pxConstList )->xListEnd ) )	\
-	{																					\
-		( pxConstList )->pxIndex = ( pxConstList )->pxIndex->pxNext;					\
-	}																					\
-	( pxTCB ) = ( pxConstList )->pxIndex->pvOwner;										\
+#define listGET_OWNER_OF_NEXT_ENTRY( pxTCB, pxList )										\
+{																							\
+xList * const pxConstList = ( pxList );														\
+	/* Increment the index to the next item and return the item, ensuring */				\
+	/* we don't return the marker used at the end of the list.  */							\
+	( pxConstList )->pxIndex = ( pxConstList )->pxIndex->pxNext;							\
+	if( ( void * ) ( pxConstList )->pxIndex == ( void * ) &( ( pxConstList )->xListEnd ) )	\
+	{																						\
+		( pxConstList )->pxIndex = ( pxConstList )->pxIndex->pxNext;						\
+	}																						\
+	( pxTCB ) = ( pxConstList )->pxIndex->pvOwner;											\
 }
 
 
@@ -235,7 +281,22 @@ xList * const pxConstList = ( pxList );													\
  * @return pdTRUE is the list item is in the list, otherwise pdFALSE.
  * pointer against
  */
-#define listIS_CONTAINED_WITHIN( pxList, pxListItem ) ( ( pxListItem )->pvContainer == ( void * ) ( pxList ) )
+#define listIS_CONTAINED_WITHIN( pxList, pxListItem ) ( ( portBASE_TYPE ) ( ( pxListItem )->pvContainer == ( void * ) ( pxList ) ) )
+
+/*
+ * Return the list a list item is contained within (referenced from).
+ *
+ * @param pxListItem The list item being queried.
+ * @return A pointer to the xList object that references the pxListItem
+ */
+#define listLIST_ITEM_CONTAINER( pxListItem ) ( ( pxListItem )->pvContainer )
+
+/*
+ * This provides a crude means of knowing if a list has been initialised, as
+ * pxList->xListEnd.xItemValue is set to portMAX_DELAY by the vListInitialise()
+ * function.
+ */
+#define listLIST_IS_INITIALISED( pxList ) ( ( pxList )->xListEnd.xItemValue == portMAX_DELAY )
 
 /*
  * Must be called before a list is used!  This initialises all the members
@@ -247,7 +308,7 @@ xList * const pxConstList = ( pxList );													\
  * \page vListInitialise vListInitialise
  * \ingroup LinkedList
  */
-void vListInitialise( xList *pxList );
+void vListInitialise( xList * const pxList );
 
 /*
  * Must be called before a list item is used.  This sets the list container to
@@ -258,7 +319,7 @@ void vListInitialise( xList *pxList );
  * \page vListInitialiseItem vListInitialiseItem
  * \ingroup LinkedList
  */
-void vListInitialiseItem( xListItem *pxItem );
+void vListInitialiseItem( xListItem * const pxItem );
 
 /*
  * Insert a list item into a list.  The item will be inserted into the list in
@@ -271,7 +332,7 @@ void vListInitialiseItem( xListItem *pxItem );
  * \page vListInsert vListInsert
  * \ingroup LinkedList
  */
-void vListInsert( xList *pxList, xListItem *pxNewListItem );
+void vListInsert( xList * const pxList, xListItem * const pxNewListItem );
 
 /*
  * Insert a list item into a list.  The item will be inserted in a position
@@ -292,19 +353,22 @@ void vListInsert( xList *pxList, xListItem *pxNewListItem );
  * \page vListInsertEnd vListInsertEnd
  * \ingroup LinkedList
  */
-void vListInsertEnd( xList *pxList, xListItem *pxNewListItem );
+void vListInsertEnd( xList * const pxList, xListItem * const pxNewListItem );
 
 /*
  * Remove an item from a list.  The list item has a pointer to the list that
  * it is in, so only the list item need be passed into the function.
  *
- * @param vListRemove The item to be removed.  The item will remove itself from
+ * @param uxListRemove The item to be removed.  The item will remove itself from
  * the list pointed to by it's pxContainer parameter.
  *
- * \page vListRemove vListRemove
+ * @return The number of items that remain in the list after the list item has
+ * been removed.
+ *
+ * \page uxListRemove uxListRemove
  * \ingroup LinkedList
  */
-void vListRemove( xListItem *pxItemToRemove );
+unsigned portBASE_TYPE uxListRemove( xListItem * const pxItemToRemove );
 
 #ifdef __cplusplus
 }
