@@ -42,7 +42,7 @@
 
 // UAVOs
 #include "gcsreceiver.h"
-#include "manualcontrolcommand.h"
+#include "controlcommand.h"
 
 namespace Core {
 class IUAVGadget;
@@ -66,8 +66,8 @@ public:
     void loadConfiguration(IUAVGadgetConfiguration* config);
 
 private:
-    //! Get the handle to the ManualControlCommand object
-    ManualControlCommand* getManualControlCommand();
+    //! Get the handle to the ControlCommand object
+    ControlCommand* getControlCommand();
 
     //! Get the handle to the GCSReceiver object
     GCSReceiver* getGcsReceiver();
@@ -77,7 +77,7 @@ private:
     //! Set the GCS Receiver object
     void setGcsReceiver(double leftX, double leftY, double rightX, double rightY);
 
-    //! Set the ManualControlCommand object
+    //! Set the ControlCommand object
     void setManualControl(double leftX, double leftY, double rightX, double rightY);
 
     QTime joystickTime;
@@ -112,7 +112,7 @@ signals:
     void sticksChangedRemotely(double leftX, double leftY, double rightX, double rightY);
 
 protected slots:
-    void manualControlCommandUpdated(UAVObject *);
+    void controlCommandUpdated(UAVObject *);
     void sticksChangedLocally(double leftX, double leftY, double rightX, double rightY);
     void readUDPCommand();
     void sendGcsReceiver();

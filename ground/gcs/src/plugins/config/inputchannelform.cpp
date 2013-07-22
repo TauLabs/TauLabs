@@ -1,7 +1,6 @@
 #include "inputchannelform.h"
 #include "ui_inputchannelform.h"
 
-#include "manualcontrolsettings.h"
 #include "gcsreceiver.h"
 
 inputChannelForm::inputChannelForm(QWidget *parent,bool showlegend) :
@@ -99,24 +98,24 @@ void inputChannelForm::groupUpdated()
     case -1: // Nothing selected
         count = 0;
         break;
-    case ManualControlSettings::CHANNELGROUPS_PWM:
+    case RCTransmitterSettings::CHANNELGROUPS_PWM:
         count = 8; // Need to make this 6 for CC
         break;
-    case ManualControlSettings::CHANNELGROUPS_PPM:
-    case ManualControlSettings::CHANNELGROUPS_DSMMAINPORT:
-    case ManualControlSettings::CHANNELGROUPS_DSMFLEXIPORT:
+    case RCTransmitterSettings::CHANNELGROUPS_PPM:
+    case RCTransmitterSettings::CHANNELGROUPS_DSMMAINPORT:
+    case RCTransmitterSettings::CHANNELGROUPS_DSMFLEXIPORT:
         count = 12;
         break;
-    case ManualControlSettings::CHANNELGROUPS_SBUS:
+    case RCTransmitterSettings::CHANNELGROUPS_SBUS:
         count = 18;
         break;
-    case ManualControlSettings::CHANNELGROUPS_GCS:
+    case RCTransmitterSettings::CHANNELGROUPS_GCS:
         count = GCSReceiver::CHANNEL_NUMELEM;
         break;
-    case ManualControlSettings::CHANNELGROUPS_HOTTSUM:
+    case RCTransmitterSettings::CHANNELGROUPS_HOTTSUM:
         count = 32;
         break;
-    case ManualControlSettings::CHANNELGROUPS_NONE:
+    case RCTransmitterSettings::CHANNELGROUPS_NONE:
         count = 0;
         break;
     default:

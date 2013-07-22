@@ -93,7 +93,7 @@ private:
     void applyFlighModeConfiguration();
     void applySensorBiasConfiguration();
     void applyStabilizationConfiguration();
-    void applyManualControlDefaults();
+    void applyRCTransmitterSettingsDefaults();
 
     void applyMixerConfiguration(mixerChannelSettings channels[]);
 

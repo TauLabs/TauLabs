@@ -37,7 +37,7 @@
 
 #include "uavobject.h"
 #include "uavobjectmanager.h"
-#include "manualcontrolcommand.h"
+#include "controlcommand.h"
 #include "extensionsystem/pluginmanager.h"
 
 GCSControlGadgetWidget::GCSControlGadgetWidget(QWidget *parent) : QLabel(parent)
@@ -48,7 +48,7 @@ GCSControlGadgetWidget::GCSControlGadgetWidget(QWidget *parent) : QLabel(parent)
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("ManualControlCommand")) );
+    UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("ControlCommand")) );
     UAVObject::Metadata mdata = obj->getMetadata();
     m_gcscontrol->checkBoxGcsControl->setChecked(UAVObject::GetFlightAccess(mdata) == UAVObject::ACCESS_READONLY);
 
@@ -158,7 +158,7 @@ void GCSControlGadgetWidget::toggleUDPControl(int state)
 }
 
 /*!
-  \brief Called when the flight mode drop down is changed and sets the ManualControlCommand->FlightMode accordingly
+  \brief Called when the flight mode drop down is changed and sets the FlightStatus->FlightMode accordingly
   */
 void GCSControlGadgetWidget::selectFlightMode(int state)
 {
