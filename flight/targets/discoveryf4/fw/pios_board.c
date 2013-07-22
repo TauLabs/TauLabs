@@ -40,14 +40,14 @@
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 #include "hwdiscoveryf4.h"
-#include "manualcontrolsettings.h"
+#include "rctransmittersettings.h"
 #include "modulesettings.h"
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, DSMMAINPORT, DSMFLEXIPORT, SBUS
  * NOTE: No slot in this map for NONE.
  */
-uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
+uintptr_t pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE];
 
 #define PIOS_COM_TELEM_RF_RX_BUF_LEN 512
 #define PIOS_COM_TELEM_RF_TX_BUF_LEN 512
@@ -361,7 +361,7 @@ void PIOS_Board_Init(void) {
 	if (PIOS_RCVR_Init(&pios_gcsrcvr_rcvr_id, &pios_gcsrcvr_rcvr_driver, pios_gcsrcvr_id)) {
 		PIOS_Assert(0);
 	}
-	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
+	pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
 #if defined(PIOS_INCLUDE_GPIO)

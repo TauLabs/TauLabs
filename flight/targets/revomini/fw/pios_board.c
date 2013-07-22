@@ -41,7 +41,7 @@
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 #include "hwrevomini.h"
-#include "manualcontrolsettings.h"
+#include "rctransmittersettings.h"
 #include "modulesettings.h"
 
 /**
@@ -155,7 +155,7 @@ static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
  * NOTE: No slot in this map for NONE.
  */
-uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
+uintptr_t pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE];
 
 #define PIOS_COM_TELEM_RF_RX_BUF_LEN 512
 #define PIOS_COM_TELEM_RF_TX_BUF_LEN 512
@@ -225,7 +225,7 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 
 static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm_cfg, const struct pios_dsm_cfg *pios_dsm_cfg, 
 		const struct pios_com_driver *pios_usart_com_driver,enum pios_dsm_proto *proto, 
-		ManualControlSettingsChannelGroupsOptions channelgroup,uint8_t *bind)
+		RCTransmitterSettingsChannelGroupsOptions channelgroup,uint8_t *bind)
 {
 	uintptr_t pios_usart_dsm_id;
 	if (PIOS_USART_Init(&pios_usart_dsm_id, pios_usart_dsm_cfg)) {
@@ -502,7 +502,7 @@ void PIOS_Board_Init(void) {
                                 if (PIOS_RCVR_Init(&pios_sbus_rcvr_id, &pios_sbus_rcvr_driver, pios_sbus_id)) {
                                         PIOS_Assert(0);
                                 }
-                                pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
+                                pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
                         }
 #endif
                         break;
@@ -531,7 +531,7 @@ void PIOS_Board_Init(void) {
 
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_main_cfg, &pios_dsm_main_cfg, 
-							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
+							&pios_usart_com_driver, &proto, RCTRANSMITTERSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
 			}
 			break;
 		case HWREVOMINI_MAINPORT_DEBUGCONSOLE:
@@ -594,7 +594,7 @@ void PIOS_Board_Init(void) {
 				}
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_flexi_cfg, &pios_dsm_flexi_cfg, 
-							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
+							&pios_usart_com_driver, &proto, RCTRANSMITTERSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
 			}
 			break;
 		case HWREVOMINI_FLEXIPORT_DEBUGCONSOLE:
@@ -657,7 +657,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
+			pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 			break;
@@ -672,7 +672,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
+			pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_PPM */
 		case HWREVOMINI_RCVRPORT_OUTPUTS:
@@ -689,7 +689,7 @@ void PIOS_Board_Init(void) {
 	if (PIOS_RCVR_Init(&pios_gcsrcvr_rcvr_id, &pios_gcsrcvr_rcvr_driver, pios_gcsrcvr_id)) {
 		PIOS_Assert(0);
 	}
-	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
+	pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
