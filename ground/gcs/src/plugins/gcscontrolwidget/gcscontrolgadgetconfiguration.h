@@ -75,7 +75,7 @@ class GCSControlGadgetConfiguration : public IUAVGadgetConfiguration
         IUAVGadgetConfiguration *clone();
 
     private:
-        //! Indicate whether the gadget sends commands via GCS Receiver or overriding ManualControlCommand
+        //! Indicate whether the gadget sends commands via GCS Receiver or overrides RCTransmitter and ControlCommand
         bool gcsReceiverMode;
 
         //! Mode1 to Mode4

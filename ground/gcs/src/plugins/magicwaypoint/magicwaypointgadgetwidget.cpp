@@ -37,7 +37,6 @@
 
 #include "uavobject.h"
 #include "uavobjectmanager.h"
-#include "manualcontrolcommand.h"
 #include "extensionsystem/pluginmanager.h"
 #include "extensionsystem/pluginmanager.h"
 

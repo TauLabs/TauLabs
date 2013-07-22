@@ -30,7 +30,6 @@
 #include "actuatorcommand.h"
 #include "extensionsystem/pluginmanager.h"
 #include "vehicleconfigurationhelper.h"
-#include "manualcontrolsettings.h"
 
 OutputCalibrationUtil::OutputCalibrationUtil(QObject *parent) :
     QObject(parent), m_outputChannel(-1), m_safeValue(1000)

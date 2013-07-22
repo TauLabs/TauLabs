@@ -36,6 +36,7 @@
 				<elementname>Accessory0</elementname>
 				<elementname>Accessory1</elementname>
 				<elementname>Accessory2</elementname>
+				<elementname>Arming</elementname>
 			</elementnames>
 		</field>
 		<field name="ChannelMin" units="us" type="int16" defaultvalue="1000">
@@ -49,6 +50,7 @@
 				<elementname>Accessory0</elementname>
 				<elementname>Accessory1</elementname>
 				<elementname>Accessory2</elementname>
+				<elementname>Arming</elementname>
 			</elementnames>
 		</field>
 		<field name="ChannelNeutral" units="us" type="int16" defaultvalue="1500">
@@ -62,6 +64,7 @@
 				<elementname>Accessory0</elementname>
 				<elementname>Accessory1</elementname>
 				<elementname>Accessory2</elementname>
+				<elementname>Arming</elementname>
 			</elementnames>
 		</field>
 		<field name="ChannelMax" units="us" type="int16" defaultvalue="2000">
@@ -75,6 +78,7 @@
 				<elementname>Accessory0</elementname>
 				<elementname>Accessory1</elementname>
 				<elementname>Accessory2</elementname>
+				<elementname>Arming</elementname>
 			</elementnames>
 		</field>
 		<field name="Deadband" units="%" type="float" elements="1" defaultvalue="0"/>

@@ -37,7 +37,7 @@
 
 #include "uavobject.h"
 #include "uavobjectmanager.h"
-#include "manualcontrolcommand.h"
+#include "controlcommand.h"
 #include "extensionsystem/pluginmanager.h"
 #include "flightstatus.h"
 
@@ -126,11 +126,11 @@ void GCSControlGadgetWidget::toggleUDPControl(int state)
 }
 
 /*!
-  \brief Called when the flight mode drop down is changed and sets the ManualControlCommand->FlightMode accordingly
+  \brief Called when the flight mode drop down is changed and sets the FlightStatus->FlightMode accordingly
   */
 void GCSControlGadgetWidget::selectFlightMode(int state)
 {
-    emit flightModeChangedLocaly((ManualControlSettings::FlightModePositionOptions)state);
+    emit flightModeChangedLocaly((ControlCommandSettings::FlightModePositionOptions)state);
 }
 
 void GCSControlGadgetWidget::setGCSControl(bool newState)

@@ -55,7 +55,6 @@
 #include "gpsvelocity.h"
 #include "gyros.h"
 #include "homelocation.h"
-#include "manualcontrolcommand.h"
 #include "positionactual.h"
 #include "sonaraltitude.h"
 #include "velocityactual.h"
@@ -234,7 +233,6 @@ protected:
 
     ActuatorCommand* actCommand;
     ActuatorDesired* actDesired;
-    ManualControlCommand* manCtrlCommand;
     FlightStatus* flightStatus;
     BaroAltitude* baroAlt;
     AirspeedActual* airspeedActual;
