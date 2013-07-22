@@ -1,7 +1,6 @@
 <xml>
 	<object name="RCTransmitterSettings" singleinstance="true" settings="true">
 		<description>Settings to indicate how to decode receiver input by @ref ManualControlModule.</description>
-
 		<field name="ChannelGroups" units="Channel Group" type="enum" defaultvalue="None">
 			<elementnames>
 				<elementname>Throttle</elementname>
@@ -25,15 +24,58 @@
 				<option>None</option>
 			</options>
 		</field>
-		<field name="ChannelNumber" units="channel" type="uint8" defaultvalue="0"
-			elementnames="Throttle,Roll,Pitch,Yaw,FlightMode,Collective,Accessory0,Accessory1,Accessory2"/>
-		<field name="ChannelMin" units="us" type="int16" defaultvalue="1000"
-			elementnames="Throttle,Roll,Pitch,Yaw,FlightMode,Collective,Accessory0,Accessory1,Accessory2"/>
-		<field name="ChannelNeutral" units="us" type="int16" defaultvalue="1500"
-			elementnames="Throttle,Roll,Pitch,Yaw,FlightMode,Collective,Accessory0,Accessory1,Accessory2"/>
-		<field name="ChannelMax" units="us" type="int16" defaultvalue="2000"
-			elementnames="Throttle,Roll,Pitch,Yaw,FlightMode,Collective,Accessory0,Accessory1,Accessory2"/>
-
+		<field name="ChannelNumber" units="channel" type="uint8" defaultvalue="0">
+			<elementnames>
+				<elementname>Throttle</elementname>
+				<elementname>Roll</elementname>
+				<elementname>Pitch</elementname>
+				<elementname>Yaw</elementname>
+				<elementname>FlightMode</elementname>
+				<elementname>Collective</elementname>
+				<elementname>Accessory0</elementname>
+				<elementname>Accessory1</elementname>
+				<elementname>Accessory2</elementname>
+			</elementnames>
+		</field>
+		<field name="ChannelMin" units="us" type="int16" defaultvalue="1000">
+			<elementnames>
+				<elementname>Throttle</elementname>
+				<elementname>Roll</elementname>
+				<elementname>Pitch</elementname>
+				<elementname>Yaw</elementname>
+				<elementname>FlightMode</elementname>
+				<elementname>Collective</elementname>
+				<elementname>Accessory0</elementname>
+				<elementname>Accessory1</elementname>
+				<elementname>Accessory2</elementname>
+			</elementnames>
+		</field>
+		<field name="ChannelNeutral" units="us" type="int16" defaultvalue="1500">
+			<elementnames>
+				<elementname>Throttle</elementname>
+				<elementname>Roll</elementname>
+				<elementname>Pitch</elementname>
+				<elementname>Yaw</elementname>
+				<elementname>FlightMode</elementname>
+				<elementname>Collective</elementname>
+				<elementname>Accessory0</elementname>
+				<elementname>Accessory1</elementname>
+				<elementname>Accessory2</elementname>
+			</elementnames>
+		</field>
+		<field name="ChannelMax" units="us" type="int16" defaultvalue="2000">
+			<elementnames>
+				<elementname>Throttle</elementname>
+				<elementname>Roll</elementname>
+				<elementname>Pitch</elementname>
+				<elementname>Yaw</elementname>
+				<elementname>FlightMode</elementname>
+				<elementname>Collective</elementname>
+				<elementname>Accessory0</elementname>
+				<elementname>Accessory1</elementname>
+				<elementname>Accessory2</elementname>
+			</elementnames>
+		</field>
         <field name="Deadband" units="%" type="float" elements="1" defaultvalue="0"/>
 
 		<access gcs="readwrite" flight="readwrite"/>
