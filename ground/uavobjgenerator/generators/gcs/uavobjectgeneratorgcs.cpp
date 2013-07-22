@@ -285,9 +285,13 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
     // Replace the $(DATAFIELDINFO) tag
     QString name;
     QString enums;
+    QString q_enums;
     for (int n = 0; n < info->fields.length(); ++n)
     {
-        enums.append(QString("    // Field %1 information\n").arg(info->fields[n]->name));
+        if(!info->fields[n]->name.isEmpty())
+        {
+            enums.append(QString("    // Field %1 information\n").arg(info->fields[n]->name));
+        }
         // Only for enum types
         if (info->fields[n]->type == FIELDTYPE_ENUM)
         {
@@ -304,6 +308,7 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
             }
             enums.append( QString(" } %1Options;\n")
                           .arg( info->fields[n]->name ) );
+            q_enums.append(QString("    Q_ENUMS(%1Options)\n").arg(info->fields[n]->name));
         }
         // Generate element names (only if field has more than one element)
         if (info->fields[n]->numElements > 1 && !info->fields[n]->defaultElementNames) {
@@ -320,6 +325,7 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
             }
             enums.append( QString(" } %1Elem;\n")
                           .arg( info->fields[n]->name ) );
+            q_enums.append(QString("    Q_ENUMS(%1Elem)\n").arg(info->fields[n]->name));
         }
         // Generate array information
         if (info->fields[n]->numElements > 1) {
@@ -330,9 +336,10 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
         }
     }
     outInclude.replace(QString("$(DATAFIELDINFO)"), enums);
-
+    outInclude.replace(QString("$(ENUMS)"),q_enums);
     // Replace the $(INITFIELDS) tag
     QString initfields;
+
     for (int n = 0; n < info->fields.length(); ++n)
     {
         if (!info->fields[n]->defaultValues.isEmpty() )
