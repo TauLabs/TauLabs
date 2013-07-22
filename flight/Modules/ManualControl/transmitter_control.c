@@ -37,13 +37,15 @@
 #include "actuatordesired.h"
 #include "altitudeholddesired.h"
 #include "baroaltitude.h"
+#include "controlcommand.h"
+#include "controlcommandsettings.h"
 #include "fixedwingpathfollowersettings.h"
 #include "flighttelemetrystats.h"
 #include "flightstatus.h"
-#include "manualcontrolsettings.h"
-#include "manualcontrolcommand.h"
 #include "pathdesired.h"
 #include "positionactual.h"
+#include "rctransmitterinput.h"
+#include "rctransmittersettings.h"
 #include "receiveractivity.h"
 #include "stabilizationsettings.h"
 #include "stabilizationdesired.h"
@@ -71,7 +73,7 @@ enum arm_state {
 #define RCVR_ACTIVITY_MONITOR_CHANNELS_PER_GROUP 12
 #define RCVR_ACTIVITY_MONITOR_MIN_RANGE 10
 struct rcvr_activity_fsm {
-	ManualControlSettingsChannelGroupsOptions group;
+	RCTransmitterSettingsChannelGroupsOptions group;
 	uint16_t prev[RCVR_ACTIVITY_MONITOR_CHANNELS_PER_GROUP];
 	uint8_t sample_count;
 };
@@ -80,8 +82,10 @@ struct rcvr_activity_fsm {
 // Private variables
 static enum arm_state             arm_state;
 static FlightStatusData           flightStatus;
-static ManualControlCommandData   cmd;
-static ManualControlSettingsData  settings;
+static ControlCommandData         control_command;
+static ControlCommandSettingsData control_command_settings;
+static RCTransmitterInputData     rc_transmitter_input;
+static RCTransmitterSettingsData  rc_transmitter_settings;
 static uint8_t                    disconnected_count = 0;
 static uint8_t                    connected_count = 0;
 static struct rcvr_activity_fsm   activity_fsm;
@@ -89,15 +93,16 @@ static portTickType               lastActivityTime;
 static portTickType               lastSysTime;
 static float                      flight_mode_value;
 static enum control_events        pending_control_event;
-static bool                       settings_updated;
+static bool                       cc_settings_updated;
+static bool                       rc_tx_settings_updated;
 
 // Private functions
-static void update_actuator_desired(ManualControlCommandData * cmd);
-static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
-static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged);
-static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
+static void update_actuator_desired(ControlCommandData *cmd);
+static void update_stabilization_desired(ControlCommandData *cmd, ControlCommandSettingsData *settings);
+static void altitude_hold_desired(ControlCommandData *cmd, bool flightModeChanged);
+static void update_path_desired(ControlCommandData *cmd, bool flightModeChanged, bool home);
 static void set_flight_mode();
-static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
+static void process_transmitter_events(ControlCommandData *cmd, ControlCommandSettingsData *settings);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
 static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time);
@@ -105,7 +110,8 @@ static bool validInputRange(int16_t min, int16_t max, uint16_t value, uint16_t o
 static void applyDeadband(float *value, float deadband);
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm);
 static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm);
-static void manual_control_settings_updated(UAVObjEvent * ev);
+static void control_command_settings_updated(UAVObjEvent * ev);
+static void rc_transmitter_settings_updated(UAVObjEvent * ev);
 
 #define assumptions (assumptions1 && assumptions3 && assumptions5 && assumptions7 && assumptions8 && assumptions_flightmode && assumptions_channelcount)
 
@@ -117,11 +123,13 @@ int32_t transmitter_control_initialize()
 		return -1;
 
 	AccessoryDesiredInitialize();
-	ManualControlCommandInitialize();
+	ControlCommandInitialize();
+	ControlCommandSettingsInitialize();
 	FlightStatusInitialize();
 	StabilizationDesiredInitialize();
 	ReceiverActivityInitialize();
-	ManualControlSettingsInitialize();
+	RCTransmitterInputInitialize();
+	RCTransmitterSettingsInitialize();
 
 	/* For now manual instantiate extra instances of Accessory Desired.  In future  */
 	/* should be done dynamically this includes not even registering it if not used */
@@ -139,8 +147,10 @@ int32_t transmitter_control_initialize()
 	resetRcvrActivity(&activity_fsm);
 
 	// Use callback to update the settings when they change
-	ManualControlSettingsConnectCallback(manual_control_settings_updated);
-	manual_control_settings_updated(NULL);
+	ControlCommandSettingsConnectCallback(control_command_settings_updated);
+	RCTransmitterSettingsConnectCallback(rc_transmitter_settings_updated);
+	control_command_settings_updated(NULL);
+	rc_transmitter_settings_updated(NULL);
 
 	// Main task loop
 	lastSysTime = xTaskGetTickCount();
@@ -159,11 +169,16 @@ int32_t transmitter_control_update()
 {
 	lastSysTime = xTaskGetTickCount();
 
-	float scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
+	float scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_NUMELEM];
 
-	if (settings_updated) {
-		settings_updated = false;
-		ManualControlSettingsGet(&settings);
+	if (rc_tx_settings_updated) {
+		rc_tx_settings_updated = false;
+		RCTransmitterSettingsGet(&rc_transmitter_settings);
+	}
+
+	if (cc_settings_updated) {
+		cc_settings_updated = false;
+		ControlCommandSettingsGet(&control_command_settings);
 	}
 
 	/* Update channel activity monitor */
@@ -178,72 +193,74 @@ int32_t transmitter_control_update()
 		lastActivityTime = lastSysTime;
 	}
 
-	if (ManualControlCommandReadOnly()) {
-		FlightTelemetryStatsData flightTelemStats;
-		FlightTelemetryStatsGet(&flightTelemStats);
-		if(flightTelemStats.Status != FLIGHTTELEMETRYSTATS_STATUS_CONNECTED) {
-			/* trying to fly via GCS and lost connection.  fall back to transmitter */
-			UAVObjMetadata metadata;
-			ManualControlCommandGetMetadata(&metadata);
-			UAVObjSetAccess(&metadata, ACCESS_READWRITE);
-			ManualControlCommandSetMetadata(&metadata);
-		}
+//	// TODO: Does this still make sense with the failsafe mode? In
+//	// light of the idea to remove GCSReceiver, this could be appropriate again
+//	if (ManualControlCommandReadOnly()) {
+//		FlightTelemetryStatsData flightTelemStats;
+//		FlightTelemetryStatsGet(&flightTelemStats);
+//		if(flightTelemStats.Status != FLIGHTTELEMETRYSTATS_STATUS_CONNECTED) {
+//			/* trying to fly via GCS and lost connection.  fall back to transmitter */
+//			UAVObjMetadata metadata;
+//			ManualControlCommandGetMetadata(&metadata);
+//			UAVObjSetAccess(&metadata, ACCESS_READWRITE);
+//			ManualControlCommandSetMetadata(&metadata);
+//		}
 
-		// Don't process anything else when GCS is overriding the objects
-		return 0;
-	}
+//		// Don't process anything else when GCS is overriding the objects
+//		return 0;
+//	}
 
 	bool valid_input_detected = true;
 
 	// Read channel values in us
 	for (uint8_t n = 0; 
-	     n < MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM && n < MANUALCONTROLCOMMAND_CHANNEL_NUMELEM;
+		 n < RCTRANSMITTERSETTINGS_CHANNELGROUPS_NUMELEM && n < RCTRANSMITTERINPUT_CHANNEL_NUMELEM;
 	     ++n) {
 		extern uintptr_t pios_rcvr_group_map[];
 
-		if (settings.ChannelGroups[n] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-			cmd.Channel[n] = PIOS_RCVR_INVALID;
+		if (rc_transmitter_settings.ChannelGroups[n] >= RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE) {
+			rc_transmitter_input.Channel[n] = PIOS_RCVR_INVALID;
 		} else {
-			cmd.Channel[n] = PIOS_RCVR_Read(pios_rcvr_group_map[settings.ChannelGroups[n]],
-							settings.ChannelNumber[n]);
+			rc_transmitter_input.Channel[n] = PIOS_RCVR_Read(pios_rcvr_group_map[rc_transmitter_settings.ChannelGroups[n]],
+							rc_transmitter_settings.ChannelNumber[n]);
 		}
 
 		// If a channel has timed out this is not valid data and we shouldn't update anything
 		// until we decide to go to failsafe
-		if(cmd.Channel[n] == (uint16_t) PIOS_RCVR_TIMEOUT)
+		if(rc_transmitter_input.Channel[n] == (uint16_t) PIOS_RCVR_TIMEOUT)
 			valid_input_detected = false;
 		else
-			scaledChannel[n] = scaleChannel(cmd.Channel[n], settings.ChannelMax[n],	settings.ChannelMin[n], settings.ChannelNeutral[n]);
+			scaledChannel[n] = scaleChannel(rc_transmitter_input.Channel[n], rc_transmitter_settings.ChannelMax[n],	rc_transmitter_settings.ChannelMin[n], rc_transmitter_settings.ChannelNeutral[n]);
 	}
 
 	// Check settings, if error raise alarm
-	if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-		settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-		settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-		settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
+	if (rc_transmitter_settings.ChannelGroups[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ROLL] >= RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE ||
+		rc_transmitter_settings.ChannelGroups[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PITCH] >= RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE ||
+		rc_transmitter_settings.ChannelGroups[RCTRANSMITTERSETTINGS_CHANNELGROUPS_YAW] >= RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE ||
+		rc_transmitter_settings.ChannelGroups[RCTRANSMITTERSETTINGS_CHANNELGROUPS_THROTTLE] >= RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE ||
 		// Check all channel mappings are valid
-		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL] == (uint16_t) PIOS_RCVR_INVALID ||
-		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH] == (uint16_t) PIOS_RCVR_INVALID ||
-		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW] == (uint16_t) PIOS_RCVR_INVALID ||
-		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] == (uint16_t) PIOS_RCVR_INVALID ||
+		rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ROLL] == (uint16_t) PIOS_RCVR_INVALID ||
+		rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PITCH] == (uint16_t) PIOS_RCVR_INVALID ||
+		rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_YAW] == (uint16_t) PIOS_RCVR_INVALID ||
+		rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_THROTTLE] == (uint16_t) PIOS_RCVR_INVALID ||
 		// Check the driver exists
-		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL] == (uint16_t) PIOS_RCVR_NODRIVER ||
-		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH] == (uint16_t) PIOS_RCVR_NODRIVER ||
-		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW] == (uint16_t) PIOS_RCVR_NODRIVER ||
-		cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] == (uint16_t) PIOS_RCVR_NODRIVER ||
+		rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ROLL] == (uint16_t) PIOS_RCVR_NODRIVER ||
+		rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PITCH] == (uint16_t) PIOS_RCVR_NODRIVER ||
+		rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_YAW] == (uint16_t) PIOS_RCVR_NODRIVER ||
+		rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_THROTTLE] == (uint16_t) PIOS_RCVR_NODRIVER ||
 		// Check the FlightModeNumber is valid
-		settings.FlightModeNumber < 1 || settings.FlightModeNumber > MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_NUMELEM ||
+		control_command_settings.FlightModeNumber < 1 || control_command_settings.FlightModeNumber > CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_NUMELEM ||
 		// If we've got more than one possible valid FlightMode, we require a configured FlightMode channel
-		((settings.FlightModeNumber > 1) && (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE)) ||
+		((control_command_settings.FlightModeNumber > 1) && (rc_transmitter_settings.ChannelGroups[RCTRANSMITTERSETTINGS_CHANNELGROUPS_FLIGHTMODE] >= RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE)) ||
 		// Whenever FlightMode channel is configured, it needs to be valid regardless of FlightModeNumber settings
-		((settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] < MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) && (
-			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_INVALID ||
-			cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_NODRIVER ))) {
+		((rc_transmitter_settings.ChannelGroups[RCTRANSMITTERSETTINGS_CHANNELGROUPS_FLIGHTMODE] < RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE) && (
+			rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_INVALID ||
+			rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_FLIGHTMODE] == (uint16_t) PIOS_RCVR_NODRIVER ))) {
 
 		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_SETTINGS);
 
-		cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_FALSE;
-		ManualControlCommandSet(&cmd);
+		rc_transmitter_input.Connected = RCTRANSMITTERINPUT_CONNECTED_FALSE;
+		RCTransmitterInputSet(&rc_transmitter_input);
 
 		// Need to do this here since we don't process armed status.  Since this shouldn't happen in flight (changed config) 
 		// immediately disarm
@@ -253,36 +270,36 @@ int32_t transmitter_control_update()
 	}
 
 	// the block above validates the input configuration. this simply checks that the range is valid if flight mode is configured.
-	bool flightmode_valid_input = settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-		validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], CONNECTION_OFFSET);
+	bool flightmode_valid_input = rc_transmitter_settings.ChannelGroups[RCTRANSMITTERSETTINGS_CHANNELGROUPS_FLIGHTMODE] >= RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE ||
+		validInputRange(rc_transmitter_settings.ChannelMin[RCTRANSMITTERSETTINGS_CHANNELGROUPS_FLIGHTMODE], rc_transmitter_settings.ChannelMax[RCTRANSMITTERSETTINGS_CHANNELGROUPS_FLIGHTMODE], rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_FLIGHTMODE], CONNECTION_OFFSET);
 
 	// decide if we have valid manual input or not
-	valid_input_detected &= validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], CONNECTION_OFFSET_THROTTLE) &&
-	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], CONNECTION_OFFSET) &&
-	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], CONNECTION_OFFSET) &&
-	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], CONNECTION_OFFSET) &&
+	valid_input_detected &= validInputRange(rc_transmitter_settings.ChannelMin[RCTRANSMITTERSETTINGS_CHANNELGROUPS_THROTTLE], rc_transmitter_settings.ChannelMax[RCTRANSMITTERSETTINGS_CHANNELGROUPS_THROTTLE], rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_THROTTLE], CONNECTION_OFFSET_THROTTLE) &&
+		 validInputRange(rc_transmitter_settings.ChannelMin[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ROLL], rc_transmitter_settings.ChannelMax[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ROLL], rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ROLL], CONNECTION_OFFSET) &&
+		 validInputRange(rc_transmitter_settings.ChannelMin[RCTRANSMITTERSETTINGS_CHANNELGROUPS_YAW], rc_transmitter_settings.ChannelMax[RCTRANSMITTERSETTINGS_CHANNELGROUPS_YAW], rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_YAW], CONNECTION_OFFSET) &&
+		 validInputRange(rc_transmitter_settings.ChannelMin[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PITCH], rc_transmitter_settings.ChannelMax[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PITCH], rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PITCH], CONNECTION_OFFSET) &&
 	     flightmode_valid_input;
 
 	// Implement hysteresis loop on connection status
 	if (valid_input_detected && (++connected_count > 10)) {
-		cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_TRUE;
+		rc_transmitter_input.Connected = RCTRANSMITTERINPUT_CONNECTED_TRUE;
 		connected_count = 0;
 		disconnected_count = 0;
 	} else if (!valid_input_detected && (++disconnected_count > 10)) {
-		cmd.Connected = MANUALCONTROLCOMMAND_CONNECTED_FALSE;
+		rc_transmitter_input.Connected = RCTRANSMITTERINPUT_CONNECTED_FALSE;
 		connected_count = 0;
 		disconnected_count = 0;
 	}
 
-	if (cmd.Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE) {
+	if (rc_transmitter_input.Connected == RCTRANSMITTERINPUT_CONNECTED_FALSE) {
 		// These values are not used but just put ManualControlCommand in a sane state.  When
 		// Connected is false, then the failsafe submodule will be in control.
 
-		cmd.Throttle = -1;
-		cmd.Roll = 0;
-		cmd.Yaw = 0;
-		cmd.Pitch = 0;
-		cmd.Collective = 0;
+		control_command.Throttle = -1;
+		control_command.Roll = 0;
+		control_command.Yaw = 0;
+		control_command.Pitch = 0;
+		control_command.Collective = 0;
 
 		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NORX);
 
@@ -290,44 +307,44 @@ int32_t transmitter_control_update()
 		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NONE);
 
 		// Scale channels to -1 -> +1 range
-		cmd.Roll           = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL];
-		cmd.Pitch          = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH];
-		cmd.Yaw            = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW];
-		cmd.Throttle       = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE];
-		flight_mode_value  = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE];
+		control_command.Roll           = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ROLL];
+		control_command.Pitch          = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PITCH];
+		control_command.Yaw            = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_YAW];
+		control_command.Throttle       = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_THROTTLE];
+		flight_mode_value  = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_FLIGHTMODE];
 
 		// Apply deadband for Roll/Pitch/Yaw stick inputs
-		if (settings.Deadband) {
-			applyDeadband(&cmd.Roll, settings.Deadband);
-			applyDeadband(&cmd.Pitch, settings.Deadband);
-			applyDeadband(&cmd.Yaw, settings.Deadband);
+		if (rc_transmitter_settings.Deadband) {
+			applyDeadband(&control_command.Roll, rc_transmitter_settings.Deadband);
+			applyDeadband(&control_command.Pitch, rc_transmitter_settings.Deadband);
+			applyDeadband(&control_command.Yaw, rc_transmitter_settings.Deadband);
 		}
 
-		if(cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_INVALID &&
-		   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_NODRIVER &&
-		   cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_TIMEOUT) {
-			cmd.Collective = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_COLLECTIVE];
+		if(rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_INVALID &&
+		   rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_NODRIVER &&
+		   rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_TIMEOUT) {
+			control_command.Collective = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_COLLECTIVE];
 		}
 		   
 		AccessoryDesiredData accessory;
 		// Set Accessory 0
-		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0] != 
-			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY0];
+		if (rc_transmitter_settings.ChannelGroups[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ACCESSORY0] !=
+			RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ACCESSORY0];
 			if(AccessoryDesiredInstSet(0, &accessory) != 0) //These are allocated later and that allocation might fail
 				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 		}
 		// Set Accessory 1
-		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
-			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1];
+		if (rc_transmitter_settings.ChannelGroups[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ACCESSORY1] !=
+			RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ACCESSORY1];
 			if(AccessoryDesiredInstSet(1, &accessory) != 0) //These are allocated later and that allocation might fail
 				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 		}
 		// Set Accessory 2
-		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
-			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
-			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2];
+		if (rc_transmitter_settings.ChannelGroups[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ACCESSORY2] !=
+			RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ACCESSORY2];
 			if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
 				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 		}
@@ -336,19 +353,22 @@ int32_t transmitter_control_update()
 	// Process arming outside conditional so system will disarm when disconnected.  Notice this
 	// is processed in the _update method instead of _select method so the state system is always
 	// evalulated, even if not detected.
-	process_transmitter_events(&cmd, &settings);
+	process_transmitter_events(&control_command, &control_command_settings);
 	
-	// Update cmd object
-	ManualControlCommandSet(&cmd);
+	// Update RC input object
+	RCTransmitterInputSet(&rc_transmitter_input);
+
+	// Set the control command
+	ControlCommandSet(&control_command);
 
 #if defined(PIOS_INCLUDE_USB_RCTX)
 	// Optionally make the hardware behave like a USB HID joystick
 	if (pios_usb_rctx_id) {
 		PIOS_USB_RCTX_Update(pios_usb_rctx_id,
-				cmd.Channel,
-				settings.ChannelMin,
-				settings.ChannelMax,
-				NELEMENTS(cmd.Channel));
+				rc_transmitter_input.Channel,
+				rc_transmitter_settings.ChannelMin,
+				rc_transmitter_settings.ChannelMax,
+				NELEMENTS(rc_transmitter_input.Channel));
 	}
 #endif	/* PIOS_INCLUDE_USB_RCTX */
 
@@ -364,7 +384,7 @@ int32_t transmitter_control_select(bool reset_controller)
 	// Activate the flight mode corresponding to the switch position
 	set_flight_mode();
 
-	ManualControlCommandGet(&cmd);
+	ControlCommandGet(&control_command);
 	FlightStatusGet(&flightStatus);
 
 	// Depending on the mode update the Stabilization or Actuator objects
@@ -372,25 +392,25 @@ int32_t transmitter_control_select(bool reset_controller)
 
 	switch(flightStatus.FlightMode) {
 	case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
-		update_actuator_desired(&cmd);
+		update_actuator_desired(&control_command);
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
-		update_stabilization_desired(&cmd, &settings);
+		update_stabilization_desired(&control_command, &control_command_settings);
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE:
 		// Tuning takes settings directly from manualcontrolcommand.  No need to
 		// call anything else.  This just avoids errors.
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
-		altitude_hold_desired(&cmd, lastFlightMode != flightStatus.FlightMode);
+		altitude_hold_desired(&control_command, lastFlightMode != flightStatus.FlightMode);
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-		update_path_desired(&cmd, lastFlightMode != flightStatus.FlightMode, false);
+		update_path_desired(&control_command, lastFlightMode != flightStatus.FlightMode, false);
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-		update_path_desired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
+		update_path_desired(&control_command, lastFlightMode != flightStatus.FlightMode, true);
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
 		break;
@@ -415,11 +435,11 @@ enum control_events transmitter_control_get_events()
 uint8_t transmitter_control_get_flight_mode()
 {
 	// Convert flightMode value into the switch position in the range [0..N-1]
-	uint8_t pos = ((int16_t)(flight_mode_value * 256.0f) + 256) * settings.FlightModeNumber >> 9;
-	if (pos >= settings.FlightModeNumber)
-		pos = settings.FlightModeNumber - 1;
+	uint8_t pos = ((int16_t)(flight_mode_value * 256.0f) + 256) * control_command_settings.FlightModeNumber >> 9;
+	if (pos >= control_command_settings.FlightModeNumber)
+		pos = control_command_settings.FlightModeNumber - 1;
 
-	return settings.FlightModePosition[pos];
+	return control_command_settings.FlightModePosition[pos];
 }
 
 //! Schedule the appropriate event to change the arm status
@@ -446,17 +466,17 @@ static void set_armed_if_changed(uint8_t new_arm) {
  * @param[out] cmd The structure to set the armed in
  * @param[in] settings Settings indicating the necessary position
  */
-static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings)
+static void process_transmitter_events(ControlCommandData *cmd, ControlCommandSettingsData *settings)
 {
 	bool lowThrottle = cmd->Throttle <= 0;
 
 	uint8_t arm_status;
 	FlightStatusArmedGet(&arm_status);
 
-	if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED) {
+	if (settings->Arming == CONTROLCOMMANDSETTINGS_ARMING_ALWAYSDISARMED) {
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
 	} else {
-		if (cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE)
+		if (rc_transmitter_input.Connected == RCTRANSMITTERINPUT_CONNECTED_FALSE)
 			lowThrottle = true;
 
 		// The throttle is not low, in case we where arming or disarming, abort
@@ -477,19 +497,19 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 		}
 
 		// The rest of these cases throttle is low
-		if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSARMED) {
+		if (settings->Arming == CONTROLCOMMANDSETTINGS_ARMING_ALWAYSARMED) {
 			set_armed_if_changed(FLIGHTSTATUS_ARMED_ARMED);
 			return;
 		}
 
-		// When the configuration is not "Always armed" and no "Always disarmed",
+		// When the configuration is not "Always armed" and not "Always disarmed",
 		// the state will not be changed when the throttle is not low
 		static portTickType armedDisarmStart;
 		float armingInputLevel = 0;
 
 		// Calc channel see assumptions7
-		int8_t sign = ((settings->Arming-MANUALCONTROLSETTINGS_ARMING_ROLLLEFT)%2) ? -1 : 1;
-		switch ( (settings->Arming-MANUALCONTROLSETTINGS_ARMING_ROLLLEFT)/2 ) {
+		int8_t sign = ((settings->Arming - CONTROLCOMMANDSETTINGS_ARMING_ROLLLEFT) % 2) ? -1 : 1;
+		switch ( (settings->Arming - CONTROLCOMMANDSETTINGS_ARMING_ROLLLEFT) / 2 ) {
 			case ARMING_CHANNEL_ROLL:    armingInputLevel = sign * cmd->Roll;    break;
 			case ARMING_CHANNEL_PITCH:   armingInputLevel = sign * cmd->Pitch;   break;
 			case ARMING_CHANNEL_YAW:     armingInputLevel = sign * cmd->Yaw;     break;
@@ -621,25 +641,25 @@ static bool updateRcvrActivityCompare(uintptr_t rcvr_id, struct rcvr_activity_fs
 
 			/* Don't assume manualcontrolsettings and receiveractivity are in the same order. */
 			switch (fsm->group) {
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM: 
+			case RCTRANSMITTERSETTINGS_CHANNELGROUPS_PWM:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_PWM;
 				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM:
+			case RCTRANSMITTERSETTINGS_CHANNELGROUPS_PPM:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_PPM;
 				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT:
+			case RCTRANSMITTERSETTINGS_CHANNELGROUPS_DSMMAINPORT:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_DSMMAINPORT;
 				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT:
+			case RCTRANSMITTERSETTINGS_CHANNELGROUPS_DSMFLEXIPORT:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_DSMFLEXIPORT;
 				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM:
+			case RCTRANSMITTERSETTINGS_CHANNELGROUPS_HOTTSUM:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_HOTTSUM;
 				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS:
+			case RCTRANSMITTERSETTINGS_CHANNELGROUPS_SBUS:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_SBUS;
 				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS:
+			case RCTRANSMITTERSETTINGS_CHANNELGROUPS_GCS:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_GCS;
 				break;
 			default:
@@ -659,7 +679,7 @@ static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm)
 {
 	bool activity_updated = false;
 
-	if (fsm->group >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+	if (fsm->group >= RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE) {
 		/* We're out of range, reset things */
 		resetRcvrActivity(fsm);
 	}
@@ -687,10 +707,10 @@ group_completed:
 	fsm->sample_count = 0;
 
 	/* Find the next active group, but limit search so we can't loop forever here */
-	for (uint8_t i = 0; i < MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE; i++) {
+	for (uint8_t i = 0; i < RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE; i++) {
 		/* Move to the next group */
 		fsm->group++;
-		if (fsm->group >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+		if (fsm->group >= RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE) {
 			/* Wrap back to the first group */
 			fsm->group = 0;
 		}
@@ -712,7 +732,7 @@ group_completed:
 }
 
 //! In manual mode directly set actuator desired
-static void update_actuator_desired(ManualControlCommandData * cmd)
+static void update_actuator_desired(ControlCommandData * cmd)
 {
 	ActuatorDesiredData actuator;
 	ActuatorDesiredGet(&actuator);
@@ -724,7 +744,7 @@ static void update_actuator_desired(ManualControlCommandData * cmd)
 }
 
 //! In stabilization mode, set stabilization desired
-static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings)
+static void update_stabilization_desired(ControlCommandData *cmd, ControlCommandSettingsData *settings)
 {
 	StabilizationDesiredData stabilization;
 	StabilizationDesiredGet(&stabilization);
@@ -804,7 +824,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
  * @brief Update the position desired to current location when
  * enabled and allow the waypoint to be moved by transmitter
  */
-static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
+static void update_path_desired(ControlCommandData * cmd, bool flightModeChanged, bool home)
 {
 	if (!flightModeChanged)
 		return;
@@ -862,7 +882,7 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
  * enabled and enable altitude mode for stabilization
  * @todo: Need compile flag to exclude this from copter control
  */
-static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged)
+static void altitude_hold_desired(ControlCommandData * cmd, bool flightModeChanged)
 {
 	if (AltitudeHoldDesiredHandle() == NULL) {
 		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
@@ -908,12 +928,12 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 
 #else /* For boards that do not support navigation set error if these modes are selected */
 
-static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
+static void update_path_desired(ControlCommandData * cmd, bool flightModeChanged, bool home)
 {
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
 }
 
-static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged)
+static void altitude_hold_desired(ControlCommandData * cmd, bool flightModeChanged)
 {
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
 }
@@ -986,10 +1006,16 @@ static void applyDeadband(float *value, float deadband)
 			*value += deadband;
 }
 
-//! Update the manual control settings
-static void manual_control_settings_updated(UAVObjEvent * ev)
+//! Update the control command settings
+static void control_command_settings_updated(UAVObjEvent * ev)
 {
-	settings_updated = true;
+	cc_settings_updated = true;
+}
+
+//! Update the rc transmitter input settings
+static void rc_transmitter_settings_updated(UAVObjEvent * ev)
+{
+	rc_tx_settings_updated = true;
 }
 
 /**

@@ -45,7 +45,7 @@
 #include "mixersettings.h"
 #include "mixerstatus.h"
 #include "cameradesired.h"
-#include "manualcontrolcommand.h"
+#include "controlcommand.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -259,7 +259,7 @@ static void actuatorTask(void* parameters)
 				curve2 = MixerCurve(desired.Yaw,mixerSettings.ThrottleCurve2,MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_COLLECTIVE:
-				ManualControlCommandCollectiveGet(&curve2);
+				ControlCommandCollectiveGet(&curve2);
 				curve2 = MixerCurve(curve2,mixerSettings.ThrottleCurve2,
 				MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
