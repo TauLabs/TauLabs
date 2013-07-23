@@ -213,7 +213,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	lastSysTime = xTaskGetTickCount();
 
 	while (1) {
-		vTaskDelayUntil(&lastSysTime, (1000 / TASK_RATE_HZ) / portTICK_RATE_MS);
+		vTaskDelayUntil(&lastSysTime, MS2TICKS(1000 / TASK_RATE_HZ));
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTENDED_STATUS)) {
 			if (FlightBatteryStateHandle() != NULL )

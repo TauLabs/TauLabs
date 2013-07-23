@@ -186,7 +186,7 @@ static void actuatorTask(void* parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
 
 		// Wait until the ActuatorDesired object is updated
-		uint8_t rc = xQueueReceive(queue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS);
+		uint8_t rc = xQueueReceive(queue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS));
 
 		/* Process settings updated events even in timeout case so we always act on the latest settings */
 		if (actuator_settings_updated) {
@@ -208,7 +208,7 @@ static void actuatorTask(void* parameters)
 		// Check how long since last update
 		thisSysTime = xTaskGetTickCount();
 		if(thisSysTime > lastSysTime) // reuse dt in case of wraparound
-			dT = (thisSysTime - lastSysTime) / portTICK_RATE_MS / 1000.0f;
+			dT = TICKS2MS(thisSysTime - lastSysTime) / 1000.0f;
 		lastSysTime = thisSysTime;
 
 		FlightStatusGet(&flightStatus);

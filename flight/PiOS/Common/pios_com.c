@@ -502,7 +502,7 @@ uint16_t PIOS_COM_ReceiveBuffer(uintptr_t com_id, uint8_t * buf, uint16_t buf_le
 		}
 		if (timeout_ms > 0) {
 #if defined(PIOS_INCLUDE_FREERTOS)
-			if (xSemaphoreTake(com_dev->rx_sem, timeout_ms / portTICK_RATE_MS) == pdTRUE) {
+			if (xSemaphoreTake(com_dev->rx_sem, MS2TICKS(timeout_ms)) == pdTRUE) {
 				/* Make sure we don't come back here again */
 				timeout_ms = 0;
 				goto check_again;

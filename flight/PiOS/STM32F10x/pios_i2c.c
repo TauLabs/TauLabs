@@ -1004,7 +1004,7 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 #ifdef USE_FREERTOS
 	/* Lock the bus */
 	portTickType timeout;
-	timeout = i2c_adapter->cfg->transfer_timeout_ms / portTICK_RATE_MS;
+	timeout = MS2TICKS(i2c_adapter->cfg->transfer_timeout_ms);
 	if (xSemaphoreTake(i2c_adapter->sem_busy, timeout) == pdFALSE)
 		return -2;
 #else

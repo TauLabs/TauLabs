@@ -48,9 +48,9 @@ def delay(timeToDelayMs):
 	// Get argument
 	pobj = NATIVE_GET_LOCAL(0);
 	if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_INT )
-		timeToDelayTicks = (portTickType)(((pPmInt_t) pobj)->val) / portTICK_RATE_MS;
+		timeToDelayTicks = MS2TICKS((portTickType)(((pPmInt_t) pobj)->val));
 	else if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_FLT )
-		timeToDelayTicks = (portTickType)(((pPmFloat_t) pobj)->val) / portTICK_RATE_MS;
+		timeToDelayTicks = MS2TICKS((portTickType)(((pPmFloat_t) pobj)->val));
 	else
 	{
 		PM_RAISE(retval, PM_RET_EX_TYPE);
@@ -89,9 +89,9 @@ def delayUntil(lastWakeTimeMs, timeToDelayMs):
 	// Get lastWakeTimeMs argument
 	pobj = NATIVE_GET_LOCAL(0);
 	if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_INT )
-		lastWakeTimeTicks = (portTickType)(((pPmInt_t) pobj)->val)  / portTICK_RATE_MS;
+		lastWakeTimeTicks = TICKS2MS((portTickType)(((pPmInt_t) pobj)->val));
 	else if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_FLT )
-		lastWakeTimeTicks = (portTickType)(((pPmFloat_t) pobj)->val)  / portTICK_RATE_MS;
+		lastWakeTimeTicks = TICKS2MS((portTickType)(((pPmFloat_t) pobj)->val));
 	else
 	{
 		PM_RAISE(retval, PM_RET_EX_TYPE);
@@ -101,9 +101,9 @@ def delayUntil(lastWakeTimeMs, timeToDelayMs):
 	// Get timeToDelayMs argument
 	pobj = NATIVE_GET_LOCAL(1);
 	if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_INT )
-		timeToDelayTicks = (portTickType)(((pPmInt_t) pobj)->val)  / portTICK_RATE_MS;
+		timeToDelayTicks = TICKS2MS((portTickType)(((pPmInt_t) pobj)->val));
 	else if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_FLT )
-		timeToDelayTicks = (portTickType)(((pPmFloat_t) pobj)->val)  / portTICK_RATE_MS;
+		timeToDelayTicks = TICKS2MS((portTickType)(((pPmFloat_t) pobj)->val));
 	else
 	{
 		PM_RAISE(retval, PM_RET_EX_TYPE);
@@ -114,7 +114,7 @@ def delayUntil(lastWakeTimeMs, timeToDelayMs):
 	vTaskDelayUntil(&lastWakeTimeTicks, timeToDelayTicks);
 
   // Return an int object with the time value */
-	retval = int_new((int32_t)(lastWakeTimeTicks*portTICK_RATE_MS), &pobjret);
+	retval = int_new(TICKS2MS((int32_t) lastWakeTimeTicks), &pobjret);
   NATIVE_SET_TOS(pobjret);
   return retval;
 	"""

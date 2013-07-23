@@ -441,7 +441,7 @@ static void PIOS_MS5611_Task(void *parameters)
 			// Update the temperature data
 			PIOS_MS5611_ClaimDevice();
 			PIOS_MS5611_StartADC(TEMPERATURE_CONV);
-			vTaskDelay(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
+			vTaskDelay(MS2TICKS(PIOS_MS5611_GetDelay()));
 			PIOS_MS5611_ReadADC();
 			PIOS_MS5611_ReleaseDevice();
 
@@ -453,7 +453,7 @@ static void PIOS_MS5611_Task(void *parameters)
 		// Update the pressure data
 		PIOS_MS5611_ClaimDevice();
 		PIOS_MS5611_StartADC(PRESSURE_CONV);
-		vTaskDelay(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
+		vTaskDelay(MS2TICKS(PIOS_MS5611_GetDelay()));
 		PIOS_MS5611_ReadADC();
 		PIOS_MS5611_ReleaseDevice();
 

@@ -797,7 +797,7 @@ static bool i2c_adapter_callback_handler(struct pios_i2c_adapter * i2c_adapter)
 	/* Wait for the transfer to complete */
 #ifdef USE_FREERTOS
 	portTickType timeout;
-	timeout = i2c_adapter->cfg->transfer_timeout_ms / portTICK_RATE_MS;
+	timeout = MS2TICKS(i2c_adapter->cfg->transfer_timeout_ms);
 	semaphore_success &= (xSemaphoreTake(i2c_adapter->sem_ready, timeout) == pdTRUE);
 	xSemaphoreGive(i2c_adapter->sem_ready);
 #endif /* USE_FREERTOS */
@@ -1036,7 +1036,7 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 #ifdef USE_FREERTOS
 	/* Lock the bus */
 	portTickType timeout;
-	timeout = i2c_adapter->cfg->transfer_timeout_ms / portTICK_RATE_MS;
+	timeout = MS2TICKS(i2c_adapter->cfg->transfer_timeout_ms);
 	if (xSemaphoreTake(i2c_adapter->sem_busy, timeout) == pdFALSE)
 		return -2;
 #else	
@@ -1111,7 +1111,7 @@ int32_t PIOS_I2C_Transfer_Callback(uint32_t i2c_id, const struct pios_i2c_txn tx
 #ifdef USE_FREERTOS
 	/* Lock the bus */
 	portTickType timeout;
-	timeout = i2c_adapter->cfg->transfer_timeout_ms / portTICK_RATE_MS;
+	timeout = MS2TICKS(i2c_adapter->cfg->transfer_timeout_ms);
 	if (xSemaphoreTake(i2c_adapter->sem_busy, timeout) == pdFALSE)
 		return -2;
 #else

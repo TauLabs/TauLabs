@@ -194,7 +194,7 @@ static void SensorsTask(void *parameters)
 				simulateModelCar();
 		}
 
-		vTaskDelay(2 / portTICK_RATE_MS);
+		vTaskDelay(MS2TICKS(2));
 
 	}
 }

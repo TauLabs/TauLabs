@@ -154,7 +154,7 @@ static void pathPlannerTask(void *parameters)
 	while (1)
 	{
 
-		vTaskDelay(UPDATE_RATE_MS / portTICK_RATE_MS);
+		vTaskDelay(MS2TICKS(UPDATE_RATE_MS));
 
 		// When not running the path planner short circuit and wait
 		FlightStatusGet(&flightStatus);
