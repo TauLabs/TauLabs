@@ -201,7 +201,7 @@ static void PathFollowerTask(void *parameters)
 		// TODO: Refactor this into the fixed wing method as a callback
 		FixedWingPathFollowerSettingsCCGet(&fixedwingpathfollowerSettings);
 
-		vTaskDelayUntil(&lastUpdateTime, fixedwingpathfollowerSettings.UpdatePeriod / portTICK_RATE_MS);
+		vTaskDelayUntil(&lastUpdateTime, MS2TICKS(fixedwingpathfollowerSettings.UpdatePeriod));
 
 		if (flightStatusUpdate)
 			FlightStatusFlightModeGet(&flightMode);

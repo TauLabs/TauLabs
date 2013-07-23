@@ -173,7 +173,7 @@ static void stabilizationTask(void* parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_STABILIZATION);
 		
 		// Wait until the AttitudeRaw object is updated, if a timeout then go to failsafe
-		if ( xQueueReceive(queue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE )
+		if ( xQueueReceive(queue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE )
 		{
 			AlarmsSet(SYSTEMALARMS_ALARM_STABILIZATION,SYSTEMALARMS_ALARM_WARNING);
 			continue;

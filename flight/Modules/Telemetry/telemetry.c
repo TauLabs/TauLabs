@@ -477,7 +477,7 @@ static void updateTelemetryStats()
 	}
 
 	// Check for connection timeout
-	timeNow = xTaskGetTickCount() * portTICK_RATE_MS;
+	timeNow = TICKS2MS(xTaskGetTickCount());
 	if (utalkStats.rxObjects > 0) {
 		timeOfLastObjectUpdate = timeNow;
 	}

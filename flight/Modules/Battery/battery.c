@@ -126,7 +126,7 @@ static void batteryTask(void * parameters)
 	portTickType lastSysTime;
 	lastSysTime = xTaskGetTickCount();
 	while (true) {
-		vTaskDelayUntil(&lastSysTime, SAMPLE_PERIOD_MS / portTICK_RATE_MS);
+		vTaskDelayUntil(&lastSysTime, MS2TICKS(SAMPLE_PERIOD_MS));
 
 		//calculate the battery parameters
 		if (voltageADCPin >= 0) {

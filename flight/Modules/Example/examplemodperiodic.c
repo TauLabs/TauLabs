@@ -113,7 +113,7 @@ static void exampleTask(void *parameters)
 		// Since this module executes at fixed time intervals, we need to
 		// block the task until it is time for the next update.
 		// The settings field is in ms, to convert to RTOS ticks we need
-		// to divide by portTICK_RATE_MS.
-		vTaskDelayUntil(&lastSysTime, settings.UpdatePeriod / portTICK_RATE_MS);
+		// to use the MS2TICKS macro.
+		vTaskDelayUntil(&lastSysTime, MS2TICKS(settings.UpdatePeriod));
 	}
 }
