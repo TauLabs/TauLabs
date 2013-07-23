@@ -107,6 +107,7 @@ void UAVObjectTreeModel::newObject(UAVObject *obj)
     }
 }
 
+
 void UAVObjectTreeModel::addDataObject(UAVDataObject *obj, bool categorize)
 {
     //Determine if the root tree is the settings or dynamic data tree
@@ -121,7 +122,17 @@ void UAVObjectTreeModel::addDataObject(UAVDataObject *obj, bool categorize)
 
     ObjectTreeItem* existing = root->findDataObjectTreeItemByObjectId(obj->getObjID());
     if (existing) {
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+
+        // Inform the model that we will add a row
+        beginInsertRows(index(existing), objManager->getNumInstances(obj->getObjID()), objManager->getNumInstances(obj->getObjID()));
+
+        // Add the row
         addInstance(obj, existing);
+
+        // Inform the model that the row addition is complete
+        endInsertRows();
     } else {
         DataObjectTreeItem *dataTreeItem = new DataObjectTreeItem(obj->getName() + " (" + QString::number(obj->getNumBytes()) + " bytes)");
         dataTreeItem->setHighlightManager(m_highlightManager);
