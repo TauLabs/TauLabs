@@ -80,7 +80,7 @@ UAVTalk::UAVTalk(QIODevice* iodev, UAVObjectManager* objMngr)
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
     useUDPMirror=settings->useUDPMirror();
-    qDebug()<<"[uavtalk.cpp] Use UDP: "<<useUDPMirror;
+    qDebug()<<"[uavtalk.cpp  ] Use UDP: "<<useUDPMirror;
     if(useUDPMirror)
     {
         udpSocketTx=new QUdpSocket(this);
@@ -493,7 +493,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             obj = updateObject(objId, instId, data);
             if (obj == NULL)
             {
-                qDebug() << "[uavtalk.cpp] Received a UAVObject update for a UAVObject we don't know about";
+                qDebug() << "[uavtalk.cpp  ] Received a UAVObject update for a UAVObject we don't know about";
                 error = true;
             }
         }
@@ -515,7 +515,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             }
             else
             {
-                qDebug() << "[uavtalk.cpp] Received an acknowledged UAVObject update for a UAVObject we don't know about";
+                qDebug() << "[uavtalk.cpp  ] Received an acknowledged UAVObject update for a UAVObject we don't know about";
                 // UAVTALK Protocol update 2013.07.10 (E. Lafargue): send a NACK packet for this ObjID
                 transmitNack(objId);
                 error = true;
@@ -559,12 +559,12 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             // Check if object exists:
             if (obj != NULL)
             {
-                qDebug() << "[uavtalk.cpp] The " << obj->getName() << QString(QString("0x") + QString::number(objId, 16).toUpper()) << "UAVObject does not exist on the remote end, got a Nack";
+                qDebug() << "[uavtalk.cpp  ] The" << obj->getName() << QString(QString("0x") + QString::number(objId, 16).toUpper()) << "UAVObject does not exist on the remote end, got a Nack";
                 emit nackReceived(obj);
             }
             else
             {
-                qDebug() << "[uavtalk.cpp] Critical error: Received a Nack for an unknown UAVObject: " << QString(QString("0x") + QString::number(objId, 16).toUpper());
+                qDebug() << "[uavtalk.cpp  ] Critical error: Received a Nack for an unknown UAVObject: " << QString(QString("0x") + QString::number(objId, 16).toUpper());
                 error = true;
             }
         }
@@ -575,12 +575,12 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
         {
             // Get object
             obj = objMngr->getObject(objId, instId);
-            qDebug() << "[uavtalk.cpp] Got ack for instance: " << instId << "of UAVObject" << obj->getName() << QString(QString("0x") + QString::number(objId, 16).toUpper());
+            qDebug() << "[uavtalk.cpp  ] Got ack for instance: " << instId << "of UAVObject" << obj->getName() << QString(QString("0x") + QString::number(objId, 16).toUpper());
             // Check if we actually know this object (tiny chance the ObjID
             // could be unknown and got through CRC check...)
             if (obj != NULL)
             {
-                qDebug() << "[uavtalk.cpp] UAVObject name: " << obj->getName();
+                qDebug() << "[uavtalk.cpp  ] UAVObject name: " << obj->getName();
                 emit ackReceived(obj);
             }
             else
