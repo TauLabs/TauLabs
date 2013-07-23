@@ -144,7 +144,7 @@ static int32_t VibrationAnalysisStart(void)
 		}
 	}
 	
-	if (UAVObjGetNumInstances(VibrationAnalysisOutputHandle()) != (fft_window_size>>1)){
+	if (VibrationAnalysisOutputGetNumInstances() != (fft_window_size>>1)){
 		// This is a more useful test for failure.
 		module_enabled = false;
 		return -1;
@@ -402,7 +402,7 @@ static void VibrationAnalysisTask(void *parameters)
 			for (int j=0; j < (vtd->fft_window_size>>1); j++) 
 			{
 				//Assertion check that we are not trying to write to instances that don't exist
-				if (j >= UAVObjGetNumInstances(VibrationAnalysisOutputHandle()))
+				if (j >= VibrationAnalysisOutputGetNumInstances())
 					continue;
 				
 				vibrationAnalysisOutputData.x = vtd->accel_buffer_complex_x_q15[j]/FLOAT_TO_Q15;
