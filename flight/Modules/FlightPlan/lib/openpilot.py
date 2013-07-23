@@ -48,9 +48,9 @@ def delay(timeToDelayMs):
 	// Get argument
 	pobj = NATIVE_GET_LOCAL(0);
 	if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_INT )
-		timeToDelayTicks = TICKS2MS((portTickType)(((pPmInt_t) pobj)->val));
+		timeToDelayTicks = MS2TICKS((portTickType)(((pPmInt_t) pobj)->val));
 	else if ( OBJ_GET_TYPE(pobj) == OBJ_TYPE_FLT )
-		timeToDelayTicks = TICKS2MS((portTickType)(((pPmFloat_t) pobj)->val));
+		timeToDelayTicks = MS2TICKS((portTickType)(((pPmFloat_t) pobj)->val));
 	else
 	{
 		PM_RAISE(retval, PM_RET_EX_TYPE);

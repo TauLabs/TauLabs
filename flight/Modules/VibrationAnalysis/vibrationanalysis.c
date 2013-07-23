@@ -259,7 +259,7 @@ static void VibrationAnalysisTask(void *parameters)
 	
 	
 /** These values are useful for insight into the Fourier transform performed by this module.
-	float freq_sample = 1.0f/MS2TICKS(sampleRate_ms);
+	float freq_sample = 1.0f/sampleRate_ms;
 	float freq_nyquist = f_s/2.0f;
 	uint16_t num_samples = vtd->fft_window_size;
  */

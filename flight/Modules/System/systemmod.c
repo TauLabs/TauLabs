@@ -438,7 +438,7 @@ static void updateStats()
 
 		// In the case of a slightly miscalibrated max idle count, make sure CPULoad does
 		// not go negative and set an alarm inappropriately.
-		float idleFraction = ((float)idleCounter / (dT)) / (float)IDLE_COUNTS_PER_SEC_AT_NO_LOAD;
+		float idleFraction = ((float)idleCounter / dT) / (float)IDLE_COUNTS_PER_SEC_AT_NO_LOAD;
 		if (idleFraction > 1)
 			stats.CPULoad = 0;
 		else

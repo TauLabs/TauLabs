@@ -51,7 +51,7 @@
 #define IAP_STATE_STEP_2    2
 #define IAP_STATE_RESETTING 3
 
-#define RESET_DELAY_MS         500 /* delay between sending reset ot INS */
+#define RESET_DELAY_MS         500 /* delay before sending reset to INS */
 
 const uint32_t    iap_time_2_low_end = 500;
 const uint32_t    iap_time_2_high_end = 5000;
