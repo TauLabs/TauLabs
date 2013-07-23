@@ -99,8 +99,8 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
     addUAVObjectToWidgetRelation(batteryStateName, "Voltage", moduleSettingsWidget->le_liveVoltageReading);
     addUAVObjectToWidgetRelation(batteryStateName, "Current", moduleSettingsWidget->le_liveCurrentReading);
 
+    addUAVObjectToWidgetRelation(moduleSettingsName, "TelemetrySpeed", moduleSettingsWidget->cb_TelemetryBaudRate);
     addUAVObjectToWidgetRelation(moduleSettingsName, "ComUsbBridgeSpeed", moduleSettingsWidget->cb_combridgeSpeed);
-
     addUAVObjectToWidgetRelation(moduleSettingsName, "GPSSpeed", moduleSettingsWidget->cb_gpsSpeed);
 
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "SampleRate", moduleSettingsWidget->sb_sampleRate);
