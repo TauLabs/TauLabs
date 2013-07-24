@@ -30,6 +30,7 @@
 #include "homeitem.h"
 #include "mapgraphicitem.h"
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsScene>
 
 namespace mapcontrol
 {
