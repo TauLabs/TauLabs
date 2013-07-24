@@ -32,7 +32,7 @@
 #include <QTableView>
 #include <QStandardItemModel>
 #include <QItemDelegate>
-#include <QtGui/QLabel>
+#include <QLabel>
 
 #include "uavobjectutil/uavobjectutilmanager.h"
 #include "extensionsystem/pluginmanager.h"
