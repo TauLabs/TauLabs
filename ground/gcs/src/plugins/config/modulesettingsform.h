@@ -29,7 +29,6 @@
 #define MODULESETTINGSFORM_H
 
 #include <QWidget>
-//#include "configinputwidget.h"
 #include "uavobjectwidgetutils/configtaskwidget.h"
 
 namespace Ui {
@@ -47,7 +46,6 @@ public:
 private slots:
     void updateAirspeedUAVO(UAVObject *);
     void updateAirspeedGroupbox(UAVObject *);
-    void updatePitotType(int comboboxValue);
     void toggleVibrationTest();
 
 private:

@@ -108,7 +108,6 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
 
     // Connect any remaining widgets
     connect(airspeedSettings, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAirspeedUAVO(UAVObject *)));
-    connect(moduleSettingsWidget->cb_pitotType, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePitotType(int)));
     connect(moduleSettingsWidget->pb_startVibrationTest, SIGNAL(clicked()), this, SLOT(toggleVibrationTest()));
 
     // Set text properties for checkboxes. The second argument is the UAVO field that corresponds
@@ -248,30 +247,6 @@ void ModuleSettingsForm::toggleVibrationTest()
     vibrationAnalysisSettings->setData(vibrationAnalysisSettingsData);
     vibrationAnalysisSettings->updated();
 }
-
-void ModuleSettingsForm::updatePitotType(int comboboxValue)
-{
-
-//    AirspeedSettings *airspeedSettings;
-//    airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
-//    AirspeedSettings::DataFields airspeedSettingsData;
-//    airspeedSettingsData = airspeedSettings->getData();
-
-//    switch (comboboxValue) {
-//    case AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004:
-//        moduleSettingsWidget->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004);
-//        moduleSettingsWidget->gb_airspeedPitot->setChecked(true);
-//    case AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002:
-//        moduleSettingsWidget->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002);
-//        moduleSettingsWidget->gb_airspeedPitot->setChecked(true);
-//    case AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3:
-//        moduleSettingsWidget->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3);
-//        moduleSettingsWidget->gb_airspeedPitot->setChecked(true);
-//        break;
-//    }
-
-}
-
 
 void ModuleSettingsForm::updateAirspeedUAVO(UAVObject *obj)
 {
