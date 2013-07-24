@@ -271,7 +271,7 @@ void Telemetry::updateObject(UAVObject* obj, quint32 eventType)
 void Telemetry::transactionSuccess(UAVObject* obj)
 {
     if (updateTransactionMap(obj,false)) {
-        qDebug() << "[telemetry.cpp] Transaction succeeded " << obj->getObjID() << " " << obj->getInstID() << obj->getName();
+        qDebug() << "[telemetry.cpp] Transaction succeeded:" << obj->getName() << QString(QString("0x") + QString::number(obj->getObjID(), 16).toUpper()) << " Instance: " << obj->getInstID();
         obj->emitTransactionCompleted(true);
     } else {
         qDebug() << "[telemetry.cpp] Received an ACK we were not expecting";
@@ -293,7 +293,7 @@ void Telemetry::transactionFailure(UAVObject* obj)
     // Here we need to check for true or false as a NAK can occur for OBJ_REQ or an
     // object set
     if (updateTransactionMap(obj, true) || updateTransactionMap(obj, false)) {
-        qDebug() << "[telemetry.cpp] Transaction failed " << obj->getObjID() << obj->getInstID() << obj->getName();;
+        qDebug() << "[telemetry.cpp] Transaction failed:" << obj->getName() << QString(QString("0x") + QString::number(obj->getObjID(), 16).toUpper()) << " Instance: " << obj->getInstID();
         obj->emitTransactionCompleted(false);
     } else {
         qDebug() << "[telemetry.cpp] Received a NACK we were not expecting";
@@ -310,7 +310,7 @@ void Telemetry::transactionFailure(UAVObject* obj)
 void Telemetry::transactionRequestCompleted(UAVObject* obj)
 {
     if (updateTransactionMap(obj,true)) {
-        qDebug() << "[telemetry.cpp] Transaction succeeded" << obj->getObjID() << obj->getInstID() << obj->getName();
+        qDebug() << "[telemetry.cpp] Transaction succeeded:" << obj->getName() << QString(QString("0x") + QString::number(obj->getObjID(), 16).toUpper()) << " Instance:" << obj->getInstID();
         obj->emitTransactionCompleted(true);
     } else {
         qDebug() << "[telemetry.cpp] Received an ACK we were not expecting";
@@ -354,7 +354,7 @@ void Telemetry::transactionTimeout(ObjectTransactionInfo *transInfo)
     // Check if more retries are pending
     if (transInfo->retriesRemaining > 0)
     {
-        qDebug() << "[telemetry.cpp] Object transaction timeout for " << transInfo->obj->getName() << ", re-requesting.";
+        qDebug() << "[telemetry.cpp] UAVObject transaction timeout for " << transInfo->obj->getName() << QString(QString("0x") + QString::number(transInfo->obj->getObjID(), 16).toUpper()) <<", re-requesting.";
         --transInfo->retriesRemaining;
         processObjectTransaction(transInfo);
         ++txRetries;
@@ -520,7 +520,7 @@ void Telemetry::processObjectQueue()
     if ( objInfo.event == EV_UNPACKED ) {
         // TODO: Check here this is for a OBJ_REQ
         if (transMap.contains(TransactionKey(objInfo.obj, true))) {
-            qDebug() << "[telemetry.cpp] EV_UNPACKED " << objInfo.obj->getName() << " inst " << objInfo.obj->getInstID();
+            qDebug() << "[telemetry.cpp] EV_UNPACKED " << objInfo.obj->getName() << QString(QString("0x") + QString::number(objInfo.obj->getObjID(), 16).toUpper()) << " Instance: " << objInfo.obj->getInstID();
             transactionRequestCompleted(objInfo.obj);
         } else
         {
