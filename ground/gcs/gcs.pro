@@ -4,6 +4,8 @@ contains(QT_VERSION, ^[0-4]\\..*) {
     error("Cannot build GCS with Qt version $${QT_VERSION}. Use at least Qt 5.0.1!")
 }
 
+cache()
+
 include(gcs.pri)
 
 TEMPLATE  = subdirs
