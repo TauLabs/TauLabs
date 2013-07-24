@@ -6,6 +6,7 @@ QT += svg
 include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(../../plugins/uavobjectutil/uavobjectutil.pri)
+include(../../plugins/uavobjectwidgetutils/uavobjectwidgetutils.pri)
 include(../../plugins/config/config.pri)
 
 LIBS *= -l$$qtLibraryName(Uploader)
