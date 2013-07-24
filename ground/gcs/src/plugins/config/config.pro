@@ -25,7 +25,6 @@ HEADERS += calibration.h \
     calibration.h \
     defaulthwsettingswidget.h \
     inputchannelform.h \
-    modulesettingsform.h \
     configcamerastabilizationwidget.h \
     configtxpidwidget.h \
     outputchannelform.h \    
@@ -61,7 +60,6 @@ SOURCES += calibration.cpp \
     configpipxtremewidget.cpp \
     defaulthwsettingswidget.cpp \
     inputchannelform.cpp \
-    modulesettingsform.cpp \
     configcamerastabilizationwidget.cpp \
     configattitudewidget.cpp \
     configtxpidwidget.cpp \
@@ -82,7 +80,6 @@ SOURCES += calibration.cpp \
 
 FORMS += airframe.ui \
     cc_hw_settings.ui \
-    modulesettingsform.ui \
     ccpm.ui \
     stabilization.ui \
     input.ui \
