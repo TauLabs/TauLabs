@@ -29,8 +29,8 @@
 #define MODULESETTINGSFORM_H
 
 #include <QWidget>
-//#include "configinputwidget.h"
 #include "uavobjectwidgetutils/configtaskwidget.h"
+#include "adcrouting.h"
 
 namespace Ui {
     class ModuleSettingsWidget;
@@ -45,17 +45,27 @@ public:
     ~ModuleSettingsForm();
     friend class ConfigInputWidget;
 private slots:
+    void updateADCRoutingComboboxes(int);
+    void updateADCRoutingComboboxesFromUAVO(UAVObject *);
     void updateAirspeedUAVO(UAVObject *);
     void updateAirspeedGroupbox(UAVObject *);
     void updatePitotType(int comboboxValue);
     void toggleVibrationTest();
+    void reloadADCRoutingUAVO();
+    void applyADCRoutingUAVO();
+    void saveADCRoutingUAVO();
 
 private:
     QVariant getVariantFromWidget(QWidget * widget, double scale);
     bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
+    void updateADCRoutingUAVO(ADCRouting::DataFields *adcRoutingData);
+    void updateADCRoutingComboboxes();
 
     static QString trueString;
     static QString falseString;
+
+    ADCRouting *adcRouting;
+    ADCRouting::DataFields adcRoutingDataPrivate;
 
     Ui::ModuleSettingsWidget *moduleSettingsWidget;
 };
