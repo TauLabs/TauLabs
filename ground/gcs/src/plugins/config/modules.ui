@@ -32,6 +32,16 @@
       <number>4</number>
      </property>
      <item>
+      <widget class="QLabel" name="lb_rebootMessage">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string>Save and reboot board before proceeding.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_5">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

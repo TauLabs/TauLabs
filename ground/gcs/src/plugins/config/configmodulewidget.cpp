@@ -36,11 +36,13 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->setupUi(this);
 
     // Create the general modules page
-    ModuleSettingsForm *optionalModuleSettings =
-            new ModuleSettingsForm(this, ui->saveButton, ui->applyButton, ui->reloadButton);
+    ModuleSettingsForm *optionalModuleSettings = new ModuleSettingsForm(ui, this);
     QString modulesTabText = ui->tabWidget->tabText(ui->tabWidget->indexOf(ui->general));
     ui->tabWidget->removeTab(ui->tabWidget->indexOf(ui->general));
     ui->tabWidget->addTab(optionalModuleSettings, modulesTabText);
+
+    // Hide reboot message
+    ui->lb_rebootMessage->hide();
 }
 
 ConfigModuleWidget::~ConfigModuleWidget()
