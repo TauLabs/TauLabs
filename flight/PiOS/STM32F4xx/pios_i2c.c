@@ -130,9 +130,9 @@ static void i2c_adapter_inject_event(struct pios_i2c_adapter *i2c_adapter, enum 
 static void i2c_adapter_fsm_init(struct pios_i2c_adapter *i2c_adapter);
 static bool i2c_adapter_wait_for_stopped(struct pios_i2c_adapter *i2c_adapter);
 static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter);
+static bool i2c_adapter_fsm_terminated(struct pios_i2c_adapter *i2c_adapter);
 
 static void i2c_adapter_log_fault(enum pios_i2c_error_type type);
-static bool i2c_adapter_callback_handler(struct pios_i2c_adapter *i2c_adapter);
 
 const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM_STATES] = {
 	[I2C_STATE_FSM_FAULT] = {
@@ -388,10 +388,42 @@ static void go_stopping(struct pios_i2c_adapter *i2c_adapter)
 	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_EVT | I2C_IT_BUF | I2C_IT_ERR, DISABLE);
 
 	if (i2c_adapter->callback) {
-		i2c_adapter_callback_handler(i2c_adapter);
-	} else {
+		/*
+		 * Transfer with callback
+		 */
+
+		/* Spin waiting for the transfer to finish */
+		while (!i2c_adapter_fsm_terminated(i2c_adapter)) ;
+
+		if (i2c_adapter_wait_for_stopped(i2c_adapter)) {
+			i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_STOPPED);
+		} else {
+			i2c_adapter_fsm_init(i2c_adapter);
+		}
+
+		// Execute user supplied function
+		i2c_adapter->callback();
+
+		/* Unlock the bus */
 #ifdef USE_FREERTOS
-		signed portBASE_TYPE pxHigherPriorityTaskWoken = pdFALSE;
+		portBASE_TYPE pxHigherPriorityTaskWoken = pdFALSE;
+		if (xSemaphoreGiveFromISR(i2c_adapter->sem_busy, &pxHigherPriorityTaskWoken) != pdTRUE) {
+#if defined(I2C_HALT_ON_ERRORS)
+			PIOS_DEBUG_Assert(0);
+#endif
+		}
+		portEND_SWITCHING_ISR(pxHigherPriorityTaskWoken);
+#else
+		i2c_adapter->busy = 0;
+#endif /* USE_FREERTOS */
+	} else {
+		/*
+		 * Transfer without callback
+		 */
+
+		/* wake up blocked PIOS_I2C_Transfer() */
+#ifdef USE_FREERTOS
+		portBASE_TYPE pxHigherPriorityTaskWoken = pdFALSE;
 		if (xSemaphoreGiveFromISR(i2c_adapter->sem_ready, &pxHigherPriorityTaskWoken) != pdTRUE) {
 #if defined(I2C_HALT_ON_ERRORS)
 			PIOS_DEBUG_Assert(0);
@@ -786,34 +818,6 @@ static bool i2c_adapter_fsm_terminated(struct pios_i2c_adapter *i2c_adapter)
 	default:
 		return (false);
 	}
-}
-
-static bool i2c_adapter_callback_handler(struct pios_i2c_adapter * i2c_adapter) 
-{
-	bool semaphore_success = true;
-
-	/* Spin waiting for the transfer to finish */
-	while (!i2c_adapter_fsm_terminated(i2c_adapter)) ;
-	
-	if (i2c_adapter_wait_for_stopped(i2c_adapter)) {
-		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_STOPPED);
-	} else {
-		i2c_adapter_fsm_init(i2c_adapter);
-	}
-	
-	// Execute user supplied function
-	i2c_adapter->callback();
-
-#ifdef USE_FREERTOS
-	/* Unlock the bus */
-	xSemaphoreGive(i2c_adapter->sem_busy);
-	if(!semaphore_success)
-		i2c_timeout_counter++;
-#else
-	i2c_adapter->busy = 0;
-#endif /* USE_FREERTOS */
-
-	return (!i2c_adapter->bus_error) && semaphore_success;
 }
 
 /**
