@@ -33,8 +33,6 @@
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 
-#include "modulesettingsform.h"
-
 namespace Ui {
     class Modules;
 }

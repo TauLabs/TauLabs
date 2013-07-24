@@ -47,7 +47,14 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QComboBox" name="cb_TelemetryBaudRate"/>
+           <widget class="QComboBox" name="cb_TelemetryBaudRate">
+            <property name="objrelation" stdset="0">
+             <stringlist>
+              <string>objname:ModuleSettings</string>
+              <string>fieldname:TelemetrySpeed</string>
+             </stringlist>
+            </property>
+           </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_19">
@@ -57,7 +64,14 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QComboBox" name="cb_gpsSpeed"/>
+           <widget class="QComboBox" name="cb_gpsSpeed">
+            <property name="objrelation" stdset="0">
+             <stringlist>
+              <string>objname:ModuleSettings</string>
+              <string>fieldname:GPSSpeed</string>
+             </stringlist>
+            </property>
+           </widget>
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_17">
@@ -67,7 +81,14 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QComboBox" name="cb_combridgeSpeed"/>
+           <widget class="QComboBox" name="cb_combridgeSpeed">
+            <property name="objrelation" stdset="0">
+             <stringlist>
+              <string>objname:ModuleSettings</string>
+              <string>fieldname:ComUsbBridgeSpeed</string>
+             </stringlist>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -594,13 +615,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="reloadButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="QPushButton" name="pushButton">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -614,31 +629,26 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Reloads the saved settings into GCS.
-Useful if you have accidentally changed some settings.</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
+        <string>Reloads saved CameraStabilization settings  except output channels
+from board into GCS. Useful if you have accidentally changed some
+settings.
+
+Loaded settings are not applied automatically. You have to click the
+Apply or Save button afterwards.</string>
        </property>
        <property name="text">
         <string>Reload Board Data</string>
        </property>
-       <property name="iconSize">
-        <size>
-         <width>16</width>
-         <height>16</height>
-        </size>
-       </property>
        <property name="objrelation" stdset="0">
         <stringlist>
          <string>button:reload</string>
-         <string>buttongroup:10</string>
+         <string>buttongroup:1</string>
         </stringlist>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="applyButton">
+      <widget class="QPushButton" name="camerastabilizationSaveRAM">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -652,19 +662,20 @@ Useful if you have accidentally changed some settings.</string>
         </size>
        </property>
        <property name="toolTip">
-        <string>Send to flight controller but don't write to non volatile memory.
-Be sure to set the Neutral position on all sliders before sending!</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
+        <string>Send settings to the board but do not save to the non-volatile memory</string>
        </property>
        <property name="text">
         <string>Apply</string>
        </property>
+       <property name="objrelation" stdset="0">
+        <stringlist>
+         <string>button:apply</string>
+        </stringlist>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="saveButton">
+      <widget class="QPushButton" name="camerastabilizationSaveSD">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -678,14 +689,18 @@ Be sure to set the Neutral position on all sliders before sending!</string>
         </size>
        </property>
        <property name="toolTip">
-        <string>Be sure to set the Neutral position on all sliders before sending!
-Applies and Saves all settings to SD</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
+        <string>Send settings to the board and save to the non-volatile memory</string>
        </property>
        <property name="text">
         <string>Save</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+       <property name="objrelation" stdset="0">
+        <stringlist>
+         <string>button:save</string>
+        </stringlist>
        </property>
       </widget>
      </item>

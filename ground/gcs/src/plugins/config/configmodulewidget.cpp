@@ -46,10 +46,6 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui = new Ui::Modules();
     ui->setupUi(this);
 
-    // Connect the apply/save/reload buttons.
-    addApplySaveButtons(ui->applyButton, ui->saveButton);
-    addReloadButton(ui->reloadButton, 0);
-
     // Populate UAVO strings
     AirspeedSettings *airspeedSettings;
     airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
@@ -99,10 +95,6 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(batteryStateName, "Voltage", ui->le_liveVoltageReading);
     addUAVObjectToWidgetRelation(batteryStateName, "Current", ui->le_liveCurrentReading);
 
-    addUAVObjectToWidgetRelation(moduleSettingsName, "TelemetrySpeed", ui->cb_TelemetryBaudRate);
-    addUAVObjectToWidgetRelation(moduleSettingsName, "ComUsbBridgeSpeed", ui->cb_combridgeSpeed);
-    addUAVObjectToWidgetRelation(moduleSettingsName, "GPSSpeed", ui->cb_gpsSpeed);
-
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "SampleRate", ui->sb_sampleRate);
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "FFTWindowSize", ui->cb_windowSize);
 
@@ -139,6 +131,10 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->moduleTab->setTabEnabled(1, false);
     ui->moduleTab->setTabEnabled(2, false);
     ui->moduleTab->setTabEnabled(3, false);
+
+    // Load UAVObjects to widget relations from UI file
+    // using objrelation dynamic property
+    autoLoadWidgets();
 
     // Refresh widget contents
     refreshWidgetsValues();
