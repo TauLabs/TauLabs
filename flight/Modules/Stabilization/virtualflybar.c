@@ -31,6 +31,7 @@
 
 #include "openpilot.h"
 #include "physical_constants.h"
+#include "pid.h"
 #include "stabilization.h"
 #include "stabilizationsettings.h"
 
@@ -41,10 +42,9 @@ static float vbar_decay = 0.991f;
 //! Private methods
 static float bound(float val, float range);
 
-int stabilization_virtual_flybar(float gyro, float command, float *output, float dT, bool reinit, uint32_t axis, StabilizationSettingsData *settings)
+int stabilization_virtual_flybar(float gyro, float command, float *output, float dT, bool reinit, uint32_t axis, struct pid *pid, StabilizationSettingsData *settings)
 {
 	float gyro_gain = 1.0f;
-	float kp = 0, ki = 0;
 
 	if(reinit)
 		vbar_integral[axis] = 0;
@@ -53,34 +53,18 @@ int stabilization_virtual_flybar(float gyro, float command, float *output, float
 	vbar_integral[axis] = vbar_integral[axis] * vbar_decay + gyro * dT;
 	vbar_integral[axis] = bound(vbar_integral[axis], settings->VbarMaxAngle);
 
+	// Compute the normal PID controller output
+	float pid_out = pid_apply_setpoint(pid,  0,  gyro, dT);
+
 	// Command signal can indicate how much to disregard the gyro feedback (fast flips)
 	if (settings->VbarGyroSuppress > 0.0f) {
 		gyro_gain = (1.0f - fabsf(command) * settings->VbarGyroSuppress / 100.0f);
 		gyro_gain = (gyro_gain < 0.0f) ? 0.0f : gyro_gain;
 	}
 
-	// Get the settings for the correct axis
-	switch(axis)
-	{
-		case ROLL:
-			kp = settings->VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KP];
-			ki = settings->VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KI];
-			break;
-		case PITCH:
-			kp = settings->VbarPitchPID[STABILIZATIONSETTINGS_VBARROLLPID_KP];
-			ki = settings->VbarPitchPID[STABILIZATIONSETTINGS_VBARROLLPID_KI];
-			break;
-		case YAW:
-			kp = settings->VbarYawPID[STABILIZATIONSETTINGS_VBARROLLPID_KP];
-			ki = settings->VbarYawPID[STABILIZATIONSETTINGS_VBARROLLPID_KI];
-			break;
-		default:
-			PIOS_DEBUG_Assert(0);
-	}
-
 	// Command signal is composed of stick input added to the gyro and virtual flybar
 	*output = command * settings->VbarSensitivity[axis] - 
-	    gyro_gain * (vbar_integral[axis] * ki + gyro * kp);
+	    gyro_gain * (vbar_integral[axis] * pid->i + pid_out);
 
 	return 0;
 }
