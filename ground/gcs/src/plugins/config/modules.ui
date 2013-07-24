@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>472</height>
+    <height>540</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <property name="tabsClosable">
       <bool>false</bool>
@@ -419,8 +419,11 @@
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
         <widget class="QGroupBox" name="gb_airspeedGPS">
+         <property name="toolTip">
+          <string>Use the GPS to estimate the airspeed and windspeed from ground speed.</string>
+         </property>
          <property name="title">
-          <string>GPS</string>
+          <string>GPS based estimate</string>
          </property>
          <property name="checkable">
           <bool>true</bool>
@@ -460,6 +463,9 @@
        </item>
        <item>
         <widget class="QGroupBox" name="gb_airspeedPitot">
+         <property name="toolTip">
+          <string>Use a pitot tube to directly measure airspeed</string>
+         </property>
          <property name="title">
           <string>Pitot sensor</string>
          </property>
