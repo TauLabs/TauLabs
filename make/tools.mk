@@ -58,7 +58,7 @@ qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
 qt_sdk_install : | $(DL_DIR) $(TOOLS_DIR)
 qt_sdk_install: qt_sdk_clean
         # download the source only if it's newer than what we already have
-	$(V1) wget -N --content-disposition -P "$(DL_DIR)" "$(QT_SDK_URL)"
+	$(V1) wget -N -P "$(DL_DIR)" "$(QT_SDK_URL)"
         # tell the user exactly which path they should select in the GUI
 	$(V1) echo "*** NOTE NOTE NOTE ***"
 	$(V1) echo "*"
