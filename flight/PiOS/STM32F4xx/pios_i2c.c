@@ -416,6 +416,7 @@ static void go_stopping(struct pios_i2c_adapter *i2c_adapter)
 #else
 		i2c_adapter->busy = 0;
 #endif /* USE_FREERTOS */
+
 	} else {
 		/*
 		 * Transfer without callback
