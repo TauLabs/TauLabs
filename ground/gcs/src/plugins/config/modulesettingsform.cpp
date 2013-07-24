@@ -73,12 +73,12 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
     QString vibrationAnalysisSettingsName = vibrationAnalysisSettings.getName();
 
     // Link the checkboxes
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Airspeed, ModuleSettings::ADMINSTATE_AIRSPEED);
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_Battery, ModuleSettings::ADMINSTATE_BATTERY);
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_ComBridge, ModuleSettings::ADMINSTATE_COMUSBBRIDGE);
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_GPS, ModuleSettings::ADMINSTATE_GPS);
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_OveroSync, ModuleSettings::ADMINSTATE_OVEROSYNC);
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->gb_VibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->cbAirspeed, ModuleSettings::ADMINSTATE_AIRSPEED);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->cbBattery, ModuleSettings::ADMINSTATE_BATTERY);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->cbComBridge, ModuleSettings::ADMINSTATE_COMUSBBRIDGE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->cbGPS, ModuleSettings::ADMINSTATE_GPS);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->cbOveroSync, ModuleSettings::ADMINSTATE_OVEROSYNC);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->cbVibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
 
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", moduleSettingsWidget->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", moduleSettingsWidget->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
@@ -113,23 +113,23 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
 
     // Set text properties for checkboxes. The second argument is the UAVO field that corresponds
     // to the checkbox's true (respectively, false) state.
-    moduleSettingsWidget->gb_Airspeed->setProperty(trueString.toAscii(), "Enabled");
-    moduleSettingsWidget->gb_Airspeed->setProperty(falseString.toAscii(), "Disabled");
+    moduleSettingsWidget->cbAirspeed->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->cbAirspeed->setProperty(falseString.toAscii(), "Disabled");
 
-    moduleSettingsWidget->gb_Battery->setProperty(trueString.toAscii(), "Enabled");
-    moduleSettingsWidget->gb_Battery->setProperty(falseString.toAscii(), "Disabled");
+    moduleSettingsWidget->cbBattery->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->cbBattery->setProperty(falseString.toAscii(), "Disabled");
 
-    moduleSettingsWidget->gb_ComBridge->setProperty(trueString.toAscii(), "Enabled");
-    moduleSettingsWidget->gb_ComBridge->setProperty(falseString.toAscii(), "Disabled");
+    moduleSettingsWidget->cbComBridge->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->cbComBridge->setProperty(falseString.toAscii(), "Disabled");
 
-    moduleSettingsWidget->gb_GPS->setProperty(trueString.toAscii(), "Enabled");
-    moduleSettingsWidget->gb_GPS->setProperty(falseString.toAscii(), "Disabled");
+    moduleSettingsWidget->cbGPS->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->cbGPS->setProperty(falseString.toAscii(), "Disabled");
 
-    moduleSettingsWidget->gb_OveroSync->setProperty(trueString.toAscii(), "Enabled");
-    moduleSettingsWidget->gb_OveroSync->setProperty(falseString.toAscii(), "Disabled");
+    moduleSettingsWidget->cbOveroSync->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->cbOveroSync->setProperty(falseString.toAscii(), "Disabled");
 
-    moduleSettingsWidget->gb_VibrationAnalysis->setProperty(trueString.toAscii(), "Enabled");
-    moduleSettingsWidget->gb_VibrationAnalysis->setProperty(falseString.toAscii(), "Disabled");
+    moduleSettingsWidget->cbVibrationAnalysis->setProperty(trueString.toAscii(), "Enabled");
+    moduleSettingsWidget->cbVibrationAnalysis->setProperty(falseString.toAscii(), "Disabled");
 
     moduleSettingsWidget->gb_measureVoltage->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_measureVoltage->setProperty(falseString.toAscii(), "Disabled");
