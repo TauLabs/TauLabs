@@ -63,16 +63,16 @@ int stabilization_virtual_flybar(float gyro, float command, float *output, float
 	switch(axis)
 	{
 		case ROLL:
-			kp = settings->VbarRollPI[STABILIZATIONSETTINGS_VBARROLLPI_KP];
-			ki = settings->VbarRollPI[STABILIZATIONSETTINGS_VBARROLLPI_KI];
+			kp = settings->VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KP];
+			ki = settings->VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KI];
 			break;
 		case PITCH:
-			kp = settings->VbarPitchPI[STABILIZATIONSETTINGS_VBARROLLPI_KP];
-			ki = settings->VbarPitchPI[STABILIZATIONSETTINGS_VBARROLLPI_KI];
+			kp = settings->VbarPitchPID[STABILIZATIONSETTINGS_VBARROLLPID_KP];
+			ki = settings->VbarPitchPID[STABILIZATIONSETTINGS_VBARROLLPID_KI];
 			break;
 		case YAW:
-			kp = settings->VbarYawPI[STABILIZATIONSETTINGS_VBARROLLPI_KP];
-			ki = settings->VbarYawPI[STABILIZATIONSETTINGS_VBARROLLPI_KI];
+			kp = settings->VbarYawPID[STABILIZATIONSETTINGS_VBARROLLPID_KP];
+			ki = settings->VbarYawPID[STABILIZATIONSETTINGS_VBARROLLPID_KI];
 			break;
 		default:
 			PIOS_DEBUG_Assert(0);

@@ -73,7 +73,18 @@
 #define TASK_PRIORITY (tskIDLE_PRIORITY+4)
 #define FAILSAFE_TIMEOUT_MS 30
 
-enum {PID_RATE_ROLL, PID_RATE_PITCH, PID_RATE_YAW, PID_ATT_ROLL, PID_ATT_PITCH, PID_ATT_YAW, PID_MAX};
+enum {
+	PID_RATE_ROLL,   // Rate controller settings
+	PID_RATE_PITCH,
+	PID_RATE_YAW,
+	PID_ATT_ROLL,    // Attitude controller settings
+	PID_ATT_PITCH,
+	PID_ATT_YAW,
+	PID_VBAR_ROLL,   // Virtual flybar settings
+	PID_VBAR_PITCH,
+	PID_VBAR_YAW,
+	PID_MAX
+};
 
 
 // Private variables
@@ -575,6 +586,24 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		pid_configure(&pids[PID_ATT_YAW], settings.YawPI[STABILIZATIONSETTINGS_YAWPI_KP],
 					  settings.YawPI[STABILIZATIONSETTINGS_YAWPI_KI], 0,
 					  settings.YawPI[STABILIZATIONSETTINGS_YAWPI_ILIMIT]);
+
+		// Set the vbar roll settings
+		pid_configure(&pids[PID_VBAR_ROLL], settings.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KP],
+					  settings.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KI],
+					  settings.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KD],
+					  0);
+
+		// Set the vbar pitch settings
+		pid_configure(&pids[PID_VBAR_PITCH], settings.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KP],
+					  settings.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KI],
+					  settings.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KD],
+					  0);
+
+		// Set the vbar yaw settings
+		pid_configure(&pids[PID_VBAR_YAW], settings.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KP],
+					  settings.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KI],
+					  settings.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KD],
+					  0);
 
 		// Set up the derivative term
 		pid_configure_derivative(settings.DerivativeCutoff, settings.DerivativeGamma);
