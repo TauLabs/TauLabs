@@ -2,12 +2,12 @@
  ******************************************************************************
  *
  * @file       modulesettingsform.cpp
+ * @brief      Configure the optional modules
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
  * @{
- * @brief The Configuration Gadget used to update settings in the firmware
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -80,6 +80,11 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->cbOveroSync, ModuleSettings::ADMINSTATE_OVEROSYNC);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", moduleSettingsWidget->cbVibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
 
+    // For modules with additional settings, show when appropriate
+    connect(moduleSettingsWidget->cbAirspeed, SIGNAL(toggled(bool)), this, SLOT(toggleAirspeedTab(bool)));
+    connect(moduleSettingsWidget->cbBattery, SIGNAL(toggled(bool)), this, SLOT(toggleBatteryTab(bool)));
+    connect(moduleSettingsWidget->cbVibrationAnalysis, SIGNAL(toggled(bool)), this, SLOT(toggleVibrationTab(bool)));
+
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", moduleSettingsWidget->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", moduleSettingsWidget->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
 
@@ -135,6 +140,10 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
 
     moduleSettingsWidget->gb_measureCurrent->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_measureCurrent->setProperty(falseString.toAscii(), "Disabled");
+
+    moduleSettingsWidget->moduleTab->setTabEnabled(1, false);
+    moduleSettingsWidget->moduleTab->setTabEnabled(2, false);
+    moduleSettingsWidget->moduleTab->setTabEnabled(3, false);
 
     // Refresh widget contents
     refreshWidgetsValues();
@@ -285,3 +294,29 @@ void ModuleSettingsForm::updateAirspeedGroupbox(UAVObject *obj)
         break;
     }
 }
+
+//! Enable or disable the battery tab
+void ModuleSettingsForm::toggleBatteryTab(bool enabled)
+{
+    int idx = moduleSettingsWidget->moduleTab->indexOf(moduleSettingsWidget->tabBattery);
+    moduleSettingsWidget->moduleTab->setTabEnabled(idx,enabled);
+}
+
+//! Enable or disable the airspeed tab
+void ModuleSettingsForm::toggleAirspeedTab(bool enabled)
+{
+    int idx = moduleSettingsWidget->moduleTab->indexOf(moduleSettingsWidget->tabAirspeed);
+    moduleSettingsWidget->moduleTab->setTabEnabled(idx,enabled);
+}
+
+//! Enable or disable the vibration tab
+void ModuleSettingsForm::toggleVibrationTab(bool enabled)
+{
+    int idx = moduleSettingsWidget->moduleTab->indexOf(moduleSettingsWidget->tabVibration);
+    moduleSettingsWidget->moduleTab->setTabEnabled(idx,enabled);
+}
+
+/**
+ * @}
+ * @}
+ */

@@ -43,10 +43,16 @@ public:
     explicit ModuleSettingsForm(QWidget *parent = 0, QPushButton *save = 0, QPushButton *apply = 0, QPushButton *reloadButton = 0);
     ~ModuleSettingsForm();
     friend class ConfigInputWidget;
+
 private slots:
     void updateAirspeedUAVO(UAVObject *);
     void updateAirspeedGroupbox(UAVObject *);
     void toggleVibrationTest();
+
+    /* To activate the appropriate tabs */
+    void toggleBatteryTab(bool enabled);
+    void toggleAirspeedTab(bool enabled);
+    void toggleVibrationTab(bool enabled);
 
 private:
     QVariant getVariantFromWidget(QWidget * widget, double scale);
