@@ -59,48 +59,15 @@ protected:
     Calibration calibration;
 
 private:
-    void drawVariancesGraph();
-
     Ui_AttitudeWidget *m_ui;
     QGraphicsSvgItem *paperplane;
-    QGraphicsSvgItem *sensorsBargraph;
-    QGraphicsSvgItem *accel_x;
-    QGraphicsSvgItem *accel_y;
-    QGraphicsSvgItem *accel_z;
-    QGraphicsSvgItem *gyro_x;
-    QGraphicsSvgItem *gyro_y;
-    QGraphicsSvgItem *gyro_z;
-    QGraphicsSvgItem *mag_x;
-    QGraphicsSvgItem *mag_y;
-    QGraphicsSvgItem *mag_z;
-    QGraphicsSvgItem *baro;
+
     QMutex sensorsUpdateLock;
-    double maxBarHeight;
     int phaseCounter;
     const static double maxVarValue;
     const static int calibrationDelay = 10;
 
-    QList<double> gyro_accum_x;
-    QList<double> gyro_accum_y;
-    QList<double> gyro_accum_z;
-    QList<double> accel_accum_x;
-    QList<double> accel_accum_y;
-    QList<double> accel_accum_z;
-    QList<double> mag_accum_x;
-    QList<double> mag_accum_y;
-    QList<double> mag_accum_z;
-    QList<double> baro_accum;
-
-    double accel_data_x[6], accel_data_y[6], accel_data_z[6];
-    double mag_data_x[6], mag_data_y[6], mag_data_z[6];
-
-    UAVObject::Metadata initialAccelsMdata;
-    UAVObject::Metadata initialGyrosMdata;
-    UAVObject::Metadata initialMagMdata;
-    UAVObject::Metadata initialBaroMdata;
     float initialMagCorrectionRate;
-
-    static const int NOISE_SAMPLES = 100;
 
     QMap<QString, UAVObject::Metadata> originalMetaData;
 
@@ -115,8 +82,6 @@ private slots:
     void displayPlane(int i);
 
     // Slots for measuring the sensor noise
-    void doStartNoiseMeasurement();
-    void doGetNoiseSample(UAVObject *);
     void do_SetDirty();
     void configureSixPoint();
 
