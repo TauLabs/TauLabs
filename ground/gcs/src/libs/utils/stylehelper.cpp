@@ -32,13 +32,10 @@
 #include "hostosinfo.h"
 
 #include <QPixmapCache>
-#include <QWidget>
-#include <QRect>
 #include <QPainter>
 #include <QApplication>
-#include <QPalette>
 #include <QStyleOption>
-#include <QObject>
+#include <qmath.h>
 
 // Clamps float color values within (0, 255)
 static int clamp(float x)
@@ -367,15 +364,33 @@ void StyleHelper::menuGradient(QPainter *painter, const QRect &spanRect, const Q
     }
 }
 
+static qreal pixmapDevicePixelRatio(const QPixmap &pixmap)
+{
+#if QT_VERSION > 0x050000
+    return pixmap.devicePixelRatio();
+#else
+    Q_UNUSED(pixmap);
+    return 1.0;
+#endif
+}
+
 // Draws a cached pixmap with shadow
 void StyleHelper::drawIconWithShadow(const QIcon &icon, const QRect &rect,
-                                     QPainter *p, QIcon::Mode iconMode, int radius, const QColor &color, const QPoint &offset)
+                                     QPainter *p, QIcon::Mode iconMode, int dipRadius, const QColor &color, const QPoint &dipOffset)
 {
     QPixmap cache;
     QString pixmapName = QString::fromLatin1("icon %0 %1 %2").arg(icon.cacheKey()).arg(iconMode).arg(rect.height());
 
     if (!QPixmapCache::find(pixmapName, cache)) {
+        // High-dpi support: The in parameters (rect, radius, offset) are in
+        // device-independent pixels. The call to QIcon::pixmap() below might
+        // return a high-dpi pixmap, which will in that case have a devicePixelRatio
+        // different than 1. The shadow drawing caluculations are done in device
+        // pixels.
         QPixmap px = icon.pixmap(rect.size());
+        int devicePixelRatio = qCeil(pixmapDevicePixelRatio(px));
+        int radius = dipRadius * devicePixelRatio;
+        QPoint offset = dipOffset * devicePixelRatio;
         cache = QPixmap(px.size() + QSize(radius * 2, radius * 2));
         cache.fill(Qt::transparent);
 
@@ -400,7 +415,7 @@ void StyleHelper::drawIconWithShadow(const QIcon &icon, const QRect &rect,
 
         QPainter tmpPainter(&tmp);
         tmpPainter.setCompositionMode(QPainter::CompositionMode_Source);
-        tmpPainter.drawPixmap(QPoint(radius, radius), px);
+        tmpPainter.drawPixmap(QRect(radius, radius, px.width(), px.height()), px);
         tmpPainter.end();
 
         // blur the alpha channel
@@ -427,13 +442,17 @@ void StyleHelper::drawIconWithShadow(const QIcon &icon, const QRect &rect,
         cachePainter.drawImage(QRect(0, 0, cache.rect().width(), cache.rect().height()), tmp);
 
         // Draw the actual pixmap...
-        cachePainter.drawPixmap(QPoint(radius, radius) + offset, px);
+        cachePainter.drawPixmap(QRect(QPoint(radius, radius) + offset, QSize(px.width(), px.height())), px);
+#if QT_VERSION > 0x050000
+        cache.setDevicePixelRatio(devicePixelRatio);
+#endif
         QPixmapCache::insert(pixmapName, cache);
     }
 
     QRect targetRect = cache.rect();
-    targetRect.moveCenter(rect.center());
-    p->drawPixmap(targetRect.topLeft() - offset, cache);
+    targetRect.setSize(targetRect.size() / pixmapDevicePixelRatio(cache));
+    targetRect.moveCenter(rect.center() - dipOffset);
+    p->drawPixmap(targetRect, cache);
 }
 
 // Draws a CSS-like border image where the defined borders are not stretched
@@ -500,5 +519,14 @@ void StyleHelper::tintImage(QImage &img, const QColor &tintColor)
     }
 }
 
+QLinearGradient StyleHelper::statusBarGradient(const QRect &statusBarRect)
+{
+    QLinearGradient grad(statusBarRect.topLeft(), QPoint(statusBarRect.center().x(), statusBarRect.bottom()));
+    QColor startColor = shadowColor().darker(164);
+    QColor endColor = baseColor().darker(130);
+    grad.setColorAt(0, startColor);
+    grad.setColorAt(1, endColor);
+    return grad;
+}
 
 } // namespace Utils

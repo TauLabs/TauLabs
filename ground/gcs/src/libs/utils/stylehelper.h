@@ -32,7 +32,6 @@
 
 #include "utils_global.h"
 
-#include <QColor>
 #include <QStyle>
 
 QT_BEGIN_NAMESPACE
@@ -51,6 +50,7 @@ class QTCREATOR_UTILS_EXPORT StyleHelper
 {
 public:
     static const unsigned int DEFAULT_BASE_COLOR = 0x666666;
+    static const int progressFadeAnimationDuration = 600;
 
     // Height of the project explorer navigation bar
     static int navigationWidgetHeight() { return 24; }
@@ -83,12 +83,13 @@ public:
     static bool usePixmapCache() { return true; }
 
     static void drawIconWithShadow(const QIcon &icon, const QRect &rect, QPainter *p, QIcon::Mode iconMode,
-                                   int radius = 3, const QColor &color = QColor(0, 0, 0, 130),
-                                   const QPoint &offset = QPoint(1, -2));
+                                   int dipRadius = 3, const QColor &color = QColor(0, 0, 0, 130),
+                                   const QPoint &dipOffset = QPoint(1, -2));
     static void drawCornerImage(const QImage &img, QPainter *painter, QRect rect,
                          int left = 0, int top = 0, int right = 0, int bottom = 0);
 
     static void tintImage(QImage &img, const QColor &tintColor);
+    static QLinearGradient statusBarGradient(const QRect &statusBarRect);
 
 private:
     static QColor m_baseColor;
