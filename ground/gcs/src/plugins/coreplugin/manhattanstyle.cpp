@@ -31,35 +31,26 @@
 
 #include "styleanimator.h"
 
-#include <QLibrary>
-
 #include <coreplugin/coreconstants.h>
 
-#include <utils/qtcassert.h>
+#include <utils/hostosinfo.h>
 #include <utils/stylehelper.h>
 
 #include <utils/fancymainwindow.h>
 
 #include <QApplication>
 #include <QComboBox>
-#include <QDialogButtonBox>
 #include <QDockWidget>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMenuBar>
 #include <QPainter>
 #include <QPixmap>
-#include <QPixmapCache>
-#include <QPushButton>
-#include <QScrollArea>
-#include <QSplitter>
 #include <QStatusBar>
 #include <QStyleFactory>
 #include <QStyleOption>
 #include <QToolBar>
-#include <QTreeView>
 #include <QToolButton>
-#include <QAbstractItemView>
 
 // We define a currently unused state for indicating animations
 const QStyle::State State_Animating = QStyle::State(0x00000040);
@@ -283,18 +274,16 @@ void ManhattanStyle::polish(QWidget *widget)
         if (qobject_cast<QToolButton*>(widget)) {
             widget->setAttribute(Qt::WA_Hover);
             widget->setMaximumHeight(Utils::StyleHelper::navigationWidgetHeight() - 2);
-        }
-        else if (qobject_cast<QLineEdit*>(widget)) {
+        } else if (qobject_cast<QLineEdit*>(widget)) {
             widget->setAttribute(Qt::WA_Hover);
             widget->setMaximumHeight(Utils::StyleHelper::navigationWidgetHeight() - 2);
-        }
-        else if (qobject_cast<QLabel*>(widget))
+        } else if (qobject_cast<QLabel*>(widget)) {
             widget->setPalette(panelPalette(widget->palette()));
-        else if (widget->property("panelwidget_singlerow").toBool())
+        } else if (widget->property("panelwidget_singlerow").toBool()) {
             widget->setFixedHeight(Utils::StyleHelper::navigationWidgetHeight());
-        else if (qobject_cast<QStatusBar*>(widget))
+        } else if (qobject_cast<QStatusBar*>(widget)) {
             widget->setFixedHeight(Utils::StyleHelper::navigationWidgetHeight() + 2);
-        else if (qobject_cast<QComboBox*>(widget)) {
+        } else if (qobject_cast<QComboBox*>(widget)) {
             widget->setMaximumHeight(Utils::StyleHelper::navigationWidgetHeight() - 2);
             widget->setAttribute(Qt::WA_Hover);
         }
@@ -517,12 +506,8 @@ void ManhattanStyle::drawPrimitive(PrimitiveElement element, const QStyleOption 
     case PE_PanelStatusBar:
         {
             painter->save();
-            QLinearGradient grad(option->rect.topLeft(), QPoint(rect.center().x(), rect.bottom()));
-            QColor startColor = Utils::StyleHelper::shadowColor().darker(164);
-            QColor endColor = Utils::StyleHelper::baseColor().darker(130);
-            grad.setColorAt(0, startColor);
-            grad.setColorAt(1, endColor);
-            painter->fillRect(option->rect, grad);
+            QLinearGradient grad = Utils::StyleHelper::statusBarGradient(rect);
+            painter->fillRect(rect, grad);
             painter->setPen(QColor(255, 255, 255, 60));
             painter->drawLine(rect.topLeft() + QPoint(0,1),
                               rect.topRight()+ QPoint(0,1));
@@ -902,13 +887,10 @@ void ManhattanStyle::drawComplexControl(ComplexControl control, const QStyleOpti
                     if (mflags & (State_Sunken)) {
                         QColor shade(0, 0, 0, 50);
                         painter->fillRect(tool.rect.adjusted(0, -1, 1, 1), shade);
-                    }
-#ifndef Q_OS_MAC
-                    else if (mflags & (State_MouseOver)) {
+                    } else if (!Utils::HostOsInfo::isMacHost() && (mflags & State_MouseOver)) {
                         QColor shade(255, 255, 255, 50);
                         painter->fillRect(tool.rect.adjusted(0, -1, 1, 1), shade);
                     }
-#endif
                 }
                 tool.rect = tool.rect.adjusted(2, 2, -2, -2);
                 drawPrimitive(PE_IndicatorArrowDown, &tool, painter, widget);
