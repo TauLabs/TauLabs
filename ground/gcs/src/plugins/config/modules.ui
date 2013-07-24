@@ -150,6 +150,26 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="cbVtolFollower">
+            <property name="toolTip">
+             <string>Enable the VTOL path follower module which is required for RTH, PH and navigation</string>
+            </property>
+            <property name="text">
+             <string>Vtol Path Follower</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="cbPathPlanner">
+            <property name="toolTip">
+             <string>This enables the path planner module which is required for waypoint navigation.</string>
+            </property>
+            <property name="text">
+             <string>Path Planner</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

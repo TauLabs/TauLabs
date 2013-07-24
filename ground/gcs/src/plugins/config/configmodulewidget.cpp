@@ -70,6 +70,8 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGPS, ModuleSettings::ADMINSTATE_GPS);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbOveroSync, ModuleSettings::ADMINSTATE_OVEROSYNC);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVtolFollower, ModuleSettings::ADMINSTATE_VTOLPATHFOLLOWER);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbPathPlanner, ModuleSettings::ADMINSTATE_PATHPLANNER);
 
     // For modules with additional settings, show when appropriate
     connect(ui->cbAirspeed, SIGNAL(toggled(bool)), this, SLOT(toggleAirspeedTab(bool)));
@@ -121,6 +123,12 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     ui->cbVibrationAnalysis->setProperty(trueString.toAscii(), "Enabled");
     ui->cbVibrationAnalysis->setProperty(falseString.toAscii(), "Disabled");
+
+    ui->cbVtolFollower->setProperty(trueString.toAscii(), "Enabled");
+    ui->cbVtolFollower->setProperty(falseString.toAscii(), "Disabled");
+
+    ui->cbPathPlanner->setProperty(trueString.toAscii(), "Enabled");
+    ui->cbPathPlanner->setProperty(falseString.toAscii(), "Disabled");
 
     ui->gb_measureVoltage->setProperty(trueString.toAscii(), "Enabled");
     ui->gb_measureVoltage->setProperty(falseString.toAscii(), "Disabled");
