@@ -53,6 +53,7 @@
 #include "ioutputpane.h"
 #include "icorelistener.h"
 #include "iconfigurableplugin.h"
+#include <QStyleFactory>
 #include "manhattanstyle.h"
 #include "rightpane.h"
 #include "settingsdialog.h"
@@ -146,21 +147,26 @@ MainWindow::MainWindow() :
     QCoreApplication::setOrganizationName(QLatin1String(Core::Constants::GCS_AUTHOR));
     QCoreApplication::setOrganizationDomain(QLatin1String("taulabs.org"));
     QSettings::setDefaultFormat(XmlConfig::XmlSettingsFormat);
-    QString baseName = qApp->style()->objectName();
-    if (Utils::HostOsInfo::isMacHost())
-        baseName = QLatin1String("fusion");
-#ifdef Q_WS_X11
-    if (baseName == QLatin1String("windows")) {
-        // Sometimes we get the standard windows 95 style as a fallback
-        // e.g. if we are running on a KDE4 desktop
-        QByteArray desktopEnvironment = qgetenv("DESKTOP_SESSION");
-        if (desktopEnvironment == "kde")
-            baseName = QLatin1String("plastique");
-        else
-            baseName = QLatin1String("cleanlooks");
+    QString baseName = QApplication::style()->objectName();
+
+    qDebug() << baseName;
+    if (Utils::HostOsInfo::isAnyUnixHost() && !Utils::HostOsInfo::isMacHost()) {
+        if (baseName == QLatin1String("windows")) {
+            // Sometimes we get the standard windows 95 style as a fallback
+            if (QStyleFactory::keys().contains(QLatin1String("Fusion"))) {
+                baseName = QLatin1String("fusion"); // Qt5
+            } else { // Qt4
+                // e.g. if we are running on a KDE4 desktop
+                QByteArray desktopEnvironment = qgetenv("DESKTOP_SESSION");
+                if (desktopEnvironment == "kde")
+                    baseName = QLatin1String("plastique");
+                else
+                    baseName = QLatin1String("cleanlooks");
+            }
+        }
     }
-#endif
     qApp->setStyle(new ManhattanStyle(baseName));
+
 
     setDockNestingEnabled(true);
 
