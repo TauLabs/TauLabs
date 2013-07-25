@@ -284,7 +284,9 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
 
     // Replace the $(DATAFIELDINFO) tag
     QString name;
+    // To be populated with the enums definition
     QString enums;
+    // To be populated with the Q_ENUMS macro
     QString q_enums;
     for (int n = 0; n < info->fields.length(); ++n)
     {
