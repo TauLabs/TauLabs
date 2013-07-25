@@ -40,12 +40,12 @@
 #include <math.h>
 
 UAVObjectTreeModel::UAVObjectTreeModel(QObject *parent, bool categorize, bool useScientificNotation) :
-    QAbstractItemModel(parent),
-    m_recentlyUpdatedTimeout(500), // ms
-    m_recentlyUpdatedColor(QColor(255, 230, 230)),
-    m_manuallyChangedColor(QColor(230, 230, 255)),
-    m_updatedOnlyColor(QColor(174,207,250,255)),
-    m_useScientificFloatNotation(useScientificNotation)
+        QAbstractItemModel(parent),
+        m_useScientificFloatNotation(useScientificNotation),
+        m_recentlyUpdatedTimeout(500), // ms
+        m_recentlyUpdatedColor(QColor(255, 230, 230)),
+        m_manuallyChangedColor(QColor(230, 230, 255)),
+        m_updatedOnlyColor(QColor(255,255,0))
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
@@ -109,7 +109,6 @@ void UAVObjectTreeModel::newObject(UAVObject *obj)
 
 void UAVObjectTreeModel::addDataObject(UAVDataObject *obj, bool categorize)
 {
-    //Determine if the root tree is the settings or dynamic data tree
     TopTreeItem *root = obj->isSettings() ? m_settingsTree : m_nonSettingsTree;
 
     TreeItem* parent = root;
@@ -436,7 +435,7 @@ void UAVObjectTreeModel::highlightUpdatedObject(UAVObject *obj)
     }
 }
 
-ObjectTreeItem* UAVObjectTreeModel::findObjectTreeItem(UAVObject *object)
+ObjectTreeItem *UAVObjectTreeModel::findObjectTreeItem(UAVObject *object)
 {
     UAVDataObject *dataObject = qobject_cast<UAVDataObject*>(object);
     UAVMetaObject *metaObject = qobject_cast<UAVMetaObject*>(object);
@@ -451,7 +450,6 @@ ObjectTreeItem* UAVObjectTreeModel::findObjectTreeItem(UAVObject *object)
 
 DataObjectTreeItem* UAVObjectTreeModel::findDataObjectTreeItem(UAVDataObject *obj)
 {
-    //Determine if the root tree is the settings or dynamic data tree
     TopTreeItem *root = obj->isSettings() ? m_settingsTree : m_nonSettingsTree;
     return root->findDataObjectTreeItemByObjectId(obj->getObjID());
 }
@@ -460,8 +458,6 @@ MetaObjectTreeItem* UAVObjectTreeModel::findMetaObjectTreeItem(UAVMetaObject *ob
 {
     UAVDataObject *dataObject = qobject_cast<UAVDataObject*>(obj->getParentObject());
     Q_ASSERT(dataObject);
-
-    //Determine if the root tree is the settings or dynamic data tree
     TopTreeItem *root = dataObject->isSettings() ? m_settingsTree : m_nonSettingsTree;
     return root->findMetaObjectTreeItemByObjectId(obj->getObjID());
 }
@@ -472,7 +468,6 @@ void UAVObjectTreeModel::updateHighlight(TreeItem *item)
     Q_ASSERT(itemIndex != QModelIndex());
     emit dataChanged(itemIndex, itemIndex.sibling(itemIndex.row(), TreeItem::dataColumn));
 }
-
 
 /**
  * @brief TreeItem::updateCurrentTime  This single timer sets the rhythm for all highlight events.
