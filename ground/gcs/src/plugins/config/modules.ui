@@ -20,7 +20,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <property name="tabsClosable">
       <bool>false</bool>
@@ -31,67 +31,30 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="title">
-          <string>Baudrates</string>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Some modules have additional options in specific tabs which become available when the module is enabled. After enabling a module, a power cycle is required before you can save those settings.</string>
          </property>
-         <layout class="QFormLayout" name="formLayout_4">
-          <property name="fieldGrowthPolicy">
-           <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-          </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_18">
-            <property name="text">
-             <string>Telemetry: </string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QComboBox" name="cb_TelemetryBaudRate">
-            <property name="objrelation" stdset="0">
-             <stringlist>
-              <string>objname:ModuleSettings</string>
-              <string>fieldname:TelemetrySpeed</string>
-             </stringlist>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_19">
-            <property name="text">
-             <string>GPS: </string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="cb_gpsSpeed">
-            <property name="objrelation" stdset="0">
-             <stringlist>
-              <string>objname:ModuleSettings</string>
-              <string>fieldname:GPSSpeed</string>
-             </stringlist>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_17">
-            <property name="text">
-             <string>ComBridge:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QComboBox" name="cb_combridgeSpeed">
-            <property name="objrelation" stdset="0">
-             <stringlist>
-              <string>objname:ModuleSettings</string>
-              <string>fieldname:ComUsbBridgeSpeed</string>
-             </stringlist>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>5</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QGroupBox" name="gbModules">
@@ -167,6 +130,85 @@
             </property>
             <property name="text">
              <string>Path Planner</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>5</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Module Baudrates</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_4">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>Telemetry: </string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="cb_TelemetryBaudRate">
+            <property name="objrelation" stdset="0">
+             <stringlist>
+              <string>objname:ModuleSettings</string>
+              <string>fieldname:TelemetrySpeed</string>
+             </stringlist>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_19">
+            <property name="text">
+             <string>GPS: </string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="cb_gpsSpeed">
+            <property name="objrelation" stdset="0">
+             <stringlist>
+              <string>objname:ModuleSettings</string>
+              <string>fieldname:GPSSpeed</string>
+             </stringlist>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>ComBridge:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="cb_combridgeSpeed">
+            <property name="objrelation" stdset="0">
+             <stringlist>
+              <string>objname:ModuleSettings</string>
+              <string>fieldname:ComUsbBridgeSpeed</string>
+             </stringlist>
             </property>
            </widget>
           </item>
