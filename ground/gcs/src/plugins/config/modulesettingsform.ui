@@ -517,7 +517,7 @@
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>50</height>
+              <height>0</height>
              </size>
             </property>
             <property name="title">
@@ -529,6 +529,15 @@
             <property name="checked">
              <bool>false</bool>
             </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="label_18">
+               <property name="text">
+                <string>Nothing to configure here.</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
