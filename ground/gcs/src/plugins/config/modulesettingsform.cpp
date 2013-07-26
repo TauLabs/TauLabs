@@ -55,6 +55,21 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
     if (reloadButton != NULL)
         addReloadButton(reloadButton, 0);
 
+    // Populate ADC box
+    adcRouting = ADCRouting::GetInstance(getObjectManager());
+    adcRoutingDataPrivate = adcRouting->getData();
+
+    int i=0;
+    moduleSettingsWidget->cb_airspeedADCChannel->addItem("None");
+    moduleSettingsWidget->cb_batteryCurrentADCChannel->addItem("None");
+    moduleSettingsWidget->cb_batteryVoltageADCChannel->addItem("None");
+    foreach (QString name, adcRouting->getField("ChannelMap")->getElementNames()) {
+        moduleSettingsWidget->cb_airspeedADCChannel->addItem(name, i);
+        moduleSettingsWidget->cb_batteryCurrentADCChannel->addItem(name, i);
+        moduleSettingsWidget->cb_batteryVoltageADCChannel->addItem(name, i);
+        i++;
+    }
+
     // Populate UAVO strings
     AirspeedSettings *airspeedSettings;
     airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
@@ -106,10 +121,18 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "SampleRate", moduleSettingsWidget->sb_sampleRate);
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "FFTWindowSize", moduleSettingsWidget->cb_windowSize);
 
+
     // Connect any remaining widgets
+    connect(reloadButton, SIGNAL(clicked()), this, SLOT(reloadADCRoutingUAVO()));
+    connect(applyButton, SIGNAL(clicked()), this, SLOT(applyADCRoutingUAVO()));
+    connect(saveButton, SIGNAL(clicked()), this, SLOT(saveADCRoutingUAVO()));
+    connect(adcRouting, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateADCRoutingComboboxesFromUAVO(UAVObject *)));
     connect(airspeedSettings, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAirspeedUAVO(UAVObject *)));
     connect(moduleSettingsWidget->cb_pitotType, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePitotType(int)));
     connect(moduleSettingsWidget->pb_startVibrationTest, SIGNAL(clicked()), this, SLOT(toggleVibrationTest()));
+    connect(moduleSettingsWidget->cb_airspeedADCChannel, SIGNAL(currentIndexChanged(int)), this, SLOT(updateADCRoutingComboboxes(int)));
+    connect(moduleSettingsWidget->cb_batteryCurrentADCChannel, SIGNAL(activated(int)), this, SLOT(updateADCRoutingComboboxes(int)));
+    connect(moduleSettingsWidget->cb_batteryVoltageADCChannel, SIGNAL(activated(int)), this, SLOT(updateADCRoutingComboboxes(int)));
 
     // Set text properties for checkboxes. The second argument is the UAVO field that corresponds
     // to the checkbox's true (respectively, false) state.
@@ -309,4 +332,222 @@ void ModuleSettingsForm::updateAirspeedGroupbox(UAVObject *obj)
         moduleSettingsWidget->gb_airspeedPitot->setChecked(true);
         break;
     }
+}
+
+
+/**
+ * @brief ModuleSettingsForm::updateADCRoutingComboboxes Updates private copy of ADCRouting
+ * variable, based on comboboxes
+ * @param changedValue UNUSED
+ */
+void ModuleSettingsForm::updateADCRoutingComboboxes(int changedValue)
+{
+    Q_UNUSED(changedValue);
+
+    if (sender() == moduleSettingsWidget->cb_airspeedADCChannel) {
+        // Remove the old setting
+        for (quint32 i=0; i<ADCRouting::CHANNELMAP_NUMELEM; i++) {
+            if (adcRoutingDataPrivate.ChannelMap[i] == ADCRouting::CHANNELMAP_ANALOGAIRSPEED) {
+                adcRoutingDataPrivate.ChannelMap[i] = ADCRouting::CHANNELMAP_DISABLED;
+                break;
+            }
+        }
+
+        // Read the comboboxes and set the UAVO
+        int airspeedIndex       = moduleSettingsWidget->cb_airspeedADCChannel->currentIndex();
+        if (moduleSettingsWidget->cb_airspeedADCChannel->currentText() != "None") {
+            uint tmp = moduleSettingsWidget->cb_airspeedADCChannel->itemData(airspeedIndex).toUInt();
+            adcRoutingDataPrivate.ChannelMap[tmp] = ADCRouting::CHANNELMAP_ANALOGAIRSPEED;
+        }
+    } else if (sender() == moduleSettingsWidget->cb_batteryCurrentADCChannel) {
+        // Remove the old setting
+        for (quint32 i=0; i<ADCRouting::CHANNELMAP_NUMELEM; i++) {
+            if (adcRoutingDataPrivate.ChannelMap[i] == ADCRouting::CHANNELMAP_BATTERYCURRENT) {
+                adcRoutingDataPrivate.ChannelMap[i] = ADCRouting::CHANNELMAP_DISABLED;
+                break;
+            }
+        }
+
+        // Read the comboboxes and set the UAVO
+        int batteryCurrentIndex = moduleSettingsWidget->cb_batteryCurrentADCChannel->currentIndex();
+        if (moduleSettingsWidget->cb_batteryCurrentADCChannel->currentText() != "None") {
+            uint tmp = moduleSettingsWidget->cb_airspeedADCChannel->itemData(batteryCurrentIndex).toUInt();
+            adcRoutingDataPrivate.ChannelMap[tmp] = ADCRouting::CHANNELMAP_BATTERYCURRENT;
+        }
+
+    } else if (sender() == moduleSettingsWidget->cb_batteryVoltageADCChannel) {
+        // Remove the old setting
+        for (quint32 i=0; i<ADCRouting::CHANNELMAP_NUMELEM; i++) {
+            if (adcRoutingDataPrivate.ChannelMap[i] == ADCRouting::CHANNELMAP_BATTERYVOLTAGE) {
+                adcRoutingDataPrivate.ChannelMap[i] = ADCRouting::CHANNELMAP_DISABLED;
+                break;
+            }
+        }
+
+        // Read the comboboxes and set the UAVO
+        int batteryVoltageIndex = moduleSettingsWidget->cb_batteryVoltageADCChannel->currentIndex();
+        if (moduleSettingsWidget->cb_batteryVoltageADCChannel->currentText() != "None") {
+            uint tmp = moduleSettingsWidget->cb_airspeedADCChannel->itemData(batteryVoltageIndex).toUInt();
+            adcRoutingDataPrivate.ChannelMap[tmp] = ADCRouting::CHANNELMAP_BATTERYVOLTAGE;
+        }
+    }
+
+    // Update combobox activated/deactivated items
+    updateADCRoutingComboboxes();
+}
+
+
+/**
+ * @brief ModuleSettingsForm::updateADCRoutingComboboxes Update
+ * combobox activated/deactivated items.
+ */
+void ModuleSettingsForm::updateADCRoutingComboboxes()
+{
+    bool airspeedSetFlag = false;
+    bool batteryCurrentSetFlag = false;
+    bool batteryVoltageSetFlag = false;
+
+    for (quint32 i=0; i<ADCRouting::CHANNELMAP_NUMELEM; i++) {
+        int airspeedIndex       = moduleSettingsWidget->cb_airspeedADCChannel->findData(i);
+        int batteryCurrentIndex = moduleSettingsWidget->cb_batteryCurrentADCChannel->findData(i);
+        int batteryVoltageIndex = moduleSettingsWidget->cb_batteryVoltageADCChannel->findData(i);
+
+        // Check for the three special cases. Set the approrpiate combobox if there is a match
+        if (adcRoutingDataPrivate.ChannelMap[i] == ADCRouting::CHANNELMAP_ANALOGAIRSPEED) {
+            airspeedSetFlag = true;
+            moduleSettingsWidget->cb_airspeedADCChannel->setCurrentIndex(airspeedIndex);
+        } else if (adcRoutingDataPrivate.ChannelMap[i] == ADCRouting::CHANNELMAP_BATTERYCURRENT) {
+            batteryCurrentSetFlag = true;
+            moduleSettingsWidget->cb_batteryCurrentADCChannel->setCurrentIndex(batteryCurrentIndex);
+        } else if (adcRoutingDataPrivate.ChannelMap[i] == ADCRouting::CHANNELMAP_BATTERYVOLTAGE) {
+            batteryVoltageSetFlag = true;
+            moduleSettingsWidget->cb_batteryVoltageADCChannel->setCurrentIndex(batteryVoltageIndex);
+        }
+
+        // Handle the case where the channel is assigned
+        if (adcRoutingDataPrivate.ChannelMap[i] != ADCRouting::CHANNELMAP_DISABLED) {
+            QVariant v(Qt::NoItemFlags);
+
+            // Find out in which combobox this ADC channel is selected
+
+            if (airspeedIndex == moduleSettingsWidget->cb_airspeedADCChannel->currentIndex()) {
+                // Disable the item in the other comboboxes
+                moduleSettingsWidget->cb_batteryCurrentADCChannel->setItemData(batteryCurrentIndex, v, Qt::UserRole - 1);
+                moduleSettingsWidget->cb_batteryVoltageADCChannel->setItemData(batteryVoltageIndex, v, Qt::UserRole - 1);
+            }
+            else if (batteryCurrentIndex == moduleSettingsWidget->cb_batteryCurrentADCChannel->currentIndex()) {
+                // Disable the item in the other comboboxes
+                moduleSettingsWidget->cb_airspeedADCChannel->setItemData(airspeedIndex, v, Qt::UserRole - 1);
+                moduleSettingsWidget->cb_batteryVoltageADCChannel->setItemData(batteryVoltageIndex, v, Qt::UserRole - 1);
+            }
+            else if (batteryVoltageIndex == moduleSettingsWidget->cb_batteryVoltageADCChannel->currentIndex()) {
+                // Disable the item in the other comboboxes
+                moduleSettingsWidget->cb_airspeedADCChannel->setItemData(airspeedIndex, v, Qt::UserRole - 1);
+                moduleSettingsWidget->cb_batteryCurrentADCChannel->setItemData(batteryCurrentIndex, v, Qt::UserRole - 1);
+            }
+            else {
+                // Not selected in any combobox, so disable all of them
+                moduleSettingsWidget->cb_airspeedADCChannel->setItemData(airspeedIndex, v, Qt::UserRole - 1);
+                moduleSettingsWidget->cb_batteryCurrentADCChannel->setItemData(batteryCurrentIndex, v, Qt::UserRole - 1);
+                moduleSettingsWidget->cb_batteryVoltageADCChannel->setItemData(batteryVoltageIndex, v, Qt::UserRole - 1);
+            }
+
+        } else {
+            // Reenable unselected item
+            QVariant v(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+            moduleSettingsWidget->cb_airspeedADCChannel->setItemData(airspeedIndex, v, Qt::UserRole - 1);
+            moduleSettingsWidget->cb_batteryCurrentADCChannel->setItemData(batteryCurrentIndex, v, Qt::UserRole - 1);
+            moduleSettingsWidget->cb_batteryVoltageADCChannel->setItemData(batteryVoltageIndex, v, Qt::UserRole - 1);
+        }
+    }
+
+    // Check that each combobox was assigned a value. If it wasn't, set its value to "None"
+    if (airspeedSetFlag == false)
+        moduleSettingsWidget->cb_airspeedADCChannel->setCurrentIndex(0);
+    if (batteryCurrentSetFlag == false)
+        moduleSettingsWidget->cb_batteryCurrentADCChannel->setCurrentIndex(0);
+    if (batteryVoltageSetFlag == false)
+        moduleSettingsWidget->cb_batteryVoltageADCChannel->setCurrentIndex(0);
+}
+
+
+/**
+ * @brief ModuleSettingsForm::updateADCRoutingComboboxesFromUAVO Called when UAVO
+ * changes. Resyncs the private copy of ADCRouting and then updates the comboboxes
+ */
+void ModuleSettingsForm::updateADCRoutingComboboxesFromUAVO(UAVObject *)
+{
+    // Resync the private copy
+    adcRoutingDataPrivate = adcRouting->getData();
+
+    // Update the comboboxes
+    updateADCRoutingComboboxes();
+}
+
+
+/**
+ * @brief ModuleSettingsForm::updateADCRoutingUAVO Updates the UAVO based on the
+ * combobox contents
+ * @param adcRoutingData
+ */
+void ModuleSettingsForm::updateADCRoutingUAVO(ADCRouting::DataFields *adcRoutingData)
+{
+    // Reset any fields which correspond to the special comboboxes
+    for (quint32 i=0; i<ADCRouting::CHANNELMAP_NUMELEM; i++) {
+        if (adcRoutingData->ChannelMap[i] == ADCRouting::CHANNELMAP_ANALOGAIRSPEED ||
+                adcRoutingData->ChannelMap[i] == ADCRouting::CHANNELMAP_BATTERYCURRENT ||
+                adcRoutingData->ChannelMap[i] == ADCRouting::CHANNELMAP_BATTERYVOLTAGE) {
+            adcRoutingData->ChannelMap[i] = ADCRouting::CHANNELMAP_DISABLED;
+        }
+    }
+
+    int airspeedIndex       = moduleSettingsWidget->cb_airspeedADCChannel->currentIndex();
+    int batteryCurrentIndex = moduleSettingsWidget->cb_batteryCurrentADCChannel->currentIndex();
+    int batteryVoltageIndex = moduleSettingsWidget->cb_batteryVoltageADCChannel->currentIndex();
+
+    // Read the comboboxes and set the UAVO
+    if (moduleSettingsWidget->cb_airspeedADCChannel->currentText() != "None") {
+        uint tmp = moduleSettingsWidget->cb_airspeedADCChannel->itemData(airspeedIndex).toUInt();
+        adcRoutingData->ChannelMap[tmp] = ADCRouting::CHANNELMAP_ANALOGAIRSPEED;
+    }
+
+    if (moduleSettingsWidget->cb_batteryCurrentADCChannel->currentText() != "None") {
+        uint tmp = moduleSettingsWidget->cb_airspeedADCChannel->itemData(batteryCurrentIndex).toUInt();
+        adcRoutingData->ChannelMap[tmp] = ADCRouting::CHANNELMAP_BATTERYCURRENT;
+    }
+
+    if (moduleSettingsWidget->cb_batteryVoltageADCChannel->currentText() != "None") {
+        uint tmp = moduleSettingsWidget->cb_airspeedADCChannel->itemData(batteryVoltageIndex).toUInt();
+        adcRoutingData->ChannelMap[tmp] = ADCRouting::CHANNELMAP_BATTERYVOLTAGE;
+    }
+}
+
+void ModuleSettingsForm::saveADCRoutingUAVO()
+{
+    // It's safe to use the private version because it is always resynced to the
+    // UAVObject manager version whenever there is a change in the latter
+    updateADCRoutingUAVO(&adcRoutingDataPrivate);
+
+    // Upload data
+    adcRouting->setData(adcRoutingDataPrivate);
+    adcRouting->updated();
+
+    // Save data
+}
+
+void ModuleSettingsForm::applyADCRoutingUAVO()
+{
+    // It's safe to use the private version because it is always resynced to the
+    // UAVObject manager version whenever there is a change in the latter
+    updateADCRoutingUAVO(&adcRoutingDataPrivate);
+
+    // Upload data
+    adcRouting->setData(adcRoutingDataPrivate);
+    adcRouting->updated();
+}
+
+void ModuleSettingsForm::reloadADCRoutingUAVO()
+{
+    // Resync
+    updateADCRoutingComboboxesFromUAVO((UAVObject *) NULL);
 }
