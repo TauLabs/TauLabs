@@ -31,6 +31,7 @@
 #include "pages/endpage.h"
 #include "pages/failsafepage.h"
 #include "pages/rebootpage.h"
+#include "pages/savepage.h"
 #include "extensionsystem/pluginmanager.h"
 #include "vehicleconfigurationhelper.h"
 #include "actuatorsettings.h"
@@ -53,8 +54,8 @@ int NavigationWizard::nextId() const
     case PAGE_START:
         return PAGE_FAILSAFE;
     case PAGE_FAILSAFE:
-        return PAGE_UPLOAD_SETTINGS;
-    case PAGE_UPLOAD_SETTINGS:
+        return PAGE_SAVE;
+    case PAGE_SAVE:
         return PAGE_REBOOT;
     case PAGE_REBOOT:
         return PAGE_END;
@@ -68,6 +69,7 @@ void NavigationWizard::createPages()
     setPage(PAGE_START, new StartPage(this));
     setPage(PAGE_FAILSAFE, new FailsafePage(this));
     setPage(PAGE_REBOOT, new RebootPage(this));
+    setPage(PAGE_SAVE, new SavePage(this));
     setPage(PAGE_END, new EndPage(this));
 
     setStartId(PAGE_START);

@@ -73,8 +73,12 @@ private slots:
     void pageChanged(int currId);
 
 private:
+    // TODO: Add an enable modules step early on that requires a reboot so nav settings
+    // will save
+
     //! Pages supported by this wizard
-    enum { PAGE_START, PAGE_FAILSAFE, PAGE_UPLOAD_SETTINGS, PAGE_REBOOT, PAGE_END };
+    enum { PAGE_START, PAGE_FAILSAFE, PAGE_SAVE, PAGE_REBOOT, PAGE_END };
+
     void createPages();
 
     //! Indicates the board needs to be rebooted
