@@ -613,6 +613,7 @@ void TelemetrySchedulerGadgetWidget::changeVerticalHeader(int headerIndex)
     UAVObject::Metadata mdata = uavObj->getMetadata();
 
     MetadataDialog metadataDialog(mdata);
+    metadataDialog.setWindowTitle(QString(uavObj->getName() + " settings"));
 
     if (metadataDialog.exec() != QDialog::Accepted )
         return;
