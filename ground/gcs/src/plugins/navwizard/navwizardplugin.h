@@ -30,7 +30,6 @@
 
 #include <extensionsystem/iplugin.h>
 #include <QWizard>
-#include "setupwizard.h"
 #include "navigationwizard.h"
 
 class NavWizardPlugin : public ExtensionSystem::IPlugin {

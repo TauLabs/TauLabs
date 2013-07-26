@@ -30,6 +30,7 @@
 #define SUMMARYPAGE_H
 
 #include "abstractwizardpage.h"
+#include "navigationwizard.h"
 
 namespace Ui {
 class SummaryPage;
@@ -39,7 +40,7 @@ class SummaryPage : public AbstractWizardPage {
     Q_OBJECT
 
 public:
-    explicit SummaryPage(SetupWizard *wizard, QWidget *parent = 0);
+    explicit SummaryPage(NavigationWizard *wizard, QWidget *parent = 0);
     ~SummaryPage();
     bool validatePage();
     void initializePage();

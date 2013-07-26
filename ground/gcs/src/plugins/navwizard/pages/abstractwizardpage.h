@@ -8,7 +8,7 @@
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizard Setup Wizard
+ * @addtogroup NavWizard Setup Wizard
  * @{
  *****************************************************************************/
 /*
@@ -31,7 +31,7 @@
 #define ABSTRACTWIZARDPAGE_H
 
 #include <QWizardPage>
-#include "setupwizard.h"
+#include "navigationwizard.h"
 
 class AbstractWizardPage : public QWizardPage {
     Q_OBJECT
@@ -42,7 +42,7 @@ private:
     QWizard *m_wizard;
 
 public:
-    SetupWizard *getWizard() const;
+    NavigationWizard *getWizard() const;
     QWizard *getQWizard() const { return m_wizard; }
 
     UAVObjectManager * getObjectManager() const;

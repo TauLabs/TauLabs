@@ -8,7 +8,7 @@
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizard Setup Wizard
+ * @addtogroup NavWizard Setup Wizard
  * @{
  *****************************************************************************/
 /*
@@ -36,9 +36,9 @@ AbstractWizardPage::AbstractWizardPage(QWizard *wizard, QWidget *parent) :
 }
 
 
-SetupWizard *AbstractWizardPage::getWizard() const
+NavigationWizard *AbstractWizardPage::getWizard() const
 {
-    SetupWizard *castWiz = dynamic_cast<SetupWizard *>(m_wizard);
+    NavigationWizard *castWiz = dynamic_cast<NavigationWizard *>(m_wizard);
     return castWiz;
 }
 

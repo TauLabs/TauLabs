@@ -2,13 +2,12 @@
  ******************************************************************************
  *
  * @file       vehicleconfigurationhelper.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizard Setup Wizard
+ * @addtogroup NavWizard Setup Wizard
  * @{
  *****************************************************************************/
 /*
@@ -61,25 +60,18 @@ struct mixerChannelSettings {
  * board type details to the board plugin and should not contain any board-specific
  * code.
  */
+
 class VehicleConfigurationHelper : public QObject {
     Q_OBJECT
 
 public:
     VehicleConfigurationHelper(VehicleConfigurationSource *configSource);
     bool setupVehicle(bool save = true);
-    bool setupHardwareSettings(bool save = true);
-    static const qint16 LEGACY_ESC_FREQUENCE;
-    static const qint16 RAPID_ESC_FREQUENCE;
 
 signals:
     void saveProgress(int total, int current, QString description);
 
 private:
-    static const int MIXER_TYPE_DISABLED = 0;
-    static const int MIXER_TYPE_MOTOR    = 1;
-    static const int MIXER_TYPE_SERVO    = 2;
-    static const float DEFAULT_ENABLED_ACCEL_TAU = 0.1;
-
     VehicleConfigurationSource *m_configSource;
     UAVObjectManager *m_uavoManager;
 
@@ -87,18 +79,11 @@ private:
     void addModifiedObject(UAVDataObject *object, QString description);
     void clearModifiedObjects();
 
-    void applyHardwareConfiguration();
-    void applyVehicleConfiguration();
-    void applyActuatorConfiguration();
-    void applyFlighModeConfiguration();
-    void applySensorBiasConfiguration();
-    void applyStabilizationConfiguration();
-    void applyManualControlDefaults();
+    //! Set up the attitude filter
+    void applyFilterConfiguration();
 
-    void applyMixerConfiguration(mixerChannelSettings channels[]);
-
-    GUIConfigDataUnion getGUIConfigData();
-    void applyMultiGUISettings(SystemSettings::AirframeTypeOptions airframe, GUIConfigDataUnion guiConfig);
+    //! Enable the modules for navigation
+    void applyModuleConfiguration();
 
     bool saveChangesToController(bool save);
     QEventLoop m_eventLoop;
@@ -110,11 +95,6 @@ private:
     void resetVehicleConfig();
     void resetGUIData();
 
-    void setupTriCopter();
-    void setupQuadCopter();
-    void setupHexaCopter();
-    void setupOctoCopter();
-
 private slots:
     void uAVOTransactionCompleted(UAVObject *object, bool success);
     void uAVOTransactionCompleted(int oid, bool success);
@@ -122,3 +102,8 @@ private slots:
 };
 
 #endif // VEHICLECONFIGURATIONHELPER_H
+
+/**
+ * @}
+ * @}
+ */

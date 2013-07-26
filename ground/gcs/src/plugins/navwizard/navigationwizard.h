@@ -6,7 +6,7 @@
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizard Setup Wizard
+ * @addtogroup NavWizard Setup Wizard
  * @{
  *****************************************************************************/
 /*
@@ -47,7 +47,7 @@
  *   4. save these settings
  *   5. reboot
  */
-class NavigationWizard : public QWizard {
+class NavigationWizard : public QWizard, public VehicleConfigurationSource {
     Q_OBJECT
 
 public:
@@ -66,6 +66,9 @@ public:
         return m_connectionManager;
     }
 
+    QString getSummaryText();
+    bool isCalibrationPerformed() const;
+
 private slots:
     void pageChanged(int currId);
 
@@ -83,3 +86,8 @@ private:
 };
 
 #endif // NAVIGATIONWIZARD_H
+
+/**
+ * @}
+ * @}
+ */

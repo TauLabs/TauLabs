@@ -6,7 +6,7 @@
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizard Setup Wizard
+ * @addtogroup NavWizard Setup Wizard
  * @{
  * @brief A Wizard to make the initial setup easy for everyone.
  *****************************************************************************/
@@ -34,7 +34,6 @@
 #include "extensionsystem/pluginmanager.h"
 #include "vehicleconfigurationhelper.h"
 #include "actuatorsettings.h"
-#include "pages/autoupdatepage.h"
 #include "uploader/uploadergadgetfactory.h"
 
 NavigationWizard::NavigationWizard(QWidget *parent) : QWizard(parent),
@@ -86,3 +85,18 @@ void NavigationWizard::pageChanged(int currId)
     button(QWizard::CustomButton1)->setVisible(currId != PAGE_START);
     button(QWizard::CancelButton)->setVisible(currId != PAGE_END);
 }
+
+QString NavigationWizard::getSummaryText()
+{
+    return QString("");
+}
+
+bool NavigationWizard::isCalibrationPerformed() const
+{
+    return false;
+}
+
+/**
+ * @}
+ * @}
+ */

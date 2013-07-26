@@ -2,13 +2,12 @@
  ******************************************************************************
  *
  * @file       vehicleconfigurationsource.cpp
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizard Setup Wizard
+ * @addtogroup NavWizard Setup Wizard
  * @{
  *****************************************************************************/
 /*
@@ -31,3 +30,8 @@
 
 VehicleConfigurationSource::VehicleConfigurationSource()
 {}
+
+/**
+ * @}
+ * @}
+ */

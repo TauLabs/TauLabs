@@ -29,10 +29,10 @@
 #include <QMessageBox>
 #include "savepage.h"
 #include "ui_savepage.h"
-#include "setupwizard.h"
+#include "navigationwizard.h"
 #include "vehicleconfigurationhelper.h"
 
-SavePage::SavePage(SetupWizard *wizard, QWidget *parent) :
+SavePage::SavePage(NavigationWizard *wizard, QWidget *parent) :
     AbstractWizardPage(wizard, parent),
     ui(new Ui::SavePage), m_successfulWrite(false)
 {

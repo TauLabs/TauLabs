@@ -43,7 +43,7 @@ class BoardtypeUnknown : public AbstractWizardPage {
     Q_OBJECT
 
 public:
-    explicit BoardtypeUnknown(SetupWizard *wizard, QWidget *parent = 0);
+    explicit BoardtypeUnknown(NavigationWizard *wizard, QWidget *parent = 0);
     ~BoardtypeUnknown();
     bool validatePage();
 

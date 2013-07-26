@@ -30,6 +30,7 @@
 #define SAVEPAGE_H
 
 #include "abstractwizardpage.h"
+#include "navigationwizard.h"
 
 namespace Ui {
 class SavePage;
@@ -39,7 +40,7 @@ class SavePage : public AbstractWizardPage {
     Q_OBJECT
 
 public:
-    explicit SavePage(SetupWizard *wizard, QWidget *parent = 0);
+    explicit SavePage(NavigationWizard *wizard, QWidget *parent = 0);
     ~SavePage();
     bool validatePage();
     bool isComplete() const;
