@@ -736,13 +736,13 @@ void Calibration::doStartTempCal()
     Q_ASSERT(attitudeSettings);
     AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
 
-    initialBoardRotation[0]=attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL];
-    initialBoardRotation[1]=attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH];
-    initialBoardRotation[2]=attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW];
+    initialBoardRotation[0] = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL];
+    initialBoardRotation[1] = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH];
+    initialBoardRotation[2] = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW];
 
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] =0;
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH]=0;
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW]  =0;
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = 0;
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH]= 0;
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW]  = 0;
     attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_FALSE;
 
     attitudeSettings->setData(attitudeSettingsData);

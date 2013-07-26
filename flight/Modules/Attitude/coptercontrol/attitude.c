@@ -89,7 +89,7 @@ static void accumulate_gyro_compute();
 static void accumulate_gyro_zero();
 
 //! Store a gyro sample
-static void accumulate_gyro(float gyros_out[3], float *gyro_temp_bias);
+static void accumulate_gyro(float gyros_out[3], float gyro_temp_bias[3]);
 
 static float accelKi = 0;
 static float accelKp = 0;
@@ -526,7 +526,7 @@ static void accumulate_gyro_zero()
  * @param [in] gyrosData The samples of data to accumulate
  * @param [in] gyro_temp_bias The current temperature bias to account for
  */
-static void accumulate_gyro(float gyros_out[3], float *gyro_temp_bias)
+static void accumulate_gyro(float gyros_out[3], float gyro_temp_bias[3])
 {
 	if (!accumulating_gyro)
 		return;
