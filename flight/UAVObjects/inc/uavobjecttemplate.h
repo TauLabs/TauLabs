@@ -88,6 +88,10 @@ static inline int32_t $(NAME)SetMetadata(const UAVObjMetadata *dataIn) { return 
 
 static inline int8_t $(NAME)ReadOnly() { return UAVObjReadOnly($(NAME)Handle()); }
 
+static inline uint16_t $(NAME)GetNumInstances(){ return UAVObjGetNumInstances($(NAME)Handle()); }
+
+static inline uint32_t $(NAME)GetNumBytes(){ return UAVObjGetNumBytes($(NAME)Handle()); }
+
 // Field information
 $(DATAFIELDINFO)
 
