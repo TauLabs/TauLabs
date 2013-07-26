@@ -48,8 +48,8 @@ int32_t pathplanner_save_path(uint32_t path_id)
 	if (WaypointHandle() == 0)
 		return -30; // leave room for flashfs error codes
 
-	uint32_t num_waypoints = UAVObjGetNumInstances(WaypointHandle());
-	int32_t  waypoint_size = UAVObjGetNumBytes(WaypointHandle());
+	uint16_t num_waypoints = WaypointGetNumInstances();
+	uint32_t  waypoint_size = WaypointGetNumBytes();
 	int32_t  erase_retval  = 0;
 	int32_t  last_save_id  = -1;
 	int32_t  retval        = 0;
@@ -96,7 +96,7 @@ int32_t pathplanner_load_path(uint32_t path_id)
 	if (WaypointHandle() == 0)
 		return -30; // leave room for flashfs error codes
 
-	int32_t  waypoint_size = UAVObjGetNumBytes(WaypointHandle());
+	uint32_t  waypoint_size = WaypointGetNumBytes();
 	int32_t  retval = 0;
 
 	int32_t i;
@@ -110,7 +110,7 @@ int32_t pathplanner_load_path(uint32_t path_id)
 				break;
 
 			// Loaded waypoint locally, store in UAVO manager
-			if (i >= UAVObjGetNumInstances(WaypointHandle())) {
+			if (i >= WaypointGetNumInstances()) {
 				int32_t new_instance_id = WaypointCreateInstance();
 				if (new_instance_id != i) {
 					retval = -31;
@@ -125,7 +125,7 @@ int32_t pathplanner_load_path(uint32_t path_id)
 	// Set any remaining waypoints to INVALID to indicate they should not be used
 	// at this point i will be the index of the first waypoint that could not be
 	// loaded from flash.
-	for (; i <  UAVObjGetNumInstances(WaypointHandle()); i++) {
+	for (; i <  WaypointGetNumInstances(); i++) {
 		WaypointInstGet(i, &waypoint);
 		waypoint.Mode = WAYPOINT_MODE_INVALID;
 		WaypointInstSet(i, &waypoint);
