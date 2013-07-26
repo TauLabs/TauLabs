@@ -27,6 +27,7 @@
 
 #include "modulesettingsform.h"
 #include "ui_modulesettingsform.h"
+#include "uavobjectmanager.h"
 
 #include "airspeedsettings.h"
 #include "flightbatterysettings.h"
@@ -42,18 +43,23 @@ QString ModuleSettingsForm::falseString("FalseString");
  * @brief ModuleSettingsForm::ModuleSettingsForm Constructor
  * @param parent
  */
-ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton, QPushButton *applyButton, QPushButton *reloadButton) :
+ModuleSettingsForm::ModuleSettingsForm(Ui::Modules *modulesTab, QWidget *parent) :
     ConfigTaskWidget(parent),
-    moduleSettingsWidget(new Ui::ModuleSettingsWidget)
+    moduleSettingsWidget(new Ui::ModuleSettingsWidget),
+    rebootMessage_flag(0)
 {
+    this->modulesTab = modulesTab;
     moduleSettingsWidget->setupUi(this);
 
     // Connect the apply/save/reload buttons.
-    if (applyButton != NULL || saveButton != NULL)
-        addApplySaveButtons(applyButton, saveButton);
+    if (modulesTab->applyButton != NULL || modulesTab->saveButton != NULL)
+        addApplySaveButtons(modulesTab->applyButton, modulesTab->saveButton);
 
-    if (reloadButton != NULL)
-        addReloadButton(reloadButton, 0);
+    if (modulesTab->reloadButton != NULL)
+        addReloadButton(modulesTab->reloadButton, 0);
+
+    // Fetch task info UAVO
+    taskInfo = TaskInfo::GetInstance(getObjectManager());
 
     // Populate UAVO strings
     AirspeedSettings *airspeedSettings;
@@ -136,6 +142,13 @@ ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton,
 
     moduleSettingsWidget->gb_measureCurrent->setProperty(trueString.toAscii(), "Enabled");
     moduleSettingsWidget->gb_measureCurrent->setProperty(falseString.toAscii(), "Disabled");
+
+    // Do not enable the groupbox until the module is running.
+    connect(moduleSettingsWidget->gb_Airspeed, SIGNAL(toggled(bool)), this, SLOT(toggleAirspeedModule(bool)));
+    connect(moduleSettingsWidget->gb_Battery, SIGNAL(toggled(bool)), this, SLOT(toggleBatteryModule(bool)));
+    connect(moduleSettingsWidget->gb_ComBridge, SIGNAL(toggled(bool)), this, SLOT(toggleComBridgeModule(bool)));
+    connect(moduleSettingsWidget->gb_OveroSync, SIGNAL(toggled(bool)), this, SLOT(toggleOveroSynceModule(bool)));
+    connect(moduleSettingsWidget->gb_VibrationAnalysis, SIGNAL(toggled(bool)), this, SLOT(toggleVibrationAnalysisModule(bool)));
 
     // Refresh widget contents
     refreshWidgetsValues();
@@ -229,6 +242,114 @@ bool ModuleSettingsForm::setWidgetFromVariant(QWidget *widget, QVariant value, d
         return ConfigTaskWidget::setWidgetFromVariant(widget, value, scale);
     }
 }
+
+
+/**
+ * @brief ModuleSettingsForm::toggleErrorMessage Show "reboot board before proceeding" message if
+ * any of the flag bits are turned on
+ */
+void ModuleSettingsForm::toggleErrorMessage()
+{
+    if (rebootMessage_flag)
+        modulesTab->lb_rebootMessage->show();
+    else
+        modulesTab->lb_rebootMessage->hide();
+}
+
+void ModuleSettingsForm::toggleAirspeedModule(bool toggleState)
+{
+    if (toggleState == true) {
+        TaskInfo::DataFields taskInfoData = taskInfo->getData();
+        if (taskInfoData.Running[TaskInfo::RUNNING_AIRSPEED] != TaskInfo::RUNNING_TRUE) {
+            rebootMessage_flag |= AIRSPEED;
+        }
+        else {
+            rebootMessage_flag &= ~AIRSPEED;
+        }
+    }
+    else {
+        rebootMessage_flag &= ~AIRSPEED;
+    }
+
+    toggleErrorMessage();
+}
+
+
+void ModuleSettingsForm::toggleBatteryModule(bool toggleState)
+{
+    if (toggleState == true) {
+        TaskInfo::DataFields taskInfoData = taskInfo->getData();
+        if (taskInfoData.Running[TaskInfo::RUNNING_BATTERY] != TaskInfo::RUNNING_TRUE) {
+            rebootMessage_flag |= BATTERY;
+        }
+        else {
+            rebootMessage_flag &= ~BATTERY;
+        }
+    }
+    else {
+        rebootMessage_flag &= ~BATTERY;
+    }
+
+    toggleErrorMessage();
+}
+
+
+void ModuleSettingsForm::toggleComBridgeModule(bool toggleState)
+{
+    if (toggleState == true) {
+        TaskInfo::DataFields taskInfoData = taskInfo->getData();
+        if (taskInfoData.Running[TaskInfo::RUNNING_COM2USBBRIDGE] != TaskInfo::RUNNING_TRUE) {
+            rebootMessage_flag |= COMBRIDGE;
+        }
+        else {
+            rebootMessage_flag &= ~COMBRIDGE;
+        }
+    }
+    else {
+        rebootMessage_flag &= ~COMBRIDGE;
+    }
+
+    toggleErrorMessage();
+}
+
+
+void ModuleSettingsForm::toggleOveroSyncModule(bool toggleState)
+{
+    if (toggleState == true) {
+        TaskInfo::DataFields taskInfoData = taskInfo->getData();
+        if (taskInfoData.Running[TaskInfo::RUNNING_OVEROSYNC] != TaskInfo::RUNNING_TRUE) {
+            rebootMessage_flag |= OVEROSYNC;
+        }
+        else {
+            rebootMessage_flag &= ~OVEROSYNC;
+        }
+    }
+    else {
+        rebootMessage_flag &= ~OVEROSYNC;
+    }
+
+    toggleErrorMessage();
+}
+
+
+void ModuleSettingsForm::toggleVibrationAnalysisModule(bool toggleState)
+{
+    if (toggleState == true) {
+        TaskInfo::DataFields taskInfoData = taskInfo->getData();
+        if (taskInfoData.Running[TaskInfo::RUNNING_VIBRATIONANALYSIS] != TaskInfo::RUNNING_TRUE) {
+            rebootMessage_flag |= VIBRATION;
+        }
+        else {
+            rebootMessage_flag &= ~VIBRATION;
+        }
+    }
+    else {
+        rebootMessage_flag &= ~VIBRATION;
+    }
+
+    toggleErrorMessage();
+}
+
 
 
 void ModuleSettingsForm::toggleVibrationTest()

@@ -29,8 +29,10 @@
 #define MODULESETTINGSFORM_H
 
 #include <QWidget>
-//#include "configinputwidget.h"
 #include "uavobjectwidgetutils/configtaskwidget.h"
+#include "ui_modules.h"
+
+#include "taskinfo.h"
 
 namespace Ui {
     class ModuleSettingsWidget;
@@ -40,8 +42,14 @@ class ModuleSettingsForm : public ConfigTaskWidget
 {
     Q_OBJECT
 
+    enum messageFlag {AIRSPEED = 0x01,
+                      BATTERY = 0x02,
+                      COMBRIDGE = 0x04,
+                      OVEROSYNC = 0x08,
+                      VIBRATION = 0x10};
+
 public:
-    explicit ModuleSettingsForm(QWidget *parent = 0, QPushButton *save = 0, QPushButton *apply = 0, QPushButton *reloadButton = 0);
+    explicit ModuleSettingsForm(Ui::Modules *ui, QWidget *parent = 0);
     ~ModuleSettingsForm();
     friend class ConfigInputWidget;
 private slots:
@@ -50,14 +58,26 @@ private slots:
     void updatePitotType(int comboboxValue);
     void toggleVibrationTest();
 
+    void toggleAirspeedModule(bool toggleState);
+    void toggleBatteryModule(bool toggleState);
+    void toggleComBridgeModule(bool toggleState);
+    void toggleOveroSyncModule(bool toggleState);
+    void toggleVibrationAnalysisModule(bool toggleState);
+
 private:
     QVariant getVariantFromWidget(QWidget * widget, double scale);
     bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
+    void toggleErrorMessage();
 
     static QString trueString;
     static QString falseString;
 
+    TaskInfo *taskInfo;
+
     Ui::ModuleSettingsWidget *moduleSettingsWidget;
+    Ui::Modules *modulesTab;
+
+    uint32_t rebootMessage_flag;
 };
 
 #endif // MODULESETTINGSFORM_H
