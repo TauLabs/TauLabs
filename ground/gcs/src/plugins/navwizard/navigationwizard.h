@@ -89,6 +89,12 @@ private:
     Core::ConnectionManager *m_connectionManager;
 };
 
+/*
+ * TODO Remaining
+ * 1. verify connected controller is nav capable
+ * 2. verify configuration is for a multirotor (only supported now)
+ * 3. enable appropriate modules and reboot
+ */
 #endif // NAVIGATIONWIZARD_H
 
 /**

@@ -6,7 +6,7 @@
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup NavWizard Setup Wizard
+ * @addtogroup NavWizard Navigation Wizard
  * @{
  * @brief A Wizard to make the initial setup easy for everyone.
  *****************************************************************************/

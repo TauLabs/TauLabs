@@ -7,7 +7,7 @@
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizard Setup Wizard
+ * @addtogroup NavWizard Navigation Wizard
  * @{
  *****************************************************************************/
 /*
@@ -33,23 +33,29 @@
 
 FailsafePage::FailsafePage(QWizard *wizard, QWidget *parent) :
     AbstractWizardPage(wizard, parent),
-    ui(new Ui::FailsafePage), failsafe_disengaged(false), failsafe_reengaged(false)
+    ui(new Ui::FailsafePage), failsafe_test_state(FAILSAFE_START)
 {
     ui->setupUi(this);
     setFont(QFont("Ubuntu", 2));
-
-    // Disable next button until failsafe verified
-    getQWizard()->button(QWizard::NextButton)->setEnabled(false);
 
     // Monitor for updates from flight status
     FlightStatus * flightStatus = FlightStatus::GetInstance(getObjectManager());
     Q_ASSERT(flightStatus);
     connect(flightStatus, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(flightStatusUpdated(UAVObject*)));
+
+    // Refresh UI and get initial state
+    flightStatusUpdated(flightStatus);
 }
 
 FailsafePage::~FailsafePage()
 {
     delete ui;
+}
+
+//! Check failsafe has been cycled
+bool FailsafePage::isComplete() const
+{
+    return failsafe_test_state == FAILSAFE_ENGAGED2;
 }
 
 //! Toggle the failsafe enabled signal when necessary
@@ -62,16 +68,31 @@ void FailsafePage::flightStatusUpdated(UAVObject *obj)
 
     FlightStatus::DataFields flightStatus = flightStatusObj->getData();
     bool failsafe = flightStatus.ControlSource == FlightStatus::CONTROLSOURCE_FAILSAFE;
-    ui->cbFailsafe->setChecked(failsafe);
 
-    // First require failsafe to be disengaged (transmitter found)
-    failsafe_disengaged |= !failsafe;
+    if (failsafe)
+        ui->label->setText(tr("Failsafe enabled"));
+    else
+        ui->label->setText(tr("Failsafe disabled"));
 
-    // Then require it be reengaged by turning off the transmitter
-    if (failsafe_disengaged && failsafe)
-        failsafe_reengaged = true;
+    // Track that the failsafe is engaged a few times
+    switch(failsafe_test_state) {
+    case FAILSAFE_START:
+        if (failsafe)
+            failsafe_test_state = FAILSAFE_ENGAGED1;
+        break;
+    case FAILSAFE_ENGAGED1:
+        if (!failsafe)
+            failsafe_test_state = FAILSAFE_DISEGNAGED;
+        break;
+    case FAILSAFE_DISEGNAGED:
+        if (failsafe) {
+            failsafe_test_state = FAILSAFE_ENGAGED2;
+            emit completeChanged();
+        }
+        break;
+    case FAILSAFE_ENGAGED2:
+        // nothing to do. terminal state.
+        break;
+    }
 
-    // If both steps have been performed then allow going forward
-    if (failsafe_disengaged && failsafe_reengaged)
-        getQWizard()->button(QWizard::NextButton)->setEnabled(true);
 }

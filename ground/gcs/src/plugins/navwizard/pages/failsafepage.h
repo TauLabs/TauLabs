@@ -7,7 +7,7 @@
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizard Setup Wizard
+ * @addtogroup NavWizard Navigation Wizard
  * @{
  *****************************************************************************/
 /*
@@ -40,14 +40,21 @@ class FailsafePage : public AbstractWizardPage {
 public:
     explicit FailsafePage(QWizard *wizard, QWidget *parent = 0);
     ~FailsafePage();
+    bool isComplete() const;
 
 private slots:
     void flightStatusUpdated(UAVObject *);
 
 private:
     Ui::FailsafePage *ui;
-    bool failsafe_disengaged;
-    bool failsafe_reengaged;
+
+    // Check failsafe engaged twice
+    enum {
+        FAILSAFE_START,
+        FAILSAFE_ENGAGED1,
+        FAILSAFE_DISEGNAGED,
+        FAILSAFE_ENGAGED2
+    } failsafe_test_state;
 };
 
 #endif // FAILSAFEPAGE_H
