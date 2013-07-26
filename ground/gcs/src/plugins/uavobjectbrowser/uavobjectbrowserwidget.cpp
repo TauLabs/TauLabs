@@ -605,8 +605,8 @@ void UAVOBrowserTreeView::updateTimerPeriod(unsigned int val)
 void UAVOBrowserTreeView::onTimeout_updateView()
 {
     if (m_updateTreeViewFlag == true) {
-        QModelIndex topLeftData = m_model->getIndex(0, 0, m_model->getNonSettingsTree());
-        QModelIndex bottomRightData = m_model->getIndex(1, 1, m_model->getNonSettingsTree());
+        QModelIndex topLeftData = m_model->getIndex(0, 0, m_model->getRootTree());
+        QModelIndex bottomRightData = m_model->getIndex(1, 1, m_model->getRootTree());
 
         QTreeView::dataChanged(topLeftData, bottomRightData);
     }
