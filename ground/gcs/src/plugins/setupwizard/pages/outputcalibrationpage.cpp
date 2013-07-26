@@ -3,7 +3,6 @@
  *
  * @file       outputcalibrationpage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  *
  * @addtogroup GCSPlugins GCS Plugins
@@ -285,7 +284,11 @@ void OutputCalibrationPage::onStartButtonToggle(QAbstractButton *button, quint16
 
 bool OutputCalibrationPage::checkAlarms()
 {
-    SystemAlarms *systemAlarms    = SystemAlarms::GetInstance(getObjectManager());
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavObjectManager = pm->getObject<UAVObjectManager>();
+
+    Q_ASSERT(uavObjectManager);
+    SystemAlarms *systemAlarms    = SystemAlarms::GetInstance(uavObjectManager);
     Q_ASSERT(systemAlarms);
     SystemAlarms::DataFields data = systemAlarms->getData();
 

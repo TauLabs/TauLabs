@@ -32,7 +32,6 @@
 #include <extensionsystem/iplugin.h>
 #include <QWizard>
 #include "setupwizard.h"
-#include "navigationwizard.h"
 
 class SetupWizardPlugin : public ExtensionSystem::IPlugin {
     Q_OBJECT
@@ -46,7 +45,6 @@ public:
 
 private slots:
     void showSetupWizard();
-    void showNavigationWizard();
     void wizardTerminated();
 
 private:

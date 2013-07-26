@@ -36,16 +36,16 @@
 class AbstractWizardPage : public QWizardPage {
     Q_OBJECT
 protected:
-    explicit AbstractWizardPage(QWizard *wizard, QWidget *parent = 0);
+    explicit AbstractWizardPage(SetupWizard *wizard, QWidget *parent = 0);
 
 private:
-    QWizard *m_wizard;
+    SetupWizard *m_wizard;
 
 public:
-    SetupWizard *getWizard() const;
-    QWizard *getQWizard() const { return m_wizard; }
-
-    UAVObjectManager * getObjectManager() const;
+    SetupWizard *getWizard() const
+    {
+        return m_wizard;
+    }
 };
 
 #endif // ABSTRACTWIZARDPAGE_H

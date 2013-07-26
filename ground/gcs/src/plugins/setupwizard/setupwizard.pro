@@ -19,7 +19,6 @@ HEADERS += setupwizardplugin.h \
     pages/vehiclepage.h \
     pages/notyetimplementedpage.h \
     pages/multipage.h \
-    pages/failsafepage.h \
     pages/fixedwingpage.h \
     pages/helipage.h \
     pages/surfacepage.h \
@@ -36,8 +35,7 @@ HEADERS += setupwizardplugin.h \
     pages/rebootpage.h \
     pages/savepage.h \
     pages/autoupdatepage.h \
-    pages/biascalibrationpage.h \
-    navigationwizard.h
+    pages/biascalibrationpage.h
 
 SOURCES += setupwizardplugin.cpp \
     setupwizard.cpp \
@@ -48,7 +46,6 @@ SOURCES += setupwizardplugin.cpp \
     pages/vehiclepage.cpp \
     pages/notyetimplementedpage.cpp \
     pages/multipage.cpp \
-    pages/failsafepage.cpp \
     pages/fixedwingpage.cpp \
     pages/helipage.cpp \
     pages/surfacepage.cpp \
@@ -65,8 +62,7 @@ SOURCES += setupwizardplugin.cpp \
     pages/rebootpage.cpp \
     pages/savepage.cpp \
     pages/autoupdatepage.cpp \
-    pages/biascalibrationpage.cpp \
-    navigationwizard.cpp
+    pages/biascalibrationpage.cpp
 
 OTHER_FILES += SetupWizard.pluginspec
 
@@ -79,7 +75,6 @@ FORMS += \
     pages/notyetimplementedpage.ui \
     pages/multipage.ui \
     pages/fixedwingpage.ui \
-    pages/failsafepage.ui \
     pages/helipage.ui \
     pages/surfacepage.ui \
     pages/outputpage.ui \

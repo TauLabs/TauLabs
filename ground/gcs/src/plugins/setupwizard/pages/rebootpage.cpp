@@ -29,7 +29,7 @@
 #include "rebootpage.h"
 #include "ui_rebootpage.h"
 
-RebootPage::RebootPage(QWizard *wizard, QWidget *parent) :
+RebootPage::RebootPage(SetupWizard *wizard, QWidget *parent) :
     AbstractWizardPage(wizard, parent),
     ui(new Ui::RebootPage), m_toggl(false)
 {
