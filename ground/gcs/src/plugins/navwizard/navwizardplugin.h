@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
  *
- * @file       setupwizardplugin.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @file       navwizardplugin.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizard Setup Wizard
+ * @addtogroup NavWizard Setup Wizard
  * @{
  *****************************************************************************/
 /*
@@ -26,26 +25,25 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef SETUPWIZARDPLUGIN_H
-#define SETUPWIZARDPLUGIN_H
+#ifndef NAVWIZARDPLUGIN_H
+#define NAVWIZARDPLUGIN_H
 
 #include <extensionsystem/iplugin.h>
 #include <QWizard>
 #include "setupwizard.h"
 #include "navigationwizard.h"
 
-class SetupWizardPlugin : public ExtensionSystem::IPlugin {
+class NavWizardPlugin : public ExtensionSystem::IPlugin {
     Q_OBJECT
 public:
-    SetupWizardPlugin();
-    ~SetupWizardPlugin();
+    NavWizardPlugin();
+    ~NavWizardPlugin();
 
     void extensionsInitialized();
     bool initialize(const QStringList & arguments, QString *errorString);
     void shutdown();
 
 private slots:
-    void showSetupWizard();
     void showNavigationWizard();
     void wizardTerminated();
 
@@ -53,4 +51,4 @@ private:
     bool wizardRunning;
 };
 
-#endif // SETUPWIZARDPLUGIN_H
+#endif // NAVWIZARDPLUGIN_H

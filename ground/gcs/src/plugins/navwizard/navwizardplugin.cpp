@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
  *
- * @file       setupwizardplugin.cpp
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @file       navwizardplugin.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup SetupWizard Setup Wizard
+ * @addtogroup NavWizard Setup Wizard
  * @{
  *****************************************************************************/
 /*
@@ -39,13 +38,13 @@
 #include <QKeySequence>
 #include <coreplugin/modemanager.h>
 
-SetupWizardPlugin::SetupWizardPlugin() : wizardRunning(false)
+NavWizardPlugin::NavWizardPlugin() : wizardRunning(false)
 {}
 
-SetupWizardPlugin::~SetupWizardPlugin()
+NavWizardPlugin::~NavWizardPlugin()
 {}
 
-bool SetupWizardPlugin::initialize(const QStringList & args, QString *errMsg)
+bool NavWizardPlugin::initialize(const QStringList & args, QString *errMsg)
 {
     Q_UNUSED(args);
     Q_UNUSED(errMsg);
@@ -54,22 +53,8 @@ bool SetupWizardPlugin::initialize(const QStringList & args, QString *errMsg)
     Core::ActionManager *am   = Core::ICore::instance()->actionManager();
     Core::ActionContainer *ac = am->actionContainer(Core::Constants::M_TOOLS);
 
-    Core::Command *cmd = am->registerAction(new QAction(this),
-                                            "SetupWizardPlugin.ShowSetupWizard",
-                                            QList<int>() <<
-                                            Core::Constants::C_GLOBAL_ID);
-    cmd->action()->setText(tr("Vehicle Setup Wizard"));
-
-    Core::ModeManager::instance()->addAction(cmd, 1);
-
-    ac->menu()->addSeparator();
-    ac->appendGroup("Wizard");
-    ac->addAction(cmd, "Wizard");
-
-    connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(showSetupWizard()));
-
     // Add entry points for navigation setup wizard
-    cmd = am->registerAction(new QAction(this),
+    Core::Command *cmd = am->registerAction(new QAction(this),
                                         "SetupWizardPlugin.ShowNavigationWizard",
                                         QList<int>() <<
                                         Core::Constants::C_GLOBAL_ID);
@@ -86,25 +71,14 @@ bool SetupWizardPlugin::initialize(const QStringList & args, QString *errMsg)
     return true;
 }
 
-void SetupWizardPlugin::extensionsInitialized()
+void NavWizardPlugin::extensionsInitialized()
 {}
 
-void SetupWizardPlugin::shutdown()
+void NavWizardPlugin::shutdown()
 {}
 
-void SetupWizardPlugin::showSetupWizard()
-{
-    if (!wizardRunning) {
-        wizardRunning = true;
-        SetupWizard *m_wiz = new SetupWizard();
-        connect(m_wiz, SIGNAL(finished(int)), this, SLOT(wizardTerminated()));
-        m_wiz->setAttribute(Qt::WA_DeleteOnClose, true);
-        m_wiz->setWindowFlags(m_wiz->windowFlags() | Qt::WindowStaysOnTopHint);
-        m_wiz->show();
-    }
-}
 
-void SetupWizardPlugin::showNavigationWizard()
+void NavWizardPlugin::showNavigationWizard()
 {
     if (!wizardRunning) {
         wizardRunning = true;
@@ -116,10 +90,10 @@ void SetupWizardPlugin::showNavigationWizard()
     }
 }
 
-void SetupWizardPlugin::wizardTerminated()
+void NavWizardPlugin::wizardTerminated()
 {
     wizardRunning = false;
     disconnect(this, SLOT(wizardTerminated()));
 }
 
-Q_EXPORT_PLUGIN(SetupWizardPlugin)
+Q_EXPORT_PLUGIN(NavWizardPlugin)
