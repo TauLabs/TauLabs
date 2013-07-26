@@ -576,7 +576,7 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	static float accels_filtered[3] = {0,0,0};
 	static float grot_filtered[3] = {0,0,0};
 
-	dT = (thisSysTime == lastSysTime) ? 0.001f : (portMAX_DELAY & (thisSysTime - lastSysTime)) / portTICK_RATE_MS / 1000.0f;
+	dT = (thisSysTime == lastSysTime) ? 0.001f : TICKS2MS(portMAX_DELAY & (thisSysTime - lastSysTime)) / 1000.0f;
 	lastSysTime = thisSysTime;
 	
 	// Bad practice to assume structure order, but saves memory

@@ -44,7 +44,7 @@ QString ModuleSettingsForm::falseString("FalseString");
  */
 ModuleSettingsForm::ModuleSettingsForm(QWidget *parent, QPushButton *saveButton, QPushButton *applyButton, QPushButton *reloadButton) :
     ConfigTaskWidget(parent),
-    moduleSettingsWidget(new Ui::Module_Settings_Widget)
+    moduleSettingsWidget(new Ui::ModuleSettingsWidget)
 {
     moduleSettingsWidget->setupUi(this);
 

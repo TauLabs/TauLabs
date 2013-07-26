@@ -180,7 +180,7 @@ static void manualControlTask(void *parameters)
 		}
 
 		// Wait until next update
-		vTaskDelayUntil(&lastSysTime, UPDATE_PERIOD_MS / portTICK_RATE_MS);
+		vTaskDelayUntil(&lastSysTime, MS2TICKS(UPDATE_PERIOD_MS));
 		PIOS_WDG_UpdateFlag(PIOS_WDG_MANUAL);
 	}
 }

@@ -246,7 +246,7 @@ static void airspeedTask(void *parameters)
 			airspeedData.SensorValue=12345;
 			
 			//Likely, we have a GPS, so let's configure the fallthrough at close to GPS refresh rates
-			vTaskDelayUntil(&lastSysTime, SAMPLING_DELAY_MS_FALLTHROUGH * portTICK_RATE_MS);
+			vTaskDelayUntil(&lastSysTime, MS2TICKS(SAMPLING_DELAY_MS_FALLTHROUGH));
 		}
 		
 #ifdef GPS_AIRSPEED_PRESENT
@@ -256,9 +256,9 @@ static void airspeedTask(void *parameters)
 		//sensor or not. In the case we do, shoot for about once per second. Otherwise, consume GPS
 		//as quickly as possible.
  #ifdef BARO_AIRSPEED_PRESENT
-		float delT = (lastSysTime - lastLoopTime)/(portTICK_RATE_MS*1000.0f);
+		float delT = TICKS2MS(lastSysTime - lastLoopTime) / 1000.0f;
 		lastLoopTime=lastSysTime;
-		if ( ((lastSysTime - lastGPSTime) > 1000*portTICK_RATE_MS || airspeedSensorType==AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_GPSONLY)
+		if ( (TICKS2MS(lastSysTime - lastGPSTime) > 1000 || airspeedSensorType==AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_GPSONLY)
 				&& gpsNew) {
 			lastGPSTime=lastSysTime;
  #else

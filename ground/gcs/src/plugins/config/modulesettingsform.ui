@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Module_Settings_Widget</class>
- <widget class="QWidget" name="Module_Settings_Widget">
+ <class>ModuleSettingsWidget</class>
+ <widget class="QWidget" name="ModuleSettingsWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -566,8 +566,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../coreplugin/core.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

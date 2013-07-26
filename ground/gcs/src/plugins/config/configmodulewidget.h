@@ -1,17 +1,12 @@
 /**
  ******************************************************************************
- * @addtogroup PIOS PIOS Core hardware abstraction layer
+ * @file       configmodulewidget.h
+ * @brief      Configure the optional modules
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup PIOS_MS5611 MS5611 Functions
- * @brief Hardware functions to deal with the altitude pressure sensor
+ * @addtogroup ConfigPlugin Config Plugin
  * @{
- *
- * @file       pios_ms5611_spi.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @brief      MS5611 functions header.
- * @see        The GNU Public License (GPL) Version 3
- *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -28,18 +23,38 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#ifndef CONFIGMODULEWIDGET_H
+#define CONFIGMODULEWIDGET_H
 
-#ifndef PIOS_MS5611_SPI_H
-#define PIOS_MS5611_SPI_H
+#include "ui_modules.h"
 
-#include <stdint.h>
+#include "uavobjectwidgetutils/configtaskwidget.h"
+#include "extensionsystem/pluginmanager.h"
+#include "uavobjectmanager.h"
+#include "uavobject.h"
 
-/* Public Functions */
-extern int32_t PIOS_MS5611_SPI_Test(void);
+#include "modulesettingsform.h"
 
-#endif /* PIOS_MS5611_SPI_H */
+namespace Ui {
+    class Modules;
+}
 
-/**
-  * @}
-  * @}
-  */
+class ConfigModuleWidget: public ConfigTaskWidget
+{
+    Q_OBJECT
+
+public:
+        ConfigModuleWidget(QWidget *parent = 0);
+        ~ConfigModuleWidget();
+
+private:
+    Ui::Modules *ui;
+
+private slots:
+
+protected:
+        void resizeEvent(QResizeEvent *event);
+        virtual void enableControls(bool enable);
+};
+
+#endif // CONFIGMODULEWIDGET_H

@@ -479,33 +479,33 @@ bool PIOS_HMC5883_IRQHandler(void)
 static void PIOS_HMC5883_Task(void *parameters)
 {
 	while (PIOS_HMC5883_Validate(dev) != 0) {
-		vTaskDelay(100 / portTICK_RATE_MS);
+		vTaskDelay(MS2TICKS(100));
 	}
 
 	portTickType sample_delay;
 
 	switch (dev->cfg->M_ODR) {
 	case PIOS_HMC5883_ODR_0_75:
-		sample_delay = 1000 / 0.75f / portTICK_RATE_MS + 0.99999f;
+		sample_delay = MS2TICKS(1000 / 0.75f) + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_1_5:
-		sample_delay = 1000 / 1.5f / portTICK_RATE_MS + 0.99999f;
+		sample_delay = MS2TICKS(1000 / 1.5f) + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_3:
-		sample_delay = 1000 / 3.0f / portTICK_RATE_MS + 0.99999f;
+		sample_delay = MS2TICKS(1000 / 3.0f) + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_7_5:
-		sample_delay = 1000 / 7.5f / portTICK_RATE_MS + 0.99999f;
+		sample_delay = MS2TICKS(1000 / 7.5f) + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_15:
-		sample_delay = 1000 / 15.0f / portTICK_RATE_MS + 0.99999f;
+		sample_delay = MS2TICKS(1000 / 15.0f) + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_30:
-		sample_delay = 1000 / 30.0f / portTICK_RATE_MS + 0.99999f;
+		sample_delay = MS2TICKS(1000 / 30.0f) + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_75:
 	default:
-		sample_delay = 1000 / 75.0f / portTICK_RATE_MS + 0.99999f;
+		sample_delay = MS2TICKS(1000 / 75.0f) + 0.99999f;
 		break;
 	}
 
@@ -514,7 +514,7 @@ static void PIOS_HMC5883_Task(void *parameters)
 	while (1) {
 		if (dev->cfg->Mode == PIOS_HMC5883_MODE_CONTINUOUS) {
 			if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE) {
-				vTaskDelay(100 / portTICK_RATE_MS);
+				vTaskDelay(MS2TICKS(100));
 				continue;
 			}
 		} else {

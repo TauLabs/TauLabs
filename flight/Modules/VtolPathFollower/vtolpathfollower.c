@@ -183,7 +183,7 @@ static void vtolPathFollowerTask(void *parameters)
 		}
 
 		// Continue collecting data if not enough time
-		vTaskDelayUntil(&lastUpdateTime, guidanceSettings.UpdatePeriod / portTICK_RATE_MS);
+		vTaskDelayUntil(&lastUpdateTime, MS2TICKS(guidanceSettings.UpdatePeriod));
 
 		// Convert the accels into the NED frame
 		updateNedAccel();
