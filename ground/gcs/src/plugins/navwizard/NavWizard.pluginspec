@@ -1,8 +1,8 @@
-<plugin name="SetupWizard" version="1.0.0" compatVersion="1.0.0">
+<plugin name="NavWizard" version="1.0.0" compatVersion="1.0.0">
     <vendor>Tau Labs</vendor>
-    <copyright>(C) 2013 Tau Labs, (C) 2012 OpenPilot Project</copyright>
+    <copyright>(C) 2013 Tau Labs</copyright>
     <license>The GNU Public License (GPL) Version 3</license>
-    <description>A plugin that provides a setup wizard for easy initial setup of airframes.</description>
+    <description>A plugin to facilitate setting up navigation.</description>
     <url>http://taulabs.org</url>
     <dependencyList>
         <dependency name="Core" version="1.0.0"/>

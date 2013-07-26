@@ -49,13 +49,13 @@ bool NavWizardPlugin::initialize(const QStringList & args, QString *errMsg)
     Q_UNUSED(args);
     Q_UNUSED(errMsg);
 
-    // Add entry points for main setup wizard
+    // Add Menu entry
     Core::ActionManager *am   = Core::ICore::instance()->actionManager();
     Core::ActionContainer *ac = am->actionContainer(Core::Constants::M_TOOLS);
 
     // Add entry points for navigation setup wizard
     Core::Command *cmd = am->registerAction(new QAction(this),
-                                        "SetupWizardPlugin.ShowNavigationWizard",
+                                        "NavWizardPlugin.ShowNavigationWizard",
                                         QList<int>() <<
                                         Core::Constants::C_GLOBAL_ID);
     cmd->action()->setText(tr("Navigation Setup Wizard"));
