@@ -40,6 +40,7 @@ class UAVOBJECTS_EXPORT $(NAME): public UAVDataObject
 {
     Q_OBJECT
 $(PROPERTIES)
+$(ENUMS)
 
 public:
     // Field structure

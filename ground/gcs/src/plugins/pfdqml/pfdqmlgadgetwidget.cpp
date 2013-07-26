@@ -32,6 +32,7 @@
 #include <QtDeclarative/qdeclarativecontext.h>
 #include <QtDeclarative/qdeclarative.h>
 #include "lowpassfilter.h"
+#include "stabilizationdesired.h"
 
 PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
     QDeclarativeView(parent),
@@ -88,6 +89,8 @@ PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
     qmlRegisterType<OsgEarthItem>("org.OpenPilot", 1, 0, "OsgEarth");
 #endif
     qmlRegisterType<LowPassFilter>("org.OpenPilot", 1, 0, "LowPassFilter");
+    qmlRegisterUncreatableType<StabilizationDesired>("org.OpenPilot", 1, 0, "StabilizationDesiredType","");
+
 }
 
 PfdQmlGadgetWidget::~PfdQmlGadgetWidget()

@@ -120,7 +120,7 @@ Rectangle {
                 ]
 
                 //hide if not set
-                opacity: StabilizationDesired.StabilizationMode_Pitch == 2 ? 1 : 0
+                opacity: StabilizationDesired.StabilizationMode_Pitch == StabilizationDesiredType.STABILIZATIONMODE_ATTITUDE ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 1000 } }
             }
 
@@ -142,7 +142,7 @@ Rectangle {
                 }
 
                 //hide if not set
-                opacity: StabilizationDesired.StabilizationMode_Roll == 2 ? 1 : 0
+                opacity: StabilizationDesired.StabilizationMode_Roll == StabilizationDesiredType.STABILIZATIONMODE_ATTITUDE ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 1000 } }
             }
 
