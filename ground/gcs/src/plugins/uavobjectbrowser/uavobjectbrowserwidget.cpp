@@ -310,12 +310,6 @@ void UAVObjectBrowserWidget::categorize(bool categorize)
     treeView->setModel(m_model);
     showMetaData(m_viewoptions->cbMetaData->isChecked());
 
-    TreeItem *bob  = m_model->getRootTree();
-    TreeItem *fred = tmpModelPtr->getRootTree();
-    qDebug() << "Root category: new:" << bob << " old:" << fred;
-    qDebug() << "   and m_model new:" << m_model << " and old:" << m_model;
-
-
     // Now that we're done with the old model, delete it.
     delete tmpModelPtr;
 }
