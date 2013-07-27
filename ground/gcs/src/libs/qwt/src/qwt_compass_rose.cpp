@@ -59,13 +59,8 @@ QwtSimpleCompassRose::QwtSimpleCompassRose(
     const QColor light( 192, 255, 255 );
 
     QPalette palette;
-    for ( int i = 0; i < QPalette::NColorGroups; i++ )
-    {
-        palette.setColor( ( QPalette::ColorGroup )i,
-            QPalette::Dark, dark );
-        palette.setColor( ( QPalette::ColorGroup )i,
-            QPalette::Light, light );
-    }
+    palette.setColor( QPalette::Dark, dark );
+    palette.setColor( QPalette::Light, light );
 
     setPalette( palette );
 }
@@ -80,6 +75,7 @@ QwtSimpleCompassRose::~QwtSimpleCompassRose()
   Set the Factor how to shrink the thorns with each level
   The default value is 0.9.
 
+  \param factor Shrink factor
   \sa shrinkFactor()
 */
 void QwtSimpleCompassRose::setShrinkFactor( double factor )
@@ -170,7 +166,7 @@ void QwtSimpleCompassRose::drawRose(
         if ( 2.0 * M_PI / step > 32 )
             leafWidth = 16;
 
-        const double origin = north / 180.0 * M_PI;
+        const double origin = qwtRadians( north );
         for ( double angle = origin;
             angle < 2.0 * M_PI + origin; angle += step )
         {
@@ -216,7 +212,10 @@ void QwtSimpleCompassRose::setWidth( double width )
         d_data->width = 0.4;
 }
 
-//! \sa setWidth()
+/*! 
+  \return Width of the rose
+  \sa setWidth()
+ */
 double QwtSimpleCompassRose::width() const
 {
     return d_data->width;
