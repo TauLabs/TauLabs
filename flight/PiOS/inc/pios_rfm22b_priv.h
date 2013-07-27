@@ -638,12 +638,12 @@ enum pios_rfm22b_rx_packet_status {
 	RFM22B_RESENT_TX_PACKET = 0x3
 };
 
-typedef struct {
+struct rfm22b_pair_stats {
 	uint32_t pairID;
 	int8_t rssi;
 	int8_t afc_correction;
 	uint8_t lastContact;
-} rfm22b_pair_stats;
+};
 
 struct pios_rfm22b_dev {
 	enum pios_rfm22b_dev_magic magic;
@@ -666,7 +666,7 @@ struct pios_rfm22b_dev {
 	xTaskHandle taskHandle;
 
 	// The potential paired statistics
-	rfm22b_pair_stats pair_stats[OPLINKSTATUS_PAIRIDS_NUMELEM];
+	struct rfm22b_pair_stats pair_stats[OPLINKSTATUS_PAIRIDS_NUMELEM];
 
 	// ISR pending semaphore
 	xSemaphoreHandle isrPending;
