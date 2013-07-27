@@ -136,9 +136,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->gb_measureCurrent->setProperty(trueString.toAscii(), "Enabled");
     ui->gb_measureCurrent->setProperty(falseString.toAscii(), "Disabled");
 
-    ui->moduleTab->setTabEnabled(1, false);
-    ui->moduleTab->setTabEnabled(2, false);
-    ui->moduleTab->setTabEnabled(3, false);
+    toggleBatteryTab(false);
+    toggleAirspeedTab(false);
+    toggleVibrationTab(false);
 
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property
