@@ -63,8 +63,11 @@ int stabilization_virtual_flybar(float gyro, float command, float *output, float
 	}
 
 	// Command signal is composed of stick input added to the gyro and virtual flybar
-	*output = command * settings->VbarSensitivity[axis] - 
-	    gyro_gain * (vbar_integral[axis] * pid->i + pid_out);
+	// Note the PID output has a positive sign (consistent with its use in other places)
+	// but the integral is negative since it is the angle of the virtual flybar which is
+	// the negative of the accumulated error.
+	*output = command * settings->VbarSensitivity[axis] + 
+	    gyro_gain * (pid_out - vbar_integral[axis] * pid->i);
 
 	return 0;
 }
