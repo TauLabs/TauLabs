@@ -27,7 +27,7 @@
      </property>
      <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
-       <string>General</string>
+       <string>Enable</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
@@ -57,100 +57,75 @@
         </spacer>
        </item>
        <item>
-        <widget class="QGroupBox" name="gbModules">
-         <property name="title">
-          <string>Enable Modules</string>
+        <widget class="QCheckBox" name="cbGPS">
+         <property name="toolTip">
+          <string>Select to enable the GPS module</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QCheckBox" name="cbGPS">
-            <property name="toolTip">
-             <string>Select to enable the GPS module</string>
-            </property>
-            <property name="text">
-             <string>GPS</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="cbBattery">
-            <property name="text">
-             <string>Battery Monitoring</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="cbComBridge">
-            <property name="toolTip">
-             <string>Select to enable USB serial relay to a serial port (select the board on the board options)</string>
-            </property>
-            <property name="text">
-             <string>Com Bridge</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="cbAirspeed">
-            <property name="text">
-             <string>Airspeed</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="cbOveroSync">
-            <property name="toolTip">
-             <string>Select to enable synchronization to an Overo module</string>
-            </property>
-            <property name="text">
-             <string>Overo Sync (only for boards with Gumstix)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="cbVibrationAnalysis">
-            <property name="text">
-             <string>Vibration Analysis</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="cbVtolFollower">
-            <property name="toolTip">
-             <string>Enable the VTOL path follower module which is required for RTH, PH and navigation</string>
-            </property>
-            <property name="text">
-             <string>Vtol Path Follower</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="cbPathPlanner">
-            <property name="toolTip">
-             <string>This enables the path planner module which is required for waypoint navigation.</string>
-            </property>
-            <property name="text">
-             <string>Path Planner</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <property name="text">
+          <string>GPS</string>
+         </property>
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+        <widget class="QCheckBox" name="cbBattery">
+         <property name="text">
+          <string>Battery Monitoring</string>
          </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbComBridge">
+         <property name="toolTip">
+          <string>Select to enable USB serial relay to a serial port (select the board on the board options)</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>5</height>
-          </size>
+         <property name="text">
+          <string>Com Bridge</string>
          </property>
-        </spacer>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbAirspeed">
+         <property name="text">
+          <string>Airspeed</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbOveroSync">
+         <property name="toolTip">
+          <string>Select to enable synchronization to an Overo module</string>
+         </property>
+         <property name="text">
+          <string>Overo Sync (only for boards with Gumstix)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbVibrationAnalysis">
+         <property name="text">
+          <string>Vibration Analysis</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbVtolFollower">
+         <property name="toolTip">
+          <string>Enable the VTOL path follower module which is required for RTH, PH and navigation</string>
+         </property>
+         <property name="text">
+          <string>Vtol Path Follower</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbPathPlanner">
+         <property name="toolTip">
+          <string>This enables the path planner module which is required for waypoint navigation.</string>
+         </property>
+         <property name="text">
+          <string>Path Planner</string>
+         </property>
+        </widget>
        </item>
        <item>
         <spacer name="verticalSpacer_4">
