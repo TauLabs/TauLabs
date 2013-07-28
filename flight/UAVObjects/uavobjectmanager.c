@@ -31,6 +31,7 @@
 
 #include "openpilot.h"
 #include "pios_struct_helper.h"
+#include "pios_heap.h"		/* PIOS_malloc_no_dma */
 
 extern uintptr_t pios_uavo_settings_fs_id;
 
@@ -243,7 +244,7 @@ static struct UAVOData * UAVObjAllocSingle(uint32_t num_bytes)
 	uint32_t object_size = sizeof(struct UAVOSingle) + num_bytes;
 
 	/* Allocate the object from the heap */
-	struct UAVOSingle * uavo_single = (struct UAVOSingle *) pvPortMalloc(object_size);
+	struct UAVOSingle * uavo_single = (struct UAVOSingle *) PIOS_malloc_no_dma(object_size);
 	if (!uavo_single)
 		return (NULL);
 
@@ -266,7 +267,7 @@ static struct UAVOData * UAVObjAllocMulti(uint32_t num_bytes)
 	uint32_t object_size = sizeof(struct UAVOMulti) + num_bytes;
 
 	/* Allocate the object from the heap */
-	struct UAVOMulti * uavo_multi = (struct UAVOMulti *) pvPortMalloc(object_size);
+	struct UAVOMulti * uavo_multi = (struct UAVOMulti *) PIOS_malloc_no_dma(object_size);
 	if (!uavo_multi)
 		return (NULL);
 
@@ -664,6 +665,16 @@ unlock_exit:
 	return rc;
 }
 
+#if defined(PIOS_INCLUDE_FASTRAM)
+/**
+ * Trampoline buffer used for loads from the underlying filesystem.
+ * This is required on platforms that store the UAVO data in non-DMA
+ * RAM regions since the underlying flash driver may use DMA to transfer
+ * the data into the buffer that we give it.
+ */
+static uint8_t uavobj_save_trampoline[256];
+#endif	/* PIOS_INCLUDE_FASTRAM */
+
 /**
  * Save the data of the specified object to the file system (SD card).
  * If the object contains multiple instances, all of them will be saved.
@@ -682,7 +693,27 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 		if (instId != 0)
 			return -1;
 
-		if (PIOS_FLASHFS_ObjSave(pios_uavo_settings_fs_id, UAVObjGetID(obj_handle), instId, (uint8_t*) MetaDataPtr((struct UAVOMeta *)obj_handle), UAVObjGetNumBytes(obj_handle)) != 0)
+		// Save the object to the filesystem
+		int32_t rc;
+#if defined(PIOS_INCLUDE_FASTRAM)
+		memcpy(uavobj_save_trampoline,
+			MetaDataPtr((struct UAVOMeta *)obj_handle),
+			UAVobjGetNumBytes(obj_handle));
+
+		rc = PIOS_FLASHFS_ObjSave(pios_uavo_settings_fs_id,
+					UAVObjGetID(obj_handle),
+					instId,
+					uavobj_save_trampoline,
+					UAVObjGetNumBytes(obj_handle));
+#else /* PIOS_INCLUDE_FASTRAM */
+		rc = PIOS_FLASHFS_ObjSave(pios_uavo_settings_fs_id,
+					UAVObjGetID(obj_handle),
+					instId,
+					(uint8_t*) MetaDataPtr((struct UAVOMeta *)obj_handle),
+					UAVObjGetNumBytes(obj_handle));
+#endif  /* PIOS_INCLUDE_FASTRAM */
+
+		if (rc != 0)
 			return -1;
 	} else {
 		InstanceHandle instEntry = getInstance( (struct UAVOData *)obj_handle, instId);
@@ -693,12 +724,42 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 		if (InstanceData(instEntry) == NULL)
 			return -1;
 
-		if (PIOS_FLASHFS_ObjSave(pios_uavo_settings_fs_id, UAVObjGetID(obj_handle), instId, InstanceData(instEntry), UAVObjGetNumBytes(obj_handle)) != 0)
+		// Save the object to the filesystem
+		int32_t rc;
+#if defined(PIOS_INCLUDE_FASTRAM)
+		memcpy(uavobj_save_trampoline,
+			InstanceData(instEntry),
+			UAVobjGetNumBytes(obj_handle));
+
+		rc = PIOS_FLASHFS_ObjSave(pios_uavo_settings_fs_id,
+					UAVObjGetID(obj_handle),
+					instId,
+					uavobj_save_trampoline,
+					UAVObjGetNumBytes(obj_handle));
+#else /* PIOS_INCLUDE_FASTRAM */
+		rc = PIOS_FLASHFS_ObjSave(pios_uavo_settings_fs_id,
+					UAVObjGetID(obj_handle),
+					instId,
+					InstanceData(instEntry),
+					UAVObjGetNumBytes(obj_handle));
+#endif  /* PIOS_INCLUDE_FASTRAM */
+
+		if (rc != 0)
 			return -1;
 	}
 
 	return 0;
 }
+
+#if defined(PIOS_INCLUDE_FASTRAM)
+/**
+ * Trampoline buffer used for loads from the underlying filesystem.
+ * This is required on platforms that store the UAVO data in non-DMA
+ * RAM regions since the underlying flash driver may use DMA to transfer
+ * the data into the buffer that we give it.
+ */
+static uint8_t uavobj_load_trampoline[256];
+#endif	/* PIOS_INCLUDE_FASTRAM */
 
 /**
  * Load an object from the file system (SD card).
@@ -716,11 +777,29 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 		if (instId != 0)
 			return -1;
 
-		// Fire event on success
-		if (PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id, UAVObjGetID(obj_handle), instId, (uint8_t*) MetaDataPtr((struct UAVOMeta *)obj_handle), UAVObjGetNumBytes(obj_handle)) == 0)
-			sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED);
-		else
+		// Load the object from the filesystem
+		int32_t rc;
+#if defined(PIOS_INCLUDE_FASTRAM)
+		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
+					UAVObjGetID(obj_handle),
+					instId,
+					uavobj_load_trampoline,
+					UAVObjGetNumBytes(obj_handle));
+#else  /* PIOS_INCLUDE_FASTRAM */
+		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
+					UAVObjGetID(obj_handle),
+					instId,
+					(uint8_t*)MetaDataPtr((struct UAVOMeta *)obj_handle),
+					UAVObjGetNumBytes(obj_handle));
+#endif  /* PIOS_INCLUDE_FASTRAM */
+
+		if (rc != 0)
 			return -1;
+
+#if defined(PIOS_INCLUDE_FASTRAM)
+		memcpy(MetaDataPtr((struct UAVOMeta *)obj_handle), uavobj_load_trampoline, UAVObjGetNumBytes(obj_handle));
+#endif  /* PIOS_INCLUDE_FASTRAM */
+
 	} else {
 
 		InstanceHandle instEntry = getInstance( (struct UAVOData *)obj_handle, instId);
@@ -728,13 +807,32 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 		if (instEntry == NULL)
 			return -1;
 
-		// Fire event on success
-		if (PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id, UAVObjGetID(obj_handle), instId, InstanceData(instEntry), UAVObjGetNumBytes(obj_handle)) == 0)
-			sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED);
-		else
+		// Load the object from the filesystem
+		int32_t rc;
+#if defined(PIOS_INCLUDE_FASTRAM)
+		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
+					UAVObjGetID(obj_handle),
+					instId,
+					uavobj_load_trampoline,
+					UAVObjGetNumBytes(obj_handle));
+#else  /* PIOS_INCLUDE_FASTRAM */
+		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
+					UAVObjGetID(obj_handle),
+					instId,
+					InstanceData(instEntry),
+					UAVObjGetNumBytes(obj_handle));
+#endif  /* PIOS_INCLUDE_FASTRAM */
+
+		if (rc != 0)
 			return -1;
+
+#if defined(PIOS_INCLUDE_FASTRAM)
+		memcpy(InstanceData(instEntry), uavobj_load_trampoline, UAVObjGetNumBytes(obj_handle));
+#endif  /* PIOS_INCLUDE_FASTRAM */
+
 	}
 
+	sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED);
 	return 0;
 }
 
@@ -1607,7 +1705,7 @@ static InstanceHandle createInstance(struct UAVOData * obj, uint16_t instId)
 	}
 
 	/* Create the actual instance */
-	instEntry = (struct UAVOMultiInst *) pvPortMalloc(sizeof(struct UAVOMultiInst)+obj->instance_size);
+	instEntry = (struct UAVOMultiInst *) PIOS_malloc_no_dma(sizeof(struct UAVOMultiInst)+obj->instance_size);
 	if (!instEntry)
 		return NULL;
 	memset(InstanceDataOffset(instEntry), 0, obj->instance_size);
@@ -1692,7 +1790,7 @@ static int32_t connectObj(UAVObjHandle obj_handle, xQueueHandle queue,
 	}
 
 	// Add queue to list
-	event =	(struct ObjectEventEntry *) pvPortMalloc(sizeof(struct ObjectEventEntry));
+	event =	(struct ObjectEventEntry *) PIOS_malloc_no_dma(sizeof(struct ObjectEventEntry));
 	if (event == NULL) {
 		return -1;
 	}
