@@ -72,8 +72,12 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
 
     // The dummy table exists only to force the other widgets into the correct place.
     // It is removed and replaced tby the custom copy/paste-enabled table
+    int dummyIndex = m_telemetryeditor->gridLayout->indexOf(m_telemetryeditor->tableWidgetDummy);
+    int row, col, rowSpan, colSpan;
+    m_telemetryeditor->gridLayout->getItemPosition(dummyIndex, &row, &col, &rowSpan, &colSpan);
     m_telemetryeditor->gridLayout->removeWidget(m_telemetryeditor->tableWidgetDummy);
-    m_telemetryeditor->gridLayout->addWidget(telemetryScheduleView, 0, 0, 3, 5);
+    m_telemetryeditor->tableWidgetDummy->setVisible(false);
+    m_telemetryeditor->gridLayout->addWidget(telemetryScheduleView, row, col, rowSpan, colSpan);
 
     // Sets the fields in the table to spinboxes
     SpinBoxDelegate *delegate = new SpinBoxDelegate();
@@ -83,6 +87,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     connect(m_telemetryeditor->bnSaveTelemetryToFile, SIGNAL(clicked()), this, SLOT(saveTelemetryToFile()));
     connect(m_telemetryeditor->bnLoadTelemetryFromFile, SIGNAL(clicked()), this, SLOT(loadTelemetryFromFile()));
     connect(m_telemetryeditor->bnApplySchedule, SIGNAL(clicked()), this, SLOT(applySchedule()));
+    connect(m_telemetryeditor->bnSaveSchedule, SIGNAL(clicked()), this, SLOT(saveSchedule()));
     connect(m_telemetryeditor->bnAddTelemetryColumn, SIGNAL(clicked()), this, SLOT(addTelemetryColumn()));
     connect(m_telemetryeditor->bnRemoveTelemetryColumn, SIGNAL(clicked()), this, SLOT(removeTelemetryColumn()));
     connect(schedulerModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(dataModel_itemChanged(QStandardItem *)));
@@ -223,8 +228,8 @@ void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
         // Get UAVO speed
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
         double updatePeriod_s;
-        if (schedulerModel->data(index).isValid() && schedulerModel->data(index).toString().replace(QString("ms"), QString("")).toUInt() > 0)
-            updatePeriod_s = schedulerModel->data(index).toString().replace(QString("ms"), QString("")).toUInt() / 1000.0;
+        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) > 0)
+            updatePeriod_s = stripMs(schedulerModel->data(index)) / 1000.0;
         else
             updatePeriod_s = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod / 1000.0;
 
@@ -363,11 +368,11 @@ void TelemetrySchedulerGadgetWidget::applySchedule()
         // Get update period
         double updatePeriod_ms;
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
-        if (schedulerModel->data(index).isValid() && schedulerModel->data(index).toUInt() > 0)
-            updatePeriod_ms = schedulerModel->data(index).toUInt();
-        else
+        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) > 0) {
+            updatePeriod_ms = stripMs(schedulerModel->data(index));
+        } else {
             updatePeriod_ms = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod;
-
+        }
 
         // Set new update rate value
         mdata.flightTelemetryUpdatePeriod = updatePeriod_ms;
@@ -378,6 +383,24 @@ void TelemetrySchedulerGadgetWidget::applySchedule()
     getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
 }
 
+/**
+ * @brief TelemetrySchedulerGadgetWidget::saveSchedule Save settings to board
+ */
+void TelemetrySchedulerGadgetWidget::saveSchedule()
+{
+    // Make sure we are saving the selected schedule
+    applySchedule();
+
+    for (int i=1; i<schedulerModel->rowCount(); i++) {
+        // Get UAVO name and metadata
+        QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
+        UAVDataObject * obj = dynamic_cast<UAVDataObject*>(objManager->getObject(uavObjectName));
+        if (obj) {
+            UAVMetaObject * meta = obj->getMetaObject();
+            getObjectUtilManager()->saveObjectToFlash(meta);
+        }
+    }
+}
 
 void TelemetrySchedulerGadgetWidget::loadTelemetryFromFile()
 {
@@ -590,6 +613,7 @@ void TelemetrySchedulerGadgetWidget::changeVerticalHeader(int headerIndex)
     UAVObject::Metadata mdata = uavObj->getMetadata();
 
     MetadataDialog metadataDialog(mdata);
+    metadataDialog.setWindowTitle(QString(uavObj->getName() + " settings"));
 
     if (metadataDialog.exec() != QDialog::Accepted )
         return;
@@ -605,6 +629,15 @@ void TelemetrySchedulerGadgetWidget::changeVerticalHeader(int headerIndex)
     uavObj->setMetadata(newMetadata);
 }
 
+/**
+ * @brief TelemetrySchedulerGadgetWidget::stripMs Remove the ms suffix
+ * @param rate_ms rate with ms suffix at end
+ * @return the integer parsed string
+ */
+int TelemetrySchedulerGadgetWidget::stripMs(QVariant rate_ms)
+{
+    return rate_ms.toString().replace(QString("ms"), QString("")).toUInt();
+}
 
 /**
  * @brief TelemetrySchedulerGadgetWidget::getObjectManager Utility function to get a pointer to the object manager

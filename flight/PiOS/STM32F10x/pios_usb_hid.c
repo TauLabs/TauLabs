@@ -42,10 +42,10 @@
 /* STM32 USB Library Definitions */
 #include "usb_lib.h"
 
-static void PIOS_USB_HID_RegisterTxCallback(uint32_t usbhid_id, pios_com_callback tx_out_cb, uint32_t context);
-static void PIOS_USB_HID_RegisterRxCallback(uint32_t usbhid_id, pios_com_callback rx_in_cb, uint32_t context);
-static void PIOS_USB_HID_TxStart(uint32_t usbhid_id, uint16_t tx_bytes_avail);
-static void PIOS_USB_HID_RxStart(uint32_t usbhid_id, uint16_t rx_bytes_avail);
+static void PIOS_USB_HID_RegisterTxCallback(uintptr_t usbhid_id, pios_com_callback tx_out_cb, uintptr_t context);
+static void PIOS_USB_HID_RegisterRxCallback(uintptr_t usbhid_id, pios_com_callback rx_in_cb, uintptr_t context);
+static void PIOS_USB_HID_TxStart(uintptr_t usbhid_id, uint16_t tx_bytes_avail);
+static void PIOS_USB_HID_RxStart(uintptr_t usbhid_id, uint16_t rx_bytes_avail);
 
 const struct pios_com_driver pios_usb_hid_com_driver = {
 	.tx_start    = PIOS_USB_HID_TxStart,
@@ -63,12 +63,12 @@ struct pios_usb_hid_dev {
 	enum pios_usb_hid_dev_magic     magic;
 	const struct pios_usb_hid_cfg * cfg;
 
-	uint32_t lower_id;
+	uintptr_t lower_id;
 
 	pios_com_callback rx_in_cb;
-	uint32_t rx_in_context;
+	uintptr_t rx_in_context;
 	pios_com_callback tx_out_cb;
-	uint32_t tx_out_context;
+	uintptr_t tx_out_context;
 
 	uint8_t rx_packet_buffer[PIOS_USB_BOARD_HID_DATA_LENGTH];
 	uint8_t tx_packet_buffer[PIOS_USB_BOARD_HID_DATA_LENGTH];
@@ -117,13 +117,13 @@ static struct pios_usb_hid_dev * PIOS_USB_HID_alloc(void)
 static void PIOS_USB_HID_EP_IN_Callback(void);
 static void PIOS_USB_HID_EP_OUT_Callback(void);
 
-static uint32_t pios_usb_hid_id;
+static uintptr_t pios_usb_hid_id;
 
 /* Need a better way to pull these in */
 extern void (*pEpInt_IN[7])(void);
 extern void (*pEpInt_OUT[7])(void);
 
-int32_t PIOS_USB_HID_Init(uint32_t * usbhid_id, const struct pios_usb_hid_cfg * cfg, uint32_t lower_id)
+int32_t PIOS_USB_HID_Init(uintptr_t * usbhid_id, const struct pios_usb_hid_cfg * cfg, uintptr_t lower_id)
 {
 	PIOS_Assert(usbhid_id);
 	PIOS_Assert(cfg);
@@ -137,13 +137,13 @@ int32_t PIOS_USB_HID_Init(uint32_t * usbhid_id, const struct pios_usb_hid_cfg * 
 	usb_hid_dev->cfg = cfg;
 	usb_hid_dev->lower_id = lower_id;
 
-	pios_usb_hid_id = (uint32_t) usb_hid_dev;
+	pios_usb_hid_id = (uintptr_t) usb_hid_dev;
 
 	/* Bind lower level callbacks into the USB infrastructure */
 	pEpInt_IN[cfg->data_tx_ep - 1] = PIOS_USB_HID_EP_IN_Callback;
 	pEpInt_OUT[cfg->data_rx_ep - 1] = PIOS_USB_HID_EP_OUT_Callback;
 
-	*usbhid_id = (uint32_t) usb_hid_dev;
+	*usbhid_id = (uintptr_t) usb_hid_dev;
 
 	return 0;
 
@@ -202,7 +202,7 @@ static void PIOS_USB_HID_SendReport(struct pios_usb_hid_dev * usb_hid_dev)
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 
-static void PIOS_USB_HID_RxStart(uint32_t usbhid_id, uint16_t rx_bytes_avail) {
+static void PIOS_USB_HID_RxStart(uintptr_t usbhid_id, uint16_t rx_bytes_avail) {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usbhid_id;
 
 	bool valid = PIOS_USB_HID_validate(usb_hid_dev);
@@ -227,7 +227,7 @@ static void PIOS_USB_HID_RxStart(uint32_t usbhid_id, uint16_t rx_bytes_avail) {
 	PIOS_IRQ_Enable();
 }
 
-static void PIOS_USB_HID_TxStart(uint32_t usbhid_id, uint16_t tx_bytes_avail)
+static void PIOS_USB_HID_TxStart(uintptr_t usbhid_id, uint16_t tx_bytes_avail)
 {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usbhid_id;
 
@@ -246,7 +246,7 @@ static void PIOS_USB_HID_TxStart(uint32_t usbhid_id, uint16_t tx_bytes_avail)
 	PIOS_USB_HID_SendReport(usb_hid_dev);
 }
 
-static void PIOS_USB_HID_RegisterRxCallback(uint32_t usbhid_id, pios_com_callback rx_in_cb, uint32_t context)
+static void PIOS_USB_HID_RegisterRxCallback(uintptr_t usbhid_id, pios_com_callback rx_in_cb, uintptr_t context)
 {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usbhid_id;
 
@@ -261,7 +261,7 @@ static void PIOS_USB_HID_RegisterRxCallback(uint32_t usbhid_id, pios_com_callbac
 	usb_hid_dev->rx_in_cb = rx_in_cb;
 }
 
-static void PIOS_USB_HID_RegisterTxCallback(uint32_t usbhid_id, pios_com_callback tx_out_cb, uint32_t context)
+static void PIOS_USB_HID_RegisterTxCallback(uintptr_t usbhid_id, pios_com_callback tx_out_cb, uintptr_t context)
 {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usbhid_id;
 

@@ -156,12 +156,12 @@ static void GenericI2CSensorTask(void *parameters)
 			 * empty or does not infinitely loop.
 			 * Delay in order to prevent these programs from consuming all CPU.
 			 */
-			vTaskDelay(10 / portTICK_RATE_MS);
+			vTaskDelay(MS2TICKS(10));
 		} else {
 			/* Program faulted
 			 * Delay to prevent beoken programs from consuming all CPU
 			 */
-			vTaskDelay(100 / portTICK_RATE_MS);
+			vTaskDelay(MS2TICKS(100));
 		}
 	}
 }

@@ -183,7 +183,7 @@ static void vtolPathFollowerTask(void *parameters)
 		}
 
 		// Continue collecting data if not enough time
-		vTaskDelayUntil(&lastUpdateTime, guidanceSettings.UpdatePeriod / portTICK_RATE_MS);
+		vTaskDelayUntil(&lastUpdateTime, MS2TICKS(guidanceSettings.UpdatePeriod));
 
 		// Convert the accels into the NED frame
 		updateNedAccel();
@@ -431,8 +431,8 @@ static void updateVtolDesiredAttitude()
 	// Notice the inputs are crudely bounded by the anti-winded but if both N and E were
 	// saturated and the craft were at 45 degrees that would result in a value greater than
 	// the limit, so apply limit again here.
-	stabDesired.Pitch = bound_min_max(-northCommand * cosf(attitudeActual.Yaw * M_PI / 180) + 
-				      -eastCommand * sinf(attitudeActual.Yaw * M_PI / 180),
+	stabDesired.Pitch = bound_min_max(-northCommand * cosf(attitudeActual.Yaw * DEG2RAD) + 
+				      -eastCommand * sinf(attitudeActual.Yaw * DEG2RAD),
 				      -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
 	stabDesired.Roll = bound_min_max(-northCommand * sinf(attitudeActual.Yaw * DEG2RAD) + 
 				     eastCommand * cosf(attitudeActual.Yaw * DEG2RAD),

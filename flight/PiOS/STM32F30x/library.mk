@@ -35,7 +35,7 @@ EXTRAINCDIRS		+=	$(PIOS_DEVLIB)/inc
 #
 include $(PIOSCOMMONLIB)/CMSIS3/library.mk
 CMSIS3_DEVICEDIR	:=	$(PIOS_DEVLIB)/Libraries/CMSIS3/Device/ST/STM32F30x
-SRC					+=	$(wildcard $(CMSIS3_DEVICEDIR)/Source/$(BOARD_NAME)/*.c)
+SRC			+=	$(BOARD_INFO_DIR)/cmsis_system.c
 EXTRAINCDIRS		+=	$(CMSIS3_DEVICEDIR)/Include
 
 #

@@ -1004,7 +1004,7 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 #ifdef USE_FREERTOS
 	/* Lock the bus */
 	portTickType timeout;
-	timeout = i2c_adapter->cfg->transfer_timeout_ms / portTICK_RATE_MS;
+	timeout = MS2TICKS(i2c_adapter->cfg->transfer_timeout_ms);
 	if (xSemaphoreTake(i2c_adapter->sem_busy, timeout) == pdFALSE)
 		return -2;
 #else
@@ -1140,7 +1140,7 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 	case 0x80:		/* TxE only.  TRA + MSL + BUSY have been cleared before we got here. */
 		/* Ignore */
 		{
-			static volatile bool halt = FALSE;
+			static volatile bool halt = false;
 			while (halt) ;
 		}
 		break;

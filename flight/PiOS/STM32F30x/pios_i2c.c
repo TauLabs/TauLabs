@@ -441,7 +441,7 @@ static bool i2c_adapter_callback_handler(struct pios_i2c_adapter * i2c_adapter)
 	/* Wait for the transfer to complete */
 #ifdef USE_FREERTOS
 	portTickType timeout;
-	timeout = i2c_adapter->cfg->transfer_timeout_ms / portTICK_RATE_MS;
+	timeout = MS2TICKS(i2c_adapter->cfg->transfer_timeout_ms);
 	semaphore_success &= (xSemaphoreTake(i2c_adapter->sem_ready, timeout) == pdTRUE);
 	xSemaphoreGive(i2c_adapter->sem_ready);
 #else
@@ -677,7 +677,7 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 
 #ifdef USE_FREERTOS
 	/* Lock the bus */
-	uint32_t timeout = i2c_adapter->cfg->transfer_timeout_ms / portTICK_RATE_MS;
+	uint32_t timeout = MS2TICKS(i2c_adapter->cfg->transfer_timeout_ms);
 	if (xSemaphoreTake(i2c_adapter->sem_busy, timeout) != pdTRUE)
 		return -2;
 #else	
@@ -695,6 +695,12 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 	i2c_adapter->first_txn = &txn_list[0];
 	i2c_adapter->last_txn = &txn_list[num_txns - 1];
 	i2c_adapter->active_txn = i2c_adapter->first_txn;
+
+#ifdef USE_FREERTOS
+	/* Make sure the done/ready semaphore is consumed before we start */
+	semaphore_success &= (xSemaphoreTake(i2c_adapter->sem_ready, timeout) == pdTRUE);
+#endif
+
 	i2c_adapter->callback = NULL;
 	i2c_adapter->bus_error = false;
 	i2c_adapter->nack = false;
@@ -705,6 +711,7 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 	/* Wait for the transfer to complete */
 #ifdef USE_FREERTOS
 	semaphore_success = (xSemaphoreTake(i2c_adapter->sem_ready, timeout) == pdTRUE);
+	xSemaphoreGive(i2c_adapter->sem_ready);
 #else
 	/* Spin waiting for the transfer to finish */
 	while (!i2c_adapter_fsm_terminated(i2c_adapter)) ;
@@ -741,7 +748,7 @@ int32_t PIOS_I2C_Transfer_Callback(uint32_t i2c_id, const struct pios_i2c_txn tx
 #ifdef USE_FREERTOS
 	// Lock the bus
 	portTickType timeout;
-	timeout = i2c_adapter->cfg->transfer_timeout_ms / portTICK_RATE_MS;
+	timeout = MS2TICKS(i2c_adapter->cfg->transfer_timeout_ms);
 	semaphore_success &= (xSemaphoreTake(i2c_adapter->sem_busy, timeout) == pdTRUE);
 #else
 	if(i2c_adapter->busy == 1) {

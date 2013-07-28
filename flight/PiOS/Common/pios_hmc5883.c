@@ -31,6 +31,7 @@
 
 /* Project Includes */
 #include "pios.h"
+#include "pios_hmc5883_priv.h"
 
 #if defined(PIOS_INCLUDE_HMC5883)
 
@@ -53,6 +54,7 @@ struct hmc5883_dev {
 	xTaskHandle task;
 	xSemaphoreHandle data_ready_sema;
 	enum pios_hmc5883_dev_magic magic;
+	enum pios_hmc5883_orientation orientation;
 };
 
 /* Local Variables */
@@ -80,12 +82,6 @@ static struct hmc5883_dev * PIOS_HMC5883_alloc(void)
 		vPortFree(hmc5883_dev);
 		return NULL;
 	}
-	
-	hmc5883_dev->data_ready_sema = xSemaphoreCreateMutex();
-	if (hmc5883_dev->data_ready_sema == NULL) {
-		vPortFree(hmc5883_dev);
-		return NULL;
-	}
 
 	return(hmc5883_dev);
 }
@@ -107,7 +103,7 @@ static int32_t PIOS_HMC5883_Validate(struct hmc5883_dev *dev)
 
 /**
  * @brief Initialize the HMC5883 magnetometer sensor.
- * @return none
+ * @return 0 on success
  */
 int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 {
@@ -117,10 +113,15 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 
 	dev->cfg = cfg;
 	dev->i2c_id = i2c_id;
+	dev->orientation = cfg->Default_Orientation;
 
-#ifdef PIOS_HMC5883_HAS_GPIOS
-	PIOS_EXTI_Init(cfg->exti_cfg);
-#endif
+	/* check if we are using an irq line */
+	if (cfg->exti_cfg != NULL) {
+		PIOS_EXTI_Init(cfg->exti_cfg);
+
+		dev->data_ready_sema = xSemaphoreCreateMutex();
+		PIOS_Assert(dev->data_ready_sema != NULL);
+	}
 
 	if (PIOS_HMC5883_Config(cfg) != 0)
 		return -2;
@@ -133,7 +134,19 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 
 	PIOS_Assert(result == pdPASS);
 
-	dev->data_ready_sema = xSemaphoreCreateMutex();
+	return 0;
+}
+
+/**
+ * @brief Updates the HMC5883 chip orientation.
+ * @returns 0 for success or -1 for failure
+ */
+int32_t PIOS_HMC5883_SetOrientation(enum pios_hmc5883_orientation orientation)
+{
+	if (PIOS_HMC5883_Validate(dev) != 0)
+		return -1;
+
+	dev->orientation = orientation;
 
 	return 0;
 }
@@ -197,29 +210,48 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
  *              1  |  0   |  Negative Bias
  *              1  |  1   |  Sleep Mode
  */
-static uint8_t CTRLB = 0x00;
 static int32_t PIOS_HMC5883_Config(const struct pios_hmc5883_cfg * cfg)
 {
-	uint8_t CTRLA = 0x00;
-	uint8_t MODE = 0x00;
-	CTRLB = 0;
-	
-	CTRLA |= (uint8_t) (cfg->M_ODR | cfg->Meas_Conf);
-	CTRLB |= (uint8_t) (cfg->Gain);
-	MODE |= (uint8_t) (cfg->Mode);
-	
 	// CRTL_REGA
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_A, CTRLA) != 0)
+	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_A, cfg->M_ODR | cfg->Meas_Conf) != 0)
 		return -1;
 	
 	// CRTL_REGB
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_B, CTRLB) != 0)
+	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_B, cfg->Gain) != 0)
 		return -1;
 	
 	// Mode register
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, MODE) != 0) 
+	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, cfg->Mode) != 0)
 		return -1;
 	
+	return 0;
+}
+
+/**
+ * Get the mag sensitivity based on the active settings
+ * @returns Sensitivity in LSB / Ga
+ */
+static uint16_t PIOS_HMC5883_Config_GetSensitivity()
+{
+	switch (dev->cfg->Gain) {
+	case PIOS_HMC5883_GAIN_0_88:
+		return PIOS_HMC5883_Sensitivity_0_88Ga;
+	case PIOS_HMC5883_GAIN_1_3:
+		return PIOS_HMC5883_Sensitivity_1_3Ga;
+	case PIOS_HMC5883_GAIN_1_9:
+		return PIOS_HMC5883_Sensitivity_1_9Ga;
+	case PIOS_HMC5883_GAIN_2_5:
+		return PIOS_HMC5883_Sensitivity_2_5Ga;
+	case PIOS_HMC5883_GAIN_4_0:
+		return PIOS_HMC5883_Sensitivity_4_0Ga;
+	case PIOS_HMC5883_GAIN_4_7:
+		return PIOS_HMC5883_Sensitivity_4_7Ga;
+	case PIOS_HMC5883_GAIN_5_6:
+		return PIOS_HMC5883_Sensitivity_5_6Ga;
+	case PIOS_HMC5883_GAIN_8_1:
+		return PIOS_HMC5883_Sensitivity_8_1Ga;
+	}
+
 	return 0;
 }
 
@@ -230,52 +262,58 @@ static int32_t PIOS_HMC5883_Config(const struct pios_hmc5883_cfg * cfg)
  */
 static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 {
-	if(PIOS_HMC5883_Validate(dev) != 0)
+	if (PIOS_HMC5883_Validate(dev) != 0)
 		return -1;
 
-	uint8_t buffer[6];
-	int32_t sensitivity;
-	
-	if (PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_XMSB_REG, buffer, 6) != 0) {
+	/* don't use PIOS_HMC5883_Read and PIOS_HMC5883_Write here because the task could be
+	 * switched out of context in between which would give the sensor less time to capture
+	 * the next sample.
+	 */
+	uint8_t addr_read = PIOS_HMC5883_DATAOUT_XMSB_REG;
+	uint8_t buffer_read[6];
+
+	// PIOS_HMC5883_MODE_CONTINUOUS: This should not be necessary but for some reason it is coming out of continuous conversion mode
+	// PIOS_HMC5883_MODE_SINGLE: This triggers the next measurement
+	uint8_t buffer_write[2] = {
+		PIOS_HMC5883_MODE_REG,
+		dev->cfg->Mode
+	};
+
+	const struct pios_i2c_txn txn_list[] = {
+		{
+			.info = __func__,
+			.addr = PIOS_HMC5883_I2C_ADDR,
+			.rw = PIOS_I2C_TXN_WRITE,
+			.len = sizeof(addr_read),
+			.buf = &addr_read,
+		},
+		{
+			.info = __func__,
+			.addr = PIOS_HMC5883_I2C_ADDR,
+			.rw = PIOS_I2C_TXN_READ,
+			.len = sizeof(buffer_read),
+			.buf = buffer_read,
+		},
+		{
+			.info = __func__,
+			.addr = PIOS_HMC5883_I2C_ADDR,
+			.rw = PIOS_I2C_TXN_WRITE,
+			.len = sizeof(buffer_write),
+			.buf = buffer_write,
+		},
+	};
+
+	if (PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list)) != 0)
 		return -1;
-	}
-		
-	switch (CTRLB & 0xE0) {
-		case 0x00:
-			sensitivity =  PIOS_HMC5883_Sensitivity_0_88Ga;
-			break;
-		case 0x20:
-			sensitivity = PIOS_HMC5883_Sensitivity_1_3Ga;
-			break;
-		case 0x40:
-			sensitivity = PIOS_HMC5883_Sensitivity_1_9Ga;
-			break;
-		case 0x60:
-			sensitivity = PIOS_HMC5883_Sensitivity_2_5Ga;
-			break;
-		case 0x80:
-			sensitivity = PIOS_HMC5883_Sensitivity_4_0Ga;
-			break;
-		case 0xA0:
-			sensitivity = PIOS_HMC5883_Sensitivity_4_7Ga;
-			break;
-		case 0xC0:
-			sensitivity = PIOS_HMC5883_Sensitivity_5_6Ga;
-			break;
-		case 0xE0:
-			sensitivity = PIOS_HMC5883_Sensitivity_8_1Ga;
-			break;
-		default:
-			PIOS_Assert(0);
-	}
 
 	int16_t mag_x, mag_y, mag_z;
-	mag_x = ((int16_t) ((uint16_t) buffer[0] << 8) + buffer[1]) * 1000 / sensitivity;
-	mag_z = ((int16_t) ((uint16_t) buffer[2] << 8) + buffer[3]) * 1000 / sensitivity;
-	mag_y = ((int16_t) ((uint16_t) buffer[4] << 8) + buffer[5]) * 1000 / sensitivity;
+	uint16_t sensitivity = PIOS_HMC5883_Config_GetSensitivity();
+	mag_x = ((int16_t) ((uint16_t)buffer_read[0] << 8) + buffer_read[1]) * 1000 / sensitivity;
+	mag_z = ((int16_t) ((uint16_t)buffer_read[2] << 8) + buffer_read[3]) * 1000 / sensitivity;
+	mag_y = ((int16_t) ((uint16_t)buffer_read[4] << 8) + buffer_read[5]) * 1000 / sensitivity;
 
 	// Define "0" when the fiducial is in the front left of the board
-	switch (dev->cfg->orientation) {
+	switch (dev->orientation) {
 		case PIOS_HMC5883_TOP_0DEG:
 			mag_data->x = -mag_x;
 			mag_data->y = mag_y;
@@ -289,17 +327,34 @@ static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 		case PIOS_HMC5883_TOP_180DEG:
 			mag_data->x = mag_x;
 			mag_data->y = -mag_y;
-			mag_data->z = -mag_z;		
+			mag_data->z = -mag_z;
 			break;
 		case PIOS_HMC5883_TOP_270DEG:
 			mag_data->x = mag_y;
 			mag_data->y = mag_x;
 			mag_data->z = -mag_z;
 			break;
+		case PIOS_HMC5883_BOTTOM_0DEG:
+			mag_data->x = -mag_x;
+			mag_data->y = -mag_y;
+			mag_data->z = mag_z;
+			break;
+		case PIOS_HMC5883_BOTTOM_90DEG:
+			mag_data->x = -mag_y;
+			mag_data->y = mag_x;
+			mag_data->z = mag_z;
+			break;
+		case PIOS_HMC5883_BOTTOM_180DEG:
+			mag_data->x = mag_x;
+			mag_data->y = mag_y;
+			mag_data->z = mag_z;
+			break;
+		case PIOS_HMC5883_BOTTOM_270DEG:
+			mag_data->x = mag_y;
+			mag_data->y = -mag_x;
+			mag_data->z = mag_z;
+			break;
 	}
-	
-	// This should not be necessary but for some reason it is coming out of continuous conversion mode
-	PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, PIOS_HMC5883_MODE_CONTINUOUS);
 	
 	return 0;
 }
@@ -385,7 +440,7 @@ static int32_t PIOS_HMC5883_Write(uint8_t address, uint8_t buffer)
 		}
 		,
 	};
-	;
+
 	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
 }
 
@@ -395,77 +450,13 @@ static int32_t PIOS_HMC5883_Write(uint8_t address, uint8_t buffer)
  */
 int32_t PIOS_HMC5883_Test(void)
 {
-	int32_t failed = 0;
-	uint8_t registers[3] = {0,0,0};
-	uint8_t status;
-	uint8_t ctrl_a_read;
-	uint8_t ctrl_b_read;	
-	uint8_t mode_read;
-	struct pios_sensor_mag_data values;
-
 	/* Verify that ID matches (HMC5883 ID is null-terminated ASCII string "H43") */
 	char id[4];
 	PIOS_HMC5883_ReadID((uint8_t *)id);
 	if((id[0] != 'H') || (id[1] != '4') || (id[2] != '3')) // Expect H43
 		return -1;
 
-	/* Backup existing configuration */
-	if (PIOS_HMC5883_Read(PIOS_HMC5883_CONFIG_REG_A,registers,3) != 0)
-		return -1;
-
-	/* Stop the device and read out last value */
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, PIOS_HMC5883_MODE_IDLE) != 0) 
-		return -1;
-	if( PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_STATUS_REG, &status,1) != 0)
-		return -1;
-	if (PIOS_HMC5883_ReadMag(&values) != 0)
-		return -1;
-
-	/*
-	 * Put HMC5883 into self test mode
-	 * This is done by placing measurement config into positive (0x01) or negative (0x10) bias
-	 * and then placing the mode register into single-measurement mode.  This causes the HMC5883
-	 * to create an artificial magnetic field of ~1.1 Gauss.
-	 *
-	 * If gain were PIOS_HMC5883_GAIN_2_5, for example, X and Y will read around +766 LSB
-	 * (1.16 Ga * 660 LSB/Ga) and Z would read around +713 LSB (1.08 Ga * 660 LSB/Ga)
-	 *
-	 * Changing measurement config back to PIOS_HMC5883_MEASCONF_NORMAL will leave self-test mode.
-	 */
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_A, PIOS_HMC5883_MEASCONF_BIAS_POS | PIOS_HMC5883_ODR_15) != 0)
-		return -1;
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_B, PIOS_HMC5883_GAIN_8_1) != 0) 
-		return -1;
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, PIOS_HMC5883_MODE_SINGLE) != 0) 
-		return -1;
-
-	/* Must wait for value to be updated */
-	PIOS_DELAY_WaitmS(200);
-
-	if (PIOS_HMC5883_ReadMag(&values) != 0)
-		return -1;
-
-	PIOS_HMC5883_Read(PIOS_HMC5883_CONFIG_REG_A, &ctrl_a_read,1);
-	PIOS_HMC5883_Read(PIOS_HMC5883_CONFIG_REG_B, &ctrl_b_read,1);
-	PIOS_HMC5883_Read(PIOS_HMC5883_MODE_REG, &mode_read,1);
-	PIOS_HMC5883_Read(PIOS_HMC5883_DATAOUT_STATUS_REG, &status,1);
-
-	/* Restore backup configuration */
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_A, registers[0]) != 0)
-		return -1;
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_CONFIG_REG_B, registers[1]) != 0) 
-		return -1;
-	PIOS_DELAY_WaitmS(10);
-	if (PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, registers[2]) != 0) 
-		return -1;
-
-	return failed;
+	return 0;
 }
 
 /**
@@ -479,7 +470,7 @@ bool PIOS_HMC5883_IRQHandler(void)
 	portBASE_TYPE xHigherPriorityTaskWoken;
 	xSemaphoreGiveFromISR(dev->data_ready_sema, &xHigherPriorityTaskWoken);
 
-    return xHigherPriorityTaskWoken == pdTRUE;
+	return xHigherPriorityTaskWoken == pdTRUE;
 }
 
 /**
@@ -487,15 +478,47 @@ bool PIOS_HMC5883_IRQHandler(void)
  */
 static void PIOS_HMC5883_Task(void *parameters)
 {
-	while(1) {
-		if(PIOS_HMC5883_Validate(dev) != 0) {
-			vTaskDelay(100 * portTICK_RATE_MS);
-			continue;
-		}
+	while (PIOS_HMC5883_Validate(dev) != 0) {
+		vTaskDelay(MS2TICKS(100));
+	}
 
-		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE) {
-			vTaskDelay(100 * portTICK_RATE_MS);
-			continue;
+	portTickType sample_delay;
+
+	switch (dev->cfg->M_ODR) {
+	case PIOS_HMC5883_ODR_0_75:
+		sample_delay = MS2TICKS(1000 / 0.75f) + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_1_5:
+		sample_delay = MS2TICKS(1000 / 1.5f) + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_3:
+		sample_delay = MS2TICKS(1000 / 3.0f) + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_7_5:
+		sample_delay = MS2TICKS(1000 / 7.5f) + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_15:
+		sample_delay = MS2TICKS(1000 / 15.0f) + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_30:
+		sample_delay = MS2TICKS(1000 / 30.0f) + 0.99999f;
+		break;
+	case PIOS_HMC5883_ODR_75:
+	default:
+		sample_delay = MS2TICKS(1000 / 75.0f) + 0.99999f;
+		break;
+	}
+
+	portTickType now = xTaskGetTickCount();
+
+	while (1) {
+		if (dev->cfg->Mode == PIOS_HMC5883_MODE_CONTINUOUS) {
+			if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE) {
+				vTaskDelay(MS2TICKS(100));
+				continue;
+			}
+		} else {
+			vTaskDelayUntil(&now, sample_delay);
 		}
 
 		struct pios_sensor_mag_data mag_data;

@@ -104,10 +104,10 @@ void OTG_FS_IRQHandler(void)
 
 struct usb_if_entry {
 	struct pios_usb_ifops *ifops;
-	uint32_t context;
+	uintptr_t context;
 };
 static struct usb_if_entry usb_if_table[3];
-void PIOS_USBHOOK_RegisterIfOps(uint8_t ifnum, struct pios_usb_ifops * ifops, uint32_t context)
+void PIOS_USBHOOK_RegisterIfOps(uint8_t ifnum, struct pios_usb_ifops * ifops, uintptr_t context)
 {
 	PIOS_Assert(ifnum < NELEMENTS(usb_if_table));
 	PIOS_Assert(ifops);
@@ -118,11 +118,11 @@ void PIOS_USBHOOK_RegisterIfOps(uint8_t ifnum, struct pios_usb_ifops * ifops, ui
 
 struct usb_ep_entry {
 	pios_usbhook_epcb cb;
-	uint32_t context;
+	uintptr_t context;
 	uint16_t max_len;
 };
 static struct usb_ep_entry usb_epin_table[6];
-void PIOS_USBHOOK_RegisterEpInCallback(uint8_t epnum, uint16_t max_len, pios_usbhook_epcb cb, uint32_t context)
+void PIOS_USBHOOK_RegisterEpInCallback(uint8_t epnum, uint16_t max_len, pios_usbhook_epcb cb, uintptr_t context)
 {
 	PIOS_Assert(epnum < NELEMENTS(usb_epin_table));
 	PIOS_Assert(cb);
@@ -150,7 +150,7 @@ extern void PIOS_USBHOOK_DeRegisterEpInCallback(uint8_t epnum)
 }
 
 static struct usb_ep_entry usb_epout_table[6];
-void PIOS_USBHOOK_RegisterEpOutCallback(uint8_t epnum, uint16_t max_len, pios_usbhook_epcb cb, uint32_t context)
+void PIOS_USBHOOK_RegisterEpOutCallback(uint8_t epnum, uint16_t max_len, pios_usbhook_epcb cb, uintptr_t context)
 {
 	PIOS_Assert(epnum < NELEMENTS(usb_epout_table));
 	PIOS_Assert(cb);

@@ -112,6 +112,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/systemsettings.h \
     $$UAVOBJECT_SYNTHETICS/tabletinfo.h \
     $$UAVOBJECT_SYNTHETICS/taskinfo.h \
+    $$UAVOBJECT_SYNTHETICS/trimangles.h \
+    $$UAVOBJECT_SYNTHETICS/trimanglessettings.h \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.h \
     $$UAVOBJECT_SYNTHETICS/velocitydesired.h \
     $$UAVOBJECT_SYNTHETICS/velocityactual.h \
@@ -120,7 +122,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/vtolpathfollowersettings.h \
     $$UAVOBJECT_SYNTHETICS/watchdogstatus.h \
     $$UAVOBJECT_SYNTHETICS/waypoint.h \
-    $$UAVOBJECT_SYNTHETICS/waypointactive.h
+    $$UAVOBJECT_SYNTHETICS/waypointactive.h \
+    $$UAVOBJECT_SYNTHETICS/windvelocityactual.h
 
 SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/accessorydesired.cpp \
@@ -211,6 +214,8 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/systemstats.cpp \
     $$UAVOBJECT_SYNTHETICS/tabletinfo.cpp \
     $$UAVOBJECT_SYNTHETICS/taskinfo.cpp \
+    $$UAVOBJECT_SYNTHETICS/trimangles.cpp \
+    $$UAVOBJECT_SYNTHETICS/trimanglessettings.cpp \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/uavobjectsinit.cpp \
     $$UAVOBJECT_SYNTHETICS/velocitydesired.cpp \
@@ -220,4 +225,5 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/vtolpathfollowersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/watchdogstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/waypoint.cpp \
-    $$UAVOBJECT_SYNTHETICS/waypointactive.cpp
+    $$UAVOBJECT_SYNTHETICS/waypointactive.cpp\
+    $$UAVOBJECT_SYNTHETICS/windvelocityactual.cpp

@@ -39,7 +39,7 @@ struct pios_usb_hid_cfg {
 
 extern const struct pios_com_driver pios_usb_hid_com_driver;
 
-extern int32_t PIOS_USB_HID_Init(uint32_t * usbhid_id, const struct pios_usb_hid_cfg * cfg, uint32_t lower_id);
+extern int32_t PIOS_USB_HID_Init(uintptr_t * usbhid_id, const struct pios_usb_hid_cfg * cfg, uintptr_t lower_id);
 
 #endif /* PIOS_USB_HID_PRIV_H */
 

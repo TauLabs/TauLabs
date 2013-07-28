@@ -28,6 +28,7 @@
 #define CONFIGCCHWWIDGET_H
 
 #include "ui_cc_hw_settings.h"
+
 #include "../uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
@@ -35,6 +36,7 @@
 #include <QtGui/QWidget>
 #include <QList>
 #include "smartsavebutton.h"
+
 
 class ConfigCCHWWidget: public ConfigTaskWidget
 {
@@ -49,9 +51,7 @@ private slots:
     void widgetsContentsChanged();
 
 private:
-    QVariant getVariantFromWidget(QWidget * widget, double scale);
-    bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
-    Ui_CC_HW_Widget *m_telemetry;
+    Ui_CC_HW_Widget *m_CC_HW_Widget;
     QSvgRenderer *m_renderer;
 };
 

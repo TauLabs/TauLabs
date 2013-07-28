@@ -72,9 +72,13 @@ uint16_t PIOS_WDG_Init()
 
 	// watchdog flags now stored in backup registers
 	PWR_BackupAccessCmd(ENABLE);
-	
-	BKP_WriteBackupRegister(PIOS_WDG_REGISTER, 0x0);
 	wdg_configuration.bootup_flags = BKP_ReadBackupRegister(PIOS_WDG_REGISTER);
+
+	/*
+	 * Start from an empty set of registered flags so previous boots
+	 * can't influence the current one
+	 */
+	BKP_WriteBackupRegister(PIOS_WDG_REGISTER, 0);
 #endif
 	return delay;
 }

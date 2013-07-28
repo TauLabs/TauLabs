@@ -8,6 +8,7 @@
  *
  * @file       pios_initcall.h  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Initcall header
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -58,7 +59,7 @@ extern void StartModules();
 	StartModules(); \
 	}
 
-#define MODULE_INITIALISE_ALL { \
+#define MODULE_INITIALISE_ALL(wdgfn) {		\
 	/* Initialize modules */ \
 	InitModules(); \
 	/* Initialize the system thread */ \

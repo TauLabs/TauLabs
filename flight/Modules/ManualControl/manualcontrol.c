@@ -59,7 +59,6 @@
 
 #define TASK_PRIORITY (tskIDLE_PRIORITY+4)
 #define UPDATE_PERIOD_MS 20
-#define THROTTLE_FAILSAFE -0.1f
 
 // Private variables
 static xTaskHandle taskHandle;
@@ -133,7 +132,7 @@ static void manualControlTask(void *parameters)
 		enum control_events control_events = CONTROL_EVENTS_NONE;
 
 		// Control logic to select the valid controller
-		uint8_t control_selection = control_source_select();
+		FlightStatusControlSourceOptions control_selection = control_source_select();
 		bool reset_controller = control_selection != last_control_selection;
 
 		// This logic would be better collapsed into control_source_select but
@@ -181,7 +180,7 @@ static void manualControlTask(void *parameters)
 		}
 
 		// Wait until next update
-		vTaskDelayUntil(&lastSysTime, UPDATE_PERIOD_MS / portTICK_RATE_MS);
+		vTaskDelayUntil(&lastSysTime, MS2TICKS(UPDATE_PERIOD_MS));
 		PIOS_WDG_UpdateFlag(PIOS_WDG_MANUAL);
 	}
 }

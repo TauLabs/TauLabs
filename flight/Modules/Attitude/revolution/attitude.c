@@ -366,8 +366,8 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 	// Wait until the accel and gyro object is updated, if a timeout then go to failsafe
 	if (!secondary && (
-		 xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
-	     xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE ) )
+		 xQueueReceive(gyroQueue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE ||
+		 xQueueReceive(accelQueue, &ev, MS2TICKS(1)) != pdTRUE ) )
 	{
 		// When one of these is updated so should the other
 		// Do not set attitude timeout warnings in simulation mode
@@ -388,7 +388,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 		// Wait for a mag reading if a magnetometer was registered
 		if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG) != NULL) {
-			if ( !secondary && xQueueReceive(magQueue, &ev, 20 / portTICK_RATE_MS) != pdTRUE ) {
+			if ( !secondary && xQueueReceive(magQueue, &ev, MS2TICKS(20)) != pdTRUE ) {
 				return -1;
 			}
 			MagnetometerGet(&magData);
@@ -606,7 +606,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 	// If quaternion has become inappropriately short or is nan reinit.
 	// THIS SHOULD NEVER ACTUALLY HAPPEN
-	if((fabs(qmag) < 1.0e-3f) || (qmag != qmag)) {
+	if((fabsf(qmag) < 1.0e-3f) || (qmag != qmag)) {
 		cf_q[0] = 1;
 		cf_q[1] = 0;
 		cf_q[2] = 0;
@@ -797,14 +797,14 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		return 0;
 	}
 
-	mag_updated |= (xQueueReceive(magQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE);
-	baro_updated |= xQueueReceive(baroQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE;
-	gps_updated |= (xQueueReceive(gpsQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) && outdoor_mode;
-	gps_vel_updated |= (xQueueReceive(gpsVelQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) && outdoor_mode;
+	mag_updated |= (xQueueReceive(magQueue, &ev, MS2TICKS(0)) == pdTRUE);
+	baro_updated |= xQueueReceive(baroQueue, &ev, MS2TICKS(0)) == pdTRUE;
+	gps_updated |= (xQueueReceive(gpsQueue, &ev, MS2TICKS(0)) == pdTRUE) && outdoor_mode;
+	gps_vel_updated |= (xQueueReceive(gpsVelQueue, &ev, MS2TICKS(0)) == pdTRUE) && outdoor_mode;
 
 	// Wait until the gyro and accel object is updated, if a timeout then go to failsafe
-	if ( (xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE) ||
-	     (xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE) )
+	if ( (xQueueReceive(gyroQueue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE) ||
+		 (xQueueReceive(accelQueue, &ev, MS2TICKS(1)) != pdTRUE) )
 	{
 		return -1;
 	}
@@ -996,13 +996,15 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		gps_vel_updated = false;
 	}
 
-	// When runnning in indoor mode force the position to zero
-	if (!outdoor_mode) {
+	// Update fake position at 10 hz
+	static uint32_t indoor_pos_time;
+	if (!outdoor_mode && PIOS_DELAY_DiffuS(indoor_pos_time) > 100000) {
+		indoor_pos_time = PIOS_DELAY_GetRaw();
 		vel[0] = vel[1] = vel[2] = 0;
 		NED[0] = NED[1] = 0;
 		NED[2] = -(baroData.Altitude + baro_offset);
 		sensors |= HORIZ_SENSORS | HORIZ_POS_SENSORS;
-		sensors |= VERT_SENSORS | VERT_POS_SENSORS;
+		sensors |= VERT_SENSORS;
 	}
 
 	/*
@@ -1147,8 +1149,8 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		AttitudeSettingsGet(&attitudeSettings);
 			
 		// Calculate accel filter alpha, in the same way as for gyro data in stabilization module.
-		const float fakeDt = 0.0025;
-		if(attitudeSettings.AccelTau < 0.0001) {
+		const float fakeDt = 0.0025f;
+		if(attitudeSettings.AccelTau < 0.0001f) {
 			complementary_filter_state.accel_alpha = 0;   // not trusting this to resolve to 0
 			complementary_filter_state.accel_filter_enabled = false;
 		} else {

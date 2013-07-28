@@ -61,7 +61,7 @@
 #include "modulesettings.h"
 
 // Private constants
-#define MAX_QUEUE_SIZE 2
+#define MAX_QUEUE_SIZE 3
 #define STACK_SIZE_BYTES 1024
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 #define ACCEL_DOWNSAMPLE 4
@@ -148,7 +148,7 @@ static void altitudeHoldTask(void *parameters)
 	StabilizationDesiredData stabilizationDesired;
 
 	portTickType this_time_ms;
-	portTickType last_update_time_ms = xTaskGetTickCount() * portTICK_RATE_MS;
+	portTickType last_update_time_ms = TICKS2MS(xTaskGetTickCount());
 	UAVObjEvent ev;
 
 	// Force update of the settings
@@ -168,7 +168,7 @@ static void altitudeHoldTask(void *parameters)
 	bool baro_updated = false;
 	while (1) {
 		// Wait until the sensors are updated, if a timeout then go to failsafe
-		if ( xQueueReceive(queue, &ev, 100 / portTICK_RATE_MS) != pdTRUE )
+		if ( xQueueReceive(queue, &ev, MS2TICKS(100)) != pdTRUE )
 		{
 			if(!running)
 				throttleIntegral = 0;
@@ -236,7 +236,7 @@ static void altitudeHoldTask(void *parameters)
 			accels.z = accels_accum[2] / ACCEL_DOWNSAMPLE;
 			accels_accum[0] = accels_accum[1] = accels_accum[2] = 0;
 
-			this_time_ms = xTaskGetTickCount() * portTICK_RATE_MS;
+			this_time_ms = TICKS2MS(xTaskGetTickCount());
 
 			if (init == WAITIING_INIT) {
 				z[0] = baro.Altitude;

@@ -95,7 +95,7 @@ PmReturn_t plat_putByte(uint8_t b)
 
 PmReturn_t plat_getMsTicks(uint32_t *r_ticks)
 {
-    *r_ticks = xTaskGetTickCount() * portTICK_RATE_MS;
+	*r_ticks = TICKS2MS(xTaskGetTickCount());
     return PM_RET_OK;
 }
 

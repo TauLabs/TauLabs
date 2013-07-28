@@ -83,6 +83,11 @@ bool Sparky::queryCapabilities(BoardCapabilities capability)
     return false;
 }
 
+QStringList Sparky::queryChannelBanks()
+{
+    return QStringList(QStringList() << "1-2" << "3" << "4,7,9" << "5" << "6,10" << "8");
+}
+
 /**
  * @brief Sparky::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support

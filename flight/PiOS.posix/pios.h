@@ -60,7 +60,6 @@
 #include <pios_sys.h>
 #include <pios_delay.h>
 #include <pios_led.h>
-#include <pios_sdcard.h>
 #include <pios_udp.h>
 #include <pios_tcp.h>
 #include <pios_com.h>
@@ -72,6 +71,7 @@
 #include <pios_irq.h>
 #include <pios_sensors.h>
 #include <pios_sim.h>
+#include <pios_flashfs.h>
 
 #if defined(PIOS_INCLUDE_IAP)
 #include <pios_iap.h>
@@ -81,5 +81,10 @@
 #endif
 
 #define NELEMENTS(x) (sizeof(x) / sizeof(*(x)))
+
+// portTICK_RATE_MS is in [ms/tick].
+// See http://sourceforge.net/tracker/?func=detail&aid=3498382&group_id=111543&atid=659636
+#define TICKS2MS(t)	((t) * (portTICK_RATE_MS))
+#define MS2TICKS(m)	((m) / (portTICK_RATE_MS))
 
 #endif /* PIOS_H */

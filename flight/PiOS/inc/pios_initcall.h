@@ -8,6 +8,7 @@
  *
  * @file       pios_initcall.h  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Initcall header
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -69,9 +70,13 @@ extern initmodule_t __module_initcall_start[], __module_initcall_end[];
 
 #define MODULE_INITCALL(ifn, sfn)		__define_module_initcall("module", ifn, sfn)
 
-#define MODULE_INITIALISE_ALL  { for (initmodule_t *fn = __module_initcall_start; fn < __module_initcall_end; fn++) \
-									if (fn->fn_minit) \
-										(fn->fn_minit)(); }
+#define MODULE_INITIALISE_ALL(wdgfn)  { \
+		for (initmodule_t *fn = __module_initcall_start; fn < __module_initcall_end; fn++) { \
+			if (fn->fn_minit)				\
+				(fn->fn_minit)();			\
+			(wdgfn)();					\
+		}							\
+	}
 
 #define MODULE_TASKCREATE_ALL  { for (initmodule_t *fn = __module_initcall_start; fn < __module_initcall_end; fn++) \
 									if (fn->fn_tinit) \

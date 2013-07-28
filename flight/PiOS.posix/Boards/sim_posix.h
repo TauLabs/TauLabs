@@ -128,11 +128,11 @@ TIM8  |           |           |           |
 // See also pios_board.c
 //-------------------------
 #define PIOS_COM_MAX_DEVS               25
-extern uint32_t pios_com_telem_rf_id;
-extern uint32_t pios_com_gps_id;
-extern uint32_t pios_com_telem_usb_id;
-extern uint32_t pios_com_bridge_id;
-extern uint32_t pios_com_vcp_id;
+extern uintptr_t pios_com_telem_rf_id;
+extern uintptr_t pios_com_gps_id;
+extern uintptr_t pios_com_telem_usb_id;
+extern uintptr_t pios_com_bridge_id;
+extern uintptr_t pios_com_vcp_id;
 #define PIOS_COM_GPS                    (pios_com_gps_id)
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 #define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
@@ -152,18 +152,7 @@ extern uintptr_t pios_com_debug_id;
 
 #define PIOS_COM_BUFFER_SIZE 1024
 #define PIOS_UDP_RX_BUFFER_SIZE              PIOS_COM_BUFFER_SIZE
-#define PIOS_UDP_TX_BUFFER_SIZE              PIOS_COM_BUFFER_SIZE
-
-//-------------------------
-// System Settings
-// 
-// See also System_stm32f4xx.c
-//-------------------------
-//These macros are deprecated
-//please use PIOS_PERIPHERAL_APBx_CLOCK According to the table below
-//#define PIOS_MASTER_CLOCK                       
-//#define PIOS_PERIPHERAL_CLOCK                   
-//#define PIOS_PERIPHERAL_CLOCK							
+#define PIOS_UDP_TX_BUFFER_SIZE              PIOS_COM_BUFFER_SIZE					
 
 #define PIOS_SYSCLK										168000000
 //	Peripherals that belongs to APB1 are:

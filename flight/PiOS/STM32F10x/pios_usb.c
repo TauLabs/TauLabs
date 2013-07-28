@@ -104,8 +104,8 @@ static struct pios_usb_dev * PIOS_USB_alloc(void)
  * \return < 0 if initialisation failed
  * \note Applications shouldn't call this function directly, instead please use \ref PIOS_COM layer functions
  */
-static uint32_t pios_usb_com_id;
-int32_t PIOS_USB_Init(uint32_t * usb_id, const struct pios_usb_cfg * cfg)
+static uintptr_t pios_usb_com_id;
+int32_t PIOS_USB_Init(uintptr_t * usb_id, const struct pios_usb_cfg * cfg)
 {
 	PIOS_Assert(usb_id);
 	PIOS_Assert(cfg);
@@ -124,10 +124,10 @@ int32_t PIOS_USB_Init(uint32_t * usb_id, const struct pios_usb_cfg * cfg)
 	 * This is a horrible hack to make this available to
 	 * the interrupt callbacks.  This should go away ASAP.
 	 */
-	pios_usb_com_id = (uint32_t) usb_dev;
+	pios_usb_com_id = (uintptr_t) usb_dev;
 
 	/* Enable the USB Interrupts */
-	NVIC_Init(&usb_dev->cfg->irq.init);
+	NVIC_Init((NVIC_InitTypeDef*)&usb_dev->cfg->irq.init);
 
 	/* Select USBCLK source */
 	RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_1Div5);
@@ -137,7 +137,7 @@ int32_t PIOS_USB_Init(uint32_t * usb_id, const struct pios_usb_cfg * cfg)
 	USB_Init();
 	USB_SIL_Init();
 
-	*usb_id = (uint32_t) usb_dev;
+	*usb_id = (uintptr_t) usb_dev;
 
 	return 0;		/* No error */
 
@@ -210,7 +210,7 @@ int32_t PIOS_USB_Reenumerate()
 	return 0;
 }
 
-bool PIOS_USB_CableConnected(uint8_t id)
+bool PIOS_USB_CableConnected(uintptr_t id)
 {
 	struct pios_usb_dev * usb_dev = (struct pios_usb_dev *) pios_usb_com_id;
 
@@ -218,7 +218,8 @@ bool PIOS_USB_CableConnected(uint8_t id)
 		return false;
 
 	if (usb_dev->cfg->vsense.gpio != NULL)
-		return usb_dev->cfg->vsense.gpio->IDR & usb_dev->cfg->vsense.init.GPIO_Pin;
+		return GPIO_ReadInputDataBit(usb_dev->cfg->vsense.gpio, usb_dev->cfg->vsense.init.GPIO_Pin) == Bit_SET;
+
 	return sof_seen_since_reset;
 }
 
@@ -228,7 +229,7 @@ bool PIOS_USB_CableConnected(uint8_t id)
  * \return 0: interface not available
  * \note Applications shouldn't call this function directly, instead please use \ref PIOS_COM layer functions
  */
-bool PIOS_USB_CheckAvailable(uint32_t id)
+bool PIOS_USB_CheckAvailable(uintptr_t id)
 {
 	struct pios_usb_dev * usb_dev = (struct pios_usb_dev *) pios_usb_com_id;
 

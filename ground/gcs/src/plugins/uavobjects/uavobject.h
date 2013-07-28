@@ -2,6 +2,7 @@
  ******************************************************************************
  *
  * @file       uavobject.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
@@ -148,13 +149,67 @@ public slots:
     void updated();
 
 signals:
+    /**
+     * @brief Signal sent whenever any field of the object is updated
+     * @param obj
+     *
+     * objectUpdated is emitted either when a field is updated (setData), or when
+     * an "unpack" event happens, i.e. an update coming from the telemetry
+     * link. Note that objects also send signals specific to all their fields separately
+     * as well.
+     *
+     */
     void objectUpdated(UAVObject* obj);
+
+    /**
+     * @brief objectUpdatedAuto: triggered on "setData" only (Object data updated by changing the data structure)
+     *
+     * The telemetry manager listens to this signal, and sends updates on the telemetry
+     * link.
+     * @param obj
+     */
     void objectUpdatedAuto(UAVObject* obj);
+
+    /**
+     * @brief objectUpdatedManual: triggered only from the "updated" slot in uavobject
+     * The telemetry manager listens to this signal, and sends updates on the telemetry
+     * link.
+     * @param obj
+     */
     void objectUpdatedManual(UAVObject* obj);
+
+    /**
+     * @brief objectUpdatedPeriodic: not used anywhere ?
+     * @param obj
+     */
     void objectUpdatedPeriodic(UAVObject* obj);
+
+    /**
+     * @brief objectUnpacked: triggered whenever an object is unpacked
+     * (i.e. arrives from the telemetry link)
+     * @param obj
+     */
     void objectUnpacked(UAVObject* obj);
+
+    /**
+     * @brief updateRequested
+     * @param obj
+     */
     void updateRequested(UAVObject* obj);
+
+    /**
+     * @brief transactionCompleted. Triggered by a call to
+     * emitTransactionCompleted - done in telemetry.cpp whenever a
+     * transaction finishes.
+     * @param obj
+     * @param success
+     */
     void transactionCompleted(UAVObject* obj, bool success);
+
+    /**
+     * @brief newInstance
+     * @param obj
+     */
     void newInstance(UAVObject* obj);
 
 private slots:

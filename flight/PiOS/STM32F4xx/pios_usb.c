@@ -92,8 +92,8 @@ static struct pios_usb_dev * PIOS_USB_alloc(void)
  * Bind configuration to USB BSP layer
  * \return < 0 if initialisation failed
  */
-static uint32_t pios_usb_id;
-int32_t PIOS_USB_Init(uint32_t * usb_id, const struct pios_usb_cfg * cfg)
+static uintptr_t pios_usb_id;
+int32_t PIOS_USB_Init(uintptr_t * usb_id, const struct pios_usb_cfg * cfg)
 {
 	PIOS_Assert(usb_id);
 	PIOS_Assert(cfg);
@@ -110,9 +110,9 @@ int32_t PIOS_USB_Init(uint32_t * usb_id, const struct pios_usb_cfg * cfg)
 	 * This is a horrible hack to make this available to
 	 * the interrupt callbacks.  This should go away ASAP.
 	 */
-	pios_usb_id = (uint32_t) usb_dev;
+	pios_usb_id = (uintptr_t) usb_dev;
 
-	*usb_id = (uint32_t) usb_dev;
+	*usb_id = (uintptr_t) usb_dev;
 
 	return 0;		/* No error */
 
@@ -151,20 +151,20 @@ int32_t PIOS_USB_ChangeConnectionState(bool connected)
 
 /**
  * This function returns the connection status of the USB interface
- * \return 1: interface available
- * \return 0: interface not available
+ * \return true: interface available
+ * \return false: interface not available
  */
-uint32_t usb_found;
-bool PIOS_USB_CheckAvailable(uint32_t id)
+bool PIOS_USB_CheckAvailable(uintptr_t id)
 {
 	struct pios_usb_dev * usb_dev = (struct pios_usb_dev *) pios_usb_id;
 
-	if(!PIOS_USB_validate(usb_dev))
+	if (!PIOS_USB_validate(usb_dev))
 		return false;
 
-	usb_found = (usb_dev->cfg->vsense.gpio->IDR & usb_dev->cfg->vsense.init.GPIO_Pin);
-	return usb_found;
-	return usb_found != 0 && transfer_possible ? 1 : 0;
+	if (usb_dev->cfg->vsense.gpio != NULL)
+		return GPIO_ReadInputDataBit(usb_dev->cfg->vsense.gpio, usb_dev->cfg->vsense.init.GPIO_Pin) == Bit_SET;
+
+	return transfer_possible == 1;
 }
 
 /*

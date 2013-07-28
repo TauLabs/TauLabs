@@ -197,7 +197,7 @@ static void systemTask(void *parameters)
 		OPLinkStatusSet(&oplinkStatus);
 
 		// Wait until next period
-		vTaskDelayUntil(&lastSysTime, SYSTEM_UPDATE_PERIOD_MS / portTICK_RATE_MS);
+		vTaskDelayUntil(&lastSysTime, MS2TICKS(SYSTEM_UPDATE_PERIOD_MS));
 	}
 }
 

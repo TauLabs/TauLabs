@@ -103,7 +103,7 @@ int32_t TxPIDInitialize(void)
 			.instId = 0,
 			.event = 0,
 		};
-		EventPeriodicCallbackCreate(&ev, updatePIDs, SAMPLE_PERIOD_MS / portTICK_RATE_MS);
+		EventPeriodicCallbackCreate(&ev, updatePIDs, MS2TICKS(SAMPLE_PERIOD_MS));
 
 #if (TELEMETRY_UPDATE_PERIOD_MS != 0)
 		// Change StabilizationSettings update rate from OnChange to periodic
@@ -300,7 +300,7 @@ static float scale(float val, float inMin, float inMax, float outMin, float outM
 		float t = outMin;
 		outMin = outMax;
 		outMax = t;
-		val = 1.0 - val;
+		val = 1.0f - val;
 	}
 
 	return (outMax - outMin) * val + outMin;

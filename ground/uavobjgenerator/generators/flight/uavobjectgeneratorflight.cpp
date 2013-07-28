@@ -35,7 +35,7 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
 
     QString flightObjInit,objInc,objFileNames,objNames;
     qint32 sizeCalc;
-    flightCodePath = QDir( templatepath + QString("flight/targets/UAVObjects"));
+    flightCodePath = QDir( templatepath + QString("flight/UAVObjects"));
     flightOutputPath = QDir( outputpath + QString("flight") );
     flightOutputPath.mkpath(flightOutputPath.absolutePath());
 
@@ -155,7 +155,7 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
                                 .arg(m) );
 
             }
-            enums.append( QString(" } %1%2Options;\r\n")
+            enums.append( QString(" }  __attribute__((packed)) %1%2Options;\r\n")
                           .arg( info->name )
                           .arg( info->fields[n]->name ) );
         }
@@ -176,7 +176,7 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
                                 .arg(m) );
 
             }
-            enums.append( QString(" } %1%2Elem;\r\n")
+            enums.append( QString(" } __attribute__((packed)) %1%2Elem;\r\n")
                           .arg( info->name )
                           .arg( info->fields[n]->name ) );
         }

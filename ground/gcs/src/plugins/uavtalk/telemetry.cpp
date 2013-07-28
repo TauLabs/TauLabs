@@ -264,18 +264,17 @@ void Telemetry::updateObject(UAVObject* obj, quint32 eventType)
 }
 
 /**
- * Called when a transaction is completed with success(uavtalk event).
- * This happens either:
+ * Called when a transaction is completed with success (uavtalk event).
+ * This happens:
  *  - Because we received an ACK from the UAVTalk layer.
- *  - Because we received an UNPACK event from an object we had requested.
  */
 void Telemetry::transactionSuccess(UAVObject* obj)
 {
     if (updateTransactionMap(obj,false)) {
-        qDebug() << "[uavtalk.cpp] Transaction succeeded " << obj->getObjID() << " " << obj->getInstID();
+        qDebug() << "[telemetry.cpp] Transaction succeeded:" << obj->getName() << QString(QString("0x") + QString::number(obj->getObjID(), 16).toUpper()) << " Instance: " << obj->getInstID();
         obj->emitTransactionCompleted(true);
     } else {
-        qDebug() << "[telemetry.cpp] Received a ACK we were not expecting";
+        qDebug() << "[telemetry.cpp] Received an ACK we were not expecting";
     }
     // Process new object updates from queue
     processObjectQueue();
@@ -294,7 +293,7 @@ void Telemetry::transactionFailure(UAVObject* obj)
     // Here we need to check for true or false as a NAK can occur for OBJ_REQ or an
     // object set
     if (updateTransactionMap(obj, true) || updateTransactionMap(obj, false)) {
-        qDebug() << "[uavtalk.cpp] Transaction failed " << obj->getObjID() << " " << obj->getInstID();
+        qDebug() << "[telemetry.cpp] Transaction failed:" << obj->getName() << QString(QString("0x") + QString::number(obj->getObjID(), 16).toUpper()) << " Instance: " << obj->getInstID();
         obj->emitTransactionCompleted(false);
     } else {
         qDebug() << "[telemetry.cpp] Received a NACK we were not expecting";
@@ -305,16 +304,16 @@ void Telemetry::transactionFailure(UAVObject* obj)
 
 /**
  * Called when an object request transaction is completed
- * This happens either:
+ * This happens:
  *  - Because we received an UNPACK event from an object we had requested.
  */
 void Telemetry::transactionRequestCompleted(UAVObject* obj)
 {
     if (updateTransactionMap(obj,true)) {
-        qDebug() << "[uavtalk.cpp] Transaction succeeded " << obj->getObjID() << " " << obj->getInstID();
+        qDebug() << "[telemetry.cpp] Transaction succeeded:" << obj->getName() << QString(QString("0x") + QString::number(obj->getObjID(), 16).toUpper()) << " Instance:" << obj->getInstID();
         obj->emitTransactionCompleted(true);
     } else {
-        qDebug() << "[telemetry.cpp] Received a ACK we were not expecting";
+        qDebug() << "[telemetry.cpp] Received an ACK we were not expecting";
     }
     // Process new object updates from queue
     processObjectQueue();
@@ -325,6 +324,9 @@ void Telemetry::transactionRequestCompleted(UAVObject* obj)
  *  Check whether the object is in our pending transactions map. If so, remove
  *  it, otherwise return an error (false)
  * @param obj pointer to the UAV Object
+ * @param request : true if the entry in the transaction map should be an object request,
+ *                  false if the entry in the transaction map should be an object sent
+ *
  */
 bool Telemetry::updateTransactionMap(UAVObject* obj, bool request)
 {
@@ -352,7 +354,7 @@ void Telemetry::transactionTimeout(ObjectTransactionInfo *transInfo)
     // Check if more retries are pending
     if (transInfo->retriesRemaining > 0)
     {
-        qDebug() << "[telemetry.cpp] Object transaction timeout for " << transInfo->obj->getName() << ", re-requesting.";
+        qDebug() << "[telemetry.cpp] UAVObject transaction timeout for " << transInfo->obj->getName() << QString(QString("0x") + QString::number(transInfo->obj->getObjID(), 16).toUpper()) <<", re-requesting.";
         --transInfo->retriesRemaining;
         processObjectTransaction(transInfo);
         ++txRetries;
@@ -518,7 +520,7 @@ void Telemetry::processObjectQueue()
     if ( objInfo.event == EV_UNPACKED ) {
         // TODO: Check here this is for a OBJ_REQ
         if (transMap.contains(TransactionKey(objInfo.obj, true))) {
-            qDebug() << "[telemetry.cpp] EV_UNPACKED " << objInfo.obj->getName() << " inst " << objInfo.obj->getInstID();
+            qDebug() << "[telemetry.cpp] EV_UNPACKED " << objInfo.obj->getName() << QString(QString("0x") + QString::number(objInfo.obj->getObjID(), 16).toUpper()) << " Instance: " << objInfo.obj->getInstID();
             transactionRequestCompleted(objInfo.obj);
         } else
         {

@@ -90,7 +90,7 @@ static float gyro_coeff_x[4] = {0,0,0,0};
 static float gyro_coeff_y[4] = {0,0,0,0};
 static float gyro_coeff_z[4] = {0,0,0,0};
 static float gyro_temp_bias[3] = {0,0,0};
-static float Rbs[3][3] = {{0}};
+static float Rsb[3][3] = {{0}}; //! Rotation matrix that transforms from the body frame to the sensor board frame
 static int8_t rotate = 0;
 
 //! Select the algorithm to try and null out the magnetometer bias error
@@ -170,7 +170,7 @@ static void SensorsTask(void *parameters)
 			PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 			lastSysTime = xTaskGetTickCount();
 			AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
-			vTaskDelayUntil(&lastSysTime, SENSOR_PERIOD / portTICK_RATE_MS);
+			vTaskDelayUntil(&lastSysTime, MS2TICKS(SENSOR_PERIOD));
 		}
 
 		struct pios_sensor_gyro_data gyros;
@@ -239,7 +239,7 @@ static void update_accels(struct pios_sensor_accel_data *accels)
 
 	if (rotate) {
 		float accel_rotated[3];
-		rot_mult(Rbs, accels_out, accel_rotated, false);
+		rot_mult(Rsb, accels_out, accel_rotated, true);
 		accelsData.x = accel_rotated[0];
 		accelsData.y = accel_rotated[1];
 		accelsData.z = accel_rotated[2];
@@ -267,9 +267,12 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 	};
 
 	GyrosData gyrosData;
+
+	gyrosData.temperature = gyros->temperature;
+
 	if (rotate) {
 		float gyros[3];
-		rot_mult(Rbs, gyros_out, gyros, false);
+		rot_mult(Rsb, gyros_out, gyros, true);
 		gyrosData.x = gyros[0];
 		gyrosData.y = gyros[1];
 		gyrosData.z = gyros[2];
@@ -291,7 +294,6 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 		gyrosData.z -= gyrosBias.z + gyro_temp_bias[2];
 	}
 
-	gyrosData.temperature = gyros->temperature;
 	GyrosSet(&gyrosData);
 }
 
@@ -310,7 +312,7 @@ static void update_mags(struct pios_sensor_mag_data *mag)
 	MagnetometerData magData;
 	if (rotate) {
 		float mag_out[3];
-		rot_mult(Rbs, mags, mag_out, false);
+		rot_mult(Rsb, mags, mag_out, true);
 		magData.x = mag_out[0];
 		magData.y = mag_out[1];
 		magData.z = mag_out[2];
@@ -344,8 +346,10 @@ static void update_mags(struct pios_sensor_mag_data *mag)
  */
 static void update_baro(struct pios_sensor_baro_data *baro)
 {
+	if (isnan(baro->altitude) || isnan(baro->temperature) || isnan(baro->pressure))
+		return;
+
 	BaroAltitudeData baroAltitude;
-	BaroAltitudeGet(&baroAltitude);
 	baroAltitude.Temperature = baro->temperature;
 	baroAltitude.Pressure = baro->pressure;
 	baroAltitude.Altitude = baro->altitude;
@@ -553,7 +557,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] / 100.0f,
 			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] / 100.0f};
 		RPY2Quaternion(rpy, rotationQuat);
-		Quaternion2R(rotationQuat, Rbs);
+		Quaternion2R(rotationQuat, Rsb);
 		rotate = 1;
 	}
 

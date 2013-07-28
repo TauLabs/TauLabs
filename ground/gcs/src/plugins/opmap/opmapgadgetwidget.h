@@ -43,7 +43,7 @@
 #include <QMutexLocker>
 #include <QPointF>
 
-#include "opmapcontrol/opmapcontrol.h"
+#include "tlmapcontrol/tlmapcontrol.h"
 
 #include "opmap_zoom_slider_widget.h"
 #include "opmap_statusbar_widget.h"
@@ -86,6 +86,8 @@ enum opMapModeType { Normal_MapMode = 0,
 
 // ******************************************************
 
+class WindVelocityActual;
+
 class OPMapGadgetWidget : public QWidget
 {
     Q_OBJECT
@@ -118,8 +120,8 @@ public:
     void setUserImageLocation(QString userImageLocation);
     void setUserImageHorizontalScale(double userImageHorizontalScale);
     void setUserImageVerticalScale(double userImageVerticalScale);
-
     bool getGPSPosition(double &latitude, double &longitude, double &altitude);
+    void setGeoCodingLanguage(QString language);
 signals:
     void defaultLocationAndZoomChanged(double lng,double lat,double zoom);
     void overlayOpacityChanged(qreal);
@@ -142,6 +144,7 @@ private slots:
 
     void zoomIn();
     void zoomOut();
+    void updateWindspeed(UAVObject *obj);
 
     /**
     * @brief signals received from the various map plug-in widget user controls
@@ -176,7 +179,8 @@ private slots:
     void onCopyMouseLatLonToClipAct_triggered();
     void onCopyMouseLatToClipAct_triggered();
     void onCopyMouseLonToClipAct_triggered();
-    void onShowCompassAct_toggled(bool show);
+    void onShowCompassRoseAct_toggled(bool show);
+    void onShowWindCompassAction_toggled(bool show);
     void onShowDiagnostics_toggled(bool show);
     void onShowUAVInfo_toggled(bool show);
     void onShowUAVAct_toggled(bool show);
@@ -234,7 +238,7 @@ private:
     QTimer *m_updateTimer;
     QTimer *m_statusUpdateTimer;
     Ui::OPMap_Widget *m_widget;
-    mapcontrol::OPMapWidget *m_map;
+    mapcontrol::TLMapWidget *m_map;
 	ExtensionSystem::PluginManager *pm;
 	UAVObjectManager *obm;
 	UAVObjectUtilManager *obum;
@@ -250,7 +254,8 @@ private:
 	QAction *copyMouseLatLonToClipAct;
     QAction *copyMouseLatToClipAct;
     QAction *copyMouseLonToClipAct;
-    QAction *showCompassAct;
+    QAction *showCompassRoseAct;
+    QAction *showWindCompassAction;
     QAction *showDiagnostics;
     QAction *showUAVInfo;
     QAction *showHomeAct;

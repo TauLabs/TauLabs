@@ -1,60 +1,65 @@
 /*
-    FreeRTOS V7.0.1 - Copyright (C) 2011 Real Time Engineers Ltd.
-	
+    FreeRTOS V7.5.0 - Copyright (C) 2013 Real Time Engineers Ltd.
 
-	FreeRTOS supports many tools and architectures. V7.0.0 is sponsored by:
-	Atollic AB - Atollic provides professional embedded systems development 
-	tools for C/C++ development, code analysis and test automation.  
-	See http://www.atollic.com
-	
+    VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
 
     ***************************************************************************
      *                                                                       *
-     *    FreeRTOS tutorial books are available in pdf and paperback.        *
-     *    Complete, revised, and edited pdf reference manuals are also       *
-     *    available.                                                         *
+     *    FreeRTOS provides completely free yet professionally developed,    *
+     *    robust, strictly quality controlled, supported, and cross          *
+     *    platform software that has become a de facto standard.             *
      *                                                                       *
-     *    Purchasing FreeRTOS documentation will not only help you, by       *
-     *    ensuring you get running as quickly as possible and with an        *
-     *    in-depth knowledge of how to use FreeRTOS, it will also help       *
-     *    the FreeRTOS project to continue with its mission of providing     *
-     *    professional grade, cross platform, de facto standard solutions    *
-     *    for microcontrollers - completely free of charge!                  *
+     *    Help yourself get started quickly and support the FreeRTOS         *
+     *    project by purchasing a FreeRTOS tutorial book, reference          *
+     *    manual, or both from: http://www.FreeRTOS.org/Documentation        *
      *                                                                       *
-     *    >>> See http://www.FreeRTOS.org/Documentation for details. <<<     *
-     *                                                                       *
-     *    Thank you for using FreeRTOS, and thank you for your support!      *
+     *    Thank you!                                                         *
      *                                                                       *
     ***************************************************************************
-
 
     This file is part of the FreeRTOS distribution.
 
     FreeRTOS is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License (version 2) as published by the
-    Free Software Foundation AND MODIFIED BY the FreeRTOS exception.
-    >>>NOTE<<< The modification to the GPL is included to allow you to
-    distribute a combined work that includes FreeRTOS without being obliged to
-    provide the source code for proprietary components outside of the FreeRTOS
-    kernel.  FreeRTOS is distributed in the hope that it will be useful, but
-    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-    more details. You should have received a copy of the GNU General Public
-    License and the FreeRTOS license exception along with FreeRTOS; if not it
-    can be viewed here: http://www.freertos.org/a00114.html and also obtained
-    by writing to Richard Barry, contact details for whom are available on the
-    FreeRTOS WEB site.
+    Free Software Foundation >>!AND MODIFIED BY!<< the FreeRTOS exception.
+
+    >>! NOTE: The modification to the GPL is included to allow you to distribute
+    >>! a combined work that includes FreeRTOS without being obliged to provide
+    >>! the source code for proprietary components outside of the FreeRTOS
+    >>! kernel.
+
+    FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+    FOR A PARTICULAR PURPOSE.  Full license text is available from the following
+    link: http://www.freertos.org/a00114.html
 
     1 tab == 4 spaces!
 
-    http://www.FreeRTOS.org - Documentation, latest information, license and
-    contact details.
+    ***************************************************************************
+     *                                                                       *
+     *    Having a problem?  Start by reading the FAQ "My application does   *
+     *    not run, what could be wrong?"                                     *
+     *                                                                       *
+     *    http://www.FreeRTOS.org/FAQHelp.html                               *
+     *                                                                       *
+    ***************************************************************************
 
-    http://www.SafeRTOS.com - A version that is certified for use in safety
-    critical systems.
+    http://www.FreeRTOS.org - Documentation, books, training, latest versions,
+    license and Real Time Engineers Ltd. contact details.
 
-    http://www.OpenRTOS.com - Commercial support, development, porting,
-    licensing and training services.
+    http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+    including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+    compatible FAT file system, and our tiny thread aware UDP/IP stack.
+
+    http://www.OpenRTOS.com - Real Time Engineers ltd license FreeRTOS to High
+    Integrity Systems to sell under the OpenRTOS brand.  Low cost OpenRTOS
+    licenses offer ticketed support, indemnification and middleware.
+
+    http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+    engineered and independently SIL3 certified version for use in safety and
+    mission critical applications that require provable dependability.
+
+    1 tab == 4 spaces!
 */
 
 #ifndef INC_FREERTOS_H
@@ -71,6 +76,12 @@
 
 /* Application specific configuration options. */
 #include "FreeRTOSConfig.h"
+
+/* configUSE_PORT_OPTIMISED_TASK_SELECTION must be defined before portable.h
+is included as it is used by the port layer. */
+#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
+	#define configUSE_PORT_OPTIMISED_TASK_SELECTION 0
+#endif
 
 /* Definitions specific to the port being used. */
 #include "portable.h"
@@ -114,15 +125,11 @@ typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 	#error Missing definition:  INCLUDE_uxTaskPriorityGet should be defined in FreeRTOSConfig.h as either 1 or 0.  See the Configuration section of the FreeRTOS API documentation for details.
 #endif
 
-#ifndef INCLUDE_vTaskDelete		
+#ifndef INCLUDE_vTaskDelete
 	#error Missing definition:  INCLUDE_vTaskDelete		 should be defined in FreeRTOSConfig.h as either 1 or 0.  See the Configuration section of the FreeRTOS API documentation for details.
 #endif
 
-#ifndef INCLUDE_vTaskCleanUpResources
-	#error Missing definition:  INCLUDE_vTaskCleanUpResources should be defined in FreeRTOSConfig.h as either 1 or 0.  See the Configuration section of the FreeRTOS API documentation for details.
-#endif
-
-#ifndef INCLUDE_vTaskSuspend	
+#ifndef INCLUDE_vTaskSuspend
 	#error Missing definition:  INCLUDE_vTaskSuspend	 should be defined in FreeRTOSConfig.h as either 1 or 0.  See the Configuration section of the FreeRTOS API documentation for details.
 #endif
 
@@ -138,12 +145,36 @@ typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 	#error Missing definition:  configUSE_16_BIT_TICKS should be defined in FreeRTOSConfig.h as either 1 or 0.  See the Configuration section of the FreeRTOS API documentation for details.
 #endif
 
+#ifndef INCLUDE_xTaskGetIdleTaskHandle
+	#define INCLUDE_xTaskGetIdleTaskHandle 0
+#endif
+
+#ifndef INCLUDE_xTimerGetTimerDaemonTaskHandle
+	#define INCLUDE_xTimerGetTimerDaemonTaskHandle 0
+#endif
+
+#ifndef INCLUDE_xQueueGetMutexHolder
+	#define INCLUDE_xQueueGetMutexHolder 0
+#endif
+
+#ifndef INCLUDE_xSemaphoreGetMutexHolder
+	#define INCLUDE_xSemaphoreGetMutexHolder INCLUDE_xQueueGetMutexHolder
+#endif
+
+#ifndef INCLUDE_pcTaskGetTaskName
+	#define INCLUDE_pcTaskGetTaskName 0
+#endif
+
 #ifndef configUSE_APPLICATION_TASK_TAG
 	#define configUSE_APPLICATION_TASK_TAG 0
 #endif
 
 #ifndef INCLUDE_uxTaskGetStackHighWaterMark
 	#define INCLUDE_uxTaskGetStackHighWaterMark 0
+#endif
+
+#ifndef INCLUDE_eTaskGetState
+	#define INCLUDE_eTaskGetState 0
 #endif
 
 #ifndef configUSE_RECURSIVE_MUTEXES
@@ -155,7 +186,6 @@ typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 #endif
 
 #ifndef configUSE_TIMERS
-#error HERE
 	#define configUSE_TIMERS 0
 #endif
 
@@ -189,6 +219,9 @@ typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 
 #ifndef configASSERT
 	#define configASSERT( x )
+	#define configASSERT_DEFINED 0
+#else
+	#define configASSERT_DEFINED 1
 #endif
 
 /* The timers module relies on xTaskGetSchedulerState(). */
@@ -225,16 +258,26 @@ typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 	#define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedStatusValue ) ( void ) uxSavedStatusValue
 #endif
 
+#ifndef portCLEAN_UP_TCB
+	#define portCLEAN_UP_TCB( pxTCB ) ( void ) pxTCB
+#endif
+
+#ifndef portSETUP_TCB
+	#define portSETUP_TCB( pxTCB ) ( void ) pxTCB
+#endif
 
 #ifndef configQUEUE_REGISTRY_SIZE
 	#define configQUEUE_REGISTRY_SIZE 0U
 #endif
 
-#if ( configQUEUE_REGISTRY_SIZE < 1U )
+#if ( configQUEUE_REGISTRY_SIZE < 1 )
 	#define vQueueAddToRegistry( xQueue, pcName )
 	#define vQueueUnregisterQueue( xQueue )
 #endif
 
+#ifndef portPOINTER_SIZE_TYPE
+	#define portPOINTER_SIZE_TYPE unsigned long
+#endif
 
 /* Remove any unused trace macros. */
 #ifndef traceSTART
@@ -255,10 +298,43 @@ typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 	#define traceTASK_SWITCHED_IN()
 #endif
 
+#ifndef traceINCREASE_TICK_COUNT
+	/* Called before stepping the tick count after waking from tickless idle
+	sleep. */
+	#define traceINCREASE_TICK_COUNT( x )
+#endif
+
+#ifndef traceLOW_POWER_IDLE_BEGIN
+	/* Called immediately before entering tickless idle. */
+	#define traceLOW_POWER_IDLE_BEGIN()
+#endif
+
+#ifndef	traceLOW_POWER_IDLE_END
+	/* Called when returning to the Idle task after a tickless idle. */
+	#define traceLOW_POWER_IDLE_END()
+#endif
+
 #ifndef traceTASK_SWITCHED_OUT
 	/* Called before a task has been selected to run.  pxCurrentTCB holds a pointer
 	to the task control block of the task being switched out. */
 	#define traceTASK_SWITCHED_OUT()
+#endif
+
+#ifndef traceTASK_PRIORITY_INHERIT
+	/* Called when a task attempts to take a mutex that is already held by a
+	lower priority task.  pxTCBOfMutexHolder is a pointer to the TCB of the task
+	that holds the mutex.  uxInheritedPriority is the priority the mutex holder
+	will inherit (the priority of the task that is attempting to obtain the
+	muted. */
+	#define traceTASK_PRIORITY_INHERIT( pxTCBOfMutexHolder, uxInheritedPriority )
+#endif
+
+#ifndef traceTASK_PRIORITY_DISINHERIT
+	/* Called when a task releases a mutex, the holding of which had resulted in
+	the task inheriting the priority of a higher priority task.
+	pxTCBOfMutexHolder is a pointer to the TCB of the task that is releasing the
+	mutex.  uxOriginalPriority is the task's configured (base) priority. */
+	#define traceTASK_PRIORITY_DISINHERIT( pxTCBOfMutexHolder, uxOriginalPriority )
 #endif
 
 #ifndef traceBLOCKING_ON_QUEUE_RECEIVE
@@ -283,12 +359,16 @@ typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 
 /* The following event macros are embedded in the kernel API calls. */
 
-#ifndef traceQUEUE_CREATE	
+#ifndef traceMOVED_TASK_TO_READY_STATE
+	#define traceMOVED_TASK_TO_READY_STATE( pxTCB )
+#endif
+
+#ifndef traceQUEUE_CREATE
 	#define traceQUEUE_CREATE( pxNewQueue )
 #endif
 
 #ifndef traceQUEUE_CREATE_FAILED
-	#define traceQUEUE_CREATE_FAILED()
+	#define traceQUEUE_CREATE_FAILED( ucQueueType )
 #endif
 
 #ifndef traceCREATE_MUTEX
@@ -339,6 +419,10 @@ typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 	#define traceQUEUE_PEEK( pxQueue )
 #endif
 
+#ifndef traceQUEUE_PEEK_FROM_ISR
+	#define traceQUEUE_PEEK_FROM_ISR( pxQueue )
+#endif
+
 #ifndef traceQUEUE_RECEIVE_FAILED
 	#define traceQUEUE_RECEIVE_FAILED( pxQueue )
 #endif
@@ -357,6 +441,10 @@ typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 
 #ifndef traceQUEUE_RECEIVE_FROM_ISR_FAILED
 	#define traceQUEUE_RECEIVE_FROM_ISR_FAILED( pxQueue )
+#endif
+
+#ifndef traceQUEUE_PEEK_FROM_ISR_FAILED
+	#define traceQUEUE_PEEK_FROM_ISR_FAILED( pxQueue )
 #endif
 
 #ifndef traceQUEUE_DELETE
@@ -464,6 +552,61 @@ typedef portBASE_TYPE (*pdTASK_HOOK_CODE)( void * );
 #ifndef vPortFreeAligned
 	#define vPortFreeAligned( pvBlockToFree ) vPortFree( pvBlockToFree )
 #endif
+
+#ifndef portSUPPRESS_TICKS_AND_SLEEP
+	#define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )
+#endif
+
+#ifndef configEXPECTED_IDLE_TIME_BEFORE_SLEEP
+	#define configEXPECTED_IDLE_TIME_BEFORE_SLEEP 2
+#endif
+
+#if configEXPECTED_IDLE_TIME_BEFORE_SLEEP < 2
+	#error configEXPECTED_IDLE_TIME_BEFORE_SLEEP must not be less than 2
+#endif
+
+#ifndef configUSE_TICKLESS_IDLE
+	#define configUSE_TICKLESS_IDLE 0
+#endif
+
+#ifndef configPRE_SLEEP_PROCESSING
+	#define configPRE_SLEEP_PROCESSING( x )
+#endif
+
+#ifndef configPOST_SLEEP_PROCESSING
+	#define configPOST_SLEEP_PROCESSING( x )
+#endif
+
+#ifndef configUSE_QUEUE_SETS
+	#define configUSE_QUEUE_SETS 0
+#endif
+
+#ifndef portTASK_USES_FLOATING_POINT
+	#define portTASK_USES_FLOATING_POINT()
+#endif
+
+#ifndef configUSE_TIME_SLICING
+	#define configUSE_TIME_SLICING 1
+#endif
+
+#ifndef configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS
+	#define configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS 0
+#endif
+
+#ifndef configUSE_NEWLIB_REENTRANT
+	#define configUSE_NEWLIB_REENTRANT 0
+#endif
+
+#ifndef configUSE_STATS_FORMATTING_FUNCTIONS
+	#define configUSE_STATS_FORMATTING_FUNCTIONS 0
+#endif
+
+#ifndef portASSERT_IF_INTERRUPT_PRIORITY_INVALID
+	#define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()
+#endif
+
+/* For backward compatability. */
+#define eTaskStateGet eTaskGetState
 
 #endif /* INC_FREERTOS_H */
 

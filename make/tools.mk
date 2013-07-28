@@ -75,17 +75,17 @@ qt_sdk_clean:
 	$(V1) [ ! -d "$(QT_SDK_DIR)" ] || $(RM) -rf $(QT_SDK_DIR)
 
 # Set up ARM (STM32) SDK
-ARM_SDK_DIR := $(TOOLS_DIR)/gcc-arm-none-eabi-4_7-2012q4
+ARM_SDK_DIR := $(TOOLS_DIR)/gcc-arm-none-eabi-4_7-2013q1
 
 .PHONY: arm_sdk_install
 ifeq ($(UNAME), Linux)
 # Linux
-arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.7/4.7-2012-q4-major/+download/gcc-arm-none-eabi-4_7-2012q4-20121208-linux.tar.bz2
+arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.7/4.7-2013-q1-update/+download/gcc-arm-none-eabi-4_7-2013q1-20130313-linux.tar.bz2
 endif
 
 ifeq ($(UNAME), Darwin)
 # Mac
-arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.7/4.7-2012-q4-major/+download/gcc-arm-none-eabi-4_7-2012q4-20121208-mac.tar.bz2
+arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.7/4.7-2013-q1-update/+download/gcc-arm-none-eabi-4_7-2013q1-20130313-mac.tar.bz2
 endif
 
 arm_sdk_install: ARM_SDK_FILE := $(notdir $(ARM_SDK_URL))
@@ -392,7 +392,7 @@ gtest_install: gtest_clean
         # download the file unconditionally since google code gives back 404
         # for HTTP HEAD requests which are used when using the wget -N option
 	$(V1) [ ! -f "$(DL_DIR)/$(GTEST_FILE)" ] || $(RM) -f "$(DL_DIR)/$(GTEST_FILE)"
-	$(V1) wget -P "$(DL_DIR)" --trust-server-name "$(GTEST_URL)"
+	$(V1) wget -P "$(DL_DIR)" "$(GTEST_URL)"
 
         # extract the source
 	$(V1) [ ! -d "$(GTEST_DIR)" ] || $(RM) -rf "$(GTEST_DIR)"
@@ -464,3 +464,45 @@ astyle_clean:
 	$(V1) [ ! -d "$(ASTYLE_DIR)" ] || $(RM) -r "$(ASTYLE_DIR)"
 	$(V0) @echo " CLEAN        $(ASTYLE_BUILD_DIR)"
 	$(V1) [ ! -d "$(ASTYLE_BUILD_DIR)" ] || $(RM) -r "$(ASTYLE_BUILD_DIR)"
+
+
+# Set up libkml
+
+.PHONY: libkml_install
+libkml_install: | $(DL_DIR) $(TOOLS_DIR)
+libkml_install: LIBKML_URL := https://github.com/kubark42/libkml.git
+libkml_install: LIBKML_REV  := dac5550be5180111c8db7be6b73c83831e8f59e1
+libkml_install: LIBKML_INSTALL_DIR := $(TOOLS_DIR)/libkml
+libkml_install: LIBKML_BUILD_DIR := $(DL_DIR)/libkml-build
+libkml_install: libkml_clean
+        # download the source
+	$(V0) @echo " DOWNLOAD     $(LIBKML_URL) @ $(LIBKML_REV)"
+	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -rf "$(LIBKML_BUILD_DIR)"
+	$(V1) mkdir -p "$(LIBKML_BUILD_DIR)"
+	$(V1) git clone --no-checkout $(LIBKML_URL) "$(LIBKML_BUILD_DIR)"
+	$(V1) ( \
+	  cd $(LIBKML_BUILD_DIR) ; \
+	  git checkout -q $(LIBKML_REV) ; \
+	)
+
+        # build and install
+	$(V0) @echo " BUILD        $(LIBKML_INSTALL_DIR)"
+	$(V1) mkdir -p "$(LIBKML_BUILD_DIR)/build"
+	$(V1) ( \
+	  cd $(LIBKML_BUILD_DIR) ; \
+	  ./autogen.sh ; \
+	  cd $(LIBKML_BUILD_DIR)/build ; \
+	  ../configure --prefix="$(LIBKML_INSTALL_DIR)"; \
+	  $(MAKE) ; \
+	  $(MAKE) install ; \
+	)
+
+        # delete the extracted source when we're done
+	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -rf "$(LIBKML_BUILD_DIR)"
+
+.PHONY: libkml_clean
+libkml_clean:
+	$(V0) @echo " CLEAN        $(LIBKML_INSTALL_DIR)"
+	$(V1) [ ! -d "$(LIBKML_INSTALL_DIR)" ] || $(RM) -rf "$(LIBKML_INSTALL_DIR)"
+	$(V0) @echo " CLEAN        $(LIBKML_BUILD_DIR)"
+	$(V1) [ ! -d "$(LIBKML_BUILD_DIR)" ] || $(RM) -rf "$(LIBKML_BUILD_DIR)"

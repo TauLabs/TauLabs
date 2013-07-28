@@ -608,7 +608,7 @@ static void PIOS_LSM303_Task(void *parameters)
 {
 	while (1) {
 		//Wait for data ready interrupt
-		if (xSemaphoreTake(pios_lsm303_dev->data_ready_sema, 5 * portTICK_RATE_MS) != pdTRUE) {
+		if (xSemaphoreTake(pios_lsm303_dev->data_ready_sema, MS2TICKS(5)) != pdTRUE) {
 			// If this expires kick start the sensor
 			struct pios_lsm303_accel_data data;
 			PIOS_LSM303_Accel_ReadData(&data);

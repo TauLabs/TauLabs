@@ -25,15 +25,13 @@
 
 # Set bash shell for all OSs except MS Windows
 ifndef COMSPEC
-SHELL := /bin/bash
+SHELL := bash
 endif
 
-WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
-TOP      := $(realpath $(WHEREAMI)/../../../)
-include $(TOP)/make/firmware-defs.mk
-include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
+include $(MAKE_INC_DIR)/firmware-defs.mk
+include $(BOARD_INFO_DIR)/board-info.mk
 
-toprel = $(subst $(realpath $(TOP))/,,$(abspath $(1)))
+toprel = $(subst $(realpath $(ROOT_DIR))/,,$(abspath $(1)))
 
 .PHONY: FORCE
 FORCE:
@@ -41,21 +39,21 @@ FORCE:
 .PHONY: bin
 bin: $(OUTDIR)/$(TARGET).bin
 
-BL_BIN := $(TOP)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
-FW_BIN := $(TOP)/build/fw_$(BOARD_NAME)/fw_$(BOARD_NAME).bin
+BL_BIN := $(ROOT_DIR)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
+FW_BIN := $(ROOT_DIR)/build/fw_$(BOARD_NAME)/fw_$(BOARD_NAME).bin
 FWINFO_BIN := $(FW_BIN).firmwareinfo.bin
 
 # force this target as FW_PRE_PAD could have been changed without us knowing
 FW_PRE_PAD := $(shell echo $$[$(FW_BANK_BASE)-$(BL_BANK_BASE)-$(BL_BANK_SIZE)])
 $(OUTDIR)/$(TARGET).fw_pre.pad: FORCE
 	$(V0) @echo $(MSG_PADDING) $(call toprel, $@)
-	$(V1) dd if=/dev/zero count=$(FW_PRE_PAD) bs=1 2> /dev/null | tr '\000' '\377' > $@ && [ $${PIPESTATUS[0]} -eq "0" ]
+	$(V1) dd if=/dev/zero count=$(FW_PRE_PAD) bs=1 2> /dev/null | LC_CTYPE=c tr '\000' '\377' > $@ && [ $${PIPESTATUS[0]} -eq "0" ]
 
 # force this target as FW_POST_PAD could have been changed without us knowing
 FW_POST_PAD := $(shell echo $$[$(FW_BANK_SIZE)-$(FW_DESC_SIZE)-$(FW_DESC_SIZE)-$(shell wc -c < $(FW_BIN))])
 $(OUTDIR)/$(TARGET).fw_post.pad: FORCE
 	$(V0) @echo $(MSG_PADDING) $(call toprel, $@)
-	$(V1) dd if=/dev/zero count=$(FW_POST_PAD) bs=1 2> /dev/null | tr '\000' '\377' > $@ && [ $${PIPESTATUS[0]} -eq "0" ]
+	$(V1) dd if=/dev/zero count=$(FW_POST_PAD) bs=1 2> /dev/null | LC_CTYPE=c tr '\000' '\377' > $@ && [ $${PIPESTATUS[0]} -eq "0" ]
 
 # force this target as $(BL_BIN), $(FW_BIN) and $(FWINFO_BIN) could have been changed without us knowing
 # add $(FWINFO_BIN) after $(FW_BIN) to imitate flash contents after manual firmware upload via gcs

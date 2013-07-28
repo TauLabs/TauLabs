@@ -1,4 +1,4 @@
-INCLUDEPATH += $$PWD
+INCLUDEPATH *= $$PWD
 DEPENDPATH += $$PWD
 
 HEADERS += qxtdiscoverableservice.h

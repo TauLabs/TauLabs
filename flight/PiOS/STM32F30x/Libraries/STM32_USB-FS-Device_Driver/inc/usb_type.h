@@ -19,12 +19,19 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usb_conf.h"
+#include <stdbool.h>
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 #ifndef NULL
 #define NULL ((void *)0)
 #endif
+
+typedef enum
+{
+  FALSE = false, TRUE  = !FALSE
+}
+usb_fs_device_driver_bool;
 
 #ifndef __STM32F30x_H
 
@@ -53,18 +60,15 @@ typedef volatile unsigned short const    vuc16;  /* Read Only */
 typedef volatile unsigned char  const    vuc8;   /* Read Only */
 
 
-typedef enum
-{
-  FALSE = 0, TRUE  = !FALSE
-}
-bool;
 
 typedef enum { RESET = 0, SET   = !RESET } FlagStatus, ITStatus;
 
 typedef enum { DISABLE = 0, ENABLE  = !DISABLE} FunctionalState;
 
 typedef enum { ERROR = 0, SUCCESS  = !ERROR} ErrorStatus;
+
 #endif
+
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 /* External variables --------------------------------------------------------*/

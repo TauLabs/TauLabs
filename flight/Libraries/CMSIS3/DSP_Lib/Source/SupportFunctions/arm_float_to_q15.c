@@ -96,22 +96,22 @@ void arm_float_to_q15(
     /* convert from float to q15 and then store the results in the destination buffer */
     in = *pIn++;
     in = (in * 32768.0f);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = (q15_t) (__SSAT((q31_t) (in), 16));
 
     in = *pIn++;
     in = (in * 32768.0f);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = (q15_t) (__SSAT((q31_t) (in), 16));
 
     in = *pIn++;
     in = (in * 32768.0f);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = (q15_t) (__SSAT((q31_t) (in), 16));
 
     in = *pIn++;
     in = (in * 32768.0f);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = (q15_t) (__SSAT((q31_t) (in), 16));
 
 #else
@@ -141,7 +141,7 @@ void arm_float_to_q15(
     /* convert from float to q15 and then store the results in the destination buffer */
     in = *pIn++;
     in = (in * 32768.0f);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = (q15_t) (__SSAT((q31_t) (in), 16));
 
 #else
@@ -172,7 +172,7 @@ void arm_float_to_q15(
     /* convert from float to q15 and then store the results in the destination buffer */
     in = *pIn++;
     in = (in * 32768.0f);
-    in += in > 0 ? 0.5f : -0.5f;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = (q15_t) (__SSAT((q31_t) (in), 16));
 
 #else

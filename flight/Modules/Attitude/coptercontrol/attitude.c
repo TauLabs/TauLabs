@@ -98,7 +98,7 @@ static bool accel_filter_enabled = false;
 static float yawBiasRate = 0;
 static const float IDG_GYRO_GAIN = 0.42;
 static float q[4] = {1,0,0,0};
-static float R[3][3];
+static float Rsb[3][3]; // Rotation matrix which transforms from the body frame to the sensor board frame
 static int8_t rotate = 0;
 static bool zero_during_arming = false;
 static bool bias_correct_gyro = true;
@@ -164,7 +164,7 @@ int32_t AttitudeInitialize(void)
 	q[3] = 0;
 	for(uint8_t i = 0; i < 3; i++)
 		for(uint8_t j = 0; j < 3; j++)
-			R[i][j] = 0;
+			Rsb[i][j] = 0;
 	
 	trim_requested = false;
 	
@@ -286,6 +286,16 @@ static void AttitudeTask(void *parameters)
 			retval = updateSensorsCC3D(&accels, &gyros);
 		else
 			retval = updateSensors(&accels, &gyros);
+
+		// During power on set to angle from accel
+		if (complimentary_filter_status == CF_POWERON) {
+			float RPY[3];
+			float theta = atan2f(accels.x, -accels.z);
+			RPY[1] = theta * RAD2DEG;
+			RPY[0] = atan2f(-accels.y, -accels.z / cosf(theta)) * RAD2DEG;
+			RPY[2] = 0;
+			RPY2Quaternion(RPY, q);
+		}
 
 		// Only update attitude when sensor data is good
 		if (retval != 0)
@@ -415,7 +425,7 @@ static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * ac
 
 	if (rotate) {
 		float accel_rotated[3];
-		rot_mult(R, accels_out, accel_rotated, false);
+		rot_mult(Rsb, accels_out, accel_rotated, true);
 		accelsData->x = accel_rotated[0];
 		accelsData->y = accel_rotated[1];
 		accelsData->z = accel_rotated[2];
@@ -443,7 +453,7 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 
 	if (rotate) {
 		float gyros[3];
-		rot_mult(R, gyros_out, gyros, false);
+		rot_mult(Rsb, gyros_out, gyros, true);
 		gyrosData->x = gyros[0];
 		gyrosData->y = gyros[1];
 		gyrosData->z = gyros[2];
@@ -566,7 +576,7 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	static float accels_filtered[3] = {0,0,0};
 	static float grot_filtered[3] = {0,0,0};
 
-	dT = (thisSysTime == lastSysTime) ? 0.001 : (portMAX_DELAY & (thisSysTime - lastSysTime)) / portTICK_RATE_MS / 1000.0f;
+	dT = (thisSysTime == lastSysTime) ? 0.001f : TICKS2MS(portMAX_DELAY & (thisSysTime - lastSysTime)) / 1000.0f;
 	lastSysTime = thisSysTime;
 	
 	// Bad practice to assume structure order, but saves memory
@@ -718,8 +728,8 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	yawBiasRate = attitudeSettings.YawBiasRate;
 
 	// Calculate accel filter alpha, in the same way as for gyro data in stabilization module.
-	const float fakeDt = 0.0025;
-	if(attitudeSettings.AccelTau < 0.0001) {
+	const float fakeDt = 0.0025f;
+	if(attitudeSettings.AccelTau < 0.0001f) {
 		accel_alpha = 0;   // not trusting this to resolve to 0
 		accel_filter_enabled = false;
 	} else {
@@ -741,14 +751,14 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 		
 		// Shouldn't be used but to be safe
 		float rotationQuat[4] = {1,0,0,0};
-		Quaternion2R(rotationQuat, R);
+		Quaternion2R(rotationQuat, Rsb);
 	} else {
 		float rotationQuat[4];
 		const float rpy[3] = {attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] / 100.0f,
 			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] / 100.0f,
 			attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] / 100.0f};
 		RPY2Quaternion(rpy, rotationQuat);
-		Quaternion2R(rotationQuat, R);
+		Quaternion2R(rotationQuat, Rsb);
 		rotate = 1;
 	}
 	
@@ -769,7 +779,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 
 		// Inverse rotation of sensor data, from body frame into sensor frame
 		float a_sensor[3];
-		rot_mult(R, a_body, a_sensor, true);
+		rot_mult(Rsb, a_body, a_sensor, false);
 
 		// Temporary variables
 		float psi, theta, phi;
@@ -780,7 +790,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 		float sP = sinf(psi);
 
 		// In case psi is too small, we have to use a different equation to solve for theta
-		if (fabs(psi) > PI / 2)
+		if (fabsf(psi) > PI / 2)
 			theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (sP * a_sensor[2]));
 		else

@@ -29,6 +29,9 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "pios.h"
+
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
+
 #include "pios_flash_jedec_priv.h"
 
 #define JEDEC_WRITE_ENABLE           0x06
@@ -63,7 +66,7 @@ struct jedec_flash_dev {
 	uint8_t memorytype;
 	uint8_t capacity;
 
-	const struct pios_flash_jedec_cfg * cfg;
+	const struct pios_flash_jedec_cfg *cfg;
 #if defined(FLASH_FREERTOS)
 	xSemaphoreHandle transaction_lock;
 #endif
@@ -71,38 +74,55 @@ struct jedec_flash_dev {
 };
 
 //! Private functions
-static int32_t PIOS_Flash_Jedec_Validate(struct jedec_flash_dev * flash_dev);
-static struct jedec_flash_dev * PIOS_Flash_Jedec_alloc(void);
+static int32_t PIOS_Flash_Jedec_Validate(struct jedec_flash_dev *flash_dev);
+static struct jedec_flash_dev *PIOS_Flash_Jedec_alloc(void);
 
-static int32_t PIOS_Flash_Jedec_ReadID(struct jedec_flash_dev * flash_dev);
-static int32_t PIOS_Flash_Jedec_ReadStatus(struct jedec_flash_dev * flash_dev);
-static int32_t PIOS_Flash_Jedec_ClaimBus(struct jedec_flash_dev * flash_dev);
-static int32_t PIOS_Flash_Jedec_ReleaseBus(struct jedec_flash_dev * flash_dev);
-static int32_t PIOS_Flash_Jedec_WriteEnable(struct jedec_flash_dev * flash_dev);
-static int32_t PIOS_Flash_Jedec_Busy(struct jedec_flash_dev * flash_dev);
+static int32_t PIOS_Flash_Jedec_ReadID(struct jedec_flash_dev *flash_dev);
+static int32_t PIOS_Flash_Jedec_ReadStatus(struct jedec_flash_dev *flash_dev);
+static int32_t PIOS_Flash_Jedec_ClaimBus(struct jedec_flash_dev *flash_dev);
+static int32_t PIOS_Flash_Jedec_ReleaseBus(struct jedec_flash_dev *flash_dev);
+static int32_t PIOS_Flash_Jedec_WriteEnable(struct jedec_flash_dev *flash_dev);
+static int32_t PIOS_Flash_Jedec_Busy(struct jedec_flash_dev *flash_dev);
 
+#if defined(PIOS_INCLUDE_FREERTOS)
 /**
  * @brief Allocate a new device
  */
-static struct jedec_flash_dev * PIOS_Flash_Jedec_alloc(void)
+static struct jedec_flash_dev *PIOS_Flash_Jedec_alloc(void)
 {
-	struct jedec_flash_dev * flash_dev;
+	struct jedec_flash_dev *flash_dev;
 
 	flash_dev = (struct jedec_flash_dev *)pvPortMalloc(sizeof(*flash_dev));
 	if (!flash_dev) return (NULL);
 
-	flash_dev->claimed = false;
 	flash_dev->magic = PIOS_JEDEC_DEV_MAGIC;
-#if defined(FLASH_FREERTOS)
-	flash_dev->transaction_lock = xSemaphoreCreateMutex();
-#endif
+
 	return(flash_dev);
 }
+#else
+#ifndef PIOS_JEDEC_MAX_DEVS
+#define PIOS_JEDEC_MAX_DEVS 1
+#endif
+static struct jedec_flash_dev pios_jedec_flash_devs[PIOS_JEDEC_MAX_DEVS];
+static uint8_t pios_jedec_flash_num_devs;
+static struct jedec_flash_dev *PIOS_Flash_Jedec_alloc(void)
+{
+	struct jedec_flash_dev *flash_dev;
+
+	if (pios_jedec_flash_num_devs >= PIOS_JEDEC_MAX_DEVS)
+		return NULL;
+
+	flash_dev = &pios_jedec_flash_devs[pios_jedec_flash_num_devs++];
+	flash_dev->magic = PIOS_JEDEC_DEV_MAGIC;
+
+	return flash_dev;
+}
+#endif	/* PIOS_INCLUDE_FREERTOS */
 
 /**
  * @brief Validate the handle to the spi device
  */
-static int32_t PIOS_Flash_Jedec_Validate(struct jedec_flash_dev * flash_dev) {
+static int32_t PIOS_Flash_Jedec_Validate(struct jedec_flash_dev *flash_dev) {
 	if (flash_dev == NULL)
 		return -1;
 	if (flash_dev->magic != PIOS_JEDEC_DEV_MAGIC)
@@ -115,11 +135,16 @@ static int32_t PIOS_Flash_Jedec_Validate(struct jedec_flash_dev * flash_dev) {
 /**
  * @brief Initialize the flash device and enable write access
  */
-int32_t PIOS_Flash_Jedec_Init(uintptr_t * flash_id, uint32_t spi_id, uint32_t slave_num, const struct pios_flash_jedec_cfg * cfg)
+int32_t PIOS_Flash_Jedec_Init(uintptr_t *chip_id, uint32_t spi_id, uint32_t slave_num, const struct pios_flash_jedec_cfg *cfg)
 {
-	struct jedec_flash_dev * flash_dev = PIOS_Flash_Jedec_alloc();
+	struct jedec_flash_dev *flash_dev = PIOS_Flash_Jedec_alloc();
 	if (flash_dev == NULL)
 		return -1;
+
+	flash_dev->claimed = false;
+#if defined(FLASH_FREERTOS)
+	flash_dev->transaction_lock = xSemaphoreCreateMutex();
+#endif
 
 	flash_dev->spi_id = spi_id;
 	flash_dev->slave_num = slave_num;
@@ -134,7 +159,7 @@ int32_t PIOS_Flash_Jedec_Init(uintptr_t * flash_id, uint32_t spi_id, uint32_t sl
 	}
 
 	/* Give back a handle to this flash device */
-	*flash_id = (uintptr_t) flash_dev;
+	*chip_id = (uintptr_t) flash_dev;
 
 	return 0;
 }
@@ -144,7 +169,7 @@ int32_t PIOS_Flash_Jedec_Init(uintptr_t * flash_id, uint32_t spi_id, uint32_t sl
  * @brief Claim the SPI bus for flash use and assert CS pin
  * @return 0 for sucess, -1 for failure to get semaphore
  */
-static int32_t PIOS_Flash_Jedec_ClaimBus(struct jedec_flash_dev * flash_dev)
+static int32_t PIOS_Flash_Jedec_ClaimBus(struct jedec_flash_dev *flash_dev)
 {
 	if (PIOS_SPI_ClaimBus(flash_dev->spi_id) < 0)
 		return -1;
@@ -158,7 +183,7 @@ static int32_t PIOS_Flash_Jedec_ClaimBus(struct jedec_flash_dev * flash_dev)
 /**
  * @brief Release the SPI bus sempahore and ensure flash chip not using bus
  */
-static int32_t PIOS_Flash_Jedec_ReleaseBus(struct jedec_flash_dev * flash_dev)
+static int32_t PIOS_Flash_Jedec_ReleaseBus(struct jedec_flash_dev *flash_dev)
 {
 	PIOS_SPI_RC_PinSet(flash_dev->spi_id, flash_dev->slave_num, 1);
 	PIOS_SPI_ReleaseBus(flash_dev->spi_id);
@@ -170,7 +195,7 @@ static int32_t PIOS_Flash_Jedec_ReleaseBus(struct jedec_flash_dev * flash_dev)
  * @brief Returns if the flash chip is busy
  * @returns -1 for failure, 0 for not busy, 1 for busy
  */
-static int32_t PIOS_Flash_Jedec_Busy(struct jedec_flash_dev * flash_dev)
+static int32_t PIOS_Flash_Jedec_Busy(struct jedec_flash_dev *flash_dev)
 {
 	int32_t status = PIOS_Flash_Jedec_ReadStatus(flash_dev);
 	if (status < 0)
@@ -182,12 +207,14 @@ static int32_t PIOS_Flash_Jedec_Busy(struct jedec_flash_dev * flash_dev)
  * @brief Execute the write enable instruction and returns the status
  * @returns 0 if successful, -1 if unable to claim bus
  */
-static int32_t PIOS_Flash_Jedec_WriteEnable(struct jedec_flash_dev * flash_dev)
+static int32_t PIOS_Flash_Jedec_WriteEnable(struct jedec_flash_dev *flash_dev)
 {
 	if (PIOS_Flash_Jedec_ClaimBus(flash_dev) != 0)
 		return -1;
 
-	uint8_t out[] = {JEDEC_WRITE_ENABLE};
+	uint8_t out[] = {
+		JEDEC_WRITE_ENABLE,
+	};
 	PIOS_SPI_TransferBlock(flash_dev->spi_id,out,NULL,sizeof(out),NULL);
 	PIOS_Flash_Jedec_ReleaseBus(flash_dev);
 
@@ -198,12 +225,15 @@ static int32_t PIOS_Flash_Jedec_WriteEnable(struct jedec_flash_dev * flash_dev)
 /**
  * @brief Read the status register from flash chip and return it
  */
-static int32_t PIOS_Flash_Jedec_ReadStatus(struct jedec_flash_dev * flash_dev)
+static int32_t PIOS_Flash_Jedec_ReadStatus(struct jedec_flash_dev *flash_dev)
 {
 	if (PIOS_Flash_Jedec_ClaimBus(flash_dev) < 0)
 		return -1;
 
-	uint8_t out[2] = {JEDEC_READ_STATUS, 0};
+	uint8_t out[2] = {
+		JEDEC_READ_STATUS,
+		0,
+	};
 	uint8_t in[2] = {0,0};
 	if (PIOS_SPI_TransferBlock(flash_dev->spi_id,out,in,sizeof(out),NULL) < 0) {
 		PIOS_Flash_Jedec_ReleaseBus(flash_dev);
@@ -218,12 +248,17 @@ static int32_t PIOS_Flash_Jedec_ReadStatus(struct jedec_flash_dev * flash_dev)
 /**
  * @brief Read the status register from flash chip and return it
  */
-static int32_t PIOS_Flash_Jedec_ReadID(struct jedec_flash_dev * flash_dev)
+static int32_t PIOS_Flash_Jedec_ReadID(struct jedec_flash_dev *flash_dev)
 {
 	if (PIOS_Flash_Jedec_ClaimBus(flash_dev) < 0)
 		return -2;
 
-	uint8_t out[] = {JEDEC_DEVICE_ID, 0, 0, 0};
+	uint8_t out[] = {
+		JEDEC_DEVICE_ID,
+		0,
+		0,
+		0,
+	};
 	uint8_t in[4];
 	if (PIOS_SPI_TransferBlock(flash_dev->spi_id,out,in,sizeof(out),NULL) < 0) {
 		PIOS_Flash_Jedec_ReleaseBus(flash_dev);
@@ -244,17 +279,18 @@ static int32_t PIOS_Flash_Jedec_ReadID(struct jedec_flash_dev * flash_dev)
  * Provide a PIOS flash driver API
  *
  *********************************/
-#include "pios_flash.h"
+#include "pios_flash_priv.h"
 
 #if FLASH_USE_FREERTOS_LOCKS
 
 /**
  * @brief Grab the semaphore to perform a transaction
+ * @param[in] chip_id the opaque handle for the chip that this operation should be applied to
  * @return 0 for success, -1 for timeout
  */
-static int32_t PIOS_Flash_Jedec_StartTransaction(uintptr_t flash_id)
+static int32_t PIOS_Flash_Jedec_StartTransaction(uintptr_t chip_id)
 {
-	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
+	struct jedec_flash_dev *flash_dev = (struct jedec_flash_dev *)chip_id;
 
 	if (PIOS_Flash_Jedec_Validate(flash_dev) != 0)
 		return -1;
@@ -269,11 +305,12 @@ static int32_t PIOS_Flash_Jedec_StartTransaction(uintptr_t flash_id)
 
 /**
  * @brief Release the semaphore to perform a transaction
+ * @param[in] chip_id the opaque handle for the chip that this operation should be applied to
  * @return 0 for success, -1 for timeout
  */
-static int32_t PIOS_Flash_Jedec_EndTransaction(uintptr_t flash_id)
+static int32_t PIOS_Flash_Jedec_EndTransaction(uintptr_t chip_id)
 {
-	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
+	struct jedec_flash_dev *flash_dev = (struct jedec_flash_dev *)chip_id;
 
 	if (PIOS_Flash_Jedec_Validate(flash_dev) != 0)
 		return -1;
@@ -288,12 +325,12 @@ static int32_t PIOS_Flash_Jedec_EndTransaction(uintptr_t flash_id)
 
 #else  /* FLASH_USE_FREERTOS_LOCKS */
 
-static int32_t PIOS_Flash_Jedec_StartTransaction(uintptr_t flash_id)
+static int32_t PIOS_Flash_Jedec_StartTransaction(uintptr_t chip_id)
 {
 	return 0;
 }
 
-static int32_t PIOS_Flash_Jedec_EndTransaction(uintptr_t flash_id)
+static int32_t PIOS_Flash_Jedec_EndTransaction(uintptr_t chip_id)
 {
 	return 0;
 }
@@ -302,20 +339,27 @@ static int32_t PIOS_Flash_Jedec_EndTransaction(uintptr_t flash_id)
 
 /**
  * @brief Erase a sector on the flash chip
- * @param[in] add Address of flash to erase
+ * @param[in] chip_id the opaque handle for the chip that this operation should be applied to
+ * @param[in] chip_sector Sector number of flash to erase
+ * @param[in] chip_offset Address within flash to erase
  * @returns 0 if successful
  * @retval -1 if unable to claim bus
  * @retval
  */
-static int32_t PIOS_Flash_Jedec_EraseSector(uintptr_t flash_id, uint32_t addr)
+static int32_t PIOS_Flash_Jedec_EraseSector(uintptr_t chip_id, uint32_t chip_sector, uint32_t chip_offset)
 {
-	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
+	struct jedec_flash_dev *flash_dev = (struct jedec_flash_dev *)chip_id;
 
 	if (PIOS_Flash_Jedec_Validate(flash_dev) != 0)
 		return -1;
 
 	uint8_t ret;
-	uint8_t out[] = {flash_dev->cfg->sector_erase, (addr >> 16) & 0xff, (addr >> 8) & 0xff , addr & 0xff};
+	uint8_t out[] = {
+		flash_dev->cfg->sector_erase,
+		(chip_offset >> 16) & 0xff,
+		(chip_offset >>  8) & 0xff,
+		(chip_offset >>  0) & 0xff,
+	};
 
 	if ((ret = PIOS_Flash_Jedec_WriteEnable(flash_dev)) != 0)
 		return ret;
@@ -339,55 +383,11 @@ static int32_t PIOS_Flash_Jedec_EraseSector(uintptr_t flash_id, uint32_t addr)
 
 	return 0;
 }
-
-/**
- * @brief Execute the whole chip
- * @returns 0 if successful, -1 if unable to claim bus
- */
-static int32_t PIOS_Flash_Jedec_EraseChip(uintptr_t flash_id)
-{
-	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
-
-	if (PIOS_Flash_Jedec_Validate(flash_dev) != 0)
-		return -1;
-
-	uint8_t ret;
-	uint8_t out[] = {flash_dev->cfg->chip_erase};
-
-	if ((ret = PIOS_Flash_Jedec_WriteEnable(flash_dev)) != 0)
-		return ret;
-
-	if (PIOS_Flash_Jedec_ClaimBus(flash_dev) != 0)
-		return -1;
-
-	if (PIOS_SPI_TransferBlock(flash_dev->spi_id,out,NULL,sizeof(out),NULL) < 0) {
-		PIOS_Flash_Jedec_ReleaseBus(flash_dev);
-		return -2;
-	}
-
-	PIOS_Flash_Jedec_ReleaseBus(flash_dev);
-
-	// Keep polling when bus is busy too
-	int i = 0;
-	while (PIOS_Flash_Jedec_Busy(flash_dev) != 0) {
-#if defined(FLASH_FREERTOS)
-		vTaskDelay(1);
-		if ((i++) % 100 == 0)
-#else
-		if ((i++) % 10000 == 0)
-#endif
-
-			PIOS_LED_Toggle(PIOS_LED_HEARTBEAT);
-
-}
-
-	return 0;
-}
-
 
 /**
  * @brief Write one page of data (up to 256 bytes) aligned to a page start
- * @param[in] addr Address in flash to write to
+ * @param[in] chip_id the opaque handle for the chip that this operation should be applied to
+ * @param[in] chip_offset Address within flash to write to
  * @param[in] data Pointer to data to write to flash
  * @param[in] len Length of data to write (max 256 bytes)
  * @return Zero if success or error code
@@ -395,22 +395,27 @@ static int32_t PIOS_Flash_Jedec_EraseChip(uintptr_t flash_id)
  * @retval -2 Size exceeds 256 bytes
  * @retval -3 Length to write would wrap around page boundary
  */
-static int32_t PIOS_Flash_Jedec_WriteData(uintptr_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
+static int32_t PIOS_Flash_Jedec_WriteData(uintptr_t chip_id, uint32_t chip_offset, const uint8_t *data, uint16_t len)
 {
-	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
+	struct jedec_flash_dev *flash_dev = (struct jedec_flash_dev *)chip_id;
 
 	if(PIOS_Flash_Jedec_Validate(flash_dev) != 0)
 		return -1;
 
 	uint8_t ret;
-	uint8_t out[4] = {JEDEC_PAGE_WRITE, (addr >> 16) & 0xff, (addr >> 8) & 0xff , addr & 0xff};
+	uint8_t out[4] = {
+		JEDEC_PAGE_WRITE,
+		(chip_offset >> 16) & 0xff,
+		(chip_offset >>  8) & 0xff,
+		(chip_offset >>  0) & 0xff,
+	};
 
 	/* Can only write one page at a time */
 	if (len > 0x100)
 		return -2;
 
 	/* Ensure number of bytes fits after starting address before end of page */
-	if (((addr & 0xff) + len) > 0x100)
+	if (((chip_offset & 0xff) + len) > 0x100)
 		return -3;
 
 	if ((ret = PIOS_Flash_Jedec_WriteEnable(flash_dev)) != 0)
@@ -454,77 +459,17 @@ static int32_t PIOS_Flash_Jedec_WriteData(uintptr_t flash_id, uint32_t addr, uin
 }
 
 /**
- * @brief Write multiple chunks of data in one transaction
- * @param[in] addr Address in flash to write to
- * @param[in] data Pointer to data to write to flash
- * @param[in] len Length of data to write (max 256 bytes)
- * @return Zero if success or error code
- * @retval -1 Unable to claim SPI bus
- * @retval -2 Size exceeds 256 bytes
- * @retval -3 Length to write would wrap around page boundary
- */
-static int32_t PIOS_Flash_Jedec_WriteChunks(uintptr_t flash_id, uint32_t addr, struct pios_flash_chunk chunks[], uint32_t num)
-{
-	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
-
-	if (PIOS_Flash_Jedec_Validate(flash_dev) != 0)
-		return -1;
-
-	uint8_t ret;
-	uint8_t out[4] = {JEDEC_PAGE_WRITE, (addr >> 16) & 0xff, (addr >> 8) & 0xff , addr & 0xff};
-
-	/* Can only write one page at a time */
-	uint32_t len = 0;
-	for (uint32_t i = 0; i < num; i++)
-		len += chunks[i].len;
-
-	if (len > 0x100)
-		return -2;
-
-	/* Ensure number of bytes fits after starting address before end of page */
-	if (((addr & 0xff) + len) > 0x100)
-		return -3;
-
-	if ((ret = PIOS_Flash_Jedec_WriteEnable(flash_dev)) != 0)
-		return ret;
-
-	/* Execute write page command and clock in address.  Keep CS asserted */
-	if (PIOS_Flash_Jedec_ClaimBus(flash_dev) != 0)
-		return -1;
-
-	if (PIOS_SPI_TransferBlock(flash_dev->spi_id,out,NULL,sizeof(out),NULL) < 0) {
-		PIOS_Flash_Jedec_ReleaseBus(flash_dev);
-		return -1;
-	}
-
-	for (uint32_t i = 0; i < num; i++) {
-		struct pios_flash_chunk * chunk = &chunks[i];
-
-		/* Clock out data to flash */
-		if (PIOS_SPI_TransferBlock(flash_dev->spi_id,chunk->addr,NULL,chunk->len,NULL) < 0) {
-			PIOS_Flash_Jedec_ReleaseBus(flash_dev);
-			return -1;
-		}
-
-	}
-	PIOS_Flash_Jedec_ReleaseBus(flash_dev);
-
-	// Skip checking for busy with this to get OS running again fast
-
-	return 0;
-}
-
-/**
  * @brief Read data from a location in flash memory
- * @param[in] addr Address in flash to write to
+ * @param[in] chip_id the opaque handle for the chip that this operation should be applied to
+ * @param[in] chip_offset Address within flash to write to
  * @param[in] data Pointer to data to write from flash
  * @param[in] len Length of data to write (max 256 bytes)
  * @return Zero if success or error code
  * @retval -1 Unable to claim SPI bus
  */
-static int32_t PIOS_Flash_Jedec_ReadData(uintptr_t flash_id, uint32_t addr, uint8_t * data, uint16_t len)
+static int32_t PIOS_Flash_Jedec_ReadData(uintptr_t chip_id, uint32_t chip_offset, uint8_t *data, uint16_t len)
 {
-	struct jedec_flash_dev * flash_dev = (struct jedec_flash_dev *)flash_id;
+	struct jedec_flash_dev *flash_dev = (struct jedec_flash_dev *)chip_id;
 
 	if (PIOS_Flash_Jedec_Validate(flash_dev) != 0)
 		return -1;
@@ -533,7 +478,12 @@ static int32_t PIOS_Flash_Jedec_ReadData(uintptr_t flash_id, uint32_t addr, uint
 		return -1;
 
 	/* Execute read command and clock in address.  Keep CS asserted */
-	uint8_t out[] = {JEDEC_READ_DATA, (addr >> 16) & 0xff, (addr >> 8) & 0xff , addr & 0xff};
+	uint8_t out[] = {
+		JEDEC_READ_DATA,
+		(chip_offset >> 16) & 0xff,
+		(chip_offset >>  8) & 0xff,
+		(chip_offset >>  0) & 0xff,
+	};
 
 	if (PIOS_SPI_TransferBlock(flash_dev->spi_id,out,NULL,sizeof(out),NULL) < 0) {
 		PIOS_Flash_Jedec_ReleaseBus(flash_dev);
@@ -555,10 +505,9 @@ static int32_t PIOS_Flash_Jedec_ReadData(uintptr_t flash_id, uint32_t addr, uint
 const struct pios_flash_driver pios_jedec_flash_driver = {
 	.start_transaction = PIOS_Flash_Jedec_StartTransaction,
 	.end_transaction   = PIOS_Flash_Jedec_EndTransaction,
-	.erase_chip        = PIOS_Flash_Jedec_EraseChip,
 	.erase_sector      = PIOS_Flash_Jedec_EraseSector,
-	.write_chunks      = PIOS_Flash_Jedec_WriteChunks,
 	.write_data        = PIOS_Flash_Jedec_WriteData,
 	.read_data         = PIOS_Flash_Jedec_ReadData,
 };
 
+#endif	/* PIOS_INCLUDE_FLASH_JEDEC */

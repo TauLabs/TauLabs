@@ -30,11 +30,6 @@
 
 #ifndef PIOS_MPXV7002_H__
 
-#define A0 340.27f        //speed of sound at standard sea level in [m/s]
-#define P0 101.325f       //static air pressure at standard sea level in kPa
-#define VCC 5.0f           //Supply voltage in V
-#define POWER (2.0f/7.0f)
-
 uint16_t PIOS_MPXV7002_Measure(uint8_t airspeedADCPin);
 uint16_t PIOS_MPXV7002_Calibrate(uint8_t airspeedADCPin, uint16_t calibrationCount);
 void PIOS_MPXV7002_UpdateCalibration(uint16_t zeroPoint);

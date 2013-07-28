@@ -78,6 +78,11 @@ bool RevoMini::queryCapabilities(BoardCapabilities capability)
     return false;
 }
 
+QStringList RevoMini::queryChannelBanks()
+{
+    return QStringList(QStringList() << "1-2" << "3" << "4" << "5-6");
+}
+
 /**
  * @brief RevoMini::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support

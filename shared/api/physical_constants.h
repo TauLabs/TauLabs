@@ -65,6 +65,7 @@
 #define STANDARD_AIR_RELATIVE_HUMIDITY      20.0f // [%]
 #define STANDARD_AIR_SEA_LEVEL_PRESSURE 101325.0f // [Pa]
 #define STANDARD_AIR_TEMPERATURE (15.0f + CELSIUS2KELVIN) // Standard temperatue in [K]
+#define STANDARD_AIR_MACH_SPEED           340.27f //speed of sound at standard sea level in [m/s]
 
 // WGS-84 definitions (from http://home.online.no/~sigurdhu/WGS84_Eng.html)
 #define WGS84_RADIUS_EARTH_KM          6371.008f  // Earth's radius in km

@@ -47,7 +47,7 @@
 // Private types
 
 // Private variables
-static uint32_t telemetryPort;
+static uintptr_t telemetryPort;
 static xQueueHandle queue;
 
 #if defined(PIOS_TELEM_PRIORITY_QUEUE)
@@ -76,7 +76,7 @@ static void processObjEvent(UAVObjEvent * ev);
 static void updateTelemetryStats();
 static void gcsTelemetryStatsUpdated();
 static void updateSettings();
-static uint32_t getComPort();
+static uintptr_t getComPort();
 
 /**
  * Initialise the telemetry module
@@ -367,7 +367,7 @@ static void telemetryRxTask(void *parameters)
 
 	// Task loop
 	while (1) {
-		uint32_t inputPort = getComPort();
+		uintptr_t inputPort = getComPort();
 
 		if (inputPort) {
 			// Block until data are available
@@ -395,7 +395,7 @@ static void telemetryRxTask(void *parameters)
  */
 static int32_t transmitData(uint8_t * data, int32_t length)
 {
-	uint32_t outputPort = getComPort();
+	uintptr_t outputPort = getComPort();
 
 	if (outputPort)
 		return PIOS_COM_SendBuffer(outputPort, data, length);
@@ -459,8 +459,8 @@ static void updateTelemetryStats()
 
 	// Update stats object
 	if (flightStats.Status == FLIGHTTELEMETRYSTATS_STATUS_CONNECTED) {
-		flightStats.RxDataRate = (float)utalkStats.rxBytes / ((float)STATS_UPDATE_PERIOD_MS / 1000.0);
-		flightStats.TxDataRate = (float)utalkStats.txBytes / ((float)STATS_UPDATE_PERIOD_MS / 1000.0);
+		flightStats.RxDataRate = (float)utalkStats.rxBytes / ((float)STATS_UPDATE_PERIOD_MS / 1000.0f);
+		flightStats.TxDataRate = (float)utalkStats.txBytes / ((float)STATS_UPDATE_PERIOD_MS / 1000.0f);
 		flightStats.RxFailures += utalkStats.rxErrors;
 		flightStats.TxFailures += txErrors;
 		flightStats.TxRetries += txRetries;
@@ -477,7 +477,7 @@ static void updateTelemetryStats()
 	}
 
 	// Check for connection timeout
-	timeNow = xTaskGetTickCount() * portTICK_RATE_MS;
+	timeNow = TICKS2MS(xTaskGetTickCount());
 	if (utalkStats.rxObjects > 0) {
 		timeOfLastObjectUpdate = timeNow;
 	}
@@ -572,7 +572,7 @@ static void updateSettings()
 /**
  * Determine input/output com port as highest priority available 
  */
-static uint32_t getComPort() {
+static uintptr_t getComPort() {
 #if defined(PIOS_INCLUDE_USB)
 	if ( PIOS_COM_Available(PIOS_COM_TELEM_USB) )
 		return PIOS_COM_TELEM_USB;

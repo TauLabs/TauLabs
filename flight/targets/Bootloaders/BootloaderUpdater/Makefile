@@ -22,10 +22,8 @@
  # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  #####
 
-WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
-TOP      := $(realpath $(WHEREAMI)/../../../../)
-include $(TOP)/make/firmware-defs.mk
-include $(TOP)/make/boards/$(BOARD_NAME)/board-info.mk
+include $(MAKE_INC_DIR)/firmware-defs.mk
+include $(BOARD_INFO_DIR)/board-info.mk
 
 # Set developer code and compile options
 # Set to YES to compile for debugging
@@ -43,12 +41,9 @@ TCHAIN_PREFIX ?= arm-none-eabi-
 FLASH_TOOL = OPENOCD
 
 # Paths
-OPSYSTEM = .
-OPSYSTEMINC = $(OPSYSTEM)/inc
 PIOSINC = $(PIOS)/inc
 PIOSSTM32F10X = $(PIOS)/STM32F10x
 PIOSCOMMON = $(PIOS)/Common
-PIOSBOARDS = $(PIOS)/Boards
 APPLIBDIR = $(PIOSSTM32F10X)/Libraries
 STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F10x_StdPeriph_Driver
@@ -68,8 +63,8 @@ RTOSINCDIR = $(RTOSSRCDIR)/include
 # use file-extension c for "c-only"-files
 
 ## CORE:
-SRC += $(OPSYSTEM)/main.c
-SRC += $(OPSYSTEM)/pios_board.c
+SRC += main.c
+SRC += pios_board.c
 
 
 ## PIOS Hardware (STM32F10x)
@@ -81,7 +76,7 @@ SRC += $(PIOSSTM32F10X)/pios_gpio.c
 
 ## CMSIS for STM32
 SRC += $(CMSISDIR)/core_cm3.c
-SRC += $(CMSISDIR)/system_stm32f10x.c
+SRC += $(BOARD_INFO_DIR)/cmsis_system.c
 
 ## Used parts of the STM-Library
 SRC += $(STMSPDSRCDIR)/stm32f10x_flash.c
@@ -119,7 +114,6 @@ ASRCARM =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
-EXTRAINCDIRS  =  $(OPSYSTEM)
 EXTRAINCDIRS  += $(OPSYSTEMINC)
 EXTRAINCDIRS  += $(OPUAVTALK)
 EXTRAINCDIRS  += $(OPUAVTALKINC)
@@ -131,7 +125,6 @@ EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(PIOSSTM32F10X)
 EXTRAINCDIRS  += $(PIOSSTM32F10X)/inc
 EXTRAINCDIRS  += $(PIOSCOMMON)
-EXTRAINCDIRS  += $(PIOSBOARDS)
 EXTRAINCDIRS  += $(STMSPDINCDIR)
 EXTRAINCDIRS  += $(STMUSBINCDIR)
 EXTRAINCDIRS  += $(CMSISDIR)
@@ -140,8 +133,7 @@ EXTRAINCDIRS  += $(MSDDIR)
 EXTRAINCDIRS  += $(RTOSINCDIR)
 EXTRAINCDIRS  += $(APPLIBDIR)
 EXTRAINCDIRS  += $(RTOSSRCDIR)/portable/GCC/ARM_CM3
-EXTRAINCDIRS  += $(HWDEFSINC)
-
+EXTRAINCDIRS  += $(BOARD_INFO_DIR)
 
 
 # List any extra directories to look for library files here.
@@ -332,7 +324,7 @@ program: $(OUTDIR)/$(TARGET).bin
 endif
 
 # Link: create ELF output file from object files.
-BLOBJ := $(TOP)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin.o
+BLOBJ := $(ROOT_DIR)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin.o
 $(eval $(call LINK_TEMPLATE, $(OUTDIR)/$(TARGET).elf, $(ALLOBJ) $(BLOBJ)))
 
 # Assemble: create object files from assembler source files.

@@ -1,0 +1,11 @@
+<xml>
+    <object name="TrimAngles" singleinstance="true" settings="false">
+        <description>The trim angle required for the UAV to fly straight and level.</description>
+        <field name="Roll" units="degrees" type="float" elements="1"/>
+        <field name="Pitch" units="degrees" type="float" elements="1"/>
+        <access gcs="readwrite" flight="readwrite"/>
+        <telemetrygcs acked="false" updatemode="manual" period="0"/>
+        <telemetryflight acked="false" updatemode="throttled" period="1000"/>
+        <logging updatemode="manual" period="0"/>
+    </object>
+</xml>

@@ -149,23 +149,23 @@ void OutputChannelForm::linkToggled(bool state)
 /**
  * Set maximal channel value.
  */
-void OutputChannelForm::max(int maximum)
+void OutputChannelForm::setMax(int maximum)
 {
-    minmax(ui.actuatorMin->value(), maximum);
+    setMinmax(ui.actuatorMin->value(), maximum);
 }
 
 /**
  * Set minimal channel value.
  */
-void OutputChannelForm::min(int minimum)
+void OutputChannelForm::setMin(int minimum)
 {
-    minmax(minimum, ui.actuatorMax->value());
+    setMinmax(minimum, ui.actuatorMax->value());
 }
 
 /**
  * Set minimal and maximal channel value.
  */
-void OutputChannelForm::minmax(int minimum, int maximum)
+void OutputChannelForm::setMinmax(int minimum, int maximum)
 {
     ui.actuatorMin->setValue(minimum);
     ui.actuatorMax->setValue(maximum);
@@ -237,20 +237,19 @@ void OutputChannelForm::setChannelRange()
 /**
  * Reverses the channel when the checkbox is clicked
  */
-void OutputChannelForm::reverseChannel(bool state)
+void OutputChannelForm::reverseChannel(bool reverseState)
 {
-    // Sanity check: if state became true, make sure the Maxvalue was higher than Minvalue
-    // the situations below can happen!
-    if (state && (ui.actuatorMax->value() < ui.actuatorMin->value()))
-        return;
-    if (!state && (ui.actuatorMax->value() > ui.actuatorMin->value()))
-        return;
-
-    // Now, swap the min & max values (only on the spinboxes, the slider
-    // does not change!
-    int temp = ui.actuatorMax->value();
-    ui.actuatorMax->setValue(ui.actuatorMin->value());
-    ui.actuatorMin->setValue(temp);
+    // Only reverse the channel values if they haven't been reversed elsewhere. This
+    // arises because reverseChannel is called either when the user directly clicks
+    // the reverse button or when the ui.actuatorMin/ui.actuatorMax values are
+    // reversed (either through a settings update or direct user action).
+    if ((reverseState && (ui.actuatorMax->value() > ui.actuatorMin->value())) ||
+        (!reverseState && (ui.actuatorMax->value() < ui.actuatorMin->value()))) {
+        // Swap the min & max values
+        int temp = ui.actuatorMax->value();
+        ui.actuatorMax->setValue(ui.actuatorMin->value());
+        ui.actuatorMin->setValue(temp);
+    }
 
     // Also update the channel value
     // This is a trick to force the slider to update its value and
@@ -266,6 +265,17 @@ void OutputChannelForm::reverseChannel(bool state)
         ui.actuatorNeutral->setValue(ui.actuatorNeutral->value()-1);
         ui.actuatorNeutral->setValue(ui.actuatorNeutral->value()+1);
     }
+
+    if(reverseState) {
+        ui.actuatorNeutral->setMinimum(ui.actuatorMax->value());
+        ui.actuatorNeutral->setMaximum(ui.actuatorMin->value());
+    } else {
+        ui.actuatorNeutral->setMinimum(ui.actuatorMin->value());
+        ui.actuatorNeutral->setMaximum(ui.actuatorMax->value());
+    }
+    ui.actuatorNeutral->setInvertedAppearance(reverseState);
+    ui.actuatorNeutral->setInvertedControls(reverseState);
+
 }
 
 /**
@@ -282,9 +292,6 @@ void OutputChannelForm::sendChannelTest(int value)
 
     if (ui.actuatorRev->isChecked())
             value = ui.actuatorMin->value() - value + ui.actuatorMax->value();	// the channel is reversed
-
-    // update the label
-    ui.actuatorValue->setText(QString::number(value));
 
     if (ui.actuatorLink->checkState() && parent())
     {	// the channel is linked to other channels
@@ -304,7 +311,6 @@ void OutputChannelForm::sendChannelTest(int value)
             if (outputChannelForm->ui.actuatorNeutral->value() == val) continue;
 
             outputChannelForm->ui.actuatorNeutral->setValue(val);
-            outputChannelForm->ui.actuatorValue->setText(QString::number(val));
         }
     }
 

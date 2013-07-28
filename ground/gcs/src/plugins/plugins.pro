@@ -221,6 +221,15 @@ plugin_logging.depends += plugin_uavtalk
 plugin_logging.depends += plugin_scope
 SUBDIRS += plugin_logging
 
+KML { 
+    # KML Export plugin
+    plugin_kmlexport.subdir = kmlexport
+    plugin_kmlexport.depends = plugin_coreplugin
+    plugin_kmlexport.depends += plugin_uavobjects
+    plugin_kmlexport.depends += plugin_uavtalk
+    SUBDIRS += plugin_kmlexport
+}
+
 # GCS Control of UAV gadget
 !LIGHTWEIGHT_GCS {
 plugin_gcscontrol.subdir = gcscontrol
@@ -314,15 +323,6 @@ SUBDIRS += plugin_boards_quantec
 plugin_boards_stm.subdir = boards_stm
 plugin_boards_stm.depends = plugin_coreplugin
 SUBDIRS += plugin_boards_stm
-
-## Plugin by E. Lafargue for the Junsi Powerlog, do not
-## remove, please.
-##
-# Junsi Powerlog plugin
-plugin_powerlog.subdir = powerlog
-plugin_powerlog.depends = plugin_coreplugin
-plugin_powerlog.depends += plugin_rawhid
-SUBDIRS += plugin_powerlog
 
 plugin_sysalarmsmessaging.subdir = sysalarmsmessaging
 plugin_sysalarmsmessaging.depends = plugin_coreplugin

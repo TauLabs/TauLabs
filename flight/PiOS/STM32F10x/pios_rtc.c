@@ -39,8 +39,8 @@
 #endif
 
 struct rtc_callback_entry {
-  void (*fn)(uint32_t);
-  uint32_t data;
+  void (*fn)(uintptr_t);
+  uintptr_t data;
 };
 
 #define PIOS_RTC_MAX_CALLBACKS 3
@@ -60,7 +60,7 @@ void PIOS_RTC_Init(const struct pios_rtc_cfg * cfg)
 	RTC_WaitForLastTask();
 
 	/* Configure and enable the RTC Second interrupt */
-	NVIC_Init(&cfg->irq.init);
+	NVIC_Init((NVIC_InitTypeDef*)&cfg->irq.init);
 	RTC_ITConfig( RTC_IT_SEC, ENABLE );
 	RTC_WaitForLastTask();
 
@@ -89,7 +89,7 @@ float PIOS_RTC_MsPerTick()
 }
 
 /* TODO: This needs a mutex around rtc_callbacks[] */
-bool PIOS_RTC_RegisterTickCallback(void (*fn)(uint32_t id), uint32_t data)
+bool PIOS_RTC_RegisterTickCallback(void (*fn)(uintptr_t id), uintptr_t data)
 {
 	struct rtc_callback_entry * cb;
 	if (rtc_callback_next >= PIOS_RTC_MAX_CALLBACKS) {
