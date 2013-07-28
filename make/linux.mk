@@ -1,4 +1,4 @@
-# linux.mk - 7/6/2013
+# linux.mk
 #
 # Goals:
 #   Configure an environment that will allow Taulabs GCS and firmware to be built

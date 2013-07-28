@@ -1,11 +1,10 @@
-# windows.mk - 7/6/2013
+# windows.mk
 #
 # Goals:
 #   Configure an environment that will allow Taulabs GCS and firmware to be built
 #   on a Windows system. The environment will support the current 4.8 series of the
-#   Qt Library
-#   the current versions of Qt SDK and the ARM toolchain installed to either their
-#   respective default installation locations, the Taulabs/tools directory, or made
+#   Qt Library the current versions of Qt SDK and the ARM toolchain installed to either
+#   their respective default installation locations, the Taulabs/tools directory, or made
 #   available on the system path.
 #   
 # Requirements:

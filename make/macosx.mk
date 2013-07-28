@@ -1,4 +1,4 @@
-# macosx.mk - 7/6/2013
+# macosx.mk
 #
 # Goals:
 #   Configure an environment that will allow Taulabs GCS and firmware to be built

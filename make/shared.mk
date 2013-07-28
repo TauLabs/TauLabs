@@ -1,4 +1,4 @@
-# shared.mk - 7/6/2013
+# shared.mk
 #
 # environment variables common to all operating systems supported by the make system
 $(info Importing shared.mk)

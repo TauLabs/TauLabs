@@ -1,5 +1,3 @@
-# Makefile - 7/6/2013
-#
 # Makefile for Taulabs project
 .DEFAULT_GOAL := help
 
