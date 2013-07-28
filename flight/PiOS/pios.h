@@ -183,6 +183,11 @@
 #include <pios_flashfs.h>
 #endif
 
+#if defined(PIOS_INCLUDE_FLASH_AT45)
+#include <pios_flash_at45.h>
+#include <pios_flashfs.h>
+#endif
+
 #if defined(PIOS_INCLUDE_BL_HELPER)
 #include <pios_bl_helper.h>
 #endif
