@@ -873,7 +873,7 @@ endif
 
 # FIXME: The BU image doesn't work for F4 boards so we need to
 #        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution revomini freedom quanton flyingf4 discoveryf4 flyingf3 sparky, $(BU_BOARDS))
+BU_BOARDS  := $(filter-out revolution revomini freedom quanton flyingf4 discoveryf4 flyingf3 sparky vrbrain, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))
