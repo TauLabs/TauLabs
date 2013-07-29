@@ -81,7 +81,7 @@ static struct pios_can_dev *PIOS_CAN_alloc(void)
 {
 	struct pios_can_dev *can_dev;
 
-	can_dev = (struct pios_can_dev *)pvPortMalloc(sizeof(*can_dev));
+	can_dev = (struct pios_can_dev *)PIOS_malloc(sizeof(*can_dev));
 	if (!can_dev) return(NULL);
 
 	memset(can_dev, 0, sizeof(*can_dev));
