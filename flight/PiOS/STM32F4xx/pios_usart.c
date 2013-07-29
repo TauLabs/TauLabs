@@ -74,37 +74,17 @@ static bool PIOS_USART_validate(struct pios_usart_dev * usart_dev)
 	return (usart_dev->magic == PIOS_USART_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_usart_dev * PIOS_USART_alloc(void)
 {
 	struct pios_usart_dev * usart_dev;
 
-	usart_dev = (struct pios_usart_dev *)pvPortMalloc(sizeof(*usart_dev));
+	usart_dev = (struct pios_usart_dev *)PIOS_malloc(sizeof(*usart_dev));
 	if (!usart_dev) return(NULL);
 
 	memset(usart_dev, 0, sizeof(*usart_dev));
 	usart_dev->magic = PIOS_USART_DEV_MAGIC;
 	return(usart_dev);
 }
-#else
-static struct pios_usart_dev pios_usart_devs[PIOS_USART_MAX_DEVS];
-static uint8_t pios_usart_num_devs;
-static struct pios_usart_dev * PIOS_USART_alloc(void)
-{
-	struct pios_usart_dev * usart_dev;
-
-	if (pios_usart_num_devs >= PIOS_USART_MAX_DEVS) {
-		return (NULL);
-	}
-
-	usart_dev = &pios_usart_devs[pios_usart_num_devs++];
-
-	memset(usart_dev, 0, sizeof(*usart_dev));
-	usart_dev->magic = PIOS_USART_DEV_MAGIC;
-
-	return (usart_dev);
-}
-#endif
 
 /* Bind Interrupt Handlers
  *

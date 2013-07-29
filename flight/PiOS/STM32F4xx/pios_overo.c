@@ -8,6 +8,7 @@
  *
  * @file       pios_overo.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Hardware Abstraction Layer for Overo communications
  * @see        The GNU Public License (GPL) Version 3
  * @notes
@@ -96,7 +97,7 @@ static struct pios_overo_dev * PIOS_OVERO_alloc(void)
 {
 	struct pios_overo_dev * overo_dev;
 	
-	overo_dev = (struct pios_overo_dev *)pvPortMalloc(sizeof(*overo_dev));
+	overo_dev = (struct pios_overo_dev *)PIOS_malloc(sizeof(*overo_dev));
 	if (!overo_dev) return(NULL);
 	
 	overo_dev->rx_in_cb = 0;

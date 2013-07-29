@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_flash_internal.c  
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief Provides a flash driver for the STM32 internal flash sectors
  *****************************************************************************/
 /* 
@@ -67,39 +67,17 @@ static bool PIOS_Flash_Internal_Validate(struct pios_internal_flash_dev *flash_d
 	return (flash_dev && (flash_dev->magic == PIOS_INTERNAL_FLASH_DEV_MAGIC));
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_internal_flash_dev *PIOS_Flash_Internal_alloc(void)
 {
 	struct pios_internal_flash_dev *flash_dev;
 
-	flash_dev = (struct pios_internal_flash_dev *)pvPortMalloc(sizeof(*flash_dev));
+	flash_dev = (struct pios_internal_flash_dev *)PIOS_malloc(sizeof(*flash_dev));
 	if (!flash_dev) return (NULL);
 
 	flash_dev->magic = PIOS_INTERNAL_FLASH_DEV_MAGIC;
 
 	return(flash_dev);
 }
-#else
-#ifndef PIOS_INTERNAL_FLASH_MAX_DEVS
-#define PIOS_INTERNAL_FLASH_MAX_DEVS 1
-#endif	/* PIOS_INTERNAL_FLASH_MAX_DEVS */
-static struct pios_internal_flash_dev pios_internal_flash_devs[PIOS_INTERNAL_FLASH_MAX_DEVS];
-static uint8_t pios_internal_flash_num_devs;
-static struct pios_internal_flash_dev *PIOS_Flash_Internal_alloc(void)
-{
-	struct pios_internal_flash_dev *flash_dev;
-
-	if (pios_internal_flash_num_devs >= PIOS_INTERNAL_FLASH_MAX_DEVS) {
-		return (NULL);
-	}
-
-	flash_dev = &pios_internal_flash_devs[pios_internal_flash_num_devs++];
-	flash_dev->magic = PIOS_INTERNAL_FLASH_DEV_MAGIC;
-
-	return (flash_dev);
-}
-
-#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
 int32_t PIOS_Flash_Internal_Init(uintptr_t *chip_id, const struct pios_flash_internal_cfg *cfg)
 {
