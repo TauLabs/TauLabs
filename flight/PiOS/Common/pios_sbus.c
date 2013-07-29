@@ -8,6 +8,7 @@
  *
  * @file       pios_sbus.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Code to read Futaba S.Bus receiver serial stream
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -69,34 +70,16 @@ struct pios_sbus_dev {
 };
 
 /* Allocate S.Bus device descriptor */
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_sbus_dev *PIOS_SBus_Alloc(void)
 {
 	struct pios_sbus_dev *sbus_dev;
 
-	sbus_dev = (struct pios_sbus_dev *)pvPortMalloc(sizeof(*sbus_dev));
+	sbus_dev = (struct pios_sbus_dev *)PIOS_malloc(sizeof(*sbus_dev));
 	if (!sbus_dev) return(NULL);
 
 	sbus_dev->magic = PIOS_SBUS_DEV_MAGIC;
 	return(sbus_dev);
 }
-#else
-static struct pios_sbus_dev pios_sbus_devs[PIOS_SBUS_MAX_DEVS];
-static uint8_t pios_sbus_num_devs;
-static struct pios_sbus_dev *PIOS_SBus_Alloc(void)
-{
-	struct pios_sbus_dev *sbus_dev;
-
-	if (pios_sbus_num_devs >= PIOS_SBUS_MAX_DEVS) {
-		return (NULL);
-	}
-
-	sbus_dev = &pios_sbus_devs[pios_sbus_num_devs++];
-	sbus_dev->magic = PIOS_SBUS_DEV_MAGIC;
-
-	return (sbus_dev);
-}
-#endif
 
 /* Validate S.Bus device descriptor */
 static bool PIOS_SBus_Validate(struct pios_sbus_dev *sbus_dev)

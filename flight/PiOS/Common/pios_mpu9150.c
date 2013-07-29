@@ -96,7 +96,7 @@ static struct mpu9150_dev * PIOS_MPU9150_alloc(void)
 {
 	struct mpu9150_dev * mpu9150_dev;
 	
-	mpu9150_dev = (struct mpu9150_dev *)pvPortMalloc(sizeof(*mpu9150_dev));
+	mpu9150_dev = (struct mpu9150_dev *)PIOS_malloc(sizeof(*mpu9150_dev));
 	if (!mpu9150_dev) return (NULL);
 	
 	mpu9150_dev->magic = PIOS_MPU9150_DEV_MAGIC;

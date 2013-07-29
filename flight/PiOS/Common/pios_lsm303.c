@@ -93,7 +93,7 @@ static struct lsm303_dev *PIOS_LSM303_alloc(void)
 {
 	struct lsm303_dev *lsm303_dev;
 
-	lsm303_dev = (struct lsm303_dev *)pvPortMalloc(sizeof(*lsm303_dev));
+	lsm303_dev = (struct lsm303_dev *)PIOS_malloc(sizeof(*lsm303_dev));
 
 	if (!lsm303_dev) return (NULL);
 

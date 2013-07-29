@@ -72,7 +72,7 @@ static struct hmc5983_dev *dev;
 static struct hmc5983_dev *PIOS_HMC5983_alloc(void) {
 	struct hmc5983_dev *hmc5983_dev;
 
-	hmc5983_dev = (struct hmc5983_dev *)pvPortMalloc(sizeof(*hmc5983_dev));
+	hmc5983_dev = (struct hmc5983_dev *)PIOS_malloc(sizeof(*hmc5983_dev));
 	if (!hmc5983_dev) return (NULL);
 
 	hmc5983_dev->magic = PIOS_HMC5983_DEV_MAGIC;
