@@ -67,6 +67,26 @@ SECTIONS
         _init_stack_top = _irq_stack_top;
         . = ALIGN(4);
     } > SRAM
+
+    /*
+     * The heap consumes the remainder of the SRAM.
+     */
+    .heap (NOLOAD) :
+    {
+        . = ALIGN(4);
+        _sheap = . ;
+
+        /*
+         * This allows us to declare an object or objects up to the minimum acceptable
+         * heap size and receive a linker error if the space available for the heap is
+         * not sufficient.
+         */
+        *(.heap)
+
+        /* extend the heap up to the top of SRAM */
+        . = ORIGIN(SRAM) + LENGTH(SRAM) - ABSOLUTE(_sheap);
+        _eheap = .;
+    } > SRAM
     
     . = ALIGN(4);
     _end = . ;
