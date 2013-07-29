@@ -2,7 +2,7 @@
 .DEFAULT_GOAL := help
 
 # import macros common to all supported build systems
-include $(CURDIR)/make/shared.mk
+include $(CURDIR)/make/system-id.mk
 
 # import macros that are OS specific
 include $(ROOT_DIR)/make/$(OSFAMILY).mk
