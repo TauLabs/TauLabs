@@ -18,12 +18,14 @@ endif
 ifeq ($(UNAME), Linux)
   OSFAMILY := linux
   LINUX := 1
+  ROOT_DIR := $(CURDIR)
 endif
 
 # Mac OSX
 ifeq ($(UNAME), Darwin)
   OSFAMILY := macosx
   MACOSX := 1
+  ROOT_DIR := $(CURDIR)
 endif
 
 # Windows MinGW shell
@@ -49,10 +51,6 @@ ifeq ($(UNAME), CYGWIN_NT-6.1-WOW64)
   ROOT_DIR := $(shell cygpath -m $(CURDIR))
 endif
 
-# setup common directories within the tree
-ifndef WINDOWS
-  ROOT_DIR := $(CURDIR)
-endif
 $(info $(ROOT_DIR))
 TOOLS_DIR := $(ROOT_DIR)/tools
 $(info $(TOOLS_DIR))
