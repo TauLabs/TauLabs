@@ -49,7 +49,3 @@ ifeq ($(UNAME), CYGWIN_NT-6.1-WOW64)
   CYGWIN := 1
   ROOT_DIR := $(shell cygpath -m $(CURDIR))
 endif
-
-TOOLS_DIR := $(ROOT_DIR)/tools
-BUILD_DIR := $(ROOT_DIR)/build
-DL_DIR := $(ROOT_DIR)/downloads

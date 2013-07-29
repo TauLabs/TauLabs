@@ -7,6 +7,11 @@ include $(CURDIR)/make/shared.mk
 # import macros that are OS specific
 include $(ROOT_DIR)/make/$(OSFAMILY).mk
 
+# configure some directories that are relative to wherever ROOT_DIR is located
+TOOLS_DIR := $(ROOT_DIR)/tools
+BUILD_DIR := $(ROOT_DIR)/build
+DL_DIR := $(ROOT_DIR)/downloads
+
 # include the tools makefile
 include $(ROOT_DIR)/make/tools.mk
 
