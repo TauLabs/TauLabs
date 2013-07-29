@@ -8,9 +8,9 @@
 #   available on the system path.
 #   
 # Requirements:
-#   Qt SDK - or - Qt 4.8.4 Library + Qt 4.8.4 MinGW toolchain
+#   Qt SDK - or - Qt 4.8.x Library + Qt 4.8.x MinGW toolchain
 #   msysGit
-#   Python 2.7
+#   Python
 
 QT_SPEC := win32-g++
 
