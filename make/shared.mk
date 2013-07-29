@@ -16,22 +16,26 @@ endif
 
 # Linux
 ifeq ($(UNAME), Linux)
+  OSFAMILY := linux
   LINUX := 1
 endif
 
 # Mac OSX
 ifeq ($(UNAME), Darwin)
+  OSFAMILY := macosx
   MACOSX := 1
 endif
 
 # Windows MinGW shell
 ifeq ($(UNAME), MINGW32_NT-6.1)
+  OSFAMILY := windows
   WINDOWS := 1
   ROOT_DIR := $(CURDIR)
 endif
 
 # Windows 32bit Cygwin shell
 ifeq ($(UNAME), CYGWIN_NT-6.1)
+  OSFAMILY := windows
   WINDOWS := 1
   CYGWIN := 1
   ROOT_DIR := $(shell cygpath -m $(CURDIR))
@@ -39,6 +43,7 @@ endif
 
 # Windows 64bit Cygwin shell
 ifeq ($(UNAME), CYGWIN_NT-6.1-WOW64)
+  OSFAMILY := windows
   WINDOWS := 1
   CYGWIN := 1
   ROOT_DIR := $(shell cygpath -m $(CURDIR))

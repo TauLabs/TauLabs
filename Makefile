@@ -5,15 +5,7 @@
 include $(CURDIR)/make/shared.mk
 
 # import macros that are OS specific
-ifdef MACOSX
-  include $(ROOT_DIR)/make/macosx.mk
-endif
-ifdef LINUX
-  include $(ROOT_DIR)/make/linux.mk
-endif
-ifdef WINDOWS
-  include $(ROOT_DIR)/make/windows.mk
-endif  
+include $(ROOT_DIR)/make/$(OSFAMILY).mk
 
 # include the tools makefile
 include $(ROOT_DIR)/make/tools.mk
