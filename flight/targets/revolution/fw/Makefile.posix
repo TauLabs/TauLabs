@@ -157,6 +157,7 @@ SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_board_info.c
+SRC += $(PIOSCOMMON)/pios_heap.c
 
 SRC += $(PIOSPOSIX)/pios_gcsrcvr.c
 SRC += $(PIOSPOSIX)/pios_delay.c

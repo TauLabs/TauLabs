@@ -58,7 +58,7 @@
 #include "pios_board_sim.h"
 
 /* PIOS Hardware Includes (posix) */
-#include <pios_malloc.h>
+#include <pios_heap.h>
 #include <pios_sys.h>
 #include <pios_delay.h>
 #include <pios_led.h>

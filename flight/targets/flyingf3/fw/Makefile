@@ -145,6 +145,7 @@ SRC += $(PIOSCOMMON)/pios_adc.c
 SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_ms5611_spi.c
+SRC += $(PIOSCOMMON)/pios_heap.c
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)
