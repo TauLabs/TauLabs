@@ -11,7 +11,6 @@
 #   Qt SDK - or - Qt 4.8.4 Library + Qt 4.8.4 MinGW toolchain
 #   msysGit
 #   Python 2.7
-$(info Importing windows.mk)
 
 QT_SPEC := win32-g++
 

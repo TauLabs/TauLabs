@@ -1,7 +1,6 @@
 # shared.mk
 #
 # environment variables common to all operating systems supported by the make system
-$(info Importing shared.mk)
 
 # Make sure we know a few things about the architecture 
 UNAME := $(shell uname)
@@ -51,10 +50,6 @@ ifeq ($(UNAME), CYGWIN_NT-6.1-WOW64)
   ROOT_DIR := $(shell cygpath -m $(CURDIR))
 endif
 
-$(info $(ROOT_DIR))
 TOOLS_DIR := $(ROOT_DIR)/tools
-$(info $(TOOLS_DIR))
 BUILD_DIR := $(ROOT_DIR)/build
-$(info $(BUILD_DIR))
 DL_DIR := $(ROOT_DIR)/downloads
-$(info $(DL_DIR))
