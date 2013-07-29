@@ -937,6 +937,7 @@ void QFrozenTableViewWithCopyPaste::init()
 void QFrozenTableViewWithCopyPaste::updateSectionWidth(int logicalIndex, int, int newSize)
 {
     frozenTableView->setColumnWidth(logicalIndex,newSize);
+    updateFrozenTableGeometry();
 }
 
 void QFrozenTableViewWithCopyPaste::updateSectionHeight(int logicalIndex, int, int newSize)
@@ -962,9 +963,14 @@ void QFrozenTableViewWithCopyPaste::scrollTo (const QModelIndex & index, ScrollH
 
 void QFrozenTableViewWithCopyPaste::updateFrozenTableGeometry()
 {
+    int col_width = 0;
+    for(int i = 0;i< this->model()->columnCount();++i)
+    {
+        col_width += columnWidth(i);
+    }
     frozenTableView->setGeometry( frameWidth(),
                                   horizontalHeader()->height()+frameWidth(),
-                                  viewport()->width()+verticalHeader()->width(),
+                                  +verticalHeader()->width()+ col_width,
                                   rowHeight(0));
 }
 
