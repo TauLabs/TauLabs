@@ -46,6 +46,16 @@ $(foreach var, $(SANITIZE_GCC_VARS), $(eval $(call SANITIZE_VAR,$(var),disallowe
 SANITIZE_DEPRECATED_VARS := USE_BOOTLOADER
 $(foreach var, $(SANITIZE_DEPRECATED_VARS), $(eval $(call SANITIZE_VAR,$(var),deprecated)))
 
+# Deal with unreasonable requests
+# See: http://xkcd.com/149/
+ifeq ($(MAKECMDGOALS),me a sandwich)
+ ifeq ($(shell whoami),root)
+ $(error Okay)
+ else
+ $(error What? Make it yourself)
+ endif
+endif
+
 # Decide on a verbosity level based on the V= parameter
 export AT := @
 
