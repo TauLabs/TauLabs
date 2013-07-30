@@ -107,12 +107,6 @@ TIM8  |           |           |           |
 #define USB_LED_OFF						PIOS_LED_Off(PIOS_LED_USB)
 #define USB_LED_TOGGLE					PIOS_LED_Toggle(PIOS_LED_USB)
 
-//-------------------------
-// PIOS_SPI
-// See also pios_board.c
-//-------------------------
-#define PIOS_SPI_MAX_DEVS				1
-
 //------------------------
 // PIOS_WDG
 //------------------------
@@ -128,18 +122,10 @@ extern uint32_t pios_i2c_external_id;
 #define PIOS_I2C_MAIN_ADAPTER			(pios_i2c_external_id)	//this is dirty and should be removed in favor a cleaner sensor api
 
 //-------------------------
-// PIOS_USART
-//
-// See also pios_board.c
-//-------------------------
-#define PIOS_USART_MAX_DEVS				3
-
-//-------------------------
 // PIOS_COM
 //
 // See also pios_board.c
 //-------------------------
-#define PIOS_COM_MAX_DEVS               6
 extern uintptr_t pios_com_telem_rf_id;
 extern uintptr_t pios_com_gps_id;
 extern uintptr_t pios_com_telem_usb_id;
@@ -193,32 +179,27 @@ extern uintptr_t pios_com_debug_id;
 // PIOS_RCVR
 // See also pios_board.c
 //------------------------
-#define PIOS_RCVR_MAX_DEVS				3
 #define PIOS_RCVR_MAX_CHANNELS			12
 #define PIOS_GCSRCVR_TIMEOUT_MS			100
 
 //-------------------------
 // Receiver PPM input
 //-------------------------
-#define PIOS_PPM_MAX_DEVS				1
 #define PIOS_PPM_NUM_INPUTS				12
 
 //-------------------------
 // Receiver PWM input
 //-------------------------
-#define PIOS_PWM_MAX_DEVS				1
 #define PIOS_PWM_NUM_INPUTS				10
 
 //-------------------------
 // Receiver DSM input
 //-------------------------
-#define PIOS_DSM_MAX_DEVS				2
 #define PIOS_DSM_NUM_INPUTS				12
 
 //-------------------------
 // Receiver S.Bus input
 //-------------------------
-#define PIOS_SBUS_MAX_DEVS				1
 #define PIOS_SBUS_NUM_INPUTS			(16+2)
 
 //-------------------------
@@ -243,9 +224,7 @@ extern uintptr_t pios_com_debug_id;
 //-------------------------
 // USB
 //-------------------------
-#define PIOS_USB_MAX_DEVS				1
 #define PIOS_USB_ENABLED				1 /* Should remove all references to this */
-#define PIOS_USB_HID_MAX_DEVS			1
 
 //-------------------------
 // DMA

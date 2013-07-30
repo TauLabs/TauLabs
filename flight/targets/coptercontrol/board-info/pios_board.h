@@ -117,24 +117,10 @@ extern uint32_t pios_i2c_flexi_adapter_id;
 #define PIOS_BMP085_OVERSAMPLING                3
 
 //-------------------------
-// SPI
-//
-// See also pios_board.c
-//-------------------------
-#define PIOS_SPI_MAX_DEVS			2
-
-//-------------------------
-// PIOS_USART
-//-------------------------
-#define PIOS_USART_MAX_DEVS			2
-
-//-------------------------
 // PIOS_COM
 //
 // See also pios_board.c
 //-------------------------
-#define PIOS_COM_MAX_DEVS			3
-
 extern uintptr_t pios_com_telem_rf_id;
 #define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
 
@@ -227,32 +213,27 @@ extern uintptr_t pios_com_mavlink_id;
 // PIOS_RCVR
 // See also pios_board.c
 //------------------------
-#define PIOS_RCVR_MAX_DEVS                      3
 #define PIOS_RCVR_MAX_CHANNELS			12
 #define PIOS_GCSRCVR_TIMEOUT_MS			100
 
 //-------------------------
 // Receiver PPM input
 //-------------------------
-#define PIOS_PPM_MAX_DEVS			1
 #define PIOS_PPM_NUM_INPUTS                     12
 
 //-------------------------
 // Receiver PWM input
 //-------------------------
-#define PIOS_PWM_MAX_DEVS			1
 #define PIOS_PWM_NUM_INPUTS                     6
 
 //-------------------------
 // Receiver DSM input
 //-------------------------
-#define PIOS_DSM_MAX_DEVS			2
 #define PIOS_DSM_NUM_INPUTS			12
 
 //-------------------------
 // Receiver S.Bus input
 //-------------------------
-#define PIOS_SBUS_MAX_DEVS			1
 #define PIOS_SBUS_NUM_INPUTS			(16+2)
 
 //-------------------------
@@ -278,11 +259,8 @@ extern uintptr_t pios_com_mavlink_id;
 //-------------------------
 // USB
 //-------------------------
-#define PIOS_USB_HID_MAX_DEVS                   1
-
 #define PIOS_USB_ENABLED                        1
 #define PIOS_USB_DETECT_GPIO_PORT               GPIOC
-#define PIOS_USB_MAX_DEVS                       1
 #define PIOS_USB_DETECT_GPIO_PIN                GPIO_Pin_15
 
 //-------------------------
