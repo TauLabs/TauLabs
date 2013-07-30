@@ -30,26 +30,23 @@ OPENOCD_FTDI ?= yes
 
 .PHONY: qt_sdk_install
 
-ifeq ($(UNAME), Linux)
-
-# Choose the appropriate installer based on host architecture
-ifneq (,$(filter $(ARCH), x86_64 amd64))
-# Linux 64-bit
-qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-linux-x86_64-v1.2.1.run
-else
-# Linux 32-bit
-qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-linux-x86-v1.2.1.run
-
+# QT SDK download URL
+ifdef LINUX
+  ifdef AMD64
+    # Linux 64-bit
+    qt_sdk_install: QT_SDK_URL := http://jenkins.taulabs.org/distfiles/QtSdk-offline-linux-x86_64-v1.2.1.run
+  else
+    # Linux 32-bit
+    qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-linux-x86-v1.2.1.run
+  endif
 endif
 
-else ifeq ($(UNAME), Darwin)
+ifdef MACOSX
+  qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-mac-x86-v1.2.1.dmg
+endif
 
-qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-mac-x86-v1.2.1.dmg
-
-else ifeq ($(UNAME), MINGW32_NT-6.1) # Windows 7
-
-qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-win-x86-v1.2.1.exe
-
+ifdef WINDOWS
+  qt_sdk_install: QT_SDK_URL  := http://jenkins.taulabs.org/distfiles/QtSdk-offline-win-x86-v1.2.1.exe
 endif
 
 qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
