@@ -112,9 +112,6 @@ class VehicleConfig: public ConfigTaskWidget
         VehicleConfig(QWidget *parent = 0);
         ~VehicleConfig();
 
-        /* Array element names for field MixerVector */
-  //      typedef enum { MIXERVECTOR_THROTTLECURVE1=0, MIXERVECTOR_THROTTLECURVE2=1, MIXERVECTOR_ROLL=2, MIXERVECTOR_PITCH=3, MIXERVECTOR_YAW=4 } MixerVectorElem;
-
         static GUIConfigDataUnion GetConfigData();
         static void SetConfigData(GUIConfigDataUnion configData);
         static void resetField(UAVObjectField * field);

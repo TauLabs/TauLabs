@@ -42,7 +42,7 @@ VehicleConfig::VehicleConfig(QWidget *parent) : ConfigTaskWidget(parent)
         channelNames << QString("Channel%1").arg(i+1);
     }
 
-    mixerTypeDescriptions = MixerSettings::GetInstance(getUAVObjectManager())->getField("Mixer1Type")->getElementNames();
+    mixerTypeDescriptions = MixerSettings::GetInstance(getUAVObjectManager())->getField("Mixer1Type")->getOptions();
 
     // This is needed because new style tries to compact things as much as possible in grid
     // and on OSX the widget sizes of PushButtons is reported incorrectly:
