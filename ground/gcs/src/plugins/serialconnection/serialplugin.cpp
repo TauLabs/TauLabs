@@ -135,8 +135,9 @@ QList <IDevice *> SerialConnection::availableDevices()
 
         //sort the list by port number (nice idea from PT_Dreamer :))
         qSort(ports.begin(), ports.end(),sortPorts);
-        bool port_exists = false;
+        bool port_exists;
         foreach(QextPortInfo port, ports) {
+            port_exists = false;
             foreach(IDevice *device,m_available_device_list) {
                 if(device->getName()==port.physName) {
                     port_exists = true;
@@ -150,8 +151,8 @@ QList <IDevice *> SerialConnection::availableDevices()
                 m_available_device_list.append(d);
             }
         }
-        port_exists = false;
         foreach(IDevice *device,m_available_device_list) {
+            port_exists = false;
             foreach(QextPortInfo port, ports) {
                 if(device->getName() == port.physName) {
                     port_exists = true;
