@@ -376,8 +376,8 @@ void HistogramScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
     scopeGadgetWidget->m_grid->enableY( true );
     scopeGadgetWidget->m_grid->enableXMin( false );
     scopeGadgetWidget->m_grid->enableYMin( false );
-    scopeGadgetWidget->m_grid->setMajPen( QPen( Qt::black, 0, Qt::DotLine ) );
-    scopeGadgetWidget->m_grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
+    scopeGadgetWidget->m_grid->setMajorPen( QPen( Qt::black, 0, Qt::DotLine ) );
+    scopeGadgetWidget->m_grid->setMinorPen(QPen(Qt::lightGray, 0, Qt::DotLine));
     scopeGadgetWidget->m_grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
     scopeGadgetWidget->m_grid->attach( scopeGadgetWidget );
 
