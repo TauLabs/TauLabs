@@ -70,7 +70,7 @@ ConfigGadgetWidget::ConfigGadgetWidget(QWidget *parent) : QWidget(parent)
     icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
     icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Selected, QIcon::Off);
     qwd = new DefaultHwSettingsWidget(this, false);
-    ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
+    ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Board"));
 
     icon = new QIcon();
     icon->addFile(":/configgadget/images/vehicle_normal.png", QSize(), QIcon::Normal, QIcon::Off);
