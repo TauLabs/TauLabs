@@ -38,8 +38,8 @@ TempCompCurve::TempCompCurve(QWidget *parent) :
 
     //Add grid lines
     QwtPlotGrid *grid = new QwtPlotGrid;
-    grid->setMajPen(QPen(Qt::gray, 0, Qt::DashLine));
-    grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
+    grid->setMajorPen(QPen(Qt::gray, 0, Qt::DashLine));
+    grid->setMinorPen(QPen(Qt::lightGray, 0, Qt::DotLine));
     grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
     grid->attach(this);
 }
