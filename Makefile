@@ -4,13 +4,13 @@
 # import macros common to all supported build systems
 include $(CURDIR)/make/system-id.mk
 
-# import macros that are OS specific
-include $(ROOT_DIR)/make/$(OSFAMILY).mk
-
 # configure some directories that are relative to wherever ROOT_DIR is located
 TOOLS_DIR := $(ROOT_DIR)/tools
 BUILD_DIR := $(ROOT_DIR)/build
 DL_DIR := $(ROOT_DIR)/downloads
+
+# import macros that are OS specific
+include $(ROOT_DIR)/make/$(OSFAMILY).mk
 
 # include the tools makefile
 include $(ROOT_DIR)/make/tools.mk
