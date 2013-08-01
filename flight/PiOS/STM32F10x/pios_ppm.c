@@ -272,6 +272,9 @@ static void PIOS_PPM_tim_edge_cb (uintptr_t tim_id, uintptr_t context, uint8_t c
 			&& ppm_dev->PulseIndex >= PIOS_PPM_IN_MIN_NUM_CHANNELS
 			&& ppm_dev->PulseIndex <= PIOS_PPM_IN_MAX_NUM_CHANNELS)
 		{
+			/* Regardless of whether we have lock, note that this is a sane frame */
+			ppm_dev->Fresh = true;
+
 			/* If we see n simultaneous frames of the same
 			   number of channels we save it as our frame size */
 			if (ppm_dev->NumChannelCounter < PIOS_PPM_STABLE_CHANNEL_COUNT)
@@ -294,7 +297,6 @@ static void PIOS_PPM_tim_edge_cb (uintptr_t tim_id, uintptr_t context, uint8_t c
 			}
 		}
 
-		ppm_dev->Fresh = true;
 		ppm_dev->Tracking = true;
 		ppm_dev->NumChannelsPrevFrame = ppm_dev->PulseIndex;
 		ppm_dev->PulseIndex = 0;
@@ -331,9 +333,9 @@ static void PIOS_PPM_Supervisor(uintptr_t ppm_id) {
 
 	/* 
 	 * RTC runs at 625Hz so divide down the base rate so
-	 * that this loop runs at 25Hz.
+	 * that this loop runs at 16Hz.
 	 */
-	if(++(ppm_dev->supv_timer) < 25) {
+	if(++(ppm_dev->supv_timer) < 39) {
 		return;
 	}
 	ppm_dev->supv_timer = 0;
