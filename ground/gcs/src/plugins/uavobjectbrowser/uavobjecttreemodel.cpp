@@ -122,17 +122,7 @@ void UAVObjectTreeModel::addDataObject(UAVDataObject *obj, bool categorize)
 
     ObjectTreeItem* existing = root->findDataObjectTreeItemByObjectId(obj->getObjID());
     if (existing) {
-        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-        UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-
-        // Inform the model that we will add a row
-        beginInsertRows(index(existing), objManager->getNumInstances(obj->getObjID()), objManager->getNumInstances(obj->getObjID()));
-
-        // Add the row
         addInstance(obj, existing);
-
-        // Inform the model that the row addition is complete
-        endInsertRows();
     } else {
         DataObjectTreeItem *dataTreeItem = new DataObjectTreeItem(obj->getName() + " (" + QString::number(obj->getNumBytes()) + " bytes)");
         dataTreeItem->setHighlightManager(m_highlightManager);
@@ -196,7 +186,18 @@ void UAVObjectTreeModel::addInstance(UAVObject *obj, TreeItem *parent)
         item = new InstanceTreeItem(obj, name);
         item->setHighlightManager(m_highlightManager);
         connect(item, SIGNAL(updateHighlight(TreeItem*)), this, SLOT(updateHighlight(TreeItem*)));
+
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+
+        // Inform the model that we will add a row
+        beginInsertRows(index(parent), objManager->getNumInstances(obj->getObjID()), objManager->getNumInstances(obj->getObjID()));
+
+        // Add the row
         parent->appendChild(item);
+
+        // Inform the model that the row addition is complete
+        endInsertRows();
     }
     foreach (UAVObjectField *field, obj->getFields()) {
         if (field->getNumElements() > 1) {
