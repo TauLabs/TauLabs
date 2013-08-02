@@ -341,6 +341,8 @@ void ConfigTaskWidget::onAutopilotConnect()
     enableControls(true);
     refreshWidgetsValues();
     setDirty(false);
+
+    emit autoPilotConnected();
 }
 /**
  * SLOT Function used to populate the widgets with the initial values
