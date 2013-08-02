@@ -28,7 +28,6 @@
  */
 
 /* Project Includes */
-#include "pios.h"
 #include "pios_hsum_priv.h"
 
 #if defined(PIOS_INCLUDE_HSUM)
