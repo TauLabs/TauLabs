@@ -192,8 +192,6 @@ static int PIOS_HSUM_UnrollChannels(struct pios_hsum_dev *hsum_dev)
             if (i < PIOS_HSUM_NUM_INPUTS) {
                 /* floating version. channel limits from -100..+100% are mapped to 1000..2000 */
                 state->channel_data[i] = (uint16_t)(word/6.4 - 375);
-                /* simple version.  channel limits must be set to -125..+125% in the transmitter */
-                // state->channel_data[i] = (uint16_t)(word >> 3);
             }
         }
         else
