@@ -65,3 +65,13 @@ androidgcs/gen/
 
 #local doxygen pages
 /html
+
+flight/targets/flyingf3/fw/pios_board.c
+
+flight/targets/flyingf3/fw/pios_board.c
+
+ground/gcs/src/plugins/config/attitude.ui
+
+ground/gcs/src/plugins/config/config.pro
+
+ground/gcs/src/plugins/config/config.pro
