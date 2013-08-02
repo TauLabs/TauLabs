@@ -11,19 +11,19 @@
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
-/* 
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or 
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
- * 
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
@@ -39,10 +39,10 @@
 /* Forward Declarations */
 static int32_t PIOS_HSUM_Get(uintptr_t rcvr_id, uint8_t channel);
 static uint16_t PIOS_HSUM_RxInCallback(uintptr_t context,
-				      uint8_t *buf,
-				      uint16_t buf_len,
-				      uint16_t *headroom,
-				      bool *need_yield);
+                                       uint8_t *buf,
+                                       uint16_t buf_len,
+                                       uint16_t *headroom,
+                                       bool *need_yield);
 static void PIOS_HSUM_Supervisor(uintptr_t hsum_id);
 
 /* Local Variables */
@@ -51,7 +51,7 @@ const struct pios_rcvr_driver pios_hsum_rcvr_driver = {
 };
 
 enum pios_hsum_dev_magic {
-	PIOS_HSUM_DEV_MAGIC = 0x4853554D,
+    PIOS_HSUM_DEV_MAGIC = 0x4853554D,
 };
 
 struct pios_hsum_state {
@@ -61,7 +61,7 @@ struct pios_hsum_state {
 	uint8_t failsafe_timer;
 	uint8_t frame_found;
 	uint8_t byte_count;
-    uint8_t frame_length;
+	uint8_t frame_length;
 };
 
 struct pios_hsum_dev {
@@ -138,64 +138,63 @@ static int PIOS_HSUM_UnrollChannels(struct pios_hsum_dev *hsum_dev)
 	/* check the header and crc for a valid HoTT SUM stream */
 	uint8_t vendor = state->received_data[0];
 	uint8_t status = state->received_data[1];
-    if (vendor != 0xA8)
-        /* Graupner ID was expected */
-        goto stream_error;
+	if (vendor != 0xA8)
+		/* Graupner ID was expected */
+		goto stream_error;
 
 	switch (status) {
 	case 0x00:
-    case 0x01:
-    case 0x81:
-        /* check crc before processing */
-        if (hsum_dev->proto == PIOS_HSUM_PROTO_SUMD) {
-            /* SUMD has 16 bit CCITT CRC */
-            uint16_t crc = 0;
-            uint8_t *s = &(state->received_data[0]);
-            int len = state->byte_count-2;
-            for (int n = 0; n < len; n++) {
-                crc ^= (uint16_t)s[n]<<8;
-                for (int i = 0; i<8; i++)
-                    crc = (crc & 0x8000)? (crc<<1)^0x1021: (crc<<1);
-            }
-            if (crc^(((uint16_t)s[len] << 8) | s[len+1]))
-                /* wrong crc checksum found */
-                goto stream_error;
-        }
-        if (hsum_dev->proto == PIOS_HSUM_PROTO_SUMH) {
-            /* SUMH hat only 8 bit added CRC */
-            uint8_t crc = 0;
-            uint8_t *s = &(state->received_data[0]);
-            int len = state->byte_count-1;
-            for (int n = 0; n < len; n++)
-                crc += s[n];
-            if (crc ^ s[len])
-                /* wrong crc checksum found */
-                goto stream_error;
-        }
-        break;
+	case 0x01:
+	case 0x81:
+		/* check crc before processing */
+		if (hsum_dev->proto == PIOS_HSUM_PROTO_SUMD) {
+			/* SUMD has 16 bit CCITT CRC */
+			uint16_t crc = 0;
+			uint8_t *s = &(state->received_data[0]);
+			int len = state->byte_count - 2;
+			for (int n = 0; n < len; n++) {
+				crc ^= (uint16_t)s[n] << 8;
+				for (int i = 0; i < 8; i++)
+					crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : (crc << 1);
+			}
+			if (crc ^ (((uint16_t)s[len] << 8) | s[len + 1]))
+				/* wrong crc checksum found */
+				goto stream_error;
+		}
+		if (hsum_dev->proto == PIOS_HSUM_PROTO_SUMH) {
+			/* SUMH hat only 8 bit added CRC */
+			uint8_t crc = 0;
+			uint8_t *s = &(state->received_data[0]);
+			int len = state->byte_count - 1;
+			for (int n = 0; n < len; n++)
+				crc += s[n];
+			if (crc ^ s[len])
+				/* wrong crc checksum found */
+				goto stream_error;
+		}
+		break;
 	default:
 		/* wrong header format */
 		goto stream_error;
 	}
-    
+
 	/* unroll channels */
 	uint8_t n_channels = state->received_data[2];
 	uint8_t *s = &(state->received_data[3]);
-    uint16_t word;
-    
+	uint16_t word;
+
 	for (int i = 0; i < HSUM_MAX_CHANNELS_PER_FRAME; i++) {
-        if (i < n_channels) {
-            word = ((uint16_t)s[0] << 8) | s[1];
-            s += 2;
-            /* save the channel value */
-            if (i < PIOS_HSUM_NUM_INPUTS) {
-                /* floating version. channel limits from -100..+100% are mapped to 1000..2000 */
-                state->channel_data[i] = (uint16_t)(word/6.4 - 375);
-            }
-        }
-        else
-            /* this channel was not received */
-            state->channel_data[i] = PIOS_RCVR_INVALID;
+		if (i < n_channels) {
+			word = ((uint16_t)s[0] << 8) | s[1];
+			s += 2;
+			/* save the channel value */
+			if (i < PIOS_HSUM_NUM_INPUTS) {
+				/* floating version. channel limits from -100..+100% are mapped to 1000..2000 */
+				state->channel_data[i] = (uint16_t)(word / 6.4 - 375);
+			}
+		} else
+			/* this channel was not received */
+			state->channel_data[i] = PIOS_RCVR_INVALID;
 	}
 
 	/* all channels processed */
@@ -215,17 +214,17 @@ static void PIOS_HSUM_UpdateState(struct pios_hsum_dev *hsum_dev, uint8_t byte)
 		if (state->byte_count < HSUM_MAX_FRAME_LENGTH) {
 			/* store next byte */
 			state->received_data[state->byte_count++] = byte;
-            if (state->byte_count == 3) {
-                /* 3rd byte contains the number of channels. calculate frame size */
-                state->frame_length = 5+2*byte;
-            }
-            if (state->byte_count == state->frame_length) {
-                /* full frame received - process and wait for new one */
-                if (!PIOS_HSUM_UnrollChannels(hsum_dev))
-                    /* data looking good */
-                    state->failsafe_timer = 0;
-                /* prepare for the next frame */
-                state->frame_found = 0;
+			if (state->byte_count == 3) {
+				/* 3rd byte contains the number of channels. calculate frame size */
+				state->frame_length = 5 + 2 * byte;
+			}
+			if (state->byte_count == state->frame_length) {
+				/* full frame received - process and wait for new one */
+				if (!PIOS_HSUM_UnrollChannels(hsum_dev))
+					/* data looking good */
+					state->failsafe_timer = 0;
+				/* prepare for the next frame */
+				state->frame_found = 0;
 			}
 		}
 	}
@@ -233,10 +232,10 @@ static void PIOS_HSUM_UpdateState(struct pios_hsum_dev *hsum_dev, uint8_t byte)
 
 /* Initialise HoTT receiver interface */
 int32_t PIOS_HSUM_Init(uintptr_t *hsum_id,
-		      const struct pios_hsum_cfg *cfg,
-		      const struct pios_com_driver *driver,
-		      uintptr_t lower_id,
-		      enum pios_hsum_proto proto)
+                       const struct pios_hsum_cfg *cfg,
+                       const struct pios_com_driver *driver,
+                       uintptr_t lower_id,
+                       enum pios_hsum_proto proto)
 {
 	PIOS_DEBUG_Assert(hsum_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -268,10 +267,10 @@ int32_t PIOS_HSUM_Init(uintptr_t *hsum_id,
 
 /* Comm byte received callback */
 static uint16_t PIOS_HSUM_RxInCallback(uintptr_t context,
-				      uint8_t *buf,
-				      uint16_t buf_len,
-				      uint16_t *headroom,
-				      bool *need_yield)
+                                       uint8_t *buf,
+                                       uint16_t buf_len,
+                                       uint16_t *headroom,
+                                       bool *need_yield)
 {
 	struct pios_hsum_dev *hsum_dev = (struct pios_hsum_dev *)context;
 
@@ -343,7 +342,7 @@ static void PIOS_HSUM_Supervisor(uintptr_t hsum_id)
 		state->frame_found = 1;
 		state->byte_count = 0;
 		state->receive_timer = 0;
-        state->frame_length = 3;
+		state->frame_length = 3;
 	}
 
 	/* activate failsafe if no frames have arrived in 102.4ms */
@@ -355,7 +354,7 @@ static void PIOS_HSUM_Supervisor(uintptr_t hsum_id)
 
 #endif	/* PIOS_INCLUDE_HSUM */
 
-/** 
+/**
  * @}
  * @}
  */
