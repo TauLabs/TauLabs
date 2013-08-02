@@ -50,14 +50,17 @@ private slots:
     void updateAirspeedGroupbox(UAVObject *);
     void toggleVibrationTest();
 
-    /* To activate the appropriate tabs */
-    void toggleBatteryTab(bool enabled);
-    void toggleAirspeedTab(bool enabled);
-    void toggleVibrationTab(bool enabled);
+    void recheckTabs();
+    void objectUpdated(UAVObject * obj, bool success);
 
 private:
     QVariant getVariantFromWidget(QWidget * widget, double scale);
     bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
+
+    /* To activate the appropriate tabs */
+    void toggleBatteryTab(bool enabled);
+    void toggleAirspeedTab(bool enabled);
+    void toggleVibrationTab(bool enabled);
 
     static QString trueString;
     static QString falseString;

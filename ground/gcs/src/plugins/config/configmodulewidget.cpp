@@ -46,6 +46,8 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui = new Ui::Modules();
     ui->setupUi(this);
 
+    connect(this, SIGNAL(autoPilotConnected()), this, SLOT(recheckTabs()));
+
     // Populate UAVO strings
     AirspeedSettings *airspeedSettings;
     airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
@@ -72,11 +74,6 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVtolFollower, ModuleSettings::ADMINSTATE_VTOLPATHFOLLOWER);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbPathPlanner, ModuleSettings::ADMINSTATE_PATHPLANNER);
-
-    // For modules with additional settings, show when appropriate
-    connect(ui->cbAirspeed, SIGNAL(toggled(bool)), this, SLOT(toggleAirspeedTab(bool)));
-    connect(ui->cbBattery, SIGNAL(toggled(bool)), this, SLOT(toggleBatteryTab(bool)));
-    connect(ui->cbVibrationAnalysis, SIGNAL(toggled(bool)), this, SLOT(toggleVibrationTab(bool)));
 
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
@@ -164,6 +161,39 @@ void ConfigModuleWidget::resizeEvent(QResizeEvent *event)
 void ConfigModuleWidget::enableControls(bool enable)
 {
     Q_UNUSED(enable);
+}
+
+//! Query optional objects to determine which tabs can be configured
+void ConfigModuleWidget::recheckTabs()
+{
+    UAVObject * obj;
+
+    obj = getObjectManager()->getObject(AirspeedSettings::NAME);
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
+    obj->requestUpdate();
+
+    obj = getObjectManager()->getObject(FlightBatterySettings::NAME);
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
+    obj->requestUpdate();
+
+    obj = getObjectManager()->getObject(VibrationAnalysisSettings::NAME);
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
+    obj->requestUpdate();
+}
+
+//! Enable appropriate tab when objects are updated
+void ConfigModuleWidget::objectUpdated(UAVObject * obj, bool success)
+{
+    if (!success || !obj)
+        return;
+
+    QString objName = obj->getName();
+    if (objName.compare(AirspeedSettings::NAME) == 0)
+        toggleAirspeedTab(true);
+    else if (objName.compare(FlightBatterySettings::NAME) == 0)
+        toggleBatteryTab(true);
+    else if (objName.compare(VibrationAnalysisSettings::NAME) == 0)
+        toggleVibrationTab(true);
 }
 
 /**
