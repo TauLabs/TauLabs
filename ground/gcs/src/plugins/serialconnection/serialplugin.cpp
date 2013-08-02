@@ -138,8 +138,8 @@ QList <IDevice *> SerialConnection::availableDevices()
         bool port_exists;
         foreach(QextPortInfo port, ports) {
             port_exists = false;
-            foreach(IDevice *device,m_available_device_list) {
-                if(device->getName()==port.physName) {
+            foreach(IDevice *device, m_available_device_list) {
+                if(device->getName() == port.physName) {
                     port_exists = true;
                     break;
                 }

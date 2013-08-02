@@ -968,9 +968,9 @@ void QFrozenTableViewWithCopyPaste::updateFrozenTableGeometry()
     {
         col_width += columnWidth(i);
     }
-    frozenTableView->setGeometry( frameWidth(),
-                                  horizontalHeader()->height()+frameWidth(),
-                                  +verticalHeader()->width()+ col_width,
+    frozenTableView->setGeometry(frameWidth(),
+                                  horizontalHeader()->height() + frameWidth(),
+                                  verticalHeader()->width() + col_width,
                                   rowHeight(0));
 }
 
