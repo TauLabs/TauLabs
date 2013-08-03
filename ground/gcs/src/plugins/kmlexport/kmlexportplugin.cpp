@@ -99,8 +99,8 @@ void KmlExportPlugin::exportToKML()
             qDebug() << "No KML file extension: " << outputFileName;
             QMessageBox::critical(new QWidget(),"No file extension", "Filename must have .kml or .kmz extension.");
         }
-        else if (outputFileName.split(".",QString::SkipEmptyParts).at(1).toLower() != "kml" &&
-                 outputFileName.split(".",QString::SkipEmptyParts).at(1).toLower() != "kmz") {
+        else if (outputFileName.split(".",QString::SkipEmptyParts).last().toLower() != "kml" &&
+                 outputFileName.split(".",QString::SkipEmptyParts).last().toLower() != "kmz") {
             qDebug() << "Incorrect KML file extension: " << outputFileName;
             QMessageBox::critical(new QWidget(),"Incorrect file extension", "Filename must have .kml or .kmz extension.");
         }
