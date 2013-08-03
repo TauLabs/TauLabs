@@ -46,6 +46,8 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui = new Ui::Modules();
     ui->setupUi(this);
 
+    connect(this, SIGNAL(autoPilotConnected()), this, SLOT(recheckTabs()));
+
     // Populate UAVO strings
     AirspeedSettings *airspeedSettings;
     airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
@@ -72,11 +74,6 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVtolFollower, ModuleSettings::ADMINSTATE_VTOLPATHFOLLOWER);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbPathPlanner, ModuleSettings::ADMINSTATE_PATHPLANNER);
-
-    // For modules with additional settings, show when appropriate
-    connect(ui->cbAirspeed, SIGNAL(toggled(bool)), this, SLOT(toggleAirspeedTab(bool)));
-    connect(ui->cbBattery, SIGNAL(toggled(bool)), this, SLOT(toggleBatteryTab(bool)));
-    connect(ui->cbVibrationAnalysis, SIGNAL(toggled(bool)), this, SLOT(toggleVibrationTab(bool)));
 
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
@@ -136,9 +133,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->gb_measureCurrent->setProperty(trueString.toAscii(), "Enabled");
     ui->gb_measureCurrent->setProperty(falseString.toAscii(), "Disabled");
 
-    toggleBatteryTab(false);
-    toggleAirspeedTab(false);
-    toggleVibrationTab(false);
+    enableBatteryTab(false);
+    enableAirspeedTab(false);
+    enableVibrationTab(false);
 
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property
@@ -164,6 +161,39 @@ void ConfigModuleWidget::resizeEvent(QResizeEvent *event)
 void ConfigModuleWidget::enableControls(bool enable)
 {
     Q_UNUSED(enable);
+}
+
+//! Query optional objects to determine which tabs can be configured
+void ConfigModuleWidget::recheckTabs()
+{
+    UAVObject * obj;
+
+    obj = getObjectManager()->getObject(AirspeedSettings::NAME);
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
+    obj->requestUpdate();
+
+    obj = getObjectManager()->getObject(FlightBatterySettings::NAME);
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
+    obj->requestUpdate();
+
+    obj = getObjectManager()->getObject(VibrationAnalysisSettings::NAME);
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
+    obj->requestUpdate();
+}
+
+//! Enable appropriate tab when objects are updated
+void ConfigModuleWidget::objectUpdated(UAVObject * obj, bool success)
+{
+    if (!obj)
+        return;
+
+    QString objName = obj->getName();
+    if (objName.compare(AirspeedSettings::NAME) == 0)
+        enableAirspeedTab(success);
+    else if (objName.compare(FlightBatterySettings::NAME) == 0)
+        enableBatteryTab(success);
+    else if (objName.compare(VibrationAnalysisSettings::NAME) == 0)
+        enableVibrationTab(success);
 }
 
 /**
@@ -303,21 +333,21 @@ void ConfigModuleWidget::updateAirspeedGroupbox(UAVObject *obj)
 }
 
 //! Enable or disable the battery tab
-void ConfigModuleWidget::toggleBatteryTab(bool enabled)
+void ConfigModuleWidget::enableBatteryTab(bool enabled)
 {
     int idx = ui->moduleTab->indexOf(ui->tabBattery);
     ui->moduleTab->setTabEnabled(idx,enabled);
 }
 
 //! Enable or disable the airspeed tab
-void ConfigModuleWidget::toggleAirspeedTab(bool enabled)
+void ConfigModuleWidget::enableAirspeedTab(bool enabled)
 {
     int idx = ui->moduleTab->indexOf(ui->tabAirspeed);
     ui->moduleTab->setTabEnabled(idx,enabled);
 }
 
 //! Enable or disable the vibration tab
-void ConfigModuleWidget::toggleVibrationTab(bool enabled)
+void ConfigModuleWidget::enableVibrationTab(bool enabled)
 {
     int idx = ui->moduleTab->indexOf(ui->tabVibration);
     ui->moduleTab->setTabEnabled(idx,enabled);
