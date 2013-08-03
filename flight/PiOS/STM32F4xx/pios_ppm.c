@@ -331,11 +331,18 @@ static void PIOS_PPM_Supervisor(uintptr_t ppm_id) {
 		return;
 	}
 
-	/* 
+	/*
 	 * RTC runs at 625Hz so divide down the base rate so
-	 * that this loop runs at 16Hz.
+	 * that this loop runs at twice the period required
+	 * for the frame locking algorithm to declare lock.
 	 */
-	if(++(ppm_dev->supv_timer) < 39) {
+#define SUPERVISOR_TICK_PERIOD_US  1600
+#define PPM_FRAME_PERIOD_US       20000
+#define SUPERVISOR_TICK_DIVIDER (2 * PPM_FRAME_PERIOD_US * PIOS_PPM_STABLE_CHANNEL_COUNT / SUPERVISOR_TICK_PERIOD_US)
+#if SUPERVISOR_TICK_DIVIDER * SUPERVISOR_TICK_PERIOD_US > 500000
+#error Unsafe supervisor timeout
+#endif
+	if(++(ppm_dev->supv_timer) < SUPERVISOR_TICK_DIVIDER) {
 		return;
 	}
 	ppm_dev->supv_timer = 0;
