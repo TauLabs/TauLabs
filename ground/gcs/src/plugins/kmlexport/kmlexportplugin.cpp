@@ -95,13 +95,13 @@ void KmlExportPlugin::exportToKML()
         if (outputFileName.isEmpty()) {
             qDebug() << "No KML file name given.";
             return;
-        } else if (outputFileName.split(".",QString::SkipEmptyParts).size() == 1) {
+        } else if (QFileInfo(outputFileName).suffix() == NULL) {
             qDebug() << "No KML file extension: " << outputFileName;
             QMessageBox::critical(new QWidget(),"No file extension", "Filename must have .kml or .kmz extension.");
         }
-        else if (outputFileName.split(".",QString::SkipEmptyParts).last().toLower() != "kml" &&
-                 outputFileName.split(".",QString::SkipEmptyParts).last().toLower() != "kmz") {
-            qDebug() << "Incorrect KML file extension: " << outputFileName;
+        else if (QFileInfo(outputFileName).suffix().toLower() != "kml" &&
+                 QFileInfo(outputFileName).suffix().toLower() != "kmz") {
+            qDebug() << "Incorrect KML file extension: " << QFileInfo(outputFileName).suffix();
             QMessageBox::critical(new QWidget(),"Incorrect file extension", "Filename must have .kml or .kmz extension.");
         }
         else {
