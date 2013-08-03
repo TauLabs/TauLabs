@@ -133,9 +133,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->gb_measureCurrent->setProperty(trueString.toAscii(), "Enabled");
     ui->gb_measureCurrent->setProperty(falseString.toAscii(), "Disabled");
 
-    toggleBatteryTab(false);
-    toggleAirspeedTab(false);
-    toggleVibrationTab(false);
+    enableBatteryTab(false);
+    enableAirspeedTab(false);
+    enableVibrationTab(false);
 
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property
@@ -184,16 +184,16 @@ void ConfigModuleWidget::recheckTabs()
 //! Enable appropriate tab when objects are updated
 void ConfigModuleWidget::objectUpdated(UAVObject * obj, bool success)
 {
-    if (!success || !obj)
+    if (!obj)
         return;
 
     QString objName = obj->getName();
     if (objName.compare(AirspeedSettings::NAME) == 0)
-        toggleAirspeedTab(true);
+        enableAirspeedTab(success);
     else if (objName.compare(FlightBatterySettings::NAME) == 0)
-        toggleBatteryTab(true);
+        enableBatteryTab(success);
     else if (objName.compare(VibrationAnalysisSettings::NAME) == 0)
-        toggleVibrationTab(true);
+        enableVibrationTab(success);
 }
 
 /**
@@ -333,21 +333,21 @@ void ConfigModuleWidget::updateAirspeedGroupbox(UAVObject *obj)
 }
 
 //! Enable or disable the battery tab
-void ConfigModuleWidget::toggleBatteryTab(bool enabled)
+void ConfigModuleWidget::enableBatteryTab(bool enabled)
 {
     int idx = ui->moduleTab->indexOf(ui->tabBattery);
     ui->moduleTab->setTabEnabled(idx,enabled);
 }
 
 //! Enable or disable the airspeed tab
-void ConfigModuleWidget::toggleAirspeedTab(bool enabled)
+void ConfigModuleWidget::enableAirspeedTab(bool enabled)
 {
     int idx = ui->moduleTab->indexOf(ui->tabAirspeed);
     ui->moduleTab->setTabEnabled(idx,enabled);
 }
 
 //! Enable or disable the vibration tab
-void ConfigModuleWidget::toggleVibrationTab(bool enabled)
+void ConfigModuleWidget::enableVibrationTab(bool enabled)
 {
     int idx = ui->moduleTab->indexOf(ui->tabVibration);
     ui->moduleTab->setTabEnabled(idx,enabled);

@@ -58,9 +58,9 @@ private:
     bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
 
     /* To activate the appropriate tabs */
-    void toggleBatteryTab(bool enabled);
-    void toggleAirspeedTab(bool enabled);
-    void toggleVibrationTab(bool enabled);
+    void enableBatteryTab(bool enabled);
+    void enableAirspeedTab(bool enabled);
+    void enableVibrationTab(bool enabled);
 
     static QString trueString;
     static QString falseString;
