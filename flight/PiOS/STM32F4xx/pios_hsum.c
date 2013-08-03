@@ -162,7 +162,7 @@ static int PIOS_HSUM_UnrollChannels(struct pios_hsum_dev *hsum_dev)
 				goto stream_error;
 		}
 		if (hsum_dev->proto == PIOS_HSUM_PROTO_SUMH) {
-			/* SUMH hat only 8 bit added CRC */
+			/* SUMH has only 8 bit added CRC */
 			uint8_t crc = 0;
 			uint8_t *s = &(state->received_data[0]);
 			int len = state->byte_count - 1;
