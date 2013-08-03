@@ -75,7 +75,7 @@ struct pios_ppm_dev {
 
 	uint8_t supv_timer;
 	bool Tracking;
-	bool Fresh;
+	volatile bool Fresh;
 };
 
 static bool PIOS_PPM_validate(struct pios_ppm_dev * ppm_dev)
