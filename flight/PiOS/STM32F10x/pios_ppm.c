@@ -272,9 +272,6 @@ static void PIOS_PPM_tim_edge_cb (uintptr_t tim_id, uintptr_t context, uint8_t c
 			&& ppm_dev->PulseIndex >= PIOS_PPM_IN_MIN_NUM_CHANNELS
 			&& ppm_dev->PulseIndex <= PIOS_PPM_IN_MAX_NUM_CHANNELS)
 		{
-			/* Regardless of whether we have lock, note that this is a sane frame */
-			ppm_dev->Fresh = true;
-
 			/* If we see n simultaneous frames of the same
 			   number of channels we save it as our frame size */
 			if (ppm_dev->NumChannelCounter < PIOS_PPM_STABLE_CHANNEL_COUNT)
@@ -288,6 +285,8 @@ static void PIOS_PPM_tim_edge_cb (uintptr_t tim_id, uintptr_t context, uint8_t c
 		/* Check if the last frame was well formed */
 		if (ppm_dev->PulseIndex == ppm_dev->NumChannels && ppm_dev->Tracking) {
 			/* The last frame was well formed */
+			ppm_dev->Fresh = true;
+
 			for (uint32_t i = 0; i < ppm_dev->NumChannels; i++) {
 				ppm_dev->CaptureValue[i] = ppm_dev->CaptureValueNewFrame[i];
 			}
