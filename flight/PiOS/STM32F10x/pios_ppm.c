@@ -73,7 +73,7 @@ struct pios_ppm_dev {
 	uint8_t NumChannelCounter;
 
 	uint8_t supv_timer;
-	bool Tracking;
+	volatile bool Tracking;
 	volatile bool Fresh;
 };
 
