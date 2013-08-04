@@ -205,7 +205,7 @@ static void pathPlannerTask(void *parameters)
 					} else {
 						// No path? In that case, burn some time and loop back to beginning. This is something that should be fixed as this takes the final form.
 						guidanceType = NOMANAGER;
-						vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
+						vTaskDelay(MS2TICKS(IDLE_UPDATE_RATE_MS));
 					}
 					break;
 				case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_10M_BOX:
@@ -242,12 +242,12 @@ static void pathPlannerTask(void *parameters)
 			pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
 			PathPlannerStatusSet(&pathPlannerStatus);
 
-			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
+			vTaskDelay(MS2TICKS(IDLE_UPDATE_RATE_MS));
 
 			continue;
 		}
 
-		vTaskDelay(UPDATE_RATE_MS * portTICK_RATE_MS);
+		vTaskDelay(MS2TICKS(UPDATE_RATE_MS));
 
 		if(process_waypoints_flag) {
 			enum path_planner_states ret;

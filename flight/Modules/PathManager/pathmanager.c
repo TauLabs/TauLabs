@@ -177,7 +177,7 @@ static void pathManagerTask(void *parameters)
 	// Main thread loop
 	while (1) {
 		// Wait
-		vTaskDelayUntil(&lastSysTime, UPDATE_RATE_MS * portTICK_RATE_MS);
+			vTaskDelayUntil(&lastSysTime, MS2TICKS(UPDATE_RATE_MS));
 
 		PathPlannerStatusData pathPlannerStatus;
 		PathPlannerStatusGet(&pathPlannerStatus);
@@ -190,7 +190,7 @@ static void pathManagerTask(void *parameters)
 		} else {
 			pathplanner_active = false;
 			pmGlobals->guidanceType = PM_NOMANAGER;
-			vTaskDelay(IDLE_UPDATE_RATE_MS * portTICK_RATE_MS);
+			vTaskDelay(MS2TICKS(IDLE_UPDATE_RATE_MS));
 			continue;
 		}
 
@@ -247,11 +247,11 @@ static void pathManagerTask(void *parameters)
 		// Advance segment
 		if (advanceSegment_flag) {
 			advanceSegment();
-		} else if (lastSysTime-segmentTimer > pathManagerStatus.Timeout*1000*portTICK_RATE_MS) { // Check if we have timed out
+		} else if (lastSysTime-segmentTimer > MS2TICKS(pathManagerStatus.Timeout*1000)) { // Check if we have timed out
 			// No possiblitiy of buffer overflow because portTickType is a long
 			pathManagerStatus.Status = PATHMANAGERSTATUS_STATUS_TIMEDOUT;
 			PathManagerStatusSet(&pathManagerStatus);
-		} else if (lastSysTime-overshootTimer > OVERSHOOT_TIMER_MS*portTICK_RATE_MS) { // Once every second or so, check for higher-level path planner failure
+			} else if (lastSysTime-overshootTimer > MS2TICKS(OVERSHOOT_TIMER_MS)) { // Once every second or so, check for higher-level path planner failure
 			checkOvershoot();
 			overshootTimer = lastSysTime;
 		}

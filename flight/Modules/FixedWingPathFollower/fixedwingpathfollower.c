@@ -224,7 +224,7 @@ static void pathfollowerTask(void *parameters)
 			PathFollowerStatusSet(&pathFollowerStatus);
 
 			// Wait 100ms before continuing
-			vTaskDelay(100 * portTICK_RATE_MS);
+			vTaskDelay(MS2TICKS(100));
 			continue;
 		} else if (pathFollowerStatus.Status == PATHFOLLOWERSTATUS_STATUS_IDLE) {
 			PathFollowerStatusGet(&pathFollowerStatus);
@@ -232,7 +232,7 @@ static void pathfollowerTask(void *parameters)
 			PathFollowerStatusSet(&pathFollowerStatus);
 		}
 
-		vTaskDelayUntil(&lastUpdateTime, update_peroid_ms * portTICK_RATE_MS);
+		vTaskDelayUntil(&lastUpdateTime, MS2TICKS(update_peroid_ms));
 		updateFixedWingDesiredStabilization();
 	}
 }
