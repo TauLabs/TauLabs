@@ -29,22 +29,20 @@
 #include "openpilot.h"
 #include "physical_constants.h"
 #include "misc_math.h"
-
-#include "flightstatus.h"
-#include "positionactual.h"
-#include "modulesettings.h"
+#include "coordinate_conversions.h"
 
 #include "fixedwingairspeeds.h"
+#include "flightstatus.h"
+#include "modulesettings.h"
+#include "positionactual.h"
 
 #include "pathmanagerstatus.h"
 #include "pathmanagersettings.h"
 #include "pathplannerstatus.h"
 #include "pathsegmentactive.h"
 #include "pathsegmentdescriptor.h"
-#include "paths_library.h"
 #include "path_managers.h"
 
-#include "coordinate_conversions.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 700
@@ -56,14 +54,15 @@
 #define ANGULAR_PROXIMITY_THRESHOLD 30
 
 // Private types
-enum guidanceTypes{PM_NOMANAGER, PM_PATHPLANNER};
-static struct PreviousLocus {
+enum guidanceTypes {PM_NOMANAGER, PM_PATHPLANNER};
+static struct PreviousLocus
+{
 	float Position[3];
-
 	float Velocity;
 } *previousLocus;
 
-static struct PathManagerGlobals{
+static struct PathManagerGlobals
+{
 	float angularDistanceToComplete_D;
 	float angularDistanceCompleted_D;
 	float oldPosition_NE[2];

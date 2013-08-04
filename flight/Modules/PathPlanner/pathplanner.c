@@ -77,7 +77,7 @@ static void createPathStar(void);
 static void createPathLogo(void);
 static void createPathHoldPosition(void);
 static void createPathReturnToHome(void);
-static enum path_planner_states processWaypoints(PathPlannerSettingsPlannerAlgorithmOptions plannerAlgorithm);
+static enum path_planner_states process_waypoints(PathPlannerSettingsPlannerAlgorithmOptions plannerAlgorithm);
 
 
 /**
@@ -251,7 +251,7 @@ static void pathPlannerTask(void *parameters)
 
 		if(process_waypoints_flag) {
 			enum path_planner_states ret;
-			ret = processWaypoints(plannerAlgorithm);
+			ret = process_waypoints(plannerAlgorithm);
 			switch (ret) {
 			case PATH_PLANNER_SUCCESS:
 				process_waypoints_flag = false;
@@ -278,7 +278,7 @@ static void pathPlannerTask(void *parameters)
 }
 
 
-static enum path_planner_states processWaypoints(PathPlannerSettingsPlannerAlgorithmOptions algorithm)
+static enum path_planner_states process_waypoints(PathPlannerSettingsPlannerAlgorithmOptions algorithm)
 {
 	enum path_planner_states ret;
 	
