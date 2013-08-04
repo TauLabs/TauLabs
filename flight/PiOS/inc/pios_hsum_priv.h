@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file       pios_hsum.c
+ * @file       pios_hsum.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
