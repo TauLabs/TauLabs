@@ -179,16 +179,23 @@ bool KmlExport::exportToKML()
 
     // Save to file
     if (QFileInfo(outputFileName).suffix().toLower() == "kmz") {
-        if ((outputFileName == NULL) || !kmlengine::KmzFile::WriteKmz(outputFileName.toStdString().c_str(), kml_data)) {
+        if (!kmlengine::KmzFile::WriteKmz(outputFileName.toStdString().c_str(), kml_data)) {
             qDebug() << "KMZ write failed: " << outputFileName;
             QMessageBox::critical(new QWidget(),"KMZ write failed", "Failed to write KMZ file.");
+            return false;
         }
-    } else {
-        if ((outputFileName == NULL) || !kmlbase::File::WriteStringToFile(kml_data, outputFileName.toStdString())) {
+    } else if (QFileInfo(outputFileName).suffix().toLower() == "kml") {
+        if (!kmlbase::File::WriteStringToFile(kml_data, outputFileName.toStdString())) {
             qDebug() << "KML write failed: " << outputFileName;
             QMessageBox::critical(new QWidget(),"KML write failed", "Failed to write KML file.");
+            return false;
         }
+    } else {
+        qDebug() << "Write failed. Invalid file name:" << outputFileName;
+        QMessageBox::critical(new QWidget(),"Write failed", "Failed to write file. Invalid filename");
+        return false;
     }
+
 
     return true;
 }
