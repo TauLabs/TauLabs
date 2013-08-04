@@ -27,32 +27,16 @@ ifeq ($(UNAME), Darwin)
   ROOT_DIR := $(CURDIR)
 endif
 
-# MinGW shell
-# Windows 7, Windows 2008 R2
-ifeq ($(UNAME), MINGW32_NT-6.1)
+# Windows using MinGW shell
+ifeq (MINGW, $(findstring MINGW,$(UNAME)))
   OSFAMILY := windows
+  MINGW := 1
   WINDOWS := 1
   ROOT_DIR := $(CURDIR)
 endif
 
-# Windows 8
-ifeq ($(UNAME), MINGW32_NT-6.2)
-  OSFAMILY := windows
-  WINDOWS := 1
-  ROOT_DIR := $(CURDIR)
-endif
-
-# Cygwin shell
-# Windows 7 32bit
-ifeq ($(UNAME), CYGWIN_NT-6.1)
-  OSFAMILY := windows
-  WINDOWS := 1
-  CYGWIN := 1
-  ROOT_DIR := $(shell cygpath -m $(CURDIR))
-endif
-
-# Windows 7 64bit, Windows Server 2008 R2
-ifeq ($(UNAME), CYGWIN_NT-6.1-WOW64)
+# Windows using Cygwin shell
+ifeq (CYGWIN ,$(findstring CYGWIN,$(UNAME)))
   OSFAMILY := windows
   WINDOWS := 1
   CYGWIN := 1
