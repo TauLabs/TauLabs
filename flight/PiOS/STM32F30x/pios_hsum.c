@@ -1,15 +1,12 @@
 /**
  ******************************************************************************
+ * @file       pios_hsum.c
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_HSUM Graupner HoTT receiver functions
  * @{
- *
- * @file       pios_hsum.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2013.
- * @brief      Graupner HoTT receiver functions for SUMD/H
- * @see        The GNU Public License (GPL) Version 3
- *
+ * @brief Graupner HoTT receiver functions for SUMD/H
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
