@@ -783,8 +783,30 @@ void PIOS_Board_Init(void) {
 	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
-#ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
+	uint8_t hw_outport;
+	uint8_t number_of_pwm_outputs;
+	uint8_t number_of_adc_ports;
+	HwSparkyOutPortGet(&hw_outport);
+	switch (hw_outport) {
+	case HWSPARKY_OUTPORT_PWM10:
+		number_of_pwm_outputs = 10;
+		number_of_adc_ports = 0;
+		break;
+	case HWSPARKY_OUTPORT_PWM82ADC:
+		number_of_pwm_outputs = 8;
+		number_of_adc_ports = 2;
+		break;
+	case HWSPARKY_OUTPORT_PWM73ADC:
+		number_of_pwm_outputs = 7;
+		number_of_adc_ports = 3;
+		break;
+	default:
+		PIOS_Assert(0);
+		break;
+	}
+	#ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
 #ifdef PIOS_INCLUDE_SERVO
+	pios_servo_cfg.num_channels = number_of_pwm_outputs;
 	PIOS_Servo_Init(&pios_servo_cfg);
 #endif
 #else
@@ -792,10 +814,13 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_ADC)
-	uint32_t internal_adc_id;
-	if(PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg) < 0)
-		PIOS_Assert(0);
-	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
+	if(number_of_adc_ports > 0) {
+		internal_adc_cfg.number_of_used_pins = number_of_adc_ports;
+		uint32_t internal_adc_id;
+		if(PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg) < 0)
+			PIOS_Assert(0);
+		PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
+	}
 #endif /* PIOS_INCLUDE_ADC */
 
 	PIOS_WDG_Clear();
