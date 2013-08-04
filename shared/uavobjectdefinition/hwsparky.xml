@@ -45,6 +45,14 @@
 			</options>
 		</field>
 
+		<field name="OutPort" units="function" type="enum" elements="1" defaultvalue="PWM10">
+			<options>
+				<option>PWM10</option>
+				<option>PWM7+3ADC</option>
+				<option>PWM8+2ADC</option>
+			</options>
+		</field>
+		
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
 		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>
 
