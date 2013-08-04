@@ -1129,7 +1129,6 @@ static const struct pios_tim_channel pios_tim_servoport_v02_pins[] = {
 			.pin_source = GPIO_PinSource7,
 		},
 	},
-#if !defined(PIOS_INCLUDE_ADC)	
 	{ // Ch9 TIM3_CH2  (PA4)
 		.timer = TIM3,
 		.timer_chan = TIM_Channel_2,
@@ -1162,7 +1161,6 @@ static const struct pios_tim_channel pios_tim_servoport_v02_pins[] = {
 			.pin_source = GPIO_PinSource1,
 		},
 	},
-#endif  /* PIOS_INCLUDE_ADC */
 };
 
 
@@ -1172,7 +1170,7 @@ static const struct pios_tim_channel pios_tim_servoport_v02_pins[] = {
  */
 #include <pios_servo_priv.h>
 
-const struct pios_servo_cfg pios_servo_cfg = {
+struct pios_servo_cfg pios_servo_cfg = {
 	.tim_oc_init = {
 		.TIM_OCMode = TIM_OCMode_PWM1,
 		.TIM_OutputState = TIM_OutputState_Enable,
@@ -1251,7 +1249,7 @@ static const struct pios_ppm_cfg pios_ppm_cfg = {
  * ADC1 : PA4 ADC2_IN1
  * ADC2 : PA7 ADC2_IN4 (disabled by default and should have external resistor)
  */
-static const struct pios_internal_adc_cfg internal_adc_cfg = {
+static struct pios_internal_adc_cfg internal_adc_cfg = {
 	.dma = {
 		.irq = {
 			.flags   = (DMA1_FLAG_TC1 | DMA1_FLAG_TE1 | DMA1_FLAG_HT1 | DMA1_FLAG_GL1),
@@ -1272,14 +1270,16 @@ static const struct pios_internal_adc_cfg internal_adc_cfg = {
 	.half_flag = DMA1_IT_HT1,
 	.full_flag = DMA1_IT_TC1,
 	.oversampling = 32,
-	.number_of_used_pins = 2,
+	.number_of_used_pins = 3,
 	.adc_pins = (struct adc_pin[]){
 		{GPIOA,GPIO_Pin_1,ADC_Channel_2,true},
 		{GPIOA,GPIO_Pin_4,ADC_Channel_1,false},
+		{GPIOA,GPIO_Pin_7,ADC_Channel_4,false},
 	},
 	.adc_dev_master = ADC1,
 	.adc_dev_slave = ADC2,
 };
+
 #endif /* PIOS_INCLUDE_ADC */
 
 
