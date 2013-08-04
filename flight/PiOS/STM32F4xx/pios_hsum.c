@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_hsum.c
- * @author     ernie of infect
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2013.
  * @brief      Graupner HoTT receiver functions for SUMD/H
  * @see        The GNU Public License (GPL) Version 3
  *

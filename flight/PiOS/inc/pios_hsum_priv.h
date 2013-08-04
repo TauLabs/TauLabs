@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_hsum_priv.h
- * @author     ernie of infect
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2013.
  * @brief      Graupner HoTT receiver private structures.
  * @see        The GNU Public License (GPL) Version 3
  *
