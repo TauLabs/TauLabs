@@ -570,7 +570,6 @@ OPMODULEDIR   := $(ROOT_DIR)/flight/Modules
 OPUAVOBJ      := $(ROOT_DIR)/flight/UAVObjects
 OPUAVTALK     := $(ROOT_DIR)/flight/UAVTalk
 DOXYGENDIR    := $(ROOT_DIR)/flight/Doc/Doxygen
-BLCOMMONDIR   := $(ROOT_DIR)/flight/targets/bl/common
 SHAREDAPIDIR  := $(ROOT_DIR)/shared/api
 OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 
@@ -672,7 +671,7 @@ fw_$(1)_clean:
 endef
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
-# $(2) = Unused
+# $(2) = CPU arch (e.g. f1, f3, f4)
 # $(3) = Short name for board (e.g CC)
 define BL_TEMPLATE
 .PHONY: bl_$(1)
@@ -682,9 +681,13 @@ bl_$(1)_bino: bl_$(1)_bin
 bl_$(1)_%: TARGET=bl_$(1)
 bl_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
 bl_$(1)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
+bl_$(1)_%: BLSRCDIR=$(ROOT_DIR)/flight/targets/bl
+bl_$(1)_%: BLCOMMONDIR=$$(BLSRCDIR)/common
+bl_$(1)_%: BLARCHDIR=$$(BLSRCDIR)/$(2)
+bl_$(1)_%: BLBOARDDIR=$$(BOARD_ROOT_DIR)/bl
 bl_$(1)_%:
 	$(V1) mkdir -p $$(OUTDIR)/dep
-	$(V1) cd $(ROOT_DIR)/flight/targets/$(1)/bl && \
+	$(V1) cd $$(BLARCHDIR) && \
 		$$(MAKE) -r --no-print-directory \
 		BOARD_NAME=$(1) \
 		BOARD_SHORT_NAME=$(3) \
@@ -701,11 +704,9 @@ bl_$(1)_%:
 		\
 		PIOS=$(PIOS) \
 		FLIGHTLIB=$(FLIGHTLIB) \
-		BLCOMMONDIR=$(BLCOMMONDIR) \
-		OPMODULEDIR=$(OPMODULEDIR) \
-		OPUAVOBJ=$(OPUAVOBJ) \
-		OPUAVTALK=$(OPUAVTALK) \
-		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		BLCOMMONDIR=$$(BLCOMMONDIR) \
+		BLARCHDIR=$$(BLARCHDIR) \
+		BLBOARDDIR=$$(BLBOARDDIR) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		\
 		$$*
@@ -901,13 +902,13 @@ all_flight_clean: all_fw_clean all_bl_clean all_bu_clean all_ef_clean all_sim_cl
 $(foreach board, $(ALL_BOARDS), $(eval $(call BOARD_PHONY_TEMPLATE,$(board))))
 
 # Expand the bootloader updater rules
-$(foreach board, $(BU_BOARDS), $(eval $(call BU_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
+$(foreach board, $(BU_BOARDS), $(eval $(call BU_TEMPLATE,$(board),$($(board)_cpuarch),$($(board)_short))))
 
 # Expand the firmware rules
 $(foreach board, $(FW_BOARDS), $(eval $(call FW_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
 # Expand the bootloader rules
-$(foreach board, $(BL_BOARDS), $(eval $(call BL_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
+$(foreach board, $(BL_BOARDS), $(eval $(call BL_TEMPLATE,$(board),$($(board)_cpuarch),$($(board)_short))))
 
 # Expand the entire-flash rules
 $(foreach board, $(EF_BOARDS), $(eval $(call EF_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
