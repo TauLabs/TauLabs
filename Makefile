@@ -676,7 +676,6 @@ endef
 define BL_TEMPLATE
 .PHONY: bl_$(1)
 bl_$(1): bl_$(1)_bin
-bl_$(1)_bino: bl_$(1)_bin
 
 bl_$(1)_%: TARGET=bl_$(1)
 bl_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
@@ -745,9 +744,13 @@ bu_$(1): bu_$(1)_tlfw
 bu_$(1)_%: TARGET=bu_$(1)
 bu_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
 bu_$(1)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
-bu_$(1)_%: bl_$(1)_bino
+bu_$(1)_%: BUSRCDIR=$(ROOT_DIR)/flight/targets/bu
+bu_$(1)_%: BUCOMMONDIR=$$(BUSRCDIR)/common
+bu_$(1)_%: BUARCHDIR=$$(BUSRCDIR)/$(2)
+bu_$(1)_%: BUBOARDDIR=$$(BOARD_ROOT_DIR)/bu
+bu_$(1)_%: bl_$(1)_bin
 	$(V1) mkdir -p $$(OUTDIR)/dep
-	$(V1) cd $(ROOT_DIR)/flight/targets/Bootloaders/BootloaderUpdater && \
+	$(V1) cd $$(BUARCHDIR) && \
 		$$(MAKE) -r --no-print-directory \
 		BOARD_NAME=$(1) \
 		BOARD_SHORT_NAME=$(3) \
@@ -764,10 +767,9 @@ bu_$(1)_%: bl_$(1)_bino
 		\
 		PIOS=$(PIOS) \
 		FLIGHTLIB=$(FLIGHTLIB) \
-		OPMODULEDIR=$(OPMODULEDIR) \
-		OPUAVOBJ=$(OPUAVOBJ) \
-		OPUAVTALK=$(OPUAVTALK) \
-		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		BUCOMMONDIR=$$(BUCOMMONDIR) \
+		BUARCHDIR=$$(BUARCHDIR) \
+		BUBOARDDIR=$$(BUBOARDDIR) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		\
 		$$*
@@ -863,10 +865,6 @@ SIM_BOARDS :=
 else # unknown OS
 SIM_BOARDS := 
 endif
-
-# FIXME: The BU image doesn't work for F4 boards so we need to
-#        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution revomini freedom quanton flyingf4 discoveryf4 flyingf3 sparky, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))
