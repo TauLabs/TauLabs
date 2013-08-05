@@ -107,6 +107,7 @@ void UAVObjectTreeModel::newObject(UAVObject *obj)
     }
 }
 
+
 void UAVObjectTreeModel::addDataObject(UAVDataObject *obj, bool categorize)
 {
     //Determine if the root tree is the settings or dynamic data tree
@@ -185,7 +186,15 @@ void UAVObjectTreeModel::addInstance(UAVObject *obj, TreeItem *parent)
         item = new InstanceTreeItem(obj, name);
         item->setHighlightManager(m_highlightManager);
         connect(item, SIGNAL(updateHighlight(TreeItem*)), this, SLOT(updateHighlight(TreeItem*)));
+
+        // Inform the model that we will add a row
+        beginInsertRows(index(parent), parent->childCount(), parent->childCount());
+
+        // Add the row
         parent->appendChild(item);
+
+        // Inform the model that the row addition is complete
+        endInsertRows();
     }
     foreach (UAVObjectField *field, obj->getFields()) {
         if (field->getNumElements() > 1) {
