@@ -1,4 +1,4 @@
 define connect
 	target remote localhost:3333
-	file ./build/bl_sparky/bl_sparky.elf
+	file ./build/bl_sparkybgc/bl_sparkybgc.elf
 end
