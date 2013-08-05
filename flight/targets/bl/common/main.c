@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file       tl_dfu.c
+ * @file       main.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup Bootloader
  * @{

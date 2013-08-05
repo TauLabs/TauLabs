@@ -45,7 +45,7 @@ STMSPDINCDIR = $(STMSPDDIR)/inc
 # use file-extension c for "c-only"-files
 
 ## Bootloader (architecture specific)
-SRC += $(BLCOMMONDIR)/tl_dfu.c
+SRC += $(BLCOMMONDIR)/main.c
 SRC += $(BLCOMMONDIR)/led_pwm.c
 SRC += $(BLCOMMONDIR)/bl_xfer.c
 
