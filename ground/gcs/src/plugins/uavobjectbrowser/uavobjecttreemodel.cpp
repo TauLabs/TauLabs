@@ -187,11 +187,8 @@ void UAVObjectTreeModel::addInstance(UAVObject *obj, TreeItem *parent)
         item->setHighlightManager(m_highlightManager);
         connect(item, SIGNAL(updateHighlight(TreeItem*)), this, SLOT(updateHighlight(TreeItem*)));
 
-        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-        UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-
         // Inform the model that we will add a row
-        beginInsertRows(index(parent), objManager->getNumInstances(obj->getObjID()), objManager->getNumInstances(obj->getObjID()));
+        beginInsertRows(index(parent), parent->childCount(), parent->childCount());
 
         // Add the row
         parent->appendChild(item);
