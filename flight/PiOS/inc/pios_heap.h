@@ -28,10 +28,17 @@
 #define PIOS_HEAP_H
 
 #include <stdlib.h>		/* size_t */
+#include <stdbool.h>		/* bool */
+
+extern bool PIOS_heap_malloc_failed_p(void);
 
 extern void * PIOS_malloc_no_dma(size_t size);
 extern void * PIOS_malloc(size_t size);
 
 extern void PIOS_free(void * buf);
+
+extern size_t PIOS_heap_get_free_size(void);
+extern void PIOS_heap_initialize_blocks(void);
+extern void PIOS_heap_increase_size(size_t bytes);
 
 #endif	/* PIOS_HEAP_H */

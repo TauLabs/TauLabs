@@ -82,7 +82,6 @@ MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 # optional component libraries
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 #include $(PIOSCOMMONLIB)/dosfs/library.mk
-include $(PIOSCOMMONLIB)/msheap/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 

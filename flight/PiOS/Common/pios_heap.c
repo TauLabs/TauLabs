@@ -33,20 +33,44 @@
 #include <stdint.h>		/* uintptr_t */
 #include <stdbool.h>		/* bool */
 
+#define DEBUG_MALLOC_FAILURES 0
+static volatile bool malloc_failed_flag = false;
+static void malloc_failed_hook(void)
+{
+	malloc_failed_flag = true;
+#if DEBUG_MALLOC_FAILURES
+	static volatile bool wait_here = true;
+	while(wait_here);
+	wait_here = true;
+#endif
+}
+
+bool PIOS_heap_malloc_failed_p(void)
+{
+	return malloc_failed_flag;
+}
+
 #if defined(PIOS_INCLUDE_FREERTOS)
+
+/*
+ * Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
+ * all the API functions to use the MPU wrappers.  That should only be done when
+ * task.h is included from an application file.
+ * */
+#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 #include "FreeRTOS.h"		/* needed by task.h */
 #include "task.h"		/* vTaskSuspendAll, xTaskResumeAll */
+#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+
 #endif	/* PIOS_INCLUDE_FREERTOS */
 
 struct pios_heap {
 	const uintptr_t start_addr;
-	const uintptr_t end_addr;
+	uintptr_t end_addr;
 	uintptr_t free_addr;
 };
 
-#if defined(PIOS_INCLUDE_FASTHEAP) || !defined(PIOS_INCLUDE_FREERTOS)
-
-static bool is_ptr_in_heap_p(const struct pios_heap * heap, void * buf)
+static bool is_ptr_in_heap_p(const struct pios_heap *heap, void *buf)
 {
 	uintptr_t buf_addr = (uintptr_t)buf;
 
@@ -82,35 +106,43 @@ static void simple_free(struct pios_heap *heap, void *buf)
 	/* This allocator doesn't support free */
 }
 
-#endif	/* PIOS_INCLUDE_FASTHEAP || !PIOS_INCLUDE_FREERTOS */
+static size_t simple_get_free_bytes(struct pios_heap *heap)
+{
+	if (heap->free_addr > heap->end_addr)
+		return 0;
+
+	return heap->end_addr - heap->free_addr;
+}
+
+static void simple_extend_heap(struct pios_heap *heap, size_t bytes)
+{
+	heap->end_addr += bytes;
+}
 
 /*
  * Standard heap.  All memory in this heap is DMA-safe.
  * Note: Uses underlying FreeRTOS heap when available
  */
-#if defined(PIOS_INCLUDE_FREERTOS)
-
-void * PIOS_malloc(size_t size)
-{
-	return pvPortMalloc(size);
-}
-
-#else  /* PIOS_INCLUDE_FREERTOS */
-
 extern const void * _eheap;	/* defined in linker script */
 extern const void * _sheap;	/* defined in linker script */
 
-static struct pios_heap pios_slow_heap = {
+static struct pios_heap pios_standard_heap = {
 	.start_addr = (const uintptr_t)&_sheap,
 	.end_addr   = (const uintptr_t)&_eheap,
 	.free_addr  = (uintptr_t)&_sheap,
 };
+
+
+void * pvPortMalloc(size_t size) __attribute__((alias ("PIOS_malloc"), weak));
 void * PIOS_malloc(size_t size)
 {
-	return simple_malloc(&pios_slow_heap, size);
-}
+	void *buf = simple_malloc(&pios_standard_heap, size);
 
-#endif	/* PIOS_INCLUDE_FREERTOS */
+	if (buf == NULL)
+		malloc_failed_hook();
+
+	return buf;
+}
 
 /*
  * Fast heap.  Memory in this heap is NOT DMA-safe.
@@ -122,17 +154,20 @@ void * PIOS_malloc(size_t size)
 
 extern const void * _efastheap;	/* defined in linker script */
 extern const void * _sfastheap;	/* defined in linker script */
-static struct pios_heap pios_fast_heap = {
+static struct pios_heap pios_nodma_heap = {
 	.start_addr = (const uintptr_t)&_sfastheap,
 	.end_addr   = (const uintptr_t)&_efastheap,
 	.free_addr  = (uintptr_t)&_sfastheap,
 };
 void * PIOS_malloc_no_dma(size_t size)
 {
-	void * buf = simple_malloc(&pios_fast_heap, size);
+	void * buf = simple_malloc(&pios_nodma_heap, size);
 
 	if (buf == NULL)
-		return PIOS_malloc(size);
+		buf = PIOS_malloc(size);
+
+	if (buf == NULL)
+		malloc_failed_hook();
 
 	return buf;
 }
@@ -147,18 +182,51 @@ void * PIOS_malloc_no_dma(size_t size)
 
 #endif	/* PIOS_INCLUDE_FASTHEAP */
 
+void vPortFree(void * buf) __attribute__((alias ("PIOS_free")));
 void PIOS_free(void * buf)
 {
 #if defined(PIOS_INCLUDE_FASTHEAP)
-	if (is_ptr_in_heap_p(&pios_fast_heap, buf))
-		return simple_free(&pios_fast_heap, buf);
+	if (is_ptr_in_heap_p(&pios_nodma_heap, buf))
+		return simple_free(&pios_nodma_heap, buf);
 #endif	/* PIOS_INCLUDE_FASTHEAP */
 
-#if !defined(PIOS_INCLUDE_FREERTOS)
-	if (is_ptr_in_heap_p(&pios_slow_heap, buf))
-		return simple_free(&pios_slow_heap, buf);
-#else  /* PIOS_INCLUDE_FREERTOS */
-	return vPortFree(buf);
+	if (is_ptr_in_heap_p(&pios_standard_heap, buf))
+		return simple_free(&pios_standard_heap, buf);
+}
+
+size_t xPortGetFreeHeapSize(void) __attribute__((alias ("PIOS_heap_get_free_size")));
+size_t PIOS_heap_get_free_size(void)
+{
+#if defined(PIOS_INCLUDE_FREERTOS)
+	vTaskSuspendAll();
+#endif	/* PIOS_INCLUDE_FREERTOS */
+
+	size_t free_bytes = simple_get_free_bytes(&pios_standard_heap);
+
+#if defined(PIOS_INCLUDE_FREERTOS)
+	xTaskResumeAll();
+#endif	/* PIOS_INCLUDE_FREERTOS */
+
+	return free_bytes;
+}
+
+void vPortInitialiseBlocks(void) __attribute__((alias ("PIOS_heap_initialize_blocks")));
+void PIOS_heap_initialize_blocks(void)
+{
+	/* NOP for the simple allocator */
+}
+
+void xPortIncreaseHeapSize(size_t bytes) __attribute__((alias ("PIOS_heap_increase_size")));
+void PIOS_heap_increase_size(size_t bytes)
+{
+#if defined(PIOS_INCLUDE_FREERTOS)
+	vTaskSuspendAll();
+#endif	/* PIOS_INCLUDE_FREERTOS */
+
+	simple_extend_heap(&pios_standard_heap, bytes);
+
+#if defined(PIOS_INCLUDE_FREERTOS)
+	xTaskResumeAll();
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 
