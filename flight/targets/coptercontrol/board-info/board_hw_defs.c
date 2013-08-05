@@ -412,6 +412,7 @@ static const struct flashfs_logfs_cfg flashfs_settings_cfg = {
 	.slot_size     = 0x00000100, /* 256 bytes */
 };
 
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
 #include "pios_flash_jedec_priv.h"
 
 static const struct pios_flash_jedec_cfg flash_w25x_cfg = {
@@ -427,14 +428,18 @@ static const struct pios_flash_jedec_cfg flash_m25p_cfg = {
 	.expect_capacity     = 0x15,
 	.sector_erase        = 0xD8,
 };
+#endif	/* PIOS_INCLUDE_FLASH_JEDEC */
 
+#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 #include "pios_flash_internal_priv.h"
 
 static const struct pios_flash_internal_cfg flash_internal_cfg = {
 };
+#endif	/* PIOS_INCLUDE_FLASH_INTERNAL */
 
 #include "pios_flash_priv.h"
 
+#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 static const struct pios_flash_sector_range stm32f1_sectors[] = {
 	{
 		.base_sector = 0,
@@ -451,12 +456,11 @@ static const struct pios_flash_chip pios_flash_chip_internal = {
 	.sector_blocks = stm32f1_sectors,
 	.num_blocks    = NELEMENTS(stm32f1_sectors),
 };
+#endif	/* PIOS_INCLUDE_FLASH_INTERNAL */
 
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
 uintptr_t pios_external_flash_id;
-/* 
- * Must not be const on CC/CC3D since it needs to be replaced at run-time depending
- * on which board we're booting on.
- */
+
 static const struct pios_flash_sector_range m25p16_sectors[] = {
 	{
 		.base_sector = 0,
@@ -488,8 +492,10 @@ static const struct pios_flash_chip pios_flash_chip_w25x40 = {
 	.sector_blocks = w25x40_sectors,
 	.num_blocks    = NELEMENTS(w25x40_sectors),
 };
+#endif /* PIOS_INCLUDE_FLASH_JEDEC */
 
 static const struct pios_flash_partition pios_flash_partition_table_w25x40[] = {
+#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 	{
 		.label        = FLASH_PARTITION_LABEL_BL,
 		.chip_desc    = &pios_flash_chip_internal,
@@ -507,7 +513,9 @@ static const struct pios_flash_partition pios_flash_partition_table_w25x40[] = {
 		.chip_offset  = (12 * FLASH_SECTOR_1KB),
 		.size         = (127 - 12 + 1) * FLASH_SECTOR_1KB,
 	},
+#endif /* PIOS_INCLUDE_FLASH_INTERNAL */
 
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
 	{
 		.label        = FLASH_PARTITION_LABEL_SETTINGS,
 		.chip_desc    = &pios_flash_chip_w25x40,
@@ -525,9 +533,11 @@ static const struct pios_flash_partition pios_flash_partition_table_w25x40[] = {
 		.chip_offset  = (64 * FLASH_SECTOR_4KB),
 		.size         = (127 - 64 + 1) * FLASH_SECTOR_4KB,
 	},
+#endif	/* PIOS_INCLUDE_FLASH_JEDEC */
 };
 
 static const struct pios_flash_partition pios_flash_partition_table_m25p16[] = {
+#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 	{
 		.label        = FLASH_PARTITION_LABEL_BL,
 		.chip_desc    = &pios_flash_chip_internal,
@@ -545,7 +555,9 @@ static const struct pios_flash_partition pios_flash_partition_table_m25p16[] = {
 		.chip_offset  = (12 * FLASH_SECTOR_1KB),
 		.size         = (127 - 12 + 1) * FLASH_SECTOR_1KB,
 	},
+#endif /* PIOS_INCLUDE_FLASH_INTERNAL */
 
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
 	{
 		.label        = FLASH_PARTITION_LABEL_SETTINGS,
 		.chip_desc    = &pios_flash_chip_m25p16,
@@ -563,6 +575,7 @@ static const struct pios_flash_partition pios_flash_partition_table_m25p16[] = {
 		.chip_offset  = (16 * FLASH_SECTOR_64KB),
 		.size         = (31 - 16 + 1) * FLASH_SECTOR_64KB,
 	},
+#endif	/* PIOS_INCLUDE_FLASH_JEDEC */
 };
 
 #endif	/* PIOS_INCLUDE_FLASH */

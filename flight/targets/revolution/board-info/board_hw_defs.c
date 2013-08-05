@@ -466,6 +466,7 @@ static const struct flashfs_logfs_cfg flashfs_waypoints_cfg = {
 	.slot_size     = 0x00000040, /* 64 bytes */
 };
 
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
 #include "pios_flash_jedec_priv.h"
 
 static const struct pios_flash_jedec_cfg flash_m25p_cfg = {
@@ -474,14 +475,18 @@ static const struct pios_flash_jedec_cfg flash_m25p_cfg = {
 	.expect_capacity     = 0x15,
 	.sector_erase        = 0xD8,
 };
+#endif	/* PIOS_INCLUDE_FLASH_JEDEC */
 
+#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 #include "pios_flash_internal_priv.h"
 
 static const struct pios_flash_internal_cfg flash_internal_cfg = {
 };
+#endif	/* PIOS_INCLUDE_FLASH_INTERNAL */
 
 #include "pios_flash_priv.h"
 
+#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 static const struct pios_flash_sector_range stm32f4_sectors[] = {
 	{
 		.base_sector = 0,
@@ -509,7 +514,9 @@ static const struct pios_flash_chip pios_flash_chip_internal = {
 	.sector_blocks = stm32f4_sectors,
 	.num_blocks    = NELEMENTS(stm32f4_sectors),
 };
+#endif	/* PIOS_INCLUDE_FLASH_INTERNAL */
 
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
 static const struct pios_flash_sector_range m25p16_sectors[] = {
 	{
 		.base_sector = 0,
@@ -526,8 +533,10 @@ static const struct pios_flash_chip pios_flash_chip_external = {
 	.sector_blocks = m25p16_sectors,
 	.num_blocks    = NELEMENTS(m25p16_sectors),
 };
+#endif /* PIOS_INCLUDE_FLASH_JEDEC */
 
 static const struct pios_flash_partition pios_flash_partition_table[] = {
+#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 	{
 		.label        = FLASH_PARTITION_LABEL_BL,
 		.chip_desc    = &pios_flash_chip_internal,
@@ -550,6 +559,9 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 
 	/* NOTE: sectors 7-11 of the internal flash are currently unallocated */
 
+#endif /* PIOS_INCLUDE_FLASH_INTERNAL */
+
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
 	{
 		.label        = FLASH_PARTITION_LABEL_SETTINGS,
 		.chip_desc    = &pios_flash_chip_external,
@@ -567,6 +579,7 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.chip_offset  = (16 * FLASH_SECTOR_64KB),
 		.size         = (31 - 16 + 1) * FLASH_SECTOR_64KB,
 	},
+#endif	/* PIOS_INCLUDE_FLASH_JEDEC */
 };
 
 #endif	/* PIOS_INCLUDE_FLASH */
