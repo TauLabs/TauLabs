@@ -187,15 +187,12 @@ $(foreach src, $(SRC), $(eval $(call COMPILE_C_TEMPLATE, $(src))))
 # Compile: create assembler files from C source files. ARM/Thumb
 $(eval $(call PARTIAL_COMPILE_TEMPLATE, SRC))
 
-$(OUTDIR)/$(TARGET).bin.o: $(OUTDIR)/$(TARGET).bin
-
 $(eval $(call TLFW_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(BOARD_TYPE),$(BOARD_REVISION)))
 
-.PHONY: elf hex bin bino tlfw
+.PHONY: elf hex bin tlfw
 elf: $(OUTDIR)/$(TARGET).elf
 hex: $(OUTDIR)/$(TARGET).hex
 bin: $(OUTDIR)/$(TARGET).bin
-bino: $(OUTDIR)/$(TARGET).bin.o
 tlfw: $(OUTDIR)/$(TARGET).tlfw
 
 # Display sizes of sections.

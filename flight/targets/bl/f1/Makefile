@@ -231,15 +231,12 @@ $(foreach src, $(SRC), $(eval $(call COMPILE_C_TEMPLATE, $(src))))
 # Compile: create assembler files from C source files. ARM/Thumb
 $(eval $(call PARTIAL_COMPILE_TEMPLATE, SRC))
 
-$(OUTDIR)/$(TARGET).bin.o: $(OUTDIR)/$(TARGET).bin
-
 # Add jtag targets (program and wipe)
 $(eval $(call JTAG_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(BL_BANK_BASE),$(BL_BANK_SIZE),$(OPENOCD_JTAG_CONFIG),$(OPENOCD_CONFIG)))
 
-.PHONY: hex bin bino
+.PHONY: hex bin
 hex: $(OUTDIR)/$(TARGET).hex
 bin: $(OUTDIR)/$(TARGET).bin
-bino: $(OUTDIR)/$(TARGET).bin.o
 
 # Display sizes of sections.
 $(eval $(call SIZE_TEMPLATE, $(OUTDIR)/$(TARGET).elf))

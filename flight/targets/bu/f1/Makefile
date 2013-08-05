@@ -172,10 +172,9 @@ ALLSRCBASE = $(notdir $(basename $(ALLSRC)))
 
 # Define all object files.
 ALLOBJ     = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE)))
-BLOBJ := $(ROOT_DIR)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin.o
 
 # Link: create ELF output file from object files.
-$(eval $(call LINK_TEMPLATE, $(OUTDIR)/$(TARGET).elf, $(ALLOBJ) $(BLOBJ)))
+$(eval $(call LINK_TEMPLATE, $(OUTDIR)/$(TARGET).elf, $(ALLOBJ)))
 
 # Assemble: create object files from assembler source files.
 $(foreach src, $(ASRC), $(eval $(call ASSEMBLE_TEMPLATE, $(src)))) 
@@ -186,15 +185,12 @@ $(foreach src, $(SRC), $(eval $(call COMPILE_C_TEMPLATE, $(src))))
 # Compile: create assembler files from C source files. ARM/Thumb
 $(eval $(call PARTIAL_COMPILE_TEMPLATE, SRC))
 
-$(OUTDIR)/$(TARGET).bin.o: $(OUTDIR)/$(TARGET).bin
-
 $(eval $(call TLFW_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(BOARD_TYPE),$(BOARD_REVISION)))
 
-.PHONY: elf hex bin bino tlfw
+.PHONY: elf hex bin tlfw
 elf: $(OUTDIR)/$(TARGET).elf
 hex: $(OUTDIR)/$(TARGET).hex
 bin: $(OUTDIR)/$(TARGET).bin
-bino: $(OUTDIR)/$(TARGET).bin.o
 tlfw: $(OUTDIR)/$(TARGET).tlfw
 
 # Display sizes of sections.
