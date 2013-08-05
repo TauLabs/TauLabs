@@ -254,30 +254,6 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 }
 #endif
 
-#ifdef PIOS_INCLUDE_HSUM
-static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hsum_cfg,
-		const struct pios_com_driver *pios_usart_com_driver,enum pios_hsum_proto *proto,
-		ManualControlSettingsChannelGroupsOptions channelgroup)
-{
-	uintptr_t pios_usart_hsum_id;
-	if (PIOS_USART_Init(&pios_usart_hsum_id, pios_usart_hsum_cfg)) {
-		PIOS_Assert(0);
-	}
-	
-	uintptr_t pios_hsum_id;
-	if (PIOS_HSUM_Init(&pios_hsum_id, pios_usart_com_driver,
-			  pios_usart_hsum_id, *proto)) {
-		PIOS_Assert(0);
-	}
-	
-	uintptr_t pios_hsum_rcvr_id;
-	if (PIOS_RCVR_Init(&pios_hsum_rcvr_id, &pios_hsum_rcvr_driver, pios_hsum_id)) {
-		PIOS_Assert(0);
-	}
-	pios_rcvr_group_map[channelgroup] = pios_hsum_rcvr_id;
-}
-#endif
-
 /**
  * Indicate a target-specific error code when a component fails to initialize
  * 1 pulse - MPU9150 - no irq
@@ -318,7 +294,7 @@ void PIOS_Board_Init(void) {
 
 	/* Delay system */
 	PIOS_DELAY_Init();
-
+	
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 
 #if defined(PIOS_INCLUDE_LED)
@@ -357,10 +333,7 @@ void PIOS_Board_Init(void) {
 		panic(5);
 
 	/* Register the partition table */
-	const struct pios_flash_partition * flash_partition_table;
-	uint32_t num_partitions;
-	flash_partition_table = PIOS_BOARD_HW_DEFS_GetPartitionTable(bdinfo->board_rev, &num_partitions);
-	PIOS_FLASH_register_partition_table(flash_partition_table, num_partitions);
+	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
 
 	/* Mount all filesystems */
 	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_internal_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS) != 0)
@@ -401,12 +374,21 @@ void PIOS_Board_Init(void) {
 	//inputs
 
 	//outputs
+#ifndef PIOS_INCLUDE_BRUSHLESS
 	PIOS_TIM_InitClock(&tim_1_cfg);
 	PIOS_TIM_InitClock(&tim_2_cfg);
 	PIOS_TIM_InitClock(&tim_3_cfg);
 	PIOS_TIM_InitClock(&tim_15_cfg);
 	PIOS_TIM_InitClock(&tim_16_cfg);
 	PIOS_TIM_InitClock(&tim_17_cfg);
+#else
+	PIOS_TIM_InitClock(&tim_1_brushless_cfg);
+	PIOS_TIM_InitClock(&tim_2_brushless_cfg);
+	PIOS_TIM_InitClock(&tim_3_brushless_cfg);
+	PIOS_TIM_InitClock(&tim_15_brushless_cfg);
+	PIOS_TIM_InitClock(&tim_16_brushless_cfg);
+#endif
+
 
 	/* IAP System Setup */
 	PIOS_IAP_Init();
@@ -616,7 +598,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_flexi_dsm_hsum_cfg, &pios_flexi_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_flexi_dsm_cfg, &pios_flexi_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
@@ -701,7 +683,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_main_dsm_hsum_cfg, &pios_main_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_main_dsm_cfg, &pios_main_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
@@ -772,31 +754,10 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_rcvr_dsm_hsum_cfg, &pios_rcvr_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_rcvr_dsm_cfg, &pios_rcvr_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
-		break;
-	case HWSPARKY_RCVRPORT_HOTTSUMD:
-	case HWSPARKY_RCVRPORT_HOTTSUMH:
-#if defined(PIOS_INCLUDE_HSUM)
-		{
-			enum pios_hsum_proto proto;
-			switch (hw_rcvrport) {
-			case HWSPARKY_RCVRPORT_HOTTSUMD:
-				proto = PIOS_HSUM_PROTO_SUMD;
-				break;
-			case HWSPARKY_RCVRPORT_HOTTSUMH:
-				proto = PIOS_HSUM_PROTO_SUMH;
-				break;
-			default:
-				PIOS_Assert(0);
-				break;
-			}
-			PIOS_Board_configure_hsum(&pios_rcvr_dsm_hsum_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
-		}
-#endif	/* PIOS_INCLUDE_HSUM */
 		break;
 	case HWSPARKY_RCVRPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
@@ -831,73 +792,27 @@ void PIOS_Board_Init(void) {
 	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
-	uint8_t hw_outport;
-	uint8_t number_of_pwm_outputs;
-	uint8_t number_of_adc_ports;
-	bool use_pwm_in;
-	HwSparkyOutPortGet(&hw_outport);
-	switch (hw_outport) {
-	case HWSPARKY_OUTPORT_PWM10:
-		number_of_pwm_outputs = 10;
-		number_of_adc_ports = 0;
-		use_pwm_in = false;
-		break;
-	case HWSPARKY_OUTPORT_PWM82ADC:
-		number_of_pwm_outputs = 8;
-		number_of_adc_ports = 2;
-		use_pwm_in = false;
-		break;
-	case HWSPARKY_OUTPORT_PWM73ADC:
-		number_of_pwm_outputs = 7;
-		number_of_adc_ports = 3;
-		use_pwm_in = false;
-		break;
-	case HWSPARKY_OUTPORT_PWM9PWM_IN:
-		number_of_pwm_outputs = 9;
-		use_pwm_in = true;
-		number_of_adc_ports = 0;
-		break;
-	case HWSPARKY_OUTPORT_PWM7PWM_IN2ADC:
-		number_of_pwm_outputs = 7;
-		use_pwm_in = true;
-		number_of_adc_ports = 2;
-		break;
-	default:
-		PIOS_Assert(0);
-		break;
-	}
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
 #ifdef PIOS_INCLUDE_SERVO
-	pios_servo_cfg.num_channels = number_of_pwm_outputs;
 	PIOS_Servo_Init(&pios_servo_cfg);
 #endif
+
+#ifdef PIOS_INCLUDE_BRUSHLESS
+	if (PIOS_Brushless_Init(&pios_brushless_cfg) != 0)
+		panic(8);
+#endif
+
 #else
 	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
 #endif
 
 #if defined(PIOS_INCLUDE_ADC)
-	if(number_of_adc_ports > 0) {
-		internal_adc_cfg.number_of_used_pins = number_of_adc_ports;
-		uint32_t internal_adc_id;
-		if(PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg) < 0)
-			PIOS_Assert(0);
-		PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
-	}
+	uint32_t internal_adc_id;
+	if(PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg) < 0)
+		PIOS_Assert(0);
+	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
 #endif /* PIOS_INCLUDE_ADC */
-#if defined(PIOS_INCLUDE_PWM)
-	if (use_pwm_in > 0) {
-		if (number_of_adc_ports > 0)
-			pios_pwm_cfg.channels = &pios_tim_rcvrport_pwm[1];
-		uintptr_t pios_pwm_id;
-		PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_cfg);
 
-		uintptr_t pios_pwm_rcvr_id;
-		if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
-			PIOS_Assert(0);
-		}
-		pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
-	}
-#endif	/* PIOS_INCLUDE_PWM */
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(200);
 	PIOS_WDG_Clear();

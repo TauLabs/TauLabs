@@ -33,7 +33,7 @@ DEBUG ?= NO
 # List of modules to include
 MODULES = Sensors
 MODULES += Attitude/revolution
-MODULES += Actuator
+MODULES += BrushlessGimbal
 MODULES += ManualControl
 MODULES += Stabilization
 MODULES += FirmwareIAP
@@ -115,7 +115,7 @@ SRC += $(MATHLIB)/pid.c
 SRC += $(MATHLIB)/atmospheric_math.c
 
 ## PIOS Hardware (STM32F30x)
-include $(PIOS)/STM32F30x/library_fw.mk
+include $(PIOS)/STM32F30x/library.mk
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_mpu6050.c
@@ -128,7 +128,6 @@ SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_sbus.c
-SRC += $(PIOSCOMMON)/pios_hsum.c
 SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_gcsrcvr.c
 SRC += $(PIOSCOMMON)/pios_flash.c
@@ -139,8 +138,6 @@ SRC += $(PIOSCOMMON)/pios_usb_util.c
 SRC += $(PIOSCOMMON)/pios_dma.c
 SRC += $(PIOSCOMMON)/pios_adc.c
 SRC += $(PIOSCOMMON)/pios_heap.c
-SRC += $(PIOSCOMMON)/pios_semaphore.c
-
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)
