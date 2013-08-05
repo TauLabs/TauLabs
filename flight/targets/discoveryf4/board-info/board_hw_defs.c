@@ -98,6 +98,11 @@ static const struct pios_led_cfg pios_led_cfg = {
 	.num_leds = NELEMENTS(pios_leds),
 };
 
+const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revision)
+{
+	return &pios_led_cfg;
+}
+
 #endif	/* PIOS_INCLUDE_LED */
 
 
