@@ -57,6 +57,7 @@ struct pios_hsum_state {
 	uint8_t receive_timer;
 	uint8_t failsafe_timer;
 	uint8_t frame_found;
+	uint8_t tx_connected;
 	uint8_t byte_count;
 	uint8_t frame_length;
 };
@@ -120,6 +121,7 @@ static void PIOS_HSUM_ResetState(struct pios_hsum_dev *hsum_dev)
 	state->receive_timer = 0;
 	state->failsafe_timer = 0;
 	state->frame_found = 0;
+	state->tx_connected = 0;
 	PIOS_HSUM_ResetChannels(hsum_dev);
 }
 
@@ -169,12 +171,21 @@ static int PIOS_HSUM_UnrollChannels(struct pios_hsum_dev *hsum_dev)
 				/* wrong crc checksum found */
 				goto stream_error;
 		}
+		/* check for a living connect */
+		state->tx_connected |= (status != 0x81);
 		break;
 	default:
 		/* wrong header format */
 		goto stream_error;
 	}
 
+	/* check initial connection since reset or timeout */
+	if (!(state->tx_connected)) {
+		/* these are failsafe data without a first connect. ignore it */
+		PIOS_HSUM_ResetChannels(hsum_dev);
+		return 0;
+	}
+	
 	/* unroll channels */
 	uint8_t n_channels = state->received_data[2];
 	uint8_t *s = &(state->received_data[3]);
@@ -346,6 +357,7 @@ static void PIOS_HSUM_Supervisor(uintptr_t hsum_id)
 	if (++state->failsafe_timer > 64) {
 		PIOS_HSUM_ResetChannels(hsum_dev);
 		state->failsafe_timer = 0;
+		state->tx_connected = 0;
 	}
 }
 
