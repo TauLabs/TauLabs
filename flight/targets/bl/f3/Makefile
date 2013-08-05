@@ -54,7 +54,7 @@ SRC += $(BLBOARDDIR)/pios_board.c
 SRC += $(BLBOARDDIR)/pios_usb_board_data.c
 
 ## PIOS Hardware (STM32F30x)
-include $(PIOS)/STM32F30x/library.mk
+include $(PIOS)/STM32F30x/library_bl.mk
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_board_info.c
