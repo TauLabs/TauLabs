@@ -63,7 +63,6 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
-    TreeItem* getRootTree(){return m_rootItem;}
     TopTreeItem* getSettingsTree(){return m_settingsTree;}
     TopTreeItem* getNonSettingsTree(){return m_nonSettingsTree;}
 
@@ -77,7 +76,7 @@ public:
 
     QList<QModelIndex> getMetaDataIndexes();
 
-    QModelIndex getIndex(int indexRow, int indexCol, TreeItem *treeItem){return createIndex(indexRow, indexCol, treeItem);}
+    QModelIndex getIndex(int indexRow, int indexCol, TopTreeItem *topTreeItem){return createIndex(indexRow, indexCol, topTreeItem);}
 
 signals:
 
