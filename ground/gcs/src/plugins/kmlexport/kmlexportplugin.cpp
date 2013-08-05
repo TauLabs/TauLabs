@@ -31,7 +31,7 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QList>
-#include <QErrorMessage>
+#include <QMessageBox>
 #include <QWriteLocker>
 
 #include <extensionsystem/pluginmanager.h>
@@ -81,14 +81,33 @@ void KmlExportPlugin::exportToKML()
     if (inputFileName.isEmpty())
         return;
 
-    // Get output file. Suggest to user that output have same base name and location as input file.
+    // Set up input filter.
     QString filters = tr("Keyhole Markup Language (compressed) (*.kmz);; Keyhole Markup Language (uncompressed) (*.kml)");
-    QString outputFileName = QFileDialog::getSaveFileName(NULL, tr("Export log"),
-                                inputFileName.split(".",QString::SkipEmptyParts).at(0),
-                                filters);
+    bool proceed_flag = false;
+    QString outputFileName;
 
-    if (outputFileName.isEmpty())
-        return;
+    // Get output file. Suggest to user that output have same base name and location as input file.
+    while(proceed_flag == false) {
+        outputFileName = QFileDialog::getSaveFileName(NULL, tr("Export log"),
+                                    inputFileName.split(".",QString::SkipEmptyParts).at(0),
+                                    filters);
+
+        if (outputFileName.isEmpty()) {
+            qDebug() << "No KML file name given.";
+            return;
+        } else if (QFileInfo(outputFileName).suffix() == NULL) {
+            qDebug() << "No KML file extension: " << outputFileName;
+            QMessageBox::critical(new QWidget(),"No file extension", "Filename must have .kml or .kmz extension.");
+        }
+        else if (QFileInfo(outputFileName).suffix().toLower() != "kml" &&
+                 QFileInfo(outputFileName).suffix().toLower() != "kmz") {
+            qDebug() << "Incorrect KML file extension: " << QFileInfo(outputFileName).suffix();
+            QMessageBox::critical(new QWidget(),"Incorrect file extension", "Filename must have .kml or .kmz extension.");
+        }
+        else {
+            proceed_flag = true;
+        }
+    }
 
     // Create kmlExport instance, and trigger export
     KmlExport kmlExport(inputFileName, outputFileName);
