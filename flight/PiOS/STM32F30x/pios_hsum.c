@@ -36,10 +36,10 @@
 /* Forward Declarations */
 static int32_t PIOS_HSUM_Get(uintptr_t rcvr_id, uint8_t channel);
 static uint16_t PIOS_HSUM_RxInCallback(uintptr_t context,
-                                       uint8_t *buf,
-                                       uint16_t buf_len,
-                                       uint16_t *headroom,
-                                       bool *need_yield);
+				       uint8_t *buf,
+				       uint16_t buf_len,
+				       uint16_t *headroom,
+				       bool *need_yield);
 static void PIOS_HSUM_Supervisor(uintptr_t hsum_id);
 
 /* Local Variables */
@@ -48,7 +48,7 @@ const struct pios_rcvr_driver pios_hsum_rcvr_driver = {
 };
 
 enum pios_hsum_dev_magic {
-    PIOS_HSUM_DEV_MAGIC = 0x4853554D,
+	PIOS_HSUM_DEV_MAGIC = 0x4853554D,
 };
 
 struct pios_hsum_state {
