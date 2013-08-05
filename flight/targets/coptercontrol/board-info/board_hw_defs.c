@@ -578,6 +578,22 @@ static const struct pios_flash_partition pios_flash_partition_table_m25p16[] = {
 #endif	/* PIOS_INCLUDE_FLASH_JEDEC */
 };
 
+const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32_t board_revision, uint32_t * num_partitions)
+{
+	PIOS_Assert(num_partitions);
+
+	switch (board_revision) {
+	case BOARD_REVISION_CC:
+		*num_partitions = NELEMENTS(pios_flash_partition_table_w25x40);
+		return pios_flash_partition_table_w25x40;
+	case BOARD_REVISION_CC3D:
+		*num_partitions = NELEMENTS(pios_flash_partition_table_m25p16);
+		return pios_flash_partition_table_m25p16;
+	}
+
+	return NULL;
+}
+
 #endif	/* PIOS_INCLUDE_FLASH */
 
 /*

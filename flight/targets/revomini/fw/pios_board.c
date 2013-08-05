@@ -259,7 +259,7 @@ void PIOS_Board_Init(void) {
 	PIOS_DELAY_Init();
 
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
-	
+
 #if defined(PIOS_INCLUDE_LED)
 	const struct pios_led_cfg * led_cfg = PIOS_BOARD_HW_DEFS_GetLedCfg(bdinfo->board_rev);
 	PIOS_Assert(led_cfg);
@@ -270,7 +270,7 @@ void PIOS_Board_Init(void) {
 	if (PIOS_SPI_Init(&pios_spi_gyro_id, &pios_spi_gyro_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
-	
+
 	/* Set up the SPI interface to the flash and rfm22b */
 	if (PIOS_SPI_Init(&pios_spi_telem_flash_id, &pios_spi_telem_flash_cfg)) {
 		PIOS_DEBUG_Assert(0);
@@ -282,7 +282,10 @@ void PIOS_Board_Init(void) {
 	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
 
 	/* Register the partition table */
-	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
+	const struct pios_flash_partition * flash_partition_table;
+	uint32_t num_partitions;
+	flash_partition_table = PIOS_BOARD_HW_DEFS_GetPartitionTable(bdinfo->board_rev, &num_partitions);
+	PIOS_FLASH_register_partition_table(flash_partition_table, num_partitions);
 
 	/* Mount all filesystems */
 	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
@@ -292,10 +295,10 @@ void PIOS_Board_Init(void) {
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
-	
+
 	HwRevoMiniInitialize();
 	ModuleSettingsInitialize();
-	
+
 #if defined(PIOS_INCLUDE_RTC)
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
 #endif

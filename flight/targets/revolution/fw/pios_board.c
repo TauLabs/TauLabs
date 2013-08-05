@@ -310,13 +310,13 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 	if (PIOS_USART_Init(&pios_usart_dsm_id, pios_usart_dsm_cfg)) {
 		PIOS_Assert(0);
 	}
-	
+
 	uintptr_t pios_dsm_id;
 	if (PIOS_DSM_Init(&pios_dsm_id, pios_dsm_cfg, pios_usart_com_driver,
 			pios_usart_dsm_id, *proto, *bind)) {
 		PIOS_Assert(0);
 	}
-	
+
 	uintptr_t pios_dsm_rcvr_id;
 	if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
 		PIOS_Assert(0);
@@ -334,8 +334,8 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 
 void PIOS_Board_Init(void) {
 
-	const struct pios_board_info * bdinfo = &pios_board_info_blob;	
-	
+	const struct pios_board_info * bdinfo = &pios_board_info_blob;
+
 	/* Delay system */
 	PIOS_DELAY_Init();
 
@@ -345,7 +345,7 @@ void PIOS_Board_Init(void) {
 	if (PIOS_SPI_Init(&pios_spi_accel_id, &pios_spi_accel_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
-	
+
 	/* Set up the SPI interface to the gyro */
 	if (PIOS_SPI_Init(&pios_spi_gyro_id, &pios_spi_gyro_cfg)) {
 		PIOS_DEBUG_Assert(0);
@@ -366,7 +366,10 @@ void PIOS_Board_Init(void) {
 	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
 
 	/* Register the partition table */
-	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
+	const struct pios_flash_partition * flash_partition_table;
+	uint32_t num_partitions;
+	flash_partition_table = PIOS_BOARD_HW_DEFS_GetPartitionTable(bdinfo->board_rev, &num_partitions);
+	PIOS_FLASH_register_partition_table(flash_partition_table, num_partitions);
 
 	/* Mount all filesystems */
 	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
@@ -375,10 +378,10 @@ void PIOS_Board_Init(void) {
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
-	
+
 	HwRevolutionInitialize();
 	ModuleSettingsInitialize();
-	
+
 #if defined(PIOS_INCLUDE_RTC)
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
 #endif
