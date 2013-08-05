@@ -27,25 +27,25 @@ ifeq ($(UNAME), Darwin)
   ROOT_DIR := $(CURDIR)
 endif
 
-# Windows MinGW shell
-ifeq ($(UNAME), MINGW32_NT-6.1)
+# Windows using MinGW shell
+ifeq (MINGW, $(findstring MINGW,$(UNAME)))
   OSFAMILY := windows
+  MINGW := 1
   WINDOWS := 1
   ROOT_DIR := $(CURDIR)
 endif
 
-# Windows 32bit Cygwin shell
-ifeq ($(UNAME), CYGWIN_NT-6.1)
+# Windows using Cygwin shell
+ifeq (CYGWIN ,$(findstring CYGWIN,$(UNAME)))
   OSFAMILY := windows
   WINDOWS := 1
   CYGWIN := 1
   ROOT_DIR := $(shell cygpath -m $(CURDIR))
 endif
 
-# Windows 64bit Cygwin shell
-ifeq ($(UNAME), CYGWIN_NT-6.1-WOW64)
-  OSFAMILY := windows
-  WINDOWS := 1
-  CYGWIN := 1
-  ROOT_DIR := $(shell cygpath -m $(CURDIR))
+# report an error if we couldn't work out what OS this is running on
+ifndef OSFAMILY
+  $(info uname reports $(UNAME))
+  $(info uname -m reports $(ARCH))
+  $(error failed to detect operating system)  
 endif
