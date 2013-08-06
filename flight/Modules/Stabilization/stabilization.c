@@ -73,7 +73,18 @@
 #define TASK_PRIORITY (tskIDLE_PRIORITY+4)
 #define FAILSAFE_TIMEOUT_MS 30
 
-enum {PID_RATE_ROLL, PID_RATE_PITCH, PID_RATE_YAW, PID_ATT_ROLL, PID_ATT_PITCH, PID_ATT_YAW, PID_MAX};
+enum {
+	PID_RATE_ROLL,   // Rate controller settings
+	PID_RATE_PITCH,
+	PID_RATE_YAW,
+	PID_ATT_ROLL,    // Attitude controller settings
+	PID_ATT_PITCH,
+	PID_ATT_YAW,
+	PID_VBAR_ROLL,   // Virtual flybar settings
+	PID_VBAR_PITCH,
+	PID_VBAR_YAW,
+	PID_MAX
+};
 
 
 // Private variables
@@ -320,7 +331,7 @@ static void stabilizationTask(void* parameters)
 					rateDesiredAxis[i] = stabDesiredAxis[i];
 
 					// Run a virtual flybar stabilization algorithm on this axis
-					stabilization_virtual_flybar(gyro_filtered[i], rateDesiredAxis[i], &actuatorDesiredAxis[i], dT, reinit, i, &settings);
+					stabilization_virtual_flybar(gyro_filtered[i], rateDesiredAxis[i], &actuatorDesiredAxis[i], dT, reinit, i, &pids[PID_VBAR_ROLL + i], &settings);
 
 					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING:
@@ -544,37 +555,64 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 	{
 		StabilizationSettingsGet(&settings);
 		// Set the roll rate PID constants
-		pid_configure(&pids[PID_RATE_ROLL], settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KP],
-					  settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KI],
-					  settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KD],
-					  settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_ILIMIT]);
+		pid_configure(&pids[PID_RATE_ROLL],
+		              settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KP],
+		              settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KI],
+		              settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KD],
+		              settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_ILIMIT]);
 
 		// Set the pitch rate PID constants
-		pid_configure(&pids[PID_RATE_PITCH], settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KP],
-					  settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KI],
-					  settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KD],
-					  settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_ILIMIT]);
+		pid_configure(&pids[PID_RATE_PITCH],
+		              settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KP],
+		              settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KI],
+		              settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_KD],
+		              settings.PitchRatePID[STABILIZATIONSETTINGS_PITCHRATEPID_ILIMIT]);
 
 		// Set the yaw rate PID constants
-		pid_configure(&pids[PID_RATE_YAW], settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KP],
-					  settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KI],
-					  settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KD],
-					  settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_ILIMIT]);
+		pid_configure(&pids[PID_RATE_YAW],
+		              settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KP],
+		              settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KI],
+		              settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_KD],
+		              settings.YawRatePID[STABILIZATIONSETTINGS_YAWRATEPID_ILIMIT]);
 
 		// Set the roll attitude PI constants
-		pid_configure(&pids[PID_ATT_ROLL], settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_KP],
-					  settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_KI], 0,
-					  settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_ILIMIT]);
+		pid_configure(&pids[PID_ATT_ROLL],
+		              settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_KP],
+		              settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_KI], 0,
+		              settings.RollPI[STABILIZATIONSETTINGS_ROLLPI_ILIMIT]);
 
 		// Set the pitch attitude PI constants
-		pid_configure(&pids[PID_ATT_PITCH], settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_KP],
-					  settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_KI], 0,
-					  settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_ILIMIT]);
+		pid_configure(&pids[PID_ATT_PITCH],
+		              settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_KP],
+		              settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_KI], 0,
+		              settings.PitchPI[STABILIZATIONSETTINGS_PITCHPI_ILIMIT]);
 
 		// Set the yaw attitude PI constants
-		pid_configure(&pids[PID_ATT_YAW], settings.YawPI[STABILIZATIONSETTINGS_YAWPI_KP],
-					  settings.YawPI[STABILIZATIONSETTINGS_YAWPI_KI], 0,
-					  settings.YawPI[STABILIZATIONSETTINGS_YAWPI_ILIMIT]);
+		pid_configure(&pids[PID_ATT_YAW],
+		              settings.YawPI[STABILIZATIONSETTINGS_YAWPI_KP],
+		              settings.YawPI[STABILIZATIONSETTINGS_YAWPI_KI], 0,
+		              settings.YawPI[STABILIZATIONSETTINGS_YAWPI_ILIMIT]);
+
+		// Set the vbar roll settings
+		pid_configure(&pids[PID_VBAR_ROLL],
+		              settings.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KP],
+		              settings.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KI],
+		              settings.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KD],
+		              0);
+
+		// Set the vbar pitch settings
+		pid_configure(&pids[PID_VBAR_PITCH],
+		              settings.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KP],
+		              settings.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KI],
+		              settings.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KD],
+		              0);
+
+		// Set the vbar yaw settings
+		pid_configure(&pids[PID_VBAR_YAW],
+		              settings.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KP],
+		              settings.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KI],
+		              settings.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KD],
+		              0);
 
 		// Set up the derivative term
 		pid_configure_derivative(settings.DerivativeCutoff, settings.DerivativeGamma);

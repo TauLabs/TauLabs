@@ -502,7 +502,7 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
     QPointer<VehicleConfig> vconfig = new VehicleConfig();
 
     QList<double> curveValues;    
-    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE1, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, &curveValues);
 
     // is at least one of the curve values != 0?
     if (vconfig->isValidThrottleCurve(&curveValues)) {
@@ -519,7 +519,7 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
     }
 	
     // Setup all Throttle2 curves for all types of airframes //AT THIS MOMENT, THAT MEANS ONLY GROUND VEHICLES
-    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE2, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, &curveValues);
 
     if (vconfig->isValidThrottleCurve(&curveValues)) {
         m_aircraft->groundVehicleThrottle2->initCurve(&curveValues);
@@ -673,7 +673,7 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
     QPointer<VehicleConfig> vconfig = new VehicleConfig();
 
     QList<double> curveValues;
-    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE1, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, &curveValues);
 
     // is at least one of the curve values != 0?
     if (vconfig->isValidThrottleCurve(&curveValues)) {
@@ -692,7 +692,7 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
     }
 
     // Setup all Throttle2 curves for all types of airframes
-    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE2, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, &curveValues);
 
     if (vconfig->isValidThrottleCurve(&curveValues)) {
         m_aircraft->customThrottle2Curve->initCurve(&curveValues);
@@ -714,15 +714,15 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
             }
 
             m_aircraft->customMixerTable->item(1,channel)->setText(
-                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE1)));
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_THROTTLECURVE1)));
             m_aircraft->customMixerTable->item(2,channel)->setText(
-                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE2)));
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_THROTTLECURVE2)));
             m_aircraft->customMixerTable->item(3,channel)->setText(
-                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_ROLL)));
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_ROLL)));
             m_aircraft->customMixerTable->item(4,channel)->setText(
-                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_PITCH)));
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_PITCH)));
             m_aircraft->customMixerTable->item(5,channel)->setText(
-                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_YAW)));
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_YAW)));
         }
     }
 
@@ -771,46 +771,46 @@ void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
          frameType = m_groundvehicle->updateConfigObjectsFromWidgets();
     }
     else {
-        vconfig->setThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE1, m_aircraft->customThrottle1Curve->getCurve());
-        vconfig->setThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE2, m_aircraft->customThrottle2Curve->getCurve());
+        vconfig->setThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, m_aircraft->customThrottle1Curve->getCurve());
+        vconfig->setThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, m_aircraft->customThrottle2Curve->getCurve());
 
         // Update the table:
         for (int channel=0; channel<(int)(VehicleConfig::CHANNEL_NUMELEM); channel++) {
             QComboBox* q = (QComboBox*)m_aircraft->customMixerTable->cellWidget(0,channel);
             if(q->currentText()=="Disabled")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_DISABLED);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_DISABLED);
             else if(q->currentText()=="Motor")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_MOTOR);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_MOTOR);
             else if(q->currentText()=="Servo")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_SERVO);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
             else if(q->currentText()=="CameraRoll")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_CAMERAROLL);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_CAMERAROLL);
             else if(q->currentText()=="CameraPitch")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_CAMERAPITCH);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_CAMERAPITCH);
             else if(q->currentText()=="CameraYaw")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_CAMERAYAW);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_CAMERAYAW);
             else if(q->currentText()=="Accessory0")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY0);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_ACCESSORY0);
             else if(q->currentText()=="Accessory1")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY1);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_ACCESSORY1);
             else if(q->currentText()=="Accessory2")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY2);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_ACCESSORY2);
             else if(q->currentText()=="Accessory3")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY3);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_ACCESSORY3);
             else if(q->currentText()=="Accessory4")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY4);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_ACCESSORY4);
             else if(q->currentText()=="Accessory5")
-                vconfig->setMixerType(mixerSettings,channel,VehicleConfig::MIXERTYPE_ACCESSORY5);
+                vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_ACCESSORY5);
 
-            vconfig->setMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE1,
+            vconfig->setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_THROTTLECURVE1,
                                             m_aircraft->customMixerTable->item(1,channel)->text().toDouble());
-            vconfig->setMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_THROTTLECURVE2,
+            vconfig->setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_THROTTLECURVE2,
                                             m_aircraft->customMixerTable->item(2,channel)->text().toDouble());
-            vconfig->setMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_ROLL,
+            vconfig->setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_ROLL,
                                             m_aircraft->customMixerTable->item(3,channel)->text().toDouble());
-            vconfig->setMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_PITCH,
+            vconfig->setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_PITCH,
                                             m_aircraft->customMixerTable->item(4,channel)->text().toDouble());
-            vconfig->setMixerVectorValue(mixerSettings,channel,VehicleConfig::MIXERVECTOR_YAW,
+            vconfig->setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_YAW,
                                             m_aircraft->customMixerTable->item(5,channel)->text().toDouble());
         }
     }

@@ -31,7 +31,7 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
-
+#include "mixersettings.h"
 #include "systemsettings.h"
 
 typedef struct {
@@ -112,29 +112,21 @@ class VehicleConfig: public ConfigTaskWidget
         VehicleConfig(QWidget *parent = 0);
         ~VehicleConfig();
 
-        /* Enumeration options for ThrottleCurves */
-        typedef enum { MIXER_THROTTLECURVE1=0, MIXER_THROTTLECURVE2=1 } MixerThrottleCurveElem;
-
-        /* Enumeration options for field MixerType */
-        typedef enum { MIXERTYPE_DISABLED=0, MIXERTYPE_MOTOR=1, MIXERTYPE_SERVO=2, MIXERTYPE_CAMERAROLL=3, MIXERTYPE_CAMERAPITCH=4, MIXERTYPE_CAMERAYAW=5, MIXERTYPE_ACCESSORY0=6, MIXERTYPE_ACCESSORY1=7, MIXERTYPE_ACCESSORY2=8, MIXERTYPE_ACCESSORY3=9, MIXERTYPE_ACCESSORY4=10, MIXERTYPE_ACCESSORY5=11 } MixerTypeElem;
-        /* Array element names for field MixerVector */
-        typedef enum { MIXERVECTOR_THROTTLECURVE1=0, MIXERVECTOR_THROTTLECURVE2=1, MIXERVECTOR_ROLL=2, MIXERVECTOR_PITCH=3, MIXERVECTOR_YAW=4 } MixerVectorElem;
-
         static GUIConfigDataUnion GetConfigData();
         static void SetConfigData(GUIConfigDataUnion configData);
         static void resetField(UAVObjectField * field);
         static void setComboCurrentIndex(QComboBox* box, int index);
         static void enableComboBoxes(QWidget* owner, QString boxName, int boxCount, bool enable);
-        double  getMixerVectorValue(UAVDataObject* mixer, int channel, MixerVectorElem elementName);
-        void    setMixerVectorValue(UAVDataObject* mixer, int channel, MixerVectorElem elementName, double value);
+        double  getMixerVectorValue(UAVDataObject* mixer, int channel, MixerSettings::Mixer1VectorElem elementName);
+        void    setMixerVectorValue(UAVDataObject* mixer, int channel, MixerSettings::Mixer1VectorElem elementName, double value);
         void    resetMixerVector(UAVDataObject* mixer, int channel);
         void    resetMixers(UAVDataObject* mixer);
         QString getMixerType(UAVDataObject* mixer, int channel);
-        void    setMixerType(UAVDataObject* mixer, int channel, MixerTypeElem mixerType);
+        void    setMixerType(UAVDataObject* mixer, int channel, MixerSettings::Mixer1TypeOptions mixerType);
         double  getMixerValue(UAVDataObject* mixer, QString elementName);
         void    setMixerValue(UAVDataObject* mixer, QString elementName, double value);
-        void    setThrottleCurve(UAVDataObject* mixer, MixerThrottleCurveElem curveType, QList<double> curve);
-        void    getThrottleCurve(UAVDataObject* mixer, MixerThrottleCurveElem curveType, QList<double>* curve);
+        void    setThrottleCurve(UAVDataObject* mixer, MixerSettings::Mixer1VectorElem curveType, QList<double> curve);
+        void    getThrottleCurve(UAVDataObject* mixer, MixerSettings::Mixer1VectorElem curveType, QList<double>* curve);
         bool    isValidThrottleCurve(QList<double>* curve);
         double  getCurveMin(QList<double>* curve);
         double  getCurveMax(QList<double>* curve);

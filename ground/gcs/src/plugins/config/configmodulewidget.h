@@ -33,8 +33,6 @@
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 
-#include "modulesettingsform.h"
-
 namespace Ui {
     class Modules;
 }
@@ -47,14 +45,31 @@ public:
         ConfigModuleWidget(QWidget *parent = 0);
         ~ConfigModuleWidget();
 
+private slots:
+    void updateAirspeedUAVO(UAVObject *);
+    void updateAirspeedGroupbox(UAVObject *);
+    void toggleVibrationTest();
+
+    void recheckTabs();
+    void objectUpdated(UAVObject * obj, bool success);
+
 private:
+    QVariant getVariantFromWidget(QWidget * widget, double scale);
+    bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
+
+    /* To activate the appropriate tabs */
+    void enableBatteryTab(bool enabled);
+    void enableAirspeedTab(bool enabled);
+    void enableVibrationTab(bool enabled);
+
+    static QString trueString;
+    static QString falseString;
+
     Ui::Modules *ui;
 
-private slots:
-
 protected:
-        void resizeEvent(QResizeEvent *event);
-        virtual void enableControls(bool enable);
+    void resizeEvent(QResizeEvent *event);
+    virtual void enableControls(bool enable);
 };
 
 #endif // CONFIGMODULEWIDGET_H
