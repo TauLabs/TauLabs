@@ -12,7 +12,7 @@
 			<elementname>Accessory0</elementname>
 			<elementname>Accessory1</elementname>
 			<elementname>Accessory2</elementname>
-			</elementnames>
+		</elementnames>
 		<options>
 			<option>PWM</option>
 			<option>PPM</option>
