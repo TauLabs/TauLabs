@@ -240,7 +240,7 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 #endif
 
 #ifdef PIOS_INCLUDE_HSUM
-static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hsum_cfg, const struct pios_hsum_cfg *pios_hsum_cfg,
+static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hsum_cfg,
 		const struct pios_com_driver *pios_usart_com_driver,enum pios_hsum_proto *proto,
 		ManualControlSettingsChannelGroupsOptions channelgroup)
 {
@@ -250,8 +250,7 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
 	}
 
 	uintptr_t pios_hsum_id;
-	if (PIOS_HSUM_Init(&pios_hsum_id, pios_hsum_cfg, pios_usart_com_driver,
-			pios_usart_hsum_id, *proto)) {
+	if (PIOS_HSUM_Init(&pios_hsum_id, pios_usart_com_driver, pios_usart_hsum_id, *proto)) {
 		PIOS_Assert(0);
 	}
 
@@ -606,7 +605,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_usart1_dsm_cfg, &pios_usart1_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_usart1_dsm_hsum_cfg, &pios_usart1_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
@@ -627,7 +626,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_hsum(&pios_usart1_hsum_cfg, &pios_usart1_hsum_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_hsum(&pios_usart1_dsm_hsum_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
 		}
 #endif	/* PIOS_INCLUDE_HSUM */
@@ -712,7 +711,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_usart2_dsm_cfg, &pios_usart2_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_usart2_dsm_hsum_cfg, &pios_usart2_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
@@ -733,7 +732,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_hsum(&pios_usart2_hsum_cfg, &pios_usart2_hsum_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_hsum(&pios_usart2_dsm_hsum_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
 		}
 #endif	/* PIOS_INCLUDE_HSUM */
@@ -817,7 +816,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_usart3_dsm_cfg, &pios_usart3_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_usart3_dsm_hsum_cfg, &pios_usart3_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
@@ -838,7 +837,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_hsum(&pios_usart3_hsum_cfg, &pios_usart3_hsum_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_hsum(&pios_usart3_dsm_hsum_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
 		}
 #endif	/* PIOS_INCLUDE_HSUM */
@@ -922,7 +921,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_usart4_dsm_cfg, &pios_usart4_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_usart4_dsm_hsum_cfg, &pios_usart4_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
@@ -943,7 +942,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_hsum(&pios_usart4_hsum_cfg, &pios_usart4_hsum_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_hsum(&pios_usart4_dsm_hsum_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
 		}
 #endif	/* PIOS_INCLUDE_HSUM */
@@ -1027,7 +1026,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_usart5_dsm_cfg, &pios_usart5_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_usart5_dsm_hsum_cfg, &pios_usart5_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
@@ -1048,7 +1047,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_hsum(&pios_usart5_hsum_cfg, &pios_usart5_hsum_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_hsum(&pios_usart5_dsm_hsum_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
 		}
 #endif	/* PIOS_INCLUDE_HSUM */

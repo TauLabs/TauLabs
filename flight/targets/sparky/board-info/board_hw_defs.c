@@ -398,7 +398,62 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
  */
 #include <pios_dsm_priv.h>
 
-static const struct pios_usart_cfg pios_rcvr_dsm_cfg = {
+static const struct pios_dsm_cfg pios_rcvr_dsm_aux_cfg = {
+	.bind = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_3,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+static const struct pios_dsm_cfg pios_flexi_dsm_aux_cfg = {
+	.bind = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_7,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+static const struct pios_dsm_cfg pios_main_dsm_aux_cfg = {
+	.bind = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_11,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+#endif	/* PIOS_INCLUDE_DSM */
+
+#if defined(PIOS_INCLUDE_HSUM)
+/*
+ * Graupner HoTT SUMD/SUMH USART
+ */
+
+#include <pios_hsum_priv.h>
+
+#endif	/* PIOS_INCLUDE_HSUM */
+
+#if (defined(PIOS_INCLUDE_DSM) || defined(PIOS_INCLUDE_HSUM))
+/*
+ * Spektrum/JR DSM or Graupner HoTT SUMD/SUMH USART
+ */
+
+static const struct pios_usart_cfg pios_rcvr_dsm_hsum_cfg = {
 	.regs = USART2,
 	.remap = GPIO_AF_7,
 	.init = {
@@ -431,20 +486,7 @@ static const struct pios_usart_cfg pios_rcvr_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_rcvr_dsm_aux_cfg = {
-	.bind = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_3,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-
-static const struct pios_usart_cfg pios_flexi_dsm_cfg = {
+static const struct pios_usart_cfg pios_flexi_dsm_hsum_cfg = {
 	.regs = USART1,
 	.remap = GPIO_AF_7,
 	.init = {
@@ -477,20 +519,7 @@ static const struct pios_usart_cfg pios_flexi_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_flexi_dsm_aux_cfg = {
-	.bind = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_7,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-
-static const struct pios_usart_cfg pios_main_dsm_cfg = {
+static const struct pios_usart_cfg pios_main_dsm_hsum_cfg = {
 	.regs = USART3,
 	.remap = GPIO_AF_7,
 	.init = {
@@ -523,72 +552,7 @@ static const struct pios_usart_cfg pios_main_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_main_dsm_aux_cfg = {
-	.bind = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_11,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-#endif	/* PIOS_INCLUDE_DSM */
-
-#if defined(PIOS_INCLUDE_HSUM)
-/*
- * Graupner HoTT SUMD/SUMH USART
- */
-#include <pios_hsum_priv.h>
-
-static const struct pios_usart_cfg pios_rcvr_hsum_cfg = {
-	.regs = USART2,
-	.remap = GPIO_AF_7,
-	.init = {
-		.USART_BaudRate = 115200,
-		.USART_WordLength = USART_WordLength_8b,
-		.USART_Parity = USART_Parity_No,
-		.USART_StopBits = USART_StopBits_1,
-		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
-		.USART_Mode = USART_Mode_Rx,
-	},
-	.irq = {
-		.init = {
-			.NVIC_IRQChannel = USART2_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
-			.NVIC_IRQChannelSubPriority = 0,
-			.NVIC_IRQChannelCmd = ENABLE,
-		},
-	},
-	.rxtx_swap = false,
-	.rx = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_3,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_AF,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_UP
-		},
-		.pin_source = GPIO_PinSource3,
-	},
-};
-
-static const struct pios_hsum_cfg pios_rcvr_hsum_aux_cfg = {
-	.bind = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_3,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-#endif	/* PIOS_INCLUDE_HSUM */
+#endif	/* PIOS_INCLUDE_DSM || PIOS_INCLUDE_HSUM */
 
 #if defined(PIOS_INCLUDE_SBUS)
 /*

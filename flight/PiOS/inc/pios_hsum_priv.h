@@ -28,7 +28,6 @@
 #define PIOS_HSUM_PRIV_H
 
 #include <pios.h>
-#include <pios_stm32.h>
 #include <pios_usart_priv.h>
 
 /*
@@ -43,7 +42,7 @@
  * Header           0                  Vendor_ID      0xA8       Graupner
  * Header           1                  Status         0x00       valid and live SUMH data frame
  *                                                    0x01       valid and live SUMD data frame
- *                                                    0x81       valid SUMH data frame with
+ *                                                    0x81       valid SUMD/H data frame with
  *                                                               transmitter in fail safe condition
  *                                                    others     invalid frame
  * Header           2                  N_Channels     0x02..0x20 number of transmitted channels
@@ -73,8 +72,15 @@
  7 Aux/Gyr
  */
 
+/* HSUM frame size and contents definitions */
 #define HSUM_MAX_CHANNELS_PER_FRAME 32
 #define HSUM_MAX_FRAME_LENGTH (HSUM_MAX_CHANNELS_PER_FRAME*2+5)
+#define HSUM_H
+
+#define HSUM_GRAUPNER_ID 0xA8
+#define HSUM_STATUS_LIVING_SUMH 0x00
+#define HSUM_STATUS_LIVING_SUMD 0x01
+#define HSUM_STATUS_FAILSAFE 0x81
 
 /* HSUM protocol variations */
 enum pios_hsum_proto {
@@ -83,14 +89,9 @@ enum pios_hsum_proto {
 };
 
 /* HSUM receiver instance configuration */
-struct pios_hsum_cfg {
-	struct stm32_gpio bind;
-};
-
 extern const struct pios_rcvr_driver pios_hsum_rcvr_driver;
 
 extern int32_t PIOS_HSUM_Init(uintptr_t *hsum_id,
-			     const struct pios_hsum_cfg *cfg,
 			     const struct pios_com_driver *driver,
 			     uintptr_t lower_id,
 			     enum pios_hsum_proto proto);

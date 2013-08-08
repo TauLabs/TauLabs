@@ -23,7 +23,6 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-
 /* Project Includes */
 #include "pios_hsum_priv.h"
 
@@ -137,14 +136,14 @@ static int PIOS_HSUM_UnrollChannels(struct pios_hsum_dev *hsum_dev)
 	/* check the header and crc for a valid HoTT SUM stream */
 	uint8_t vendor = state->received_data[0];
 	uint8_t status = state->received_data[1];
-	if (vendor != 0xA8)
+	if (vendor != HSUM_GRAUPNER_ID)
 		/* Graupner ID was expected */
 		goto stream_error;
 
 	switch (status) {
-	case 0x00:
-	case 0x01:
-	case 0x81:
+	case HSUM_STATUS_LIVING_SUMH:
+	case HSUM_STATUS_LIVING_SUMD:
+	case HSUM_STATUS_FAILSAFE:
 		/* check crc before processing */
 		if (hsum_dev->proto == PIOS_HSUM_PROTO_SUMD) {
 			/* SUMD has 16 bit CCITT CRC */
@@ -172,7 +171,7 @@ static int PIOS_HSUM_UnrollChannels(struct pios_hsum_dev *hsum_dev)
 				goto stream_error;
 		}
 		/* check for a living connect */
-		state->tx_connected |= (status != 0x81);
+		state->tx_connected |= (status != HSUM_STATUS_FAILSAFE);
 		break;
 	default:
 		/* wrong header format */
@@ -194,11 +193,11 @@ static int PIOS_HSUM_UnrollChannels(struct pios_hsum_dev *hsum_dev)
 	for (int i = 0; i < HSUM_MAX_CHANNELS_PER_FRAME; i++) {
 		if (i < n_channels) {
 			word = ((uint16_t)s[0] << 8) | s[1];
-			s += 2;
+			s += sizeof(uint16_t);
 			/* save the channel value */
 			if (i < PIOS_HSUM_NUM_INPUTS) {
 				/* floating version. channel limits from -100..+100% are mapped to 1000..2000 */
-				state->channel_data[i] = (uint16_t)(word / 6.4 - 375);
+				state->channel_data[i] = (uint16_t)(word / 6.4f - 375);
 			}
 		} else
 			/* this channel was not received */
@@ -240,13 +239,11 @@ static void PIOS_HSUM_UpdateState(struct pios_hsum_dev *hsum_dev, uint8_t byte)
 
 /* Initialise HoTT receiver interface */
 int32_t PIOS_HSUM_Init(uintptr_t *hsum_id,
-                       const struct pios_hsum_cfg *cfg,
                        const struct pios_com_driver *driver,
                        uintptr_t lower_id,
                        enum pios_hsum_proto proto)
 {
 	PIOS_DEBUG_Assert(hsum_id);
-	PIOS_DEBUG_Assert(cfg);
 	PIOS_DEBUG_Assert(driver);
 
 	struct pios_hsum_dev *hsum_dev;
@@ -256,7 +253,6 @@ int32_t PIOS_HSUM_Init(uintptr_t *hsum_id,
 		return -1;
 
 	/* Bind the configuration to the device instance */
-	hsum_dev->cfg = cfg;
 	hsum_dev->proto = proto;
 
 	PIOS_HSUM_ResetState(hsum_dev);
@@ -291,7 +287,7 @@ static uint16_t PIOS_HSUM_RxInCallback(uintptr_t context,
 		hsum_dev->state.receive_timer = 0;
 	}
 
-	/* Always signal that we can accept another byte */
+	/* Always signal that we can accept more data */
 	if (headroom)
 		*headroom = HSUM_MAX_FRAME_LENGTH;
 
@@ -350,7 +346,7 @@ static void PIOS_HSUM_Supervisor(uintptr_t hsum_id)
 		state->frame_found = 1;
 		state->byte_count = 0;
 		state->receive_timer = 0;
-		state->frame_length = 3;
+		state->frame_length = HSUM_MAX_FRAME_LENGTH;
 	}
 
 	/* activate failsafe if no frames have arrived in 102.4ms */
