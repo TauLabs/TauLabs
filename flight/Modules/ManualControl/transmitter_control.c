@@ -204,7 +204,9 @@ int32_t transmitter_control_update()
 			value = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM], settings.RssiChannelNumber);
 			break;
 		case MANUALCONTROLSETTINGS_RSSITYPE_ADC:
+#if defined(PIOS_INCLUDE_ADC)
 			value = PIOS_ADC_GetChannel(settings.RssiChannelNumber);
+#endif
 			break;
 		}
 		if(value < 0)
