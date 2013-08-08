@@ -130,6 +130,8 @@
 
 #define CAMERASTAB_POI_MODE
 
+#define GIMBAL
+
 #endif /* PIOS_CONFIG_H */
 /**
  * @}
