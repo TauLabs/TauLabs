@@ -193,6 +193,29 @@ int32_t transmitter_control_update()
 		return 0;
 	}
 
+	if (settings.RssiType != MANUALCONTROLSETTINGS_RSSITYPE_NONE) {
+		int32_t value = 0;
+		extern uintptr_t pios_rcvr_group_map[];
+		switch (settings.RssiType) {
+		case MANUALCONTROLSETTINGS_RSSITYPE_PWM:
+			value = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM], settings.RssiChannelNumber);
+			break;
+		case MANUALCONTROLSETTINGS_RSSITYPE_PPM:
+			value = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM], settings.RssiChannelNumber);
+			break;
+		case MANUALCONTROLSETTINGS_RSSITYPE_ADC:
+			value = PIOS_ADC_GetChannel(settings.RssiChannelNumber);
+			break;
+		}
+		if(value < 0)
+			value = 0;
+		if (settings.RssiMax == settings.RssiMin)
+			cmd.Rssi = 0;
+		else
+			cmd.Rssi = ((float)(value - settings.RssiMin)/((float)settings.RssiMax-settings.RssiMin)) * 100;
+		cmd.RawRssi = value;
+	}
+
 	bool valid_input_detected = true;
 
 	// Read channel values in us
@@ -331,6 +354,7 @@ int32_t transmitter_control_update()
 			if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
 				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 		}
+
 	}
 
 	// Process arming outside conditional so system will disarm when disconnected.  Notice this
