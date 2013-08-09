@@ -51,7 +51,7 @@
 				<option>PWM7+3ADC</option>
 				<option>PWM8+2ADC</option>
 				<option>PWM9+PWM_IN</option>
-				<option>PWM9+PWM_IN+2ADC</option>
+				<option>PWM7+PWM_IN+2ADC</option>
 			</options>
 		</field>
 		

@@ -809,7 +809,7 @@ void PIOS_Board_Init(void) {
 		use_pwm_in = true;
 		number_of_adc_ports = 0;
 		break;
-	case HWSPARKY_OUTPORT_PWM9PWM_IN2ADC:
+	case HWSPARKY_OUTPORT_PWM7PWM_IN2ADC:
 		number_of_pwm_outputs = 7;
 		use_pwm_in = true;
 		number_of_adc_ports = 2;
