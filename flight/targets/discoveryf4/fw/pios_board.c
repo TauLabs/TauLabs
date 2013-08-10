@@ -138,7 +138,9 @@ void PIOS_Board_Init(void) {
 
 	/* Delay system */
 	PIOS_DELAY_Init();
-	
+
+	const struct pios_board_info * bdinfo = &pios_board_info_blob;
+
 #if defined(PIOS_INCLUDE_LED)
 	PIOS_LED_Init(&pios_led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
@@ -149,7 +151,10 @@ void PIOS_Board_Init(void) {
 		panic(1);
 
 	/* Register the partition table */
-	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
+	const struct pios_flash_partition * flash_partition_table;
+	uint32_t num_partitions;
+	flash_partition_table = PIOS_BOARD_HW_DEFS_GetPartitionTable(bdinfo->board_rev, &num_partitions);
+	PIOS_FLASH_register_partition_table(flash_partition_table, num_partitions);
 
 	/* Mount all filesystems */
 	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS) != 0)

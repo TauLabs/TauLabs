@@ -65,6 +65,14 @@ void PIOS_Board_Init() {
 	uintptr_t pios_usb_id;
 	PIOS_USB_Init(&pios_usb_id, &pios_usb_main_cfg);
 
+#if defined(PIOS_INCLUDE_FLASH)
+	/* Inititialize all flash drivers */
+	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
+
+	/* Register the partition table */
+	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
+#endif	/* PIOS_INCLUDE_FLASH */
+
 #if defined(PIOS_INCLUDE_USB_HID) && defined(PIOS_INCLUDE_COM_MSG)
 	uintptr_t pios_usb_hid_id;
 	if (PIOS_USB_HID_Init(&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {

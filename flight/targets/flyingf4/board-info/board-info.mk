@@ -1,6 +1,6 @@
 BOARD_TYPE          := 0x84
 BOARD_REVISION      := 0x01
-BOOTLOADER_VERSION  := 0x02
+BOOTLOADER_VERSION  := 0x80
 HW_TYPE             := 0x00		# seems to be unused
 
 MCU                 := cortex-m4
@@ -21,6 +21,9 @@ FW_BANK_BASE        := 0x08020000  # Start of firmware flash (128kb)
 FW_BANK_SIZE        := 0x00040000  # Should include FW_DESC_SIZE (256kb)
 
 FW_DESC_SIZE        := 0x00000064
+
+EE_BANK_BASE        := 0x00000000
+EE_BANK_SIZE        := 0x00000000
 
 EF_BANK_BASE        := 0x08000000  # Start of entire flash image (usually start of bootloader as well)
 EF_BANK_SIZE        := 0x00060000  # Size of the entire flash image (from bootloader until end of firmware)

@@ -49,10 +49,18 @@ void PIOS_Board_Init() {
 
 	/* Delay system */
 	PIOS_DELAY_Init();
-	
+
 #if defined(PIOS_INCLUDE_LED)
 	PIOS_LED_Init(&pios_led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
+
+#if defined(PIOS_INCLUDE_FLASH)
+	/* Inititialize all flash drivers */
+	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
+
+	/* Register the partition table */
+	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
+#endif	/* PIOS_INCLUDE_FLASH */
 
 #if defined(PIOS_INCLUDE_USB)
 	/* Initialize board specific USB data */

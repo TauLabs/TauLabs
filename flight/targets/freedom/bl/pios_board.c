@@ -48,7 +48,7 @@ void PIOS_Board_Init() {
 	PIOS_DELAY_Init();
 
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
-	
+
 #if defined(PIOS_INCLUDE_LED)
 	const struct pios_led_cfg * led_cfg = PIOS_BOARD_HW_DEFS_GetLedCfg(bdinfo->board_rev);
 	PIOS_Assert(led_cfg);
@@ -61,6 +61,25 @@ void PIOS_Board_Init() {
 	PIOS_LED_On(PIOS_LED_HEARTBEAT);
 	PIOS_LED_On(PIOS_LED_ALARM);
 	PIOS_LED_On(PIOS_LED_LINK);
+
+#if defined(PIOS_INCLUDE_SPI)
+	/* Set up the SPI interface to the flash and rfm22b */
+	if (PIOS_SPI_Init(&pios_spi_telem_flash_id, &pios_spi_telem_flash_cfg)) {
+		PIOS_DEBUG_Assert(0);
+	}
+#endif	/* PIOS_INCLUDE_SPI */
+
+#if defined(PIOS_INCLUDE_FLASH)
+	/* Inititialize all flash drivers */
+	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
+
+#if defined(PIOS_INCLUDE_SPI)
+	PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_telem_flash_id, 1, &flash_m25p_cfg);
+#endif	/* PIOS_INCLUDE_SPI */
+
+	/* Register the partition table */
+	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
+#endif	/* PIOS_INCLUDE_FLASH */
 
 #if defined(PIOS_INCLUDE_USB)
 	/* Initialize board specific USB data */
