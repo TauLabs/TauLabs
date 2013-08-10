@@ -1,0 +1,161 @@
+[BL USB HID message payload]
+
+ * HID messages are 64-bytes long
+ * first byte of HID payload is always the report ID
+ * remaining 63 bytes of HID payload makes up a single DFU message payload
+
+[DFU message header decode]
+
+GCS to FC
+Offset  Length  Name      Sub-Fields
+------  ------  ----      ----------
+     0       1  Command   7   EchoReqFlag
+                          6   EchoAnsFlag
+                          5   StartFlag
+                          4:0 Command
+     1       4  Count     32-bit value, MSB first
+     5      58  Data      Depends on command field
+
+FC to GCS
+Offset  Length  Name      Sub-Fields
+------  ------  ----      ----------
+     0       1  Command   4:0 Command
+     1      62  Data      Depends on command value
+
+Command  Type
+-------  ----
+      0  Reserved
+      1  Req_Capabilities
+      2  Rep_Capabilities
+      3  EnterDFU
+      4  JumpFW
+      5  Reset
+      6  Abort_Operation
+      7  Upload
+      8  Op_END
+      9  Download_Req
+     10  Download
+     11  Status_Request
+     12  Status_Rep
+
+[Command Payload Format]
+
+Req_Capabilities Message Data:
+  Count    Unused
+  Data[0]  DeviceNumber (0 means query number of devices, >1 means request for specific device #)
+
+Rep_Capabilities (for query number of devices -- request for DeviceNumber 0)
+  Data[0]  MBZ
+  Data[1]  MBZ
+  Data[2]  MBZ
+  Data[3]  MBZ
+  Data[4]  MBZ
+  Data[5]  numberOfDevices
+  Data[6]  MSB of WRFlags
+             7: Writable flag for device 8 (1-based)
+             6: Readable flag for device 8 (1-based)
+             5: Writable flag for device 7
+             4: Readable flag for device 7
+             ...
+             1: Writable flag for device 5
+             0: Readable flag for device 5
+  Data[7]  LSB of WRFLags
+             7: Writable flag for device 4
+             6: Readable flag for device 4
+             ...
+             1: Writable flag for device 1 (1-based)
+             0: Readable flag for device 1 (1-based)
+
+Rep_Capabilities (capabilities of specific device -- request for DeviceNumber 1-8)
+  Data[0]  MSB of sizeOfCode
+  Data[1]  ...
+  Data[2]  ...
+  Data[3]  LSB of sizeOfCode
+  Data[4]  DeviceNumber from request
+  Data[5]  BL_Version
+  Data[6]  sizeOfDescription
+  Data[7]  BoardRevision
+  Data[8]  MSB of FW_Crc
+  Data[9]  ...
+  Data[10] ...
+  Data[11] LSB of FW_Crc
+  Data[12] MSB of devID
+  Data[13] LSB of devID
+
+EnterDFU Message Data:
+  Count    Unused
+  Data[0]  Device Number being addressed (0-based)
+
+JumpFW Message Data:
+  Count    Unused
+  Data[0]  MBZ
+  Data[1]  MBZ
+  Data[2]  0x00 or 0x5A (MSB of 16-bit 0x5AFE -- to trigger safe boot)
+  Data[3]  0x00 or 0xFE (LSB of 16-bit 0x5AFE -- to trigger safe boot)
+
+Reset Message Data:
+  Count    Unused
+  Data     Unused
+
+Abort_Operation Message Data:
+  Count    Unused
+  Data     Unused
+
+Upload Message Data (when StartFlag is set):
+  Count    SizeOfTransfer (in packets)
+  Data[0]  TransferType (0 = FW)
+  Data[1]  SizeOfLastPacket (in 32-bit words)
+  Data[2]  MSB of Expected_CRC
+  Data[3]  ...    Expected_CRC
+  Data[4]  ...    Expected_CRC
+  Data[5]  LSB of Expected_CRC
+
+Upload Message Data (when StartFlag is clear):
+  Count    CurrentPacket Number (starts at zero)
+  Data[0]  MSB of first word of data
+  Data[1]  ...
+  Data[2]  ...
+  Data[3]  LSB of first word of data
+  Data[4]  MSB of second word of data
+  ...
+  Data[52] MSB of last word of data
+  Data[53] ...
+  Data[54] ...
+  Data[55] LSB of last word of data
+
+Op_END Message Data:
+  Count    Unused
+  Data     Unused
+
+Download_Req Message Data:
+  Count    downPacketTotal
+  Data[0]  downType (0 = FW, 1 = Description)
+  Data[1]  downSizeOfLastPacket
+
+Status_Request Message Data:
+  Count    Unused
+  Data     Unused
+
+Download Message Data:
+  Count    downPacketCurrent
+  Data[0]  MSB of first word of data
+  Data[1]  ...
+  Data[2]  ...
+  Data[3]  LSB of first word of data
+  Data[4]  MSB of second word of data
+  ...
+  Data[52] MSB of last word of data
+  Data[53] ...
+  Data[54] ...
+  Data[55] LSB of last word of data
+
+Status_Rep Message Data:
+  Data[0]  MSB of Aditionals
+  Data[1]  ...
+  Data[2]  ...
+  Data[3]  LSB of Aditionals
+  Data[4]  DeviceState
+  Data[5]  MBZ
+  Data[6]  MBZ
+  Data[7]  MBZ
+

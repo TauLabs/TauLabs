@@ -52,15 +52,14 @@ uint8_t PIOS_BL_HELPER_FLASH_Start()
 	uint32_t pageAdress = bdinfo->fw_base;
 	uint8_t fail = false;
 	while ((pageAdress < (bdinfo->fw_base + bdinfo->fw_size + bdinfo->desc_size))
-	       || (fail == true)) {
+	       && (fail == false)) {
 		for (int retry = 0; retry < MAX_DEL_RETRYS; ++retry) {
 			if (FLASH_ErasePage(pageAdress) == FLASH_COMPLETE) {
-				fail = true;
+				fail = false;
 				break;
 			} else {
 				fail = true;
 			}
-
 		}
 
 #ifdef STM32F10X_HD
