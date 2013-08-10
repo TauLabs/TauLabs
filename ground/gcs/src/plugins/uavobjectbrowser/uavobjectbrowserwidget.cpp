@@ -310,6 +310,10 @@ void UAVObjectBrowserWidget::categorize(bool categorize)
     treeView->setModel(m_model);
     showMetaData(m_viewoptions->cbMetaData->isChecked());
 
+    // Disconnect former model signal, and replace with new one.
+    disconnect(tmpModelPtr, SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
+    connect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
+
     // Now that we're done with the old model, delete it.
     delete tmpModelPtr;
 }
@@ -337,6 +341,10 @@ void UAVObjectBrowserWidget::useScientificNotation(bool scientific)
     m_model->setRecentlyUpdatedTimeout(m_recentlyUpdatedTimeout);
     treeView->setModel(m_model);
     showMetaData(m_viewoptions->cbMetaData->isChecked());
+
+    // Disconnect former model signal, and replace with new one.
+    disconnect(tmpModelPtr, SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
+    connect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
 
     // Now that we're done with the old model, delete it.
     delete tmpModelPtr;
