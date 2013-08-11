@@ -1479,13 +1479,14 @@ void Calibration::resetSensorCalibrationToOriginalValues()
     Q_ASSERT(sensorSettings);
     SensorSettings::DataFields sensorSettingsData = sensorSettings->getData();
 
-    sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_X]=initialAccelsScale[0];
-    sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Y]=initialAccelsScale[1];
-    sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Z]=initialAccelsScale[2];
-    sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_X]=initialAccelsBias[0];
-    sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_Y]=initialAccelsBias[1];
-    sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_Z]=initialAccelsBias[2];
-
+    if (calibrateAccels) {
+        sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_X]=initialAccelsScale[0];
+        sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Y]=initialAccelsScale[1];
+        sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Z]=initialAccelsScale[2];
+        sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_X]=initialAccelsBias[0];
+        sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_Y]=initialAccelsBias[1];
+        sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_Z]=initialAccelsBias[2];
+    }
 
     if (calibrateMags) {
         //Write the original magnetometer values back to the device
