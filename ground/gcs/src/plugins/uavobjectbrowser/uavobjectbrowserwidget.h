@@ -29,8 +29,8 @@
 #define UAVOBJECTBROWSERWIDGET_H_
 
 #include <QModelIndex>
-#include <QtGui/QWidget>
-#include <QtGui/QTreeView>
+#include <QWidget>
+#include <QTreeView>
 #include "objectpersistence.h"
 #include "uavobjecttreemodel.h"
 
@@ -55,6 +55,7 @@ public:
      */
     virtual void dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight);
 
+    void setModel(QAbstractItemModel *model) {m_model = dynamic_cast<UAVObjectTreeModel*>(model); QTreeView::setModel(model);}
 
 private slots:
     void onTimeout_updateView();
@@ -62,13 +63,7 @@ private slots:
 private:
     UAVObjectTreeModel *m_model;
 
-    int topmostData;
-    int bottommostData;
-    int topmostSettings;
-    int bottommostSettings;
-
-    bool m_updateViewFlagData;
-    bool m_updateViewFlagSettings;
+    bool m_updateTreeViewFlag;
 
     QTimer m_updateViewTimer;
 
