@@ -3,5 +3,6 @@
         <file>images/cc.png</file>
         <file>images/cc3d.png</file>
         <file>images/pipx.svg</file>
+        <file>images/connection-diagrams.svg</file>
     </qresource>
 </RCC>
