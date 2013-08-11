@@ -701,7 +701,7 @@ void vPortSystemTickHandler( int sig )
 			fprintf(stdout, "Can't pause thread %s\r\n", non_stopping->pcTaskName);
 		}
 		
-		xTaskIncrementTick();
+		vTaskIncrementTick();
 		
 		oldTask = xTaskGetCurrentTaskHandle();
 		claimRunningSemaphore(2);
