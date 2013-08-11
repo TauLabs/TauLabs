@@ -31,6 +31,7 @@ EXTRAINCDIRS		+=	$(CMSIS3_DEVICEDIR)/Include
 #
 PERIPHLIB			 =	$(PIOS_DEVLIB)/Libraries/STM32F30x_StdPeriph_Driver
 EXTRAINCDIRS		+=	$(PERIPHLIB)/inc
+SRC					+=	$(wildcard $(PERIPHLIB)/src/*.c)
 
 #
 # ST USB FS library
@@ -38,6 +39,7 @@ EXTRAINCDIRS		+=	$(PERIPHLIB)/inc
 USBFSLIB			=	$(PIOS_DEVLIB)/Libraries/STM32_USB-FS-Device_Driver
 USBFSLIB_SRC		=	usb_core.c usb_init.c usb_int.c usb_mem.c usb_regs.c usb_sil.c
 EXTRAINCDIRS		+=	$(USBFSLIB)/inc
+SRC					+=	$(addprefix $(USBFSLIB)/src/,$(USBFSLIB_SRC))
 
 #
 # FreeRTOS
@@ -48,5 +50,7 @@ EXTRAINCDIRS		+=	$(USBFSLIB)/inc
 ifneq ($(FREERTOS_DIR),)
 FREERTOS_PORTDIR	:=	$(PIOS_DEVLIB)/Libraries/FreeRTOS/Source
 EXTRAINCDIRS		+=	$(FREERTOS_PORTDIR)/portable/GCC/ARM_CM4F
+SRC					+=	$(wildcard $(FREERTOS_PORTDIR)/portable/GCC/ARM_CM4F/*.c)
 endif
+
 

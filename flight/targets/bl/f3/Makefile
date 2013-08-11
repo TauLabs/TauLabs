@@ -54,7 +54,34 @@ SRC += $(BLBOARDDIR)/pios_board.c
 SRC += $(BLBOARDDIR)/pios_usb_board_data.c
 
 ## PIOS Hardware (STM32F30x)
-include $(PIOS)/STM32F30x/library_bl.mk
+PIOS_DEVLIB			:=	$(PIOS)/STM32F30x
+include $(PIOS_DEVLIB)/library.mk
+SRC	+=	$(PIOS_DEVLIB)/pios_bl_helper.c
+SRC	+=	$(PIOS_DEVLIB)/pios_delay.c
+SRC	+=	$(PIOS_DEVLIB)/pios_exti.c
+SRC	+=	$(PIOS_DEVLIB)/pios_flash_internal.c
+SRC	+=	$(PIOS_DEVLIB)/pios_gpio.c
+SRC	+=	$(PIOS_DEVLIB)/pios_iap.c
+SRC	+=	$(PIOS_DEVLIB)/pios_irq.c
+SRC	+=	$(PIOS_DEVLIB)/pios_led.c
+SRC	+=	$(PIOS_DEVLIB)/pios_rtc.c
+SRC	+=	$(PIOS_DEVLIB)/pios_spi.c
+SRC	+=	$(PIOS_DEVLIB)/pios_sys.c
+SRC	+=	$(PIOS_DEVLIB)/pios_tim.c
+SRC	+=	$(PIOS_DEVLIB)/pios_usb.c
+SRC	+=	$(PIOS_DEVLIB)/pios_usb_cdc.c
+SRC	+=	$(PIOS_DEVLIB)/pios_usb_hid.c
+SRC	+=	$(PIOS_DEVLIB)/pios_usb_hid_istr.c
+SRC	+=	$(PIOS_DEVLIB)/pios_usb_hid_pwr.c
+SRC	+=	$(PIOS_DEVLIB)/pios_usbhook.c
+SRC	+=	$(PIOS_DEVLIB)/pios_wdg.c
+SRC	+=	$(PIOS_DEVLIB)/startup.c
+SRC	+=	$(PIOS_DEVLIB)/vectors_stm32f30x.c
+#
+# Hardcoded linker script names for now
+#
+LINKER_SCRIPTS_BL	 =	$(PIOS_DEVLIB)/link_STM32F30x_BL_memory.ld \
+						$(PIOS_DEVLIB)/link_STM32F30x_sections.ld
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_board_info.c
