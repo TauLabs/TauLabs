@@ -59,6 +59,7 @@ KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
     kmlTalk = new UAVTalk(&logFile, kmlUAVObjectManager);
 
     // Get the UAVObjects
+    airspeedActual = AirspeedActual::GetInstance(kmlUAVObjectManager);
     attitudeActual = AttitudeActual::GetInstance(kmlUAVObjectManager);
     gpsPosition = GPSPosition::GetInstance(kmlUAVObjectManager);
     homeLocation = HomeLocation::GetInstance(kmlUAVObjectManager);
@@ -102,6 +103,10 @@ KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
         CoordinatesPtr coordinates = factory->CreateCoordinates();
         wallAxes.append(coordinates);
     }
+
+    //Set the dateTimeFormat
+    dateTimeFormat="yyyy-MM-ddThh:mm:ssZ"; // XML Schema time format. Required by KML specification
+
 }
 
 
@@ -616,7 +621,7 @@ PlacemarkPtr KmlExport::CreateLineStringPlacemark(const LLAVCoordinates &startPo
     balloonStyle->set_text("$[description]");
 
     {
-        double currentVelocity = (startPoint.velocity + endPoint.velocity)/2;
+        double currentVelocity = (startPoint.groundspeed + endPoint.groundspeed)/2;
 
         // Set the linestyle. The color is a function of speed.
         LineStylePtr lineStyle = factory->CreateLineStyle();
@@ -639,7 +644,7 @@ PlacemarkPtr KmlExport::CreateLineStringPlacemark(const LLAVCoordinates &startPo
     }
 
     {
-        double currentVelocity = (startPoint.velocity + endPoint.velocity)/2;
+        double currentVelocity = (startPoint.groundspeed + endPoint.groundspeed)/2;
 
         // Set the linestyle. The color is a function of speed.
         LineStylePtr lineStyle = factory->CreateLineStyle();
@@ -667,13 +672,22 @@ PlacemarkPtr KmlExport::CreateLineStringPlacemark(const LLAVCoordinates &startPo
     placemark->set_styleselector(styleMap);
     placemark->set_visibility(true);
 
+    // Create the timespan
+    TimeSpanPtr timeSpan = factory->CreateTimeSpan();
+    QDateTime startTime = QDateTime::currentDateTimeUtc().addMSecs(newPlacemarkTime); // FIXME: Make this a function of the true time, preferably gotten from the GPS
+    QDateTime endTime = QDateTime::currentDateTimeUtc().addMSecs(newPlacemarkTime);
+    timeSpan->set_begin(startTime.toString(dateTimeFormat).toStdString());
+    timeSpan->set_end(endTime.toString(dateTimeFormat).toStdString());
+
     // Set the name
     QDateTime trackTime = QDateTime::currentDateTimeUtc().addMSecs(newPlacemarkTime); // FIXME: Make it a function of the realtime preferably gotten from the GPS
-    QString dateTimeFormat("yyyy-MM-ddThh:mm:ssZ"); // XML Schema time format
     placemark->set_name(trackTime.toString(dateTimeFormat).toStdString());
 
     // Add a nice description to the track placemark
     placemark->set_description(informationString.toStdString());
+
+    // Set the timespan
+    placemark->set_timeprimitive(timeSpan);
 
     return placemark;
 }
@@ -704,19 +718,19 @@ PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestamp
     TimeSpanPtr timeSpan = factory->CreateTimeSpan();
     QDateTime startTime = QDateTime::currentDateTimeUtc().addMSecs(lastPlacemarkTime); // FIXME: Make it a function of the realtime preferably gotten from the GPS
     QDateTime endTime = QDateTime::currentDateTimeUtc().addMSecs(newPlacemarkTime);
-    QString dateTimeFormat("yyyy-MM-ddThh:mm:ssZ"); // XML Schema time format
     timeSpan->set_begin(startTime.toString(dateTimeFormat).toStdString());
     timeSpan->set_end(endTime.toString(dateTimeFormat).toStdString());
 
-    // Create an icon style. This will be rotated and colored to represent velocity
+    // Create an icon style. This arrow icon will be rotated and colored to represent velocity
     AttitudeActual::DataFields attitudeActualData = attitudeActual->getData();
+    AirspeedActual::DataFields airspeedActualData = airspeedActual->getData();
     IconStylePtr iconStyle = factory->CreateIconStyle();
-    iconStyle->set_color(mapVelocity2Color(timestampPoint.velocity));
+    iconStyle->set_color(mapVelocity2Color(airspeedActualData.CalibratedAirspeed));
     iconStyle->set_heading(attitudeActualData.Yaw + 180); //Adding 180 degrees because the arrow art points down, i.e. south.
 
     // Create a line style. This defines the style for the "legs" connecting the points to the ground.
     LineStylePtr lineStyle = factory->CreateLineStyle();
-    lineStyle->set_color(mapVelocity2Color(timestampPoint.velocity));
+    lineStyle->set_color(mapVelocity2Color(timestampPoint.groundspeed));
 
     // Link the style to the icon
     StylePtr style = factory->CreateStyle();
@@ -777,6 +791,7 @@ void KmlExport::positionActualUpdated(UAVObject *obj)
             gpsPositionData.Status != GPSPosition::STATUS_FIX3D)
         return;
 
+    AirspeedActual::DataFields airspeedActualData = airspeedActual->getData();
     PositionActual::DataFields positionActualData = positionActual->getData();
     VelocityActual::DataFields velocityActualData = velocityActual->getData();
 
@@ -792,11 +807,11 @@ void KmlExport::positionActualUpdated(UAVObject *obj)
     newPoint.latitude = LLA[0];
     newPoint.longitude = LLA[1];
     newPoint.altitude = LLA[2];
-    newPoint.velocity = sqrt(velocityActualData.North*velocityActualData.North + velocityActualData.East*velocityActualData.East);
+    newPoint.groundspeed = sqrt(velocityActualData.North*velocityActualData.North + velocityActualData.East*velocityActualData.East);
 
     // Update UAV info string
     informationString.clear();
-    informationString.append(QString("Latitude: %1 deg\nLongitude: %2 deg\nAltitude: %3 m\nAirspeed: %4 m/s\nGroundspeed: %5 m/s\n").arg(newPoint.latitude).arg(newPoint.longitude).arg(newPoint.altitude).arg(-1).arg(newPoint.velocity));
+    informationString.append(QString("Latitude: %1 deg\nLongitude: %2 deg\nAltitude: %3 m\nAirspeed: %4 m/s\nGroundspeed: %5 m/s\n").arg(newPoint.latitude).arg(newPoint.longitude).arg(newPoint.altitude).arg(airspeedActualData.CalibratedAirspeed).arg(newPoint.groundspeed));
 
     // In case this is the first time through, copy data and exit
     static bool firstPoint;
@@ -805,7 +820,7 @@ void KmlExport::positionActualUpdated(UAVObject *obj)
         oldPoint.latitude = newPoint.latitude;
         oldPoint.longitude = newPoint.longitude;
         oldPoint.altitude = newPoint.altitude;
-        oldPoint.velocity = newPoint.velocity;
+        oldPoint.groundspeed = newPoint.groundspeed;
 
         firstPoint = true;
         return;
@@ -832,7 +847,7 @@ void KmlExport::positionActualUpdated(UAVObject *obj)
     oldPoint.latitude = newPoint.latitude;
     oldPoint.longitude = newPoint.longitude;
     oldPoint.altitude = newPoint.altitude;
-    oldPoint.velocity = newPoint.velocity;
+    oldPoint.groundspeed = newPoint.groundspeed;
 
 }
 
