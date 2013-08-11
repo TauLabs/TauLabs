@@ -82,37 +82,17 @@ static bool PIOS_USB_HID_validate(struct pios_usb_hid_dev * usb_hid_dev)
 	return (usb_hid_dev->magic == PIOS_USB_HID_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_usb_hid_dev * PIOS_USB_HID_alloc(void)
 {
 	struct pios_usb_hid_dev * usb_hid_dev;
 
-	usb_hid_dev = (struct pios_usb_hid_dev *)pvPortMalloc(sizeof(*usb_hid_dev));
+	usb_hid_dev = (struct pios_usb_hid_dev *)PIOS_malloc(sizeof(*usb_hid_dev));
 	if (!usb_hid_dev) return(NULL);
 
 	memset(usb_hid_dev, 0, sizeof(*usb_hid_dev));
 	usb_hid_dev->magic = PIOS_USB_HID_DEV_MAGIC;
 	return(usb_hid_dev);
 }
-#else
-static struct pios_usb_hid_dev pios_usb_hid_devs[PIOS_USB_HID_MAX_DEVS];
-static uint8_t pios_usb_hid_num_devs;
-static struct pios_usb_hid_dev * PIOS_USB_HID_alloc(void)
-{
-	struct pios_usb_hid_dev * usb_hid_dev;
-
-	if (pios_usb_hid_num_devs >= PIOS_USB_HID_MAX_DEVS) {
-		return (NULL);
-	}
-
-	usb_hid_dev = &pios_usb_hid_devs[pios_usb_hid_num_devs++];
-
-	memset(usb_hid_dev, 0, sizeof(*usb_hid_dev));
-	usb_hid_dev->magic = PIOS_USB_HID_DEV_MAGIC;
-
-	return (usb_hid_dev);
-}
-#endif
 
 static void PIOS_USB_HID_EP_IN_Callback(void);
 static void PIOS_USB_HID_EP_OUT_Callback(void);

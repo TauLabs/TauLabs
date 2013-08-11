@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 # @addtogroup 
 # @{
 # @addtogroup 
@@ -297,6 +297,8 @@ SRC += $(PIOSCOMMON)/pios_flash.c
 ifeq ($(USE_PCF8591), YES)
 SRC += $(PIOSCOMMON)/pios_pcf8591_adc.c
 endif
+SRC += $(PIOSCOMMON)/pios_heap.c
+
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
@@ -350,7 +352,6 @@ SRC += $(RTOSSRCDIR)/tasks.c
 
 ## RTOS Portable
 SRC += $(RTOSPORTDIR)/portable/GCC/ARM_CM3/port.c
-SRC += $(RTOSPORTDIR)/portable/MemMang/heap_1.c
 
 ## Dosfs file system
 #SRC += $(DOSFSDIR)/dosfs.c

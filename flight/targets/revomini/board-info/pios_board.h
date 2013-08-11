@@ -88,12 +88,6 @@ TIM8  |           |           |           |
 #define PIOS_LED_ALARM		1
 
 //------------------------
-// PIOS_SPI
-// See also pios_board.c
-//------------------------
-#define PIOS_SPI_MAX_DEVS        3
-
-//------------------------
 // PIOS_WDG
 //------------------------
 #define PIOS_WATCHDOG_TIMEOUT    250
@@ -111,18 +105,10 @@ extern uint32_t pios_i2c_flexiport_adapter_id;
 #define PIOS_I2C_ETASV3_ADAPTER			(PIOS_I2C_FLEXI_ADAPTER)
 
 //-------------------------
-// PIOS_USART
-//
-// See also pios_board.c
-//-------------------------
-#define PIOS_USART_MAX_DEVS             5
-
-//-------------------------
 // PIOS_COM
 //
 // See also pios_board.c
 //-------------------------
-#define PIOS_COM_MAX_DEVS               4
 extern uintptr_t pios_com_telem_rf_id;
 extern uintptr_t pios_com_gps_id;
 extern uintptr_t pios_com_telem_usb_id;
@@ -197,38 +183,32 @@ extern uint32_t pios_packet_handler;
 // PIOS_RCVR
 // See also pios_board.c
 //------------------------
-#define PIOS_RCVR_MAX_DEVS           3
 #define PIOS_RCVR_MAX_CHANNELS       12
 #define PIOS_GCSRCVR_TIMEOUT_MS      100
 
 //-------------------------
 // Receiver PPM input
 //-------------------------
-#define PIOS_PPM_MAX_DEVS            1
 #define PIOS_PPM_NUM_INPUTS          12
 
 //-------------------------
 // Receiver PWM input
 //-------------------------
-#define PIOS_PWM_MAX_DEVS            1
 #define PIOS_PWM_NUM_INPUTS          8
 
 //-------------------------
 // Receiver SPEKTRUM input
 //-------------------------
-#define PIOS_SPEKTRUM_MAX_DEVS       2
 #define PIOS_SPEKTRUM_NUM_INPUTS     12
 
 //-------------------------
 // Receiver S.Bus input
 //-------------------------
-#define PIOS_SBUS_MAX_DEVS           1
 #define PIOS_SBUS_NUM_INPUTS         (16+2)
 
 //-------------------------
 // Receiver DSM input
 //-------------------------
-#define PIOS_DSM_MAX_DEVS			2
 #define PIOS_DSM_NUM_INPUTS			12
 
 //-------------------------
@@ -269,9 +249,7 @@ extern uint32_t pios_packet_handler;
 //-------------------------
 // USB
 //-------------------------
-#define PIOS_USB_MAX_DEVS                       1
 #define PIOS_USB_ENABLED                        1 /* Should remove all references to this */
-#define PIOS_USB_HID_MAX_DEVS                   1
 
 //-------------------------
 // ADC

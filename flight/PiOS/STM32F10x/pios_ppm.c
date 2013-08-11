@@ -8,6 +8,7 @@
  *
  * @file       pios_ppm.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      PPM Input functions (STM32 dependent)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -82,34 +83,16 @@ static bool PIOS_PPM_validate(struct pios_ppm_dev * ppm_dev)
 	return (ppm_dev->magic == PIOS_PPM_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_ppm_dev * PIOS_PPM_alloc(void)
 {
 	struct pios_ppm_dev * ppm_dev;
 
-	ppm_dev = (struct pios_ppm_dev *)pvPortMalloc(sizeof(*ppm_dev));
+	ppm_dev = (struct pios_ppm_dev *)PIOS_malloc(sizeof(*ppm_dev));
 	if (!ppm_dev) return(NULL);
 
 	ppm_dev->magic = PIOS_PPM_DEV_MAGIC;
 	return(ppm_dev);
 }
-#else
-static struct pios_ppm_dev pios_ppm_devs[PIOS_PPM_MAX_DEVS];
-static uint8_t pios_ppm_num_devs;
-static struct pios_ppm_dev * PIOS_PPM_alloc(void)
-{
-	struct pios_ppm_dev * ppm_dev;
-
-	if (pios_ppm_num_devs >= PIOS_PPM_MAX_DEVS) {
-		return (NULL);
-	}
-
-	ppm_dev = &pios_ppm_devs[pios_ppm_num_devs++];
-	ppm_dev->magic = PIOS_PPM_DEV_MAGIC;
-
-	return (ppm_dev);
-}
-#endif
 
 static void PIOS_PPM_tim_overflow_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
 static void PIOS_PPM_tim_edge_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);

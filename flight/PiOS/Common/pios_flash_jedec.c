@@ -84,7 +84,6 @@ static int32_t PIOS_Flash_Jedec_ReleaseBus(struct jedec_flash_dev *flash_dev);
 static int32_t PIOS_Flash_Jedec_WriteEnable(struct jedec_flash_dev *flash_dev);
 static int32_t PIOS_Flash_Jedec_Busy(struct jedec_flash_dev *flash_dev);
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 /**
  * @brief Allocate a new device
  */
@@ -92,32 +91,13 @@ static struct jedec_flash_dev *PIOS_Flash_Jedec_alloc(void)
 {
 	struct jedec_flash_dev *flash_dev;
 
-	flash_dev = (struct jedec_flash_dev *)pvPortMalloc(sizeof(*flash_dev));
+	flash_dev = (struct jedec_flash_dev *)PIOS_malloc(sizeof(*flash_dev));
 	if (!flash_dev) return (NULL);
 
 	flash_dev->magic = PIOS_JEDEC_DEV_MAGIC;
 
 	return(flash_dev);
 }
-#else
-#ifndef PIOS_JEDEC_MAX_DEVS
-#define PIOS_JEDEC_MAX_DEVS 1
-#endif
-static struct jedec_flash_dev pios_jedec_flash_devs[PIOS_JEDEC_MAX_DEVS];
-static uint8_t pios_jedec_flash_num_devs;
-static struct jedec_flash_dev *PIOS_Flash_Jedec_alloc(void)
-{
-	struct jedec_flash_dev *flash_dev;
-
-	if (pios_jedec_flash_num_devs >= PIOS_JEDEC_MAX_DEVS)
-		return NULL;
-
-	flash_dev = &pios_jedec_flash_devs[pios_jedec_flash_num_devs++];
-	flash_dev->magic = PIOS_JEDEC_DEV_MAGIC;
-
-	return flash_dev;
-}
-#endif	/* PIOS_INCLUDE_FREERTOS */
 
 /**
  * @brief Validate the handle to the spi device
