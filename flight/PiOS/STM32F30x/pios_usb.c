@@ -69,35 +69,16 @@ static int32_t PIOS_USB_validate(struct pios_usb_dev * usb_dev)
 	return 0;
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_usb_dev * PIOS_USB_alloc(void)
 {
 	struct pios_usb_dev * usb_dev;
 
-	usb_dev = (struct pios_usb_dev *)pvPortMalloc(sizeof(*usb_dev));
+	usb_dev = (struct pios_usb_dev *)PIOS_malloc(sizeof(*usb_dev));
 	if (!usb_dev) return(NULL);
 
 	usb_dev->magic = PIOS_USB_DEV_MAGIC;
 	return(usb_dev);
 }
-#else
-static struct pios_usb_dev pios_usb_devs[PIOS_USB_MAX_DEVS];
-static uint8_t pios_usb_num_devs;
-static struct pios_usb_dev * PIOS_USB_alloc(void)
-{
-	struct pios_usb_dev * usb_dev;
-
-	if (pios_usb_num_devs >= PIOS_USB_MAX_DEVS) {
-		return (NULL);
-	}
-
-	usb_dev = &pios_usb_devs[pios_usb_num_devs++];
-	usb_dev->magic = PIOS_USB_DEV_MAGIC;
-
-	return (usb_dev);
-}
-#endif
-
 
 /**
  * Initialises USB COM layer

@@ -8,6 +8,7 @@
  *
  * @file       pios_tim.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Sets up timers and ways to register callbacks on them
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -48,25 +49,6 @@ struct pios_tim_dev {
 	uintptr_t context;
 };
 
-#if 0
-static bool PIOS_TIM_validate(struct pios_tim_dev * tim_dev)
-{
-	return (tim_dev->magic == PIOS_TIM_DEV_MAGIC);
-}
-#endif
-
-#if defined(PIOS_INCLUDE_FREERTOS) && 0
-static struct pios_tim_dev * PIOS_TIM_alloc(void)
-{
-	struct pios_tim_dev * tim_dev;
-
-	tim_dev = (struct pios_tim_dev *)malloc(sizeof(*tim_dev));
-	if (!tim_dev) return(NULL);
-
-	tim_dev->magic = PIOS_TIM_DEV_MAGIC;
-	return(tim_dev);
-}
-#else
 static struct pios_tim_dev pios_tim_devs[PIOS_TIM_MAX_DEVS];
 static uint8_t pios_tim_num_devs;
 static struct pios_tim_dev * PIOS_TIM_alloc(void)
@@ -82,10 +64,6 @@ static struct pios_tim_dev * PIOS_TIM_alloc(void)
 
 	return (tim_dev);
 }
-#endif
-
-
-
 
 int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg)
 {

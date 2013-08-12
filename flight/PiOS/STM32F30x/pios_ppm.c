@@ -83,34 +83,16 @@ static bool PIOS_PPM_validate(struct pios_ppm_dev * ppm_dev)
 	return (ppm_dev->magic == PIOS_PPM_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_ppm_dev * PIOS_PPM_alloc(void)
 {
 	struct pios_ppm_dev * ppm_dev;
 
-	ppm_dev = (struct pios_ppm_dev *)pvPortMalloc(sizeof(*ppm_dev));
+	ppm_dev = (struct pios_ppm_dev *)PIOS_malloc(sizeof(*ppm_dev));
 	if (!ppm_dev) return(NULL);
 
 	ppm_dev->magic = PIOS_PPM_DEV_MAGIC;
 	return(ppm_dev);
 }
-#else
-static struct pios_ppm_dev pios_ppm_devs[PIOS_PPM_MAX_DEVS];
-static uint8_t pios_ppm_num_devs;
-static struct pios_ppm_dev * PIOS_PPM_alloc(void)
-{
-	struct pios_ppm_dev * ppm_dev;
-
-	if (pios_ppm_num_devs >= PIOS_PPM_MAX_DEVS) {
-		return (NULL);
-	}
-
-	ppm_dev = &pios_ppm_devs[pios_ppm_num_devs++];
-	ppm_dev->magic = PIOS_PPM_DEV_MAGIC;
-
-	return (ppm_dev);
-}
-#endif
 
 static void PIOS_PPM_tim_overflow_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
 static void PIOS_PPM_tim_edge_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
@@ -262,7 +244,7 @@ static void PIOS_PPM_tim_edge_cb (uintptr_t tim_id, uintptr_t context, uint8_t c
 	/* Convert to 32-bit timer result */
 	ppm_dev->CurrentTime += ppm_dev->LargeCounter;
 
-	/* Capture computation */		
+	/* Capture computation */
 	ppm_dev->DeltaTime = ppm_dev->CurrentTime - ppm_dev->PreviousTime;
 
 	ppm_dev->PreviousTime = ppm_dev->CurrentTime;
@@ -309,7 +291,7 @@ static void PIOS_PPM_tim_edge_cb (uintptr_t tim_id, uintptr_t context, uint8_t c
 		if (ppm_dev->DeltaTime > PIOS_PPM_IN_MIN_CHANNEL_PULSE_US
 			&& ppm_dev->DeltaTime < PIOS_PPM_IN_MAX_CHANNEL_PULSE_US
 			&& ppm_dev->PulseIndex < PIOS_PPM_IN_MAX_NUM_CHANNELS) {
-			
+
 			ppm_dev->CaptureValueNewFrame[ppm_dev->PulseIndex] = ppm_dev->DeltaTime;
 			ppm_dev->PulseIndex++;
 		} else {

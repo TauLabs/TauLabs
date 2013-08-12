@@ -101,37 +101,17 @@ static bool PIOS_USB_CDC_validate(struct pios_usb_cdc_dev * usb_cdc_dev)
 	return (usb_cdc_dev && (usb_cdc_dev->magic == PIOS_USB_CDC_DEV_MAGIC));
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_usb_cdc_dev * PIOS_USB_CDC_alloc(void)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev;
 
-	usb_cdc_dev = (struct pios_usb_cdc_dev *)pvPortMalloc(sizeof(*usb_cdc_dev));
+	usb_cdc_dev = (struct pios_usb_cdc_dev *)PIOS_malloc(sizeof(*usb_cdc_dev));
 	if (!usb_cdc_dev) return(NULL);
 
 	memset(usb_cdc_dev, 0, sizeof(*usb_cdc_dev));
 	usb_cdc_dev->magic = PIOS_USB_CDC_DEV_MAGIC;
 	return(usb_cdc_dev);
 }
-#else
-static struct pios_usb_cdc_dev pios_usb_cdc_devs[PIOS_USB_CDC_MAX_DEVS];
-static uint8_t pios_usb_cdc_num_devs;
-static struct pios_usb_cdc_dev * PIOS_USB_CDC_alloc(void)
-{
-	struct pios_usb_cdc_dev * usb_cdc_dev;
-
-	if (pios_usb_cdc_num_devs >= PIOS_USB_CDC_MAX_DEVS) {
-		return (NULL);
-	}
-
-	usb_cdc_dev = &pios_usb_cdc_devs[pios_usb_cdc_num_devs++];
-
-	memset(usb_cdc_dev, 0, sizeof(*usb_cdc_dev));
-	usb_cdc_dev->magic = PIOS_USB_CDC_DEV_MAGIC;
-
-	return (usb_cdc_dev);
-}
-#endif
 
 /* Implement USB_IFOPS for CDC Control Interface */
 static void PIOS_USB_CDC_CTRL_IF_Init(uintptr_t usb_cdc_id);

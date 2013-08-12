@@ -61,6 +61,7 @@ SRC += $(PIOSSTM32F10X)/pios_flash_internal.c
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_flash.c
+SRC += $(PIOSCOMMON)/pios_heap.c
 
 ## CMSIS for STM32
 SRC += $(CMSISDIR)/core_cm3.c

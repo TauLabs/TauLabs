@@ -462,12 +462,11 @@ static bool PIOS_FLASHFS_Logfs_validate(const struct logfs_state *logfs)
 	return (logfs && (logfs->magic == PIOS_FLASHFS_LOGFS_DEV_MAGIC));
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct logfs_state *PIOS_FLASHFS_Logfs_alloc(void)
 {
 	struct logfs_state *logfs;
 
-	logfs = (struct logfs_state *)pvPortMalloc(sizeof(*logfs));
+	logfs = (struct logfs_state *)PIOS_malloc(sizeof(*logfs));
 	if (!logfs) return (NULL);
 
 	logfs->magic = PIOS_FLASHFS_LOGFS_DEV_MAGIC;
@@ -477,32 +476,8 @@ static void PIOS_FLASHFS_Logfs_free(struct logfs_state *logfs)
 {
 	/* Invalidate the magic */
 	logfs->magic = ~PIOS_FLASHFS_LOGFS_DEV_MAGIC;
-	vPortFree(logfs);
+	PIOS_free(logfs);
 }
-#else
-static struct logfs_state pios_flashfs_logfs_devs[PIOS_FLASHFS_LOGFS_MAX_DEVS];
-static uint8_t pios_flashfs_logfs_num_devs;
-static struct logfs_state *PIOS_FLASHFS_Logfs_alloc(void)
-{
-	struct logfs_state *logfs;
-
-	if (pios_flashfs_logfs_num_devs >= PIOS_FLASHFS_LOGFS_MAX_DEVS) {
-		return (NULL);
-	}
-
-	logfs = &pios_flashfs_logfs_devs[pios_flashfs_logfs_num_devs++];
-	logfs->magic = PIOS_FLASHFS_LOGFS_DEV_MAGIC;
-
-	return (logfs);
-}
-static void PIOS_FLASHFS_Logfs_free(struct logfs_state *logfs)
-{
-	/* Invalidate the magic */
-	logfs->magic = ~PIOS_FLASHFS_LOGFS_DEV_MAGIC;
-
-	/* Can't free the resources with this simple allocator */
-}
-#endif
 
 /**
  * @brief Initialize the flash object setting FS

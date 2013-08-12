@@ -73,7 +73,7 @@ static struct bma180_dev * PIOS_BMA180_alloc(void)
 {
 	struct bma180_dev * bma180_dev;
 	
-	bma180_dev = (struct bma180_dev *)pvPortMalloc(sizeof(*bma180_dev));
+	bma180_dev = (struct bma180_dev *)PIOS_malloc(sizeof(*bma180_dev));
 	if (!bma180_dev) return (NULL);
 	
 	fifoBuf_init(&bma180_dev->fifo, (uint8_t *) bma180_dev->buffer, sizeof(bma180_dev->buffer));

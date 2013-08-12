@@ -82,7 +82,6 @@ MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 # optional component libraries
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 #include $(PIOSCOMMONLIB)/dosfs/library.mk
-include $(PIOSCOMMONLIB)/msheap/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
@@ -142,6 +141,7 @@ SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
 SRC += $(PIOSCOMMON)/pios_adc.c
+SRC += $(PIOSCOMMON)/pios_heap.c
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)

@@ -7,7 +7,7 @@
  *
  * @file       pios_internal_adc.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     The Tau Labs Team, http://www.taulabls.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Analog to Digital conversion routines
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
@@ -95,7 +95,6 @@ static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev * dev)
 	return (dev->magic == PIOS_INTERNAL_ADC_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 /**
   * @brief Allocates an internal ADC device in memory
   * \param[out] pointer to the newly created device
@@ -107,7 +106,7 @@ static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate()
 		return NULL;
 	struct pios_internal_adc_dev * adc_dev;
 	
-	adc_dev = (struct pios_internal_adc_dev *)pvPortMalloc(sizeof(*adc_dev));
+	adc_dev = (struct pios_internal_adc_dev *)PIOS_malloc(sizeof(*adc_dev));
 	if (!adc_dev) return (NULL);
 	
 	adc_dev->magic = PIOS_INTERNAL_ADC_DEV_MAGIC;
@@ -116,9 +115,6 @@ static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate()
 
 	return(adc_dev);
 }
-#else
-#error Not implemented
-#endif
 
 /**
   * @brief Initializes an internal ADC device

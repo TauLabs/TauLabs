@@ -8,6 +8,7 @@
 *
 * @file       pios_rfm22b.c
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      Implements a driver the the RFM22B driver
 * @see        The GNU Public License (GPL) Version 3
 *
@@ -512,34 +513,17 @@ bool PIOS_RFM22B_validate(struct pios_rfm22b_dev * rfm22b_dev)
 	return (rfm22b_dev != NULL && rfm22b_dev->magic == PIOS_RFM22B_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_rfm22b_dev * PIOS_RFM22B_alloc(void)
 {
 	struct pios_rfm22b_dev * rfm22b_dev;
 
-	rfm22b_dev = (struct pios_rfm22b_dev *)pvPortMalloc(sizeof(*rfm22b_dev));
+	rfm22b_dev = (struct pios_rfm22b_dev *)PIOS_malloc(sizeof(*rfm22b_dev));
 	rfm22b_dev->spi_id = 0;
 	if (!rfm22b_dev) return(NULL);
 
 	rfm22b_dev->magic = PIOS_RFM22B_DEV_MAGIC;
 	return(rfm22b_dev);
 }
-#else
-static struct pios_rfm22b_dev pios_rfm22b_devs[PIOS_RFM22B_MAX_DEVS];
-static uint8_t pios_rfm22b_num_devs;
-static struct pios_rfm22b_dev * PIOS_RFM22B_alloc(void)
-{
-	struct pios_rfm22b_dev * rfm22b_dev;
-
-	if (pios_rfm22b_num_devs >= PIOS_RFM22B_MAX_DEVS)
-		return NULL;
-
-	rfm22b_dev = &pios_rfm22b_devs[pios_rfm22b_num_devs++];
-	rfm22b_dev->magic = PIOS_RFM22B_DEV_MAGIC;
-
-	return (rfm22b_dev);
-}
-#endif
 
 static struct pios_rfm22b_dev * g_rfm22b_dev =  NULL;
 

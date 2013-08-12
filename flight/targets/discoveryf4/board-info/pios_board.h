@@ -91,12 +91,6 @@ TIM8  |           |           |           |
 #define USB_LED_TOGGLE		PIOS_LED_Toggle(PIOS_LED_USB)
 
 
-//-------------------------
-// PIOS_SPI
-// See also pios_board.c
-//-------------------------
-#define PIOS_SPI_MAX_DEVS			1
-
 //------------------------
 // PIOS_WDG
 //------------------------
@@ -111,20 +105,11 @@ TIM8  |           |           |           |
 extern uint32_t pios_i2c_gyro_accel_adapter_id;
 #define PIOS_I2C_MPU6050_ADAPTER		(pios_i2c_gyro_accel_adapter_id)
 
-
-//-------------------------
-// PIOS_USART
-//-------------------------
-#define PIOS_USART_MAX_DEVS			3
-
-
 //-------------------------
 // PIOS_COM
 //
 // See also pios_board.c
 //-------------------------
-#define PIOS_COM_MAX_DEVS			3
-
 extern uintptr_t pios_com_telem_rf_id;
 #define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
 
@@ -183,7 +168,6 @@ extern uintptr_t pios_com_telem_usb_id;
 // PIOS_RCVR
 // See also pios_board.c
 //------------------------
-#define PIOS_RCVR_MAX_DEVS           3
 #define PIOS_RCVR_MAX_CHANNELS       12
 #define PIOS_GCSRCVR_TIMEOUT_MS     100
 
@@ -200,14 +184,7 @@ extern uintptr_t pios_com_telem_usb_id;
 //-------------------------
 // USB
 //-------------------------
-#define PIOS_USB_MAX_DEVS                       1
 #define PIOS_USB_ENABLED                        1 /* Should remove all references to this */
-#define PIOS_USB_HID_MAX_DEVS                   1
-
-//-------------------------
-// Internal Flash
-//-------------------------
-#define PIOS_INTERNAL_FLASH_MAX_DEVS		1
 
 #endif /* STM32F4XX_DISCOVERYF4_H_ */
 

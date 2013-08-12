@@ -884,18 +884,6 @@ static bool PIOS_I2C_validate(struct pios_i2c_adapter *i2c_adapter)
 	return (i2c_adapter->magic == PIOS_I2C_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS) && 0
-static struct pios_i2c_dev *PIOS_I2C_alloc(void)
-{
-	struct pios_i2c_dev *i2c_adapter;
-
-	i2c_adapter = (struct pios_i2c_adapter *)malloc(sizeof(*i2c_adapter));
-	if (!i2c_adapter) return (NULL);
-
-	i2c_adapter->magic = PIOS_I2C_DEV_MAGIC;
-	return (i2c_adapter);
-}
-#else
 static struct pios_i2c_adapter pios_i2c_adapters[PIOS_I2C_MAX_DEVS];
 static uint8_t pios_i2c_num_adapters;
 static struct pios_i2c_adapter *PIOS_I2C_alloc(void)
@@ -911,8 +899,6 @@ static struct pios_i2c_adapter *PIOS_I2C_alloc(void)
 
 	return (i2c_adapter);
 }
-#endif
-
 
 /**
 * Initializes IIC driver

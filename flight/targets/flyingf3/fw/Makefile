@@ -86,7 +86,6 @@ MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 # optional component libraries
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 #include $(PIOSCOMMONLIB)/dosfs/library.mk
-include $(PIOSCOMMONLIB)/msheap/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -145,6 +144,7 @@ SRC += $(PIOSCOMMON)/pios_adc.c
 SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_ms5611_spi.c
+SRC += $(PIOSCOMMON)/pios_heap.c
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)

@@ -8,6 +8,7 @@
  *
  * @file       pios_gcsrcvr.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      GCS Input functions (STM32 dependent)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -64,12 +65,11 @@ static bool PIOS_gcsrcvr_validate(struct pios_gcsrcvr_dev *gcsrcvr_dev)
 	return (gcsrcvr_dev->magic == PIOS_GCSRCVR_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_gcsrcvr_dev *PIOS_gcsrcvr_alloc(void)
 {
 	struct pios_gcsrcvr_dev * gcsrcvr_dev;
 
-	gcsrcvr_dev = (struct pios_gcsrcvr_dev *)pvPortMalloc(sizeof(*gcsrcvr_dev));
+	gcsrcvr_dev = (struct pios_gcsrcvr_dev *)PIOS_malloc(sizeof(*gcsrcvr_dev));
 	if (!gcsrcvr_dev) return(NULL);
 
 	gcsrcvr_dev->magic = PIOS_GCSRCVR_DEV_MAGIC;
@@ -81,27 +81,6 @@ static struct pios_gcsrcvr_dev *PIOS_gcsrcvr_alloc(void)
 
 	return(gcsrcvr_dev);
 }
-#else
-static struct pios_gcsrcvr_dev pios_gcsrcvr_devs[PIOS_GCSRCVR_MAX_DEVS];
-static uint8_t pios_gcsrcvr_num_devs;
-static struct pios_gcsrcvr_dev *PIOS_gcsrcvr_alloc(void)
-{
-	struct pios_gcsrcvr_dev *gcsrcvr_dev;
-
-	if (pios_gcsrcvr_num_devs >= PIOS_GCSRCVR_MAX_DEVS) {
-		return (NULL);
-	}
-
-	gcsrcvr_dev = &pios_gcsrcvr_devs[pios_gcsrcvr_num_devs++];
-	gcsrcvr_dev->magic = PIOS_GCSRCVR_DEV_MAGIC;
-	gcsrcvr_dev->Fresh = false;
-	gcsrcvr_dev->supv_timer = 0;
-
-	global_gcsrcvr_dev = gcsrcvr_dev;
-
-	return (gcsrcvr_dev);
-}
-#endif
 
 static void gcsreceiver_updated(UAVObjEvent * ev)
 {
