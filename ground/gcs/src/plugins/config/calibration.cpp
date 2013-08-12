@@ -1479,22 +1479,23 @@ void Calibration::resetSensorCalibrationToOriginalValues()
     Q_ASSERT(sensorSettings);
     SensorSettings::DataFields sensorSettingsData = sensorSettings->getData();
 
-    sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_X]=initialAccelsScale[0];
-    sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Y]=initialAccelsScale[1];
-    sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Z]=initialAccelsScale[2];
-    sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_X]=initialAccelsBias[0];
-    sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_Y]=initialAccelsBias[1];
-    sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_Z]=initialAccelsBias[2];
-
+    if (calibrateAccels) {
+        sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_X] = initialAccelsScale[0];
+        sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Y] = initialAccelsScale[1];
+        sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Z] = initialAccelsScale[2];
+        sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_X] = initialAccelsBias[0];
+        sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_Y] = initialAccelsBias[1];
+        sensorSettingsData.AccelBias[SensorSettings::ACCELBIAS_Z] = initialAccelsBias[2];
+    }
 
     if (calibrateMags) {
         //Write the original magnetometer values back to the device
-        sensorSettingsData.MagScale[SensorSettings::MAGSCALE_X]=initialMagsScale[0];
-        sensorSettingsData.MagScale[SensorSettings::MAGSCALE_Y]=initialMagsScale[1];
-        sensorSettingsData.MagScale[SensorSettings::MAGSCALE_Z]=initialMagsScale[2];
-        sensorSettingsData.MagBias[SensorSettings::MAGBIAS_X]=initialMagsBias[0];
-        sensorSettingsData.MagBias[SensorSettings::MAGBIAS_Y]=initialMagsBias[1];
-        sensorSettingsData.MagBias[SensorSettings::MAGBIAS_Z]=initialMagsBias[2];
+        sensorSettingsData.MagScale[SensorSettings::MAGSCALE_X] = initialMagsScale[0];
+        sensorSettingsData.MagScale[SensorSettings::MAGSCALE_Y] = initialMagsScale[1];
+        sensorSettingsData.MagScale[SensorSettings::MAGSCALE_Z] = initialMagsScale[2];
+        sensorSettingsData.MagBias[SensorSettings::MAGBIAS_X] = initialMagsBias[0];
+        sensorSettingsData.MagBias[SensorSettings::MAGBIAS_Y] = initialMagsBias[1];
+        sensorSettingsData.MagBias[SensorSettings::MAGBIAS_Z] = initialMagsBias[2];
     }
 
     sensorSettings->setData(sensorSettingsData);
