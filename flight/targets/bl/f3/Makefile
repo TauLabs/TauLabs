@@ -104,12 +104,8 @@ EXTRAINCDIRS  += $(BLCOMMONDIR)
 
 # Place project-specific -D (define) and/or 
 # -U options for C here.
-CDEFS = -DSTM32F30X
 CDEFS += -DSYSCLK_FREQ=$(SYSCLK_FREQ)
-CDEFS += -DHSE_VALUE=$(OSCILLATOR_FREQ)
-CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
-ARCHFLAGS += -mcpu=cortex-m4 -march=armv7e-m -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
 # Provide (only) the bootloader with board-specific defines
 BLONLY_CDEFS += -DBOARD_TYPE=$(BOARD_TYPE)

@@ -102,10 +102,7 @@ EXTRAINCDIRS  += $(BLCOMMONDIR)
 
 # Place project-specific -D (define) and/or 
 # -U options for C here.
-CDEFS = -DSTM32F4XX
 CDEFS += -DSYSCLK_FREQ=$(SYSCLK_FREQ)
-CDEFS += -DHSE_VALUE=$(OSCILLATOR_FREQ)
-CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
 
 # Provide (only) the bootloader with board-specific defines
