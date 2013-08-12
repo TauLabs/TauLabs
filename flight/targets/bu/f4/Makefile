@@ -30,16 +30,9 @@ include $(BOARD_INFO_DIR)/board-info.mk
 
 # Paths
 PIOSINC = $(PIOS)/inc
-PIOSSTM32F4XX = $(PIOS)/STM32F4xx
 PIOSCOMMON = $(PIOS)/Common
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
-STMLIBDIR = $(PIOSSTM32F4XX)/Libraries
-STMSPDDIR = $(STMLIBDIR)/STM32F4xx_StdPeriph_Driver
-STMSPDSRCDIR = $(STMSPDDIR)/src
-STMSPDINCDIR = $(STMSPDDIR)/inc
-CMSISDIR = $(STMLIBDIR)/CMSIS/Core/CM3
-CMSIS3_DEVICEDIR = $(STMLIBDIR)/CMSIS3/Device/ST/STM32F4xx
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
@@ -54,26 +47,16 @@ SRC += $(BUCOMMONDIR)/pios_board.c
 ## Bootloader Updater (board specific implementations)
 
 ## PIOS Hardware (STM32F40x)
-SRC += $(PIOSSTM32F4XX)/startup.c
-SRC += $(PIOSSTM32F4XX)/pios_sys.c
-SRC += $(PIOSSTM32F4XX)/pios_led.c
-SRC += $(PIOSSTM32F4XX)/pios_delay.c
-SRC += $(PIOSSTM32F4XX)/pios_flash_internal.c
+PIOS_DEVLIB			:=	$(PIOS)/STM32F4xx
+include $(PIOS_DEVLIB)/library.mk
+SRC += $(PIOS_DEVLIB)/startup.c
+SRC += $(PIOS_DEVLIB)/pios_sys.c
+SRC += $(PIOS_DEVLIB)/pios_led.c
+SRC += $(PIOS_DEVLIB)/pios_delay.c
+SRC += $(PIOS_DEVLIB)/pios_flash_internal.c
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_flash.c
-
-## CMSIS for STM32
-include $(PIOSCOMMONLIB)/CMSIS3/library.mk
-#SRC += $(CMSISDIR)/core_cm3.c
-SRC += $(BOARD_INFO_DIR)/cmsis_system.c
-
-## Used parts of the STM-Library
-SRC += $(STMSPDSRCDIR)/stm32f4xx_flash.c
-SRC += $(STMSPDSRCDIR)/stm32f4xx_gpio.c
-SRC += $(STMSPDSRCDIR)/stm32f4xx_rcc.c
-SRC += $(STMSPDSRCDIR)/stm32f4xx_rtc.c
-SRC += $(STMSPDSRCDIR)/misc.c
 
 # List Assembler source files here.
 # Make them always end in a capital .S. Files ending in a lowercase .s
@@ -89,10 +72,6 @@ SRC += $(STMSPDSRCDIR)/misc.c
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
-EXTRAINCDIRS  += $(PIOSSTM32F4XX)/inc
-EXTRAINCDIRS  += $(STMSPDINCDIR)
-EXTRAINCDIRS  += $(CMSISDIR)
-EXTRAINCDIRS  += $(CMSIS3_DEVICEDIR)/Include
 EXTRAINCDIRS  += $(BOARD_INFO_DIR)
 EXTRAINCDIRS  += $(BUBOARDDIR)
 EXTRAINCDIRS  += $(BUARCHDIR)
@@ -164,9 +143,9 @@ LDFLAGS += -Wl,--warn-common
 LDFLAGS += -Wl,--fatal-warnings
 
 # Linker scripts
-LINKERSCRIPTPATH = $(PIOSSTM32F4XX)
-LDFLAGS += -T$(LINKERSCRIPTPATH)/link_STM32F4xx_OP_memory.ld
-LDFLAGS += -T$(LINKERSCRIPTPATH)/link_STM32F4xx_sections.ld
+LINKER_SCRIPTS_APP	 =	$(PIOS_DEVLIB)/link_STM32F4xx_OP_memory.ld \
+						$(PIOS_DEVLIB)/link_STM32F4xx_sections.ld
+LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 # List of all source files.
 ALLSRC     = $(ASRC) $(SRC)
