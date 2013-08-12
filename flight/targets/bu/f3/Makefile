@@ -30,16 +30,9 @@ include $(BOARD_INFO_DIR)/board-info.mk
 
 # Paths
 PIOSINC = $(PIOS)/inc
-PIOSSTM32F30X = $(PIOS)/STM32F30x
 PIOSCOMMON = $(PIOS)/Common
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
-STMLIBDIR = $(PIOSSTM32F30X)/Libraries
-STMSPDDIR = $(STMLIBDIR)/STM32F30x_StdPeriph_Driver
-STMSPDSRCDIR = $(STMSPDDIR)/src
-STMSPDINCDIR = $(STMSPDDIR)/inc
-CMSISDIR = $(STMLIBDIR)/CMSIS/Core/CM3
-CMSIS3_DEVICEDIR = $(STMLIBDIR)/CMSIS3/Device/ST/STM32F30x
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
@@ -54,25 +47,17 @@ SRC += $(BUCOMMONDIR)/pios_board.c
 ## Bootloader Updater (board specific implementations)
 
 ## PIOS Hardware (STM32F30x)
-SRC += $(PIOSSTM32F30X)/startup.c
-SRC += $(PIOSSTM32F30X)/pios_sys.c
-SRC += $(PIOSSTM32F30X)/pios_led.c
-SRC += $(PIOSSTM32F30X)/pios_delay.c
-SRC += $(PIOSSTM32F30X)/pios_flash_internal.c
+PIOS_DEVLIB			:=	$(PIOS)/STM32F30x
+include $(PIOS_DEVLIB)/library.mk
+
+SRC += $(PIOS_DEVLIB)/startup.c
+SRC += $(PIOS_DEVLIB)/pios_sys.c
+SRC += $(PIOS_DEVLIB)/pios_led.c
+SRC += $(PIOS_DEVLIB)/pios_delay.c
+SRC += $(PIOS_DEVLIB)/pios_flash_internal.c
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_flash.c
-
-## CMSIS for STM32
-include $(PIOSCOMMONLIB)/CMSIS3/library.mk
-SRC += $(BOARD_INFO_DIR)/cmsis_system.c
-
-## Used parts of the STM-Library
-SRC += $(STMSPDSRCDIR)/stm32f30x_flash.c
-SRC += $(STMSPDSRCDIR)/stm32f30x_gpio.c
-SRC += $(STMSPDSRCDIR)/stm32f30x_rcc.c
-SRC += $(STMSPDSRCDIR)/stm32f30x_rtc.c
-SRC += $(STMSPDSRCDIR)/stm32f30x_misc.c
 
 # List Assembler source files here.
 # Make them always end in a capital .S. Files ending in a lowercase .s
@@ -88,10 +73,6 @@ SRC += $(STMSPDSRCDIR)/stm32f30x_misc.c
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
-EXTRAINCDIRS  += $(PIOSSTM32F30X)/inc
-EXTRAINCDIRS  += $(STMSPDINCDIR)
-EXTRAINCDIRS  += $(CMSISDIR)
-EXTRAINCDIRS  += $(CMSIS3_DEVICEDIR)/Include
 EXTRAINCDIRS  += $(BOARD_INFO_DIR)
 EXTRAINCDIRS  += $(BUBOARDDIR)
 EXTRAINCDIRS  += $(BUARCHDIR)
@@ -99,13 +80,9 @@ EXTRAINCDIRS  += $(BUCOMMONDIR)
 
 # Place project-specific -D (define) and/or 
 # -U options for C here.
-CDEFS = -DSTM32F30X
-CDEFS += -DHSE_VALUE=$(OSCILLATOR_FREQ)
 CDEFS += -DMEM_SIZE=$(FW_BANK_SIZE)
-CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
 CDEFS += -DBU_PAYLOAD_FILE=$(ROOT_DIR)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
-ARCHFLAGS += -mcpu=cortex-m4 -march=armv7e-m -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
 # Place project-specific -D and/or -U options for 
 # Assembler with preprocessor here.
@@ -163,7 +140,7 @@ LDFLAGS += -Wl,--warn-common
 LDFLAGS += -Wl,--fatal-warnings
 
 # Linker scripts
-LINKERSCRIPTPATH = $(PIOSSTM32F30X)
+LINKERSCRIPTPATH = $(PIOS_DEVLIB)
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_STM32F30x_FW_memory.ld
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_STM32F30x_sections.ld
 

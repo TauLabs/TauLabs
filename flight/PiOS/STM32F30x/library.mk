@@ -39,7 +39,6 @@ SRC					+=	$(wildcard $(PERIPHLIB)/src/*.c)
 USBFSLIB			=	$(PIOS_DEVLIB)/Libraries/STM32_USB-FS-Device_Driver
 USBFSLIB_SRC		=	usb_core.c usb_init.c usb_int.c usb_mem.c usb_regs.c usb_sil.c
 EXTRAINCDIRS		+=	$(USBFSLIB)/inc
-SRC					+=	$(addprefix $(USBFSLIB)/src/,$(USBFSLIB_SRC))
 
 #
 # FreeRTOS

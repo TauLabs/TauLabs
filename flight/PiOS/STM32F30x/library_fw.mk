@@ -20,3 +20,7 @@ LINKER_SCRIPTS_APP	 =	$(PIOS_DEVLIB)/link_STM32F30x_FW_memory.ld \
 #
 SRC					+=	$(wildcard $(PIOS_DEVLIB)*.c)
 
+#
+# ST USB FS library
+#
+SRC					+=	$(addprefix $(USBFSLIB)/src/,$(USBFSLIB_SRC))

@@ -83,6 +83,11 @@ SRC	+=	$(PIOS_DEVLIB)/vectors_stm32f30x.c
 LINKER_SCRIPTS_BL	 =	$(PIOS_DEVLIB)/link_STM32F30x_BL_memory.ld \
 						$(PIOS_DEVLIB)/link_STM32F30x_sections.ld
 
+#
+# ST USB FS library
+#
+SRC					+=	$(addprefix $(USBFSLIB)/src/,$(USBFSLIB_SRC))
+
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_board_info.c
 SRC += $(PIOSCOMMON)/pios_com_msg.c
