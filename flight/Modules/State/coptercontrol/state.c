@@ -93,7 +93,7 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv);
 
 // TODO: Move this into a global library that is aware of the home location to share code with revo
 //! Convert from LLA to NED accounting for the geoid separation
-static int32_t LLA2NED(int32_t LL[2], float altitude, float geoidSeparation, float *NED);
+static int32_t LLA2NED(int32_t LL[2], float altitude, float *NED);
 
 //! Recompute the translation from LLA to NED and force and update of the position
 static void HomeLocationUpdatedCb(UAVObjEvent * objEv);
@@ -452,15 +452,13 @@ static void updateT3(GPSVelocityData * gpsVelocityData, PositionActualData * pos
 	// Get a subset of the GPSPosition information
 	int32_t LL_int[2];
 	float altitude;
-	float geoidSeparation;
 	GPSPositionLatitudeGet(&LL_int[0]);
 	GPSPositionLongitudeGet(&LL_int[1]);
 	GPSPositionAltitudeGet(&altitude);
-	GPSPositionGeoidSeparationGet(&geoidSeparation);
 
 	// Get NED coordinates from GPS lat-lon
 	float gps_NED[3];
-	LLA2NED(LL_int, altitude, geoidSeparation, gps_NED);
+	LLA2NED(LL_int, altitude, gps_NED);
 
 	// Calculate filter coefficients
 	float dT = .100f;
@@ -689,12 +687,12 @@ static void inertialSensorSettingsUpdatedCb(UAVObjEvent * objEv)
  * @param[out] NED frame coordinates
  * @returns 0 for success, -1 for failure
  */
-static int32_t LLA2NED(int32_t LL[2], float altitude, float geoidSeparation, float *NED)
+static int32_t LLA2NED(int32_t LL[2], float altitude, float *NED)
 {
 	float *T = glblAtt->T;
 	float dL[3] = { (LL[0] - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
 		(LL[1] - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-		(altitude + geoidSeparation - homeLocation.Altitude)
+		(altitude - homeLocation.Altitude)
 	};
 
 	NED[0] = T[0] * dL[0];
@@ -739,15 +737,13 @@ static void HomeLocationUpdatedCb(UAVObjEvent * objEv)
 		// Get the subset of the GPSPosition data required
 		int32_t LL_int[2];
 		float altitude;
-		float geoidSeparation;
 		GPSPositionLatitudeGet(&LL_int[0]);
 		GPSPositionLongitudeGet(&LL_int[1]);
 		GPSPositionAltitudeGet(&altitude);
-		GPSPositionGeoidSeparationGet(&geoidSeparation);
 
 		// Convert LLA into NED and store it.  Assumes field order in PositionActual is NED.
 		PositionActualData positionActualData;
-		LLA2NED(LL_int, altitude, geoidSeparation, &positionActualData.North);
+		LLA2NED(LL_int, altitude, &positionActualData.North);
 		PositionActualSet(&positionActualData);
 	}
 

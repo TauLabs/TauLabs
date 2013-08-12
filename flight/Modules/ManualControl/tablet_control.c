@@ -224,7 +224,12 @@ static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
 	T[2] = -1.0f;
 
 	// Tablet altitude is in WSG84 but we use height above the geoid elsewhere so use the
-	// GPS GeoidSeparatino as a proxy
+	// GPS GeoidSeparation as a proxy
+	// [WARNING] Android altitude can be either referenced to WGS84 ellipsoid or EGM1996 geoid. See:
+	// http://stackoverflow.com/questions/11168306/is-androids-gps-altitude-incorrect-due-to-not-including-geoid-height
+	// and https://code.google.com/p/android/issues/detail?id=53471
+	// This means that "(tabletInfo->Altitude + gpsPosition.GeoidSeparation - homeLocation.Altitude)"
+	// will be correct or incorrect depending on the device.
 	float dL[3] = {(tabletInfo->Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
 		(tabletInfo->Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
 		(tabletInfo->Altitude + gpsPosition.GeoidSeparation - homeLocation.Altitude)};

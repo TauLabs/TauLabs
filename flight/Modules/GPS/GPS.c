@@ -293,7 +293,7 @@ static void setHomeLocation(GPSPositionData * gpsData)
 		// Store LLA
 		home.Latitude = gpsData->Latitude;
 		home.Longitude = gpsData->Longitude;
-		home.Altitude = gpsData->Altitude + gpsData->GeoidSeparation;
+		home.Altitude = gpsData->Altitude; // Altitude referenced to mean sea level geoid (likely EGM 1996, but no guarantees)
 
 		// Compute home ECEF coordinates and the rotation matrix into NED
 		double LLA[3] = { ((double)home.Latitude) / 10e6, ((double)home.Longitude) / 10e6, ((double)home.Altitude) };
