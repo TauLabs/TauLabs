@@ -32,16 +32,9 @@ include $(BOARD_INFO_DIR)/board-info.mk
 
 # Paths
 PIOSINC = $(PIOS)/inc
-PIOSSTM32F4XX = $(PIOS)/STM32F4xx
 PIOSCOMMON = $(PIOS)/Common
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
-APPLIBDIR = $(PIOSSTM32F4XX)/Libraries
-STMLIBDIR = $(APPLIBDIR)
-STMSPDDIR = $(STMLIBDIR)/STM32F4xx_StdPeriph_Driver
-STMSPDSRCDIR = $(STMSPDDIR)/src
-STMSPDINCDIR = $(STMSPDDIR)/inc
-
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files

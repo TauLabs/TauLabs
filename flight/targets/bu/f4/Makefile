@@ -79,13 +79,9 @@ EXTRAINCDIRS  += $(BUCOMMONDIR)
 
 # Place project-specific -D (define) and/or 
 # -U options for C here.
-CDEFS  = -DSTM32F4XX
-CDEFS += -DHSE_VALUE=$(OSCILLATOR_FREQ)
 CDEFS += -DMEM_SIZE=$(FW_BANK_SIZE)
-CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
 CDEFS += -DBU_PAYLOAD_FILE=$(ROOT_DIR)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
-ARCHFLAGS += -mcpu=cortex-m4 -march=armv7e-m -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
 # Place project-specific -D and/or -U options for 
 # Assembler with preprocessor here.

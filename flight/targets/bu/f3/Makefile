@@ -140,9 +140,9 @@ LDFLAGS += -Wl,--warn-common
 LDFLAGS += -Wl,--fatal-warnings
 
 # Linker scripts
-LINKERSCRIPTPATH = $(PIOS_DEVLIB)
-LDFLAGS += -T$(LINKERSCRIPTPATH)/link_STM32F30x_FW_memory.ld
-LDFLAGS += -T$(LINKERSCRIPTPATH)/link_STM32F30x_sections.ld
+LINKER_SCRIPTS_APP	 =	$(PIOS_DEVLIB)/link_STM32F30x_FW_memory.ld \
+						$(PIOS_DEVLIB)/link_STM32F30x_sections.ld
+LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 # List of all source files.
 ALLSRC     = $(ASRC) $(SRC)

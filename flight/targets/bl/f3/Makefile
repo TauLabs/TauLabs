@@ -32,14 +32,9 @@ include $(BOARD_INFO_DIR)/board-info.mk
 
 # Paths
 PIOSINC = $(PIOS)/inc
-PIOSSTM32F30X = $(PIOS)/STM32F30x
 PIOSCOMMON = $(PIOS)/Common
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
-STMLIBDIR = $(PIOSSTM32F30X)/Libraries
-STMSPDDIR = $(STMLIBDIR)/STM32F30x_StdPeriph_Driver
-STMSPDSRCDIR = $(STMSPDDIR)/src
-STMSPDINCDIR = $(STMSPDDIR)/inc
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
@@ -187,9 +182,7 @@ LDFLAGS += -Wl,--fatal-warnings
 
 # Linker scripts
 #LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_BL))
-LINKERSCRIPTPATH = $(PIOSSTM32F30X)
-LDFLAGS += -T$(LINKERSCRIPTPATH)/link_STM32F30x_BL_memory.ld
-LDFLAGS += -T$(LINKERSCRIPTPATH)/link_STM32F30x_sections.ld
+LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_BL))
 
 # List of all source files.
 ALLSRC     = $(ASRC) $(SRC)
