@@ -119,7 +119,7 @@ SRC += $(MATHLIB)/pid.c
 SRC += $(MATHLIB)/atmospheric_math.c
 
 ## PIOS Hardware (STM32F4xx)
-include $(PIOS)/STM32F4xx/library.mk
+include $(PIOS)/STM32F4xx/library_fw.mk
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_mpu6050.c
