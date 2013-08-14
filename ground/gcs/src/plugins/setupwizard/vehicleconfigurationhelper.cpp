@@ -374,6 +374,10 @@ void VehicleConfigurationHelper::applyManualControlDefaults()
     case Core::IBoardType::INPUT_TYPE_DSM2:
         channelType = ManualControlSettings::CHANNELGROUPS_DSMMAINPORT;
         break;
+    case Core::IBoardType::INPUT_TYPE_HOTTSUMD:
+    case Core::IBoardType::INPUT_TYPE_HOTTSUMH:
+        channelType = ManualControlSettings::CHANNELGROUPS_HOTTSUM;
+        break;
     default:
         break;
     }

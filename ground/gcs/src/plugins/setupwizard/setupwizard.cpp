@@ -247,6 +247,12 @@ QString SetupWizard::getSummaryText()
     case Core::IBoardType::INPUT_TYPE_DSMX11BIT:
         summary.append(tr("Spektrum satellite (DSMX11BIT)"));
         break;
+    case Core::IBoardType::INPUT_TYPE_HOTTSUMD:
+        summary.append(tr("Graupner HoTT (SUMD)"));
+        break;
+    case Core::IBoardType::INPUT_TYPE_HOTTSUMH:
+        summary.append(tr("Graupner HoTT (SUMH)"));
+        break;
     default:
         summary.append(tr("Unknown"));
     }
