@@ -253,6 +253,30 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 }
 #endif
 
+#ifdef PIOS_INCLUDE_HSUM
+static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hsum_cfg,
+		const struct pios_com_driver *pios_usart_com_driver,enum pios_hsum_proto *proto,
+		ManualControlSettingsChannelGroupsOptions channelgroup)
+{
+	uintptr_t pios_usart_hsum_id;
+	if (PIOS_USART_Init(&pios_usart_hsum_id, pios_usart_hsum_cfg)) {
+		PIOS_Assert(0);
+	}
+	
+	uintptr_t pios_hsum_id;
+	if (PIOS_HSUM_Init(&pios_hsum_id, pios_usart_com_driver,
+			  pios_usart_hsum_id, *proto)) {
+		PIOS_Assert(0);
+	}
+	
+	uintptr_t pios_hsum_rcvr_id;
+	if (PIOS_RCVR_Init(&pios_hsum_rcvr_id, &pios_hsum_rcvr_driver, pios_hsum_id)) {
+		PIOS_Assert(0);
+	}
+	pios_rcvr_group_map[channelgroup] = pios_hsum_rcvr_id;
+}
+#endif
+
 /**
  * Indicate a target-specific error code when a component fails to initialize
  * 1 pulse - flash chip
@@ -596,10 +620,31 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_usart1_dsm_cfg, &pios_usart1_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_usart1_dsm_hsum_cfg, &pios_usart1_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
+		break;
+	case HWQUANTON_UART1_HOTTSUMD:
+	case HWQUANTON_UART1_HOTTSUMH:
+#if defined(PIOS_INCLUDE_HSUM)
+		{
+			enum pios_hsum_proto proto;
+			switch (hw_uart1) {
+			case HWQUANTON_UART1_HOTTSUMD:
+				proto = PIOS_HSUM_PROTO_SUMD;
+				break;
+			case HWQUANTON_UART1_HOTTSUMH:
+				proto = PIOS_HSUM_PROTO_SUMH;
+				break;
+			default:
+				PIOS_Assert(0);
+				break;
+			}
+			PIOS_Board_configure_hsum(&pios_usart1_dsm_hsum_cfg, &pios_usart_com_driver,
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
+		}
+#endif	/* PIOS_INCLUDE_HSUM */
 		break;
 	case HWQUANTON_UART1_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
@@ -680,10 +725,31 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_usart2_dsm_cfg, &pios_usart2_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_usart2_dsm_hsum_cfg, &pios_usart2_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
+		break;
+	case HWQUANTON_UART2_HOTTSUMD:
+	case HWQUANTON_UART2_HOTTSUMH:
+#if defined(PIOS_INCLUDE_HSUM)
+		{
+			enum pios_hsum_proto proto;
+			switch (hw_uart2) {
+			case HWQUANTON_UART2_HOTTSUMD:
+				proto = PIOS_HSUM_PROTO_SUMD;
+				break;
+			case HWQUANTON_UART2_HOTTSUMH:
+				proto = PIOS_HSUM_PROTO_SUMH;
+				break;
+			default:
+				PIOS_Assert(0);
+				break;
+			}
+			PIOS_Board_configure_hsum(&pios_usart2_dsm_hsum_cfg, &pios_usart_com_driver,
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
+		}
+#endif	/* PIOS_INCLUDE_HSUM */
 		break;
 	case HWQUANTON_UART2_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
@@ -768,10 +834,31 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_usart3_dsm_cfg, &pios_usart3_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_usart3_dsm_hsum_cfg, &pios_usart3_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
+		break;
+	case HWQUANTON_UART3_HOTTSUMD:
+	case HWQUANTON_UART3_HOTTSUMH:
+#if defined(PIOS_INCLUDE_HSUM)
+		{
+			enum pios_hsum_proto proto;
+			switch (hw_uart3) {
+			case HWQUANTON_UART3_HOTTSUMD:
+				proto = PIOS_HSUM_PROTO_SUMD;
+				break;
+			case HWQUANTON_UART3_HOTTSUMH:
+				proto = PIOS_HSUM_PROTO_SUMH;
+				break;
+			default:
+				PIOS_Assert(0);
+				break;
+			}
+			PIOS_Board_configure_hsum(&pios_usart3_dsm_hsum_cfg, &pios_usart_com_driver,
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
+		}
+#endif	/* PIOS_INCLUDE_HSUM */
 		break;
 	case HWQUANTON_UART3_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
@@ -832,10 +919,31 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_usart4_dsm_cfg, &pios_usart4_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_usart4_dsm_hsum_cfg, &pios_usart4_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
+		break;
+	case HWQUANTON_UART4_HOTTSUMD:
+	case HWQUANTON_UART4_HOTTSUMH:
+#if defined(PIOS_INCLUDE_HSUM)
+		{
+			enum pios_hsum_proto proto;
+			switch (hw_uart4) {
+			case HWQUANTON_UART4_HOTTSUMD:
+				proto = PIOS_HSUM_PROTO_SUMD;
+				break;
+			case HWQUANTON_UART4_HOTTSUMH:
+				proto = PIOS_HSUM_PROTO_SUMH;
+				break;
+			default:
+				PIOS_Assert(0);
+				break;
+			}
+			PIOS_Board_configure_hsum(&pios_usart4_dsm_hsum_cfg, &pios_usart_com_driver,
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
+		}
+#endif	/* PIOS_INCLUDE_HSUM */
 		break;
 	case HWQUANTON_UART4_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
@@ -896,10 +1004,31 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_usart5_dsm_cfg, &pios_usart5_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_usart5_dsm_hsum_cfg, &pios_usart5_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
+		break;
+	case HWQUANTON_UART5_HOTTSUMD:
+	case HWQUANTON_UART5_HOTTSUMH:
+#if defined(PIOS_INCLUDE_HSUM)
+		{
+			enum pios_hsum_proto proto;
+			switch (hw_uart5) {
+			case HWQUANTON_UART5_HOTTSUMD:
+				proto = PIOS_HSUM_PROTO_SUMD;
+				break;
+			case HWQUANTON_UART5_HOTTSUMH:
+				proto = PIOS_HSUM_PROTO_SUMH;
+				break;
+			default:
+				PIOS_Assert(0);
+				break;
+			}
+			PIOS_Board_configure_hsum(&pios_usart5_dsm_hsum_cfg, &pios_usart_com_driver,
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
+		}
+#endif	/* PIOS_INCLUDE_HSUM */
 		break;
 	case HWQUANTON_UART5_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)

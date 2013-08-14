@@ -254,6 +254,30 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 }
 #endif
 
+#ifdef PIOS_INCLUDE_HSUM
+static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hsum_cfg,
+		const struct pios_com_driver *pios_usart_com_driver,enum pios_hsum_proto *proto,
+		ManualControlSettingsChannelGroupsOptions channelgroup)
+{
+	uintptr_t pios_usart_hsum_id;
+	if (PIOS_USART_Init(&pios_usart_hsum_id, pios_usart_hsum_cfg)) {
+		PIOS_Assert(0);
+	}
+	
+	uintptr_t pios_hsum_id;
+	if (PIOS_HSUM_Init(&pios_hsum_id, pios_usart_com_driver,
+			  pios_usart_hsum_id, *proto)) {
+		PIOS_Assert(0);
+	}
+	
+	uintptr_t pios_hsum_rcvr_id;
+	if (PIOS_RCVR_Init(&pios_hsum_rcvr_id, &pios_hsum_rcvr_driver, pios_hsum_id)) {
+		PIOS_Assert(0);
+	}
+	pios_rcvr_group_map[channelgroup] = pios_hsum_rcvr_id;
+}
+#endif
+
 /**
  * Indicate a target-specific error code when a component fails to initialize
  * 1 pulse - MPU9150 - no irq
@@ -592,7 +616,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_flexi_dsm_cfg, &pios_flexi_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_flexi_dsm_hsum_cfg, &pios_flexi_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
@@ -677,7 +701,7 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_main_dsm_cfg, &pios_main_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_main_dsm_hsum_cfg, &pios_main_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
@@ -748,10 +772,31 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 				break;
 			}
-			PIOS_Board_configure_dsm(&pios_rcvr_dsm_cfg, &pios_rcvr_dsm_aux_cfg, &pios_usart_com_driver,
+			PIOS_Board_configure_dsm(&pios_rcvr_dsm_hsum_cfg, &pios_rcvr_dsm_aux_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
+		break;
+	case HWSPARKY_RCVRPORT_HOTTSUMD:
+	case HWSPARKY_RCVRPORT_HOTTSUMH:
+#if defined(PIOS_INCLUDE_HSUM)
+		{
+			enum pios_hsum_proto proto;
+			switch (hw_rcvrport) {
+			case HWSPARKY_RCVRPORT_HOTTSUMD:
+				proto = PIOS_HSUM_PROTO_SUMD;
+				break;
+			case HWSPARKY_RCVRPORT_HOTTSUMH:
+				proto = PIOS_HSUM_PROTO_SUMH;
+				break;
+			default:
+				PIOS_Assert(0);
+				break;
+			}
+			PIOS_Board_configure_hsum(&pios_rcvr_dsm_hsum_cfg, &pios_usart_com_driver,
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
+		}
+#endif	/* PIOS_INCLUDE_HSUM */
 		break;
 	case HWSPARKY_RCVRPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
