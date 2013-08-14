@@ -30,52 +30,12 @@
 #include <pios.h>
 #include <pios_usart_priv.h>
 
-/*
- * Currently known Graupner HoTT serial port settings:
- *  115200bps serial stream, 8 bits, no parity, 1 stop bit
- *  size of each frame: 11..37 bytes
- *  data resolution: 14 bit
- *  frame period: 11ms or 22ms
- *
- * Currently known SUMD/SUMH frame structure:
- * Section          Byte_Number        Byte_Name      Byte_Value Remark
- * Header           0                  Vendor_ID      0xA8       Graupner
- * Header           1                  Status         0x00       valid and live SUMH data frame
- *                                                    0x01       valid and live SUMD data frame
- *                                                    0x81       valid SUMD/H data frame with
- *                                                               transmitter in fail safe condition
- *                                                    others     invalid frame
- * Header           2                  N_Channels     0x02..0x20 number of transmitted channels
- * Data             n*2+1              Channel n MSB  0x00..0xff High Byte of channel n data
- * Data             n*2+2              Channel n LSB  0x00..0xff Low Byte of channel n data
- * SUMD_CRC         (N_Channels+1)*2+1 CRC High Byte  0x00..0xff High Byte of 16 Bit CRC
- * SUMD_CRC         (N_Channels+1)*2+2 CRC Low Byte   0x00..0xff Low Byte of 16 Bit CRC
- * SUMH_Telemetry   (N_Channels+1)*2+1 Telemetry_Req  0x00..0xff 0x00 no telemetry request
- * SUMH_CRC         (N_Channels+1)*2+2 CRC Byte       0x00..0xff Low Byte of all added data bytes
-
-
- Channel Data Interpretation
- Stick Positon    Channel Data Remark
- ext. low (-150%) 0x1c20       900µs
- low (-100%)      0x2260       1100µs
- netral (0%)      0x2ee0       1500µs
- high (100%)      0x3b60       1900µs
- ext. high(150%)  0x41a0       2100µs
- 
- Channel Mapping (not sure)
- 1 Pitch
- 2 Aileron
- 3 Elevator
- 4 Yaw
- 5 Aux/Gyro on MX-12
- 6 ESC
- 7 Aux/Gyr
- */
-
 /* HSUM frame size and contents definitions */
+#define HSUM_HEADER_LENGTH 3
+#define HSUM_CRC_LENGTH 2
 #define HSUM_MAX_CHANNELS_PER_FRAME 32
-#define HSUM_MAX_FRAME_LENGTH (HSUM_MAX_CHANNELS_PER_FRAME*2+5)
-#define HSUM_H
+#define HSUM_OVERHEAD_LENGTH (HSUM_HEADER_LENGTH+HSUM_CRC_LENGTH)
+#define HSUM_MAX_FRAME_LENGTH (HSUM_MAX_CHANNELS_PER_FRAME*2+HSUM_OVERHEAD_LENGTH)
 
 #define HSUM_GRAUPNER_ID 0xA8
 #define HSUM_STATUS_LIVING_SUMH 0x00
