@@ -30,18 +30,6 @@
 #include <pios.h>
 #include <pios_usart_priv.h>
 
-/* HSUM frame size and contents definitions */
-#define HSUM_HEADER_LENGTH 3
-#define HSUM_CRC_LENGTH 2
-#define HSUM_MAX_CHANNELS_PER_FRAME 32
-#define HSUM_OVERHEAD_LENGTH (HSUM_HEADER_LENGTH+HSUM_CRC_LENGTH)
-#define HSUM_MAX_FRAME_LENGTH (HSUM_MAX_CHANNELS_PER_FRAME*2+HSUM_OVERHEAD_LENGTH)
-
-#define HSUM_GRAUPNER_ID 0xA8
-#define HSUM_STATUS_LIVING_SUMH 0x00
-#define HSUM_STATUS_LIVING_SUMD 0x01
-#define HSUM_STATUS_FAILSAFE 0x81
-
 /* HSUM protocol variations */
 enum pios_hsum_proto {
 	PIOS_HSUM_PROTO_SUMD,
