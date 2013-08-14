@@ -6,7 +6,7 @@
  * @brief Output the desired speeds
  * @{
  *
- * @file       actuator.c
+ * @file       brushlessgimbal.c
  * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013.
  * @brief      Drives the gimbal outputs
  *
