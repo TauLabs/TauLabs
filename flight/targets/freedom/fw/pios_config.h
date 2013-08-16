@@ -55,7 +55,7 @@
 #define PIOS_INCLUDE_EXTI
 #define PIOS_INCLUDE_RTC
 #define PIOS_INCLUDE_WDG
-#define PIOS_INCLUDE_FASTHEAP
+//#define PIOS_INCLUDE_FASTHEAP
 
 /* Variables related to the RFM22B functionality */
 #define PIOS_INCLUDE_RFM22B
