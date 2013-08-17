@@ -3,6 +3,7 @@
  *
  * @file       op_dfu.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup Uploader Uploader Plugin
@@ -191,7 +192,7 @@ bool DFUObject::enterDFU(int const &devNumber)
   erase the memory to make room for the data. You will have to query
   its status to wait until erase is done before doing the actual upload.
   */
-bool DFUObject::StartUpload(qint32 const & numberOfBytes, TransferTypes const & type,quint32 crc)
+bool DFUObject::StartUpload(qint32 const & numberOfBytes, int const & type,quint32 crc)
 {
     int lastPacketCount;
     qint32 numberOfPackets=numberOfBytes/4/14;
@@ -271,38 +272,19 @@ bool DFUObject::UploadData(qint32 const & numberOfBytes, QByteArray  & data)
             packetsize=lastPacketCount;
         else
             packetsize=14;
-       // qDebug()<<packetcount;
         buf[2] = packetcount>>24;//DFU Count
         buf[3] = packetcount>>16;//DFU Count
         buf[4] = packetcount>>8;//DFU Count
         buf[5] = packetcount;//DFU Count
         char *pointer=data.data();
         pointer=pointer+4*14*packetcount;
-        //  qDebug()<<"Packet Number="<<packetcount<<"Data0="<<(int)data[0]<<" Data1="<<(int)data[1]<<" Data0="<<(int)data[2]<<" Data0="<<(int)data[3]<<" buf6="<<(int)buf[6]<<" buf7="<<(int)buf[7]<<" buf8="<<(int)buf[8]<<" buf9="<<(int)buf[9];
         CopyWords(pointer,buf+6,packetsize*4);
-        //        for (int y=0;y<packetsize*4;++y)
-        //        {
-
-        //                qDebug()<<y<<":"<<(int)data[packetcount*14*4+y]<<"---"<<(int)buf[6+y];
-
-
-        //        }
-        // qDebug()<<" Data0="<<(int)data[0]<<" Data0="<<(int)data[1]<<" Data0="<<(int)data[2]<<" Data0="<<(int)data[3]<<" buf6="<<(int)buf[6]<<" buf7="<<(int)buf[7]<<" buf8="<<(int)buf[8]<<" buf9="<<(int)buf[9];
-        //delay::msleep(send_delay);
-
-        //if(StatusRequest()!=OP_DFU::uploading) return false;
         int result = sendData(buf, BUF_LEN);
-     //   qDebug()<<"sent:"<<result;
         if(result<1)
         {
             return false;
         }
-
-        //  qDebug() << "UPLOAD:"<<"Data="<<(int)buf[6]<<(int)buf[7]<<(int)buf[8]<<(int)buf[9]<<";"<<result << " bytes sent";
-
     }
-    cout<<"\n";
-    // while(true){}
     return true;
 }
 
@@ -374,40 +356,56 @@ QByteArray DFUObject::DownloadDescriptionAsBA(int const & numberOfChars)
 }
 
 /**
-  Starts a firmware download
+  Starts a partition download
   @param firmwareArray: pointer to the location where we should store the firmware
+  @param partition: the partition to download
   @package device: the device to use for the download
   */
-bool DFUObject::DownloadFirmware(QByteArray *firmwareArray, int device)
+bool DFUObject::DownloadPartition(QByteArray *firmwareArray, int device, int partition,int size)
 {
 
     if (isRunning())
         return false;
     requestedOperation = OP_DFU::Download;
-    requestSize = devices[device].SizeOfCode;
-    requestTransferType = OP_DFU::FW;
+    requestSize = size;
+    requestTransferType = partition;
     requestStorage = firmwareArray;
     start();
     return true;
 }
 
+/**
+  Wipes a partition
+  @param partition: number of the partition to wipe
+  */
+bool DFUObject::WipePartition(int partition)
+{
+    char buf[BUF_LEN];
+
+    buf[0] = 0x02;                  //reportID
+    buf[1] = OP_DFU::Wipe_Partition;  //DFU Command
+    buf[2] = partition;   //DFU Count
+
+    int result = sendData(buf, BUF_LEN);
+    return (result > 0);
+}
 
 /**
    Runs the upload or download operations.
   */
 void DFUObject::run()
 {
-
+    bool downloadResult;
+    OP_DFU::Status uploadStatus;
     switch (requestedOperation) {
         case OP_DFU::Download:
-            StartDownloadT(requestStorage, requestSize, requestTransferType);
-            emit(downloadFinished());
+            downloadResult = StartDownloadT(requestStorage, requestSize, requestTransferType);
+            emit downloadFinished(downloadResult);
             break;
-        case OP_DFU::Upload: {
-            OP_DFU::Status ret = UploadFirmwareT(requestFilename, requestVerify, requestDevice);
-            emit(uploadFinished(ret));
+        case OP_DFU::Upload:
+            uploadStatus = UploadPartitionT(requestFilename, requestVerify, requestDevice,requestTransferType);
+            emit uploadFinished(uploadStatus);
             break;
-        }
         default:
         break;
     }
@@ -419,7 +417,7 @@ void DFUObject::run()
   Downloads a certain number of bytes from a certain location, and stores in an array whose
   pointer is passed as an argument
   */
-bool DFUObject::StartDownloadT(QByteArray *fw, qint32 const & numberOfBytes, TransferTypes const & type)
+bool DFUObject::StartDownloadT(QByteArray *fw, qint32 const & numberOfBytes, int const & type)
 {
     int lastPacketCount;
 
@@ -452,6 +450,7 @@ bool DFUObject::StartDownloadT(QByteArray *fw, qint32 const & numberOfBytes, Tra
         qDebug() << "StartDownload:"<<numberOfPackets<<"packets"<<" Last Packet Size="<<lastPacketCount<<" "<<result << " bytes sent";
     float percentage;
     int laspercentage = 0;
+    int total = 0;
 
     // Now get those packets:
     for(qint32 x=0;x<numberOfPackets;++x)
@@ -465,6 +464,12 @@ bool DFUObject::StartDownloadT(QByteArray *fw, qint32 const & numberOfBytes, Tra
         result = receiveData(buf,BUF_LEN);
         if(debug)
             qDebug() << result << " bytes received"<<" Count="<<x<<"-"<<(int)buf[2]<<";"<<(int)buf[3]<<";"<<(int)buf[4]<<";"<<(int)buf[5]<<" Data="<<(int)buf[6]<<";"<<(int)buf[7]<<";"<<(int)buf[8]<<";"<<(int)buf[9];
+        quint32 aux=(quint8)buf[2];
+        aux=aux<<8 |(quint8)buf[3];
+        aux=aux<<8 |(quint8)buf[4];
+        aux=aux<<8 |(quint8)buf[5];
+        if(aux != x)
+            return false;
         if(x==numberOfPackets-1)
             size=lastPacketCount*4;
         else
@@ -641,6 +646,19 @@ bool DFUObject::findDevices()
             aux=aux<<8 |(quint8)buf[4];
             aux=aux<<8 |(quint8)buf[5];
             devices[x].SizeOfCode=aux;
+
+            devices[x].PartitionSizes.clear();
+            if(((buf[17]<<8)|buf[16]) == BL_CAP_EXTENSION_MAGIC)
+            {
+                for(int partition = 0;partition < 10;++partition)
+                {
+                    aux=(quint8)buf[18 + (partition * 4)];
+                    aux=aux<<8 |(quint8)buf[19 + (partition * 4)];
+                    aux=aux<<8 |(quint8)buf[20 + (partition * 4)];
+                    aux=aux<<8 |(quint8)buf[21 + (partition * 4)];
+                    devices[x].PartitionSizes.append(aux);
+                }
+            }
         }
         if(debug)
         {
@@ -655,6 +673,13 @@ bool DFUObject::findDevices()
                 qDebug()<<"Device SizeOfDesc="<<devices[x].SizeOfDesc;
                 qDebug()<<"BL Version="<<devices[x].BL_Version;
                 qDebug()<<"FW CRC="<<devices[x].FW_CRC;
+                if(devices[x].PartitionSizes.size() > 0)
+                {
+                    for(int partition = 0;partition < 10;++partition)
+                        qDebug()<<QString("Partition %0 Size %1").arg(partition).arg(devices[x].PartitionSizes.at(partition));
+                }
+                else
+                    qDebug()<<"No partition found, probably using old bootloader";
             }
         }
     }
@@ -689,20 +714,22 @@ bool DFUObject::EndOperation()
 /**
   Starts a firmware upload (asynchronous)
   */
-bool DFUObject::UploadFirmware(const QString &sfile, const bool &verify,int device)
+bool DFUObject::UploadPartition(const QString &sfile, const bool &verify,int device,int partition,int size)
 {
 
     if (isRunning())
         return false;
     requestedOperation = OP_DFU::Upload;
+    requestTransferType = partition;
     requestFilename = sfile;
     requestDevice = device;
     requestVerify = verify;
+    partition_size =size;
     start();
     return true;
 }
 
-OP_DFU::Status DFUObject::UploadFirmwareT(const QString &sfile, const bool &verify,int device)
+OP_DFU::Status DFUObject::UploadPartitionT(const QString &sfile, const bool &verify,int device,int partition)
 {
     OP_DFU::Status ret;
 
@@ -730,18 +757,18 @@ OP_DFU::Status DFUObject::UploadFirmwareT(const QString &sfile, const bool &veri
         pad=pad-arr.length();
         arr.append(QByteArray(pad,255));
     }
-    if( devices[device].SizeOfCode < (quint32)arr.length())
+    if( partition_size < (quint32)arr.length())
     {
         if (debug)
             qDebug() << "ERROR file to big for device";
         return OP_DFU::abort;;
     }
 
-    quint32 crc=DFUObject::CRCFromQBArray(arr,devices[device].SizeOfCode);
+    quint32 crc=DFUObject::CRCFromQBArray(arr,partition_size);
     if (debug)
         qDebug() << "NEW FIRMWARE CRC=" << crc;
 
-    if( !StartUpload(arr.length(), OP_DFU::FW, crc))
+    if( !StartUpload(arr.length(), partition, crc))
     {
         ret = StatusRequest();
         if(debug)
@@ -755,7 +782,11 @@ OP_DFU::Status DFUObject::UploadFirmwareT(const QString &sfile, const bool &veri
     emit operationProgress(QString("Erasing, please wait..."));
 
     if (debug) qDebug() << "Erasing memory";
-    if( StatusRequest() == OP_DFU::abort) return OP_DFU::abort;
+    if( StatusRequest() == OP_DFU::abort)
+    {
+        if (debug) qDebug() << "returning OP_DFU::abort";
+        return OP_DFU::abort;
+    }
 
     // TODO: why is there a loop there? The "if" statement
     // will cause a break or return anyway!!
@@ -768,7 +799,7 @@ OP_DFU::Status DFUObject::UploadFirmwareT(const QString &sfile, const bool &veri
             return ret;
     }
 
-    emit operationProgress(QString("Uploading firmware"));
+    emit operationProgress(QString("Uploading"));
     if( !UploadData(arr.length(),arr))
     {
         ret = StatusRequest();
@@ -805,7 +836,7 @@ OP_DFU::Status DFUObject::UploadFirmwareT(const QString &sfile, const bool &veri
     }
 
     if(debug)
-        qDebug()<<"Status="<<ret;
+        qDebug()<<"Status="<<StatusToString(ret);
     cout<<"Firmware Uploading succeeded\n";
     return ret;
 }
@@ -1075,5 +1106,3 @@ OP_DFU::eBoardType DFUObject::GetBoardType(int boardNum)
     } 
     return brdType;
 }
-
-
