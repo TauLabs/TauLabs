@@ -222,8 +222,9 @@ bool DFUObject::StartUpload(qint32 const & numberOfBytes, TransferTypes const & 
         qDebug()<<"Number of packets:"<<numberOfPackets<<" Size of last packet:"<<lastPacketCount;
 
     int result = sendData(buf, BUF_LEN);
-    delay::msleep(1000);
-
+    QEventLoop m_eventloop;
+    QTimer::singleShot(500,&m_eventloop, SLOT(quit()));
+    m_eventloop.exec();
     if(debug)
         qDebug() << result << " bytes sent";
     if(result>0)
