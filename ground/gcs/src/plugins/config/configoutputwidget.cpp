@@ -100,6 +100,8 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
     if(UAVObject::GetGcsTelemetryUpdateMode(obj->getMetadata()) == UAVObject::UPDATEMODE_ONCHANGE)
         this->setEnabled(false);
     connect(obj,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(disableIfNotMe(UAVObject*)));
+    connect(SystemSettings::GetInstance(objManager), SIGNAL(objectUpdated(UAVObject*)),this,SLOT(assignOutputChannels(UAVObject*)));
+
 
     refreshWidgetsValues();
 }
@@ -191,18 +193,34 @@ OutputChannelForm* ConfigOutputWidget::getOutputChannelForm(const int index) con
 }
 
 /**
-  * Set the label for a channel output assignement
-  */
-void ConfigOutputWidget::assignOutputChannel(UAVDataObject *obj, QString str)
+ * @brief ConfigOutputWidget::assignOutputChannels Sets the output channel form text and min/max values
+ * @param actuatorSettings UAVO input
+ */
+void ConfigOutputWidget::assignOutputChannels(UAVObject *obj)
 {
-    //FIXME: use signal/ slot approach
-    UAVObjectField* field = obj->getField(str);
-    QStringList options = field->getOptions();
-    int index = options.indexOf(field->getValue().toString());
+    Q_UNUSED(obj);
 
-    OutputChannelForm *outputChannelForm = getOutputChannelForm(index);
-    if(outputChannelForm)
-        outputChannelForm->setAssignment(str);
+    // Get UAVO
+    ActuatorSettings *actuatorSettings = ActuatorSettings::GetInstance(getObjectManager());
+    ActuatorSettings::DataFields actuatorSettingsData = actuatorSettings->getData();
+
+    // Get channel descriptions
+    QStringList ChannelDesc = ConfigVehicleTypeWidget::getChannelDescriptions();
+
+    // Find all output forms in the tab, and set the text and min/max values
+    QList<OutputChannelForm*> outputChannelForms = findChildren<OutputChannelForm*>();
+    foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
+    {
+        outputChannelForm->setAssignment(ChannelDesc[outputChannelForm->index()]);
+
+        // init min,max,neutral
+        int minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
+        int maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
+        outputChannelForm->setMinmax(minValue, maxValue);
+
+        int neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
+        outputChannelForm->setNeutral(neutral);
+    }
 }
 
 /**
@@ -242,23 +260,8 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
     Q_ASSERT(actuatorSettings);
     ActuatorSettings::DataFields actuatorSettingsData = actuatorSettings->getData();
 
-    // get channel descriptions
-    QStringList ChannelDesc = ConfigVehicleTypeWidget::getChannelDescriptions();
-
-    // Initialize output forms
-    QList<OutputChannelForm*> outputChannelForms = findChildren<OutputChannelForm*>();
-    foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
-    {
-        outputChannelForm->setAssignment(ChannelDesc[outputChannelForm->index()]);
-
-        // init min,max,neutral
-        int minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
-        int maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
-        outputChannelForm->setMinmax(minValue, maxValue);
-
-        int neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
-        outputChannelForm->setNeutral(neutral);
-    }
+    // Fill output forms
+    assignOutputChannels(actuatorSettings);
 
     // Get the SpinWhileArmed setting
     m_config->spinningArmed->setChecked(actuatorSettingsData.MotorsSpinWhileArmed == ActuatorSettings::MOTORSSPINWHILEARMED_TRUE);
@@ -299,6 +302,7 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
     }
 
     // Get Channel ranges:
+    QList<OutputChannelForm*> outputChannelForms = findChildren<OutputChannelForm*>();
     foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
     {
         int minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
