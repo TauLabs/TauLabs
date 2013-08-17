@@ -698,7 +698,7 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 #if defined(PIOS_INCLUDE_FASTRAM)
 		memcpy(uavobj_save_trampoline,
 			MetaDataPtr((struct UAVOMeta *)obj_handle),
-			UAVobjGetNumBytes(obj_handle));
+			UAVObjGetNumBytes(obj_handle));
 
 		rc = PIOS_FLASHFS_ObjSave(pios_uavo_settings_fs_id,
 					UAVObjGetID(obj_handle),
@@ -729,7 +729,7 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 #if defined(PIOS_INCLUDE_FASTRAM)
 		memcpy(uavobj_save_trampoline,
 			InstanceData(instEntry),
-			UAVobjGetNumBytes(obj_handle));
+			UAVObjGetNumBytes(obj_handle));
 
 		rc = PIOS_FLASHFS_ObjSave(pios_uavo_settings_fs_id,
 					UAVObjGetID(obj_handle),
