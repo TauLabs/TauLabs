@@ -665,7 +665,7 @@ unlock_exit:
 	return rc;
 }
 
-#if defined(PIOS_INCLUDE_FASTRAM)
+#if defined(PIOS_INCLUDE_FASTHEAP)
 /**
  * Trampoline buffer used for loads from the underlying filesystem.
  * This is required on platforms that store the UAVO data in non-DMA
@@ -673,7 +673,7 @@ unlock_exit:
  * the data into the buffer that we give it.
  */
 static uint8_t uavobj_save_trampoline[256] __attribute__((aligned(4)));
-#endif	/* PIOS_INCLUDE_FASTRAM */
+#endif	/* PIOS_INCLUDE_FASTHEAP */
 
 /**
  * Save the data of the specified object to the file system (SD card).
@@ -695,7 +695,7 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 
 		// Save the object to the filesystem
 		int32_t rc;
-#if defined(PIOS_INCLUDE_FASTRAM)
+#if defined(PIOS_INCLUDE_FASTHEAP)
 		memcpy(uavobj_save_trampoline,
 			MetaDataPtr((struct UAVOMeta *)obj_handle),
 			UAVObjGetNumBytes(obj_handle));
@@ -705,13 +705,13 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 					instId,
 					uavobj_save_trampoline,
 					UAVObjGetNumBytes(obj_handle));
-#else /* PIOS_INCLUDE_FASTRAM */
+#else /* PIOS_INCLUDE_FASTHEAP */
 		rc = PIOS_FLASHFS_ObjSave(pios_uavo_settings_fs_id,
 					UAVObjGetID(obj_handle),
 					instId,
 					(uint8_t*) MetaDataPtr((struct UAVOMeta *)obj_handle),
 					UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTRAM */
+#endif  /* PIOS_INCLUDE_FASTHEAP */
 
 		if (rc != 0)
 			return -1;
@@ -726,7 +726,7 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 
 		// Save the object to the filesystem
 		int32_t rc;
-#if defined(PIOS_INCLUDE_FASTRAM)
+#if defined(PIOS_INCLUDE_FASTHEAP)
 		memcpy(uavobj_save_trampoline,
 			InstanceData(instEntry),
 			UAVObjGetNumBytes(obj_handle));
@@ -736,13 +736,13 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 					instId,
 					uavobj_save_trampoline,
 					UAVObjGetNumBytes(obj_handle));
-#else /* PIOS_INCLUDE_FASTRAM */
+#else /* PIOS_INCLUDE_FASTHEAP */
 		rc = PIOS_FLASHFS_ObjSave(pios_uavo_settings_fs_id,
 					UAVObjGetID(obj_handle),
 					instId,
 					InstanceData(instEntry),
 					UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTRAM */
+#endif  /* PIOS_INCLUDE_FASTHEAP */
 
 		if (rc != 0)
 			return -1;
@@ -751,7 +751,7 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
 	return 0;
 }
 
-#if defined(PIOS_INCLUDE_FASTRAM)
+#if defined(PIOS_INCLUDE_FASTHEAP)
 /**
  * Trampoline buffer used for loads from the underlying filesystem.
  * This is required on platforms that store the UAVO data in non-DMA
@@ -759,7 +759,7 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
  * the data into the buffer that we give it.
  */
 static uint8_t uavobj_load_trampoline[256] __attribute__((aligned(4)));
-#endif	/* PIOS_INCLUDE_FASTRAM */
+#endif	/* PIOS_INCLUDE_FASTHEAP */
 
 /**
  * Load an object from the file system (SD card).
@@ -779,26 +779,26 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 
 		// Load the object from the filesystem
 		int32_t rc;
-#if defined(PIOS_INCLUDE_FASTRAM)
+#if defined(PIOS_INCLUDE_FASTHEAP)
 		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
 					UAVObjGetID(obj_handle),
 					instId,
 					uavobj_load_trampoline,
 					UAVObjGetNumBytes(obj_handle));
-#else  /* PIOS_INCLUDE_FASTRAM */
+#else  /* PIOS_INCLUDE_FASTHEAP */
 		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
 					UAVObjGetID(obj_handle),
 					instId,
 					(uint8_t*)MetaDataPtr((struct UAVOMeta *)obj_handle),
 					UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTRAM */
+#endif  /* PIOS_INCLUDE_FASTHEAP */
 
 		if (rc != 0)
 			return -1;
 
-#if defined(PIOS_INCLUDE_FASTRAM)
+#if defined(PIOS_INCLUDE_FASTHEAP)
 		memcpy(MetaDataPtr((struct UAVOMeta *)obj_handle), uavobj_load_trampoline, UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTRAM */
+#endif  /* PIOS_INCLUDE_FASTHEAP */
 
 	} else {
 
@@ -809,26 +809,26 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 
 		// Load the object from the filesystem
 		int32_t rc;
-#if defined(PIOS_INCLUDE_FASTRAM)
+#if defined(PIOS_INCLUDE_FASTHEAP)
 		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
 					UAVObjGetID(obj_handle),
 					instId,
 					uavobj_load_trampoline,
 					UAVObjGetNumBytes(obj_handle));
-#else  /* PIOS_INCLUDE_FASTRAM */
+#else  /* PIOS_INCLUDE_FASTHEAP */
 		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
 					UAVObjGetID(obj_handle),
 					instId,
 					InstanceData(instEntry),
 					UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTRAM */
+#endif  /* PIOS_INCLUDE_FASTHEAP */
 
 		if (rc != 0)
 			return -1;
 
-#if defined(PIOS_INCLUDE_FASTRAM)
+#if defined(PIOS_INCLUDE_FASTHEAP)
 		memcpy(InstanceData(instEntry), uavobj_load_trampoline, UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTRAM */
+#endif  /* PIOS_INCLUDE_FASTHEAP */
 
 	}
 
