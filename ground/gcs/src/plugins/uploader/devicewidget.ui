@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
+    <width>691</width>
     <height>500</height>
    </rect>
   </property>
@@ -124,12 +124,19 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="retrieveButton">
+               <widget class="QPushButton" name="retrievePartBundleButton">
                 <property name="toolTip">
                  <string>Read and save current board firmware to a file</string>
                 </property>
                 <property name="text">
-                 <string>Retrieve...</string>
+                 <string>Retrieve partitions bundle</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="cbShowPartBrowser">
+                <property name="text">
+                 <string>Show partition browser</string>
                 </property>
                </widget>
               </item>
@@ -398,6 +405,41 @@
            </widget>
           </item>
          </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="gbPartitionBrowser">
+       <property name="title">
+        <string>Partition browser</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_11">
+        <item>
+         <widget class="QTableWidget" name="tablePartitions">
+          <property name="contextMenuPolicy">
+           <enum>Qt::ActionsContextMenu</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="rowCount">
+           <number>0</number>
+          </property>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Partition</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Size</string>
+           </property>
+          </column>
+         </widget>
         </item>
        </layout>
       </widget>
