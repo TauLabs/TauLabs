@@ -672,7 +672,7 @@ unlock_exit:
  * RAM regions since the underlying flash driver may use DMA to transfer
  * the data into the buffer that we give it.
  */
-static uint8_t uavobj_save_trampoline[256];
+static uint8_t uavobj_save_trampoline[256] __attribute__((aligned(4)));
 #endif	/* PIOS_INCLUDE_FASTRAM */
 
 /**
@@ -758,7 +758,7 @@ int32_t UAVObjSave(UAVObjHandle obj_handle, uint16_t instId)
  * RAM regions since the underlying flash driver may use DMA to transfer
  * the data into the buffer that we give it.
  */
-static uint8_t uavobj_load_trampoline[256];
+static uint8_t uavobj_load_trampoline[256] __attribute__((aligned(4)));
 #endif	/* PIOS_INCLUDE_FASTRAM */
 
 /**
