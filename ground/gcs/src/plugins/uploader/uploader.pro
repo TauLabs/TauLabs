@@ -3,7 +3,9 @@ TARGET = Uploader
 DEFINES += UPLOADER_LIBRARY
 QT += svg widgets serialport
 include(uploader_dependencies.pri)
+include(../../libs/glc_lib/glc_lib.pri)
 
+INCLUDEPATH *= ../../libs/glc_lib
 HEADERS += uploadergadget.h \
     uploadergadgetconfiguration.h \
     uploadergadgetfactory.h \
@@ -19,7 +21,8 @@ HEADERS += uploadergadget.h \
     SSP/common.h \
     runningdevicewidget.h \
     uploader_global.h \
-    enums.h
+    enums.h \
+    fileutils.h
 SOURCES += uploadergadget.cpp \
     uploadergadgetconfiguration.cpp \
     uploadergadgetfactory.cpp \
@@ -32,7 +35,8 @@ SOURCES += uploadergadget.cpp \
     SSP/port.cpp \
     SSP/qssp.cpp \
     SSP/qsspt.cpp \
-    runningdevicewidget.cpp
+    runningdevicewidget.cpp \
+    fileutils.cpp
 OTHER_FILES += Uploader.pluginspec \
     Uploader.json
 
