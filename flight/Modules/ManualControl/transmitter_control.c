@@ -862,6 +862,9 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
  */
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
+	if (AltitudeHoldDesiredHandle() == NULL)
+		return;
+
 	const float DEADBAND_HIGH = 0.55;
 	const float DEADBAND_LOW = 0.45;
 	
