@@ -435,9 +435,8 @@ static void stabilizationTask(void* parameters)
 									  fabsf(stabDesired.Roll) <= 3.0f && //...and we've requested less than 3 degrees of roll...
 									  fabsf(stabDesired.Yaw) < 0.05f) { //...and we currently have no yaw input within a 5% deadband
 
-									// Attitude lock on no gyro change
+									// Axis lock on no gyro change
 									axis_lock_accum[YAW] += (0 - gyro_filtered[YAW]) * dT;
-									axis_lock_accum[YAW] = bound_sym(axis_lock_accum[YAW], max_axis_lock);
 
 									rateDesiredAxis[YAW] = pid_apply(&pids[PID_ATT_YAW], axis_lock_accum[YAW], dT);
 									rateDesiredAxis[YAW] = bound_sym(rateDesiredAxis[YAW], settings.MaximumRate[YAW]);
