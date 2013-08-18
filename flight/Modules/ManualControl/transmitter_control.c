@@ -809,8 +809,10 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
 	if (!flightModeChanged)
 		return;
 
-	if (PathDesiredHandle() == NULL)
+	if (PathDesiredHandle() == NULL) {
+		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_PATHFOLLOWER);
 		return;
+	}
 
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
@@ -862,6 +864,11 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
  */
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
+	if (AltitudeHoldDesiredHandle() == NULL) {
+		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
+		return;
+	}
+
 	const float DEADBAND_HIGH = 0.55;
 	const float DEADBAND_LOW = 0.45;
 	
