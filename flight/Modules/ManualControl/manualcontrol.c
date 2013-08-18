@@ -139,6 +139,7 @@ static void manualControlTask(void *parameters)
 		// in the case of the tablet we need to be able to abort and fall back
 		// to failsafe for now
 		switch(control_selection) {
+		case FLIGHTSTATUS_CONTROLSOURCE_FAILSAFE:
 		case FLIGHTSTATUS_CONTROLSOURCE_TRANSMITTER:
 			transmitter_control_select(reset_controller);
 			control_events = transmitter_control_get_events();
@@ -153,7 +154,6 @@ static void manualControlTask(void *parameters)
 				control_events = failsafe_control_get_events();
 			}
 			break;
-		case FLIGHTSTATUS_CONTROLSOURCE_FAILSAFE:
 		default:
 			failsafe_control_select(reset_controller);
 			control_events = failsafe_control_get_events();
