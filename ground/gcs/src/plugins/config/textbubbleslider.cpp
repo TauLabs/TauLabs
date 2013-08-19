@@ -27,6 +27,7 @@
 
 #include <QDebug>
 #include <QPainter>
+#include <QRect>
 #include <QDebug>
 #include <qmath.h>
 
@@ -72,11 +73,15 @@ TextBubbleSlider::TextBubbleSlider(QSlider *copySlider, QWidget *parent) :
 void TextBubbleSlider::construct()
 {
     font = QFont("Arial", 13);
+    fontMetrics = new QFontMetrics(font);
+
+    ghostValue = 0;
     slideHandleMargin = 2; // This is a dubious way to set the margin. In reality, it should be read from the style sheet.
 }
 
 TextBubbleSlider::~TextBubbleSlider()
 {
+    delete fontMetrics;
 }
 
 
@@ -158,6 +163,12 @@ void TextBubbleSlider::setMaximum(int max)
 }
 
 
+void TextBubbleSlider::setGhost(int ghostValue)
+{
+    this->ghostValue = ghostValue;
+    repaint();
+}
+
 /**
  * @brief TextBubbleSlider::paintEvent Reimplements QSlider::paintEvent.
  * @param bob
@@ -167,18 +178,20 @@ void TextBubbleSlider::paintEvent(QPaintEvent *paintEvent)
     // Pass paint event on to QSlider
     QSlider::paintEvent(paintEvent);
 
-    /* Add numbers on top of handler */
-
-    // Calculate pixel position for text.
     int sliderWidth = width();
     int sliderHeight = height();
+
+    /* Paint numbers on top of handler */
+
+    {
+    // Calculate pixel position for text.
     double valuePos;
 
     if (!invertedAppearance()) {
-        valuePos = (slideHandleWidth - maximumFontWidth)/2 + slideHandleMargin + // First part centers text in handle...
+        valuePos = (slideHandleWidth - maximumFontWidth)/2 + slideHandleMargin + // First part horizontally centers text in handle...
                 (value()-minimum())/(double)(maximum()-minimum()) * (sliderWidth - (slideHandleWidth + slideHandleMargin) - 1); //... and second part moves text with handle
     } else {
-        valuePos = (slideHandleWidth - maximumFontWidth)/2 + slideHandleMargin + // First part centers text in handle...
+        valuePos = (slideHandleWidth - maximumFontWidth)/2 + slideHandleMargin + // First part horizontally centers text in handle...
                 (maximum()-value())/(double)(maximum()-minimum()) * (sliderWidth - (slideHandleWidth + slideHandleMargin) - 1); //... and second part moves text with handle
     }
 
@@ -188,8 +201,45 @@ void TextBubbleSlider::paintEvent(QPaintEvent *paintEvent)
 
     // Draw neutral value text. Verically center it in the handle
     QString neutralStringWidth = QString("%1").arg(value());
-    QFontMetrics fontMetrics(font);
-    int textWidth = fontMetrics.width(neutralStringWidth);
+    int textWidth = fontMetrics->width(neutralStringWidth);
     painter.drawText(QRectF(valuePos + maximumFontWidth - textWidth, ceil((sliderHeight - maximumFontHeight)/2.0), textWidth, maximumFontHeight),
                      neutralStringWidth);
+    }
+
+
+    {
+        // Calculate pixel position for text.
+        double valuePos;
+
+        if (!invertedAppearance()) {
+            valuePos = (slideHandleWidth - maximumFontWidth)/2 + slideHandleMargin + // First part horizontally centers text in handle...
+                    (ghostValue-minimum())/(double)(maximum()-minimum()) * (sliderWidth - (slideHandleWidth + slideHandleMargin) - 1); //... and second part moves text with handle
+        } else {
+            valuePos = (slideHandleWidth - maximumFontWidth)/2 + slideHandleMargin + // First part horizontally centers text in handle...
+                    (maximum()-ghostValue)/(double)(maximum()-minimum()) * (sliderWidth - (slideHandleWidth + slideHandleMargin) - 1); //... and second part moves text with handle
+        }
+
+        // Create pen and set transparency color
+        QPen pen;
+        pen.setColor(QColor(0, 0, 0, round(255*.70)));
+
+        // Create painter and set font and color
+        QPainter painter(this);
+        painter.setFont(font);
+        painter.setPen(pen);
+
+        // Generate text
+        QString ghostStringWidth = QString("%1").arg(ghostValue);
+        int textWidth = fontMetrics->width(ghostStringWidth);
+
+        // Draw ghost value handle. Vertically center it on the slider
+        painter.fillRect(QRectF(valuePos + maximumFontWidth - textWidth, ceil((sliderHeight - maximumFontHeight)/2.0), textWidth, maximumFontHeight),
+                                QColor(128, 128, 255, 128));
+
+        // Draw ghost value text. Verically center it in the handle
+        painter.drawText(QRectF(valuePos + maximumFontWidth - textWidth, ceil((sliderHeight - maximumFontHeight)/2.0), textWidth, maximumFontHeight),
+                         ghostStringWidth);
+
+    }
+
 }

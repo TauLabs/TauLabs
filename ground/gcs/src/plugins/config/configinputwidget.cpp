@@ -42,6 +42,10 @@
 #include <utils/stylehelper.h>
 #include <QMessageBox>
 
+#include "ui_input.h"
+#include "ui_inputchannelform.h"
+#include "inputchannelform.h"
+
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/generalsettings.h>
 
@@ -79,6 +83,8 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     {
         Q_ASSERT(index < ManualControlSettings::CHANNELGROUPS_NUMELEM);
         inputChannelForm * inpForm=new inputChannelForm(this,index==0);
+        inputChannelFormList.append(inpForm);
+
         m_config->channelSettings->layout()->addWidget(inpForm); //Add the row to the UI
         inpForm->setName(name);
         addUAVObjectToWidgetRelation("ManualControlSettings","ChannelGroups",inpForm->ui->channelGroup,index);
@@ -90,6 +96,8 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     }
 
     addUAVObjectToWidgetRelation("ManualControlSettings", "Deadband", m_config->deadband, 0, 0.01f);
+
+    connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(controlCommandUpdated(UAVObject*)));
 
     connect(m_config->configurationWizard,SIGNAL(clicked()),this,SLOT(goToWizard()));
     connect(m_config->stackedWidget,SIGNAL(currentChanged(int)),this,SLOT(disableWizardButton(int)));
@@ -1439,5 +1447,19 @@ void ConfigInputWidget::simpleCalibration(bool enable)
         manualSettingsObj->setData(manualSettingsData);
 
         disconnect(manualCommandObj, SIGNAL(objectUnpacked(UAVObject*)), this, SLOT(updateCalibration()));
+    }
+}
+
+void ConfigInputWidget::controlCommandUpdated(UAVObject *obj)
+{
+    Q_UNUSED(obj);
+    ManualControlCommand::DataFields manualControlCommandData = manualCommandObj->getData();
+
+    unsigned int index=0;
+    foreach (inputChannelForm *inpForm, inputChannelFormList)
+    {
+        int channelNum = inpForm->getChannelNumber();
+        inpForm->setCommandValue(manualControlCommandData.Channel[channelNum]);
+        ++index;
     }
 }

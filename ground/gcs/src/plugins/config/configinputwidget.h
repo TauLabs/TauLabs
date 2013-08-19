@@ -35,14 +35,10 @@
 #include <QtSvg/QSvgRenderer>
 #include <QtSvg/QGraphicsSvgItem>
 
-#include "ui_input.h"
-#include "ui_inputchannelform.h"
-
 #include "uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
-#include "inputchannelform.h"
 
 #include "accessorydesired.h"
 #include "flightstatus.h"
@@ -51,6 +47,8 @@
 #include "receiveractivity.h"
 
 class Ui_InputWidget;
+class inputChannelForm;
+
 
 class ConfigInputWidget: public ConfigTaskWidget
 {
@@ -123,6 +121,7 @@ private:
         ReceiverActivity * receiverActivityObj;
         ReceiverActivity::DataFields receiverActivityData;
         QMap<QString, UAVObject::Metadata> originalMetaData;
+        QVector<inputChannelForm *> inputChannelFormList;
 
         QSvgRenderer *m_renderer;
 
@@ -180,6 +179,7 @@ private slots:
         void invertControls();
         void simpleCalibration(bool state);
         void updateCalibration();
+        void controlCommandUpdated(UAVObject *obj);
 
 protected:
         void resizeEvent(QResizeEvent *event);

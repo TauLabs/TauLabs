@@ -44,6 +44,8 @@ public:
     void setMinimum(int);
     void setMaximum(int);
 
+    void setGhost(int);
+
 protected:
     void paintEvent ( QPaintEvent * event );
 
@@ -51,10 +53,14 @@ private:
     void setMaxPixelWidth();
 
     QFont font;
+    QFontMetrics *fontMetrics;
+
     int maximumFontWidth;
     int maximumFontHeight;
     int slideHandleWidth;
     int slideHandleMargin;
+
+    int ghostValue;
 
 };
 
