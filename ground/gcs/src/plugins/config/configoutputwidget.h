@@ -39,7 +39,6 @@
 
 class Ui_OutputWidget;
 class OutputChannelForm;
-class ActuatorSettings;
 
 class ConfigOutputWidget: public ConfigTaskWidget
 {
