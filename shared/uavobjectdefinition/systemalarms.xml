@@ -25,6 +25,21 @@
         </field>
         <field name="ConfigError" units="" type="enum" elements="1" options="Stabilization,Multirotor,AutoTune,AltitudeHold,VelocityControl,PositionHold,PathPlanner,Undefined,None" defaultvalue="None" />
         <field name="ManualControl" units="" type="enum" elements="1" options="Settings,NoRx,Accessory,AltitudeHold,PathFollower,Undefined,None" defaultvalue="None" />
+		<field name="StateEstimation" units="" type="enum" elements="1" defaultvalue="None" >
+			<options>
+				<option>Secondary activated</option>
+				<option>Gyro queue not updating</option>
+				<option>Accelerometer queue not updating</option>
+				<option>No GPS</option>
+				<option>No magnetometer</option>
+				<option>No barometer</option>
+				<option>Too few satellites</option>
+				<option>PDOP too high</option>
+				<option>Undefined</option>
+				<option>None</option>
+			</options>
+		</field>
+
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>

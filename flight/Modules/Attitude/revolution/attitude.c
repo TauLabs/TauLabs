@@ -66,6 +66,7 @@
 #include "nedposition.h"
 #include "positionactual.h"
 #include "stateestimation.h"
+#include "systemalarms.h"
 #include "velocityactual.h"
 #include "coordinate_conversions.h"
 
@@ -171,6 +172,9 @@ static void accumulate_gyro_zero();
 //! Store a gyro sample
 static void accumulate_gyro(GyrosData *gyrosData);
 
+//! Set alarm and alarm code
+static void set_state_estimation_error(SystemAlarmsStateEstimationOptions error_code);
+
 /**
  * API for sensor fusion algorithms:
  * Configure(xQueueHandle gyro, xQueueHandle accel, xQueueHandle mag, xQueueHandle baro)
@@ -268,7 +272,7 @@ static void AttitudeTask(void *parameters)
 	bool first_run = true;
 	uint32_t last_algorithm;
 	bool     last_complementary;
-	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
+	set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
 
 	// Force settings update to make sure rotation loaded
 	settingsUpdatedCb(NULL);
@@ -364,15 +368,25 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	static int32_t timeval;
 	float dT;
 
+	bool gyroTimeout;
+	bool accelTimeout;
+
 	// Wait until the accel and gyro object is updated, if a timeout then go to failsafe
 	if (!secondary && (
-		 xQueueReceive(gyroQueue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE ||
-		 xQueueReceive(accelQueue, &ev, MS2TICKS(1)) != pdTRUE ) )
-	{
-		// When one of these is updated so should the other
+		 (gyroTimeout  = (xQueueReceive(gyroQueue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE)) || // When one of these is updated...
+		 (accelTimeout = (xQueueReceive(accelQueue, &ev, MS2TICKS(1)) != pdTRUE ))) ) {               // ...so should the other.
+
 		// Do not set attitude timeout warnings in simulation mode
-		if (!AttitudeActualReadOnly()){
-			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_WARNING);
+		if (!AttitudeActualReadOnly()) {
+			if (!secondary)
+				set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_SECONDARYACTIVATED);
+			else if (gyroTimeout)
+				set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_GYROQUEUENOTUPDATING);
+			else if (accelTimeout)
+				set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_ACCELEROMETERQUEUENOTUPDATING);
+			else
+				set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_UNDEFINED);
+
 			return -1;
 		}
 	}
@@ -614,7 +628,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	}
 
 	if (!secondary)
-		AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
+		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
 
 	return 0;
 }
@@ -831,12 +845,26 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// A more stringent requirement for GPS to initialize the filter
 	bool gps_init_usable = gps_updated & (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
-	if (!inited)
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_ERROR);
-	else if (outdoor_mode && (gpsData.Satellites < 6 || gpsData.PDOP > 4.0f))
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE,SYSTEMALARMS_ALARM_ERROR);
-	else
-		AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
+	if (!inited) {
+		if (!gps_init_usable && outdoor_mode)
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOGPS);
+		else if (!mag_updated)
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOMAGNETOMETER);
+		else if (!baro_updated)
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOBAROMETER);
+		else
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_UNDEFINED);
+
+	} else if (outdoor_mode && (gpsData.Satellites < 6 || gpsData.PDOP > 4.0f)) {
+		if (gpsData.Satellites < 6)
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_TOOFEWSATELLITES);
+		else if (gpsData.PDOP > 4.0f)
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_PDOPTOOHIGH);
+		else
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_UNDEFINED);
+	} else {
+		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
+	}
 
 	if (!inited && mag_updated && baro_updated && (gps_init_usable || !outdoor_mode)) {
 
@@ -1161,6 +1189,49 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 	if (ev == NULL || ev->obj == StateEstimationHandle())
 		StateEstimationGet(&stateEstimation);
 }
+
+
+/**
+ * Set the error code and alarm state
+ * @param[in] error code
+ */
+static void set_state_estimation_error(SystemAlarmsStateEstimationOptions error_code)
+{
+	// Get the severity of the alarm given the error code
+	SystemAlarmsAlarmOptions severity;
+	switch (error_code) {
+	case SYSTEMALARMS_STATEESTIMATION_NONE:
+		severity = SYSTEMALARMS_ALARM_OK;
+		break;
+	case SYSTEMALARMS_STATEESTIMATION_SECONDARYACTIVATED:
+	case SYSTEMALARMS_STATEESTIMATION_ACCELEROMETERQUEUENOTUPDATING:
+	case SYSTEMALARMS_STATEESTIMATION_GYROQUEUENOTUPDATING:
+		severity = SYSTEMALARMS_ALARM_WARNING;
+		break;
+	case SYSTEMALARMS_STATEESTIMATION_NOGPS:
+	case SYSTEMALARMS_STATEESTIMATION_NOMAGNETOMETER:
+	case SYSTEMALARMS_STATEESTIMATION_NOBAROMETER:
+	case SYSTEMALARMS_STATEESTIMATION_TOOFEWSATELLITES:
+	case SYSTEMALARMS_STATEESTIMATION_PDOPTOOHIGH:
+		severity = SYSTEMALARMS_ALARM_ERROR;
+		break;
+	case SYSTEMALARMS_STATEESTIMATION_UNDEFINED:
+	default:
+		severity = SYSTEMALARMS_ALARM_CRITICAL;
+		error_code = SYSTEMALARMS_STATEESTIMATION_UNDEFINED;
+	}
+
+	// Make sure not to set the error code if it didn't change
+	SystemAlarmsStateEstimationOptions current_error_code;
+	SystemAlarmsStateEstimationGet((uint8_t *) &current_error_code);
+	if (current_error_code != error_code) {
+		SystemAlarmsStateEstimationSet((uint8_t *) &error_code);
+	}
+
+	// AlarmSet checks only updates on toggle
+	AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, (uint8_t) severity);
+}
+
 /**
  * @}
  * @}
