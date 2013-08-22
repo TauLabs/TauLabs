@@ -58,7 +58,7 @@
 
 #define TASK_PRIORITY (tskIDLE_PRIORITY+4)
 #define FAILSAFE_TIMEOUT_MS 100
-#define NUMBER_OF_MIXER_SOURCES 5 // This is the number of elements in MixerSettings.Mixer1Vector
+#define NUMBER_OF_MIXER_SOURCES 9 // This is the number of elements in MixerSettings.Mixer1Vector
 
 // Private types
 
@@ -164,6 +164,7 @@ static void actuatorTask(void* parameters)
 
 	ActuatorCommandData command;
 	ActuatorDesiredData desired;
+	ControlCommandData control_command;
 	MixerStatusData mixerStatus;
 	FlightStatusData flightStatus;
 
@@ -218,6 +219,7 @@ static void actuatorTask(void* parameters)
 		FlightStatusGet(&flightStatus);
 		ActuatorDesiredGet(&desired);
 		ActuatorCommandGet(&command);
+		ControlCommandGet(&control_command);
 
 #if defined(MIXERSTATUS_DIAGNOSTICS)
 		MixerStatusGet(&mixerStatus);
@@ -262,8 +264,7 @@ static void actuatorTask(void* parameters)
 				curve2 = MixerCurve(desired.Yaw,mixerSettings.ThrottleCurve2,MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_COLLECTIVE:
-				ControlCommandCollectiveGet(&curve2);
-				curve2 = MixerCurve(curve2,mixerSettings.ThrottleCurve2,
+				curve2 = MixerCurve(control_command.Collective, mixerSettings.ThrottleCurve2,
 				MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY0:
@@ -414,7 +415,10 @@ float process_mixer(const int index, const float curve1, const float curve2,
 		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE2]) * curve2 +
 		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_ROLL]) * desired->Roll +
 		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_PITCH]) * desired->Pitch +
-		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_YAW]) * desired->Yaw ) / 128.0f;
+		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_YAW]) * desired->Yaw +
+		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_FLAPS]) * control_command->Flaps +
+		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_SPOILERS]) * control_command->Spoilers
+					) / 128.0f;
 
 	if(mixer->type == MIXERSETTINGS_MIXER1TYPE_MOTOR)
 	{

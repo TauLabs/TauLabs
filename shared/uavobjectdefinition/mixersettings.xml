@@ -46,6 +46,10 @@
 				<elementname>Roll</elementname>
 				<elementname>Pitch</elementname>
 				<elementname>Yaw</elementname>
+				<elementname>Collective</elementname>
+				<elementname>Flaps</elementname>
+				<elementname>Spoilers</elementname>
+				<elementname>LandingGear</elementname>
 			</elementnames>
 		</field>
 
