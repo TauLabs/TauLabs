@@ -330,3 +330,8 @@ plugin_sysalarmsmessaging.depends += plugin_uavobjects
 plugin_sysalarmsmessaging.depends += plugin_uavtalk
 SUBDIRS += plugin_sysalarmsmessaging
 
+# GCS Control plugin
+plugin_gcscontrolplugin.subdir = gcscontrolplugin
+plugin_gcscontrolplugin.depends = plugin_coreplugin
+plugin_gcscontrolplugin.depends += plugin_uavobjects
+SUBDIRS += plugin_gcscontrolplugin
