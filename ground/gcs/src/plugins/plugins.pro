@@ -232,10 +232,10 @@ KML {
 
 # GCS Control of UAV gadget
 !LIGHTWEIGHT_GCS {
-plugin_gcscontrol.subdir = gcscontrol
-plugin_gcscontrol.depends = plugin_coreplugin
-plugin_gcscontrol.depends += plugin_uavobjects
-SUBDIRS += plugin_gcscontrol
+plugin_gcscontrolwidget.subdir = gcscontrolwidget
+plugin_gcscontrolwidget.depends = plugin_coreplugin
+plugin_gcscontrolwidget.depends += plugin_uavobjects
+SUBDIRS += plugin_gcscontrolwidget
 }
 
 # Antenna tracker
