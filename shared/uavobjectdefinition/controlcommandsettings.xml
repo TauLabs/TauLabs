@@ -79,6 +79,10 @@
 
 		<field name="ArmedTimeout" units="ms" type="uint16" elements="1" defaultvalue="30000"/>
 
+		<field name="CollectiveTxInput" units="" options="Accessory0,Accessory1,Accessory2,Accessory3" type="enum" elements="1" defaultvalue="None"/>
+		<field name="FlapsTxInput" units="" options="Accessory0,Accessory1,Accessory2,Accessory3" type="enum" elements="1" defaultvalue="None"/>
+		<field name="SpoilersTxInput" units="" options="Accessory0,Accessory1,Accessory2,Accessory3" type="enum" elements="1" defaultvalue="None"/>
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>

@@ -416,8 +416,8 @@ float process_mixer(const int index, const float curve1, const float curve2,
 		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_ROLL]) * desired->Roll +
 		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_PITCH]) * desired->Pitch +
 		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_YAW]) * desired->Yaw +
-		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_FLAPS]) * control_command->Flaps +
-		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_SPOILERS]) * control_command->Spoilers
+		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_FLAPS]) * control_command->Flaps / 100.0f + // control_command->Flaps is in [-100,100]
+		       ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_SPOILERS]) * control_command->Spoilers / 100.0f // control_command->Spoilers is in [-100,100]
 					) / 128.0f;
 
 	if(mixer->type == MIXERSETTINGS_MIXER1TYPE_MOTOR)

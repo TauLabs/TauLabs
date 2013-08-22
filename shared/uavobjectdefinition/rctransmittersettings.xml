@@ -76,7 +76,11 @@
 				<elementname>Accessory2</elementname>
 			</elementnames>
 		</field>
-        <field name="Deadband" units="%" type="float" elements="1" defaultvalue="0"/>
+		<field name="Deadband" units="%" type="float" elements="1" defaultvalue="0"/>
+		<field name="CollectiveInputChannel" units="" options="Accessory0,Accessory1,Accessory2,Collective,None" type="enum" elements="1" defaultvalue="None"/>
+		<field name="FlapsInputChannel"   cloneof="CollectiveInputChannel"/>
+		<field name="SpoilersInputChannel"   cloneof="CollectiveInputChannel"/>
+
 
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>

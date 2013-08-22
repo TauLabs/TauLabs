@@ -300,6 +300,8 @@ int32_t transmitter_control_update()
 		control_command.Yaw = 0;
 		control_command.Pitch = 0;
 		control_command.Collective = 0;
+		control_command.Flaps = 0;
+		control_command.Spoilers = 0;
 
 		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_NORX);
 
@@ -311,7 +313,7 @@ int32_t transmitter_control_update()
 		control_command.Pitch          = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PITCH];
 		control_command.Yaw            = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_YAW];
 		control_command.Throttle       = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_THROTTLE];
-		flight_mode_value  = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_FLIGHTMODE];
+		flight_mode_value              = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_FLIGHTMODE];
 
 		// Apply deadband for Roll/Pitch/Yaw stick inputs
 		if (rc_transmitter_settings.Deadband) {
@@ -320,12 +322,34 @@ int32_t transmitter_control_update()
 			applyDeadband(&control_command.Yaw, rc_transmitter_settings.Deadband);
 		}
 
-		if(rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_INVALID &&
-		   rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_NODRIVER &&
-		   rc_transmitter_input.Channel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_COLLECTIVE] != (uint16_t) PIOS_RCVR_TIMEOUT) {
-			control_command.Collective = scaledChannel[RCTRANSMITTERSETTINGS_CHANNELGROUPS_COLLECTIVE];
+		// These two variables must be kept synchronized
+		uint8_t accessory_inputs[4]={RCTRANSMITTERSETTINGS_CHANNELGROUPS_ACCESSORY0,
+									RCTRANSMITTERSETTINGS_CHANNELGROUPS_ACCESSORY1,
+									RCTRANSMITTERSETTINGS_CHANNELGROUPS_ACCESSORY2,
+									RCTRANSMITTERSETTINGS_CHANNELGROUPS_COLLECTIVE};
+		uint8_t accessory_routing[4]={RCTRANSMITTERSETTINGS_COLLECTIVEINPUTCHANNEL_ACCESSORY0,
+									  RCTRANSMITTERSETTINGS_COLLECTIVEINPUTCHANNEL_ACCESSORY1,
+									  RCTRANSMITTERSETTINGS_COLLECTIVEINPUTCHANNEL_ACCESSORY2,
+									  RCTRANSMITTERSETTINGS_CHANNELGROUPS_COLLECTIVE};
+
+		// Iterate over the list of accessory input channels and assign to any corresponding command channels
+		for (int i=0; i<4; i++) {
+			if(rc_transmitter_input.Channel[accessory_inputs[i]] != (uint16_t) PIOS_RCVR_INVALID &&
+			   rc_transmitter_input.Channel[accessory_inputs[i]] != (uint16_t) PIOS_RCVR_NODRIVER &&
+			   rc_transmitter_input.Channel[accessory_inputs[i]] != (uint16_t) PIOS_RCVR_TIMEOUT) {
+				if (rc_transmitter_settings.CollectiveInputChannel == accessory_routing[i]) {
+					control_command.Collective = scaledChannel[accessory_inputs[i]];
+				}
+				if (rc_transmitter_settings.FlapsInputChannel == accessory_routing[i]) {
+					control_command.Flaps = scaledChannel[accessory_inputs[i]] * 100;
+				}
+				if (rc_transmitter_settings.SpoilersInputChannel == accessory_routing[i]) {
+					control_command.Spoilers = scaledChannel[accessory_inputs[i]] * 100;
+				}
+			}
 		}
-		   
+
+
 		AccessoryDesiredData accessory;
 		// Set Accessory 0
 		if (rc_transmitter_settings.ChannelGroups[RCTRANSMITTERSETTINGS_CHANNELGROUPS_ACCESSORY0] !=
