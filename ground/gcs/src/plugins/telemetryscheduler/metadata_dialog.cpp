@@ -37,7 +37,8 @@
 
 MetadataDialog::MetadataDialog(UAVObject::Metadata mdata, QWidget *parent) :
     QDialog(parent),
-    resetDefaults_flag(false)
+    resetDefaults_flag(false),
+    saveMetadata_flag(false)
 {
     m_mdata = &mdata;
 
@@ -55,7 +56,8 @@ MetadataDialog::MetadataDialog(UAVObject::Metadata mdata, QWidget *parent) :
     metadata_editor.cmbGCSTelemetryMode->addItem("Manual", UAVObject::UPDATEMODE_MANUAL);
 
     // Connect the before setting any signals
-    connect(metadata_editor.bnApply, SIGNAL(clicked()), this, SLOT(applyMetadata()));
+    connect(metadata_editor.bnApplyMetadata, SIGNAL(clicked()), this, SLOT(saveApplyMetadata()));
+    connect(metadata_editor.bnSaveMetadata, SIGNAL(clicked()), this, SLOT(saveApplyMetadata()));
     connect(metadata_editor.bnCancel, SIGNAL(clicked()), this, SLOT(cancelChanges()));
     connect(metadata_editor.bnResetToDefaults, SIGNAL(clicked()), this, SLOT(resetMetadataToDefaults()));
 
@@ -70,8 +72,16 @@ MetadataDialog::~MetadataDialog()
 }
 
 
-void MetadataDialog::applyMetadata()
+void MetadataDialog::saveApplyMetadata()
 {
+    // Check which button was pressed
+    if (QObject::sender() == metadata_editor.bnSaveMetadata)
+        saveMetadata_flag = true;
+    else if (QObject::sender() == metadata_editor.bnApplyMetadata)
+        saveMetadata_flag = false;
+    else
+        Q_ASSERT(0);
+
     // Checkboxes
     UAVObject::SetFlightAccess(*m_mdata, metadata_editor.cbFlightReadOnly->isChecked() ? UAVObject::ACCESS_READONLY : UAVObject::ACCESS_READWRITE);
     UAVObject::SetGcsAccess(*m_mdata, metadata_editor.cbFlightReadOnly->isChecked() ? UAVObject::ACCESS_READONLY : UAVObject::ACCESS_READWRITE);
@@ -86,6 +96,7 @@ void MetadataDialog::applyMetadata()
 
     accept();
 }
+
 
 void MetadataDialog::cancelChanges()
 {
