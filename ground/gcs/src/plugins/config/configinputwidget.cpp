@@ -1455,11 +1455,7 @@ void ConfigInputWidget::controlCommandUpdated(UAVObject *obj)
     Q_UNUSED(obj);
     ManualControlCommand::DataFields manualControlCommandData = manualCommandObj->getData();
 
-    unsigned int index=0;
-    foreach (inputChannelForm *inpForm, inputChannelFormList)
-    {
-        int channelNum = inpForm->getChannelNumber();
-        inpForm->setCommandValue(manualControlCommandData.Channel[channelNum]);
-        ++index;
+    for (int i=0; i<ManualControlCommand::CHANNEL_NUMELEM; i++) {
+        inputChannelFormList.at(i)->setCommandValue(manualControlCommandData.Channel[i]);
     }
 }

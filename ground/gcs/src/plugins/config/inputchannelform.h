@@ -17,7 +17,6 @@ public:
     friend class ConfigInputWidget;
     void setName(QString &name);
     void setCommandValue(int val);
-    int getChannelNumber();
 
 private slots:
     void minMaxUpdated();

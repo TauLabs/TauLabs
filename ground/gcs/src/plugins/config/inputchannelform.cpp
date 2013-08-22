@@ -157,13 +157,3 @@ void inputChannelForm::setCommandValue(int val)
 {
     ui->channelNeutral->setGhost(val);
 }
-
-
-/**
- * @brief inputChannelForm::getChannelNumber Returns the input channel associated with the form.
- * @return
- */
-int inputChannelForm::getChannelNumber()
-{
-    return ui->channelNumber->value();
-}
