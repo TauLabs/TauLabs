@@ -235,6 +235,8 @@ KML {
 plugin_gcscontrolwidget.subdir = gcscontrolwidget
 plugin_gcscontrolwidget.depends = plugin_coreplugin
 plugin_gcscontrolwidget.depends += plugin_uavobjects
+plugin_gcscontrolwidget.depends += plugin_gcscontrolplugin
+
 SUBDIRS += plugin_gcscontrolwidget
 }
 
