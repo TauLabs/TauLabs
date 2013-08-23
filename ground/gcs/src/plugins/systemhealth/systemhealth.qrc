@@ -19,9 +19,8 @@
         <file>html/GPS-Critical.html</file>
         <file>html/GPS-Error.html</file>
         <file>html/GPS-Warning.html</file>
-        <file>html/Guidance-Warning.html</file>
-        <file>html/Memory-Critical.html</file>
-        <file>html/Memory-Warning.html</file>
+        <file>html/OutOfMemory-Critical.html</file>
+        <file>html/OutOfMemory-Warning.html</file>
         <file>html/Sensors-Critical.html</file>
         <file>html/Stabilization-Warning.html</file>
         <file>html/Stack-Critical.html</file>
@@ -29,5 +28,6 @@
         <file>html/SystemConfiguration-Error.html</file>
         <file>html/PathPlanner-Error.html</file>
         <file>html/PathPlanner-Critical.html</file>
+        <file>html/PathFollower-Warning.html</file>
     </qresource>
 </RCC>
