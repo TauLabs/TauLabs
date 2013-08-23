@@ -183,7 +183,7 @@ uintptr_t pios_com_telem_rf_id;
 uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_overo_id;
-uintptr_t pios_com_mavlink_id;
+uintptr_t pios_com_mavlink_id[PIOS_COM_MAVLINK_NUM_PORTS];
 uintptr_t pios_internal_adc_id;
 uint32_t pios_rfm22b_id;
 uintptr_t pios_uavo_settings_fs_id;
@@ -541,14 +541,14 @@ void PIOS_Board_Init(void) {
 			break;
 		case HWFREEDOM_MAINPORT_MAVLINKTX:
 #if defined(PIOS_INCLUDE_MAVLINK)
-			PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
+			PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id[0]);
 #endif	/* PIOS_INCLUDE_MAVLINK */
 			break;
 		case HWFREEDOM_MAINPORT_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_GPS)
 #if defined(PIOS_INCLUDE_MAVLINK)
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
-			pios_com_mavlink_id = pios_com_gps_id;
+			pios_com_mavlink_id[0] = pios_com_gps_id;
 #endif	/* PIOS_INCLUDE_MAVLINK */
 #endif	/* PIOS_INCLUDE_GPS */
 			break;
@@ -612,14 +612,14 @@ void PIOS_Board_Init(void) {
 			break;
 		case HWFREEDOM_FLEXIPORT_MAVLINKTX:
 #if defined(PIOS_INCLUDE_MAVLINK)
-			PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id[1]);
 #endif	/* PIOS_INCLUDE_MAVLINK */
 			break;
 		case HWFREEDOM_FLEXIPORT_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_GPS)
 #if defined(PIOS_INCLUDE_MAVLINK)
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
-			pios_com_mavlink_id = pios_com_gps_id;
+			pios_com_mavlink_id[1] = pios_com_gps_id;
 #endif	/* PIOS_INCLUDE_MAVLINK */
 #endif	/* PIOS_INCLUDE_GPS */
 			break;

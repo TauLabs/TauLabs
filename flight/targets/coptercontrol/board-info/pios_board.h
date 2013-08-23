@@ -148,8 +148,9 @@ extern uintptr_t pios_com_debug_id;
 #define PIOS_COM_DEBUG                  (pios_com_debug_id)
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-extern uintptr_t pios_com_mavlink_id;
-#define PIOS_COM_MAVLINK 				(pios_com_mavlink_id)
+#define PIOS_COM_MAVLINK_NUM_PORTS 2
+extern uintptr_t pios_com_mavlink_id[PIOS_COM_MAVLINK_NUM_PORTS];
+#define PIOS_COM_MAVLINK 				pios_com_mavlink_id
 
 //-------------------------
 // ADC
