@@ -1180,6 +1180,8 @@ void PIOS_Board_Init(void) {
 		case HWQUANTON_RCVRPORT_PWMADC:
 		case HWQUANTON_RCVRPORT_PPM:
 		case HWQUANTON_RCVRPORT_PPMADC:
+		case HWQUANTON_RCVRPORT_PPMPWM:
+		case HWQUANTON_RCVRPORT_PPMPWMADC:
 			/* Set up the servo outputs */
 #ifdef PIOS_INCLUDE_SERVO
 			PIOS_Servo_Init(&pios_servo_cfg);
