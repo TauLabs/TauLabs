@@ -2,11 +2,11 @@
  ******************************************************************************
  * @file       GCSControl_global.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @addtogroup [Group]
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup 
  * @{
- * @brief [Brief]
+ * @brief GCSReceiver API
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
