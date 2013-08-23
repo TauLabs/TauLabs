@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       GCSControlplugin.cpp
+ * @file       GCSControlwidgetplugin.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
