@@ -581,6 +581,7 @@ static const struct flashfs_logfs_cfg flashfs_waypoints_cfg = {
 	.slot_size     = 0x00000040, /* 64 bytes */
 };
 
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
 #include "pios_flash_jedec_priv.h"
 
 static const struct pios_flash_jedec_cfg flash_mx25_cfg = {
@@ -589,14 +590,18 @@ static const struct pios_flash_jedec_cfg flash_mx25_cfg = {
 	.expect_capacity     = 0x16,
 	.sector_erase        = 0x20,
 };
+#endif	/* PIOS_INCLUDE_FLASH_JEDEC */
 
+#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 #include "pios_flash_internal_priv.h"
 
 static const struct pios_flash_internal_cfg flash_internal_cfg = {
 };
+#endif	/* PIOS_INCLUDE_FLASH_INTERNAL */
 
 #include "pios_flash_priv.h"
 
+#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 static const struct pios_flash_sector_range stm32f4_sectors[] = {
 	{
 		.base_sector = 0,
@@ -624,7 +629,9 @@ static const struct pios_flash_chip pios_flash_chip_internal = {
 	.sector_blocks = stm32f4_sectors,
 	.num_blocks    = NELEMENTS(stm32f4_sectors),
 };
+#endif	/* PIOS_INCLUDE_FLASH_INTERNAL */
 
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
 static const struct pios_flash_sector_range mx25_sectors[] = {
 	{
 		.base_sector = 0,
@@ -641,8 +648,10 @@ static const struct pios_flash_chip pios_flash_chip_external = {
 	.sector_blocks = mx25_sectors,
 	.num_blocks    = NELEMENTS(mx25_sectors),
 };
+#endif /* PIOS_INCLUDE_FLASH_JEDEC */
 
 static const struct pios_flash_partition pios_flash_partition_table[] = {
+#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 	{
 		.label        = FLASH_PARTITION_LABEL_BL,
 		.chip_desc    = &pios_flash_chip_internal,
@@ -665,6 +674,9 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 
 	/* NOTE: sectors 7-11 of the internal flash are currently unallocated */
 
+#endif /* PIOS_INCLUDE_FLASH_INTERNAL */
+
+#if defined(PIOS_INCLUDE_FLASH_JEDEC)
 	{
 		.label        = FLASH_PARTITION_LABEL_SETTINGS,
 		.chip_desc    = &pios_flash_chip_external,
@@ -682,7 +694,16 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.chip_offset  = (512 * FLASH_SECTOR_4KB),
 		.size         = (1023 - 512 + 1) * FLASH_SECTOR_4KB,
 	},
+#endif	/* PIOS_INCLUDE_FLASH_JEDEC */
 };
+
+const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32_t board_revision, uint32_t * num_partitions)
+{
+	PIOS_Assert(num_partitions);
+
+	*num_partitions = NELEMENTS(pios_flash_partition_table);
+	return pios_flash_partition_table;
+}
 
 #endif	/* PIOS_INCLUDE_FLASH */
 
@@ -696,7 +717,87 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
  */
 #include <pios_dsm_priv.h>
 
-static const struct pios_usart_cfg pios_usart1_dsm_cfg = {
+static const struct pios_dsm_cfg pios_usart1_dsm_aux_cfg = {
+	.bind = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_7,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+static const struct pios_dsm_cfg pios_usart2_dsm_aux_cfg = {
+	.bind = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_3,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+static const struct pios_dsm_cfg pios_usart3_dsm_aux_cfg = {
+	.bind = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_11,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+static const struct pios_dsm_cfg pios_usart4_dsm_aux_cfg = {
+	.bind = {
+		.gpio = GPIOC,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_11,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+static const struct pios_dsm_cfg pios_usart5_dsm_aux_cfg = {
+	.bind = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_2,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+#endif	/* PIOS_INCLUDE_DSM */
+
+#if defined(PIOS_INCLUDE_HSUM)
+/*
+ * Graupner HoTT SUMD/SUMH USART
+ */
+#include <pios_hsum_priv.h>
+
+#endif	/* PIOS_INCLUDE_HSUM */
+
+#if (defined(PIOS_INCLUDE_DSM) || defined(PIOS_INCLUDE_HSUM))
+/*
+ * Spektrum/JR DSM or Graupner HoTT SUMD/SUMH USART
+ */
+
+static const struct pios_usart_cfg pios_usart1_dsm_hsum_cfg = {
 	.regs = USART1,
 	.remap = GPIO_AF_USART1,
 	.init = {
@@ -728,20 +829,7 @@ static const struct pios_usart_cfg pios_usart1_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_usart1_dsm_aux_cfg = {
-	.bind = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_7,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-
-static const struct pios_usart_cfg pios_usart2_dsm_cfg = {
+static const struct pios_usart_cfg pios_usart2_dsm_hsum_cfg = {
 	.regs = USART2,
 	.remap = GPIO_AF_USART2,
 	.init = {
@@ -773,20 +861,7 @@ static const struct pios_usart_cfg pios_usart2_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_usart2_dsm_aux_cfg = {
-	.bind = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_3,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-
-static const struct pios_usart_cfg pios_usart3_dsm_cfg = {
+static const struct pios_usart_cfg pios_usart3_dsm_hsum_cfg = {
 	.regs = USART3,
 	.remap = GPIO_AF_USART3,
 	.init = {
@@ -818,20 +893,7 @@ static const struct pios_usart_cfg pios_usart3_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_usart3_dsm_aux_cfg = {
-	.bind = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_11,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-
-static const struct pios_usart_cfg pios_usart4_dsm_cfg = {
+static const struct pios_usart_cfg pios_usart4_dsm_hsum_cfg = {
 	.regs = UART4,
 	.remap = GPIO_AF_UART4,
 	.init = {
@@ -863,21 +925,7 @@ static const struct pios_usart_cfg pios_usart4_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_usart4_dsm_aux_cfg = {
-	.bind = {
-		.gpio = GPIOC,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_11,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-
-
-static const struct pios_usart_cfg pios_usart5_dsm_cfg = {
+static const struct pios_usart_cfg pios_usart5_dsm_hsum_cfg = {
 	.regs = UART5,
 	.remap = GPIO_AF_UART5,
 	.init = {
@@ -909,21 +957,7 @@ static const struct pios_usart_cfg pios_usart5_dsm_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_usart5_dsm_aux_cfg = {
-	.bind = {
-		.gpio = GPIOD,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_2,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-
-
-#endif	/* PIOS_INCLUDE_DSM */
+#endif	/* PIOS_INCLUDE_DSM || PIOS_INCLUDE_HSUM */
 
 #if defined(PIOS_INCLUDE_SBUS)
 /*

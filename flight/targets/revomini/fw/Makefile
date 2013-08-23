@@ -90,7 +90,6 @@ SRC =
 # optional component libraries
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 #include $(PIOSCOMMONLIB)/dosfs/library.mk
-include $(PIOSCOMMONLIB)/msheap/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
@@ -143,7 +142,7 @@ SRC += $(RSCODE)/galois.c
 SRC += $(RSCODE)/rs.c
 
 ## PIOS Hardware (STM32F4xx)
-include $(PIOS)/STM32F4xx/library.mk
+include $(PIOS)/STM32F4xx/library_fw.mk
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_mpu6000.c
@@ -169,6 +168,7 @@ SRC += $(PIOSCOMMON)/pios_usb_desc_hid_cdc.c
 SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
 SRC += $(PIOSCOMMON)/pios_adc.c
+SRC += $(PIOSCOMMON)/pios_heap.c
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)

@@ -661,6 +661,9 @@ static bool updateRcvrActivityCompare(uintptr_t rcvr_id, struct rcvr_activity_fs
 			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_DSMFLEXIPORT;
 				break;
+			case MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM:
+				group = RECEIVERACTIVITY_ACTIVEGROUP_HOTTSUM;
+				break;
 			case MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_SBUS;
 				break;
@@ -834,8 +837,10 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
 	if (!flightModeChanged)
 		return;
 
-	if (PathDesiredHandle() == NULL)
+	if (PathDesiredHandle() == NULL) {
+		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_PATHFOLLOWER);
 		return;
+	}
 
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
@@ -887,6 +892,11 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
  */
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
+	if (AltitudeHoldDesiredHandle() == NULL) {
+		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
+		return;
+	}
+
 	const float DEADBAND_HIGH = 0.55;
 	const float DEADBAND_LOW = 0.45;
 	

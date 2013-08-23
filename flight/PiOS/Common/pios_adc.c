@@ -72,7 +72,6 @@ static bool PIOS_ADC_validate(struct pios_adc_dev *dev)
 	return (dev->magic == PIOS_ADC_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 /**
  * @brief Allocates an ADC device in memory
  * \param[out] pointer to the newly created device
@@ -82,16 +81,13 @@ static struct pios_adc_dev *PIOS_ADC_Allocate(void)
 {
 	struct pios_adc_dev *adc_dev;
 
-	adc_dev = (struct pios_adc_dev *) pvPortMalloc(sizeof(*adc_dev));
+	adc_dev = (struct pios_adc_dev *)PIOS_malloc(sizeof(*adc_dev));
 	if (!adc_dev)
 		return (NULL );
 
 	adc_dev->magic = PIOS_ADC_DEV_MAGIC;
 	return (adc_dev);
 }
-#else
-#error Not implemented
-#endif
 
 /**
  * @brief Initializes an ADC device

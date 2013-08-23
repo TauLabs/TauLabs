@@ -8,6 +8,7 @@
  *
  * @file       pios_dsm.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Code bind and read Spektrum/JR DSMx satellite receiver serial stream
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -77,34 +78,17 @@ struct pios_dsm_dev {
 };
 
 /* Allocate DSM device descriptor */
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_dsm_dev *PIOS_DSM_Alloc(void)
 {
 	struct pios_dsm_dev *dsm_dev;
 
-	dsm_dev = (struct pios_dsm_dev *)pvPortMalloc(sizeof(*dsm_dev));
+	dsm_dev = (struct pios_dsm_dev *)PIOS_malloc(sizeof(*dsm_dev));
 	if (!dsm_dev)
 		return NULL;
 
 	dsm_dev->magic = PIOS_DSM_DEV_MAGIC;
 	return dsm_dev;
 }
-#else
-static struct pios_dsm_dev pios_dsm_devs[PIOS_DSM_MAX_DEVS];
-static uint8_t pios_dsm_num_devs;
-static struct pios_dsm_dev *PIOS_DSM_Alloc(void)
-{
-	struct pios_dsm_dev *dsm_dev;
-
-	if (pios_dsm_num_devs >= PIOS_DSM_MAX_DEVS)
-		return NULL;
-
-	dsm_dev = &pios_dsm_devs[pios_dsm_num_devs++];
-	dsm_dev->magic = PIOS_DSM_DEV_MAGIC;
-
-	return dsm_dev;
-}
-#endif
 
 /* Validate DSM device descriptor */
 static bool PIOS_DSM_Validate(struct pios_dsm_dev *dsm_dev)

@@ -59,6 +59,7 @@
 #define PIOS_INCLUDE_RTC
 #define PIOS_INCLUDE_WDG
 #define PIOS_INCLUDE_ADC
+#define PIOS_INCLUDE_FASTHEAP
 
 /* Select the sensors to include */
 #define PIOS_INCLUDE_L3GD20
@@ -82,6 +83,7 @@
 /* Supported receiver interfaces */
 #define PIOS_INCLUDE_RCVR
 #define PIOS_INCLUDE_DSM
+#define PIOS_INCLUDE_HSUM
 #define PIOS_INCLUDE_SBUS
 #define PIOS_INCLUDE_PPM
 #define PIOS_INCLUDE_PWM

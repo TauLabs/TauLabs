@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_internal_adc.c
- * @author     The Tau Labs Team, http://www.taulabls.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      STM32F30x internal ADC PIOS interface
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
@@ -79,13 +79,6 @@ struct pios_internal_adc_dev {
 };
 static void PIOS_ADC_DMA_Handler(struct pios_internal_adc_dev *);
 
-#if !defined(PIOS_INCLUDE_FREERTOS)
-static uint16_t static_raw_data_buffer[ADC_NON_FREERTOS_NUMBER_OF_CONVERTION_SLOTS * ADC_NON_FREERTOS_OVERSAMPLE];
-static struct adc_accumulator static_accumulator[ADC_NON_FREERTOS_NUMBER_OF_USED_PINS];
-static struct adc_accumulator * static_channel_map[ADC_NON_FREERTOS_NUMBER_OF_CONVERTION_SLOTS];
-static struct pios_internal_adc_dev static_adc_dev;
-#endif
-
 /**
  * @brief Validates an internal ADC device
  * \return true if device is valid
@@ -97,19 +90,19 @@ static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev * dev)
 
 	return (dev->magic == PIOS_INTERNAL_ADC_DEV_MAGIC);
 }
-#if defined(PIOS_INCLUDE_FREERTOS)
+
 /**
  * @brief Allocates an internal ADC device
  */
 static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate()
 {
-	struct pios_internal_adc_dev *adc_dev = (struct pios_internal_adc_dev *) pvPortMalloc(sizeof(*adc_dev));
+	struct pios_internal_adc_dev *adc_dev = (struct pios_internal_adc_dev *)PIOS_malloc(sizeof(*adc_dev));
 	if (!adc_dev)
 		return (NULL );
 	adc_dev->magic = PIOS_INTERNAL_ADC_DEV_MAGIC;
 	return (adc_dev);
 }
-#endif
+
 /**
  * @brief Configures the pins used on the ADC device
  * \param[in] handle to the ADC device
@@ -353,12 +346,7 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
 	PIOS_DEBUG_Assert(internal_adc_id); PIOS_DEBUG_Assert(cfg);
 
 	struct pios_internal_adc_dev * adc_dev;
-#if !defined(PIOS_INCLUDE_FREERTOS)
-	if(current_instances > 0) return -1;
-	adc_dev = &static_adc_dev;
-#else
 	adc_dev = PIOS_INTERNAL_ADC_Allocate();
-#endif
 	if (adc_dev == NULL )
 		return -1;
 	adc_dev->cfg = cfg;
@@ -382,11 +370,7 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
 		adc_dev->dma_half_buffer_index = adc_dev->dma_transfer_size;
 		adc_dev->accumulator_increment = 2;
 		adc_dev->accumulator_scan_size = adc_dev->regular_group_size * 2;
-#if !defined(PIOS_INCLUDE_FREERTOS)
-		adc_dev->raw_data_buffer = static_raw_data_buffer;
-#else
-		adc_dev->raw_data_buffer = pvPortMalloc(adc_dev->dma_transfer_size * sizeof(uint32_t));
-#endif
+		adc_dev->raw_data_buffer = PIOS_malloc(adc_dev->dma_transfer_size * sizeof(uint32_t));
 	} else {
 		// DMA transfer size in units defined by DMA_PeripheralDataSize, 32bits for dual mode and 16bits for single mode
 		adc_dev->dma_transfer_size = 2 * adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins;
@@ -396,28 +380,21 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
 		;
 		adc_dev->accumulator_increment = 1;
 		adc_dev->accumulator_scan_size = adc_dev->regular_group_size;
-#if !defined(PIOS_INCLUDE_FREERTOS)
-		adc_dev->raw_data_buffer = static_raw_data_buffer;
-#else
-		adc_dev->raw_data_buffer = pvPortMalloc(adc_dev->dma_transfer_size * sizeof(uint16_t));
-#endif
+		adc_dev->raw_data_buffer = PIOS_malloc(adc_dev->dma_transfer_size * sizeof(uint16_t));
 	}
 	if (adc_dev->raw_data_buffer == NULL )
 		return -1;
-#if !defined(PIOS_INCLUDE_FREERTOS)
-	adc_dev->accumulator = static_accumulator;
-	adc_dev->channel_map = static_channel_map;
-#else
-	adc_dev->accumulator = pvPortMalloc(adc_dev->cfg->number_of_used_pins * sizeof(struct adc_accumulator));
+
+	adc_dev->accumulator = PIOS_malloc(adc_dev->cfg->number_of_used_pins * sizeof(struct adc_accumulator));
 	if (adc_dev->accumulator == NULL )
 		return -1;
 	if (adc_dev->cfg->adc_dev_slave)
-		adc_dev->channel_map = pvPortMalloc(adc_dev->regular_group_size * 2 * sizeof(struct adc_accumulator *));
+		adc_dev->channel_map = PIOS_malloc(adc_dev->regular_group_size * 2 * sizeof(struct adc_accumulator *));
 	else
-		adc_dev->channel_map = pvPortMalloc(adc_dev->regular_group_size * sizeof(struct adc_accumulator *));
+		adc_dev->channel_map = PIOS_malloc(adc_dev->regular_group_size * sizeof(struct adc_accumulator *));
 	if (adc_dev->channel_map == NULL )
 		return -1;
-#endif
+
 	driver_instances[current_instances] = adc_dev;
 	++current_instances;
 

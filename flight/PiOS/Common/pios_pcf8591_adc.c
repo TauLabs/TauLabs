@@ -155,7 +155,6 @@ int32_t PIOS_PCF8591_ADC_Init(uint32_t *pcf8591_adc_id, const struct pios_pcf859
         return 0;
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 /**
  * @brief Allocates an internal ADC device in memory
  * \param[out] pointer to the newly created device
@@ -165,14 +164,12 @@ static struct pios_pcf8591_adc_dev * PIOS_PCF8591_ADC_Allocate()
 {
         struct pios_pcf8591_adc_dev *adc_dev;
 
-        adc_dev = (struct pios_pcf8591_adc_dev *)pvPortMalloc(sizeof(*adc_dev));
+        adc_dev = (struct pios_pcf8591_adc_dev *)PIOS_malloc(sizeof(*adc_dev));
         if (!adc_dev) return (NULL);
         adc_dev->magic = PIOS_PCF8591_ADC_DEV_MAGIC;
         return(adc_dev);
 }
-#else
-#error Not implemented
-#endif
+
 /**
  * @brief Checks the number of available ADC channels on the device
  * \param[in] adc_id handle of the device

@@ -159,24 +159,11 @@ TIM4  |  RC In 1  |  Servo 3  |  Servo 2  |  Servo 1
 extern uint32_t pios_i2c_flexi_adapter_id;
 #define PIOS_I2C_MAIN_ADAPTER			(pios_i2c_flexi_adapter_id)
 
-//------------------------
-// PIOS_SPI
-// See also pios_board.c
-//------------------------
-#define PIOS_SPI_MAX_DEVS               1
-
-//-------------------------
-// PIOS_USART
-//-------------------------
-#define PIOS_USART_MAX_DEVS			3
-
 //-------------------------
 // PIOS_COM
 //
 // See also pios_board.c
 //-------------------------
-#define PIOS_COM_MAX_DEVS			5
-
 extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_telem_vcp_id;
 extern uintptr_t pios_com_telem_uart_telem_id;
@@ -244,14 +231,12 @@ extern uintptr_t pios_ppm_rcvr_id;
 // PIOS_RCVR
 // See also pios_board.c
 //------------------------
-#define PIOS_RCVR_MAX_DEVS          3
 #define PIOS_RCVR_MAX_CHANNELS      12
 #define PIOS_GCSRCVR_TIMEOUT_MS     100
 
 //-------------------------
 // Receiver PPM input
 //-------------------------
-#define PIOS_PPM_MAX_DEVS     1
 #define PIOS_PPM_NUM_INPUTS   8
 
 //-------------------------
@@ -276,10 +261,7 @@ extern uintptr_t pios_ppm_rcvr_id;
 //-------------------------
 // USB
 //-------------------------
-#define PIOS_USB_HID_MAX_DEVS                   1
 #define PIOS_USB_ENABLED                        1
-#define PIOS_USB_HID_MAX_DEVS                   1
-#define PIOS_USB_MAX_DEVS                       1
 #define PIOS_USB_DETECT_GPIO_PORT               GPIOC
 #define PIOS_USB_DETECT_GPIO_PIN                GPIO_Pin_15
 #define PIOS_USB_DETECT_EXTI_LINE               EXTI_Line15

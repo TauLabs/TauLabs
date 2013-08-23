@@ -5,6 +5,7 @@
  # Makefile for OpenPilot project build PiOS and the AP.
  #
  # The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
+ # Tau Labs, http://taulabs.org, Copyright (C) 2013
  #
  # 
  # This program is free software; you can redistribute it and/or modify
@@ -158,6 +159,8 @@ SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_rfm22b.c
 SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
+SRC += $(PIOSCOMMON)/pios_heap.c
+
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
@@ -205,7 +208,6 @@ SRC += $(RTOSSRCDIR)/tasks.c
 
 ## RTOS Portable
 SRC += $(RTOSPORTDIR)/portable/GCC/ARM_CM3/port.c
-SRC += $(RTOSPORTDIR)/portable/MemMang/heap_1.c
 
 # List C source files here which must be compiled in ARM-Mode (no -mthumb).
 # use file-extension c for "c-only"-files

@@ -2,6 +2,8 @@
 _irq_stack_size = 0x240;
 /* This is the size of the stack for early init: life span is until scheduler starts */
 _init_stack_size = 0x200;
+/* This is the size of the pre-rtos heap */
+_init_heap_size = 53 * 256;
 
 /* Stub out these functions since we don't use them anyway */
 PROVIDE (   vPortSVCHandler = 0 ) ;
@@ -87,6 +89,8 @@ SECTIONS
         _sheap = . ;
         _sheap_pre_rtos = . ;
         *(.heap)
+        . = ALIGN(4);
+	. = . + _init_heap_size ;
         . = ALIGN(4);
         _eheap = . ;
         _eheap_pre_rtos = . ;

@@ -34,43 +34,11 @@
 #if defined(PIOS_INCLUDE_BL_HELPER)
 #include <pios_board_info.h>
 #include "stm32f30x_flash.h"
-#include <stdbool.h>
 
 uint8_t *PIOS_BL_HELPER_FLASH_If_Read(uint32_t SectorAddress)
 {
 	return (uint8_t *) (SectorAddress);
 }
-
-#if defined(PIOS_INCLUDE_BL_HELPER_WRITE_SUPPORT)
-uint8_t PIOS_BL_HELPER_FLASH_Ini()
-{
-	FLASH_Unlock();
-	return 1;
-}
-
-uint8_t PIOS_BL_HELPER_FLASH_Start()
-{
-	const struct pios_board_info * bdinfo = &pios_board_info_blob;
-	uint32_t pageAdress = bdinfo->fw_base;
-	bool fail = false;
-	while ((pageAdress < (bdinfo->fw_base + bdinfo->fw_size + bdinfo->desc_size))
-	       || (fail == true)) {
-		for (int retry = 0; retry < MAX_DEL_RETRYS; ++retry) {
-			if (FLASH_ErasePage(pageAdress) == FLASH_COMPLETE) {
-				fail = false;
-				break;
-			} else {
-				fail = true;
-			}
-
-		}
-
-		pageAdress += 2048;
-	}
-
-	return (fail == true) ? 0 : 1;
-}
-#endif
 
 uint32_t PIOS_BL_HELPER_CRC_Memory_Calc()
 {

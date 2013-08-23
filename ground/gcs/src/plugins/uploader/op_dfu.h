@@ -109,7 +109,7 @@ namespace OP_DFU {
     {
             quint16 ID;
             quint32 FW_CRC;
-            int BL_Version;
+            quint8 BL_Version;
             int SizeOfDesc;
             quint32 SizeOfCode;
             bool Readable;

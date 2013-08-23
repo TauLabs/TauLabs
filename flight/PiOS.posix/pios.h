@@ -3,6 +3,7 @@
  *
  * @file       pios.h  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Main PiOS header. 
  *                 - Central header for the project.
  * @see        The GNU Public License (GPL) Version 3
@@ -57,6 +58,7 @@
 #include "pios_board_sim.h"
 
 /* PIOS Hardware Includes (posix) */
+#include <pios_heap.h>
 #include <pios_sys.h>
 #include <pios_delay.h>
 #include <pios_led.h>

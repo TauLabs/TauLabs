@@ -10,6 +10,8 @@
 				<option>DSM2</option>
 				<option>DSMX (10bit)</option>
 				<option>DSMX (11bit)</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
 			</options>
 		</field>
 

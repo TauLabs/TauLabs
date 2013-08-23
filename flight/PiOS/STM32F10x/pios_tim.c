@@ -1,3 +1,30 @@
+/**
+ ******************************************************************************
+ * @file       pios_tim.c
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @addtogroup PIOS PIOS Core hardware abstraction layer
+ * @{
+ * @addtogroup PIOS_TIM
+ * @{
+ * @brief Provides a hardware abstraction layer to the STM32 timers
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
 #include "pios.h"
 
 #include "pios_tim.h"
@@ -17,25 +44,6 @@ struct pios_tim_dev {
 	uintptr_t context;
 };
 
-#if 0
-static bool PIOS_TIM_validate(struct pios_tim_dev * tim_dev)
-{
-	return (tim_dev->magic == PIOS_TIM_DEV_MAGIC);
-}
-#endif
-
-#if defined(PIOS_INCLUDE_FREERTOS) && 0
-static struct pios_tim_dev * PIOS_TIM_alloc(void)
-{
-	struct pios_tim_dev * tim_dev;
-
-	tim_dev = (struct pios_tim_dev *)malloc(sizeof(*tim_dev));
-	if (!tim_dev) return(NULL);
-
-	tim_dev->magic = PIOS_TIM_DEV_MAGIC;
-	return(tim_dev);
-}
-#else
 static struct pios_tim_dev pios_tim_devs[PIOS_TIM_MAX_DEVS];
 static uint8_t pios_tim_num_devs;
 static struct pios_tim_dev * PIOS_TIM_alloc(void)
@@ -51,10 +59,6 @@ static struct pios_tim_dev * PIOS_TIM_alloc(void)
 
 	return (tim_dev);
 }
-#endif
-
-
-
 
 int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg)
 {

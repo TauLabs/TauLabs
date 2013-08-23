@@ -155,6 +155,8 @@ public:
         INPUT_TYPE_DSMX10BIT,
         INPUT_TYPE_DSMX11BIT,
         INPUT_TYPE_SBUS,
+        INPUT_TYPE_HOTTSUMD,
+        INPUT_TYPE_HOTTSUMH,
         INPUT_TYPE_UNKNOWN
     };
 

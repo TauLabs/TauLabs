@@ -8,6 +8,7 @@
  *
  * @file       pios_pwm.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      PWM Input functions (STM32 dependent)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -66,34 +67,16 @@ static bool PIOS_PWM_validate(struct pios_pwm_dev * pwm_dev)
 	return (pwm_dev->magic == PIOS_PWM_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_pwm_dev * PIOS_PWM_alloc(void)
 {
 	struct pios_pwm_dev * pwm_dev;
 
-	pwm_dev = (struct pios_pwm_dev *)pvPortMalloc(sizeof(*pwm_dev));
+	pwm_dev = (struct pios_pwm_dev *)PIOS_malloc(sizeof(*pwm_dev));
 	if (!pwm_dev) return(NULL);
 
 	pwm_dev->magic = PIOS_PWM_DEV_MAGIC;
 	return(pwm_dev);
 }
-#else
-static struct pios_pwm_dev pios_pwm_devs[PIOS_PWM_MAX_DEVS];
-static uint8_t pios_pwm_num_devs;
-static struct pios_pwm_dev * PIOS_PWM_alloc(void)
-{
-	struct pios_pwm_dev * pwm_dev;
-
-	if (pios_pwm_num_devs >= PIOS_PWM_MAX_DEVS) {
-		return (NULL);
-	}
-
-	pwm_dev = &pios_pwm_devs[pios_pwm_num_devs++];
-	pwm_dev->magic = PIOS_PWM_DEV_MAGIC;
-
-	return (pwm_dev);
-}
-#endif
 
 static void PIOS_PWM_tim_overflow_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
 static void PIOS_PWM_tim_edge_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);

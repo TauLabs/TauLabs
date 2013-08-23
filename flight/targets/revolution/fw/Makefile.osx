@@ -121,7 +121,7 @@ SRC =
 ## RTOS and RTOS Portable 
 SRC += $(RTOSSRCDIR)/list.c
 SRC += $(RTOSSRCDIR)/queue.c
-SRC += $(RTOSSRCDIR)/tasks.c
+SRC += $(RTOSSRCDIR)/task.c
 SRC += $(RTOSSRCDIR)/timers.c
 SRC += $(RTOSSRCDIR)/portable/GCC/Posix/port.c
 SRC += $(RTOSSRCDIR)/portable/MemMang/heap_3.c
@@ -181,6 +181,7 @@ SRC += $(PIOSPOSIX)/pios_servo.c
 SRC += $(PIOSPOSIX)/pios_sys.c
 SRC += $(PIOSPOSIX)/pios_tcp.c
 SRC += $(PIOSPOSIX)/pios_debug.c
+SRC += $(PIOSPOSIX)/pios_heap.c
 
 EXTRAINCDIRS += $(PIOSCOMMON)/inc
 

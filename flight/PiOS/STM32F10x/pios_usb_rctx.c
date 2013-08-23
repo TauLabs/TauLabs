@@ -9,6 +9,7 @@
  *
  * @file       pios_usb_rctx.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -62,34 +63,16 @@ static bool PIOS_USB_RCTX_validate(struct pios_usb_rctx_dev * usb_rctx_dev)
 	return (usb_rctx_dev->magic == PIOS_USB_RCTX_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_usb_rctx_dev * PIOS_USB_RCTX_alloc(void)
 {
 	struct pios_usb_rctx_dev * usb_rctx_dev;
 
-	usb_rctx_dev = (struct pios_usb_rctx_dev *)pvPortMalloc(sizeof(*usb_rctx_dev));
+	usb_rctx_dev = (struct pios_usb_rctx_dev *)PIOS_malloc(sizeof(*usb_rctx_dev));
 	if (!usb_rctx_dev) return(NULL);
 
 	usb_rctx_dev->magic = PIOS_USB_RCTX_DEV_MAGIC;
 	return(usb_rctx_dev);
 }
-#else
-static struct pios_usb_rctx_dev pios_usb_rctx_devs[PIOS_USB_RCTX_MAX_DEVS];
-static uint8_t pios_usb_rctx_num_devs;
-static struct pios_usb_rctx_dev * PIOS_USB_RCTX_alloc(void)
-{
-	struct pios_usb_rctx_dev * usb_rctx_dev;
-
-	if (pios_usb_rctx_num_devs >= PIOS_USB_RCTX_MAX_DEVS) {
-		return (NULL);
-	}
-
-	usb_rctx_dev = &pios_usb_rctx_devs[pios_usb_rctx_num_devs++];
-	usb_rctx_dev->magic = PIOS_USB_RCTX_DEV_MAGIC;
-
-	return (usb_rctx_dev);
-}
-#endif
 
 static void PIOS_USB_RCTX_EP_IN_Callback(void);
 static void PIOS_USB_RCTX_SendReport(struct pios_usb_rctx_dev * usb_rctx_dev);

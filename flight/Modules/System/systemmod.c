@@ -76,7 +76,6 @@ static uint32_t idleCounterClear;
 static xTaskHandle systemTaskHandle;
 static xQueueHandle objectPersistenceQueue;
 static bool stackOverflow;
-static bool mallocFailed;
 
 // Private functions
 static void objectUpdatedCb(UAVObjEvent * ev);
@@ -100,7 +99,6 @@ int32_t SystemModStart(void)
 {
 	// Initialize vars
 	stackOverflow = false;
-	mallocFailed = false;
 	// Create system task
 	xTaskCreate(systemTask, (signed char *)"System", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &systemTaskHandle);
 	// Register task
@@ -149,7 +147,7 @@ static void systemTask(void *parameters)
 	/* create all modules thread */
 	MODULE_TASKCREATE_ALL;
 
-	if (mallocFailed) {
+	if (PIOS_heap_malloc_failed_p()) {
 		/* We failed to malloc during task creation,
 		 * system behaviour is undefined.  Reset and let
 		 * the BootFault code recover for us.
@@ -467,7 +465,7 @@ static void updateSystemAlarms()
 	SystemStatsGet(&stats);
 
 	// Check heap, IRQ stack and malloc failures
-	if ( mallocFailed
+	if (PIOS_heap_malloc_failed_p()
 	     || (stats.HeapRemaining < HEAP_LIMIT_CRITICAL)
 #if !defined(ARCH_POSIX) && !defined(ARCH_WIN32) && defined(CHECK_IRQ_STACK)
 	     || (stats.IRQStackRemaining < IRQSTACK_LIMIT_CRITICAL)
@@ -545,20 +543,6 @@ void vApplicationStackOverflowHook(xTaskHandle * pxTask, signed portCHAR * pcTas
 {
 	stackOverflow = true;
 #if DEBUG_STACK_OVERFLOW
-	static volatile bool wait_here = true;
-	while(wait_here);
-	wait_here = true;
-#endif
-}
-
-/**
- * Called by the RTOS when a malloc call fails.
- */
-#define DEBUG_MALLOC_FAILURES 0
-void vApplicationMallocFailedHook(void)
-{
-	mallocFailed = true;
-#if DEBUG_MALLOC_FAILURES
 	static volatile bool wait_here = true;
 	while(wait_here);
 	wait_here = true;

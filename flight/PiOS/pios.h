@@ -112,6 +112,7 @@
 #include <pios_wdg.h>
 
 /* PIOS Hardware Includes (Common) */
+#include <pios_heap.h>
 #include <pios_sdcard.h>
 #include <pios_com.h>
 #if defined(PIOS_INCLUDE_MPXV7002)

@@ -239,26 +239,16 @@ static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev * dev)
 	return (dev->magic == PIOS_INTERNAL_ADC_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate()
 {
 	struct pios_internal_adc_dev * adc_dev;
 	
-	adc_dev = (struct pios_internal_adc_dev *)pvPortMalloc(sizeof(*adc_dev));
+	adc_dev = (struct pios_internal_adc_dev *)PIOS_malloc(sizeof(*adc_dev));
 	if (!adc_dev) return (NULL);
 	
 	adc_dev->magic = PIOS_INTERNAL_ADC_DEV_MAGIC;
 	return(adc_dev);
 }
-#else
-#if defined(PIOS_INCLUDE_ADC)
-#error Not implemented
-#endif
-static struct pios_adc_dev * PIOS_INTERNAL_ADC_Allocate()
-{
-	return (struct pios_adc_dev *) NULL;
-}
-#endif
 
 /**
  * @brief Init the ADC.
