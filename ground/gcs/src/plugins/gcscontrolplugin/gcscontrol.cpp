@@ -37,6 +37,8 @@ GCSControl::GCSControl():hasControl(false)
 {
     Q_ASSERT(firstInstance);//There should only be one instance of this class
     firstInstance = false;
+    receiverActivity.setInterval(100);
+    connect(&receiverActivity,SIGNAL(timeout()),this,SLOT(receiverActivitySlot()));
 }
 
 void GCSControl::extensionsInitialized()
@@ -77,7 +79,7 @@ bool GCSControl::beginGCSControl()
     }
     for(quint8 x = 0; x < ManualControlSettings::CHANNELNUMBER_NUMELEM; ++x)
     {
-        manControlSettingsUAVO->setChannelNumber(x,x);
+        manControlSettingsUAVO->setChannelNumber(x,x+1);
         manControlSettingsUAVO->setChannelMax(x,CHANNEL_MAX);
         manControlSettingsUAVO->setChannelNeutral(x,CHANNEL_NEUTRAL);
         manControlSettingsUAVO->setChannelMin(x,CHANNEL_MIN);
@@ -88,6 +90,9 @@ bool GCSControl::beginGCSControl()
     manControlSettingsUAVO->updated();
     connect(manControlSettingsUAVO,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(objectsUpdated(UAVObject*)));
     hasControl = true;
+    for(quint8 x = 0; x < GCSReceiver::CHANNEL_NUMELEM; ++x)
+        setChannel(x,0);
+    receiverActivity.start();
     return true;
 }
 
@@ -100,6 +105,7 @@ bool GCSControl::endGCSControl()
     manControlSettingsUAVO->setMetadata(metaBackup);
     manControlSettingsUAVO->updated();
     hasControl = false;
+    receiverActivity.stop();
     return true;
 }
 
@@ -151,6 +157,12 @@ bool GCSControl::setChannel(quint8 channel, float value)
 void GCSControl::objectsUpdated(UAVObject *obj)
 {
     qDebug()<<__PRETTY_FUNCTION__<<"Object"<<obj->getName()<<"changed outside this class";
+}
+
+void GCSControl::receiverActivitySlot()
+{
+    if(m_gcsReceiver)
+        m_gcsReceiver->updated();
 }
 
 Q_EXPORT_PLUGIN(GCSControl)

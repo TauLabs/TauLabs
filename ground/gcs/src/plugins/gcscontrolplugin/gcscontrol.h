@@ -34,6 +34,7 @@
 #include "uavobjectmanager.h"
 #include "gcsreceiver.h"
 #include "extensionsystem/pluginmanager.h"
+#include "QTimer"
 
 class GCSCONTROLSHARED_EXPORT GCSControl : public ExtensionSystem::IPlugin {
     Q_OBJECT
@@ -58,8 +59,10 @@ private:
     ManualControlSettings::DataFields dataBackup;
     ManualControlSettings::Metadata metaBackup;
     bool hasControl;
+    QTimer receiverActivity;
 private slots:
     void objectsUpdated(UAVObject *);
+    void receiverActivitySlot();
 };
 
 #endif // GCSCONTROL_H
