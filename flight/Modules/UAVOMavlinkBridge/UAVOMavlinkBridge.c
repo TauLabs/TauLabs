@@ -77,8 +77,6 @@ static const uint8_t mav_rates[] =
 
 static xTaskHandle uavoMavlinkBridgeTaskHandle;
 
-static uint32_t mavlink_port;
-
 static bool module_enabled = false;
 
 static uint8_t * stream_ticks;
@@ -110,28 +108,38 @@ static int32_t uavoMavlinkBridgeStart(void) {
  * \return 0 on success
  */
 static int32_t uavoMavlinkBridgeInitialize(void) {
-	mavlink_port = PIOS_COM_MAVLINK;
-
 	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 	ModuleSettingsAdminStateGet(module_state);
 
-	if (mavlink_port
-			&& (module_state[MODULESETTINGS_ADMINSTATE_UAVOMAVLINKBRIDGE]
-					== MODULESETTINGS_ADMINSTATE_ENABLED)) {
-		module_enabled = true;
-		PIOS_COM_ChangeBaud(mavlink_port, 57600);
+	for (uint8_t iPort = 0; iPort < PIOS_COM_MAVLINK_NUM_PORTS; ++iPort)
+	{
+		if (PIOS_COM_MAVLINK[iPort] != 0 &&
+			(module_state[MODULESETTINGS_ADMINSTATE_UAVOMAVLINKBRIDGE] == MODULESETTINGS_ADMINSTATE_ENABLED)) {
+			if (module_enabled == false) {
+				serial_buf = pvPortMalloc(MAVLINK_MAX_PACKET_LEN);
+				stream_ticks = pvPortMalloc(MAXSTREAMS);
+				for (int x = 0; x < MAXSTREAMS; ++x) {
+					stream_ticks[x] = (TASK_RATE_HZ / mav_rates[x]);
+				}
+				module_enabled = true;
+			}
 
-		serial_buf = pvPortMalloc(MAVLINK_MAX_PACKET_LEN);
-		stream_ticks = pvPortMalloc(MAXSTREAMS);
-		for (int x = 0; x < MAXSTREAMS; ++x) {
-			stream_ticks[x] = (TASK_RATE_HZ / mav_rates[x]);
+			PIOS_COM_ChangeBaud(PIOS_COM_MAVLINK[iPort], 57600);
 		}
-	} else {
-		module_enabled = false;
 	}
+
 	return 0;
 }
 MODULE_INITCALL( uavoMavlinkBridgeInitialize, uavoMavlinkBridgeStart)
+
+static void uavoMavlinkBridgeSendBuffer(const uint8_t *buffer, uint16_t len)
+{
+	for (uint8_t iPort = 0; iPort < PIOS_COM_MAVLINK_NUM_PORTS; ++iPort) {
+		if (PIOS_COM_MAVLINK[iPort] != 0) {
+			PIOS_COM_SendBuffer(PIOS_COM_MAVLINK[iPort], buffer, len);
+		}
+	}
+}
 
 /**
  * Main task. It does not return.
@@ -263,7 +271,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// errors_count4 Autopilot-specific errors
 					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+			uavoMavlinkBridgeSendBuffer(serial_buf, msg_length);
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_RC_CHANNELS)) {
@@ -296,7 +304,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// rssi Receive signal strength indicator, 0: 0%, 255: 100%
 					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+			uavoMavlinkBridgeSendBuffer(serial_buf, msg_length);
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_POSITION)) {
@@ -348,7 +356,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// satellites_visible Number of satellites visible. If unknown, set to 255
 					gpsPosData.Satellites);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+			uavoMavlinkBridgeSendBuffer(serial_buf, msg_length);
 
 			mavlink_msg_gps_global_origin_pack(0, 200, &mavMsg,
 					// latitude Latitude (WGS84), expressed as * 1E7
@@ -358,7 +366,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// altitude Altitude(WGS84), expressed as * 1000
 					homeLocation.Altitude * 1000);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+			uavoMavlinkBridgeSendBuffer(serial_buf, msg_length);
 
 			//TODO add waypoint nav stuff
 			//wp_target_bearing
@@ -391,7 +399,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// yawspeed Yaw angular speed (rad/s)
 					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+			uavoMavlinkBridgeSendBuffer(serial_buf, msg_length);
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA2)) {
@@ -429,7 +437,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// climb Current climb rate in meters/second
 					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+			uavoMavlinkBridgeSendBuffer(serial_buf, msg_length);
 
 			uint8_t armed_mode = 0;
 			if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED)
@@ -447,7 +455,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// system_status System status flag, see MAV_STATE ENUM
 					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
-			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
+			uavoMavlinkBridgeSendBuffer(serial_buf, msg_length);
 		}
 	}
 }
