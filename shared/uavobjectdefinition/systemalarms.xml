@@ -1,33 +1,54 @@
 <xml>
-    <object name="SystemAlarms" singleinstance="true" settings="false">
-        <description>Alarms from OpenPilot to indicate failure conditions or warnings.  Set by various modules.</description>
-        <field name="Alarm" units="" type="enum" options="Uninitialised,OK,Warning,Error,Critical" defaultvalue="Uninitialised">
-            <elementnames>
-                <elementname>OutOfMemory</elementname>
-                <elementname>CPUOverload</elementname>
-                <elementname>StackOverflow</elementname>
-                <elementname>SystemConfiguration</elementname>
-                <elementname>EventSystem</elementname>
-                <elementname>Telemetry</elementname>
-                <elementname>ManualControl</elementname>
-                <elementname>Actuator</elementname>
-                <elementname>Attitude</elementname>
-                <elementname>Sensors</elementname>
-                <elementname>Stabilization</elementname>
-                <elementname>PathFollower</elementname>
-                <elementname>PathPlanner</elementname>
-                <elementname>Battery</elementname>
-                <elementname>FlightTime</elementname>
-                <elementname>I2C</elementname>
-                <elementname>GPS</elementname>
-              <elementname>BootFault</elementname>
-            </elementnames>
-        </field>
-        <field name="ConfigError" units="" type="enum" elements="1" options="Stabilization,Multirotor,AutoTune,AltitudeHold,VelocityControl,PositionHold,PathPlanner,Undefined,None" defaultvalue="None" />
-        <field name="ManualControl" units="" type="enum" elements="1" options="Settings,NoRx,Accessory,AltitudeHold,PathFollower,Undefined,None" defaultvalue="None" />
-		<field name="StateEstimation" units="" type="enum" elements="1" defaultvalue="None" >
+	<object name="SystemAlarms" singleinstance="true" settings="false">
+		<description>Alarms from OpenPilot to indicate failure conditions or warnings.  Set by various modules.</description>
+		<field name="Alarm" units="" type="enum" options="Uninitialised,OK,Warning,Error,Critical" defaultvalue="Uninitialised">
+			<elementnames>
+				<elementname>OutOfMemory</elementname>
+				<elementname>CPUOverload</elementname>
+				<elementname>StackOverflow</elementname>
+				<elementname>SystemConfiguration</elementname>
+				<elementname>EventSystem</elementname>
+				<elementname>Telemetry</elementname>
+				<elementname>ManualControl</elementname>
+				<elementname>Actuator</elementname>
+				<elementname>Attitude</elementname>
+				<elementname>Sensors</elementname>
+				<elementname>Stabilization</elementname>
+				<elementname>PathFollower</elementname>
+				<elementname>PathPlanner</elementname>
+				<elementname>Battery</elementname>
+				<elementname>FlightTime</elementname>
+				<elementname>I2C</elementname>
+				<elementname>GPS</elementname>
+			  <elementname>BootFault</elementname>
+			</elementnames>
+		</field>
+		<field name="ConfigError" units="" type="enum" elements="1" defaultvalue="None">
 			<options>
-				<option>Secondary activated</option>
+				<option>Stabilization</option>
+				<option>Multirotor</option>
+				<option>AutoTune</option>
+				<option>AltitudeHold</option>
+				<option>VelocityControl</option>
+				<option>PositionHold</option>
+				<option>PathPlanner</option>
+				<option>Undefined</option>
+				<option>None</option>
+			</options>
+		</field>
+		<field name="ManualControl" units="" type="enum" elements="1" defaultvalue="None">
+			<options>
+				<option>Settings</option>
+				<option>NoRx</option>
+				<option>Accessory</option>
+				<option>AltitudeHold</option>
+				<option>PathFollower</option>
+				<option>Undefined</option>
+				<option>None</option>
+			</options>
+		</field>
+		<field name="StateEstimation" units="" type="enum" elements="1" defaultvalue="None">
+			<options>
 				<option>Gyro queue not updating</option>
 				<option>Accelerometer queue not updating</option>
 				<option>No GPS</option>
@@ -40,9 +61,9 @@
 			</options>
 		</field>
 
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="true" updatemode="onchange" period="0"/>
-        <telemetryflight acked="true" updatemode="onchange" period="0"/>
-        <logging updatemode="periodic" period="1000"/>
-    </object>
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="periodic" period="1000"/>
+	</object>
 </xml>

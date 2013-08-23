@@ -368,26 +368,26 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	static int32_t timeval;
 	float dT;
 
-	bool gyroTimeout;
-	bool accelTimeout;
 
-	// Wait until the accel and gyro object is updated, if a timeout then go to failsafe
-	if (!secondary && (
-		 (gyroTimeout  = (xQueueReceive(gyroQueue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE)) || // When one of these is updated...
-		 (accelTimeout = (xQueueReceive(accelQueue, &ev, MS2TICKS(1)) != pdTRUE ))) ) {               // ...so should the other.
+	// If this is the primary estimation filter, wait until the accel and
+	// gyro objects are updated. If it timeouts then go to failsafe.
+	if (!secondary) {
+		bool gyroTimeout  = (xQueueReceive(gyroQueue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE);
+		bool accelTimeout = (xQueueReceive(accelQueue, &ev, MS2TICKS(1)) != pdTRUE );
 
-		// Do not set attitude timeout warnings in simulation mode
-		if (!AttitudeActualReadOnly()) {
-			if (!secondary)
-				set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_SECONDARYACTIVATED);
-			else if (gyroTimeout)
-				set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_GYROQUEUENOTUPDATING);
-			else if (accelTimeout)
-				set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_ACCELEROMETERQUEUENOTUPDATING);
-			else
-				set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_UNDEFINED);
+		// When one of these is updated so should the other.
+		if (gyroTimeout || accelTimeout) {
+			// Do not set attitude timeout warnings in simulation mode
+			if (!AttitudeActualReadOnly()) {
+				if (gyroTimeout)
+					set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_GYROQUEUENOTUPDATING);
+				else if (accelTimeout)
+					set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_ACCELEROMETERQUEUENOTUPDATING);
+				else
+					set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_UNDEFINED);
 
-			return -1;
+				return -1;
+			}
 		}
 	}
 
@@ -1203,7 +1203,6 @@ static void set_state_estimation_error(SystemAlarmsStateEstimationOptions error_
 	case SYSTEMALARMS_STATEESTIMATION_NONE:
 		severity = SYSTEMALARMS_ALARM_OK;
 		break;
-	case SYSTEMALARMS_STATEESTIMATION_SECONDARYACTIVATED:
 	case SYSTEMALARMS_STATEESTIMATION_ACCELEROMETERQUEUENOTUPDATING:
 	case SYSTEMALARMS_STATEESTIMATION_GYROQUEUENOTUPDATING:
 		severity = SYSTEMALARMS_ALARM_WARNING;
@@ -1219,6 +1218,7 @@ static void set_state_estimation_error(SystemAlarmsStateEstimationOptions error_
 	default:
 		severity = SYSTEMALARMS_ALARM_CRITICAL;
 		error_code = SYSTEMALARMS_STATEESTIMATION_UNDEFINED;
+		break;
 	}
 
 	// Make sure not to set the error code if it didn't change
