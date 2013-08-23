@@ -16,18 +16,20 @@ SDL {
 
 HEADERS += gcscontrolgadget.h \
     gcscontrolgadgetconfiguration.h \
-    gcscontrolgadgetoptionspage.h
+    gcscontrolgadgetoptionspage.h \
+    gcscontrolwidgetplugin.h
 HEADERS += joystickcontrol.h
 HEADERS += gcscontrolgadgetwidget.h
 HEADERS += gcscontrolgadgetfactory.h
-HEADERS += gcscontrolplugin.h
+HEADERS +=
 
 SOURCES += gcscontrolgadget.cpp \
     gcscontrolgadgetconfiguration.cpp \
-    gcscontrolgadgetoptionspage.cpp
+    gcscontrolgadgetoptionspage.cpp \
+    gcscontrolwidgetplugin.cpp
 SOURCES += gcscontrolgadgetwidget.cpp
 SOURCES += gcscontrolgadgetfactory.cpp
-SOURCES += gcscontrolplugin.cpp
+SOURCES +=
 SOURCES += joystickcontrol.cpp
 
 OTHER_FILES += GCSControlWidget.pluginspec

@@ -30,7 +30,7 @@
 
 #include <coreplugin/iuavgadget.h>
 #include "gcscontrolgadgetconfiguration.h"
-#include "gcscontrolplugin.h"
+#include "gcscontrolwidgetplugin.h"
 #include <QTimer>
 #include <QTime>
 #include <QUdpSocket>
