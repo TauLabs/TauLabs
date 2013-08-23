@@ -255,16 +255,6 @@ void GCSControlGadget::setGcsReceiver(double leftX, double leftY, double rightX,
     }
 }
 
-//! Update GCS Receiver remotely
-void GCSControlGadget::sendGcsReceiver()
-{
-   /* GCSReceiver *obj = getGcsControl();
-    Q_ASSERT(obj);
-    if (obj == NULL)
-        return;
-    obj->updated();*/
-}
-
 void GCSControlGadget::flightModeChanged(ManualControlSettings::FlightModePositionOptions mode)
 {
     if(gcsReceiverMode)

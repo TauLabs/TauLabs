@@ -113,7 +113,6 @@ protected slots:
     void manualControlCommandUpdated(UAVObject *);
     void sticksChangedLocally(double leftX, double leftY, double rightX, double rightY);
     void readUDPCommand();
-    void sendGcsReceiver();
     void flightModeChanged(ManualControlSettings::FlightModePositionOptions mode);
     //! Enable or disable sending data
     void enableControl(bool enable);
