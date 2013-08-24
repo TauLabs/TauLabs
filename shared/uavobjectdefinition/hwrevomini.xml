@@ -3,13 +3,14 @@
 		<description>Selection of optional hardware configurations.</description>
 
 		<field name="RcvrPort" units="function" type="enum" elements="1" defaultvalue="PWM"/>
-			 <options>Disabled</option>
-			 <options>PWM</option>
-			 <options>PPM</option>
-			 <options>PPM+PWM</option>
-			 <options>PPM+Outputs</option>
-			 <options>Outputs</option>
-			</options>
+		<options>
+			 <option>Disabled</option>
+			 <option>PWM</option>
+			 <option>PPM</option>
+			 <option>PPM+PWM</option>
+			 <option>PPM+Outputs</option>
+			 <option>Outputs</option>
+		</options>
 		</field>		
 		<field name="MainPort" units="function" type="enum" elements="1"  defaultvalue="Telemetry">
 			<options>
