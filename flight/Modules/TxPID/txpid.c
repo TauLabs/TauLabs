@@ -303,9 +303,6 @@ static void updatePIDs(UAVObjEvent* ev)
 			case TXPIDSETTINGS_PIDS_YAWVBARKD:
 				needsUpdate |= update(&stab.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KD], value);
 				break;
-			case TXPIDSETTINGS_PIDS_VBARTAU:
-				needsUpdate |= update(&stab.VbarTau, value);
-				break;
 			default:
 				PIOS_Assert(0);
 			}
