@@ -548,15 +548,16 @@ void PIOS_Board_Init(void) {
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 			break;
 		case HWREVOMINI_MAINPORT_MAVLINKTX:
+#if defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
-		/* PIOS_INCLUDE_MAVLINK */
+#endif		/* PIOS_INCLUDE_MAVLINK */
 		break;
 		case HWREVOMINI_MAINPORT_MAVLINKTX_GPS_RX:
+#if defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 		pios_com_mavlink_id = pios_com_gps_id;
-    	/* PIOS_INCLUDE_MAVLINK */
+ #endif	/* PIOS_INCLUDE_MAVLINK */   	
 		break;
-			
 	} /* 	hw_mainport */
 
 	if (hw_mainport != HWREVOMINI_MAINPORT_SBUS) {
@@ -620,13 +621,15 @@ void PIOS_Board_Init(void) {
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 			break;
 		case HWREVOMINI_FLEXIPORT_MAVLINKTX:
+#if defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
-		/* PIOS_INCLUDE_MAVLINK */
+#endif		/* PIOS_INCLUDE_MAVLINK */
 		break;
 		case HWREVOMINI_FLEXIPORT_MAVLINKTX_GPS_RX:
+#if defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 		pios_com_mavlink_id = pios_com_gps_id;
-    	/* PIOS_INCLUDE_MAVLINK */
+#endif    	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	} /* hwsettings_rv_flexiport */
 
