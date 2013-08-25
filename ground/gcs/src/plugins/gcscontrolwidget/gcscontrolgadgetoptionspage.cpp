@@ -40,7 +40,7 @@ GCSControlGadgetOptionsPage::GCSControlGadgetOptionsPage(GCSControlGadgetConfigu
     options_page = NULL;
 
 #if defined(USE_SDL)
-    sdlGamepad = dynamic_cast<GCSControlPlugin*>(parent)->sdlGamepad;
+    sdlGamepad = dynamic_cast<GCSControlWidgetPlugin*>(parent)->sdlGamepad;
 #endif
 }
 

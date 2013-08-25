@@ -29,7 +29,8 @@
 #define GCSControlGADGETWIDGET_H_
 
 #include <QtGui/QLabel>
-#include "manualcontrolcommand.h"
+#include "manualcontrolsettings.h"
+#include <QMap>
 
 #define UDP_PORT 2323
 
@@ -41,7 +42,6 @@ class GCSControlGadgetWidget : public QLabel
 
 public:
     GCSControlGadgetWidget(QWidget *parent = 0);
-    ~GCSControlGadgetWidget();
     void setGCSControl(bool newState);
     bool getGCSControl(void);
     void setUDPControl(bool newState);
@@ -51,7 +51,7 @@ signals:
     //! Emitted whenever the UI is clicked on to indicate the new stick positions
     void sticksChanged(double leftX, double leftY, double rightX, double rightY);
     void controlEnabled(bool);
-
+    void flightModeChangedLocaly(ManualControlSettings::FlightModePositionOptions);
 public slots:
     //! Signals from parent gadget indicating change from the remote system
     void updateSticks(double leftX, double leftY, double rightX, double rightY);
@@ -61,15 +61,16 @@ public slots:
     void rightStickClicked(double X, double Y);
 
 protected slots:
-    void toggleControl(int state);
-    void toggleArmed(int state);
+    void toggleControl(bool checked);
     void selectFlightMode(int state);
-    void mccChanged(UAVObject *);
+    void flightModeChanged(quint8 mode);
     void toggleUDPControl(int state);
+    void armedChanged(quint8 armed);
 
 private:
     Ui_GCSControl *m_gcscontrol;
     double leftX,leftY,rightX,rightY;
+    QMap<QString,ManualControlSettings::FlightModePositionOptions> flightModesMap;
 };
 
 #endif /* GCSControlGADGETWIDGET_H_ */

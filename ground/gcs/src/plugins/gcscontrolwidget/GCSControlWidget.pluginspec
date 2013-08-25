@@ -1,4 +1,4 @@
-<plugin name="GCSControl" version="0.0.1" compatVersion="1.0.0">
+<plugin name="GCSControlWidget" version="0.0.1" compatVersion="1.0.0">
     <vendor>Tau Labs</vendor>
     <copyright>(C) 2010-2012 OpenPilot Project</copyright>
     <license>The GNU Public License (GPL) Version 3</license>
