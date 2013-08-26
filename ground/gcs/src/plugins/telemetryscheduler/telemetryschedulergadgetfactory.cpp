@@ -49,5 +49,5 @@ IUAVGadget* TelemetrySchedulerGadgetFactory::createGadget(QWidget *parent) {
 
 IUAVGadgetConfiguration *TelemetrySchedulerGadgetFactory::createConfiguration(QSettings* qSettings)
 {
-    return new TelemetrySchedulerConfiguration(QString("ScopeGadget"), qSettings);
+    return new TelemetrySchedulerConfiguration(QString("TelemetrySchedulerGadget"), qSettings);
 }
