@@ -72,6 +72,8 @@
 
 #define TASK_PRIORITY (tskIDLE_PRIORITY+4)
 #define FAILSAFE_TIMEOUT_MS 30
+#define COORDINATED_FLIGHT_MIN_ROLL_THRESHOLD 3.0f
+#define COORDINATED_FLIGHT_MAX_YAW_THRESHOLD 0.05f
 
 enum {
 	PID_RATE_ROLL,   // Rate controller settings
@@ -152,7 +154,7 @@ int32_t StabilizationInitialize()
 	return 0;
 }
 
-MODULE_INITCALL(StabilizationInitialize, StabilizationStart)
+MODULE_INITCALL(StabilizationInitialize, StabilizationStart);
 
 /**
  * Module task
@@ -405,36 +407,38 @@ static void stabilizationTask(void* parameters)
 								axis_lock_accum[YAW] = 0;
 							}
 
-							if ( (stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE ||       //If we are in roll attitude mode..
-								  stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS ) && //If we are in roll attitude-plus mode..
-								 fabsf(stabDesired.Roll) > 3.0f && //...and we've requested more than 3 degrees of roll...
-								 fabsf(stabDesired.Yaw) < 0.05f) { //...and we currently have no yaw input within a 5% deadband
-								float accelsDataY;
-								AccelsyGet(&accelsDataY);
+							//If we are in neither roll attitude mode nor attitude-plus mode, trigger an error
+							if ((stabDesired.StabilizationMode[ROLL] != STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE &&
+								  stabDesired.StabilizationMode[ROLL] != STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS ))
+							{
+								error = true;
+								break ;
+							}
 
-								//Reset integral if we have changed roll to opposite direction from rudder. This implies that we have changed desired turning direction.
-								if ((stabDesired.Roll > 0 && actuatorDesiredAxis[YAW] < 0) ||
-										(stabDesired.Roll < 0 && actuatorDesiredAxis[YAW] > 0)){
-									pids[PID_COORDINATED_FLIGHT_YAW].iAccumulator = 0;
-								}
+							if (fabsf(stabDesired.Yaw) < COORDINATED_FLIGHT_MAX_YAW_THRESHOLD) { //If yaw is within the deadband...
+								if (fabsf(stabDesired.Roll) > COORDINATED_FLIGHT_MIN_ROLL_THRESHOLD) { // We're requesting more roll than the threshold
+									float accelsDataY;
+									AccelsyGet(&accelsDataY);
 
-								// Coordinate flight can simply be seen as ensuring that there is no lateral acceleration in the
-								// body frame. As such, we use the (noisy) accelerometer data as our measurement. Ideally, at
-								// some point in the future we will estimate acceleration and then we can use the estimated value
-								// instead of the measured value.
-								float errorSlip = -accelsDataY;
+									//Reset integral if we have changed roll to opposite direction from rudder. This implies that we have changed desired turning direction.
+									if ((stabDesired.Roll > 0 && actuatorDesiredAxis[YAW] < 0) ||
+											(stabDesired.Roll < 0 && actuatorDesiredAxis[YAW] > 0)){
+										pids[PID_COORDINATED_FLIGHT_YAW].iAccumulator = 0;
+									}
 
-								float command = pid_apply(&pids[PID_COORDINATED_FLIGHT_YAW], errorSlip, dT);
-								actuatorDesiredAxis[YAW] = bound_sym(command ,1.0);
+									// Coordinate flight can simply be seen as ensuring that there is no lateral acceleration in the
+									// body frame. As such, we use the (noisy) accelerometer data as our measurement. Ideally, at
+									// some point in the future we will estimate acceleration and then we can use the estimated value
+									// instead of the measured value.
+									float errorSlip = -accelsDataY;
 
-								// Reset axis-lock integrals
-								pids[PID_RATE_YAW].iAccumulator = 0;
-								axis_lock_accum[YAW] = 0;
-							} else if ( (stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE ||       //If we are in roll attitude mode..
-										 stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS ) && //or we are in roll attitude-plus mode..
-									  fabsf(stabDesired.Roll) <= 3.0f && //...and we've requested less than 3 degrees of roll...
-									  fabsf(stabDesired.Yaw) < 0.05f) { //...and we currently have no yaw input within a 5% deadband
+									float command = pid_apply(&pids[PID_COORDINATED_FLIGHT_YAW], errorSlip, dT);
+									actuatorDesiredAxis[YAW] = bound_sym(command ,1.0);
 
+									// Reset axis-lock integrals
+									pids[PID_RATE_YAW].iAccumulator = 0;
+									axis_lock_accum[YAW] = 0;
+								} else if (fabsf(stabDesired.Roll) <= COORDINATED_FLIGHT_MIN_ROLL_THRESHOLD) { // We're requesting less roll than the threshold
 									// Axis lock on no gyro change
 									axis_lock_accum[YAW] += (0 - gyro_filtered[YAW]) * dT;
 
@@ -446,7 +450,8 @@ static void stabilizationTask(void* parameters)
 
 									// Reset coordinated-flight integral
 									pids[PID_COORDINATED_FLIGHT_YAW].iAccumulator = 0;
-							} else { //Else, pass yaw directly to actuators.
+								}
+							} else { //... yaw is outside the deadband. Pass the manual input directly to the actuator.
 								actuatorDesiredAxis[YAW] = bound_sym(stabDesiredAxis[YAW], 1.0);
 
 								// Reset all integrals
