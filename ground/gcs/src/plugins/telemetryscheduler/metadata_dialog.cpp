@@ -31,8 +31,9 @@
 #include <QInputDialog>
 
 #include "uavmetaobject.h"
+#include "extensionsystem/pluginmanager.h"
 #include <coreplugin/coreconstants.h>
-
+#include <coreplugin/generalsettings.h>
 
 
 MetadataDialog::MetadataDialog(UAVObject::Metadata mdata, QWidget *parent) :
@@ -43,6 +44,12 @@ MetadataDialog::MetadataDialog(UAVObject::Metadata mdata, QWidget *parent) :
     m_mdata = &mdata;
 
     metadata_editor.setupUi(this);
+
+    // In case GCS is not in expert mode, hide the apply button
+    ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
+    Core::Internal::GeneralSettings *settings=pm->getObject<Core::Internal::GeneralSettings>();
+    if(!settings->useExpertMode())
+        metadata_editor.bnApplyMetadata->setVisible(false);
 
     // Set comboboxes
     metadata_editor.cmbFlightTelemetryMode->addItem("Periodic", UAVObject::UPDATEMODE_PERIODIC);

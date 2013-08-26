@@ -54,12 +54,19 @@
 #include "uavobjectutil/uavobjectutilmanager.h"
 #include "../../../../../build/ground/gcs/gcsversioninfo.h"
 #include <coreplugin/coreconstants.h>
+#include <coreplugin/generalsettings.h>
 
 
 TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) : QWidget(parent)
 {
     m_telemetryeditor = new Ui_TelemetryScheduler();
     m_telemetryeditor->setupUi(this);
+
+    // In case GCS is not in expert mode, hide the apply button
+    ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
+    Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
+    if(!settings->useExpertMode())
+        m_telemetryeditor->bnApplySchedule->setVisible(false);
 
     schedulerModel = new SchedulerModel(0, 0, this); //0 Rows and 0 Columns
 
@@ -95,8 +102,6 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     connect(telemetryScheduleView->verticalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeVerticalHeader(int)));
 
     // Generate the list of UAVOs on left side
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    Q_ASSERT(pm != NULL);
     objManager = pm->getObject<UAVObjectManager>();
     Q_ASSERT(objManager != NULL);
 
