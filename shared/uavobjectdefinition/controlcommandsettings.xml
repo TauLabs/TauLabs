@@ -1,0 +1,91 @@
+<xml>
+	<object name="ControlCommandSettings" singleinstance="true" settings="true">
+		<description>Settings to indicate how to decode receiver input by @ref ManualControlModule.</description>
+		   
+		<field name="Arming" units="" type="enum" elements="1" options="Always Disarmed,Always Armed,Roll Left,Roll Right,Pitch Forward,Pitch Aft,Yaw Left,Yaw Right" defaultvalue="Always Disarmed"/>
+
+	<!-- Note these options must be identical to those in StabilizationDesired.StabilizationMode -->
+		<field name="Stabilization1Settings" units="" type="enum" 
+			elementnames="Roll,Pitch,Yaw"  
+			defaultvalue="Attitude,Attitude,Rate"> 
+			<options>
+				<option>None</option>
+				<option>Rate</option>
+				<option>Attitude</option>
+				<option>AttitudePlus</option>
+				<option>AxisLock</option>
+				<option>WeakLeveling</option>
+				<option>VirtualBar</option>
+				<option>RelayRate</option>
+				<option>RelayAttitude</option>
+				<option>POI</option>
+				<option>CoordinatedFlight</option>
+			</options>
+		</field>
+		<field name="Stabilization2Settings" units="" type="enum" 
+			elementnames="Roll,Pitch,Yaw"  
+			defaultvalue="Attitude,Attitude,Rate"> 
+			<options>
+				<option>None</option>
+				<option>Rate</option>
+				<option>Attitude</option>
+				<option>AttitudePlus</option>
+				<option>AxisLock</option>
+				<option>WeakLeveling</option>
+				<option>VirtualBar</option>
+				<option>RelayRate</option>
+				<option>RelayAttitude</option>
+				<option>POI</option>
+				<option>CoordinatedFlight</option>
+			</options>
+		</field>
+		<field name="Stabilization3Settings" units="" type="enum" 
+			elementnames="Roll,Pitch,Yaw"  
+			defaultvalue="Attitude,Attitude,Rate"> 
+			<options>
+				<option>None</option>
+				<option>Rate</option>
+				<option>Attitude</option>
+				<option>AttitudePlus</option>
+				<option>AxisLock</option>
+				<option>WeakLeveling</option>
+				<option>VirtualBar</option>
+				<option>RelayRate</option>
+				<option>RelayAttitude</option>
+				<option>POI</option>
+				<option>CoordinatedFlight</option>
+			</options>
+		</field>
+
+	<!-- Note these options values must be identical to those defined in FlightMode -->
+		<field name="FlightModeNumber" units="" type="uint8" elements="1" defaultvalue="3"/>
+		<field name="FlightModePosition" units="" type="enum" elements="6" 
+			defaultvalue="Manual,Stabilized1,Stabilized2,Stabilized3,ReturnToHome,PositionHold" 
+			limits="%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl">
+			<options>
+				<option>Manual</option>
+				<option>Stabilized1</option>
+				<option>Stabilized2</option>
+				<option>Stabilized3</option>
+				<option>Autotune</option>
+				<option>AltitudeHold</option>
+				<option>VelocityControl</option>
+				<option>PositionHold</option>
+				<option>ReturnToHome</option>
+				<option>PathPlanner</option>
+				<option>TabletControl</option>
+			</options>
+		</field>
+
+		<field name="ArmedTimeout" units="ms" type="uint16" elements="1" defaultvalue="30000"/>
+
+		<field name="CollectiveTxInput" units="" options="Accessory0,Accessory1,Accessory2,Accessory3" type="enum" elements="1" defaultvalue="None"/>
+		<field name="FlapsTxInput" units="" options="Accessory0,Accessory1,Accessory2,Accessory3" type="enum" elements="1" defaultvalue="None"/>
+		<field name="SpoilersTxInput" units="" options="Accessory0,Accessory1,Accessory2,Accessory3" type="enum" elements="1" defaultvalue="None"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

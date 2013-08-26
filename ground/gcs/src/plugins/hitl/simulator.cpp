@@ -148,7 +148,7 @@ void Simulator::onStart()
     UAVObjectManager* objManager = pm->getObject<UAVObjectManager>();
     actDesired = ActuatorDesired::GetInstance(objManager);
     actCommand = ActuatorCommand::GetInstance(objManager);
-    manCtrlCommand = ManualControlCommand::GetInstance(objManager);
+    ctrlCommand = ControlCommand::GetInstance(objManager);
     gcsReceiver = GCSReceiver::GetInstance(objManager);
     flightStatus = FlightStatus::GetInstance(objManager);
     posHome = HomeLocation::GetInstance(objManager);
@@ -288,7 +288,7 @@ void Simulator::setupUAVObjects()
     if (settings.gcsReceiverEnabled) {
         setupOutputObject(gcsReceiver, settings.minOutputPeriod);
     } else if (settings.manualControlEnabled) {
-        setupOutputObject(manCtrlCommand, settings.minOutputPeriod);
+        setupOutputObject(ctrlCommand, settings.minOutputPeriod);
     }
 
     if (settings.gpsPositionEnabled){

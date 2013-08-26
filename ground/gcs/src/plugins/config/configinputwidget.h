@@ -45,9 +45,11 @@
 #include "inputchannelform.h"
 
 #include "accessorydesired.h"
+#include "controlcommand.h"
+#include "controlcommandsettings.h"
 #include "flightstatus.h"
-#include "manualcontrolcommand.h"
-#include "manualcontrolsettings.h"
+#include "rctransmitterinput.h"
+#include "rctransmittersettings.h"
 #include "receiveractivity.h"
 
 class Ui_InputWidget;
@@ -78,7 +80,7 @@ private:
         static const int CHANNEL_IDENTIFICATION_WAIT_TIME_MS = 2500;
 
         bool growing;
-        bool reverse[ManualControlSettings::CHANNELNEUTRAL_NUMELEM];
+        bool reverse[RCTransmitterSettings::CHANNELNEUTRAL_NUMELEM];
         txMovements currentMovement;
         int movePos;
         void setTxMovement(txMovements movement);
@@ -106,8 +108,10 @@ private:
         QList<int> heliChannelOrder;
         QList<int> acroChannelOrder;
 
-        ManualControlCommand * manualCommandObj;
-        ManualControlCommand::DataFields manualCommandData;
+        RCTransmitterInput * rcTransmitterInputObj;
+        RCTransmitterInput::DataFields rcTransmitterInputData;
+        ControlCommand * controlCommandObj;
+        ControlCommand::DataFields controlCommandData;
         FlightStatus * flightStatusObj;
         FlightStatus::DataFields flightStatusData;
         AccessoryDesired * accessoryDesiredObj0;
@@ -117,9 +121,10 @@ private:
         AccessoryDesired::DataFields accessoryDesiredData1;
         AccessoryDesired::DataFields accessoryDesiredData2;
         UAVObject::Metadata manualControlMdata;
-        ManualControlSettings * manualSettingsObj;
-        ManualControlSettings::DataFields manualSettingsData;
-        ManualControlSettings::DataFields previousManualSettingsData;
+        ControlCommandSettings * controlCommandSettingsObj;
+        ControlCommandSettings::DataFields previousControlCommandSettingsData;
+        RCTransmitterSettings * rcTransmitterSettingsObj;
+        RCTransmitterSettings::DataFields previousRCTransmitterSettingsData;
         ReceiverActivity * receiverActivityObj;
         ReceiverActivity::DataFields receiverActivityData;
         QMap<QString, UAVObject::Metadata> originalMetaData;

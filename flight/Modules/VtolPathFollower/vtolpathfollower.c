@@ -50,7 +50,7 @@
 #include "modulesettings.h"
 #include "pathdesired.h"        // object that will be updated by the module
 #include "positionactual.h"
-#include "manualcontrolcommand.h"
+#include "controlcommand.h"
 #include "flightstatus.h"
 #include "gpsvelocity.h"
 #include "gpsposition.h"
@@ -440,9 +440,9 @@ static void updateVtolDesiredAttitude()
 	
 	if(guidanceSettings.ThrottleControl == VTOLPATHFOLLOWERSETTINGS_THROTTLECONTROL_FALSE) {
 		// For now override throttle with manual control.  Disable at your risk, quad goes to China.
-		ManualControlCommandData manualControl;
-		ManualControlCommandGet(&manualControl);
-		stabDesired.Throttle = manualControl.Throttle;
+		ControlCommandData controlCommand;
+		ControlCommandGet(&controlCommand);
+		stabDesired.Throttle = controlCommand.Throttle;
 	}
 	
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
@@ -452,17 +452,17 @@ static void updateVtolDesiredAttitude()
 	switch(guidanceSettings.YawMode) {
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_RATE:
 		/* This is awkward.  This allows the transmitter to control the yaw while flying navigation */
-		ManualControlCommandYawGet(&yaw);
+		ControlCommandYawGet(&yaw);
 		stabDesired.Yaw = stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;      
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
 		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_AXISLOCK:
-		ManualControlCommandYawGet(&yaw);
+		ControlCommandYawGet(&yaw);
 		stabDesired.Yaw = stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;      
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
 		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_ATTITUDE:
-		ManualControlCommandYawGet(&yaw);
+		ControlCommandYawGet(&yaw);
 		stabDesired.Yaw = stabSettings.YawMax * yaw;      
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 		break;

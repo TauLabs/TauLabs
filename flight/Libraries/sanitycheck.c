@@ -28,7 +28,7 @@
 #include "taskmonitor.h"
 #include <pios_board_info.h>
 #include "sanitycheck.h"
-#include "manualcontrolsettings.h"
+#include "controlcommandsettings.h"
 #include "systemalarms.h"
 #include "systemsettings.h"
 
@@ -58,7 +58,7 @@ int32_t configuration_check()
 
 	// For when modules are not running we should explicitly check the objects are
 	// valid
-	if (ManualControlSettingsHandle() == NULL ||
+	if (ControlCommandSettingsHandle() == NULL ||
 		SystemSettingsHandle() == NULL) {
 		AlarmsSet(SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION, SYSTEMALARMS_ALARM_CRITICAL);
 		return 0;
@@ -87,32 +87,32 @@ int32_t configuration_check()
 	// For each available flight mode position sanity check the available
 	// modes
 	uint8_t num_modes;
-	uint8_t modes[MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_NUMELEM];
-	ManualControlSettingsFlightModeNumberGet(&num_modes);
-	ManualControlSettingsFlightModePositionGet(modes);
+	uint8_t modes[CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_NUMELEM];
+	ControlCommandSettingsFlightModeNumberGet(&num_modes);
+	ControlCommandSettingsFlightModePositionGet(modes);
 	
 
 	for(uint32_t i = 0; i < num_modes; i++) {
 		switch(modes[i]) {
-			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_MANUAL:
+			case CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_MANUAL:
 				if (multirotor) {
 					error_code = SYSTEMALARMS_CONFIGERROR_STABILIZATION;
 				}
 				break;
-			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_STABILIZED1:
+			case CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_STABILIZED1:
 				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(1, multirotor) : error_code;
 				break;
-			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_STABILIZED2:
+			case CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_STABILIZED2:
 				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(2, multirotor) : error_code;
 				break;
-			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_STABILIZED3:
+			case CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_STABILIZED3:
 				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(3, multirotor) : error_code;
 				break;
-			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_AUTOTUNE:
+			case CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_AUTOTUNE:
 				if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE))
 					error_code = SYSTEMALARMS_CONFIGERROR_AUTOTUNE;
 				break;
-			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_ALTITUDEHOLD:
+			case CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_ALTITUDEHOLD:
 				if (coptercontrol)
 					error_code = SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD;
 				else {
@@ -120,7 +120,7 @@ int32_t configuration_check()
 						error_code = SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD;
 				}
 				break;
-			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_VELOCITYCONTROL:
+			case CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_VELOCITYCONTROL:
 				if (coptercontrol) {
 					error_code = SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL;
 				}
@@ -130,8 +130,8 @@ int32_t configuration_check()
 					}
 				}
 				break;
-			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_POSITIONHOLD:
-			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_RETURNTOHOME:
+			case CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_POSITIONHOLD:
+			case CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_RETURNTOHOME:
 				if (coptercontrol) {
 					error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
 				}
@@ -141,8 +141,8 @@ int32_t configuration_check()
 					}
 				}
 				break;
-			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_PATHPLANNER:
-			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_TABLETCONTROL:
+			case CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_PATHPLANNER:
+			case CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_TABLETCONTROL:
 				if (coptercontrol) {
 					error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
 				}
@@ -174,22 +174,22 @@ int32_t configuration_check()
 static int32_t check_stabilization_settings(int index, bool multirotor)
 {
 	// Make sure the modes have identical sizes
-	if (MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NUMELEM != MANUALCONTROLSETTINGS_STABILIZATION2SETTINGS_NUMELEM ||
-		MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NUMELEM != MANUALCONTROLSETTINGS_STABILIZATION3SETTINGS_NUMELEM)
+	if (CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_NUMELEM != CONTROLCOMMANDSETTINGS_STABILIZATION2SETTINGS_NUMELEM ||
+		CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_NUMELEM != CONTROLCOMMANDSETTINGS_STABILIZATION3SETTINGS_NUMELEM)
 		return SYSTEMALARMS_CONFIGERROR_MULTIROTOR;
 
-	uint8_t modes[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NUMELEM];
+	uint8_t modes[CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_NUMELEM];
 
 	// Get the different axis modes for this switch position
 	switch(index) {
 		case 1:
-			ManualControlSettingsStabilization1SettingsGet(modes);
+			ControlCommandSettingsStabilization1SettingsGet(modes);
 			break;
 		case 2:
-			ManualControlSettingsStabilization2SettingsGet(modes);
+			ControlCommandSettingsStabilization2SettingsGet(modes);
 			break;
 		case 3:
-			ManualControlSettingsStabilization3SettingsGet(modes);
+			ControlCommandSettingsStabilization3SettingsGet(modes);
 			break;
 		default:
 			return SYSTEMALARMS_CONFIGERROR_NONE;
@@ -198,24 +198,24 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 	// For multirotors verify that nothing is set to "none"
 	if (multirotor) {
 		for(uint32_t i = 0; i < NELEMENTS(modes); i++) {
-			if (modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NONE)
+			if (modes[i] == CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_NONE)
 				return SYSTEMALARMS_CONFIGERROR_MULTIROTOR;
 
 			// If this axis allows enabling an autotune behavior without the module
 			// running then set an alarm now that aututune module initializes the
 			// appropriate objects
-			if ((modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYRATE || 
-				modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYATTITUDE) &&
+			if ((modes[i] == CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_RELAYRATE ||
+				modes[i] == CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_RELAYATTITUDE) &&
 				(!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE)))
 				return SYSTEMALARMS_CONFIGERROR_AUTOTUNE;
 		}
 	}
 
 	// POI mode is only valid for YAW in the case it is enabled and camera stab is running
-	if (modes[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_ROLL] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_POI ||
-		modes[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_PITCH] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_POI)
+	if (modes[CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_ROLL] == CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_POI ||
+		modes[CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_PITCH] == CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_POI)
 		return SYSTEMALARMS_CONFIGERROR_STABILIZATION;
-	if (modes[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_YAW] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_POI) {
+	if (modes[CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_YAW] == CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_POI) {
 #if !defined(CAMERASTAB_POI_MODE)
 		return SYSTEMALARMS_CONFIGERROR_STABILIZATION;
 #endif
@@ -224,7 +224,7 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 
 
 	// Warning: This assumes that certain conditions in the XML file are met.  That 
-	// MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_NONE has the same numeric value for each channel
+	// CONTROLCOMMANDSETTINGS_STABILIZATION1SETTINGS_NONE has the same numeric value for each channel
 	// and is the same for STABILIZATIONDESIRED_STABILIZATIONMODE_NONE
 
 	return SYSTEMALARMS_CONFIGERROR_NONE;

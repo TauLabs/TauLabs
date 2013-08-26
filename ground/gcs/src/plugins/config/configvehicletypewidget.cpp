@@ -723,6 +723,10 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
                 QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_PITCH)));
             m_aircraft->customMixerTable->item(5,channel)->setText(
                 QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_YAW)));
+            m_aircraft->customMixerTable->item(6,channel)->setText(
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_FLAPS)));
+            m_aircraft->customMixerTable->item(7,channel)->setText(
+                QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_SPOILERS)));
         }
     }
 
@@ -812,6 +816,10 @@ void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
                                             m_aircraft->customMixerTable->item(4,channel)->text().toDouble());
             vconfig->setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_YAW,
                                             m_aircraft->customMixerTable->item(5,channel)->text().toDouble());
+            vconfig->setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_FLAPS,
+                                            m_aircraft->customMixerTable->item(6,channel)->text().toDouble());
+            vconfig->setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_SPOILERS,
+                                            m_aircraft->customMixerTable->item(7,channel)->text().toDouble());
         }
     }
 

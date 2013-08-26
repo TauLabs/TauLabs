@@ -42,7 +42,7 @@
 #include <uavobjectsinit.h>
 #include <hwcoptercontrol.h>
 #include <modulesettings.h>
-#include <manualcontrolsettings.h>
+#include <rctransmittersettings.h>
 #include <gcsreceiver.h>
 
 
@@ -50,7 +50,7 @@
  *  eg. PWM, PPM, GCS, DSMMAINPORT, DSMFLEXIPORT, SBUS
  * NOTE: No slot in this map for NONE.
  */
-uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
+uintptr_t pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE];
 
 #define PIOS_COM_TELEM_RF_RX_BUF_LEN 32
 #define PIOS_COM_TELEM_RF_TX_BUF_LEN 12
@@ -433,7 +433,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_sbus_rcvr_id, &pios_sbus_rcvr_driver, pios_sbus_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
+			pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
 
 		}
 #endif	/* PIOS_INCLUDE_SBUS */
@@ -495,7 +495,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT] = pios_dsm_rcvr_id;
+			pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_DSMMAINPORT] = pios_dsm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -678,7 +678,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT] = pios_dsm_rcvr_id;
+			pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_DSMFLEXIPORT] = pios_dsm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -756,7 +756,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
+			pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
@@ -771,7 +771,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
+			pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_PPM */
 		break;
@@ -786,7 +786,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
+			pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_PPM */
 #if defined(PIOS_INCLUDE_PWM)
@@ -798,7 +798,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
+			pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
@@ -812,7 +812,7 @@ void PIOS_Board_Init(void) {
 	if (PIOS_RCVR_Init(&pios_gcsrcvr_rcvr_id, &pios_gcsrcvr_rcvr_driver, pios_gcsrcvr_id)) {
 		PIOS_Assert(0);
 	}
-	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
+	pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
 	/* Remap AFIO pin for PB4 (Servo 5 Out)*/

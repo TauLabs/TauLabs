@@ -40,12 +40,12 @@ GCSControlGadget::GCSControlGadget(QString classId, GCSControlGadgetWidget *widg
         controlsMode(0),
         gcsReceiverTimer(NULL)
 {
-    connect(getManualControlCommand(),SIGNAL(objectUpdated(UAVObject*)),this,SLOT(manualControlCommandUpdated(UAVObject*)));
+    connect(getControlCommand(),SIGNAL(objectUpdated(UAVObject*)),this,SLOT(controlCommandUpdated(UAVObject*)));
     connect(widget,SIGNAL(sticksChanged(double,double,double,double)),this,SLOT(sticksChangedLocally(double,double,double,double)));
     connect(widget,SIGNAL(controlEnabled(bool)), this, SLOT(enableControl(bool)));
     connect(this,SIGNAL(sticksChangedRemotely(double,double,double,double)),widget,SLOT(updateSticks(double,double,double,double)));
 
-    manualControlCommandUpdated(getManualControlCommand());
+    controlCommandUpdated(getControlCommand());
 
     control_sock = new QUdpSocket(this);
 
@@ -123,7 +123,7 @@ void GCSControlGadget::enableControl(bool enable)
     } else {
         ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
         UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-        UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("ManualControlCommand")) );
+        UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("ControlCommand")) );
 
         UAVObject::Metadata mdata;
         if (enableSending)
@@ -141,10 +141,10 @@ void GCSControlGadget::enableControl(bool enable)
     }
 }
 
-ManualControlCommand* GCSControlGadget::getManualControlCommand() {
+ControlCommand* GCSControlGadget::getControlCommand() {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    return dynamic_cast<ManualControlCommand*>( objManager->getObject(QString("ManualControlCommand")) );
+    return dynamic_cast<ControlCommand*>( objManager->getObject(QString("ControlCommand")) );
 }
 
 GCSReceiver* GCSControlGadget::getGcsReceiver() {
@@ -153,7 +153,7 @@ GCSReceiver* GCSControlGadget::getGcsReceiver() {
     return dynamic_cast<GCSReceiver*>( objManager->getObject(QString("GCSReceiver")) );
 }
 
-void GCSControlGadget::manualControlCommandUpdated(UAVObject * obj) {
+void GCSControlGadget::controlCommandUpdated(UAVObject * obj) {
 
     // In GCS Receiver mode do not show the updates from ManualControl
     if (gcsReceiverMode)
@@ -281,10 +281,10 @@ void GCSControlGadget::sendGcsReceiver()
     obj->updated();
 }
 
-//! Set the ManualControlCommand object
+//! Set the ControlCommand object
 void GCSControlGadget::setManualControl(double leftX, double leftY, double rightX, double rightY)
 {
-    ManualControlCommand * obj = getManualControlCommand();
+    ControlCommand * obj = getControlCommand();
     double oldRoll = obj->getField("Roll")->getDouble();
     double oldPitch = obj->getField("Pitch")->getDouble();
     double oldYaw = obj->getField("Yaw")->getDouble();
@@ -407,7 +407,7 @@ void GCSControlGadget::readUDPCommand()
         }
         if(!badPack && ((GCSControlGadgetWidget *)m_widget)->getUDPControl())
         {
-             ManualControlCommand * obj = getManualControlCommand();
+             ControlCommand * obj = getControlCommand();
              bool update = false;
 
              if(pitch != obj->getField("Pitch")->getDouble()){
@@ -452,7 +452,7 @@ void GCSControlGadget::buttonState(ButtonNumber number, bool pressed)
     {//this button is configured
         ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
         UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-        UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("ManualControlCommand")) );
+        UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("ControlCommand")) );
         bool currentCGSControl = ((GCSControlGadgetWidget *)m_widget)->getGCSControl();
         bool currentUDPControl = ((GCSControlGadgetWidget *)m_widget)->getUDPControl();
 

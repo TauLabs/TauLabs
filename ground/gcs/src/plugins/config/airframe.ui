@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>880</width>
-    <height>608</height>
+    <width>966</width>
+    <height>875</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -128,8 +128,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>850</width>
-            <height>508</height>
+            <width>936</width>
+            <height>775</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -215,7 +215,7 @@
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>4</number>
              </property>
              <widget class="QWidget" name="fixedWing">
               <property name="enabled">
@@ -690,7 +690,6 @@ margin:1px;</string>
                      </spacer>
                     </item>
                    </layout>
-                   <zorder>horizontalSpacer_14</zorder>
                    <zorder>bnServoTrim</zorder>
                    <zorder>bnLevelTrim</zorder>
                    <zorder>horizontalSpacer_14</zorder>
@@ -2240,6 +2239,16 @@ margin:1px;</string>
                      <string>Yaw</string>
                     </property>
                    </row>
+                   <row>
+                    <property name="text">
+                     <string>Flaps</string>
+                    </property>
+                   </row>
+                   <row>
+                    <property name="text">
+                     <string>Spoilers</string>
+                    </property>
+                   </row>
                    <column>
                     <property name="text">
                      <string>Ch 1</string>
@@ -2770,6 +2779,166 @@ margin:1px;</string>
                      <set>AlignHCenter|AlignVCenter|AlignCenter</set>
                     </property>
                    </item>
+                   <item row="6" column="0">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="6" column="1">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="6" column="2">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="6" column="3">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="6" column="4">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="6" column="5">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="6" column="6">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="6" column="7">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="6" column="8">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="6" column="9">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="7" column="0">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="7" column="1">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="7" column="2">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="7" column="3">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="7" column="4">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="7" column="5">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="7" column="6">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="7" column="7">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="7" column="8">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
+                   <item row="7" column="9">
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                 </layout>
@@ -2878,8 +3047,8 @@ margin:1px;</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>287</width>
-            <height>326</height>
+            <width>936</width>
+            <height>775</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_18">
@@ -3267,7 +3436,8 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;SETTING UP FEED FORWARD REQUIRES CAUTION&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Beware: Feed Forward Tuning will launch all engines around mid-throttle, you have been warned!&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Remove your props initially, and for fine-tuning, make sure your airframe is safely held in place. Wear glasses and protect your face and body.&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
