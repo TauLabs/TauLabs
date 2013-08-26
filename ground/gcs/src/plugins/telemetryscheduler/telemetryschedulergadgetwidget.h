@@ -136,6 +136,8 @@ public:
 
     QStandardItemModel *getFrozenModel(){return frozenModel;}
     QTableView *getFrozenTableView(){return frozenTableView;}
+    void setHorizontalHeaderItem(int column, QStandardItem *item);
+    bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex());
 
 protected:
     virtual void keyPressEvent(QKeyEvent * event);
