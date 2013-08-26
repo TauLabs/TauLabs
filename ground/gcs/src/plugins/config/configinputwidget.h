@@ -160,6 +160,9 @@ private:
         void wizardSetUpStep(enum wizardSteps);
         void wizardTearDownStep(enum wizardSteps);
 
+        //! Handle to telemetry manager for monitoring for disconnects
+        TelemetryManager* telMngr;
+
 private slots:
         void wzNext();
         void wzBack();
