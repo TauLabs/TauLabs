@@ -81,6 +81,7 @@
 #define PIOS_INCLUDE_GPS_NMEA_PARSER
 #define PIOS_INCLUDE_GPS_UBX_PARSER
 #define PIOS_GPS_SETS_HOMELOCATION
+#define PIOS_INCLUDE_MAVLINK
 
 /* Supported receiver interfaces */
 #define PIOS_INCLUDE_RCVR
