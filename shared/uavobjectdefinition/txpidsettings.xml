@@ -17,8 +17,11 @@
 			Roll Attitude.Kp, Pitch Attitude.Kp, Roll+Pitch Attitude.Kp, Yaw Attitude.Kp,
 			Roll Attitude.Ki, Pitch Attitude.Ki, Roll+Pitch Attitude.Ki, Yaw Attitude.Ki,
 			Roll Attitude.ILimit, Pitch Attitude.ILimit, Roll+Pitch Attitude.ILimit, Yaw Attitude.ILimit,
-			GyroTau, Roll VbarSensitivity, Pitch VbarSensitivity, Yaw VbarSensitivity,Roll Vbar.Kp, Roll Vbar.Ki,
-			Roll Vbar.Kd, Pitch Vbar.Kp, Pitch Vbar.Ki,Pitch Vbar.Kd, Yaw Vbar.Kp, Yaw Vbar.Ki, Yaw Vbar.Kd"
+			GyroTau,
+			Roll VbarSensitivity, Pitch VbarSensitivity, Yaw VbarSensitivity,
+			Roll Vbar.Kp, Roll Vbar.Ki, Roll Vbar.Kd, 
+			Pitch Vbar.Kp, Pitch Vbar.Ki,Pitch Vbar.Kd, 
+			Yaw Vbar.Kp, Yaw Vbar.Ki, Yaw Vbar.Kd"
 		defaultvalue="Disabled"/>
         <field name="MinPID" units="" type="float" elementnames="Instance1,Instance2,Instance3" defaultvalue="0"/>
         <field name="MaxPID" units="" type="float" elementnames="Instance1,Instance2,Instance3" defaultvalue="0"/>
