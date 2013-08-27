@@ -294,7 +294,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// chan8_raw RC channel 8 value, in microseconds
 					manualState.Channel[7],
 					// rssi Receive signal strength indicator, 0: 0%, 255: 100%
-					0);
+					manualState.Rssi);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 		}
