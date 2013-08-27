@@ -41,13 +41,14 @@ public:
 
     UAVObject::Metadata getMetadata(){return *m_mdata;}
     bool getResetDefaults_flag(){return resetDefaults_flag;}
+    bool getSaveState_flag(){return saveMetadata_flag;}
 
 signals:
 
 protected slots:
 
 private slots:
-    void applyMetadata();
+    void saveApplyMetadata();
     void resetMetadataToDefaults();
     void cancelChanges();
 private:
@@ -56,6 +57,7 @@ private:
     UAVObject::Metadata *m_mdata;
     Ui_MetadataDialog metadata_editor;
     bool resetDefaults_flag;
+    bool saveMetadata_flag;
 };
 
 
