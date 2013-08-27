@@ -1,5 +1,6 @@
 # Makefile for Taulabs project
 .DEFAULT_GOAL := help
+
 # import macros common to all supported build systems
 include $(CURDIR)/make/system-id.mk
 

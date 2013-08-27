@@ -10,6 +10,7 @@
 # Locate the root of the tree
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 ROOT_DIR := $(realpath $(WHEREAMI)/../)
+
 # Set up some macros
 BUILD_DIR    := $(ROOT_DIR)/build
 VERSION_CMD  := python $(ROOT_DIR)/make/scripts/version-info.py --path="$(ROOT_DIR)"
