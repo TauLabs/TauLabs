@@ -273,6 +273,11 @@ static void updatePIDs(UAVObjEvent* ev)
 			case TXPIDSETTINGS_PIDS_PITCHVBARSENSITIVITY:
 				needsUpdate |= update(&stab.VbarSensitivity[STABILIZATIONSETTINGS_VBARSENSITIVITY_PITCH], value);
 				break;
+			case TXPIDSETTINGS_PIDS_ROLLPITCHVBARSENSITIVITY:
+				needsUpdate |= update(&stab.VbarSensitivity[STABILIZATIONSETTINGS_VBARSENSITIVITY_ROLL], value);
+				needsUpdate |= update(&stab.VbarSensitivity[STABILIZATIONSETTINGS_VBARSENSITIVITY_PITCH], value);
+				break;
+			
 			case TXPIDSETTINGS_PIDS_YAWVBARSENSITIVITY:
 				needsUpdate |= update(&stab.VbarSensitivity[STABILIZATIONSETTINGS_VBARSENSITIVITY_YAW], value);
 				break;
@@ -292,6 +297,18 @@ static void updatePIDs(UAVObjEvent* ev)
 				needsUpdate |= update(&stab.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KI], value);
 				break;
 			case TXPIDSETTINGS_PIDS_PITCHVBARKD:
+				needsUpdate |= update(&stab.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KD], value);
+				break;
+			case TXPIDSETTINGS_PIDS_ROLLPITCHVBARKP:
+				needsUpdate |= update(&stab.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KP], value);
+				needsUpdate |= update(&stab.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KP], value);
+				break;
+			case TXPIDSETTINGS_PIDS_ROLLPITCHVBARKI:
+				needsUpdate |= update(&stab.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KI], value);
+				needsUpdate |= update(&stab.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KI], value);
+				break;
+			case TXPIDSETTINGS_PIDS_ROLLPITCHVBARKD:
+				needsUpdate |= update(&stab.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KD], value);
 				needsUpdate |= update(&stab.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KD], value);
 				break;
 			case TXPIDSETTINGS_PIDS_YAWVBARKP:
