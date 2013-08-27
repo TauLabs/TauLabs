@@ -235,7 +235,7 @@ void SystemHealthGadgetWidget::mousePressEvent ( QMouseEvent * event )
 }
 
 void SystemHealthGadgetWidget::showAlarmDescriptionForItemId(const QString itemId, const QPoint& location){
-    QFile alarmDescription(":/systemhealth/html/" + itemId + ".html");
+    QFile alarmDescription(getAlarmDescriptionFileName(itemId));
     if(alarmDescription.open(QIODevice::ReadOnly | QIODevice::Text)){
         QTextStream textStream(&alarmDescription);
         QWhatsThis::showText(location, textStream.readAll());
@@ -246,7 +246,6 @@ void SystemHealthGadgetWidget::showAllAlarmDescriptions(const QPoint& location){
     QGraphicsScene *graphicsScene = scene();
     if(graphicsScene){
         QString alarmsText;
-
         // Loop through all items in the scene looking for svg items that represent alarms
         foreach(QGraphicsItem* curItem, graphicsScene->items()){
             QGraphicsSvgItem* curSvgItem = dynamic_cast<QGraphicsSvgItem*>(curItem);
@@ -255,18 +254,84 @@ void SystemHealthGadgetWidget::showAllAlarmDescriptions(const QPoint& location){
                 if(!elementId.contains("OK")){
                     // Found an alarm, get its corresponding alarm html file contents
                     // and append to the cumulative string for all alarms.
-                    QFile alarmDescription(":/systemhealth/html/" + elementId + ".html");
+                    QFile alarmDescription(getAlarmDescriptionFileName(elementId));
                     if(alarmDescription.open(QIODevice::ReadOnly | QIODevice::Text)){
                         QTextStream textStream(&alarmDescription);
                         alarmsText.append(textStream.readAll());
+                        alarmDescription.close();
                     }
                 }
             }
         }
-
         // Show alarms text if we have any
         if(alarmsText.length() > 0){
             QWhatsThis::showText(location, alarmsText);
         }
     }
 }
+
+QString SystemHealthGadgetWidget::getAlarmDescriptionFileName(const QString itemId) {
+    QString alarmDescriptionFileName;
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager* objManager = pm->getObject<UAVObjectManager>();
+    SystemAlarms::DataFields systemAlarmsData = SystemAlarms::GetInstance(objManager)->getData();
+    if (itemId.contains("SystemConfiguration-")) {
+        switch(systemAlarmsData.ConfigError) {
+        case SystemAlarms::CONFIGERROR_STABILIZATION:
+            alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-Stabilization.html");
+        break;
+        case SystemAlarms::CONFIGERROR_MULTIROTOR:
+            alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-Multirotor.html");
+        break;
+        case SystemAlarms::CONFIGERROR_AUTOTUNE:
+            alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-AutoTune.html");
+        break;
+        case SystemAlarms::CONFIGERROR_ALTITUDEHOLD:
+            alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-AltitudeHold.html");
+        break;
+        case SystemAlarms::CONFIGERROR_VELOCITYCONTROL:
+            alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-VelocityControl.html");
+        break;
+        case SystemAlarms::CONFIGERROR_POSITIONHOLD:
+            alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-PositionHold.html");
+        break;
+        case SystemAlarms::CONFIGERROR_PATHPLANNER:
+            alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-PathPlanner.html");
+        break;
+        case SystemAlarms::CONFIGERROR_UNDEFINED:
+            alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Undefined.html");
+        break;
+        default:
+            alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-None.html");
+        break;
+        }
+    } else if (itemId.contains("ManualControl-")) {
+        switch(systemAlarmsData.ManualControl) {
+        case SystemAlarms::MANUALCONTROL_SETTINGS:
+            alarmDescriptionFileName = QString(":/systemhealth/html/ManualControl-Critical-Settings.html");
+        break;
+        case SystemAlarms::MANUALCONTROL_NORX:
+            alarmDescriptionFileName = QString(":/systemhealth/html/ManualControl-Warning-NoRx.html");
+        break;
+        case SystemAlarms::MANUALCONTROL_ACCESSORY:
+            alarmDescriptionFileName = QString(":/systemhealth/html/ManualControl-Warning-Accessory.html");
+        break;
+        case SystemAlarms::MANUALCONTROL_ALTITUDEHOLD:
+            alarmDescriptionFileName = QString(":/systemhealth/html/ManualControl-Error-AltitudeHold.html");
+        break;
+        case SystemAlarms::MANUALCONTROL_PATHFOLLOWER:
+            alarmDescriptionFileName = QString(":/systemhealth/html/ManualControl-Critical-PathFollower.html");
+        break;
+        case SystemAlarms::MANUALCONTROL_UNDEFINED:
+            alarmDescriptionFileName = QString(":/systemhealth/html/ManualControl-Undefined.html");
+        break;
+        default:
+            alarmDescriptionFileName = QString(":/systemhealth/html/ManualControl-None.html");
+        break;
+        }
+    } else {
+            alarmDescriptionFileName = QString(":/systemhealth/html/" + itemId + ".html");
+    }
+    return alarmDescriptionFileName; 
+}
+

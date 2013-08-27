@@ -71,6 +71,6 @@ private:
 
    void showAlarmDescriptionForItemId(const QString itemId, const QPoint& location);
    void showAllAlarmDescriptions(const QPoint &location);
-
+   QString getAlarmDescriptionFileName(const QString itemId);
 };
 #endif /* SYSTEMHEALTHGADGETWIDGET_H_ */
