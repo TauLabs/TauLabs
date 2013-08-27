@@ -143,10 +143,11 @@ void UAVGadgetInstanceManager::readConfigs_1_2_0(QSettings *qs)
             qs->endGroup();
         }
 
+        // In case no configuration settings were found, try to create a default configuration
         if (configs.count() == 0) {
             IUAVGadgetConfiguration *config = f->createConfiguration(0, 0);
-            // it is not mandatory for uavgadgets to have any configurations (settings)
-            // and therefore we have to check for that
+            // It is not mandatory for uavgadgets to have a configuration (e.g. settings),
+            // therefore we have to check that "config" exists.
             if (config) {
                 config->setName(tr("default"));
                 config->setProvisionalName(tr("default"));
@@ -419,17 +420,26 @@ void UAVGadgetInstanceManager::configurationNameEdited(QString text, bool hasTex
     foreach (IUAVGadgetConfiguration *c, m_configurations) {
         foreach (IUAVGadgetConfiguration *d, m_configurations) {
             if (c != d && c->classId() == d->classId() && c->provisionalName() == d->provisionalName())
+            {
+                qDebug() << "Two identically named configurations: " << c->classId() << "." << c->provisionalName() << "and " << d->classId() << "." << d->provisionalName();
                 disable = true;
+            }
         }
         foreach (IUAVGadgetConfiguration *d, m_provisionalConfigs) {
             if (c != d && c->classId() == d->classId() && c->provisionalName() == d->provisionalName())
+            {
+                qDebug() << "An identically named provisional and normal configuration: " << c->classId() << "." << c->provisionalName() << "and " << d->classId() << "." << d->provisionalName();
                 disable = true;
+            }
         }
     }
     foreach (IUAVGadgetConfiguration *c, m_provisionalConfigs) {
         foreach (IUAVGadgetConfiguration *d, m_provisionalConfigs) {
             if (c != d && c->classId() == d->classId() && c->provisionalName() == d->provisionalName())
+            {
+                qDebug() << "Two identically named provisional configurations: " << c->classId() << "." << c->provisionalName() << "and " << d->classId() << "." << d->provisionalName();
                 disable = true;
+            }
         }
     }
     if (hasText && text == "")

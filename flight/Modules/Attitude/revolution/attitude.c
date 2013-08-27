@@ -525,28 +525,33 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	float mag_err[3];
 	if ( secondary || xQueueReceive(magQueue, &ev, 0) == pdTRUE )
 	{
-		// Rotate gravity to body frame and cross with accels
-		float brot[3];
-		float Rbe[3][3];
 		MagnetometerData mag;
-		
-		Quaternion2R(cf_q, Rbe);
 		MagnetometerGet(&mag);
 
-		// If the mag is producing bad data don't use it (normally bad calibration)
-		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z &&
-			 homeLocation.Set == HOMELOCATION_SET_TRUE) {
-			rot_mult(Rbe, homeLocation.Be, brot, false);
+		// If the mag is producing bad data (NAN) don't use it (normally bad calibration)
+		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z) {
+			float bmag = 1.0f;
+			float brot[3];
+			float Rbe[3][3];
+
+			// Get rotation to bring earth magnetic field into body frame		
+			Quaternion2R(cf_q, Rbe);
+
+			if (homeLocation.Set == HOMELOCATION_SET_TRUE) {
+				rot_mult(Rbe, homeLocation.Be, brot, false);
+				bmag = sqrtf(brot[0] * brot[0] + brot[1] * brot[1] + brot[2] * brot[2]);
+				brot[0] /= bmag;
+				brot[1] /= bmag;
+				brot[2] /= bmag;
+			} else {
+				const float Be[3] = {1.0f, 0.0f, 0.0f};
+				rot_mult(Rbe, Be, brot, false);
+			}
 
 			float mag_len = sqrtf(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z);
 			mag.x /= mag_len;
 			mag.y /= mag_len;
 			mag.z /= mag_len;
-
-			float bmag = sqrtf(brot[0] * brot[0] + brot[1] * brot[1] + brot[2] * brot[2]);
-			brot[0] /= bmag;
-			brot[1] /= bmag;
-			brot[2] /= bmag;
 
 			// Only compute if neither vector is null
 			if (bmag < 1 || mag_len < 1)
