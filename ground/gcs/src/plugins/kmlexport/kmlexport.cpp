@@ -39,8 +39,9 @@
 
 #include "kmlexport.h"
 
-
+QString KmlExport::dateTimeFormat="yyyy-MM-ddThh:mm:ssZ"; // XML Schema time format. Required by KML specification
 const double ColorMap_Jet[256][3] = COLORMAP_JET;
+
 #define maxVelocity 20 // Vehicle velocity which corresponds to maximum color in color map. This shouldn't be hardcoded
 #define numberOfWallAxes 5 // Number of wall axes to plot. This shouldn't be hardcoded
 #define wallAxesSeparation 20 // Wall axes separation height in [m]. This shouldn't be hardcoded
@@ -103,10 +104,6 @@ KmlExport::KmlExport(QString inputLogFileName, QString outputKmlFileName) :
         CoordinatesPtr coordinates = factory->CreateCoordinates();
         wallAxes.append(coordinates);
     }
-
-    //Set the dateTimeFormat
-    dateTimeFormat="yyyy-MM-ddThh:mm:ssZ"; // XML Schema time format. Required by KML specification
-
 }
 
 
@@ -811,7 +808,8 @@ void KmlExport::positionActualUpdated(UAVObject *obj)
 
     // Update UAV info string
     informationString.clear();
-    informationString.append(QString("Latitude: %1 deg\nLongitude: %2 deg\nAltitude: %3 m\nAirspeed: %4 m/s\nGroundspeed: %5 m/s\n").arg(newPoint.latitude).arg(newPoint.longitude).arg(newPoint.altitude).arg(airspeedActualData.CalibratedAirspeed).arg(newPoint.groundspeed));
+    informationString.append(QString("Latitude: %1 deg\nLongitude: %2 deg\nAltitude: %3 m\nAirspeed: %4 m/s\nGroundspeed: %5 m/s\n").arg(newPoint.latitude)
+                             .arg(newPoint.longitude).arg(newPoint.altitude).arg(airspeedActualData.CalibratedAirspeed).arg(newPoint.groundspeed));
 
     // In case this is the first time through, copy data and exit
     static bool firstPoint;

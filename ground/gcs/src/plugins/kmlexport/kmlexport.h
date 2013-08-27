@@ -118,7 +118,7 @@ private:
     quint32 lastPlacemarkTime;
     QString informationString;
     QVector<CoordinatesPtr> wallAxes;
-    QString dateTimeFormat;
+    static QString dateTimeFormat;
 
     void parseLogFile();
     StylePtr createGroundTrackStyle();
