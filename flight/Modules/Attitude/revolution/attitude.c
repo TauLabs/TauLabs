@@ -490,36 +490,42 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	dT = PIOS_DELAY_DiffuS(timeval) / 1000000.0f;
 	timeval = PIOS_DELAY_GetRaw();
 
+	// Rotate normalized gravity vector to body frame
 	float grot[3];
-	float accel_err[3];
-	float *grot_filtered = complementary_filter_state.grot_filtered;
-	float *accels_filtered = complementary_filter_state.accels_filtered;
-
-	// Apply smoothing to accel values, to reduce vibration noise before main calculations.
-	apply_accel_filter(&accelsData.x,accels_filtered);
-
-	// Rotate gravity to body frame and cross with accels
 	grot[0] = -(2 * (cf_q[1] * cf_q[3] - cf_q[0] * cf_q[2]));
 	grot[1] = -(2 * (cf_q[2] * cf_q[3] + cf_q[0] * cf_q[1]));
 	grot[2] = -(cf_q[0]*cf_q[0] - cf_q[1]*cf_q[1] - cf_q[2]*cf_q[2] + cf_q[3]*cf_q[3]);
-	CrossProduct((const float *) &accelsData.x, (const float *) grot, accel_err);
 
-	// Apply same filtering to the rotated attitude to match delays
-	apply_accel_filter(grot,grot_filtered);
-
-	// Compute the error between the predicted direction of gravity and smoothed acceleration
-	CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
-
+	// Cross the normalized gravity vector with the accelerometer vector
 	float grot_mag;
-	if (complementary_filter_state.accel_filter_enabled)
+	float accel_mag;
+	float accel_err[3];
+	if (complementary_filter_state.accel_filter_enabled) {
+		float *grot_filtered = complementary_filter_state.grot_filtered;
+		float *accels_filtered = complementary_filter_state.accels_filtered;
+
+		// Apply smoothing to accel values in order to reduce vibration noise before main calculations.
+		apply_accel_filter(&accelsData.x, accels_filtered);
+
+		// Apply same filtering to the rotated attitude to match the delay introduced by the accelerometer filter
+		apply_accel_filter(grot, grot_filtered);
+
+		// Compute the error between the delayed predicted direction of gravity and smoothed acceleration
+		CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
+
+		// Calculate vector magnitudes
+		accel_mag = sqrtf(accels_filtered[0]*accels_filtered[0] + accels_filtered[1]*accels_filtered[1] + accels_filtered[2]*accels_filtered[2]);
 		grot_mag = sqrtf(grot_filtered[0]*grot_filtered[0] + grot_filtered[1]*grot_filtered[1] + grot_filtered[2]*grot_filtered[2]);
-	else
+	} else {
+		// Compute the error between the predicted direction of gravity and acceleration
+		CrossProduct((const float *) &accelsData.x, (const float *) grot, accel_err);
+
+		// Calculate vector magnitudes
+		accel_mag = sqrtf(accelsData.x * accelsData.x + accelsData.y * accelsData.y + accelsData.z * accelsData.z);
 		grot_mag = 1.0f;
+	}
 
 	// Account for accel magnitude
-	float accel_mag;
-	accel_mag = accels_filtered[0]*accels_filtered[0] + accels_filtered[1]*accels_filtered[1] + accels_filtered[2]*accels_filtered[2];
-	accel_mag = sqrtf(accel_mag);
 	if (grot_mag > 1.0e-3f && accel_mag > 1.0e-3f) {
 		accel_err[0] /= (accel_mag * grot_mag);
 		accel_err[1] /= (accel_mag * grot_mag);
@@ -1079,15 +1085,9 @@ static int32_t setNavigationINSGPS()
 static void apply_accel_filter(const float * raw, float * filtered)
 {
 	const float alpha = complementary_filter_state.accel_alpha;
-	if(complementary_filter_state.accel_filter_enabled) {
-		filtered[0] = filtered[0] * alpha + raw[0] * (1 - alpha);
-		filtered[1] = filtered[1] * alpha + raw[1] * (1 - alpha);
-		filtered[2] = filtered[2] * alpha + raw[2] * (1 - alpha);
-	} else {
-		filtered[0] = raw[0];
-		filtered[1] = raw[1];
-		filtered[2] = raw[2];
-	}
+	filtered[0] = filtered[0] * alpha + raw[0] * (1 - alpha);
+	filtered[1] = filtered[1] * alpha + raw[1] * (1 - alpha);
+	filtered[2] = filtered[2] * alpha + raw[2] * (1 - alpha);
 }
 
 /**
