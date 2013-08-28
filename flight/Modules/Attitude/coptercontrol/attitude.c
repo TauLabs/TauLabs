@@ -231,6 +231,10 @@ static void AttitudeTask(void *parameters)
 			yawBiasRate = 0.1;
 			accel_filter_enabled = false;
 
+			// Don't allow gyro bias to accumulate until initial convergence is completed.
+			gyro_correct_int[0] = 0;
+			gyro_correct_int[1] = 0;
+			gyro_correct_int[2] = 0;
 		} else if (zero_during_arming && 
 			       (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
 

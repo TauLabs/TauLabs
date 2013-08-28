@@ -429,6 +429,14 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 		attitudeSettings.AccelKi = 0.1f;
 		attitudeSettings.YawBiasRate = 0.1f;
 		attitudeSettings.MagKp = 0.1f;
+
+		// Don't allow gyro bias to accumulate until initial convergence is completed.
+		GyrosBiasData gyrosBias;
+		GyrosBiasGet(&gyrosBias);
+		gyrosBias.x = 0;
+		gyrosBias.y = 0;
+		gyrosBias.z = 0;
+		GyrosBiasSet(&gyrosBias);
 	} else if ((attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE) && 
 	           (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
 
