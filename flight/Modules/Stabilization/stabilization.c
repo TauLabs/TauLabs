@@ -72,6 +72,8 @@
 
 #define TASK_PRIORITY (tskIDLE_PRIORITY+4)
 #define FAILSAFE_TIMEOUT_MS 30
+#define COORDINATED_FLIGHT_MIN_ROLL_THRESHOLD 3.0f
+#define COORDINATED_FLIGHT_MAX_YAW_THRESHOLD 0.05f
 
 enum {
 	PID_RATE_ROLL,   // Rate controller settings
@@ -83,6 +85,7 @@ enum {
 	PID_VBAR_ROLL,   // Virtual flybar settings
 	PID_VBAR_PITCH,
 	PID_VBAR_YAW,
+	PID_COORDINATED_FLIGHT_YAW,
 	PID_MAX
 };
 
@@ -151,7 +154,7 @@ int32_t StabilizationInitialize()
 	return 0;
 }
 
-MODULE_INITCALL(StabilizationInitialize, StabilizationStart)
+MODULE_INITCALL(StabilizationInitialize, StabilizationStart);
 
 /**
  * Module task
@@ -398,37 +401,64 @@ static void stabilizationTask(void* parameters)
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT:
 					switch (i) {
 						case YAW:
-							if ( stabDesired.StabilizationMode[ROLL]==STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE && //If we are in roll attitude mode..
-								fabsf(stabDesired.Roll) > 3.0f && //...and we've requested more than 3 degrees of roll...
-								fabsf(stabDesired.Yaw) < 0.02f) { //...and we currently have no yaw input within a 2% deadband
-								float accelsDataY;
-								AccelsyGet(&accelsDataY);
-								
-								//Reset integral if we have changed roll to opposite direction from rudder. This implies that we have changed desired turning direction.
-								if ((stabDesired.Roll > 0 && actuatorDesiredAxis[i] < 0) ||
-										(stabDesired.Roll < 0 && actuatorDesiredAxis[i] > 0)){
-									pids[PID_RATE_YAW].iAccumulator = 0;
-								}
-								
-								//Coordinate flight can simply be seen as ensuring that there is no lateral acceleration in the
-								// body frame. As such, we use the (noisy) accelerometer data as our measurement. Ideally, at 
-								// some point in the future we will estimate acceleration and then we can use the estimated value
-								// instead of the measured value.
-								float errorSlip = -accelsDataY;
-								
-								//Apply a 1 second rise time low-pass filter to the accelerometer driven output. 
-								// This reduces jitter in the tail, and helps dampen aileron oscillations 
-								// due to the decreased turning radius as rudder input is applied.
-								float alpha = 1.0f-dT/(dT+1.0f);
-								
-								float command=(1-alpha)*pid_apply(&pids[PID_RATE_YAW], errorSlip, dT) + alpha*actuatorDesiredAxis[i];
-								actuatorDesiredAxis[i] = bound_sym(command,1.0);
-							}
-							else{ //Else, pass yaw directly to actuators.
-								actuatorDesiredAxis[i] = bound_sym(stabDesiredAxis[i], 1.0);
+							if (reinit) {
+								pids[PID_COORDINATED_FLIGHT_YAW].iAccumulator = 0;
 								pids[PID_RATE_YAW].iAccumulator = 0;
-								pids[PID_ATT_YAW].iAccumulator = 0;
-							}							
+								axis_lock_accum[YAW] = 0;
+							}
+
+							//If we are in neither roll attitude mode nor attitude-plus mode, trigger an error
+							if ((stabDesired.StabilizationMode[ROLL] != STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE &&
+								  stabDesired.StabilizationMode[ROLL] != STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS ))
+							{
+								error = true;
+								break ;
+							}
+
+							if (fabsf(stabDesired.Yaw) < COORDINATED_FLIGHT_MAX_YAW_THRESHOLD) { //If yaw is within the deadband...
+								if (fabsf(stabDesired.Roll) > COORDINATED_FLIGHT_MIN_ROLL_THRESHOLD) { // We're requesting more roll than the threshold
+									float accelsDataY;
+									AccelsyGet(&accelsDataY);
+
+									//Reset integral if we have changed roll to opposite direction from rudder. This implies that we have changed desired turning direction.
+									if ((stabDesired.Roll > 0 && actuatorDesiredAxis[YAW] < 0) ||
+											(stabDesired.Roll < 0 && actuatorDesiredAxis[YAW] > 0)){
+										pids[PID_COORDINATED_FLIGHT_YAW].iAccumulator = 0;
+									}
+
+									// Coordinate flight can simply be seen as ensuring that there is no lateral acceleration in the
+									// body frame. As such, we use the (noisy) accelerometer data as our measurement. Ideally, at
+									// some point in the future we will estimate acceleration and then we can use the estimated value
+									// instead of the measured value.
+									float errorSlip = -accelsDataY;
+
+									float command = pid_apply(&pids[PID_COORDINATED_FLIGHT_YAW], errorSlip, dT);
+									actuatorDesiredAxis[YAW] = bound_sym(command ,1.0);
+
+									// Reset axis-lock integrals
+									pids[PID_RATE_YAW].iAccumulator = 0;
+									axis_lock_accum[YAW] = 0;
+								} else if (fabsf(stabDesired.Roll) <= COORDINATED_FLIGHT_MIN_ROLL_THRESHOLD) { // We're requesting less roll than the threshold
+									// Axis lock on no gyro change
+									axis_lock_accum[YAW] += (0 - gyro_filtered[YAW]) * dT;
+
+									rateDesiredAxis[YAW] = pid_apply(&pids[PID_ATT_YAW], axis_lock_accum[YAW], dT);
+									rateDesiredAxis[YAW] = bound_sym(rateDesiredAxis[YAW], settings.MaximumRate[YAW]);
+
+									actuatorDesiredAxis[YAW] = pid_apply_setpoint(&pids[PID_RATE_YAW],  rateDesiredAxis[YAW],  gyro_filtered[YAW], dT);
+									actuatorDesiredAxis[YAW] = bound_sym(actuatorDesiredAxis[YAW],1.0f);
+
+									// Reset coordinated-flight integral
+									pids[PID_COORDINATED_FLIGHT_YAW].iAccumulator = 0;
+								}
+							} else { //... yaw is outside the deadband. Pass the manual input directly to the actuator.
+								actuatorDesiredAxis[YAW] = bound_sym(stabDesiredAxis[YAW], 1.0);
+
+								// Reset all integrals
+								pids[PID_COORDINATED_FLIGHT_YAW].iAccumulator = 0;
+								pids[PID_RATE_YAW].iAccumulator = 0;
+								axis_lock_accum[YAW] = 0;
+							}
 							break;
 						case ROLL:
 						case PITCH:
@@ -437,9 +467,9 @@ static void stabilizationTask(void* parameters)
 							error = true;
 							break;
 					}
-					
+
 					break;
-					
+
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_POI:
 					// The sanity check enforces this is only selectable for Yaw
 					// for a gimbal you can select pitch too.
@@ -613,6 +643,13 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		              settings.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KI],
 		              settings.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KD],
 		              0);
+
+		// Set the coordinated flight settings
+		pid_configure(&pids[PID_COORDINATED_FLIGHT_YAW],
+		              settings.CoordinatedFlightYawPI[STABILIZATIONSETTINGS_COORDINATEDFLIGHTYAWPI_KP],
+		              settings.CoordinatedFlightYawPI[STABILIZATIONSETTINGS_COORDINATEDFLIGHTYAWPI_KI],
+		              0, /* No derivative term */
+		              settings.CoordinatedFlightYawPI[STABILIZATIONSETTINGS_COORDINATEDFLIGHTYAWPI_ILIMIT]);
 
 		// Set up the derivative term
 		pid_configure_derivative(settings.DerivativeCutoff, settings.DerivativeGamma);
