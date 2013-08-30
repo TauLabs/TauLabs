@@ -75,7 +75,11 @@ qt_sdk_clean:
 	$(V1) [ ! -d "$(QT_SDK_DIR)" ] || $(RM) -rf $(QT_SDK_DIR)
 
 # Set up ARM (STM32) SDK
+ifneq ($(OSFAMILY), windows)
 ARM_SDK_DIR := $(TOOLS_DIR)/gcc-arm-none-eabi-4_7-2013q1
+else
+ARM_SDK_DIR := $(TOOLS_DIR)/gcc-arm-none-eabi-4_7-2013q1-20130313-win32
+endif
 
 .PHONY: arm_sdk_install
 ifeq ($(UNAME), Linux)
@@ -88,15 +92,24 @@ ifeq ($(UNAME), Darwin)
 arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.7/4.7-2013-q1-update/+download/gcc-arm-none-eabi-4_7-2013q1-20130313-mac.tar.bz2
 endif
 
+ifeq ($(OSFAMILY), windows)
+# Windows
+arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.7/4.7-2013-q1-update/+download/gcc-arm-none-eabi-4_7-2013q1-20130313-win32.zip
+endif
+
 arm_sdk_install: ARM_SDK_FILE := $(notdir $(ARM_SDK_URL))
 # order-only prereq on directory existance:
 arm_sdk_install: | $(DL_DIR) $(TOOLS_DIR)
 arm_sdk_install: arm_sdk_clean
         # download the source only if it's newer than what we already have
-	$(V1) wget --no-check-certificate -N -P "$(DL_DIR)" "$(ARM_SDK_URL)"
+	$(V1) wget -N -P "$(DL_DIR)" "$(ARM_SDK_URL)"
 
+ifneq ($(OSFAMILY), windows)
         # binary only release so just extract it
 	$(V1) tar -C $(TOOLS_DIR) -xjf "$(DL_DIR)/$(ARM_SDK_FILE)"
+else
+	$(V1) unzip -q -d $(TOOLS_DIR) "$(DL_DIR)/$(ARM_SDK_FILE)"
+endif
 
 .PHONY: arm_sdk_clean
 arm_sdk_clean:

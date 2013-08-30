@@ -254,8 +254,9 @@ endif
 ifeq ($(shell [ -d "$(ARM_SDK_DIR)" ] && echo "exists"), exists)
   ARM_SDK_PREFIX := $(ARM_SDK_DIR)/bin/arm-none-eabi-
 else
-  # not installed, hope it's in the path...
-  ARM_SDK_PREFIX ?= arm-none-eabi-
+  ifneq ($(MAKECMDGOALS),arm_sdk_install)
+    $(error Missing toolchain ($(ARM_SDK_DIR)).  Please run 'make arm_sdk_install' to download/install the correct toolchain)
+  endif
 endif
 
 ifeq ($(shell [ -d "$(OPENOCD_DIR)" ] && echo "exists"), exists)
