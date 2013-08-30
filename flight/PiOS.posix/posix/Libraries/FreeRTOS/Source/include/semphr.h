@@ -1,70 +1,81 @@
 /*
-    FreeRTOS V6.0.4 - Copyright (C) 2010 Real Time Engineers Ltd.
+    FreeRTOS V7.5.0 - Copyright (C) 2013 Real Time Engineers Ltd.
+
+    VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
 
     ***************************************************************************
-    *                                                                         *
-    * If you are:                                                             *
-    *                                                                         *
-    *    + New to FreeRTOS,                                                   *
-    *    + Wanting to learn FreeRTOS or multitasking in general quickly       *
-    *    + Looking for basic training,                                        *
-    *    + Wanting to improve your FreeRTOS skills and productivity           *
-    *                                                                         *
-    * then take a look at the FreeRTOS eBook                                  *
-    *                                                                         *
-    *        "Using the FreeRTOS Real Time Kernel - a Practical Guide"        *
-    *                  http://www.FreeRTOS.org/Documentation                  *
-    *                                                                         *
-    * A pdf reference manual is also available.  Both are usually delivered   *
-    * to your inbox within 20 minutes to two hours when purchased between 8am *
-    * and 8pm GMT (although please allow up to 24 hours in case of            *
-    * exceptional circumstances).  Thank you for your support!                *
-    *                                                                         *
+     *                                                                       *
+     *    FreeRTOS provides completely free yet professionally developed,    *
+     *    robust, strictly quality controlled, supported, and cross          *
+     *    platform software that has become a de facto standard.             *
+     *                                                                       *
+     *    Help yourself get started quickly and support the FreeRTOS         *
+     *    project by purchasing a FreeRTOS tutorial book, reference          *
+     *    manual, or both from: http://www.FreeRTOS.org/Documentation        *
+     *                                                                       *
+     *    Thank you!                                                         *
+     *                                                                       *
     ***************************************************************************
 
     This file is part of the FreeRTOS distribution.
 
     FreeRTOS is free software; you can redistribute it and/or modify it under
     the terms of the GNU General Public License (version 2) as published by the
-    Free Software Foundation AND MODIFIED BY the FreeRTOS exception.
-    ***NOTE*** The exception to the GPL is included to allow you to distribute
-    a combined work that includes FreeRTOS without being obliged to provide the
-    source code for proprietary components outside of the FreeRTOS kernel.
-    FreeRTOS is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-    more details. You should have received a copy of the GNU General Public 
-    License and the FreeRTOS license exception along with FreeRTOS; if not it 
-    can be viewed here: http://www.freertos.org/a00114.html and also obtained 
-    by writing to Richard Barry, contact details for whom are available on the
-    FreeRTOS WEB site.
+    Free Software Foundation >>!AND MODIFIED BY!<< the FreeRTOS exception.
+
+    >>! NOTE: The modification to the GPL is included to allow you to distribute
+    >>! a combined work that includes FreeRTOS without being obliged to provide
+    >>! the source code for proprietary components outside of the FreeRTOS
+    >>! kernel.
+
+    FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+    FOR A PARTICULAR PURPOSE.  Full license text is available from the following
+    link: http://www.freertos.org/a00114.html
 
     1 tab == 4 spaces!
 
-    http://www.FreeRTOS.org - Documentation, latest information, license and
-    contact details.
+    ***************************************************************************
+     *                                                                       *
+     *    Having a problem?  Start by reading the FAQ "My application does   *
+     *    not run, what could be wrong?"                                     *
+     *                                                                       *
+     *    http://www.FreeRTOS.org/FAQHelp.html                               *
+     *                                                                       *
+    ***************************************************************************
 
-    http://www.SafeRTOS.com - A version that is certified for use in safety
-    critical systems.
+    http://www.FreeRTOS.org - Documentation, books, training, latest versions,
+    license and Real Time Engineers Ltd. contact details.
 
-    http://www.OpenRTOS.com - Commercial support, development, porting,
-    licensing and training services.
+    http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+    including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+    compatible FAT file system, and our tiny thread aware UDP/IP stack.
+
+    http://www.OpenRTOS.com - Real Time Engineers ltd license FreeRTOS to High
+    Integrity Systems to sell under the OpenRTOS brand.  Low cost OpenRTOS
+    licenses offer ticketed support, indemnification and middleware.
+
+    http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+    engineered and independently SIL3 certified version for use in safety and
+    mission critical applications that require provable dependability.
+
+    1 tab == 4 spaces!
 */
-
-#ifndef INC_FREERTOS_H
-	#error "#include FreeRTOS.h" must appear in source files before "#include semphr.h"
-#endif
 
 #ifndef SEMAPHORE_H
 #define SEMAPHORE_H
+
+#ifndef INC_FREERTOS_H
+	#error "include FreeRTOS.h" must appear in source files before "include semphr.h"
+#endif
 
 #include "queue.h"
 
 typedef xQueueHandle xSemaphoreHandle;
 
-#define semBINARY_SEMAPHORE_QUEUE_LENGTH	( ( unsigned char ) 1 )
-#define semSEMAPHORE_QUEUE_ITEM_LENGTH		( ( unsigned char ) 0 )
-#define semGIVE_BLOCK_TIME					( ( portTickType ) 0 )
+#define semBINARY_SEMAPHORE_QUEUE_LENGTH	( ( unsigned char ) 1U )
+#define semSEMAPHORE_QUEUE_ITEM_LENGTH		( ( unsigned char ) 0U )
+#define semGIVE_BLOCK_TIME					( ( portTickType ) 0U )
 
 
 /**
@@ -105,13 +116,14 @@ typedef xQueueHandle xSemaphoreHandle;
  * \defgroup vSemaphoreCreateBinary vSemaphoreCreateBinary
  * \ingroup Semaphores
  */
-#define vSemaphoreCreateBinary( xSemaphore )		{																								\
-														xSemaphore = xQueueCreate( ( unsigned portBASE_TYPE ) 1, semSEMAPHORE_QUEUE_ITEM_LENGTH );	\
-														if( xSemaphore != NULL )																	\
-														{																							\
-															xSemaphoreGive( xSemaphore );															\
-														}																							\
-													}
+#define vSemaphoreCreateBinary( xSemaphore )																									\
+	{																																			\
+		( xSemaphore ) = xQueueGenericCreate( ( unsigned portBASE_TYPE ) 1, semSEMAPHORE_QUEUE_ITEM_LENGTH, queueQUEUE_TYPE_BINARY_SEMAPHORE );	\
+		if( ( xSemaphore ) != NULL )																											\
+		{																																		\
+			xSemaphoreGive( ( xSemaphore ) );																									\
+		}																																		\
+	}
 
 /**
  * semphr. h
@@ -178,7 +190,7 @@ typedef xQueueHandle xSemaphoreHandle;
  * \defgroup xSemaphoreTake xSemaphoreTake
  * \ingroup Semaphores
  */
-#define xSemaphoreTake( xSemaphore, xBlockTime )		xQueueGenericReceive( ( xQueueHandle ) xSemaphore, NULL, xBlockTime, pdFALSE )
+#define xSemaphoreTake( xSemaphore, xBlockTime )		xQueueGenericReceive( ( xQueueHandle ) ( xSemaphore ), NULL, ( xBlockTime ), pdFALSE )
 
 /**
  * semphr. h
@@ -271,7 +283,7 @@ typedef xQueueHandle xSemaphoreHandle;
  * \defgroup xSemaphoreTakeRecursive xSemaphoreTakeRecursive
  * \ingroup Semaphores
  */
-#define xSemaphoreTakeRecursive( xMutex, xBlockTime )	xQueueTakeMutexRecursive( xMutex, xBlockTime )
+#define xSemaphoreTakeRecursive( xMutex, xBlockTime )	xQueueTakeMutexRecursive( ( xMutex ), ( xBlockTime ) )
 
 
 /* 
@@ -286,7 +298,7 @@ typedef xQueueHandle xSemaphoreHandle;
  * responsiveness to gain execution speed, whereas the fully featured API
  * sacrifices execution speed to ensure better interrupt responsiveness.
  */
-#define xSemaphoreAltTake( xSemaphore, xBlockTime )		xQueueAltGenericReceive( ( xQueueHandle ) xSemaphore, NULL, xBlockTime, pdFALSE )
+#define xSemaphoreAltTake( xSemaphore, xBlockTime )		xQueueAltGenericReceive( ( xQueueHandle ) ( xSemaphore ), NULL, ( xBlockTime ), pdFALSE )
 
 /**
  * semphr. h
@@ -349,7 +361,7 @@ typedef xQueueHandle xSemaphoreHandle;
  * \defgroup xSemaphoreGive xSemaphoreGive
  * \ingroup Semaphores
  */
-#define xSemaphoreGive( xSemaphore )		xQueueGenericSend( ( xQueueHandle ) xSemaphore, NULL, semGIVE_BLOCK_TIME, queueSEND_TO_BACK )
+#define xSemaphoreGive( xSemaphore )		xQueueGenericSend( ( xQueueHandle ) ( xSemaphore ), NULL, semGIVE_BLOCK_TIME, queueSEND_TO_BACK )
 
 /**
  * semphr. h
@@ -433,7 +445,7 @@ typedef xQueueHandle xSemaphoreHandle;
  * \defgroup xSemaphoreGiveRecursive xSemaphoreGiveRecursive
  * \ingroup Semaphores
  */
-#define xSemaphoreGiveRecursive( xMutex )	xQueueGiveMutexRecursive( xMutex )
+#define xSemaphoreGiveRecursive( xMutex )	xQueueGiveMutexRecursive( ( xMutex ) )
 
 /* 
  * xSemaphoreAltGive() is an alternative version of xSemaphoreGive().
@@ -447,7 +459,7 @@ typedef xQueueHandle xSemaphoreHandle;
  * responsiveness to gain execution speed, whereas the fully featured API
  * sacrifices execution speed to ensure better interrupt responsiveness.
  */
-#define xSemaphoreAltGive( xSemaphore )		xQueueAltGenericSend( ( xQueueHandle ) xSemaphore, NULL, semGIVE_BLOCK_TIME, queueSEND_TO_BACK )
+#define xSemaphoreAltGive( xSemaphore )		xQueueAltGenericSend( ( xQueueHandle ) ( xSemaphore ), NULL, semGIVE_BLOCK_TIME, queueSEND_TO_BACK )
 
 /**
  * semphr. h
@@ -538,7 +550,41 @@ typedef xQueueHandle xSemaphoreHandle;
  * \defgroup xSemaphoreGiveFromISR xSemaphoreGiveFromISR
  * \ingroup Semaphores
  */
-#define xSemaphoreGiveFromISR( xSemaphore, pxHigherPriorityTaskWoken )			xQueueGenericSendFromISR( ( xQueueHandle ) xSemaphore, NULL, pxHigherPriorityTaskWoken, queueSEND_TO_BACK )
+#define xSemaphoreGiveFromISR( xSemaphore, pxHigherPriorityTaskWoken )			xQueueGenericSendFromISR( ( xQueueHandle ) ( xSemaphore ), NULL, ( pxHigherPriorityTaskWoken ), queueSEND_TO_BACK )
+
+/**
+ * semphr. h
+ * <pre>
+ xSemaphoreTakeFromISR( 
+                          xSemaphoreHandle xSemaphore, 
+                          signed portBASE_TYPE *pxHigherPriorityTaskWoken
+                      )</pre>
+ *
+ * <i>Macro</i> to  take a semaphore from an ISR.  The semaphore must have 
+ * previously been created with a call to vSemaphoreCreateBinary() or 
+ * xSemaphoreCreateCounting().
+ *
+ * Mutex type semaphores (those created using a call to xSemaphoreCreateMutex())
+ * must not be used with this macro.
+ *
+ * This macro can be used from an ISR, however taking a semaphore from an ISR
+ * is not a common operation.  It is likely to only be useful when taking a
+ * counting semaphore when an interrupt is obtaining an object from a resource
+ * pool (when the semaphore count indicates the number of resources available).
+ *
+ * @param xSemaphore A handle to the semaphore being taken.  This is the
+ * handle returned when the semaphore was created.
+ *
+ * @param pxHigherPriorityTaskWoken xSemaphoreTakeFromISR() will set
+ * *pxHigherPriorityTaskWoken to pdTRUE if taking the semaphore caused a task
+ * to unblock, and the unblocked task has a priority higher than the currently
+ * running task.  If xSemaphoreTakeFromISR() sets this value to pdTRUE then
+ * a context switch should be requested before the interrupt is exited.
+ *
+ * @return pdTRUE if the semaphore was successfully taken, otherwise 
+ * pdFALSE
+ */
+#define xSemaphoreTakeFromISR( xSemaphore, pxHigherPriorityTaskWoken )			xQueueReceiveFromISR( ( xQueueHandle ) ( xSemaphore ), NULL, ( pxHigherPriorityTaskWoken ) )
 
 /**
  * semphr. h
@@ -585,7 +631,7 @@ typedef xQueueHandle xSemaphoreHandle;
  * \defgroup vSemaphoreCreateMutex vSemaphoreCreateMutex
  * \ingroup Semaphores
  */
-#define xSemaphoreCreateMutex() xQueueCreateMutex()
+#define xSemaphoreCreateMutex() xQueueCreateMutex( queueQUEUE_TYPE_MUTEX )
 
 
 /**
@@ -640,7 +686,7 @@ typedef xQueueHandle xSemaphoreHandle;
  * \defgroup vSemaphoreCreateMutex vSemaphoreCreateMutex
  * \ingroup Semaphores
  */
-#define xSemaphoreCreateRecursiveMutex() xQueueCreateMutex()
+#define xSemaphoreCreateRecursiveMutex() xQueueCreateMutex( queueQUEUE_TYPE_RECURSIVE_MUTEX )
 
 /**
  * semphr. h
@@ -703,8 +749,36 @@ typedef xQueueHandle xSemaphoreHandle;
  * \defgroup xSemaphoreCreateCounting xSemaphoreCreateCounting
  * \ingroup Semaphores
  */
-#define xSemaphoreCreateCounting( uxMaxCount, uxInitialCount ) xQueueCreateCountingSemaphore( uxMaxCount, uxInitialCount )
+#define xSemaphoreCreateCounting( uxMaxCount, uxInitialCount ) xQueueCreateCountingSemaphore( ( uxMaxCount ), ( uxInitialCount ) )
 
+/**
+ * semphr. h
+ * <pre>void vSemaphoreDelete( xSemaphoreHandle xSemaphore );</pre>
+ *
+ * Delete a semaphore.  This function must be used with care.  For example,
+ * do not delete a mutex type semaphore if the mutex is held by a task.
+ *
+ * @param xSemaphore A handle to the semaphore to be deleted.
+ *
+ * \defgroup vSemaphoreDelete vSemaphoreDelete
+ * \ingroup Semaphores
+ */
+#define vSemaphoreDelete( xSemaphore ) vQueueDelete( ( xQueueHandle ) ( xSemaphore ) )
+
+/**
+ * semphr.h
+ * <pre>xTaskHandle xSemaphoreGetMutexHolder( xSemaphoreHandle xMutex );</pre>
+ *
+ * If xMutex is indeed a mutex type semaphore, return the current mutex holder.
+ * If xMutex is not a mutex type semaphore, or the mutex is available (not held
+ * by a task), return NULL.
+ *
+ * Note: This Is is a good way of determining if the calling task is the mutex 
+ * holder, but not a good way of determining the identity of the mutex holder as
+ * the holder may change between the function exiting and the returned value
+ * being tested.
+ */
+#define xSemaphoreGetMutexHolder( xSemaphore ) xQueueGetMutexHolder( ( xSemaphore ) )
 
 #endif /* SEMAPHORE_H */
 

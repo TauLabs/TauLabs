@@ -69,7 +69,7 @@ ARCHFLAGS			+= -DARCH_POSIX
 ifneq ($(FREERTOS_DIR),)
 FREERTOS_PORTDIR	:=	$(PIOS_DEVLIB)/Libraries/FreeRTOS/Source
 SRC					+=	$(wildcard $(FREERTOS_PORTDIR)/portable/GCC/Posix/*.c)
-SRC					+=	$(wildcard $(FREERTOS_PORTDIR)/portable/MemMang/*.c)
+SRC					+=	$(wildcard $(FREERTOS_PORTDIR)/portable/MemMang/heap_3.c)
 
 EXTRAINCDIRS		+=	$(FREERTOS_PORTDIR)/portable/GCC/Posix
 endif
