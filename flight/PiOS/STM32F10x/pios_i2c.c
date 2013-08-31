@@ -760,8 +760,6 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 	}
 }
 
-#include <pios_i2c_priv.h>
-
 /* Return true if the FSM is in a terminal state */
 static bool i2c_adapter_fsm_terminated(struct pios_i2c_adapter *i2c_adapter)
 {

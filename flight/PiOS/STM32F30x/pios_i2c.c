@@ -432,8 +432,6 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 		I2C_SoftwareResetCmd(i2c_adapter->cfg->regs);
 }
 
-#include <pios_i2c_priv.h>
-
 #ifndef USE_FREERTOS
 /* Return true if the FSM is in a terminal state */
 static bool i2c_adapter_fsm_terminated(struct pios_i2c_adapter *i2c_adapter)
