@@ -32,6 +32,7 @@ include $(BOARD_INFO_DIR)/board-info.mk
 PIOSINC = $(PIOS)/inc
 PIOSSTM32F10X = $(PIOS)/STM32F10x
 PIOSCOMMON = $(PIOS)/Common
+PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 STMLIBDIR = $(PIOSSTM32F10X)/Libraries
 STMSPDDIR = $(STMLIBDIR)/STM32F10x_StdPeriph_Driver
 STMSPDSRCDIR = $(STMSPDDIR)/src
@@ -66,7 +67,7 @@ SRC += $(PIOSCOMMON)/pios_semaphore.c
 
 
 ## CMSIS for STM32
-SRC += $(CMSISDIR)/core_cm3.c
+include $(PIOSCOMMONLIB)/CMSIS3/library.mk
 SRC += $(BOARD_INFO_DIR)/cmsis_system.c
 
 ## Used parts of the STM-Library

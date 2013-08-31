@@ -133,6 +133,7 @@ MATHLIBINC = $(FLIGHTLIB)/math
 PIOSINC = $(PIOS)/inc
 PIOSSTM32F10X = $(PIOS)/STM32F10x
 PIOSCOMMON = $(PIOS)/Common
+PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 APPLIBDIR = $(PIOSSTM32F10X)/Libraries
 STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F10x_StdPeriph_Driver
@@ -181,8 +182,6 @@ else
 SRC += $(OPTESTS)/test_common.c
 SRC += $(OPTESTS)/$(TESTAPP).c
 endif
-
-
 
 ## UAVOBJECTS
 ifndef TESTAPP
@@ -315,7 +314,7 @@ SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 
 ## CMSIS for STM32
-SRC += $(CMSISDIR)/core_cm3.c
+include $(PIOSCOMMONLIB)/CMSIS3/library.mk
 SRC += $(BOARD_INFO_DIR)/cmsis_system.c
 
 ## Used parts of the STM-Library

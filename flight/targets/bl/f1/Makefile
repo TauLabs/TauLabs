@@ -87,7 +87,7 @@ SRC += $(PIOSCOMMON)/pios_semaphore.c
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 
 ## CMSIS for STM32
-SRC += $(CMSISDIR)/core_cm3.c
+include $(PIOSCOMMONLIB)/CMSIS3/library.mk
 SRC += $(BOARD_INFO_DIR)/cmsis_system.c
 
 ## Used parts of the STM-Library
