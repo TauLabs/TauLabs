@@ -77,11 +77,19 @@ int32_t PIOS_DELAY_Init(void)
 int32_t PIOS_DELAY_WaituS(uint32_t uS)
 {
 	uint32_t elapsed = 0;
-	uint32_t last_count = DWT->CYCCNT;
+	uint32_t last_count;
+
+	/* turn on access to the DWT registers */
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+	last_count = DWT->CYCCNT;
 	
 	for (;;) {
-		uint32_t current_count = DWT->CYCCNT;
+		uint32_t current_count;
 		uint32_t elapsed_uS;
+
+		/* turn on access to the DWT registers */
+		CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+		current_count = DWT->CYCCNT;
 
 		/* measure the time elapsed since the last time we checked */
 		elapsed += current_count - last_count;
@@ -130,6 +138,8 @@ int32_t PIOS_DELAY_WaitmS(uint32_t mS)
  */
 uint32_t PIOS_DELAY_GetuS()
 {
+	/* turn on access to the DWT registers */
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 	return DWT->CYCCNT / us_ticks;
 }
 
@@ -149,6 +159,8 @@ uint32_t PIOS_DELAY_GetuSSince(uint32_t t)
  */
 uint32_t PIOS_DELAY_GetRaw()
 {
+	/* turn on access to the DWT registers */
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 	return DWT->CYCCNT;
 }
 
@@ -158,6 +170,8 @@ uint32_t PIOS_DELAY_GetRaw()
  */
 uint32_t PIOS_DELAY_DiffuS(uint32_t raw)
 {
+	/* turn on access to the DWT registers */
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 	uint32_t diff = DWT->CYCCNT - raw;
 	return diff / us_ticks;
 }
