@@ -54,10 +54,13 @@ SRC += $(PIOS_DEVLIB)/pios_sys.c
 SRC += $(PIOS_DEVLIB)/pios_led.c
 SRC += $(PIOS_DEVLIB)/pios_delay.c
 SRC += $(PIOS_DEVLIB)/pios_flash_internal.c
+SRC += $(PIOS_DEVLIB)/pios_irq.c
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_heap.c
+SRC += $(PIOSCOMMON)/pios_semaphore.c
+
 
 # List Assembler source files here.
 # Make them always end in a capital .S. Files ending in a lowercase .s

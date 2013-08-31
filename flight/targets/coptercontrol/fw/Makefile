@@ -298,6 +298,8 @@ ifeq ($(USE_PCF8591), YES)
 SRC += $(PIOSCOMMON)/pios_pcf8591_adc.c
 endif
 SRC += $(PIOSCOMMON)/pios_heap.c
+SRC += $(PIOSCOMMON)/pios_semaphore.c
+
 
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c

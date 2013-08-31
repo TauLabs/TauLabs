@@ -99,6 +99,8 @@ SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
 SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_heap.c
+SRC += $(PIOSCOMMON)/pios_semaphore.c
+
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)
