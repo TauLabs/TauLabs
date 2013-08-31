@@ -38,6 +38,7 @@
 
 /* cycles per microsecond */
 static uint32_t us_ticks;
+static uint32_t us_modulo;
 
 /**
  * Initialises the Timer used by PIOS_DELAY functions.
@@ -53,6 +54,13 @@ int32_t PIOS_DELAY_Init(void)
 	RCC_GetClocksFreq(&clocks);
 	us_ticks = clocks.SYSCLK_Frequency / 1000000;
 	PIOS_DEBUG_Assert(us_ticks > 1);
+
+	// do this using a loop to avoid 64bit division which pulls in too much code for bl and bu
+	uint32_t temp = 0;
+	while (temp + us_ticks > temp) {
+		temp += us_ticks;
+		++us_modulo;
+	}
 
 	/* turn on access to the DWT registers */
 	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
@@ -150,7 +158,7 @@ uint32_t PIOS_DELAY_GetuS()
  */
 uint32_t PIOS_DELAY_GetuSSince(uint32_t t)
 {
-	return (PIOS_DELAY_GetuS() - t);
+	return (PIOS_DELAY_GetuS() - t) % us_modulo;
 }
 
 /**
