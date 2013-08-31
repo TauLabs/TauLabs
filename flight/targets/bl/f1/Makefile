@@ -60,7 +60,6 @@ SRC += $(BLBOARDDIR)/pios_usb_board_data.c
 ## PIOS Hardware (STM32F10x)
 SRC += $(PIOSSTM32F10X)/pios_sys.c
 SRC += $(PIOSSTM32F10X)/pios_led.c
-SRC += $(PIOSSTM32F10X)/pios_delay.c
 SRC += $(PIOSSTM32F10X)/pios_irq.c
 SRC += $(PIOSSTM32F10X)/pios_gpio.c
 SRC += $(PIOSSTM32F10X)/pios_iap.c
@@ -74,6 +73,7 @@ SRC += $(PIOSSTM32F10X)/pios_usb_hid_istr.c
 SRC += $(PIOSSTM32F10X)/pios_usb_hid_pwr.c
 
 ## PIOS Hardware (Common)
+SRC += $(PIOSCOMMON)/pios_delay.c
 SRC += $(PIOSCOMMON)/pios_board_info.c
 SRC += $(PIOSCOMMON)/pios_com_msg.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
