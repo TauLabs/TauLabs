@@ -86,7 +86,7 @@ static void configurationUpdatedCb(UAVObjEvent * ev);
 static void updateStats();
 static void updateSystemAlarms();
 static void systemTask(void *parameters);
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
+#if defined(WDG_STATS_DIAGNOSTICS)
 static void updateWDGstats();
 #endif
 /**
@@ -120,7 +120,7 @@ int32_t SystemModInitialize(void)
 #if defined(DIAG_TASKS)
 	TaskInfoInitialize();
 #endif
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
+#if defined(WDG_STATS_DIAGNOSTICS)
 	WatchdogStatusInitialize();
 #endif
 
@@ -180,7 +180,7 @@ static void systemTask(void *parameters)
 
 		// Update the system alarms
 		updateSystemAlarms();
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
+#if defined(WDG_STATS_DIAGNOSTICS)
 		updateWDGstats();
 #endif
 
@@ -325,7 +325,7 @@ static void configurationUpdatedCb(UAVObjEvent * ev)
 /**
  * Called periodically to update the WDG statistics
  */
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
+#if defined(WDG_STATS_DIAGNOSTICS)
 static void updateWDGstats() 
 {
 	WatchdogStatusData watchdogStatus;
