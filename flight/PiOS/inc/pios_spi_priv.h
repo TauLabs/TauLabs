@@ -8,6 +8,7 @@
  *
  * @file       pios_spi_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      SPI private definitions.
  * @see        The GNU Public License (GPL) Version 3
  *
