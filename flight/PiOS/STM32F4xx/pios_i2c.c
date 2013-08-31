@@ -1161,7 +1161,7 @@ void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
 	uint32_t event = I2C_GetLastEvent(i2c_adapter->cfg->regs);
 
 	i2c_erirq_history[i2c_erirq_history_pointer] = event;
-	i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % 5;
+	i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 
 #endif
 
