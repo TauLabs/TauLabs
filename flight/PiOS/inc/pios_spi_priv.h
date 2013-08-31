@@ -33,6 +33,7 @@
 
 #include <pios.h>
 #include <pios_stm32.h>
+#include "pios_semaphore.h"
 
 struct pios_spi_cfg {
 	SPI_TypeDef *regs;
@@ -52,11 +53,7 @@ struct pios_spi_dev {
 	void (*callback) (uint8_t, uint8_t);
 	uint8_t tx_dummy_byte;
 	uint8_t rx_dummy_byte;
-#if defined(PIOS_INCLUDE_FREERTOS)
-	xSemaphoreHandle busy;
-#else
-	uint8_t busy;
-#endif
+	struct pios_semaphore *busy;
 };
 
 extern int32_t PIOS_SPI_Init(uint32_t * spi_id, const struct pios_spi_cfg * cfg);
