@@ -61,7 +61,6 @@ UAVOBJSRCFILENAMES += gpsvelocity
 UAVOBJSRCFILENAMES += groundpathfollowersettings
 UAVOBJSRCFILENAMES += vtolpathfollowersettings
 UAVOBJSRCFILENAMES += homelocation
-UAVOBJSRCFILENAMES += i2cstats
 UAVOBJSRCFILENAMES += insstate
 UAVOBJSRCFILENAMES += manualcontrolcommand
 UAVOBJSRCFILENAMES += manualcontrolsettings
