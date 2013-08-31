@@ -481,32 +481,6 @@ void i2c_adapter_log_fault(enum pios_i2c_error_type type)
 #endif
 }
 
-
-/**
- * Logs the last N state transitions and N IRQ events due to
- * an error condition
- * \param[out] data address where to copy the pios_i2c_fault_history structure to
- * \param[out] counts three uint16 that receive the bad event, fsm, and error irq
- * counts
- */
-void PIOS_I2C_GetDiagnostics(struct pios_i2c_fault_history *data, uint8_t *counts)
-{
-#if defined(PIOS_I2C_DIAGNOSTICS)
-	memcpy(data, &i2c_adapter_fault_history, sizeof(i2c_adapter_fault_history));
-	counts[0] = i2c_bad_event_counter;
-	counts[1] = i2c_fsm_fault_count;
-	counts[2] = i2c_error_interrupt_counter;
-	counts[3] = i2c_nack_counter;
-	counts[4] = i2c_timeout_counter;
-#else
-	struct pios_i2c_fault_history i2c_adapter_fault_history;
-	i2c_adapter_fault_history.type = PIOS_I2C_ERROR_EVENT;
-
-	memcpy(data, &i2c_adapter_fault_history, sizeof(i2c_adapter_fault_history));
-	counts[0] = counts[1] = counts[2] = 0;
-#endif
-}
-
 static bool PIOS_I2C_validate(struct pios_i2c_adapter *i2c_adapter)
 {
 	return (i2c_adapter->magic == PIOS_I2C_DEV_MAGIC);
@@ -721,6 +695,7 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 #if defined(PIOS_I2C_DIAGNOSTICS)
 		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_NACKF;
 		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		++i2c_nack_counter;
 #endif
 		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_NACK, &woken);
 	}
