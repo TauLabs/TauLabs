@@ -29,6 +29,7 @@
 #include <pios.h>
 #include <pios_stm32.h>
 #include <stdbool.h>
+#include "pios_semaphore.h"
 
 struct pios_i2c_adapter_cfg {
 	I2C_TypeDef *regs;
@@ -85,12 +86,9 @@ enum pios_i2c_adapter_magic {
 struct pios_i2c_adapter {
 	enum pios_i2c_adapter_magic         magic;
 	const struct pios_i2c_adapter_cfg * cfg;
-#ifdef PIOS_INCLUDE_FREERTOS
-	xSemaphoreHandle sem_busy;
-	xSemaphoreHandle sem_ready;
-#else
-	volatile uint8_t busy;
-#endif
+
+	struct pios_semaphore *sem_busy;
+	struct pios_semaphore *sem_ready;
 
 	bool bus_error;
 	bool nack;
