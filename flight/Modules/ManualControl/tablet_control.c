@@ -79,6 +79,9 @@ int32_t tablet_control_select(bool reset_controller)
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
 
+	if (PathDesiredHandle() == NULL)
+		return -1;
+
 	PathDesiredData pathDesired;
 	PathDesiredGet(&pathDesired);
 
