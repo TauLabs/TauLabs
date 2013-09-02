@@ -1087,7 +1087,7 @@ static void apply_accel_filter(const float * raw, float * filtered)
  * @note this method uses a taylor expansion around the home coordinates
  * to convert to NED which allows it to be done with all floating
  * calculations
- * @param[in] Current GPS coordinates
+ * @param[in] Current lat-lon coordinates on WGS84 ellipsoid, altitude referenced to MSL geoid (likely EGM 1996, but no guarantees)
  * @param[out] NED frame coordinates
  * @returns 0 for success, -1 for failure
  */
@@ -1096,7 +1096,7 @@ static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 {
 	float dL[3] = {(gpsPosition->Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
 		(gpsPosition->Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-		(gpsPosition->Altitude + gpsPosition->GeoidSeparation - homeLocation.Altitude)};
+		(gpsPosition->Altitude - homeLocation.Altitude)};
 
 	NED[0] = T[0] * dL[0];
 	NED[1] = T[1] * dL[1];
