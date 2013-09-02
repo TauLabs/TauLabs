@@ -49,12 +49,10 @@
 #include "systemalarms.h"
 
 // Private constants
-#if defined(PIOS_CONTROL_STACK_SIZE)
+#if defined(PIOS_MANUAL_STACK_SIZE)
 #define STACK_SIZE_BYTES PIOS_MANUAL_STACK_SIZE
-#elif !defined(COPTERCONTROL)
-#define STACK_SIZE_BYTES 1424
 #else
-#define STACK_SIZE_BYTES 550
+#define STACK_SIZE_BYTES 1424
 #endif
 
 #define TASK_PRIORITY (tskIDLE_PRIORITY+4)
