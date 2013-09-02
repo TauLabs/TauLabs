@@ -460,14 +460,14 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 			CF_INITIALIZING : 
 			CF_POWERON;
 	} else if(complementary_filter_state.initialization == CF_INITIALIZING &&
-		(ms_since_reset < 7000) && 
+		(ms_since_reset < 7000) &&
 		(ms_since_reset > 1000)) {
 
 		// For first 7 seconds use accels to get gyro bias
 		attitudeSettings.AccelKp = 0.1f + 0.1f * (xTaskGetTickCount() < 4000);
 		attitudeSettings.AccelKi = 0.0f;
 		attitudeSettings.MagKp = 0.1f;
-	} else if ((attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE) && 
+	} else if ((attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE) &&
 	           (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
 
 		// Use a rapidly decrease accelKp to force the attitude to snap back
@@ -571,7 +571,8 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 		MagnetometerData mag;
 		MagnetometerGet(&mag);
 
-		// If the mag is producing bad data (NAN) don't use it (normally bad calibration)
+		// If the mag is producing bad data (NaN) don't use it (normally bad calibration). `x == x` exploits an IEEE
+		// standard that comparisons involving NaN are always false.
 		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z) {
 			float bmag = 1.0f;
 			float brot[3];
@@ -586,7 +587,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 				brot[0] /= bmag;
 				brot[1] /= bmag;
 				brot[2] /= bmag;
-			} else {
+			} else { // Fixme: Should be a comment here
 				const float Be[3] = {1.0f, 0.0f, 0.0f};
 				rot_mult(Rbe, Be, brot, false);
 			}
