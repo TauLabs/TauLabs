@@ -382,23 +382,62 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	// When this algorithm is first run force it to a known condition
 	if(first_run) {
 		MagnetometerData magData;
-		magData.x = 100;
-		magData.y = 0;
-		magData.z = 0;
+		float mag_reference_2D[2];
 
-		// Wait for a mag reading if a magnetometer was registered
+		// If a magnetometer sensor is registered, wait for a reading
 		if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG) != NULL) {
 			if ( !secondary && xQueueReceive(magQueue, &ev, MS2TICKS(20)) != pdTRUE ) {
 				return -1;
 			}
 			MagnetometerGet(&magData);
+
+			// Do we know the local magnetic field?
+			if  (homeLocation.Set == HOMELOCATION_SET_TRUE) {
+				// Use it for reference
+				mag_reference_2D[0] = homeLocation.Be[0];
+				mag_reference_2D[1] = homeLocation.Be[1];
+			} else {
+				// Use a 2D magnetic field that points due North. It's not perfect,
+				// but will generally be correct to within a few degrees.
+				mag_reference_2D[0] = 1;
+				mag_reference_2D[1] = 0;
+			}
+		} else { // Otherwise create a dummy measurement
+			magData.x = 1;
+			magData.y = 0;
+			magData.z = 0;
+
+			mag_reference_2D[0] = 1;
+			mag_reference_2D[1] = 0;
 		}
 
-		float RPY[3];
-		float theta = atan2f(accelsData.x, -accelsData.z);
-		RPY[1] = theta * RAD2DEG;
-		RPY[0] = atan2f(-accelsData.y, -accelsData.z / cosf(theta)) * RAD2DEG;
-		RPY[2] = atan2f(-magData.y, magData.x) * RAD2DEG;
+		/* Back out phi and theta from Rbe * [0;0;-g] = acc_body */
+		float phi_R = atan2f(-accelsData.y, -accelsData.z); // Defined on (-pi,pi]
+		float theta_R = atanf(accelsData.x*cosf(phi_R) / (-accelsData.z));  // Defined on (-pi/2,pi/2]
+
+		/* Backing out psi is a little more complicated. We do this in two steps */
+
+		// 1) Recognize that Rbe = rotX(phi) * rotY(theta) * rotZ(psi). So we can rewrite
+		//    Rbe * mag_earth = mag_body ==> rotX(phi) * rotY(theta) * rotZ(psi) * mag_earth = mag_body
+		//    This yields rotZ(psi) * mag_earth = rotY(theta)' * rotX(phi)' * mag_body. Since we know
+		//    theta and phi, we can calculate an intermediate magnetometer measurement, leaving
+		//    psi as tne only unknown.
+		float mag_intermediate[3];
+		float mag_body[3] = {magData.x, magData.y, magData.z};
+		float cF = cosf(phi_R);
+		float sF = sinf(phi_R);
+		float cT = cosf(theta_R);
+		float sT = sinf(theta_R);
+		float rot_phi_theta[3][3] = {{ cT, sF*sT, cF*sT},
+									 {  0,    cF,   -sF},
+									 {-sT, sF*cT, cF*cT}};
+		rot_mult(rot_phi_theta, mag_body, mag_intermediate, false);
+
+		// 2) From 2D vector calculus, tan(psi) = (a X b) / (a.b)
+		float psi_R = atan2f(mag_intermediate[0]*mag_reference_2D[1] - mag_intermediate[1]*mag_reference_2D[0], mag_intermediate[0]*mag_reference_2D[0] + mag_intermediate[1]*mag_reference_2D[1]);
+
+		// Convert roll-pitch-yaw values into quaternions
+		float RPY[3] = {phi_R * RAD2DEG, theta_R * RAD2DEG, psi_R * RAD2DEG};
 		RPY2Quaternion(RPY, cf_q);
 
 		complementary_filter_state.initialization = CF_POWERON;
