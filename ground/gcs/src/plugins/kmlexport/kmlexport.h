@@ -41,6 +41,7 @@
 
 #include "./uavtalk/uavtalk.h"
 
+#include "airspeedactual.h"
 #include "attitudeactual.h"
 #include "homelocation.h"
 #include "gpsposition.h"
@@ -56,7 +57,7 @@ struct LLAVCoordinates
     double latitude;
     double longitude;
     double altitude;
-    double velocity; //in [m/s]
+    double groundspeed; //in [m/s]
 };
 
 /**
@@ -96,6 +97,7 @@ private:
 
     UAVTalk *kmlTalk;
 
+    AirspeedActual *airspeedActual;
     AttitudeActual *attitudeActual;
     GPSPosition *gpsPosition;
     HomeLocation *homeLocation;
@@ -116,6 +118,7 @@ private:
     quint32 lastPlacemarkTime;
     QString informationString;
     QVector<CoordinatesPtr> wallAxes;
+    static QString dateTimeFormat;
 
     void parseLogFile();
     StylePtr createGroundTrackStyle();
