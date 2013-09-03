@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @addtogroup SparkyBL Tau Labs Sparky bootloader
+ * @addtogroup SparkyBGCBL Tau Labs Sparky BGC bootloader
  * @{
  *
  * @file       pios_usb_board_data.c
