@@ -70,7 +70,7 @@ QWidget *OPMapGadgetOptionsPage::createPage(QWidget *parent)
 
     // if provider is userimage maximum zoom is 31
     if(m_config->mapProvider()=="UserImage")
-        m_page->zoomSpinBox->setMaximum(31);
+        m_page->zoomSpinBox->setMaximum(32);
 
     // populate the geocode language combobox
 
