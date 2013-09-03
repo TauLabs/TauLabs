@@ -2,14 +2,13 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup Sparky Tau Labs Sparky support files
+ * @addtogroup SparkyBGC Tau Labs Sparky BGC support files
  * @{
  *
  * @file       board_hw_defs.c 
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Defines board specific static initializers for hardware for the
- *             Sparky board.
+ *             Sparky BGC board.
  * @see        The GNU Public License (GPL) Version 3
  * 
  *****************************************************************************/
@@ -883,322 +882,184 @@ static const struct pios_tim_clock_cfg tim_17_cfg = {
 	},
 };
 
-/**
- * Pios servo configuration structures
- */
-/*
- * 	OUTPUTS
-	1:  TIM15_CH2 (PB15)
-	2:  TIM2_CH4 (PB11)
-	3:  TIM3_CH4 (PB1)
-	4:  TIM17_CH1 (PA7)
-	5:  TIM3_CH2 (PA4)
-	6:  TIM2_CH2 (PA1)
- */
+#if defined(PIOS_INCLUDE_BRUSHLESS)
 
-static const struct pios_tim_channel pios_tim_servoport_v01_pins[] = {
-	{ // Ch1 -- Crap, conflicts with PPM input TIM15_CH2
-		.timer = TIM15,
-		.timer_chan = TIM_Channel_2,
-		.remap = GPIO_AF_1,
-		.pin = {
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_15,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource15,
-		},
-	},
-	{ // Ch2
-		.timer = TIM2,
-		.timer_chan = TIM_Channel_4,
-		.remap = GPIO_AF_1,
-		.pin = {
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_11,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource11,
-		},
-	},
-	{ // Ch3
-		.timer = TIM3,
-		.timer_chan = TIM_Channel_4,
-		.remap = GPIO_AF_2,
-		.pin = {
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_1,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource1,
-		},
-	},
-	{ // Ch4
-		.timer = TIM17,
-		.timer_chan = TIM_Channel_1,
-		.remap = GPIO_AF_1,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_7,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource7,
-		},
-	},
-	{ // Ch5
-		.timer = TIM3,
-		.timer_chan = TIM_Channel_2,
-		.remap = GPIO_AF_2,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_4,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource4,
-		},
-	},
-	{ // Ch6
-		.timer = TIM2,
-		.timer_chan = TIM_Channel_2,
-		.remap = GPIO_AF_1,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_1,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource1,
-		},
-	},
-};
-
- /* 	OUTPUTS
-	1:  TIM15_CH2 (PB15)
-	2:  TIM15_CH1 (PB14)
-	3:  TIM1_CH1  (PA8)
-	4:  TIM3_CH3  (PB0)
-	5:  TIM16_CH1 (PA6)
-	6:  TIM2_CH3  (PA2)
-	7:  TIM3_CH4  (PB1)
-	8:  TIM17_CH1 (PA7)
-	9:  TIM3_CH2  (PA4)
-	10: TIM2_CH2  (PA1)
- */
-
-static const struct pios_tim_channel pios_tim_servoport_v02_pins[] = {
-	{ // Ch1 TIM15_CH2 (PB15)
-		.timer = TIM15,
-		.timer_chan = TIM_Channel_2,
-		.remap = GPIO_AF_1,
-		.pin = {
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_15,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource15,
-		},
-	},
-	{ // Ch2 TIM15_CH1 (PB14)
-		.timer = TIM15,
-		.timer_chan = TIM_Channel_1,
-		.remap = GPIO_AF_1,
-		.pin = {
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_14,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource14,
-		},
-	},
-	{ // Ch3 TIM1_CH1  (PA8)
-		.timer = TIM1,
-		.timer_chan = TIM_Channel_1,
-		.remap = GPIO_AF_6,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_8,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource8,
-		},
-	},
-	{ // Ch4 TIM3_CH3  (PB0)
-		.timer = TIM3,
-		.timer_chan = TIM_Channel_3,
-		.remap = GPIO_AF_2,
-		.pin = {
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_0,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource0,
-		},
-	},
-	{ // Ch5 TIM16_CH1 (PA6)
-		.timer = TIM16,
-		.timer_chan = TIM_Channel_1,
-		.remap = GPIO_AF_1,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_6,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource6,
-		},
-	},
-	{ // Ch6 TIM2_CH3  (PA2)
-		.timer = TIM2,
-		.timer_chan = TIM_Channel_3,
-		.remap = GPIO_AF_1,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_2,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource2,
-		},
-	},
-	{ // Ch7 TIM3_CH4  (PB1)
-		.timer = TIM3,
-		.timer_chan = TIM_Channel_4,
-		.remap = GPIO_AF_2,
-		.pin = {
-			.gpio = GPIOB,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_1,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource1,
-		},
-	},
-	{ // Ch8 TIM17_CH1 (PA7)
-		.timer = TIM17,
-		.timer_chan = TIM_Channel_1,
-		.remap = GPIO_AF_1,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_7,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource7,
-		},
-	},
-#if !defined(PIOS_INCLUDE_ADC)	
-	{ // Ch9 TIM3_CH2  (PA4)
-		.timer = TIM3,
-		.timer_chan = TIM_Channel_2,
-		.remap = GPIO_AF_2,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_4,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource4,
-		},
-	},
-	{ // Ch10 TIM2_CH2  (PA1)
-		.timer = TIM2,
-		.timer_chan = TIM_Channel_2,
-		.remap = GPIO_AF_1,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_1,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource1,
-		},
-	},
+/*    OUTPUTS
+      1:  TIM15_CH2 (PB15)
+      2:  TIM15_CH1 (PB14)
+      3:  TIM1_CH1  (PA8)
+      4:  TIM3_CH3  (PB0)
+      5:  TIM16_CH1 (PA6)
+      6:  TIM2_CH3  (PA2)
+      7:  TIM3_CH4  (PB1)
+      8:  TIM17_CH1 (PA7)
+      9:  TIM3_CH2  (PA4)
+      10: TIM2_CH2  (PA1)
+*/
+static const struct pios_tim_channel pios_tim_bgcport_v02_pins[] = {
+   { // Ch1 TIM15_CH2 (PB15)
+           .timer = TIM15,
+           .timer_chan = TIM_Channel_2,
+           .remap = GPIO_AF_1,
+           .pin = {
+                   .gpio = GPIOB,
+                   .init = {
+                           .GPIO_Pin = GPIO_Pin_15,
+                           .GPIO_Speed = GPIO_Speed_2MHz,
+                           .GPIO_Mode  = GPIO_Mode_AF,
+                           .GPIO_OType = GPIO_OType_PP,
+                           .GPIO_PuPd  = GPIO_PuPd_UP
+                   },
+                   .pin_source = GPIO_PinSource15,
+           },
+   },
+   { // Ch2 TIM15_CH1 (PB14)
+           .timer = TIM15,
+           .timer_chan = TIM_Channel_1,
+           .remap = GPIO_AF_1,
+           .pin = {
+                   .gpio = GPIOB,
+                   .init = {
+                           .GPIO_Pin = GPIO_Pin_14,
+                           .GPIO_Speed = GPIO_Speed_2MHz,
+                           .GPIO_Mode  = GPIO_Mode_AF,
+                           .GPIO_OType = GPIO_OType_PP,
+                           .GPIO_PuPd  = GPIO_PuPd_UP
+                   },
+                   .pin_source = GPIO_PinSource14,
+           },
+   },
+   { // Ch3 TIM1_CH1  (PA8)
+           .timer = TIM1,
+           .timer_chan = TIM_Channel_1,
+           .remap = GPIO_AF_6,
+           .pin = {
+                   .gpio = GPIOA,
+                   .init = {
+                           .GPIO_Pin = GPIO_Pin_8,
+                           .GPIO_Speed = GPIO_Speed_2MHz,
+                           .GPIO_Mode  = GPIO_Mode_AF,
+                           .GPIO_OType = GPIO_OType_PP,
+                           .GPIO_PuPd  = GPIO_PuPd_UP
+                   },
+                   .pin_source = GPIO_PinSource8,
+           },
+   },
+   { // Ch4 TIM3_CH3  (PB0)
+           .timer = TIM3,
+           .timer_chan = TIM_Channel_3,
+           .remap = GPIO_AF_2,
+           .pin = {
+                   .gpio = GPIOB,
+                   .init = {
+                           .GPIO_Pin = GPIO_Pin_0,
+                           .GPIO_Speed = GPIO_Speed_2MHz,
+                           .GPIO_Mode  = GPIO_Mode_AF,
+                           .GPIO_OType = GPIO_OType_PP,
+                           .GPIO_PuPd  = GPIO_PuPd_UP
+                   },
+                   .pin_source = GPIO_PinSource0,
+           },
+   },
+   { // Ch5 TIM16_CH1 (PA6)
+           .timer = TIM16,
+           .timer_chan = TIM_Channel_1,
+           .remap = GPIO_AF_1,
+           .pin = {
+                   .gpio = GPIOA,
+                   .init = {
+                           .GPIO_Pin = GPIO_Pin_6,
+                           .GPIO_Speed = GPIO_Speed_2MHz,
+                           .GPIO_Mode  = GPIO_Mode_AF,
+                           .GPIO_OType = GPIO_OType_PP,
+                           .GPIO_PuPd  = GPIO_PuPd_UP
+                   },
+                   .pin_source = GPIO_PinSource6,
+           },
+   },
+   { // Ch6 TIM2_CH3  (PA2)
+           .timer = TIM2,
+           .timer_chan = TIM_Channel_3,
+           .remap = GPIO_AF_1,
+           .pin = {
+                   .gpio = GPIOA,
+                   .init = {
+                           .GPIO_Pin = GPIO_Pin_2,
+                           .GPIO_Speed = GPIO_Speed_2MHz,
+                           .GPIO_Mode  = GPIO_Mode_AF,
+                           .GPIO_OType = GPIO_OType_PP,
+                           .GPIO_PuPd  = GPIO_PuPd_UP
+                   },
+                   .pin_source = GPIO_PinSource2,
+           },
+   },
+   { // Ch7 TIM3_CH4  (PB1)
+           .timer = TIM3,
+           .timer_chan = TIM_Channel_4,
+           .remap = GPIO_AF_2,
+           .pin = {
+                   .gpio = GPIOB,
+                   .init = {
+                           .GPIO_Pin = GPIO_Pin_1,
+                           .GPIO_Speed = GPIO_Speed_2MHz,
+                           .GPIO_Mode  = GPIO_Mode_AF,
+                           .GPIO_OType = GPIO_OType_PP,
+                           .GPIO_PuPd  = GPIO_PuPd_UP
+                   },
+                   .pin_source = GPIO_PinSource1,
+           },
+   },
+   { // Ch8 TIM17_CH1 (PA7)
+           .timer = TIM17,
+           .timer_chan = TIM_Channel_1,
+           .remap = GPIO_AF_1,
+           .pin = {
+                   .gpio = GPIOA,
+                   .init = {
+                           .GPIO_Pin = GPIO_Pin_7,
+                           .GPIO_Speed = GPIO_Speed_2MHz,
+                           .GPIO_Mode  = GPIO_Mode_AF,
+                           .GPIO_OType = GPIO_OType_PP,
+                           .GPIO_PuPd  = GPIO_PuPd_UP
+                   },
+                   .pin_source = GPIO_PinSource7,
+           },
+   },
+#if !defined(PIOS_INCLUDE_ADC) 
+   { // Ch9 TIM3_CH2  (PA4)
+           .timer = TIM3,
+           .timer_chan = TIM_Channel_2,
+           .remap = GPIO_AF_2,
+           .pin = {
+                   .gpio = GPIOA,
+                   .init = {
+                           .GPIO_Pin = GPIO_Pin_4,
+                           .GPIO_Speed = GPIO_Speed_2MHz,
+                           .GPIO_Mode  = GPIO_Mode_AF,
+                           .GPIO_OType = GPIO_OType_PP,
+                           .GPIO_PuPd  = GPIO_PuPd_UP
+                   },
+                   .pin_source = GPIO_PinSource4,
+           },
+   },
+   { // Ch10 TIM2_CH2  (PA1)
+           .timer = TIM2,
+           .timer_chan = TIM_Channel_2,
+           .remap = GPIO_AF_1,
+           .pin = {
+                   .gpio = GPIOA,
+                   .init = {
+                           .GPIO_Pin = GPIO_Pin_1,
+                           .GPIO_Speed = GPIO_Speed_2MHz,
+                           .GPIO_Mode  = GPIO_Mode_AF,
+                           .GPIO_OType = GPIO_OType_PP,
+                           .GPIO_PuPd  = GPIO_PuPd_UP
+                   },
+                   .pin_source = GPIO_PinSource1,
+           },
+   },
 #endif  /* PIOS_INCLUDE_ADC */
 };
-
-
-#if defined(PIOS_INCLUDE_SERVO) && defined(PIOS_INCLUDE_TIM)
-/*
- * Servo outputs
- */
-#include <pios_servo_priv.h>
-
-const struct pios_servo_cfg pios_servo_cfg = {
-	.tim_oc_init = {
-		.TIM_OCMode = TIM_OCMode_PWM1,
-		.TIM_OutputState = TIM_OutputState_Enable,
-		.TIM_OutputNState = TIM_OutputNState_Disable,
-		.TIM_Pulse = PIOS_SERVOS_INITIAL_POSITION,
-		.TIM_OCPolarity = TIM_OCPolarity_High,
-		.TIM_OCNPolarity = TIM_OCPolarity_High,
-		.TIM_OCIdleState = TIM_OCIdleState_Reset,
-		.TIM_OCNIdleState = TIM_OCNIdleState_Reset,
-	},
-	.channels = pios_tim_servoport_v02_pins,
-	.num_channels = NELEMENTS(pios_tim_servoport_v02_pins),
-};
-
-#endif	/* PIOS_INCLUDE_SERVO && PIOS_INCLUDE_TIM */
-
-
-#if defined(PIOS_INCLUDE_BRUSHLESS)
 
 static const TIM_TimeBaseInitTypeDef tim_1_16_brushless_time_base = {
 	.TIM_Prescaler = 0,
@@ -1303,8 +1164,8 @@ const struct pios_brushless_cfg pios_brushless_cfg = {
 		.TIM_Period = 1200, //((PIOS_PERIPHERAL_APB2_CLOCK / 2 / 30000) ) - 1,
 		.TIM_RepetitionCounter = 0x0000,
 	},
-	.channels = pios_tim_servoport_v02_pins,
-	.num_channels = NELEMENTS(pios_tim_servoport_v02_pins),
+	.channels = pios_tim_bgcport_v02_pins,
+	.num_channels = NELEMENTS(pios_tim_bgcport_v02_pins),
 };
 
 #endif

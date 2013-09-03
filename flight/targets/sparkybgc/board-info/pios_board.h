@@ -2,12 +2,12 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup Sparky Tau Labs Sparky support files
+ * @addtogroup SparkyBGC Tau Labs Sparky BGC support files
  * @{
  *
- * @file       STM32F30x_Sparky.c 
+ * @file       pios_board.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @brief      Board header file for Sparky board.
+ * @brief      Board header file for Sparky BGC board.
  * @see        The GNU Public License (GPL) Version 3
  * 
  *****************************************************************************/
@@ -57,21 +57,6 @@ TIM8  |           |           |           |
 ------+-----------+-----------+-----------+----------
 */
 
-//------------------------
-// DMA Channels Used
-//------------------------
-/* Channel 1  -                                 */
-/* Channel 2  - SPI1 RX                         */
-/* Channel 3  - SPI1 TX                         */
-/* Channel 4  - SPI2 RX                         */
-/* Channel 5  - SPI2 TX                         */
-/* Channel 6  -                                 */
-/* Channel 7  -                                 */
-/* Channel 8  -                                 */
-/* Channel 9  -                                 */
-/* Channel 10 -                                 */
-/* Channel 11 -                                 */
-/* Channel 12 -                                 */
 
 //------------------------
 // BOOTLOADER_SETTINGS
@@ -87,11 +72,6 @@ TIM8  |           |           |           |
 #define PIOS_LED_HEARTBEAT				0
 #define PIOS_LED_ALARM					1
 
-//-------------------------
-// PIOS_SPI
-// See also pios_board.c
-//-------------------------
-#define PIOS_SPI_MAX_DEVS				1
 
 //------------------------
 // PIOS_WDG
@@ -107,12 +87,6 @@ TIM8  |           |           |           |
 extern uint32_t pios_i2c_flexi_id;
 #define PIOS_I2C_MAIN_ADAPTER			(pios_i2c_flexi_id)	//this is dirty and should be removed in favor a cleaner sensor api
 
-//-------------------------
-// PIOS_USART
-//
-// See also pios_board.c
-//-------------------------
-#define PIOS_USART_MAX_DEVS				3
 
 //-------------------------
 // PIOS_COM
@@ -171,32 +145,27 @@ extern uintptr_t pios_com_debug_id;
 // PIOS_RCVR
 // See also pios_board.c
 //------------------------
-#define PIOS_RCVR_MAX_DEVS				3
 #define PIOS_RCVR_MAX_CHANNELS			12
 #define PIOS_GCSRCVR_TIMEOUT_MS			100
 
 //-------------------------
 // Receiver PPM input
 //-------------------------
-#define PIOS_PPM_MAX_DEVS				1
 #define PIOS_PPM_NUM_INPUTS				12
 
 //-------------------------
 // Receiver PWM input
 //-------------------------
-#define PIOS_PWM_MAX_DEVS				1
 #define PIOS_PWM_NUM_INPUTS				10
 
 //-------------------------
 // Receiver DSM input
 //-------------------------
-#define PIOS_DSM_MAX_DEVS				2
 #define PIOS_DSM_NUM_INPUTS				12
 
 //-------------------------
 // Receiver S.Bus input
 //-------------------------
-#define PIOS_SBUS_MAX_DEVS				1
 #define PIOS_SBUS_NUM_INPUTS			(16+2)
 
 //-------------------------

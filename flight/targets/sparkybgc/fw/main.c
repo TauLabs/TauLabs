@@ -2,10 +2,10 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup Sparky Tau Labs Sparky support files
+ * @addtogroup SparkyBGC Tau Labs Sparky BGC support files
  * @{
  *
- * @file       sparky.c 
+ * @file       main.c 
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Start FreeRTOS and the Modules.
  * @see        The GNU Public License (GPL) Version 3

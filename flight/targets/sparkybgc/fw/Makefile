@@ -43,17 +43,11 @@ OPTMODULES += GPS
 OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
-OPTMODULES += GenericI2CSensor
-OPTMODULES += AltitudeHold
-OPTMODULES += PathPlanner
-OPTMODULES += VtolPathFollower
-OPTMODULES += FixedWingPathFollower
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
 OPTMODULES += UAVORelay
-OPTMODULES += Airspeed/revolution
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc

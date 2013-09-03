@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup Sparky Tau Labs Sparky support files
+ * @addtogroup SparkyBGC Tau Labs Sparky BGC support files
  * @{
  *
  * @file       pios_config.h 
