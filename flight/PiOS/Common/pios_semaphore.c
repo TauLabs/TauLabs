@@ -27,6 +27,10 @@
 #include "pios.h"
 #include "pios_semaphore.h"
 
+#if !defined(PIOS_INCLUDE_FREERTOS) && !defined(PIOS_INCLUDE_IRQ)
+#error pios_semaphore.c requires either PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_IRQ to be defined
+#endif
+
 struct pios_semaphore *PIOS_Semaphore_Create(void)
 {
 	struct pios_semaphore *sema = PIOS_malloc(sizeof(struct pios_semaphore));
