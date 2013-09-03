@@ -38,10 +38,14 @@ struct pios_semaphore *PIOS_Semaphore_Create(void)
 	if (sema == NULL)
 		return NULL;
 
+	/*
+	 * The initial state of a binary semaphore is "given".
+	 * FreeRTOS executes a "give" upon creation.
+	 */
 #if defined(PIOS_INCLUDE_FREERTOS)
 	vSemaphoreCreateBinary(sema->sema_handle);
 #else
-	sema->sema_count = 0;
+	sema->sema_count = 1;
 #endif
 
 	return sema;
