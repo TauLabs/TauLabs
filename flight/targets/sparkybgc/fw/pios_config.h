@@ -48,23 +48,17 @@
 #define PIOS_INCLUDE_IAP
 #define PIOS_INCLUDE_TIM
 #define PIOS_INCLUDE_BRUSHLESS
-//#define PIOS_INCLUDE_SERVO
 #define PIOS_INCLUDE_SYS
 #define PIOS_INCLUDE_USART
 #define PIOS_INCLUDE_USB
 #define PIOS_INCLUDE_USB_HID
 #define PIOS_INCLUDE_USB_CDC
-//#define PIOS_INCLUDE_GPIO
 #define PIOS_INCLUDE_EXTI
 #define PIOS_INCLUDE_RTC
 #define PIOS_INCLUDE_WDG
 
 /* Select the sensors to include */
 #define PIOS_INCLUDE_MS5611
-//#define PIOS_INCLUDE_ETASV3
-#define PIOS_INCLUDE_MPXV5004
-#define PIOS_INCLUDE_MPXV7002
-//#define PIOS_INCLUDE_MPU6050
 #define PIOS_MPU6050_ACCEL
 #define PIOS_MPU6050_SIMPLE_INIT_SEQUENCE
 #define PIOS_INCLUDE_MPU9150
@@ -94,7 +88,6 @@
 #define PIOS_INCLUDE_LOGFS_SETTINGS
 
 /* Other Interfaces */
-//#define PIOS_INCLUDE_I2C_ESC
 
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */
