@@ -60,8 +60,6 @@ public slots:
     void setActualPositionUsed(bool arg);
     void setSettingsMap(const QVariantMap &settings);
 
-    void exportUAVOInstance(const QString &objectName, int instId);
-
 signals:
     void earthFileChanged(QString arg);
     void terrainEnabledChanged(bool arg);
@@ -72,6 +70,7 @@ signals:
     void altitudeChanged(double arg);
 
 private:
+    QStringList objectsToExport;
     QString m_qmlFileName;
     QString m_earthFile;
     bool m_openGLEnabled;
@@ -83,6 +82,10 @@ private:
     double m_altitude;
 
     UAVObjectManager *m_objManager;
+    void hideEvent(QHideEvent *event);
+    void showEvent(QShowEvent *event);
+    void exportUAVOInstance(const QString &objectName, int instId);
+    void resetUAVOExport(const QString &objectName, int instId);
 };
 
 #endif /* PFDQMLGADGETWIDGET_H_ */
