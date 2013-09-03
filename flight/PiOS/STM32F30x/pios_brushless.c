@@ -111,52 +111,30 @@ int32_t PIOS_Brushless_Init(const struct pios_brushless_cfg * cfg)
 	return 0;
 }
 
-float    phases[NUM_BGC_CHANNELS];
-float    phase_lag[NUM_BGC_CHANNELS];
-float    speeds[NUM_BGC_CHANNELS];
-float    scales[NUM_BGC_CHANNELS];
-float    accel_limit[NUM_BGC_CHANNELS] = {3000,3000,3000};
-int16_t  scale = 30;
-int32_t  center = 300;
+static float    phases[NUM_BGC_CHANNELS];      /*! current phase for each output channel */
+static float    phase_lag[NUM_BGC_CHANNELS];   /*! offset of phase which from module, provides damping */
+static float    speeds[NUM_BGC_CHANNELS];      /*! speed for each of the channels */
+static float    scales[NUM_BGC_CHANNELS];      /*! fractional scale for each channel. sets power */
+static float    accel_limit[NUM_BGC_CHANNELS]; /*! slew rate limit (deg/s^2) */
+static int16_t  scale;                         /*! amplitude of sine wave */
+static int32_t  center;                        /*! center value of sine wave */
 
 /**
 * Set the servo update rate (Max 500Hz)
 * \param[in] rate in Hz
 */
-void PIOS_Brushless_SetUpdateRate(uint32_t rate)
+int32_t PIOS_Brushless_SetUpdateRate(uint32_t rate)
 {
 	if (!brushless_cfg) {
-		return;
+		return -1;
 	}
 
-	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = brushless_cfg->tim_base_init;
-	/*TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_CenterAligned1;
-
-	for(uint8_t i = 0; i < brushless_cfg->num_channels; i++) {
-		bool new = true;
-		const struct pios_tim_channel * chan = &brushless_cfg->channels[i];
-
-		if(new) {
-			// Choose the correct prescaler value for the APB the timer is attached
-			if (chan->timer==TIM2 || chan->timer==TIM3 || chan->timer==TIM4 || chan->timer==TIM6 || chan->timer==TIM7 ){
-				//those timers run at double APB1 speed if APB1 prescaler is != 1 which is usually the case
-				TIM_TimeBaseStructure.TIM_Prescaler = 0 ;
-			}
-			else {
-				TIM_TimeBaseStructure.TIM_Prescaler = 1 ;
-			}
-
-			// At this point using hte prescalar all should be running at SYSCLK / 2
-			TIM_TimeBaseStructure.TIM_Period = 1200; //((36000000 / rate));
-			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
-		}
-
-	}
-	*/
 	// Set some default reasonable parameters
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = brushless_cfg->tim_base_init;
 	center = TIM_TimeBaseStructure.TIM_Period / 2;
 	scale = center;
+
+	return 0;
 }
 
 /**
@@ -165,14 +143,20 @@ void PIOS_Brushless_SetUpdateRate(uint32_t rate)
 * \param[in] speed The desired speed (integrated by internal task)
 * \
 */
-void PIOS_Brushless_SetSpeed(uint32_t channel, float speed, float dT)
+int32_t PIOS_Brushless_SetSpeed(uint32_t channel, float speed, float dT)
 {
 	if (channel >= NUM_BGC_CHANNELS)
-		return; // TODO: add error code
+		return -1;
 
+	float diff;
 	// Limit the slew rate 
-	float diff = bound_sym(speed - speeds[channel], accel_limit[channel] * dT);
+	if (accel_limit[channel])
+		diff = bound_sym(speed - speeds[channel], accel_limit[channel] * dT);
+	else
+		diff = speed - speeds[channel];
 	speeds[channel] += diff;
+
+	return 0;
 }
 
 /**
@@ -180,28 +164,34 @@ void PIOS_Brushless_SetSpeed(uint32_t channel, float speed, float dT)
  * @param[in] channel The brushless output channel
  * @param[in] phase The phase lag for a channel (for damping)
  */
-void PIOS_Brushless_SetPhaseLag(uint32_t channel, float phase)
+int32_t PIOS_Brushless_SetPhaseLag(uint32_t channel, float phase)
 {
 	if (channel >= NUM_BGC_CHANNELS)
-		return; // TODO: add error code
+		return -1;
 
 	phase_lag[channel] = phase;
+
+	return 0;
 }
 
 //! Set the amplitude scale in %
-void PIOS_Brushless_SetScale(uint8_t roll, uint8_t pitch, uint8_t yaw)
+int32_t PIOS_Brushless_SetScale(uint8_t roll, uint8_t pitch, uint8_t yaw)
 {
 	scales[0] = (float) roll / 100.0f;
 	scales[1] = (float) pitch / 100.0f;
 	scales[2] = (float) yaw / 100.0f;
+
+	return 0;
 }
 
 //! Set the maximum change in velocity per second
-void PIOS_Brushless_SetMaxAcceleration(float roll, float pitch, float yaw)
+int32_t PIOS_Brushless_SetMaxAcceleration(float roll, float pitch, float yaw)
 {
 	accel_limit[0] = roll;
 	accel_limit[1] = pitch;
 	accel_limit[2] = yaw;
+
+	return 0;
 }
 
 /**
@@ -211,20 +201,22 @@ void PIOS_Brushless_SetMaxAcceleration(float roll, float pitch, float yaw)
  */
 static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg)
 {
+	const int32_t PIN_PER_MOTOR  = 3;
+
 	/* Make sure a valid channel */
 	if (channel >= NUM_BGC_CHANNELS)
 		return -1;
 
 	/* Check enough outputs are registered */
-	if (!brushless_cfg || (3 * (channel + 1)) > brushless_cfg->num_channels) {
+	if (!brushless_cfg || (PIN_PER_MOTOR * (channel + 1)) > brushless_cfg->num_channels) {
 		return -2;
 	}
 
 	// Get the first output index
-	for (int32_t idx = channel * 3; idx < (channel + 1) * 3; idx++) {
+	for (int32_t idx = channel * PIN_PER_MOTOR; idx < (channel + 1) * PIN_PER_MOTOR; idx++) {
 
 		// sin lookup expects between 0 and 360
-		if (phase_deg > 360)
+		while (phase_deg > 360)
 			phase_deg -= 360;
 
 		int32_t position = scales[channel] * (center + scale * sinf(phase_deg * DEG2RAD));
@@ -262,7 +254,7 @@ static void PIOS_BRUSHLESS_Task(void* parameters)
 
 		vTaskDelay(1);
 
-		const float dT = 0.001f;
+		const float dT = TICKS2MS(1) * 0.001f;
 
 		for (int channel = 0; channel < NUM_BGC_CHANNELS; channel++) {
 

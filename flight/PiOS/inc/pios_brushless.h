@@ -33,19 +33,19 @@
 /* Public Functions */
 
 //! Set the speed of a channel in deg / s
-extern void PIOS_Brushless_SetSpeed(uint32_t channel, float speed, float dT);
+extern int32_t PIOS_Brushless_SetSpeed(uint32_t channel, float speed, float dT);
 
 //! Set the phase offset for a channel relative to integrated position
-extern void PIOS_Brushless_SetPhaseLag(uint32_t channel, float phase);
+extern int32_t PIOS_Brushless_SetPhaseLag(uint32_t channel, float phase);
 
 //! Set the update rate in hz
-extern void PIOS_Brushless_SetUpdateRate(uint32_t rate);
+extern int32_t PIOS_Brushless_SetUpdateRate(uint32_t rate);
 
 //! Set the amplitude scale in %
-extern void PIOS_Brushless_SetScale(uint8_t roll, uint8_t pitch, uint8_t yaw);
+extern int32_t PIOS_Brushless_SetScale(uint8_t roll, uint8_t pitch, uint8_t yaw);
 
 //! Max acceleration
-extern void PIOS_Brushless_SetMaxAcceleration(float roll, float pitch, float yaw);
+extern int32_t PIOS_Brushless_SetMaxAcceleration(float roll, float pitch, float yaw);
 
 #endif /* PIOS_BRUSHLESS_H */
 

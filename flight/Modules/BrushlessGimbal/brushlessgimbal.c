@@ -61,7 +61,7 @@ static void brushlessGimbalTask(void* parameters);
  * @brief Module initialization
  * @return 0
  */
-int32_t BrushlessGimbalStart()
+static int32_t BrushlessGimbalStart()
 {
 	// Start main task
 	xTaskCreate(brushlessGimbalTask, (signed char*)"BrushlessGimbal", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
@@ -75,7 +75,7 @@ int32_t BrushlessGimbalStart()
  * @brief Module initialization
  * @return 0
  */
-int32_t BrushlessGimbalInitialize()
+static int32_t BrushlessGimbalInitialize()
 {
 	// Listen for ActuatorDesired updates (Primary input to this module)
 	ActuatorDesiredInitialize();
@@ -102,8 +102,7 @@ static void brushlessGimbalTask(void* parameters)
 
 	bool armed = false;
 	bool previous_armed = false;
-	while (1)
-	{
+	while (1) {
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
 
 		// Wait until the ActuatorDesired object is updated
