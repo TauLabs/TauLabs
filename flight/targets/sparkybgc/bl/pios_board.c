@@ -41,12 +41,8 @@
 
 uintptr_t pios_com_telem_usb_id;
 
-static bool board_init_complete = false;
-void PIOS_Board_Init() {
-	if (board_init_complete) {
-		return;
-	}
-
+void PIOS_Board_Init()
+{
 	/* Delay system */
 	PIOS_DELAY_Init();
 
@@ -83,8 +79,6 @@ void PIOS_Board_Init() {
 #endif	/* PIOS_INCLUDE_USB_HID && PIOS_INCLUDE_COM_MSG */
 
 #endif	/* PIOS_INCLUDE_USB */
-
-	board_init_complete = true;
 }
 
 /**
