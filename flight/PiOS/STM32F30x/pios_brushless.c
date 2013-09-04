@@ -90,20 +90,13 @@ int32_t PIOS_Brushless_Init(const struct pios_brushless_cfg * cfg)
 		TIM_Cmd(chan->timer, ENABLE);
 	}
 
-	// PA7 and PB1 enabled and on for SparkyBGC
-	// TODO put into configuration
-	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	GPIO_SetBits(GPIOB, GPIO_InitStructure.GPIO_Pin);
-
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-	GPIO_SetBits(GPIOA, GPIO_InitStructure.GPIO_Pin);
+	for (uint8_t i = 0 ; i < NUM_BGC_CHANNELS; i++) {
+		// Enable the available enable lines
+		if (cfg->enables[i].gpio) {
+			GPIO_Init(cfg->enables[i].gpio, (GPIO_InitTypeDef *) &cfg->enables[i].init);
+			GPIO_SetBits(cfg->enables[i].gpio, cfg->enables[i].init.GPIO_Pin);
+		}
+	}
 
 	// Start main task
 	xTaskCreate(PIOS_BRUSHLESS_Task, (signed char*)"PIOS_BRUSHLESS", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);

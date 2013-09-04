@@ -1164,6 +1164,38 @@ const struct pios_brushless_cfg pios_brushless_cfg = {
 		.TIM_Period = 1200, //((PIOS_PERIPHERAL_APB2_CLOCK / 2 / 30000) ) - 1,
 		.TIM_RepetitionCounter = 0x0000,
 	},
+	.enables = {
+		{
+			.gpio = GPIOB,
+			.init = {
+				.GPIO_Pin   = GPIO_Pin_1,
+				.GPIO_Speed = GPIO_Speed_50MHz,
+				.GPIO_Mode  = GPIO_Mode_OUT,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd = GPIO_PuPd_NOPULL
+			},
+		},
+		{
+			.gpio = GPIOA,
+			.init = {
+				.GPIO_Pin   = GPIO_Pin_7,
+				.GPIO_Speed = GPIO_Speed_50MHz,
+				.GPIO_Mode  = GPIO_Mode_OUT,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd = GPIO_PuPd_NOPULL
+			},
+		},
+		{ // Support for up to 3 motors, unused
+			.gpio = (GPIO_TypeDef *) NULL,
+			.init = {
+				.GPIO_Pin   = GPIO_Pin_0,
+				.GPIO_Speed = GPIO_Speed_50MHz,
+				.GPIO_Mode  = GPIO_Mode_OUT,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd = GPIO_PuPd_NOPULL
+			},
+		},
+	},
 	.channels = pios_tim_bgcport_v02_pins,
 	.num_channels = NELEMENTS(pios_tim_bgcport_v02_pins),
 };

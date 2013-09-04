@@ -38,6 +38,7 @@ struct pios_brushless_cfg {
 	TIM_OCInitTypeDef tim_oc_init;
 	GPIO_InitTypeDef gpio_init;
 	uint32_t remap;
+	const struct stm32_gpio enables[3];
 	const struct pios_tim_channel * channels;
 	uint8_t num_channels;
 };
