@@ -44,8 +44,8 @@
 #include "transmitter_control.h"
 
 #include "flightstatus.h"
-#include "manualcontrolcommand.h"
-#include "manualcontrolsettings.h"
+#include "controlcommandsettings.h"
+#include "rctransmitterinput.h"
 #include "systemalarms.h"
 
 // Private constants
@@ -238,17 +238,16 @@ static int32_t control_event_disarm()
  */
 static FlightStatusControlSourceOptions control_source_select()
 {
-	ManualControlCommandData cmd;
-	ManualControlCommandGet(&cmd);
-	if (cmd.Connected != MANUALCONTROLCOMMAND_CONNECTED_TRUE) {
+	RCTransmitterInputData rc_tx_input;
+	RCTransmitterInputGet(&rc_tx_input);
+	if (rc_tx_input.Connected != RCTRANSMITTERINPUT_CONNECTED_TRUE) {
 		return FLIGHTSTATUS_CONTROLSOURCE_FAILSAFE;
 	} else if (transmitter_control_get_flight_mode() ==
-	           MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_TABLETCONTROL) {
+			   CONTROLCOMMANDSETTINGS_FLIGHTMODEPOSITION_TABLETCONTROL) {
 		return FLIGHTSTATUS_CONTROLSOURCE_TABLET;
 	} else {
 		return FLIGHTSTATUS_CONTROLSOURCE_TRANSMITTER;
 	}
-
 }
 /**
  * @brief Determine if the aircraft is safe to arm based on alarms

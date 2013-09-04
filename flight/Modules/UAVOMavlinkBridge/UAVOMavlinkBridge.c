@@ -34,7 +34,7 @@
 #include "flightbatterysettings.h"
 #include "flightbatterystate.h"
 #include "gpsposition.h"
-#include "manualcontrolcommand.h"
+#include "rctransmitterinput.h"
 #include "attitudeactual.h"
 #include "airspeedactual.h"
 #include "actuatordesired.h"
@@ -141,7 +141,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	FlightBatterySettingsData batSettings;
 	FlightBatteryStateData batState;
 	GPSPositionData gpsPosData;
-	ManualControlCommandData manualState;
+	RCTransmitterInputData rcTransmitterInput;
 	AttitudeActualData attActual;
 	AirspeedActualData airspeedActual;
 	ActuatorDesiredData actDesired;
@@ -267,7 +267,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_RC_CHANNELS)) {
-			ManualControlCommandGet(&manualState);
+			RCTransmitterInputGet(&rcTransmitterInput);
 			FlightStatusGet(&flightStatus);
 			SystemStatsGet(&systemStats);
 
@@ -278,23 +278,23 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// port Servo output port (set of 8 outputs = 1 port). Most MAVs will just use one, but this allows to encode more than 8 servos.
 					0,
 					// chan1_raw RC channel 1 value, in microseconds
-					manualState.Channel[0],
+					rcTransmitterInput.Channel[0],
 					// chan2_raw RC channel 2 value, in microseconds
-					manualState.Channel[1],
+					rcTransmitterInput.Channel[1],
 					// chan3_raw RC channel 3 value, in microseconds
-					manualState.Channel[2],
+					rcTransmitterInput.Channel[2],
 					// chan4_raw RC channel 4 value, in microseconds
-					manualState.Channel[3],
+					rcTransmitterInput.Channel[3],
 					// chan5_raw RC channel 5 value, in microseconds
-					manualState.Channel[4],
+					rcTransmitterInput.Channel[4],
 					// chan6_raw RC channel 6 value, in microseconds
-					manualState.Channel[5],
+					rcTransmitterInput.Channel[5],
 					// chan7_raw RC channel 7 value, in microseconds
-					manualState.Channel[6],
+					rcTransmitterInput.Channel[6],
 					// chan8_raw RC channel 8 value, in microseconds
-					manualState.Channel[7],
+					rcTransmitterInput.Channel[7],
 					// rssi Receive signal strength indicator, 0: 0%, 255: 100%
-					manualState.Rssi);
+					rcTransmitterInput.Rssi);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
 			PIOS_COM_SendBuffer(mavlink_port, serial_buf, msg_length);
 		}

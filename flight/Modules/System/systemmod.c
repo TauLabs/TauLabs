@@ -34,7 +34,8 @@
 #include "sanitycheck.h"
 #include "objectpersistence.h"
 #include "flightstatus.h"
-#include "manualcontrolsettings.h"
+#include "controlcommandsettings.h"
+#include "rctransmittersettings.h"
 #include "systemstats.h"
 #include "systemsettings.h"
 #include "taskinfo.h"
@@ -169,8 +170,10 @@ static void systemTask(void *parameters)
 	// Whenever the configuration changes, make sure it is safe to fly
 	if (SystemSettingsHandle())
 		SystemSettingsConnectCallback(configurationUpdatedCb);
-	if (ManualControlSettingsHandle())
-		ManualControlSettingsConnectCallback(configurationUpdatedCb);
+	if (ControlCommandSettingsHandle())
+		ControlCommandSettingsConnectCallback(configurationUpdatedCb);
+	if (RCTransmitterSettingsHandle())
+		RCTransmitterSettingsConnectCallback(configurationUpdatedCb);
 #endif
 
 	// Main system loop
