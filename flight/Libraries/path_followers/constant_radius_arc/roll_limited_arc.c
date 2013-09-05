@@ -31,22 +31,24 @@
 
 
 /**
- * @brief roll_limited_arc_follower This roll-limited heading controller computes a roll command based on position
- * and roll and flight-path constraints
- * @param positionActual
- * @param velocityActual
- * @param arc_center_NED
- * @param curvature
- * @param arc_radius
- * @param true_airspeed
- * @param true_airspeed_desired
- * @param headingActual_R
- * @param gamma_max
- * @param phi_max
- * @return
+ * @brief This heading controller computes a roll command command based on
+ * an arc-following vector field, taking into account the vehicle's roll angle
+ * contraints. A full description of parameters as well as a proof of convergence
+ * is given in "Fixed Wing UAV Path Following in Wind with Input Constraints"
+ * @param positionActual Vehicle's current position vector
+ * @param velocityActual Vehicle's current velocity vector
+ * @param arc_center_NE Arc center in North-East coordinates
+ * @param curvature_sign Sense of arc
+ * @param arc_radius Arc radius (strictly positive)
+ * @param true_airspeed TAS
+ * @param true_airspeed_desired TAS setpoint
+ * @param headingActual_R Current heading in [rad]
+ * @param gamma_max Maximum flight path angle that can be commanded by autonomous flight modules
+ * @param phi_max Maximum roll angle that can be commanded by autonomous flight modules
+ * @return roll_c_R Constrained roll command
  */
 float roll_limited_arc_follower(PositionActualData *positionActual, VelocityActualData *velocityActual,
-									  float arc_center_NED[2], float curvature, float arc_radius,
+									  float arc_center_NE[2], int8_t curvature_sign, float arc_radius,
 									  float true_airspeed, float true_airspeed_desired,
 								      float headingActual_R, float gamma_max, float phi_max)
 {
@@ -54,7 +56,7 @@ float roll_limited_arc_follower(PositionActualData *positionActual, VelocityActu
 	float psi_tilde_thresh = PI/4; // Beyond 45 degrees of course, full roll is applied. FIXME: This shouldn't be hard coded, but it needs to be strictly positive.
 
 	float p[2]={positionActual->North, positionActual->East};
-	float *c = arc_center_NED;
+	float *c = arc_center_NE;
 
 	float V = true_airspeed;
 
@@ -69,7 +71,7 @@ float roll_limited_arc_follower(PositionActualData *positionActual, VelocityActu
 
 	// Determine sense of arc path
 	int8_t lambda;
-	if (curvature < 0)
+	if (curvature_sign < 0)
 		lambda = -1;
 	else
 		lambda = 1;

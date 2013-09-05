@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       simple_return_to_home.c
+ * @file       simple_hold_position.c
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Library path manipulation 
  *
@@ -45,8 +45,8 @@ void simple_hold_position()
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
 
-    FixedWingAirspeedsData fixedWingAirspeeds;
-    FixedWingAirspeedsGet(&fixedWingAirspeeds);
+	FixedWingAirspeedsData fixedWingAirspeeds;
+	FixedWingAirspeedsGet(&fixedWingAirspeeds);
 
 	float radius = 60;
 	

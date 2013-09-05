@@ -41,7 +41,13 @@
 static uint8_t addNonCircleToSwitchingLoci(float position[3], float finalVelocity, float curvature, uint16_t index);
 static uint8_t addCircleToSwitchingLoci(float position[3], float finalVelocity, float curvature, float number_of_orbits, uint16_t index);
 
-PathPlannerStates direct_path_planner(uint16_t numberOfWaypoints)
+/**
+ * @brief direct_path_planner Simplest of path planners. It connects waypoints together
+ * with straight lines, regardless of vehicle dynamics or obstacles.
+ * @param numberOfWaypoints The number of waypoints in the trajectory
+ * @return Path planner's finite state
+ */
+enum path_planner_states direct_path_planner(uint16_t numberOfWaypoints)
 {
 	// Check for memory before generating new path descriptors
 	if(1) //There is enough memory
@@ -54,7 +60,7 @@ PathPlannerStates direct_path_planner(uint16_t numberOfWaypoints)
 	}
 	else
 		return PATH_PLANNER_INSUFFICIENT_MEMORY;
-	{
+
 	PathSegmentDescriptorData pathSegmentDescriptor;
 
 	PositionActualData positionActual;
@@ -69,14 +75,14 @@ PathPlannerStates direct_path_planner(uint16_t numberOfWaypoints)
 	pathSegmentDescriptor.PathCurvature = 0;
 	pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 	PathSegmentDescriptorInstSet(0, &pathSegmentDescriptor);
-	}
+
 	uint16_t offset = 1;
 
 	for(int wptIdx=0; wptIdx<numberOfWaypoints; wptIdx++) {
 		WaypointData waypoint;
 		WaypointInstGet(wptIdx, &waypoint);
 
-		// Velocity is independent of path
+		// Velocity is independent of path shape
 		float final_velocity = waypoint.Velocity;
 
 		// Determine if the path is a straight line or if it arcs
@@ -119,7 +125,17 @@ PathPlannerStates direct_path_planner(uint16_t numberOfWaypoints)
 }
 
 
-static uint8_t addNonCircleToSwitchingLoci(float position[3], float final_velocity, float curvature, uint16_t index)
+/**
+ * @brief addNonCircleToSwitchingLoci In the case of pure circles, the given waypoint is for a circle center,
+ * so we have to convert it into a pair of switching loci.
+ * @param position Switching locus
+ * @param finalVelocity Final velocity to be attained along path
+ * @param curvature Path curvature
+ * @param index Current descriptor index
+ * @return
+ */
+static uint8_t addNonCircleToSwitchingLoci(float position[3], float final_velocity, 
+														 float curvature, uint16_t index)
 {
 
 	PathSegmentDescriptorData pathSegmentDescriptor;
@@ -147,14 +163,15 @@ static uint8_t addNonCircleToSwitchingLoci(float position[3], float final_veloci
 /**
  * @brief addCircleToSwitchingLoci In the case of pure circles, the given waypoint is for a circle center,
  * so we have to convert it into a pair of switching loci.
- * @param pathSegmentDescriptor
- * @param position
- * @param curvature
- * @param number_of_orbits
- * @param index
+ * @param circle_center Center of orbit in NED coordinates
+ * @param finalVelocity Final velocity to be attained along path
+ * @param curvature Path curvature
+ * @param number_of_orbits Number of complete orbits to be made before continuing to next descriptor
+ * @param index Current descriptor index
  * @return
  */
-static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVelocity, float curvature, float number_of_orbits, uint16_t index)
+static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVelocity, 
+													 float curvature, float number_of_orbits, uint16_t index)
 {
 	PathSegmentDescriptorData pathSegmentDescriptor_old;
 	PathSegmentDescriptorInstGet(index-1, &pathSegmentDescriptor_old);
@@ -193,8 +210,8 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Orbit position. Choose a point 90 degrees later in the arc so that the minor arc is the correct one.
-		pathSegmentDescriptor.SwitchingLocus[0] = circle_center[0] + sign(curvature)*cosf(approachTheta_rad)*radius;
-		pathSegmentDescriptor.SwitchingLocus[1] = circle_center[1] - sign(curvature)*sinf(approachTheta_rad)*radius;
+		pathSegmentDescriptor.SwitchingLocus[0] = circle_center[0] + SIGN(curvature)*cosf(approachTheta_rad)*radius;
+		pathSegmentDescriptor.SwitchingLocus[1] = circle_center[1] - SIGN(curvature)*sinf(approachTheta_rad)*radius;
 		pathSegmentDescriptor.SwitchingLocus[2] = circle_center[2];
 		pathSegmentDescriptor.FinalVelocity = finalVelocity;
 		pathSegmentDescriptor.PathCurvature = curvature;
@@ -222,8 +239,8 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Orbit position. Choose a point 90 degrees later in the arc so that the minor arc is the correct one.
-		pathSegmentDescriptor.SwitchingLocus[0] = circle_center[0] + sign(curvature)*cosf(approachTheta_rad)*radius;
-		pathSegmentDescriptor.SwitchingLocus[1] = circle_center[1] - sign(curvature)*sinf(approachTheta_rad)*radius;
+		pathSegmentDescriptor.SwitchingLocus[0] = circle_center[0] + SIGN(curvature)*cosf(approachTheta_rad)*radius;
+		pathSegmentDescriptor.SwitchingLocus[1] = circle_center[1] - SIGN(curvature)*sinf(approachTheta_rad)*radius;
 		pathSegmentDescriptor.SwitchingLocus[2] = circle_center[2];
 		pathSegmentDescriptor.FinalVelocity = finalVelocity;
 		pathSegmentDescriptor.PathCurvature = curvature;

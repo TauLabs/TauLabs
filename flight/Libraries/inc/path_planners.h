@@ -30,9 +30,9 @@
 #include "pios.h"
 #include "openpilot.h"
 
-typedef enum {PATH_PLANNER_SUCCESS, PATH_PLANNER_PROCESSING, PATH_PLANNER_STUCK, PATH_PLANNER_INSUFFICIENT_MEMORY} PathPlannerStates;
+enum path_planner_states {PATH_PLANNER_SUCCESS, PATH_PLANNER_PROCESSING, PATH_PLANNER_STUCK, PATH_PLANNER_INSUFFICIENT_MEMORY};
 
-PathPlannerStates direct_path_planner(uint16_t numberOfWaypoints);
-PathPlannerStates direct_path_planner_with_filleting(uint16_t numberOfWaypoints, float fillet_radius);
+enum path_planner_states direct_path_planner(uint16_t numberOfWaypoints);
+enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWaypoints, float fillet_radius);
 
 #endif // PATHS_LIBRARY_H_

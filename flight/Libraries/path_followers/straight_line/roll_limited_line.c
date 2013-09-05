@@ -31,18 +31,34 @@
 #include "pathdesired.h"
 
 /**
- * This advanced heading controller computes a roll command and yaw command based on
+ * 
  */
-float roll_limited_line_follower(PositionActualData *positionActual, VelocityActualData *velocityActual, PathDesiredData *pathDesired,
-								  float true_airspeed, float true_airspeed_desired,
-								  float headingActual_R, float gamma_max, float phi_max)
+/**
+ * @brief This heading controller computes a roll command command based on
+ * a line-following vector field, taking into account the vehicle's roll angle
+ * contraints. A full description of parameters as well as a proof of convergence
+ * is given in "Fixed Wing UAV Path Following in Wind with Input Constraints"
+ * @param positionActual Vehicle's current position vector
+ * @param velocityActual Vehicle's current velocity vector
+ * @param pathDesired Structure containing initial and final path points
+ * @param true_airspeed TAS
+ * @param true_airspeed_desired TAS setpoint
+ * @param headingActual_R Current heading in [rad]
+ * @param gamma_max Maximum flight path angle that can be commanded by autonomous flight modules
+ * @param phi_max Maximum roll angle that can be commanded by autonomous flight modules
+ * @return
+ */
+
+float roll_limited_line_follower(PositionActualData *positionActual, VelocityActualData *velocityActual, 
+											PathDesiredData *pathDesired, float true_airspeed, float true_airspeed_desired,
+											float headingActual_R, float gamma_max, float phi_max)
 {
 	float gamma;
 	float err_xt;
 	float err_xt_dot;
 
 	float psi = headingActual_R;
-	float psi_tilde_thresh = PI/4; // Beyond 45 degrees of course, full roll is applied
+	float psi_tilde_thresh = PI/4; // Beyond 45 degrees off course, full roll is applied. Fixme: This should not be hard-coded
 
 	float p[3]={positionActual->North, positionActual->East, positionActual->Down};
 	float *c = pathDesired->End;

@@ -26,9 +26,23 @@
 #include "physical_constants.h"
 
 /**
- * Calculate command for following simple vector based orbit. Taken from R. Beard at BYU.
+ * @brief simple_line_follower Calculate command for following simple vector-based orbit. A
+ * full description of parameters as well as a proof of convergence is given in
+ * "Small Unmanned Aircraft-- Theory and Practice".
+ * @param positionActual Current vehicle position
+ * @param c[2] Center of arc in North-East coordinates
+ * @param rho Arcradius
+ * @param curvature_sign Sense of the arc
+ * @param k_orbit Gain on radial distance error
+ * @param k_psi_int Gain on radial-distance error integral
+ * @param delT Time step between iterations
+ * @param arc_error_accum Radial-distance error integral
+ * @return psi_command course command
  */
-float simple_arc_follower(PositionActualData *positionActual, float c[2], float rho, float curvature, float k_orbit, float k_psi_int, float delT, Integral *integral)
+float simple_arc_follower(PositionActualData *positionActual, float c[2], 
+								  float rho, int8_t curvature_sign, 
+								  float k_orbit, float k_psi_int, 
+								  float *arc_error_accum, float delT)
 {
 	float p[2]={positionActual->North, positionActual->East};
 
@@ -37,13 +51,13 @@ float simple_arc_follower(PositionActualData *positionActual, float c[2], float 
 	float d = sqrtf(pncn*pncn + pece*pece);
 
 	float err_orbit = d - rho;
-	integral->circle_error += err_orbit*delT;
+	*arc_error_accum += err_orbit*delT;
 
 	float phi = atan2f(pece, pncn);
 
-	float psi_command = (curvature > 0) ?
-		phi + (PI/2.0f + atanf(k_orbit*err_orbit) + k_psi_int*integral->circle_error): // Turn clockwise
-		phi - (PI/2.0f + atanf(k_orbit*err_orbit) + k_psi_int*integral->circle_error); // Turn counter-clockwise
+	float psi_command = (curvature_sign > 0) ?
+		phi + (PI/2.0f + atanf(k_orbit*err_orbit) + k_psi_int*(*arc_error_accum)): // Turn clockwise
+		phi - (PI/2.0f + atanf(k_orbit*err_orbit) + k_psi_int*(*arc_error_accum)); // Turn counter-clockwise
 
 	return psi_command;
 }

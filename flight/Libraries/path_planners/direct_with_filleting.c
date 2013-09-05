@@ -36,9 +36,6 @@
 #include "velocityactual.h"
 #include "waypoint.h"
 
-extern 		PathPlannerStatusData pathPlannerStatus;
-
-
 #include "CoordinateConversions.h"
 #include "misc_math.h"
 
@@ -46,12 +43,23 @@ extern 		PathPlannerStatusData pathPlannerStatus;
 static uint8_t addNonCircleToSwitchingLoci(float position[3], float finalVelocity, float curvature, uint16_t index);
 static uint8_t addCircleToSwitchingLoci(float position[3], float finalVelocity, float curvature, float number_of_orbits, float fillet_radius, uint16_t index);
 
-// This is a very complex function. The general approach is that before adding a new segment, the
-// path planner looks ahead at the next waypoint, and adds in fillets that align the vehicle with
-// this next waypoint.
-// Right now, it makes an assumption that there is always enough space between waypoints to do proper
-// filleting. The behavior is undefined in the case where there isn't.
-PathPlannerStates direct_path_planner_with_filleting(uint16_t numberOfWaypoints, float fillet_radius)
+/**
+ * @brief direct_path_planner_with_filleting An upgrade from the "direct" path planner.
+ * It connects waypoints together with straight lines, and fillets, so that the
+ * vehicle dynamics, i.e. Dubin's cart constraints, are taken into account. However
+ * the "direct with filleting" path planner still assumes that there are no obstacles 
+ * along the path.
+ * The general approach is that before adding a new segment, the
+ * path planner looks ahead at the next waypoint, and adds in fillets that align the vehicle with
+ * this next waypoint.
+ * @param numberOfWaypoints The number of waypoints in the trajectory
+ * @param fillet_radius The radius the path planner will attempt to use when connecting
+ * together two waypoint segments. This is only a suggestion, as if there is not sufficient distance
+ * between waypoints then the fillet radius will be decreased to fit the available space.
+ * @return Path planner's finite state
+ */
+
+enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWaypoints, float fillet_radius)
 {
 	// Check for memory before generating new path descriptors. This is a little harder
 	// since we don't know how many switching loci we'll need ahead of time. However, a
@@ -87,11 +95,11 @@ PathPlannerStates direct_path_planner_with_filleting(uint16_t numberOfWaypoints,
 
 	uint16_t offset = 1;
 
-	for(int wptIdx=0; wptIdx<pathPlannerStatus.NumberOfWaypoints; wptIdx++) {
+	for(int wptIdx=0; wptIdx<numberOfWaypoints; wptIdx++) {
 		WaypointData waypoint;
 		WaypointInstGet(wptIdx, &waypoint);
 
-		// Velocity is independent of path
+		// Velocity is independent of path shape
 		float finalVelocity = waypoint.Velocity;
 
 		// Determine if the path is a straight line or if it arcs
@@ -147,7 +155,8 @@ PathPlannerStates direct_path_planner_with_filleting(uint16_t numberOfWaypoints,
 
 			// In the case of line-line intersection lines, this is simply the direction of
 			// the old and new segments.
-			if (curvature == 0 && (waypoint_future.ModeParameters == 0 || future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
+			if (curvature == 0 && 
+				 (waypoint_future.ModeParameters == 0 || future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
 				// Vector from past to present switching locus
 				q_current[0] = swl_current[0] - swl_past[0];
 				q_current[1] = swl_current[1] - swl_past[1];
@@ -162,7 +171,8 @@ PathPlannerStates direct_path_planner_with_filleting(uint16_t numberOfWaypoints,
 
 			}
 			//In the case of line-arc intersections, calculate the tangent of the new section.
-			else if (curvature == 0 && (waypoint_future.ModeParameters != 0 && !future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
+			else if (curvature == 0 && 
+						(waypoint_future.ModeParameters != 0 && !future_path_is_circle)) { // Fixme: waypoint_future.ModeParameters needs to be replaced by waypoint_future.Mode. FOr this, we probably need a new function to handle the switch(waypoint.Mode)
 				/**
 				 * Old segment: straight line
 				 */
@@ -355,7 +365,7 @@ PathPlannerStates direct_path_planner_with_filleting(uint16_t numberOfWaypoints,
 				pathSegmentDescriptor.SwitchingLocus[1] = (waypoint.Position[1] + (f1[1] + R*sinf(eta)))/2;
 				pathSegmentDescriptor.SwitchingLocus[2] = waypoint.Position[2];
 				pathSegmentDescriptor.FinalVelocity = finalVelocity;
-				pathSegmentDescriptor.PathCurvature = -sign(theta)*1.0f/R;
+				pathSegmentDescriptor.PathCurvature = -SIGN(theta)*1.0f/R;
 				pathSegmentDescriptor.NumberOfOrbits = 0;
 				pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 				PathSegmentDescriptorInstSet(wptIdx+offset, &pathSegmentDescriptor);
@@ -369,7 +379,7 @@ PathPlannerStates direct_path_planner_with_filleting(uint16_t numberOfWaypoints,
 				pathSegmentDescriptor.SwitchingLocus[1] = (waypoint.Position[1] + (f2[1] + R*sinf(sigma)))/2;
 				pathSegmentDescriptor.SwitchingLocus[2] = waypoint.Position[2];
 				pathSegmentDescriptor.FinalVelocity = finalVelocity;
-				pathSegmentDescriptor.PathCurvature = sign(theta)*1.0f/R;
+				pathSegmentDescriptor.PathCurvature = SIGN(theta)*1.0f/R;
 				pathSegmentDescriptor.NumberOfOrbits = 0;
 				pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MAJOR;
 				PathSegmentDescriptorInstSet(wptIdx+offset, &pathSegmentDescriptor);
@@ -382,7 +392,7 @@ PathPlannerStates direct_path_planner_with_filleting(uint16_t numberOfWaypoints,
 				pathSegmentDescriptor.SwitchingLocus[1] = f2[1];
 				pathSegmentDescriptor.SwitchingLocus[2] = waypoint.Position[2];
 				pathSegmentDescriptor.FinalVelocity = finalVelocity;
-				pathSegmentDescriptor.PathCurvature = -sign(theta)*1.0f/R;
+				pathSegmentDescriptor.PathCurvature = -SIGN(theta)*1.0f/R;
 				pathSegmentDescriptor.NumberOfOrbits = 0;
 				pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 				PathSegmentDescriptorInstSet(wptIdx+offset, &pathSegmentDescriptor);
@@ -432,7 +442,7 @@ PathPlannerStates direct_path_planner_with_filleting(uint16_t numberOfWaypoints,
 				pathSegmentDescriptor.SwitchingLocus[1] = waypoint.Position[1] + R/fabsf(tanf(rho2))*q_future[1];
 				pathSegmentDescriptor.SwitchingLocus[2] = waypoint.Position[2];
 				pathSegmentDescriptor.FinalVelocity = finalVelocity;
-				pathSegmentDescriptor.PathCurvature = sign(theta)*1.0f/R;
+				pathSegmentDescriptor.PathCurvature = SIGN(theta)*1.0f/R;
 				pathSegmentDescriptor.NumberOfOrbits = 0;
 				pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 				PathSegmentDescriptorInstSet(wptIdx+offset, &pathSegmentDescriptor);
@@ -473,14 +483,16 @@ PathPlannerStates direct_path_planner_with_filleting(uint16_t numberOfWaypoints,
 
 
 /**
- * @brief addNonCircleToSwitchingLoci
- * @param position
- * @param finalVelocity
- * @param curvature
- * @param index
+ * @brief addNonCircleToSwitchingLoci In the case of pure circles, the given waypoint is for a circle center,
+ * so we have to convert it into a pair of switching loci.
+ * @param position Switching locus
+ * @param finalVelocity Final velocity to be attained along path
+ * @param curvature Path curvature
+ * @param index Current descriptor index
  * @return
  */
-static uint8_t addNonCircleToSwitchingLoci(float position[3], float finalVelocity, float curvature, uint16_t index)
+static uint8_t addNonCircleToSwitchingLoci(float position[3], float finalVelocity, 
+														 float curvature, uint16_t index)
 {
 
 	PathSegmentDescriptorData pathSegmentDescriptor;
@@ -507,14 +519,17 @@ static uint8_t addNonCircleToSwitchingLoci(float position[3], float finalVelocit
 /**
  * @brief addCircleToSwitchingLoci In the case of pure circles, the given waypoint is for a circle center,
  * so we have to convert it into a pair of switching loci.
- * @param pathSegmentDescriptor
- * @param position
- * @param curvature
- * @param number_of_orbits
- * @param index
+ * @param circle_center Center of orbit in NED coordinates
+ * @param finalVelocity Final velocity to be attained along path
+ * @param curvature Path curvature
+ * @param number_of_orbits Number of complete orbits to be made before continuing to next descriptor
+ * @param fillet_radius Radius of fillet joining together two path segments
+ * @param index Current descriptor index
  * @return
  */
-static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVelocity, float curvature, float number_of_orbits, float fillet_radius, uint16_t index)
+static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVelocity, 
+													 float curvature, float number_of_orbits, 
+													 float fillet_radius, uint16_t index)
 {
 	PathSegmentDescriptorData pathSegmentDescriptor_old;
 	PathSegmentDescriptorInstGet(index-1, &pathSegmentDescriptor_old);
@@ -563,11 +578,11 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Form fillet. See documentation http://XYZ
-		pathSegmentDescriptor.SwitchingLocus[0] = (circle_center[0] + (f1[0] + sign(curvature)*fillet_radius*sinf(approachTheta_rad)))*radius/(fillet_radius + radius);
-		pathSegmentDescriptor.SwitchingLocus[1] = (circle_center[1] + (f1[1] - sign(curvature)*fillet_radius*cosf(approachTheta_rad)))*radius/(fillet_radius + radius);
+		pathSegmentDescriptor.SwitchingLocus[0] = (circle_center[0] + (f1[0] + SIGN(curvature)*fillet_radius*sinf(approachTheta_rad)))*radius/(fillet_radius + radius);
+		pathSegmentDescriptor.SwitchingLocus[1] = (circle_center[1] + (f1[1] - SIGN(curvature)*fillet_radius*cosf(approachTheta_rad)))*radius/(fillet_radius + radius);
 		pathSegmentDescriptor.SwitchingLocus[2] = circle_center[2];
 		pathSegmentDescriptor.FinalVelocity = finalVelocity;
-		pathSegmentDescriptor.PathCurvature = -sign(curvature)/fillet_radius;
+		pathSegmentDescriptor.PathCurvature = -SIGN(curvature)/fillet_radius;
 		pathSegmentDescriptor.NumberOfOrbits = 0;
 		pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 		PathSegmentDescriptorInstSet(index+offset, &pathSegmentDescriptor);
@@ -578,8 +593,8 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Orbit position. Choose a point 90 degrees later in the arc so that the minor arc is the correct one.
-		pathSegmentDescriptor.SwitchingLocus[0] = circle_center[0] + sign(curvature)*sinf(approachTheta_rad)*radius;
-		pathSegmentDescriptor.SwitchingLocus[1] = circle_center[1] - sign(curvature)*cosf(approachTheta_rad)*radius;
+		pathSegmentDescriptor.SwitchingLocus[0] = circle_center[0] + SIGN(curvature)*sinf(approachTheta_rad)*radius;
+		pathSegmentDescriptor.SwitchingLocus[1] = circle_center[1] - SIGN(curvature)*cosf(approachTheta_rad)*radius;
 		pathSegmentDescriptor.SwitchingLocus[2] = circle_center[2];
 		pathSegmentDescriptor.FinalVelocity = finalVelocity;
 		pathSegmentDescriptor.PathCurvature = curvature;
@@ -604,8 +619,8 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Form fillet
-		pathSegmentDescriptor.SwitchingLocus[0] = circle_center[0] - sign(curvature)*radius*sinf(approachTheta_rad);
-		pathSegmentDescriptor.SwitchingLocus[1] = circle_center[1] + sign(curvature)*radius*cosf(approachTheta_rad);
+		pathSegmentDescriptor.SwitchingLocus[0] = circle_center[0] - SIGN(curvature)*radius*sinf(approachTheta_rad);
+		pathSegmentDescriptor.SwitchingLocus[1] = circle_center[1] + SIGN(curvature)*radius*cosf(approachTheta_rad);
 		pathSegmentDescriptor.SwitchingLocus[2] = circle_center[2];
 		pathSegmentDescriptor.FinalVelocity = finalVelocity;
 		pathSegmentDescriptor.PathCurvature = curvature*2.0f;

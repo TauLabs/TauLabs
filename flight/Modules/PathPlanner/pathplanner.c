@@ -64,7 +64,7 @@ enum guidanceTypes{NOMANAGER, RETURNHOME, HOLDPOSITION, PATHPLANNER};
 static xTaskHandle taskHandle;
 static xQueueHandle queue;
 static PathPlannerSettingsData pathPlannerSettings;
-PathPlannerStatusData pathPlannerStatus;
+static PathPlannerStatusData pathPlannerStatus;
 static bool process_waypoints_flag;
 static bool module_enabled;
 static bool path_manager_status_updated;
@@ -81,7 +81,7 @@ static void createPathStar();
 static void createPathLogo();
 static void createPathHoldPosition();
 static void createPathReturnToHome();
-static PathPlannerStates processWaypoints(PathPlannerSettingsPlannerAlgorithmOptions plannerAlgorithm);
+static enum path_planner_states processWaypoints(PathPlannerSettingsPlannerAlgorithmOptions plannerAlgorithm);
 
 
 ////! Store which waypoint has actually been pushed into PathDesired
@@ -261,7 +261,7 @@ static void pathPlannerTask(void *parameters)
 
 		if(process_waypoints_flag)
 		{
-			PathPlannerStates ret;
+			enum path_planner_states ret;
 			ret = processWaypoints(plannerAlgorithm);
 			switch (ret) {
 				case PATH_PLANNER_SUCCESS:
@@ -291,30 +291,25 @@ static void pathPlannerTask(void *parameters)
 }
 
 
-PathPlannerStates processWaypoints(PathPlannerSettingsPlannerAlgorithmOptions algorithm)
+enum path_planner_states processWaypoints(PathPlannerSettingsPlannerAlgorithmOptions algorithm)
 {
+	enum path_planner_states ret;
+	
 	switch(algorithm)
 	{
 		case PATHPLANNERSETTINGS_PLANNERALGORITHM_DIRECT:
-		{
-			PathPlannerStates ret;
 			ret = direct_path_planner(pathPlannerStatus.NumberOfWaypoints);
-			return ret;
-		}
-		break;
+			break;
 		case PATHPLANNERSETTINGS_PLANNERALGORITHM_DIRECTWITHFILLETING:
-		{
-			PathPlannerStates ret;
 			ret = direct_path_planner_with_filleting(pathPlannerStatus.NumberOfWaypoints, pathPlannerSettings.PreferredRadius);
-			return ret;
-		}
-		break;
+			break;
 		default:
 			// TODO: Some kind of error here
-		break;
+			ret = PATH_PLANNER_PROCESSING;
+			break;
 	}
 
-	return PATH_PLANNER_PROCESSING;
+	return ret;
 }
 
 

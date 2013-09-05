@@ -4,7 +4,7 @@
  * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
  * @addtogroup Path Followers
  * @{
- * @brief Miscellaneous math support
+ * @brief Header for path followers
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -32,24 +32,16 @@
 #include "velocityactual.h"
 #include "pathdesired.h"
 
-typedef struct  {
-	float total_energy_error;
-	float calibrated_airspeed_error;
+/* Taken from "Small Unmanned Aircraft-- Theory and Practice" */
+float simple_line_follower(PositionActualData *positionActual, PathDesiredData *pathDesired, float chi_inf, float k_path, float k_psi_int, float *line_error_accum, float delT);
+float simple_arc_follower(PositionActualData *positionActual, float c[2], float rho, int8_t curvature_sign, float k_orbit, float k_psi_int, float *arc_error_accum, float delT);
 
-	float line_error;
-	float circle_error;
-} Integral;
-
-//! Taken from "Small Unmanned Aircraft-- Theory and Practice"
-float simple_line_follower(PositionActualData *positionActual, PathDesiredData *pathDesired, float chi_inf, float k_path, float k_psi_int, float delT, Integral *integral);
-float simple_arc_follower(PositionActualData *positionActual, float c[2], float rho, float curvature, float k_orbit, float k_psi_int, float delT, Integral *integral);
-
-//! Taken from "Fixed Wing UAV Path Following in Wind with Input Constraints"
+/* Taken from "Fixed Wing UAV Path Following in Wind with Input Constraints" */
 float roll_limited_line_follower(PositionActualData *positionActual, VelocityActualData *velocityActual, PathDesiredData *pathDesired,
 								  float true_airspeed, float true_airspeed_desired,
 								  float headingActual_R, float gamma_max, float phi_max);
 float roll_limited_arc_follower(PositionActualData *positionActual, VelocityActualData *velocityActual,
-									  float arc_center_NED[2], float curvature, float arc_radius,
+									  float arc_center_NED[2], int8_t curvature_sign, float arc_radius,
 									  float true_airspeed, float true_airspeed_desired,
 								      float headingActual_R, float gamma_max, float phi_max);
 

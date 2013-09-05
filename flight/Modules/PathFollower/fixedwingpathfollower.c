@@ -76,12 +76,19 @@ struct ControllerOutput {
 	float throttle;
 };
 
+struct ErrorIntegral {
+	float total_energy_error;
+	float calibrated_airspeed_error;
+	float line_error;
+	float arc_error;
+};
+
 // Private variables
 static PathDesiredData *pathDesired;
 static PathSegmentDescriptorData *pathSegmentDescriptor;
 static FixedWingPathFollowerSettingsData fixedwingpathfollowerSettings;
 static FixedWingAirspeedsData fixedWingAirspeeds;
-static Integral *integral;
+static struct ErrorIntegral *integral;
 static uint16_t activeSegment;
 static uint8_t pathCounter;
 static float arc_radius;
@@ -117,8 +124,8 @@ void initializeFixedWingPathFollower()
 	PathManagerStatusConnectQueue(pathManagerStatusQueue);
 
 	// Allocate memory
-	integral = (Integral *) pvPortMalloc(sizeof(Integral));
-	memset(integral, 0, sizeof(Integral));
+	integral = (struct ErrorIntegral *) pvPortMalloc(sizeof(struct ErrorIntegral));
+	memset(integral, 0, sizeof(struct ErrorIntegral));
 
 	pathSegmentDescriptor = (PathSegmentDescriptorData *) pvPortMalloc(sizeof(PathSegmentDescriptorData));
 	memset(pathSegmentDescriptor, 0, sizeof(PathSegmentDescriptorData));
@@ -135,7 +142,7 @@ void zeroGuidanceIntegral()
 	integral->total_energy_error = 0;
 	integral->calibrated_airspeed_error = 0;
 	integral->line_error = 0;
-	integral->circle_error = 0;
+	integral->arc_error = 0;
 }
 
 
@@ -366,11 +373,11 @@ void simple_heading_controller(struct ControllerOutput *headingControl, Position
 		//========================================
 
 		float k_path  = fixedwingpathfollowerSettings.VectorFollowingGain / true_airspeed_desired; //Divide gain by airspeed so that the vector field scales with airspeed
-		courseDesired_R = simple_line_follower(positionActual, pathDesired, chi_inf, k_path, k_psi_int, dT, integral);
+		courseDesired_R = simple_line_follower(positionActual, pathDesired, chi_inf, k_path, k_psi_int, &(integral->line_error), dT);
 	}
 	else {
 		float k_orbit = fixedwingpathfollowerSettings.OrbitFollowingGain/true_airspeed_desired;  //Divide gain by airspeed so that the vector field scales with airspeed
-		courseDesired_R = simple_arc_follower(positionActual, pathDesired->End, arc_radius, curvature, k_orbit, k_psi_int, dT, integral);
+		courseDesired_R = simple_arc_follower(positionActual, pathDesired->End, arc_radius, SIGN(curvature), k_orbit, k_psi_int, &(integral->arc_error), dT);
 	}
 
 	// Course error, wrapped to [-pi,pi]
@@ -411,7 +418,7 @@ static void roll_constrained_heading_controller(struct ControllerOutput *heading
 											  true_airspeed_desired, headingActual_R, gamma_max, phi_max);
 	}
 	else { // Curve following
-		roll_c_R = roll_limited_arc_follower(positionActual, velocityActual, pathDesired->End, pathDesired->Curvature, arc_radius,
+		roll_c_R = roll_limited_arc_follower(positionActual, velocityActual, pathDesired->End, SIGN(pathDesired->Curvature), arc_radius,
 										true_airspeed, true_airspeed_desired, headingActual_R, gamma_max, phi_max);
 	}
 
@@ -491,7 +498,7 @@ static void updateDestination()
 		float *oldPosition_NE = pathDesired->Start;
 		float *newPosition_NE = pathSegmentDescriptor->SwitchingLocus;
 		float arcCenter_XY[2];
-		bool ret;
+		enum arc_center_results ret;
 
 		ret = find_arc_center(oldPosition_NE, newPosition_NE, 1.0f/pathSegmentDescriptor->PathCurvature, arcCenter_XY, pathSegmentDescriptor->PathCurvature > 0, pathSegmentDescriptor->ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR);
 
@@ -517,7 +524,7 @@ static void updateDestination()
 		//Calculate arc_radius using r*omega=v and omega = g/V_g*tan(max_avg_roll_D)
 		float min_radius = powf(pathSegmentDescriptor->FinalVelocity, 2)/(9.805f*tanf(max_avg_roll_D*DEG2RAD));
 		arc_radius = fabsf(1.0f/pathSegmentDescriptor->PathCurvature) > min_radius ? fabsf(1.0f/pathSegmentDescriptor->PathCurvature) : min_radius;
-		pathDesired->Curvature = sign(pathSegmentDescriptor->PathCurvature) / arc_radius;
+		pathDesired->Curvature = SIGN(pathSegmentDescriptor->PathCurvature) / arc_radius;
 	}
 
 	//-------------------------------------------------//

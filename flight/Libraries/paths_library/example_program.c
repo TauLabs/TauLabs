@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       simple_return_to_home.c
+ * @file       example_program.c
  * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
  * @brief      Library path manipulation 
  *

@@ -77,7 +77,7 @@ static float angularDistanceCompleted_D;
 static float oldPosition_NE[2];
 static float arcCenter_NE[2];
 static uint8_t guidanceType = NOMANAGER;
-static int8_t arc_has_center = INSUFFICIENT_RADIUS;
+static enum arc_center_results arc_has_center = INSUFFICIENT_RADIUS;
 
 // Private functions
 static bool checkGoalCondition();
@@ -277,7 +277,7 @@ static void pathManagerTask(void *parameters)
 		// of the active path segment. Sufficiently close is chosen to be an arbitrary angular
 		// distance, as this is robust and sufficient to describe all paths, including infinite
 		// straight lines and infinite number of orbits about a point.
-		if ( sign(pathSegmentDescriptor_current.PathCurvature) * (angularDistanceToComplete_D - angularDistanceCompleted_D) < ANGULAR_PROXIMITY_THRESHOLD)
+		if (SIGN(pathSegmentDescriptor_current.PathCurvature) * (angularDistanceToComplete_D - angularDistanceCompleted_D) < ANGULAR_PROXIMITY_THRESHOLD)
 			advanceSegment_flag = checkGoalCondition();
 
 
@@ -350,22 +350,26 @@ static void advanceSegment()
 
 		// If the arc has a center, then set the initial position as the beginning of the arc, and calculate the angular
 		// distance to be traveled along the arc
-		if (arc_has_center == CENTER_FOUND) {
-			oldPosition_NE[0] = previousLocus->Position[0];
-			oldPosition_NE[1] = previousLocus->Position[1];
-
-			float tmpAngle_D = measure_arc_rad(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus, arcCenter_NE) * RAD2DEG;
-			if (sign(pathSegmentDescriptor_current.PathCurvature) * tmpAngle_D < 0)
+		switch (arc_has_center) {
+			case CENTER_FOUND: 
 			{
-				tmpAngle_D = tmpAngle_D	+ 360*sign(pathSegmentDescriptor_current.PathCurvature);
+				oldPosition_NE[0] = previousLocus->Position[0];
+				oldPosition_NE[1] = previousLocus->Position[1];
+
+				float tmpAngle_D = measure_arc_rad(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus, arcCenter_NE) * RAD2DEG;
+				if (SIGN(pathSegmentDescriptor_current.PathCurvature) * tmpAngle_D < 0)
+				{
+					tmpAngle_D = tmpAngle_D	+ 360*SIGN(pathSegmentDescriptor_current.PathCurvature);
+				}
+				angularDistanceToComplete_D = SIGN(pathSegmentDescriptor_current.PathCurvature) * pathSegmentDescriptor_current.NumberOfOrbits*360 + tmpAngle_D;
 			}
-			angularDistanceToComplete_D = sign(pathSegmentDescriptor_current.PathCurvature) * pathSegmentDescriptor_current.NumberOfOrbits*360 + tmpAngle_D;
-		}
-		else{
-			// This is really bad, and is only possible if the path planner screws up, but we need to handle these cases nonetheless because
-			// the alternative might be to crash. The simplest way tof fix the problem is to increase the radius, but we can't do this
-			// because it is forbidden for two modules to write one UAVO.
-			angularDistanceToComplete_D = 0;
+				break;
+			default:
+				// This is really bad, and is only possible if the path planner screws up, but we need to handle these cases nonetheless because
+				// the alternative might be to crash. The simplest way tof fix the problem is to increase the radius, but we can't do this
+				// because it is forbidden for two modules to write one UAVO.
+				angularDistanceToComplete_D = 0;
+				break;
 		}
 	}
 	else{
@@ -475,7 +479,7 @@ static bool checkGoalCondition()
 						// Cheat by remarking that the plane defined by the radius is perfectly defined by the angle made
 						// between the center and the end of the trajectory. So if the vehicle has traveled further than
 						// the required angular distance, it has crossed this
-						if (sign(pathSegmentDescriptor_current.PathCurvature) * (angularDistanceCompleted_D - angularDistanceToComplete_D) >= 0)
+						if (SIGN(pathSegmentDescriptor_current.PathCurvature) * (angularDistanceCompleted_D - angularDistanceToComplete_D) >= 0)
 							advanceSegment_flag = true;
 
 						return advanceSegment_flag;
@@ -490,7 +494,7 @@ static bool checkGoalCondition()
 						// Cheat by remarking that the plane defined by the radius is perfectly defined by the angle made
 						// between the center and the end of the trajectory. So if the vehicle has traveled further than
 						// the required angular distance, it has crossed this
-						if (sign(pathSegmentDescriptor_current.PathCurvature) * (angularDistanceCompleted_D - angularDistanceToComplete_D) >= 0)
+						if (SIGN(pathSegmentDescriptor_current.PathCurvature) * (angularDistanceCompleted_D - angularDistanceToComplete_D) >= 0)
 							advanceSegment_flag = true;
 
 						return advanceSegment_flag;
