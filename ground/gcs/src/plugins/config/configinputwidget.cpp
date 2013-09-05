@@ -45,6 +45,8 @@
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/generalsettings.h>
 
+#include "actuatorcommand.h"
+
 #define ACCESS_MIN_MOVE -3
 #define ACCESS_MAX_MOVE 3
 #define STICK_MIN_MOVE -8
@@ -706,13 +708,15 @@ void ConfigInputWidget::fastMdata()
                         UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
                         mdata.flightTelemetryUpdatePeriod = fastUpdate;
                         break;
+                    case ActuatorCommand::OBJID:
+                        UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
+                        break;
                     default:
                         UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
                         mdata.flightTelemetryUpdatePeriod = slowUpdate;
                 }
 
                 metaDataList.insert(obj->getName(), mdata);
-
             }
         }
     }
