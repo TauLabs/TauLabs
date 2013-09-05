@@ -721,14 +721,14 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 	
 	/* Bus signals are guaranteed to be high (ie. free) after this point */
 	/* Initialize the GPIO pins to the peripheral function */
-	GPIO_Init(i2c_adapter->cfg->scl.gpio, &(i2c_adapter->cfg->scl.init));
-	GPIO_Init(i2c_adapter->cfg->sda.gpio, &(i2c_adapter->cfg->sda.init));
+	GPIO_Init(i2c_adapter->cfg->scl.gpio, (GPIO_InitTypeDef *)&(i2c_adapter->cfg->scl.init));
+	GPIO_Init(i2c_adapter->cfg->sda.gpio, (GPIO_InitTypeDef *)&(i2c_adapter->cfg->sda.init));
 
 	/* Reset the I2C block */
 	I2C_DeInit(i2c_adapter->cfg->regs);
 
 	/* Initialize the I2C block */
-	I2C_Init(i2c_adapter->cfg->regs, &(i2c_adapter->cfg->init));
+	I2C_Init(i2c_adapter->cfg->regs, (I2C_InitTypeDef *)&(i2c_adapter->cfg->init));
 
 #define I2C_BUSY 0x20
 	if (i2c_adapter->cfg->regs->SR2 & I2C_BUSY) {
@@ -842,8 +842,8 @@ int32_t PIOS_I2C_Init(uint32_t * i2c_id, const struct pios_i2c_adapter_cfg * cfg
 	*i2c_id = (uint32_t)i2c_adapter;
 
 	/* Configure and enable I2C interrupts */
-	NVIC_Init(&(i2c_adapter->cfg->event.init));
-	NVIC_Init(&(i2c_adapter->cfg->error.init));
+	NVIC_Init((NVIC_InitTypeDef *)&(i2c_adapter->cfg->event.init));
+	NVIC_Init((NVIC_InitTypeDef *)&(i2c_adapter->cfg->error.init));
 	
 	/* No error */
 	return 0;
