@@ -32,6 +32,7 @@
 #include "stm32f10x_flash.h"
 #include "pios_flash_internal_priv.h"
 #include "pios_wdg.h"
+#include "pios_semaphore.h"
 #include <stdbool.h>
 
 enum pios_internal_flash_dev_magic {
@@ -43,9 +44,7 @@ struct pios_internal_flash_dev {
 
 	const struct pios_flash_internal_cfg *cfg;
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-	xSemaphoreHandle transaction_lock;
-#endif	/* defined(PIOS_INCLUDE_FREERTOS) */
+	struct pios_semaphore *transaction_lock;
 };
 
 static bool PIOS_Flash_Internal_Validate(struct pios_internal_flash_dev *flash_dev) {
@@ -72,9 +71,7 @@ int32_t PIOS_Flash_Internal_Init(uintptr_t *chip_id, const struct pios_flash_int
 	if (flash_dev == NULL)
 		return -1;
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-	flash_dev->transaction_lock = xSemaphoreCreateMutex();
-#endif	/* defined(PIOS_INCLUDE_FREERTOS) */
+	flash_dev->transaction_lock = PIOS_Semaphore_Create();
 
 	flash_dev->cfg = cfg;
 
@@ -97,10 +94,8 @@ static int32_t PIOS_Flash_Internal_StartTransaction(uintptr_t chip_id)
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-	if (xSemaphoreTake(flash_dev->transaction_lock, portMAX_DELAY) != pdTRUE)
+	if (PIOS_Semaphore_Take(flash_dev->transaction_lock, PIOS_SEMAPHORE_TIMEOUT_MAX) != true)
 		return -2;
-#endif	/* defined(PIOS_INCLUDE_FREERTOS) */
 
 	/* Unlock the internal flash so we can write to it */
 	FLASH_Unlock();
@@ -115,10 +110,8 @@ static int32_t PIOS_Flash_Internal_EndTransaction(uintptr_t chip_id)
 	if (!PIOS_Flash_Internal_Validate(flash_dev))
 		return -1;
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-	if (xSemaphoreGive(flash_dev->transaction_lock) != pdTRUE)
+	if (PIOS_Semaphore_Give(flash_dev->transaction_lock) != true)
 		return -2;
-#endif	/* defined(PIOS_INCLUDE_FREERTOS) */
 
 	/* Lock the internal flash again so we can no longer write to it */
 	FLASH_Lock();
