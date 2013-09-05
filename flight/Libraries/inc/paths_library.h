@@ -27,8 +27,6 @@
 #ifndef PATHS_LIBRARY_H_
 #define PATHS_LIBRARY_H_
 
-#include "openpilot.h"
-
 void simple_return_to_home();
 void simple_hold_position();
 void example_program();

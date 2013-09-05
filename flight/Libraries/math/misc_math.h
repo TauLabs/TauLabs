@@ -31,6 +31,8 @@
 #ifndef MISC_MATH_H
 #define MISC_MATH_H
 
+#include "stdbool.h"
+
 enum arc_center_results {ARC_CENTER_FOUND, ARC_COINCIDENT_POINTS, ARC_INSUFFICIENT_RADIUS};
 
 // Max/Min macros. Taken from http://stackoverflow.com/questions/3437404/min-and-max-in-c

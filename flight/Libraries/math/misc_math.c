@@ -28,9 +28,9 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include <math.h>
 #include "misc_math.h" 		/* API declarations */
 #include "physical_constants.h"
+#include "math.h"
 
 /**
  * Bound input value between min and max

@@ -27,8 +27,6 @@
 #ifndef PATHS_LIBRARY_H_
 #define PATHS_LIBRARY_H_
 
-#include "openpilot.h"
-
 enum path_planner_states {PATH_PLANNER_SUCCESS, PATH_PLANNER_PROCESSING, PATH_PLANNER_STUCK, PATH_PLANNER_INSUFFICIENT_MEMORY};
 
 enum path_planner_states direct_path_planner(uint16_t numberOfWaypoints);

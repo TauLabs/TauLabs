@@ -22,8 +22,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "misc_math.h"
 #include "path_followers.h"
+#include "misc_math.h"
 #include "physical_constants.h"
 
 #include "positionactual.h"
