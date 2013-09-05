@@ -68,7 +68,7 @@ QWidget *OPMapGadgetOptionsPage::createPage(QWidget *parent)
 	index = (index >= 0) ? index : 0;
 	m_page->providerComboBox->setCurrentIndex(index);
 
-    // if provider is userimage maximum zoom is 31
+    // if provider is userimage maximum zoom is 32
     if(m_config->mapProvider()=="UserImage")
         m_page->zoomSpinBox->setMaximum(32);
 
