@@ -1137,12 +1137,11 @@ void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
 
 	bool woken = false;
 
-#if defined(PIOS_I2C_DIAGNOSTICS)
 	uint32_t event = I2C_GetLastEvent(i2c_adapter->cfg->regs);
 
+#if defined(PIOS_I2C_DIAGNOSTICS)
 	i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = event;
 	i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
-
 #endif
 
 	if (event & I2C_FLAG_AF) {

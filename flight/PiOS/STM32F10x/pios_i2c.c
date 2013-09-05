@@ -1073,9 +1073,9 @@ void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
 	bool valid = PIOS_I2C_validate(i2c_adapter);
 	PIOS_Assert(valid)
 
-#if defined(PIOS_I2C_DIAGNOSTICS)
 	uint32_t event = I2C_GetLastEvent(i2c_adapter->cfg->regs);
 
+#if defined(PIOS_I2C_DIAGNOSTICS)
 	i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = event;
 	i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
@@ -1088,7 +1088,7 @@ void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
 		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_AF);
 
 		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_NACK);
-	} else { /* Mostly bus errors here */              
+	} else { /* Mostly bus errors here */
 		i2c_adapter_log_fault(i2c_adapter, PIOS_I2C_ERROR_INTERRUPT);
 		
 		/* Fail hard on any errors for now */

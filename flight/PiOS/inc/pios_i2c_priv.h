@@ -95,13 +95,13 @@ struct pios_i2c_fault_history {
 };
 
 #define I2C_LOG_DEPTH 20
+#endif
 
 enum pios_i2c_error_type {
 	PIOS_I2C_ERROR_EVENT,
 	PIOS_I2C_ERROR_FSM,
 	PIOS_I2C_ERROR_INTERRUPT
 };
-#endif
 
 struct pios_i2c_adapter {
 	enum pios_i2c_adapter_magic         magic;
