@@ -35,6 +35,8 @@
 
 #if defined(PIOS_INCLUDE_HMC5883)
 
+#include "pios_semaphore.h"
+
 /* Private constants */
 #define HMC5883_TASK_PRIORITY        (tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)  // max priority
 #define HMC5883_TASK_STACK	         (512 / 4)
@@ -52,7 +54,7 @@ struct hmc5883_dev {
 	const struct pios_hmc5883_cfg *cfg;
 	xQueueHandle queue;
 	xTaskHandle task;
-	xSemaphoreHandle data_ready_sema;
+	struct pios_semaphore *data_ready_sema;
 	enum pios_hmc5883_dev_magic magic;
 	enum pios_hmc5883_orientation orientation;
 };
@@ -119,7 +121,7 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 	if (cfg->exti_cfg != NULL) {
 		PIOS_EXTI_Init(cfg->exti_cfg);
 
-		dev->data_ready_sema = xSemaphoreCreateMutex();
+		dev->data_ready_sema = PIOS_Semaphore_Create();
 		PIOS_Assert(dev->data_ready_sema != NULL);
 	}
 
@@ -464,13 +466,13 @@ int32_t PIOS_HMC5883_Test(void)
  */
 bool PIOS_HMC5883_IRQHandler(void)
 {
-	if(PIOS_HMC5883_Validate(dev) != 0)
+	if (PIOS_HMC5883_Validate(dev) != 0)
 		return false;
 
-	portBASE_TYPE xHigherPriorityTaskWoken;
-	xSemaphoreGiveFromISR(dev->data_ready_sema, &xHigherPriorityTaskWoken);
+	bool woken = false;
+	PIOS_Semaphore_Give_FromISR(dev->data_ready_sema, &woken);
 
-	return xHigherPriorityTaskWoken == pdTRUE;
+	return woken;
 }
 
 /**
@@ -513,7 +515,7 @@ static void PIOS_HMC5883_Task(void *parameters)
 
 	while (1) {
 		if (dev->cfg->Mode == PIOS_HMC5883_MODE_CONTINUOUS) {
-			if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE) {
+			if (PIOS_Semaphore_Take(dev->data_ready_sema, PIOS_SEMAPHORE_TIMEOUT_MAX) != true) {
 				vTaskDelay(MS2TICKS(100));
 				continue;
 			}

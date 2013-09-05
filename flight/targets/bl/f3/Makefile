@@ -91,6 +91,8 @@ SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
 SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_heap.c
+SRC += $(PIOSCOMMON)/pios_semaphore.c
+
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
