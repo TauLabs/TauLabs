@@ -341,8 +341,9 @@ void Calibration::dataUpdated(UAVObject * obj) {
         break;
     case GYRO_TEMP_CAL:
         if (storeTempCalMeasurement(obj)) {
-            // Disconnect and reset metadata
+            // Disconnect and reset data and metadata
             connectSensor(GYRO, false);
+            resetSensorCalibrationToOriginalValues();
             getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
 
             calibration_state = IDLE;
@@ -730,11 +731,20 @@ void Calibration::doStartTempCal()
     gyro_accum_z.clear();
     gyro_accum_temp.clear();
 
-    // Disable gyro bias correction to see raw data
+    // Disable gyro sensor-frame rotation and bias correction to see raw data
     AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
     Q_ASSERT(attitudeSettings);
     AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+
+    initialBoardRotation[0] = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL];
+    initialBoardRotation[1] = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH];
+    initialBoardRotation[2] = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW];
+
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = 0;
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH]= 0;
+    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW]  = 0;
     attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_FALSE;
+
     attitudeSettings->setData(attitudeSettingsData);
     attitudeSettings->updated();
 
@@ -793,13 +803,16 @@ void Calibration::doCancelTempCalPoint()
         connectSensor(GYRO, false);
         getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
 
-        // Disable gyro bias correction to see raw data
+        // Reenable gyro bias correction
         AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
         Q_ASSERT(attitudeSettings);
         AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
-        attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
         attitudeSettings->setData(attitudeSettingsData);
         attitudeSettings->updated();
+        Thread::usleep(100000); // Sleep 100ms to make sure the new settings values are sent
+
+        // Reset all sensor values
+        resetSensorCalibrationToOriginalValues();
 
         calibration_state = IDLE;
         emit showTempCalMessage(tr("Temperature calibration timed out"));
@@ -945,28 +958,21 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0;
         attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0;
 
-        // Rotate the gyro bias from the old body frame into the sensor frame
-        // and then into the new body frame
+        // Rotate the gyro bias from the body frame into the sensor frame
         double gyro_sensor[3];
-        double gyro_newbody[3];
-        double gyro_oldbody[3] = {x_gyro_bias, y_gyro_bias, z_gyro_bias};
-        double new_rpy[3] = { attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] * DEG2RAD / 100.0,
-                              attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] * DEG2RAD / 100.0,
-                              attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0};
-        rotate_vector(Rsb, gyro_oldbody, gyro_sensor, false);
-        Euler2R(new_rpy, Rsb);
-        rotate_vector(Rsb, gyro_sensor, gyro_newbody, true);
+        double gyro_body[3] = {x_gyro_bias, y_gyro_bias, z_gyro_bias};
+        rotate_vector(Rsb, gyro_body, gyro_sensor, false);
 
         // Store these new biases, accounting for any temperature coefficients
-        sensorSettingsData.XGyroTempCoeff[0] = gyro_newbody[0] -
+        sensorSettingsData.XGyroTempCoeff[0] = gyro_sensor[0] -
                 temp * sensorSettingsData.XGyroTempCoeff[1] -
                 pow(temp,2) * sensorSettingsData.XGyroTempCoeff[2] -
                 pow(temp,3) * sensorSettingsData.XGyroTempCoeff[3];
-        sensorSettingsData.YGyroTempCoeff[0] = gyro_newbody[1] -
+        sensorSettingsData.YGyroTempCoeff[0] = gyro_sensor[1] -
                 temp * sensorSettingsData.YGyroTempCoeff[1] -
                 pow(temp,2) * sensorSettingsData.YGyroTempCoeff[2] -
                 pow(temp,3) * sensorSettingsData.YGyroTempCoeff[3];
-        sensorSettingsData.ZGyroTempCoeff[0] = gyro_newbody[2] -
+        sensorSettingsData.ZGyroTempCoeff[0] = gyro_sensor[2] -
                 temp * sensorSettingsData.ZGyroTempCoeff[1] -
                 pow(temp,2) * sensorSettingsData.ZGyroTempCoeff[2] -
                 pow(temp,3) * sensorSettingsData.ZGyroTempCoeff[3];
@@ -1462,7 +1468,6 @@ int Calibration::computeScaleBias()
  */
 void Calibration::resetSensorCalibrationToOriginalValues()
 {
-
     // Write original board rotation settings back to device
     AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
     Q_ASSERT(attitudeSettings);
@@ -1472,6 +1477,7 @@ void Calibration::resetSensorCalibrationToOriginalValues()
     attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = initialBoardRotation[1];
     attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] = initialBoardRotation[2];
     attitudeSettings->setData(attitudeSettingsData);
+    attitudeSettings->updated();
 
 
     //Write the original accelerometer values back to the device
@@ -1499,7 +1505,7 @@ void Calibration::resetSensorCalibrationToOriginalValues()
     }
 
     sensorSettings->setData(sensorSettingsData);
-
+    sensorSettings->updated();
 }
 
 /**
