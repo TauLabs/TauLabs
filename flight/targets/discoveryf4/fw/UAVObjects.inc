@@ -32,7 +32,6 @@ UAVOBJSRCFILENAMES += accels
 UAVOBJSRCFILENAMES += firmwareiapobj
 UAVOBJSRCFILENAMES += flighttelemetrystats
 UAVOBJSRCFILENAMES += gcstelemetrystats
-UAVOBJSRCFILENAMES += i2cstats
 UAVOBJSRCFILENAMES += nedaccel
 UAVOBJSRCFILENAMES += objectpersistence
 UAVOBJSRCFILENAMES += overosyncstats

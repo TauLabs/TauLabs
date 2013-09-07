@@ -61,28 +61,6 @@ enum i2c_adapter_event {
 	I2C_EVENT_NUM_EVENTS	/* Must be last */
 };
 
-#if defined(PIOS_I2C_DIAGNOSTICS)
-static struct pios_i2c_fault_history i2c_adapter_fault_history;
-
-volatile uint32_t i2c_evirq_history[I2C_LOG_DEPTH];
-volatile uint8_t i2c_evirq_history_pointer = 0;
-
-volatile uint32_t i2c_erirq_history[I2C_LOG_DEPTH];
-volatile uint8_t i2c_erirq_history_pointer = 0;
-
-volatile enum i2c_adapter_state i2c_state_history[I2C_LOG_DEPTH];
-volatile uint8_t i2c_state_history_pointer = 0;
-
-volatile enum i2c_adapter_event i2c_state_event_history[I2C_LOG_DEPTH];
-volatile uint8_t i2c_state_event_history_pointer;
-
-static uint8_t i2c_fsm_fault_count = 0;
-static uint8_t i2c_bad_event_counter = 0;
-static uint8_t i2c_error_interrupt_counter = 0;
-static uint8_t i2c_nack_counter = 0;
-static uint8_t i2c_timeout_counter = 0;
-#endif
-
 static void go_fsm_fault(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 static void go_bus_error(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 static void go_stopped(struct pios_i2c_adapter *i2c_adapter, bool *woken);
@@ -104,7 +82,10 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter);
 #ifndef USE_FREERTOS
 static bool i2c_adapter_fsm_terminated(struct pios_i2c_adapter *i2c_adapter);
 #endif
-static void i2c_adapter_log_fault(enum pios_i2c_error_type type);
+
+#if defined(PIOS_I2C_DIAGNOSTICS)
+static void i2c_adapter_log_fault(struct pios_i2c_adapter *i2c_adapter, enum pios_i2c_error_type type);
+#endif
 
 const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM_STATES] = {
 	[I2C_STATE_FSM_FAULT] = {
@@ -295,14 +276,14 @@ static void i2c_adapter_inject_event(struct pios_i2c_adapter *i2c_adapter, enum 
 	PIOS_IRQ_Disable();
 
 #if defined(PIOS_I2C_DIAGNOSTICS)
-	i2c_state_event_history[i2c_state_event_history_pointer] = event;
-	i2c_state_event_history_pointer = (i2c_state_event_history_pointer + 1) % I2C_LOG_DEPTH;
+	i2c_adapter->i2c_state_event_history[i2c_adapter->i2c_state_event_history_pointer] = event;
+	i2c_adapter->i2c_state_event_history_pointer = (i2c_adapter->i2c_state_event_history_pointer + 1) % I2C_LOG_DEPTH;
 
-	i2c_state_history[i2c_state_history_pointer] = i2c_adapter->curr_state;
-	i2c_state_history_pointer = (i2c_state_history_pointer + 1) % I2C_LOG_DEPTH;
+	i2c_adapter->i2c_state_history[i2c_adapter->i2c_state_history_pointer] = i2c_adapter->curr_state;
+	i2c_adapter->i2c_state_history_pointer = (i2c_adapter->i2c_state_history_pointer + 1) % I2C_LOG_DEPTH;
 
 	if (i2c_adapter_transitions[i2c_adapter->curr_state].next_state[event] == I2C_STATE_FSM_FAULT)
-		i2c_adapter_log_fault(PIOS_I2C_ERROR_FSM);
+		i2c_adapter_log_fault(i2c_adapter, PIOS_I2C_ERROR_FSM);
 #endif
 	/*
 	 * Move to the next state
@@ -432,8 +413,6 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 		I2C_SoftwareResetCmd(i2c_adapter->cfg->regs);
 }
 
-#include <pios_i2c_priv.h>
-
 #ifndef USE_FREERTOS
 /* Return true if the FSM is in a terminal state */
 static bool i2c_adapter_fsm_terminated(struct pios_i2c_adapter *i2c_adapter)
@@ -453,59 +432,33 @@ static bool i2c_adapter_fsm_terminated(struct pios_i2c_adapter *i2c_adapter)
  * an error condition
  * \param[in] i2c the adapter number to log an event for
  */
-void i2c_adapter_log_fault(enum pios_i2c_error_type type)
-{
 #if defined(PIOS_I2C_DIAGNOSTICS)
-	i2c_adapter_fault_history.type = type;
+void i2c_adapter_log_fault(struct pios_i2c_adapter *i2c_adapter, enum pios_i2c_error_type type)
+{
+	i2c_adapter->i2c_adapter_fault_history.type = type;
 	for (uint8_t i = 0; i < I2C_LOG_DEPTH; i++) {
-		i2c_adapter_fault_history.evirq[i] =
-			i2c_evirq_history[(I2C_LOG_DEPTH + i2c_evirq_history_pointer - 1 - i) % I2C_LOG_DEPTH];
-		i2c_adapter_fault_history.erirq[i] =
-			i2c_erirq_history[(I2C_LOG_DEPTH + i2c_erirq_history_pointer - 1 - i) % I2C_LOG_DEPTH];
-		i2c_adapter_fault_history.event[i] =
-			i2c_state_event_history[(I2C_LOG_DEPTH + i2c_state_event_history_pointer - 1 - i) % I2C_LOG_DEPTH];
-		i2c_adapter_fault_history.state[i] =
-			i2c_state_history[(I2C_LOG_DEPTH + i2c_state_history_pointer - 1 - i) % I2C_LOG_DEPTH];
+		i2c_adapter->i2c_adapter_fault_history.evirq[i] =
+				i2c_adapter->i2c_evirq_history[(I2C_LOG_DEPTH + i2c_adapter->i2c_evirq_history_pointer - 1 - i) % I2C_LOG_DEPTH];
+		i2c_adapter->i2c_adapter_fault_history.erirq[i] =
+				i2c_adapter->i2c_erirq_history[(I2C_LOG_DEPTH + i2c_adapter->i2c_erirq_history_pointer - 1 - i) % I2C_LOG_DEPTH];
+		i2c_adapter->i2c_adapter_fault_history.event[i] =
+				i2c_adapter->i2c_state_event_history[(I2C_LOG_DEPTH + i2c_adapter->i2c_state_event_history_pointer - 1 - i) % I2C_LOG_DEPTH];
+		i2c_adapter->i2c_adapter_fault_history.state[i] =
+				i2c_adapter->i2c_state_history[(I2C_LOG_DEPTH + i2c_adapter->i2c_state_history_pointer - 1 - i) % I2C_LOG_DEPTH];
 	}
 	switch (type) {
 	case PIOS_I2C_ERROR_EVENT:
-		i2c_bad_event_counter++;
+		i2c_adapter->i2c_bad_event_counter++;
 		break;
 	case PIOS_I2C_ERROR_FSM:
-		i2c_fsm_fault_count++;
+		i2c_adapter->i2c_fsm_fault_count++;
 		break;
 	case PIOS_I2C_ERROR_INTERRUPT:
-		i2c_error_interrupt_counter++;
+		i2c_adapter->i2c_error_interrupt_counter++;
 		break;
 	}
-#endif
 }
-
-
-/**
- * Logs the last N state transitions and N IRQ events due to
- * an error condition
- * \param[out] data address where to copy the pios_i2c_fault_history structure to
- * \param[out] counts three uint16 that receive the bad event, fsm, and error irq
- * counts
- */
-void PIOS_I2C_GetDiagnostics(struct pios_i2c_fault_history *data, uint8_t *counts)
-{
-#if defined(PIOS_I2C_DIAGNOSTICS)
-	memcpy(data, &i2c_adapter_fault_history, sizeof(i2c_adapter_fault_history));
-	counts[0] = i2c_bad_event_counter;
-	counts[1] = i2c_fsm_fault_count;
-	counts[2] = i2c_error_interrupt_counter;
-	counts[3] = i2c_nack_counter;
-	counts[4] = i2c_timeout_counter;
-#else
-	struct pios_i2c_fault_history i2c_adapter_fault_history;
-	i2c_adapter_fault_history.type = PIOS_I2C_ERROR_EVENT;
-
-	memcpy(data, &i2c_adapter_fault_history, sizeof(i2c_adapter_fault_history));
-	counts[0] = counts[1] = counts[2] = 0;
 #endif
-}
 
 static bool PIOS_I2C_validate(struct pios_i2c_adapter *i2c_adapter)
 {
@@ -650,8 +603,10 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 
 	PIOS_Semaphore_Give(i2c_adapter->sem_busy);
 
+#if defined(PIOS_I2C_DIAGNOSTICS)
 	if (!semaphore_success)
-		i2c_timeout_counter++;
+		i2c_adapter->i2c_timeout_counter++;
+#endif
 
 	return !semaphore_success ? -2 :
 		i2c_adapter->bus_error ? -1 :
@@ -701,8 +656,8 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_RXNE)) {
 		//flag will be cleared by event
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_RXNE;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_RXNE;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_RECEIVER_BUFFER_NOT_EMPTY, &woken);
 	}
@@ -710,8 +665,8 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_TXIS)) {
 		//flag will be cleared by event
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_TXIS;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_TXIS;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_TRANSMIT_BUFFER_EMPTY, &woken);
 	}
@@ -719,8 +674,9 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_NACKF)) {
 		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_NACKF);
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_NACKF;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_NACKF;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		++i2c_adapter->i2c_nack_counter;
 #endif
 		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_NACK, &woken);
 	}
@@ -728,8 +684,8 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_TC)) {
 		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_TC);
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_TC;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_TC;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_TRANSFER_COMPLETE, &woken);
 	}
@@ -737,8 +693,8 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_STOPF)) {
 		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_STOPF);
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_STOPF;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_STOPF;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_STOP, &woken);
 	}
@@ -759,54 +715,56 @@ void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_BERR)) {
 		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_BERR);
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_BERR;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_BERR;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 	}
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_ARLO)) {
 		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_ARLO);
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_ARLO;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_ARLO;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 	}
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_OVR)) {
 		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_OVR);
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_OVR;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_OVR;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 	}
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_PECERR)) {
 		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_PECERR);
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_PECERR;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_PECERR;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 	}
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_TIMEOUT)) {
 		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_TIMEOUT);
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_TIMEOUT;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_TIMEOUT;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 	}
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_ALERT)) {
 		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_ALERT);
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_ALERT;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_ALERT;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 	}
 	if (I2C_GetFlagStatus(i2c_adapter->cfg->regs, I2C_FLAG_BUSY)) {
 		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_BUSY);
 #if defined(PIOS_I2C_DIAGNOSTICS)
-		i2c_erirq_history[i2c_erirq_history_pointer] = I2C_FLAG_BUSY;
-		i2c_erirq_history_pointer = (i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
+		i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = I2C_FLAG_BUSY;
+		i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 	}
 
-	i2c_adapter_log_fault(PIOS_I2C_ERROR_INTERRUPT);
+#if defined(PIOS_I2C_DIAGNOSTICS)
+	i2c_adapter_log_fault(i2c_adapter, PIOS_I2C_ERROR_INTERRUPT);
+#endif
 
 	/* Fail hard on any errors for now */
 	bool woken = false;
