@@ -127,7 +127,13 @@ MODULE_INITCALL(AltitudeHoldInitialize, AltitudeHoldStart);
  */
 static void altitudeHoldTask(void *parameters)
 {
-	enum altitudehold_state {AH_RESET, AH_WAITING_BARO, AH_WAITIING_INIT, AH_RUNNING} state = AH_RESET;
+	/**
+	 * AH_RESET - reinitialize filter
+	 * AH_WAITING_INIT - waiting for initialization of filter
+	 * AH_WAITING_BARO - awaiting an update from the baro
+	 * AH_RUNNING - ready to perform update of EKF
+	 */
+	enum altitudehold_state {AH_RESET, AH_WAITIING_INIT, AH_WAITING_BARO, AH_RUNNING} state = AH_RESET;
 	bool engaged = false;
 	bool baro_updated = false;
 	float starting_altitude;
@@ -190,7 +196,20 @@ static void altitudeHoldTask(void *parameters)
 		} else if (ev.obj == BaroAltitudeHandle()) {
 			baro_updated = true;
 
-			state = (state == AH_WAITING_BARO) ? AH_WAITIING_INIT : state;
+			if (state == AH_WAITIING_INIT) {
+				AccelsData accels;
+				AccelsGet(&accels);
+				BaroAltitudeData baro;
+				BaroAltitudeGet(&baro);
+
+				z[0] = baro.Altitude;
+				z[1] = 0;
+				z[2] = accels.z;
+				z[3] = 0;
+				state = AH_WAITING_BARO;
+			} else
+				state = AH_RUNNING;
+
 		} else if (ev.obj == FlightStatusHandle()) {
 			FlightStatusData flightStatus;
 			FlightStatusGet(&flightStatus);
@@ -230,14 +249,9 @@ static void altitudeHoldTask(void *parameters)
 			BaroAltitudeData baro;
 			BaroAltitudeGet(&baro);
 
-			if (state == AH_WAITIING_INIT) {
-				z[0] = baro.Altitude;
-				z[1] = 0;
-				z[2] = accels.z;
-				z[3] = 0;
-				state = AH_RUNNING;
-			} else if (state == AH_WAITING_BARO)
+			if (state != AH_RUNNING)
 				continue;
+			state = AH_WAITING_BARO;
 
 			static uint32_t timeval;
 			float dT = PIOS_DELAY_DiffuS(timeval) / 1.0e6f;
