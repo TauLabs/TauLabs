@@ -6,13 +6,9 @@
 # single project and to build all required software to produce a GCS.
 # This includes regenerating all uavobject output.
 #
-# NOTE: to use this meta-project, you MUST perform these steps once
-# for each source tree checkout:
+# NOTE: to use this meta-project, you MUST perform these steps:
 # - Open <top>/ground/ground.pro in qt-creator
-# - Select the "Projects" tab
-# - Under Build Settings/General heading, click "Show Details"
-# - Activate "Shadow Build"
-# - Set your Build Directory to <top>/build/ground
+# - When asked, set your debug and release Build Directories to <top>/build/ground
 #
 # <top> = the full path to the base of your git source tree which
 # should contain "flight", "ground", etc.
@@ -21,7 +17,7 @@
 # files when it generates GCS Makefiles. But we do not have
 # uavobjgenerator at that time (on the 1st build). So we use the
 # following trick: at make stage in uavobjects we rerun qmake for
-# abovegroundlabs.pro and regenerate GCS Makefiles using just built
+# gcs.pro and regenerate GCS Makefiles using just built
 # synthetic files. It takes some extra time but solves the
 # dependency problem.
 

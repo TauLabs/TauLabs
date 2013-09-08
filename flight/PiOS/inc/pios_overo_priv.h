@@ -48,7 +48,7 @@ struct pios_overo_cfg {
 	struct stm32_gpio ssel[];
 };
 
-extern int32_t PIOS_OVERO_Init(uint32_t * overo_id, const struct pios_overo_cfg * cfg);
+extern int32_t PIOS_OVERO_Init(uintptr_t * overo_id, const struct pios_overo_cfg * cfg);
 
 #endif /* PIOS_OVERO_H */
 

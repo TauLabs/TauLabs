@@ -4,11 +4,13 @@
  * @file       pluginmanager.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
- * @brief      
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
- * @defgroup   
+ * @addtogroup libs GCS Libraries
  * @{
- * 
+ * @addtogroup extensionsystem Extension System
+ * @{
+ * @brief Plugin Manager Class
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 
@@ -575,9 +577,13 @@ void PluginManagerPrivate::loadPlugins()
 {
     QList<PluginSpec *> queue = loadQueue();
     foreach (PluginSpec *spec, queue) {
+        emit q->splashMessages(QString(QObject::tr("Loading %1 plugin")).arg(spec->name()));
         loadPlugin(spec, PluginSpec::Loaded);
+        if(spec->name() == "Core")
+            QObject::connect(spec->plugin(),SIGNAL(splashMessages(QString)),q,SIGNAL(splashMessages(QString)));
     }
     foreach (PluginSpec *spec, queue) {
+        emit q->splashMessages(QString(QObject::tr("Initializing %1 plugin")).arg(spec->name()));
         loadPlugin(spec, PluginSpec::Initialized);
     }
     QListIterator<PluginSpec *> it(queue);

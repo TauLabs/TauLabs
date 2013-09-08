@@ -42,7 +42,7 @@ static const struct pios_servo_cfg * servo_cfg;
 */
 int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 {
-	uint32_t tim_id;
+	uintptr_t tim_id;
 	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, NULL, 0)) {
 		return -1;
 	}

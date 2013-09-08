@@ -75,5 +75,6 @@ void OPMapGadget::loadConfiguration(IUAVGadgetConfiguration *config)
     m_widget->setPosition(QPointF(m_config->longitude(), m_config->latitude()));
     m_widget->setHomePosition(QPointF(m_config->longitude(), m_config->latitude()));
     m_widget->setOverlayOpacity(m_config->opacity());
+    m_widget->setGeoCodingLanguage(m_config->geoLanguage());
 }
 

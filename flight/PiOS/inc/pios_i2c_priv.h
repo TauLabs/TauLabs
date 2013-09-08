@@ -3,6 +3,7 @@
  *
  * @file       pios_i2c_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      I2C private definitions.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -29,6 +30,8 @@
 #include <pios.h>
 #include <pios_stm32.h>
 #include <stdbool.h>
+#include "pios_semaphore.h"
+#include <inttypes.h>
 
 struct pios_i2c_adapter_cfg {
 	I2C_TypeDef *regs;
@@ -82,15 +85,30 @@ enum pios_i2c_adapter_magic {
 	PIOS_I2C_DEV_MAGIC = 0xa9a9b8b8,
 };
 
+#if defined(PIOS_I2C_DIAGNOSTICS)
+struct pios_i2c_fault_history {
+	enum pios_i2c_error_type type;
+	uint32_t evirq[I2C_LOG_DEPTH];
+	uint32_t erirq[I2C_LOG_DEPTH];
+	uint8_t event[I2C_LOG_DEPTH];
+	uint8_t state[I2C_LOG_DEPTH];
+};
+
+#define I2C_LOG_DEPTH 20
+
+enum pios_i2c_error_type {
+	PIOS_I2C_ERROR_EVENT,
+	PIOS_I2C_ERROR_FSM,
+	PIOS_I2C_ERROR_INTERRUPT
+};
+#endif
+
 struct pios_i2c_adapter {
 	enum pios_i2c_adapter_magic         magic;
 	const struct pios_i2c_adapter_cfg * cfg;
-#ifdef PIOS_INCLUDE_FREERTOS
-	xSemaphoreHandle sem_busy;
-	xSemaphoreHandle sem_ready;
-#else
-	volatile uint8_t busy;
-#endif
+
+	struct pios_semaphore *sem_busy;
+	struct pios_semaphore *sem_ready;
 
 	bool bus_error;
 	bool nack;
@@ -104,6 +122,28 @@ struct pios_i2c_adapter {
 	
 	uint8_t *active_byte;
 	uint8_t *last_byte;
+
+#if defined(PIOS_I2C_DIAGNOSTICS)
+	volatile struct pios_i2c_fault_history i2c_adapter_fault_history;
+
+	volatile uint32_t i2c_evirq_history[I2C_LOG_DEPTH];
+	volatile uint8_t i2c_evirq_history_pointer;
+
+	volatile uint32_t i2c_erirq_history[I2C_LOG_DEPTH];
+	volatile uint8_t i2c_erirq_history_pointer;
+
+	volatile enum i2c_adapter_state i2c_state_history[I2C_LOG_DEPTH];
+	volatile uint8_t i2c_state_history_pointer;
+
+	volatile uint32_t i2c_state_event_history[I2C_LOG_DEPTH];
+	volatile uint8_t i2c_state_event_history_pointer;
+
+	volatile uint32_t i2c_fsm_fault_count;
+	volatile uint32_t i2c_bad_event_counter;
+	volatile uint32_t i2c_error_interrupt_counter;
+	volatile uint32_t i2c_nack_counter;
+	volatile uint32_t i2c_timeout_counter;
+#endif
 };
 
 int32_t PIOS_I2C_Init(uint32_t * i2c_id, const struct pios_i2c_adapter_cfg * cfg);

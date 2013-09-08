@@ -8,6 +8,7 @@
  *
  * @file       pios_adxl345.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      PiOS ADXL345 digital accelerometer driver.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -56,10 +57,10 @@ static int32_t PIOS_ADXL345_FifoDepth(uint8_t depth);
 static struct adxl345_dev * PIOS_ADXL345_alloc(void)
 {
 	struct adxl345_dev * adxl345_dev;
-	
-	adxl345_dev = (struct adxl345_dev *)pvPortMalloc(sizeof(*adxl345_dev));
+
+	adxl345_dev = (struct adxl345_dev *)PIOS_malloc(sizeof(*adxl345_dev));
 	if (!adxl345_dev) return (NULL);
-	
+
 	adxl345_dev->magic = PIOS_ADXL345_DEV_MAGIC;
 	return(adxl345_dev);
 }
@@ -70,7 +71,7 @@ static struct adxl345_dev * PIOS_ADXL345_alloc(void)
  */
 static int32_t PIOS_ADXL345_Validate(struct adxl345_dev * dev)
 {
-	if (dev == NULL) 
+	if (dev == NULL)
 		return -1;
 	if (dev->magic != PIOS_ADXL345_DEV_MAGIC)
 		return -2;
@@ -83,7 +84,7 @@ static int32_t PIOS_ADXL345_Validate(struct adxl345_dev * dev)
  * @brief Claim the SPI bus for the accel communications and select this chip
  * @return 0 for succesful claiming of bus or -1 otherwise
  */
-static int32_t PIOS_ADXL345_ClaimBus() 
+static int32_t PIOS_ADXL345_ClaimBus()
 {
 	if(PIOS_ADXL345_Validate(dev) != 0)
 		return -1;
@@ -92,7 +93,7 @@ static int32_t PIOS_ADXL345_ClaimBus()
 		return -2;
 
 	PIOS_SPI_RC_PinSet(dev->spi_id, dev->slave_num, 0);
-	
+
 	return 0;
 }
 
@@ -109,16 +110,16 @@ static int32_t PIOS_ADXL345_ReleaseBus()
 
 	if(PIOS_SPI_ReleaseBus(dev->spi_id) != 0)
 		return -2;
-	
+
 	return 0;
 }
 
 /**
  * @brief Select the sampling rate of the chip
- * 
+ *
  * This also puts it into high power mode
  */
-int32_t PIOS_ADXL345_SelectRate(uint8_t rate) 
+int32_t PIOS_ADXL345_SelectRate(uint8_t rate)
 {
 	if(PIOS_ADXL345_Validate(dev) != 0)
 		return -1;
@@ -133,7 +134,7 @@ int32_t PIOS_ADXL345_SelectRate(uint8_t rate)
 	}
 
 	PIOS_ADXL345_ReleaseBus();
-	
+
 	return 0;
 }
 
@@ -141,22 +142,22 @@ int32_t PIOS_ADXL345_SelectRate(uint8_t rate)
  * @brief Set the range of the accelerometer and set the data to be right justified
  * with sign extension.  Also keep device in 4 wire mode.
  */
-int32_t PIOS_ADXL345_SetRange(uint8_t range) 
+int32_t PIOS_ADXL345_SetRange(uint8_t range)
 {
 	if(PIOS_ADXL345_Validate(dev) != 0)
 		return -1;
-	
+
 	if(PIOS_ADXL345_ClaimBus() != 0)
 		return -2;
-	
+
 	uint8_t out[2] = {ADXL_FORMAT_ADDR, (range & 0x03) | ADXL_FULL_RES | ADXL_4WIRE};
 	if(PIOS_SPI_TransferBlock(dev->spi_id,out,NULL,sizeof(out),NULL) < 0) {
 		PIOS_ADXL345_ReleaseBus();
 		return -3;
 	}
-	
+
 	PIOS_ADXL345_ReleaseBus();
-	
+
 	return 0;
 }
 
@@ -167,10 +168,10 @@ static int32_t PIOS_ADXL345_FifoDepth(uint8_t depth)
 {
 	if(PIOS_ADXL345_Validate(dev) != 0)
 		return -1;
-	
+
 	if(PIOS_ADXL345_ClaimBus() != 0)
 		return -2;
-	
+
 	uint8_t out[2] = {ADXL_FIFO_ADDR, (depth & 0x1f) | ADXL_FIFO_STREAM};
 	if(PIOS_SPI_TransferBlock(dev->spi_id,out,NULL,sizeof(out),NULL) < 0) {
 		PIOS_ADXL345_ReleaseBus();
@@ -178,7 +179,7 @@ static int32_t PIOS_ADXL345_FifoDepth(uint8_t depth)
 	}
 
 	PIOS_ADXL345_ReleaseBus();
-	
+
 	return 0;
 }
 
@@ -189,10 +190,10 @@ static int32_t PIOS_ADXL345_SetMeasure(uint8_t enable)
 {
 	if(PIOS_ADXL345_Validate(dev) != 0)
 		return -1;
-	
+
 	if(PIOS_ADXL345_ClaimBus() != 0)
 		return -2;
-	
+
 	uint8_t out[2] = {ADXL_POWER_ADDR, ADXL_MEAURE};
 	if(PIOS_SPI_TransferBlock(dev->spi_id,out,NULL,sizeof(out),NULL) < 0) {
 		PIOS_ADXL345_ReleaseBus();
@@ -200,7 +201,7 @@ static int32_t PIOS_ADXL345_SetMeasure(uint8_t enable)
 	}
 
 	PIOS_ADXL345_ReleaseBus();
-	
+
 	return 0;
 }
 
@@ -212,16 +213,16 @@ int32_t PIOS_ADXL345_Init(uint32_t spi_id, uint32_t slave_num)
 	dev = PIOS_ADXL345_alloc();
 	if(dev == NULL)
 		return -1;
-	
+
 	dev->spi_id = spi_id;
 	dev->slave_num = slave_num;
-	
+
 	PIOS_ADXL345_ReleaseBus();
 	PIOS_ADXL345_SelectRate(ADXL_RATE_3200);
 	PIOS_ADXL345_SetRange(ADXL_RANGE_8G);
 	PIOS_ADXL345_FifoDepth(16);
 	PIOS_ADXL345_SetMeasure(1);
-	
+
 	return 0;
 }
 
@@ -245,7 +246,7 @@ int32_t PIOS_ADXL345_Test()
 		return -3;
 	}
 
-	PIOS_ADXL345_ReleaseBus();		
+	PIOS_ADXL345_ReleaseBus();
 
 	return (rec[1] == ADXL_DEVICE_ID) ? 0 : -4;
 }
@@ -257,21 +258,21 @@ int32_t PIOS_ADXL345_FifoElements()
 {
 	if(PIOS_ADXL345_Validate(dev) != 0)
 		return -1;
-	
+
 	if(PIOS_ADXL345_ClaimBus() != 0)
 		return -2;
-	
+
 	uint8_t buf[2] = {0,0};
 	uint8_t rec[2] = {0,0};
 	buf[0] = ADXL_FIFOSTATUS_ADDR | ADXL_READ_BIT ; // Read fifo status
-	
+
 	if(PIOS_SPI_TransferBlock(dev->spi_id,&buf[0],&rec[0],sizeof(buf),NULL) < 0) {
 		PIOS_ADXL345_ReleaseBus();
 		return -3;
 	}
-	
-	PIOS_ADXL345_ReleaseBus();		
-	
+
+	PIOS_ADXL345_ReleaseBus();
+
 	return rec[1] & 0x3f;
 }
 
@@ -283,26 +284,26 @@ uint8_t PIOS_ADXL345_Read(struct pios_adxl345_data * data)
 {
 	if(PIOS_ADXL345_Validate(dev) != 0)
 		return -1;
-	
+
 	if(PIOS_ADXL345_ClaimBus() != 0)
 		return -2;
-	
+
 	// To save memory use same buffer for in and out but offset by
 	// a byte
 	uint8_t buf[9] = {0,0,0,0,0,0,0,0};
 	uint8_t rec[9] = {0,0,0,0,0,0,0,0};
 	buf[0] = ADXL_X0_ADDR | ADXL_MULTI_BIT | ADXL_READ_BIT ; // Multibyte read starting at X0
-	
+
 	if(PIOS_SPI_TransferBlock(dev->spi_id,&buf[0],&rec[0],9,NULL) < 0) {
 		PIOS_ADXL345_ReleaseBus();
 		return -3;
 	}
 
-	PIOS_ADXL345_ReleaseBus();	
-	
+	PIOS_ADXL345_ReleaseBus();
+
 	data->x = rec[1] + (rec[2] << 8);
 	data->y = rec[3] + (rec[4] << 8);
 	data->z = rec[5] + (rec[6] << 8);
-	
+
 	return rec[8] & 0x7F; // return number of remaining entries
 }

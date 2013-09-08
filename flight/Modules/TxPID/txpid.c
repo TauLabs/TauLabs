@@ -103,7 +103,7 @@ int32_t TxPIDInitialize(void)
 			.instId = 0,
 			.event = 0,
 		};
-		EventPeriodicCallbackCreate(&ev, updatePIDs, SAMPLE_PERIOD_MS / portTICK_RATE_MS);
+		EventPeriodicCallbackCreate(&ev, updatePIDs, MS2TICKS(SAMPLE_PERIOD_MS));
 
 #if (TELEMETRY_UPDATE_PERIOD_MS != 0)
 		// Change StabilizationSettings update rate from OnChange to periodic
@@ -267,6 +267,59 @@ static void updatePIDs(UAVObjEvent* ev)
 			case TXPIDSETTINGS_PIDS_GYROTAU:
 				needsUpdate |= update(&stab.GyroTau, value);
 				break;
+			case TXPIDSETTINGS_PIDS_ROLLVBARSENSITIVITY: 
+				needsUpdate |= update(&stab.VbarSensitivity[STABILIZATIONSETTINGS_VBARSENSITIVITY_ROLL], value);
+				break;
+			case TXPIDSETTINGS_PIDS_PITCHVBARSENSITIVITY:
+				needsUpdate |= update(&stab.VbarSensitivity[STABILIZATIONSETTINGS_VBARSENSITIVITY_PITCH], value);
+				break;
+			case TXPIDSETTINGS_PIDS_ROLLPITCHVBARSENSITIVITY:
+				needsUpdate |= update(&stab.VbarSensitivity[STABILIZATIONSETTINGS_VBARSENSITIVITY_ROLL], value);
+				needsUpdate |= update(&stab.VbarSensitivity[STABILIZATIONSETTINGS_VBARSENSITIVITY_PITCH], value);
+				break;
+			
+			case TXPIDSETTINGS_PIDS_YAWVBARSENSITIVITY:
+				needsUpdate |= update(&stab.VbarSensitivity[STABILIZATIONSETTINGS_VBARSENSITIVITY_YAW], value);
+				break;
+			case TXPIDSETTINGS_PIDS_ROLLVBARKP:
+				needsUpdate |= update(&stab.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KP], value);
+				break;
+			case TXPIDSETTINGS_PIDS_ROLLVBARKI:
+				needsUpdate |= update(&stab.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KI], value);
+				break;	
+			case TXPIDSETTINGS_PIDS_ROLLVBARKD:
+				needsUpdate |= update(&stab.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KD], value);
+				break;
+			case TXPIDSETTINGS_PIDS_PITCHVBARKP:
+				needsUpdate |= update(&stab.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KP], value);
+				break;
+			case TXPIDSETTINGS_PIDS_PITCHVBARKI:
+				needsUpdate |= update(&stab.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KI], value);
+				break;
+			case TXPIDSETTINGS_PIDS_PITCHVBARKD:
+				needsUpdate |= update(&stab.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KD], value);
+				break;
+			case TXPIDSETTINGS_PIDS_ROLLPITCHVBARKP:
+				needsUpdate |= update(&stab.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KP], value);
+				needsUpdate |= update(&stab.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KP], value);
+				break;
+			case TXPIDSETTINGS_PIDS_ROLLPITCHVBARKI:
+				needsUpdate |= update(&stab.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KI], value);
+				needsUpdate |= update(&stab.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KI], value);
+				break;
+			case TXPIDSETTINGS_PIDS_ROLLPITCHVBARKD:
+				needsUpdate |= update(&stab.VbarRollPID[STABILIZATIONSETTINGS_VBARROLLPID_KD], value);
+				needsUpdate |= update(&stab.VbarPitchPID[STABILIZATIONSETTINGS_VBARPITCHPID_KD], value);
+				break;
+			case TXPIDSETTINGS_PIDS_YAWVBARKP:
+				needsUpdate |= update(&stab.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KP], value);
+				break;
+			case TXPIDSETTINGS_PIDS_YAWVBARKI:
+				needsUpdate |= update(&stab.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KI], value);
+				break;
+			case TXPIDSETTINGS_PIDS_YAWVBARKD:
+				needsUpdate |= update(&stab.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KD], value);
+				break;
 			default:
 				PIOS_Assert(0);
 			}
@@ -300,7 +353,7 @@ static float scale(float val, float inMin, float inMax, float outMin, float outM
 		float t = outMin;
 		outMin = outMax;
 		outMax = t;
-		val = 1.0 - val;
+		val = 1.0f - val;
 	}
 
 	return (outMax - outMin) * val + outMin;

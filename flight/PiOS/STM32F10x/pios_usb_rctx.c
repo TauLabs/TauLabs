@@ -9,6 +9,7 @@
  *
  * @file       pios_usb_rctx.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -62,34 +63,16 @@ static bool PIOS_USB_RCTX_validate(struct pios_usb_rctx_dev * usb_rctx_dev)
 	return (usb_rctx_dev->magic == PIOS_USB_RCTX_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_usb_rctx_dev * PIOS_USB_RCTX_alloc(void)
 {
 	struct pios_usb_rctx_dev * usb_rctx_dev;
 
-	usb_rctx_dev = (struct pios_usb_rctx_dev *)pvPortMalloc(sizeof(*usb_rctx_dev));
+	usb_rctx_dev = (struct pios_usb_rctx_dev *)PIOS_malloc(sizeof(*usb_rctx_dev));
 	if (!usb_rctx_dev) return(NULL);
 
 	usb_rctx_dev->magic = PIOS_USB_RCTX_DEV_MAGIC;
 	return(usb_rctx_dev);
 }
-#else
-static struct pios_usb_rctx_dev pios_usb_rctx_devs[PIOS_USB_RCTX_MAX_DEVS];
-static uint8_t pios_usb_rctx_num_devs;
-static struct pios_usb_rctx_dev * PIOS_USB_RCTX_alloc(void)
-{
-	struct pios_usb_rctx_dev * usb_rctx_dev;
-
-	if (pios_usb_rctx_num_devs >= PIOS_USB_RCTX_MAX_DEVS) {
-		return (NULL);
-	}
-
-	usb_rctx_dev = &pios_usb_rctx_devs[pios_usb_rctx_num_devs++];
-	usb_rctx_dev->magic = PIOS_USB_RCTX_DEV_MAGIC;
-
-	return (usb_rctx_dev);
-}
-#endif
 
 static void PIOS_USB_RCTX_EP_IN_Callback(void);
 static void PIOS_USB_RCTX_SendReport(struct pios_usb_rctx_dev * usb_rctx_dev);
@@ -97,7 +80,7 @@ static void PIOS_USB_RCTX_SendReport(struct pios_usb_rctx_dev * usb_rctx_dev);
 /* Need a better way to pull these in */
 extern void (*pEpInt_IN[7])(void);
 
-int32_t PIOS_USB_RCTX_Init(uint32_t * usbrctx_id, const struct pios_usb_rctx_cfg * cfg, uint32_t lower_id)
+int32_t PIOS_USB_RCTX_Init(uintptr_t * usbrctx_id, const struct pios_usb_rctx_cfg * cfg, uint32_t lower_id)
 {
 	PIOS_Assert(usbrctx_id);
 	PIOS_Assert(cfg);
@@ -116,7 +99,7 @@ int32_t PIOS_USB_RCTX_Init(uint32_t * usbrctx_id, const struct pios_usb_rctx_cfg
 
 	pEpInt_IN[cfg->data_tx_ep - 1] = PIOS_USB_RCTX_EP_IN_Callback;
 
-	*usbrctx_id = (uint32_t) usb_rctx_dev;
+	*usbrctx_id = (uintptr_t) usb_rctx_dev;
 
 	return 0;
 
@@ -158,7 +141,7 @@ static void PIOS_USB_RCTX_EP_IN_Callback(void)
 	PIOS_USB_RCTX_SendReport(usb_rctx_dev);
 }
 
-void PIOS_USB_RCTX_Update(uint32_t usbrctx_id, const uint16_t channel[], const int16_t channel_min[], const int16_t channel_max[], uint8_t num_channels)
+void PIOS_USB_RCTX_Update(uintptr_t usbrctx_id, const uint16_t channel[], const int16_t channel_min[], const int16_t channel_max[], uint8_t num_channels)
 {
 	struct pios_usb_rctx_dev * usb_rctx_dev = (struct pios_usb_rctx_dev *)usbrctx_id;
 

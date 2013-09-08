@@ -154,7 +154,7 @@ int WMM_GetMagVector(float Lat, float Lon, float AltEllipsoid, uint16_t Month, u
     {
         CoordGeodetic->lambda = Lon;
         CoordGeodetic->phi = Lat;
-        CoordGeodetic->HeightAboveEllipsoid = AltEllipsoid/1000.0; // convert to km
+        CoordGeodetic->HeightAboveEllipsoid = AltEllipsoid/1000.0f; // convert to km
 
         // Convert from geodeitic to Spherical Equations: 17-18, WMM Technical report
         if (WMM_GeodeticToSpherical(CoordGeodetic, CoordSpherical) < 0)
@@ -205,9 +205,9 @@ int WMM_GetMagVector(float Lat, float Lon, float AltEllipsoid, uint16_t Month, u
         Ellip = NULL;
     }
 
-	B[0] = GeoMagneticElements->X * 1e-2;
-	B[1] = GeoMagneticElements->Y * 1e-2;
-	B[2] = GeoMagneticElements->Z * 1e-2;
+	B[0] = GeoMagneticElements->X * 1e-2f;
+	B[1] = GeoMagneticElements->Y * 1e-2f;
+	B[2] = GeoMagneticElements->Z * 1e-2f;
 
     return returned;
 }
@@ -773,7 +773,7 @@ int WMM_PcupHigh(float *Pcup, float *dPcup, float x, uint16_t nMax)
 	}
 
 	/*z = sin (geocentric latitude) */
-	z = sqrtf((1.0 - x) * (1.0 + x));
+	z = sqrtf((1.0f - x) * (1.0f + x));
 	pm2 = 1.0;
 	Pcup[0] = 1.0;
 	dPcup[0] = 0.0;
@@ -800,7 +800,7 @@ int WMM_PcupHigh(float *Pcup, float *dPcup, float x, uint16_t nMax)
 	}
 
 	pmm = PreSqr[2] * scalef;
-	rescalem = 1.0 / scalef;
+	rescalem = 1.0f / scalef;
 	kstart = 0;
 
 	for (m = 1; m <= nMax - 1; ++m)
@@ -888,7 +888,7 @@ int WMM_PcupLow(float *Pcup, float *dPcup, float x, uint16_t nMax)
 	dPcup[0] = 0.0;
 
 	/*sin (geocentric latitude) - sin_phi */
-	z = sqrtf((1.0 - x) * (1.0 + x));
+	z = sqrtf((1.0f - x) * (1.0f + x));
 
 	/*       First, Compute the Gauss-normalized associated Legendre  functions */
 	for (n = 1; n <= nMax; n++)
@@ -1220,12 +1220,12 @@ int WMM_GeodeticToSpherical(WMMtype_CoordGeodetic * CoordGeodetic, WMMtype_Coord
 	SinLat = sinf(CoordGeodetic->phi * DEG2RAD);
 
 	// compute the local radius of curvature on the WGS-84 reference ellipsoid
-	rc = Ellip->a / sqrtf(1.0 - Ellip->epssq * SinLat * SinLat);
+	rc = Ellip->a / sqrtf(1.0f - Ellip->epssq * SinLat * SinLat);
 
 	// compute ECEF Cartesian coordinates of specified point (for longitude=0)
 
 	xp = (rc + CoordGeodetic->HeightAboveEllipsoid) * CosLat;
-	zp = (rc * (1.0 - Ellip->epssq) + CoordGeodetic->HeightAboveEllipsoid) * SinLat;
+	zp = (rc * (1.0f - Ellip->epssq) + CoordGeodetic->HeightAboveEllipsoid) * SinLat;
 
 	// compute spherical radius and angle lambda and phi of specified point
 

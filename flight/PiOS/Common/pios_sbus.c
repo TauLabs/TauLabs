@@ -8,6 +8,7 @@
  *
  * @file       pios_sbus.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Code to read Futaba S.Bus receiver serial stream
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -35,13 +36,13 @@
 #if defined(PIOS_INCLUDE_SBUS)
 
 /* Forward Declarations */
-static int32_t PIOS_SBus_Get(uint32_t rcvr_id, uint8_t channel);
-static uint16_t PIOS_SBus_RxInCallback(uint32_t context,
+static int32_t PIOS_SBus_Get(uintptr_t rcvr_id, uint8_t channel);
+static uint16_t PIOS_SBus_RxInCallback(uintptr_t context,
 				       uint8_t *buf,
 				       uint16_t buf_len,
 				       uint16_t *headroom,
 				       bool *need_yield);
-static void PIOS_SBus_Supervisor(uint32_t sbus_id);
+static void PIOS_SBus_Supervisor(uintptr_t sbus_id);
 
 
 /* Local Variables */
@@ -69,34 +70,16 @@ struct pios_sbus_dev {
 };
 
 /* Allocate S.Bus device descriptor */
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_sbus_dev *PIOS_SBus_Alloc(void)
 {
 	struct pios_sbus_dev *sbus_dev;
 
-	sbus_dev = (struct pios_sbus_dev *)pvPortMalloc(sizeof(*sbus_dev));
+	sbus_dev = (struct pios_sbus_dev *)PIOS_malloc(sizeof(*sbus_dev));
 	if (!sbus_dev) return(NULL);
 
 	sbus_dev->magic = PIOS_SBUS_DEV_MAGIC;
 	return(sbus_dev);
 }
-#else
-static struct pios_sbus_dev pios_sbus_devs[PIOS_SBUS_MAX_DEVS];
-static uint8_t pios_sbus_num_devs;
-static struct pios_sbus_dev *PIOS_SBus_Alloc(void)
-{
-	struct pios_sbus_dev *sbus_dev;
-
-	if (pios_sbus_num_devs >= PIOS_SBUS_MAX_DEVS) {
-		return (NULL);
-	}
-
-	sbus_dev = &pios_sbus_devs[pios_sbus_num_devs++];
-	sbus_dev->magic = PIOS_SBUS_DEV_MAGIC;
-
-	return (sbus_dev);
-}
-#endif
 
 /* Validate S.Bus device descriptor */
 static bool PIOS_SBus_Validate(struct pios_sbus_dev *sbus_dev)
@@ -122,10 +105,10 @@ static void PIOS_SBus_ResetState(struct pios_sbus_state *state)
 }
 
 /* Initialise S.Bus receiver interface */
-int32_t PIOS_SBus_Init(uint32_t *sbus_id,
+int32_t PIOS_SBus_Init(uintptr_t *sbus_id,
 		       const struct pios_sbus_cfg *cfg,
 		       const struct pios_com_driver *driver,
-		       uint32_t lower_id)
+		       uintptr_t lower_id)
 {
 	PIOS_DEBUG_Assert(sbus_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -141,7 +124,7 @@ int32_t PIOS_SBus_Init(uint32_t *sbus_id,
 
 	PIOS_SBus_ResetState(&(sbus_dev->state));
 
-	*sbus_id = (uint32_t)sbus_dev;
+	*sbus_id = (uintptr_t)sbus_dev;
 
 	/* Enable inverter clock and enable the inverter */
 	if (cfg->gpio_clk_func != NULL)
@@ -172,7 +155,7 @@ out_fail:
  * \output PIOS_RCVR_TIMEOUT failsafe condition or missing receiver
  * \output >=0 channel value
  */
-static int32_t PIOS_SBus_Get(uint32_t rcvr_id, uint8_t channel)
+static int32_t PIOS_SBus_Get(uintptr_t rcvr_id, uint8_t channel)
 {
 	struct pios_sbus_dev *sbus_dev = (struct pios_sbus_dev *)rcvr_id;
 
@@ -271,7 +254,7 @@ static void PIOS_SBus_UpdateState(struct pios_sbus_state *state, uint8_t b)
 }
 
 /* Comm byte received callback */
-static uint16_t PIOS_SBus_RxInCallback(uint32_t context,
+static uint16_t PIOS_SBus_RxInCallback(uintptr_t context,
 				       uint8_t *buf,
 				       uint16_t buf_len,
 				       uint16_t *headroom,
@@ -313,7 +296,7 @@ static uint16_t PIOS_SBus_RxInCallback(uint32_t context,
  * data reception. If no new data received in 100ms, we must call the
  * failsafe function which clears all channels.
  */
-static void PIOS_SBus_Supervisor(uint32_t sbus_id)
+static void PIOS_SBus_Supervisor(uintptr_t sbus_id)
 {
 	struct pios_sbus_dev *sbus_dev = (struct pios_sbus_dev *)sbus_id;
 

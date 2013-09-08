@@ -106,14 +106,11 @@ DFUObject::DFUObject(bool _debug,bool _use_serial,QString portname):
                 USBSignalFilter filter(vendorID,-1,-1,USBMonitor::Bootloader);
                 connect(&filter, SIGNAL(deviceDiscovered()),&m_eventloop, SLOT(quit()));
             }
-            for(int x=0;x<4;++x)
+            for(int x=0;x<20;++x)
             {
                 qDebug()<<"OP_DFU trying to detect bootloader:"<<x;
 
-                if(x==0)
-                    QTimer::singleShot(10000,&m_eventloop, SLOT(quit()));
-                else
-                    QTimer::singleShot(2000,&m_eventloop, SLOT(quit()));
+                QTimer::singleShot(1000,&m_eventloop, SLOT(quit()));
                 m_eventloop.exec();
                 devices.clear();
                 foreach(int vendorID, brdVID) {

@@ -194,7 +194,7 @@ static void SensorsTask(void *parameters)
 				simulateModelCar();
 		}
 
-		vTaskDelay(2 / portTICK_RATE_MS);
+		vTaskDelay(MS2TICKS(2));
 
 	}
 }
@@ -1183,15 +1183,17 @@ static void magOffsetEstimation(MagnetometerData *mag)
 	xy[1] = -sy * B_e[0] + cy * B_e[1];
 	
 	float xy_norm = sqrtf(xy[0]*xy[0] + xy[1]*xy[1]);
-	
-	delta[0] = -rate * (xy[0] / xy_norm * Rxy - xy[0]);
-	delta[1] = -rate * (xy[1] / xy_norm * Rxy - xy[1]);
-	delta[2] = -rate * (Rz - B_e[2]);
-	
-	magBias.x += delta[0];
-	magBias.y += delta[1];
-	magBias.z += delta[2];
-	MagBiasSet(&magBias);
+
+	if (xy_norm > 0) {
+		delta[0] = -rate * (xy[0] / xy_norm * Rxy - xy[0]);
+		delta[1] = -rate * (xy[1] / xy_norm * Rxy - xy[1]);
+		delta[2] = -rate * (Rz - B_e[2]);
+
+		magBias.x += delta[0];
+		magBias.y += delta[1];
+		magBias.z += delta[2];
+		MagBiasSet(&magBias);
+	}
 #endif
 
 }

@@ -132,6 +132,10 @@ void ConnectionDiagram::setupGraphicsScene()
         case Core::IBoardType::INPUT_TYPE_DSM2:
             elementsToShow << "satellite";
             break;
+        case Core::IBoardType::INPUT_TYPE_HOTTSUMD:
+        case Core::IBoardType::INPUT_TYPE_HOTTSUMH:
+            elementsToShow << "HoTT";
+            break;
         default:
             break;
         }

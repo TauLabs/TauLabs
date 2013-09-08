@@ -25,7 +25,6 @@ HEADERS += calibration.h \
     calibration.h \
     defaulthwsettingswidget.h \
     inputchannelform.h \
-    modulesettingsform.h \
     configcamerastabilizationwidget.h \
     configtxpidwidget.h \
     outputchannelform.h \    
@@ -41,7 +40,10 @@ HEADERS += calibration.h \
     configautotunewidget.h \
     hwfieldselector.h \
     tempcompcurve.h \
-    vehicletrim.h
+    textbubbleslider.h \
+    vehicletrim.h \
+    configmodulewidget.h
+
 SOURCES += calibration.cpp \
     configplugin.cpp \
     configgadgetconfiguration.cpp \
@@ -58,7 +60,6 @@ SOURCES += calibration.cpp \
     configpipxtremewidget.cpp \
     defaulthwsettingswidget.cpp \
     inputchannelform.cpp \
-    modulesettingsform.cpp \
     configcamerastabilizationwidget.cpp \
     configattitudewidget.cpp \
     configtxpidwidget.cpp \
@@ -73,10 +74,12 @@ SOURCES += calibration.cpp \
     configautotunewidget.cpp \
     hwfieldselector.cpp \
     tempcompcurve.cpp \
-    vehicletrim.cpp
+    textbubbleslider.cpp \
+    vehicletrim.cpp \
+    configmodulewidget.cpp
+
 FORMS += airframe.ui \
     cc_hw_settings.ui \
-    modulesettingsform.ui \
     ccpm.ui \
     stabilization.ui \
     input.ui \
@@ -90,7 +93,8 @@ FORMS += airframe.ui \
     pipxtreme.ui \
     mixercurve.ui \
     autotune.ui \
-    hwfieldselector.ui
+    hwfieldselector.ui \
+    modules.ui
 RESOURCES += configgadget.qrc
 
 

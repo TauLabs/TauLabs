@@ -83,7 +83,7 @@ static struct mpu6050_dev *PIOS_MPU6050_alloc(void)
 {
 	struct mpu6050_dev *mpu6050_dev;
 
-	mpu6050_dev = (struct mpu6050_dev *)pvPortMalloc(sizeof(*mpu6050_dev));
+	mpu6050_dev = (struct mpu6050_dev *)PIOS_malloc(sizeof(*mpu6050_dev));
 
 	if (!mpu6050_dev) return (NULL);
 

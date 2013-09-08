@@ -8,6 +8,7 @@
  *
  * @file       pios_spi.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Hardware Abstraction Layer for SPI ports of STM32
  * @see        The GNU Public License (GPL) Version 3
  * @notes
@@ -45,23 +46,10 @@ static bool PIOS_SPI_validate(struct pios_spi_dev *com_dev)
 	return (true);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_spi_dev *PIOS_SPI_alloc(void)
 {
-	return (pvPortMalloc(sizeof(struct pios_spi_dev)));
+	return (PIOS_malloc(sizeof(struct pios_spi_dev)));
 }
-#else
-static struct pios_spi_dev pios_spi_devs[PIOS_SPI_MAX_DEVS];
-static uint8_t pios_spi_num_devs;
-static struct pios_spi_dev *PIOS_SPI_alloc(void)
-{
-	if (pios_spi_num_devs >= PIOS_SPI_MAX_DEVS) {
-		return (NULL);
-	}
-
-	return (&pios_spi_devs[pios_spi_num_devs++]);
-}
-#endif
 
 /**
 * Initialises SPI pins
@@ -83,12 +71,7 @@ int32_t PIOS_SPI_Init(uint32_t *spi_id, const struct pios_spi_cfg *cfg)
 	/* Bind the configuration to the device instance */
 	spi_dev->cfg = cfg;
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-	vSemaphoreCreateBinary(spi_dev->busy);
-	xSemaphoreGive(spi_dev->busy);
-#else
-	spi_dev->busy = 0;
-#endif
+	spi_dev->busy = PIOS_Semaphore_Create();
 
 	/* Disable callback function */
 	spi_dev->callback = NULL;
@@ -121,14 +104,14 @@ int32_t PIOS_SPI_Init(uint32_t *spi_id, const struct pios_spi_cfg *cfg)
 	}
 
 	/* Initialize the GPIO pins */
-	GPIO_Init(spi_dev->cfg->sclk.gpio, &(spi_dev->cfg->sclk.init));
-	GPIO_Init(spi_dev->cfg->mosi.gpio, &(spi_dev->cfg->mosi.init));
-	GPIO_Init(spi_dev->cfg->miso.gpio, &(spi_dev->cfg->miso.init));
+	GPIO_Init(spi_dev->cfg->sclk.gpio, (GPIO_InitTypeDef*)&spi_dev->cfg->sclk.init);
+	GPIO_Init(spi_dev->cfg->mosi.gpio, (GPIO_InitTypeDef*)&spi_dev->cfg->mosi.init);
+	GPIO_Init(spi_dev->cfg->miso.gpio, (GPIO_InitTypeDef*)&spi_dev->cfg->miso.init);
 	for (uint32_t i = 0; i < init_ssel; i++) {
 		/* Since we're driving the SSEL pin in software, ensure that the slave is deselected */
 		/* XXX multi-slave support - maybe have another SPI_NSS_ mode? */
 		GPIO_SetBits(spi_dev->cfg->ssel[i].gpio, spi_dev->cfg->ssel[i].init.GPIO_Pin);
-		GPIO_Init(spi_dev->cfg->ssel[i].gpio, (GPIO_InitTypeDef *) & (spi_dev->cfg->ssel[i].init));
+		GPIO_Init(spi_dev->cfg->ssel[i].gpio, (GPIO_InitTypeDef*)&spi_dev->cfg->ssel[i].init);
 	}
 
 	/* Enable the associated peripheral clock */
@@ -152,14 +135,14 @@ int32_t PIOS_SPI_Init(uint32_t *spi_id, const struct pios_spi_cfg *cfg)
 
 	/* Configure DMA for SPI Rx */
 	DMA_Cmd(spi_dev->cfg->dma.rx.channel, DISABLE);
-	DMA_Init(spi_dev->cfg->dma.rx.channel, &(spi_dev->cfg->dma.rx.init));
+	DMA_Init(spi_dev->cfg->dma.rx.channel, (DMA_InitTypeDef*)&spi_dev->cfg->dma.rx.init);
 
 	/* Configure DMA for SPI Tx */
 	DMA_Cmd(spi_dev->cfg->dma.tx.channel, DISABLE);
-	DMA_Init(spi_dev->cfg->dma.tx.channel, &(spi_dev->cfg->dma.tx.init));
+	DMA_Init(spi_dev->cfg->dma.tx.channel, (DMA_InitTypeDef*)&spi_dev->cfg->dma.tx.init);
 
 	/* Initialize the SPI block */
-	SPI_Init(spi_dev->cfg->regs, &(spi_dev->cfg->init));
+	SPI_Init(spi_dev->cfg->regs, (SPI_InitTypeDef*)&spi_dev->cfg->init);
 
 	/* Configure CRC calculation */
 	if (spi_dev->cfg->use_crc) {
@@ -175,7 +158,7 @@ int32_t PIOS_SPI_Init(uint32_t *spi_id, const struct pios_spi_cfg *cfg)
 	SPI_I2S_DMACmd(spi_dev->cfg->regs, SPI_I2S_DMAReq_Tx | SPI_I2S_DMAReq_Rx, ENABLE);
 
 	/* Configure DMA interrupt */
-	NVIC_Init(&(spi_dev->cfg->dma.irq.init));
+	NVIC_Init((NVIC_InitTypeDef*)&spi_dev->cfg->dma.irq.init);
 
 	*spi_id = (uint32_t)spi_dev;
 	return (0);
@@ -238,29 +221,14 @@ int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, SPIPrescalerTypeDef spi_prescale
  */
 int32_t PIOS_SPI_ClaimBus(uint32_t spi_id)
 {
-#if defined(PIOS_INCLUDE_FREERTOS)
 	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 
-	if (xSemaphoreTake(spi_dev->busy, 0xffff) != pdTRUE)
-		return -1;
-#else
-	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
-	uint32_t timeout = 0xffff;
-	while ((PIOS_SPI_Busy(spi_id) || spi_dev->busy) && --timeout);
-	if (timeout == 0) //timed out
+	if (PIOS_Semaphore_Take(spi_dev->busy, 65535) != true)
 		return -1;
 
-	PIOS_IRQ_Disable();
-	if (spi_dev->busy) {
-		PIOS_IRQ_Enable();
-		return -1;
-	}
-	spi_dev->busy = 1;
-	PIOS_IRQ_Enable();
-#endif
 	return 0;
 }
 
@@ -273,32 +241,14 @@ int32_t PIOS_SPI_ClaimBus(uint32_t spi_id)
  */
 int32_t PIOS_SPI_ClaimBusISR(uint32_t spi_id, bool *woken)
 {
-#if defined(PIOS_INCLUDE_FREERTOS)
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 
-	if (xQueueReceiveFromISR((xQueueHandle) spi_dev->busy, NULL, &xHigherPriorityTaskWoken) != pdTRUE)
+	if (PIOS_Semaphore_Take_FromISR(spi_dev->busy, woken) != true)
 		return -1;
 
-	*woken = *woken || (xHigherPriorityTaskWoken == pdTRUE);
-#else
-	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
-	uint32_t timeout = 0xffff;
-	while ((PIOS_SPI_Busy(spi_id) || spi_dev->busy) && --timeout);
-	if (timeout == 0) //timed out
-		return -1;
-
-	PIOS_IRQ_Disable();
-	if (spi_dev->busy) {
-		PIOS_IRQ_Enable();
-		return -1;
-	}
-	spi_dev->busy = 1;
-	PIOS_IRQ_Enable();
-#endif
 	return 0;
 }
 
@@ -309,19 +259,13 @@ int32_t PIOS_SPI_ClaimBusISR(uint32_t spi_id, bool *woken)
  */
 int32_t PIOS_SPI_ReleaseBus(uint32_t spi_id)
 {
-#if defined(PIOS_INCLUDE_FREERTOS)
 	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 
-	xSemaphoreGive(spi_dev->busy);
-#else
-	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
-	PIOS_IRQ_Disable();
-	spi_dev->busy = 0;
-	PIOS_IRQ_Enable();
-#endif
+	PIOS_Semaphore_Give(spi_dev->busy);
+
 	return 0;
 }
 
@@ -333,22 +277,13 @@ int32_t PIOS_SPI_ReleaseBus(uint32_t spi_id)
  */
 int32_t PIOS_SPI_ReleaseBusISR(uint32_t spi_id, bool *woken)
 {
-#if defined(PIOS_INCLUDE_FREERTOS)
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 
-	xSemaphoreGiveFromISR(spi_dev->busy, &xHigherPriorityTaskWoken);
+	PIOS_Semaphore_Give_FromISR(spi_dev->busy, woken);
 
-	*woken = *woken || (xHigherPriorityTaskWoken == pdTRUE);
-#else
-	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
-	PIOS_IRQ_Disable();
-	spi_dev->busy = 0;
-	PIOS_IRQ_Enable();
-#endif
 	return 0;
 }
 
@@ -610,11 +545,11 @@ void PIOS_SPI_IRQ_Handler(uint32_t spi_id)
 	while (SPI_I2S_GetFlagStatus(spi_dev->cfg->regs, SPI_I2S_FLAG_BSY)) ;
 
 	if (spi_dev->callback != NULL) {
-		bool crc_ok = TRUE;
+		bool crc_ok = true;
 		uint8_t crc_val;
 
 		if (SPI_I2S_GetFlagStatus(spi_dev->cfg->regs, SPI_FLAG_CRCERR)) {
-			crc_ok = FALSE;
+			crc_ok = false;
 			SPI_I2S_ClearFlag(spi_dev->cfg->regs, SPI_FLAG_CRCERR);
 		}
 		crc_val = SPI_GetCRC(spi_dev->cfg->regs, SPI_CRC_Rx);

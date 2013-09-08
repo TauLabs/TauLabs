@@ -90,64 +90,92 @@ UAVObjectManager* UAVObjectUtilManager::getObjectManager() {
 
 
 // ******************************
-// SD card saving
+// Flash memory saving
 //
 
 /**
  * @brief UAVObjectUtilManager::saveObjectToSD Add a new object to save in the queue
  * @param obj
+ *
+ * This method only tells the remote end to save the object to its persistent storage (flash
+ * usually), but does not send the object over the telemetry link beforehand. It is therefore
+ * up to the programmer to make sure the object is in the right state on the remote end before
+ * calling this method - the "SmartSave" feature in the ConfigTaskWidget does this, for instance.
+ *
+ * We need to manage a save queue, because once a save request is sent, we need to wait until we
+ * get an update from the remote end telling us whether the operation was successful. If we don't
+ * manage the queue, then we will end up sending save requests one after another and won't be able
+ * to monitor success or failure at all.
+ *
+ * The objectPersistence UAVObject works as follows:
+ *  - Set the ObjecID and InstanceID for the target object
+ *  - Set the operation ('save' for instance)
+ *  - Then update the object, which sends it over the telemetry link
+ *  - Once the objectPersistence UAVO is updated, the board will in turn update it again,
+ *    once the operation is completed. We need therefore to listen to updates on the objectPersistence
+ *    object, and check the "Operation" field, which should be set to "completed", or "error".
  */
-void UAVObjectUtilManager::saveObjectToSD(UAVObject *obj)
+void UAVObjectUtilManager::saveObjectToFlash(UAVObject *obj)
 {
     // Add to queue
     queue.enqueue(obj);
     qDebug() << "Enqueue object: " << obj->getName();
 
-
     // If queue length is one, then start sending (call sendNextObject)
-    // Otherwise, do nothing, it's sending anyway
+    // Otherwise, do nothing, because we are already sending.
     if (queue.length()==1)
         saveNextObject();
-
-
 }
 
 
 /**
  * @brief UAVObjectUtilManager::saveNextObject
+ *
+ * Processes the save queue.
  */
 void UAVObjectUtilManager::saveNextObject()
 {
-    if ( queue.isEmpty() )
-    {
+    if ( queue.isEmpty() ) {
         return;
     }
 
     Q_ASSERT(saveState == IDLE);
 
-    // Get next object from the queue
+    // Get next object from the queue (don't dequeue yet)
     UAVObject* obj = queue.head();
+    Q_ASSERT(obj);
     qDebug() << "Send save object request to board " << obj->getName();
 
-    ObjectPersistence* objper = dynamic_cast<ObjectPersistence*>( getObjectManager()->getObject(ObjectPersistence::NAME) );
-    connect(objper, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectPersistenceTransactionCompleted(UAVObject*,bool)));
-    connect(objper, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(objectPersistenceUpdated(UAVObject *)));
+    ObjectPersistence * objectPersistence = ObjectPersistence::GetInstance(getObjectManager());
+    Q_ASSERT(objectPersistence);
+
+    // "transactionCompleted" is emitted once the objectPersistence object is sent over the telemetry link.
+    // Since its metadata state that it should be ACK'ed on flight telemetry, the transactionCompleted signal
+    // will be triggered once the GCS telemetry manager receives an ACK from the flight controller, or times
+    // out. the success value will reflect success or failure.
+    connect(objectPersistence, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectPersistenceTransactionCompleted(UAVObject*,bool)));
+    // After we update the objectPersistence UAVO, we need to listen to its "objectUpdated" event, which will occur
+    // once the flight controller sends this object back to the GCS, with the "Operation" field set to "Completed"
+    // or "Error".
+    connect(objectPersistence, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(objectPersistenceUpdated(UAVObject *)));
     saveState = AWAITING_ACK;
-    if (obj != NULL)
-    {
-        ObjectPersistence::DataFields data;
-        data.Operation = ObjectPersistence::OPERATION_SAVE;
-        data.Selection = ObjectPersistence::SELECTION_SINGLEOBJECT;
-        data.ObjectID = obj->getObjID();
-        data.InstanceID = obj->getInstID();
-        objper->setData(data);
-        objper->updated();
-    }
-    // Now: we are going to get two "objectUpdated" messages (one coming from GCS, one coming from Flight, which
-    // will confirm the object was properly received by both sides) and then one "transactionCompleted" indicating
-    // that the Flight side did not only receive the object but it did receive it without error. Last we will get
-    // a last "objectUpdated" message coming from flight side, where we'll get the results of the objectPersistence
-    // operation we asked for (saved, other).
+    qDebug() << "[saveObjectToFlash] Moving on to AWAITING_ACK";
+
+    ObjectPersistence::DataFields data;
+    data.Operation = ObjectPersistence::OPERATION_SAVE;
+    data.Selection = ObjectPersistence::SELECTION_SINGLEOBJECT;
+    data.ObjectID = obj->getObjID();
+    data.InstanceID = obj->getInstID();
+    objectPersistence->setData(data);
+    objectPersistence->updated();
+    // Now: we are going to get the following:
+    // - two "objectUpdated" messages (one coming from GCS, one coming from Flight, which will confirm the object
+    //   was properly received by both sides). This is because the metadata of objectPersistence has "FlightUpdateOnChange"
+    //   set to true.
+    //  - then one "transactionCompleted" indicating that the Flight side did not only receive the object but it did
+    //    receive it without error (that message will be triggered by reception of the ACK).
+    //  - Last we will get one last "objectUpdated" message coming from flight side, where we'll get the results of
+    //    the objectPersistence operation we asked for (saved, other).
 }
 
 
@@ -156,31 +184,39 @@ void UAVObjectUtilManager::saveNextObject()
   * @param[in] The object just transacted.  Must be ObjectPersistance
   * @param[in] success Indicates that the transaction did not time out
   *
-  * After a failed transaction (usually timeout) resends the save request.  After a succesful
-  * transaction will then wait for a save completed update from the autopilot.
+  * After a failed transaction (usually timeout) simply drops the save request and emits a failure
+  * signal (saveCompleted with 'false').  After a succesful
+  * transaction it will then wait for a "save completed" update from the autopilot.
   */
 void UAVObjectUtilManager::objectPersistenceTransactionCompleted(UAVObject* obj, bool success)
 {
     if(success) {
         Q_ASSERT(obj->getName().compare("ObjectPersistence") == 0);
         Q_ASSERT(saveState == AWAITING_ACK);
-        // Two things can happen:
+        // Two things can happen then:
         // Either the Object Save Request did actually go through, and then we should get in
         // "AWAITING_COMPLETED" mode, or the Object Save Request did _not_ go through, for example
-        // because the object does not exist and then we will never get a subsequent update.
+        // because the object does not exist and then we will never get a subsequent update - the flight firmware
+        // does not update the objectPersistence UAVO with "Error", it just ignores the request.
         // For this reason, we will arm a 1 second timer to make provision for this and not block
         // the queue:
         saveState = AWAITING_COMPLETED;
+        qDebug() << "[saveObjectToFlash] Moving on to AWAITING_COMPLETED";
         disconnect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectPersistenceTransactionCompleted(UAVObject*,bool)));
         failureTimer.start(2000); // Create a timeout
     } else {
         // Can be caused by timeout errors on sending.  Forget it and send next.
         qDebug() << "objectPersistenceTranscationCompleted (error)";
-        UAVObject *obj = getObjectManager()->getObject(ObjectPersistence::NAME);
-        obj->disconnect(this);
+        ObjectPersistence * objectPersistence = ObjectPersistence::GetInstance(getObjectManager());
+        Q_ASSERT(objectPersistence);
+
+        objectPersistence->disconnect(this);
         queue.dequeue(); // We can now remove the object, it failed anyway.
         saveState = IDLE;
-        emit saveCompleted(obj->getField("ObjectID")->getValue().toInt(), false);
+        // Careful below: objectPersistence contains a field 'ObjectID' that corresponds to
+        // the objectID we wanted to save. Don't confuse with the OBJID of the Objectpersistence
+        // UAVO itself!
+        emit saveCompleted(objectPersistence->getObjectID(), false);
         saveNextObject();
     }
 }
@@ -188,14 +224,11 @@ void UAVObjectUtilManager::objectPersistenceTransactionCompleted(UAVObject* obj,
 
 /**
   * @brief Object persistence operation failed, i.e. we never got an update
-  * from the board saying "completed".
+  * from the board saying "completed". This method is only called when we get a timeout.
   */
 void UAVObjectUtilManager::objectPersistenceOperationFailed()
 {
     if(saveState == AWAITING_COMPLETED) {
-        //TODO: some warning that this operation failed somehow
-        // We have to disconnect the object persistence 'updated' signal
-        // and ask to save the next object:
 
         ObjectPersistence * objectPersistence = ObjectPersistence::GetInstance(getObjectManager());
         Q_ASSERT(objectPersistence);
@@ -223,13 +256,18 @@ void UAVObjectUtilManager::objectPersistenceUpdated(UAVObject * obj)
 {
     Q_ASSERT(obj);
     Q_ASSERT(obj->getObjID() == ObjectPersistence::OBJID);
+
+    if (saveState != AWAITING_COMPLETED) {
+        // We'll get two of those before we're in AWAITING_COMPLETED state...
+        return;
+    }
+
     ObjectPersistence::DataFields objectPersistence = ((ObjectPersistence *)obj)->getData();
 
-    if(saveState == AWAITING_COMPLETED && objectPersistence.Operation == ObjectPersistence::OPERATION_ERROR) {
+    if (objectPersistence.Operation == ObjectPersistence::OPERATION_ERROR) {
         failureTimer.stop();
         objectPersistenceOperationFailed();
-    } else if (saveState == AWAITING_COMPLETED &&
-               objectPersistence.Operation == ObjectPersistence::OPERATION_COMPLETED) {
+    } else if (objectPersistence.Operation == ObjectPersistence::OPERATION_COMPLETED) {
         failureTimer.stop();
         // Check right object saved
         UAVObject* savingObj = queue.head();
@@ -241,7 +279,7 @@ void UAVObjectUtilManager::objectPersistenceUpdated(UAVObject * obj)
         obj->disconnect(this);
         queue.dequeue(); // We can now remove the object, it's done.
         saveState = IDLE;
-
+        qDebug() << "[saveObjectToFlash] Object save succeeded";
         emit saveCompleted(objectPersistence.ObjectID, true);
         saveNextObject();
     }
@@ -444,6 +482,9 @@ FirmwareIAPObj::DataFields UAVObjectUtilManager::getFirmwareIap()
 /**
   * Get the UAV Board model, for anyone interested. Return format is:
   * (Board Type << 8) + BoardRevision.
+  *
+  *  NOTE: Should get deprecated as a public method now, in favour
+  *  of getBoardType and subsequent board capability queries.
   */
 int UAVObjectUtilManager::getBoardModel()
 {
@@ -534,7 +575,7 @@ int UAVObjectUtilManager::setHomeLocation(double LLA[3], bool save_to_sdcard)
     homeLocation->setData(homeLocationData);
 
     if (save_to_sdcard)
-        saveObjectToSD(homeLocation);
+        saveObjectToFlash(homeLocation);
 
     return 0;
 }

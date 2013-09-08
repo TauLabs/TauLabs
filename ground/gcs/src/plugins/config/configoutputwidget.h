@@ -56,7 +56,6 @@ private:
     void updateChannelInSlider(QSlider *slider, QLabel *min, QLabel *max, QCheckBox *rev, int value);
 
     void assignChannel(UAVDataObject *obj, QString str);
-    void assignOutputChannel(UAVDataObject *obj, QString str);
     OutputChannelForm* getOutputChannelForm(const int index) const;
     int mccDataRate;
 
@@ -73,6 +72,7 @@ private slots:
     void sendChannelTest(int index, int value);
     void openHelp();
     void do_SetDirty();
+    void assignOutputChannels(UAVObject *obj);
 
 protected:
         void enableControls(bool enable);

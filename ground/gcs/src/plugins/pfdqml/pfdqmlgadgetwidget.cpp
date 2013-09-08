@@ -32,6 +32,7 @@
 #include <QtDeclarative/qdeclarativecontext.h>
 #include <QtDeclarative/qdeclarative.h>
 #include "lowpassfilter.h"
+#include "stabilizationdesired.h"
 
 PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
     QDeclarativeView(parent),
@@ -57,7 +58,6 @@ PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
 
     //setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
 
-    QStringList objectsToExport;
     objectsToExport << "VelocityActual" <<
                        "PositionActual" <<
                        "AttitudeActual" <<
@@ -88,12 +88,21 @@ PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
     qmlRegisterType<OsgEarthItem>("org.OpenPilot", 1, 0, "OsgEarth");
 #endif
     qmlRegisterType<LowPassFilter>("org.OpenPilot", 1, 0, "LowPassFilter");
+    qmlRegisterUncreatableType<StabilizationDesired>("org.OpenPilot", 1, 0, "StabilizationDesiredType","");
+
 }
 
 PfdQmlGadgetWidget::~PfdQmlGadgetWidget()
 {
 }
 
+
+/**
+ * @brief PfdQmlGadgetWidget::exportUAVOInstance Makes the UAVO available inside the QML. This works via the Q_PROPERTY()
+ * values in the UAVO synthetic-headers
+ * @param objectName UAVObject name
+ * @param instId Instance ID
+ */
 void PfdQmlGadgetWidget::exportUAVOInstance(const QString &objectName, int instId)
 {
     UAVObject* object = m_objManager->getObject(objectName, instId);
@@ -103,6 +112,20 @@ void PfdQmlGadgetWidget::exportUAVOInstance(const QString &objectName, int instI
         qWarning() << "Failed to load object" << objectName;
 }
 
+
+/**
+ * @brief PfdQmlGadgetWidget::resetUAVOExport Makes the UAVO no longer available inside the QML.
+ * @param objectName UAVObject name
+ * @param instId Instance ID
+ */
+void PfdQmlGadgetWidget::resetUAVOExport(const QString &objectName, int instId)
+{
+    UAVObject* object = m_objManager->getObject(objectName, instId);
+    if (object)
+        engine()->rootContext()->setContextProperty(objectName, (QObject*)NULL);
+    else
+        qWarning() << "Failed to load object" << objectName;
+}
 
 void PfdQmlGadgetWidget::setQmlFile(QString fn)
 {
@@ -195,4 +218,40 @@ void PfdQmlGadgetWidget::setAltitude(double arg)
         m_altitude = arg;
         emit altitudeChanged(arg);
     }
+}
+
+
+/**
+ * @brief PfdQmlGadgetWidget::hideEvent Reimplements hideEvent() in order to break
+ * the connection between the UAVO and the QML state updates
+ * @param event
+ */
+void PfdQmlGadgetWidget::hideEvent(QHideEvent *event)
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    m_objManager = pm->getObject<UAVObjectManager>();
+
+    foreach (const QString &objectName, objectsToExport) {
+        resetUAVOExport(objectName, 0);
+    }
+
+    QWidget::hideEvent(event);
+}
+
+
+/**
+ * @brief PfdQmlGadgetWidget::showEvent Reimplements showEvent() in order to recreate
+ * the connection between the UAVO and the QML state updates
+ * @param event
+ */
+void PfdQmlGadgetWidget::showEvent(QShowEvent *event)
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    m_objManager = pm->getObject<UAVObjectManager>();
+
+    foreach (const QString &objectName, objectsToExport) {
+        exportUAVOInstance(objectName, 0);
+    }
+
+    QWidget::showEvent(event);
 }

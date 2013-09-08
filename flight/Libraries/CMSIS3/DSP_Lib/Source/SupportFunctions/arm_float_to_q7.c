@@ -95,22 +95,22 @@ void arm_float_to_q7(
     /* convert from float to q7 and then store the results in the destination buffer */
     in = *pIn++;
     in = (in * 128);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
 
     in = *pIn++;
     in = (in * 128);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
 
     in = *pIn++;
     in = (in * 128);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
 
     in = *pIn++;
     in = (in * 128);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
 
 #else
@@ -140,7 +140,7 @@ void arm_float_to_q7(
     /* convert from float to q7 and then store the results in the destination buffer */
     in = *pIn++;
     in = (in * 128);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = (q7_t) (__SSAT((q15_t) (in), 8));
 
 #else

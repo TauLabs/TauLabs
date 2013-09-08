@@ -30,8 +30,6 @@
 #ifndef PIOS_I2C_H
 #define PIOS_I2C_H
 
-#define PIOS_I2C_DIAGNOSTICS
-
 #include <stdbool.h>
 
 /* Global Types */
@@ -48,28 +46,12 @@ struct pios_i2c_txn {
 	uint8_t *buf;
 };
 
-#define I2C_LOG_DEPTH 20
-enum pios_i2c_error_type {
-	PIOS_I2C_ERROR_EVENT, 
-	PIOS_I2C_ERROR_FSM,
-	PIOS_I2C_ERROR_INTERRUPT
-};
-
-struct pios_i2c_fault_history {
-	enum pios_i2c_error_type type;
-	uint32_t evirq[I2C_LOG_DEPTH];
-	uint32_t erirq[I2C_LOG_DEPTH];
-	uint8_t event[I2C_LOG_DEPTH];
-	uint8_t state[I2C_LOG_DEPTH];
-};
-
 /* Public Functions */
 extern int32_t PIOS_I2C_CheckClear(uint32_t i2c_id);
 extern int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[], uint32_t num_txns);
 extern int32_t PIOS_I2C_Transfer_Callback(uint32_t i2c_id, const struct pios_i2c_txn txn_list[], uint32_t num_txns, void *callback);
 extern void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id);
 extern void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id);
-extern void PIOS_I2C_GetDiagnostics(struct pios_i2c_fault_history * data, uint8_t * error_counts);
 
 #endif /* PIOS_I2C_H */
 

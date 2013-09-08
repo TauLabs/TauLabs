@@ -5,11 +5,12 @@
  * @author     Tau Labs, http://taulabs.org Copyright (C) 2012
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
  * @{
- * @brief The Core GCS plugin
+ * @brief Provides the GCS Main Window
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify 
@@ -309,6 +310,7 @@ void MainWindow::extensionsInitialized()
             if(QFile::exists(directory.absolutePath()+QDir::separator()+commandLine))
             {
                 filename=directory.absolutePath()+QDir::separator()+commandLine;
+                emit splashMessages(tr("Loading configuration from command line"));
                 qDebug()<<"Load configuration from command line";
                 settings=new QSettings(filename, XmlConfig::XmlSettingsFormat);
                 showDialog=false;
@@ -324,6 +326,7 @@ void MainWindow::extensionsInitialized()
             delete dialog;
         }
         qs=settings;
+        emit splashMessages(QString(tr("Loading default configuration from %1")).arg(filename));
         qDebug() << "Load default config from resource "<<filename;
     }
     qs->beginGroup("General");
@@ -333,13 +336,14 @@ void MainWindow::extensionsInitialized()
     loadStyleSheet(m_config_stylesheet);
     qs->endGroup();
     m_uavGadgetInstanceManager = new UAVGadgetInstanceManager(this);
+    connect(m_uavGadgetInstanceManager,SIGNAL(splashMessages(QString)),this,SIGNAL(splashMessages(QString)));
     m_uavGadgetInstanceManager->readSettings(qs);
 
     m_messageManager->init();
     readSettings(qs);
 
     updateContext();
-
+    emit splashMessages(tr("Preparing to open core"));
     emit m_coreImpl->coreAboutToOpen();
     show();
     emit m_coreImpl->coreOpened();
@@ -375,6 +379,7 @@ void MainWindow::loadStyleSheet(QString name) {
         /* We'll use qApp macro to get the QApplication pointer
          * and set the style sheet application wide. */
         qApp->setStyleSheet(style);
+        emit splashMessages(QString(tr("Loading stylesheet %1")).arg(name));
         qDebug()<<"Loaded stylesheet:" << directory.absolutePath() << name;
     }
     else

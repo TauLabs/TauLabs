@@ -36,7 +36,7 @@
 extern uint32_t PIOS_RTC_Counter();
 extern float PIOS_RTC_Rate();
 extern float PIOS_RTC_MsPerTick();
-extern bool PIOS_RTC_RegisterTickCallback(void (*fn)(uint32_t id), uint32_t data);
+extern bool PIOS_RTC_RegisterTickCallback(void (*fn)(uintptr_t id), uintptr_t data);
 
 #endif /* PIOS_RTC_H */
 

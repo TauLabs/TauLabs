@@ -121,7 +121,7 @@ int32_t CameraStabInitialize(void)
 
 		// make sure that all inputs[] are zeroed
 		memset(csd, 0, sizeof(struct CameraStab_data));
-		csd->lastSysTime = xTaskGetTickCount() - SAMPLE_PERIOD_MS / portTICK_RATE_MS;
+		csd->lastSysTime = xTaskGetTickCount() - MS2TICKS(SAMPLE_PERIOD_MS);
 
 		AttitudeActualInitialize();
 		CameraStabSettingsInitialize();
@@ -140,7 +140,7 @@ int32_t CameraStabInitialize(void)
 			.instId = 0,
 			.event = 0,
 		};
-		EventPeriodicCallbackCreate(&ev, attitudeUpdated, SAMPLE_PERIOD_MS / portTICK_RATE_MS);
+		EventPeriodicCallbackCreate(&ev, attitudeUpdated, MS2TICKS(SAMPLE_PERIOD_MS));
 
 		return 0;
 	}
@@ -171,7 +171,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 
 	// Check how long since last update, time delta between calls in ms
 	portTickType thisSysTime = xTaskGetTickCount();
-	float dT_ms = (thisSysTime - csd->lastSysTime) * portTICK_RATE_MS;
+	float dT_ms = TICKS2MS(thisSysTime - csd->lastSysTime);
 	csd->lastSysTime = thisSysTime;
 
 	if (dT_ms <= 0)
@@ -211,7 +211,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 					break;
 				case CAMERASTABSETTINGS_STABILIZATIONMODE_AXISLOCK:
 					input_rate = accessory.AccessoryVal * settings->InputRate[i];
-					if (fabs(input_rate) > settings->MaxAxisLockRate)
+					if (fabsf(input_rate) > settings->MaxAxisLockRate)
 						csd->inputs[i] = bound_sym(csd->inputs[i] + input_rate * dT_ms / 1000.0f, settings->InputRange[i]);
 					break;
 				default:
@@ -249,8 +249,8 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			float distance = sqrtf(powf(dLoc[0], 2) + powf(dLoc[1], 2));
 			float pitch = atan2f(-dLoc[2], distance) * RAD2DEG;
 			float yaw = atan2f(dLoc[1], dLoc[0]) * RAD2DEG;
-			if (yaw < 0)
-				yaw += 360.0;
+			if (yaw < 0.0f)
+				yaw += 360.0f;
 
 			// Store the absolute declination relative to UAV
 			CameraDesiredDeclinationSet(&pitch);
@@ -279,7 +279,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 
 		// Set output channels
 		output = bound_sym((attitude + csd->inputs[i]) / settings->OutputRange[i], 1.0f);
-		if (thisSysTime / portTICK_RATE_MS > LOAD_DELAY) {
+		if (TICKS2MS(thisSysTime) > LOAD_DELAY) {
 			switch (i) {
 			case ROLL:
 				CameraDesiredRollSet(&output);
@@ -323,7 +323,7 @@ static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSetti
 	//acceleration and deceleration limit
 	float delta = *attitude - csd->FFlastFilteredAttitude[index];
 	float maxDelta = cameraStab->MaxAccel * dT_ms / 1000.0f;
-	if(fabs(delta) > maxDelta) //we are accelerating too hard
+	if(fabsf(delta) > maxDelta) //we are accelerating too hard
 	{
 		*attitude = csd->FFlastFilteredAttitude[index] + (delta > 0 ? maxDelta : - maxDelta);
 	}

@@ -28,6 +28,7 @@
 #define PIOS_POSIX_H
 
 #include <stdint.h>
+
 #include <stdbool.h>
 
 #define FILEINFO FILE*

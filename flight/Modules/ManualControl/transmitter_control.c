@@ -87,7 +87,7 @@ static uint8_t                    connected_count = 0;
 static struct rcvr_activity_fsm   activity_fsm;
 static portTickType               lastActivityTime;
 static portTickType               lastSysTime;
-static double                     flight_mode_value;
+static float                      flight_mode_value;
 static enum control_events        pending_control_event;
 static bool                       settings_updated;
 
@@ -193,13 +193,40 @@ int32_t transmitter_control_update()
 		return 0;
 	}
 
+	if (settings.RssiType != MANUALCONTROLSETTINGS_RSSITYPE_NONE) {
+		int32_t value = 0;
+		extern uintptr_t pios_rcvr_group_map[];
+		switch (settings.RssiType) {
+		case MANUALCONTROLSETTINGS_RSSITYPE_PWM:
+			value = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM], settings.RssiChannelNumber);
+			if(settings.RssiPwmPeriod != 0)
+				value = (value) % (settings.RssiPwmPeriod);
+			break;
+		case MANUALCONTROLSETTINGS_RSSITYPE_PPM:
+			value = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM], settings.RssiChannelNumber);
+			break;
+		case MANUALCONTROLSETTINGS_RSSITYPE_ADC:
+#if defined(PIOS_INCLUDE_ADC)
+			value = PIOS_ADC_GetChannel(settings.RssiChannelNumber);
+#endif
+			break;
+		}
+		if(value < 0)
+			value = 0;
+		if (settings.RssiMax == settings.RssiMin)
+			cmd.Rssi = 0;
+		else
+			cmd.Rssi = ((float)(value - settings.RssiMin)/((float)settings.RssiMax-settings.RssiMin)) * 100;
+		cmd.RawRssi = value;
+	}
+
 	bool valid_input_detected = true;
 
 	// Read channel values in us
 	for (uint8_t n = 0; 
 	     n < MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM && n < MANUALCONTROLCOMMAND_CHANNEL_NUMELEM;
 	     ++n) {
-		extern uint32_t pios_rcvr_group_map[];
+		extern uintptr_t pios_rcvr_group_map[];
 
 		if (settings.ChannelGroups[n] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 			cmd.Channel[n] = PIOS_RCVR_INVALID;
@@ -210,7 +237,7 @@ int32_t transmitter_control_update()
 
 		// If a channel has timed out this is not valid data and we shouldn't update anything
 		// until we decide to go to failsafe
-		if(cmd.Channel[n] == PIOS_RCVR_TIMEOUT)
+		if(cmd.Channel[n] == (uint16_t) PIOS_RCVR_TIMEOUT)
 			valid_input_detected = false;
 		else
 			scaledChannel[n] = scaleChannel(cmd.Channel[n], settings.ChannelMax[n],	settings.ChannelMin[n], settings.ChannelNeutral[n]);
@@ -331,6 +358,7 @@ int32_t transmitter_control_update()
 			if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
 				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 		}
+
 	}
 
 	// Process arming outside conditional so system will disarm when disconnected.  Notice this
@@ -591,14 +619,14 @@ static void resetRcvrActivity(struct rcvr_activity_fsm * fsm)
 	fsm->sample_count = 0;
 }
 
-static void updateRcvrActivitySample(uint32_t rcvr_id, uint16_t samples[], uint8_t max_channels) {
+static void updateRcvrActivitySample(uintptr_t rcvr_id, uint16_t samples[], uint8_t max_channels) {
 	for (uint8_t channel = 1; channel <= max_channels; channel++) {
 		// Subtract 1 because channels are 1 indexed
 		samples[channel - 1] = PIOS_RCVR_Read(rcvr_id, channel);
 	}
 }
 
-static bool updateRcvrActivityCompare(uint32_t rcvr_id, struct rcvr_activity_fsm * fsm)
+static bool updateRcvrActivityCompare(uintptr_t rcvr_id, struct rcvr_activity_fsm * fsm)
 {
 	bool activity_updated = false;
 
@@ -633,6 +661,9 @@ static bool updateRcvrActivityCompare(uint32_t rcvr_id, struct rcvr_activity_fsm
 			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_DSMFLEXIPORT;
 				break;
+			case MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM:
+				group = RECEIVERACTIVITY_ACTIVEGROUP_HOTTSUM;
+				break;
 			case MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_SBUS;
 				break;
@@ -661,7 +692,7 @@ static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm)
 		resetRcvrActivity(fsm);
 	}
 
-	extern uint32_t pios_rcvr_group_map[];
+	extern uintptr_t pios_rcvr_group_map[];
 	if (!pios_rcvr_group_map[fsm->group]) {
 		/* Unbound group, skip it */
 		goto group_completed;
@@ -806,8 +837,10 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
 	if (!flightModeChanged)
 		return;
 
-	if (PathDesiredHandle() == NULL)
+	if (PathDesiredHandle() == NULL) {
+		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_PATHFOLLOWER);
 		return;
+	}
 
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
@@ -859,6 +892,11 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
  */
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
+	if (AltitudeHoldDesiredHandle() == NULL) {
+		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
+		return;
+	}
+
 	const float DEADBAND_HIGH = 0.55;
 	const float DEADBAND_LOW = 0.45;
 	
@@ -873,7 +911,7 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 	StabilizationSettingsGet(&stabSettings);
 
 	thisSysTime = xTaskGetTickCount();
-	dT = (thisSysTime - lastSysTime) / portTICK_RATE_MS / 1000.0f;
+	dT = TICKS2MS(thisSysTime - lastSysTime) / 1000.0f;
 	lastSysTime = thisSysTime;
 
 	altitudeHoldDesired.Roll = cmd->Roll * stabSettings.RollMax;
@@ -934,17 +972,17 @@ static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutr
 	}
 
 	// Bound
-	if (valueScaled >  1.0) valueScaled =  1.0;
+	if (valueScaled >  1.0f) valueScaled =  1.0f;
 	else
-	if (valueScaled < -1.0) valueScaled = -1.0;
+	if (valueScaled < -1.0f) valueScaled = -1.0f;
 
 	return valueScaled;
 }
 
 static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time) {
 	if(end_time > start_time)
-		return (end_time - start_time) * portTICK_RATE_MS;
-	return ((((portTICK_RATE_MS) -1) - start_time) + end_time) * portTICK_RATE_MS;
+		return TICKS2MS(end_time - start_time);
+	return TICKS2MS((((portTICK_RATE_MS) -1 ) - start_time) + end_time);
 }
 
 /**
@@ -967,7 +1005,7 @@ bool validInputRange(int16_t min, int16_t max, uint16_t value, uint16_t offset)
  */
 static void applyDeadband(float *value, float deadband)
 {
-	if (fabs(*value) < deadband)
+	if (fabsf(*value) < deadband)
 		*value = 0.0f;
 	else
 		if (*value > 0.0f)

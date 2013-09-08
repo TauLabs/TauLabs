@@ -296,8 +296,8 @@ static void updatePathVelocity()
 			break;
 	}
 	// this ensures a significant forward component at least close to the real trajectory
-	if (groundspeed<fixedWingAirspeeds.BestClimbRateSpeed/10.)
-		groundspeed=fixedWingAirspeeds.BestClimbRateSpeed/10.;
+	if (groundspeed<fixedWingAirspeeds.BestClimbRateSpeed/10.0f)
+		groundspeed=fixedWingAirspeeds.BestClimbRateSpeed/10.0f;
 	
 	// calculate velocity - can be zero if waypoints are too close
 	VelocityDesiredData velocityDesired;
@@ -428,7 +428,7 @@ static uint8_t updateFixedDesiredAttitude()
 		result = 0;
 	}
 	
-	if (indicatedAirspeedActual<1e-6) {
+	if (indicatedAirspeedActual<1e-6f) {
 		// prevent division by zero, abort without controlling anything. This guidance mode is not suited for takeoff or touchdown, or handling stationary planes
 		// also we cannot handle planes flying backwards, lets just wait until the nose drops
 		fixedwingpathfollowerStatus.Errors[FIXEDWINGPATHFOLLOWERSTATUS_ERRORS_LOWSPEED] = 1;
@@ -546,7 +546,7 @@ static uint8_t updateFixedDesiredAttitude()
 	/**
 	 * Compute desired roll command
 	 */
-	if (groundspeedDesired> 1e-6) {
+	if (groundspeedDesired> 1e-6f) {
 		bearingError = RAD2DEG * (atan2f(velocityDesired.East,velocityDesired.North) - atan2f(velocityActual.East,velocityActual.North));
 	} else {
 		// if we are not supposed to move, keep going wherever we are now. Don't make things worse by changing direction.

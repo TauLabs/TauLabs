@@ -57,21 +57,21 @@
 static uint16_t calibrationCount=0;
 
 
-void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin){
+void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
+{
+	//Wait until our turn.
+	vTaskDelayUntil(lastSysTime, MS2TICKS(SAMPLING_DELAY_MS_ETASV3));
 
 	static uint32_t calibrationSum = 0;
 	AirspeedSettingsData airspeedSettingsData;
 	AirspeedSettingsGet(&airspeedSettingsData);
 
-	//Wait until our turn. //THIS SHOULD BE, IF OUR TURN GO IN, OTHERWISE CONTINUE
-	vTaskDelayUntil(lastSysTime, SAMPLING_DELAY_MS_ETASV3 / portTICK_RATE_MS);
 	
 	//Check to see if airspeed sensor is returning baroAirspeedData
 	baroAirspeedData->SensorValue = PIOS_ETASV3_ReadAirspeed();
 	if (baroAirspeedData->SensorValue==-1) {
 		baroAirspeedData->BaroConnected = BAROAIRSPEED_BAROCONNECTED_FALSE;
 		baroAirspeedData->CalibratedAirspeed = 0;
-		BaroAirspeedSet(baroAirspeedData);
 		return;
 	}
 	

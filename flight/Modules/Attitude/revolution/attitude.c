@@ -366,8 +366,8 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 	// Wait until the accel and gyro object is updated, if a timeout then go to failsafe
 	if (!secondary && (
-		 xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE ||
-	     xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE ) )
+		 xQueueReceive(gyroQueue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE ||
+		 xQueueReceive(accelQueue, &ev, MS2TICKS(1)) != pdTRUE ) )
 	{
 		// When one of these is updated so should the other
 		// Do not set attitude timeout warnings in simulation mode
@@ -388,7 +388,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 		// Wait for a mag reading if a magnetometer was registered
 		if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG) != NULL) {
-			if ( !secondary && xQueueReceive(magQueue, &ev, 20 / portTICK_RATE_MS) != pdTRUE ) {
+			if ( !secondary && xQueueReceive(magQueue, &ev, MS2TICKS(20)) != pdTRUE ) {
 				return -1;
 			}
 			MagnetometerGet(&magData);
@@ -525,28 +525,33 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	float mag_err[3];
 	if ( secondary || xQueueReceive(magQueue, &ev, 0) == pdTRUE )
 	{
-		// Rotate gravity to body frame and cross with accels
-		float brot[3];
-		float Rbe[3][3];
 		MagnetometerData mag;
-		
-		Quaternion2R(cf_q, Rbe);
 		MagnetometerGet(&mag);
 
-		// If the mag is producing bad data don't use it (normally bad calibration)
-		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z &&
-			 homeLocation.Set == HOMELOCATION_SET_TRUE) {
-			rot_mult(Rbe, homeLocation.Be, brot, false);
+		// If the mag is producing bad data (NAN) don't use it (normally bad calibration)
+		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z) {
+			float bmag = 1.0f;
+			float brot[3];
+			float Rbe[3][3];
+
+			// Get rotation to bring earth magnetic field into body frame		
+			Quaternion2R(cf_q, Rbe);
+
+			if (homeLocation.Set == HOMELOCATION_SET_TRUE) {
+				rot_mult(Rbe, homeLocation.Be, brot, false);
+				bmag = sqrtf(brot[0] * brot[0] + brot[1] * brot[1] + brot[2] * brot[2]);
+				brot[0] /= bmag;
+				brot[1] /= bmag;
+				brot[2] /= bmag;
+			} else {
+				const float Be[3] = {1.0f, 0.0f, 0.0f};
+				rot_mult(Rbe, Be, brot, false);
+			}
 
 			float mag_len = sqrtf(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z);
 			mag.x /= mag_len;
 			mag.y /= mag_len;
 			mag.z /= mag_len;
-
-			float bmag = sqrtf(brot[0] * brot[0] + brot[1] * brot[1] + brot[2] * brot[2]);
-			brot[0] /= bmag;
-			brot[1] /= bmag;
-			brot[2] /= bmag;
 
 			// Only compute if neither vector is null
 			if (bmag < 1 || mag_len < 1)
@@ -573,7 +578,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	// Correct rates based on error, integral component dealt with in updateSensors
 	gyrosData.x += accel_err[0] * attitudeSettings.AccelKp / dT;
 	gyrosData.y += accel_err[1] * attitudeSettings.AccelKp / dT;
-	gyrosData.z += mag_err[2] * attitudeSettings.MagKp / dT;
+	gyrosData.z += accel_err[2] * attitudeSettings.AccelKp / dT + mag_err[2] * attitudeSettings.MagKp / dT;
 
 	// Work out time derivative from INSAlgo writeup
 	// Also accounts for the fact that gyros are in deg/s
@@ -606,7 +611,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 	// If quaternion has become inappropriately short or is nan reinit.
 	// THIS SHOULD NEVER ACTUALLY HAPPEN
-	if((fabs(qmag) < 1.0e-3f) || (qmag != qmag)) {
+	if((fabsf(qmag) < 1.0e-3f) || (qmag != qmag)) {
 		cf_q[0] = 1;
 		cf_q[1] = 0;
 		cf_q[2] = 0;
@@ -797,14 +802,14 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		return 0;
 	}
 
-	mag_updated |= (xQueueReceive(magQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE);
-	baro_updated |= xQueueReceive(baroQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE;
-	gps_updated |= (xQueueReceive(gpsQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) && outdoor_mode;
-	gps_vel_updated |= (xQueueReceive(gpsVelQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) && outdoor_mode;
+	mag_updated |= (xQueueReceive(magQueue, &ev, MS2TICKS(0)) == pdTRUE);
+	baro_updated |= xQueueReceive(baroQueue, &ev, MS2TICKS(0)) == pdTRUE;
+	gps_updated |= (xQueueReceive(gpsQueue, &ev, MS2TICKS(0)) == pdTRUE) && outdoor_mode;
+	gps_vel_updated |= (xQueueReceive(gpsVelQueue, &ev, MS2TICKS(0)) == pdTRUE) && outdoor_mode;
 
 	// Wait until the gyro and accel object is updated, if a timeout then go to failsafe
-	if ( (xQueueReceive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS) != pdTRUE) ||
-	     (xQueueReceive(accelQueue, &ev, 1 / portTICK_RATE_MS) != pdTRUE) )
+	if ( (xQueueReceive(gyroQueue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE) ||
+		 (xQueueReceive(accelQueue, &ev, MS2TICKS(1)) != pdTRUE) )
 	{
 		return -1;
 	}
@@ -1082,7 +1087,7 @@ static void apply_accel_filter(const float * raw, float * filtered)
  * @note this method uses a taylor expansion around the home coordinates
  * to convert to NED which allows it to be done with all floating
  * calculations
- * @param[in] Current GPS coordinates
+ * @param[in] Current lat-lon coordinates on WGS84 ellipsoid, altitude referenced to MSL geoid (likely EGM 1996, but no guarantees)
  * @param[out] NED frame coordinates
  * @returns 0 for success, -1 for failure
  */
@@ -1091,7 +1096,7 @@ static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 {
 	float dL[3] = {(gpsPosition->Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
 		(gpsPosition->Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-		(gpsPosition->Altitude + gpsPosition->GeoidSeparation - homeLocation.Altitude)};
+		(gpsPosition->Altitude - homeLocation.Altitude)};
 
 	NED[0] = T[0] * dL[0];
 	NED[1] = T[1] * dL[1];
@@ -1149,8 +1154,8 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		AttitudeSettingsGet(&attitudeSettings);
 			
 		// Calculate accel filter alpha, in the same way as for gyro data in stabilization module.
-		const float fakeDt = 0.0025;
-		if(attitudeSettings.AccelTau < 0.0001) {
+		const float fakeDt = 0.0025f;
+		if(attitudeSettings.AccelTau < 0.0001f) {
 			complementary_filter_state.accel_alpha = 0;   // not trusting this to resolve to 0
 			complementary_filter_state.accel_filter_enabled = false;
 		} else {

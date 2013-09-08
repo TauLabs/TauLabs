@@ -29,19 +29,27 @@
 
 #include <stdint.h>
 
-struct pios_flash_chunk {
-	uint8_t * addr;
-	uint32_t len;
+enum pios_flash_partition_labels {
+	FLASH_PARTITION_LABEL_BL,
+	FLASH_PARTITION_LABEL_FW,
+	FLASH_PARTITION_LABEL_EE,
+	FLASH_PARTITION_LABEL_SETTINGS,
+	FLASH_PARTITION_LABEL_WAYPOINTS,
+	FLASH_PARTITION_LABEL_LOG,
+	FLASH_PARTITION_LABEL_OTA,
+
+	FLASH_PARTITION_NUM_LABELS, /* Must be last */
 };
 
-struct pios_flash_driver {
-	int32_t (*start_transaction)(uintptr_t flash_id);
-	int32_t (*end_transaction)(uintptr_t flash_id);
-	int32_t (*erase_chip)(uintptr_t flash_id);
-	int32_t (*erase_sector)(uintptr_t flash_id, uint32_t addr);
-	int32_t (*write_data)(uintptr_t flash_id, uint32_t addr, uint8_t * data, uint16_t len);
-	int32_t (*write_chunks)(uintptr_t flash_id, uint32_t addr, struct pios_flash_chunk chunks[], uint32_t num_chunks);
-	int32_t (*read_data)(uintptr_t flash_id, uint32_t addr, uint8_t * data, uint16_t len);
-};
+extern int32_t PIOS_FLASH_find_partition_id(enum pios_flash_partition_labels label, uintptr_t *partition_id);
+extern uint16_t PIOS_FLASH_get_num_partitions(void);
+extern int32_t PIOS_FLASH_get_partition_size(uintptr_t partition_id, uint32_t *partition_size);
+
+extern int32_t PIOS_FLASH_start_transaction(uintptr_t partition_id);
+extern int32_t PIOS_FLASH_end_transaction(uintptr_t partition_id);
+extern int32_t PIOS_FLASH_erase_partition(uintptr_t partition_id);
+extern int32_t PIOS_FLASH_erase_range(uintptr_t partition_id, uint32_t start_offset, uint32_t size);
+extern int32_t PIOS_FLASH_write_data(uintptr_t partition_id, uint32_t offset, const uint8_t *data, uint16_t len);
+extern int32_t PIOS_FLASH_read_data(uintptr_t partition_id, uint32_t offset, uint8_t *data, uint16_t len);
 
 #endif	/* PIOS_FLASH_H_ */

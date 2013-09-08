@@ -41,11 +41,11 @@
 #include "pios_usbhook.h"	 /* PIOS_USBHOOK_* */
 
 /* Implement COM layer driver API */
-static void PIOS_USB_CDC_RegisterTxCallback(uint32_t usbcdc_id, pios_com_callback tx_out_cb, uint32_t context);
-static void PIOS_USB_CDC_RegisterRxCallback(uint32_t usbcdc_id, pios_com_callback rx_in_cb, uint32_t context);
-static void PIOS_USB_CDC_TxStart(uint32_t usbcdc_id, uint16_t tx_bytes_avail);
-static void PIOS_USB_CDC_RxStart(uint32_t usbcdc_id, uint16_t rx_bytes_avail);
-static bool PIOS_USB_CDC_Available (uint32_t usbcdc_id);
+static void PIOS_USB_CDC_RegisterTxCallback(uintptr_t usbcdc_id, pios_com_callback tx_out_cb, uintptr_t context);
+static void PIOS_USB_CDC_RegisterRxCallback(uintptr_t usbcdc_id, pios_com_callback rx_in_cb, uintptr_t context);
+static void PIOS_USB_CDC_TxStart(uintptr_t usbcdc_id, uint16_t tx_bytes_avail);
+static void PIOS_USB_CDC_RxStart(uintptr_t usbcdc_id, uint16_t rx_bytes_avail);
+static bool PIOS_USB_CDC_Available (uintptr_t usbcdc_id);
 
 const struct pios_com_driver pios_usb_cdc_com_driver = {
 	.tx_start    = PIOS_USB_CDC_TxStart,
@@ -63,12 +63,12 @@ struct pios_usb_cdc_dev {
 	enum pios_usb_cdc_dev_magic     magic;
 	const struct pios_usb_cdc_cfg * cfg;
 
-	uint32_t lower_id;
+	uintptr_t lower_id;
 
 	pios_com_callback rx_in_cb;
-	uint32_t rx_in_context;
+	uintptr_t rx_in_context;
 	pios_com_callback tx_out_cb;
-	uint32_t tx_out_context;
+	uintptr_t tx_out_context;
 
 	bool usb_ctrl_if_enabled;
 	bool usb_data_if_enabled;
@@ -101,43 +101,23 @@ static bool PIOS_USB_CDC_validate(struct pios_usb_cdc_dev * usb_cdc_dev)
 	return (usb_cdc_dev && (usb_cdc_dev->magic == PIOS_USB_CDC_DEV_MAGIC));
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_usb_cdc_dev * PIOS_USB_CDC_alloc(void)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev;
 
-	usb_cdc_dev = (struct pios_usb_cdc_dev *)pvPortMalloc(sizeof(*usb_cdc_dev));
+	usb_cdc_dev = (struct pios_usb_cdc_dev *)PIOS_malloc(sizeof(*usb_cdc_dev));
 	if (!usb_cdc_dev) return(NULL);
 
 	memset(usb_cdc_dev, 0, sizeof(*usb_cdc_dev));
 	usb_cdc_dev->magic = PIOS_USB_CDC_DEV_MAGIC;
 	return(usb_cdc_dev);
 }
-#else
-static struct pios_usb_cdc_dev pios_usb_cdc_devs[PIOS_USB_CDC_MAX_DEVS];
-static uint8_t pios_usb_cdc_num_devs;
-static struct pios_usb_cdc_dev * PIOS_USB_CDC_alloc(void)
-{
-	struct pios_usb_cdc_dev * usb_cdc_dev;
-
-	if (pios_usb_cdc_num_devs >= PIOS_USB_CDC_MAX_DEVS) {
-		return (NULL);
-	}
-
-	usb_cdc_dev = &pios_usb_cdc_devs[pios_usb_cdc_num_devs++];
-
-	memset(usb_cdc_dev, 0, sizeof(*usb_cdc_dev));
-	usb_cdc_dev->magic = PIOS_USB_CDC_DEV_MAGIC;
-
-	return (usb_cdc_dev);
-}
-#endif
 
 /* Implement USB_IFOPS for CDC Control Interface */
-static void PIOS_USB_CDC_CTRL_IF_Init(uint32_t usb_cdc_id);
-static void PIOS_USB_CDC_CTRL_IF_DeInit(uint32_t usb_cdc_id);
-static bool PIOS_USB_CDC_CTRL_IF_Setup(uint32_t usb_cdc_id, struct usb_setup_request *req);
-static void PIOS_USB_CDC_CTRL_IF_CtrlDataOut(uint32_t usb_cdc_id, const struct usb_setup_request *req);
+static void PIOS_USB_CDC_CTRL_IF_Init(uintptr_t usb_cdc_id);
+static void PIOS_USB_CDC_CTRL_IF_DeInit(uintptr_t usb_cdc_id);
+static bool PIOS_USB_CDC_CTRL_IF_Setup(uintptr_t usb_cdc_id, struct usb_setup_request *req);
+static void PIOS_USB_CDC_CTRL_IF_CtrlDataOut(uintptr_t usb_cdc_id, const struct usb_setup_request *req);
 
 static struct pios_usb_ifops usb_cdc_ctrl_ifops = {
 	.init          = PIOS_USB_CDC_CTRL_IF_Init,
@@ -147,10 +127,10 @@ static struct pios_usb_ifops usb_cdc_ctrl_ifops = {
 };
 
 /* Implement USB_IFOPS for CDC Data Interface */
-static void PIOS_USB_CDC_DATA_IF_Init(uint32_t usb_cdc_id);
-static void PIOS_USB_CDC_DATA_IF_DeInit(uint32_t usb_cdc_id);
-static bool PIOS_USB_CDC_DATA_IF_Setup(uint32_t usb_cdc_id, struct usb_setup_request *req);
-static void PIOS_USB_CDC_DATA_IF_CtrlDataOut(uint32_t usb_cdc_id, const struct usb_setup_request *req);
+static void PIOS_USB_CDC_DATA_IF_Init(uintptr_t usb_cdc_id);
+static void PIOS_USB_CDC_DATA_IF_DeInit(uintptr_t usb_cdc_id);
+static bool PIOS_USB_CDC_DATA_IF_Setup(uintptr_t usb_cdc_id, struct usb_setup_request *req);
+static void PIOS_USB_CDC_DATA_IF_CtrlDataOut(uintptr_t usb_cdc_id, const struct usb_setup_request *req);
 
 static struct pios_usb_ifops usb_cdc_data_ifops = {
 	.init          = PIOS_USB_CDC_DATA_IF_Init,
@@ -159,9 +139,9 @@ static struct pios_usb_ifops usb_cdc_data_ifops = {
 	.ctrl_data_out = PIOS_USB_CDC_DATA_IF_CtrlDataOut,
 };
 
-static uint32_t pios_usb_cdc_id;
+static uintptr_t pios_usb_cdc_id;
 
-int32_t PIOS_USB_CDC_Init(uint32_t * usbcdc_id, const struct pios_usb_cdc_cfg * cfg, uint32_t lower_id)
+int32_t PIOS_USB_CDC_Init(uintptr_t * usbcdc_id, const struct pios_usb_cdc_cfg * cfg, uintptr_t lower_id)
 {
 	PIOS_Assert(usbcdc_id);
 	PIOS_Assert(cfg);
@@ -175,7 +155,7 @@ int32_t PIOS_USB_CDC_Init(uint32_t * usbcdc_id, const struct pios_usb_cdc_cfg * 
 	usb_cdc_dev->cfg = cfg;
 	usb_cdc_dev->lower_id = lower_id;
 
-	pios_usb_cdc_id = (uint32_t) usb_cdc_dev;
+	pios_usb_cdc_id = (uintptr_t) usb_cdc_dev;
 
 	/* Rx and Tx are not active yet */
 	usb_cdc_dev->rx_active = false;
@@ -190,13 +170,13 @@ int32_t PIOS_USB_CDC_Init(uint32_t * usbcdc_id, const struct pios_usb_cdc_cfg * 
 
 	/* Register class specific interface callbacks with the USBHOOK layer */
 	usb_cdc_dev->usb_ctrl_if_enabled = false;
-	PIOS_USBHOOK_RegisterIfOps(cfg->ctrl_if, &usb_cdc_ctrl_ifops, (uint32_t) usb_cdc_dev);
+	PIOS_USBHOOK_RegisterIfOps(cfg->ctrl_if, &usb_cdc_ctrl_ifops, (uintptr_t) usb_cdc_dev);
 
 	/* Register class specific interface callbacks with the USBHOOK layer */
 	usb_cdc_dev->usb_data_if_enabled = false;
-	PIOS_USBHOOK_RegisterIfOps(cfg->data_if, &usb_cdc_data_ifops, (uint32_t) usb_cdc_dev);
+	PIOS_USBHOOK_RegisterIfOps(cfg->data_if, &usb_cdc_data_ifops, (uintptr_t) usb_cdc_dev);
 
-	*usbcdc_id = (uint32_t) usb_cdc_dev;
+	*usbcdc_id = (uintptr_t) usb_cdc_dev;
 
 	return 0;
 
@@ -239,7 +219,7 @@ static bool PIOS_USB_CDC_SendData(struct pios_usb_cdc_dev * usb_cdc_dev)
 	return true;
 }
 
-static void PIOS_USB_CDC_RxStart(uint32_t usbcdc_id, uint16_t rx_bytes_avail) {
+static void PIOS_USB_CDC_RxStart(uintptr_t usbcdc_id, uint16_t rx_bytes_avail) {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usbcdc_id;
 
 	bool valid = PIOS_USB_CDC_validate(usb_cdc_dev);
@@ -263,7 +243,7 @@ static void PIOS_USB_CDC_RxStart(uint32_t usbcdc_id, uint16_t rx_bytes_avail) {
 	}
 }
 
-static void PIOS_USB_CDC_TxStart(uint32_t usbcdc_id, uint16_t tx_bytes_avail)
+static void PIOS_USB_CDC_TxStart(uintptr_t usbcdc_id, uint16_t tx_bytes_avail)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usbcdc_id;
 
@@ -285,7 +265,7 @@ static void PIOS_USB_CDC_TxStart(uint32_t usbcdc_id, uint16_t tx_bytes_avail)
 	}
 }
 
-static void PIOS_USB_CDC_RegisterRxCallback(uint32_t usbcdc_id, pios_com_callback rx_in_cb, uint32_t context)
+static void PIOS_USB_CDC_RegisterRxCallback(uintptr_t usbcdc_id, pios_com_callback rx_in_cb, uintptr_t context)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usbcdc_id;
 
@@ -300,7 +280,7 @@ static void PIOS_USB_CDC_RegisterRxCallback(uint32_t usbcdc_id, pios_com_callbac
 	usb_cdc_dev->rx_in_cb = rx_in_cb;
 }
 
-static void PIOS_USB_CDC_RegisterTxCallback(uint32_t usbcdc_id, pios_com_callback tx_out_cb, uint32_t context)
+static void PIOS_USB_CDC_RegisterTxCallback(uintptr_t usbcdc_id, pios_com_callback tx_out_cb, uintptr_t context)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usbcdc_id;
 
@@ -315,9 +295,9 @@ static void PIOS_USB_CDC_RegisterTxCallback(uint32_t usbcdc_id, pios_com_callbac
 	usb_cdc_dev->tx_out_cb = tx_out_cb;
 }
 
-static bool PIOS_USB_CDC_CTRL_EP_IN_Callback(uint32_t usb_cdc_id, uint8_t epnum, uint16_t len);
+static bool PIOS_USB_CDC_CTRL_EP_IN_Callback(uintptr_t usb_cdc_id, uint8_t epnum, uint16_t len);
 
-static void PIOS_USB_CDC_CTRL_IF_Init(uint32_t usb_cdc_id)
+static void PIOS_USB_CDC_CTRL_IF_Init(uintptr_t usb_cdc_id)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usb_cdc_id;
 
@@ -329,11 +309,11 @@ static void PIOS_USB_CDC_CTRL_IF_Init(uint32_t usb_cdc_id)
 	PIOS_USBHOOK_RegisterEpInCallback(usb_cdc_dev->cfg->ctrl_tx_ep,
 					  sizeof(usb_cdc_dev->ctrl_tx_packet_buffer),
 					  PIOS_USB_CDC_CTRL_EP_IN_Callback,
-					  (uint32_t) usb_cdc_dev);
+					  (uintptr_t) usb_cdc_dev);
 	usb_cdc_dev->usb_ctrl_if_enabled = true;
 }
 
-static void PIOS_USB_CDC_CTRL_IF_DeInit(uint32_t usb_cdc_id)
+static void PIOS_USB_CDC_CTRL_IF_DeInit(uintptr_t usb_cdc_id)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usb_cdc_id;
 
@@ -355,7 +335,7 @@ static struct usb_cdc_line_coding line_coding = {
 
 static uint16_t control_line_state;
 
-static bool PIOS_USB_CDC_CTRL_IF_Setup(uint32_t usb_cdc_id, struct usb_setup_request *req)
+static bool PIOS_USB_CDC_CTRL_IF_Setup(uintptr_t usb_cdc_id, struct usb_setup_request *req)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usb_cdc_id;
 
@@ -409,7 +389,7 @@ static bool PIOS_USB_CDC_CTRL_IF_Setup(uint32_t usb_cdc_id, struct usb_setup_req
 	return true;
 }
 
-static bool PIOS_USB_CDC_Available (uint32_t usbcdc_id)
+static bool PIOS_USB_CDC_Available (uintptr_t usbcdc_id)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usbcdc_id;
 
@@ -424,7 +404,7 @@ static bool PIOS_USB_CDC_Available (uint32_t usbcdc_id)
  * Called *after* the data has been written to the buffer provided in the setup stage.  The
  * setup request is passed in here again so we know *which* EP0 data out has just completed.
  */
-static void PIOS_USB_CDC_CTRL_IF_CtrlDataOut(uint32_t usb_cdc_id, const struct usb_setup_request *req)
+static void PIOS_USB_CDC_CTRL_IF_CtrlDataOut(uintptr_t usb_cdc_id, const struct usb_setup_request *req)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usb_cdc_id;
 
@@ -481,7 +461,7 @@ static struct usb_cdc_serial_state_report uart_state = {
 	.bmUartState   = htousbs(0),
 };
 	
-static bool PIOS_USB_CDC_CTRL_EP_IN_Callback(uint32_t usb_cdc_id, uint8_t epnum, uint16_t len)
+static bool PIOS_USB_CDC_CTRL_EP_IN_Callback(uintptr_t usb_cdc_id, uint8_t epnum, uint16_t len)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)pios_usb_cdc_id;
 
@@ -525,10 +505,10 @@ static bool PIOS_USB_CDC_CTRL_EP_IN_Callback(uint32_t usb_cdc_id, uint8_t epnum,
 	return true;
 }
 
-static bool PIOS_USB_CDC_DATA_EP_IN_Callback(uint32_t usb_cdc_id, uint8_t epnum, uint16_t len);
-static bool PIOS_USB_CDC_DATA_EP_OUT_Callback(uint32_t usb_cdc_id, uint8_t epnum, uint16_t len);
+static bool PIOS_USB_CDC_DATA_EP_IN_Callback(uintptr_t usb_cdc_id, uint8_t epnum, uint16_t len);
+static bool PIOS_USB_CDC_DATA_EP_OUT_Callback(uintptr_t usb_cdc_id, uint8_t epnum, uint16_t len);
 
-static void PIOS_USB_CDC_DATA_IF_Init(uint32_t usb_cdc_id)
+static void PIOS_USB_CDC_DATA_IF_Init(uintptr_t usb_cdc_id)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usb_cdc_id;
 
@@ -540,15 +520,15 @@ static void PIOS_USB_CDC_DATA_IF_Init(uint32_t usb_cdc_id)
 	PIOS_USBHOOK_RegisterEpInCallback(usb_cdc_dev->cfg->data_tx_ep,
 					  sizeof(usb_cdc_dev->tx_packet_buffer),
 					  PIOS_USB_CDC_DATA_EP_IN_Callback,
-					  (uint32_t) usb_cdc_dev);
+					  (uintptr_t) usb_cdc_dev);
 	PIOS_USBHOOK_RegisterEpOutCallback(usb_cdc_dev->cfg->data_rx_ep,
 					   sizeof(usb_cdc_dev->rx_packet_buffer),
 					   PIOS_USB_CDC_DATA_EP_OUT_Callback,
-					   (uint32_t) usb_cdc_dev);
+					   (uintptr_t) usb_cdc_dev);
 	usb_cdc_dev->usb_data_if_enabled = true;
 }
 
-static void PIOS_USB_CDC_DATA_IF_DeInit(uint32_t usb_cdc_id)
+static void PIOS_USB_CDC_DATA_IF_DeInit(uintptr_t usb_cdc_id)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usb_cdc_id;
 
@@ -568,7 +548,7 @@ static void PIOS_USB_CDC_DATA_IF_DeInit(uint32_t usb_cdc_id)
 	PIOS_USBHOOK_DeRegisterEpOutCallback(usb_cdc_dev->cfg->data_rx_ep);
 }
 
-static bool PIOS_USB_CDC_DATA_IF_Setup(uint32_t usb_cdc_id, struct usb_setup_request *req)
+static bool PIOS_USB_CDC_DATA_IF_Setup(uintptr_t usb_cdc_id, struct usb_setup_request *req)
 {
 	/* There are no valid EP0 transactions for CDC DATA interfaces */
 	PIOS_Assert(0);
@@ -580,7 +560,7 @@ static bool PIOS_USB_CDC_DATA_IF_Setup(uint32_t usb_cdc_id, struct usb_setup_req
  * Called *after* the data has been written to the buffer provided in the setup stage.  The
  * setup request is passed in here again so we know *which* EP0 data out has just completed.
  */
-static void PIOS_USB_CDC_DATA_IF_CtrlDataOut(uint32_t usb_cdc_id, const struct usb_setup_request *req)
+static void PIOS_USB_CDC_DATA_IF_CtrlDataOut(uintptr_t usb_cdc_id, const struct usb_setup_request *req)
 {
 	/* CDC DATA interfaces don't have any OUT data stages on the control endpoint */
 	PIOS_Assert(0);
@@ -590,7 +570,7 @@ static void PIOS_USB_CDC_DATA_IF_CtrlDataOut(uint32_t usb_cdc_id, const struct u
  * @brief Callback used to indicate a transmission from device INto host completed
  * Checks if any data remains, pads it into HID packet and sends.
  */
-static bool PIOS_USB_CDC_DATA_EP_IN_Callback(uint32_t usb_cdc_id, uint8_t epnum, uint16_t len)
+static bool PIOS_USB_CDC_DATA_EP_IN_Callback(uintptr_t usb_cdc_id, uint8_t epnum, uint16_t len)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)pios_usb_cdc_id;
 
@@ -606,7 +586,7 @@ static bool PIOS_USB_CDC_DATA_EP_IN_Callback(uint32_t usb_cdc_id, uint8_t epnum,
 	return rc;
 }
 
-static bool PIOS_USB_CDC_DATA_EP_OUT_Callback(uint32_t usb_cdc_id, uint8_t epnum, uint16_t len)
+static bool PIOS_USB_CDC_DATA_EP_OUT_Callback(uintptr_t usb_cdc_id, uint8_t epnum, uint16_t len)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)pios_usb_cdc_id;
 

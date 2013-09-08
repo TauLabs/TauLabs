@@ -83,12 +83,6 @@ ConfigCCHWWidget::ConfigCCHWWidget(QWidget *parent) : ConfigTaskWidget(parent)
     addUAVObjectToWidgetRelation("ModuleSettings","GPSSpeed",m_CC_HW_Widget->gpsSpeed);
     addUAVObjectToWidgetRelation("ModuleSettings","ComUsbBridgeSpeed",m_CC_HW_Widget->comUsbBridgeSpeed);
 
-    // Add modules widget. Don't forget to remove placeholder "Modules" widget first.
-    ModuleSettingsForm *optionalModuleSettings = new ModuleSettingsForm(this, m_CC_HW_Widget->saveTelemetryToSD, m_CC_HW_Widget->saveTelemetryToRAM);
-    QString modulesTabText = m_CC_HW_Widget->tabWidget->tabText(m_CC_HW_Widget->tabWidget->indexOf(m_CC_HW_Widget->modules_placeholder));
-    m_CC_HW_Widget->tabWidget->removeTab(m_CC_HW_Widget->tabWidget->indexOf(m_CC_HW_Widget->modules_placeholder));
-    m_CC_HW_Widget->tabWidget->addTab(optionalModuleSettings, modulesTabText); //Add the widget to the UI
-
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property
     autoLoadWidgets();

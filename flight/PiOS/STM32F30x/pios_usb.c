@@ -69,43 +69,24 @@ static int32_t PIOS_USB_validate(struct pios_usb_dev * usb_dev)
 	return 0;
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_usb_dev * PIOS_USB_alloc(void)
 {
 	struct pios_usb_dev * usb_dev;
 
-	usb_dev = (struct pios_usb_dev *)pvPortMalloc(sizeof(*usb_dev));
+	usb_dev = (struct pios_usb_dev *)PIOS_malloc(sizeof(*usb_dev));
 	if (!usb_dev) return(NULL);
 
 	usb_dev->magic = PIOS_USB_DEV_MAGIC;
 	return(usb_dev);
 }
-#else
-static struct pios_usb_dev pios_usb_devs[PIOS_USB_MAX_DEVS];
-static uint8_t pios_usb_num_devs;
-static struct pios_usb_dev * PIOS_USB_alloc(void)
-{
-	struct pios_usb_dev * usb_dev;
-
-	if (pios_usb_num_devs >= PIOS_USB_MAX_DEVS) {
-		return (NULL);
-	}
-
-	usb_dev = &pios_usb_devs[pios_usb_num_devs++];
-	usb_dev->magic = PIOS_USB_DEV_MAGIC;
-
-	return (usb_dev);
-}
-#endif
-
 
 /**
  * Initialises USB COM layer
  * \return < 0 if initialisation failed
  * \note Applications shouldn't call this function directly, instead please use \ref PIOS_COM layer functions
  */
-static uint32_t pios_usb_com_id;
-int32_t PIOS_USB_Init(uint32_t * usb_id, const struct pios_usb_cfg * cfg)
+static uintptr_t pios_usb_com_id;
+int32_t PIOS_USB_Init(uintptr_t * usb_id, const struct pios_usb_cfg * cfg)
 {
 	PIOS_Assert(usb_id);
 	PIOS_Assert(cfg);
@@ -124,7 +105,7 @@ int32_t PIOS_USB_Init(uint32_t * usb_id, const struct pios_usb_cfg * cfg)
 	 * This is a horrible hack to make this available to
 	 * the interrupt callbacks.  This should go away ASAP.
 	 */
-	pios_usb_com_id = (uint32_t) usb_dev;
+	pios_usb_com_id = (uintptr_t) usb_dev;
 
 	/* Enable the USB Interrupts */
 	NVIC_Init((NVIC_InitTypeDef*)&usb_dev->cfg->irq.init);
@@ -153,7 +134,7 @@ int32_t PIOS_USB_Init(uint32_t * usb_id, const struct pios_usb_cfg * cfg)
 	USB_Init();
 	USB_SIL_Init();
 
-	*usb_id = (uint32_t) usb_dev;
+	*usb_id = (uintptr_t) usb_dev;
 
 	return 0;		/* No error */
 
@@ -231,7 +212,7 @@ int32_t PIOS_USB_Reenumerate()
 	return 0;
 }
 
-bool PIOS_USB_CableConnected(uint8_t id)
+bool PIOS_USB_CableConnected(uintptr_t id)
 {
 	struct pios_usb_dev * usb_dev = (struct pios_usb_dev *) pios_usb_com_id;
 
@@ -239,8 +220,8 @@ bool PIOS_USB_CableConnected(uint8_t id)
 		return false;
 
 	// If board is configured to have a VSENSE pin, use that
-	if(usb_dev->cfg->vsense.gpio != NULL)
-		return usb_dev->cfg->vsense.gpio->IDR & usb_dev->cfg->vsense.init.GPIO_Pin;
+	if (usb_dev->cfg->vsense.gpio != NULL)
+		return GPIO_ReadInputDataBit(usb_dev->cfg->vsense.gpio, usb_dev->cfg->vsense.init.GPIO_Pin) == Bit_SET;
 
 	return sof_seen_since_reset;
 }
@@ -251,7 +232,7 @@ bool PIOS_USB_CableConnected(uint8_t id)
  * \return 0: interface not available
  * \note Applications shouldn't call this function directly, instead please use \ref PIOS_COM layer functions
  */
-bool PIOS_USB_CheckAvailable(uint32_t id)
+bool PIOS_USB_CheckAvailable(uintptr_t id)
 {
 	struct pios_usb_dev * usb_dev = (struct pios_usb_dev *) pios_usb_com_id;
 

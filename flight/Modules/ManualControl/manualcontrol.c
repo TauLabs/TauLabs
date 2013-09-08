@@ -49,12 +49,10 @@
 #include "systemalarms.h"
 
 // Private constants
-#if defined(PIOS_CONTROL_STACK_SIZE)
+#if defined(PIOS_MANUAL_STACK_SIZE)
 #define STACK_SIZE_BYTES PIOS_MANUAL_STACK_SIZE
-#elif !defined(COPTERCONTROL)
-#define STACK_SIZE_BYTES 1424
 #else
-#define STACK_SIZE_BYTES 550
+#define STACK_SIZE_BYTES 1424
 #endif
 
 #define TASK_PRIORITY (tskIDLE_PRIORITY+4)
@@ -132,7 +130,7 @@ static void manualControlTask(void *parameters)
 		enum control_events control_events = CONTROL_EVENTS_NONE;
 
 		// Control logic to select the valid controller
-		uint8_t control_selection = control_source_select();
+		FlightStatusControlSourceOptions control_selection = control_source_select();
 		bool reset_controller = control_selection != last_control_selection;
 
 		// This logic would be better collapsed into control_source_select but
@@ -144,15 +142,20 @@ static void manualControlTask(void *parameters)
 			control_events = transmitter_control_get_events();
 			break;
 		case FLIGHTSTATUS_CONTROLSOURCE_TABLET:
+		{
+			static bool tablet_previously_succeeded = false;
 			if (tablet_control_select(reset_controller) == 0) {
 				control_events = tablet_control_get_events();
+				tablet_previously_succeeded = true;
 			} else {
 				// Failure in tablet control.  This would be better if done
 				// at the selection stage before the tablet is even used.
-				failsafe_control_select(false);
+				failsafe_control_select(reset_controller || tablet_previously_succeeded);
 				control_events = failsafe_control_get_events();
+				tablet_previously_succeeded = false;
 			}
 			break;
+		}
 		case FLIGHTSTATUS_CONTROLSOURCE_FAILSAFE:
 		default:
 			failsafe_control_select(reset_controller);
@@ -180,7 +183,7 @@ static void manualControlTask(void *parameters)
 		}
 
 		// Wait until next update
-		vTaskDelayUntil(&lastSysTime, UPDATE_PERIOD_MS / portTICK_RATE_MS);
+		vTaskDelayUntil(&lastSysTime, MS2TICKS(UPDATE_PERIOD_MS));
 		PIOS_WDG_UpdateFlag(PIOS_WDG_MANUAL);
 	}
 }

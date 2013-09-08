@@ -90,9 +90,18 @@ public:
                             BOARD_CAPABILITIES_MAGS, BOARD_CAPABILITIES_BAROS,
                             BOARD_CAPABILITIES_RADIO};
     /**
-     * Query capabilities of the board
+     * @brief Query capabilities of the board.
+     * @return true if board supports the capability that is requested (from BoardCapabilities)
+     *
      */
     virtual bool queryCapabilities(BoardCapabilities capability) = 0;
+
+    /**
+     * @brief Query number & names of output PWM channels banks on the board
+     * @return list of channel bank names
+     *
+     */
+    virtual QStringList queryChannelBanks() { return QStringList(); }
 
     /**
      * @brief getBoardPicture
@@ -112,9 +121,8 @@ public:
     virtual QStringList getSupportedProtocols() = 0;
 
     /**
-     * Get supported protocol(s) for this board
+     * Get name of the HW Configuration UAVObject
      *
-     * TODO: extend GCS to support multiple protocol types.
      */
     virtual QString getHwUAVO() = 0;
 
@@ -147,6 +155,8 @@ public:
         INPUT_TYPE_DSMX10BIT,
         INPUT_TYPE_DSMX11BIT,
         INPUT_TYPE_SBUS,
+        INPUT_TYPE_HOTTSUMD,
+        INPUT_TYPE_HOTTSUMH,
         INPUT_TYPE_UNKNOWN
     };
 

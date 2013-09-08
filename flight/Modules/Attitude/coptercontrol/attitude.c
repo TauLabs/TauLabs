@@ -89,7 +89,7 @@ static void accumulate_gyro_compute();
 static void accumulate_gyro_zero();
 
 //! Store a gyro sample
-static void accumulate_gyro(GyrosData *gyrosData, float *gyro_temp_bias);
+static void accumulate_gyro(float gyros_out[3]);
 
 static float accelKi = 0;
 static float accelKp = 0;
@@ -287,6 +287,16 @@ static void AttitudeTask(void *parameters)
 		else
 			retval = updateSensors(&accels, &gyros);
 
+		// During power on set to angle from accel
+		if (complimentary_filter_status == CF_POWERON) {
+			float RPY[3];
+			float theta = atan2f(accels.x, -accels.z);
+			RPY[1] = theta * RAD2DEG;
+			RPY[0] = atan2f(-accels.y, -accels.z / cosf(theta)) * RAD2DEG;
+			RPY[2] = 0;
+			RPY2Quaternion(RPY, q);
+		}
+
 		// Only update attitude when sensor data is good
 		if (retval != 0)
 			AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR);
@@ -441,6 +451,20 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 	                      gyros->y * sensorSettings.GyroScale[1],
 	                      gyros->z * sensorSettings.GyroScale[2]};
 
+	// Update the bias due to the temperature
+	updateTemperatureComp(gyrosData->temperature, gyro_temp_bias);
+
+	// Apply temperature bias correction before the rotation
+	if (bias_correct_gyro) {
+		gyros_out[0] -= gyro_temp_bias[0];
+		gyros_out[1] -= gyro_temp_bias[1];
+		gyros_out[2] -= gyro_temp_bias[2];
+	}
+
+	// When computing the bias accumulate samples
+	accumulate_gyro(gyros_out);
+
+
 	if (rotate) {
 		float gyros[3];
 		rot_mult(Rsb, gyros_out, gyros, true);
@@ -453,17 +477,11 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosD
 		gyrosData->z = gyros_out[2];
 	}
 
-	// When computing the bias accumulate samples
-	accumulate_gyro(gyrosData, gyro_temp_bias);
-
-	// Update the bias due to the temperature
-	updateTemperatureComp(gyrosData->temperature, gyro_temp_bias);
-
 	if(bias_correct_gyro) {
 		// Applying integral component here so it can be seen on the gyros and correct bias
-		gyrosData->x -= gyro_temp_bias[0] + gyro_correct_int[0];
-		gyrosData->y -= gyro_temp_bias[1] + gyro_correct_int[1];
-		gyrosData->z -= gyro_temp_bias[2] + gyro_correct_int[2];
+		gyrosData->x -= gyro_correct_int[0];
+		gyrosData->y -= gyro_correct_int[1];
+		gyrosData->z -= gyro_correct_int[2];
 	}
 
 	// Because most crafts wont get enough information from gravity to zero yaw gyro, we try
@@ -509,15 +527,15 @@ static void accumulate_gyro_zero()
  * @param [in] gyrosData The samples of data to accumulate
  * @param [in] gyro_temp_bias The current temperature bias to account for
  */
-static void accumulate_gyro(GyrosData *gyrosData, float *gyro_temp_bias)
+static void accumulate_gyro(float gyros_out[3])
 {
 	if (!accumulating_gyro)
 		return;
 
 	accumulated_gyro_samples++;
-	accumulated_gyro[0] += (gyrosData->x - gyro_temp_bias[0]);
-	accumulated_gyro[1] += (gyrosData->y - gyro_temp_bias[1]);
-	accumulated_gyro[2] += (gyrosData->z - gyro_temp_bias[2]);
+	accumulated_gyro[0] += gyros_out[0];
+	accumulated_gyro[1] += gyros_out[1];
+	accumulated_gyro[2] += gyros_out[2];
 }
 
 /**
@@ -566,7 +584,7 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	static float accels_filtered[3] = {0,0,0};
 	static float grot_filtered[3] = {0,0,0};
 
-	dT = (thisSysTime == lastSysTime) ? 0.001 : (portMAX_DELAY & (thisSysTime - lastSysTime)) / portTICK_RATE_MS / 1000.0f;
+	dT = (thisSysTime == lastSysTime) ? 0.001f : TICKS2MS(portMAX_DELAY & (thisSysTime - lastSysTime)) / 1000.0f;
 	lastSysTime = thisSysTime;
 	
 	// Bad practice to assume structure order, but saves memory
@@ -718,8 +736,8 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 	yawBiasRate = attitudeSettings.YawBiasRate;
 
 	// Calculate accel filter alpha, in the same way as for gyro data in stabilization module.
-	const float fakeDt = 0.0025;
-	if(attitudeSettings.AccelTau < 0.0001) {
+	const float fakeDt = 0.0025f;
+	if(attitudeSettings.AccelTau < 0.0001f) {
 		accel_alpha = 0;   // not trusting this to resolve to 0
 		accel_filter_enabled = false;
 	} else {
@@ -780,7 +798,7 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 		float sP = sinf(psi);
 
 		// In case psi is too small, we have to use a different equation to solve for theta
-		if (fabs(psi) > PI / 2)
+		if (fabsf(psi) > PI / 2)
 			theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] -
 					 cP * a_sensor[1])) / (sP * a_sensor[2]));
 		else

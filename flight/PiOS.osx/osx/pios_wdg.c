@@ -40,6 +40,8 @@ unsigned int wdg_cleared_time;
 unsigned int wdg_last_update_time;
 bool wdg_expired;
 
+static bool PIOS_WDG_Check();
+
 /** 
  * @brief Initialize the watchdog timer for a specified timeout
  *
@@ -57,10 +59,12 @@ bool wdg_expired;
  * @param[in] delayMs The delay period in ms
  * @returns Maximum recommended delay between updates
  */
-void PIOS_WDG_Init()
+uint16_t PIOS_WDG_Init()
 {
 	wdg_registered_flags = 0;
 	wdg_updated_flags = 0;
+
+	return 0;
 }
 
 /**
@@ -142,7 +146,7 @@ void PIOS_WDG_Clear(void)
  * @brief This function returns true if the watchdog would 
  * have expired
  */
-bool PIOS_WDG_Check()
+static bool PIOS_WDG_Check()
 {
 	if(PIOS_DELAY_DiffuS(wdg_cleared_time) > 250000) {
 		if(!wdg_expired)

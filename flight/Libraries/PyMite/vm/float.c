@@ -64,7 +64,7 @@ float_print(pPmObj_t pf)
     }
 
     /* #196: Changed to use snprintf */
-    bytesWritten = snprintf((char *)&tBuffer, 32, "%f", ((pPmFloat_t) pf)->val);
+    bytesWritten = snprintf((char *)&tBuffer, 32, "%f", (double) ((pPmFloat_t) pf)->val);
 
     /* Sanity check */
     C_ASSERT(bytesWritten != 0);
@@ -127,7 +127,7 @@ float_op(pPmObj_t px, pPmObj_t py, pPmObj_t *r_pn, int8_t op)
     }
 
     /* Raise ZeroDivisionError if denominator is zero */
-    if ((y == 0.0) && ((op == '/') || (op == '%')))
+    if ((y == 0.0f) && ((op == '/') || (op == '%')))
     {
         PM_RAISE(retval, PM_RET_EX_ZDIV);
         return retval;

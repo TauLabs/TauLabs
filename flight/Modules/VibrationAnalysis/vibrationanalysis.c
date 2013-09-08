@@ -144,7 +144,7 @@ static int32_t VibrationAnalysisStart(void)
 		}
 	}
 	
-	if (UAVObjGetNumInstances(VibrationAnalysisOutputHandle()) != (fft_window_size>>1)){
+	if (VibrationAnalysisOutputGetNumInstances() != (fft_window_size>>1)){
 		// This is a more useful test for failure.
 		module_enabled = false;
 		return -1;
@@ -259,7 +259,7 @@ static void VibrationAnalysisTask(void *parameters)
 	
 	
 /** These values are useful for insight into the Fourier transform performed by this module.
-	float freq_sample = 1.0f/(sampleRate_ms * portTICK_RATE_MS);
+	float freq_sample = 1.0f/sampleRate_ms;
 	float freq_nyquist = f_s/2.0f;
 	uint16_t num_samples = vtd->fft_window_size;
  */
@@ -268,14 +268,14 @@ static void VibrationAnalysisTask(void *parameters)
 	VibrationAnalysisOutputData vibrationAnalysisOutputData;
 	sample_count = 0;
 	lastSysTime = xTaskGetTickCount();
-	lastSettingsUpdateTime = xTaskGetTickCount() - SETTINGS_THROTTLING_MS * portTICK_RATE_MS;
+	lastSettingsUpdateTime = xTaskGetTickCount() - MS2TICKS(SETTINGS_THROTTLING_MS);
 
 	
 	// Main module task, never exit from while loop
 	while(1)
 	{
 		// Only check settings once every 100ms
-		if(xTaskGetTickCount() - lastSettingsUpdateTime > SETTINGS_THROTTLING_MS * portTICK_RATE_MS){
+		if(xTaskGetTickCount() - lastSettingsUpdateTime > MS2TICKS(SETTINGS_THROTTLING_MS)){
 			//First check if the analysis is active
 			VibrationAnalysisSettingsTestingStatusGet(&runAnalysisFlag);
 			
@@ -312,11 +312,11 @@ static void VibrationAnalysisTask(void *parameters)
 		}
 		
 		// If not enough time has passed, keep accumulating data
-		if(xTaskGetTickCount() - lastSysTime < sampleRate_ms * portTICK_RATE_MS){
+		if(xTaskGetTickCount() - lastSysTime < MS2TICKS(sampleRate_ms)) {
 			continue;
 		}
 		
-		lastSysTime += sampleRate_ms * portTICK_RATE_MS;
+		lastSysTime += MS2TICKS(sampleRate_ms);
 		
 		
 		//Calculate averaged values
@@ -332,9 +332,9 @@ static void VibrationAnalysisTask(void *parameters)
 		
 		// Add averaged values to the buffer, and remove DC bias. Only add real component, the
 		// complex component was already set to zero by a memset operation
-		vtd->accel_buffer_complex_x_q15[sample_count*2] = (accels_avg_x - vtd->accels_static_bias_x)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
-		vtd->accel_buffer_complex_y_q15[sample_count*2] = (accels_avg_y - vtd->accels_static_bias_y)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
-		vtd->accel_buffer_complex_z_q15[sample_count*2] = (accels_avg_z - vtd->accels_static_bias_z)*FLOAT_TO_Q15 + 0.5; // Extra +0.5 rounds value when casting to int
+		vtd->accel_buffer_complex_x_q15[sample_count*2] = (accels_avg_x - vtd->accels_static_bias_x)*FLOAT_TO_Q15 + 0.5f; // Extra +0.5 rounds value when casting to int
+		vtd->accel_buffer_complex_y_q15[sample_count*2] = (accels_avg_y - vtd->accels_static_bias_y)*FLOAT_TO_Q15 + 0.5f; // Extra +0.5 rounds value when casting to int
+		vtd->accel_buffer_complex_z_q15[sample_count*2] = (accels_avg_z - vtd->accels_static_bias_z)*FLOAT_TO_Q15 + 0.5f; // Extra +0.5 rounds value when casting to int
 		
 		//Reset the accumulators
 		vtd->accels_data_sum_x = 0;
@@ -402,7 +402,7 @@ static void VibrationAnalysisTask(void *parameters)
 			for (int j=0; j < (vtd->fft_window_size>>1); j++) 
 			{
 				//Assertion check that we are not trying to write to instances that don't exist
-				if (j >= UAVObjGetNumInstances(VibrationAnalysisOutputHandle()))
+				if (j >= VibrationAnalysisOutputGetNumInstances())
 					continue;
 				
 				vibrationAnalysisOutputData.x = vtd->accel_buffer_complex_x_q15[j]/FLOAT_TO_Q15;

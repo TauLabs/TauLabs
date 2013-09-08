@@ -157,11 +157,11 @@ QWidget* ScopeGadgetOptionsPage::createPage(QWidget *parent)
     connect(options_page->btnColor, SIGNAL(clicked()), this, SLOT(on_btnColor_clicked()));
     connect(options_page->mathFunctionComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(on_mathFunctionComboBox_currentIndexChanged(int)));
     connect(options_page->cmbSpectrogramSource, SIGNAL(currentIndexChanged(QString)), this, SLOT(on_cmbSpectrogramSource_currentIndexChanged(QString)));
-    connect(options_page->tabWidget2d3d, SIGNAL(currentChanged(int)), this, SLOT(on_tabWidget2d3d_currentIndexChanged(int)));
     connect(options_page->lst2dCurves, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(on_lst2dItem_clicked(QListWidgetItem *)));
 
     // Configuration the GUI elements to reflect the scope settings
-    m_config->getScope()->setGuiConfiguration(options_page);
+    if(m_config)
+        m_config->getScope()->setGuiConfiguration(options_page);
 
     // Cascading update on the UI elements
     emit on_cmb2dPlotType_currentIndexChanged(options_page->cmb2dPlotType->currentText());
@@ -429,7 +429,8 @@ void ScopeGadgetOptionsPage::on_cmbUAVObjectsSpectrogram_currentIndexChanged(QSt
 void ScopeGadgetOptionsPage::apply()
 {
     //The GUI settings are read by the appropriate subclass
-    m_config->applyGuiConfiguration(options_page);
+    if(m_config)
+        m_config->applyGuiConfiguration(options_page);
 }
 
 

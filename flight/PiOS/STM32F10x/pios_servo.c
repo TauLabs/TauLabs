@@ -42,7 +42,7 @@ static const struct pios_servo_cfg * servo_cfg;
 */
 int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 {
-	uint32_t tim_id;
+	uintptr_t tim_id;
 	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, NULL, 0)) {
 		return -1;
 	}
@@ -57,19 +57,19 @@ int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 		/* Set up for output compare function */
 		switch(chan->timer_chan) {
 			case TIM_Channel_1:
-				TIM_OC1Init(chan->timer, &cfg->tim_oc_init);
+				TIM_OC1Init(chan->timer, (TIM_OCInitTypeDef*)&cfg->tim_oc_init);
 				TIM_OC1PreloadConfig(chan->timer, TIM_OCPreload_Enable);
 				break;
 			case TIM_Channel_2:
-				TIM_OC2Init(chan->timer, &cfg->tim_oc_init);
+				TIM_OC2Init(chan->timer, (TIM_OCInitTypeDef*)&cfg->tim_oc_init);
 				TIM_OC2PreloadConfig(chan->timer, TIM_OCPreload_Enable);
 				break;
 			case TIM_Channel_3:
-				TIM_OC3Init(chan->timer, &cfg->tim_oc_init);
+				TIM_OC3Init(chan->timer, (TIM_OCInitTypeDef*)&cfg->tim_oc_init);
 				TIM_OC3PreloadConfig(chan->timer, TIM_OCPreload_Enable);
 				break;
 			case TIM_Channel_4:
-				TIM_OC4Init(chan->timer, &cfg->tim_oc_init);
+				TIM_OC4Init(chan->timer, (TIM_OCInitTypeDef*)&cfg->tim_oc_init);
 				TIM_OC4PreloadConfig(chan->timer, TIM_OCPreload_Enable);
 				break;
 		}
@@ -96,7 +96,7 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = servo_cfg->tim_base_init;
 	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_MASTER_CLOCK / 1000000) - 1;
+	TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_SYSCLK / 1000000) - 1;
 
 	uint8_t set = 0;
 

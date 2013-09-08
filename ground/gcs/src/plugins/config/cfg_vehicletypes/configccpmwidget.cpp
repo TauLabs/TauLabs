@@ -873,7 +873,7 @@ void ConfigCcpmWidget::getMixer()
     // set the airframe type
     QPointer<VehicleConfig> vconfig = new VehicleConfig();
     QList<double> curveValues;
-    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE1, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, &curveValues);
 
     // is at least one of the curve values != 0?
     if (vconfig->isValidThrottleCurve(&curveValues)) {
@@ -884,7 +884,7 @@ void ConfigCcpmWidget::getMixer()
     }
 
 
-    vconfig->getThrottleCurve(mixerSettings, VehicleConfig::MIXER_THROTTLECURVE2, &curveValues);
+    vconfig->getThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, &curveValues);
     // is at least one of the curve values != 0?
     if (vconfig->isValidThrottleCurve(&curveValues)) {
         m_ccpm->PitchCurve->setCurve(&curveValues);
