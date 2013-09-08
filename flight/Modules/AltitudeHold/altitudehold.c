@@ -255,8 +255,8 @@ static void altitudeHoldTask(void *parameters)
 			/* Local working variables */
 			float z_new[4];
 			float P[4][4], K[4][2], x[2];
-			float G[4] = {1.0e-15f, altitudeHoldSettings.AccelNoise, altitudeHoldSettings.AccelDrift, 1.0e-7};
-			float S[2] = {altitudeHoldSettings.PressureNoise,10.0f};
+			float G[4] = {1.0e-15f, 1.0e-15f, altitudeHoldSettings.AccelDrift, 1.0e-7};
+			float S[2] = {altitudeHoldSettings.PressureNoise, altitudeHoldSettings.AccelNoise};
 
 			if (S[0] == 0 || S[1] == 0 || G[2] == 0) {
 				continue;
