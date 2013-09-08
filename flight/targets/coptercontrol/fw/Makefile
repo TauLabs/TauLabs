@@ -36,7 +36,7 @@ DEBUG ?= NO
 STACK_DIAGNOSTICS ?= NO
 MIXERSTATUS_DIAGNOSTICS ?= NO
 RATEDESIRED_DIAGNOSTICS ?= NO
-I2C_WDG_STATS_DIAGNOSTICS ?= NO
+WDG_STATS_DIAGNOSTICS ?= NO
 DIAG_TASKS ?= NO
 
 #Or just turn on all the above diagnostics. WARNING: This consumes massive amounts of memory.
@@ -204,7 +204,6 @@ SRC += $(OPUAVSYNTHDIR)/accels.c
 SRC += $(OPUAVSYNTHDIR)/gyros.c
 SRC += $(OPUAVSYNTHDIR)/attitudeactual.c
 SRC += $(OPUAVSYNTHDIR)/manualcontrolcommand.c
-SRC += $(OPUAVSYNTHDIR)/i2cstats.c
 SRC += $(OPUAVSYNTHDIR)/watchdogstatus.c
 SRC += $(OPUAVSYNTHDIR)/manualcontrolsettings.c
 SRC += $(OPUAVSYNTHDIR)/mixersettings.c
@@ -546,8 +545,8 @@ ifneq (,$(filter YES,$(RATEDESIRED_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
 CFLAGS += -DRATEDESIRED_DIAGNOSTICS
 endif
 
-ifneq (,$(filter YES,$(I2C_WDG_STATS_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
-CFLAGS += -DI2C_WDG_STATS_DIAGNOSTICS
+ifneq (,$(filter YES,$(WDG_STATS_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
+CFLAGS += -DWDG_STATS_DIAGNOSTICS
 endif
 
 ifneq (,$(filter YES,$(DIAG_TASKS) $(ALL_DIGNOSTICS)))

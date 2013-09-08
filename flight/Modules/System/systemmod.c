@@ -37,7 +37,6 @@
 #include "manualcontrolsettings.h"
 #include "systemstats.h"
 #include "systemsettings.h"
-#include "i2cstats.h"
 #include "taskinfo.h"
 #include "watchdogstatus.h"
 #include "taskmonitor.h"
@@ -87,8 +86,7 @@ static void configurationUpdatedCb(UAVObjEvent * ev);
 static void updateStats();
 static void updateSystemAlarms();
 static void systemTask(void *parameters);
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
-static void updateI2Cstats();
+#if defined(WDG_STATS_DIAGNOSTICS)
 static void updateWDGstats();
 #endif
 /**
@@ -122,10 +120,7 @@ int32_t SystemModInitialize(void)
 #if defined(DIAG_TASKS)
 	TaskInfoInitialize();
 #endif
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
-#if defined(PIOS_INCLUDE_I2C)
-	I2CStatsInitialize();
-#endif
+#if defined(WDG_STATS_DIAGNOSTICS)
 	WatchdogStatusInitialize();
 #endif
 
@@ -185,8 +180,7 @@ static void systemTask(void *parameters)
 
 		// Update the system alarms
 		updateSystemAlarms();
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
-		updateI2Cstats();
+#if defined(WDG_STATS_DIAGNOSTICS)
 		updateWDGstats();
 #endif
 
@@ -329,29 +323,9 @@ static void configurationUpdatedCb(UAVObjEvent * ev)
 #endif
 
 /**
- * Called periodically to update the I2C statistics 
+ * Called periodically to update the WDG statistics
  */
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
-static void updateI2Cstats() 
-{
-#if defined(PIOS_INCLUDE_I2C)
-	I2CStatsData i2cStats;
-	I2CStatsGet(&i2cStats);
-	
-	struct pios_i2c_fault_history history;
-	PIOS_I2C_GetDiagnostics(&history, &i2cStats.event_errors);
-	
-	for(uint8_t i = 0; (i < I2C_LOG_DEPTH) && (i < I2CSTATS_EVENT_LOG_NUMELEM); i++) {
-		i2cStats.evirq_log[i] = history.evirq[i];
-		i2cStats.erirq_log[i] = history.erirq[i];
-		i2cStats.event_log[i] = history.event[i];
-		i2cStats.state_log[i] = history.state[i];		
-	}
-	i2cStats.last_error_type = history.type;
-	I2CStatsSet(&i2cStats);
-#endif
-}
-
+#if defined(WDG_STATS_DIAGNOSTICS)
 static void updateWDGstats() 
 {
 	WatchdogStatusData watchdogStatus;
