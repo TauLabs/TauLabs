@@ -135,7 +135,6 @@ static void altitudeHoldTask(void *parameters)
 	 */
 	enum altitudehold_state {AH_RESET, AH_WAITIING_INIT, AH_WAITING_BARO, AH_RUNNING} state = AH_RESET;
 	bool engaged = false;
-	bool baro_updated = false;
 	float starting_altitude;
 	float throttleIntegral;
 	float error;
@@ -194,7 +193,6 @@ static void altitudeHoldTask(void *parameters)
 			// Todo: Add alarm if it should be running
 			continue;
 		} else if (ev.obj == BaroAltitudeHandle()) {
-			baro_updated = true;
 
 			if (state == AH_WAITIING_INIT) {
 				AccelsData accels;
@@ -227,20 +225,10 @@ static void altitudeHoldTask(void *parameters)
 			AccelsData accels;
 			AccelsGet(&accels);
 
-			/* Downsample accels to stop this calculation consuming too much CPU */
 			accels_accum[0] += accels.x;
 			accels_accum[1] += accels.y;
 			accels_accum[2] += accels.z;
 			accel_downsample_count++;
-
-			if (accel_downsample_count < ACCEL_DOWNSAMPLE)
-				continue;
-
-			accel_downsample_count = 0;
-			accels.x = accels_accum[0] / ACCEL_DOWNSAMPLE;
-			accels.y = accels_accum[1] / ACCEL_DOWNSAMPLE;
-			accels.z = accels_accum[2] / ACCEL_DOWNSAMPLE;
-			accels_accum[0] = accels_accum[1] = accels_accum[2] = 0;
 
 			this_time_ms = TICKS2MS(xTaskGetTickCount());
 
@@ -252,6 +240,13 @@ static void altitudeHoldTask(void *parameters)
 			if (state != AH_RUNNING)
 				continue;
 			state = AH_WAITING_BARO;
+
+			/* Downsample accels to stop this calculation consuming too much CPU */
+			accels.x = accels_accum[0] / accel_downsample_count;
+			accels.y = accels_accum[1] / accel_downsample_count;
+			accels.z = accels_accum[2] / accel_downsample_count;
+			accels_accum[0] = accels_accum[1] = accels_accum[2] = 0;
+			accel_downsample_count = 0;
 
 			static uint32_t timeval;
 			float dT = PIOS_DELAY_DiffuS(timeval) / 1.0e6f;
