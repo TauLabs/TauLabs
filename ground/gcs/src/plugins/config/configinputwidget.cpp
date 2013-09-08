@@ -710,10 +710,13 @@ void ConfigInputWidget::fastMdata()
                         break;
                     case ActuatorCommand::OBJID:
                         UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
+                        UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+                        mdata.flightTelemetryUpdatePeriod = slowUpdate;
                         break;
                     default:
                         UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
                         mdata.flightTelemetryUpdatePeriod = slowUpdate;
+                        break;
                 }
 
                 metaDataList.insert(obj->getName(), mdata);
