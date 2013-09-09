@@ -97,8 +97,6 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
 
     addUAVObjectToWidgetRelation("ManualControlSettings", "Deadband", m_config->deadband, 0, 0.01f);
 
-    connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(controlCommandUpdated(UAVObject*)));
-
     connect(m_config->configurationWizard,SIGNAL(clicked()),this,SLOT(goToWizard()));
     connect(m_config->stackedWidget,SIGNAL(currentChanged(int)),this,SLOT(disableWizardButton(int)));
     connect(m_config->runCalibration,SIGNAL(toggled(bool)),this, SLOT(simpleCalibration(bool)));
@@ -134,6 +132,10 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
 
     populateWidgets();
     refreshWidgetsValues();
+
+    // Connect the live view checkbox
+    connect(m_config->cb_liveView, SIGNAL(stateChanged(int)), this, SLOT(toggleLiveView(int)));
+
     // Connect the help button
     connect(m_config->inputHelp, SIGNAL(clicked()), this, SLOT(openHelp()));
 
@@ -1450,12 +1452,40 @@ void ConfigInputWidget::simpleCalibration(bool enable)
     }
 }
 
+
+/**
+ * @brief ConfigInputWidget::controlCommandUpdated Fires whenever the UAVO is updated
+ * @param obj
+ */
 void ConfigInputWidget::controlCommandUpdated(UAVObject *obj)
 {
     Q_UNUSED(obj);
     ManualControlCommand::DataFields manualControlCommandData = manualCommandObj->getData();
 
-    for (int i=0; i<ManualControlCommand::CHANNEL_NUMELEM; i++) {
+    for (unsigned int i=0; i<ManualControlCommand::CHANNEL_NUMELEM; i++) {
         inputChannelFormList.at(i)->setCommandValue(manualControlCommandData.Channel[i]);
+    }
+}
+
+
+/**
+ * @brief ConfigInputWidget::toggleLiveView Toggles the input live-view
+ * @param state
+ */
+void ConfigInputWidget::toggleLiveView(int state)
+{
+    switch (state) {
+    case Qt::Checked:
+        connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(controlCommandUpdated(UAVObject*)));
+        break;
+    case Qt::Unchecked:
+    case Qt::PartiallyChecked:
+        disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(controlCommandUpdated(UAVObject*)));
+
+        // Set all channels to out of range. The sliders are strictly positive, to a negative number will not show
+        for (unsigned int i=0; i < ManualControlCommand::CHANNEL_NUMELEM; i++) {
+            inputChannelFormList.at(i)->setCommandValue(-32768);
+        }
+        break;
     }
 }

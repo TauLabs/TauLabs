@@ -61,6 +61,7 @@ private:
     int slideHandleMargin;
 
     int ghostValue;
+    unsigned int neutralValue;
 
 };
 

@@ -180,6 +180,7 @@ private slots:
         void simpleCalibration(bool state);
         void updateCalibration();
         void controlCommandUpdated(UAVObject *obj);
+        void toggleLiveView(int);
 
 protected:
         void resizeEvent(QResizeEvent *event);

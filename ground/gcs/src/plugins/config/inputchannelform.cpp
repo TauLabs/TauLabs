@@ -151,7 +151,7 @@ void inputChannelForm::channelNumberUpdated(int newval)
 
 /**
  * @brief inputChannelForm::setCommandValue Sets the command value in the slider
- * @param val
+ * @param val The value to be written. When negative, this effectively disables the live view
  */
 void inputChannelForm::setCommandValue(int val)
 {
