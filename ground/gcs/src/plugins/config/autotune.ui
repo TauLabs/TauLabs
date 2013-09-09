@@ -282,7 +282,7 @@ p, li { white-space: pre-wrap; }
               <item row="1" column="0">
                <widget class="QLabel" name="label_3">
                 <property name="text">
-                 <string>Roll:</string>
+                 <string>Roll</string>
                 </property>
                </widget>
               </item>
@@ -292,7 +292,7 @@ p, li { white-space: pre-wrap; }
                  <string>0</string>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
@@ -309,7 +309,7 @@ p, li { white-space: pre-wrap; }
                  <string>0</string>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
@@ -347,7 +347,7 @@ p, li { white-space: pre-wrap; }
                  <string>0</string>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
@@ -364,7 +364,7 @@ p, li { white-space: pre-wrap; }
                  <string>0</string>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
