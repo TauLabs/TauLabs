@@ -243,11 +243,15 @@ static int32_t PIOS_Brushless_SetPhase(uint32_t channel, float phase_deg)
  */
 static void PIOS_BRUSHLESS_Task(void* parameters)
 {
+	const uint32_t TICK_DELAY = 1;
+
+	portTickType lastSysTime = xTaskGetTickCount();
+
 	while (1) {
 
-		vTaskDelay(1);
+		vTaskDelayUntil(&lastSysTime, TICK_DELAY);
 
-		const float dT = TICKS2MS(1) * 0.001f;
+		const float dT = TICKS2MS(TICK_DELAY) * 0.001f;
 
 		for (int channel = 0; channel < NUM_BGC_CHANNELS; channel++) {
 
