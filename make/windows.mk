@@ -12,6 +12,9 @@
 #   msysGit
 #   Python
 
+# misc tools
+RM=rm
+
 QT_SPEC := win32-g++
 
 # this might need to switch on debug/release
