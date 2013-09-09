@@ -99,6 +99,7 @@ private:
         bool channelDetected;
         QEventLoop * loop;
         bool skipflag;
+        unsigned int oldControlCommandUpdatePeriod;
 
         int currentChannelNum;
         QList<int> heliChannelOrder;

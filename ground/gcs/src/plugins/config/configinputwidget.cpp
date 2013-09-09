@@ -1474,13 +1474,24 @@ void ConfigInputWidget::controlCommandUpdated(UAVObject *obj)
  */
 void ConfigInputWidget::toggleLiveView(int state)
 {
+    UAVDataObject::Metadata mdata;
+
     switch (state) {
     case Qt::Checked:
         connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(controlCommandUpdated(UAVObject*)));
+
+        // Store old update rate and replace with fast one.
+        mdata = manualCommandObj->getMetadata();
+        oldControlCommandUpdatePeriod = mdata.flightTelemetryUpdatePeriod;
+        mdata.flightTelemetryUpdatePeriod = 100;
+        manualCommandObj->setMetadata(mdata);
         break;
     case Qt::Unchecked:
     case Qt::PartiallyChecked:
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(controlCommandUpdated(UAVObject*)));
+        mdata = manualCommandObj->getMetadata();
+        mdata.flightTelemetryUpdatePeriod = oldControlCommandUpdatePeriod;
+        manualCommandObj->setMetadata(mdata);
 
         // Set all channels to out of range. The sliders are strictly positive, to a negative number will not show
         for (unsigned int i=0; i < ManualControlCommand::CHANNEL_NUMELEM; i++) {
