@@ -68,8 +68,6 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
     connect(ui.actuatorMin, SIGNAL(editingFinished()), this, SLOT(notifyFormChanged()));
     connect(ui.actuatorMax, SIGNAL(editingFinished()), this, SLOT(notifyFormChanged()));
     connect(ui.actuatorNeutral, SIGNAL(sliderReleased()), this, SLOT(notifyFormChanged()));
-    connect(ui.actuatorMin, SIGNAL(valueChanged(int)), this, SLOT(updateSlider(int)));
-    connect(ui.actuatorMax, SIGNAL(valueChanged(int)), this, SLOT(updateSlider(int)));
 
     ui.actuatorLink->setChecked(false);
     connect(ui.actuatorLink, SIGNAL(toggled(bool)), this, SLOT(linkToggled(bool)));
@@ -210,9 +208,6 @@ void OutputChannelForm::setAssignment(const QString &assignment)
  */
 void OutputChannelForm::setChannelRange()
 {
-    int oldMini = ui.actuatorNeutral->minimum();
-//    int oldMaxi = ui.actuatorNeutral->maximum();
-
     if (ui.actuatorMin->value() < ui.actuatorMax->value())
     {
         ui.actuatorNeutral->setRange(ui.actuatorMin->value(), ui.actuatorMax->value());
@@ -222,11 +217,8 @@ void OutputChannelForm::setChannelRange()
         ui.actuatorNeutral->setRange(ui.actuatorMax->value(), ui.actuatorMin->value());
     }
 
-    if (ui.actuatorNeutral->value() == oldMini)
-        ui.actuatorNeutral->setValue(ui.actuatorNeutral->minimum());
-
-//    if (ui.actuatorNeutral->value() == oldMaxi)
-//        ui.actuatorNeutral->setValue(ui.actuatorNeutral->maximum());  // this can be dangerous if it happens to be controlling a motor at the time!
+    // Force a full slider update
+    updateSlider();
 }
 
 /**
@@ -238,6 +230,9 @@ void OutputChannelForm::reverseChannel()
     int temp = ui.actuatorMax->value();
     ui.actuatorMax->setValue(ui.actuatorMin->value());
     ui.actuatorMin->setValue(temp);
+
+    // Force slider update
+    setChannelRange();
 }
 
 
@@ -247,7 +242,7 @@ void OutputChannelForm::reverseChannel()
 /**
  * @brief OutputChannelForm::updateSlider
  */
-void OutputChannelForm::updateSlider(int)
+void OutputChannelForm::updateSlider()
 {
     // Invert the slider
     if(ui.actuatorMin->value() > ui.actuatorMax->value()) {

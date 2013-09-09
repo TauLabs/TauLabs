@@ -66,7 +66,7 @@ private:
 private slots:
     void linkToggled(bool state);
     void reverseChannel();
-    void updateSlider(int);
+    void updateSlider();
     void sendChannelTest(int value);
     void setChannelRange();
     void notifyFormChanged();
