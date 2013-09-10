@@ -199,7 +199,6 @@ static void go_stopped(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 static void go_starting(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn->len <= 255);	//FIXME: implement this using TCR
 
@@ -219,7 +218,6 @@ static void go_starting(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 static void go_write_byte(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
 
 	I2C_SendData(i2c_adapter->cfg->regs, *(i2c_adapter->active_byte));
@@ -232,7 +230,6 @@ static void go_write_byte(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 static void go_read_byte(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
 
 	*(i2c_adapter->active_byte) = I2C_ReceiveData(i2c_adapter->cfg->regs);
@@ -569,9 +566,8 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 
 	PIOS_DEBUG_Assert(i2c_adapter->curr_state == I2C_STATE_STOPPED);
 
-	i2c_adapter->first_txn = &txn_list[0];
 	i2c_adapter->last_txn = &txn_list[num_txns - 1];
-	i2c_adapter->active_txn = i2c_adapter->first_txn;
+	i2c_adapter->active_txn = &txn_list[0];
 
 	/* Make sure the done/ready semaphore is consumed before we start */
 	semaphore_success &= (PIOS_Semaphore_Take(i2c_adapter->sem_ready, i2c_adapter->cfg->transfer_timeout_ms) == true);
@@ -618,9 +614,8 @@ int32_t PIOS_I2C_Transfer_Callback(uint32_t i2c_id, const struct pios_i2c_txn tx
 
 	PIOS_DEBUG_Assert(i2c_adapter->curr_state == I2C_STATE_STOPPED);
 
-	i2c_adapter->first_txn = &txn_list[0];
 	i2c_adapter->last_txn = &txn_list[num_txns - 1];
-	i2c_adapter->active_txn = i2c_adapter->first_txn;
+	i2c_adapter->active_txn = &txn_list[0];
 	i2c_adapter->callback = callback;
 	i2c_adapter->bus_error = false;
 

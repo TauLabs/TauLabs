@@ -128,7 +128,6 @@ struct pios_i2c_adapter {
 	bool nack;
 
 	volatile enum i2c_adapter_state curr_state;
-	const struct pios_i2c_txn *first_txn;
 	const struct pios_i2c_txn *active_txn;
 	const struct pios_i2c_txn *last_txn;
 
@@ -149,7 +148,7 @@ struct pios_i2c_adapter {
 	volatile enum i2c_adapter_state i2c_state_history[I2C_LOG_DEPTH];
 	volatile uint8_t i2c_state_history_pointer;
 
-	volatile uint32_t i2c_state_event_history[I2C_LOG_DEPTH];
+	volatile enum i2c_adapter_event i2c_state_event_history[I2C_LOG_DEPTH];
 	volatile uint8_t i2c_state_event_history_pointer;
 
 	volatile uint32_t i2c_fsm_fault_count;
