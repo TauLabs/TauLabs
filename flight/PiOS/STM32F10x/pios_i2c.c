@@ -43,28 +43,6 @@
 //#define I2C_HALT_ON_ERRORS
 #define MAX_I2C_RETRY_COUNT 10
 
-enum i2c_adapter_event {
-	I2C_EVENT_BUS_ERROR,
-	I2C_EVENT_START,
-	I2C_EVENT_STARTED_MORE_TXN_READ,
-	I2C_EVENT_STARTED_MORE_TXN_WRITE,
-	I2C_EVENT_STARTED_LAST_TXN_READ,
-	I2C_EVENT_STARTED_LAST_TXN_WRITE,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_0,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_1,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_2,
-	I2C_EVENT_ADDR_SENT_LEN_GT_2,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_0,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_1,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_2,
-	I2C_EVENT_TRANSFER_DONE_LEN_GT_2,
-	I2C_EVENT_NACK,
-	I2C_EVENT_STOPPED,
-	I2C_EVENT_AUTO,		/* FIXME: remove this */
-
-	I2C_EVENT_NUM_EVENTS	/* Must be last */
-};
-
 static void go_fsm_fault(struct pios_i2c_adapter *i2c_adapter);
 static void go_bus_error(struct pios_i2c_adapter *i2c_adapter);
 static void go_stopping(struct pios_i2c_adapter *i2c_adapter);

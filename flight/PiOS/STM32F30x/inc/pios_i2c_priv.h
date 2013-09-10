@@ -81,25 +81,39 @@ enum i2c_adapter_state {
 	I2C_STATE_NUM_STATES	/* Must be last */
 };
 
+enum i2c_adapter_event {
+	I2C_EVENT_START,
+	I2C_EVENT_RECEIVER_BUFFER_NOT_EMPTY,
+	I2C_EVENT_TRANSMIT_BUFFER_EMPTY,
+	I2C_EVENT_TRANSFER_COMPLETE,
+	I2C_EVENT_STOP,
+	I2C_EVENT_NACK,
+	I2C_EVENT_BUS_ERROR,
+	I2C_EVENT_STOPPED,
+	I2C_EVENT_AUTO,
+
+	I2C_EVENT_NUM_EVENTS	/* Must be last */
+};
+
 enum pios_i2c_adapter_magic {
 	PIOS_I2C_DEV_MAGIC = 0xa9a9b8b8,
 };
 
 #if defined(PIOS_I2C_DIAGNOSTICS)
-struct pios_i2c_fault_history {
-	enum pios_i2c_error_type type;
-	uint32_t evirq[I2C_LOG_DEPTH];
-	uint32_t erirq[I2C_LOG_DEPTH];
-	uint8_t event[I2C_LOG_DEPTH];
-	uint8_t state[I2C_LOG_DEPTH];
-};
-
 #define I2C_LOG_DEPTH 20
 
 enum pios_i2c_error_type {
 	PIOS_I2C_ERROR_EVENT,
 	PIOS_I2C_ERROR_FSM,
 	PIOS_I2C_ERROR_INTERRUPT
+};
+
+struct pios_i2c_fault_history {
+	enum pios_i2c_error_type type;
+	uint32_t evirq[I2C_LOG_DEPTH];
+	uint32_t erirq[I2C_LOG_DEPTH];
+	enum i2c_adapter_event event[I2C_LOG_DEPTH];
+	enum i2c_adapter_state state[I2C_LOG_DEPTH];
 };
 #endif
 

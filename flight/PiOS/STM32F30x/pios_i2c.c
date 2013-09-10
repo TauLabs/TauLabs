@@ -47,20 +47,6 @@
 
 //#define I2C_HALT_ON_ERRORS
 
-enum i2c_adapter_event {
-	I2C_EVENT_START,
-	I2C_EVENT_RECEIVER_BUFFER_NOT_EMPTY,
-	I2C_EVENT_TRANSMIT_BUFFER_EMPTY,
-	I2C_EVENT_TRANSFER_COMPLETE,
-	I2C_EVENT_STOP,
-	I2C_EVENT_NACK,
-	I2C_EVENT_BUS_ERROR,
-	I2C_EVENT_STOPPED,
-	I2C_EVENT_AUTO,		/* FIXME: remove this */
-
-	I2C_EVENT_NUM_EVENTS	/* Must be last */
-};
-
 static void go_fsm_fault(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 static void go_bus_error(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 static void go_stopped(struct pios_i2c_adapter *i2c_adapter, bool *woken);

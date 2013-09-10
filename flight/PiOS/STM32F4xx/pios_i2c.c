@@ -36,27 +36,6 @@
 
 #include <pios_i2c_priv.h>
 
-enum i2c_adapter_event {
-	I2C_EVENT_BUS_ERROR,
-	I2C_EVENT_START,
-	I2C_EVENT_R_MORE_TXN_STARTED,
-	I2C_EVENT_W_MORE_TXN_STARTED,
-	I2C_EVENT_R_LAST_TXN_STARTED,
-	I2C_EVENT_W_LAST_TXN_STARTED,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_0,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_1,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_2,
-	I2C_EVENT_ADDR_SENT_LEN_GT_2,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_0,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_1,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_2,
-	I2C_EVENT_TRANSFER_DONE_LEN_GT_2,
-	I2C_EVENT_NACK,
-	I2C_EVENT_STOPPED,
-	I2C_EVENT_AUTO,
-	I2C_EVENT_NUM_EVENTS	/* Must be last */
-};
-
 static void i2c_adapter_inject_event(struct pios_i2c_adapter *i2c_adapter, enum i2c_adapter_event event, bool *woken);
 static void i2c_adapter_fsm_init(struct pios_i2c_adapter *i2c_adapter);
 static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter);
