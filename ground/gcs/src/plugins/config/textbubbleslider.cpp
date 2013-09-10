@@ -124,9 +124,8 @@ void TextBubbleSlider::setMaxPixelWidth()
     }
 
     // Calculate maximum possible pixel width for string.
-    QFontMetrics fontMetrics(font);
-    maximumFontWidth = fontMetrics.width(QString("%1").arg(maximumWidthString));
-    maximumFontHeight = fontMetrics.height();
+    maximumFontWidth = fontMetrics->width(QString("%1").arg(maximumWidthString));
+    maximumFontHeight = fontMetrics->height();
 
     // Override stylesheet slider handle width
     slideHandleWidth = maximumFontWidth + 6;
