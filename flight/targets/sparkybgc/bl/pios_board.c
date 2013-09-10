@@ -2,11 +2,10 @@
  ******************************************************************************
  * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @addtogroup RevoMiniBL RevoMini bootloader
+ * @addtogroup SparkyBGCBL Tau Labs Sparky BGC bootloader
  * @{
  *
  * @file       pios_board.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Board specific initialization for the bootloader
  * @see        The GNU Public License (GPL) Version 3
@@ -46,26 +45,13 @@ void PIOS_Board_Init()
 {
 	/* Delay system */
 	PIOS_DELAY_Init();
-	
-	const struct pios_board_info * bdinfo = &pios_board_info_blob;
-	
+
 #if defined(PIOS_INCLUDE_LED)
-	const struct pios_led_cfg * led_cfg = PIOS_BOARD_HW_DEFS_GetLedCfg(bdinfo->board_rev);
-	PIOS_Assert(led_cfg);
-	PIOS_LED_Init(led_cfg);
+	PIOS_LED_Init(&pios_led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
-
-
-#if defined(PIOS_INCLUDE_SPI)
-	/* Set up the SPI interface to the flash and rfm22b */
-	if (PIOS_SPI_Init(&pios_spi_telem_flash_id, &pios_spi_telem_flash_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-#endif	/* PIOS_INCLUDE_SPI */
 
 #if defined(PIOS_INCLUDE_FLASH)
 	/* Inititialize all flash drivers */
-	PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_telem_flash_id, 1, &flash_m25p_cfg);
 	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
 
 	/* Register the partition table */
@@ -80,7 +66,7 @@ void PIOS_Board_Init()
 	PIOS_USB_DESC_HID_ONLY_Init();
 
 	uintptr_t pios_usb_id;
-	PIOS_USB_Init(&pios_usb_id, PIOS_BOARD_HW_DEFS_GetUsbCfg(bdinfo->board_rev));
+	PIOS_USB_Init(&pios_usb_id, &pios_usb_main_cfg);
 
 #if defined(PIOS_INCLUDE_USB_HID) && defined(PIOS_INCLUDE_COM_MSG)
 	uintptr_t pios_usb_hid_id;
@@ -92,7 +78,10 @@ void PIOS_Board_Init()
 	}
 #endif	/* PIOS_INCLUDE_USB_HID && PIOS_INCLUDE_COM_MSG */
 
-	PIOS_USBHOOK_Activate();
-
 #endif	/* PIOS_INCLUDE_USB */
 }
+
+/**
+ * @}
+ * @}
+ */

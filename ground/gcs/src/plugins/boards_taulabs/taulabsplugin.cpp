@@ -28,6 +28,7 @@
 #include "taulabsplugin.h"
 #include "freedom.h"
 #include "sparky.h"
+#include "sparkybgc.h"
 #include <QtPlugin>
 
 
@@ -56,6 +57,9 @@ void TauLabsPlugin::extensionsInitialized()
      */
     Sparky* sparky = new Sparky();
     addAutoReleasedObject(sparky);
+
+    SparkyBGC* sparkybgc = new SparkyBGC();
+    addAutoReleasedObject(sparkybgc);
 
     Freedom* freedom = new Freedom();
     addAutoReleasedObject(freedom);

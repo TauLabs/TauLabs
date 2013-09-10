@@ -39,6 +39,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/attitudesimulated.h \
     $$UAVOBJECT_SYNTHETICS/baroaltitude.h \
     $$UAVOBJECT_SYNTHETICS/baroairspeed.h \
+    $$UAVOBJECT_SYNTHETICS/brushlessgimbalsettings.h \
     $$UAVOBJECT_SYNTHETICS/cameradesired.h \
     $$UAVOBJECT_SYNTHETICS/camerastabsettings.h \
     $$UAVOBJECT_SYNTHETICS/faultsettings.h \
@@ -140,6 +141,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/attitudesimulated.cpp \
     $$UAVOBJECT_SYNTHETICS/baroaltitude.cpp \
     $$UAVOBJECT_SYNTHETICS/baroairspeed.cpp \
+    $$UAVOBJECT_SYNTHETICS/brushlessgimbalsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/cameradesired.cpp \
     $$UAVOBJECT_SYNTHETICS/camerastabsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/faultsettings.cpp \
