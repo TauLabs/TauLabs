@@ -10,12 +10,14 @@ OTHER_FILES += TauLabs.pluginspec \
 HEADERS += \
     taulabsplugin.h \
     freedom.h \
-    sparky.h
+    sparky.h \
+    sparkybgc.h
 
 SOURCES += \
     taulabsplugin.cpp \
     freedom.cpp \
-    sparky.cpp
+    sparky.cpp \
+    sparkybgc.cpp
 
 RESOURCES += \
     taulabs.qrc
