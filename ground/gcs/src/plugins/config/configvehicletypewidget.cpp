@@ -126,9 +126,13 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
         channelNames << QString("Channel%1").arg(i+1);
     }
 
-    QStringList airframeTypes;
-    airframeTypes << "Fixed Wing" << "Multirotor" << "Helicopter" << "Ground" << "Custom";
-    m_aircraft->aircraftType->addItems(airframeTypes);
+    // Set up vehicle type combobox
+    m_aircraft->aircraftType->addItem("Fixed Wing", AIRFRAME_FIXED_WING);
+    m_aircraft->aircraftType->addItem("Multirotor", AIRFRAME_MULTIROTOR);
+    m_aircraft->aircraftType->addItem("Helicopter", AIRFRAME_HELICOPTER);
+    m_aircraft->aircraftType->addItem("Ground", AIRFRAME_GROUND);
+    m_aircraft->aircraftType->addItem("Custom", AIRFRAME_CUSTOM);
+
     m_aircraft->aircraftType->setCurrentIndex(1);    //Set default vehicle to MultiRotor
     m_aircraft->airframesWidget->setCurrentIndex(1); // Force the tab index to match
 
@@ -336,12 +340,21 @@ void ConfigVehicleTypeWidget::switchAirframeType(int index)
     m_aircraft->airframesWidget->setCurrentIndex(index);
     m_aircraft->quadShape->setSceneRect(quad->boundingRect());
     m_aircraft->quadShape->fitInView(quad, Qt::KeepAspectRatio);
-    if (m_aircraft->aircraftType->findText("Custom")) {
+    switch(m_aircraft->aircraftType->itemData(index).toInt()) {
+    case AIRFRAME_FIXED_WING:
+        m_aircraft->bnServoTrim->setEnabled(true);
+        break;
+    case AIRFRAME_CUSTOM:
         m_aircraft->customMixerTable->resizeColumnsToContents();
         for (int i=0;i<(int)(VehicleConfig::CHANNEL_NUMELEM);i++) {
             m_aircraft->customMixerTable->setColumnWidth(i,(m_aircraft->customMixerTable->width()-
                                                             m_aircraft->customMixerTable->verticalHeader()->width())/10);
         }
+    case AIRFRAME_MULTIROTOR:
+    case AIRFRAME_HELICOPTER:
+    case AIRFRAME_GROUND:
+        m_aircraft->bnServoTrim->setEnabled(false);
+        break;
     }
 }
 

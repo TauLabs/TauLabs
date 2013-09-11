@@ -49,6 +49,14 @@ class Ui_Widget;
 class ConfigVehicleTypeWidget: public ConfigTaskWidget
 {
     Q_OBJECT
+private:
+    enum {
+        AIRFRAME_FIXED_WING,
+        AIRFRAME_MULTIROTOR,
+        AIRFRAME_HELICOPTER,
+        AIRFRAME_GROUND,
+        AIRFRAME_CUSTOM
+    };
 
 public:
     ConfigVehicleTypeWidget(QWidget *parent = 0);
