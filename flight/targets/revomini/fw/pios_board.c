@@ -226,7 +226,8 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 }
 #endif	/* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
 
-static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm_cfg, const struct pios_dsm_cfg *pios_dsm_cfg, 
+#ifdef PIOS_INCLUDE_DSM
+static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm_cfg, const struct pios_dsm_cfg *pios_dsm_cfg,
 		const struct pios_com_driver *pios_usart_com_driver,enum pios_dsm_proto *proto, 
 		ManualControlSettingsChannelGroupsOptions channelgroup,uint8_t *bind)
 {
@@ -247,6 +248,32 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 	}
 	pios_rcvr_group_map[channelgroup] = pios_dsm_rcvr_id;
 }
+
+#endif
+
+#ifdef PIOS_INCLUDE_HSUM
+static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hsum_cfg,
+		const struct pios_com_driver *pios_usart_com_driver,enum pios_hsum_proto *proto,
+		ManualControlSettingsChannelGroupsOptions channelgroup)
+{
+	uintptr_t pios_usart_hsum_id;
+	if (PIOS_USART_Init(&pios_usart_hsum_id, pios_usart_hsum_cfg)) {
+		PIOS_Assert(0);
+	}
+	
+	uintptr_t pios_hsum_id;
+	if (PIOS_HSUM_Init(&pios_hsum_id, pios_usart_com_driver,
+			   pios_usart_hsum_id, *proto)) {
+		PIOS_Assert(0);
+	}
+	
+	uintptr_t pios_hsum_rcvr_id;
+	if (PIOS_RCVR_Init(&pios_hsum_rcvr_id, &pios_hsum_rcvr_driver, pios_hsum_id)) {
+		PIOS_Assert(0);
+	}
+	pios_rcvr_group_map[channelgroup] = pios_hsum_rcvr_id;
+}
+#endif
 
 /**
  * PIOS_Board_Init()
@@ -512,6 +539,7 @@ void PIOS_Board_Init(void) {
 		case HWREVOMINI_MAINPORT_DSM2:
 		case HWREVOMINI_MAINPORT_DSMX10BIT:
 		case HWREVOMINI_MAINPORT_DSMX11BIT:
+#if defined(PIOS_INCLUDE_DSM)
 			{
 				enum pios_dsm_proto proto;
 				switch (hw_mainport) {
@@ -533,9 +561,30 @@ void PIOS_Board_Init(void) {
 				hw_DSMxBind = 0;
 
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
-				PIOS_Board_configure_dsm(&pios_usart_dsm_main_cfg, &pios_dsm_main_cfg, 
+				PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_main_cfg, &pios_dsm_main_cfg,
 							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
 			}
+#endif	/* PIOS_INCLUDE_DSM */
+			break;
+		case HWREVOMINI_MAINPORT_HOTTSUMD:
+		case HWREVOMINI_MAINPORT_HOTTSUMH:
+#if defined(PIOS_INCLUDE_HSUM)
+			{
+				enum pios_hsum_proto proto;
+				switch (hw_mainport) {
+				case HWREVOMINI_MAINPORT_HOTTSUMD:
+					proto = PIOS_HSUM_PROTO_SUMD;
+					break;
+				case HWREVOMINI_MAINPORT_HOTTSUMH:
+					proto = PIOS_HSUM_PROTO_SUMH;
+					break;
+				default:
+					PIOS_Assert(0);
+					break;
+				}
+				PIOS_Board_configure_hsum(&pios_usart_dsm_hsum_main_cfg, &pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
+			}
+#endif	/* PIOS_INCLUDE_HSUM */
 			break;
 		case HWREVOMINI_MAINPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
@@ -589,6 +638,7 @@ void PIOS_Board_Init(void) {
 		case HWREVOMINI_FLEXIPORT_DSM2:
 		case HWREVOMINI_FLEXIPORT_DSMX10BIT:
 		case HWREVOMINI_FLEXIPORT_DSMX11BIT:
+#if defined(PIOS_INCLUDE_DSM)
 			{
 				enum pios_dsm_proto proto;
 				switch (hw_flexiport) {
@@ -606,9 +656,31 @@ void PIOS_Board_Init(void) {
 					break;
 				}
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
-				PIOS_Board_configure_dsm(&pios_usart_dsm_flexi_cfg, &pios_dsm_flexi_cfg, 
+				PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_flexi_cfg, &pios_dsm_flexi_cfg,
 							&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
 			}
+			break;
+#endif	/* PIOS_INCLUDE_DSM */
+			break;
+		case HWREVOMINI_FLEXIPORT_HOTTSUMD:
+		case HWREVOMINI_FLEXIPORT_HOTTSUMH:
+#if defined(PIOS_INCLUDE_HSUM)
+			{
+				enum pios_hsum_proto proto;
+				switch (hw_flexiport) {
+				case HWREVOMINI_FLEXIPORT_HOTTSUMD:
+					proto = PIOS_HSUM_PROTO_SUMD;
+					break;
+				case HWREVOMINI_FLEXIPORT_HOTTSUMH:
+					proto = PIOS_HSUM_PROTO_SUMH;
+					break;
+				default:
+					PIOS_Assert(0);
+					break;
+				}
+				PIOS_Board_configure_hsum(&pios_usart_dsm_hsum_flexi_cfg, &pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
+			}
+#endif	/* PIOS_INCLUDE_HSUM */
 			break;
 		case HWREVOMINI_FLEXIPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)

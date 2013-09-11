@@ -664,7 +664,6 @@ const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32
 #include <pios_usart_priv.h>
 
 #ifdef PIOS_INCLUDE_COM_TELEM
-
 /*
  * MAIN USART
  */
@@ -709,66 +708,6 @@ static const struct pios_usart_cfg pios_usart_flexi_cfg = {
 	},
 };
 #endif /* PIOS_INCLUDE_COM_TELEM */
-
-#ifdef PIOS_INCLUDE_DSM
-
-#include "pios_dsm_priv.h"
-static const struct pios_usart_cfg pios_usart_dsm_flexi_cfg = {
-	.regs = USART1,
-	.remap = GPIO_AF_USART1,
-	.init = {
-		.USART_BaudRate            = 115200,
-		.USART_WordLength          = USART_WordLength_8b,
-		.USART_Parity              = USART_Parity_No,
-		.USART_StopBits            = USART_StopBits_1,
-		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
-		.USART_Mode                = USART_Mode_Rx,
-	},
-	.irq = {
-		.init = {
-			.NVIC_IRQChannel = USART1_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
-			.NVIC_IRQChannelSubPriority        = 0,
-			.NVIC_IRQChannelCmd                = ENABLE,
-		},
-	},
-	.rx = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_7,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_AF,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_UP
-		},
-	},
-	.tx = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_6,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_AF,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_UP
-		},
-	},
-};
-
-
-static const struct pios_dsm_cfg pios_dsm_flexi_cfg = {
-	.bind = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_7,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-
-#endif	/* PIOS_INCLUDE_DSM */
 
 #ifdef PIOS_INCLUDE_COM_FLEXI
 /*
@@ -818,10 +757,100 @@ static const struct pios_usart_cfg pios_usart_main_cfg = {
 
 #endif /* PIOS_INCLUDE_COM_FLEXI */
 
-#ifdef PIOS_INCLUDE_DSM
+#if defined(PIOS_INCLUDE_DSM)
+/*
+ * Spektrum/JR DSM USART
+ */
+#include <pios_dsm_priv.h>
 
-#include "pios_dsm_priv.h"
-static const struct pios_usart_cfg pios_usart_dsm_main_cfg = {
+static const struct pios_dsm_cfg pios_dsm_flexi_cfg = {
+	.bind = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_7,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+static const struct pios_dsm_cfg pios_dsm_main_cfg = {
+	.bind = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_3,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+	},
+};
+
+static const struct pios_dsm_cfg pios_dsm_rcvr_cfg = {
+	.bind = {
+		.gpio = NULL,
+	},
+};
+
+#endif	/* PIOS_INCLUDE_DSM */
+
+#if defined(PIOS_INCLUDE_HSUM)
+/*
+ * Graupner HoTT SUMD/SUMH USART
+ */
+#include <pios_hsum_priv.h>
+
+#endif	/* PIOS_INCLUDE_HSUM */
+
+#if (defined(PIOS_INCLUDE_DSM) || defined(PIOS_INCLUDE_HSUM))
+/*
+ * Spektrum/JR DSM or Graupner HoTT SUMD/SUMH USART
+ */
+static const struct pios_usart_cfg pios_usart_dsm_hsum_flexi_cfg = {
+	.regs = USART1,
+	.remap = GPIO_AF_USART1,
+	.init = {
+		.USART_BaudRate            = 115200,
+		.USART_WordLength          = USART_WordLength_8b,
+		.USART_Parity              = USART_Parity_No,
+		.USART_StopBits            = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode                = USART_Mode_Rx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = USART1_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		},
+	},
+	.rx = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_7,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+	},
+	.tx = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_6,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+	},
+};
+
+static const struct pios_usart_cfg pios_usart_dsm_hsum_main_cfg = {
 	.regs = USART2,
 	.remap = GPIO_AF_USART2,
 	.init = {
@@ -862,21 +891,7 @@ static const struct pios_usart_cfg pios_usart_dsm_main_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_dsm_main_cfg = {
-	.bind = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_3,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_AF,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_UP
-		},
-	},
-};
-
-#include "pios_dsm_priv.h"
-static const struct pios_usart_cfg pios_usart_dsm_rcvr_cfg = {
+static const struct pios_usart_cfg pios_usart_dsm_hsum_rcvr_cfg = {
 	.regs = USART1,
 	.remap = GPIO_AF_USART1,
 	.init = {
@@ -910,13 +925,7 @@ static const struct pios_usart_cfg pios_usart_dsm_rcvr_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_dsm_rcvr_cfg = {
-	.bind = {
-		.gpio = NULL,
-	},
-};
-
-#endif	/* PIOS_INCLUDE_DSM */
+#endif	/* PIOS_INCLUDE_DSM || PIOS_INCLUDE_HSUM */
 
 #include <pios_sbus_priv.h>
 #if defined(PIOS_INCLUDE_SBUS)
