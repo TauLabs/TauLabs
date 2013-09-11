@@ -46,7 +46,7 @@ ConfigFixedWingWidget::ConfigFixedWingWidget(Ui_AircraftWidget *aircraft, QWidge
 {
     m_aircraft = aircraft;
 
-    connect(m_aircraft->bnLevelTrim, SIGNAL(clicked()), this, SLOT(on_bnLevelTrim_clicked()));
+    connect(m_aircraft->bnLevelTrim_FW, SIGNAL(clicked()), this, SLOT(on_bnLevelTrim_clicked()));
     connect(m_aircraft->bnServoTrim, SIGNAL(clicked()), this, SLOT(on_bnServoTrim_clicked()));
 }
 

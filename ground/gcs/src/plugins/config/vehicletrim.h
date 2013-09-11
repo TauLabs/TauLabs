@@ -60,6 +60,8 @@ public:
     };
 
     autopilotLevelBiasMessages setFixedWingTrimAutopilotBias();
+    autopilotLevelBiasMessages setMultiRotorTrimAutopilotBias();
+    autopilotLevelBiasMessages trimAutopilotBias();
     actuatorTrimMessages setFixedWingTrimActuators();
 
 private:
