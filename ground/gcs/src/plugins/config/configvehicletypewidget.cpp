@@ -233,8 +233,8 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     connect(m_aircraft->MultirotorRevMixercheckBox, SIGNAL(clicked(bool)), this, SLOT(reverseMultirotorMotor()));
 
     // Connect actuator and level bias buttons to slots
-    connect(m_aircraft->bnLevelTrim, SIGNAL(clicked()), this, SLOT(on_bnLevelTrim_clicked()));
-    connect(m_aircraft->bnServoTrim, SIGNAL(clicked()), this, SLOT(on_bnServoTrim_clicked()));
+    connect(m_aircraft->bnLevelTrim, SIGNAL(clicked()), this, SLOT(bnLevelTrim_clicked()));
+    connect(m_aircraft->bnServoTrim, SIGNAL(clicked()), this, SLOT(bnServoTrim_clicked()));
 
     // Connect the help pushbutton
     connect(m_aircraft->airframeHelp, SIGNAL(clicked()), this, SLOT(openHelp()));
@@ -874,7 +874,7 @@ void ConfigVehicleTypeWidget::reverseMultirotorMotor(){
  * @brief ConfigVehicleTypeWidget::on_bnLevelTrim_clicked Attempts to set autopilot level bias
  * values, and processes the success message
  */
-void ConfigVehicleTypeWidget::on_bnLevelTrim_clicked()
+void ConfigVehicleTypeWidget::bnLevelTrim_clicked()
 {
     // Call bias set function
     VehicleTrim vehicleTrim;
@@ -923,7 +923,7 @@ void ConfigVehicleTypeWidget::on_bnLevelTrim_clicked()
  * @brief ConfigVehicleTypeWidget::on_bnServoTrim_clicked Attempts to set actuator trim
  * values, and processes the success message
  */
-void ConfigVehicleTypeWidget::on_bnServoTrim_clicked()
+void ConfigVehicleTypeWidget::bnServoTrim_clicked()
 {
     // Call servo trim function
     VehicleTrim vehicleTrim;

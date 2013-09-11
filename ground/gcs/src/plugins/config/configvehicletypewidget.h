@@ -107,8 +107,8 @@ private slots:
     void openHelp();
     void reverseMultirotorMotor();
 
-    void on_bnLevelTrim_clicked();
-    void on_bnServoTrim_clicked();
+    void bnLevelTrim_clicked();
+    void bnServoTrim_clicked();
 
 protected:
     void showEvent(QShowEvent *event);
