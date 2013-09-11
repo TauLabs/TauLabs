@@ -234,11 +234,6 @@ void TextBubbleSlider::paintEvent(QPaintEvent *paintEvent)
     int textWidth = fontMetrics->width(neutralString);
     textPositionX = valuePosition; // + maximumFontHeight - textWidth;
 
-    // Create painter and set font
-    QPainter painter(this);
-    painter.setFont(font);
-
-
     if (ghostValue < 0) {
         // Pass paint event on to QSlider
         QSlider::paintEvent(paintEvent);
@@ -256,6 +251,9 @@ void TextBubbleSlider::paintEvent(QPaintEvent *paintEvent)
         pointerTriangle << QPointF(textPositionX - triangleWidth/2.0 + maximumFontWidth/2.0, textPositionY + maximumFontHeight) <<
                            QPointF(textPositionX + triangleWidth/2.0 + maximumFontWidth/2.0, textPositionY + maximumFontHeight) <<
                            QPointF(textPositionX + maximumFontWidth/2.0, textPositionY + maximumFontHeight + triangleHeight);
+
+        // Create painter and set pen and brush
+        QPainter painter(this);
         painter.setPen(QPen(QColor(0,0,0)));
         painter.setBrush(QBrush(QColor(0,0,0)));
 
@@ -263,6 +261,10 @@ void TextBubbleSlider::paintEvent(QPaintEvent *paintEvent)
         painter.drawPolygon(pointerTriangle);
 
     }
+
+    // Create painter and set font
+    QPainter painter(this);
+    painter.setFont(font);
 
     /* Paint numbers on top of handle */
     painter.drawText(QRectF(textPositionX, textPositionY, maximumFontWidth, maximumFontHeight),
