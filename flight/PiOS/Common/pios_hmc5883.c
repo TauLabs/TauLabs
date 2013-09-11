@@ -274,13 +274,6 @@ static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 	uint8_t addr_read = PIOS_HMC5883_DATAOUT_XMSB_REG;
 	uint8_t buffer_read[6];
 
-	// PIOS_HMC5883_MODE_CONTINUOUS: This should not be necessary but for some reason it is coming out of continuous conversion mode
-	// PIOS_HMC5883_MODE_SINGLE: This triggers the next measurement
-	uint8_t buffer_write[2] = {
-		PIOS_HMC5883_MODE_REG,
-		dev->cfg->Mode
-	};
-
 	const struct pios_i2c_txn txn_list[] = {
 		{
 			.info = __func__,
@@ -295,13 +288,6 @@ static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 			.rw = PIOS_I2C_TXN_READ,
 			.len = sizeof(buffer_read),
 			.buf = buffer_read,
-		},
-		{
-			.info = __func__,
-			.addr = PIOS_HMC5883_I2C_ADDR,
-			.rw = PIOS_I2C_TXN_WRITE,
-			.len = sizeof(buffer_write),
-			.buf = buffer_write,
 		},
 	};
 
@@ -358,6 +344,10 @@ static int32_t PIOS_HMC5883_ReadMag(struct pios_sensor_mag_data *mag_data)
 			break;
 	}
 	
+	// PIOS_HMC5883_MODE_CONTINUOUS: This should not be necessary but for some reason it is coming out of continuous conversion mode
+	// PIOS_HMC5883_MODE_SINGLE: This triggers the next measurement
+	PIOS_HMC5883_Write(PIOS_HMC5883_MODE_REG, dev->cfg->Mode);
+
 	return 0;
 }
 
