@@ -229,6 +229,12 @@ extern uint32_t pios_packet_handler;
 #define PIOS_DSM_NUM_INPUTS			12
 
 //-------------------------
+// Receiver HSUM input
+//-------------------------
+#define PIOS_HSUM_MAX_DEVS			2
+#define PIOS_HSUM_NUM_INPUTS			32
+
+//-------------------------
 // Servo outputs
 //-------------------------
 #define PIOS_SERVO_UPDATE_HZ                    50
