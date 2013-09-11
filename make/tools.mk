@@ -471,7 +471,7 @@ astyle_clean:
 .PHONY: libkml_install
 libkml_install: | $(DL_DIR) $(TOOLS_DIR)
 libkml_install: LIBKML_URL := https://github.com/kubark42/libkml.git
-libkml_install: LIBKML_REV  := dac5550be5180111c8db7be6b73c83831e8f59e1
+libkml_install: LIBKML_REV  := e4e1c525363b8b1bbe5d6683827a07e7c252b815
 libkml_install: LIBKML_INSTALL_DIR := $(TOOLS_DIR)/libkml
 libkml_install: LIBKML_BUILD_DIR := $(DL_DIR)/libkml-build
 libkml_install: libkml_clean
