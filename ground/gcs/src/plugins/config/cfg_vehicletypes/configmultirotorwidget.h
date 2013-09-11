@@ -78,8 +78,6 @@ private slots:
     void refreshAirframeWidgetsValues(SystemSettings::AirframeTypeOptions frameType);
     virtual SystemSettings::AirframeTypeOptions updateConfigObjectsFromWidgets();
     virtual bool throwConfigError(int numMotors);
-    void on_bnLevelTrim_clicked();
-
 
 protected:
 

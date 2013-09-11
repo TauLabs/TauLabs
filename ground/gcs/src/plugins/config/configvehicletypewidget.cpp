@@ -41,6 +41,7 @@
 #include "systemsettings.h"
 #include "mixersettings.h"
 #include "actuatorsettings.h"
+#include "vehicletrim.h"
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/generalsettings.h>
 
@@ -226,6 +227,10 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
 
     //Connect the multirotor motor reverse checkbox
     connect(m_aircraft->MultirotorRevMixercheckBox, SIGNAL(clicked(bool)), this, SLOT(reverseMultirotorMotor()));
+
+    // Connect actuator and level bias buttons to slots
+    connect(m_aircraft->bnLevelTrim, SIGNAL(clicked()), this, SLOT(on_bnLevelTrim_clicked()));
+    connect(m_aircraft->bnServoTrim, SIGNAL(clicked()), this, SLOT(on_bnServoTrim_clicked()));
 
     // Connect the help pushbutton
     connect(m_aircraft->airframeHelp, SIGNAL(clicked()), this, SLOT(openHelp()));
@@ -853,7 +858,93 @@ void ConfigVehicleTypeWidget::reverseMultirotorMotor(){
 
 
 /**
- WHAT DOES THIS DO???
+ * @brief ConfigVehicleTypeWidget::on_bnLevelTrim_clicked Attempts to set autopilot level bias
+ * values, and processes the success message
+ */
+void ConfigVehicleTypeWidget::on_bnLevelTrim_clicked()
+{
+    // Call bias set function
+    VehicleTrim vehicleTrim;
+    VehicleTrim::autopilotLevelBiasMessages ret;
+    ret = vehicleTrim.setAutopilotBias();
+
+    // Process return state
+    switch (ret){
+    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_MISSING_RECEIVER:
+    {
+        QMessageBox msgBox(QMessageBox::Warning, tr("No receiver detected"),
+                           "Transmitter and receiver must be powered on.", 0, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_ARMED_STATE:
+    {
+        QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle armed"),
+                           "The autopilot must be disarmed first.", 0, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_FLIGHTMODE:
+    {
+        QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle not in Stabilized mode"),
+                           "The autopilot must be in Stabilized1, Stabilized2, or Stabilized3 mode.", 0, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_STABILIZATIONMODE:
+    {
+        QMessageBox msgBox(QMessageBox::Warning, tr("Incorrect roll and pitch stabilization modes."),
+                           "Both roll and pitch must be in attitude stabilization mode.", 0, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::AUTOPILOT_LEVEL_SUCCESS:
+        // Set tab as dirty (i.e. having unsaved changes).
+        setDirty(true);
+        break;
+    }
+}
+
+
+/**
+ * @brief ConfigVehicleTypeWidget::on_bnServoTrim_clicked Attempts to set actuator trim
+ * values, and processes the success message
+ */
+void ConfigVehicleTypeWidget::on_bnServoTrim_clicked()
+{
+    // Call servo trim function
+    VehicleTrim vehicleTrim;
+    VehicleTrim::actuatorTrimMessages ret;
+    ret = vehicleTrim.setTrimActuators();
+
+    // Process return state
+    switch (ret){
+    case VehicleTrim::ACTUATOR_TRIM_FAILED_DUE_TO_MISSING_RECEIVER:
+    {
+        QMessageBox msgBox(QMessageBox::Warning, tr("No receiver detected"),
+                           "Transmitter and receiver must be powered on.", 0, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::ACTUATOR_TRIM_FAILED_DUE_TO_FLIGHTMODE:
+    {
+        QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle not in manual mode"),
+                           "The autopilot must be in manual flight mode.", 0, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::ACTUATOR_TRIM_SUCCESS:
+        // Set tab as dirty (i.e. having unsaved changes).
+        setDirty(true);
+        break;
+    }
+
+}
+
+
+/**
+ * @brief ConfigVehicleTypeWidget::addToDirtyMonitor Adds the UI widgets to a list of widgets
+ * monitored for any changes
  */
 void ConfigVehicleTypeWidget::addToDirtyMonitor()
 {

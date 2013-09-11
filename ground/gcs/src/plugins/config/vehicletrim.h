@@ -59,10 +59,8 @@ public:
         AUTOPILOT_LEVEL_FAILED_DUE_TO_STABILIZATIONMODE
     };
 
-    autopilotLevelBiasMessages setFixedWingTrimAutopilotBias();
-    autopilotLevelBiasMessages setMultiRotorTrimAutopilotBias();
-    autopilotLevelBiasMessages trimAutopilotBias();
-    actuatorTrimMessages setFixedWingTrimActuators();
+    autopilotLevelBiasMessages setAutopilotBias();
+    actuatorTrimMessages setTrimActuators();
 
 private:
 

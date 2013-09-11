@@ -36,7 +36,6 @@
 #include <QtGui/QWidget>
 #include <QList>
 #include <QItemDelegate>
-#include "vehicletrim.h"
 
 class Ui_Widget;
 
@@ -59,15 +58,12 @@ private:
 
     virtual void ResetActuators(GUIConfigDataUnion* configData);
     static QStringList getChannelDescriptions();
-    VehicleTrim vehicleTrim;
 
 private slots:
     virtual void setupUI(SystemSettings::AirframeTypeOptions airframeType);
     void refreshAirframeWidgetsValues(SystemSettings::AirframeTypeOptions frameType);
     virtual SystemSettings::AirframeTypeOptions updateConfigObjectsFromWidgets();
     virtual bool throwConfigError(SystemSettings::AirframeTypeOptions airframeType);
-    void on_bnLevelTrim_clicked();
-    void on_bnServoTrim_clicked();
 
 };
 

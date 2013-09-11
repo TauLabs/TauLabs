@@ -41,35 +41,11 @@ VehicleTrim::~VehicleTrim()
 
 
 /**
- * @brief VehicleTrim::setFixedWingTrimAutopilotBias This is a convenience function for setting
- * the level bias trim.
+ * @brief VehicleTrim::setFixedWingTrimAutopilotBias Takes the desired roll and pitch,
+ * and sets that as the autopilot level bias.
  * @return success state
  */
-VehicleTrim::autopilotLevelBiasMessages VehicleTrim::setFixedWingTrimAutopilotBias()
-{
-    autopilotLevelBiasMessages ret = trimAutopilotBias();
-    return ret;
-}
-
-
-/**
- * @brief VehicleTrim::setMultiRotorTrimAutopilotBiasThis is a convenience function for setting
- * the level bias trim.
- * @return success state
- */
-VehicleTrim::autopilotLevelBiasMessages VehicleTrim::setMultiRotorTrimAutopilotBias()
-{
-    autopilotLevelBiasMessages ret = trimAutopilotBias();
-    return ret;
-}
-
-
-/**
- * @brief VehicleTrim::setFixedWingTrimAutopilotBias Takes the desired pitch and sets that as the
- * autopilot level bias.
- * @return success state
- */
-VehicleTrim::autopilotLevelBiasMessages VehicleTrim::trimAutopilotBias()
+VehicleTrim::autopilotLevelBiasMessages VehicleTrim::setAutopilotBias()
 {
     SystemAlarms *systemAlarms = SystemAlarms::GetInstance(getObjectManager());
     FlightStatus *flightStatus = FlightStatus::GetInstance(getObjectManager());
@@ -124,7 +100,7 @@ VehicleTrim::autopilotLevelBiasMessages VehicleTrim::trimAutopilotBias()
  * these values as the neutral points.
  * @return success state
  */
-VehicleTrim::actuatorTrimMessages VehicleTrim::setFixedWingTrimActuators()
+VehicleTrim::actuatorTrimMessages VehicleTrim::setTrimActuators()
 {
     SystemAlarms *systemAlarms = SystemAlarms::GetInstance(getObjectManager());
     FlightStatus *flightStatus = FlightStatus::GetInstance(getObjectManager());

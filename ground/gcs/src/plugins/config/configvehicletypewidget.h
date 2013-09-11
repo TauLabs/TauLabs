@@ -99,6 +99,9 @@ private slots:
     void openHelp();
     void reverseMultirotorMotor();
 
+    void on_bnLevelTrim_clicked();
+    void on_bnServoTrim_clicked();
+
 protected:
     void showEvent(QShowEvent *event);
     void resizeEvent(QResizeEvent *event);

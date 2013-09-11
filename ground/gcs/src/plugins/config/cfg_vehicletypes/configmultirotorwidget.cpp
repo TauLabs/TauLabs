@@ -38,7 +38,6 @@
 #include <QMessageBox>
 
 #include "mixersettings.h"
-#include "vehicletrim.h"
 
 const QString ConfigMultiRotorWidget::CHANNELBOXNAME = QString("multiMotorChannelBox");
 
@@ -49,9 +48,6 @@ const QString ConfigMultiRotorWidget::CHANNELBOXNAME = QString("multiMotorChanne
 ConfigMultiRotorWidget::ConfigMultiRotorWidget(Ui_AircraftWidget *aircraft, QWidget *parent) : VehicleConfig(parent), invertMotors(1)
 {
     m_aircraft = aircraft;
-
-    // Connect buttons to slots
-    connect(m_aircraft->bnLevelTrim_MR, SIGNAL(clicked()), this, SLOT(on_bnLevelTrim_clicked()));
 }
 
 /**
@@ -1079,47 +1075,4 @@ bool ConfigMultiRotorWidget::throwConfigError(int numMotors)
         m_aircraft->mrStatusLabel->setText(QString("<font color='red'>ERROR: Assign all %1 motor channels</font>").arg(numMotors));
     }
     return error;
-}
-
-
-void ConfigMultiRotorWidget::on_bnLevelTrim_clicked()
-{
-    VehicleTrim vehicleTrim;
-    VehicleTrim::autopilotLevelBiasMessages ret;
-    ret = vehicleTrim.setMultiRotorTrimAutopilotBias();
-
-    switch (ret){
-    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_MISSING_RECEIVER:
-    {
-        QMessageBox msgBox(QMessageBox::Warning, tr("No receiver detected"),
-                           "Transmitter and receiver must be powered on.", 0, this);
-        msgBox.exec();
-        break;
-    }
-    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_ARMED_STATE:
-    {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle armed"),
-                           "The autopilot must be disarmed first.", 0, this);
-        msgBox.exec();
-        break;
-    }
-    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_FLIGHTMODE:
-    {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle not in Stabilized mode"),
-                           "The autopilot must be in Stabilized1, Stabilized2, or Stabilized3 mode.", 0, this);
-        msgBox.exec();
-        break;
-    }
-    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_STABILIZATIONMODE:
-    {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Incorrect roll and pitch stabilization modes."),
-                           "Both roll and pitch must be in attitude stabilization mode.", 0, this);
-        msgBox.exec();
-        break;
-    }
-    case VehicleTrim::AUTOPILOT_LEVEL_SUCCESS:
-        // Set tab as dirty (i.e. having unsaved changes).
-        setDirty(true);
-        break;
-    }
 }
