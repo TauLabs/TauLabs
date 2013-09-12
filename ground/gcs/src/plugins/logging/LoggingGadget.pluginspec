@@ -6,6 +6,5 @@
     <url>http://taulabs.org</url>
     <dependencyList>
         <dependency name="Core" version="1.0.0"/>
-        <dependency name="ScopeGadget" version="1.0.0"/>
     </dependencyList>
 </plugin>    

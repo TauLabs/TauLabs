@@ -39,10 +39,6 @@ LoggingGadgetWidget::LoggingGadgetWidget(QWidget *parent) : QLabel(parent)
 {
     m_logging = new Ui_Logging();
     m_logging->setupUi(this);
-
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    scpPlugin = pm->getObject<ScopeGadgetFactory>();
-
 }
 
 LoggingGadgetWidget::~LoggingGadgetWidget()
