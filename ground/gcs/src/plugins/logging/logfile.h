@@ -16,9 +16,9 @@ class LogFile : public QIODevice
 public:
     explicit LogFile(QObject *parent = 0);
     qint64 bytesAvailable() const;
-    qint64 bytesToWrite() { return file.bytesToWrite(); }
+    qint64 bytesToWrite() { return logfile.bytesToWrite(); }
     bool open(OpenMode mode);
-    void setFileName(QString name) { file.setFileName(name); }
+    void setFileName(QString name) { logfile.setFileName(name); }
     void close();
     qint64 writeData(const char * data, qint64 dataSize);
     qint64 readData(char * data, qint64 maxlen);
@@ -44,7 +44,7 @@ protected:
     QByteArray dataBuffer;
     QTimer timer;
     QTime myTime;
-    QFile file;
+    QFile logfile;
     quint32 lastTimeStamp;
     quint32 lastPlayTime;
     QMutex mutex;
@@ -59,6 +59,7 @@ private:
     quint32 timestampBufferIdx;
     quint32 lastTimeStampPos;
     quint32 firstTimestamp;
+    quint32 currentTimeStamp;
 };
 
 #endif // LOGFILE_H
