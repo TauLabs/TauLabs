@@ -208,7 +208,7 @@ void TextBubbleSlider::paintEvent(QPaintEvent *paintEvent)
     if (ghostValue < 0)
         textPositionY = ceil((sliderHeight - maximumFontHeight)/2.0);
     else
-        textPositionY = 0;
+        textPositionY = 1;
 
     // Draw handle. If mouse is over handle, change the color and display
     QString neutralString;
@@ -221,12 +221,13 @@ void TextBubbleSlider::paintEvent(QPaintEvent *paintEvent)
             // Print neutral value
             neutralString = QString("%1").arg(neutralValue);
             painter.setBrush(QBrush(QColor(235,235,235)));
+            painter.drawRoundedRect(QRectF(valuePosition-6, textPositionY-1, slideHandleWidth+5, slideHandleHeight), 4, 4);
          } else {
             // Print live value
             neutralString = QString("%1").arg(value());
             painter.setBrush(QBrush(QColor(254, 173, 79)));
+            painter.drawRoundedRect(QRectF(valuePosition-6, textPositionY-1, slideHandleWidth+5, slideHandleHeight), 10, 10);
         }
-        painter.drawRoundedRect(QRectF(valuePosition-3, textPositionY, slideHandleWidth, slideHandleHeight), 3, 3);
     } else {
         neutralString = QString("%1").arg(value());
     }
@@ -250,7 +251,7 @@ void TextBubbleSlider::paintEvent(QPaintEvent *paintEvent)
         QPolygonF pointerTriangle;
         pointerTriangle << QPointF(textPositionX - triangleWidth/2.0 + maximumFontWidth/2.0, textPositionY + maximumFontHeight) <<
                            QPointF(textPositionX + triangleWidth/2.0 + maximumFontWidth/2.0, textPositionY + maximumFontHeight) <<
-                           QPointF(textPositionX + maximumFontWidth/2.0, textPositionY + maximumFontHeight + triangleHeight);
+                           QPointF(textPositionX + maximumFontWidth/2.0, textPositionY + maximumFontHeight + triangleHeight-1);
 
         // Create painter and set pen and brush
         QPainter painter(this);
