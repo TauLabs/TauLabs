@@ -7,8 +7,13 @@
 #include <QMutexLocker>
 #include <QDebug>
 #include <QBuffer>
-#include "uavobjectmanager.h"
 #include <math.h>
+
+#include "uavobjectmanager.h"
+#include "utils/xmlconfig.h"
+#include "./uavtalk/uavtalk.h"
+#include "uavobjects/uavobjectsinit.h"
+
 
 class LogFile : public QIODevice
 {
@@ -34,6 +39,7 @@ public slots:
 
 protected slots:
     void timerFired();
+    void uavoUpdated(UAVObject *);
 
 signals:
     void readReady();
@@ -60,6 +66,19 @@ private:
     quint32 lastTimeStampPos;
     quint32 firstTimestamp;
     quint32 currentTimeStamp;
+
+    UAVObjectManager *xmlUAVObjectManager;
+    UAVTalk *xmlTalk;
+    QDomDocument doc;
+    QDomElement root;
+    QDomElement telemetry;
+    QDomElement timestamp;
+    QDomElement metadata;
+
+    void addUAVObject(UAVDataObject *obj);
+    void addInstance(UAVObject *obj, QDomElement *uavobjElement);
+    void addArrayField(UAVObjectField *field, QDomElement *uavobjElement);
+    void addSingleField(int index, UAVObjectField *field, QDomElement *uavobjElement);
 };
 
 #endif // LOGFILE_H

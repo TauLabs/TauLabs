@@ -219,6 +219,7 @@ plugin_logging.subdir = logging
 plugin_logging.depends = plugin_coreplugin
 plugin_logging.depends += plugin_uavobjects
 plugin_logging.depends += plugin_uavtalk
+plugin_logging.depends += plugin_uavobjectutil
 SUBDIRS += plugin_logging
 
 KML { 
