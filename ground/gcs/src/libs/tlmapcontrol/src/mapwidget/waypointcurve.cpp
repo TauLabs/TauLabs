@@ -1,7 +1,7 @@
 /**
 ******************************************************************************
 *
-* @file       waypointcurvele.cpp
+* @file       waypointcurve.cpp
 * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
 * @brief      A graphicsItem representing a curve connecting 2 waypoints
 * @see        The GNU Public License (GPL) Version 3
@@ -41,16 +41,11 @@ namespace mapcontrol
  * @param color Color of the curve
  */
 WayPointCurve::WayPointCurve(WayPointItem *start, WayPointItem *dest, double radius, bool clockwise, MapGraphicItem *map,QColor color) :
-    QGraphicsEllipseItem(map), m_start(start), m_dest(dest), m_radius(radius),
-    m_clockwise(clockwise), my_map(map),myColor(color)
+    MapArc(start, dest, 1.0/radius, clockwise, true/* FIXME: Should be curvature*/, map, color)
 {
-    connect(start, SIGNAL(relativePositionChanged(QPointF, WayPointItem*)), this, SLOT(refreshLocations()));
-    connect(dest, SIGNAL(relativePositionChanged(QPointF, WayPointItem*)), this, SLOT(refreshLocations()));
-    connect(start,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
-    connect(dest,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
+    connect(start,SIGNAL(aboutToBeDeleted(MapPointItem*)),this,SLOT(waypointdeleted()));
+    connect(dest,SIGNAL(aboutToBeDeleted(MapPointItem*)),this,SLOT(waypointdeleted()));
     refreshLocations();
-    connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
-
 }
 
 //! Return the type of the QGraphicsEllipseItem
@@ -89,76 +84,9 @@ void WayPointCurve::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     painter->drawArc(this->rect(), this->startAngle(), this->spanAngle());
 }
 
-/**
- * @brief WayPointCurve::refreshLocations Update the settings for the
- * arc when it is moved or the zoom changes
- */
-void WayPointCurve::refreshLocations()
-{
-    double m_n, m_e, p_n, p_e, d, center_x, center_y;
-
-    // Center between start and end
-    m_n = (m_start->pos().x() + m_dest->pos().x()) / 2;
-    m_e = (m_start->pos().y() + m_dest->pos().y()) / 2;
-
-    // Normal vector the line between start and end.
-    if (!m_clockwise) {
-        p_n = -(m_dest->pos().y() - m_start->pos().y());
-        p_e = (m_dest->pos().x() - m_start->pos().x());
-    } else {
-        p_n = (m_dest->pos().y() - m_start->pos().y());
-        p_e = -(m_dest->pos().x() - m_start->pos().x());
-    }
-
-    double radius_sign = (m_radius > 0) ? 1 : -1;
-    double pixels2meters = my_map->Projection()->GetGroundResolution(my_map->ZoomTotal(), m_start->Coord().Lat());
-    double radius = fabs(m_radius / pixels2meters);
-
-    // Work out how far to go along the perpendicular bisector
-    d = sqrt(radius * radius / (p_n * p_n + p_e * p_e) - 0.25f);
-
-    if (fabs(p_n) < 1e-3 && fabs(p_e) < 1e-3) {
-        center_x = m_n;
-        center_y = m_e;
-    } else {
-        center_x = m_n + p_n * d * radius_sign;
-        center_y = m_e + p_e * d * radius_sign;
-    }
-
-    // Store the center
-    center.setX(center_x);
-    center.setY(center_y);
-
-    // Compute the midpoint along the arc for the arrow
-    d = sqrt(radius * radius / (p_n * p_n + p_e * p_e));
-    midpoint.setX(center_x - p_n * d);
-    midpoint.setY(center_y - p_e * d);
-    midpoint_angle = -atan2(m_dest->pos().y() - m_start->pos().y(), m_dest->pos().x() - m_start->pos().x());
-
-    double startAngle = atan2(-(m_start->pos().y() - center_y), m_start->pos().x() - center_x);
-    double endAngle = atan2(-(m_dest->pos().y() - center_y), m_dest->pos().x() - center_x);
-    double span = endAngle - startAngle;
-    if (!m_clockwise) {
-        if (span > 0)
-            span = span - 2 * M_PI;
-    } else {
-        if (span < 0)
-            span = span + 2 * M_PI;
-    }
-    setRect(center_x - radius, center_y - radius, 2 * radius, 2 * radius);
-    setStartAngle(startAngle * 180.0 / M_PI * 16.0);
-    setSpanAngle(span * 180.0 / M_PI * 16.0);
-    update();
-}
-
 void WayPointCurve::waypointdeleted()
 {
     this->deleteLater();
-}
-
-void WayPointCurve::setOpacitySlot(qreal opacity)
-{
-    setOpacity(opacity);
 }
 
 }
