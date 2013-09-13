@@ -3,9 +3,51 @@
 		<description>Selection of optional hardware configurations.</description>
 
 		<field name="Output" units="function" type="enum" elements="1" options="Disabled,PWM" defaultvalue="PWM"/>
-		<field name="MainPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge,MavLinkTX,MavLinkTX_GPS_RX" defaultvalue="Telemetry"/>
-		<field name="FlexiPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,I2C,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge,MavLinkTX,MavLinkTX_GPS_RX" defaultvalue="GPS"/>
-		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PPM,DSM2,DSMX (10bit),DSMX (11bit),S.Bus," defaultvalue="Disabled"/>
+		<field name="MainPort" units="function" type="enum" elements="1" defaultvalue="Telemetry">
+			<options>
+				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>GPS</option>
+				<option>DSM2</option>
+				<option>DSMX (10bit)</option>
+				<option>DSMX (11bit)</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+			</options>
+		</field>
+		<field name="FlexiPort" units="function" type="enum" elements="1" defaultvalue="GPS">
+			<options>
+				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>GPS</option>
+				<option>I2C</option>
+				<option>DSM2</option>
+				<option>DSMX (10bit)</option>
+				<option>DSMX (11bit)</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+			</options>
+		</field>
+		<field name="RcvrPort" units="function" type="enum" elements="1" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>PPM</option>
+				<option>DSM2</option>
+				<option>DSMX (10bit)</option>
+				<option>DSMX (11bit)</option>
+				<option>S.Bus</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+			</options>
+		</field>
 		<field name="RadioPort" units="function" type="enum" elements="1" options="Disabled,Telemetry" defaultvalue="Disabled"/>
 
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>

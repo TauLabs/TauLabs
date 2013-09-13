@@ -968,7 +968,61 @@ static const struct pios_usart_cfg pios_usart_flexi_cfg = {
  */
 #include <pios_dsm_priv.h>
 
-static const struct pios_usart_cfg pios_usart_dsm_aux_cfg = {
+static const struct pios_dsm_cfg pios_dsm_aux_cfg = {
+	.bind = {
+		.gpio = GPIOC,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_7,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+static const struct pios_dsm_cfg pios_dsm_auxsbus_cfg = {
+	.bind = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_1,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+static const struct pios_dsm_cfg pios_dsm_flexi_cfg = {
+	.bind = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_11,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_OUT,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
+
+#endif	/* PIOS_INCLUDE_DSM */
+
+#if defined(PIOS_INCLUDE_HSUM)
+/*
+ * Graupner HoTT SUMD/SUMH USART
+ */
+#include <pios_hsum_priv.h>
+
+#endif	/* PIOS_INCLUDE_HSUM */
+
+#if (defined(PIOS_INCLUDE_DSM) || defined(PIOS_INCLUDE_HSUM))
+/*
+ * Spektrum/JR DSM or Graupner HoTT SUMD/SUMH USART
+ */
+
+static const struct pios_usart_cfg pios_usart_dsm_hsum_aux_cfg = {
 	.regs = USART6,
 	.remap = GPIO_AF_USART6,
 	.init = {
@@ -1009,20 +1063,7 @@ static const struct pios_usart_cfg pios_usart_dsm_aux_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_dsm_aux_cfg = {
-	.bind = {
-		.gpio = GPIOC,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_7,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-
-static const struct pios_usart_cfg pios_usart_dsm_auxsbus_cfg = {
+static const struct pios_usart_cfg pios_usart_dsm_hsum_auxsbus_cfg = {
 	.regs = UART4,
 	.remap = GPIO_AF_UART4,
 	.init = {
@@ -1063,20 +1104,7 @@ static const struct pios_usart_cfg pios_usart_dsm_auxsbus_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_dsm_auxsbus_cfg = {
-	.bind = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_1,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-
-static const struct pios_usart_cfg pios_usart_dsm_flexi_cfg = {
+static const struct pios_usart_cfg pios_usart_dsm_hsum_flexi_cfg = {
 	.regs = USART3,
 	.remap = GPIO_AF_USART3,
 	.init = {
@@ -1117,20 +1145,7 @@ static const struct pios_usart_cfg pios_usart_dsm_flexi_cfg = {
 	},
 };
 
-static const struct pios_dsm_cfg pios_dsm_flexi_cfg = {
-	.bind = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_11,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
-	},
-};
-
-#endif	/* PIOS_INCLUDE_DSM */
+#endif	/* PIOS_INCLUDE_DSM || PIOS_INCLUDE_HSUM */
 
 #if defined(PIOS_INCLUDE_SBUS)
 /*
