@@ -119,13 +119,25 @@ public class Logger extends ObjectManagerActivity {
 	private File[] getLogFiles() {
 		File root = Environment.getExternalStorageDirectory();
 		File logDirectory = new File(root, "/TauLabs");
-		return logDirectory.listFiles(new FilenameFilter() {
+		File logList[] = logDirectory.listFiles(new FilenameFilter() {
 
 			@Override
 			public boolean accept(File dir, String filename) {
-				return filename.contains(".opl");
+				return filename.contains(".opl") || filename.contains(".tll");
 			}
 		});
+
+		if (logList == null)
+			return logList;
+
+		// Reverse the list so more recent files are first
+		for (int i = 0; i < logList.length / 2; i++) {
+			File temp = logList[i];
+			logList[i] = logList[logList.length - i - 1];
+			logList[logList.length - i - 1] = temp;
+		}
+
+		return logList;
 	}
 
 

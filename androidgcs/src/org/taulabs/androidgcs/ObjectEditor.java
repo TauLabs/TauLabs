@@ -91,6 +91,7 @@ public class ObjectEditor extends ObjectManagerActivity {
 		while (li.hasNext()) {
 			editView.addField(li.next());
 		}
+		smartSave.fetchSettings();
 		smartSave.refreshSettingsDisplay();
 	}
 }

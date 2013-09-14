@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.taulabs.androidgcs" android:versionCode="1"
-	android:versionName="Phoenix Beta">
+	package="org.taulabs.androidgcs" android:versionCode="24"
+	android:versionName="Phoenix">
 	<uses-sdk android:minSdkVersion="14" />
 
+	<uses-feature
+  		android:glEsVersion="0x00020000"
+  		android:required="true"/>
+		
+	<permission
+          android:name="org.taulabs.androidgcs.permission.MAPS_RECEIVE"
+          android:protectionLevel="signature"/>
+	<uses-permission android:name="org.taulabs.androidgcs.permission.MAPS_RECEIVE"/>
+        	
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
 
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>  
-	<uses-feature android:name="android.hardware.usb.host" />
+	<uses-feature android:name="android.hardware.usb.host" android:required="false" />
 	
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> 
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	
 	<application android:icon="@drawable/ic_logo" android:label="@string/app_name" android:theme="@android:style/Theme.Holo">
 		<!-- for map overlay -->
 		<uses-library android:name="com.google.android.maps" />
-
+		
+		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBaAV9pYtdvqFRlJ6psNH34GpDjejHoV8o"/>
+		
 		<!-- Object browser - main activity at the moment -->
 		<activity android:name="HomePage" android:label="@string/app_name">
 		    
@@ -39,18 +48,24 @@
 <!--                 android:resource="@xml/device_filter" /> -->
 		</activity>
 
+		<activity android:name="AttitudeAdjustment" android:label="@string/attitude_adjustment" />
 		<activity android:name="ObjectBrowser" android:label="@string/object_browser_name" />
+
 		<activity android:name="PfdActivity" android:label="PFD" />
-		<activity android:name="Controller" android:label="@string/controller_name" />
+		<activity android:name="Controller" android:label="@string/controller_name" 
+		    android:configChanges="keyboardHidden|orientation|screenSize"/>
+
 		<activity android:name="Preferences" android:label="@string/preference_title" />
-		<activity android:name="UAVLocation" android:label="@string/location_name" />
+		<activity android:name="Map" android:label="@string/location_name" />
 		<activity android:name="SystemAlarmActivity" android:label="System Alarms" />
 		<activity android:name="TuningActivity" android:label="Tuning" />
+
 		<activity android:name="PathPlanner" android:label="Path Planner" />
-		<activity android:name="Transmitter" android:label="Transmitter"/> <!-- android:hardwareAccelerated="false" -->
-				<activity android:name="ObjectEditor" android:label="ObjectEditor"
+		<activity android:name="TableControl" android:label="Table Control"/> <!-- android:hardwareAccelerated="false" -->
+		<activity android:name="ObjectEditor" android:label="ObjectEditor"
+		    android:windowSoftInputMode="stateHidden"
 			android:theme="@android:style/Theme.Dialog" />
-		<activity android:name="Logger" android:label="Logger"/>
+		<activity android:name="Logger" android:label="@string/logger"/>
 
 		<activity
 		    android:name="FragmentTester"

@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.taulabs.androidgcs.R;
 import org.taulabs.osg.ColorPickerDialog;
 import org.taulabs.osg.EGLview;
 import org.taulabs.osg.osgNativeLib;
@@ -397,11 +396,17 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
             try
             {
                 File outputFile = new File(modelsDir, modelName);
-                inputStream = assetManager.open("models/quad.osg");
+                inputStream = assetManager.open("models/quad.osgb");
                 outputStream = new FileOutputStream(outputFile);
             	Log.d(TAG, "Copying model over: " + modelsDir.getAbsolutePath() + " to " + outputFile.getAbsolutePath());
             	copyStream(inputStream, outputStream);
-            }
+
+                outputFile = new File(modelsDir, "TEXTURE.dds");
+                inputStream = assetManager.open("models/TEXTURE.dds");
+                outputStream = new FileOutputStream(outputFile);
+            	Log.d(TAG, "Copying texture over: " + modelsDir.getAbsolutePath() + " to " + outputFile.getAbsolutePath());
+            	copyStream(inputStream, outputStream);
+}
             finally
             {
                 if (inputStream != null)
@@ -461,8 +466,8 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
 	    if (modelsDir.exists())
 	    	deleteDirectoryContents(modelsDir);
 
-	    if(copyAssets(modelsDir, "quad.osg"))
-	    	return new File(modelsDir,"quad.osg");
+	    if(copyAssets(modelsDir, "quad.osgb"))
+	    	return new File(modelsDir,"quad.osgb");
 	    else
 	    	return null;
 	}
