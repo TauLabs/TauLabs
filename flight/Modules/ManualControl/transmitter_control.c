@@ -476,6 +476,7 @@ static void set_armed_if_changed(uint8_t new_arm) {
  */
 static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled)
 {
+	static portTickType armedDisarmStart;
 	bool lowThrottle = cmd->Throttle <= 0;
 
 	uint8_t arm_status;
@@ -485,8 +486,14 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
 	} else if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCH) {
 		if (cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE) {
-			// TODO: run timeout state machine
+			// When transmitter gone go back to normal disarm timeout behavior
+			if ((settings->ArmedTimeout != 0) && (timeDifferenceMs(armedDisarmStart, lastSysTime) > settings->ArmedTimeout))
+				set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
+			return;
+		} else {
+			armedDisarmStart = lastSysTime;
 		}
+
 		bool arm = scaled[MANUALCONTROLCOMMAND_CHANNEL_ARMING] > 0;
 		if (arm)
 			set_armed_if_changed(FLIGHTSTATUS_ARMED_ARMED);
@@ -521,7 +528,6 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 
 		// When the configuration is not "Always armed" and no "Always disarmed",
 		// the state will not be changed when the throttle is not low
-		static portTickType armedDisarmStart;
 		float armingInputLevel = 0;
 
 		// Calc channel see assumptions7
