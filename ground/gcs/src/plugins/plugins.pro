@@ -175,6 +175,7 @@ SUBDIRS += plugin_waypointeditor
 plugin_telemetryscheduler.subdir = telemetryscheduler
 plugin_telemetryscheduler.depends = plugin_coreplugin
 plugin_telemetryscheduler.depends += plugin_uavobjects
+plugin_telemetryscheduler.depends += plugin_uavobjectutil
 SUBDIRS += plugin_telemetryscheduler
 
 # Primary Flight Display (PFD) gadget, QML version

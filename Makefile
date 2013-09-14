@@ -74,9 +74,6 @@ include $(ROOT_DIR)/flight/targets/*/target-defs.mk
 # OpenPilot GCS build configuration (debug | release)
 GCS_BUILD_CONF ?= debug
 
-# Set up misc host tools
-RM=rm
-
 ##############################
 #
 # Check that environmental variables are sane
@@ -237,51 +234,6 @@ $(TOOLS_DIR):
 
 $(BUILD_DIR):
 	mkdir -p $@
-
-##############################
-#
-# Set up paths to tools
-#
-##############################
-
-ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
-  QMAKE = $(QT_SDK_QMAKE_PATH)
-else
-  # not installed, hope it's in the path...
-  QMAKE = qmake
-endif
-
-ifeq ($(shell [ -d "$(ARM_SDK_DIR)" ] && echo "exists"), exists)
-  ARM_SDK_PREFIX := $(ARM_SDK_DIR)/bin/arm-none-eabi-
-else
-  # not installed, hope it's in the path...
-  ARM_SDK_PREFIX ?= arm-none-eabi-
-endif
-
-ifeq ($(shell [ -d "$(OPENOCD_DIR)" ] && echo "exists"), exists)
-  OPENOCD := $(OPENOCD_DIR)/bin/openocd
-else
-  # not installed, hope it's in the path...
-  OPENOCD ?= openocd
-endif
-
-ifeq ($(shell [ -d "$(ANDROID_SDK_DIR)" ] && echo "exists"), exists)
-  ANDROID     := $(ANDROID_SDK_DIR)/tools/android
-  ANDROID_DX  := $(ANDROID_SDK_DIR)/platform-tools/dx
-  ANDROID_ADB := $(ANDROID_SDK_DIR)/platform-tools/adb
-else
-  # not installed, hope it's in the path...
-  ANDROID     ?= android
-  ANDROID_DX  ?= dx
-  ANDROID_ADB ?= adb
-endif
-
-ifeq ($(shell [ -d "$(ASTYLE_DIR)" ] && echo "exists"), exists)
-  ASTYLE := $(ASTYLE_DIR)/bin/astyle
-else
-  # not installed, hope it's in the path...
-  ASTYLE ?= astyle
-endif
 
 ##############################
 #

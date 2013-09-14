@@ -3,9 +3,45 @@
 		<description>Selection of optional hardware configurations.</description>
 
 		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PWM,PPM,PPM+Outputs,Outputs" defaultvalue="PWM"/>
-		<field name="AuxPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Disabled"/>
-		<field name="AuxSBusPort" units="function" type="enum" elements="1" options="Disabled,S.Bus,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Disabled"/>
-		<field name="FlexiPort" units="function" type="enum" elements="1" options="Disabled,I2C,DSM2,DSMX (10bit),DSMX (11bit),DebugConsole,ComBridge" defaultvalue="Disabled"/>
+		<field name="AuxPort" units="function" type="enum" elements="1" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>DSM2</option>
+				<option>DSMX (10bit)</option>
+				<option>DSMX (11bit)</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+			</options>
+		</field>
+		<field name="AuxSBusPort" units="function" type="enum" elements="1" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>S.Bus</option>
+				<option>DSM2</option>
+				<option>DSMX (10bit)</option>
+				<option>DSMX (11bit)</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+			</options>
+		</field>
+		<field name="FlexiPort" units="function" type="enum" elements="1" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>I2C</option>
+				<option>DSM2</option>
+				<option>DSMX (10bit)</option>
+				<option>DSMX (11bit)</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+			</options>
+		</field>
 		<field name="TelemetryPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,DebugConsole,ComBridge" defaultvalue="Telemetry"/>
 		<field name="GPSPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,DebugConsole,ComBridge" defaultvalue="GPS"/>
 

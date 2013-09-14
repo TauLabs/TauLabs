@@ -38,12 +38,8 @@ uintptr_t pios_com_telem_usb_id;
  * initializes all the core subsystems on this specific hardware
  * called from System/openpilot.c
  */
-static bool board_init_complete = false;
-void PIOS_Board_Init(void) {
-	if (board_init_complete) {
-		return;
-	}
-
+void PIOS_Board_Init(void)
+{
 	/* Enable Prefetch Buffer */
 	FLASH_PrefetchBufferCmd(FLASH_PrefetchBuffer_Enable);
 
@@ -84,6 +80,4 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_CRC, ENABLE);//TODO Tirar
-
-	board_init_complete = true;
 }

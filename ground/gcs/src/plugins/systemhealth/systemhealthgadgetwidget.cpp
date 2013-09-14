@@ -329,6 +329,36 @@ QString SystemHealthGadgetWidget::getAlarmDescriptionFileName(const QString item
             alarmDescriptionFileName = QString(":/systemhealth/html/ManualControl-None.html");
         break;
         }
+    } else if (itemId.contains("StateEstimation-")) {
+        switch(systemAlarmsData.StateEstimation) {
+        case SystemAlarms::STATEESTIMATION_GYROQUEUENOTUPDATING:
+            alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-Gyro-Queue-Not-Updating.html");
+        break;
+        case SystemAlarms::STATEESTIMATION_ACCELEROMETERQUEUENOTUPDATING:
+            alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-Accelerometer-Queue-Not-Updating.html");
+        break;
+        case SystemAlarms::STATEESTIMATION_NOGPS:
+            alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-No-GPS.html");
+        break;
+        case SystemAlarms::STATEESTIMATION_NOMAGNETOMETER:
+            alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-No-Magnetometer.html");
+        break;
+        case SystemAlarms::STATEESTIMATION_NOBAROMETER:
+            alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-No-Barometer.html");
+        break;
+        case SystemAlarms::STATEESTIMATION_TOOFEWSATELLITES:
+            alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-Too-Few-Satellites.html");
+        break;
+        case SystemAlarms::STATEESTIMATION_PDOPTOOHIGH:
+            alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-PDOP-Too-High.html");
+        break;
+        case SystemAlarms::STATEESTIMATION_UNDEFINED:
+            alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-Undefined.html");
+        break;
+        default:
+            alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-None.html");
+        break;
+        }
     } else {
             alarmDescriptionFileName = QString(":/systemhealth/html/" + itemId + ".html");
     }

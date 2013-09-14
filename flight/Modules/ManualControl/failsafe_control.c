@@ -68,6 +68,21 @@ int32_t failsafe_control_select(bool reset_controller)
 		FlightStatusFlightModeSet(&flight_status);
 	}
 
+#ifdef GIMBAL
+	// Gimbals do not need failsafe
+	StabilizationDesiredData stabilization_desired;
+	StabilizationDesiredGet(&stabilization_desired);
+	stabilization_desired.Throttle = -1;
+	stabilization_desired.Roll = 0;
+	stabilization_desired.Pitch = 0;
+	stabilization_desired.Yaw = 0;
+	stabilization_desired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+	stabilization_desired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_POI;
+	stabilization_desired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
+	StabilizationDesiredSet(&stabilization_desired);
+#else
+	// Pick default values that will roughly cause a plane to circle down
+	// and a quad to fall straight down
 	StabilizationDesiredData stabilization_desired;
 	StabilizationDesiredGet(&stabilization_desired);
 
@@ -93,6 +108,7 @@ int32_t failsafe_control_select(bool reset_controller)
 	}
 
 	StabilizationDesiredSet(&stabilization_desired);
+#endif
 
 	return 0;
 }

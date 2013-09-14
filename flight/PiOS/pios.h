@@ -89,6 +89,7 @@
 #include <pios_adc.h>
 #include <pios_internal_adc.h>
 #include <pios_servo.h>
+#include <pios_brushless.h>
 #include <pios_rtc.h>
 #include <pios_i2c.h>
 #include <pios_can.h>
