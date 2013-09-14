@@ -382,7 +382,7 @@ UAVO_GIT_VERSIONS := next
 
 # All versions includes a pseudo collection called "working" which represents
 # the UAVOs in the source tree
-UAVO_ALL_VERSIONS := $(UAVO_GIT_VERSIONS) srctree
+UAVO_ALL_VERSIONS := $(sort $(UAVO_GIT_VERSIONS) srctree)
 
 # This is where the UAVO collections are stored
 UAVO_COLLECTION_DIR := $(BUILD_DIR)/uavo-collections
