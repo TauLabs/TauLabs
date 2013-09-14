@@ -382,7 +382,7 @@ UAVO_GIT_VERSIONS := next
 
 # All versions includes a pseudo collection called "working" which represents
 # the UAVOs in the source tree
-UAVO_ALL_VERSIONS := $(UAVO_GIT_VERSIONS) srctree
+UAVO_ALL_VERSIONS := $(sort $(UAVO_GIT_VERSIONS) srctree)
 
 # This is where the UAVO collections are stored
 UAVO_COLLECTION_DIR := $(BUILD_DIR)/uavo-collections
@@ -448,7 +448,7 @@ $$(UAVO_COLLECTION_DIR)/$(1)/java-build/uavobjects.jar: $$(UAVO_COLLECTION_DIR)/
 	$$(V1) ( \
 		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/java-build && \
-		javac java/*.java \
+		javac -source 1.6 -target 1.6 java/*.java \
 		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVDataObject.java \
 		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVObject*.java \
 		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVMetaObject.java \
