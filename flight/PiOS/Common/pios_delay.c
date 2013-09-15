@@ -55,12 +55,9 @@ int32_t PIOS_DELAY_Init(void)
 	us_ticks = clocks.SYSCLK_Frequency / 1000000;
 	PIOS_DEBUG_Assert(us_ticks > 1);
 
-	// do this using a loop to avoid 64bit division which pulls in too much code for bl and bu
-	uint32_t temp = 0;
-	while (temp + us_ticks > temp) {
-		temp += us_ticks;
-		++us_modulo;
-	}
+	// Split this into two steps to avoid 64bit maths
+	us_modulo = 0xffffffff / us_ticks;
+	us_modulo += ((0xffffffff % us_ticks) + 1) / us_ticks;
 
 	/* turn on access to the DWT registers */
 	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
