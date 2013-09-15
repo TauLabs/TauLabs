@@ -97,7 +97,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged);
 static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
 static void set_flight_mode();
-static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
+static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
 static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time);
@@ -364,7 +364,7 @@ int32_t transmitter_control_update()
 	// Process arming outside conditional so system will disarm when disconnected.  Notice this
 	// is processed in the _update method instead of _select method so the state system is always
 	// evalulated, even if not detected.
-	process_transmitter_events(&cmd, &settings);
+	process_transmitter_events(&cmd, &settings, scaledChannel);
 	
 	// Update cmd object
 	ManualControlCommandSet(&cmd);
@@ -474,8 +474,9 @@ static void set_armed_if_changed(uint8_t new_arm) {
  * @param[out] cmd The structure to set the armed in
  * @param[in] settings Settings indicating the necessary position
  */
-static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings)
+static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled)
 {
+	static portTickType armedDisarmStart;
 	bool lowThrottle = cmd->Throttle <= 0;
 
 	uint8_t arm_status;
@@ -483,6 +484,21 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 
 	if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED) {
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
+	} else if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCH) {
+		if (cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE) {
+			// When transmitter gone go back to normal disarm timeout behavior
+			if ((settings->ArmedTimeout != 0) && (timeDifferenceMs(armedDisarmStart, lastSysTime) > settings->ArmedTimeout))
+				set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
+			return;
+		} else {
+			armedDisarmStart = lastSysTime;
+		}
+
+		bool arm = scaled[MANUALCONTROLCOMMAND_CHANNEL_ARMING] > 0;
+		if (arm)
+			set_armed_if_changed(FLIGHTSTATUS_ARMED_ARMED);
+		else
+			set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
 	} else {
 		if (cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE)
 			lowThrottle = true;
@@ -512,7 +528,6 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 
 		// When the configuration is not "Always armed" and no "Always disarmed",
 		// the state will not be changed when the throttle is not low
-		static portTickType armedDisarmStart;
 		float armingInputLevel = 0;
 
 		// Calc channel see assumptions7
