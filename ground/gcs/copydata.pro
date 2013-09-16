@@ -98,7 +98,9 @@ equals(copydata, 1) {
                 $${THIRDPARTY_PATH}/libkml/lib/libkmlengine.so.0 \
                 $${THIRDPARTY_PATH}/libkml/lib/libkmlengine.so.0.0.0 \
                 $${THIRDPARTY_PATH}/libkml/lib/libminizip.so.0 \
-                $${THIRDPARTY_PATH}/libkml/lib/libminizip.so.0.0.0
+                $${THIRDPARTY_PATH}/libkml/lib/libminizip.so.0.0.0 \
+                $${THIRDPARTY_PATH}/libkml/lib/liburiparser.so.1 \
+                $${THIRDPARTY_PATH}/libkml/lib/liburiparser.so.1.0.5
         }
 
         for(FILE,EXTRA_BINFILES){
