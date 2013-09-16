@@ -116,10 +116,11 @@ void SystemHealthGadgetWidget::updateAlarms(UAVObject* systemAlarm)
                 matrix.translate(startX,startY);
                 ind->setTransform(matrix,false);
             } else {
-                if (value.compare("Uninitialised")!=0)qDebug() << "Warning: element " << element2 << " not found in SVG.";
+                if (value.compare("Uninitialised") != 0)
+                    qDebug() << "[SystemHealth] Warning: The SystemHealth SVG does not contain a graphical element for the " << element2 << " alarm.";
             }
         } else {
-            qDebug() << "Warning: Element " << element << " not found in SVG.";
+            qDebug() << "[SystemHealth] Warning: The SystemHealth SVG does not contain a graphical element for the " << element << " alarm.";
         }
     }
 }
