@@ -102,50 +102,6 @@ arm_sdk_install: arm_sdk_clean
 arm_sdk_clean:
 	$(V1) [ ! -d "$(ARM_SDK_DIR)" ] || $(RM) -r $(ARM_SDK_DIR)
 
-# Set up openocd tools
-OPENOCD_DIR       := $(TOOLS_DIR)/openocd
-OPENOCD_WIN_DIR   := $(TOOLS_DIR)/openocd_win
-OPENOCD_BUILD_DIR := $(DL_DIR)/openocd-build
-
-.PHONY: openocd_install
-openocd_install: | $(DL_DIR) $(TOOLS_DIR)
-openocd_install: OPENOCD_URL  := http://sourceforge.net/projects/openocd/files/openocd/0.6.1/openocd-0.6.1.tar.bz2/download
-openocd_install: OPENOCD_FILE := openocd-0.6.1.tar.bz2
-openocd_install: OPENOCD_OPTIONS := --prefix="$(OPENOCD_DIR)" --enable-stlink
-
-ifeq ($(OPENOCD_FTDI), yes)
-openocd_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_libftdi
-endif
-
-openocd_install: openocd_clean
-        # download the source only if it's newer than what we already have
-	$(V1) wget -N -P "$(DL_DIR)" --trust-server-name "$(OPENOCD_URL)"
-
-        # extract the source
-	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -r "$(OPENOCD_BUILD_DIR)"
-	$(V1) mkdir -p "$(OPENOCD_BUILD_DIR)"
-	$(V1) tar -C $(OPENOCD_BUILD_DIR) -xjf "$(DL_DIR)/$(OPENOCD_FILE)"
-
-        # apply patches
-	$(V0) @echo " PATCH        $(OPENOCD_DIR)"
-	$(V1) ( \
-	  cd $(OPENOCD_BUILD_DIR)/openocd-0.6.1 ; \
-	  patch -p1 < $(ROOT_DIR)/flight/Project/OpenOCD/0001-armv7m-remove-dummy-FP-regs-for-new-gdb.patch ; \
-	  patch -p1 < $(ROOT_DIR)/flight/Project/OpenOCD/0002-rtos-add-stm32_stlink-to-FreeRTOS-targets.patch ; \
-	)
-
-        # build and install
-	$(V1) mkdir -p "$(OPENOCD_DIR)"
-	$(V1) ( \
-	  cd $(OPENOCD_BUILD_DIR)/openocd-0.6.1 ; \
-	  ./configure $(OPENOCD_OPTIONS) ; \
-	  $(MAKE) --silent ; \
-	  $(MAKE) --silent install ; \
-	)
-
-        # delete the extracted source when we're done
-	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -rf "$(OPENOCD_BUILD_DIR)"
-
 .PHONY: ftd2xx_install
 
 FTD2XX_DIR := $(DL_DIR)/ftd2xx
@@ -194,19 +150,18 @@ libusb_win_clean:
 	$(V0) @echo " CLEAN        $(LIBUSB_WIN_DIR)"
 	$(V1) [ ! -d "$(LIBUSB_WIN_DIR)" ] || $(RM) -r "$(LIBUSB_WIN_DIR)"
 
-.PHONY: openocd_git_win_install
+.PHONY: openocd_win_install
 
-openocd_git_win_install: | $(DL_DIR) $(TOOLS_DIR)
-openocd_git_win_install: OPENOCD_URL  := git://git.code.sf.net/p/openocd/code
-openocd_git_win_install: OPENOCD_REV  := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
-openocd_git_win_install: OPENOCD_OPTIONS := 
+openocd_win_install: | $(DL_DIR) $(TOOLS_DIR)
+openocd_win_install: OPENOCD_URL  := git://git.code.sf.net/p/openocd/code
+openocd_win_install: OPENOCD_REV  := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
+openocd_win_install: OPENOCD_OPTIONS := 
 
 ifeq ($(OPENOCD_FTDI), yes)
-openocd_git_win_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_ftd2xx --with-ftd2xx-win32-zipdir=$(FTD2XX_DIR)
+openocd_win_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_ftd2xx --with-ftd2xx-win32-zipdir=$(FTD2XX_DIR)
 endif
 
-openocd_git_win_install: openocd_win_clean libusb_win_install ftd2xx_install
-
+openocd_win_install: openocd_win_clean libusb_win_install ftd2xx_install
         # download the source
 	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_REV)"
 	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -rf "$(OPENOCD_BUILD_DIR)"
@@ -250,24 +205,27 @@ openocd_win_clean:
 	$(V0) @echo " CLEAN        $(OPENOCD_WIN_DIR)"
 	$(V1) [ ! -d "$(OPENOCD_WIN_DIR)" ] || $(RM) -r "$(OPENOCD_WIN_DIR)"
 
-.PHONY: openocd_git_install
+# Set up openocd tools
+OPENOCD_DIR       := $(TOOLS_DIR)/openocd
+OPENOCD_WIN_DIR   := $(TOOLS_DIR)/openocd_win
+OPENOCD_BUILD_DIR := $(DL_DIR)/openocd-build
 
-openocd_git_install: | $(DL_DIR) $(TOOLS_DIR)
-openocd_git_install: OPENOCD_URL     := git://git.code.sf.net/p/openocd/code
-openocd_git_install: OPENOCD_REV     := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
-openocd_git_install: OPENOCD_OPTIONS := --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-buspirate --enable-stlink
+.PHONY: openocd_install
+
+openocd_install: | $(DL_DIR) $(TOOLS_DIR)
+openocd_install: OPENOCD_URL     := git://git.code.sf.net/p/openocd/code
+openocd_install: OPENOCD_REV     := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
+openocd_install: OPENOCD_OPTIONS := --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-buspirate --enable-stlink
 
 ifeq ($(OPENOCD_FTDI), yes)
-openocd_git_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_libftdi
+openocd_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_libftdi
 endif
 
 ifeq ($(UNAME), Darwin)
-openocd_git_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --disable-option-checking
+openocd_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --disable-option-checking
 endif
 
-openocd_git_install: openocd_clean
-
-
+openocd_install: openocd_clean
         # download the source
 	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_REV)"
 	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -rf "$(OPENOCD_BUILD_DIR)"
