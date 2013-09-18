@@ -42,7 +42,7 @@
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "magnetometer.h"
-#include "manualcontrolsettings.h"
+#include "rctransmittersettings.h"
 
 #include "pios_rcvr_priv.h"
 #include "pios_gcsrcvr_priv.h"
@@ -108,7 +108,7 @@ uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_gps_id;
 uintptr_t pios_com_aux_id;
 uintptr_t pios_com_spectrum_id;
-uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
+uintptr_t pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_NONE];
 
 /**
  * PIOS_Board_Init()
@@ -216,7 +216,7 @@ void PIOS_Board_Init(void) {
 	if (PIOS_RCVR_Init(&pios_gcsrcvr_rcvr_id, &pios_gcsrcvr_rcvr_driver, pios_gcsrcvr_id)) {
 		PIOS_Assert(0);
 	}
-	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
+	pios_rcvr_group_map[RCTRANSMITTERSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
 	// Register fake address.  Later if we really fake entire sensors then
