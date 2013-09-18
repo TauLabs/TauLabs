@@ -46,7 +46,7 @@ public:
     enum { Type = UserType + TYPE_WAYPOINTITEM };
     enum wptype {absolute,relative};
     /**
-    * @brief Constructer
+    * @brief Constructor
     *
     * @param coord coordinates in LatLng of the Waypoint
     * @param altitude altitude of the WayPoint
@@ -56,7 +56,7 @@ public:
     WayPointItem(internals::PointLatLng const& coord,int const& altitude,MapGraphicItem* map,wptype type=absolute);
     WayPointItem(MapGraphicItem* map,bool magicwaypoint);
     /**
-    * @brief Constructer
+    * @brief Constructor
     *
     * @param coord coordinates in LatLng of the WayPoint
     * @param altitude altitude of the WayPoint
