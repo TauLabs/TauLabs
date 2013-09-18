@@ -12,6 +12,8 @@
 				<option>DSMX (11bit)</option>
 				<option>DebugConsole</option>
 				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 			</options>
@@ -25,6 +27,8 @@
 				<option>DSMX (11bit)</option>
 				<option>DebugConsole</option>
 				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 			</options>
@@ -38,6 +42,8 @@
 				<option>DSMX (11bit)</option>
 				<option>DebugConsole</option>
 				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 			</options>
