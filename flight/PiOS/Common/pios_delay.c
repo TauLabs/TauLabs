@@ -59,6 +59,9 @@ int32_t PIOS_DELAY_Init(void)
 	us_modulo = 0xffffffff / us_ticks;
 	us_modulo += ((0xffffffff % us_ticks) + 1) / us_ticks;
 
+	// ensure that the us_module is smaller than half of uint32_t max to make modulo operation possible
+	PIOS_Assert(us_modulo < 0x80000000);
+
 	/* turn on access to the DWT registers */
 	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 
@@ -155,7 +158,7 @@ uint32_t PIOS_DELAY_GetuS()
  */
 uint32_t PIOS_DELAY_GetuSSince(uint32_t t)
 {
-	return (PIOS_DELAY_GetuS() - t) % us_modulo;
+	return (PIOS_DELAY_GetuS() + us_modulo - t) % us_modulo;
 }
 
 /**
