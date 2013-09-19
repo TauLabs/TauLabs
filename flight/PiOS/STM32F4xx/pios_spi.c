@@ -202,26 +202,43 @@ out_fail:
  * \return -1 if disabled SPI port selected
  * \return -3 if invalid spi_prescaler selected
  */
-int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, SPIPrescalerTypeDef spi_prescaler)
+int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, uint32_t spi_speed)
 {
 	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
-	PIOS_Assert(valid)
+	PIOS_Assert(valid);
 
 	SPI_InitTypeDef SPI_InitStructure;
 
-	if (spi_dev->cfg->regs == SPI1) {
-		//APB2 == 84MHz
-		//divide by 2 to match frequency
-		spi_prescaler += 1;
-	} else {
-		//APB1 == 42MHz
+	SPIPrescalerTypeDef spi_prescaler;
+
+	//The needed prescaler for desired speed
+	uint32_t desiredPrescaler=0;
+
+	if(spi_dev->cfg->regs == SPI1){
+		desiredPrescaler = 84000000/spi_speed;
+	}else{
+		desiredPrescaler = 42000000/spi_speed;
 	}
 
-	if (spi_prescaler >= 8) {
-		/* Invalid prescaler selected */
-		return -3;
+	//Choosing the existing prescaler nearest the desiredPrescaler
+	if(desiredPrescaler <= 2){
+		spi_prescaler = PIOS_SPI_PRESCALER_2;
+	}else if(desiredPrescaler <= 4){
+		spi_prescaler = PIOS_SPI_PRESCALER_4;
+	}else if(desiredPrescaler <= 8){
+		spi_prescaler = PIOS_SPI_PRESCALER_8;
+	}else if(desiredPrescaler <= 16){
+		spi_prescaler = PIOS_SPI_PRESCALER_16;
+	}else if(desiredPrescaler <= 32){
+		spi_prescaler = PIOS_SPI_PRESCALER_32;
+	}else if(desiredPrescaler <= 64){
+		spi_prescaler = PIOS_SPI_PRESCALER_64;
+	}else if(desiredPrescaler <= 128){
+		spi_prescaler = PIOS_SPI_PRESCALER_128;
+	}else{
+		spi_prescaler = PIOS_SPI_PRESCALER_256;
 	}
 
 	/* Start with a copy of the default configuration for the peripheral */
@@ -234,7 +251,13 @@ int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, SPIPrescalerTypeDef spi_prescale
 	SPI_Init(spi_dev->cfg->regs, &SPI_InitStructure);
 
 	PIOS_SPI_TransferByte(spi_id, 0xFF);
-	return 0;
+
+	//return set speed
+	if(spi_dev->cfg->regs == SPI1){
+		return 84000000/spi_prescaler;
+	}else{
+		return 42000000/spi_prescaler;
+	}
 }
 
 /**
