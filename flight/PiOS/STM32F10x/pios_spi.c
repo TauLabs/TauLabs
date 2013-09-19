@@ -203,7 +203,7 @@ int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, uint32_t spi_speed)
 	SPIPrescalerTypeDef spi_prescaler;
 
 	//The needed prescaler for desired speed
-	uint32_t desiredPrescaler = 24000000/spi_speed;
+	float desiredPrescaler = (float)24000000/spi_speed;
 
 	//Choosing the existing prescaler nearest the desiredPrescaler
 	if(desiredPrescaler <= 2){
