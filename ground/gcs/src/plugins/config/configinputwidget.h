@@ -31,9 +31,9 @@
 #include <QList>
 #include <QPointer>
 #include <QRadioButton>
-#include <QtGui/QWidget>
-#include <QtSvg/QSvgRenderer>
-#include <QtSvg/QGraphicsSvgItem>
+#include <QWidget>
+#include <QSvgRenderer>
+#include <QGraphicsSvgItem>
 
 #include "ui_input.h"
 #include "ui_inputchannelform.h"
