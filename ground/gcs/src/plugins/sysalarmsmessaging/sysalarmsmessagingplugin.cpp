@@ -136,5 +136,3 @@ void SysAlarmsMessagingPlugin::onAutopilotDisconnect()
     foreach(GlobalMessage * msg,warningMessages.values())
         msg->setActive(false);
 }
-
-Q_EXPORT_PLUGIN(SysAlarmsMessagingPlugin)
