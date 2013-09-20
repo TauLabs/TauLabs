@@ -49,7 +49,7 @@ endif
 
 ifdef WINDOWS
   qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.1/5.1.0/qt-windows-opensource-5.1.0-mingw48_opengl-x86-offline.exeoffline.exe
-  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.1.0/mingw47_32/bin/qmake
+  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.1.0/mingw48_32/bin/qmake
 endif
 
 qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
@@ -80,7 +80,7 @@ ifneq (,$(filter $(UNAME), Linux))
 endif
 
 ifneq (,$(filter $(UNAME), MINGW32_NT-6.1))
-	$(V1) ./downloads/qt-windows-opensource-5.1.0-mingw47_32-x86-offline.exe
+	$(V1) ./downloads/qt-windows-opensource-5.1.0-mingw48_32-x86-offline.exe
 endif
 
 .PHONY: qt_sdk_clean
