@@ -1,11 +1,7 @@
 /**
  ******************************************************************************
  * @file       devicedescriptorstruct.cpp
-<<<<<<< HEAD
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
-=======
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
->>>>>>> Uploader: Use board plugin for getting the board name
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -56,17 +52,21 @@ QString deviceDescriptorStruct::idToBoardName(quint16 id)
     return "Unknown";
 }
 
-QPixmap* deviceDescriptorStruct::idToBoardPicture(quint16 id)
+QPixmap deviceDescriptorStruct::idToBoardPicture(quint16 id)
 {
+    qDebug() << "Getting board picture";
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     if (pm == NULL)
-        return NULL;
+        return QPixmap();
 
     QList <Core::IBoardType *> boards = pm->getObjects<Core::IBoardType>();
     foreach (Core::IBoardType *board, boards) {
-        if (board->getBoardType() == (id >> 8))
+        if (board->getBoardType() == (id >> 8)) {
+            qDebug() << "Found board. " << board->getBoardPicture().isNull();
             return board->getBoardPicture();
+        }
     }
 
-    return NULL;
+    qDebug() << "Not found";
+    return QPixmap();
 }
