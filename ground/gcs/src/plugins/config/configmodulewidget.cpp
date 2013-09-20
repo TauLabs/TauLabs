@@ -105,35 +105,35 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     // Set text properties for checkboxes. The second argument is the UAVO field that corresponds
     // to the checkbox's true (respectively, false) state.
-    ui->cbAirspeed->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbAirspeed->setProperty(falseString.toAscii(), "Disabled");
+    ui->cbAirspeed->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbAirspeed->setProperty(falseString.toLatin1(), "Disabled");
 
-    ui->cbBattery->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbBattery->setProperty(falseString.toAscii(), "Disabled");
+    ui->cbBattery->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbBattery->setProperty(falseString.toLatin1(), "Disabled");
 
-    ui->cbComBridge->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbComBridge->setProperty(falseString.toAscii(), "Disabled");
+    ui->cbComBridge->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbComBridge->setProperty(falseString.toLatin1(), "Disabled");
 
-    ui->cbGPS->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbGPS->setProperty(falseString.toAscii(), "Disabled");
+    ui->cbGPS->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbGPS->setProperty(falseString.toLatin1(), "Disabled");
 
-    ui->cbOveroSync->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbOveroSync->setProperty(falseString.toAscii(), "Disabled");
+    ui->cbOveroSync->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbOveroSync->setProperty(falseString.toLatin1(), "Disabled");
 
-    ui->cbVibrationAnalysis->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbVibrationAnalysis->setProperty(falseString.toAscii(), "Disabled");
+    ui->cbVibrationAnalysis->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbVibrationAnalysis->setProperty(falseString.toLatin1(), "Disabled");
 
-    ui->cbVtolFollower->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbVtolFollower->setProperty(falseString.toAscii(), "Disabled");
+    ui->cbVtolFollower->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbVtolFollower->setProperty(falseString.toLatin1(), "Disabled");
 
-    ui->cbPathPlanner->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbPathPlanner->setProperty(falseString.toAscii(), "Disabled");
+    ui->cbPathPlanner->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbPathPlanner->setProperty(falseString.toLatin1(), "Disabled");
 
-    ui->gb_measureVoltage->setProperty(trueString.toAscii(), "Enabled");
-    ui->gb_measureVoltage->setProperty(falseString.toAscii(), "Disabled");
+    ui->gb_measureVoltage->setProperty(trueString.toLatin1(), "Enabled");
+    ui->gb_measureVoltage->setProperty(falseString.toLatin1(), "Disabled");
 
-    ui->gb_measureCurrent->setProperty(trueString.toAscii(), "Enabled");
-    ui->gb_measureCurrent->setProperty(falseString.toAscii(), "Disabled");
+    ui->gb_measureCurrent->setProperty(trueString.toLatin1(), "Enabled");
+    ui->gb_measureCurrent->setProperty(falseString.toLatin1(), "Disabled");
 
     enableBatteryTab(false);
     enableAirspeedTab(false);
