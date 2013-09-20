@@ -203,26 +203,25 @@ int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, uint32_t spi_speed)
 	SPIPrescalerTypeDef spi_prescaler;
 
 	//The needed prescaler for desired speed
-	float desiredPrescaler = (float)24000000/spi_speed;
+	float desiredPrescaler = (float) 24000000 / spi_speed;
 
 	//Choosing the existing prescaler nearest the desiredPrescaler
-	if(desiredPrescaler <= 2){
+	if(desiredPrescaler <= 2)
 		spi_prescaler = PIOS_SPI_PRESCALER_2;
-	}else if(desiredPrescaler <= 4){
+	else if(desiredPrescaler <= 4)
 		spi_prescaler = PIOS_SPI_PRESCALER_4;
-	}else if(desiredPrescaler <= 8){
+	else if(desiredPrescaler <= 8)
 		spi_prescaler = PIOS_SPI_PRESCALER_8;
-	}else if(desiredPrescaler <= 16){
+	else if(desiredPrescaler <= 16)
 		spi_prescaler = PIOS_SPI_PRESCALER_16;
-	}else if(desiredPrescaler <= 32){
+	else if(desiredPrescaler <= 32)
 		spi_prescaler = PIOS_SPI_PRESCALER_32;
-	}else if(desiredPrescaler <= 64){
+	else if(desiredPrescaler <= 64)
 		spi_prescaler = PIOS_SPI_PRESCALER_64;
-	}else if(desiredPrescaler <= 128){
+	else if(desiredPrescaler <= 128)
 		spi_prescaler = PIOS_SPI_PRESCALER_128;
-	}else{
+	else
 		spi_prescaler = PIOS_SPI_PRESCALER_256;
-	}
 
 	/* Start with a copy of the default configuration for the peripheral */
 	SPI_InitStructure = spi_dev->cfg->init;
@@ -236,7 +235,7 @@ int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, uint32_t spi_speed)
 	PIOS_SPI_TransferByte(spi_id, 0xFF);
 
 	//return set speed
-	return 24000000/spi_prescaler;
+	return 24000000 / spi_prescaler;
 }
 
 /**
