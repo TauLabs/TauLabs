@@ -177,8 +177,8 @@ static void HTelemetryTask(void *parameters) {
 				}
 				break;
 			case BINARYMODE:
-				// wait for the second byte of telemetry request with 5ms timeout
-				if (PIOS_COM_ReceiveBuffer(htelemetry_port, rx_buffer, 1, 5) == 1) {
+				// wait for the second byte of telemetry request with 10ms timeout
+				if (PIOS_COM_ReceiveBuffer(htelemetry_port, rx_buffer, 1, 10) == 1) {
 					// clear message buffer
 					memset(tx_buffer, 0, HTELE_MAX_MESSAGE_LENGTH);
 					// check received byte (SENSOR ID)
@@ -205,8 +205,8 @@ static void HTelemetryTask(void *parameters) {
 				state = (message_size > 0) ? TRANSMIT : IDLE;
 				break;
 			case TEXTMODE:
-				// wait for the second byte of telemetry request with 5ms timeout
-				if (PIOS_COM_ReceiveBuffer(htelemetry_port, rx_buffer, 1, 5) == 1) {
+				// wait for the second byte of telemetry request with 10ms timeout
+				if (PIOS_COM_ReceiveBuffer(htelemetry_port, rx_buffer, 1, 10) == 1) {
 					// clear message buffer
 					memset(tx_buffer, 0, HTELE_MAX_MESSAGE_LENGTH);
 					// check received byte (upper half == SENSOR ID, lower half == KEY CODE)
@@ -224,9 +224,9 @@ static void HTelemetryTask(void *parameters) {
 				if (PIOS_COM_ReceiveBuffer(htelemetry_port, rx_buffer, 1, 0) == 0) {
 					// nothing received means idle line. ready to transmit the requested message
 					for (int i = 0; i < message_size; i++) {
-						// send message content with 4ms pause between each byte
+						// send message content with 2ms pause between each byte
 						PIOS_COM_SendCharNonBlocking(htelemetry_port, tx_buffer[i]);
-						vTaskDelay(4);
+						vTaskDelay(2);
 					}
 					state = CLEANUP;
 				} else {
@@ -237,7 +237,7 @@ static void HTelemetryTask(void *parameters) {
 			case CLEANUP:
 				// Clear serial buffer after transmit. This is required for a possible loopback data.
 				while (PIOS_COM_ReceiveBuffer(htelemetry_port, tx_buffer, HTELE_MAX_MESSAGE_LENGTH, 0) > 0) {
-					vTaskDelay(5);
+					vTaskDelay(10);
 				}
 				state = IDLE;
 			default:
@@ -376,7 +376,7 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	GPSPositionHeadingGet(&ftemp);
 	convert_float2byte(ftemp, 1, 0, &msg->flight_direction);
 	GPSPositionGroundspeedGet(&ftemp);
-	convert_float2word(1, 3.6, 0, &msg->gps_speed_L, &msg->gps_speed_H);
+	convert_float2word(ftemp, 3.6, 0, &msg->gps_speed_L, &msg->gps_speed_H);
 
 	GPSPositionLatitudeGet(&ltemp);
 	convert_long2gps(ltemp, &msg->latitude_ns, &msg->latitude_min_L, &msg->latitude_min_H, &msg->latitude_sec_L, &msg->latitude_sec_H);
@@ -385,9 +385,6 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 
 	GPSPositionAltitudeGet(&ftemp);
 	convert_float2word(ftemp, 1, 500, &msg->altitude_L, &msg->altitude_H);
-	AltHoldSmoothedVelocityGet(&ftemp);
-	convert_float2word(ftemp, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
-	convert_float2byte(ftemp, 3, 120, &msg->climbrate3s);
 	GPSPositionSatellitesGet(&itemp); msg->gps_num_sat = itemp;
 	GPSPositionStatusGet(&utemp);
 	switch (utemp) {
@@ -406,10 +403,13 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 		default:
 			msg->gps_fix_char = '?';
 	}
+
+	// climbrate
+	AltHoldSmoothedVelocityGet(&ftemp);
+	convert_float2word(ftemp, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
+	convert_float2byte(ftemp, 3, 120, &msg->climbrate3s);
+
 	// home dir
-
-
-	// dummy data
 
 	msg->checksum = calc_checksum(buffer, sizeof(*msg));
 	return sizeof(*msg);
