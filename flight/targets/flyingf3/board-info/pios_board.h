@@ -132,6 +132,7 @@ extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_bridge_id;
 extern uintptr_t pios_com_vcp_id;
 extern uintptr_t pios_com_mavlink_id;
+extern uintptr_t pios_com_htelemetry_id;
 
 #define PIOS_COM_GPS                    (pios_com_gps_id)
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
@@ -139,6 +140,7 @@ extern uintptr_t pios_com_mavlink_id;
 #define PIOS_COM_BRIDGE                 (pios_com_bridge_id)
 #define PIOS_COM_VCP                    (pios_com_vcp_id)
 #define PIOS_COM_MAVLINK                (pios_com_mavlink_id)
+#define PIOS_COM_HTELEMETRY             (pios_com_htelemetry_id)
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 extern uintptr_t pios_com_debug_id;
