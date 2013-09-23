@@ -138,7 +138,7 @@ MODULE_INITCALL( HTelemetryInitialize, HTelemetryStart)
  * Main task. It does not return.
  */
 static void HTelemetryTask(void *parameters) {
-	uint8_t rx_buffer[1];
+	uint8_t rx_buffer[3];
 	uint16_t message_size = 0;
 	float ftemp;
 
@@ -150,95 +150,95 @@ static void HTelemetryTask(void *parameters) {
 		CLEANUP
 	} state = IDLE;
 
-	// delay for sensor setup
-	vTaskDelay(1000);
+	// 500ms delay for sensor setup
+	vTaskDelay(500);
 	// initialize min/max values
 	BaroAltitudeAltitudeGet(&ftemp);
 	BaroAltMin = ftemp;
 	BaroAltMax = ftemp;
 
+	// initialize timer variables
+	portTickType lastSysTime = xTaskGetTickCount();
+	portTickType idleDelay = MS2TICKS(5);
+	portTickType dataDelay = MS2TICKS(2);
+
 	// telemetry state machine. endless loop
 	while (1) {
 		switch (state) {
 			case IDLE:
-				// wait for the first byte of telemetry request in 5ms interval
+				// wait for the first byte of telemetry request in 1ms interval
 				while (PIOS_COM_ReceiveBuffer(htelemetry_port, rx_buffer, 1, 0) == 0)
-					vTaskDelay(5);
+					vTaskDelayUntil(&lastSysTime, dataDelay);
+				// set start trigger point
+				lastSysTime = xTaskGetTickCount();
+				// shift receiver buffer for better sync
+				rx_buffer[2]= rx_buffer[1];
+				rx_buffer[1]= rx_buffer[0];
 				// check received byte (TELEMETRY MODE)
-				switch (rx_buffer[0]) {
-					case HTELE_BINARY_ID:
-						state = BINARYMODE;
-						break;
-					case HTELE_TEXT_ID:
-						state = TEXTMODE;
-						break;
-					default:
-						state = IDLE;
-				}
-				break;
-			case BINARYMODE:
-				// wait for the second byte of telemetry request with 10ms timeout
-				if (PIOS_COM_ReceiveBuffer(htelemetry_port, rx_buffer, 1, 10) == 1) {
-					// clear message buffer
-					memset(tx_buffer, 0, HTELE_MAX_MESSAGE_LENGTH);
-					// check received byte (SENSOR ID)
-					switch (rx_buffer[0]) {
-						case HTELE_VARIO_ID:
-							message_size = build_VARIO_message(tx_buffer);
+					switch (rx_buffer[2]) {
+						case HTELE_BINARY_ID:
+							state = BINARYMODE;
 							break;
-						case HTELE_GPS_ID:
-							message_size = build_GPS_message(tx_buffer);
-							break;
-						case HTELE_GAM_ID:
-							message_size = build_GAM_message(tx_buffer);
-							break;
-						case HTELE_EAM_ID:
-							message_size = build_EAM_message(tx_buffer);
+						case HTELE_TEXT_ID:
+							state = TEXTMODE;
+							state = IDLE;
 							break;
 						default:
-							message_size = 0;
+							state = IDLE;
 					}
-				} else {
-					message_size = 0;
+				break;
+			case BINARYMODE:
+				// clear message buffer
+				memset(tx_buffer, 0, HTELE_MAX_MESSAGE_LENGTH);
+				// check received byte (SENSOR ID)
+				switch (rx_buffer[1]) {
+					case HTELE_VARIO_ID:
+						message_size = build_VARIO_message(tx_buffer);
+						break;
+					case HTELE_GPS_ID:
+						message_size = build_GPS_message(tx_buffer);
+						break;
+					case HTELE_GAM_ID:
+						message_size = build_GAM_message(tx_buffer);
+						break;
+					case HTELE_EAM_ID:
+						message_size = build_EAM_message(tx_buffer);
+						break;
+					default:
+						message_size = 0;
 				}
 				// setup next state according message size
 				state = (message_size > 0) ? TRANSMIT : IDLE;
 				break;
 			case TEXTMODE:
-				// wait for the second byte of telemetry request with 10ms timeout
-				if (PIOS_COM_ReceiveBuffer(htelemetry_port, rx_buffer, 1, 10) == 1) {
-					// clear message buffer
-					memset(tx_buffer, 0, HTELE_MAX_MESSAGE_LENGTH);
-					// check received byte (upper half == SENSOR ID, lower half == KEY CODE)
-					// TODO: fill textmessages with data.
-					message_size = build_TEXT_message(tx_buffer);
-				} else {
-					message_size = 0;
-				}
+				// clear message buffer
+				memset(tx_buffer, 0, HTELE_MAX_MESSAGE_LENGTH);
+				// check received byte (upper half == SENSOR ID, lower half == KEY CODE)
+				// TODO: fill textmessages with data.
+				message_size = build_TEXT_message(tx_buffer);
 				// setup next state according message size
 				state = (message_size > 0) ? TRANSMIT : IDLE;
 				break;
 			case TRANSMIT:
-				// pause 5ms, then check serial buffer
-				vTaskDelay(5);
+				// pause, then check serial buffer
+				vTaskDelayUntil(&lastSysTime, idleDelay);
 				if (PIOS_COM_ReceiveBuffer(htelemetry_port, rx_buffer, 1, 0) == 0) {
 					// nothing received means idle line. ready to transmit the requested message
 					for (int i = 0; i < message_size; i++) {
-						// send message content with 2ms pause between each byte
+						// send message content with pause between each byte
 						PIOS_COM_SendCharNonBlocking(htelemetry_port, tx_buffer[i]);
-						vTaskDelay(2);
+						vTaskDelayUntil(&lastSysTime, dataDelay);
 					}
 					state = CLEANUP;
 				} else {
 					// line is not idle.
-					state = CLEANUP;
+					state = IDLE;
 				}
 				break;
 			case CLEANUP:
 				// Clear serial buffer after transmit. This is required for a possible loopback data.
-				while (PIOS_COM_ReceiveBuffer(htelemetry_port, tx_buffer, HTELE_MAX_MESSAGE_LENGTH, 0) > 0) {
-					vTaskDelay(10);
-				}
+				vTaskDelayUntil(&lastSysTime, idleDelay);
+				PIOS_COM_ReceiveBuffer(htelemetry_port, tx_buffer, message_size, 0);
 				state = IDLE;
 			default:
 				state = IDLE;
@@ -303,6 +303,9 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 	convert_float2word(ftemp, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
 	convert_float2word(ftemp, 300, 30000, &msg->climbrate3s_L, &msg->climbrate3s_H);
 	convert_float2word(ftemp, 1000, 30000, &msg->climbrate10s_L, &msg->climbrate10s_H);
+
+	// text
+	snprintf((char *)msg->ascii, sizeof(msg->ascii), "TauLabs Test");
 
 	msg->checksum = calc_checksum(buffer, sizeof(*msg));
 	return sizeof(*msg);
