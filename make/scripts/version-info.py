@@ -263,7 +263,7 @@ def GetHashofDirs(directory, verbose=0, raw=0, what_to_hash='..*.xml'):
       if files:
           files.sort()
 
-      regexp = re.compile('.*.xml')
+      regexp = re.compile(what_to_hash)
       
       for names in [f for f in files if regexp.match(f)]:
         if verbose == 1:
