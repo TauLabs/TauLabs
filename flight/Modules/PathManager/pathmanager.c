@@ -339,9 +339,20 @@ static void advanceSegment(void)
 	PathSegmentActiveData pathSegmentActive;
 	PathSegmentActiveGet(&pathSegmentActive);
 
+	if (pathManagerStatus.ActiveSegment == 1) {
+		PositionActualData positionActual;
+		PositionActualGet(&positionActual);
+
+		pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_NORTH] = positionActual.North;
+		pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_EAST]  = positionActual.East;
+		pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_DOWN]  = positionActual.Down;
+
+		pathSegmentActive.CurrentFinalVelocity = 0;
+	}
+
 	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_NORTH] = pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_NORTH];
-	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_EAST] = pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_EAST];
-	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_DOWN] = pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_DOWN];
+	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_EAST]  = pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_EAST];
+	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_DOWN]  = pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_DOWN];
 
 	pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_NORTH] = pathSegmentDescriptor_current.SwitchingLocus[0];
 	pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_EAST]  = pathSegmentDescriptor_current.SwitchingLocus[1];
