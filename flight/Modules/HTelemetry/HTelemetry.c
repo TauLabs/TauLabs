@@ -331,10 +331,10 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 
 	// altitude
 	baroAltMin = (baroAltMin < baroState.Altitude) ? baroAltMin : baroState.Altitude;
-	baroAltMin = (baroAltMax > baroState.Altitude) ? baroAltMax : baroState.Altitude;
+	baroAltMax = (baroAltMax > baroState.Altitude) ? baroAltMax : baroState.Altitude;
 	convert_float2word(baroState.Altitude, 1, 500, &msg->act_altitude_L, &msg->act_altitude_H);
-	convert_float2word(baroAltMax, 1, 500, &msg->max_altitude_L, &msg->max_altitude_H);
 	convert_float2word(baroAltMin, 1, 500, &msg->min_altitude_L, &msg->min_altitude_H);
+	convert_float2word(baroAltMax, 1, 500, &msg->max_altitude_L, &msg->max_altitude_H);
 
 	// climbrate
 	convert_float2word(altState.Velocity, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
