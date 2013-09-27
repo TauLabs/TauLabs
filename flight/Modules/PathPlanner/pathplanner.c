@@ -169,7 +169,6 @@ static void pathPlannerTask(void *parameters)
 				createPathReturnToHome();
 
 				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-				PathPlannerStatusSet(&pathPlannerStatus);
 				guidanceType = RETURNHOME;
 				process_waypoints_flag = true;
 			}
@@ -183,7 +182,6 @@ static void pathPlannerTask(void *parameters)
 				createPathHoldPosition();
 
 				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-				PathPlannerStatusSet(&pathPlannerStatus);
 				guidanceType = HOLDPOSITION;
 				process_waypoints_flag = true;
 			}
@@ -198,7 +196,6 @@ static void pathPlannerTask(void *parameters)
 					if (WaypointGetNumInstances() > 1) {
 						pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
 						pathPlannerStatus.NumberOfWaypoints = WaypointGetNumInstances(); //Fixme: This is dangerous, because waypoints, once created, cannot be destroyed. This means that a long program followed by a short one will lead to the wrong number of waypoints!
-						PathPlannerStatusSet(&pathPlannerStatus);
 
 						guidanceType = PATHPLANNER;
 						process_waypoints_flag = true;
@@ -212,7 +209,6 @@ static void pathPlannerTask(void *parameters)
 					createPathBox();
 
 					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-					PathPlannerStatusSet(&pathPlannerStatus);
 					guidanceType = PATHPLANNER;
 					process_waypoints_flag = true;
 					break;
@@ -220,7 +216,6 @@ static void pathPlannerTask(void *parameters)
 					createPathStar();
 
 					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-					PathPlannerStatusSet(&pathPlannerStatus);
 					guidanceType = PATHPLANNER;
 					process_waypoints_flag = true;
 					break;
@@ -228,7 +223,6 @@ static void pathPlannerTask(void *parameters)
 					createPathLogo();
 
 					pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-					PathPlannerStatusSet(&pathPlannerStatus);
 					guidanceType = PATHPLANNER;
 					process_waypoints_flag = true;
 					break;
@@ -239,8 +233,10 @@ static void pathPlannerTask(void *parameters)
 			// When not running the path manager, short circuit and wait
 			guidanceType = NOMANAGER;
 
-			pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-			PathPlannerStatusSet(&pathPlannerStatus);
+			if (pathPlannerStatus.PathAvailability != PATHPLANNERSTATUS_PATHAVAILABILITY_NONE) {
+				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
+				PathPlannerStatusSet(&pathPlannerStatus);
+			}
 
 			vTaskDelay(MS2TICKS(IDLE_UPDATE_RATE_MS));
 
@@ -250,30 +246,34 @@ static void pathPlannerTask(void *parameters)
 		vTaskDelay(MS2TICKS(UPDATE_RATE_MS));
 
 		if(process_waypoints_flag) {
+			uint8_t tmpPathAvailability = pathPlannerStatus.PathAvailability;
 			enum path_planner_states ret;
 			ret = process_waypoints(plannerAlgorithm);
+
 			switch (ret) {
 			case PATH_PLANNER_SUCCESS:
 				process_waypoints_flag = false;
 
-				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY;
+				tmpPathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY;
 				break;
 			case PATH_PLANNER_PROCESSING:
-				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_PROCESSING;
+				tmpPathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_PROCESSING;
 				break;
 			case PATH_PLANNER_STUCK:
-				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NOCONVERGENCE;
+				tmpPathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NOCONVERGENCE;
 				process_waypoints_flag = false;
 				// Need to inform the FlightDirector that the planner cannot find a solution to the path
 				break;
 			case PATH_PLANNER_INSUFFICIENT_MEMORY:
-				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_OUTOFMEMORY;
+				tmpPathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_OUTOFMEMORY;
 				process_waypoints_flag = false;
 				// Need to inform the FlightDirector that there isn't enough memory to continue. This could be because of refinement of the path, or because of too many waypoints
 				break;
 			}
 
-			PathPlannerStatusSet(&pathPlannerStatus);
+			if (tmpPathAvailability != pathPlannerStatus.PathAvailability) {
+				PathPlannerStatusSet(&pathPlannerStatus);
+			}
 		}
 	}
 }
