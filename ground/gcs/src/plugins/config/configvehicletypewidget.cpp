@@ -876,6 +876,15 @@ void ConfigVehicleTypeWidget::reverseMultirotorMotor(){
  */
 void ConfigVehicleTypeWidget::bnLevelTrim_clicked()
 {
+    QMessageBox msgBox(QMessageBox::Question, tr("Trim level"),
+                       "Use the transmitter trim to set the autopilot for straight and level flight? (Please see the tooltip for more information.)",
+                       QMessageBox::Ok | QMessageBox::Cancel, this);
+    int cancelAction = msgBox.exec();
+
+    // If the user cancels, stop here.
+    if (cancelAction != QMessageBox::Ok)
+        return;
+
     // Call bias set function
     VehicleTrim vehicleTrim;
     VehicleTrim::autopilotLevelBiasMessages ret;
@@ -886,34 +895,39 @@ void ConfigVehicleTypeWidget::bnLevelTrim_clicked()
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_MISSING_RECEIVER:
     {
         QMessageBox msgBox(QMessageBox::Warning, tr("No receiver detected"),
-                           "Transmitter and receiver must be powered on.", 0, this);
+                           "Transmitter and receiver must be powered on.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_ARMED_STATE:
     {
         QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle armed"),
-                           "The autopilot must be disarmed first.", 0, this);
+                           "The autopilot must be disarmed first.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_FLIGHTMODE:
     {
         QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle not in Stabilized mode"),
-                           "The autopilot must be in Stabilized1, Stabilized2, or Stabilized3 mode.", 0, this);
+                           "The autopilot must be in Stabilized1, Stabilized2, or Stabilized3 mode.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_STABILIZATIONMODE:
     {
         QMessageBox msgBox(QMessageBox::Warning, tr("Incorrect roll and pitch stabilization modes."),
-                           "Both roll and pitch must be in attitude stabilization mode.", 0, this);
+                           "Both roll and pitch must be in attitude stabilization mode.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::AUTOPILOT_LEVEL_SUCCESS:
+        QMessageBox msgBox(QMessageBox::Information, tr("Trim updated"),
+                           "Trim successfully updated, please reset the transmitter's trim and be sure to configure stabilization settings to use AttitudePlus.", QMessageBox::Ok, this);
+        msgBox.exec();
+
         // Set tab as dirty (i.e. having unsaved changes).
         setDirty(true);
+
         break;
     }
 }
@@ -925,6 +939,15 @@ void ConfigVehicleTypeWidget::bnLevelTrim_clicked()
  */
 void ConfigVehicleTypeWidget::bnServoTrim_clicked()
 {
+    QMessageBox msgBox(QMessageBox::Question, tr("Trim servos"),
+                       "Use the transmitter trim to set servos for wings-level, constant-speed flight? (Please see the tooltip for more information.)",
+                       QMessageBox::Ok | QMessageBox::Cancel, this);
+    int cancelAction = msgBox.exec();
+
+    // If the user cancels, stop here.
+    if (cancelAction != QMessageBox::Ok)
+        return;
+
     // Call servo trim function
     VehicleTrim vehicleTrim;
     VehicleTrim::actuatorTrimMessages ret;
@@ -935,20 +958,25 @@ void ConfigVehicleTypeWidget::bnServoTrim_clicked()
     case VehicleTrim::ACTUATOR_TRIM_FAILED_DUE_TO_MISSING_RECEIVER:
     {
         QMessageBox msgBox(QMessageBox::Warning, tr("No receiver detected"),
-                           "Transmitter and receiver must be powered on.", 0, this);
+                           "Transmitter and receiver must be powered on.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::ACTUATOR_TRIM_FAILED_DUE_TO_FLIGHTMODE:
     {
         QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle not in manual mode"),
-                           "The autopilot must be in manual flight mode.", 0, this);
+                           "The autopilot must be in manual flight mode.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::ACTUATOR_TRIM_SUCCESS:
+        QMessageBox msgBox(QMessageBox::Information, tr("Trim updated"),
+                           "Servo trim successfully updated, please reset the transmitter's trim before flying.", QMessageBox::Ok, this);
+        msgBox.exec();
+
         // Set tab as dirty (i.e. having unsaved changes).
         setDirty(true);
+
         break;
     }
 
