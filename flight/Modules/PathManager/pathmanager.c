@@ -78,7 +78,7 @@ static portTickType segmentTimer;
 
 // Private functions
 static bool checkGoalCondition(void);
-static void checkOvershoot(void);
+static bool checkOvershoot(void);
 static void pathManagerTask(void *parameters);
 static void settingsUpdated(UAVObjEvent * ev);
 static void advanceSegment(void);
@@ -240,13 +240,18 @@ static void pathManagerTask(void *parameters)
 		// Advance segment
 		if (advanceSegment_flag) {
 			advanceSegment();
-		} else if (lastSysTime-segmentTimer > MS2TICKS(pathManagerStatus.Timeout*1000)) { // Check if we have timed out
+		} else if (lastSysTime-segmentTimer > MS2TICKS(pathManagerStatus.Timeout*1000) && pathManagerStatus.Status != PATHMANAGERSTATUS_STATUS_TIMEDOUT) { // Check if we have timed out
 			// No possiblitiy of buffer overflow because portTickType is a long
 			pathManagerStatus.Status = PATHMANAGERSTATUS_STATUS_TIMEDOUT;
 			PathManagerStatusSet(&pathManagerStatus);
-			} else if (lastSysTime-overshootTimer > MS2TICKS(OVERSHOOT_TIMER_MS)) { // Once every second or so, check for higher-level path planner failure
-			checkOvershoot();
+		} else if (lastSysTime-overshootTimer > MS2TICKS(OVERSHOOT_TIMER_MS)) { // Once every second or so, check for higher-level path planner failure
+			bool overshoot_flag;
+
+			overshoot_flag = checkOvershoot();
 			overshootTimer = lastSysTime;
+			if (overshoot_flag) {
+				//TODO: Start circling
+			}
 		}
 	}
 }
@@ -292,8 +297,8 @@ static void advanceSegment(void)
 				tmpAngle_D = tmpAngle_D	+ 360*SIGN(pathSegmentDescriptor_current.PathCurvature);
 			}
 			pmGlobals->angularDistanceToComplete_D = SIGN(pathSegmentDescriptor_current.PathCurvature) * pathSegmentDescriptor_current.NumberOfOrbits*360 + tmpAngle_D;
-		}
 			break;
+		}
 		default:
 			// This is really bad, and is only possible if the path planner screws up, but we need to handle these cases nonetheless because
 			// the alternative might be to crash. The simplest way tof fix the problem is to increase the radius, but we can't do this
@@ -392,18 +397,30 @@ static bool checkGoalCondition(void)
 	}
 		break;
 	default:
-		// TODO: This is bad to get here. Make sure it's not possible.
+		// It's bad to get here. Make sure it's not possible.
+		AlarmsSet(SYSTEMALARMS_ALARM_PATHMANAGER, SYSTEMALARMS_ALARM_ERROR);
+		vTaskDelay(MS2TICKS(1000));
 		break;
+	}
+
+	// Illogically close waypoints can lead to path segment descriptors that are coincident(ish)
+	if (powf(pathSegmentDescriptor_current.SwitchingLocus[0]-pathSegmentDescriptor_past.SwitchingLocus[0], 2) +
+			powf(pathSegmentDescriptor_current.SwitchingLocus[1]-pathSegmentDescriptor_past.SwitchingLocus[1], 2) +
+			powf(pathSegmentDescriptor_current.SwitchingLocus[2]-pathSegmentDescriptor_past.SwitchingLocus[2], 2) < 1e-6f) {
+		advanceSegment_flag = true;
 	}
 
 	return advanceSegment_flag;
 }
 
-//Check to see if we've seriously overflown our destination. Since the path follower is simply following a
-//motion descriptor,it has no concept of where the path ends. It will simply keep following it to infinity
-//if we don't stop it.
-//So while we don't know why the navigation manager failed, we know we don't want the plane flying off.
-static void checkOvershoot(void)
+/**
+ * @brief checkOvershoot Check to see if we've seriously overflown our destination. Since the path
+ * follower is simply following a motion descriptor,it has no concept of where the path ends. It
+ * will simply keep following it to infinity if we don't stop it.
+ * So while we don't know why the navigation manager failed, we know we don't want the plane flying off.
+ * @return true if we've overflown our destination point, false if otherwise
+ */
+static bool checkOvershoot(void)
 {
 	// TODO: Check for overshoot with non-infinite arcs, too.
 	if (pathSegmentDescriptor_current.PathCurvature == 0) {
@@ -430,11 +447,14 @@ static void checkOvershoot(void)
 			pathManagerStatus.Status = PATHMANAGERSTATUS_STATUS_OVERSHOOT;
 			PathManagerStatusSet(&pathManagerStatus);
 
-			//TODO: Declare an alarm
+			// Declare an alarm
 			AlarmsSet(SYSTEMALARMS_ALARM_PATHMANAGER, SYSTEMALARMS_ALARM_CRITICAL);
-			//TODO: Start circling
+
+			return true;
 		}
 	}
+
+	return false;
 }
 
 
