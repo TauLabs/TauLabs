@@ -40,14 +40,14 @@
  * @param nominal_groundspeed This is the vehicle's nominal ground speed. It does not take into account wind effects.
  * @return
  */
-bool half_plane_goal_test(float position_NE[2], float angular_distance_completed_D, float angular_distance_to_complete_D, float previous_locus_NED[3],
+bool half_plane_goal_test(float position_NE[2], float angular_distance_completed_D, float angular_distance_to_complete_D, PathSegmentDescriptorData *pathSegmentDescriptor_past,
 						  PathSegmentDescriptorData *pathSegmentDescriptor_current, PathSegmentDescriptorData *pathSegmentDescriptor_future,
 						  float advance_timing_ms, float nominal_groundspeed)
 {
 	bool advanceSegment_flag = false;
 
 	// Calculate vector from past to preset switching locus
-	float *swl_past = previous_locus_NED;
+	float *swl_past = pathSegmentDescriptor_past->SwitchingLocus;
 	float *swl_current = pathSegmentDescriptor_current->SwitchingLocus;
 	float q_current[3] = {swl_current[0] - swl_past[0], swl_current[1] - swl_past[1], 0};
 	float q_current_mag = VectorMagnitude(q_current); //Normalize

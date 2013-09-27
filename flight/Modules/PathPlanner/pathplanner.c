@@ -197,7 +197,7 @@ static void pathPlannerTask(void *parameters)
 				case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_NONE:
 					if (UAVObjGetNumInstances(WaypointHandle()) > 1) {
 						pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
-						pathPlannerStatus.NumberOfWaypoints = UAVObjGetNumInstances(WaypointHandle()); //Fixme: This is dangerous, because waypoints, once created, cannot be destroyed. This means that a long program followed by a short one will lead to the wrong number of waypoints!
+						pathPlannerStatus.NumberOfWaypoints = WaypointGetNumInstances(); //Fixme: This is dangerous, because waypoints, once created, cannot be destroyed. This means that a long program followed by a short one will lead to the wrong number of waypoints!
 						PathPlannerStatusSet(&pathPlannerStatus);
 
 						guidanceType = PATHPLANNER;
@@ -257,7 +257,6 @@ static void pathPlannerTask(void *parameters)
 				process_waypoints_flag = false;
 
 				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY;
-				PathPlannerStatusSet(&pathPlannerStatus);
 				break;
 			case PATH_PLANNER_PROCESSING:
 				pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_PROCESSING;
@@ -273,6 +272,8 @@ static void pathPlannerTask(void *parameters)
 				// Need to inform the FlightDirector that there isn't enough memory to continue. This could be because of refinement of the path, or because of too many waypoints
 				break;
 			}
+
+			PathPlannerStatusSet(&pathPlannerStatus);
 		}
 	}
 }

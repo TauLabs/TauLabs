@@ -55,11 +55,6 @@
 
 // Private types
 enum guidanceTypes {PM_NOMANAGER, PM_PATHPLANNER};
-static struct PreviousLocus
-{
-	float Position[3];
-	float Velocity;
-} *previousLocus;
 
 static struct PathManagerGlobals
 {
@@ -77,6 +72,7 @@ static xTaskHandle taskHandle;
 static FixedWingAirspeedsData fixedWingAirspeeds;
 static PathManagerSettingsData pathManagerSettings;
 static PathManagerStatusData pathManagerStatus;
+static PathSegmentDescriptorData pathSegmentDescriptor_past;
 static PathSegmentDescriptorData pathSegmentDescriptor_current;
 static portTickType segmentTimer;
 
@@ -131,9 +127,6 @@ int32_t PathManagerInitialize()
 		FixedWingAirspeedsInitialize(); //TODO: This shouldn't really be here, as it's airframe specific
 
 		// Allocate memory
-		previousLocus = (struct PreviousLocus *) pvPortMalloc(sizeof(struct PreviousLocus));
-		memset(previousLocus, 0, sizeof(struct PreviousLocus));
-
 		pmGlobals = (struct PathManagerGlobals *) pvPortMalloc(sizeof(struct PathManagerGlobals));
 		memset(pmGlobals, 0, sizeof(struct PathManagerGlobals));
 		pmGlobals->guidanceType = PM_NOMANAGER;
@@ -213,7 +206,7 @@ static void pathManagerTask(void *parameters)
 				if (theta_roundoff_trim_count++ >=1000) {
 					theta_roundoff_trim_count = 0;
 
-					float referenceTheta_D = measure_arc_rad(previousLocus->Position, newPosition_NE, pmGlobals->arcCenter_NE) * RAD2DEG;
+					float referenceTheta_D = measure_arc_rad(pathSegmentDescriptor_past.SwitchingLocus, newPosition_NE, pmGlobals->arcCenter_NE) * RAD2DEG;
 					float error_D = circular_modulus_deg(referenceTheta_D-pmGlobals->angularDistanceCompleted_D);
 
 					pmGlobals->angularDistanceCompleted_D += error_D;
@@ -265,13 +258,7 @@ static void pathManagerTask(void *parameters)
  */
 static void advanceSegment(void)
 {
-	PathSegmentDescriptorData pathSegmentDescriptor_past;
 	PathSegmentDescriptorInstGet(pathManagerStatus.ActiveSegment, &pathSegmentDescriptor_past);
-
-	previousLocus->Position[0] = pathSegmentDescriptor_past.SwitchingLocus[0];
-	previousLocus->Position[1] = pathSegmentDescriptor_past.SwitchingLocus[1];
-	previousLocus->Position[2] = pathSegmentDescriptor_past.SwitchingLocus[2];
-	previousLocus->Velocity = pathSegmentDescriptor_past.FinalVelocity;
 
 	// Advance segment
 	pathManagerStatus.ActiveSegment++;
@@ -286,7 +273,7 @@ static void advanceSegment(void)
 	// If the path is an arc, find the center and angular distance along arc
 	if (pathSegmentDescriptor_current.PathCurvature != 0 ) {
 		// Determine if the arc has a center, and if so assign it to arcCenter_NE
-		pmGlobals->arc_has_center = find_arc_center(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus,
+		pmGlobals->arc_has_center = find_arc_center(pathSegmentDescriptor_past.SwitchingLocus, pathSegmentDescriptor_current.SwitchingLocus,
 										 1.0f/pathSegmentDescriptor_current.PathCurvature,
 										 pathSegmentDescriptor_current.PathCurvature > 0,
 										 pathSegmentDescriptor_current.ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR,
@@ -297,10 +284,10 @@ static void advanceSegment(void)
 		switch (pmGlobals->arc_has_center) {
 		case ARC_CENTER_FOUND:
 		{
-			pmGlobals->oldPosition_NE[0] = previousLocus->Position[0];
-			pmGlobals->oldPosition_NE[1] = previousLocus->Position[1];
+			pmGlobals->oldPosition_NE[0] = pathSegmentDescriptor_past.SwitchingLocus[0];
+			pmGlobals->oldPosition_NE[1] = pathSegmentDescriptor_past.SwitchingLocus[1];
 
-			float tmpAngle_D = measure_arc_rad(previousLocus->Position, pathSegmentDescriptor_current.SwitchingLocus, pmGlobals->arcCenter_NE) * RAD2DEG;
+			float tmpAngle_D = measure_arc_rad(pathSegmentDescriptor_past.SwitchingLocus, pathSegmentDescriptor_current.SwitchingLocus, pmGlobals->arcCenter_NE) * RAD2DEG;
 			if (SIGN(pathSegmentDescriptor_current.PathCurvature) * tmpAngle_D < 0)	{
 				tmpAngle_D = tmpAngle_D	+ 360*SIGN(pathSegmentDescriptor_current.PathCurvature);
 			}
@@ -339,20 +326,9 @@ static void advanceSegment(void)
 	PathSegmentActiveData pathSegmentActive;
 	PathSegmentActiveGet(&pathSegmentActive);
 
-	if (pathManagerStatus.ActiveSegment == 1) {
-		PositionActualData positionActual;
-		PositionActualGet(&positionActual);
-
-		pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_NORTH] = positionActual.North;
-		pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_EAST]  = positionActual.East;
-		pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_DOWN]  = positionActual.Down;
-
-		pathSegmentActive.CurrentFinalVelocity = 0;
-	}
-
-	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_NORTH] = pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_NORTH];
-	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_EAST]  = pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_EAST];
-	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_DOWN]  = pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_DOWN];
+	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_NORTH] = pathSegmentDescriptor_past.SwitchingLocus[0];
+	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_EAST]  = pathSegmentDescriptor_past.SwitchingLocus[1];
+	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_DOWN]  = pathSegmentDescriptor_past.SwitchingLocus[2];
 
 	pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_NORTH] = pathSegmentDescriptor_current.SwitchingLocus[0];
 	pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_EAST]  = pathSegmentDescriptor_current.SwitchingLocus[1];
@@ -362,7 +338,7 @@ static void advanceSegment(void)
 //	pathSegmentActive.FutureSwitchingLocus[PATHSEGMENTACTIVE_FUTURESWITCHINGLOCUS_EAST] =;
 //	pathSegmentActive.FutureSwitchingLocus[PATHSEGMENTACTIVE_FUTURESWITCHINGLOCUS_DOWN] =;
 
-	pathSegmentActive.PastFinalVelocity = pathSegmentActive.CurrentFinalVelocity;
+	pathSegmentActive.PastFinalVelocity    = pathSegmentDescriptor_past.FinalVelocity;
 	pathSegmentActive.CurrentFinalVelocity = pathSegmentDescriptor_current.FinalVelocity;
 
 	pathSegmentActive.CurrentPathCurvature = pathSegmentDescriptor_current.PathCurvature;
@@ -399,7 +375,7 @@ static bool checkGoalCondition(void)
 			float position_NE[2] = {positionActual.North, positionActual.East};
 
 			advanceSegment_flag = half_plane_goal_test(position_NE, pmGlobals->angularDistanceCompleted_D, pmGlobals->angularDistanceToComplete_D,
-													   previousLocus->Position, &pathSegmentDescriptor_current, &pathSegmentDescriptor_future,
+													   &pathSegmentDescriptor_past, &pathSegmentDescriptor_current, &pathSegmentDescriptor_future,
 													   pathManagerSettings.HalfPlaneAdvanceTiming, fixedWingAirspeeds.BestClimbRateSpeed);
 		} else { // Since there are no further switching loci, this must be the waypoint.
 			//Do nothing.
@@ -436,7 +412,7 @@ static void checkOvershoot(void)
 
 		float p[2] = {positionActual.North, positionActual.East};
 		float c[2] = {pathSegmentDescriptor_current.SwitchingLocus[0], pathSegmentDescriptor_current.SwitchingLocus[1]};
-		float *r = previousLocus->Position;
+		float r[2] = {pathSegmentDescriptor_past.SwitchingLocus[0],    pathSegmentDescriptor_past.SwitchingLocus[1]};
 
 		// Calculate vector from initial to final point
 		float q[3] = {c[0] - r[0], c[1] - r[1], 0};

@@ -33,6 +33,6 @@
 
 
 bool b_ball_goal_test(float position_NE[2], float swtiching_locus_NE[2], float threshold_distance);
-bool half_plane_goal_test(float position_NE[2], float angular_distance_completed_D, float angular_distance_to_complete_D, float previous_locus[3], PathSegmentDescriptorData *pathSegmentDescriptor_current, PathSegmentDescriptorData *pathSegmentDescriptor_future, float advance_timing_ms, float nominal_groundspeed);
+bool half_plane_goal_test(float position_NE[2], float angular_distance_completed_D, float angular_distance_to_complete_D, PathSegmentDescriptorData *pathSegmentDescriptor_past, PathSegmentDescriptorData *pathSegmentDescriptor_current, PathSegmentDescriptorData *pathSegmentDescriptor_future, float advance_timing_ms, float nominal_groundspeed);
 
 #endif // PATH_MANAGERS_H_
