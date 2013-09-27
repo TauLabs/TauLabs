@@ -39,7 +39,7 @@ void simple_hold_position(void)
 {
 	PathSegmentDescriptorData pathSegmentDescriptor;
 	
-	for (int i=UAVObjGetNumInstances(PathSegmentDescriptorHandle()); i<=1; i++){
+	for (int i=PathSegmentDescriptorGetNumInstances(); i<=1; i++){
 		PathSegmentDescriptorCreateInstance();
 	}
 	

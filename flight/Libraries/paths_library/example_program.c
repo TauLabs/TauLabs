@@ -39,7 +39,7 @@ void example_program(void)
 {
 	PathSegmentDescriptorData pathSegmentDescriptor;
 	
-	for (int i=UAVObjGetNumInstances(PathSegmentDescriptorHandle()); i<=6; i++){
+	for (int i=PathSegmentDescriptorGetNumInstances(); i<=6; i++){
 		PathSegmentDescriptorCreateInstance();
 	}
 	

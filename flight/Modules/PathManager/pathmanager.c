@@ -371,7 +371,7 @@ static bool checkGoalCondition(void)
 	// Half-plane approach. This is the preferred strategy
 	{
 		// Check if there is a switching locus after the present one
-		if (pathManagerStatus.ActiveSegment + 1 < UAVObjGetNumInstances(PathSegmentDescriptorHandle()))	{
+		if (pathManagerStatus.ActiveSegment + 1 < PathSegmentDescriptorGetNumInstances())	{
 			PathSegmentDescriptorData pathSegmentDescriptor_future;
 			PathSegmentDescriptorInstGet(pathManagerStatus.ActiveSegment+1, &pathSegmentDescriptor_future);  // TODO: Check that an instance is successfully returned
 

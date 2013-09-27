@@ -195,7 +195,7 @@ static void pathPlannerTask(void *parameters)
 
 				switch (pathPlannerSettings.PreprogrammedPath) {
 				case PATHPLANNERSETTINGS_PREPROGRAMMEDPATH_NONE:
-					if (UAVObjGetNumInstances(WaypointHandle()) > 1) {
+					if (WaypointGetNumInstances() > 1) {
 						pathPlannerStatus.PathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_NONE;
 						pathPlannerStatus.NumberOfWaypoints = WaypointGetNumInstances(); //Fixme: This is dangerous, because waypoints, once created, cannot be destroyed. This means that a long program followed by a short one will lead to the wrong number of waypoints!
 						PathPlannerStatusSet(&pathPlannerStatus);
@@ -365,7 +365,7 @@ static void createPathBox(void)
 	pathPlannerStatus.NumberOfWaypoints = 7;
 	PathPlannerStatusSet(&pathPlannerStatus);
 
-	for (uint16_t i=UAVObjGetNumInstances(WaypointHandle()); i<pathPlannerStatus.NumberOfWaypoints; i++) {
+	for (uint16_t i=WaypointGetNumInstances(); i<pathPlannerStatus.NumberOfWaypoints; i++) {
 		WaypointCreateInstance();
 	}
 
@@ -423,7 +423,7 @@ static void createPathStar(void)
 	pathPlannerStatus.NumberOfWaypoints = 8;
 	PathPlannerStatusSet(&pathPlannerStatus);
 	
-	for (uint16_t i=UAVObjGetNumInstances(WaypointHandle()); i<pathPlannerStatus.NumberOfWaypoints; i++) {
+	for (uint16_t i=WaypointGetNumInstances(); i<pathPlannerStatus.NumberOfWaypoints; i++) {
 		WaypointCreateInstance();
 	}
 	
@@ -466,7 +466,7 @@ static void createPathLogo(void)
 	pathPlannerStatus.NumberOfWaypoints = 42;
 	PathPlannerStatusSet(&pathPlannerStatus);
 
-	for (uint16_t i=UAVObjGetNumInstances(WaypointHandle()); i<pathPlannerStatus.NumberOfWaypoints; i++) {
+	for (uint16_t i=WaypointGetNumInstances(); i<pathPlannerStatus.NumberOfWaypoints; i++) {
 		WaypointCreateInstance();
 	}
 

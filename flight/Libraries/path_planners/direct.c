@@ -53,7 +53,7 @@ enum path_planner_states direct_path_planner(uint16_t numberOfWaypoints)
 	if(1) //There is enough memory
 	{
 		// Generate the path segment descriptors
-		for (uint16_t i=UAVObjGetNumInstances(PathSegmentDescriptorHandle()); i<UAVObjGetNumInstances(WaypointHandle())+1; i++) {
+		for (uint16_t i=PathSegmentDescriptorGetNumInstances(); i<WaypointGetNumInstances()+1; i++) {
 			//TODO: Ensure there is enough memory before generating
 			PathSegmentDescriptorCreateInstance();
 		}
@@ -144,7 +144,7 @@ static uint8_t addNonCircleToSwitchingLoci(float position[3], float final_veloci
 	pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 
 
-	if (index >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+	if (index >= PathSegmentDescriptorGetNumInstances())
 		PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 	pathSegmentDescriptor.SwitchingLocus[0] = position[0];
@@ -190,7 +190,7 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 	float d = sqrtf(powf(pathSegmentDescriptor.SwitchingLocus[0] - pathSegmentDescriptor_old.SwitchingLocus[0], 2) + powf(pathSegmentDescriptor.SwitchingLocus[1] - pathSegmentDescriptor_old.SwitchingLocus[1], 2)) - radius;
 
 	if (d > pathManagerSettings.HalfPlaneAdvanceTiming*pathSegmentDescriptor.FinalVelocity) {
-		if (index >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+		if (index >= PathSegmentDescriptorGetNumInstances())
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Go straight toward circle center
@@ -204,7 +204,7 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 		PathSegmentDescriptorInstSet(index, &pathSegmentDescriptor);
 
 		// Add instances if necessary
-		if (index+1 >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+		if (index+1 >= PathSegmentDescriptorGetNumInstances())
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Orbit position. Choose a point 90 degrees later in the arc so that the minor arc is the correct one.
@@ -218,7 +218,7 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 		PathSegmentDescriptorInstSet(index+1, &pathSegmentDescriptor);
 	} else {
 		// Add instances if necessary
-		if (index >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+		if (index >= PathSegmentDescriptorGetNumInstances())
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Enter directly into circle
@@ -232,7 +232,7 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 		PathSegmentDescriptorInstSet(index, &pathSegmentDescriptor);
 
 		// Add instances if necessary
-		if (index+1 >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+		if (index+1 >= PathSegmentDescriptorGetNumInstances())
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Orbit position. Choose a point 90 degrees later in the arc so that the minor arc is the correct one.

@@ -66,7 +66,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 	// rough guess is we'll need twice as many loci as we do waypoints
 	if(1) { //There is enough memory
 		// Generate the path segment descriptors
-		for (int i=UAVObjGetNumInstances(PathSegmentDescriptorHandle()); i<UAVObjGetNumInstances(WaypointHandle())+1; i++) {
+		for (int i=PathSegmentDescriptorGetNumInstances(); i<WaypointGetNumInstances()+1; i++) {
 			//TODO: Ensure there is enough memory before generating
 			PathSegmentDescriptorCreateInstance();
 		}
@@ -332,7 +332,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				 * Add the filleting segments in preparation for the next waypoint
 				 */
 				offset++;
-				if (wptIdx+offset >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+				if (wptIdx+offset >= PathSegmentDescriptorGetNumInstances())
 					PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 				float gamma = atan2f(q_current[1], q_current[0]);
@@ -361,7 +361,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				PathSegmentDescriptorInstSet(wptIdx+offset, &pathSegmentDescriptor);
 
 				offset++;
-				if (wptIdx+offset >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+				if (wptIdx+offset >= PathSegmentDescriptorGetNumInstances())
 					PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 				// The switching locus is the midpoint between the center of filleting arc f2 and the circle
@@ -375,7 +375,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				PathSegmentDescriptorInstSet(wptIdx+offset, &pathSegmentDescriptor);
 
 				offset++;
-				if (wptIdx+offset >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+				if (wptIdx+offset >= PathSegmentDescriptorGetNumInstances())
 					PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 				pathSegmentDescriptor.SwitchingLocus[0] = f2[0];
@@ -422,7 +422,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				 * Add the filleting segment in preparation for the next waypoint
 				 */
 				offset++;
-				if (wptIdx+offset >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+				if (wptIdx+offset >= PathSegmentDescriptorGetNumInstances())
 					PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 				PathSegmentDescriptorData pathSegmentDescriptor;
@@ -483,7 +483,7 @@ static uint8_t addNonCircleToSwitchingLoci(float position[3], float finalVelocit
 	pathSegmentDescriptor.NumberOfOrbits = 0;
 	pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 
-	if (index >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+	if (index >= PathSegmentDescriptorGetNumInstances())
 		PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 	pathSegmentDescriptor.SwitchingLocus[0] = position[0];
@@ -540,7 +540,7 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 					   circle_center[2]};
 
 		// Add instances if necessary
-		if (index >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+		if (index >= PathSegmentDescriptorGetNumInstances())
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		pathSegmentDescriptor.SwitchingLocus[0] = f1[0];
@@ -554,7 +554,7 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 
 		// Add instances if necessary
 		offset++;
-		if (index+offset >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+		if (index+offset >= PathSegmentDescriptorGetNumInstances())
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Form fillet. See documentation http://XYZ
@@ -569,7 +569,7 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 
 		// Add instances if necessary
 		offset++;
-		if (index+offset >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+		if (index+offset >= PathSegmentDescriptorGetNumInstances())
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Orbit position. Choose a point 90 degrees later in the arc so that the minor arc is the correct one.
@@ -594,7 +594,7 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 
 
 		// Add instances if necessary
-		if (index >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+		if (index >= PathSegmentDescriptorGetNumInstances())
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Form fillet
@@ -609,7 +609,7 @@ static uint8_t addCircleToSwitchingLoci(float circle_center[3], float finalVeloc
 
 		// Add instances if necessary
 		offset++;
-		if (index+offset >= UAVObjGetNumInstances(PathSegmentDescriptorHandle()))
+		if (index+offset >= PathSegmentDescriptorGetNumInstances())
 			PathSegmentDescriptorCreateInstance(); //TODO: Check for successful creation of switching locus
 
 		// Orbit position. Choose a point 90 degrees later in the arc so that the minor arc is the correct one.

@@ -39,7 +39,7 @@ void simple_return_to_home(void)
 {
 	PathSegmentDescriptorData pathSegmentDescriptor;
 	
-	for (int i=UAVObjGetNumInstances(PathSegmentDescriptorHandle()); i<=2; i++){
+	for (int i=PathSegmentDescriptorGetNumInstances(); i<=2; i++){
 		PathSegmentDescriptorCreateInstance();
 	}
 	
