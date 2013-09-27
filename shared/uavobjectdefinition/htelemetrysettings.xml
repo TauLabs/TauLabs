@@ -1,0 +1,39 @@
+<xml>
+	<object name="HTelemetrySettings" singleinstance="true" settings="true">
+		<description>Settings for the @ref HoTT Telemetry Module</description>
+		<field name="VARIO" units="" type="enum" elements="1" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Enabled</option>
+			</options>
+		</field>
+		<field name="GPS" units="" type="enum" elements="1" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Enabled</option>
+			</options>
+		</field>
+		<field name="EAM" units="" type="enum" elements="1" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Enabled</option>
+			</options>
+		</field>
+		<field name="GAM" units="" type="enum" elements="1" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Enabled</option>
+			</options>
+		</field>
+		<field name="ESC" units="" type="enum" elements="1" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Enabled</option>
+			</options>
+		</field>
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

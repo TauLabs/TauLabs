@@ -28,21 +28,13 @@
  */
 
 #include "openpilot.h"
-#include "physical_constants.h"
 #include "modulesettings.h"
-#include "flightbatterysettings.h"
-#include "flightbatterystate.h"
-#include "gpsposition.h"
-#include "manualcontrolcommand.h"
-#include "attitudeactual.h"
-#include "airspeedactual.h"
-#include "actuatordesired.h"
-#include "flightstatus.h"
-#include "systemstats.h"
-#include "homelocation.h"
-#include "baroaltitude.h"
-#include "gyros.h"
+#include "htelemetrysettings.h"
 #include "altholdsmoothed.h"
+#include "baroaltitude.h"
+#include "flightbatterystate.h"
+#include "gyros.h"
+#include "gpsposition.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 800
@@ -51,13 +43,15 @@
 #define HTELE_TEXT_ID 0x7f			// Text request
 #define HTELE_BINARY_ID 0x80		// Binary request
 #define HTELE_VARIO_ID 0x89			// Vario Module ID
-#define HTELE_VARIO_TEXT_ID 0x90	// Vario Module ID
+#define HTELE_VARIO_TEXT_ID 0x90	// Vario Module TEXT ID
 #define HTELE_GPS_ID 0x8a			// GPS Module ID
-#define HTELE_GPS_TEXT_ID 0xa0		// GPS Module ID
+#define HTELE_GPS_TEXT_ID 0xa0		// GPS Module TEXT ID
+#define HTELE_ESC_ID 0x8c			// ESC Module ID
+#define HTELE_ESC_TEXT_ID 0xc0		// ESC Module TEXT ID
 #define HTELE_GAM_ID 0x8d			// General Air Module ID
-#define HTELE_GAM_TEXT_ID 0xd0		// General Air Module ID
+#define HTELE_GAM_TEXT_ID 0xd0		// General Air Module TEXT ID
 #define HTELE_EAM_ID 0x8e			// Electric Air Module ID
-#define HTELE_EAM_TEXT_ID 0xe0		// Electric Air Module ID
+#define HTELE_EAM_TEXT_ID 0xe0		// Electric Air Module TEXT ID
 #define HTELE_TEXT_START 0x7b		// Start byte Text mode
 #define HTELE_START 0x7c			// Start byte Binary mode
 #define HTELE_STOP 0x7d				// End byte
@@ -72,12 +66,18 @@
 
 // Private variables
 static xTaskHandle HTelemetryTaskHandle;
+// static HTelemetrySettingsData HTelemetrySettings;
 static uint32_t htelemetry_port;
 static bool module_enabled = false;
 static uint8_t * tx_buffer;
 
-static float BaroAltMin;
-static float BaroAltMax;
+static AltHoldSmoothedData altState;
+static BaroAltitudeData baroState;
+static FlightBatteryStateData battState;
+static GPSPositionData gpsState;
+static GyrosData gyroState;
+static float baroAltMin;
+static float baroAltMax;
 
 // Private functions
 static void HTelemetryTask(void *parameters);
@@ -85,6 +85,7 @@ static uint16_t build_VARIO_message(uint8_t *buffer);
 static uint16_t build_GPS_message(uint8_t *buffer);
 static uint16_t build_GAM_message(uint8_t *buffer);
 static uint16_t build_EAM_message(uint8_t *buffer);
+static uint16_t build_ESC_message(uint8_t *buffer);
 static uint16_t build_TEXT_message(uint8_t *buffer);
 static uint8_t calc_checksum(uint8_t *data, uint16_t size);
 static void convert_float2byte(float val, float scale, uint16_t offset, uint8_t *lsb);
@@ -99,6 +100,8 @@ static void convert_long2gps(int32_t val, uint8_t *dir, uint8_t *min_lsb, uint8_
 static int32_t HTelemetryStart(void)
 {
 	if (module_enabled) {
+		HTelemetryTaskHandle = NULL;
+
 		// Start tasks
 		xTaskCreate(HTelemetryTask, (signed char *) "HTelemetry",
 				STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY,
@@ -124,13 +127,16 @@ static int32_t HTelemetryInitialize(void)
 
 	if (htelemetry_port && (module_state[MODULESETTINGS_ADMINSTATE_HTELEMETRY] == MODULESETTINGS_ADMINSTATE_ENABLED)) {
 		module_enabled = true;
-		// HoTT telemetry baudrate is fixed to 19200
-		PIOS_COM_ChangeBaud(htelemetry_port, 19200);
-		tx_buffer = pvPortMalloc(HTELE_MAX_MESSAGE_LENGTH);
 	} else {
 		module_enabled = false;
 	}
-	return 0;
+
+	if (module_enabled) {
+		HTelemetrySettingsInitialize();
+		return 0;
+	}
+
+	return -1;
 }
 MODULE_INITCALL( HTelemetryInitialize, HTelemetryStart)
 
@@ -140,7 +146,6 @@ MODULE_INITCALL( HTelemetryInitialize, HTelemetryStart)
 static void HTelemetryTask(void *parameters) {
 	uint8_t rx_buffer[3];
 	uint16_t message_size = 0;
-	float ftemp;
 
 	static enum htelemetry_state {
 		IDLE,
@@ -150,12 +155,36 @@ static void HTelemetryTask(void *parameters) {
 		CLEANUP
 	} state = IDLE;
 
+	// HoTT telemetry baudrate is fixed to 19200
+	PIOS_COM_ChangeBaud(htelemetry_port, 19200);
+
+	// allocate memory for message buffer
+	tx_buffer = pvPortMalloc(HTELE_MAX_MESSAGE_LENGTH);
+
 	// 500ms delay for sensor setup
 	vTaskDelay(500);
-	// initialize min/max values
-	BaroAltitudeAltitudeGet(&ftemp);
-	BaroAltMin = ftemp;
-	BaroAltMax = ftemp;
+
+	// clear some sensor data
+	baroState.Altitude = 0;
+	baroState.Temperature = 0;
+	altState.Velocity = 0;
+	gpsState.Latitude = 0;
+	gpsState.Longitude = 0;
+	gpsState.Altitude = 0;
+	gpsState.Heading = 0;
+	gpsState.Groundspeed = 0;
+	gpsState.Status = GPSPOSITION_STATUS_NOGPS;
+	gpsState.Satellites = 0;
+	battState.Voltage = 0;
+	battState.Current = 0;
+	battState.ConsumedEnergy = 0;
+	gyroState.temperature = 0;
+
+	// initialize altitude min/max values
+	if (BaroAltitudeHandle() != NULL)
+		BaroAltitudeGet(&baroState);
+	baroAltMin = baroState.Altitude;
+	baroAltMax = baroState.Altitude;
 
 	// initialize timer variables
 	portTickType lastSysTime = xTaskGetTickCount();
@@ -166,7 +195,7 @@ static void HTelemetryTask(void *parameters) {
 	while (1) {
 		switch (state) {
 			case IDLE:
-				// wait for the first byte of telemetry request in 1ms interval
+				// wait for the next byte of telemetry request in 2ms interval
 				while (PIOS_COM_ReceiveBuffer(htelemetry_port, rx_buffer, 1, 0) == 0)
 					vTaskDelayUntil(&lastSysTime, dataDelay);
 				// set start trigger point
@@ -188,8 +217,6 @@ static void HTelemetryTask(void *parameters) {
 					}
 				break;
 			case BINARYMODE:
-				// clear message buffer
-				memset(tx_buffer, 0, HTELE_MAX_MESSAGE_LENGTH);
 				// check received byte (SENSOR ID)
 				switch (rx_buffer[1]) {
 					case HTELE_VARIO_ID:
@@ -204,6 +231,9 @@ static void HTelemetryTask(void *parameters) {
 					case HTELE_EAM_ID:
 						message_size = build_EAM_message(tx_buffer);
 						break;
+					case HTELE_ESC_ID:
+						message_size = build_ESC_message(tx_buffer);
+						break;
 					default:
 						message_size = 0;
 				}
@@ -211,8 +241,6 @@ static void HTelemetryTask(void *parameters) {
 				state = (message_size > 0) ? TRANSMIT : IDLE;
 				break;
 			case TEXTMODE:
-				// clear message buffer
-				memset(tx_buffer, 0, HTELE_MAX_MESSAGE_LENGTH);
 				// check received byte (upper half == SENSOR ID, lower half == KEY CODE)
 				// TODO: fill textmessages with data.
 				message_size = build_TEXT_message(tx_buffer);
@@ -280,7 +308,14 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 		uint8_t checksum;			// Lower 8-bits of all bytes summed
 	} *msg;
 	msg = (struct hott_vario_message *)buffer;
-	float ftemp;
+	uint8_t config;
+
+	HTelemetrySettingsVARIOGet(&config);
+	if (config == HTELEMETRYSETTINGS_VARIO_DISABLED)
+		return 0;
+
+	// clear message buffer
+	memset(buffer, 0, sizeof(*msg));
 
 	/* message header */
 	msg->start = HTELE_START;
@@ -288,21 +323,23 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 	msg->sensor_id = HTELE_VARIO_ID;
 	msg->sensor_text_id = HTELE_VARIO_TEXT_ID;
 
+	// update data
+	if (AltHoldSmoothedHandle() != NULL)
+		AltHoldSmoothedGet(&altState);
+	if (BaroAltitudeHandle() != NULL)
+		BaroAltitudeGet(&baroState);
+
 	// altitude
-	BaroAltitudeAltitudeGet(&ftemp);
-	if (ftemp > BaroAltMax)
-		BaroAltMax = ftemp; 
-	if (ftemp < BaroAltMin)
-		BaroAltMin = ftemp;
-	convert_float2word(ftemp, 1, 500, &msg->act_altitude_L, &msg->act_altitude_H);
-	convert_float2word(BaroAltMax, 1, 500, &msg->max_altitude_L, &msg->max_altitude_H);
-	convert_float2word(BaroAltMin, 1, 500, &msg->min_altitude_L, &msg->min_altitude_H);
+	baroAltMin = (baroAltMin < baroState.Altitude) ? baroAltMin : baroState.Altitude;
+	baroAltMin = (baroAltMax > baroState.Altitude) ? baroAltMax : baroState.Altitude;
+	convert_float2word(baroState.Altitude, 1, 500, &msg->act_altitude_L, &msg->act_altitude_H);
+	convert_float2word(baroAltMax, 1, 500, &msg->max_altitude_L, &msg->max_altitude_H);
+	convert_float2word(baroAltMin, 1, 500, &msg->min_altitude_L, &msg->min_altitude_H);
 
 	// climbrate
-	AltHoldSmoothedVelocityGet(&ftemp);
-	convert_float2word(ftemp, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
-	convert_float2word(ftemp, 300, 30000, &msg->climbrate3s_L, &msg->climbrate3s_H);
-	convert_float2word(ftemp, 1000, 30000, &msg->climbrate10s_L, &msg->climbrate10s_H);
+	convert_float2word(altState.Velocity, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
+	convert_float2word(altState.Velocity, 300, 30000, &msg->climbrate3s_L, &msg->climbrate3s_H);
+	convert_float2word(altState.Velocity, 1000, 30000, &msg->climbrate10s_L, &msg->climbrate10s_H);
 
 	// text
 	snprintf((char *)msg->ascii, sizeof(msg->ascii), "TauLabs Test");
@@ -361,10 +398,14 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 		uint8_t checksum;			// Lower 8-bits of all bytes summed
 	} *msg;
 	msg = (struct hott_gps_message *)buffer;
-	float ftemp;
-	uint8_t utemp;
-	int8_t itemp;
-	int32_t ltemp;
+	uint8_t config;
+
+	HTelemetrySettingsGPSGet(&config);
+	if (config == HTELEMETRYSETTINGS_GPS_DISABLED)
+		return 0;
+
+	// clear message buffer
+	memset(buffer, 0, sizeof(*msg));
 
 	// message header
 	msg->start = HTELE_START;
@@ -375,22 +416,21 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	msg->alarm_inverse1 = 1;
 	msg->alarm_inverse2 = 0;
 
+	// update data
+	if (AltHoldSmoothedHandle() != NULL)
+		AltHoldSmoothedGet(&altState);
+	if (GPSPositionHandle() != NULL)
+		GPSPositionGet(&gpsState);
+
 	// gps
-	GPSPositionHeadingGet(&ftemp);
-	convert_float2byte(ftemp, 1, 0, &msg->flight_direction);
-	GPSPositionGroundspeedGet(&ftemp);
-	convert_float2word(ftemp, 3.6, 0, &msg->gps_speed_L, &msg->gps_speed_H);
-
-	GPSPositionLatitudeGet(&ltemp);
-	convert_long2gps(ltemp, &msg->latitude_ns, &msg->latitude_min_L, &msg->latitude_min_H, &msg->latitude_sec_L, &msg->latitude_sec_H);
-	GPSPositionLongitudeGet(&ltemp);
-	convert_long2gps(ltemp, &msg->longitude_ew, &msg->longitude_min_L, &msg->longitude_min_H, &msg->longitude_sec_L, &msg->longitude_sec_H);
-
-	GPSPositionAltitudeGet(&ftemp);
-	convert_float2word(ftemp, 1, 500, &msg->altitude_L, &msg->altitude_H);
-	GPSPositionSatellitesGet(&itemp); msg->gps_num_sat = itemp;
-	GPSPositionStatusGet(&utemp);
-	switch (utemp) {
+	// TODO home dir
+	convert_long2gps(gpsState.Latitude, &msg->latitude_ns, &msg->latitude_min_L, &msg->latitude_min_H, &msg->latitude_sec_L, &msg->latitude_sec_H);
+	convert_long2gps(gpsState.Longitude, &msg->longitude_ew, &msg->longitude_min_L, &msg->longitude_min_H, &msg->longitude_sec_L, &msg->longitude_sec_H);
+	convert_float2word(gpsState.Altitude, 1, 500, &msg->altitude_L, &msg->altitude_H);
+	convert_float2byte(gpsState.Heading, 1, 0, &msg->flight_direction);
+	convert_float2word(gpsState.Groundspeed, 3.6, 0, &msg->gps_speed_L, &msg->gps_speed_H);
+	msg->gps_num_sat = gpsState.Satellites;
+	switch (gpsState.Status) {
 		case GPSPOSITION_STATUS_NOGPS:
 			msg->gps_fix_char = '-';
 			break;
@@ -408,11 +448,8 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	}
 
 	// climbrate
-	AltHoldSmoothedVelocityGet(&ftemp);
-	convert_float2word(ftemp, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
-	convert_float2byte(ftemp, 3, 120, &msg->climbrate3s);
-
-	// home dir
+	convert_float2word(altState.Velocity, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
+	convert_float2byte(altState.Velocity, 3, 120, &msg->climbrate3s);
 
 	msg->checksum = calc_checksum(buffer, sizeof(*msg));
 	return sizeof(*msg);
@@ -468,7 +505,14 @@ uint16_t build_GAM_message(uint8_t *buffer) {
 		uint8_t checksum;			// Lower 8-bits of all bytes summed
 	} *msg;
 	msg = (struct hott_gam_message *)buffer;
-	float ftemp;
+	uint8_t config;
+
+	HTelemetrySettingsGAMGet(&config);
+	if (config == HTELEMETRYSETTINGS_GAM_DISABLED)
+		return 0;
+
+	// clear message buffer
+	memset(buffer, 0, sizeof(*msg));
 
 	// message header
 	msg->start = HTELE_START;
@@ -476,26 +520,31 @@ uint16_t build_GAM_message(uint8_t *buffer) {
 	msg->sensor_id = HTELE_GAM_ID;
 	msg->sensor_text_id = HTELE_GAM_TEXT_ID;
 
-	// batterie
-	FlightBatteryStateVoltageGet(&ftemp);
-	convert_float2word(ftemp, .1, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
-	convert_float2word(ftemp, .1, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
-	convert_float2word(ftemp, .1, 0, &msg->main_voltage_L, &msg->main_voltage_H);
+	// update data
+	if (AltHoldSmoothedHandle() != NULL)
+		AltHoldSmoothedGet(&altState);
+	if (BaroAltitudeHandle() != NULL)
+		BaroAltitudeGet(&baroState);
+	if (FlightBatteryStateHandle() != NULL)
+		FlightBatteryStateGet(&battState);
+	if (GyrosHandle() != NULL)
+		GyrosGet(&gyroState);
 
-	// temperature
-	GyrostemperatureGet(&ftemp);
-	convert_float2byte(ftemp, 1, 20, &msg->temperature1);
-	BaroAltitudeTemperatureGet(&ftemp);
-	convert_float2byte(ftemp, 1, 20, &msg->temperature2);
+	// batterie
+	convert_float2word(battState.Voltage, .1, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
+	convert_float2word(battState.Voltage, .1, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
+	convert_float2word(battState.Voltage, .1, 0, &msg->main_voltage_L, &msg->main_voltage_H);
+
+	// temperatures
+	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
+	convert_float2byte(baroState.Temperature, 1, 20, &msg->temperature2);
 
 	// altitude
-	BaroAltitudeAltitudeGet(&ftemp);
-	convert_float2word(ftemp, 1, 500, &msg->altitude_L, &msg->altitude_H);
+	convert_float2word(baroState.Altitude, 1, 500, &msg->altitude_L, &msg->altitude_H);
 
 	// climbrate
-	AltHoldSmoothedVelocityGet(&ftemp);
-	convert_float2word(ftemp, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
-	convert_float2byte(ftemp, 3, 120, &msg->climbrate3s);
+	convert_float2word(altState.Velocity, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
+	convert_float2byte(altState.Velocity, 3, 120, &msg->climbrate3s);
 
 	msg->checksum = calc_checksum(buffer, sizeof(*msg));
 	return sizeof(*msg);
@@ -551,7 +600,14 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 		uint8_t checksum;			// Lower 8-bits of all bytes summed.
 	} *msg;
 	msg = (struct hott_eam_message *)buffer;
-	float ftemp;
+	uint8_t config;
+
+	HTelemetrySettingsEAMGet(&config);
+	if (config == HTELEMETRYSETTINGS_EAM_DISABLED)
+		return 0;
+
+	// clear message buffer
+	memset(buffer, 0, sizeof(*msg));
 
 	// message header
 	msg->start = HTELE_START;
@@ -559,30 +615,91 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 	msg->sensor_id = HTELE_EAM_ID;
 	msg->sensor_text_id = HTELE_EAM_TEXT_ID;
 
-	// message content
-	FlightBatteryStateVoltageGet(&ftemp);
-	convert_float2word(ftemp, .1, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
-	convert_float2word(ftemp, .1, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
-	convert_float2word(ftemp, .1, 0, &msg->main_voltage_L, &msg->main_voltage_H);
+	// update data
+	if (AltHoldSmoothedHandle() != NULL)
+		AltHoldSmoothedGet(&altState);
+	if (BaroAltitudeHandle() != NULL)
+		BaroAltitudeGet(&baroState);
+	if (FlightBatteryStateHandle() != NULL)
+		FlightBatteryStateGet(&battState);
+	if (GyrosHandle() != NULL)
+		GyrosGet(&gyroState);
 
-	GyrostemperatureGet(&ftemp);
-	convert_float2byte(ftemp, 1, 20, &msg->temperature1);
-	BaroAltitudeTemperatureGet(&ftemp);
-	convert_float2byte(ftemp, 1, 20, &msg->temperature2);
+	// batterie
+	convert_float2word(battState.Voltage, .1, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
+	convert_float2word(battState.Voltage, .1, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
+	convert_float2word(battState.Voltage, .1, 0, &msg->main_voltage_L, &msg->main_voltage_H);
+	convert_float2word(battState.Current, -.1, 0, &msg->current_L, &msg->current_H);
+	convert_float2word(battState.ConsumedEnergy, -.1, 0, &msg->battery_capacity_L, &msg->battery_capacity_H);
 
-	BaroAltitudeAltitudeGet(&ftemp);
-	convert_float2word(ftemp, 1, 500, &msg->altitude_L, &msg->altitude_H);
+	// temperatures
+	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
+	convert_float2byte(baroState.Temperature, 1, 20, &msg->temperature2);
+
+	// altitude
+	convert_float2word(baroState.Altitude, 1, 500, &msg->altitude_L, &msg->altitude_H);
 
 	// climbrate
-	AltHoldSmoothedVelocityGet(&ftemp);
-	convert_float2word(ftemp, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
-	convert_float2byte(ftemp, 3, 120, &msg->climbrate3s);
+	convert_float2word(altState.Velocity, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
+	convert_float2byte(altState.Velocity, 3, 120, &msg->climbrate3s);
 
-	FlightBatteryStateCurrentGet(&ftemp);
-	convert_float2word(ftemp, -.1, 0, &msg->current_L, &msg->current_H);
+	msg->checksum = calc_checksum(buffer, sizeof(*msg));
+	return sizeof(*msg);
+}
 
-	FlightBatteryStateConsumedEnergyGet(&ftemp);
-	convert_float2word(ftemp, -.1, 0, &msg->battery_capacity_L, &msg->battery_capacity_H);
+uint16_t build_ESC_message(uint8_t *buffer) {
+	// ESC Module message structure
+	struct hott_esc_message {
+		uint8_t start;				// Start byte
+		uint8_t sensor_id;			// EAM sensor id
+		uint8_t warning;
+		uint8_t sensor_text_id;		// ESC Sensor text mode ID
+		uint8_t alarm_inverse1;
+		uint8_t alarm_inverse2;
+		uint8_t batt_max_voltage_L;	// Battery maximum voltage, lower 8-bits in steps of 0.01V
+		uint8_t batt_max_voltage_H;
+		uint8_t batt_voltage_L;		// Battery voltage, lower 8-bits in steps of 0.01V
+		uint8_t batt_voltage_H;
+		uint8_t batt_capacity_L;	// Used battery capacity in steps of 10mAh
+		uint8_t batt_capacity_H;
+		uint8_t temperature1;		// Temperature sensor 1. 20 = 0 degrees
+		uint8_t temperature2;
+		uint8_t current_L;			// Current (A) in steps of 0.1A
+		uint8_t current_H;
+		uint8_t current_max_L;		// maximal Current (A) in steps of 0.1A
+		uint8_t current_max_H;
+		uint8_t rpm_L;				// RPM Lower 8-bits In steps of 10 rpm
+		uint8_t rpm_H;
+		uint8_t rpm_max_L;			// maxmimal RPM Lower 8-bits In steps of 10 rpm
+		uint8_t rpm_max_H;
+		uint8_t dn_L;
+		uint8_t dn_H;
+		uint8_t dn2_L;
+		uint8_t dn2_H;
+		uint8_t dummy[16];			// 16 dummy bytes
+		uint8_t stop;				// Stop byte
+		uint8_t checksum;			// Lower 8-bits of all bytes summed.
+	} *msg;
+	msg = (struct hott_esc_message *)buffer;
+	uint8_t config;
+
+	HTelemetrySettingsESCGet(&config);
+	if (config == HTELEMETRYSETTINGS_ESC_DISABLED)
+		return 0;
+
+	// clear message buffer
+	memset(buffer, 0, sizeof(*msg));
+
+	// message header
+	msg->start = HTELE_START;
+	msg->stop = HTELE_STOP;
+	msg->sensor_id = HTELE_ESC_ID;
+	msg->sensor_text_id = HTELE_ESC_TEXT_ID;
+
+	// dummy values
+	msg->dn_L = 0x7a;
+	msg->dn2_L = 0x14;
+	msg->dn2_H = 0x14;
 
 	msg->checksum = calc_checksum(buffer, sizeof(*msg));
 	return sizeof(*msg);
