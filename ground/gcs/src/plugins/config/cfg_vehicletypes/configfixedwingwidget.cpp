@@ -45,9 +45,6 @@
 ConfigFixedWingWidget::ConfigFixedWingWidget(Ui_AircraftWidget *aircraft, QWidget *parent) : VehicleConfig(parent)
 {
     m_aircraft = aircraft;
-
-    connect(m_aircraft->bnLevelTrim, SIGNAL(clicked()), this, SLOT(on_bnLevelTrim_clicked()));
-    connect(m_aircraft->bnServoTrim, SIGNAL(clicked()), this, SLOT(on_bnServoTrim_clicked()));
 }
 
 /**
@@ -584,75 +581,4 @@ bool ConfigFixedWingWidget::throwConfigError(SystemSettings::AirframeTypeOptions
 	}
 
     return error;
-}
-
-
-void ConfigFixedWingWidget::on_bnLevelTrim_clicked()
-{
-    VehicleTrim::autopilotLevelBiasMessages ret;
-    ret = vehicleTrim.setFixedWingTrimAutopilotBias();
-
-    switch (ret){
-    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_MISSING_RECEIVER:
-    {
-        QMessageBox msgBox(QMessageBox::Warning, tr("No receiver detected"),
-                           "Transmitter and receiver must be powered on.", 0, this);
-        msgBox.exec();
-        break;
-    }
-    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_ARMED_STATE:
-    {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle armed"),
-                           "The autopilot must be disarmed first.", 0, this);
-        msgBox.exec();
-        break;
-    }
-    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_FLIGHTMODE:
-    {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle not in Stabilized mode"),
-                           "The autopilot must be in Stabilized1, Stabilized2, or Stabilized3 mode.", 0, this);
-        msgBox.exec();
-        break;
-    }
-    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_STABILIZATIONMODE:
-    {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Incorrect roll and pitch stabilization modes."),
-                           "Both roll and pitch must be in attitude stabilization mode.", 0, this);
-        msgBox.exec();
-        break;
-    }
-    case VehicleTrim::AUTOPILOT_LEVEL_SUCCESS:
-        // Set tab as dirty (i.e. having unsaved changes).
-        setDirty(true);
-        break;
-    }
-}
-
-void ConfigFixedWingWidget::on_bnServoTrim_clicked()
-{
-    VehicleTrim::actuatorTrimMessages ret;
-    ret = vehicleTrim.setFixedWingTrimActuators();
-
-    switch (ret){
-
-    case VehicleTrim::ACTUATOR_TRIM_FAILED_DUE_TO_MISSING_RECEIVER:
-    {
-        QMessageBox msgBox(QMessageBox::Warning, tr("No receiver detected"),
-                           "Transmitter and receiver must be powered on.", 0, this);
-        msgBox.exec();
-        break;
-    }
-    case VehicleTrim::ACTUATOR_TRIM_FAILED_DUE_TO_FLIGHTMODE:
-    {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle not in manual mode"),
-                           "The autopilot must be in manual flight mode.", 0, this);
-        msgBox.exec();
-        break;
-    }
-    case VehicleTrim::ACTUATOR_TRIM_SUCCESS:
-        // Set tab as dirty (i.e. having unsaved changes).
-        setDirty(true);
-        break;
-    }
-
 }
