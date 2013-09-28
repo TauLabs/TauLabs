@@ -910,7 +910,6 @@ void ConfigInputWidget::identifyLimits()
 }
 void ConfigInputWidget::setMoveFromCommand(int command)
 {
-    //CHANNELNUMBER_ROLL=0, CHANNELNUMBER_PITCH=1, CHANNELNUMBER_YAW=2, CHANNELNUMBER_THROTTLE=3, CHANNELNUMBER_FLIGHTMODE=4, CHANNELNUMBER_ACCESSORY0=5, CHANNELNUMBER_ACCESSORY1=6, CHANNELNUMBER_ACCESSORY2=7 } ChannelNumberElem;
     if(command==ManualControlSettings::CHANNELNUMBER_ROLL)
     {
             setTxMovement(moveRightHorizontalStick);
@@ -1267,7 +1266,7 @@ void ConfigInputWidget::moveSticks()
         trans=m_txLeftStickOrig;
         m_txLeftStick->setTransform(trans.translate(manualCommandData.Yaw*STICK_MAX_MOVE*10,manualCommandData.Pitch*STICK_MAX_MOVE*10),false);
     }
-    switch(scaleChannel(ManualControlSettings::CHANNELMIN_FLIGHTMODE))
+    switch(scaleSwitchChannel(ManualControlSettings::CHANNELMIN_FLIGHTMODE,manualSettingsObj->getData().FlightModeNumber))
     {
     case 0:
         m_txFlightMode->setElementId("flightModeLeft");
@@ -1284,7 +1283,7 @@ void ConfigInputWidget::moveSticks()
     default:
         break;
     }
-    switch(scaleChannel(ManualControlSettings::CHANNELMIN_ARMING))
+    switch(scaleSwitchChannel(ManualControlSettings::CHANNELMIN_ARMING,2))
     {
     case 0:
         m_txArming->setElementId("armedswitchleft");
@@ -1346,7 +1345,13 @@ void ConfigInputWidget::invertControls()
     }
     manualSettingsObj->setData(manualSettingsData);
 }
-uint8_t ConfigInputWidget::scaleChannel(int channelNumber)
+/**
+ * @brief Converts a raw Switch Channel value into a Switch position index
+ * @param channelNumber channel number to convert
+ * @param switchPositions total switch positions
+ * @return Switch position index converted from the raw value
+ */
+uint8_t ConfigInputWidget::scaleSwitchChannel(quint8 channelNumber, quint8 switchPositions)
 {
     if(channelNumber > (ManualControlSettings::CHANNELMIN_NUMELEM - 1))
             return 0;
@@ -1374,24 +1379,24 @@ uint8_t ConfigInputWidget::scaleChannel(int channelNumber)
             valueScaled = 0;
     }
 
-    // Bound and scale FlightMode from [-1..+1] to [0..1] range
+    // Bound and scale channel from [-1..+1] to [0..1] range
     if (valueScaled < -1.0)
         valueScaled = -1.0;
     else
     if (valueScaled >  1.0)
         valueScaled =  1.0;
 
-    // Convert flightMode value into the switch position in the range [0..N-1]
+    // Convert channel value into the switch position in the range [0..N-1]
     // This uses the same optimized computation as flight code to be consistent
-    uint8_t pos = ((int16_t)(valueScaled * 256) + 256) * manualSettingsDataPriv.FlightModeNumber >> 9;
-    if (pos >= manualSettingsDataPriv.FlightModeNumber)
-        pos = manualSettingsDataPriv.FlightModeNumber - 1;
+    uint8_t pos = ((int16_t)(valueScaled * 256) + 256) * (switchPositions-1) >> 9;
+    if (pos >= switchPositions)
+        pos = switchPositions - 1;
     return pos;
 }
 
 void ConfigInputWidget::moveFMSlider()
 {
-    m_config->fmsSlider->setValue(scaleChannel(ManualControlSettings::CHANNELMIN_FLIGHTMODE));
+    m_config->fmsSlider->setValue(scaleSwitchChannel(ManualControlSettings::CHANNELMIN_FLIGHTMODE, manualSettingsObj->getData().FlightModeNumber));
 }
 
 void ConfigInputWidget::updatePositionSlider()
