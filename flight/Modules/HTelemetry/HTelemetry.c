@@ -35,6 +35,7 @@
 #include "flightbatterystate.h"
 #include "gyros.h"
 #include "gpsposition.h"
+#include "positionactual.h"
 #include "systemstats.h"
 
 // Private constants
@@ -77,6 +78,7 @@ static BaroAltitudeData baroState;
 static FlightBatteryStateData battState;
 static GPSPositionData gpsState;
 static GyrosData gyroState;
+static PositionActualData positionState;
 static SystemStatsData systemState;
 static float baroAltMin;
 static float baroAltMax;
@@ -181,6 +183,9 @@ static void HTelemetryTask(void *parameters) {
 	battState.Current = 0;
 	battState.ConsumedEnergy = 0;
 	gyroState.temperature = 0;
+	positionState.North = 0;
+	positionState.East = 0;
+	positionState.Down = 0;
 	systemState.FlightTime = 0;
 
 	// initialize altitude min/max values
@@ -424,9 +429,10 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 		AltHoldSmoothedGet(&altState);
 	if (GPSPositionHandle() != NULL)
 		GPSPositionGet(&gpsState);
+	if (PositionActualHandle() != NULL)
+		PositionActualGet(&positionState);
 
 	// gps
-	// TODO home dir
 	convert_long2gps(gpsState.Latitude, &msg->latitude_ns, &msg->latitude_min_L, &msg->latitude_min_H, &msg->latitude_sec_L, &msg->latitude_sec_H);
 	convert_long2gps(gpsState.Longitude, &msg->longitude_ew, &msg->longitude_min_L, &msg->longitude_min_H, &msg->longitude_sec_L, &msg->longitude_sec_H);
 	convert_float2word(gpsState.Altitude, 1, 500, &msg->altitude_L, &msg->altitude_H);
@@ -449,6 +455,14 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 		default:
 			msg->gps_fix_char = '?';
 	}
+
+	// home position and course
+	float distance = sqrtf(positionState.North * positionState.North + positionState.East * positionState.East);
+	float course = acosf(positionState.North / distance) * 180 / 3.14159265f;
+	if (course < 0)
+		course += 180;
+	convert_float2word(distance, 1, 0, &msg->distance_L, &msg->distance_H);
+	convert_float2byte(course, 1, 0, &msg->home_direction);
 
 	// climbrate
 	convert_float2word(altState.Velocity, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
