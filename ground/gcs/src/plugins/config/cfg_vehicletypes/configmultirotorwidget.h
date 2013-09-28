@@ -79,7 +79,6 @@ private slots:
     virtual SystemSettings::AirframeTypeOptions updateConfigObjectsFromWidgets();
     virtual bool throwConfigError(int numMotors);
 
-
 protected:
 
 signals:
