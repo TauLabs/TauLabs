@@ -35,6 +35,7 @@
 #include "flightbatterystate.h"
 #include "gyros.h"
 #include "gpsposition.h"
+#include "systemstats.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 800
@@ -76,6 +77,7 @@ static BaroAltitudeData baroState;
 static FlightBatteryStateData battState;
 static GPSPositionData gpsState;
 static GyrosData gyroState;
+static SystemStatsData systemState;
 static float baroAltMin;
 static float baroAltMax;
 
@@ -179,6 +181,7 @@ static void HTelemetryTask(void *parameters) {
 	battState.Current = 0;
 	battState.ConsumedEnergy = 0;
 	gyroState.temperature = 0;
+	systemState.FlightTime = 0;
 
 	// initialize altitude min/max values
 	if (BaroAltitudeHandle() != NULL)
@@ -624,6 +627,8 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 		FlightBatteryStateGet(&battState);
 	if (GyrosHandle() != NULL)
 		GyrosGet(&gyroState);
+	if (SystemStatsHandle() != NULL)
+		SystemStatsGet(&systemState);
 
 	// batterie
 	convert_float2word(battState.Voltage, .1, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
@@ -642,6 +647,10 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 	// climbrate
 	convert_float2word(altState.Velocity, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
 	convert_float2byte(altState.Velocity, 3, 120, &msg->climbrate3s);
+
+	// flight time
+	msg->electric_min = (systemState.FlightTime / 60000);
+	msg->electric_sec = ((systemState.FlightTime - 60000 * msg->electric_min) / 1000) % 60;
 
 	msg->checksum = calc_checksum(buffer, sizeof(*msg));
 	return sizeof(*msg);
@@ -672,11 +681,9 @@ uint16_t build_ESC_message(uint8_t *buffer) {
 		uint8_t rpm_H;
 		uint8_t rpm_max_L;			// maxmimal RPM Lower 8-bits In steps of 10 rpm
 		uint8_t rpm_max_H;
-		uint8_t dn_L;
-		uint8_t dn_H;
-		uint8_t dn2_L;
-		uint8_t dn2_H;
-		uint8_t dummy[16];			// 16 dummy bytes
+		uint8_t temperature3;
+		uint8_t temperature4;
+		uint8_t dummy[19];			// 19 dummy bytes
 		uint8_t stop;				// Stop byte
 		uint8_t checksum;			// Lower 8-bits of all bytes summed.
 	} *msg;
@@ -696,10 +703,24 @@ uint16_t build_ESC_message(uint8_t *buffer) {
 	msg->sensor_id = HTELE_ESC_ID;
 	msg->sensor_text_id = HTELE_ESC_TEXT_ID;
 
-	// dummy values
-	msg->dn_L = 0x7a;
-	msg->dn2_L = 0x14;
-	msg->dn2_H = 0x14;
+	// update data
+	if (BaroAltitudeHandle() != NULL)
+		BaroAltitudeGet(&baroState);
+	if (FlightBatteryStateHandle() != NULL)
+		FlightBatteryStateGet(&battState);
+	if (GyrosHandle() != NULL)
+		GyrosGet(&gyroState);
+
+	// batterie
+	convert_float2word(battState.Voltage, .1, 0, &msg->batt_voltage_L, &msg->batt_voltage_H);
+	convert_float2word(battState.Current, -.1, 0, &msg->current_L, &msg->current_H);
+	convert_float2word(battState.ConsumedEnergy, -.1, 0, &msg->batt_capacity_L, &msg->batt_capacity_H);
+
+	// temperatures
+	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
+	convert_float2byte(baroState.Temperature, 1, 20, &msg->temperature2);
+	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature3);
+	convert_float2byte(baroState.Temperature, 1, 20, &msg->temperature4);
 
 	msg->checksum = calc_checksum(buffer, sizeof(*msg));
 	return sizeof(*msg);
