@@ -134,6 +134,13 @@ void baro_airspeedGetAnalog(BaroAirspeedData *baroAirspeedData, portTickType *la
 
 }
 
+#else
+
+void baro_airspeedGetAnalog(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
+{
+	/* Do nothing when driver support not compiled. */
+	vTaskDelayUntil(lastSysTime, MS2TICKS(1000));
+}
 #endif
 
 /**

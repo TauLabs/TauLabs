@@ -216,7 +216,7 @@ static void airspeedTask(void *parameters)
 		if(airspeedSensorType != AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_GPSONLY) {
 			//Fetch calibrated airspeed from sensors
 			baro_airspeedGet(&airspeedData, &lastSysTime, airspeedSensorType, airspeedADCPin);
-			
+
 			//Calculate true airspeed, not taking into account compressibility effects
 			int16_t groundTemperature_10;
 			float groundTemperature;
@@ -237,7 +237,6 @@ static void airspeedTask(void *parameters)
 			//No GPS, so TAS comes only from baro sensor
 			airspeedData.TrueAirspeed = cas2tas(airspeedData.CalibratedAirspeed, -positionActual_Down, &air_STP) + airspeedErrInt * GPS_AIRSPEED_BIAS_KI;
  #endif			
-			
 		}
 		else
 #endif
@@ -345,32 +344,27 @@ static void GPSVelocityUpdatedCb(UAVObjEvent * ev)
 }
 #endif
 
-void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin_dummy){
-	
+#ifdef BARO_AIRSPEED_PRESENT
+void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin_dummy)
+{
 	//Find out which sensor we're using.
 	switch (airspeedSensorType) {
-#if defined(PIOS_INCLUDE_MPXV7002)
 		case AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002:
-#endif
-#if defined(PIOS_INCLUDE_MPXV5004)
 		case AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004:
-#endif
-#if defined(PIOS_INCLUDE_MPXV7002) || defined(PIOS_INCLUDE_MPXV5004)
 			//MPXV5004 and MPXV7002 sensors
 			baro_airspeedGetAnalog(baroAirspeedData, lastSysTime, airspeedSensorType, airspeedADCPin);
 			break;
-#endif
-#if defined(PIOS_INCLUDE_ETASV3)
 		case AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3:
 			//Eagletree Airspeed v3
 			baro_airspeedGetETASV3(baroAirspeedData, lastSysTime, airspeedSensorType, airspeedADCPin);
 			break;
-#endif
 		default:
 			baroAirspeedData->BaroConnected = BAROAIRSPEED_BAROCONNECTED_FALSE;
+			vTaskDelayUntil(lastSysTime, MS2TICKS(SAMPLING_DELAY_MS_FALLTHROUGH));
+			break;
 	}
 }
-
+#endif
 
 static void AirspeedSettingsUpdatedCb(UAVObjEvent * ev)
 {

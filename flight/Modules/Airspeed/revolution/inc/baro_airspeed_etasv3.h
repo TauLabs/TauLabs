@@ -29,11 +29,9 @@
  */
 #ifndef ETASV3_AIRSPEED_H
 #define ETASV3_AIRSPEED_H
-#if defined(PIOS_INCLUDE_ETASV3)
 
 void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin);
 
-#endif
 #endif // ETASV3_AIRSPEED_H
 
 /**
