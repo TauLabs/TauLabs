@@ -587,9 +587,9 @@ uint16_t build_GAM_message(uint8_t *buffer) {
 		GyrosGet(&gyroState);
 
 	// batterie
-	convert_float2word(abs(battState.Voltage), 10, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
-	convert_float2word(abs(battState.Voltage), 10, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
-	convert_float2word(abs(battState.Voltage), 10, 0, &msg->main_voltage_L, &msg->main_voltage_H);
+	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
+	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
+	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->main_voltage_L, &msg->main_voltage_H);
 
 	// temperatures
 	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
@@ -684,11 +684,11 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 		SystemStatsGet(&systemState);
 
 	// batterie
-	convert_float2word(abs(battState.Voltage), 10, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
-	convert_float2word(abs(battState.Voltage), 10, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
-	convert_float2word(abs(battState.Voltage), 10, 0, &msg->main_voltage_L, &msg->main_voltage_H);
-	convert_float2word(abs(battState.Current), 10, 0, &msg->current_L, &msg->current_H);
-	convert_float2word(abs(battState.ConsumedEnergy), .1, 0, &msg->battery_capacity_L, &msg->battery_capacity_H);
+	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
+	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
+	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->main_voltage_L, &msg->main_voltage_H);
+	convert_float2word(fabs(battState.Current), 10, 0, &msg->current_L, &msg->current_H);
+	convert_float2word(fabs(battState.ConsumedEnergy), .1, 0, &msg->battery_capacity_L, &msg->battery_capacity_H);
 
 	// temperatures
 	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
@@ -766,9 +766,9 @@ uint16_t build_ESC_message(uint8_t *buffer) {
 		GyrosGet(&gyroState);
 
 	// batterie
-	convert_float2word(abs(battState.Voltage), 10, 0, &msg->batt_voltage_L, &msg->batt_voltage_H);
-	convert_float2word(abs(battState.Current), 10, 0, &msg->current_L, &msg->current_H);
-	convert_float2word(abs(battState.ConsumedEnergy), .1, 0, &msg->batt_capacity_L, &msg->batt_capacity_H);
+	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->batt_voltage_L, &msg->batt_voltage_H);
+	convert_float2word(fabs(battState.Current), 10, 0, &msg->current_L, &msg->current_H);
+	convert_float2word(fabs(battState.ConsumedEnergy), .1, 0, &msg->batt_capacity_L, &msg->batt_capacity_H);
 
 	// temperatures
 	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
