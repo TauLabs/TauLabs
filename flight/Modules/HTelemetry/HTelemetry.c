@@ -435,7 +435,6 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	// gps
 	convert_long2gps(gpsState.Latitude, &msg->latitude_ns, &msg->latitude_min_L, &msg->latitude_min_H, &msg->latitude_sec_L, &msg->latitude_sec_H);
 	convert_long2gps(gpsState.Longitude, &msg->longitude_ew, &msg->longitude_min_L, &msg->longitude_min_H, &msg->longitude_sec_L, &msg->longitude_sec_H);
-	convert_float2word(gpsState.Altitude, 1, 500, &msg->altitude_L, &msg->altitude_H);
 	convert_float2byte(gpsState.Heading, 1, 0, &msg->flight_direction);
 	convert_float2word(gpsState.Groundspeed, 3.6, 0, &msg->gps_speed_L, &msg->gps_speed_H);
 	msg->gps_num_sat = gpsState.Satellites;
@@ -456,13 +455,14 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 			msg->gps_fix_char = '?';
 	}
 
-	// home position and course
+	// home position and course, relative altitude
 	float distance = sqrtf(positionState.North * positionState.North + positionState.East * positionState.East);
 	float course = acosf(positionState.North / distance) * 180 / 3.14159265f;
 	if (course < 0)
 		course += 180;
 	convert_float2word(distance, 1, 0, &msg->distance_L, &msg->distance_H);
 	convert_float2byte(course, 1, 0, &msg->home_direction);
+	convert_float2word(positionState.Down, 1, 500, &msg->altitude_L, &msg->altitude_H);
 
 	// climbrate
 	convert_float2word(altState.Velocity, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
@@ -548,9 +548,9 @@ uint16_t build_GAM_message(uint8_t *buffer) {
 		GyrosGet(&gyroState);
 
 	// batterie
-	convert_float2word(battState.Voltage, .1, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
-	convert_float2word(battState.Voltage, .1, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
-	convert_float2word(battState.Voltage, .1, 0, &msg->main_voltage_L, &msg->main_voltage_H);
+	convert_float2word(abs(battState.Voltage), 10, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
+	convert_float2word(abs(battState.Voltage), 10, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
+	convert_float2word(abs(battState.Voltage), 10, 0, &msg->main_voltage_L, &msg->main_voltage_H);
 
 	// temperatures
 	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
@@ -645,11 +645,11 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 		SystemStatsGet(&systemState);
 
 	// batterie
-	convert_float2word(battState.Voltage, .1, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
-	convert_float2word(battState.Voltage, .1, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
-	convert_float2word(battState.Voltage, .1, 0, &msg->main_voltage_L, &msg->main_voltage_H);
-	convert_float2word(battState.Current, -.1, 0, &msg->current_L, &msg->current_H);
-	convert_float2word(battState.ConsumedEnergy, -.1, 0, &msg->battery_capacity_L, &msg->battery_capacity_H);
+	convert_float2word(abs(battState.Voltage), 10, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
+	convert_float2word(abs(battState.Voltage), 10, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
+	convert_float2word(abs(battState.Voltage), 10, 0, &msg->main_voltage_L, &msg->main_voltage_H);
+	convert_float2word(abs(battState.Current), 10, 0, &msg->current_L, &msg->current_H);
+	convert_float2word(abs(battState.ConsumedEnergy), .1, 0, &msg->battery_capacity_L, &msg->battery_capacity_H);
 
 	// temperatures
 	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
@@ -726,9 +726,9 @@ uint16_t build_ESC_message(uint8_t *buffer) {
 		GyrosGet(&gyroState);
 
 	// batterie
-	convert_float2word(battState.Voltage, .1, 0, &msg->batt_voltage_L, &msg->batt_voltage_H);
-	convert_float2word(battState.Current, -.1, 0, &msg->current_L, &msg->current_H);
-	convert_float2word(battState.ConsumedEnergy, -.1, 0, &msg->batt_capacity_L, &msg->batt_capacity_H);
+	convert_float2word(abs(battState.Voltage), 10, 0, &msg->batt_voltage_L, &msg->batt_voltage_H);
+	convert_float2word(abs(battState.Current), 10, 0, &msg->current_L, &msg->current_H);
+	convert_float2word(abs(battState.ConsumedEnergy), .1, 0, &msg->batt_capacity_L, &msg->batt_capacity_H);
 
 	// temperatures
 	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
