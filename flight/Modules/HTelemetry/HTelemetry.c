@@ -33,6 +33,7 @@
 #include "altholdsmoothed.h"
 #include "baroaltitude.h"
 #include "flightbatterystate.h"
+#include "flightstatus.h"
 #include "gyros.h"
 #include "gpsposition.h"
 #include "positionactual.h"
@@ -76,12 +77,14 @@ static uint8_t * tx_buffer;
 static AltHoldSmoothedData altState;
 static BaroAltitudeData baroState;
 static FlightBatteryStateData battState;
+static FlightStatusData flightState;
 static GPSPositionData gpsState;
 static GyrosData gyroState;
 static PositionActualData positionState;
 static SystemStatsData systemState;
 static float baroAltMin;
 static float baroAltMax;
+static char StatusLine[21] = "                     ";
 
 // Private functions
 static void HTelemetryTask(void *parameters);
@@ -336,6 +339,8 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 		AltHoldSmoothedGet(&altState);
 	if (BaroAltitudeHandle() != NULL)
 		BaroAltitudeGet(&baroState);
+	if (FlightStatusHandle() != NULL)
+		FlightStatusGet(&flightState);
 
 	// altitude
 	baroAltMin = (baroAltMin < baroState.Altitude) ? baroAltMin : baroState.Altitude;
@@ -349,8 +354,42 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 	convert_float2word(altState.Velocity, 300, 30000, &msg->climbrate3s_L, &msg->climbrate3s_H);
 	convert_float2word(altState.Velocity, 1000, 30000, &msg->climbrate10s_L, &msg->climbrate10s_H);
 
-	// text
-	snprintf((char *)msg->ascii, sizeof(msg->ascii), "TauLabs Test");
+	// text (TODO: make this more flexible, add more information)
+	switch (flightState.FlightMode) {
+		case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
+			snprintf(StatusLine, sizeof(StatusLine), "Manual");
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
+			snprintf(StatusLine, sizeof(StatusLine), "Stab 1");
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
+			snprintf(StatusLine, sizeof(StatusLine), "Stab 2");
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
+			snprintf(StatusLine, sizeof(StatusLine), "Stab 3");
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE:
+			snprintf(StatusLine, sizeof(StatusLine), "Autotune");
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
+			snprintf(StatusLine, sizeof(StatusLine), "Alt Hold");
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL:
+			snprintf(StatusLine, sizeof(StatusLine), "V-Control");
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+			snprintf(StatusLine, sizeof(StatusLine), "POS Hold");
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
+			snprintf(StatusLine, sizeof(StatusLine), "RTH");
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+			snprintf(StatusLine, sizeof(StatusLine), "PATH");
+			break;
+		default:
+			snprintf(StatusLine, sizeof(StatusLine), "unkown");
+	}
+	memcpy(msg->ascii, StatusLine, sizeof(msg->ascii));
 
 	msg->checksum = calc_checksum(buffer, sizeof(*msg));
 	return sizeof(*msg);
@@ -435,7 +474,7 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	// gps
 	convert_long2gps(gpsState.Latitude, &msg->latitude_ns, &msg->latitude_min_L, &msg->latitude_min_H, &msg->latitude_sec_L, &msg->latitude_sec_H);
 	convert_long2gps(gpsState.Longitude, &msg->longitude_ew, &msg->longitude_min_L, &msg->longitude_min_H, &msg->longitude_sec_L, &msg->longitude_sec_H);
-	convert_float2byte(gpsState.Heading, 1, 0, &msg->flight_direction);
+	convert_float2byte(gpsState.Heading, 0.5, 0, &msg->flight_direction);
 	convert_float2word(gpsState.Groundspeed, 3.6, 0, &msg->gps_speed_L, &msg->gps_speed_H);
 	msg->gps_num_sat = gpsState.Satellites;
 	switch (gpsState.Status) {
@@ -457,12 +496,12 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 
 	// home position and course, relative altitude
 	float distance = sqrtf(positionState.North * positionState.North + positionState.East * positionState.East);
-	float course = acosf(positionState.North / distance) * 180 / 3.14159265f;
-	if (course < 0)
-		course += 180;
+	float course = acosf(- positionState.North / distance) / 3.14159265f * 180;
+	if (positionState.East > 0)
+		course = 360 - course;
 	convert_float2word(distance, 1, 0, &msg->distance_L, &msg->distance_H);
-	convert_float2byte(course, 1, 0, &msg->home_direction);
-	convert_float2word(positionState.Down, 1, 500, &msg->altitude_L, &msg->altitude_H);
+	convert_float2byte(course, 0.5, 0, &msg->home_direction);
+	convert_float2word(positionState.Down, -1, 500, &msg->altitude_L, &msg->altitude_H);
 
 	// climbrate
 	convert_float2word(altState.Velocity, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
@@ -663,8 +702,9 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 	convert_float2byte(altState.Velocity, 3, 120, &msg->climbrate3s);
 
 	// flight time
-	msg->electric_min = (systemState.FlightTime / 60000);
-	msg->electric_sec = ((systemState.FlightTime - 60000 * msg->electric_min) / 1000) % 60;
+	uint16_t flighttime = battState.EstimatedFlightTime;
+	msg->electric_min = flighttime / 60;
+	msg->electric_sec = (flighttime - 60 * msg->electric_min);
 
 	msg->checksum = calc_checksum(buffer, sizeof(*msg));
 	return sizeof(*msg);
