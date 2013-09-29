@@ -42,6 +42,18 @@ FlyingF4::FlyingF4(void)
     setUSBInfo(board);
 
     boardType = 0x84;
+
+    // Define the bank of channels that are connected to a given timer
+    channelBanks.resize(6);
+    channelBanks[0].append(1);
+    channelBanks[0].append(2);
+    channelBanks[0].append(3);
+    channelBanks[0].append(4);
+
+    channelBanks[1].append(5);
+    channelBanks[1].append(6);
+    channelBanks[1].append(7);
+    channelBanks[1].append(8);
 }
 
 FlyingF4::~FlyingF4()
@@ -75,11 +87,6 @@ bool FlyingF4::queryCapabilities(BoardCapabilities capability)
         return false;
     }
     return false;
-}
-
-QStringList FlyingF4::queryChannelBanks()
-{
-    return QStringList(QStringList() << "1-4" << "5-8");
 }
 
 

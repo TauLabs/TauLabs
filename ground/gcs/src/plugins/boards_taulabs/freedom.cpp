@@ -41,6 +41,17 @@ Freedom::Freedom(void)
     setUSBInfo(board);
 
     boardType = 0x81;
+
+    // Define the bank of channels that are connected to a given timer
+    channelBanks.resize(6);
+    channelBanks[0].append(1);
+    channelBanks[0].append(2);
+
+    channelBanks[1].append(3);
+    channelBanks[1].append(4);
+
+    channelBanks[2].append(6);
+    channelBanks[2].append(7);
 }
 
 Freedom::~Freedom()
@@ -74,11 +85,6 @@ bool Freedom::queryCapabilities(BoardCapabilities capability)
         return true;
     }
     return false;
-}
-
-QStringList Freedom::queryChannelBanks()
-{
-    return QStringList(QStringList() << "1-2" << "3-4" << "6-7");
 }
 
 

@@ -42,6 +42,18 @@ Revolution::Revolution(void)
     setUSBInfo(board);
 
     boardType = 0x7f;
+
+    // Define the bank of channels that are connected to a given timer
+    channelBanks.resize(6);
+    channelBanks[0].append(1);
+    channelBanks[0].append(2);
+
+    channelBanks[1].append(3);
+
+    channelBanks[2].append(4);
+
+    channelBanks[3].append(5);
+    channelBanks[3].append(6);
 }
 
 Revolution::~Revolution()
@@ -76,11 +88,6 @@ bool Revolution::queryCapabilities(BoardCapabilities capability)
         return false;
     }
     return false;
-}
-
-QStringList Revolution::queryChannelBanks()
-{
-    return QStringList(QStringList() << "1-2" << "3" << "4" << "5-6");
 }
 
 /**

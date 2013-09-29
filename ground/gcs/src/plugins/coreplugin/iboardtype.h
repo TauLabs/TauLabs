@@ -101,7 +101,7 @@ public:
      * @return list of channel bank names
      *
      */
-    virtual QStringList queryChannelBanks() { return QStringList(); }
+    QStringList queryChannelBanks();
 
     /**
      * @brief getBoardPicture
@@ -196,6 +196,10 @@ protected:
 
     //! The numerical board type ID
     int boardType;
+
+    //! The channel groups that are driven by timers
+    QVector< QVector<int> > channelBanks;
+
 };
 
 } //namespace Core
