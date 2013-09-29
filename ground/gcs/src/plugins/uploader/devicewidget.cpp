@@ -153,7 +153,7 @@ void deviceWidget::populate()
     int x = 0;
     while(true)
     {
-        if(x > m_dfu->devices[deviceID].PartitionSizes.size())
+        if(x >= m_dfu->devices[deviceID].PartitionSizes.size())
             break;
         if(m_dfu->devices[deviceID].PartitionSizes.at(x) == 0)
             break;
