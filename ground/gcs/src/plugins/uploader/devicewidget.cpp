@@ -139,7 +139,6 @@ void deviceWidget::populate()
     {
         moreRecent = (tr("You need a more recent bootloader to use this function"));
         checked = false;
-        myDevice->cbShowPartBrowser->setChecked(checked);
     }
     else
     {
@@ -446,12 +445,12 @@ void deviceWidget::uploadFirmware()
         emit uploadEnded(false);
         return;
     }
-    OP_DFU::Status retstatus=m_dfu->StatusRequest();
+    OP_DFU::Status retstatus = m_dfu->StatusRequest();
     qDebug() << m_dfu->StatusToString(retstatus);
     m_dfu->AbortOperation(); // Necessary, otherwise I get random failures.
 
-    bool ret = m_dfu->UploadPartition(filename,verify, deviceID,OP_DFU::FW,m_dfu->devices[deviceID].SizeOfCode);
-    if(!ret ) {
+    bool ret = m_dfu->UploadPartition(filename, verify, deviceID,OP_DFU::FW, m_dfu->devices[deviceID].SizeOfCode);
+    if(!ret) {
         status("Could not start upload", STATUSICON_FAIL);
         unfreeze();
         emit uploadEnded(false);
@@ -601,11 +600,11 @@ QString deviceWidget::setOpenFileName()
 
     //Format filename for file chooser
 #ifdef Q_OS_WIN
-	fwDirectoryStr=QCoreApplication::applicationDirPath();
+    fwDirectoryStr=QCoreApplication::applicationDirPath();
     fwDirectory=QDir(fwDirectoryStr);
-	fwDirectory.cdUp();
-	fwDirectory.cd("firmware");
-	fwDirectoryStr=fwDirectory.absolutePath();
+    fwDirectory.cdUp();
+    fwDirectory.cd("firmware");
+    fwDirectoryStr=fwDirectory.absolutePath();
 #elif defined Q_OS_LINUX
 	fwDirectoryStr=QCoreApplication::applicationDirPath();
 	fwDirectory=QDir(fwDirectoryStr);
@@ -714,8 +713,8 @@ void deviceWidget::writeBundlePartitions()
         FileUtils::removeDir(bundleDir.absolutePath());
         return;
     }
-    foreach(QString file,bundleDir.entryList())
-    {
+
+    foreach(QString file,bundleDir.entryList()) {
         m_dfu->AbortOperation();
         bool ok;
         qDebug()<<QFileInfo(bundleDir.absolutePath()+QDir::separator()+file).baseName();
@@ -735,7 +734,7 @@ void deviceWidget::writeBundlePartitions()
             status(QString(tr("Partition #%0 upload failed")).arg(partition),STATUSICON_FAIL);
             continue;//this should never hapen
         }
-        bool ret = m_dfu->UploadPartition(filename,false,deviceID,partition,m_dfu->devices[deviceID].PartitionSizes.at(partition));
+        bool ret = m_dfu->UploadPartition(filename, false, deviceID,partition, m_dfu->devices[deviceID].PartitionSizes.at(partition));
         if(!ret) {
             status("Could not start upload!", STATUSICON_FAIL);
             if(!failed.isEmpty())
@@ -809,7 +808,7 @@ void deviceWidget::writePartitions()
                     status(QString(tr("Partition #%0 upload failed")).arg(partition_number),STATUSICON_FAIL);
                     continue;//this should never hapen
                 }
-                bool ret = m_dfu->UploadPartition(filename,false,deviceID,partition_number,m_dfu->devices[deviceID].PartitionSizes.at(partition_number));
+                bool ret = m_dfu->UploadPartition(filename, false, deviceID, partition_number, m_dfu->devices[deviceID].PartitionSizes.at(partition_number));
                 if(!ret) {
                     status("Could not start upload!", STATUSICON_FAIL);
                     if(!failed.isEmpty())
