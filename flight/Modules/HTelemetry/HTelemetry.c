@@ -522,8 +522,10 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	// gps alarms
 	switch (alarmState.Alarm[SYSTEMALARMS_ALARM_GPS]) {
 		case SYSTEMALARMS_ALARM_UNINITIALISED:
+			msg->ascii6 = 0;
+			break;
 		case SYSTEMALARMS_ALARM_OK:
-			msg->ascii6 = ' ';
+			msg->ascii6 = '.';
 			break;
 		case SYSTEMALARMS_ALARM_WARNING:
 			msg->ascii6 = '?';
