@@ -11,6 +11,7 @@
 #include <coreplugin/coreconstants.h>
 #include <uavobjectutil/uavobjectutilmanager.h>
 #include <extensionsystem/pluginmanager.h>
+#include "3rdparty/quazip/quazipfile.h"
 
 #include "uavdataobject.h"
 #include "uavmetaobject.h"
@@ -190,13 +191,20 @@ void LogFile::close()
     QIODevice::close();
 
     // Save XML file. Reuse filename and append "xml" to end
-    QString xmlLogfileName(logfile.fileName().append(".xml"));
+    QFileInfo xmlFileInfo(logfile);
+    QString xmlLogfileName(xmlFileInfo.filePath().replace(xmlFileInfo.suffix(), "tlx"));
 
     QString xml = doc.toString(3);
     QFile xmlLogfile(xmlLogfileName);
     if (xmlLogfile.open(QIODevice::WriteOnly) &&
             (xmlLogfile.write(xml.toAscii()) != -1)) {
         xmlLogfile.close();
+
+        // Archive file and delete if successful
+        bool ret = archive(xmlLogfile);
+        if (ret)
+            xmlLogfile.remove();
+
     } else {
         QMessageBox::critical(0,
                               tr("UAV logfile"),
@@ -559,4 +567,65 @@ void LogFile::addUAVObject(UAVDataObject *obj)
 
     // Add metadata group to metadata root.
     metadata.appendChild(metadataObject);
+}
+
+
+bool LogFile::archive(QFile &inputFile, const QString & comment)
+{
+    QFileInfo fileInfo(inputFile);
+
+    // Create zip archive and set codec
+    QString zipFileName = fileInfo.filePath().replace(fileInfo.suffix(), "tlz");
+    QuaZip zip(zipFileName);
+    zip.setFileNameCodec("IBM866");
+    QuaZipFile outFile(&zip);
+
+    // Check for successful creation
+    if (!zip.open(QuaZip::mdCreate)) {
+        return false;
+    }
+
+    // Check that input file exists
+    if (!fileInfo.isFile()) {
+        return false;
+    }
+
+    // Open input file
+    if (!inputFile.open(QIODevice::ReadOnly)) {
+        return false;
+    }
+
+    // Create zip file and open
+    if (!outFile.open(QIODevice::WriteOnly, QuaZipNewInfo(fileInfo.fileName(), fileInfo.filePath()))) {
+        return false;
+    }
+
+    // Copy all contents to output file
+    char c;
+    while (inputFile.getChar(&c) && outFile.putChar(c))
+    {
+    }
+
+    if (outFile.getZipError() != UNZ_OK) {
+        return false;
+    }
+
+    outFile.close();
+
+    if (outFile.getZipError() != UNZ_OK) {
+        return false;
+    }
+
+    inputFile.close();
+
+    if (!comment.isEmpty())
+        zip.setComment(comment);
+
+    zip.close();
+
+    if (zip.getZipError() != 0) {
+        return false;
+    }
+
+    return true;
 }

@@ -79,6 +79,7 @@ private:
     void addInstance(UAVObject *obj, QDomElement *uavobjElement);
     void addArrayField(UAVObjectField *field, QDomElement *uavobjElement);
     void addSingleField(int index, UAVObjectField *field, QDomElement *uavobjElement);
+    bool archive(QFile &inputFile, const QString &comment = NULL);
 };
 
 #endif // LOGFILE_H

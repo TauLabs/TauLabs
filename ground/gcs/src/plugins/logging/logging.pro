@@ -6,6 +6,8 @@ QT += xml
 include(../../taulabsgcsplugin.pri)
 include(logging_dependencies.pri)
 
+INCLUDEPATH *= ../../libs/glc_lib
+
 HEADERS += loggingplugin.h \
     logfile.h \
     logginggadgetwidget.h \
