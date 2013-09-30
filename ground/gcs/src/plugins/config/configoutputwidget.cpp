@@ -356,7 +356,7 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
 void ConfigOutputWidget::openHelp()
 {
 
-    QDesktopServices::openUrl( QUrl("http://wiki.openpilot.org/x/WIGf", QUrl::StrictMode) );
+    QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Output-Configuration", QUrl::StrictMode) );
 }
 
 void ConfigOutputWidget::stopTests()

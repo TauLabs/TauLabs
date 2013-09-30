@@ -22009,7 +22009,7 @@ automatically every 300ms, which will help for fast tuning.</string>
        <property name="objrelation" stdset="0">
         <stringlist>
          <string>button:help</string>
-         <string>url:http://wiki.openpilot.org/x/DAO9</string>
+         <string>url:https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Stabilization-Panel</string>
         </stringlist>
        </property>
       </widget>

@@ -773,7 +773,7 @@ margin:1px;</string>
        <property name="objrelation" stdset="0">
         <stringlist>
          <string>button:help</string>
-         <string>url:http://wiki.openpilot.org/x/DACiAQ</string>
+         <string>url:https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-TxPID-Module</string>
         </stringlist>
        </property>
       </widget>
