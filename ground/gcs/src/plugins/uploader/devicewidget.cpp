@@ -643,7 +643,9 @@ QString deviceWidget::setSaveFileName()
     return fileName;
 }
 
-
+/**
+ * @brief Iterates trough the selected partitions and reads it to a user selectable file
+ */
 void deviceWidget::readPartitions()
 {
     freeze();
@@ -661,7 +663,6 @@ void deviceWidget::readPartitions()
                 int partition_number = item->text().toInt();
                 int partition_size = myDevice->tablePartitions->item(item->row(),1)->text().toInt();
 
-
                 bool ret = m_dfu->DownloadPartition(&array,deviceID,partition_number,partition_size);
                 if(!ret) {
                     status("Could not start download!", STATUSICON_FAIL);
@@ -677,6 +678,9 @@ void deviceWidget::readPartitions()
     unfreeze();
 }
 
+/**
+ * @brief Deletes selected hw partitions
+ */
 void deviceWidget::wipePartitions()
 {
     freeze();
@@ -688,6 +692,9 @@ void deviceWidget::wipePartitions()
     unfreeze();
 }
 
+/**
+ * @brief Writes the contents of a partitions file bundle (zip file) to the correspondent partitions
+ */
 void deviceWidget::writeBundlePartitions()
 {
     QString success;
@@ -760,6 +767,7 @@ void deviceWidget::writeBundlePartitions()
             status(QString(tr("Partition #%0 upload failed")).arg(partition),STATUSICON_FAIL);
         }
     }
+
     FileUtils::removeDir(bundleDir.absolutePath());
     unfreeze();
     QString result;
@@ -776,6 +784,10 @@ void deviceWidget::writeBundlePartitions()
     status(result, STATUSICON_INFO);
 }
 
+/**
+ * @brief (Un)Hides the partition browser
+ * @param value Qt:Checked to show partition browser
+ */
 void deviceWidget::showHidePartBrowser(int value)
 {
     if(value == Qt::Checked)
@@ -783,6 +795,10 @@ void deviceWidget::showHidePartBrowser(int value)
     else
         myDevice->gbPartitionBrowser->setVisible(false);
 }
+
+/**
+ * @brief Iterates trough the selected partitions and asks the user for a file to write to that partition
+ */
 void deviceWidget::writePartitions()
 {
     freeze();
