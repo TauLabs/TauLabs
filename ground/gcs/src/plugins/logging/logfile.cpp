@@ -516,7 +516,8 @@ void LogFile::addSingleField(int index, UAVObjectField *field, QDomElement *uavo
     case UAVObjectField::ENUM: {
         QStringList options = field->getOptions();
         QVariant value = field->getValue();
-        fieldElement.setAttribute("value", options.indexOf(value.toString()));
+        fieldElement.setAttribute("enumValue", options.indexOf(value.toString()));
+        fieldElement.setAttribute("enumName", value.toString());
         fieldElement.setAttribute("units", field->getUnits());
         break;
     }
@@ -527,7 +528,7 @@ void LogFile::addSingleField(int index, UAVObjectField *field, QDomElement *uavo
     case UAVObjectField::UINT16:
     case UAVObjectField::UINT32:
     case UAVObjectField::FLOAT32:
-        fieldElement.setAttribute("value", field->getValue(index).toDouble());
+        fieldElement.setAttribute("value", field->getValue(index).toFloat());
         fieldElement.setAttribute("units", field->getUnits());
         break;
     default:
