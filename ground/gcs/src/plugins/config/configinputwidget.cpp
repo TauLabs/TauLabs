@@ -1379,7 +1379,6 @@ uint8_t ConfigInputWidget::scaleSwitchChannel(quint8 channelNumber, quint8 switc
             valueScaled = 0;
     }
 
-    // Bound and scale channel from [-1..+1] to [0..1] range
     if (valueScaled < -1.0)
         valueScaled = -1.0;
     else
