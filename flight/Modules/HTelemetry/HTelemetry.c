@@ -36,7 +36,9 @@
 #include "flightstatus.h"
 #include "gyros.h"
 #include "gpsposition.h"
+#include "homelocation.h"
 #include "positionactual.h"
+#include "systemalarms.h"
 #include "systemstats.h"
 
 // Private constants
@@ -80,10 +82,13 @@ static FlightBatteryStateData battState;
 static FlightStatusData flightState;
 static GPSPositionData gpsState;
 static GyrosData gyroState;
+static HomeLocationData homeState;
 static PositionActualData positionState;
+static SystemAlarmsData alarmState;
 static SystemStatsData systemState;
 static float baroAltMin;
 static float baroAltMax;
+static float baroGround;
 static char StatusLine[21] = "                     ";
 
 // Private functions
@@ -186,16 +191,16 @@ static void HTelemetryTask(void *parameters) {
 	battState.Current = 0;
 	battState.ConsumedEnergy = 0;
 	gyroState.temperature = 0;
+	homeState.Set = 0;
 	positionState.North = 0;
 	positionState.East = 0;
 	positionState.Down = 0;
 	systemState.FlightTime = 0;
 
 	// initialize altitude min/max values
-	if (BaroAltitudeHandle() != NULL)
-		BaroAltitudeGet(&baroState);
-	baroAltMin = baroState.Altitude;
-	baroAltMax = baroState.Altitude;
+	baroAltMin = 0;
+	baroAltMax = 0;
+	baroGround = 0;
 
 	// initialize timer variables
 	portTickType lastSysTime = xTaskGetTickCount();
@@ -342,10 +347,27 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 	if (FlightStatusHandle() != NULL)
 		FlightStatusGet(&flightState);
 
-	// altitude
-	baroAltMin = (baroAltMin < baroState.Altitude) ? baroAltMin : baroState.Altitude;
-	baroAltMax = (baroAltMax > baroState.Altitude) ? baroAltMax : baroState.Altitude;
-	convert_float2word(baroState.Altitude, 1, 500, &msg->act_altitude_L, &msg->act_altitude_H);
+	// altitude relaive to ground
+	float baroAltitude;
+	switch (flightState.Armed) {
+		case FLIGHTSTATUS_ARMED_DISARMED:
+			baroAltitude = baroState.Altitude - baroGround;
+			break;
+		case FLIGHTSTATUS_ARMED_ARMING:
+			baroAltitude = 0;
+			baroAltMin = 0;
+			baroAltMax = 0;
+			baroGround = baroState.Altitude;
+			break;
+		case FLIGHTSTATUS_ARMED_ARMED:
+			baroAltitude = baroState.Altitude - baroGround;
+			baroAltMin = (baroAltMin < baroAltitude) ? baroAltMin : baroAltitude;
+			baroAltMax = (baroAltMax > baroAltitude) ? baroAltMax : baroAltitude;
+			break;
+		default:
+			baroAltitude = 0;
+	}
+	convert_float2word(baroAltitude, 1, 500, &msg->act_altitude_L, &msg->act_altitude_H);
 	convert_float2word(baroAltMin, 1, 500, &msg->min_altitude_L, &msg->min_altitude_H);
 	convert_float2word(baroAltMax, 1, 500, &msg->max_altitude_L, &msg->max_altitude_H);
 
@@ -360,36 +382,41 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 			snprintf(StatusLine, sizeof(StatusLine), "Manual");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
-			snprintf(StatusLine, sizeof(StatusLine), "Stab 1");
+			snprintf(StatusLine, sizeof(StatusLine), "Stabilized1");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
-			snprintf(StatusLine, sizeof(StatusLine), "Stab 2");
+			snprintf(StatusLine, sizeof(StatusLine), "Stabilized2");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
-			snprintf(StatusLine, sizeof(StatusLine), "Stab 3");
+			snprintf(StatusLine, sizeof(StatusLine), "Stabilized3");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE:
 			snprintf(StatusLine, sizeof(StatusLine), "Autotune");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
-			snprintf(StatusLine, sizeof(StatusLine), "Alt Hold");
+			snprintf(StatusLine, sizeof(StatusLine), "AltitudeHold");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL:
-			snprintf(StatusLine, sizeof(StatusLine), "V-Control");
+			snprintf(StatusLine, sizeof(StatusLine), "VelocityControl");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-			snprintf(StatusLine, sizeof(StatusLine), "POS Hold");
+			snprintf(StatusLine, sizeof(StatusLine), "PositionHold");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-			snprintf(StatusLine, sizeof(StatusLine), "RTH");
+			snprintf(StatusLine, sizeof(StatusLine), "ReturnToHome");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-			snprintf(StatusLine, sizeof(StatusLine), "PATH");
+			snprintf(StatusLine, sizeof(StatusLine), "PathPlanner");
 			break;
 		default:
 			snprintf(StatusLine, sizeof(StatusLine), "unkown");
 	}
 	memcpy(msg->ascii, StatusLine, sizeof(msg->ascii));
+
+	// free display characters
+	msg->ascii1 = 0;
+	msg->ascii2 = 0;
+	msg->ascii3 = 0;
 
 	msg->checksum = calc_checksum(buffer, sizeof(*msg));
 	return sizeof(*msg);
@@ -468,8 +495,12 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 		AltHoldSmoothedGet(&altState);
 	if (GPSPositionHandle() != NULL)
 		GPSPositionGet(&gpsState);
+	if (HomeLocationHandle() != NULL)
+		HomeLocationGet(&homeState);
 	if (PositionActualHandle() != NULL)
 		PositionActualGet(&positionState);
+	if (SystemAlarmsHandle() != NULL)
+		SystemAlarmsGet(&alarmState);
 
 	// gps
 	convert_long2gps(gpsState.Latitude, &msg->latitude_ns, &msg->latitude_min_L, &msg->latitude_min_H, &msg->latitude_sec_L, &msg->latitude_sec_H);
@@ -477,22 +508,6 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	convert_float2byte(gpsState.Heading, 0.5, 0, &msg->flight_direction);
 	convert_float2word(gpsState.Groundspeed, 3.6, 0, &msg->gps_speed_L, &msg->gps_speed_H);
 	msg->gps_num_sat = gpsState.Satellites;
-	switch (gpsState.Status) {
-		case GPSPOSITION_STATUS_NOGPS:
-			msg->gps_fix_char = '-';
-			break;
-		case GPSPOSITION_STATUS_NOFIX:
-			msg->gps_fix_char = ' ';
-			break;
-		case GPSPOSITION_STATUS_FIX2D:
-			msg->gps_fix_char = '2';
-			break;
-		case GPSPOSITION_STATUS_FIX3D:
-			msg->gps_fix_char = '3';
-			break;
-		default:
-			msg->gps_fix_char = '?';
-	}
 
 	// home position and course, relative altitude
 	float distance = sqrtf(positionState.North * positionState.North + positionState.East * positionState.East);
@@ -502,6 +517,25 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	convert_float2word(distance, 1, 0, &msg->distance_L, &msg->distance_H);
 	convert_float2byte(course, 0.5, 0, &msg->home_direction);
 	convert_float2word(positionState.Down, -1, 500, &msg->altitude_L, &msg->altitude_H);
+	msg->ascii5 = (homeState.Set ? 'H' : '-');
+
+	// gps alarms
+	switch (alarmState.Alarm[SYSTEMALARMS_ALARM_GPS]) {
+		case SYSTEMALARMS_ALARM_UNINITIALISED:
+		case SYSTEMALARMS_ALARM_OK:
+			msg->ascii6 = ' ';
+			break;
+		case SYSTEMALARMS_ALARM_WARNING:
+			msg->ascii6 = '?';
+			break;
+		case SYSTEMALARMS_ALARM_ERROR:
+		case SYSTEMALARMS_ALARM_CRITICAL:
+			msg->ascii6 = '!';
+			break;
+	}
+
+	// free display chararacter
+	msg->ascii4 = 0;
 
 	// climbrate
 	convert_float2word(altState.Velocity, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
@@ -587,9 +621,10 @@ uint16_t build_GAM_message(uint8_t *buffer) {
 		GyrosGet(&gyroState);
 
 	// batterie
-	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
-	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
-	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->main_voltage_L, &msg->main_voltage_H);
+	float voltage = (battState.Voltage > 0) ? battState.Voltage : 0;
+	convert_float2word(voltage, 10, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
+	convert_float2word(voltage, 10, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
+	convert_float2word(voltage, 10, 0, &msg->main_voltage_L, &msg->main_voltage_H);
 
 	// temperatures
 	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
@@ -684,11 +719,14 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 		SystemStatsGet(&systemState);
 
 	// batterie
-	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
-	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
-	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->main_voltage_L, &msg->main_voltage_H);
-	convert_float2word(fabs(battState.Current), 10, 0, &msg->current_L, &msg->current_H);
-	convert_float2word(fabs(battState.ConsumedEnergy), .1, 0, &msg->battery_capacity_L, &msg->battery_capacity_H);
+	float voltage = (battState.Voltage > 0) ? battState.Voltage : 0;
+	float current = (battState.Current > 0) ? battState.Current : 0;
+	float energy = (battState.ConsumedEnergy > 0) ? battState.ConsumedEnergy : 0;
+	convert_float2word(voltage, 10, 0, &msg->batt1_voltage_L, &msg->batt1_voltage_H);
+	convert_float2word(voltage, 10, 0, &msg->batt2_voltage_L, &msg->batt2_voltage_H);
+	convert_float2word(voltage, 10, 0, &msg->main_voltage_L, &msg->main_voltage_H);
+	convert_float2word(current, 10, 0, &msg->current_L, &msg->current_H);
+	convert_float2word(energy, .1, 0, &msg->battery_capacity_L, &msg->battery_capacity_H);
 
 	// temperatures
 	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
@@ -766,9 +804,12 @@ uint16_t build_ESC_message(uint8_t *buffer) {
 		GyrosGet(&gyroState);
 
 	// batterie
-	convert_float2word(fabs(battState.Voltage), 10, 0, &msg->batt_voltage_L, &msg->batt_voltage_H);
-	convert_float2word(fabs(battState.Current), 10, 0, &msg->current_L, &msg->current_H);
-	convert_float2word(fabs(battState.ConsumedEnergy), .1, 0, &msg->batt_capacity_L, &msg->batt_capacity_H);
+	float voltage = (battState.Voltage > 0) ? battState.Voltage : 0;
+	float current = (battState.Current > 0) ? battState.Current : 0;
+	float energy = (battState.ConsumedEnergy > 0) ? battState.ConsumedEnergy : 0;
+	convert_float2word(voltage, 10, 0, &msg->batt_voltage_L, &msg->batt_voltage_H);
+	convert_float2word(current, 10, 0, &msg->current_L, &msg->current_H);
+	convert_float2word(energy, .1, 0, &msg->batt_capacity_L, &msg->batt_capacity_H);
 
 	// temperatures
 	convert_float2byte(gyroState.temperature, 1, 20, &msg->temperature1);
