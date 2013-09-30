@@ -250,8 +250,8 @@ def xtrim(string, suffix, length):
         assert n > 0, "length of truncated string+suffix exceeds maximum length"
         return ''.join([string[:n], '+', suffix])
 
-def GetHashofDirs(directory, verbose=0, raw=0):
-  import hashlib, os
+def GetHashofDirs(directory, verbose=0, raw=0, what_to_hash='..*.xml'):
+  import hashlib, os, re
   SHAhash = hashlib.sha1()
   if not os.path.exists (directory):
     return -1
@@ -263,7 +263,9 @@ def GetHashofDirs(directory, verbose=0, raw=0):
       if files:
           files.sort()
 
-      for names in files:
+      regexp = re.compile(what_to_hash)
+      
+      for names in [f for f in files if regexp.match(f)]:
         if verbose == 1:
           print 'Hashing', names
         filepath = os.path.join(root,names)
