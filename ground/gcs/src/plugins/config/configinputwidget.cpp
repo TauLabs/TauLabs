@@ -1246,59 +1246,59 @@ void ConfigInputWidget::moveTxControls()
 void ConfigInputWidget::moveSticks()
 {
     QTransform trans;
-    manualCommandData=manualCommandObj->getData();
+    manualCommandData = manualCommandObj->getData();
     flightStatusData=flightStatusObj->getData();
     accessoryDesiredData0=accessoryDesiredObj0->getData();
     accessoryDesiredData1=accessoryDesiredObj1->getData();
     accessoryDesiredData2=accessoryDesiredObj2->getData();
 
-    if(transmitterMode==mode2)
+    if(transmitterMode == mode2)
     {
-        trans=m_txLeftStickOrig;
-        m_txLeftStick->setTransform(trans.translate(manualCommandData.Yaw*STICK_MAX_MOVE*10,-manualCommandData.Throttle*STICK_MAX_MOVE*10),false);
-        trans=m_txRightStickOrig;
-        m_txRightStick->setTransform(trans.translate(manualCommandData.Roll*STICK_MAX_MOVE*10,manualCommandData.Pitch*STICK_MAX_MOVE*10),false);
+        trans = m_txLeftStickOrig;
+        m_txLeftStick->setTransform(trans.translate(manualCommandData.Yaw * STICK_MAX_MOVE*10, -manualCommandData.Throttle * STICK_MAX_MOVE * 10), false);
+        trans = m_txRightStickOrig;
+        m_txRightStick->setTransform(trans.translate(manualCommandData.Roll * STICK_MAX_MOVE * 10, manualCommandData.Pitch * STICK_MAX_MOVE * 10), false);
     }
     else
     {
-        trans=m_txRightStickOrig;
-        m_txRightStick->setTransform(trans.translate(manualCommandData.Roll*STICK_MAX_MOVE*10,-manualCommandData.Throttle*STICK_MAX_MOVE*10),false);
-        trans=m_txLeftStickOrig;
-        m_txLeftStick->setTransform(trans.translate(manualCommandData.Yaw*STICK_MAX_MOVE*10,manualCommandData.Pitch*STICK_MAX_MOVE*10),false);
+        trans = m_txRightStickOrig;
+        m_txRightStick->setTransform(trans.translate(manualCommandData.Roll * STICK_MAX_MOVE * 10, -manualCommandData.Throttle * STICK_MAX_MOVE * 10), false);
+        trans = m_txLeftStickOrig;
+        m_txLeftStick->setTransform(trans.translate(manualCommandData.Yaw * STICK_MAX_MOVE * 10, manualCommandData.Pitch * STICK_MAX_MOVE*10), false);
     }
     switch(scaleSwitchChannel(ManualControlSettings::CHANNELMIN_FLIGHTMODE,manualSettingsObj->getData().FlightModeNumber))
     {
     case 0:
         m_txFlightMode->setElementId("flightModeLeft");
-        m_txFlightMode->setTransform(m_txFlightModeLOrig,false);
+        m_txFlightMode->setTransform(m_txFlightModeLOrig, false);
         break;
     case 1:
         m_txFlightMode->setElementId("flightModeCenter");
-        m_txFlightMode->setTransform(m_txFlightModeCOrig,false);
+        m_txFlightMode->setTransform(m_txFlightModeCOrig, false);
         break;
     case 2:
         m_txFlightMode->setElementId("flightModeRight");
-        m_txFlightMode->setTransform(m_txFlightModeROrig,false);
+        m_txFlightMode->setTransform(m_txFlightModeROrig, false);
         break;
     default:
         break;
     }
-    switch(scaleSwitchChannel(ManualControlSettings::CHANNELMIN_ARMING,2))
+    switch(scaleSwitchChannel(ManualControlSettings::CHANNELMIN_ARMING, 2))
     {
     case 0:
         m_txArming->setElementId("armedswitchleft");
-        m_txArming->setTransform(m_txArmingSwitchOrigL,false);
+        m_txArming->setTransform(m_txArmingSwitchOrigL, false);
         break;
     case 2:
         m_txArming->setElementId("armedswitchright");
-        m_txArming->setTransform(m_txArmingSwitchOrigR,false);
+        m_txArming->setTransform(m_txArmingSwitchOrigR, false);
         break;
     default:
         break;
     }
-    m_txAccess0->setTransform(QTransform(m_txAccess0Orig).translate(accessoryDesiredData0.AccessoryVal*ACCESS_MAX_MOVE*10,0),false);
-    m_txAccess1->setTransform(QTransform(m_txAccess1Orig).translate(accessoryDesiredData1.AccessoryVal*ACCESS_MAX_MOVE*10,0),false);
-    m_txAccess2->setTransform(QTransform(m_txAccess2Orig).translate(accessoryDesiredData2.AccessoryVal*ACCESS_MAX_MOVE*10,0),false);
+    m_txAccess0->setTransform(QTransform(m_txAccess0Orig).translate(accessoryDesiredData0.AccessoryVal * ACCESS_MAX_MOVE * 10, 0), false);
+    m_txAccess1->setTransform(QTransform(m_txAccess1Orig).translate(accessoryDesiredData1.AccessoryVal * ACCESS_MAX_MOVE * 10, 0), false);
+    m_txAccess2->setTransform(QTransform(m_txAccess2Orig).translate(accessoryDesiredData2.AccessoryVal * ACCESS_MAX_MOVE * 10, 0), false);
 }
 
 void ConfigInputWidget::dimOtherControls(bool value)
