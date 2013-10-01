@@ -3,7 +3,7 @@
  *
  * @file       posix.h  
  * @author     Corvus Corax Copyright (C) 2010.
- * @author     Tau Labs, http:://www.taulabs.org, 2013.
+ * @author     Tau Labs, http://taulabs.org, 2013.
  * @brief      Definitions to run PiOS on posix
  * @see        The GNU Public License (GPL) Version 2
  *

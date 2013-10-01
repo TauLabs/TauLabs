@@ -197,9 +197,9 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     layout->addWidget(m_map);
     m_widget->mapWidget->setLayout(layout);
 
-            m_widget->toolButtonMagicWaypointMapMode->setChecked(false);
-            m_widget->toolButtonNormalMapMode->setChecked(true);
-            hideMagicWaypointControls();
+    m_widget->toolButtonMagicWaypointMapMode->setChecked(false);
+    m_widget->toolButtonNormalMapMode->setChecked(true);
+    hideMagicWaypointControls();
 
     m_widget->labelUAVPos->setText("---");
     m_widget->labelMapPos->setText("---");
@@ -659,8 +659,6 @@ void OPMapGadgetWidget::updateMousePos()
     lastLatLngMouse=lat_lon;
     if (!m_map->contentsRect().contains(p))
         return;					    // the mouse is not on the map
-
-//    internals::PointLatLng lat_lon = m_map->currentMousePosition();     // fetch the current lat/lon mouse position
 
     QGraphicsItem *item = m_map->itemAt(p);
 

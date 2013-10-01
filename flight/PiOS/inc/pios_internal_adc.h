@@ -7,7 +7,7 @@
  *
  * @file       pios_internal_adc.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     The Tau Labs Team, http://www.taulabls.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
  * @brief      ADC functions header.
  * @see        The GNU Public License (GPL) Version 3
  *
