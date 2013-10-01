@@ -36,6 +36,7 @@
 /* Private Function Prototypes */
 
 static const struct pios_servo_cfg * servo_cfg;
+static uint8_t *output_timer_frequency_scaler;
 
 /**
 * Initialise Servos
@@ -79,6 +80,10 @@ int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 		TIM_Cmd(chan->timer, ENABLE);
 	}
 
+	/* Allocate memory */
+	output_timer_frequency_scaler = pvPortMalloc(servo_cfg->num_channels * sizeof(typeof(output_timer_frequency_scaler)));
+	memset(output_timer_frequency_scaler, 0, servo_cfg->num_channels * sizeof(typeof(output_timer_frequency_scaler)));
+
 	return 0;
 }
 
@@ -96,7 +101,6 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = servo_cfg->tim_base_init;
 	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_SYSCLK / 1000000) - 1;
 
 	uint8_t set = 0;
 
@@ -106,10 +110,32 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 
 		/* See if any previous channels use that same timer */
 		for(uint8_t j = 0; (j < i) && new; j++)
-			new &= chan->timer != servo_cfg->channels[j].timer;
+			new &= (chan->timer != servo_cfg->channels[j].timer);
 
 		if(new) {
-			TIM_TimeBaseStructure.TIM_Period = ((1000000 / speeds[set]) - 1);
+			uint32_t output_timer_frequency = 1000000; // Default output timer frequency in hertz
+			output_timer_frequency_scaler[i] = 0; // Scaling applied to frequency in order to bring the period into unsigned 16-bit integer range
+
+			/* While the output frequency is so high that the period register overflows, reduce frequency by half */
+			while ((output_timer_frequency >> output_timer_frequency_scaler[i]) / speeds[set] - 1 > UINT16_MAX) {
+				output_timer_frequency_scaler[i]++;
+
+				// If the output frequency is so low that the prescaler register overflows, break
+				if (PIOS_SYSCLK / (output_timer_frequency >> output_timer_frequency_scaler[i]) - 1 > UINT16_MAX) {
+					output_timer_frequency_scaler[i]--;
+					break;
+				}
+			}
+
+			/* Configure frequency scaler for all channels that use the same timer */
+			for(uint8_t j=0; (j < servo_cfg->num_channels); j++) {
+				if(chan->timer == servo_cfg->channels[j].timer) {
+					output_timer_frequency_scaler[j] = output_timer_frequency_scaler[i];
+				}
+			}
+
+			TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_SYSCLK / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
+			TIM_TimeBaseStructure.TIM_Period = (((output_timer_frequency >> output_timer_frequency_scaler[i]) / speeds[set]) - 1);
 			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
 			set++;
 		}
@@ -118,7 +144,7 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 
 /**
 * Set servo position
-* \param[in] Servo Servo number (0-7)
+* \param[in] Servo Servo number (0-num_channels)
 * \param[in] Position Servo position in microseconds
 */
 void PIOS_Servo_Set(uint8_t servo, uint16_t position)
@@ -128,20 +154,20 @@ void PIOS_Servo_Set(uint8_t servo, uint16_t position)
 		return;
 	}
 
-	/* Update the position */
+	/* Update the position. Right shift for channels that have non-standard prescalers */
 	const struct pios_tim_channel * chan = &servo_cfg->channels[servo];
 	switch(chan->timer_chan) {
 		case TIM_Channel_1:
-			TIM_SetCompare1(chan->timer, position);
+			TIM_SetCompare1(chan->timer, position >> output_timer_frequency_scaler[servo]);
 			break;
 		case TIM_Channel_2:
-			TIM_SetCompare2(chan->timer, position);
+			TIM_SetCompare2(chan->timer, position >> output_timer_frequency_scaler[servo]);
 			break;
 		case TIM_Channel_3:
-			TIM_SetCompare3(chan->timer, position);
+			TIM_SetCompare3(chan->timer, position >> output_timer_frequency_scaler[servo]);
 			break;
 		case TIM_Channel_4:
-			TIM_SetCompare4(chan->timer, position);
+			TIM_SetCompare4(chan->timer, position >> output_timer_frequency_scaler[servo]);
 			break;
 	}
 }
