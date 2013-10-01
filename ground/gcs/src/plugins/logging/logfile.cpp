@@ -539,10 +539,9 @@ void LogFile::addSingleField(int index, UAVObjectField *field, QDomElement *uavo
 }
 
 
-
 /**
  * @brief LogFile::addUAVObject Adds UAVObject to XML logger
- * @param obj
+ * @param obj UAVObject to be added
  */
 void LogFile::addUAVObject(UAVDataObject *obj)
 {
@@ -571,6 +570,12 @@ void LogFile::addUAVObject(UAVDataObject *obj)
 }
 
 
+/**
+ * @brief LogFile::archive Zip the input file and replace its extension by "tlz"
+ * @param inputFile Input XML logfile
+ * @param comment A string that can be used to provide a zip comment
+ * @return true if a zipped file were successfully made, false if otherwise
+ */
 bool LogFile::archive(QFile &inputFile, const QString & comment)
 {
     QFileInfo fileInfo(inputFile);
