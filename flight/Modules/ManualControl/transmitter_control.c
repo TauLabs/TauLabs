@@ -99,9 +99,9 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
 static void set_flight_mode();
 static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
-static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
+static float scaleChannel(uint16_t value, uint16_t max, uint16_t min, uint16_t neutral);
 static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time);
-static bool validInputRange(int16_t min, int16_t max, uint16_t value, uint16_t offset);
+static bool validInputRange(uint16_t min, uint16_t max, uint16_t value, uint16_t offset);
 static void applyDeadband(float *value, float deadband);
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm);
 static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm);
@@ -972,7 +972,7 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 /**
  * Convert channel from servo pulse duration (microseconds) to scaled -1/+1 range.
  */
-static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral)
+static float scaleChannel(uint16_t value, uint16_t max, uint16_t min, uint16_t neutral)
 {
 	float valueScaled;
 
@@ -1010,11 +1010,11 @@ static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time)
  * @brief Determine if the manual input value is within acceptable limits
  * @returns return TRUE if so, otherwise return FALSE
  */
-bool validInputRange(int16_t min, int16_t max, uint16_t value, uint16_t offset)
+bool validInputRange(uint16_t min, uint16_t max, uint16_t value, uint16_t offset)
 {
 	if (min > max)
 	{
-		int16_t tmp = min;
+		uint16_t tmp = min;
 		min = max;
 		max = tmp;
 	}
