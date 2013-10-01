@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       atmospheric_math.h
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup Math Utilities
  * @{
  * @addtogroup MiscellaneousMath Math Various mathematical routines

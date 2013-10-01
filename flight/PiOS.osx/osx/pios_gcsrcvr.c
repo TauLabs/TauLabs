@@ -8,7 +8,7 @@
  *
  * @file       pios_gcsrcvr.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http:://www.taulabs.org, 2013.
+ * @author     Tau Labs, http://taulabs.org, 2013.
  * @brief      GCS Input functions (STM32 dependent)
  * @see        The GNU Public License (GPL) Version 3
  *

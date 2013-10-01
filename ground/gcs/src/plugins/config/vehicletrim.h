@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       vehicletrim.h
- * @author     TauLabs, http://www.taulabls.org Copyright (C) 2013.
+ * @author     TauLabs, http://taulabs.org Copyright (C) 2013.
  * @brief      Gui-less support class for vehicle trimming
  *****************************************************************************/
 /*
