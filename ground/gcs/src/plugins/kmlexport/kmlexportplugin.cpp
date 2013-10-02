@@ -85,6 +85,7 @@ void KmlExportPlugin::exportToKML()
     QString filters = tr("Keyhole Markup Language (compressed) (*.kmz);; Keyhole Markup Language (uncompressed) (*.kml)");
     bool proceed_flag = false;
     QString outputFileName;
+    QString localizedOutputFileName;
 
     // Get output file. Suggest to user that output have same base name and location as input file.
     while(proceed_flag == false) {
@@ -104,13 +105,20 @@ void KmlExportPlugin::exportToKML()
             qDebug() << "Incorrect KML file extension: " << QFileInfo(outputFileName).suffix();
             QMessageBox::critical(new QWidget(),"Incorrect file extension", "Filename must have .kml or .kmz extension.");
         }
+        else if (outputFileName.toLocal8Bit() == (QByteArray)NULL) {
+            qDebug() << "Unsupported characters in path: " << outputFileName;
+            QMessageBox::critical(new QWidget(),"Unsupported characters", "Not all uni-code characters are supported. Please choose a path and file name that uses only the standard latin alphabet.");
+        }
         else {
             proceed_flag = true;
+
+            // Due to limitations in the KML library, we must convert the output file name into local 8-bit characters.
+            localizedOutputFileName = outputFileName.toLocal8Bit();
         }
     }
 
     // Create kmlExport instance, and trigger export
-    KmlExport kmlExport(inputFileName, outputFileName);
+    KmlExport kmlExport(inputFileName, localizedOutputFileName);
     kmlExport.exportToKML();
 }
 
