@@ -31,6 +31,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "openpilot.h"
+#include "coordinate_conversions.h"
 #include "physical_constants.h"
 #include "paths.h"
 #include "misc_math.h"
@@ -50,9 +51,7 @@
 #include "systemsettings.h"
 #include "velocityactual.h"
 
-#include "coordinate_conversions.h"
-
-#include "pathsegmentdescriptor.h"
+#include "pathsegmentactive.h"
 #include "pathfollowerstatus.h"
 #include "pathmanagerstatus.h"
 
@@ -84,21 +83,18 @@ static bool flightStatusUpdate = false;
 static uint8_t flightMode = FLIGHTSTATUS_FLIGHTMODE_MANUAL;
 
 static PathDesiredData *pathDesired;
-static PathSegmentDescriptorData *pathSegmentDescriptor;
 static FixedWingPathFollowerSettingsData fixedwingpathfollowerSettings;
 static FixedWingAirspeedsData fixedWingAirspeeds;
 static struct ErrorIntegral *integral;
-static uint16_t activeSegment;
-static uint8_t pathCounter;
 static float arc_radius;
 static xQueueHandle pathManagerStatusQueue;
 
 // Private functions
 static void pathfollowerTask(void *parameters);
 static void FlightStatusUpdatedCb(UAVObjEvent * ev);
-
+static void PathSegmentActiveUpdatedCb(UAVObjEvent * ev);
 static void SettingsUpdatedCb(UAVObjEvent * ev);
-static void updateDestination(void);
+
 static int8_t updateFixedWingDesiredStabilization(void);
 
 static void airspeedController(struct ControllerOutput *airspeedControl, float calibrated_airspeed_error, float altitudeError, float dT);
@@ -161,6 +157,7 @@ int32_t FixedWingPathFollowerInitialize()
 	FlightStatusConnectCallback(FlightStatusUpdatedCb);
 	FixedWingAirspeedsConnectCallback(SettingsUpdatedCb);
 	FixedWingPathFollowerSettingsConnectCallback(SettingsUpdatedCb);
+	PathSegmentActiveConnectCallback(PathSegmentActiveUpdatedCb);
 
 	// Register queues
 	pathManagerStatusQueue = xQueueCreate(1, sizeof(UAVObjEvent));
@@ -169,9 +166,6 @@ int32_t FixedWingPathFollowerInitialize()
 	// Allocate memory
 	integral = (struct ErrorIntegral *) pvPortMalloc(sizeof(struct ErrorIntegral));
 	memset(integral, 0, sizeof(struct ErrorIntegral));
-
-	pathSegmentDescriptor = (PathSegmentDescriptorData *) pvPortMalloc(sizeof(PathSegmentDescriptorData));
-	memset(pathSegmentDescriptor, 0, sizeof(PathSegmentDescriptorData));
 
 	pathDesired = (PathDesiredData *) pvPortMalloc(sizeof(PathDesiredData));
 	memset(pathDesired, 0, sizeof(PathDesiredData));
@@ -249,27 +243,6 @@ static void pathfollowerTask(void *parameters)
  */
 int8_t updateFixedWingDesiredStabilization(void)
 {
-	// Check if the path manager has updated.
-	UAVObjEvent ev;
-	if (xQueueReceive(pathManagerStatusQueue, &ev, 0) == pdTRUE)
-	{
-		PathManagerStatusData pathManagerStatusData;
-		PathManagerStatusGet(&pathManagerStatusData);
-
-		// Fixme: This isn't a very elegant check. Since the manager can update it's state with new loci, but
-		// still have the original ActiveSegment, the pathcounter was introduced. It only changes when the
-		// path manager gets a new path. Since this pathcounter variable doesn't do anything else, it's a bit
-		// of a waste of space right now. Logically, the path planner should set this variable but since we
-		// can't be sure a path planner is running, it works better on the level of the path manager.
-		if (activeSegment != pathManagerStatusData.ActiveSegment || pathCounter != pathManagerStatusData.PathCounter)
-		{
-			activeSegment = pathManagerStatusData.ActiveSegment;
-			pathCounter = pathManagerStatusData.PathCounter;
-
-			updateDestination();
-		}
-	}
-
 	float dT = fixedwingpathfollowerSettings.UpdatePeriod / 1000.0f; //Convert from [ms] to [s]
 
 	VelocityActualData velocityActual;
@@ -544,93 +517,76 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 
 
 /**
- * @brief updateDestination Takes path segment descriptors and writes the path to the PathDesired UAVO
+ * @brief PathSegmentActiveUpdatedCb Triggered by changes in PathSegmentActive
+ * @param ev
  */
-static void updateDestination(void)
+static void PathSegmentActiveUpdatedCb(UAVObjEvent * ev)
 {
-	PathSegmentDescriptorData pathSegmentDescriptor_old;
+	if (ev == NULL || ev->obj == PathSegmentActiveHandle())
+	{
+		PathSegmentActiveData pathSegmentActive;
+		PathSegmentActiveGet(&pathSegmentActive);
 
-	int8_t ret;
-	ret = PathSegmentDescriptorInstGet(activeSegment-1, &pathSegmentDescriptor_old);
-	if(ret != 0) {
-			if (activeSegment == 0) { // This means we're going to the first switching locus.
-				PositionActualData positionActual;
-				PositionActualGet(&positionActual);
+		pathDesired->Start[0]=pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_NORTH];
+		pathDesired->Start[1]=pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_EAST];
+		pathDesired->Start[2]=pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_DOWN];
 
-				pathDesired->Start[0]=positionActual.North;
-				pathDesired->Start[1]=positionActual.East;
-				pathDesired->Start[2]=positionActual.Down;
+		// For a straight line use the switching locus as the vector endpoint...
+		if(pathSegmentActive.CurrentPathCurvature == 0) {
+			pathDesired->End[0]=pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_NORTH];
+			pathDesired->End[1]=pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_EAST];
+			pathDesired->End[2]=pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_DOWN];
 
-				// TODO: Figure out if this can't happen in normal behavior. Consider adding a warning if so.
-			} else {
-			//TODO: Set off a warning
+			pathDesired->Curvature = 0;
+		} else { // ...but for an arc, use the switching loci to calculate the arc center
+			float *oldPosition_NE = pathDesired->Start;
+			float *newPosition_NE = pathSegmentActive.CurrentSwitchingLocus;
+			float arcCenter_NE[2];
+			enum arc_center_results ret;
 
-			return;
+			ret = find_arc_center(oldPosition_NE, newPosition_NE, 1.0f/pathSegmentActive.CurrentPathCurvature, pathSegmentActive.CurrentPathCurvature > 0, pathSegmentActive.CurrentArcRank == PATHSEGMENTACTIVE_CURRENTARCRANK_MINOR, arcCenter_NE);
+
+			if (ret == ARC_CENTER_FOUND) {
+				pathDesired->End[0]=arcCenter_NE[0];
+				pathDesired->End[1]=arcCenter_NE[1];
+				pathDesired->End[2]=pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_DOWN];
+			} else { //---- This is bad, but we have to handle it.----///
+				// The path manager should catch this and handle it, but in case it doesn't we'll circle around the midpoint. This
+				// way we still maintain positive control, and will satisfy the path requirements, making sure we don't get stuck
+				pathDesired->End[0]=(oldPosition_NE[0] + newPosition_NE[0])/2.0f;
+				pathDesired->End[1]=(oldPosition_NE[1] + newPosition_NE[1])/2.0f;
+				pathDesired->End[2]=pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_DOWN];
+
+				// TODO: Set alarm warning
+				AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER, SYSTEMALARMS_ALARM_WARNING);
 			}
-	} else {
-		pathDesired->Start[0]=pathSegmentDescriptor_old.SwitchingLocus[0];
-		pathDesired->Start[1]=pathSegmentDescriptor_old.SwitchingLocus[1];
-		pathDesired->Start[2]=pathSegmentDescriptor_old.SwitchingLocus[2];
-	}
 
-	ret = PathSegmentDescriptorInstGet(activeSegment, pathSegmentDescriptor);
-	if(ret != 0) {
-			//TODO: Set off a warning
+			uint8_t max_avg_roll_D;
+			FixedWingPathFollowerSettingsRollLimitGet(&max_avg_roll_D);
 
-			return;
-	}
-
-	// For a straight line use the switching locus as the vector endpoint...
-	if(pathSegmentDescriptor->PathCurvature == 0) {
-		pathDesired->End[0]=pathSegmentDescriptor->SwitchingLocus[0];
-		pathDesired->End[1]=pathSegmentDescriptor->SwitchingLocus[1];
-		pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];
-
-		pathDesired->Curvature = 0;
-	} else { // ...but for an arc, use the switching loci to calculate the arc center
-		float *oldPosition_NE = pathDesired->Start;
-		float *newPosition_NE = pathSegmentDescriptor->SwitchingLocus;
-		float arcCenter_NE[2];
-		enum arc_center_results ret;
-
-		ret = find_arc_center(oldPosition_NE, newPosition_NE, 1.0f/pathSegmentDescriptor->PathCurvature, pathSegmentDescriptor->PathCurvature > 0, pathSegmentDescriptor->ArcRank == PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR, arcCenter_NE);
-
-		if (ret == ARC_CENTER_FOUND) {
-			pathDesired->End[0]=arcCenter_NE[0];
-			pathDesired->End[1]=arcCenter_NE[1];
-			pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];
-		} else { //---- This is bad, but we have to handle it.----///
-			// The path manager should catch this and handle it, but in case it doesn't we'll circle around the midpoint. This
-			// way we still maintain positive control, and will satisfy the path requirements, making sure we don't get stuck
-			pathDesired->End[0]=(oldPosition_NE[0] + newPosition_NE[0])/2.0f;
-			pathDesired->End[1]=(oldPosition_NE[1] + newPosition_NE[1])/2.0f;
-			pathDesired->End[2]=pathSegmentDescriptor->SwitchingLocus[2];
-
-			// TODO: Set alarm warning
-			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER, SYSTEMALARMS_ALARM_WARNING);
+			//Calculate arc_radius using r*omega=v and omega = g/V_g*tan(max_avg_roll_D)
+			float min_radius = powf(pathSegmentActive.CurrentFinalVelocity, 2)/(9.805f*tanf(max_avg_roll_D*DEG2RAD));
+			arc_radius = fabsf(1.0f/pathSegmentActive.CurrentPathCurvature) > min_radius ? fabsf(1.0f/pathSegmentActive.CurrentPathCurvature) : min_radius;
+			pathDesired->Curvature = SIGN(pathSegmentActive.CurrentPathCurvature) / arc_radius;
 		}
 
-		uint8_t max_avg_roll_D;
-		FixedWingPathFollowerSettingsRollLimitGet(&max_avg_roll_D);
+		//-------------------------------------------------//
+		//FIXME: Inspect pathDesired values for NaN or Inf.//
+		//-------------------------------------------------//
 
-		//Calculate arc_radius using r*omega=v and omega = g/V_g*tan(max_avg_roll_D)
-		float min_radius = powf(pathSegmentDescriptor->FinalVelocity, 2)/(9.805f*tanf(max_avg_roll_D*DEG2RAD));
-		arc_radius = fabsf(1.0f/pathSegmentDescriptor->PathCurvature) > min_radius ? fabsf(1.0f/pathSegmentDescriptor->PathCurvature) : min_radius;
-		pathDesired->Curvature = SIGN(pathSegmentDescriptor->PathCurvature) / arc_radius;
+		pathDesired->EndingVelocity = pathSegmentActive.CurrentFinalVelocity;
+
+	#if defined(PATHDESIRED_DIAGNOSTICS)
+		PathDesiredSet(pathDesired);
+	#endif
 	}
-
-	//-------------------------------------------------//
-	//FIXME: Inspect pathDesired values for NaN or Inf.//
-	//-------------------------------------------------//
-
-	pathDesired->EndingVelocity = pathSegmentDescriptor->FinalVelocity;
-
-#if defined(PATHDESIRED_DIAGNOSTICS)
-	PathDesiredSet(pathDesired);
-#endif
 }
 
-// Triggered by changes in FlightStatus
+
+/**
+ * @brief FlightStatusUpdatedCb Triggered by changes in FlightStatus
+ * @param ev
+ */
 static void FlightStatusUpdatedCb(UAVObjEvent * ev)
 {
 	flightStatusUpdate = true;

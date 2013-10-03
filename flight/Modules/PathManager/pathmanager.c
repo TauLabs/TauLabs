@@ -39,6 +39,7 @@
 #include "pathmanagerstatus.h"
 #include "pathmanagersettings.h"
 #include "pathplannerstatus.h"
+#include "pathsegmentactive.h"
 #include "pathsegmentdescriptor.h"
 #include "paths_library.h"
 #include "path_managers.h"
@@ -127,6 +128,7 @@ int32_t PathManagerInitialize()
 	if (module_enabled) {
 		PathManagerStatusInitialize();
 		PathManagerSettingsInitialize();
+		PathSegmentActiveInitialize();
 
 		FixedWingAirspeedsInitialize(); //TODO: This shouldn't really be here, as it's airframe specific
 
@@ -279,7 +281,6 @@ static void advanceSegment(void)
 	// Advance segment
 	pathManagerStatus.ActiveSegment++;
 	pathManagerStatus.Status = PATHMANAGERSTATUS_STATUS_INPROGRESS;
-	PathManagerStatusSet(&pathManagerStatus);
 
 	// Load current segment into global memory.
 	PathSegmentDescriptorInstGet(pathManagerStatus.ActiveSegment, &pathSegmentDescriptor_current);  // TODO: Check that an instance is successfully returned
@@ -337,6 +338,35 @@ static void advanceSegment(void)
 		pathManagerStatus.Timeout = UINT16_MAX; // Set this to maximum possible value for variable type
 
 	PathManagerStatusSet(&pathManagerStatus);
+
+	// Update data in PathSegmentActive UAVO
+	// TODO: Handle the case where there is no past AND where there is no future
+	PathSegmentActiveData pathSegmentActive;
+	PathSegmentActiveGet(&pathSegmentActive);
+
+	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_NORTH] = pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_NORTH];
+	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_EAST] = pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_EAST];
+	pathSegmentActive.PastSwitchingLocus[PATHSEGMENTACTIVE_PASTSWITCHINGLOCUS_DOWN] = pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_DOWN];
+
+	pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_NORTH] = pathSegmentDescriptor_current.SwitchingLocus[0];
+	pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_EAST]  = pathSegmentDescriptor_current.SwitchingLocus[1];
+	pathSegmentActive.CurrentSwitchingLocus[PATHSEGMENTACTIVE_CURRENTSWITCHINGLOCUS_DOWN]  = pathSegmentDescriptor_current.SwitchingLocus[2];
+
+//	pathSegmentActive.FutureSwitchingLocus[PATHSEGMENTACTIVE_FUTURESWITCHINGLOCUS_NORTH] =;
+//	pathSegmentActive.FutureSwitchingLocus[PATHSEGMENTACTIVE_FUTURESWITCHINGLOCUS_EAST] =;
+//	pathSegmentActive.FutureSwitchingLocus[PATHSEGMENTACTIVE_FUTURESWITCHINGLOCUS_DOWN] =;
+
+	pathSegmentActive.PastFinalVelocity = pathSegmentActive.CurrentFinalVelocity;
+	pathSegmentActive.CurrentFinalVelocity = pathSegmentDescriptor_current.FinalVelocity;
+
+	pathSegmentActive.CurrentPathCurvature = pathSegmentDescriptor_current.PathCurvature;
+//	pathSegmentActive.FuturePathCurvature = ;
+
+	pathSegmentActive.CurrentArcRank = pathSegmentDescriptor_current.ArcRank;
+//	pathSegmentActive.FutureArcRank = ;
+
+	PathSegmentActiveSet(&pathSegmentActive);
+
 
 	// Reset timer
 	segmentTimer = xTaskGetTickCount();
