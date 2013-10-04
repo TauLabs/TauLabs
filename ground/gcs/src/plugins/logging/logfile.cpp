@@ -148,7 +148,8 @@ void LogFile::close()
     QIODevice::close();
 }
 
-qint64 LogFile::writeData(const char * data, qint64 dataSize) {
+qint64 LogFile::writeData(const char * data, qint64 dataSize)
+{
     if (!file.isWritable())
         return dataSize;
 
@@ -164,7 +165,8 @@ qint64 LogFile::writeData(const char * data, qint64 dataSize) {
     return dataSize;
 }
 
-qint64 LogFile::readData(char * data, qint64 maxSize) {
+qint64 LogFile::readData(char * data, qint64 maxSize)
+{
     QMutexLocker locker(&mutex);
     qint64 toRead = qMin(maxSize,(qint64)dataBuffer.size());
     memcpy(data,dataBuffer.data(),toRead);
@@ -234,7 +236,8 @@ void LogFile::timerFired()
 
 }
 
-bool LogFile::startReplay() {
+bool LogFile::startReplay()
+{
     dataBuffer.clear();
     myTime.restart();
     lastPlayTimeOffset = 0;

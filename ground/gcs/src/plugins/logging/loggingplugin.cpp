@@ -101,7 +101,6 @@ void LoggingConnection::closeDevice(const QString &deviceName)
     //we have to delete the serial connection we created
     if (logFile.isOpen()){
         logFile.close();
-        m_deviceOpened = false;
     }
 }
 
