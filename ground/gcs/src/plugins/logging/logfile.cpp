@@ -144,6 +144,7 @@ void LogFile::close()
 
     if (timer.isActive())
         timer.stop();
+    dataBuffer.clear();
     file.close();
     QIODevice::close();
 }
@@ -309,7 +310,8 @@ bool LogFile::startReplay()
     return true;
 }
 
-bool LogFile::stopReplay() {
+bool LogFile::stopReplay()
+{
     close();
     emit replayFinished();
     return true;
