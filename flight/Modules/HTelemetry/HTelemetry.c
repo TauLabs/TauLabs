@@ -66,6 +66,8 @@
 #define HTELE_BUTTON_NEXT 0xEE
 #define HTELE_BUTTON_PREV 0xE7
 
+#define StatusSize 21
+
 // Private structures
 struct telemetryData{
 	HTelemetrySettingsData Settings;
@@ -78,14 +80,14 @@ struct telemetryData{
 	HomeLocationData Home;
 	PositionActualData Position;
 	SystemAlarmsData SysAlarms;
+	char StatusLine[StatusSize];
 };
 
 // Private variables
 static xTaskHandle HTelemetryTaskHandle;
-//static HTelemetrySettingsData HTeleSettings;
 static uint32_t htelemetry_port;
 static bool module_enabled = false;
-static uint8_t * tx_buffer;
+static uint8_t *tx_buffer;
 static struct telemetryData *teleState;
 static float climbrate1s;
 static float climbrate3s;
@@ -99,7 +101,6 @@ static float altitudeLast;
 static float homedistance;
 static float homecourse;
 static uint8_t Armed;
-static char StatusLine[21] = "                     ";
 
 // Private functions
 static void HTelemetryTask(void *parameters);
@@ -185,7 +186,7 @@ static void HTelemetryTask(void *parameters) {
 	// allocate memory for message buffer
 	tx_buffer = pvPortMalloc(HTELE_MAX_MESSAGE_LENGTH);
 
-	// allocate memory for telemetrie data
+	// allocate memory for telemetry data
 	teleState = (struct telemetryData *)pvPortMalloc(sizeof(*teleState));
 
 	// check buffer pointer for security
@@ -198,7 +199,7 @@ static void HTelemetryTask(void *parameters) {
 	// 500ms delay for sensor setup
 	vTaskDelay(500);
 
-	// first update of telemetrie data
+	// first update of telemetry data
 	update_telemetrydata(teleState);
 
 	// initialize timer variables
@@ -352,7 +353,7 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 	convert_float2word(climbrate10s, 100, 30000, &msg->climbrate10s_L, &msg->climbrate10s_H);
 
 	// statusline
-	memcpy(msg->ascii, StatusLine, sizeof(msg->ascii));
+	memcpy(msg->ascii, teleState->StatusLine, sizeof(msg->ascii));
 
 	// free display characters
 	msg->ascii1 = 0;
@@ -835,7 +836,7 @@ uint8_t generate_warning() {
 		return 15;
 	// tone p
 	if ((teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_MINPOWERVOLTAGE] == HTELEMETRYSETTINGS_WARNING_ENABLED) &&
-		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINPOWERVOLTAGE] < teleState->Battery.Voltage))
+		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINPOWERVOLTAGE] > teleState->Battery.Voltage))
 		return 16;
 	// tone q (17, MINCELLVOLTAGE)
 	// tone r (18, MINSENSOR1VOLTAGE)
@@ -916,14 +917,12 @@ void update_telemetrydata () {
 	if (SystemAlarmsHandle() != NULL)
 		SystemAlarmsGet(&teleState->SysAlarms);
 
-	// calculate average climbrates for 1, 3 and 10 seconds
-	// based on 200ms calling interval there are 5 per second. use continues percentage approximation as arithmetic mean.
-	climbrate1s = 0.87f * climbrate1s + 0.13f * teleState->Altitude.Velocity;
-	climbrate3s = 0.95f * climbrate3s + 0.05f * teleState->Altitude.Velocity;
-	climbrate10s = 0.98f * climbrate10s + 0.02f * teleState->Altitude.Velocity;
+	climbrate1s = teleState->Altitude.Velocity;
+	climbrate3s = 3 * teleState->Altitude.Velocity;
+	climbrate10s = 10 * teleState->Altitude.Velocity;
 
 	// calculate avarage altitude for 1 second and set min/max values
-	altitude1s = 0.87f * altitude1s + 0.13f * teleState->Baro.Altitude;
+	altitude1s = teleState->Baro.Altitude;
 
 	// set altitude offset and clear min/max values when arming
 	if ((teleState->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING) || ((Armed != FLIGHTSTATUS_ARMED_ARMED) && (teleState->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED))) {
@@ -954,37 +953,37 @@ void update_telemetrydata () {
 	// statusline
 	switch (teleState->FlightStatus.FlightMode) {
 		case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
-			snprintf(StatusLine, sizeof(StatusLine), "Manual");
+			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "Manual");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
-			snprintf(StatusLine, sizeof(StatusLine), "Stabilized1");
+			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "Stabilized1");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
-			snprintf(StatusLine, sizeof(StatusLine), "Stabilized2");
+			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "Stabilized2");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
-			snprintf(StatusLine, sizeof(StatusLine), "Stabilized3");
+			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "Stabilized3");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE:
-			snprintf(StatusLine, sizeof(StatusLine), "Autotune");
+			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "Autotune");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
-			snprintf(StatusLine, sizeof(StatusLine), "AltitudeHold");
+			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "AltitudeHold");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL:
-			snprintf(StatusLine, sizeof(StatusLine), "VelocityControl");
+			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "VelocityControl");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-			snprintf(StatusLine, sizeof(StatusLine), "PositionHold");
+			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "PositionHold");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-			snprintf(StatusLine, sizeof(StatusLine), "ReturnToHome");
+			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "ReturnToHome");
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-			snprintf(StatusLine, sizeof(StatusLine), "PathPlanner");
+			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "PathPlanner");
 			break;
 		default:
-			snprintf(StatusLine, sizeof(StatusLine), "unkown");
+			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "unkown");
 	}
 }
 
