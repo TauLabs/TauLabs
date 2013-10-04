@@ -386,7 +386,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				pathSegmentDescriptor.NumberOfOrbits = 0;
 				pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 				PathSegmentDescriptorInstSet(wptIdx+offset, &pathSegmentDescriptor);
-			} else if (theta != 0) { // The two tangents have different directions
+			} else if (fabsf(theta) > (1 * DEG2RAD)) { // The two tangents have different directions (greater than 1 degree or so)
 				// Find minimum radius R that permits the fillet to be completed before arriving at the next waypoint.
 				// In any case, do not allow R to be 0
 				// Fixme: The vehicle might not be able to follow this path so the path manager should indicate this.
@@ -434,7 +434,7 @@ enum path_planner_states direct_path_planner_with_filleting(uint16_t numberOfWay
 				pathSegmentDescriptor.NumberOfOrbits = 0;
 				pathSegmentDescriptor.ArcRank = PATHSEGMENTDESCRIPTOR_ARCRANK_MINOR;
 				PathSegmentDescriptorInstSet(wptIdx+offset, &pathSegmentDescriptor);
-			} else { // In this case, the two tangents are colinear
+			} else { // In this case, the two tangents are (approximately) colinear
 				if ( !path_is_circle ) {
 					uint8_t ret;
 					ret = addNonCircleToSwitchingLoci(waypoint.Position, finalVelocity, curvature, wptIdx+offset);
