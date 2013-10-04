@@ -149,6 +149,15 @@ bool PIOS_USB_CheckAvailable(uintptr_t id)
 	return transfer_possible == 1;
 }
 
+/**
+ * Check if the cable is connected
+ * @note This isn't the same as F3 which checks for SOF
+ */
+bool PIOS_USB_CableConnected(uintptr_t id)
+{
+	return PIOS_USB_CheckAvailable(id);
+}
+
 /*
  *
  * Provide STM32 USB OTG BSP layer API
