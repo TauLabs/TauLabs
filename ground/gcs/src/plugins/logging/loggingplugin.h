@@ -87,6 +87,7 @@ class LoggingThread : public QThread
 {
 Q_OBJECT
 public:
+    ~LoggingThread();
     bool openFile(QString file, LoggingPlugin * parent);
 
 private slots:

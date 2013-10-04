@@ -118,8 +118,13 @@ QString LoggingConnection::shortName()
 
 
 
-
-
+/**
+ * @brief LoggingThread::~LoggingThread Destructor
+ */
+LoggingThread::~LoggingThread()
+{
+    stopLogging();
+}
 
 /**
   * Sets the file to use for logging and takes the parent plugin
@@ -413,7 +418,6 @@ void LoggingPlugin::stopLogging()
 {
     emit stopLoggingSignal();
     disconnect( this,SIGNAL(stopLoggingSignal()),0,0);
-
 }
 
 
@@ -428,7 +432,7 @@ void LoggingPlugin::loggingStopped()
 
     emit stateChanged("IDLE");
 
-    free(loggingThread);
+    delete loggingThread;
     loggingThread = NULL;
 }
 
