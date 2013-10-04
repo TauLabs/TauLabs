@@ -1,5 +1,5 @@
 <xml>
-	<object name="PathManagerSettings" singleinstance="true" settings="true">
+	<object name="PathManagerSettings" singleinstance="true" settings="true" category="NavigationSettings">
 		<description>Settings for the @ref PathManager Module</description>
 		<field name="SwitchingStrategy" units="" type="enum" elements="1" defaultvalue="HalfPlane">
 			<options>

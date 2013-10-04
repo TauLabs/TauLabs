@@ -1,5 +1,5 @@
 <xml>
-	<object name="PathPlannerSettings" singleinstance="true" settings="true">
+	<object name="PathPlannerSettings" singleinstance="true" settings="true" category="NavigationSettings">
 		<description>Settings for the @ref PathPlanner Module</description>
 		<field name="PreprogrammedPath" units="" type="enum" elements="1" defaultvalue="None">
 			<options>
