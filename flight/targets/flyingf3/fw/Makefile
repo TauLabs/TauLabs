@@ -56,7 +56,7 @@ OPTMODULES += TxPID
 OPTMODULES += GenericI2CSensor
 OPTMODULES += AltitudeHold
 OPTMODULES += PathManager
-OPTMODULES += PathFollower
+OPTMODULES += FixedWingPathFollower
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += Battery
@@ -118,8 +118,6 @@ SRC += $(DEBUG_CM3_DIR)/dcc_stdio.c
 SRC += $(DEBUG_CM3_DIR)/cm3_fault_handlers.c
 endif
 
-SRC += $(FLIGHTLIB)/paths.c
-SRC += $(FLIGHTLIB)/CoordinateConversions.c
 SRC += $(FLIGHTLIB)/path_planners/direct.c
 SRC += $(FLIGHTLIB)/path_planners/direct_with_filleting.c
 SRC += $(FLIGHTLIB)/path_managers/b_ball.c
@@ -139,7 +137,6 @@ SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/misc_math.c
-SRC += $(MATHLIB)/atmospheric_math.c
 SRC += $(MATHLIB)/pid.c
 SRC += $(MATHLIB)/atmospheric_math.c
 
@@ -239,6 +236,10 @@ CFLAGS += -DDIAG_TASKS
 
 ifneq (,$(filter YES,$(PATHDESIRED_DIAGNOSTICS) $(ALL_DIAGNOSTICS)))
 CFLAGS += -DPATHDESIRED_DIAGNOSTICS
+endif
+
+ifeq ($(PATH_PLANNER), YES)
+CFLAGS += -DPATH_PLANNER
 endif
 
 # configure CMSIS DSP Library
