@@ -1,36 +1,83 @@
 <xml>
 	<object name="HTelemetrySettings" singleinstance="true" settings="true">
 		<description>Settings for the @ref HoTT Telemetry Module</description>
-		<field name="VARIO" units="" type="enum" elements="1" defaultvalue="Disabled">
-			<options>
-				<option>Disabled</option>
-				<option>Enabled</option>
-			</options>
+
+		<field name="Sensor" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
+			<elementnames>
+				<elementname>VARIO</elementname>
+				<elementname>GPS</elementname>
+				<elementname>EAM</elementname>
+				<elementname>GAM</elementname>
+				<elementname>ESC</elementname>
+			</elementnames>
 		</field>
-		<field name="GPS" units="" type="enum" elements="1" defaultvalue="Disabled">
-			<options>
-				<option>Disabled</option>
-				<option>Enabled</option>
-			</options>
+
+		<field name="Warning" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
+			<elementnames>
+				<elementname>MinSpeed</elementname>
+				<elementname>NegDifference2</elementname>
+				<elementname>NegDifference1</elementname>
+				<elementname>MaxDistance</elementname>
+				<elementname>MinSensor1Temp</elementname>
+				<elementname>MinSensor2Temp</elementname>
+				<elementname>MaxSensor1Temp</elementname>
+				<elementname>MaxSensor2Temp</elementname>
+				<elementname>MaxSensor1Voltage</elementname>
+				<elementname>MaxSensor2Voltage</elementname>
+				<elementname>MaxSpeed</elementname>
+				<elementname>PosDifference2</elementname>
+				<elementname>PosDifference1</elementname>
+				<elementname>MinHeight</elementname>
+				<elementname>MinPowerVoltage</elementname>
+				<elementname>MinCellVoltage</elementname>
+				<elementname>MinSensor1Voltage</elementname>
+				<elementname>MinSensor2Voltage</elementname>
+				<elementname>MinRPM</elementname>
+				<elementname>MinFuel</elementname>
+				<elementname>MaxUsedCapacity</elementname>
+				<elementname>MaxCurrent</elementname>
+				<elementname>MaxPowerVoltage</elementname>
+				<elementname>MaxRPM</elementname>
+				<elementname>MaxHeight</elementname>
+				<elementname>MaxServoTemp</elementname>
+				<elementname>MaxServoDifference</elementname>
+				<elementname>AltitudeBeep</elementname>
+			</elementnames>
 		</field>
-		<field name="EAM" units="" type="enum" elements="1" defaultvalue="Disabled">
-			<options>
-				<option>Disabled</option>
-				<option>Enabled</option>
-			</options>
+
+		<field name="Limit" units="" type="float" defaultvalue="30,-1,-10,1500,0,0,100,100,30,30,100,1,10,20,5,3.3,5,5,500,1000,2000,40,30,7000,500,0,0,0">
+			<elementnames>
+				<elementname>MinSpeed</elementname>
+				<elementname>NegDifference2</elementname>
+				<elementname>NegDifference1</elementname>
+				<elementname>MaxDistance</elementname>
+				<elementname>MinSensor1Temp</elementname>
+				<elementname>MinSensor2Temp</elementname>
+				<elementname>MaxSensor1Temp</elementname>
+				<elementname>MaxSensor2Temp</elementname>
+				<elementname>MaxSensor1Voltage</elementname>
+				<elementname>MaxSensor2Voltage</elementname>
+				<elementname>MaxSpeed</elementname>
+				<elementname>PosDifference2</elementname>
+				<elementname>PosDifference1</elementname>
+				<elementname>MinHeight</elementname>
+				<elementname>MinPowerVoltage</elementname>
+				<elementname>MinCellVoltage</elementname>
+				<elementname>MinSensor1Voltage</elementname>
+				<elementname>MinSensor2Voltage</elementname>
+				<elementname>MinRPM</elementname>
+				<elementname>MinFuel</elementname>
+				<elementname>MaxUsedCapacity</elementname>
+				<elementname>MaxCurrent</elementname>
+				<elementname>MaxPowerVoltage</elementname>
+				<elementname>MaxRPM</elementname>
+				<elementname>MaxHeight</elementname>
+				<elementname>MaxServoTemp</elementname>
+				<elementname>MaxServoDifference</elementname>
+				<elementname>AltitudeBeep</elementname>
+			</elementnames>
 		</field>
-		<field name="GAM" units="" type="enum" elements="1" defaultvalue="Disabled">
-			<options>
-				<option>Disabled</option>
-				<option>Enabled</option>
-			</options>
-		</field>
-		<field name="ESC" units="" type="enum" elements="1" defaultvalue="Disabled">
-			<options>
-				<option>Disabled</option>
-				<option>Enabled</option>
-			</options>
-		</field>
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>
