@@ -30,12 +30,14 @@
 #include "openpilot.h"
 #include "modulesettings.h"
 #include "htelemetrysettings.h"
+#include "attitudeactual.h"
 #include "altholdsmoothed.h"
 #include "baroaltitude.h"
 #include "flightbatterystate.h"
 #include "flightstatus.h"
 #include "gyros.h"
 #include "gpsposition.h"
+#include "gpstime.h"
 #include "homelocation.h"
 #include "positionactual.h"
 #include "systemalarms.h"
@@ -72,10 +74,12 @@
 struct telemetryData{
 	HTelemetrySettingsData Settings;
 	AltHoldSmoothedData Altitude;
+	AttitudeActualData Attitude;
 	BaroAltitudeData Baro;
 	FlightBatteryStateData Battery;
 	FlightStatusData FlightStatus;
 	GPSPositionData GPS;
+	GPSTimeData GPStime;
 	GyrosData Gyro;
 	HomeLocationData Home;
 	PositionActualData Position;
@@ -112,6 +116,7 @@ static uint16_t build_ESC_message(uint8_t *buffer);
 static uint16_t build_TEXT_message(uint8_t *buffer);
 static uint8_t calc_checksum(uint8_t *data, uint16_t size);
 static void convert_float2byte(float val, float scale, uint16_t offset, uint8_t *lsb);
+static void convert_float2sbyte(float val, float scale, uint16_t offset, int8_t *lsb);
 static void convert_float2word(float val, float scale, uint16_t offset, uint8_t *lsb, uint8_t *msb);
 static void convert_long2gps(int32_t val, uint8_t *dir, uint8_t *min_lsb, uint8_t *min_msb, uint8_t *sec_lsb, uint8_t *sec_msb);
 static uint8_t generate_warning();
@@ -319,10 +324,10 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 		uint8_t climbrate10s_L;		// climb rate LSB/MSB (0.01m/10s), 30000 == 0.00m/10s
 		uint8_t climbrate10s_H;
 		uint8_t ascii[21];			// 21 chars of text
-		uint8_t ascii1;				// ASCII Free character [1]
-		uint8_t ascii2;				// ASCII Free character [2]
-		uint8_t ascii3;				// ASCII Free character [3]
-		uint8_t unknown;
+		uint8_t ascii1;				// ASCII Free character [1] (next Alt)
+		uint8_t ascii2;				// ASCII Free character [2] (next Dir)
+		uint8_t ascii3;				// ASCII Free character [3] (next I)
+		int8_t  compass;			// 1=2°, 255=-2°
 		uint8_t version;			// version number
 		uint8_t stop;				// stop byte
 		uint8_t checksum;			// Lower 8-bits of all bytes summed
@@ -342,6 +347,16 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 	msg->warning = generate_warning();
 	msg->sensor_text_id = HTELE_VARIO_TEXT_ID;
 
+	// alarm inverse bits. invert display areas on limits
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround) ? (1<<1) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate10s) ? (1<<5) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < climbrate10s) ? (1<<5) : 0;
+
 	// altitude relative to ground
 	convert_float2word(altitudeGround, 1, 500, &msg->act_altitude_L, &msg->act_altitude_H);
 	convert_float2word(altitudeMin, 1, 500, &msg->min_altitude_L, &msg->min_altitude_H);
@@ -354,6 +369,9 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 
 	// statusline
 	memcpy(msg->ascii, teleState->StatusLine, sizeof(msg->ascii));
+
+	// compass
+	convert_float2sbyte(teleState->Attitude.Yaw, 0.5, 0, &msg->compass);
 
 	// free display characters
 	msg->ascii1 = 0;
@@ -396,20 +414,20 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 		uint8_t gps_num_sat;		// GPS number of satelites */
 		uint8_t gps_fix_char;		// GPS FixChar (GPS fix character. display, if DGPS, 2D oder 3D)
 		uint8_t home_direction;		// home direction (direction from starting point to model position)
-		uint8_t angle_x_direction;	// angle x-direction
-		uint8_t angle_y_direction;	// angle y-direction
-		uint8_t angle_z_direction;	// angle z-direction
-		uint8_t gyro_x_L;			// gyro x LSB/MSB
-		uint8_t gyro_x_H;
-		uint8_t gyro_y_L;			// gyro y LSB/MSB
-		uint8_t gyro_y_H;
-		uint8_t gyro_z_L;			// gyro z LSB/MSB
-		uint8_t gyro_z_H;
+		int8_t  angle_roll;			// angle x-direction (roll 1=2°, 255=-2°)
+		int8_t  angle_nick;			// angle y-direction (nick)
+		int8_t  angle_compass;		// angle z-direction (yaw)
+		uint8_t gps_hour;			// GPS time hours
+		uint8_t gps_min;			// GPS time minutes
+		uint8_t gps_sec;			// GPS time seconds
+		uint8_t gps_msec;			// GPS time .sss
+		uint8_t msl_L;				// MSL altitude LSB/MSB
+		uint8_t msl_H;
 		uint8_t vibration;			// vibration
-		uint8_t ascii4;				// ASCII Free Character [4]
-		uint8_t ascii5;				// ASCII Free Character [5]
-		uint8_t ascii6;				// ASCII Free Character [6]
-		uint8_t version;			// version number
+		uint8_t ascii4;				// ASCII Free Character [4] (next home distance)
+		uint8_t ascii5;				// ASCII Free Character [5] (next home direction)
+		uint8_t ascii6;				// ASCII Free Character [6] (next number of sats)
+		uint8_t version;			// version number (0=gps, 1=gyro, 255=multicopter)
 		uint8_t stop;				// stop byte
 		uint8_t checksum;			// Lower 8-bits of all bytes summed
 	} *msg;
@@ -428,19 +446,44 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	msg->warning = generate_warning();
 	msg->sensor_text_id = HTELE_GPS_TEXT_ID;
 
-	// gps state and position
-	convert_long2gps(teleState->GPS.Latitude, &msg->latitude_ns, &msg->latitude_min_L, &msg->latitude_min_H, &msg->latitude_sec_L, &msg->latitude_sec_H);
-	convert_long2gps(teleState->GPS.Longitude, &msg->longitude_ew, &msg->longitude_min_L, &msg->longitude_min_H, &msg->longitude_sec_L, &msg->longitude_sec_H);
+	// alarm inverse bits. invert display areas on limits
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXDISTANCE] < homedistance) ? (1<<0) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINSPEED] > teleState->GPS.Groundspeed) ? (1<<1) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXSPEED] < teleState->GPS.Groundspeed) ? (1<<1) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse2 |= (teleState->SysAlarms.Alarm[SYSTEMALARMS_ALARM_GPS] != SYSTEMALARMS_ALARM_OK) ? (1<<0) : 0;
+
+	// gps direction, groundspeed and postition
 	convert_float2byte(teleState->GPS.Heading, 0.5, 0, &msg->flight_direction);
 	convert_float2word(teleState->GPS.Groundspeed, 3.6, 0, &msg->gps_speed_L, &msg->gps_speed_H);
-	msg->gps_num_sat = teleState->GPS.Satellites;
+	convert_long2gps(teleState->GPS.Latitude, &msg->latitude_ns, &msg->latitude_min_L, &msg->latitude_min_H, &msg->latitude_sec_L, &msg->latitude_sec_H);
+	convert_long2gps(teleState->GPS.Longitude, &msg->longitude_ew, &msg->longitude_min_L, &msg->longitude_min_H, &msg->longitude_sec_L, &msg->longitude_sec_H);
 
-	// homelocation state, distance and course
+	// homelocation distance, course and state
 	convert_float2word(homedistance, 1, 0, &msg->distance_L, &msg->distance_H);
 	convert_float2byte(homecourse, 0.5, 0, &msg->home_direction);
 	msg->ascii5 = (teleState->Home.Set ? 'H' : '-');
 
-	// gps alarm
+	// altitude relative to ground and climb rate
+	convert_float2word(altitudeGround, 1, 500, &msg->altitude_L, &msg->altitude_H);
+	convert_float2word(climbrate1s, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
+	convert_float2byte(climbrate3s, 1, 120, &msg->climbrate3s);
+
+	// number of satellites,gps fix and state
+	msg->gps_num_sat = teleState->GPS.Satellites;
+	switch (teleState->GPS.Status) {
+		case GPSPOSITION_STATUS_FIX2D:
+			msg->gps_fix_char = '2';
+		case GPSPOSITION_STATUS_FIX3D:
+			msg->gps_fix_char = '3';
+		default:
+			msg->gps_fix_char = 0;
+	}
 	switch (teleState->SysAlarms.Alarm[SYSTEMALARMS_ALARM_GPS]) {
 		case SYSTEMALARMS_ALARM_UNINITIALISED:
 			msg->ascii6 = 0;
@@ -455,14 +498,23 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 		case SYSTEMALARMS_ALARM_CRITICAL:
 			msg->ascii6 = '!';
 			break;
+		default:
+			msg->ascii6 = 0;
 	}
 
-	// altitude relative to ground
-	convert_float2word(altitudeGround, 1, 500, &msg->altitude_L, &msg->altitude_H);
+	// angles 
+	convert_float2sbyte(teleState->Attitude.Roll, 0.5, 0, &msg->angle_roll);
+	convert_float2sbyte(teleState->Attitude.Pitch, 0.5, 0, &msg->angle_nick);
+	convert_float2sbyte(teleState->Attitude.Yaw, 0.5, 0, &msg->angle_compass);
 
-	// climbrate
-	convert_float2word(climbrate1s, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
-	convert_float2byte(climbrate3s, 1, 120, &msg->climbrate3s);
+	// gps time
+	msg->gps_hour = teleState->GPStime.Hour;
+	msg->gps_min = teleState->GPStime.Minute;
+	msg->gps_sec = teleState->GPStime.Second;
+	msg->gps_msec = 0;
+
+	// gps altitude MSL (NN)
+	convert_float2word(teleState->GPS.Altitude, 1, 0, &msg->msl_L, &msg->msl_H);
 
 	// free display chararacter
 	msg->ascii4 = 0;
@@ -510,12 +562,12 @@ uint16_t build_GAM_message(uint8_t *buffer) {
 		uint8_t capacity_H;
 		uint8_t speed_L;			// Speed LSB/MSB in km/h
 		uint8_t speed_H;
-		uint8_t min_cell_volt;		// minimum cell voltage in 2mV steps. 124 == 2.48V
+		uint8_t min_cell_volt;		// lowest cell voltage in 2mV steps. 124 == 2.48V
 		uint8_t min_cell_volt_num;	// number of the cell with the lowest voltage
 		uint8_t rpm2_L;				// RPM2 LSB/MSB in 10 rpm steps, 300 == 3000rpm
 		uint8_t rpm2_H;
 		uint8_t g_error_number;		// general error number (Voice error == 12)
-		uint8_t pressure;			// pressure up to 16bar, 0.1bar steps
+		uint8_t pressure;			// pressure up to 15bar, 0.1bar steps
 		uint8_t version;			// version number
 		uint8_t stop;				// stop byte
 		uint8_t checksum;			// Lower 8-bits of all bytes summed
@@ -535,9 +587,18 @@ uint16_t build_GAM_message(uint8_t *buffer) {
 	msg->warning = generate_warning();
 	msg->sensor_text_id = HTELE_GAM_TEXT_ID;
 
-	// main batterie
-	float voltage = (teleState->Battery.Voltage > 0) ? teleState->Battery.Voltage : 0;
-	convert_float2word(voltage, 10, 0, &msg->voltage_L, &msg->voltage_H);
+	// alarm inverse bits. invert display areas on limits
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > altitudeGround) ? (1<<7) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround) ? (1<<7) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXCURRENT] < teleState->Battery.Current) ? (1<<0) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINPOWERVOLTAGE] > teleState->Battery.Voltage) ? (1<<1) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXPOWERVOLTAGE] < teleState->Battery.Voltage) ? (1<<1) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < climbrate3s) ? (1<<4) : 0;
 
 	// temperatures
 	convert_float2byte(teleState->Gyro.temperature, 1, 20, &msg->temperature1);
@@ -549,6 +610,14 @@ uint16_t build_GAM_message(uint8_t *buffer) {
 	// climbrate
 	convert_float2word(climbrate1s, 100, 30000, &msg->climbrate_L, &msg->climbrate_H);
 	convert_float2byte(climbrate3s, 1, 120, &msg->climbrate3s);
+
+	// main battery
+	float voltage = (teleState->Battery.Voltage > 0) ? teleState->Battery.Voltage : 0;
+	float current = (teleState->Battery.Current > 0) ? teleState->Battery.Current : 0;
+	float energy = (teleState->Battery.ConsumedEnergy > 0) ? teleState->Battery.ConsumedEnergy : 0;
+	convert_float2word(voltage, 10, 0, &msg->voltage_L, &msg->voltage_H);
+	convert_float2word(current, 10, 0, &msg->current_L, &msg->current_H);
+	convert_float2word(energy, .1, 0, &msg->capacity_L, &msg->capacity_H);
 
 	// pressure in 0.1Bar
 	convert_float2byte(teleState->Baro.Pressure, 0.1, 0, &msg->pressure);
@@ -586,7 +655,7 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 		uint8_t batt2_voltage_H;
 		uint8_t temperature1;		// Temperature sensor 1. 20 = 0 degrees
 		uint8_t temperature2;
-		uint8_t altitude_L;			// Attitude (meters). 500 = 0 meters
+		uint8_t altitude_L;			// Altitude (meters). 500 = 0 meters
 		uint8_t altitude_H;
 		uint8_t current_L;			// Current (A) in steps of 0.1A
 		uint8_t current_H;
@@ -621,7 +690,19 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 	msg->warning = generate_warning();
 	msg->sensor_text_id = HTELE_EAM_TEXT_ID;
 
-	// main batterie
+	// alarm inverse bits. invert display areas on limits
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXUSEDCAPACITY] < teleState->Battery.ConsumedEnergy) ? (1<<0) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > altitudeGround) ? (1<<5) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround) ? (1<<5) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXCURRENT] < teleState->Battery.Current) ? (1<<6) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINPOWERVOLTAGE] > teleState->Battery.Voltage) ? (1<<7) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXPOWERVOLTAGE] < teleState->Battery.Voltage) ? (1<<7) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate3s) ? (1<<0) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < climbrate3s) ? (1<<0) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > climbrate1s) ? (1<<1) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < climbrate1s) ? (1<<1) : 0;
+
+	// main battery
 	float voltage = (teleState->Battery.Voltage > 0) ? teleState->Battery.Voltage : 0;
 	float current = (teleState->Battery.Current > 0) ? teleState->Battery.Current : 0;
 	float energy = (teleState->Battery.ConsumedEnergy > 0) ? teleState->Battery.ConsumedEnergy : 0;
@@ -762,6 +843,13 @@ void convert_float2word(float val, float scale, uint16_t offset, uint8_t *lsb, u
 }
 
 /**
+ * convert float value with scale and offset to signed byte (int8) and write result to given pointer.
+ */
+void convert_float2sbyte(float val, float scale, uint16_t offset, int8_t *lsb) {
+	int16_t temp = (int16_t)(roundf(val * scale) + offset);
+	*lsb = (int8_t)temp & 0xff;
+}
+/**
  * convert dword gps value into HoTT gps format and write result to given pointer.
  */
 void convert_long2gps(int32_t val, uint8_t *dir, uint8_t *min_lsb, uint8_t *min_msb, uint8_t *sec_lsb, uint8_t *sec_msb) {
@@ -861,27 +949,31 @@ uint8_t generate_warning() {
 		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround))
 		return 26;
 
-	// altitude beeps for 20,40,60,80,100,200,400,600,800 and 1000 meters
+	// altitude beeps at 20,40,60,80,100,200,400,600,800 and 1000 meters
 	if (teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_ALTITUDEBEEP] == HTELEMETRYSETTINGS_WARNING_ENABLED) {
-		if (((altitudeLast < 20) && (altitudeGround > 20)) || ((altitudeLast > 20) && (altitudeGround < 20)))
+		// update altitude when checked for beeps
+		float last = altitudeLast;
+		float actual = altitudeGround;
+		altitudeLast = altitudeGround;
+		if (((last < 20) && (actual > 20)) || ((last > 20) && (actual < 20)))
 			return 37;
-		if (((altitudeLast < 40) && (altitudeGround > 40)) || ((altitudeLast > 40) && (altitudeGround < 40)))
+		if (((last < 40) && (actual > 40)) || ((last > 40) && (actual < 40)))
 			return 38;
-		if (((altitudeLast < 60) && (altitudeGround > 60)) || ((altitudeLast > 60) && (altitudeGround < 60)))
+		if (((last < 60) && (actual > 60)) || ((last > 60) && (actual < 60)))
 			return 39;
-		if (((altitudeLast < 80) && (altitudeGround > 80)) || ((altitudeLast > 80) && (altitudeGround < 80)))
+		if (((last < 80) && (actual > 80)) || ((last > 80) && (actual < 80)))
 			return 40;
-		if (((altitudeLast < 100) && (altitudeGround > 100)) || ((altitudeLast > 100) && (altitudeGround < 100)))
+		if (((last < 100) && (actual > 100)) || ((last > 100) && (actual < 100)))
 			return 41;
-		if (((altitudeLast < 200) && (altitudeGround > 200)) || ((altitudeLast > 200) && (altitudeGround < 200)))
+		if (((last < 200) && (actual > 200)) || ((last > 200) && (actual < 200)))
 			return 46;
-		if (((altitudeLast < 400) && (altitudeGround > 400)) || ((altitudeLast > 400) && (altitudeGround < 400)))
+		if (((last < 400) && (actual > 400)) || ((last > 400) && (actual < 400)))
 			return 47;
-		if (((altitudeLast < 600) && (altitudeGround > 600)) || ((altitudeLast > 600) && (altitudeGround < 600)))
+		if (((last < 600) && (actual > 600)) || ((last > 600) && (actual < 600)))
 			return 48;
-		if (((altitudeLast < 800) && (altitudeGround > 800)) || ((altitudeLast > 800) && (altitudeGround < 800)))
+		if (((last < 800) && (actual > 800)) || ((last > 800) && (actual < 800)))
 			return 49;
-		if (((altitudeLast < 1000) && (altitudeGround > 1000)) || ((altitudeLast > 1000) && (altitudeGround < 1000)))
+		if (((last < 1000) && (actual > 1000)) || ((last > 1000) && (actual < 1000)))
 			return 50;
 	}
 
@@ -893,6 +985,7 @@ uint8_t generate_warning() {
  * update telemetry data
  * this is called on every telemetry request
  * calling intervall is 200ms depending on TX
+ * 200ms is used as time base for climbrate calculation.
 */
 void update_telemetrydata () {
 	// update all available data
@@ -900,6 +993,8 @@ void update_telemetrydata () {
 		HTelemetrySettingsGet(&teleState->Settings);
 	if (AltHoldSmoothedHandle() != NULL)
 		AltHoldSmoothedGet(&teleState->Altitude);
+	if (AttitudeActualHandle() != NULL)
+		AttitudeActualGet(&teleState->Attitude);
 	if (BaroAltitudeHandle() != NULL)
 		BaroAltitudeGet(&teleState->Baro);
 	if (FlightBatteryStateHandle() != NULL)
@@ -908,6 +1003,8 @@ void update_telemetrydata () {
 		FlightStatusGet(&teleState->FlightStatus);
 	if (GPSPositionHandle() != NULL)
 		GPSPositionGet(&teleState->GPS);
+	if (GPSTimeHandle() != NULL)
+		GPSTimeGet(&teleState->GPStime);
 	if (GyrosHandle() != NULL)
 		GyrosGet(&teleState->Gyro);
 	if (HomeLocationHandle() != NULL)
@@ -917,11 +1014,10 @@ void update_telemetrydata () {
 	if (SystemAlarmsHandle() != NULL)
 		SystemAlarmsGet(&teleState->SysAlarms);
 
+	// climbrate and altitude calculation TODO: change this with loop buffer
 	climbrate1s = teleState->Altitude.Velocity;
 	climbrate3s = 3 * teleState->Altitude.Velocity;
 	climbrate10s = 10 * teleState->Altitude.Velocity;
-
-	// calculate avarage altitude for 1 second and set min/max values
 	altitude1s = teleState->Baro.Altitude;
 
 	// set altitude offset and clear min/max values when arming
@@ -933,7 +1029,6 @@ void update_telemetrydata () {
 	Armed = teleState->FlightStatus.Armed;
 
 	// calculate altitude relative to start position
-	altitudeLast = altitudeGround;
 	altitudeGround = altitude1s - altitudeOffset;
 
 	// check and set min/max values when armed.
