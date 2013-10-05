@@ -317,7 +317,7 @@ void deviceWidget::loadFirmware()
 {
     myDevice->verticalGroupBox_loaded->setVisible(false);
     myDevice->groupCustom->setVisible(false);
-
+    myDevice->progressBar->setValue(0);
     filename = setOpenFileName();
 
     if (filename.isEmpty()) {
@@ -340,7 +340,6 @@ void deviceWidget::loadFirmware()
         myDevice->lblCRCL->setText(tr("Can't calculate, file too big for device"));
     else
         myDevice->lblCRCL->setText( QString::number(DFUObject::CRCFromQBArray(loadedFW,m_dfu->devices[deviceID].SizeOfCode)));
-    //myDevice->lblFirmwareSizeL->setText(QString("Firmware size: ")+QVariant(loadedFW.length()).toString()+ QString(" bytes"));
     if (populateLoadedStructuredDescription(desc))
     {
         myDevice->youdont->setChecked(true);
@@ -515,7 +514,9 @@ void deviceWidget::downloadPartitionBundle()
         unfreeze();
         return;
     }
+    QString filename = QFileDialog::getSaveFileName(this,QString(tr("Select file to write the partitions bundle file to")),QDir::homePath(), "Compressed file (*.zip)");
     bundleDir.cd(bundleDirName);
+    bool success = false;
     for(int i = 0;i < myDevice->tablePartitions->rowCount();++i)
     {
         int partition = myDevice->tablePartitions->item(i,0)->text().toInt();
@@ -532,11 +533,18 @@ void deviceWidget::downloadPartitionBundle()
         loop.exec();
         if(last_download_success)
         {
+            success = true;
             status(QString(tr("Partition #%0 successfully downloaded")).arg(i),STATUSICON_OK);
             m_dfu->SaveByteArrayToFile(filename, array);
         }
     }
-    QString filename = QFileDialog::getSaveFileName(this,QString(tr("Select file to write the partitions bundle file to")),QDir::homePath(), "Compressed file (*.zip)");
+    if(!success)
+    {
+        status(tr("All the partitions failed to be downloaded, skipping saving file"),STATUSICON_FAIL);
+        unfreeze();
+        FileUtils::removeDir(bundleDir.absolutePath());
+        return;
+    }
     if(FileUtils::archive(filename,bundleDir,tr("TauLabs partitions bundle file")))
         status(tr("Partition bundle successfully saved"),STATUSICON_OK);
     else
