@@ -1289,7 +1289,7 @@ void ConfigInputWidget::moveSticks()
         m_txArming->setElementId("armedswitchleft");
         m_txArming->setTransform(m_txArmingSwitchOrigL, false);
         break;
-    case 2:
+    case 1:
         m_txArming->setElementId("armedswitchright");
         m_txArming->setTransform(m_txArmingSwitchOrigR, false);
         break;
