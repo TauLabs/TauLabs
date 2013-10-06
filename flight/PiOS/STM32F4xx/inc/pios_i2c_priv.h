@@ -45,6 +45,10 @@ struct pios_i2c_adapter_cfg {
 	struct stm32_irq error;
 };
 
+enum pios_i2c_adapter_magic {
+	PIOS_I2C_DEV_MAGIC = 0xa9a9b8b8,
+};
+
 enum i2c_adapter_state {
 	I2C_STATE_FSM_FAULT = 0,	/* Must be zero so undefined transitions land here */
 
@@ -53,6 +57,7 @@ enum i2c_adapter_state {
 	I2C_STATE_STOPPED,
 	I2C_STATE_STOPPING,
 	I2C_STATE_STARTING,
+	I2C_STATE_RESTARTING,
 
 	I2C_STATE_R_MORE_TXN_ADDR,
 	I2C_STATE_R_MORE_TXN_PRE_ONE,
@@ -69,37 +74,56 @@ enum i2c_adapter_state {
 	I2C_STATE_R_LAST_TXN_POST_LAST,
 
 	I2C_STATE_W_MORE_TXN_ADDR,
-	I2C_STATE_W_MORE_TXN_MIDDLE,
-	I2C_STATE_W_MORE_TXN_LAST,
+	I2C_STATE_W_MORE_TXN_PRE_MIDDLE,
+	I2C_STATE_W_MORE_TXN_PRE_LAST,
+	I2C_STATE_W_MORE_TXN_POST_LAST,
 
 	I2C_STATE_W_LAST_TXN_ADDR,
-	I2C_STATE_W_LAST_TXN_MIDDLE,
-	I2C_STATE_W_LAST_TXN_LAST,
-	
+	I2C_STATE_W_LAST_TXN_PRE_MIDDLE,
+	I2C_STATE_W_LAST_TXN_PRE_LAST,
+	I2C_STATE_W_LAST_TXN_POST_LAST,
+
 	I2C_STATE_NACK,
-	
+
 	I2C_STATE_NUM_STATES	/* Must be last */
 };
 
-enum pios_i2c_adapter_magic {
-	PIOS_I2C_DEV_MAGIC = 0xa9a9b8b8,
+enum i2c_adapter_event {
+	I2C_EVENT_BUS_ERROR,
+	I2C_EVENT_START,
+	I2C_EVENT_R_MORE_TXN_STARTED,
+	I2C_EVENT_W_MORE_TXN_STARTED,
+	I2C_EVENT_R_LAST_TXN_STARTED,
+	I2C_EVENT_W_LAST_TXN_STARTED,
+	I2C_EVENT_ADDR_SENT_LEN_EQ_0,
+	I2C_EVENT_ADDR_SENT_LEN_EQ_1,
+	I2C_EVENT_ADDR_SENT_LEN_EQ_2,
+	I2C_EVENT_ADDR_SENT_LEN_GT_2,
+	I2C_EVENT_TRANSFER_DONE_LEN_EQ_0,
+	I2C_EVENT_TRANSFER_DONE_LEN_EQ_1,
+	I2C_EVENT_TRANSFER_DONE_LEN_EQ_2,
+	I2C_EVENT_TRANSFER_DONE_LEN_GT_2,
+	I2C_EVENT_NACK,
+	I2C_EVENT_STOPPED,
+	I2C_EVENT_AUTO,
+	I2C_EVENT_NUM_EVENTS	/* Must be last */
 };
 
 #if defined(PIOS_I2C_DIAGNOSTICS)
-struct pios_i2c_fault_history {
-	enum pios_i2c_error_type type;
-	uint32_t evirq[I2C_LOG_DEPTH];
-	uint32_t erirq[I2C_LOG_DEPTH];
-	uint8_t event[I2C_LOG_DEPTH];
-	uint8_t state[I2C_LOG_DEPTH];
-};
-
 #define I2C_LOG_DEPTH 20
 
 enum pios_i2c_error_type {
 	PIOS_I2C_ERROR_EVENT,
 	PIOS_I2C_ERROR_FSM,
 	PIOS_I2C_ERROR_INTERRUPT
+};
+
+struct pios_i2c_fault_history {
+	enum pios_i2c_error_type type;
+	uint32_t evirq[I2C_LOG_DEPTH];
+	uint32_t erirq[I2C_LOG_DEPTH];
+	enum i2c_adapter_event event[I2C_LOG_DEPTH];
+	enum i2c_adapter_state state[I2C_LOG_DEPTH];
 };
 #endif
 
@@ -113,12 +137,9 @@ struct pios_i2c_adapter {
 	bool bus_error;
 	bool nack;
 
-	volatile enum i2c_adapter_state curr_state;
-	const struct pios_i2c_txn *first_txn;
+	volatile enum i2c_adapter_state state;
 	const struct pios_i2c_txn *active_txn;
 	const struct pios_i2c_txn *last_txn;
-
-	void (*callback) ();
 	
 	uint8_t *active_byte;
 	uint8_t *last_byte;
@@ -135,7 +156,7 @@ struct pios_i2c_adapter {
 	volatile enum i2c_adapter_state i2c_state_history[I2C_LOG_DEPTH];
 	volatile uint8_t i2c_state_history_pointer;
 
-	volatile uint32_t i2c_state_event_history[I2C_LOG_DEPTH];
+	volatile enum i2c_adapter_event i2c_state_event_history[I2C_LOG_DEPTH];
 	volatile uint8_t i2c_state_event_history_pointer;
 
 	volatile uint32_t i2c_fsm_fault_count;
