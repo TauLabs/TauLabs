@@ -47,7 +47,7 @@ port::portstatus port::status()
 {
     return mstatus;
 }
-int16_t port::pfSerialRead(void)
+qint16 port::pfSerialRead(void)
 {
 
     char c[1];
@@ -56,17 +56,17 @@ int16_t port::pfSerialRead(void)
         sport->read(c,1);
     }
     else return -1;
-    return (uint8_t)c[0];
+    return (quint8)c[0];
 }
 
-void port::pfSerialWrite(uint8_t c)
+void port::pfSerialWrite(quint8 c)
 {
     char cc[1];
     cc[0]=c;
     sport->write(cc,1);
 }
 
-uint32_t port::pfGetTime(void)
+quint32 port::pfGetTime(void)
 {
     return timer.elapsed();
 }
