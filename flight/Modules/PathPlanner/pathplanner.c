@@ -272,6 +272,7 @@ static void pathPlannerTask(void *parameters)
 			}
 
 			if (tmpPathAvailability != pathPlannerStatus.PathAvailability) {
+				pathPlannerStatus.PathAvailability = tmpPathAvailability;
 				PathPlannerStatusSet(&pathPlannerStatus);
 			}
 		}

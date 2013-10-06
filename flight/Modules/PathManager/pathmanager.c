@@ -175,6 +175,7 @@ static void pathManagerTask(void *parameters)
 		PathPlannerStatusData pathPlannerStatus;
 		PathPlannerStatusGet(&pathPlannerStatus);
 
+		// Check if a path is available. If not, burn time
 		if (pathPlannerStatus.PathAvailability == PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY) {
 			if (pmGlobals->guidanceType != PM_PATHPLANNER) {
 				pmGlobals->guidanceType = PM_PATHPLANNER;
@@ -184,6 +185,12 @@ static void pathManagerTask(void *parameters)
 			pathplanner_active = false;
 			pmGlobals->guidanceType = PM_NOMANAGER;
 			vTaskDelay(MS2TICKS(IDLE_UPDATE_RATE_MS));
+
+			if (pathManagerStatus.Status != PATHMANAGERSTATUS_STATUS_COMPLETED) {
+				pathManagerStatus.Status = PATHMANAGERSTATUS_STATUS_COMPLETED;
+				PathManagerStatusSet(&pathManagerStatus);
+			}
+
 			continue;
 		}
 
@@ -242,8 +249,10 @@ static void pathManagerTask(void *parameters)
 			advanceSegment();
 		} else if (lastSysTime-segmentTimer > MS2TICKS(pathManagerStatus.Timeout*1000) && pathManagerStatus.Status != PATHMANAGERSTATUS_STATUS_TIMEDOUT) { // Check if we have timed out
 			// No possiblitiy of buffer overflow because portTickType is a long
-			pathManagerStatus.Status = PATHMANAGERSTATUS_STATUS_TIMEDOUT;
-			PathManagerStatusSet(&pathManagerStatus);
+			if (pathManagerStatus.Status != PATHMANAGERSTATUS_STATUS_TIMEDOUT) {
+				pathManagerStatus.Status = PATHMANAGERSTATUS_STATUS_TIMEDOUT;
+				PathManagerStatusSet(&pathManagerStatus);
+			}
 		} else if (lastSysTime-overshootTimer > MS2TICKS(OVERSHOOT_TIMER_MS)) { // Once every second or so, check for higher-level path planner failure
 			bool overshoot_flag;
 

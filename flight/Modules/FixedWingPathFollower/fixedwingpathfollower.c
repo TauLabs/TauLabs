@@ -203,6 +203,9 @@ static void pathfollowerTask(void *parameters)
 
 	FixedWingPathFollowerSettingsUpdatePeriodGet(&update_peroid_ms);
 
+	// Reset alarm
+	AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);
+
 	// Main task loop
 	lastUpdateTime = xTaskGetTickCount();
 	while (1) {
