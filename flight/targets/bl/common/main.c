@@ -465,14 +465,12 @@ int main(void)
 
 		/* check for changes in USB connection state */
 		if (!usb_connected) {
-			/* Check if a USB host becomes present */
-			if (PIOS_USB_CheckAvailable(0)) {
+			if (PIOS_USB_CableConnected(0)) {
 				bl_fsm_inject_event(&bl_fsm_context, BL_EVENT_USB_CONNECTED);
 				usb_connected = true;
 			}
 		} else {
-			/* Check if the USB host disappears */
-			if (!PIOS_USB_CheckAvailable(0)) {
+			if (!PIOS_USB_CableConnected(0)) {
 				bl_fsm_inject_event(&bl_fsm_context, BL_EVENT_USB_DISCONNECTED);
 				usb_connected = false;
 			}
