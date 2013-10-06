@@ -94,7 +94,7 @@ int CoordinateConversions::ECEF2LLA(double ECEF[3], double LLA[3])
     const double e = eccentricity;  // Eccentricity
     double x=ECEF[0], y=ECEF[1], z=ECEF[2];
     double Lat, N, NplusH, delta, esLat;
-    uint16_t iter;
+    quint16 iter;
 
     LLA[1] = RAD2DEG*atan2(y,x);
     N = a;
