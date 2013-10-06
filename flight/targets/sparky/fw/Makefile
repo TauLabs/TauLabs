@@ -118,6 +118,7 @@ SRC += $(MATHLIB)/atmospheric_math.c
 include $(PIOS)/STM32F30x/library_fw.mk
 
 ## PIOS Hardware (Common)
+SRC += $(PIOSCOMMON)/pios_delay.c
 SRC += $(PIOSCOMMON)/pios_mpu6050.c
 SRC += $(PIOSCOMMON)/pios_mpu9150.c
 SRC += $(PIOSCOMMON)/pios_ms5611.c

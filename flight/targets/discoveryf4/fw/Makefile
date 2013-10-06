@@ -88,6 +88,7 @@ SRC += $(FLIGHTLIB)/taskmonitor.c
 include $(PIOS)/STM32F4xx/library_fw.mk
 
 ## PIOS Hardware (Common)
+SRC += $(PIOSCOMMON)/pios_delay.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
