@@ -607,7 +607,7 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
             manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_FLIGHTMODE]=manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_FLIGHTMODE]+
                     (manualSettingsData.ChannelMax[ManualControlSettings::CHANNELMAX_FLIGHTMODE]-manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_FLIGHTMODE])/2;
         }
-        manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_ARMING]=manualSettingsData.ChannelMax[ManualControlSettings::CHANNELNEUTRAL_ARMING]-manualSettingsData.ChannelMin[ManualControlSettings::CHANNELNEUTRAL_ARMING]/2;
+        manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_ARMING] = manualSettingsData.ChannelMin[ManualControlSettings::CHANNELNEUTRAL_ARMING] + (manualSettingsData.ChannelMax[ManualControlSettings::CHANNELNEUTRAL_ARMING]-manualSettingsData.ChannelMin[ManualControlSettings::CHANNELNEUTRAL_ARMING])/2;
         manualSettingsObj->setData(manualSettingsData);
         break;
     default:
