@@ -28,7 +28,7 @@
  */
 
 #include "coordinateconversions.h"
-#include <stdint.h>
+#include <qglobal.h>
 #include <QDebug>
 #include <math.h>
 

@@ -7,7 +7,7 @@
 #ifndef SSP_H
 #define SSP_H
 /** INCLUDE FILES **/
-#include <stdint.h>
+#include <qglobal.h>
 
 /** LOCAL DEFINITIONS **/
 #ifndef TRUE

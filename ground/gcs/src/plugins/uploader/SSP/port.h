@@ -26,7 +26,7 @@
  */
 #ifndef PORT_H
 #define PORT_H
-#include <stdint.h>
+#include <qglobal.h>
 #include <qextserialport/src/qextserialport.h>
 #include <QTime>
 #include <QDebug>

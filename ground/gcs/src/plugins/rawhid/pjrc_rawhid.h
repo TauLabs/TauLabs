@@ -30,7 +30,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
+#include <qglobal.h>
 #include <vector>
 #include <QDebug>
 #include <QMutex>

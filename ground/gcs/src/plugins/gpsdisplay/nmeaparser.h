@@ -30,7 +30,7 @@
 
 #include <QObject>
 #include <QtCore>
-#include <stdint.h>
+#include <qglobal.h>
 #include "buffer.h"
 #include "gpsparser.h"
 

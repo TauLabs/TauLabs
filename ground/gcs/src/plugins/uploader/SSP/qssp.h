@@ -26,7 +26,7 @@
  */
 #ifndef QSSP_H
 #define QSSP_H
-#include <stdint.h>
+#include <qglobal.h>
 #include "port.h"
 #include "common.h"
 /** LOCAL DEFINITIONS **/

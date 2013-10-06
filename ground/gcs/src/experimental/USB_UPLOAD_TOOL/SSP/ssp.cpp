@@ -71,7 +71,7 @@
 
 
 
-#include <stdint.h>
+#include <qglobal.h>
 #include <string.h>
 #include <stdio.h>
 
