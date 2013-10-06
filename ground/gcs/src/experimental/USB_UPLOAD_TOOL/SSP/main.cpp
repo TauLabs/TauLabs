@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
 #define MAX_PACKET_DATA_LEN	255
 #define MAX_PACKET_BUF_SIZE	(1+1+255+2)
 
-    uint8_t	sspTxBuf[MAX_PACKET_BUF_SIZE];
-    uint8_t	sspRxBuf[MAX_PACKET_BUF_SIZE];
+    quint8	sspTxBuf[MAX_PACKET_BUF_SIZE];
+    quint8	sspRxBuf[MAX_PACKET_BUF_SIZE];
 
     port * info;
     PortSettings settings;
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     info->timeoutLen	= 5000;
     //qssp b(info);
     qsspt bb(info);
-    uint8_t buf[1000];
+    quint8 buf[1000];
     QCoreApplication a(argc, argv);
     while(!bb.ssp_Synchronise())
     {
