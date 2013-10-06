@@ -15,8 +15,6 @@
 
 		<field name="ActiveSegment" units="" type="uint8" elements="1"/>
 
-		<field name="PathCounter" units="" type="uint8" elements="1"/>
-
 		<!-- The amount of time the path follower has to finish the segment -->
 		<field name="Timeout" units="s" type="uint16" elements="1"/>
 

@@ -54,15 +54,12 @@
 #define ANGULAR_PROXIMITY_THRESHOLD 30
 
 // Private types
-enum guidanceTypes {PM_NOMANAGER, PM_PATHPLANNER};
-
 static struct PathManagerGlobals
 {
 	float angularDistanceToComplete_D;
 	float angularDistanceCompleted_D;
 	float oldPosition_NE[2];
 	float arcCenter_NE[2];
-	uint8_t guidanceType;
 	enum arc_center_results arc_has_center;
 } *pmGlobals;
 
@@ -75,6 +72,7 @@ static PathManagerStatusData pathManagerStatus;
 static PathSegmentDescriptorData pathSegmentDescriptor_past;
 static PathSegmentDescriptorData pathSegmentDescriptor_current;
 static portTickType segmentTimer;
+static uint8_t old_path_count;
 
 // Private functions
 static bool checkGoalCondition(void);
@@ -129,7 +127,6 @@ int32_t PathManagerInitialize()
 		// Allocate memory
 		pmGlobals = (struct PathManagerGlobals *) pvPortMalloc(sizeof(struct PathManagerGlobals));
 		memset(pmGlobals, 0, sizeof(struct PathManagerGlobals));
-		pmGlobals->guidanceType = PM_NOMANAGER;
 		pmGlobals->arc_has_center = ARC_INSUFFICIENT_RADIUS;
 
 		return 0;
@@ -166,24 +163,30 @@ static void pathManagerTask(void *parameters)
 	lastSysTime = xTaskGetTickCount();
 	overshootTimer = xTaskGetTickCount();
 	uint16_t theta_roundoff_trim_count = 0;
+	old_path_count = 255;
 
 	// Main thread loop
 	while (1) {
 		// Wait
-			vTaskDelayUntil(&lastSysTime, MS2TICKS(UPDATE_RATE_MS));
+		vTaskDelayUntil(&lastSysTime, MS2TICKS(UPDATE_RATE_MS));
 
 		PathPlannerStatusData pathPlannerStatus;
 		PathPlannerStatusGet(&pathPlannerStatus);
 
-		// Check if a path is available. If not, burn time
-		if (pathPlannerStatus.PathAvailability == PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY) {
-			if (pmGlobals->guidanceType != PM_PATHPLANNER) {
-				pmGlobals->guidanceType = PM_PATHPLANNER;
+		// Check if a path is available and we are in autonomous flight mode...
+		uint8_t flightMode;
+		FlightStatusFlightModeGet(&flightMode);
+		if (pathPlannerStatus.PathAvailability == PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY &&
+				(flightMode == FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME ||
+						flightMode == FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD ||
+						flightMode == FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER)) {
+			// If this is a new path, force a reset.
+			if (old_path_count!= pathPlannerStatus.PathCounter) {
+				old_path_count = pathPlannerStatus.PathCounter;
 				pathplanner_active = false;
 			}
-		} else {
+		} else { //... if not, burn time
 			pathplanner_active = false;
-			pmGlobals->guidanceType = PM_NOMANAGER;
 			vTaskDelay(MS2TICKS(IDLE_UPDATE_RATE_MS));
 
 			if (pathManagerStatus.Status != PATHMANAGERSTATUS_STATUS_COMPLETED) {
@@ -232,7 +235,6 @@ static void pathManagerTask(void *parameters)
 		if (pathplanner_active == false) {
 			// Update path manager
 			pathManagerStatus.ActiveSegment = 0; // This will get immediately incremented to 1 by advanceSegment()
-			pathManagerStatus.PathCounter++; // Incrementing this tells the path follower that there is a new path
 			pathManagerStatus.Status = PATHMANAGERSTATUS_STATUS_INPROGRESS;
 			PathManagerStatusSet(&pathManagerStatus);
 

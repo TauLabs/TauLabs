@@ -245,8 +245,14 @@ static void pathPlannerTask(void *parameters)
 
 		vTaskDelay(MS2TICKS(UPDATE_RATE_MS));
 
+		// If we are starting a new path, update the status in order to trigger the callbacks
+		if (pathPlannerStatus.PathAvailability == PATHPLANNERSTATUS_PATHAVAILABILITY_NONE) {
+			PathPlannerStatusSet(&pathPlannerStatus);
+		}
+
 		if(process_waypoints_flag) {
 			uint8_t tmpPathAvailability = pathPlannerStatus.PathAvailability;
+
 			enum path_planner_states ret;
 			ret = process_waypoints(plannerAlgorithm);
 
@@ -254,6 +260,7 @@ static void pathPlannerTask(void *parameters)
 			case PATH_PLANNER_SUCCESS:
 				process_waypoints_flag = false;
 
+				pathPlannerStatus.PathCounter++; // Incrementing this tells the path manager that there is a new path
 				tmpPathAvailability = PATHPLANNERSTATUS_PATHAVAILABILITY_PATHREADY;
 				break;
 			case PATH_PLANNER_PROCESSING:
