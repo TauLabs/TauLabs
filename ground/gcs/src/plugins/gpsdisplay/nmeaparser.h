@@ -30,7 +30,7 @@
 
 #include <QObject>
 #include <QtCore>
-#include <stdint.h>
+#include <qglobal.h>
 #include "buffer.h"
 #include "gpsparser.h"
 
@@ -66,7 +66,7 @@ public:
    char* nmeaGetPacketBuffer(void);
    char nmeaChecksum(char* gps_buffer);
    void nmeaTerminateAtChecksum(char* gps_buffer);
-   uint8_t nmeaProcess(cBuffer* rxBuffer);
+   quint8 nmeaProcess(cBuffer* rxBuffer);
    void nmeaProcessGPGGA(char* packet);
    void nmeaProcessGPRMC(char* packet);
    void nmeaProcessGPVTG(char* packet);
@@ -77,9 +77,9 @@ public:
    cBuffer gpsRxBuffer;
    char gpsRxData[512];
    char NmeaPacket[NMEA_BUFFERSIZE];
-   uint32_t numUpdates;
-   uint32_t numErrors;
-   int32_t gpsRxOverflow;
+   quint32 numUpdates;
+   quint32 numErrors;
+   qint32 gpsRxOverflow;
 
 };
 

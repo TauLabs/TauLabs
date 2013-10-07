@@ -147,8 +147,8 @@ private:
     int receiveData(void * data,int size);
     pjrc_rawhid hidHandle;
     int setStartBit(int command){return command|0x20;}
-    uint8_t	sspTxBuf[MAX_PACKET_BUF_SIZE];
-    uint8_t	sspRxBuf[MAX_PACKET_BUF_SIZE];
+    quint8	sspTxBuf[MAX_PACKET_BUF_SIZE];
+    quint8	sspRxBuf[MAX_PACKET_BUF_SIZE];
 
     port * info;
 };

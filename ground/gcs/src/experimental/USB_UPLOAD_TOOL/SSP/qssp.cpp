@@ -1,7 +1,7 @@
 #include "qssp.h"
 
 
-#include <stdint.h>
+#include <qglobal.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -19,16 +19,16 @@
 
 
 // Make larger sized integers from smaller sized integers
-#define MAKEWORD16( ub, lb )  ((uint16_t)0x0000 | ((uint16_t)(ub) << 8) | (uint16_t)(lb) )
-#define MAKEWORD32( uw, lw ) ((uint32_t)(0x0UL | ((uint32_t)(uw) << 16) | (uint32_t)(lw)) )
-#define MAKEWORD32B( b3, b2, b1, b0 ) ((uint32_t)((uint32_t)(b3)<< 24) | ((uint32_t)(b2)<<16) | ((uint32_t)(b1)<<8) | ((uint32_t)(b0) )
+#define MAKEWORD16( ub, lb )  ((quint16)0x0000 | ((quint16)(ub) << 8) | (quint16)(lb) )
+#define MAKEWORD32( uw, lw ) ((quint32)(0x0UL | ((quint32)(uw) << 16) | (quint32)(lw)) )
+#define MAKEWORD32B( b3, b2, b1, b0 ) ((quint32)((quint32)(b3)<< 24) | ((quint32)(b2)<<16) | ((quint32)(b1)<<8) | ((quint32)(b0) )
 
 
 // Used to extract smaller integers from larger sized intergers
-#define LOWERBYTE( w )        (uint8_t)((w) & 0x00ff )
-#define UPPERBYTE( w )        (uint8_t)(((w) & 0xff00) >> 8 )
-#define UPPERWORD(lw)         (uint16_t)(((lw) & 0xffff0000) >> 16 )
-#define LOWERWORD(lw)         (uint16_t)((lw) & 0x0000ffff)
+#define LOWERBYTE( w )        (quint8)((w) & 0x00ff )
+#define UPPERBYTE( w )        (quint8)(((w) & 0xff00) >> 8 )
+#define UPPERWORD(lw)         (quint16)(((lw) & 0xffff0000) >> 16 )
+#define LOWERWORD(lw)         (quint16)((lw) & 0x0000ffff)
 
 // Macros to operate on a target and bitmask.
 #define CLEARBIT( a, b )  ((a) = (a) & ~(b))
@@ -51,7 +51,7 @@
 #define SSP_IDLE			2
 
 /** PRIVATE DATA **/
-static const uint16_t CRC_TABLE[] = {
+static const quint16 CRC_TABLE[] = {
     0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241,
     0xC601, 0x06C0, 0x0780, 0xC741, 0x0500, 0xC5C1, 0xC481, 0x0440,
     0xCC01, 0x0CC0, 0x0D80, 0xCD41, 0x0F00, 0xCFC1, 0xCE81, 0x0E40,
@@ -139,9 +139,9 @@ void qssp::ssp_Init(const PortConfig_t* const info)
  * \note
  *
  */
-int16_t qssp::ssp_SendProcess( )
+qint16 qssp::ssp_SendProcess( )
 {
-    int16_t value = SSP_TX_WAITING;
+    qint16 value = SSP_TX_WAITING;
 
     if (thisport->SendState == SSP_AWAITING_ACK ) {
         if (sf_CheckTimeout() == TRUE) {
@@ -180,10 +180,10 @@ int16_t qssp::ssp_SendProcess( )
  * \note
  *
  */
-int16_t qssp::ssp_ReceiveProcess()
+qint16 qssp::ssp_ReceiveProcess()
 {
-    int16_t b;
-    int16_t packet_status = SSP_RX_IDLE;
+    qint16 b;
+    qint16 packet_status = SSP_RX_IDLE;
 
     do {
         b = thisport->pfSerialRead(); // attempt to read a char from the serial buffer
@@ -205,10 +205,10 @@ int16_t qssp::ssp_ReceiveProcess()
  *
  */
 
-int16_t	qssp::ssp_ReceiveByte()
+qint16	qssp::ssp_ReceiveByte()
 {
-    int16_t b;
-    int16_t packet_status = SSP_RX_IDLE;
+    qint16 b;
+    qint16 packet_status = SSP_RX_IDLE;
 
     b = thisport->pfSerialRead();
     if( b != -1 ) {
@@ -228,10 +228,10 @@ int16_t	qssp::ssp_ReceiveByte()
  * \note
  *
  */
-uint16_t   qssp::ssp_SendDataBlock(uint8_t *data, uint16_t length )
+quint16   qssp::ssp_SendDataBlock(quint8 *data, quint16 length )
 {
-    int16_t    packet_status = SSP_TX_WAITING;
-    uint16_t   retval = FALSE;
+    qint16    packet_status = SSP_TX_WAITING;
+    quint16   retval = FALSE;
 
     packet_status = ssp_SendData(data, length );		// send the data
     while( packet_status == SSP_TX_WAITING )  {					// check the status
@@ -258,10 +258,10 @@ uint16_t   qssp::ssp_SendDataBlock(uint8_t *data, uint16_t length )
  * \note
  *
  */
-int16_t qssp::ssp_SendData(const uint8_t *data, const uint16_t length )
+qint16 qssp::ssp_SendData(const quint8 *data, const quint16 length )
 {
 
-    int16_t value = SSP_TX_WAITING;
+    qint16 value = SSP_TX_WAITING;
 
     if( (length + 2) > thisport->txBufSize ) {
         // TRYING to send too much data.
@@ -331,10 +331,10 @@ int16_t qssp::ssp_SendData(const uint8_t *data, const uint16_t length )
  * 		if number of tries exceed maximum try limit then exit
  * C. goto A
  */
-uint16_t qssp::ssp_Synchronise( )
+quint16 qssp::ssp_Synchronise( )
 {
-    int16_t     packet_status;
-    uint16_t    retval = FALSE;
+    qint16     packet_status;
+    quint16    retval = FALSE;
 
 #ifndef USE_SENDPACKET_DATA
     thisport->txSeqNo = 0;                        // make this zero to cause the other end to re-synch with us
@@ -381,11 +381,11 @@ uint16_t qssp::ssp_Synchronise( )
 void qssp::sf_SendPacket()
 {
     // add 3 to packet data length for: 1 length + 2 CRC (packet overhead)
-    uint8_t packetLen = thisport->txBuf[LENGTH] + 3;
+    quint8 packetLen = thisport->txBuf[LENGTH] + 3;
 
     // use the raw serial write function so the SYNC byte does not get 'escaped'
     thisport->pfSerialWrite(SYNC);
-    for( uint8_t x = 0; x < packetLen; x++ ) {
+    for( quint8 x = 0; x < packetLen; x++ ) {
         sf_write_byte(thisport->txBuf[x] );
     }
     thisport->retryCount++;
@@ -408,11 +408,11 @@ void qssp::sf_SendPacket()
  *  3. TODO: Should this function return an error if data length to be sent is greater th tx buffer size?
  *
  */
-void qssp::sf_MakePacket( uint8_t *txBuf, const uint8_t * pdata, uint16_t length, uint8_t seqNo )
+void qssp::sf_MakePacket( quint8 *txBuf, const quint8 * pdata, quint16 length, quint8 seqNo )
 {
-    uint16_t    crc = 0xffff;
-    uint16_t    bufPos = 0;
-    uint8_t     b;
+    quint16    crc = 0xffff;
+    quint16    bufPos = 0;
+    quint8     b;
 
     // add 1 for the seq. number
     txBuf[LENGTH] = length + 1;
@@ -440,9 +440,9 @@ void qssp::sf_MakePacket( uint8_t *txBuf, const uint8_t * pdata, uint16_t length
  *
  */
 
-void qssp::sf_SendAckPacket(uint8_t seqNumber)
+void qssp::sf_SendAckPacket(quint8 seqNumber)
 {
-    uint8_t    AckSeqNumber = SETBIT( seqNumber, ACK_BIT );
+    quint8    AckSeqNumber = SETBIT( seqNumber, ACK_BIT );
 
     // create the packet, note we pass AckSequenceNumber directly
     sf_MakePacket( thisport->txBuf, NULL, 0, AckSeqNumber );
@@ -461,7 +461,7 @@ void qssp::sf_SendAckPacket(uint8_t seqNumber)
  * \note
  *
  */
-void qssp::sf_write_byte(uint8_t c )
+void qssp::sf_write_byte(quint8 c )
 {
     if( c == SYNC ) {							// check for SYNC byte
         thisport->pfSerialWrite( ESC );         // since we are not starting a packet we must ESCAPE the SYNCH byte
@@ -476,7 +476,7 @@ void qssp::sf_write_byte(uint8_t c )
 
 /************************************************************************************************************
 *
-*  NAME:          uint16_t ssp_crc16( uint16_t crc, uint16_t data )
+*  NAME:          int16 ssp_crc16( quint16 crc, quint16 data )
 *  DESCRIPTION:   Uses crc_table to calculate new crc
 *  ARGUMENTS:
 *        arg1:    crc
@@ -495,7 +495,7 @@ void qssp::sf_write_byte(uint8_t c )
  *
  */
 
-uint16_t qssp::sf_crc16( uint16_t crc, uint8_t data )
+quint16 qssp::sf_crc16( quint16 crc, quint8 data )
 {
     return (crc >> 8) ^ CRC_TABLE[( crc ^ data ) & 0x00FF ];
 }
@@ -512,7 +512,7 @@ uint16_t qssp::sf_crc16( uint16_t crc, uint8_t data )
 
 void qssp::sf_SetSendTimeout()
 {
-    uint32_t   timeout;
+    quint32   timeout;
     timeout = thisport->pfGetTime() + thisport->timeoutLen;
     thisport->timeout = timeout;
 }
@@ -526,10 +526,10 @@ void qssp::sf_SetSendTimeout()
  * \note
  *
  */
-uint16_t   qssp::sf_CheckTimeout()
+quint16   qssp::sf_CheckTimeout()
 {
-    uint16_t    retval = FALSE;
-    uint32_t    current_time;
+    quint16    retval = FALSE;
+    quint32    current_time;
 
     current_time = thisport->pfGetTime();
     if( current_time > thisport->timeout )  {
@@ -561,9 +561,9 @@ uint16_t   qssp::sf_CheckTimeout()
  * \note
  *
  */
-int16_t qssp::sf_ReceiveState(uint8_t c )
+qint16 qssp::sf_ReceiveState(quint8 c )
 {
-    int16_t	retval = SSP_RX_RECEIVING;
+    qint16	retval = SSP_RX_RECEIVING;
 
     switch( thisport->InputState ) {
     case state_unescaped_e:
@@ -611,9 +611,9 @@ int16_t qssp::sf_ReceiveState(uint8_t c )
  * \note
  *
  */
-int16_t qssp::sf_DecodeState( uint8_t c )
+qint16 qssp::sf_DecodeState( quint8 c )
 {
-    int16_t	retval;
+    qint16	retval;
     switch( thisport->DecodeState ) {
     case decode_idle_e:
         // 'c' is ignored in this state as the only way to leave the idle state is
@@ -680,7 +680,7 @@ int16_t qssp::sf_DecodeState( uint8_t c )
 
 /************************************************************************************************************
 *
-*  NAME:             int16_t sf_ReceivePacket( )
+*  NAME:             qint16 sf_ReceivePacket( )
 *  DESCRIPTION:      Receive one packet, assumed that data is in rec.buff[]
 *   ARGUMENTS:
 *   RETURN:          0 . no new packet was received, could be ack or same packet
@@ -702,9 +702,9 @@ int16_t qssp::sf_DecodeState( uint8_t c )
  *	Created: Oct 7, 2010 12:07:22 AM by joe
  */
 
-int16_t qssp::sf_ReceivePacket()
+qint16 qssp::sf_ReceivePacket()
 {
-    int16_t value = FALSE;
+    qint16 value = FALSE;
 
     if( ISBITSET(thisport->rxBuf[SEQNUM], ACK_BIT ) ) {
         //  Received an ACK packet, need to check if it matches the previous sent packet
@@ -740,7 +740,7 @@ int16_t qssp::sf_ReceivePacket()
 
             // skip the first two bytes (length and seq. no.) in the buffer.
              if (debug)
-                qDebug()<<"Received DATA PACKET seq="<<thisport->rxSeqNo<<"Data="<<(uint8_t)thisport->rxBuf[2]<<(uint8_t)thisport->rxBuf[3]<<(uint8_t)thisport->rxBuf[4];
+                qDebug()<<"Received DATA PACKET seq="<<thisport->rxSeqNo<<"Data="<<(quint8)thisport->rxBuf[2]<<(quint8)thisport->rxBuf[3]<<(quint8)thisport->rxBuf[4];
             pfCallBack( &(thisport->rxBuf[2]), thisport->rxBufLen);
 
             // after we send the ACK, it is possible for the host to send a new packet.
@@ -774,7 +774,7 @@ qssp::qssp(port * info,bool debug):debug(debug)
     thisport->txSeqNo               =0;
     thisport->rxSeqNo               =0;
 }
-void qssp::pfCallBack( uint8_t * buf, uint16_t size)
+void qssp::pfCallBack( quint8 * buf, quint16 size)
 {
      if (debug)
          qDebug()<<"receive callback"<<buf[0]<<buf[1]<<buf[2]<<buf[3]<<buf[4];

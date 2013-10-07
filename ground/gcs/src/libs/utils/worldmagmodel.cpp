@@ -46,7 +46,7 @@
 
 #include "worldmagmodel.h"
 
-#include <stdint.h>
+#include <qglobal.h>
 #include <QDebug>
 #include <math.h>
 #include "physical_constants.h"

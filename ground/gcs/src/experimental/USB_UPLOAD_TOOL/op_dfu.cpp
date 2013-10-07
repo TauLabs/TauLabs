@@ -834,10 +834,10 @@ int OP_DFU::sendData(void * data,int size)
     }
     else
     {
-        if(serialhandle->sendData((uint8_t*)data+1,size-1))
+        if(serialhandle->sendData((quint8*)data+1,size-1))
         {
              if (debug)
-                qDebug()<<"packet sent"<<"data0"<<((uint8_t*)data+1)[0];
+                qDebug()<<"packet sent"<<"data0"<<((quint8*)data+1)[0];
             return size;
         }
         if(debug)
