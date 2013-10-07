@@ -73,16 +73,27 @@ VehicleTrim::autopilotLevelBiasMessages VehicleTrim::setAutopilotBias()
     }
 
     // Check that pitch and roll axes are in attitude mode
-    if (stabilizationDesired->getStabilizationMode_Pitch() != StabilizationDesired::STABILIZATIONMODE_ATTITUDE ||
-            stabilizationDesired->getStabilizationMode_Roll() != StabilizationDesired::STABILIZATIONMODE_ATTITUDE){
+    if ((stabilizationDesired->getStabilizationMode_Pitch() != StabilizationDesired::STABILIZATIONMODE_ATTITUDE &&
+            stabilizationDesired->getStabilizationMode_Pitch() != StabilizationDesired::STABILIZATIONMODE_ATTITUDEPLUS )||
+            (stabilizationDesired->getStabilizationMode_Roll() != StabilizationDesired::STABILIZATIONMODE_ATTITUDE &&
+             stabilizationDesired->getStabilizationMode_Roll() != StabilizationDesired::STABILIZATIONMODE_ATTITUDEPLUS)) {
         return AUTOPILOT_LEVEL_FAILED_DUE_TO_STABILIZATIONMODE;
     }
 
     // Copy the current pitch and roll settings to the trim pitch and roll
     // TODO: Use averaged pitch desired data in order to ensure that 1) spurious
     // data doesn't creep in and 2) the user is not actively moving the TX stick
-    trimAnglesSettingsData.Roll = stabilizationDesired->getRoll();
-    trimAnglesSettingsData.Pitch = stabilizationDesired->getPitch();
+    if (stabilizationDesired->getStabilizationMode_Roll() == StabilizationDesired::STABILIZATIONMODE_ATTITUDEPLUS) {
+        trimAnglesSettingsData.Roll += stabilizationDesired->getRoll();
+    } else {
+        trimAnglesSettingsData.Roll = stabilizationDesired->getRoll();
+    }
+
+    if (stabilizationDesired->getStabilizationMode_Pitch() == StabilizationDesired::STABILIZATIONMODE_ATTITUDEPLUS) {
+        trimAnglesSettingsData.Pitch += stabilizationDesired->getPitch();
+    } else {
+        trimAnglesSettingsData.Pitch = stabilizationDesired->getPitch();
+    }
 
     // Set the data to the UAVO, and inform the flight controller that the UAVO has been updated
     trimAnglesSettings->setData(trimAnglesSettingsData);
