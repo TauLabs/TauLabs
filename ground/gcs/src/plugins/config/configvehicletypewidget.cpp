@@ -878,11 +878,11 @@ void ConfigVehicleTypeWidget::bnLevelTrim_clicked()
 {
     QMessageBox msgBox(QMessageBox::Question, tr("Trim level"),
                        "Use the transmitter trim to set the autopilot for straight and level flight? (Please see the tooltip for more information.)",
-                       QMessageBox::Ok | QMessageBox::Cancel, this);
-    int cancelAction = msgBox.exec();
+                       QMessageBox::Yes | QMessageBox::No, this);
+    int userChoice = msgBox.exec();
 
     // If the user cancels, stop here.
-    if (cancelAction != QMessageBox::Ok)
+    if (userChoice != QMessageBox::Yes)
         return;
 
     // Call bias set function
@@ -894,29 +894,29 @@ void ConfigVehicleTypeWidget::bnLevelTrim_clicked()
     switch (ret){
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_MISSING_RECEIVER:
     {
-        QMessageBox msgBox(QMessageBox::Warning, tr("No receiver detected"),
+        QMessageBox msgBox(QMessageBox::Critical, tr("No receiver detected"),
                            "Transmitter and receiver must be powered on.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_ARMED_STATE:
     {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle armed"),
+        QMessageBox msgBox(QMessageBox::Critical, tr("Vehicle armed"),
                            "The autopilot must be disarmed first.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_FLIGHTMODE:
     {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle not in Stabilized mode"),
+        QMessageBox msgBox(QMessageBox::Critical, tr("Vehicle not in Stabilized mode"),
                            "The autopilot must be in Stabilized1, Stabilized2, or Stabilized3 mode.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_STABILIZATIONMODE:
     {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Incorrect roll and pitch stabilization modes."),
-                           "Both roll and pitch must be in attitude stabilization mode.", QMessageBox::Ok, this);
+        QMessageBox msgBox(QMessageBox::Critical, tr("Incorrect roll and pitch stabilization modes."),
+                           "Both roll and pitch must be in Attitude or AttitudePlus stabilization mode.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
@@ -957,14 +957,14 @@ void ConfigVehicleTypeWidget::bnServoTrim_clicked()
     switch (ret){
     case VehicleTrim::ACTUATOR_TRIM_FAILED_DUE_TO_MISSING_RECEIVER:
     {
-        QMessageBox msgBox(QMessageBox::Warning, tr("No receiver detected"),
+        QMessageBox msgBox(QMessageBox::Critical, tr("No receiver detected"),
                            "Transmitter and receiver must be powered on.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::ACTUATOR_TRIM_FAILED_DUE_TO_FLIGHTMODE:
     {
-        QMessageBox msgBox(QMessageBox::Warning, tr("Vehicle not in manual mode"),
+        QMessageBox msgBox(QMessageBox::Critical, tr("Vehicle not in manual mode"),
                            "The autopilot must be in manual flight mode.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
