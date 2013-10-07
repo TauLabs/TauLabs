@@ -148,12 +148,12 @@ void NMEAParser::nmeaTerminateAtChecksum(char* gps_buffer)
  * \return Message code for found packet
  * \return 0xFF NO packet found
  */
-uint8_t NMEAParser::nmeaProcess(cBuffer* rxBuffer)
+quint8 NMEAParser::nmeaProcess(cBuffer* rxBuffer)
 {
-        uint8_t foundpacket = NMEA_NODATA;
-        uint8_t startFlag = FALSE;
+        quint8 foundpacket = NMEA_NODATA;
+        quint8 startFlag = FALSE;
         //u08 data;
-        uint16_t i,j;
+        quint16 i,j;
 
         // process the receive buffer
         // go through buffer looking for packets

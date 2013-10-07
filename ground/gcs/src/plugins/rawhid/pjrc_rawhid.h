@@ -30,7 +30,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
+#include <qglobal.h>
 #include <vector>
 #include <QDebug>
 #include <QMutex>
@@ -101,13 +101,13 @@ private:
      // Static callbacks called by the HID system with handles to the PJRC object
      static void attach_callback(void *, IOReturn, void *, IOHIDDeviceRef);
      static void dettach_callback(void *, IOReturn, void *hid_mgr, IOHIDDeviceRef dev);
-     static void input_callback(void *, IOReturn, void *, IOHIDReportType, uint32_t, uint8_t *, CFIndex);
+     static void input_callback(void *, IOReturn, void *, IOHIDReportType, quint32, quint8 *, CFIndex);
      static void timeout_callback(CFRunLoopTimerRef, void *);
 
      // Non static methods to call into
      void attach(IOHIDDeviceRef dev);
      void dettach(IOHIDDeviceRef dev);
-     void input(uint8_t *, CFIndex);
+     void input(quint8 *, CFIndex);
 
      // Platform specific handles for the USB device
      IOHIDManagerRef hid_manager;
@@ -116,7 +116,7 @@ private:
      CFRunLoopRef received_runloop;
 
      static const int BUFFER_SIZE = 64;
-     uint8_t buffer[BUFFER_SIZE];
+     quint8 buffer[BUFFER_SIZE];
      int attach_count;
      int buffer_count;
      bool device_open;
@@ -145,7 +145,7 @@ private:
      std::vector<ssize_t> m_DeviceInterfaces;
 
 
-     int hid_parse_item(uint32_t *val, uint8_t **data, const uint8_t *end);
+     int hid_parse_item(quint32 *val, quint8 **data, const quint8 *end);
 
 #elif defined(Q_OS_WIN32)
 

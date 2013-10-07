@@ -228,7 +228,7 @@ void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
         QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
         UAVObject *obj = objManager->getObject(uavObjectName);
         Q_ASSERT(obj);
-        uint16_t size = obj->getNumBytes();
+        quint16 size = obj->getNumBytes();
 
         // Get UAVO speed
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
@@ -535,7 +535,7 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
                     // Load the config file values into the table
                     for (int j=0; j<valuesList.length(); j++){
                         QModelIndex index = schedulerModel->index(row, j+2, QModelIndex());
-                        uint32_t val = stripMs(valuesList[j]);
+                        quint32 val = stripMs(valuesList[j]);
                         if(val == 0){
                             // If it's 0, do nothing, since a blank cell indicates a default.
                         }

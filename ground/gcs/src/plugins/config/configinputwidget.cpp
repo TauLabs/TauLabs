@@ -685,8 +685,8 @@ void ConfigInputWidget::fastMdata()
     originalMetaData = utilMngr->readAllNonSettingsMetadata();
 
     // Update data rates
-    uint16_t slowUpdate = 5000; // in [ms]
-    uint16_t fastUpdate =  150; // in [ms]
+    quint16 slowUpdate = 5000; // in [ms]
+    quint16 fastUpdate =  150; // in [ms]
 
     // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
     UAVObjectManager *objManager = getObjectManager();
@@ -1309,7 +1309,7 @@ void ConfigInputWidget::moveFMSlider()
 
     // Convert flightMode value into the switch position in the range [0..N-1]
     // This uses the same optimized computation as flight code to be consistent
-    uint8_t pos = ((int16_t)(valueScaled * 256) + 256) * manualSettingsDataPriv.FlightModeNumber >> 9;
+    quint8 pos = ((qint16)(valueScaled * 256) + 256) * manualSettingsDataPriv.FlightModeNumber >> 9;
     if (pos >= manualSettingsDataPriv.FlightModeNumber)
         pos = manualSettingsDataPriv.FlightModeNumber - 1;
     m_config->fmsSlider->setValue(pos);

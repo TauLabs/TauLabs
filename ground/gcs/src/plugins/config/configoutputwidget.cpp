@@ -214,11 +214,11 @@ void ConfigOutputWidget::assignOutputChannels(UAVObject *obj)
         outputChannelForm->setAssignment(ChannelDesc[outputChannelForm->index()]);
 
         // init min,max,neutral
-        uint32_t minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
-        uint32_t maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
+        quint32 minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
+        quint32 maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
         outputChannelForm->setMinmax(minValue, maxValue);
 
-        uint32_t neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
+        quint32 neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
         outputChannelForm->setNeutral(neutral);
     }
 }
@@ -305,11 +305,11 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
     QList<OutputChannelForm*> outputChannelForms = findChildren<OutputChannelForm*>();
     foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
     {
-        uint32_t minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
-        uint32_t maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
+        quint32 minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
+        quint32 maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
         outputChannelForm->setMinmax(minValue, maxValue);
 
-        uint32_t neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
+        quint32 neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
         outputChannelForm->setNeutral(neutral);
     }
 }

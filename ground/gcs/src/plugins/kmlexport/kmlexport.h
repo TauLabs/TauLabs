@@ -127,7 +127,7 @@ private:
     PlacemarkPtr CreateLineStringPlacemark(const LLAVCoordinates &startPoint, const LLAVCoordinates &endPoint, quint32 newPlacemarkTime);
     PlacemarkPtr createTimespanPlacemark(const LLAVCoordinates &point, quint32 lastPlacemarkTime, quint32 newPlacemarkTime);
 
-    kmlbase::Color32 mapVelocity2Color(double velocity, uint8_t alpha = 255);
+    kmlbase::Color32 mapVelocity2Color(double velocity, quint8 alpha = 255);
 };
 
 //! Jet color map, as defined by matlab. Generated with `jet(256)`.

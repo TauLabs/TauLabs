@@ -247,7 +247,7 @@ void Simulator::setupUAVObjects()
         originalMetaData = utilMngr->readAllNonSettingsMetadata();
     }
 
-    uint16_t slowUpdate = 5000; // in [ms]
+    quint16 slowUpdate = 5000; // in [ms]
 
     // Iterate over list of UAVObjects, setting all dynamic data metadata objects to slow update rate.
     UAVObjectManager *objManager = getObjectManager();
