@@ -311,7 +311,7 @@ $(MATLAB_OUT_DIR):
 
 FORCE:
 $(MATLAB_OUT_DIR)/LogConvert.m: $(MATLAB_OUT_DIR) uavobjects_matlab FORCE
-	$(V1) python $(ROOT_DIR)/make/scripts/version-info.py \
+	$(V1) $(PYTHON) $(ROOT_DIR)/make/scripts/version-info.py \
 		--path=$(ROOT_DIR) \
 		--template=$(BUILD_DIR)/uavobject-synthetics/matlab/LogConvert.m.pass1 \
 		--outfile=$@ \
@@ -426,7 +426,7 @@ define UAVO_COLLECTION_BUILD_TEMPLATE
 $$(UAVO_COLLECTION_DIR)/$(1)/uavohash: $$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml
         # Compute the sha1 hash for this UAVO collection
         # The sed bit truncates the UAVO hash to 16 hex digits
-	$$(V1) python $$(ROOT_DIR)/make/scripts/version-info.py \
+	$$(V1) $(PYTHON) $$(ROOT_DIR)/make/scripts/version-info.py \
 			--path=$$(ROOT_DIR) \
 			--uavodir=$$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition \
 			--format='$$$${UAVOSHA1TXT}' | \
@@ -480,7 +480,7 @@ $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/LogConvert.m: $$(UAVO_COLLECTION_DIR)/
 	$$(V1) ( \
 		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build && \
-		python $(ROOT_DIR)/make/scripts/version-info.py \
+		$(PYTHON) $(ROOT_DIR)/make/scripts/version-info.py \
 			--path=$$(ROOT_DIR) \
 			--template=$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab/LogConvert.m.pass1 \
 		--outfile=$$@ \

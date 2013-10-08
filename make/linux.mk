@@ -11,4 +11,7 @@ RM=rm
 
 QT_SPEC=linux-g++
 
+PYTHON := python2
+export PYTHON
+
 UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/uavobjgenerator"

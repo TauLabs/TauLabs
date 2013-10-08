@@ -9,6 +9,9 @@
 # misc tools
 RM=rm
 
+PYTHON := python2
+export PYTHON
+
 QT_SPEC=macx-g++
 
 UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/uavobjgenerator"
