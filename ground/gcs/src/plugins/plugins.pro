@@ -232,12 +232,17 @@ KML {
 
 # GCS Control of UAV gadget
 !LIGHTWEIGHT_GCS {
-plugin_gcscontrolwidget.subdir = gcscontrolwidget
-plugin_gcscontrolwidget.depends = plugin_coreplugin
-plugin_gcscontrolwidget.depends += plugin_uavobjects
-plugin_gcscontrolwidget.depends += plugin_gcscontrolplugin
+    # GCS Control plugin
+    plugin_gcscontrolplugin.subdir = gcscontrolplugin
+    plugin_gcscontrolplugin.depends = plugin_coreplugin
+    plugin_gcscontrolplugin.depends += plugin_uavobjects
+    SUBDIRS += plugin_gcscontrolplugin
 
-SUBDIRS += plugin_gcscontrolwidget
+    plugin_gcscontrolwidget.subdir = gcscontrolwidget
+    plugin_gcscontrolwidget.depends = plugin_coreplugin
+    plugin_gcscontrolwidget.depends += plugin_uavobjects
+    plugin_gcscontrolwidget.depends += plugin_gcscontrolplugin
+    SUBDIRS += plugin_gcscontrolwidget
 }
 
 # Antenna tracker
@@ -299,6 +304,13 @@ plugin_setupwizard.depends += plugin_config
 plugin_setupwizard.depends += plugin_uploader
 SUBDIRS += plugin_setupwizard
 
+# Setup alarm messaging plugin
+plugin_sysalarmsmessaging.subdir = sysalarmsmessaging
+plugin_sysalarmsmessaging.depends = plugin_coreplugin
+plugin_sysalarmsmessaging.depends += plugin_uavobjects
+plugin_sysalarmsmessaging.depends += plugin_uavtalk
+SUBDIRS += plugin_sysalarmsmessaging
+
 ############################
 #  Board plugins
 # Those plugins define supported board models: each board manufacturer
@@ -325,15 +337,3 @@ SUBDIRS += plugin_boards_quantec
 plugin_boards_stm.subdir = boards_stm
 plugin_boards_stm.depends = plugin_coreplugin
 SUBDIRS += plugin_boards_stm
-
-plugin_sysalarmsmessaging.subdir = sysalarmsmessaging
-plugin_sysalarmsmessaging.depends = plugin_coreplugin
-plugin_sysalarmsmessaging.depends += plugin_uavobjects
-plugin_sysalarmsmessaging.depends += plugin_uavtalk
-SUBDIRS += plugin_sysalarmsmessaging
-
-# GCS Control plugin
-plugin_gcscontrolplugin.subdir = gcscontrolplugin
-plugin_gcscontrolplugin.depends = plugin_coreplugin
-plugin_gcscontrolplugin.depends += plugin_uavobjects
-SUBDIRS += plugin_gcscontrolplugin

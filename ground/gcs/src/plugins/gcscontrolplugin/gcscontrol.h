@@ -40,6 +40,7 @@ class GCSCONTROLSHARED_EXPORT GCSControl : public ExtensionSystem::IPlugin {
     Q_OBJECT
 public:
     GCSControl();
+    ~GCSControl();
     void extensionsInitialized();
     bool initialize(const QStringList & arguments, QString *errorString);
     void shutdown();

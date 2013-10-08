@@ -46,17 +46,28 @@ void GCSControl::extensionsInitialized()
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager * objMngr = pm->getObject<UAVObjectManager>();
     Q_ASSERT(objMngr);
+
     manControlSettingsUAVO = ManualControlSettings::GetInstance(objMngr);
     Q_ASSERT(manControlSettingsUAVO);
+
     m_gcsReceiver = GCSReceiver::GetInstance(objMngr);
     Q_ASSERT(m_gcsReceiver);
 }
+
+GCSControl::~GCSControl()
+{
+    // Delete this plugin from plugin manager
+    removeObject(this);
+}
+
 
 
 bool GCSControl::initialize(const QStringList &arguments, QString *errorString)
 {
     Q_UNUSED(arguments);
     Q_UNUSED(errorString);
+
+    // Add this plugin to plugin manager
     addObject(this);
     return true;
 }
