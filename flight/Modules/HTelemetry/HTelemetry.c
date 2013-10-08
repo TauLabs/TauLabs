@@ -212,7 +212,9 @@ static void HTelemetryTask(void *parameters) {
 	// first update of telemetry data
 	update_telemetrydata(teleState);
 
-	// initialize timer variables
+	// initialize timer variables.
+	// 5ms idle delay between telemetrie request and answer
+	// 2ms data delay between transmitted bytes
 	portTickType lastSysTime = xTaskGetTickCount();
 	portTickType idleDelay = MS2TICKS(5);
 	portTickType dataDelay = MS2TICKS(2);
