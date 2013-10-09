@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       GCSControlplugin.h
+ * @file       GCSControlwidgetplugin.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -24,34 +24,56 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#include "gcscontrolwidgetplugin.h"
+#include "gcscontrolgadgetfactory.h"
+#include <QDebug>
+#include <QtPlugin>
+#include <QStringList>
+#include <extensionsystem/pluginmanager.h>
 
-#ifndef GCSControlPLUGIN_H_
-#define GCSControlPLUGIN_H_
 
-#include <extensionsystem/iplugin.h>
-
-#if defined(USE_SDL)
-#include "sdlgamepad/sdlgamepad.h"
-#endif
-
-class GCSControlGadgetFactory;
-
-class GCSControlPlugin : public ExtensionSystem::IPlugin
+GCSControlWidgetPlugin::GCSControlWidgetPlugin()
 {
-public:
-    GCSControlPlugin();
-   ~GCSControlPlugin();
+   // Do nothing
+}
 
-   void extensionsInitialized();
-   bool initialize(const QStringList & arguments, QString * errorString);
-   void shutdown();
+GCSControlWidgetPlugin::~GCSControlWidgetPlugin()
+{
+   // Do nothing
+}
+
+bool GCSControlWidgetPlugin::initialize(const QStringList& args, QString *errMsg)
+{
+    Q_UNUSED(args);
+    Q_UNUSED(errMsg);
 
 #if defined(USE_SDL)
-   SDLGamepad *sdlGamepad;
+    sdlGamepad = new SDLGamepad();
+    if(sdlGamepad->init()) {
+        sdlGamepad->start();
+        qRegisterMetaType<QListInt16>("QListInt16");
+        qRegisterMetaType<ButtonNumber>("ButtonNumber");
+    }
 #endif
 
-private:
-   GCSControlGadgetFactory *mf;
+    mf = new GCSControlGadgetFactory(this);
+    addAutoReleasedObject(mf);
 
-};
-#endif /* GCSControlPLUGIN_H_ */
+    return true;
+}
+
+void GCSControlWidgetPlugin::extensionsInitialized()
+{
+   // Do nothing
+}
+
+void GCSControlWidgetPlugin::shutdown()
+{
+   // Do nothing
+}
+Q_EXPORT_PLUGIN(GCSControlWidgetPlugin)
+
+/**
+  * @}
+  * @}
+  */

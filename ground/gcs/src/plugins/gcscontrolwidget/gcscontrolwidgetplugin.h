@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       GCSControlplugin.cpp
+ * @file       GCSControlwidgetplugin.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -24,56 +24,34 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "gcscontrolplugin.h"
-#include "gcscontrolgadgetfactory.h"
-#include <QDebug>
-#include <QtPlugin>
-#include <QStringList>
-#include <extensionsystem/pluginmanager.h>
 
+#ifndef GCSControlPLUGIN_H_
+#define GCSControlPLUGIN_H_
 
-GCSControlPlugin::GCSControlPlugin()
-{
-   // Do nothing
-}
-
-GCSControlPlugin::~GCSControlPlugin()
-{
-   // Do nothing
-}
-
-bool GCSControlPlugin::initialize(const QStringList& args, QString *errMsg)
-{
-    Q_UNUSED(args);
-    Q_UNUSED(errMsg);
+#include <extensionsystem/iplugin.h>
 
 #if defined(USE_SDL)
-    sdlGamepad = new SDLGamepad();
-    if(sdlGamepad->init()) {
-        sdlGamepad->start();
-        qRegisterMetaType<QListInt16>("QListInt16");
-        qRegisterMetaType<ButtonNumber>("ButtonNumber");
-    }
+#include "sdlgamepad/sdlgamepad.h"
 #endif
 
-    mf = new GCSControlGadgetFactory(this);
-    addAutoReleasedObject(mf);
+class GCSControlGadgetFactory;
 
-    return true;
-}
-
-void GCSControlPlugin::extensionsInitialized()
+class GCSControlWidgetPlugin : public ExtensionSystem::IPlugin
 {
-   // Do nothing
-}
+public:
+    GCSControlWidgetPlugin();
+   ~GCSControlWidgetPlugin();
 
-void GCSControlPlugin::shutdown()
-{
-   // Do nothing
-}
-Q_EXPORT_PLUGIN(GCSControlPlugin)
+   void extensionsInitialized();
+   bool initialize(const QStringList & arguments, QString * errorString);
+   void shutdown();
 
-/**
-  * @}
-  * @}
-  */
+#if defined(USE_SDL)
+   SDLGamepad *sdlGamepad;
+#endif
+
+private:
+   GCSControlGadgetFactory *mf;
+
+};
+#endif /* GCSControlPLUGIN_H_ */

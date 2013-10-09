@@ -37,13 +37,13 @@
 GCSControlGadget::GCSControlGadget(QString classId, GCSControlGadgetWidget *widget, QWidget *parent, QObject *plugin) :
         IUAVGadget(classId, parent),
         m_widget(widget),
-        controlsMode(0),
-        gcsReceiverTimer(NULL)
+        controlsMode(0)
 {
     connect(getManualControlCommand(),SIGNAL(objectUpdated(UAVObject*)),this,SLOT(manualControlCommandUpdated(UAVObject*)));
     connect(widget,SIGNAL(sticksChanged(double,double,double,double)),this,SLOT(sticksChangedLocally(double,double,double,double)));
     connect(widget,SIGNAL(controlEnabled(bool)), this, SLOT(enableControl(bool)));
     connect(this,SIGNAL(sticksChangedRemotely(double,double,double,double)),widget,SLOT(updateSticks(double,double,double,double)));
+    connect(widget,SIGNAL(flightModeChangedLocaly(ManualControlSettings::FlightModePositionOptions)),this,SLOT(flightModeChanged(ManualControlSettings::FlightModePositionOptions)));
 
     manualControlCommandUpdated(getManualControlCommand());
 
@@ -54,7 +54,7 @@ GCSControlGadget::GCSControlGadget(QString classId, GCSControlGadgetWidget *widg
     joystickTime.start();
 
 #if defined(USE_SDL)
-    GCSControlPlugin *pl = dynamic_cast<GCSControlPlugin*>(plugin);
+    GCSControlWidgetPlugin *pl = dynamic_cast<GCSControlWidgetPlugin*>(plugin);
     connect(pl->sdlGamepad,SIGNAL(gamepads(quint8)),this,SLOT(gamepads(quint8)));
     connect(pl->sdlGamepad,SIGNAL(buttonState(ButtonNumber,bool)),this,SLOT(buttonState(ButtonNumber,bool)));
     connect(pl->sdlGamepad,SIGNAL(axesValues(QListInt16)),this,SLOT(axesValues(QListInt16)));
@@ -83,19 +83,6 @@ void GCSControlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
     controlsMode = GCSControlConfig->getControlsMode();
     gcsReceiverMode = GCSControlConfig->getGcsReceiverMode();
 
-    // Connect timer for periodically sending gcs receiver when in gcs receiver mode
-    if (gcsReceiverMode) {
-        gcsReceiverTimer = new QTimer(this);
-        gcsReceiverTimer->setInterval(100);
-        connect(gcsReceiverTimer, SIGNAL(timeout()), this, SLOT(sendGcsReceiver()));
-    } else if (gcsReceiverTimer) {
-        gcsReceiverTimer->stop();
-        disconnect(gcsReceiverTimer, SIGNAL(timeout()), this, SLOT(sendGcsReceiver()));
-        delete gcsReceiverTimer;
-        gcsReceiverTimer = NULL;
-    }
-
-
     for (unsigned int i = 0; i < 8; i++)
     {
         buttonSettings[i].ActionID=GCSControlConfig->getbuttonSettings(i).ActionID;
@@ -117,9 +104,9 @@ void GCSControlGadget::enableControl(bool enable)
     enableSending = enable;
     if (gcsReceiverMode) {
         if (enableSending)
-            gcsReceiverTimer->start();
+            getGcsControl()->beginGCSControl();
         else
-            gcsReceiverTimer->stop();
+            getGcsControl()->endGCSControl();
     } else {
         ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
         UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
@@ -147,10 +134,11 @@ ManualControlCommand* GCSControlGadget::getManualControlCommand() {
     return dynamic_cast<ManualControlCommand*>( objManager->getObject(QString("ManualControlCommand")) );
 }
 
-GCSReceiver* GCSControlGadget::getGcsReceiver() {
+GCSControl* GCSControlGadget::getGcsControl() {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    return dynamic_cast<GCSReceiver*>( objManager->getObject(QString("GCSReceiver")) );
+    GCSControl *gcsControl = pm->getObject<GCSControl>();
+    Q_ASSERT(gcsControl);
+    return gcsControl;
 }
 
 void GCSControlGadget::manualControlCommandUpdated(UAVObject * obj) {
@@ -201,9 +189,9 @@ void GCSControlGadget::sticksChangedLocally(double leftX, double leftY, double r
 //! Set the GCS Receiver object
 void GCSControlGadget::setGcsReceiver(double leftX, double leftY, double rightX, double rightY)
 {
-    GCSReceiver *obj = getGcsReceiver();
-    Q_ASSERT(obj);
-    if (obj == NULL)
+    GCSControl *ctr = getGcsControl();
+    Q_ASSERT(ctr);
+    if (ctr == NULL)
         return;
 
     double newRoll;
@@ -242,14 +230,10 @@ void GCSControlGadget::setGcsReceiver(double leftX, double leftY, double rightX,
         newThrottle = leftY;
         break;
     }
-
-    GCSReceiver::DataFields gcsReceiverData = obj->getData();
-    gcsReceiverData.Channel[0] = 1500 + 500 * newThrottle;
-    gcsReceiverData.Channel[1] = 1500 + 500 * newRoll;
-    gcsReceiverData.Channel[2] = 1500 + 500 * newPitch;
-    gcsReceiverData.Channel[3] = 1500 + 500 * newYaw;
-    obj->setData(gcsReceiverData);
-    obj->updated();
+    ctr->setThrottle(newThrottle);
+    ctr->setRoll(newRoll);
+    ctr->setPitch(newPitch);
+    ctr->setYaw(newYaw);
 
     switch (controlsMode) {
     case 1:
@@ -271,14 +255,10 @@ void GCSControlGadget::setGcsReceiver(double leftX, double leftY, double rightX,
     }
 }
 
-//! Update GCS Receiver remotely
-void GCSControlGadget::sendGcsReceiver()
+void GCSControlGadget::flightModeChanged(ManualControlSettings::FlightModePositionOptions mode)
 {
-    GCSReceiver *obj = getGcsReceiver();
-    Q_ASSERT(obj);
-    if (obj == NULL)
-        return;
-    obj->updated();
+    if(gcsReceiverMode)
+        getGcsControl()->setFlightMode(mode);
 }
 
 //! Set the ManualControlCommand object
