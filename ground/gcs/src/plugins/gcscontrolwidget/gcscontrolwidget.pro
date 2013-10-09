@@ -1,5 +1,5 @@
 TEMPLATE = lib
-TARGET = GCSControl 
+TARGET = GCSControlWidget
 QT += svg
 QT += opengl
 QT += network
@@ -7,6 +7,7 @@ QT += network
 include(../../taulabsgcsplugin.pri) 
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(../../plugins/uavobjects/uavobjects.pri)
+include(../../plugins/gcscontrolplugin/gcscontrol.pri)
 
 SDL {
     DEFINES += USE_SDL
@@ -15,21 +16,23 @@ SDL {
 
 HEADERS += gcscontrolgadget.h \
     gcscontrolgadgetconfiguration.h \
-    gcscontrolgadgetoptionspage.h
+    gcscontrolgadgetoptionspage.h \
+    gcscontrolwidgetplugin.h
 HEADERS += joystickcontrol.h
 HEADERS += gcscontrolgadgetwidget.h
 HEADERS += gcscontrolgadgetfactory.h
-HEADERS += gcscontrolplugin.h
+HEADERS +=
 
 SOURCES += gcscontrolgadget.cpp \
     gcscontrolgadgetconfiguration.cpp \
-    gcscontrolgadgetoptionspage.cpp
+    gcscontrolgadgetoptionspage.cpp \
+    gcscontrolwidgetplugin.cpp
 SOURCES += gcscontrolgadgetwidget.cpp
 SOURCES += gcscontrolgadgetfactory.cpp
-SOURCES += gcscontrolplugin.cpp
+SOURCES +=
 SOURCES += joystickcontrol.cpp
 
-OTHER_FILES += GCSControl.pluginspec
+OTHER_FILES += GCSControlWidget.pluginspec
 
 FORMS += gcscontrol.ui \
     gcscontrolgadgetoptionspage.ui
