@@ -28,6 +28,7 @@
 				<option>DSMX (11bit)</option>
 				<option>MavLinkTX</option>
 				<option>MavLinkTX_GPS_RX</option>
+				<option>HoTT Telemetry</option>
 			</options>
 		</field>
 
@@ -44,6 +45,7 @@
 				<option>DSMX (11bit)</option>
 				<option>MavLinkTX</option>
 				<option>MavLinkTX_GPS_RX</option>
+				<option>HoTT Telemetry</option>
 			</options>
 		</field>
 
