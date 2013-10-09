@@ -68,6 +68,7 @@
 #define HTELE_BUTTON_NEXT 0xEE
 #define HTELE_BUTTON_PREV 0xE7
 
+#define climbrateSize 50
 #define StatusSize 21
 
 // Private structures and types
@@ -89,6 +90,20 @@ struct telemetryData{
 	HomeLocationData Home;
 	PositionActualData Position;
 	SystemAlarmsData SysAlarms;
+	float climbrateBuffer[climbrateSize];
+	uint8_t climbratePointer;
+	float altitude1s;
+	float altitudeOffset;
+	float altitudeGround;
+	float altitudeMin;
+	float altitudeMax;
+	float altitudeLast;
+	float climbrate1s;
+	float climbrate3s;
+	float climbrate10s;
+	float homedistance;
+	float homecourse;
+	uint8_t LastArmed;
 	char StatusLine[StatusSize];
 };
 
@@ -98,18 +113,6 @@ static uint32_t htelemetry_port;
 static bool module_enabled = false;
 static uint8_t *tx_buffer;
 static struct telemetryData *teleState;
-static float climbrate1s;
-static float climbrate3s;
-static float climbrate10s;
-static float altitude1s;
-static float altitudeOffset;
-static float altitudeGround;
-static float altitudeMin;
-static float altitudeMax;
-static float altitudeLast;
-static float homedistance;
-static float homecourse;
-static uint8_t LastArmed;
 
 // Private functions
 static void HTelemetryTask(void *parameters);
@@ -349,24 +352,24 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 	msg->sensor_text_id = HTELE_VARIO_TEXT_ID;
 
 	// alarm inverse bits. invert display areas on limits
-	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround) ? (1<<1) : 0;
-	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > altitudeGround) ? (1<<2) : 0;
-	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > climbrate1s) ? (1<<3) : 0;
-	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < climbrate1s) ? (1<<3) : 0;
-	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate3s) ? (1<<4) : 0;
-	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < climbrate3s) ? (1<<4) : 0;
-	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate10s) ? (1<<5) : 0;
-	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < climbrate10s) ? (1<<5) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround) ? (1<<1) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > teleState->altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > teleState->climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < teleState->climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > teleState->climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < teleState->climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > teleState->climbrate10s) ? (1<<5) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < teleState->climbrate10s) ? (1<<5) : 0;
 
 	// altitude relative to ground
-	msg->altitude = scale_float2uword(altitudeGround, 1, 500);
-	msg->min_altitude = scale_float2uword(altitudeMin, 1, 500);
-	msg->max_altitude = scale_float2uword(altitudeMax, 1, 500);
+	msg->altitude = scale_float2uword(teleState->altitudeGround, 1, 500);
+	msg->min_altitude = scale_float2uword(teleState->altitudeMin, 1, 500);
+	msg->max_altitude = scale_float2uword(teleState->altitudeMax, 1, 500);
 
 	// climbrate
-	msg->climbrate = scale_float2uword(climbrate1s, 100, 30000);
-	msg->climbrate3s = scale_float2uword(climbrate3s, 100, 30000);
-	msg->climbrate10s = scale_float2uword(climbrate10s, 100, 30000);
+	msg->climbrate = scale_float2uword(teleState->climbrate1s, 100, 30000);
+	msg->climbrate3s = scale_float2uword(teleState->climbrate3s, 100, 30000);
+	msg->climbrate10s = scale_float2uword(teleState->climbrate10s, 100, 30000);
 
 	// compass
 	msg->compass = scale_float2int8(teleState->Attitude.Yaw, 0.5, 0);
@@ -439,15 +442,15 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	msg->sensor_text_id = HTELE_GPS_TEXT_ID;
 
 	// alarm inverse bits. invert display areas on limits
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXDISTANCE] < homedistance) ? (1<<0) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXDISTANCE] < teleState->homedistance) ? (1<<0) : 0;
 	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINSPEED] > teleState->GPS.Groundspeed) ? (1<<1) : 0;
 	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXSPEED] < teleState->GPS.Groundspeed) ? (1<<1) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > altitudeGround) ? (1<<2) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround) ? (1<<2) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > climbrate1s) ? (1<<3) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < climbrate1s) ? (1<<3) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate3s) ? (1<<4) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > teleState->altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > teleState->climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < teleState->climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > teleState->climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < teleState->climbrate3s) ? (1<<4) : 0;
 	msg->alarm_inverse2 |= (teleState->SysAlarms.Alarm[SYSTEMALARMS_ALARM_GPS] != SYSTEMALARMS_ALARM_OK) ? (1<<0) : 0;
 
 	// gps direction, groundspeed and postition
@@ -457,14 +460,14 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	convert_long2gps(teleState->GPS.Longitude, &msg->longitude_ew, &msg->longitude_min, &msg->longitude_sec);
 
 	// homelocation distance, course and state
-	msg->distance = scale_float2uword(homedistance, 1, 0);
-	msg->home_direction = scale_float2uint8(homecourse, 0.5, 0);
+	msg->distance = scale_float2uword(teleState->homedistance, 1, 0);
+	msg->home_direction = scale_float2uint8(teleState->homecourse, 0.5, 0);
 	msg->ascii5 = (teleState->Home.Set ? 'H' : '-');
 
 	// altitude relative to ground and climb rate
-	msg->altitude = scale_float2uword(altitudeGround, 1, 500);
-	msg->climbrate = scale_float2uword(climbrate1s, 100, 30000);
-	msg->climbrate3s = scale_float2uint8(climbrate3s, 1, 120);
+	msg->altitude = scale_float2uword(teleState->altitudeGround, 1, 500);
+	msg->climbrate = scale_float2uword(teleState->climbrate1s, 100, 30000);
+	msg->climbrate3s = scale_float2uint8(teleState->climbrate3s, 1, 120);
 
 	// number of satellites,gps fix and state
 	msg->gps_num_sat = teleState->GPS.Satellites;
@@ -569,28 +572,28 @@ uint16_t build_GAM_message(uint8_t *buffer) {
 	msg->sensor_text_id = HTELE_GAM_TEXT_ID;
 
 	// alarm inverse bits. invert display areas on limits
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > altitudeGround) ? (1<<7) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround) ? (1<<7) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > teleState->altitudeGround) ? (1<<7) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround) ? (1<<7) : 0;
 	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXCURRENT] < teleState->Battery.Current) ? (1<<0) : 0;
 	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINPOWERVOLTAGE] > teleState->Battery.Voltage) ? (1<<1) : 0;
 	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXPOWERVOLTAGE] < teleState->Battery.Voltage) ? (1<<1) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > altitudeGround) ? (1<<2) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround) ? (1<<2) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > climbrate1s) ? (1<<3) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < climbrate1s) ? (1<<3) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate3s) ? (1<<4) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > teleState->altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > teleState->climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < teleState->climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > teleState->climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < teleState->climbrate3s) ? (1<<4) : 0;
 
 	// temperatures
 	msg->temperature1 = scale_float2uint8(teleState->Gyro.temperature, 1, 20);
 	msg->temperature2 = scale_float2uint8(teleState->Baro.Temperature, 1, 20);
 
 	// altitude
-	msg->altitude = scale_float2uword(altitudeGround, 1, 500);
+	msg->altitude = scale_float2uword(teleState->altitudeGround, 1, 500);
 
 	// climbrate
-	msg->climbrate = scale_float2uword(climbrate1s, 100, 30000);
-	msg->climbrate3s = scale_float2uint8(climbrate3s, 1, 120);
+	msg->climbrate = scale_float2uword(teleState->climbrate1s, 100, 30000);
+	msg->climbrate3s = scale_float2uint8(teleState->climbrate3s, 1, 120);
 
 	// main battery
 	float voltage = (teleState->Battery.Voltage > 0) ? teleState->Battery.Voltage : 0;
@@ -664,15 +667,15 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 
 	// alarm inverse bits. invert display areas on limits
 	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXUSEDCAPACITY] < teleState->Battery.ConsumedEnergy) ? (1<<0) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > altitudeGround) ? (1<<5) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround) ? (1<<5) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > teleState->altitudeGround) ? (1<<5) : 0;
+	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround) ? (1<<5) : 0;
 	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXCURRENT] < teleState->Battery.Current) ? (1<<6) : 0;
 	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINPOWERVOLTAGE] > teleState->Battery.Voltage) ? (1<<7) : 0;
 	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXPOWERVOLTAGE] < teleState->Battery.Voltage) ? (1<<7) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate3s) ? (1<<0) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < climbrate3s) ? (1<<0) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > climbrate1s) ? (1<<1) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < climbrate1s) ? (1<<1) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > teleState->climbrate3s) ? (1<<0) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < teleState->climbrate3s) ? (1<<0) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > teleState->climbrate1s) ? (1<<1) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < teleState->climbrate1s) ? (1<<1) : 0;
 
 	// main battery
 	float voltage = (teleState->Battery.Voltage > 0) ? teleState->Battery.Voltage : 0;
@@ -687,11 +690,11 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 	msg->temperature2 = scale_float2uint8(teleState->Baro.Temperature, 1, 20);
 
 	// altitude
-	msg->altitude = scale_float2uword(altitudeGround, 1, 500);
+	msg->altitude = scale_float2uword(teleState->altitudeGround, 1, 500);
 
 	// climbrate
-	msg->climbrate = scale_float2uword(climbrate1s, 100, 30000);
-	msg->climbrate3s = scale_float2uint8(climbrate3s, 1, 120);
+	msg->climbrate = scale_float2uword(teleState->climbrate1s, 100, 30000);
+	msg->climbrate3s = scale_float2uint8(teleState->climbrate3s, 1, 120);
 
 	// flight time
 	msg->electric_min = teleState->Battery.EstimatedFlightTime / 60;
@@ -812,36 +815,53 @@ void update_telemetrydata () {
 	if (SystemAlarmsHandle() != NULL)
 		SystemAlarmsGet(&teleState->SysAlarms);
 
-	// climbrate and altitude calculation TODO: change this with loop buffer
-	climbrate1s = teleState->Altitude.Velocity;
-	climbrate3s = 3 * teleState->Altitude.Velocity;
-	climbrate10s = 10 * teleState->Altitude.Velocity;
-	altitude1s = teleState->Baro.Altitude;
+	// send actual climbrate value to ring buffer
+	uint8_t n = teleState->climbratePointer;
+	teleState->climbrateBuffer[teleState->climbratePointer++] = teleState->Altitude.Velocity;
+	teleState->climbratePointer %= climbrateSize;
+
+	// calculate smoothed climbrates per 1, 3 and 10 second(s) based on 200ms interval
+	teleState->climbrate1s = 0;
+	teleState->climbrate3s = 0;
+	teleState->climbrate10s = 0;
+	for (uint8_t i = 0; i < climbrateSize; i++) {
+		teleState->climbrate1s += (i < 5) ? teleState->climbrateBuffer[n] : 0;
+		teleState->climbrate3s += (i < 15) ? teleState->climbrateBuffer[n] : 0;
+		teleState->climbrate10s += (i < 50) ? teleState->climbrateBuffer[n] : 0;
+		n += climbrateSize - 1;
+		n %= climbrateSize;
+	}
+	teleState->climbrate1s = teleState->climbrate1s / 5;
+	teleState->climbrate3s = teleState->climbrate3s / 5;
+	teleState->climbrate10s = teleState->climbrate10s / 5;
+
+	// actual smoothed altitude
+	teleState->altitude1s = teleState->Altitude.Altitude;
 
 	// set altitude offset and clear min/max values when arming
-	if ((teleState->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING) || ((LastArmed != FLIGHTSTATUS_ARMED_ARMED) && (teleState->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED))) {
-		altitudeOffset = altitude1s;
-		altitudeMin = 0;
-		altitudeMax = 0;
+	if ((teleState->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING) || ((teleState->LastArmed != FLIGHTSTATUS_ARMED_ARMED) && (teleState->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED))) {
+		teleState->altitudeOffset = teleState->altitude1s;
+		teleState->altitudeMin = 0;
+		teleState->altitudeMax = 0;
 	}
-	LastArmed = teleState->FlightStatus.Armed;
+	teleState->LastArmed = teleState->FlightStatus.Armed;
 
 	// calculate altitude relative to start position
-	altitudeGround = altitude1s - altitudeOffset;
+	teleState->altitudeGround = teleState->altitude1s - teleState->altitudeOffset;
 
 	// check and set min/max values when armed.
 	if (teleState->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) {
-		if (altitudeMin > altitudeGround)
-			altitudeMin = altitudeGround;
-		if (altitudeMax < altitudeGround)
-			altitudeMax = altitudeGround;
+		if (teleState->altitudeMin > teleState->altitudeGround)
+			teleState->altitudeMin = teleState->altitudeGround;
+		if (teleState->altitudeMax < teleState->altitudeGround)
+			teleState->altitudeMax = teleState->altitudeGround;
 	}
 
 	// gps home position and course
-	homedistance = sqrtf(teleState->Position.North * teleState->Position.North + teleState->Position.East * teleState->Position.East);
-	homecourse = acosf(- teleState->Position.North / homedistance) / 3.14159265f * 180;
+	teleState->homedistance = sqrtf(teleState->Position.North * teleState->Position.North + teleState->Position.East * teleState->Position.East);
+	teleState->homecourse = acosf(- teleState->Position.North / teleState->homedistance) / 3.14159265f * 180;
 	if (teleState->Position.East > 0)
-		homecourse = 360 - homecourse;
+		teleState->homecourse = 360 - teleState->homecourse;
 
 	// statusline
 	switch (teleState->FlightStatus.FlightMode) {
@@ -891,15 +911,15 @@ uint8_t generate_warning() {
 		return 1;
 	//tone b
 	if ((teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_NEGDIFFERENCE2] == HTELEMETRYSETTINGS_WARNING_ENABLED) &&
-		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate3s))
+		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > teleState->climbrate3s))
 		return 2;
 	// tone c
 	if ((teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_NEGDIFFERENCE1] == HTELEMETRYSETTINGS_WARNING_ENABLED) &&
-		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > climbrate1s))
+		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > teleState->climbrate1s))
 		return 3;
 	// tone d
 	if ((teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_MAXDISTANCE] == HTELEMETRYSETTINGS_WARNING_ENABLED) &&
-		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXDISTANCE] < homedistance))
+		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXDISTANCE] < teleState->homedistance))
 		return 4;
 	// tone e (unused)
 
@@ -929,15 +949,15 @@ uint8_t generate_warning() {
 		return 12;
 	//tone m
 	if ((teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_POSDIFFERENCE2] == HTELEMETRYSETTINGS_WARNING_ENABLED) &&
-		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] > climbrate3s))
+		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] > teleState->climbrate3s))
 		return 13;
 	// tone n
 	if ((teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_POSDIFFERENCE1] == HTELEMETRYSETTINGS_WARNING_ENABLED) &&
-		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] > climbrate1s))
+		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] > teleState->climbrate1s))
 		return 14;
 	// tone o
 	if ((teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_MINHEIGHT] == HTELEMETRYSETTINGS_WARNING_ENABLED) &&
-		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > altitudeGround))
+		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > teleState->altitudeGround))
 		return 15;
 	// tone p
 	if ((teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_MINPOWERVOLTAGE] == HTELEMETRYSETTINGS_WARNING_ENABLED) &&
@@ -969,15 +989,15 @@ uint8_t generate_warning() {
 
 	// tone z
 	if ((teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_MAXHEIGHT] == HTELEMETRYSETTINGS_WARNING_ENABLED) &&
-		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < altitudeGround))
+		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround))
 		return 26;
 
 	// altitude beeps at 20,40,60,80,100,200,400,600,800 and 1000 meters
 	if (teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_ALTITUDEBEEP] == HTELEMETRYSETTINGS_WARNING_ENABLED) {
 		// update altitude when checked for beeps
-		float last = altitudeLast;
-		float actual = altitudeGround;
-		altitudeLast = altitudeGround;
+		float last = teleState->altitudeLast;
+		float actual = teleState->altitudeGround;
+		teleState->altitudeLast = teleState->altitudeGround;
 		if (((last < 20) && (actual > 20)) || ((last > 20) && (actual < 20)))
 			return 37;
 		if (((last < 40) && (actual > 40)) || ((last > 40) && (actual < 40)))
