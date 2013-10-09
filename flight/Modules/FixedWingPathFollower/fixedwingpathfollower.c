@@ -179,7 +179,6 @@ int32_t FixedWingPathFollowerInitialize()
 	integral->line_error = 0;
 	integral->arc_error = 0;
 
-
 	return 0;
 }
 MODULE_INITCALL(FixedWingPathFollowerInitialize, FixedWingPathFollowerStart);
@@ -190,13 +189,17 @@ MODULE_INITCALL(FixedWingPathFollowerInitialize, FixedWingPathFollowerStart);
  */
 static void pathfollowerTask(void *parameters)
 {
+	// Check that all necessary UAVOs are present. If any are missing, sound the alarm.
+	while (AirspeedActualHandle() == NULL ||
+			PathManagerStatusHandle() == NULL ||
+			PathSegmentActiveHandle() == NULL) {
+		AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER, SYSTEMALARMS_ALARM_CRITICAL);
+		vTaskDelay(5000);
+	}
+
 	portTickType lastUpdateTime;
 	PathFollowerStatusData pathFollowerStatus;
 	uint16_t update_peroid_ms;
-
-	FixedWingPathFollowerSettingsConnectCallback(SettingsUpdatedCb);
-	FixedWingAirspeedsConnectCallback(SettingsUpdatedCb);
-	PathDesiredConnectCallback(SettingsUpdatedCb);
 
 	// Force update of all the settings
 	SettingsUpdatedCb(NULL);
@@ -505,13 +508,11 @@ static void roll_constrained_heading_controller(struct ControllerOutput *heading
  */
 static void SettingsUpdatedCb(UAVObjEvent * ev)
 {
-	if (ev == NULL || ev->obj == FixedWingPathFollowerSettingsHandle())
+	if (ev == NULL || ev->obj == FixedWingPathFollowerSettingsHandle()) {
 		FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
-	if (ev == NULL || ev->obj == FixedWingAirspeedsHandle())
+	}
+	if (ev == NULL || ev->obj == FixedWingAirspeedsHandle()) {
 		FixedWingAirspeedsGet(&fixedWingAirspeeds);
-	if (ev == NULL || ev->obj == PathManagerStatusHandle())
-	{
-
 	}
 }
 
