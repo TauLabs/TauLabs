@@ -11,7 +11,7 @@
     VERSION_INFO_HEADER   = $$GCS_BUILD_TREE/gcsversioninfo.h
     VERSION_INFO_SCRIPT   = $$ROOT_DIR/make/scripts/version-info.py
     VERSION_INFO_TEMPLATE = $$ROOT_DIR/make/templates/gcsversioninfotemplate.h
-    VERSION_INFO_COMMAND  = python2 \"$$VERSION_INFO_SCRIPT\"
+    VERSION_INFO_COMMAND  = $$(PYTHON) \"$$VERSION_INFO_SCRIPT\"
     UAVO_DEF_PATH         = $$ROOT_DIR/shared/uavobjectdefinition
 
     # Create custom version_info target which generates a header
