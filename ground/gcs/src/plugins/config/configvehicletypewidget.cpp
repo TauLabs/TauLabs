@@ -41,6 +41,7 @@
 #include "systemsettings.h"
 #include "mixersettings.h"
 #include "actuatorsettings.h"
+#include "vehicletrim.h"
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/generalsettings.h>
 
@@ -125,9 +126,13 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
         channelNames << QString("Channel%1").arg(i+1);
     }
 
-    QStringList airframeTypes;
-    airframeTypes << "Fixed Wing" << "Multirotor" << "Helicopter" << "Ground" << "Custom";
-    m_aircraft->aircraftType->addItems(airframeTypes);
+    // Set up vehicle type combobox
+    m_aircraft->aircraftType->addItem("Fixed Wing", AIRFRAME_FIXED_WING);
+    m_aircraft->aircraftType->addItem("Multirotor", AIRFRAME_MULTIROTOR);
+    m_aircraft->aircraftType->addItem("Helicopter", AIRFRAME_HELICOPTER);
+    m_aircraft->aircraftType->addItem("Ground", AIRFRAME_GROUND);
+    m_aircraft->aircraftType->addItem("Custom", AIRFRAME_CUSTOM);
+
     m_aircraft->aircraftType->setCurrentIndex(1);    //Set default vehicle to MultiRotor
     m_aircraft->airframesWidget->setCurrentIndex(1); // Force the tab index to match
 
@@ -226,6 +231,10 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
 
     //Connect the multirotor motor reverse checkbox
     connect(m_aircraft->MultirotorRevMixercheckBox, SIGNAL(clicked(bool)), this, SLOT(reverseMultirotorMotor()));
+
+    // Connect actuator and level bias buttons to slots
+    connect(m_aircraft->bnLevelTrim, SIGNAL(clicked()), this, SLOT(bnLevelTrim_clicked()));
+    connect(m_aircraft->bnServoTrim, SIGNAL(clicked()), this, SLOT(bnServoTrim_clicked()));
 
     // Connect the help pushbutton
     connect(m_aircraft->airframeHelp, SIGNAL(clicked()), this, SLOT(openHelp()));
@@ -331,12 +340,21 @@ void ConfigVehicleTypeWidget::switchAirframeType(int index)
     m_aircraft->airframesWidget->setCurrentIndex(index);
     m_aircraft->quadShape->setSceneRect(quad->boundingRect());
     m_aircraft->quadShape->fitInView(quad, Qt::KeepAspectRatio);
-    if (m_aircraft->aircraftType->findText("Custom")) {
+    switch(m_aircraft->aircraftType->itemData(index).toInt()) {
+    case AIRFRAME_FIXED_WING:
+        m_aircraft->bnServoTrim->setEnabled(true);
+        break;
+    case AIRFRAME_CUSTOM:
         m_aircraft->customMixerTable->resizeColumnsToContents();
         for (int i=0;i<(int)(VehicleConfig::CHANNEL_NUMELEM);i++) {
             m_aircraft->customMixerTable->setColumnWidth(i,(m_aircraft->customMixerTable->width()-
                                                             m_aircraft->customMixerTable->verticalHeader()->width())/10);
         }
+    case AIRFRAME_MULTIROTOR:
+    case AIRFRAME_HELICOPTER:
+    case AIRFRAME_GROUND:
+        m_aircraft->bnServoTrim->setEnabled(false);
+        break;
     }
 }
 
@@ -833,7 +851,7 @@ void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
 void ConfigVehicleTypeWidget::openHelp()
 {
 
-    QDesktopServices::openUrl( QUrl("http://wiki.openpilot.org/x/44Cf", QUrl::StrictMode) );
+    QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Vehicle-configuration", QUrl::StrictMode) );
 }
 
 /**
@@ -853,7 +871,121 @@ void ConfigVehicleTypeWidget::reverseMultirotorMotor(){
 
 
 /**
- WHAT DOES THIS DO???
+ * @brief ConfigVehicleTypeWidget::on_bnLevelTrim_clicked Attempts to set autopilot level bias
+ * values, and processes the success message
+ */
+void ConfigVehicleTypeWidget::bnLevelTrim_clicked()
+{
+    QMessageBox msgBox(QMessageBox::Question, tr("Trim level"),
+                       "Use the transmitter trim to set the autopilot for straight and level flight? (Please see the tooltip for more information.)",
+                       QMessageBox::Yes | QMessageBox::No, this);
+    int userChoice = msgBox.exec();
+
+    // If the user cancels, stop here.
+    if (userChoice != QMessageBox::Yes)
+        return;
+
+    // Call bias set function
+    VehicleTrim vehicleTrim;
+    VehicleTrim::autopilotLevelBiasMessages ret;
+    ret = vehicleTrim.setAutopilotBias();
+
+    // Process return state
+    switch (ret){
+    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_MISSING_RECEIVER:
+    {
+        QMessageBox msgBox(QMessageBox::Critical, tr("No receiver detected"),
+                           "Transmitter and receiver must be powered on.", QMessageBox::Ok, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_ARMED_STATE:
+    {
+        QMessageBox msgBox(QMessageBox::Critical, tr("Vehicle armed"),
+                           "The autopilot must be disarmed first.", QMessageBox::Ok, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_FLIGHTMODE:
+    {
+        QMessageBox msgBox(QMessageBox::Critical, tr("Vehicle not in Stabilized mode"),
+                           "The autopilot must be in Stabilized1, Stabilized2, or Stabilized3 mode.", QMessageBox::Ok, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_STABILIZATIONMODE:
+    {
+        QMessageBox msgBox(QMessageBox::Critical, tr("Incorrect roll and pitch stabilization modes."),
+                           "Both roll and pitch must be in Attitude or AttitudePlus stabilization mode.", QMessageBox::Ok, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::AUTOPILOT_LEVEL_SUCCESS:
+        QMessageBox msgBox(QMessageBox::Information, tr("Trim updated"),
+                           "Trim successfully updated, please reset the transmitter's trim and be sure to configure stabilization settings to use AttitudePlus.", QMessageBox::Ok, this);
+        msgBox.exec();
+
+        // Set tab as dirty (i.e. having unsaved changes).
+        setDirty(true);
+
+        break;
+    }
+}
+
+
+/**
+ * @brief ConfigVehicleTypeWidget::on_bnServoTrim_clicked Attempts to set actuator trim
+ * values, and processes the success message
+ */
+void ConfigVehicleTypeWidget::bnServoTrim_clicked()
+{
+    QMessageBox msgBox(QMessageBox::Question, tr("Trim servos"),
+                       "Use the transmitter trim to set servos for wings-level, constant-speed flight? (Please see the tooltip for more information.)",
+                       QMessageBox::Ok | QMessageBox::Cancel, this);
+    int cancelAction = msgBox.exec();
+
+    // If the user cancels, stop here.
+    if (cancelAction != QMessageBox::Ok)
+        return;
+
+    // Call servo trim function
+    VehicleTrim vehicleTrim;
+    VehicleTrim::actuatorTrimMessages ret;
+    ret = vehicleTrim.setTrimActuators();
+
+    // Process return state
+    switch (ret){
+    case VehicleTrim::ACTUATOR_TRIM_FAILED_DUE_TO_MISSING_RECEIVER:
+    {
+        QMessageBox msgBox(QMessageBox::Critical, tr("No receiver detected"),
+                           "Transmitter and receiver must be powered on.", QMessageBox::Ok, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::ACTUATOR_TRIM_FAILED_DUE_TO_FLIGHTMODE:
+    {
+        QMessageBox msgBox(QMessageBox::Critical, tr("Vehicle not in manual mode"),
+                           "The autopilot must be in manual flight mode.", QMessageBox::Ok, this);
+        msgBox.exec();
+        break;
+    }
+    case VehicleTrim::ACTUATOR_TRIM_SUCCESS:
+        QMessageBox msgBox(QMessageBox::Information, tr("Trim updated"),
+                           "Servo trim successfully updated, please reset the transmitter's trim before flying.", QMessageBox::Ok, this);
+        msgBox.exec();
+
+        // Set tab as dirty (i.e. having unsaved changes).
+        setDirty(true);
+
+        break;
+    }
+
+}
+
+
+/**
+ * @brief ConfigVehicleTypeWidget::addToDirtyMonitor Adds the UI widgets to a list of widgets
+ * monitored for any changes
  */
 void ConfigVehicleTypeWidget::addToDirtyMonitor()
 {

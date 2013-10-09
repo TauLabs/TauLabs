@@ -27,7 +27,7 @@
 
 #include "pathutils.h"
 #include "xmlconfig.h"
-#include <stdint.h>
+#include <qglobal.h>
 #include <QDebug>
 
 

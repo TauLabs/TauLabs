@@ -77,12 +77,12 @@ void WaypointEditorGadgetWidget::addInstance()
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
     Q_ASSERT(objManager != NULL);
 
-    qDebug() << "Instances before: " << objManager->getNumInstances(waypointObj->getObjID());
+    qDebug() << "Instances before: " << Waypoint::getNumInstances(objManager);
     Waypoint *obj = new Waypoint();
-    quint32 newInstId = objManager->getNumInstances(waypointObj->getObjID());
+    quint32 newInstId = Waypoint::getNumInstances(objManager);
     obj->initialize(newInstId,obj->getMetaObject());
     objManager->registerObject(obj);
-    qDebug() << "Instances after: " << objManager->getNumInstances(waypointObj->getObjID());
+    qDebug() << "Instances after: " << Waypoint::getNumInstances(objManager);
 }
 
 /**

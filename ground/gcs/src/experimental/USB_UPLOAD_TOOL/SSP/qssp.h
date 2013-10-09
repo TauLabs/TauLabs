@@ -32,20 +32,20 @@
 
 typedef struct
 {
-    uint8_t 	*pbuff;
-    uint16_t 	length;
-    uint16_t 	crc;
-    uint8_t 	seqNo;
+    quint8 	*pbuff;
+    quint16 	length;
+    quint16 	crc;
+    quint8 	seqNo;
 } Packet_t;
 
 typedef struct {
 
-    uint8_t 	*rxBuf;                             	// Buffer used to store rcv data
-    uint16_t 	rxBufSize;                         	// rcv buffer size.
-    uint8_t 	*txBuf;                            	// Length of data in buffer
-    uint16_t 	txBufSize;                        	// CRC for data in Packet buff
-    uint16_t 	max_retry;                             	// Maximum number of retrys for a single transmit.
-    int32_t 	timeoutLen;                          	//  how long to wait for each retry to succeed
+    quint8 	*rxBuf;                             	// Buffer used to store rcv data
+    quint16 	rxBufSize;                         	// rcv buffer size.
+    quint8 	*txBuf;                            	// Length of data in buffer
+    quint16 	txBufSize;                        	// CRC for data in Packet buff
+    quint16 	max_retry;                             	// Maximum number of retrys for a single transmit.
+    qint32 	timeoutLen;                          	//  how long to wait for each retry to succeed
     // function returns time in number of seconds that has elapsed from a given reference point
 }	PortConfig_t;
 
@@ -67,29 +67,29 @@ private:
     decodeState_ DecodeState_t;
     /** PRIVATE FUNCTIONS **/
     //static void   	sf_SendSynchPacket( Port_t *thisport );
-    uint16_t sf_crc16( uint16_t crc, uint8_t data );
-    void   	sf_write_byte(uint8_t c );
+    quint16 sf_crc16( quint16 crc, quint8 data );
+    void   	sf_write_byte(quint8 c );
     void   	sf_SetSendTimeout();
-    uint16_t sf_CheckTimeout();
-    int16_t 	sf_DecodeState(uint8_t c );
-    int16_t 	sf_ReceiveState(uint8_t c );
+    quint16 sf_CheckTimeout();
+    qint16 	sf_DecodeState(quint8 c );
+    qint16 	sf_ReceiveState(quint8 c );
 
     void   	sf_SendPacket();
-    void   	sf_SendAckPacket(uint8_t seqNumber);
-    void     sf_MakePacket( uint8_t *buf, const uint8_t * pdata, uint16_t length, uint8_t seqNo );
-    int16_t 	sf_ReceivePacket();
-    uint16_t ssp_SendDataBlock(uint8_t *data, uint16_t length );
+    void   	sf_SendAckPacket(quint8 seqNumber);
+    void     sf_MakePacket( quint8 *buf, const quint8 * pdata, quint16 length, quint8 seqNo );
+    qint16 	sf_ReceivePacket();
+    quint16 ssp_SendDataBlock(quint8 *data, quint16 length );
     bool debug;
 public:
     /** PUBLIC FUNCTIONS **/
-     virtual void pfCallBack( uint8_t *, uint16_t);	// call back function that is called when a full packet has been received
-    int16_t     ssp_ReceiveProcess();
-    int16_t 	ssp_SendProcess();
-    uint16_t    ssp_SendString(char *str );
-    int16_t     ssp_SendData( const uint8_t * data,const uint16_t length );
+     virtual void pfCallBack( quint8 *, quint16);	// call back function that is called when a full packet has been received
+    qint16     ssp_ReceiveProcess();
+    qint16 	ssp_SendProcess();
+    quint16    ssp_SendString(char *str );
+    qint16     ssp_SendData( const quint8 * data,const quint16 length );
     void        ssp_Init( const PortConfig_t* const info);
-    int16_t		ssp_ReceiveByte( );
-    uint16_t 	ssp_Synchronise(  );
+    qint16		ssp_ReceiveByte( );
+    quint16 	ssp_Synchronise(  );
     qssp(port * info,bool debug);
 };
 

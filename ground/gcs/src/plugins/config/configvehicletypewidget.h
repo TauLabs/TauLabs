@@ -49,6 +49,14 @@ class Ui_Widget;
 class ConfigVehicleTypeWidget: public ConfigTaskWidget
 {
     Q_OBJECT
+private:
+    enum {
+        AIRFRAME_FIXED_WING,
+        AIRFRAME_MULTIROTOR,
+        AIRFRAME_HELICOPTER,
+        AIRFRAME_GROUND,
+        AIRFRAME_CUSTOM
+    };
 
 public:
     ConfigVehicleTypeWidget(QWidget *parent = 0);
@@ -98,6 +106,9 @@ private slots:
     void enableFFTest();
     void openHelp();
     void reverseMultirotorMotor();
+
+    void bnLevelTrim_clicked();
+    void bnServoTrim_clicked();
 
 protected:
     void showEvent(QShowEvent *event);

@@ -29,106 +29,74 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-/*
- * @note This is very closely related to the F1xx code and should really
- *       be merged.
- */
-
 /* Project Includes */
 #include "pios.h"
 
 #if defined(PIOS_INCLUDE_I2C)
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-#define USE_FREERTOS
-#endif
-
 #include <pios_i2c_priv.h>
 
-//#define I2C_HALT_ON_ERRORS
-#define MAX_I2C_RETRY_COUNT 10
-
-enum i2c_adapter_event {
-	I2C_EVENT_BUS_ERROR,
-	I2C_EVENT_START,
-	I2C_EVENT_STARTED_MORE_TXN_READ,
-	I2C_EVENT_STARTED_MORE_TXN_WRITE,
-	I2C_EVENT_STARTED_LAST_TXN_READ,
-	I2C_EVENT_STARTED_LAST_TXN_WRITE,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_0,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_1,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_2,
-	I2C_EVENT_ADDR_SENT_LEN_GT_2,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_0,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_1,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_2,
-	I2C_EVENT_TRANSFER_DONE_LEN_GT_2,
-	I2C_EVENT_NACK,
-	I2C_EVENT_STOPPED,
-	I2C_EVENT_AUTO,		/* FIXME: remove this */
-
-	I2C_EVENT_NUM_EVENTS	/* Must be last */
-};
+static void i2c_adapter_inject_event(struct pios_i2c_adapter *i2c_adapter, enum i2c_adapter_event event, bool *woken);
+static void i2c_adapter_fsm_init(struct pios_i2c_adapter *i2c_adapter);
+static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter);
+#if defined(PIOS_I2C_DIAGNOSTICS)
+static void i2c_adapter_log_fault(struct pios_i2c_adapter *i2c_adapter, enum pios_i2c_error_type type);
+#endif
 
 static void go_fsm_fault(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 static void go_bus_error(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_stopping(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_nack(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 static void go_stopped(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 static void go_starting(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_r_any_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+
+static void go_r_more_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 static void go_r_more_txn_pre_one(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_r_any_txn_pre_first(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_r_any_txn_pre_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_r_more_txn_pre_first(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_r_more_txn_pre_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 static void go_r_more_txn_pre_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_r_any_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_r_more_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 
-static void go_r_any_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_r_last_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 static void go_r_last_txn_pre_one(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_r_any_txn_pre_first(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_r_any_txn_pre_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_r_last_txn_pre_first(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_r_last_txn_pre_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 static void go_r_last_txn_pre_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_r_any_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_r_last_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 
-static void go_w_any_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_w_any_txn_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_w_more_txn_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_w_more_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_w_more_txn_pre_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_w_more_txn_pre_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_w_more_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 
-static void go_w_any_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_w_any_txn_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void go_w_last_txn_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-
-static void go_nack(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_w_last_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_w_last_txn_pre_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_w_last_txn_pre_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
+static void go_w_last_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 
 struct i2c_adapter_transition {
 	void (*entry_fn)(struct pios_i2c_adapter *i2c_adapter, bool *woken);
 	enum i2c_adapter_state next_state[I2C_EVENT_NUM_EVENTS];
 };
 
-static void i2c_adapter_process_auto(struct pios_i2c_adapter *i2c_adapter, bool *woken);
-static void i2c_adapter_inject_event(struct pios_i2c_adapter *i2c_adapter, enum i2c_adapter_event event, bool *woken);
-static void i2c_adapter_fsm_init(struct pios_i2c_adapter *i2c_adapter);
-static bool i2c_adapter_wait_for_stopped(struct pios_i2c_adapter *i2c_adapter);
-static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter);
-static bool i2c_adapter_fsm_terminated(struct pios_i2c_adapter *i2c_adapter);
-
-#if defined(PIOS_I2C_DIAGNOSTICS)
-static void i2c_adapter_log_fault(struct pios_i2c_adapter *i2c_adapter, enum pios_i2c_error_type type);
-#endif
-
-const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM_STATES] = {
+static const struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM_STATES] = {
 	[I2C_STATE_FSM_FAULT] = {
 		.entry_fn = go_fsm_fault,
 		.next_state = {
-			[I2C_EVENT_AUTO] = I2C_STATE_STOPPING,
+			[I2C_EVENT_AUTO] = I2C_STATE_STOPPED,
 		},
 	},
 	[I2C_STATE_BUS_ERROR] = {
 		.entry_fn = go_bus_error,
 		.next_state = {
-			[I2C_EVENT_AUTO] = I2C_STATE_STOPPING,
+			[I2C_EVENT_AUTO] = I2C_STATE_STOPPED,
 		},
 	},
-
+	[I2C_STATE_NACK] = {
+		.entry_fn = go_nack,
+		.next_state = {
+			[I2C_EVENT_AUTO] = I2C_STATE_STOPPED,
+		},
+	},
 	[I2C_STATE_STOPPED] = {
 		.entry_fn = go_stopped,
 		.next_state = {
@@ -136,22 +104,13 @@ const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
-	[I2C_STATE_STOPPING] = {
-		.entry_fn = go_stopping,
-		.next_state = {
-			[I2C_EVENT_STOPPED] = I2C_STATE_STOPPED,
-			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
-		},
-	},
-
 	[I2C_STATE_STARTING] = {
 		.entry_fn = go_starting,
 		.next_state = {
-			[I2C_EVENT_STARTED_MORE_TXN_READ] = I2C_STATE_R_MORE_TXN_ADDR,
-			[I2C_EVENT_STARTED_MORE_TXN_WRITE] = I2C_STATE_W_MORE_TXN_ADDR,
-			[I2C_EVENT_STARTED_LAST_TXN_READ] = I2C_STATE_R_LAST_TXN_ADDR,
-			[I2C_EVENT_STARTED_LAST_TXN_WRITE] = I2C_STATE_W_LAST_TXN_ADDR,
+			[I2C_EVENT_R_MORE_TXN_STARTED] = I2C_STATE_R_MORE_TXN_ADDR,
+			[I2C_EVENT_W_MORE_TXN_STARTED] = I2C_STATE_W_MORE_TXN_ADDR,
+			[I2C_EVENT_R_LAST_TXN_STARTED] = I2C_STATE_R_LAST_TXN_ADDR,
+			[I2C_EVENT_W_LAST_TXN_STARTED] = I2C_STATE_W_LAST_TXN_ADDR,
 			[I2C_EVENT_NACK] = I2C_STATE_NACK,
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
@@ -160,9 +119,8 @@ const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM
 	/*
 	 * Read with restart
 	 */
-
 	[I2C_STATE_R_MORE_TXN_ADDR] = {
-		.entry_fn = go_r_any_txn_addr,
+		.entry_fn = go_r_more_txn_addr,
 		.next_state = {
 			[I2C_EVENT_ADDR_SENT_LEN_EQ_1] = I2C_STATE_R_MORE_TXN_PRE_ONE,
 			[I2C_EVENT_ADDR_SENT_LEN_EQ_2] = I2C_STATE_R_MORE_TXN_PRE_FIRST,
@@ -170,7 +128,6 @@ const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
 	[I2C_STATE_R_MORE_TXN_PRE_ONE] = {
 		.entry_fn = go_r_more_txn_pre_one,
 		.next_state = {
@@ -178,25 +135,22 @@ const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
 	[I2C_STATE_R_MORE_TXN_PRE_FIRST] = {
-		.entry_fn = go_r_any_txn_pre_first,
+		.entry_fn = go_r_more_txn_pre_first,
 		.next_state = {
 			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_2] = I2C_STATE_R_MORE_TXN_PRE_LAST,
 			[I2C_EVENT_TRANSFER_DONE_LEN_GT_2] = I2C_STATE_R_MORE_TXN_PRE_MIDDLE,
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
 	[I2C_STATE_R_MORE_TXN_PRE_MIDDLE] = {
-		.entry_fn = go_r_any_txn_pre_middle,
+		.entry_fn = go_r_more_txn_pre_middle,
 		.next_state = {
 			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_2] = I2C_STATE_R_MORE_TXN_PRE_LAST,
 			[I2C_EVENT_TRANSFER_DONE_LEN_GT_2] = I2C_STATE_R_MORE_TXN_PRE_MIDDLE,
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
 	[I2C_STATE_R_MORE_TXN_PRE_LAST] = {
 		.entry_fn = go_r_more_txn_pre_last,
 		.next_state = {
@@ -204,20 +158,23 @@ const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
 	[I2C_STATE_R_MORE_TXN_POST_LAST] = {
-		.entry_fn = go_r_any_txn_post_last,
+		.entry_fn = go_r_more_txn_post_last,
 		.next_state = {
-			[I2C_EVENT_AUTO] = I2C_STATE_STARTING,
+			[I2C_EVENT_R_MORE_TXN_STARTED] = I2C_STATE_R_MORE_TXN_ADDR,
+			[I2C_EVENT_W_MORE_TXN_STARTED] = I2C_STATE_W_MORE_TXN_ADDR,
+			[I2C_EVENT_R_LAST_TXN_STARTED] = I2C_STATE_R_LAST_TXN_ADDR,
+			[I2C_EVENT_W_LAST_TXN_STARTED] = I2C_STATE_W_LAST_TXN_ADDR,
+			[I2C_EVENT_NACK] = I2C_STATE_NACK,
+			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
 
 	/*
-	 * Read
+	 * Read with stop
 	 */
-
 	[I2C_STATE_R_LAST_TXN_ADDR] = {
-		.entry_fn = go_r_any_txn_addr,
+		.entry_fn = go_r_last_txn_addr,
 		.next_state = {
 			[I2C_EVENT_ADDR_SENT_LEN_EQ_1] = I2C_STATE_R_LAST_TXN_PRE_ONE,
 			[I2C_EVENT_ADDR_SENT_LEN_EQ_2] = I2C_STATE_R_LAST_TXN_PRE_FIRST,
@@ -225,7 +182,6 @@ const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
 	[I2C_STATE_R_LAST_TXN_PRE_ONE] = {
 		.entry_fn = go_r_last_txn_pre_one,
 		.next_state = {
@@ -233,25 +189,22 @@ const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
 	[I2C_STATE_R_LAST_TXN_PRE_FIRST] = {
-		.entry_fn = go_r_any_txn_pre_first,
+		.entry_fn = go_r_last_txn_pre_first,
 		.next_state = {
 			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_2] = I2C_STATE_R_LAST_TXN_PRE_LAST,
 			[I2C_EVENT_TRANSFER_DONE_LEN_GT_2] = I2C_STATE_R_LAST_TXN_PRE_MIDDLE,
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
 	[I2C_STATE_R_LAST_TXN_PRE_MIDDLE] = {
-		.entry_fn = go_r_any_txn_pre_middle,
+		.entry_fn = go_r_last_txn_pre_middle,
 		.next_state = {
 			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_2] = I2C_STATE_R_LAST_TXN_PRE_LAST,
 			[I2C_EVENT_TRANSFER_DONE_LEN_GT_2] = I2C_STATE_R_LAST_TXN_PRE_MIDDLE,
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
 	[I2C_STATE_R_LAST_TXN_PRE_LAST] = {
 		.entry_fn = go_r_last_txn_pre_last,
 		.next_state = {
@@ -259,267 +212,253 @@ const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
 	[I2C_STATE_R_LAST_TXN_POST_LAST] = {
-		.entry_fn = go_r_any_txn_post_last,
+		.entry_fn = go_r_last_txn_post_last,
 		.next_state = {
-			[I2C_EVENT_AUTO] = I2C_STATE_STOPPING,
+			[I2C_EVENT_AUTO] = I2C_STATE_STOPPED,
 		},
 	},
 
 	/*
 	 * Write with restart
 	 */
-
 	[I2C_STATE_W_MORE_TXN_ADDR] = {
-		.entry_fn = go_w_any_txn_addr,
+		.entry_fn = go_w_more_txn_addr,
 		.next_state = {
-			[I2C_EVENT_ADDR_SENT_LEN_EQ_1] = I2C_STATE_W_MORE_TXN_LAST,
-			[I2C_EVENT_ADDR_SENT_LEN_EQ_2] = I2C_STATE_W_MORE_TXN_MIDDLE,
-			[I2C_EVENT_ADDR_SENT_LEN_GT_2] = I2C_STATE_W_MORE_TXN_MIDDLE,
-			[I2C_EVENT_NACK] = I2C_STATE_NACK,
+			[I2C_EVENT_ADDR_SENT_LEN_EQ_1] = I2C_STATE_W_MORE_TXN_PRE_LAST,
+			[I2C_EVENT_ADDR_SENT_LEN_EQ_2] = I2C_STATE_W_MORE_TXN_PRE_MIDDLE,
+			[I2C_EVENT_ADDR_SENT_LEN_GT_2] = I2C_STATE_W_MORE_TXN_PRE_MIDDLE,
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
-	[I2C_STATE_W_MORE_TXN_MIDDLE] = {
-		.entry_fn = go_w_any_txn_middle,
+	[I2C_STATE_W_MORE_TXN_PRE_MIDDLE] = {
+		.entry_fn = go_w_more_txn_pre_middle,
 		.next_state = {
-			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_1] = I2C_STATE_W_MORE_TXN_LAST,
-			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_2] = I2C_STATE_W_MORE_TXN_MIDDLE,
-			[I2C_EVENT_TRANSFER_DONE_LEN_GT_2] = I2C_STATE_W_MORE_TXN_MIDDLE,
-			[I2C_EVENT_NACK] = I2C_STATE_NACK,
+			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_1] = I2C_STATE_W_MORE_TXN_PRE_LAST,
+			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_2] = I2C_STATE_W_MORE_TXN_PRE_MIDDLE,
+			[I2C_EVENT_TRANSFER_DONE_LEN_GT_2] = I2C_STATE_W_MORE_TXN_PRE_MIDDLE,
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
-	[I2C_STATE_W_MORE_TXN_LAST] = {
-		.entry_fn = go_w_more_txn_last,
+	[I2C_STATE_W_MORE_TXN_PRE_LAST] = {
+		.entry_fn = go_w_more_txn_pre_last,
 		.next_state = {
-			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_0] = I2C_STATE_STARTING,
+			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_0] = I2C_STATE_W_MORE_TXN_POST_LAST,
+			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
+		},
+	},
+	[I2C_STATE_W_MORE_TXN_POST_LAST] = {
+		.entry_fn = go_w_more_txn_post_last,
+		.next_state = {
+			[I2C_EVENT_R_MORE_TXN_STARTED] = I2C_STATE_R_MORE_TXN_ADDR,
+			[I2C_EVENT_W_MORE_TXN_STARTED] = I2C_STATE_W_MORE_TXN_ADDR,
+			[I2C_EVENT_R_LAST_TXN_STARTED] = I2C_STATE_R_LAST_TXN_ADDR,
+			[I2C_EVENT_W_LAST_TXN_STARTED] = I2C_STATE_W_LAST_TXN_ADDR,
 			[I2C_EVENT_NACK] = I2C_STATE_NACK,
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
 
 	/*
-	 * Write
+	 * Write with stop
 	 */
-
 	[I2C_STATE_W_LAST_TXN_ADDR] = {
-		.entry_fn = go_w_any_txn_addr,
+		.entry_fn = go_w_last_txn_addr,
 		.next_state = {
-			[I2C_EVENT_ADDR_SENT_LEN_EQ_1] = I2C_STATE_W_LAST_TXN_LAST,
-			[I2C_EVENT_ADDR_SENT_LEN_EQ_2] = I2C_STATE_W_LAST_TXN_MIDDLE,
-			[I2C_EVENT_ADDR_SENT_LEN_GT_2] = I2C_STATE_W_LAST_TXN_MIDDLE,
-			[I2C_EVENT_NACK] = I2C_STATE_NACK,
+			[I2C_EVENT_ADDR_SENT_LEN_EQ_1] = I2C_STATE_W_LAST_TXN_PRE_LAST,
+			[I2C_EVENT_ADDR_SENT_LEN_EQ_2] = I2C_STATE_W_LAST_TXN_PRE_MIDDLE,
+			[I2C_EVENT_ADDR_SENT_LEN_GT_2] = I2C_STATE_W_LAST_TXN_PRE_MIDDLE,
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
-	[I2C_STATE_W_LAST_TXN_MIDDLE] = {
-		.entry_fn = go_w_any_txn_middle,
+	[I2C_STATE_W_LAST_TXN_PRE_MIDDLE] = {
+		.entry_fn = go_w_last_txn_pre_middle,
 		.next_state = {
-			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_1] = I2C_STATE_W_LAST_TXN_LAST,
-			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_2] = I2C_STATE_W_LAST_TXN_MIDDLE,
-			[I2C_EVENT_TRANSFER_DONE_LEN_GT_2] = I2C_STATE_W_LAST_TXN_MIDDLE,
-			[I2C_EVENT_NACK] = I2C_STATE_NACK,
+			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_1] = I2C_STATE_W_LAST_TXN_PRE_LAST,
+			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_2] = I2C_STATE_W_LAST_TXN_PRE_MIDDLE,
+			[I2C_EVENT_TRANSFER_DONE_LEN_GT_2] = I2C_STATE_W_LAST_TXN_PRE_MIDDLE,
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-
-	[I2C_STATE_W_LAST_TXN_LAST] = {
-		.entry_fn = go_w_last_txn_last,
+	[I2C_STATE_W_LAST_TXN_PRE_LAST] = {
+		.entry_fn = go_w_last_txn_pre_last,
 		.next_state = {
-			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_0] = I2C_STATE_STOPPING,
-			[I2C_EVENT_NACK] = I2C_STATE_NACK,
+			[I2C_EVENT_TRANSFER_DONE_LEN_EQ_0] = I2C_STATE_W_LAST_TXN_POST_LAST,
 			[I2C_EVENT_BUS_ERROR] = I2C_STATE_BUS_ERROR,
 		},
 	},
-	[I2C_STATE_NACK] = {
-		.entry_fn = go_nack,
+	[I2C_STATE_W_LAST_TXN_POST_LAST] = {
+		.entry_fn = go_w_last_txn_post_last,
 		.next_state = {
-			[I2C_EVENT_AUTO] = I2C_STATE_STOPPING,
+			[I2C_EVENT_AUTO] = I2C_STATE_STOPPED,
 		},
 	},
 };
 
 static void go_fsm_fault(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-#if defined(I2C_HALT_ON_ERRORS)
-	PIOS_DEBUG_Assert(0);
-#endif
-	/* Note that this transfer has hit a bus error */
 	i2c_adapter->bus_error = true;
-
 	i2c_adapter_reset_bus(i2c_adapter);
+}
+
+static void go_nack(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+{
+	i2c_adapter->nack = true;
+
+	// setup handling of this byte
+	I2C_AcknowledgeConfig(i2c_adapter->cfg->regs, DISABLE);
+	I2C_GenerateSTART(i2c_adapter->cfg->regs, DISABLE);
+	I2C_GenerateSTOP(i2c_adapter->cfg->regs, ENABLE);
 }
 
 static void go_bus_error(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	/* Note that this transfer has hit a bus error */
 	i2c_adapter->bus_error = true;
-
 	i2c_adapter_reset_bus(i2c_adapter);
-}
-
-static void go_stopping(struct pios_i2c_adapter *i2c_adapter, bool *woken)
-{
-	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_EVT | I2C_IT_BUF | I2C_IT_ERR, DISABLE);
-
-	if (i2c_adapter->callback) {
-		/*
-		 * Transfer with callback
-		 */
-
-		/* Spin waiting for the transfer to finish */
-		while (!i2c_adapter_fsm_terminated(i2c_adapter)) ;
-
-		if (i2c_adapter_wait_for_stopped(i2c_adapter)) {
-			i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_STOPPED, woken);
-		} else {
-			i2c_adapter_fsm_init(i2c_adapter);
-		}
-
-		// Execute user supplied function
-		i2c_adapter->callback();
-
-		/* Unlock the bus */
-		if (PIOS_Semaphore_Give_FromISR(i2c_adapter->sem_busy, woken) == false) {
-#if defined(I2C_HALT_ON_ERRORS)
-			PIOS_DEBUG_Assert(0);
-#endif
-		}
-
-	} else {
-		/*
-		 * Transfer without callback
-		 */
-
-		/* wake up blocked PIOS_I2C_Transfer() */
-		if (PIOS_Semaphore_Give_FromISR(i2c_adapter->sem_ready, woken) == false) {
-#if defined(I2C_HALT_ON_ERRORS)
-			PIOS_DEBUG_Assert(0);
-#endif
-		}
-	}
 }
 
 static void go_stopped(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
+	// disable all irqs
 	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_EVT | I2C_IT_BUF | I2C_IT_ERR, DISABLE);
-	I2C_AcknowledgeConfig(i2c_adapter->cfg->regs, ENABLE);
+
+	/* wake up blocked PIOS_I2C_Transfer() */
+	PIOS_Semaphore_Give_FromISR(i2c_adapter->sem_ready, woken);
 }
 
 static void go_starting(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
-
+	// set up current txn byte pointers
 	i2c_adapter->active_byte = &(i2c_adapter->active_txn->buf[0]);
 	i2c_adapter->last_byte = &(i2c_adapter->active_txn->buf[i2c_adapter->active_txn->len - 1]);
 
+	// enabled interrupts
+	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_EVT | I2C_IT_ERR, ENABLE);
+
+	// generate a start condition
 	I2C_GenerateSTART(i2c_adapter->cfg->regs, ENABLE);
-	if (i2c_adapter->active_txn->rw == PIOS_I2C_TXN_READ) {
-		I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_EVT | I2C_IT_BUF | I2C_IT_ERR, ENABLE);
-	} else {
-		// For write operations, do not enable the IT_BUF events.
-		// The current driver does not act when the TX data register is not full, only when the complete byte is sent.
-		// With the IT_BUF enabled, we constantly get IRQs, See OP-326
-		I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_EVT | I2C_IT_ERR, ENABLE);
-	}
 }
 
-/* Common to 'more' and 'last' transaction */
-static void go_r_any_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+/*
+ * Read with restart
+ */
+static void go_r_more_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
-
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn->rw == PIOS_I2C_TXN_READ);
+	// enable buffer RxNE
+	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_BUF, ENABLE);
 
 	I2C_Send7bitAddress(i2c_adapter->cfg->regs, (i2c_adapter->active_txn->addr) << 1, I2C_Direction_Receiver);
 }
 
 static void go_r_more_txn_pre_one(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
+	// send a nack on the last byte
 	I2C_AcknowledgeConfig(i2c_adapter->cfg->regs, DISABLE);
-	I2C_GenerateSTART(i2c_adapter->cfg->regs, ENABLE);
 }
 
-static void go_r_last_txn_pre_one(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+static void go_r_more_txn_pre_first(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	I2C_AcknowledgeConfig(i2c_adapter->cfg->regs, DISABLE);
-	I2C_GenerateSTOP(i2c_adapter->cfg->regs, ENABLE);
-}
-
-/* Common to 'more' and 'last' transaction */
-static void go_r_any_txn_pre_first(struct pios_i2c_adapter *i2c_adapter, bool *woken)
-{
+	// ack all following bytes
 	I2C_AcknowledgeConfig(i2c_adapter->cfg->regs, ENABLE);
 }
 
-/* Common to 'more' and 'last' transaction */
-static void go_r_any_txn_pre_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+static void go_r_more_txn_pre_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte);
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte <= i2c_adapter->last_byte);
-
-	*(i2c_adapter->active_byte) = I2C_ReceiveData(i2c_adapter->cfg->regs);
+	// read received byte from buffer
+	*i2c_adapter->active_byte = I2C_ReceiveData(i2c_adapter->cfg->regs);
 
 	/* Move to the next byte */
 	i2c_adapter->active_byte++;
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte <= i2c_adapter->last_byte);
 }
 
 static void go_r_more_txn_pre_last(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte);
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte <= i2c_adapter->last_byte);
+	// read received byte from buffer
+	*i2c_adapter->active_byte = I2C_ReceiveData(i2c_adapter->cfg->regs);
 
+	// send a nack on the last byte
 	I2C_AcknowledgeConfig(i2c_adapter->cfg->regs, DISABLE);
-	PIOS_IRQ_Disable();
-	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_EVT | I2C_IT_BUF | I2C_IT_ERR, DISABLE);
-	I2C_GenerateSTART(i2c_adapter->cfg->regs, ENABLE);
-	*(i2c_adapter->active_byte) = I2C_ReceiveData(i2c_adapter->cfg->regs);
-	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_EVT | I2C_IT_BUF | I2C_IT_ERR, ENABLE);
-	PIOS_IRQ_Enable();
 
 	/* Move to the next byte */
 	i2c_adapter->active_byte++;
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte <= i2c_adapter->last_byte);
+}
+
+static void go_r_more_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+{
+	// the last byte of this txn has been received, so disable the buffer RxNE
+	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_BUF, DISABLE);
+
+	// read received byte from buffer
+	*i2c_adapter->active_byte = I2C_ReceiveData(i2c_adapter->cfg->regs);
+
+	/* Move to the next byte */
+	i2c_adapter->active_byte++;
+
+	/* Move to the next transaction */
+	i2c_adapter->active_txn++;
+
+	// set up current txn byte pointers
+	i2c_adapter->active_byte = &(i2c_adapter->active_txn->buf[0]);
+	i2c_adapter->last_byte = &(i2c_adapter->active_txn->buf[i2c_adapter->active_txn->len - 1]);
+
+	// generate repeated START condition
+	I2C_GenerateSTART(i2c_adapter->cfg->regs, ENABLE);
+}
+
+/*
+ * Read with stop
+ */
+static void go_r_last_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+{
+	// enable buffer RxNE
+	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_BUF, ENABLE);
+
+	I2C_Send7bitAddress(i2c_adapter->cfg->regs, (i2c_adapter->active_txn->addr) << 1, I2C_Direction_Receiver);
+}
+
+static void go_r_last_txn_pre_one(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+{
+	// send a nack on the last byte
+	I2C_AcknowledgeConfig(i2c_adapter->cfg->regs, DISABLE);
+}
+
+static void go_r_last_txn_pre_first(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+{
+	// ack all following bytes
+	I2C_AcknowledgeConfig(i2c_adapter->cfg->regs, ENABLE);
+}
+
+static void go_r_last_txn_pre_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+{
+	// read received byte from buffer
+	*i2c_adapter->active_byte = I2C_ReceiveData(i2c_adapter->cfg->regs);
+
+	/* Move to the next byte */
+	i2c_adapter->active_byte++;
 }
 
 static void go_r_last_txn_pre_last(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte);
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte <= i2c_adapter->last_byte);
+	// read received byte from buffer
+	*i2c_adapter->active_byte = I2C_ReceiveData(i2c_adapter->cfg->regs);
 
+	// send a nack on the last byte
 	I2C_AcknowledgeConfig(i2c_adapter->cfg->regs, DISABLE);
-	PIOS_IRQ_Disable();
-	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_EVT | I2C_IT_BUF | I2C_IT_ERR, DISABLE);
-	I2C_GenerateSTOP(i2c_adapter->cfg->regs, ENABLE);
-	*(i2c_adapter->active_byte) = I2C_ReceiveData(i2c_adapter->cfg->regs);
-	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_EVT | I2C_IT_BUF | I2C_IT_ERR, ENABLE);
-	PIOS_IRQ_Enable();
 
 	/* Move to the next byte */
 	i2c_adapter->active_byte++;
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte <= i2c_adapter->last_byte);
 }
 
-/* Common to 'more' and 'last' transaction */
-static void go_r_any_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+static void go_r_last_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte);
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte == i2c_adapter->last_byte);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
+	// the last byte of this txn has been received, so disable the buffer RxNE
+	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_BUF, DISABLE);
 
-	*(i2c_adapter->active_byte) = I2C_ReceiveData(i2c_adapter->cfg->regs);
+	// read received byte from buffer
+	*i2c_adapter->active_byte = I2C_ReceiveData(i2c_adapter->cfg->regs);
+
+	// generate a stop condition
+	I2C_GenerateSTOP(i2c_adapter->cfg->regs, ENABLE);
 
 	/* Move to the next byte */
 	i2c_adapter->active_byte++;
@@ -528,164 +467,141 @@ static void go_r_any_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *w
 	i2c_adapter->active_txn++;
 }
 
-/* Common to 'more' and 'last' transaction */
-static void go_w_any_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+
+/*
+ * Write with restart
+ */
+static void go_w_more_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
-
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn->rw == PIOS_I2C_TXN_WRITE);
-
 	I2C_Send7bitAddress(i2c_adapter->cfg->regs, (i2c_adapter->active_txn->addr) << 1, I2C_Direction_Transmitter);
 }
 
-static void go_w_any_txn_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+static void go_w_more_txn_pre_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte);
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte < i2c_adapter->last_byte);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
-
-	I2C_SendData(i2c_adapter->cfg->regs, *(i2c_adapter->active_byte));
+	// write byte to buffer
+	I2C_SendData(i2c_adapter->cfg->regs, *i2c_adapter->active_byte);
 
 	/* Move to the next byte */
 	i2c_adapter->active_byte++;
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte <= i2c_adapter->last_byte);
 }
 
-static void go_w_more_txn_last(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+static void go_w_more_txn_pre_last(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte);
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte == i2c_adapter->last_byte);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
-
-	I2C_SendData(i2c_adapter->cfg->regs, *(i2c_adapter->active_byte));
+	// write byte to buffer
+	I2C_SendData(i2c_adapter->cfg->regs, *i2c_adapter->active_byte);
 
 	/* Move to the next byte */
 	i2c_adapter->active_byte++;
+}
+
+static void go_w_more_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+{
+	/* Move to the next transaction */
+	i2c_adapter->active_txn++;
+
+	// set up current txn byte pointers
+	i2c_adapter->active_byte = &(i2c_adapter->active_txn->buf[0]);
+	i2c_adapter->last_byte = &(i2c_adapter->active_txn->buf[i2c_adapter->active_txn->len - 1]);
+
+	// the last byte of this txn has been transmitted, so disable the buffer TxE
+	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_BUF, DISABLE);
+
+	// also clear the TxE flag to prevent another irq from being thrown by executing a dummy read
+	(void)I2C_ReceiveData(i2c_adapter->cfg->regs);
+
+	// generate restart
+	I2C_GenerateSTART(i2c_adapter->cfg->regs, ENABLE);
+}
+
+/*
+ * Write with stop
+ */
+static void go_w_last_txn_addr(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+{
+	I2C_Send7bitAddress(i2c_adapter->cfg->regs, (i2c_adapter->active_txn->addr) << 1, I2C_Direction_Transmitter);
+}
+
+static void go_w_last_txn_pre_middle(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+{
+	// write byte to buffer
+	I2C_SendData(i2c_adapter->cfg->regs, *i2c_adapter->active_byte);
+
+	/* Move to the next byte */
+	i2c_adapter->active_byte++;
+}
+
+static void go_w_last_txn_pre_last(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+{
+	// write byte to buffer
+	I2C_SendData(i2c_adapter->cfg->regs, *i2c_adapter->active_byte);
+
+	/* Move to the next byte */
+	i2c_adapter->active_byte++;
+}
+
+static void go_w_last_txn_post_last(struct pios_i2c_adapter *i2c_adapter, bool *woken)
+{
+	// the last byte of this txn has been transmitted, so disable the buffer TxE
+	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_BUF, DISABLE);
+
+	// setup handling of this byte
+	I2C_GenerateSTOP(i2c_adapter->cfg->regs, ENABLE);
 
 	/* Move to the next transaction */
 	i2c_adapter->active_txn++;
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
-}
-
-static void go_w_last_txn_last(struct pios_i2c_adapter *i2c_adapter, bool *woken)
-{
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte);
-	PIOS_DEBUG_Assert(i2c_adapter->active_byte == i2c_adapter->last_byte);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
-
-	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_BUF, DISABLE);
-	I2C_SendData(i2c_adapter->cfg->regs, *(i2c_adapter->active_byte));
-
-// SHOULD MOVE THIS INTO A STOPPING STATE AND SET IT ONLY AFTER THE BYTE WAS SENT
-	I2C_GenerateSTOP(i2c_adapter->cfg->regs, ENABLE);
-
-	/* Move to the next byte */
-	i2c_adapter->active_byte++;
-}
-
-static void go_nack(struct pios_i2c_adapter *i2c_adapter, bool *woken)
-{
-	i2c_adapter->nack = true;
-	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_EVT | I2C_IT_BUF | I2C_IT_ERR, DISABLE);
-	I2C_AcknowledgeConfig(i2c_adapter->cfg->regs, DISABLE);
-	I2C_GenerateSTOP(i2c_adapter->cfg->regs, ENABLE);
 }
 
 static void i2c_adapter_inject_event(struct pios_i2c_adapter *i2c_adapter, enum i2c_adapter_event event, bool *woken)
 {
-	PIOS_IRQ_Disable();
-
 #if defined(PIOS_I2C_DIAGNOSTICS)
 	i2c_adapter->i2c_state_event_history[i2c_adapter->i2c_state_event_history_pointer] = event;
 	i2c_adapter->i2c_state_event_history_pointer = (i2c_adapter->i2c_state_event_history_pointer + 1) % I2C_LOG_DEPTH;
 
-	i2c_adapter->i2c_state_history[i2c_adapter->i2c_state_history_pointer] = i2c_adapter->curr_state;
+	i2c_adapter->i2c_state_history[i2c_adapter->i2c_state_history_pointer] = i2c_adapter->state;
 	i2c_adapter->i2c_state_history_pointer = (i2c_adapter->i2c_state_history_pointer + 1) % I2C_LOG_DEPTH;
 
-	if (i2c_adapter_transitions[i2c_adapter->curr_state].next_state[event] == I2C_STATE_FSM_FAULT)
+	if (i2c_adapter_transitions[i2c_adapter->state].next_state[event] == I2C_STATE_FSM_FAULT)
 		i2c_adapter_log_fault(i2c_adapter, PIOS_I2C_ERROR_FSM);
 #endif
 	/*
 	 * Move to the next state
-	 *
-	 * This is done prior to calling the new state's entry function to
-	 * guarantee that the entry function never depends on the previous
-	 * state.  This way, it cannot ever know what the previous state was.
 	 */
-	enum i2c_adapter_state prev_state = i2c_adapter->curr_state;
-	if (prev_state) ;
-
-	i2c_adapter->curr_state = i2c_adapter_transitions[i2c_adapter->curr_state].next_state[event];
+	i2c_adapter->state = i2c_adapter_transitions[i2c_adapter->state].next_state[event];
 
 	/* Call the entry function (if any) for the next state. */
-	if (i2c_adapter_transitions[i2c_adapter->curr_state].entry_fn) {
-		i2c_adapter_transitions[i2c_adapter->curr_state].entry_fn(i2c_adapter, woken);
+	if (i2c_adapter_transitions[i2c_adapter->state].entry_fn) {
+		i2c_adapter_transitions[i2c_adapter->state].entry_fn(i2c_adapter, woken);
 	}
 
 	/* Process any AUTO transitions in the FSM */
-	i2c_adapter_process_auto(i2c_adapter, woken);
+	while (i2c_adapter_transitions[i2c_adapter->state].next_state[I2C_EVENT_AUTO]) {
 
-	PIOS_IRQ_Enable();
-}
+#if defined(PIOS_I2C_DIAGNOSTICS)
+		i2c_adapter->i2c_state_history[i2c_adapter->i2c_state_history_pointer] = i2c_adapter->state;
+		i2c_adapter->i2c_state_history_pointer = (i2c_adapter->i2c_state_history_pointer + 1) % I2C_LOG_DEPTH;
+#endif
 
-static void i2c_adapter_process_auto(struct pios_i2c_adapter *i2c_adapter, bool *woken)
-{
-	PIOS_IRQ_Disable();
-
-	enum i2c_adapter_state prev_state = i2c_adapter->curr_state;
-	if (prev_state) ;
-
-	while (i2c_adapter_transitions[i2c_adapter->curr_state].next_state[I2C_EVENT_AUTO]) {
-		i2c_adapter->curr_state = i2c_adapter_transitions[i2c_adapter->curr_state].next_state[I2C_EVENT_AUTO];
+		i2c_adapter->state = i2c_adapter_transitions[i2c_adapter->state].next_state[I2C_EVENT_AUTO];
 
 		/* Call the entry function (if any) for the next state. */
-		if (i2c_adapter_transitions[i2c_adapter->curr_state].entry_fn) {
-			i2c_adapter_transitions[i2c_adapter->curr_state].entry_fn(i2c_adapter, woken);
+		if (i2c_adapter_transitions[i2c_adapter->state].entry_fn) {
+			i2c_adapter_transitions[i2c_adapter->state].entry_fn(i2c_adapter, woken);
 		}
 	}
-
-	PIOS_IRQ_Enable();
 }
 
 static void i2c_adapter_fsm_init(struct pios_i2c_adapter *i2c_adapter)
 {
 	i2c_adapter_reset_bus(i2c_adapter);
-	i2c_adapter->curr_state = I2C_STATE_STOPPED;
-}
-
-static bool i2c_adapter_wait_for_stopped(struct pios_i2c_adapter *i2c_adapter)
-{
-	uint32_t guard;
-
-	/*
-	 * Wait for the bus to return to the stopped state.
-	 * This was pulled out of the FSM due to occasional
-	 * failures at this transition which previously resulted
-	 * in spinning on this bit in the ISR forever.
-	 */
-	for (guard = 1e6;	/* FIXME: should use the configured bus timeout */
-		guard && (i2c_adapter->cfg->regs->CR1 & I2C_CR1_STOP); guard--)
-		continue;
-	if (!guard) {
-		/* We timed out waiting for the stop condition */
-		return false;
-	}
-
-	return true;
+	i2c_adapter->state = I2C_STATE_STOPPED;
 }
 
 static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 {
-	static uint8_t retry_count = 0;
-	static uint8_t retry_count_clk = 0;
+	uint8_t retry_count = 0;
+	uint8_t retry_count_clk = 0;
+	static const uint8_t MAX_I2C_RETRY_COUNT = 10;
+
 	/* Reset the I2C block */
 	I2C_DeInit(i2c_adapter->cfg->regs);
 
@@ -703,9 +619,9 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 	GPIO_Init(i2c_adapter->cfg->sda.gpio, &sda_gpio_init);
 
 	/* Check SDA line to determine if slave is asserting bus and clock out if so, this may  */
-	/* have to be repeated (due to futher bus errors) but better than clocking 0xFF into an */
+	/* have to be repeated (due to further bus errors) but better than clocking 0xFF into an */
 	/* ESC */
-	//bool sda_hung = GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) == Bit_RESET;
+
 	retry_count_clk = 0;
 	while (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) == Bit_RESET &&
 		(retry_count_clk++ < MAX_I2C_RETRY_COUNT)) {
@@ -749,7 +665,6 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 			retry_count++ < MAX_I2C_RETRY_COUNT)
 		PIOS_DELAY_WaituS(1);
 
-
 	/* Bus signals are guaranteed to be high (ie. free) after this point */
 	/* Initialize the GPIO pins to the peripheral function */
 	if (i2c_adapter->cfg->remap) {
@@ -776,25 +691,13 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 	}
 }
 
-/* Return true if the FSM is in a terminal state */
-static bool i2c_adapter_fsm_terminated(struct pios_i2c_adapter *i2c_adapter)
-{
-	switch (i2c_adapter->curr_state) {
-	case I2C_STATE_STOPPING:
-	case I2C_STATE_STOPPED:
-		return (true);
-	default:
-		return (false);
-	}
-}
-
 /**
  * Logs the last N state transitions and N IRQ events due to
  * an error condition
  * \param[in] i2c the adapter number to log an event for
  */
 #if defined(PIOS_I2C_DIAGNOSTICS)
-void i2c_adapter_log_fault(struct pios_i2c_adapter *i2c_adapter, enum pios_i2c_error_type type)
+static void i2c_adapter_log_fault(struct pios_i2c_adapter *i2c_adapter, enum pios_i2c_error_type type)
 {
 	i2c_adapter->i2c_adapter_fault_history.type = type;
 	for (uint8_t i = 0; i < I2C_LOG_DEPTH; i++) {
@@ -823,29 +726,31 @@ void i2c_adapter_log_fault(struct pios_i2c_adapter *i2c_adapter, enum pios_i2c_e
 
 static bool PIOS_I2C_validate(struct pios_i2c_adapter *i2c_adapter)
 {
-	return (i2c_adapter->magic == PIOS_I2C_DEV_MAGIC);
+	return i2c_adapter->magic == PIOS_I2C_DEV_MAGIC;
 }
 
-static struct pios_i2c_adapter pios_i2c_adapters[PIOS_I2C_MAX_DEVS];
-static uint8_t pios_i2c_num_adapters;
 static struct pios_i2c_adapter *PIOS_I2C_alloc(void)
 {
 	struct pios_i2c_adapter *i2c_adapter;
 
-	if (pios_i2c_num_adapters >= PIOS_I2C_MAX_DEVS) {
-		return (NULL);
-	}
+	i2c_adapter =  PIOS_malloc(sizeof(struct pios_i2c_adapter));
 
-	i2c_adapter = &pios_i2c_adapters[pios_i2c_num_adapters++];
+	if (i2c_adapter == NULL)
+		return NULL;
+
+	// init all to zero
+	memset(i2c_adapter, 0, sizeof(*i2c_adapter));
+
+	// set magic
 	i2c_adapter->magic = PIOS_I2C_DEV_MAGIC;
 
-	return (i2c_adapter);
+	return i2c_adapter;
 }
 
 /**
 * Initializes IIC driver
 * \param[in] mode currently only mode 0 supported
-* \return < 0 if initialisation failed
+* \return < 0 if initialization failed
 */
 int32_t PIOS_I2C_Init(uint32_t *i2c_id, const struct pios_i2c_adapter_cfg *cfg)
 {
@@ -854,8 +759,9 @@ int32_t PIOS_I2C_Init(uint32_t *i2c_id, const struct pios_i2c_adapter_cfg *cfg)
 
 	struct pios_i2c_adapter *i2c_adapter;
 
-	i2c_adapter = (struct pios_i2c_adapter *) PIOS_I2C_alloc();
-	if (!i2c_adapter) goto out_fail;
+	i2c_adapter = (struct pios_i2c_adapter*)PIOS_I2C_alloc();
+	if (i2c_adapter == NULL)
+		return -1;
 
 	/* Bind the configuration to the device instance */
 	i2c_adapter->cfg = cfg;
@@ -874,9 +780,6 @@ int32_t PIOS_I2C_Init(uint32_t *i2c_id, const struct pios_i2c_adapter_cfg *cfg)
 
 	/* No error */
 	return 0;
-
-out_fail:
-	return (-1);
 }
 
 /**
@@ -895,7 +798,7 @@ int32_t PIOS_I2C_CheckClear(uint32_t i2c_id)
 	if (PIOS_Semaphore_Take(i2c_adapter->sem_busy, 0) == false)
 		return -1;
 
-	if (i2c_adapter->curr_state != I2C_STATE_STOPPED) {
+	if (i2c_adapter->state != I2C_STATE_STOPPED) {
 		PIOS_Semaphore_Give(i2c_adapter->sem_busy);
 		return -2;
 	}
@@ -924,16 +827,13 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 	if (PIOS_Semaphore_Take(i2c_adapter->sem_busy, i2c_adapter->cfg->transfer_timeout_ms) == false)
 		return -2;
 
-	PIOS_DEBUG_Assert(i2c_adapter->curr_state == I2C_STATE_STOPPED);
-
-	i2c_adapter->first_txn = &txn_list[0];
+	i2c_adapter->active_txn = &txn_list[0];
 	i2c_adapter->last_txn = &txn_list[num_txns - 1];
-	i2c_adapter->active_txn = i2c_adapter->first_txn;
 
 	/* Make sure the done/ready semaphore is consumed before we start */
-	semaphore_success &= (PIOS_Semaphore_Take(i2c_adapter->sem_ready, i2c_adapter->cfg->transfer_timeout_ms) == true);
+	semaphore_success = semaphore_success &&
+		(PIOS_Semaphore_Take(i2c_adapter->sem_ready, i2c_adapter->cfg->transfer_timeout_ms) == true);
 
-	i2c_adapter->callback = NULL;
 	i2c_adapter->bus_error = false;
 	i2c_adapter->nack = false;
 
@@ -941,16 +841,15 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 	i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_START, &dummy);
 
 	/* Wait for the transfer to complete */
-	semaphore_success &= (PIOS_Semaphore_Take(i2c_adapter->sem_ready, i2c_adapter->cfg->transfer_timeout_ms) == true);
+	semaphore_success = semaphore_success &&
+		(PIOS_Semaphore_Take(i2c_adapter->sem_ready, i2c_adapter->cfg->transfer_timeout_ms) == true);
 	PIOS_Semaphore_Give(i2c_adapter->sem_ready);
 
-	/* Spin waiting for the transfer to finish */
-	while (!i2c_adapter_fsm_terminated(i2c_adapter)) ;
-
-	if (i2c_adapter_wait_for_stopped(i2c_adapter)) {
-		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_STOPPED, &dummy);
-	} else {
+	// handle fsm timeout
+	if (i2c_adapter->state != I2C_STATE_STOPPED) {
+		PIOS_IRQ_Disable();
 		i2c_adapter_fsm_init(i2c_adapter);
+		PIOS_IRQ_Enable();
 	}
 
 	PIOS_Semaphore_Give(i2c_adapter->sem_busy);
@@ -966,45 +865,15 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 		0;
 }
 
-int32_t PIOS_I2C_Transfer_Callback(uint32_t i2c_id, const struct pios_i2c_txn txn_list[], uint32_t num_txns, void *callback)
-{
-	struct pios_i2c_adapter *i2c_adapter = (struct pios_i2c_adapter *)i2c_id;
-
-	bool valid = PIOS_I2C_validate(i2c_adapter);
-	PIOS_Assert(valid)
-	PIOS_Assert(callback);
-
-	PIOS_DEBUG_Assert(txn_list);
-	PIOS_DEBUG_Assert(num_txns);
-
-	bool semaphore_success = true;
-
-	if (PIOS_Semaphore_Take(i2c_adapter->sem_busy, i2c_adapter->cfg->transfer_timeout_ms) == false)
-		return -2;
-
-	PIOS_DEBUG_Assert(i2c_adapter->curr_state == I2C_STATE_STOPPED);
-
-	i2c_adapter->first_txn = &txn_list[0];
-	i2c_adapter->last_txn = &txn_list[num_txns - 1];
-	i2c_adapter->active_txn = i2c_adapter->first_txn;
-	i2c_adapter->callback = callback;
-	i2c_adapter->bus_error = false;
-
-	bool dummy = false;
-	i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_START, &dummy);
-
-	return !semaphore_success ? -2 : 0;
-}
-
 void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 {
 	struct pios_i2c_adapter *i2c_adapter = (struct pios_i2c_adapter *)i2c_id;
 
-	bool valid = PIOS_I2C_validate(i2c_adapter);
-	PIOS_Assert(valid)
+	PIOS_Assert(PIOS_I2C_validate(i2c_adapter) == true)
 
 	bool woken = false;
 
+	// reading the event clears the interrupt flags
 	uint32_t event = I2C_GetLastEvent(i2c_adapter->cfg->regs);
 
 #if defined(PIOS_I2C_DIAGNOSTICS)
@@ -1013,48 +882,26 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 	i2c_adapter->i2c_evirq_history_pointer = (i2c_adapter->i2c_evirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 
-#define EVENT_MASK 0x000700FF
-	event &= EVENT_MASK;
-
-	// This is very poor and inconsistent practice with the FSM since no other
-	// throw event depends on the current state.  However when accelerated (-Os)
-	// we definitely catch this event twice and there is no clean way to do deal
-	// with that in the FMS short of a special state for it
-	if (i2c_adapter->curr_state == I2C_STATE_STARTING && event == 0x70084)
-		return;
-
-	switch (event) { /* Mask out all the bits we don't care about */
-	case (I2C_EVENT_MASTER_MODE_SELECT | 0x40):
-		/* Unexplained event: EV5 + RxNE : Extraneous Rx.  Probably a late NACK from previous read. */
-		/* Clean up the extra Rx until the root cause is identified and just keep going */
-		(void)I2C_ReceiveData(i2c_adapter->cfg->regs);
-		/* Fall through */
+	switch (event) {
 	case I2C_EVENT_MASTER_MODE_SELECT:	/* EV5 */
 		switch (i2c_adapter->active_txn->rw) {
 		case PIOS_I2C_TXN_READ:
 			if (i2c_adapter->active_txn == i2c_adapter->last_txn) {
 				/* Final transaction */
-				i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_STARTED_LAST_TXN_READ, &woken);
-			} else if (i2c_adapter->active_txn < i2c_adapter->last_txn) {
-				/* More transactions follow */
-				i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_STARTED_MORE_TXN_READ, &woken);
+				i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_R_LAST_TXN_STARTED, &woken);
 			} else {
-				PIOS_DEBUG_Assert(0);
+				/* More transactions follow */
+				i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_R_MORE_TXN_STARTED, &woken);
 			}
 			break;
 		case PIOS_I2C_TXN_WRITE:
 			if (i2c_adapter->active_txn == i2c_adapter->last_txn) {
 				/* Final transaction */
-				i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_STARTED_LAST_TXN_WRITE, &woken);
-			} else if (i2c_adapter->active_txn < i2c_adapter->last_txn) {
-				/* More transactions follow */
-				i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_STARTED_MORE_TXN_WRITE, &woken);
+				i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_W_LAST_TXN_STARTED, &woken);
 			} else {
-				PIOS_DEBUG_Assert(0);
+				/* More transactions follow */
+				i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_W_MORE_TXN_STARTED, &woken);
 			}
-			break;
-		default:
-			PIOS_DEBUG_Assert(0);
 			break;
 		}
 		break;
@@ -1075,20 +922,8 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 			break;
 		}
 		break;
-	case 0x80:		/* TxE only.  TRA + MSL + BUSY have been cleared before we got here. */
-		/* Ignore */
-	{
-		static volatile bool halt = false;
-		while (halt) ;
-	}
-	break;
-	case 0:			/* This triggers an FSM fault sometimes, but not having it stops things working */
-	case 0x40:		/* RxNE only.  MSL + BUSY have already been cleared by HW. */
-	case 0x44:		/* RxNE + BTF.  MSL + BUSY have already been cleared by HW. */
 	case I2C_EVENT_MASTER_BYTE_RECEIVED:	/* EV7 */
-	case (I2C_EVENT_MASTER_BYTE_RECEIVED | 0x4):	/* EV7 + BTF */
 	case I2C_EVENT_MASTER_BYTE_TRANSMITTED:	/* EV8_2 */
-	case 0x84:		/* TxE + BTF. EV8_2 but TRA + MSL + BUSY have already been cleared by HW. */
 		switch (i2c_adapter->last_byte - i2c_adapter->active_byte + 1) {
 		case 0:
 			i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_TRANSFER_DONE_LEN_EQ_0, &woken);
@@ -1105,32 +940,21 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 		}
 		break;
 	case I2C_EVENT_MASTER_BYTE_TRANSMITTING:	/* EV8 */
-		/* Ignore this event and wait for TRANSMITTED in case we can't keep up */
-		goto skip_event;
-		break;
-	case 0x30084: /* Occurs between byte tranmistted and master mode selected */
-	case 0x30000: /* Need to throw away this spurious event */
-	case 0x30403 & EVENT_MASK: /* Detected this after got a NACK, probably stop bit */
-		goto skip_event;
+		// This event is being ignored. It may be used to speed up transfer by reloading data buffer earlier.
 		break;
 	default:
 #if defined(PIOS_I2C_DIAGNOSTICS)
 		i2c_adapter_log_fault(i2c_adapter, PIOS_I2C_ERROR_EVENT);
 #endif
-#if defined(I2C_HALT_ON_ERRORS)
-		PIOS_DEBUG_Assert(0);
-#endif
+
 		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_BUS_ERROR, &woken);
 		break;
 	}
 
-skip_event:
-
-#ifdef USE_FREERTOS
+#if defined(PIOS_INCLUDE_FREERTOS)
 	portEND_SWITCHING_ISR(woken == true ? pdTRUE : pdFALSE);
 #endif
 }
-
 
 void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
 {
@@ -1143,28 +967,37 @@ void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
 
 	uint32_t event = I2C_GetLastEvent(i2c_adapter->cfg->regs);
 
+	// clear all flags
+	I2C_ClearFlag(i2c_adapter->cfg->regs,
+		I2C_FLAG_SMBALERT |
+		I2C_FLAG_TIMEOUT |
+		I2C_FLAG_PECERR |
+		I2C_FLAG_OVR |
+		I2C_FLAG_AF |
+		I2C_FLAG_ARLO |
+		I2C_FLAG_BERR);
+
 #if defined(PIOS_I2C_DIAGNOSTICS)
 	i2c_adapter->i2c_erirq_history[i2c_adapter->i2c_erirq_history_pointer] = event;
 	i2c_adapter->i2c_erirq_history_pointer = (i2c_adapter->i2c_erirq_history_pointer + 1) % I2C_LOG_DEPTH;
 #endif
 
+	// explicitly handle NACK
 	if (event & I2C_FLAG_AF) {
 #if defined(PIOS_I2C_DIAGNOSTICS)
 		i2c_adapter->i2c_nack_counter++;
 #endif
-
-		I2C_ClearFlag(i2c_adapter->cfg->regs, I2C_FLAG_AF);
-
 		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_NACK, &woken);
 	} else { /* Mostly bus errors here */
 #if defined(PIOS_I2C_DIAGNOSTICS)
 		i2c_adapter_log_fault(i2c_adapter, PIOS_I2C_ERROR_INTERRUPT);
 #endif
+
 		/* Fail hard on any errors for now */
 		i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_BUS_ERROR, &woken);
 	}
 
-#ifdef USE_FREERTOS
+#if defined(PIOS_INCLUDE_FREERTOS)
 	portEND_SWITCHING_ISR(woken == true ? pdTRUE : pdFALSE);
 #endif
 }

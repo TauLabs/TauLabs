@@ -49,7 +49,7 @@ void qsspt::run()
     }
 
 }
-bool qsspt::sendData(uint8_t * buf,uint16_t size)
+bool qsspt::sendData(quint8 * buf,quint16 size)
 {
     if(datapending)
         return false;
@@ -64,7 +64,7 @@ bool qsspt::sendData(uint8_t * buf,uint16_t size)
     return true;
 }
 
-void qsspt::pfCallBack( uint8_t * buf, uint16_t size)
+void qsspt::pfCallBack( quint8 * buf, quint16 size)
 {
      if (debug)
          qDebug()<<"receive callback"<<buf[0]<<buf[1]<<buf[2]<<buf[3]<<buf[4]<<"array size="<<queue.count();
@@ -91,7 +91,7 @@ int qsspt::read_Packet(void * data)
         return -1;
     }
     QByteArray arr=queue.dequeue();
-    memcpy(data,(uint8_t*)arr.data(),arr.length());
+    memcpy(data,(quint8*)arr.data(),arr.length());
     mutex.unlock();
     return arr.length();
 }

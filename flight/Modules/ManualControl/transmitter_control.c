@@ -99,9 +99,9 @@ static void update_path_desired(ManualControlCommandData * cmd, bool flightModeC
 static void set_flight_mode();
 static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
-static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
+static float scaleChannel(uint16_t value, uint16_t max, uint16_t min, uint16_t neutral);
 static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time);
-static bool validInputRange(int16_t min, int16_t max, uint16_t value, uint16_t offset);
+static bool validInputRange(uint16_t min, uint16_t max, uint16_t value, uint16_t offset);
 static void applyDeadband(float *value, float deadband);
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm);
 static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm);
@@ -766,6 +766,17 @@ static void update_actuator_desired(ManualControlCommandData * cmd)
 	ActuatorDesiredSet(&actuator);
 }
 
+/**
+ * Approximation an exponential scale curve
+ * @param[in] x   input from [-1,1]
+ * @param[in] g   sets the exponential amount [0,100]
+ * @return  rescaled input
+ */
+static float expo3(float x, int32_t g)
+{
+	return (x * ((100 - g) / 100.0f) + powf(x, 3) * (g / 100.0f));
+}
+
 //! In stabilization mode, set stabilization desired
 static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings)
 {
@@ -802,43 +813,37 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	stabilization.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW]   = stab_settings[2];
 
 	stabilization.Roll = (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Roll :
-	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? /* apply expo to rate mode */
-	         ((cmd->Roll * ((100.0f - stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) / 100.0f)) +
-	          (powf(cmd->Roll, 3) *  stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) / 100.0f) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
-	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? cmd->Roll * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL]:
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Roll * stabSettings.RollMax :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Roll * stabSettings.RollMax :
-	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? cmd->Roll * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Roll :
-	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? cmd->Roll * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Roll * stabSettings.RollMax :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Roll :
 	     0; // this is an invalid mode
 
 	stabilization.Pitch = (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Pitch :
-	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? /* apply expo to rate mode */
-	         ((cmd->Pitch * ((100.0f - stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) / 100.0f)) +
-	          (powf(cmd->Pitch, 3) *  stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) / 100.0f) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
-	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? cmd->Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Pitch * stabSettings.PitchMax :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Pitch * stabSettings.PitchMax :
-	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? cmd->Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Pitch :
-	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? cmd->Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Pitch * stabSettings.PitchMax :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Pitch :
 	     0; // this is an invalid mode
 
 	stabilization.Yaw = (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Yaw :
-	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? /* apply expo to rate mode */
-	         ((cmd->Yaw * ((100.0f - stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) / 100.0f)) +
-	          (powf(cmd->Yaw, 3) *  stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) / 100.0f) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
-	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? cmd->Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Yaw * stabSettings.YawMax :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Yaw * stabSettings.YawMax :
-	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? cmd->Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Yaw :
-	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? cmd->Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Yaw * stabSettings.YawMax :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Yaw :
 	     0; // this is an invalid mode
@@ -972,7 +977,7 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 /**
  * Convert channel from servo pulse duration (microseconds) to scaled -1/+1 range.
  */
-static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral)
+static float scaleChannel(uint16_t value, uint16_t max, uint16_t min, uint16_t neutral)
 {
 	float valueScaled;
 
@@ -1010,11 +1015,11 @@ static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time)
  * @brief Determine if the manual input value is within acceptable limits
  * @returns return TRUE if so, otherwise return FALSE
  */
-bool validInputRange(int16_t min, int16_t max, uint16_t value, uint16_t offset)
+bool validInputRange(uint16_t min, uint16_t max, uint16_t value, uint16_t offset)
 {
 	if (min > max)
 	{
-		int16_t tmp = min;
+		uint16_t tmp = min;
 		min = max;
 		max = tmp;
 	}

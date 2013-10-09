@@ -39,7 +39,7 @@ Item {
     // GPS status text
     Text {
         id: gps_text
-        text: "GPS: " + GPSPosition.Satellites + "\nPDP: " + GPSPosition.PDOP
+        text: "GPS: " + GPSPosition.Satellites + "\nPDP: " + GPSPosition.PDOP.toFixed(2)
         color: "white"
         font.family: "Arial"
         font.pixelSize: telemetry_status.height * 0.75

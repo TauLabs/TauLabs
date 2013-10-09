@@ -39,7 +39,6 @@
 
 #include "mixersettings.h"
 
-
 const QString ConfigMultiRotorWidget::CHANNELBOXNAME = QString("multiMotorChannelBox");
 
 
@@ -1077,5 +1076,3 @@ bool ConfigMultiRotorWidget::throwConfigError(int numMotors)
     }
     return error;
 }
-
-

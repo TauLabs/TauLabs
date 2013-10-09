@@ -185,7 +185,7 @@ bool PathFillet::processPath(FlightDataModel *model)
 
                 // New segment: Vector perpendicular to the vector from arc center to tangent point
                 bool clockwise = curvature > 0;
-                int8_t lambda;
+                qint8 lambda;
 
                 if ((clockwise == true)) { // clockwise
                     lambda = 1;
@@ -206,7 +206,7 @@ bool PathFillet::processPath(FlightDataModel *model)
                 // Old segment: Vector perpendicular to the vector from arc center to tangent point
                 bool clockwise = previous_curvature > 0;
                 bool minor = true;
-                int8_t lambda;
+                qint8 lambda;
 
                 if ((clockwise == true && minor == true) ||
                         (clockwise == false && minor == false)) { //clockwise minor OR counterclockwise major
@@ -233,7 +233,7 @@ bool PathFillet::processPath(FlightDataModel *model)
                 // Old segment: Vector perpendicular to the vector from arc center to tangent point
                 bool clockwise = previous_curvature > 0;
                 bool minor = true;
-                int8_t lambda;
+                qint8 lambda;
 
                 if ((clockwise == true && minor == true) ||
                         (clockwise == false && minor == false)) { //clockwise minor OR counterclockwise major

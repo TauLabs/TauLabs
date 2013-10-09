@@ -73,7 +73,7 @@ void ModelUavoProxy::modelToObjects()
         Waypoint *wp = NULL;
 
         // Get the number of existing waypoints
-        int instances=objManager->getNumInstances(Waypoint::OBJID);
+        int instances = Waypoint::getNumInstances(objManager);
 
         // Create new instances of waypoints if this is more than exist
         if(x>instances-1)
@@ -176,8 +176,7 @@ void ModelUavoProxy::objectsToModel()
     double LLA[3];
 
     myModel->removeRows(0,myModel->rowCount());
-    for(int x=0;x<objManager->getNumInstances(waypointObj->getObjID());++x)
-    {
+    for(int x=0; x < Waypoint::getNumInstances(objManager) ; ++x) {
         Waypoint * wp;
         Waypoint::DataFields wpfields;
 

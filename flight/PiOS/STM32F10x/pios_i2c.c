@@ -43,28 +43,6 @@
 //#define I2C_HALT_ON_ERRORS
 #define MAX_I2C_RETRY_COUNT 10
 
-enum i2c_adapter_event {
-	I2C_EVENT_BUS_ERROR,
-	I2C_EVENT_START,
-	I2C_EVENT_STARTED_MORE_TXN_READ,
-	I2C_EVENT_STARTED_MORE_TXN_WRITE,
-	I2C_EVENT_STARTED_LAST_TXN_READ,
-	I2C_EVENT_STARTED_LAST_TXN_WRITE,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_0,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_1,
-	I2C_EVENT_ADDR_SENT_LEN_EQ_2,
-	I2C_EVENT_ADDR_SENT_LEN_GT_2,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_0,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_1,
-	I2C_EVENT_TRANSFER_DONE_LEN_EQ_2,
-	I2C_EVENT_TRANSFER_DONE_LEN_GT_2,
-	I2C_EVENT_NACK,
-	I2C_EVENT_STOPPED,
-	I2C_EVENT_AUTO,		/* FIXME: remove this */
-
-	I2C_EVENT_NUM_EVENTS	/* Must be last */
-};
-
 static void go_fsm_fault(struct pios_i2c_adapter *i2c_adapter);
 static void go_bus_error(struct pios_i2c_adapter *i2c_adapter);
 static void go_stopping(struct pios_i2c_adapter *i2c_adapter);
@@ -384,7 +362,6 @@ static void go_stopped(struct pios_i2c_adapter *i2c_adapter)
 static void go_starting(struct pios_i2c_adapter *i2c_adapter)
 {
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
 
 	i2c_adapter->active_byte = &(i2c_adapter->active_txn->buf[0]);
@@ -405,7 +382,6 @@ static void go_starting(struct pios_i2c_adapter *i2c_adapter)
 static void go_r_any_txn_addr(struct pios_i2c_adapter *i2c_adapter)
 {
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
 
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn->rw == PIOS_I2C_TXN_READ);
@@ -486,7 +462,6 @@ static void go_r_any_txn_post_last(struct pios_i2c_adapter *i2c_adapter)
 	PIOS_DEBUG_Assert(i2c_adapter->active_byte);
 	PIOS_DEBUG_Assert(i2c_adapter->active_byte == i2c_adapter->last_byte);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
 
 	*(i2c_adapter->active_byte) = I2C_ReceiveData(i2c_adapter->cfg->regs);
@@ -502,7 +477,6 @@ static void go_r_any_txn_post_last(struct pios_i2c_adapter *i2c_adapter)
 static void go_w_any_txn_addr(struct pios_i2c_adapter *i2c_adapter)
 {
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
 
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn->rw == PIOS_I2C_TXN_WRITE);
@@ -515,7 +489,6 @@ static void go_w_any_txn_middle(struct pios_i2c_adapter *i2c_adapter)
 	PIOS_DEBUG_Assert(i2c_adapter->active_byte);
 	PIOS_DEBUG_Assert(i2c_adapter->active_byte < i2c_adapter->last_byte);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
 
 	I2C_SendData(i2c_adapter->cfg->regs, *(i2c_adapter->active_byte));
@@ -530,7 +503,6 @@ static void go_w_more_txn_last(struct pios_i2c_adapter *i2c_adapter)
 	PIOS_DEBUG_Assert(i2c_adapter->active_byte);
 	PIOS_DEBUG_Assert(i2c_adapter->active_byte == i2c_adapter->last_byte);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
 
 	I2C_SendData(i2c_adapter->cfg->regs, *(i2c_adapter->active_byte));
@@ -548,7 +520,6 @@ static void go_w_last_txn_last(struct pios_i2c_adapter *i2c_adapter)
 	PIOS_DEBUG_Assert(i2c_adapter->active_byte);
 	PIOS_DEBUG_Assert(i2c_adapter->active_byte == i2c_adapter->last_byte);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn);
-	PIOS_DEBUG_Assert(i2c_adapter->active_txn >= i2c_adapter->first_txn);
 	PIOS_DEBUG_Assert(i2c_adapter->active_txn <= i2c_adapter->last_txn);
 
 	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_BUF, DISABLE);
@@ -909,9 +880,8 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 
 	PIOS_DEBUG_Assert(i2c_adapter->curr_state == I2C_STATE_STOPPED);
 
-	i2c_adapter->first_txn = &txn_list[0];
 	i2c_adapter->last_txn = &txn_list[num_txns - 1];
-	i2c_adapter->active_txn = i2c_adapter->first_txn;
+	i2c_adapter->active_txn = &txn_list[0];
 
 	/* Make sure the done/ready semaphore is consumed before we start */
 	semaphore_success &= (PIOS_Semaphore_Take(i2c_adapter->sem_ready, i2c_adapter->cfg->transfer_timeout_ms) == true);

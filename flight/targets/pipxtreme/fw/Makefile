@@ -65,6 +65,7 @@ RSCODEINC = $(FLIGHTLIB)/rscode
 PIOSINC = $(PIOS)/inc
 PIOSSTM32F10X = $(PIOS)/STM32F10x
 PIOSCOMMON = $(PIOS)/Common
+PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 APPLIBDIR = $(PIOSSTM32F10X)/Libraries
 STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F10x_StdPeriph_Driver
@@ -116,13 +117,11 @@ SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
 SRC += $(OPUAVSYNTHDIR)/oplinkstatus.c
 SRC += $(OPUAVSYNTHDIR)/oplinksettings.c
 SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
-
 endif
 
 ## PIOS Hardware (STM32F10x)
 SRC += $(PIOSSTM32F10X)/pios_sys.c
 SRC += $(PIOSSTM32F10X)/pios_led.c
-SRC += $(PIOSSTM32F10X)/pios_delay.c
 SRC += $(PIOSSTM32F10X)/pios_usart.c
 SRC += $(PIOSSTM32F10X)/pios_irq.c
 SRC += $(PIOSSTM32F10X)/pios_flash_internal.c
@@ -150,6 +149,7 @@ SRC += $(PIOSCOMMON)/pios_usb_desc_hid_only.c
 SRC += $(PIOSCOMMON)/pios_usb_util.c
 
 ## PIOS Hardware (Common)
+SRC += $(PIOSCOMMON)/pios_delay.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_i2c_esc.c
@@ -173,7 +173,7 @@ SRC += $(FLIGHTLIB)/rscode/berlekamp.c
 SRC += $(FLIGHTLIB)/rscode/galois.c
 
 ## CMSIS for STM32
-SRC += $(CMSISDIR)/core_cm3.c
+include $(PIOSCOMMONLIB)/CMSIS3/library.mk
 SRC += $(BOARD_INFO_DIR)/cmsis_system.c
 
 ## Used parts of the STM-Library

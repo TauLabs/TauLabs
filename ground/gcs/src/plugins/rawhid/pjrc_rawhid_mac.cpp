@@ -217,7 +217,7 @@ int pjrc_rawhid::receive(int, void *buf, int len, int timeout)
 class Sender : public QThread
 {
 public:
-    Sender(IOHIDDeviceRef d, uint8_t * b, int l) :
+    Sender(IOHIDDeviceRef d, quint8 * b, int l) :
         result(-1), dev(d), buf(b), len(l) { }
 
     void run() {
@@ -229,7 +229,7 @@ public:
     IOReturn ret;
 private:
     IOHIDDeviceRef dev;
-    uint8_t * buf;
+    quint8 * buf;
     int len;
 };
 
@@ -252,7 +252,7 @@ int pjrc_rawhid::send(int, void *buf, int len, int timeout)
         return -1;
     }
 
-    uint8_t *report_buf = (uint8_t *) malloc(len);
+    quint8 *report_buf = (quint8 *) malloc(len);
     memcpy(&report_buf[0], buf,len);
 
     QEventLoop el;
@@ -318,7 +318,7 @@ void pjrc_rawhid::close(int)
  * @param[in] data The data buffer
  * @param[in] len The report length
  */
-void pjrc_rawhid::input(uint8_t *data, CFIndex len)
+void pjrc_rawhid::input(quint8 *data, CFIndex len)
 {
     if (!device_open)
         return;
@@ -333,7 +333,7 @@ void pjrc_rawhid::input(uint8_t *data, CFIndex len)
 }
 
 //! Callback for the HID driver on an input report
-void pjrc_rawhid::input_callback(void *c, IOReturn ret, void *sender, IOHIDReportType type, uint32_t id, uint8_t *data, CFIndex len)
+void pjrc_rawhid::input_callback(void *c, IOReturn ret, void *sender, IOHIDReportType type, quint32 id, quint8 *data, CFIndex len)
 {
     Q_UNUSED(sender);
     Q_UNUSED(type);

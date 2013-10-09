@@ -214,11 +214,11 @@ void ConfigOutputWidget::assignOutputChannels(UAVObject *obj)
         outputChannelForm->setAssignment(ChannelDesc[outputChannelForm->index()]);
 
         // init min,max,neutral
-        int minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
-        int maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
+        quint32 minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
+        quint32 maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
         outputChannelForm->setMinmax(minValue, maxValue);
 
-        int neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
+        quint32 neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
         outputChannelForm->setNeutral(neutral);
     }
 }
@@ -305,11 +305,11 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
     QList<OutputChannelForm*> outputChannelForms = findChildren<OutputChannelForm*>();
     foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
     {
-        int minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
-        int maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
+        quint32 minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
+        quint32 maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
         outputChannelForm->setMinmax(minValue, maxValue);
 
-        int neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
+        quint32 neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
         outputChannelForm->setNeutral(neutral);
     }
 }
@@ -356,7 +356,7 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
 void ConfigOutputWidget::openHelp()
 {
 
-    QDesktopServices::openUrl( QUrl("http://wiki.openpilot.org/x/WIGf", QUrl::StrictMode) );
+    QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Output-Configuration", QUrl::StrictMode) );
 }
 
 void ConfigOutputWidget::stopTests()

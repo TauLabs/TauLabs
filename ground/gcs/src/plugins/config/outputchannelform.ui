@@ -192,7 +192,7 @@ margin:1px;</string>
       <string>Minimum PWM value, beware of not overdriving your servo.</string>
      </property>
      <property name="maximum">
-      <number>9999</number>
+      <number>65535</number>
      </property>
     </widget>
    </item>
@@ -442,7 +442,7 @@ p, li { white-space: pre-wrap; }
       <string>Maximum PWM value, beware of not overdriving your servo.</string>
      </property>
      <property name="maximum">
-      <number>9999</number>
+      <number>65535</number>
      </property>
     </widget>
    </item>

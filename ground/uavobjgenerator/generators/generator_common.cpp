@@ -3,6 +3,7 @@
  *
  * @file       generator_common.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      common functions for generating uavobjects code
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -72,7 +73,7 @@ void replaceCommonTags(QString& out, ObjectInfo* info)
     // Replace $(ISSETTINGS) tag
     out.replace(QString("$(ISSETTINGS)"), boolTo01String( info->isSettings ));
     out.replace(QString("$(ISSETTINGSTF)"), boolToTRUEFALSEString( info->isSettings ));    
-    // Replace $(NUMBTES) tag
+    // Replace $(NUMBYTES) tag
     out.replace(QString("$(NUMBYTES)"), QString().setNum(info->numBytes));
     // Replace $(GCSACCESS) tag
     value = accessModeStr[info->gcsAccess];

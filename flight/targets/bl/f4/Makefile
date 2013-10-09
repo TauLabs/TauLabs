@@ -52,7 +52,6 @@ SRC += $(BLBOARDDIR)/pios_usb_board_data.c
 PIOS_DEVLIB			:=	$(PIOS)/STM32F4xx
 include $(PIOS_DEVLIB)/library.mk
 SRC	+=	$(PIOS_DEVLIB)/pios_bl_helper.c
-SRC	+=	$(PIOS_DEVLIB)/pios_delay.c
 SRC	+=	$(PIOS_DEVLIB)/pios_exti.c
 SRC	+=	$(PIOS_DEVLIB)/pios_flash_internal.c
 SRC	+=	$(PIOS_DEVLIB)/pios_gpio.c
@@ -74,6 +73,7 @@ LINKER_SCRIPTS_BL	 =	$(PIOS_DEVLIB)/link_STM32F4xx_BL_memory.ld \
 						$(PIOS_DEVLIB)/link_STM32F4xx_sections.ld
 
 ## PIOS Hardware (Common)
+SRC += $(PIOSCOMMON)/pios_delay.c
 SRC += $(PIOSCOMMON)/pios_board_info.c
 SRC += $(PIOSCOMMON)/pios_com_msg.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c

@@ -121,6 +121,7 @@ SRC += $(MATHLIB)/pid.c
 include $(PIOS)/STM32F4xx/library_fw.mk
 
 ## PIOS Hardware (Common)
+SRC += $(PIOSCOMMON)/pios_delay.c
 SRC += $(PIOSCOMMON)/pios_mpu6000.c
 SRC += $(PIOSCOMMON)/pios_gcsrcvr.c
 SRC += $(PIOSCOMMON)/pios_hmc5883.c

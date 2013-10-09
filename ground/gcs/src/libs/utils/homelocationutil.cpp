@@ -29,7 +29,7 @@
 
 #include "homelocationutil.h"
 
-#include <stdint.h>
+#include <qglobal.h>
 #include <QDebug>
 #include <QDateTime>
 

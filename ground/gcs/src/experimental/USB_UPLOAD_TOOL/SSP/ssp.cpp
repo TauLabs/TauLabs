@@ -71,7 +71,7 @@
 
 
 
-#include <stdint.h>
+#include <qglobal.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -90,16 +90,16 @@
 
 
 // Make larger sized integers from smaller sized integers
-#define MAKEWORD16( ub, lb )  ((uint16_t)0x0000 | ((uint16_t)(ub) << 8) | (uint16_t)(lb) )
-#define MAKEWORD32( uw, lw ) ((uint32_t)(0x0UL | ((uint32_t)(uw) << 16) | (uint32_t)(lw)) )
-#define MAKEWORD32B( b3, b2, b1, b0 ) ((uint32_t)((uint32_t)(b3)<< 24) | ((uint32_t)(b2)<<16) | ((uint32_t)(b1)<<8) | ((uint32_t)(b0) )
+#define MAKEWORD16( ub, lb )  ((quint16)0x0000 | ((quint16)(ub) << 8) | (quint16)(lb) )
+#define MAKEWORD32( uw, lw ) ((quint32)(0x0UL | ((quint32)(uw) << 16) | (quint32)(lw)) )
+#define MAKEWORD32B( b3, b2, b1, b0 ) ((quint32)((quint32)(b3)<< 24) | ((quint32)(b2)<<16) | ((quint32)(b1)<<8) | ((quint32)(b0) )
 
 
 // Used to extract smaller integers from larger sized intergers
-#define LOWERBYTE( w )        (uint8_t)((w) & 0x00ff )
-#define UPPERBYTE( w )        (uint8_t)(((w) & 0xff00) >> 8 )
-#define UPPERWORD(lw)         (uint16_t)(((lw) & 0xffff0000) >> 16 )
-#define LOWERWORD(lw)         (uint16_t)((lw) & 0x0000ffff)
+#define LOWERBYTE( w )        (quint8)((w) & 0x00ff )
+#define UPPERBYTE( w )        (quint8)(((w) & 0xff00) >> 8 )
+#define UPPERWORD(lw)         (quint16)(((lw) & 0xffff0000) >> 16 )
+#define LOWERWORD(lw)         (quint16)((lw) & 0x0000ffff)
 
 // Macros to operate on a target and bitmask.
 #define CLEARBIT( a, b )  ((a) = (a) & ~(b))
@@ -112,17 +112,17 @@
 
 /** PRIVATE FUNCTIONS **/
 //static void   	sf_SendSynchPacket( Port_t *thisport );
-static uint16_t sf_crc16( uint16_t crc, uint8_t data );
-static void   	sf_write_byte( Port_t *thisport, uint8_t c );
+static quint16 sf_crc16( quint16 crc, quint8 data );
+static void   	sf_write_byte( Port_t *thisport, quint8 c );
 static void   	sf_SetSendTimeout( Port_t *thisport );
-static uint16_t sf_CheckTimeout( Port_t *thisport );
-static int16_t 	sf_DecodeState( Port_t *thisport, uint8_t c );
-static int16_t 	sf_ReceiveState( Port_t *thisport, uint8_t c );
+static quint16 sf_CheckTimeout( Port_t *thisport );
+static qint16 	sf_DecodeState( Port_t *thisport, quint8 c );
+static qint16 	sf_ReceiveState( Port_t *thisport, quint8 c );
 
 static void   	sf_SendPacket( Port_t *thisport );
-static void   	sf_SendAckPacket( Port_t *thisport, uint8_t seqNumber);
-static void     sf_MakePacket( uint8_t *buf, const uint8_t * pdata, uint16_t length, uint8_t seqNo );
-static int16_t 	sf_ReceivePacket(Port_t *thisport);
+static void   	sf_SendAckPacket( Port_t *thisport, quint8 seqNumber);
+static void     sf_MakePacket( quint8 *buf, const quint8 * pdata, quint16 length, quint8 seqNo );
+static qint16 	sf_ReceivePacket(Port_t *thisport);
 
 /* Flag bit masks...*/
 #define SENT_SYNCH		(0x01)
@@ -134,7 +134,7 @@ static int16_t 	sf_ReceivePacket(Port_t *thisport);
 #define SSP_IDLE			2
 
 /** PRIVATE DATA **/
-static const uint16_t CRC_TABLE[] = {
+static const quint16 CRC_TABLE[] = {
     0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241,
     0xC601, 0x06C0, 0x0780, 0xC741, 0x0500, 0xC5C1, 0xC481, 0x0440,
     0xCC01, 0x0CC0, 0x0D80, 0xCD41, 0x0F00, 0xCFC1, 0xCE81, 0x0E40,
@@ -219,9 +219,9 @@ void ssp_Init( Port_t *thisport, const PortConfig_t* const info)
  * \note
  *
  */
-int16_t ssp_SendProcess( Port_t *thisport )
+qint16 ssp_SendProcess( Port_t *thisport )
 {
-	int16_t value = SSP_TX_WAITING;
+	qint16 value = SSP_TX_WAITING;
 
 	if (thisport->SendState == SSP_AWAITING_ACK ) {
 		if (sf_CheckTimeout(thisport) == TRUE) {
@@ -258,10 +258,10 @@ int16_t ssp_SendProcess( Port_t *thisport )
  * \note
  *
  */
-int16_t ssp_ReceiveProcess(Port_t *thisport)
+qint16 ssp_ReceiveProcess(Port_t *thisport)
 {
-	int16_t b;
-	int16_t packet_status = SSP_RX_IDLE;
+	qint16 b;
+	qint16 packet_status = SSP_RX_IDLE;
 
 	do {
 		b = thisport->pfSerialRead(); // attempt to read a char from the serial buffer
@@ -282,10 +282,10 @@ int16_t ssp_ReceiveProcess(Port_t *thisport)
  *
  */
 
-int16_t	ssp_ReceiveByte(Port_t *thisport )
+qint16	ssp_ReceiveByte(Port_t *thisport )
 {
-    int16_t b;
-    int16_t packet_status = SSP_RX_IDLE;
+    qint16 b;
+    qint16 packet_status = SSP_RX_IDLE;
 
     b = thisport->pfSerialRead();
     if( b != -1 ) {
@@ -305,10 +305,10 @@ int16_t	ssp_ReceiveByte(Port_t *thisport )
  * \note
  *
  */
-uint16_t   ssp_SendDataBlock( Port_t *thisport, uint8_t *data, uint16_t length )
+quint16   ssp_SendDataBlock( Port_t *thisport, quint8 *data, quint16 length )
 {
-    int16_t    packet_status = SSP_TX_WAITING;
-    uint16_t   retval = FALSE;
+    qint16    packet_status = SSP_TX_WAITING;
+    quint16   retval = FALSE;
 
     packet_status = ssp_SendData( thisport, data, length );		// send the data
 	while( packet_status == SSP_TX_WAITING )  {					// check the status
@@ -335,10 +335,10 @@ uint16_t   ssp_SendDataBlock( Port_t *thisport, uint8_t *data, uint16_t length )
  * \note
  *
  */
-int16_t ssp_SendData( Port_t *thisport, const uint8_t *data, const uint16_t length )
+qint16 ssp_SendData( Port_t *thisport, const quint8 *data, const quint16 length )
 {
 
-    int16_t value = SSP_TX_WAITING;
+    qint16 value = SSP_TX_WAITING;
 
     if( (length + 2) > thisport->txBufSize ) {
         // TRYING to send too much data.
@@ -404,10 +404,10 @@ int16_t ssp_SendData( Port_t *thisport, const uint8_t *data, const uint16_t leng
  * 		if number of tries exceed maximum try limit then exit
  * C. goto A
  */
-uint16_t ssp_Synchronise( Port_t *thisport )
+quint16 ssp_Synchronise( Port_t *thisport )
 {
-    int16_t     packet_status;
-    uint16_t    retval = FALSE;
+    qint16     packet_status;
+    quint16    retval = FALSE;
 
 #ifndef USE_SENDPACKET_DATA
     thisport->txSeqNo = 0;                        // make this zero to cause the other end to re-synch with us
@@ -454,11 +454,11 @@ uint16_t ssp_Synchronise( Port_t *thisport )
 static void sf_SendPacket(Port_t *thisport)
  {
 	// add 3 to packet data length for: 1 length + 2 CRC (packet overhead)
-	uint8_t packetLen = thisport->txBuf[LENGTH] + 3;
+	quint8 packetLen = thisport->txBuf[LENGTH] + 3;
 
     // use the raw serial write function so the SYNC byte does not get 'escaped'
 	thisport->pfSerialWrite(SYNC);
-    for( uint8_t x = 0; x < packetLen; x++ ) {
+    for( quint8 x = 0; x < packetLen; x++ ) {
 		sf_write_byte(thisport, thisport->txBuf[x] );
     }
     thisport->retryCount++;
@@ -481,11 +481,11 @@ static void sf_SendPacket(Port_t *thisport)
  *  3. TODO: Should this function return an error if data length to be sent is greater th tx buffer size?
  *
  */
-void sf_MakePacket( uint8_t *txBuf, const uint8_t * pdata, uint16_t length, uint8_t seqNo )
+void sf_MakePacket( quint8 *txBuf, const quint8 * pdata, quint16 length, quint8 seqNo )
 {
-    uint16_t    crc = 0xffff;
-    uint16_t    bufPos = 0;
-    uint8_t     b;
+    quint16    crc = 0xffff;
+    quint16    bufPos = 0;
+    quint8     b;
 
     // add 1 for the seq. number
     txBuf[LENGTH] = length + 1;
@@ -513,9 +513,9 @@ void sf_MakePacket( uint8_t *txBuf, const uint8_t * pdata, uint16_t length, uint
  *
  */
 
-static void sf_SendAckPacket( Port_t *thisport, uint8_t seqNumber)
+static void sf_SendAckPacket( Port_t *thisport, quint8 seqNumber)
 {
-    uint8_t    AckSeqNumber = SETBIT( seqNumber, ACK_BIT );
+    quint8    AckSeqNumber = SETBIT( seqNumber, ACK_BIT );
 
     // create the packet, note we pass AckSequenceNumber directly
     sf_MakePacket( thisport->txBuf, NULL, 0, AckSeqNumber );
@@ -532,7 +532,7 @@ static void sf_SendAckPacket( Port_t *thisport, uint8_t seqNumber)
  * \note
  *
  */
-static void sf_write_byte( Port_t *thisport, uint8_t c )
+static void sf_write_byte( Port_t *thisport, quint8 c )
 {
 	if( c == SYNC ) {							// check for SYNC byte
 		thisport->pfSerialWrite( ESC );         // since we are not starting a packet we must ESCAPE the SYNCH byte
@@ -547,7 +547,7 @@ static void sf_write_byte( Port_t *thisport, uint8_t c )
 
 /************************************************************************************************************
 *
-*  NAME:          uint16_t ssp_crc16( uint16_t crc, uint16_t data )
+*  NAME:          quint16 ssp_crc16( quint16 crc, quint16 data )
 *  DESCRIPTION:   Uses crc_table to calculate new crc
 *  ARGUMENTS:
 *        arg1:    crc
@@ -566,7 +566,7 @@ static void sf_write_byte( Port_t *thisport, uint8_t c )
  *
  */
 
-static uint16_t sf_crc16( uint16_t crc, uint8_t data )
+static quint16 sf_crc16( quint16 crc, quint8 data )
 {
    return (crc >> 8) ^ CRC_TABLE[( crc ^ data ) & 0x00FF ];
 }
@@ -583,7 +583,7 @@ static uint16_t sf_crc16( uint16_t crc, uint8_t data )
 
 static void sf_SetSendTimeout( Port_t *thisport )
 {
-    uint32_t   timeout;
+    quint32   timeout;
     timeout = thisport->pfGetTime() + thisport->timeoutLen;
 	thisport->timeout = timeout;
 }
@@ -597,10 +597,10 @@ static void sf_SetSendTimeout( Port_t *thisport )
  * \note
  *
  */
-static uint16_t   sf_CheckTimeout( Port_t *thisport )
+static quint16   sf_CheckTimeout( Port_t *thisport )
 {
-    uint16_t    retval = FALSE;
-    uint32_t    current_time;
+    quint16    retval = FALSE;
+    quint32    current_time;
 
     current_time = thisport->pfGetTime();
     if( current_time > thisport->timeout )  {
@@ -629,9 +629,9 @@ static uint16_t   sf_CheckTimeout( Port_t *thisport )
  * \note
  *
  */
-static int16_t sf_ReceiveState( Port_t *thisport, uint8_t c )
+static qint16 sf_ReceiveState( Port_t *thisport, quint8 c )
 {
-	int16_t	retval = SSP_RX_RECEIVING;
+	qint16	retval = SSP_RX_RECEIVING;
 
 	switch( thisport->InputState ) {
 	case state_unescaped_e:
@@ -679,9 +679,9 @@ static int16_t sf_ReceiveState( Port_t *thisport, uint8_t c )
  * \note
  *
  */
-static int16_t sf_DecodeState( Port_t *thisport, uint8_t c )
+static qint16 sf_DecodeState( Port_t *thisport, quint8 c )
 {
-	int16_t	retval;
+	qint16	retval;
 	switch( thisport->DecodeState ) {
 	case decode_idle_e:
         // 'c' is ignored in this state as the only way to leave the idle state is
@@ -748,7 +748,7 @@ static int16_t sf_DecodeState( Port_t *thisport, uint8_t c )
 
 /************************************************************************************************************
 *
-*  NAME:             int16_t sf_ReceivePacket( )
+*  NAME:             qint16 sf_ReceivePacket( )
 *  DESCRIPTION:      Receive one packet, assumed that data is in rec.buff[]
 *   ARGUMENTS:
 *   RETURN:          0 . no new packet was received, could be ack or same packet
@@ -770,9 +770,9 @@ static int16_t sf_DecodeState( Port_t *thisport, uint8_t c )
  *	Created: Oct 7, 2010 12:07:22 AM by joe
  */
 
-static int16_t sf_ReceivePacket(Port_t *thisport)
+static qint16 sf_ReceivePacket(Port_t *thisport)
 {
-	int16_t value = FALSE;
+	qint16 value = FALSE;
 
 	if( ISBITSET(thisport->rxBuf[SEQNUM], ACK_BIT ) ) {
 		//  Received an ACK packet, need to check if it matches the previous sent packet

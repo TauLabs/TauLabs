@@ -76,7 +76,7 @@ static volatile bool mixer_settings_updated;
 
 // Private functions
 static void actuatorTask(void* parameters);
-static int16_t scaleChannel(float value, int16_t max, int16_t min, int16_t neutral);
+static uint16_t scaleChannel(float value, uint16_t max, uint16_t min, uint16_t neutral);
 static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const MixerSettingsData * mixerSettings);
 static float MixerCurve(const float throttle, const float* curve, uint8_t elements);
 static bool set_channel(uint8_t mixer_channel, uint16_t value, const ActuatorSettingsData * actuatorSettings);
@@ -488,17 +488,17 @@ static float MixerCurve(const float throttle, const float* curve, uint8_t elemen
 /**
  * Convert channel from -1/+1 to servo pulse duration in microseconds
  */
-static int16_t scaleChannel(float value, int16_t max, int16_t min, int16_t neutral)
+static uint16_t scaleChannel(float value, uint16_t max, uint16_t min, uint16_t neutral)
 {
-	int16_t valueScaled;
+	uint16_t valueScaled;
 	// Scale
 	if ( value >= 0.0f)
 	{
-		valueScaled = (int16_t)(value*((float)(max-neutral))) + neutral;
+		valueScaled = (uint16_t)(value*((float)(max-neutral))) + neutral;
 	}
 	else
 	{
-		valueScaled = (int16_t)(value*((float)(neutral-min))) + neutral;
+		valueScaled = (uint16_t)(value*((float)(neutral-min))) + neutral;
 	}
 
 	if (max>min)

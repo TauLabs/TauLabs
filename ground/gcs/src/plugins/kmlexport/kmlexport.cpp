@@ -758,12 +758,12 @@ PlacemarkPtr KmlExport::createTimespanPlacemark(const LLAVCoordinates &timestamp
  * @param alpha Transparency. If no value provided, color is fully opaque
  * @return Returns the RGBA color
  */
-kmlbase::Color32 KmlExport::mapVelocity2Color(double velocity, uint8_t alpha)
+kmlbase::Color32 KmlExport::mapVelocity2Color(double velocity, quint8 alpha)
 {
-    uint8_t colorMapIdx = fmin(fabs(velocity/maxVelocity), 1) * 255;
-    uint8_t r = round(ColorMap_Jet[colorMapIdx][0]*255); // Colormap is in [0,1], so it needs to be scaled to [0,255]
-    uint8_t g = round(ColorMap_Jet[colorMapIdx][1]*255);
-    uint8_t b = round(ColorMap_Jet[colorMapIdx][2]*255);
+    quint8 colorMapIdx = fmin(fabs(velocity/maxVelocity), 1) * 255;
+    quint8 r = round(ColorMap_Jet[colorMapIdx][0]*255); // Colormap is in [0,1], so it needs to be scaled to [0,255]
+    quint8 g = round(ColorMap_Jet[colorMapIdx][1]*255);
+    quint8 b = round(ColorMap_Jet[colorMapIdx][2]*255);
 
     return kmlbase::Color32(alpha, b, g, r);
 }
