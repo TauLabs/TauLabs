@@ -108,7 +108,7 @@ public:
      * @return matrix of channel bank names
      *
      */
-    QVector< QVector<int> > getChannelBanks(){return channelBanks;}
+    virtual QVector< QVector<int> > getChannelBanks(){return channelBanks;}
 
     /**
      * @brief getBoardPicture
