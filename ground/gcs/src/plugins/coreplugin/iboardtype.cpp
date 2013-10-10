@@ -2,7 +2,7 @@
 namespace Core{
 
 /**
- * @brief IBoardType::queryChannelBanks Converts board channel banks into a list
+ * @brief IBoardType::queryChannelBanks Converts board channel banks into a list of formatted strings
  * @return List of board channels
  */
 QStringList IBoardType::queryChannelBanks()
