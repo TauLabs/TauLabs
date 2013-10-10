@@ -45,17 +45,10 @@ Quanton::Quanton(void)
 
     // Define the bank of channels that are connected to a given timer
     channelBanks.resize(6);
-    channelBanks[0].append(1);
-    channelBanks[0].append(2);
-    channelBanks[0].append(3);
-    channelBanks[0].append(4);
-
-    channelBanks[1].append(5);
-    channelBanks[1].append(6);
-
-    channelBanks[2].append(7);
-
-    channelBanks[3].append(8);
+    channelBanks[0] = QVector<int> () << 1 << 2 << 3 << 4;
+    channelBanks[1] = QVector<int> () << 5 << 6;
+    channelBanks[2] = QVector<int> () << 7;
+    channelBanks[3] = QVector<int> () << 8;
 }
 
 Quanton::~Quanton()
