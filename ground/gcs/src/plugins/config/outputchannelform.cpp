@@ -353,13 +353,13 @@ void OutputChannelForm::updateMaxSpinboxValue(UAVObject *obj)
     if (board == NULL)
         return;
 
-    QVector< QVector<int> > channelBanks = board->getChannelBanks();
+    QVector< QVector<qint32> > channelBanks = board->getChannelBanks();
 
     for (int i=0; i<channelBanks.size(); i++) {
         QVector<int> channelBank = channelBanks[i];
 
         // Iterate over each channel...
-        foreach(int channel, channelBank) {
+        foreach(qint32 channel, channelBank) {
             // ... and if there's a match, set the maximum values and return
             if (channel-1 == m_index) {
                 double maxPulseWidth = round(10000000.0 / actuatorSettingsData.ChannelUpdateFreq[i]);
