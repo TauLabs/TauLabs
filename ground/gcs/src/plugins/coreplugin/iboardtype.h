@@ -195,10 +195,10 @@ protected:
     bool dfuSupport;
 
     //! The numerical board type ID
-    int boardType;
+    qint32 boardType;
 
     //! The channel groups that are driven by timers
-    QVector< QVector<int> > channelBanks;
+    QVector< QVector<qint32> > channelBanks;
 
 };
 

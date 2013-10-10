@@ -9,13 +9,13 @@ QStringList IBoardType::queryChannelBanks()
 {
     QStringList banksStringList = QStringList();
 
-    foreach(QVector<int> channelBank, channelBanks) {
-        int tmpChannel = -1;
-        int lastWrittenChannel = -1;
+    foreach(QVector<qint32> channelBank, channelBanks) {
+        qint32 tmpChannel = -1;
+        qint32 lastWrittenChannel = -1;
         QString banksString;
 
         for (int i=0; i<channelBank.size(); i++) {
-            uint8_t channel = channelBank[i];
+            quint8 channel = channelBank[i];
             if (tmpChannel == -1) {
                 banksString.append(QString("%1").arg(channel));
                 lastWrittenChannel = channel;
