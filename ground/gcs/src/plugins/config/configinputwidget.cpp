@@ -545,7 +545,7 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         m_config->wzText->setText(QString(tr("Please move all controls to their maximum extents on both directions and press next when ready.")));
         fastMdata();
         manualSettingsData=manualSettingsObj->getData();
-        for(uint i=0;i<ManualControlSettings::CHANNELMAX_NUMELEM;++i)
+        for(quint8 i=0;i<ManualControlSettings::CHANNELMAX_NUMELEM;++i)
         {
             // Preserve the inverted status
             if(manualSettingsData.ChannelMin[i] <= manualSettingsData.ChannelMax[i]) {
@@ -707,8 +707,8 @@ void ConfigInputWidget::fastMdata()
     originalMetaData = utilMngr->readAllNonSettingsMetadata();
 
     // Update data rates
-    uint16_t slowUpdate = 5000; // in [ms]
-    uint16_t fastUpdate =  150; // in [ms]
+    quint16 slowUpdate = 5000; // in [ms]
+    quint16 fastUpdate =  150; // in [ms]
 
     // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
     UAVObjectManager *objManager = getObjectManager();
@@ -890,7 +890,7 @@ void ConfigInputWidget::identifyControls()
 void ConfigInputWidget::identifyLimits()
 {
     manualCommandData=manualCommandObj->getData();
-    for(uint i=0;i<ManualControlSettings::CHANNELMAX_NUMELEM;++i)
+    for(quint8 i=0;i<ManualControlSettings::CHANNELMAX_NUMELEM;++i)
     {
         if(manualSettingsData.ChannelMin[i] <= manualSettingsData.ChannelMax[i]) {
             // Non inverted channel
@@ -1351,7 +1351,7 @@ void ConfigInputWidget::invertControls()
  * @param switchPositions total switch positions
  * @return Switch position index converted from the raw value
  */
-uint8_t ConfigInputWidget::scaleSwitchChannel(quint8 channelNumber, quint8 switchPositions)
+quint8 ConfigInputWidget::scaleSwitchChannel(quint8 channelNumber, quint8 switchPositions)
 {
     if(channelNumber > (ManualControlSettings::CHANNELMIN_NUMELEM - 1))
             return 0;
@@ -1387,7 +1387,7 @@ uint8_t ConfigInputWidget::scaleSwitchChannel(quint8 channelNumber, quint8 switc
 
     // Convert channel value into the switch position in the range [0..N-1]
     // This uses the same optimized computation as flight code to be consistent
-    uint8_t pos = ((int16_t)(valueScaled * 256) + 256) * (switchPositions-1) >> 9;
+    quint8 pos = ((int16_t)(valueScaled * 256) + 256) * (switchPositions-1) >> 9;
     if (pos >= switchPositions)
         pos = switchPositions - 1;
     return pos;
@@ -1454,7 +1454,7 @@ void ConfigInputWidget::updatePositionSlider()
 void ConfigInputWidget::updateCalibration()
 {
     manualCommandData=manualCommandObj->getData();
-    for(uint i=0;i<ManualControlSettings::CHANNELMAX_NUMELEM;++i)
+    for(quint8 i=0;i<ManualControlSettings::CHANNELMAX_NUMELEM;++i)
     {
         if((!reverse[i] && manualSettingsData.ChannelMin[i]>manualCommandData.Channel[i]) ||
                 (reverse[i] && manualSettingsData.ChannelMin[i]<manualCommandData.Channel[i]))

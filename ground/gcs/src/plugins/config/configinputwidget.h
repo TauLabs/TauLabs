@@ -165,7 +165,7 @@ private:
 
         //! Handle to telemetry manager for monitoring for disconnects
         TelemetryManager* telMngr;
-        uint8_t scaleSwitchChannel(quint8 channelNumber, quint8 switchPositions);
+        quint8 scaleSwitchChannel(quint8 channelNumber, quint8 switchPositions);
 
 private slots:
         void wzNext();
