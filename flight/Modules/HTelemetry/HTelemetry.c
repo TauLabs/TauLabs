@@ -352,6 +352,8 @@ uint16_t build_VARIO_message(uint8_t *buffer) {
 	msg->sensor_text_id = HTELE_VARIO_TEXT_ID;
 
 	// alarm inverse bits. invert display areas on limits
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > teleState->altitudeGround) ? (1<<0) : 0;
+	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround) ? (1<<0) : 0;
 	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround) ? (1<<1) : 0;
 	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > teleState->altitudeGround) ? (1<<2) : 0;
 	msg->alarm_inverse |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > teleState->climbrate1s) ? (1<<3) : 0;
@@ -572,8 +574,6 @@ uint16_t build_GAM_message(uint8_t *buffer) {
 	msg->sensor_text_id = HTELE_GAM_TEXT_ID;
 
 	// alarm inverse bits. invert display areas on limits
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > teleState->altitudeGround) ? (1<<7) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround) ? (1<<7) : 0;
 	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXCURRENT] < teleState->Battery.Current) ? (1<<0) : 0;
 	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINPOWERVOLTAGE] > teleState->Battery.Voltage) ? (1<<1) : 0;
 	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXPOWERVOLTAGE] < teleState->Battery.Voltage) ? (1<<1) : 0;
@@ -667,15 +667,15 @@ uint16_t build_EAM_message(uint8_t *buffer) {
 
 	// alarm inverse bits. invert display areas on limits
 	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXUSEDCAPACITY] < teleState->Battery.ConsumedEnergy) ? (1<<0) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > teleState->altitudeGround) ? (1<<5) : 0;
-	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround) ? (1<<5) : 0;
 	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXCURRENT] < teleState->Battery.Current) ? (1<<6) : 0;
 	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINPOWERVOLTAGE] > teleState->Battery.Voltage) ? (1<<7) : 0;
 	msg->alarm_inverse1 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXPOWERVOLTAGE] < teleState->Battery.Voltage) ? (1<<7) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > teleState->climbrate3s) ? (1<<0) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < teleState->climbrate3s) ? (1<<0) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > teleState->climbrate1s) ? (1<<1) : 0;
-	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < teleState->climbrate1s) ? (1<<1) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MINHEIGHT] > teleState->altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround) ? (1<<2) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE1] > teleState->climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE1] < teleState->climbrate1s) ? (1<<3) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_NEGDIFFERENCE2] > teleState->climbrate3s) ? (1<<4) : 0;
+	msg->alarm_inverse2 |= (teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_POSDIFFERENCE2] < teleState->climbrate3s) ? (1<<4) : 0;
 
 	// main battery
 	float voltage = (teleState->Battery.Voltage > 0) ? teleState->Battery.Voltage : 0;
@@ -991,6 +991,10 @@ uint8_t generate_warning() {
 	if ((teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_MAXHEIGHT] == HTELEMETRYSETTINGS_WARNING_ENABLED) &&
 		(teleState->Settings.Limit[HTELEMETRYSETTINGS_LIMIT_MAXHEIGHT] < teleState->altitudeGround))
 		return 26;
+
+	// (51, MAXSERVOTEMP)
+
+	// (52, MAXSERVODIFFERENCE)
 
 	// altitude beeps at 20,40,60,80,100,200,400,600,800 and 1000 meters
 	if (teleState->Settings.Warning[HTELEMETRYSETTINGS_WARNING_ALTITUDEBEEP] == HTELEMETRYSETTINGS_WARNING_ENABLED) {
