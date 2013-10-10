@@ -101,7 +101,7 @@ public:
      * @return list of channel bank names
      *
      */
-    QStringList queryChannelBanks();
+    virtual QStringList queryChannelBanks();
 
     /**
      * @brief getBoardPicture
