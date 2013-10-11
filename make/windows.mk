@@ -15,7 +15,7 @@
 # misc tools
 RM=rm
 
-PYTHON := python2
+PYTHON := python
 export PYTHON
 
 QT_SPEC := win32-g++
