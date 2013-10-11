@@ -13,7 +13,7 @@ RM=rm
 
 # Get Python version, separate major/minor/patch, then put into wordlist
 PYTHON_VERSION_=$(wordlist 2,4,$(subst ., ,$(shell python -V 2>&1)))
-# Get majro version from aforementioned list
+# Get major version from aforementioned list
 PYTHON_MAJOR_VERSION_=$(word 1,$(PYTHON_VERSION_))
 # Just in case Make has some weird scope stuff
 PYTHON=0
