@@ -14,7 +14,7 @@ PYTHON_LOCAL = $$(PYTHON)
 
 isEmpty($$PYTHON_LOCAL) {
     unix: PYTHON_LOCAL = python2
-    win32: PYTHON_LOCAL = python2
+    win32: PYTHON_LOCAL = python
 }
 
 !debug_and_release|build_pass {
