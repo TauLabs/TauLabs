@@ -68,8 +68,8 @@
 #define HTELE_BUTTON_NEXT 0xEE
 #define HTELE_BUTTON_PREV 0xE7
 
-#define climbrateSize 50
-#define StatusSize 21
+#define climbrateSize 50			// defines size of ring buffer for climbrate calculation
+#define StatusSize 21				// number of characters in status line
 
 // Private structures and types
 typedef struct {
@@ -209,17 +209,17 @@ static void HTelemetryTask(void *parameters) {
 	// clear all state values
 	memset(teleState, 0, sizeof(*teleState));
 
-	// 500ms delay for sensor setup
+	// 500ms delay for first sensor setup
 	vTaskDelay(500);
 
 	// first update of telemetry data
 	update_telemetrydata(teleState);
 
-	// initialize timer variables.
-	// 5ms idle delay between telemetrie request and answer
-	// 2ms data delay between transmitted bytes
+	// initialize timer variables
 	portTickType lastSysTime = xTaskGetTickCount();
+	// 5ms idle delay between telemetrie request and answer
 	portTickType idleDelay = MS2TICKS(5);
+	// 2ms data delay between transmitted bytes
 	portTickType dataDelay = MS2TICKS(2);
 
 	// telemetry state machine. endless loop
@@ -234,7 +234,7 @@ static void HTelemetryTask(void *parameters) {
 				// shift receiver buffer for better sync
 				rx_buffer[2]= rx_buffer[1];
 				rx_buffer[1]= rx_buffer[0];
-				// check received byte (TELEMETRY MODE)
+				// check first received byte (TELEMETRY MODE)
 					switch (rx_buffer[2]) {
 						case HTELE_BINARY_ID:
 							state = BINARYMODE;
@@ -246,27 +246,28 @@ static void HTelemetryTask(void *parameters) {
 						default:
 							state = IDLE;
 					}
-				if (state != IDLE) {
-					// get actual HTelemetrysettings before generate messages
-					update_telemetrydata();
-				}
 				break;
 			case BINARYMODE:
-				// check received byte (SENSOR ID)
+				// check second received byte (SENSOR ID)
 				switch (rx_buffer[1]) {
 					case HTELE_VARIO_ID:
+						update_telemetrydata();
 						message_size = build_VARIO_message(tx_buffer);
 						break;
 					case HTELE_GPS_ID:
+						update_telemetrydata();
 						message_size = build_GPS_message(tx_buffer);
 						break;
 					case HTELE_GAM_ID:
+						update_telemetrydata();
 						message_size = build_GAM_message(tx_buffer);
 						break;
 					case HTELE_EAM_ID:
+						update_telemetrydata();
 						message_size = build_EAM_message(tx_buffer);
 						break;
 					case HTELE_ESC_ID:
+						update_telemetrydata();
 						message_size = build_ESC_message(tx_buffer);
 						break;
 					default:
@@ -864,44 +865,77 @@ void update_telemetrydata () {
 		teleState->homecourse = 360 - teleState->homecourse;
 
 	// statusline
+	const char *txt_unknown = "unkown";
+	const char *txt_manual = "Manual";
+	const char *txt_stabilized1 = "Stabilized1";
+	const char *txt_stabilized2 = "Stabilized2";
+	const char *txt_stabilized3 = "Stabilized3";
+	const char *txt_autotune = "Autotune";
+	const char *txt_altitudehold = "AltitudeHold";
+	const char *txt_velocitycontrol = "VeloControl";
+	const char *txt_positionhold = "PositionHold";
+	const char *txt_returntohome = "ReturnToHome";
+	const char *txt_pathplanner = "PathPlanner";
+	const char *txt_disarmed = "disarmed";
+	const char *txt_arming = "arming";
+	const char *txt_armed = "armed";
+
+	const char *txt_flymode;
 	switch (teleState->FlightStatus.FlightMode) {
 		case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
-			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "Manual");
+			txt_flymode = txt_manual;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
-			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "Stabilized1");
+			txt_flymode = txt_stabilized1;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
-			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "Stabilized2");
+			txt_flymode = txt_stabilized2;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
-			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "Stabilized3");
+			txt_flymode = txt_stabilized3;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE:
-			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "Autotune");
+			txt_flymode = txt_autotune;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
-			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "AltitudeHold");
+			txt_flymode = txt_altitudehold;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL:
-			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "VelocityControl");
+			txt_flymode = txt_velocitycontrol;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "PositionHold");
+			txt_flymode = txt_positionhold;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "ReturnToHome");
+			txt_flymode = txt_returntohome;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "PathPlanner");
+			txt_flymode = txt_pathplanner;
 			break;
 		default:
-			snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "unkown");
+			txt_flymode = txt_unknown;
 	}
+
+	const char *txt_armstate;
+	switch (teleState->FlightStatus.Armed) {
+		case FLIGHTSTATUS_ARMED_DISARMED:
+			txt_armstate = txt_disarmed;
+			break;
+		case FLIGHTSTATUS_ARMED_ARMING:
+			txt_armstate = txt_arming;
+			break;
+		case FLIGHTSTATUS_ARMED_ARMED:
+			txt_armstate = txt_armed;
+			break;
+		default:
+			txt_armstate = "unkown";
+	}
+
+	snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "%12s,%8s", txt_flymode, txt_armstate);
 }
 
 /**
- * generate warning beeps or announcements
+ * generate warning beeps or spoken announcements
 */
 uint8_t generate_warning() {
 	// set warning tone with hardcoded priority
