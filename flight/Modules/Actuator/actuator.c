@@ -494,11 +494,11 @@ static uint16_t scaleChannel(float value, uint16_t max, uint16_t min, uint16_t n
 	// Scale
 	if ( value >= 0.0f)
 	{
-		valueScaled = (uint16_t)(value*((float)(max-neutral))) + neutral;
+		valueScaled = (int16_t)(value*((float)(max-neutral))) + neutral;
 	}
 	else
 	{
-		valueScaled = (uint16_t)(value*((float)(neutral-min))) + neutral;
+		valueScaled = (int16_t)(value*((float)(neutral-min))) + neutral;
 	}
 
 	if (max>min)
