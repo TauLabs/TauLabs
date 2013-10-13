@@ -485,6 +485,8 @@ uint16_t build_GPS_message(uint8_t *buffer) {
 	switch (teleState->SysAlarms.Alarm[SYSTEMALARMS_ALARM_GPS]) {
 		case SYSTEMALARMS_ALARM_UNINITIALISED:
 			msg->ascii6 = 0;
+			// if there is no gps, show compass flight direction
+			msg->flight_direction = scale_float2int8((teleState->Attitude.Yaw > 0) ? teleState->Attitude.Yaw : 360 + teleState->Attitude.Yaw , 0.5, 0);
 			break;
 		case SYSTEMALARMS_ALARM_OK:
 			msg->ascii6 = '.';
@@ -876,9 +878,9 @@ void update_telemetrydata () {
 	const char *txt_positionhold = "PositionHold";
 	const char *txt_returntohome = "ReturnToHome";
 	const char *txt_pathplanner = "PathPlanner";
-	const char *txt_disarmed = "disarmed";
-	const char *txt_arming = "arming";
-	const char *txt_armed = "armed";
+	const char *txt_disarmed = "Disarmed";
+	const char *txt_arming = "Arming";
+	const char *txt_armed = "Armed";
 
 	const char *txt_flymode;
 	switch (teleState->FlightStatus.FlightMode) {
@@ -928,7 +930,7 @@ void update_telemetrydata () {
 			txt_armstate = txt_armed;
 			break;
 		default:
-			txt_armstate = "unkown";
+			txt_armstate = txt_unknown;
 	}
 
 	snprintf(teleState->StatusLine, sizeof(teleState->StatusLine), "%12s,%8s", txt_flymode, txt_armstate);
