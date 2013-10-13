@@ -60,7 +60,7 @@ public:
         ~ConfigInputWidget();
         enum wizardSteps{wizardWelcome,wizardChooseMode,wizardChooseType,wizardIdentifySticks,wizardIdentifyCenter,wizardIdentifyLimits,wizardIdentifyInverted,wizardFinish,wizardNone};
         enum txMode{mode1,mode2};
-        enum txMovements{moveLeftVerticalStick,moveRightVerticalStick,moveLeftHorizontalStick,moveRightHorizontalStick,moveAccess0,moveAccess1,moveAccess2,moveFlightMode,centerAll,moveAll,nothing};
+        enum txMovements{moveLeftVerticalStick,moveRightVerticalStick,moveLeftHorizontalStick,moveRightHorizontalStick,moveAccess0,moveAccess1,moveAccess2,moveFlightMode,centerAll,moveAll,armingSwitch,nothing};
         enum txMovementType{vertical,horizontal,jump,mix};
         enum txType {acro, heli};
         void startInputWizard() { goToWizard(); }
@@ -134,6 +134,7 @@ private:
         QGraphicsSvgItem *m_txAccess1;
         QGraphicsSvgItem *m_txAccess2;
         QGraphicsSvgItem *m_txFlightMode;
+        QGraphicsSvgItem *m_txArming;
         QGraphicsSvgItem *m_txBackground;
         QGraphicsSvgItem *m_txArrows;
         QTransform m_txLeftStickOrig;
@@ -144,6 +145,8 @@ private:
         QTransform m_txFlightModeCOrig;
         QTransform m_txFlightModeLOrig;
         QTransform m_txFlightModeROrig;
+        QTransform m_txArmingSwitchOrigL;
+        QTransform m_txArmingSwitchOrigR;
         QTransform m_txMainBodyOrig;
         QTransform m_txArrowsOrig;
         QTimer * animate;
@@ -162,6 +165,7 @@ private:
 
         //! Handle to telemetry manager for monitoring for disconnects
         TelemetryManager* telMngr;
+        quint8 scaleSwitchChannel(quint8 channelNumber, quint8 switchPositions);
 
 private slots:
         void wzNext();
