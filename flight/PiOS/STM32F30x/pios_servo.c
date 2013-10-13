@@ -84,6 +84,10 @@ int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 
 	/* Allocate memory */
 	output_timer_frequency_scaler = pvPortMalloc(servo_cfg->num_channels * sizeof(typeof(output_timer_frequency_scaler)));
+	// Check that memory was successfully allocated, and return if not
+	if (output_timer_frequency_scaler == NULL) {
+		return -1;
+	}
 	memset(output_timer_frequency_scaler, 0, servo_cfg->num_channels * sizeof(typeof(output_timer_frequency_scaler)));
 
 	return 0;
@@ -91,10 +95,14 @@ int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 
 
 /**
-* Set the servo update rate (Max 500Hz)
-* \param[in] array of rates in Hz
-* \param[in] maximum number of banks
-*/
+ * @brief PIOS_Servo_SetHz Sets the PWM output frequency. The default
+ * resolution is 1us, but in the event that the frequency is so low that its 
+ * value would overflow the period register, the resolution is halved. In
+ * the event that the frequency is so low that it overflows the prescaler
+ * register, the resolution is left at the lowest possible value.
+ * @param speeds array of rates in Hz
+ * @param banks maximum number of banks
+ */
 void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 {
 	if (!servo_cfg) {
@@ -107,17 +115,17 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 
 	uint8_t set = 0;
 
-	for(uint8_t i = 0; (i < servo_cfg->num_channels) && (set < banks); i++) {
+	for (uint8_t i = 0; (i < servo_cfg->num_channels) && (set < banks); i++) {
 		bool new = true;
 		const struct pios_tim_channel * chan = &servo_cfg->channels[i];
 
 		/* See if any previous channels use that same timer */
-		for(uint8_t j = 0; (j < i) && new; j++) {
-			new &= (chan->timer != servo_cfg->channels[j].timer);
+		for (uint8_t j = 0; (j < i) && new; j++) {
+			new = new && (chan->timer != servo_cfg->channels[j].timer);
 		}
 
 		/* If no previous channels matched */
-		if(new) {
+		if (new) {
 			uint32_t output_timer_frequency = 1000000; // Default output timer frequency in hertz
 			output_timer_frequency_scaler[i] = 0; // Scaling applied to frequency in order to bring the period into unsigned 16-bit integer range
 
@@ -133,18 +141,20 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 			}
 
 			/* Configure frequency scaler for all channels that use the same timer */
-			for(uint8_t j=0; (j < servo_cfg->num_channels); j++) {
-				if(chan->timer == servo_cfg->channels[j].timer) {
+			for (uint8_t j=0; (j < servo_cfg->num_channels); j++) {
+				if (chan->timer == servo_cfg->channels[j].timer) {
 					output_timer_frequency_scaler[j] = output_timer_frequency_scaler[i];
 				}
 			}
 
 			/* Choose the correct prescaler value for the APB to which the timer is attached */
-			if (chan->timer==TIM2 || chan->timer==TIM3 || chan->timer==TIM4 || chan->timer==TIM6 || chan->timer==TIM7 ) {
+			if (chan->timer==TIM6 || chan->timer==TIM7) {
+				// These timers cannot be used here.
+				return;
+			} else if (chan->timer==TIM2 || chan->timer==TIM3 || chan->timer==TIM4) {
 				//those timers run at double APB1 speed if APB1 prescaler is != 1 which is usually the case
 				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / (output_timer_frequency >> output_timer_frequency_scaler[i]) * 2) - 1;
-			}
-			else {
+			} else {
 				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
 			}
 
