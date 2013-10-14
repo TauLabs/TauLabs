@@ -1102,13 +1102,38 @@ QVariant ConfigTaskWidget::getVariantFromWidget(QWidget * widget,double scale)
     {
         return(double)(slider->value()* scale);
     }
-    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget))
-    {
-        return (QString)(groupBox->isChecked() ? "TRUE":"FALSE");
-    }
-    else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget))
-    {
-        return (QString)(checkBox->isChecked() ? "TRUE":"FALSE");
+    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget)) {
+        QString ret;
+        if (groupBox->property("TrueString").isValid() && groupBox->property("FalseString").isValid()) {
+            if(groupBox->isChecked())
+                ret = groupBox->property("TrueString").toString();
+            else
+                ret = groupBox->property("FalseString").toString();
+        } else {
+            if(groupBox->isChecked())
+                ret = "TRUE";
+            else
+                ret = "FALSE";
+        }
+
+        return ret;
+    } else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget)) {
+        QString ret;
+        if (checkBox->property("TrueString").isValid() && checkBox->property("FalseString").isValid()) {
+            if (checkBox->isChecked())
+                ret = checkBox->property("TrueString").toString();
+            else
+                ret = checkBox->property("FalseString").toString();
+        }
+        else {
+            if(checkBox->isChecked())
+                ret = "TRUE";
+            else
+                ret = "FALSE";
+        }
+
+        return ret;
+
     }
     else if(QLineEdit * lineEdit=qobject_cast<QLineEdit *>(widget))
     {
@@ -1117,6 +1142,8 @@ QVariant ConfigTaskWidget::getVariantFromWidget(QWidget * widget,double scale)
     else
         return QVariant();
 }
+
+
 /**
  * Sets a widget from a variant
  * @param widget pointer for the widget to set
@@ -1154,15 +1181,24 @@ bool ConfigTaskWidget::setWidgetFromVariant(QWidget *widget, QVariant value, dou
         slider->setValue((int)qRound(value.toDouble()/scale));
         return true;
     }
-    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget))
-    {
-        bool bvalue=value.toString()=="TRUE";
+    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget)) {
+        bool bvalue;
+        if (groupBox->property("TrueString").isValid() && groupBox->property("FalseString").isValid()) {
+            bvalue = value.toString()==groupBox->property("TrueString").toString();
+        }
+        else{
+            bvalue = value.toString()=="TRUE";
+        }
         groupBox->setChecked(bvalue);
         return true;
-    }
-    else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget))
-    {
-        bool bvalue=value.toString()=="TRUE";
+    } else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget)) {
+        bool bvalue;
+        if (checkBox->property("TrueString").isValid() && checkBox->property("FalseString").isValid()) {
+            bvalue = value.toString()==checkBox->property("TrueString").toString();
+        }
+        else {
+            bvalue = value.toString()=="TRUE";
+        }
         checkBox->setChecked(bvalue);
         return true;
     }
@@ -1177,6 +1213,8 @@ bool ConfigTaskWidget::setWidgetFromVariant(QWidget *widget, QVariant value, dou
     else
         return false;
 }
+
+
 /**
  * Sets a widget from a UAVObject field
  * @param widget pointer to the widget to set
