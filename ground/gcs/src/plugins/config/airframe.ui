@@ -1942,6 +1942,13 @@ margin:1px;</string>
                             </property>
                            </widget>
                           </item>
+                          <item>
+                           <widget class="QCheckBox" name="cb_reversibleThrottle">
+                            <property name="text">
+                             <string>Reversible Throttle</string>
+                            </property>
+                           </widget>
+                          </item>
                          </layout>
                         </widget>
                        </item>

@@ -113,6 +113,11 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     addUAVObject("MixerSettings");
 
     addUAVObjectToWidgetRelation("MixerSettings","Curve2Source",m_aircraft->customThrottle2Curve->getCBCurveSource());
+    addUAVObjectToWidgetRelation("ManualControlSettings", "ReversibleThrottle", m_aircraft->cb_reversibleThrottle);
+
+    m_aircraft->cb_reversibleThrottle->setProperty("TrueString", "Bidirectional");
+    m_aircraft->cb_reversibleThrottle->setProperty("FalseString", "Unidirectional");
+
 
     ffTuningInProgress = false;
     ffTuningPhase = false;
