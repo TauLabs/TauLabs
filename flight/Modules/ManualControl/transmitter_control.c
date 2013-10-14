@@ -759,10 +759,18 @@ static void update_actuator_desired(ManualControlCommandData * cmd)
 {
 	ActuatorDesiredData actuator;
 	ActuatorDesiredGet(&actuator);
+
+	uint8_t reversible_throttle;
+	ManualControlSettingsReversibleThrottleGet(&reversible_throttle);
+
+	if(reversible_throttle != MANUALCONTROLSETTINGS_REVERSIBLETHROTTLE_BIDIRECTIONAL)
+		actuator.Throttle = (cmd->Throttle < 0) ? -1 : cmd->Throttle;
+	else
+		actuator.Throttle = cmd->Throttle;
+
 	actuator.Roll = cmd->Roll;
 	actuator.Pitch = cmd->Pitch;
 	actuator.Yaw = cmd->Yaw;
-	actuator.Throttle = (cmd->Throttle < 0) ? -1 : cmd->Throttle;
 	ActuatorDesiredSet(&actuator);
 }
 
@@ -848,7 +856,12 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Yaw :
 	     0; // this is an invalid mode
 
-	stabilization.Throttle = (cmd->Throttle < 0) ? -1 : cmd->Throttle;
+	uint8_t reversible_throttle;
+	ManualControlSettingsReversibleThrottleGet(&reversible_throttle);
+	if(reversible_throttle != MANUALCONTROLSETTINGS_REVERSIBLETHROTTLE_BIDIRECTIONAL)
+		stabilization.Throttle = (cmd->Throttle < 0) ? -1 : cmd->Throttle;
+	else
+		stabilization.Throttle = cmd->Throttle;
 	StabilizationDesiredSet(&stabilization);
 }
 
