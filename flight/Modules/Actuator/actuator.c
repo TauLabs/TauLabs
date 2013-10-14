@@ -83,7 +83,7 @@ static bool set_channel(uint8_t mixer_channel, uint16_t value, const ActuatorSet
 static void actuator_update_rate_if_changed(const ActuatorSettingsData * actuatorSettings, bool force_update);
 static void MixerSettingsUpdatedCb(UAVObjEvent * ev);
 static void ActuatorSettingsUpdatedCb(UAVObjEvent * ev);
-float ProcessMixer(const int index, const float curve1, const float curve2,
+float ProcessMixer(const int index, const float curve1, const float curve2, const float throttle,
 		   const MixerSettingsData* mixerSettings, ActuatorDesiredData* desired,
 		   const float period);
 
@@ -288,7 +288,7 @@ static void actuatorTask(void* parameters)
 			}
 
 			if((mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_MOTOR) || (mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_SERVO))
-				status[ct] = ProcessMixer(ct, curve1, curve2, &mixerSettings, &desired, dT);
+				status[ct] = ProcessMixer(ct, curve1, curve2, desired.Throttle, &mixerSettings, &desired, dT);
 			else
 				status[ct] = -1;
 
@@ -392,18 +392,38 @@ static void actuatorTask(void* parameters)
 /**
  *Process mixing for one actuator
  */
-float ProcessMixer(const int index, const float curve1, const float curve2,
+float ProcessMixer(const int index, const float curve1, const float curve2, const float throttle,
 		   const MixerSettingsData* mixerSettings, ActuatorDesiredData* desired, const float period)
 {
 	static float lastFilteredResult[MAX_MIX_ACTUATORS];
 	const Mixer_t * mixers = (Mixer_t *)&mixerSettings->Mixer1Type; //pointer to array of mixers in UAVObjects
 	const Mixer_t * mixer = &mixers[index];
 
+	//Get vehicle type
+	uint8_t airframe_type;
+	SystemSettingsAirframeTypeGet(&airframe_type);
+
+	int8_t invert = 0;
+
+	switch(airframe_type)
+	{
+		case SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLECAR:
+			if(throttle < 0.f)
+			{
+				invert = (
+					(0 << 2/*ROLL*/ ) |
+					(0 << 1/*PITCH*/) |
+					(1 << 0/*YAW*/  )
+				);
+			}
+			break;
+	}
+
 	float result = (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE1] / 128.0f) * curve1) +
 		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE2] / 128.0f) * curve2) +
-		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_ROLL] / 128.0f) * desired->Roll) +
-		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_PITCH] / 128.0f) * desired->Pitch) +
-		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_YAW] / 128.0f) * desired->Yaw);
+		       ((((invert>>2)&1)?(-1):(1))*((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_ROLL] / 128.0f) * desired->Roll) +
+		       ((((invert>>1)&1)?(-1):(1))*((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_PITCH] / 128.0f) * desired->Pitch) +
+		       ((((invert>>0)&1)?(-1):(1))*((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_YAW] / 128.0f) * desired->Yaw);
 
 	if(mixer->type == MIXERSETTINGS_MIXER1TYPE_MOTOR)
 	{
