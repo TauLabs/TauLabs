@@ -218,13 +218,16 @@ int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, uint32_t spi_speed)
 
 	SPIPrescalerTypeDef spi_prescaler;
 
-	//The needed prescaler for desired speed
-	float desiredPrescaler=0;
+	//SPI clock is different depending on the bus
+	uint32_t spiBusClock = 0;
 
 	if(spi_dev->cfg->regs == SPI1)
-		desiredPrescaler = (float) 36000000 / spi_speed;
+		spiBusClock = PIOS_SYSCLK / 2;
 	else
-		desiredPrescaler = (float) 72000000 / spi_speed;
+		spiBusClock = PIOS_SYSCLK;
+
+	//The needed prescaler for desired speed
+	float desiredPrescaler=(float) spiBusClock / spi_speed;
 
 	//Choosing the existing prescaler nearest the desiredPrescaler
 	if(desiredPrescaler <= 2)
@@ -256,10 +259,7 @@ int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, uint32_t spi_speed)
 	PIOS_SPI_TransferByte(spi_id, 0xFF);
 
 	//return set speed
-	if(spi_dev->cfg->regs == SPI1)
-		return 36000000 / spi_prescaler;
-	else
-		return 72000000 / spi_prescaler;
+	return spiBusClock / spi_prescaler;
 }
 
 /**

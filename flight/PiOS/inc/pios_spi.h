@@ -43,7 +43,6 @@ typedef enum {
 } SPIPrescalerTypeDef;
 
 /* Public Functions */
-//extern int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, SPIPrescalerTypeDef spi_prescaler);
 extern int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, uint32_t speed);
 extern int32_t PIOS_SPI_RC_PinSet(uint32_t spi_id, uint32_t slave_id, uint8_t pin_value);
 extern int32_t PIOS_SPI_TransferByte(uint32_t spi_id, uint8_t b);
