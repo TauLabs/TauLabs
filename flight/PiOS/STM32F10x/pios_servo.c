@@ -32,6 +32,7 @@
 #include "pios.h"
 #include "pios_servo_priv.h"
 #include "pios_tim_priv.h"
+#include "misc_math.h"
 
 /* Private Function Prototypes */
 
@@ -130,7 +131,7 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 				output_timer_frequency_scaler[i]++;
 
 				// If the output frequency is so low that the prescaler register overflows, break
-				if (PIOS_SYSCLK / (output_timer_frequency >> output_timer_frequency_scaler[i]) - 1 > UINT16_MAX) {
+				if (MAX(PIOS_PERIPHERAL_APB1_CLOCK, PIOS_PERIPHERAL_APB2_CLOCK) / (output_timer_frequency >> output_timer_frequency_scaler[i]) - 1 > UINT16_MAX) {
 					output_timer_frequency_scaler[i]--;
 					break;
 				}
@@ -148,9 +149,9 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 				// These timers cannot be used here.
 				return;
 			} else if (chan->timer==TIM1 || chan->timer==TIM8) {
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_SYSCLK / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
+				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
 			} else {
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_CLOCK / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
+				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
 			}
 
 			TIM_TimeBaseStructure.TIM_Period = (((output_timer_frequency >> output_timer_frequency_scaler[i]) / speeds[set]) - 1);
