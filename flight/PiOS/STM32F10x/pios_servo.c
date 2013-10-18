@@ -145,13 +145,24 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 			}
 
 			/* Choose the correct prescaler value for the APB the timer is attached */
+			// "The timer clock frequencies are automatically fixed by hardware. There are two cases:
+			//    1. if the APB prescaler is 1, the timer clock frequencies are set to the same frequency as
+			//    that of the APB domain to which the timers are connected.
+			//    2. otherwise, they are set to twice (*2) the frequency of the APB domain to which the
+			//    timers are connected."
 			if (chan->timer==TIM6 || chan->timer==TIM7) {
 				// These timers cannot be used here.
 				return;
 			} else if (chan->timer==TIM1 || chan->timer==TIM8) {
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
+				if (PIOS_PERIPHERAL_APB2_CLOCK == PIOS_SYSCLK)
+					TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
+				else
+					TIM_TimeBaseStructure.TIM_Prescaler = ((PIOS_PERIPHERAL_APB2_CLOCK*2) / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
 			} else {
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
+				if (PIOS_PERIPHERAL_APB1_CLOCK == PIOS_SYSCLK)
+					TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
+				else
+					TIM_TimeBaseStructure.TIM_Prescaler = ((PIOS_PERIPHERAL_APB1_CLOCK*2) / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
 			}
 
 			TIM_TimeBaseStructure.TIM_Period = (((output_timer_frequency >> output_timer_frequency_scaler[i]) / speeds[set]) - 1);
