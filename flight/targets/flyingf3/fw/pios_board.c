@@ -1201,7 +1201,7 @@ void PIOS_Board_Init(void) {
 			l3gd20_samplerate = PIOS_L3GD20_RATE_760HZ_100HZ;
 			break;
 	}
-	PIOS_L3GD20_SetSampleRate(l3gd20_samplerate);
+	PIOS_Assert(PIOS_L3GD20_SetSampleRate(l3gd20_samplerate) == 0);
 
 	// To be safe map from UAVO enum to driver enum
 	/*
