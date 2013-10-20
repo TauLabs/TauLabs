@@ -1,4 +1,4 @@
-/**
+    /**
  ******************************************************************************
  *
  * @file       calibration.h
@@ -159,6 +159,9 @@ private:
 
     //! Whether to attempt to calibrate the accelerometer (normally if it is present)
     bool calibrateAccels;
+
+    //! Whether to zero the z-accel
+    bool zeroVertical;
 
     //! The expected gravity amplitude
     double accelLength;
