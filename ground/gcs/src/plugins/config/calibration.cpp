@@ -474,6 +474,19 @@ void Calibration::doStartOrientation() {
     connect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 }
 
+//! Start collecting data while vehicle is level
+void Calibration::doStartBiasAndLeveling()
+{
+    zeroVertical = true;
+    doStartLeveling();
+}
+
+//! Start collecting data while vehicle is level
+void Calibration::doStartNoBiasLeveling()
+{
+    zeroVertical = false;
+    doStartLeveling();
+}
 
 /**
  * @brief Calibration::doStartLeveling Called by UI to start collecting data to calculate level
