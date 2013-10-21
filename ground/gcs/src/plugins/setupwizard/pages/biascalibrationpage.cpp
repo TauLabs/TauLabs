@@ -97,7 +97,7 @@ void BiasCalibrationPage::performCalibration()
     connect(m_calibrationUtil, SIGNAL(calibrationCompleted()), this, SLOT(calibrationDone()));
     QTimer::singleShot(20000, this, SLOT(calibrationDone()));
 
-    m_calibrationUtil->doStartLeveling();
+    m_calibrationUtil->doStartBiasAndLeveling();
 }
 
 void BiasCalibrationPage::calibrationProgress(int current)
