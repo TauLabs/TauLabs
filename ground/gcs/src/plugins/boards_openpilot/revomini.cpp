@@ -42,6 +42,13 @@ RevoMini::RevoMini(void)
     setUSBInfo(board);
 
     boardType = 0x09;
+
+    // Define the bank of channels that are connected to a given timer
+    channelBanks.resize(6);
+    channelBanks[0] = QVector<int> () << 1 << 2;
+    channelBanks[1] = QVector<int> () << 3;
+    channelBanks[2] = QVector<int> () << 4;
+    channelBanks[3] = QVector<int> () << 5 << 6;
 }
 
 RevoMini::~RevoMini()
@@ -76,11 +83,6 @@ bool RevoMini::queryCapabilities(BoardCapabilities capability)
         return true;
     }
     return false;
-}
-
-QStringList RevoMini::queryChannelBanks()
-{
-    return QStringList(QStringList() << "1-2" << "3" << "4" << "5-6");
 }
 
 /**

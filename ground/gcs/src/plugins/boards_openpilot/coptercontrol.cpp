@@ -42,6 +42,13 @@ CopterControl::CopterControl(void)
     setUSBInfo(board);
 
     boardType = 0x04;
+
+    // Define the bank of channels that are connected to a given timer
+    channelBanks.resize(6);
+    channelBanks[0] = QVector<int> () << 1 << 2 << 3;
+    channelBanks[1] = QVector<int> () << 4;
+    channelBanks[2] = QVector<int> () << 5 << 7 << 8;
+    channelBanks[3] = QVector<int> () << 6 << 9 << 10;
 }
 
 CopterControl::~CopterControl()
@@ -66,12 +73,6 @@ bool CopterControl::queryCapabilities(BoardCapabilities capability)
     }
     return false;
 }
-
-QStringList CopterControl::queryChannelBanks()
-{
-    return QStringList(QStringList() << "1-3" <<  "4" << "5,7-8" << "6,9-10");
-}
-
 
 QString CopterControl::shortName()
 {

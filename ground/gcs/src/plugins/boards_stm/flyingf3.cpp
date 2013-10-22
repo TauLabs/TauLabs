@@ -42,6 +42,13 @@ FlyingF3::FlyingF3(void)
     setUSBInfo(board);
 
     boardType = 0x83;
+
+    // Define the bank of channels that are connected to a given timer
+    channelBanks.resize(6);
+    channelBanks[0] = QVector<int> () << 1 << 2 << 3 << 4;
+    channelBanks[1] = QVector<int> () << 5 << 6 << 7;
+    channelBanks[2] = QVector<int> () << 8 << 9 << 10;
+    channelBanks[3] = QVector<int> () << 11;
 }
 
 FlyingF3::~FlyingF3()
@@ -75,11 +82,6 @@ bool FlyingF3::queryCapabilities(BoardCapabilities capability)
         return false;
     }
     return false;
-}
-
-QStringList FlyingF3::queryChannelBanks()
-{
-    return QStringList(QStringList() << "1-4" << "5-7" << "8-10" << "11");
 }
 
 

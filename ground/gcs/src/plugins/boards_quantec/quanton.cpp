@@ -42,6 +42,13 @@ Quanton::Quanton(void)
     setUSBInfo(board);
 
     boardType = 0x86;
+
+    // Define the bank of channels that are connected to a given timer
+    channelBanks.resize(6);
+    channelBanks[0] = QVector<int> () << 1 << 2 << 3 << 4;
+    channelBanks[1] = QVector<int> () << 5 << 6;
+    channelBanks[2] = QVector<int> () << 7;
+    channelBanks[3] = QVector<int> () << 8;
 }
 
 Quanton::~Quanton()
@@ -75,11 +82,6 @@ bool Quanton::queryCapabilities(BoardCapabilities capability)
         return false;
     }
     return false;
-}
-
-QStringList Quanton::queryChannelBanks()
-{
-    return QStringList(QStringList() << "1-4" <<  "5-6" << "7" << "8");
 }
 
 

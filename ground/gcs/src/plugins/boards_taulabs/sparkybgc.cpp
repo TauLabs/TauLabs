@@ -47,6 +47,15 @@ SparkyBGC::SparkyBGC(void)
     setUSBInfo(board);
 
     boardType = 0x89;
+
+    // Define the bank of channels that are connected to a given timer
+    channelBanks.resize(6);
+    channelBanks[0] = QVector<int> () << 1 << 2;
+    channelBanks[1] = QVector<int> () << 3;
+    channelBanks[2] = QVector<int> () << 4 << 7 << 9;
+    channelBanks[3] = QVector<int> () << 5;
+    channelBanks[4] = QVector<int> () << 6 << 10;
+    channelBanks[5] = QVector<int> () << 8;
 }
 
 SparkyBGC::~SparkyBGC()
@@ -83,10 +92,6 @@ bool SparkyBGC::queryCapabilities(BoardCapabilities capability)
     return false;
 }
 
-QStringList SparkyBGC::queryChannelBanks()
-{
-    return QStringList(QStringList() << "1-2" << "3" << "4,7,9" << "5" << "6,10" << "8");
-}
 
 /**
  * @brief SparkyBGC::getSupportedProtocols
