@@ -26,8 +26,8 @@
 		error - this controls heading -->
 		<field name="HeadingPI" units="deg/deg" type="float" elements="3" elementnames="Kp,Ki,ILimit" defaultvalue="0.6, 0, 0"/>
 
-		<!-- coefficients for desired pitch in relation to acceleration error -->
-		<field name="AirspeedPI" units="deg / (m/s^2)" type="float" elements="3" elementnames="Kp,Ki,ILimit" defaultvalue="1, .05, 5"/>
+		<!-- coefficients for desired pitch in relation to airspeed error -->
+		<field name="AirspeedPI" units="deg / (m/s)" type="float" elements="3" elementnames="Kp,Ki,ILimit" defaultvalue="1, .05, 5"/>
 
 		<!-- coefficients for adjusting desired pitch in relation to altitude error -->
 		<field name="AltitudeErrorToPitchCrossFeed" units="deg / m" type="float" elementnames="Kp,Max" defaultvalue=".2, 10"/>
