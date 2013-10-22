@@ -29,11 +29,9 @@
  */
 #ifndef ANALOG_AIRSPEED_H
 #define ANALOG_AIRSPEED_H
-#if defined(PIOS_INCLUDE_MPXV7002) || defined (PIOS_INCLUDE_MPXV5004)
 
 void baro_airspeedGetAnalog(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin);
 
-#endif
 #endif // ANALOG_AIRSPEED_H
 
 /**

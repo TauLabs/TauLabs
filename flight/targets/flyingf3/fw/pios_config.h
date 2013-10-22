@@ -63,7 +63,7 @@
 /* Select the sensors to include */
 #define PIOS_INCLUDE_L3GD20
 #define PIOS_INCLUDE_LSM303
-//#define PIOS_INCLUDE_ETASV3
+#define PIOS_INCLUDE_ETASV3
 #define PIOS_INCLUDE_MPXV5004
 #define PIOS_INCLUDE_MPXV7002
 #define FLASH_FREERTOS

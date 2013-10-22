@@ -51,11 +51,7 @@
 // Private types
 
 // Private variables
-
-// Private functions
-
 static uint16_t calibrationCount=0;
-
 
 void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
 {
@@ -98,7 +94,13 @@ void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *la
 	baroAirspeedData->CalibratedAirspeed = calibratedAirspeed;
 }
 
+#else
 
+void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
+{
+	/* Do nothing when driver support not compiled. */
+	vTaskDelayUntil(lastSysTime, MS2TICKS(1000));
+}
 #endif
 
 /**
