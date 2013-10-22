@@ -80,7 +80,7 @@ private:
     void setGcsReceiver(double leftX, double leftY, double rightX, double rightY);
 
     //! Set the ControlCommand object
-    void setManualControl(double leftX, double leftY, double rightX, double rightY);
+    void setControlCommand(double leftX, double leftY, double rightX, double rightY);
 
     QTime joystickTime;
     QWidget *m_widget;

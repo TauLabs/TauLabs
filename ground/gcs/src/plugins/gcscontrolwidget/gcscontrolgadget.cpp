@@ -143,7 +143,7 @@ GCSControl* GCSControlGadget::getGcsControl() {
 
 void GCSControlGadget::controlCommandUpdated(UAVObject * obj) {
 
-    // In GCS Receiver mode do not show the updates from ManualControl
+    // In GCS Receiver mode do not show the updates from ControlCommand
     if (gcsReceiverMode)
         return;
 
@@ -183,7 +183,7 @@ void GCSControlGadget::sticksChangedLocally(double leftX, double leftY, double r
     if (gcsReceiverMode)
         setGcsReceiver(leftX, leftY, rightX, rightY);
     else
-        setManualControl(leftX, leftY, rightX, rightY);
+        setControlCommand(leftX, leftY, rightX, rightY);
 }
 
 //! Set the GCS Receiver object
@@ -262,7 +262,7 @@ void GCSControlGadget::flightModeChanged(ControlCommandSettings::FlightModePosit
 }
 
 //! Set the ControlCommand object
-void GCSControlGadget::setManualControl(double leftX, double leftY, double rightX, double rightY)
+void GCSControlGadget::setControlCommand(double leftX, double leftY, double rightX, double rightY)
 {
     ControlCommand * obj = getControlCommand();
     double oldRoll = obj->getField("Roll")->getDouble();

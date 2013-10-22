@@ -48,9 +48,11 @@ void GCSControl::extensionsInitialized()
     Q_ASSERT(objMngr);
 
     rcTransmitterSettings = RCTransmitterSettings::GetInstance(objMngr);
-    Q_ASSERT(rcTransmitterSettings);
-
+    controlCommandSettings = ControlCommandSettings::GetInstance(objMngr);
     m_gcsReceiver = GCSReceiver::GetInstance(objMngr);
+
+    Q_ASSERT(rcTransmitterSettings);
+    Q_ASSERT(controlCommandSettings);
     Q_ASSERT(m_gcsReceiver);
 }
 
@@ -80,13 +82,20 @@ bool GCSControl::beginGCSControl()
 {
     if(hasControl)
         return false;
+
+    // Backup metadata
     rcTransmitterSettingsDataBackup = rcTransmitterSettings->getData();
     rcTransmitterSettingsMetaBackup = rcTransmitterSettings->getMetadata();
     controlCommandSettingsDataBackup = controlCommandSettings->getData();
     controlCommandSettingsMetaBackup = controlCommandSettings->getMetadata();
-    RCTransmitterSettings::Metadata meta = rcTransmitterSettings->getDefaultMetadata();
-    UAVObject::SetGcsAccess(meta,UAVObject::ACCESS_READWRITE);
 
+    // Set metadata
+    RCTransmitterSettings::Metadata rcTransmitterSettingsMetaDefault = rcTransmitterSettings->getDefaultMetadata();
+    UAVObject::SetGcsAccess(rcTransmitterSettingsMetaDefault, UAVObject::ACCESS_READWRITE);
+    ControlCommandSettings::Metadata controlCommandSettingsMetaDefault = controlCommandSettings->getDefaultMetadata();
+    UAVObject::SetGcsAccess(controlCommandSettingsMetaDefault, UAVObject::ACCESS_READWRITE);
+
+    // Set RC Transmitter settings
     for(quint8 x = 0; x < RCTransmitterSettings::CHANNELGROUPS_NUMELEM; ++x)
     {
         rcTransmitterSettings->setChannelGroups(x, RCTransmitterSettings::CHANNELGROUPS_GCS);
@@ -94,13 +103,15 @@ bool GCSControl::beginGCSControl()
 
     for(quint8 x = 0; x < RCTransmitterSettings::CHANNELNUMBER_NUMELEM; ++x)
     {
-        rcTransmitterSettings->setChannelNumber(x,x+1);
-        rcTransmitterSettings->setChannelMax(x,CHANNEL_MAX);
-        rcTransmitterSettings->setChannelNeutral(x,CHANNEL_NEUTRAL);
-        rcTransmitterSettings->setChannelMin(x,CHANNEL_MIN);
+        rcTransmitterSettings->setChannelNumber(x, x+1);
+        rcTransmitterSettings->setChannelMax(x, CHANNEL_MAX);
+        rcTransmitterSettings->setChannelNeutral(x, CHANNEL_NEUTRAL);
+        rcTransmitterSettings->setChannelMin(x, CHANNEL_MIN);
     }
     rcTransmitterSettings->setDeadband(0);
+    rcTransmitterSettings->updated();
 
+    // Set Control Command settings
     controlCommandSettings->setFlightModeNumber(1);
     controlCommandSettings->setFlightModePosition(0, ControlCommandSettings::FLIGHTMODEPOSITION_STABILIZED1);
     controlCommandSettings->updated();
