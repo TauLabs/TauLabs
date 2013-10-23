@@ -15,6 +15,9 @@
 # misc tools
 RM=rm
 
+PYTHON := python
+export PYTHON
+
 QT_SPEC := win32-g++
 
 # this might need to switch on debug/release
