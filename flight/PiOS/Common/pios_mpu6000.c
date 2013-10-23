@@ -139,9 +139,9 @@ int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
 	pios_mpu6000_dev->cfg = cfg;
 
 	/* Configure the MPU6000 Sensor */
-	PIOS_SPI_SetClockSpeed(pios_mpu6000_dev->spi_id, PIOS_SPI_PRESCALER_256);
+	PIOS_SPI_SetClockSpeed(pios_mpu6000_dev->spi_id, 100000);
 	PIOS_MPU6000_Config(cfg);
-	PIOS_SPI_SetClockSpeed(pios_mpu6000_dev->spi_id, PIOS_SPI_PRESCALER_16);
+	PIOS_SPI_SetClockSpeed(pios_mpu6000_dev->spi_id, 3000000);
 
 	/* Set up EXTI line */
 	PIOS_EXTI_Init(cfg->exti_cfg);
