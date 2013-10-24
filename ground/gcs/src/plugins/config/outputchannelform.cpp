@@ -74,7 +74,12 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
     ui.actuatorLink->setChecked(false);
     connect(ui.actuatorLink, SIGNAL(toggled(bool)), this, SLOT(linkToggled(bool)));
 
+    // Get telemetry manager and connect
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    TelemetryManager* telMngr = pm->getObject<TelemetryManager>();
+    connect(telMngr, SIGNAL(connected()), this, SLOT(onAutopilotConnect()));
+
+    // Get UAVObject and connect
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
     connect(ActuatorSettings::GetInstance(objManager), SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateMaxSpinboxValue(UAVObject*)));
 
@@ -375,4 +380,16 @@ void OutputChannelForm::updateMaxSpinboxValue(UAVObject *obj)
             }
         }
     }
+}
+
+
+/**
+ * @brief OutputChannelForm::onAutopilotConnect Triggers a spinbox update. This resolves a race
+ * condition by which the ActuatorSettings UAVO could be updated before the board manager
+ * loaded the appropriate board settings
+ */
+void OutputChannelForm::onAutopilotConnect()
+{
+    // Trigger an update
+    updateMaxSpinboxValue((UAVObject *)NULL);
 }
