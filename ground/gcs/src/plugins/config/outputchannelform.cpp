@@ -25,6 +25,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <limits>
+
 #include "outputchannelform.h"
 #include "configoutputwidget.h"
 #include "actuatorsettings.h"
@@ -74,12 +76,11 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
     ui.actuatorLink->setChecked(false);
     connect(ui.actuatorLink, SIGNAL(toggled(bool)), this, SLOT(linkToggled(bool)));
 
-    // Get telemetry manager and connect
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    TelemetryManager* telMngr = pm->getObject<TelemetryManager>();
-    connect(telMngr, SIGNAL(connected()), this, SLOT(onAutopilotConnect()));
+    // Trigger when autopilot is connected
+    connect(this, SIGNAL(autoPilotConnected()), this, SLOT(onAutopilotConnect()));
 
     // Get UAVObject and connect
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
     connect(ActuatorSettings::GetInstance(objManager), SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateMaxSpinboxValue(UAVObject*)));
 
