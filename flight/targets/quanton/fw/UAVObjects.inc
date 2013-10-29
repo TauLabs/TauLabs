@@ -106,7 +106,7 @@ UAVOBJSRCFILENAMES += altitudeholdsettings
 UAVOBJSRCFILENAMES += altitudeholddesired
 UAVOBJSRCFILENAMES += waypoint
 UAVOBJSRCFILENAMES += waypointactive
-UAVOBJSRCFILENAMES += htelemetrysettings
+UAVOBJSRCFILENAMES += hottsettings
 
 UAVOBJSRCFILENAMES += txpidsettings
 

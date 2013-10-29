@@ -54,7 +54,7 @@ OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
 OPTMODULES += UAVORelay
 OPTMODULES += Airspeed/revolution
-OPTMODULES += HTelemetry
+OPTMODULES += UAVOHoTTBridge
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc

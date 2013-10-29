@@ -1,5 +1,5 @@
 <xml>
-	<object name="HTelemetrySettings" singleinstance="true" settings="true">
+	<object name="HoTTSettings" singleinstance="true" settings="true">
 		<description>Settings for the @ref HoTT Telemetry Module</description>
 		<field name="Sensor" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
 			<elementnames>

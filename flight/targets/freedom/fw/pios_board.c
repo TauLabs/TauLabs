@@ -184,7 +184,7 @@ uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_overo_id;
 uintptr_t pios_com_mavlink_id;
-uintptr_t pios_com_htelemetry_id;
+uintptr_t pios_com_hott_id;
 uintptr_t pios_internal_adc_id;
 uint32_t pios_rfm22b_id;
 uintptr_t pios_uavo_settings_fs_id;
@@ -602,9 +602,9 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_GPS */
 			break;
 		case HWFREEDOM_MAINPORT_HOTTTELEMETRY:
-#if defined(PIOS_INCLUDE_HTELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_htelemetry_id);
-#endif /* PIOS_INCLUDE_HTELEMETRY */
+#if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
+#endif /* PIOS_INCLUDE_HOTT */
 			break;
 	} /* hw_freedom_mainport */
 
@@ -700,9 +700,9 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_GPS */
 			break;
 		case HWFREEDOM_FLEXIPORT_HOTTTELEMETRY:
-#if defined(PIOS_INCLUDE_HTELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_htelemetry_id);
-#endif /* PIOS_INCLUDE_HTELEMETRY */
+#if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
+#endif /* PIOS_INCLUDE_HOTT */
 			break;
 	} /* 	hw_freedom_flexiport */
 
