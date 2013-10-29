@@ -131,7 +131,8 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
 
     // Connect the signals
     connect(m_ui->yawOrientationStart, SIGNAL(clicked()), &calibration, SLOT(doStartOrientation()));
-    connect(m_ui->accelBiasStart, SIGNAL(clicked()), &calibration, SLOT(doStartLeveling()));
+    connect(m_ui->levelingStart, SIGNAL(clicked()), &calibration, SLOT(doStartNoBiasLeveling()));
+    connect(m_ui->levelingAndBiasStart, SIGNAL(clicked()), &calibration, SLOT(doStartBiasAndLeveling()));
     connect(m_ui->sixPointStart, SIGNAL(clicked()), &calibration, SLOT(doStartSixPoint()));
     connect(m_ui->sixPointSave, SIGNAL(clicked()), &calibration, SLOT(doSaveSixPointPosition()));
     connect(m_ui->sixPointCancel, SIGNAL(clicked()), &calibration, SLOT(doCancelSixPoint()));
@@ -157,7 +158,8 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointStart, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->sixPointCancel, SLOT(setDisabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->yawOrientationStart, SLOT(setEnabled(bool)));
-    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->accelBiasStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->levelingStart, SLOT(setEnabled(bool)));
+    connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->levelingAndBiasStart, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->startTempCal, SLOT(setEnabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->acceptTempCal, SLOT(setDisabled(bool)));
     connect(&calibration, SIGNAL(toggleControls(bool)), m_ui->cancelTempCal, SLOT(setDisabled(bool)));
@@ -167,7 +169,8 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
 
     m_ui->sixPointStart->setEnabled(true);
     m_ui->yawOrientationStart->setEnabled(true);
-    m_ui->accelBiasStart->setEnabled(true);
+    m_ui->levelingStart->setEnabled(true);
+    m_ui->levelingAndBiasStart->setEnabled(true);
 
     refreshWidgetsValues();
 }

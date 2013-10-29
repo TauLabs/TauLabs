@@ -23,7 +23,7 @@
       <attribute name="title">
        <string>Sensor Settings</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0,0">
+      <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0,0,0">
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
@@ -236,7 +236,7 @@
           <string>Automatic level detection</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
-          <item row="1" column="0" colspan="3">
+          <item row="1" column="0" colspan="4">
            <widget class="QProgressBar" name="accelBiasProgress">
             <property name="value">
              <number>0</number>
@@ -246,7 +246,7 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
+          <item row="2" column="3">
            <spacer name="horizontalSpacer_6">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -259,27 +259,8 @@
             </property>
            </spacer>
           </item>
-          <item row="2" column="1">
-           <widget class="QCheckBox" name="zeroGyroBiasOnArming">
-            <property name="toolTip">
-             <string>If enabled, a fast recalibration of gyro zero point will be done
-whenever the frame is armed. Do not move the airframe while
-arming it in that case!</string>
-            </property>
-            <property name="text">
-             <string>Zero gyros while arming vehicle</string>
-            </property>
-            <property name="objrelation" stdset="0">
-             <stringlist>
-              <string>objname:AttitudeSettings</string>
-              <string>fieldname:ZeroDuringArming</string>
-              <string>buttongroup:1</string>
-             </stringlist>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
-           <widget class="QPushButton" name="accelBiasStart">
+           <widget class="QPushButton" name="levelingStart">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -295,6 +276,19 @@ arming it in that case!</string>
            <widget class="QLabel" name="label">
             <property name="text">
              <string>Place vehicle level and click start.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="levelingAndBiasStart">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Takes the current attitude as level and additionally computes the&lt;/p&gt;&lt;p&gt;z-accel offset to match gravity. This produces a more accurate&lt;/p&gt;&lt;p&gt;altitude hold for VTOL aircrafts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Start and Zero Vertical</string>
             </property>
            </widget>
           </item>
@@ -351,6 +345,25 @@ arming it in that case!</string>
            </widget>
           </item>
          </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="zeroGyroBiasOnArming">
+         <property name="toolTip">
+          <string>If enabled, a fast recalibration of gyro zero point will be done
+whenever the frame is armed. Do not move the airframe while
+arming it in that case!</string>
+         </property>
+         <property name="text">
+          <string>Zero gyros while arming vehicle</string>
+         </property>
+         <property name="objrelation" stdset="0">
+          <stringlist>
+           <string>objname:AttitudeSettings</string>
+           <string>fieldname:ZeroDuringArming</string>
+           <string>buttongroup:1</string>
+          </stringlist>
+         </property>
         </widget>
        </item>
       </layout>

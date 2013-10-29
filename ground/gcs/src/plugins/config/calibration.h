@@ -1,4 +1,4 @@
-/**
+    /**
  ******************************************************************************
  *
  * @file       calibration.h
@@ -68,7 +68,10 @@ private:
 
 public slots:
     //! Start collecting data while vehicle is level
-    void doStartLeveling();
+    void doStartBiasAndLeveling();
+
+    //! Start collecting data while vehicle is level
+    void doStartNoBiasLeveling();
 
     //! Start collecting data while vehicle is in pure pitch
     void doStartOrientation();
@@ -143,6 +146,9 @@ signals:
     void calibrationCompleted();
 
 private:
+    //! Perform the leveling calculation
+    void doStartLeveling();
+
     //! Get the object manager
     UAVObjectManager* getObjectManager();
 
@@ -159,6 +165,9 @@ private:
 
     //! Whether to attempt to calibrate the accelerometer (normally if it is present)
     bool calibrateAccels;
+
+    //! Whether to zero the z-accel
+    bool zeroVertical;
 
     //! The expected gravity amplitude
     double accelLength;

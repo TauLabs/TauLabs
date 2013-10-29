@@ -90,6 +90,7 @@ static float gyro_coeff_x[4] = {0,0,0,0};
 static float gyro_coeff_y[4] = {0,0,0,0};
 static float gyro_coeff_z[4] = {0,0,0,0};
 static float gyro_temp_bias[3] = {0,0,0};
+static float z_accel_offset = 0;
 static float Rsb[3][3] = {{0}}; //! Rotation matrix that transforms from the body frame to the sensor board frame
 static int8_t rotate = 0;
 
@@ -248,6 +249,8 @@ static void update_accels(struct pios_sensor_accel_data *accels)
 		accelsData.y = accels_out[1];
 		accelsData.z = accels_out[2];
 	}
+
+	accelsData.z += z_accel_offset;
 
 	accelsData.temperature = accels->temperature;
 	AccelsSet(&accelsData);
@@ -538,7 +541,8 @@ static void settingsUpdatedCb(UAVObjEvent * objEv)
 	gyro_coeff_z[1] =  sensorSettings.ZGyroTempCoeff[1];
 	gyro_coeff_z[2] =  sensorSettings.ZGyroTempCoeff[2];
 	gyro_coeff_z[3] =  sensorSettings.ZGyroTempCoeff[3];
-	
+	z_accel_offset  =  sensorSettings.ZAccelOffset;
+
 	// Zero out any adaptive tracking
 	MagBiasData magBias;
 	MagBiasGet(&magBias);
