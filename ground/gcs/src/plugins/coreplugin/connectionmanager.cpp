@@ -32,8 +32,8 @@
 #include <coreplugin/iconnection.h>
 #include <coreplugin/idevice.h>
 #include <extensionsystem/pluginmanager.h>
-#include "qextserialport/src/qextserialenumerator.h"
-#include "qextserialport/src/qextserialport.h"
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 #include <QDebug>
 #include <QLabel>
 #include <QHBoxLayout>
