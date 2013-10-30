@@ -27,7 +27,6 @@
  */
 #include "mocapwidget.h"
 #include "ui_mocapwidget.h"
-#include "qxtlogger.h"
 #include <QDebug>
 #include <QFile>
 #include <QDir>
@@ -87,7 +86,6 @@ void MoCapWidget::startButtonClicked()
 
     if(!MoCapPlugin::typeMocaps.size())
 	{
-        qxtLog->info("There is no registered exporters, add through MoCapPlugin::addExporter");
 		return;
 	}
 
@@ -115,7 +113,6 @@ void MoCapWidget::startButtonClicked()
 
 	// Setup process
 	widget->textBrowser->append(QString("[%1] Starting %2... ").arg(QTime::currentTime().toString("hh:mm:ss")).arg(creator->Description()));
-    qxtLog->info("MoCap: Starting " + creator->Description());
 
 	// Start bridge
     bool ret = QMetaObject::invokeMethod(exporter, "setupProcess",Qt::QueuedConnection);
@@ -127,7 +124,6 @@ void MoCapWidget::startButtonClicked()
 
 		widget->startButton->setEnabled(false);
 		widget->stopButton->setEnabled(true);
-        qxtLog->info("MoCap: Starting bridge, initializing flight exporter and Autopilot connections");
 
         connect(exporter, SIGNAL(autopilotConnected()), this, SLOT(onAutopilotConnect()),Qt::QueuedConnection);
         connect(exporter, SIGNAL(autopilotDisconnected()), this, SLOT(onAutopilotDisconnect()),Qt::QueuedConnection);
@@ -191,26 +187,22 @@ void MoCapWidget::onAutopilotConnect()
 {
     widget->apLabel->setStyleSheet(strStyleEnable);
     widget->apLabel->setText(strAutopilotConnected);
-    qxtLog->info("MoCap: Motion capture connected.");
 }
 
 void MoCapWidget::onAutopilotDisconnect()
 {
     widget->apLabel->setStyleSheet(strStyleDisable);
 	widget->apLabel->setText(strAutopilotDisconnected);
-	qxtLog->info(strAutopilotDisconnected);
 }
 
 void MoCapWidget::onExporterConnect()
 {
     widget->mocapLabel->setStyleSheet(strStyleEnable);
     widget->mocapLabel->setText(" " + exporter->Name() +" connected ");
-    qxtLog->info(QString("MoCap: %1 connected").arg(exporter->Name()));
 }
 
 void MoCapWidget::onExporterDisconnect()
 {
     widget->mocapLabel->setStyleSheet(strStyleDisable);
     widget->mocapLabel->setText(" " + exporter->Name() +" disconnected ");
-    qxtLog->info(QString("MoCap: %1 disconnected").arg(exporter->Name()));
 }
