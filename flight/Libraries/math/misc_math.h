@@ -31,12 +31,16 @@
 #ifndef MISC_MATH_H
 #define MISC_MATH_H
 
+#include "stdbool.h"
+
+enum arc_center_results {ARC_CENTER_FOUND, ARC_COINCIDENT_POINTS, ARC_INSUFFICIENT_RADIUS};
+
 // Max/Min macros. Taken from http://stackoverflow.com/questions/3437404/min-and-max-in-c
 #define MAX(a, b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a > _b ? _a : _b; })
 #define MIN(a, b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a < _b ? _a : _b; })
 
 //! This is but one definition of sign(.)
-#define sign(x) (x < 0 ? -1 : 1)
+#define SIGN(x) (x < 0 ? -1 : 1)
 
 //! Bound input value within range (plus or minus)
 float bound_sym(float val, float range);
@@ -47,6 +51,14 @@ float bound_min_max(float val, float min, float max);
 //! Circular modulus
 float circular_modulus_deg(float err);
 float circular_modulus_rad(float err);
+
+enum arc_center_results find_arc_center(float start_point[2], float end_point[2], float radius, bool clockwise, bool minor, float center[2]);
+
+//! Measure angle between two points on a circle
+float measure_arc_rad(float oldPosition_NE[2], float newPosition_NE[2], float arcCenter_NE[2]);
+
+//! Measure angle between two 2d vectors
+float angle_between_2d_vectors(float a[2], float b[2]);
 
 #endif /* MISC_MATH_H */
 

@@ -13,6 +13,7 @@
 				<elementname>Fault</elementname>
 				<elementname>GPS</elementname>
 				<elementname>OveroSync</elementname>
+				<elementname>PathManager</elementname>
 				<elementname>PathPlanner</elementname>
 				<elementname>TxPID</elementname>
 				<elementname>VtolPathFollower</elementname>

@@ -38,7 +38,7 @@ WDG_STATS_DIAGNOSTICS ?= NO
 DIAG_TASKS ?= NO
 
 #Or just turn on all the above diagnostics. WARNING: This consumes massive amounts of memory.
-ALL_DIGNOSTICS ?=NO
+ALL_DIAGNOSTICS ?=NO
 
 # Set to YES to build a FW version that will erase all flash memory
 ERASE_FLASH ?= NO
@@ -361,23 +361,23 @@ ifeq ($(DEBUG),YES)
 CFLAGS = -DDEBUG
 endif
 
-ifneq (,$(filter YES,$(STACK_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
+ifneq (,$(filter YES,$(STACK_DIAGNOSTICS) $(ALL_DIAGNOSTICS)))
 CFLAGS += -DSTACK_DIAGNOSTICS
 endif
 
-ifneq (,$(filter YES,$(MIXERSTATUS_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
+ifneq (,$(filter YES,$(MIXERSTATUS_DIAGNOSTICS) $(ALL_DIAGNOSTICS)))
 CFLAGS += -DMIXERSTATUS_DIAGNOSTICS
 endif
 
-ifneq (,$(filter YES,$(RATEDESIRED_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
+ifneq (,$(filter YES,$(RATEDESIRED_DIAGNOSTICS) $(ALL_DIAGNOSTICS)))
 CFLAGS += -DRATEDESIRED_DIAGNOSTICS
 endif
 
-ifneq (,$(filter YES,$(WDG_STATS_DIAGNOSTICS) $(ALL_DIGNOSTICS)))
+ifneq (,$(filter YES,$(WDG_STATS_DIAGNOSTICS) $(ALL_DIAGNOSTICS)))
 CFLAGS += -DWDG_STATS_DIAGNOSTICS
 endif
 
-ifneq (,$(filter YES,$(DIAG_TASKS) $(ALL_DIGNOSTICS)))
+ifneq (,$(filter YES,$(DIAG_TASKS) $(ALL_DIAGNOSTICS)))
 CFLAGS += -DDIAG_TASKS
 endif
 

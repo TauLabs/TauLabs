@@ -28,6 +28,7 @@
 
 #include "atmospheric_math.h" 		/* API declarations */
 #include "physical_constants.h"
+#include "math.h"
 
 /**
  * @brief air_density_from_altitude calculate air density from altitude. http://en.wikipedia.org/wiki/Density_of_air

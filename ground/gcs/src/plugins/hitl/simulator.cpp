@@ -259,8 +259,9 @@ void Simulator::setupUAVObjects()
                 UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
 
                 // Default configuration for all UAVO data rates is "slowUpdate". Add a random factor
-                // so that not all UAVOs update at the same time, which otherwise congests the bus.
-                mdata.flightTelemetryUpdatePeriod = slowUpdate + (rand() % 30);
+                // so that not all UAVOs update at the same time, which otherwise can congest the
+                // telemetry link.
+                mdata.flightTelemetryUpdatePeriod = slowUpdate + ((rand() % 60)-30);
 
                 metaDataList.insert(obj->getName(), mdata);
             }
