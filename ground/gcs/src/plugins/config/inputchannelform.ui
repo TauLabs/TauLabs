@@ -263,22 +263,6 @@ margin:1px;</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="11">
-    <widget class="QCheckBox" name="channelRev">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Rev</string>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="10">
     <spacer name="horizontalSpacer_4">
      <property name="orientation">
@@ -505,13 +489,12 @@ margin:1px;</string>
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>channelNumber</tabstop>
   <tabstop>channelGroup</tabstop>
   <tabstop>channelNumberDropdown</tabstop>
+  <tabstop>channelNumber</tabstop>
   <tabstop>channelMin</tabstop>
   <tabstop>channelNeutral</tabstop>
   <tabstop>channelMax</tabstop>
-  <tabstop>channelRev</tabstop>
  </tabstops>
  <resources/>
  <connections/>

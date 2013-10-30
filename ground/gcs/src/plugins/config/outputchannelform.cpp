@@ -59,7 +59,7 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
     // Register for ActuatorSettings changes:
     connect(ui.actuatorMin, SIGNAL(editingFinished()), this, SLOT(setChannelRange()));
     connect(ui.actuatorMax, SIGNAL(editingFinished()), this, SLOT(setChannelRange()));
-    connect(ui.actuatorRev, SIGNAL(toggled(bool)), this, SLOT(reverseChannel(bool)));
+    connect(ui.pb_reverseActuator, SIGNAL(clicked()), this, SLOT(reverseChannel()));
 
     // Connect the channel out sliders to our signal in order to send updates in test mode
     connect(ui.actuatorNeutral, SIGNAL(valueChanged(int)), this, SLOT(sendChannelTest(int)));
@@ -67,7 +67,6 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
     // Connect UI elements to dirty/clean (i.e. changed/unchanged) signal/slot
     connect(ui.actuatorMin, SIGNAL(editingFinished()), this, SLOT(notifyFormChanged()));
     connect(ui.actuatorMax, SIGNAL(editingFinished()), this, SLOT(notifyFormChanged()));
-    connect(ui.actuatorRev, SIGNAL(released()), this, SLOT(notifyFormChanged()));
     connect(ui.actuatorNeutral, SIGNAL(sliderReleased()), this, SLOT(notifyFormChanged()));
 
     ui.actuatorLink->setChecked(false);
@@ -96,13 +95,13 @@ void OutputChannelForm::enableChannelTest(bool state)
         // moving the sliders. Thanks Ivan for the tip :)
         ui.actuatorMin->setEnabled(false);
         ui.actuatorMax->setEnabled(false);
-        ui.actuatorRev->setEnabled(false);
+        ui.pb_reverseActuator->setEnabled(false);
     }
     else
     {
         ui.actuatorMin->setEnabled(true);
         ui.actuatorMax->setEnabled(true);
-        ui.actuatorRev->setEnabled(true);
+        ui.pb_reverseActuator->setEnabled(true);
     }
 }
 
@@ -170,10 +169,6 @@ void OutputChannelForm::setMinmax(int minimum, int maximum)
     ui.actuatorMin->setValue(minimum);
     ui.actuatorMax->setValue(maximum);
     setChannelRange();
-    if(ui.actuatorMin->value() > ui.actuatorMax->value())
-        ui.actuatorRev->setChecked(true);
-    else
-        ui.actuatorRev->setChecked(false);
 }
 
 /**
@@ -213,73 +208,62 @@ void OutputChannelForm::setAssignment(const QString &assignment)
  */
 void OutputChannelForm::setChannelRange()
 {
-    int oldMini = ui.actuatorNeutral->minimum();
-//    int oldMaxi = ui.actuatorNeutral->maximum();
-
     if (ui.actuatorMin->value() < ui.actuatorMax->value())
     {
         ui.actuatorNeutral->setRange(ui.actuatorMin->value(), ui.actuatorMax->value());
-        ui.actuatorRev->setChecked(false);
     }
     else
     {
         ui.actuatorNeutral->setRange(ui.actuatorMax->value(), ui.actuatorMin->value());
-        ui.actuatorRev->setChecked(true);
     }
 
-    if (ui.actuatorNeutral->value() == oldMini)
-        ui.actuatorNeutral->setValue(ui.actuatorNeutral->minimum());
-
-//    if (ui.actuatorNeutral->value() == oldMaxi)
-//        ui.actuatorNeutral->setValue(ui.actuatorNeutral->maximum());  // this can be dangerous if it happens to be controlling a motor at the time!
+    // Force a full slider update
+    updateSlider();
 }
 
 /**
  * Reverses the channel when the checkbox is clicked
  */
-void OutputChannelForm::reverseChannel(bool reverseState)
+void OutputChannelForm::reverseChannel()
 {
-    // Only reverse the channel values if they haven't been reversed elsewhere. This
-    // arises because reverseChannel is called either when the user directly clicks
-    // the reverse button or when the ui.actuatorMin/ui.actuatorMax values are
-    // reversed (either through a settings update or direct user action).
-    if ((reverseState && (ui.actuatorMax->value() > ui.actuatorMin->value())) ||
-        (!reverseState && (ui.actuatorMax->value() < ui.actuatorMin->value()))) {
-        // Swap the min & max values
-        int temp = ui.actuatorMax->value();
-        ui.actuatorMax->setValue(ui.actuatorMin->value());
-        ui.actuatorMin->setValue(temp);
-    }
+    // Swap the min & max values
+    int temp = ui.actuatorMax->value();
+    ui.actuatorMax->setValue(ui.actuatorMin->value());
+    ui.actuatorMin->setValue(temp);
 
-    // Also update the channel value
-    // This is a trick to force the slider to update its value and
-    // emit the right signal itself, because our sendChannelTest(int) method
-    // relies on the object sender's identity.
-    if (ui.actuatorNeutral->value() < ui.actuatorNeutral->maximum())
-    {
-        ui.actuatorNeutral->setValue(ui.actuatorNeutral->value()+1);
-        ui.actuatorNeutral->setValue(ui.actuatorNeutral->value()-1);
-    }
-    else
-    {
-        ui.actuatorNeutral->setValue(ui.actuatorNeutral->value()-1);
-        ui.actuatorNeutral->setValue(ui.actuatorNeutral->value()+1);
-    }
-
-    if(reverseState) {
-        ui.actuatorNeutral->setMinimum(ui.actuatorMax->value());
-        ui.actuatorNeutral->setMaximum(ui.actuatorMin->value());
-    } else {
-        ui.actuatorNeutral->setMinimum(ui.actuatorMin->value());
-        ui.actuatorNeutral->setMaximum(ui.actuatorMax->value());
-    }
-    ui.actuatorNeutral->setInvertedAppearance(reverseState);
-    ui.actuatorNeutral->setInvertedControls(reverseState);
-
+    // Force slider update
+    setChannelRange();
 }
 
+
 /**
- * Emits the channel value which will be send to the UAV to move the servo.
+ * Inverts the slider when the output channel is reversed
+ */
+/**
+ * @brief OutputChannelForm::updateSlider
+ */
+void OutputChannelForm::updateSlider()
+{
+    // Invert the slider
+    if(ui.actuatorMin->value() > ui.actuatorMax->value()) {
+        ui.actuatorNeutral->setInvertedAppearance(true);
+
+        // Set the QSlider groove colors so that the fill is on the side of the minimum value
+        ui.actuatorNeutral->setProperty("state", "inverted");
+    } else {
+        ui.actuatorNeutral->setInvertedAppearance(false);
+
+        // Set the QSlider groove colors so that the fill is on the side of the minimum value
+        ui.actuatorNeutral->setProperty("state", "normal");
+    }
+
+    // Force refresh of style sheet.
+    ui.actuatorNeutral->setStyle(QApplication::style());
+}
+
+
+/**
+ * Emits the channel value which will be sent to the UAV to move the servo.
  * Returns immediately if we are not in testing mode.
  */
 void OutputChannelForm::sendChannelTest(int value)
@@ -290,7 +274,7 @@ void OutputChannelForm::sendChannelTest(int value)
     if (!ob)
         return;
 
-    if (ui.actuatorRev->isChecked())
+    if (ui.actuatorMin->value() > ui.actuatorMax->value())
             value = ui.actuatorMin->value() - value + ui.actuatorMax->value();	// the channel is reversed
 
     if (ui.actuatorLink->checkState() && parent())
