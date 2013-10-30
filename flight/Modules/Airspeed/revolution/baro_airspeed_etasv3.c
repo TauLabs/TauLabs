@@ -46,19 +46,20 @@
 #define ETS_AIRSPEED_SCALE                      1.0f   //???
 #define CALIBRATION_IDLE_MS                     2000   //Time to wait before calibrating, in [ms]
 #define CALIBRATION_COUNT_MS                    2000   //Time to spend calibrating, in [ms]
-#define ANALOG_BARO_AIRSPEED_TIME_CONSTANT_MS   100.0f //Needs to be settable in a UAVO
+#define CALIBRATION_COUNT_IDLE                  (CALIBRATION_IDLE_MS/SAMPLING_DELAY_MS_ETASV3) //Ticks to wait before calibrating
+#define CALIBRATION_COUNT                       (CALIBRATION_COUNT_MS/SAMPLING_DELAY_MS_ETASV3) //Ticks to wait while calibrating
 
 // Private types
 
 // Private variables
-static uint16_t calibrationCount=0;
+static uint16_t calibrationCount = 0;
+static uint32_t calibrationSum = 0;
 
 void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
 {
 	//Wait until our turn.
 	vTaskDelayUntil(lastSysTime, MS2TICKS(SAMPLING_DELAY_MS_ETASV3));
 
-	static uint32_t calibrationSum = 0;
 	AirspeedSettingsData airspeedSettingsData;
 	AirspeedSettingsGet(&airspeedSettingsData);
 
@@ -72,24 +73,29 @@ void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *la
 	}
 	
 	//Calibrate sensor by averaging zero point value //THIS SHOULD NOT BE DONE IF THERE IS AN IN-AIR RESET. HOW TO DETECT THIS?
-	if (calibrationCount < CALIBRATION_IDLE_MS/SAMPLING_DELAY_MS_ETASV3) {
+	if (calibrationCount < CALIBRATION_COUNT_IDLE) {
 		calibrationCount++;
+		calibrationSum = 0;
 		return;
-	} else if (calibrationCount < (CALIBRATION_IDLE_MS + CALIBRATION_COUNT_MS)/SAMPLING_DELAY_MS_ETASV3) {
+	} else if (calibrationCount < CALIBRATION_COUNT_IDLE + CALIBRATION_COUNT) {
 		calibrationCount++;
 		calibrationSum +=  baroAirspeedData->SensorValue;
-		if (calibrationCount == (CALIBRATION_IDLE_MS + CALIBRATION_COUNT_MS)/SAMPLING_DELAY_MS_ETASV3) {
 
-			airspeedSettingsData.ZeroPoint = (int16_t) (((float)calibrationSum) / CALIBRATION_COUNT_MS +0.5f);
+		if (calibrationCount == CALIBRATION_COUNT_IDLE + CALIBRATION_COUNT) {
+			airspeedSettingsData.ZeroPoint = (uint16_t) roundf(((float)calibrationSum) / CALIBRATION_COUNT);
 			AirspeedSettingsZeroPointSet( &airspeedSettingsData.ZeroPoint );
 		} else {
 			return;
 		}
 	}
-	
+
 	//Compute airspeed
-	float calibratedAirspeed = ETS_AIRSPEED_SCALE * sqrtf((float)abs(baroAirspeedData->SensorValue - airspeedSettingsData.ZeroPoint)); //Is this calibrated or indicated airspeed?
-	
+	float calibratedAirspeed;
+	if (baroAirspeedData->SensorValue < airspeedSettingsData.ZeroPoint)
+		calibratedAirspeed = ETS_AIRSPEED_SCALE * sqrtf(airspeedSettingsData.ZeroPoint - baroAirspeedData->SensorValue);
+	else
+		calibratedAirspeed = 0;
+
 	baroAirspeedData->BaroConnected = BAROAIRSPEED_BAROCONNECTED_TRUE;
 	baroAirspeedData->CalibratedAirspeed = calibratedAirspeed;
 }
