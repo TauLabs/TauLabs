@@ -32,8 +32,7 @@
 #include <coreplugin/generalsettings.h>
 //#define UAVTALK_DEBUG
 #ifdef UAVTALK_DEBUG
-  #include "qxtlogger.h"
-  #define UAVTALK_QXTLOG_DEBUG(...) qxtLog->debug(__VA_ARGS__)
+  #define UAVTALK_QXTLOG_DEBUG(...) qDebug(__VA_ARGS__)
 #else  // UAVTALK_DEBUG
   #define UAVTALK_QXTLOG_DEBUG(...)
 #endif	// UAVTALK_DEBUG

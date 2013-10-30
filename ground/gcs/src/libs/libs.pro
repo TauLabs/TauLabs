@@ -9,8 +9,7 @@ SUBDIRS   = \
     utils \
     tlmapcontrol \
     qwt \
-    qextserialport \
-    libqxt
+    qextserialport
 
 SDL {
 SUBDIRS += sdlgamepad
