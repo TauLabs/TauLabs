@@ -27,7 +27,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "UAVOHoTTBridge.h"
+#include "uavohottbridge.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 800
