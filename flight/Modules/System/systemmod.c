@@ -171,6 +171,8 @@ static void systemTask(void *parameters)
 		SystemSettingsConnectCallback(configurationUpdatedCb);
 	if (ManualControlSettingsHandle())
 		ManualControlSettingsConnectCallback(configurationUpdatedCb);
+	if (FlightStatusHandle())
+		FlightStatusConnectCallback(configurationUpdatedCb);
 #endif
 
 	// Main system loop
