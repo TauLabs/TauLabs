@@ -25,8 +25,11 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <limits>
+
 #include "outputchannelform.h"
 #include "configoutputwidget.h"
+#include "actuatorsettings.h"
 
 OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const bool showLegend) :
         ConfigTaskWidget(parent),
@@ -71,6 +74,14 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
 
     ui.actuatorLink->setChecked(false);
     connect(ui.actuatorLink, SIGNAL(toggled(bool)), this, SLOT(linkToggled(bool)));
+
+    // Trigger when autopilot is connected
+    connect(this, SIGNAL(autoPilotConnected()), this, SLOT(onAutopilotConnect()));
+
+    // Get UAVObject and connect
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    connect(ActuatorSettings::GetInstance(objManager), SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateMaxSpinboxValue(UAVObject*)));
 
     disableMouseWheelEvents();
 }
@@ -313,4 +324,57 @@ void OutputChannelForm::notifyFormChanged()
     if (!m_inChannelTest){
         emit formChanged();
     }
+}
+
+
+void OutputChannelForm::updateMaxSpinboxValue(UAVObject *obj)
+{
+    Q_UNUSED(obj);
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    ActuatorSettings *actuatorSettings = ActuatorSettings::GetInstance(objManager);
+    ActuatorSettings::DataFields actuatorSettingsData = actuatorSettings->getData();
+
+    UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
+    Core::IBoardType *board = utilMngr->getBoardType();
+
+    // Check that a board is registered
+    if (board == NULL)
+        return;
+
+    QVector< QVector<qint32> > channelBanks = board->getChannelBanks();
+
+    for (int i=0; i<channelBanks.size(); i++) {
+        QVector<int> channelBank = channelBanks[i];
+
+        // Iterate over each channel...
+        foreach(qint32 channel, channelBank) {
+            // ... and if there's a match, set the maximum values and return
+            if (channel-1 == m_index) {
+                double maxPulseWidth = round(10000000.0 / actuatorSettingsData.ChannelUpdateFreq[i]);
+
+                // Saturate at the UAVO's maximum value
+                if (maxPulseWidth > std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max())
+                    maxPulseWidth = std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max();
+
+                ui.actuatorMin->setMaximum(maxPulseWidth);
+                ui.actuatorMax->setMaximum(maxPulseWidth);
+
+                return;
+            }
+        }
+    }
+}
+
+
+/**
+ * @brief OutputChannelForm::onAutopilotConnect Triggers a spinbox update. This resolves a race
+ * condition by which the ActuatorSettings UAVO could be updated before the board manager
+ * loaded the appropriate board settings
+ */
+void OutputChannelForm::onAutopilotConnect()
+{
+    // Trigger an update
+    updateMaxSpinboxValue((UAVObject *)NULL);
 }

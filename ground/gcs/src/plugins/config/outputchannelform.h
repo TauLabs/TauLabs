@@ -70,6 +70,8 @@ private slots:
     void sendChannelTest(int value);
     void setChannelRange();
     void notifyFormChanged();
+    void updateMaxSpinboxValue(UAVObject*);
+    void onAutopilotConnect();
 };
 
 inline int OutputChannelForm::index() const

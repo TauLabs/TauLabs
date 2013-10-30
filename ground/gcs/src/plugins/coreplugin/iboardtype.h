@@ -104,6 +104,13 @@ public:
     virtual QStringList queryChannelBanks();
 
     /**
+     * @brief Get banks of output PWM channels banks on the board
+     * @return matrix of channel bank names
+     *
+     */
+    virtual QVector< QVector<int> > getChannelBanks(){return channelBanks;}
+
+    /**
      * @brief getBoardPicture
      * @return provides a picture for the board. Uploader gadget or
      *         configuration plugin can use this, for instance.
