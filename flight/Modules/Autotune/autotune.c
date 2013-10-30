@@ -35,8 +35,7 @@
 #include "physical_constants.h"
 #include "flightstatus.h"
 #include "modulesettings.h"
-#include "manualcontrolcommand.h"
-#include "manualcontrolsettings.h"
+#include "controlcommand.h"
 #include "relaytuning.h"
 #include "relaytuningsettings.h"
 #include "stabilizationdesired.h"
@@ -118,7 +117,7 @@ static void AutotuneTask(void *parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_AUTOTUNE);
 		// TODO:
 		// 1. get from queue
-		// 2. based on whether it is flightstatus or manualcontrol
+		// 2. based on whether it is flightstatus or commandcontrol
 
 		portTickType diffTime;
 
@@ -141,11 +140,8 @@ static void AutotuneTask(void *parameters)
 		StabilizationSettingsData stabSettings;
 		StabilizationSettingsGet(&stabSettings);
 
-		ManualControlSettingsData manualSettings;
-		ManualControlSettingsGet(&manualSettings);
-
-		ManualControlCommandData manualControl;
-		ManualControlCommandGet(&manualControl);
+		ControlCommandData controlCommand;
+		ControlCommandGet(&controlCommand);
 
 		RelayTuningSettingsData relaySettings;
 		RelayTuningSettingsGet(&relaySettings);
@@ -156,19 +152,19 @@ static void AutotuneTask(void *parameters)
 			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL]  = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
 			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
 
-			stabDesired.Roll = manualControl.Roll * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL];
-			stabDesired.Pitch = manualControl.Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH];
+			stabDesired.Roll = controlCommand.Roll * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL];
+			stabDesired.Pitch = controlCommand.Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH];
 		} else {
 			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL]  = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 
-			stabDesired.Roll = manualControl.Roll * stabSettings.RollMax;
-			stabDesired.Pitch = manualControl.Pitch * stabSettings.PitchMax;
+			stabDesired.Roll = controlCommand.Roll * stabSettings.RollMax;
+			stabDesired.Pitch = controlCommand.Pitch * stabSettings.PitchMax;
 		}
 
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW]   = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
-		stabDesired.Yaw = manualControl.Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW];
-		stabDesired.Throttle = manualControl.Throttle;
+		stabDesired.Yaw = controlCommand.Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW];
+		stabDesired.Throttle = controlCommand.Throttle;
 
 		switch(state) {
 			case AT_INIT:

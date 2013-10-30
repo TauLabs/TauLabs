@@ -46,7 +46,7 @@
 
 #include "txpidsettings.h"
 #include "accessorydesired.h"
-#include "manualcontrolcommand.h"
+#include "controlcommand.h"
 #include "stabilizationsettings.h"
 #include "flightstatus.h"
 #include "modulesettings.h"
@@ -127,7 +127,7 @@ int32_t TxPIDInitialize(void)
 	return -1;
 }
 
-MODULE_INITCALL(TxPIDInitialize, NULL)
+MODULE_INITCALL(TxPIDInitialize, NULL);
 
 /**
  * Update PIDs callback function
@@ -161,7 +161,7 @@ static void updatePIDs(UAVObjEvent* ev)
 
 			float value;
 			if (inst.Inputs[i] == TXPIDSETTINGS_INPUTS_THROTTLE) {
-				ManualControlCommandThrottleGet(&value);
+				ControlCommandThrottleGet(&value);
 				value = scale(value,
 						inst.ThrottleRange[TXPIDSETTINGS_THROTTLERANGE_MIN],
 						inst.ThrottleRange[TXPIDSETTINGS_THROTTLERANGE_MAX],

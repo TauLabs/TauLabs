@@ -35,7 +35,8 @@
 #include "attitudesettings.h"
 #include "mixersettings.h"
 #include "systemsettings.h"
-#include "manualcontrolsettings.h"
+#include "controlcommandsettings.h"
+#include "rctransmittersettings.h"
 #include "sensorsettings.h"
 #include "stabilizationsettings.h"
 
@@ -74,7 +75,7 @@ bool VehicleConfigurationHelper::setupVehicle(bool save)
     }
 
     applyStabilizationConfiguration();
-    applyManualControlDefaults();
+    applyRCTransmitterSettingsDefaults();
 
     bool result = saveChangesToController(save);
     emit saveProgress(m_modifiedObjects.count() + 1, ++m_progress, result ? tr("Done!") : tr("Failed!"));
@@ -86,7 +87,7 @@ bool VehicleConfigurationHelper::setupHardwareSettings(bool save)
     m_progress = 0;
     clearModifiedObjects();
     applyHardwareConfiguration();
-    applyManualControlDefaults();
+    applyRCTransmitterSettingsDefaults();
 
     bool result = saveChangesToController(save);
     emit saveProgress(m_modifiedObjects.count() + 1, ++m_progress, result ? tr("Done!") : tr("Failed!"));
@@ -250,29 +251,29 @@ void VehicleConfigurationHelper::applyActuatorConfiguration()
 
 void VehicleConfigurationHelper::applyFlighModeConfiguration()
 {
-    ManualControlSettings *controlSettings = ManualControlSettings::GetInstance(m_uavoManager);
+    ControlCommandSettings *controlCommandSettings = ControlCommandSettings::GetInstance(m_uavoManager);
 
-    Q_ASSERT(controlSettings);
+    Q_ASSERT(controlCommandSettings);
 
-    ManualControlSettings::DataFields data = controlSettings->getData();
-    data.Stabilization1Settings[0] = ManualControlSettings::STABILIZATION1SETTINGS_ATTITUDE;
-    data.Stabilization1Settings[1] = ManualControlSettings::STABILIZATION1SETTINGS_ATTITUDE;
-    data.Stabilization1Settings[2] = ManualControlSettings::STABILIZATION1SETTINGS_AXISLOCK;
-    data.Stabilization2Settings[0] = ManualControlSettings::STABILIZATION2SETTINGS_ATTITUDE;
-    data.Stabilization2Settings[1] = ManualControlSettings::STABILIZATION2SETTINGS_ATTITUDE;
-    data.Stabilization2Settings[2] = ManualControlSettings::STABILIZATION2SETTINGS_RATE;
-    data.Stabilization3Settings[0] = ManualControlSettings::STABILIZATION3SETTINGS_RATE;
-    data.Stabilization3Settings[1] = ManualControlSettings::STABILIZATION3SETTINGS_RATE;
-    data.Stabilization3Settings[2] = ManualControlSettings::STABILIZATION3SETTINGS_RATE;
+    ControlCommandSettings::DataFields data = controlCommandSettings->getData();
+    data.Stabilization1Settings[0] = ControlCommandSettings::STABILIZATION1SETTINGS_ATTITUDE;
+    data.Stabilization1Settings[1] = ControlCommandSettings::STABILIZATION1SETTINGS_ATTITUDE;
+    data.Stabilization1Settings[2] = ControlCommandSettings::STABILIZATION1SETTINGS_AXISLOCK;
+    data.Stabilization2Settings[0] = ControlCommandSettings::STABILIZATION2SETTINGS_ATTITUDE;
+    data.Stabilization2Settings[1] = ControlCommandSettings::STABILIZATION2SETTINGS_ATTITUDE;
+    data.Stabilization2Settings[2] = ControlCommandSettings::STABILIZATION2SETTINGS_RATE;
+    data.Stabilization3Settings[0] = ControlCommandSettings::STABILIZATION3SETTINGS_RATE;
+    data.Stabilization3Settings[1] = ControlCommandSettings::STABILIZATION3SETTINGS_RATE;
+    data.Stabilization3Settings[2] = ControlCommandSettings::STABILIZATION3SETTINGS_RATE;
     data.FlightModeNumber = 3;
-    data.FlightModePosition[0]     = ManualControlSettings::FLIGHTMODEPOSITION_STABILIZED1;
-    data.FlightModePosition[1]     = ManualControlSettings::FLIGHTMODEPOSITION_STABILIZED2;
-    data.FlightModePosition[2]     = ManualControlSettings::FLIGHTMODEPOSITION_STABILIZED3;
-    data.FlightModePosition[3]     = ManualControlSettings::FLIGHTMODEPOSITION_ALTITUDEHOLD;
-    data.FlightModePosition[4]     = ManualControlSettings::FLIGHTMODEPOSITION_POSITIONHOLD;
-    data.FlightModePosition[5]     = ManualControlSettings::FLIGHTMODEPOSITION_MANUAL;
-    controlSettings->setData(data);
-    addModifiedObject(controlSettings, tr("Writing flight mode settings"));
+    data.FlightModePosition[0]     = ControlCommandSettings::FLIGHTMODEPOSITION_STABILIZED1;
+    data.FlightModePosition[1]     = ControlCommandSettings::FLIGHTMODEPOSITION_STABILIZED2;
+    data.FlightModePosition[2]     = ControlCommandSettings::FLIGHTMODEPOSITION_STABILIZED3;
+    data.FlightModePosition[3]     = ControlCommandSettings::FLIGHTMODEPOSITION_ALTITUDEHOLD;
+    data.FlightModePosition[4]     = ControlCommandSettings::FLIGHTMODEPOSITION_POSITIONHOLD;
+    data.FlightModePosition[5]     = ControlCommandSettings::FLIGHTMODEPOSITION_MANUAL;
+    controlCommandSettings->setData(data);
+    addModifiedObject(controlCommandSettings, tr("Writing flight mode settings"));
 }
 
 /**
@@ -351,48 +352,48 @@ void VehicleConfigurationHelper::applyMultiGUISettings(SystemSettings::AirframeT
     addModifiedObject(sSettings, tr("Writing vehicle settings"));
 }
 
-void VehicleConfigurationHelper::applyManualControlDefaults()
+void VehicleConfigurationHelper::applyRCTransmitterSettingsDefaults()
 {
-    ManualControlSettings *mcSettings = ManualControlSettings::GetInstance(m_uavoManager);
+    RCTransmitterSettings *mcSettings = RCTransmitterSettings::GetInstance(m_uavoManager);
 
     Q_ASSERT(mcSettings);
-    ManualControlSettings::DataFields cData = mcSettings->getData();
+    RCTransmitterSettings::DataFields cData = mcSettings->getData();
 
-    ManualControlSettings::ChannelGroupsOptions channelType = ManualControlSettings::CHANNELGROUPS_PWM;
+    RCTransmitterSettings::ChannelGroupsOptions channelType = RCTransmitterSettings::CHANNELGROUPS_PWM;
     switch (m_configSource->getInputType()) {
     case Core::IBoardType::INPUT_TYPE_PWM:
-        channelType = ManualControlSettings::CHANNELGROUPS_PWM;
+        channelType = RCTransmitterSettings::CHANNELGROUPS_PWM;
         break;
     case Core::IBoardType::INPUT_TYPE_PPM:
-        channelType = ManualControlSettings::CHANNELGROUPS_PPM;
+        channelType = RCTransmitterSettings::CHANNELGROUPS_PPM;
         break;
     case Core::IBoardType::INPUT_TYPE_SBUS:
-        channelType = ManualControlSettings::CHANNELGROUPS_SBUS;
+        channelType = RCTransmitterSettings::CHANNELGROUPS_SBUS;
         break;
     case Core::IBoardType::INPUT_TYPE_DSMX10BIT:
     case Core::IBoardType::INPUT_TYPE_DSMX11BIT:
     case Core::IBoardType::INPUT_TYPE_DSM2:
-        channelType = ManualControlSettings::CHANNELGROUPS_DSMMAINPORT;
+        channelType = RCTransmitterSettings::CHANNELGROUPS_DSMMAINPORT;
         break;
     case Core::IBoardType::INPUT_TYPE_HOTTSUMD:
     case Core::IBoardType::INPUT_TYPE_HOTTSUMH:
-        channelType = ManualControlSettings::CHANNELGROUPS_HOTTSUM;
+        channelType = RCTransmitterSettings::CHANNELGROUPS_HOTTSUM;
         break;
     default:
         break;
     }
 
-    cData.ChannelGroups[ManualControlSettings::CHANNELGROUPS_THROTTLE]   = channelType;
-    cData.ChannelGroups[ManualControlSettings::CHANNELGROUPS_ROLL]       = channelType;
-    cData.ChannelGroups[ManualControlSettings::CHANNELGROUPS_YAW] = channelType;
-    cData.ChannelGroups[ManualControlSettings::CHANNELGROUPS_PITCH]      = channelType;
-    cData.ChannelGroups[ManualControlSettings::CHANNELGROUPS_FLIGHTMODE] = channelType;
+    cData.ChannelGroups[RCTransmitterSettings::CHANNELGROUPS_THROTTLE]   = channelType;
+    cData.ChannelGroups[RCTransmitterSettings::CHANNELGROUPS_ROLL]       = channelType;
+    cData.ChannelGroups[RCTransmitterSettings::CHANNELGROUPS_YAW] = channelType;
+    cData.ChannelGroups[RCTransmitterSettings::CHANNELGROUPS_PITCH]      = channelType;
+    cData.ChannelGroups[RCTransmitterSettings::CHANNELGROUPS_FLIGHTMODE] = channelType;
 
-    cData.ChannelNumber[ManualControlSettings::CHANNELGROUPS_THROTTLE]   = 1;
-    cData.ChannelNumber[ManualControlSettings::CHANNELGROUPS_ROLL]       = 2;
-    cData.ChannelNumber[ManualControlSettings::CHANNELGROUPS_YAW] = 3;
-    cData.ChannelNumber[ManualControlSettings::CHANNELGROUPS_PITCH]      = 4;
-    cData.ChannelNumber[ManualControlSettings::CHANNELGROUPS_FLIGHTMODE] = 5;
+    cData.ChannelNumber[RCTransmitterSettings::CHANNELGROUPS_THROTTLE]   = 1;
+    cData.ChannelNumber[RCTransmitterSettings::CHANNELGROUPS_ROLL]       = 2;
+    cData.ChannelNumber[RCTransmitterSettings::CHANNELGROUPS_YAW] = 3;
+    cData.ChannelNumber[RCTransmitterSettings::CHANNELGROUPS_PITCH]      = 4;
+    cData.ChannelNumber[RCTransmitterSettings::CHANNELGROUPS_FLIGHTMODE] = 5;
 
     mcSettings->setData(cData);
     addModifiedObject(mcSettings, tr("Writing manual control defaults"));

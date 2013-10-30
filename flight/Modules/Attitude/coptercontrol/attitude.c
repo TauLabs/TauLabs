@@ -44,7 +44,7 @@
 #include "sensorsettings.h"
 #include "attitudesettings.h"
 #include "flightstatus.h"
-#include "manualcontrolcommand.h"
+#include "controlcommand.h"
 #include "coordinate_conversions.h"
 #include <pios_board_info.h>
  
@@ -551,7 +551,7 @@ static void update_trimming(AccelsData * accelsData)
 			uint8_t armed;
 			float throttle;
 			FlightStatusArmedGet(&armed);
-			ManualControlCommandThrottleGet(&throttle);  // Until flight status indicates airborne
+			ControlCommandThrottleGet(&throttle);  // Until flight status indicates airborne
 			if ((armed == FLIGHTSTATUS_ARMED_ARMED) && (throttle > 0)) {
 				trim_samples++;
 				// Store the digitally scaled version since that is what we use for bias

@@ -42,6 +42,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/brushlessgimbalsettings.h \
     $$UAVOBJECT_SYNTHETICS/cameradesired.h \
     $$UAVOBJECT_SYNTHETICS/camerastabsettings.h \
+    $$UAVOBJECT_SYNTHETICS/controlcommand.h \
+    $$UAVOBJECT_SYNTHETICS/controlcommandsettings.h \
     $$UAVOBJECT_SYNTHETICS/faultsettings.h \
     $$UAVOBJECT_SYNTHETICS/firmwareiapobj.h \
     $$UAVOBJECT_SYNTHETICS/fixedwingairspeeds.h \
@@ -81,8 +83,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/insstate.h \
     $$UAVOBJECT_SYNTHETICS/magbias.h \
     $$UAVOBJECT_SYNTHETICS/magnetometer.h \
-    $$UAVOBJECT_SYNTHETICS/manualcontrolsettings.h \
-    $$UAVOBJECT_SYNTHETICS/manualcontrolcommand.h \
     $$UAVOBJECT_SYNTHETICS/mixersettings.h \
     $$UAVOBJECT_SYNTHETICS/mixerstatus.h \
     $$UAVOBJECT_SYNTHETICS/modulesettings.h \
@@ -99,6 +99,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/poilocation.h \
     $$UAVOBJECT_SYNTHETICS/positionactual.h \
     $$UAVOBJECT_SYNTHETICS/ratedesired.h \
+    $$UAVOBJECT_SYNTHETICS/rctransmitterinput.h \
+    $$UAVOBJECT_SYNTHETICS/rctransmittersettings.h \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.h \
     $$UAVOBJECT_SYNTHETICS/relaytuning.h \
     $$UAVOBJECT_SYNTHETICS/relaytuningsettings.h \
@@ -144,6 +146,8 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/brushlessgimbalsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/cameradesired.cpp \
     $$UAVOBJECT_SYNTHETICS/camerastabsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/controlcommand.cpp \
+    $$UAVOBJECT_SYNTHETICS/controlcommandsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/faultsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/firmwareiapobj.cpp \
     $$UAVOBJECT_SYNTHETICS/fixedwingairspeeds.cpp \
@@ -183,8 +187,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/insstate.cpp \
     $$UAVOBJECT_SYNTHETICS/magbias.cpp \
     $$UAVOBJECT_SYNTHETICS/magnetometer.cpp \
-    $$UAVOBJECT_SYNTHETICS/manualcontrolsettings.cpp \
-    $$UAVOBJECT_SYNTHETICS/manualcontrolcommand.cpp \
     $$UAVOBJECT_SYNTHETICS/mixersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/mixerstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/modulesettings.cpp \
@@ -201,6 +203,8 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/poilocation.cpp \
     $$UAVOBJECT_SYNTHETICS/positionactual.cpp \
     $$UAVOBJECT_SYNTHETICS/ratedesired.cpp \
+    $$UAVOBJECT_SYNTHETICS/rctransmitterinput.cpp \
+    $$UAVOBJECT_SYNTHETICS/rctransmittersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.cpp \
     $$UAVOBJECT_SYNTHETICS/relaytuning.cpp \
     $$UAVOBJECT_SYNTHETICS/relaytuningsettings.cpp \

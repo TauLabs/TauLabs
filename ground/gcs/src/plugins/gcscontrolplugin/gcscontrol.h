@@ -30,7 +30,8 @@
 #include <extensionsystem/iplugin.h>
 
 #include "gcscontrol_global.h"
-#include "manualcontrolsettings.h"
+#include "controlcommandsettings.h"
+#include "rctransmittersettings.h"
 #include "uavobjectmanager.h"
 #include "gcsreceiver.h"
 #include "extensionsystem/pluginmanager.h"
@@ -47,18 +48,21 @@ public:
 public slots:
     bool beginGCSControl();
     bool endGCSControl();
-    bool setFlightMode(ManualControlSettings::FlightModePositionOptions flightMode);
+    bool setFlightMode(ControlCommandSettings::FlightModePositionOptions flightMode);
     bool setThrottle(float value);
     bool setRoll(float value);
     bool setPitch(float value);
     bool setYaw(float value);
     bool setChannel(quint8 channel, float value);
 private:
-    ManualControlSettings *manControlSettingsUAVO;
+    RCTransmitterSettings *rcTransmitterSettings;
+    ControlCommandSettings *controlCommandSettings;
     GCSReceiver *m_gcsReceiver;
     static bool firstInstance;
-    ManualControlSettings::DataFields dataBackup;
-    ManualControlSettings::Metadata metaBackup;
+    RCTransmitterSettings::DataFields rcTransmitterSettingsDataBackup;
+    RCTransmitterSettings::Metadata rcTransmitterSettingsMetaBackup;
+    ControlCommandSettings::DataFields controlCommandSettingsDataBackup;
+    ControlCommandSettings::Metadata controlCommandSettingsMetaBackup;
     bool hasControl;
     QTimer receiverActivity;
 private slots:

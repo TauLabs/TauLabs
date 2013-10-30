@@ -50,7 +50,7 @@
 #include "modulesettings.h"
 #include "pathdesired.h"        // object that will be updated by the module
 #include "positionactual.h"
-#include "manualcontrolcommand.h"
+#include "controlcommand.h"
 #include "flightstatus.h"
 #include "gpsvelocity.h"
 #include "gpsposition.h"
@@ -390,12 +390,12 @@ static void updateGroundDesiredAttitude()
 	// Calculate throttle and set stabDesired.Throttle
 	float velDesired = sqrtf(powf(velocityDesired.East,2) + powf(velocityDesired.North,2));
 	float velActual = sqrtf(powf(eastVel,2) + powf(northVel,2));
-	ManualControlCommandData manualControlData;
-	ManualControlCommandGet(&manualControlData);
+	ControlCommandData controlCommand;
+	ControlCommandGet(&controlCommand);
 	switch (guidanceSettings.ThrottleControl) {
 		case GROUNDPATHFOLLOWERSETTINGS_THROTTLECONTROL_MANUAL:
 		{
-			stabDesired.Throttle = manualControlData.Throttle;
+			stabDesired.Throttle = controlCommand.Throttle;
 			break;
 		}
 		case GROUNDPATHFOLLOWERSETTINGS_THROTTLECONTROL_PROPORTIONAL:
@@ -403,7 +403,7 @@ static void updateGroundDesiredAttitude()
 			float velRatio = velDesired / guidanceSettings.HorizontalVelMax;
 			stabDesired.Throttle = guidanceSettings.MaxThrottle * velRatio;
 			if (guidanceSettings.ManualOverride == GROUNDPATHFOLLOWERSETTINGS_MANUALOVERRIDE_TRUE) {
-				stabDesired.Throttle = stabDesired.Throttle * manualControlData.Throttle;
+				stabDesired.Throttle = stabDesired.Throttle * controlCommand.Throttle;
 			}
 			break;
 		}
@@ -412,7 +412,7 @@ static void updateGroundDesiredAttitude()
 			float velError = velDesired - velActual;
 			stabDesired.Throttle = pid_apply(&ground_pids[VELOCITY], velError, dT) + velDesired * guidanceSettings.VelocityFeedforward;
 			if (guidanceSettings.ManualOverride == GROUNDPATHFOLLOWERSETTINGS_MANUALOVERRIDE_TRUE) {
-				stabDesired.Throttle = stabDesired.Throttle * manualControlData.Throttle;
+				stabDesired.Throttle = stabDesired.Throttle * controlCommand.Throttle;
 			}
 			break;
 		}

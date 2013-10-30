@@ -58,7 +58,7 @@
 #include "groundtruth.h"
 #include "gyros.h"
 #include "homelocation.h"
-#include "manualcontrolcommand.h"
+#include "controlcommand.h"
 #include "positionactual.h"
 #include "sonaraltitude.h"
 #include "velocityactual.h"
@@ -280,7 +280,7 @@ protected:
 
     ActuatorCommand* actCommand;
     ActuatorDesired* actDesired;
-    ManualControlCommand* manCtrlCommand;
+    ControlCommand* ctrlCommand;
     FlightStatus* flightStatus;
     BaroAltitude* baroAlt;
     AirspeedActual* airspeedActual;

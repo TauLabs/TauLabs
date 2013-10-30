@@ -1,0 +1,99 @@
+<xml>
+	<object name="ControlCommandSettings" singleinstance="true" settings="true">
+		<description>Settings to indicate how to decode receiver input by @ref ManualControlModule.</description>
+		   
+		<field name="Arming" units="" type="enum" elements="1" defaultvalue="Always Disarmed">
+			<options>
+				<option>Always Disarmed</option>
+				<option>Always Armed</option>
+				<option>Roll Left</option>
+				<option>Roll Right</option>
+				<option>Pitch Forward</option>
+				<option>Pitch Aft</option>
+				<option>Yaw Left</option>
+				<option>Yaw Right</option>
+				<option>Switch</option>
+			</options>
+		</field>
+
+		<!-- Note these options must be identical to those in StabilizationDesired.StabilizationMode -->
+		<field name="Stabilization1Settings" units="" type="enum"
+			elementnames="Roll,Pitch,Yaw"
+			defaultvalue="Attitude,Attitude,Rate">
+			<options>
+				<option>None</option>
+				<option>Rate</option>
+				<option>Attitude</option>
+				<option>AttitudePlus</option>
+				<option>AxisLock</option>
+				<option>WeakLeveling</option>
+				<option>VirtualBar</option>
+				<option>RelayRate</option>
+				<option>RelayAttitude</option>
+				<option>POI</option>
+				<option>CoordinatedFlight</option>
+			</options>
+		</field>
+		<field name="Stabilization2Settings" units="" type="enum"
+			elementnames="Roll,Pitch,Yaw"
+			defaultvalue="Attitude,Attitude,Rate">
+			<options>
+				<option>None</option>
+				<option>Rate</option>
+				<option>Attitude</option>
+				<option>AttitudePlus</option>
+				<option>AxisLock</option>
+				<option>WeakLeveling</option>
+				<option>VirtualBar</option>
+				<option>RelayRate</option>
+				<option>RelayAttitude</option>
+				<option>POI</option>
+				<option>CoordinatedFlight</option>
+			</options>
+		</field>
+		<field name="Stabilization3Settings" units="" type="enum"
+			elementnames="Roll,Pitch,Yaw"
+			defaultvalue="Attitude,Attitude,Rate">
+			<options>
+				<option>None</option>
+				<option>Rate</option>
+				<option>Attitude</option>
+				<option>AttitudePlus</option>
+				<option>AxisLock</option>
+				<option>WeakLeveling</option>
+				<option>VirtualBar</option>
+				<option>RelayRate</option>
+				<option>RelayAttitude</option>
+				<option>POI</option>
+				<option>CoordinatedFlight</option>
+			</options>
+		</field>
+
+	<!-- Note these options values must be identical to those defined in FlightMode -->
+		<field name="FlightModeNumber" units="" type="uint8" elements="1" defaultvalue="3"/>
+		<field name="FlightModePosition" units="" type="enum" elements="6"
+			defaultvalue="Manual,Stabilized1,Stabilized2,Stabilized3,ReturnToHome,PositionHold" 
+			limits="%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl,%0401NE:AltitudeHold:VelocityControl;%0402NE:AltitudeHold:VelocityControl">
+			<options>
+				<option>Manual</option>
+				<option>Stabilized1</option>
+				<option>Stabilized2</option>
+				<option>Stabilized3</option>
+				<option>Autotune</option>
+				<option>AltitudeHold</option>
+				<option>VelocityControl</option>
+				<option>PositionHold</option>
+				<option>ReturnToHome</option>
+				<option>PathPlanner</option>
+				<option>TabletControl</option>
+			</options>
+		</field>
+
+		<field name="ArmedTimeout" units="ms" type="uint16" elements="1" defaultvalue="30000"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>
