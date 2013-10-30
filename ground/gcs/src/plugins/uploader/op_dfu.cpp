@@ -43,14 +43,7 @@ DFUObject::DFUObject(bool _debug,bool _use_serial,QString portname):
 
     if(use_serial)
     {
-        PortSettings settings;
-        settings.BaudRate=BAUD57600;
-        settings.DataBits=DATA_8;
-        settings.FlowControl=FLOW_OFF;
-        settings.Parity=PAR_NONE;
-        settings.StopBits=STOP_1;
-        settings.Timeout_Millisec=1000;
-        info = new port(settings,portname);
+        info = new port(portname);
         info->rxBuf 		= sspRxBuf;
         info->rxBufSize 	= MAX_PACKET_DATA_LEN;
         info->txBuf 		= sspTxBuf;

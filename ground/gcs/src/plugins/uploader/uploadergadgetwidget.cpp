@@ -76,9 +76,9 @@ UploaderGadgetWidget::UploaderGadgetWidget(QWidget *parent) : QWidget(parent)
 }
 
 
-bool sortPorts(const QextPortInfo &s1,const QextPortInfo &s2)
+bool sortPorts(const QSerialPortInfo &s1, const QSerialPortInfo &s2)
 {
-    return s1.portName<s2.portName;
+    return s1.portName() < s2.portName();
 }
 
 /**
@@ -91,12 +91,12 @@ void UploaderGadgetWidget::getSerialPorts()
     m_config->telemetryLink->clear();
 
     list.append(QString("USB"));
-    QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
+    QList<QSerialPortInfo> ports = QSerialPortInfo::availablePorts();
 
     //sort the list by port number (nice idea from PT_Dreamer :))
     qSort(ports.begin(), ports.end(),sortPorts);
-    foreach( QextPortInfo port, ports ) {
-       list.append(port.friendName);
+    foreach(QSerialPortInfo port, ports) {
+        list.append(port.portName());
     }
 
     m_config->telemetryLink->addItems(list);
@@ -105,15 +105,12 @@ void UploaderGadgetWidget::getSerialPorts()
 
 QString UploaderGadgetWidget::getPortDevice(const QString &friendName)
 {
-    QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
-    foreach( QextPortInfo port, ports ) {
-           if(port.friendName == friendName)
-#ifdef Q_OS_WIN
-            return port.portName;
-#else
-            return port.physName;
-#endif
+    QList<QSerialPortInfo> ports = QSerialPortInfo::availablePorts();
+    foreach(QSerialPortInfo port, ports) {
+        if (port.portName() == friendName) {
+            return port.portName();
         }
+    }
     return "";
 }
 

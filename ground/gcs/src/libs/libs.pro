@@ -8,8 +8,7 @@ SUBDIRS   = \
     extensionsystem \
     utils \
     tlmapcontrol \
-    qwt \
-    qextserialport
+    qwt
 
 SDL {
 SUBDIRS += sdlgamepad

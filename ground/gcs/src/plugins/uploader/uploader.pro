@@ -1,9 +1,8 @@
 TEMPLATE = lib
 TARGET = Uploader
 DEFINES += UPLOADER_LIBRARY
-QT += svg
+QT += svg widgets serialport
 include(uploader_dependencies.pri)
-INCLUDEPATH *= ../../libs/qextserialport/src
 
 HEADERS += uploadergadget.h \
     uploadergadgetconfiguration.h \
