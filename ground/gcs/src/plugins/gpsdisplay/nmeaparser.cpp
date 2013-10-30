@@ -151,7 +151,7 @@ void NMEAParser::nmeaTerminateAtChecksum(char* gps_buffer)
 quint8 NMEAParser::nmeaProcess(cBuffer* rxBuffer)
 {
         quint8 foundpacket = NMEA_NODATA;
-        quint8 startFlag = FALSE;
+        quint8 startFlag = false;
         //u08 data;
         quint16 i,j;
 
