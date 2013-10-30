@@ -37,6 +37,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QEventLoop>
+#include <QMessageBox>
 
 #include "systemsettings.h"
 #include "mixersettings.h"
