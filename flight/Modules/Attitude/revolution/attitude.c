@@ -396,23 +396,62 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	// When this algorithm is first run force it to a known condition
 	if(first_run) {
 		MagnetometerData magData;
-		magData.x = 100;
-		magData.y = 0;
-		magData.z = 0;
+		float mag_reference_2D[2];
 
-		// Wait for a mag reading if a magnetometer was registered
+		// If a magnetometer sensor is registered, wait for a reading
 		if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG) != NULL) {
 			if ( !secondary && xQueueReceive(magQueue, &ev, MS2TICKS(20)) != pdTRUE ) {
 				return -1;
 			}
 			MagnetometerGet(&magData);
+
+			// Do we know the local magnetic field?
+			if  (homeLocation.Set == HOMELOCATION_SET_TRUE) {
+				// Use it for reference
+				mag_reference_2D[0] = homeLocation.Be[0];
+				mag_reference_2D[1] = homeLocation.Be[1];
+			} else {
+				// Use a 2D magnetic field that points due North. It's not perfect,
+				// but will generally be correct to within a few degrees.
+				mag_reference_2D[0] = 1;
+				mag_reference_2D[1] = 0;
+			}
+		} else { // Otherwise create a dummy measurement
+			magData.x = 1;
+			magData.y = 0;
+			magData.z = 0;
+
+			mag_reference_2D[0] = 1;
+			mag_reference_2D[1] = 0;
 		}
 
-		float RPY[3];
-		float theta = atan2f(accelsData.x, -accelsData.z);
-		RPY[1] = theta * RAD2DEG;
-		RPY[0] = atan2f(-accelsData.y, -accelsData.z / cosf(theta)) * RAD2DEG;
-		RPY[2] = atan2f(-magData.y, magData.x) * RAD2DEG;
+		/* Back out phi and theta from Rbe * [0;0;-g] = acc_body */
+		float phi_R = atan2f(-accelsData.y, -accelsData.z); // Defined on (-pi,pi]
+		float theta_R = atanf(accelsData.x*cosf(phi_R) / (-accelsData.z));  // Defined on (-pi/2,pi/2]
+
+		/* Backing out psi is a little more complicated. We do this in two steps */
+
+		// 1) Recognize that Rbe = rotX(phi) * rotY(theta) * rotZ(psi). So we can rewrite
+		//    Rbe * mag_earth = mag_body ==> rotX(phi) * rotY(theta) * rotZ(psi) * mag_earth = mag_body
+		//    This yields rotZ(psi) * mag_earth = rotY(theta)' * rotX(phi)' * mag_body. Since we know
+		//    theta and phi, we can calculate an intermediate magnetometer measurement, leaving
+		//    psi as tne only unknown.
+		float mag_intermediate[3];
+		float mag_body[3] = {magData.x, magData.y, magData.z};
+		float cF = cosf(phi_R);
+		float sF = sinf(phi_R);
+		float cT = cosf(theta_R);
+		float sT = sinf(theta_R);
+		float rot_phi_theta[3][3] = {{ cT, sF*sT, cF*sT},
+									 {  0,    cF,   -sF},
+									 {-sT, sF*cT, cF*cT}};
+		rot_mult(rot_phi_theta, mag_body, mag_intermediate, false);
+
+		// 2) From 2D vector calculus, tan(psi) = (a X b) / (a.b)
+		float psi_R = atan2f(mag_intermediate[0]*mag_reference_2D[1] - mag_intermediate[1]*mag_reference_2D[0], mag_intermediate[0]*mag_reference_2D[0] + mag_intermediate[1]*mag_reference_2D[1]);
+
+		// Convert roll-pitch-yaw values into quaternions
+		float RPY[3] = {phi_R * RAD2DEG, theta_R * RAD2DEG, psi_R * RAD2DEG};
 		RPY2Quaternion(RPY, cf_q);
 
 		complementary_filter_state.initialization = CF_POWERON;
@@ -435,15 +474,14 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 			CF_INITIALIZING : 
 			CF_POWERON;
 	} else if(complementary_filter_state.initialization == CF_INITIALIZING &&
-		(ms_since_reset < 7000) && 
+		(ms_since_reset < 7000) &&
 		(ms_since_reset > 1000)) {
 
 		// For first 7 seconds use accels to get gyro bias
 		attitudeSettings.AccelKp = 0.1f + 0.1f * (xTaskGetTickCount() < 4000);
-		attitudeSettings.AccelKi = 0.1f;
-		attitudeSettings.YawBiasRate = 0.1f;
+		attitudeSettings.AccelKi = 0.0f;
 		attitudeSettings.MagKp = 0.1f;
-	} else if ((attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE) && 
+	} else if ((attitudeSettings.ZeroDuringArming == ATTITUDESETTINGS_ZERODURINGARMING_TRUE) &&
 	           (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING)) {
 
 		// Use a rapidly decrease accelKp to force the attitude to snap back
@@ -456,7 +494,6 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 		// Set the other parameters to drive faster convergence
 		attitudeSettings.AccelKi = 0.1f;
-		attitudeSettings.YawBiasRate = 0.1f;
 		attitudeSettings.MagKp = 0.1f;
 
 		// Don't apply LPF to the accels during arming
@@ -496,36 +533,42 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	dT = PIOS_DELAY_DiffuS(timeval) / 1000000.0f;
 	timeval = PIOS_DELAY_GetRaw();
 
+	// Rotate normalized gravity vector to body frame
 	float grot[3];
-	float accel_err[3];
-	float *grot_filtered = complementary_filter_state.grot_filtered;
-	float *accels_filtered = complementary_filter_state.accels_filtered;
-
-	// Apply smoothing to accel values, to reduce vibration noise before main calculations.
-	apply_accel_filter(&accelsData.x,accels_filtered);
-
-	// Rotate gravity to body frame and cross with accels
 	grot[0] = -(2 * (cf_q[1] * cf_q[3] - cf_q[0] * cf_q[2]));
 	grot[1] = -(2 * (cf_q[2] * cf_q[3] + cf_q[0] * cf_q[1]));
 	grot[2] = -(cf_q[0]*cf_q[0] - cf_q[1]*cf_q[1] - cf_q[2]*cf_q[2] + cf_q[3]*cf_q[3]);
-	CrossProduct((const float *) &accelsData.x, (const float *) grot, accel_err);
 
-	// Apply same filtering to the rotated attitude to match delays
-	apply_accel_filter(grot,grot_filtered);
-
-	// Compute the error between the predicted direction of gravity and smoothed acceleration
-	CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
-
+	// Cross the normalized gravity vector with the accelerometer vector
 	float grot_mag;
-	if (complementary_filter_state.accel_filter_enabled)
+	float accel_mag;
+	float accel_err[3];
+	if (complementary_filter_state.accel_filter_enabled) {
+		float *grot_filtered = complementary_filter_state.grot_filtered;
+		float *accels_filtered = complementary_filter_state.accels_filtered;
+
+		// Apply smoothing to accel values in order to reduce vibration noise before main calculations.
+		apply_accel_filter(&accelsData.x, accels_filtered);
+
+		// Apply same filtering to the rotated attitude to match the delay introduced by the accelerometer filter
+		apply_accel_filter(grot, grot_filtered);
+
+		// Compute the error between the delayed predicted direction of gravity and smoothed acceleration
+		CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
+
+		// Calculate vector magnitudes
+		accel_mag = sqrtf(accels_filtered[0]*accels_filtered[0] + accels_filtered[1]*accels_filtered[1] + accels_filtered[2]*accels_filtered[2]);
 		grot_mag = sqrtf(grot_filtered[0]*grot_filtered[0] + grot_filtered[1]*grot_filtered[1] + grot_filtered[2]*grot_filtered[2]);
-	else
+	} else {
+		// Compute the error between the predicted direction of gravity and acceleration
+		CrossProduct((const float *) &accelsData.x, (const float *) grot, accel_err);
+
+		// Calculate vector magnitudes
+		accel_mag = sqrtf(accelsData.x * accelsData.x + accelsData.y * accelsData.y + accelsData.z * accelsData.z);
 		grot_mag = 1.0f;
+	}
 
 	// Account for accel magnitude
-	float accel_mag;
-	accel_mag = accels_filtered[0]*accels_filtered[0] + accels_filtered[1]*accels_filtered[1] + accels_filtered[2]*accels_filtered[2];
-	accel_mag = sqrtf(accel_mag);
 	if (grot_mag > 1.0e-3f && accel_mag > 1.0e-3f) {
 		accel_err[0] /= (accel_mag * grot_mag);
 		accel_err[1] /= (accel_mag * grot_mag);
@@ -542,7 +585,8 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 		MagnetometerData mag;
 		MagnetometerGet(&mag);
 
-		// If the mag is producing bad data (NAN) don't use it (normally bad calibration)
+		// If the mag is producing bad data (NaN) don't use it (normally bad calibration). `x == x` exploits an IEEE
+		// standard that comparisons involving NaN are always false.
 		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z) {
 			float bmag = 1.0f;
 			float brot[3];
@@ -557,7 +601,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 				brot[0] /= bmag;
 				brot[1] /= bmag;
 				brot[2] /= bmag;
-			} else {
+			} else { // Fixme: Should be a comment here
 				const float Be[3] = {1.0f, 0.0f, 0.0f};
 				rot_mult(Rbe, Be, brot, false);
 			}
@@ -1099,15 +1143,9 @@ static int32_t setNavigationINSGPS()
 static void apply_accel_filter(const float * raw, float * filtered)
 {
 	const float alpha = complementary_filter_state.accel_alpha;
-	if(complementary_filter_state.accel_filter_enabled) {
-		filtered[0] = filtered[0] * alpha + raw[0] * (1 - alpha);
-		filtered[1] = filtered[1] * alpha + raw[1] * (1 - alpha);
-		filtered[2] = filtered[2] * alpha + raw[2] * (1 - alpha);
-	} else {
-		filtered[0] = raw[0];
-		filtered[1] = raw[1];
-		filtered[2] = raw[2];
-	}
+	filtered[0] = filtered[0] * alpha + raw[0] * (1 - alpha);
+	filtered[1] = filtered[1] * alpha + raw[1] * (1 - alpha);
+	filtered[2] = filtered[2] * alpha + raw[2] * (1 - alpha);
 }
 
 /**
