@@ -33,6 +33,7 @@
 				<option>VelocityControl</option>
 				<option>PositionHold</option>
 				<option>PathPlanner</option>
+				<option>UnsafeToArm</option>
 				<option>Undefined</option>
 				<option>None</option>
 			</options>
