@@ -7,7 +7,7 @@
  * @{
  * @addtogroup DebugGadgetPlugin Debug Gadget Plugin
  * @{
- * @brief A place holder gadget plugin 
+ * @brief A place holder gadget plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -30,20 +30,20 @@
 
 #include <QLabel>
 #include "ui_debug.h"
-class DebugGadgetWidget : public QLabel
-{
+#include "debugengine.h"
+class DebugGadgetWidget : public QLabel {
     Q_OBJECT
 
 public:
     DebugGadgetWidget(QWidget *parent = 0);
     ~DebugGadgetWidget();
-
+    static void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 private:
     Ui_Form *m_config;
 private slots:
-        void saveLog();
-        void dbgMsgError( const QString & level, const QList<QVariant> & msgs );
-        void dbgMsg( const QString & level, const QList<QVariant> & msgs );
+    void saveLog();
+    void dbgMsgError(const QString & level, const QList<QVariant> & msgs);
+    void dbgMsg(const QString & level, const QList<QVariant> & msgs);
 };
 
 #endif /* DEBUGGADGETWIDGET_H_ */
