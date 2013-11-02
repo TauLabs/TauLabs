@@ -77,8 +77,7 @@ namespace mapcontrol
                 painter->setPen(Qt::green);
             else
                 painter->setPen(Qt::red);
-            painter->drawEllipse(QPointF(0,0),localsafearea,localsafearea);
-            //   painter->drawRect(QRectF(-localsafearea,-localsafearea,localsafearea*2,localsafearea*2));
+            painter->drawRect(QRectF(-localsafearea,-localsafearea,localsafearea*2,localsafearea*2));
         }
 
     }
