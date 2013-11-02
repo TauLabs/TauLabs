@@ -7,7 +7,7 @@
  * @{
  * @addtogroup DebugGadgetPlugin Debug Gadget Plugin
  * @{
- * @brief A place holder gadget plugin 
+ * @brief A place holder gadget plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -32,22 +32,55 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 #include <QPushButton>
-#include "qxtlogger.h"
 #include "debugengine.h"
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QScrollBar>
 #include <QTime>
+
+QPointer<QTextBrowser> m_textedit;
+
+void DebugGadgetWidget::customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    QString txt;
+    QColor color = Qt::black;
+
+    switch (type) {
+    case QtDebugMsg:
+        txt   = QString("Debug: %1").arg(msg);
+        color = Qt::black;
+        break;
+    case QtWarningMsg:
+        txt   = QString("Warning: %1").arg(msg);
+        color = Qt::red;
+        break;
+    case QtCriticalMsg:
+        txt   = QString("Critical: %1").arg(msg);
+        color = Qt::red;
+        break;
+    case QtFatalMsg:
+        txt   = QString("Fatal: %1").arg(msg);
+        abort();
+    }
+
+    debugengine::getInstance()->setTextEdit(m_textedit);
+    debugengine::getInstance()->setColor(color);
+    debugengine::getInstance()->writeMessage(txt);
+}
+
 DebugGadgetWidget::DebugGadgetWidget(QWidget *parent) : QLabel(parent)
 {
     m_config = new Ui_Form();
     m_config->setupUi(this);
-    debugengine * de=new debugengine();
-    QxtLogger::getInstance()->addLoggerEngine("debugplugin", de);
-    connect(de,SIGNAL(dbgMsg(QString,QList<QVariant>)),this,SLOT(dbgMsg(QString,QList<QVariant>)));
-    connect(de,SIGNAL(dbgMsgError(QString,QList<QVariant>)),this,SLOT(dbgMsgError(QString,QList<QVariant>)));
-    connect(m_config->pushButton,SIGNAL(clicked()),this,SLOT(saveLog()));
+
+    // m_textedit = m_config->plainTextEdit;
+    // MyplainTextEdit=m_config->plainTextEdit;
+    // debugengine *de = new debugengine();
+    // qInstallMessageHandler(customMessageHandler);
+    // connect(de, SIGNAL(dbgMsg(QString, QList<QVariant>)), this, SLOT(dbgMsg(QString, QList<QVariant>)));
+    // connect(de, SIGNAL(dbgMsgError(QString, QList<QVariant>)), this, SLOT(dbgMsgError(QString, QList<QVariant>)));
+    connect(m_config->pushButton, SIGNAL(clicked()), this, SLOT(saveLog()));
 }
 
 DebugGadgetWidget::~DebugGadgetWidget()
@@ -59,7 +92,7 @@ void DebugGadgetWidget::dbgMsg(const QString &level, const QList<QVariant> &msgs
 {
     m_config->plainTextEdit->setTextColor(Qt::red);
 
-        m_config->plainTextEdit->append(QString("%2[%0]%1").arg(level).arg(msgs[0].toString()).arg(QTime::currentTime().toString()));
+    m_config->plainTextEdit->append(QString("%2[%0]%1").arg(level).arg(msgs[0].toString()).arg(QTime::currentTime().toString()));
 
     QScrollBar *sb = m_config->plainTextEdit->verticalScrollBar();
     sb->setValue(sb->maximum());
@@ -70,7 +103,7 @@ void DebugGadgetWidget::dbgMsgError(const QString &level, const QList<QVariant> 
     m_config->plainTextEdit->setTextColor(Qt::black);
 
 
-        m_config->plainTextEdit->append(QString("%2[%0]%1").arg(level).arg(msgs[0].toString()).arg(QTime::currentTime().toString()));
+    m_config->plainTextEdit->append(QString("%2[%0]%1").arg(level).arg(msgs[0].toString()).arg(QTime::currentTime().toString()));
 
     QScrollBar *sb = m_config->plainTextEdit->verticalScrollBar();
     sb->setValue(sb->maximum());
@@ -78,13 +111,14 @@ void DebugGadgetWidget::dbgMsgError(const QString &level, const QList<QVariant> 
 void DebugGadgetWidget::saveLog()
 {
     QString fileName = QFileDialog::getSaveFileName(0, tr("Save log File As"), "");
+
     if (fileName.isEmpty()) {
         return;
     }
 
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly) &&
-            (file.write(m_config->plainTextEdit->toHtml().toLatin1()) != -1)) {
+        (file.write(m_config->plainTextEdit->toHtml().toLatin1()) != -1)) {
         file.close();
     } else {
         QMessageBox::critical(0,
