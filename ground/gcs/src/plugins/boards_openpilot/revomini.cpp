@@ -65,7 +65,7 @@ RevoMini::~RevoMini()
 
 QString RevoMini::shortName()
 {
-    return QString("Revolution Mini");
+    return QString("RevoMini");
 }
 
 QString RevoMini::boardDescription()
