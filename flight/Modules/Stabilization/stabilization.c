@@ -216,6 +216,23 @@ static void stabilizationTask(void* parameters)
 		trimmedAttitudeSetpoint.Pitch = bound_sym(stabDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
 		trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw;
 
+		// For horizon mode we need to compute the desire attitude from an unscaled value
+		if (stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
+			uint8_t scale;
+			StabilizationSettingsRollMaxGet(&scale);
+			trimmedAttitudeSetpoint.Roll = stabDesired.Roll * scale;
+		}
+		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
+			uint8_t scale;
+			StabilizationSettingsPitchMaxGet(&scale);
+			trimmedAttitudeSetpoint.Pitch = stabDesired.Pitch * scale;
+		}
+		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
+			uint8_t scale;
+			StabilizationSettingsYawMaxGet(&scale);
+			trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw * scale;
+		}
+
 
 #if defined(PIOS_QUATERNION_STABILIZATION)
 		// Quaternion calculation of error in each axis.  Uses more memory.
@@ -255,21 +272,24 @@ static void stabilizationTask(void* parameters)
 #else
 		// Simpler algorithm for CC, less memory
 		float local_attitude_error[3];
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS ||
+			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON)
 			local_attitude_error[0] = trimmedAttitudeSetpoint.Roll - attitudeActual.Roll;
 		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			local_attitude_error[0] = trimAngles.Roll - attitudeActual.Roll;
 		else
 			local_attitude_error[0] = stabDesired.Roll - attitudeActual.Roll;
 
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS ||
+			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON)
 			local_attitude_error[1] = trimmedAttitudeSetpoint.Pitch - attitudeActual.Pitch;
 		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			local_attitude_error[1] = trimAngles.Pitch - attitudeActual.Pitch;
 		else
 			local_attitude_error[1] = stabDesired.Pitch - attitudeActual.Pitch;
 
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS ||
+			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON)
 			local_attitude_error[2] = trimmedAttitudeSetpoint.Yaw - attitudeActual.Yaw;
 		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			local_attitude_error[2] = -attitudeActual.Yaw;
@@ -374,6 +394,32 @@ static void stabilizationTask(void* parameters)
 
 					break;
 
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON:
+					if(reinit) {
+						pids[PID_RATE_ROLL + i].iAccumulator = 0;
+					}
+
+					// The unscaled input (-1,1)
+					float *raw_input = &stabDesired.Roll;
+
+					// Do not allow outer loop integral to wind up in this mode since the controller
+					// is often disengaged.
+					pids[PID_ATT_ROLL + i].iAccumulator = 0;
+
+					// Compute the outer loop for the attitude control
+					float rateDesiredAttitude = pid_apply(&pids[PID_ATT_ROLL + i], local_attitude_error[i], dT);
+					// Compute the desire rate for a rate control
+					float rateDesiredRate = expo3(raw_input[i], settings.RateExpo[i]) * settings.ManualRate[i];
+
+					// Blend from one rate to another
+					rateDesiredAxis[i] = rateDesiredAttitude * (1.0f-fabsf(raw_input[i])) + rateDesiredRate * fabsf(raw_input[i]);
+					rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
+
+					// Compute the inner loop
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
+					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
+
+					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE:
 					// Store to rate desired variable for storing to UAVO
 					rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
