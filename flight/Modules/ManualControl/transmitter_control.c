@@ -49,6 +49,8 @@
 #include "stabilizationdesired.h"
 #include "systemsettings.h"
 
+#include "misc_math.h"
+
 #if defined(PIOS_INCLUDE_USB_RCTX)
 #include "pios_usb_rctx.h"
 #endif	/* PIOS_INCLUDE_USB_RCTX */
@@ -764,17 +766,6 @@ static void update_actuator_desired(ManualControlCommandData * cmd)
 	actuator.Yaw = cmd->Yaw;
 	actuator.Throttle = (cmd->Throttle < 0) ? -1 : cmd->Throttle;
 	ActuatorDesiredSet(&actuator);
-}
-
-/**
- * Approximation an exponential scale curve
- * @param[in] x   input from [-1,1]
- * @param[in] g   sets the exponential amount [0,100]
- * @return  rescaled input
- */
-static float expo3(float x, int32_t g)
-{
-	return (x * ((100 - g) / 100.0f) + powf(x, 3) * (g / 100.0f));
 }
 
 //! In stabilization mode, set stabilization desired
