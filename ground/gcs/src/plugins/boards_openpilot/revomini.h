@@ -45,6 +45,28 @@ public:
     virtual QPixmap getBoardPicture();
     virtual QString getHwUAVO();
 
+    //! Determine if this board supports configuring the receiver
+    virtual bool isInputConfigurationSupported();
+
+    /**
+     * Configure the board to use an receiver input type on a port number
+     * @param type the type of receiver to use
+     * @param port_num which input port to configure (board specific numbering)
+     */
+    virtual bool setInputOnPort(enum InputType type, int port_num = 0);
+
+    /**
+     * @brief getInputOnPort get the current input type
+     * @param port_num which input port to query (board specific numbering)
+     * @return the currently selected input type
+     */
+    virtual enum InputType getInputOnPort(int port_num = 0);
+
+    /**
+     * @brief getConnectionDiagram get the connection diagram for this board
+     * @return a string with the name of the resource for this board diagram
+     */
+    virtual QString getConnectionDiagram() { return ":/openpilot/images/connection-diagrams.svg"; }
 };
 
 
