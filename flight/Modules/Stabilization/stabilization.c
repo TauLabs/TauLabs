@@ -175,6 +175,7 @@ static void stabilizationTask(void* parameters)
 	float *stabDesiredAxis = &stabDesired.Roll;
 	float *actuatorDesiredAxis = &actuatorDesired.Roll;
 	float *rateDesiredAxis = &rateDesired.Roll;
+	float horizonRateFraction = 0.0f;
 
 	// Force refresh of all settings immediately before entering main task loop
 	SettingsUpdatedCb((UAVObjEvent *) NULL);
@@ -216,21 +217,29 @@ static void stabilizationTask(void* parameters)
 		trimmedAttitudeSetpoint.Pitch = bound_sym(stabDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
 		trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw;
 
+		// Track the stick with the most deflection to choose rate blending
+		horizonRateFraction = 0.0f;
 		// For horizon mode we need to compute the desire attitude from an unscaled value
 		if (stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
 			uint8_t scale;
 			StabilizationSettingsRollMaxGet(&scale);
 			trimmedAttitudeSetpoint.Roll = stabDesired.Roll * scale;
+
+			horizonRateFraction = MAX(fabsf(stabDesired.Roll), horizonRateFraction);
 		}
 		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
 			uint8_t scale;
 			StabilizationSettingsPitchMaxGet(&scale);
 			trimmedAttitudeSetpoint.Pitch = stabDesired.Pitch * scale;
+
+			horizonRateFraction = MAX(fabsf(stabDesired.Pitch), horizonRateFraction);
 		}
 		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
 			uint8_t scale;
 			StabilizationSettingsYawMaxGet(&scale);
 			trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw * scale;
+
+			horizonRateFraction = MAX(fabsf(stabDesired.Yaw), horizonRateFraction);
 		}
 
 
@@ -411,8 +420,10 @@ static void stabilizationTask(void* parameters)
 					// Compute the desire rate for a rate control
 					float rateDesiredRate = expo3(raw_input[i], settings.RateExpo[i]) * settings.ManualRate[i];
 
-					// Blend from one rate to another
-					rateDesiredAxis[i] = rateDesiredAttitude * (1.0f-fabsf(raw_input[i])) + rateDesiredRate * fabsf(raw_input[i]);
+					// Blend from one rate to another. The maximum of all stick positions is used for the
+					// amount so that when one axis goes completely to rate the other one does too. This
+					// prevents doing flips while one axis tries to stay in attitude mode.
+					rateDesiredAxis[i] = rateDesiredAttitude * (1.0f-horizonRateFraction) + rateDesiredRate * horizonRateFraction;
 					rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
 
 					// Compute the inner loop
