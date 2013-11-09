@@ -86,14 +86,6 @@ void INSPosVelReset(const float pos[3], const float vel[3]);
 
 void INSGetVariance(float *p);
 
-void MagCorrection(const float mag_data[3]);
-void MagVelBaroCorrection(const float mag_data[3], const float Vel[3], float BaroAlt);
-void FullCorrection(const float mag_data[3], const float Pos[3], const float Vel[3],
-		    float BaroAlt);
-void GpsBaroCorrection(const float Pos[3], const float Vel[3], float BaroAlt);
-void GpsMagCorrection(const float mag_data[3], const float Pos[3], const float Vel[2]);
-void VelBaroCorrection(const float Vel[3], float BaroAlt);
-
 uint16_t ins_get_num_states();
 
 #endif /* INSGPS_H_ */
