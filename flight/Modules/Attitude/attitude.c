@@ -1008,7 +1008,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 	// GPS Velocity update
 	if (gps_vel_updated && outdoor_mode) {
-		sensors |= HORIZ_SENSORS | VERT_SENSORS;
+		sensors |= HORIZ_VEL_SENSORS | VERT_VEL_SENSORS;
 		GPSVelocityGet(&gpsVelData);
 		vel[0] = gpsVelData.North;
 		vel[1] = gpsVelData.East;
@@ -1024,8 +1024,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		vel[0] = vel[1] = vel[2] = 0;
 		NED[0] = NED[1] = 0;
 		NED[2] = -(baroData.Altitude + baro_offset);
-		sensors |= HORIZ_SENSORS | HORIZ_POS_SENSORS;
-		sensors |= VERT_SENSORS;
+		sensors |= HORIZ_VEL_SENSORS | HORIZ_POS_SENSORS;
+		sensors |= VERT_VEL_SENSORS | VERT_POS_SENSORS;
 	}
 
 	/*

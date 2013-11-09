@@ -311,14 +311,14 @@ void MagCorrection(const float mag_data[3])
 void MagVelBaroCorrection(const float mag_data[3], const float Vel[3], float BaroAlt)
 {
 	INSCorrection(mag_data, zeros, Vel, BaroAlt,
-		      MAG_SENSORS | HORIZ_SENSORS | VERT_SENSORS |
+		      MAG_SENSORS | HORIZ_VEL_SENSORS | VERT_VEL_SENSORS |
 		      BARO_SENSOR);
 }
 
 void GpsBaroCorrection(const float Pos[3], const float Vel[3], float BaroAlt)
 {
 	INSCorrection(zeros, Pos, Vel, BaroAlt,
-		      HORIZ_SENSORS | VERT_SENSORS | BARO_SENSOR);
+		      HORIZ_VEL_SENSORS | VERT_VEL_SENSORS | BARO_SENSOR);
 }
 
 void FullCorrection(const float mag_data[3], const float Pos[3], const float Vel[3],
@@ -330,13 +330,13 @@ void FullCorrection(const float mag_data[3], const float Pos[3], const float Vel
 void GpsMagCorrection(const float mag_data[3], const float Pos[3], const float Vel[3])
 {
 	INSCorrection(mag_data, Pos, Vel, zeros[0],
-		      POS_SENSORS | HORIZ_SENSORS | MAG_SENSORS);
+		      POS_SENSORS | HORIZ_VEL_SENSORS | MAG_SENSORS);
 }
 
 void VelBaroCorrection(const float Vel[3], float BaroAlt)
 {
 	INSCorrection(zeros, zeros, Vel, BaroAlt,
-		      HORIZ_SENSORS | VERT_SENSORS | BARO_SENSOR);
+		      HORIZ_VEL_SENSORS | VERT_VEL_SENSORS | BARO_SENSOR);
 }
 
 void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[3],
