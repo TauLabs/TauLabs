@@ -221,24 +221,15 @@ static void stabilizationTask(void* parameters)
 		horizonRateFraction = 0.0f;
 		// For horizon mode we need to compute the desire attitude from an unscaled value
 		if (stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
-			uint8_t scale;
-			StabilizationSettingsRollMaxGet(&scale);
-			trimmedAttitudeSetpoint.Roll = stabDesired.Roll * scale;
-
+			trimmedAttitudeSetpoint.Roll = stabDesired.Roll * settings.RollMax;
 			horizonRateFraction = MAX(fabsf(stabDesired.Roll), horizonRateFraction);
 		}
 		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
-			uint8_t scale;
-			StabilizationSettingsPitchMaxGet(&scale);
-			trimmedAttitudeSetpoint.Pitch = stabDesired.Pitch * scale;
-
+			trimmedAttitudeSetpoint.Pitch = stabDesired.Pitch * settings.PitchMax;
 			horizonRateFraction = MAX(fabsf(stabDesired.Pitch), horizonRateFraction);
 		}
 		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
-			uint8_t scale;
-			StabilizationSettingsYawMaxGet(&scale);
-			trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw * scale;
-
+			trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw * settings.YawMax;
 			horizonRateFraction = MAX(fabsf(stabDesired.Yaw), horizonRateFraction);
 		}
 
