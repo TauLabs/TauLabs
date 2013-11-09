@@ -990,7 +990,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// GPS Position update
 	if (gps_updated && outdoor_mode)
 	{
-		sensors |= HORIZ_POS_SENSORS | VERT_POS_SENSORS;
+		sensors |= HORIZ_POS_SENSORS;
 
 		// Transform the GPS position into NED coordinates
 		getNED(&gpsData, NED);
