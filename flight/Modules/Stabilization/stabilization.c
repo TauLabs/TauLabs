@@ -221,19 +221,19 @@ static void stabilizationTask(void* parameters)
 		trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw;
 
 		// Track the stick with the most deflection to choose rate blending
-		horizonRateFraction = 0.0f;
 		// For horizon mode we need to compute the desire attitude from an unscaled value
+		horizonRateFraction = 0.0f;
 		if (stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
 			trimmedAttitudeSetpoint.Roll = stabDesired.Roll * settings.RollMax;
-			horizonRateFraction = MAX(fabsf(stabDesired.Roll), horizonRateFraction);
+			horizonRateFraction = fabsf(stabDesired.Roll);
 		}
 		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
 			trimmedAttitudeSetpoint.Pitch = stabDesired.Pitch * settings.PitchMax;
-			horizonRateFraction = MAX(fabsf(stabDesired.Pitch), horizonRateFraction);
+			horizonRateFraction = MAX(horizonRateFraction, fabsf(stabDesired.Pitch));
 		}
-		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
+		if (stabDesired.StabilizationMode[YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
 			trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw * settings.YawMax;
-			horizonRateFraction = MAX(fabsf(stabDesired.Yaw), horizonRateFraction);
+			horizonRateFraction = MAX(horizonRateFraction, fabsf(stabDesired.Yaw));
 		}
 		horizonRateFraction = bound_sym(horizonRateFraction, HORIZON_MODE_MAX_BLEND) / HORIZON_MODE_MAX_BLEND;
 
