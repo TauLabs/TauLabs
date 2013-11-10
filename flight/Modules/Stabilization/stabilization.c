@@ -75,6 +75,9 @@
 #define COORDINATED_FLIGHT_MIN_ROLL_THRESHOLD 3.0f
 #define COORDINATED_FLIGHT_MAX_YAW_THRESHOLD 0.05f
 
+//! Set the stick position that maximally transitions to rate
+#define HORIZON_MODE_MAX_BLEND               0.85f
+
 enum {
 	PID_RATE_ROLL,   // Rate controller settings
 	PID_RATE_PITCH,
@@ -232,6 +235,7 @@ static void stabilizationTask(void* parameters)
 			trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw * settings.YawMax;
 			horizonRateFraction = MAX(fabsf(stabDesired.Yaw), horizonRateFraction);
 		}
+		horizonRateFraction = bound_sym(horizonRateFraction, HORIZON_MODE_MAX_BLEND) / HORIZON_MODE_MAX_BLEND;
 
 
 #if defined(PIOS_QUATERNION_STABILIZATION)
