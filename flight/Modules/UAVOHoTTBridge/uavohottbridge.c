@@ -397,7 +397,7 @@ uint16_t build_GAM_message(struct hott_gam_message *msg) {
 	float energy = (telestate->Battery.ConsumedEnergy > 0) ? telestate->Battery.ConsumedEnergy : 0;
 	msg->voltage = scale_float2uword(voltage, 10, 0);
 	msg->current = scale_float2uword(current, 10, 0);
-	msg->capacity = scale_float2uword(energy, 1, 0);
+	msg->capacity = scale_float2uword(energy, 0.1, 0);
 
 	// pressure kPa to 0.1Bar
 	msg->pressure = scale_float2uint8(telestate->Baro.Pressure, 0.1, 0);
@@ -440,7 +440,7 @@ uint16_t build_EAM_message(struct hott_eam_message *msg) {
 	float energy = (telestate->Battery.ConsumedEnergy > 0) ? telestate->Battery.ConsumedEnergy : 0;
 	msg->voltage = scale_float2uword(voltage, 10, 0);
 	msg->current = scale_float2uword(current, 10, 0);
-	msg->capacity = scale_float2uword(energy, 1, 0);
+	msg->capacity = scale_float2uword(energy, 0.1, 0);
 
 	// temperatures
 	msg->temperature1 = scale_float2uint8(telestate->Gyro.temperature, 1, OFFSET_TEMPERATURE);
@@ -454,8 +454,9 @@ uint16_t build_EAM_message(struct hott_eam_message *msg) {
 	msg->climbrate3s = scale_float2uint8(telestate->climbrate3s, 1, OFFSET_CLIMBRATE3S);
 
 	// flight time
-	msg->electric_min = telestate->Battery.EstimatedFlightTime / 60;
-	msg->electric_sec = telestate->Battery.EstimatedFlightTime - 60 * msg->electric_min;
+	float flighttime = (telestate->Battery.EstimatedFlightTime <= 5999) ? telestate->Battery.EstimatedFlightTime : 5999;
+	msg->electric_min = flighttime / 60;
+	msg->electric_sec = flighttime - 60 * msg->electric_min;
 
 	msg->checksum = calc_checksum((uint8_t *)msg, sizeof(*msg));
 	return sizeof(*msg);
@@ -480,10 +481,12 @@ uint16_t build_ESC_message(struct hott_esc_message *msg) {
 	// main batterie
 	float voltage = (telestate->Battery.Voltage > 0) ? telestate->Battery.Voltage : 0;
 	float current = (telestate->Battery.Current > 0) ? telestate->Battery.Current : 0;
+	float max_current = (telestate->Battery.PeakCurrent > 0) ? telestate->Battery.PeakCurrent : 0;
 	float energy = (telestate->Battery.ConsumedEnergy > 0) ? telestate->Battery.ConsumedEnergy : 0;
 	msg->batt_voltage = scale_float2uword(voltage, 10, 0);
 	msg->current = scale_float2uword(current, 10, 0);
-	msg->batt_capacity = scale_float2uword(energy, 10, 0);
+	msg->max_current = scale_float2uword(max_current, 10, 0);
+	msg->batt_capacity = scale_float2uword(energy, 0.1, 0);
 
 	// temperatures
 	msg->temperatureESC = scale_float2uint8(telestate->Gyro.temperature, 1, OFFSET_TEMPERATURE);
