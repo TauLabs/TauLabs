@@ -82,10 +82,12 @@ SUBDIRS += plugin_uavobjectbrowser
 
 # ModelView UAVGadget
 !LIGHTWEIGHT_GCS {
-plugin_modelview.subdir = modelview
-plugin_modelview.depends = plugin_coreplugin
-plugin_modelview.depends += plugin_uavobjects
-SUBDIRS += plugin_modelview
+ !macx {
+  plugin_modelview.subdir = modelview
+  plugin_modelview.depends = plugin_coreplugin
+  plugin_modelview.depends += plugin_uavobjects
+  SUBDIRS += plugin_modelview
+ }
 }
 
 #Qt 4.8.0 / phonon may crash on Mac, fixed in Qt 4.8.1, QTBUG-23128
