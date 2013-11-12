@@ -224,28 +224,30 @@ void RawHIDWriteThread::run()
     while(m_running)
     {
         char buffer[WRITE_SIZE] = {0};
+        int size;
 
-        m_writeBufMtx.lock();
-        int size = qMin(WRITE_SIZE-2, m_writeBuffer.size());
-        while(size <= 0)
         {
-            //wait on new data to write condition, the timeout
-            //enable the thread to shutdown properly
-            m_newDataToWrite.wait(&m_writeBufMtx, 200);
-            if(!m_running)
-                return;
+            QMutexLocker lock(&m_writeBufMtx);
+            size = qMin(WRITE_SIZE-2, m_writeBuffer.size());
+            while(size <= 0)
+            {
+                //wait on new data to write condition, the timeout
+                //enable the thread to shutdown properly
+                m_newDataToWrite.wait(&m_writeBufMtx, 200);
+                if(!m_running)
+                    return;
 
-            size = m_writeBuffer.size();
+                size = m_writeBuffer.size();
+            }
+
+            //NOTE: data size is limited to 2 bytes less than the
+            //usb packet size (64 bytes for interrupt) to make room
+            //for the reportID and valid data length
+            size = qMin(WRITE_SIZE-2, m_writeBuffer.size());
+            memcpy(&buffer[2], m_writeBuffer.constData(), size);
+            buffer[1] = size; //valid data length
+            buffer[0] = 2;    //reportID
         }
-
-        //NOTE: data size is limited to 2 bytes less than the
-        //usb packet size (64 bytes for interrupt) to make room
-        //for the reportID and valid data length
-        size = qMin(WRITE_SIZE-2, m_writeBuffer.size());
-        memcpy(&buffer[2], m_writeBuffer.constData(), size);
-        buffer[1] = size; //valid data length
-        buffer[0] = 2;    //reportID
-        m_writeBufMtx.unlock();
 
         // must hold lock through the send to know how much was sent
         int ret = hiddev->send(m_hid->m_deviceNo, buffer, WRITE_SIZE, WRITE_TIMEOUT);
