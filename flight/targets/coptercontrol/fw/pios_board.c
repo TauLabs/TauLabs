@@ -75,7 +75,7 @@ uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_gps_id;
 uintptr_t pios_com_bridge_id;
-uintptr_t pios_com_mavlink_id;
+uintptr_t pios_com_mavlink_id[PIOS_COM_MAVLINK_NUM_PORTS];
 uintptr_t pios_usb_rctx_id;
 uintptr_t pios_internal_adc_id;
 uintptr_t pios_pcf8591_adc_id;
@@ -547,7 +547,7 @@ void PIOS_Board_Init(void) {
 
 				uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_MAVLINK_TX_BUF_LEN);
 				PIOS_Assert(tx_buffer);
-				if (PIOS_COM_Init(&pios_com_mavlink_id, &pios_usart_com_driver, pios_usart_generic_id,
+				if (PIOS_COM_Init(&pios_com_mavlink_id[0], &pios_usart_com_driver, pios_usart_generic_id,
 						  NULL, 0,
 						  tx_buffer, PIOS_COM_MAVLINK_TX_BUF_LEN)) {
 					PIOS_Assert(0);
@@ -572,7 +572,7 @@ void PIOS_Board_Init(void) {
 				tx_buffer, PIOS_COM_MAVLINK_TX_BUF_LEN)) {
 			PIOS_Assert(0);
 		}
-		pios_com_mavlink_id = pios_com_gps_id;
+		pios_com_mavlink_id[0] = pios_com_gps_id;
 	}
 #endif	/* PIOS_INCLUDE_MAVLINK */
 #endif	/* PIOS_INCLUDE_GPS */
@@ -729,7 +729,7 @@ void PIOS_Board_Init(void) {
 
 				uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_MAVLINK_TX_BUF_LEN);
 				PIOS_Assert(tx_buffer);
-				if (PIOS_COM_Init(&pios_com_mavlink_id, &pios_usart_com_driver, pios_usart_generic_id,
+				if (PIOS_COM_Init(&pios_com_mavlink_id[1], &pios_usart_com_driver, pios_usart_generic_id,
 						  NULL, 0,
 						  tx_buffer, PIOS_COM_MAVLINK_TX_BUF_LEN)) {
 					PIOS_Assert(0);

@@ -188,7 +188,7 @@ uintptr_t pios_com_telem_rf_id;
 uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_overo_id;
-uintptr_t pios_com_mavlink_id;
+uintptr_t pios_com_mavlink_id[PIOS_COM_MAVLINK_NUM_PORTS];
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
 uintptr_t pios_internal_adc_id;
@@ -658,13 +658,13 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWQUANTON_UART1_MAVLINKTX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
-		PIOS_Board_configure_com(&pios_usart1_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
+		PIOS_Board_configure_com(&pios_usart1_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id[0]);
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	case HWQUANTON_UART1_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
-		pios_com_mavlink_id = pios_com_gps_id;
+		pios_com_mavlink_id[0] = pios_com_gps_id;
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	}
@@ -763,13 +763,13 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWQUANTON_UART2_MAVLINKTX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
-		PIOS_Board_configure_com(&pios_usart2_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
+		PIOS_Board_configure_com(&pios_usart2_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id[1]);
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	case HWQUANTON_UART2_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
-		pios_com_mavlink_id = pios_com_gps_id;
+		pios_com_mavlink_id[1] = pios_com_gps_id;
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	}
@@ -872,13 +872,13 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWQUANTON_UART3_MAVLINKTX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
-		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
+		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id[2]);
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	case HWQUANTON_UART3_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
-		pios_com_mavlink_id = pios_com_gps_id;
+		pios_com_mavlink_id[2] = pios_com_gps_id;
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	}
@@ -957,13 +957,13 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWQUANTON_UART4_MAVLINKTX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
-		PIOS_Board_configure_com(&pios_usart4_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
+		PIOS_Board_configure_com(&pios_usart4_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id[3]);
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	case HWQUANTON_UART4_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
 		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
-		pios_com_mavlink_id = pios_com_gps_id;
+		pios_com_mavlink_id[3] = pios_com_gps_id;
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	}
@@ -1042,13 +1042,13 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWQUANTON_UART5_MAVLINKTX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
-		PIOS_Board_configure_com(&pios_usart5_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
+		PIOS_Board_configure_com(&pios_usart5_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id[4]);
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	case HWQUANTON_UART5_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
 		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
-		pios_com_mavlink_id = pios_com_gps_id;
+		pios_com_mavlink_id[4] = pios_com_gps_id;
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	}
