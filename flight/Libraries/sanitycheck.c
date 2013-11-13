@@ -30,8 +30,11 @@
 #include "flightstatus.h"
 #include "sanitycheck.h"
 #include "manualcontrolsettings.h"
+#include "stabilizationsettings.h"
 #include "systemalarms.h"
 #include "systemsettings.h"
+
+#include "pios_sensors.h"
 
 /****************************
  * Current checks:
@@ -44,6 +47,9 @@ static int32_t check_safe_to_arm();
 
 //! Check a stabilization mode switch position for safety
 static int32_t check_stabilization_settings(int index, bool multirotor);
+
+//! Check a stabilization mode switch position for safety
+static int32_t check_stabilization_rates();
 
 //!  Set the error code and alarm state
 static void set_config_error(SystemAlarmsConfigErrorOptions error_code);
@@ -163,6 +169,9 @@ int32_t configuration_check()
 		}
 	}
 
+	// Check the stabilization rates are within what the sensors can track
+	error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_rates() : error_code;
+
 	// Only check safe to arm if no other errors exist
 	error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_safe_to_arm() : error_code;
 
@@ -260,6 +269,28 @@ static int32_t check_safe_to_arm()
 				return SYSTEMALARMS_CONFIGERROR_UNSAFETOARM;
 		}
 	}
+
+	return SYSTEMALARMS_CONFIGERROR_NONE;
+}
+
+/**
+ * Check the rates achieved via stabilization are ones that can be tracked
+ * by the gyros as configured.
+ * @return error code if not
+ */
+static int32_t check_stabilization_rates()
+{
+	const float MAXIMUM_SAFE_FRACTIONAL_RATE = 0.85;
+	int32_t max_safe_rate = PIOS_SENSORS_GetMaxGyro() * MAXIMUM_SAFE_FRACTIONAL_RATE;
+	float rates[3];
+
+	StabilizationSettingsManualRateGet(rates);
+	if (rates[0] > max_safe_rate || rates[1] > max_safe_rate || rates[2] > max_safe_rate)
+		return SYSTEMALARMS_CONFIGERROR_STABILIZATION;
+
+	StabilizationSettingsMaximumRateGet(rates);
+	if (rates[0] > max_safe_rate || rates[1] > max_safe_rate || rates[2] > max_safe_rate)
+		return SYSTEMALARMS_CONFIGERROR_STABILIZATION;
 
 	return SYSTEMALARMS_CONFIGERROR_NONE;
 }
