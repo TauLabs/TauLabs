@@ -35,6 +35,7 @@
 #include "objectpersistence.h"
 #include "flightstatus.h"
 #include "manualcontrolsettings.h"
+#include "stabilizationsettings.h"
 #include "systemstats.h"
 #include "systemsettings.h"
 #include "taskinfo.h"
@@ -167,6 +168,8 @@ static void systemTask(void *parameters)
 	configuration_check();
 
 	// Whenever the configuration changes, make sure it is safe to fly
+	if (StabilizationSettingsHandle())
+		StabilizationSettingsConnectCallback(configurationUpdatedCb);
 	if (SystemSettingsHandle())
 		SystemSettingsConnectCallback(configurationUpdatedCb);
 	if (ManualControlSettingsHandle())
