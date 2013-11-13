@@ -201,6 +201,17 @@ int32_t PIOS_L3GD20_SetRange(enum pios_l3gd20_range range)
 	if (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG4, pios_l3gd20_dev->range) != 0)
 		return -2;
 
+	switch(range) {
+	case PIOS_L3GD20_SCALE_250_DEG:
+		PIOS_SENSORS_SetMaxGyro(250);
+		break;
+	case PIOS_L3GD20_SCALE_500_DEG:
+		PIOS_SENSORS_SetMaxGyro(500);
+		break;
+	case PIOS_L3GD20_SCALE_2000_DEG:
+		PIOS_SENSORS_SetMaxGyro(2000);
+		break;
+	}
 	return 0;
 }
 
