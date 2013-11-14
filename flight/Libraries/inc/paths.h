@@ -41,7 +41,7 @@ struct path_status {
 	float path_direction[2];
 };
 
-void path_progress(PathDesiredData *pathDesired, float * cur_point, struct path_status * status);
+void path_progress(const PathDesiredData *pathDesired, const float * cur_point, struct path_status * status);
 
 #endif /* PATHS_H_ */
 
