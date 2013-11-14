@@ -45,28 +45,19 @@
  */
 
 #include "openpilot.h"
+
+#include "vtol_follower_priv.h"
+
 #include "pathdesired.h"
 #include "positionactual.h"
 #include "stabilizationdesired.h"
 
 // Various navigation constants
 const static float RTH_MIN_ALTITUDE = 15;    //!< Hover at least 15 m above home */
-const static float SECONDS_TO_COUNT = 20.0f; //!< Loop runs at 20 Hz */
 const static float RTH_VELOCITY     = 2.5f;  //!< Return home at 2.5 m/s */
 const static float LANDING_VELOCITY = 1.5f;  //!< Land at 1.5 m/s */
 
-const static float DT               = 0.1f;  // TODO: make the self monitored
-/**
- * The set of goals the VTOL follower will attempt to achieve this selects
- * the particular FSM that is running. These goals are determined by the
- * input to this module.
- */
-enum vtol_goals {
-	GOAL_HOLD_POSITION,       /*!< Hold a location specified by PathDesired */
-	GOAL_FLY_PATH,            /*!< Fly a path specified by PathDesired */
-	GOAL_LAND_HERE,           /*!< Land at the current location */
-	GOAL_LAND_HOME            /*!< Fly to the home location and land */
-};
+const static float DT               = 0.05f; // TODO: make the self monitored
 
 //! Events that can be be injected into the FSM and trigger state changes
 enum vtol_fsm_event {
@@ -280,7 +271,7 @@ static int32_t vtol_fsm_static()
 	else
 		do_default();
 
-	if ((current_count - set_time_count) > timer_duration * SECONDS_TO_COUNT) {
+	if ((current_count - set_time_count) * DT > timer_duration) {
 		vtol_fsm_inject_event(FSM_EVENT_TIMEOUT);
 	}
 
@@ -376,7 +367,8 @@ static int32_t do_path()
  */
 static int32_t do_land()
 {
-	if (vtol_follower_control_land(DT, vtol_hold_position_ned) == 0) {
+	bool landed;
+	if (vtol_follower_control_land(DT, vtol_hold_position_ned, LANDING_VELOCITY, &landed) == 0) {
 		if (vtol_follower_control_attitude(DT) == 0) {
 			return 0;
 		}

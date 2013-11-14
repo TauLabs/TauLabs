@@ -31,6 +31,8 @@
 #include "paths.h"
 #include "pid.h"
 
+#include "vtol_follower_priv.h"
+
 #include "accels.h"
 #include "attitudeactual.h"
 #include "pathdesired.h"        // object that will be updated by the module
@@ -53,11 +55,10 @@
 
 // Private variables
 static VtolPathFollowerSettingsData guidanceSettings;
+float throttle_offset;
+struct pid vtol_pids[VTOL_PID_NUM];
 
 // Private functions
-
-enum vtol_pid {NORTH_VELOCITY, EAST_VELOCITY, DOWN_VELOCITY, NORTH_POSITION, EAST_POSITION, DOWN_POSITION, VTOL_PID_NUM};
-static struct pid vtol_pids[VTOL_PID_NUM];
 
 /**
  * Compute desired velocity to follow the desired path from the current location.
@@ -68,7 +69,8 @@ static struct pid vtol_pids[VTOL_PID_NUM];
  *
  * The calculated velocity to attempt is stored in @ref VelocityDesired
  */
-int32_t vtol_follower_control_path(float dT, PathDesiredData *pathDesired, struct path_status *progress)
+int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDesired,
+	struct path_status *progress)
 {
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
@@ -133,7 +135,7 @@ int32_t vtol_follower_control_path(float dT, PathDesiredData *pathDesired, struc
  * Takes in @ref PositionActual and compares it to @ref PositionDesired 
  * and computes @ref VelocityDesired
  */
-int32_t vtol_follower_control_endpoint(float dT, const float *hold_pos_ned)
+int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned)
 {
 	PositionActualData positionActual;
 	VelocityDesiredData velocityDesired;
@@ -182,6 +184,8 @@ int32_t vtol_follower_control_endpoint(float dT, const float *hold_pos_ned)
 		path_status = PATHSTATUS_STATUS_COMPLETED;
 	}
 	PathStatusStatusSet(&path_status);
+
+	return 0;
 }
 
 /**
@@ -194,7 +198,8 @@ int32_t vtol_follower_control_endpoint(float dT, const float *hold_pos_ned)
  * Takes in @ref PositionActual and compares it to the hold position
  * and computes @ref VelocityDesired
  */
-int32_t vtol_follower_control_land(float dT, const float *hold_pos_ned, float land_velocity, bool *landed)
+int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
+	const float land_velocity, bool *landed)
 {
 	PositionActualData positionActual;
 	VelocityDesiredData velocityDesired;
@@ -238,6 +243,8 @@ int32_t vtol_follower_control_land(float dT, const float *hold_pos_ned, float la
 		path_status = PATHSTATUS_STATUS_COMPLETED;
 	}
 	PathStatusStatusSet(&path_status);
+
+	return 0;
 }
 /**
  * Compute desired attitude from the desired velocity
@@ -291,7 +298,7 @@ int32_t vtol_follower_control_attitude(float dT)
 	    down_accel * guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
 
 	// If this setting is zero then the throttle level available when enabled is used for hover:wq
-	float used_throttle_offset = (guidanceSettings.HoverThrottle == 0) ? throttleOffset : guidanceSettings.HoverThrottle;
+	float used_throttle_offset = (guidanceSettings.HoverThrottle == 0) ? throttle_offset : guidanceSettings.HoverThrottle;
 	stabDesired.Throttle = bound_min_max(downCommand + used_throttle_offset, 0, 1);
 	
 	// Project the north and east command signals into the pitch and roll based on yaw.
@@ -341,6 +348,8 @@ int32_t vtol_follower_control_attitude(float dT)
 	}
 	
 	StabilizationDesiredSet(&stabDesired);
+
+	return 0;
 }
 
 void vtol_follower_control_settings_updated(UAVObjEvent * ev)
@@ -380,9 +389,6 @@ void vtol_follower_control_settings_updated(UAVObjEvent * ev)
 		guidanceSettings.VerticalPosPI[VTOLPATHFOLLOWERSETTINGS_VERTICALPOSPI_KI],
 		0,
 		guidanceSettings.VerticalPosPI[VTOLPATHFOLLOWERSETTINGS_VERTICALPOSPI_ILIMIT]);
-
-
-	PathDesiredGet(&pathDesired);
 }
 
 /**

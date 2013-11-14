@@ -15,7 +15,7 @@
 		<!-- The distance within the waypoint (horizontally) that should be achieved to mark completed -->
 		<field name="EndpointRadius" units="m" type="uint8" elements="1" defaultvalue="2"/>
 	
-		<field name="UpdatePeriod" units="ms" type="int32" elements="1" defaultvalue="100"/>
+		<field name="UpdatePeriod" units="ms" type="int32" elements="1" defaultvalue="50"/>
 		<field name="YawMode" units="" type="enum" elements="1" options="Rate,AxisLock,Attitude,POI" defaultvalue="AxisLock"/>
 		<field name="LandingRate" units="m/s" type="float" elements="1" defaultvalue="1"/>
 		<field name="HoverThrottle" units="" type="float" elements="1" defaultvalue="0"/>

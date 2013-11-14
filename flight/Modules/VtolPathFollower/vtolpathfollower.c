@@ -6,9 +6,11 @@
  * @{
  *
  * @file       vtolpathfollower.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Compute attitude to achieve a path for VTOL aircrafts
+ *
+ * Runs the VTOL follower FSM which then calls the lower VTOL navigation
+ * control algorithms as appropriate.
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,19 +26,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- */
-
-/**
- * Input object: @ref FlightStatus
- * Input object: @ref PathDesired
- * Input object: @ref PositionActual
- * Input object: @ref VelocityActual
- * Output object: @ref StabilizationDesired
- *
- * This module will periodically update the value of the @ref StabilizationDesired object based on 
- * @ref PathDesired and @PositionActual when the Flight Mode selected in @FlightStatus is supported
- * by this module.  Otherwise another module (e.g. @ref ManualControlCommand) is expected to be
- * writing to @ref StabilizationDesired.
  */
 
 #include "openpilot.h"
@@ -82,9 +71,6 @@ static VtolPathFollowerSettingsData guidanceSettings;
 // Private functions
 static void vtolPathFollowerTask(void *parameters);
 static void updateNedAccel();
-static void updatePathVelocity();
-static void updateEndpointVelocity();
-static void updateVtolDesiredAttitude();
 static bool module_enabled = false;
 
 /**
@@ -124,19 +110,20 @@ int32_t VtolPathFollowerInitialize()
 		return -1;
 	}
 
-	VtolPathFollowerSettingsInitialize();
-	PathStatusInitialize();
 	NedAccelInitialize();
 	PathDesiredInitialize();
+	PathStatusInitialize();
 	VelocityDesiredInitialize();
+	VtolPathFollowerSettingsInitialize();
 	
 	return 0;
 }
 
-MODULE_INITCALL(VtolPathFollowerInitialize, VtolPathFollowerStart)
+MODULE_INITCALL(VtolPathFollowerInitialize, VtolPathFollowerStart);
 
+extern float throttle_offset;
+extern struct pid vtol_pids[VTOL_PID_NUM];
 
-static float throttleOffset = 0;
 /**
  * Module thread, should not return.
  */
@@ -148,7 +135,6 @@ static void vtolPathFollowerTask(void *parameters)
 	portTickType lastUpdateTime;
 	
 	VtolPathFollowerSettingsConnectCallback(vtol_follower_control_settings_updated);
-	PathDesiredConnectCallback(vtol_follower_control_settings_updated);
 	
 	VtolPathFollowerSettingsGet(&guidanceSettings);
 	PathDesiredGet(&pathDesired);
@@ -183,57 +169,48 @@ static void vtolPathFollowerTask(void *parameters)
 		// Continue collecting data if not enough time
 		vTaskDelayUntil(&lastUpdateTime, MS2TICKS(guidanceSettings.UpdatePeriod));
 
-		// Convert the accels into the NED frame
+		// Convert the accels into the NED frame. 
+		// TODO: This should be moved somewhere else and run at the sensor rate.
 		updateNedAccel();
 		
+		static uint8_t last_flight_mode;
 		FlightStatusGet(&flightStatus);
 
-		// Check the combinations of flightmode and pathdesired mode
-		switch(flightStatus.FlightMode) {
-			/* This combination of RETURNTOHOME and HOLDPOSITION looks strange but
-			 * is correct.  RETURNTOHOME mode uses HOLDPOSITION with the position
-			 * set to home */
+		static bool fsm_running = false;
+
+		if (flightStatus.FlightMode != last_flight_mode) {
+			// The mode has changed
+
+			last_flight_mode = flightStatus.FlightMode;
+
+			switch(flightStatus.FlightMode) {
 			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-				if (pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
-					updateEndpointVelocity();
-					updateVtolDesiredAttitude();
-				} else {
-					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
-				}
+				vtol_follower_fsm_activate_goal(GOAL_LAND_HOME);
+				fsm_running = true;
 				break;
+				/*
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-				if (pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
-					updateEndpointVelocity();
-					updateVtolDesiredAttitude();
-				} else {
-					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
-				}
+				vtol_follower_fsm_activate_goal(GOAL_HOLD_POSITION);
+				fsm_running = true;
 				break;
-			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-				if (pathDesired.Mode == PATHDESIRED_MODE_FLYENDPOINT ||
-					pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
-					updateEndpointVelocity();
-					updateVtolDesiredAttitude();
-				} else if (pathDesired.Mode == PATHDESIRED_MODE_FLYVECTOR ||
-					pathDesired.Mode == PATHDESIRED_MODE_FLYCIRCLELEFT ||
-					pathDesired.Mode == PATHDESIRED_MODE_FLYCIRCLERIGHT) {
-					updatePathVelocity();
-					updateVtolDesiredAttitude();
-				} else {
-					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
-				}
-				break;
+			case case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+				vtol_follower_fsm_activate_goal(GOAL_FLY_PATH);
+				fsm_running = true;
+				*/
 			default:
+				vtol_follower_fsm_activate_goal(GOAL_LAND_NONE);
+				fsm_running = false;
+			}
+		}
 
-				for (uint32_t i = 0; i < VTOL_PID_NUM; i++)
-					pid_zero(&vtol_pids[i]);
+		if (fsm_running) {
+			vtol_follower_fsm_update();
+		} else {
+			for (uint32_t i = 0; i < VTOL_PID_NUM; i++)
+				pid_zero(&vtol_pids[i]);
 
-				// Track throttle before engaging this mode.  Cheap system ident
-				StabilizationDesiredData stabDesired;
-				StabilizationDesiredGet(&stabDesired);
-				throttleOffset = stabDesired.Throttle;
-
-				break;
+			// Track throttle before engaging this mode.  Cheap system ident
+			StabilizationDesiredThrottleGet(&throttle_offset);
 		}
 
 		AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);
