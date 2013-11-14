@@ -55,6 +55,7 @@ const static float SECONDS_TO_COUNT = 20.0f; //!< Loop runs at 20 Hz */
 const static float RTH_VELOCITY     = 2.5f;  //!< Return home at 2.5 m/s */
 const static float LANDING_VELOCITY = 1.5f;  //!< Land at 1.5 m/s */
 
+const static float DT               = 0.1f;  // TODO: make the self monitored
 /**
  * The set of goals the VTOL follower will attempt to achieve this selects
  * the particular FSM that is running. These goals are determined by the
@@ -333,23 +334,13 @@ static float vtol_hold_position_ned[3];
  */
 static int32_t do_hold()
 {
-	float RPYT[4];
+	if (vtol_follower_control_endpoint(DT, vtol_hold_position_ned) == 0) {
+		if (vtol_follower_control_attitude(DT) == 0) {
+			return 0;
+		}
+	}
 
-	// TODO: Call out to follower library
-	// if (vtol_path_hold_position(vtol_hold_position_ned, RPYT) == 0) {
-	
-		StabilizationDesiredData stabDesired;
-		StabilizationDesiredGet(&stabDesired);
-
-		stabDesired.Roll = RPYT[0];
-		stabDesired.Pitch = RPYT[1];
-		stabDesired.Throttle = RPYT[3];
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-
-		StabilizationDesiredSet(&stabDesired);
-
-	return 0;
+	return -1;
 }
 
 //! The configured path desired. Uses the @ref PathDesired structure
@@ -365,23 +356,14 @@ static PathDesiredData vtol_fsm_path_desired;
  */
 static int32_t do_path()
 {
-	float RPYT[4];
+	struct path_status progress;
+	if (vtol_follower_control_path(DT, &vtol_fsm_path_desired, &progress) == 0) {
+		if (vtol_follower_control_attitude(DT) == 0) {
+			return 0;
+		}
+	}
 
-	// TODO: Call out to follower library
-	// if (vtol_path_follow_path(vtol_fsm_path_desired, RPYT) == 0) {
-	
-		StabilizationDesiredData stabDesired;
-		StabilizationDesiredGet(&stabDesired);
-
-		stabDesired.Roll = RPYT[0];
-		stabDesired.Pitch = RPYT[1];
-		stabDesired.Throttle = RPYT[3];
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-
-		StabilizationDesiredSet(&stabDesired);
-
-	return 0;
+	return -1;
 }
 
 /**
@@ -394,22 +376,12 @@ static int32_t do_path()
  */
 static int32_t do_land()
 {
-	
-	float RPYT[4];
+	if (vtol_follower_control_land(DT, vtol_hold_position_ned) == 0) {
+		if (vtol_follower_control_attitude(DT) == 0) {
+			return 0;
+		}
+	}
 
-	// TODO: Call out to follower library
-	// if (vtol_path_land(vtol_hold_position_ned, LANDING_VELOCITY, RPYT) == 0) {
-	
-		StabilizationDesiredData stabDesired;
-		StabilizationDesiredGet(&stabDesired);
-
-		stabDesired.Roll = RPYT[0];
-		stabDesired.Pitch = RPYT[1];
-		stabDesired.Throttle = RPYT[3];
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-
-		StabilizationDesiredSet(&stabDesired);
 	return 0;
 }
 
@@ -505,7 +477,7 @@ static void go_enable_land_home()
 //! @}
 
 // Public API methods
-int32_t VTOL_NAV_ActivateGoal(enum vtol_goals new_goal)
+int32_t vtol_follower_fsm_activate_goal(enum vtol_goals new_goal)
 {
 	switch(new_goal) {
 	case GOAL_LAND_HOME:
@@ -516,7 +488,7 @@ int32_t VTOL_NAV_ActivateGoal(enum vtol_goals new_goal)
 	}
 }
 
-int32_t VTOL_NAV_Update()
+int32_t vtol_follower_fsm_update()
 {
 	vtol_fsm_static();
 	return 0;
