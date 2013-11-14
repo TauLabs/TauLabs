@@ -84,6 +84,7 @@ enum vtol_fsm_state {
 	FSM_STATE_PRE_RTH_HOLD,    /*!< Short hold before returning to home */
 	FSM_STATE_POST_RTH_HOLD,   /*!< Hold at home before initiating landing */
 	FSM_STATE_DISARM,          /*!< Disarm the system after landing */
+	FSM_STATE_UNCHANGED,       /*!< Fake state to indicate do nothing */
 	FSM_STATE_NUM_STATES
 };
 
@@ -142,6 +143,8 @@ const static struct vtol_fsm_transition land_home[FSM_STATE_NUM_STATES] = {
 		.static_fn = do_default,
 		.next_state = {
 			[FSM_EVENT_TIMEOUT] = FSM_STATE_FLYING_PATH,
+			[FSM_EVENT_HIT_TARGET] = FSM_STATE_UNCHANGED,
+			[FSM_EVENT_LEFT_TARGET] = FSM_STATE_UNCHANGED,
 		},
 	},
 	[FSM_STATE_FLYING_PATH] = {
@@ -156,6 +159,8 @@ const static struct vtol_fsm_transition land_home[FSM_STATE_NUM_STATES] = {
 		.static_fn = do_default,
 		.next_state = {
 			[FSM_EVENT_TIMEOUT] = FSM_STATE_LANDING,
+			[FSM_EVENT_HIT_TARGET] = FSM_STATE_UNCHANGED,
+			[FSM_EVENT_LEFT_TARGET] = FSM_STATE_UNCHANGED,
 		},
 	},
 	[FSM_STATE_LANDING] = {
@@ -234,6 +239,12 @@ static void vtol_fsm_inject_event(enum vtol_fsm_event event)
 	// No need for mutexes here since this is called in a single threaded manner
 
 	/*
+	 * The STATE_UNCHANGED indicates to ignore these events
+	 */
+	if (current_goal[curr_state].next_state[event] == FSM_STATE_UNCHANGED)
+		return;
+
+	/*
 	 * Move to the next state
 	 *
 	 * This is done prior to calling the new state's entry function to
@@ -260,18 +271,18 @@ static void vtol_fsm_inject_event(enum vtol_fsm_event event)
  */
 static int32_t vtol_fsm_static()
 {
-	static uint32_t current_count;
-	static uint32_t set_time_count;
-
-	current_count++;
-
 	// If the current state has a static function, call it
 	if (current_goal[curr_state].static_fn)
 		current_goal[curr_state].static_fn();
-	else
-		do_default();
+	else {
+		int32_t ret_val;
+		if ((ret_val = do_default()) < 0)
+			return ret_val;
+	}
 
-	if ((current_count - set_time_count) * DT > timer_duration) {
+	current_count++;
+
+	if ((timer_duration > 0) && ((current_count - set_time_count) * DT) > timer_duration) {
 		vtol_fsm_inject_event(FSM_EVENT_TIMEOUT);
 	}
 
@@ -350,6 +361,11 @@ static int32_t do_path()
 	struct path_status progress;
 	if (vtol_follower_control_path(DT, &vtol_fsm_path_desired, &progress) == 0) {
 		if (vtol_follower_control_attitude(DT) == 0) {
+
+			if (progress.fractional_progress >= 1.0f) {
+				vtol_fsm_inject_event(FSM_EVENT_HIT_TARGET);
+			}
+
 			return 0;
 		}
 	}
@@ -450,6 +466,8 @@ static void go_enable_fly_home()
 
 	vtol_fsm_path_desired.Mode = PATHDESIRED_MODE_FLYVECTOR;
 	vtol_fsm_path_desired.ModeParameters = 0;
+
+	configure_timeout(0);
 }
 
 /**
@@ -463,7 +481,7 @@ static void go_enable_land_home()
 	vtol_hold_position_ned[1] = 0;
 	vtol_hold_position_ned[2] = 0; // Has no affect
 
-	configure_timeout(10);
+	configure_timeout(0);
 }
 
 //! @}
