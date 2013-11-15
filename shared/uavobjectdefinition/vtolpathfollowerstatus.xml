@@ -1,0 +1,10 @@
+<xml>
+	<object name="VtolPathFollowerStatus" singleinstance="true" settings="false">
+		<description>Monitoring of the VTOL path follower</description>
+		<field name="FSM_State" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="500"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

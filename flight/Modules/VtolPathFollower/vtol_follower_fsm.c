@@ -51,6 +51,7 @@
 #include "pathdesired.h"
 #include "positionactual.h"
 #include "stabilizationdesired.h"
+#include "vtolpathfollowerstatus.h"
 
 // Various navigation constants
 const static float RTH_MIN_ALTITUDE = 15;    //!< Hover at least 15 m above home */
@@ -271,6 +272,8 @@ static void vtol_fsm_inject_event(enum vtol_fsm_event event)
  */
 static int32_t vtol_fsm_static()
 {
+	VtolPathFollowerStatusFSM_StateSet((uint8_t *) &curr_state);
+
 	// If the current state has a static function, call it
 	if (current_goal[curr_state].static_fn)
 		current_goal[curr_state].static_fn();

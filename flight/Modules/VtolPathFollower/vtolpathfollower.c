@@ -54,6 +54,7 @@
 #include "velocitydesired.h"
 #include "velocityactual.h"
 #include "vtolpathfollowersettings.h"
+#include "vtolpathfollowerstatus.h"
 #include "coordinate_conversions.h"
 
 // Private constants
@@ -115,6 +116,7 @@ int32_t VtolPathFollowerInitialize()
 	PathStatusInitialize();
 	VelocityDesiredInitialize();
 	VtolPathFollowerSettingsInitialize();
+	VtolPathFollowerStatusInitialize();
 	
 	return 0;
 }
