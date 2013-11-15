@@ -242,6 +242,7 @@ int main(int argc, char **argv)
     getrlimit(RLIMIT_NOFILE, &rl);
     rl.rlim_cur = rl.rlim_max;
     setrlimit(RLIMIT_NOFILE, &rl);
+    QApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
 
     if ( QSysInfo::MacintoshVersion > QSysInfo::MV_10_8 )
     {
