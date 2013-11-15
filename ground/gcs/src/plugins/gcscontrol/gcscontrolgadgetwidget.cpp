@@ -39,7 +39,6 @@
 #include "uavobjectmanager.h"
 #include "manualcontrolcommand.h"
 #include "extensionsystem/pluginmanager.h"
-#include "flightstatus.h"
 
 GCSControlGadgetWidget::GCSControlGadgetWidget(QWidget *parent) : QLabel(parent)
 {
@@ -49,9 +48,12 @@ GCSControlGadgetWidget::GCSControlGadgetWidget(QWidget *parent) : QLabel(parent)
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("ManualControlCommand")) );
+    UAVObject::Metadata mdata = obj->getMetadata();
+    m_gcscontrol->checkBoxGcsControl->setChecked(UAVObject::GetFlightAccess(mdata) == UAVObject::ACCESS_READONLY);
 
     // Set up the drop down box for the flightmode
-    FlightStatus* flightStatus = FlightStatus::GetInstance(objManager);;
+    UAVDataObject* flightStatus = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("FlightStatus")) );
     m_gcscontrol->comboBoxFlightMode->addItems(flightStatus->getField("FlightMode")->getOptions());
 
     // Set up slots and signals for joysticks
@@ -59,19 +61,32 @@ GCSControlGadgetWidget::GCSControlGadgetWidget(QWidget *parent) : QLabel(parent)
     connect(m_gcscontrol->widgetRightStick,SIGNAL(positionClicked(double,double)),this,SLOT(rightStickClicked(double,double)));
 
     // Connect misc controls
-    connect(m_gcscontrol->checkBoxGcsControl, SIGNAL(clicked(bool)), this, SLOT(toggleControl(bool)));
+    connect(m_gcscontrol->checkBoxGcsControl, SIGNAL(stateChanged(int)), this, SLOT(toggleControl(int)));
+    connect(m_gcscontrol->checkBoxArmed, SIGNAL(stateChanged(int)), this, SLOT(toggleArmed(int)));
     connect(m_gcscontrol->comboBoxFlightMode, SIGNAL(currentIndexChanged(int)), this, SLOT(selectFlightMode(int)));
 
     connect(m_gcscontrol->checkBoxUDPControl, SIGNAL(stateChanged(int)),this,SLOT(toggleUDPControl(int))); //UDP control checkbox
 
     // Connect object updated event from UAVObject to also update check boxes and dropdown
-    connect(flightStatus,SIGNAL(FlightModeChanged(quint8)), this, SLOT(flightModeChanged(quint8)));
-    connect(flightStatus,SIGNAL(ArmedChanged(quint8)), this, SLOT(armedChanged(quint8)));
+    connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(mccChanged(UAVObject*)));
+
+
+
 
     leftX = 0;
     leftY = 0;
     rightX = 0;
     rightY = 0;
+
+    // No point enabling OpenGL for the joysticks, and causes
+    // issues on some computers:
+//    m_gcscontrol->widgetLeftStick->enableOpenGL(true);
+//    m_gcscontrol->widgetRightStick->enableOpenGL(true);
+}
+
+GCSControlGadgetWidget::~GCSControlGadgetWidget()
+{
+   // Do nothing
 }
 
 void GCSControlGadgetWidget::updateSticks(double nleftX, double nleftY, double nrightX, double nrightY) {
@@ -98,21 +113,38 @@ void GCSControlGadgetWidget::rightStickClicked(double X, double Y) {
 /*!
   \brief Called when the gcs control is toggled
   */
-void GCSControlGadgetWidget::toggleControl(bool checked)
+void GCSControlGadgetWidget::toggleControl(int state)
 {
-    toggleUDPControl(checked);
-    m_gcscontrol->checkBoxUDPControl->setEnabled(checked);
-    emit controlEnabled(checked);
+    bool enable = state != 0;
+
+    if (!enable)
+        toggleUDPControl(enable);
+    m_gcscontrol->checkBoxUDPControl->setEnabled(enable);
+
+    emit controlEnabled(enable);
 }
 
-void GCSControlGadgetWidget::flightModeChanged(quint8 mode)
+void GCSControlGadgetWidget::toggleArmed(int state)
 {
-    m_gcscontrol->comboBoxFlightMode->setCurrentIndex(mode);
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("FlightStatus")) );
+    if(state)
+        obj->getField("Armed")->setValue("Armed");
+    else
+        obj->getField("Armed")->setValue("Disarmed");
+    obj->updated();
 }
 
-void GCSControlGadgetWidget::armedChanged(quint8 armed)
+void GCSControlGadgetWidget::mccChanged(UAVObject * obj)
 {
-    m_gcscontrol->checkBoxArmed->setChecked(armed != 0);
+    Q_UNUSED(obj);
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    UAVDataObject* flightStatus = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("FlightStatus")) );
+    m_gcscontrol->comboBoxFlightMode->setCurrentIndex(m_gcscontrol->comboBoxFlightMode->findText(flightStatus->getField("FlightMode")->getValue().toString()));
+    m_gcscontrol->checkBoxArmed->setChecked(flightStatus->getField("Armed")->getValue() == "Armed");
 }
 
 void GCSControlGadgetWidget::toggleUDPControl(int state)
@@ -130,7 +162,12 @@ void GCSControlGadgetWidget::toggleUDPControl(int state)
   */
 void GCSControlGadgetWidget::selectFlightMode(int state)
 {
-    emit flightModeChangedLocaly((ManualControlSettings::FlightModePositionOptions)state);
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("FlightStatus")) );
+    UAVObjectField * field = obj->getField("FlightMode");
+    field->setValue(field->getOptions()[state]);
+    obj->updated();
 }
 
 void GCSControlGadgetWidget::setGCSControl(bool newState)
