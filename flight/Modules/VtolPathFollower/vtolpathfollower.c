@@ -137,6 +137,7 @@ static void vtolPathFollowerTask(void *parameters)
 	portTickType lastUpdateTime;
 	
 	VtolPathFollowerSettingsConnectCallback(vtol_follower_control_settings_updated);
+	vtol_follower_control_settings_updated(NULL);
 	
 	VtolPathFollowerSettingsGet(&guidanceSettings);
 	PathDesiredGet(&pathDesired);

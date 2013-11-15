@@ -150,14 +150,12 @@ const static struct vtol_fsm_transition land_home[FSM_STATE_NUM_STATES] = {
 	},
 	[FSM_STATE_FLYING_PATH] = {
 		.entry_fn = go_enable_fly_home,
-		.static_fn = do_default,
 		.next_state = {
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_POST_RTH_HOLD,
 		},
 	},
 	[FSM_STATE_POST_RTH_HOLD] = {
 		.entry_fn = go_enable_pause_home_10s,
-		.static_fn = do_default,
 		.next_state = {
 			[FSM_EVENT_TIMEOUT] = FSM_STATE_LANDING,
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_UNCHANGED,
@@ -166,7 +164,6 @@ const static struct vtol_fsm_transition land_home[FSM_STATE_NUM_STATES] = {
 	},
 	[FSM_STATE_LANDING] = {
 		.entry_fn = go_enable_land_home,
-		.static_fn = do_default,
 		.next_state = {
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_DISARM,
 		},
@@ -469,6 +466,8 @@ static void go_enable_fly_home()
 
 	vtol_fsm_path_desired.Mode = PATHDESIRED_MODE_FLYVECTOR;
 	vtol_fsm_path_desired.ModeParameters = 0;
+
+	PathDesiredSet(&vtol_fsm_path_desired);
 
 	configure_timeout(0);
 }
