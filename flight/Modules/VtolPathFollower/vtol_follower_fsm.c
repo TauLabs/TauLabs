@@ -110,6 +110,7 @@ enum vtol_nav_mode {
 };
 
 // State transition methods, typically enabling for certain actions
+static void go_enable_hold_here();
 static void go_enable_pause_10s_here();
 static void go_enable_pause_home_10s();
 static void go_enable_fly_home();
@@ -123,6 +124,26 @@ static int32_t do_default();
 static int32_t do_hold();
 static int32_t do_path();
 static int32_t do_land();
+
+/**
+ * The state machine for landing at home does the following:
+ * 1. enable holding at the current location
+ * 2  TODO: if it leaves the hold region enable a nav mode
+ */
+const static struct vtol_fsm_transition fsm_hold_position[FSM_STATE_NUM_STATES] = {
+	[FSM_STATE_INIT] = {
+		.next_state = {
+			[FSM_EVENT_AUTO] = FSM_STATE_HOLDING,
+		},
+	},
+	[FSM_STATE_HOLDING] = {
+		.entry_fn = go_enable_hold_here,
+		.next_state = {
+			[FSM_EVENT_HIT_TARGET] = FSM_STATE_UNCHANGED,
+			[FSM_EVENT_LEFT_TARGET] = FSM_STATE_UNCHANGED,
+		},
+	},
+};
 
 /**
  * The state machine for landing at home does the following:
@@ -401,6 +422,27 @@ static int32_t do_land()
  */
 
 /**
+ * Enable holding position at current location. Configures for hold.
+ */
+static void go_enable_hold_here()
+{
+	vtol_nav_mode = VTOL_NAV_HOLD;
+
+	PositionActualData positionActual;
+	PositionActualGet(&positionActual);
+
+	vtol_hold_position_ned[0] = positionActual.North;
+	vtol_hold_position_ned[1] = positionActual.East;
+	vtol_hold_position_ned[2] = positionActual.Down;
+
+	// Make sure we return at a minimum of 15 m above home
+	if (vtol_hold_position_ned[2] > -RTH_MIN_ALTITUDE)
+		vtol_hold_position_ned[2] = -RTH_MIN_ALTITUDE;
+
+	configure_timeout(0);
+}
+
+/**
  * Enable holding position at current location for 10 s. Configures for hold.
  */
 static void go_enable_pause_10s_here()
@@ -492,6 +534,9 @@ int32_t vtol_follower_fsm_activate_goal(enum vtol_goals new_goal)
 	switch(new_goal) {
 	case GOAL_LAND_HOME:
 		vtol_fsm_fsm_init(fsm_land_home);
+		return 0;
+	case GOAL_HOLD_POSITION:
+		vtol_fsm_fsm_init(fsm_hold_position);
 		return 0;
 	default:
 		return -1;

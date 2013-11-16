@@ -191,11 +191,11 @@ static void vtolPathFollowerTask(void *parameters)
 				vtol_follower_fsm_activate_goal(GOAL_LAND_HOME);
 				fsm_running = true;
 				break;
-				/*
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
 				vtol_follower_fsm_activate_goal(GOAL_HOLD_POSITION);
 				fsm_running = true;
 				break;
+				/*
 			case case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
 				vtol_follower_fsm_activate_goal(GOAL_FLY_PATH);
 				fsm_running = true;
