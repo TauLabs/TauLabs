@@ -132,16 +132,14 @@ static int32_t do_land();
  * 4. descends to ground
  * 5. disarms the system
  */
-const static struct vtol_fsm_transition land_home[FSM_STATE_NUM_STATES] = {
+const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
-		.entry_fn = go_enable_land_home,
 		.next_state = {
 			[FSM_EVENT_AUTO] = FSM_STATE_PRE_RTH_HOLD,
 		},
 	},
 	[FSM_STATE_PRE_RTH_HOLD] = {
 		.entry_fn = go_enable_pause_10s_here,
-		.static_fn = do_default,
 		.next_state = {
 			[FSM_EVENT_TIMEOUT] = FSM_STATE_FLYING_PATH,
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_UNCHANGED,
@@ -493,7 +491,7 @@ int32_t vtol_follower_fsm_activate_goal(enum vtol_goals new_goal)
 {
 	switch(new_goal) {
 	case GOAL_LAND_HOME:
-		vtol_fsm_fsm_init(land_home);
+		vtol_fsm_fsm_init(fsm_land_home);
 		return 0;
 	default:
 		return -1;
