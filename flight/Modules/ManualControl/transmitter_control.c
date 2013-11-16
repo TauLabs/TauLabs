@@ -97,7 +97,6 @@ static bool                       settings_updated;
 static void update_actuator_desired(ManualControlCommandData * cmd);
 static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged);
-static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
 static void set_flight_mode();
 static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled, bool valid);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
@@ -426,10 +425,8 @@ int32_t transmitter_control_select(bool reset_controller)
 		altitude_hold_desired(&cmd, lastFlightMode != flightStatus.FlightMode);
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-		update_path_desired(&cmd, lastFlightMode != flightStatus.FlightMode, false);
-		break;
 	case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-		update_path_desired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
+		// The path planner module processes data here
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
 		break;
@@ -867,63 +864,6 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 #if defined(REVOLUTION)
 
 /**
- * @brief Update the position desired to current location when
- * enabled and allow the waypoint to be moved by transmitter
- */
-static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
-{
-	if (!flightModeChanged)
-		return;
-
-	if (PathDesiredHandle() == NULL) {
-		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_PATHFOLLOWER);
-		return;
-	}
-
-	PositionActualData positionActual;
-	PositionActualGet(&positionActual);
-	PathDesiredData pathDesired;
-	PathDesiredGet(&pathDesired);
-
-	if (home) {
-		// Simple Return To Home mode - climb 10 meters and fly to home position
-		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
-		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
-		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down;
-		pathDesired.End[PATHDESIRED_END_NORTH] = 0;
-		pathDesired.End[PATHDESIRED_END_EAST] = 0;
-		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down - 10;
-		pathDesired.StartingVelocity=10;
-		pathDesired.EndingVelocity=10;
-	} else {
-		// Simple position hold - stay at present altitude and position
-		
-		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
-		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
-		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down;
-		pathDesired.End[PATHDESIRED_END_NORTH] = positionActual.North;
-		pathDesired.End[PATHDESIRED_END_EAST] = positionActual.East;
-		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down;
-		pathDesired.StartingVelocity=10;
-		pathDesired.EndingVelocity=10;
-	}
-
-	// Select how to hold position in a model type specific way
-	uint8_t vehicle_type;
-	SystemSettingsAirframeTypeGet(&vehicle_type);
-	if (vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWING ||
-	    vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGELEVON ||
-		vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGVTAIL) {
-		FixedWingPathFollowerSettingsOrbitRadiusGet(&pathDesired.ModeParameters);
-		pathDesired.Mode = PATHDESIRED_MODE_CIRCLEPOSITIONLEFT;
-	} else {
-		pathDesired.ModeParameters = 0;
-		pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
-	}
-	PathDesiredSet(&pathDesired);
-}
-
-/**
  * @brief Update the altitude desired to current altitude when
  * enabled and enable altitude mode for stabilization
  * @todo: Need compile flag to exclude this from copter control
@@ -975,11 +915,6 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 }
 
 #else /* For boards that do not support navigation set error if these modes are selected */
-
-static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
-{
-	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
-}
 
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
