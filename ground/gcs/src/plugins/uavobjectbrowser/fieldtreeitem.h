@@ -105,6 +105,7 @@ public:
     }
     QWidget *createEditor(QWidget *parent) {
         QComboBox *editor = new QComboBox(parent);
+        editor->setFocusPolicy(Qt::ClickFocus);
         foreach (QString option, m_enumOptions)
             editor->addItem(option);
         return editor;
