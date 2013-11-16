@@ -422,22 +422,47 @@ static int32_t do_land()
  */
 
 /**
+ * Helper function to enable holding at a desired location
+ * and also stores that location in PathDesired for monitoring.
+ * @param[in] north The north coordinate in NED coordinates
+ * @param[in] east The east coordinate in NED coordinates
+ * @param[in] down The down coordinate in NED coordinates
+ */
+static void hold_position(float north, float east, float down)
+{
+	vtol_nav_mode = VTOL_NAV_HOLD;
+
+	vtol_hold_position_ned[0] = north;
+	vtol_hold_position_ned[1] = east;
+	vtol_hold_position_ned[2] = down;
+
+	/* Store the data in the UAVO */
+	vtol_fsm_path_desired.Start[0] = north;
+	vtol_fsm_path_desired.Start[1] = east;
+	vtol_fsm_path_desired.Start[2] = down;
+	vtol_fsm_path_desired.End[0] = north;
+	vtol_fsm_path_desired.End[1] = east;
+	vtol_fsm_path_desired.End[2] = down;
+	vtol_fsm_path_desired.StartingVelocity = 0;
+	vtol_fsm_path_desired.EndingVelocity   = 0;
+	vtol_fsm_path_desired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
+	vtol_fsm_path_desired.ModeParameters = 0;
+	PathDesiredSet(&vtol_fsm_path_desired);
+}
+
+/**
  * Enable holding position at current location. Configures for hold.
  */
 static void go_enable_hold_here()
 {
-	vtol_nav_mode = VTOL_NAV_HOLD;
-
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
 
-	vtol_hold_position_ned[0] = positionActual.North;
-	vtol_hold_position_ned[1] = positionActual.East;
-	vtol_hold_position_ned[2] = positionActual.Down;
-
 	// Make sure we return at a minimum of 15 m above home
-	if (vtol_hold_position_ned[2] > -RTH_MIN_ALTITUDE)
-		vtol_hold_position_ned[2] = -RTH_MIN_ALTITUDE;
+	if (positionActual.Down > -RTH_MIN_ALTITUDE)
+		positionActual.Down = -RTH_MIN_ALTITUDE;
+
+	hold_position(positionActual.North, positionActual.East, positionActual.Down);
 
 	configure_timeout(0);
 }
@@ -447,18 +472,14 @@ static void go_enable_hold_here()
  */
 static void go_enable_pause_10s_here()
 {
-	vtol_nav_mode = VTOL_NAV_HOLD;
-
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
 
-	vtol_hold_position_ned[0] = positionActual.North;
-	vtol_hold_position_ned[1] = positionActual.East;
-	vtol_hold_position_ned[2] = positionActual.Down;
-
 	// Make sure we return at a minimum of 15 m above home
-	if (vtol_hold_position_ned[2] > -RTH_MIN_ALTITUDE)
-		vtol_hold_position_ned[2] = -RTH_MIN_ALTITUDE;
+	if (positionActual.Down > -RTH_MIN_ALTITUDE)
+		positionActual.Down = -RTH_MIN_ALTITUDE;
+
+	hold_position(positionActual.North, positionActual.East, positionActual.Down);
 
 	configure_timeout(10);
 }
@@ -468,13 +489,11 @@ static void go_enable_pause_10s_here()
  */
 static void go_enable_pause_home_10s()
 {
-	vtol_nav_mode = VTOL_NAV_HOLD;
-	vtol_hold_position_ned[0] = 0;
-	vtol_hold_position_ned[1] = 0;
+	float down = vtol_hold_position_ned[2];
+	if (down > - RTH_MIN_ALTITUDE)
+		down = -RTH_MIN_ALTITUDE;
 
-	// This should already be >= from when RTH was initiated
-	if (vtol_hold_position_ned[2] > -RTH_MIN_ALTITUDE)
-		vtol_hold_position_ned[2] = -RTH_MIN_ALTITUDE;
+	hold_position(0, 0, down);
 
 	configure_timeout(10);
 }
