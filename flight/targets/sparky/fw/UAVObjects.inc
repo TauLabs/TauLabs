@@ -27,6 +27,7 @@
 # (all architectures)
 
 UAVOBJSRCFILENAMES =
+UAVOBJSRCFILENAMES += acceldesired
 UAVOBJSRCFILENAMES += accessorydesired
 UAVOBJSRCFILENAMES += actuatorcommand
 UAVOBJSRCFILENAMES += actuatordesired

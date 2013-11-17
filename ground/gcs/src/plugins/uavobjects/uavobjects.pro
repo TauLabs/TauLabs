@@ -24,6 +24,7 @@ OTHER_FILES += UAVObjects.pluginspec
 
 # Add in all of the synthetic/generated uavobject files
 HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
+    $$UAVOBJECT_SYNTHETICS/acceldesired.h \
     $$UAVOBJECT_SYNTHETICS/accessorydesired.h \
     $$UAVOBJECT_SYNTHETICS/actuatorcommand.h \
     $$UAVOBJECT_SYNTHETICS/actuatordesired.h \
@@ -127,6 +128,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/windvelocityactual.h
 
 SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
+    $$UAVOBJECT_SYNTHETICS/acceldesired.cpp \
     $$UAVOBJECT_SYNTHETICS/accessorydesired.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatorcommand.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatordesired.cpp \
