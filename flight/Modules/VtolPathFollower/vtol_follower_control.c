@@ -325,30 +325,28 @@ int32_t vtol_follower_control_attitude(float dT)
 	float used_throttle_offset = (guidanceSettings.HoverThrottle == 0) ? throttle_offset : guidanceSettings.HoverThrottle;
 	stabDesired.Throttle = bound_min_max(downCommand + used_throttle_offset, 0, 1);
 	
-	// Project the north and east command signals into the pitch and roll based on yaw.
-	// For this to behave well the craft should move similarly for 5 deg roll versus 5 deg pitch.
-	// Notice the inputs are crudely bounded by the anti-winded but if both N and E were
-	// saturated and the craft were at 45 degrees that would result in a value greater than
-	// the limit, so apply limit again here.
+	// Project the north and east acceleration signals into body frame
 	float yaw;
 	AttitudeActualYawGet(&yaw);
-	stabDesired.Pitch = bound_min_max(-northCommand * cosf(yaw * DEG2RAD) + 
-				      -eastCommand * sinf(yaw * DEG2RAD),
-				      -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
-	stabDesired.Roll = bound_min_max(-northCommand * sinf(yaw * DEG2RAD) + 
-				     eastCommand * cosf(yaw * DEG2RAD),
-				     -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
+	float forward_accel_desired = -northCommand * cosf(yaw * DEG2RAD) + -eastCommand * sinf(yaw * DEG2RAD);
+	float right_accel_desired = -northCommand * sinf(yaw * DEG2RAD) + eastCommand * cosf(yaw * DEG2RAD);
+
+	// Set the angle that would achieve the desired acceleration given the thrust is enough for a hover
+	stabDesired.Pitch = bound_min_max(RAD2DEG * atanf(forward_accel_desired / GRAVITY),
+	                   -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
+	stabDesired.Roll = bound_min_max(RAD2DEG * atanf(right_accel_desired / GRAVITY),
+	                   -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
 	
+	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+
+	// Optionally allow transmitter to control throttle for safety
 	if(guidanceSettings.ThrottleControl == VTOLPATHFOLLOWERSETTINGS_THROTTLECONTROL_FALSE) {
-		// For now override throttle with manual control.  Disable at your risk, quad goes to China.
-		ManualControlCommandData manualControl;
-		ManualControlCommandGet(&manualControl);
-		stabDesired.Throttle = manualControl.Throttle;
+		ManualControlCommandThrottleGet(&stabDesired.Throttle);
 	}
 	
-	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS;
-	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS;
-
+	// Various ways to control the yaw that are essentially manual passthrough. However, because we do not have a fine
+	// grained mechanism of manual setting the yaw as it normally would we need to duplicate that code here
 	float manual_rate[STABILIZATIONSETTINGS_MANUALRATE_NUMELEM];
 	switch(guidanceSettings.YawMode) {
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_RATE:
