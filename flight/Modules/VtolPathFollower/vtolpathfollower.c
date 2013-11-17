@@ -36,22 +36,14 @@
 
 #include "vtol_follower_priv.h"
 
-#include "accels.h"
-#include "attitudeactual.h"
+#include "acceldesired.h"
 #include "modulesettings.h"
 #include "pathdesired.h"        // object that will be updated by the module
-#include "positionactual.h"
-#include "manualcontrolcommand.h"
 #include "flightstatus.h"
-#include "gpsvelocity.h"
-#include "gpsposition.h"
-#include "nedposition.h"
 #include "pathstatus.h"
 #include "stabilizationdesired.h"
-#include "stabilizationsettings.h"
 #include "systemsettings.h"
 #include "velocitydesired.h"
-#include "velocityactual.h"
 #include "vtolpathfollowersettings.h"
 #include "vtolpathfollowerstatus.h"
 #include "coordinate_conversions.h"
@@ -65,7 +57,6 @@
 
 // Private variables
 static xTaskHandle pathfollowerTaskHandle;
-static PathDesiredData pathDesired;
 static VtolPathFollowerSettingsData guidanceSettings;
 
 // Private functions
@@ -109,6 +100,7 @@ int32_t VtolPathFollowerInitialize()
 		return -1;
 	}
 
+	AccelDesiredInitialize();
 	PathDesiredInitialize();
 	PathStatusInitialize();
 	VelocityDesiredInitialize();
@@ -137,16 +129,10 @@ static void vtolPathFollowerTask(void *parameters)
 	vtol_follower_control_settings_updated(NULL);
 	
 	VtolPathFollowerSettingsGet(&guidanceSettings);
-	PathDesiredGet(&pathDesired);
 	
 	// Main task loop
 	lastUpdateTime = xTaskGetTickCount();
 	while (1) {
-
-		// Conditions when this runs:
-		// 1. Must have VTOL type airframe
-		// 2. Flight mode is PositionHold and PathDesired.Mode is Endpoint  OR
-		//    FlightMode is PathPlanner and PathDesired.Mode is Endpoint or Path
 
 		SystemSettingsGet(&systemSettings);
 		if ( (systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_VTOL) &&
