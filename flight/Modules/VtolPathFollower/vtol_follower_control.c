@@ -33,7 +33,7 @@
 
 #include "vtol_follower_priv.h"
 
-#include "accels.h"
+#include "acceldesired.h"
 #include "attitudeactual.h"
 #include "pathdesired.h"        // object that will be updated by the module
 #include "positionactual.h"
@@ -246,20 +246,15 @@ int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
 
 	return 0;
 }
+
 /**
- * Compute desired attitude from the desired velocity
- * @param[in] dT the time since last evaluation
- *
- * Takes in @ref NedActual which has the acceleration in the 
- * NED frame as the feedback term and then compares the 
- * @ref VelocityActual against the @ref VelocityDesired
+ * Compute the desired acceleration based on the desired
+ * velocity and actual velocity
  */
-int32_t vtol_follower_control_attitude(float dT)
+static int32_t vtol_follower_control_accel(float dT)
 {
 	VelocityDesiredData velocityDesired;
 	VelocityActualData velocityActual;
-	StabilizationDesiredData stabDesired;
-	StabilizationSettingsData stabSettings;
 
 	float northError;
 	float northCommand;
@@ -272,8 +267,6 @@ int32_t vtol_follower_control_attitude(float dT)
 
 	VelocityActualGet(&velocityActual);
 	VelocityDesiredGet(&velocityDesired);
-	StabilizationDesiredGet(&stabDesired);
-	StabilizationSettingsGet(&stabSettings);
 	
 	float northVel = velocityActual.North;
 	float eastVel = velocityActual.East;
@@ -296,6 +289,37 @@ int32_t vtol_follower_control_attitude(float dT)
 	NedAccelDownGet(&down_accel);
 	downCommand = -pid_apply_antiwindup(&vtol_pids[DOWN_VELOCITY], downError, -1, 1, dT) +
 	    down_accel * guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
+
+	// Store the desired acceleration
+	AccelDesiredData accelDesired;
+	accelDesired.North = northCommand;
+	accelDesired.East = eastCommand;
+	accelDesired.Down = downCommand;
+	AccelDesiredSet(&accelDesired);
+
+	return 0;
+}
+
+/**
+ * Compute desired attitude from the desired velocity
+ * @param[in] dT the time since last evaluation
+ *
+ * Takes in @ref NedActual which has the acceleration in the 
+ * NED frame as the feedback term and then compares the 
+ * @ref VelocityActual against the @ref VelocityDesired
+ */
+int32_t vtol_follower_control_attitude(float dT)
+{
+	vtol_follower_control_accel(dT);
+
+	AccelDesiredData accelDesired;
+	AccelDesiredGet(&accelDesired);
+
+	StabilizationDesiredData stabDesired;
+
+	float northCommand = accelDesired.North;
+	float eastCommand = accelDesired.East;
+	float downCommand = accelDesired.Down;
 
 	// If this setting is zero then the throttle level available when enabled is used for hover:wq
 	float used_throttle_offset = (guidanceSettings.HoverThrottle == 0) ? throttle_offset : guidanceSettings.HoverThrottle;
@@ -325,22 +349,29 @@ int32_t vtol_follower_control_attitude(float dT)
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS;
 
+	float manual_rate[STABILIZATIONSETTINGS_MANUALRATE_NUMELEM];
 	switch(guidanceSettings.YawMode) {
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_RATE:
 		/* This is awkward.  This allows the transmitter to control the yaw while flying navigation */
 		ManualControlCommandYawGet(&yaw);
-		stabDesired.Yaw = stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;      
+		StabilizationSettingsManualRateGet(manual_rate);
+		stabDesired.Yaw = manual_rate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;      
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
 		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_AXISLOCK:
 		ManualControlCommandYawGet(&yaw);
-		stabDesired.Yaw = stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;      
+		StabilizationSettingsManualRateGet(manual_rate);
+		stabDesired.Yaw = manual_rate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;      
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
 		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_ATTITUDE:
+	{
+		uint8_t yaw_max;
+		StabilizationSettingsYawMaxGet(&yaw_max);
 		ManualControlCommandYawGet(&yaw);
-		stabDesired.Yaw = stabSettings.YawMax * yaw;      
+		stabDesired.Yaw = yaw_max * yaw;      
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+	}
 		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_POI:
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_POI;
