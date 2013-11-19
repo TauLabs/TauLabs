@@ -174,11 +174,15 @@ static void vtolPathFollowerTask(void *parameters)
 				vtol_follower_fsm_activate_goal(GOAL_HOLD_POSITION);
 				fsm_running = true;
 				break;
-				/*
-			case case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+				// TODO: currently when in this mode the follower just
+				// attempts to fly the path segments blindly which means
+				// the FSM cannot be utilized in a meaningful way. It might
+				// be better when flying in path planner mode for the path
+				// planner to specify the goals in PathDesired so things like
+				// RTH can be used. However, for now this isn't critical.
 				vtol_follower_fsm_activate_goal(GOAL_FLY_PATH);
 				fsm_running = true;
-				*/
 			default:
 				vtol_follower_fsm_activate_goal(GOAL_LAND_NONE);
 				fsm_running = false;

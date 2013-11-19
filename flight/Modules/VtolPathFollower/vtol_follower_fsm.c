@@ -110,6 +110,7 @@ enum vtol_nav_mode {
 
 // State transition methods, typically enabling for certain actions
 static void go_enable_hold_here();
+static void go_enable_fly_path();
 static void go_enable_pause_10s_here();
 static void go_enable_pause_home_10s();
 static void go_enable_fly_home();
@@ -122,6 +123,7 @@ static void configure_timeout(int32_t s);
 static int32_t do_default();
 static int32_t do_hold();
 static int32_t do_path();
+static int32_t do_requested_path();
 static int32_t do_land();
 
 /**
@@ -144,6 +146,27 @@ const static struct vtol_fsm_transition fsm_hold_position[FSM_STATE_NUM_STATES] 
 	},
 };
 
+/**
+ * The state machine for following the Path Planner:
+ * 1. enable following path segment
+ * 2  TODO: the path planner should be able to utilize the goals of the
+ *    follower so needs to be handled in the main module and not here.
+ */
+const static struct vtol_fsm_transition fsm_follow_path[FSM_STATE_NUM_STATES] = {
+	[FSM_STATE_INIT] = {
+		.next_state = {
+			[FSM_EVENT_AUTO] = FSM_STATE_FLYING_PATH,
+		},
+	},
+	[FSM_STATE_FLYING_PATH] = {
+		.entry_fn = go_enable_fly_path,
+		.static_fn = do_requested_path,
+		.next_state = {
+			[FSM_EVENT_HIT_TARGET] = FSM_STATE_UNCHANGED,
+			[FSM_EVENT_LEFT_TARGET] = FSM_STATE_UNCHANGED,
+		},
+	},
+};
 /**
  * The state machine for landing at home does the following:
  * 1. holds where currently at for 10 seconds
@@ -392,6 +415,19 @@ static int32_t do_path()
 }
 
 /**
+ * Update the control values to try and follow the externally requested
+ * path. This is done to maintain backward compatibility with the
+ * PathPlanner for now
+ * @return 0 if successful, <0 if failure
+ */
+static int32_t do_requested_path()
+{
+	// Fetch the path desired from the path planner
+	PathDesiredGet(&vtol_fsm_path_desired);
+	return do_path();
+}
+
+/**
  * Update control values to land at @ref vtol_hold_position_ned.
  *
  * This method uses the vtol follower library to calculate the control values. The 
@@ -460,6 +496,11 @@ static void go_enable_hold_here()
 	hold_position(positionActual.North, positionActual.East, positionActual.Down);
 
 	configure_timeout(0);
+}
+
+static void go_enable_fly_path()
+{
+	vtol_nav_mode = VTOL_NAV_HOLD;
 }
 
 /**
@@ -552,6 +593,9 @@ int32_t vtol_follower_fsm_activate_goal(enum vtol_goals new_goal)
 		return 0;
 	case GOAL_HOLD_POSITION:
 		vtol_fsm_fsm_init(fsm_hold_position);
+		return 0;
+	case GOAL_FLY_PATH:
+		vtol_fsm_fsm_init(fsm_follow_path);
 		return 0;
 	default:
 		return -1;
