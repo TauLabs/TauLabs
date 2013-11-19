@@ -199,7 +199,7 @@ int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned
  * and computes @ref VelocityDesired
  */
 int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
-	const float land_velocity, bool *landed)
+	bool *landed)
 {
 	PositionActualData positionActual;
 	VelocityDesiredData velocityDesired;
@@ -207,6 +207,8 @@ int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
 	PositionActualGet(&positionActual);
 	VelocityDesiredGet(&velocityDesired);
 	
+	const float land_velocity = guidanceSettings.LandingRate;
+
 	float northError;
 	float eastError;
 	float northCommand;

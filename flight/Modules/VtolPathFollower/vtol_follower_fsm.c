@@ -56,7 +56,6 @@
 // Various navigation constants
 const static float RTH_MIN_ALTITUDE = 15;    //!< Hover at least 15 m above home */
 const static float RTH_VELOCITY     = 2.5f;  //!< Return home at 2.5 m/s */
-const static float LANDING_VELOCITY = 1.5f;  //!< Land at 1.5 m/s */
 
 const static float DT               = 0.05f; // TODO: make the self monitored
 
@@ -403,7 +402,7 @@ static int32_t do_path()
 static int32_t do_land()
 {
 	bool landed;
-	if (vtol_follower_control_land(DT, vtol_hold_position_ned, LANDING_VELOCITY, &landed) == 0) {
+	if (vtol_follower_control_land(DT, vtol_hold_position_ned, &landed) == 0) {
 		if (vtol_follower_control_attitude(DT) == 0) {
 			return 0;
 		}

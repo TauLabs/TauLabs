@@ -60,7 +60,7 @@ enum vtol_pid {
 int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDesired, struct path_status *progress);
 int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned);
 int32_t vtol_follower_control_attitude(const float dT);
-int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned, const float land_velocity, bool *landed);
+int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned, bool *landed);
 void vtol_follower_control_settings_updated(UAVObjEvent * ev);
 
 // Follower FSM public API methods
