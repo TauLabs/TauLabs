@@ -257,53 +257,53 @@ static int32_t vtol_follower_control_accel(float dT)
 {
 	VelocityDesiredData velocityDesired;
 	VelocityActualData velocityActual;
+	AccelDesiredData accelDesired;
 
-	float northError;
-	float northCommand;
-	
-	float eastError;
-	float eastCommand;
+	float north_error, north_acceleration;
+	float east_error, east_acceleration;
+	float down_error;
 
-	float downError;
-	float downCommand;
+	static float last_north_velocity;
+	static float last_east_velocity;
 
 	VelocityActualGet(&velocityActual);
 	VelocityDesiredGet(&velocityDesired);
 	
-	float northVel = velocityActual.North;
-	float eastVel = velocityActual.East;
-	float downVel = velocityActual.Down;
+	// Compute the acceleration required component from a changing velocity
+	north_acceleration = (velocityActual.North - last_north_velocity) / dT;
+	east_acceleration = (velocityActual.East - last_east_velocity) / dT;
+	last_north_velocity = velocityActual.North;
+	last_east_velocity = velocityActual.East;
 
 	// Convert the max angles into the maximum angle that would be requested
 	const float MAX_ACCELERATION = GRAVITY * sinf(guidanceSettings.MaxRollPitch * DEG2RAD);
 
 	// Compute desired north command from velocity error
-	northError = velocityDesired.North - northVel;
-	northCommand = pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], northError, 
+	north_error = velocityDesired.North - velocityActual.North;
+	north_acceleration += pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], north_error, 
 	    -MAX_ACCELERATION, MAX_ACCELERATION, dT) + velocityDesired.North * guidanceSettings.VelocityFeedforward;
 	
 	// Compute desired east command from velocity error
-	eastError = velocityDesired.East - eastVel;
-	eastCommand = pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], eastError,
+	east_error = velocityDesired.East - velocityActual.East;
+	east_acceleration += pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], east_error,
 	    -MAX_ACCELERATION, MAX_ACCELERATION, dT) + velocityDesired.East * guidanceSettings.VelocityFeedforward;
-	
+
+	// Store the desired acceleration
+	accelDesired.North = north_acceleration;
+	accelDesired.East = east_acceleration;
+
 	// Note: vertical controller really isn't currently in units of acceleration and the anti-windup may
 	// not be appropriate. However, it is fine for now since it this output is just directly used on the
 	// output. To use this appropriately we need a model of throttle to acceleration.
-
 	// Compute desired down command.  Using NED accel as the damping term
-	downError = velocityDesired.Down - downVel;
+	down_error = velocityDesired.Down - velocityActual.Down;
 	// Negative is critical here since throttle is negative with down
 	float down_accel;
 	NedAccelDownGet(&down_accel);
-	downCommand = -pid_apply_antiwindup(&vtol_pids[DOWN_VELOCITY], downError, -1, 1, dT) +
+	accelDesired.Down = -pid_apply_antiwindup(&vtol_pids[DOWN_VELOCITY], down_error, -1, 1, dT) +
 	    down_accel * guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
 
 	// Store the desired acceleration
-	AccelDesiredData accelDesired;
-	accelDesired.North = northCommand;
-	accelDesired.East = eastCommand;
-	accelDesired.Down = downCommand;
 	AccelDesiredSet(&accelDesired);
 
 	return 0;
