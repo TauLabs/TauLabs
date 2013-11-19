@@ -274,18 +274,23 @@ static int32_t vtol_follower_control_accel(float dT)
 	float eastVel = velocityActual.East;
 	float downVel = velocityActual.Down;
 
-	// TODO: update the PID wind up limits
+	// Convert the max angles into the maximum angle that would be requested
+	const float MAX_ACCELERATION = GRAVITY * sinf(guidanceSettings.MaxRollPitch * DEG2RAD);
 
 	// Compute desired north command from velocity error
 	northError = velocityDesired.North - northVel;
 	northCommand = pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], northError, 
-	    -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch, dT) + velocityDesired.North * guidanceSettings.VelocityFeedforward;
+	    -MAX_ACCELERATION, MAX_ACCELERATION, dT) + velocityDesired.North * guidanceSettings.VelocityFeedforward;
 	
 	// Compute desired east command from velocity error
 	eastError = velocityDesired.East - eastVel;
 	eastCommand = pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], eastError,
-	    -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch, dT) + velocityDesired.East * guidanceSettings.VelocityFeedforward;
+	    -MAX_ACCELERATION, MAX_ACCELERATION, dT) + velocityDesired.East * guidanceSettings.VelocityFeedforward;
 	
+	// Note: vertical controller really isn't currently in units of acceleration and the anti-windup may
+	// not be appropriate. However, it is fine for now since it this output is just directly used on the
+	// output. To use this appropriately we need a model of throttle to acceleration.
+
 	// Compute desired down command.  Using NED accel as the damping term
 	downError = velocityDesired.Down - downVel;
 	// Negative is critical here since throttle is negative with down
