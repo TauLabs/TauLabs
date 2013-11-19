@@ -458,19 +458,14 @@ static void go_enable_hold_here()
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
 
-	// TODO: add an additional state to make it ascend in place if needed
-	
-	// Make sure we return at a minimum of 15 m above home
-	if (positionActual.Down > -RTH_MIN_ALTITUDE)
-		positionActual.Down = -RTH_MIN_ALTITUDE;
-
 	hold_position(positionActual.North, positionActual.East, positionActual.Down);
 
 	configure_timeout(0);
 }
 
 /**
- * Enable holding position at current location for 10 s. Configures for hold.
+ * Enable holding position at current location for 10 s. Uses a minimum altitude for
+ * the vertical altitude. Configures for hold.
  */
 static void go_enable_pause_10s_here()
 {
