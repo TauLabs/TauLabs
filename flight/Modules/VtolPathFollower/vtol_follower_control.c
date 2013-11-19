@@ -258,6 +258,7 @@ static int32_t vtol_follower_control_accel(float dT)
 	VelocityDesiredData velocityDesired;
 	VelocityActualData velocityActual;
 	AccelDesiredData accelDesired;
+	NedAccelData nedAccel;
 
 	float north_error, north_acceleration;
 	float east_error, east_acceleration;
@@ -266,6 +267,7 @@ static int32_t vtol_follower_control_accel(float dT)
 	static float last_north_velocity;
 	static float last_east_velocity;
 
+	NedAccelGet(&nedAccel);
 	VelocityActualGet(&velocityActual);
 	VelocityDesiredGet(&velocityDesired);
 	
@@ -281,12 +283,16 @@ static int32_t vtol_follower_control_accel(float dT)
 	// Compute desired north command from velocity error
 	north_error = velocityDesired.North - velocityActual.North;
 	north_acceleration += pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], north_error, 
-	    -MAX_ACCELERATION, MAX_ACCELERATION, dT) + velocityDesired.North * guidanceSettings.VelocityFeedforward;
+	    -MAX_ACCELERATION, MAX_ACCELERATION, dT) + 
+	    velocityDesired.North * guidanceSettings.VelocityFeedforward +
+	    -nedAccel.North * guidanceSettings.HorizontalVelPID[VTOLPATHFOLLOWERSETTINGS_HORIZONTALVELPID_KD];
 	
 	// Compute desired east command from velocity error
 	east_error = velocityDesired.East - velocityActual.East;
 	east_acceleration += pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], east_error,
-	    -MAX_ACCELERATION, MAX_ACCELERATION, dT) + velocityDesired.East * guidanceSettings.VelocityFeedforward;
+	    -MAX_ACCELERATION, MAX_ACCELERATION, dT) +
+	    velocityDesired.East * guidanceSettings.VelocityFeedforward +
+	    -nedAccel.East * guidanceSettings.HorizontalVelPID[VTOLPATHFOLLOWERSETTINGS_HORIZONTALVELPID_KD];
 
 	// Store the desired acceleration
 	accelDesired.North = north_acceleration;
@@ -298,10 +304,8 @@ static int32_t vtol_follower_control_accel(float dT)
 	// Compute desired down command.  Using NED accel as the damping term
 	down_error = velocityDesired.Down - velocityActual.Down;
 	// Negative is critical here since throttle is negative with down
-	float down_accel;
-	NedAccelDownGet(&down_accel);
 	accelDesired.Down = -pid_apply_antiwindup(&vtol_pids[DOWN_VELOCITY], down_error, -1, 1, dT) +
-	    down_accel * guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
+	    nedAccel.Down * guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
 
 	// Store the desired acceleration
 	AccelDesiredSet(&accelDesired);
