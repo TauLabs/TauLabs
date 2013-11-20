@@ -272,8 +272,8 @@ static int32_t vtol_follower_control_accel(float dT)
 	VelocityDesiredGet(&velocityDesired);
 	
 	// Compute the acceleration required component from a changing velocity
-	north_acceleration = (velocityActual.North - last_north_velocity) / dT;
-	east_acceleration = (velocityActual.East - last_east_velocity) / dT;
+	north_acceleration = 0 * (velocityActual.North - last_north_velocity) / dT;
+	east_acceleration = 0 * (velocityActual.East - last_east_velocity) / dT;
 	last_north_velocity = velocityActual.North;
 	last_east_velocity = velocityActual.East;
 
