@@ -21,6 +21,9 @@
                 <elementname>Accessory0</elementname>
                 <elementname>Accessory1</elementname>
                 <elementname>Accessory2</elementname>
+                <elementname>Accessory3</elementname>
+                <elementname>Accessory4</elementname>
+                <elementname>Accessory5</elementname>
                 <elementname>Arming</elementname>
             </elementnames>
         </field>
