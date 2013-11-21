@@ -127,6 +127,9 @@ int32_t transmitter_control_initialize()
 	/* should be done dynamically this includes not even registering it if not used */
 	AccessoryDesiredCreateInstance();
 	AccessoryDesiredCreateInstance();
+	AccessoryDesiredCreateInstance();
+	AccessoryDesiredCreateInstance();
+	AccessoryDesiredCreateInstance();
 
 	/* Reset the state machine for processing stick movements */
 	arm_state = ARM_STATE_DISARMED;
@@ -356,6 +359,27 @@ int32_t transmitter_control_update()
 			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2];
 			if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
+		}
+		// Set Accessory 3
+		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY3] != 
+			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY3];
+			if(AccessoryDesiredInstSet(3, &accessory) != 0) //These are allocated later and that allocation might fail
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
+		}
+		// Set Accessory 4
+		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY4] != 
+			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY4];
+			if(AccessoryDesiredInstSet(4, &accessory) != 0) //These are allocated later and that allocation might fail
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
+		}
+		// Set Accessory 5
+		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY5] != 
+			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY5];
+			if(AccessoryDesiredInstSet(5, &accessory) != 0) //These are allocated later and that allocation might fail
 				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 		}
 
