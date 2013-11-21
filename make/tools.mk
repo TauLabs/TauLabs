@@ -397,7 +397,7 @@ ASTYLE_BUILD_DIR := $(DL_DIR)/astyle
 
 .PHONY: astyle_install
 astyle_install: | $(DL_DIR) $(TOOLS_DIR)
-astyle_install: ASTYLE_URL := https://astyle.svn.sourceforge.net/svnroot/astyle/trunk/AStyle
+astyle_install: ASTYLE_URL := https://svn.code.sf.net/p/astyle/code/trunk/AStyle
 astyle_install: ASTYLE_REV := 376
 astyle_install: ASTYLE_OPTIONS := prefix=$(ASTYLE_DIR)
 astyle_install: astyle_clean
