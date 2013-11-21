@@ -382,7 +382,6 @@ int32_t transmitter_control_update()
 			if(AccessoryDesiredInstSet(5, &accessory) != 0) //These are allocated later and that allocation might fail
 				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 		}
-
 	}
 
 	// Process arming outside conditional so system will disarm when disconnected.  Notice this
