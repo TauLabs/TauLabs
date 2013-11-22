@@ -415,7 +415,7 @@ static int32_t cf_interface_update(uintptr_t id, float gyros[3], float accels[3]
 
 	// If quaternion has become inappropriately short or is nan reinit.
 	// THIS SHOULD NEVER ACTUALLY HAPPEN
-	if((fabs(qmag) < 1.0e-3f) || (qmag != qmag)) {
+	if((fabsf(qmag) < 1.0e-3f) || (qmag != qmag)) {
 		cf->q[0] = 1;
 		cf->q[1] = 0;
 		cf->q[2] = 0;
