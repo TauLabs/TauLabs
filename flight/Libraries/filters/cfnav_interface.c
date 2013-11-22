@@ -30,6 +30,7 @@
 
 #include "openpilot.h"
 #include "attitudesettings.h"
+#include "cfnavstate.h"
 #include "flightstatus.h"
 #include "homelocation.h"
 #include "nedaccel.h"
@@ -182,6 +183,8 @@ static int32_t cfnav_interface_init(uintptr_t *id)
 
 	// Reset to known starting condition	
 	cfnav_interface_reset((uintptr_t) cfnav_interface_data);
+
+	CFNavStateInitialize();
 
 	// Return the handle
 	(*id) = (uintptr_t) cfnav_interface_data;
@@ -522,6 +525,15 @@ static int32_t cfnav_interface_update(uintptr_t id, float gyros[3], float accels
 
 	// Predict the state forwmare after applying the correction
 	predict_pos(cf, accel_ned, dt);
+
+	CFNavStateData cfNav;
+	for (uint8_t i = 0; i < 3; i++) {
+		cfNav.PositionBase[i] = cf->position_base[i];
+		cfNav.PositionError[i] = cf->position_error[i];
+		cfNav.PositionCorrection[i] = cf->position_correction[i];
+		cfNav.AccelCorrection[i] = cf->accel_correction[i];
+	}
+	CFNavStateSet(&cfNav);
 
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
