@@ -227,17 +227,22 @@ static int32_t cfnav_interface_reset(uintptr_t id)
 	cf->q[2]               = 0;
 	cf->q[3]               = 0;
 	cf->accel_alpha        = 0;
-	cf->grot_filtered[0]   = 0;
-	cf->grot_filtered[1]   = 0;
-	cf->grot_filtered[2]   = 0;
-	cf->accels_filtered[0] = 0;
-	cf->accels_filtered[1] = 0;
-	cf->accels_filtered[2] = 0;
 	cf->reset_timeval      = 0;
 	cf->arming_count       = 0;
-	cf->gyros_bias[0]      = 0;
-	cf->gyros_bias[1]      = 0;
-	cf->gyros_bias[2]      = 0;
+
+	for (uint8_t i = 0; i < 3; i++) {
+		cf->grot_filtered[i] = 0;
+		cf->accels_filtered[i] = 0;
+		cf->gyros_bias[i] = 0;
+
+		cf->position_base[i] = 0;
+		cf->position_error[i] = 0;
+		cf->position_correction[i] = 0;
+		cf->accel_correction[i] = 0;
+		cf->position[i] = 0;
+		cf->velocity[i] = 0;
+	}
+
 	cf->accel_filter_enabled = false;
 	cf->initialization     = CFNAV_RESET;
 	cf->reset_timeval      = PIOS_DELAY_GetRaw();
