@@ -79,7 +79,7 @@ enum complimentary_filter_status {
 
 #define NAV_HISTORY_LEN 4
 struct cfnav_interface_data {
-	struct filter_infrastructure_se3_data *s3_data;
+	struct    filter_infrastructure_se3_data  *s3_data;
 
 	// Flags to indicate all data set
 	bool      mag_updated;
@@ -119,8 +119,8 @@ struct cfnav_interface_data {
 	//! Indicate if currently acquiring gyro samples
 	bool       accumulating_gyro;
 
-	enum complimentary_filter_status   initialization;
-	enum      cfnav_interface_magic magic;
+	enum       complimentary_filter_status   initialization;
+	enum       cfnav_interface_magic         magic;
 };
 
 /**
@@ -272,6 +272,9 @@ static int32_t cfnav_interface_update(uintptr_t id, float gyros[3], float accels
 
 	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
+
+	cf->time_constant_xy = attitudeSettings.HorizPositionTau;
+	cf->time_constant_z  = attitudeSettings.VertPositionTau;
 
 	uint32_t ms_since_reset = PIOS_DELAY_DiffuS(cf->reset_timeval) / 1000;
 
