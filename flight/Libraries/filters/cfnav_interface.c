@@ -652,11 +652,11 @@ static void predict_pos(struct cfnav_interface_data *cf, float *accel, float dt)
 {
 	float k1_xy = 3 / cf->time_constant_xy;
 	float k2_xy = 3 / powf(cf->time_constant_xy, 2);
-	float k3_xy = 3 / powf(cf->time_constant_xy, 3);
+	float k3_xy = 1 / powf(cf->time_constant_xy, 3);
 
 	float k1_z = 3 / cf->time_constant_z;
 	float k2_z = 3 / powf(cf->time_constant_z, 2);
-	float k3_z = 3 / powf(cf->time_constant_z, 3);
+	float k3_z = 1 / powf(cf->time_constant_z, 3);
 
 	float tmp;
 
