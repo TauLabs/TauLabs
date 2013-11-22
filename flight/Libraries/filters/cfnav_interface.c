@@ -77,6 +77,7 @@ enum complimentary_filter_status {
 	CFNAV_NORMAL
 };
 
+#define NAV_HISTORY_LEN 4
 struct cfnav_interface_data {
 	struct filter_infrastructure_se3_data *s3_data;
 	float     q[4];
@@ -87,6 +88,23 @@ struct cfnav_interface_data {
 	uint8_t   arming_count;
 	bool      accel_filter_enabled;
 	float     gyros_bias[3];
+
+	// Variables for the position estimation
+	float     position_base[3];
+	float     position_error[3];
+	float     position_correction[3];
+	float     accel_correction[3];
+	float     position[3];
+	float     velocity[3];
+
+	// Settings for the position state variable
+	float     time_constant_xy;
+	float     time_constant_z;
+
+	// Position history (stored at gps rate)
+	uint8_t   position_history_idx;
+	uint8_t   position_history_len;
+	float     position_history[NAV_HISTORY_LEN][2];
 
 	//! The accumulator of gyros during arming
 	float      accumulated_gyro[3];
@@ -174,6 +192,15 @@ static void accumulate_gyro(struct cfnav_interface_data *cf, float *gyros);
 
 //! Apply LPF to sensor data
 static void apply_accel_filter(struct cfnav_interface_data *cf, const float * raw, float * filtered);
+
+//! Update the position feedback from the GPS
+static void update_pos(struct cfnav_interface_data *cf, float *pos, float dt);
+
+//! Update the baro feedback
+static void update_baro(struct cfnav_interface_data *, float baro, float dt);
+
+//! Predict the position in the future
+static void predict_pos(struct cfnav_interface_data *cf, float *accel, float dt);
 
 /**
  * Reset the filter state to default
@@ -422,6 +449,24 @@ static int32_t cfnav_interface_update(uintptr_t id, float gyros[3], float accels
 		cf->q[3] = 0;
 	}
 
+	/*********************************************/
+	/* 2. check for gps updates and process them */
+	/*********************************************/
+	if (pos)
+		update_pos(cf, pos, dt);
+
+	/**********************************************/
+	/* 3. check for baro updates and process them */
+	/**********************************************/
+	if (baro)
+		update_baro(cf, *baro, dt);
+
+	/**********************************************/
+	/* 4. update position estimate                */
+	/**********************************************/
+	float accel_ned[3];
+	predict_pos(cf, accel_ned, dt);
+
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
 	return 0;
@@ -546,6 +591,68 @@ static void apply_accel_filter(struct cfnav_interface_data *cf, const float * ra
 		filtered[1] = raw[1];
 		filtered[2] = raw[2];
 	}
+}
+
+
+//! Predict the position in the future
+static void predict_pos(struct cfnav_interface_data *cf, float *accel, float dt)
+{
+	float k1_xy = 3 / cf->time_constant_xy;
+	float k2_xy = 3 / powf(cf->time_constant_xy, 2);
+	float k3_xy = 3 / powf(cf->time_constant_xy, 3);
+
+	float k1_z = 3 / cf->time_constant_z;
+	float k2_z = 3 / powf(cf->time_constant_z, 2);
+	float k3_z = 3 / powf(cf->time_constant_z, 3);
+
+	float tmp;
+
+	tmp = k3_xy * dt;
+	cf->accel_correction[0] += cf->position_error[0] * tmp;
+	cf->accel_correction[1] += cf->position_error[1] * tmp;
+	cf->accel_correction[2] += cf->position_error[2] * k3_z * dt;
+
+	tmp = k2_xy * dt;
+	cf->velocity[0] += cf->position_error[0] * tmp;
+	cf->velocity[1] += cf->position_error[1] * tmp;
+	cf->velocity[2] += cf->position_error[2] * k2_z * dt;
+
+	tmp = k1_xy * dt;
+	cf->position_correction[0] += cf->position_error[0] * tmp;
+	cf->position_correction[1] += cf->position_error[1] * tmp;
+	cf->position_correction[2] += cf->position_error[2] * k1_z * dt;
+
+	for (uint8_t i = 0; i < 3; i++) {
+		float velocity_increase;
+		velocity_increase = (accel[i] + cf->accel_correction[i]) * dt;
+		cf->position_base[i] += (cf->velocity[i] + velocity_increase * 0.5f) * dt;
+		cf->position[i] = cf->position_base[i] + cf->position_correction[i];
+		cf->velocity[i] += velocity_increase;
+	}
+
+	// TODO: queue the old position estimates
+}
+
+//! Update the position feedback from the GPS
+static void update_pos(struct cfnav_interface_data *cf, float *pos, float dt)
+{
+	// TODO: get from the queue of previous position updates (400 ms latency)
+	float hist_position_base_n = cf->position[0];
+	float hist_position_base_e = cf->position[1];
+
+	cf->position_error[0] = pos[0] - (hist_position_base_n + cf->position_correction[0]);
+	cf->position_error[1] = pos[1] - (hist_position_base_e + cf->position_correction[1]);
+}
+
+//! Update the baro feedback
+static void update_baro(struct cfnav_interface_data *cf, float baro, float dt)
+{
+	float down = -baro;
+
+	// TODO: get from the queue of previous position updates (150 ms latency)
+	float hist_position_base_d = cf->position[2];
+
+	cf->position_error[2] = down - (hist_position_base_d + cf->position_correction[2]);
 }
 
 /**
