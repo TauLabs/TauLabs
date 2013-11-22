@@ -485,16 +485,17 @@ static int32_t cfnav_interface_update(uintptr_t id, float gyros[3], float accels
 		update_pos(cf, pos, dt);
 
 		// Store the current state in the history queue
-		cf->position_history[cf->position_history_idx][0] = cf->position[0];
-		cf->position_history[cf->position_history_idx][1] = cf->position[1];
+		cf->position_history[cf->position_history_idx][0] = cf->position_base[0];
+		cf->position_history[cf->position_history_idx][1] = cf->position_base[1];
 		cf->position_history_idx = (cf->position_history_idx + 1) % NAV_HISTORY_LEN;
 	}
 
 	/**********************************************/
 	/* 3. check for baro updates and process them */
 	/**********************************************/
-	if (baro)
+	if (baro) {
 		update_baro(cf, *baro, dt);
+	}
 
 	/**********************************************/
 	/* 4. update position estimate                */
@@ -696,7 +697,7 @@ static void update_baro(struct cfnav_interface_data *cf, float baro, float dt)
 	float down = -baro;
 
 	// TODO: get from the queue of previous position updates (150 ms latency)
-	float hist_position_base_d = cf->position[2];
+	float hist_position_base_d = cf->position_base[2];
 
 	cf->position_error[2] = down - (hist_position_base_d + cf->position_correction[2]);
 }
