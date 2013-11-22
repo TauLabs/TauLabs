@@ -32,6 +32,7 @@
 #include "attitudesettings.h"
 #include "flightstatus.h"
 #include "homelocation.h"
+#include "nedaccel.h"
 
 #include "physical_constants.h"
 #include "coordinate_conversions.h"
@@ -512,6 +513,12 @@ static int32_t cfnav_interface_update(uintptr_t id, float gyros[3], float accels
 	Quaternion2R(cf->q, Rbe);
 	rot_mult(Rbe, accels, accel_ned, true);
 	accel_ned[2] += GRAVITY;
+
+	NedAccelData nedAccel;
+	nedAccel.North = accel_ned[0];
+	nedAccel.East = accel_ned[1];
+	nedAccel.Down = accel_ned[2];
+	NedAccelSet(&nedAccel);
 
 	// Predict the state forwmare after applying the correction
 	predict_pos(cf, accel_ned, dt);

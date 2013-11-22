@@ -44,6 +44,7 @@
 #include "inssettings.h"
 #include "insstate.h"
 #include "magnetometer.h"
+#include "nedaccel.h"
 #include "nedposition.h"
 #include "positionactual.h"
 #include "stateestimation.h"
@@ -80,6 +81,7 @@ int32_t filter_infrastructure_se3_init(struct filter_infrastructure_se3_data **d
 	AttitudeSettingsInitialize();
 	SensorSettingsInitialize();
 	NEDPositionInitialize();
+	NedAccelInitialize();
 	PositionActualInitialize();
 	VelocityActualInitialize();
 
