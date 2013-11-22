@@ -133,6 +133,10 @@ static struct cfnav_interface_data *cfnav_interface_alloc()
 	cf->q[1]         = 0;
 	cf->q[2]         = 0;
 	cf->q[3]         = 0;
+
+	cf->time_constant_xy = 1;
+	cf->time_constant_z  = 2;
+
 	cf->initialization  = false;
 	cf->magic        = CFNAV_INTERFACE_MAGIC;
 
@@ -464,7 +468,15 @@ static int32_t cfnav_interface_update(uintptr_t id, float gyros[3], float accels
 	/**********************************************/
 	/* 4. update position estimate                */
 	/**********************************************/
-	float accel_ned[3];
+	float accel_ned[3], Rbe[3][3];
+
+	// rotate the accels into the NED frame and remove
+	// the influence of gravity
+	Quaternion2R(cf->q, Rbe);
+	rot_mult(Rbe, accels, accel_ned, true);
+	accel_ned[2] += GRAVITY;
+
+	// Predict the state forwmare after applying the correction
 	predict_pos(cf, accel_ned, dt);
 
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
@@ -497,11 +509,15 @@ static int32_t cfnav_interface_get_state(uintptr_t id, float pos[3], float vel[3
 	}
 
 	if (pos) {
-		pos[0] = pos[1] = pos[2] = 0;
+		pos[0] = cf->position[0];
+		pos[1] = cf->position[1];
+		pos[2] = cf->position[2];
 	}
 
 	if (vel) {
-		vel[0] = vel[1] = vel[2] = 0;
+		vel[0] = cf->velocity[0];
+		vel[1] = cf->velocity[1];
+		vel[2] = cf->velocity[2];;
 	}
 
 	if (gyro_bias) {
