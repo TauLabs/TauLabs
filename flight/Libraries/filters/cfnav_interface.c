@@ -518,9 +518,9 @@ static int32_t cfnav_interface_update(uintptr_t id, float gyros[3], float accels
 	accel_ned[2] += GRAVITY;
 
 	NedAccelData nedAccel;
-	nedAccel.North = accel_ned[0];
-	nedAccel.East = accel_ned[1];
-	nedAccel.Down = accel_ned[2];
+	nedAccel.North = accel_ned[0] + cf->accel_correction[0];
+	nedAccel.East = accel_ned[1] + cf->accel_correction[1];
+	nedAccel.Down = accel_ned[2] + cf->accel_correction[2];
 	NedAccelSet(&nedAccel);
 
 	// Predict the state forwmare after applying the correction
