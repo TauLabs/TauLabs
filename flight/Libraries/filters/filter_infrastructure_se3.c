@@ -178,14 +178,14 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, ui
 
 	if (xQueueReceive(s3_data->gpsQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
 		GPSPositionGet(&gpsPosition);
-		if (gpsOK(&gpsPosition)) {
+		if (gpsOK(&gpsPosition) == 0) {
 			getNED(&gpsPosition, NED);
 			pos = NED;
 		}
 	}
 
 	if (xQueueReceive(s3_data->gpsVelQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
-		if (gpsOK(NULL)) {
+		if (gpsOK(NULL) == 0) {
 			GPSVelocityGet(&gpsVelocity);
 			vel = &gpsVelocity.North;
 		}
@@ -256,7 +256,9 @@ static int32_t gpsOK(GPSPositionData * gpsPosition)
 		// Update the GPS quality state when data is here
 		switch(status) {
 		case GPS_WAIT_FOR_LOCK:
-			if (gpsPosition->PDOP < GPS_GOOD_PDOP && gpsPosition->Satellites >= GPS_GOOD_SAT) {
+			if (gpsPosition->Status == GPSPOSITION_STATUS_FIX3D &&
+				gpsPosition->PDOP < GPS_GOOD_PDOP &&
+				gpsPosition->Satellites >= GPS_GOOD_SAT) {
 				status = GPS_GOOD;
 			}
 			break;
@@ -271,7 +273,13 @@ static int32_t gpsOK(GPSPositionData * gpsPosition)
 		}
 	}
 
-	return (status == GPS_GOOD || status == GPS_DEGRADED) ? 0  :-1;
+	switch(status) {
+	case GPS_GOOD:
+	case GPS_DEGRADED:
+		return 0;
+	default:
+		return -1;
+	}
 }
 
 /**
