@@ -103,7 +103,6 @@ struct cfnav_interface_data {
 
 	// Position history (stored at gps rate)
 	uint8_t   position_history_idx;
-	uint8_t   position_history_len;
 	float     position_history[NAV_HISTORY_LEN][2];
 
 	//! The accumulator of gyros during arming
@@ -456,8 +455,14 @@ static int32_t cfnav_interface_update(uintptr_t id, float gyros[3], float accels
 	/*********************************************/
 	/* 2. check for gps updates and process them */
 	/*********************************************/
-	if (pos)
+	if (pos) {
 		update_pos(cf, pos, dt);
+
+		// Store the current state in the history queue
+		cf->position_history[cf->position_history_idx][0] = cf->position[0];
+		cf->position_history[cf->position_history_idx][1] = cf->position[1];
+		cf->position_history_idx = (cf->position_history_idx + 1) % NAV_HISTORY_LEN;
+	}
 
 	/**********************************************/
 	/* 3. check for baro updates and process them */
@@ -652,12 +657,11 @@ static void predict_pos(struct cfnav_interface_data *cf, float *accel, float dt)
 //! Update the position feedback from the GPS
 static void update_pos(struct cfnav_interface_data *cf, float *pos, float dt)
 {
-	// TODO: get from the queue of previous position updates (400 ms latency)
-	float hist_position_base_n = cf->position[0];
-	float hist_position_base_e = cf->position[1];
-
-	cf->position_error[0] = pos[0] - (hist_position_base_n + cf->position_correction[0]);
-	cf->position_error[1] = pos[1] - (hist_position_base_e + cf->position_correction[1]);
+	// Compute the error between the latest GPS sample and a previous
+	// state estimate.
+	uint8_t sample_idx = cf->position_history_idx;
+	cf->position_error[0] = pos[0] - (cf->position_history[sample_idx][0] + cf->position_correction[0]);
+	cf->position_error[1] = pos[1] - (cf->position_history[sample_idx][1] + cf->position_correction[1]);
 }
 
 //! Update the baro feedback
