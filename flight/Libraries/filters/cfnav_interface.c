@@ -80,6 +80,13 @@ enum complimentary_filter_status {
 #define NAV_HISTORY_LEN 4
 struct cfnav_interface_data {
 	struct filter_infrastructure_se3_data *s3_data;
+
+	// Flags to indicate all data set
+	bool      mag_updated;
+	bool      baro_updated;
+	bool      pos_updated;
+
+	// State information
 	float     q[4];
 	float     accel_alpha;
 	float     grot_filtered[3];
@@ -271,17 +278,33 @@ static int32_t cfnav_interface_update(uintptr_t id, float gyros[3], float accels
 	switch(cf->initialization) {
 	case CFNAV_RESET:
 	{
-		// For one second after resetting, wait before beginning initialization
+		static float last_mag[3];
 
 		// Store the most recent mag reset for initializing heading
-		static float last_mag[3];
 		if (mag != NULL) {
+			cf->mag_updated = true;
 			last_mag[0] = mag[0];
 			last_mag[1] = mag[1];
 			last_mag[2] = mag[2];
 		}
 
-		if (ms_since_reset > 1000) {
+		if (baro != NULL) {
+			cf->baro_updated = true;
+			// TODO: fill baro history with first sample
+		}
+
+		if (pos != NULL) {
+			cf->pos_updated = true;
+			for (uint8_t i = 0; i < NAV_HISTORY_LEN; i++) {
+				cf->position_history[i][0] = pos[0];
+				cf->position_history[i][1] = pos[1];
+				cf->position[0] = pos[0];
+				cf->position[1] = pos[1];
+			}
+		}
+
+		if (cf->pos_updated && cf->baro_updated && cf->mag_updated &&
+			ms_since_reset > 1000) {
 			float RPY[3];
 			float theta = atan2f(accels[0], -accels[2]);
 			RPY[1] = theta * RAD2DEG;
