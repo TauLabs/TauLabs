@@ -56,6 +56,7 @@
 static struct filter_infrastructure_se3_data *s3_data;
 
 static int32_t getNED(GPSPositionData * gpsPosition, float * NED);
+static int32_t gpsOK(GPSPositionData * gpsPosition);
 
 /**
  * Initialize SE(3)+ filter infrastructure
@@ -177,13 +178,17 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, ui
 
 	if (xQueueReceive(s3_data->gpsQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
 		GPSPositionGet(&gpsPosition);
-		getNED(&gpsPosition, NED);
-		pos = NED;
+		if (gpsOK(&gpsPosition)) {
+			getNED(&gpsPosition, NED);
+			pos = NED;
+		}
 	}
 
 	if (xQueueReceive(s3_data->gpsVelQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
-		GPSVelocityGet(&gpsVelocity);
-		vel = &gpsVelocity.North;
+		if (gpsOK(NULL)) {
+			GPSVelocityGet(&gpsVelocity);
+			vel = &gpsVelocity.North;
+		}
 	}
 
 	/* 2. compute update */
@@ -228,6 +233,46 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, ui
 	return 0;
 }
 
+#define GPS_GOOD_PDOP 3.0f
+#define GPS_GOOD_SAT  7
+#define GPS_WARN_SAT  6
+/**
+ * @brief Check GPS signal is good enough to use
+ *
+ * This function uses a hystersis threshold, so first
+ * before it becomes active a SAT >= 7 and PDOP <= 3
+ * must be seen. After that it just requires 6 satellites
+ * to continue.
+ *
+ * @param[in] Current GPS coordinates
+ * @return 0 if good, -1 if not
+ */
+static int32_t gpsOK(GPSPositionData * gpsPosition)
+{
+	enum gps_status {GPS_WAIT_FOR_LOCK, GPS_LOST, GPS_DEGRADED, GPS_GOOD};
+	static enum gps_status status = GPS_WAIT_FOR_LOCK;
+
+	if (gpsPosition != NULL) {
+		// Update the GPS quality state when data is here
+		switch(status) {
+		case GPS_WAIT_FOR_LOCK:
+			if (gpsPosition->PDOP < GPS_GOOD_PDOP && gpsPosition->Satellites >= GPS_GOOD_SAT) {
+				status = GPS_GOOD;
+			}
+			break;
+		default:
+			if (gpsPosition->Satellites >= GPS_GOOD_SAT) {
+				status = GPS_GOOD;
+			} else if (gpsPosition->Satellites >= GPS_WARN_SAT) {
+				status = GPS_DEGRADED;
+			} else
+				status = GPS_LOST;
+			break;
+		}
+	}
+
+	return (status == GPS_GOOD || status == GPS_DEGRADED) ? 0  :-1;
+}
 
 /**
  * @brief Convert the GPS LLA position into NED coordinates
