@@ -238,6 +238,8 @@ static int32_t cfnav_interface_reset(uintptr_t id)
 	cf->mag_updated        = false;
 	cf->baro_updated       = false;
 
+	cf->position_history_idx = 0;
+
 	for (uint8_t i = 0; i < 3; i++) {
 		cf->grot_filtered[i] = 0;
 		cf->accels_filtered[i] = 0;
@@ -333,6 +335,8 @@ static int32_t cfnav_interface_update(uintptr_t id, float gyros[3], float accels
 			// Next state
 			cf->initialization = CFNAV_INITIALIZING;
 		}
+
+		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR);
 
 		// Do not attempt to process data while in the reset state
 		return 0;
