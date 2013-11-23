@@ -40,6 +40,7 @@
 #include "fixedwingpathfollowersettings.h"
 #include "flighttelemetrystats.h"
 #include "flightstatus.h"
+#include "loitercommand.h"
 #include "manualcontrolsettings.h"
 #include "manualcontrolcommand.h"
 #include "pathdesired.h"
@@ -107,6 +108,7 @@ static void applyDeadband(float *value, float deadband);
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm);
 static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm);
 static void manual_control_settings_updated(UAVObjEvent * ev);
+static void set_loiter_command(ManualControlCommandData * cmd);
 
 #define assumptions (assumptions1 && assumptions3 && assumptions5 && assumptions7 && assumptions8 && assumptions_flightmode && assumptions_channelcount)
 
@@ -120,6 +122,7 @@ int32_t transmitter_control_initialize()
 	AccessoryDesiredInitialize();
 	ManualControlCommandInitialize();
 	FlightStatusInitialize();
+	LoiterCommandInitialize();
 	StabilizationDesiredInitialize();
 	ReceiverActivityInitialize();
 	ManualControlSettingsInitialize();
@@ -425,6 +428,7 @@ int32_t transmitter_control_select(bool reset_controller)
 		altitude_hold_desired(&cmd, lastFlightMode != flightStatus.FlightMode);
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+		set_loiter_command(&cmd);
 	case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
 		// The path planner module processes data here
 		break;
@@ -914,11 +918,39 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 	AltitudeHoldDesiredSet(&altitudeHoldDesired);
 }
 
+
+static void set_loiter_command(ManualControlCommandData *cmd)
+{
+	const float CMD_THRESHOLD = 0.5;
+	const float MAX_SPEED     = 3.0; // m/s
+
+	LoiterCommandData loiterCommand;
+	loiterCommand.Forward = (cmd->Pitch > CMD_THRESHOLD) ? cmd->Pitch - CMD_THRESHOLD :
+	                        (cmd->Pitch < -CMD_THRESHOLD) ? cmd->Pitch + CMD_THRESHOLD :
+	                        0;
+	// Note the negative - forward pitch is negative
+	loiterCommand.Forward *= -MAX_SPEED / (1.0f - CMD_THRESHOLD);
+
+	loiterCommand.Right = (cmd->Roll > CMD_THRESHOLD) ? cmd->Roll - CMD_THRESHOLD :
+	                        (cmd->Roll < -CMD_THRESHOLD) ? cmd->Roll + CMD_THRESHOLD :
+	                        0;
+	loiterCommand.Right *= MAX_SPEED / (1.0f - CMD_THRESHOLD);
+
+	loiterCommand.Frame = LOITERCOMMAND_FRAME_BODY;
+
+	LoiterCommandSet(&loiterCommand);
+}
+
 #else /* For boards that do not support navigation set error if these modes are selected */
 
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
+}
+
+static void set_loiter_command(ManualControlCommandData *cmd)
+{
+	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_PATHFOLLOWER);
 }
 
 #endif /* REVOLUTION */

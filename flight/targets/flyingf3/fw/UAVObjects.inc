@@ -108,6 +108,7 @@ UAVOBJSRCFILENAMES += waypointactive
 UAVOBJSRCFILENAMES += groundpathfollowersettings
 UAVOBJSRCFILENAMES += hottsettings
 UAVOBJSRCFILENAMES += ubloxinfo
+UAVOBJSRCFILENAMES += loitercommand
 
 UAVOBJSRCFILENAMES += txpidsettings
 
