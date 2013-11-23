@@ -29,7 +29,7 @@
 #define GCSCONTROLGADGETOPTIONSPAGE_H
 
 #include "coreplugin/dialogs/ioptionspage.h"
-#include "gcscontrolwidgetplugin.h"
+#include "gcscontrolplugin.h"
 
 #if defined(USE_SDL)
 #include "sdlgamepad/sdlgamepad.h"

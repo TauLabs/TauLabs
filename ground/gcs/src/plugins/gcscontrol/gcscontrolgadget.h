@@ -30,18 +30,18 @@
 
 #include <coreplugin/iuavgadget.h>
 #include "gcscontrolgadgetconfiguration.h"
-#include "gcscontrolwidgetplugin.h"
+#include "gcscontrolplugin.h"
 #include <QTimer>
 #include <QTime>
 #include <QUdpSocket>
 #include <QHostAddress>
-#include <gcscontrolplugin/gcscontrol.h>
 
 #if defined(USE_SDL)
 #include "sdlgamepad/sdlgamepad.h"
 #endif
 
 // UAVOs
+#include "gcsreceiver.h"
 #include "manualcontrolcommand.h"
 
 namespace Core {
@@ -70,7 +70,7 @@ private:
     ManualControlCommand* getManualControlCommand();
 
     //! Get the handle to the GCSReceiver object
-    GCSControl* getGcsControl();
+    GCSReceiver* getGcsReceiver();
 
     double constrain(double value);
 
@@ -106,6 +106,8 @@ private:
     bool channelReverse[8];
     QUdpSocket *control_sock;
 
+    QTimer *gcsReceiverTimer;
+
 signals:
     void sticksChangedRemotely(double leftX, double leftY, double rightX, double rightY);
 
@@ -113,7 +115,8 @@ protected slots:
     void manualControlCommandUpdated(UAVObject *);
     void sticksChangedLocally(double leftX, double leftY, double rightX, double rightY);
     void readUDPCommand();
-    void flightModeChanged(ManualControlSettings::FlightModePositionOptions mode);
+    void sendGcsReceiver();
+
     //! Enable or disable sending data
     void enableControl(bool enable);
 
