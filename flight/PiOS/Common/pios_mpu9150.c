@@ -251,6 +251,22 @@ int32_t PIOS_MPU9150_SetGyroRange(enum pios_mpu60x0_range gyro_range)
 {
 	if (PIOS_MPU9150_SetReg(PIOS_MPU60X0_GYRO_CFG_REG, gyro_range) != 0)
 		return -1;
+
+	switch(gyro_range) {
+	case PIOS_MPU60X0_SCALE_250_DEG:
+		PIOS_SENSORS_SetMaxGyro(250);
+		break;
+	case PIOS_MPU60X0_SCALE_500_DEG:
+		PIOS_SENSORS_SetMaxGyro(500);
+		break;
+	case PIOS_MPU60X0_SCALE_1000_DEG:
+		PIOS_SENSORS_SetMaxGyro(1000);
+		break;
+	case PIOS_MPU60X0_SCALE_2000_DEG:
+		PIOS_SENSORS_SetMaxGyro(2000);
+		break;
+	}
+
 	dev->gyro_range = gyro_range;
 	return 0;
 }

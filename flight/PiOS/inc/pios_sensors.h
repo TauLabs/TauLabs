@@ -90,4 +90,10 @@ int32_t PIOS_SENSORS_Register(enum pios_sensor_type type, xQueueHandle queue);
 //! Get the data queue for a sensor type
 xQueueHandle PIOS_SENSORS_GetQueue(enum pios_sensor_type type);
 
+//! Set the maximum gyro rate in deg/s
+void PIOS_SENSORS_SetMaxGyro(int32_t rate);
+
+//! Get the maximum gyro rate in deg/s
+int32_t PIOS_SENSORS_GetMaxGyro();
+
 #endif /* PIOS_SENSOR_H */
