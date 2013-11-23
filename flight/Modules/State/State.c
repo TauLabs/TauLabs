@@ -133,9 +133,13 @@ static void StateTask(void *parameters)
 	if (current_filter->reset(running_filter_id) != 0)
 		goto FAIL;
 
+	int32_t last_raw_time = 0;
+
 	// Main task loop
 	while (1) {
-		float dt = 0.003f; // FIXME
+		// Get time since last call in seconds
+		float dt = PIOS_DELAY_DiffuS(last_raw_time) * 1e-6f;
+		last_raw_time = PIOS_DELAY_GetRaw();
 
 		current_filter->process(current_filter, running_filter_id, dt);
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
