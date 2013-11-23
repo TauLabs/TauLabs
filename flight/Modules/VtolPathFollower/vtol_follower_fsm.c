@@ -46,8 +46,13 @@
 
 #include "openpilot.h"
 
+#include "coordinate_conversions.h"
+#include "physical_constants.h"
+
 #include "vtol_follower_priv.h"
 
+#include "attitudeactual.h"
+#include "loitercommand.h"
 #include "pathdesired.h"
 #include "positionactual.h"
 #include "stabilizationdesired.h"
@@ -116,15 +121,17 @@ static void go_enable_pause_home_10s();
 static void go_enable_fly_home();
 static void go_enable_land_home();
 
-// Utility functions
-static void configure_timeout(int32_t s);
-
 // Methods that actually achieve the desired nav mode
 static int32_t do_default();
 static int32_t do_hold();
 static int32_t do_path();
 static int32_t do_requested_path();
 static int32_t do_land();
+static int32_t do_loiter();
+
+// Utility functions
+static void configure_timeout(int32_t s);
+static void hold_position(float north, float east, float down);
 
 /**
  * The state machine for landing at home does the following:
@@ -139,6 +146,7 @@ const static struct vtol_fsm_transition fsm_hold_position[FSM_STATE_NUM_STATES] 
 	},
 	[FSM_STATE_HOLDING] = {
 		.entry_fn = go_enable_hold_here,
+		.static_fn = do_loiter,
 		.next_state = {
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_UNCHANGED,
 			[FSM_EVENT_LEFT_TARGET] = FSM_STATE_UNCHANGED,
@@ -445,6 +453,40 @@ static int32_t do_land()
 	}
 
 	return 0;
+}
+
+/**
+ * Loiter at current position or transform requested movement
+ */
+static int32_t do_loiter()
+{
+	LoiterCommandData loiterCommand;
+	LoiterCommandGet(&loiterCommand);
+
+	float yaw;
+	AttitudeActualYawGet(&yaw);
+	yaw *= DEG2RAD;
+
+	float north_offset = 0;
+	float east_offset = 0;
+	float down_offset = 0;
+
+	if (loiterCommand.Frame == LOITERCOMMAND_FRAME_BODY) {
+		north_offset = (loiterCommand.Forward * cosf(yaw) - loiterCommand.Right * sinf(yaw)) * DT;
+		east_offset = (loiterCommand.Forward * sinf(yaw) + loiterCommand.Right * cosf(yaw)) * DT;
+	} else {
+		north_offset = loiterCommand.Forward * DT;
+		east_offset = loiterCommand.Right * DT;
+	}
+
+	// TODO: prevent moving set point too far from the current
+	// location. Ideally when there is a command input it would
+	// be added to the position controller.
+	hold_position(vtol_hold_position_ned[0] + north_offset,
+		vtol_hold_position_ned[1] + east_offset,
+		vtol_hold_position_ned[2] + down_offset);
+
+	return do_hold();
 }
 
 //! @}
