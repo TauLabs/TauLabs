@@ -234,6 +234,10 @@ static int32_t cfnav_interface_reset(uintptr_t id)
 	cf->reset_timeval      = 0;
 	cf->arming_count       = 0;
 
+	cf->pos_updated        = false;
+	cf->mag_updated        = false;
+	cf->baro_updated       = false;
+
 	for (uint8_t i = 0; i < 3; i++) {
 		cf->grot_filtered[i] = 0;
 		cf->accels_filtered[i] = 0;
