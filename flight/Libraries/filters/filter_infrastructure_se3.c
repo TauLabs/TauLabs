@@ -179,6 +179,7 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, ui
 	if (xQueueReceive(s3_data->gpsQueue, &ev, 0 / portTICK_RATE_MS) == pdTRUE) {
 		GPSPositionGet(&gpsPosition);
 		if (gpsOK(&gpsPosition) == 0) {
+			getNED(&gpsPosition, NED);
 
 			NEDPositionData nedPos;
 			nedPos.North = NED[0];
@@ -186,7 +187,6 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, ui
 			nedPos.Down = NED[2];
 			NEDPositionSet(&nedPos);
 
-			getNED(&gpsPosition, NED);
 			pos = NED;
 		}
 	}
