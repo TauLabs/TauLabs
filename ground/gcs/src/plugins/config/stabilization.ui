@@ -453,7 +453,16 @@
    <bool>false</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>12</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>12</number>
+   </property>
+   <property name="bottomMargin">
     <number>12</number>
    </property>
    <item>
@@ -502,7 +511,16 @@
        <string>Basic</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -597,15 +615,24 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>935</width>
-            <height>593</height>
+            <width>937</width>
+            <height>601</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_12" stretch="0,0,0,0">
            <property name="spacing">
             <number>12</number>
            </property>
-           <property name="margin">
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
             <number>12</number>
            </property>
            <item>
@@ -638,11 +665,20 @@
               <bool>false</bool>
              </property>
              <layout class="QGridLayout" name="gridLayout_19">
+              <property name="leftMargin">
+               <number>12</number>
+              </property>
+              <property name="topMargin">
+               <number>12</number>
+              </property>
+              <property name="rightMargin">
+               <number>12</number>
+              </property>
+              <property name="bottomMargin">
+               <number>12</number>
+              </property>
               <property name="horizontalSpacing">
                <number>6</number>
-              </property>
-              <property name="margin">
-               <number>12</number>
               </property>
               <item row="0" column="0">
                <widget class="QCheckBox" name="checkBox_7">
@@ -4008,11 +4044,20 @@ value as the Kp.</string>
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
              </property>
              <layout class="QGridLayout" name="gridLayout_20">
+              <property name="leftMargin">
+               <number>12</number>
+              </property>
+              <property name="topMargin">
+               <number>12</number>
+              </property>
+              <property name="rightMargin">
+               <number>12</number>
+              </property>
+              <property name="bottomMargin">
+               <number>12</number>
+              </property>
               <property name="horizontalSpacing">
                <number>6</number>
-              </property>
-              <property name="margin">
-               <number>12</number>
               </property>
               <item row="0" column="0">
                <widget class="QCheckBox" name="checkBox_8">
@@ -6787,7 +6832,16 @@ border-radius: 5;</string>
               <string>Integral</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_11">
-              <property name="margin">
+              <property name="leftMargin">
+               <number>12</number>
+              </property>
+              <property name="topMargin">
+               <number>12</number>
+              </property>
+              <property name="rightMargin">
+               <number>12</number>
+              </property>
+              <property name="bottomMargin">
                <number>12</number>
               </property>
               <item>
@@ -6851,7 +6905,16 @@ border-radius: 5;</string>
        <string>Advanced</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_10">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -6934,15 +6997,24 @@ border-radius: 5;</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>920</width>
-            <height>644</height>
+            <width>923</width>
+            <height>675</height>
            </rect>
           </property>
           <property name="autoFillBackground">
            <bool>true</bool>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_16">
-           <property name="margin">
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
             <number>12</number>
            </property>
            <item>
@@ -7489,11 +7561,20 @@ border-radius: 5;</string>
               <bool>false</bool>
              </property>
              <layout class="QGridLayout" name="gridLayout_16">
+              <property name="leftMargin">
+               <number>12</number>
+              </property>
+              <property name="topMargin">
+               <number>12</number>
+              </property>
+              <property name="rightMargin">
+               <number>12</number>
+              </property>
+              <property name="bottomMargin">
+               <number>12</number>
+              </property>
               <property name="horizontalSpacing">
                <number>6</number>
-              </property>
-              <property name="margin">
-               <number>12</number>
               </property>
               <item row="0" column="0">
                <widget class="QCheckBox" name="checkBox_3">
@@ -10814,11 +10895,20 @@ Then lower the value by 20% or so.</string>
               <bool>false</bool>
              </property>
              <layout class="QGridLayout" name="gridLayout_17">
+              <property name="leftMargin">
+               <number>12</number>
+              </property>
+              <property name="topMargin">
+               <number>12</number>
+              </property>
+              <property name="rightMargin">
+               <number>12</number>
+              </property>
+              <property name="bottomMargin">
+               <number>12</number>
+              </property>
               <property name="horizontalSpacing">
                <number>4</number>
-              </property>
-              <property name="margin">
-               <number>12</number>
               </property>
               <item row="0" column="0">
                <widget class="QCheckBox" name="checkBox_2">
@@ -13938,11 +14028,20 @@ border-radius: 5;</string>
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
              </property>
              <layout class="QGridLayout" name="gridLayout_18">
+              <property name="leftMargin">
+               <number>12</number>
+              </property>
+              <property name="topMargin">
+               <number>12</number>
+              </property>
+              <property name="rightMargin">
+               <number>12</number>
+              </property>
+              <property name="bottomMargin">
+               <number>12</number>
+              </property>
               <property name="horizontalSpacing">
                <number>6</number>
-              </property>
-              <property name="margin">
-               <number>12</number>
               </property>
               <item row="0" column="0">
                <spacer name="horizontalSpacer_14">
@@ -14527,7 +14626,7 @@ border-radius: 5;</string>
                   </widget>
                  </item>
                  <item row="3" column="2">
-                  <widget class="QDoubleSpinBox" name="rateRollILimit_3">
+                  <widget class="QDoubleSpinBox" name="maxRateAttRoll">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -14596,7 +14695,7 @@ border-radius: 5;</string>
                   </spacer>
                  </item>
                  <item row="2" column="6">
-                  <widget class="QDoubleSpinBox" name="rateYawKi_3">
+                  <widget class="QDoubleSpinBox" name="fullStickRateYaw">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -14701,7 +14800,7 @@ border-radius: 5;</string>
                   </widget>
                  </item>
                  <item row="3" column="4">
-                  <widget class="QDoubleSpinBox" name="ratePitchILimit_4">
+                  <widget class="QDoubleSpinBox" name="maxRateAttPitch">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -15908,7 +16007,7 @@ border-radius: 5;</string>
                   </widget>
                  </item>
                  <item row="2" column="4">
-                  <widget class="QDoubleSpinBox" name="ratePitchKi_4">
+                  <widget class="QDoubleSpinBox" name="fullStickRatePitch">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -16524,7 +16623,7 @@ border-radius: 5;</string>
                   </widget>
                  </item>
                  <item row="2" column="2">
-                  <widget class="QDoubleSpinBox" name="rateRollKi_3">
+                  <widget class="QDoubleSpinBox" name="fullStickRateRoll">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -16632,7 +16731,7 @@ border-radius: 5;</string>
                   </widget>
                  </item>
                  <item row="3" column="6">
-                  <widget class="QDoubleSpinBox" name="rateYawILimit_3">
+                  <widget class="QDoubleSpinBox" name="maxRateAttYaw">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -16771,7 +16870,16 @@ border-radius: 5;</string>
        <string>Expert</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -16857,12 +16965,21 @@ border-radius: 5;</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>935</width>
-            <height>593</height>
+            <width>798</width>
+            <height>468</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">
-           <property name="margin">
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
             <number>12</number>
            </property>
            <item>
@@ -16886,7 +17003,16 @@ border-radius: 5;</string>
               <string>Weak Leveling / Axis Lock</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_5">
-              <property name="margin">
+              <property name="leftMargin">
+               <number>12</number>
+              </property>
+              <property name="topMargin">
+               <number>12</number>
+              </property>
+              <property name="rightMargin">
+               <number>12</number>
+              </property>
+              <property name="bottomMargin">
                <number>12</number>
               </property>
               <item row="0" column="0">
@@ -16946,7 +17072,16 @@ border-radius: 5;</string>
                  <bool>true</bool>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_4">
-                 <property name="margin">
+                 <property name="leftMargin">
+                  <number>12</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>12</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>12</number>
+                 </property>
+                 <property name="bottomMargin">
                   <number>12</number>
                  </property>
                  <item row="0" column="1">
@@ -19488,11 +19623,20 @@ border-radius: 5;</string>
               <string>Integral Limits</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_9">
+              <property name="leftMargin">
+               <number>12</number>
+              </property>
+              <property name="topMargin">
+               <number>12</number>
+              </property>
+              <property name="rightMargin">
+               <number>12</number>
+              </property>
+              <property name="bottomMargin">
+               <number>12</number>
+              </property>
               <property name="horizontalSpacing">
                <number>6</number>
-              </property>
-              <property name="margin">
-               <number>12</number>
               </property>
               <item row="0" column="0">
                <spacer name="horizontalSpacer_36">
@@ -19786,7 +19930,16 @@ border-radius: 5;</string>
                  <bool>true</bool>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_8" columnstretch="0,0,1,0,1,0,1,0">
-                 <property name="margin">
+                 <property name="leftMargin">
+                  <number>12</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>12</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>12</number>
+                 </property>
+                 <property name="bottomMargin">
                   <number>12</number>
                  </property>
                  <item row="1" column="4">
@@ -22191,12 +22344,12 @@ Useful if you have accidentally changed some settings.</string>
   <tabstop>rateRollKp_3</tabstop>
   <tabstop>ratePitchKp_4</tabstop>
   <tabstop>rateYawKp_3</tabstop>
-  <tabstop>rateRollKi_3</tabstop>
-  <tabstop>ratePitchKi_4</tabstop>
-  <tabstop>rateYawKi_3</tabstop>
-  <tabstop>rateRollILimit_3</tabstop>
-  <tabstop>ratePitchILimit_4</tabstop>
-  <tabstop>rateYawILimit_3</tabstop>
+  <tabstop>fullStickRateRoll</tabstop>
+  <tabstop>fullStickRatePitch</tabstop>
+  <tabstop>fullStickRateYaw</tabstop>
+  <tabstop>maxRateAttRoll</tabstop>
+  <tabstop>maxRateAttPitch</tabstop>
+  <tabstop>maxRateAttYaw</tabstop>
   <tabstop>checkBox_3</tabstop>
   <tabstop>checkBox_2</tabstop>
   <tabstop>WeakLevelingKp</tabstop>
