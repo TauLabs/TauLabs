@@ -200,3 +200,28 @@ enum Core::IBoardType::InputType Sparky::getInputOnPort(int port_num)
         return INPUT_TYPE_UNKNOWN;
     }
 }
+
+int Sparky::queryMaxGyroRate()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwSparky *hwSparky = HwSparky::GetInstance(uavoManager);
+    Q_ASSERT(hwSparky);
+    if (!hwSparky)
+        return 0;
+
+    HwSparky::DataFields settings = hwSparky->getData();
+
+    switch(settings.GyroRange) {
+    case HwSparky::GYRORANGE_250:
+        return 250;
+    case HwSparky::GYRORANGE_500:
+        return 500;
+    case HwSparky::GYRORANGE_1000:
+        return 1000;
+    case HwSparky::GYRORANGE_2000:
+        return 2000;
+    default:
+        return 500;
+    }
+}
