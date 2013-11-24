@@ -460,6 +460,8 @@ static int32_t do_land()
  */
 static int32_t do_loiter()
 {
+	const float LOITER_LEASH = 4;
+
 	LoiterCommandData loiterCommand;
 	LoiterCommandGet(&loiterCommand);
 
@@ -479,12 +481,21 @@ static int32_t do_loiter()
 		east_offset = loiterCommand.Right * DT;
 	}
 
-	// TODO: prevent moving set point too far from the current
-	// location. Ideally when there is a command input it would
-	// be added to the position controller.
-	hold_position(vtol_hold_position_ned[0] + north_offset,
-		vtol_hold_position_ned[1] + east_offset,
-		vtol_hold_position_ned[2] + down_offset);
+	float new_north = vtol_hold_position_ned[0] + north_offset;
+	float new_east = vtol_hold_position_ned[1] + east_offset;
+	PositionActualData positionActual;
+	PositionActualGet(&positionActual);
+
+	const float cur_offset = sqrtf(powf(new_north - positionActual.North, 2) + powf(new_east - positionActual.East, 2));
+	if (cur_offset < LOITER_LEASH) {
+		// prevent moving set point too far from the current
+		// location. Ideally when there is a command input it would
+		// be added to the position controller instead of soley move
+		// the setpoint.
+		hold_position(vtol_hold_position_ned[0] + north_offset,
+			vtol_hold_position_ned[1] + east_offset,
+			vtol_hold_position_ned[2] + down_offset);
+	}
 
 	return do_hold();
 }
