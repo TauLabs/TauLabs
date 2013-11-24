@@ -486,8 +486,10 @@ static int32_t do_loiter()
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
 
-	const float cur_offset = sqrtf(powf(new_north - positionActual.North, 2) + powf(new_east - positionActual.East, 2));
-	if (cur_offset < LOITER_LEASH) {
+	const float cur_offset = sqrtf(powf(vtol_hold_position_ned[0] - positionActual.North, 2) +
+		                           powf(vtol_hold_position_ned[1] - positionActual.East, 2));
+	const float new_offset = sqrtf(powf(new_north - positionActual.North, 2) + powf(new_east - positionActual.East, 2));
+	if (new_offset < LOITER_LEASH || (new_offset < cur_offset)) {
 		// prevent moving set point too far from the current
 		// location. Ideally when there is a command input it would
 		// be added to the position controller instead of soley move
