@@ -106,6 +106,8 @@ struct cfnav_interface_data {
 	float     position[3];
 	float     velocity[3];
 
+	float     baro_zero; // The initial altitude
+
 	// Settings for the position state variable
 	float     time_constant_xy;
 	float     time_constant_z;
@@ -308,6 +310,7 @@ static int32_t cfnav_interface_update(uintptr_t id, float gyros[3], float accels
 
 		if (baro != NULL) {
 			cf->baro_updated = true;
+			cf->baro_zero = *baro;
 			// TODO: fill baro history with first sample
 		}
 
@@ -726,7 +729,7 @@ static void update_pos(struct cfnav_interface_data *cf, float *pos, float dt)
 //! Update the baro feedback
 static void update_baro(struct cfnav_interface_data *cf, float baro, float dt)
 {
-	float down = -baro;
+	float down = -(baro - cf->baro_zero);
 
 	// TODO: get from the queue of previous position updates (150 ms latency)
 	float hist_position_base_d = cf->position_base[2];
