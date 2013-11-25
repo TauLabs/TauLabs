@@ -330,6 +330,7 @@ SUBDIRS += plugin_boards_taulabs
 plugin_boards_openpilot.subdir = boards_openpilot
 plugin_boards_openpilot.depends = plugin_coreplugin
 plugin_boards_openpilot.depends = plugin_uavobjects
+plugin_boards_openpilot.depends = plugin_uavobjectutil
 SUBDIRS += plugin_boards_openpilot
 
 # Quantec Networks GmbH

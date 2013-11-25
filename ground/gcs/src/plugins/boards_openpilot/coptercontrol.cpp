@@ -222,11 +222,15 @@ int CopterControl::queryMaxGyroRate()
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
     HwCopterControl *hwCopterControl = HwCopterControl::GetInstance(uavoManager);
+    UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
     Q_ASSERT(hwCopterControl);
+    Q_ASSERT(utilMngr);
     if (!hwCopterControl)
         return 0;
-
     HwCopterControl::DataFields settings = hwCopterControl->getData();
+
+    int CC_Version = (utilMngr->getBoardModel() & 0x00FF);
+    if(CC_Version == 1) return 500;
 
     switch(settings.GyroRange) {
     case HwCopterControl::GYRORANGE_250:
