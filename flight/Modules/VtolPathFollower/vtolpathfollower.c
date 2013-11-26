@@ -183,9 +183,11 @@ static void vtolPathFollowerTask(void *parameters)
 				// RTH can be used. However, for now this isn't critical.
 				vtol_follower_fsm_activate_goal(GOAL_FLY_PATH);
 				fsm_running = true;
+				break;
 			default:
 				vtol_follower_fsm_activate_goal(GOAL_LAND_NONE);
 				fsm_running = false;
+				break;
 			}
 		}
 
