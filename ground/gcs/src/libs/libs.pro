@@ -16,5 +16,8 @@ SDL {
 SUBDIRS += sdlgamepad
 }
 
-#SUBDIRS += glc_lib
+!LIGHTWEIGHT_GCS {
+    SUBDIRS += glc_lib
+}
+
 SUBDIRS +=
