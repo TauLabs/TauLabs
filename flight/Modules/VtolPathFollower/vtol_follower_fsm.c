@@ -61,7 +61,7 @@
 // Various navigation constants
 const static float RTH_MIN_ALTITUDE = 15;    //!< Hover at least 15 m above home */
 const static float RTH_VELOCITY     = 2.5f;  //!< Return home at 2.5 m/s */
-
+const static float RTH_ALT_ERROR    = 1.0f;  //!< The altitude to come within for RTH */
 const static float DT               = 0.05f; // TODO: make the self monitored
 
 //! Events that can be be injected into the FSM and trigger state changes
@@ -87,6 +87,7 @@ enum vtol_fsm_state {
 	FSM_STATE_FLYING_PATH,     /*!< Flying a path to a destination */
 	FSM_STATE_LANDING,         /*!< Landing at a destination */
 	FSM_STATE_PRE_RTH_HOLD,    /*!< Short hold before returning to home */
+	FSM_STATE_PRE_RTH_RISE,    /*!< Rise to 15 m before flying home */
 	FSM_STATE_POST_RTH_HOLD,   /*!< Hold at home before initiating landing */
 	FSM_STATE_DISARM,          /*!< Disarm the system after landing */
 	FSM_STATE_UNCHANGED,       /*!< Fake state to indicate do nothing */
@@ -117,6 +118,7 @@ enum vtol_nav_mode {
 static void go_enable_hold_here();
 static void go_enable_fly_path();
 static void go_enable_pause_10s_here();
+static void go_enable_rise_here();
 static void go_enable_pause_home_10s();
 static void go_enable_fly_home();
 static void go_enable_land_home();
@@ -128,6 +130,7 @@ static int32_t do_path();
 static int32_t do_requested_path();
 static int32_t do_land();
 static int32_t do_loiter();
+static int32_t do_ph_climb();
 
 // Utility functions
 static void configure_timeout(int32_t s);
@@ -178,10 +181,11 @@ const static struct vtol_fsm_transition fsm_follow_path[FSM_STATE_NUM_STATES] = 
 /**
  * The state machine for landing at home does the following:
  * 1. holds where currently at for 10 seconds
- * 2. flies to home at 2 m/s at either current altitude or 15 m above home
- * 3. holds above home for 10 seconds
- * 4. descends to ground
- * 5. disarms the system
+ * 2. ascend to minimum altitude
+ * 3. flies to home at 2 m/s at either current altitude or 15 m above home
+ * 4. holds above home for 10 seconds
+ * 5. descends to ground
+ * 6. disarms the system
  */
 const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
@@ -192,8 +196,17 @@ const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_PRE_RTH_HOLD] = {
 		.entry_fn = go_enable_pause_10s_here,
 		.next_state = {
-			[FSM_EVENT_TIMEOUT] = FSM_STATE_FLYING_PATH,
+			[FSM_EVENT_TIMEOUT] = FSM_STATE_PRE_RTH_RISE,
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_UNCHANGED,
+			[FSM_EVENT_LEFT_TARGET] = FSM_STATE_UNCHANGED,
+		},
+	},
+	[FSM_STATE_PRE_RTH_RISE] = {
+		.entry_fn = go_enable_rise_here,
+		.static_fn = do_ph_climb,
+		.next_state = {
+			[FSM_EVENT_TIMEOUT] = FSM_STATE_FLYING_PATH,
+			[FSM_EVENT_HIT_TARGET] = FSM_STATE_FLYING_PATH,
 			[FSM_EVENT_LEFT_TARGET] = FSM_STATE_UNCHANGED,
 		},
 	},
@@ -502,6 +515,26 @@ static int32_t do_loiter()
 	return do_hold();
 }
 
+/**
+ * Continue executing the current hold location and when
+ * within a fixed distance of altitude fire a hit target
+ * event.
+ */
+static int32_t do_ph_climb()
+{
+	float cur_down;
+	PositionActualDownGet(&cur_down);
+
+	int32_t ret_val = do_hold();
+
+	const float err = fabsf(cur_down - vtol_hold_position_ned[2]);
+	if (err < RTH_ALT_ERROR) {
+		vtol_fsm_inject_event(FSM_EVENT_HIT_TARGET);
+	}
+
+	return ret_val;
+}
+
 //! @}
 
 /**
@@ -574,6 +607,28 @@ static void go_enable_pause_10s_here()
 	hold_position(positionActual.North, positionActual.East, positionActual.Down);
 
 	configure_timeout(10);
+}
+
+
+/**
+ * Stay at current location but rise to a minimal location.
+ */
+static void go_enable_rise_here()
+{
+	float down = vtol_hold_position_ned[2];
+
+	// Make sure we return at a minimum of 15 m above home
+	if (down > -RTH_MIN_ALTITUDE)
+		down = -RTH_MIN_ALTITUDE;
+
+	// If the new altitude is more than a meter away, activate it. Otherwise
+	// go straight to the next state
+	if (fabs(down - vtol_hold_position_ned[2]) > RTH_ALT_ERROR) {
+		hold_position(vtol_hold_position_ned[0], vtol_hold_position_ned[1], down);
+		configure_timeout(10);
+	} else {
+		vtol_fsm_inject_event(FSM_EVENT_TIMEOUT);
+	}
 }
 
 /**
