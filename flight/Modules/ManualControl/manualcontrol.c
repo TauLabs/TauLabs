@@ -42,6 +42,7 @@
 #include "failsafe_control.h"
 #include "tablet_control.h"
 #include "transmitter_control.h"
+#include "geofence_control.h"
 
 #include "flightstatus.h"
 #include "manualcontrolcommand.h"
@@ -93,7 +94,7 @@ int32_t ManualControlInitialize()
 	failsafe_control_initialize();
 	transmitter_control_initialize();
 	tablet_control_initialize();
-
+	geofence_control_initialize();
 
 	return 0;
 }
@@ -124,6 +125,7 @@ static void manualControlTask(void *parameters)
 		failsafe_control_update();
 		transmitter_control_update();
 		tablet_control_update();
+		geofence_control_update();
 
 		// Initialize to invalid value to ensure first update sets FlightStatus
 		static FlightStatusControlSourceOptions last_control_selection = -1;
@@ -156,6 +158,10 @@ static void manualControlTask(void *parameters)
 			}
 			break;
 		}
+		case FLIGHTSTATUS_CONTROLSOURCE_GEOFENCE:
+			geofence_control_select(reset_controller);
+			control_events = geofence_control_get_events();
+			break;
 		case FLIGHTSTATUS_CONTROLSOURCE_FAILSAFE:
 		default:
 			failsafe_control_select(reset_controller);
@@ -238,6 +244,14 @@ static int32_t control_event_disarm()
  */
 static FlightStatusControlSourceOptions control_source_select()
 {
+	// If the geofence controller is triggered, it takes precendence
+	// over even transmitter or failsafe. This means this must be
+	// EXTREMELY robust. The current behavior of geofence is simply
+	// to shut off the motors.
+	if (geofence_control_activate()) {
+		return FLIGHTSTATUS_CONTROLSOURCE_GEOFENCE;
+	}
+
 	ManualControlCommandData cmd;
 	ManualControlCommandGet(&cmd);
 	if (cmd.Connected != MANUALCONTROLCOMMAND_CONNECTED_TRUE) {
