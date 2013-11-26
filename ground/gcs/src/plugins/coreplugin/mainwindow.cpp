@@ -180,9 +180,6 @@ MainWindow::MainWindow() :
     m_modeStack->setMinimumWidth(512);
     m_modeStack->setElideMode(Qt::ElideRight);
     m_modeStack->setProperty("_q_custom_style_disabled",false);
-#ifndef Q_OS_MAC
-    m_modeStack->setDocumentMode(true);
-#endif /* Q_OS_MAC */
     m_globalMessaging = new GlobalMessaging(this);
 
     m_modeManager = new ModeManager(this, m_modeStack);
