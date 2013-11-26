@@ -86,6 +86,7 @@ int32_t GeofenceInitialize(void)
 			return -1;
 		}
 
+		GeoFenceSettingsConnectCallback(settingsUpdated);
 		settingsUpdated(NULL);
 
 		// Schedule periodic task to check position
