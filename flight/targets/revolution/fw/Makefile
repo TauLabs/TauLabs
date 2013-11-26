@@ -83,6 +83,7 @@ OPTMODULES += Airspeed/revolution
 OPTMODULES += UAVOHoTTBridge
 OPTMODULES += PicoC
 OPTMODULES += UAVOFrSKYSPortBridge
+OPTMODULES += Geofence
 
 PYMODULES = 
 #FlightPlan

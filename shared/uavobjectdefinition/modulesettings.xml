@@ -26,6 +26,7 @@
 				<elementname>UAVOFrSKYSensorHubBridge</elementname>
 				<elementname>PicoC</elementname>
 				<elementname>UAVOFrSkySPortBridge</elementname>
+				<elementname>Geofence</elementname>
 			</elementnames>
 		</field>
 
