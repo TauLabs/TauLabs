@@ -80,9 +80,10 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.object_browser);
+		super.onCreate(savedInstanceState);
+
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
-		super.onCreate(savedInstanceState);
 
 		 ((CheckBox) findViewById(R.id.dataCheck)).setChecked(prefs.getBoolean("browser_show_data",true));
 		 ((CheckBox) findViewById(R.id.settingsCheck)).setChecked(prefs.getBoolean("browser_show_settings",true));
