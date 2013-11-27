@@ -100,7 +100,6 @@ void GCSControlGadgetWidget::rightStickClicked(double X, double Y) {
   */
 void GCSControlGadgetWidget::toggleControl(bool checked)
 {
-    toggleUDPControl(checked);
     m_gcscontrol->checkBoxUDPControl->setEnabled(checked);
     emit controlEnabled(checked);
 }
