@@ -51,8 +51,8 @@ public class HomePage extends ObjectManagerActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gcs_home);
+		super.onCreate(savedInstanceState);
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean advancedScreens = prefs.getBoolean("advanced_screens", false);
