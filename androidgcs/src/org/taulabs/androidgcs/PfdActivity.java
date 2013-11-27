@@ -27,31 +27,17 @@ import org.taulabs.androidgcs.fragments.PFD;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
 
 public class PfdActivity extends ObjectManagerActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		setContentView(R.layout.drawer);
 		super.onCreate(savedInstanceState);
-		setContentView(createUI());
-	}
 
-	private View createUI() {
-		LinearLayout layout = new LinearLayout(this);
-
-		layout.setOrientation(LinearLayout.HORIZONTAL);
-		layout.setLayoutParams(new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT));
-		layout.setId(0x101);
-		{
-			FragmentTransaction fragmentTransaction = getFragmentManager()
-					.beginTransaction();
-			fragmentTransaction.add(0x101, new PFD());
-			fragmentTransaction.commit();
-		}
-		return layout;
+		FragmentTransaction fragmentTransaction = getFragmentManager()
+				.beginTransaction();
+		fragmentTransaction.add(R.id.content_frame, new PFD());
+		fragmentTransaction.commit();
 	}
 }
