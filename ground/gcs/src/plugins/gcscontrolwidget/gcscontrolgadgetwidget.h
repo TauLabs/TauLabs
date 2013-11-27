@@ -42,6 +42,8 @@ class GCSControlGadgetWidget : public QLabel
 
 public:
     GCSControlGadgetWidget(QWidget *parent = 0);
+
+    void allowGcsControl(bool allow);
     void setGCSControl(bool newState);
     bool getGCSControl(void);
     void setUDPControl(bool newState);

@@ -132,6 +132,12 @@ void GCSControlGadgetWidget::selectFlightMode(int state)
     emit flightModeChangedLocaly((ManualControlSettings::FlightModePositionOptions)state);
 }
 
+//! Allow the GCS to take over control of UAV
+void GCSControlGadgetWidget::allowGcsControl(bool allow)
+{
+    m_gcscontrol->checkBoxGcsControl->setEnabled(allow);
+}
+
 void GCSControlGadgetWidget::setGCSControl(bool newState)
 {
     m_gcscontrol->checkBoxGcsControl->setChecked(newState);

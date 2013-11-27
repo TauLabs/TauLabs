@@ -77,9 +77,6 @@ private:
     //! Set the GCS Receiver object
     void setGcsReceiver(double leftX, double leftY, double rightX, double rightY);
 
-    //! Set the ManualControlCommand object
-    void setManualControl(double leftX, double leftY, double rightX, double rightY);
-
     QTime joystickTime;
     QWidget *m_widget;
     QList<int> m_context;
