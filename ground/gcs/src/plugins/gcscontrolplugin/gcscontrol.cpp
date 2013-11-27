@@ -84,12 +84,14 @@ bool GCSControl::beginGCSControl()
     metaBackup = manControlSettingsUAVO->getMetadata();
     ManualControlSettings::Metadata meta = manControlSettingsUAVO->getDefaultMetadata();
     UAVObject::SetGcsAccess(meta,UAVObject::ACCESS_READWRITE);
-    for(quint8 x = 0; x < ManualControlSettings::CHANNELGROUPS_NUMELEM; ++x)
+
+    const quint8 LAST_CHANNEL = ManualControlSettings::CHANNELGROUPS_FLIGHTMODE;
+    for(quint8 x = 0; x <= LAST_CHANNEL; ++x)
     {
+        // Assign this channel to GCS control
         manControlSettingsUAVO->setChannelGroups(x,ManualControlSettings::CHANNELGROUPS_GCS);
-    }
-    for(quint8 x = 0; x < ManualControlSettings::CHANNELNUMBER_NUMELEM; ++x)
-    {
+
+        // Set the ranges to match what the widget produces
         manControlSettingsUAVO->setChannelNumber(x,x+1);
         manControlSettingsUAVO->setChannelMax(x,CHANNEL_MAX);
         manControlSettingsUAVO->setChannelNeutral(x,CHANNEL_NEUTRAL);
