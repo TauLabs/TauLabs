@@ -82,7 +82,6 @@ void GCSControlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 
     controlsMode = GCSControlConfig->getControlsMode();
     gcsReceiverMode = GCSControlConfig->getGcsReceiverMode();
-
     m_widget->allowGcsControl(gcsReceiverMode);
 
     for (unsigned int i = 0; i < 8; i++)
@@ -125,8 +124,8 @@ GCSControl* GCSControlGadget::getGcsControl() {
 
 void GCSControlGadget::manualControlCommandUpdated(UAVObject * obj) {
 
-    // In GCS Receiver mode do not show the updates from ManualControl
-    if (gcsReceiverMode)
+    // Not sending then show updates from transmitter
+    if (!enableSending)
         return;
 
     double roll = obj->getField("Roll")->getDouble();
@@ -159,10 +158,7 @@ void GCSControlGadget::manualControlCommandUpdated(UAVObject * obj) {
   */
 void GCSControlGadget::sticksChangedLocally(double leftX, double leftY, double rightX, double rightY)
 {
-    if (!enableSending)
-        return;
-
-    if (gcsReceiverMode)
+    if (enableSending)
         setGcsReceiver(leftX, leftY, rightX, rightY);
 }
 
@@ -237,7 +233,7 @@ void GCSControlGadget::setGcsReceiver(double leftX, double leftY, double rightX,
 
 void GCSControlGadget::flightModeChanged(ManualControlSettings::FlightModePositionOptions mode)
 {
-    if(gcsReceiverMode)
+    if(enableSending)
         getGcsControl()->setFlightMode(mode);
 }
 
