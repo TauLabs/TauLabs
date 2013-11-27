@@ -54,10 +54,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -87,9 +90,11 @@ public abstract class ObjectManagerActivity extends Activity {
 	//! Maintain a list of all the UAVObject listeners for this activity
 	private HashMap<Observer, UAVObject> listeners;
 
-    private String[] mPlanetTitles;
+    private String[] mActivityTitles;
     private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
+    private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
 	/** Called when the activity is first created. */
@@ -97,18 +102,55 @@ public abstract class ObjectManagerActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.drawer);
+		// Note: This method expects that all activities that call it will create the
+		// components for the drawer
 
-		mPlanetTitles = getResources().getStringArray(R.array.activities_array);
+        mTitle = mDrawerTitle = getTitle();
+		mActivityTitles = getResources().getStringArray(R.array.activities_array);
+		Log.d(TAG, "Titles: " + mActivityTitles.length);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
+        // set a custom shadow that overlays the main content when the drawer opens
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		// Set the adapter for the list view
 		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-		         R.layout.drawer_list_item, mPlanetTitles));
-
+		         R.layout.drawer_list_item, mActivityTitles));
+        
 		// Set the list's click listener
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+        
+        // ActionBarDrawerToggle ties together the the proper interactions
+        // between the sliding drawer and the action bar app icon
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description for accessibility */
+                R.string.drawer_close  /* "close drawer" description for accessibility */
+                ) {
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                Log.d(TAG, "Closed");
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                Log.d(TAG, "Opened");
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        if (savedInstanceState == null) {
+            selectItem(0);
+        }
+
 	}
 
 	/**
@@ -605,6 +647,13 @@ public abstract class ObjectManagerActivity extends Activity {
 	/************* Deals with menus *****************/
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
+        // The action bar home/up action should open or close the drawer.
+        // ActionBarDrawerToggle will take care of this.
+       if (mDrawerToggle.onOptionsItemSelected(item)) {
+           return true;
+       }
+       
 		if (binder == null) {
 			Log.e(TAG, "Unable to connect to service");
 			return super.onOptionsItemSelected(item);
@@ -643,7 +692,7 @@ public abstract class ObjectManagerActivity extends Activity {
 			disconnectionButton.setEnabled(channelOpen).setVisible(channelOpen);
 		}
 
-		return true;
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	//! Get the current connection state
@@ -665,7 +714,7 @@ public abstract class ObjectManagerActivity extends Activity {
 		summary = (AlarmsSummary) menu.findItem(R.id.alarms_status).getActionView();
 		updateAlarmSummary();
 
-		return true;
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -694,4 +743,22 @@ public abstract class ObjectManagerActivity extends Activity {
     }
 
 
+    /**
+     * When using the ActionBarDrawerToggle, you must call it during
+     * onPostCreate() and onConfigurationChanged()...
+     */
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggls
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 }

@@ -17,6 +17,9 @@
 	<string name="preference_checkbox_bluetooth">Bluetooth</string>
 	<string name="preference_connection_method_summary">Select the connection method</string>
 	
+	<string name="drawer_open">Open Drawer</string>
+	<string name="drawer_close">Closer Drawer</string>
+	
 	<string name="compass_name">Compass</string>
 	<string name="cardinal_north">N</string>
 	<string name="cardinal_east">E</string>
