@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.taulabs.uavtalk.UAVObject;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -74,10 +75,28 @@ public class Map extends ObjectManagerActivity
     GeoPoint poiLocation;
 
     @Override public void onCreate(Bundle icicle) {
+		setContentView(R.layout.drawer);
 		super.onCreate(icicle);
-		setContentView(R.layout.map_layout);
-		mapFrag = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
+		
+
+		FragmentTransaction fragmentTransaction = getFragmentManager()
+				.beginTransaction();
+
+		mapFrag = MapFragment.newInstance();
+		if (mapFrag == null)
+			Log.d(TAG, "Unable to create map fragment");
+
+		fragmentTransaction.add(R.id.content_frame, mapFrag);
+		fragmentTransaction.commit();
+		getFragmentManager().executePendingTransactions();
+    }
+    
+    @Override public void onResume() {
+    	super.onResume();
 		mMap = mapFrag.getMap();
+
+		if (mMap == null)
+			Log.d(TAG, "Unable to get map");
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		int map_type = Integer.decode(prefs.getString("map_type", "1"));
