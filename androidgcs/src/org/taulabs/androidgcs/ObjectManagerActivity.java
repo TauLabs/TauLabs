@@ -35,6 +35,10 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import org.taulabs.androidgcs.drawer.NavDrawerAdapter;
+import org.taulabs.androidgcs.drawer.NavDrawerItem;
+import org.taulabs.androidgcs.drawer.NavMenuItem;
+import org.taulabs.androidgcs.drawer.NavMenuSection;
 import org.taulabs.androidgcs.fragments.ObjectManagerFragment;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.ConnectionState;
@@ -114,8 +118,17 @@ public abstract class ObjectManagerActivity extends Activity {
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		// Set the adapter for the list view
-		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-		         R.layout.drawer_list_item, mActivityTitles));
+        
+        NavDrawerItem[] menu = new NavDrawerItem[] {
+                NavMenuSection.create( 100, "Demos"),
+                NavMenuItem.create(101,"List/Detail (Fragment)", "navdrawer_friends", false, this),
+                NavMenuItem.create(102, "Airport (AsyncTask)", "navdrawer_airport", true, this), 
+                NavMenuSection.create(200, "General"),
+                NavMenuItem.create(202, "Rate this app", "navdrawer_rating", false, this),
+                NavMenuItem.create(203, "Eula", "navdrawer_eula", false, this), 
+                NavMenuItem.create(204, "Quit", "navdrawer_quit", false, this)};
+        NavDrawerAdapter list = new NavDrawerAdapter(this, R.layout.navdrawer_item, menu );
+		mDrawerList.setAdapter(list);
         
 		// Set the list's click listener
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -761,4 +774,6 @@ public abstract class ObjectManagerActivity extends Activity {
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+    
+    
 }
