@@ -1,104 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:setting_attributes="http://schemas.android.com/apk/res/org.taulabs.androidgcs"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <org.taulabs.androidgcs.views.ScrollBarView
-                android:id="@+id/rollRateKp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                setting_attributes:setting_name="Roll Rate Kp"
-                setting_attributes:max_value="0.01" />
-
-            <org.taulabs.androidgcs.views.ScrollBarView
-                android:id="@+id/pitchRateKp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                setting_attributes:setting_name="Pitch Rate Kp"
-                setting_attributes:max_value="0.01" />
-
-            <org.taulabs.androidgcs.views.ScrollBarView
-                android:id="@+id/rollRateKi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                setting_attributes:setting_name="Roll Rate Ki"
-                setting_attributes:max_value="0.05" />
-
-            <org.taulabs.androidgcs.views.ScrollBarView
-                android:id="@+id/pitchRateKi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                setting_attributes:setting_name="Pitch Rate Ki"
-                setting_attributes:max_value="0.05" />
-
-            <org.taulabs.androidgcs.views.ScrollBarView
-                android:id="@+id/rollKp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                setting_attributes:setting_name="Roll Kp"
-                setting_attributes:max_value="5" />
-
-            <org.taulabs.androidgcs.views.ScrollBarView
-                android:id="@+id/pitchKp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                setting_attributes:setting_name="Pitch Kp"
-                setting_attributes:max_value="5" />
-            
-            <org.taulabs.androidgcs.views.ScrollBarView
-                android:id="@+id/rollRateKd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                setting_attributes:setting_name="Roll Rate Kd"
-                setting_attributes:max_value="0.001" />
-
-            <org.taulabs.androidgcs.views.ScrollBarView
-                android:id="@+id/pitchRateKd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                setting_attributes:setting_name="Pitch Rate Kd"
-                setting_attributes:max_value="0.001" />
-
-        </LinearLayout>
-    </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right" >
-
-        <Button
-            android:id="@+id/loadBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/load" />
-        
-        <Button
-            android:id="@+id/applyBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/apply" />
-
-        <Button
-            android:id="@+id/saveBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save" />
-
-    </LinearLayout>
-
-</LinearLayout>
-
+    android:layout_height="match_parent">
+    
+    <!-- The main content view -->
+	<LinearLayout
+	    android:id="@+id/content_frame"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical" >
+	
+	    <ScrollView
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+	
+	        <LinearLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="vertical" >
+	
+	            <org.taulabs.androidgcs.views.ScrollBarView
+	                android:id="@+id/rollRateKp"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                setting_attributes:setting_name="Roll Rate Kp"
+	                setting_attributes:max_value="0.01" />
+	
+	            <org.taulabs.androidgcs.views.ScrollBarView
+	                android:id="@+id/pitchRateKp"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                setting_attributes:setting_name="Pitch Rate Kp"
+	                setting_attributes:max_value="0.01" />
+	
+	            <org.taulabs.androidgcs.views.ScrollBarView
+	                android:id="@+id/rollRateKi"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                setting_attributes:setting_name="Roll Rate Ki"
+	                setting_attributes:max_value="0.05" />
+	
+	            <org.taulabs.androidgcs.views.ScrollBarView
+	                android:id="@+id/pitchRateKi"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                setting_attributes:setting_name="Pitch Rate Ki"
+	                setting_attributes:max_value="0.05" />
+	
+	            <org.taulabs.androidgcs.views.ScrollBarView
+	                android:id="@+id/rollKp"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                setting_attributes:setting_name="Roll Kp"
+	                setting_attributes:max_value="5" />
+	
+	            <org.taulabs.androidgcs.views.ScrollBarView
+	                android:id="@+id/pitchKp"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                setting_attributes:setting_name="Pitch Kp"
+	                setting_attributes:max_value="5" />
+	            
+	            <org.taulabs.androidgcs.views.ScrollBarView
+	                android:id="@+id/rollRateKd"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                setting_attributes:setting_name="Roll Rate Kd"
+	                setting_attributes:max_value="0.001" />
+	
+	            <org.taulabs.androidgcs.views.ScrollBarView
+	                android:id="@+id/pitchRateKd"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                setting_attributes:setting_name="Pitch Rate Kd"
+	                setting_attributes:max_value="0.001" />
+	
+	        </LinearLayout>
+	    </ScrollView>
+	
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="right" >
+	
+	        <Button
+	            android:id="@+id/loadBtn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/load" />
+	        
+	        <Button
+	            android:id="@+id/applyBtn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/apply" />
+	
+	        <Button
+	            android:id="@+id/saveBtn"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/save" />
+	
+	    </LinearLayout>
+	
+	</LinearLayout>
+	
+    <!-- The navigation drawer -->
+    <ListView android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#111"/>
+</android.support.v4.widget.DrawerLayout>

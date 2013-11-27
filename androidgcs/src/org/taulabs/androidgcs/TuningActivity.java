@@ -42,9 +42,10 @@ public class TuningActivity extends ObjectManagerActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tuning);
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
