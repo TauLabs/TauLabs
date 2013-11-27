@@ -85,8 +85,12 @@ bool GCSControl::beginGCSControl()
     ManualControlSettings::Metadata meta = manControlSettingsUAVO->getDefaultMetadata();
     UAVObject::SetGcsAccess(meta,UAVObject::ACCESS_READWRITE);
 
+    // No need to set flight mode, we leave that at none and directly change
+    // the setting
     const quint8 LAST_CHANNEL = ManualControlSettings::CHANNELGROUPS_FLIGHTMODE;
-    for(quint8 x = 0; x <= LAST_CHANNEL; ++x)
+    manControlSettingsUAVO->setChannelGroups(ManualControlSettings::CHANNELGROUPS_FLIGHTMODE,
+                                             ManualControlSettings::CHANNELGROUPS_NONE);
+    for(quint8 x = 0; x < LAST_CHANNEL; ++x)
     {
         // Assign this channel to GCS control
         manControlSettingsUAVO->setChannelGroups(x,ManualControlSettings::CHANNELGROUPS_GCS);
