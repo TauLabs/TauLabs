@@ -48,7 +48,7 @@
 <!--                 android:resource="@xml/device_filter" /> -->
 		</activity>
 
-		<activity android:name="AttitudeAdjustment" android:label="@string/home_adjustment" />
+		<activity android:name="HomeAdjustment" android:label="@string/home_adjustment" />
 		<activity android:name="ObjectBrowser" android:label="@string/object_browser_name" />
 
 		<activity android:name="Controller" android:label="@string/controller_name" 

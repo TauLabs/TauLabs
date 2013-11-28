@@ -48,7 +48,7 @@ public class HomeAdjustment extends ObjectManagerActivity {
 	@Override
 	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
 		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
-		navDrawer.setMainLayout(R.layout.attitude_adjustment);
+		navDrawer.setMainLayout(R.layout.home_adjustment);
 		return navDrawer;
 	}
 	
