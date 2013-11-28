@@ -57,6 +57,8 @@ import org.taulabs.uavtalk.UAVObjectField;
 import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -98,58 +100,58 @@ public abstract class ObjectManagerActivity extends Activity {
 	//! Maintain a list of all the UAVObject listeners for this activity
 	private HashMap<Observer, UAVObject> listeners;
 
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private ListView mDrawerList;
-    private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
+	private DrawerLayout mDrawerLayout;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private ListView mDrawerList;
+	private CharSequence mDrawerTitle;
+	private CharSequence mTitle;
 
 	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        navConf = getNavDrawerConfiguration();
-        setContentView(navConf.getMainLayout());
+		navConf = getNavDrawerConfiguration();
+		setContentView(navConf.getMainLayout());
 
-        mTitle = mDrawerTitle = getTitle();
+		mTitle = mDrawerTitle = getTitle();
 
 		mDrawerLayout = (DrawerLayout) findViewById(navConf.getDrawerLayoutId());
-        mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
-        
-        mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
-        mDrawerList.setAdapter(navConf.getBaseAdapter());
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+		mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
+
+		mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
+		mDrawerList.setAdapter(navConf.getBaseAdapter());
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-		
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
 		this.initDrawerShadow();
 
-        // enable ActionBar app icon to behave as action to toggle nav drawer
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-        
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawerLayout,
-                getDrawerIcon(),
-                navConf.getDrawerOpenDesc(),
-                navConf.getDrawerCloseDesc()
-                ) {
-            public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu();
-            }
+		// enable ActionBar app icon to behave as action to toggle nav drawer
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
 
-            public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu();
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+		mDrawerToggle = new ActionBarDrawerToggle(
+				this,
+				mDrawerLayout,
+				getDrawerIcon(),
+				navConf.getDrawerOpenDesc(),
+				navConf.getDrawerCloseDesc()
+				) {
+			public void onDrawerClosed(View view) {
+				getActionBar().setTitle(mTitle);
+				invalidateOptionsMenu();
+			}
 
-        if (savedInstanceState == null) {
-            selectItem(0);
-        }
+			public void onDrawerOpened(View drawerView) {
+				getActionBar().setTitle(mDrawerTitle);
+				invalidateOptionsMenu();
+			}
+		};
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		if (savedInstanceState == null) {
+			selectItem(0);
+		}
 
 	}
 
@@ -439,7 +441,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	 * Register to listen to a single object from a fragment
 	 * @param object The object to listen to updates from
 	 * @param frag The fragment who should be notified
- 	 * the objectUpdated() method will be called in the original UI thread
+	 * the objectUpdated() method will be called in the original UI thread
 	 */
 	public void registerObjectUpdates(UAVObject object,
 			ObjectManagerFragment frag) {
@@ -452,7 +454,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	/**
 	 * Register an activity to receive updates from this object
 	 * @param object The object the activity should listen to updates from
- 	 * the objectUpdated() method will be called in the original UI thread
+	 * the objectUpdated() method will be called in the original UI thread
 	 */
 	protected void registerObjectUpdates(UAVObject object) {
 		Observer o = new ActivityUpdatedObserver(object);
@@ -647,13 +649,13 @@ public abstract class ObjectManagerActivity extends Activity {
 	/************* Deals with menus *****************/
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
-        // The action bar home/up action should open or close the drawer.
-        // ActionBarDrawerToggle will take care of this.
-       if (mDrawerToggle.onOptionsItemSelected(item)) {
-           return true;
-       }
-       
+
+		// The action bar home/up action should open or close the drawer.
+		// ActionBarDrawerToggle will take care of this.
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+
 		if (binder == null) {
 			Log.e(TAG, "Unable to connect to service");
 			return super.onOptionsItemSelected(item);
@@ -723,121 +725,163 @@ public abstract class ObjectManagerActivity extends Activity {
 		updateTelemetryStats();
 		return true;
 	}
-	
+
 	/************ Deals with drawer navigation ************/
 	private NavDrawerActivityConfiguration navConf ;
 	protected abstract NavDrawerActivityConfiguration getNavDrawerConfiguration();
-    protected NavDrawerActivityConfiguration getDefaultNavDrawerConfiguration() {
+	protected NavDrawerActivityConfiguration getDefaultNavDrawerConfiguration() {
 
-        NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
-        navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
-        navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
-        navDrawerActivityConfiguration.setDrawerShadow(R.drawable.drawer_shadow);       
-        navDrawerActivityConfiguration.setDrawerOpenDesc(R.string.drawer_open);
-        navDrawerActivityConfiguration.setDrawerCloseDesc(R.string.drawer_close);
+		NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
+		navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
+		navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
+		navDrawerActivityConfiguration.setDrawerShadow(R.drawable.drawer_shadow);       
+		navDrawerActivityConfiguration.setDrawerOpenDesc(R.string.drawer_open);
+		navDrawerActivityConfiguration.setDrawerCloseDesc(R.string.drawer_close);
 
-        // The main two things that can be overridden are the layout (must be) and the menu options
+		// The main two things that can be overridden are the layout (must be) and the menu options
 
-        //navDrawerActivityConfiguration.setMainLayout(R.layout.main);
+		//navDrawerActivityConfiguration.setMainLayout(R.layout.main);
 
-        // Set up the menu
-        NavDrawerItem[] menu = new NavDrawerItem[] {
-                NavMenuSection.create( 100, "Main Screens"),
-                NavMenuItem.create(101, "PFD", "ic_pfd", false, this),
-                NavMenuItem.create(102, "Map", "ic_map", true, this),
-                NavMenuItem.create(103, "Alarms", "ic_alarms", true, this),
-                NavMenuActivity.create(104, "Tuning", "ic_tuning", TuningActivity.class, true, this),
-                NavMenuActivity.create(105, "Home Adjustment", "ic_map", AttitudeAdjustment.class, true, this),
-                NavMenuActivity.create(106, "Browser", "ic_browser", ObjectBrowser.class, true, this),
-                NavMenuActivity.create(107, "Logging", "ic_logging", Logger.class, true, this),
-                NavMenuActivity.create(108, "Tablet Control", "ic_tabletcontrol", TableControl.class, true, this),
-                NavMenuActivity.create(109, "OSG", "ic_osg", OsgViewer.class, true, this),
-        };
+		// Set up the menu
+		NavDrawerItem[] menu = new NavDrawerItem[] {
+				NavMenuSection.create( 100, "Main Screens"),
+				NavMenuItem.create(101, "PFD", "ic_pfd", false, this),
+				NavMenuItem.create(102, "Map", "ic_map", true, this),
+				NavMenuItem.create(103, "Alarms", "ic_alarms", true, this),
+				NavMenuActivity.create(104, "Tuning", "ic_tuning", TuningActivity.class, true, this),
+				NavMenuActivity.create(105, "Home Adjustment", "ic_map", HomeAdjustment.class, true, this),
+				NavMenuActivity.create(106, "Browser", "ic_browser", ObjectBrowser.class, true, this),
+				NavMenuActivity.create(107, "Logging", "ic_logging", Logger.class, true, this),
+				NavMenuActivity.create(108, "Tablet Control", "ic_tabletcontrol", TableControl.class, true, this),
+				NavMenuActivity.create(109, "OSG", "ic_osg", OsgViewer.class, true, this),
+		};
 
-        navDrawerActivityConfiguration.setNavItems(menu);
-        navDrawerActivityConfiguration.setBaseAdapter(
-            new NavDrawerAdapter(this, R.layout.navdrawer_item, menu ));
+		navDrawerActivityConfiguration.setNavItems(menu);
+		navDrawerActivityConfiguration.setBaseAdapter(
+				new NavDrawerAdapter(this, R.layout.navdrawer_item, menu ));
 
-        return navDrawerActivityConfiguration;
-    }
+		return navDrawerActivityConfiguration;
+	}
 
-    protected void initDrawerShadow() {
-        mDrawerLayout.setDrawerShadow(navConf.getDrawerShadow(), GravityCompat.START);
-    }
-    
-    protected int getDrawerIcon() {
-        return R.drawable.ic_drawer;
-    }
+	protected void initDrawerShadow() {
+		mDrawerLayout.setDrawerShadow(navConf.getDrawerShadow(), GravityCompat.START);
+	}
 
-    /* The click listener for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
+	protected int getDrawerIcon() {
+		return R.drawable.ic_drawer;
+	}
 
-    private void selectItem(int position) {
-    	 NavDrawerItem selectedItem = navConf.getNavItems()[position];
-    	 
-    	 if (selectedItem.getType() == NavMenuActivity.ACTIVITY_TYPE) {
-    		 NavMenuActivity launcherItem = (NavMenuActivity) selectedItem;
-	         if (launcherItem.getLaunchClass() != null) {
-	        	 Log.d(TAG, "ID: " + selectedItem.getId() + " " + selectedItem.getLabel() + " position: " + position);
-	        	 startActivity(new Intent(this, launcherItem.getLaunchClass()));
-	         }
-    	 }
-    	 
-    	 if (selectedItem.getType() == NavMenuItem.ITEM_TYPE) {
-    		 int id = (int) selectedItem.getId();
-    		 switch (id) {
-    	        case 101:
-    	            getFragmentManager().beginTransaction().replace(R.id.content_frame, new PFD()).commit();
-    	            break;
-    	        case 102:
-    	            getFragmentManager().beginTransaction().replace(R.id.content_frame, new Map()).commit();
-    	            break;
-    	        case 103:
-    	            getFragmentManager().beginTransaction().replace(R.id.content_frame, new SystemAlarmsFragment()).commit();
-    	            break;
-    	        }
-    	 }
-         mDrawerList.setItemChecked(position, true);
+	/* The click listener for ListView in the navigation drawer */
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			selectItem(position);
+		}
+	}
 
-         if ( selectedItem.updateActionBarTitle()) {
-             setTitle(selectedItem.getLabel());
-         }
-         
-         if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
-             mDrawerLayout.closeDrawer(mDrawerList);
-         }
-    }
+	protected Fragment getFragmentById(int id) {
+		switch (id) {
+		case 101:
+			return new PFD();
+		case 102:
+			return new Map();
+		case 103:
+			return new SystemAlarmsFragment();
+		}
+		return null;
+	}
+	
+	private void selectItem(int position) {
+		
+		NavDrawerItem selectedItem = navConf.getNavItems()[position];
 
-    @Override
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-        getActionBar().setTitle(mTitle);
-    }
+		if (selectedItem.getType() == NavMenuActivity.ACTIVITY_TYPE) {
+			NavMenuActivity launcherItem = (NavMenuActivity) selectedItem;
+			if (launcherItem.getLaunchClass() != null) {
+				Log.d(TAG, "ID: " + selectedItem.getId() + " " + selectedItem.getLabel() + " position: " + position);
+
+				mDrawerList.setItemChecked(position, true);
+
+				if ( selectedItem.updateActionBarTitle()) {
+					setTitle(selectedItem.getLabel());
+				}
+
+				if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
+					mDrawerLayout.closeDrawer(mDrawerList);
+				}
+
+				startActivity(new Intent(this, launcherItem.getLaunchClass()));
+			}
+		}
+
+		if (selectedItem.getType() == NavMenuItem.ITEM_TYPE) {
+			// In this case we plan to just replace the main content fragment, if it exists.
+
+			if (findViewById(R.id.content_frame) == null) {
+				// If not the new main activity should be activated.
+
+				Intent mainScreen = new Intent(this, MainActivity.class);
+				Bundle b = new Bundle();
+				b.putInt("ContentFrag", selectedItem.getId()); //Your id
+				mainScreen.putExtras(b);
+				startActivity(mainScreen);
+				
+				mDrawerList.setItemChecked(position, true);
+
+				if ( selectedItem.updateActionBarTitle()) {
+					setTitle(selectedItem.getLabel());
+				}
+
+				if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
+					mDrawerLayout.closeDrawer(mDrawerList);
+				}
+				return;
+			}
+
+			int id = (int) selectedItem.getId();
+			FragmentTransaction trans = getFragmentManager().beginTransaction();
+			trans.replace(R.id.content_frame, getFragmentById(id));
+			trans.addToBackStack(null);
+			trans.commit();
+			
+		}
+		
+		mDrawerList.setItemChecked(position, true);
+
+		if ( selectedItem.updateActionBarTitle()) {
+			setTitle(selectedItem.getLabel());
+		}
+
+		if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
+			mDrawerLayout.closeDrawer(mDrawerList);
+		}
+	}
+
+	@Override
+	public void setTitle(CharSequence title) {
+		mTitle = title;
+		getActionBar().setTitle(mTitle);
+	}
 
 
-    /**
-     * When using the ActionBarDrawerToggle, you must call it during
-     * onPostCreate() and onConfigurationChanged()...
-     */
+	/**
+	 * When using the ActionBarDrawerToggle, you must call it during
+	 * onPostCreate() and onConfigurationChanged()...
+	 */
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
-    }
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
+	}
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-    
-    
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// Pass any configuration change to the drawer toggls
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+
 }

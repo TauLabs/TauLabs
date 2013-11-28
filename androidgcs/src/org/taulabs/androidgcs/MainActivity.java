@@ -26,6 +26,7 @@ package org.taulabs.androidgcs;
 import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.androidgcs.fragments.PFD;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 
@@ -35,9 +36,18 @@ public class MainActivity extends ObjectManagerActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Fragment contentFrag;
+		Bundle b = getIntent().getExtras();
+		if (b == null) {
+			contentFrag = new PFD();
+		} else {
+			int id = b.getInt("ContentFrag");
+			contentFrag = getFragmentById(id);
+		}
+
 		FragmentTransaction fragmentTransaction = getFragmentManager()
 				.beginTransaction();
-		fragmentTransaction.add(R.id.content_frame, new PFD());
+		fragmentTransaction.add(R.id.content_frame, contentFrag);
 		fragmentTransaction.commit();
 	}
 
