@@ -29,7 +29,6 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 
@@ -42,8 +41,8 @@ public class AttitudeAdjustment extends ObjectManagerActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		setContentView(R.layout.attitude_adjustment);
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
