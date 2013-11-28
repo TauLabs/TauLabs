@@ -35,11 +35,13 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.androidgcs.drawer.NavDrawerAdapter;
 import org.taulabs.androidgcs.drawer.NavDrawerItem;
 import org.taulabs.androidgcs.drawer.NavMenuItem;
 import org.taulabs.androidgcs.drawer.NavMenuSection;
 import org.taulabs.androidgcs.fragments.ObjectManagerFragment;
+import org.taulabs.androidgcs.fragments.PFD;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.ConnectionState;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.LocalBinder;
@@ -119,19 +121,13 @@ public abstract class ObjectManagerActivity extends Activity {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		// Set the adapter for the list view
         
-        NavDrawerItem[] menu = new NavDrawerItem[] {
-                NavMenuSection.create( 100, "Demos"),
-                NavMenuItem.create(101,"List/Detail (Fragment)", "navdrawer_friends", false, this),
-                NavMenuItem.create(102, "Airport (AsyncTask)", "navdrawer_airport", true, this), 
-                NavMenuSection.create(200, "General"),
-                NavMenuItem.create(202, "Rate this app", "navdrawer_rating", false, this),
-                NavMenuItem.create(203, "Eula", "navdrawer_eula", false, this), 
-                NavMenuItem.create(204, "Quit", "navdrawer_quit", false, this)};
-        NavDrawerAdapter list = new NavDrawerAdapter(this, R.layout.navdrawer_item, menu );
-		mDrawerList.setAdapter(list);
-        
-		// Set the list's click listener
+        navConf = getDefaultNavDrawerConfiguration();
+        mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
+        mDrawerList.setAdapter(navConf.getBaseAdapter());
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+		
+		this.initDrawerShadow();
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -738,6 +734,45 @@ public abstract class ObjectManagerActivity extends Activity {
 	}
 	
 	/************ Deals with drawer navigation ************/
+	private NavDrawerActivityConfiguration navConf ;
+
+    protected NavDrawerActivityConfiguration getDefaultNavDrawerConfiguration() {
+
+        NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
+        navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
+        navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
+        navDrawerActivityConfiguration.setDrawerShadow(R.drawable.drawer_shadow);       
+        navDrawerActivityConfiguration.setDrawerOpenDesc(R.string.drawer_open);
+        navDrawerActivityConfiguration.setDrawerCloseDesc(R.string.drawer_close);
+
+        // The main two things that can be overridden are the layout (must be) and the menu options
+
+        //navDrawerActivityConfiguration.setMainLayout(R.layout.main);
+
+        // Set up the menu
+        NavDrawerItem[] menu = new NavDrawerItem[] {
+                NavMenuSection.create( 100, "Main Screens"),
+                NavMenuItem.create(101,"PFD", "ic_pfd", PfdActivity.class, false, this),
+                NavMenuItem.create(102, "Map", "ic_map", Map.class, true, this),
+                NavMenuItem.create(104, "Alarms", "ic_alarms", SystemAlarmActivity.class, true, this),
+                NavMenuItem.create(104, "Tuning", "ic_alarms", TuningActivity.class, true, this),
+                NavMenuItem.create(104, "Attitude Adjustment", "ic_tuning", AttitudeAdjustment.class, true, this),
+                NavMenuItem.create(103, "Browser", "ic_tuning", ObjectBrowser.class, true, this),
+                NavMenuItem.create(105, "Logging", "ic_logging", Logger.class, true, this),
+                NavMenuItem.create(105, "Tablet Control", "ic_tabletcontrol", TableControl.class, true, this),
+        };
+
+        navDrawerActivityConfiguration.setNavItems(menu);
+        navDrawerActivityConfiguration.setBaseAdapter(
+            new NavDrawerAdapter(this, R.layout.navdrawer_item, menu ));
+
+        return navDrawerActivityConfiguration;
+    }
+
+    protected void initDrawerShadow() {
+        mDrawerLayout.setDrawerShadow(navConf.getDrawerShadow(), GravityCompat.START);
+    }
+
     /* The click listner for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -747,6 +782,24 @@ public abstract class ObjectManagerActivity extends Activity {
     }
 
     private void selectItem(int position) {
+    	 NavDrawerItem selectedItem = navConf.getNavItems()[position];
+    	 
+    	 if (selectedItem.getType() == NavMenuItem.ITEM_TYPE) {
+    		 NavMenuItem launcherItem = (NavMenuItem) selectedItem;
+	         if (launcherItem.getLaunchClass() != null) {
+	        	 Log.d(TAG, "ID: " + selectedItem.getId() + " " + selectedItem.getLabel() + " position: " + position);
+	        	 startActivity(new Intent(this, launcherItem.getLaunchClass()));
+	         }
+    	 }
+         mDrawerList.setItemChecked(position, true);
+
+         if ( selectedItem.updateActionBarTitle()) {
+             setTitle(selectedItem.getLabel());
+         }
+         
+         if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
+             mDrawerLayout.closeDrawer(mDrawerList);
+         }
     }
 
     @Override
