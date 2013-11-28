@@ -22,6 +22,7 @@
  */
 package org.taulabs.androidgcs;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.uavtalk.UAVObject;
 
 import android.content.Context;
@@ -41,10 +42,16 @@ public class AttitudeAdjustment extends ObjectManagerActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.attitude_adjustment);
 		super.onCreate(savedInstanceState);
 	}
 
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.attitude_adjustment);
+		return navDrawer;
+	}
+	
 	@Override
 	public void objectUpdated(UAVObject obj) {
 	}

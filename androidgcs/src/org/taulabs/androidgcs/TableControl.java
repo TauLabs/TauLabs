@@ -25,6 +25,7 @@ package org.taulabs.androidgcs;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;
 
@@ -43,7 +44,6 @@ public class TableControl extends ObjectManagerActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tablet_control);
 
 		((RadioGroup) findViewById(R.id.modeSelector1)).setOnCheckedChangeListener(ToggleListener);
 
@@ -54,7 +54,14 @@ public class TableControl extends ObjectManagerActivity {
 		modesToId.add("FollowMe",R.id.followTabletButton);
 		modesToId.add("Land",R.id.landButton);
 	}
-
+	
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.tablet_control);
+		return navDrawer;
+	}
+	
 	@Override
 	void onOPConnected() {
 		super.onOPConnected();

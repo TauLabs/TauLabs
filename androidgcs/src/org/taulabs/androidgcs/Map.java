@@ -26,6 +26,7 @@ package org.taulabs.androidgcs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.uavtalk.UAVObject;
 
 import android.app.FragmentTransaction;
@@ -75,7 +76,6 @@ public class Map extends ObjectManagerActivity
     GeoPoint poiLocation;
 
     @Override public void onCreate(Bundle icicle) {
-		setContentView(R.layout.drawer);
 		super.onCreate(icicle);
 		
 
@@ -90,7 +90,7 @@ public class Map extends ObjectManagerActivity
 		fragmentTransaction.commit();
 		getFragmentManager().executePendingTransactions();
     }
-    
+	
     @Override public void onResume() {
     	super.onResume();
 		mMap = mapFrag.getMap();
@@ -359,4 +359,12 @@ public class Map extends ObjectManagerActivity
 	            return super.onContextItemSelected(item);
 	    }
 	}
+
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.drawer);
+		return navDrawer;
+	}
+	
 }

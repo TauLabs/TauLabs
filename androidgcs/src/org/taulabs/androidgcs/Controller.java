@@ -29,6 +29,7 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.uavtalk.UAVDataObject;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;
@@ -73,7 +74,6 @@ public class Controller extends ObjectManagerActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.controller);
 		super.onCreate(savedInstanceState);
 
 		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -82,6 +82,13 @@ public class Controller extends ObjectManagerActivity {
 			orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 		setRequestedOrientation(orientation);
 		//setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+	}
+
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.controller);
+		return navDrawer;
 	}
 
 	@Override

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.osg.ColorPickerDialog;
 import org.taulabs.osg.EGLview;
 import org.taulabs.osg.osgNativeLib;
@@ -93,7 +94,7 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
     //Main Android Activity life cycle
     @SuppressLint("ShowToast") @Override protected void onCreate(Bundle icicle) {
     	super.onCreate(icicle);
-    	setContentView(R.layout.ui_layout_gles);
+
     	//Obtain every Ui element
     	mView= (EGLview) findViewById(R.id.surfaceGLES);
     	mView.setOnTouchListener(this);
@@ -121,6 +122,14 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
     	}
     	Log.d(TAG, "Create");
     }
+    
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.ui_layout_gles);
+		return navDrawer;
+	}
+	
     @Override protected void onPause() {
         super.onPause();
         mView.onPause();

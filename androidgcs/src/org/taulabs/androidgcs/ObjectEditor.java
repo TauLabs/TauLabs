@@ -25,6 +25,7 @@ package org.taulabs.androidgcs;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.androidgcs.util.SmartSave;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;
@@ -48,7 +49,6 @@ public class ObjectEditor extends ObjectManagerActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.object_editor);
 
 		// TODO: Figure out why this line is required so it doesn't
 		// have to be set programmatically
@@ -65,7 +65,14 @@ public class ObjectEditor extends ObjectManagerActivity {
 		TextView objNameLbl = (TextView) findViewById(R.id.object_edit_object_name);
 		objNameLbl.setText(objectName);
 	}
-
+	
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.object_editor);
+		return navDrawer;
+	}
+	
 	@Override
 	public void onOPConnected() {
 		UAVObject obj = objMngr.getObject(objectID, instID);

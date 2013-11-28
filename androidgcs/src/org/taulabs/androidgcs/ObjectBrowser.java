@@ -29,6 +29,7 @@ import java.util.ListIterator;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.uavtalk.UAVDataObject;
 import org.taulabs.uavtalk.UAVObject;
 
@@ -79,7 +80,6 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.object_browser);
 		super.onCreate(savedInstanceState);
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -88,7 +88,14 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 		 ((CheckBox) findViewById(R.id.dataCheck)).setChecked(prefs.getBoolean("browser_show_data",true));
 		 ((CheckBox) findViewById(R.id.settingsCheck)).setChecked(prefs.getBoolean("browser_show_settings",true));
 	}
-
+	
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.object_browser);
+		return navDrawer;
+	}
+	
 	@Override
 	void onOPConnected() {
 		super.onOPConnected();

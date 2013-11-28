@@ -23,6 +23,7 @@
 
 package org.taulabs.androidgcs;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.androidgcs.fragments.PFD;
 
 import android.app.FragmentTransaction;
@@ -32,12 +33,18 @@ public class PfdActivity extends ObjectManagerActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.drawer);
 		super.onCreate(savedInstanceState);
 
 		FragmentTransaction fragmentTransaction = getFragmentManager()
 				.beginTransaction();
 		fragmentTransaction.add(R.id.content_frame, new PFD());
 		fragmentTransaction.commit();
+	}
+
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.drawer);
+		return navDrawer;
 	}
 }

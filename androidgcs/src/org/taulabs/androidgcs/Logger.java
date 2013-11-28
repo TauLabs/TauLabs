@@ -28,6 +28,7 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.TelemTask;
 import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
 import org.taulabs.uavtalk.UAVObject;
@@ -60,7 +61,6 @@ public class Logger extends ObjectManagerActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.logger);
 		super.onCreate(savedInstanceState);
 
 		fileList.clear();
@@ -91,6 +91,13 @@ public class Logger extends ObjectManagerActivity {
 
 	}
 
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.logger);
+		return navDrawer;
+	}
+	
 	//! Return the file list view
 	private ListView getFileListView() {
 		return (ListView) findViewById(R.id.logger_file_list);

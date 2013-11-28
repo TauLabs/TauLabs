@@ -23,6 +23,7 @@
 
 package org.taulabs.androidgcs;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.androidgcs.util.SmartSave;
 import org.taulabs.androidgcs.views.ScrollBarView;
 import org.taulabs.uavtalk.UAVDataObject;
@@ -42,12 +43,18 @@ public class TuningActivity extends ObjectManagerActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.tuning);
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 		super.onCreate(savedInstanceState);
 	}
-
+	
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.tuning);
+		return navDrawer;
+	}
+	
 	@Override
 	void onOPConnected() {
 		super.onOPConnected();

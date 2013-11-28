@@ -41,7 +41,6 @@ import org.taulabs.androidgcs.drawer.NavDrawerItem;
 import org.taulabs.androidgcs.drawer.NavMenuItem;
 import org.taulabs.androidgcs.drawer.NavMenuSection;
 import org.taulabs.androidgcs.fragments.ObjectManagerFragment;
-import org.taulabs.androidgcs.fragments.PFD;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.ConnectionState;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.LocalBinder;
@@ -73,7 +72,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public abstract class ObjectManagerActivity extends Activity {
@@ -96,7 +94,6 @@ public abstract class ObjectManagerActivity extends Activity {
 	//! Maintain a list of all the UAVObject listeners for this activity
 	private HashMap<Observer, UAVObject> listeners;
 
-    private String[] mActivityTitles;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView mDrawerList;
@@ -108,20 +105,14 @@ public abstract class ObjectManagerActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Note: This method expects that all activities that call it will create the
-		// components for the drawer
+        navConf = getNavDrawerConfiguration();
+        setContentView(navConf.getMainLayout());
 
         mTitle = mDrawerTitle = getTitle();
-		mActivityTitles = getResources().getStringArray(R.array.activities_array);
-		Log.d(TAG, "Titles: " + mActivityTitles.length);
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        // set a custom shadow that overlays the main content when the drawer opens
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-		// Set the adapter for the list view
+		mDrawerLayout = (DrawerLayout) findViewById(navConf.getDrawerLayoutId());
+        mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
         
-        navConf = getDefaultNavDrawerConfiguration();
         mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
         mDrawerList.setAdapter(navConf.getBaseAdapter());
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -133,25 +124,21 @@ public abstract class ObjectManagerActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
         mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
+                this,
+                mDrawerLayout,
+                getDrawerIcon(),
+                navConf.getDrawerOpenDesc(),
+                navConf.getDrawerCloseDesc()
                 ) {
             public void onDrawerClosed(View view) {
                 getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-                Log.d(TAG, "Closed");
+                invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
                 getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-                Log.d(TAG, "Opened");
+                invalidateOptionsMenu();
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -735,7 +722,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	
 	/************ Deals with drawer navigation ************/
 	private NavDrawerActivityConfiguration navConf ;
-
+	protected abstract NavDrawerActivityConfiguration getNavDrawerConfiguration();
     protected NavDrawerActivityConfiguration getDefaultNavDrawerConfiguration() {
 
         NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
@@ -771,6 +758,10 @@ public abstract class ObjectManagerActivity extends Activity {
 
     protected void initDrawerShadow() {
         mDrawerLayout.setDrawerShadow(navConf.getDrawerShadow(), GravityCompat.START);
+    }
+    
+    protected int getDrawerIcon() {
+        return R.drawable.ic_drawer;
     }
 
     /* The click listner for ListView in the navigation drawer */
