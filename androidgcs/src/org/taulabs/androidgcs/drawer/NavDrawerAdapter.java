@@ -25,11 +25,43 @@ public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
         NavDrawerItem menuItem = this.getItem(position);
         if ( menuItem.getType() == NavMenuItem.ITEM_TYPE ) {
             view = getItemView(convertView, parent, menuItem );
+        } 
+        else if ( menuItem.getType() == NavMenuActivity.ACTIVITY_TYPE ) {
+            view = getActivityView(convertView, parent, menuItem );
         }
-        else {
+        else if ( menuItem.getType() == NavMenuSection.SECTION_TYPE){
             view = getSectionView(convertView, parent, menuItem);
         }
         return view ;
+    }
+    
+    public View getActivityView( View convertView, ViewGroup parentView, NavDrawerItem navDrawerItem ) {
+        
+        NavMenuActivity menuItem = (NavMenuActivity) navDrawerItem ;
+        NavMenuItemHolder navMenuItemHolder = null;
+        
+        if (convertView == null) {
+            convertView = inflater.inflate( R.layout.navdrawer_item, parentView, false);
+            TextView labelView = (TextView) convertView
+                    .findViewById( R.id.navmenuitem_label );
+            ImageView iconView = (ImageView) convertView
+                    .findViewById( R.id.navmenuitem_icon );
+
+            navMenuItemHolder = new NavMenuItemHolder();
+            navMenuItemHolder.labelView = labelView ;
+            navMenuItemHolder.iconView = iconView ;
+
+            convertView.setTag(navMenuItemHolder);
+        }
+
+        if ( navMenuItemHolder == null ) {
+            navMenuItemHolder = (NavMenuItemHolder) convertView.getTag();
+        }
+                    
+        navMenuItemHolder.labelView.setText(menuItem.getLabel());
+        navMenuItemHolder.iconView.setImageResource(menuItem.getIcon());
+        
+        return convertView ;
     }
     
     public View getItemView( View convertView, ViewGroup parentView, NavDrawerItem navDrawerItem ) {
@@ -88,7 +120,7 @@ public class NavDrawerAdapter extends ArrayAdapter<NavDrawerItem> {
     
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 3;
     }
     
     @Override

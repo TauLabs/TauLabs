@@ -38,7 +38,7 @@ import java.util.Set;
 import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.androidgcs.drawer.NavDrawerAdapter;
 import org.taulabs.androidgcs.drawer.NavDrawerItem;
-import org.taulabs.androidgcs.drawer.NavMenuItem;
+import org.taulabs.androidgcs.drawer.NavMenuActivity;
 import org.taulabs.androidgcs.drawer.NavMenuSection;
 import org.taulabs.androidgcs.fragments.ObjectManagerFragment;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService;
@@ -739,14 +739,15 @@ public abstract class ObjectManagerActivity extends Activity {
         // Set up the menu
         NavDrawerItem[] menu = new NavDrawerItem[] {
                 NavMenuSection.create( 100, "Main Screens"),
-                NavMenuItem.create(101,"PFD", "ic_pfd", PfdActivity.class, false, this),
-                NavMenuItem.create(102, "Map", "ic_map", Map.class, true, this),
-                NavMenuItem.create(104, "Alarms", "ic_alarms", SystemAlarmActivity.class, true, this),
-                NavMenuItem.create(104, "Tuning", "ic_tuning", TuningActivity.class, true, this),
-                NavMenuItem.create(104, "Home Adjustment", "ic_map", AttitudeAdjustment.class, true, this),
-                NavMenuItem.create(103, "Browser", "ic_browser", ObjectBrowser.class, true, this),
-                NavMenuItem.create(105, "Logging", "ic_logging", Logger.class, true, this),
-                NavMenuItem.create(105, "Tablet Control", "ic_tabletcontrol", TableControl.class, true, this),
+                NavMenuActivity.create(101, "PFD", "ic_pfd", PfdActivity.class, false, this),
+                NavMenuActivity.create(102, "Map", "ic_map", Map.class, true, this),
+                NavMenuActivity.create(104, "Alarms", "ic_alarms", SystemAlarmActivity.class, true, this),
+                NavMenuActivity.create(104, "Tuning", "ic_tuning", TuningActivity.class, true, this),
+                NavMenuActivity.create(104, "Home Adjustment", "ic_map", AttitudeAdjustment.class, true, this),
+                NavMenuActivity.create(103, "Browser", "ic_browser", ObjectBrowser.class, true, this),
+                NavMenuActivity.create(105, "Logging", "ic_logging", Logger.class, true, this),
+                NavMenuActivity.create(105, "Tablet Control", "ic_tabletcontrol", TableControl.class, true, this),
+                NavMenuActivity.create(103, "OSG", "ic_osg", OsgViewer.class, true, this),
         };
 
         navDrawerActivityConfiguration.setNavItems(menu);
@@ -764,7 +765,7 @@ public abstract class ObjectManagerActivity extends Activity {
         return R.drawable.ic_drawer;
     }
 
-    /* The click listner for ListView in the navigation drawer */
+    /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -775,8 +776,8 @@ public abstract class ObjectManagerActivity extends Activity {
     private void selectItem(int position) {
     	 NavDrawerItem selectedItem = navConf.getNavItems()[position];
     	 
-    	 if (selectedItem.getType() == NavMenuItem.ITEM_TYPE) {
-    		 NavMenuItem launcherItem = (NavMenuItem) selectedItem;
+    	 if (selectedItem.getType() == NavMenuActivity.ACTIVITY_TYPE) {
+    		 NavMenuActivity launcherItem = (NavMenuActivity) selectedItem;
 	         if (launcherItem.getLaunchClass() != null) {
 	        	 Log.d(TAG, "ID: " + selectedItem.getId() + " " + selectedItem.getLabel() + " position: " + position);
 	        	 startActivity(new Intent(this, launcherItem.getLaunchClass()));
