@@ -27,6 +27,7 @@ import java.util.ListIterator;
 
 import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.androidgcs.util.SmartSave;
+import org.taulabs.androidgcs.views.ObjectEditView;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;
 
