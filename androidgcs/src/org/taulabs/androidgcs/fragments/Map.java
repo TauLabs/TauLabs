@@ -30,6 +30,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -103,15 +104,20 @@ public class Map extends ObjectManagerFragment {
 		});
 		
 		mMap.setOnMarkerDragListener(dragListener);
+		
+		float zoom = prefs.getFloat("map_zoom", 17);		
 
 		//! If the current tablet location is available, jump straight to it
 		LocationManager locationManager =
 		        (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 		Location tabletLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if (tabletLocation == null) {
+			tabletLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		}
 		if (tabletLocation != null) {
 			LatLng lla = new LatLng(tabletLocation.getLatitude(), tabletLocation.getLongitude());
 			if (DEBUG) Log.d(TAG, "Location: " + lla);
-			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lla, 15));
+			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lla, zoom));
 		} else {
 			if (DEBUG) Log.d(TAG, "Could not get location");
 		}
@@ -489,6 +495,14 @@ public class Map extends ObjectManagerFragment {
 
 	@Override
 	public void onDestroy() {
+		if (mMap != null) {
+			CameraPosition camPos = mMap.getCameraPosition();
+   
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			SharedPreferences.Editor editor = settings.edit();
+			editor.putFloat("map_zoom", camPos.zoom);
+			editor.commit();
+	   }
 		super.onDestroy();
 		m.onDestroy();
 	}
