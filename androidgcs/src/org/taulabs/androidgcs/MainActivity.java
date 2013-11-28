@@ -40,15 +40,21 @@ public class MainActivity extends ObjectManagerActivity {
 		Bundle b = getIntent().getExtras();
 		if (b == null) {
 			contentFrag = new PFD();
+			setTitle("PFD");
 		} else {
 			int id = b.getInt("ContentFrag");
 			contentFrag = getFragmentById(id);
+			
+			String title = b.getString("ContentName");
+			if (title != null)
+				setTitle(title);
 		}
 
 		FragmentTransaction fragmentTransaction = getFragmentManager()
 				.beginTransaction();
 		fragmentTransaction.add(R.id.content_frame, contentFrag);
 		fragmentTransaction.commit();
+		
 	}
 
 	@Override

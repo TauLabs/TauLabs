@@ -84,7 +84,7 @@ public abstract class ObjectManagerActivity extends Activity {
 
 	private final String TAG = "ObjectManagerActivity";
 	private static int LOGLEVEL = 0;
-//	private static boolean WARN = LOGLEVEL > 1;
+	//	private static boolean WARN = LOGLEVEL > 1;
 	private static boolean DEBUG = LOGLEVEL > 0;
 
 	//! Object manager, populated by parent for the children to use
@@ -745,7 +745,7 @@ public abstract class ObjectManagerActivity extends Activity {
 		// Set up the menu
 		NavDrawerItem[] menu = new NavDrawerItem[] {
 				NavMenuSection.create( 100, "Main Screens"),
-				NavMenuItem.create(101, "PFD", "ic_pfd", false, this),
+				NavMenuItem.create(101, "PFD", "ic_pfd", true, this),
 				NavMenuItem.create(102, "Map", "ic_map", true, this),
 				NavMenuItem.create(103, "Alarms", "ic_alarms", true, this),
 				NavMenuActivity.create(104, "Tuning", "ic_tuning", TuningActivity.class, true, this),
@@ -779,6 +779,12 @@ public abstract class ObjectManagerActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Map the IDs to the fragments for the default layout. These should
+	 * match the values used when creating the NavDrawerItems.
+	 * @param id of the fragment to fetch
+	 * @return the new fragment
+	 */
 	protected Fragment getFragmentById(int id) {
 		switch (id) {
 		case 101:
@@ -795,6 +801,7 @@ public abstract class ObjectManagerActivity extends Activity {
 		
 		NavDrawerItem selectedItem = navConf.getNavItems()[position];
 
+		// Selected item indicates an activity to launch
 		if (selectedItem.getType() == NavMenuActivity.ACTIVITY_TYPE) {
 			NavMenuActivity launcherItem = (NavMenuActivity) selectedItem;
 			if (launcherItem.getLaunchClass() != null) {
@@ -812,49 +819,52 @@ public abstract class ObjectManagerActivity extends Activity {
 
 				startActivity(new Intent(this, launcherItem.getLaunchClass()));
 			}
+			
+			return;
 		}
 
+		// Selected item indicates the contents to put in the main frame
 		if (selectedItem.getType() == NavMenuItem.ITEM_TYPE) {
-			// In this case we plan to just replace the main content fragment, if it exists.
 
-			if (findViewById(R.id.content_frame) == null) {
+			if (findViewById(navConf.getMainLayout()) == null) {
 				// If not the new main activity should be activated.
 
-				Intent mainScreen = new Intent(this, MainActivity.class);
-				Bundle b = new Bundle();
-				b.putInt("ContentFrag", selectedItem.getId()); //Your id
-				mainScreen.putExtras(b);
-				startActivity(mainScreen);
-				
+				// Close drawer first
 				mDrawerList.setItemChecked(position, true);
-
-				if ( selectedItem.updateActionBarTitle()) {
-					setTitle(selectedItem.getLabel());
-				}
-
 				if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
 					mDrawerLayout.closeDrawer(mDrawerList);
 				}
-				return;
-			}
 
-			int id = (int) selectedItem.getId();
-			FragmentTransaction trans = getFragmentManager().beginTransaction();
-			trans.replace(R.id.content_frame, getFragmentById(id));
-			trans.addToBackStack(null);
-			trans.commit();
-			
+				// Activate main activity, indicating the fragment it should show 
+				Intent mainScreen = new Intent(this, MainActivity.class);
+				mainScreen.putExtra("ContentFrag",  selectedItem.getId());
+				if ( selectedItem.updateActionBarTitle())
+					mainScreen.putExtra("ContentName", selectedItem.getLabel());
+				startActivity(mainScreen);
+				
+				return;
+			} else {
+
+				int id = (int) selectedItem.getId();
+				FragmentTransaction trans = getFragmentManager().beginTransaction();
+				trans.replace(navConf.getMainLayout(), getFragmentById(id));
+				trans.addToBackStack(null);
+				trans.commit();
+				
+				mDrawerList.setItemChecked(position, true);
+	
+				if ( selectedItem.updateActionBarTitle()) {
+					Log.d(TAG, "Selected item title: " + selectedItem.getLabel());
+					setTitle(selectedItem.getLabel());
+				}
+	
+				if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
+					mDrawerLayout.closeDrawer(mDrawerList);
+				}
+			}
 		}
 		
-		mDrawerList.setItemChecked(position, true);
 
-		if ( selectedItem.updateActionBarTitle()) {
-			setTitle(selectedItem.getLabel());
-		}
-
-		if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
-			mDrawerLayout.closeDrawer(mDrawerList);
-		}
 	}
 
 	@Override
