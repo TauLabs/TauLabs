@@ -57,19 +57,45 @@ public class ObjectManagerFragment extends Fragment {
 	 * changed
 	 */
     @Override
-	public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (DEBUG) Log.d(TAG,"onAttach");
+    public void onAttach(Activity activity) {
+    	super.onAttach(activity);
+    	if (DEBUG) Log.d(TAG,"onAttach");
 
         ObjectManagerActivity castActivity = null;
         try {
-        	castActivity = (ObjectManagerActivity)activity;
+        	castActivity = (ObjectManagerActivity)getActivity();
         } catch (ClassCastException e) {
         	throw new android.app.Fragment.InstantiationException(
         			"Attaching a ObjectManagerFragment to an activity failed because the parent activity is not a ObjectManagerActivity",
         			e);
         }
         castActivity.addOnConnectionListenerFragment(this);
+    }
+    
+    @Override
+	public void onStop() {
+    	super.onStop();
+    	if (DEBUG) Log.d(TAG, "onStop");
+    	if (objMngr != null)
+    		onOPDisconnected();
+    }
+    
+    private boolean paused = false;
+
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	if (DEBUG) Log.d(TAG, "onPause");
+    	((ObjectManagerActivity) getActivity()).pauseObjectUpdates(this);
+    	paused = true;
+    }
+    
+    public void onResume() {
+    	super.onResume();
+    	if (DEBUG) Log.d(TAG, "onResume");
+    	if (paused) // do not do this while initializing
+    		((ObjectManagerActivity) getActivity()).resumeObjectUpdates(this);
+    	paused = false;
     }
 
 
