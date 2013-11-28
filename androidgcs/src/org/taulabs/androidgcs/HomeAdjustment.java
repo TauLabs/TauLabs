@@ -33,9 +33,9 @@ import android.os.Bundle;
 import android.view.View;
 
 
-public class AttitudeAdjustment extends ObjectManagerActivity {
+public class HomeAdjustment extends ObjectManagerActivity {
 
-	final String TAG = AttitudeAdjustment.class.getSimpleName();
+	final String TAG = HomeAdjustment.class.getSimpleName();
 
 	final boolean VERBOSE = false;
 	final boolean DEBUG = true;

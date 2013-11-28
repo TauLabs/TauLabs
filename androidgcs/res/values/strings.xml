@@ -3,9 +3,10 @@
 	<string name="app_name">Tau Labs GCS</string>
 	<string name="object_browser_name">Browser</string>
 	<string name="controller_name">Controller</string>
-	<string name="pfd_name">PFD</string>
+	<string name="main_activity_name">Main"</string>
 	<string name="location_name">Map</string>
 	<string name="logger_name">Logging</string>
+	<string name="home_adjustment">Home Adjustment</string>
 	
 	<string name="menu_item_settings">Settings</string>
 	<string name="menu_item_connect">Connect</string>
@@ -68,8 +69,6 @@
 	<string name="pfd">PFD</string>
 
 	<string name="transmitter">Transmitter</string>
-
-	<string name="attitude_adjustment">Attitude Adjustment</string>
 
 	<string name="objecteditor">ObjectEditor</string>
 
