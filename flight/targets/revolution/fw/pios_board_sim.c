@@ -50,10 +50,6 @@
 void Stack_Change() {
 }
 
-void Stack_Change_Weak() {
-}
-
-
 const struct pios_tcp_cfg pios_tcp_telem_cfg = {
   .ip = "0.0.0.0",
   .port = 9000,

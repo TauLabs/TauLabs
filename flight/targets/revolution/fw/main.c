@@ -40,7 +40,6 @@
 /* Prototype of PIOS_Board_Init() function */
 extern void PIOS_Board_Init(void);
 extern void Stack_Change(void);
-static void Stack_Change_Weak () __attribute__ ((weakref ("Stack_Change")));
 
 /* Local Variables */
 #define INIT_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
