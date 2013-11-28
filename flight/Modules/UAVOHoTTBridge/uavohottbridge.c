@@ -27,6 +27,11 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+
+// conditional compilation of the module
+#include "pios.h"
+#if defined(PIOS_INCLUDE_HOTT)
+
 #include "uavohottbridge.h"
 
 // Private constants
@@ -827,6 +832,8 @@ void convert_long2gps(int32_t value, uint8_t *dir, uword_t *min, uword_t *sec) {
 	temp.h = (uint8_t)(seconds >> 8) & 0xff;
 	*sec = temp;
 }
+
+#endif /* PIOS_INCLUDE_HOTT */
 
 /**
  * @}
