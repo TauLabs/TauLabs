@@ -45,7 +45,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-public class Logger extends ObjectManagerActivity {
+public class Logging extends ObjectManagerActivity {
 
 	final String TAG = "Logger";
 
@@ -94,7 +94,7 @@ public class Logger extends ObjectManagerActivity {
 	@Override
 	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
 		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
-		navDrawer.setMainLayout(R.layout.logger);
+		navDrawer.setMainLayout(R.layout.logging);
 		return navDrawer;
 	}
 	

@@ -64,7 +64,7 @@
 		<activity android:name="ObjectEditor" android:label="ObjectEditor"
 		    android:windowSoftInputMode="stateHidden"
 			android:theme="@android:style/Theme.Dialog" />
-		<activity android:name="Logger" android:label="@string/logger"/>
+		<activity android:name="Logging" android:label="@string/logger"/>
 
 		<activity
 		    android:name="FragmentTester"
