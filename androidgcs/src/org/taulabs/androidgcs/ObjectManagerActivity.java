@@ -39,8 +39,12 @@ import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.androidgcs.drawer.NavDrawerAdapter;
 import org.taulabs.androidgcs.drawer.NavDrawerItem;
 import org.taulabs.androidgcs.drawer.NavMenuActivity;
+import org.taulabs.androidgcs.drawer.NavMenuItem;
 import org.taulabs.androidgcs.drawer.NavMenuSection;
 import org.taulabs.androidgcs.fragments.ObjectManagerFragment;
+import org.taulabs.androidgcs.fragments.PFD;
+import org.taulabs.androidgcs.fragments.Map;
+import org.taulabs.androidgcs.fragments.SystemAlarmsFragment;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.ConnectionState;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.LocalBinder;
@@ -739,15 +743,15 @@ public abstract class ObjectManagerActivity extends Activity {
         // Set up the menu
         NavDrawerItem[] menu = new NavDrawerItem[] {
                 NavMenuSection.create( 100, "Main Screens"),
-                NavMenuActivity.create(101, "PFD", "ic_pfd", PfdActivity.class, false, this),
-                NavMenuActivity.create(102, "Map", "ic_map", Map.class, true, this),
-                NavMenuActivity.create(104, "Alarms", "ic_alarms", SystemAlarmActivity.class, true, this),
+                NavMenuItem.create(101, "PFD", "ic_pfd", false, this),
+                NavMenuItem.create(102, "Map", "ic_map", true, this),
+                NavMenuItem.create(103, "Alarms", "ic_alarms", true, this),
                 NavMenuActivity.create(104, "Tuning", "ic_tuning", TuningActivity.class, true, this),
-                NavMenuActivity.create(104, "Home Adjustment", "ic_map", AttitudeAdjustment.class, true, this),
-                NavMenuActivity.create(103, "Browser", "ic_browser", ObjectBrowser.class, true, this),
-                NavMenuActivity.create(105, "Logging", "ic_logging", Logger.class, true, this),
-                NavMenuActivity.create(105, "Tablet Control", "ic_tabletcontrol", TableControl.class, true, this),
-                NavMenuActivity.create(103, "OSG", "ic_osg", OsgViewer.class, true, this),
+                NavMenuActivity.create(105, "Home Adjustment", "ic_map", AttitudeAdjustment.class, true, this),
+                NavMenuActivity.create(106, "Browser", "ic_browser", ObjectBrowser.class, true, this),
+                NavMenuActivity.create(107, "Logging", "ic_logging", Logger.class, true, this),
+                NavMenuActivity.create(108, "Tablet Control", "ic_tabletcontrol", TableControl.class, true, this),
+                NavMenuActivity.create(109, "OSG", "ic_osg", OsgViewer.class, true, this),
         };
 
         navDrawerActivityConfiguration.setNavItems(menu);
@@ -782,6 +786,21 @@ public abstract class ObjectManagerActivity extends Activity {
 	        	 Log.d(TAG, "ID: " + selectedItem.getId() + " " + selectedItem.getLabel() + " position: " + position);
 	        	 startActivity(new Intent(this, launcherItem.getLaunchClass()));
 	         }
+    	 }
+    	 
+    	 if (selectedItem.getType() == NavMenuItem.ITEM_TYPE) {
+    		 int id = (int) selectedItem.getId();
+    		 switch (id) {
+    	        case 101:
+    	            getFragmentManager().beginTransaction().replace(R.id.content_frame, new PFD()).commit();
+    	            break;
+    	        case 102:
+    	            getFragmentManager().beginTransaction().replace(R.id.content_frame, new Map()).commit();
+    	            break;
+    	        case 103:
+    	            getFragmentManager().beginTransaction().replace(R.id.content_frame, new SystemAlarmsFragment()).commit();
+    	            break;
+    	        }
     	 }
          mDrawerList.setItemChecked(position, true);
 

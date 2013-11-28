@@ -29,7 +29,7 @@ import org.taulabs.androidgcs.fragments.PFD;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 
-public class PfdActivity extends ObjectManagerActivity {
+public class MainActivity extends ObjectManagerActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
