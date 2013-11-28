@@ -7,7 +7,10 @@
 	<string name="location_name">Map</string>
 	<string name="logger_name">Logging</string>
 	<string name="home_adjustment">Home Adjustment</string>
-	
+	<string name="tablet_control">Tablet Control</string>
+	<string name="path_planner">Path Planner</string>
+	<string name="logger">Logging</string>
+		
 	<string name="menu_item_settings">Settings</string>
 	<string name="menu_item_connect">Connect</string>
 	<string name="menu_item_disconnect">Disconnect</string>
@@ -46,8 +49,6 @@
 	<string name="edit">Edit</string>
 	<string name="load">Load</string>
 	<string name="waypoint">waypoint</string>
-	<string name="tablet_control">Tablet Control</string>
-	<string name="path_planner">Path Planner</string>
 
 	<string name="uiToastNavPrincipal">Main navigation</string>
 	<string name="uiToastNavSecond">Second Navigation</string>
@@ -71,8 +72,6 @@
 	<string name="transmitter">Transmitter</string>
 
 	<string name="objecteditor">ObjectEditor</string>
-
-	<string name="logger">Logger</string>
 
 	<string name="reset_home_to_tablet">Reset Home to Tablet</string>
 
