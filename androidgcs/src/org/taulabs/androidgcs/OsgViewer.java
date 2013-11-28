@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file       OsgViewer.java
+  * @file       OsgViewer.java
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Visualize a model with OSG
  * @see        The GNU Public License (GPL) Version 3
