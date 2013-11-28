@@ -52,6 +52,7 @@ extern void PIOS_MPU6050_SetAccelRange(enum pios_mpu60x0_accel_range);
 
 extern void PIOS_MPU6050_SetSampleRate(uint16_t samplerate_hz);
 extern void PIOS_MPU6050_SetLPF(enum pios_mpu60x0_filter filter);
+extern void PIOS_MPU6050_SetPassThrough(bool passThrough);
 extern bool PIOS_MPU6050_IRQHandler(void);
 
 #endif /* PIOS_MPU6050_H */
