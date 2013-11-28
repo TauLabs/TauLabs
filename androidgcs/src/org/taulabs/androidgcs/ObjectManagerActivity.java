@@ -387,6 +387,10 @@ public abstract class ObjectManagerActivity extends Activity {
 				public void run() { frag.objectUpdated(obj); }
 			});
 		}
+		
+		public boolean match(Fragment frag) {
+			return this.frag == frag;
+		}
 	};
 
 	/**
@@ -413,7 +417,34 @@ public abstract class ObjectManagerActivity extends Activity {
 			obj.removeUpdatedObserver(o);
 		}
 		paused = true;
+	}
 
+	/**
+	 * When a fragment is paused, disconnect from all
+	 * updates to ensure we don't draw to an invalid view
+	 */
+	public void pauseObjectUpdates(ObjectManagerFragment frag)
+	{
+		// When listeners is null then a pause occurred after
+		// disconnecting from the service
+		if (listeners == null)
+			return;
+
+		Set<Observer> s = listeners.keySet();
+		Iterator<Observer> i = s.iterator();
+		while (i.hasNext()) {
+			Observer o = i.next();
+			try {
+				FragmentUpdatedObserver fo = (FragmentUpdatedObserver) o;
+				if (fo.match(frag)) {
+					UAVObject obj = listeners.get(o);
+					obj.removeUpdatedObserver(o);					
+				}
+			} catch (Exception e) {
+				
+			}
+		}
+		//paused = true;
 	}
 
 	/**
@@ -435,6 +466,36 @@ public abstract class ObjectManagerActivity extends Activity {
 			obj.addUpdatedObserver(o);
 		}
 		paused = false;
+	}
+
+	/**
+	 * When an activity is resumed, reconnect all now the view
+	 * is valid again
+	 */
+	public void resumeObjectUpdates(Fragment frag)
+	{
+		// When listeners is null this is the resume at the beginning
+		// before connecting to the telemetry service
+		if(listeners == null)
+			return;
+
+		Set<Observer> s = listeners.keySet();
+		Iterator<Observer> i = s.iterator();
+		while (i.hasNext()) {
+			Observer o = i.next();
+			UAVObject obj = listeners.get(o);
+			try {
+				FragmentUpdatedObserver fo = (FragmentUpdatedObserver) o;
+				if (fo.match(frag)) {
+					obj.addUpdatedObserver(o);
+				}
+			} catch (Exception e) {
+				
+			}
+			
+			obj.addUpdatedObserver(o);
+		}
+		//paused = false;
 	}
 
 	/**
@@ -611,7 +672,11 @@ public abstract class ObjectManagerActivity extends Activity {
 	public void addOnConnectionListenerFragment(ObjectManagerFragment frag) {
 		connectionListeners.addObserver(new OnConnectionListener(frag));
 		if (DEBUG) Log.d(TAG, "Connecting " + frag + " there are now " + connectionListeners.countObservers());
-		if (getConnectionState() == ConnectionState.CONNECTED)
+		
+		// We have to check the connected called flag to make sure that the activity
+		// has acknowledged the connection already.
+		if (getConnectionState() == ConnectionState.CONNECTED &&
+				connectedCalled)
 			frag.onOPConnected(objMngr);
 	}
 

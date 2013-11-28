@@ -26,19 +26,19 @@ package org.taulabs.androidgcs;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
+import org.taulabs.androidgcs.fragments.ObjectEditor;
+import org.taulabs.androidgcs.fragments.ObjectViewer;
 import org.taulabs.uavtalk.UAVDataObject;
 import org.taulabs.uavtalk.UAVObject;
 
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -51,7 +51,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPreferenceChangeListener {
 
@@ -61,21 +60,6 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 	SharedPreferences prefs;
 	ArrayAdapter<UAVDataObject> adapter;
 	List<UAVDataObject> allObjects;
-
-	final Handler uavobjHandler = new Handler();
-	final Runnable updateText = new Runnable() {
-		@Override
-		public void run() {
-			updateObject();
-		}
-	};
-
-	private final Observer updatedObserver = new Observer() {
-		@Override
-		public void update(Observable observable, Object data) {
-			uavobjHandler.post(updateText);
-		}
-	};
 
 	/** Called when the activity is first created. */
 	@Override
@@ -117,15 +101,27 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 		((CheckBox) findViewById(R.id.dataCheck)).setOnCheckedChangeListener(checkListener);
 		((CheckBox) findViewById(R.id.settingsCheck)).setOnCheckedChangeListener(checkListener);
 
+		updateList();
+	}
+
+	public void attachObjectView() {
 		((Button) findViewById(R.id.editButton)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (selected_index > 0) {
-					Intent intent = new Intent(ObjectBrowser.this, ObjectEditor.class);
-					intent.putExtra("org.taulabs.androidgcs.ObjectName", allObjects.get(selected_index).getName());
-					intent.putExtra("org.taulabs.androidgcs.ObjectId", allObjects.get(selected_index).getObjID());
-					intent.putExtra("org.taulabs.androidgcs.InstId", allObjects.get(selected_index).getInstID());
-					startActivity(intent);
+					Bundle b = new Bundle();
+					b.putString("org.taulabs.androidgcs.ObjectName", allObjects.get(selected_index).getName());
+					b.putLong("org.taulabs.androidgcs.ObjectId", allObjects.get(selected_index).getObjID());
+					b.putLong("org.taulabs.androidgcs.InstId", allObjects.get(selected_index).getInstID());
+
+					Fragment newFrag = new ObjectEditor();
+					newFrag.setArguments(b);
+					
+					FragmentTransaction trans = getFragmentManager().beginTransaction();
+					trans.replace(R.id.object_information, newFrag);
+					trans.addToBackStack(null);
+					trans.commit();
+
 				}
 			}
 		});
@@ -147,8 +143,6 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 				}
 			}
 		});
-
-		updateList();
 	}
 
 	/**
@@ -156,8 +150,6 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 	 */
 	private void updateList() {
 		// Disconnect any previous signals
-		if (selected_index > 0)
-			allObjects.get(selected_index).removeUpdatedObserver(updatedObserver);
 		selected_index = -1;
 
 		boolean includeData = ((CheckBox) findViewById(R.id.dataCheck)).isChecked();
@@ -174,35 +166,32 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 				allObjects.addAll(objects);
 		}
 
-		adapter = new ArrayAdapter<UAVDataObject>(this,R.layout.object_view, allObjects);
 		ListView objects = (ListView) findViewById(R.id.object_list);
-		objects.setAdapter(adapter);
-
+		adapter = new ArrayAdapter<UAVDataObject>(this, R.layout.object_browser_item, allObjects);
+		objects.setAdapter(adapter);		
 		objects.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-
-				if (selected_index > 0)
-					allObjects.get(selected_index).removeUpdatedObserver(updatedObserver);
-
+				
 				selected_index = position;
-				allObjects.get(position).addUpdatedObserver(updatedObserver);
-				allObjects.get(position).updateRequested();
-				updateObject();
+
+				Bundle b = new Bundle();
+				b.putString("org.taulabs.androidgcs.ObjectName", allObjects.get(selected_index).getName());
+				b.putLong("org.taulabs.androidgcs.ObjectId", allObjects.get(selected_index).getObjID());
+				b.putLong("org.taulabs.androidgcs.InstId", allObjects.get(selected_index).getInstID());
+
+				Fragment newFrag = new ObjectViewer();
+				newFrag.setArguments(b);
+				
+				FragmentTransaction trans = getFragmentManager().beginTransaction();
+				trans.replace(R.id.object_information, newFrag);
+				trans.addToBackStack(null);
+				trans.commit();
 			}
 		});
-
 	}
 
-	private void updateObject() {
-		//adapter.notifyDataSetChanged();
-		TextView text = (TextView) findViewById(R.id.object_information);
-		if (selected_index >= 0 && selected_index < allObjects.size())
-			text.setText(allObjects.get(selected_index).toStringData());
-		else
-			Log.d(TAG,"Update called but invalid index: " + selected_index);
-	}
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,

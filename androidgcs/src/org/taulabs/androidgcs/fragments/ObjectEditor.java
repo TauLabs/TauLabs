@@ -20,24 +20,26 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs;
+package org.taulabs.androidgcs.fragments;
 
 import java.util.List;
 import java.util.ListIterator;
 
-import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
+import org.taulabs.androidgcs.R;
 import org.taulabs.androidgcs.util.SmartSave;
 import org.taulabs.androidgcs.views.ObjectEditView;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;
+import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
-public class ObjectEditor extends ObjectManagerActivity {
+public class ObjectEditor extends ObjectManagerFragment {
 
 	static final String TAG = "ObjectEditor";
 	String objectName;
@@ -45,50 +47,56 @@ public class ObjectEditor extends ObjectManagerActivity {
 	long instID;
 	private SmartSave smartSave;
 
+	@Override
+	public void setArguments(Bundle b) {
+		objectName = b.getString("org.taulabs.androidgcs.ObjectName");
+		objectID = b.getLong("org.taulabs.androidgcs.ObjectId");
+		instID = b.getLong("org.taulabs.androidgcs.InstId");
+	}
+
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// Inflate the layout for this fragment
+		return inflater.inflate(R.layout.object_editor, container, false);
+	}
 
-		// TODO: Figure out why this line is required so it doesn't
-		// have to be set programmatically
-		setTheme(android.R.style.Theme_Holo);
-
-		Bundle extras = getIntent().getExtras();
-		if (extras == null)
+	private boolean connected = false;
+	private boolean resumed = false;
+	@Override
+	public void onOPConnected(UAVObjectManager objMngr) {
+		super.onOPConnected(objMngr);
+		
+		connected = true;
+		init();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		resumed = true;
+		init();
+	}
+	public void init() {
+		// Wait for display to appear and to connect
+		if (!connected || !resumed)
 			return;
 
-		objectName = extras.getString("org.taulabs.androidgcs.ObjectName");
-		objectID = extras.getLong("org.taulabs.androidgcs.ObjectId");
-		instID = extras.getLong("org.taulabs.androidgcs.InstId");
-
-		TextView objNameLbl = (TextView) findViewById(R.id.object_edit_object_name);
-		objNameLbl.setText(objectName);
-	}
-	
-	@Override
-	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
-		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
-		navDrawer.setMainLayout(R.layout.object_editor);
-		return navDrawer;
-	}
-	
-	@Override
-	public void onOPConnected() {
 		UAVObject obj = objMngr.getObject(objectID, instID);
 		if (obj == null) {
 			Log.d(TAG, "Object not found:" + objectID);
 			return;
 		}
 
-		smartSave = new SmartSave(objMngr, this,
+		smartSave = new SmartSave(objMngr, getActivity(),
 				obj,
-				(Button) findViewById(R.id.object_edit_save_button),
-				(Button) findViewById(R.id.object_edit_apply_button),
-				(Button) findViewById(R.id.object_edit_load_button));
+				(Button) getActivity().findViewById(R.id.object_edit_save_button),
+				(Button) getActivity().findViewById(R.id.object_edit_apply_button),
+				(Button) getActivity().findViewById(R.id.object_edit_load_button));
 
-		ObjectEditView editView = (ObjectEditView) findViewById(R.id.object_edit_view);
+		ObjectEditView editView = (ObjectEditView) getActivity().findViewById(R.id.object_edit_view);
 		editView.setSmartSave(smartSave);
 		editView.setName(obj.getName());
 
