@@ -47,6 +47,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -91,13 +92,25 @@ public class Map extends ObjectManagerActivity
 		getFragmentManager().executePendingTransactions();
     }
 	
+    @Override public void onDestroy() {
+    	super.onDestroy();
+    	if (mMap != null) {
+    		CameraPosition camPos = mMap.getCameraPosition();
+    		
+    		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+    		SharedPreferences.Editor editor = settings.edit();
+    		editor.putFloat("map_zoom", camPos.zoom);
+    		editor.commit();
+    	}
+    }
+    
     @Override public void onResume() {
     	super.onResume();
 		mMap = mapFrag.getMap();
 
 		if (mMap == null)
 			Log.d(TAG, "Unable to get map");
-
+		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		int map_type = Integer.decode(prefs.getString("map_type", "1"));
 
@@ -131,13 +144,16 @@ public class Map extends ObjectManagerActivity
 			}
 		});
 
+		float zoom = prefs.getFloat("map_zoom", 17);
+
 		//! If the current tablet location is available, jump straight to it
 		LocationManager locationManager =
 		        (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		Location tabletLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		if (tabletLocation != null)
-			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(tabletLocation.getLatitude(), tabletLocation.getLongitude()), 15));
-		else {
+		Location tabletLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		if (tabletLocation != null) {
+			if (DEBUG) Log.d(TAG, "Previous zoom is: " + zoom);
+			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(tabletLocation.getLatitude(), tabletLocation.getLongitude()), zoom));
+		} else {
 			if (DEBUG) Log.d(TAG, "Could not get location");
 		}
     }
