@@ -755,9 +755,9 @@ public abstract class ObjectManagerActivity extends Activity {
                 NavMenuItem.create(101,"PFD", "ic_pfd", PfdActivity.class, false, this),
                 NavMenuItem.create(102, "Map", "ic_map", Map.class, true, this),
                 NavMenuItem.create(104, "Alarms", "ic_alarms", SystemAlarmActivity.class, true, this),
-                NavMenuItem.create(104, "Tuning", "ic_alarms", TuningActivity.class, true, this),
-                NavMenuItem.create(104, "Attitude Adjustment", "ic_tuning", AttitudeAdjustment.class, true, this),
-                NavMenuItem.create(103, "Browser", "ic_tuning", ObjectBrowser.class, true, this),
+                NavMenuItem.create(104, "Tuning", "ic_tuning", TuningActivity.class, true, this),
+                NavMenuItem.create(104, "Home Adjustment", "ic_map", AttitudeAdjustment.class, true, this),
+                NavMenuItem.create(103, "Browser", "ic_browser", ObjectBrowser.class, true, this),
                 NavMenuItem.create(105, "Logging", "ic_logging", Logger.class, true, this),
                 NavMenuItem.create(105, "Tablet Control", "ic_tabletcontrol", TableControl.class, true, this),
         };

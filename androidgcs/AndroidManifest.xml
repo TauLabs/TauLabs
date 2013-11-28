@@ -33,7 +33,7 @@
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBaAV9pYtdvqFRlJ6psNH34GpDjejHoV8o"/>
 		
 		<!-- Object browser - main activity at the moment -->
-		<activity android:name="HomePage" android:label="@string/app_name">
+		<activity android:name="PfdActivity" android:label="@string/app_name">
 		    
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -51,7 +51,6 @@
 		<activity android:name="AttitudeAdjustment" android:label="@string/attitude_adjustment" />
 		<activity android:name="ObjectBrowser" android:label="@string/object_browser_name" />
 
-		<activity android:name="PfdActivity" android:label="PFD" />
 		<activity android:name="Controller" android:label="@string/controller_name" 
 		    android:configChanges="keyboardHidden|orientation|screenSize"/>
 
