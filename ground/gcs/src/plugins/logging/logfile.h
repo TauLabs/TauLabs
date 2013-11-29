@@ -43,7 +43,7 @@ class LogFile : public QIODevice
 public:
     explicit LogFile(QObject *parent = 0);
     qint64 bytesAvailable() const;
-    qint64 bytesToWrite() { return file.bytesToWrite(); }
+    qint64 bytesToWrite() const { return file.bytesToWrite(); }
     bool open(OpenMode mode);
     void setFileName(QString name) { file.setFileName(name); }
     void close();
