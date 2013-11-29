@@ -53,7 +53,8 @@ public:
      * @param bottomRight
      * @param updateFlag If true, send dataChanged signal. If false, do nothing.
      */
-    virtual void dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight);
+    virtual void dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight,
+                             const QVector<int> & roles = QVector<int> ());
 
     void setModel(QAbstractItemModel *model) {m_model = dynamic_cast<UAVObjectTreeModel*>(model); QTreeView::setModel(model);}
 
