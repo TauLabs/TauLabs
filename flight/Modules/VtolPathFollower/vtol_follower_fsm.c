@@ -623,7 +623,7 @@ static void go_enable_rise_here()
 
 	// If the new altitude is more than a meter away, activate it. Otherwise
 	// go straight to the next state
-	if (fabs(down - vtol_hold_position_ned[2]) > RTH_ALT_ERROR) {
+	if (fabsf(down - vtol_hold_position_ned[2]) > RTH_ALT_ERROR) {
 		hold_position(vtol_hold_position_ned[0], vtol_hold_position_ned[1], down);
 		configure_timeout(10);
 	} else {
