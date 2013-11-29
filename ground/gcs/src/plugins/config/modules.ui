@@ -172,6 +172,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="cbGeofence">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This enables the geofence module, which will cause the UAV to crash at the geofence boundary. Please see the submodule tab or help for more information.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Geofence</string>
+         </property>
+        </widget>        
+       </item>
+       <item>
         <widget class="QCheckBox" name="cbUAVOFrSkySPortBridge">
          <property name="text">
           <string>FrSky S.PORT Telemetry</string>
@@ -518,7 +528,7 @@
            </widget>
           </item>
           <item row="2" column="0">
-           <widget class="QLabel" name="label_21">
+           <widget class="QLabel" name="label_31">
             <property name="text">
              <string>Calibration offset</string>
             </property>
@@ -599,7 +609,7 @@
            </widget>
           </item>
           <item row="2" column="0">
-           <widget class="QLabel" name="label_22">
+           <widget class="QLabel" name="label_32">
             <property name="text">
              <string>Calibration offset</string>
             </property>
@@ -819,6 +829,94 @@
        </item>
       </layout>
      </widget>
+
+     <widget class="QWidget" name="tabGeofence">
+      <attribute name="title">
+       <string>Geofence</string>
+      </attribute>
+      <layout class="QFormLayout" name="formLayout_10">
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_21">
+         <property name="text">
+          <string>Geofence Warning Radius (m)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>Geofence Error Radius (m)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QSpinBox" name="sb_geofenceWarning">
+         <property name="maximum">
+          <number>1000</number>
+         </property>
+         <property name="objrelation" stdset="0">
+          <stringlist>
+           <string>objname:GeoFenceSettings</string>
+           <string>fieldname:WarningRadius</string>
+          </stringlist>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QSpinBox" name="sb_geofenceError">
+         <property name="maximum">
+          <number>1000</number>
+         </property>
+         <property name="objrelation" stdset="0">
+          <stringlist>
+           <string>objname:GeoFenceSettings</string>
+           <string>fieldname:ErrorRadius</string>
+          </stringlist>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_34">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This module is a safety feature of last resort to prevent fly aways and hopefully will never be triggered. The behavior upon reaching the error geofence boundary is to &lt;span style=&quot; font-weight:600;&quot;&gt;ACTIVELY CRASH&lt;/span&gt;. For a multirotor the motors will stop. For a plane the motor will stop and it will enter a circling pattern.&lt;/p&gt;&lt;p&gt;The rationale for this is that a crash within a known radius is safer than flying away.&lt;/p&gt;&lt;p&gt;Flying past the warning radius will provide an warning in the alarms to alert the pilot and provide time to return towards home. This will avoid crashing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="0">
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+
      <widget class="QWidget" name="tabHoTTTelemetry">
       <attribute name="title">
        <string>HoTT Telemetry</string>
