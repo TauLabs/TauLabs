@@ -935,13 +935,9 @@ void PIOS_Board_Init(void) {
 	PIOS_MPU6050_SetPassThrough(true);
 #endif /* PIOS_INCLUDE_MPU6050 */
 
-
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(50);
 	PIOS_WDG_Clear();
-
-	//if (PIOS_I2C_CheckClear(pios_i2c_10dof_adapter_id) != 0)
-	//	panic(6);
 
 #if defined(PIOS_INCLUDE_HMC5883)
 	{
