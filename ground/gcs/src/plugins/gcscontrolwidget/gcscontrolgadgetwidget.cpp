@@ -136,6 +136,12 @@ void GCSControlGadgetWidget::selectFlightMode(int state)
 void GCSControlGadgetWidget::allowGcsControl(bool allow)
 {
     m_gcscontrol->checkBoxGcsControl->setEnabled(allow);
+    if (allow)
+        m_gcscontrol->checkBoxGcsControl->setToolTip(
+                    tr("Take control of the board from GCS"));
+    else
+        m_gcscontrol->checkBoxGcsControl->setToolTip(
+                    tr("Disabled for safety. Enable this in the options page."));
 }
 
 void GCSControlGadgetWidget::setGCSControl(bool newState)
