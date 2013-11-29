@@ -43,6 +43,7 @@ public:
     virtual QStringList getSupportedProtocols();
     virtual QPixmap getBoardPicture();
     virtual QString getHwUAVO();
+    virtual int queryMaxGyroRate();
 };
 
 

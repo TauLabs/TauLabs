@@ -52,6 +52,7 @@ private slots:
     void realtimeUpdatesSlot(int);
     void linkCheckBoxes(int value);
     void processLinkedWidgets(QWidget*);
+    void applyRateLimits();
 };
 
 #endif // ConfigStabilizationWidget_H

@@ -220,3 +220,28 @@ enum Core::IBoardType::InputType RevoMini::getInputOnPort(int port_num)
 
     return INPUT_TYPE_UNKNOWN;
 }
+
+int RevoMini::queryMaxGyroRate()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwRevoMini *hwRevoMini = HwRevoMini::GetInstance(uavoManager);
+    Q_ASSERT(hwRevoMini);
+    if (!hwRevoMini)
+        return 0;
+
+    HwRevoMini::DataFields settings = hwRevoMini->getData();
+
+    switch(settings.GyroRange) {
+    case HwRevoMini::GYRORANGE_250:
+        return 250;
+    case HwRevoMini::GYRORANGE_500:
+        return 500;
+    case HwRevoMini::GYRORANGE_1000:
+        return 1000;
+    case HwRevoMini::GYRORANGE_2000:
+        return 2000;
+    default:
+        return 500;
+    }
+}
