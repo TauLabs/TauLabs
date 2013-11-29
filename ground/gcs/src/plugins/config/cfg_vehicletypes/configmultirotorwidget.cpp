@@ -338,7 +338,7 @@ void ConfigMultiRotorWidget::setYawMixLevel(int value)
  */
 SystemSettings::AirframeTypeOptions ConfigMultiRotorWidget::updateConfigObjectsFromWidgets()
 {
-    SystemSettings::AirframeTypeOptions airframeType;
+    SystemSettings::AirframeTypeOptions airframeType = SystemSettings::AIRFRAMETYPE_FIXEDWING;
     QList<QString> motorList;
 
     MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
