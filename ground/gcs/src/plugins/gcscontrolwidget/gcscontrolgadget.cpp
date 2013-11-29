@@ -82,6 +82,7 @@ void GCSControlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 
     controlsMode = GCSControlConfig->getControlsMode();
     gcsReceiverMode = GCSControlConfig->getGcsReceiverMode();
+    m_widget->allowGcsControl(gcsReceiverMode);
 
     for (unsigned int i = 0; i < 8; i++)
     {
@@ -102,30 +103,10 @@ void GCSControlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 void GCSControlGadget::enableControl(bool enable)
 {
     enableSending = enable;
-    if (gcsReceiverMode) {
-        if (enableSending)
-            getGcsControl()->beginGCSControl();
-        else
-            getGcsControl()->endGCSControl();
-    } else {
-        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-        UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-        UAVDataObject* obj = dynamic_cast<UAVDataObject*>( objManager->getObject(QString("ManualControlCommand")) );
-
-        UAVObject::Metadata mdata;
-        if (enableSending)
-        {
-            mccInitialData = mdata = obj->getMetadata();
-            UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
-            UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
-            UAVObject::SetGcsTelemetryAcked(mdata, false);
-            UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
-            mdata.gcsTelemetryUpdatePeriod = 100;
-        }
-        else
-            mdata = mccInitialData;
-        obj->setMetadata(mdata);
-    }
+    if (enableSending)
+        getGcsControl()->beginGCSControl();
+    else
+        getGcsControl()->endGCSControl();
 }
 
 ManualControlCommand* GCSControlGadget::getManualControlCommand() {
@@ -143,8 +124,8 @@ GCSControl* GCSControlGadget::getGcsControl() {
 
 void GCSControlGadget::manualControlCommandUpdated(UAVObject * obj) {
 
-    // In GCS Receiver mode do not show the updates from ManualControl
-    if (gcsReceiverMode)
+    // Not sending then show updates from transmitter
+    if (!enableSending)
         return;
 
     double roll = obj->getField("Roll")->getDouble();
@@ -177,13 +158,8 @@ void GCSControlGadget::manualControlCommandUpdated(UAVObject * obj) {
   */
 void GCSControlGadget::sticksChangedLocally(double leftX, double leftY, double rightX, double rightY)
 {
-    if (!enableSending)
-        return;
-
-    if (gcsReceiverMode)
+    if (enableSending)
         setGcsReceiver(leftX, leftY, rightX, rightY);
-    else
-        setManualControl(leftX, leftY, rightX, rightY);
 }
 
 //! Set the GCS Receiver object
@@ -257,80 +233,8 @@ void GCSControlGadget::setGcsReceiver(double leftX, double leftY, double rightX,
 
 void GCSControlGadget::flightModeChanged(ManualControlSettings::FlightModePositionOptions mode)
 {
-    if(gcsReceiverMode)
+    if(enableSending)
         getGcsControl()->setFlightMode(mode);
-}
-
-//! Set the ManualControlCommand object
-void GCSControlGadget::setManualControl(double leftX, double leftY, double rightX, double rightY)
-{
-    ManualControlCommand * obj = getManualControlCommand();
-    double oldRoll = obj->getField("Roll")->getDouble();
-    double oldPitch = obj->getField("Pitch")->getDouble();
-    double oldYaw = obj->getField("Yaw")->getDouble();
-    double oldThrottle = obj->getField("Throttle")->getDouble();
-
-    double newRoll;
-    double newPitch;
-    double newYaw;
-    double newThrottle;
-
-    // Remap left X/Y and right X/Y to RPYT depending on mode
-    switch (controlsMode) {
-    case 1:
-        // Mode 1: LeftX = Yaw, LeftY = Pitch, RightX = Roll, RightY = Throttle
-        newRoll = rightX;
-        newPitch = -leftY;
-        newYaw = leftX;
-        newThrottle = rightY;
-        break;
-    case 2:
-        // Mode 2: LeftX = Yaw, LeftY = Throttle, RightX = Roll, RightY = Pitch
-        newRoll = rightX;
-        newPitch = -rightY;
-        newYaw = leftX;
-        newThrottle = leftY;
-        break;
-    case 3:
-        // Mode 3: LeftX = Roll, LeftY = Pitch, RightX = Yaw, RightY = Throttle
-        newRoll = leftX;
-        newPitch = -leftY;
-        newYaw = rightX;
-        newThrottle = rightY;
-        break;
-    case 4:
-        // Mode 4: LeftX = Roll, LeftY = Throttle, RightX = Yaw, RightY = Pitch;
-        newRoll = leftX;
-        newPitch = -rightY;
-        newYaw = rightX;
-        newThrottle = leftY;
-        break;
-    }
-
-    //check if buttons have control over this axis... if so don't update it
-    int buttonRollControl=0;
-    int buttonPitchControl=0;
-    int buttonYawControl=0;
-    int buttonThrottleControl=0;
-    for (int i=0;i<8;i++)
-    {
-        if ((buttonSettings[i].FunctionID==1)&&((buttonSettings[i].ActionID==1)||(buttonSettings[i].ActionID==2)))buttonRollControl=1;
-        if ((buttonSettings[i].FunctionID==2)&&((buttonSettings[i].ActionID==1)||(buttonSettings[i].ActionID==2)))buttonPitchControl=1;
-        if ((buttonSettings[i].FunctionID==3)&&((buttonSettings[i].ActionID==1)||(buttonSettings[i].ActionID==2)))buttonYawControl=1;
-        if ((buttonSettings[i].FunctionID==4)&&((buttonSettings[i].ActionID==1)||(buttonSettings[i].ActionID==2)))buttonThrottleControl=1;
-    }
-
-    //if we are not in local gcs control mode, ignore the joystick input
-    if (((GCSControlGadgetWidget *)m_widget)->getGCSControl()==false || ((GCSControlGadgetWidget *)m_widget)->getUDPControl())
-        return;
-
-    if((newThrottle != oldThrottle) || (newPitch != oldPitch) || (newYaw != oldYaw) || (newRoll != oldRoll)) {
-        if (buttonRollControl==0)obj->getField("Roll")->setDouble(newRoll);
-        if (buttonPitchControl==0)obj->getField("Pitch")->setDouble(newPitch);
-        if (buttonYawControl==0)obj->getField("Yaw")->setDouble(newYaw);
-        if (buttonThrottleControl==0)obj->getField("Throttle")->setDouble(newThrottle);
-        obj->updated();
-    }
 }
 
 void GCSControlGadget::gamepads(quint8 count)
