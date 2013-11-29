@@ -105,12 +105,6 @@
                 android:textOff="POI"
                 android:textOn="POI" />
 
-            <ToggleButton
-                android:id="@+id/transmitterControl"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:textOff="TX"
-                android:textOn="Tablet" />
         </LinearLayout>
     </LinearLayout>
 
