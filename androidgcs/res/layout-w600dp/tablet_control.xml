@@ -14,7 +14,7 @@
 	    <fragment
 	        android:id="@+id/pfd"
 	        android:name="org.taulabs.androidgcs.fragments.PFD"
-	        android:layout_width="400dp"
+	        android:layout_width="wrap_content"
 	        android:layout_height="400dp"
 	        tools:layout="@layout/pfd" />
 	
@@ -24,7 +24,6 @@
 	        android:layout_width="400dp"
 	        android:layout_height="400dp"
 	        android:layout_alignParentTop="true"
-	        android:layout_toLeftOf="@+id/positionHoldButton"
 	        android:layout_toRightOf="@+id/pfd" />
 	
 	    <TextView
@@ -54,22 +53,13 @@
 	        android:layout_alignParentBottom="true"
 	        android:layout_below="@+id/map" />
 	
-	    <ToggleButton
-	        android:id="@+id/transmitterControl"
-	        android:layout_width="200dp"
-	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@+id/landButton"
-	        android:layout_alignParentBottom="true"
-	        android:layout_alignParentRight="true"
-	        android:textOn="Tablet Control"
-	        android:textOff="Transmitter Control" />
-	
 	    <RadioGroup
 	        android:id="@+id/modeSelector1"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentRight="true"
 	        android:layout_alignParentTop="true"
+			android:layout_toRightOf="@+id/map"
 	        android:orientation="vertical" >
 	
 	        <ToggleButton
@@ -123,6 +113,16 @@
 	
 	    </RadioGroup>
 	    
+	    <ToggleButton
+	        android:id="@+id/transmitterControl"
+	        android:layout_width="200dp"
+	        android:layout_height="wrap_content"
+	        android:layout_alignLeft="@+id/cameraPoiButton"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentRight="true"
+	        android:textOn="Tablet Control"
+	        android:textOff="Transmitter Control" />
+
 	    <TextView
 	        android:id="@+id/armedStatus"
 	        android:layout_width="wrap_content"
