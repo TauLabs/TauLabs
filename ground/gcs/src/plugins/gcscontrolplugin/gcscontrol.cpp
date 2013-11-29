@@ -76,6 +76,10 @@ void GCSControl::shutdown()
 {
 }
 
+/**
+ * @brief GCSControl::beginGCSControl Configure the FC to use the @ref GCSReceiver
+ * control for manual control (caches and alters the @ref ManualControlSettings)
+ */
 bool GCSControl::beginGCSControl()
 {
     if(hasControl)
@@ -87,11 +91,23 @@ bool GCSControl::beginGCSControl()
 
     // No need to set flight mode, we leave that at none and directly change
     // the setting
-    const quint8 LAST_CHANNEL = ManualControlSettings::CHANNELGROUPS_FLIGHTMODE;
     manControlSettingsUAVO->setChannelGroups(ManualControlSettings::CHANNELGROUPS_FLIGHTMODE,
                                              ManualControlSettings::CHANNELGROUPS_NONE);
-    for(quint8 x = 0; x < LAST_CHANNEL; ++x)
+
+    // Only throttle, roll, pitch and yaw need to be configured for this
+    // mode to work
+    const int NUM_CHANNELS = 4;
+    const quint8 channels[NUM_CHANNELS] = {
+        ManualControlSettings::CHANNELGROUPS_THROTTLE,
+        ManualControlSettings::CHANNELGROUPS_ROLL,
+        ManualControlSettings::CHANNELGROUPS_PITCH,
+        ManualControlSettings::CHANNELGROUPS_YAW
+    };
+
+    for(quint8 i = 0; i < NUM_CHANNELS; ++i)
     {
+        quint8 x = channels[i];
+
         // Assign this channel to GCS control
         manControlSettingsUAVO->setChannelGroups(x,ManualControlSettings::CHANNELGROUPS_GCS);
 
@@ -101,6 +117,7 @@ bool GCSControl::beginGCSControl()
         manControlSettingsUAVO->setChannelNeutral(x,CHANNEL_NEUTRAL);
         manControlSettingsUAVO->setChannelMin(x,CHANNEL_MIN);
     }
+
     manControlSettingsUAVO->setDeadband(0);
     manControlSettingsUAVO->setFlightModeNumber(1);
     manControlSettingsUAVO->setFlightModePosition(0,ManualControlSettings::FLIGHTMODEPOSITION_STABILIZED1);
@@ -113,6 +130,9 @@ bool GCSControl::beginGCSControl()
     return true;
 }
 
+/**
+ * @brief GCSControl::endGCSControl restores the cached @ref ManualControlSettings
+ */
 bool GCSControl::endGCSControl()
 {
     if(!hasControl)
