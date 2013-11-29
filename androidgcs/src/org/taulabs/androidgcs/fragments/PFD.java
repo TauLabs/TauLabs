@@ -27,6 +27,7 @@ import org.taulabs.androidgcs.R;
 import org.taulabs.androidgcs.views.AltitudeView;
 import org.taulabs.androidgcs.views.AttitudeView;
 import org.taulabs.androidgcs.views.BatteryView;
+import org.taulabs.androidgcs.views.FlightStatusView;
 import org.taulabs.androidgcs.views.GpsView;
 import org.taulabs.androidgcs.views.HeadingView;
 import org.taulabs.uavtalk.UAVObject;
@@ -84,6 +85,13 @@ public class PFD extends ObjectManagerFragment {
 			registerObjectUpdates(obj);
 			objectUpdated(obj);
 		}
+
+		obj = objMngr.getObject("FlightStatus");
+		if (obj != null) {
+			registerObjectUpdates(obj);
+			objectUpdated(obj);
+		}
+
 }
 
 	/**
@@ -172,7 +180,21 @@ public class PFD extends ObjectManagerFragment {
 				}
 			}
 		}
+		
+		if (obj.getName().compareTo("FlightStatus") == 0) {
+			String armedStatus = obj.getField("Armed").getValue().toString();
+			String flightMode = obj.getField("FlightMode").getValue().toString();
 
+			Activity parent = getActivity();
+			FlightStatusView flightStatusView = null;
+			if (parent != null) {
+				flightStatusView = (FlightStatusView) parent.findViewById(R.id.flight_status_view);
+			}
+			if (flightStatusView != null) {
+				flightStatusView.setArmed(armedStatus);
+				flightStatusView.setFlightMode(flightMode);
+			}
+		}
 	}
 
 }
