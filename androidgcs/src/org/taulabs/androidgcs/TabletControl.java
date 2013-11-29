@@ -33,12 +33,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class TableControl extends ObjectManagerActivity {
+public class TabletControl extends ObjectManagerActivity {
 
-	private final static String TAG = TableControl.class.getSimpleName();
+	private final static String TAG = TabletControl.class.getSimpleName();
 	private final TwoWayHashmap <String, Integer>modesToId = new TwoWayHashmap<String, Integer>();
 
 	@Override
@@ -91,31 +90,8 @@ public class TableControl extends ObjectManagerActivity {
     			poiTrackButton.setChecked(poiTrack);
     	}
 
-    	// Update the flight status
-    	obj = objMngr.getObject("FlightStatus");
-    	if (obj != null) {
-        	registerObjectUpdates(obj);
-        	obj.updateRequested();
-    	}
-
 	}
 
-	@Override
-	protected void objectUpdated(UAVObject obj) {
-		if (obj.getName().compareTo("FlightStatus") == 0) {
-			UAVObjectField field = obj.getField("FlightMode");
-			if (field != null) {
-				TextView text = (TextView) findViewById(R.id.flightMode);
-				text.setText(field.getValue().toString());
-			}
-
-			field = obj.getField("Armed");
-			if (field != null) {
-				TextView text = (TextView) findViewById(R.id.armedStatus);
-				text.setText(field.getValue().toString());
-			}
-		}
-	}
 
 	//! Process the changes in the mode selector and pass that information to TabletInfo
 	final RadioGroup.OnCheckedChangeListener ToggleListener = new RadioGroup.OnCheckedChangeListener() {

@@ -60,7 +60,7 @@
 		<activity android:name="TuningActivity" android:label="Tuning" />
 
 		<activity android:name="PathPlanner" android:label="Path Planner" />
-		<activity android:name="TableControl" android:label="@string/tablet_control"/> <!-- android:hardwareAccelerated="false" -->
+		<activity android:name="TabletControl" android:label="@string/tablet_control"/> <!-- android:hardwareAccelerated="false" -->
 		<activity android:name="ObjectEditor" android:label="ObjectEditor"
 		    android:windowSoftInputMode="stateHidden"
 			android:theme="@android:style/Theme.Dialog" />
