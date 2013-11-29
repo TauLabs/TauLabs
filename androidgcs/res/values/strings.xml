@@ -84,4 +84,6 @@
 	<string name="disarmed">Disarmed</string>
 
 	<string name="armed_">"Armed: "</string>
+
+	<string name="clear_uav_path">Clear UAV Path</string>
 </resources>

@@ -10,6 +10,7 @@ import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -34,6 +35,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.maps.GeoPoint;
 
 public class Map extends ObjectManagerFragment {
@@ -53,6 +56,9 @@ public class Map extends ObjectManagerFragment {
     private GeoPoint pathDesiredLocation;
     private GeoPoint uavLocation;
     private GeoPoint poiLocation;
+    
+    private List<LatLng> pathPoints = new ArrayList<LatLng>();
+    private Polyline pathLine;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,6 +75,10 @@ public class Map extends ObjectManagerFragment {
 		 }
 
 		mMap = m.getMap();
+		
+		pathLine = mMap.addPolyline(new PolylineOptions().width(5)
+									.color(Color.WHITE));
+		pathLine.setPoints(pathPoints);
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		int map_type = Integer.decode(prefs.getString("map_type", "1"));
@@ -357,15 +367,19 @@ public class Map extends ObjectManagerFragment {
 			}
 		} else if (obj.getName().compareTo("PositionActual") == 0) {
 			uavLocation = getUavLocation();
+			LatLng loc = new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6);
 			if (mUavMarker == null) {
 				mUavMarker = mMap.addMarker(new MarkerOptions().anchor(0.5f,0.5f)
-			       .position(new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6))
+			       .position(loc)
 			       .title("UAV")
 			       .snippet(String.format("%g, %g", uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6))
 			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.im_map_uav)));
 			} else {
-				mUavMarker.setPosition((new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6)));
+				mUavMarker.setPosition(loc);
 			}
+			
+			pathPoints.add(loc);
+			pathLine.setPoints(pathPoints);
 		} else if (obj.getName().compareTo("Waypoint") == 0) {
 			int instances = objMngr.getNumInstances(obj.getObjID());
 			for (int idx = 0; idx < instances; idx++) {
@@ -476,6 +490,10 @@ public class Map extends ObjectManagerFragment {
 	            			new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6)));
 	            }
 	            return true;
+	        case R.id.map_action_clear_uav_path:
+	        	pathPoints.clear();
+	        	pathLine.setPoints(pathPoints);
+	        	return true;
 	        default:
 	            return super.onContextItemSelected(item);
 	    }
