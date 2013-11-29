@@ -45,6 +45,8 @@ public class AttitudeView extends View {
 	private Paint groundPaint;
 	private Paint horizonPaint;
 	private Path triangle;
+	private int MAX_WIDTH = 2000;
+	private int MAX_HEIGHT = 2000;
 
 	private Paint pitchLabelPaint;
 	private final Rect pitchTextBounds = new Rect();
@@ -127,7 +129,7 @@ public class AttitudeView extends View {
             result = specSize;
         } else {
             // Measure the text (beware: ascent is a negative number)
-            result = 1600;
+            result = MAX_HEIGHT;
             if (specMode == MeasureSpec.AT_MOST) {
                 // Respect AT_MOST value if that was what is called for by measureSpec
                 result = Math.min(result, specSize);
@@ -151,7 +153,7 @@ public class AttitudeView extends View {
             result = specSize;
         } else {
             // Measure the text
-            result = 800;
+            result = MAX_WIDTH;
             if (specMode == MeasureSpec.AT_MOST) {
                 // Respect AT_MOST value if that was what is called for by measureSpec
                 result = Math.min(result, specSize);
@@ -188,13 +190,10 @@ public class AttitudeView extends View {
 
 		canvas.translate(0, pitch * DEG_TO_PX);
 
-		// Starting with a square image, want to size it equally
-		int screenSize = Math.min(PX, PY);
-
 		// Draw the horizon and pitch indicator
-		canvas.drawRect(PX - screenSize * 2, PY, PX + screenSize * 2, PY + screenSize * 4, groundPaint);
-		canvas.drawRect(PX - screenSize * 2, PY - screenSize * 4, PX + screenSize * 2, PY, skyPaint);
-		canvas.drawLine(PX - screenSize * 2, PY, PX + screenSize * 2, PY, horizonPaint);
+		canvas.drawRect(PX - PX * 2, PY, PX + PX * 2, PY + PY * 2, groundPaint);
+		canvas.drawRect(PX - PX * 2, PY - PY * 2, PX + PX * 2, PY, skyPaint);
+		canvas.drawLine(PX - PX * 2, PY, PX + PX * 2, PY, horizonPaint);
 
 		// Draw the pitch indicator
 		float [] pitchAngles = {-20, -10, 10, 20};

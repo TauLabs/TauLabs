@@ -73,6 +73,13 @@ public class ObjectEditor extends ObjectManagerFragment {
 	}
 	
 	@Override
+	public void onOPDisconnected() {
+		super.onOPDisconnected();
+		
+		connected = false;
+	}
+	
+	@Override
 	public void onResume() {
 		super.onResume();
 		
