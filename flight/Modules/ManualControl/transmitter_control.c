@@ -122,10 +122,13 @@ int32_t transmitter_control_initialize()
 	AccessoryDesiredInitialize();
 	ManualControlCommandInitialize();
 	FlightStatusInitialize();
-	LoiterCommandInitialize();
 	StabilizationDesiredInitialize();
 	ReceiverActivityInitialize();
 	ManualControlSettingsInitialize();
+
+#ifndef COPTERCONTROL
+	LoiterCommandInitialize();
+#endif
 
 	/* For now manual instantiate extra instances of Accessory Desired.  In future  */
 	/* should be done dynamically this includes not even registering it if not used */
