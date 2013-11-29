@@ -80,7 +80,7 @@ ifneq (,$(filter $(UNAME), Linux))
 endif
 
 ifneq (,$(filter $(UNAME), MINGW32_NT-6.1))
-	$(V1) ./downloads/qt-windows-opensource-5.2.0-rc1-mingw48_32-x86-offline.exe
+	$(V1) ./downloads/qt-windows-opensource-5.2.0-rc1-mingw48_opengl-x86-offline.exe
 endif
 
 .PHONY: qt_sdk_clean
