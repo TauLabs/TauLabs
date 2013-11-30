@@ -94,4 +94,10 @@ public class ObjectViewer extends ObjectManagerFragment {
 			Log.d(TAG, "Update without activity");
 		}
 	}
+	
+	@Override
+	protected String getDebugTag() {
+		return TAG;
+	}
+
 }

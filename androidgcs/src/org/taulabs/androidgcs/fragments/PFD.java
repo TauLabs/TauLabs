@@ -42,8 +42,7 @@ import android.view.ViewGroup;
 
 public class PFD extends ObjectManagerFragment {
 
-	private static final String TAG = ObjectManagerFragment.class
-			.getSimpleName();
+	private static final String TAG = PFD.class.getSimpleName();
 	private static final int LOGLEVEL = 0;
 	// private static boolean WARN = LOGLEVEL > 1;
 	private static final boolean DEBUG = LOGLEVEL > 0;
@@ -195,6 +194,11 @@ public class PFD extends ObjectManagerFragment {
 				flightStatusView.setFlightMode(flightMode);
 			}
 		}
+	}
+
+	@Override
+	protected String getDebugTag() {
+		return TAG;
 	}
 
 }

@@ -117,4 +117,10 @@ public class ObjectEditor extends ObjectManagerFragment {
 		smartSave.fetchSettings();
 		smartSave.refreshSettingsDisplay();
 	}
+	
+	@Override
+	protected String getDebugTag() {
+		return TAG;
+	}
+
 }

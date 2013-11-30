@@ -42,7 +42,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
-public class ObjectManagerFragment extends Fragment {
+public abstract class ObjectManagerFragment extends Fragment {
 
 	private static final String TAG = ObjectManagerFragment.class.getSimpleName();
 	private static final int LOGLEVEL = 0;
@@ -50,12 +50,14 @@ public class ObjectManagerFragment extends Fragment {
 	private static final boolean DEBUG = LOGLEVEL > 0;
 
 	UAVObjectManager objMngr;
+	
+	abstract protected String getDebugTag();
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (DEBUG) Log.d(TAG, "Created an ObjectManagerFragment");
+		if (DEBUG) Log.d(TAG, "onCreate: " + getDebugTag());
 		// For an activity this registers against the telemetry service intents.  Fragments must be notified by their
 		// parent activity
 	}
@@ -67,7 +69,7 @@ public class ObjectManagerFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
     	super.onAttach(activity);
-    	if (DEBUG) Log.d(TAG,"onAttach");
+    	if (DEBUG) Log.d(TAG,"onAttach: " + getDebugTag());
 
         ObjectManagerActivity castActivity = null;
         try {
@@ -83,9 +85,7 @@ public class ObjectManagerFragment extends Fragment {
     @Override
 	public void onStop() {
     	super.onStop();
-    	if (DEBUG) Log.d(TAG, "onStop");
-    	if (objMngr != null)
-    		onOPDisconnected();
+    	if (DEBUG) Log.d(TAG, "onStop: " + getDebugTag());
     }
     
     private boolean resumed = false;
@@ -93,13 +93,13 @@ public class ObjectManagerFragment extends Fragment {
     @Override
     public void onPause() {
     	super.onPause();
-    	if (DEBUG) Log.d(TAG, "onPause");
+    	if (DEBUG) Log.d(TAG, "onPause: " + getDebugTag());
     	resumed = false;
     }
     
     public void onResume() {
     	super.onResume();
-    	if (DEBUG) Log.d(TAG, "onResume");
+    	if (DEBUG) Log.d(TAG, "onResume: " + getDebugTag());
     	resumed = true;
     }
 
@@ -110,6 +110,8 @@ public class ObjectManagerFragment extends Fragment {
     synchronized public void onDestroy() {
     	super.onDestroy();
     	
+    	if (DEBUG) Log.d(TAG, "onDestroy: " + getDebugTag());
+    	
 		Set<Observer> s = listeners.keySet();
 		Iterator<Observer> i = s.iterator();
 		while (i.hasNext()) {
@@ -119,17 +121,21 @@ public class ObjectManagerFragment extends Fragment {
 		}
 		
 		listeners.clear();
+		
+    	if (objMngr != null)
+    		onOPDisconnected();
+		
     }
 
 	// The below methods should all be called by the parent activity at the appropriate times
 	synchronized public void onOPConnected(UAVObjectManager objMngr) {
 		this.objMngr = objMngr;
-		if (DEBUG) Log.d(TAG,"onOPConnected");
+		if (DEBUG) Log.d(TAG,"onOPConnected: " + getDebugTag());
 	}
 
 	synchronized public void onOPDisconnected() {
 		objMngr = null;
-		if (DEBUG) Log.d(TAG,"onOPDisconnected");
+		if (DEBUG) Log.d(TAG,"onOPDisconnected: " + getDebugTag());
 	}
 
 	/**

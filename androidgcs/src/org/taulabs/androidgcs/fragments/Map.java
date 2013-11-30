@@ -513,6 +513,7 @@ public class Map extends ObjectManagerFragment {
 
 	@Override
 	public void onDestroy() {
+		super.onDestroy();
 		if (mMap != null) {
 			CameraPosition camPos = mMap.getCameraPosition();
    
@@ -530,4 +531,10 @@ public class Map extends ObjectManagerFragment {
 		super.onLowMemory();
 		m.onLowMemory();
 	}
+
+	@Override
+	protected String getDebugTag() {
+		return TAG;
+	}
+	
 }

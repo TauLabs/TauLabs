@@ -92,5 +92,9 @@ public class SystemAlarmsFragment extends ObjectManagerFragment {
 		}
 	}
 
+	@Override
+	protected String getDebugTag() {
+		return TAG;
+	}
 
 }
