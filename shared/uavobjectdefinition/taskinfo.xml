@@ -32,6 +32,7 @@
 			<elementname>UAVORelay</elementname>
 			<elementname>VibrationAnalysis</elementname>
 			<elementname>Battery</elementname>
+			<elementname>UAVOHoTTBridge</elementname>
 		</elementnames>
 	</field> 
 	<field name="Running" units="bool" type="enum">
@@ -65,6 +66,7 @@
 			<elementname>UAVORelay</elementname>
 			<elementname>VibrationAnalysis</elementname>
 			<elementname>Battery</elementname>
+			<elementname>UAVOHoTTBridge</elementname>
 		</elementnames>
 		<options>
 			<option>False</option>
@@ -102,6 +104,7 @@
 			<elementname>UAVORelay</elementname>
 			<elementname>VibrationAnalysis</elementname>
 			<elementname>Battery</elementname>
+			<elementname>UAVOHoTTBridge</elementname>
 		</elementnames>
 	</field> 
 	<access gcs="readwrite" flight="readwrite"/>

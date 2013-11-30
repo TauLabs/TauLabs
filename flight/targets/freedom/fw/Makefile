@@ -58,6 +58,7 @@ OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += ComUsbBridge
 OPTMODULES += Airspeed/revolution
+OPTMODULES += UAVOHoTTBridge
 
 PYMODULES = 
 #FlightPlan

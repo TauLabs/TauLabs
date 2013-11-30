@@ -21,6 +21,7 @@
 				<elementname>UAVOMavlinkBridge</elementname>
 				<elementname>UAVORelay</elementname>
 				<elementname>VibrationAnalysis</elementname>
+				<elementname>UAVOHoTTBridge</elementname>
 			</elementnames>
 		</field>
 
