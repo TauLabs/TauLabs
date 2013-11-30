@@ -86,4 +86,6 @@
 	<string name="armed_">"Armed: "</string>
 
 	<string name="clear_uav_path">Clear UAV Path</string>
+
+	<string name="close_button">Close</string>
 </resources>
