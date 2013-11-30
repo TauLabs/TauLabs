@@ -37,6 +37,7 @@ import android.util.Log;
 
 public class TabletInformation {
 	private final static String TAG = TabletInformation.class.getSimpleName();
+	private final static boolean DEBUG = false;
 
 	private UAVObjectManager objMngr;
 	private LocationManager locationManager;
@@ -51,7 +52,7 @@ public class TabletInformation {
 
 		locationManager = (LocationManager)service.getSystemService(Context.LOCATION_SERVICE);
 
-		Log.d(TAG, "Connecting to location updates");
+		if (DEBUG) Log.d(TAG, "Connecting to location updates");
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 1000, // 1 second
                 0,    // 1 m
@@ -68,7 +69,7 @@ public class TabletInformation {
 		@Override
 		public void onLocationChanged(Location location) {
 
-			Log.d("TabletInformation", "Location changed");
+			if (DEBUG) Log.d("TabletInformation", "Location changed");
 
 			UAVObject obj = objMngr.getObject("TabletInfo");
 			if (obj == null)
@@ -106,17 +107,17 @@ public class TabletInformation {
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			Log.d(TAG, "Provider disabled");
+			if (DEBUG) Log.d(TAG, "Provider disabled");
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			Log.d(TAG, "Provider enabled");
+			if (DEBUG) Log.d(TAG, "Provider enabled");
 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			Log.d(TAG, "Status changed");
+			if (DEBUG) Log.d(TAG, "Status changed");
 		}
 
 	};
