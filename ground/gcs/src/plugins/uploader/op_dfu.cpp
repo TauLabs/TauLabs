@@ -37,6 +37,7 @@ using namespace OP_DFU;
 DFUObject::DFUObject(bool _debug,bool _use_serial,QString portname):
     debug(_debug),use_serial(_use_serial),mready(true)
 {
+    debug=true;
     info = NULL;
     numberOfDevices = 0;
 
@@ -363,7 +364,7 @@ QByteArray DFUObject::DownloadDescriptionAsBA(int const & numberOfChars)
   */
 bool DFUObject::DownloadPartition(QByteArray *firmwareArray, int device, int partition,int size)
 {
-
+    qDebug()<<"DOWNLOAD PARTITION- SETTING DOWNLOAD CONFIG PARTITION="<<partition<<" SIZE:"<<size;
     if (isRunning())
         return false;
     requestedOperation = OP_DFU::Download;
@@ -399,6 +400,7 @@ void DFUObject::run()
     OP_DFU::Status uploadStatus;
     switch (requestedOperation) {
         case OP_DFU::Download:
+            qDebug()<<"DOWNLOAD THREAD STARTED";
             downloadResult = StartDownloadT(requestStorage, requestSize, requestTransferType);
             emit downloadFinished(downloadResult);
             break;
@@ -582,6 +584,7 @@ OP_DFU::Status DFUObject::StatusRequest()
   */
 bool DFUObject::findDevices()
 {
+    qDebug()<<"FINDDEVICES BEGIN";
     devices.clear();
     char buf[BUF_LEN];
     buf[0] =0x02;                      //reportID
@@ -594,12 +597,14 @@ bool DFUObject::findDevices()
     buf[7] = 0;
     buf[8] = 0;
     buf[9] = 0;
-
+    qDebug()<<"FINDDEVICES SENDING CAPABILITIES REQUEST BUFFER_SIZE:"<<BUF_LEN;
     int result = sendData(buf, BUF_LEN);
+    qDebug()<<"FINDDEVICES CAPABILITIES REQUEST BYTES_SENT:"<<result;
     if (result < 1)
         return false;
 
     result = receiveData(buf,BUF_LEN);
+    qDebug()<<"FINDDEVICES CAPABILITIES ANSWER BYTES_RECEIVED:"<<result;
     if (result < 1)
         return false;
 
@@ -648,6 +653,7 @@ bool DFUObject::findDevices()
             devices[x].SizeOfCode=aux;
 
             devices[x].PartitionSizes.clear();
+            qDebug()<<"FINDDEVICES BL_CAP_EXTENSIONS CHECK "<<"BUF17:"<<buf[17]<<" BUF16:"<<buf[16]<<"CHECK:"<<(((buf[17]<<8)|buf[16]) == BL_CAP_EXTENSION_MAGIC);
             if(((buf[17]<<8)|buf[16]) == BL_CAP_EXTENSION_MAGIC)
             {
                 for(int partition = 0;partition < 10;++partition)

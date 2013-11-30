@@ -111,7 +111,7 @@ void deviceWidget::setDfu(DFUObject *dfu)
   */
 void deviceWidget::populate()
 {
-
+    qDebug()<<"POPULATE BEGIN";
     unsigned int id = m_dfu->devices[deviceID].ID;
     myDevice->lbldevID->setText(QString("Device ID: ") + QString::number(id & 0xFFFF, 16));
     // DeviceID tells us what sort of HW we have detected:
@@ -135,27 +135,37 @@ void deviceWidget::populate()
     myDevice->lblBLVer->setText(QString("BL version: ") + QString::number(m_dfu->devices[deviceID].BL_Version));
     QString moreRecent;
     bool checked;
+    qDebug()<<"POPULATE BL_VERSION:"<<m_dfu->devices[deviceID].BL_Version;
     if(m_dfu->devices[deviceID].BL_Version < 128)
     {
         moreRecent = (tr("You need a more recent bootloader to use this function"));
         checked = false;
+        qDebug()<<"POPULATE BL OK FOR PARTITION BROWSER";
     }
     else
     {
         moreRecent = "";
         checked = true;
+        qDebug()<<"POPULATE BL TOO OLD FOR PARTITION BROWSER";
     }
     myDevice->cbShowPartBrowser->setEnabled(checked);
     myDevice->cbShowPartBrowser->setToolTip(moreRecent);
     myDevice->retrievePartBundleButton->setEnabled(checked);
     myDevice->retrievePartBundleButton->setToolTip(moreRecent);
     int x = 0;
+    qDebug()<<"POPULATE BEGIN PARTITION BROWSER LOAD, NUMBER OF PARTITIONS TO ADD"<<m_dfu->devices[deviceID].PartitionSizes.size();
     while(true)
     {
         if(x >= m_dfu->devices[deviceID].PartitionSizes.size())
+        {
+            qDebug()<<"POPULATE LOADED "<<x<<" PARTITIONS";
             break;
+        }
         if(m_dfu->devices[deviceID].PartitionSizes.at(x) == 0)
+        {
+            qDebug()<<"POPULATE LOADED "<<x-1<<" PARTITIONS";
             break;
+        }
         myDevice->tablePartitions->insertRow(x);
         QTableWidgetItem *item = new QTableWidgetItem;
         item->setText(QString::number(x));
