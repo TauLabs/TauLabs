@@ -46,12 +46,14 @@ public class ObjectEditor extends ObjectManagerFragment {
 	long objectID;
 	long instID;
 	private SmartSave smartSave;
+	private boolean updated = false; //!< Indicate if the data has been fetched from UAV
 
 	@Override
 	public void setArguments(Bundle b) {
 		objectName = b.getString("org.taulabs.androidgcs.ObjectName");
 		objectID = b.getLong("org.taulabs.androidgcs.ObjectId");
 		instID = b.getLong("org.taulabs.androidgcs.InstId");
+		updated = b.getBoolean("org.taulabs.androidgcs.updated", false);
 	}
 
 
@@ -121,7 +123,13 @@ public class ObjectEditor extends ObjectManagerFragment {
 		while (li.hasNext()) {
 			editView.addField(li.next());
 		}
-		smartSave.fetchSettings();
+		
+		if (!updated) {
+			// Only need to update data one time
+			smartSave.fetchSettings();
+			updated = true;
+		}
+
 		smartSave.refreshSettingsDisplay();
 	}
 	
@@ -132,6 +140,7 @@ public class ObjectEditor extends ObjectManagerFragment {
 		outState.putString("org.taulabs.androidgcs.ObjectName", objectName);
 		outState.putLong("org.taulabs.androidgcs.ObjectId", objectID);
 		outState.putLong("org.taulabs.androidgcs.InstId", instID);
+		outState.putBoolean("org.taulabs.androidgcs.updated", updated);
 	}
 	
 	@Override
