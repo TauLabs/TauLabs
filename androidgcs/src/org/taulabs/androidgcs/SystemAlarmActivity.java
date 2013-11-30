@@ -39,10 +39,12 @@ public class SystemAlarmActivity extends ObjectManagerActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		FragmentTransaction fragmentTransaction = getFragmentManager()
-				.beginTransaction();
-		fragmentTransaction.add(R.id.content_frame, new SystemAlarmsFragment());
-		fragmentTransaction.commit();
+		if (savedInstanceState == null) {
+			FragmentTransaction fragmentTransaction = getFragmentManager()
+					.beginTransaction();
+			fragmentTransaction.add(R.id.content_frame, new SystemAlarmsFragment());
+			fragmentTransaction.commit();
+		}
 	}
 	
 	@Override
