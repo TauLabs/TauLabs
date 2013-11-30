@@ -125,6 +125,11 @@ public class ObjectBrowser extends ObjectManagerActivity
 
 		 ((CheckBox) findViewById(R.id.dataCheck)).setChecked(prefs.getBoolean("browser_show_data",true));
 		 ((CheckBox) findViewById(R.id.settingsCheck)).setChecked(prefs.getBoolean("browser_show_settings",true));
+		 
+		 if (savedInstanceState != null) {
+				displayMode = (DisplayMode) savedInstanceState.getSerializable("org.taulabs.browser.mode");
+				selected_index = savedInstanceState.getInt("org.taulabs.browser.selected");
+		 }
 	}
 	
 	@Override
@@ -137,7 +142,6 @@ public class ObjectBrowser extends ObjectManagerActivity
 	@Override
 	void onConnected() {
 		super.onConnected();
-		Log.d(TAG, "onConnected()");
 
 		OnCheckedChangeListener checkListener = new OnCheckedChangeListener() {
 			@Override
@@ -192,8 +196,6 @@ public class ObjectBrowser extends ObjectManagerActivity
 	 * Populate the list of UAVO objects based on the selected filter
 	 */
 	private void updateList() {
-		// Disconnect any previous signals
-		selected_index = -1;
 
 		boolean includeData = ((CheckBox) findViewById(R.id.dataCheck)).isChecked();
 		boolean includeSettings = ((CheckBox) findViewById(R.id.settingsCheck)).isChecked();
@@ -221,6 +223,11 @@ public class ObjectBrowser extends ObjectManagerActivity
 				viewObject(selected_index);
 			}
 		});
+		
+		if (selected_index >= 0) {
+			objects.setSelection(selected_index);
+			objects.setItemChecked(selected_index, true);
+		}
 	}
 
 
@@ -236,5 +243,13 @@ public class ObjectBrowser extends ObjectManagerActivity
 			((CheckBox) findViewById(R.id.settingsCheck)).setChecked(prefs.getBoolean("browser_show_settings",true));
 			updateList();
 		}
+	}
+	
+	@Override
+	public void onSaveInstanceState (Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+		outState.putSerializable("org.taulabs.browser.mode", displayMode);
+		outState.putInt("org.taulabs.browser.selected", selected_index);
 	}
 }

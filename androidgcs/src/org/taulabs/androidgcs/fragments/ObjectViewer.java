@@ -52,13 +52,22 @@ public class ObjectViewer extends ObjectManagerFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		if (savedInstanceState != null) {
+			// Unpack the object information
+			setArguments(savedInstanceState);
+			
+			// If the object manager is not null, that means we connected
+			// before knowing the object information and need to connect
+			// for updates
+			if (objMngr != null)
+				connectObject(); 
+		} 
+		
 		return inflater.inflate(R.layout.object_viewer, container, false);
 	}
 
-	@Override
-	public void onConnected(UAVObjectManager objMngr) {
-		super.onConnected(objMngr);
-
+	private void connectObject() {
 		object = objMngr.getObject(objectID, instID);
 		if (object == null) {
 			Log.d(TAG, "Object not found:" + objectID);
@@ -67,6 +76,12 @@ public class ObjectViewer extends ObjectManagerFragment {
 		
 		registerObjectUpdates(object);
 		objectUpdatedUI(object);
+	}
+	
+	@Override
+	public void onConnected(UAVObjectManager objMngr) {
+		super.onConnected(objMngr);
+		connectObject();
 	}
 	
 	/**
@@ -82,6 +97,15 @@ public class ObjectViewer extends ObjectManagerFragment {
 			objectUpdatedUI(object);
 	}
 	
+	@Override
+	public void onSaveInstanceState (Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+		outState.putString("org.taulabs.androidgcs.ObjectName", objectName);
+		outState.putLong("org.taulabs.androidgcs.ObjectId", objectID);
+		outState.putLong("org.taulabs.androidgcs.InstId", instID);
+	}
+
 	/**
 	 * Called whenever any objects subscribed to via registerObjects
 	 */

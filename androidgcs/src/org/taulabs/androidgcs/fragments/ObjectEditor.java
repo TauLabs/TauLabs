@@ -58,6 +58,12 @@ public class ObjectEditor extends ObjectManagerFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		if (savedInstanceState != null) {
+			// Unpack the object information
+			setArguments(savedInstanceState);
+		}
+
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.object_editor, container, false);
 	}
@@ -86,6 +92,7 @@ public class ObjectEditor extends ObjectManagerFragment {
 		resumed = true;
 		init();
 	}
+
 	public void init() {
 		// Wait for display to appear and to connect
 		if (!connected || !resumed)
@@ -116,6 +123,15 @@ public class ObjectEditor extends ObjectManagerFragment {
 		}
 		smartSave.fetchSettings();
 		smartSave.refreshSettingsDisplay();
+	}
+	
+	@Override
+	public void onSaveInstanceState (Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+		outState.putString("org.taulabs.androidgcs.ObjectName", objectName);
+		outState.putLong("org.taulabs.androidgcs.ObjectId", objectID);
+		outState.putLong("org.taulabs.androidgcs.InstId", instID);
 	}
 	
 	@Override
