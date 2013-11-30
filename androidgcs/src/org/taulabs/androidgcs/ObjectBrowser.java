@@ -52,7 +52,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 
-public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPreferenceChangeListener {
+public class ObjectBrowser extends ObjectManagerActivity 
+	implements OnSharedPreferenceChangeListener {
 
 	private final String TAG = "ObjectBrower";
 	int selected_index = -1;
@@ -61,6 +62,59 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 	ArrayAdapter<UAVDataObject> adapter;
 	List<UAVDataObject> allObjects;
 
+	enum DisplayMode {NONE, VIEW, EDIT};
+	DisplayMode displayMode = DisplayMode.NONE;
+	
+	/**
+	 * Display the fragment to edit this object
+	 * @param id
+	 */
+	public void editObject(int id) {
+		
+		Log.d(TAG, "editObject("+id+")");
+
+		displayMode = DisplayMode.EDIT;
+		
+		Bundle b = new Bundle();
+		b.putString("org.taulabs.androidgcs.ObjectName", allObjects.get(selected_index).getName());
+		b.putLong("org.taulabs.androidgcs.ObjectId", allObjects.get(selected_index).getObjID());
+		b.putLong("org.taulabs.androidgcs.InstId", allObjects.get(selected_index).getInstID());
+
+		Fragment newFrag = new ObjectEditor();
+		newFrag.setArguments(b);
+		
+		FragmentTransaction trans = getFragmentManager().beginTransaction();
+		trans.replace(R.id.object_information, newFrag);
+		trans.addToBackStack(null);
+		trans.commit();
+
+	}
+	
+	/**
+	 * Display the fragment to view this object
+	 * @param id
+	 */
+	public void viewObject(int id) {
+		Bundle b = new Bundle();
+		b.putString("org.taulabs.androidgcs.ObjectName", allObjects.get(selected_index).getName());
+		b.putLong("org.taulabs.androidgcs.ObjectId", allObjects.get(selected_index).getObjID());
+		b.putLong("org.taulabs.androidgcs.InstId", allObjects.get(selected_index).getInstID());
+
+		Fragment newFrag = new ObjectViewer();
+		newFrag.setArguments(b);
+		
+		if (displayMode == DisplayMode.EDIT)
+			getFragmentManager().popBackStack();
+
+		FragmentTransaction trans = getFragmentManager().beginTransaction();
+		trans.replace(R.id.object_information, newFrag);
+		if (displayMode != DisplayMode.NONE)
+			trans.addToBackStack(null);
+		trans.commit();
+		
+		displayMode = DisplayMode.VIEW;
+	}
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -105,23 +159,12 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 	}
 
 	public void attachObjectView() {
+		Log.d(TAG, "attachObjectView()");
 		((Button) findViewById(R.id.editButton)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (selected_index > 0) {
-					Bundle b = new Bundle();
-					b.putString("org.taulabs.androidgcs.ObjectName", allObjects.get(selected_index).getName());
-					b.putLong("org.taulabs.androidgcs.ObjectId", allObjects.get(selected_index).getObjID());
-					b.putLong("org.taulabs.androidgcs.InstId", allObjects.get(selected_index).getInstID());
-
-					Fragment newFrag = new ObjectEditor();
-					newFrag.setArguments(b);
-					
-					FragmentTransaction trans = getFragmentManager().beginTransaction();
-					trans.replace(R.id.object_information, newFrag);
-					trans.addToBackStack(null);
-					trans.commit();
-
+					editObject(selected_index);
 				}
 			}
 		});
@@ -175,19 +218,7 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 					int position, long id) {
 				
 				selected_index = position;
-
-				Bundle b = new Bundle();
-				b.putString("org.taulabs.androidgcs.ObjectName", allObjects.get(selected_index).getName());
-				b.putLong("org.taulabs.androidgcs.ObjectId", allObjects.get(selected_index).getObjID());
-				b.putLong("org.taulabs.androidgcs.InstId", allObjects.get(selected_index).getInstID());
-
-				Fragment newFrag = new ObjectViewer();
-				newFrag.setArguments(b);
-				
-				FragmentTransaction trans = getFragmentManager().beginTransaction();
-				trans.replace(R.id.object_information, newFrag);
-				trans.addToBackStack(null);
-				trans.commit();
+				viewObject(selected_index);
 			}
 		});
 	}

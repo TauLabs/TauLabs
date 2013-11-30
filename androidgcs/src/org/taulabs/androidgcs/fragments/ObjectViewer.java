@@ -22,6 +22,7 @@
  */
 package org.taulabs.androidgcs.fragments;
 
+import org.taulabs.androidgcs.ObjectBrowser;
 import org.taulabs.androidgcs.R;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectManager;
@@ -75,6 +76,8 @@ public class ObjectViewer extends ObjectManagerFragment {
 	public void onResume() {
 		super.onResume();
 		
+		((ObjectBrowser) getActivity()).attachObjectView();
+
 		if (objMngr != null)
 			objectUpdatedUI(object);
 	}
