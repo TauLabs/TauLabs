@@ -22,7 +22,6 @@
  */
 package org.taulabs.androidgcs.fragments;
 
-import org.taulabs.androidgcs.ObjectBrowser;
 import org.taulabs.androidgcs.R;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectManager;
@@ -66,7 +65,7 @@ public class ObjectViewer extends ObjectManagerFragment {
 		}
 		
 		registerObjectUpdates(object);
-		objectUpdated(object);
+		objectUpdatedUI(object);
 	}
 	
 	/**
@@ -76,16 +75,14 @@ public class ObjectViewer extends ObjectManagerFragment {
 	public void onResume() {
 		super.onResume();
 		
-		((ObjectBrowser) getActivity()).attachObjectView();
-		
-		if (object != null)
-			objectUpdated(object);
+		if (objMngr != null)
+			objectUpdatedUI(object);
 	}
 	
 	/**
 	 * Called whenever any objects subscribed to via registerObjects
 	 */
-	public void objectUpdated(UAVObject obj) {
+	public void objectUpdatedUI(UAVObject obj) {
 		if (getActivity() != null) {
 			TextView text = (TextView) getActivity().findViewById(R.id.object_info_view);
 			if (text != null)
