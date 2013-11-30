@@ -17,6 +17,7 @@
 				<option>MavLinkTX_GPS_RX</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
+				<option>HoTT Telemetry</option>
 			</options>
 		</field>
 		<field name="FlexiPort" units="function" type="enum" elements="1" defaultvalue="GPS">
@@ -34,6 +35,7 @@
 				<option>MavLinkTX_GPS_RX</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
+				<option>HoTT Telemetry</option>
 			</options>
 		</field>
 		<field name="RcvrPort" units="function" type="enum" elements="1" defaultvalue="Disabled">
