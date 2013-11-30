@@ -25,6 +25,13 @@
  */
 package org.taulabs.androidgcs.fragments;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
+
 import org.taulabs.androidgcs.ObjectManagerActivity;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectManager;
@@ -32,6 +39,7 @@ import org.taulabs.uavtalk.UAVObjectManager;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 public class ObjectManagerFragment extends Fragment {
@@ -80,50 +88,107 @@ public class ObjectManagerFragment extends Fragment {
     		onOPDisconnected();
     }
     
-    private boolean paused = false;
+    private boolean resumed = false;
 
     @Override
     public void onPause() {
     	super.onPause();
     	if (DEBUG) Log.d(TAG, "onPause");
-    	((ObjectManagerActivity) getActivity()).pauseObjectUpdates(this);
-    	paused = true;
+    	resumed = false;
     }
     
     public void onResume() {
     	super.onResume();
     	if (DEBUG) Log.d(TAG, "onResume");
-    	if (paused) // do not do this while initializing
-    		((ObjectManagerActivity) getActivity()).resumeObjectUpdates(this);
-    	paused = false;
+    	resumed = true;
     }
 
+    /**
+     * When the fragment is destroyed we must remove all the callbacks
+     * as the handlers will no longer be valid.
+     */
+    synchronized public void onDestroy() {
+    	super.onDestroy();
+    	
+		Set<Observer> s = listeners.keySet();
+		Iterator<Observer> i = s.iterator();
+		while (i.hasNext()) {
+			Observer o = i.next();
+			UAVObject obj = listeners.get(o);
+			obj.removeUpdatedObserver(o);
+		}
+		
+		listeners.clear();
+    }
 
 	// The below methods should all be called by the parent activity at the appropriate times
-	public void onOPConnected(UAVObjectManager objMngr) {
+	synchronized public void onOPConnected(UAVObjectManager objMngr) {
 		this.objMngr = objMngr;
 		if (DEBUG) Log.d(TAG,"onOPConnected");
 	}
 
-	public void onOPDisconnected() {
+	synchronized public void onOPDisconnected() {
 		objMngr = null;
 		if (DEBUG) Log.d(TAG,"onOPDisconnected");
 	}
 
 	/**
 	 * Called whenever any objects subscribed to via registerObjects
+	 * is updated.
 	 */
-	public void objectUpdated(UAVObject obj) {
+	protected void objectUpdated(UAVObject obj) {
+	}
+	
+	/**
+	 * Called whenever any objects subscribed to via registerObjects
+	 * is updated and the UI is valid to update.
+	 */
+	protected void objectUpdatedUI(UAVObject obj) {
+	}
+	
+	//! Handler that posts messages from object updates
+	final Handler uavobjHandler = new Handler();
+	
+	//! Observer to notify the fragment of an update
+	private class ObjectyUpdatedObserver implements Observer  {
+		UAVObject obj;
+		ObjectyUpdatedObserver(UAVObject obj) { this.obj = obj; };
+		@Override
+		public void update(Observable observable, Object data) {
+			uavobjHandler.post(new Runnable() {
+				@Override
+				public void run() { 
+					objectUpdated(obj);
+					if (resumed)
+						objectUpdatedUI(obj);
+				}
+			});
+		}
+	};
+	
+	//! Maintain a list of all the UAVObject listeners for this fragment
+	private HashMap<Observer, UAVObject> listeners = new HashMap<Observer, UAVObject>();
 
+	/**
+	 * Register an activity to receive updates from this object
+	 * @param object The object the activity should listen to updates from
+	 * the objectUpdated() method will be called in the original UI thread
+	 */
+	protected void registerObjectUpdates(UAVObject object) {
+		Observer o = new ObjectyUpdatedObserver(object);
+		listeners.put(o,  object);
+		object.addUpdatedObserver(o);
 	}
 
 	/**
-	 * Register on the activities object monitor handler so that updates
-	 * occur within that UI thread.  No need to maintain a handler for
-	 * each fragment.
+	 * Helper method to register array of objects
 	 */
-	protected void registerObjectUpdates(UAVObject object) {
-		((ObjectManagerActivity) getActivity()).registerObjectUpdates(object, this);
+	protected void registerObjectUpdates(List<List<UAVObject>> objects) {
+		for (int i = 0; i < objects.size(); i++) {
+			List<UAVObject> inner = objects.get(i);
+			for (int j = 0; j < inner.size(); j++)
+				registerObjectUpdates(inner.get(j));
+		}
 	}
 
 }

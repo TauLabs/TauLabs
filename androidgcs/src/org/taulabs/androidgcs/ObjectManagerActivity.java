@@ -373,25 +373,6 @@ public abstract class ObjectManagerActivity extends Activity {
 			});
 		}
 	};
-	private class FragmentUpdatedObserver implements Observer  {
-		UAVObject obj;
-		ObjectManagerFragment frag;
-		FragmentUpdatedObserver(UAVObject obj, ObjectManagerFragment frag) {
-			this.obj = obj;
-			this.frag = frag;
-		};
-		@Override
-		public void update(Observable observable, Object data) {
-			uavobjHandler.post(new Runnable() {
-				@Override
-				public void run() { frag.objectUpdated(obj); }
-			});
-		}
-		
-		public boolean match(Fragment frag) {
-			return this.frag == frag;
-		}
-	};
 
 	/**
 	 * Unregister all the objects connected to this activity
@@ -419,33 +400,6 @@ public abstract class ObjectManagerActivity extends Activity {
 		paused = true;
 	}
 
-	/**
-	 * When a fragment is paused, disconnect from all
-	 * updates to ensure we don't draw to an invalid view
-	 */
-	public void pauseObjectUpdates(ObjectManagerFragment frag)
-	{
-		// When listeners is null then a pause occurred after
-		// disconnecting from the service
-		if (listeners == null)
-			return;
-
-		Set<Observer> s = listeners.keySet();
-		Iterator<Observer> i = s.iterator();
-		while (i.hasNext()) {
-			Observer o = i.next();
-			try {
-				FragmentUpdatedObserver fo = (FragmentUpdatedObserver) o;
-				if (fo.match(frag)) {
-					UAVObject obj = listeners.get(o);
-					obj.removeUpdatedObserver(o);					
-				}
-			} catch (Exception e) {
-				
-			}
-		}
-		//paused = true;
-	}
 
 	/**
 	 * When an activity is resumed, reconnect all now the view
@@ -466,50 +420,6 @@ public abstract class ObjectManagerActivity extends Activity {
 			obj.addUpdatedObserver(o);
 		}
 		paused = false;
-	}
-
-	/**
-	 * When an activity is resumed, reconnect all now the view
-	 * is valid again
-	 */
-	public void resumeObjectUpdates(Fragment frag)
-	{
-		// When listeners is null this is the resume at the beginning
-		// before connecting to the telemetry service
-		if(listeners == null)
-			return;
-
-		Set<Observer> s = listeners.keySet();
-		Iterator<Observer> i = s.iterator();
-		while (i.hasNext()) {
-			Observer o = i.next();
-			UAVObject obj = listeners.get(o);
-			try {
-				FragmentUpdatedObserver fo = (FragmentUpdatedObserver) o;
-				if (fo.match(frag)) {
-					obj.addUpdatedObserver(o);
-				}
-			} catch (Exception e) {
-				
-			}
-			
-			obj.addUpdatedObserver(o);
-		}
-		//paused = false;
-	}
-
-	/**
-	 * Register to listen to a single object from a fragment
-	 * @param object The object to listen to updates from
-	 * @param frag The fragment who should be notified
-	 * the objectUpdated() method will be called in the original UI thread
-	 */
-	public void registerObjectUpdates(UAVObject object,
-			ObjectManagerFragment frag) {
-		Observer o = new FragmentUpdatedObserver(object, frag);
-		listeners.put(o, object);
-		if (!paused)
-			object.addUpdatedObserver(o);
 	}
 
 	/**
