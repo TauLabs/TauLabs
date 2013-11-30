@@ -568,7 +568,7 @@ public abstract class ObjectManagerActivity extends Activity {
 		ObjectManagerFragment fragment;
 		OnConnectionListener(ObjectManagerFragment fragment) { this.fragment = fragment; };
 
-		// Whenever the observer is updated either conenct or disconnect based on the data
+		// Whenever the observer is updated either connected or disconnected based on the data
 		@Override
 		public void update(Observable observable, Object data) {
 			Log.d(TAG, "onConnectionListener called");

@@ -32,6 +32,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import org.junit.Assert;
 import org.taulabs.androidgcs.ObjectManagerActivity;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectManager;
@@ -46,6 +47,7 @@ public abstract class ObjectManagerFragment extends Fragment {
 
 	private static final String TAG = ObjectManagerFragment.class.getSimpleName();
 	private static final int LOGLEVEL = 0;
+	private static boolean VERBOSE = LOGLEVEL > 2;
 //	private static boolean WARN = LOGLEVEL > 1;
 	private static final boolean DEBUG = LOGLEVEL > 0;
 
@@ -83,6 +85,12 @@ public abstract class ObjectManagerFragment extends Fragment {
     }
     
     @Override
+    public void onDetach() {
+    	super.onDetach();
+    	if (DEBUG) Log.d(TAG,"onDetach: " + getDebugTag());
+    }
+    
+    @Override
 	public void onStop() {
     	super.onStop();
     	if (DEBUG) Log.d(TAG, "onStop: " + getDebugTag());
@@ -112,16 +120,27 @@ public abstract class ObjectManagerFragment extends Fragment {
     	
     	if (DEBUG) Log.d(TAG, "onDestroy: " + getDebugTag());
     	
-		Set<Observer> s = listeners.keySet();
-		Iterator<Observer> i = s.iterator();
-		while (i.hasNext()) {
-			Observer o = i.next();
-			UAVObject obj = listeners.get(o);
-			obj.removeUpdatedObserver(o);
-		}
+    	synchronized(listeners) {
+    		Set<Observer> s = listeners.keySet();
+    		Iterator<Observer> i = s.iterator();
+    		while (i.hasNext()) {
+    			Observer o = i.next();
+    			UAVObject obj = listeners.get(o);
+    			obj.removeUpdatedObserver(o);
+
+    			ObjectyUpdatedObserver oo = (ObjectyUpdatedObserver) o;
+
+    			if (VERBOSE) Log.v(getDebugTag(), "Removed listener for " + obj.getName()+ " observer: " + oo.my_count);
+    		}
+
+    		if (VERBOSE) Log.v(TAG, "onDestroy deleted " + listeners.size() + " listeneners");
+    		listeners.clear();
+    	}
 		
-		listeners.clear();
-		
+    	// Unfortunate there still seems to be the ability to have race conditions
+    	// so we must also make sure no updates are pass through after this point
+    	disableUpdates = true;
+
     	if (objMngr != null)
     		onDisconnected();
 		
@@ -154,16 +173,37 @@ public abstract class ObjectManagerFragment extends Fragment {
 	
 	//! Handler that posts messages from object updates
 	final Handler uavobjHandler = new Handler();
-	
+
+	// Flag that indicates observers should have been disconnected so any
+	// pending updates should be quashed
+	public boolean disableUpdates = false;
+
+	// Cheap helper for tracking the observers
+	static int observer_count = 0;
+
 	//! Observer to notify the fragment of an update
 	private class ObjectyUpdatedObserver implements Observer  {
 		UAVObject obj;
-		ObjectyUpdatedObserver(UAVObject obj) { this.obj = obj; };
+		public int my_count;
+		
+		ObjectyUpdatedObserver(UAVObject obj) { this.obj = obj; my_count = observer_count; observer_count++; };
 		@Override
 		public void update(Observable observable, Object data) {
 			uavobjHandler.post(new Runnable() {
 				@Override
-				public void run() { 
+				public void run() {
+					if (disableUpdates) {
+						Log.w(getDebugTag(), "Got an update for " + obj.getName() + " after it should have been disabled");
+						return;
+					}
+					// These assertions catch bugs in our lifecycle process
+					if (objMngr == null) {
+						if (DEBUG) Log.d(getDebugTag(), "Null object manager update for " + obj.getName() + " observer: " + my_count);
+					}
+					Assert.assertNotNull(objMngr);
+					Assert.assertNotNull(obj);
+					
+					// Send the notifications
 					objectUpdated(obj);
 					if (resumed)
 						objectUpdatedUI(obj);
@@ -181,7 +221,8 @@ public abstract class ObjectManagerFragment extends Fragment {
 	 * the objectUpdated() method will be called in the original UI thread
 	 */
 	protected void registerObjectUpdates(UAVObject object) {
-		Observer o = new ObjectyUpdatedObserver(object);
+		ObjectyUpdatedObserver o = new ObjectyUpdatedObserver(object);
+		if (VERBOSE) Log.v(getDebugTag(), "registerObjectUpdates for " + object + " observer: " + o.my_count);
 		listeners.put(o,  object);
 		object.addUpdatedObserver(o);
 	}

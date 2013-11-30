@@ -33,14 +33,10 @@ import android.util.Log;
 
 public class MainActivity extends ObjectManagerActivity {
 
-	static final private String TAG = ObjectManagerActivity.class.getSimpleName();
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Log.d(TAG, "onCreate");
-		
 		// Only do this when null as the default on create will restore
 		// the existing fragment after rotation
 		if ( savedInstanceState == null ) {
@@ -64,13 +60,6 @@ public class MainActivity extends ObjectManagerActivity {
 			fragmentTransaction.commit();
 		}
 		
-	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		
-		Log.d(TAG, "onDestroy");
 	}
 
 	@Override
