@@ -32,7 +32,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.taulabs.androidgcs.ObjectManagerActivity;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectManager;
@@ -200,8 +199,6 @@ public abstract class ObjectManagerFragment extends Fragment {
 					if (objMngr == null) {
 						if (DEBUG) Log.d(getDebugTag(), "Null object manager update for " + obj.getName() + " observer: " + my_count);
 					}
-					Assert.assertNotNull(objMngr);
-					Assert.assertNotNull(obj);
 					
 					// Send the notifications
 					objectUpdated(obj);
