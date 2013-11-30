@@ -56,8 +56,8 @@ public class ObjectViewer extends ObjectManagerFragment {
 	}
 
 	@Override
-	public void onOPConnected(UAVObjectManager objMngr) {
-		super.onOPConnected(objMngr);
+	public void onConnected(UAVObjectManager objMngr) {
+		super.onConnected(objMngr);
 
 		object = objMngr.getObject(objectID, instID);
 		if (object == null) {

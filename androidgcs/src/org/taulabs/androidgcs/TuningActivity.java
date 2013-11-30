@@ -56,10 +56,10 @@ public class TuningActivity extends ObjectManagerActivity {
 	}
 	
 	@Override
-	void onOPConnected() {
-		super.onOPConnected();
+	void onConnected() {
+		super.onConnected();
 
-		if (DEBUG) Log.d(TAG, "onOPConnected()");
+		if (DEBUG) Log.d(TAG, "onConnected()");
 
 		// Subscribe to updates from ManualControlCommand and show the values for crude feedback
 		UAVDataObject stabilizationSettings = (UAVDataObject) objMngr.getObject("StabilizationSettings");

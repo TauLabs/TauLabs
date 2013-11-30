@@ -57,8 +57,8 @@ public class PathPlanner extends ObjectManagerActivity {
 	}
 	
 	@Override
-	void onOPConnected() {
-		super.onOPConnected();
+	void onConnected() {
+		super.onConnected();
 
 		File waypointsFile = new File("/data/data/waypoints.xml");
 		List<Waypoint> waypoints = null;

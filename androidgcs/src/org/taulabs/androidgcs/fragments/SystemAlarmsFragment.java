@@ -53,8 +53,8 @@ public class SystemAlarmsFragment extends ObjectManagerFragment {
     }
 
     @Override
-	public void onOPConnected(UAVObjectManager objMngr) {
-    	super.onOPConnected(objMngr);
+	public void onConnected(UAVObjectManager objMngr) {
+    	super.onConnected(objMngr);
 		if (DEBUG)
 			Log.d(TAG, "On connected");
 

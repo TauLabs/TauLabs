@@ -81,9 +81,9 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 	}
 	
 	@Override
-	void onOPConnected() {
-		super.onOPConnected();
-		Log.d(TAG, "onOPConnected()");
+	void onConnected() {
+		super.onConnected();
+		Log.d(TAG, "onConnected()");
 
 		OnCheckedChangeListener checkListener = new OnCheckedChangeListener() {
 			@Override

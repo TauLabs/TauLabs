@@ -104,8 +104,8 @@ public class Logging extends ObjectManagerActivity {
 	}
 
 	@Override
-	void onOPConnected() {
-		super.onOPConnected();
+	void onConnected() {
+		super.onConnected();
 
 		UAVObject stats = objMngr.getObject("FlightTelemetryStats");
 		if (stats != null) {

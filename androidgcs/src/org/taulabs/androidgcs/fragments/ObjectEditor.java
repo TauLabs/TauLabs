@@ -65,16 +65,16 @@ public class ObjectEditor extends ObjectManagerFragment {
 	private boolean connected = false;
 	private boolean resumed = false;
 	@Override
-	public void onOPConnected(UAVObjectManager objMngr) {
-		super.onOPConnected(objMngr);
+	public void onConnected(UAVObjectManager objMngr) {
+		super.onConnected(objMngr);
 		
 		connected = true;
 		init();
 	}
 	
 	@Override
-	public void onOPDisconnected() {
-		super.onOPDisconnected();
+	public void onDisconnected() {
+		super.onDisconnected();
 		
 		connected = false;
 	}

@@ -6,7 +6,7 @@
  *             This class takes care of binding to the service and getting the
  *             object manager as well as setting up callbacks to the objects of
  *             interest that run on the UI thread.
- *             Implements a new Android lifecycle: onOPConnected() / onOPDisconnected()
+ *             Implements a new Android lifecycle: onConnected() / onDisconnected()
  *             which indicates when a valid telemetry is established as well as a
  *             valid object manager handle.
  * @see        The GNU Public License (GPL) Version 3
@@ -170,7 +170,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	 *
 	 * This should be called by all inherited classes if they want the telemetry bar etc
 	 */
-	void onOPConnected() {
+	void onConnected() {
 
 		// Cannot be called repeatedly
 		if (connectedCalled)
@@ -208,7 +208,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	 *
 	 * This should be called by all inherited classes if they want the telemetry bar etc
 	 */
-	void onOPDisconnected() {
+	void onDisconnected() {
 		if (!connectedCalled)
 			return;
 		connectedCalled = false;
@@ -308,11 +308,11 @@ public abstract class ObjectManagerActivity extends Activity {
 					if((task = binder.getTelemTask(0)) == null)
 						return;
 					objMngr = task.getObjectManager();
-					onOPConnected();
+					onConnected();
 					Log.d(TAG, "Connected()");
 					invalidateOptionsMenu();
 				} else if (intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_DISCONNECTED) == 0) {
-					onOPDisconnected();
+					onDisconnected();
 					objMngr = null;
 					Log.d(TAG, "Disonnected()");
 					invalidateOptionsMenu();
@@ -545,7 +545,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	/*********** Deals with fragments listening for connections ***************/
 
 	/**
-	 * Callbacks so ObjectManagerFragments get the onOPConnected and onOPDisconnected signals
+	 * Callbacks so ObjectManagerFragments get the onConnected and onDisconnected signals
 	 */
 	class ConnectionObserver extends Observable  {
 		public void disconnected() {
@@ -573,9 +573,9 @@ public abstract class ObjectManagerActivity extends Activity {
 		public void update(Observable observable, Object data) {
 			Log.d(TAG, "onConnectionListener called");
 			if (data == null)
-				fragment.onOPDisconnected();
+				fragment.onDisconnected();
 			else
-				fragment.onOPConnected(objMngr);
+				fragment.onConnected(objMngr);
 		}
 
 	} ;
@@ -587,7 +587,7 @@ public abstract class ObjectManagerActivity extends Activity {
 		// has acknowledged the connection already.
 		if (getConnectionState() == ConnectionState.CONNECTED &&
 				connectedCalled)
-			frag.onOPConnected(objMngr);
+			frag.onConnected(objMngr);
 	}
 
 
@@ -605,7 +605,7 @@ public abstract class ObjectManagerActivity extends Activity {
 				TelemTask task;
 				if((task = binder.getTelemTask(0)) != null) {
 					objMngr = task.getObjectManager();
-					onOPConnected();
+					onConnected();
 					invalidateOptionsMenu();
 				}
 
@@ -614,7 +614,7 @@ public abstract class ObjectManagerActivity extends Activity {
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			onOPDisconnected();
+			onDisconnected();
 			binder = null;
 			objMngr = null;
 			invalidateOptionsMenu();

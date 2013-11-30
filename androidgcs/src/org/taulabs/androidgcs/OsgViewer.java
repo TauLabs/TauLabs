@@ -356,8 +356,8 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
 
 	// The below methods should all be called by the parent activity at the appropriate times
 	@Override
-	public void onOPConnected() {
-		super.onOPConnected();
+	public void onConnected() {
+		super.onConnected();
 
 		UAVObject obj = objMngr.getObject("AttitudeActual");
 		if (obj != null) {

@@ -123,19 +123,19 @@ public abstract class ObjectManagerFragment extends Fragment {
 		listeners.clear();
 		
     	if (objMngr != null)
-    		onOPDisconnected();
+    		onDisconnected();
 		
     }
 
 	// The below methods should all be called by the parent activity at the appropriate times
-	synchronized public void onOPConnected(UAVObjectManager objMngr) {
+	synchronized public void onConnected(UAVObjectManager objMngr) {
 		this.objMngr = objMngr;
-		if (DEBUG) Log.d(TAG,"onOPConnected: " + getDebugTag());
+		if (DEBUG) Log.d(TAG,"onConnected: " + getDebugTag());
 	}
 
-	synchronized public void onOPDisconnected() {
+	synchronized public void onDisconnected() {
 		objMngr = null;
-		if (DEBUG) Log.d(TAG,"onOPDisconnected: " + getDebugTag());
+		if (DEBUG) Log.d(TAG,"onDisconnected: " + getDebugTag());
 	}
 
 	/**

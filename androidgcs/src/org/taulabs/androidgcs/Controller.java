@@ -113,10 +113,10 @@ public class Controller extends ObjectManagerActivity {
 	};
 
 	@Override
-	void onOPConnected() {
-		super.onOPConnected();
+	void onConnected() {
+		super.onConnected();
 
-		if (DEBUG) Log.d(TAG, "onOPConnected()");
+		if (DEBUG) Log.d(TAG, "onConnected()");
 
 		DualJoystickView joystick = (DualJoystickView) findViewById(R.id.dualjoystickView);
 		joystick.setMovementConstraint(JoystickView.CONSTRAIN_BOX);

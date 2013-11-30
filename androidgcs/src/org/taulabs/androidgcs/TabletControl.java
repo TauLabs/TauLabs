@@ -62,8 +62,8 @@ public class TabletControl extends ObjectManagerActivity {
 	}
 	
 	@Override
-	void onOPConnected() {
-		super.onOPConnected();
+	void onConnected() {
+		super.onConnected();
 
 		// Get the current tablet mode desired to make sure screen reflects what the
 		// UAV is doing when we jump out of this activity

@@ -136,8 +136,8 @@ public class Map extends ObjectManagerFragment {
 
 
 	@Override
-	public void onOPConnected(UAVObjectManager objMngr) {
-		super.onOPConnected(objMngr);
+	public void onConnected(UAVObjectManager objMngr) {
+		super.onConnected(objMngr);
 		UAVObject obj = objMngr.getObject("HomeLocation");
 		if (obj != null) {
 			obj.updateRequested(); // Make sure this is correct and been updated
