@@ -112,7 +112,7 @@ public class ObjectViewer extends ObjectManagerFragment {
 	public void objectUpdatedUI(UAVObject obj) {
 		if (getActivity() != null) {
 			TextView text = (TextView) getActivity().findViewById(R.id.object_info_view);
-			if (text != null)
+			if (text != null && obj != null)
 				text.setText(obj.toStringData());
 		} else {
 			Log.d(TAG, "Update without activity");
