@@ -3,6 +3,8 @@
 - Make map show the path and also preserve zoom level between views
 - Improvements to tablet layout for portrait and landscape mode
 - Fix layout issues for higher resolution screen with the attitude widget
+- Improved browser behavior when rotating
+- Map resumes at location previously at when rotating
 
 0.12
 - Update objects
