@@ -115,21 +115,55 @@ public class Map extends ObjectManagerFragment {
 		
 		mMap.setOnMarkerDragListener(dragListener);
 		
-		float zoom = prefs.getFloat("map_zoom", 17);		
+		if (savedInstanceState == null) {
+			if (DEBUG) Log.d(TAG, "Default initialization to current location");
+			float zoom = prefs.getFloat("map_zoom", 17);	
 
-		//! If the current tablet location is available, jump straight to it
-		LocationManager locationManager =
-		        (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-		Location tabletLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		if (tabletLocation == null) {
-			tabletLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		}
-		if (tabletLocation != null) {
-			LatLng lla = new LatLng(tabletLocation.getLatitude(), tabletLocation.getLongitude());
-			if (DEBUG) Log.d(TAG, "Location: " + lla);
-			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lla, zoom));
+			//! If the current tablet location is available, jump straight to it
+			LocationManager locationManager =
+					(LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+			Location tabletLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			if (tabletLocation == null) {
+				tabletLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			}
+			if (tabletLocation != null) {
+				LatLng lla = new LatLng(tabletLocation.getLatitude(), tabletLocation.getLongitude());
+				if (DEBUG) Log.d(TAG, "Location: " + lla);
+				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lla, zoom));
+			} else {
+				if (DEBUG) Log.d(TAG, "Could not get location");
+			}
 		} else {
-			if (DEBUG) Log.d(TAG, "Could not get location");
+			if (mMap != null) {
+				if (DEBUG) Log.d(TAG, "Initializing location from bundle");
+
+				CameraPosition camPos = mMap.getCameraPosition();
+				
+				// Use current location as defaults in case not found
+				LocationManager locationManager =
+						(LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+				Location tabletLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+				if (tabletLocation == null) {
+					tabletLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+				}
+				LatLng lla = new LatLng(0,0);
+				if (tabletLocation != null) {
+					lla = new LatLng(tabletLocation.getLatitude(), tabletLocation.getLongitude());
+				}
+
+				// Get the position from bundle
+				double map_lat = savedInstanceState.getDouble("org.taulabs.map_lat", lla.latitude);
+				double map_lon = savedInstanceState.getDouble("org.taulabs.map_lon", lla.longitude);
+				
+				// Start with default and see if one is stored
+				float zoom = prefs.getFloat("map_zoom", 17);
+				zoom = (float) savedInstanceState.getDouble("org.taulabs.map_zoom", zoom);
+				
+				// Move there
+				lla = new LatLng(map_lat, map_lon);
+				if (DEBUG) Log.d(TAG, "Init location: " + lla);
+				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lla, zoom));
+			}
 		}
 		return v;
 	}
@@ -513,7 +547,6 @@ public class Map extends ObjectManagerFragment {
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		if (mMap != null) {
 			CameraPosition camPos = mMap.getCameraPosition();
    
@@ -526,6 +559,19 @@ public class Map extends ObjectManagerFragment {
 		m.onDestroy();
 	}
 
+	@Override
+	public void onSaveInstanceState (Bundle outState) {
+		super.onSaveInstanceState(outState);
+		if (mMap != null) {
+			CameraPosition camPos = mMap.getCameraPosition();
+			LatLng lla = camPos.target;
+			outState.putDouble("org.taulabs.map_lat", lla.latitude);
+			outState.putDouble("org.taulabs.map_lon", lla.longitude);
+			outState.putDouble("org.taulabs.map_zoom", camPos.zoom);
+			outState.putDouble("org.taulabs.map_tilt", camPos.tilt);
+		}
+	}
+	
 	@Override
 	public void onLowMemory() {
 		super.onLowMemory();
