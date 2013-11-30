@@ -27,6 +27,12 @@
 
 #include "freedom.h"
 
+#include <uavobjectmanager.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include <extensionsystem/pluginmanager.h>
+
+#include "hwfreedom.h"
+
 /**
  * @brief Freedom::Freedom
  *  This is the Freedom board definition
@@ -102,4 +108,29 @@ QPixmap Freedom::getBoardPicture()
 QString Freedom::getHwUAVO()
 {
     return "HwFreedom";
+}
+
+int Freedom::queryMaxGyroRate()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwFreedom *hwFreedom = HwFreedom::GetInstance(uavoManager);
+    Q_ASSERT(hwFreedom);
+    if (!hwFreedom)
+        return 0;
+
+    HwFreedom::DataFields settings = hwFreedom->getData();
+
+    switch(settings.GyroRange) {
+    case HwFreedom::GYRORANGE_250:
+        return 250;
+    case HwFreedom::GYRORANGE_500:
+        return 500;
+    case HwFreedom::GYRORANGE_1000:
+        return 1000;
+    case HwFreedom::GYRORANGE_2000:
+        return 2000;
+    default:
+        return 500;
+    }
 }

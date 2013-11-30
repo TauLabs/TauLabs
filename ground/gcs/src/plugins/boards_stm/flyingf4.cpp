@@ -28,6 +28,11 @@
 
 #include "flyingf4.h"
 
+#include <uavobjectmanager.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include <extensionsystem/pluginmanager.h>
+
+#include "hwflyingf4.h"
 /**
  * @brief Quanton::Quanton
  *  This is the Quanton board definition
@@ -102,4 +107,29 @@ QPixmap FlyingF4::getBoardPicture()
 QString FlyingF4::getHwUAVO()
 {
     return "HwFlyingF4";
+}
+
+int FlyingF4::queryMaxGyroRate()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwFlyingF4 *hwFlyingF4 = HwFlyingF4::GetInstance(uavoManager);
+    Q_ASSERT(hwFlyingF4);
+    if (!hwFlyingF4)
+        return 0;
+
+    HwFlyingF4::DataFields settings = hwFlyingF4->getData();
+
+    switch(settings.GyroRange) {
+    case HwFlyingF4::GYRORANGE_250:
+        return 250;
+    case HwFlyingF4::GYRORANGE_500:
+        return 500;
+    case HwFlyingF4::GYRORANGE_1000:
+        return 1000;
+    case HwFlyingF4::GYRORANGE_2000:
+        return 2000;
+    default:
+        return 500;
+    }
 }

@@ -141,6 +141,7 @@ static void SensorsTask(void *parameters)
 //	HomeLocationSet(&homeLocation);
 
 
+	PIOS_SENSORS_SetMaxGyro(500);
 	// Main task loop
 	while (1) {
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);

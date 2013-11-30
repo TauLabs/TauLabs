@@ -26,7 +26,11 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <uavobjectmanager.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include <extensionsystem/pluginmanager.h>
 #include "revolution.h"
+#include "hwrevolution.h"
 
 /**
  * @brief Revolution::Revolution
@@ -104,4 +108,29 @@ QPixmap Revolution::getBoardPicture()
 QString Revolution::getHwUAVO()
 {
     return "HwRevolution";
+}
+
+int Revolution::queryMaxGyroRate()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwRevolution *hwRevolution = HwRevolution::GetInstance(uavoManager);
+    Q_ASSERT(hwRevolution);
+    if (!hwRevolution)
+        return 0;
+
+    HwRevolution::DataFields settings = hwRevolution->getData();
+
+    switch(settings.GyroRange) {
+    case HwRevolution::GYRORANGE_250:
+        return 250;
+    case HwRevolution::GYRORANGE_500:
+        return 500;
+    case HwRevolution::GYRORANGE_1000:
+        return 1000;
+    case HwRevolution::GYRORANGE_2000:
+        return 2000;
+    default:
+        return 500;
+    }
 }

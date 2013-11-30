@@ -199,6 +199,8 @@ static void AttitudeTask(void *parameters)
 		gyro_queue = xQueueCreate(1, sizeof(float) * 4);
 		PIOS_Assert(gyro_queue != NULL);
 		PIOS_ADC_SetQueue(PIOS_INTERNAL_ADC,gyro_queue);
+
+		PIOS_SENSORS_SetMaxGyro(500);
 #endif
 	}
 

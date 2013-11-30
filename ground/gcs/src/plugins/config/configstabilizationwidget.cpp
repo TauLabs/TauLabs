@@ -69,7 +69,7 @@ ConfigStabilizationWidget::ConfigStabilizationWidget(QWidget *parent) : ConfigTa
 
     disableMouseWheelEvents();
 
-
+    connect(this,SIGNAL(autoPilotConnected()),this,SLOT(applyRateLimits()));
 }
 
 
@@ -163,6 +163,19 @@ void ConfigStabilizationWidget::processLinkedWidgets(QWidget * widget)
             m_stabilization->AttitudeRollILimit->setValue(m_stabilization->AttitudePitchILimit_2->value());
         }
     }
+}
+
+void ConfigStabilizationWidget::applyRateLimits()
+{
+    Core::IBoardType *board = getObjectUtilManager()->getBoardType();
+    Q_ASSERT(board);
+    double maxRate = board->queryMaxGyroRate() * 0.85;
+    m_stabilization->fullStickRateRoll->setMaximum(maxRate);
+    m_stabilization->fullStickRatePitch->setMaximum(maxRate);
+    m_stabilization->fullStickRateYaw->setMaximum(maxRate);
+    m_stabilization->maxRateAttRoll->setMaximum(maxRate);
+    m_stabilization->maxRateAttPitch->setMaximum(maxRate);
+    m_stabilization->maxRateAttYaw->setMaximum(maxRate);
 }
 
 

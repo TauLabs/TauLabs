@@ -35,6 +35,7 @@
 
 //! The list of queue handles
 static xQueueHandle queues[PIOS_SENSOR_LAST];
+static int32_t max_gyro_rate;
 
 //! Initialize the sensors interface
 int32_t PIOS_SENSORS_Init()
@@ -63,4 +64,16 @@ xQueueHandle PIOS_SENSORS_GetQueue(enum pios_sensor_type type)
 		return NULL;
 
 	return queues[type];
+}
+
+//! Set the maximum gyro rate in deg/s
+void PIOS_SENSORS_SetMaxGyro(int32_t rate)
+{
+	max_gyro_rate = rate;
+}
+
+//! Get the maximum gyro rate in deg/s
+int32_t PIOS_SENSORS_GetMaxGyro()
+{
+		return max_gyro_rate;
 }

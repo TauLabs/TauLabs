@@ -191,6 +191,13 @@ public:
      */
     virtual QString getConnectionDiagram() { return ""; }
 
+    /**
+     * @brief Query the board for the currently set max rate of the gyro
+     * @return max rate of gyro
+     *
+     */
+    virtual int queryMaxGyroRate() { return -1; }
+
 signals:
 
 protected:
