@@ -29,32 +29,48 @@ import org.taulabs.androidgcs.fragments.PFD;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends ObjectManagerActivity {
 
+	static final private String TAG = ObjectManagerActivity.class.getSimpleName();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Fragment contentFrag;
-		Bundle b = getIntent().getExtras();
-		if (b == null) {
-			contentFrag = new PFD();
-			setTitle("PFD");
-		} else {
-			int id = b.getInt("ContentFrag");
-			contentFrag = getFragmentById(id);
-			
-			String title = b.getString("ContentName");
-			if (title != null)
-				setTitle(title);
-		}
-
-		FragmentTransaction fragmentTransaction = getFragmentManager()
-				.beginTransaction();
-		fragmentTransaction.add(R.id.content_frame, contentFrag);
-		fragmentTransaction.commit();
+		Log.d(TAG, "onCreate");
 		
+		// Only do this when null as the default on create will restore
+		// the existing fragment after rotation
+		if ( savedInstanceState == null ) {
+			Fragment contentFrag;
+			Bundle b = getIntent().getExtras();
+			if (b == null) {
+				contentFrag = new PFD();
+				setTitle("PFD");
+			} else {
+				int id = b.getInt("ContentFrag");
+				contentFrag = getFragmentById(id);
+
+				String title = b.getString("ContentName");
+				if (title != null)
+					setTitle(title);
+			}
+
+			FragmentTransaction fragmentTransaction = getFragmentManager()
+					.beginTransaction();
+			fragmentTransaction.add(R.id.content_frame, contentFrag);
+			fragmentTransaction.commit();
+		}
+		
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		
+		Log.d(TAG, "onDestroy");
 	}
 
 	@Override
