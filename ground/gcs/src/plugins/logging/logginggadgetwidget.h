@@ -30,8 +30,6 @@
 
 #include <QtGui/QLabel>
 #include "extensionsystem/pluginmanager.h"
-#include "scope/scopeplugin.h"
-#include "scope/scopegadgetfactory.h"
 
 
 class Ui_Logging;
@@ -56,9 +54,6 @@ signals:
 private:
     Ui_Logging *m_logging;
     LoggingPlugin * loggingPlugin;
-    ScopeGadgetFactory * scpPlugin;
-
-
 };
 
 #endif /* LoggingGADGETWIDGET_H_ */
