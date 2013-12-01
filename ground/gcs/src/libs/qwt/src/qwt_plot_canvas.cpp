@@ -17,18 +17,13 @@
 #include <qstyleoption.h>
 #include <qpaintengine.h>
 #include <qevent.h>
-#include <qbitmap.h>
-#ifdef Q_WS_X11
-#include <qx11info_x11.h>
-#endif
 
 class QwtStyleSheetRecorder: public QwtNullPaintDevice
 {
 public:
     QwtStyleSheetRecorder( const QSize &size ):
-        QwtNullPaintDevice( QPaintEngine::AllFeatures )
+        d_size( size )
     {
-        setSize( size );
     }
 
     virtual void updateState( const QPaintEngineState &state )
@@ -55,7 +50,7 @@ public:
 
     virtual void drawPath( const QPainterPath &path )
     {
-        const QRectF rect( QPointF( 0.0, 0.0 ) , size() );
+        const QRectF rect( QPointF( 0.0, 0.0 ), d_size );
         if ( path.controlPointRect().contains( rect.center() ) )
         {
             setCornerRects( path );
@@ -116,6 +111,12 @@ public:
         }
     }
 
+protected:
+    virtual QSize sizeMetrics() const
+    {
+        return d_size;
+    }
+
 private:
     void alignCornerRects( const QRectF &rect )
     {
@@ -153,20 +154,28 @@ public:
     } background;
 
 private:
+    const QSize d_size;
+
     QPen d_pen;
     QBrush d_brush;
     QPointF d_origin;
 };
 
-static void qwtDrawBackground( QPainter *painter, QWidget *widget )
+static void qwtDrawBackground( QPainter *painter, QwtPlotCanvas *canvas )
 {
+    painter->save();
+
+    const QPainterPath borderClip = canvas->borderPath( canvas->rect() );
+    if ( !borderClip.isEmpty() )
+        painter->setClipPath( borderClip, Qt::IntersectClip );
+
     const QBrush &brush = 
-        widget->palette().brush( widget->backgroundRole() );
+        canvas->palette().brush( canvas->backgroundRole() );
 
     if ( brush.style() == Qt::TexturePattern )
     {
-        QPixmap pm( widget->size() );
-        pm.fill( widget, 0, 0 );
+        QPixmap pm( canvas->size() );
+        QwtPainter::fillPixmap( canvas, pm );
         painter->drawPixmap( 0, 0, pm );
     }
     else if ( brush.gradient() )
@@ -175,7 +184,7 @@ static void qwtDrawBackground( QPainter *painter, QWidget *widget )
 
         if ( brush.gradient()->coordinateMode() == QGradient::ObjectBoundingMode )
         {
-            rects += widget->rect();
+            rects += canvas->rect();
         } 
         else 
         {
@@ -214,7 +223,7 @@ static void qwtDrawBackground( QPainter *painter, QWidget *widget )
                 }
             }
             
-            QImage image( widget->size(), format );
+            QImage image( canvas->size(), format );
 
             QPainter p( &image );
             p.setPen( Qt::NoPen );
@@ -228,40 +237,33 @@ static void qwtDrawBackground( QPainter *painter, QWidget *widget )
         }
         else
         {
-            painter->save();
-
             painter->setPen( Qt::NoPen );
             painter->setBrush( brush );
 
             painter->drawRects( rects );
-
-            painter->restore();
         }
     }
     else
     {
-        painter->save();
-
         painter->setPen( Qt::NoPen );
         painter->setBrush( brush );
 
         painter->drawRects( painter->clipRegion().rects() );
 
-        painter->restore();
     }
+
+    painter->restore();
 }
 
 static inline void qwtRevertPath( QPainterPath &path )
 {
     if ( path.elementCount() == 4 )
     {
-        QPainterPath::Element &el0 = 
-            const_cast<QPainterPath::Element &>( path.elementAt(0) );
-        QPainterPath::Element &el2 = 
-            const_cast<QPainterPath::Element &>( path.elementAt(3) );
+        QPainterPath::Element el0 = path.elementAt(0);
+        QPainterPath::Element el3 = path.elementAt(3);
 
-        qSwap( el0.x, el2.x );
-        qSwap( el0.y, el2.y );
+        path.setElementPositionAt( 0, el3.x, el3.y );
+        path.setElementPositionAt( 3, el0.x, el0.y );
     }
 }
 
@@ -438,7 +440,7 @@ static void qwtFillBackground( QPainter *painter,
         if ( clipRegion.intersects( rect ) )
         {
             QPixmap pm( rect.size() );
-            pm.fill( bgWidget, widget->mapTo( bgWidget, rect.topLeft() ) );
+            QwtPainter::fillPixmap( bgWidget, pm, widget->mapTo( bgWidget, rect.topLeft() ) );
             painter->drawPixmap( rect, pm );
         }
     }
@@ -467,7 +469,7 @@ static void qwtFillBackground( QPainter *painter, QwtPlotCanvas *canvas )
         const double radius = canvas->borderRadius();
         if ( radius > 0.0 )
         {
-            QSize sz( radius, radius );
+            QSizeF sz( radius, radius );
 
             rects += QRectF( r.topLeft(), sz );
             rects += QRectF( r.topRight() - QPointF( radius, 0 ), sz );
@@ -518,11 +520,18 @@ public:
 
 };
 
-//! Sets a cross cursor, enables QwtPlotCanvas::BackingStore
+/*! 
+  \brief Constructor
 
+  \param plot Parent plot widget
+  \sa QwtPlot::setCanvas()
+*/
 QwtPlotCanvas::QwtPlotCanvas( QwtPlot *plot ):
     QFrame( plot )
 {
+    setFrameStyle( QFrame::Panel | QFrame::Sunken );
+    setLineWidth( 2 );
+
     d_data = new PrivateData;
 
 #ifndef QT_NO_CURSOR
@@ -544,13 +553,13 @@ QwtPlotCanvas::~QwtPlotCanvas()
 //! Return parent plot widget
 QwtPlot *QwtPlotCanvas::plot()
 {
-    return qobject_cast<QwtPlot *>( parentWidget() );
+    return qobject_cast<QwtPlot *>( parent() );
 }
 
 //! Return parent plot widget
 const QwtPlot *QwtPlotCanvas::plot() const
 {
-    return qobject_cast<const QwtPlot *>( parentWidget() );
+    return qobject_cast<const QwtPlot *>( parent() );
 }
 
 /*!
@@ -582,8 +591,12 @@ void QwtPlotCanvas::setPaintAttribute( PaintAttribute attribute, bool on )
 
                 if ( isVisible() )
                 {
+#if QT_VERSION >= 0x050000
+                    *d_data->backingStore = grab( rect() );
+#else
                     *d_data->backingStore = 
                         QPixmap::grabWidget( this, rect() );
+#endif
                 }
             }
             else
@@ -609,10 +622,10 @@ void QwtPlotCanvas::setPaintAttribute( PaintAttribute attribute, bool on )
 }
 
 /*!
-  Test wether a paint attribute is enabled
+  Test whether a paint attribute is enabled
 
   \param attribute Paint attribute
-  \return true if the attribute is enabled
+  \return true, when attribute is enabled
   \sa setPaintAttribute()
 */
 bool QwtPlotCanvas::testPaintAttribute( PaintAttribute attribute ) const
@@ -675,7 +688,9 @@ double QwtPlotCanvas::borderRadius() const
 
 /*!
   Qt event handler for QEvent::PolishRequest and QEvent::StyleChange
+
   \param event Qt Event
+  \return See QFrame::event()
 */
 bool QwtPlotCanvas::event( QEvent *event )
 {
@@ -715,12 +730,7 @@ void QwtPlotCanvas::paintEvent( QPaintEvent *event )
         QPixmap &bs = *d_data->backingStore;
         if ( bs.size() != size() )
         {
-            bs = QPixmap( size() );
-
-#ifdef Q_WS_X11
-            if ( bs.x11Info().screen() != x11Info().screen() )
-                bs.x11SetScreen( x11Info().screen() );
-#endif
+            bs = QwtPainter::backingStore( this, size() );
 
             if ( testAttribute(Qt::WA_StyledBackground) )
             {
@@ -733,7 +743,7 @@ void QwtPlotCanvas::paintEvent( QPaintEvent *event )
                 QPainter p;
                 if ( d_data->borderRadius <= 0.0 )
                 {
-                    bs.fill( this, 0, 0 );
+                    QwtPainter::fillPixmap( this, bs );
                     p.begin( &bs );
                     drawCanvas( &p, false );
                 }
@@ -770,7 +780,27 @@ void QwtPlotCanvas::paintEvent( QPaintEvent *event )
             if ( testAttribute( Qt::WA_OpaquePaintEvent ) )
             {
                 if ( autoFillBackground() )
+                {
+                    qwtFillBackground( &painter, this );
                     qwtDrawBackground( &painter, this );
+                }
+            }
+            else
+            {
+                if ( borderRadius() > 0.0 )
+                {
+                    QPainterPath clipPath;
+                    clipPath.addRect( rect() );
+                    clipPath = clipPath.subtracted( borderPath( rect() ) );
+
+                    painter.save();
+
+                    painter.setClipPath( clipPath, Qt::IntersectClip );
+                    qwtFillBackground( &painter, this );
+                    qwtDrawBackground( &painter, this );
+
+                    painter.restore();
+                }
             }
 
             drawCanvas( &painter, false );
@@ -837,7 +867,7 @@ void QwtPlotCanvas::drawCanvas( QPainter *painter, bool withBackground )
             painter->setPen( Qt::NoPen );
             painter->setBrush( palette().brush( backgroundRole() ) );
 
-            if ( d_data->borderRadius > 0.0 )
+            if ( d_data->borderRadius > 0.0 && ( rect() == frameRect() ) )
             {
                 if ( frameWidth() > 0 )
                 {
@@ -852,7 +882,7 @@ void QwtPlotCanvas::drawCanvas( QPainter *painter, bool withBackground )
             }
             else
             {
-                painter->drawRect( contentsRect() );
+                painter->drawRect( rect() );
             }
         }
 
@@ -869,7 +899,7 @@ void QwtPlotCanvas::drawCanvas( QPainter *painter, bool withBackground )
     else
     {
         if ( d_data->borderRadius > 0.0 )
-            painter->setClipPath( borderPath( rect() ), Qt::IntersectClip );
+            painter->setClipPath( borderPath( frameRect() ), Qt::IntersectClip );
         else
             painter->setClipRect( contentsRect(), Qt::IntersectClip );
     }
@@ -891,7 +921,7 @@ void QwtPlotCanvas::drawCanvas( QPainter *painter, bool withBackground )
   Draw the border of the plot canvas
 
   \param painter Painter
-  \sa setBorderRadius(), QFrame::drawFrame()
+  \sa setBorderRadius()
 */
 void QwtPlotCanvas::drawBorder( QPainter *painter )
 {
@@ -899,14 +929,53 @@ void QwtPlotCanvas::drawBorder( QPainter *painter )
     {
         if ( frameWidth() > 0 )
         {
-            QwtPainter::drawRoundedFrame( painter, QRectF( rect() ), 
+            QwtPainter::drawRoundedFrame( painter, QRectF( frameRect() ), 
                 d_data->borderRadius, d_data->borderRadius,
                 palette(), frameWidth(), frameStyle() );
         }
     }
     else
     {
+#if QT_VERSION >= 0x040500
+        QStyleOptionFrameV3 opt;
+        opt.init(this);
+
+        int frameShape  = frameStyle() & QFrame::Shape_Mask;
+        int frameShadow = frameStyle() & QFrame::Shadow_Mask;
+
+        opt.frameShape = QFrame::Shape( int( opt.frameShape ) | frameShape );
+#if 0
+        opt.rect = frameRect();
+#endif
+
+        switch (frameShape) 
+        {
+            case QFrame::Box:
+            case QFrame::HLine:
+            case QFrame::VLine:
+            case QFrame::StyledPanel:
+            case QFrame::Panel:
+            {
+                opt.lineWidth = lineWidth();
+                opt.midLineWidth = midLineWidth();
+                break; 
+            }
+            default: 
+            {
+                opt.lineWidth = frameWidth();
+                break;
+            }
+        }
+    
+        if ( frameShadow == Sunken )
+            opt.state |= QStyle::State_Sunken;
+        else if ( frameShadow == Raised )
+            opt.state |= QStyle::State_Raised;
+
+        style()->drawControl(QStyle::CE_ShapedFrame, &opt, painter, this);
+#else
         drawFrame( painter );
+#endif
     }
 }
 
@@ -949,7 +1018,7 @@ void QwtPlotCanvas::replot()
         update( contentsRect() );
 }
 
-//! Update the cached informations about the current style sheet
+//! Update the cached information about the current style sheet
 void QwtPlotCanvas::updateStyleSheetInfo()
 {
     if ( !testAttribute(Qt::WA_StyledBackground ) )
@@ -1025,55 +1094,4 @@ QPainterPath QwtPlotCanvas::borderPath( const QRect &rect ) const
     }
     
     return QPainterPath();
-}
-
-/*!
-   Calculate a mask, that can be used to clip away the border frame
-
-   \param size Size including the frame
-*/
-QBitmap QwtPlotCanvas::borderMask( const QSize &size ) const
-{
-    const QRect r( 0, 0, size.width(), size.height() );
-
-    const QPainterPath path = borderPath( r );
-    if ( path.isEmpty() )
-        return QBitmap();
-
-    QImage image( size, QImage::Format_ARGB32_Premultiplied );
-    image.fill( Qt::color0 );
-
-    QPainter painter( &image );
-    painter.setClipPath( path );
-    painter.fillRect( r, Qt::color1 );
-
-    // now erase the frame
-
-    painter.setCompositionMode( QPainter::CompositionMode_DestinationOut );
-
-    if ( testAttribute(Qt::WA_StyledBackground ) )
-    {
-        QStyleOptionFrame opt;
-        opt.initFrom(this);
-        opt.rect = r;
-        style()->drawPrimitive( QStyle::PE_Frame, &opt, &painter, this );
-    }
-    else
-    {
-        if ( d_data->borderRadius > 0 && frameWidth() > 0 )
-        {
-            painter.setPen( QPen( Qt::color1, frameWidth() ) );
-            painter.setBrush( Qt::NoBrush );
-            painter.setRenderHint( QPainter::Antialiasing, true );
-
-            painter.drawPath( path );
-        }
-    }
-
-    painter.end();
-
-    const QImage mask = image.createMaskFromColor(
-        QColor( Qt::color1 ).rgb(), Qt::MaskOutColor );
-
-    return QBitmap::fromImage( mask );
 }

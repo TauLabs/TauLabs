@@ -8,7 +8,17 @@
 ################################################################
 
 include( qwtconfig.pri )
+include(../../../taulabslibrary.pri)
 
 TEMPLATE = subdirs
+CONFIG   += ordered
 
-SUBDIRS = src
+SUBDIRS = \
+    src \
+    textengines
+ 
+qwtspec.files  = qwtconfig.pri qwtfunctions.pri qwt.prf
+qwtspec.path  = $${QWT_INSTALL_FEATURES}
+
+INSTALLS += qwtspec
+

@@ -9,7 +9,6 @@
 
 #include "qwt_plot_scaleitem.h"
 #include "qwt_plot.h"
-#include "qwt_plot_canvas.h"
 #include "qwt_scale_map.h"
 #include "qwt_interval.h"
 #include <qpalette.h>
@@ -46,8 +45,6 @@ public:
 void QwtPlotScaleItem::PrivateData::updateBorders( const QRectF &canvasRect,
     const QwtScaleMap &xMap, const QwtScaleMap &yMap )
 {
-    canvasRectCache = canvasRect;
-
     QwtInterval interval;
     if ( scaleDraw->orientation() == Qt::Horizontal )
     {
@@ -64,6 +61,7 @@ void QwtPlotScaleItem::PrivateData::updateBorders( const QRectF &canvasRect,
     scaleDiv.setInterval( interval );
     scaleDraw->setScaleDiv( scaleDiv );
 }
+
 /*!
    \brief Constructor for scale item at the position pos.
 
@@ -83,6 +81,7 @@ QwtPlotScaleItem::QwtPlotScaleItem(
     d_data->position = pos;
     d_data->scaleDraw->setAlignment( alignment );
 
+    setItemInterest( QwtPlotItem::ScaleInterest, true );
     setZ( 11.0 );
 }
 
@@ -136,8 +135,8 @@ void QwtPlotScaleItem::setScaleDivFromAxis( bool on )
             const QwtPlot *plt = plot();
             if ( plt )
             {
-                updateScaleDiv( *plt->axisScaleDiv( xAxis() ),
-                    *plt->axisScaleDiv( yAxis() ) );
+                updateScaleDiv( plt->axisScaleDiv( xAxis() ),
+                    plt->axisScaleDiv( yAxis() ) );
                 itemChanged();
             }
         }
@@ -163,6 +162,8 @@ void QwtPlotScaleItem::setPalette( const QPalette &palette )
     if ( palette != d_data->palette )
     {
         d_data->palette = palette;
+
+        legendChanged();
         itemChanged();
     }
 }
@@ -222,8 +223,8 @@ void QwtPlotScaleItem::setScaleDraw( QwtScaleDraw *scaleDraw )
     const QwtPlot *plt = plot();
     if ( plt )
     {
-        updateScaleDiv( *plt->axisScaleDiv( xAxis() ),
-            *plt->axisScaleDiv( yAxis() ) );
+        updateScaleDiv( plt->axisScaleDiv( xAxis() ),
+            plt->axisScaleDiv( yAxis() ) );
     }
 
     itemChanged();
@@ -281,7 +282,7 @@ double QwtPlotScaleItem::position() const
    \brief Align the scale to the canvas
 
    If distance is >= 0 the scale will be aligned to a
-   border of the contents rect of the canvas. If
+   border of the contents rectangle of the canvas. If
    alignment() is QwtScaleDraw::LeftScale, the scale will
    be aligned to the right border, if it is QwtScaleDraw::TopScale
    it will be aligned to the bottom (and vice versa),
@@ -350,7 +351,10 @@ void QwtPlotScaleItem::draw( QPainter *painter,
     if ( d_data->scaleDivFromAxis )
     {
         if ( canvasRect != d_data->canvasRectCache )
+        {
             d_data->updateBorders( canvasRect, xMap, yMap );
+            d_data->canvasRectCache = canvasRect;
+        }
     }
 
     QPen pen = painter->pen();
@@ -381,7 +385,12 @@ void QwtPlotScaleItem::draw( QPainter *painter,
 
         sd->move( canvasRect.left(), y );
         sd->setLength( canvasRect.width() - 1 );
-        sd->setTransformation( xMap.transformation()->copy() );
+
+        QwtTransform *transform = NULL;
+        if ( xMap.transformation() )
+            transform = xMap.transformation()->copy();
+
+        sd->setTransformation( transform );
     }
     else // == Qt::Vertical
     {
@@ -404,7 +413,12 @@ void QwtPlotScaleItem::draw( QPainter *painter,
 
         sd->move( x, canvasRect.top() );
         sd->setLength( canvasRect.height() - 1 );
-        sd->setTransformation( yMap.transformation()->copy() );
+
+        QwtTransform *transform = NULL;
+        if ( yMap.transformation() )
+            transform = yMap.transformation()->copy();
+
+        sd->setTransformation( transform );
     }
 
     painter->setFont( d_data->font );
@@ -438,6 +452,7 @@ void QwtPlotScaleItem::updateScaleDiv( const QwtScaleDiv& xScaleDiv,
         {
             d_data->updateBorders( plt->canvas()->contentsRect(),
                 plt->canvasMap( xAxis() ), plt->canvasMap( yAxis() ) );
+            d_data->canvasRectCache = QRect();
         }
     }
 }
