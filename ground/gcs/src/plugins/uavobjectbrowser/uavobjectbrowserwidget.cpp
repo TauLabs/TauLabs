@@ -642,8 +642,11 @@ void UAVOBrowserTreeView::updateView(QModelIndex topLeft, QModelIndex bottomRigh
     m_updateTreeViewFlag = true;
 }
 
-void UAVOBrowserTreeView::dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight)
+void UAVOBrowserTreeView::dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight,
+                                      const QVector<int> & roles)
 {
+    Q_UNUSED(roles);
+
     // If the timer is active, then throttle updates...
     if (m_updateViewTimer.isActive()) {
         updateView(topLeft, bottomRight);

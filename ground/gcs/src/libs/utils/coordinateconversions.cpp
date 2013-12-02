@@ -37,6 +37,9 @@
 
 namespace Utils {
 
+const double CoordinateConversions::R_EQUATOR = 6378137.0;
+const double CoordinateConversions::ECCENTRICITY = 8.1819190842621e-2;
+
 CoordinateConversions::CoordinateConversions()
 {
 
@@ -66,8 +69,8 @@ void CoordinateConversions::LLA2Rne(double LLA[3], double Rne[3][3]){
   * @param[out] ECEF[3] location in ECEF coordinates
   */
 void CoordinateConversions::LLA2ECEF(double LLA[3], double ECEF[3]){
-  const double a = R_equator;           // Equatorial Radius
-  const double e = eccentricity;  // Eccentricity
+  const double a = R_EQUATOR;           // Equatorial Radius
+  const double e = ECCENTRICITY;  // Eccentricity
   double sinLat, sinLon, cosLat, cosLon;
   double N;
 
@@ -90,8 +93,8 @@ void CoordinateConversions::LLA2ECEF(double LLA[3], double ECEF[3]){
   */
 int CoordinateConversions::ECEF2LLA(double ECEF[3], double LLA[3])
 {
-    const double a = R_equator;           // Equatorial Radius
-    const double e = eccentricity;  // Eccentricity
+    const double a = R_EQUATOR;           // Equatorial Radius
+    const double e = ECCENTRICITY;  // Eccentricity
     double x=ECEF[0], y=ECEF[1], z=ECEF[2];
     double Lat, N, NplusH, delta, esLat;
     quint16 iter;
