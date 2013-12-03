@@ -1,8 +1,9 @@
 /**
  ******************************************************************************
  *
- * @file       startpage.cpp
+ * @file       endpage.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @see        The GNU Public License (GPL) Version 3
  *
  * @addtogroup GCSPlugins GCS Plugins
@@ -25,24 +26,28 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef STARTPAGE_H
-#define STARTPAGE_H
+
+#ifndef TLENDPAGE_H
+#define TLENDPAGE_H
 
 #include "abstractwizardpage.h"
 
 namespace Ui {
-class StartPage;
+class EndPage;
 }
 
-class StartPage : public AbstractWizardPage {
+class TLEndPage : public AbstractWizardPage {
     Q_OBJECT
 
 public:
-    explicit StartPage(SetupWizard *wizard, QWidget *parent = 0);
-    ~StartPage();
+    explicit TLEndPage(SetupWizard *wizard, QWidget *parent = 0);
+    ~TLEndPage();
+
+private slots:
+    void openInputWizard();
 
 private:
-    Ui::StartPage *ui;
+    Ui::EndPage *ui;
 };
 
-#endif // STARTPAGE_H
+#endif // TLENDPAGE_H
