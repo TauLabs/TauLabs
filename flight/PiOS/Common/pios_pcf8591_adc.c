@@ -49,6 +49,7 @@ static bool PIOS_PCF8591_ADC_Available(uint32_t adc_id, uint32_t device_pin);
 static struct pios_pcf8591_adc_dev * PIOS_PCF8591_ADC_Allocate(void);
 static uint8_t PIOS_PCF8591_ADC_Number_of_Channels(uint32_t internal_adc_id);
 static bool PIOS_PCF8591_ADC_validate(struct pios_pcf8591_adc_dev *);
+static uint32_t PIOS_PCF8591_ADC_Full_Range_Value(uint32_t);
 
 // Private types
 enum pios_pcf8591_adc_dev_magic {
@@ -59,6 +60,7 @@ const struct pios_adc_driver pios_pcf8591_adc_driver = {
         .available = PIOS_PCF8591_ADC_Available,
         .get_pin = PIOS_PCF8591_ADC_DevicePinGet,
         .number_of_channels = PIOS_PCF8591_ADC_Number_of_Channels,
+        .full_range_value = PIOS_PCF8591_ADC_Full_Range_Value,
 };
 
 struct pios_pcf8591_adc_dev {
@@ -184,6 +186,14 @@ static uint8_t PIOS_PCF8591_ADC_Number_of_Channels(uint32_t adc_id)
         return NELEMENTS(ADC_CHANNEL);
 }
 
+static uint32_t PIOS_PCF8591_ADC_Full_Range_Value(uint32_t adc_id)
+{
+        struct pios_pcf8591_adc_dev *adc_dev = (struct pios_pcf8591_adc_dev *)adc_id;
+        if(!PIOS_PCF8591_ADC_validate(adc_dev)) {
+                return 0;
+        }
+        return ((uint32_t)1 << 8) - 1;
+}
 #endif
 
 /**
