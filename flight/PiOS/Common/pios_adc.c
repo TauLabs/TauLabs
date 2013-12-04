@@ -181,7 +181,7 @@ void PIOS_ADC_SetQueue(uintptr_t adc_id, xQueueHandle data_queue)
  * \param[in] channel channel to read from
  * \return value of the channel or -1 if error
  */
-int32_t PIOS_ADC_GetChannel(uint32_t channel)
+int32_t PIOS_ADC_GetChannelRaw(uint32_t channel)
 {
 	uint32_t offset = 0;
 	for (uint8_t x = 0; x < sub_device_list.number_of_devices; ++x) {
@@ -209,7 +209,7 @@ int32_t PIOS_ADC_GetChannel(uint32_t channel)
  * \param[in] channel channel to read from
  * \return value of the channel or -1 if error
  */
-float PIOS_ADC_GetChannelAdjusted(uint32_t channel)
+float PIOS_ADC_GetChannelVolt(uint32_t channel)
 {
 	uint32_t offset = 0;
 	for (uint8_t x = 0; x < sub_device_list.number_of_devices; ++x) {
