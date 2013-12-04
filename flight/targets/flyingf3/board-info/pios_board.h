@@ -230,6 +230,8 @@ extern uintptr_t pios_com_debug_id;
 #define PIOS_INTERNAL_ADC_MAPPING                { ADC1, ADC2, ADC3, ADC4 }
 #define PIOS_INTERNAL_ADC_MAX_INSTANCES                 4
 
+#define VREF_PLUS					3.0f
+
 //-------------------------
 // USB
 //-------------------------

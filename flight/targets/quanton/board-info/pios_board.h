@@ -243,6 +243,8 @@ extern uintptr_t pios_com_debug_id;
 #define PIOS_ADC_MAX_OVERSAMPLING       2
 #define PIOS_ADC_USE_ADC2               0
 
+#define VREF_PLUS			3.3
+
 //-------------------------
 // USB
 //-------------------------
