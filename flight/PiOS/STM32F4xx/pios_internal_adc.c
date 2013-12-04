@@ -95,7 +95,7 @@ static void init_adc(void);
 static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
 static uint8_t PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id);
 static bool PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin);
-static uint32_t PIOS_INTERNAL_ADC_Full_Range_Value(uint32_t internal_adc_id);
+static float PIOS_INTERNAL_ADC_LSB_Voltage(uint32_t internal_adc_id);
 
 const struct pios_adc_driver pios_internal_adc_driver = {
                 .available      = PIOS_INTERNAL_ADC_Available,
@@ -455,15 +455,15 @@ static uint8_t PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id)
 }
 
 /**
- * @brief Gets the full range value of the ADC
+ * @brief Gets the least significant bit voltage of the ADC
  */
-static uint32_t PIOS_INTERNAL_ADC_Full_Range_Value(uint32_t internal_adc_id)
+static float PIOS_INTERNAL_ADC_LSB_Voltage(uint32_t internal_adc_id)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
 	if (!PIOS_INTERNAL_ADC_validate(adc_dev)) {
 		return 0;
 	}
-        return ((uint32_t)1 << 12) - 1;
+        return VREF_PLUS / (((uint32_t)1 << 12) - 1);
 }
 #endif /* PIOS_INCLUDE_ADC */
 
