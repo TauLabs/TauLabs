@@ -102,7 +102,7 @@ const struct pios_adc_driver pios_internal_adc_driver = {
                 .get_pin        = PIOS_INTERNAL_ADC_PinGet,
                 .set_queue      = NULL,
                 .number_of_channels = PIOS_INTERNAL_ADC_Number_of_Channels,
-                .full_range_value = PIOS_INTERNAL_ADC_Full_Range_Value,
+                .lsb_voltage = PIOS_INTERNAL_ADC_LSB_Voltage,
 };
 
 struct dma_config {

@@ -43,7 +43,7 @@ struct pios_adc_driver {
 	void (*set_queue)(uint32_t id, xQueueHandle data_queue);
 #endif
 	uint8_t (*number_of_channels)(uint32_t id);
-	uint32_t (*full_range_value)(uint32_t id);
+	float (*lsb_voltage)(uint32_t id);
 };
 
 /* Public Functions */

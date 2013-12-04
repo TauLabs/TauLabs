@@ -60,7 +60,7 @@ const struct pios_adc_driver pios_pcf8591_adc_driver = {
         .available = PIOS_PCF8591_ADC_Available,
         .get_pin = PIOS_PCF8591_ADC_DevicePinGet,
         .number_of_channels = PIOS_PCF8591_ADC_Number_of_Channels,
-        .full_range_value = PIOS_PCF8591_ADC_Full_Range_Value,
+        .full_range_value = PIOS_INTERNAL_ADC_LSB_Voltage,
 };
 
 struct pios_pcf8591_adc_dev {
