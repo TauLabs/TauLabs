@@ -220,7 +220,7 @@ float PIOS_ADC_GetChannelVolt(uint32_t channel)
 		} else if (adc_dev->driver->number_of_channels) {
 			uint32_t num_channels_for_this_device = adc_dev->driver->number_of_channels(adc_dev->lower_id);
 			if (adc_dev->driver->get_pin && (channel < offset + num_channels_for_this_device)) {
-				return (float)((adc_dev->driver->get_pin)(adc_dev->lower_id, channel - offset)) / (float)(adc_dev->driver->full_range_value)(adc_dev->lower_id) * (float)3.3;
+				return (float)((adc_dev->driver->get_pin)(adc_dev->lower_id, channel - offset)) * (float)(adc_dev->driver->lsb_voltage)(adc_dev->lower_id);
 			} else
 				offset += num_channels_for_this_device;
 		}
