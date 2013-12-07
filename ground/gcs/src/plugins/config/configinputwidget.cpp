@@ -1045,7 +1045,7 @@ void ConfigInputWidget::moveTxControls()
 {
     QTransform trans;
     QGraphicsItem * item;
-    txMovementType move;
+    txMovementType move = vertical;
     int limitMax;
     int limitMin;
     static bool auxFlag=false;

@@ -228,6 +228,8 @@ extern uintptr_t pios_ppm_rcvr_id;
 #define PIOS_ADC_RATE		(72.0e6 / 1.0 / 8.0 / 252.0 / (PIOS_ADC_NUM_CHANNELS >> PIOS_ADC_USE_ADC2))
 #define PIOS_ADC_MAX_OVERSAMPLING               36
 
+#define VREF_PLUS				3.3
+
 //------------------------
 // PIOS_RCVR
 // See also pios_board.c

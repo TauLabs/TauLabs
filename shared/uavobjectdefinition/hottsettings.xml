@@ -1,0 +1,81 @@
+<xml>
+	<object name="HoTTSettings" singleinstance="true" settings="true">
+		<description>Settings for the @ref HoTT Telemetry Module</description>
+		<field name="Sensor" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
+			<elementnames>
+				<elementname>VARIO</elementname>
+				<elementname>GPS</elementname>
+				<elementname>EAM</elementname>
+				<elementname>GAM</elementname>
+				<elementname>ESC</elementname>
+			</elementnames>
+		</field>
+		<field name="Warning" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
+			<elementnames>
+				<elementname>AltitudeBeep</elementname>
+				<elementname>MinSpeed</elementname>
+				<elementname>MaxSpeed</elementname>
+				<elementname>NegDifference1</elementname>
+				<elementname>PosDifference1</elementname>
+				<elementname>NegDifference2</elementname>
+				<elementname>PosDifference2</elementname>
+				<elementname>MinHeight</elementname>
+				<elementname>MaxHeight</elementname>
+				<elementname>MaxDistance</elementname>
+				<elementname>MinPowerVoltage</elementname>
+				<elementname>MaxPowerVoltage</elementname>
+				<elementname>MinSensor1Voltage</elementname>
+				<elementname>MaxSensor1Voltage</elementname>
+				<elementname>MinSensor2Voltage</elementname>
+				<elementname>MaxSensor2Voltage</elementname>
+				<elementname>MinCellVoltage</elementname>
+				<elementname>MaxCurrent</elementname>
+				<elementname>MaxUsedCapacity</elementname>
+				<elementname>MinSensor1Temp</elementname>
+				<elementname>MaxSensor1Temp</elementname>
+				<elementname>MinSensor2Temp</elementname>
+				<elementname>MaxSensor2Temp</elementname>
+				<elementname>MaxServoTemp</elementname>
+				<elementname>MinRPM</elementname>
+				<elementname>MaxRPM</elementname>
+				<elementname>MinFuel</elementname>
+				<elementname>MaxServoDifference</elementname>
+			</elementnames>
+		</field>
+		<field name="Limit" units="(km/h)/(m/s)/m/V/A/mAh/C/ml" type="float" defaultvalue="30,100,-10,10,-1,1,20,500,1500,5,30,5,30,5,30,3.3,40,2000,0,100,0,100,100,100,7000,1000,0">
+			<elementnames>
+				<elementname>MinSpeed</elementname>
+				<elementname>MaxSpeed</elementname>
+				<elementname>NegDifference1</elementname>
+				<elementname>PosDifference1</elementname>
+				<elementname>NegDifference2</elementname>
+				<elementname>PosDifference2</elementname>
+				<elementname>MinHeight</elementname>
+				<elementname>MaxHeight</elementname>
+				<elementname>MaxDistance</elementname>
+				<elementname>MinPowerVoltage</elementname>
+				<elementname>MaxPowerVoltage</elementname>
+				<elementname>MinSensor1Voltage</elementname>
+				<elementname>MaxSensor1Voltage</elementname>
+				<elementname>MinSensor2Voltage</elementname>
+				<elementname>MaxSensor2Voltage</elementname>
+				<elementname>MinCellVoltage</elementname>
+				<elementname>MaxCurrent</elementname>
+				<elementname>MaxUsedCapacity</elementname>
+				<elementname>MinSensor1Temp</elementname>
+				<elementname>MaxSensor1Temp</elementname>
+				<elementname>MinSensor2Temp</elementname>
+				<elementname>MaxSensor2Temp</elementname>
+				<elementname>MaxServoTemp</elementname>
+				<elementname>MinRPM</elementname>
+				<elementname>MaxRPM</elementname>
+				<elementname>MinFuel</elementname>
+				<elementname>MaxServoDifference</elementname>
+			</elementnames>
+		</field>
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

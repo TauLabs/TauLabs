@@ -28,6 +28,12 @@
 
 #include "quanton.h"
 
+#include <uavobjectmanager.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include <extensionsystem/pluginmanager.h>
+
+#include "hwquanton.h"
+
 /**
  * @brief Quanton::Quanton
  *  This is the Quanton board definition
@@ -104,4 +110,29 @@ QPixmap Quanton::getBoardPicture()
 QString Quanton::getHwUAVO()
 {
     return "HwQuanton";
+}
+
+int Quanton::queryMaxGyroRate()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwQuanton *hwQuanton = HwQuanton::GetInstance(uavoManager);
+    Q_ASSERT(hwQuanton);
+    if (!hwQuanton)
+        return 0;
+
+    HwQuanton::DataFields settings = hwQuanton->getData();
+
+    switch(settings.GyroRange) {
+    case HwQuanton::GYRORANGE_250:
+        return 250;
+    case HwQuanton::GYRORANGE_500:
+        return 500;
+    case HwQuanton::GYRORANGE_1000:
+        return 1000;
+    case HwQuanton::GYRORANGE_2000:
+        return 2000;
+    default:
+        return 500;
+    }
 }

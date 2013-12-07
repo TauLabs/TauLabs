@@ -100,7 +100,6 @@ void GCSControlGadgetWidget::rightStickClicked(double X, double Y) {
   */
 void GCSControlGadgetWidget::toggleControl(bool checked)
 {
-    toggleUDPControl(checked);
     m_gcscontrol->checkBoxUDPControl->setEnabled(checked);
     emit controlEnabled(checked);
 }
@@ -131,6 +130,18 @@ void GCSControlGadgetWidget::toggleUDPControl(int state)
 void GCSControlGadgetWidget::selectFlightMode(int state)
 {
     emit flightModeChangedLocaly((ManualControlSettings::FlightModePositionOptions)state);
+}
+
+//! Allow the GCS to take over control of UAV
+void GCSControlGadgetWidget::allowGcsControl(bool allow)
+{
+    m_gcscontrol->checkBoxGcsControl->setEnabled(allow);
+    if (allow)
+        m_gcscontrol->checkBoxGcsControl->setToolTip(
+                    tr("Take control of the board from GCS"));
+    else
+        m_gcscontrol->checkBoxGcsControl->setToolTip(
+                    tr("Disabled for safety. Enable this in the options page."));
 }
 
 void GCSControlGadgetWidget::setGCSControl(bool newState)

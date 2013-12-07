@@ -60,7 +60,7 @@ public:
     ~GCSControlGadget();
 
     QList<int> context() const { return m_context; }
-    QWidget *widget() { return m_widget; }
+    QWidget *widget() { return (QWidget *) m_widget; }
     QString contextHelpId() const { return QString(); }
 
     void loadConfiguration(IUAVGadgetConfiguration* config);
@@ -77,11 +77,8 @@ private:
     //! Set the GCS Receiver object
     void setGcsReceiver(double leftX, double leftY, double rightX, double rightY);
 
-    //! Set the ManualControlCommand object
-    void setManualControl(double leftX, double leftY, double rightX, double rightY);
-
     QTime joystickTime;
-    QWidget *m_widget;
+    GCSControlGadgetWidget *m_widget;
     QList<int> m_context;
     UAVObject::Metadata mccInitialData;
 

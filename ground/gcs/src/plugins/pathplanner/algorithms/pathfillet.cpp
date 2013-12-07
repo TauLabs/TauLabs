@@ -187,7 +187,7 @@ bool PathFillet::processPath(FlightDataModel *model)
                 bool clockwise = curvature > 0;
                 qint8 lambda;
 
-                if ((clockwise == true)) { // clockwise
+                if (clockwise == true) { // clockwise
                     lambda = 1;
                 } else { // counterclockwise
                     lambda = -1;

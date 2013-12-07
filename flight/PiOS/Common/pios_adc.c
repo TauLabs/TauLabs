@@ -181,7 +181,7 @@ void PIOS_ADC_SetQueue(uintptr_t adc_id, xQueueHandle data_queue)
  * \param[in] channel channel to read from
  * \return value of the channel or -1 if error
  */
-int32_t PIOS_ADC_GetChannel(uint32_t channel)
+int32_t PIOS_ADC_GetChannelRaw(uint32_t channel)
 {
 	uint32_t offset = 0;
 	for (uint8_t x = 0; x < sub_device_list.number_of_devices; ++x) {
@@ -200,6 +200,33 @@ int32_t PIOS_ADC_GetChannel(uint32_t channel)
 	return -1;
 }
 
+/**
+ * @brief Reads from an ADC channel and returns value in voltage seen at pin
+ * this is an abstraction of the lower devices
+ * channels are sequentially added from the lower devices available pins
+ * Warning this function is not as efficient as directly getting the device channel
+ * in the order of initialization
+ * \param[in] channel channel to read from
+ * \return value of the channel or -1 if error
+ */
+float PIOS_ADC_GetChannelVolt(uint32_t channel)
+{
+	uint32_t offset = 0;
+	for (uint8_t x = 0; x < sub_device_list.number_of_devices; ++x) {
+		struct pios_adc_dev * adc_dev = sub_device_list.sub_device_pointers[x];
+		if (!PIOS_ADC_validate(adc_dev)) {
+			PIOS_DEBUG_Assert(0);
+			continue;
+		} else if (adc_dev->driver->number_of_channels) {
+			uint32_t num_channels_for_this_device = adc_dev->driver->number_of_channels(adc_dev->lower_id);
+			if (adc_dev->driver->get_pin && (channel < offset + num_channels_for_this_device)) {
+				return (float)((adc_dev->driver->get_pin)(adc_dev->lower_id, channel - offset)) * (float)(adc_dev->driver->lsb_voltage)(adc_dev->lower_id);
+			} else
+				offset += num_channels_for_this_device;
+		}
+	}
+	return -1;
+}
 /**
  * @}
  * @}

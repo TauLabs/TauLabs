@@ -37,12 +37,14 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id);
 static bool PIOS_INTERNAL_ADC_Available(uint32_t internal_adc_id, uint32_t pin);
 static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
 static uint8_t PIOS_INTERNAL_ADC_NumberOfChannels(uint32_t internal_adc_id);
+static float PIOS_INTERNAL_ADC_LSB_Voltage(uint32_t internal_adc_id);
 
 const struct pios_adc_driver pios_internal_adc_driver = {
 		.available = PIOS_INTERNAL_ADC_Available,
 		.get_pin = PIOS_INTERNAL_ADC_PinGet,
 		.set_queue = NULL,
 		.number_of_channels = PIOS_INTERNAL_ADC_NumberOfChannels,
+		.lsb_voltage = PIOS_INTERNAL_ADC_LSB_Voltage,
 };
 
 static void PIOS_INTERNAL_ADC_DMA_Handler1(void);
@@ -228,6 +230,11 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
 		while (ADC_GetCalibrationStatus(adc_dev->cfg->adc_dev_slave) != RESET)
 			;
 	}
+
+	if (adc_dev->cfg->adc_dev_master == ADC1 || adc_dev->cfg->adc_dev_master == ADC2)
+		RCC_ADCCLKConfig(RCC_ADC12PLLCLK_Div256);
+	else
+		RCC_ADCCLKConfig(RCC_ADC34PLLCLK_Div256);
 
 	/* Do common ADC init */
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
@@ -527,6 +534,18 @@ static void PIOS_ADC_DMA_Handler(struct pios_internal_adc_dev *adc_dev)
 		// This should not happen, probably due to transfer errors
 		DMA_ClearFlag(adc_dev->cfg->dma.irq.flags /*DMA1_FLAG_GL1*/);
 	}
+}
+
+/**
+ * @brief Gets the least significant bit voltage of the ADC
+ */
+static float PIOS_INTERNAL_ADC_LSB_Voltage(uint32_t internal_adc_id)
+{
+	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
+	if (!PIOS_INTERNAL_ADC_validate(adc_dev)) {
+		return 0;
+	}
+        return VREF_PLUS / (((uint32_t)1 << 12) - 1);
 }
 #endif /* PIOS_INCLUDE_ADC */
 /** 

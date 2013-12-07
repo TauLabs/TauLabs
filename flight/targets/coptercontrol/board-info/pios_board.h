@@ -210,6 +210,8 @@ extern uintptr_t pios_com_mavlink_id;
 #define PIOS_ADC_RATE		(72.0e6f / 1.0f / 8.0f / 252.0f / (PIOS_ADC_NUM_CHANNELS >> PIOS_ADC_USE_ADC2))
 #define PIOS_ADC_MAX_OVERSAMPLING               36
 #define PIOS_INTERNAL_ADC_UPDATE_RATE  25.0f
+
+#define VREF_PLUS				3.3
 //------------------------
 // PIOS_RCVR
 // See also pios_board.c
