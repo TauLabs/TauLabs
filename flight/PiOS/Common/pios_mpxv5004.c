@@ -51,7 +51,7 @@ static int16_t calibrationOffset; //static?
  */
 uint16_t PIOS_MPXV5004_Measure(uint8_t airspeedADCPin)
 {
-	return PIOS_ADC_GetChannel(airspeedADCPin);
+	return PIOS_ADC_GetChannelRaw(airspeedADCPin);
 }
 
 /*
