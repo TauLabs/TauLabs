@@ -235,6 +235,8 @@ static void stabilizationTask(void* parameters)
 			trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw * settings.YawMax;
 			horizonRateFraction = MAX(horizonRateFraction, fabsf(stabDesired.Yaw));
 		}
+		// Note we divide by the maximum limit here so the fraction ranges from 0 to 1 depending on
+		// how much is requested.
 		horizonRateFraction = bound_sym(horizonRateFraction, HORIZON_MODE_MAX_BLEND) / HORIZON_MODE_MAX_BLEND;
 
 
