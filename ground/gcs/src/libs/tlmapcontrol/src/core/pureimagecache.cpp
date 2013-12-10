@@ -69,104 +69,106 @@ namespace core {
 
     bool PureImageCache::CreateEmptyDB(const QString &file)
     {
-#ifdef DEBUG_PUREIMAGECACHE
-        qDebug()<<"Create database at!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:"<<file;
-#endif //DEBUG_PUREIMAGECACHE
-        QFileInfo File(file);
-        QDir dir=File.absoluteDir();
-        QString path=dir.absolutePath();
-        QString filename=File.fileName();
-        if(File.exists())
-            QFile(filename).remove();
-        if(!dir.exists())
         {
 #ifdef DEBUG_PUREIMAGECACHE
-            qDebug()<<"CreateEmptyDB: Cache path doesn't exist, try to create";
+            qDebug()<<"Create database at!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:"<<file;
 #endif //DEBUG_PUREIMAGECACHE
-            if(!dir.mkpath(path))
+            QFileInfo File(file);
+            QDir dir=File.absoluteDir();
+            QString path=dir.absolutePath();
+            QString filename=File.fileName();
+            if(File.exists())
+                QFile(filename).remove();
+            if(!dir.exists())
             {
 #ifdef DEBUG_PUREIMAGECACHE
-                qDebug()<<"CreateEmptyDB: Could not create path";
+                qDebug()<<"CreateEmptyDB: Cache path doesn't exist, try to create";
 #endif //DEBUG_PUREIMAGECACHE
+                if(!dir.mkpath(path))
+                {
+#ifdef DEBUG_PUREIMAGECACHE
+                    qDebug()<<"CreateEmptyDB: Could not create path";
+#endif //DEBUG_PUREIMAGECACHE
+                    return false;
+                }
+            }
+            QSqlDatabase db;
+
+            db = QSqlDatabase::addDatabase("QSQLITE",QLatin1String("CreateConn"));
+            db.setDatabaseName(file);
+            if (!db.open())
+            {
+#ifdef DEBUG_PUREIMAGECACHE
+                qDebug()<<"CreateEmptyDB: Unable to create database";
+#endif //DEBUG_PUREIMAGECACHE
+
                 return false;
             }
-        }
-        QSqlDatabase db;
-
-        db = QSqlDatabase::addDatabase("QSQLITE",QLatin1String("CreateConn"));
-        db.setDatabaseName(file);
-        if (!db.open())
-        {
+            QSqlQuery query(db);
+            query.exec("CREATE TABLE IF NOT EXISTS Tiles (id INTEGER NOT NULL PRIMARY KEY, X INTEGER NOT NULL, Y INTEGER NOT NULL, Zoom INTEGER NOT NULL, Type INTEGER NOT NULL,Date TEXT)");
+            if(query.numRowsAffected()==-1)
+            {
 #ifdef DEBUG_PUREIMAGECACHE
-            qDebug()<<"CreateEmptyDB: Unable to create database";
+                qDebug()<<"CreateEmptyDB: "<<query.lastError().driverText();
 #endif //DEBUG_PUREIMAGECACHE
-
-            return false;
-        }
-        QSqlQuery query(db);
-        query.exec("CREATE TABLE IF NOT EXISTS Tiles (id INTEGER NOT NULL PRIMARY KEY, X INTEGER NOT NULL, Y INTEGER NOT NULL, Zoom INTEGER NOT NULL, Type INTEGER NOT NULL,Date TEXT)");
-        if(query.numRowsAffected()==-1)
-        {
+                db.close();
+                return false;
+            }
+            query.exec("CREATE TABLE IF NOT EXISTS TilesData (id INTEGER NOT NULL PRIMARY KEY CONSTRAINT fk_Tiles_id REFERENCES Tiles(id) ON DELETE CASCADE, Tile BLOB NULL)");
+            if(query.numRowsAffected()==-1)
+            {
 #ifdef DEBUG_PUREIMAGECACHE
-            qDebug()<<"CreateEmptyDB: "<<query.lastError().driverText();
+                qDebug()<<"CreateEmptyDB: "<<query.lastError().driverText();
 #endif //DEBUG_PUREIMAGECACHE
+                db.close();
+                return false;
+            }
+            query.exec(
+                        "CREATE TRIGGER fki_TilesData_id_Tiles_id "
+                        "BEFORE INSERT ON [TilesData] "
+                        "FOR EACH ROW BEGIN "
+                        "SELECT RAISE(ROLLBACK, 'insert on table TilesData violates foreign key constraint fki_TilesData_id_Tiles_id') "
+                        "WHERE (SELECT id FROM Tiles WHERE id = NEW.id) IS NULL; "
+                        "END");
+            if(query.numRowsAffected()==-1)
+            {
+#ifdef DEBUG_PUREIMAGECACHE
+                qDebug()<<"CreateEmptyDB: "<<query.lastError().driverText();
+#endif //DEBUG_PUREIMAGECACHE
+                db.close();
+                return false;
+            }
+            query.exec(
+                        "CREATE TRIGGER fku_TilesData_id_Tiles_id "
+                        "BEFORE UPDATE ON [TilesData] "
+                        "FOR EACH ROW BEGIN "
+                        "SELECT RAISE(ROLLBACK, 'update on table TilesData violates foreign key constraint fku_TilesData_id_Tiles_id') "
+                        "WHERE (SELECT id FROM Tiles WHERE id = NEW.id) IS NULL; "
+                        "END");
+            if(query.numRowsAffected()==-1)
+            {
+#ifdef DEBUG_PUREIMAGECACHE
+                qDebug()<<"CreateEmptyDB: "<<query.lastError().driverText();
+#endif //DEBUG_PUREIMAGECACHE
+                db.close();
+                return false;
+            }
+            query.exec(
+                        "CREATE TRIGGER fkdc_TilesData_id_Tiles_id "
+                        "BEFORE DELETE ON Tiles "
+                        "FOR EACH ROW BEGIN "
+                        "DELETE FROM TilesData WHERE TilesData.id = OLD.id; "
+                        "END");
+            if(query.numRowsAffected()==-1)
+            {
+#ifdef DEBUG_PUREIMAGECACHE
+                qDebug()<<"CreateEmptyDB: "<<query.lastError().driverText();
+#endif //DEBUG_PUREIMAGECACHE
+                db.close();
+                return false;
+            }
             db.close();
-            return false;
         }
-        query.exec("CREATE TABLE IF NOT EXISTS TilesData (id INTEGER NOT NULL PRIMARY KEY CONSTRAINT fk_Tiles_id REFERENCES Tiles(id) ON DELETE CASCADE, Tile BLOB NULL)");
-        if(query.numRowsAffected()==-1)
-        {
-#ifdef DEBUG_PUREIMAGECACHE
-            qDebug()<<"CreateEmptyDB: "<<query.lastError().driverText();
-#endif //DEBUG_PUREIMAGECACHE
-            db.close();
-            return false;
-        }
-        query.exec(
-                "CREATE TRIGGER fki_TilesData_id_Tiles_id "
-                "BEFORE INSERT ON [TilesData] "
-                "FOR EACH ROW BEGIN "
-                "SELECT RAISE(ROLLBACK, 'insert on table TilesData violates foreign key constraint fki_TilesData_id_Tiles_id') "
-                "WHERE (SELECT id FROM Tiles WHERE id = NEW.id) IS NULL; "
-                "END");
-        if(query.numRowsAffected()==-1)
-        {
-#ifdef DEBUG_PUREIMAGECACHE
-            qDebug()<<"CreateEmptyDB: "<<query.lastError().driverText();
-#endif //DEBUG_PUREIMAGECACHE
-            db.close();
-            return false;
-        }
-        query.exec(
-                "CREATE TRIGGER fku_TilesData_id_Tiles_id "
-                "BEFORE UPDATE ON [TilesData] "
-                "FOR EACH ROW BEGIN "
-                "SELECT RAISE(ROLLBACK, 'update on table TilesData violates foreign key constraint fku_TilesData_id_Tiles_id') "
-                "WHERE (SELECT id FROM Tiles WHERE id = NEW.id) IS NULL; "
-                "END");
-        if(query.numRowsAffected()==-1)
-        {
-#ifdef DEBUG_PUREIMAGECACHE
-            qDebug()<<"CreateEmptyDB: "<<query.lastError().driverText();
-#endif //DEBUG_PUREIMAGECACHE
-            db.close();
-            return false;
-        }
-        query.exec(
-                "CREATE TRIGGER fkdc_TilesData_id_Tiles_id "
-                "BEFORE DELETE ON Tiles "
-                "FOR EACH ROW BEGIN "
-                "DELETE FROM TilesData WHERE TilesData.id = OLD.id; "
-                "END");
-        if(query.numRowsAffected()==-1)
-        {
-#ifdef DEBUG_PUREIMAGECACHE
-            qDebug()<<"CreateEmptyDB: "<<query.lastError().driverText();
-#endif //DEBUG_PUREIMAGECACHE
-            db.close();
-            return false;
-        }
-        db.close();
         QSqlDatabase::removeDatabase(QLatin1String("CreateConn"));
         return true;
     }
