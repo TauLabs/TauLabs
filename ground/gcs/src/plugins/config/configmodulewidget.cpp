@@ -88,8 +88,10 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(batterySettingsName, "Capacity", ui->sb_batteryCapacity);
     addUAVObjectToWidgetRelation(batterySettingsName, "VoltageThresholds", ui->sb_lowVoltageAlarm, FlightBatterySettings::VOLTAGETHRESHOLDS_ALARM);
     addUAVObjectToWidgetRelation(batterySettingsName, "VoltageThresholds", ui->sb_lowVoltageWarning, FlightBatterySettings::VOLTAGETHRESHOLDS_WARNING);
-    addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrations", ui->sb_voltageCalibration, FlightBatterySettings::SENSORCALIBRATIONS_VOLTAGEFACTOR);
-    addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrations", ui->sb_currentCalibration, FlightBatterySettings::SENSORCALIBRATIONS_CURRENTFACTOR);
+    addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationFactor", ui->sb_voltageFactor, FlightBatterySettings::SENSORCALIBRATIONFACTOR_VOLTAGE);
+    addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationFactor", ui->sb_currentFactor, FlightBatterySettings::SENSORCALIBRATIONFACTOR_CURRENT);
+    addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationOffset", ui->sb_voltageOffSet, FlightBatterySettings::SENSORCALIBRATIONOFFSET_VOLTAGE);
+    addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationOffset", ui->sb_currentOffSet, FlightBatterySettings::SENSORCALIBRATIONOFFSET_CURRENT);
 
     addUAVObjectToWidgetRelation(batteryStateName, "Voltage", ui->le_liveVoltageReading);
     addUAVObjectToWidgetRelation(batteryStateName, "Current", ui->le_liveCurrentReading);
