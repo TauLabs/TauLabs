@@ -142,13 +142,15 @@ static void batteryTask(void * parameters)
 
 		//calculate the battery parameters
 		if (voltageADCPin >= 0) {
-			flightBatteryData.Voltage = ((float) PIOS_ADC_GetChannelVolt(voltageADCPin)) / batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEFACTOR]; //in Volts
+			flightBatteryData.Voltage = ((float) PIOS_ADC_GetChannelVolt(voltageADCPin)) / batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_VOLTAGE] * 1000.0f +
+							batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_VOLTAGE]; //in Volts
 		} else {
 			flightBatteryData.Voltage = 0; //Dummy placeholder value. This is in case we get another source of battery current which is not from the ADC
 		}
 
 		if (currentADCPin >= 0) {
-			flightBatteryData.Current = ((float) PIOS_ADC_GetChannelVolt(currentADCPin)) / batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTFACTOR]; //in Amps
+			flightBatteryData.Current = ((float) PIOS_ADC_GetChannelVolt(currentADCPin)) / batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_CURRENT] * 1000.0f +
+							batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_CURRENT]; //in Amps
 			if (flightBatteryData.Current > flightBatteryData.PeakCurrent)
 				flightBatteryData.PeakCurrent = flightBatteryData.Current; //in Amps
 		} else { //If there's no current measurement, we still need to assign one. Make it negative, so it can never trigger an alarm
