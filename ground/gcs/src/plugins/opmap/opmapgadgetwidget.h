@@ -322,7 +322,6 @@ private:
     void setMapFollowingMode();
 
 	bool setHomeLocationObject();
-    QMenu contextMenu;
     internals::PointLatLng lastLatLngMouse;
     WayPointItem * magicWayPoint;
 
