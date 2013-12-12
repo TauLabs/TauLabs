@@ -292,11 +292,6 @@ void UAVObjectBrowserWidget::showMetaData(bool show)
  */
 void UAVObjectBrowserWidget::categorize(bool categorize)
 {
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    Q_ASSERT(pm);
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    Q_ASSERT(objManager);
-
     // Save the pointer so we can delete it only once the
     // treeView has been set to the new model
     UAVObjectTreeModel* tmpModelPtr = m_model;
@@ -324,12 +319,7 @@ void UAVObjectBrowserWidget::categorize(bool categorize)
  * @param scientific true enable scientific notation output, false disables scientific notation output
  */
 void UAVObjectBrowserWidget::useScientificNotation(bool scientific)
-{
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    Q_ASSERT(pm);
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    Q_ASSERT(objManager);
-
+{;
     // Save the pointer so we can delete it only once the
     // treeView has been set to the new model
     UAVObjectTreeModel* tmpModelPtr = m_model;
