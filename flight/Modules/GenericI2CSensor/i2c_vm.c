@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup GenericI2CSensor Generic I2C sensor interface
+ * @{
+ *
  * @file       i2c_vm.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * @addtogroup I2C VirtualMachines
- * @{
- * @addtogroup 
- * @{
- * @brief Generic Programmable I2C Virtual Machine
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      The virtual machine for I2C sensors
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -26,6 +27,8 @@
  */
 
 #include <pios.h>
+#if defined(PIOS_INCLUDE_I2C)
+
 #include <stdint.h>	      /* uint8_t, uint32_t, etc */
 #include <stdbool.h>	      /* bool */
 #include "uavobjectmanager.h" /* UAVO types */
@@ -671,7 +674,7 @@ static bool i2c_vm_send_uavo (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_
  */
 static bool i2c_vm_delay (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t imm_hi, uint8_t imm_lo)
 {
-	vTaskDelay((SIMM_VAL(imm_hi, imm_lo)) / portTICK_RATE_MS);
+	vTaskDelay(MS2TICKS(SIMM_VAL(imm_hi, imm_lo)));
 
 	vm_state->uavo.pc++;
 	return true;
@@ -801,7 +804,10 @@ bool i2c_vm_run (const uint32_t * code, uint8_t code_len, uintptr_t i2c_adapter)
 	return (!vm.fault);
 }
 
+#endif /* PIOS_INCLUDE_I2C */
+
 /**
  * @}
  * @}
  */
+

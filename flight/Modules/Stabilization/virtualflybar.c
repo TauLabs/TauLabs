@@ -1,16 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup StabilizationModule Stabilization Module
- * @brief Virtual flybar mode
- * @note This file implements the logic for a virtual flybar
  * @{
  *
  * @file       virtualflybar.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
- * @brief      Attitude stabilization module.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Virtual flybar control mode
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -33,6 +31,7 @@
 
 #include "openpilot.h"
 #include "physical_constants.h"
+#include "pid.h"
 #include "stabilization.h"
 #include "stabilizationsettings.h"
 
@@ -43,10 +42,9 @@ static float vbar_decay = 0.991f;
 //! Private methods
 static float bound(float val, float range);
 
-int stabilization_virtual_flybar(float gyro, float command, float *output, float dT, bool reinit, uint32_t axis, StabilizationSettingsData *settings)
+int stabilization_virtual_flybar(float gyro, float command, float *output, float dT, bool reinit, uint32_t axis, struct pid *pid, StabilizationSettingsData *settings)
 {
 	float gyro_gain = 1.0f;
-	float kp = 0, ki = 0;
 
 	if(reinit)
 		vbar_integral[axis] = 0;
@@ -55,34 +53,21 @@ int stabilization_virtual_flybar(float gyro, float command, float *output, float
 	vbar_integral[axis] = vbar_integral[axis] * vbar_decay + gyro * dT;
 	vbar_integral[axis] = bound(vbar_integral[axis], settings->VbarMaxAngle);
 
-	// Command signal can indicate how much to disregard the gyro feedback (fast flips)
-	if (settings->VbarGyroSuppress > 0) {
-		gyro_gain = (1.0f - fabs(command) * settings->VbarGyroSuppress / 100.0f);
-		gyro_gain = (gyro_gain < 0) ? 0 : gyro_gain;
-	}
+	// Compute the normal PID controller output
+	float pid_out = pid_apply_setpoint(pid,  0,  gyro, dT);
 
-	// Get the settings for the correct axis
-	switch(axis)
-	{
-		case ROLL:
-			kp = settings->VbarRollPI[STABILIZATIONSETTINGS_VBARROLLPI_KP];
-			ki = settings->VbarRollPI[STABILIZATIONSETTINGS_VBARROLLPI_KI];
-			break;
-		case PITCH:
-			kp = settings->VbarPitchPI[STABILIZATIONSETTINGS_VBARROLLPI_KP];
-			ki = settings->VbarPitchPI[STABILIZATIONSETTINGS_VBARROLLPI_KI];
-			break;
-		case YAW:
-			kp = settings->VbarYawPI[STABILIZATIONSETTINGS_VBARROLLPI_KP];
-			ki = settings->VbarYawPI[STABILIZATIONSETTINGS_VBARROLLPI_KI];
-			break;
-		default:
-			PIOS_DEBUG_Assert(0);
+	// Command signal can indicate how much to disregard the gyro feedback (fast flips)
+	if (settings->VbarGyroSuppress > 0.0f) {
+		gyro_gain = (1.0f - fabsf(command) * settings->VbarGyroSuppress / 100.0f);
+		gyro_gain = (gyro_gain < 0.0f) ? 0.0f : gyro_gain;
 	}
 
 	// Command signal is composed of stick input added to the gyro and virtual flybar
-	*output = command * settings->VbarSensitivity[axis] - 
-	    gyro_gain * (vbar_integral[axis] * ki + gyro * kp);
+	// Note the PID output has a positive sign (consistent with its use in other places)
+	// but the integral is negative since it is the angle of the virtual flybar which is
+	// the negative of the accumulated error.
+	*output = command * settings->VbarSensitivity[axis] + 
+	    gyro_gain * (pid_out - vbar_integral[axis] * pid->i);
 
 	return 0;
 }
@@ -118,3 +103,8 @@ static float bound(float val, float range)
 	}
 	return val;
 }
+
+/**
+ * @}
+ * @}
+ */

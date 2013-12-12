@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       iboardtype.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -90,9 +90,25 @@ public:
                             BOARD_CAPABILITIES_MAGS, BOARD_CAPABILITIES_BAROS,
                             BOARD_CAPABILITIES_RADIO};
     /**
-     * Query capabilities of the board
+     * @brief Query capabilities of the board.
+     * @return true if board supports the capability that is requested (from BoardCapabilities)
+     *
      */
     virtual bool queryCapabilities(BoardCapabilities capability) = 0;
+
+    /**
+     * @brief Query number & names of output PWM channels banks on the board
+     * @return list of channel bank names
+     *
+     */
+    virtual QStringList queryChannelBanks();
+
+    /**
+     * @brief Get banks of output PWM channels banks on the board
+     * @return matrix of channel bank names
+     *
+     */
+    virtual QVector< QVector<int> > getChannelBanks(){return channelBanks;}
 
     /**
      * @brief getBoardPicture
@@ -102,7 +118,7 @@ public:
      *  TODO: this API is not stable yet.
      *
      */
-    virtual QPixmap* getBoardPicture() = 0;
+    virtual QPixmap getBoardPicture() = 0;
 
     /**
      * Get supported protocol(s) for this board
@@ -110,6 +126,12 @@ public:
      * TODO: extend GCS to support multiple protocol types.
      */
     virtual QStringList getSupportedProtocols() = 0;
+
+    /**
+     * Get name of the HW Configuration UAVObject
+     *
+     */
+    virtual QString getHwUAVO() = 0;
 
     /**
      * Get USB descriptors to detect the board
@@ -129,6 +151,53 @@ public:
     //! Get the board type number
     int getBoardType() { return boardType; }
 
+    /***** methods related to configuring specific boards *****/
+
+    //! Types of input to configure for the default port
+    enum InputType {
+        INPUT_TYPE_DISABLED,
+        INPUT_TYPE_PWM,
+        INPUT_TYPE_PPM,
+        INPUT_TYPE_DSM2,
+        INPUT_TYPE_DSMX10BIT,
+        INPUT_TYPE_DSMX11BIT,
+        INPUT_TYPE_SBUS,
+        INPUT_TYPE_HOTTSUMD,
+        INPUT_TYPE_HOTTSUMH,
+        INPUT_TYPE_UNKNOWN
+    };
+
+    //! Determine if this board supports configuring the receiver
+    virtual bool isInputConfigurationSupported() { return false; }
+
+    /**
+     * @brief Configure the board to use an receiver input type on a port number
+     * @param type the type of receiver to use
+     * @param port_num which input port to configure (board specific numbering)
+     * @return true if successfully configured or false otherwise
+     */
+    virtual bool setInputOnPort(enum InputType /*type*/, int port_num = 0) { Q_UNUSED(port_num); return false; }
+
+    /**
+     * @brief getInputOnPort get the current input type
+     * @param port_num which input port to query (board specific numbering)
+     * @return the currently selected input type
+     */
+    virtual enum InputType getInputOnPort(int port_num = 0) { Q_UNUSED(port_num); return INPUT_TYPE_UNKNOWN; }
+
+    /**
+     * @brief getConnectionDiagram get the connection diagram for this board
+     * @return a string with the name of the resource for this board diagram
+     */
+    virtual QString getConnectionDiagram() { return ""; }
+
+    /**
+     * @brief Query the board for the currently set max rate of the gyro
+     * @return max rate of gyro
+     *
+     */
+    virtual int queryMaxGyroRate() { return -1; }
+
 signals:
 
 protected:
@@ -140,7 +209,11 @@ protected:
     bool dfuSupport;
 
     //! The numerical board type ID
-    int boardType;
+    qint32 boardType;
+
+    //! The channel groups that are driven by timers
+    QVector< QVector<qint32> > channelBanks;
+
 };
 
 } //namespace Core

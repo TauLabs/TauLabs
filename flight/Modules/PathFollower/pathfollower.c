@@ -1,5 +1,9 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup PathFollowerModule Path Follower Module
+ * @{ 
  *
  * @file       pathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
@@ -27,18 +31,10 @@
  */
 
 /**
- * Input object: PathDesired
- * Output object: StabilizationDesired
+ * Input object: @ref PathDesired and @ref PositionActual
+ * Output object: @ref StabilizationDesired
  *
- * This module will periodically update the value of the StabilizationDesired object.
- *
- * The module executes in its own thread in this example.
- *
- * Modules have no API, all communication to other modules is done through UAVObjects.
- * However modules may use the API exposed by shared libraries.
- * See the OpenPilot wiki for more details.
- * http://www.openpilot.org/OpenPilot_Application_Architecture
- *
+ * Calculate the value of @ref StabilizationDesired to get on the desired path.
  */
 
 #include "openpilot.h"
@@ -55,7 +51,7 @@
 #include "multirotorpathfollower.h"
 #include "dubinscartpathfollower.h"
 
-#include "CoordinateConversions.h"
+#include "coordinate_conversions.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
@@ -205,7 +201,7 @@ static void PathFollowerTask(void *parameters)
 		// TODO: Refactor this into the fixed wing method as a callback
 		FixedWingPathFollowerSettingsCCGet(&fixedwingpathfollowerSettings);
 
-		vTaskDelayUntil(&lastUpdateTime, fixedwingpathfollowerSettings.UpdatePeriod / portTICK_RATE_MS);
+		vTaskDelayUntil(&lastUpdateTime, MS2TICKS(fixedwingpathfollowerSettings.UpdatePeriod));
 
 		if (flightStatusUpdate)
 			FlightStatusFlightModeGet(&flightMode);
@@ -245,3 +241,8 @@ static void FlightStatusUpdatedCb(UAVObjEvent * ev)
 {
 	flightStatusUpdate = true;
 }
+
+/**
+ * @}
+ * @}
+ */

@@ -106,14 +106,11 @@ DFUObject::DFUObject(bool _debug,bool _use_serial,QString portname):
                 USBSignalFilter filter(vendorID,-1,-1,USBMonitor::Bootloader);
                 connect(&filter, SIGNAL(deviceDiscovered()),&m_eventloop, SLOT(quit()));
             }
-            for(int x=0;x<4;++x)
+            for(int x=0;x<20;++x)
             {
                 qDebug()<<"OP_DFU trying to detect bootloader:"<<x;
 
-                if(x==0)
-                    QTimer::singleShot(10000,&m_eventloop, SLOT(quit()));
-                else
-                    QTimer::singleShot(2000,&m_eventloop, SLOT(quit()));
+                QTimer::singleShot(1000,&m_eventloop, SLOT(quit()));
                 m_eventloop.exec();
                 devices.clear();
                 foreach(int vendorID, brdVID) {
@@ -323,7 +320,7 @@ OP_DFU::Status DFUObject::UploadDescription(QVariant desc)
      cout<<"Starting uploading description\n";
      QByteArray array;
 
-    if (desc.type() == QMetaType::QString) {
+    if (desc.type() == QVariant::String) {
         QString description = desc.toString();
         if(description.length()%4!=0)
         {
@@ -336,7 +333,7 @@ OP_DFU::Status DFUObject::UploadDescription(QVariant desc)
         }
         array=description.toAscii();
 
-    } else if (desc.type() == QMetaType::QByteArray) {
+    } else if (desc.type() == QVariant::ByteArray) {
         array = desc.toByteArray();
     }
 
@@ -629,8 +626,8 @@ bool DFUObject::findDevices()
             buf[7] = 0;
             buf[8] = 0;
             buf[9] = 0;
-            int result = sendData(buf, BUF_LEN);
-            result = receiveData(buf,BUF_LEN);
+            sendData(buf, BUF_LEN);
+            receiveData(buf,BUF_LEN);
             devices[x].ID=buf[14];
             devices[x].ID=devices[x].ID<<8 | (quint8)buf[15];
             devices[x].BL_Version=buf[7];
@@ -739,7 +736,7 @@ OP_DFU::Status DFUObject::UploadFirmwareT(const QString &sfile, const bool &veri
         pad=pad-arr.length();
         arr.append(QByteArray(pad,255));
     }
-    if( devices[device].SizeOfCode < arr.length())
+    if( devices[device].SizeOfCode < (quint32)arr.length())
     {
         if (debug)
             qDebug() << "ERROR file to big for device";
@@ -1013,10 +1010,10 @@ int DFUObject::sendData(void * data,int size)
         return hidHandle.send(0,data, size, 5000);
 
     // Serial Mode:
-    if(serialhandle->sendData((uint8_t*)data+1,size-1))
+    if(serialhandle->sendData((quint8*)data+1,size-1))
     {
          if (debug)
-            qDebug() << "packet sent" << "data0" << ((uint8_t*)data+1)[0];
+            qDebug() << "packet sent" << "data0" << ((quint8*)data+1)[0];
         return size;
     }
     if(debug)

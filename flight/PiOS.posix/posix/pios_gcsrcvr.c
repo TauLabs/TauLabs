@@ -8,6 +8,7 @@
  *
  * @file       pios_gcsrcvr.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, 2013.
  * @brief      GCS Input functions (STM32 dependent)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -40,7 +41,7 @@ static GCSReceiverData gcsreceiverdata;
 #define VALID_WHEN_MISSING
 
 /* Provide a RCVR driver */
-static int32_t PIOS_GCSRCVR_Get(uint32_t rcvr_id, uint8_t channel);
+static int32_t PIOS_GCSRCVR_Get(uintptr_t rcvr_id, uint8_t channel);
 
 const struct pios_rcvr_driver pios_gcsrcvr_rcvr_driver = {
 	.read = PIOS_GCSRCVR_Get,
@@ -69,7 +70,7 @@ static struct pios_gcsrcvr_dev *PIOS_gcsrcvr_alloc(void)
 	if (!gcsrcvr_dev) return(NULL);
 
 	gcsrcvr_dev->magic = PIOS_GCSRCVR_DEV_MAGIC;
-	gcsrcvr_dev->Fresh = FALSE;
+	gcsrcvr_dev->Fresh = false;
 	gcsrcvr_dev->supv_timer = 0;
 
 	/* The update callback cannot receive the device pointer, so set it in a global */
@@ -90,7 +91,7 @@ static struct pios_gcsrcvr_dev *PIOS_gcsrcvr_alloc(void)
 
 	gcsrcvr_dev = &pios_gcsrcvr_devs[pios_gcsrcvr_num_devs++];
 	gcsrcvr_dev->magic = PIOS_GCSRCVR_DEV_MAGIC;
-	gcsrcvr_dev->Fresh = FALSE;
+	gcsrcvr_dev->Fresh = false;
 	gcsrcvr_dev->supv_timer = 0;
 
 	global_gcsrcvr_dev = gcsrcvr_dev;
@@ -104,11 +105,11 @@ static void gcsreceiver_updated(UAVObjEvent * ev)
 	struct pios_gcsrcvr_dev *gcsrcvr_dev = global_gcsrcvr_dev;
 	if (ev->obj == GCSReceiverHandle()) {
 		GCSReceiverGet(&gcsreceiverdata);
-		gcsrcvr_dev->Fresh = TRUE;
+		gcsrcvr_dev->Fresh = true;
 	}
 }
 
-extern int32_t PIOS_GCSRCVR_Init(uint32_t *gcsrcvr_id)
+extern int32_t PIOS_GCSRCVR_Init(uintptr_t *gcsrcvr_id)
 {
 	struct pios_gcsrcvr_dev *gcsrcvr_dev;
 
@@ -123,7 +124,7 @@ extern int32_t PIOS_GCSRCVR_Init(uint32_t *gcsrcvr_id)
 	return 0;
 }
 
-static int32_t PIOS_GCSRCVR_Get(uint32_t rcvr_id, uint8_t channel)
+static int32_t PIOS_GCSRCVR_Get(uintptr_t rcvr_id, uint8_t channel)
 {
 	if (channel >= GCSRECEIVER_CHANNEL_NUMELEM) {
 		/* channel is out of range */

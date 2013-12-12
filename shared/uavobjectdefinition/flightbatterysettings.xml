@@ -9,8 +9,9 @@
         <field name="VoltageThresholds" units="V"  type="float" elementnames="Warning, Alarm" defaultvalue="9.8, 9.2"/>
           
         <field name="SensorType" units="" type="enum" elementnames="BatteryCurrent,BatteryVoltage" options="Disabled,Enabled" defaultvalue="Enabled,Enabled"/>
-        <field name="SensorCalibrations" units="" type="float" elementnames="VoltageFactor, CurrentFactor" defaultvalue="1.0, 1.0"/>
-       
+        <field name="SensorCalibrationFactor" units="mV/U" type="float" elementnames="Voltage, Current" defaultvalue="1.0, 1.0"/>
+        <field name="SensorCalibrationOffset" units="" type="float" elementnames="Voltage, Current" defaultvalue="0, 0"/>
+
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>

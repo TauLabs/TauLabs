@@ -8,7 +8,7 @@
  *
  * @file       pios_bma180.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      PiOS BMA180 digital accelerometer driver.
  *                 - Driver for the BMA180 digital accelerometer on the SPI bus.
  * @see        The GNU Public License (GPL) Version 3
@@ -73,7 +73,7 @@ static struct bma180_dev * PIOS_BMA180_alloc(void)
 {
 	struct bma180_dev * bma180_dev;
 	
-	bma180_dev = (struct bma180_dev *)pvPortMalloc(sizeof(*bma180_dev));
+	bma180_dev = (struct bma180_dev *)PIOS_malloc(sizeof(*bma180_dev));
 	if (!bma180_dev) return (NULL);
 	
 	fifoBuf_init(&bma180_dev->fifo, (uint8_t *) bma180_dev->buffer, sizeof(bma180_dev->buffer));

@@ -6,12 +6,24 @@
 #
 
 # Since debug_and_release option is set, we need this
+
+
+# If the PYTHON environment variable isn't set (by Make)
+# then we set it ourselves.
+PYTHON_LOCAL = $$(PYTHON)
+
+isEmpty($$PYTHON_LOCAL) {
+    unix: PYTHON_LOCAL = python2
+    win32: PYTHON_LOCAL = python
+    macx: PYTHON_LOCAL = python
+}
+
 !debug_and_release|build_pass {
     ROOT_DIR              = $$GCS_SOURCE_TREE/../..
     VERSION_INFO_HEADER   = $$GCS_BUILD_TREE/gcsversioninfo.h
     VERSION_INFO_SCRIPT   = $$ROOT_DIR/make/scripts/version-info.py
     VERSION_INFO_TEMPLATE = $$ROOT_DIR/make/templates/gcsversioninfotemplate.h
-    VERSION_INFO_COMMAND  = python \"$$VERSION_INFO_SCRIPT\"
+    VERSION_INFO_COMMAND  = $$PYTHON_LOCAL \"$$VERSION_INFO_SCRIPT\"
     UAVO_DEF_PATH         = $$ROOT_DIR/shared/uavobjectdefinition
 
     # Create custom version_info target which generates a header

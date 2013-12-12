@@ -1,0 +1,18 @@
+<?xml version="1.0"?><svg width="64" height="64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient xlink:href="#linearGradient8026" id="linearGradient16937" x1="-0.328571" y1="-0.376512" x2="1.399872" y2="1.303996"/>
+  <linearGradient id="linearGradient8026">
+   <stop offset="0" id="stop8028" stop-color="#ffffff"/>
+   <stop offset="1" id="stop8030" stop-opacity="0" stop-color="#ffffff"/>
+  </linearGradient>
+  <linearGradient xlink:href="#linearGradient8026" id="linearGradient16935" x1="-0.07336" y1="-0.240693" x2="1.092169" y2="1.334486"/>
+ </defs>
+ <metadata id="metadata3830">image/svg+xml</metadata>
+ <g>
+  <title>Layer 1</title>
+  <path transform="rotate(90, 37.8105, 48.2891)" id="path15339" d="m22.463137,47.632565l15.279234,25.776714l15.413948,-26.345787l-9.042213,0.014023c0,0 1.14856,-10.951042 -3.421089,-17.450233c-4.569565,-6.499117 -15.188749,-6.461113 -15.188749,-6.461113c0,0 4.718948,3.592598 6.456558,10.183479c1.737616,6.590878 0.825109,14.094849 0.825109,14.094849l-10.322798,0.188068z" stroke-miterlimit="4" stroke="#000000" fill-rule="evenodd" fill="#7f0000"/>
+  <path transform="rotate(90, 25.5703, 15.9609)" id="path15341" d="m40.916309,16.616331l-15.279236,-25.77686l-15.414049,26.345853l9.042305,-0.01403c0,0 -1.148552,10.95105 3.421,17.450243c4.56966,6.499123 15.188839,6.461182 15.188839,6.461182c0,0 -4.718933,-3.592728 -6.456551,-10.183619c-1.737616,-6.590736 -0.825109,-14.09478 -0.825109,-14.09478l10.322802,-0.187988z" stroke-miterlimit="4" stroke="#000000" fill-rule="evenodd" fill="#7f0000"/>
+  <path transform="rotate(90, 36.9043, 14.207)" id="path15742" d="m46.982147,15.979322l-7.625259,-12.315685l-12.529837,21.087498l6.887136,-0.037254c9.524647,-0.893639 6.92556,-8.412331 13.26796,-8.734558z" stroke-miterlimit="4" fill-rule="evenodd" fill="url(#linearGradient16935)"/>
+  <path transform="rotate(90, 43.4355, 44.8613)" id="path15740" d="m34.81662,52.084671l6.146729,10.12532c6.535683,-1.962921 4.865318,-9.569935 10.680244,-11.100494c0,0 1.638329,-9.400139 -1.644234,-16.785892c-3.170059,-7.132324 -12.007927,-6.804108 -12.007927,-6.804108c0,0 3.432564,2.564844 5.00013,9.028637c1.567467,6.463776 0.182755,15.345863 0.182755,15.345863l-8.357697,0.190674z" stroke-miterlimit="4" fill-rule="evenodd" fill="url(#linearGradient16937)"/>
+ </g>
+</svg>

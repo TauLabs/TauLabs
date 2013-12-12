@@ -8,7 +8,7 @@
  *
  * @file       pios_ppm.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      PPM Input functions (STM32 dependent)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -36,7 +36,7 @@
 #if defined(PIOS_INCLUDE_PPM)
 
 /* Provide a RCVR driver */
-static int32_t PIOS_PPM_Get(uint32_t rcvr_id, uint8_t channel);
+static int32_t PIOS_PPM_Get(uintptr_t rcvr_id, uint8_t channel);
 
 const struct pios_rcvr_driver pios_ppm_rcvr_driver = {
 	.read = PIOS_PPM_Get,
@@ -44,7 +44,7 @@ const struct pios_rcvr_driver pios_ppm_rcvr_driver = {
 
 #define PIOS_PPM_IN_MIN_NUM_CHANNELS		4
 #define PIOS_PPM_IN_MAX_NUM_CHANNELS		PIOS_PPM_NUM_INPUTS
-#define PIOS_PPM_STABLE_CHANNEL_COUNT		25	// frames
+#define PIOS_PPM_STABLE_CHANNEL_COUNT		10	// frames
 #define PIOS_PPM_IN_MIN_SYNC_PULSE_US		3800	// microseconds
 #define PIOS_PPM_IN_MIN_CHANNEL_PULSE_US	750	// microseconds
 #define PIOS_PPM_IN_MAX_CHANNEL_PULSE_US	2250   // microseconds
@@ -52,7 +52,7 @@ const struct pios_rcvr_driver pios_ppm_rcvr_driver = {
 /* Local Variables */
 static TIM_ICInitTypeDef TIM_ICInitStructure;
 
-static void PIOS_PPM_Supervisor(uint32_t ppm_id);
+static void PIOS_PPM_Supervisor(uintptr_t ppm_id);
 
 enum pios_ppm_dev_magic {
 	PIOS_PPM_DEV_MAGIC = 0xee014d8b,
@@ -74,8 +74,8 @@ struct pios_ppm_dev {
 	uint8_t NumChannelCounter;
 
 	uint8_t supv_timer;
-	bool Tracking;
-	bool Fresh;
+	volatile bool Tracking;
+	volatile bool Fresh;
 };
 
 static bool PIOS_PPM_validate(struct pios_ppm_dev * ppm_dev)
@@ -83,43 +83,25 @@ static bool PIOS_PPM_validate(struct pios_ppm_dev * ppm_dev)
 	return (ppm_dev->magic == PIOS_PPM_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_ppm_dev * PIOS_PPM_alloc(void)
 {
 	struct pios_ppm_dev * ppm_dev;
 
-	ppm_dev = (struct pios_ppm_dev *)pvPortMalloc(sizeof(*ppm_dev));
+	ppm_dev = (struct pios_ppm_dev *)PIOS_malloc(sizeof(*ppm_dev));
 	if (!ppm_dev) return(NULL);
 
 	ppm_dev->magic = PIOS_PPM_DEV_MAGIC;
 	return(ppm_dev);
 }
-#else
-static struct pios_ppm_dev pios_ppm_devs[PIOS_PPM_MAX_DEVS];
-static uint8_t pios_ppm_num_devs;
-static struct pios_ppm_dev * PIOS_PPM_alloc(void)
-{
-	struct pios_ppm_dev * ppm_dev;
 
-	if (pios_ppm_num_devs >= PIOS_PPM_MAX_DEVS) {
-		return (NULL);
-	}
-
-	ppm_dev = &pios_ppm_devs[pios_ppm_num_devs++];
-	ppm_dev->magic = PIOS_PPM_DEV_MAGIC;
-
-	return (ppm_dev);
-}
-#endif
-
-static void PIOS_PPM_tim_overflow_cb (uint32_t id, uint32_t context, uint8_t channel, uint16_t count);
-static void PIOS_PPM_tim_edge_cb (uint32_t id, uint32_t context, uint8_t channel, uint16_t count);
+static void PIOS_PPM_tim_overflow_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
+static void PIOS_PPM_tim_edge_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
 const static struct pios_tim_callbacks tim_callbacks = {
 	.overflow = PIOS_PPM_tim_overflow_cb,
 	.edge     = PIOS_PPM_tim_edge_cb,
 };
 
-extern int32_t PIOS_PPM_Init(uint32_t * ppm_id, const struct pios_ppm_cfg * cfg)
+extern int32_t PIOS_PPM_Init(uintptr_t * ppm_id, const struct pios_ppm_cfg * cfg)
 {
 	PIOS_DEBUG_Assert(ppm_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -151,8 +133,8 @@ extern int32_t PIOS_PPM_Init(uint32_t * ppm_id, const struct pios_ppm_cfg * cfg)
 
 	}
 
-	uint32_t tim_id;
-	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, &tim_callbacks, (uint32_t)ppm_dev)) {
+	uintptr_t tim_id;
+	if (PIOS_TIM_InitChannels(&tim_id, cfg->channels, cfg->num_channels, &tim_callbacks, (uintptr_t)ppm_dev)) {
 		return -1;
 	}
 
@@ -188,11 +170,11 @@ extern int32_t PIOS_PPM_Init(uint32_t * ppm_id, const struct pios_ppm_cfg * cfg)
 	TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
 	TIM_ICInitStructure.TIM_ICFilter = 0x0;
 
-	if (!PIOS_RTC_RegisterTickCallback(PIOS_PPM_Supervisor, (uint32_t)ppm_dev)) {
+	if (!PIOS_RTC_RegisterTickCallback(PIOS_PPM_Supervisor, (uintptr_t)ppm_dev)) {
 		PIOS_DEBUG_Assert(0);
 	}
 
-	*ppm_id = (uint32_t)ppm_dev;
+	*ppm_id = (uintptr_t)ppm_dev;
 
 	return(0);
 
@@ -207,7 +189,7 @@ out_fail:
  * \output PIOS_RCVR_TIMEOUT failsafe condition or missing receiver
  * \output >=0 channel value
  */
-static int32_t PIOS_PPM_Get(uint32_t rcvr_id, uint8_t channel)
+static int32_t PIOS_PPM_Get(uintptr_t rcvr_id, uint8_t channel)
 {
 	struct pios_ppm_dev * ppm_dev = (struct pios_ppm_dev *)rcvr_id;
 
@@ -223,7 +205,7 @@ static int32_t PIOS_PPM_Get(uint32_t rcvr_id, uint8_t channel)
 	return ppm_dev->CaptureValue[channel];
 }
 
-static void PIOS_PPM_tim_overflow_cb (uint32_t tim_id, uint32_t context, uint8_t channel, uint16_t count)
+static void PIOS_PPM_tim_overflow_cb (uintptr_t tim_id, uintptr_t context, uint8_t channel, uint16_t count)
 {
 	struct pios_ppm_dev * ppm_dev = (struct pios_ppm_dev *)context;
 
@@ -238,7 +220,7 @@ static void PIOS_PPM_tim_overflow_cb (uint32_t tim_id, uint32_t context, uint8_t
 }
 
 
-static void PIOS_PPM_tim_edge_cb (uint32_t tim_id, uint32_t context, uint8_t chan_idx, uint16_t count)
+static void PIOS_PPM_tim_edge_cb (uintptr_t tim_id, uintptr_t context, uint8_t chan_idx, uint16_t count)
 {
 	/* Recover our device context */
 	struct pios_ppm_dev * ppm_dev = (struct pios_ppm_dev *)context;
@@ -262,7 +244,7 @@ static void PIOS_PPM_tim_edge_cb (uint32_t tim_id, uint32_t context, uint8_t cha
 	/* Convert to 32-bit timer result */
 	ppm_dev->CurrentTime += ppm_dev->LargeCounter;
 
-	/* Capture computation */		
+	/* Capture computation */
 	ppm_dev->DeltaTime = ppm_dev->CurrentTime - ppm_dev->PreviousTime;
 
 	ppm_dev->PreviousTime = ppm_dev->CurrentTime;
@@ -286,6 +268,8 @@ static void PIOS_PPM_tim_edge_cb (uint32_t tim_id, uint32_t context, uint8_t cha
 		/* Check if the last frame was well formed */
 		if (ppm_dev->PulseIndex == ppm_dev->NumChannels && ppm_dev->Tracking) {
 			/* The last frame was well formed */
+			ppm_dev->Fresh = true;
+
 			for (uint32_t i = 0; i < ppm_dev->NumChannels; i++) {
 				ppm_dev->CaptureValue[i] = ppm_dev->CaptureValueNewFrame[i];
 			}
@@ -295,7 +279,6 @@ static void PIOS_PPM_tim_edge_cb (uint32_t tim_id, uint32_t context, uint8_t cha
 			}
 		}
 
-		ppm_dev->Fresh = true;
 		ppm_dev->Tracking = true;
 		ppm_dev->NumChannelsPrevFrame = ppm_dev->PulseIndex;
 		ppm_dev->PulseIndex = 0;
@@ -308,7 +291,7 @@ static void PIOS_PPM_tim_edge_cb (uint32_t tim_id, uint32_t context, uint8_t cha
 		if (ppm_dev->DeltaTime > PIOS_PPM_IN_MIN_CHANNEL_PULSE_US
 			&& ppm_dev->DeltaTime < PIOS_PPM_IN_MAX_CHANNEL_PULSE_US
 			&& ppm_dev->PulseIndex < PIOS_PPM_IN_MAX_NUM_CHANNELS) {
-			
+
 			ppm_dev->CaptureValueNewFrame[ppm_dev->PulseIndex] = ppm_dev->DeltaTime;
 			ppm_dev->PulseIndex++;
 		} else {
@@ -321,7 +304,7 @@ static void PIOS_PPM_tim_edge_cb (uint32_t tim_id, uint32_t context, uint8_t cha
 	}
 }
 
-static void PIOS_PPM_Supervisor(uint32_t ppm_id) {
+static void PIOS_PPM_Supervisor(uintptr_t ppm_id) {
 	/* Recover our device context */
 	struct pios_ppm_dev * ppm_dev = (struct pios_ppm_dev *)ppm_id;
 
@@ -330,11 +313,18 @@ static void PIOS_PPM_Supervisor(uint32_t ppm_id) {
 		return;
 	}
 
-	/* 
+	/*
 	 * RTC runs at 625Hz so divide down the base rate so
-	 * that this loop runs at 25Hz.
+	 * that this loop runs at twice the period required
+	 * for the frame locking algorithm to declare lock.
 	 */
-	if(++(ppm_dev->supv_timer) < 25) {
+#define SUPERVISOR_TICK_PERIOD_US  1600
+#define PPM_FRAME_PERIOD_US       20000
+#define SUPERVISOR_TICK_DIVIDER (2 * PPM_FRAME_PERIOD_US * PIOS_PPM_STABLE_CHANNEL_COUNT / SUPERVISOR_TICK_PERIOD_US)
+#if SUPERVISOR_TICK_DIVIDER * SUPERVISOR_TICK_PERIOD_US > 500000
+#error Unsafe supervisor timeout
+#endif
+	if(++(ppm_dev->supv_timer) < SUPERVISOR_TICK_DIVIDER) {
 		return;
 	}
 	ppm_dev->supv_timer = 0;

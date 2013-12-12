@@ -30,6 +30,7 @@
  */
 
 /* Project Includes */
+#define _GNU_SOURCE
 #include "pios.h"
 
 #if defined(PIOS_INCLUDE_SYS)
@@ -38,9 +39,41 @@
 /**
 * Initialises all system peripherals
 */
+#include <assert.h>		/* assert */
+#include <stdlib.h>		/* printf */
+#include <signal.h>		/* sigaction */
+#include <fenv.h>		/* PE_* */
+static void sigint_handler(int signum, siginfo_t *siginfo, void *ucontext)
+{
+	printf("\nSIGINT received.  Shutting down\n");
+	exit(0);
+}
+
+static void sigfpe_handler(int signum, siginfo_t *siginfo, void *ucontext)
+{
+	printf("\nSIGFPE received.  OMG!  Math Bug!  Run again with gdb to find your mistake.\n");
+	exit(0);
+}
+
 void PIOS_SYS_Init(void)
 {
+	struct sigaction sa_int = {
+		.sa_sigaction = sigint_handler,
+		.sa_flags = SA_SIGINFO,
+	};
 
+	int rc = sigaction(SIGINT, &sa_int, NULL);
+	assert(rc == 0);
+
+	struct sigaction sa_fpe = {
+		.sa_sigaction = sigfpe_handler,
+		.sa_flags = SA_SIGINFO,
+	};
+
+	rc = sigaction(SIGFPE, &sa_fpe, NULL);
+	assert(rc == 0);
+
+	feenableexcept(FE_DIVBYZERO | FE_UNDERFLOW | FE_OVERFLOW | FE_INVALID);
 }
 
 /**
@@ -59,9 +92,9 @@ int32_t PIOS_SYS_Reset(void)
 	return -1;
 }
 
-	/**
+/**
 * Returns the CPU's flash size (in bytes)
-	 */
+*/
 uint32_t PIOS_SYS_getCPUFlashSize(void)
 {
 	return 1024000;
@@ -108,4 +141,4 @@ int32_t PIOS_SYS_SerialNumberGet(char *str)
 /**
   * @}
   * @}
-*/
+  */

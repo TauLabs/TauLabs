@@ -155,12 +155,8 @@ static pthread_t hMainThread = ( pthread_t )NULL;
 
 static volatile portBASE_TYPE xSentinel = 0;
 static volatile portBASE_TYPE xRunning = pdFALSE;
-static volatile portBASE_TYPE xSuspended = pdFALSE;
-static volatile portBASE_TYPE xStarted = pdFALSE;
-static volatile portBASE_TYPE xHandover = 0;
 static volatile portBASE_TYPE xSchedulerEnd = pdFALSE;
 volatile portBASE_TYPE xInterruptsEnabled = pdTRUE;
-static volatile portBASE_TYPE xServicingTick = pdFALSE;
 static volatile portBASE_TYPE xPendYield = pdFALSE;
 static volatile portLONG lIndexOfLastAddedTask = 0;
 static volatile unsigned portBASE_TYPE uxCriticalNesting;
@@ -429,7 +425,6 @@ void vPortStartFirstTask( void )
  */
 portBASE_TYPE xPortStartScheduler( void )
 {
-portBASE_TYPE xResult;
 sigset_t xSignalToBlock;
 //portLONG lIndex;
 
@@ -468,8 +463,8 @@ sigset_t xSignalToBlock;
 	
 	debug_printf( "Cleaning Up, Exiting.\n" );
 	/* Cleanup the mutexes */
-	xResult = pthread_mutex_destroy( &xSuspendResumeThreadMutex );
-	xResult = pthread_mutex_destroy( &xSwappingThreadMutex );
+	pthread_mutex_destroy( &xSuspendResumeThreadMutex );
+	pthread_mutex_destroy( &xSwappingThreadMutex );
 	vPortFree( (void *)pxThreads );
 
 	/* Should not get here! */
@@ -480,7 +475,6 @@ sigset_t xSignalToBlock;
 void vPortEndScheduler( void )
 {
 portBASE_TYPE xNumberOfThreads;
-portBASE_TYPE xResult;
 
 
 	for ( xNumberOfThreads = 0; xNumberOfThreads < MAX_NUMBER_OF_TASKS; xNumberOfThreads++ )
@@ -488,7 +482,7 @@ portBASE_TYPE xResult;
 		if ( ( pthread_t )NULL != pxThreads[ xNumberOfThreads ].hThread )
 		{
 			/* Kill all of the threads, they are in the detached state. */
-			xResult = pthread_cancel( pxThreads[ xNumberOfThreads ].hThread );
+			pthread_cancel( pxThreads[ xNumberOfThreads ].hThread );
 		}
 	}
 
@@ -730,7 +724,6 @@ void vPortForciblyEndThread( void *pxTaskToDelete )
 xTaskHandle hTaskToDelete = ( xTaskHandle )pxTaskToDelete;
 pthread_t xTaskToDelete;
 pthread_t xTaskToResume;
-portBASE_TYPE xResult;
 
 	printf("vPortForciblyEndThread\r\n");
 
@@ -754,7 +747,7 @@ portBASE_TYPE xResult;
 				fprintf(stderr, "HEREEREREE\r\n");
 				/* Send a signal to wake the task so that it definitely cancels. */
 				pthread_testcancel();
-				xResult = pthread_cancel( xTaskToDelete );
+				pthread_cancel( xTaskToDelete );
 				/* Pthread Clean-up function will note the cancellation. */
 			}
 			(void)pthread_mutex_unlock( &xSwappingThreadMutex );
@@ -922,7 +915,7 @@ portLONG lIndex;
 /*-----------------------------------------------------------*/
 pthread_mutex_t * prvGetMutexHandle( xTaskHandle hTask ) 
 {	
-pthread_mutex_t * hMutex;
+pthread_mutex_t * hMutex = NULL;
 portLONG lIndex;
 	
 	for ( lIndex = 0; lIndex < MAX_NUMBER_OF_TASKS; lIndex++ )
@@ -1201,8 +1194,8 @@ void storeSelf()
 	/* Block further suspend signals.  They need to go to their thread */
 	maskSuspend();
 	
-	prvSetTaskCriticalNesting( hTask, uxCriticalNesting );
-	prvSetTaskInterrupt( hTask, xInterruptsEnabled );
+	prvSetTaskCriticalNesting( (pthread_t)hTask, uxCriticalNesting );
+	prvSetTaskInterrupt( (pthread_t)hTask, xInterruptsEnabled );
 
 	releaseRunningSemaphore();
 	
@@ -1248,7 +1241,7 @@ void pauseSelf()
 	}
 	
 	/* Restore the critical nesting */
-	uxCriticalNesting = prvGetTaskCriticalNesting( hTask );
+	uxCriticalNesting = prvGetTaskCriticalNesting( (pthread_t)hTask );
 	//xInterruptsEnabled = prvGetTaskInterrupt( hTask );
 	if(uxCriticalNesting == 0)
 		xInterruptsEnabled = pdTRUE;
@@ -1392,8 +1385,8 @@ static void claimRunningSemaphore(int source)
 		maskSuspend();
 
 		/* Store self without releasing semaphore */
-		prvSetTaskCriticalNesting( hTask, uxCriticalNesting );
-		prvSetTaskInterrupt( hTask, xInterruptsEnabled );
+		prvSetTaskCriticalNesting( (pthread_t)hTask, uxCriticalNesting );
+		prvSetTaskInterrupt( (pthread_t)hTask, xInterruptsEnabled );
 		
 		releaseRunningSemaphore();
 		

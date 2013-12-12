@@ -1,7 +1,7 @@
 LIBS *= -l$$qtLibraryName(QxtCore)
 
-INCLUDEPATH += \
+INCLUDEPATH *= \
     $$GCS_SOURCE_TREE/src/libs/libqxt/src/core
 
-INCLUDEPATH += \
+INCLUDEPATH *= \
     $$GCS_SOURCE_TREE/src/libs/libqxt/src/core/logengines

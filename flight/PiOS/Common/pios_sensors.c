@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_sensors.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Generic interface for sensors
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -35,6 +35,7 @@
 
 //! The list of queue handles
 static xQueueHandle queues[PIOS_SENSOR_LAST];
+static int32_t max_gyro_rate;
 
 //! Initialize the sensors interface
 int32_t PIOS_SENSORS_Init()
@@ -59,8 +60,20 @@ int32_t PIOS_SENSORS_Register(enum pios_sensor_type type, xQueueHandle queue)
 //! Get the data queue for a sensor type
 xQueueHandle PIOS_SENSORS_GetQueue(enum pios_sensor_type type)
 {
-	if (type < 0 || type >= PIOS_SENSOR_LAST)
+	if (type >= PIOS_SENSOR_LAST)
 		return NULL;
 
 	return queues[type];
+}
+
+//! Set the maximum gyro rate in deg/s
+void PIOS_SENSORS_SetMaxGyro(int32_t rate)
+{
+	max_gyro_rate = rate;
+}
+
+//! Get the maximum gyro rate in deg/s
+int32_t PIOS_SENSORS_GetMaxGyro()
+{
+		return max_gyro_rate;
 }

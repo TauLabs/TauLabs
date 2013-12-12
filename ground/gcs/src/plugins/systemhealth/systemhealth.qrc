@@ -1,8 +1,12 @@
 <RCC>
     <qresource prefix="/systemhealth">
         <file>html/Actuator-Critical.html</file>
-        <file>html/ManualControl-Critical.html</file>
-        <file>html/ManualControl-Warning.html</file>
+        <file>html/ManualControl-Critical-PathFollower.html</file>
+        <file>html/ManualControl-Critical-Settings.html</file>
+        <file>html/ManualControl-Error-AltitudeHold.html</file>
+        <file>html/ManualControl-Undefined.html</file>
+        <file>html/ManualControl-Warning-Accessory.html</file>
+        <file>html/ManualControl-Warning-NoRx.html</file>
         <file>html/CPU-Critical.html</file>
         <file>html/CPU-Warning.html</file>
         <file>html/FlightTime-Error.html</file>
@@ -19,15 +23,22 @@
         <file>html/GPS-Critical.html</file>
         <file>html/GPS-Error.html</file>
         <file>html/GPS-Warning.html</file>
-        <file>html/Guidance-Warning.html</file>
-        <file>html/Memory-Critical.html</file>
-        <file>html/Memory-Warning.html</file>
+        <file>html/OutOfMemory-Critical.html</file>
+        <file>html/OutOfMemory-Warning.html</file>
         <file>html/Sensors-Critical.html</file>
         <file>html/Stabilization-Warning.html</file>
         <file>html/Stack-Critical.html</file>
         <file>html/Telemetry-Error.html</file>
-        <file>html/SystemConfiguration-Error.html</file>
+        <file>html/SystemConfiguration-Error-AltitudeHold.html</file>
+        <file>html/SystemConfiguration-Error-AutoTune.html</file>
+        <file>html/SystemConfiguration-Error-Multirotor.html</file>
+        <file>html/SystemConfiguration-Error-PathPlanner.html</file>
+        <file>html/SystemConfiguration-Error-PositionHold.html</file>
+        <file>html/SystemConfiguration-Error-Stabilization.html</file>
+        <file>html/SystemConfiguration-Error-VelocityControl.html</file>
+        <file>html/SystemConfiguration-Undefined.html</file>
         <file>html/PathPlanner-Error.html</file>
         <file>html/PathPlanner-Critical.html</file>
+        <file>html/PathFollower-Warning.html</file>
     </qresource>
 </RCC>

@@ -3,7 +3,7 @@
  * @file       telemetrymonitorwidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011-2012.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
@@ -93,9 +93,7 @@ TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(
                 rxNodes.append(pt);
             }
         }
-
         scene->addItem(graph);
-
         txSpeed = new QGraphicsTextItem();
         txSpeed->setDefaultTextColor(Qt::white);
         txSpeed->setFont(QFont("Helvetica",22,2));
@@ -106,8 +104,6 @@ TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(
         trans.reset();
         trans.translate(orig.x(),orig.y());
         txSpeed->setTransform(trans,false);
-        scene->addItem(txSpeed);
-
         rxSpeed = new QGraphicsTextItem();
         rxSpeed->setDefaultTextColor(Qt::white);
         rxSpeed->setFont(QFont("Helvetica",22,2));
@@ -118,7 +114,6 @@ TelemetryMonitorWidget::TelemetryMonitorWidget(QWidget *parent) : QGraphicsView(
         orig=Matrix.mapRect(orig);
         trans.translate(orig.x(),orig.y());
         rxSpeed->setTransform(trans,false);
-        scene->addItem(rxSpeed);
 
         scene->setSceneRect(graph->boundingRect());
         setScene(scene);

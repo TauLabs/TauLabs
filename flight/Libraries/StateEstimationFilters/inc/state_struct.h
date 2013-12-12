@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @{ 
- * @addtogroup State State Module
- * @{ 
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
+ * @addtogroup StateEstimationFilters
+ * @{
  *
- * @file       state.h
+ * @file       state_struct.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @brief      Acquires sensor data and fuses it into attitude estimate for CC
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Common state structure used by @ref StateModule
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -50,8 +51,8 @@ struct GlobalAttitudeVariables {
 	float T[3];
 	//! Whether to rotate data from the sensor board frame to the body frame (if the frames are different)
 	bool rotate;
-	//! Rotation matrix that transforms from the sensor board frame to the body frame
-	float Rbs[3][3]; 
+	//! Rotation matrix which transforms from the body frame to the sensor board frame
+	float Rsb[3][3];
 	//! Indicates to estimate the gyro bias again while arming (faster convergence)
 	bool zero_during_arming;
 	//! Whether to apply the estimate of gyro bias to the data in the UAVO

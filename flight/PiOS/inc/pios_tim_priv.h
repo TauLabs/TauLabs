@@ -19,11 +19,11 @@ struct pios_tim_channel {
 };
 
 struct pios_tim_callbacks {
-	void (*overflow)(uint32_t tim_id, uint32_t context, uint8_t chan_idx, uint16_t count);
-	void (*edge)(uint32_t tim_id, uint32_t context, uint8_t chan_idx, uint16_t count);
+	void (*overflow)(uintptr_t tim_id, uintptr_t context, uint8_t chan_idx, uint16_t count);
+	void (*edge)(uintptr_t tim_id, uintptr_t context, uint8_t chan_idx, uint16_t count);
 };
 
 extern int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg);
-extern int32_t PIOS_TIM_InitChannels(uint32_t * tim_id, const struct pios_tim_channel * channels, uint8_t num_channels, const struct pios_tim_callbacks * callbacks, uint32_t context);
+extern int32_t PIOS_TIM_InitChannels(uintptr_t * tim_id, const struct pios_tim_channel * channels, uint8_t num_channels, const struct pios_tim_callbacks * callbacks, uintptr_t context);
 
 #endif	/* PIOS_TIM_PRIV_H */

@@ -3,11 +3,12 @@
  *
  * @file       opmapgadgetoptionspage.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OPMapPlugin OpenPilot Map Plugin
+ * @addtogroup OPMapPlugin Tau Labs Map Plugin
  * @{
- * @brief The OpenPilot Map plugin 
+ * @brief Tau Labs map plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -35,7 +36,7 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QFileDialog>
 
-#include "opmapcontrol/opmapcontrol.h"
+#include "tlmapcontrol/tlmapcontrol.h"
 #include "utils/pathutils.h"
 #include "ui_opmapgadgetoptionspage.h"
 
@@ -66,6 +67,18 @@ QWidget *OPMapGadgetOptionsPage::createPage(QWidget *parent)
 	index = m_page->providerComboBox->findText(m_config->mapProvider());
 	index = (index >= 0) ? index : 0;
 	m_page->providerComboBox->setCurrentIndex(index);
+
+    // if provider is userimage maximum zoom is 32
+    if(m_config->mapProvider()=="UserImage")
+        m_page->zoomSpinBox->setMaximum(32);
+
+    // populate the geocode language combobox
+
+    m_page->languageComboBox->clear();
+    m_page->languageComboBox->addItems(mapcontrol::Helper::LanguageTypes());
+    index = m_page->languageComboBox->findText(m_config->geoLanguage());
+    index = (index >=0) ? index : 0;
+    m_page->languageComboBox->setCurrentIndex(index);
 
 	// populate the map max update rate combobox
 	m_page->maxUpdateRateComboBox->clear();
@@ -170,6 +183,7 @@ void OPMapGadgetOptionsPage::apply()
     m_config->setUserImageLocation(m_page->lineEditCacheLocation->path());
     m_config->setUavSymbol(m_page->uavSymbolComboBox->itemData(m_page->uavSymbolComboBox->currentIndex()).toString());
     m_config->setMaxUpdateRate(m_page->maxUpdateRateComboBox->itemData(m_page->maxUpdateRateComboBox->currentIndex()).toInt());
+    m_config->setGeoLanguage(m_page->languageComboBox->currentText());
 }
 
 void OPMapGadgetOptionsPage::finish()

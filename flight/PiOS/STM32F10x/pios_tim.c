@@ -1,3 +1,30 @@
+/**
+ ******************************************************************************
+ * @file       pios_tim.c
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @addtogroup PIOS PIOS Core hardware abstraction layer
+ * @{
+ * @addtogroup PIOS_TIM
+ * @{
+ * @brief Provides a hardware abstraction layer to the STM32 timers
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
 #include "pios.h"
 
 #include "pios_tim.h"
@@ -14,28 +41,9 @@ struct pios_tim_dev {
 	uint8_t num_channels;
 
 	const struct pios_tim_callbacks * callbacks;
-	uint32_t context;
+	uintptr_t context;
 };
 
-#if 0
-static bool PIOS_TIM_validate(struct pios_tim_dev * tim_dev)
-{
-	return (tim_dev->magic == PIOS_TIM_DEV_MAGIC);
-}
-#endif
-
-#if defined(PIOS_INCLUDE_FREERTOS) && 0
-static struct pios_tim_dev * PIOS_TIM_alloc(void)
-{
-	struct pios_tim_dev * tim_dev;
-
-	tim_dev = (struct pios_tim_dev *)malloc(sizeof(*tim_dev));
-	if (!tim_dev) return(NULL);
-
-	tim_dev->magic = PIOS_TIM_DEV_MAGIC;
-	return(tim_dev);
-}
-#else
 static struct pios_tim_dev pios_tim_devs[PIOS_TIM_MAX_DEVS];
 static uint8_t pios_tim_num_devs;
 static struct pios_tim_dev * PIOS_TIM_alloc(void)
@@ -51,10 +59,6 @@ static struct pios_tim_dev * PIOS_TIM_alloc(void)
 
 	return (tim_dev);
 }
-#endif
-
-
-
 
 int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg)
 {
@@ -91,7 +95,7 @@ int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg)
 	}
 
 	/* Configure the dividers for this timer */
-	TIM_TimeBaseInit(cfg->timer, cfg->time_base_init);
+	TIM_TimeBaseInit(cfg->timer, (TIM_TimeBaseInitTypeDef*)cfg->time_base_init);
 
 	/* Configure internal timer clocks */
 	TIM_InternalClockConfig(cfg->timer);
@@ -100,12 +104,12 @@ int32_t PIOS_TIM_InitClock(const struct pios_tim_clock_cfg * cfg)
 	TIM_Cmd(cfg->timer, ENABLE);
 
 	/* Enable Interrupts */
-	NVIC_Init(&cfg->irq.init);
+	NVIC_Init((NVIC_InitTypeDef*)&cfg->irq.init);
 
 	return 0;
 }
 
-int32_t PIOS_TIM_InitChannels(uint32_t * tim_id, const struct pios_tim_channel * channels, uint8_t num_channels, const struct pios_tim_callbacks * callbacks, uint32_t context)
+int32_t PIOS_TIM_InitChannels(uintptr_t * tim_id, const struct pios_tim_channel * channels, uint8_t num_channels, const struct pios_tim_callbacks * callbacks, uintptr_t context)
 {
 	PIOS_Assert(channels);
 	PIOS_Assert(num_channels);
@@ -139,14 +143,14 @@ int32_t PIOS_TIM_InitChannels(uint32_t * tim_id, const struct pios_tim_channel *
 			PIOS_Assert(0);
 			break;
 		}
-		GPIO_Init(chan->pin.gpio, &chan->pin.init);
+		GPIO_Init(chan->pin.gpio, (GPIO_InitTypeDef*)&chan->pin.init);
 
 		if (chan->remap) {
 			GPIO_PinRemapConfig(chan->remap, ENABLE);
 		}
 	}
 
-	*tim_id = (uint32_t)tim_dev;
+	*tim_id = (uintptr_t)tim_dev;
 
 	return(0);
 
@@ -255,14 +259,14 @@ static void PIOS_TIM_generic_irq_handler(TIM_TypeDef * timer)
 				if (edge_count < 16) {
 					/* Call the overflow callback first */
 					if (tim_dev->callbacks->overflow) {
-						(*tim_dev->callbacks->overflow)((uint32_t)tim_dev,
+						(*tim_dev->callbacks->overflow)((uintptr_t)tim_dev,
 									tim_dev->context,
 									j,
 									overflow_count);
 					}
 					/* Call the edge callback second */
 					if (tim_dev->callbacks->edge) {
-						(*tim_dev->callbacks->edge)((uint32_t)tim_dev,
+						(*tim_dev->callbacks->edge)((uintptr_t)tim_dev,
 									tim_dev->context,
 									j,
 									edge_count);
@@ -270,26 +274,26 @@ static void PIOS_TIM_generic_irq_handler(TIM_TypeDef * timer)
 				} else {
 					/* Call the edge callback first */
 					if (tim_dev->callbacks->edge) {
-						(*tim_dev->callbacks->edge)((uint32_t)tim_dev,
+						(*tim_dev->callbacks->edge)((uintptr_t)tim_dev,
 									tim_dev->context,
 									j,
 									edge_count);
 					}
 					/* Call the overflow callback second */
 					if (tim_dev->callbacks->overflow) {
-						(*tim_dev->callbacks->overflow)((uint32_t)tim_dev,
+						(*tim_dev->callbacks->overflow)((uintptr_t)tim_dev,
 									tim_dev->context,
 									j,
 									overflow_count);
 					}
 				}
 			} else if (overflow_event && tim_dev->callbacks->overflow) {
-				(*tim_dev->callbacks->overflow)((uint32_t)tim_dev,
+				(*tim_dev->callbacks->overflow)((uintptr_t)tim_dev,
 								tim_dev->context,
 								j,
 								overflow_count);
 			} else if (edge_event && tim_dev->callbacks->edge) {
-				(*tim_dev->callbacks->edge)((uint32_t)tim_dev,
+				(*tim_dev->callbacks->edge)((uintptr_t)tim_dev,
 							tim_dev->context,
 							j,
 							edge_count);

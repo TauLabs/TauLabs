@@ -114,7 +114,7 @@ void PIOS_UDP_RxThread(void * udp_dev_n)
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 			if (rx_need_yield) {
-				vPortYieldFromISR();
+				taskYIELD();
 			}
 #endif	/* PIOS_INCLUDE_FREERTOS */
 

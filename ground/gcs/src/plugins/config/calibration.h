@@ -1,8 +1,8 @@
-/**
+    /**
  ******************************************************************************
  *
  * @file       calibration.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Gui-less support class for calibration
  *****************************************************************************/
 /*
@@ -23,7 +23,9 @@
 #ifndef CALIBRATION_H
 #define CALIBRATION_H
 
+#include <config_global.h>
 #include <uavobjectmanager.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
 #include <extensionsystem/pluginmanager.h>
 #include <uavobject.h>
 #include <tempcompcurve.h>
@@ -38,10 +40,11 @@
  * and slots, but has no direct handles to any particular controls or widgets.
  *
  * It performs a number of calibration routines, including six-point calibration
- * for accelerometers and magnetometers, temperature compensation for gyros and,
- * calculating the rotation to level the accelerometers.
+ * for accelerometers and magnetometers, temperature compensation for gyros,
+ * calculating the rotation to level the accelerometers, and calculating the
+ * board orientation.
  */
-class Calibration : public QObject
+class CONFIG_EXPORT Calibration : public QObject
 {
     Q_OBJECT
 
@@ -49,11 +52,11 @@ public:
     explicit Calibration();
     ~Calibration();
 
-    void initialize(bool calibrateMags);
+    void initialize(bool calibrateAccels, bool calibrateMags);
 
 private:
     enum CALIBRATION_STATE {
-        IDLE, LEVELING,
+        IDLE, LEVELING, YAW_ORIENTATION,
         SIX_POINT_WAIT1, SIX_POINT_COLLECT1,
         SIX_POINT_WAIT2, SIX_POINT_COLLECT2,
         SIX_POINT_WAIT3, SIX_POINT_COLLECT3,
@@ -64,8 +67,14 @@ private:
     } calibration_state;
 
 public slots:
-    //! Start collecting data while aircraft is level
-    void doStartLeveling();
+    //! Start collecting data while vehicle is level
+    void doStartBiasAndLeveling();
+
+    //! Start collecting data while vehicle is level
+    void doStartNoBiasLeveling();
+
+    //! Start collecting data while vehicle is in pure pitch
+    void doStartOrientation();
 
     //! Start the six point calibration routine
     void doStartSixPoint();
@@ -112,8 +121,14 @@ signals:
     //! Show an instruction to the user for six point calibration
     void showSixPointMessage(QString message);
 
-    //! Show an instruction to the user for six point calibration
+    //! Show an instruction to the user for yaw orientation
+    void showYawOrientationMessage(QString message);
+
+    //! Show an instruction to the user for leveling
     void showLevelingMessage(QString message);
+
+    //! Indicate what the progress is for yaw orientation
+    void yawOrientationProgressChanged(int);
 
     //! Indicate what the progress is for leveling
     void levelingProgressChanged(int);
@@ -124,26 +139,44 @@ signals:
     //! Show an instruction or message from temperature calibration
     void showTempCalMessage(QString message);
 
-    //! Indicate what the progress is for leveling
+    //! Indicate what the progress is for temperature calibration
     void tempCalProgressChanged(int);
 
+    //! Indicate that a calibration process has successfully completed and the results saved to UAVO
+    void calibrationCompleted();
+
 private:
+    //! Perform the leveling calculation
+    void doStartLeveling();
+
+    //! Get the object manager
+    UAVObjectManager* getObjectManager();
+
+    //! Get the object manager utility
+    UAVObjectUtilManager* getObjectUtilManager();
+
+    //! Assign the metadata update rate
+    void assignUpdateRate(UAVObject* obj, quint32 updatePeriod);
+
     QTimer timer;
 
-    //! Whether to attempt to calibrate the mag (normally if it is present)
-    bool calibrateMag;
+    //! Whether to attempt to calibrate the magnetometer (normally if it is present)
+    bool calibrateMags;
+
+    //! Whether to attempt to calibrate the accelerometer (normally if it is present)
+    bool calibrateAccels;
+
+    //! Whether to zero the z-accel
+    bool zeroVertical;
 
     //! The expected gravity amplitude
     double accelLength;
 
-    //! Store the initial accel meta data to restore it after calibration
-    UAVObject::Metadata initialAccelsMdata;
+    //! Store the initial metadata in order to restore it after calibration
+    QMap<QString, UAVObject::Metadata> originalMetaData;
 
-    //! Store the initial mag meta data to restore it after calibration
-    UAVObject::Metadata initialMagMdata;
-
-    //! Store the initial gyro meta data to restore it after calibration
-    UAVObject::Metadata initialGyrosMdata;
+    //! List of optimized metadata rates
+    QMap<QString, UAVObject::Metadata> metaDataList;
 
     QList<double> gyro_accum_x;
     QList<double> gyro_accum_y;
@@ -160,9 +193,11 @@ private:
     double accel_data_x[6], accel_data_y[6], accel_data_z[6];
     double mag_data_x[6], mag_data_y[6], mag_data_z[6];
 
-    static const int NUM_SENSOR_UPDATES = 300;
+    static const int NUM_SENSOR_UPDATES_LEVELING = 300;
+    static const int NUM_SENSOR_UPDATES_YAW_ORIENTATION = 300;
     static const int NUM_SENSOR_UPDATES_SIX_POINT = 100;
-    static const int SENSOR_UPDATE_PERIOD = 50;
+    static const int SENSOR_UPDATE_PERIOD = 20;
+    static const int NON_SENSOR_UPDATE_PERIOD = 5000;
     double MIN_TEMPERATURE_RANGE;
 
     double initialBoardRotation[3];
@@ -174,11 +209,8 @@ private:
     TempCompCurve *xCurve;
     TempCompCurve *yCurve;
     TempCompCurve *zCurve;
+
 protected:
-
-    //! Get the object manager
-    UAVObjectManager* getObjectManager();
-
     enum sensor_type {ACCEL, GYRO, MAG};
 
     //! Connect and speed up or disconnect a sensor
@@ -186,6 +218,9 @@ protected:
 
     //! Store a measurement at this position and indicate if it is the last one
     bool storeSixPointMeasurement(UAVObject * obj, int position);
+
+    //! Store yaw orientation sample and compute orientation if finished
+    bool storeYawOrientationMeasurement(UAVObject *obj);
 
     //! Store leveling sample and compute level if finished
     bool storeLevelingMeasurement(UAVObject *obj);

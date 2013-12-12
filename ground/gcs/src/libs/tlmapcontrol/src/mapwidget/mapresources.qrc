@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/markers">
+        <file>images/bigMarkerGreen.png</file>
+        <file>images/marker.png</file>
+        <file>images/compass.svg</file>
+        <file>images/wind_compass.svg</file>
+        <file>images/airplane.svg</file>
+        <file>images/home.png</file>
+        <file>images/home.svg</file>
+        <file>images/home2.svg</file>
+        <file>images/airplanepip.png</file>
+        <file>images/EasystarBlue.png</file>
+        <file>images/mapquad.png</file>
+        <file>images/dragons1.jpg</file>
+        <file>images/dragons2.jpeg</file>
+        <file>images/waypoint_marker1.png</file>
+        <file>images/waypoint_marker2.png</file>
+        <file>images/waypoint_marker3.png</file>
+    </qresource>
+    <qresource prefix="/uavs">
+        <file>images/airplanepip.png</file>
+        <file>images/EasystarBlue.png</file>
+        <file>images/mapquad.png</file>
+    </qresource>
+</RCC>

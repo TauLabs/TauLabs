@@ -65,9 +65,6 @@ private slots:
     virtual SystemSettings::AirframeTypeOptions updateConfigObjectsFromWidgets();
     virtual bool throwConfigError(SystemSettings::AirframeTypeOptions airframeType);
 
-
-protected:
-
 };
 
 

@@ -82,10 +82,12 @@ SUBDIRS += plugin_uavobjectbrowser
 
 # ModelView UAVGadget
 !LIGHTWEIGHT_GCS {
-plugin_modelview.subdir = modelview
-plugin_modelview.depends = plugin_coreplugin
-plugin_modelview.depends += plugin_uavobjects
-SUBDIRS += plugin_modelview
+ !macx {
+  plugin_modelview.subdir = modelview
+  plugin_modelview.depends = plugin_coreplugin
+  plugin_modelview.depends += plugin_uavobjects
+  SUBDIRS += plugin_modelview
+ }
 }
 
 #Qt 4.8.0 / phonon may crash on Mac, fixed in Qt 4.8.1, QTBUG-23128
@@ -170,6 +172,14 @@ plugin_waypointeditor.depends = plugin_coreplugin
 plugin_waypointeditor.depends += plugin_uavobjects
 SUBDIRS += plugin_waypointeditor
 
+
+# Telemetry Scheduler gadget
+plugin_telemetryscheduler.subdir = telemetryscheduler
+plugin_telemetryscheduler.depends = plugin_coreplugin
+plugin_telemetryscheduler.depends += plugin_uavobjects
+plugin_telemetryscheduler.depends += plugin_uavobjectutil
+SUBDIRS += plugin_telemetryscheduler
+
 # Primary Flight Display (PFD) gadget, QML version
 !LIGHTWEIGHT_GCS {
 plugin_pfdqml.subdir = pfdqml
@@ -214,12 +224,28 @@ plugin_logging.depends += plugin_uavtalk
 plugin_logging.depends += plugin_scope
 SUBDIRS += plugin_logging
 
+KML { 
+    # KML Export plugin
+    plugin_kmlexport.subdir = kmlexport
+    plugin_kmlexport.depends = plugin_coreplugin
+    plugin_kmlexport.depends += plugin_uavobjects
+    plugin_kmlexport.depends += plugin_uavtalk
+    SUBDIRS += plugin_kmlexport
+}
+
 # GCS Control of UAV gadget
 !LIGHTWEIGHT_GCS {
-plugin_gcscontrol.subdir = gcscontrol
-plugin_gcscontrol.depends = plugin_coreplugin
-plugin_gcscontrol.depends += plugin_uavobjects
-SUBDIRS += plugin_gcscontrol
+    # GCS Control plugin
+    plugin_gcscontrolplugin.subdir = gcscontrolplugin
+    plugin_gcscontrolplugin.depends = plugin_coreplugin
+    plugin_gcscontrolplugin.depends += plugin_uavobjects
+    SUBDIRS += plugin_gcscontrolplugin
+
+    plugin_gcscontrolwidget.subdir = gcscontrolwidget
+    plugin_gcscontrolwidget.depends = plugin_coreplugin
+    plugin_gcscontrolwidget.depends += plugin_uavobjects
+    plugin_gcscontrolwidget.depends += plugin_gcscontrolplugin
+    SUBDIRS += plugin_gcscontrolwidget
 }
 
 # Antenna tracker
@@ -274,15 +300,19 @@ plugin_uavobjectwidgetutils.depends += plugin_uavtalk
 SUBDIRS += plugin_uavobjectwidgetutils
 
 # Setup Wizard plugin
-### This is disabled until it supports the new calibration systems
-### and also provides at a minimum an informative message when the
-### connected board is not supported.
-#plugin_setupwizard.subdir = setupwizard
-#plugin_setupwizard.depends = plugin_coreplugin
-#plugin_setupwizard.depends += plugin_uavobjectutil
-#plugin_setupwizard.depends += plugin_config
-#plugin_setupwizard.depends += plugin_uploader
-#SUBDIRS += plugin_setupwizard
+plugin_setupwizard.subdir = setupwizard
+plugin_setupwizard.depends = plugin_coreplugin
+plugin_setupwizard.depends += plugin_uavobjectutil
+plugin_setupwizard.depends += plugin_config
+plugin_setupwizard.depends += plugin_uploader
+SUBDIRS += plugin_setupwizard
+
+# Setup alarm messaging plugin
+plugin_sysalarmsmessaging.subdir = sysalarmsmessaging
+plugin_sysalarmsmessaging.depends = plugin_coreplugin
+plugin_sysalarmsmessaging.depends += plugin_uavobjects
+plugin_sysalarmsmessaging.depends += plugin_uavtalk
+SUBDIRS += plugin_sysalarmsmessaging
 
 ############################
 #  Board plugins
@@ -290,33 +320,27 @@ SUBDIRS += plugin_uavobjectwidgetutils
 # needs to implement a manufacturer plugin that defines all their boards
 ############################
 
+# Tau Labs project
+plugin_boards_taulabs.subdir = boards_taulabs
+plugin_boards_taulabs.depends = plugin_coreplugin
+plugin_boards_taulabs.depends = plugin_uavobjects
+SUBDIRS += plugin_boards_taulabs
+
 # OpenPilot project
 plugin_boards_openpilot.subdir = boards_openpilot
 plugin_boards_openpilot.depends = plugin_coreplugin
+plugin_boards_openpilot.depends = plugin_uavobjects
+plugin_boards_openpilot.depends = plugin_uavobjectutil
 SUBDIRS += plugin_boards_openpilot
 
 # Quantec Networks GmbH
 plugin_boards_quantec.subdir = boards_quantec
 plugin_boards_quantec.depends = plugin_coreplugin
+plugin_boards_quantec.depends = plugin_uavobjects
 SUBDIRS += plugin_boards_quantec
 
 # STM boards
 plugin_boards_stm.subdir = boards_stm
 plugin_boards_stm.depends = plugin_coreplugin
+plugin_boards_stm.depends = plugin_uavobjects
 SUBDIRS += plugin_boards_stm
-
-## Plugin by E. Lafargue for the Junsi Powerlog, do not
-## remove, please.
-##
-# Junsi Powerlog plugin
-plugin_powerlog.subdir = powerlog
-plugin_powerlog.depends = plugin_coreplugin
-plugin_powerlog.depends += plugin_rawhid
-SUBDIRS += plugin_powerlog
-
-plugin_sysalarmsmessaging.subdir = sysalarmsmessaging
-plugin_sysalarmsmessaging.depends = plugin_coreplugin
-plugin_sysalarmsmessaging.depends += plugin_uavobjects
-plugin_sysalarmsmessaging.depends += plugin_uavtalk
-SUBDIRS += plugin_sysalarmsmessaging
-

@@ -9,7 +9,7 @@
  *
  * @file       pios_usb_com_cdc.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      USB COM functions (STM32 dependent code)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -42,16 +42,18 @@
 /* STM32 USB Library Definitions */
 #include "usb_lib.h"
 
-static void PIOS_USB_CDC_RegisterTxCallback(uint32_t usbcdc_id, pios_com_callback tx_out_cb, uint32_t context);
-static void PIOS_USB_CDC_RegisterRxCallback(uint32_t usbcdc_id, pios_com_callback rx_in_cb, uint32_t context);
-static void PIOS_USB_CDC_TxStart(uint32_t usbcdc_id, uint16_t tx_bytes_avail);
-static void PIOS_USB_CDC_RxStart(uint32_t usbcdc_id, uint16_t rx_bytes_avail);
+static void PIOS_USB_CDC_RegisterTxCallback(uintptr_t usbcdc_id, pios_com_callback tx_out_cb, uintptr_t context);
+static void PIOS_USB_CDC_RegisterRxCallback(uintptr_t usbcdc_id, pios_com_callback rx_in_cb, uintptr_t context);
+static void PIOS_USB_CDC_TxStart(uintptr_t usbcdc_id, uint16_t tx_bytes_avail);
+static void PIOS_USB_CDC_RxStart(uintptr_t usbcdc_id, uint16_t rx_bytes_avail);
+static bool PIOS_USB_CDC_Available (uintptr_t usbcdc_id);
 
 const struct pios_com_driver pios_usb_cdc_com_driver = {
 	.tx_start    = PIOS_USB_CDC_TxStart,
 	.rx_start    = PIOS_USB_CDC_RxStart,
 	.bind_tx_cb  = PIOS_USB_CDC_RegisterTxCallback,
 	.bind_rx_cb  = PIOS_USB_CDC_RegisterRxCallback,
+	.available   = PIOS_USB_CDC_Available,
 };
 
 enum pios_usb_cdc_dev_magic {
@@ -62,15 +64,20 @@ struct pios_usb_cdc_dev {
 	enum pios_usb_cdc_dev_magic     magic;
 	const struct pios_usb_cdc_cfg * cfg;
 
-	uint32_t lower_id;
+	uintptr_t lower_id;
 
 	pios_com_callback rx_in_cb;
-	uint32_t rx_in_context;
+	uintptr_t rx_in_context;
 	pios_com_callback tx_out_cb;
-	uint32_t tx_out_context;
+	uintptr_t tx_out_context;
 
 	uint8_t rx_packet_buffer[PIOS_USB_BOARD_CDC_DATA_LENGTH];
-	uint8_t tx_packet_buffer[PIOS_USB_BOARD_CDC_DATA_LENGTH];
+	/*
+	 * NOTE: This is -1 as somewhat of a hack.  It ensures that we always send packets
+	 * that are strictly < maxPacketSize for this interface which means we never have
+	 * to bother with zero length packets (ZLP).
+	 */
+	uint8_t tx_packet_buffer[PIOS_USB_BOARD_CDC_DATA_LENGTH - 1];
 
 	uint32_t rx_dropped;
 	uint32_t rx_oversize;
@@ -81,46 +88,29 @@ static bool PIOS_USB_CDC_validate(struct pios_usb_cdc_dev * usb_cdc_dev)
 	return (usb_cdc_dev->magic == PIOS_USB_CDC_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_usb_cdc_dev * PIOS_USB_CDC_alloc(void)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev;
 
-	usb_cdc_dev = (struct pios_usb_cdc_dev *)pvPortMalloc(sizeof(*usb_cdc_dev));
+	usb_cdc_dev = (struct pios_usb_cdc_dev *)PIOS_malloc(sizeof(*usb_cdc_dev));
 	if (!usb_cdc_dev) return(NULL);
 
+	memset(usb_cdc_dev, 0, sizeof(*usb_cdc_dev));
 	usb_cdc_dev->magic = PIOS_USB_CDC_DEV_MAGIC;
 	return(usb_cdc_dev);
 }
-#else
-static struct pios_usb_cdc_dev pios_usb_cdc_devs[PIOS_USB_CDC_MAX_DEVS];
-static uint8_t pios_usb_cdc_num_devs;
-static struct pios_usb_cdc_dev * PIOS_USB_CDC_alloc(void)
-{
-	struct pios_usb_cdc_dev * usb_cdc_dev;
-
-	if (pios_usb_cdc_num_devs >= PIOS_USB_CDC_MAX_DEVS) {
-		return (NULL);
-	}
-
-	usb_cdc_dev = &pios_usb_cdc_devs[pios_usb_cdc_num_devs++];
-	usb_cdc_dev->magic = PIOS_USB_CDC_DEV_MAGIC;
-
-	return (usb_cdc_dev);
-}
-#endif
 
 static void PIOS_USB_CDC_DATA_EP_IN_Callback(void);
 static void PIOS_USB_CDC_DATA_EP_OUT_Callback(void);
 static void PIOS_USB_CDC_CTRL_EP_IN_Callback(void);
 
-static uint32_t pios_usb_cdc_id;
+static uintptr_t pios_usb_cdc_id;
 
 /* Need a better way to pull these in */
 extern void (*pEpInt_IN[7])(void);
 extern void (*pEpInt_OUT[7])(void);
 
-int32_t PIOS_USB_CDC_Init(uint32_t * usbcdc_id, const struct pios_usb_cdc_cfg * cfg, uint32_t lower_id)
+int32_t PIOS_USB_CDC_Init(uintptr_t * usbcdc_id, const struct pios_usb_cdc_cfg * cfg, uintptr_t lower_id)
 {
 	PIOS_Assert(usbcdc_id);
 	PIOS_Assert(cfg);
@@ -134,14 +124,14 @@ int32_t PIOS_USB_CDC_Init(uint32_t * usbcdc_id, const struct pios_usb_cdc_cfg * 
 	usb_cdc_dev->cfg = cfg;
 	usb_cdc_dev->lower_id = lower_id;
 
-	pios_usb_cdc_id = (uint32_t) usb_cdc_dev;
+	pios_usb_cdc_id = (uintptr_t) usb_cdc_dev;
 
 	/* Bind lower level callbacks into the USB infrastructure */
 	pEpInt_OUT[cfg->ctrl_tx_ep - 1] = PIOS_USB_CDC_CTRL_EP_IN_Callback;
 	pEpInt_IN[cfg->data_tx_ep - 1] = PIOS_USB_CDC_DATA_EP_IN_Callback;
 	pEpInt_OUT[cfg->data_rx_ep - 1] = PIOS_USB_CDC_DATA_EP_OUT_Callback;
 
-	*usbcdc_id = (uint32_t) usb_cdc_dev;
+	*usbcdc_id = (uintptr_t) usb_cdc_dev;
 
 	return 0;
 
@@ -151,7 +141,7 @@ out_fail:
 
 
 
-static void PIOS_USB_CDC_RegisterRxCallback(uint32_t usbcdc_id, pios_com_callback rx_in_cb, uint32_t context)
+static void PIOS_USB_CDC_RegisterRxCallback(uintptr_t usbcdc_id, pios_com_callback rx_in_cb, uintptr_t context)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usbcdc_id;
 
@@ -166,7 +156,7 @@ static void PIOS_USB_CDC_RegisterRxCallback(uint32_t usbcdc_id, pios_com_callbac
 	usb_cdc_dev->rx_in_cb = rx_in_cb;
 }
 
-static void PIOS_USB_CDC_RegisterTxCallback(uint32_t usbcdc_id, pios_com_callback tx_out_cb, uint32_t context)
+static void PIOS_USB_CDC_RegisterTxCallback(uintptr_t usbcdc_id, pios_com_callback tx_out_cb, uintptr_t context)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usbcdc_id;
 
@@ -181,7 +171,7 @@ static void PIOS_USB_CDC_RegisterTxCallback(uint32_t usbcdc_id, pios_com_callbac
 	usb_cdc_dev->tx_out_cb = tx_out_cb;
 }
 
-static void PIOS_USB_CDC_RxStart(uint32_t usbcdc_id, uint16_t rx_bytes_avail) {
+static void PIOS_USB_CDC_RxStart(uintptr_t usbcdc_id, uint16_t rx_bytes_avail) {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usbcdc_id;
 
 	bool valid = PIOS_USB_CDC_validate(usb_cdc_dev);
@@ -225,13 +215,11 @@ static void PIOS_USB_CDC_SendData(struct pios_usb_cdc_dev * usb_cdc_dev)
 	SetEPTxValid(usb_cdc_dev->cfg->data_tx_ep);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(need_yield);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 
-static void PIOS_USB_CDC_TxStart(uint32_t usbcdc_id, uint16_t tx_bytes_avail)
+static void PIOS_USB_CDC_TxStart(uintptr_t usbcdc_id, uint16_t tx_bytes_avail)
 {
 	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usbcdc_id;
 
@@ -310,9 +298,7 @@ static void PIOS_USB_CDC_DATA_EP_OUT_Callback(void)
 	}
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(need_yield);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 
@@ -333,6 +319,17 @@ RESULT PIOS_USB_CDC_SetControlLineState(void)
 	control_line_state = wValue1 << 8 | wValue0;
 
 	return USB_SUCCESS;
+}
+
+static bool PIOS_USB_CDC_Available (uintptr_t usbcdc_id)
+{
+	struct pios_usb_cdc_dev * usb_cdc_dev = (struct pios_usb_cdc_dev *)usbcdc_id;
+
+	bool valid = PIOS_USB_CDC_validate(usb_cdc_dev);
+	PIOS_Assert(valid);
+
+	return (PIOS_USB_CheckAvailable(usb_cdc_dev->lower_id) &&
+		(control_line_state & USB_CDC_CONTROL_LINE_STATE_DTE_PRESENT));
 }
 
 static struct usb_cdc_line_coding line_coding = {
@@ -387,7 +384,7 @@ struct usb_cdc_serial_state_report uart_state = {
 	.wValue        = 0,
 	.wIndex        = htousbs(1),
 	.wLength       = htousbs(2),
-	.bmUartState  = htousbs(0),
+	.bmUartState   = htousbs(0),
 };
 	
 static void PIOS_USB_CDC_CTRL_EP_IN_Callback(void)
@@ -411,10 +408,10 @@ static void PIOS_USB_CDC_CTRL_EP_IN_Callback(void)
 	uart_state.bmUartState = htousbs(0x0003);
 
 	UserToPMABufferCopy((uint8_t *) &uart_state,
-			GetEPTxAddr(usb_cdc_dev->cfg->data_tx_ep),
+			GetEPTxAddr(usb_cdc_dev->cfg->ctrl_tx_ep),
 			sizeof(uart_state));
-	SetEPTxCount(usb_cdc_dev->cfg->data_tx_ep, PIOS_USB_BOARD_CDC_MGMT_LENGTH);
-	SetEPTxValid(usb_cdc_dev->cfg->data_tx_ep);
+	SetEPTxCount(usb_cdc_dev->cfg->ctrl_tx_ep, PIOS_USB_BOARD_CDC_MGMT_LENGTH);
+	SetEPTxValid(usb_cdc_dev->cfg->ctrl_tx_ep);
 }
 
 #endif	/* PIOS_INCLUDE_USB_CDC */

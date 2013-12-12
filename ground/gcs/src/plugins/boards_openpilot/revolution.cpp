@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       revolution.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -26,7 +26,11 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <uavobjectmanager.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include <extensionsystem/pluginmanager.h>
 #include "revolution.h"
+#include "hwrevolution.h"
 
 /**
  * @brief Revolution::Revolution
@@ -37,12 +41,18 @@ Revolution::Revolution(void)
     // Initialize our USB Structure definition here:
     USBInfo board;
     board.vendorID = 0x20A0;
-    // TODO: does the ProductID work here ?
     board.productID = 0x415b;
 
     setUSBInfo(board);
 
     boardType = 0x7f;
+
+    // Define the bank of channels that are connected to a given timer
+    channelBanks.resize(6);
+    channelBanks[0] = QVector<int> () << 1 << 2;
+    channelBanks[1] = QVector<int> () << 3;
+    channelBanks[2] = QVector<int> () << 4;
+    channelBanks[3] = QVector<int> () << 5 << 6;
 }
 
 Revolution::~Revolution()
@@ -88,4 +98,39 @@ QStringList Revolution::getSupportedProtocols()
 {
 
     return QStringList("uavtalk");
+}
+
+QPixmap Revolution::getBoardPicture()
+{
+    return QPixmap();
+}
+
+QString Revolution::getHwUAVO()
+{
+    return "HwRevolution";
+}
+
+int Revolution::queryMaxGyroRate()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwRevolution *hwRevolution = HwRevolution::GetInstance(uavoManager);
+    Q_ASSERT(hwRevolution);
+    if (!hwRevolution)
+        return 0;
+
+    HwRevolution::DataFields settings = hwRevolution->getData();
+
+    switch(settings.GyroRange) {
+    case HwRevolution::GYRORANGE_250:
+        return 250;
+    case HwRevolution::GYRORANGE_500:
+        return 500;
+    case HwRevolution::GYRORANGE_1000:
+        return 1000;
+    case HwRevolution::GYRORANGE_2000:
+        return 2000;
+    default:
+        return 500;
+    }
 }

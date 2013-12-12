@@ -1,7 +1,7 @@
 #
 # Project: TauLabs
 # NSIS configuration file for TauLabs GCS
-# Tau Labs, http://taulabs.org, Copyright (C) 2012-2013.
+# Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
 # The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2010-2012.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -213,6 +213,7 @@ Section "Firmware" InSecFirmware
   File "${PACKAGE_DIR}\${FIRMWARE_DIR}\fw_flyingf4-${PACKAGE_LBL}.tlfw"
   File "${PACKAGE_DIR}\${FIRMWARE_DIR}\fw_quanton-${PACKAGE_LBL}.tlfw"
   File "${PACKAGE_DIR}\${FIRMWARE_DIR}\fw_freedom-${PACKAGE_LBL}.tlfw"
+  File "${PACKAGE_DIR}\${FIRMWARE_DIR}\fw_sparky-${PACKAGE_LBL}.tlfw"
   File "${PACKAGE_DIR}\${FIRMWARE_DIR}\fw_revolution-${PACKAGE_LBL}.tlfw"
   File "${PACKAGE_DIR}\${FIRMWARE_DIR}\fw_revomini-${PACKAGE_LBL}.tlfw"
 SectionEnd
@@ -226,7 +227,7 @@ SectionEnd
 ; Copy driver files
 Section "-Drivers" InSecDrivers
   SetOutPath "$INSTDIR\drivers"
-  File "${PROJECT_ROOT}\flight\Project\Windows USB\OpenPilot-CDC.inf"
+  File "${PROJECT_ROOT}\flight\Project\Windows USB\TauLabs-CDC.inf"
 SectionEnd
 
 ; Preinstall OpenPilot CDC driver

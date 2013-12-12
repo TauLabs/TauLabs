@@ -8,6 +8,7 @@
  *
  * @file       pios_usart.c   
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      USART commands. Inits USARTs, controls USARTs & Interupt handlers. (STM32 dependent)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -40,11 +41,11 @@
 #include <pios_usart_priv.h>
 
 /* Provide a COM driver */
-static void PIOS_USART_ChangeBaud(uint32_t usart_id, uint32_t baud);
-static void PIOS_USART_RegisterRxCallback(uint32_t usart_id, pios_com_callback rx_in_cb, uint32_t context);
-static void PIOS_USART_RegisterTxCallback(uint32_t usart_id, pios_com_callback tx_out_cb, uint32_t context);
-static void PIOS_USART_TxStart(uint32_t usart_id, uint16_t tx_bytes_avail);
-static void PIOS_USART_RxStart(uint32_t usart_id, uint16_t rx_bytes_avail);
+static void PIOS_USART_ChangeBaud(uintptr_t usart_id, uint32_t baud);
+static void PIOS_USART_RegisterRxCallback(uintptr_t usart_id, pios_com_callback rx_in_cb, uintptr_t context);
+static void PIOS_USART_RegisterTxCallback(uintptr_t usart_id, pios_com_callback tx_out_cb, uintptr_t context);
+static void PIOS_USART_TxStart(uintptr_t usart_id, uint16_t tx_bytes_avail);
+static void PIOS_USART_RxStart(uintptr_t usart_id, uint16_t rx_bytes_avail);
 
 const struct pios_com_driver pios_usart_com_driver = {
 	.set_baud   = PIOS_USART_ChangeBaud,
@@ -63,9 +64,9 @@ struct pios_usart_dev {
 	const struct pios_usart_cfg * cfg;
 
 	pios_com_callback rx_in_cb;
-	uint32_t rx_in_context;
+	uintptr_t rx_in_context;
 	pios_com_callback tx_out_cb;
-	uint32_t tx_out_context;
+	uintptr_t tx_out_context;
 };
 
 static bool PIOS_USART_validate(struct pios_usart_dev * usart_dev)
@@ -73,38 +74,17 @@ static bool PIOS_USART_validate(struct pios_usart_dev * usart_dev)
 	return (usart_dev->magic == PIOS_USART_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_usart_dev * PIOS_USART_alloc(void)
 {
 	struct pios_usart_dev * usart_dev;
 
-	usart_dev = (struct pios_usart_dev *)pvPortMalloc(sizeof(*usart_dev));
+	usart_dev = (struct pios_usart_dev *)PIOS_malloc(sizeof(*usart_dev));
 	if (!usart_dev) return(NULL);
 
-	usart_dev->rx_in_cb = 0;
-	usart_dev->rx_in_context = 0;
-	usart_dev->tx_out_cb = 0;
-	usart_dev->tx_out_context = 0;
+	memset(usart_dev, 0, sizeof(*usart_dev));
 	usart_dev->magic = PIOS_USART_DEV_MAGIC;
 	return(usart_dev);
 }
-#else
-static struct pios_usart_dev pios_usart_devs[PIOS_USART_MAX_DEVS];
-static uint8_t pios_usart_num_devs;
-static struct pios_usart_dev * PIOS_USART_alloc(void)
-{
-	struct pios_usart_dev * usart_dev;
-
-	if (pios_usart_num_devs >= PIOS_USART_MAX_DEVS) {
-		return (NULL);
-	}
-
-	usart_dev = &pios_usart_devs[pios_usart_num_devs++];
-	usart_dev->magic = PIOS_USART_DEV_MAGIC;
-
-	return (usart_dev);
-}
-#endif
 
 /* Bind Interrupt Handlers
  *
@@ -112,44 +92,44 @@ static struct pios_usart_dev * PIOS_USART_alloc(void)
  * and provide storage for a 32-bit device id IRQ to map
  * each physical IRQ to a specific registered device instance.
  */
-static void PIOS_USART_generic_irq_handler(uint32_t usart_id);
+static void PIOS_USART_generic_irq_handler(uintptr_t usart_id);
 
-static uint32_t PIOS_USART_1_id;
+static uintptr_t PIOS_USART_1_id;
 void USART1_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_1_irq_handler")));
 static void PIOS_USART_1_irq_handler (void)
 {
 	PIOS_USART_generic_irq_handler (PIOS_USART_1_id);
 }
 
-static uint32_t PIOS_USART_2_id;
+static uintptr_t PIOS_USART_2_id;
 void USART2_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_2_irq_handler")));
 static void PIOS_USART_2_irq_handler (void)
 {
 	PIOS_USART_generic_irq_handler (PIOS_USART_2_id);
 }
 
-static uint32_t PIOS_USART_3_id;
+static uintptr_t PIOS_USART_3_id;
 void USART3_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_3_irq_handler")));
 static void PIOS_USART_3_irq_handler (void)
 {
 	PIOS_USART_generic_irq_handler (PIOS_USART_3_id);
 }
 
-static uint32_t PIOS_USART_4_id;
+static uintptr_t PIOS_USART_4_id;
 void USART4_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_4_irq_handler")));
 static void PIOS_USART_4_irq_handler (void)
 {
 	PIOS_USART_generic_irq_handler (PIOS_USART_4_id);
 }
 
-static uint32_t PIOS_USART_5_id;
+static uintptr_t PIOS_USART_5_id;
 void USART5_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_5_irq_handler")));
 static void PIOS_USART_5_irq_handler (void)
 {
 	PIOS_USART_generic_irq_handler (PIOS_USART_5_id);
 }
 
-static uint32_t PIOS_USART_6_id;
+static uintptr_t PIOS_USART_6_id;
 void USART6_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_6_irq_handler")));
 static void PIOS_USART_6_irq_handler (void)
 {
@@ -159,7 +139,7 @@ static void PIOS_USART_6_irq_handler (void)
 /**
 * Initialise a single USART device
 */
-int32_t PIOS_USART_Init(uint32_t * usart_id, const struct pios_usart_cfg * cfg)
+int32_t PIOS_USART_Init(uintptr_t * usart_id, const struct pios_usart_cfg * cfg)
 {
 	PIOS_DEBUG_Assert(usart_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -194,27 +174,27 @@ int32_t PIOS_USART_Init(uint32_t * usart_id, const struct pios_usart_cfg * cfg)
 	/* Configure the USART */
 	USART_Init(usart_dev->cfg->regs, (USART_InitTypeDef *)&usart_dev->cfg->init);
 
-	*usart_id = (uint32_t)usart_dev;
+	*usart_id = (uintptr_t)usart_dev;
 
 	/* Configure USART Interrupts */
 	switch ((uint32_t)usart_dev->cfg->regs) {
 	case (uint32_t)USART1:
-		PIOS_USART_1_id = (uint32_t)usart_dev;
+		PIOS_USART_1_id = (uintptr_t)usart_dev;
 		break;
 	case (uint32_t)USART2:
-		PIOS_USART_2_id = (uint32_t)usart_dev;
+		PIOS_USART_2_id = (uintptr_t)usart_dev;
 		break;
 	case (uint32_t)USART3:
-		PIOS_USART_3_id = (uint32_t)usart_dev;
+		PIOS_USART_3_id = (uintptr_t)usart_dev;
 		break;
 	case (uint32_t)UART4:
-		PIOS_USART_4_id = (uint32_t)usart_dev;
+		PIOS_USART_4_id = (uintptr_t)usart_dev;
 		break;
 	case (uint32_t)UART5:
-		PIOS_USART_5_id = (uint32_t)usart_dev;
+		PIOS_USART_5_id = (uintptr_t)usart_dev;
 		break;
 	case (uint32_t)USART6:
-		PIOS_USART_6_id = (uint32_t)usart_dev;
+		PIOS_USART_6_id = (uintptr_t)usart_dev;
 		break;
 	}
 	NVIC_Init((NVIC_InitTypeDef *)&(usart_dev->cfg->irq.init));
@@ -232,7 +212,7 @@ out_fail:
 	return(-1);
 }
 
-static void PIOS_USART_RxStart(uint32_t usart_id, uint16_t rx_bytes_avail)
+static void PIOS_USART_RxStart(uintptr_t usart_id, uint16_t rx_bytes_avail)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 	
@@ -241,7 +221,7 @@ static void PIOS_USART_RxStart(uint32_t usart_id, uint16_t rx_bytes_avail)
 	
 	USART_ITConfig(usart_dev->cfg->regs, USART_IT_RXNE, ENABLE);
 }
-static void PIOS_USART_TxStart(uint32_t usart_id, uint16_t tx_bytes_avail)
+static void PIOS_USART_TxStart(uintptr_t usart_id, uint16_t tx_bytes_avail)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 	
@@ -256,7 +236,7 @@ static void PIOS_USART_TxStart(uint32_t usart_id, uint16_t tx_bytes_avail)
 * \param[in] usart_id USART name (GPS, TELEM, AUX)
 * \param[in] baud Requested baud rate
 */
-static void PIOS_USART_ChangeBaud(uint32_t usart_id, uint32_t baud)
+static void PIOS_USART_ChangeBaud(uintptr_t usart_id, uint32_t baud)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 
@@ -275,7 +255,7 @@ static void PIOS_USART_ChangeBaud(uint32_t usart_id, uint32_t baud)
 	USART_Init(usart_dev->cfg->regs, &USART_InitStructure);
 }
 
-static void PIOS_USART_RegisterRxCallback(uint32_t usart_id, pios_com_callback rx_in_cb, uint32_t context)
+static void PIOS_USART_RegisterRxCallback(uintptr_t usart_id, pios_com_callback rx_in_cb, uintptr_t context)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 
@@ -290,7 +270,7 @@ static void PIOS_USART_RegisterRxCallback(uint32_t usart_id, pios_com_callback r
 	usart_dev->rx_in_cb = rx_in_cb;
 }
 
-static void PIOS_USART_RegisterTxCallback(uint32_t usart_id, pios_com_callback tx_out_cb, uint32_t context)
+static void PIOS_USART_RegisterTxCallback(uintptr_t usart_id, pios_com_callback tx_out_cb, uintptr_t context)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 
@@ -305,7 +285,7 @@ static void PIOS_USART_RegisterTxCallback(uint32_t usart_id, pios_com_callback t
 	usart_dev->tx_out_cb = tx_out_cb;
 }
 
-static void PIOS_USART_generic_irq_handler(uint32_t usart_id)
+static void PIOS_USART_generic_irq_handler(uintptr_t usart_id)
 {
 	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
 
@@ -348,9 +328,7 @@ static void PIOS_USART_generic_irq_handler(uint32_t usart_id)
 	}
 	
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (rx_need_yield || tx_need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(rx_need_yield || tx_need_yield);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 

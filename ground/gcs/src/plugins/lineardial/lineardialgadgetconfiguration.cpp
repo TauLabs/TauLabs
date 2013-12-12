@@ -46,8 +46,8 @@ LineardialGadgetConfiguration::LineardialGadgetConfiguration(QString classId, QS
     greenMin(66),
     greenMax(100),
     factor(1.00),
-	decimalPlaces(0),
-	useOpenGLFlag(false)
+    useOpenGLFlag(false),
+    decimalPlaces(0)
 {
     //if a saved configuration exists load it
     if(qSettings != 0) {

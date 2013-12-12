@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       flyingf4.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -28,6 +28,11 @@
 
 #include "flyingf4.h"
 
+#include <uavobjectmanager.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include <extensionsystem/pluginmanager.h>
+
+#include "hwflyingf4.h"
 /**
  * @brief Quanton::Quanton
  *  This is the Quanton board definition
@@ -42,6 +47,11 @@ FlyingF4::FlyingF4(void)
     setUSBInfo(board);
 
     boardType = 0x84;
+
+    // Define the bank of channels that are connected to a given timer
+    channelBanks.resize(6);
+    channelBanks[0] = QVector<int> () << 1 << 2 << 3 << 4;
+    channelBanks[1] = QVector<int> () << 5 << 6 << 7 << 8;
 }
 
 FlyingF4::~FlyingF4()
@@ -77,6 +87,7 @@ bool FlyingF4::queryCapabilities(BoardCapabilities capability)
     return false;
 }
 
+
 /**
  * @brief FlyingF4::getSupportedProtocols
  *  TODO: this is just a stub, we'll need to extend this a lot with multi protocol support
@@ -86,4 +97,39 @@ QStringList FlyingF4::getSupportedProtocols()
 {
 
     return QStringList("uavtalk");
+}
+
+QPixmap FlyingF4::getBoardPicture()
+{
+    return QPixmap();
+}
+
+QString FlyingF4::getHwUAVO()
+{
+    return "HwFlyingF4";
+}
+
+int FlyingF4::queryMaxGyroRate()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwFlyingF4 *hwFlyingF4 = HwFlyingF4::GetInstance(uavoManager);
+    Q_ASSERT(hwFlyingF4);
+    if (!hwFlyingF4)
+        return 0;
+
+    HwFlyingF4::DataFields settings = hwFlyingF4->getData();
+
+    switch(settings.GyroRange) {
+    case HwFlyingF4::GYRORANGE_250:
+        return 250;
+    case HwFlyingF4::GYRORANGE_500:
+        return 500;
+    case HwFlyingF4::GYRORANGE_1000:
+        return 1000;
+    case HwFlyingF4::GYRORANGE_2000:
+        return 2000;
+    default:
+        return 500;
+    }
 }

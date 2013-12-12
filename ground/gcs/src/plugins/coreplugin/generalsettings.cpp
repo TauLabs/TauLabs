@@ -45,11 +45,11 @@ using namespace Core::Internal;
 
 GeneralSettings::GeneralSettings():
     m_saveSettingsOnExit(true),
-    m_dialog(0),
     m_autoConnect(true),
     m_autoSelect(true),
     m_useUDPMirror(false),
-    m_useExpertMode(false)
+    m_useExpertMode(false),
+    m_dialog(0)
 {
 }
 

@@ -39,9 +39,6 @@
  *
  * Modules have no API, all communication to other modules is done through UAVObjects.
  * However modules may use the API exposed by shared libraries.
- * See the OpenPilot wiki for more details.
- * http://www.openpilot.org/OpenPilot_Application_Architecture
- *
  */
 
 #include "openpilot.h"
@@ -116,7 +113,7 @@ static void exampleTask(void *parameters)
 		// Since this module executes at fixed time intervals, we need to
 		// block the task until it is time for the next update.
 		// The settings field is in ms, to convert to RTOS ticks we need
-		// to divide by portTICK_RATE_MS.
-		vTaskDelayUntil(&lastSysTime, settings.UpdatePeriod / portTICK_RATE_MS);
+		// to use the MS2TICKS macro.
+		vTaskDelayUntil(&lastSysTime, MS2TICKS(settings.UpdatePeriod));
 	}
 }

@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pios_flashfs.h
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_FLASHFS Flash Filesystem API Definition
@@ -29,9 +29,9 @@
 
 #include <stdint.h>
 
-int32_t PIOS_FLASHFS_Format(uint32_t fs_id);
-int32_t PIOS_FLASHFS_ObjSave(uint32_t fs_id, uint32_t obj_id, uint16_t obj_inst_id, uint8_t * obj_data, uint16_t obj_size);
-int32_t PIOS_FLASHFS_ObjLoad(uint32_t fs_id, uint32_t obj_id, uint16_t obj_inst_id, uint8_t * obj_data, uint16_t obj_size);
-int32_t PIOS_FLASHFS_ObjDelete(uint32_t fs_id, uint32_t obj_id, uint16_t obj_inst_id);
+int32_t PIOS_FLASHFS_Format(uintptr_t fs_id);
+int32_t PIOS_FLASHFS_ObjSave(uintptr_t fs_id, uint32_t obj_id, uint16_t obj_inst_id, uint8_t * obj_data, uint16_t obj_size);
+int32_t PIOS_FLASHFS_ObjLoad(uintptr_t fs_id, uint32_t obj_id, uint16_t obj_inst_id, uint8_t * obj_data, uint16_t obj_size);
+int32_t PIOS_FLASHFS_ObjDelete(uintptr_t fs_id, uint32_t obj_id, uint16_t obj_inst_id);
 
 #endif	/* PIOS_FLASHFS_H_ */

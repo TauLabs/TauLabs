@@ -28,7 +28,7 @@
  */
 
 #include "coordinateconversions.h"
-#include <stdint.h>
+#include <qglobal.h>
 #include <QDebug>
 #include <math.h>
 
@@ -36,6 +36,9 @@
 #define DEG2RAD (M_PI/180.0)
 
 namespace Utils {
+
+const double CoordinateConversions::R_EQUATOR = 6378137.0;
+const double CoordinateConversions::ECCENTRICITY = 8.1819190842621e-2;
 
 CoordinateConversions::CoordinateConversions()
 {
@@ -66,8 +69,8 @@ void CoordinateConversions::LLA2Rne(double LLA[3], double Rne[3][3]){
   * @param[out] ECEF[3] location in ECEF coordinates
   */
 void CoordinateConversions::LLA2ECEF(double LLA[3], double ECEF[3]){
-  const double a = R_equator;           // Equatorial Radius
-  const double e = eccentricity;  // Eccentricity
+  const double a = R_EQUATOR;           // Equatorial Radius
+  const double e = ECCENTRICITY;  // Eccentricity
   double sinLat, sinLon, cosLat, cosLon;
   double N;
 
@@ -90,11 +93,11 @@ void CoordinateConversions::LLA2ECEF(double LLA[3], double ECEF[3]){
   */
 int CoordinateConversions::ECEF2LLA(double ECEF[3], double LLA[3])
 {
-    const double a = R_equator;           // Equatorial Radius
-    const double e = eccentricity;  // Eccentricity
+    const double a = R_EQUATOR;           // Equatorial Radius
+    const double e = ECCENTRICITY;  // Eccentricity
     double x=ECEF[0], y=ECEF[1], z=ECEF[2];
     double Lat, N, NplusH, delta, esLat;
-    uint16_t iter;
+    quint16 iter;
 
     LLA[1] = RAD2DEG*atan2(y,x);
     N = a;
@@ -217,9 +220,10 @@ void CoordinateConversions::LLA2NED_HomeLLA(double LLA[3], double homeLLA[3], do
     T[1] = cos(lat)*(alt+6.378137E6);
     T[2] = -1.0;
 
-    float dL[3] = {(LLA[0] - homeLLA[0]) * DEG2RAD,
-        (LLA[1] - homeLLA[1]) * DEG2RAD,
-        (LLA[2] - homeLLA[2])};
+    float dL[3];
+    dL[0] = (float)((LLA[0] - homeLLA[0]) * DEG2RAD);
+    dL[1]  = (float)((LLA[1] - homeLLA[1]) * DEG2RAD);
+    dL[2]  = (float)(LLA[2] - homeLLA[2]);
 
     NED[0] = T[0] * dL[0];
     NED[1] = T[1] * dL[1];

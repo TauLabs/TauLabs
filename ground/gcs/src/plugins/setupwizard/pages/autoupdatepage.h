@@ -3,11 +3,12 @@
  *
  * @file       autoupdatepage.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup AutoUpdatePage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -39,8 +40,7 @@ namespace Ui {
 class AutoUpdatePage;
 }
 
-class AutoUpdatePage : public AbstractWizardPage
-{
+class AutoUpdatePage : public AbstractWizardPage {
     Q_OBJECT
 
 public:
@@ -48,13 +48,15 @@ public:
     ~AutoUpdatePage();
 
 private slots:
-    void updateStatus(uploader::AutoUpdateStep ,QVariant);
-    void disableButtons(){ enableButtons(false); }
-    void enableButtons(bool enable);
+    void updateStatus(uploader::AutoUpdateStep, QVariant);
+    void disableButtons()
+    {
+        enableButtons(false);
+    }
+    void enableButtons(bool enable = false);
 
 private:
     Ui::AutoUpdatePage *ui;
-
 };
 
 #endif // AUTOUPDATEPAGE_H

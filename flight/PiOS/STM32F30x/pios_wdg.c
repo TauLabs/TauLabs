@@ -8,8 +8,8 @@
  *
  * @file       pios_spi.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
- * 	        Parts by Thorsten Klose (tk@midibox.org) (tk@midibox.org)
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * 	           Parts by Thorsten Klose (tk@midibox.org) (tk@midibox.org)
  * @brief      Hardware Abstraction Layer for SPI ports of STM32
  * @see        The GNU Public License (GPL) Version 3
  * @notes
@@ -78,8 +78,14 @@ uint16_t PIOS_WDG_Init()
 
 	// watchdog flags now stored in backup registers
 	PWR_BackupAccessCmd(ENABLE);
-	
+
 	wdg_configuration.bootup_flags = RTC_ReadBackupRegister(PIOS_WDG_REGISTER);
+
+	/*
+	 * Start from an empty set of registered flags so previous boots
+	 * can't influence the current one
+	 */
+	RTC_WriteBackupRegister(PIOS_WDG_REGISTER, 0);
 #endif
 	return delay;
 }

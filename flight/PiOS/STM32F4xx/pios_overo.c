@@ -8,6 +8,7 @@
  *
  * @file       pios_overo.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Hardware Abstraction Layer for Overo communications
  * @see        The GNU Public License (GPL) Version 3
  * @notes
@@ -45,10 +46,10 @@
 #define PACKET_SIZE 1024
 
 /* Provide a COM driver */
-static void PIOS_OVERO_RegisterRxCallback(uint32_t overo_id, pios_com_callback rx_in_cb, uint32_t context);
-static void PIOS_OVERO_RegisterTxCallback(uint32_t overo_id, pios_com_callback tx_out_cb, uint32_t context);
-static void PIOS_OVERO_TxStart(uint32_t overo_id, uint16_t tx_bytes_avail);
-static void PIOS_OVERO_RxStart(uint32_t overo_id, uint16_t rx_bytes_avail);
+static void PIOS_OVERO_RegisterRxCallback(uintptr_t overo_id, pios_com_callback rx_in_cb, uintptr_t context);
+static void PIOS_OVERO_RegisterTxCallback(uintptr_t overo_id, pios_com_callback tx_out_cb, uintptr_t context);
+static void PIOS_OVERO_TxStart(uintptr_t overo_id, uint16_t tx_bytes_avail);
+static void PIOS_OVERO_RxStart(uintptr_t overo_id, uint16_t rx_bytes_avail);
 
 const struct pios_com_driver pios_overo_com_driver = {
 	.set_baud   = NULL,
@@ -76,9 +77,9 @@ struct pios_overo_dev {
 	uint8_t rx_buffer[2][PACKET_SIZE];
 
 	pios_com_callback rx_in_cb;
-	uint32_t rx_in_context;
+	uintptr_t rx_in_context;
 	pios_com_callback tx_out_cb;
-	uint32_t tx_out_context;
+	uintptr_t tx_out_context;
 };
 
 #if defined(PIOS_INCLUDE_FREERTOS)
@@ -96,7 +97,7 @@ static struct pios_overo_dev * PIOS_OVERO_alloc(void)
 {
 	struct pios_overo_dev * overo_dev;
 	
-	overo_dev = (struct pios_overo_dev *)pvPortMalloc(sizeof(*overo_dev));
+	overo_dev = (struct pios_overo_dev *)PIOS_malloc(sizeof(*overo_dev));
 	if (!overo_dev) return(NULL);
 	
 	overo_dev->rx_in_cb = 0;
@@ -128,9 +129,7 @@ static void PIOS_OVERO_WriteData(struct pios_overo_dev *overo_dev)
 			bytes_added = (overo_dev->tx_out_cb)(overo_dev->tx_out_context, writing_pointer, max_bytes, NULL, &tx_need_yield);
 
 #if defined(OVERO_USES_BLOCKING_WRITE)
-			if (tx_need_yield) {
-				vPortYieldFromISR();
-			}
+			portEND_SWITCHING_ISR(tx_need_yield);
 #endif
 			overo_dev->writing_offset += bytes_added;
 		}
@@ -141,7 +140,7 @@ static void PIOS_OVERO_WriteData(struct pios_overo_dev *overo_dev)
  * Called at the end of each DMA transaction.  Refresh the flag indicating which
  * DMA buffer to write new data from the PIOS_COM fifo into the buffer
  */
-void PIOS_OVERO_DMA_irq_handler(uint32_t overo_id)
+void PIOS_OVERO_DMA_irq_handler(uintptr_t overo_id)
 {
 	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *) overo_id;
 	if(!PIOS_OVERO_validate(overo_dev))
@@ -152,15 +151,13 @@ void PIOS_OVERO_DMA_irq_handler(uint32_t overo_id)
 	overo_dev->writing_buffer = 1 - DMA_GetCurrentMemoryTarget(overo_dev->cfg->dma.tx.channel);
 	overo_dev->writing_offset = 0;
 
-/*	bool rx_need_yield;
+/*	bool rx_need_yield = false;
 	// Get data from the Rx buffer and add to the fifo
 	(void) (overo_dev->rx_in_cb)(overo_dev->rx_in_context, 
 								 &overo_dev->rx_buffer[overo_dev->writing_buffer][0], 
 								PACKET_SIZE, NULL, &rx_need_yield);
 
-	if(rx_need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(rx_need_yield);
 
 	// Fill the buffer with known value to prevent rereading these bytes
 	memset(&overo_dev->rx_buffer[overo_dev->writing_buffer][0], 0xFF, PACKET_SIZE);
@@ -177,7 +174,7 @@ void PIOS_OVERO_DMA_irq_handler(uint32_t overo_id)
 /**
  * Debugging information to check how it is runnign
  */
-int32_t PIOS_OVERO_GetPacketCount(uint32_t overo_id)
+int32_t PIOS_OVERO_GetPacketCount(uintptr_t overo_id)
 {
 	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *) overo_id;
 	PIOS_Assert(PIOS_OVERO_validate(overo_dev));
@@ -188,7 +185,7 @@ int32_t PIOS_OVERO_GetPacketCount(uint32_t overo_id)
 /**
  * Debugging information to check how it is runnign
  */
-int32_t PIOS_OVERO_GetWrittenBytes(uint32_t overo_id)
+int32_t PIOS_OVERO_GetWrittenBytes(uintptr_t overo_id)
 {
 	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *) overo_id;
 	PIOS_Assert(PIOS_OVERO_validate(overo_dev));
@@ -199,7 +196,7 @@ int32_t PIOS_OVERO_GetWrittenBytes(uint32_t overo_id)
 /**
  * Initialise a single Overo device
  */
-int32_t PIOS_OVERO_Init(uint32_t * overo_id, const struct pios_overo_cfg * cfg)
+int32_t PIOS_OVERO_Init(uintptr_t * overo_id, const struct pios_overo_cfg * cfg)
 {
 	PIOS_DEBUG_Assert(overo_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -295,7 +292,7 @@ int32_t PIOS_OVERO_Init(uint32_t * overo_id, const struct pios_overo_cfg * cfg)
 	DMA_Cmd(overo_dev->cfg->dma.tx.channel, ENABLE);
 	DMA_Cmd(overo_dev->cfg->dma.rx.channel, ENABLE);
 
-	*overo_id = (uint32_t) overo_dev;
+	*overo_id = (uintptr_t) overo_dev;
 
 	return(0);
 	
@@ -304,7 +301,7 @@ out_fail:
 }
 
 //! Enable the SPI peripheral
-int32_t PIOS_OVERO_Enable(uint32_t overo_id)
+int32_t PIOS_OVERO_Enable(uintptr_t overo_id)
 {
 	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *)overo_id;
 	
@@ -325,7 +322,7 @@ int32_t PIOS_OVERO_Enable(uint32_t overo_id)
  * - wait for BSY flag to desassert
  * this needs to be done via callbacks to avoid blocking too long
  */
-int32_t PIOS_OVERO_Disable(uint32_t overo_id)
+int32_t PIOS_OVERO_Disable(uintptr_t overo_id)
 {
 	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *)overo_id;
 	
@@ -338,7 +335,7 @@ int32_t PIOS_OVERO_Disable(uint32_t overo_id)
 }
 
 
-static void PIOS_OVERO_RxStart(uint32_t overo_id, uint16_t rx_bytes_avail)
+static void PIOS_OVERO_RxStart(uintptr_t overo_id, uint16_t rx_bytes_avail)
 {
 	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *)overo_id;
 	
@@ -348,7 +345,7 @@ static void PIOS_OVERO_RxStart(uint32_t overo_id, uint16_t rx_bytes_avail)
 	// DMA RX enable (enable IRQ) ?
 }
 
-static void PIOS_OVERO_TxStart(uint32_t overo_id, uint16_t tx_bytes_avail)
+static void PIOS_OVERO_TxStart(uintptr_t overo_id, uint16_t tx_bytes_avail)
 {
 	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *)overo_id;
 	
@@ -361,7 +358,7 @@ static void PIOS_OVERO_TxStart(uint32_t overo_id, uint16_t tx_bytes_avail)
 	//PIOS_OVERO_WriteData(overo_dev);
 }
 
-static void PIOS_OVERO_RegisterRxCallback(uint32_t overo_id, pios_com_callback rx_in_cb, uint32_t context)
+static void PIOS_OVERO_RegisterRxCallback(uintptr_t overo_id, pios_com_callback rx_in_cb, uintptr_t context)
 {
 	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *)overo_id;
 	
@@ -376,7 +373,7 @@ static void PIOS_OVERO_RegisterRxCallback(uint32_t overo_id, pios_com_callback r
 	overo_dev->rx_in_cb = rx_in_cb;
 }
 
-static void PIOS_OVERO_RegisterTxCallback(uint32_t overo_id, pios_com_callback tx_out_cb, uint32_t context)
+static void PIOS_OVERO_RegisterTxCallback(uintptr_t overo_id, pios_com_callback tx_out_cb, uintptr_t context)
 {
 	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *)overo_id;
 	
@@ -393,10 +390,10 @@ static void PIOS_OVERO_RegisterTxCallback(uint32_t overo_id, pios_com_callback t
 
 #else
 
-static void PIOS_OVERO_RegisterTxCallback(uint32_t overo_id, pios_com_callback tx_out_cb, uint32_t context) {};
-static void PIOS_OVERO_RegisterRxCallback(uint32_t overo_id, pios_com_callback rx_in_cb, uint32_t context) {};
-static void PIOS_OVERO_TxStart(uint32_t overo_id, uint16_t tx_bytes_avail) {};
-static void PIOS_OVERO_RxStart(uint32_t overo_id, uint16_t rx_bytes_avail) {};
+static void PIOS_OVERO_RegisterTxCallback(uintptr_t overo_id, pios_com_callback tx_out_cb, uintptr_t context) {};
+static void PIOS_OVERO_RegisterRxCallback(uintptr_t overo_id, pios_com_callback rx_in_cb, uintptr_t context) {};
+static void PIOS_OVERO_TxStart(uintptr_t overo_id, uint16_t tx_bytes_avail) {};
+static void PIOS_OVERO_RxStart(uintptr_t overo_id, uint16_t rx_bytes_avail) {};
 
 #endif /* PIOS_INCLUDE_FREERTOS */
 

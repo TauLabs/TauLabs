@@ -27,8 +27,8 @@ ARCHFLAGS			+= -DARCH_POSIX
 #
 # PIOS device library source and includes
 #
-SRC					+=	$(wildcard $(PIOS_DEVLIB)*.c)
-EXTRAINCDIRS		+=	$(PIOS_DEVLIB)/inc
+#SRC					+=	$(wildcard $(PIOS_DEVLIB)*.c)
+#EXTRAINCDIRS		+=	$(PIOS_DEVLIB)/inc
 
 #
 # CMSIS for the F4

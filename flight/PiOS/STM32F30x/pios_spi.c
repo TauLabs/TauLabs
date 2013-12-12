@@ -8,7 +8,7 @@
  *
  * @file       pios_spi.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Hardware Abstraction Layer for SPI ports of STM32
  * @see        The GNU Public License (GPL) Version 3
  * @notes
@@ -47,43 +47,30 @@
 //#define SPI_MAX_BLOCK_PIO	128
 #define SPI_MAX_BLOCK_PIO	0xffffffff
 
-static bool PIOS_SPI_validate(struct pios_spi_dev * com_dev)
+static bool PIOS_SPI_validate(struct pios_spi_dev *com_dev)
 {
 	/* Should check device magic here */
-	return(true);
+	return (true);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-static struct pios_spi_dev * PIOS_SPI_alloc(void)
+static struct pios_spi_dev *PIOS_SPI_alloc(void)
 {
-	return (malloc(sizeof(struct pios_spi_dev)));
+	return (PIOS_malloc(sizeof(struct pios_spi_dev)));
 }
-#else
-static struct pios_spi_dev pios_spi_devs[PIOS_SPI_MAX_DEVS];
-static uint8_t pios_spi_num_devs;
-static struct pios_spi_dev * PIOS_SPI_alloc(void)
-{
-	if (pios_spi_num_devs >= PIOS_SPI_MAX_DEVS) {
-		return (NULL);
-	}
-
-	return (&pios_spi_devs[pios_spi_num_devs++]);
-}
-#endif
 
 /**
 * Initialises SPI pins
 * \param[in] mode currently only mode 0 supported
 * \return < 0 if initialisation failed
 */
-int32_t PIOS_SPI_Init(uint32_t * spi_id, const struct pios_spi_cfg * cfg)
+int32_t PIOS_SPI_Init(uint32_t *spi_id, const struct pios_spi_cfg *cfg)
 {
 	uint32_t	init_ssel = 0;
 
 	PIOS_Assert(spi_id);
 	PIOS_Assert(cfg);
 
-	struct pios_spi_dev * spi_dev;
+	struct pios_spi_dev *spi_dev;
 
 	spi_dev = (struct pios_spi_dev *) PIOS_SPI_alloc();
 	if (!spi_dev) goto out_fail;
@@ -91,10 +78,7 @@ int32_t PIOS_SPI_Init(uint32_t * spi_id, const struct pios_spi_cfg * cfg)
 	/* Bind the configuration to the device instance */
 	spi_dev->cfg = cfg;
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-	vSemaphoreCreateBinary(spi_dev->busy);
-	xSemaphoreGive(spi_dev->busy);
-#endif
+	spi_dev->busy = PIOS_Semaphore_Create();
 
 	/* Disable callback function */
 	spi_dev->callback = NULL;
@@ -104,58 +88,58 @@ int32_t PIOS_SPI_Init(uint32_t * spi_id, const struct pios_spi_cfg * cfg)
 	spi_dev->tx_dummy_byte = 0xFF;
 
 	switch (spi_dev->cfg->init.SPI_NSS) {
-		case SPI_NSS_Soft:
-			if (spi_dev->cfg->init.SPI_Mode == SPI_Mode_Master) {
-				/* We're a master in soft NSS mode, make sure we see NSS high at all times. */
-				SPI_NSSInternalSoftwareConfig(spi_dev->cfg->regs, SPI_NSSInternalSoft_Set);
-				/* Init as many slave selects as the config advertises. */
-				init_ssel = spi_dev->cfg->slave_count;
-			} else {
-				/* We're a slave in soft NSS mode, make sure we see NSS low at all times. */
-				SPI_NSSInternalSoftwareConfig(spi_dev->cfg->regs, SPI_NSSInternalSoft_Reset);
-			}
-			break;
-			
-		case SPI_NSS_Hard:
-			/* only legal for single-slave config */
-			PIOS_Assert(spi_dev->cfg->slave_count == 1);
-			init_ssel = 1;
-			SPI_SSOutputCmd(spi_dev->cfg->regs, (spi_dev->cfg->init.SPI_Mode == SPI_Mode_Master) ? ENABLE : DISABLE);
-			/* FIXME: Should this also call SPI_SSOutputCmd()? */
-			break;
-			
-		default:
-			PIOS_Assert(0);
+	case SPI_NSS_Soft:
+		if (spi_dev->cfg->init.SPI_Mode == SPI_Mode_Master) {
+			/* We're a master in soft NSS mode, make sure we see NSS high at all times. */
+			SPI_NSSInternalSoftwareConfig(spi_dev->cfg->regs, SPI_NSSInternalSoft_Set);
+			/* Init as many slave selects as the config advertises. */
+			init_ssel = spi_dev->cfg->slave_count;
+		} else {
+			/* We're a slave in soft NSS mode, make sure we see NSS low at all times. */
+			SPI_NSSInternalSoftwareConfig(spi_dev->cfg->regs, SPI_NSSInternalSoft_Reset);
+		}
+		break;
+
+	case SPI_NSS_Hard:
+		/* only legal for single-slave config */
+		PIOS_Assert(spi_dev->cfg->slave_count == 1);
+		init_ssel = 1;
+		SPI_SSOutputCmd(spi_dev->cfg->regs, (spi_dev->cfg->init.SPI_Mode == SPI_Mode_Master) ? ENABLE : DISABLE);
+		/* FIXME: Should this also call SPI_SSOutputCmd()? */
+		break;
+
+	default:
+		PIOS_Assert(0);
 	}
 
 	/* Initialize the GPIO pins */
 	/* note __builtin_ctz() due to the difference between GPIO_PinX and GPIO_PinSourceX */
 	if (spi_dev->cfg->remap) {
 		GPIO_PinAFConfig(spi_dev->cfg->sclk.gpio,
-				__builtin_ctz(spi_dev->cfg->sclk.init.GPIO_Pin),
-				spi_dev->cfg->remap);
+		                 __builtin_ctz(spi_dev->cfg->sclk.init.GPIO_Pin),
+		                 spi_dev->cfg->remap);
 		GPIO_PinAFConfig(spi_dev->cfg->mosi.gpio,
-				__builtin_ctz(spi_dev->cfg->mosi.init.GPIO_Pin),
-				spi_dev->cfg->remap);
+		                 __builtin_ctz(spi_dev->cfg->mosi.init.GPIO_Pin),
+		                 spi_dev->cfg->remap);
 		GPIO_PinAFConfig(spi_dev->cfg->miso.gpio,
-				__builtin_ctz(spi_dev->cfg->miso.init.GPIO_Pin),
-				spi_dev->cfg->remap);
+		                 __builtin_ctz(spi_dev->cfg->miso.init.GPIO_Pin),
+		                 spi_dev->cfg->remap);
 		for (uint32_t i = 0; i < init_ssel; i++) {
 			GPIO_PinAFConfig(spi_dev->cfg->ssel[i].gpio,
-					__builtin_ctz(spi_dev->cfg->ssel[i].init.GPIO_Pin),
-					spi_dev->cfg->remap);
+			                 __builtin_ctz(spi_dev->cfg->ssel[i].init.GPIO_Pin),
+			                 spi_dev->cfg->remap);
 		}
 	}
-	GPIO_Init(spi_dev->cfg->sclk.gpio, (GPIO_InitTypeDef*)&(spi_dev->cfg->sclk.init));
-	GPIO_Init(spi_dev->cfg->mosi.gpio, (GPIO_InitTypeDef*)&(spi_dev->cfg->mosi.init));
-	GPIO_Init(spi_dev->cfg->miso.gpio, (GPIO_InitTypeDef*)&(spi_dev->cfg->miso.init));
-	
-	if(spi_dev->cfg->init.SPI_NSS != SPI_NSS_Hard) {
+	GPIO_Init(spi_dev->cfg->sclk.gpio, (GPIO_InitTypeDef *) & (spi_dev->cfg->sclk.init));
+	GPIO_Init(spi_dev->cfg->mosi.gpio, (GPIO_InitTypeDef *) & (spi_dev->cfg->mosi.init));
+	GPIO_Init(spi_dev->cfg->miso.gpio, (GPIO_InitTypeDef *) & (spi_dev->cfg->miso.init));
+
+	if (spi_dev->cfg->init.SPI_NSS != SPI_NSS_Hard) {
 		for (uint32_t i = 0; i < init_ssel; i++) {
 			/* Since we're driving the SSEL pin in software, ensure that the slave is deselected */
 			/* XXX multi-slave support - maybe have another SPI_NSS_ mode? */
 			GPIO_SetBits(spi_dev->cfg->ssel[i].gpio, spi_dev->cfg->ssel[i].init.GPIO_Pin);
-			GPIO_Init(spi_dev->cfg->ssel[i].gpio, (GPIO_InitTypeDef*)&(spi_dev->cfg->ssel[i].init));
+			GPIO_Init(spi_dev->cfg->ssel[i].gpio, (GPIO_InitTypeDef *) & (spi_dev->cfg->ssel[i].init));
 		}
 	}
 
@@ -171,7 +155,7 @@ int32_t PIOS_SPI_Init(uint32_t * spi_id, const struct pios_spi_cfg * cfg)
 
 	/* Initialize the SPI block */
 	SPI_I2S_DeInit(spi_dev->cfg->regs);
-	SPI_Init(spi_dev->cfg->regs, (SPI_InitTypeDef*)&(spi_dev->cfg->init));
+	SPI_Init(spi_dev->cfg->regs, (SPI_InitTypeDef *) & (spi_dev->cfg->init));
 
 	/* Configure CRC calculation */
 	if (spi_dev->cfg->use_crc) {
@@ -195,10 +179,10 @@ int32_t PIOS_SPI_Init(uint32_t * spi_id, const struct pios_spi_cfg * cfg)
 	/* Configure DMA interrupt */
 //	NVIC_Init((NVIC_InitTypeDef*)&(spi_dev->cfg->dma.irq.init));
 
-	return(0);
+	return (0);
 
 out_fail:
-	return(-1);
+	return (-1);
 }
 
 /**
@@ -220,42 +204,59 @@ out_fail:
  * \return -1 if disabled SPI port selected
  * \return -3 if invalid spi_prescaler selected
  */
-int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, SPIPrescalerTypeDef spi_prescaler)
+int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, uint32_t spi_speed)
 {
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
-	
-	bool valid = PIOS_SPI_validate(spi_dev);
-	PIOS_Assert(valid)
-	
-	SPI_InitTypeDef SPI_InitStructure;
-	
-	if (spi_dev->cfg->regs == SPI1)
-	{
-		//APB2 == 72MHz
-		//divide by 2 to match frequency
-		spi_prescaler += 1;
-	}
-	else
-	{
-		//APB1 == 36MHz
-	}
+	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
-	if (spi_prescaler >= 8) {
-		/* Invalid prescaler selected */
-		return -3;
-	}
-	
+	bool valid = PIOS_SPI_validate(spi_dev);
+	PIOS_Assert(valid);
+
+	SPI_InitTypeDef SPI_InitStructure;
+
+	SPIPrescalerTypeDef spi_prescaler;
+
+	//SPI clock is different depending on the bus
+	uint32_t spiBusClock = 0;
+
+	if(spi_dev->cfg->regs == SPI1)
+		spiBusClock = PIOS_SYSCLK / 2;
+	else
+		spiBusClock = PIOS_SYSCLK;
+
+	//The needed prescaler for desired speed
+	float desiredPrescaler=(float) spiBusClock / spi_speed;
+
+	//Choosing the existing prescaler nearest the desiredPrescaler
+	if(desiredPrescaler <= 2)
+		spi_prescaler = PIOS_SPI_PRESCALER_2;
+	else if(desiredPrescaler <= 4)
+		spi_prescaler = PIOS_SPI_PRESCALER_4;
+	else if(desiredPrescaler <= 8)
+		spi_prescaler = PIOS_SPI_PRESCALER_8;
+	else if(desiredPrescaler <= 16)
+		spi_prescaler = PIOS_SPI_PRESCALER_16;
+	else if(desiredPrescaler <= 32)
+		spi_prescaler = PIOS_SPI_PRESCALER_32;
+	else if(desiredPrescaler <= 64)
+		spi_prescaler = PIOS_SPI_PRESCALER_64;
+	else if(desiredPrescaler <= 128)
+		spi_prescaler = PIOS_SPI_PRESCALER_128;
+	else
+		spi_prescaler = PIOS_SPI_PRESCALER_256;
+
 	/* Start with a copy of the default configuration for the peripheral */
 	SPI_InitStructure = spi_dev->cfg->init;
-	
+
 	/* Adjust the prescaler for the peripheral's clock */
 	SPI_InitStructure.SPI_BaudRatePrescaler = ((uint16_t) spi_prescaler & 7) << 3;
-	
+
 	/* Write back the new configuration */
 	SPI_Init(spi_dev->cfg->regs, &SPI_InitStructure);
-	
+
 	PIOS_SPI_TransferByte(spi_id, 0xFF);
-	return 0;
+
+	//return set speed
+	return spiBusClock / spi_prescaler;
 }
 
 /**
@@ -266,15 +267,14 @@ int32_t PIOS_SPI_SetClockSpeed(uint32_t spi_id, SPIPrescalerTypeDef spi_prescale
  */
 int32_t PIOS_SPI_ClaimBus(uint32_t spi_id)
 {
-#if defined(PIOS_INCLUDE_FREERTOS)
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 
-	if (xSemaphoreTake(spi_dev->busy, 0xffff) != pdTRUE)
+	if (PIOS_Semaphore_Take(spi_dev->busy, 65535) != true)
 		return -1;
-#endif
+
 	return 0;
 }
 
@@ -287,18 +287,14 @@ int32_t PIOS_SPI_ClaimBus(uint32_t spi_id)
  */
 int32_t PIOS_SPI_ClaimBusISR(uint32_t spi_id, bool *woken)
 {
-#if defined(PIOS_INCLUDE_FREERTOS)
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
-	
+	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
+
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
-	
-	if (xQueueReceiveFromISR(( xQueueHandle ) spi_dev->busy, NULL, &xHigherPriorityTaskWoken ) != pdTRUE)
+
+	if (PIOS_Semaphore_Take_FromISR(spi_dev->busy, woken) != true)
 		return -1;
 
-	*woken = *woken || (xHigherPriorityTaskWoken == pdTRUE);
-#endif
 	return 0;
 }
 
@@ -310,14 +306,13 @@ int32_t PIOS_SPI_ClaimBusISR(uint32_t spi_id, bool *woken)
  */
 int32_t PIOS_SPI_ReleaseBus(uint32_t spi_id)
 {
-#if defined(PIOS_INCLUDE_FREERTOS)
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 
-	xSemaphoreGive(spi_dev->busy);
-#endif
+	PIOS_Semaphore_Give(spi_dev->busy);
+
 	return 0;
 }
 
@@ -329,22 +324,13 @@ int32_t PIOS_SPI_ReleaseBus(uint32_t spi_id)
  */
 int32_t PIOS_SPI_ReleaseBusISR(uint32_t spi_id, bool *woken)
 {
-#if defined(PIOS_INCLUDE_FREERTOS)
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 
-	xSemaphoreGiveFromISR(spi_dev->busy, &xHigherPriorityTaskWoken);
+	PIOS_Semaphore_Give_FromISR(spi_dev->busy, woken);
 
-	*woken = *woken || (xHigherPriorityTaskWoken == pdTRUE);
-#else
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
-	PIOS_IRQ_Disable();
-	spi_dev->busy = 0;
-	PIOS_IRQ_Enable();
-#endif
 	return 0;
 }
 
@@ -356,7 +342,7 @@ int32_t PIOS_SPI_ReleaseBusISR(uint32_t spi_id, bool *woken)
 */
 int32_t PIOS_SPI_RC_PinSet(uint32_t spi_id, uint32_t slave_id, uint8_t pin_value)
 {
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
@@ -379,7 +365,7 @@ int32_t PIOS_SPI_RC_PinSet(uint32_t spi_id, uint32_t slave_id, uint8_t pin_value
 */
 int32_t PIOS_SPI_TransferByte(uint32_t spi_id, uint8_t b)
 {
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
@@ -387,7 +373,7 @@ int32_t PIOS_SPI_TransferByte(uint32_t spi_id, uint8_t b)
 //	uint8_t dummy;
 	uint8_t rx_byte;
 
-	/* 
+	/*
 	 * Procedure taken from STM32F10xxx Reference Manual section 23.3.5
 	 */
 
@@ -434,7 +420,7 @@ int32_t PIOS_SPI_TransferByte(uint32_t spi_id, uint8_t b)
 */
 static int32_t SPI_DMA_TransferBlock(uint32_t spi_id, const uint8_t *send_buffer, uint8_t *receive_buffer, uint16_t len, void *callback)
 {
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
@@ -457,7 +443,7 @@ static int32_t SPI_DMA_TransferBlock(uint32_t spi_id, const uint8_t *send_buffer
 	/* Disable the SPI peripheral */
 	/* Initialize the SPI block */
 	SPI_I2S_DeInit(spi_dev->cfg->regs);
-	SPI_Init(spi_dev->cfg->regs, (SPI_InitTypeDef*)&(spi_dev->cfg->init));
+	SPI_Init(spi_dev->cfg->regs, (SPI_InitTypeDef *) & (spi_dev->cfg->init));
 	SPI_Cmd(spi_dev->cfg->regs, DISABLE);
 	/* Configure CRC calculation */
 	if (spi_dev->cfg->use_crc) {
@@ -465,7 +451,7 @@ static int32_t SPI_DMA_TransferBlock(uint32_t spi_id, const uint8_t *send_buffer
 	} else {
 		SPI_CalculateCRC(spi_dev->cfg->regs, DISABLE);
 	}
-	
+
 	/* Enable SPI interrupts to DMA */
 	SPI_I2S_DMACmd(spi_dev->cfg->regs, SPI_I2S_DMAReq_Tx | SPI_I2S_DMAReq_Rx, ENABLE);
 
@@ -588,7 +574,7 @@ static int32_t SPI_DMA_TransferBlock(uint32_t spi_id, const uint8_t *send_buffer
 */
 static int32_t SPI_PIO_TransferBlock(uint32_t spi_id, const uint8_t *send_buffer, uint8_t *receive_buffer, uint16_t len)
 {
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 	uint8_t b;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
@@ -668,33 +654,32 @@ int32_t PIOS_SPI_TransferBlock(uint32_t spi_id, const uint8_t *send_buffer, uint
 */
 int32_t PIOS_SPI_Busy(uint32_t spi_id)
 {
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
 
 	/* DMA buffer has data or SPI transmit register not empty or SPI is busy*/
 	if (DMA_GetCurrDataCounter(spi_dev->cfg->dma.rx.channel) ||
-		!SPI_I2S_GetFlagStatus(spi_dev->cfg->regs, SPI_I2S_FLAG_TXE) ||
-		SPI_I2S_GetFlagStatus(spi_dev->cfg->regs, SPI_I2S_FLAG_BSY))
-	{
+	    !SPI_I2S_GetFlagStatus(spi_dev->cfg->regs, SPI_I2S_FLAG_TXE) ||
+	    SPI_I2S_GetFlagStatus(spi_dev->cfg->regs, SPI_I2S_FLAG_BSY)) {
 		return -3;
 	}
 
-	return(0);
+	return (0);
 }
 
 void PIOS_SPI_IRQ_Handler(uint32_t spi_id)
 {
-	struct pios_spi_dev * spi_dev = (struct pios_spi_dev *)spi_id;
+	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
 	PIOS_Assert(valid)
-	
+
 	// FIXME XXX Only RX channel or better clear flags for both channels?
 	DMA_ClearFlag(spi_dev->cfg->dma.irq.flags);
-	
-	if(spi_dev->cfg->init.SPI_Mode == SPI_Mode_Master) {
+
+	if (spi_dev->cfg->init.SPI_Mode == SPI_Mode_Master) {
 		/* Wait for the final bytes of the transfer to complete, including CRC byte(s). */
 		while (!(SPI_I2S_GetFlagStatus(spi_dev->cfg->regs, SPI_I2S_FLAG_TXE))) ;
 

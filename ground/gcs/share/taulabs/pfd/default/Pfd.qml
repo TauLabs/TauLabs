@@ -14,11 +14,41 @@ Rectangle {
         sceneSize: Qt.size(width, height)
 
         Item {
+
+            // Wraps angles to -pi..pi range
+            function circular_modulus_rad (x) {
+                while(x > Math.PI){
+                    x = x - 2*Math.PI
+                }
+                while(x < -Math.PI){
+                    x = x + 2*Math.PI
+                }
+
+                return x
+            }
+
+            // Wraps angles to -180..180 range
+            function circular_modulus_deg (x) {
+                while(x > 180){
+                    x = x - 360
+                }
+                while(x < -180){
+                    x = x + 360
+                }
+
+                return x
+            }
+
             id: sceneItem
             width: parent.paintedWidth
             height: parent.paintedHeight
             anchors.centerIn: parent
             clip: true
+
+            // Define the field of view for the PFD. Normally this data would come
+            // from the C++ code.
+            property real fovX_D: 90 // In units of [deg]
+            property real fovY_D: 90 // In units of [deg]
 
             Loader {
                 id: worldLoader
@@ -42,6 +72,61 @@ Rectangle {
             }
 
             SvgElementImage {
+                id: pitch_scale
+                elementName: "pitch_scale"
+                scale:  pitch_scale.parent.height/Math.sin(pitch_scale.parent.fovX_D*Math.PI/180/2)*Math.sin(20*Math.PI/180) / (pitch_scale.height-2*pitch_scale.border)
+
+                smooth: true
+                border: 64 //sometimes numbers are excluded from bounding rect
+
+                anchors.centerIn: parent
+                //rotate it around the center of scene
+                transform: [
+                    Translate {
+                        id: pitchScaleTranslate
+                        x: 0
+                        y: -pitch_scale.parent.height/2*Math.sin((-AttitudeActual.Pitch)*Math.PI/180)*(Math.sin(Math.PI/2)/Math.sin(pitch_scale.parent.fovY_D*Math.PI/180/2))
+                    },
+                    Rotation {
+                        angle: -AttitudeActual.Roll
+                        origin.x : pitch_scale.width/2
+                        origin.y : pitch_scale.height/2
+                    }
+                ]
+
+
+            }
+
+            SvgElementImage {
+                id: pitch_desired
+
+                elementName: "pitch-desired"
+                sceneSize: sceneItem.sceneSize
+
+                // Center the pitch desired bar in the middle of the PFD
+                anchors.centerIn: parent
+
+                transform: [
+                    Translate {
+                        id: pitchDesiredTranslate
+                        x: 0
+                        y: -pitch_desired.parent.height/2*Math.sin((StabilizationDesired.Pitch-AttitudeActual.Pitch)*Math.PI/180)*(Math.sin(Math.PI/2)/Math.sin(pitch_desired.parent.fovY_D*Math.PI/180/2))
+                    },
+                    Rotation {
+                        angle: -AttitudeActual.Roll
+                        origin.x : pitch_desired.width/2
+                        origin.y : 0
+                    }
+                ]
+
+                //hide if not set
+                opacity: StabilizationDesired.StabilizationMode_Pitch == StabilizationDesiredType.STABILIZATIONMODE_ATTITUDE ? 1 : 
+                         StabilizationDesired.StabilizationMode_Pitch == StabilizationDesiredType.STABILIZATIONMODE_ATTITUDEPLUS ? 1 : 
+                         0
+                Behavior on opacity { NumberAnimation { duration: 1000 } }
+            }
+
+            SvgElementImage {
                 id: roll_desired
 
                 elementName: "roll-desired"
@@ -59,7 +144,9 @@ Rectangle {
                 }
 
                 //hide if not set
-                opacity: StabilizationDesired.Roll == 0 ? 0 : 1
+                opacity: StabilizationDesired.StabilizationMode_Roll == StabilizationDesiredType.STABILIZATIONMODE_ATTITUDE ? 1 : 
+                         StabilizationDesired.StabilizationMode_Pitch == StabilizationDesiredType.STABILIZATIONMODE_ATTITUDEPLUS ? 1 : 
+                         0
                 Behavior on opacity { NumberAnimation { duration: 1000 } }
             }
 

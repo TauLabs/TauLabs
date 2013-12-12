@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_ms5611_priv.h  
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      MS5611 functions header.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -51,6 +51,7 @@ struct pios_ms5611_cfg {
 };
 
 int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg * cfg, int32_t i2c_device);
+int32_t PIOS_MS5611_SPI_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_ms5611_cfg *cfg);
 
 #endif /* PIOS_MS5611_PRIV_H */
 

@@ -2,13 +2,13 @@
  ******************************************************************************
  *
  * @file       quantecplugin.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_QuantecPlugin Quantec boards support Plugin
+ * @addtogroup Boards_Quantec Quantec boards support Plugin
  * @{
- * @brief Plugin to support boards by the OP project
+ * @brief Plugin to support boards by Quantec Networks GmbH
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

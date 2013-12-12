@@ -109,7 +109,7 @@ namespace OP_DFU {
     {
             quint16 ID;
             quint32 FW_CRC;
-            int BL_Version;
+            quint8 BL_Version;
             int SizeOfDesc;
             quint32 SizeOfCode;
             bool Readable;
@@ -186,8 +186,8 @@ namespace OP_DFU {
         qsspt * serialhandle;
         int sendData(void*,int);
         int receiveData(void * data,int size);
-        uint8_t	sspTxBuf[MAX_PACKET_BUF_SIZE];
-        uint8_t	sspRxBuf[MAX_PACKET_BUF_SIZE];
+        quint8	sspTxBuf[MAX_PACKET_BUF_SIZE];
+        quint8	sspRxBuf[MAX_PACKET_BUF_SIZE];
         port * info;
 
 

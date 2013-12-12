@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file       DefaultHwSettingsWidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -37,11 +37,11 @@
  */
 DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilotConnected) :
         ConfigTaskWidget(parent),
-        ui(new Ui_defaulthwsettings),
+        defaultHWSettingsWidget(new Ui_defaulthwsettings),
         hwSettingsObject(NULL),
         settingSelected(false)
 {
-    ui->setupUi(this);
+    defaultHWSettingsWidget->setupUi(this);
 
     //TODO: This is a bit ugly. It sets up a form with no elements. The
     //result is that there is no formatting-- such as scrolling and stretching behavior--, so
@@ -50,39 +50,42 @@ DefaultHwSettingsWidget::DefaultHwSettingsWidget(QWidget *parent, bool autopilot
     //generic elements based on the hardware UAVO.
     fieldWidgets.clear();
 
+    bool unknown_board = true;
     if (autopilotConnected){
-        addApplySaveButtons(ui->applyButton,ui->saveButton);
-        addReloadButton(ui->reloadButton, 0);
+        addApplySaveButtons(defaultHWSettingsWidget->applyButton,defaultHWSettingsWidget->saveButton);
+        addReloadButton(defaultHWSettingsWidget->reloadButton, 0);
 
-        //List of supported boards which do not currently have board-specific pages
-        allHwSettings.append("HwFlyingF3");
-        allHwSettings.append("HwFlyingF4");
-        allHwSettings.append("HwDiscoveryF4");
-        allHwSettings.append("HwFreedom");
-        allHwSettings.append("HwRevolution");
-        allHwSettings.append("HwRevoMini");
-        allHwSettings.append("HwQuanton");
+        // Query the board plugin for the connected board to get the specific
+        // hw settings object
+        ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+        if (pm != NULL) {
+             UAVObjectUtilManager* uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
+             Core::IBoardType* board = uavoUtilManager->getBoardType();
+             if (board != NULL) {
+                 QString hwSwettingsObject = board->getHwUAVO();
 
-        //Connect all forms to slots
-        foreach (QString str, allHwSettings) {
-            UAVObject *obj = getObjectManager()->getObject(str);
-            if (obj != NULL) {
-                qDebug() << "Checking object " << obj->getName();
-                connect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(settingsUpdated(UAVObject*,bool)));
-                obj->requestUpdate();
-            }
+                 UAVObject *obj = getObjectManager()->getObject(hwSwettingsObject);
+                 if (obj != NULL) {
+                     unknown_board = false;
+                     qDebug() << "Checking object " << obj->getName();
+                     connect(obj,SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(settingsUpdated(UAVObject*,bool)));
+                     obj->requestUpdate();
+                 }
+             }
         }
     }
-    else{
-        qDebug() << "No hardware attached. Showing placeholder text/graphic.";
-        QLabel *label = new QLabel("  No board detected.\n  Hardware tab will refresh once board is detected.", this);
-        label->resize(335,200);
+
+    if (unknown_board) {
+        QLabel *label = new QLabel("  No recognized board detected.\n  Hardware tab will refresh once a known board is detected.", this);
+        label->resize(385, 200);
     }
+
+    disableMouseWheelEvents();
 }
 
 DefaultHwSettingsWidget::~DefaultHwSettingsWidget()
 {
-    delete ui;
+    delete defaultHWSettingsWidget;
 }
 
 void DefaultHwSettingsWidget::settingsUpdated(UAVObject *obj, bool success)
@@ -99,6 +102,9 @@ void DefaultHwSettingsWidget::settingsUpdated(UAVObject *obj, bool success)
 
         addUAVObject(obj, &reloadGroups);
         refreshWidgetsValues();
+
+        // Have to force the form as clean (unedited by user) since refreshWidgetsValues forces it to dirty.
+        setDirty(false);
     }
 }
 
@@ -111,7 +117,7 @@ void DefaultHwSettingsWidget::updateFields()
     Q_ASSERT(settingSelected);
     Q_ASSERT(hwSettingsObject != NULL);
 
-    QLayout *layout = ui->portSettingsFrame->layout();
+    QLayout *layout = defaultHWSettingsWidget->portSettingsFrame->layout();
     for (int i = 0; i < fieldWidgets.size(); i++)
         layout->removeWidget(fieldWidgets[i]);
     fieldWidgets.clear();
@@ -126,4 +132,12 @@ void DefaultHwSettingsWidget::updateFields()
         fieldWidgets.append(sel);
         addUAVObjectToWidgetRelation(hwSettingsObject->getName(),fields[i]->getName(),sel->getCombo());
     }
+
+    QBoxLayout *boxLayout = dynamic_cast<QBoxLayout *>(layout);
+    if (boxLayout) {
+        boxLayout->addStretch();
+    }
+
+    // Prevent mouse wheel from changing items
+    disableMouseWheelEvents();
 }

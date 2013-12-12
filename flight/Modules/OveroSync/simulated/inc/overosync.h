@@ -1,19 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
- * @addtogroup TelemetryModule Telemetry Module
- * @brief Main telemetry module
- * Starts three tasks (RX, TX, and priority TX) that watch event queues
- * and handle all the telemetry of the UAVobjects
+ * @addtogroup OveroSyncModule OveroSync Module
  * @{ 
  *
- * @file       telemetry.h
+ * @file       overosync.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Include file of the telemetry module.
- * 	       As with all modules only the initialize function is exposed all other
- * 	       interactions with the module take place through the event queue and
- *             objects.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Simulation for Overo sync
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -33,12 +28,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef TELEMETRY_H
-#define TELEMETRY_H
+#ifndef OVEROSYNC_H
+#define OVEROSYNC_H
 
-int32_t TelemetryInitialize(void);
+int32_t OveroSyncInitialize(void);
 
-#endif // TELEMETRY_H
+#endif /* OVEROSYNC_H */
 
 /**
   * @}

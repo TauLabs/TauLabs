@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
  * @file       modelmapproxy.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OPMapPlugin OpenPilot Map Plugin
+ * @addtogroup OPMapPlugin Tau Labs Map Plugin
  * @{
- * @brief The OpenPilot Map plugin
+ * @brief Tau Labs map plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -27,7 +28,7 @@
 #ifndef MODELMAPPROXY_H
 #define MODELMAPPROXY_H
 #include <QWidget>
-#include "opmapcontrol/opmapcontrol.h"
+#include "tlmapcontrol/tlmapcontrol.h"
 #include "waypoint.h"
 #include "QMutexLocker"
 #include "QPointer"
@@ -47,7 +48,7 @@ class ModelMapProxy:public QObject
     typedef enum {OVERLAY_LINE, OVERLAY_CURVE_RIGHT, OVERLAY_CURVE_LEFT, OVERLAY_CIRCLE_RIGHT, OVERLAY_CIRCLE_LEFT} overlayType;
     Q_OBJECT
 public:
-    explicit ModelMapProxy(QObject *parent,OPMapWidget * map,FlightDataModel * model,QItemSelectionModel * selectionModel);
+    explicit ModelMapProxy(QObject *parent,TLMapWidget * map,FlightDataModel * model,QItemSelectionModel * selectionModel);
 
     //! Get the handle to a waypoint graphical item
     WayPointItem *findWayPointNumber(int number);
@@ -83,7 +84,7 @@ private:
     overlayType overlayTranslate(int type);
     void createOverlay(WayPointItem *from, WayPointItem * to, overlayType type, QColor color, double radius);
     void createOverlay(WayPointItem *from, HomeItem *to, ModelMapProxy::overlayType type, QColor color);
-    OPMapWidget * myMap;
+    TLMapWidget * myMap;
     FlightDataModel *model;
     void refreshOverlays();
     QItemSelectionModel * selection;

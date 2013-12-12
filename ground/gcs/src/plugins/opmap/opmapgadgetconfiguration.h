@@ -3,11 +3,12 @@
  *
  * @file       opmapgadgetconfiguration.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OPMapPlugin OpenPilot Map Plugin
+ * @addtogroup OPMapPlugin Tau Labs Map Plugin
  * @{
- * @brief The OpenPilot Map plugin 
+ * @brief Tau Labs map plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -38,6 +39,7 @@ class OPMapGadgetConfiguration : public IUAVGadgetConfiguration
 Q_OBJECT
 
 Q_PROPERTY(QString mapProvider READ mapProvider WRITE setMapProvider)
+Q_PROPERTY(QString geoLanguage READ geoLanguage WRITE setGeoLanguage)
 Q_PROPERTY(int zoommo READ zoom WRITE setZoom)
 Q_PROPERTY(double latitude READ latitude WRITE setLatitude)
 Q_PROPERTY(double longitude READ longitude WRITE setLongitude)
@@ -56,6 +58,7 @@ public:
     void saveConfig(QSettings* settings) const;
     IUAVGadgetConfiguration *clone();
 
+    QString geoLanguage() const { return m_geoLanguage; }
     QString mapProvider() const { return m_mapProvider; }
     int zoom() const { return m_defaultZoom; }
     double latitude() const { return m_defaultLatitude; }
@@ -90,7 +93,7 @@ public slots:
     void setUserImageLocation(QString userImageLocation){m_userImageLocation = userImageLocation;}
     void setUserImageHorizontalScale(float userImageHorizontalScale){m_userImageHorizontalScale = userImageHorizontalScale;}
     void setUserImageVerticalScale(float userImageVerticalScale){m_userImageVerticalScale = userImageVerticalScale;}
-
+    void setGeoLanguage(QString language) { m_geoLanguage = language; }
 private:
     QString m_mapProvider;
     int m_defaultZoom;
@@ -105,11 +108,10 @@ private:
 	int m_maxUpdateRate;
     QSettings * m_settings;
     qreal m_opacity;
-
     QString m_userImageLocation;
     float m_userImageHorizontalScale;
     float m_userImageVerticalScale;
-
+    QString m_geoLanguage;
 };
 
 #endif // OPMAP_GADGETCONFIGURATION_H

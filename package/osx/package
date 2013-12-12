@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Information about dmg generation: http://stackoverflow.com/questions/96882/how-do-i-create-a-nice-looking-dmg-for-mac-os-x-using-command-line-tools
 
@@ -35,6 +35,7 @@ cp "${FW_DIR}/fw_coptercontrol-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmwa
 cp "${FW_DIR}/fw_revomini-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_pipxtreme-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_revolution-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_sparky-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
 
 cp "${BUILD_DIR}/matlab/LogConvert.m" "/Volumes/${VOL_NAME}/Utilities/LogConvert-${PACKAGE_LBL}.m"
 

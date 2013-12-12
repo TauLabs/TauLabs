@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       uavtalk.h
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -60,6 +60,8 @@ public:
     bool sendObjectRequest(UAVObject* obj, bool allInstances);
     ComStats getStats();
     void resetStats();
+
+    bool processInputByte(quint8 rxbyte);
 
 signals:
     // The only signals we send to the upper level are when we
@@ -127,7 +129,6 @@ protected:
 
     // Methods
     bool objectTransaction(UAVObject* obj, quint8 type, bool allInstances);
-    bool processInputByte(quint8 rxbyte);
     virtual bool receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* data, qint32 length);
     UAVObject* updateObject(quint32 objId, quint16 instId, quint8* data);
     bool transmitNack(quint32 objId);

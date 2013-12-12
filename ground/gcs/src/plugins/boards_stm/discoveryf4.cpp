@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       discoveryf4.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -86,4 +86,14 @@ QStringList DiscoveryF4::getSupportedProtocols()
 {
 
     return QStringList("uavtalk");
+}
+
+QPixmap DiscoveryF4::getBoardPicture()
+{
+    return QPixmap();
+}
+
+QString DiscoveryF4::getHwUAVO()
+{
+    return "HwDiscoveryF4";
 }

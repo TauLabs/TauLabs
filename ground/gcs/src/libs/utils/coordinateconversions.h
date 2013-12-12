@@ -30,9 +30,6 @@
 #define COORDINATECONVERSIONS_H
 
 #include "utils_global.h"
-#include "../extensionsystem/pluginmanager.h"
-#include "../../plugins/uavobjects/uavobjectmanager.h"
-#include "../../plugins/uavobjects/uavobject.h"
 #include "math.h"
 
 namespace Utils {
@@ -54,8 +51,8 @@ public:
     void R2Quaternion(float const Rbe[3][3], float q[4]);
 private:
     //WGS84 parameters
-    static const double R_equator = 6378137.0;           // Equatorial Radius
-    static const double eccentricity = 8.1819190842621e-2;  // Eccentricity
+    static const double R_EQUATOR;           // Equatorial Radius
+    static const double ECCENTRICITY;        // Eccentricity
 };
 
 }

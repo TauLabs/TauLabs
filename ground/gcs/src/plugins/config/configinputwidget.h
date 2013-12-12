@@ -27,25 +27,28 @@
 #ifndef CONFIGINPUTWIDGET_H
 #define CONFIGINPUTWIDGET_H
 
+#include <QGraphicsView>
+#include <QList>
+#include <QPointer>
+#include <QRadioButton>
+#include <QtGui/QWidget>
+#include <QtSvg/QSvgRenderer>
+#include <QtSvg/QGraphicsSvgItem>
+
 #include "ui_input.h"
-#include "../uavobjectwidgetutils/configtaskwidget.h"
+#include "ui_inputchannelform.h"
+
+#include "uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
-#include <QtGui/QWidget>
-#include <QList>
 #include "inputchannelform.h"
-#include "ui_inputchannelform.h"
-#include <QRadioButton>
+
+#include "accessorydesired.h"
+#include "flightstatus.h"
 #include "manualcontrolcommand.h"
 #include "manualcontrolsettings.h"
 #include "receiveractivity.h"
-#include <QGraphicsView>
-#include <QtSvg/QSvgRenderer>
-#include <QtSvg/QGraphicsSvgItem>
-#include "flightstatus.h"
-#include "accessorydesired.h"
-#include <QPointer>
 
 class Ui_InputWidget;
 
@@ -57,12 +60,23 @@ public:
         ~ConfigInputWidget();
         enum wizardSteps{wizardWelcome,wizardChooseMode,wizardChooseType,wizardIdentifySticks,wizardIdentifyCenter,wizardIdentifyLimits,wizardIdentifyInverted,wizardFinish,wizardNone};
         enum txMode{mode1,mode2};
-        enum txMovements{moveLeftVerticalStick,moveRightVerticalStick,moveLeftHorizontalStick,moveRightHorizontalStick,moveAccess0,moveAccess1,moveAccess2,moveFlightMode,centerAll,moveAll,nothing};
+        enum txMovements{moveLeftVerticalStick,moveRightVerticalStick,moveLeftHorizontalStick,moveRightHorizontalStick,moveAccess0,moveAccess1,moveAccess2,moveFlightMode,centerAll,moveAll,armingSwitch,nothing};
         enum txMovementType{vertical,horizontal,jump,mix};
         enum txType {acro, heli};
         void startInputWizard() { goToWizard(); }
 
 private:
+        // This was set through trial and error. Extensive testing
+        // will have to be done before changing it. At a minimum,
+        // this should include Turnigy9x, FrSky, S.BUS, and Spektrum
+        // transmitters.
+        static const int DEBOUNCE_THRESHOLD_COUNT = 1;
+        // This was set through trial and error. Extensive testing
+        // will have to be done before changing it. At a minimum,
+        // this should include Turnigy9x, FrSky, S.BUS, and Spektrum
+        // transmitters.
+        static const int CHANNEL_IDENTIFICATION_WAIT_TIME_MS = 2500;
+
         bool growing;
         bool reverse[ManualControlSettings::CHANNELNEUTRAL_NUMELEM];
         txMovements currentMovement;
@@ -108,6 +122,7 @@ private:
         ManualControlSettings::DataFields previousManualSettingsData;
         ReceiverActivity * receiverActivityObj;
         ReceiverActivity::DataFields receiverActivityData;
+        QMap<QString, UAVObject::Metadata> originalMetaData;
 
         QSvgRenderer *m_renderer;
 
@@ -119,6 +134,7 @@ private:
         QGraphicsSvgItem *m_txAccess1;
         QGraphicsSvgItem *m_txAccess2;
         QGraphicsSvgItem *m_txFlightMode;
+        QGraphicsSvgItem *m_txArming;
         QGraphicsSvgItem *m_txBackground;
         QGraphicsSvgItem *m_txArrows;
         QTransform m_txLeftStickOrig;
@@ -129,6 +145,8 @@ private:
         QTransform m_txFlightModeCOrig;
         QTransform m_txFlightModeLOrig;
         QTransform m_txFlightModeROrig;
+        QTransform m_txArmingSwitchOrigL;
+        QTransform m_txArmingSwitchOrigR;
         QTransform m_txMainBodyOrig;
         QTransform m_txArrowsOrig;
         QTimer * animate;
@@ -144,6 +162,10 @@ private:
 
         void wizardSetUpStep(enum wizardSteps);
         void wizardTearDownStep(enum wizardSteps);
+
+        //! Handle to telemetry manager for monitoring for disconnects
+        TelemetryManager* telMngr;
+        quint8 scaleSwitchChannel(quint8 channelNumber, quint8 switchPositions);
 
 private slots:
         void wzNext();

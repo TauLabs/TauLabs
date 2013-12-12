@@ -3,11 +3,12 @@
  *
  * @file       pfdgadgetwidget.cpp
  * @author     Edouard Lafargue Copyright (C) 2010.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OPMapPlugin Primary Flight Display Plugin
+ * @addtogroup PFDPlugin Primary Flight Display Plugin
  * @{
- * @brief The Primary Flight Display Gadget 
+ * @brief The Primary Flight Display Gadget
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -432,7 +433,6 @@ void PFDGadgetWidget::setDialFile(QString dfn)
          m_world->setParentItem(m_background);
          m_world->setSharedRenderer(m_renderer);
          m_world->setElementId("world");
-         l_scene->addItem(m_world);
 
          // red Roll scale: rollscale
          m_rollscale = new CachedSvgItem();
@@ -453,7 +453,6 @@ void PFDGadgetWidget::setDialFile(QString dfn)
          m_foreground->setParentItem(m_background);
          m_foreground->setSharedRenderer(m_renderer);
          m_foreground->setElementId("foreground");
-         l_scene->addItem(m_foreground);
 
          ////////////////////
          // Compass
@@ -481,7 +480,6 @@ void PFDGadgetWidget::setDialFile(QString dfn)
          m_compassband->setSharedRenderer(m_renderer);
          m_compassband->setElementId("compass-band");
          m_compassband->setParentItem(m_compass);
-         l_scene->addItem(m_compassband);
          matrix.reset();
          // Note: the compass band has to be a path, which means all text elements have to be
          // converted, ortherwise boundsOnElement does not compute the height correctly

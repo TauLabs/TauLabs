@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup AirspeedModule Airspeed Module
- * @brief Calculate airspeed as a function of the difference between sequential GPS velocity and attitude measurements
  * @{ 
  *
  * @file       baro_airspeed_analog.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @brief      Airspeed module, reads temperature and pressure from BMP085
+ * @brief      Read airspeed from analog sensor
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -30,11 +29,9 @@
  */
 #ifndef ANALOG_AIRSPEED_H
 #define ANALOG_AIRSPEED_H
-#if defined(PIOS_INCLUDE_MPXV7002) || defined (PIOS_INCLUDE_MPXV5004)
 
 void baro_airspeedGetAnalog(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin);
 
-#endif
 #endif // ANALOG_AIRSPEED_H
 
 /**

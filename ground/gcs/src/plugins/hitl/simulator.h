@@ -3,7 +3,8 @@
  *
  * @file       simulator.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://www.taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup HITLPlugin HITL Plugin
@@ -38,6 +39,9 @@
 #include "qscopedpointer.h"
 #include "uavtalk/telemetrymanager.h"
 #include "uavobjectmanager.h"
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include "extensionsystem/pluginmanager.h"
+#include "uavobject.h"
 
 #include "accels.h"
 #include "actuatorcommand.h"
@@ -263,7 +267,6 @@ private slots:
     void onAutopilotConnect();
     void onAutopilotDisconnect();
     void onSimulatorConnectionTimeout();
-    void telStatsUpdated(UAVObject* obj);
     Q_INVOKABLE void onDeleteSimulator(void);
 
     virtual void transmitUpdate() = 0;
@@ -301,7 +304,7 @@ protected:
     QMutex lock;
 
 private:
-    bool once;
+    bool homePositionSet;
     float initN;
     float initE;
     float initD;
@@ -327,10 +330,14 @@ private:
     //QList<QScopedPointer<UAVDataObject> > requiredUAVObjects;
     void setupOutputObject(UAVObject* obj, quint32 updatePeriod);
     void setupInputObject(UAVObject* obj, quint32 updatePeriod);
-    void setupWatchedObject(UAVObject *obj, quint32 updatePeriod);
-    void setupObjects();
+    void setupUAVObjects();
+    UAVObjectUtilManager* getObjectUtilManager();
+    UAVObjectManager* getObjectManager();
 
     AirParameters airParameters;
+    static QMap<QString, UAVObject::Metadata> originalMetaData;
+    QMap<QString, UAVObject::Metadata> metaDataList;
+
 };
 
 

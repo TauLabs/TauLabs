@@ -1,14 +1,18 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup ActuatorModule Actuator Module
- * @brief Compute servo/motor settings based on @ref ActuatorDesired "desired actuator positions" and aircraft type.
- * This is where all the mixing of channels is computed.
  * @{
+ * @brief      Take the values in @ref ActuatorDesired and mix to set the outputs
+ *
+ * This module ultimately controls the outputs.  The values from @ref ActuatorDesired
+ * are combined based on the values in @ref MixerSettings and then scaled by the
+ * values in @ref ActuatorSettings to create the output PWM times.
  *
  * @file       actuator.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Actuator module. Drives the actuators (servos, motors etc).
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -182,7 +186,7 @@ static void actuatorTask(void* parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
 
 		// Wait until the ActuatorDesired object is updated
-		uint8_t rc = xQueueReceive(queue, &ev, FAILSAFE_TIMEOUT_MS / portTICK_RATE_MS);
+		uint8_t rc = xQueueReceive(queue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS));
 
 		/* Process settings updated events even in timeout case so we always act on the latest settings */
 		if (actuator_settings_updated) {
@@ -204,7 +208,7 @@ static void actuatorTask(void* parameters)
 		// Check how long since last update
 		thisSysTime = xTaskGetTickCount();
 		if(thisSysTime > lastSysTime) // reuse dt in case of wraparound
-			dT = (thisSysTime - lastSysTime) / portTICK_RATE_MS / 1000.0f;
+			dT = TICKS2MS(thisSysTime - lastSysTime) / 1000.0f;
 		lastSysTime = thisSysTime;
 
 		FlightStatusGet(&flightStatus);

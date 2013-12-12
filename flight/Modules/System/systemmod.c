@@ -1,22 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @brief The OpenPilot Modules do the majority of the control in OpenPilot.  The 
- * @ref SystemModule "System Module" starts all the other modules that then take care
- * of all the telemetry and control algorithms and such.  This is done through the @ref PIOS 
- * "PIOS Hardware abstraction layer" which then contains hardware specific implementations
- * (currently only STM32 supported)
- *
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup SystemModule System Module
- * @brief Initializes PIOS and other modules runs monitoring
- * After initializing all the modules (currently selected by Makefile but in
- * future controlled by configuration on SD card) runs basic monitoring and
- * alarms.
  * @{ 
  *
  * @file       systemmod.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      System module
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -44,9 +35,9 @@
 #include "objectpersistence.h"
 #include "flightstatus.h"
 #include "manualcontrolsettings.h"
+#include "stabilizationsettings.h"
 #include "systemstats.h"
 #include "systemsettings.h"
-#include "i2cstats.h"
 #include "taskinfo.h"
 #include "watchdogstatus.h"
 #include "taskmonitor.h"
@@ -85,7 +76,6 @@ static uint32_t idleCounterClear;
 static xTaskHandle systemTaskHandle;
 static xQueueHandle objectPersistenceQueue;
 static bool stackOverflow;
-static bool mallocFailed;
 
 // Private functions
 static void objectUpdatedCb(UAVObjEvent * ev);
@@ -97,8 +87,7 @@ static void configurationUpdatedCb(UAVObjEvent * ev);
 static void updateStats();
 static void updateSystemAlarms();
 static void systemTask(void *parameters);
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
-static void updateI2Cstats();
+#if defined(WDG_STATS_DIAGNOSTICS)
 static void updateWDGstats();
 #endif
 /**
@@ -109,7 +98,6 @@ int32_t SystemModStart(void)
 {
 	// Initialize vars
 	stackOverflow = false;
-	mallocFailed = false;
 	// Create system task
 	xTaskCreate(systemTask, (signed char *)"System", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &systemTaskHandle);
 	// Register task
@@ -133,8 +121,7 @@ int32_t SystemModInitialize(void)
 #if defined(DIAG_TASKS)
 	TaskInfoInitialize();
 #endif
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
-	I2CStatsInitialize();
+#if defined(WDG_STATS_DIAGNOSTICS)
 	WatchdogStatusInitialize();
 #endif
 
@@ -156,7 +143,7 @@ static void systemTask(void *parameters)
 	/* create all modules thread */
 	MODULE_TASKCREATE_ALL;
 
-	if (mallocFailed) {
+	if (PIOS_heap_malloc_failed_p()) {
 		/* We failed to malloc during task creation,
 		 * system behaviour is undefined.  Reset and let
 		 * the BootFault code recover for us.
@@ -181,10 +168,14 @@ static void systemTask(void *parameters)
 	configuration_check();
 
 	// Whenever the configuration changes, make sure it is safe to fly
+	if (StabilizationSettingsHandle())
+		StabilizationSettingsConnectCallback(configurationUpdatedCb);
 	if (SystemSettingsHandle())
 		SystemSettingsConnectCallback(configurationUpdatedCb);
 	if (ManualControlSettingsHandle())
 		ManualControlSettingsConnectCallback(configurationUpdatedCb);
+	if (FlightStatusHandle())
+		FlightStatusConnectCallback(configurationUpdatedCb);
 #endif
 
 	// Main system loop
@@ -194,8 +185,7 @@ static void systemTask(void *parameters)
 
 		// Update the system alarms
 		updateSystemAlarms();
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
-		updateI2Cstats();
+#if defined(WDG_STATS_DIAGNOSTICS)
 		updateWDGstats();
 #endif
 
@@ -224,8 +214,8 @@ static void systemTask(void *parameters)
 
 		UAVObjEvent ev;
 		int delayTime = flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED ?
-			SYSTEM_UPDATE_PERIOD_MS / portTICK_RATE_MS / (LED_BLINK_RATE_HZ * 2) :
-			SYSTEM_UPDATE_PERIOD_MS / portTICK_RATE_MS;
+			MS2TICKS(SYSTEM_UPDATE_PERIOD_MS) / (LED_BLINK_RATE_HZ * 2) :
+			MS2TICKS(SYSTEM_UPDATE_PERIOD_MS);
 
 		if(xQueueReceive(objectPersistenceQueue, &ev, delayTime) == pdTRUE) {
 			// If object persistence is updated call the callback
@@ -307,8 +297,9 @@ static void objectUpdatedCb(UAVObjEvent * ev)
 			}
 		} else if (objper.Operation == OBJECTPERSISTENCE_OPERATION_FULLERASE) {
 			retval = -1;
-#if defined(PIOS_INCLUDE_FLASH_SECTOR_SETTINGS)
-			retval = PIOS_FLASHFS_Format(0);
+#if defined(PIOS_INCLUDE_LOGFS_SETTINGS)
+			extern uintptr_t pios_uavo_settings_fs_id;
+			retval = PIOS_FLASHFS_Format(pios_uavo_settings_fs_id);
 #endif
 		}
 		switch(retval) {
@@ -337,29 +328,9 @@ static void configurationUpdatedCb(UAVObjEvent * ev)
 #endif
 
 /**
- * Called periodically to update the I2C statistics 
+ * Called periodically to update the WDG statistics
  */
-#if defined(I2C_WDG_STATS_DIAGNOSTICS)
-static void updateI2Cstats() 
-{
-#if defined(PIOS_INCLUDE_I2C)
-	I2CStatsData i2cStats;
-	I2CStatsGet(&i2cStats);
-	
-	struct pios_i2c_fault_history history;
-	PIOS_I2C_GetDiagnostics(&history, &i2cStats.event_errors);
-	
-	for(uint8_t i = 0; (i < I2C_LOG_DEPTH) && (i < I2CSTATS_EVENT_LOG_NUMELEM); i++) {
-		i2cStats.evirq_log[i] = history.evirq[i];
-		i2cStats.erirq_log[i] = history.erirq[i];
-		i2cStats.event_log[i] = history.event[i];
-		i2cStats.state_log[i] = history.state[i];		
-	}
-	i2cStats.last_error_type = history.type;
-	I2CStatsSet(&i2cStats);
-#endif
-}
-
+#if defined(WDG_STATS_DIAGNOSTICS)
 static void updateWDGstats() 
 {
 	WatchdogStatusData watchdogStatus;
@@ -422,7 +393,7 @@ static void updateStats()
 
 	// Get stats and update
 	SystemStatsGet(&stats);
-	stats.FlightTime = xTaskGetTickCount() * portTICK_RATE_MS;
+	stats.FlightTime = TICKS2MS(xTaskGetTickCount());
 #if defined(ARCH_POSIX) || defined(ARCH_WIN32)
 	// POSIX port of FreeRTOS doesn't have xPortGetFreeHeapSize()
 	stats.HeapRemaining = 10240;
@@ -440,15 +411,21 @@ static void updateStats()
 
 	portTickType now = xTaskGetTickCount();
 	if (now > lastTickCount) {
-		uint32_t dT = (xTaskGetTickCount() - lastTickCount) * portTICK_RATE_MS;	// in ms
-		stats.CPULoad =
-			100 - (uint8_t) roundf(100.0f * ((float)idleCounter / ((float)dT / 1000.0f)) / (float)IDLE_COUNTS_PER_SEC_AT_NO_LOAD);
+		float dT = TICKS2MS(xTaskGetTickCount() - lastTickCount) / 1000.0f;
+
+		// In the case of a slightly miscalibrated max idle count, make sure CPULoad does
+		// not go negative and set an alarm inappropriately.
+		float idleFraction = ((float)idleCounter / dT) / (float)IDLE_COUNTS_PER_SEC_AT_NO_LOAD;
+		if (idleFraction > 1)
+			stats.CPULoad = 0;
+		else
+			stats.CPULoad = 100 - roundf(100.0f * idleFraction);
 	} //else: TickCount has wrapped, do not calc now
 	lastTickCount = now;
 	idleCounterClear = 1;
 	
 #if defined(PIOS_INCLUDE_ADC) && defined(PIOS_ADC_USE_TEMP_SENSOR)
-	float temp_voltage = 3.3 * PIOS_ADC_PinGet(0) / ((1 << 12) - 1);
+	float temp_voltage = 3.3 * PIOS_ADC_DevicePinGet(PIOS_INTERNAL_ADC, 0) / ((1 << 12) - 1);
 	const float STM32_TEMP_V25 = 1.43; /* V */
 	const float STM32_TEMP_AVG_SLOPE = 4.3; /* mV/C */
 	stats.CPUTemp = (temp_voltage-STM32_TEMP_V25) * 1000 / STM32_TEMP_AVG_SLOPE + 25;
@@ -467,7 +444,7 @@ static void updateSystemAlarms()
 	SystemStatsGet(&stats);
 
 	// Check heap, IRQ stack and malloc failures
-	if ( mallocFailed
+	if (PIOS_heap_malloc_failed_p()
 	     || (stats.HeapRemaining < HEAP_LIMIT_CRITICAL)
 #if !defined(ARCH_POSIX) && !defined(ARCH_WIN32) && defined(CHECK_IRQ_STACK)
 	     || (stats.IRQStackRemaining < IRQSTACK_LIMIT_CRITICAL)
@@ -545,20 +522,6 @@ void vApplicationStackOverflowHook(xTaskHandle * pxTask, signed portCHAR * pcTas
 {
 	stackOverflow = true;
 #if DEBUG_STACK_OVERFLOW
-	static volatile bool wait_here = true;
-	while(wait_here);
-	wait_here = true;
-#endif
-}
-
-/**
- * Called by the RTOS when a malloc call fails.
- */
-#define DEBUG_MALLOC_FAILURES 0
-void vApplicationMallocFailedHook(void)
-{
-	mallocFailed = true;
-#if DEBUG_MALLOC_FAILURES
 	static volatile bool wait_here = true;
 	while(wait_here);
 	wait_here = true;

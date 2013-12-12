@@ -34,16 +34,16 @@
 #include <stdint.h>		/* uint*_t */
 #include <stdbool.h>		/* bool */
 
-typedef uint16_t (*pios_com_callback)(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * task_woken);
+typedef uint16_t (*pios_com_callback)(uintptr_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * task_woken);
 
 struct pios_com_driver {
-	void (*init)(uint32_t id);
-	void (*set_baud)(uint32_t id, uint32_t baud);
-	void (*tx_start)(uint32_t id, uint16_t tx_bytes_avail);
-	void (*rx_start)(uint32_t id, uint16_t rx_bytes_avail);
-	void (*bind_rx_cb)(uint32_t id, pios_com_callback rx_in_cb, uint32_t context);
-	void (*bind_tx_cb)(uint32_t id, pios_com_callback tx_out_cb, uint32_t context);
-	bool (*available)(uint32_t id);
+	void (*init)(uintptr_t id);
+	void (*set_baud)(uintptr_t id, uint32_t baud);
+	void (*tx_start)(uintptr_t id, uint16_t tx_bytes_avail);
+	void (*rx_start)(uintptr_t id, uint16_t rx_bytes_avail);
+	void (*bind_rx_cb)(uintptr_t id, pios_com_callback rx_in_cb, uintptr_t context);
+	void (*bind_tx_cb)(uintptr_t id, pios_com_callback tx_out_cb, uintptr_t context);
+	bool (*available)(uintptr_t id);
 };
 
 /* Public Functions */

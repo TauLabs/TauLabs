@@ -8,7 +8,7 @@
  *
  * @file       pios_gcsrcvr_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      GCS receiver private functions
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -38,7 +38,7 @@
 
 extern const struct pios_rcvr_driver pios_gcsrcvr_rcvr_driver;
 
-extern int32_t PIOS_GCSRCVR_Init(uint32_t *gcsrcvr_id);
+extern int32_t PIOS_GCSRCVR_Init(uintptr_t *gcsrcvr_id);
 
 #endif /* PIOS_GCSRCVR_PRIV_H */
 

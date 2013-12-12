@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{
  * @addtogroup GSPModule GPS Module
  * @brief Process GPS information
@@ -8,7 +8,7 @@
  *
  * @file       NMEA.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      GPS module, handles GPS and NMEA stream
+ * @brief      Include file to process NMEA data
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -42,3 +42,8 @@ extern bool NMEA_checksum(char *nmea_sentence);
 extern int parse_nmea_stream(uint8_t, char *, GPSPositionData *, struct GPS_RX_STATS *);
 
 #endif /* NMEA_H */
+
+/**
+ * @}
+ * @}
+ */

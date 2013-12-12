@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/stm">
+        <file>images/flyingf3.png</file>
+        <file>images/flyingf4.png</file>
+        <file>images/discoveryf4.png</file>
+    </qresource>
+</RCC>

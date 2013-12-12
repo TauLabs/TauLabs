@@ -62,7 +62,7 @@ class HighLightManager : public QObject
 Q_OBJECT
 public:
     // Constructor taking the checking interval in ms.
-    HighLightManager(long checkingInterval);
+    HighLightManager(long checkingInterval, QTime *currentTime);
 
     // This is called when an item has been set to
     // highlighted = true.
@@ -84,6 +84,9 @@ private:
 
     //Mutex to lock when accessing list.
     QMutex m_listMutex;
+
+    // This is the timestamp to compare with
+    static QTime *m_currentTime;
 };
 
 class TreeItem : public QObject
@@ -152,6 +155,8 @@ public:
         return 0;
     }
 
+    void setCurrentTime(QTime *currentTime);
+
 signals:
     void updateHighlight(TreeItem*);
 
@@ -169,6 +174,10 @@ private:
     QTime m_highlightExpires;
     HighLightManager* m_highlightManager;
     static int m_highlightTimeMs;
+
+    // This is the timestamp to compare with
+    static QTime *m_currentTime;
+
 public:
     static const int dataColumn = 1;
 };
@@ -274,4 +283,11 @@ public:
     ArrayFieldTreeItem(const QVariant &data, TreeItem *parent = 0) : TreeItem(data, parent) { }
 };
 
+class CategoryTreeItem : public TreeItem
+{
+Q_OBJECT
+public:
+    CategoryTreeItem(const QList<QVariant> &data, TreeItem *parent = 0) : TreeItem(data, parent) { }
+    CategoryTreeItem(const QVariant &data, TreeItem *parent = 0) : TreeItem(data, parent) { }
+};
 #endif // TREEITEM_H

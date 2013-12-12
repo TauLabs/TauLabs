@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup ComUsbBridgeModule Com Port to USB VCP Bridge Module
- * @brief Bridge Com and USB VCP ports
  * @{ 
  *
  * @file       ComUsbBridge.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Bridges selected Com Port to the USB VCP emulated serial port
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -45,7 +45,12 @@ static void updateSettings();
 // ****************
 // Private constants
 
-#define STACK_SIZE_BYTES            280
+#if defined(PIOS_COMUSBBRIDGE_STACK_SIZE)
+#define STACK_SIZE_BYTES PIOS_COMUSBBRIDGE_STACK_SIZE
+#else
+#define STACK_SIZE_BYTES 384
+#endif
+
 #define TASK_PRIORITY                   (tskIDLE_PRIORITY + 1)
 
 #define BRIDGE_BUF_LEN 10
@@ -200,3 +205,9 @@ static void updateSettings()
 		}
 	}
 }
+
+/**
+ * @}
+ * @}
+ */
+ 

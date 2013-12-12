@@ -3,11 +3,12 @@
  *
  * @file       opmapgadget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OPMapPlugin OpenPilot Map Plugin
+ * @addtogroup OPMapPlugin Tau Labs Map Plugin
  * @{
- * @brief The OpenPilot Map plugin 
+ * @brief Tau Labs map plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -74,5 +75,6 @@ void OPMapGadget::loadConfiguration(IUAVGadgetConfiguration *config)
     m_widget->setPosition(QPointF(m_config->longitude(), m_config->latitude()));
     m_widget->setHomePosition(QPointF(m_config->longitude(), m_config->latitude()));
     m_widget->setOverlayOpacity(m_config->opacity());
+    m_widget->setGeoCodingLanguage(m_config->geoLanguage());
 }
 

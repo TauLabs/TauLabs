@@ -3,6 +3,7 @@
  *
  * @file       mixercurvepoint.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectWidgetUtils Plugin
@@ -42,6 +43,7 @@ QT_END_NAMESPACE
 class MixerNode : public QObject,public QGraphicsItem
 {
     Q_OBJECT
+    Q_INTERFACES(QGraphicsItem)
 public:
     MixerNode(MixerCurveWidget *graphWidget);
     void addEdge(Edge *edge);

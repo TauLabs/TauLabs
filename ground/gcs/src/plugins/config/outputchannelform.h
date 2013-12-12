@@ -44,17 +44,18 @@ public:
     int index() const;
 
 public slots:
-    void max(int maximum);
+    void setMax(int maximum);
     int max() const;
-    void min(int minimum);
+    void setMin(int minimum);
     int min() const;
-    void minmax(int minimum, int maximum);
-    void neutral(int value);
+    void setMinmax(int minimum, int maximum);
+    void setNeutral(int value);
     int neutral() const;
     void enableChannelTest(bool state);
 
 signals:
     void channelChanged(int index, int value);
+    void formChanged();
 
 private:
     Ui::outputChannelForm ui;
@@ -64,9 +65,13 @@ private:
 
 private slots:
     void linkToggled(bool state);
-    void reverseChannel(bool state);
+    void reverseChannel();
+    void updateSlider();
     void sendChannelTest(int value);
     void setChannelRange();
+    void notifyFormChanged();
+    void updateMaxSpinboxValue(UAVObject*);
+    void onAutopilotConnect();
 };
 
 inline int OutputChannelForm::index() const

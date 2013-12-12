@@ -8,6 +8,7 @@
  *
  * @file       pios_com.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      COM layer functions
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -46,7 +47,7 @@ enum pios_com_dev_magic {
 
 struct pios_com_dev {
 	enum pios_com_dev_magic magic;
-	uint32_t lower_id;
+	uintptr_t lower_id;
 	const struct pios_com_driver * driver;
 
 #if defined(PIOS_INCLUDE_FREERTOS)
@@ -66,37 +67,20 @@ static bool PIOS_COM_validate(struct pios_com_dev * com_dev)
 	return (com_dev && (com_dev->magic == PIOS_COM_DEV_MAGIC));
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_com_dev * PIOS_COM_alloc(void)
 {
 	struct pios_com_dev * com_dev;
 
-	com_dev = (struct pios_com_dev *)pvPortMalloc(sizeof(*com_dev));
+	com_dev = (struct pios_com_dev *)PIOS_malloc(sizeof(*com_dev));
 	if (!com_dev) return (NULL);
 
+	memset(com_dev, 0, sizeof(*com_dev));
 	com_dev->magic = PIOS_COM_DEV_MAGIC;
 	return(com_dev);
 }
-#else
-static struct pios_com_dev pios_com_devs[PIOS_COM_MAX_DEVS];
-static uint8_t pios_com_num_devs;
-static struct pios_com_dev * PIOS_COM_alloc(void)
-{
-	struct pios_com_dev * com_dev;
 
-	if (pios_com_num_devs >= PIOS_COM_MAX_DEVS) {
-		return (NULL);
-	}
-
-	com_dev = &pios_com_devs[pios_com_num_devs++];
-	com_dev->magic = PIOS_COM_DEV_MAGIC;
-
-	return (com_dev);
-}
-#endif
-
-static uint16_t PIOS_COM_TxOutCallback(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield);
-static uint16_t PIOS_COM_RxInCallback(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield);
+static uint16_t PIOS_COM_TxOutCallback(uintptr_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield);
+static uint16_t PIOS_COM_RxInCallback(uintptr_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield);
 static void PIOS_COM_UnblockRx(struct pios_com_dev * com_dev, bool * need_yield);
 static void PIOS_COM_UnblockTx(struct pios_com_dev * com_dev, bool * need_yield);
 
@@ -107,7 +91,7 @@ static void PIOS_COM_UnblockTx(struct pios_com_dev * com_dev, bool * need_yield)
   * \param[in] id
   * \return < 0 if initialisation failed
   */
-int32_t PIOS_COM_Init(uintptr_t * com_id, const struct pios_com_driver * driver, uint32_t lower_id, uint8_t * rx_buffer, uint16_t rx_buffer_len, uint8_t * tx_buffer, uint16_t tx_buffer_len)
+int32_t PIOS_COM_Init(uintptr_t * com_id, const struct pios_com_driver * driver, uintptr_t lower_id, uint8_t * rx_buffer, uint16_t rx_buffer_len, uint8_t * tx_buffer, uint16_t tx_buffer_len)
 {
 	PIOS_Assert(com_id);
 	PIOS_Assert(driver);
@@ -134,7 +118,7 @@ int32_t PIOS_COM_Init(uintptr_t * com_id, const struct pios_com_driver * driver,
 #if defined(PIOS_INCLUDE_FREERTOS)
 		vSemaphoreCreateBinary(com_dev->rx_sem);
 #endif	/* PIOS_INCLUDE_FREERTOS */
-		(com_dev->driver->bind_rx_cb)(lower_id, PIOS_COM_RxInCallback, (uint32_t)com_dev);
+		(com_dev->driver->bind_rx_cb)(lower_id, PIOS_COM_RxInCallback, (uintptr_t)com_dev);
 		if (com_dev->driver->rx_start) {
 			/* Start the receiver */
 			(com_dev->driver->rx_start)(com_dev->lower_id,
@@ -147,7 +131,7 @@ int32_t PIOS_COM_Init(uintptr_t * com_id, const struct pios_com_driver * driver,
 #if defined(PIOS_INCLUDE_FREERTOS)
 		vSemaphoreCreateBinary(com_dev->tx_sem);
 #endif	/* PIOS_INCLUDE_FREERTOS */
-		(com_dev->driver->bind_tx_cb)(lower_id, PIOS_COM_TxOutCallback, (uint32_t)com_dev);
+		(com_dev->driver->bind_tx_cb)(lower_id, PIOS_COM_TxOutCallback, (uintptr_t)com_dev);
 	}
 
 	*com_id = (uintptr_t)com_dev;
@@ -189,7 +173,7 @@ static void PIOS_COM_UnblockTx(struct pios_com_dev * com_dev, bool * need_yield)
 #endif
 }
 
-static uint16_t PIOS_COM_RxInCallback(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield)
+static uint16_t PIOS_COM_RxInCallback(uintptr_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield)
 {
 	struct pios_com_dev * com_dev = (struct pios_com_dev *)context;
 
@@ -211,7 +195,7 @@ static uint16_t PIOS_COM_RxInCallback(uint32_t context, uint8_t * buf, uint16_t 
 	return (bytes_into_fifo);
 }
 
-static uint16_t PIOS_COM_TxOutCallback(uint32_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield)
+static uint16_t PIOS_COM_TxOutCallback(uintptr_t context, uint8_t * buf, uint16_t buf_len, uint16_t * headroom, bool * need_yield)
 {
 	struct pios_com_dev * com_dev = (struct pios_com_dev *)context;
 
@@ -279,6 +263,18 @@ int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, 
 	}
 
 	PIOS_Assert(com_dev->has_tx);
+
+	if (com_dev->driver->available && !com_dev->driver->available(com_dev->lower_id)) {
+		/*
+		 * Underlying device is down/unconnected.
+		 * Dump our fifo contents and act like an infinite data sink.
+		 * Failure to do this results in stale data in the fifo as well as
+		 * possibly having the caller block trying to send to a device that's
+		 * no longer accepting data.
+		 */
+		fifoBuf_clearData(&com_dev->tx);
+		return len;
+	}
 
 	if (len > fifoBuf_getFree(&com_dev->tx)) {
 		/* Buffer cannot accept all requested bytes (retry) */
@@ -486,7 +482,7 @@ uint16_t PIOS_COM_ReceiveBuffer(uintptr_t com_id, uint8_t * buf, uint16_t buf_le
 		}
 		if (timeout_ms > 0) {
 #if defined(PIOS_INCLUDE_FREERTOS)
-			if (xSemaphoreTake(com_dev->rx_sem, timeout_ms / portTICK_RATE_MS) == pdTRUE) {
+			if (xSemaphoreTake(com_dev->rx_sem, MS2TICKS(timeout_ms)) == pdTRUE) {
 				/* Make sure we don't come back here again */
 				timeout_ms = 0;
 				goto check_again;

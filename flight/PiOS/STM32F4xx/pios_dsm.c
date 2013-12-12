@@ -8,6 +8,7 @@
  *
  * @file       pios_dsm.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Code bind and read Spektrum/JR DSMx satellite receiver serial stream
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -39,13 +40,13 @@
 #endif
 
 /* Forward Declarations */
-static int32_t PIOS_DSM_Get(uint32_t rcvr_id, uint8_t channel);
-static uint16_t PIOS_DSM_RxInCallback(uint32_t context,
+static int32_t PIOS_DSM_Get(uintptr_t rcvr_id, uint8_t channel);
+static uint16_t PIOS_DSM_RxInCallback(uintptr_t context,
 				      uint8_t *buf,
 				      uint16_t buf_len,
 				      uint16_t *headroom,
 				      bool *need_yield);
-static void PIOS_DSM_Supervisor(uint32_t dsm_id);
+static void PIOS_DSM_Supervisor(uintptr_t dsm_id);
 
 /* Local Variables */
 const struct pios_rcvr_driver pios_dsm_rcvr_driver = {
@@ -77,34 +78,17 @@ struct pios_dsm_dev {
 };
 
 /* Allocate DSM device descriptor */
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_dsm_dev *PIOS_DSM_Alloc(void)
 {
 	struct pios_dsm_dev *dsm_dev;
 
-	dsm_dev = (struct pios_dsm_dev *)pvPortMalloc(sizeof(*dsm_dev));
+	dsm_dev = (struct pios_dsm_dev *)PIOS_malloc(sizeof(*dsm_dev));
 	if (!dsm_dev)
 		return NULL;
 
 	dsm_dev->magic = PIOS_DSM_DEV_MAGIC;
 	return dsm_dev;
 }
-#else
-static struct pios_dsm_dev pios_dsm_devs[PIOS_DSM_MAX_DEVS];
-static uint8_t pios_dsm_num_devs;
-static struct pios_dsm_dev *PIOS_DSM_Alloc(void)
-{
-	struct pios_dsm_dev *dsm_dev;
-
-	if (pios_dsm_num_devs >= PIOS_DSM_MAX_DEVS)
-		return NULL;
-
-	dsm_dev = &pios_dsm_devs[pios_dsm_num_devs++];
-	dsm_dev->magic = PIOS_DSM_DEV_MAGIC;
-
-	return dsm_dev;
-}
-#endif
 
 /* Validate DSM device descriptor */
 static bool PIOS_DSM_Validate(struct pios_dsm_dev *dsm_dev)
@@ -130,7 +114,7 @@ static void PIOS_DSM_Bind(struct pios_dsm_dev *dsm_dev, uint8_t bind)
 	GPIO_SetBits(cfg->bind.gpio, cfg->bind.init.GPIO_Pin);
 
 	/* on CC works up to 140ms, guess bind window is around 20-140ms after power up */
-	PIOS_DELAY_WaitmS(60);
+	while (((float) PIOS_DELAY_GetRaw() / (float) PIOS_SYSCLK) < 0.02f);
 
 	for (int i = 0; i < bind ; i++) {
 		/* RX line, drive low for 120us */
@@ -276,10 +260,10 @@ static void PIOS_DSM_UpdateState(struct pios_dsm_dev *dsm_dev, uint8_t byte)
 }
 
 /* Initialise DSM receiver interface */
-int32_t PIOS_DSM_Init(uint32_t *dsm_id,
+int32_t PIOS_DSM_Init(uintptr_t *dsm_id,
 		      const struct pios_dsm_cfg *cfg,
 		      const struct pios_com_driver *driver,
-		      uint32_t lower_id,
+		      uintptr_t lower_id,
 		      enum pios_dsm_proto proto,
 		      uint8_t bind)
 {
@@ -303,7 +287,7 @@ int32_t PIOS_DSM_Init(uint32_t *dsm_id,
 
 	PIOS_DSM_ResetState(dsm_dev);
 
-	*dsm_id = (uint32_t)dsm_dev;
+	*dsm_id = (uintptr_t)dsm_dev;
 
 	/* Set comm driver callback */
 	(driver->bind_rx_cb)(lower_id, PIOS_DSM_RxInCallback, *dsm_id);
@@ -316,7 +300,7 @@ int32_t PIOS_DSM_Init(uint32_t *dsm_id,
 }
 
 /* Comm byte received callback */
-static uint16_t PIOS_DSM_RxInCallback(uint32_t context,
+static uint16_t PIOS_DSM_RxInCallback(uintptr_t context,
 				      uint8_t *buf,
 				      uint16_t buf_len,
 				      uint16_t *headroom,
@@ -351,7 +335,7 @@ static uint16_t PIOS_DSM_RxInCallback(uint32_t context,
  * \output PIOS_RCVR_TIMEOUT failsafe condition or missing receiver
  * \output >=0 channel value
  */
-static int32_t PIOS_DSM_Get(uint32_t rcvr_id, uint8_t channel)
+static int32_t PIOS_DSM_Get(uintptr_t rcvr_id, uint8_t channel)
 {
 	struct pios_dsm_dev *dsm_dev = (struct pios_dsm_dev *)rcvr_id;
 
@@ -378,7 +362,7 @@ static int32_t PIOS_DSM_Get(uint32_t rcvr_id, uint8_t channel)
  * data reception. If no new data received in 100ms, we must call the
  * failsafe function which clears all channels.
  */
-static void PIOS_DSM_Supervisor(uint32_t dsm_id)
+static void PIOS_DSM_Supervisor(uintptr_t dsm_id)
 {
 	struct pios_dsm_dev *dsm_dev = (struct pios_dsm_dev *)dsm_id;
 

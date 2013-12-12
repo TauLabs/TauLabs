@@ -50,17 +50,16 @@ uint8_t PIOS_BL_HELPER_FLASH_Start()
 {
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 	uint32_t pageAdress = bdinfo->fw_base;
-	uint8_t fail = FALSE;
+	uint8_t fail = false;
 	while ((pageAdress < (bdinfo->fw_base + bdinfo->fw_size + bdinfo->desc_size))
-	       || (fail == TRUE)) {
+	       && (fail == false)) {
 		for (int retry = 0; retry < MAX_DEL_RETRYS; ++retry) {
 			if (FLASH_ErasePage(pageAdress) == FLASH_COMPLETE) {
-				fail = FALSE;
+				fail = false;
 				break;
 			} else {
-				fail = TRUE;
+				fail = true;
 			}
-
 		}
 
 #ifdef STM32F10X_HD
@@ -70,7 +69,7 @@ uint8_t PIOS_BL_HELPER_FLASH_Start()
 #endif
 	}
 
-	return (fail == TRUE) ? 0 : 1;
+	return (fail == true) ? 0 : 1;
 }
 #endif
 

@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @file       pathplannerplugin.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
- * @addtogroup Path Planner GCS Plugins
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup PathPlannerGadgetPlugin Waypoint Editor Gadget Plugin
  * @{
@@ -25,7 +25,6 @@
  */
 #include "pathplannerplugin.h"
 #include "pathplannergadgetfactory.h"
-#include <QDebug>
 #include <QtPlugin>
 #include <QStringList>
 #include <extensionsystem/pluginmanager.h>

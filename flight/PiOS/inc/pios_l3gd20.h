@@ -63,8 +63,6 @@
 #define PIOS_L3GD20_INT1_DURATION        0x38
 
 /* Ctrl1 flags */
-#define PIOS_L3GD20_CTRL1_FASTEST        0xF0
-#define PIOS_L3GD20_CTRL1_380HZ_100HZ    0xB0
 #define PIOS_L3GD20_CTRL1_PD             0x08
 #define PIOS_L3GD20_CTRL1_ZEN            0x04
 #define PIOS_L3GD20_CTRL1_YEN            0x02
@@ -110,6 +108,11 @@ enum pios_l3gd20_range {
 	PIOS_L3GD20_SCALE_2000_DEG = 0x3
 };
 
+enum pios_l3gd20_rate {
+	PIOS_L3GD20_RATE_760HZ_100HZ = 0xF0,
+	PIOS_L3GD20_RATE_380HZ_100HZ = 0xB0
+};
+
 enum pios_l3gd20_filter {
 	PIOS_L3GD20_LOWPASS_256_HZ = 0x00,
 	PIOS_L3GD20_LOWPASS_188_HZ = 0x01,
@@ -130,6 +133,7 @@ struct pios_l3gd20_cfg {
 /* Public Functions */
 extern int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_l3gd20_cfg * cfg);
 extern int32_t PIOS_L3GD20_SetRange(enum pios_l3gd20_range range);
+extern int32_t PIOS_L3GD20_SetSampleRate(enum pios_l3gd20_rate rate);
 extern int32_t PIOS_L3GD20_ReadID();
 extern uint8_t PIOS_L3GD20_Test();
 extern bool PIOS_L3GD20_IRQHandler();

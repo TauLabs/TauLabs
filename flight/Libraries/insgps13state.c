@@ -1,14 +1,11 @@
 /**
  ******************************************************************************
- * @addtogroup AHRS 
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
- * @addtogroup INSGPS
- * @{
- * @brief INSGPS is a joint attitude and position estimation EKF
  *
  * @file       insgps.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      An INS/GPS algorithm implemented with an EKF.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -48,26 +45,24 @@
 #endif
 
 // Private functions
-void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
+static void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 			  float Q[NUMW], float dT, float P[NUMX][NUMX]);
-void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
+static void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
 		  float Y[NUMV], float P[NUMX][NUMX], float X[NUMX],
 		  uint16_t SensorsUsed);
-void RungeKutta(float X[NUMX], float U[NUMU], float dT);
-void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX]);
-void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
+static void RungeKutta(float X[NUMX], float U[NUMU], float dT);
+static void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX]);
+static void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 		 float G[NUMX][NUMW]);
-void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV]);
-void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX]);
+static void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV]);
+static void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX]);
 
 // Private variables
-float F[NUMX][NUMX], G[NUMX][NUMW], H[NUMV][NUMX];	// linearized system matrices
-													// global to init to zero and maintain zero elements
-float Be[3];			// local magnetic unit vector in NED frame
-float P[NUMX][NUMX], X[NUMX];	// covariance matrix and state vector
-float Q[NUMW], R[NUMV];		// input noise and measurement noise variances
-float K[NUMX][NUMV];		// feedback gain matrix
-static struct NavStruct Nav;
+static float F[NUMX][NUMX], G[NUMX][NUMW], H[NUMV][NUMX];	// linearized system matrices
+static float Be[3];	                    // local magnetic unit vector in NED frame
+static float P[NUMX][NUMX], X[NUMX];	// covariance matrix and state vector
+static float Q[NUMW], R[NUMV];   // input noise and measurement noise variances
+static float K[NUMX][NUMV];	     // feedback gain matrix
 
 //  *************  Exposed Functions ****************
 //  *************************************************
@@ -127,12 +122,52 @@ void INSGPSInit()		//pretty much just a place holder for now
 	R[9] = .25f;                    // High freq altimeter noise variance (m^2)
 }
 
-struct NavStruct *INSGPSGetNav()
+/**
+ * Get the current state estimate (null input skips that get)
+ * @param[out] pos The position in NED space (m)
+ * @param[out] vel The velocity in NED (m/s)
+ * @param[out] attitude Quaternion representation of attitude
+ * @param[out] gyros_bias Estimate of gyro bias (rad/s)
+ */
+void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias)
 {
-	return &Nav;
+	if (pos) {
+		pos[0] = X[0];
+		pos[1] = X[1];
+		pos[2] = X[2];
+	}
+
+	if (vel) {
+		vel[0] = X[3];
+		vel[1] = X[4];
+		vel[2] = X[5];
+	}
+
+	if (attitude) {
+		attitude[0] = X[6];
+		attitude[1] = X[7];
+		attitude[2] = X[8];
+		attitude[3] = X[9];
+	}
+
+	if (gyro_bias) {
+		gyro_bias[0] = X[10];
+		gyro_bias[1] = X[11];
+		gyro_bias[2] = X[12];
+	}
 }
 
-void INSResetP(float PDiag[NUMX])
+/**
+ * Get the variance, for visualizing the filter performance
+ * @param[out var_out The variances
+ */
+void INSGetVariance(float *var_out)
+{
+	for (uint32_t i = 0; i < NUMX; i++)
+		var_out[i] = P[i][i];
+}
+
+void INSResetP(const float PDiag[NUMX])
 {
 	uint8_t i,j;
 
@@ -146,7 +181,7 @@ void INSResetP(float PDiag[NUMX])
 	}
 }
 
-void INSSetState(float pos[3], float vel[3], float q[4], float gyro_bias[3], float accel_bias[3])
+void INSSetState(const float pos[3], const float vel[3], const float q[4], const float gyro_bias[3], const float accel_bias[3])
 {
 	/* Note: accel_bias not used in 13 state INS */
 	X[0] = pos[0];
@@ -164,7 +199,7 @@ void INSSetState(float pos[3], float vel[3], float q[4], float gyro_bias[3], flo
 	X[12] = gyro_bias[2];
 }
 
-void INSPosVelReset(float pos[3], float vel[3]) 
+void INSPosVelReset(const float pos[3], const float vel[3]) 
 {
 	for (int i = 0; i < 6; i++) {
 		for(int j = i; j < NUMX; j++) {
@@ -184,50 +219,50 @@ void INSPosVelReset(float pos[3], float vel[3])
 	X[5] = vel[2];	
 }
 
-void INSSetPosVelVar(float PosVar, float VelVar)
+void INSSetPosVelVar(float PosVar, float VelVar, float VertPosVar)
 {
 	R[0] = PosVar;
 	R[1] = PosVar;
-	R[2] = PosVar;
+	R[2] = VertPosVar;
 	R[3] = VelVar;
 	R[4] = VelVar;
 	R[5] = VelVar;
 }
 
-void INSSetGyroBias(float gyro_bias[3])
+void INSSetGyroBias(const float gyro_bias[3])
 {
 	X[10] = gyro_bias[0];
 	X[11] = gyro_bias[1];
 	X[12] = gyro_bias[2];
 }
 
-void INSSetAccelVar(float accel_var[3])
+void INSSetAccelVar(const float accel_var[3])
 {
 	Q[3] = accel_var[0];
 	Q[4] = accel_var[1];
 	Q[5] = accel_var[2];
 }
 
-void INSSetGyroVar(float gyro_var[3])
+void INSSetGyroVar(const float gyro_var[3])
 {
 	Q[0] = gyro_var[0];
 	Q[1] = gyro_var[1];
 	Q[2] = gyro_var[2];
 }
 
-void INSSetMagVar(float scaled_mag_var[3])
+void INSSetMagVar(const float scaled_mag_var[3])
 {
 	R[6] = scaled_mag_var[0];
 	R[7] = scaled_mag_var[1];
 	R[8] = scaled_mag_var[2];
 }
 
-void INSSetBaroVar(float baro_var)
+void INSSetBaroVar(const float baro_var)
 {
 	R[9] = baro_var;
 }
 
-void INSSetMagNorth(float B[3])
+void INSSetMagNorth(const float B[3])
 {
 	float mag = sqrtf(B[0] * B[0] + B[1] * B[1] + B[2] * B[2]);
 	Be[0] = B[0] / mag;
@@ -235,7 +270,7 @@ void INSSetMagNorth(float B[3])
 	Be[2] = B[2] / mag;
 }
 
-void INSStatePrediction(float gyro_data[3], float accel_data[3], float dT)
+void INSStatePrediction(const float gyro_data[3], const float accel_data[3], float dT)
 {
 	float U[6];
 	float qmag;
@@ -259,21 +294,6 @@ void INSStatePrediction(float gyro_data[3], float accel_data[3], float dT)
 	X[8] /= qmag;
 	X[9] /= qmag;
 	//CovariancePrediction(F,G,Q,dT,P);
-
-	// Update Nav solution structure
-	Nav.Pos[0] = X[0];
-	Nav.Pos[1] = X[1];
-	Nav.Pos[2] = X[2];
-	Nav.Vel[0] = X[3];
-	Nav.Vel[1] = X[4];
-	Nav.Vel[2] = X[5];
-	Nav.q[0] = X[6];
-	Nav.q[1] = X[7];
-	Nav.q[2] = X[8];
-	Nav.q[3] = X[9];
-	Nav.gyro_bias[0] = X[10];
-	Nav.gyro_bias[1] = X[11];
-	Nav.gyro_bias[2] = X[12];	
 }
 
 void INSCovariancePrediction(float dT)
@@ -283,43 +303,43 @@ void INSCovariancePrediction(float dT)
 
 float zeros[3] = { 0, 0, 0 };
 
-void MagCorrection(float mag_data[3])
+void MagCorrection(const float mag_data[3])
 {
 	INSCorrection(mag_data, zeros, zeros, zeros[0], MAG_SENSORS);
 }
 
-void MagVelBaroCorrection(float mag_data[3], float Vel[3], float BaroAlt)
+void MagVelBaroCorrection(const float mag_data[3], const float Vel[3], float BaroAlt)
 {
 	INSCorrection(mag_data, zeros, Vel, BaroAlt,
 		      MAG_SENSORS | HORIZ_SENSORS | VERT_SENSORS |
 		      BARO_SENSOR);
 }
 
-void GpsBaroCorrection(float Pos[3], float Vel[3], float BaroAlt)
+void GpsBaroCorrection(const float Pos[3], const float Vel[3], float BaroAlt)
 {
 	INSCorrection(zeros, Pos, Vel, BaroAlt,
 		      HORIZ_SENSORS | VERT_SENSORS | BARO_SENSOR);
 }
 
-void FullCorrection(float mag_data[3], float Pos[3], float Vel[3],
+void FullCorrection(const float mag_data[3], const float Pos[3], const float Vel[3],
 		    float BaroAlt)
 {
 	INSCorrection(mag_data, Pos, Vel, BaroAlt, FULL_SENSORS);
 }
 
-void GpsMagCorrection(float mag_data[3], float Pos[3], float Vel[3])
+void GpsMagCorrection(const float mag_data[3], const float Pos[3], const float Vel[3])
 {
 	INSCorrection(mag_data, Pos, Vel, zeros[0],
 		      POS_SENSORS | HORIZ_SENSORS | MAG_SENSORS);
 }
 
-void VelBaroCorrection(float Vel[3], float BaroAlt)
+void VelBaroCorrection(const float Vel[3], float BaroAlt)
 {
 	INSCorrection(zeros, zeros, Vel, BaroAlt,
 		      HORIZ_SENSORS | VERT_SENSORS | BARO_SENSOR);
 }
 
-void INSCorrection(float mag_data[3], float Pos[3], float Vel[3],
+void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[3],
 		   float BaroAlt, uint16_t SensorsUsed)
 {
 	float Z[10], Y[10];
@@ -355,21 +375,6 @@ void INSCorrection(float mag_data[3], float Pos[3], float Vel[3],
 	X[7] /= qmag;
 	X[8] /= qmag;
 	X[9] /= qmag;
-
-	// Update Nav solution structure
-	Nav.Pos[0] = X[0];
-	Nav.Pos[1] = X[1];
-	Nav.Pos[2] = X[2];
-	Nav.Vel[0] = X[3];
-	Nav.Vel[1] = X[4];
-	Nav.Vel[2] = X[5];
-	Nav.q[0] = X[6];
-	Nav.q[1] = X[7];
-	Nav.q[2] = X[8];
-	Nav.q[3] = X[9];
-	Nav.gyro_bias[0] = X[10];
-	Nav.gyro_bias[1] = X[11];
-	Nav.gyro_bias[2] = X[12];
 }
 
 //  *************  CovariancePrediction *************
@@ -385,7 +390,7 @@ void INSCorrection(float mag_data[3], float Pos[3], float Vel[3],
 
 #ifdef COVARIANCE_PREDICTION_GENERAL
 
-void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
+static void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 			  float Q[NUMW], float dT, float P[NUMX][NUMX])
 {
 	float Dummy[NUMX][NUMX], dTsq;
@@ -414,7 +419,7 @@ void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 
 #else
 
-void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
+static void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 			  float Q[NUMW], float dT, float P[NUMX][NUMX])
 {
 	float D[NUMX][NUMX], T, Tsq;
@@ -1366,7 +1371,7 @@ void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 //     should be used in the update.
 //  ************************************************
 
-void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
+static void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
 		  float Y[NUMV], float P[NUMX][NUMX], float X[NUMX],
 		  uint16_t SensorsUsed)
 {
@@ -1410,7 +1415,7 @@ void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
 //    constant inputs over integration step
 //  ************************************************
 
-void RungeKutta(float X[NUMX], float U[NUMU], float dT)
+static void RungeKutta(float X[NUMX], float U[NUMU], float dT)
 {
 
 	float dT2 =
@@ -1457,7 +1462,7 @@ void RungeKutta(float X[NUMX], float U[NUMU], float dT)
 //  H is output of LinearizeH(), all elements not set should be zero
 //  ************************************************
 
-void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
+static void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 {
 	float ax, ay, az, wx, wy, wz, q0, q1, q2, q3;
 
@@ -1502,7 +1507,7 @@ void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 	Xdot[10] = Xdot[11] = Xdot[12] = 0;
 }
 
-void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
+static void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 		 float G[NUMX][NUMW])
 {
 	float ax, ay, az, wx, wy, wz, q0, q1, q2, q3;
@@ -1604,7 +1609,7 @@ void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 	// G[13][9]=G[14][10]=G[15][11]=1;  // NO BIAS STATES ON ACCELS
 }
 
-void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
+static void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 {
 	float q0, q1, q2, q3;
 
@@ -1639,7 +1644,7 @@ void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 	Y[9] = -1.0f * X[2];
 }
 
-void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
+static void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 {
 	float q0, q1, q2, q3;
 
@@ -1672,6 +1677,5 @@ void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 }
 
 /**
- * @}
  * @}
  */

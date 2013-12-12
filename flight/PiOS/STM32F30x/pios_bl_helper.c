@@ -8,7 +8,7 @@
  *
  * @file       pios_bl_helper.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Bootloader Helper Functions
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -39,37 +39,6 @@ uint8_t *PIOS_BL_HELPER_FLASH_If_Read(uint32_t SectorAddress)
 {
 	return (uint8_t *) (SectorAddress);
 }
-
-#if defined(PIOS_INCLUDE_BL_HELPER_WRITE_SUPPORT)
-uint8_t PIOS_BL_HELPER_FLASH_Ini()
-{
-	FLASH_Unlock();
-	return 1;
-}
-
-uint8_t PIOS_BL_HELPER_FLASH_Start()
-{
-	const struct pios_board_info * bdinfo = &pios_board_info_blob;
-	uint32_t pageAdress = bdinfo->fw_base;
-	uint8_t fail = FALSE;
-	while ((pageAdress < (bdinfo->fw_base + bdinfo->fw_size + bdinfo->desc_size))
-	       || (fail == TRUE)) {
-		for (int retry = 0; retry < MAX_DEL_RETRYS; ++retry) {
-			if (FLASH_ErasePage(pageAdress) == FLASH_COMPLETE) {
-				fail = FALSE;
-				break;
-			} else {
-				fail = TRUE;
-			}
-
-		}
-
-		pageAdress += 2048;
-	}
-
-	return (fail == TRUE) ? 0 : 1;
-}
-#endif
 
 uint32_t PIOS_BL_HELPER_CRC_Memory_Calc()
 {

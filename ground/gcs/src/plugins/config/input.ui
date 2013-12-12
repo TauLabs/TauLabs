@@ -1284,8 +1284,8 @@ channel value for each flight mode.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>850</width>
-            <height>572</height>
+            <width>835</width>
+            <height>640</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1398,7 +1398,10 @@ Set to 0 to disable (recommended for soaring fixed wings).</string>
               <item>
                <widget class="QLabel" name="label_3">
                 <property name="text">
-                 <string>Airframe disarm is done by throttle off and opposite of above combination.</string>
+                 <string>Airframe disarm is done by throttle off and opposite of above combination, except in the case of the switch option. For switch the throttle is ignored.</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>

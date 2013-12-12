@@ -3,12 +3,15 @@
  *
  * @file       notifytablemodel.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief
  * @see        The GNU Public License (GPL) Version 3
- * @defgroup   notifyplugin
- * @{
  *
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup NotifyPlugin Notification plugin
+ * @{
+ * @brief A plugin to provide notifications of events in GCS
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

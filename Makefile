@@ -1,11 +1,26 @@
-# Set up a default goal
+# Makefile for Taulabs project
 .DEFAULT_GOAL := help
 
-# Set up some macros for common directories within the tree
-ROOT_DIR=$(CURDIR)
-TOOLS_DIR=$(ROOT_DIR)/tools
-BUILD_DIR=$(ROOT_DIR)/build
-DL_DIR=$(ROOT_DIR)/downloads
+# import macros common to all supported build systems
+include $(CURDIR)/make/system-id.mk
+
+# configure some directories that are relative to wherever ROOT_DIR is located
+TOOLS_DIR := $(ROOT_DIR)/tools
+BUILD_DIR := $(ROOT_DIR)/build
+DL_DIR := $(ROOT_DIR)/downloads
+
+# import macros that are OS specific
+include $(ROOT_DIR)/make/$(OSFAMILY).mk
+
+# include the tools makefile
+include $(ROOT_DIR)/make/tools.mk
+
+# make sure this isn't being run as root, not relevant for windows
+ifndef WINDOWS
+  ifeq ($(shell whoami),root)
+    $(error You should not be running this as root)
+  endif
+endif
 
 # Function for converting an absolute path to one relative
 # to the top of the source tree.
@@ -41,11 +56,6 @@ ifeq ($(MAKECMDGOALS),me a sandwich)
  endif
 endif
 
-# Make sure this isn't being run as root
-ifeq ($(shell whoami),root)
-$(error You should not be running this as root)
-endif
-
 # Decide on a verbosity level based on the V= parameter
 export AT := @
 
@@ -58,31 +68,11 @@ export V1    := $(AT)
 else ifeq ($(V), 1)
 endif
 
-# Make sure we know a few things about the architecture before including
-# the tools.mk to ensure that we download/install the right tools.
-UNAME := $(shell uname)
-ARCH := $(shell uname -m)
-
-include $(ROOT_DIR)/make/tools.mk
-
-# We almost need to consider autoconf/automake instead of this
-# I don't know if windows supports uname :-(
-QT_SPEC=win32-g++
-UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/debug/uavobjgenerator.exe"
-ifeq ($(UNAME), Linux)
-  QT_SPEC=linux-g++
-  UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/uavobjgenerator"
-endif
-ifeq ($(UNAME), Darwin)
-  QT_SPEC=macx-g++
-  UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/uavobjgenerator"
-endif
+ALL_BOARDS :=
+include $(ROOT_DIR)/flight/targets/*/target-defs.mk
 
 # OpenPilot GCS build configuration (debug | release)
 GCS_BUILD_CONF ?= debug
-
-# Set up misc host tools
-RM=rm
 
 ##############################
 #
@@ -128,6 +118,9 @@ help:
 	@echo "     stm32flash_install   - Install the stm32flash tool for unbricking boards"
 	@echo "     dfuutil_install      - Install the dfu-util tool for unbricking F4-based boards"
 	@echo "     android_sdk_install  - Install the Android SDK tools"
+	@echo "     gui_install          - Install the make gui tool"
+	@echo "     gtest_install        - Install the google unit test suite"
+	@echo "     astyle_install       - Install the astyle code formatter"	
 	@echo
 	@echo "   [Big Hammer]"
 	@echo "     all                  - Generate UAVObjects, build openpilot firmware and gcs"
@@ -193,6 +186,11 @@ help:
 	@echo
 	@echo "   [GCS]"
 	@echo "     gcs                  - Build the Ground Control System (GCS) application"
+	@echo "        GCS_QMAKE_OPTS=     - Optional build flags with the following arguments:"
+	@echo "           \"CONFIG+=LIGHTWEIGHT_GCS\"  - Build a lightweight GCS suitable for low-powered platforms"
+	@echo "           \"CONFIG+=SDL\"              - Enable joystick and gamepad support"
+	@echo "           \"CONFIG+=OSG\"              - Enable OpenSceneGraph support"
+	@echo "           \"CONFIG+=KML\"              - Enable KML file support"
 	@echo "     gcs_clean            - Remove the Ground Control System (GCS) application"
 	@echo
 	@echo "   [AndroidGCS]"
@@ -206,9 +204,14 @@ help:
 	@echo "     uavobjects_test      - parse xml-files - check for valid, duplicate ObjId's, ... "
 	@echo "     uavobjects_<group>   - Generate source files from a subset of the UAVObject definition XML files"
 	@echo "                            supported groups are ($(UAVOBJ_TARGETS))"
+	@echo
 	@echo "   [Package]"
 	@echo "     package              - Executes a make all_clean and then generates a complete package build for"
 	@echo "                            the GCS and all target board firmwares."
+	@echo
+	@echo "   [Misc]"
+	@echo "     astyle_flight FILE=<name>   - Executes the astyle code formatter to reformat"
+	@echo "                                   a c source file according to the flight code style"
 	@echo
 	@echo "   Hint: Add V=1 to your command line to see verbose build output."
 	@echo
@@ -221,7 +224,7 @@ all: uavobjects all_ground all_flight
 
 .PHONY: all_clean
 all_clean:
-	[ ! -d "$(BUILD_DIR)" ] || $(RM) -rf "$(BUILD_DIR)"
+	[ ! -d "$(BUILD_DIR)" ] || $(RM) -r "$(BUILD_DIR)"
 
 $(DL_DIR):
 	mkdir -p $@
@@ -231,44 +234,6 @@ $(TOOLS_DIR):
 
 $(BUILD_DIR):
 	mkdir -p $@
-
-##############################
-#
-# Set up paths to tools
-#
-##############################
-
-ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
-  QMAKE = $(QT_SDK_QMAKE_PATH)
-else
-  # not installed, hope it's in the path...
-  QMAKE = qmake
-endif
-
-ifeq ($(shell [ -d "$(ARM_SDK_DIR)" ] && echo "exists"), exists)
-  ARM_SDK_PREFIX := $(ARM_SDK_DIR)/bin/arm-none-eabi-
-else
-  # not installed, hope it's in the path...
-  ARM_SDK_PREFIX ?= arm-none-eabi-
-endif
-
-ifeq ($(shell [ -d "$(OPENOCD_DIR)" ] && echo "exists"), exists)
-  OPENOCD := $(OPENOCD_DIR)/bin/openocd
-else
-  # not installed, hope it's in the path...
-  OPENOCD ?= openocd
-endif
-
-ifeq ($(shell [ -d "$(ANDROID_SDK_DIR)" ] && echo "exists"), exists)
-  ANDROID     := $(ANDROID_SDK_DIR)/tools/android
-  ANDROID_DX  := $(ANDROID_SDK_DIR)/platform-tools/dx
-  ANDROID_ADB := $(ANDROID_SDK_DIR)/platform-tools/adb
-else
-  # not installed, hope it's in the path...
-  ANDROID     ?= android
-  ANDROID_DX  ?= dx
-  ANDROID_ADB ?= adb
-endif
 
 ##############################
 #
@@ -289,7 +254,7 @@ endif
 gcs:  uavobjects_gcs
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
 	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
-	  $(QMAKE) $(ROOT_DIR)/ground/gcs/gcs.pro -spec $(QT_SPEC) -r CONFIG+="$(GCS_BUILD_CONF) $(GCS_SILENT)" $(GCS_QMAKE_OPTS) && \
+	  PYTHON=$(PYTHON) $(QMAKE) $(ROOT_DIR)/ground/gcs/gcs.pro -spec $(QT_SPEC) -r CONFIG+="$(GCS_BUILD_CONF) $(GCS_SILENT)" $(GCS_QMAKE_OPTS) && \
 	  $(MAKE) -w ; \
 	)
 
@@ -308,7 +273,7 @@ endif
 uavobjgenerator:
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
 	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
-	  $(QMAKE) $(ROOT_DIR)/ground/uavobjgenerator/uavobjgenerator.pro -spec $(QT_SPEC) -r CONFIG+="debug $(UAVOGEN_SILENT)" && \
+	  PYTHON=$(PYTHON) $(QMAKE) $(ROOT_DIR)/ground/uavobjgenerator/uavobjgenerator.pro -spec $(QT_SPEC) -r CONFIG+="debug $(UAVOGEN_SILENT)" && \
 	  $(MAKE) --no-print-directory -w ; \
 	)
 
@@ -346,7 +311,7 @@ $(MATLAB_OUT_DIR):
 
 FORCE:
 $(MATLAB_OUT_DIR)/LogConvert.m: $(MATLAB_OUT_DIR) uavobjects_matlab FORCE
-	$(V1) python $(ROOT_DIR)/make/scripts/version-info.py \
+	$(V1) $(PYTHON) $(ROOT_DIR)/make/scripts/version-info.py \
 		--path=$(ROOT_DIR) \
 		--template=$(BUILD_DIR)/uavobject-synthetics/matlab/LogConvert.m.pass1 \
 		--outfile=$@ \
@@ -374,7 +339,7 @@ $(ANDROIDGCS_ASSETS_DIR)/uavos:
 	$(V1) mkdir -p $@
 
 ifeq ($(V), 1)
-ANT_QUIET :=
+ANT_QUIET := -d
 ANDROID_SILENT := 
 else
 ANT_QUIET := -q
@@ -387,6 +352,8 @@ $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk: uavo-collecti
 	$(V0) @echo " ANDROID   $(call toprel, $(ANDROIDGCS_OUT_DIR))"
 	$(V1) mkdir -p $(ANDROIDGCS_OUT_DIR)
 	$(V1) $(ANDROID) $(ANDROID_SILENT) update project --subprojects --target 'Google Inc.:Google APIs:14' --name androidgcs --path ./androidgcs
+	$(V1) ant -f ./androidgcs/google-play-services_lib/build.xml \
+		$(ANT_QUIET) debug               
 	$(V1) ant -f ./androidgcs/build.xml \
 		$(ANT_QUIET) \
 		-Dout.dir="../$(call toprel, $(ANDROIDGCS_OUT_DIR)/bin)" \
@@ -412,12 +379,12 @@ androidgcs_clean:
 # to allow the GCS to be compatible with as many versions as possible.
 #
 # Find the git hashes of each commit that changes uavobjects with:
-#   git log --format=%h -- shared/uavobjectdefinition/ | head -n 2
+#   git log --format=%h -- shared/uavobjectdefinition/ | head -n 6 | tr '\n' ' '
 UAVO_GIT_VERSIONS := next 
 
 # All versions includes a pseudo collection called "working" which represents
 # the UAVOs in the source tree
-UAVO_ALL_VERSIONS := $(UAVO_GIT_VERSIONS) srctree
+UAVO_ALL_VERSIONS := $(sort $(UAVO_GIT_VERSIONS) srctree)
 
 # This is where the UAVO collections are stored
 UAVO_COLLECTION_DIR := $(BUILD_DIR)/uavo-collections
@@ -459,7 +426,7 @@ define UAVO_COLLECTION_BUILD_TEMPLATE
 $$(UAVO_COLLECTION_DIR)/$(1)/uavohash: $$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml
         # Compute the sha1 hash for this UAVO collection
         # The sed bit truncates the UAVO hash to 16 hex digits
-	$$(V1) python $$(ROOT_DIR)/make/scripts/version-info.py \
+	$$(V1) $(PYTHON) $$(ROOT_DIR)/make/scripts/version-info.py \
 			--path=$$(ROOT_DIR) \
 			--uavodir=$$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition \
 			--format='$$$${UAVOSHA1TXT}' | \
@@ -483,7 +450,7 @@ $$(UAVO_COLLECTION_DIR)/$(1)/java-build/uavobjects.jar: $$(UAVO_COLLECTION_DIR)/
 	$$(V1) ( \
 		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/java-build && \
-		javac java/*.java \
+		javac -source 1.6 -target 1.6 java/*.java \
 		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVDataObject.java \
 		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVObject*.java \
 		   $$(ROOT_DIR)/androidgcs/src/org/taulabs/uavtalk/UAVMetaObject.java \
@@ -513,7 +480,7 @@ $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/LogConvert.m: $$(UAVO_COLLECTION_DIR)/
 	$$(V1) ( \
 		HASH=$$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash) && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/matlab-build && \
-		python $(ROOT_DIR)/make/scripts/version-info.py \
+		$(PYTHON) $(ROOT_DIR)/make/scripts/version-info.py \
 			--path=$$(ROOT_DIR) \
 			--template=$$(UAVO_COLLECTION_DIR)/$(1)/matlab-build/matlab/LogConvert.m.pass1 \
 		--outfile=$$@ \
@@ -550,18 +517,18 @@ uavo-collections_clean:
 
 # Define some pointers to the various important pieces of the flight code
 # to prevent these being repeated in every sub makefile
+MAKE_INC_DIR  := $(ROOT_DIR)/make
 PIOS          := $(ROOT_DIR)/flight/PiOS
 FLIGHTLIB     := $(ROOT_DIR)/flight/Libraries
 OPMODULEDIR   := $(ROOT_DIR)/flight/Modules
-OPUAVOBJ      := $(ROOT_DIR)/flight/targets/UAVObjects
-OPUAVTALK     := $(ROOT_DIR)/flight/targets/UAVTalk
-HWDEFS        := $(ROOT_DIR)/flight/targets/board_hw_defs
+OPUAVOBJ      := $(ROOT_DIR)/flight/UAVObjects
+OPUAVTALK     := $(ROOT_DIR)/flight/UAVTalk
 DOXYGENDIR    := $(ROOT_DIR)/flight/Doc/Doxygen
 SHAREDAPIDIR  := $(ROOT_DIR)/shared/api
 OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
-# $(2) = Name of board used in source tree (e.g. CopterControl)
+# $(2) = Unused
 # $(3) = Short name for board (e.g. CC)
 # $(4) = Host sim variant (e.g. posix, osx, win32)
 # $(5) = Build output type (e.g. elf, exe)
@@ -569,9 +536,12 @@ define SIM_TEMPLATE
 .PHONY: sim_$(4)_$(1)
 sim_$(4)_$(1): sim_$(4)_$(1)_$(5)
 
+sim_$(4)_$(1)_%: TARGET=sim_$(4)_$(1)
+sim_$(4)_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
+sim_$(4)_$(1)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
 sim_$(4)_$(1)_%: uavobjects_flight
-	$(V1) mkdir -p $(BUILD_DIR)/sim_$(4)_$(1)/dep
-	$(V1) cd $(ROOT_DIR)/flight/targets/$(2) && \
+	$(V1) mkdir -p $$(OUTDIR)/dep
+	$(V1) cd $$(BOARD_ROOT_DIR)/fw && \
 		$$(MAKE) --no-print-directory \
 		--file=Makefile.$(4) \
 		BOARD_NAME=$(1) \
@@ -579,17 +549,19 @@ sim_$(4)_$(1)_%: uavobjects_flight
 		BUILD_TYPE=sm \
 		TCHAIN_PREFIX="" \
 		REMOVE_CMD="$(RM)" \
-		OUTDIR="$(BUILD_DIR)/sim_$(4)_$(1)" \
 		\
-		TARGET=sim_$(4)_$(1) \
-		OUTDIR=$(BUILD_DIR)/sim_$(4)_$(1) \
+		MAKE_INC_DIR=$(MAKE_INC_DIR) \
+		ROOT_DIR=$(ROOT_DIR) \
+		BOARD_ROOT_DIR=$$(BOARD_ROOT_DIR) \
+		BOARD_INFO_DIR=$$(BOARD_ROOT_DIR)/board-info \
+		TARGET=$$(TARGET) \
+		OUTDIR=$$(OUTDIR) \
 		\
 		PIOS=$(PIOS).$(4) \
 		FLIGHTLIB=$(FLIGHTLIB) \
 		OPMODULEDIR=$(OPMODULEDIR) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \
-		HWDEFSINC=$(HWDEFS)/$(1) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
 		SHAREDAPIDIR=$(SHAREDAPIDIR) \
@@ -597,22 +569,27 @@ sim_$(4)_$(1)_%: uavobjects_flight
 		$$*
 
 .PHONY: sim_$(4)_$(1)_clean
+sim_$(4)_$(1)_%: TARGET=sim_$(4)_$(1)
+sim_$(4)_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
 sim_$(4)_$(1)_clean:
 	$(V0) @echo " CLEAN      $$@"
-	$(V1) $(RM) -fr $(BUILD_DIR)/sim_$(4)_$(1)
+	$(V1) [ ! -d "$$(OUTDIR)" ] || $(RM) -r "$$(OUTDIR)"
 endef
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
-# $(2) = Name of board used in source tree (e.g. CopterControl)
+# $(2) = Unused
 # $(3) = Short name for board (e.g CC)
 define FW_TEMPLATE
 .PHONY: $(1) fw_$(1)
 $(1): fw_$(1)_tlfw
 fw_$(1): fw_$(1)_tlfw
 
+fw_$(1)_%: TARGET=fw_$(1)
+fw_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
+fw_$(1)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
 fw_$(1)_%: uavobjects_flight
-	$(V1) mkdir -p $(BUILD_DIR)/fw_$(1)/dep
-	$(V1) cd $(ROOT_DIR)/flight/targets/$(2) && \
+	$(V1) mkdir -p $$(OUTDIR)/dep
+	$(V1) cd $$(BOARD_ROOT_DIR)/fw && \
 		$$(MAKE) -r --no-print-directory \
 		BOARD_NAME=$(1) \
 		BOARD_SHORT_NAME=$(3) \
@@ -620,15 +597,18 @@ fw_$(1)_%: uavobjects_flight
 		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
 		REMOVE_CMD="$(RM)" OOCD_EXE="$(OPENOCD)" \
 		\
-		TARGET=fw_$(1) \
-		OUTDIR=$(BUILD_DIR)/fw_$(1) \
+		MAKE_INC_DIR=$(MAKE_INC_DIR) \
+		ROOT_DIR=$(ROOT_DIR) \
+		BOARD_ROOT_DIR=$$(BOARD_ROOT_DIR) \
+		BOARD_INFO_DIR=$$(BOARD_ROOT_DIR)/board-info \
+		TARGET=$$(TARGET) \
+		OUTDIR=$$(OUTDIR) \
 		\
 		PIOS=$(PIOS) \
 		FLIGHTLIB=$(FLIGHTLIB) \
 		OPMODULEDIR=$(OPMODULEDIR) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \
-		HWDEFSINC=$(HWDEFS)/$(1) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
 		SHAREDAPIDIR=$(SHAREDAPIDIR) \
@@ -637,21 +617,30 @@ fw_$(1)_%: uavobjects_flight
 
 .PHONY: $(1)_clean
 $(1)_clean: fw_$(1)_clean
+fw_$(1)_clean: TARGET=fw_$(1)
+fw_$(1)_clean: OUTDIR=$(BUILD_DIR)/$$(TARGET)
 fw_$(1)_clean:
 	$(V0) @echo " CLEAN      $$@"
-	$(V1) $(RM) -fr $(BUILD_DIR)/fw_$(1)
+	$(V1) [ ! -d "$$(OUTDIR)" ] || $(RM) -r "$$(OUTDIR)"
 endef
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
-# $(2) = Name of board used in source tree (e.g. CopterControl)
+# $(2) = CPU arch (e.g. f1, f3, f4)
+# $(3) = Short name for board (e.g CC)
 define BL_TEMPLATE
 .PHONY: bl_$(1)
 bl_$(1): bl_$(1)_bin
-bl_$(1)_bino: bl_$(1)_bin
 
+bl_$(1)_%: TARGET=bl_$(1)
+bl_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
+bl_$(1)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
+bl_$(1)_%: BLSRCDIR=$(ROOT_DIR)/flight/targets/bl
+bl_$(1)_%: BLCOMMONDIR=$$(BLSRCDIR)/common
+bl_$(1)_%: BLARCHDIR=$$(BLSRCDIR)/$(2)
+bl_$(1)_%: BLBOARDDIR=$$(BOARD_ROOT_DIR)/bl
 bl_$(1)_%:
-	$(V1) mkdir -p $(BUILD_DIR)/bl_$(1)/dep
-	$(V1) cd $(ROOT_DIR)/flight/targets/Bootloaders/$(2) && \
+	$(V1) mkdir -p $$(OUTDIR)/dep
+	$(V1) cd $$(BLARCHDIR) && \
 		$$(MAKE) -r --no-print-directory \
 		BOARD_NAME=$(1) \
 		BOARD_SHORT_NAME=$(3) \
@@ -659,26 +648,30 @@ bl_$(1)_%:
 		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
 		REMOVE_CMD="$(RM)" OOCD_EXE="$(OPENOCD)" \
 		\
-		TARGET=bl_$(1) \
-		OUTDIR=$(BUILD_DIR)/bl_$(1) \
+		MAKE_INC_DIR=$(MAKE_INC_DIR) \
+		ROOT_DIR=$(ROOT_DIR) \
+		BOARD_ROOT_DIR=$$(BOARD_ROOT_DIR) \
+		BOARD_INFO_DIR=$$(BOARD_ROOT_DIR)/board-info \
+		TARGET=$$(TARGET) \
+		OUTDIR=$$(OUTDIR) \
 		\
 		PIOS=$(PIOS) \
 		FLIGHTLIB=$(FLIGHTLIB) \
-		OPMODULEDIR=$(OPMODULEDIR) \
-		OPUAVOBJ=$(OPUAVOBJ) \
-		OPUAVTALK=$(OPUAVTALK) \
-		HWDEFSINC=$(HWDEFS)/$(1) \
-		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		BLCOMMONDIR=$$(BLCOMMONDIR) \
+		BLARCHDIR=$$(BLARCHDIR) \
+		BLBOARDDIR=$$(BLBOARDDIR) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		\
 		$$*
 
 .PHONY: unbrick_$(1)
+unbrick_$(1): TARGET=bl_$(1)
+unbrick_$(1): OUTDIR=$(BUILD_DIR)/$$(TARGET)
 unbrick_$(1): bl_$(1)_hex
 $(if $(filter-out undefined,$(origin UNBRICK_TTY)),
 	$(V0) @echo " UNBRICK    $(1) via $$(UNBRICK_TTY)"
 	$(V1) $(STM32FLASH_DIR)/stm32flash \
-		-w $(BUILD_DIR)/bl_$(1)/bl_$(1).hex \
+		-w $$(OUTDIR)/bl_$(1).hex \
 		-g 0x0 \
 		$$(UNBRICK_TTY)
 ,
@@ -688,19 +681,30 @@ $(if $(filter-out undefined,$(origin UNBRICK_TTY)),
 )
 
 .PHONY: bl_$(1)_clean
+bl_$(1)_clean: TARGET=bl_$(1)
+bl_$(1)_clean: OUTDIR=$(BUILD_DIR)/$$(TARGET)
 bl_$(1)_clean:
 	$(V0) @echo " CLEAN      $$@"
-	$(V1) $(RM) -fr $(BUILD_DIR)/bl_$(1)
+	$(V1) [ ! -d "$$(OUTDIR)" ] || $(RM) -r "$$(OUTDIR)"
 endef
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
+# $(2) = Unused
+# $(3) = Short name for board (e.g CC)
 define BU_TEMPLATE
 .PHONY: bu_$(1)
 bu_$(1): bu_$(1)_tlfw
 
-bu_$(1)_%: bl_$(1)_bino
-	$(V1) mkdir -p $(BUILD_DIR)/bu_$(1)/dep
-	$(V1) cd $(ROOT_DIR)/flight/targets/Bootloaders/BootloaderUpdater && \
+bu_$(1)_%: TARGET=bu_$(1)
+bu_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
+bu_$(1)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
+bu_$(1)_%: BUSRCDIR=$(ROOT_DIR)/flight/targets/bu
+bu_$(1)_%: BUCOMMONDIR=$$(BUSRCDIR)/common
+bu_$(1)_%: BUARCHDIR=$$(BUSRCDIR)/$(2)
+bu_$(1)_%: BUBOARDDIR=$$(BOARD_ROOT_DIR)/bu
+bu_$(1)_%: bl_$(1)_bin
+	$(V1) mkdir -p $$(OUTDIR)/dep
+	$(V1) cd $$(BUARCHDIR) && \
 		$$(MAKE) -r --no-print-directory \
 		BOARD_NAME=$(1) \
 		BOARD_SHORT_NAME=$(3) \
@@ -708,24 +712,28 @@ bu_$(1)_%: bl_$(1)_bino
 		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
 		REMOVE_CMD="$(RM)" OOCD_EXE="$(OPENOCD)" \
 		\
-		TARGET=bu_$(1) \
-		OUTDIR=$(BUILD_DIR)/bu_$(1) \
+		MAKE_INC_DIR=$(MAKE_INC_DIR) \
+		ROOT_DIR=$(ROOT_DIR) \
+		BOARD_ROOT_DIR=$$(BOARD_ROOT_DIR) \
+		BOARD_INFO_DIR=$$(BOARD_ROOT_DIR)/board-info \
+		TARGET=$$(TARGET) \
+		OUTDIR=$$(OUTDIR) \
 		\
 		PIOS=$(PIOS) \
 		FLIGHTLIB=$(FLIGHTLIB) \
-		OPMODULEDIR=$(OPMODULEDIR) \
-		OPUAVOBJ=$(OPUAVOBJ) \
-		OPUAVTALK=$(OPUAVTALK) \
-		HWDEFSINC=$(HWDEFS)/$(1) \
-		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		BUCOMMONDIR=$$(BUCOMMONDIR) \
+		BUARCHDIR=$$(BUARCHDIR) \
+		BUBOARDDIR=$$(BUBOARDDIR) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		\
 		$$*
 
 .PHONY: bu_$(1)_clean
+bu_$(1)_clean: TARGET=bu_$(1)
+bu_$(1)_clean: OUTDIR=$(BUILD_DIR)/$$(TARGET)
 bu_$(1)_clean:
 	$(V0) @echo " CLEAN      $$@"
-	$(V1) $(RM) -fr $(BUILD_DIR)/bu_$(1)
+	$(V1) [ ! -d "$$(OUTDIR)" ] || $(RM) -r "$$(OUTDIR)"
 endef
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
@@ -733,8 +741,11 @@ define EF_TEMPLATE
 .PHONY: ef_$(1)
 ef_$(1): ef_$(1)_bin
 
+ef_$(1)_%: TARGET=ef_$(1)
+ef_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
+ef_$(1)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
 ef_$(1)_%: bl_$(1)_bin fw_$(1)_tlfw
-	$(V1) mkdir -p $(BUILD_DIR)/ef_$(1)/dep
+	$(V1) mkdir -p $$(OUTDIR)/dep
 	$(V1) cd $(ROOT_DIR)/flight/targets/EntireFlash && \
 		$$(MAKE) -r --no-print-directory \
 		BOARD_NAME=$(1) \
@@ -744,15 +755,21 @@ ef_$(1)_%: bl_$(1)_bin fw_$(1)_tlfw
 		REMOVE_CMD="$(RM)" OOCD_EXE="$(OPENOCD)" \
 		DFU_CMD="$(DFUUTIL_DIR)/bin/dfu-util" \
 		\
-		TARGET=ef_$(1) \
-		OUTDIR=$(BUILD_DIR)/ef_$(1) \
+		MAKE_INC_DIR=$(MAKE_INC_DIR) \
+		ROOT_DIR=$(ROOT_DIR) \
+		BOARD_ROOT_DIR=$$(BOARD_ROOT_DIR) \
+		BOARD_INFO_DIR=$$(BOARD_ROOT_DIR)/board-info \
+		TARGET=$$(TARGET) \
+		OUTDIR=$$(OUTDIR) \
 		\
 		$$*
 
 .PHONY: ef_$(1)_clean
+ef_$(1)_clean: TARGET=ef_$(1)
+ef_$(1)_clean: OUTDIR=$(BUILD_DIR)/$$(TARGET)
 ef_$(1)_clean:
 	$(V0) @echo " CLEAN      $$@"
-	$(V1) $(RM) -fr $(BUILD_DIR)/ef_$(1)
+	$(V1) [ ! -d "$$(OUTDIR)" ] || $(RM) -r "$$(OUTDIR)"
 endef
 
 # When building any of the "all_*" targets, tell all sub makefiles to display
@@ -786,32 +803,6 @@ all_$(1)_clean: $$(addsuffix _clean, $$(filter bu_$(1), $$(BU_TARGETS)))
 all_$(1)_clean: $$(addsuffix _clean, $$(filter ef_$(1), $$(EF_TARGETS)))
 endef
 
-ALL_BOARDS := coptercontrol pipxtreme revolution revomini osd freedom quanton discoveryf4 flyingf4 flyingf3
-
-# Friendly names of each board (used to find source tree)
-coptercontrol_friendly := CopterControl
-pipxtreme_friendly     := PipXtreme
-revolution_friendly    := Revolution
-revomini_friendly      := RevoMini
-freedom_friendly       := Freedom
-osd_friendly           := OSD
-quanton_friendly       := Quanton
-flyingf4_friendly      := FlyingF4
-discoveryf4_friendly   := DiscoveryF4
-flyingf3_friendly      := FlyingF3
-
-# Short names of each board (used to display board name in parallel builds)
-coptercontrol_short    := 'cc  '
-pipxtreme_short        := 'pipx'
-revolution_short       := 'revo'
-revomini_short         := 'rm  '
-freedom_short          := 'free'
-osd_short              := 'osd '
-quanton_short          := 'quan'
-flyingf4_short         := 'fly4'
-discoveryf4_short      := 'dif4'
-flyingf3_short         := 'fly3'
-
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
 BL_BOARDS  := $(ALL_BOARDS)
@@ -828,10 +819,6 @@ SIM_BOARDS :=
 else # unknown OS
 SIM_BOARDS := 
 endif
-
-# FIXME: The BU image doesn't work for F4 boards so we need to
-#        filter them out to prevent errors.
-BU_BOARDS  := $(filter-out revolution revomini osd freedom quanton flyingf4 discoveryf4 flyingf3, $(BU_BOARDS))
 
 # Generate the targets for whatever boards are left in each list
 FW_TARGETS := $(addprefix fw_, $(FW_BOARDS))
@@ -867,13 +854,13 @@ all_flight_clean: all_fw_clean all_bl_clean all_bu_clean all_ef_clean all_sim_cl
 $(foreach board, $(ALL_BOARDS), $(eval $(call BOARD_PHONY_TEMPLATE,$(board))))
 
 # Expand the bootloader updater rules
-$(foreach board, $(BU_BOARDS), $(eval $(call BU_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
+$(foreach board, $(BU_BOARDS), $(eval $(call BU_TEMPLATE,$(board),$($(board)_cpuarch),$($(board)_short))))
 
 # Expand the firmware rules
 $(foreach board, $(FW_BOARDS), $(eval $(call FW_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
 # Expand the bootloader rules
-$(foreach board, $(BL_BOARDS), $(eval $(call BL_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
+$(foreach board, $(BL_BOARDS), $(eval $(call BL_TEMPLATE,$(board),$($(board)_cpuarch),$($(board)_short))))
 
 # Expand the entire-flash rules
 $(foreach board, $(EF_BOARDS), $(eval $(call EF_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
@@ -889,7 +876,7 @@ $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 #
 ##############################
 
-ALL_UNITTESTS := logfs i2c_vm
+ALL_UNITTESTS := logfs i2c_vm misc_math sin_lookup coordinate_conversions
 
 UT_OUT_DIR := $(BUILD_DIR)/unit_tests
 
@@ -911,6 +898,9 @@ all_ut_xml: $(addsuffix _xml, $(addprefix ut_, $(ALL_UNITTESTS)))
 .PHONY: all_ut_run
 all_ut_run: $(addsuffix _run, $(addprefix ut_, $(ALL_UNITTESTS)))
 
+.PHONY: all_ut_gcov
+all_ut_gcov: | $(addsuffix _gcov, $(addprefix ut_, $(ALL_UNITTESTS)))
+
 .PHONY: all_ut_clean
 all_ut_clean:
 	$(V0) @echo " CLEAN      $@"
@@ -920,18 +910,26 @@ all_ut_clean:
 define UT_TEMPLATE
 .PHONY: ut_$(1)
 ut_$(1): ut_$(1)_run
+ut_$(1)_gcov: | ut_$(1)_xml
 
+ut_$(1)_%: TARGET=$(1)
+ut_$(1)_%: OUTDIR=$(UT_OUT_DIR)/$$(TARGET)
+ut_$(1)_%: UT_ROOT_DIR=$(ROOT_DIR)/flight/tests/$(1)
 ut_$(1)_%: $$(UT_OUT_DIR)
 	$(V1) mkdir -p $(UT_OUT_DIR)/$(1)
-	$(V1) cd $(ROOT_DIR)/flight/tests/$(1) && \
+	$(V1) cd $$(UT_ROOT_DIR) && \
 		$$(MAKE) -r --no-print-directory \
 		BUILD_TYPE=ut \
 		BOARD_SHORT_NAME=$(1) \
 		TCHAIN_PREFIX="" \
 		REMOVE_CMD="$(RM)" \
 		\
-		TARGET=$(1) \
-		OUTDIR="$(UT_OUT_DIR)/$(1)" \
+		MAKE_INC_DIR=$(MAKE_INC_DIR) \
+		ROOT_DIR=$(ROOT_DIR) \
+		BOARD_ROOT_DIR=$$(BOARD_ROOT_DIR) \
+		BOARD_INFO_DIR=$$(BOARD_ROOT_DIR)/board-info \
+		TARGET=$$(TARGET) \
+		OUTDIR=$$(OUTDIR) \
 		\
 		PIOS=$(PIOS) \
 		OPUAVOBJ=$(OPUAVOBJ) \
@@ -945,10 +943,11 @@ ut_$(1)_%: $$(UT_OUT_DIR)
 		$$*
 
 .PHONY: ut_$(1)_clean
+ut_$(1)_clean: TARGET=$(1)
+ut_$(1)_clean: OUTDIR=$(UT_OUT_DIR)/$$(TARGET)
 ut_$(1)_clean:
 	$(V0) @echo " CLEAN      $(1)"
-	$(V1) [ ! -d "$(UT_OUT_DIR)/$(1)" ] || $(RM) -r "$(UT_OUT_DIR)/$(1)"
-
+	$(V1) [ ! -d "$$(OUTDIR)" ] || $(RM) -r "$$(OUTDIR)"
 endef
 
 # Expand the unittest rules
@@ -974,3 +973,21 @@ package:
 .PHONY: package_resources
 package_resources:
 	$(V1) cd package && $(MAKE) --no-print-directory tlfw_resource
+
+##############################
+#
+# AStyle
+#
+##############################
+
+ifneq ($(strip $(filter astyle_flight,$(MAKECMDGOALS))),)
+  ifeq ($(FILE),)
+    $(error pass files to astyle by adding FILE=<file> to the make command line)
+  endif
+endif
+
+.PHONY: astyle_flight
+astyle_flight: ASTYLE_OPTIONS := --suffix=none --lineend=linux --mode=c --align-pointer=name --align-reference=name --indent=tab=4 --style=linux --pad-oper --pad-header --unpad-paren
+astyle_flight:
+	$(V1) $(ASTYLE) $(ASTYLE_OPTIONS) $(FILE)
+

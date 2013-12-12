@@ -129,22 +129,45 @@ bool sortPorts(const QextPortInfo &s1,const QextPortInfo &s2)
 
 QList <IDevice *> SerialConnection::availableDevices()
 {
-    QList <Core::IDevice*> list;
-
+    static QList <Core::IDevice*> m_available_device_list;
     if (enablePolling) {
         QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
 
         //sort the list by port number (nice idea from PT_Dreamer :))
         qSort(ports.begin(), ports.end(),sortPorts);
-        foreach( QextPortInfo port, ports ) {
-            SerialDevice* d = new SerialDevice();
-           d->setDisplayName(port.friendName);
-           d->setName(port.physName);
-           list.append(d);
+        bool port_exists;
+        foreach(QextPortInfo port, ports) {
+            port_exists = false;
+            foreach(IDevice *device, m_available_device_list) {
+                if(device->getName() == port.physName) {
+                    port_exists = true;
+                    break;
+                }
+            }
+            if(!port_exists) {
+                SerialDevice* d = new SerialDevice();
+                d->setDisplayName(port.friendName);
+                d->setName(port.physName);
+                m_available_device_list.append(d);
+            }
+        }
+        foreach(IDevice *device,m_available_device_list) {
+            port_exists = false;
+            foreach(QextPortInfo port, ports) {
+                if(device->getName() == port.physName) {
+                    port_exists = true;
+                    break;
+                }
+            }
+            if(!port_exists)
+            {
+                m_available_device_list.removeOne(device);
+                device->deleteLater();
+            }
         }
     }
 
-    return list;
+    return m_available_device_list;
 }
 
 QIODevice *SerialConnection::openDevice(IDevice *deviceName)

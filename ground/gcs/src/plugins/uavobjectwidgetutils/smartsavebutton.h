@@ -2,7 +2,9 @@
  ******************************************************************************
  *
  * @file       smartsavebutton.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectWidgetUtils Plugin
@@ -70,8 +72,8 @@ private slots:
 private:
     quint32 current_objectID;
     UAVDataObject * current_object;
-    bool up_result;
-    bool sv_result;
+    bool upload_result;
+    bool save_result;
     QEventLoop loop;
     QList<UAVDataObject *> objects;
     QMap<QPushButton *,buttonTypeEnum> buttonList;

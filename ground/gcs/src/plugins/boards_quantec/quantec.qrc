@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/quantec">
+        <file>images/quanton.png</file>
+    </qresource>
+</RCC>

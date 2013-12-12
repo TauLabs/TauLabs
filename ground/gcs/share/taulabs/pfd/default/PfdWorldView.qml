@@ -8,7 +8,7 @@ Item {
         smooth: true
 
         property variant scaledBounds: svgRenderer.scaledElementBounds("pfd.svg", "world")
-        width: Math.round(sceneItem.width*scaledBounds.width/2)*2
+        width:  Math.round(sceneItem.width *scaledBounds.width /2)*2
         height: Math.round(sceneItem.height*scaledBounds.height/2)*2
 
         gradient: Gradient {
@@ -22,8 +22,8 @@ Item {
             Translate {
                 id: pitchTranslate
                 x: Math.round((world.parent.width - world.width)/2)
-                y: Math.round((world.parent.height - world.height)/2 +
-                              AttitudeActual.Pitch*world.parent.height/94)
+                y: (world.parent.height - world.height)/2+
+                   world.parent.height/2*Math.sin(AttitudeActual.Pitch*Math.PI/180)*1.405
             },
             Rotation {
                 angle: -AttitudeActual.Roll
@@ -31,17 +31,6 @@ Item {
                 origin.y : world.parent.height/2
             }
         ]
-
-        SvgElementImage {
-            id: pitch_scale
-            elementName: "pitch_scale"
-            //worldView is loaded with Loader, so background element is visible
-            sceneSize: background.sceneSize
-            anchors.centerIn: parent
-            border: 64 //sometimes numbers are excluded from bounding rect
-
-            smooth: true
-        }
 
         SvgElementImage {
             id: horizont_line

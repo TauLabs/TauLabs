@@ -101,22 +101,22 @@ void arm_float_to_q31(
     /* convert from float to Q31 and then store the results in the destination buffer */
     in = *pIn++;
     in = (in * 2147483648.0f);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = clip_q63_to_q31((q63_t) (in));
 
     in = *pIn++;
     in = (in * 2147483648.0f);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = clip_q63_to_q31((q63_t) (in));
 
     in = *pIn++;
     in = (in * 2147483648.0f);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = clip_q63_to_q31((q63_t) (in));
 
     in = *pIn++;
     in = (in * 2147483648.0f);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = clip_q63_to_q31((q63_t) (in));
 
 #else
@@ -147,7 +147,7 @@ void arm_float_to_q31(
     /* convert from float to Q31 and then store the results in the destination buffer */
     in = *pIn++;
     in = (in * 2147483648.0f);
-    in += in > 0 ? 0.5 : -0.5;
+    in += in > 0.0f ? 0.5f : -0.5f;
     *pDst++ = clip_q63_to_q31((q63_t) (in));
 
 #else

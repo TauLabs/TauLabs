@@ -27,13 +27,13 @@ inputChannelForm::inputChannelForm(QWidget *parent,bool showlegend) :
         delete ui->legend5;
     }
 
+    // Connect slots
     connect(ui->channelMin,SIGNAL(valueChanged(int)),this,SLOT(minMaxUpdated()));
     connect(ui->channelMax,SIGNAL(valueChanged(int)),this,SLOT(minMaxUpdated()));
     connect(ui->channelGroup,SIGNAL(currentIndexChanged(int)),this,SLOT(groupUpdated()));
-    connect(ui->channelNeutral,SIGNAL(valueChanged(int)), this, SLOT(neutralUpdated(int)));
 
     // This is awkward but since we want the UI to be a dropdown but the field is not an enum
-    // it breaks the UAUVObject widget relation of the task gadget.  Running the data through
+    // so it breaks the UAUVObject widget relation of the task gadget.  Running the data through
     // a spin box fixes this
     connect(ui->channelNumberDropdown,SIGNAL(currentIndexChanged(int)),this,SLOT(channelDropdownUpdated(int)));
     connect(ui->channelNumber,SIGNAL(valueChanged(int)),this,SLOT(channelNumberUpdated(int)));
@@ -69,22 +69,24 @@ void inputChannelForm::setName(QString &name)
   */
 void inputChannelForm::minMaxUpdated()
 {
-    bool reverse = ui->channelMin->value() > ui->channelMax->value();
+    bool reverse = (ui->channelMin->value() > ui->channelMax->value());
     if(reverse) {
         ui->channelNeutral->setMinimum(ui->channelMax->value());
         ui->channelNeutral->setMaximum(ui->channelMin->value());
+
+        // Set the QSlider groove colors so that the fill is on the side of the minimum value
+        ui->channelNeutral->setProperty("state", "inverted");
     } else {
         ui->channelNeutral->setMinimum(ui->channelMin->value());
         ui->channelNeutral->setMaximum(ui->channelMax->value());
-    }
-    ui->channelRev->setChecked(reverse);
-    ui->channelNeutral->setInvertedAppearance(reverse);
-    ui->channelNeutral->setInvertedControls(reverse);
-}
 
-void inputChannelForm::neutralUpdated(int newval)
-{
-    ui->neutral->setText(QString::number(newval));
+        // Set the QSlider groove colors so that the fill is on the side of the minimum value
+        ui->channelNeutral->setProperty("state", "normal");
+    }
+    ui->channelNeutral->setInvertedAppearance(reverse);
+
+    // Force refresh of style sheet.
+    ui->channelNeutral->setStyle(QApplication::style());
 }
 
 /**
@@ -117,6 +119,9 @@ void inputChannelForm::groupUpdated()
         break;
     case ManualControlSettings::CHANNELGROUPS_GCS:
         count = GCSReceiver::CHANNEL_NUMELEM;
+        break;
+    case ManualControlSettings::CHANNELGROUPS_HOTTSUM:
+        count = 32;
         break;
     case ManualControlSettings::CHANNELGROUPS_NONE:
         count = 0;

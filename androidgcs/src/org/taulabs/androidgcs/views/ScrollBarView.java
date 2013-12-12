@@ -101,7 +101,7 @@ public class ScrollBarView extends GridLayout implements ObjectFieldMappable {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				value = Double.parseDouble(s.toString());
+				value = Float.parseFloat(s.toString());
 				bar.setProgress((int) (SCALE * value));
 				if (changeListener != null && localUpdate == false)
 					changeListener.run();
@@ -153,7 +153,7 @@ public class ScrollBarView extends GridLayout implements ObjectFieldMappable {
 	public void setValue(double val) {
 		localUpdate = true;
 		value = val;
-		edit.setText(Double.toString(value));
+		edit.setText(Float.toString((float) value));
 		bar.setProgress((int) (SCALE * value));
 		localUpdate = false;
 	}

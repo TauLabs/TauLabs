@@ -1,15 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup TelemetryModule Telemetry Module
- * @brief Main telemetry module
- * Starts three tasks (RX, TX, and priority TX) that watch event queues
- * and handle all the telemetry of the UAVobjects
  * @{ 
  *
  * @file       telemetry.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Telemetry module, handles telemetry and UAVObject updates
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -49,7 +47,7 @@
 // Private types
 
 // Private variables
-static uint32_t telemetryPort;
+static uintptr_t telemetryPort;
 static xQueueHandle queue;
 
 #if defined(PIOS_TELEM_PRIORITY_QUEUE)
@@ -78,7 +76,7 @@ static void processObjEvent(UAVObjEvent * ev);
 static void updateTelemetryStats();
 static void gcsTelemetryStatsUpdated();
 static void updateSettings();
-static uint32_t getComPort();
+static uintptr_t getComPort();
 
 /**
  * Initialise the telemetry module
@@ -225,8 +223,18 @@ static void updateObject(UAVObjHandle obj, int32_t eventType)
 			if (eventType == EV_NONE)
 				setUpdatePeriod(obj, metadata.telemetryUpdatePeriod);
 		} else {
-			// Otherwise, we just received an object update, so switch to periodic for the timeout period to prevent more updates
-			eventMask = EV_UPDATED_PERIODIC | EV_UPDATED_MANUAL | EV_UPDATE_REQ;
+			eventMask = getEventMask(obj, priorityQueue);
+			if (eventMask & EV_UPDATED_PERIODIC) {
+				// If periodic flag is already set then we have previously sent an update during
+				// the timeout period and this update would be missed, so set the dirty flag.
+				// Once setting EV_UPDATED_THROTTLED_DIRTY, there is no need to listen for EV_UPDATED.
+				eventMask = EV_UPDATED_PERIODIC | EV_UPDATE_REQ | EV_UPDATED_THROTTLED_DIRTY;
+			} else { //If periodic is not set then we just received an object
+				// update so switch to periodic for the timeout period to prevent
+				// sending more updates.  Listen to the EV_UPDATED flag still to
+				// catch any updates that would overwise never get sent.
+				eventMask = EV_UPDATED_PERIODIC | EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ;
+			}
 		}
 		UAVObjConnectQueue(obj, priorityQueue, eventMask);
 		break;
@@ -286,6 +294,22 @@ static void processObjEvent(UAVObjEvent * ev)
 			if (success == -1) {
 				++txErrors;
 			}
+		} else if (ev->event == EV_UPDATED_PERIODIC && updateMode == UPDATEMODE_THROTTLED) {
+			// Get the event mask
+			int32_t eventMask = getEventMask(ev->obj, priorityQueue);
+
+			if (eventMask & EV_UPDATED_THROTTLED_DIRTY) { // If EV_UPDATED_THROTTLED_DIRTY flag is set then send the data like normal.
+				// Send update to GCS (with retries)
+				while (retries < MAX_RETRIES && success == -1) {
+					success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
+					++retries;
+				}
+				// Update stats
+				txRetries += (retries - 1);
+				if (success == -1) {
+					++txErrors;
+				}
+			}
 		}
 		// If this is a metaobject then make necessary telemetry updates
 		if (UAVObjIsMetaobject(ev->obj)) {
@@ -343,7 +367,7 @@ static void telemetryRxTask(void *parameters)
 
 	// Task loop
 	while (1) {
-		uint32_t inputPort = getComPort();
+		uintptr_t inputPort = getComPort();
 
 		if (inputPort) {
 			// Block until data are available
@@ -371,7 +395,7 @@ static void telemetryRxTask(void *parameters)
  */
 static int32_t transmitData(uint8_t * data, int32_t length)
 {
-	uint32_t outputPort = getComPort();
+	uintptr_t outputPort = getComPort();
 
 	if (outputPort)
 		return PIOS_COM_SendBuffer(outputPort, data, length);
@@ -435,8 +459,8 @@ static void updateTelemetryStats()
 
 	// Update stats object
 	if (flightStats.Status == FLIGHTTELEMETRYSTATS_STATUS_CONNECTED) {
-		flightStats.RxDataRate = (float)utalkStats.rxBytes / ((float)STATS_UPDATE_PERIOD_MS / 1000.0);
-		flightStats.TxDataRate = (float)utalkStats.txBytes / ((float)STATS_UPDATE_PERIOD_MS / 1000.0);
+		flightStats.RxDataRate = (float)utalkStats.rxBytes / ((float)STATS_UPDATE_PERIOD_MS / 1000.0f);
+		flightStats.TxDataRate = (float)utalkStats.txBytes / ((float)STATS_UPDATE_PERIOD_MS / 1000.0f);
 		flightStats.RxFailures += utalkStats.rxErrors;
 		flightStats.TxFailures += txErrors;
 		flightStats.TxRetries += txRetries;
@@ -453,7 +477,7 @@ static void updateTelemetryStats()
 	}
 
 	// Check for connection timeout
-	timeNow = xTaskGetTickCount() * portTICK_RATE_MS;
+	timeNow = TICKS2MS(xTaskGetTickCount());
 	if (utalkStats.rxObjects > 0) {
 		timeOfLastObjectUpdate = timeNow;
 	}
@@ -548,7 +572,7 @@ static void updateSettings()
 /**
  * Determine input/output com port as highest priority available 
  */
-static uint32_t getComPort() {
+static uintptr_t getComPort() {
 #if defined(PIOS_INCLUDE_USB)
 	if ( PIOS_COM_Available(PIOS_COM_TELEM_USB) )
 		return PIOS_COM_TELEM_USB;

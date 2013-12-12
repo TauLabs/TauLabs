@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
  * @file       pathplannergadget.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
- * @addtogroup Path Planner GCS Plugins
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup PathPlannerGadgetPlugin Path Planner Gadget Plugin
  * @{
@@ -29,7 +29,6 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
-#include <QDebug>
 
 PathPlannerGadget::PathPlannerGadget(QString classId, PathPlannerGadgetWidget *widget, QWidget *parent) :
         IUAVGadget(classId, parent),

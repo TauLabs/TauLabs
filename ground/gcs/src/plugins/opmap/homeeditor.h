@@ -3,11 +3,12 @@
  *
  * @file       homeeditor.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OPMapPlugin OpenPilot Map Plugin
+ * @addtogroup OPMapPlugin Tau Labs Map Plugin
  * @{
- * @brief The OpenPilot Map plugin
+ * @brief Tau Labs map plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -28,7 +29,7 @@
 #define HOMEEDITOR_H
 
 #include <QDialog>
-#include "opmapcontrol/opmapcontrol.h"
+#include "tlmapcontrol/tlmapcontrol.h"
 
 using namespace mapcontrol;
 

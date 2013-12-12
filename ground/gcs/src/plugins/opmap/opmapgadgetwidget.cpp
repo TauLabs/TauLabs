@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
  * @file       opmapgadgetwidget.cpp
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2012-2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OPMapPlugin OpenPilot Map Plugin
+ * @addtogroup OPMapPlugin Tau Labs Map Plugin
  * @{
- * @brief The OpenPilot Map plugin 
+ * @brief Tau Labs map plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -54,6 +55,7 @@
 #include "attitudeactual.h"
 #include "positionactual.h"
 #include "velocityactual.h"
+#include "windvelocityactual.h"
 
 #include "../pathplanner/pathplannergadgetwidget.h"
 #include "../pathplanner/waypointdialog.h"
@@ -149,7 +151,7 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     // **************
     // create the central map widget
 
-    m_map = new mapcontrol::OPMapWidget();	// create the map object
+    m_map = new mapcontrol::TLMapWidget();	// create the map object
 
     m_map->setFrameStyle(QFrame::NoFrame);      // no border frame
     m_map->setBackgroundBrush(QBrush(Utils::StyleHelper::baseColor())); // tile background
@@ -195,9 +197,9 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     layout->addWidget(m_map);
     m_widget->mapWidget->setLayout(layout);
 
-            m_widget->toolButtonMagicWaypointMapMode->setChecked(false);
-            m_widget->toolButtonNormalMapMode->setChecked(true);
-            hideMagicWaypointControls();
+    m_widget->toolButtonMagicWaypointMapMode->setChecked(false);
+    m_widget->toolButtonNormalMapMode->setChecked(true);
+    hideMagicWaypointControls();
 
     m_widget->labelUAVPos->setText("---");
     m_widget->labelMapPos->setText("---");
@@ -277,6 +279,10 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
 	connect(m_statusUpdateTimer, SIGNAL(timeout()), this, SLOT(updateMousePos()));
     m_statusUpdateTimer->start();
     // **************
+
+    // Connect windspeed update
+    WindVelocityActual *windVelocityActual = WindVelocityActual::GetInstance(obm);
+    connect(windVelocityActual, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateWindspeed(UAVObject *)));
 
     m_map->setFocus();
 }
@@ -415,7 +421,8 @@ void OPMapGadgetWidget::contextMenuEvent(QContextMenuEvent *event)
 
     contextMenu.addSeparator();
 
-    contextMenu.addAction(showCompassAct);
+    contextMenu.addAction(showCompassRoseAct);
+    contextMenu.addAction(showWindCompassAction);
 
     contextMenu.addAction(showDiagnostics);
 
@@ -652,8 +659,6 @@ void OPMapGadgetWidget::updateMousePos()
     lastLatLngMouse=lat_lon;
     if (!m_map->contentsRect().contains(p))
         return;					    // the mouse is not on the map
-
-//    internals::PointLatLng lat_lon = m_map->currentMousePosition();     // fetch the current lat/lon mouse position
 
     QGraphicsItem *item = m_map->itemAt(p);
 
@@ -1088,12 +1093,17 @@ void OPMapGadgetWidget::setPosition(QPointF pos)
 
     m_map->SetCurrentPosition(internals::PointLatLng(latitude, longitude));
 }
+void OPMapGadgetWidget::setGeoCodingLanguage(QString language)
+{
+    if (!m_widget || !m_map)
+        return;
+    m_map->configuration->SetLanguage(mapcontrol::Helper::LanguageTypeFromString(language));
+}
 
 void OPMapGadgetWidget::setMapProvider(QString provider)
 {
 	if (!m_widget || !m_map)
 		return;
-//
     m_map->SetMapType(mapcontrol::Helper::MapTypeFromString(provider));
 }
 
@@ -1257,11 +1267,18 @@ void OPMapGadgetWidget::createActions()
     copyMouseLonToClipAct->setStatusTip(tr("Copy the mouse longitude to the clipboard"));
     connect(copyMouseLonToClipAct, SIGNAL(triggered()), this, SLOT(onCopyMouseLonToClipAct_triggered()));
 
-    showCompassAct = new QAction(tr("Show compass"), this);
-    showCompassAct->setStatusTip(tr("Show/Hide the compass"));
-    showCompassAct->setCheckable(true);
-    showCompassAct->setChecked(true);
-    connect(showCompassAct, SIGNAL(toggled(bool)), this, SLOT(onShowCompassAct_toggled(bool)));
+    showCompassRoseAct = new QAction(tr("Show compass"), this);
+    showCompassRoseAct->setStatusTip(tr("Show/Hide the compass"));
+    showCompassRoseAct->setCheckable(true);
+    showCompassRoseAct->setChecked(true);
+    connect(showCompassRoseAct, SIGNAL(toggled(bool)), this, SLOT(onShowCompassRoseAct_toggled(bool)));
+
+    showWindCompassAction = new QAction(tr("Show wind compass"), this);
+    showWindCompassAction->setStatusTip(tr("Show/Hide the wind compass"));
+    showWindCompassAction->setCheckable(true);
+    showWindCompassAction->setChecked(false);
+    connect(showWindCompassAction, SIGNAL(toggled(bool)), this, SLOT(onShowWindCompassAction_toggled(bool)));
+
 
     showDiagnostics = new QAction(tr("Show Diagnostics"), this);
     showDiagnostics->setStatusTip(tr("Show/Hide the diagnostics"));
@@ -1552,12 +1569,20 @@ void OPMapGadgetWidget::onCopyMouseLonToClipAct_triggered()
 }
 
 
-void OPMapGadgetWidget::onShowCompassAct_toggled(bool show)
+void OPMapGadgetWidget::onShowCompassRoseAct_toggled(bool show)
 {
 	if (!m_widget || !m_map)
 		return;
 
-    m_map->SetShowCompass(show);
+    m_map->SetShowCompassRose(show);
+}
+
+void OPMapGadgetWidget::onShowWindCompassAction_toggled(bool show)
+{
+	if (!m_widget || !m_map)
+		return;
+
+    m_map->SetShowWindCompass(show);
 }
 
 void OPMapGadgetWidget::onShowDiagnostics_toggled(bool show)
@@ -1674,7 +1699,7 @@ void OPMapGadgetWidget::onSetHomeAct_triggered()
     //Get desired HomeLocation altitude from dialog box.
     //TODO: Populate box with altitude already in HomeLocation UAVO
     altitude = QInputDialog::getDouble(this, tr("Set home altitude"),
-                                      tr("In [m], referenced to WGS84:"), altitude, -100, 100000, 2, &ok);
+                                      tr("In [m], referenced to WGS84 geoid:"), altitude, -100, 100000, 2, &ok);
 
     if(ok){
         setHome(m_context_menu_lat_lon, altitude);
@@ -2164,8 +2189,8 @@ void OPMapGadgetWidget::on_tbFind_clicked()
 {
     QPalette pal = m_widget->leFind->palette();
 
-    int result=m_map->SetCurrentPositionByKeywords(m_widget->leFind->text());
-    if(result==core::GeoCoderStatusCode::G_GEO_SUCCESS)
+    GeoCoderStatusCode::Types result=m_map->SetCurrentPositionByKeywords(m_widget->leFind->text());
+    if(result==core::GeoCoderStatusCode::OK)
     {
         pal.setColor( m_widget->leFind->backgroundRole(), Qt::green);
         m_widget->leFind->setPalette(pal);
@@ -2195,4 +2220,16 @@ void OPMapGadgetWidget::onOverlayOpacityActGroup_triggered(QAction *action)
 void OPMapGadgetWidget::on_leFind_returnPressed()
 {
     on_tbFind_clicked();
+}
+
+void OPMapGadgetWidget::updateWindspeed(UAVObject *obj)
+{
+    Q_UNUSED(obj);
+
+    WindVelocityActual *windVelocityActual = WindVelocityActual::GetInstance(obm);
+    WindVelocityActual::DataFields windVelocityActualData;
+    windVelocityActualData = windVelocityActual->getData();
+
+    double windVelocity_NED[3]={windVelocityActualData.North, windVelocityActualData.East, windVelocityActualData.Down};
+    m_map->setWindVelocity(windVelocity_NED);
 }

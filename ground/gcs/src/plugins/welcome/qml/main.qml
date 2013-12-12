@@ -16,25 +16,6 @@ Rectangle {
         }
     }
 
-
-    Image {
-        id: bg
-        source: "images/welcome-op-bg.png"
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-
-        // The background OP logo is downscalled to fit the page
-        // but not upscalled if page is larger
-        property real scale: Math.min(parent.width/sourceSize.width,
-                                      parent.height/sourceSize.height,
-                                      1.0)
-
-        width: scale*sourceSize.width
-        height: scale*sourceSize.height
-        smooth: true
-    }
-
-
     Column {
         id: buttonsGrid
         anchors.horizontalCenter: parent.horizontalCenter
@@ -108,7 +89,6 @@ Rectangle {
 
             WelcomePageButton {
                 id: wizard
-                visible: false
                 anchors.verticalCenter: parent.verticalCenter
                 baseIconName: "wizard"
                 onClicked: welcomePlugin.triggerAction("SetupWizardPlugin.ShowSetupWizard")

@@ -8,7 +8,7 @@
  *
  * @file       pios_debug.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     PhoenixPilot, http://github.com/PhoenixPilot, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Debugging Functions
  * @see        The GNU Public License (GPL) Version 3
  * 

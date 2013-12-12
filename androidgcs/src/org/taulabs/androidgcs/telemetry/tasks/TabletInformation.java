@@ -28,6 +28,7 @@ import org.taulabs.uavtalk.UAVObjectField;
 import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -39,12 +40,14 @@ public class TabletInformation {
 
 	private UAVObjectManager objMngr;
 	private LocationManager locationManager;
+	private Context mService;
 
 	public TabletInformation() {}
 
 	public void connect(UAVObjectManager objMngr, Context service) {
 
 		this.objMngr = objMngr;
+		this.mService = service;
 
 		locationManager = (LocationManager)service.getSystemService(Context.LOCATION_SERVICE);
 
@@ -70,28 +73,32 @@ public class TabletInformation {
 			UAVObject obj = objMngr.getObject("TabletInfo");
 			if (obj == null)
 				return;
-
+			SharedPreferences settings = mService.getSharedPreferences("TabletOffset", 0);
+			int alt_offset = settings.getInt("alt_offset", 0);
+			int lat_offset = settings.getInt("lat_offset", 0);
+			int lon_offset = settings.getInt("lon_offset", 0);
+			
 			UAVObjectField field = obj.getField("Latitude");
 			if (field == null)
 				return;
-			field.setValue(location.getLatitude() * 10e6);
+			field.setValue(location.getLatitude() * 10e6 + lat_offset);
 
 			field = obj.getField("Longitude");
 			if (field == null)
 				return;
-			field.setValue(location.getLongitude() * 10e6);
+			field.setValue(location.getLongitude() * 10e6 + lon_offset);
 
 			field = obj.getField("Altitude");
 			if (field == null)
 				return;
 			if (location.hasAltitude())
-				field.setValue(location.getAltitude());
+				field.setValue(alt_offset + location.getAltitude());
 			else
-				field.setValue("NAN");
+				field.setValue("0");
 
-			field = obj.getField("TabletModeDesired");
+			field = obj.getField("Connected");
 			if (field != null) {
-				field.setValue("CameraPOI");
+				field.setValue("True");
 			}
 
 			obj.updated();

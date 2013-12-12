@@ -40,6 +40,7 @@ class UAVOBJECTS_EXPORT $(NAME): public UAVDataObject
 {
     Q_OBJECT
 $(PROPERTIES)
+$(ENUMS)
 
 public:
     // Field structure
@@ -66,9 +67,10 @@ $(DATAFIELDINFO)
     void setData(const DataFields& data);
     Metadata getDefaultMetadata();
     UAVDataObject* clone(quint32 instID);
-	UAVDataObject* dirtyClone();
+    UAVDataObject* dirtyClone();
 	
     static $(NAME)* GetInstance(UAVObjectManager* objMngr, quint32 instID = 0);
+    static qint32 getNumInstances(UAVObjectManager* objMngr) {return objMngr->getNumInstances(OBJID);}
 
 $(PROPERTY_GETTERS)
 

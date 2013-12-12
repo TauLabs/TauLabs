@@ -105,10 +105,10 @@ macx {
 DEFINES += GCS_DATA_BASENAME=\\\"$$GCS_DATA_BASENAME\\\"
 
 # Include path to shared API directory
-INCLUDEPATH += \
+INCLUDEPATH *= \
     $$GCS_SOURCE_TREE/../../shared/api
 
-INCLUDEPATH += \
+INCLUDEPATH *= \
     $$GCS_SOURCE_TREE/src/libs
 
 DEPENDPATH += \
@@ -132,7 +132,7 @@ unix {
     UI_DIR = $${OUT_PWD}/.uic
 }
 
-linux-g++-* {
+linux-g++* {
     # Bail out on non-selfcontained libraries. Just a security measure
     # to prevent checking in code that does not compile on other platforms.
     QMAKE_LFLAGS += -Wl,--allow-shlib-undefined -Wl,--no-undefined

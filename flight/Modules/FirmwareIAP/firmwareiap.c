@@ -1,10 +1,14 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup FirmwareIAPModule Read the firmware IAP values
+ * @{
  *
  * @file       firmwareiap.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      In Application Programming module to support firmware upgrades by
- * 				providing a means to enter the bootloader.
+ *             providing a means to enter the bootloader.
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -47,10 +51,7 @@
 #define IAP_STATE_STEP_2    2
 #define IAP_STATE_RESETTING 3
 
-#define RESET_DELAY         500 /* delay between sending reset ot INS */
-
-#define TICKS2MS(t)	((t)/portTICK_RATE_MS)
-#define MS2TICKS(m)	((m)*portTICK_RATE_MS)
+#define RESET_DELAY_MS         500 /* delay before sending reset to INS */
 
 const uint32_t    iap_time_2_low_end = 500;
 const uint32_t    iap_time_2_high_end = 5000;
@@ -246,7 +247,7 @@ static void resetTask(UAVObjEvent * ev)
 	FirmwareIAPObjData data;
 	FirmwareIAPObjGet(&data);
 
-	if((portTickType) (xTaskGetTickCount() - lastResetSysTime) > RESET_DELAY / portTICK_RATE_MS) {
+	if((portTickType) (xTaskGetTickCount() - lastResetSysTime) > MS2TICKS(RESET_DELAY_MS)) {
 		lastResetSysTime = xTaskGetTickCount();
 		data.BoardType=0xFF;
 		data.ArmReset=1;
@@ -259,3 +260,8 @@ static void resetTask(UAVObjEvent * ev)
 		}
 	}
 }
+
+/**
+ * @}
+ * @}
+ */

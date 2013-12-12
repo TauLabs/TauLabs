@@ -24,8 +24,8 @@ unix:MOC_DIR = ./Build
 unix:UI_DIR = ./Build
 
 DEPENDPATH += .
-INCLUDEPATH += .
-INCLUDEPATH += ./3rdparty/zlib
+INCLUDEPATH *= .
+INCLUDEPATH *= ./3rdparty/zlib
 
 RESOURCES += glc_lib.qrc
 

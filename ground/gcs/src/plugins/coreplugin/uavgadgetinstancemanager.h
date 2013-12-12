@@ -3,11 +3,12 @@
  *
  * @file       uavgadgetinstancemanager.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
  * @{
- * @brief The Core GCS plugin
+ * @brief Provides the UAVGadget instance manager
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 
@@ -75,6 +76,7 @@ public:
     QIcon gadgetIcon(QString classId) const;
 
 signals:
+    void splashMessages(QString);
     void configurationChanged(IUAVGadgetConfiguration* config);
     void configurationAdded(IUAVGadgetConfiguration* config);
     void configurationToBeDeleted(IUAVGadgetConfiguration* config);

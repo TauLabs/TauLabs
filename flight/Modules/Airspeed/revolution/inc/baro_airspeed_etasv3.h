@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
  * @addtogroup AirspeedModule Airspeed Module
- * @brief Calculate airspeed as a function of the difference between sequential GPS velocity and attitude measurements
  * @{ 
  *
  * @file       baro_airspeed_etasv3.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @brief      Airspeed module, reads temperature and pressure from BMP085
+ * @brief      Calculate airspeed using GPS
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -30,11 +29,9 @@
  */
 #ifndef ETASV3_AIRSPEED_H
 #define ETASV3_AIRSPEED_H
-#if defined(PIOS_INCLUDE_ETASV3)
 
 void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin);
 
-#endif
 #endif // ETASV3_AIRSPEED_H
 
 /**

@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
- * @{ 
- * @addtogroup BatteryModule Battery Module
- * @{ 
+ * @addtogroup TauLabsModules Tau Labs Modules
+ * @{
+ * @addtogroup CameraStab Camera Stabilization Module
+ * @{
  *
- * @file       battery.h
+ * @file       camerastab.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Module to read the battery Voltage and Current periodically and set alarms appropriately.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Stabilize camera against the roll pitch and yaw of aircraft
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -27,14 +28,15 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef BATTERY_H
-#define BATTERY_H
+
+#ifndef CAMERASTAB_H
+#define CAMERASTAB_H
 
 #include "openpilot.h"
 
 int32_t CameraStabInitialize(void);
 
-#endif // BATTERY_H
+#endif /* CAMERASTAB_H */
 
 /**
   * @}

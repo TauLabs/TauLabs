@@ -9,6 +9,7 @@
  *
  * @file       pios_usb_hid.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      USB COM functions (STM32 dependent code)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -42,10 +43,10 @@
 #define MIN(x,y) (((x) < (y)) ? (x) : (y))
 #define MAX(x,y) (((x) > (y)) ? (x) : (y))
 
-static void PIOS_USB_HID_RegisterTxCallback(uint32_t usbhid_id, pios_com_callback tx_out_cb, uint32_t context);
-static void PIOS_USB_HID_RegisterRxCallback(uint32_t usbhid_id, pios_com_callback rx_in_cb, uint32_t context);
-static void PIOS_USB_HID_TxStart(uint32_t usbhid_id, uint16_t tx_bytes_avail);
-static void PIOS_USB_HID_RxStart(uint32_t usbhid_id, uint16_t rx_bytes_avail);
+static void PIOS_USB_HID_RegisterTxCallback(uintptr_t usbhid_id, pios_com_callback tx_out_cb, uintptr_t context);
+static void PIOS_USB_HID_RegisterRxCallback(uintptr_t usbhid_id, pios_com_callback rx_in_cb, uintptr_t context);
+static void PIOS_USB_HID_TxStart(uintptr_t usbhid_id, uint16_t tx_bytes_avail);
+static void PIOS_USB_HID_RxStart(uintptr_t usbhid_id, uint16_t rx_bytes_avail);
 
 const struct pios_com_driver pios_usb_hid_com_driver = {
 	.tx_start    = PIOS_USB_HID_TxStart,
@@ -63,19 +64,19 @@ struct pios_usb_hid_dev {
 	enum pios_usb_hid_dev_magic     magic;
 	const struct pios_usb_hid_cfg * cfg;
 
-	uint32_t lower_id;
+	uintptr_t lower_id;
 
 	pios_com_callback rx_in_cb;
-	uint32_t rx_in_context;
+	uintptr_t rx_in_context;
 	pios_com_callback tx_out_cb;
-	uint32_t tx_out_context;
+	uintptr_t tx_out_context;
 
 	bool usb_if_enabled;
 
-	uint8_t rx_packet_buffer[PIOS_USB_BOARD_HID_DATA_LENGTH];
+	uint8_t rx_packet_buffer[PIOS_USB_BOARD_HID_DATA_LENGTH] __attribute__ ((aligned(4)));
 	bool rx_active;
 
-	uint8_t tx_packet_buffer[PIOS_USB_BOARD_HID_DATA_LENGTH];
+	uint8_t tx_packet_buffer[PIOS_USB_BOARD_HID_DATA_LENGTH] __attribute__ ((aligned(4)));
 	bool tx_active;
 
 	uint32_t rx_dropped;
@@ -87,39 +88,22 @@ static bool PIOS_USB_HID_validate(struct pios_usb_hid_dev * usb_hid_dev)
 	return (usb_hid_dev && (usb_hid_dev->magic == PIOS_USB_HID_DEV_MAGIC));
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_usb_hid_dev * PIOS_USB_HID_alloc(void)
 {
 	struct pios_usb_hid_dev * usb_hid_dev;
 
-	usb_hid_dev = (struct pios_usb_hid_dev *)pvPortMalloc(sizeof(*usb_hid_dev));
+	usb_hid_dev = (struct pios_usb_hid_dev *)PIOS_malloc(sizeof(*usb_hid_dev));
 	if (!usb_hid_dev) return(NULL);
 
+	memset(usb_hid_dev, 0, sizeof(*usb_hid_dev));
 	usb_hid_dev->magic = PIOS_USB_HID_DEV_MAGIC;
 	return(usb_hid_dev);
 }
-#else
-static struct pios_usb_hid_dev pios_usb_hid_devs[PIOS_USB_HID_MAX_DEVS];
-static uint8_t pios_usb_hid_num_devs;
-static struct pios_usb_hid_dev * PIOS_USB_HID_alloc(void)
-{
-	struct pios_usb_hid_dev * usb_hid_dev;
 
-	if (pios_usb_hid_num_devs >= PIOS_USB_HID_MAX_DEVS) {
-		return (NULL);
-	}
-
-	usb_hid_dev = &pios_usb_hid_devs[pios_usb_hid_num_devs++];
-	usb_hid_dev->magic = PIOS_USB_HID_DEV_MAGIC;
-
-	return (usb_hid_dev);
-}
-#endif
-
-static void PIOS_USB_HID_IF_Init(uint32_t usb_hid_id);
-static void PIOS_USB_HID_IF_DeInit(uint32_t usb_hid_id);
-static bool PIOS_USB_HID_IF_Setup(uint32_t usb_hid_id, struct usb_setup_request *req);
-static void PIOS_USB_HID_IF_CtrlDataOut(uint32_t usb_hid_id, struct usb_setup_request *req);
+static void PIOS_USB_HID_IF_Init(uintptr_t usb_hid_id);
+static void PIOS_USB_HID_IF_DeInit(uintptr_t usb_hid_id);
+static bool PIOS_USB_HID_IF_Setup(uintptr_t usb_hid_id, struct usb_setup_request *req);
+static void PIOS_USB_HID_IF_CtrlDataOut(uintptr_t usb_hid_id, const struct usb_setup_request *req);
 
 static struct pios_usb_ifops usb_hid_ifops = {
 	.init          = PIOS_USB_HID_IF_Init,
@@ -128,10 +112,10 @@ static struct pios_usb_ifops usb_hid_ifops = {
 	.ctrl_data_out = PIOS_USB_HID_IF_CtrlDataOut,
 };
 
-static bool PIOS_USB_HID_EP_IN_Callback(uint32_t usb_hid_id, uint8_t epnum, uint16_t len);
-static bool PIOS_USB_HID_EP_OUT_Callback(uint32_t usb_hid_id, uint8_t epnum, uint16_t len);
+static bool PIOS_USB_HID_EP_IN_Callback(uintptr_t usb_hid_id, uint8_t epnum, uint16_t len);
+static bool PIOS_USB_HID_EP_OUT_Callback(uintptr_t usb_hid_id, uint8_t epnum, uint16_t len);
 
-int32_t PIOS_USB_HID_Init(uint32_t * usbhid_id, const struct pios_usb_hid_cfg * cfg, uint32_t lower_id)
+int32_t PIOS_USB_HID_Init(uintptr_t * usbhid_id, const struct pios_usb_hid_cfg * cfg, uintptr_t lower_id)
 {
 	PIOS_Assert(usbhid_id);
 	PIOS_Assert(cfg);
@@ -151,9 +135,9 @@ int32_t PIOS_USB_HID_Init(uint32_t * usbhid_id, const struct pios_usb_hid_cfg * 
 
 	/* Register class specific interface callbacks with the USBHOOK layer */
 	usb_hid_dev->usb_if_enabled = false;
-	PIOS_USBHOOK_RegisterIfOps(cfg->data_if, &usb_hid_ifops, (uint32_t) usb_hid_dev);
+	PIOS_USBHOOK_RegisterIfOps(cfg->data_if, &usb_hid_ifops, (uintptr_t) usb_hid_dev);
 
-	*usbhid_id = (uint32_t) usb_hid_dev;
+	*usbhid_id = (uintptr_t) usb_hid_dev;
 
 	return 0;
 
@@ -225,15 +209,13 @@ static bool PIOS_USB_HID_SendReport(struct pios_usb_hid_dev * usb_hid_dev)
 #endif
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(need_yield);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 
 	return true;
 }
 
-static void PIOS_USB_HID_RxStart(uint32_t usbhid_id, uint16_t rx_bytes_avail) {
+static void PIOS_USB_HID_RxStart(uintptr_t usbhid_id, uint16_t rx_bytes_avail) {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usbhid_id;
 
 	bool valid = PIOS_USB_HID_validate(usb_hid_dev);
@@ -263,7 +245,7 @@ static void PIOS_USB_HID_RxStart(uint32_t usbhid_id, uint16_t rx_bytes_avail) {
 	}
 }
 
-static void PIOS_USB_HID_TxStart(uint32_t usbhid_id, uint16_t tx_bytes_avail)
+static void PIOS_USB_HID_TxStart(uintptr_t usbhid_id, uint16_t tx_bytes_avail)
 {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usbhid_id;
 
@@ -285,7 +267,7 @@ static void PIOS_USB_HID_TxStart(uint32_t usbhid_id, uint16_t tx_bytes_avail)
 	}
 }
 
-static void PIOS_USB_HID_RegisterRxCallback(uint32_t usbhid_id, pios_com_callback rx_in_cb, uint32_t context)
+static void PIOS_USB_HID_RegisterRxCallback(uintptr_t usbhid_id, pios_com_callback rx_in_cb, uintptr_t context)
 {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usbhid_id;
 
@@ -300,7 +282,7 @@ static void PIOS_USB_HID_RegisterRxCallback(uint32_t usbhid_id, pios_com_callbac
 	usb_hid_dev->rx_in_cb = rx_in_cb;
 }
 
-static void PIOS_USB_HID_RegisterTxCallback(uint32_t usbhid_id, pios_com_callback tx_out_cb, uint32_t context)
+static void PIOS_USB_HID_RegisterTxCallback(uintptr_t usbhid_id, pios_com_callback tx_out_cb, uintptr_t context)
 {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usbhid_id;
 
@@ -315,7 +297,7 @@ static void PIOS_USB_HID_RegisterTxCallback(uint32_t usbhid_id, pios_com_callbac
 	usb_hid_dev->tx_out_cb = tx_out_cb;
 }
 
-static void PIOS_USB_HID_IF_Init(uint32_t usb_hid_id)
+static void PIOS_USB_HID_IF_Init(uintptr_t usb_hid_id)
 {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usb_hid_id;
 
@@ -327,16 +309,16 @@ static void PIOS_USB_HID_IF_Init(uint32_t usb_hid_id)
 	PIOS_USBHOOK_RegisterEpInCallback(usb_hid_dev->cfg->data_tx_ep,
 					  sizeof(usb_hid_dev->tx_packet_buffer),
 					  PIOS_USB_HID_EP_IN_Callback,
-					  (uint32_t) usb_hid_dev);
+					  (uintptr_t) usb_hid_dev);
 	PIOS_USBHOOK_RegisterEpOutCallback(usb_hid_dev->cfg->data_rx_ep,
 					   sizeof(usb_hid_dev->rx_packet_buffer),
 					   PIOS_USB_HID_EP_OUT_Callback,
-					   (uint32_t) usb_hid_dev);
+					   (uintptr_t) usb_hid_dev);
 	usb_hid_dev->usb_if_enabled = true;
 
 }
 
-static void PIOS_USB_HID_IF_DeInit(uint32_t usb_hid_id)
+static void PIOS_USB_HID_IF_DeInit(uintptr_t usb_hid_id)
 {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usb_hid_id;
 
@@ -344,8 +326,14 @@ static void PIOS_USB_HID_IF_DeInit(uint32_t usb_hid_id)
 		return;
 	}
 
-	/* DeRegister endpoint specific callbacks with the USBHOOK layer */
+	/* reset state of the usb hid device structure */
+	usb_hid_dev->rx_active = false;
+	usb_hid_dev->rx_dropped = 0;
+	usb_hid_dev->rx_oversize = 0;
+	usb_hid_dev->tx_active = false;
 	usb_hid_dev->usb_if_enabled = false;
+
+	/* DeRegister endpoint specific callbacks with the USBHOOK layer */
 	PIOS_USBHOOK_DeRegisterEpInCallback(usb_hid_dev->cfg->data_tx_ep);
 	PIOS_USBHOOK_DeRegisterEpOutCallback(usb_hid_dev->cfg->data_rx_ep);
 }
@@ -353,7 +341,14 @@ static void PIOS_USB_HID_IF_DeInit(uint32_t usb_hid_id)
 static uint8_t hid_protocol;
 static uint8_t hid_altset;
 
-static bool PIOS_USB_HID_IF_Setup(uint32_t usb_hid_id, struct usb_setup_request *req)
+struct hid_idle_msg {
+	uint8_t idle_period;
+	uint8_t report_id;
+};
+static struct hid_idle_msg hid_idle;
+static uint8_t dummy_report[2];
+
+static bool PIOS_USB_HID_IF_Setup(uintptr_t usb_hid_id, struct usb_setup_request *req)
 {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usb_hid_id;
 
@@ -403,19 +398,21 @@ static bool PIOS_USB_HID_IF_Setup(uint32_t usb_hid_id, struct usb_setup_request 
 		case USB_HID_REQ_SET_PROTOCOL:
 			hid_protocol = (uint8_t)(req->wValue);
 			break;
+		case USB_HID_REQ_SET_IDLE:
+			/* Idle rates are currently ignored but decoded for debugging */
+			hid_idle.idle_period = req->wValue & 0xFF00 >> 8;
+			hid_idle.report_id   = req->wValue & 0x00FF;
+			break;
 		case USB_HID_REQ_GET_PROTOCOL:
 			PIOS_USBHOOK_CtrlTx(&hid_protocol, 1);
 			break;
 		case USB_HID_REQ_GET_REPORT:
-		{
 			/* Give back a dummy input report */
-			uint8_t dummy_report[2] = {
-				[0]     = req->wValue >> 8, /* Report ID */
-				[1]     = 0x00,
-			};
-			PIOS_USBHOOK_CtrlTx(dummy_report, sizeof(dummy_report));
-		}
-		break;
+			dummy_report[0] = req->wValue & 0xFF; /* Report ID */
+			dummy_report[1] = 0x00;	/* dummy value */
+			PIOS_USBHOOK_CtrlTx(dummy_report,
+					MIN(sizeof(dummy_report), req->wLength));
+			break;
 		default:
 			/* Unhandled class request */
 			return false;
@@ -430,7 +427,7 @@ static bool PIOS_USB_HID_IF_Setup(uint32_t usb_hid_id, struct usb_setup_request 
 	return true;
 }
 
-static void PIOS_USB_HID_IF_CtrlDataOut(uint32_t usb_hid_id, struct usb_setup_request *req)
+static void PIOS_USB_HID_IF_CtrlDataOut(uintptr_t usb_hid_id, const struct usb_setup_request *req)
 {
 	/* HID devices don't have any OUT data stages on the control endpoint */
 	PIOS_Assert(0);
@@ -440,7 +437,7 @@ static void PIOS_USB_HID_IF_CtrlDataOut(uint32_t usb_hid_id, struct usb_setup_re
  * @brief Callback used to indicate a transmission from device INto host completed
  * Checks if any data remains, pads it into HID packet and sends.
  */
-static bool PIOS_USB_HID_EP_IN_Callback(uint32_t usb_hid_id, uint8_t epnum, uint16_t len)
+static bool PIOS_USB_HID_EP_IN_Callback(uintptr_t usb_hid_id, uint8_t epnum, uint16_t len)
 {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usb_hid_id;
 
@@ -462,7 +459,7 @@ static bool PIOS_USB_HID_EP_IN_Callback(uint32_t usb_hid_id, uint8_t epnum, uint
 /**
  * EP1 OUT Callback Routine
  */
-static bool PIOS_USB_HID_EP_OUT_Callback(uint32_t usb_hid_id, uint8_t epnum, uint16_t len)
+static bool PIOS_USB_HID_EP_OUT_Callback(uintptr_t usb_hid_id, uint8_t epnum, uint16_t len)
 {
 	struct pios_usb_hid_dev * usb_hid_dev = (struct pios_usb_hid_dev *)usb_hid_id;
 
@@ -517,9 +514,7 @@ static bool PIOS_USB_HID_EP_OUT_Callback(uint32_t usb_hid_id, uint8_t epnum, uin
 	}
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (need_yield) {
-		vPortYieldFromISR();
-	}
+	portEND_SWITCHING_ISR(need_yield);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 
 	return rc;

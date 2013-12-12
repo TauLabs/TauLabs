@@ -26,7 +26,16 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -56,7 +65,16 @@
        </sizepolicy>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
+       <property name="topMargin">
+        <number>12</number>
+       </property>
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <property name="bottomMargin">
         <number>12</number>
        </property>
        <item row="1" column="0" colspan="2">
@@ -311,30 +329,7 @@
         </widget>
        </item>
        <item row="0" column="0" colspan="2">
-        <layout class="QGridLayout" name="gridLayout_3" rowstretch="0,0,0,0,0,0" rowminimumheight="22,22,22,0,22,0">
-         <item row="2" column="0">
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Map type </string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
+        <layout class="QGridLayout" name="gridLayout_3" rowstretch="0,0,0,0,0,0,0" rowminimumheight="22,22,22,0,22,0,0">
          <item row="0" column="2">
           <widget class="QComboBox" name="providerComboBox">
            <property name="sizePolicy">
@@ -357,6 +352,39 @@
            </property>
            <property name="frame">
             <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Default latitude </string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Map type </string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -398,16 +426,6 @@
            </property>
            <property name="maximum">
             <number>21</number>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>Default latitude </string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -543,6 +561,16 @@
            </property>
           </widget>
          </item>
+         <item row="6" column="2">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Language for geocoding</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="3">
+          <widget class="QComboBox" name="languageComboBox"/>
+         </item>
         </layout>
        </item>
        <item row="3" column="0">
@@ -562,10 +590,6 @@
         </spacer>
        </item>
       </layout>
-      <zorder>line</zorder>
-      <zorder>verticalSpacer</zorder>
-      <zorder>userImageScalingGroupBox</zorder>
-      <zorder>serverAndCacheGroupBox</zorder>
      </widget>
     </widget>
    </item>

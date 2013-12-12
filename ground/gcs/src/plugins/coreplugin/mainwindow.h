@@ -4,11 +4,12 @@
  * @file       mainwindow.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
  * @{
- * @brief The Core GCS plugin
+ * @brief Provides the GCS Main Window
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify 
@@ -128,7 +129,7 @@ public:
 
 signals:
     void windowActivated();
-
+    void splashMessages(QString);
 public slots:
     void newFile();
     void openFileWith();

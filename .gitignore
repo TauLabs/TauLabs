@@ -62,3 +62,6 @@ androidgcs/gen/
 /.cproject
 /.project
 /.metadata
+
+#local doxygen pages
+/html

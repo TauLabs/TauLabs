@@ -42,9 +42,7 @@ VehicleConfig::VehicleConfig(QWidget *parent) : ConfigTaskWidget(parent)
         channelNames << QString("Channel%1").arg(i+1);
     }
 
-    mixerTypeDescriptions << "Disabled" << "Motor" << "Servo" << "CameraRoll" << "CameraPitch"
-                          << "CameraYaw" << "Accessory0" << "Accessory1" << "Accessory2"
-                          << "Accessory3" << "Accessory4" << "Accessory5";
+    mixerTypeDescriptions = MixerSettings::GetInstance(getUAVObjectManager())->getField("Mixer1Type")->getOptions();
 
     // This is needed because new style tries to compact things as much as possible in grid
     // and on OSX the widget sizes of PushButtons is reported incorrectly:
@@ -70,11 +68,11 @@ GUIConfigDataUnion VehicleConfig::GetConfigData() {
     SystemSettings::DataFields systemSettingsData = systemSettings->getData();
 
     // copy systemsettings -> local configData
-    for(i = 0; i < (int)(SystemSettings::GUICONFIGDATA_NUMELEM); i++)
-        configData.UAVObject[i]=systemSettingsData.GUIConfigData[i];
+    for(i = 0; i < (int)(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM); i++)
+        configData.UAVObject[i]=systemSettingsData.AirframeCategorySpecificConfiguration[i];
 
     // sanity check
-    Q_ASSERT(SystemSettings::GUICONFIGDATA_NUMELEM ==
+    Q_ASSERT(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM ==
              (sizeof(configData.UAVObject) / sizeof(configData.UAVObject[0])));
 
     return configData;
@@ -85,22 +83,20 @@ void VehicleConfig::SetConfigData(GUIConfigDataUnion configData) {
     int i;
 
     // sanity check
-    Q_ASSERT(SystemSettings::GUICONFIGDATA_NUMELEM ==
+    Q_ASSERT(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM ==
              (sizeof(configData.UAVObject) / sizeof(configData.UAVObject[0])));
 
     // get an instance of systemsettings
     SystemSettings * systemSettings = SystemSettings::GetInstance(getUAVObjectManager());
     Q_ASSERT(systemSettings);
-    SystemSettings::DataFields systemSettingsData = systemSettings->getData();
-
-    UAVObjectField* guiConfig = systemSettings->getField("GUIConfigData");
-    Q_ASSERT(guiConfig);
-    if(!guiConfig)
-        return;
+	SystemSettings::DataFields systemSettingsData = systemSettings->getData();
 
     // copy parameter configData -> systemsettings
-    for (i = 0; i < (int)(SystemSettings::GUICONFIGDATA_NUMELEM); i++)
-        guiConfig->setValue(configData.UAVObject[i], i);
+    for (i = 0; i < (int)(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM); i++){
+        systemSettingsData.AirframeCategorySpecificConfiguration[i] = configData.UAVObject[i];
+    }
+
+    systemSettings->setData(systemSettingsData);
 }
 
 void VehicleConfig::ResetActuators(GUIConfigDataUnion* configData)
@@ -137,7 +133,7 @@ QString VehicleConfig::getMixerType(UAVDataObject* mixer, int channel)
 {
     Q_ASSERT(mixer);
 
-    QString mixerType = mixerTypeDescriptions[0];  //default to disabled
+    QString mixerType = mixerTypeDescriptions[MixerSettings::MIXER1TYPE_DISABLED];  //default to disabled
 
     if (channel >= 0 && channel < mixerTypes.count()) {
         UAVObjectField *field = mixer->getField(mixerTypes.at(channel));
@@ -150,7 +146,7 @@ QString VehicleConfig::getMixerType(UAVDataObject* mixer, int channel)
     return mixerType;
 }
 
-void VehicleConfig::setMixerType(UAVDataObject* mixer, int channel, MixerTypeElem mixerType)
+void VehicleConfig::setMixerType(UAVDataObject* mixer, int channel, MixerSettings::Mixer1TypeOptions mixerType)
 {
     Q_ASSERT(mixer);
 
@@ -172,11 +168,11 @@ void VehicleConfig::resetMixerVector(UAVDataObject* mixer, int channel)
     Q_ASSERT(mixer);
 
     if (channel >= 0 && channel < mixerVectors.count()) {
-        setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_THROTTLECURVE1, 0);
-        setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_THROTTLECURVE2, 0);
-        setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_PITCH, 0);
-        setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_ROLL, 0);
-        setMixerVectorValue(mixer, channel, VehicleConfig::MIXERVECTOR_YAW, 0);
+        setMixerVectorValue(mixer, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, 0);
+        setMixerVectorValue(mixer, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, 0);
+        setMixerVectorValue(mixer, channel, MixerSettings::MIXER1VECTOR_PITCH, 0);
+        setMixerVectorValue(mixer, channel, MixerSettings::MIXER1VECTOR_ROLL, 0);
+        setMixerVectorValue(mixer, channel, MixerSettings::MIXER1VECTOR_YAW, 0);
     }
 }
 
@@ -185,14 +181,14 @@ void VehicleConfig::resetMixers(UAVDataObject *mixer)
 {
     for (int channel = 0; channel < (int)VehicleConfig::CHANNEL_NUMELEM; channel++) {
         QString type = getMixerType(mixer, channel);
-        if ((type == "Disabled") || (type == "Motor") || (type == "Servo")) {
-            setMixerType(mixer, channel, VehicleConfig::MIXERTYPE_DISABLED);
+        if ((type == mixerTypeDescriptions[MixerSettings::MIXER1TYPE_DISABLED]) || (type == mixerTypeDescriptions[MixerSettings::MIXER1TYPE_MOTOR]) || (type == mixerTypeDescriptions[MixerSettings::MIXER1TYPE_SERVO])) {
+            setMixerType(mixer, channel, MixerSettings::MIXER1TYPE_DISABLED);
             resetMixerVector(mixer, channel);
         }
     }
 }
 
-double VehicleConfig::getMixerVectorValue(UAVDataObject* mixer, int channel, MixerVectorElem elementName)
+double VehicleConfig::getMixerVectorValue(UAVDataObject* mixer, int channel, MixerSettings::Mixer1VectorElem elementName)
 {
     Q_ASSERT(mixer);
 
@@ -209,7 +205,7 @@ double VehicleConfig::getMixerVectorValue(UAVDataObject* mixer, int channel, Mix
     return value;
 }
 
-void VehicleConfig::setMixerVectorValue(UAVDataObject* mixer, int channel, MixerVectorElem elementName, double value)
+void VehicleConfig::setMixerVectorValue(UAVDataObject* mixer, int channel, MixerSettings::Mixer1VectorElem elementName, double value)
 {
     Q_ASSERT(mixer);
 
@@ -247,23 +243,10 @@ void VehicleConfig::setMixerValue(UAVDataObject* mixer, QString elementName, dou
 }
 
 
-void VehicleConfig::setThrottleCurve(UAVDataObject* mixer, MixerThrottleCurveElem curveType, QList<double> curve)
+void VehicleConfig::setThrottleCurve(UAVDataObject* mixer, MixerSettings::Mixer1VectorElem curveType, QList<double> curve)
 {
     QPointer<UAVObjectField> field;
-
-    switch (curveType)
-    {
-        case MIXER_THROTTLECURVE1:
-        {
-            field = mixer->getField("ThrottleCurve1");
-            break;
-        }
-        case MIXER_THROTTLECURVE2:
-        {
-            field = mixer->getField("ThrottleCurve2");
-            break;
-        }
-    }
+    field = mixer->getField(mixer->getField("Mixer1Vector")->getElementNames().at(curveType));
 
     if (field && field->getNumElements() == (quint32) curve.length()) {
         for (int i=0;i<curve.length();i++) {
@@ -272,26 +255,13 @@ void VehicleConfig::setThrottleCurve(UAVDataObject* mixer, MixerThrottleCurveEle
     }
 }
 
-void VehicleConfig::getThrottleCurve(UAVDataObject* mixer, MixerThrottleCurveElem curveType, QList<double>* curve)
+void VehicleConfig::getThrottleCurve(UAVDataObject* mixer, MixerSettings::Mixer1VectorElem curveType, QList<double>* curve)
 {
     Q_ASSERT(mixer);
     Q_ASSERT(curve);
 
     QPointer<UAVObjectField> field;
-
-    switch (curveType)
-    {
-        case MIXER_THROTTLECURVE1:
-        {
-            field = mixer->getField("ThrottleCurve1");
-            break;
-        }
-        case MIXER_THROTTLECURVE2:
-        {
-            field = mixer->getField("ThrottleCurve2");
-            break;
-        }
-    }
+    field = mixer->getField(mixer->getField("Mixer1Vector")->getElementNames().at(curveType));
 
     if (field) {
         curve->clear();

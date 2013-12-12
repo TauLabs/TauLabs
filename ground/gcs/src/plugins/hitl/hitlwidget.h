@@ -3,11 +3,12 @@
  *
  * @file       hitlwidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup HITLPlugin HITL Plugin
  * @{
- * @brief The Hardware In The Loop plugin 
+ * @brief The Hardware In The Loop plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -43,8 +44,6 @@ public:
     ~HITLWidget();
 
 	void setSettingParameters(const SimulatorSettings& params) {settings = params;}
-signals:
-	void deleteSimulator();
 
 private slots:
     void startButtonClicked();

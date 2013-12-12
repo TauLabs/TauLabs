@@ -234,14 +234,15 @@ void UAVSettingsImportExportFactory::importUAVSettings()
 
 
 // Slot called by the menu manager on user action
-void UAVSettingsImportExportFactory::importWaypoints()
+bool UAVSettingsImportExportFactory::importWaypoints()
 {
     // ask for file name
     QString fileName;
+    bool error = false;
     QString filters = tr("Waypoint XML files (*.xml)");
     fileName = QFileDialog::getOpenFileName(0, tr("Import waypoints"), "", filters);
     if (fileName.isEmpty()) {
-        return;
+        return false;
     }
 
     // Now open the file
@@ -254,7 +255,7 @@ void UAVSettingsImportExportFactory::importWaypoints()
         msgBox.setInformativeText(tr("This file is not a correct XML file"));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
-        return;
+        return false;
     }
     file.close();
 
@@ -272,7 +273,7 @@ void UAVSettingsImportExportFactory::importWaypoints()
         msgBox.setInformativeText(tr("This file does not contain waypoints"));
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
-        return;
+        return false;
     }
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -308,8 +309,6 @@ void UAVSettingsImportExportFactory::importWaypoints()
 
                 //  - Update each field
                 //  - Issue and "updated" command
-                bool error = false;
-                bool setError = false;
                 QDomNode field = node.firstChild();
                 while(!field.isNull()) {
                     QDomElement f = field.toElement();
@@ -320,7 +319,7 @@ void UAVSettingsImportExportFactory::importWaypoints()
                             if (list.length() == 1) {
                                 if (false == uavfield->checkValue(f.attribute("values"))) {
                                     qDebug() << "checkValue returned false on: " << uavObjectName << f.attribute("values");
-                                    setError = true;
+                                    error = true;
                                 } else {
                                     uavfield->setValue(f.attribute("values"));
                                 }
@@ -331,7 +330,7 @@ void UAVSettingsImportExportFactory::importWaypoints()
                                 foreach (QString element, list) {
                                     if (false == uavfield->checkValue(element, i)) {
                                         qDebug() << "checkValue(list) returned false on: " << uavObjectName << list;
-                                        setError = true;
+                                        error = true;
                                     } else {
                                          uavfield->setValue(element,i);
                                     }
@@ -349,6 +348,7 @@ void UAVSettingsImportExportFactory::importWaypoints()
         node = node.nextSibling();
     }
     qDebug() << "End import";
+    return error;
 }
 
 // Create an XML document from UAVObject database
@@ -422,8 +422,8 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
     case Both:
     {
         // iterate over settings objects
-        QList< QList<UAVDataObject*> > objList = objManager->getDataObjects();
-        foreach (QList<UAVDataObject*> list, objList) {
+        QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+        foreach (QVector<UAVDataObject*> list, objList) {
             foreach (UAVDataObject *obj, list) {
                 if (((what == Settings) && obj->isSettings()) ||
                         ((what == Data) && !obj->isSettings()) ||
@@ -480,7 +480,7 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
     case Waypoints:
     {
         // iterate over waypoints until the first one that is set to Stop
-        QList<UAVObject*> list = objManager->getObjectInstances("Waypoint");
+        QVector<UAVObject*> list = objManager->getObjectInstances("Waypoint");
         foreach (UAVObject *obj, list) {
             // add each object to the XML
             QDomElement o = doc.createElement("object");

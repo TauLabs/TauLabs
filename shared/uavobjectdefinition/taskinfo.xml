@@ -1,7 +1,7 @@
 <xml>
     <object name="TaskInfo" singleinstance="true" settings="false">
-        <description>Task information</description>
-        <field name="StackRemaining" units="bytes" type="uint16">
+	<description>Task information</description>
+	<field name="StackRemaining" units="bytes" type="uint16">
 		<elementnames>
 			<elementname>System</elementname>
 			<elementname>Actuator</elementname>
@@ -29,7 +29,10 @@
 			<elementname>EventDispatcher</elementname>
 			<elementname>GenericI2CSensor</elementname>
 			<elementname>UAVOMavlinkBridge</elementname>
+			<elementname>UAVORelay</elementname>
 			<elementname>VibrationAnalysis</elementname>
+			<elementname>Battery</elementname>
+			<elementname>UAVOHoTTBridge</elementname>
 		</elementnames>
 	</field> 
 	<field name="Running" units="bool" type="enum">
@@ -60,7 +63,10 @@
 			<elementname>EventDispatcher</elementname>
 			<elementname>GenericI2CSensor</elementname>
 			<elementname>UAVOMavlinkBridge</elementname>
+			<elementname>UAVORelay</elementname>
 			<elementname>VibrationAnalysis</elementname>
+			<elementname>Battery</elementname>
+			<elementname>UAVOHoTTBridge</elementname>
 		</elementnames>
 		<options>
 			<option>False</option>
@@ -95,12 +101,15 @@
 			<elementname>EventDispatcher</elementname>
 			<elementname>GenericI2CSensor</elementname>
 			<elementname>UAVOMavlinkBridge</elementname>
+			<elementname>UAVORelay</elementname>
 			<elementname>VibrationAnalysis</elementname>
+			<elementname>Battery</elementname>
+			<elementname>UAVOHoTTBridge</elementname>
 		</elementnames>
 	</field> 
-        <access gcs="readwrite" flight="readwrite"/>
-        <telemetrygcs acked="true" updatemode="onchange" period="0"/>
-        <telemetryflight acked="true" updatemode="periodic" period="10000"/>
-        <logging updatemode="periodic" period="1000"/>
+	<access gcs="readwrite" flight="readwrite"/>
+	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+	<telemetryflight acked="true" updatemode="periodic" period="10000"/>
+	<logging updatemode="periodic" period="1000"/>
     </object>
 </xml>

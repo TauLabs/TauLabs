@@ -3,11 +3,12 @@
  *
  * @file       inputpage.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @addtogroup
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup InputPage
+ * @addtogroup SetupWizard Setup Wizard
  * @{
- * @brief
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -34,8 +35,7 @@ namespace Ui {
 class InputPage;
 }
 
-class InputPage : public AbstractWizardPage
-{
+class InputPage : public AbstractWizardPage {
     Q_OBJECT
 
 public:
@@ -44,7 +44,7 @@ public:
     bool validatePage();
 
 private:
-    bool restartNeeded(VehicleConfigurationSource::INPUT_TYPE selectedType);
+    bool restartNeeded(Core::IBoardType::InputType selectedType);
     Ui::InputPage *ui;
 };
 

@@ -7,14 +7,19 @@ SUBDIRS   = \
     aggregation \
     extensionsystem \
     utils \
-    opmapcontrol \
+    tlmapcontrol \
     qwt \
     qextserialport \
-    sdlgamepad \
     libqxt
 
+SDL {
+SUBDIRS += sdlgamepad
+}
+
 !LIGHTWEIGHT_GCS {
-SUBDIRS += glc_lib
+ !macx {
+  SUBDIRS += glc_lib
+ }
 }
 
 SUBDIRS +=

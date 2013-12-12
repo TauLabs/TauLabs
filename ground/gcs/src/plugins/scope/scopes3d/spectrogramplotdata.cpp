@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       spectrogramplotdata.cpp
- * @author     Tau Labs, http://www.taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ScopePlugin Scope Gadget Plugin
@@ -151,10 +151,10 @@ bool SpectrogramData::append(UAVObject* multiObj)
 
 
         // Get list of object instances
-        QList<UAVObject*> list = objManager->getObjectInstances(multiObj->getName());
+        QVector<UAVObject*> list = objManager->getObjectInstances(multiObj->getName());
 
         // Remove a row's worth of data.
-        unsigned int spectrogramWidth = list.length();
+        unsigned int spectrogramWidth = list.size();
 
         // Check that there is a full window worth of data. While GCS is starting up, the size of
         // multiple instance UAVOs is 1, so it's possible for spurious data to come in before

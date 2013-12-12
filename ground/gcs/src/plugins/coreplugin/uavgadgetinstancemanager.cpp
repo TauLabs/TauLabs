@@ -3,11 +3,12 @@
  *
  * @file       uavgadgetinstancemanager.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
  * @{
- * @brief The Core GCS plugin
+ * @brief Provides the UAVGadget instance manager
  *****************************************************************************/
 /* 
  * This program is free software; you can redistribute it and/or modify 
@@ -119,7 +120,6 @@ void UAVGadgetInstanceManager::readConfigs_1_2_0(QSettings *qs)
 
         configs = qs->childGroups();
         foreach (QString configName, configs) {
-            qDebug() << "Loading config: " << classId << "," <<  configName;
             qs->beginGroup(configName);
             configInfo.read(qs);
             configInfo.setNameOfConfigurable(classId+"-"+configName);
@@ -143,10 +143,11 @@ void UAVGadgetInstanceManager::readConfigs_1_2_0(QSettings *qs)
             qs->endGroup();
         }
 
+        // In case no configuration settings were found, try to create a default configuration
         if (configs.count() == 0) {
             IUAVGadgetConfiguration *config = f->createConfiguration(0, 0);
-            // it is not mandatory for uavgadgets to have any configurations (settings)
-            // and therefore we have to check for that
+            // It is not mandatory for uavgadgets to have a configuration (e.g. settings),
+            // therefore we have to check that "config" exists.
             if (config) {
                 config->setName(tr("default"));
                 config->setProvisionalName(tr("default"));
@@ -170,7 +171,6 @@ void UAVGadgetInstanceManager::readConfigs_1_1_0(QSettings *qs)
 
         configs = qs->childGroups();
         foreach (QString configName, configs) {
-            qDebug() << "Loading config: " << classId << "," <<  configName;
             qs->beginGroup(configName);
             bool locked = qs->value("config.locked").toBool();
             configInfo.setNameOfConfigurable(classId+"-"+configName);
@@ -245,6 +245,7 @@ void UAVGadgetInstanceManager::createOptionsPages()
         IUAVGadgetFactory *f = factory(config->classId());
         IOptionsPage *p = f->createOptionsPage(config);
         if (p) {
+            emit splashMessages(QString(tr("Loading %1 plugin options page for configuration %2").arg(config->classId()).arg(config->name())));
             IOptionsPage *page = new UAVGadgetOptionsPageDecorator(p, config, f->isSingleConfigurationGadget());
             page->setIcon(f->icon());
             m_optionsPages.append(page);
@@ -266,6 +267,10 @@ IUAVGadget *UAVGadgetInstanceManager::createGadget(QString classId, QWidget *par
 {
     IUAVGadgetFactory *f = factory(classId);
     if (f) {
+        if(f->classId()!="EmptyGadget")
+            emit splashMessages(QString(tr("Creating %1 with %2 configuration").arg(f->classId()).arg(f->name())));
+        else
+            emit splashMessages(tr("Loading EmptyGadget"));
         QList<IUAVGadgetConfiguration*> *configs = configurations(classId);
         IUAVGadget *g = f->createGadget(parent);
         IUAVGadget *gadget = new UAVGadgetDecorator(g, configs);
@@ -415,17 +420,26 @@ void UAVGadgetInstanceManager::configurationNameEdited(QString text, bool hasTex
     foreach (IUAVGadgetConfiguration *c, m_configurations) {
         foreach (IUAVGadgetConfiguration *d, m_configurations) {
             if (c != d && c->classId() == d->classId() && c->provisionalName() == d->provisionalName())
+            {
+                qDebug() << "Two identically named configurations: " << c->classId() << "." << c->provisionalName() << "and " << d->classId() << "." << d->provisionalName();
                 disable = true;
+            }
         }
         foreach (IUAVGadgetConfiguration *d, m_provisionalConfigs) {
             if (c != d && c->classId() == d->classId() && c->provisionalName() == d->provisionalName())
+            {
+                qDebug() << "An identically named provisional and normal configuration: " << c->classId() << "." << c->provisionalName() << "and " << d->classId() << "." << d->provisionalName();
                 disable = true;
+            }
         }
     }
     foreach (IUAVGadgetConfiguration *c, m_provisionalConfigs) {
         foreach (IUAVGadgetConfiguration *d, m_provisionalConfigs) {
             if (c != d && c->classId() == d->classId() && c->provisionalName() == d->provisionalName())
+            {
+                qDebug() << "Two identically named provisional configurations: " << c->classId() << "." << c->provisionalName() << "and " << d->classId() << "." << d->provisionalName();
                 disable = true;
+            }
         }
     }
     if (hasText && text == "")

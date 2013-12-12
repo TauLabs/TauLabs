@@ -1,10 +1,18 @@
 /**
  ******************************************************************************
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @{
  *
  * @file       paths.c
- * @author     PhoenixPilot, http://github.com/PhoenixPilot Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @brief      Library path manipulation 
+ * @brief      Path calculation library with common API
+ * 
+ * Paths are represented by the structure @ref PathDesired and also take in
+ * @ref PositionActual.  This library then computes the error from the path
+ * which includes the vector tangent to the path at the closest location
+ * and the distance of that vector.  The distance along the path is also
+ * returned in the path_status.
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -110,7 +118,7 @@ static void path_endpoint(float *start_point,
 	dist_diff = sqrtf( diff_north * diff_north + diff_east * diff_east );
 	dist_path = sqrtf( path_north * path_north + path_east * path_east );
 
-	if(dist_diff < 1e-6 ) {
+	if(dist_diff < 1e-6f ) {
 		status->fractional_progress = 1;
 		status->error = 0;
 		status->path_direction[0] = status->path_direction[1] = 0;
@@ -154,7 +162,7 @@ static void path_vector(float *start_point,
 	dot = path_north * diff_north + path_east * diff_east;
 	dist_path = sqrtf( path_north * path_north + path_east * path_east );
 
-	if(dist_path < 1e-6) {
+	if(dist_path < 1e-6f) {
 		// if the path is too short, we cannot determine vector direction.
 		// Fly towards the endpoint to prevent flying away,
 		// but assume progress=1 either way.
@@ -206,7 +214,7 @@ static void path_circle(float * center_point,
 
 	cradius = sqrtf(  diff_north * diff_north   +   diff_east * diff_east );
 
-	if (cradius < 1e-6) {
+	if (cradius < 1e-6f) {
 		// cradius is zero, just fly somewhere and make sure correction is still a normal
 		status->fractional_progress = 1;
 		status->error = radius;
@@ -306,7 +314,7 @@ static void path_curve(float * start_point,
 	// normal onto the path i.e. cross-track distance)
 	status->error = radius - cradius;
 
-	if (cradius < 1e-6) {
+	if (cradius < 1e-6f) {
 		// cradius is zero, just fly somewhere and make sure correction is still a normal
 		status->fractional_progress = 1;
 		status->error = radius;
@@ -346,3 +354,7 @@ static void path_curve(float * start_point,
 
 	status->error = fabs(status->error);
 }
+
+/**
+ * @}
+ */
