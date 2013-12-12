@@ -52,10 +52,14 @@ static int8_t currentADCPin = -1; //ADC pin for current
 // ****************
 // Private functions
 static void batteryTask(void * parameters);
+static void settingsUpdatedCb(UAVObjEvent * objEv);;
 
 static int32_t BatteryStart(void)
 {
 	if (module_enabled) {
+
+		FlightBatterySettingsConnectCallback(settingsUpdatedCb);
+
 		// Start tasks
 		xTaskCreate(batteryTask, (signed char *) "batteryBridge", STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY, &batteryTaskHandle);
 		TaskMonitorAdd(TASKINFO_RUNNING_BATTERY, batteryTaskHandle);
@@ -110,33 +114,43 @@ int32_t BatteryInitialize(void)
 MODULE_INITCALL(BatteryInitialize, BatteryStart)
 #define HAS_SENSOR(x) batterySettings.SensorType[x]==FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED
 
+static bool battery_settings_updated;
+
 /**
  * Main task. It does not return.
  */
 static void batteryTask(void * parameters)
 {
-	static FlightBatteryStateData flightBatteryData;
-	FlightBatterySettingsData batterySettings;
+	const float dT = SAMPLE_PERIOD_MS / 1000.0f;
 
-	FlightBatterySettingsGet(&batterySettings);
+	settingsUpdatedCb(NULL);
 
-	static float dT = SAMPLE_PERIOD_MS / 1000.0f;
-	float energyRemaining;
 	// Main task loop
 	portTickType lastSysTime;
 	lastSysTime = xTaskGetTickCount();
 	while (true) {
 		vTaskDelayUntil(&lastSysTime, MS2TICKS(SAMPLE_PERIOD_MS));
 
+		FlightBatteryStateData flightBatteryData;
+		FlightBatterySettingsData batterySettings;
+		float energyRemaining;
+
+		if (battery_settings_updated) {
+			battery_settings_updated = false;
+			FlightBatterySettingsGet(&batterySettings);
+		}
+
 		//calculate the battery parameters
 		if (voltageADCPin >= 0) {
-			flightBatteryData.Voltage = ((float) PIOS_ADC_GetChannelVolt(voltageADCPin)) / batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEFACTOR]; //in Volts
+			flightBatteryData.Voltage = ((float) PIOS_ADC_GetChannelVolt(voltageADCPin)) / batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_VOLTAGE] * 1000.0f +
+							batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_VOLTAGE]; //in Volts
 		} else {
 			flightBatteryData.Voltage = 0; //Dummy placeholder value. This is in case we get another source of battery current which is not from the ADC
 		}
 
 		if (currentADCPin >= 0) {
-			flightBatteryData.Current = ((float) PIOS_ADC_GetChannelVolt(currentADCPin)) / batterySettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTFACTOR]; //in Amps
+			flightBatteryData.Current = ((float) PIOS_ADC_GetChannelVolt(currentADCPin)) / batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_CURRENT] * 1000.0f +
+							batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_CURRENT]; //in Amps
 			if (flightBatteryData.Current > flightBatteryData.PeakCurrent)
 				flightBatteryData.PeakCurrent = flightBatteryData.Current; //in Amps
 		} else { //If there's no current measurement, we still need to assign one. Make it negative, so it can never trigger an alarm
@@ -182,6 +196,12 @@ static void batteryTask(void * parameters)
 
 		FlightBatteryStateSet(&flightBatteryData);
 	}
+}
+
+//! Indicates the battery settings have been updated
+static void settingsUpdatedCb(UAVObjEvent * objEv)
+{
+	battery_settings_updated = true;
 }
 
 /**

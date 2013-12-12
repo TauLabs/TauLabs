@@ -343,12 +343,12 @@
           <item row="1" column="0">
            <widget class="QLabel" name="label_13">
             <property name="text">
-             <string>Calibration value:</string>
+             <string>Calibration factor:</string>
             </property>
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QDoubleSpinBox" name="sb_voltageCalibration">
+           <widget class="QDoubleSpinBox" name="sb_voltageFactor">
             <property name="suffix">
              <string> mV/V</string>
             </property>
@@ -356,21 +356,21 @@
              <number>4</number>
             </property>
             <property name="maximum">
-             <double>1.000000000000000</double>
+             <double>1000.000000000000000</double>
             </property>
             <property name="singleStep">
              <double>0.000010000000000</double>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
+          <item row="3" column="0">
            <widget class="QLabel" name="label_11">
             <property name="text">
              <string>Low voltage alarm:</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
+          <item row="3" column="1">
            <widget class="QDoubleSpinBox" name="sb_lowVoltageAlarm">
             <property name="suffix">
              <string>V</string>
@@ -383,14 +383,14 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
+          <item row="4" column="0">
            <widget class="QLabel" name="label_12">
             <property name="text">
              <string>Low voltage warning:</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
+          <item row="4" column="1">
            <widget class="QDoubleSpinBox" name="sb_lowVoltageWarning">
             <property name="suffix">
              <string>V</string>
@@ -400,6 +400,32 @@
             </property>
             <property name="value">
              <double>10.150000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_21">
+            <property name="text">
+             <string>Calibration offset</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QDoubleSpinBox" name="sb_voltageOffSet">
+            <property name="suffix">
+             <string>V</string>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
             </property>
            </widget>
           </item>
@@ -431,12 +457,12 @@
           <item row="1" column="0">
            <widget class="QLabel" name="label_8">
             <property name="text">
-             <string>Calibration value:</string>
+             <string>Calibration factor:</string>
             </property>
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QDoubleSpinBox" name="sb_currentCalibration">
+           <widget class="QDoubleSpinBox" name="sb_currentFactor">
             <property name="suffix">
              <string> mV/A</string>
             </property>
@@ -444,7 +470,7 @@
              <number>4</number>
             </property>
             <property name="maximum">
-             <double>1.000000000000000</double>
+             <double>1000.000000000000000</double>
             </property>
             <property name="singleStep">
              <double>0.000010000000000</double>
@@ -455,6 +481,29 @@
            <widget class="QLineEdit" name="le_liveCurrentReading">
             <property name="readOnly">
              <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_22">
+            <property name="text">
+             <string>Calibration offset</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QDoubleSpinBox" name="sb_currentOffSet">
+            <property name="suffix">
+             <string>V</string>
+            </property>
+            <property name="decimals">
+             <number>4</number>
+            </property>
+            <property name="minimum">
+             <double>-100.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
             </property>
            </widget>
           </item>
