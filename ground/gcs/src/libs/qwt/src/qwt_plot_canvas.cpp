@@ -253,6 +253,7 @@ static void qwtDrawBackground( QPainter *painter, QWidget *widget )
 
 static inline void qwtRevertPath( QPainterPath &path )
 {
+    Q_UNUSED(path)
     //TODO FIX FOR QT5
     /*
     if ( path.elementCount() == 4 )

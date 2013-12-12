@@ -191,6 +191,7 @@ void ConfigPlugin::eraseFailed()
 
 void ConfigPlugin::eraseDone(UAVObject * obj)
 {
+    Q_UNUSED(obj)
     QMessageBox msgBox;
     ObjectPersistence* objper = ObjectPersistence::GetInstance(getObjectManager());
     ObjectPersistence::DataFields data = objper->getData();
