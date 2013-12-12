@@ -366,6 +366,7 @@ void OPMapGadgetWidget::contextMenuEvent(QContextMenuEvent *event)
     // ****************
     // Dynamically create the popup menu
 
+    QMenu contextMenu;
     contextMenu.addAction(closeAct1);
     contextMenu.addSeparator();
     contextMenu.addAction(reloadAct);
