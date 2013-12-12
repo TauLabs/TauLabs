@@ -1037,8 +1037,6 @@ MimeType MimeDatabasePrivate::findByFile(const QFileInfo &f) const
 // Returns a mime type or Null one if none found
 MimeType MimeDatabasePrivate::findByFile(const QFileInfo &f, unsigned *priorityPtr) const
 {
-    typedef QList<MimeMapEntry> MimeMapEntryList;
-
     // Is the hierarchy set up in case we find several matches?
     if (m_maxLevel < 0) {
         MimeDatabasePrivate *db = const_cast<MimeDatabasePrivate *>(this);
