@@ -13,6 +13,7 @@ TEMPLATE = lib
 TARGET = Qwt
 DEFINES += QWT_LIBRARY
 QT += printsupport
+QMAKE_CXXFLAGS += -Wno-sign-compare
 
 include(../../../taulabslibrary.pri)
 include( ../qwtconfig.pri )

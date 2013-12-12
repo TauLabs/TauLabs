@@ -1,5 +1,6 @@
 TEMPLATE = lib
 TARGET = Utils
+QMAKE_CXXFLAGS += -Wno-sign-compare
 
 QT += gui \
     network \
