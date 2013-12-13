@@ -1419,7 +1419,7 @@ void ConfigCcpmWidget::setSwashplateLevel(int percent)
     if (percent>100)return;// -1;
     if (SwashLvlConfigurationInProgress!=1)return;// -1;
     int i;
-    double value;
+    double value = 0;
     double level = ((double)percent /50.00) - 1.00;
 
     SwashLvlServoInterlock=1;
