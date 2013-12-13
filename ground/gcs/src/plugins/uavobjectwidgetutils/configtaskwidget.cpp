@@ -492,7 +492,7 @@ void ConfigTaskWidget::forceShadowUpdates()
 void ConfigTaskWidget::widgetsContentsChanged()
 {
     emit widgetContentsChanged((QWidget*)sender());
-    double scale;
+    double scale = 0;
     objectToWidget * oTw= shadowsList.value((QWidget*)sender(),NULL);
     if(oTw)
     {
