@@ -31,6 +31,8 @@
 #include "enums.h"
 #include "settings.h"
 
+#define MAX_PATH 260
+
 bool isFirstRun = true;
 QString debugInfo(DBG_BUFFER_MAX_SIZE, ' ');
 QString pluginFolder(MAX_PATH, ' ');
