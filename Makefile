@@ -17,6 +17,17 @@ include $(ROOT_DIR)/make/tools.mk
 
 # make sure this isn't being run as root, not relevant for windows
 ifndef WINDOWS
+  # Deal with unreasonable requests
+  # See: http://xkcd.com/149/
+  ifeq ($(MAKECMDGOALS),me a sandwich)
+    ifeq ($(shell whoami),root)
+      $(error Okay)
+    else
+      $(error What? Make it yourself)
+    endif
+  endif
+
+  # Seriously though, you shouldn't ever run this as root
   ifeq ($(shell whoami),root)
     $(error You should not be running this as root)
   endif
@@ -45,16 +56,6 @@ $(foreach var, $(SANITIZE_GCC_VARS), $(eval $(call SANITIZE_VAR,$(var),disallowe
 # These specific variables used to be valid but now they make no sense
 SANITIZE_DEPRECATED_VARS := USE_BOOTLOADER
 $(foreach var, $(SANITIZE_DEPRECATED_VARS), $(eval $(call SANITIZE_VAR,$(var),deprecated)))
-
-# Deal with unreasonable requests
-# See: http://xkcd.com/149/
-ifeq ($(MAKECMDGOALS),me a sandwich)
- ifeq ($(shell whoami),root)
- $(error Okay)
- else
- $(error What? Make it yourself)
- endif
-endif
 
 # Decide on a verbosity level based on the V= parameter
 export AT := @
