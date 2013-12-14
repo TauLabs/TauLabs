@@ -79,7 +79,7 @@ ifneq (,$(filter $(UNAME), Linux))
 	$(V1) "$(DL_DIR)/$(QT_SDK_FILE)" -style cleanlooks
 endif
 
-ifneq (,$(filter $(UNAME), MINGW32_NT-6.1))
+ifdef WINDOWS
 	$(V1) ./downloads/qt-windows-opensource-5.2.0-rc1-mingw48_opengl-x86-offline.exe
 endif
 

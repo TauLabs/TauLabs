@@ -244,7 +244,7 @@ $(BUILD_DIR):
 
 ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
   QMAKE = $(QT_SDK_QMAKE_PATH)
-ifeq ($(UNAME), MINGW32_NT-6.1) # Windows 7
+ifdef WINDOWS
   # Windows needs to be told where to find Qt libraries
   export PATH := $(QT_SDK_DIR)/5.2.0-rc1/mingw48_32/bin:$(PATH) 
 endif
@@ -287,7 +287,7 @@ endif
 .PHONY: all_ground
 all_ground: gcs
 
-ifneq ($(UNAME), MINGW32_NT-6.1) # Windows 7
+ifndef WINDOWS
 # unfortunately the silent linking command is broken on windows
 ifeq ($(V), 1)
 GCS_SILENT := 
@@ -317,7 +317,7 @@ gcs_clean:
 	$(V0) @echo " CLEAN      $@"
 	$(V1) [ ! -d "$(BUILD_DIR)/ground/gcs" ] || $(RM) -r "$(BUILD_DIR)/ground/gcs"
 
-ifneq ($(UNAME), MINGW32_NT-6.1) # Windows 7
+ifndef WINDOWS
 # unfortunately the silent linking command is broken on windows
 ifeq ($(V), 1)
 UAVOGEN_SILENT := 
@@ -870,7 +870,7 @@ ifeq ($(UNAME), Linux)
 SIM_BOARDS := sim_posix_revolution
 else ifeq ($(UNAME), Darwin)
 SIM_BOARDS := sim_osx_revolution
-else ifeq ($(UNAME), MINGW32_NT-6.1)   # Windows 7
+else ifdef WINDOWS
 SIM_BOARDS := 
 else # unknown OS
 SIM_BOARDS := 
