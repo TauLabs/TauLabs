@@ -9,6 +9,8 @@ HEADERS += kmlexportplugin.h \
 SOURCES += kmlexportplugin.cpp \
     kmlexport.cpp
 
+SOURCES += $$UAVOBJECT_SYNTHETICS/uavobjectsinit.cpp
+
 OTHER_FILES += KMLExport.pluginspec
 
 INCLUDEPATH *= $$PWD/../../../../../tools/libkml/include
