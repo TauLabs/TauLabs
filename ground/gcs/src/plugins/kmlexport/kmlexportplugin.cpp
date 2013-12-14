@@ -130,7 +130,6 @@ void KmlExportPlugin::shutdown()
 {
     // Do nothing
 }
-Q_EXPORT_PLUGIN(KmlExportPlugin)
 
 /**
  * @}
