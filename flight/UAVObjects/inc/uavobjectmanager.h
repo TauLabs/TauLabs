@@ -201,6 +201,7 @@ void UAVObjUpdated(UAVObjHandle obj);
 void UAVObjInstanceUpdated(UAVObjHandle obj_handle, uint16_t instId);
 void UAVObjIterate(void (*iterator)(UAVObjHandle obj));
 int32_t getEventMask(UAVObjHandle obj_handle, xQueueHandle queue);
+uint8_t UAVObjCount();
 
 #endif // UAVOBJECTMANAGER_H
 

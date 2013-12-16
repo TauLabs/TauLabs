@@ -1858,7 +1858,25 @@ int32_t getEventMask(UAVObjHandle obj_handle, xQueueHandle queue)
 	// Done
 	return eventMask;
 }
+/**
+ * UAVObjCount returns the registered uav objects count
+ * \return number of registered uav objects
+ */
+uint8_t UAVObjCount()
+{
+	uint8_t count = 0;
+	// Get lock
+	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
 
+	// Look for object
+	struct UAVOData * tmp_obj;
+	LL_FOREACH(uavo_list, tmp_obj) {
+		++count;
+	}
+
+	xSemaphoreGiveRecursive(mutex);
+	return count;
+}
 /**
  * @}
  * @}
