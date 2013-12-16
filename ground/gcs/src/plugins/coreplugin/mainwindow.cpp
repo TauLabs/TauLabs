@@ -175,11 +175,12 @@ MainWindow::MainWindow() :
     registerDefaultActions();
 
     m_modeStack = new MyTabWidget(this);
+    m_modeStack->setIconSize(QSize(24, 24));
     m_modeStack->setTabPosition(QTabWidget::South);
     m_modeStack->setMovable(false);
     m_modeStack->setMinimumWidth(512);
     m_modeStack->setElideMode(Qt::ElideRight);
-    m_modeStack->setProperty("_q_custom_style_disabled",false);
+
     m_globalMessaging = new GlobalMessaging(this);
 
     m_modeManager = new ModeManager(this, m_modeStack);
@@ -203,7 +204,7 @@ MainWindow::MainWindow() :
 
 MainWindow::~MainWindow()
 {
-	if (m_connectionManager)	// Pip
+    if (m_connectionManager)
 	{
 		m_connectionManager->disconnectDevice();
 		m_connectionManager->suspendPolling();
