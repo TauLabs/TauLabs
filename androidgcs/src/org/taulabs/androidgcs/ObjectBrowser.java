@@ -26,18 +26,19 @@ package org.taulabs.androidgcs;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Observable;
-import java.util.Observer;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
+import org.taulabs.androidgcs.fragments.ObjectEditor;
+import org.taulabs.androidgcs.fragments.ObjectViewer;
 import org.taulabs.uavtalk.UAVDataObject;
 import org.taulabs.uavtalk.UAVObject;
 
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -50,9 +51,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
-import android.widget.TextView;
 
-public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPreferenceChangeListener {
+public class ObjectBrowser extends ObjectManagerActivity 
+	implements OnSharedPreferenceChangeListener {
 
 	private final String TAG = "ObjectBrower";
 	int selected_index = -1;
@@ -61,37 +62,86 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 	ArrayAdapter<UAVDataObject> adapter;
 	List<UAVDataObject> allObjects;
 
-	final Handler uavobjHandler = new Handler();
-	final Runnable updateText = new Runnable() {
-		@Override
-		public void run() {
-			updateObject();
-		}
-	};
+	enum DisplayMode {NONE, VIEW, EDIT};
+	DisplayMode displayMode = DisplayMode.NONE;
+	
+	/**
+	 * Display the fragment to edit this object
+	 * @param id
+	 */
+	public void editObject(int id) {
+		
+		Log.d(TAG, "editObject("+id+")");
 
-	private final Observer updatedObserver = new Observer() {
-		@Override
-		public void update(Observable observable, Object data) {
-			uavobjHandler.post(updateText);
-		}
-	};
+		displayMode = DisplayMode.EDIT;
+		
+		Bundle b = new Bundle();
+		b.putString("org.taulabs.androidgcs.ObjectName", allObjects.get(selected_index).getName());
+		b.putLong("org.taulabs.androidgcs.ObjectId", allObjects.get(selected_index).getObjID());
+		b.putLong("org.taulabs.androidgcs.InstId", allObjects.get(selected_index).getInstID());
 
+		Fragment newFrag = new ObjectEditor();
+		newFrag.setArguments(b);
+		
+		FragmentTransaction trans = getFragmentManager().beginTransaction();
+		trans.replace(R.id.object_information, newFrag);
+		trans.addToBackStack(null);
+		trans.commit();
+
+	}
+	
+	/**
+	 * Display the fragment to view this object
+	 * @param id
+	 */
+	public void viewObject(int id) {
+		Bundle b = new Bundle();
+		b.putString("org.taulabs.androidgcs.ObjectName", allObjects.get(selected_index).getName());
+		b.putLong("org.taulabs.androidgcs.ObjectId", allObjects.get(selected_index).getObjID());
+		b.putLong("org.taulabs.androidgcs.InstId", allObjects.get(selected_index).getInstID());
+
+		Fragment newFrag = new ObjectViewer();
+		newFrag.setArguments(b);
+		
+		if (displayMode == DisplayMode.EDIT)
+			getFragmentManager().popBackStack();
+
+		FragmentTransaction trans = getFragmentManager().beginTransaction();
+		trans.replace(R.id.object_information, newFrag);
+		if (displayMode != DisplayMode.NONE)
+			trans.addToBackStack(null);
+		trans.commit();
+		
+		displayMode = DisplayMode.VIEW;
+	}
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.object_browser);
+		super.onCreate(savedInstanceState);
+
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
-		super.onCreate(savedInstanceState);
 
 		 ((CheckBox) findViewById(R.id.dataCheck)).setChecked(prefs.getBoolean("browser_show_data",true));
 		 ((CheckBox) findViewById(R.id.settingsCheck)).setChecked(prefs.getBoolean("browser_show_settings",true));
+		 
+		 if (savedInstanceState != null) {
+				displayMode = (DisplayMode) savedInstanceState.getSerializable("org.taulabs.browser.mode");
+				selected_index = savedInstanceState.getInt("org.taulabs.browser.selected");
+		 }
 	}
-
+	
 	@Override
-	void onOPConnected() {
-		super.onOPConnected();
-		Log.d(TAG, "onOPConnected()");
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.object_browser);
+		return navDrawer;
+	}
+	
+	@Override
+	void onConnected() {
+		super.onConnected();
 
 		OnCheckedChangeListener checkListener = new OnCheckedChangeListener() {
 			@Override
@@ -109,15 +159,16 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 		((CheckBox) findViewById(R.id.dataCheck)).setOnCheckedChangeListener(checkListener);
 		((CheckBox) findViewById(R.id.settingsCheck)).setOnCheckedChangeListener(checkListener);
 
+		updateList();
+	}
+
+	public void attachObjectView() {
+		Log.d(TAG, "attachObjectView()");
 		((Button) findViewById(R.id.editButton)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (selected_index > 0) {
-					Intent intent = new Intent(ObjectBrowser.this, ObjectEditor.class);
-					intent.putExtra("org.taulabs.androidgcs.ObjectName", allObjects.get(selected_index).getName());
-					intent.putExtra("org.taulabs.androidgcs.ObjectId", allObjects.get(selected_index).getObjID());
-					intent.putExtra("org.taulabs.androidgcs.InstId", allObjects.get(selected_index).getInstID());
-					startActivity(intent);
+					editObject(selected_index);
 				}
 			}
 		});
@@ -139,18 +190,12 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 				}
 			}
 		});
-
-		updateList();
 	}
 
 	/**
 	 * Populate the list of UAVO objects based on the selected filter
 	 */
 	private void updateList() {
-		// Disconnect any previous signals
-		if (selected_index > 0)
-			allObjects.get(selected_index).removeUpdatedObserver(updatedObserver);
-		selected_index = -1;
 
 		boolean includeData = ((CheckBox) findViewById(R.id.dataCheck)).isChecked();
 		boolean includeSettings = ((CheckBox) findViewById(R.id.settingsCheck)).isChecked();
@@ -166,35 +211,25 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 				allObjects.addAll(objects);
 		}
 
-		adapter = new ArrayAdapter<UAVDataObject>(this,R.layout.object_view, allObjects);
 		ListView objects = (ListView) findViewById(R.id.object_list);
-		objects.setAdapter(adapter);
-
+		adapter = new ArrayAdapter<UAVDataObject>(this, R.layout.object_browser_item, allObjects);
+		objects.setAdapter(adapter);		
 		objects.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-
-				if (selected_index > 0)
-					allObjects.get(selected_index).removeUpdatedObserver(updatedObserver);
-
+				
 				selected_index = position;
-				allObjects.get(position).addUpdatedObserver(updatedObserver);
-				allObjects.get(position).updateRequested();
-				updateObject();
+				viewObject(selected_index);
 			}
 		});
-
+		
+		if (selected_index >= 0) {
+			objects.setSelection(selected_index);
+			objects.setItemChecked(selected_index, true);
+		}
 	}
 
-	private void updateObject() {
-		//adapter.notifyDataSetChanged();
-		TextView text = (TextView) findViewById(R.id.object_information);
-		if (selected_index >= 0 && selected_index < allObjects.size())
-			text.setText(allObjects.get(selected_index).toStringData());
-		else
-			Log.d(TAG,"Update called but invalid index: " + selected_index);
-	}
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
@@ -208,5 +243,13 @@ public class ObjectBrowser extends ObjectManagerActivity implements OnSharedPref
 			((CheckBox) findViewById(R.id.settingsCheck)).setChecked(prefs.getBoolean("browser_show_settings",true));
 			updateList();
 		}
+	}
+	
+	@Override
+	public void onSaveInstanceState (Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+		outState.putSerializable("org.taulabs.browser.mode", displayMode);
+		outState.putInt("org.taulabs.browser.selected", selected_index);
 	}
 }

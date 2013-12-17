@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
+
+    <LinearLayout
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <fragment
+            android:id="@+id/pfd"
+            android:name="org.taulabs.androidgcs.fragments.PFD"
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
+            android:layout_height="match_parent"  />
+
+        <fragment
+            android:id="@+id/map"
+            android:name="org.taulabs.androidgcs.fragments.Map"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"  />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RadioGroup
+                android:id="@+id/modeSelector1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <ToggleButton
+                    android:id="@+id/positionHoldButton"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:onClick="onToggle"
+                    android:textOff="Position Hold"
+                    android:textOn="Position Hold" />
+
+                <ToggleButton
+                    android:id="@+id/rthButton"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onToggle"
+                    android:textOff="Return to Home"
+                    android:textOn="Return to Home" />
+
+                <ToggleButton
+                    android:id="@+id/rttButton"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onToggle"
+                    android:textOff="Return to Tablet"
+                    android:textOn="Return to Tablet" />
+
+                <ToggleButton
+                    android:id="@+id/pathPlannerButton"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onToggle"
+                    android:textOff="Fly Path"
+                    android:textOn="Fly Path" />
+
+                <ToggleButton
+                    android:id="@+id/followTabletButton"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onToggle"
+                    android:textOff="Follow Me"
+                    android:textOn="Follow Me" />
+
+                <ToggleButton
+                    android:id="@+id/landButton"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onToggle"
+                    android:textOff="Land"
+                    android:textOn="Land" />
+            </RadioGroup>
+
+            <ToggleButton
+                android:id="@+id/cameraPoiButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:onClick="onPoiToggle"
+                android:textOff="POI Track"
+                android:textOn="POI Track" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

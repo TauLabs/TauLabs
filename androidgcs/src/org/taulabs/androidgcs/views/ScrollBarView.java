@@ -31,7 +31,6 @@ import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -41,6 +40,7 @@ import android.widget.TextView;
 
 public class ScrollBarView extends GridLayout implements ObjectFieldMappable {
 
+	@SuppressWarnings("unused")
 	private final static String TAG = ScrollBarView.class.getSimpleName();
 
 	private final TextView lbl;
@@ -55,8 +55,6 @@ public class ScrollBarView extends GridLayout implements ObjectFieldMappable {
 
 	public ScrollBarView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-
-		Log.d(TAG, "Scroll bar init called");
 
 		setOrientation(LinearLayout.VERTICAL);
 		setColumnCount(2);

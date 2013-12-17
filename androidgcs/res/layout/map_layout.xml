@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- This layout is used by the Map activity -->
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/map"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	class="com.google.android.gms.maps.MapFragment"/>
-
-		

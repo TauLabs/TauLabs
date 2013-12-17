@@ -24,16 +24,34 @@
 package org.taulabs.androidgcs;
 
 import org.taulabs.androidgcs.R;
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
+import org.taulabs.androidgcs.fragments.SystemAlarmsFragment;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 /**
  * All the work for this activity is performed by it's fragment
  */
 public class SystemAlarmActivity extends ObjectManagerActivity {
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.system_alarms);
+
+		if (savedInstanceState == null) {
+			FragmentTransaction fragmentTransaction = getFragmentManager()
+					.beginTransaction();
+			fragmentTransaction.add(R.id.content_frame, new SystemAlarmsFragment());
+			fragmentTransaction.commit();
+		}
 	}
+	
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.drawer);
+		return navDrawer;
+	}
+
 }

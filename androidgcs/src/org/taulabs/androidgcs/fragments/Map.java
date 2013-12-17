@@ -10,6 +10,7 @@ import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -30,9 +31,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.maps.GeoPoint;
 
 public class Map extends ObjectManagerFragment {
@@ -52,6 +56,9 @@ public class Map extends ObjectManagerFragment {
     private GeoPoint pathDesiredLocation;
     private GeoPoint uavLocation;
     private GeoPoint poiLocation;
+    
+    private List<LatLng> pathPoints = new ArrayList<LatLng>();
+    private Polyline pathLine;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +75,10 @@ public class Map extends ObjectManagerFragment {
 		 }
 
 		mMap = m.getMap();
+		
+		pathLine = mMap.addPolyline(new PolylineOptions().width(5)
+									.color(Color.WHITE));
+		pathLine.setPoints(pathPoints);
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		int map_type = Integer.decode(prefs.getString("map_type", "1"));
@@ -103,25 +114,64 @@ public class Map extends ObjectManagerFragment {
 		});
 		
 		mMap.setOnMarkerDragListener(dragListener);
+		
+		if (savedInstanceState == null) {
+			if (DEBUG) Log.d(TAG, "Default initialization to current location");
+			float zoom = prefs.getFloat("map_zoom", 17);	
 
-		//! If the current tablet location is available, jump straight to it
-		LocationManager locationManager =
-		        (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-		Location tabletLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		if (tabletLocation != null) {
-			LatLng lla = new LatLng(tabletLocation.getLatitude(), tabletLocation.getLongitude());
-			if (DEBUG) Log.d(TAG, "Location: " + lla);
-			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lla, 15));
+			//! If the current tablet location is available, jump straight to it
+			LocationManager locationManager =
+					(LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+			Location tabletLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			if (tabletLocation == null) {
+				tabletLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			}
+			if (tabletLocation != null) {
+				LatLng lla = new LatLng(tabletLocation.getLatitude(), tabletLocation.getLongitude());
+				if (DEBUG) Log.d(TAG, "Location: " + lla);
+				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lla, zoom));
+			} else {
+				if (DEBUG) Log.d(TAG, "Could not get location");
+			}
 		} else {
-			if (DEBUG) Log.d(TAG, "Could not get location");
+			if (mMap != null) {
+				if (DEBUG) Log.d(TAG, "Initializing location from bundle");
+
+				CameraPosition camPos = mMap.getCameraPosition();
+				
+				// Use current location as defaults in case not found
+				LocationManager locationManager =
+						(LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+				Location tabletLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+				if (tabletLocation == null) {
+					tabletLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+				}
+				LatLng lla = new LatLng(0,0);
+				if (tabletLocation != null) {
+					lla = new LatLng(tabletLocation.getLatitude(), tabletLocation.getLongitude());
+				}
+
+				// Get the position from bundle
+				double map_lat = savedInstanceState.getDouble("org.taulabs.map_lat", lla.latitude);
+				double map_lon = savedInstanceState.getDouble("org.taulabs.map_lon", lla.longitude);
+				
+				// Start with default and see if one is stored
+				float zoom = prefs.getFloat("map_zoom", 17);
+				zoom = (float) savedInstanceState.getDouble("org.taulabs.map_zoom", zoom);
+				
+				// Move there
+				lla = new LatLng(map_lat, map_lon);
+				if (DEBUG) Log.d(TAG, "Init location: " + lla);
+				mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lla, zoom));
+			}
 		}
 		return v;
 	}
 
 
 	@Override
-	public void onOPConnected(UAVObjectManager objMngr) {
-		super.onOPConnected(objMngr);
+	public void onConnected(UAVObjectManager objMngr) {
+		super.onConnected(objMngr);
 		UAVObject obj = objMngr.getObject("HomeLocation");
 		if (obj != null) {
 			obj.updateRequested(); // Make sure this is correct and been updated
@@ -351,15 +401,19 @@ public class Map extends ObjectManagerFragment {
 			}
 		} else if (obj.getName().compareTo("PositionActual") == 0) {
 			uavLocation = getUavLocation();
+			LatLng loc = new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6);
 			if (mUavMarker == null) {
 				mUavMarker = mMap.addMarker(new MarkerOptions().anchor(0.5f,0.5f)
-			       .position(new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6))
+			       .position(loc)
 			       .title("UAV")
 			       .snippet(String.format("%g, %g", uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6))
 			       .icon(BitmapDescriptorFactory.fromResource(R.drawable.im_map_uav)));
 			} else {
-				mUavMarker.setPosition((new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6)));
+				mUavMarker.setPosition(loc);
 			}
+			
+			pathPoints.add(loc);
+			pathLine.setPoints(pathPoints);
 		} else if (obj.getName().compareTo("Waypoint") == 0) {
 			int instances = objMngr.getNumInstances(obj.getObjID());
 			for (int idx = 0; idx < instances; idx++) {
@@ -470,6 +524,10 @@ public class Map extends ObjectManagerFragment {
 	            			new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6)));
 	            }
 	            return true;
+	        case R.id.map_action_clear_uav_path:
+	        	pathPoints.clear();
+	        	pathLine.setPoints(pathPoints);
+	        	return true;
 	        default:
 	            return super.onContextItemSelected(item);
 	    }
@@ -489,13 +547,40 @@ public class Map extends ObjectManagerFragment {
 
 	@Override
 	public void onDestroy() {
+		if (mMap != null) {
+			CameraPosition camPos = mMap.getCameraPosition();
+   
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			SharedPreferences.Editor editor = settings.edit();
+			editor.putFloat("map_zoom", camPos.zoom);
+			editor.commit();
+	   }
 		super.onDestroy();
 		m.onDestroy();
 	}
 
 	@Override
+	public void onSaveInstanceState (Bundle outState) {
+		super.onSaveInstanceState(outState);
+		if (mMap != null) {
+			CameraPosition camPos = mMap.getCameraPosition();
+			LatLng lla = camPos.target;
+			outState.putDouble("org.taulabs.map_lat", lla.latitude);
+			outState.putDouble("org.taulabs.map_lon", lla.longitude);
+			outState.putDouble("org.taulabs.map_zoom", camPos.zoom);
+			outState.putDouble("org.taulabs.map_tilt", camPos.tilt);
+		}
+	}
+	
+	@Override
 	public void onLowMemory() {
 		super.onLowMemory();
 		m.onLowMemory();
 	}
+
+	@Override
+	protected String getDebugTag() {
+		return TAG;
+	}
+	
 }

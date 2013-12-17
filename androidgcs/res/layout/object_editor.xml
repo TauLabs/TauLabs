@@ -1,56 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ObjectEditor" >
-    
+
     <!-- View android:layout_width="200dp" android:layout_height="1dip" android:background="#FFFFFFFF" / -->
-	
-	<LinearLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="64dp"
-	    android:layout_weight="1"
-	    android:gravity="right" >
 
-		<TextView
-		    android:id="@+id/object_edit_object_name"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text=""/>
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="4dip"
+        android:layout_weight="1.56" >
 
-		<Button
-		    android:id="@+id/object_edit_load_button"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="@string/load" />
+        <org.taulabs.androidgcs.views.ObjectEditView
+            android:id="@+id/object_edit_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </org.taulabs.androidgcs.views.ObjectEditView>
+    </ScrollView>
 
-		<Button
-		    android:id="@+id/object_edit_apply_button"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="@string/apply_button" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_marginTop="4dip"
+        android:background="?android:attr/dividerVertical" />
 
-		<Button
-		    android:id="@+id/object_edit_save_button"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="@string/save_button" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_weight="1"
+        android:gravity="right" >
 
-	</LinearLayout>
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
+            android:background="?android:attr/dividerVertical" />
+        
+        <Button
+            android:id="@+id/object_edit_load_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:text="@string/load" />
 
-	<ScrollView
-	    android:id="@+id/scrollView1"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="1.56" >
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
+            android:background="?android:attr/dividerVertical" />
 
-	    <org.taulabs.androidgcs.ObjectEditView
-	        android:id="@+id/object_edit_view"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" >
-	    </org.taulabs.androidgcs.ObjectEditView>
-	</ScrollView>
-    
+        <Button
+            android:id="@+id/object_edit_apply_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:text="@string/apply_button" />
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
+            android:background="?android:attr/dividerVertical" />
+
+        <Button
+            android:id="@+id/object_edit_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:text="@string/save_button" />
+
+        <!-- View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
+            android:background="?android:attr/dividerVertical" />
+
+        <Button
+            android:id="@+id/object_edit_close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:text="@string/close_button" /-->
+    </LinearLayout>
+
 </LinearLayout>

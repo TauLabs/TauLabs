@@ -37,6 +37,18 @@
         Google Play services (from Play Store) [CHAR LIMIT=NONE] -->
     <string name="common_google_play_services_update_text" msgid="9053896323427875356">This app won\'t run unless you update Google Play services.</string>
 
+    <!-- Title of confirmation dialog informing the user that a network error occurred. [CHAR LIMIT=40] -->
+    <string name="common_google_play_services_network_error_title">Network Error</string>
+
+    <!-- Message in confirmation dialog informing the user that a network error occurred. [CHAR LIMIT=NONE] -->
+    <string name="common_google_play_services_network_error_text">A data connection is required to connect to Google Play services.</string>
+
+    <!-- Title of confirmation dialog informing the user that they provided an invalid account. [CHAR LIMIT=40] -->
+    <string name="common_google_play_services_invalid_account_title">Invalid Account</string>
+
+    <!-- Message in confirmation dialog informing the user that they provided an invalid account. [CHAR LIMIT=NONE] -->
+    <string name="common_google_play_services_invalid_account_text">The specified account does not exist on this device. Please choose a different account.</string>
+
     <!-- Message in confirmation dialog informing user there is an unknown issue in Google Play
         services [CHAR LIMIT=NONE] -->
     <string name="common_google_play_services_unknown_issue">Unknown issue with Google Play services.</string>
@@ -47,17 +59,42 @@
     <!-- Message in confirmation dialog informing user that Google Play services is not supported on their device [CHAR LIMIT=NONE] -->
     <string name="common_google_play_services_unsupported_text">Google Play services, which some of your applications rely on, is not supported by your device. Please contact the manufacturer for assistance.</string>
 
+    <!-- Message in confirmation dialog informing user that date on the device is not correct,
+    causing certificate checks to fail. [CHAR LIMIT=NONE] -->
+    <string name="common_google_play_services_unsupported_date_text">The date on the device appears to be incorrect. Please check the date on the device.</string>
+
     <!-- Button in confirmation dialog for updating Google Play services [CHAR LIMIT=40] -->
     <string name="common_google_play_services_update_button" msgid="6556509956452265614">Update</string>
 
-    <!-- Long form sign-in button text. This is the placeholder text, used if we can't
-        find the service-side assets. [CHAR LIMIT=25] -->
+    <!-- Sign-in button text [CHAR LIMIT=15] -->
+    <string name="common_signin_button_text">Sign in</string>
+
+    <!-- Long form sign-in button text [CHAR LIMIT=30] -->
     <string name="common_signin_button_text_long">Sign in with Google</string>
 
 
   <!-- Auth client code resources (prefix with auth_client --><skip />
-  <!--  Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=70] -->
-  <string name="auth_client_availability_notification_title">Install/Update/Enable Google Play services</string>
+  <!--  Title for notification shown when a bad version of GooglePlayServices
+        has been installed and needs correction for an application to work.
+        [CHAR LIMIT=70] -->
+  <string name="auth_client_using_bad_version_title">
+      An application attempted to use a bad version of Google Play Services.
+  </string>
+  <!--  Title for notification shown when GooglePlayServices needs to be
+        enabled for a application to work. [CHAR LIMIT=70] -->
+  <string name="auth_client_needs_enabling_title">
+      An application requires Google Play Services to be enabled.
+  </string>
+  <!--  Title for notification shown when GooglePlayServices needs to be
+        installed for a application to work. [CHAR LIMIT=70] -->
+  <string name="auth_client_needs_installation_title">
+      An application requires installation of Google Play Services.
+  </string>
+  <!--  Title for notification shown when GooglePlayServices needs to be
+        udpated for a application to work. [CHAR LIMIT=70] -->
+  <string name="auth_client_needs_update_title">
+      An application requires an update for Google Play Services.
+  </string>
 
   <!--  Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=42] -->
   <string name="auth_client_play_services_err_notification_msg">Google Play services error</string>
@@ -65,4 +102,10 @@
   <!--  Requested by string saying which app requested the notification. [CHAR LIMIT=42] -->
   <string name="auth_client_requested_by_msg">Requested by <xliff:g id="app_name">%1$s</xliff:g></string>
   <!-- End Auth client resources --><skip />
+
+    <!-- Location client code resources (prefix with location_client) -->
+
+    <!-- Lots of packages seem to assume this file will exist, easier to just leave it for now. -->
+
+    <!-- End location client resources -->
 </resources>

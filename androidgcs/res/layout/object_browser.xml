@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="right"
-    android:gravity="right" >
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -31,14 +31,13 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="@string/data" />
-
         </LinearLayout>
-        
+
         <View
-            android:layout_height="1dip"
             android:layout_width="fill_parent"
+            android:layout_height="1dip"
             android:background="#FFFFFFFF" />
-        
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
@@ -50,7 +49,7 @@
                 android:layout_weight="2"
                 android:choiceMode="singleChoice"
                 android:drawSelectorOnTop="true" />
-            
+
             <View
                 android:layout_width="1dip"
                 android:layout_height="fill_parent"
@@ -62,34 +61,27 @@
                 android:layout_weight="1"
                 android:orientation="vertical" >
 
-                <TextView
+                <FrameLayout
                     android:id="@+id/object_information"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="12dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <Button
-                    android:id="@+id/editButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/edit" />
-
-                <Button
-                    android:id="@+id/object_load_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toLeftOf="@+id/editButton"
-                    android:text="@string/load" />
-
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="12dp" />
             </RelativeLayout>
-
         </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

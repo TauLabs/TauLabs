@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- The main content view -->
+    <FrameLayout
+        
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_alignParentLeft="true"
+    android:layout_gravity="center_horizontal" >
+
+    <TextView
+        android:id="@+id/logger_number_of_objects_title"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:text="@string/number_of_objects" 
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <TextView
+        android:id="@+id/logger_number_of_bytes_title"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/logger_number_of_objects_title"
+        android:text="@string/number_of_bytes" 
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <TextView
+        android:id="@+id/logger_number_of_objects"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/logger_number_of_bytes_title" 
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    
+    <TextView
+        android:id="@+id/logger_number_of_bytes"
+        android:layout_width="132dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/logger_number_of_bytes_title"
+        android:layout_alignBottom="@+id/logger_number_of_bytes_title"
+        android:layout_alignLeft="@+id/logger_number_of_objects" 
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <Space
+        android:id="@+id/logger_space"
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/logger_number_of_bytes_title"
+        android:layout_marginLeft="16dp" />
+
+	<TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/logger_space"
+        android:layout_below="@+id/logger_space"
+        android:text="@string/select_file_to_email_it"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <ListView
+        android:id="@+id/logger_file_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1" 
+        >
+    </ListView>
+
+
+</RelativeLayout>
+    </FrameLayout>
+    <!-- The navigation drawer -->
+    <ListView android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#111"/>
+</android.support.v4.widget.DrawerLayout>
