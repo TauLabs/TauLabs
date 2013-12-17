@@ -153,6 +153,8 @@ void deviceWidget::populate()
     myDevice->retrievePartBundleButton->setEnabled(checked);
     myDevice->retrievePartBundleButton->setToolTip(moreRecent);
     int x = 0;
+    myDevice->tablePartitions->clear();
+
     qDebug()<<"POPULATE BEGIN PARTITION BROWSER LOAD, NUMBER OF PARTITIONS TO ADD"<<m_dfu->devices[deviceID].PartitionSizes.size();
     while(true)
     {
