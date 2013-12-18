@@ -42,7 +42,6 @@
 #include "coordinate_conversions.h"
 
 #include "modulesettings.h"
-#include "adcrouting.h"
 #include "gpsvelocity.h"
 #include "airspeedsettings.h"
 #include "gps_airspeed.h"
@@ -153,24 +152,17 @@ int32_t AirspeedInitialize()
 	if (!module_enabled)
 		return -1;
 
-#ifdef BARO_AIRSPEED_PRESENT
-	ADCRoutingInitialize();
-	uint8_t adc_channel_map[ADCROUTING_CHANNELMAP_NUMELEM];	
-	ADCRoutingChannelMapGet(adc_channel_map);
-	
-	//Determine if the barometric airspeed sensor is routed to an ADC pin 
-	for (int i = 0; i < ADCROUTING_CHANNELMAP_NUMELEM; i++) {
-		if (adc_channel_map[i] == ADCROUTING_CHANNELMAP_ANALOGAIRSPEED) {
-			airspeedADCPin = i;
-		}
-	}
-	
-#endif	
-	
 	BaroAirspeedInitialize();
 	AirspeedActualInitialize();
 	AirspeedSettingsInitialize();
-	
+
+#ifdef BARO_AIRSPEED_PRESENT
+	// Get the analog pin
+	AirspeedSettingsAnalogPinGet((uint8_t *) &airspeedADCPin);
+	if (airspeedADCPin == AIRSPEEDSETTINGS_ANALOGPIN_NONE)
+		airspeedADCPin = -1;
+#endif
+
 	AirspeedSettingsConnectCallback(AirspeedSettingsUpdatedCb);	
 	
 	return 0;
