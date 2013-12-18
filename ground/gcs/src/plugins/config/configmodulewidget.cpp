@@ -86,6 +86,8 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(batterySettingsName, "Type", ui->cb_batteryType);
     addUAVObjectToWidgetRelation(batterySettingsName, "NbCells", ui->sb_numBatteryCells);
     addUAVObjectToWidgetRelation(batterySettingsName, "Capacity", ui->sb_batteryCapacity);
+    addUAVObjectToWidgetRelation(batterySettingsName, "VoltagePin", ui->cbVoltagePin);
+    addUAVObjectToWidgetRelation(batterySettingsName, "CurrentPin", ui->cbCurrentPin);
     addUAVObjectToWidgetRelation(batterySettingsName, "VoltageThresholds", ui->sb_lowVoltageAlarm, FlightBatterySettings::VOLTAGETHRESHOLDS_ALARM);
     addUAVObjectToWidgetRelation(batterySettingsName, "VoltageThresholds", ui->sb_lowVoltageWarning, FlightBatterySettings::VOLTAGETHRESHOLDS_WARNING);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationFactor", ui->sb_voltageFactor, FlightBatterySettings::SENSORCALIBRATIONFACTOR_VOLTAGE);
