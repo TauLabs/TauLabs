@@ -63,7 +63,8 @@ bool NavWizardPlugin::initialize(const QStringList & args, QString *errMsg)
     Core::ModeManager::instance()->addAction(cmd, 1);
 
     ac->menu()->addSeparator();
-    ac->appendGroup("Navigation Wizard");
+    ac->appendGroup("Wizard");
+    ac->addAction(cmd, "Wizard");
     ac->addAction(cmd, "Navigation Wizard");
 
     connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(showNavigationWizard()));
