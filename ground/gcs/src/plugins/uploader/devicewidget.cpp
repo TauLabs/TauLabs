@@ -136,7 +136,7 @@ void deviceWidget::populate()
     QString moreRecent;
     bool checked;
     qDebug()<<"POPULATE BL_VERSION:"<<m_dfu->devices[deviceID].BL_Version;
-    if(m_dfu->devices[deviceID].BL_Version < 128)
+    if(m_dfu->devices[deviceID].BL_Version < 0x90)
     {
         moreRecent = (tr("You need a more recent bootloader to use this function"));
         checked = false;
@@ -583,7 +583,7 @@ void deviceWidget::downloadFinished(bool result)
         // Now save the result (use the utility function from OP_DFU)
     }
     else
-            status("Download failed", STATUSICON_FAIL);
+        status("Download failed", STATUSICON_FAIL);
     myDevice->retrievePartBundleButton->setEnabled(true);
     emit downloadFinishedCallback();
 }
