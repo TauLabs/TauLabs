@@ -31,13 +31,9 @@
 
 #include "vehicleconfigurationhelper.h"
 #include "extensionsystem/pluginmanager.h"
-#include "actuatorsettings.h"
-#include "attitudesettings.h"
-#include "mixersettings.h"
-#include "systemsettings.h"
-#include "manualcontrolsettings.h"
-#include "sensorsettings.h"
-#include "stabilizationsettings.h"
+#include "inssettings.h"
+#include "modulesettings.h"
+#include "stateestimation.h"
 
 VehicleConfigurationHelper::VehicleConfigurationHelper(VehicleConfigurationSource *configSource)
     : m_configSource(configSource), m_uavoManager(0),
@@ -91,26 +87,46 @@ void VehicleConfigurationHelper::clearModifiedObjects()
  */
 void VehicleConfigurationHelper::applyFilterConfiguration()
 {
-    /*Core::IBoardType* boardPlugin = m_configSource->getControllerType();
-    Q_ASSERT(boardPlugin);
-    if (!boardPlugin)
-        return;
+    // Select INS for navigation filter and complementary for attitude
+    StateEstimation *stateEstimation = StateEstimation::GetInstance(m_uavoManager);
+    Q_ASSERT(stateEstimation);
 
-    Core::IBoardType::InputType newType = m_configSource->getInputType();
-    bool success = boardPlugin->setInputOnPort(newType);
+    StateEstimation::DataFields stateEstimationData = stateEstimation->getData();
+    stateEstimationData.AttitudeFilter = StateEstimation::ATTITUDEFILTER_COMPLEMENTARY;
+    stateEstimationData.NavigationFilter = StateEstimation::NAVIGATIONFILTER_INS;
+    stateEstimation->setData(stateEstimationData);
 
-    if (success) {
-        UAVDataObject* hwSettings = dynamic_cast<UAVDataObject*>(
-                    m_uavoManager->getObject(boardPlugin->getHwUAVO()));
-        Q_ASSERT(hwSettings);
-        if (hwSettings)
-            addModifiedObject(hwSettings, tr("Writing hardware settings"));
-    } */
+    addModifiedObject(stateEstimation, tr("Writing state estimation settings"));
+
+    // Set good defaults for the variances
+    INSSettings *insSettings = INSSettings::GetInstance(m_uavoManager);
+    Q_ASSERT(insSettings);
+
+    INSSettings::DataFields data = insSettings->getData();
+    data.accel_var[0] = data.accel_var[1]  = data.accel_var[2] = 1e-2;
+    data.gyro_var[0] = data.gyro_var[1]  = data.gyro_var[2] = 1e-5;
+    data.mag_var[0] = data.mag_var[1]  = 0.1;
+    data.mag_var[2] = 100;
+    data.baro_var = 5;
+    data.MagBiasNullingRate = 0;
+    data.ComputeGyroBias = INSSettings::COMPUTEGYROBIAS_FALSE;
+    insSettings->setData(data);
+
+    addModifiedObject(insSettings, tr("Writing ins settings"));
+
 }
 
 void VehicleConfigurationHelper::applyModuleConfiguration()
 {
+    ModuleSettings *moduleSettings = ModuleSettings::GetInstance(m_uavoManager);
+    Q_ASSERT(moduleSettings);
 
+    ModuleSettings::DataFields data = moduleSettings->getData();
+    data.AdminState[ModuleSettings::ADMINSTATE_GPS] = ModuleSettings::ADMINSTATE_ENABLED;
+    data.AdminState[ModuleSettings::ADMINSTATE_VTOLPATHFOLLOWER] = ModuleSettings::ADMINSTATE_ENABLED;
+    moduleSettings->setData(data);
+
+    addModifiedObject(moduleSettings, tr("Writing module settings"));
 }
 
 bool VehicleConfigurationHelper::saveChangesToController(bool save)

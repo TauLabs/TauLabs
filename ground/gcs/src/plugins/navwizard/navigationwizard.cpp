@@ -34,7 +34,6 @@
 #include "pages/savepage.h"
 #include "extensionsystem/pluginmanager.h"
 #include "vehicleconfigurationhelper.h"
-#include "actuatorsettings.h"
 #include "uploader/uploadergadgetfactory.h"
 
 NavigationWizard::NavigationWizard(QWidget *parent) : QWizard(parent),
