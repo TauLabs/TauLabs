@@ -34,7 +34,6 @@
 #include "flightbatterystate.h"
 #include "flightbatterysettings.h"
 #include "modulesettings.h"
-#include "adcrouting.h"
 
 // ****************
 // Private constants
@@ -85,29 +84,8 @@ int32_t BatteryInitialize(void)
 		return 0;
 	}
 #endif
-	ADCRoutingInitialize();
-	uint8_t adc_channel_map[ADCROUTING_CHANNELMAP_NUMELEM];
-	ADCRoutingChannelMapGet(adc_channel_map);
-
-	//Determine if the battery sensors are routed to ADC pins
-	for (int i = 0; i < ADCROUTING_CHANNELMAP_NUMELEM; i++) {
-		if (adc_channel_map[i] == ADCROUTING_CHANNELMAP_BATTERYVOLTAGE) {
-			voltageADCPin = i;
-		}
-		if (adc_channel_map[i] == ADCROUTING_CHANNELMAP_BATTERYCURRENT) {
-			currentADCPin = i;
-		}
-	}
-
-	//Don't enable module if no ADC pins are routed to the sensors
-	if (voltageADCPin < 0 && currentADCPin < 0)
-		module_enabled = false;
-
-	//Start module
-	if (module_enabled) {
-		FlightBatteryStateInitialize();
-		FlightBatterySettingsInitialize();
-	}
+	FlightBatterySettingsInitialize();
+	FlightBatteryStateInitialize();
 
 	return 0;
 }
@@ -138,6 +116,14 @@ static void batteryTask(void * parameters)
 		if (battery_settings_updated) {
 			battery_settings_updated = false;
 			FlightBatterySettingsGet(&batterySettings);
+
+			voltageADCPin = batterySettings.VoltagePin;
+			if (voltageADCPin == FLIGHTBATTERYSETTINGS_VOLTAGEPIN_NONE)
+				voltageADCPin = -1;
+
+			currentADCPin = batterySettings.CurrentPin;
+			if (currentADCPin == FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE)
+				currentADCPin = -1;
 		}
 
 		//calculate the battery parameters

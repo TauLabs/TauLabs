@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>448</width>
-    <height>542</height>
+    <height>598</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -310,6 +310,35 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>ADC Pins</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_9">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_23">
+            <property name="text">
+             <string>Voltage Pin:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_24">
+            <property name="text">
+             <string>Current Pin:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="cbVoltagePin"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="cbCurrentPin"/>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="gb_measureVoltage">
@@ -620,6 +649,16 @@
              <double>0.100000000000000</double>
             </property>
            </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_25">
+            <property name="text">
+             <string>ADC Pin:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="cbAirspeedAnalog"/>
           </item>
          </layout>
         </widget>

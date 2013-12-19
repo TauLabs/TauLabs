@@ -28,7 +28,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/actuatorcommand.h \
     $$UAVOBJECT_SYNTHETICS/actuatordesired.h \
     $$UAVOBJECT_SYNTHETICS/actuatorsettings.h \
-    $$UAVOBJECT_SYNTHETICS/adcrouting.h \
     $$UAVOBJECT_SYNTHETICS/airspeedsettings.h \
     $$UAVOBJECT_SYNTHETICS/airspeedactual.h \
     $$UAVOBJECT_SYNTHETICS/altholdsmoothed.h \
@@ -131,7 +130,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatorcommand.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatordesired.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatorsettings.cpp \
-    $$UAVOBJECT_SYNTHETICS/adcrouting.cpp \
     $$UAVOBJECT_SYNTHETICS/airspeedsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/airspeedactual.cpp \
     $$UAVOBJECT_SYNTHETICS/altholdsmoothed.cpp \

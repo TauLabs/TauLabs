@@ -237,7 +237,6 @@ SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
 SRC += $(OPUAVSYNTHDIR)/sensorsettings.c
 SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
 SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
-SRC += $(OPUAVSYNTHDIR)/adcrouting.c
 SRC += $(OPUAVSYNTHDIR)/trimanglessettings.c
 SRC += $(OPUAVSYNTHDIR)/trimangles.c
 endif

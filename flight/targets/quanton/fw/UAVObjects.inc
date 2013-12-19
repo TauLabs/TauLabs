@@ -32,7 +32,6 @@ UAVOBJSRCFILENAMES += accessorydesired
 UAVOBJSRCFILENAMES += actuatorcommand
 UAVOBJSRCFILENAMES += actuatordesired
 UAVOBJSRCFILENAMES += actuatorsettings
-UAVOBJSRCFILENAMES += adcrouting
 UAVOBJSRCFILENAMES += altholdsmoothed
 UAVOBJSRCFILENAMES += attitudesettings
 UAVOBJSRCFILENAMES += inssettings
