@@ -50,9 +50,6 @@ bool VehicleConfigurationHelper::setupVehicle(bool save)
 {
     m_progress = 0;
     clearModifiedObjects();
-    if (!saveChangesToController(save)) {
-        return false;
-    }
 
     m_progress = 0;
     applyModuleConfiguration();
