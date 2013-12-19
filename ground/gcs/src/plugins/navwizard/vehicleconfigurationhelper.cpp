@@ -50,8 +50,6 @@ bool VehicleConfigurationHelper::setupVehicle(bool save)
 {
     m_progress = 0;
     clearModifiedObjects();
-    resetVehicleConfig();
-    resetGUIData();
     if (!saveChangesToController(save)) {
         return false;
     }
@@ -239,61 +237,6 @@ void VehicleConfigurationHelper::saveChangesTimeout()
     m_transactionOK = false;
     m_transactionTimeout = true;
     m_eventLoop.quit();
-}
-
-void VehicleConfigurationHelper::resetVehicleConfig()
-{
-/*    // Reset all vehicle data
-    MixerSettings *mSettings = MixerSettings::GetInstance(m_uavoManager);
-
-    // Reset feed forward, accel times etc
-    mSettings->setFeedForward(0.0f);
-    mSettings->setMaxAccel(1000.0f);
-    mSettings->setAccelTime(0.0f);
-    mSettings->setDecelTime(0.0f);
-
-    // Reset throttle curves
-    QString throttlePattern = "ThrottleCurve%1";
-    for (int i = 1; i <= 2; i++) {
-        UAVObjectField *field = mSettings->getField(throttlePattern.arg(i));
-        Q_ASSERT(field);
-        for (quint32 i = 0; i < field->getNumElements(); i++) {
-            field->setValue(i * (1.0f / (field->getNumElements() - 1)), i);
-        }
-    }
-
-    // Reset Mixer types and values
-    QString mixerTypePattern   = "Mixer%1Type";
-    QString mixerVectorPattern = "Mixer%1Vector";
-    for (int i = 1; i <= 10; i++) {
-        UAVObjectField *field = mSettings->getField(mixerTypePattern.arg(i));
-        Q_ASSERT(field);
-        field->setValue(field->getOptions().at(0));
-
-        field = mSettings->getField(mixerVectorPattern.arg(i));
-        Q_ASSERT(field);
-        for (quint32 i = 0; i < field->getNumElements(); i++) {
-            field->setValue(0, i);
-        }
-    }
-
-    // Apply updates
-    // mSettings->setData(mSettings->getData());
-    addModifiedObject(mSettings, tr("Preparing mixer settings")); */
-}
-
-void VehicleConfigurationHelper::resetGUIData()
-{
-    SystemSettings *sSettings = SystemSettings::GetInstance(m_uavoManager);
-
-    Q_ASSERT(sSettings);
-    SystemSettings::DataFields data = sSettings->getData();
-    data.AirframeType = SystemSettings::AIRFRAMETYPE_CUSTOM;
-    for (quint32 i = 0; i < SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM; i++) {
-        data.AirframeCategorySpecificConfiguration[i] = 0;
-    }
-    sSettings->setData(data);
-    addModifiedObject(sSettings, tr("Preparing vehicle settings"));
 }
 
 /**

@@ -92,9 +92,6 @@ private:
     int m_currentTransactionObjectID;
     int m_progress;
 
-    void resetVehicleConfig();
-    void resetGUIData();
-
 private slots:
     void uAVOTransactionCompleted(UAVObject *object, bool success);
     void uAVOTransactionCompleted(int oid, bool success);
