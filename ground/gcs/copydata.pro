@@ -23,28 +23,23 @@ equals(copydata, 1) {
             Qt5Concurrent.dll \
             Qt5PrintSupport.dll \
             Qt5Widgets.dll \
-            D3DCompiler_43.dll \
-            libEGL.dll \
-            libGLESv2.dll \
-            icuin49.dll \
-            icudt49.dll \
-            libstdc++-6.dll \
-            icuuc49.dll \
-            D3DCompiler_43.dll \
-            libwinpthread-1.dll
+            Qt5Multimedia.dll \
+            Qt5MultimediaWidgets.dll \
+            Qt5Quick.dll \
+            Qt5Qml.dll \
+            icuin51.dll \
+            icudt51.dll \
+            icuuc51.dll \
+            libwinpthread-1.dll \
+	    libgcc_s_dw2-1.dll \
+	    libstdc++-6.dll \
+	    libwinpthread-1.dll
 
         for(dll, QT_DLLS) {
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_BINS]/$$dll\") $$targetPath(\"$$GCS_APP_PATH/$$dll\") $$addNewline()
         }
 
         message($$MINGW_PATH)
-
-        # copy MinGW DLLs
-        MINGW_DLLS = libgcc_s_sjlj-1.dll \
-                     libstdc++-6.dll
-        for(dll, MINGW_DLLS) {
-            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$(QTMINGW)/$$dll\") $$targetPath(\"$$GCS_APP_PATH/$$dll\") $$addNewline()
-        }
 
         # copy iconengines
         QT_ICONENGINE_DLLS = qsvgicon.dll
