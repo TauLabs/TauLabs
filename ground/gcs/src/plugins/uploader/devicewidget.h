@@ -68,7 +68,6 @@ private:
     Ui_deviceWidget *myDevice;
     int deviceID;
     DFUObject *m_dfu;
-    QByteArray downloadedFirmware;
     QString filename;
     QPixmap devicePic;
     QByteArray descriptionArray;

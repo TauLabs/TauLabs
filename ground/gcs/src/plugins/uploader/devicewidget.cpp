@@ -140,13 +140,13 @@ void deviceWidget::populate()
     {
         moreRecent = (tr("You need a more recent bootloader to use this function"));
         checked = false;
-        qDebug()<<"POPULATE BL OK FOR PARTITION BROWSER";
+        qDebug()<<"POPULATE BL TOO OLD FOR PARTITION BROWSER";
     }
     else
     {
         moreRecent = "";
         checked = true;
-        qDebug()<<"POPULATE BL TOO OLD FOR PARTITION BROWSER";
+        qDebug()<<"POPULATE BL OK FOR PARTITION BROWSER";
     }
     myDevice->cbShowPartBrowser->setEnabled(checked);
     myDevice->cbShowPartBrowser->setToolTip(moreRecent);
@@ -520,6 +520,10 @@ void deviceWidget::downloadPartitionBundle()
     QString bundleDirName("taulabs_partitions");
     QDir bundleDir;
     bundleDir = QDir::temp();
+    if(bundleDir.entryList().contains(bundleDirName))
+    {
+        FileUtils::removeDir(bundleDir.absolutePath() + QDir::separator() + bundleDirName);
+    }
     if(!bundleDir.mkdir(bundleDirName))
     {
         status(tr("Could not create temporary directory"),STATUSICON_FAIL);
@@ -527,6 +531,8 @@ void deviceWidget::downloadPartitionBundle()
         return;
     }
     QString filename = QFileDialog::getSaveFileName(this,QString(tr("Select file to write the partitions bundle file to")),QDir::homePath(), "Compressed file (*.zip)");
+    if(filename.isEmpty())
+        return;
     bundleDir.cd(bundleDirName);
     bool success = false;
     for(int i = 0;i < myDevice->tablePartitions->rowCount();++i)
@@ -557,7 +563,7 @@ void deviceWidget::downloadPartitionBundle()
         FileUtils::removeDir(bundleDir.absolutePath());
         return;
     }
-    if(FileUtils::archive(filename,bundleDir,tr("TauLabs partitions bundle file")))
+    if(FileUtils::archive(filename,bundleDir,QDateTime::currentDateTime().toString(),tr("TauLabs partitions bundle file")))
         status(tr("Partition bundle successfully saved"),STATUSICON_OK);
     else
         status(tr("Failed to save bundle"),STATUSICON_FAIL);
@@ -575,7 +581,6 @@ void deviceWidget::downloadFinished(bool result)
     {
         status("Download successful", STATUSICON_OK);
         // Now save the result (use the utility function from OP_DFU)
-        m_dfu->SaveByteArrayToFile(filename, downloadedFirmware);
     }
     else
             status("Download failed", STATUSICON_FAIL);
@@ -744,7 +749,6 @@ void deviceWidget::writeBundlePartitions()
     foreach(QString file,bundleDir.entryList()) {
         m_dfu->AbortOperation();
         bool ok;
-        qDebug()<<QFileInfo(bundleDir.absolutePath()+QDir::separator()+file).baseName();
         int partition = QFileInfo(file).baseName().toInt(&ok);
         if(!ok)
         {

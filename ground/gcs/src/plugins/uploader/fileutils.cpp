@@ -25,6 +25,7 @@
  */
 
 #include "fileutils.h"
+#include <QDebug>
 
 FileUtils::FileUtils()
 {
@@ -60,7 +61,7 @@ bool FileUtils::removeDir(const QString &dirName)
     return result;
 }
 
-bool FileUtils::archive(const QString & filePath, const QDir & dir, const QString & comment) {
+bool FileUtils::archive(const QString & filePath, const QDir & dir, const QString & directory,const QString & comment) {
 
     QuaZip zip(filePath);
     zip.setFileNameCodec("IBM866");
@@ -88,7 +89,7 @@ bool FileUtils::archive(const QString & filePath, const QDir & dir, const QStrin
         if (!fileInfo.isFile())
             continue;
 
-        QString fileNameWithRelativePath = fileInfo.filePath().remove(0, dir.absolutePath().length() + 1);
+        QString fileName = fileInfo.filePath().remove(0, dir.absolutePath().length() + 1);
 
         inFile.setFileName(fileInfo.filePath());
 
@@ -96,7 +97,7 @@ bool FileUtils::archive(const QString & filePath, const QDir & dir, const QStrin
             return false;
         }
 
-        if (!outFile.open(QIODevice::WriteOnly, QuaZipNewInfo(fileNameWithRelativePath, fileInfo.filePath()))) {
+        if (!outFile.open(QIODevice::WriteOnly, QuaZipNewInfo(directory + QDir::separator() + fileName, fileName))) {
             return false;
         }
 
@@ -144,7 +145,8 @@ bool FileUtils::extractAll(QString zipfile,QDir destination)
         // close the source file
         zFile.close();
         // set destination file
-        QFile dstFile( destination.absolutePath()+QDir::separator()+filePath );
+        QFileInfo file(filePath);
+        QFile dstFile( destination.absolutePath()+QDir::separator()+file.fileName() );
         // open the destination file
         if(!dstFile.open( QIODevice::WriteOnly))
             return false;

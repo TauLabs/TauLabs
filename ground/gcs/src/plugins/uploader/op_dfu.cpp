@@ -402,10 +402,12 @@ void DFUObject::run()
         case OP_DFU::Download:
             qDebug()<<"DOWNLOAD THREAD STARTED";
             downloadResult = StartDownloadT(requestStorage, requestSize, requestTransferType);
+            qDebug()<<"DOWNLOAD FINISHED";
             emit downloadFinished(downloadResult);
             break;
         case OP_DFU::Upload:
             uploadStatus = UploadPartitionT(requestFilename, requestVerify, requestDevice,requestTransferType);
+            qDebug()<<"UPLOAD FINISHED";
             emit uploadFinished(uploadStatus);
             break;
         default:

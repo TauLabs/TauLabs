@@ -38,7 +38,7 @@ class FileUtils
 public:
     FileUtils();
     static bool removeDir(const QString &dirName);
-    static bool archive(const QString &filePath, const QDir &dir, const QString &comment);
+    static bool archive(const QString &filePath, const QDir &dir, const QString &directory, const QString &comment);
     static bool extractAll(QString zipfile, QDir destination);
 };
 
