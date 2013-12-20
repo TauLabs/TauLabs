@@ -103,7 +103,7 @@ int32_t geofence_control_select(bool reset_controller)
 //! Query if out of bounds and the geofence controller should take over
 bool geofence_control_activate()
 {
-#ifndef COPTERCONTROL	
+#if (!defined(COPTERCONTROL) && !defined(GIMBAL))
 	// Check if the module is running
 	if (GeoFenceSettingsHandle()) {
 		uint8_t alarm_status[SYSTEMALARMS_ALARM_NUMELEM];
