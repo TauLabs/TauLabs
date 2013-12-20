@@ -75,14 +75,7 @@
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 #define FAILSAFE_TIMEOUT_MS 10
 
-// low pass filter configuration to calculate offset
-// of barometric altitude sensor
-// reasoning: updates at: 10 Hz, tau= 300 s settle time
-// exp(-(1/f) / tau ) ~=~ 0.9997
-#define BARO_OFFSET_LOWPASS_ALPHA 0.9997f 
-
 // Private types
-
 
 // Track the initialization state of the complementary filter
 enum complementary_filter_status {
@@ -929,7 +922,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			// Initialize to current location
 			getNED(&gpsData, NED);
 
-			// Initialize barometric offset to cirrent GPS NED coordinate
+			// Initialize barometric offset to current GPS NED coordinate
 			baro_offset = -NED[2] - baroData.Altitude;
 
 			INSSetState(NED, zeros, q, zeros, zeros);
@@ -997,15 +990,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// GPS Position update
 	if (gps_updated && outdoor_mode)
 	{
-		sensors |= HORIZ_POS_SENSORS | VERT_POS_SENSORS;
+		sensors |= HORIZ_POS_SENSORS;
 
 		// Transform the GPS position into NED coordinates
 		getNED(&gpsData, NED);
-
-		// Track barometric altitude offset with a low pass filter
-		baro_offset = BARO_OFFSET_LOWPASS_ALPHA * baro_offset +
-		    (1.0f - BARO_OFFSET_LOWPASS_ALPHA )
-		    * ( -NED[2] - baroData.Altitude );
 
 		// Store this for inspecting offline
 		NEDPositionData nedPos;
@@ -1020,7 +1008,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 	// GPS Velocity update
 	if (gps_vel_updated && outdoor_mode) {
-		sensors |= HORIZ_SENSORS | VERT_SENSORS;
+		sensors |= HORIZ_VEL_SENSORS | VERT_VEL_SENSORS;
 		GPSVelocityGet(&gpsVelData);
 		vel[0] = gpsVelData.North;
 		vel[1] = gpsVelData.East;
@@ -1036,8 +1024,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		vel[0] = vel[1] = vel[2] = 0;
 		NED[0] = NED[1] = 0;
 		NED[2] = -(baroData.Altitude + baro_offset);
-		sensors |= HORIZ_SENSORS | HORIZ_POS_SENSORS;
-		sensors |= VERT_SENSORS;
+		sensors |= HORIZ_VEL_SENSORS | HORIZ_POS_SENSORS;
+		sensors |= VERT_VEL_SENSORS | VERT_POS_SENSORS;
 	}
 
 	/*

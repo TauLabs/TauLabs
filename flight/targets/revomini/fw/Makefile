@@ -33,7 +33,7 @@ DEBUG ?= NO
 
 # List of modules to include
 MODULES = Sensors
-MODULES += Attitude/revolution 
+MODULES += Attitude 
 MODULES += ManualControl
 MODULES += Stabilization
 MODULES += Actuator
