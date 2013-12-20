@@ -108,7 +108,7 @@ static struct ms5611_dev * PIOS_MS5611_alloc(void)
 		return NULL;
 	}
 
-	memset(ms5611_dev, 0, sizeof(ms5611_dev));
+	memset(ms5611_dev, 0, sizeof(*ms5611_dev));
 
 	ms5611_dev->magic = PIOS_MS5611_DEV_MAGIC;
 
