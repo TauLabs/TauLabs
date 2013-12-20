@@ -12,7 +12,7 @@ osx_package: gcs package_flight package_matlab
 	  "$(ROOT_DIR)/package/osx/package" \
 	)
 
-gcs: uavobjects
+gcs: uavobjects_gcs
 	$(V1) $(MAKE) -C $(ROOT_DIR) GCS_BUILD_CONF=release $@
 
 ground_package: | osx_package
