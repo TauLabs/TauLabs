@@ -168,7 +168,7 @@ void LoggingThread::run()
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
-    QVector< QVector<UAVObject*> > list = objManager->getObjects();
+    QVector< QVector<UAVObject*> > list = objManager->getObjectsVector();
     QVector< QVector<UAVObject*> >::const_iterator i;
     QVector<UAVObject*>::const_iterator j;
     int objects = 0;
@@ -210,7 +210,7 @@ void LoggingThread::stopLogging()
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
-    QVector< QVector<UAVObject*> > list = objManager->getObjects();
+    QVector< QVector<UAVObject*> > list = objManager->getObjectsVector();
     QVector< QVector<UAVObject*> >::const_iterator i;
     QVector<UAVObject*>::const_iterator j;
 
@@ -240,7 +240,7 @@ void LoggingThread::retrieveSettings()
     // Get UAVObjectManager instance
     ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objMngr = pm->getObject<UAVObjectManager>();
-    QVector< QVector<UAVDataObject*> > objs = objMngr->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objs = objMngr->getDataObjectsVector();
     for (int n = 0; n < objs.size(); ++n)
     {
         UAVDataObject* obj = objs[n][0];
