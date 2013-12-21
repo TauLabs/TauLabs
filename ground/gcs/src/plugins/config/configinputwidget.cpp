@@ -725,7 +725,7 @@ void ConfigInputWidget::fastMdata()
     // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
     UAVObjectManager *objManager = getObjectManager();
     QMap<QString, UAVObject::Metadata> metaDataList;
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {

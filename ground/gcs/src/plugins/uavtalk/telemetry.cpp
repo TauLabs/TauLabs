@@ -76,7 +76,7 @@ Telemetry::Telemetry(UAVTalk* utalk, UAVObjectManager* objMngr)
     this->objMngr = objMngr;
     mutex = new QMutex(QMutex::Recursive);
     // Process all objects in the list
-    QVector< QVector<UAVObject*> > objs = objMngr->getObjects();
+    QVector< QVector<UAVObject*> > objs = objMngr->getObjectsVector();
     const int objSize = objs.size();
     for (int objidx = 0; objidx < objSize; ++objidx)
     {
@@ -167,7 +167,7 @@ void Telemetry::setUpdatePeriod(UAVObject* obj, qint32 periodMs)
  */
 void Telemetry::connectToObjectInstances(UAVObject* obj, quint32 eventMask)
 {
-    QVector<UAVObject*> objs = objMngr->getObjectInstances(obj->getObjID());
+    QVector<UAVObject*> objs = objMngr->getObjectInstancesVector(obj->getObjID());
     int objsSize = objs.size();
     for (int n = 0; n < objsSize; ++n)
     {

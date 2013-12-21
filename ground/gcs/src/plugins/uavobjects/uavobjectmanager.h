@@ -35,6 +35,7 @@
 #include <QMutex>
 #include <QMutexLocker>
 #include <QVector>
+#include <QHash>
 
 class UAVOBJECTS_EXPORT UAVObjectManager: public QObject
 {
@@ -43,15 +44,16 @@ class UAVOBJECTS_EXPORT UAVObjectManager: public QObject
 public:
     UAVObjectManager();
     ~UAVObjectManager();
-
+    typedef QMap<quint32,UAVObject*> ObjectMap;
     bool registerObject(UAVDataObject* obj);
-    QVector< QVector<UAVObject*> > getObjects();
-    QVector< QVector<UAVDataObject*> > getDataObjects();
-    QVector< QVector<UAVMetaObject*> > getMetaObjects();
+    QVector< QVector<UAVObject*> > getObjectsVector();
+    QHash<quint32, QMap<quint32,UAVObject*> > getObjects();
+    QVector< QVector<UAVDataObject*> > getDataObjectsVector();
+    QVector< QVector<UAVMetaObject*> > getMetaObjectsVector();
     UAVObject* getObject(const QString& name, quint32 instId = 0);
     UAVObject* getObject(quint32 objId, quint32 instId = 0);
-    QVector<UAVObject*> getObjectInstances(const QString& name);
-    QVector<UAVObject*> getObjectInstances(quint32 objId);
+    QVector<UAVObject*> getObjectInstancesVector(const QString& name);
+    QVector<UAVObject*> getObjectInstancesVector(quint32 objId);
     qint32 getNumInstances(const QString& name);
     qint32 getNumInstances(quint32 objId);
 
@@ -61,13 +63,12 @@ signals:
 
 private:
     static const quint32 MAX_INSTANCES = 1000;
-
-    QVector< QVector<UAVObject*> > objects;
+    QHash<quint32, QMap<quint32,UAVObject*> > objects;
     QMutex* mutex;
 
     void addObject(UAVObject* obj);
     UAVObject* getObject(const QString* name, quint32 objId, quint32 instId);
-    QVector<UAVObject*> getObjectInstances(const QString* name, quint32 objId);
+    QVector<UAVObject*> getObjectInstancesVector(const QString* name, quint32 objId);
     qint32 getNumInstances(const QString* name, quint32 objId);
 };
 
