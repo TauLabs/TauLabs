@@ -28,7 +28,9 @@
  */
 
 // ****************
-#include "openpilot.h"
+#include "pios.h"
+#if defined(PIOS_INCLUDE_HOTT)
+
 #include "physical_constants.h"
 #include "modulesettings.h"
 #include "flightbatterysettings.h"
@@ -52,12 +54,12 @@ static uint16_t frsky_pack_frame_01(
 		float accels_x,
 		float accels_y,
 		float accels_z,
-		float altitude;
+		float altitude,
 		float temperature_01,
 		float temperature_02,
 		float voltage,
 		float current,
-		uint16_t RPM;
+		uint16_t RPM,
 		uint8_t *buf);
 
 // ****************
@@ -290,6 +292,8 @@ static uint16_t frsky_pack_frame_01(
 {
 	return 0;
 }
+
+#endif
 /**
  * @}
  * @}
