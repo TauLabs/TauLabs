@@ -95,6 +95,7 @@ static uint16_t frsky_pack_frame_01(
 		float current,
 		uint16_t RPM,
 		struct frsky_frame_1 *frame);
+static uint16_t frsky_acceleration_unit(float accel);
 
 // ****************
 // Private constants
@@ -367,15 +368,15 @@ static uint16_t frsky_pack_frame_01(
 {
 	frame->start = FRSKY_FRAME_START;
 	frame->accels_x_id = FRSKY_ACCELERATION_X;
-	frame->accels_x = lroundf(accels_x * 1000);
+	frame->accels_x = frsky_acceleration_unit(accels_x);
 
 	frame->accels_y_header = FRSKY_FRAME_DATA_HEADER;
 	frame->accels_y_id = FRSKY_ACCELERATION_X;
-	frame->accels_y = lroundf(accels_y * 1000);
+	frame->accels_y = frsky_acceleration_unit(accels_y);
 
 	frame->accels_z_header = FRSKY_FRAME_DATA_HEADER;
 	frame->accels_z_id = FRSKY_ACCELERATION_X;
-	frame->accels_z = lroundf(accels_z * 1000);
+	frame->accels_z = frsky_acceleration_unit(accels_z);
 
 	float altitudeInteger = 0.0;
 	altitude = altitude * 100;
@@ -412,6 +413,12 @@ static uint16_t frsky_pack_frame_01(
 	frame->rpm = rpm;
 	frame->stop = FRSKY_FRAME_STOP;
 	return sizeof(*frame);
+}
+
+static uint16_t frsky_acceleration_unit(float accel)
+{
+	accel = accel / (float)9.81274;
+	return lroundf(accel * 1000);
 }
 
 #endif
