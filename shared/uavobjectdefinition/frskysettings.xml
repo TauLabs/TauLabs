@@ -1,0 +1,18 @@
+<xml>
+	<object name="FrSKYSettings" singleinstance="true" settings="true">
+		<description>Settings for the @ref FrSKY Telemetry Module</description>
+		<field name="Sensor" units="" type="enum" options="Disabled,Enabled" defaultvalue="Disabled">
+			<elementnames>
+				<elementname>VARIO</elementname>
+				<elementname>GPS</elementname>
+				<elementname>EAM</elementname>
+				<elementname>GAM</elementname>
+				<elementname>ESC</elementname>
+			</elementnames>
+		</field>
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>
