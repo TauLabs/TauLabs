@@ -131,6 +131,10 @@ int32_t PIOS_USB_ChangeConnectionState(bool connected)
 	return 0;
 }
 
+bool PIOS_USB_CableConnected(uintptr_t id)
+{
+	return PIOS_USB_CheckAvailable(id);
+}
 /**
  * This function returns the connection status of the USB interface
  * \return true: interface available
