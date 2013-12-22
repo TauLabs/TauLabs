@@ -39,7 +39,7 @@
 #include "baroaltitude.h"
 #include "accels.h"
 
-#if defined(PIOS_INCLUDE_HOTT)
+#if defined(PIOS_INCLUDE_FRSKY)
 // ****************
 // Private functions
 // Frame 1 structure
