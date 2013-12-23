@@ -39,15 +39,22 @@
 #include "flighttelemetrystats.h"
 #include "systemstats.h"
 #include "telemetry.h"
+#include "sessionmanaging.h"
 
 class TelemetryMonitor : public QObject
 {
     Q_OBJECT
 
 public:
-    TelemetryMonitor(UAVObjectManager* objMngr, Telemetry* tel);
-    ~TelemetryMonitor();
+    struct objStruc
+    {
+        quint32 objID;
+        quint32 instID;
+    };
 
+    TelemetryMonitor(UAVObjectManager* objMngr, Telemetry* tel, QHash<quint16, QList<objStruc> > sessions);
+    ~TelemetryMonitor();
+    QHash<quint16, QList<objStruc> > getSessions() {return sessions;}
 signals:
     void connected();
     void disconnected();
@@ -58,24 +65,42 @@ public slots:
     void processStatsUpdates();
     void flightStatsUpdated(UAVObject* obj);
 
+private slots:
+    void sessionObjUnpackedCB(UAVObject*obj);
+    void objectRetrieveTimeoutCB();
+    void sessionRetrieveTimeoutCB();
+    void sessionInitialRetrieveTimeoutCB();
+    void saveSession();
+
 private:
+    enum connectionStatusEnum {CON_DISCONNECTED, CON_INITIALIZING, CON_SESSION_INITIALIZING, CON_RETRIEVING_OBJECTS, CON_CONNECTED_UNMANAGED,CON_CONNECTED_MANAGED};
     static const int STATS_UPDATE_PERIOD_MS = 4000;
     static const int STATS_CONNECT_PERIOD_MS = 2000;
     static const int CONNECTION_TIMEOUT_MS = 8000;
-
+    connectionStatusEnum connectionStatus;
     UAVObjectManager* objMngr;
     Telemetry* tel;
     QQueue<UAVObject*> queue;
     GCSTelemetryStats* gcsStatsObj;
     FlightTelemetryStats* flightStatsObj;
     QTimer* statsTimer;
-    UAVObject* objPending;
     QMutex* mutex;
     QTime* connectionTimer;
-
+    SessionManaging* sessionObj;
     void startRetrievingObjects();
     void retrieveNextObject();
-    void stopRetrievingObjects();
+    quint16 sessionID;
+    quint8 numberOfObjects;
+    QTimer* objectRetrieveTimeout;
+    QTimer* sessionRetrieveTimeout;
+    QTimer* sessionInitialRetrieveTimeout;
+    int retries;
+    void changeObjectInstances(quint32 objID, quint32 instID);
+    void startSessionRetrieving(UAVObject *session);
+    void sessionFallback();
+    bool isManaged;
+    QHash<quint16, QList<objStruc> > sessions;
+    int sessionObjRetries;
 };
 
 #endif // TELEMETRYMONITOR_H
