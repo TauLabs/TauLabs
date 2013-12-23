@@ -193,6 +193,7 @@ void Telemetry::connectToObjectInstances(UAVObject* obj, quint32 eventMask)
         if ( (eventMask&EV_UPDATE_REQ) != 0)
         {
             connect(objs[n], SIGNAL(updateRequested(UAVObject*)), this, SLOT(updateRequested(UAVObject*)));
+            connect(objs[n], SIGNAL(updateAllInstancesRequested(UAVObject*)), this, SLOT(updateAllInstancesRequested(UAVObject*)));
         }
     }
 }
@@ -648,6 +649,12 @@ void Telemetry::updateRequested(UAVObject* obj)
 {
     QMutexLocker locker(mutex);
     processObjectUpdates(obj, EV_UPDATE_REQ, false, true);
+}
+
+void Telemetry::updateAllInstancesRequested(UAVObject* obj)
+{
+    QMutexLocker locker(mutex);
+    processObjectUpdates(obj, EV_UPDATE_REQ, true, true);
 }
 
 void Telemetry::newObject(UAVObject* obj)
