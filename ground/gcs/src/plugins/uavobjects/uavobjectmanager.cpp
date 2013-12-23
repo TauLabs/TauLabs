@@ -107,6 +107,24 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
     }
  }
 
+/**
+ * Unegister an object with the manager.
+ */
+bool UAVObjectManager::unRegisterObject(UAVDataObject* obj)
+{
+    QMutexLocker locker(mutex);
+    // Check if this object type is already in the list
+    quint32 objID = obj->getObjID();
+    if(obj->isSingleInstance())
+        return false;
+    for(quint32 x = obj->getInstID(); x < (quint32)objects.value(obj->getObjID()).count(); ++x)
+    {
+        getObject(objects.value(objID).value(x)->getObjID())->emitInstanceRemoved(objects.value(objID).value(x));
+        objects[objID].remove(x);
+    }
+    return true;
+}
+
 void UAVObjectManager::addObject(UAVObject* obj)
 {
     // Add to list

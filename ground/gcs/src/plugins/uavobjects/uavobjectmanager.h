@@ -55,12 +55,12 @@ public:
     QVector<UAVObject*> getObjectInstancesVector(const QString& name);
     QVector<UAVObject*> getObjectInstancesVector(quint32 objId);
     qint32 getNumInstances(const QString& name);
-    qint32 getNumInstances(quint32 objId);
-
+    qint32 getNumInstances(quint32 objId);    
+    bool unRegisterObject(UAVDataObject *obj);
 signals:
     void newObject(UAVObject* obj);
     void newInstance(UAVObject* obj);
-
+    void instanceRemoved(UAVObject* obj);
 private:
     static const quint32 MAX_INSTANCES = 1000;
     QHash<quint32, QMap<quint32,UAVObject*> > objects;
