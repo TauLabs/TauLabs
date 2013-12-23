@@ -128,6 +128,7 @@ public:
     QString toStringData();
     void emitTransactionCompleted(bool success);
     void emitNewInstance(UAVObject *);
+    void emitInstanceRemoved(UAVObject *);
 
     // Metadata accessors
     static void MetadataInitialize(Metadata& meta);
@@ -211,6 +212,12 @@ signals:
      * @param obj
      */
     void newInstance(UAVObject* obj);
+
+    /**
+     * @brief instance removed from manager
+     * @param obj
+     */
+    void instanceRemoved(UAVObject* obj);
 
 private slots:
     void fieldUpdated(UAVObjectField* field);
