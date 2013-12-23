@@ -497,6 +497,14 @@ void UAVObject::emitNewInstance(UAVObject * obj)
 }
 
 /**
+ * Emit the instanceRemoved event
+ */
+void UAVObject::emitInstanceRemoved(UAVObject * obj)
+{
+    emit instanceRemoved(obj);
+}
+
+/**
  * Initialize a default UAVObjMetadata object.
  * \param[in] metadata The metadata object
  */
