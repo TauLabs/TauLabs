@@ -95,7 +95,7 @@ static uint16_t frsky_pack_frame_01(
 		float current,
 		uint16_t RPM,
 		struct frsky_frame_1 *frame);
-static uint16_t frsky_acceleration_unit(float accel);
+static int16_t frsky_acceleration_unit(float accel);
 
 // ****************
 // Private constants
@@ -321,7 +321,6 @@ static void uavoFrSKYBridgeTask(void *parameters) {
 					current,
 					0,
 					(struct frsky_frame_1 *)serial_buf);
-
 			PIOS_COM_SendBuffer(frsky_port, serial_buf, msg_length);
 		}
 
@@ -371,28 +370,28 @@ static uint16_t frsky_pack_frame_01(
 	frame->accels_x = frsky_acceleration_unit(accels_x);
 
 	frame->accels_y_header = FRSKY_FRAME_DATA_HEADER;
-	frame->accels_y_id = FRSKY_ACCELERATION_X;
+	frame->accels_y_id = FRSKY_ACCELERATION_Y;
 	frame->accels_y = frsky_acceleration_unit(accels_y);
 
 	frame->accels_z_header = FRSKY_FRAME_DATA_HEADER;
-	frame->accels_z_id = FRSKY_ACCELERATION_X;
+	frame->accels_z_id = FRSKY_ACCELERATION_Z;
 	frame->accels_z = frsky_acceleration_unit(accels_z);
 
 	float altitudeInteger = 0.0;
 	altitude = altitude * 100;
 	frame->altitude_decimal_header = FRSKY_FRAME_DATA_HEADER;
 	frame->altitude_decimal_id = FRSKY_ALTITUDE_DECIMAL;
-	frame->altitude_decimal = lroundf(modff(altitude, &altitudeInteger));
+	frame->altitude_decimal = lroundf(modff(altitude, &altitudeInteger)*1000);
 	frame->altitude_integer_header = FRSKY_FRAME_DATA_HEADER;
 	frame->altitude_integer_id = FRSKY_ALTITUDE_INTEGER;
 	frame->altitude_integer = lroundf(altitudeInteger);
 
 	frame->temperature_1_header = FRSKY_FRAME_DATA_HEADER;
 	frame->temperature_1_id = FRSKY_TEMPERATURE_1;
-	frame->temperature_1 = lroundf(temperature_01);
+	frame->temperature_1 = lroundf(temperature_01 * 10);
 	frame->temperature_2_header = FRSKY_FRAME_DATA_HEADER;
 	frame->temperature_2_id = FRSKY_TEMPERATURE_2;
-	frame->temperature_2 = lroundf(temperature_02);
+	frame->temperature_2 = lroundf(temperature_02 * 10);
 
 	frame->voltage_header = FRSKY_FRAME_DATA_HEADER;
 	frame->voltage_id = FRSKY_VOLTAGE;
@@ -415,7 +414,7 @@ static uint16_t frsky_pack_frame_01(
 	return sizeof(*frame);
 }
 
-static uint16_t frsky_acceleration_unit(float accel)
+static int16_t frsky_acceleration_unit(float accel)
 {
 	accel = accel / (float)9.81274;
 	return lroundf(accel * 1000);
