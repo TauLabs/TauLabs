@@ -179,6 +179,14 @@ void UAVObject::requestUpdate()
 }
 
 /**
+ * Request that this object and all it's instances updated with the latest values from the autopilot
+ */
+void UAVObject::requestUpdateAllInstances()
+{
+    emit updateAllInstancesRequested(this);
+}
+
+/**
  * Signal that the object has been updated
  */
 void UAVObject::updated()
