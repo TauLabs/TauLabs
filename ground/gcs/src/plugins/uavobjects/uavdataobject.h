@@ -49,9 +49,16 @@ public:
     virtual UAVDataObject* clone(quint32 instID = 0) = 0;
     virtual UAVDataObject* dirtyClone() = 0;
 
+    bool getIsPresentOnHardware() const;
+    void setIsPresentOnHardware(bool value);
+
+signals:
+    void presentOnHardwareChanged(UAVDataObject*);
+
 private:
     UAVMetaObject* mobj;
     bool isSet;
+    bool isPresentOnHardware;
 
 };
 
