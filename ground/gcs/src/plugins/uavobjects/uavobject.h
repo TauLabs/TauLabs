@@ -147,6 +147,7 @@ public:
 		
 public slots:
     void requestUpdate();
+    void requestUpdateAllInstances();
     void updated();
 
 signals:
@@ -199,6 +200,11 @@ signals:
     void updateRequested(UAVObject* obj);
 
     /**
+     * @brief updateAllInstancesRequested
+     * @param obj
+     */
+    void updateAllInstancesRequested(UAVObject* obj);
+    /**
      * @brief transactionCompleted. Triggered by a call to
      * emitTransactionCompleted - done in telemetry.cpp whenever a
      * transaction finishes.
@@ -233,10 +239,10 @@ protected:
     QMutex* mutex;
     quint8* data;
     QList<UAVObjectField*> fields;
-
     void initializeFields(QList<UAVObjectField*>& fields, quint8* data, quint32 numBytes);
     void setDescription(const QString& description);
     void setCategory(const QString& category);
+
 };
 
 #endif // UAVOBJECT_H
