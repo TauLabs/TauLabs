@@ -372,7 +372,7 @@ void SplitterOrView::restoreState(QSettings* qSettings)
     } else if (mode == "uavGadget") {
         QString classId = qSettings->value("classId").toString();
         int index = m_view->indexOfClassId(classId);
-        m_view->listSelectionActivated(index);
+        m_view->selectionActivated(index);
         if(qSettings->childGroups().contains("gadget")) {
             qSettings->beginGroup("gadget");
             gadget()->restoreState(qSettings);

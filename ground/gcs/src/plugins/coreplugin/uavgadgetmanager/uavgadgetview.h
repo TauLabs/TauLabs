@@ -76,6 +76,7 @@ public:
 
 public slots:
     void closeView();
+    void selectionActivated(int index);
     void listSelectionActivated(int index);
 
 private slots:

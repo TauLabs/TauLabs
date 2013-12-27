@@ -142,7 +142,7 @@ UAVGadgetView::UAVGadgetView(Core::UAVGadgetManager *uavGadgetManager, IUAVGadge
     if (m_uavGadget) {
         setGadget(m_uavGadget);
     } else {
-        listSelectionActivated(m_defaultIndex);
+        selectionActivated(m_defaultIndex);
     }
 }
 
@@ -224,7 +224,7 @@ void UAVGadgetView::updateToolBar()
     m_activeToolBar = toolBar;
 }
 
-void UAVGadgetView::listSelectionActivated(int index)
+void UAVGadgetView::selectionActivated(int index)
 {
     if (index < 0) // this could happen when called from SplitterOrView::restoreState()
         index = m_defaultIndex;
@@ -234,6 +234,23 @@ void UAVGadgetView::listSelectionActivated(int index)
     UAVGadgetInstanceManager *im = ICore::instance()->uavGadgetInstanceManager();
     IUAVGadget *gadgetToRemove = m_uavGadget;
     IUAVGadget *gadget = im->createGadget(classId, this);
+
+    setGadget(gadget);
+    m_uavGadgetManager->setCurrentGadget(gadget);
+    im->removeGadget(gadgetToRemove);
+}
+
+void UAVGadgetView::listSelectionActivated(int index)
+{
+    if (index < 0) // this could happen when called from SplitterOrView::restoreState()
+        index = m_defaultIndex;
+    QString classId = m_uavGadgetList->itemData(index).toString();
+    if (m_uavGadget && (m_uavGadget->classId() == classId))
+        return;
+    UAVGadgetInstanceManager *im = ICore::instance()->uavGadgetInstanceManager();
+    IUAVGadget *gadgetToRemove = m_uavGadget;
+    IUAVGadget *gadget = im->createGadget(classId, this, true);
+
     setGadget(gadget);
     m_uavGadgetManager->setCurrentGadget(gadget);
     im->removeGadget(gadgetToRemove);

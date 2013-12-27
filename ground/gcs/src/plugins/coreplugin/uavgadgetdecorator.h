@@ -37,7 +37,7 @@ class UAVGadgetDecorator : public IUAVGadget
 {
 Q_OBJECT
 public:
-    explicit UAVGadgetDecorator(IUAVGadget *gadget, QList<IUAVGadgetConfiguration*> *configurations);
+    explicit UAVGadgetDecorator(IUAVGadget *gadget, QList<IUAVGadgetConfiguration*> *configurations, bool loadDefault = false);
     ~UAVGadgetDecorator();
 
     QWidget *widget() { return m_gadget->widget(); }
