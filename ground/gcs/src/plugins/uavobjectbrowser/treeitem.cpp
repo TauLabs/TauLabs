@@ -112,7 +112,8 @@ TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
         m_parent(parent),
         m_highlight(false),
         m_changed(false),
-        m_updated(false)
+        m_updated(false),
+        isPresentOnHardware(false)
 {
 }
 
@@ -121,7 +122,8 @@ TreeItem::TreeItem(const QVariant &data, TreeItem *parent) :
         m_parent(parent),
         m_highlight(false),
         m_changed(false),
-        m_updated(false)
+        m_updated(false),
+        isPresentOnHardware(false)
 {
     m_data << data << "" << "";
 }
