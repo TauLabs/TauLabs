@@ -128,6 +128,8 @@ public:
 
     inline bool changed() { return m_changed; }
     inline bool updatedOnly() { return m_updated; }
+    inline bool getIsPresentOnHardware() const {return isPresentOnHardware;}
+    inline void setIsPresentOnHardware(bool value){foreach(TreeItem* item,this->treeChildren()){item->setIsPresentOnHardware(value); item->update();} isPresentOnHardware = value;}
     inline void setChanged(bool changed) { m_changed = changed; }
     void setUpdatedOnly(bool updated);
     void setUpdatedOnlyParent();
@@ -174,10 +176,9 @@ private:
     QTime m_highlightExpires;
     HighLightManager* m_highlightManager;
     static int m_highlightTimeMs;
-
     // This is the timestamp to compare with
     static QTime *m_currentTime;
-
+    bool isPresentOnHardware;
 public:
     static const int dataColumn = 1;
 };
