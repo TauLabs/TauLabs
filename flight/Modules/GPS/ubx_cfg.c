@@ -16,48 +16,73 @@
     Copyright © 2011, 2012, 2013  Bill Nesbitt
 */
 
-#include "aq.h"
-#include "ublox.h"
-#include "gps.h"
-#include "aq_timer.h"
-#include "imu.h"
-#include "config.h"
-#include "util.h"
-#include "rtc.h"
-#include "filer.h"
-#include "supervisor.h"
-#include "comm.h"
-#include <CoOS.h>
-#include <string.h>
+#include "openpilot.h"
+#include "pios_com.h"
 
+#define UBLOX_SYNC1     0xB5
+#define UBLOX_SYNC2     0x62
+
+#define UBLOX_NAV_CLASS     0x01
+#define UBLOX_RXM_CLASS     0x02
+#define UBLOX_CFG_CLASS     0x06
+#define UBLOX_MON_CLASS     0x0a
+#define UBLOX_AID_CLASS     0x0b
+#define UBLOX_TIM_CLASS     0x0d
+
+
+#define UBLOX_NAV_POSLLH    0x02
+#define UBLOX_NAV_DOP       0x04
+#define UBLOX_NAV_VALNED    0x12
+#define UBLOX_NAV_TIMEUTC   0x21
+#define UBLOX_NAV_SBAS      0x32
+#define UBLOX_NAV_SVINFO    0x30
+
+#define UBLOX_AID_REQ       0x00
+
+#define UBLOX_RXM_RAW       0x10
+#define UBLOX_RXM_SFRB      0x11
+
+#define UBLOX_MON_VER       0x04
+#define UBLOX_MON_HW        0x09
+
+#define UBLOX_TIM_TP        0x01
+
+#define UBLOX_CFG_MSG       0x01
+#define UBLOX_CFG_TP        0x07
+#define UBLOX_CFG_RTATE     0x08
+#define UBLOX_CFG_SBAS      0x16
+#define UBLOX_CFG_NAV5      0x24
+
+#define UBLOX_SBAS_AUTO     0x00000000
+#define UBLOX_SBAS_WAAS     0x0004E004
+#define UBLOX_SBAS_EGNOS    0x00000851
+#define UBLOX_SBAS_MSAS     0x00020200
+#define UBLOX_SBAS_GAGAN    0x00000108
+
+#define UBLOX_MAX_PAYLOAD   384
+#define UBLOX_WAIT_MS       20
+
+uintptr_t gps_tx_comm;
+
+uint8_t ubloxTxCK_A, ubloxTxCK_B;
 
 static void ubloxTxChecksumReset(void) {
-    ubloxData.ubloxTxCK_A = 0;
-    ubloxData.ubloxTxCK_B = 0;
-}
-
-static void ubloxRxChecksumReset(void) {
-    ubloxData.ubloxRxCK_A = 0;
-    ubloxData.ubloxRxCK_B = 0;
-}
-
-static void ubloxRxChecksum(unsigned char c) {
-    ubloxData.ubloxRxCK_A += c;
-    ubloxData.ubloxRxCK_B += ubloxData.ubloxRxCK_A;
+    ubloxTxCK_A = 0;
+    ubloxTxCK_B = 0;
 }
 
 static void ubloxTxChecksum(uint8_t c) {
-    ubloxData.ubloxTxCK_A += c;
-    ubloxData.ubloxTxCK_B += ubloxData.ubloxTxCK_A;
+    ubloxTxCK_A += c;
+    ubloxTxCK_B += ubloxTxCK_A;
 }
 
 static void ubloxWriteU1(unsigned char c) {
-    serialWrite(gpsData.gpsPort, c);
+    PIOS_COM_SendChar(gps_tx_comm, c);
     ubloxTxChecksum(c);
 }
 
 static void ubloxWriteI1(signed char c) {
-    serialWrite(gpsData.gpsPort, (unsigned char)c);
+    PIOS_COM_SendChar(gps_tx_comm, (unsigned char)c);
     ubloxTxChecksum(c);
 }
 
@@ -105,9 +130,10 @@ static void ubloxEnableMessage(unsigned char c, unsigned char i, unsigned char r
     ubloxWriteU1(i);		    // id
     ubloxWriteU1(rate);		    // rate
 
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_A);
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_B);
-    yield(UBLOX_WAIT_MS);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
+
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
 }
 
 static void ubloxSetRate(unsigned short int ms) {
@@ -123,9 +149,10 @@ static void ubloxSetRate(unsigned short int ms) {
     ubloxWriteU2(0x01);		    // cycles
     ubloxWriteU2(0x01);		    // timeRef	0 == UTC, 1 == GPS time
 
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_A);
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_B);
-    yield(UBLOX_WAIT_MS);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
+
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
 }
 
 static void ubloxSetMode(void) {
@@ -148,9 +175,10 @@ static void ubloxSetMode(void) {
     for (i = 0; i < 32; i++)
 	ubloxWriteU1(0x00);
 
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_A);
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_B);
-    yield(UBLOX_WAIT_MS);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
+
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
 }
 
 static void ubloxSetTimepulse(void) {
@@ -176,9 +204,10 @@ static void ubloxSetTimepulse(void) {
     ubloxWriteI2(0x00);		    // rf group delay
     ubloxWriteI4(0x00);		    // user delay
 
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_A);
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_B);
-    yield(UBLOX_WAIT_MS);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
+
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
 }
 
 static void ubloxSetSBAS(uint8_t enable) {
@@ -199,9 +228,10 @@ static void ubloxSetSBAS(uint8_t enable) {
     ubloxWriteU1(0);
     ubloxWriteU4(UBLOX_SBAS_AUTO);  // ANY SBAS system
 
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_A);
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_B);
-    yield(UBLOX_WAIT_MS);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
+
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
 }
 
 static void ubloxPollVersion(void) {
@@ -213,9 +243,10 @@ static void ubloxPollVersion(void) {
     ubloxWriteU1(0x00);		    // length lsb
     ubloxWriteU1(0x00);		    // length msb
 
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_A);
-    serialWrite(gpsData.gpsPort, ubloxData.ubloxTxCK_B);
-    yield(UBLOX_WAIT_MS);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
+
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
 }
 
 static void ubloxVersionSpecific(int ver) {
@@ -232,6 +263,8 @@ static void ubloxVersionSpecific(int ver) {
 }
 
 void ubx_cfg_send_configuration(void) {
+    vTaskDelay(MS2TICKS(UBLOX_WAIT_MS));
+
     ubloxSetTimepulse();
     ubloxEnableMessage(UBLOX_NAV_CLASS, UBLOX_NAV_VALNED, 1);	// NAV VALNED
     ubloxEnableMessage(UBLOX_NAV_CLASS, UBLOX_NAV_POSLLH, 1);	// NAV POSLLH
@@ -251,7 +284,10 @@ void ubx_cfg_send_configuration(void) {
 
     ubloxSetMode();						// 3D, airborne
     ubloxPollVersion(); 
-    ubloxVersionSpecific(ubloxData.hwVer);
+
+    // Hardcoded version. The poll version method should fetch the
+    // data but we need to link to that.
+    ubloxVersionSpecific(6);
 }
 
 //! Set the output baudrate to 230400
@@ -263,8 +299,15 @@ void ubx_cfg_set_baudrate(uint16_t baud_rate) {
     // 230400 - baudrate
     // 0 - no attempt to autobaud
     // 0x18 - baudrate
-    const uint8_t * msg = "$PUBX,41,1,0007,0001,230400,0*18\n";
+    const char * msg = "$PUBX,41,1,0007,0001,230400,0*18\n";
 
-    // TODO: send message
+    // Attempt to configure at common baud rates
+    PIOS_COM_ChangeBaud(gps_tx_comm, 4800);
+    PIOS_COM_SendString(gps_tx_comm, msg);
+    PIOS_COM_ChangeBaud(gps_tx_comm, 9600);
+    PIOS_COM_SendString(gps_tx_comm, msg);
+    PIOS_COM_ChangeBaud(gps_tx_comm, 57600);
+    PIOS_COM_SendString(gps_tx_comm, msg);
+    PIOS_COM_ChangeBaud(gps_tx_comm, 240400);
 }
 
