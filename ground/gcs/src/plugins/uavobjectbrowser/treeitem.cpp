@@ -113,7 +113,7 @@ TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
         m_highlight(false),
         m_changed(false),
         m_updated(false),
-        isPresentOnHardware(false)
+        isPresentOnHardware(true)
 {
 }
 
@@ -123,7 +123,7 @@ TreeItem::TreeItem(const QVariant &data, TreeItem *parent) :
         m_highlight(false),
         m_changed(false),
         m_updated(false),
-        isPresentOnHardware(false)
+        isPresentOnHardware(true)
 {
     m_data << data << "" << "";
 }
@@ -276,4 +276,9 @@ void TreeItem::setCurrentTime(QTime *currentTime)
 QList<MetaObjectTreeItem *> TopTreeItem::getMetaObjectItems()
 {
     return m_metaObjectTreeItemsPerObjectIds.values();
+}
+
+QList<DataObjectTreeItem *> TopTreeItem::getDataObjectItems()
+{
+    return m_objectTreeItemsPerObjectIds.values();
 }

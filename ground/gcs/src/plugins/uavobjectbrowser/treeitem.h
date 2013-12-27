@@ -29,6 +29,7 @@
 #define TREEITEM_H
 
 #include "uavobject.h"
+#include "uavdataobject.h"
 #include "uavmetaobject.h"
 #include "uavobjectfield.h"
 #include <QtCore/QList>
@@ -92,12 +93,14 @@ private:
 class TreeItem : public QObject
 {
 Q_OBJECT
+protected:
+    bool isPresentOnHardware;
 public:
     TreeItem(const QList<QVariant> &data, TreeItem *parent = 0);
     TreeItem(const QVariant &data, TreeItem *parent = 0);
     virtual ~TreeItem();
 
-    void appendChild(TreeItem *child);
+    virtual void appendChild(TreeItem *child);
     void insertChild(TreeItem *child);
 
     TreeItem *getChild(int index);
@@ -128,8 +131,11 @@ public:
 
     inline bool changed() { return m_changed; }
     inline bool updatedOnly() { return m_updated; }
-    inline bool getIsPresentOnHardware() const {return isPresentOnHardware;}
-    inline void setIsPresentOnHardware(bool value){foreach(TreeItem* item,this->treeChildren()){item->setIsPresentOnHardware(value); item->update();} isPresentOnHardware = value;}
+    inline virtual bool getIsPresentOnHardware() const {return isPresentOnHardware;}
+    virtual void setIsPresentOnHardware(bool value) {
+        foreach (TreeItem* item, treeChildren()) {
+            item->setIsPresentOnHardware(value);
+        }isPresentOnHardware = value;}
     inline void setChanged(bool changed) { m_changed = changed; }
     void setUpdatedOnly(bool updated);
     void setUpdatedOnlyParent();
@@ -178,7 +184,6 @@ private:
     static int m_highlightTimeMs;
     // This is the timestamp to compare with
     static QTime *m_currentTime;
-    bool isPresentOnHardware;
 public:
     static const int dataColumn = 1;
 };
@@ -208,9 +213,8 @@ public:
     MetaObjectTreeItem* findMetaObjectTreeItemByObjectId(quint32 objectId) {
         return m_metaObjectTreeItemsPerObjectIds.contains(objectId) ? m_metaObjectTreeItemsPerObjectIds[objectId] : 0;
     }
-
     QList<MetaObjectTreeItem*> getMetaObjectItems();
-
+    QList<DataObjectTreeItem*> getDataObjectItems();
 private:
     QMap<quint32, DataObjectTreeItem*> m_objectTreeItemsPerObjectIds;
     QMap<quint32, MetaObjectTreeItem*> m_metaObjectTreeItemsPerObjectIds;
@@ -224,8 +228,11 @@ public:
             TreeItem(data, parent), m_obj(0) { }
     ObjectTreeItem(const QVariant &data, TreeItem *parent = 0) :
             TreeItem(data, parent), m_obj(0) { }
-    void setObject(UAVObject *obj) { m_obj = obj; setDescription(obj->getDescription()); }
+    virtual void setObject(UAVObject *obj) {
+        m_obj = obj; setDescription(obj->getDescription());
+    }
     inline UAVObject *object() { return m_obj; }
+
 private:
     UAVObject *m_obj;
 };
@@ -262,6 +269,40 @@ public:
                 child->update();
         }
     }
+    void appendChild(TreeItem *child)
+    {
+        ObjectTreeItem::appendChild(child);
+        child->setIsPresentOnHardware(isPresentOnHardware);
+    }
+    void setObject(UAVObject *obj)
+    {
+        UAVDataObject * dobj = dynamic_cast<UAVDataObject*>(obj);
+        if(dobj)
+        {
+            ObjectTreeItem::setObject(obj);
+            connect(dobj, SIGNAL(presentOnHardwareChanged(UAVDataObject*)), this, SLOT(presentOnHardwareChangedSlot(UAVDataObject*)));
+            presentOnHardwareChangedSlot(dobj);
+        }
+        else
+        {
+            foreach (TreeItem *item, treeChildren())
+            {
+                DataObjectTreeItem *inst = dynamic_cast<DataObjectTreeItem*>(item);
+                if(!inst)
+                    item->setIsPresentOnHardware(false);
+            }
+            isPresentOnHardware = false;
+        }
+    }
+    virtual void setIsPresentOnHardware(bool value) {
+        foreach (TreeItem* item, treeChildren()) {
+            if(!dynamic_cast<DataObjectTreeItem*>(item))
+                item->setIsPresentOnHardware(value);
+        }isPresentOnHardware = value;}
+protected slots:
+    virtual void presentOnHardwareChangedSlot(UAVDataObject *dobj) {foreach (TreeItem *item, treeChildren()) {
+            item->setIsPresentOnHardware(dobj->getIsPresentOnHardware());
+        }isPresentOnHardware = dobj->getIsPresentOnHardware();}
 };
 
 class InstanceTreeItem : public DataObjectTreeItem
@@ -274,6 +315,28 @@ public:
             DataObjectTreeItem(data, parent) { setObject(obj); }
     virtual void apply() { TreeItem::apply(); }
     virtual void update() { TreeItem::update(); }
+protected slots:
+    virtual void presentOnHardwareChangedSlot(UAVDataObject *dobj) {
+        foreach (TreeItem *item, treeChildren()) {
+            item->setIsPresentOnHardware(dobj->getIsPresentOnHardware());
+        }
+        isPresentOnHardware = dobj->getIsPresentOnHardware();
+        bool disable = true;
+        if(parent())
+        {
+            if(!isPresentOnHardware)
+                parent()->setIsPresentOnHardware(false);
+            else
+            {
+                foreach (TreeItem *item, parent()->treeChildren()) {
+                    InstanceTreeItem *inst = dynamic_cast<InstanceTreeItem*>(item);
+                    if(inst && inst->getIsPresentOnHardware())
+                        disable = false;
+                }
+                parent()->setIsPresentOnHardware(!disable);
+            }
+        }
+    }
 };
 
 class ArrayFieldTreeItem : public TreeItem
