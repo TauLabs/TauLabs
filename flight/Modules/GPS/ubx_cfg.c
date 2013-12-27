@@ -251,7 +251,7 @@ void ubloxSendSetup(void) {
 #endif
 
     ubloxSetMode();						// 3D, airborne
-    ubloxPollVersion();
+    ubloxPollVersion(); 
     ubloxVersionSpecific(ubloxData.hwVer);
 }
 
@@ -263,234 +263,21 @@ void ubloxInit(void) {
     ubloxSendSetup();
 }
 
+void ubloxSetBaudrate(uint16_t baud_rate) {
+    // UBX,41 msg
+    // 1 - portID
+    // 0007 - input protocol (all)
+    // 0001 - output protocol (ubx only)
+    // 230400 - baudrate
+    // 0 - no attempt to autobaud
+    // 0x18 - baudrate
+    const uint8_t * msg = "$PUBX,41,1,0007,0001,230400,0*18\n";
+
+    // TODO: send message
+}
+
 void ubloxInitGps(void) {
     serialPrint(gpsData.gpsPort, "$PUBX,41,1,0007,0001,230400,0*18\n");
     yield(200);
 }
 
-static void ubloxSendPacket(uint8_t commType) {
-    commTxBuf_t *txBuf;
-    uint8_t *ptr;
-    int i;
-
-    txBuf = commGetTxBuf(commType, ubloxData.length + 6 + 2);
-
-    if (txBuf) {
-	ptr = &txBuf->buf;
-
-	*ptr++ = (UBLOX_SYNC1);
-	*ptr++ = (UBLOX_SYNC2);
-	*ptr++ = (ubloxData.class);
-	*ptr++ = (ubloxData.id);
-	*ptr++ = (ubloxData.length & 0xff);
-	*ptr++ = ((ubloxData.length & 0xff00) >> 8);
-
-	for (i = 0; i < ubloxData.length; i++)
-	    *ptr++ = (*((char *)&ubloxData.payload + i));
-
-	*ptr++ = (ubloxData.ubloxRxCK_A);
-	*ptr++ = (ubloxData.ubloxRxCK_B);
-
-	commSendTxBuf(txBuf, ptr - &txBuf->buf);
-    }
-}
-
-unsigned char ubloxPublish(void) {
-    unsigned char ret = 0;
-
-    // don't allow preemption
-    CoSetPriority(gpsData.gpsTask, 1);
-
-    if (ubloxData.class == UBLOX_NAV_CLASS && ubloxData.id == UBLOX_NAV_POSLLH) {
-	// work around uBlox's inability to give new data on each report sometimes
-	if (ubloxData.lastLat != ubloxData.payload.posllh.lat || ubloxData.lastLon != ubloxData.payload.posllh.lon) {
-	    ubloxData.lastLat = ubloxData.payload.posllh.lat;
-	    ubloxData.lastLon = ubloxData.payload.posllh.lon;
-
-	    gpsData.iTOW = ubloxData.payload.posllh.iTOW;
-	    gpsData.lat = (double)ubloxData.payload.posllh.lat * (double)1e-7;
-	    gpsData.lon = (double)ubloxData.payload.posllh.lon * (double)1e-7;
-	    gpsData.height = ubloxData.payload.posllh.hMSL * 0.001f;    // mm => m
-	    gpsData.hAcc = ubloxData.payload.posllh.hAcc * 0.001f;	    // mm => m
-	    gpsData.vAcc = ubloxData.payload.posllh.vAcc * 0.001f;	    // mm => m
-
-#ifdef GPS_LATENCY
-	    gpsData.lastPosUpdate = timerMicros() - GPS_LATENCY;
-#else
-	    gpsData.lastPosUpdate = gpsData.lastTimepulse + (ubloxData.payload.posllh.iTOW - gpsData.TPtowMS) * 1000;
-#endif
-	    // position update
-	    ret = 1;
-	}
-    }
-    else if (ubloxData.class == UBLOX_NAV_CLASS && ubloxData.id == UBLOX_NAV_VALNED) {
-	gpsData.iTOW = ubloxData.payload.valned.iTOW;
-	gpsData.velN = ubloxData.payload.valned.velN * 0.01f;	    // cm => m
-	gpsData.velE = ubloxData.payload.valned.velE * 0.01f;	    // cm => m
-	gpsData.velD = ubloxData.payload.valned.velD * 0.01f;	    // cm => m
-	gpsData.speed = ubloxData.payload.valned.gSpeed * 0.01f;    // cm/s => m/s
-	gpsData.heading = ubloxData.payload.valned.heading * 1e-5f;
-	gpsData.sAcc = ubloxData.payload.valned.sAcc * 0.01f;	    // cm/s => m/s
-	gpsData.cAcc = ubloxData.payload.valned.cAcc * 1e-5f;
-
-#ifdef GPS_LATENCY
-	gpsData.lastVelUpdate = timerMicros() - GPS_LATENCY;
-#else
-	gpsData.lastVelUpdate = gpsData.lastTimepulse + (ubloxData.payload.valned.iTOW - gpsData.TPtowMS) * 1000;
-#endif
-
-	// velocity update
-	ret = 2;
-    }
-    else if (ubloxData.class == UBLOX_TIM_CLASS && ubloxData.id == UBLOX_TIM_TP) {
-	gpsData.lastReceivedTPtowMS = ubloxData.payload.tp.towMS;
-    }
-    else if (ubloxData.class == UBLOX_NAV_CLASS && ubloxData.id == UBLOX_NAV_DOP) {
-	gpsData.pDOP = ubloxData.payload.dop.pDOP * 0.01f;
-	gpsData.hDOP = ubloxData.payload.dop.hDOP * 0.01f;
-	gpsData.vDOP = ubloxData.payload.dop.vDOP * 0.01f;
-	gpsData.tDOP = ubloxData.payload.dop.tDOP * 0.01f;
-	gpsData.nDOP = ubloxData.payload.dop.nDOP * 0.01f;
-	gpsData.eDOP = ubloxData.payload.dop.eDOP * 0.01f;
-	gpsData.gDOP = ubloxData.payload.dop.gDOP * 0.01f;
-    }
-
-    // end of high priority section
-    CoSetPriority(gpsData.gpsTask, GPS_PRIORITY);
-
-    if (ubloxData.class == UBLOX_NAV_CLASS && ubloxData.id == UBLOX_NAV_TIMEUTC && (ubloxData.payload.timeutc.valid & 0b100)) {
-	// if setting the RTC succeeds, disable the TIMEUTC message
-	if (rtcSetDataTime(ubloxData.payload.timeutc.year, ubloxData.payload.timeutc.month, ubloxData.payload.timeutc.day,
-		ubloxData.payload.timeutc.hour, ubloxData.payload.timeutc.min, ubloxData.payload.timeutc.sec))
-	    ubloxEnableMessage(UBLOX_NAV_CLASS, UBLOX_NAV_TIMEUTC, 0);
-    }
-    else if (ubloxData.class == UBLOX_MON_CLASS && ubloxData.id == UBLOX_MON_VER) {
-	ubloxData.hwVer = atoi(ubloxData.payload.ver.hwVersion) / 10000;
-	ubloxVersionSpecific(ubloxData.hwVer);
-    }
-
-    gpsData.lastMessage = IMU_LASTUPD;
-
-    if (commStreamUsed(COMM_TYPE_GPS))
-	ubloxSendPacket(COMM_TYPE_GPS);
-
-    // TODO
-    if (1 && commStreamUsed(COMM_TYPE_TELEMETRY)) {
-	commTxBuf_t *txBuf;
-	uint8_t *ptr;
-	int i;
-
-	txBuf = commGetTxBuf(COMM_TYPE_TELEMETRY, ubloxData.length + 3 + 2 + 6 + 2 + 2);
-
-	if (txBuf) {
-	    ptr = &txBuf->buf;
-
-	    *ptr++ = 'A';
-	    *ptr++ = 'q';
-	    *ptr++ = 'G';
-	    ubloxTxChecksumReset();
-
-	    i = ubloxData.length + 8;
-	    *ptr = (i & 0xff); ubloxTxChecksum(*ptr++);
-	    *ptr = ((i & 0xff00) >> 8); ubloxTxChecksum(*ptr++);
-
-	    *ptr = (UBLOX_SYNC1); ubloxTxChecksum(*ptr++);
-	    *ptr = (UBLOX_SYNC2); ubloxTxChecksum(*ptr++);
-	    *ptr = (ubloxData.class); ubloxTxChecksum(*ptr++);
-	    *ptr = (ubloxData.id); ubloxTxChecksum(*ptr++);
-	    *ptr = (ubloxData.length & 0xff); ubloxTxChecksum(*ptr++);
-	    *ptr = ((ubloxData.length & 0xff00) >> 8); ubloxTxChecksum(*ptr++);
-
-	    for (i = 0; i < ubloxData.length; i++) {
-		*ptr = (*((char *)&ubloxData.payload + i)); ubloxTxChecksum(*ptr++);
-	    }
-
-	    *ptr = (ubloxData.ubloxRxCK_A); ubloxTxChecksum(*ptr++);
-	    *ptr = (ubloxData.ubloxRxCK_B); ubloxTxChecksum(*ptr++);
-
-	    *ptr++ = ubloxData.ubloxTxCK_A;
-	    *ptr++ = ubloxData.ubloxTxCK_B;
-
-	    commSendTxBuf(txBuf, ptr - &txBuf->buf);
-	}
-    }
-
-    return ret;
-}
-
-unsigned char ubloxCharIn(unsigned char c) {
-    switch (ubloxData.state) {
-    case UBLOX_WAIT_SYNC1:
-	if (c == UBLOX_SYNC1)
-	    ubloxData.state = UBLOX_WAIT_SYNC2;
-	return 3;	// lost sync
-	break;
-
-    case UBLOX_WAIT_SYNC2:
-	if (c == UBLOX_SYNC2)
-	    ubloxData.state = UBLOX_WAIT_CLASS;
-	else
-	    ubloxData.state = UBLOX_WAIT_SYNC1;
-	return 3;	// lost sync
-	break;
-
-    case UBLOX_WAIT_CLASS:
-	ubloxData.class = c;
-	ubloxRxChecksumReset();
-	ubloxRxChecksum(c);
-	ubloxData.state = UBLOX_WAIT_ID;
-	break;
-
-    case UBLOX_WAIT_ID:
-	ubloxData.id = c;
-	ubloxRxChecksum(c);
-	ubloxData.state = UBLOX_WAIT_LEN1;
-	break;
-
-    case UBLOX_WAIT_LEN1:
-	ubloxData.length = c;
-	ubloxRxChecksum(c);
-	ubloxData.state	= UBLOX_WAIT_LEN2;
-	break;
-
-    case UBLOX_WAIT_LEN2:
-	ubloxData.length += (c << 8);
-	ubloxRxChecksum(c);
-        if (ubloxData.length >= (UBLOX_MAX_PAYLOAD-1)) { // avoid length to exceed payload size (just in case of syn loss)
-            ubloxData.length = 0;
-            ubloxData.state = UBLOX_WAIT_SYNC1;
-        } else if (ubloxData.length > 0) {
-	    ubloxData.count = 0;
-	    ubloxData.state = UBLOX_PAYLOAD;
-	}
-	else
-	    ubloxData.state = UBLOX_CHECK1;
-	break;
-
-    case UBLOX_PAYLOAD:
-	*((char *)(&ubloxData.payload) + ubloxData.count) = c;
-	if (++ubloxData.count == ubloxData.length)
-	    ubloxData.state = UBLOX_CHECK1;
-	ubloxRxChecksum(c);
-	break;
-
-    case UBLOX_CHECK1:
-	if (c == ubloxData.ubloxRxCK_A)
-	    ubloxData.state = UBLOX_CHECK2;
-	else
-	    ubloxData.state = UBLOX_WAIT_SYNC1;
-	break;
-
-    case UBLOX_CHECK2:
-	ubloxData.state = UBLOX_WAIT_SYNC1;
-	if (c == ubloxData.ubloxRxCK_B)
-	    return ubloxPublish();
-	break;
-
-    default:
-	return 3;	// lost sync
-	break;
-    }
-
-    return 0;
-}
