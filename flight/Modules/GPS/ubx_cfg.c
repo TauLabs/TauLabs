@@ -231,8 +231,7 @@ static void ubloxVersionSpecific(int ver) {
     }
 }
 
-void ubloxSendSetup(void) {
-    yield(UBLOX_WAIT_MS);
+void ubx_cfg_send_configuration(void) {
     ubloxSetTimepulse();
     ubloxEnableMessage(UBLOX_NAV_CLASS, UBLOX_NAV_VALNED, 1);	// NAV VALNED
     ubloxEnableMessage(UBLOX_NAV_CLASS, UBLOX_NAV_POSLLH, 1);	// NAV POSLLH
@@ -255,15 +254,8 @@ void ubloxSendSetup(void) {
     ubloxVersionSpecific(ubloxData.hwVer);
 }
 
-void ubloxInit(void) {
-    memset((void *)&ubloxData, 0, sizeof(ubloxData));
-
-    ubloxData.state = UBLOX_WAIT_SYNC1;
-
-    ubloxSendSetup();
-}
-
-void ubloxSetBaudrate(uint16_t baud_rate) {
+//! Set the output baudrate to 230400
+void ubx_cfg_set_baudrate(uint16_t baud_rate) {
     // UBX,41 msg
     // 1 - portID
     // 0007 - input protocol (all)
@@ -274,10 +266,5 @@ void ubloxSetBaudrate(uint16_t baud_rate) {
     const uint8_t * msg = "$PUBX,41,1,0007,0001,230400,0*18\n";
 
     // TODO: send message
-}
-
-void ubloxInitGps(void) {
-    serialPrint(gpsData.gpsPort, "$PUBX,41,1,0007,0001,230400,0*18\n");
-    yield(200);
 }
 
