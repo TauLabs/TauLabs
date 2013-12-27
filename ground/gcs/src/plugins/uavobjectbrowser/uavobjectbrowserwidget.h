@@ -79,15 +79,16 @@ public:
     ~UAVObjectBrowserWidget();
     void setRecentlyUpdatedColor(QColor color) { m_recentlyUpdatedColor = color; m_model->setRecentlyUpdatedColor(color); }
     void setManuallyChangedColor(QColor color) { m_manuallyChangedColor = color; m_model->setManuallyChangedColor(color); }
+    void setNotPresentOnHwColor(QColor color) { m_notPresentOnHwColor = color; m_model->setNotPresentOnHwColor(color); }
     void setRecentlyUpdatedTimeout(int timeout) { m_recentlyUpdatedTimeout = timeout; m_model->setRecentlyUpdatedTimeout(timeout); }
     void setOnlyHighlightChangedValues(bool highlight) { m_onlyHighlightChangedValues = highlight; m_model->setOnlyHighlightChangedValues(highlight); }
-    void setViewOptions(bool categorized,bool scientific,bool metadata);
-
+    void setViewOptions(bool categorized, bool scientific, bool metadata, bool hideNotPresent);
+    void initialize();
+    void handleNotPresentOnHardwareHiding();
 public slots:
     void showMetaData(bool show);
-    void categorize(bool categorize);
-    void useScientificNotation(bool scientific);
-
+    void showNotPresent(bool show);
+    void presentOnHardwareChangedSlot();
 private slots:
     void sendUpdate();
     void requestUpdate();
@@ -102,7 +103,7 @@ private slots:
     void onTreeItemExpanded(QModelIndex);
 
 signals:
-    void viewOptionsChanged(bool categorized,bool scientific,bool metadata);
+    void viewOptionsChanged(bool categorized,bool scientific,bool metadata,bool hideNotPresent);
 private:
     QPushButton *m_requestUpdate;
     QPushButton *m_sendUpdate;
@@ -114,6 +115,7 @@ private:
     int m_recentlyUpdatedTimeout;
     QColor m_recentlyUpdatedColor;
     QColor m_manuallyChangedColor;
+    QColor m_notPresentOnHwColor;
     bool m_onlyHighlightChangedValues;
 
     void updateObjectPersistance(ObjectPersistence::OperationOptions op, UAVObject *obj);
