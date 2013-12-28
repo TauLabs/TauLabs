@@ -36,6 +36,8 @@
 #include "UBX.h"
 #include "GPS.h"
 
+static uint32_t parse_errors;
+
 static bool checksum_ubx_message(const struct UBXPacket *);
 static uint32_t parse_ubx_message(const struct UBXPacket *, GPSPositionData *);
 
@@ -188,8 +190,15 @@ static bool checksum_ubx_message (const struct UBXPacket *ubx)
 	if (ubx->header.ck_a == ck_a &&
 			ubx->header.ck_b == ck_b)
 		return true;
-	else
+	else {
+		parse_errors++;
+		UBloxInfoData ublox;
+		UBloxInfoGet(&ublox);
+		ublox.ParseErrors = parse_errors;
+		UBloxInfoSet(&ublox);
+
 		return false;
+	}
 
 }
 
@@ -311,6 +320,7 @@ static void parse_ubx_mon_ver (const struct UBX_MON_VER *version_info)
 	for(uint32_t i = 0; i < 8; i++) {
 		ublox.hwVersion[i] = version_info->hwVersion[i];
 	}
+	ublox.ParseErrors = parse_errors;
 	UBloxInfoSet(&ublox);
 }
 #endif

@@ -33,6 +33,8 @@
 #include "openpilot.h"
 #include "pios_com.h"
 
+#if !defined(PIOS_GPS_MINIMAL)
+
 #include "GPS.h"
 #include "UBX.h"
 
@@ -379,6 +381,8 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
     // Set to proper baud rate
     PIOS_COM_ChangeBaud(gps_port, baud);
 }
+
+#endif /* PIOS_GPS_MINIMAL */
 
 /**
  * @}

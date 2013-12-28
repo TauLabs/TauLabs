@@ -150,6 +150,7 @@ int32_t GPSInitialize(void)
 	GPSTimeInitialize();
 	GPSSatellitesInitialize();
 	HomeLocationInitialize();
+	UBloxInfoInitialize();
 	updateSettings();
 
 #else
@@ -215,6 +216,7 @@ static void gpsTask(void *parameters)
 	timeOfLastCommandMs = timeNowMs;
 
 
+#if !defined(PIOS_GPS_MINIMAL)
 	switch (gpsProtocol) {
 #if defined(PIOS_INCLUDE_GPS_UBX_PARSER)
 		case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
@@ -238,6 +240,7 @@ static void gpsTask(void *parameters)
 			break;
 #endif
 	}
+#endif /* PIOS_GPS_MINIMAL */
 
 	GPSPositionGet(&gpsposition);
 	// Loop forever
