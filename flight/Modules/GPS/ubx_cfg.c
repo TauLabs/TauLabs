@@ -277,20 +277,17 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
 {
     gps_rx_buffer = buffer;
 
+    ubx_cfg_set_timepulse(gps_port);
+
     // Poll the version number and parse some data
-    ubx_cfg_pause_parse(gps_port, TICKS2MS(UBLOX_WAIT_MS));
     ubx_cfg_poll_version(gps_port);
     ubx_cfg_pause_parse(gps_port, TICKS2MS(UBLOX_WAIT_MS));
-
-    ubx_cfg_set_timepulse(gps_port);
 
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_VELNED, 1);	// NAV VELNED
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_POSLLH, 1);	// NAV POSLLH
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_STATUS, 1); // NAV STATUS
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_TIMEUTC, 5);    // NAV TIMEUTC
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_DOP, 5);    // NAV DOP
-
-    ubx_cfg_enable_message(gps_port, UBLOX_MON_CLASS, UBLOX_MON_VER, 5);    // peridically get version
 
 #ifdef GPS_DO_RTK
     ubx_cfg_enable_message(gps_port, UBLOX_TIM_CLASS, UBLOX_TIM_TP, 1);   // TIM TP
