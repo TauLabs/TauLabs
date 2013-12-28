@@ -219,7 +219,7 @@ static void ubx_cfg_set_sbas(uintptr_t gps_port, uint8_t enable) {
 }
 
 static void ubx_cfg_poll_version(uintptr_t gps_port) {
-    const uint8_t msg[] = {UBLOX_MON_CLASS, UBLOX_MON_VER};
+    const uint8_t msg[] = {UBLOX_MON_CLASS, UBLOX_MON_VER, 0x00, 0x00};
     ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
