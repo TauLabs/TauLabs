@@ -161,6 +161,7 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_TELEM_RF_TX_BUF_LEN 512
 
 #define PIOS_COM_GPS_RX_BUF_LEN 32
+#define PIOS_COM_GPS_TX_BUF_LEN 16
 
 #define PIOS_COM_TELEM_USB_RX_BUF_LEN 65
 #define PIOS_COM_TELEM_USB_TX_BUF_LEN 65
@@ -514,7 +515,7 @@ void PIOS_Board_Init(void) {
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 			break;
 		case HWREVOMINI_MAINPORT_GPS:
-			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0, &pios_usart_com_driver, &pios_com_gps_id);
+			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
 		case HWREVOMINI_MAINPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS)
@@ -639,7 +640,7 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_I2C */
 			break;
 		case HWREVOMINI_FLEXIPORT_GPS:
-			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0, &pios_usart_com_driver, &pios_com_gps_id);
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
 		case HWREVOMINI_FLEXIPORT_DSM2:
 		case HWREVOMINI_FLEXIPORT_DSMX10BIT:
