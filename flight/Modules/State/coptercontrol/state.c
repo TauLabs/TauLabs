@@ -332,7 +332,7 @@ static void StateTask(void *parameters)
 			uint8_t gpsStatus;
 			GPSPositionStatusGet(&gpsStatus);
 
-			if (gpsStatus == GPSPOSITION_STATUS_FIX3D) {
+			if (gpsStatus >= GPSPOSITION_STATUS_FIX3D) {
 				//Load UAVOs
 				GPSVelocityData gpsVelocityData;
 				PositionActualData positionActualData;
