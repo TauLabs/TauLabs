@@ -304,11 +304,15 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
 #endif
 
     ubx_cfg_set_mode(gps_port);						// 3D, airborne
-    ubx_cfg_poll_version(gps_port); 
 
     // Hardcoded version. The poll version method should fetch the
     // data but we need to link to that.
-    ubx_cfg_version_specific(gps_port, 6);
+    UBloxInfoData ublox;
+    UBloxInfoGet(&ublox);
+    if (ublox.swVersion > 0)
+        ubx_cfg_version_specific(gps_port, floorf(ublox.swVersion));
+    else
+        ubx_cfg_version_specific(gps_port, 6);
 }
 
 //! Set the output baudrate to 230400
