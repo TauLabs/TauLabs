@@ -279,9 +279,15 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
 
     ubx_cfg_set_timepulse(gps_port);
 
+    UBloxInfoData ublox;
+
     // Poll the version number and parse some data
-    ubx_cfg_poll_version(gps_port);
-    ubx_cfg_pause_parse(gps_port, TICKS2MS(UBLOX_WAIT_MS));
+    uint32_t i = 0;
+    do {
+        ubx_cfg_poll_version(gps_port);
+        ubx_cfg_pause_parse(gps_port, TICKS2MS(UBLOX_WAIT_MS));
+        UBloxInfoGet(&ublox);
+    } while (ublox.swVersion == 0 && i++ < 10);
 
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_VELNED, 1);	// NAV VELNED
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_POSLLH, 1);	// NAV POSLLH
@@ -306,8 +312,6 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
 
     // Hardcoded version. The poll version method should fetch the
     // data but we need to link to that.
-    UBloxInfoData ublox;
-    UBloxInfoGet(&ublox);
     if (ublox.swVersion > 0)
         ubx_cfg_version_specific(gps_port, floorf(ublox.swVersion));
     else
