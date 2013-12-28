@@ -300,6 +300,21 @@ static void parse_ubx_nav_svinfo (const struct UBX_NAV_SVINFO *svinfo)
 }
 #endif
 
+#if !defined(PIOS_GPS_MINIMAL)
+static void parse_ubx_mon_ver (const struct UBX_MON_VER *version_info)
+{
+	UBloxInfoData ublox;
+	// sw version is in the format X.YY
+	ublox.swVersion = (version_info->swVersion[0] - '0') +
+		(version_info->swVersion[2] - '0') * 0.1f +
+		(version_info->swVersion[3] - '0') * 0.01f;
+	for(uint32_t i = 0; i < 8; i++) {
+		ublox.hwVersion[i] = version_info->hwVersion[i];
+	}
+	UBloxInfoSet(&ublox);
+}
+#endif
+
 // UBX message parser
 // returns UAVObjectID if a UAVObject structure is ready for further processing
 
@@ -332,6 +347,16 @@ static uint32_t parse_ubx_message (const struct UBXPacket *ubx, GPSPositionData 
 #endif
 			}
 			break;
+#if !defined(PIOS_GPS_MINIMAL)
+		case UBX_CLASS_MON:
+			switch (ubx->header.id) {
+				case UBX_ID_MONVER:
+					PIOS_LED_Toggle(0);
+					parse_ubx_mon_ver (&ubx->payload.mon_ver);
+					break;
+			}
+			break;
+#endif
 	}
 	if (msgtracker.msg_received == ALL_RECEIVED) {
 		GPSPositionSet(GpsPosition);
