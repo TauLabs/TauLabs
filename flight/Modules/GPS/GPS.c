@@ -218,6 +218,7 @@ static void gpsTask(void *parameters)
 	switch (gpsProtocol) {
 #if defined(PIOS_INCLUDE_GPS_UBX_PARSER)
 		case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
+			ubx_cfg_set_baudrate(gpsPort, 0);
 			ubx_cfg_send_configuration(gpsPort);
 			break;
 #endif

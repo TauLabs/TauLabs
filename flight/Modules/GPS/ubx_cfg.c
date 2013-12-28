@@ -287,16 +287,20 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, uint16_t baud_rate)
     // 230400 - baudrate
     // 0 - no attempt to autobaud
     // 0x18 - baudrate
-    const char * msg = "$PUBX,41,1,0007,0001,230400,0*18\n";
+    const char * msg = "$PUBX,41,1,0007,0001,57600,0*29\n";
 
     // Attempt to configure at common baud rates
     PIOS_COM_ChangeBaud(gps_port, 4800);
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
     PIOS_COM_SendString(gps_port, msg);
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
     PIOS_COM_ChangeBaud(gps_port, 9600);
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
     PIOS_COM_SendString(gps_port, msg);
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
     PIOS_COM_ChangeBaud(gps_port, 57600);
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
     PIOS_COM_SendString(gps_port, msg);
-    PIOS_COM_ChangeBaud(gps_port, 240400);
 }
 
 /**

@@ -31,7 +31,7 @@
 #include "openpilot.h"
 
 void ubx_cfg_send_configuration(uintptr_t gps_port);
-void ubx_cfg_set_baudrate(uint16_t baud_rate);
+void ubx_cfg_set_baudrate(uintptr_t gps_port, uint16_t baud_rate);
 
 /**
  * @}
