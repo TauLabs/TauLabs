@@ -219,6 +219,9 @@ static void gpsTask(void *parameters)
 #if defined(PIOS_INCLUDE_GPS_UBX_PARSER)
 		case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
 		{
+			// Wait for power to stabilize before talking to external devices
+			vTaskDelay(MS2TICKS(1000));
+
 			// Runs through a number of possible GPS baud rates to
 			// configure the ublox baud rate. This uses a NMEA string
 			// so could work for either UBX or NMEA actually. This is
@@ -227,6 +230,8 @@ static void gpsTask(void *parameters)
 			ModuleSettingsGPSSpeedOptions baud_rate;
 			ModuleSettingsGPSSpeedGet(&baud_rate);
 			ubx_cfg_set_baudrate(gpsPort, baud_rate);
+
+			vTaskDelay(MS2TICKS(1000));
 
 			ubx_cfg_send_configuration(gpsPort);
 		}
