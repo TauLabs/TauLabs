@@ -91,203 +91,140 @@
 #define UBLOX_MAX_PAYLOAD   384
 #define UBLOX_WAIT_MS       20
 
-uintptr_t gps_tx_comm;
-
 uint8_t ubloxTxCK_A, ubloxTxCK_B;
 
+static void ubx_cfg_send_checksummed(uintptr_t gps_port, const uint8_t *dat, uint16_t len);
+
+//! Reset the TX checksum calculation
 static void ubloxTxChecksumReset(void) {
     ubloxTxCK_A = 0;
     ubloxTxCK_B = 0;
 }
 
+//! Update the checksum calculation
 static void ubloxTxChecksum(uint8_t c) {
     ubloxTxCK_A += c;
     ubloxTxCK_B += ubloxTxCK_A;
 }
 
-static void ubloxWriteU1(unsigned char c) {
-    PIOS_COM_SendChar(gps_tx_comm, c);
-    ubloxTxChecksum(c);
+//! Enable the selected UBX message at the specified rate
+static void ubx_cfg_enable_message(uintptr_t gps_port,
+    uint8_t c, uint8_t i, uint8_t rate) {
+
+    const uint8_t msg[] = {
+        UBLOX_CFG_CLASS,       // CFG
+        UBLOX_CFG_MSG,         // MSG
+        0x03,                  // length lsb
+        0x00,                  // length msb
+        c,                     // class
+        i,                     // id
+        rate,                  // rate
+    };
+    ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
-static void ubloxWriteI1(signed char c) {
-    PIOS_COM_SendChar(gps_tx_comm, (unsigned char)c);
-    ubloxTxChecksum(c);
+//! Set the rate of all messages
+static void ubx_cfg_set_rate(uintptr_t gps_port, uint16_t ms) {
+
+    const uint8_t msg[] = {
+        UBLOX_CFG_CLASS,       // CFG
+        UBLOX_CFG_RTATE,       // RTATE
+        0x06,                  // length lsb
+        0x00,                  // length msb
+        ms,                    // rate lsb
+        ms >> 8,               // rate msb
+        0x01,                  // cycles
+        0x01,                  // timeref 1 = GPS time
+    };
+    ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
-static void ubloxWriteU2(unsigned short int x) {
-    ubloxWriteU1(x);
-    ubloxWriteU1(x>>8);
+//! Configure the navigation mode and minimum fix
+static void ubx_cfg_set_mode(uintptr_t gps_port) {
+
+    const uint8_t msg[] = {
+        UBLOX_CFG_CLASS,       // CFG
+        UBLOX_CFG_NAV5,        // NAV5 mode
+        0x24,                  // length lsb - 36 bytes
+        0x00,                  // length msb
+        0b0000101,             // mask LSB (fixMode, dyn)
+        0x00,                  // mask MSB (reserved)
+        0x06,                  // dynamic model (6 - airborne < 1g)
+        0x02,                  // fixmode (2 - 3D only)
+        0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,       // padded with 32 zeros
+    };
+    ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
-static void ubloxWriteI2(signed short int x) {
-    ubloxWriteU1(x);
-    ubloxWriteU1(x>>8);
+//! Configure the timepulse output
+static void ubx_cfg_set_timepulse(uintptr_t gps_port) {
+    const uint8_t TP_POLARITY = 0;
+    const uint32_t int_us = 1000000;
+    const uint32_t len_us = 100000;
+
+    const uint8_t msg[] = {
+        UBLOX_CFG_CLASS,       // CFG
+        UBLOX_CFG_TP,          // TP
+        0x14,                  // length lsb
+        0x00,                  // length msb
+        int_us & 0xff,
+        int_us >> 8 & 0xff,   // interval (us)
+        int_us >> 16 & 0xff,
+        int_us >> 24 & 0xff,
+        len_us & 0xff,
+        len_us >> 8 & 0xff,     // length (us)
+        len_us >> 16 & 0xff,
+        len_us >> 24 & 0xff,
+        TP_POLARITY,           // polarity - zero off
+        0x01,                  // 1 - GPS time
+        0x00,                  // bitmask
+        0x00,                  // reserved
+        0x00, 0x00,            // antenna delay
+        0x00, 0x00,            // rf group delay
+        0, 0, 0, 0             // user delay
+    };
+    ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
-static void ubloxWriteU4(unsigned long int x) {
-    ubloxWriteU1(x);
-    ubloxWriteU1(x>>8);
-    ubloxWriteU1(x>>16);
-    ubloxWriteU1(x>>24);
-}
-
-static void ubloxWriteI4(signed long int x) {
-    ubloxWriteU1(x);
-    ubloxWriteU1(x>>8);
-    ubloxWriteU1(x>>16);
-    ubloxWriteU1(x>>24);
-}
-
-static void ubloxSendPreamble(void) {
-    PIOS_COM_SendChar(gps_tx_comm, UBLOX_SYNC1);	// u
-    PIOS_COM_SendChar(gps_tx_comm, UBLOX_SYNC2);	// b
-
-    ubloxTxChecksumReset();
-}
-
-static void ubloxEnableMessage(unsigned char c, unsigned char i, unsigned char rate) {
-    ubloxSendPreamble();
-
-    ubloxWriteU1(UBLOX_CFG_CLASS);  // CFG
-    ubloxWriteU1(UBLOX_CFG_MSG);    // MSG
-
-    ubloxWriteU1(0x03);		    // length lsb
-    ubloxWriteU1(0x00);		    // length msb
-
-    ubloxWriteU1(c);		    // class
-    ubloxWriteU1(i);		    // id
-    ubloxWriteU1(rate);		    // rate
-
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
-
-    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
-}
-
-static void ubloxSetRate(unsigned short int ms) {
-    ubloxSendPreamble();
-
-    ubloxWriteU1(UBLOX_CFG_CLASS);  // CFG
-    ubloxWriteU1(UBLOX_CFG_RTATE);  // RTATE
-
-    ubloxWriteU1(0x06);		    // length lsb
-    ubloxWriteU1(0x00);		    // length msb
-
-    ubloxWriteU2(ms);		    // rate
-    ubloxWriteU2(0x01);		    // cycles
-    ubloxWriteU2(0x01);		    // timeRef	0 == UTC, 1 == GPS time
-
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
-
-    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
-}
-
-static void ubloxSetMode(void) {
-    int i;
-
-    ubloxSendPreamble();
-
-    ubloxWriteU1(UBLOX_CFG_CLASS);  // CFG
-    ubloxWriteU1(UBLOX_CFG_NAV5);   // NAV5
-
-    ubloxWriteU1(0x24);		    // length lsb
-    ubloxWriteU1(0x00);		    // length msb
-
-    ubloxWriteU1(0b0000101);	    // mask LSB (fixMode, dyn)
-    ubloxWriteU1(0x00);		    // mask MSB (reserved)
-    ubloxWriteU1(0x06);		    // dynModel (6 == airborne < 1g, 8 == airborne < 4g)
-    ubloxWriteU1(0x02);		    // fixMode (2 == 3D only)
-
-    // the rest of the packet is ignored due to the above mask
-    for (i = 0; i < 32; i++)
-	ubloxWriteU1(0x00);
-
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
-
-    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
-}
-
-static void ubloxSetTimepulse(void) {
-    ubloxSendPreamble();
-
-    ubloxWriteU1(UBLOX_CFG_CLASS);  // CFG
-    ubloxWriteU1(UBLOX_CFG_TP);	    // TP
-
-    ubloxWriteU1(0x14);		    // length lsb
-    ubloxWriteU1(0x00);		    // length msb
-
-    ubloxWriteU4(1000000);	    // interval (us)
-    ubloxWriteU4(100000);	    // length (us)
-#ifdef GPS_LATENCY
-    ubloxWriteI1(0x00);		    // config setting (0 == off)
-#else
-    ubloxWriteI1(0x01);		    // config setting (1 == +polarity)
-#endif
-    ubloxWriteU1(0x01);		    // alignment reference time (GPS)
-    ubloxWriteU1(0x00);		    // bitmask (syncmode 0)
-    ubloxWriteU1(0x00);		    // reserved
-    ubloxWriteI2(0x00);		    // antenna delay
-    ubloxWriteI2(0x00);		    // rf group delay
-    ubloxWriteI4(0x00);		    // user delay
-
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
-
-    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
-}
-
-static void ubloxSetSBAS(uint8_t enable) {
+//! Enable or disable SBAS satellites
+static void ubx_cfg_set_sbas(uintptr_t gps_port, uint8_t enable) {
     // second bit of mode field is diffCorr
     enable = (enable > 0);
 
-    ubloxSendPreamble();
+    const uint8_t msg[] = {
+        UBLOX_CFG_CLASS, // CFG
+        UBLOX_CFG_SBAS,  // SBAS
+        0x08,            // length lsb
+        0x00,            // length msb
+        enable,          // enable flag
+        0b011,           // mode
+        3,               // # SBAS tracking channels
+        0,
+        UBLOX_SBAS_AUTO,
+        UBLOX_SBAS_AUTO >> 4,
+        UBLOX_SBAS_AUTO >> 8,
+        UBLOX_SBAS_AUTO >> 12,
+    };
 
-    ubloxWriteU1(UBLOX_CFG_CLASS);  // CFG
-    ubloxWriteU1(UBLOX_CFG_SBAS);   // SBAS
-
-    ubloxWriteU1(0x08);		    // length lsb
-    ubloxWriteU1(0x00);		    // length msb
-
-    ubloxWriteU1(enable);	    // enable
-    ubloxWriteU1(0b011);	    // mode
-    ubloxWriteU1(3);		    // # SBAS tracking channels
-    ubloxWriteU1(0);
-    ubloxWriteU4(UBLOX_SBAS_AUTO);  // ANY SBAS system
-
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
-
-    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
+    ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
-static void ubloxPollVersion(void) {
-    ubloxSendPreamble();
-
-    ubloxWriteU1(UBLOX_MON_CLASS);  // MON
-    ubloxWriteU1(UBLOX_MON_VER);    // VER
-
-    ubloxWriteU1(0x00);		    // length lsb
-    ubloxWriteU1(0x00);		    // length msb
-
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);
-
-    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
+static void ubx_cfg_poll_version(uintptr_t gps_port) {
+    const uint8_t msg[] = {UBLOX_MON_CLASS, UBLOX_MON_VER};
+    ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
-static void ubloxVersionSpecific(int ver) {
+static void ubx_cfg_version_specific(uintptr_t gps_port, uint8_t ver) {
     if (ver > 6) {
-	// 10Hz for ver 7+
-	ubloxSetRate((uint16_t)100);
-	// SBAS screwed up on v7 modules w/ v1 firmware
-	ubloxSetSBAS(0);					// disable SBAS
-    }
-    else {
-	// 5Hz
-	ubloxSetRate((uint16_t)200);
+        // 10Hz for ver 7+
+        ubx_cfg_set_rate(gps_port, (uint16_t)100);
+        // SBAS screwed up on v7 modules w/ v1 firmware
+        ubx_cfg_set_sbas(gps_port, 0); // disable SBAS
+    } else {
+        // 5Hz
+        ubx_cfg_set_rate(gps_port, (uint16_t)200);
     }
 }
 
@@ -302,47 +239,46 @@ static void ubx_cfg_send_checksummed(uintptr_t gps_port,
     }
 
     // Send buffer followed by checksum
+    PIOS_COM_SendChar(gps_port, UBLOX_SYNC1);
+    PIOS_COM_SendChar(gps_port, UBLOX_SYNC2);
     PIOS_COM_SendBuffer(gps_port, dat, len);
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
-    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);  
+    PIOS_COM_SendChar(gps_port, ubloxTxCK_A);
+    PIOS_COM_SendChar(gps_port, ubloxTxCK_B);
+
+    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
 }
 
 void ubx_cfg_send_configuration(uintptr_t gps_port)
 {
-
-    if (!gps_port)
-        return;
-
-    gps_tx_comm = gps_port;
     vTaskDelay(MS2TICKS(UBLOX_WAIT_MS));
 
-    ubloxSetTimepulse();
-    ubloxEnableMessage(UBLOX_NAV_CLASS, UBLOX_NAV_VALNED, 1);	// NAV VALNED
-    ubloxEnableMessage(UBLOX_NAV_CLASS, UBLOX_NAV_POSLLH, 1);	// NAV POSLLH
-    ubloxEnableMessage(UBLOX_TIM_CLASS, UBLOX_TIM_TP, 1);	// TIM TP
-    ubloxEnableMessage(UBLOX_NAV_CLASS, UBLOX_NAV_DOP, 5);	// NAV DOP
-    ubloxEnableMessage(UBLOX_AID_CLASS, UBLOX_AID_REQ, 1);	// AID REQ
-    ubloxEnableMessage(UBLOX_NAV_CLASS, UBLOX_NAV_TIMEUTC, 5);	// NAV TIMEUTC
+    ubx_cfg_set_timepulse(gps_port);
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_VALNED, 1);	// NAV VALNED
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_POSLLH, 1);	// NAV POSLLH
+    ubx_cfg_enable_message(gps_port, UBLOX_TIM_CLASS, UBLOX_TIM_TP, 1);	// TIM TP
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_DOP, 5);	// NAV DOP
+    ubx_cfg_enable_message(gps_port, UBLOX_AID_CLASS, UBLOX_AID_REQ, 1);	// AID REQ
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_TIMEUTC, 5);	// NAV TIMEUTC
 #ifdef GPS_DO_RTK
-    ubloxEnableMessage(UBLOX_RXM_CLASS, UBLOX_RXM_RAW, 1);	// RXM RAW
-    ubloxEnableMessage(UBLOX_RXM_CLASS, UBLOX_RXM_SFRB, 1);	// RXM SFRB
+    ubx_cfg_enable_message(gps_port, UBLOX_RXM_CLASS, UBLOX_RXM_RAW, 1);	// RXM RAW
+    ubx_cfg_enable_message(gps_port, UBLOX_RXM_CLASS, UBLOX_RXM_SFRB, 1);	// RXM SFRB
 #endif
 #ifdef GPS_DEBUG
-    ubloxEnableMessage(UBLOX_NAV_CLASS, UBLOX_NAV_SVINFO, 1);	// NAV SVINFO
-    ubloxEnableMessage(UBLOX_NAV_CLASS, UBLOX_NAV_SBAS, 1);	// NAV SBAS
-    ubloxEnableMessage(UBLOX_MON_CLASS, UBLOX_MON_HW, 1);	// MON HW
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SVINFO, 1);	// NAV SVINFO
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SBAS, 1);	// NAV SBAS
+    ubx_cfg_enable_message(gps_port, UBLOX_MON_CLASS, UBLOX_MON_HW, 1);	// MON HW
 #endif
 
-    ubloxSetMode();						// 3D, airborne
-    ubloxPollVersion(); 
+    ubx_cfg_set_mode(gps_port);						// 3D, airborne
+    ubx_cfg_poll_version(gps_port); 
 
     // Hardcoded version. The poll version method should fetch the
     // data but we need to link to that.
-    ubloxVersionSpecific(6);
+    ubx_cfg_version_specific(gps_port, 6);
 }
 
 //! Set the output baudrate to 230400
-void ubx_cfg_set_baudrate(uint16_t baud_rate)
+void ubx_cfg_set_baudrate(uintptr_t gps_port, uint16_t baud_rate)
 {
     // UBX,41 msg
     // 1 - portID
@@ -354,13 +290,13 @@ void ubx_cfg_set_baudrate(uint16_t baud_rate)
     const char * msg = "$PUBX,41,1,0007,0001,230400,0*18\n";
 
     // Attempt to configure at common baud rates
-    PIOS_COM_ChangeBaud(gps_tx_comm, 4800);
-    PIOS_COM_SendString(gps_tx_comm, msg);
-    PIOS_COM_ChangeBaud(gps_tx_comm, 9600);
-    PIOS_COM_SendString(gps_tx_comm, msg);
-    PIOS_COM_ChangeBaud(gps_tx_comm, 57600);
-    PIOS_COM_SendString(gps_tx_comm, msg);
-    PIOS_COM_ChangeBaud(gps_tx_comm, 240400);
+    PIOS_COM_ChangeBaud(gps_port, 4800);
+    PIOS_COM_SendString(gps_port, msg);
+    PIOS_COM_ChangeBaud(gps_port, 9600);
+    PIOS_COM_SendString(gps_port, msg);
+    PIOS_COM_ChangeBaud(gps_port, 57600);
+    PIOS_COM_SendString(gps_port, msg);
+    PIOS_COM_ChangeBaud(gps_port, 240400);
 }
 
 /**
