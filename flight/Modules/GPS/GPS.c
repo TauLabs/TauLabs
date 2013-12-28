@@ -45,6 +45,7 @@
 
 #include "NMEA.h"
 #include "UBX.h"
+#include "ubx_cfg.h"
 
 #if defined(PIOS_GPS_PROVIDES_AIRSPEED)
 #include "gps_airspeed.h"
@@ -212,6 +213,15 @@ static void gpsTask(void *parameters)
 
 	timeOfLastUpdateMs = timeNowMs;
 	timeOfLastCommandMs = timeNowMs;
+
+
+	switch (gpsProtocol) {
+#if defined(PIOS_INCLUDE_GPS_UBX_PARSER)
+		case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
+			ubx_cfg_send_configuration(gpsPort);
+			break;
+#endif
+	}
 
 	GPSPositionGet(&gpsposition);
 	// Loop forever
