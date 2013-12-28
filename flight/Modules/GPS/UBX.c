@@ -216,7 +216,8 @@ static void parse_ubx_nav_sol (const struct UBX_NAV_SOL *sol, GPSPositionData *G
 					GpsPosition->Status = GPSPOSITION_STATUS_FIX2D;
 					break;
 				case STATUS_GPSFIX_3DFIX:
-					GpsPosition->Status = GPSPOSITION_STATUS_FIX3D;
+					GpsPosition->Status = (sol->flags & STATUS_FLAGS_DIFFSOLN) ?
+						GPSPOSITION_STATUS_DIFF3D : GPSPOSITION_STATUS_FIX3D;
 					break;
 				default: GpsPosition->Status = GPSPOSITION_STATUS_NOFIX;
 			}
