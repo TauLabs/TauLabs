@@ -173,6 +173,13 @@ void ConfigTaskWidget::addUAVObjectToWidgetRelation(QString object, QString fiel
         objectUpdates.insert(obj,true);
         connect(obj, SIGNAL(objectUpdated(UAVObject*)),this, SLOT(objectUpdated(UAVObject*)));
         connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(refreshWidgetsValues(UAVObject*)), Qt::UniqueConnection);
+        UAVDataObject *dobj = dynamic_cast<UAVDataObject *>(obj);
+        if(dobj)
+        {
+            connect(dobj, SIGNAL(presentOnHardwareChanged(UAVDataObject*)),this, SLOT(presentOnHardwareChangedSlot(UAVDataObject*)));
+            if(widget)
+                widget->setEnabled(dobj->getIsPresentOnHardware());
+        }
     }
     if(!field.isEmpty() && obj)
         _field = obj->getField(QString(field));
@@ -699,6 +706,13 @@ bool ConfigTaskWidget::addShadowWidget(QString object, QString field, QWidget *w
             if(defaultReloadGroups)
                 addWidgetToDefaultReloadGroups(widget,defaultReloadGroups);
             loadWidgetLimits(widget,oTw->field,oTw->index,isLimited,scale);
+            UAVDataObject *dobj = dynamic_cast<UAVDataObject *>(oTw->object);
+            if(dobj)
+            {
+                connect(dobj, SIGNAL(presentOnHardwareChanged(UAVDataObject*)),this, SLOT(presentOnHardwareChangedSlot(UAVDataObject*)));
+                if(widget)
+                    widget->setEnabled(dobj->getIsPresentOnHardware());
+            }
             return true;
         }
     }
@@ -912,6 +926,10 @@ void ConfigTaskWidget::reloadButtonClicked()
     {
         if (oTw->object != NULL)
         {
+            UAVDataObject * dobj = dynamic_cast<UAVDataObject*>(oTw->object);
+            if(dobj)
+                if(!dobj->getIsPresentOnHardware())
+                    continue;
             temphelper value;
             value.objid=oTw->object->getObjID();
             value.objinstid=oTw->object->getInstID();
@@ -946,6 +964,25 @@ void ConfigTaskWidget::reloadButtonClicked()
     {
         delete timeOut;
         timeOut=NULL;
+    }
+}
+
+void ConfigTaskWidget::presentOnHardwareChangedSlot(UAVDataObject * obj)
+{
+    foreach(objectToWidget * ow, shadowsList.values())
+    {
+        if(ow->object==NULL || ow->widget==NULL)
+        {
+            //do nothing
+        }
+        else
+        {
+            if(ow->object==obj)
+                foreach (QWidget *w, shadowsList.keys(ow)) {
+                    w->setEnabled(obj->getIsPresentOnHardware());
+                }
+        }
+
     }
 }
 
