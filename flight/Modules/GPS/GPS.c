@@ -218,8 +218,18 @@ static void gpsTask(void *parameters)
 	switch (gpsProtocol) {
 #if defined(PIOS_INCLUDE_GPS_UBX_PARSER)
 		case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
-			ubx_cfg_set_baudrate(gpsPort, 0);
+		{
+			// Runs through a number of possible GPS baud rates to
+			// configure the ublox baud rate. This uses a NMEA string
+			// so could work for either UBX or NMEA actually. This is
+			// somewhat redundant with updateSettings below, but that
+			// is only called on startup and is not an issue.
+			ModuleSettingsGPSSpeedOptions baud_rate;
+			ModuleSettingsGPSSpeedGet(&baud_rate);
+			ubx_cfg_set_baudrate(gpsPort, baud_rate);
+
 			ubx_cfg_send_configuration(gpsPort);
+		}
 			break;
 #endif
 	}
@@ -325,10 +335,6 @@ static void setHomeLocation(GPSPositionData * gpsData)
 
 /**
  * Update the GPS settings, called on startup.
- * FIXME: This should be in the GPSSettings object. But objects have
- * too much overhead yet. Also the GPS has no any specific settings
- * like protocol, etc. Thus the ModuleSettings object which contains the
- * GPS port speed is used for now.
  */
 static void updateSettings()
 {
