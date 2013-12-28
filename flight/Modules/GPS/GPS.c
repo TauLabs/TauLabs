@@ -233,7 +233,7 @@ static void gpsTask(void *parameters)
 
 			vTaskDelay(MS2TICKS(1000));
 
-			ubx_cfg_send_configuration(gpsPort);
+			ubx_cfg_send_configuration(gpsPort, gps_rx_buffer);
 		}
 			break;
 #endif

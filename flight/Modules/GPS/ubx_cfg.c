@@ -32,6 +32,11 @@
 
 #include "openpilot.h"
 #include "pios_com.h"
+
+#include "GPS.h"
+#include "UBX.h"
+
+#include "gpsposition.h"
 #include "modulesettings.h"
 
 /*
@@ -93,6 +98,7 @@
 #define UBLOX_WAIT_MS       20
 
 uint8_t ubloxTxCK_A, ubloxTxCK_B;
+static char *gps_rx_buffer;
 
 static void ubx_cfg_send_checksummed(uintptr_t gps_port, const uint8_t *dat, uint16_t len);
 
@@ -229,6 +235,22 @@ static void ubx_cfg_version_specific(uintptr_t gps_port, uint8_t ver) {
     }
 }
 
+//! Parse incoming data while paused
+static void ubx_cfg_pause_parse(uintptr_t gps_port, uint32_t delay_ticks)
+{
+    struct GPS_RX_STATS gpsRxStats;
+    GPSPositionData     gpsPosition;
+
+    uint8_t c;
+    portTickType enterTime = xTaskGetTickCount();
+    while ((xTaskGetTickCount() - enterTime) < delay_ticks)
+    {
+        int32_t received = PIOS_COM_ReceiveBuffer(gps_port, &c, 1, 1);
+        if (received > 0)
+            parse_ubx_stream (c, gps_rx_buffer, &gpsPosition, &gpsRxStats);
+    }
+}
+
 //! Send a stream of data followed by checksum
 static void ubx_cfg_send_checksummed(uintptr_t gps_port,
     const uint8_t *dat, uint16_t len)
@@ -246,12 +268,17 @@ static void ubx_cfg_send_checksummed(uintptr_t gps_port,
     PIOS_COM_SendChar(gps_port, ubloxTxCK_A);
     PIOS_COM_SendChar(gps_port, ubloxTxCK_B);
 
-    vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
+    ubx_cfg_pause_parse(gps_port, TICKS2MS(UBLOX_WAIT_MS));
 }
 
-void ubx_cfg_send_configuration(uintptr_t gps_port)
+void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
 {
-    vTaskDelay(MS2TICKS(UBLOX_WAIT_MS));
+    gps_rx_buffer = buffer;
+
+    // Poll the version number and parse some data
+    ubx_cfg_pause_parse(gps_port, TICKS2MS(UBLOX_WAIT_MS));
+    ubx_cfg_poll_version(gps_port);
+    ubx_cfg_pause_parse(gps_port, TICKS2MS(UBLOX_WAIT_MS));
 
     ubx_cfg_set_timepulse(gps_port);
 
@@ -260,6 +287,8 @@ void ubx_cfg_send_configuration(uintptr_t gps_port)
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_STATUS, 1); // NAV STATUS
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_TIMEUTC, 5);    // NAV TIMEUTC
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_DOP, 5);    // NAV DOP
+
+    ubx_cfg_enable_message(gps_port, UBLOX_MON_CLASS, UBLOX_MON_VER, 5);    // peridically get version
 
 #ifdef GPS_DO_RTK
     ubx_cfg_enable_message(gps_port, UBLOX_TIM_CLASS, UBLOX_TIM_TP, 1);   // TIM TP
