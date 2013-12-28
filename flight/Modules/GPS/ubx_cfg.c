@@ -33,6 +33,21 @@
 #include "openpilot.h"
 #include "pios_com.h"
 
+/*
+ * The format of UBX Packets is documented in the UBX Protocol
+ * documentation and is summarized below
+ *
+ * 1 byte - SYNC_CHAR1 (UBLOX_SYNC1 = 0xB5)
+ * 1 byte - SYNC_CHAR2 (UBLOX_SYNC2 = 0x62)
+ * 1 byte - CLASS 
+ * 1 byte - ID
+ * 2 byte - length (little endian)
+ * N bytes - payload
+ * 2 bytes - checksum
+ *
+ * The checksum is calculated from the class to the last byte of
+ * the payload
+ */
 #define UBLOX_SYNC1     0xB5
 #define UBLOX_SYNC2     0x62
 
@@ -125,8 +140,8 @@ static void ubloxWriteI4(signed long int x) {
 }
 
 static void ubloxSendPreamble(void) {
-    ubloxWriteU1(0xb5);	// u
-    ubloxWriteU1(0x62);	// b
+    PIOS_COM_SendChar(gps_tx_comm, UBLOX_SYNC1);	// u
+    PIOS_COM_SendChar(gps_tx_comm, UBLOX_SYNC2);	// b
 
     ubloxTxChecksumReset();
 }
@@ -276,7 +291,24 @@ static void ubloxVersionSpecific(int ver) {
     }
 }
 
-void ubx_cfg_send_configuration(uintptr_t gps_port) {
+//! Send a stream of data followed by checksum
+static void ubx_cfg_send_checksummed(uintptr_t gps_port,
+    const uint8_t *dat, uint16_t len)
+{
+    // Calculate checksum
+    ubloxTxChecksumReset();
+    for (uint16_t i = 0; i < len; i++) {
+        ubloxTxChecksum(dat[i]);
+    }
+
+    // Send buffer followed by checksum
+    PIOS_COM_SendBuffer(gps_port, dat, len);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_A);
+    PIOS_COM_SendChar(gps_tx_comm, ubloxTxCK_B);  
+}
+
+void ubx_cfg_send_configuration(uintptr_t gps_port)
+{
 
     if (!gps_port)
         return;
@@ -310,7 +342,8 @@ void ubx_cfg_send_configuration(uintptr_t gps_port) {
 }
 
 //! Set the output baudrate to 230400
-void ubx_cfg_set_baudrate(uint16_t baud_rate) {
+void ubx_cfg_set_baudrate(uint16_t baud_rate)
+{
     // UBX,41 msg
     // 1 - portID
     // 0007 - input protocol (all)
