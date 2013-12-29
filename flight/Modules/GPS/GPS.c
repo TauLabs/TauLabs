@@ -287,8 +287,10 @@ static void gpsTask(void *parameters)
 			// we appear to be receiving GPS sentences OK, we've had an update
 			//criteria for GPS-OK taken from this post...
 			//http://forums.openpilot.org/topic/1523-professors-insgps-in-svn/page__view__findpost__p__5220
-			if ((gpsposition.PDOP < 3.5f) && (gpsposition.Satellites >= 7) &&
-					(gpsposition.Status >= GPSPOSITION_STATUS_FIX3D)) {
+			if (gpsposition.PDOP < 3.5f && 
+			    gpsposition.Satellites >= 7 &&
+			    (gpsposition.Status == GPSPOSITION_STATUS_FIX3D ||
+			         gpsposition.Status == GPSPOSITION_STATUS_DIFF3D)) {
 				AlarmsClear(SYSTEMALARMS_ALARM_GPS);
 #ifdef PIOS_GPS_SETS_HOMELOCATION
 				HomeLocationData home;
@@ -297,7 +299,8 @@ static void gpsTask(void *parameters)
 				if (home.Set == HOMELOCATION_SET_FALSE)
 					setHomeLocation(&gpsposition);
 #endif
-			} else if (gpsposition.Status >= GPSPOSITION_STATUS_FIX3D)
+			} else if (gpsposition.Status == GPSPOSITION_STATUS_FIX3D ||
+			           gpsposition.Status == GPSPOSITION_STATUS_DIFF3D)
 						AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_WARNING);
 					else
 						AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_CRITICAL);
