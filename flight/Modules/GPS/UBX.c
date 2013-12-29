@@ -310,11 +310,12 @@ static void parse_ubx_nav_svinfo (const struct UBX_NAV_SVINFO *svinfo)
 static void parse_ubx_mon_ver (const struct UBX_MON_VER *version_info)
 {
 	UBloxInfoData ublox;
+	UBloxInfoGet(&ublox);
 	// sw version is in the format X.YY
 	ublox.swVersion = (version_info->swVersion[0] - '0') +
 		(version_info->swVersion[2] - '0') * 0.1f +
 		(version_info->swVersion[3] - '0') * 0.01f;
-	for(uint32_t i = 0; i < 8; i++) {
+	for (uint32_t i = 0; i < 8; i++) {
 		ublox.hwVersion[i] = version_info->hwVersion[i];
 	}
 	ublox.ParseErrors = parse_errors;
@@ -358,7 +359,6 @@ static uint32_t parse_ubx_message (const struct UBXPacket *ubx, GPSPositionData 
 		case UBX_CLASS_MON:
 			switch (ubx->header.id) {
 				case UBX_ID_MONVER:
-					PIOS_LED_Toggle(0);
 					parse_ubx_mon_ver (&ubx->payload.mon_ver);
 					break;
 			}
