@@ -145,7 +145,9 @@ static void ubx_cfg_set_rate(uintptr_t gps_port, uint16_t ms) {
         ms,                    // rate lsb
         ms >> 8,               // rate msb
         0x01,                  // cycles
+        0x00,
         0x01,                  // timeref 1 = GPS time
+        0x00,
     };
     ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
