@@ -169,6 +169,7 @@ static void ubx_cfg_set_mode(uintptr_t gps_port) {
         0x02,                  // fixmode (2 - 3D only)
         0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,       // padded with 32 zeros
     };
     ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
@@ -205,7 +206,7 @@ static void ubx_cfg_set_timepulse(uintptr_t gps_port) {
 }
 
 //! Enable or disable SBAS satellites
-static void ubx_cfg_set_sbas(uintptr_t gps_port, uint8_t enable) {
+static void ubx_cfg_set_sbas(uintptr_t gps_port, bool enable) {
     // second bit of mode field is diffCorr
     enable = (enable > 0);
 
@@ -320,7 +321,7 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
     uint32_t i = 0;
     do {
         ubx_cfg_poll_version(gps_port);
-        ubx_cfg_pause_parse(gps_port, TICKS2MS(UBLOX_WAIT_MS));
+        ubx_cfg_pause_parse(gps_port, MS2TICKS(UBLOX_WAIT_MS));
         UBloxInfoGet(&ublox);
     } while (ublox.swVersion == 0 && i++ < 10);
 
@@ -354,7 +355,7 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
         ubx_cfg_version_specific(gps_port, 6);
 }
 
-//! Set the output baudrate to 230400
+//! Make sure the GPS is set to the same baudrate as the port
 void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud_rate)
 {
     // UBX,41 msg
@@ -363,7 +364,8 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
     // 0001 - output protocol (ubx only)
     // 230400 - baudrate
     // 0 - no attempt to autobaud
-    // 0x18 - baudrate
+    // number - baudrate
+    // *XX - checksum
     const char * msg_2400 = "$PUBX,41,1,0007,0001,2400,0*1B\n";
     const char * msg_4800 = "$PUBX,41,1,0007,0001,4800,0*11\n";
     const char * msg_9600 = "$PUBX,41,1,0007,0001,9600,0*12\n";
@@ -373,8 +375,8 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
     const char * msg_115200 = "$PUBX,41,1,0007,0001,115200,0*1A\n";
     const char * msg_230400 = "$PUBX,41,1,0007,0001,230400,0*18\n";
 
-    const char *msg = "";
-    uint32_t baud = 57600;
+    const char *msg;
+    uint32_t baud;
     switch (baud_rate) {
     case MODULESETTINGS_GPSSPEED_2400:
         msg = msg_2400;
@@ -396,6 +398,7 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
         msg = msg_38400;
         baud = 38400;
         break;
+    default:
     case MODULESETTINGS_GPSSPEED_57600:
         msg = msg_57600;
         baud = 57600;
@@ -411,13 +414,14 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
     }
     
     // Attempt to set baud rate to desired value from a number of
-    // common rates
-    const uint32_t baud_rates[] = {4800, 9600, 19200, 38400, 57600, 115200, 230400};
+    // common rates. So this configures the physical baudrate and
+    // tries to send the configuration string to the GPS.
+    const uint32_t baud_rates[] = {2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400};
     for (uint32_t i = 0; i < NELEMENTS(baud_rates); i++) {
         PIOS_COM_ChangeBaud(gps_port, baud_rates[i]);
-        vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
+        vTaskDelay(MS2TICKS(UBLOX_WAIT_MS));
         PIOS_COM_SendString(gps_port, msg);
-        vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
+        vTaskDelay(MS2TICKS(UBLOX_WAIT_MS));
     }
 
     // Set to proper baud rate
