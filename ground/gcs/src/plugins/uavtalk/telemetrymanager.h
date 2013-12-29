@@ -67,6 +67,7 @@ private:
     TelemetryMonitor* telemetryMon;
     QIODevice *device;
     bool autopilotConnected;
+    QHash<quint16, QList<TelemetryMonitor::objStruc> > sessions;
 };
 
 #endif // TELEMETRYMANAGER_H

@@ -62,7 +62,7 @@ void TelemetryManager::onStart()
 {
     utalk = new UAVTalk(device, objMngr);
     telemetry = new Telemetry(utalk, objMngr);
-    telemetryMon = new TelemetryMonitor(objMngr, telemetry);
+    telemetryMon = new TelemetryMonitor(objMngr, telemetry, sessions);
     connect(telemetryMon, SIGNAL(connected()), this, SLOT(onConnect()));
     connect(telemetryMon, SIGNAL(disconnected()), this, SLOT(onDisconnect()));
 }
@@ -76,6 +76,7 @@ void TelemetryManager::stop()
 void TelemetryManager::onStop()
 {
     telemetryMon->disconnect(this);
+    sessions = telemetryMon->getSessions();
     delete telemetryMon;
     delete telemetry;
     delete utalk;
