@@ -87,6 +87,7 @@
 #define UBLOX_CFG_MSG       0x01
 #define UBLOX_CFG_TP        0x07
 #define UBLOX_CFG_RTATE     0x08
+#define UBLOX_CFG_CFG       0x09
 #define UBLOX_CFG_SBAS      0x16
 #define UBLOX_CFG_NAV5      0x24
 
@@ -220,6 +221,29 @@ static void ubx_cfg_set_sbas(uintptr_t gps_port, uint8_t enable) {
     ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
+
+//! Enable or disable SBAS satellites
+static void ubx_cfg_clear_cfg(uintptr_t gps_port) {
+
+    // Reset the messges and navigation settings
+    const uint32_t MASK = 0b00001110;
+    const uint8_t msg[] = {
+        UBLOX_CFG_CLASS, // CFG
+        UBLOX_CFG_CFG,   // CFG-CFG
+        0x0C,            // length lsb
+        0x00,            // length msb
+        MASK,            // clear mask (U4)
+        MASK >> 8,
+        MASK >> 16,
+        MASK >> 24,
+        0,0,0,0,         // load mask
+        0,0,0,0          // save mask
+    };
+
+    ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
+}
+
+
 static void ubx_cfg_poll_version(uintptr_t gps_port) {
     const uint8_t msg[] = {UBLOX_MON_CLASS, UBLOX_MON_VER, 0x00, 0x00};
     ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
@@ -276,6 +300,11 @@ static void ubx_cfg_send_checksummed(uintptr_t gps_port,
 void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
 {
     gps_rx_buffer = buffer;
+
+    // Enable this to clear GPS. Not done by default
+    // because we don't want to keep writing to the
+    // persistent storage
+    if (false) ubx_cfg_clear_cfg(gps_port);
 
     ubx_cfg_set_timepulse(gps_port);
 
