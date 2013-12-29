@@ -192,10 +192,7 @@ static bool checksum_ubx_message (const struct UBXPacket *ubx)
 		return true;
 	else {
 		parse_errors++;
-		UBloxInfoData ublox;
-		UBloxInfoGet(&ublox);
-		ublox.ParseErrors = parse_errors;
-		UBloxInfoSet(&ublox);
+		UBloxInfoParseErrorsSet(&parse_errors);
 
 		return false;
 	}
