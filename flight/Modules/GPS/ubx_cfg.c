@@ -43,7 +43,10 @@
 
 /*
  * The format of UBX Packets is documented in the UBX Protocol
- * documentation and is summarized below
+ * documentation and is summarized below. Links to the original
+ * documentation can be found here:
+ *
+ * http://www.u-blox.com/en/download/documents-a-resources/u-blox-6-gps-modules-resources.html
  *
  * 1 byte - SYNC_CHAR1 (UBLOX_SYNC1 = 0xB5)
  * 1 byte - SYNC_CHAR2 (UBLOX_SYNC2 = 0x62)
