@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>448</width>
-    <height>598</height>
+    <height>697</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,6 +70,13 @@
         <widget class="QCheckBox" name="cbBattery">
          <property name="text">
           <string>Battery Monitoring</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbUavoMavlink">
+         <property name="text">
+          <string>UAVO Mavlink stream (for use with minimOSD)</string>
          </property>
         </widget>
        </item>
