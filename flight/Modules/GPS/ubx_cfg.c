@@ -69,6 +69,7 @@
 #define UBLOX_NAV_POSLLH    0x02
 #define UBLOX_NAV_STATUS    0x03
 #define UBLOX_NAV_DOP       0x04
+#define UBLOX_NAV_SOL       0x06
 #define UBLOX_NAV_VELNED    0x12
 #define UBLOX_NAV_TIMEUTC   0x21
 #define UBLOX_NAV_SBAS      0x32
@@ -318,11 +319,12 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
         UBloxInfoGet(&ublox);
     } while (ublox.swVersion == 0 && i++ < 10);
 
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_VELNED, 1);	// NAV VELNED
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_POSLLH, 1);	// NAV POSLLH
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_STATUS, 1); // NAV STATUS
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_TIMEUTC, 5);    // NAV TIMEUTC
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_DOP, 5);    // NAV DOP
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_VELNED, 1);	   // NAV-VELNED
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_POSLLH, 1);	   // NAV-POSLLH
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SOL, 5);       // NAV-SOL
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_TIMEUTC, 5);   // NAV TIMEUTC
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_DOP, 5);       // NAV DOP
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SVINFO, 5);
 
 #ifdef GPS_DO_RTK
     ubx_cfg_enable_message(gps_port, UBLOX_TIM_CLASS, UBLOX_TIM_TP, 1);   // TIM TP
