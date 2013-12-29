@@ -321,10 +321,10 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
 
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_VELNED, 1);	   // NAV-VELNED
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_POSLLH, 1);	   // NAV-POSLLH
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SOL, 5);       // NAV-SOL
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_TIMEUTC, 5);   // NAV TIMEUTC
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_DOP, 5);       // NAV DOP
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SVINFO, 5);
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SOL, 1);       // NAV-SOL
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_TIMEUTC, 5);   // NAV-TIMEUTC
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_DOP, 1);       // NAV-DOP
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SVINFO, 5);    // NAV-SVINFO
 
 #ifdef GPS_DO_RTK
     ubx_cfg_enable_message(gps_port, UBLOX_TIM_CLASS, UBLOX_TIM_TP, 1);   // TIM TP
