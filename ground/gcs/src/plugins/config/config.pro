@@ -22,7 +22,6 @@ HEADERS += calibration.h \
     configpipxtremewidget.h \
     configstabilizationwidget.h \
     assertions.h \
-    calibration.h \
     defaulthwsettingswidget.h \
     inputchannelform.h \
     configcamerastabilizationwidget.h \
