@@ -55,7 +55,7 @@ SystemHealthGadgetWidget::SystemHealthGadgetWidget(QWidget *parent) : QGraphicsV
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
-    SystemAlarms* obj = dynamic_cast<SystemAlarms*>(objManager->getObject(QString("SystemAlarms")));
+    SystemAlarms* obj = SystemAlarms::GetInstance(objManager);
     connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAlarms(UAVObject*)));
 
     // Listen to autopilot connection events
@@ -84,6 +84,7 @@ void SystemHealthGadgetWidget::onAutopilotDisconnect()
 
 void SystemHealthGadgetWidget::updateAlarms(UAVObject* systemAlarm)
 {
+    static QList<QString> warningClean;
     // This code does not know anything about alarms beforehand, and
     // I found no efficient way to locate items inside the scene by
     // name, so it's just as simple to reset the scene:
@@ -116,11 +117,15 @@ void SystemHealthGadgetWidget::updateAlarms(UAVObject* systemAlarm)
                 matrix.translate(startX,startY);
                 ind->setTransform(matrix,false);
             } else {
-                if (value.compare("Uninitialised") != 0)
+                if ((value.compare("Uninitialised") != 0) && !warningClean.contains(element2))
+                {
                     qDebug() << "[SystemHealth] Warning: The SystemHealth SVG does not contain a graphical element for the " << element2 << " alarm.";
+                    warningClean.append(element2);
+                }
             }
-        } else {
+        } else if(!warningClean.contains(element)){
             qDebug() << "[SystemHealth] Warning: The SystemHealth SVG does not contain a graphical element for the " << element << " alarm.";
+            warningClean.append(element);
         }
     }
 }
@@ -163,7 +168,7 @@ void SystemHealthGadgetWidget::setSystemFile(QString dfn)
          TelemetryManager* telMngr = pm->getObject<TelemetryManager>();
          if (telMngr->isConnected()) {
              onAutopilotConnect();
-             SystemAlarms* obj = dynamic_cast<SystemAlarms*>(objManager->getObject(QString("SystemAlarms")));
+             SystemAlarms* obj = SystemAlarms::GetInstance(objManager);
              updateAlarms(obj);
          }
        }
