@@ -169,10 +169,13 @@ void UAVSettingsImportExportFactory::importUAVSettings()
 
             // Sanity Check:
             UAVObject *obj = objManager->getObject(uavObjectName);
+            UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
             if (obj == NULL) {
                 // This object is unknown!
                 qDebug() << "Object unknown:" << uavObjectName << uavObjectID;
                 swui.addLine(uavObjectName, "Error (Object unknown)", false);
+            } else if(dobj && !dobj->getIsPresentOnHardware()) {
+                swui.addLine(uavObjectName, "Error (Object not present on hw)", false);
             } else {
                 //  - Update each field
                 //  - Issue and "updated" command
@@ -294,8 +297,11 @@ bool UAVSettingsImportExportFactory::importWaypoints()
             if (obj == NULL) {
                 // This object is unknown!
                 qDebug() << "Object unknown:" << uavObjectName << uavObjectID;
-            } else {
-
+            }
+            else if(obj->getIsPresentOnHardware()) {
+                qDebug() << "Object not present on Hardware" << uavObjectName << uavObjectID;
+            }
+            else {
                 unsigned int numInstances = objManager->getNumInstances(obj->getObjID());
                 if (instId >= numInstances) {
                     obj = obj->clone(instId);
@@ -425,6 +431,8 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
         QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
         foreach (QVector<UAVDataObject*> list, objList) {
             foreach (UAVDataObject *obj, list) {
+                if(!obj->getIsPresentOnHardware())
+                    continue;
                 if (((what == Settings) && obj->isSettings()) ||
                         ((what == Data) && !obj->isSettings()) ||
                         (what == Both)) {
