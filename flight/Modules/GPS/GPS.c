@@ -375,6 +375,9 @@ static void updateSettings()
 		case MODULESETTINGS_GPSSPEED_115200:
 			PIOS_COM_ChangeBaud(gpsPort, 115200);
 			break;
+		case MODULESETTINGS_GPSSPEED_230400:
+			PIOS_COM_ChangeBaud(gpsPort, 230400);
+			break;
 		}
 	}
 }

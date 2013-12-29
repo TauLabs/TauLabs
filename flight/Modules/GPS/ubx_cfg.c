@@ -335,6 +335,7 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
     const char * msg_38400 = "$PUBX,41,1,0007,0001,38400,0*22\n";
     const char * msg_57600 = "$PUBX,41,1,0007,0001,57600,0*29\n";
     const char * msg_115200 = "$PUBX,41,1,0007,0001,115200,0*1A\n";
+    const char * msg_230400 = "$PUBX,41,1,0007,0001,230400,0*18\n";
 
     const char *msg = "";
     uint32_t baud = 57600;
@@ -367,11 +368,15 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
         msg = msg_115200;
         baud = 115200;
         break;
+    case MODULESETTINGS_GPSSPEED_230400:
+        msg = msg_230400;
+        baud = 230400;
+        break;
     }
     
     // Attempt to set baud rate to desired value from a number of
     // common rates
-    const uint32_t baud_rates[] = {4800, 9600, 19200, 38400, 57600, 115200};
+    const uint32_t baud_rates[] = {4800, 9600, 19200, 38400, 57600, 115200, 230400};
     for (uint32_t i = 0; i < NELEMENTS(baud_rates); i++) {
         PIOS_COM_ChangeBaud(gps_port, baud_rates[i]);
         vTaskDelay(TICKS2MS(UBLOX_WAIT_MS));
