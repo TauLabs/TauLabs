@@ -961,7 +961,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
 
         // Temporary variables
         double psi, theta, phi;
-
+        Q_UNUSED(psi);
         // Keep existing yaw rotation
         psi = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0;
 
