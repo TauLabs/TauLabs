@@ -85,6 +85,7 @@ signals:
 public slots:
     void newObject(UAVObject *obj);
     void initializeModel(bool categorize = true, bool useScientificFloatNotation = true);
+    void instanceRemove(UAVObject*);
 private slots:
     void highlightUpdatedObject(UAVObject *obj);
     void updateHighlight(TreeItem*);

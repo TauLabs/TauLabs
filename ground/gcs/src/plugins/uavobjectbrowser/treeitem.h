@@ -101,6 +101,7 @@ public:
     virtual ~TreeItem();
 
     virtual void appendChild(TreeItem *child);
+    virtual void removeChild(TreeItem* child);
     void insertChild(TreeItem *child);
 
     TreeItem *getChild(int index);

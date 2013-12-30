@@ -83,6 +83,7 @@ void UAVObjectTreeModel::setupModelData(UAVObjectManager *objManager, bool categ
     {
         disconnect(objManager, SIGNAL(newObject(UAVObject*)), this, SLOT(newObject(UAVObject*)));
         disconnect(objManager, SIGNAL(newInstance(UAVObject*)), this, SLOT(newObject(UAVObject*)));
+        disconnect(objManager, SIGNAL(instanceRemoved(UAVObject*)), this, SLOT(instanceRemove(UAVObject*)));
         delete m_highlightManager;
         int count = m_rootItem->childCount();
         beginRemoveRows(index(m_rootItem), 0, count);
@@ -114,6 +115,7 @@ void UAVObjectTreeModel::setupModelData(UAVObjectManager *objManager, bool categ
     }
     connect(objManager, SIGNAL(newObject(UAVObject*)), this, SLOT(newObject(UAVObject*)),Qt::UniqueConnection);
     connect(objManager, SIGNAL(newInstance(UAVObject*)), this, SLOT(newObject(UAVObject*)),Qt::UniqueConnection);
+    connect(objManager, SIGNAL(instanceRemoved(UAVObject*)), this, SLOT(instanceRemove(UAVObject*)));
 }
 
 void UAVObjectTreeModel::newObject(UAVObject *obj)
@@ -127,6 +129,28 @@ void UAVObjectTreeModel::newObject(UAVObject *obj)
 void UAVObjectTreeModel::initializeModel(bool categorize, bool useScientificFloatNotation)
 {
     setupModelData(objManager,categorize, useScientificFloatNotation);
+}
+
+void UAVObjectTreeModel::instanceRemove(UAVObject *obj)
+{
+    UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
+    if(!dobj)
+        return;
+
+    TopTreeItem *root = dobj->isSettings() ? m_settingsTree : m_nonSettingsTree;
+
+    ObjectTreeItem* existing = root->findDataObjectTreeItemByObjectId(obj->getObjID());
+    if(existing)
+    {
+        foreach (TreeItem* item, existing->treeChildren()) {
+            InstanceTreeItem *inst = dynamic_cast<InstanceTreeItem*>(item);
+            if(inst && inst->object() == obj)
+            {
+                inst->parent()->removeChild(inst);
+                inst->deleteLater();
+            }
+        }
+    }
 }
 
 
