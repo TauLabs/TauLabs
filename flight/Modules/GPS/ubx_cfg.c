@@ -265,11 +265,15 @@ static void ubx_cfg_version_specific(uintptr_t gps_port, uint8_t ver) {
     if (ver > 6) {
         // 10Hz for ver 7+
         ubx_cfg_set_rate(gps_port, (uint16_t)100);
+
         // SBAS screwed up on v7 modules w/ v1 firmware
-        ubx_cfg_set_sbas(gps_port, 0); // disable SBAS
+        ubx_cfg_set_sbas(gps_port, 0);
+    } else if (ver == 6) {
+        // 10Hz seems to work on 6
+        ubx_cfg_set_rate(gps_port, (uint16_t)100);
     } else {
         // 5Hz
-        ubx_cfg_set_rate(gps_port, (uint16_t)200);
+        ubx_cfg_set_rate(gps_port, (uint16_t)200);        
     }
 }
 
