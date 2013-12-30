@@ -32,7 +32,10 @@
 #include "openpilot.h"
 #include "pios_struct_helper.h"
 #include "pios_heap.h"		/* PIOS_malloc_no_dma */
+#if defined(PIOS_INCLUDE_SESSION_MANAGEMENT)
 #include "sessionmanaging.h"
+static void session_managing_updated(UAVObjEvent * ev);
+#endif /* PIOS_INCLUDE_SESSION_MANAGEMENT */
 
 extern uintptr_t pios_uavo_settings_fs_id;
 
@@ -176,7 +179,6 @@ static const UAVObjMetadata defMetadata = {
 };
 
 static UAVObjStats stats;
-static void session_managing_updated(UAVObjEvent * ev);
 
 /**
  * Initialize the object manager
@@ -194,8 +196,10 @@ int32_t UAVObjInitialize()
 	mutex = xSemaphoreCreateRecursiveMutex();
 	if (mutex == NULL)
 		return -1;
+#if defined(PIOS_INCLUDE_SESSION_MANAGEMENT)
 	SessionManagingInitialize();
 	SessionManagingConnectCallback(session_managing_updated);
+#endif
 	// Done
 	return 0;
 }
@@ -527,12 +531,14 @@ uint16_t UAVObjCreateInstance(UAVObjHandle obj_handle,
 unlock_exit:
 	xSemaphoreGiveRecursive(mutex);
 	if(created){
+#if defined(PIOS_INCLUDE_SESSION_MANAGEMENT)
 		SessionManagingData sessionManaging;
 		SessionManagingGet(&sessionManaging);
 		sessionManaging.ObjectID = ((struct UAVOData *)obj_handle)->id;
 		sessionManaging.ObjectInstances = UAVObjGetNumInstances(obj_handle);
 		sessionManaging.SessionID = sessionManaging.SessionID + 1;
 		SessionManagingSet(&sessionManaging);
+#endif /* PIOS_INCLUDE_SESSION_MANAGEMENT */
 	}
 	return instId;
 }
@@ -1915,6 +1921,7 @@ uint32_t UAVObjIDByIndex(uint8_t index)
 	return 0;
 }
 
+#if defined(PIOS_INCLUDE_SESSION_MANAGEMENT)
 static void session_managing_updated(UAVObjEvent * ev)
 {
 	SessionManagingData sessionManaging;
@@ -1934,7 +1941,7 @@ static void session_managing_updated(UAVObjEvent * ev)
 	SessionManagingSet(&sessionManaging);
 	}
 }
-
+#endif /* PIOS_INCLUDE_SESSION_MANAGEMENT */
 /**
  * @}
  * @}
