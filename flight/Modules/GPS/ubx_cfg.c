@@ -229,7 +229,11 @@ static void ubx_cfg_set_sbas(uintptr_t gps_port, bool enable) {
 }
 
 
-//! Enable or disable SBAS satellites
+/**
+ * Erases the internal storage for message and navigation
+ * configuration. Does not do anything until UBX reboot 
+ * though.
+ */
 static void ubx_cfg_clear_cfg(uintptr_t gps_port) {
 
     // Reset the messges and navigation settings
@@ -250,12 +254,13 @@ static void ubx_cfg_clear_cfg(uintptr_t gps_port) {
     ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
-
+//! Request a MON-VER message with the firmware version
 static void ubx_cfg_poll_version(uintptr_t gps_port) {
     const uint8_t msg[] = {UBLOX_MON_CLASS, UBLOX_MON_VER, 0x00, 0x00};
     ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
+//! Apply firmwaree version specific configuration tweaks
 static void ubx_cfg_version_specific(uintptr_t gps_port, uint8_t ver) {
     if (ver > 6) {
         // 10Hz for ver 7+
@@ -304,6 +309,10 @@ static void ubx_cfg_send_checksummed(uintptr_t gps_port,
     ubx_cfg_pause_parse(gps_port, TICKS2MS(UBLOX_WAIT_MS));
 }
 
+/**
+ * Completely configure a UBX GPS with the messages we expect
+ * in NAV5 mode at the appropriate rate.
+ */
 void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
 {
     gps_rx_buffer = buffer;
@@ -349,7 +358,6 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
     // 1 - portID
     // 0007 - input protocol (all)
     // 0001 - output protocol (ubx only)
-    // 230400 - baudrate
     // 0 - no attempt to autobaud
     // number - baudrate
     // *XX - checksum
