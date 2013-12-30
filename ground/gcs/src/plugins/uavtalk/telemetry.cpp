@@ -279,6 +279,7 @@ void Telemetry::transactionSuccess(UAVObject* obj)
     if (updateTransactionMap(obj,false)) {
         TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction succeeded:%0 Instance:%1").arg(obj->getName() + QString(QString(" 0x") + QString::number(obj->getObjID(), 16).toUpper())).arg(obj->getInstID()));
         obj->emitTransactionCompleted(true);
+        obj->emitTransactionCompleted(true,false);
     } else {
         TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Received an ACK we were not expecting object:%0").arg(obj->getName()));
     }
@@ -296,11 +297,15 @@ void Telemetry::transactionSuccess(UAVObject* obj)
  */
 void Telemetry::transactionFailure(UAVObject* obj)
 {
+    bool nacked = false;
+    if(sender() == this->utalk)
+        nacked = true;
     // Here we need to check for true or false as a NAK can occur for OBJ_REQ or an
     // object set
     if (updateTransactionMap(obj, true) || updateTransactionMap(obj, false)) {
         TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction failed:%0 Instance:%1").arg(obj->getName() + QString(QString(" 0x") + QString::number(obj->getObjID(), 16).toUpper())).arg(obj->getInstID()));
         obj->emitTransactionCompleted(false);
+        obj->emitTransactionCompleted(false,nacked);
     } else {
         TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Received a NACK we were not expecting for object %0").arg(obj->getName()));
     }
@@ -318,6 +323,7 @@ void Telemetry::transactionRequestCompleted(UAVObject* obj)
     if (updateTransactionMap(obj,true)) {
         TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction succeeded:%0 Instance:%1").arg(obj->getName() + QString(QString(" 0x") + QString::number(obj->getObjID(), 16).toUpper())).arg(obj->getInstID()));
         obj->emitTransactionCompleted(true);
+        obj->emitTransactionCompleted(true,false);
     } else {
         TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Received a ACK we were not expecting for object %0").arg(obj->getName()));
     }
@@ -422,6 +428,7 @@ void Telemetry::processObjectUpdates(UAVObject* obj, EventMask event, bool allIn
         {
             ++txErrors;
             obj->emitTransactionCompleted(false);
+            obj->emitTransactionCompleted(false,false);
             TELEMETRY_QXTLOG_DEBUG(QString(tr("Telemetry: priority event queue is full, event lost (%1)").arg(obj->getName())));
         }
     }
@@ -434,6 +441,7 @@ void Telemetry::processObjectUpdates(UAVObject* obj, EventMask event, bool allIn
         else
         {
             ++txErrors;
+            obj->emitTransactionCompleted(false,false);
             obj->emitTransactionCompleted(false);
         }
     }
@@ -472,6 +480,7 @@ void Telemetry::processObjectQueue()
         if ( objInfo.obj->getObjID() != GCSTelemetryStats::OBJID && objInfo.obj->getObjID() != OPLinkSettings::OBJID  && objInfo.obj->getObjID() != ObjectPersistence::OBJID )
         {
             objInfo.obj->emitTransactionCompleted(false);
+            objInfo.obj->emitTransactionCompleted(false,false);
             return;
         }
     }
