@@ -139,6 +139,11 @@ void TreeItem::appendChild(TreeItem *child)
     child->setParentTree(this);
 }
 
+void TreeItem::removeChild(TreeItem *child)
+{
+    m_children.removeAll(child);
+}
+
 void TreeItem::insertChild(TreeItem *child)
 {
     int index = nameIndex(child->data(0).toString());
