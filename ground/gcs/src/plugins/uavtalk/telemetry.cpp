@@ -36,7 +36,7 @@
 #include <QDebug>
 
 #ifdef TELEMETRY_DEBUG
-  #define TELEMETRY_QXTLOG_DEBUG(...) qDebug(__VA_ARGS__)
+  #define TELEMETRY_QXTLOG_DEBUG(...) qDebug()<<(__VA_ARGS__)
 #else  // TELEMETRY_DEBUG
   #define TELEMETRY_QXTLOG_DEBUG(...)
 #endif	// TELEMETRY_DEBUG
@@ -360,7 +360,7 @@ void Telemetry::transactionTimeout(ObjectTransactionInfo *transInfo)
     // Check if more retries are pending
     if (transInfo->retriesRemaining > 0)
     {
-        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction timeout:%0 Instance:%1").arg(obj->getName() + QString(QString(" 0x") + QString::number(obj->getObjID(), 16).toUpper())).arg(obj->getInstID()));
+        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction timeout:%0 Instance:%1").arg(transInfo->obj->getName() + QString(QString(" 0x") + QString::number(transInfo->obj->getObjID(), 16).toUpper())).arg(transInfo->obj->getInstID()));
         --transInfo->retriesRemaining;
         processObjectTransaction(transInfo);
         ++txRetries;
