@@ -3,6 +3,7 @@
  *
  * @file       uavsettingsimportexportfactory.cpp
  * @author     (C) 2011 The OpenPilot Team, http://www.openpilot.org
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVSettingsImportExport UAVSettings Import/Export Plugin
