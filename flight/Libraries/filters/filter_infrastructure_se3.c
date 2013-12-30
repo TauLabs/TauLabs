@@ -267,7 +267,8 @@ static int32_t gpsOK(GPSPositionData * gpsPosition)
 		// Update the GPS quality state when data is here
 		switch(status) {
 		case GPS_WAIT_FOR_LOCK:
-			if (gpsPosition->Status == GPSPOSITION_STATUS_FIX3D &&
+			if ((gpsPosition->Status == GPSPOSITION_STATUS_FIX3D ||
+				 gpsPosition->Status == GPSPOSITION_STATUS_DIFF3D) &&
 				gpsPosition->PDOP < GPS_GOOD_PDOP &&
 				gpsPosition->Satellites >= GPS_GOOD_SAT) {
 				status = GPS_GOOD;
