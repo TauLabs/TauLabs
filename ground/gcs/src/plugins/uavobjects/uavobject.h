@@ -127,6 +127,7 @@ public:
     QString toStringBrief();
     QString toStringData();
     void emitTransactionCompleted(bool success);
+    void emitTransactionCompleted(bool success, bool nacked);
     void emitNewInstance(UAVObject *);
     void emitInstanceRemoved(UAVObject *);
 
@@ -212,7 +213,7 @@ signals:
      * @param success
      */
     void transactionCompleted(UAVObject* obj, bool success);
-
+    void transactionCompleted(UAVObject* obj, bool success, bool nack);
     /**
      * @brief newInstance
      * @param obj

@@ -490,11 +490,19 @@ QString UAVObject::toStringData()
 }
 
 /**
- * Emit the transactionCompleted event (used by the UAVTalk plugin)
+ * (overloaded) Emit the transactionCompleted event (used by the UAVTalk plugin)
  */
 void UAVObject::emitTransactionCompleted(bool success)
 {
     emit transactionCompleted(this, success);
+}
+
+/**
+ * (overloaded) Emit the transactionCompletedNack event
+ */
+void UAVObject::emitTransactionCompleted(bool success, bool nacked)
+{
+    emit transactionCompleted(this, success, nacked);
 }
 
 /**
