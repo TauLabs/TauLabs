@@ -187,7 +187,9 @@ int32_t filter_infrastructure_se3_process(struct filter_driver *upper_driver, ui
 			nedPos.Down = NED[2];
 			NEDPositionSet(&nedPos);
 
-			pos = NED;
+			if (getNED(&gpsPosition, NED) == 0) {
+				pos = NED;				
+			}
 		}
 	}
 
@@ -305,6 +307,9 @@ static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 {
 	HomeLocationData homeLocation;
 	HomeLocationGet(&homeLocation);
+
+	if (homeLocation.Set != HOMELOCATION_SET_TRUE)
+		return -1;
 
 	float T[3];
 
