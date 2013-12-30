@@ -332,7 +332,8 @@ static void StateTask(void *parameters)
 			uint8_t gpsStatus;
 			GPSPositionStatusGet(&gpsStatus);
 
-			if (gpsStatus == GPSPOSITION_STATUS_FIX3D) {
+			if (gpsStatus == GPSPOSITION_STATUS_FIX3D ||
+				gpsStatus == GPSPOSITION_STATUS_DIFF3D) {
 				//Load UAVOs
 				GPSVelocityData gpsVelocityData;
 				PositionActualData positionActualData;
@@ -732,7 +733,8 @@ static void HomeLocationUpdatedCb(UAVObjEvent * objEv)
 	GPSPositionStatusGet(&gpsStatus);
 
 	// TODO: Generate a better criterion
-	if (gpsStatus == GPSPOSITION_STATUS_FIX3D)
+	if (gpsStatus == GPSPOSITION_STATUS_FIX3D ||
+		gpsStatus == GPSPOSITION_STATUS_DIFF3D)
 	{
 		// Get the subset of the GPSPosition data required
 		int32_t LL_int[2];

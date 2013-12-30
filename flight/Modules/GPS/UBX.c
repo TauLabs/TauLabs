@@ -36,6 +36,8 @@
 #include "UBX.h"
 #include "GPS.h"
 
+static uint32_t parse_errors;
+
 static bool checksum_ubx_message(const struct UBXPacket *);
 static uint32_t parse_ubx_message(const struct UBXPacket *, GPSPositionData *);
 
@@ -188,8 +190,12 @@ static bool checksum_ubx_message (const struct UBXPacket *ubx)
 	if (ubx->header.ck_a == ck_a &&
 			ubx->header.ck_b == ck_b)
 		return true;
-	else
+	else {
+		parse_errors++;
+		UBloxInfoParseErrorsSet(&parse_errors);
+
 		return false;
+	}
 
 }
 
@@ -216,7 +222,8 @@ static void parse_ubx_nav_sol (const struct UBX_NAV_SOL *sol, GPSPositionData *G
 					GpsPosition->Status = GPSPOSITION_STATUS_FIX2D;
 					break;
 				case STATUS_GPSFIX_3DFIX:
-					GpsPosition->Status = GPSPOSITION_STATUS_FIX3D;
+					GpsPosition->Status = (sol->flags & STATUS_FLAGS_DIFFSOLN) ?
+						GPSPOSITION_STATUS_DIFF3D : GPSPOSITION_STATUS_FIX3D;
 					break;
 				default: GpsPosition->Status = GPSPOSITION_STATUS_NOFIX;
 			}
@@ -299,6 +306,23 @@ static void parse_ubx_nav_svinfo (const struct UBX_NAV_SVINFO *svinfo)
 }
 #endif
 
+#if !defined(PIOS_GPS_MINIMAL)
+static void parse_ubx_mon_ver (const struct UBX_MON_VER *version_info)
+{
+	UBloxInfoData ublox;
+	UBloxInfoGet(&ublox);
+	// sw version is in the format X.YY
+	ublox.swVersion = (version_info->swVersion[0] - '0') +
+		(version_info->swVersion[2] - '0') * 0.1f +
+		(version_info->swVersion[3] - '0') * 0.01f;
+	for (uint32_t i = 0; i < 8; i++) {
+		ublox.hwVersion[i] = version_info->hwVersion[i];
+	}
+	ublox.ParseErrors = parse_errors;
+	UBloxInfoSet(&ublox);
+}
+#endif
+
 // UBX message parser
 // returns UAVObjectID if a UAVObject structure is ready for further processing
 
@@ -331,6 +355,15 @@ static uint32_t parse_ubx_message (const struct UBXPacket *ubx, GPSPositionData 
 #endif
 			}
 			break;
+#if !defined(PIOS_GPS_MINIMAL)
+		case UBX_CLASS_MON:
+			switch (ubx->header.id) {
+				case UBX_ID_MONVER:
+					parse_ubx_mon_ver (&ubx->payload.mon_ver);
+					break;
+			}
+			break;
+#endif
 	}
 	if (msgtracker.msg_received == ALL_RECEIVED) {
 		GPSPositionSet(GpsPosition);

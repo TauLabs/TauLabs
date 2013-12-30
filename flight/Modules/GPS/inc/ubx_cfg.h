@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
- * @{ 
+ * @{
  * @addtogroup GSPModule GPS Module
- * @{ 
+ * @brief Process GPS information
+ * @{
  *
- * @file       GPS.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Include file of the GPS module.
+ * @file       ubx_cfg.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Include file for UBX configuration
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -27,33 +28,13 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef GPS_H
-#define GPS_H
-
-#include "gpsvelocity.h"
-#include "gpssatellites.h"
-#include "gpsposition.h"
-#include "gpstime.h"
-#include "ubloxinfo.h"
-
-#define	NO_PARSER	-3 // no parser available
-#define	PARSER_OVERRUN	-2 // message buffer overrun before completing the message
-#define	PARSER_ERROR	-1 // message unparsable by this parser
-#define PARSER_INCOMPLETE	0 // parser needs more data to complete the message
-#define PARSER_COMPLETE	1 // parser has received a complete message and finished processing
-
-struct GPS_RX_STATS {
-	uint16_t gpsRxReceived;
-	uint16_t gpsRxChkSumError;
-	uint16_t gpsRxOverflow;
-	uint16_t gpsRxParserError;
-};
-
-int32_t GPSInitialize(void);
-
-#endif // GPS_H
+#include "stdint.h"
+#include "modulesettings.h"
+ 
+void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer);
+void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud_rate);
 
 /**
-  * @}
-  * @}
-  */
+ * @}
+ * @}
+ */
