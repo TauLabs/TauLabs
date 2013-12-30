@@ -332,19 +332,6 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_DOP, 1);       // NAV-DOP
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SVINFO, 5);    // NAV-SVINFO
 
-#ifdef GPS_DO_RTK
-    ubx_cfg_enable_message(gps_port, UBLOX_TIM_CLASS, UBLOX_TIM_TP, 1);   // TIM TP
-    ubx_cfg_enable_message(gps_port, UBLOX_AID_CLASS, UBLOX_AID_REQ, 1);  // AID REQ
-
-    ubx_cfg_enable_message(gps_port, UBLOX_RXM_CLASS, UBLOX_RXM_RAW, 1);	// RXM RAW
-    ubx_cfg_enable_message(gps_port, UBLOX_RXM_CLASS, UBLOX_RXM_SFRB, 1);	// RXM SFRB
-#endif
-#ifdef GPS_DEBUG
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SVINFO, 1);	// NAV SVINFO
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SBAS, 1);	// NAV SBAS
-    ubx_cfg_enable_message(gps_port, UBLOX_MON_CLASS, UBLOX_MON_HW, 1);	// MON HW
-#endif
-
     ubx_cfg_set_mode(gps_port);						// 3D, airborne
 
     // Hardcoded version. The poll version method should fetch the
