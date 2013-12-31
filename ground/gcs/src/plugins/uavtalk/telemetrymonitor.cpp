@@ -97,6 +97,7 @@ TelemetryMonitor::TelemetryMonitor(UAVObjectManager* objMngr, Telemetry* tel, QH
     connect(this,SIGNAL(disconnected()),cm,SLOT(telemetryDisconnected()));
     connect(this,SIGNAL(telemetryUpdated(double,double)),cm,SLOT(telemetryUpdated(double,double)));
     connect(sessionObj,SIGNAL(objectUnpacked(UAVObject*)),this,SLOT(sessionObjUnpackedCB(UAVObject*)));
+    connect(objMngr,SIGNAL(newInstance(UAVObject*)),this,SLOT(newInstanceSlot(UAVObject*)));
 }
 
 TelemetryMonitor::~TelemetryMonitor() {
@@ -157,7 +158,9 @@ void TelemetryMonitor::startRetrievingObjects()
                     queue.enqueue(obj);
                 }
                 else
+                {
                     TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 skipping %1, not settings nor metadata or UPDATEMODE_ONCHANGE").arg(Q_FUNC_INFO).arg(dobj->getName()));
+                }
             }
         }
     }
@@ -306,6 +309,25 @@ void TelemetryMonitor::flightStatsUpdated(UAVObject* obj)
     }
 }
 
+void TelemetryMonitor::checkSessionObjNacked(UAVObject *obj, bool success, bool nacked)
+{
+    Q_UNUSED(obj);
+    Q_UNUSED(success);
+    disconnect(sessionObj,SIGNAL(transactionCompleted(UAVObject*,bool,bool)),this, SLOT(checkSessionObjNacked(UAVObject*, bool, bool)));
+    if(!nacked)
+        return;
+    if(connectionStatus == CON_INITIALIZING)
+    {
+        TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 received a sessionmanagement object nack, going to fallback").arg(Q_FUNC_INFO));
+        sessionInitialRetrieveTimeout->stop();
+        sessionFallback();
+    }
+    else
+    {
+        Q_ASSERT(false);//this should never happen
+    }
+}
+
 void TelemetryMonitor::sessionObjUnpackedCB(UAVObject *obj)
 {
     switch(connectionStatus)
@@ -376,7 +398,7 @@ void TelemetryMonitor::objectRetrieveTimeoutCB()
 
 void TelemetryMonitor::sessionInitialRetrieveTimeoutCB()
 {
-    if(connectionStatus == CON_SESSION_INITIALIZING)
+    if(connectionStatus == CON_INITIALIZING)
     {
         if(sessionObjRetries < SESSION_OBJ_RETRIEVE_RETRIES)
         {
@@ -421,6 +443,16 @@ void TelemetryMonitor::saveSession()
         sessions.insert(sessionID,list);
     }
 }
+
+void TelemetryMonitor::newInstanceSlot(UAVObject *obj)
+{
+    UAVDataObject * dobj = dynamic_cast<UAVDataObject*>(obj);
+    if(!dobj)
+        return;
+    if(!isManaged)
+        dobj->setIsPresentOnHardware(true);
+
+}
 void TelemetryMonitor::startSessionRetrieving(UAVObject *session)
 {
     static int currentIndex = 0;
@@ -429,7 +461,6 @@ void TelemetryMonitor::startSessionRetrieving(UAVObject *session)
     if(session == NULL)
     {
         sessionRetrieveTimeout->start(SESSION_RETRIEVE_TIMEOUT);
-        sessionInitialRetrieveTimeout->start(SESSION_INITIAL_RETRIEVE_TIMEOUT);
         TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 NULL new session start").arg(Q_FUNC_INFO));
         foreach(UAVObjectManager::ObjectMap map, objMngr->getObjects())
         {
@@ -604,6 +635,8 @@ void TelemetryMonitor::processStatsUpdates()
         statsTimer->setInterval(STATS_UPDATE_PERIOD_MS);
         qDebug() << "Connection with the autopilot established";
         connectionStatus = CON_INITIALIZING;
+        sessionInitialRetrieveTimeout->start(SESSION_INITIAL_RETRIEVE_TIMEOUT);
+        connect(sessionObj,SIGNAL(transactionCompleted(UAVObject*,bool,bool)),this, SLOT(checkSessionObjNacked(UAVObject*, bool, bool)),Qt::UniqueConnection);
         sessionObj->requestUpdate();
         isManaged = true;
     }
