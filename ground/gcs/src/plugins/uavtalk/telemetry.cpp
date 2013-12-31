@@ -455,7 +455,9 @@ void Telemetry::processObjectUpdates(UAVObject* obj, EventMask event, bool allIn
 void Telemetry::processObjectQueue()
 {
     if (objQueue.length() > 1)
+    {
         TELEMETRY_QXTLOG_DEBUG("[telemetry.cpp] **************** Object Queue above 1 in backlog ****************");
+    }
     // Get object information from queue (first the priority and then the regular queue)
     ObjectQueueInfo objInfo;
     if ( !objPriorityQueue.isEmpty() )
