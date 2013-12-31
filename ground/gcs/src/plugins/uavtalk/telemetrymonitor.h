@@ -65,14 +65,14 @@ public slots:
     void transactionCompleted(UAVObject* obj, bool success);
     void processStatsUpdates();
     void flightStatsUpdated(UAVObject* obj);
-
+    void checkSessionObjNacked(UAVObject*, bool, bool);
 private slots:
     void sessionObjUnpackedCB(UAVObject*obj);
     void objectRetrieveTimeoutCB();
     void sessionRetrieveTimeoutCB();
     void sessionInitialRetrieveTimeoutCB();
     void saveSession();
-
+    void newInstanceSlot(UAVObject*);
 private:
     enum connectionStatusEnum {CON_DISCONNECTED, CON_INITIALIZING, CON_SESSION_INITIALIZING, CON_RETRIEVING_OBJECTS, CON_CONNECTED_UNMANAGED,CON_CONNECTED_MANAGED};
     static const int STATS_UPDATE_PERIOD_MS = 4000;
