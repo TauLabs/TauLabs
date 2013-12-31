@@ -45,7 +45,7 @@
 //IAP object is very important, retry if not able to get it the first time
 #define IAP_OBJECT_RETRIES                  3
 
-#define TELEMETRYMONITOR_DEBUG
+//#define TELEMETRYMONITOR_DEBUG
 #ifdef TELEMETRYMONITOR_DEBUG
   #define TELEMETRYMONITOR_QXTLOG_DEBUG(...) qDebug()<<__VA_ARGS__
 #else  // TELEMETRYMONITOR_DEBUG
