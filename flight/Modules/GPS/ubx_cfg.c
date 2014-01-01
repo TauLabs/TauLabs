@@ -419,8 +419,15 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
     for (uint32_t i = 0; i < NELEMENTS(baud_rates); i++) {
         PIOS_COM_ChangeBaud(gps_port, baud_rates[i]);
         vTaskDelay(MS2TICKS(UBLOX_WAIT_MS));
+
+        // Send the baud rate change message
         PIOS_COM_SendString(gps_port, msg);
-        vTaskDelay(MS2TICKS(UBLOX_WAIT_MS));
+
+        // Wait until the message has been fully transmitted including all start+stop bits
+        // 34 bytes * 10bits/byte = 340 bits
+        // At 2400bps, that's (340 / 2400) = 142ms
+        // add some margin and we end up with 200ms
+        vTaskDelay(MS2TICKS(200));
     }
 
     // Set to proper baud rate
