@@ -365,14 +365,14 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
     // 0 - no attempt to autobaud
     // number - baudrate
     // *XX - checksum
-    const char * msg_2400 = "$PUBX,41,1,0007,0001,2400,0*1B\n";
-    const char * msg_4800 = "$PUBX,41,1,0007,0001,4800,0*11\n";
-    const char * msg_9600 = "$PUBX,41,1,0007,0001,9600,0*12\n";
-    const char * msg_19200 = "$PUBX,41,1,0007,0001,19200,0*27\n";
-    const char * msg_38400 = "$PUBX,41,1,0007,0001,38400,0*22\n";
-    const char * msg_57600 = "$PUBX,41,1,0007,0001,57600,0*29\n";
-    const char * msg_115200 = "$PUBX,41,1,0007,0001,115200,0*1A\n";
-    const char * msg_230400 = "$PUBX,41,1,0007,0001,230400,0*18\n";
+    const char * msg_2400 = "$PUBX,41,1,0007,0001,2400,0*1B\r\n";
+    const char * msg_4800 = "$PUBX,41,1,0007,0001,4800,0*11\r\n";
+    const char * msg_9600 = "$PUBX,41,1,0007,0001,9600,0*12\r\n";
+    const char * msg_19200 = "$PUBX,41,1,0007,0001,19200,0*27\r\n";
+    const char * msg_38400 = "$PUBX,41,1,0007,0001,38400,0*22\r\n";
+    const char * msg_57600 = "$PUBX,41,1,0007,0001,57600,0*29\r\n";
+    const char * msg_115200 = "$PUBX,41,1,0007,0001,115200,0*1A\r\n";
+    const char * msg_230400 = "$PUBX,41,1,0007,0001,230400,0*18\r\n";
 
     const char *msg;
     uint32_t baud;
@@ -411,7 +411,7 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
         baud = 230400;
         break;
     }
-    
+
     // Attempt to set baud rate to desired value from a number of
     // common rates. So this configures the physical baudrate and
     // tries to send the configuration string to the GPS.
