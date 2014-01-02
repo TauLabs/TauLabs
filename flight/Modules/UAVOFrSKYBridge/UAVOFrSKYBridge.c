@@ -42,48 +42,8 @@
 #if defined(PIOS_INCLUDE_FRSKY)
 // ****************
 // Private functions
-// Frame 1 structure
-struct frsky_frame_1{
-	uint8_t start;				// start byte
-	uint8_t accels_x_id;		//
-	int16_t accels_x;
-	uint8_t accels_y_header;
-	uint8_t accels_y_id;		//
-	int16_t accels_y;
-	uint8_t accels_z_header;
-	uint8_t accels_z_id;		//
-	int16_t accels_z;
-	uint8_t altitude_integer_header;
-	uint8_t altitude_integer_id;		//
-	int16_t altitude_integer;
-	uint8_t altitude_decimal_header;
-	uint8_t altitude_decimal_id;		//
-	uint16_t altitude_decimal;
-	uint8_t temperature_1_header;
-	uint8_t temperature_1_id;		//
-	int16_t temperature_1;
-	uint8_t temperature_2_header;
-	uint8_t temperature_2_id;		//
-	int16_t temperature_2;
-	uint8_t voltage_header;
-	uint8_t voltage_id;		//
-	uint16_t voltage;
-	uint8_t current_header;
-	uint8_t current_id;
-	uint16_t current;
-	uint8_t voltage_amperesensor_integer_header;
-	uint8_t voltage_amperesensor_integer_id;		//
-	uint16_t voltage_amperesensorinteger;
-	uint8_t voltage_amperesensor_decimal_header;
-	uint8_t voltage_amperesensor_decimal_id;		//
-	uint16_t voltage_amperesensor_decimal;
-	uint8_t rpm_header;
-	uint8_t rpm_id;		//
-	uint16_t rpm;
-	uint8_t stop;				// stop byte
-};
 
-static void uavoFrSKYBridgeTask(void *parameters);
+static void uavoFrSKYBridgeTask(void *parameters) __attribute__((optimize(0)));
 static uint16_t frsky_pack_frame_01(
 		float accels_x,
 		float accels_y,
@@ -94,8 +54,10 @@ static uint16_t frsky_pack_frame_01(
 		float voltage,
 		float current,
 		uint16_t RPM,
-		struct frsky_frame_1 *frame);
+		uint8_t *serial_buf) __attribute__((optimize(0)));
 static int16_t frsky_acceleration_unit(float accel);
+static void frsky_serialize_value(uint8_t valueid, uint8_t *value, uint8_t *serial_buf, uint8_t *index);
+static void frsky_write_userdata_byte(uint8_t byte, uint8_t *serial_buf, uint8_t *index);
 
 // ****************
 // Private constants
@@ -109,7 +71,7 @@ static int16_t frsky_acceleration_unit(float accel);
 #define TASK_PRIORITY               (tskIDLE_PRIORITY + 1)
 #define TASK_RATE_HZ				10
 
-#define FRSKY_MAX_PACKET_LEN 53
+#define FRSKY_MAX_PACKET_LEN 106
 
 #define FRSKY_FRAME_START 0x5E
 #define FRSKY_FRAME_DATA_HEADER 0x5E
@@ -320,7 +282,8 @@ static void uavoFrSKYBridgeTask(void *parameters) {
 					voltage,
 					current,
 					0,
-					(struct frsky_frame_1 *)serial_buf);
+					serial_buf);
+
 			PIOS_COM_SendBuffer(frsky_port, serial_buf, msg_length);
 		}
 
@@ -363,61 +326,80 @@ static uint16_t frsky_pack_frame_01(
 		float voltage,
 		float current,
 		uint16_t rpm,
-		struct frsky_frame_1 *frame)
+		uint8_t *serial_buf)
 {
-	frame->start = FRSKY_FRAME_START;
-	frame->accels_x_id = FRSKY_ACCELERATION_X;
-	frame->accels_x = frsky_acceleration_unit(accels_x);
+	uint8_t index = 0;
 
-	frame->accels_y_header = FRSKY_FRAME_DATA_HEADER;
-	frame->accels_y_id = FRSKY_ACCELERATION_Y;
-	frame->accels_y = frsky_acceleration_unit(accels_y);
+	//int16_t accel = frsky_acceleration_unit(accels_x);
+	int16_t accel = frsky_acceleration_unit(accels_x);
+	frsky_serialize_value(FRSKY_ACCELERATION_X, (uint8_t*)&accel, serial_buf, &index);
 
-	frame->accels_z_header = FRSKY_FRAME_DATA_HEADER;
-	frame->accels_z_id = FRSKY_ACCELERATION_Z;
-	frame->accels_z = frsky_acceleration_unit(accels_z);
+	accel = frsky_acceleration_unit(accels_y);
+	frsky_serialize_value(FRSKY_ACCELERATION_Y, (uint8_t*)&accel, serial_buf, &index);
+
+	accel = frsky_acceleration_unit(accels_z);
+	frsky_serialize_value(FRSKY_ACCELERATION_Z, (uint8_t*)&accel, serial_buf, &index);
 
 	float altitudeInteger = 0.0;
 	altitude = altitude * 100;
-	frame->altitude_decimal_header = FRSKY_FRAME_DATA_HEADER;
-	frame->altitude_decimal_id = FRSKY_ALTITUDE_DECIMAL;
-	frame->altitude_decimal = lroundf(modff(altitude, &altitudeInteger)*1000);
-	frame->altitude_integer_header = FRSKY_FRAME_DATA_HEADER;
-	frame->altitude_integer_id = FRSKY_ALTITUDE_INTEGER;
-	frame->altitude_integer = lroundf(altitudeInteger);
+	int16_t decimalValue = lroundf(modff(altitude, &altitudeInteger)*1000);
+	int16_t integerValue = lroundf(altitudeInteger);;
 
-	frame->temperature_1_header = FRSKY_FRAME_DATA_HEADER;
-	frame->temperature_1_id = FRSKY_TEMPERATURE_1;
-	frame->temperature_1 = lroundf(temperature_01 * 10);
-	frame->temperature_2_header = FRSKY_FRAME_DATA_HEADER;
-	frame->temperature_2_id = FRSKY_TEMPERATURE_2;
-	frame->temperature_2 = lroundf(temperature_02 * 10);
+	frsky_serialize_value(FRSKY_ALTITUDE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
+	frsky_serialize_value(FRSKY_ALTITUDE_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
 
-	frame->voltage_header = FRSKY_FRAME_DATA_HEADER;
-	frame->voltage_id = FRSKY_VOLTAGE;
-	frame->voltage = lroundf(current * 100);
+	int16_t temperature = lroundf(temperature_01 * 10);
+	frsky_serialize_value(FRSKY_TEMPERATURE_1, (uint8_t*)&temperature, serial_buf, &index);
 
-	frame->current_header = FRSKY_FRAME_DATA_HEADER;
-	frame->current_id = FRSKY_CURRENT;
-	frame->current = lroundf(current * 10);
+	temperature = lroundf(temperature_02 * 10);
+	frsky_serialize_value(FRSKY_TEMPERATURE_2, (uint8_t*)&temperature, serial_buf, &index);
 
-	frame->voltage_amperesensor_integer_header = FRSKY_FRAME_DATA_HEADER;
-	frame->voltage_amperesensor_integer_id = FRSKY_VOLTAGE_AMPERE_SENSOR_INTEGER;
-	frame->voltage_amperesensorinteger = 0;
-	frame->voltage_amperesensor_decimal_header = FRSKY_FRAME_DATA_HEADER;
-	frame->voltage_amperesensor_decimal_id = FRSKY_VOLTAGE_AMPERE_SENSOR_DECIMAL;
-	frame->voltage_amperesensor_decimal = 0;
-	frame->rpm_header = FRSKY_FRAME_DATA_HEADER;
-	frame->rpm_id = FRSKY_RPM;
-	frame->rpm = rpm;
-	frame->stop = FRSKY_FRAME_STOP;
-	return sizeof(*frame);
+	uint16_t uvalue = lroundf(voltage * 100);
+	frsky_serialize_value(FRSKY_VOLTAGE, (uint8_t*)&uvalue, serial_buf, &index);
+
+	uvalue = lroundf(current * 10);
+	frsky_serialize_value(FRSKY_VOLTAGE, (uint8_t*)&uvalue, serial_buf, &index);
+
+	uvalue = 0;
+	frsky_serialize_value(FRSKY_VOLTAGE_AMPERE_SENSOR_INTEGER, (uint8_t*)&uvalue, serial_buf, &index);
+	frsky_serialize_value(FRSKY_VOLTAGE_AMPERE_SENSOR_DECIMAL, (uint8_t*)&uvalue, serial_buf, &index);
+
+	uvalue = rpm;
+	frsky_serialize_value(FRSKY_RPM, (uint8_t*)&uvalue, serial_buf, &index);
+
+	serial_buf[index++] = FRSKY_FRAME_STOP;
+
+	return index;
 }
 
 static int16_t frsky_acceleration_unit(float accel)
 {
-	accel = accel / (float)9.81274;
-	return lroundf(accel * 1000);
+	accel = accel / (float)9.81274; //convert to gravity
+	accel *= 1000;
+	return lroundf(accel);
+}
+
+static void frsky_serialize_value(uint8_t valueid, uint8_t *value, uint8_t *serial_buf, uint8_t *index)
+{
+	serial_buf[(*index)++] = FRSKY_FRAME_DATA_HEADER;
+	serial_buf[(*index)++] = valueid;
+
+	frsky_write_userdata_byte(value[0], serial_buf, index);
+	frsky_write_userdata_byte(value[1], serial_buf, index);
+}
+
+static void frsky_write_userdata_byte(uint8_t byte, uint8_t *serial_buf, uint8_t *index)
+{
+	//** byte stuffing
+	if ((byte == 0x5E) || (byte == 0x5D))
+	{
+		serial_buf[(*index)++] = 0x5D;
+		serial_buf[(*index)++] = ~(byte ^ 0x60);
+	}
+	else
+	{
+		serial_buf[(*index)++] = byte;
+	}
 }
 
 #endif
