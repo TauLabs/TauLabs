@@ -55,6 +55,15 @@ static uint16_t frsky_pack_frame_01(
 		float current,
 		uint16_t RPM,
 		uint8_t *serial_buf) __attribute__((optimize(0)));
+
+static uint16_t frsky_pack_frame_02(
+		float course,
+		int32_t latitude,
+		int32_t longitude,
+		float altitude,
+		float speed,
+		float fuel_level,
+		uint8_t *serial_buf) __attribute__((optimize(0)));
 static int16_t frsky_acceleration_unit(float accel);
 static void frsky_serialize_value(uint8_t valueid, uint8_t *value, uint8_t *serial_buf, uint8_t *index);
 static void frsky_write_userdata_byte(uint8_t byte, uint8_t *serial_buf, uint8_t *index);
@@ -195,7 +204,7 @@ MODULE_INITCALL( uavoFrSKYBridgeInitialize, uavoFrSKYBridgeStart)
 static void uavoFrSKYBridgeTask(void *parameters) {
 	FlightBatterySettingsData batSettings;
 	FlightBatteryStateData batState;
-	//GPSPositionData gpsPosData;
+	GPSPositionData gpsPosData;
 	BaroAltitudeData baroAltitude;
 	AccelsData accels;
 
@@ -213,19 +222,19 @@ static void uavoFrSKYBridgeTask(void *parameters) {
 		batSettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM] = 0;
 	}
 
-//	if (GPSPositionHandle() == NULL ){
-//		gpsPosData.Altitude = 0;
-//		gpsPosData.GeoidSeparation = 0;
-//		gpsPosData.Groundspeed = 0;
-//		gpsPosData.HDOP = 0;
-//		gpsPosData.Heading = 0;
-//		gpsPosData.Latitude = 0;
-//		gpsPosData.Longitude = 0;
-//		gpsPosData.PDOP = 0;
-//		gpsPosData.Satellites = 0;
-//		gpsPosData.Status = 0;
-//		gpsPosData.VDOP = 0;
-//	}
+	if (GPSPositionHandle() == NULL ){
+		gpsPosData.Altitude = 0;
+		gpsPosData.GeoidSeparation = 0;
+		gpsPosData.Groundspeed = 0;
+		gpsPosData.HDOP = 0;
+		gpsPosData.Heading = 0;
+		gpsPosData.Latitude = 0;
+		gpsPosData.Longitude = 0;
+		gpsPosData.PDOP = 0;
+		gpsPosData.Satellites = 0;
+		gpsPosData.Status = 0;
+		gpsPosData.VDOP = 0;
+	}
 
 	if (FlightBatteryStateHandle() == NULL ) {
 		batState.AvgCurrent = 0;
@@ -278,7 +287,7 @@ static void uavoFrSKYBridgeTask(void *parameters) {
 					accels.z,
 					baroAltitude.Altitude,
 					baroAltitude.Temperature,
-					0.0,
+					accels.temperature,
 					voltage,
 					current,
 					0,
@@ -288,6 +297,20 @@ static void uavoFrSKYBridgeTask(void *parameters) {
 		}
 
 		if (frame_trigger(FRSKY_FRAME_02)) {
+			if (GPSPositionHandle() != NULL ){
+				GPSPositionGet(&gpsPosData);
+			}
+
+			msg_length = frsky_pack_frame_02(
+					gpsPosData.Heading,
+					gpsPosData.Latitude,
+					gpsPosData.Longitude,
+					gpsPosData.Altitude,
+					gpsPosData.Groundspeed,
+					0.0,
+					serial_buf);
+
+			PIOS_COM_SendBuffer(frsky_port, serial_buf, msg_length);
 		}
 
 		if (frame_trigger(FRSKY_FRAME_03)) {
@@ -348,10 +371,10 @@ static uint16_t frsky_pack_frame_01(
 	frsky_serialize_value(FRSKY_ALTITUDE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
 	frsky_serialize_value(FRSKY_ALTITUDE_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
 
-	int16_t temperature = lroundf(temperature_01 * 10);
+	int16_t temperature = lroundf(temperature_01);
 	frsky_serialize_value(FRSKY_TEMPERATURE_1, (uint8_t*)&temperature, serial_buf, &index);
 
-	temperature = lroundf(temperature_02 * 10);
+	temperature = lroundf(temperature_02);
 	frsky_serialize_value(FRSKY_TEMPERATURE_2, (uint8_t*)&temperature, serial_buf, &index);
 
 	uint16_t uvalue = lroundf(voltage * 100);
@@ -368,6 +391,89 @@ static uint16_t frsky_pack_frame_01(
 	frsky_serialize_value(FRSKY_RPM, (uint8_t*)&uvalue, serial_buf, &index);
 
 	serial_buf[index++] = FRSKY_FRAME_STOP;
+
+	return index;
+}
+
+static uint16_t frsky_pack_frame_02(
+		float course,
+		int32_t latitude,
+		int32_t longitude,
+		float altitude,
+		float speed,
+		float fuel_level,
+		uint8_t *serial_buf)
+{
+	uint8_t index = 0;
+
+	{
+		float courseInteger = 0.0;
+		uint16_t decimalValue = lroundf(modff(course, &courseInteger) * 100);
+		uint16_t integerValue = lroundf(courseInteger);
+
+		frsky_serialize_value(FRSKY_GPS_COURSE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
+		frsky_serialize_value(FRSKY_GPS_COURSE_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
+	}
+
+	// latitude
+	{
+		uint16_t integerValue = (abs(latitude) / 100000);
+		uint16_t decimalValue = (abs(latitude) / 10) % 10000;
+
+		frsky_serialize_value(FRSKY_GPS_LATITUDE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
+		frsky_serialize_value(FRSKY_GPS_LATITUDE_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
+
+		uint16_t hemisphere = 'N';
+		if (latitude < 0) {
+			hemisphere = 'S';
+		}
+		frsky_serialize_value(FRSKY_GPS_N_S, (uint8_t*)&hemisphere, serial_buf, &index);
+	}
+
+	// longitude
+	{
+		uint16_t integerValue = (abs(longitude) / 100000);
+		uint16_t decimalValue = (abs(longitude) / 10) % 10000;
+
+		uint16_t hemisphere = 'E';
+		if (longitude < 0) {
+			hemisphere = 'W';
+		}
+
+		frsky_serialize_value(FRSKY_GPS_LONGITUDE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
+		frsky_serialize_value(FRSKY_GPS_LONGITUDE_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
+
+		frsky_serialize_value(FRSKY_GPS_E_W, (uint8_t*)&hemisphere, serial_buf, &index);
+	}
+
+	// speed
+	{
+		float knots = speed / (float)0.514444;
+
+		float knotsInteger = 0.0;
+		uint16_t decimalValue = lroundf(modff(knots, &knotsInteger) * 100);
+		int16_t integerValue = lroundf(knotsInteger);
+
+		frsky_serialize_value(FRSKY_GPS_SPEED_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
+		frsky_serialize_value(FRSKY_GPS_SPEED_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
+	}
+
+	// altitude
+	{
+		float altitudeInteger = 0.0;
+		uint16_t decimalValue = lroundf(modff(altitude, &altitudeInteger) * 100);
+		int16_t integerValue = lroundf(altitudeInteger);
+
+		frsky_serialize_value(FRSKY_GPS_ALTITUDE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
+		frsky_serialize_value(FRSKY_GPS_ALTITUDE_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
+	}
+
+	// fuel
+	{
+		uint16_t level = abs(fuel_level) * 100;
+		frsky_serialize_value(FRSKY_FUEL_LEVEL, (uint8_t*)&level, serial_buf, &index);
+	}
+
 
 	return index;
 }
