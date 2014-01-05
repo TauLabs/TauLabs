@@ -57,13 +57,13 @@
 #define PIOS_INCLUDE_FASTHEAP
 
 /* Select the sensors to include */
-#define PIOS_INCLUDE_HMC5883
+///#define PIOS_INCLUDE_HMC5883
 //#define PIOS_INCLUDE_ETASV3
 //#define PIOS_INCLUDE_MPXV5004
 //#define PIOS_INCLUDE_MPXV7002
-#define PIOS_INCLUDE_MPU6050
-#define PIOS_MPU6050_ACCEL
-#define PIOS_INCLUDE_MS5611
+///#define PIOS_INCLUDE_MPU6050
+///#define PIOS_MPU6050_ACCEL
+///#define PIOS_INCLUDE_MS5611
 #define FLASH_FREERTOS
 /* Com systems to include */
 #define PIOS_INCLUDE_COM
@@ -72,6 +72,7 @@
 #define PIOS_INCLUDE_MAVLINK
 #define PIOS_INCLUDE_FRSKY_SENSOR_HUB
 //#define PIOS_INCLUDE_LIGHTTELEMETRY
+#define PIOS_INCLUDE_PICOC
 
 #define PIOS_INCLUDE_GPS
 #define PIOS_INCLUDE_GPS_NMEA_PARSER
@@ -81,6 +82,7 @@
 /* Supported receiver interfaces */
 #define PIOS_INCLUDE_RCVR
 #define PIOS_INCLUDE_DSM
+#define PIOS_INCLUDE_HSUM
 #define PIOS_INCLUDE_SBUS
 #define PIOS_INCLUDE_PPM
 #define PIOS_INCLUDE_PWM

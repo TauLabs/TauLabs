@@ -1,0 +1,16 @@
+<xml>
+	<object name="PicoCState" singleinstance="true" settings="false">
+		<description>status information of the @ref PicoC Interpreter Module.</description>
+		<field name="ExitValue" units="" type="int16" elements="1" defaultvalue="0"/>
+		<field name="TestValue" units="" type="int16" elements="1" defaultvalue="0"/>
+		<field name="LinkTimeout" units="s" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="PutChar" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="GetChar" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="false" updatemode="manual" period="0"/>
+		<telemetryflight acked="false" updatemode="manual" period="1000"/>
+		<logging updatemode="onchange" period="0"/>
+	</object>
+</xml>
+
+
