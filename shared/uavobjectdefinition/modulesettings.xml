@@ -22,7 +22,7 @@
 				<elementname>UAVORelay</elementname>
 				<elementname>VibrationAnalysis</elementname>
 				<elementname>UAVOHoTTBridge</elementname>
-				<elementname>UAVOFrSKYBridge</elementname>
+				<elementname>UAVOFrSKYSensorHubBridge</elementname>
 			</elementnames>
 		</field>
 

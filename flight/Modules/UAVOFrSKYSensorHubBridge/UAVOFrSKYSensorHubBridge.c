@@ -2,10 +2,10 @@
  ******************************************************************************
  * @addtogroup TauLabsModules TauLabs Modules
  * @{ 
- * @addtogroup UAVOFrSKYBridge UAVO to FrSKY Bridge Module
+ * @addtogroup uavoFrSKYSensorHubBridge UAVO to FrSKY Bridge Module
  * @{ 
  *
- * @file       UAVOFrSKYBridge.c
+ * @file       uavoFrSKYSensorHubBridge.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Bridges selected UAVObjects to Mavlink
  * @see        The GNU Public License (GPL) Version 3
@@ -39,11 +39,11 @@
 #include "baroaltitude.h"
 #include "accels.h"
 
-#if defined(PIOS_INCLUDE_FRSKY)
+#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB)
 // ****************
 // Private functions
 
-static void uavoFrSKYBridgeTask(void *parameters) __attribute__((optimize(0)));
+static void uavoFrSKYSensorHubBridgeTask(void *parameters) __attribute__((optimize(0)));
 
 static uint16_t frsky_pack_altitude(
 		float altitude,
@@ -93,7 +93,7 @@ static void frsky_write_userdata_byte(uint8_t byte, uint8_t *serial_buf, uint8_t
 // Private constants
 
 #if defined(PIOS_FRSKY_STACK_SIZE)
-#define STACK_SIZE_BYTES PIOS_FRSKY_STACK_SIZE
+#define STACK_SIZE_BYTES PIOS_FRSKY_SENSOR_HUB_STACK_SIZE
 #else
 #define STACK_SIZE_BYTES 800
 #endif
@@ -162,7 +162,7 @@ static bool frame_trigger(enum FRSKY_FRAME frame_num);
 // ****************
 // Private variables
 
-static xTaskHandle uavoFrSKYBridgeTaskHandle;
+static xTaskHandle uavoFrSKYSensorHubBridgeTaskHandle;
 
 static uint32_t frsky_port;
 
@@ -177,14 +177,14 @@ static uint8_t * serial_buf;
  * \return -1 if initialisation failed
  * \return 0 on success
  */
-static int32_t uavoFrSKYBridgeStart(void) {
+static int32_t uavoFrSKYSensorHubBridgeStart(void) {
 	if (module_enabled) {
 		// Start tasks
-		xTaskCreate(uavoFrSKYBridgeTask, (signed char *) "uavoFrSkyBridge",
+		xTaskCreate(uavoFrSKYSensorHubBridgeTask, (signed char *) "uavoFrSKYSensorHubBridge",
 				STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY,
-				&uavoFrSKYBridgeTaskHandle);
+				&uavoFrSKYSensorHubBridgeTaskHandle);
 		TaskMonitorAdd(TASKINFO_RUNNING_UAVOFRSKYSBRIDGE,
-				uavoFrSKYBridgeTaskHandle);
+				uavoFrSKYSensorHubBridgeTaskHandle);
 		return 0;
 	}
 	return -1;
@@ -194,14 +194,14 @@ static int32_t uavoFrSKYBridgeStart(void) {
  * \return -1 if initialisation failed
  * \return 0 on success
  */
-static int32_t uavoFrSKYBridgeInitialize(void) {
-	frsky_port = PIOS_COM_FRSKY;
+static int32_t uavoFrSKYSensorHubBridgeInitialize(void) {
+	frsky_port = PIOS_COM_FRSKY_SENSOR_HUB;
 
 	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 	ModuleSettingsAdminStateGet(module_state);
 
 	if (frsky_port
-			&& (module_state[MODULESETTINGS_ADMINSTATE_UAVOFRSKYBRIDGE]
+			&& (module_state[MODULESETTINGS_ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE]
 					== MODULESETTINGS_ADMINSTATE_ENABLED)) {
 		module_enabled = true;
 		PIOS_COM_ChangeBaud(frsky_port, 9600);
@@ -216,13 +216,13 @@ static int32_t uavoFrSKYBridgeInitialize(void) {
 	}
 	return 0;
 }
-MODULE_INITCALL( uavoFrSKYBridgeInitialize, uavoFrSKYBridgeStart)
+MODULE_INITCALL( uavoFrSKYSensorHubBridgeInitialize, uavoFrSKYSensorHubBridgeStart)
 
 /**
  * Main task. It does not return.
  */
 
-static void uavoFrSKYBridgeTask(void *parameters) {
+static void uavoFrSKYSensorHubBridgeTask(void *parameters) {
 	FlightBatterySettingsData batSettings;
 	FlightBatteryStateData batState;
 	GPSPositionData gpsPosData;
