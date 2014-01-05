@@ -86,7 +86,11 @@ static int32_t picocInitialize(void)
 	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 	ModuleSettingsAdminStateGet(module_state);
 
+#ifdef PIOS_COM_PICOC
 	picocPort = PIOS_COM_PICOC;
+#else
+	picocPort = 0;
+#endif
 
 	if (module_state[MODULESETTINGS_ADMINSTATE_PICOC] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		module_enabled = true;
