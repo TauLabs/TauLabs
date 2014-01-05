@@ -44,26 +44,47 @@
 // Private functions
 
 static void uavoFrSKYBridgeTask(void *parameters) __attribute__((optimize(0)));
-static uint16_t frsky_pack_frame_01(
+
+static uint16_t frsky_pack_altitude(
+		float altitude,
+		uint8_t *serial_buf);
+
+static uint16_t frsky_pack_temperature(
+		float temperature_01,
+		float temperature_02,
+		uint8_t *serial_buf);
+
+static uint16_t frsky_pack_accel(
 		float accels_x,
 		float accels_y,
 		float accels_z,
-		float altitude,
-		float temperature_01,
-		float temperature_02,
-		float voltage,
-		float current,
-		uint16_t RPM,
-		uint8_t *serial_buf) __attribute__((optimize(0)));
+		uint8_t *serial_buf);
 
-static uint16_t frsky_pack_frame_02(
+static uint16_t frsky_pack_battery(
+		float voltage_01,
+		float voltage_02,
+		float current,
+		uint8_t *serial_buf);
+
+static uint16_t frsky_pack_rpm(
+		uint16_t rpm,
+		uint8_t *serial_buf);
+
+static uint16_t frsky_pack_gps(
 		float course,
 		int32_t latitude,
 		int32_t longitude,
 		float altitude,
 		float speed,
+		uint8_t *serial_buf);
+
+static uint16_t frsky_pack_fuel(
 		float fuel_level,
-		uint8_t *serial_buf) __attribute__((optimize(0)));
+		uint8_t *serial_buf);
+
+static uint16_t frsky_pack_stop(
+		uint8_t *serial_buf);
+
 static int16_t frsky_acceleration_unit(float accel);
 static void frsky_serialize_value(uint8_t valueid, uint8_t *value, uint8_t *serial_buf, uint8_t *index);
 static void frsky_write_userdata_byte(uint8_t byte, uint8_t *serial_buf, uint8_t *index);
@@ -281,17 +302,32 @@ static void uavoFrSKYBridgeTask(void *parameters) {
 			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYCURRENT] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
 				current = batState.Current * 100;
 
-			msg_length = frsky_pack_frame_01(
+			msg_length += frsky_pack_accel(
 					accels.x,
 					accels.y,
 					accels.z,
+					serial_buf + msg_length);
+
+			msg_length += frsky_pack_altitude(
 					baroAltitude.Altitude,
+					serial_buf + msg_length);
+
+			msg_length += frsky_pack_temperature(
 					baroAltitude.Temperature,
 					accels.temperature,
+					serial_buf + msg_length);
+
+			msg_length += frsky_pack_battery(
 					voltage,
-					current,
 					0,
-					serial_buf);
+					current,
+					serial_buf + msg_length);
+
+			msg_length += frsky_pack_rpm(
+					0,
+					serial_buf + msg_length);
+
+			msg_length += frsky_pack_stop(serial_buf + msg_length);
 
 			PIOS_COM_SendBuffer(frsky_port, serial_buf, msg_length);
 		}
@@ -301,14 +337,22 @@ static void uavoFrSKYBridgeTask(void *parameters) {
 				GPSPositionGet(&gpsPosData);
 			}
 
-			msg_length = frsky_pack_frame_02(
+			if (gpsPosData.Status == GPSPOSITION_STATUS_FIX2D || gpsPosData.Status == GPSPOSITION_STATUS_FIX3D)
+			{
+				msg_length += frsky_pack_gps(
 					gpsPosData.Heading,
 					gpsPosData.Latitude,
 					gpsPosData.Longitude,
 					gpsPosData.Altitude,
 					gpsPosData.Groundspeed,
+					serial_buf + msg_length);
+			}
+
+			msg_length += frsky_pack_fuel(
 					0.0,
-					serial_buf);
+					serial_buf + msg_length);
+
+			msg_length += frsky_pack_stop(serial_buf + msg_length);
 
 			PIOS_COM_SendBuffer(frsky_port, serial_buf, msg_length);
 		}
@@ -339,21 +383,48 @@ static bool frame_trigger(enum FRSKY_FRAME frame_num) {
 	return false;
 }
 
-static uint16_t frsky_pack_frame_01(
+static uint16_t frsky_pack_altitude(
+		float altitude,
+		uint8_t *serial_buf){
+
+	uint8_t index = 0;
+
+	float altitudeInteger = 0.0;
+	altitude = altitude * 100;
+	uint16_t decimalValue = lroundf(modff(altitude, &altitudeInteger)*1000);
+	int16_t integerValue = lroundf(altitudeInteger);
+
+	frsky_serialize_value(FRSKY_ALTITUDE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
+	frsky_serialize_value(FRSKY_ALTITUDE_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
+
+	return index;
+}
+
+static uint16_t frsky_pack_temperature(
+		float temperature_01,
+		float temperature_02,
+		uint8_t *serial_buf){
+
+	uint8_t index = 0;
+
+	int16_t temperature = lroundf(temperature_01);
+	frsky_serialize_value(FRSKY_TEMPERATURE_1, (uint8_t*)&temperature, serial_buf, &index);
+
+	temperature = lroundf(temperature_02);
+	frsky_serialize_value(FRSKY_TEMPERATURE_2, (uint8_t*)&temperature, serial_buf, &index);
+
+
+	return index;
+}
+
+static uint16_t frsky_pack_accel(
 		float accels_x,
 		float accels_y,
 		float accels_z,
-		float altitude,
-		float temperature_01,
-		float temperature_02,
-		float voltage,
-		float current,
-		uint16_t rpm,
-		uint8_t *serial_buf)
-{
+		uint8_t *serial_buf){
+
 	uint8_t index = 0;
 
-	//int16_t accel = frsky_acceleration_unit(accels_x);
 	int16_t accel = frsky_acceleration_unit(accels_x);
 	frsky_serialize_value(FRSKY_ACCELERATION_X, (uint8_t*)&accel, serial_buf, &index);
 
@@ -363,45 +434,69 @@ static uint16_t frsky_pack_frame_01(
 	accel = frsky_acceleration_unit(accels_z);
 	frsky_serialize_value(FRSKY_ACCELERATION_Z, (uint8_t*)&accel, serial_buf, &index);
 
-	float altitudeInteger = 0.0;
-	altitude = altitude * 100;
-	int16_t decimalValue = lroundf(modff(altitude, &altitudeInteger)*1000);
-	int16_t integerValue = lroundf(altitudeInteger);;
+	return index;
+}
 
-	frsky_serialize_value(FRSKY_ALTITUDE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
-	frsky_serialize_value(FRSKY_ALTITUDE_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
+static uint16_t frsky_pack_battery(
+		float voltage_01,
+		float voltage_02,
+		float current,
+		uint8_t *serial_buf){
 
-	int16_t temperature = lroundf(temperature_01);
-	frsky_serialize_value(FRSKY_TEMPERATURE_1, (uint8_t*)&temperature, serial_buf, &index);
+	uint8_t index = 0;
 
-	temperature = lroundf(temperature_02);
-	frsky_serialize_value(FRSKY_TEMPERATURE_2, (uint8_t*)&temperature, serial_buf, &index);
-
-	uint16_t uvalue = lroundf(voltage * 100);
+	uint16_t uvalue = lroundf(voltage_01 * 100);
 	frsky_serialize_value(FRSKY_VOLTAGE, (uint8_t*)&uvalue, serial_buf, &index);
 
 	uvalue = lroundf(current * 10);
 	frsky_serialize_value(FRSKY_VOLTAGE, (uint8_t*)&uvalue, serial_buf, &index);
 
-	uvalue = 0;
-	frsky_serialize_value(FRSKY_VOLTAGE_AMPERE_SENSOR_INTEGER, (uint8_t*)&uvalue, serial_buf, &index);
-	frsky_serialize_value(FRSKY_VOLTAGE_AMPERE_SENSOR_DECIMAL, (uint8_t*)&uvalue, serial_buf, &index);
+	float voltageInteger = 0.0;
+	uint16_t decimalValue = lroundf(modff(voltage_02, &voltageInteger)*10);
+	uint16_t integerValue = lroundf(voltageInteger);
 
-	uvalue = rpm;
-	frsky_serialize_value(FRSKY_RPM, (uint8_t*)&uvalue, serial_buf, &index);
-
-	serial_buf[index++] = FRSKY_FRAME_STOP;
+	frsky_serialize_value(FRSKY_VOLTAGE_AMPERE_SENSOR_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
+	frsky_serialize_value(FRSKY_VOLTAGE_AMPERE_SENSOR_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
 
 	return index;
 }
 
-static uint16_t frsky_pack_frame_02(
+static uint16_t frsky_pack_rpm(
+		uint16_t rpm,
+		uint8_t *serial_buf)
+{
+	uint8_t index = 0;
+
+	frsky_serialize_value(FRSKY_RPM, (uint8_t*)&rpm, serial_buf, &index);
+
+	return index;
+}
+
+static uint16_t frsky_pack_fuel(
+		float fuel_level,
+		uint8_t *serial_buf)
+{
+	uint8_t index = 0;
+	uint16_t level = abs(fuel_level) * 100;
+	frsky_serialize_value(FRSKY_FUEL_LEVEL, (uint8_t*)&level, serial_buf, &index);
+
+	return index;
+}
+
+static uint16_t frsky_pack_stop(
+		uint8_t *serial_buf)
+{
+	serial_buf[0] = FRSKY_FRAME_STOP;
+
+	return 1;
+}
+
+static uint16_t frsky_pack_gps(
 		float course,
 		int32_t latitude,
 		int32_t longitude,
 		float altitude,
 		float speed,
-		float fuel_level,
 		uint8_t *serial_buf)
 {
 	uint8_t index = 0;
@@ -467,13 +562,6 @@ static uint16_t frsky_pack_frame_02(
 		frsky_serialize_value(FRSKY_GPS_ALTITUDE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
 		frsky_serialize_value(FRSKY_GPS_ALTITUDE_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
 	}
-
-	// fuel
-	{
-		uint16_t level = abs(fuel_level) * 100;
-		frsky_serialize_value(FRSKY_FUEL_LEVEL, (uint8_t*)&level, serial_buf, &index);
-	}
-
 
 	return index;
 }
