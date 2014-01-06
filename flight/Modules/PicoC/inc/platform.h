@@ -11,6 +11,7 @@
  * #define  UMON_HOST
  * #define  WIN32  (predefined on MSVC)
  */
+#define TAULABS_HOST
 
 #define LARGE_INT_POWER_OF_TEN 1000000000	/* the largest power of ten which fits in an int on this architecture */
 
@@ -119,6 +120,7 @@
 	#define NO_REALLOC
 	#define BROKEN_FLOAT_CASTS
 	#define BUILTIN_MINI_STDLIB
+
 #else
 #ifdef UMON_HOST
 	#define HEAP_SIZE (128*1024)	/* space for the heap and the stack */
@@ -136,6 +138,7 @@
 	#define calloc(a,b) mon_malloc(a*b)
 	#define realloc mon_realloc
 	#define free mon_free
+
 #else
 #ifdef EMBEDDED_HOST
 	#define HEAP_SIZE (48*1024)	/* space for the heap and the stack */
@@ -145,7 +148,6 @@
 	// #define BUILTIN_MINI_STDLIB
 	struct __FILE { int handle; };
 	#include <stdio.h>
-
 	#include <stdlib.h>
 	#include <string.h>
 	#include <ctype.h>
@@ -154,9 +156,26 @@
 	#include <stdarg.h>
 	#include <math.h>
 	#include <setjmp.h>
-
 	#define assert(x)
 
+#else
+#ifdef TAULABS_HOST
+	#define HEAP_SIZE (16*1024)
+	#define BUILTIN_MINI_STDLIB
+	#define PICOC_LIBRARY
+	#define NO_CTYPE
+	#define NO_DEBUGGER
+	#define NO_MALLOC
+	#define NO_CALLOC
+	#define NO_REALLOC
+	#define NO_STRING_FUNCTIONS
+	#define malloc pvPortMalloc
+	#define calloc(a,b) pvPortMalloc(a*b)
+	#define free vPortFree
+	#define assert(x)
+	#define PicocPlatformSetExitPoint(pc) setjmp(picocExitBuf)
+
+#endif
 #endif
 #endif
 #endif

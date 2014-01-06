@@ -37,11 +37,11 @@
 #include "picocstate.h" 
 #include "flightstatus.h"
 #include "modulesettings.h"
+#include "picoc.h"
 #include <setjmp.h>
 
 // Private constants
-#define PICOC_HEAP_SIZE				(16*1024)
-#define STACK_SIZE_BYTES			(PICOC_HEAP_SIZE + 16000)
+#define STACK_SIZE_BYTES			(HEAP_SIZE + 16000)
 #define TASK_PRIORITY				(tskIDLE_PRIORITY + 1)
 #define TASK_RATE_HZ				1
 
@@ -55,7 +55,6 @@ static jmp_buf picocExitBuf;
 static void picocTask(void *parameters);
 static void updateSpeedSettings();
 int picoc(const char * SourceStr, int StackSize);
-// void pprintf(const char *format, ...);
 
 /**
  * start the module
@@ -135,10 +134,10 @@ static void picocTask(void *parameters) {
 		if (startup) {
 			switch (picocsettings.Source) {
 			case PICOCSETTINGS_SOURCE_DEMO:
-				retval = picoc(DemoC, PICOC_HEAP_SIZE);
+				retval = picoc(DemoC, HEAP_SIZE);
 				break;
 			case PICOCSETTINGS_SOURCE_INTERACTIVE:
-				retval = picoc(NULL, PICOC_HEAP_SIZE);
+				retval = picoc(NULL, HEAP_SIZE);
 				break;
 			case PICOCSETTINGS_SOURCE_FILE:
 				// no filesystem yet.
@@ -198,28 +197,6 @@ static void updateSpeedSettings()
  * This is needed to compile picoc without a makefile.
  * all original picoc source files are in the include folder.
  */
-
-// picoc related defines
-#define HEAP_SIZE PICOC_HEAP_SIZE	/* space for the heap and the stack */
-//#define USE_MALLOC_STACK	/* stack is allocated using malloc() */
-//#define USE_MALLOC_HEAP		/* heap is allocated using malloc() */
-#define BUILTIN_MINI_STDLIB
-#define PICOC_LIBRARY
-#define NO_CTYPE
-#define NO_DEBUGGER
-#define NO_MALLOC
-#define NO_CALLOC
-#define NO_REALLOC
-#define NO_STRING_FUNCTIONS
-#define malloc pvPortMalloc
-#define calloc(a,b) pvPortMalloc(a*b)
-#define free vPortFree
-#define PicocPlatformSetExitPoint(pc) setjmp(picocExitBuf)
-#define assert(x)
-
-// include needed picoc sources
-#include "picoc.h"
-#include "picoc.c"
 #include "table.c"
 #include "lex.c"
 #include "parse.c"
@@ -238,7 +215,6 @@ static void updateSpeedSettings()
  * parses sourcestring or switches to interactive mode
  * returns the exit() value
  */
- 
 int picoc(const char * SourceStr, int StackSize)
 {
 	Picoc pc;
@@ -455,49 +431,6 @@ void PlatformExit(Picoc *pc, int RetVal)
 	longjmp(picocExitBuf, 1);
 }
 
-
-/**
- * PicoC platform depending library functions for taulabs
- * normaly stored in library_xxx.c
- */
-
-/* testput(int): for simple program debug or store a value */
- void CtestPut (struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
-{
-	int16_t val = Param[0]->Val->Integer;
-	PicoCStateTestValueSet(&val);
-}
-
-/* testget(): for simple program debug or store a value */
- void CtestGet (struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
-{
-	int16_t val; PicoCStateTestValueGet(&val);
-	ReturnValue->Val->Integer = val;
-}
-
-/* delay(int): sleep for given ms-value */
- void Cdelay (struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
-{
-	vTaskDelay(Param[0]->Val->Integer);
-}
-
-/* list of all library functions and their prototypes */
-struct LibraryFunction PlatformLibrary[] =
-{
-	{ CtestPut, "void testPut(int);"},
-	{ CtestGet, "int testGet();"},
-	{ Cdelay,	"void delay(int);"},
-	{ NULL, NULL }
-};
-
-void PlatformLibrarySetup(Picoc *pc)
-{
-}
-
-void PlatformLibraryInit(Picoc *pc)
-{
-    IncludeRegister(pc, "taulabs.h", &PlatformLibrarySetup, &PlatformLibrary[0], NULL);
-}
 
 #endif /* PIOS_INCLUDE_PICOC */
 
