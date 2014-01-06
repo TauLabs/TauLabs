@@ -6,7 +6,7 @@
  * @{
  *
  * @file       board_hw_defs.c 
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Defines board specific static initializers for hardware for the
  *             Quanton board.
  * @see        The GNU Public License (GPL) Version 3
@@ -1391,7 +1391,7 @@ static const struct pios_tim_clock_cfg tim_3_cfg = {
 
 static const struct pios_tim_clock_cfg tim_10_cfg = {
 	.timer = TIM10,
-	.time_base_init = &tim_3_12_time_base,
+	.time_base_init = &tim_10_11_time_base,
 	.irq = {
 		.init = {
 			.NVIC_IRQChannel                   = TIM1_UP_TIM10_IRQn,
@@ -1404,7 +1404,7 @@ static const struct pios_tim_clock_cfg tim_10_cfg = {
 
 static const struct pios_tim_clock_cfg tim_11_cfg = {
 	.timer = TIM11,
-	.time_base_init = &tim_3_12_time_base,
+	.time_base_init = &tim_10_11_time_base,
 	.irq = {
 		.init = {
 			.NVIC_IRQChannel                   = TIM1_TRG_COM_TIM11_IRQn,
