@@ -126,7 +126,8 @@ int32_t transmitter_control_initialize()
 	ReceiverActivityInitialize();
 	ManualControlSettingsInitialize();
 
-#ifndef COPTERCONTROL
+	// Both the gimbal and coptercontrol do not support loitering
+#if !defined(COPTERCONTROL) && !defined(GIMBAL)
 	LoiterCommandInitialize();
 #endif
 
@@ -868,7 +869,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	StabilizationDesiredSet(&stabilization);
 }
 
-#if defined(REVOLUTION)
+#if !defined(COPTERCONTROL) && !defined(GIMBAL)
 
 /**
  * @brief Update the altitude desired to current altitude when
