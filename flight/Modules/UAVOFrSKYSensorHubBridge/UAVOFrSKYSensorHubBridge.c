@@ -279,7 +279,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
                 accels.temperature = 0.0;
         }
 
-        uint16_t msg_length;
+        uint16_t msg_length = 0;
         portTickType lastSysTime;
 
         // Main task loop
@@ -289,6 +289,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
                 vTaskDelayUntil(&lastSysTime, MS2TICKS(1000 / TASK_RATE_HZ));
 
                 if (frame_trigger(FRSKY_FRAME_01)) {
+                        msg_length = 0;
                         if (FlightBatteryStateHandle() != NULL)
                                 FlightBatteryStateGet(&batState);
 
@@ -337,6 +338,8 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
                 }
 
                 if (frame_trigger(FRSKY_FRAME_02)) {
+                        msg_length = 0;
+
                         if (GPSPositionHandle() != NULL ) {
                                 GPSPositionGet(&gpsPosData);
                         }
