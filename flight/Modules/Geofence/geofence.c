@@ -123,6 +123,7 @@ static void checkPosition(UAVObjEvent* ev)
 
 		const float distance2 = powf(positionActual.North, 2) + powf(positionActual.East, 2);
 
+		// ErrorRadius is squared when it is fetched, so this is correct
 		if (distance2 > geofenceSettings->ErrorRadius) {
 			AlarmsSet(SYSTEMALARMS_ALARM_GEOFENCE, SYSTEMALARMS_ALARM_ERROR);
 		} else if (distance2 > geofenceSettings->WarningRadius) {
