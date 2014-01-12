@@ -153,7 +153,8 @@ enum FRSKY_FRAME {
 
 static const uint8_t frsky_rates[] = {
 	[FRSKY_FRAME_01] = 0x05, //5Hz
-	[FRSKY_FRAME_02] = 0x01}; //1Hz
+	[FRSKY_FRAME_02] = 0x01	//1Hz
+}; 
 
 #define MAXSTREAMS sizeof(frsky_rates)
 
@@ -233,7 +234,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 	AccelsData accels;
 
 	if (FlightBatterySettingsHandle() != NULL )
-			FlightBatterySettingsGet(&batSettings);
+		FlightBatterySettingsGet(&batSettings);
 	else {
 		batSettings.Capacity = 0;
 		batSettings.NbCells = 0;
@@ -290,6 +291,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 
 		if (frame_trigger(FRSKY_FRAME_01)) {
 			msg_length = 0;
+			
 			if (FlightBatteryStateHandle() != NULL)
 				FlightBatteryStateGet(&batState);
 
