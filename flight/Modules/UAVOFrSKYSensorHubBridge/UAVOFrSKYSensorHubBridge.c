@@ -38,6 +38,7 @@
 #include "airspeedactual.h"
 #include "baroaltitude.h"
 #include "accels.h"
+#include "flightstatus.h"
 
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB)
 // ****************
@@ -232,6 +233,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 	GPSPositionData gpsPosData;
 	BaroAltitudeData baroAltitude;
 	AccelsData accels;
+	FlightStatusData flightStatus;
 
 	if (FlightBatterySettingsHandle() != NULL )
 		FlightBatterySettingsGet(&batSettings);
@@ -280,6 +282,9 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 		accels.temperature = 0.0;
 	}
 
+	uint8_t last_armed = FLIGHTSTATUS_ARMED_DISARMED;
+	float altitude_offset = 0.0;
+
 	uint16_t msg_length = 0;
 	portTickType lastSysTime;
 
@@ -315,8 +320,19 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 					accels.z,
 					serial_buf + msg_length);
 
+			FlightStatusGet(&flightStatus);
+
+			// set altitude offset when arming
+			if ((flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING) ||
+					((last_armed != FLIGHTSTATUS_ARMED_ARMED) && (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED))) {
+				altitude_offset = baroAltitude.Altitude;
+			}
+			last_armed = flightStatus.Armed;
+
+
+			float altitude = baroAltitude.Altitude - altitude_offset;
 			msg_length += frsky_pack_altitude(
-					baroAltitude.Altitude,
+					altitude,
 					serial_buf + msg_length);
 
 			msg_length += frsky_pack_temperature(
@@ -400,9 +416,9 @@ static uint16_t frsky_pack_altitude(float altitude, uint8_t *serial_buf)
 	uint8_t index = 0;
 
 	float altitudeInteger = 0.0;
-	altitude = altitude * 100;
-	uint16_t decimalValue = lroundf(modff(altitude, &altitudeInteger)*1000);
-	int16_t integerValue = lroundf(altitudeInteger);
+
+	uint16_t decimalValue = lroundf(modff(altitude, &altitudeInteger)*100);
+	int16_t integerValue = lroundf(altitude) - 1;
 
 	frsky_serialize_value(FRSKY_ALTITUDE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
 	frsky_serialize_value(FRSKY_ALTITUDE_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
