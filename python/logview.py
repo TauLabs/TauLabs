@@ -23,6 +23,11 @@ def main():
     # Setup the command line arguments.
     parser = argparse.ArgumentParser(usage = USAGE, description = DESC)
 
+    parser.add_argument("-g", "--githash",
+                        action  = "store",
+                        dest    = "githash",
+                        help    = "override githash for UAVO XML definitions")
+
     parser.add_argument("sources",
                         nargs = "+",
                         help  = "list of log files for processing")
@@ -52,6 +57,10 @@ def main():
         # Determine the git hash that this log file is based on
         githash = fd.readline()[:-1]
         print "Log file is based on git hash: %s" % githash
+
+        if args.githash is not None:
+            print "Overriding git hash with '%s' instead of '%s' from file" % (args.githash, githash)
+            githash = args.githash
 
         uavohash = fd.readline()
         divider = fd.readline()
