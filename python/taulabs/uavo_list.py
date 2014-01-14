@@ -22,6 +22,8 @@ class UAVOList(list):
             uavo_def = self.uavo_defs["{0:08x}".format(filtered_list[0].uavo_id)]
             dtype  = [('name', 'S20'), ('time', 'int64'), ('uavo_id', 'uint')]
             #dtype += [(f['name'], uavo_def.type_numpy_map[f['type']]) for f in uavo_def.fields]
-            dtype += [(f['name'], None) for f in uavo_def.fields]
+            #dtype += [(f['name'], None) for f in uavo_def.fields]
+            for f in uavo_def.fields:
+                dtype += [(f['name'], '(1,' + `f['elements']` + ")" + f['type'])]
 
         return np.array(filtered_list, dtype=dtype)
