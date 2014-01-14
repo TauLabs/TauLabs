@@ -123,7 +123,7 @@ def main():
             # Ignore meta objects entirely
             if uavo_hdr.id & 0x1:
                 # discard the rest of the log entry
-                fd.read(log_hdr.size - len(uavo_hdr_data))
+                fd.read(min(log_hdr.size,256) - len(uavo_hdr_data))
                 continue
 
             # Is this a known UAVO?
@@ -131,7 +131,7 @@ def main():
             if not uavo_key in uavo_defs:
                 # Unknown UAVO.  Discard the rest of the log entry.
                 print "Unknown UAVO: %s" % uavo_key
-                fd.read(log_hdr.size - len(uavo_hdr_data))
+                fd.read(min(log_hdr.size,256) - len(uavo_hdr_data))
                 continue
 
             # This is a known UAVO.
