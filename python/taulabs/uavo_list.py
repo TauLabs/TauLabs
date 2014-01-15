@@ -13,7 +13,7 @@ class UAVOList(list):
 
         # Check for an empty list
         if filtered_list == []:
-            return array([])
+            return np.array([])
 
         # Find the uavo definition associated with this UAVO type
         if not "{0:08x}".format(filtered_list[0].uavo_id) in self.uavo_defs:
