@@ -33,28 +33,40 @@
 #if defined(PIOS_INCLUDE_PICOC)
 
 #include "openpilot.h"
+#include "picoc_port.h"
 #include "picocsettings.h" 
-#include "picocstate.h" 
+#include "picocstatus.h" 
 #include "flightstatus.h"
 #include "modulesettings.h"
-#include "picoc.h"
-#include <setjmp.h>
+
+// Global variables
+extern uintptr_t pios_waypoints_settings_fs_id;	/* use the waypoint filesystem */
+extern struct flashfs_logfs_cfg flashfs_waypoints_cfg;
 
 // Private constants
-#define STACK_SIZE_BYTES			(HEAP_SIZE + 16000)
-#define TASK_PRIORITY				(tskIDLE_PRIORITY + 1)
-#define TASK_RATE_HZ				1
+#define STACK_SIZE_BYTES		(HEAP_SIZE + 16000)
+#define TASK_PRIORITY			(tskIDLE_PRIORITY + 1)
+#define PICOC_SOURCE_FILE_TYPE	0X00704300		/* mark picoc sources with this ID */
+#define PICOC_SECTOR_SIZE		48				/* size of filesystem object (less than slot_size - sizeof(slot_header) */
 
 // Private variables
 static xTaskHandle picocTaskHandle;
 static uintptr_t picocPort;
 static bool module_enabled;
-static jmp_buf picocExitBuf;
+static char *sourcebuffer;
+static uint32_t sourcebuffer_size;
+static PicoCSettingsData picocsettings;
+static PicoCStatusData picocstatus;
 
 // Private functions
 static void picocTask(void *parameters);
-static void updateSpeedSettings();
-int picoc(const char * SourceStr, int StackSize);
+static void updateSettings();
+int32_t get_sector(uint16_t sector, char *buffer, uint32_t buffer_size);
+int32_t set_sector(uint16_t sector, char *buffer, uint32_t buffer_size);
+int32_t load_file(uint8_t file, char *buffer, uint32_t buffer_size);
+int32_t save_file(uint8_t file, char *buffer, uint32_t buffer_size);
+int32_t delete_file(uint8_t file);
+int32_t format_partition();
 
 /**
  * start the module
@@ -85,18 +97,28 @@ static int32_t picocInitialize(void)
 	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 	ModuleSettingsAdminStateGet(module_state);
 
-#ifdef PIOS_COM_PICOC
-	picocPort = PIOS_COM_PICOC;
-#else
-	picocPort = 0;
-#endif
+	module_enabled = false;
 
 	if (module_state[MODULESETTINGS_ADMINSTATE_PICOC] == MODULESETTINGS_ADMINSTATE_ENABLED) {
-		module_enabled = true;
 		PicoCSettingsInitialize();
-		PicoCStateInitialize();
-	} else {
-		module_enabled = false;
+		PicoCStatusInitialize();
+
+		// get picoc USART for stdIO communication
+#ifdef PIOS_COM_PICOC
+		picocPort = PIOS_COM_PICOC;
+#endif
+
+		// allocate memory for source buffer
+		PicoCSettingsMaxFileSizeGet(&sourcebuffer_size);
+		if (sourcebuffer_size) {
+			sourcebuffer = pvPortMalloc(sourcebuffer_size);
+		}
+		if (sourcebuffer == NULL) {
+			// there is not enough free memory for source file buffer. the module could not run.
+			return -1;
+		}
+
+		module_enabled = true;
 	}
 	return 0;
 }
@@ -107,46 +129,112 @@ MODULE_INITCALL( picocInitialize, picocStart)
  */
 static void picocTask(void *parameters) {
 
-	const char *DemoC = "void test() {for (int i=0; i<10; i++) printf(\"i=%d\\n\", i); } test();";
-	PicoCSettingsData picocsettings;
 	FlightStatusData flightstatus;
 	bool startup;
-	int16_t retval = 0;
 
-	updateSpeedSettings();
+	// demo for picoc
+	const char *demo = "void test() {for (int i=0; i<10; i++) printf(\"i=%d\\n\", i); } test();";
+
+	// initial USART setup
+	updateSettings();
+
+	// clear source buffer
+	memset(sourcebuffer, 0, sourcebuffer_size);
+
+	// load boot file from flash
+	PicoCSettingsGet(&picocsettings);
+	picocstatus.CommandError = load_file(picocsettings.BootFileID, sourcebuffer, sourcebuffer_size);
+	PicoCStatusCommandErrorSet(&picocstatus.CommandError);
+
 	while (1) {
 		PicoCSettingsGet(&picocsettings);
+		PicoCStatusGet(&picocstatus);
 		FlightStatusGet(&flightstatus);
 
-		switch (picocsettings.Startup) {
-		case PICOCSETTINGS_STARTUP_DISABLED:
-			startup = false;
-		case PICOCSETTINGS_STARTUP_ONBOOT:
-			startup = true;
-			break;
-		case PICOCSETTINGS_STARTUP_WHENARMED:
-			startup = (flightstatus.Armed == FLIGHTSTATUS_ARMED_ARMED);
-			break;
-		default:
+		// handle file and buffer commands
+		if (picocstatus.Command != PICOCSTATUS_COMMAND_IDLE) {
+			switch (picocstatus.Command) {
+			case PICOCSTATUS_COMMAND_GETSECTOR:
+				// copy selected sector from buffer to uavo
+				picocstatus.CommandError = get_sector(picocstatus.SectorID, sourcebuffer, sourcebuffer_size);
+				PicoCStatusSectorSet(picocstatus.Sector);
+				picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
+				break;
+			case PICOCSTATUS_COMMAND_SETSECTOR:
+				// fill buffer from uavo to selected sector
+				picocstatus.CommandError = set_sector(picocstatus.SectorID, sourcebuffer, sourcebuffer_size);
+				picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
+				break;
+			case PICOCSTATUS_COMMAND_LOADFILE:
+				// fill buffer from flash file
+				picocstatus.CommandError = load_file(picocstatus.FileID, sourcebuffer, sourcebuffer_size);
+				picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
+				break;
+			case PICOCSTATUS_COMMAND_SAVEFILE:
+				// save buffer to flash file
+				picocstatus.CommandError = save_file(picocstatus.FileID, sourcebuffer, sourcebuffer_size);
+				picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
+				break;
+			case PICOCSTATUS_COMMAND_DELETEFILE:
+				// delete flash file
+				picocstatus.CommandError = delete_file(picocstatus.FileID);
+				picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
+				break;
+			case PICOCSTATUS_COMMAND_FORMATPARTITION:
+				// delete all flash files in partition
+				picocstatus.CommandError = format_partition();
+				picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
+				break;
+			default:
+				// unkown command
+				picocstatus.CommandError = -1;
+				picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
+			}
+			// transfer return values
+			PicoCStatusCommandErrorSet(&picocstatus.CommandError);
+			PicoCStatusCommandSet(&picocstatus.Command);
+		}
+
+		// check startup condition
+		if ((picocstatus.Command == PICOCSTATUS_COMMAND_IDLE) && (picocstatus.CommandError == 0)) {
+			switch (picocsettings.Startup) {
+			case PICOCSETTINGS_STARTUP_DISABLED:
+				startup = false;
+				break;
+			case PICOCSETTINGS_STARTUP_ONBOOT:
+				startup = true;
+				break;
+			case PICOCSETTINGS_STARTUP_WHENARMED:
+				startup = (flightstatus.Armed == FLIGHTSTATUS_ARMED_ARMED);
+				break;
+			default:
+				startup = false;
+			}
+		} else {
 			startup = false;
 		}
 
+		// start picoc interpreter in selected mode
 		if (startup) {
 			switch (picocsettings.Source) {
 			case PICOCSETTINGS_SOURCE_DEMO:
-				retval = picoc(DemoC, HEAP_SIZE);
+				// run the demo code.
+				picocstatus.ExitValue = picoc(demo, HEAP_SIZE);
 				break;
 			case PICOCSETTINGS_SOURCE_INTERACTIVE:
-				retval = picoc(NULL, HEAP_SIZE);
+				// start picoc in interactive mode.
+				picocstatus.ExitValue = picoc(NULL, HEAP_SIZE);
 				break;
 			case PICOCSETTINGS_SOURCE_FILE:
-				// no filesystem yet.
-				retval = -3;
+				// terminate source for security.
+				sourcebuffer[sourcebuffer_size - 1] = 0;
+				// start picoc in file mode.
+				picocstatus.ExitValue = picoc(sourcebuffer, HEAP_SIZE);
 				break;
 			default:
-				retval = 0;
+				picocstatus.ExitValue = 0;
 			}
-			PicoCStateExitValueSet(&retval);
+			PicoCStatusExitValueSet(&picocstatus.ExitValue);
 		}
 
 		vTaskDelay(10);
@@ -156,15 +244,15 @@ static void picocTask(void *parameters) {
 /**
  * update picoc module settings
  */
-static void updateSpeedSettings()
+static void updateSettings()
 {
 	// if there is a com port, setup its speed.
 	if (picocPort) {
-		// Retrieve settings
+		// retrieve settings
 		uint8_t speed;
 		PicoCSettingsComSpeedGet(&speed);
 
-		// Set port speed
+		// set port speed
 		switch (speed) {
 		case PICOCSETTINGS_COMSPEED_2400:
 			PIOS_COM_ChangeBaud(picocPort, 2400);
@@ -191,248 +279,114 @@ static void updateSpeedSettings()
 	}
 }
 
-
 /**
- * picoc implemetation
- * This is needed to compile picoc without a makefile.
- * all original picoc source files are in the include folder.
+ * get sector from source buffer
  */
-#include "table.c"
-#include "lex.c"
-#include "parse.c"
-#include "expression.c"
-#include "heap.c"
-#include "type.c"
-#include "variable.c"
-#include "clibrary.c"
-#include "platform.c"
-#include "include.c"
-#include "debug.c"
-
-
-/**
- * picoc main program
- * parses sourcestring or switches to interactive mode
- * returns the exit() value
- */
-int picoc(const char * SourceStr, int StackSize)
+int32_t get_sector(uint16_t sector, char *buffer, uint32_t buffer_size)
 {
-	Picoc pc;
-	PicocInitialise(&pc, StackSize);
+	// calculate buffer offset
+	uint32_t offset = sector * sizeof(picocstatus.Sector);
 
-	if (PicocPlatformSetExitPoint(&pc)) {
-		// we get here, if an error occures or 'exit();' was called.
-		PicocCleanup(&pc);
-		return pc.PicocExitValue;
+	// copy buffer to sector
+	for (uint32_t i = 0; i < sizeof(picocstatus.Sector); i++) {
+		picocstatus.Sector[i] = (buffer_size > offset + i) ? buffer[offset + i] : 0;
 	}
 
-	if (SourceStr) {
-		PicocParse(&pc, "nofile", SourceStr, strlen(SourceStr), TRUE, TRUE, FALSE, FALSE);
-	} else {
-		PicocParseInteractive(&pc);
-	}
-
-	PicocCleanup(&pc);
-	return pc.PicocExitValue;
+	PicoCStatusSectorSet(picocstatus.Sector);
+	return 0;
 }
 
+/**
+ * put sector to source buffer
+ */
+int32_t set_sector(uint16_t sector, char *buffer, uint32_t buffer_size)
+{
+	// calculate buffer offset
+	uint32_t offset = sector * sizeof(picocstatus.Sector);
+
+	PicoCStatusSectorGet(picocstatus.Sector);
+
+	// copy sector to buffer
+	for (uint32_t i = 0; i < sizeof(picocstatus.Sector); i++) {
+		if (buffer_size > offset + i) {
+			buffer[offset + i] = picocstatus.Sector[i];
+		}
+	}
+	return 0;
+}
 
 /**
- * basic functions for virtual stdIO
- * uses a optional USART or telemetry tunnel for communication
+ * load a source file from flash
  */
-
-/* get a character from stdIn or telemetry link */
-uint8_t getch()
+int32_t load_file(uint8_t file, char *buffer, uint32_t buffer_size)
 {
-	uint8_t ch = 0;
-	PicoCStateData state;
+	uint32_t file_id = PICOC_SOURCE_FILE_TYPE + file;
+	uint8_t sector[PICOC_SECTOR_SIZE];
+	int32_t  retval = 0;
+	bool eof = false;
 
-	while (1) {
-		// try to get a char from USART
-		if (picocPort) {
-			if (PIOS_COM_ReceiveBuffer(picocPort, &ch, 1, 0) == 1) {
+	for (uint32_t i = 0; i < buffer_size; i++) {
+		// load sector
+		if (!eof && (i % PICOC_SECTOR_SIZE == 0)) {
+			retval = PIOS_FLASHFS_ObjLoad(pios_waypoints_settings_fs_id, file_id, i / PICOC_SECTOR_SIZE , (uint8_t *) &sector, PICOC_SECTOR_SIZE);
+			eof = (retval != 0) ;
+		}
+
+		// copy sector content to buffer and check end of file
+		buffer[i] = eof ? 0 : sector[i % PICOC_SECTOR_SIZE];
+		eof |= (buffer[i] == 0);
+	}
+	return 0;
+}
+
+/**
+ * save a source file to flash
+ */
+int32_t save_file(uint8_t file, char *buffer, uint32_t buffer_size)
+{
+	uint32_t file_id = PICOC_SOURCE_FILE_TYPE + file;
+	uint8_t sector[PICOC_SECTOR_SIZE];
+	int32_t retval = 0;
+	bool eof = false;
+
+	for (uint32_t i = 0; i < buffer_size; i++) {
+		// copy sector content to buffer and check end of file
+		sector[i % PICOC_SECTOR_SIZE] = eof ? 0 : buffer[i];
+		eof |= (buffer[i] == 0);
+
+		// save sector
+		if ((i % PICOC_SECTOR_SIZE) == PICOC_SECTOR_SIZE - 1) {
+			retval = PIOS_FLASHFS_ObjSave(pios_waypoints_settings_fs_id, file_id, i / PICOC_SECTOR_SIZE, (uint8_t *) &sector, PICOC_SECTOR_SIZE);
+			if (eof) {
 				break;
 			}
 		}
-		// if there is a telemetry link, try it
-		PicoCStateGet(&state);
-		if ((state.LinkTimeout) && (state.GetChar)) {
-			ch = state.GetChar;
-			state.GetChar = 0;
-			PicoCStateGetCharSet(&state.GetChar);
-			break;
-		}
-		if (state.LinkTimeout) {
-			state.LinkTimeout--;
-			PicoCStateLinkTimeoutSet(&state.LinkTimeout);
-		}
-		if ((!picocPort) && (!state.LinkTimeout)) {
-			// there is no USART and telemetry link is lost. end here.
-			ch = 0;
-			break;
-		}
-		if (state.LinkTimeout) {
-			vTaskDelay(1000);
-		}
-		else {
-			vTaskDelay(1);
-		}
 	}
-	return ch;
+	return retval;
 }
-
-/* put a character to stdOut */
-void putch(uint8_t ch)
-{
-	PicoCStateData state;
-
-	if (picocPort)
-		PIOS_COM_SendBuffer(picocPort, &ch, sizeof(ch));
-
-	// if there is a telemetrylink, send it to gcs too.
-	while(1) {
-		PicoCStateGet(&state);
-		if ((state.LinkTimeout) && (!state.PutChar)) {
-			PicoCStatePutCharSet(&ch);
-			break;
-		}
-		if (state.LinkTimeout) {
-			state.LinkTimeout--;
-			PicoCStateLinkTimeoutSet(&state.LinkTimeout);
-		}
-		if (!state.LinkTimeout) {
-			// telemetry link is lost. end here.
-			break;
-		}
-		vTaskDelay(1000);
-	}
-}
-
-/* ported printf function for stdOut */
-void pprintf(const char *format, ...)
-{
-	uint8_t buffer[128];
-	va_list args;
-	uint16_t len;
-	uint16_t i;
-
-	va_start(args, format);
-	vsprintf((char *)buffer, format, args);
-
-	len = strlen((char *)buffer);
-	if (len) {
-		for (i=0; i<len; i++) {
-			putch(buffer[i]);
-		}
-	}
-}
-
 
 /**
- * PicoC platform depending system functions
- * normaly stored in platform_xxx.c
+ * delete a source file
  */
-
-#ifdef NO_DEBUGGER
-void DebugCleanup(Picoc *pc)
+int32_t delete_file(uint8_t file)
 {
-	// XXX - no debugger here
-}
-#endif
-
-void PlatformInit(Picoc *pc)
-{
+	uint32_t file_id = PICOC_SOURCE_FILE_TYPE + file;
+	int32_t retval = PIOS_FLASHFS_ObjDelete(pios_waypoints_settings_fs_id, file_id, 0);
+	return retval;
 }
 
-void PlatformCleanup(Picoc *pc)
+/**
+ * format flash partition
+ */
+int32_t format_partition()
 {
-}
-
-/* get a line of interactive input */
-char *PlatformGetLine(char *line, int length, const char *prompt)
-{
-	int ix = 0;
-	char *cp = line;
-	char ch;
-
-	pprintf("\n%s", prompt);
-	length -= 2;
-
-	while (1)
-	{
-		ch = getch();
-		if (ch == 0x08)
-		{	// Backspace pressed
-			if (ix > 0)
-			{
-				putch(ch);
-				putch(' ');
-				putch(ch);
-				--ix;
-				--cp;
-			}
-			continue;
-		}
-		if (ch == 0x1B || ch == 0x03)
-		{	// ESC character or Ctrl-C - exit
-			pprintf("\nLeaving PicoC\n");
-			break;
-		}
-
-		if (ix < length)
-		{
-			if (ch == '\r' || ch == '\n')
-			{
-				*cp++ = '\n';  // if newline, send newline character followed by null
-				*cp = 0;
-				putch('\n');
-				return line;
-			}
-			*cp++ = ch;
-			ix++;
-			putch(ch);
-		}
-		else
-		{
-			pprintf("\n Line too long");
-			pprintf("\n%s", prompt);
-			ix = 0;
-			cp = line;
-		}
-	}
-	return NULL;
-}
-
-/* get a character of interactive input*/
-int PlatformGetCharacter()
-{
-	return getch();
-}
-
-/* write a character to the console */
-void PlatformPutc(unsigned char OutCh, union OutputStreamInfo *Stream)
-{
-	if (OutCh == '\n')	// send CRLF as CR
-		putch('\r');
-	putch(OutCh);
-}
-
-/* read and scan a file for definitions */
-void PicocPlatformScanFile(Picoc *pc, const char *FileName)
-{
-	// XXX - unimplemented so far
-}
-
-/* exit the program */
-void PlatformExit(Picoc *pc, int RetVal)
-{
-	pc->PicocExitValue = RetVal;
-	longjmp(picocExitBuf, 1);
+	int32_t retval = PIOS_FLASHFS_Format(pios_waypoints_settings_fs_id);
+	return retval;
 }
 
 
 #endif /* PIOS_INCLUDE_PICOC */
+
 
 /**
  * @}

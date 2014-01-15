@@ -5,7 +5,7 @@
  * @addtogroup PicoC Interpreter Module
  * @{ 
  *
- * @file       picoclibrary.c
+ * @file       picoc_library.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      c-interpreter module for autonomous user programmed tasks
  * @see        The GNU Public License (GPL) Version 3
@@ -33,10 +33,9 @@
 #if defined(PIOS_INCLUDE_PICOC)
 
 #include "openpilot.h"
-#include "picocsettings.h"
-#include "picocstate.h"
+#include "picoc_port.h"
+#include "picocstatus.h"
 #include "flightstatus.h"
-#include "picoc.h"
 
 // Private constants
 #define UAVO_READ 0
@@ -51,7 +50,7 @@ static int uavoWriteValue = UAVO_WRITE;
  * normaly stored in library_xxx.c
  */
 
-/* *
+/**
  * picoctest: for simple program debug of store a value
  * prototype for UAVO communication
  * first parameter is access mode
@@ -64,13 +63,13 @@ void Cpicoctest(struct ParseState *Parser, struct Value *ReturnValue, struct Val
 	int16_t value;
 
 	// Always get the actual value as return value.
-	PicoCStateTestValueGet(&value);
+	PicoCStatusTestValueGet(&value);
 	ReturnValue->Val->Integer = value;
 
 	// Write the new value, if wanted.
 	if (Param[0]->Val->Integer == UAVO_WRITE) {
 		value = Param[1]->Val->Integer;
-		PicoCStateTestValueSet(&value);
+		PicoCStatusTestValueSet(&value);
 	}
 }
 
@@ -101,7 +100,9 @@ void PlatformLibraryInit(Picoc *pc)
     IncludeRegister(pc, "uavo.h", &PlatformLibrarySetup, &PlatformLibrary[0], NULL);
 }
 
+
 #endif /* PIOS_INCLUDE_PICOC */
+
 
 /**
  * @}
