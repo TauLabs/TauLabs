@@ -73,14 +73,23 @@ class UAVO():
 
         return size
 
-    def instance_from_bytes(self, timestamp, data):
+    def instance_from_bytes(self, data, timestamp=None, timestamp_packet=False):
         import struct
+
+        if (timestamp == None) & (timestamp_packet == False):
+            raise ParameterError('Needs timestamp or a timestamp packet')
+        if (timestamp != None) & (timestamp_packet == True):
+            raise ParameterError('Either pass a timestamp or a timestamp packet, not both')
 
         formats = []
 
         # add format for instance-id IFF this is a multi-instance UAVO
         if not self.meta['is_single_inst']:
             # this is multi-instance so the optional instance-id is present
+            formats.append('<H')
+
+        # we are parsing the timestamp out of the main packet
+        if timestamp_packet:
             formats.append('<H')
 
         # add formats for each field
@@ -91,21 +100,37 @@ class UAVO():
         # add the values
         #
 
-        field_values = []
-
-        field_values.append(self.meta['name'])
-        field_values.append(timestamp)
-        field_values.append(self.id)
-
         # unpack each field separately
+        unpack_field_values = []
         offset = 0
         for fmt in formats:
             val = struct.unpack_from(fmt, data, offset)
             if len(val) == 1:
                 # elevate the value outside of the tuple if there is exactly one value
                 val = val[0]
-            field_values.append(val)
+            unpack_field_values.append(val)
             offset += struct.calcsize(fmt)
+
+        field_values = []
+        field_values.append(self.meta['name'])
+
+        # This gets a bit awkward. The order of field_values must match the structure
+        # which for the intro header is name, timestamp, and id and then optionally
+        # instance ID. For the timestamped packets we must parse the instance ID and
+        # then the timestamp, so we will pop that out and shuffle the order
+
+        if timestamp != None:
+            field_values.append(timestamp)
+        else:
+            if self.meta['is_single_inst']:
+                offset = 0
+            else:
+                offset = 1
+            field_values.append(unpack_field_values.pop(offset))
+        field_values.append(self.id)
+
+        # add the remaining fields
+        field_values = field_values + unpack_field_values
 
         return self.tuple_class._make(field_values)
 

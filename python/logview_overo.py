@@ -7,6 +7,7 @@ sys.path.insert(1, os.path.dirname(sys.path[0]))
 
 import argparse
 import errno
+import math
 
 #-------------------------------------------------------------------------------
 USAGE = "%(prog)s [logfile...]"
@@ -42,28 +43,13 @@ def main():
         # Open the log file
         src = normalize_path(src)
         fd  = open(src, "rb")
-
-        # Check the header signature
-        #    First line is "Tau Labs git hash:"
-        #    Second line is the actual git hash
-        #    Third line is the UAVO hash
-        #    Fourth line is "##"
-        sig = fd.readline()
-        if sig != 'Tau Labs git hash:\n':
-            print "Source file does not have a recognized header signature"
-            print '|' + sig + '|'
-            sys.exit(2)
-
-        # Determine the git hash that this log file is based on
-        githash = fd.readline()[:-1]
-        print "Log file is based on git hash: %s" % githash
+        statinfo = os.stat(src)
 
         if args.githash is not None:
-            print "Overriding git hash with '%s' instead of '%s' from file" % (args.githash, githash)
             githash = args.githash
-
-        uavohash = fd.readline()
-        divider = fd.readline()
+        else:
+            print "githash must be specified on the line for overo files"
+            sys.exit(2)
 
         print "Exporting UAVO XML files from git repo"
 
@@ -75,55 +61,68 @@ def main():
 
         # Remaining data in the file is in this format:
         #   For GCS logging the format is as follows
-        #   4 bytes timestamp (milliseconds)
-        #   8 bytes data size
-        #   UAVTalk packet (always without timestamped packets)
+        #   UAVTalk packet (always with timestamped packets)
         #   Sync val (0x3c)
         #   Message type (1 byte)
         #   Length (2 bytes)
         #   Object ID (4 bytes)
         #   Instance ID (optional, 2 bytes)
+        #   Typestamp (optional, 2 bytes)
         #   Data (variable length)
         #   Checksum (1 byte)
 
         print "Processing Log File Records"
 
         from collections import namedtuple
-        LogHeader = namedtuple('LogHeader', 'time size')
-        UAVOHeader = namedtuple('UAVOHeader', 'sync type length id')
+        UAVOSync   = namedtuple('UAVOSync', 'sync')
+        UAVOHeader = namedtuple('UAVOHeader', 'type length id')
 
         import struct
         base_time = None
 
         uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
+
+        unknown = False
+
+        i = 0
         while fd:
-            # Read the next log record header
-            log_hdr_fmt = "<IQ"
-            log_hdr_data = fd.read(struct.calcsize(log_hdr_fmt))
 
-            # Check if we hit the end of the file
-            if len(log_hdr_data) == 0:
-                # Normal End of File (EOF) at a record boundary
-                break;
+            # Print message for every MB processed
+            if math.floor(fd.tell() / 1e6) > i:
+                i = math.floor(fd.tell() / 1e6)
+                print "Processed " + `fd.tell()` + " / " + `statinfo.st_size`
 
-            # Got a log record header.  Unpack it.
-            log_hdr = LogHeader._make(struct.unpack(log_hdr_fmt, log_hdr_data))
 
-            # Set the baseline timestamp from the first record in the log file
-            if base_time is None:
-                base_time = log_hdr.time
+            # Check for valid sync byte
+            uavo_sync_fmt = "<B"
+            uavo_sync_data = fd.read(struct.calcsize(uavo_sync_fmt))
+            uavo_sync = UAVOSync._make(struct.unpack(uavo_sync_fmt, uavo_sync_data))
+            
+            if uavo_sync.sync == 0xff:
+                # Overo files have padding of 0xFF, this is fine
+                continue
+            elif unknown == True:
+                # When unknown UAVO expected to lose sync
+                continue
+            elif uavo_sync.sync != 0x3c:
+                print "Bad sync: " + `uavo_sync`
+                continue
 
             # Read the UAVO message header
-            uavo_hdr_fmt = "<BBHI"
+            uavo_hdr_fmt = "<BHI"
             uavo_hdr_data = fd.read(struct.calcsize(uavo_hdr_fmt))
 
             # Got a UAVO message header.  Unpack it.
             uavo_hdr = UAVOHeader._make(struct.unpack(uavo_hdr_fmt, uavo_hdr_data))
 
+            #print uavo_hdr
             # Ignore meta objects entirely
             if uavo_hdr.id & 0x1:
-                # discard the rest of the log entry
-                fd.read(min(log_hdr.size,256) - len(uavo_hdr_data))
+                print "Found meta data. Strange in log"
+                continue
+
+            if (uavo_hdr.type & 0x80) == 0:
+                print "Error, non timestamped packet"
                 continue
 
             # Is this a known UAVO?
@@ -131,22 +130,28 @@ def main():
             if not uavo_key in uavo_defs:
                 # Unknown UAVO.  Discard the rest of the log entry.
                 print "Unknown UAVO: %s" % uavo_key
-                fd.read(min(log_hdr.size,256) - len(uavo_hdr_data))
+                unknown = True
                 continue
+
+            unknown = False
+
+            # Assumes a timestamped packet
+            packet_length = uavo_hdr.length - 8
 
             # This is a known UAVO.
             # Use the UAVO definition to read and parse the remainder of the UAVO message.
             uavo_def = uavo_defs[uavo_key]
-            data = fd.read(uavo_def.get_size_of_data())
-            u = uavo_def.instance_from_bytes(data, timestamp=log_hdr.time)
+            data = fd.read(packet_length) #uavo_def.get_size_of_data())
+            u = uavo_def.instance_from_bytes(data, timestamp_packet=True)
             uavo_list.append(u)
+
+            # Check the lengths made sense
+            if packet_length != (uavo_def.get_size_of_data() + 2):
+                print "Packet length mismatch"
+                continue
 
             # Read (and discard) the checksum
             fd.read(1)
-
-            # Make sure our sizes all matched up
-            if log_hdr.size - len(uavo_hdr_data) - 1 != uavo_def.get_size_of_data():
-                print "size mismatch"
 
         fd.close()
 
