@@ -110,7 +110,7 @@ UAVOBJSRCFILENAMES += waypointactive
 UAVOBJSRCFILENAMES += ubloxinfo
 UAVOBJSRCFILENAMES += hottsettings
 UAVOBJSRCFILENAMES += picocsettings
-UAVOBJSRCFILENAMES += picocstate
+UAVOBJSRCFILENAMES += picocstatus
 
 UAVOBJSRCFILENAMES += txpidsettings
 
