@@ -82,6 +82,7 @@
 #define PIOS_GPS_SETS_HOMELOCATION
 #define PIOS_INCLUDE_MAVLINK
 #define PIOS_INCLUDE_HOTT
+#define PIOS_INCLUDE_LIGHTTELEMETRY
 
 /* Supported receiver interfaces */
 #define PIOS_INCLUDE_RCVR

@@ -577,6 +577,12 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_MAVLINK */
 #endif	/* PIOS_INCLUDE_GPS */
 	break;
+	
+	case HWCOPTERCONTROL_MAINPORT_LIGHTTELEMETRYTX:
+#if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
+		PIOS_Board_configure_com(&pios_usart_generic_main_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
+#endif  
+	break;
 }
 	/* Configure the flexi port */
 	uint8_t hw_flexiport;
@@ -737,6 +743,11 @@ void PIOS_Board_Init(void) {
 			}
 	#endif	/* PIOS_INCLUDE_MAVLINK */
 			break;
+	case HWCOPTERCONTROL_FLEXIPORT_LIGHTTELEMETRYTX:
+#if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
+		PIOS_Board_configure_com(&pios_usart_generic_flexi_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
+#endif  
+	break;
 	}
 
 	/* Configure the rcvr port */
