@@ -95,7 +95,7 @@ void WayPointCurve::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
  */
 void WayPointCurve::refreshLocations()
 {
-    double m_n, m_e, p_n, p_e, d, center_x, center_y;
+    double m_n, m_e, p_n, p_e, d, center_x, center_y, midpoint_x, midpoint_y;
 
     // Center between start and end
     m_n = (m_start->pos().x() + m_dest->pos().x()) / 2;
@@ -117,22 +117,29 @@ void WayPointCurve::refreshLocations()
     // Work out how far to go along the perpendicular bisector
     d = sqrt(radius * radius / (p_n * p_n + p_e * p_e) - 0.25f);
 
-    if (fabs(p_n) < 1e-3 && fabs(p_e) < 1e-3) {
+    if (fabs(p_n) < 1e-3 && fabs(p_e) < 1e-3 || ((d == d) == false)) {
+        // Segment has no length, put valid values there to prevent crash
+        // check for nan in the d term too
         center_x = m_n;
         center_y = m_e;
+        midpoint_x = m_n;
+        midpoint_y = m_e;
     } else {
         center_x = m_n + p_n * d * radius_sign;
         center_y = m_e + p_e * d * radius_sign;
+
+        d = sqrt(radius * radius / (p_n * p_n + p_e * p_e));
+        midpoint_x = center_x - p_n * d;
+        midpoint_y = center_y - p_e * d;
     }
 
-    // Store the center
+    // Store the center and midpoint
     center.setX(center_x);
     center.setY(center_y);
+    midpoint.setX(midpoint_x);
+    midpoint.setY(midpoint_y);
 
     // Compute the midpoint along the arc for the arrow
-    d = sqrt(radius * radius / (p_n * p_n + p_e * p_e));
-    midpoint.setX(center_x - p_n * d);
-    midpoint.setY(center_y - p_e * d);
     midpoint_angle = -atan2(m_dest->pos().y() - m_start->pos().y(), m_dest->pos().x() - m_start->pos().x());
 
     double startAngle = atan2(-(m_start->pos().y() - center_y), m_start->pos().x() - center_x);
