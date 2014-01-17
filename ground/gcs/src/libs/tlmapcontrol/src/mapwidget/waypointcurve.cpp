@@ -44,10 +44,10 @@ WayPointCurve::WayPointCurve(WayPointItem *start, WayPointItem *dest, double rad
     QGraphicsEllipseItem(map), m_start(start), m_dest(dest), m_radius(radius),
     m_clockwise(clockwise), my_map(map),myColor(color)
 {
-    connect(start, SIGNAL(relativePositionChanged(QPointF, WayPointItem*)), this, SLOT(refreshLocations()));
-    connect(dest, SIGNAL(relativePositionChanged(QPointF, WayPointItem*)), this, SLOT(refreshLocations()));
-    connect(start,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
-    connect(dest,SIGNAL(aboutToBeDeleted(WayPointItem*)),this,SLOT(waypointdeleted()));
+    connect(start, SIGNAL(relativePositionChanged(QPointF, MapPointItem*)), this, SLOT(refreshLocations()));
+    connect(dest, SIGNAL(relativePositionChanged(QPointF, MapPointItem*)), this, SLOT(refreshLocations()));
+    connect(start,SIGNAL(aboutToBeDeleted(MapPointItem*)),this,SLOT(waypointdeleted()));
+    connect(dest,SIGNAL(aboutToBeDeleted(MapPointItem*)),this,SLOT(waypointdeleted()));
     refreshLocations();
     connect(map,SIGNAL(childSetOpacity(qreal)),this,SLOT(setOpacitySlot(qreal)));
 
