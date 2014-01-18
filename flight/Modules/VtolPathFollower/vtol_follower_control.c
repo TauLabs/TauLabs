@@ -380,6 +380,22 @@ int32_t vtol_follower_control_attitude(float dT)
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	}
 		break;
+	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_PATH:
+	{
+		// Face forward on the path
+		VelocityDesiredData velocityDesired;
+		VelocityDesiredGet(&velocityDesired);
+		float total_vel2 = velocityDesired.East*velocityDesired.East + velocityDesired.North*velocityDesired.North;
+		float path_direction = atan2f(velocityDesired.East, velocityDesired.North) * RAD2DEG;
+		if (total_vel2 > 1) {
+			stabDesired.Yaw = path_direction;
+			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+		} else {
+			stabDesired.Yaw = 0;
+			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
+		}
+	}
+		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_POI:
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_POI;
 		break;

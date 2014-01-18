@@ -15,7 +15,7 @@
 		<field name="EndpointRadius" units="m" type="uint8" elements="1" defaultvalue="2"/>
 	
 		<field name="UpdatePeriod" units="ms" type="int32" elements="1" defaultvalue="50"/>
-		<field name="YawMode" units="" type="enum" elements="1" options="Rate,AxisLock,Attitude,POI" defaultvalue="AxisLock"/>
+		<field name="YawMode" units="" type="enum" elements="1" options="Rate,AxisLock,Attitude,Path,POI" defaultvalue="AxisLock"/>
 		<field name="LandingRate" units="m/s" type="float" elements="1" defaultvalue="0.5"/>
 		<field name="HoverThrottle" units="" type="float" elements="1" defaultvalue="0"/>
 		<access gcs="readwrite" flight="readwrite"/>
