@@ -31,6 +31,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
+
 #include "openpilot.h"
 #include "modulesettings.h"
 #include "gpsposition.h"
@@ -228,7 +230,7 @@ static void updateSettings()
 	}
 }
 
-
+#endif //end define lighttelemetry
 /**
  * @}
  * @}
