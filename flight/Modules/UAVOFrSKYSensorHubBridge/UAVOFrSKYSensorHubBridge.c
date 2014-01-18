@@ -61,9 +61,13 @@ static uint16_t frsky_pack_accel(
 		float accels_z,
 		uint8_t *serial_buf);
 
-static uint16_t frsky_pack_battery(
-		float voltage_01,
-		float voltage_02,
+static uint16_t frsky_pack_cellvoltage(
+		uint8_t cell,
+		float cell_voltage,
+		uint8_t *serial_buf) __attribute__((optimize(0)));
+
+static uint16_t frsky_pack_fas(
+		float voltage,
 		float current,
 		uint8_t *serial_buf);
 
@@ -303,22 +307,14 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 			if (AccelsHandle() != NULL)
 				AccelsGet(&accels);
 
-			if (BaroAltitudeHandle() != NULL)
-			BaroAltitudeGet(&baroAltitude);
-
-			float voltage = 0.0;
-			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYVOLTAGE] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
-				voltage = batState.Voltage * 1000;
-
-			float current = 0.0;
-			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYCURRENT] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
-				current = batState.Current * 100;
-
 			msg_length += frsky_pack_accel(
 					accels.x,
 					accels.y,
 					accels.z,
 					serial_buf + msg_length);
+
+			if (BaroAltitudeHandle() != NULL)
+				BaroAltitudeGet(&baroAltitude);
 
 			FlightStatusGet(&flightStatus);
 
@@ -328,7 +324,6 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 				altitude_offset = baroAltitude.Altitude;
 			}
 			last_armed = flightStatus.Armed;
-
 
 			float altitude = baroAltitude.Altitude - altitude_offset;
 			msg_length += frsky_pack_altitude(
@@ -340,12 +335,32 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 					accels.temperature,
 					serial_buf + msg_length);
 
-			msg_length += frsky_pack_battery(
+			float voltage = 0.0;
+			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYVOLTAGE] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
+				voltage = batState.Voltage * 1000;
+
+			float current = 0.0;
+			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYCURRENT] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
+				current = batState.Current * 100;
+
+			// As long as there is no voltage for each cell
+			// all cells will have the same voltage.
+			// Receiver will know number of cells.
+			float cell_v = voltage / batSettings.NbCells;
+			for(uint8_t i = 0; i < batSettings.NbCells; ++i)
+			{
+				msg_length += frsky_pack_cellvoltage(
+						i,
+						cell_v,
+						serial_buf + msg_length);
+			}
+
+			msg_length += frsky_pack_fas(
 					voltage,
-					0,
 					current,
 					serial_buf + msg_length);
 
+			// No idea what could be used as RPM
 			msg_length += frsky_pack_rpm(
 					0,
 					serial_buf + msg_length);
@@ -418,7 +433,7 @@ static uint16_t frsky_pack_altitude(float altitude, uint8_t *serial_buf)
 	float altitudeInteger = 0.0;
 
 	uint16_t decimalValue = lroundf(modff(altitude, &altitudeInteger)*100);
-	int16_t integerValue = lroundf(altitude) - 1;
+	int16_t integerValue = lroundf(altitude);
 
 	frsky_serialize_value(FRSKY_ALTITUDE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
 	frsky_serialize_value(FRSKY_ALTITUDE_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
@@ -470,30 +485,42 @@ static uint16_t frsky_pack_accel(
 	return index;
 }
 
+static uint16_t frsky_pack_cellvoltage(
+		uint8_t cell,
+		float cell_voltage,
+		uint8_t *serial_buf)
+{
+	uint8_t index = 0;
+	uint16_t v = lroundf((cell_voltage / 4.2f) * 2100);
+	if (v > 2100)
+		v = 2100;
+
+	uint16_t voltage = ((v & 0x00ff) << 8) | (cell << 4) | ((v & 0x0f00) >> 8);
+	frsky_serialize_value(FRSKY_VOLTAGE, (uint8_t*)&voltage, serial_buf, &index);
+
+	return index;
+}
 /**
  * Writes battery values to buffer
  * \return number of bytes written to the buffer
  */
-static uint16_t frsky_pack_battery(
-		float voltage_01,
-		float voltage_02,
+static uint16_t frsky_pack_fas(
+		float voltage,
 		float current,
 		uint8_t *serial_buf)
 {
 	uint8_t index = 0;
 
-	uint16_t uvalue = lroundf(voltage_01 * 100);
-	frsky_serialize_value(FRSKY_VOLTAGE, (uint8_t*)&uvalue, serial_buf, &index);
+	voltage = (voltage * 110.0f) / 21.0f;
 
-	uvalue = lroundf(current * 10);
-	frsky_serialize_value(FRSKY_VOLTAGE, (uint8_t*)&uvalue, serial_buf, &index);
-
-	float voltageInteger = 0.0;
-	uint16_t decimalValue = lroundf(modff(voltage_02, &voltageInteger)*10);
-	uint16_t integerValue = lroundf(voltageInteger);
+	uint16_t integerValue = lroundf(voltage) / 100;
+	uint16_t decimalValue = lroundf(voltage - integerValue);
 
 	frsky_serialize_value(FRSKY_VOLTAGE_AMPERE_SENSOR_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
 	frsky_serialize_value(FRSKY_VOLTAGE_AMPERE_SENSOR_DECIMAL, (uint8_t*)&decimalValue, serial_buf, &index);
+
+	integerValue = lroundf(current * 10);
+	frsky_serialize_value(FRSKY_CURRENT, (uint8_t*)&integerValue, serial_buf, &index);
 
 	return index;
 }
