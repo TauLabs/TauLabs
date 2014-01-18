@@ -370,16 +370,12 @@ namespace mapcontrol
         void SetShowDiagnostics(bool const& value);
         void SetUavPic(QString UAVPic);
 
-        //! Create a line between two waypoint items
-        MapLine *WPLineCreate(WayPointItem *from,WayPointItem *to, QColor color);
-        //! Create a line from home to a waypoint item
-        MapLine *WPLineCreate(HomeItem *from,WayPointItem *to, QColor color);
-        //! Create a curve from one waypoint item to another with a given radius
-        WayPointCurve *WPCurveCreate(WayPointItem *start, WayPointItem *dest, double radius, bool clockwise, QColor color);
-        //! Create a circle around a waypoint with the radius specified by the distance to another waypoint
-        MapCircle *WPCircleCreate(WayPointItem *center, WayPointItem *radius,bool clockwise,QColor color);
-        //! Create a circle around home with the radius specifed by the distance to another waypoint
-        MapCircle *WPCircleCreate(HomeItem *center, WayPointItem *radius,bool clockwise,QColor color);
+        //! Create a line between two mappoint items
+        MapLine *lineCreate(MapPointItem *from,MapPointItem *to, QColor color);
+        //! Create a curve from one mappoint item to another with a given radius
+        MapArc *curveCreate(MapPointItem *start, MapPointItem *dest, double radius, bool clockwise, QColor color);
+        //! Create a circle around a mappoint with the radius specified by the distance to another mappoint
+        MapCircle *circleCreate(MapPointItem *center, MapPointItem *radius,bool clockwise,QColor color);
 
         void deleteAllOverlays();
         void WPSetVisibleAll(bool value);

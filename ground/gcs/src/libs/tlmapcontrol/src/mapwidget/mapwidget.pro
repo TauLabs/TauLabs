@@ -16,6 +16,7 @@ SOURCES += mapgraphicitem.cpp \
     mapripper.cpp \
     traillineitem.cpp \
     mapline.cpp \
+    maparc.cpp \
     mapcircle.cpp \
     waypointcurve.cpp \
     tlmapwidget.cpp
@@ -45,6 +46,7 @@ HEADERS += mapgraphicitem.h \
     mapripper.h \
     traillineitem.h \
     mapline.h \
+    maparc.h \
     mapcircle.h \
     waypointcurve.h \
     tlmapwidget.h

@@ -122,11 +122,11 @@ ModelMapProxy::overlayType ModelMapProxy::overlayTranslate(int type)
 /**
  * @brief ModelMapProxy::createOverlay Create a graphical path component
  * @param from The starting location
- * @param to The ending location (for circles the radius) which is a HomeItem
+ * @param to The ending location (for circles the radius)
  * @param type The type of path component
  * @param color
  */
-void ModelMapProxy::createOverlay(WayPointItem *from, WayPointItem *to,
+void ModelMapProxy::createOverlay(MapPointItem *from, MapPointItem *to,
                                   ModelMapProxy::overlayType type, QColor color,
                                   double radius=0)
 {
@@ -135,23 +135,22 @@ void ModelMapProxy::createOverlay(WayPointItem *from, WayPointItem *to,
     switch(type)
     {
     case OVERLAY_LINE:
-        myMap->WPLineCreate(from,to,color);
+        myMap->lineCreate(from, to, color);
         break;
     case OVERLAY_CIRCLE_RIGHT:
-        myMap->WPCircleCreate(to,from,true,color);
+        myMap->circleCreate(to, from, true, color);
         break;
     case OVERLAY_CIRCLE_LEFT:
-        myMap->WPCircleCreate(to,from,false,color);
+        myMap->circleCreate(to, from, false, color);
         break;
     case OVERLAY_CURVE_RIGHT:
-        myMap->WPCurveCreate(to,from,radius,true,color);
+        myMap->curveCreate(to, from, radius, true, color);
         break;
     case OVERLAY_CURVE_LEFT:
-        myMap->WPCurveCreate(to,from,radius,false,color);
+        myMap->curveCreate(to, from, radius, false, color);
         break;
     default:
         break;
-
     }
 }
 
@@ -164,22 +163,21 @@ void ModelMapProxy::createOverlay(WayPointItem *from, WayPointItem *to,
  */
 void ModelMapProxy::createOverlay(WayPointItem *from, HomeItem *to, ModelMapProxy::overlayType type,QColor color)
 {
-    if(from==NULL || to==NULL)
+    if(from==NULL || to==NULL) //FIXME: Is it not also necessary here to check from!=to ? If so, this function can be removed in favor of only one createOverlay
         return;
     switch(type)
     {
     case OVERLAY_LINE:
-        myMap->WPLineCreate(to,from,color);
+        myMap->lineCreate(to, from, color);
         break;
     case OVERLAY_CIRCLE_RIGHT:
-        myMap->WPCircleCreate(to,from,true,color);
+        myMap->circleCreate(to, from, true, color);
         break;
     case OVERLAY_CIRCLE_LEFT:
-        myMap->WPCircleCreate(to,from,false,color);
+        myMap->circleCreate(to, from, false, color);
         break;
     default:
         break;
-
     }
 }
 

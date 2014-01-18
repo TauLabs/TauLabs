@@ -1,9 +1,9 @@
 /**
 ******************************************************************************
 *
-* @file       waypointcurve.h
+* @file       maparc.h
 * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
-* @brief      A graphicsItem representing a curve connecting 2 waypoints
+* @brief      A graphicsItem representing an arc connecting 2 points
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
 * @{
@@ -24,41 +24,70 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#ifndef WAYPOINTCURVE_H
-#define WAYPOINTCURVE_H
+#ifndef MAPARC_H
+#define MAPARC_H
 
-#include "waypointitem.h"
-#include "maparc.h"
+#include "mappointitem.h"
 
 namespace mapcontrol
 {
 
 /**
- * @brief The WayPointCurve class draws an arc between two graphics items of a given
+ * @brief The MapArc class draws an arc between two graphics items of a given
  * radius and direction of curvature.  It will display a red straight line if the
  * radius is insufficient to connect the two waypoints
  */
-class WayPointCurve:public MapArc
+class MapArc:public QObject, public QGraphicsEllipseItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
 public:
-    enum { Type = UserType + TYPE_WAYPOINTCURVE };
-    WayPointCurve(WayPointItem *start, WayPointItem *dest,
-                  double radius, bool clockwise,
-                  MapGraphicItem * map, QColor color=Qt::green);
-    int type() const;
+    enum GraphicItemTypes {TYPE_WAYPOINTCURVE = 9};
+    enum ArcRank {ARC_RANK_MAJOR, ARC_RANK_MINOR};
 
-private:
-    QPolygonF arrowHead;
+    MapArc(MapPointItem *start, MapPointItem *dest,
+                  double curvature, bool clockwise, bool rank,
+                  MapGraphicItem * map, QColor color=Qt::green);
+    void setColor(const QColor &color) { myColor = color; }
 
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    //! Handle to the map this is shown on
+    MapGraphicItem * my_map;
+    QColor myColor;
+
+    //! Start of the arc
+    MapPointItem * m_start;
+
+    //! End of the arc
+    MapPointItem * m_dest;
+
+    //! Curvature of the arc
+    double m_curvature;
+
+    //! Direction of curvature
+    bool m_clockwise;
+
+    //! Arc rank
+    bool m_rank;
+
+    //! Center coordinate
+    QPointF center;
+
+    //! Half way point
+    QPointF midpoint;
+
+    //! Angle of normal at midpoint
+    double midpoint_angle;
 
 public slots:
+    //! Called if the endpoints move, in order to redraw the arc
+    void refreshLocations();
+
     //! Called if the start or end point is destroyed
-    void waypointdeleted();
+    void endpointdeleted();
+
+    void setOpacitySlot(qreal opacity);
 };
 }
 
-#endif // WAYPOINTCURVE_H
+#endif // MAPARC_H

@@ -108,15 +108,7 @@ namespace mapcontrol
             GPS->SetUavPic(UAVPic);
     }
 
-    MapLine * TLMapWidget::WPLineCreate(WayPointItem *from, WayPointItem *to,QColor color)
-    {
-        if(!from|!to)
-            return NULL;
-        MapLine* ret= new MapLine(from,to,map,color);
-        ret->setOpacity(overlayOpacity);
-        return ret;
-    }
-    MapLine * TLMapWidget::WPLineCreate(HomeItem *from, WayPointItem *to,QColor color)
+    MapLine * TLMapWidget::lineCreate(MapPointItem *from, MapPointItem *to,QColor color)
     {
         if(!from|!to)
             return NULL;
@@ -126,7 +118,7 @@ namespace mapcontrol
     }
 
     /**
-     * @brief OPMapWidget::WPCurveCreate Create a curve from one waypoint to another with specified radius
+     * @brief OPMapWidget::curveCreate Create a curve from one waypoint to another with specified radius
      * @param start The starting waypoint
      * @param dest The ending waypoint
      * @param radius The radius to use connecting the two
@@ -134,16 +126,22 @@ namespace mapcontrol
      * @param color The color of the path
      * @return The waypoint curve object
      */
-    WayPointCurve * TLMapWidget::WPCurveCreate(WayPointItem *start, WayPointItem *dest, double radius, bool clockwise, QColor color)
+    MapArc * TLMapWidget::curveCreate(MapPointItem *start, MapPointItem *dest, double radius, bool clockwise, QColor color)
     {
         if (!start || !dest)
             return NULL;
-        WayPointCurve *ret = new WayPointCurve(start, dest, radius, clockwise, map, color);
-        ret->setOpacity(overlayOpacity);
-        return ret;
+
+        if (dynamic_cast<WayPointItem *>(start) != NULL && dynamic_cast<WayPointItem *>(dest) != NULL) {
+            WayPointCurve *ret = new WayPointCurve(dynamic_cast<WayPointItem *>(start), dynamic_cast<WayPointItem *>(dest), radius, clockwise, map, color);
+            ret->setOpacity(overlayOpacity);
+            return ret;
+        } else {
+            Q_ASSERT(0);
+            return NULL;
+        }
     }
 
-    MapCircle *TLMapWidget::WPCircleCreate(WayPointItem *center, WayPointItem *radius, bool clockwise, QColor color)
+    MapCircle *TLMapWidget::circleCreate(MapPointItem *center, MapPointItem *radius, bool clockwise, QColor color)
     {
         if(!center|!radius)
             return NULL;
@@ -152,14 +150,6 @@ namespace mapcontrol
         return ret;
     }
 
-    MapCircle *TLMapWidget::WPCircleCreate(HomeItem *center, WayPointItem *radius, bool clockwise,QColor color)
-    {
-        if(!center|!radius)
-            return NULL;
-        MapCircle* ret= new MapCircle(center,radius,clockwise,map,color);
-        ret->setOpacity(overlayOpacity);
-        return ret;
-    }
     void TLMapWidget::SetShowUAV(const bool &value)
     {
         if(value && UAV==0)
