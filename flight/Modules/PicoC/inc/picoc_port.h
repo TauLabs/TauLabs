@@ -29,8 +29,8 @@
 
 // defines for picoc
 #define HEAP_SIZE (16*1024)
-//#define USE_MALLOC_STACK                   /* stack is allocated using malloc() */
-//#define USE_MALLOC_HEAP                    /* heap is allocated using malloc() */
+//#define USE_MALLOC_STACK		/* stack is allocated using malloc() */
+//#define USE_MALLOC_HEAP		/* heap is allocated using malloc() */
 #define BUILTIN_MINI_STDLIB
 #define PICOC_LIBRARY
 #define NO_CTYPE

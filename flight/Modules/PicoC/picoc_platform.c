@@ -246,9 +246,8 @@ void putch(uint8_t ch)
 #ifdef PIOS_COM_PICOC
 	stdIO = PIOS_COM_PICOC;
 #endif
-
 	if (stdIO) {
-		PIOS_COM_SendBufferNonBlocking(stdIO, &ch, sizeof(ch));
+		PIOS_COM_SendChar(stdIO, ch);
 	}
 
 	// if there is a telemetrylink, send it to gcs too.

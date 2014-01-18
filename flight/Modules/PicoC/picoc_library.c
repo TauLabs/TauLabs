@@ -38,12 +38,12 @@
 #include "flightstatus.h"
 
 // Private constants
-#define UAVO_READ 0
-#define UAVO_WRITE 1
+#define UAVO_GET 1
+#define UAVO_SET 2
 
 // Private variables
-static int uavoReadValue = UAVO_READ;
-static int uavoWriteValue = UAVO_WRITE;
+static int uavoGetValue = UAVO_GET;
+static int uavoSetValue = UAVO_SET;
 
 /**
  * PicoC platform depending library functions for UAVOs
@@ -51,53 +51,94 @@ static int uavoWriteValue = UAVO_WRITE;
  */
 
 /**
- * picoctest: for simple program debug of store a value
- * prototype for UAVO communication
- * first parameter is access mode
- * second parameter is the write value
- * function returns the old value of the UAVO
+ * picoc library functions
+ * available after #include "picoc.h"
  */
-void Cpicoctest(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+
+/* void delay(int): sleep for given ms-value */
+ void Cdelay(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
 {
-	// Define value variable for UAVO communication. The type depends on the UAVO.
-	int16_t value;
+	int16_t value = Param[0]->Val->Integer;
 
-	// Always get the actual value as return value.
-	PicoCStatusTestValueGet(&value);
-	ReturnValue->Val->Integer = value;
-
-	// Write the new value, if wanted.
-	if (Param[0]->Val->Integer == UAVO_WRITE) {
-		value = Param[1]->Val->Integer;
-		PicoCStatusTestValueSet(&value);
+	if (value > 0) {
+		vTaskDelay(MS2TICKS(value));
 	}
 }
 
-/* delay(int): sleep for given ms-value */
- void Cdelay(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+/* void sync(int): synchronize an interval by given ms-value */
+ void Csync(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
 {
-	vTaskDelay(Param[0]->Val->Integer);
+	static portTickType lastSysTime;
+	int16_t value = Param[0]->Val->Integer;
+
+	if ((lastSysTime == 0) || (value == 0)) {
+		lastSysTime = xTaskGetTickCount();
+	}
+	if (value > 0) {
+		vTaskDelayUntil(&lastSysTime, MS2TICKS(value));
+	}
+}
+
+/* int armed: returns armed status */
+ void Carmed(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+{
+	FlightStatusData uavo;
+	FlightStatusArmedGet(&uavo.Armed);
+	ReturnValue->Val->Integer = (uavo.Armed == FLIGHTSTATUS_ARMED_ARMED);
+}
+
+/* void changebaud(long): changes the speed of picoc serial port */
+void Cchangebaud(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+{
+#ifdef PIOS_COM_PICOC
+	uint32_t value = Param[0]->Val->LongInteger;
+
+	if ((PIOS_COM_PICOC) && (value >0) && (value <=115200)) {
+		PIOS_COM_ChangeBaud(PIOS_COM_PICOC, value);
+	}
+#endif
+}
+
+/* int picoctest(int,int): set and get picoc test value. prototype function for other UAVOs */
+void Ctestvalue(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+{
+	PicoCStatusData uavo;
+	switch (Param[0]->Val->Integer) {
+	case UAVO_GET:
+		PicoCStatusTestValueGet(&uavo.TestValue);
+		ReturnValue->Val->Integer = uavo.TestValue;
+		break;
+	case UAVO_SET:
+		uavo.TestValue = Param[1]->Val->Integer;
+		PicoCStatusTestValueSet(&uavo.TestValue);
+		break;
+	default:
+		;
+	}
 }
 
 /* list of all library functions and their prototypes */
-struct LibraryFunction PlatformLibrary[] =
+struct LibraryFunction PlatformLibrary_picoc[] =
 {
-	{ Cpicoctest,	"int picoctest(int,int);"},
 	{ Cdelay,		"void delay(int);"},
+	{ Csync,		"void sync(int);"},
+	{ Carmed,		"int armed(void);"},
+	{ Cchangebaud,	"void changebaud(long);"},
+	{ Ctestvalue,	"int testvalue(int,int);"},
 	{ NULL, NULL }
 };
 
 /* this is called when the header file is included */
-void PlatformLibrarySetup(Picoc *pc)
+void PlatformLibrarySetup_picoc(Picoc *pc)
 {
-	// define some values for uavo handling
-	VariableDefinePlatformVar(pc, NULL, "URD", &pc->IntType, (union AnyValue *)&uavoReadValue, FALSE);
-	VariableDefinePlatformVar(pc, NULL, "UWR", &pc->IntType, (union AnyValue *)&uavoWriteValue, FALSE);
+	// define some handy values for function handling
+	VariableDefinePlatformVar(pc, NULL, "GET", &pc->IntType, (union AnyValue *)&uavoGetValue, FALSE);
+	VariableDefinePlatformVar(pc, NULL, "SET", &pc->IntType, (union AnyValue *)&uavoSetValue, FALSE);
 }
 
 void PlatformLibraryInit(Picoc *pc)
 {
-    IncludeRegister(pc, "uavo.h", &PlatformLibrarySetup, &PlatformLibrary[0], NULL);
+    IncludeRegister(pc, "picoc.h", &PlatformLibrarySetup_picoc, &PlatformLibrary_picoc[0], NULL);
 }
 
 

@@ -48,6 +48,11 @@ extern struct flashfs_logfs_cfg flashfs_waypoints_cfg;
 #define TASK_PRIORITY			(tskIDLE_PRIORITY + 1)
 #define PICOC_SOURCE_FILE_TYPE	0X00704300		/* mark picoc sources with this ID */
 #define PICOC_SECTOR_SIZE		48				/* size of filesystem object (less than slot_size - sizeof(slot_header) */
+#define SOH	0x01	/* (^A) start of heading */
+#define STX	0x02	/* (^B) start of text */
+#define ETX	0x03	/* (^C) end of text */
+#define EOT	0x04	/* (^D) end of transmission */
+#define ENQ	0x05	/* (^E) enquiry */
 
 // Private variables
 static xTaskHandle picocTaskHandle;
@@ -61,6 +66,7 @@ static PicoCStatusData picocstatus;
 // Private functions
 static void picocTask(void *parameters);
 static void updateSettings();
+int32_t usart_cmd(char *buffer, uint32_t buffer_size);
 int32_t get_sector(uint16_t sector, char *buffer, uint32_t buffer_size);
 int32_t set_sector(uint16_t sector, char *buffer, uint32_t buffer_size);
 int32_t load_file(uint8_t file, char *buffer, uint32_t buffer_size);
@@ -154,6 +160,13 @@ static void picocTask(void *parameters) {
 		// handle file and buffer commands
 		if (picocstatus.Command != PICOCSTATUS_COMMAND_IDLE) {
 			switch (picocstatus.Command) {
+			case PICOCSTATUS_COMMAND_USARTMODE:
+				// handle commands via USART
+				picocstatus.CommandError = usart_cmd(sourcebuffer, sourcebuffer_size);
+				if (picocstatus.CommandError) {
+					picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
+				}
+				break;
 			case PICOCSTATUS_COMMAND_GETSECTOR:
 				// copy selected sector from buffer to uavo
 				picocstatus.CommandError = get_sector(picocstatus.SectorID, sourcebuffer, sourcebuffer_size);
@@ -191,8 +204,10 @@ static void picocTask(void *parameters) {
 				picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
 			}
 			// transfer return values
-			PicoCStatusCommandErrorSet(&picocstatus.CommandError);
-			PicoCStatusCommandSet(&picocstatus.Command);
+			if (picocstatus.Command == PICOCSTATUS_COMMAND_IDLE) {
+				PicoCStatusCommandErrorSet(&picocstatus.CommandError);
+				PicoCStatusCommandSet(&picocstatus.Command);
+			}
 		}
 
 		// check startup condition
@@ -277,6 +292,65 @@ static void updateSettings()
 			break;
 		}
 	}
+}
+
+/**
+ * usart command
+ */
+int32_t usart_cmd(char *buffer, uint32_t buffer_size)
+{
+	static uint32_t buffer_pointer = 0;
+	static bool buffer_enabled = false;
+	uint8_t ch;
+
+	// check for a valid USART first
+	if (picocPort == 0) {
+		return -1;
+	}
+
+	// handle incoming data
+	while (PIOS_COM_ReceiveBuffer(picocPort, &ch, sizeof(ch), 0) == sizeof(ch)) {
+		switch (ch) {
+		case SOH:	// start of heading
+			PIOS_COM_SendString(picocPort,"start of heading\n");
+			memset(buffer, 0, buffer_size);
+			buffer_pointer = 0;
+			break;
+		case STX:	// start of text
+			PIOS_COM_SendString(picocPort,"start of text\n");
+			buffer[buffer_pointer] = '\0';
+			buffer_enabled = true;
+			break;
+		case ETX:	// end of text
+			PIOS_COM_SendString(picocPort,"end of text\n");
+			buffer_enabled = false;
+			break;
+		case EOT:	// end of transmission
+			PIOS_COM_SendString(picocPort,"end of transmission\n");
+			buffer_pointer = 0;
+			buffer_enabled = false;
+			break;
+		case ENQ:	// enquiry
+			// used to readout buffer
+			for (int32_t i = 0; ((i < buffer_size) && (buffer[i] != 0)); i++) {
+				PIOS_COM_SendChar(picocPort, buffer[i]);
+			}
+			break;
+		default:
+			// write incoming data to buffer, if enabled
+			if ((buffer_enabled) && (ch != '\0')) {
+				if (buffer_pointer >= buffer_size - 2) {
+					PIOS_COM_SendString(picocPort,"buffer overrun\n");
+					buffer_enabled = false;
+				} else {
+					buffer[buffer_pointer++] = ch;
+					buffer[buffer_pointer] = '\0';
+				}
+			}
+		}
+	}
+
+	return 0;
 }
 
 /**
