@@ -322,6 +322,9 @@ static void activateWaypoint(int idx)
 		case WAYPOINT_MODE_FLYCIRCLERIGHT:
 			pathDesired.Mode = PATHDESIRED_MODE_FLYCIRCLERIGHT;
 			break;
+		case WAYPOINT_MODE_LAND:
+			pathDesired.Mode = PATHDESIRED_MODE_LAND;
+			break;
 		default:
 			holdCurrentPosition();
 			AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);
