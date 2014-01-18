@@ -152,13 +152,15 @@ enum FRSKY_VALUE_ID {
 };
 
 enum FRSKY_FRAME {
-	FRSKY_FRAME_01,
-	FRSKY_FRAME_02
+	FRSKY_FRAME_VARIO,
+	FRSKY_FRAME_BATTERY,
+	FRSKY_FRAME_GPS
 };
 
 static const uint8_t frsky_rates[] = {
-	[FRSKY_FRAME_01] = 0x05, //5Hz
-	[FRSKY_FRAME_02] = 0x01	//1Hz
+	[FRSKY_FRAME_VARIO] = 0x05, //5Hz
+	[FRSKY_FRAME_BATTERY] = 0x05, //5Hz
+	[FRSKY_FRAME_GPS] = 0x01	//1Hz
 }; 
 
 #define MAXSTREAMS sizeof(frsky_rates)
@@ -298,12 +300,9 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 	while (1) {
 		vTaskDelayUntil(&lastSysTime, MS2TICKS(1000 / TASK_RATE_HZ));
 
-		if (frame_trigger(FRSKY_FRAME_01)) {
+		if (frame_trigger(FRSKY_FRAME_VARIO)) {
 			msg_length = 0;
 			
-			if (FlightBatteryStateHandle() != NULL)
-				FlightBatteryStateGet(&batState);
-
 			if (AccelsHandle() != NULL)
 				AccelsGet(&accels);
 
@@ -335,6 +334,22 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 					accels.temperature,
 					serial_buf + msg_length);
 
+			// No idea what could be used as RPM
+			msg_length += frsky_pack_rpm(
+					0,
+					serial_buf + msg_length);
+
+			msg_length += frsky_pack_stop(serial_buf + msg_length);
+
+			PIOS_COM_SendBuffer(frsky_port, serial_buf, msg_length);
+		}
+
+		if (frame_trigger(FRSKY_FRAME_BATTERY)) {
+			msg_length = 0;
+
+			if (FlightBatteryStateHandle() != NULL)
+				FlightBatteryStateGet(&batState);
+
 			float voltage = 0.0;
 			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYVOLTAGE] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
 				voltage = batState.Voltage * 1000;
@@ -360,17 +375,12 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 					current,
 					serial_buf + msg_length);
 
-			// No idea what could be used as RPM
-			msg_length += frsky_pack_rpm(
-					0,
-					serial_buf + msg_length);
-
 			msg_length += frsky_pack_stop(serial_buf + msg_length);
 
 			PIOS_COM_SendBuffer(frsky_port, serial_buf, msg_length);
 		}
 
-		if (frame_trigger(FRSKY_FRAME_02)) {
+		if (frame_trigger(FRSKY_FRAME_GPS)) {
 			msg_length = 0;
 
 			if (GPSPositionHandle() != NULL ) {
@@ -490,6 +500,10 @@ static uint16_t frsky_pack_cellvoltage(
 		float cell_voltage,
 		uint8_t *serial_buf)
 {
+	// its not possible to address more than 15 cells
+	if (cell > 15)
+		return 0;
+
 	uint8_t index = 0;
 	uint16_t v = lroundf((cell_voltage / 4.2f) * 2100);
 	if (v > 2100)
