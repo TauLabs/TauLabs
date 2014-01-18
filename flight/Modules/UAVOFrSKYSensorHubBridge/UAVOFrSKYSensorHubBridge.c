@@ -362,8 +362,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 			// all cells will have the same voltage.
 			// Receiver will know number of cells.
 			float cell_v = voltage / batSettings.NbCells;
-			for(uint8_t i = 0; i < batSettings.NbCells; ++i)
-			{
+			for(uint8_t i = 0; i < batSettings.NbCells; ++i) {
 				msg_length += frsky_pack_cellvoltage(
 						i,
 						cell_v,
@@ -688,13 +687,11 @@ static void frsky_serialize_value(uint8_t valueid, uint8_t *value, uint8_t *seri
 static void frsky_write_userdata_byte(uint8_t byte, uint8_t *serial_buf, uint8_t *index)
 {
 	//** byte stuffing
-	if ((byte == 0x5E) || (byte == 0x5D))
-	{
+	if ((byte == 0x5E) || (byte == 0x5D)) {
 		serial_buf[(*index)++] = 0x5D;
 		serial_buf[(*index)++] = ~(byte ^ 0x60);
 	}
-	else
-	{
+	else {
 		serial_buf[(*index)++] = byte;
 	}
 }
