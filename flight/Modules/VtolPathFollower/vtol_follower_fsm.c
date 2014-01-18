@@ -445,7 +445,16 @@ static int32_t do_requested_path()
 {
 	// Fetch the path desired from the path planner
 	PathDesiredGet(&vtol_fsm_path_desired);
-	return do_path();
+
+	// Most 
+	switch(vtol_fsm_path_desired.Mode) {
+	case PATHDESIRED_MODE_LAND:
+		for (uint8_t i = 0; i < 3; i++)
+			vtol_hold_position_ned[i] = vtol_fsm_path_desired.End[i];
+		return do_land();
+	default:
+		return do_path();
+	}
 }
 
 /**
