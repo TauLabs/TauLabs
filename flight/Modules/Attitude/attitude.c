@@ -112,6 +112,18 @@ struct complementary_filter_state {
 	enum complementary_filter_status     initialization;
 };
 
+//! Struture that tracks the data for the vertical complementary filter
+struct cfvert {
+	float velocity_z;
+	float position_z;
+	float time_constant_z;
+	float accel_correction_z;
+	float position_base_z;
+	float position_error_z;
+	float position_correction_z;
+	float baro_zero;
+};
+
 // Private variables
 static xTaskHandle attitudeTaskHandle;
 
@@ -142,6 +154,10 @@ static int32_t setNavigationRaw();
 static int32_t updateAttitudeComplementary(bool first_run, bool secondary);
 //! Set the @ref AttitudeActual to the complementary filter estimate
 static int32_t setAttitudeComplementary();
+
+static void cfvert_reset(struct cfvert *cf, float baro, float time_constant);
+static void cfvert_predict_pos(struct cfvert *cf, float z_accel, float dt);
+static void cfvert_update_baro(struct cfvert *cf, float baro, float dt);
 
 //! Update the INSGPS attitude estimate
 static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode);
@@ -359,8 +375,8 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	GyrosData gyrosData;
 	AccelsData accelsData;
 	static int32_t timeval;
+	static struct cfvert cfvert;
 	float dT;
-
 
 	// If this is the primary estimation filter, wait until the accel and
 	// gyro objects are updated. If it timeouts then go to failsafe.
@@ -463,6 +479,11 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 			complementary_filter_state.accumulating_gyro = true;
 		}
 
+		// Reset the filter for barometric data
+		float baro;
+		BaroAltitudeAltitudeGet(&baro);
+		cfvert_reset(&cfvert, baro, 1);
+
 	} else if (complementary_filter_state.initialization == CF_ARMING ||
 	           complementary_filter_state.initialization == CF_INITIALIZING) {
 
@@ -480,6 +501,12 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 		// Indicate normal mode to prevent rerunning this code
 		complementary_filter_state.initialization = CF_NORMAL;
+
+		// Reset the filter for barometric data
+		float baro;
+		BaroAltitudeAltitudeGet(&baro);
+		cfvert_reset(&cfvert, baro, 1);
+
 	}
 
 	GyrosGet(&gyrosData);
@@ -625,10 +652,63 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 		cf_q[3] = 0;
 	}
 
+	if (!secondary) {
+		// When this is the only filter compute th vertical state from baro data
+		// Reset the filter for barometric data
+
+		cfvert_predict_pos(&cfvert, accelsData.z, dT);
+		if ( xQueueReceive(baroQueue, &ev, 0) == pdTRUE) {
+			float baro;
+			BaroAltitudeAltitudeGet(&baro);
+			cfvert_update_baro(&cfvert, baro, dT);
+		}
+	}
 	if (!secondary)
 		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
 
 	return 0;
+}
+
+//! Resets the vertical baro complementary filter and zeros the altitude
+static void cfvert_reset(struct cfvert *cf, float baro, float time_constant)
+{
+	cf->velocity_z = 0;
+	cf->position_z = 0;
+	cf->time_constant_z = time_constant;
+	cf->accel_correction_z = 0;
+	cf->position_error_z = 0;
+	cf->position_correction_z = 0;
+	cf->position_error_z = 0;
+	cf->baro_zero = baro;
+}
+
+//! Predict the position in the future
+static void cfvert_predict_pos(struct cfvert *cf, float z_accel, float dt)
+{
+	float k1_z = 3 / cf->time_constant_z;
+	float k2_z = 3 / powf(cf->time_constant_z, 2);
+	float k3_z = 1 / powf(cf->time_constant_z, 3);
+
+	cf->accel_correction_z += cf->position_error_z * k3_z * dt;
+	cf->velocity_z += cf->position_error_z * k2_z * dt;
+	cf->position_correction_z += cf->position_error_z * k1_z * dt;
+
+	float velocity_increase;
+	velocity_increase = (z_accel + cf->accel_correction_z) * dt;
+	cf->position_base_z += (cf->velocity_z + velocity_increase * 0.5f) * dt;
+	cf->position_z = cf->position_base_z + cf->position_correction_z;
+	cf->velocity_z += velocity_increase;
+}
+
+//! Update the baro feedback
+static void cfvert_update_baro(struct cfvert *cf, float baro, float dt)
+{
+	float down = -(baro - cf->baro_zero);
+
+	// TODO: get from a queue of previous position updates (150 ms latency)
+	float hist_position_base_d = cf->position_base_z;
+
+	cf->position_error_z = down - (hist_position_base_d + cf->position_correction_z);
 }
 
 //! Set the navigation information to the raw estimates
@@ -636,8 +716,7 @@ static int32_t setNavigationRaw()
 {
 	UAVObjEvent ev;
 
-	// Flush these queues for avoid errors
-	xQueueReceive(baroQueue, &ev, 0);
+
 	if ( xQueueReceive(gpsQueue, &ev, 0) == pdTRUE && homeLocation.Set == HOMELOCATION_SET_TRUE ) {
 		float NED[3];
 		// Transform the GPS position into NED coordinates
