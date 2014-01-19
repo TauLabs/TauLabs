@@ -88,7 +88,9 @@ void MapLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->setPen(myPen);
     painter->setBrush(myColor);
 
-    double angle = ::acos(line().dx() / line().length());
+    // Prevent segfaults when length is zero
+    double angle = (fabs(line().length()) < 1e-3) ? 0 : ::acos(line().dx() / line().length());
+
     if (line().dy() >= 0)
         angle = (M_PI * 2) - angle;
 
@@ -98,6 +100,7 @@ void MapLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
                                         cos(angle + M_PI - M_PI / 3) * arrowSize);
         arrowHead.clear();
         arrowHead << line().pointAt(0.5) << arrowP1 << arrowP2;
+
         painter->drawPolygon(arrowHead);
         if(myColor==Qt::red)
             myPen.setWidth(3);
