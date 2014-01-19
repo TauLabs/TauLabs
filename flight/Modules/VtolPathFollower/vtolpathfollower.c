@@ -147,7 +147,9 @@ static void vtolPathFollowerTask(void *parameters)
 			(systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_OCTOCOAXX) &&
 			(systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_TRI) )
 		{
-			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_WARNING);
+			// This should be a critical alarm since the system will not attempt to
+			// control in this situation.
+			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_CRITICAL);
 			vTaskDelay(1000);
 			continue;
 		}
