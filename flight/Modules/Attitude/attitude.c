@@ -144,6 +144,7 @@ const uint32_t SENSOR_QUEUE_SIZE = 10;
 static const float zeros[3] = {0.0f, 0.0f, 0.0f};
 
 static struct complementary_filter_state complementary_filter_state;
+static struct cfvert cfvert; //!< State information for vertical filter
 
 // Private functions
 static void AttitudeTask(void *parameters);
@@ -378,7 +379,6 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	GyrosData gyrosData;
 	AccelsData accelsData;
 	static int32_t timeval;
-	static struct cfvert cfvert;
 	float dT;
 
 	// If this is the primary estimation filter, wait until the accel and
@@ -754,15 +754,17 @@ static int32_t setNavigationRaw()
 		NEDPositionGet(&nedPosition);
 		nedPosition.North = NED[0];
 		nedPosition.East = NED[1];
-		
+		nedPosition.Down = NED[2];
 		NEDPositionSet(&nedPosition);
 
 		PositionActualData positionActual;
 		PositionActualGet(&positionActual);
 		positionActual.North = NED[0];
 		positionActual.East = NED[1];
-		
+		positionActual.Down = cfvert.position_z;
 		PositionActualSet(&positionActual);
+	} else {
+		PositionActualDownSet(&cfvert.position_z);
 	}
 
 	if ( xQueueReceive(gpsVelQueue, &ev, 0) == pdTRUE ) {
@@ -774,12 +776,11 @@ static int32_t setNavigationRaw()
 		VelocityActualGet(&velocityActual);
 		velocityActual.North = gpsVelocity.North;
 		velocityActual.East = gpsVelocity.East;
-		velocityActual.Down = gpsVelocity.Down;
+		velocityActual.Down = cfvert.velocity_z;
 		VelocityActualSet(&velocityActual);
+	} else {
+		VelocityActualDownSet(&cfvert.velocity_z);
 	}
-
-	nedPosition.Down = cfvert.position_z;
-	positionActual.Down = cfvert.velocity_z;
 
 	return 0;
 }
