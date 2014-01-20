@@ -59,7 +59,7 @@
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
-#define STACK_SIZE_BYTES 1200
+#define STACK_SIZE_BYTES 500
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 
 // Private variables
@@ -124,7 +124,6 @@ MODULE_INITCALL(AltitudeHoldInitialize, AltitudeHoldStart);
 static void altitudeHoldTask(void *parameters)
 {
 	bool engaged = false;
-	float starting_altitude;
 	float throttleIntegral;
 
 	AltitudeHoldDesiredData altitudeHoldDesired;
@@ -157,8 +156,6 @@ static void altitudeHoldTask(void *parameters)
 				// Copy the current throttle as a starting point for integral
 				StabilizationDesiredThrottleGet(&throttleIntegral);
 				engaged = true;
-
-				PositionActualDownGet(&starting_altitude);
 			} else if (flight_mode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)
 				engaged = false;
 
@@ -181,7 +178,7 @@ static void altitudeHoldTask(void *parameters)
 			velocity_z = -velocity_z; // Use positive up convention
 
 			// Compute the altitude error
-			altitude_error = (starting_altitude + altitudeHoldDesired.Altitude) - position_z;
+			altitude_error = altitudeHoldDesired.Altitude - position_z;
 
 			float velocity_desired = altitude_error * altitudeHoldSettings.PositionKp;
 			float throttle_desired = (velocity_desired - velocity_z) * altitudeHoldSettings.VelocityKp + 
