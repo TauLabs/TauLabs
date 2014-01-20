@@ -47,6 +47,7 @@
 #include "openpilot.h"
 #include "physical_constants.h"
 #include "misc_math.h"
+#include "pid.h"
 
 #include "attitudeactual.h"
 #include "altitudeholdsettings.h"
@@ -124,13 +125,13 @@ MODULE_INITCALL(AltitudeHoldInitialize, AltitudeHoldStart);
 static void altitudeHoldTask(void *parameters)
 {
 	bool engaged = false;
-	float throttleIntegral;
 
 	AltitudeHoldDesiredData altitudeHoldDesired;
 	StabilizationDesiredData stabilizationDesired;
 	AltitudeHoldSettingsData altitudeHoldSettings;
 
 	UAVObjEvent ev;
+	struct pid velocity_pid;
 
 	// Listen for object updates.
 	AltitudeHoldDesiredConnectQueue(queue);
@@ -138,6 +139,8 @@ static void altitudeHoldTask(void *parameters)
 	FlightStatusConnectQueue(queue);
 
 	AltitudeHoldSettingsGet(&altitudeHoldSettings);
+	pid_configure(&velocity_pid, altitudeHoldSettings.VelocityKp,
+		          altitudeHoldSettings.VelocityKi, 0.0f, 1.0f);
 
 	AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_OK);
 
@@ -154,7 +157,8 @@ static void altitudeHoldTask(void *parameters)
 
 			if(flight_mode == FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD && !engaged) {
 				// Copy the current throttle as a starting point for integral
-				StabilizationDesiredThrottleGet(&throttleIntegral);
+				StabilizationDesiredThrottleGet(&velocity_pid.iAccumulator);
+				velocity_pid.iAccumulator *= 1000.0f; // pid library scales up accumulator by 1000
 				engaged = true;
 			} else if (flight_mode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)
 				engaged = false;
@@ -166,6 +170,9 @@ static void altitudeHoldTask(void *parameters)
 			AltitudeHoldDesiredGet(&altitudeHoldDesired);
 		} else if (ev.obj == AltitudeHoldSettingsHandle()) {
 			AltitudeHoldSettingsGet(&altitudeHoldSettings);
+
+			pid_configure(&velocity_pid, altitudeHoldSettings.VelocityKp,
+				          altitudeHoldSettings.VelocityKi, 0.0f, 1.0f);
 		}
 
 		// When engaged compute altitude controller output
@@ -181,8 +188,9 @@ static void altitudeHoldTask(void *parameters)
 			altitude_error = altitudeHoldDesired.Altitude - position_z;
 
 			float velocity_desired = altitude_error * altitudeHoldSettings.PositionKp;
-			float throttle_desired = (velocity_desired - velocity_z) * altitudeHoldSettings.VelocityKp + 
-			                         throttleIntegral;
+			float throttle_desired = pid_apply_antiwindup(&velocity_pid, 
+				                velocity_desired - velocity_z,
+			                    0, 1.0f, 0.005f);
 
 			if (altitudeHoldSettings.AttitudeComp == ALTITUDEHOLDSETTINGS_ATTITUDECOMP_TRUE) {
 				// Throttle desired is at this point the mount desired in the up direction, we can
