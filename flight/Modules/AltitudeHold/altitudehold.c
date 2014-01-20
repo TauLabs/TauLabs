@@ -46,24 +46,21 @@
 
 #include "openpilot.h"
 #include "physical_constants.h"
-#include <math.h>
-#include "coordinate_conversions.h"
-#include "altholdsmoothed.h"
+#include "misc_math.h"
+
 #include "attitudeactual.h"
 #include "altitudeholdsettings.h"
-#include "altitudeholddesired.h"	// object that will be updated by the module
-#include "baroaltitude.h"
-#include "positionactual.h"
+#include "altitudeholddesired.h"
 #include "flightstatus.h"
 #include "stabilizationdesired.h"
-#include "accels.h"
+#include "positionactual.h"
+#include "velocityactual.h"
 #include "modulesettings.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
 #define STACK_SIZE_BYTES 1200
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
-#define ACCEL_DOWNSAMPLE 4
 
 // Private variables
 static xTaskHandle altitudeHoldTaskHandle;
@@ -110,7 +107,6 @@ int32_t AltitudeHoldInitialize()
 	if(module_enabled) {
 		AltitudeHoldSettingsInitialize();
 		AltitudeHoldDesiredInitialize();
-		AltHoldSmoothedInitialize();
 
 		// Create object queue
 		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
@@ -127,245 +123,72 @@ MODULE_INITCALL(AltitudeHoldInitialize, AltitudeHoldStart);
  */
 static void altitudeHoldTask(void *parameters)
 {
-	/**
-	 * AH_RESET - reinitialize filter
-	 * AH_WAITING_INIT - waiting for initialization of filter
-	 * AH_WAITING_BARO - awaiting an update from the baro
-	 * AH_RUNNING - ready to perform update of EKF
-	 */
-	enum altitudehold_state {AH_RESET, AH_WAITIING_INIT, AH_WAITING_BARO, AH_RUNNING} state = AH_RESET;
 	bool engaged = false;
 	float starting_altitude;
 	float throttleIntegral;
-	float error;
-
-	/* EKF variables */
-	float z[4];
-	float V[4][4];
-	uint32_t accel_downsample_count = 0;
-	float accels_accum[3] = {0,0,0};
 
 	AltitudeHoldDesiredData altitudeHoldDesired;
 	StabilizationDesiredData stabilizationDesired;
 	AltitudeHoldSettingsData altitudeHoldSettings;
 
-	portTickType this_time_ms;
-	portTickType last_update_time_ms = TICKS2MS(xTaskGetTickCount());
 	UAVObjEvent ev;
 
 	// Listen for object updates.
 	AltitudeHoldDesiredConnectQueue(queue);
-	BaroAltitudeConnectQueue(queue);
-	FlightStatusConnectQueue(queue);
-	AccelsConnectQueue(queue);
 	AltitudeHoldSettingsConnectQueue(queue);
+	FlightStatusConnectQueue(queue);
 
 	AltitudeHoldSettingsGet(&altitudeHoldSettings);
-	BaroAltitudeAltitudeGet(&starting_altitude);
 
-	AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_ERROR);
+	AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_OK);
 
 	// Main task loop
+	uint32_t timeout = 5;
+
 	while (1) {
-
-		if (state == AH_RESET) {
-			/* Reset all the EKF variables */
-			memset(z, 0, sizeof(z));
-			memset(V, 0, sizeof(V));
-			memset(accels_accum, 0, sizeof(accels_accum));
-			accel_downsample_count = 0;
-
-			/* Set initial variances */
-			V[0][0] = 10.0f;
-			V[1][1] = 100.0f;
-			V[2][2] = 100.0f;
-			V[3][3] = 1000.0f;
-
-			state = AH_WAITING_BARO;
-		}
-
-		// Wait until the sensors are updated, if a timeout then go to failsafe
-		if ( xQueueReceive(queue, &ev, MS2TICKS(100)) != pdTRUE )
-		{
-			if(!engaged)
-				throttleIntegral = 0;
-
-			// Todo: Add alarm if it should be running
-			continue;
-		} else if (ev.obj == BaroAltitudeHandle()) {
-
-			if (state == AH_WAITIING_INIT) {
-				AccelsData accels;
-				AccelsGet(&accels);
-				BaroAltitudeData baro;
-				BaroAltitudeGet(&baro);
-
-				z[0] = baro.Altitude;
-				z[1] = 0;
-				z[2] = accels.z;
-				z[3] = 0;
-				state = AH_WAITING_BARO;
-			} else
-				state = AH_RUNNING;
+		if ( xQueueReceive(queue, &ev, MS2TICKS(timeout)) != pdTRUE ) {
 
 		} else if (ev.obj == FlightStatusHandle()) {
-			FlightStatusData flightStatus;
-			FlightStatusGet(&flightStatus);
 
-			if(flightStatus.FlightMode == FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD && !engaged) {
+			uint8_t flight_mode;
+			FlightStatusFlightModeGet(&flight_mode);
+
+			if(flight_mode == FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD && !engaged) {
 				// Copy the current throttle as a starting point for integral
 				StabilizationDesiredThrottleGet(&throttleIntegral);
-				error = 0;
 				engaged = true;
 
-				AltHoldSmoothedAltitudeGet(&starting_altitude);
-			} else if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)
+				PositionActualDownGet(&starting_altitude);
+			} else if (flight_mode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)
 				engaged = false;
-		} else if (ev.obj == AccelsHandle()) {
-			AccelsData accels;
-			AccelsGet(&accels);
 
-			accels_accum[0] += accels.x;
-			accels_accum[1] += accels.y;
-			accels_accum[2] += accels.z;
-			accel_downsample_count++;
+			// Run loop at 20 Hz when engaged otherwise just slowly wait for it to be engaged
+			timeout = engaged ? 5 : 100;
 
-			this_time_ms = TICKS2MS(xTaskGetTickCount());
+		} else if (ev.obj == AltitudeHoldDesiredHandle()) {
+			AltitudeHoldDesiredGet(&altitudeHoldDesired);
+		} else if (ev.obj == AltitudeHoldSettingsHandle()) {
+			AltitudeHoldSettingsGet(&altitudeHoldSettings);
+		}
 
-			AttitudeActualData attitudeActual;
-			AttitudeActualGet(&attitudeActual);
-			BaroAltitudeData baro;
-			BaroAltitudeGet(&baro);
+		// When engaged compute altitude controller output
+		if (engaged) {
+			float position_z, velocity_z, altitude_error;
 
-			if (state != AH_RUNNING)
-				continue;
-			state = AH_WAITING_BARO;
-
-			/* Downsample accels to stop this calculation consuming too much CPU */
-			accels.x = accels_accum[0] / accel_downsample_count;
-			accels.y = accels_accum[1] / accel_downsample_count;
-			accels.z = accels_accum[2] / accel_downsample_count;
-			accels_accum[0] = accels_accum[1] = accels_accum[2] = 0;
-			accel_downsample_count = 0;
-
-			static uint32_t timeval;
-			float dT = PIOS_DELAY_DiffuS(timeval) / 1.0e6f;
-			timeval = PIOS_DELAY_GetRaw();
-
-			/* Local working variables */
-			float z_new[4];
-			float P[4][4], K[4][2], x[2];
-			float G[4] = {1.0e-15f, 1.0e-15f, altitudeHoldSettings.AccelDrift, 1.0e-7};
-			float S[2] = {altitudeHoldSettings.PressureNoise, altitudeHoldSettings.AccelNoise};
-
-			if (S[0] == 0 || S[1] == 0 || G[2] == 0) {
-				continue;
-			}
-
-			float Rbe[3][3];
-			Quaternion2R(&attitudeActual.q1, Rbe);
-			x[0] = baro.Altitude;
-			x[1] = -(Rbe[0][2]*accels.x+ Rbe[1][2]*accels.y + Rbe[2][2]*accels.z + GRAVITY);
-
-			P[0][0] = dT*(V[0][1]+dT*V[1][1])+V[0][0]+G[0]+dT*V[1][0];
-			P[0][1] = dT*(V[0][2]+dT*V[1][2])+V[0][1]+dT*V[1][1];
-			P[0][2] = V[0][2]+dT*V[1][2];
-			P[0][3] = V[0][3]+dT*V[1][3];
-			P[1][0] = dT*(V[1][1]+dT*V[2][1])+V[1][0]+dT*V[2][0];
-			P[1][1] = dT*(V[1][2]+dT*V[2][2])+V[1][1]+G[1]+dT*V[2][1];
-			P[1][2] = V[1][2]+dT*V[2][2];
-			P[1][3] = V[1][3]+dT*V[2][3];
-			P[2][0] = V[2][0]+dT*V[2][1];
-			P[2][1] = V[2][1]+dT*V[2][2];
-			P[2][2] = V[2][2]+G[2];
-			P[2][3] = V[2][3];
-			P[3][0] = V[3][0]+dT*V[3][1];
-			P[3][1] = V[3][1]+dT*V[3][2];
-			P[3][2] = V[3][2];
-			P[3][3] = V[3][3]+G[3];
-
-			K[0][0] = -(V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1])/(V[0][0]*G[2]+V[0][0]*G[3]+V[2][2]*G[0]+V[2][3]*G[0]+V[3][2]*G[0]+V[3][3]*G[0]+V[0][0]*S[1]+V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]+V[0][0]*V[3][2]-V[0][2]*V[3][0]-V[2][0]*V[0][3]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[2]+G[0]*G[3]+G[0]*S[1]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]-(dT*dT)*V[2][1]*V[1][3]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+dT*V[0][1]*S[1]+dT*V[1][0]*S[1]+(dT*dT)*V[1][1]*G[2]+(dT*dT)*V[1][1]*G[3]+(dT*dT)*V[1][1]*S[1]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[2][3]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3])+1.0f;
-			K[0][1] = ((V[0][2]+V[0][3])*S[0]+dT*(V[1][2]+V[1][3])*S[0])/(V[0][0]*G[2]+V[0][0]*G[3]+V[2][2]*G[0]+V[2][3]*G[0]+V[3][2]*G[0]+V[3][3]*G[0]+V[0][0]*S[1]+V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]+V[0][0]*V[3][2]-V[0][2]*V[3][0]-V[2][0]*V[0][3]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[2]+G[0]*G[3]+G[0]*S[1]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]-(dT*dT)*V[2][1]*V[1][3]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+dT*V[0][1]*S[1]+dT*V[1][0]*S[1]+(dT*dT)*V[1][1]*G[2]+(dT*dT)*V[1][1]*G[3]+(dT*dT)*V[1][1]*S[1]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[2][3]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3]);
-			K[1][0] = (V[1][0]*G[2]+V[1][0]*G[3]+V[1][0]*S[1]+V[1][0]*V[2][2]-V[2][0]*V[1][2]+V[1][0]*V[2][3]+V[1][0]*V[3][2]-V[2][0]*V[1][3]-V[1][2]*V[3][0]+V[1][0]*V[3][3]-V[3][0]*V[1][3]+(dT*dT)*V[2][1]*V[3][2]-(dT*dT)*V[2][2]*V[3][1]+(dT*dT)*V[2][1]*V[3][3]-(dT*dT)*V[3][1]*V[2][3]+dT*V[1][1]*G[2]+dT*V[2][0]*G[2]+dT*V[1][1]*G[3]+dT*V[2][0]*G[3]+dT*V[1][1]*S[1]+dT*V[2][0]*S[1]+(dT*dT)*V[2][1]*G[2]+(dT*dT)*V[2][1]*G[3]+(dT*dT)*V[2][1]*S[1]+dT*V[1][1]*V[2][2]-dT*V[1][2]*V[2][1]+dT*V[1][1]*V[2][3]+dT*V[1][1]*V[3][2]+dT*V[2][0]*V[3][2]-dT*V[1][2]*V[3][1]-dT*V[2][1]*V[1][3]-dT*V[3][0]*V[2][2]+dT*V[1][1]*V[3][3]+dT*V[2][0]*V[3][3]-dT*V[3][0]*V[2][3]-dT*V[1][3]*V[3][1])/(V[0][0]*G[2]+V[0][0]*G[3]+V[2][2]*G[0]+V[2][3]*G[0]+V[3][2]*G[0]+V[3][3]*G[0]+V[0][0]*S[1]+V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]+V[0][0]*V[3][2]-V[0][2]*V[3][0]-V[2][0]*V[0][3]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[2]+G[0]*G[3]+G[0]*S[1]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]-(dT*dT)*V[2][1]*V[1][3]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+dT*V[0][1]*S[1]+dT*V[1][0]*S[1]+(dT*dT)*V[1][1]*G[2]+(dT*dT)*V[1][1]*G[3]+(dT*dT)*V[1][1]*S[1]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[2][3]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3]);
-			K[1][1] = (V[1][2]*G[0]+V[1][3]*G[0]+V[1][2]*S[0]+V[1][3]*S[0]+V[0][0]*V[1][2]-V[1][0]*V[0][2]+V[0][0]*V[1][3]-V[1][0]*V[0][3]+(dT*dT)*V[0][1]*V[2][2]+(dT*dT)*V[1][0]*V[2][2]-(dT*dT)*V[0][2]*V[2][1]-(dT*dT)*V[2][0]*V[1][2]+(dT*dT)*V[0][1]*V[2][3]+(dT*dT)*V[1][0]*V[2][3]-(dT*dT)*V[2][0]*V[1][3]-(dT*dT)*V[0][3]*V[2][1]+(dT*dT*dT)*V[1][1]*V[2][2]-(dT*dT*dT)*V[1][2]*V[2][1]+(dT*dT*dT)*V[1][1]*V[2][3]-(dT*dT*dT)*V[2][1]*V[1][3]+dT*V[2][2]*G[0]+dT*V[2][3]*G[0]+dT*V[2][2]*S[0]+dT*V[2][3]*S[0]+dT*V[0][0]*V[2][2]+dT*V[0][1]*V[1][2]-dT*V[0][2]*V[1][1]-dT*V[0][2]*V[2][0]+dT*V[0][0]*V[2][3]+dT*V[0][1]*V[1][3]-dT*V[1][1]*V[0][3]-dT*V[2][0]*V[0][3])/(V[0][0]*G[2]+V[0][0]*G[3]+V[2][2]*G[0]+V[2][3]*G[0]+V[3][2]*G[0]+V[3][3]*G[0]+V[0][0]*S[1]+V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]+V[0][0]*V[3][2]-V[0][2]*V[3][0]-V[2][0]*V[0][3]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[2]+G[0]*G[3]+G[0]*S[1]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]-(dT*dT)*V[2][1]*V[1][3]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+dT*V[0][1]*S[1]+dT*V[1][0]*S[1]+(dT*dT)*V[1][1]*G[2]+(dT*dT)*V[1][1]*G[3]+(dT*dT)*V[1][1]*S[1]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[2][3]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3]);
-			K[2][0] = (V[2][0]*G[3]-V[3][0]*G[2]+V[2][0]*S[1]+V[2][0]*V[3][2]-V[3][0]*V[2][2]+V[2][0]*V[3][3]-V[3][0]*V[2][3]+dT*V[2][1]*G[3]-dT*V[3][1]*G[2]+dT*V[2][1]*S[1]+dT*V[2][1]*V[3][2]-dT*V[2][2]*V[3][1]+dT*V[2][1]*V[3][3]-dT*V[3][1]*V[2][3])/(V[0][0]*G[2]+V[0][0]*G[3]+V[2][2]*G[0]+V[2][3]*G[0]+V[3][2]*G[0]+V[3][3]*G[0]+V[0][0]*S[1]+V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]+V[0][0]*V[3][2]-V[0][2]*V[3][0]-V[2][0]*V[0][3]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[2]+G[0]*G[3]+G[0]*S[1]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]-(dT*dT)*V[2][1]*V[1][3]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+dT*V[0][1]*S[1]+dT*V[1][0]*S[1]+(dT*dT)*V[1][1]*G[2]+(dT*dT)*V[1][1]*G[3]+(dT*dT)*V[1][1]*S[1]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[2][3]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3]);
-			K[2][1] = (V[0][0]*G[2]+V[2][2]*G[0]+V[2][3]*G[0]+V[2][2]*S[0]+V[2][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]-V[2][0]*V[0][3]+G[0]*G[2]+G[2]*S[0]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]-(dT*dT)*V[2][1]*V[1][3]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+(dT*dT)*V[1][1]*G[2]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[1][0]*V[2][3]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1])/(V[0][0]*G[2]+V[0][0]*G[3]+V[2][2]*G[0]+V[2][3]*G[0]+V[3][2]*G[0]+V[3][3]*G[0]+V[0][0]*S[1]+V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]+V[0][0]*V[3][2]-V[0][2]*V[3][0]-V[2][0]*V[0][3]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[2]+G[0]*G[3]+G[0]*S[1]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]-(dT*dT)*V[2][1]*V[1][3]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+dT*V[0][1]*S[1]+dT*V[1][0]*S[1]+(dT*dT)*V[1][1]*G[2]+(dT*dT)*V[1][1]*G[3]+(dT*dT)*V[1][1]*S[1]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[2][3]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3]);
-			K[3][0] = (-V[2][0]*G[3]+V[3][0]*G[2]+V[3][0]*S[1]-V[2][0]*V[3][2]+V[3][0]*V[2][2]-V[2][0]*V[3][3]+V[3][0]*V[2][3]-dT*V[2][1]*G[3]+dT*V[3][1]*G[2]+dT*V[3][1]*S[1]-dT*V[2][1]*V[3][2]+dT*V[2][2]*V[3][1]-dT*V[2][1]*V[3][3]+dT*V[3][1]*V[2][3])/(V[0][0]*G[2]+V[0][0]*G[3]+V[2][2]*G[0]+V[2][3]*G[0]+V[3][2]*G[0]+V[3][3]*G[0]+V[0][0]*S[1]+V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]+V[0][0]*V[3][2]-V[0][2]*V[3][0]-V[2][0]*V[0][3]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[2]+G[0]*G[3]+G[0]*S[1]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]-(dT*dT)*V[2][1]*V[1][3]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+dT*V[0][1]*S[1]+dT*V[1][0]*S[1]+(dT*dT)*V[1][1]*G[2]+(dT*dT)*V[1][1]*G[3]+(dT*dT)*V[1][1]*S[1]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[2][3]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3]);
-			K[3][1] = (V[0][0]*G[3]+V[3][2]*G[0]+V[3][3]*G[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[3][2]-V[0][2]*V[3][0]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[3]+G[3]*S[0]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+(dT*dT)*V[1][1]*G[3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3])/(V[0][0]*G[2]+V[0][0]*G[3]+V[2][2]*G[0]+V[2][3]*G[0]+V[3][2]*G[0]+V[3][3]*G[0]+V[0][0]*S[1]+V[2][2]*S[0]+V[2][3]*S[0]+V[3][2]*S[0]+V[3][3]*S[0]+V[0][0]*V[2][2]-V[0][2]*V[2][0]+V[0][0]*V[2][3]+V[0][0]*V[3][2]-V[0][2]*V[3][0]-V[2][0]*V[0][3]+V[0][0]*V[3][3]-V[0][3]*V[3][0]+G[0]*G[2]+G[0]*G[3]+G[0]*S[1]+G[2]*S[0]+G[3]*S[0]+S[0]*S[1]+(dT*dT)*V[1][1]*V[2][2]-(dT*dT)*V[1][2]*V[2][1]+(dT*dT)*V[1][1]*V[2][3]+(dT*dT)*V[1][1]*V[3][2]-(dT*dT)*V[1][2]*V[3][1]-(dT*dT)*V[2][1]*V[1][3]+(dT*dT)*V[1][1]*V[3][3]-(dT*dT)*V[1][3]*V[3][1]+dT*V[0][1]*G[2]+dT*V[1][0]*G[2]+dT*V[0][1]*G[3]+dT*V[1][0]*G[3]+dT*V[0][1]*S[1]+dT*V[1][0]*S[1]+(dT*dT)*V[1][1]*G[2]+(dT*dT)*V[1][1]*G[3]+(dT*dT)*V[1][1]*S[1]+dT*V[0][1]*V[2][2]+dT*V[1][0]*V[2][2]-dT*V[0][2]*V[2][1]-dT*V[2][0]*V[1][2]+dT*V[0][1]*V[2][3]+dT*V[0][1]*V[3][2]+dT*V[1][0]*V[2][3]+dT*V[1][0]*V[3][2]-dT*V[0][2]*V[3][1]-dT*V[2][0]*V[1][3]-dT*V[0][3]*V[2][1]-dT*V[1][2]*V[3][0]+dT*V[0][1]*V[3][3]+dT*V[1][0]*V[3][3]-dT*V[0][3]*V[3][1]-dT*V[3][0]*V[1][3]);
-
-			z_new[0] = -K[0][0]*(dT*z[1]-x[0]+z[0])+dT*z[1]-K[0][1]*(-x[1]+z[2]+z[3])+z[0];
-			z_new[1] = -K[1][0]*(dT*z[1]-x[0]+z[0])+dT*z[2]-K[1][1]*(-x[1]+z[2]+z[3])+z[1];
-			z_new[2] = -K[2][0]*(dT*z[1]-x[0]+z[0])-K[2][1]*(-x[1]+z[2]+z[3])+z[2];
-			z_new[3] = -K[3][0]*(dT*z[1]-x[0]+z[0])-K[3][1]*(-x[1]+z[2]+z[3])+z[3];
-
-			memcpy(z, z_new, sizeof(z_new));
-
-			V[0][0] = -K[0][1]*P[2][0]-K[0][1]*P[3][0]-P[0][0]*(K[0][0]-1.0f);
-			V[0][1] = -K[0][1]*P[2][1]-K[0][1]*P[3][2]-P[0][1]*(K[0][0]-1.0f);
-			V[0][2] = -K[0][1]*P[2][2]-K[0][1]*P[3][2]-P[0][2]*(K[0][0]-1.0f);
-			V[0][3] = -K[0][1]*P[2][3]-K[0][1]*P[3][3]-P[0][3]*(K[0][0]-1.0f);
-			V[1][0] = P[1][0]-K[1][0]*P[0][0]-K[1][1]*P[2][0]-K[1][1]*P[3][0];
-			V[1][1] = P[1][1]-K[1][0]*P[0][1]-K[1][1]*P[2][1]-K[1][1]*P[3][2];
-			V[1][2] = P[1][2]-K[1][0]*P[0][2]-K[1][1]*P[2][2]-K[1][1]*P[3][2];
-			V[1][3] = P[1][3]-K[1][0]*P[0][3]-K[1][1]*P[2][3]-K[1][1]*P[3][3];
-			V[2][0] = -K[2][0]*P[0][0]-K[2][1]*P[3][0]-P[2][0]*(K[2][1]-1.0f);
-			V[2][1] = -K[2][0]*P[0][1]-K[2][1]*P[3][2]-P[2][1]*(K[2][1]-1.0f);
-			V[2][2] = -K[2][0]*P[0][2]-K[2][1]*P[3][2]-P[2][2]*(K[2][1]-1.0f);
-			V[2][3] = -K[2][0]*P[0][3]-K[2][1]*P[3][3]-P[2][3]*(K[2][1]-1.0f);
-			V[3][0] = -K[3][0]*P[0][0]-K[3][1]*P[2][0]-P[3][0]*(K[3][1]-1.0f);
-			V[3][1] = -K[3][0]*P[0][1]-K[3][1]*P[2][1]-P[3][2]*(K[3][1]-1.0f);
-			V[3][2] = -K[3][0]*P[0][2]-K[3][1]*P[2][2]-P[3][2]*(K[3][1]-1.0f);
-			V[3][3] = -K[3][0]*P[0][3]-K[3][1]*P[2][3]-P[3][3]*(K[3][1]-1.0f);
-
-			AltHoldSmoothedData altHold;
-			AltHoldSmoothedGet(&altHold);
-			altHold.Altitude = z[0];
-			altHold.Velocity = z[1];
-			altHold.Accel = z[2];
-			AltHoldSmoothedSet(&altHold);
-
-			if (isnan(altHold.Altitude) || isnan(altHold.Velocity) || isnan(altHold.Accel)) {
-				state = AH_RESET;
-				AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_CRITICAL);
-			} else
-				AlarmsClear(SYSTEMALARMS_ALARM_ALTITUDEHOLD);
-
-
-			// Verify that we are  in altitude hold mode
-			FlightStatusData flightStatus;
-			FlightStatusGet(&flightStatus);
-			if(flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD) {
-				engaged = false;
-			}
-
-			if (!engaged)
-				continue;
+			PositionActualDownGet(&position_z);
+			VelocityActualDownGet(&velocity_z);
+			position_z = -position_z; // Use positive up convention
+			velocity_z = -velocity_z; // Use positive up convention
 
 			// Compute the altitude error
-			error = (starting_altitude + altitudeHoldDesired.Altitude) - altHold.Altitude;
+			altitude_error = (starting_altitude + altitudeHoldDesired.Altitude) - position_z;
 
-			// Compute integral off altitude error
-			throttleIntegral += error * altitudeHoldSettings.Ki * dT;
+			float velocity_desired = altitude_error * altitudeHoldSettings.PositionKp;
+			float throttle_desired = (velocity_desired - velocity_z) * altitudeHoldSettings.VelocityKp + 
+			                         throttleIntegral;
 
-			// Only update stabilizationDesired less frequently
-			if((this_time_ms - last_update_time_ms) < 20)
-				continue;
-
-			last_update_time_ms = this_time_ms;
-
-			// Instead of explicit limit on integral you output limit feedback
 			StabilizationDesiredGet(&stabilizationDesired);
-			stabilizationDesired.Throttle = error * altitudeHoldSettings.Kp + throttleIntegral -
-			altHold.Velocity * altitudeHoldSettings.Kd - altHold.Accel * altitudeHoldSettings.Ka;
-			if(stabilizationDesired.Throttle > 1) {
-				throttleIntegral -= (stabilizationDesired.Throttle - 1);
-				stabilizationDesired.Throttle = 1;
-			}
-			else if (stabilizationDesired.Throttle < 0) {
-				throttleIntegral -= stabilizationDesired.Throttle;
-				stabilizationDesired.Throttle = 0;
-			}
-
+			stabilizationDesired.Throttle = bound_min_max(throttle_desired, 0.0f, 1.0f);
 			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS;
 			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS;
 			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
@@ -373,11 +196,6 @@ static void altitudeHoldTask(void *parameters)
 			stabilizationDesired.Pitch = altitudeHoldDesired.Pitch;
 			stabilizationDesired.Yaw = altitudeHoldDesired.Yaw;
 			StabilizationDesiredSet(&stabilizationDesired);
-
-		} else if (ev.obj == AltitudeHoldDesiredHandle()) {
-			AltitudeHoldDesiredGet(&altitudeHoldDesired);
-		} else if (ev.obj == AltitudeHoldSettingsHandle()) {
-			AltitudeHoldSettingsGet(&altitudeHoldSettings);
 		}
 
 	}
