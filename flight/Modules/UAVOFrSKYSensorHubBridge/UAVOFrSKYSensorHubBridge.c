@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules TauLabs Modules
  * @{ 
- * @addtogroup uavoFrSKYSensorHubBridge UAVO to FrSKY Bridge Module
+ * @addtogroup UAVOFrSKYSensorHubBridge UAVO to FrSKY Bridge Module
  * @{ 
  *
  * @file       uavoFrSKYSensorHubBridge.c
@@ -64,7 +64,7 @@ static uint16_t frsky_pack_accel(
 static uint16_t frsky_pack_cellvoltage(
 		uint8_t cell,
 		float cell_voltage,
-		uint8_t *serial_buf) __attribute__((optimize(0)));
+		uint8_t *serial_buf);
 
 static uint16_t frsky_pack_fas(
 		float voltage,
@@ -101,6 +101,7 @@ static void frsky_write_userdata_byte(uint8_t byte,
 		uint8_t *serial_buf,
 		uint8_t *index);
 
+static bool frame_trigger(uint8_t frame_num);
 // ****************
 // Private constants
 
@@ -165,7 +166,6 @@ static const uint8_t frsky_rates[] = {
 
 #define MAXSTREAMS sizeof(frsky_rates)
 
-static bool frame_trigger(enum FRSKY_FRAME frame_num);
 
 // ****************
 // Private variables
@@ -174,7 +174,7 @@ static xTaskHandle uavoFrSKYSensorHubBridgeTaskHandle;
 
 static uint32_t frsky_port;
 
-static bool module_enabled = false;
+static bool module_enabled;
 
 static uint8_t *frame_ticks;
 
@@ -200,8 +200,8 @@ static int32_t uavoFrSKYSensorHubBridgeStart(void)
 }
 
 /**
- * Initialise the module
- * \return -1 if initialisation failed
+ * Initialize the module
+ * \return -1 if initialization failed
  * \return 0 on success
  */
 static int32_t uavoFrSKYSensorHubBridgeInitialize(void)
@@ -289,7 +289,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 	}
 
 	uint8_t last_armed = FLIGHTSTATUS_ARMED_DISARMED;
-	float altitude_offset = 0.0;
+	float altitude_offset = 0.0f;
 
 	uint16_t msg_length = 0;
 	portTickType lastSysTime;
@@ -350,11 +350,11 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 			if (FlightBatteryStateHandle() != NULL)
 				FlightBatteryStateGet(&batState);
 
-			float voltage = 0.0;
+			float voltage = 0.0f;
 			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYVOLTAGE] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
 				voltage = batState.Voltage * 1000;
 
-			float current = 0.0;
+			float current = 0.0f;
 			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYCURRENT] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
 				current = batState.Current * 100;
 
@@ -409,7 +409,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 	}
 }
 
-static bool frame_trigger(enum FRSKY_FRAME frame_num)
+static bool frame_trigger(uint8_t frame_num)
 {
 	uint8_t rate = (uint8_t) frsky_rates[frame_num];
 
@@ -439,9 +439,9 @@ static uint16_t frsky_pack_altitude(float altitude, uint8_t *serial_buf)
 {
 	uint8_t index = 0;
 
-	float altitudeInteger = 0.0;
+	float altitudeInteger = 0.0f;
 
-	uint16_t decimalValue = lroundf(modff(altitude, &altitudeInteger)*100);
+	uint16_t decimalValue = lroundf(modff(altitude, &altitudeInteger) * 100);
 	int16_t integerValue = lroundf(altitude);
 
 	frsky_serialize_value(FRSKY_ALTITUDE_INTEGER, (uint8_t*)&integerValue, serial_buf, &index);
@@ -583,7 +583,7 @@ static uint16_t frsky_pack_gps(
 	uint8_t index = 0;
 
 	{
-		float courseInteger = 0.0;
+		float courseInteger = 0.0f;
 		uint16_t decimalValue = lroundf(modff(course, &courseInteger) * 100);
 		uint16_t integerValue = lroundf(courseInteger);
 
@@ -624,9 +624,9 @@ static uint16_t frsky_pack_gps(
 
 	// speed
 	{
-		float knots = speed / (float)0.514444;
+		float knots = speed / KNOTS2M_PER_SECOND;
 
-		float knotsInteger = 0.0;
+		float knotsInteger = 0.0f;
 		uint16_t decimalValue = lroundf(modff(knots, &knotsInteger) * 100);
 		int16_t integerValue = lroundf(knotsInteger);
 
@@ -664,7 +664,7 @@ static uint16_t frsky_pack_stop(uint8_t *serial_buf)
  */
 static int16_t frsky_acceleration_unit(float accel)
 {
-	accel = accel / (float)9.81274; //convert to gravity
+	accel = accel / GRAVITY; //convert to gravity
 	accel *= 1000;
 	return lroundf(accel);
 }
