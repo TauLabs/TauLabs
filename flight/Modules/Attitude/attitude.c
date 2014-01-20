@@ -754,14 +754,14 @@ static int32_t setNavigationRaw()
 		NEDPositionGet(&nedPosition);
 		nedPosition.North = NED[0];
 		nedPosition.East = NED[1];
-		nedPosition.Down = NED[2];
+		
 		NEDPositionSet(&nedPosition);
 
 		PositionActualData positionActual;
 		PositionActualGet(&positionActual);
 		positionActual.North = NED[0];
 		positionActual.East = NED[1];
-		positionActual.Down = NED[2];
+		
 		PositionActualSet(&positionActual);
 	}
 
@@ -777,6 +777,9 @@ static int32_t setNavigationRaw()
 		velocityActual.Down = gpsVelocity.Down;
 		VelocityActualSet(&velocityActual);
 	}
+
+	nedPosition.Down = cfvert.position_z;
+	positionActual.Down = cfvert.velocity_z;
 
 	return 0;
 }
