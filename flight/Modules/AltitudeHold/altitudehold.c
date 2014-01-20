@@ -145,7 +145,9 @@ static void altitudeHoldTask(void *parameters)
 	AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_OK);
 
 	// Main task loop
-	uint32_t timeout = 5;
+	uint32_t dt_ms = 5;
+	const float dt_s = dt_ms * 0.001f;
+	uint32_t timeout = dt_ms;
 
 	while (1) {
 		if ( xQueueReceive(queue, &ev, MS2TICKS(timeout)) != pdTRUE ) {
@@ -164,7 +166,7 @@ static void altitudeHoldTask(void *parameters)
 				engaged = false;
 
 			// Run loop at 20 Hz when engaged otherwise just slowly wait for it to be engaged
-			timeout = engaged ? 5 : 100;
+			timeout = engaged ? dt_ms : 100;
 
 		} else if (ev.obj == AltitudeHoldDesiredHandle()) {
 			AltitudeHoldDesiredGet(&altitudeHoldDesired);
@@ -190,7 +192,7 @@ static void altitudeHoldTask(void *parameters)
 			float velocity_desired = altitude_error * altitudeHoldSettings.PositionKp;
 			float throttle_desired = pid_apply_antiwindup(&velocity_pid, 
 				                velocity_desired - velocity_z,
-			                    0, 1.0f, 0.005f);
+			                    0, 1.0f, dt_s);
 
 			if (altitudeHoldSettings.AttitudeComp == ALTITUDEHOLDSETTINGS_ATTITUDECOMP_TRUE) {
 				// Throttle desired is at this point the mount desired in the up direction, we can
