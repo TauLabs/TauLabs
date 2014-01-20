@@ -47,7 +47,6 @@
 #include "openpilot.h"
 #include "physical_constants.h"
 #include "misc_math.h"
-#include "pid.h"
 
 #include "attitudeactual.h"
 #include "altitudeholdsettings.h"
@@ -60,7 +59,7 @@
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
-#define STACK_SIZE_BYTES 500
+#define STACK_SIZE_BYTES 1200
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 
 // Private variables
@@ -125,13 +124,14 @@ MODULE_INITCALL(AltitudeHoldInitialize, AltitudeHoldStart);
 static void altitudeHoldTask(void *parameters)
 {
 	bool engaged = false;
+	float starting_altitude;
+	float throttleIntegral;
 
 	AltitudeHoldDesiredData altitudeHoldDesired;
 	StabilizationDesiredData stabilizationDesired;
 	AltitudeHoldSettingsData altitudeHoldSettings;
 
 	UAVObjEvent ev;
-	struct pid velocity_pid;
 
 	// Listen for object updates.
 	AltitudeHoldDesiredConnectQueue(queue);
@@ -139,15 +139,11 @@ static void altitudeHoldTask(void *parameters)
 	FlightStatusConnectQueue(queue);
 
 	AltitudeHoldSettingsGet(&altitudeHoldSettings);
-	pid_configure(&velocity_pid, altitudeHoldSettings.VelocityKp,
-		          altitudeHoldSettings.VelocityKi, 0.0f, 1.0f);
 
 	AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_OK);
 
 	// Main task loop
-	uint32_t dt_ms = 5;
-	const float dt_s = dt_ms * 0.001f;
-	uint32_t timeout = dt_ms;
+	uint32_t timeout = 5;
 
 	while (1) {
 		if ( xQueueReceive(queue, &ev, MS2TICKS(timeout)) != pdTRUE ) {
@@ -159,22 +155,20 @@ static void altitudeHoldTask(void *parameters)
 
 			if(flight_mode == FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD && !engaged) {
 				// Copy the current throttle as a starting point for integral
-				StabilizationDesiredThrottleGet(&velocity_pid.iAccumulator);
-				velocity_pid.iAccumulator *= 1000.0f; // pid library scales up accumulator by 1000
+				StabilizationDesiredThrottleGet(&throttleIntegral);
 				engaged = true;
+
+				PositionActualDownGet(&starting_altitude);
 			} else if (flight_mode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)
 				engaged = false;
 
 			// Run loop at 20 Hz when engaged otherwise just slowly wait for it to be engaged
-			timeout = engaged ? dt_ms : 100;
+			timeout = engaged ? 5 : 100;
 
 		} else if (ev.obj == AltitudeHoldDesiredHandle()) {
 			AltitudeHoldDesiredGet(&altitudeHoldDesired);
 		} else if (ev.obj == AltitudeHoldSettingsHandle()) {
 			AltitudeHoldSettingsGet(&altitudeHoldSettings);
-
-			pid_configure(&velocity_pid, altitudeHoldSettings.VelocityKp,
-				          altitudeHoldSettings.VelocityKi, 0.0f, 1.0f);
 		}
 
 		// When engaged compute altitude controller output
@@ -187,32 +181,11 @@ static void altitudeHoldTask(void *parameters)
 			velocity_z = -velocity_z; // Use positive up convention
 
 			// Compute the altitude error
-			altitude_error = altitudeHoldDesired.Altitude - position_z;
+			altitude_error = (starting_altitude + altitudeHoldDesired.Altitude) - position_z;
 
 			float velocity_desired = altitude_error * altitudeHoldSettings.PositionKp;
-			float throttle_desired = pid_apply_antiwindup(&velocity_pid, 
-				                velocity_desired - velocity_z,
-			                    0, 1.0f, dt_s);
-
-			if (altitudeHoldSettings.AttitudeComp == ALTITUDEHOLDSETTINGS_ATTITUDECOMP_TRUE) {
-				// Throttle desired is at this point the mount desired in the up direction, we can
-				// account for the attitude if desired
-				AttitudeActualData attitudeActual;
-				AttitudeActualGet(&attitudeActual);
-
-				// Project a unit vector pointing up into the body frame and
-				// get the z component
-				float fraction = attitudeActual.q1 * attitudeActual.q1 -
-				                 attitudeActual.q2 * attitudeActual.q2 -
-				                 attitudeActual.q3 * attitudeActual.q3 +
-				                 attitudeActual.q4 * attitudeActual.q4;
-
-				// Dividing by the fraction remaining in the vertical projection will
-				// attempt to compensate for tilt. This acts like the thrust is linear
-				// with the output which isn't really true. If the fraction is starting
-				// to go negative we are inverted and should shut off throttle
-				throttle_desired = (fraction > 0.1f) ? (throttle_desired / fraction) : 0.0f;
-			}
+			float throttle_desired = (velocity_desired - velocity_z) * altitudeHoldSettings.VelocityKp + 
+			                         throttleIntegral;
 
 			StabilizationDesiredGet(&stabilizationDesired);
 			stabilizationDesired.Throttle = bound_min_max(throttle_desired, 0.0f, 1.0f);
