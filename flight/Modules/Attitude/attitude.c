@@ -433,6 +433,10 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 		complementary_filter_state.arming_count = 0;
 
+		float baro;
+		BaroAltitudeAltitudeGet(&baro);
+		cfvert_reset(&cfvert, baro, attitudeSettings.VertPositionTau);
+
 		return 0;
 	}
 
@@ -485,7 +489,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 		// Reset the filter for barometric data
 		float baro;
 		BaroAltitudeAltitudeGet(&baro);
-		cfvert_reset(&cfvert, baro, 1);
+		cfvert_reset(&cfvert, baro, attitudeSettings.VertPositionTau);
 
 	} else if (complementary_filter_state.initialization == CF_ARMING ||
 	           complementary_filter_state.initialization == CF_INITIALIZING) {
@@ -508,7 +512,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 		// Reset the filter for barometric data
 		float baro;
 		BaroAltitudeAltitudeGet(&baro);
-		cfvert_reset(&cfvert, baro, 1);
+		cfvert_reset(&cfvert, baro, attitudeSettings.VertPositionTau);
 
 	}
 
@@ -708,9 +712,9 @@ static void cfvert_reset(struct cfvert *cf, float baro, float time_constant)
 	cf->position_z = 0;
 	cf->time_constant_z = time_constant;
 	cf->accel_correction_z = 0;
+	cf->position_base_z = 0;
 	cf->position_error_z = 0;
 	cf->position_correction_z = 0;
-	cf->position_error_z = 0;
 	cf->baro_zero = baro;
 }
 
