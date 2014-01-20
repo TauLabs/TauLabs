@@ -941,8 +941,10 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 	float currentDown;
 	PositionActualDownGet(&currentDown);
 	if(flightModeChanged) {
-		// After not being in this mode for a while init at current height
-		altitudeHoldDesired.Altitude = 0;
+		// Initialize at the current location. Note that this object uses the up is positive
+		// convention.
+		PositionActualDownGet(&altitudeHoldDesired.Altitude);
+		altitudeHoldDesired.Altitude = - altitudeHoldDesired.Altitude;
 		zeroed = false;
 	} else if (cmd->Throttle > DEADBAND_HIGH && zeroed)
 		altitudeHoldDesired.Altitude += (cmd->Throttle - DEADBAND_HIGH) * dT;
@@ -950,7 +952,7 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		altitudeHoldDesired.Altitude += (cmd->Throttle - DEADBAND_LOW) * dT;
 	else if (cmd->Throttle >= DEADBAND_LOW && cmd->Throttle <= DEADBAND_HIGH)  // Require the stick to enter the dead band before they can move height
 		zeroed = true;
-	
+
 	AltitudeHoldDesiredSet(&altitudeHoldDesired);
 }
 
