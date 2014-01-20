@@ -184,6 +184,26 @@ static void altitudeHoldTask(void *parameters)
 			float throttle_desired = (velocity_desired - velocity_z) * altitudeHoldSettings.VelocityKp + 
 			                         throttleIntegral;
 
+			if (altitudeHoldSettings.AttitudeComp == ALTITUDEHOLDSETTINGS_ATTITUDECOMP_TRUE) {
+				// Throttle desired is at this point the mount desired in the up direction, we can
+				// account for the attitude if desired
+				AttitudeActualData attitudeActual;
+				AttitudeActualGet(&attitudeActual);
+
+				// Project a unit vector pointing up into the body frame and
+				// get the z component
+				float fraction = attitudeActual.q1 * attitudeActual.q1 -
+				                 attitudeActual.q2 * attitudeActual.q2 -
+				                 attitudeActual.q3 * attitudeActual.q3 +
+				                 attitudeActual.q4 * attitudeActual.q4;
+
+				// Dividing by the fraction remaining in the vertical projection will
+				// attempt to compensate for tilt. This acts like the thrust is linear
+				// with the output which isn't really true. If the fraction is starting
+				// to go negative we are inverted and should shut off throttle
+				throttle_desired = (fraction > 0.1f) ? (throttle_desired / fraction) : 0.0f;
+			}
+
 			StabilizationDesiredGet(&stabilizationDesired);
 			stabilizationDesired.Throttle = bound_min_max(throttle_desired, 0.0f, 1.0f);
 			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS;
