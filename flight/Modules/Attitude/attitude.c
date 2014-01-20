@@ -63,6 +63,7 @@
 #include "inssettings.h"
 #include "insstate.h"
 #include "magnetometer.h"
+#include "nedaccel.h"
 #include "nedposition.h"
 #include "positionactual.h"
 #include "stateestimation.h"
@@ -155,6 +156,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary);
 //! Set the @ref AttitudeActual to the complementary filter estimate
 static int32_t setAttitudeComplementary();
 
+static void calc_ned_accel(float *q, float *accels);
 static void cfvert_reset(struct cfvert *cf, float baro, float time_constant);
 static void cfvert_predict_pos(struct cfvert *cf, float z_accel, float dt);
 static void cfvert_update_baro(struct cfvert *cf, float baro, float dt);
@@ -204,6 +206,7 @@ int32_t AttitudeInitialize(void)
 	SensorSettingsInitialize();
 	INSSettingsInitialize();
 	INSStateInitialize();
+	NedAccelInitialize();
 	NEDPositionInitialize();
 	PositionActualInitialize();
 	StateEstimationInitialize();
@@ -655,18 +658,41 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	if (!secondary) {
 		// When this is the only filter compute th vertical state from baro data
 		// Reset the filter for barometric data
-
 		cfvert_predict_pos(&cfvert, accelsData.z, dT);
 		if ( xQueueReceive(baroQueue, &ev, 0) == pdTRUE) {
 			float baro;
 			BaroAltitudeAltitudeGet(&baro);
 			cfvert_update_baro(&cfvert, baro, dT);
 		}
+
+		calc_ned_accel(cf_q, &accelsData.x);
 	}
 	if (!secondary)
 		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
 
 	return 0;
+}
+
+/**
+ * Calculate the acceleration in the NED frame. This is used
+ * by the altitude controller
+ */
+static void calc_ned_accel(float *q, float *accels)
+{
+	float accel_ned[3];
+	float Rbe[3][3];
+
+	// rotate the accels into the NED frame and remove
+	// the influence of gravity
+	Quaternion2R(q, Rbe);
+	rot_mult(Rbe, accels, accel_ned, true);
+	accel_ned[2] += GRAVITY;
+
+	NedAccelData nedAccel;
+	nedAccel.North = accel_ned[0];
+	nedAccel.East = accel_ned[1];
+	nedAccel.Down = accel_ned[2];
+	NedAccelSet(&nedAccel);
 }
 
 //! Resets the vertical baro complementary filter and zeros the altitude
@@ -1119,6 +1145,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	INSGetVariance(state.Var);
 	INSGetState(&state.State[0], &state.State[3], &state.State[6], &state.State[10]);
 	INSStateSet(&state);
+
+	calc_ned_accel(&state.State[6], &accelsData.x);
 
 	return 0;
 }
