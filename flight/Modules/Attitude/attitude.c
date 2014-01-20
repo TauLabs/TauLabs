@@ -157,7 +157,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary);
 //! Set the @ref AttitudeActual to the complementary filter estimate
 static int32_t setAttitudeComplementary();
 
-static void calc_ned_accel(float *q, float *accels);
+static float calc_ned_accel(float *q, float *accels);
 static void cfvert_reset(struct cfvert *cf, float baro, float time_constant);
 static void cfvert_predict_pos(struct cfvert *cf, float z_accel, float dt);
 static void cfvert_update_baro(struct cfvert *cf, float baro, float dt);
@@ -656,16 +656,19 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	}
 
 	if (!secondary) {
+
+		// Calculate the NED acceleration and get the z-component
+		float z_accel = calc_ned_accel(cf_q, &accelsData.x);
+
 		// When this is the only filter compute th vertical state from baro data
 		// Reset the filter for barometric data
-		cfvert_predict_pos(&cfvert, accelsData.z, dT);
+		cfvert_predict_pos(&cfvert, z_accel, dT);
 		if ( xQueueReceive(baroQueue, &ev, 0) == pdTRUE) {
 			float baro;
 			BaroAltitudeAltitudeGet(&baro);
 			cfvert_update_baro(&cfvert, baro, dT);
 		}
 
-		calc_ned_accel(cf_q, &accelsData.x);
 	}
 	if (!secondary)
 		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
@@ -675,9 +678,10 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 /**
  * Calculate the acceleration in the NED frame. This is used
- * by the altitude controller
+ * by the altitude controller. Returns the down component for
+ * convenience.
  */
-static void calc_ned_accel(float *q, float *accels)
+static float calc_ned_accel(float *q, float *accels)
 {
 	float accel_ned[3];
 	float Rbe[3][3];
@@ -693,6 +697,8 @@ static void calc_ned_accel(float *q, float *accels)
 	nedAccel.East = accel_ned[1];
 	nedAccel.Down = accel_ned[2];
 	NedAccelSet(&nedAccel);
+
+	return accel_ned[2];
 }
 
 //! Resets the vertical baro complementary filter and zeros the altitude
