@@ -213,19 +213,28 @@ static int32_t uavoFrSKYSensorHubBridgeInitialize(void)
 
 	if (frsky_port && (module_state[MODULESETTINGS_ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE]
 					== MODULESETTINGS_ADMINSTATE_ENABLED)) {
-		module_enabled = true;
 		PIOS_COM_ChangeBaud(frsky_port, FRSKY_BAUD_RATE);
 
 		serial_buf = pvPortMalloc(FRSKY_MAX_PACKET_LEN);
+		if (serial_buf == 0)
+			return -1;
 
 		frame_ticks = pvPortMalloc(MAXSTREAMS);
+		if (frame_ticks == 0)
+			return -1;
+
 		for (int x = 0; x < MAXSTREAMS; ++x) {
 			frame_ticks[x] = (TASK_RATE_HZ / frsky_rates[x]);
 		}
-	} else
-		module_enabled = false;
 
-	return 0;
+		module_enabled = true;
+
+		return 0;
+	}
+
+	module_enabled = false;
+
+	return -1;
 }
 MODULE_INITCALL(uavoFrSKYSensorHubBridgeInitialize, uavoFrSKYSensorHubBridgeStart)
 
