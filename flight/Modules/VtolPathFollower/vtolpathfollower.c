@@ -6,7 +6,7 @@
  * @{
  *
  * @file       vtolpathfollower.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Compute attitude to achieve a path for VTOL aircrafts
  *
  * Runs the VTOL follower FSM which then calls the lower VTOL navigation

@@ -6,7 +6,7 @@
  * @{
  *
  * @file       vtol_follower_control.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Control algorithms for the vtol follower
  *****************************************************************************/
 /*
