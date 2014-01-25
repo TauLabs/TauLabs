@@ -141,7 +141,7 @@ static void altitudeHoldTask(void *parameters)
 	AlarmsSet(SYSTEMALARMS_ALARM_ALTITUDEHOLD, SYSTEMALARMS_ALARM_OK);
 
 	// Main task loop
-	uint32_t dt_ms = 5;
+	const uint32_t dt_ms = 5;
 	const float dt_s = dt_ms * 0.001f;
 	uint32_t timeout = dt_ms;
 
