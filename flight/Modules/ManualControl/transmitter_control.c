@@ -925,8 +925,8 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 
 static void set_loiter_command(ManualControlCommandData *cmd)
 {
-	const float CMD_THRESHOLD = 0.5;
-	const float MAX_SPEED     = 3.0; // m/s
+	const float CMD_THRESHOLD = 0.5f;
+	const float MAX_SPEED     = 3.0f; // m/s
 
 	LoiterCommandData loiterCommand;
 	loiterCommand.Forward = (cmd->Pitch > CMD_THRESHOLD) ? cmd->Pitch - CMD_THRESHOLD :

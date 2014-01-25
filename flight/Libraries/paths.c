@@ -41,13 +41,15 @@
 
 // private functions
 static void path_endpoint(const float * start_point, const float * end_point, 
-	const float * cur_point, struct path_status * status);
+                          const float * cur_point, struct path_status * status);
 static void path_vector(const float * start_point, const float * end_point, 
-	const float * cur_point, struct path_status * status);
+                        const float * cur_point, struct path_status * status);
 static void path_circle(const float * center_point, const float radius, 
-	const float * cur_point, struct path_status * status, bool clockwise);
+                        const float * cur_point, struct path_status * status,
+                        bool clockwise);
 static void path_curve(const float * start_point, const float * end_point,
-	const float radius, const float * cur_point, struct path_status * status, bool clockwise);
+                       const float radius, const float * cur_point, 
+                       struct path_status * status, bool clockwise);
 
 /**
  * @brief Compute progress along path and deviation from it
@@ -58,8 +60,8 @@ static void path_curve(const float * start_point, const float * end_point,
  * @param[out] status Structure containing progress along path and deviation
  */
 void path_progress(const PathDesiredData *pathDesired,
-	               const float *cur_point,
-	               struct path_status *status)
+                   const float *cur_point,
+                   struct path_status *status)
 {
 	uint8_t mode = pathDesired->Mode;
 	float start_point[2] = {pathDesired->Start[0],pathDesired->Start[1]};
@@ -101,9 +103,9 @@ void path_progress(const PathDesiredData *pathDesired,
  * @param[out] status Structure containing progress along path and deviation
  */
 static void path_endpoint(const float *start_point,
-	                      const float *end_point,
-	                      const float *cur_point,
-	                      struct path_status *status)
+                          const float *end_point,
+                          const float *cur_point,
+                          struct path_status *status)
 {
 	float path_north, path_east, diff_north, diff_east;
 	float dist_path, dist_diff;
@@ -146,9 +148,9 @@ static void path_endpoint(const float *start_point,
  * @param[out] status Structure containing progress along path and deviation
  */
 static void path_vector(const float *start_point,
-	                    const float *end_point,
-	                    const float *cur_point,
-	                    struct path_status *status)
+                        const float *end_point,
+                        const float *cur_point,
+                        struct path_status *status)
 {
 	float path_north, path_east, diff_north, diff_east;
 	float dist_path;
@@ -264,11 +266,11 @@ static void path_circle(const float * center_point,
  * @param[out] status Structure containing progress along path and deviation
  */
 static void path_curve(const float * start_point,
-	                   const float * end_point,
-	                   const float radius,
-	                   const float * cur_point,
-	                   struct path_status *status,
-	                   bool clockwise)
+                       const float * end_point,
+                       const float radius,
+                       const float * cur_point,
+                       struct path_status *status,
+                       bool clockwise)
 {
 	float diff_north, diff_east;
 	float path_north, path_east;

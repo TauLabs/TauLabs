@@ -1235,8 +1235,8 @@ float T[3];
 static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 {
 	float dL[3] = {(gpsPosition->Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
-		(gpsPosition->Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-		(gpsPosition->Altitude - homeLocation.Altitude)};
+                   (gpsPosition->Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
+                   (gpsPosition->Altitude - homeLocation.Altitude)};
 
 	NED[0] = T[0] * dL[0];
 	NED[1] = T[1] * dL[1];
@@ -1271,10 +1271,10 @@ static void updateNedAccel()
 	q[2]=attitudeActual.q3;
 	q[3]=attitudeActual.q4;
 	Quaternion2R(q, Rbe);
-	for (uint8_t i=0; i<3; i++){
+	for (uint8_t i = 0; i < 3; i++){
 		accel_ned[i]=0;
-		for (uint8_t j=0; j<3; j++)
-			accel_ned[i] += Rbe[j][i]*accel[j];
+		for (uint8_t j = 0; j < 3; j++)
+			accel_ned[i] += Rbe[j][i] * accel[j];
 	}
 	accel_ned[2] += GRAVITY;
 	
