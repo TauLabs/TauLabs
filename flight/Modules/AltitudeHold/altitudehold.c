@@ -153,7 +153,7 @@ static void altitudeHoldTask(void *parameters)
 			uint8_t flight_mode;
 			FlightStatusFlightModeGet(&flight_mode);
 
-			if(flight_mode == FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD && !engaged) {
+			if (flight_mode == FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD && !engaged) {
 				// Copy the current throttle as a starting point for integral
 				StabilizationDesiredThrottleGet(&velocity_pid.iAccumulator);
 				velocity_pid.iAccumulator *= 1000.0f; // pid library scales up accumulator by 1000

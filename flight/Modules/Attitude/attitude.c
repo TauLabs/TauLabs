@@ -14,7 +14,7 @@
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2012-2014
  * @brief      Full attitude estimation algorithm
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -42,7 +42,8 @@
  *
  * This module performs a state estimate from the sensor data using either the
  * INSGPS algorithm for attitude, velocity, and position, or the complementary
- * filter algorithm for just attitude.
+ * filter algorithm for just attitude. In complementary mode it also runs a
+ * simple filter to smooth the altitude.
  */
 
 #include "pios.h"
