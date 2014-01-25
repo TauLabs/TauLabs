@@ -33,7 +33,6 @@ DEBUG ?= NO
 
 # List of modules to include
 MODULES = Sensors
-MODULES += Attitude 
 MODULES += ManualControl
 MODULES += Stabilization
 MODULES += Actuator
@@ -41,6 +40,12 @@ MODULES += FirmwareIAP
 MODULES += Telemetry
 PYMODULES = 
 #FlightPlan
+
+ifeq ($(FILTER_ARCHITECTURE),YES)
+MODULES += State
+else
+MODULES += Attitude
+endif
 
 OPTMODULES += GPS
 OPTMODULES += AltitudeHold 
@@ -62,8 +67,7 @@ OPUAVTALKINC = $(OPUAVTALK)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
-MATHLIB = $(FLIGHTLIB)/math
-MATHLIBINC = $(FLIGHTLIB)/math
+MATHLIBINC = $(MATHLIB)
 RSCODE = $(FLIGHTLIB)/rscode
 RSCODEINC = $(FLIGHTLIB)/rscode
 PIOSSTM32F4XX = $(PIOS)/STM32F4xx
@@ -137,6 +141,11 @@ SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/atmospheric_math.c
 SRC += $(MATHLIB)/pid.c
+
+## Enable some filters for the new architecture
+ifeq ($(FILTER_ARCHITECTURE),YES)
+include $(FILTERLIB)/filters.mk
+endif
 
 ## For RFM22b
 SRC += $(RSCODE)/berlekamp.c

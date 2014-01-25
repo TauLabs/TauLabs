@@ -31,6 +31,7 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # Set to YES to compile for debugging
 DEBUG ?= YES
 
+
 # Include objects that are just nice information to show
 STACK_DIAGNOSTICS ?= NO
 MIXERSTATUS_DIAGNOSTICS ?= NO
@@ -79,7 +80,6 @@ CFLAGS += $(BLONLY_CDEFS)
 
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
-MODULES += Attitude
 MODULES += FirmwareIAP
 
 OPTMODULES += PathPlanner
@@ -90,6 +90,12 @@ OPTMODULES += GroundPathFollower
 OPTMODULES += CameraStab
 OPTMODULES += OveroSync/simulated
 OPTMODULES += Autotune
+
+ifeq ($(FILTER_ARCHITECTURE),YES)
+MODULES += State
+else
+MODULES += Attitude
+endif
 
 # To run simulation instead of connect to SITL
 MODULES += Sensors/simulated
@@ -162,6 +168,11 @@ SRC += $(MATHLIB)/pid.c
 ## PIOS Hardware (STM32F4xx)
 #include $(PIOS)/posix/library.mk
 
+## Enable some filters for the new architecture
+ifeq ($(FILTER_ARCHITECTURE),YES)
+include $(FILTERLIB)/filters.mk
+endif
+
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_flash.c
@@ -232,6 +243,13 @@ EXTRAINCDIRS  += $(PIOSCOMMON)
 EXTRAINCDIRS  += $(CMSISDIR)
 EXTRAINCDIRS  += $(BOOTINC)
 
+EXTRAINCDIRS  += $(PIOSBOARDS)
+
+EXTRAINCDIRS  += $(CMSISDIR)
+EXTRAINCDIRS  += $(BOOTINC)
+EXTRAINCDIRS  += $(HWDEFSINC)
+
+EXTRAINCDIRS  += $(OPSYSTEM)
 EXTRAINCDIRS  += $(PIOSPOSIX)
 EXTRAINCDIRS  += $(RTOSINCDIR)
 #EXTRAINCDIRS  += $(APPLIBDIR)

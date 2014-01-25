@@ -608,7 +608,7 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	apply_accel_filter(grot,grot_filtered);
 	
 	// Compute the error between the predicted direction of gravity and smoothed acceleration
-	CrossProduct((const float *) accels_filtered, (const float *) grot_filtered, accel_err);
+	CrossProduct(accels_filtered, grot_filtered, accel_err);
 	
 	// Account for accel magnitude
 	float accel_mag = sqrtf(accels_filtered[0]*accels_filtered[0] + accels_filtered[1]*accels_filtered[1] + accels_filtered[2]*accels_filtered[2]);

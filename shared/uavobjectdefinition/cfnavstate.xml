@@ -1,0 +1,13 @@
+<xml>
+    <object name="CFNavState" singleinstance="true" settings="false">
+        <description>State for the complementary filter state estimation</description>
+        <field name="PositionBase" units="m" type="float" elementnames="North,East,Down"/>
+        <field name="PositionError" units="m" type="float" elementnames="North,East,Down"/>
+        <field name="PositionCorrection" units="m" type="float" elementnames="North,East,Down"/>
+        <field name="AccelCorrection" units="m/s^2" type="float" elementnames="North,East,Down"/>
+        <access gcs="readwrite" flight="readwrite"/>
+        <telemetrygcs acked="false" updatemode="manual" period="0"/>
+        <telemetryflight acked="false" updatemode="periodic" period="1000"/>
+        <logging updatemode="periodic" period="1000"/>
+    </object>
+</xml>

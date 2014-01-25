@@ -521,6 +521,8 @@ uavo-collections_clean:
 MAKE_INC_DIR  := $(ROOT_DIR)/make
 PIOS          := $(ROOT_DIR)/flight/PiOS
 FLIGHTLIB     := $(ROOT_DIR)/flight/Libraries
+MATHLIB       := $(ROOT_DIR)/flight/Libraries/math
+FILTERLIB     := $(ROOT_DIR)/flight/Libraries/filters
 OPMODULEDIR   := $(ROOT_DIR)/flight/Modules
 OPUAVOBJ      := $(ROOT_DIR)/flight/UAVObjects
 OPUAVTALK     := $(ROOT_DIR)/flight/UAVTalk
@@ -560,6 +562,8 @@ sim_$(4)_$(1)_%: uavobjects_flight
 		\
 		PIOS=$(PIOS).$(4) \
 		FLIGHTLIB=$(FLIGHTLIB) \
+		MATHLIB=$(MATHLIB) \
+		FILTERLIB=$(FILTERLIB) \
 		OPMODULEDIR=$(OPMODULEDIR) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \
@@ -607,6 +611,8 @@ fw_$(1)_%: uavobjects_flight
 		\
 		PIOS=$(PIOS) \
 		FLIGHTLIB=$(FLIGHTLIB) \
+		MATHLIB=$(MATHLIB) \
+		FILTERLIB=$(FILTERLIB) \
 		OPMODULEDIR=$(OPMODULEDIR) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \

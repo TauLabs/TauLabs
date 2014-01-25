@@ -231,7 +231,7 @@ static void rollPitch_drift_accel(float accels[3], float gyros[3], float Rbe[3][
 	g_ref[2] /= normG;
 	
 	//Error is cross product of reference vector and estimated orientation. Reverse operation in order to have correct sign for application to error sum
-	CrossProduct((const float *)fuselageZ, (const float *)g_ref, errAccelsRollPitch_b);
+	CrossProduct(fuselageZ, g_ref, errAccelsRollPitch_b);
 	
 	//Add errors into global error vector
 	errRollPitch_b[0] += errAccelsRollPitch_b[0] * drft->accelsKp;
@@ -301,7 +301,7 @@ static void rollPitch_drift_GPS(float Rbe[3][3], float accels_e_int[3],
 	float normdGPSdt_e = VectorMagnitude(dGPSdt_e);
 	
 	//Take cross product of integrated accelerometer measurements with integrated earth frame accelerations. We should be using normalized dGPSdt, but we perform that calculation in the following line(s).
-	CrossProduct((const float *)accels_e_int, (const float *)dGPSdt_e, errRollPitch_e);
+	CrossProduct(accels_e_int, dGPSdt_e, errRollPitch_e);
 	
 	//Scale cross product
 	errRollPitch_e[0] /= (normdGPSdt_e * delT_between_updates);

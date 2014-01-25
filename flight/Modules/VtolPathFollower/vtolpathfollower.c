@@ -80,7 +80,6 @@ static VtolPathFollowerSettingsData guidanceSettings;
 // Private functions
 static void vtolPathFollowerTask(void *parameters);
 static void SettingsUpdatedCb(UAVObjEvent * ev);
-static void updateNedAccel();
 static void updatePathVelocity();
 static void updateEndpointVelocity();
 static void updateVtolDesiredAttitude();
@@ -128,7 +127,6 @@ int32_t VtolPathFollowerInitialize()
 
 	VtolPathFollowerSettingsInitialize();
 	PathStatusInitialize();
-	NedAccelInitialize();
 	PathDesiredInitialize();
 	VelocityDesiredInitialize();
 	
@@ -185,9 +183,6 @@ static void vtolPathFollowerTask(void *parameters)
 		// Continue collecting data if not enough time
 		vTaskDelayUntil(&lastUpdateTime, MS2TICKS(guidanceSettings.UpdatePeriod));
 
-		// Convert the accels into the NED frame
-		updateNedAccel();
-		
 		FlightStatusGet(&flightStatus);
 
 		// Check the combinations of flightmode and pathdesired mode
@@ -472,46 +467,6 @@ static void updateVtolDesiredAttitude()
 	}
 	
 	StabilizationDesiredSet(&stabDesired);
-}
-
-/**
- * Keep a running filtered version of the acceleration in the NED frame
- */
-static void updateNedAccel()
-{
-	float accel[3];
-	float q[4];
-	float Rbe[3][3];
-	float accel_ned[3];
-
-	// Collect downsampled attitude data
-	AccelsData accels;
-	AccelsGet(&accels);		
-	accel[0] = accels.x;
-	accel[1] = accels.y;
-	accel[2] = accels.z;
-	
-	//rotate avg accels into earth frame and store it
-	AttitudeActualData attitudeActual;
-	AttitudeActualGet(&attitudeActual);
-	q[0]=attitudeActual.q1;
-	q[1]=attitudeActual.q2;
-	q[2]=attitudeActual.q3;
-	q[3]=attitudeActual.q4;
-	Quaternion2R(q, Rbe);
-	for (uint8_t i=0; i<3; i++){
-		accel_ned[i]=0;
-		for (uint8_t j=0; j<3; j++)
-			accel_ned[i] += Rbe[j][i]*accel[j];
-	}
-	accel_ned[2] += GRAVITY;
-	
-	NedAccelData accelData;
-	NedAccelGet(&accelData);
-	accelData.North = accel_ned[0];
-	accelData.East = accel_ned[1];
-	accelData.Down = accel_ned[2];
-	NedAccelSet(&accelData);
 }
 
 static void SettingsUpdatedCb(UAVObjEvent * ev)
