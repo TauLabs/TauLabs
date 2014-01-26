@@ -8,6 +8,7 @@
  *
  * @file       pios_iap.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      In application programming functions
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -72,7 +73,8 @@ void PIOS_IAP_Init( void )
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_CRC, ENABLE);
 
 	/* Enable PWR and BKP clock */
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR | RCC_AHB1Periph_BKPSRAM, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_BKPSRAM, ENABLE);
 
 	/* Enable write access to Backup domain */
 	PWR_BackupAccessCmd(ENABLE);

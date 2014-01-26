@@ -69,7 +69,7 @@ static struct l3gd20_dev *pios_l3gd20_dev;
 //! Private functions
 static struct l3gd20_dev *PIOS_L3GD20_alloc(void);
 static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev *dev);
-static int32_t PIOS_L3GD20_Config(const struct pios_l3gd20_cfg *cfg);
+static void PIOS_L3GD20_Config(const struct pios_l3gd20_cfg *cfg);
 static int32_t PIOS_L3GD20_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_L3GD20_GetReg(uint8_t address);
 static int32_t PIOS_L3GD20_GetRegIsr(uint8_t address, bool *woken);
@@ -156,19 +156,16 @@ int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_
 
 /**
  * @brief Initialize the L3GD20 3-axis gyro sensor
- * \return 0 for successful configuration or -1 otherwise
+ * \return none
  * \param[in] PIOS_L3GD20_ConfigTypeDef struct to be used to configure sensor.
 *
 */
-static int32_t PIOS_L3GD20_Config(const struct pios_l3gd20_cfg *cfg)
+static void PIOS_L3GD20_Config(const struct pios_l3gd20_cfg *cfg)
 {
-	// This register enables the channels
-	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG1, PIOS_L3GD20_CTRL1_PD | PIOS_L3GD20_CTRL1_ZEN |
+	// This register enables the channels and sets the bandwidth
+	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG1, PIOS_L3GD20_CTRL1_FASTEST |
+	                          PIOS_L3GD20_CTRL1_PD | PIOS_L3GD20_CTRL1_ZEN |
 	                          PIOS_L3GD20_CTRL1_YEN | PIOS_L3GD20_CTRL1_XEN) != 0);
-
-	// Set the sample rate
-	if(PIOS_L3GD20_SetSampleRate(PIOS_L3GD20_RATE_380HZ_100HZ) != 0)
-		return -1;
 
 	// Disable the high pass filters
 	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG2, 0) != 0);
@@ -183,8 +180,6 @@ static int32_t PIOS_L3GD20_Config(const struct pios_l3gd20_cfg *cfg)
 	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG5, 0x00) != 0);
 
 	pios_l3gd20_dev->configured = true;
-
-	return 0;
 }
 
 /**
@@ -212,27 +207,6 @@ int32_t PIOS_L3GD20_SetRange(enum pios_l3gd20_range range)
 		PIOS_SENSORS_SetMaxGyro(2000);
 		break;
 	}
-	return 0;
-}
-
-/**
- * @brief Set the sample rate, 780 or 360
- * @param[in] enum pios_l3gd20_rate
- * @return 0 if successful, -1 for invalid device, -2 if unable to get register, -3 if unable to set register
- */
-int32_t PIOS_L3GD20_SetSampleRate(enum pios_l3gd20_rate rate)
-{
-	if (PIOS_L3GD20_Validate(pios_l3gd20_dev) != 0)
-		return -1;
-
-	int32_t l3gd20_reg1 = PIOS_L3GD20_GetReg(PIOS_L3GD20_CTRL_REG1);
-
-	if (l3gd20_reg1 == -1)
-		return -2;
-
-	if (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG1, rate | l3gd20_reg1) != 0)
-		return -3;
-
 	return 0;
 }
 
