@@ -125,12 +125,49 @@ int32_t transmitter_control_initialize()
 
 	/* For now manual instantiate extra instances of Accessory Desired.  In future  */
 	/* should be done dynamically this includes not even registering it if not used */
-	AccessoryDesiredCreateInstance();
-	AccessoryDesiredCreateInstance();
-	AccessoryDesiredCreateInstance();
-	AccessoryDesiredCreateInstance();
-	AccessoryDesiredCreateInstance();
 
+	uint8_t AccessoryInstances = 0;
+	// Set Accessory 5
+	if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY5] != 
+		MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+		AccessoryInstances=5;
+	}
+	else
+	{
+		// Set Accessory 4
+		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY4] != 
+			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			AccessoryInstances=4;
+		}
+		else
+		{
+			// Set Accessory 3
+			if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY3] != 
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+				AccessoryInstances=3;
+			}
+			else
+			{
+				// Set Accessory 2
+				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
+					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+					AccessoryInstances=2;
+				}
+				else
+				{
+					// Set Accessory 1
+					if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
+						MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+						AccessoryInstances=1;
+					}
+				}
+			}
+		}
+	}
+	for (uint8_t n = 0; n < AccessoryInstances; ++n) {
+		AccessoryDesiredInitialize();
+	}
+	
 	/* Reset the state machine for processing stick movements */
 	arm_state = ARM_STATE_DISARMED;
 
