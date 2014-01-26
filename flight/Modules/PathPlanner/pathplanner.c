@@ -58,7 +58,7 @@ static bool path_status_updated;
 // Private functions
 static void advanceWaypoint();
 static void checkTerminationCondition();
-static void activateWaypoint();
+static void activateWaypoint(int idx);
 
 static void pathPlannerTask(void *parameters);
 static void settingsUpdated(UAVObjEvent * ev);
