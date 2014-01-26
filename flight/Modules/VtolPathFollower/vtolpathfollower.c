@@ -37,6 +37,7 @@
 #include "vtol_follower_priv.h"
 
 #include "acceldesired.h"
+#include "altitudeholdsettings.h"
 #include "modulesettings.h"
 #include "pathdesired.h"        // object that will be updated by the module
 #include "flightstatus.h"
@@ -101,6 +102,7 @@ int32_t VtolPathFollowerInitialize()
 	}
 
 	AccelDesiredInitialize();
+	AltitudeHoldSettingsInitialize();
 	PathDesiredInitialize();
 	PathStatusInitialize();
 	VelocityDesiredInitialize();
@@ -112,7 +114,6 @@ int32_t VtolPathFollowerInitialize()
 
 MODULE_INITCALL(VtolPathFollowerInitialize, VtolPathFollowerStart);
 
-extern float throttle_offset;
 extern struct pid vtol_pids[VTOL_PID_NUM];
 
 /**
@@ -126,6 +127,7 @@ static void vtolPathFollowerTask(void *parameters)
 	portTickType lastUpdateTime;
 	
 	VtolPathFollowerSettingsConnectCallback(vtol_follower_control_settings_updated);
+	AltitudeHoldSettingsConnectCallback(vtol_follower_control_settings_updated);
 	vtol_follower_control_settings_updated(NULL);
 	
 	VtolPathFollowerSettingsGet(&guidanceSettings);
@@ -198,9 +200,10 @@ static void vtolPathFollowerTask(void *parameters)
 		} else {
 			for (uint32_t i = 0; i < VTOL_PID_NUM; i++)
 				pid_zero(&vtol_pids[i]);
-
+		
 			// Track throttle before engaging this mode.  Cheap system ident
-			StabilizationDesiredThrottleGet(&throttle_offset);
+			StabilizationDesiredThrottleGet(&vtol_pids[DOWN_VELOCITY].iAccumulator);
+			vtol_pids[DOWN_VELOCITY].iAccumulator *= 1000.0f; // pid library scales up accumulator by 1000
 		}
 
 		AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);

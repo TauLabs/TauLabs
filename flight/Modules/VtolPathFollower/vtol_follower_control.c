@@ -26,6 +26,8 @@
  */
 
 #include "openpilot.h"
+
+#include "coordinate_conversions.h"
 #include "physical_constants.h"
 #include "misc_math.h"
 #include "paths.h"
@@ -34,6 +36,7 @@
 #include "vtol_follower_priv.h"
 
 #include "acceldesired.h"
+#include "altitudeholdsettings.h"
 #include "attitudeactual.h"
 #include "pathdesired.h"        // object that will be updated by the module
 #include "positionactual.h"
@@ -49,13 +52,12 @@
 #include "velocitydesired.h"
 #include "velocityactual.h"
 #include "vtolpathfollowersettings.h"
-#include "coordinate_conversions.h"
 
 // Private types
 
 // Private variables
 static VtolPathFollowerSettingsData guidanceSettings;
-float throttle_offset;
+static AltitudeHoldSettingsData altitudeHoldSettings;
 struct pid vtol_pids[VTOL_PID_NUM];
 
 // Private functions
@@ -300,8 +302,7 @@ static int32_t vtol_follower_control_accel(float dT)
 	// Compute desired down command.  Using NED accel as the damping term
 	down_error = velocityDesired.Down - velocityActual.Down;
 	// Negative is critical here since throttle is negative with down
-	accelDesired.Down = -pid_apply_antiwindup(&vtol_pids[DOWN_VELOCITY], down_error, -1, 1, dT) +
-	    nedAccel.Down * guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KD];
+	accelDesired.Down = -pid_apply_antiwindup(&vtol_pids[DOWN_VELOCITY], down_error, -1, 0, dT);
 
 	// Store the desired acceleration
 	AccelDesiredSet(&accelDesired);
@@ -328,12 +329,7 @@ int32_t vtol_follower_control_attitude(float dT)
 
 	float northCommand = accelDesired.North;
 	float eastCommand = accelDesired.East;
-	float downCommand = accelDesired.Down;
 
-	// If this setting is zero then the throttle level available when enabled is used for hover:wq
-	float used_throttle_offset = (guidanceSettings.HoverThrottle == 0) ? throttle_offset : guidanceSettings.HoverThrottle;
-	stabDesired.Throttle = bound_min_max(downCommand + used_throttle_offset, 0, 1);
-	
 	// Project the north and east acceleration signals into body frame
 	float yaw;
 	AttitudeActualYawGet(&yaw);
@@ -349,9 +345,34 @@ int32_t vtol_follower_control_attitude(float dT)
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 
-	// Optionally allow transmitter to control throttle for safety
+	// Calculate the throttle setting or use pass through from transmitter
 	if(guidanceSettings.ThrottleControl == VTOLPATHFOLLOWERSETTINGS_THROTTLECONTROL_FALSE) {
 		ManualControlCommandThrottleGet(&stabDesired.Throttle);
+	} else {
+		float downCommand = accelDesired.Down;
+
+		if (altitudeHoldSettings.AttitudeComp == ALTITUDEHOLDSETTINGS_ATTITUDECOMP_TRUE) {
+			// Throttle desired is at this point the mount desired in the up direction, we can
+			// account for the attitude if desired
+			AttitudeActualData attitudeActual;
+			AttitudeActualGet(&attitudeActual);
+
+			// Project a unit vector pointing up into the body frame and
+			// get the z component
+			float fraction = attitudeActual.q1 * attitudeActual.q1 -
+			                 attitudeActual.q2 * attitudeActual.q2 -
+			                 attitudeActual.q3 * attitudeActual.q3 +
+			                 attitudeActual.q4 * attitudeActual.q4;
+
+			// Dividing by the fraction remaining in the vertical projection will
+			// attempt to compensate for tilt. This acts like the thrust is linear
+			// with the output which isn't really true. If the fraction is starting
+			// to go negative we are inverted and should shut off throttle
+			downCommand = (fraction > 0.1f) ? (downCommand / fraction) : 0.0f;
+
+		}
+
+		stabDesired.Throttle = bound_min_max(downCommand, 0, 1);
 	}
 	
 	// Various ways to control the yaw that are essentially manual passthrough. However, because we do not have a fine
@@ -421,11 +442,6 @@ void vtol_follower_control_settings_updated(UAVObjEvent * ev)
 		guidanceSettings.HorizontalVelPID[VTOLPATHFOLLOWERSETTINGS_HORIZONTALVELPID_KI], // Ki
 		0, // Kd
 		guidanceSettings.HorizontalVelPID[VTOLPATHFOLLOWERSETTINGS_HORIZONTALVELPID_ILIMIT]);
-	pid_configure(&vtol_pids[DOWN_VELOCITY], 
-		guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KP], // Kp
-		guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_KI], // Ki
-		0, // Kd
-		guidanceSettings.VerticalVelPID[VTOLPATHFOLLOWERSETTINGS_VERTICALVELPID_ILIMIT]);
 
 	// Configure the position control (velocity output) PID loops
 	pid_configure(&vtol_pids[NORTH_POSITION],
@@ -438,11 +454,13 @@ void vtol_follower_control_settings_updated(UAVObjEvent * ev)
 		guidanceSettings.HorizontalPosPI[VTOLPATHFOLLOWERSETTINGS_HORIZONTALPOSPI_KI],
 		0,
 		guidanceSettings.HorizontalPosPI[VTOLPATHFOLLOWERSETTINGS_HORIZONTALPOSPI_ILIMIT]);
-	pid_configure(&vtol_pids[DOWN_POSITION],
-		guidanceSettings.VerticalPosPI[VTOLPATHFOLLOWERSETTINGS_VERTICALPOSPI_KP],
-		guidanceSettings.VerticalPosPI[VTOLPATHFOLLOWERSETTINGS_VERTICALPOSPI_KI],
-		0,
-		guidanceSettings.VerticalPosPI[VTOLPATHFOLLOWERSETTINGS_VERTICALPOSPI_ILIMIT]);
+
+	// The parameters for vertical control are shared with Altitude Hold
+	AltitudeHoldSettingsGet(&altitudeHoldSettings);
+	pid_configure(&vtol_pids[DOWN_POSITION], altitudeHoldSettings.PositionKp, 0, 0, 0);
+	pid_configure(&vtol_pids[DOWN_VELOCITY], 
+	              altitudeHoldSettings.VelocityKp, altitudeHoldSettings.VelocityKi,
+	              0, 1);  // Note the ILimit here is 1 because we use this offset to set the throttle offset
 }
 
 /**
