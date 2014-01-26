@@ -14,7 +14,7 @@
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2012-2014
  * @brief      Full attitude estimation algorithm
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -42,7 +42,8 @@
  *
  * This module performs a state estimate from the sensor data using either the
  * INSGPS algorithm for attitude, velocity, and position, or the complementary
- * filter algorithm for just attitude.
+ * filter algorithm for just attitude. In complementary mode it also runs a
+ * simple filter to smooth the altitude.
  */
 
 #include "pios.h"
@@ -63,6 +64,7 @@
 #include "inssettings.h"
 #include "insstate.h"
 #include "magnetometer.h"
+#include "nedaccel.h"
 #include "nedposition.h"
 #include "positionactual.h"
 #include "stateestimation.h"
@@ -112,6 +114,18 @@ struct complementary_filter_state {
 	enum complementary_filter_status     initialization;
 };
 
+//! Struture that tracks the data for the vertical complementary filter
+struct cfvert {
+	float velocity_z;
+	float position_z;
+	float time_constant_z;
+	float accel_correction_z;
+	float position_base_z;
+	float position_error_z;
+	float position_correction_z;
+	float baro_zero;
+};
+
 // Private variables
 static xTaskHandle attitudeTaskHandle;
 
@@ -131,6 +145,7 @@ const uint32_t SENSOR_QUEUE_SIZE = 10;
 static const float zeros[3] = {0.0f, 0.0f, 0.0f};
 
 static struct complementary_filter_state complementary_filter_state;
+static struct cfvert cfvert; //!< State information for vertical filter
 
 // Private functions
 static void AttitudeTask(void *parameters);
@@ -142,6 +157,11 @@ static int32_t setNavigationRaw();
 static int32_t updateAttitudeComplementary(bool first_run, bool secondary);
 //! Set the @ref AttitudeActual to the complementary filter estimate
 static int32_t setAttitudeComplementary();
+
+static float calc_ned_accel(float *q, float *accels);
+static void cfvert_reset(struct cfvert *cf, float baro, float time_constant);
+static void cfvert_predict_pos(struct cfvert *cf, float z_accel, float dt);
+static void cfvert_update_baro(struct cfvert *cf, float baro, float dt);
 
 //! Update the INSGPS attitude estimate
 static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode);
@@ -188,6 +208,7 @@ int32_t AttitudeInitialize(void)
 	SensorSettingsInitialize();
 	INSSettingsInitialize();
 	INSStateInitialize();
+	NedAccelInitialize();
 	NEDPositionInitialize();
 	PositionActualInitialize();
 	StateEstimationInitialize();
@@ -361,7 +382,6 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 	static int32_t timeval;
 	float dT;
 
-
 	// If this is the primary estimation filter, wait until the accel and
 	// gyro objects are updated. If it timeouts then go to failsafe.
 	if (!secondary) {
@@ -414,6 +434,10 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 		complementary_filter_state.arming_count = 0;
 
+		float baro;
+		BaroAltitudeAltitudeGet(&baro);
+		cfvert_reset(&cfvert, baro, attitudeSettings.VertPositionTau);
+
 		return 0;
 	}
 
@@ -463,6 +487,11 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 			complementary_filter_state.accumulating_gyro = true;
 		}
 
+		// Reset the filter for barometric data
+		float baro;
+		BaroAltitudeAltitudeGet(&baro);
+		cfvert_reset(&cfvert, baro, attitudeSettings.VertPositionTau);
+
 	} else if (complementary_filter_state.initialization == CF_ARMING ||
 	           complementary_filter_state.initialization == CF_INITIALIZING) {
 
@@ -480,6 +509,12 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 
 		// Indicate normal mode to prevent rerunning this code
 		complementary_filter_state.initialization = CF_NORMAL;
+
+		// Reset the filter for barometric data
+		float baro;
+		BaroAltitudeAltitudeGet(&baro);
+		cfvert_reset(&cfvert, baro, attitudeSettings.VertPositionTau);
+
 	}
 
 	GyrosGet(&gyrosData);
@@ -625,10 +660,92 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 		cf_q[3] = 0;
 	}
 
+	if (!secondary) {
+
+		// Calculate the NED acceleration and get the z-component
+		float z_accel = calc_ned_accel(cf_q, &accelsData.x);
+
+		// When this is the only filter compute th vertical state from baro data
+		// Reset the filter for barometric data
+		cfvert_predict_pos(&cfvert, z_accel, dT);
+		if ( xQueueReceive(baroQueue, &ev, 0) == pdTRUE) {
+			float baro;
+			BaroAltitudeAltitudeGet(&baro);
+			cfvert_update_baro(&cfvert, baro, dT);
+		}
+
+	}
 	if (!secondary)
 		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
 
 	return 0;
+}
+
+/**
+ * Calculate the acceleration in the NED frame. This is used
+ * by the altitude controller. Returns the down component for
+ * convenience.
+ */
+static float calc_ned_accel(float *q, float *accels)
+{
+	float accel_ned[3];
+	float Rbe[3][3];
+
+	// rotate the accels into the NED frame and remove
+	// the influence of gravity
+	Quaternion2R(q, Rbe);
+	rot_mult(Rbe, accels, accel_ned, true);
+	accel_ned[2] += GRAVITY;
+
+	NedAccelData nedAccel;
+	nedAccel.North = accel_ned[0];
+	nedAccel.East = accel_ned[1];
+	nedAccel.Down = accel_ned[2];
+	NedAccelSet(&nedAccel);
+
+	return accel_ned[2];
+}
+
+//! Resets the vertical baro complementary filter and zeros the altitude
+static void cfvert_reset(struct cfvert *cf, float baro, float time_constant)
+{
+	cf->velocity_z = 0;
+	cf->position_z = 0;
+	cf->time_constant_z = time_constant;
+	cf->accel_correction_z = 0;
+	cf->position_base_z = 0;
+	cf->position_error_z = 0;
+	cf->position_correction_z = 0;
+	cf->baro_zero = baro;
+}
+
+//! Predict the position in the future
+static void cfvert_predict_pos(struct cfvert *cf, float z_accel, float dt)
+{
+	float k1_z = 3 / cf->time_constant_z;
+	float k2_z = 3 / powf(cf->time_constant_z, 2);
+	float k3_z = 1 / powf(cf->time_constant_z, 3);
+
+	cf->accel_correction_z += cf->position_error_z * k3_z * dt;
+	cf->velocity_z += cf->position_error_z * k2_z * dt;
+	cf->position_correction_z += cf->position_error_z * k1_z * dt;
+
+	float velocity_increase;
+	velocity_increase = (z_accel + cf->accel_correction_z) * dt;
+	cf->position_base_z += (cf->velocity_z + velocity_increase * 0.5f) * dt;
+	cf->position_z = cf->position_base_z + cf->position_correction_z;
+	cf->velocity_z += velocity_increase;
+}
+
+//! Update the baro feedback
+static void cfvert_update_baro(struct cfvert *cf, float baro, float dt)
+{
+	float down = -(baro - cf->baro_zero);
+
+	// TODO: get from a queue of previous position updates (150 ms latency)
+	float hist_position_base_d = cf->position_base_z;
+
+	cf->position_error_z = down - (hist_position_base_d + cf->position_correction_z);
 }
 
 //! Set the navigation information to the raw estimates
@@ -636,8 +753,7 @@ static int32_t setNavigationRaw()
 {
 	UAVObjEvent ev;
 
-	// Flush these queues for avoid errors
-	xQueueReceive(baroQueue, &ev, 0);
+
 	if ( xQueueReceive(gpsQueue, &ev, 0) == pdTRUE && homeLocation.Set == HOMELOCATION_SET_TRUE ) {
 		float NED[3];
 		// Transform the GPS position into NED coordinates
@@ -656,8 +772,10 @@ static int32_t setNavigationRaw()
 		PositionActualGet(&positionActual);
 		positionActual.North = NED[0];
 		positionActual.East = NED[1];
-		positionActual.Down = NED[2];
+		positionActual.Down = cfvert.position_z;
 		PositionActualSet(&positionActual);
+	} else {
+		PositionActualDownSet(&cfvert.position_z);
 	}
 
 	if ( xQueueReceive(gpsVelQueue, &ev, 0) == pdTRUE ) {
@@ -669,8 +787,10 @@ static int32_t setNavigationRaw()
 		VelocityActualGet(&velocityActual);
 		velocityActual.North = gpsVelocity.North;
 		velocityActual.East = gpsVelocity.East;
-		velocityActual.Down = gpsVelocity.Down;
+		velocityActual.Down = cfvert.velocity_z;
 		VelocityActualSet(&velocityActual);
+	} else {
+		VelocityActualDownSet(&cfvert.velocity_z);
 	}
 
 	return 0;
@@ -1040,6 +1160,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	INSGetVariance(state.Var);
 	INSGetState(&state.State[0], &state.State[3], &state.State[6], &state.State[10]);
 	INSStateSet(&state);
+
+	calc_ned_accel(&state.State[6], &accelsData.x);
 
 	return 0;
 }

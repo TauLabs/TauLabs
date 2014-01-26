@@ -31,7 +31,6 @@
 #include "modulesettings.h"
 #include "hottsettings.h"
 #include "attitudeactual.h"
-#include "altholdsmoothed.h"
 #include "baroaltitude.h"
 #include "flightbatterystate.h"
 #include "flightstatus.h"
@@ -41,6 +40,7 @@
 #include "homelocation.h"
 #include "positionactual.h"
 #include "systemalarms.h"
+#include "velocityactual.h"
 
 // timing variables
 #define IDLE_TIME 10	// idle line delay to prevent data crashes on telemetry line.
@@ -184,7 +184,6 @@ typedef struct {
 // Private structures
 struct telemetrydata{
 	HoTTSettingsData Settings;
-	AltHoldSmoothedData Altitude;
 	AttitudeActualData Attitude;
 	BaroAltitudeData Baro;
 	FlightBatteryStateData Battery;
@@ -195,10 +194,10 @@ struct telemetrydata{
 	HomeLocationData Home;
 	PositionActualData Position;
 	SystemAlarmsData SysAlarms;
+	VelocityActualData Velocity;
 	float climbratebuffer[climbratesize];
 	uint8_t climbrate_pointer;
 	float altitude;
-	float altitude_offset;
 	float min_altitude;
 	float max_altitude;
 	float altitude_last;
