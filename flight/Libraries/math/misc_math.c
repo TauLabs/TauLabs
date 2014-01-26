@@ -100,6 +100,18 @@ float circular_modulus_rad(float err)
 }
 
 /**
+ * Approximation an exponential scale curve
+ * @param[in] x   input from [-1,1]
+ * @param[in] g   sets the exponential amount [0,100]
+ * @return  rescaled input
+ */
+float expo3(float x, int32_t g)
+{
+	return (x * ((100 - g) / 100.0f) + powf(x, 3) * (g / 100.0f));
+}
+
+
+/**
  * @}
  * @}
  */

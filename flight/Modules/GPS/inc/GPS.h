@@ -34,6 +34,7 @@
 #include "gpssatellites.h"
 #include "gpsposition.h"
 #include "gpstime.h"
+#include "ubloxinfo.h"
 
 #define	NO_PARSER	-3 // no parser available
 #define	PARSER_OVERRUN	-2 // message buffer overrun before completing the message

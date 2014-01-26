@@ -195,6 +195,8 @@ extern uintptr_t pios_internal_adc_id;
 #endif
 #define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
 
+#define VREF_PLUS				3.3
+
 //-------------------------
 // DMA
 //-------------------------

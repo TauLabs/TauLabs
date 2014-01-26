@@ -155,8 +155,8 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	else {
 		batSettings.Capacity = 0;
 		batSettings.NbCells = 0;
-		batSettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_CURRENTFACTOR] = 0;
-		batSettings.SensorCalibrations[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONS_VOLTAGEFACTOR] = 0;
+		batSettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_CURRENT] = 0;
+		batSettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_VOLTAGE] = 0;
 		batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYCURRENT] = FLIGHTBATTERYSETTINGS_SENSORTYPE_DISABLED;
 		batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYVOLTAGE] = FLIGHTBATTERYSETTINGS_SENSORTYPE_DISABLED;
 		batSettings.Type = FLIGHTBATTERYSETTINGS_TYPE_NONE;
@@ -319,6 +319,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 				gps_fix_type = 2;
 				break;
 			case GPSPOSITION_STATUS_FIX3D:
+			case GPSPOSITION_STATUS_DIFF3D:
 				gps_fix_type = 3;
 				break;
 			default:

@@ -6,7 +6,7 @@
  * @{
  *
  * @file       transmitter_control.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      Handles R/C link and flight mode.
  *
@@ -48,6 +48,8 @@
 #include "stabilizationsettings.h"
 #include "stabilizationdesired.h"
 #include "systemsettings.h"
+
+#include "misc_math.h"
 
 #if defined(PIOS_INCLUDE_USB_RCTX)
 #include "pios_usb_rctx.h"
@@ -247,7 +249,7 @@ int32_t transmitter_control_update()
 			break;
 		case MANUALCONTROLSETTINGS_RSSITYPE_ADC:
 #if defined(PIOS_INCLUDE_ADC)
-			value = PIOS_ADC_GetChannel(settings.RssiChannelNumber);
+			value = PIOS_ADC_GetChannelRaw(settings.RssiChannelNumber);
 #endif
 			break;
 		}
@@ -827,17 +829,6 @@ static void update_actuator_desired(ManualControlCommandData * cmd)
 	ActuatorDesiredSet(&actuator);
 }
 
-/**
- * Approximation an exponential scale curve
- * @param[in] x   input from [-1,1]
- * @param[in] g   sets the exponential amount [0,100]
- * @return  rescaled input
- */
-static float expo3(float x, int32_t g)
-{
-	return (x * ((100 - g) / 100.0f) + powf(x, 3) * (g / 100.0f));
-}
-
 //! In stabilization mode, set stabilization desired
 static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings)
 {
@@ -880,6 +871,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Roll * stabSettings.RollMax :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Roll :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Roll :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Roll * stabSettings.RollMax :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Roll :
@@ -892,6 +884,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Pitch * stabSettings.PitchMax :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Pitch :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Pitch :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Pitch * stabSettings.PitchMax :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Pitch :
@@ -904,6 +897,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Yaw * stabSettings.YawMax :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Yaw :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Yaw :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Yaw * stabSettings.YawMax :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Yaw :
@@ -1008,8 +1002,10 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 	float currentDown;
 	PositionActualDownGet(&currentDown);
 	if(flightModeChanged) {
-		// After not being in this mode for a while init at current height
-		altitudeHoldDesired.Altitude = 0;
+		// Initialize at the current location. Note that this object uses the up is positive
+		// convention.
+		PositionActualDownGet(&altitudeHoldDesired.Altitude);
+		altitudeHoldDesired.Altitude = - altitudeHoldDesired.Altitude;
 		zeroed = false;
 	} else if (cmd->Throttle > DEADBAND_HIGH && zeroed)
 		altitudeHoldDesired.Altitude += (cmd->Throttle - DEADBAND_HIGH) * dT;
@@ -1017,7 +1013,7 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		altitudeHoldDesired.Altitude += (cmd->Throttle - DEADBAND_LOW) * dT;
 	else if (cmd->Throttle >= DEADBAND_LOW && cmd->Throttle <= DEADBAND_HIGH)  // Require the stick to enter the dead band before they can move height
 		zeroed = true;
-	
+
 	AltitudeHoldDesiredSet(&altitudeHoldDesired);
 }
 

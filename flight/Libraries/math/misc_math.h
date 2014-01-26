@@ -31,6 +31,8 @@
 #ifndef MISC_MATH_H
 #define MISC_MATH_H
 
+#include "stdint.h"
+
 // Max/Min macros. Taken from http://stackoverflow.com/questions/3437404/min-and-max-in-c
 #define MAX(a, b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a > _b ? _a : _b; })
 #define MIN(a, b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a < _b ? _a : _b; })
@@ -47,6 +49,9 @@ float bound_min_max(float val, float min, float max);
 //! Circular modulus
 float circular_modulus_deg(float err);
 float circular_modulus_rad(float err);
+
+//! Approximation an exponential scale curve
+float expo3(float x, int32_t g);
 
 #endif /* MISC_MATH_H */
 

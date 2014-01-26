@@ -129,6 +129,7 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_TELEM_RF_TX_BUF_LEN 512
 
 #define PIOS_COM_GPS_RX_BUF_LEN 32
+#define PIOS_COM_GPS_TX_BUF_LEN 16
 
 #define PIOS_COM_TELEM_USB_RX_BUF_LEN 65
 #define PIOS_COM_TELEM_USB_TX_BUF_LEN 65
@@ -509,7 +510,7 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWFLYINGF4_UART1_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0, &pios_usart_com_driver, &pios_com_gps_id);
+		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
 	case HWFLYINGF4_UART1_SBUS:
@@ -594,7 +595,7 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWFLYINGF4_UART2_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0, &pios_usart_com_driver, &pios_com_gps_id);
+		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
 	case HWFLYINGF4_UART2_DSM2:
@@ -680,7 +681,7 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWFLYINGF4_UART3_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0, &pios_usart_com_driver, &pios_com_gps_id);
+		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
 	case HWFLYINGF4_UART3_DSM2:
@@ -931,15 +932,13 @@ void PIOS_Board_Init(void) {
 	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_8000) ? 8000 : \
 	    pios_mpu6050_cfg.default_samplerate;
 	PIOS_MPU6050_SetSampleRate(mpu6050_samplerate);
+	
+	PIOS_MPU6050_SetPassThrough(true);
 #endif /* PIOS_INCLUDE_MPU6050 */
-
 
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(50);
 	PIOS_WDG_Clear();
-
-	if (PIOS_I2C_CheckClear(pios_i2c_10dof_adapter_id) != 0)
-		panic(6);
 
 #if defined(PIOS_INCLUDE_HMC5883)
 	{

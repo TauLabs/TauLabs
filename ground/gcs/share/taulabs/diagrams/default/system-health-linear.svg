@@ -794,17 +794,17 @@
      borderopacity="1"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="15.393877"
-     inkscape:cx="325.92275"
-     inkscape:cy="14.025333"
-     inkscape:current-layer="g11118"
+     inkscape:zoom="3.707287"
+     inkscape:cx="193.36968"
+     inkscape:cy="4.777166"
+     inkscape:current-layer="foreground"
      id="namedview3608"
      showgrid="true"
-     inkscape:window-width="2558"
-     inkscape:window-height="974"
+     inkscape:window-width="1600"
+     inkscape:window-height="850"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="0"
+     inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
      units="mm"
@@ -815,7 +815,7 @@
      inkscape:snap-bbox="true"
      inkscape:bbox-paths="true"
      inkscape:bbox-nodes="true"
-     inkscape:snap-bbox-edge-midpoints="false"
+     inkscape:snap-bbox-edge-midpoints="true"
      inkscape:snap-bbox-midpoints="true"
      inkscape:snap-object-midpoints="true"
      inkscape:snap-center="true"
@@ -827,7 +827,7 @@
      inkscape:snap-page="false"
      inkscape:snap-nodes="false"
      inkscape:snap-grids="false"
-     inkscape:snap-to-guides="true"
+     inkscape:snap-to-guides="false"
      showborder="true"
      inkscape:showpageshadow="false">
     <sodipodi:guide
@@ -880,7 +880,7 @@
        id="guide4597" />
     <sodipodi:guide
        orientation="1,0"
-       position="365.1776,-1.1942919"
+       position="364.21513,12.441586"
        id="guide4599" />
     <sodipodi:guide
        orientation="1,0"
@@ -942,8 +942,8 @@
      transform="translate(-405.17146,-343.74826)"
      style="display:inline">
     <path
-       style="fill:#453e3e;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.7573427;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
-       d="m 411.88129,344.12693 351.75797,0 c 3.50745,0 6.33113,0.10735 6.33113,0.2407 l 0,11.20284 c 0,0.13335 -2.82368,0.2407 -6.33113,0.2407 l -351.75797,0 c -3.50748,0 -6.33116,-0.10735 -6.33116,-0.2407 l 0,-11.20284 c 0,-0.13335 2.82368,-0.2407 6.33116,-0.2407 z"
+       style="fill:#453e3e;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.77728355;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
+       d="m 412.24045,344.1369 371.15887,0 c 3.7009,0 6.68031,0.10717 6.68031,0.24029 l 0,11.18372 c 0,0.13312 -2.97941,0.24029 -6.68031,0.24029 l -371.15887,0 c -3.70093,0 -6.68035,-0.10717 -6.68035,-0.24029 l 0,-11.18372 c 0,-0.13312 2.97942,-0.24029 6.68035,-0.24029 z"
        id="Background"
        inkscape:connector-curvature="0" />
     <path
@@ -1053,6 +1053,12 @@
        style="fill:#332d2d;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline"
        d="m 749.59426,345.90824 18.15321,0 0,8.12162 -18.15321,0 z"
        id="PathFollower"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:label="#path26879"
+       style="fill:#332d2d;fill-opacity:1;stroke:#ffffff;stroke-width:0.53219783;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline"
+       d="m 769.65269,345.90859 18.20274,0 0,8.12092 -18.20274,0 z"
+       id="AltitudeHold"
        inkscape:connector-curvature="0" />
   </g>
   <g
@@ -1205,6 +1211,14 @@
        width="18.153212"
        id="PathFollower-OK"
        style="fill:#04b629;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
+    <rect
+       inkscape:label="#rect8374"
+       y="1.6278722"
+       x="271.98669"
+       height="8.1216154"
+       width="18.153212"
+       id="AltitudeHold-OK"
+       style="fill:#04b629;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
   </g>
   <g
      style="display:none"
@@ -1356,6 +1370,14 @@
        height="8.1216154"
        x="251.92862"
        y="1.6278714" />
+    <rect
+       inkscape:label="#rect4073"
+       style="fill:#f1b907;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="AltitudeHold-Warning"
+       width="18.153212"
+       height="8.1216154"
+       x="272.01181"
+       y="1.6278691" />
   </g>
   <g
      style="display:none"
@@ -1784,6 +1806,14 @@
        width="18.153212"
        id="PathFollower-Critical"
        style="fill:#cf0e0e;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
+    <rect
+       inkscape:label="#rect4080"
+       y="1.6278722"
+       x="272.01181"
+       height="8.1216154"
+       width="18.153212"
+       id="AltitudeHold-Critical"
+       style="fill:#cf0e0e;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -1940,9 +1970,18 @@
        x="251.92862"
        y="-9.7494869"
        transform="scale(1,-1)" />
+    <rect
+       inkscape:label="#rect4000-7-6-7-1"
+       style="fill:#808080;fill-opacity:0.89019608;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="AltitudeHold-Uninitialised"
+       width="18.153212"
+       height="8.1216154"
+       x="271.98669"
+       y="-9.7494841"
+       transform="scale(1,-1)" />
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="FlightTime-Uninitialised"
      id="g11138"
      inkscape:groupmode="layer"
@@ -2684,8 +2723,8 @@
     <path
        inkscape:connector-curvature="0"
        id="path29775"
-       d="m -85.784342,-0.15344051 351.757962,0 c 3.50745,0 6.33114,0.1073513 6.33114,0.2406969 l 0,11.20284761 c 0,0.133345 -2.82369,0.240696 -6.33114,0.240696 l -351.757962,0 c -3.50748,0 -6.331158,-0.107351 -6.331158,-0.240696 l 0,-11.20284761 c 0,-0.1333456 2.823678,-0.2406969 6.331158,-0.2406969 z"
-       style="fill:none;stroke:#000000;stroke-width:0.7573427;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline" />
+       d="m -85.425182,-0.14347009 371.158852,0 c 3.7009,0 6.68033,0.10716809 6.68033,0.24028612 l 0,11.18372797 c 0,0.133118 -2.97943,0.240286 -6.68033,0.240286 l -371.158852,0 c -3.700932,0 -6.680348,-0.107168 -6.680348,-0.240286 l 0,-11.18372797 c 0,-0.13311803 2.979416,-0.24028612 6.680348,-0.24028612 z"
+       style="fill:none;stroke:#000000;stroke-width:0.77728355;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline" />
     <text
        xml:space="preserve"
        style="font-size:2.87697005px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
@@ -2726,6 +2765,26 @@
          id="tspan5683"
          x="254.72736"
          y="8.013648">Follower</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.885602px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;display:inline;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+       x="274.19766"
+       y="4.7037296"
+       id="text4868-5-0"><tspan
+         sodipodi:role="line"
+         x="274.19766"
+         y="4.7037296"
+         id="tspan4657">Altitude</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.94651628px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;display:inline;font-family:Bitstream Vera Sans"
+       x="277.37976"
+       y="8.2200718"
+       id="text5681-0"><tspan
+         sodipodi:role="line"
+         id="tspan5683-4"
+         x="277.37976"
+         y="8.2200718">Hold</tspan></text>
   </g>
   <g
      style="display:none"
@@ -2736,7 +2795,7 @@
     <g
        id="nolink"
        inkscape:label="#g26918"
-       transform="matrix(1.0571052,0,0,1,-23.086592,0)">
+       transform="matrix(1.1127398,0,0,1.0054496,-44.731371,-1.5405607)">
       <rect
          style="fill:#453e3e;fill-opacity:0.86363639;fill-rule:evenodd;stroke:#000000;stroke-width:0.73494369;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          id="rect3370"

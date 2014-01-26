@@ -313,6 +313,7 @@ uint16_t build_GPS_message(struct hott_gps_message *msg) {
 		case GPSPOSITION_STATUS_FIX2D:
 			msg->gps_fix_char = '2';
 		case GPSPOSITION_STATUS_FIX3D:
+		case GPSPOSITION_STATUS_DIFF3D:
 			msg->gps_fix_char = '3';
 		default:
 			msg->gps_fix_char = 0;
@@ -528,8 +529,6 @@ void update_telemetrydata () {
 	// update all available data
 	if (HoTTSettingsHandle() != NULL)
 		HoTTSettingsGet(&telestate->Settings);
-	if (AltHoldSmoothedHandle() != NULL)
-		AltHoldSmoothedGet(&telestate->Altitude);
 	if (AttitudeActualHandle() != NULL)
 		AttitudeActualGet(&telestate->Attitude);
 	if (BaroAltitudeHandle() != NULL)
@@ -550,10 +549,12 @@ void update_telemetrydata () {
 		PositionActualGet(&telestate->Position);
 	if (SystemAlarmsHandle() != NULL)
 		SystemAlarmsGet(&telestate->SysAlarms);
+	if (VelocityActualHandle() != NULL)
+		VelocityActualGet(&telestate->Velocity);
 
 	// send actual climbrate value to ring buffer
 	uint8_t n = telestate->climbrate_pointer;
-	telestate->climbratebuffer[telestate->climbrate_pointer++] = telestate->Altitude.Velocity;
+	telestate->climbratebuffer[telestate->climbrate_pointer++] = -telestate->Velocity.Down;
 	telestate->climbrate_pointer %= climbratesize;
 
 	// calculate smoothed climbrates per 1, 3 and 10 second(s) based on 200ms interval
@@ -573,14 +574,13 @@ void update_telemetrydata () {
 
 	// set altitude offset and clear min/max values when arming
 	if ((telestate->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING) || ((telestate->last_armed != FLIGHTSTATUS_ARMED_ARMED) && (telestate->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED))) {
-		telestate->altitude_offset = telestate->Altitude.Altitude;
 		telestate->min_altitude = 0;
 		telestate->max_altitude = 0;
 	}
 	telestate->last_armed = telestate->FlightStatus.Armed;
 
 	// calculate altitude relative to start position
-	telestate->altitude = telestate->Altitude.Altitude - telestate->altitude_offset;
+	telestate->altitude = -telestate->Position.Down;
 
 	// check and set min/max values when armed.
 	if (telestate->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) {

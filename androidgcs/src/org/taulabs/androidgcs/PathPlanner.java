@@ -33,12 +33,12 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.taulabs.androidgcs.R;
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.uavtalk.UAVDataObject;
 import org.taulabs.uavtalk.UAVObjectField;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.os.Bundle;
 import android.util.Log;
 import android.util.Xml;
 
@@ -48,16 +48,17 @@ public class PathPlanner extends ObjectManagerActivity {
 	private static final boolean DEBUG = true;
 
 	private static final String ns = null;
-
+	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.path_planner);
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.path_planner);
+		return navDrawer;
 	}
-
+	
 	@Override
-	void onOPConnected() {
-		super.onOPConnected();
+	void onConnected() {
+		super.onConnected();
 
 		File waypointsFile = new File("/data/data/waypoints.xml");
 		List<Waypoint> waypoints = null;

@@ -78,9 +78,6 @@ struct pios_internal_adc_dev {
 	volatile uint8_t adc_oversample;
 	uint8_t dma_block_size;
 	uint16_t dma_half_buffer_size;
-//	int16_t fir_coeffs[PIOS_ADC_MAX_SAMPLES+1]  __attribute__ ((aligned(4)));
-//	volatile int16_t raw_data_buffer[PIOS_ADC_MAX_SAMPLES]  __attribute__ ((aligned(4)));
-//	float downsampled_buffer[PIOS_ADC_NUM_CHANNELS]  __attribute__ ((aligned(4)));
 	enum pios_adc_dev_magic magic;
 };
 
@@ -98,13 +95,14 @@ static void init_adc(void);
 static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
 static uint8_t PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id);
 static bool PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin);
-
+static float PIOS_INTERNAL_ADC_LSB_Voltage(uint32_t internal_adc_id);
 
 const struct pios_adc_driver pios_internal_adc_driver = {
                 .available      = PIOS_INTERNAL_ADC_Available,
                 .get_pin        = PIOS_INTERNAL_ADC_PinGet,
                 .set_queue      = NULL,
                 .number_of_channels = PIOS_INTERNAL_ADC_Number_of_Channels,
+                .lsb_voltage = PIOS_INTERNAL_ADC_LSB_Voltage,
 };
 
 struct dma_config {
@@ -456,6 +454,17 @@ static uint8_t PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id)
 	return PIOS_ADC_NUM_CHANNELS;
 }
 
+/**
+ * @brief Gets the least significant bit voltage of the ADC
+ */
+static float PIOS_INTERNAL_ADC_LSB_Voltage(uint32_t internal_adc_id)
+{
+	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
+	if (!PIOS_INTERNAL_ADC_validate(adc_dev)) {
+		return 0;
+	}
+        return VREF_PLUS / (((uint32_t)1 << 12) - 1);
+}
 #endif /* PIOS_INCLUDE_ADC */
 
 /** 

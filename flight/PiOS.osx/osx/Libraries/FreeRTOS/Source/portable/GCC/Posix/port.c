@@ -155,12 +155,8 @@ static pthread_t hMainThread = ( pthread_t )NULL;
 
 static volatile portBASE_TYPE xSentinel = 0;
 static volatile portBASE_TYPE xRunning = pdFALSE;
-static volatile portBASE_TYPE xSuspended = pdFALSE;
-static volatile portBASE_TYPE xStarted = pdFALSE;
-static volatile portBASE_TYPE xHandover = 0;
 static volatile portBASE_TYPE xSchedulerEnd = pdFALSE;
 volatile portBASE_TYPE xInterruptsEnabled = pdTRUE;
-static volatile portBASE_TYPE xServicingTick = pdFALSE;
 static volatile portBASE_TYPE xPendYield = pdFALSE;
 static volatile portLONG lIndexOfLastAddedTask = 0;
 static volatile unsigned portBASE_TYPE uxCriticalNesting;
@@ -919,7 +915,7 @@ portLONG lIndex;
 /*-----------------------------------------------------------*/
 pthread_mutex_t * prvGetMutexHandle( xTaskHandle hTask ) 
 {	
-pthread_mutex_t * hMutex;
+pthread_mutex_t * hMutex = NULL;
 portLONG lIndex;
 	
 	for ( lIndex = 0; lIndex < MAX_NUMBER_OF_TASKS; lIndex++ )

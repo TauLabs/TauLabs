@@ -60,7 +60,7 @@ int32_t PIOS_SENSORS_Register(enum pios_sensor_type type, xQueueHandle queue)
 //! Get the data queue for a sensor type
 xQueueHandle PIOS_SENSORS_GetQueue(enum pios_sensor_type type)
 {
-	if (type < 0 || type >= PIOS_SENSOR_LAST)
+	if (type >= PIOS_SENSOR_LAST)
 		return NULL;
 
 	return queues[type];

@@ -10,5 +10,5 @@
 include( qwtconfig.pri )
 
 TEMPLATE = subdirs
-
+CONFIG += warn_off
 SUBDIRS = src

@@ -39,8 +39,8 @@
 #define POS_SENSORS 0x007
 #define HORIZ_POS_SENSORS 0x003
 #define VERT_POS_SENSORS 0x004
-#define HORIZ_SENSORS 0x018
-#define VERT_SENSORS  0x020
+#define HORIZ_VEL_SENSORS 0x018
+#define VERT_VEL_SENSORS  0x020
 #define MAG_SENSORS 0x1C0
 #define BARO_SENSOR 0x200
 
@@ -85,14 +85,6 @@ void INSSetBaroVar(float baro_var);
 void INSPosVelReset(const float pos[3], const float vel[3]);
 
 void INSGetVariance(float *p);
-
-void MagCorrection(const float mag_data[3]);
-void MagVelBaroCorrection(const float mag_data[3], const float Vel[3], float BaroAlt);
-void FullCorrection(const float mag_data[3], const float Pos[3], const float Vel[3],
-		    float BaroAlt);
-void GpsBaroCorrection(const float Pos[3], const float Vel[3], float BaroAlt);
-void GpsMagCorrection(const float mag_data[3], const float Pos[3], const float Vel[2]);
-void VelBaroCorrection(const float Vel[3], float BaroAlt);
 
 uint16_t ins_get_num_states();
 

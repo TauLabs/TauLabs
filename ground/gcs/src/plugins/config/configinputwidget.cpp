@@ -1045,7 +1045,7 @@ void ConfigInputWidget::moveTxControls()
 {
     QTransform trans;
     QGraphicsItem * item;
-    txMovementType move;
+    txMovementType move = vertical;
     int limitMax;
     int limitMin;
     static bool auxFlag=false;
@@ -1387,7 +1387,7 @@ quint8 ConfigInputWidget::scaleSwitchChannel(quint8 channelNumber, quint8 switch
 
     // Convert channel value into the switch position in the range [0..N-1]
     // This uses the same optimized computation as flight code to be consistent
-    quint8 pos = ((int16_t)(valueScaled * 256) + 256) * (switchPositions-1) >> 9;
+    quint8 pos = ((int16_t)(valueScaled * 256) + 256) * switchPositions >> 9;
     if (pos >= switchPositions)
         pos = switchPositions - 1;
     return pos;

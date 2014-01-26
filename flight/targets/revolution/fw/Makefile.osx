@@ -79,7 +79,7 @@ CFLAGS += $(BLONLY_CDEFS)
 
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
-MODULES += Attitude/revolution
+MODULES += Attitude
 MODULES += FirmwareIAP
 
 OPTMODULES += PathPlanner
@@ -316,7 +316,7 @@ LDFLAGS = -Wl
 LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += -lm
-LDFLAGS += -lc -lgcc -lpthread
+LDFLAGS += -lc -lpthread
 
 # To include simulation model
 LDFLAGS += -L$(OUTDIR) 
