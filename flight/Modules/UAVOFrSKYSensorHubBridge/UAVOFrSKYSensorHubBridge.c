@@ -370,18 +370,27 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 			// As long as there is no voltage for each cell
 			// all cells will have the same voltage.
 			// Receiver will know number of cells.
-			float cell_v = voltage / batSettings.NbCells;
-			for(uint8_t i = 0; i < batSettings.NbCells; ++i) {
-				msg_length += frsky_pack_cellvoltage(
-						i,
-						cell_v,
-						serial_buf + msg_length);
+			if (batSettings.NbCells > 0) {
+				float cell_v = voltage / batSettings.NbCells;
+				for(uint8_t i = 0; i < batSettings.NbCells; ++i) {
+					msg_length += frsky_pack_cellvoltage(
+							i,
+							cell_v,
+							serial_buf + msg_length);
+				}
 			}
 
 			msg_length += frsky_pack_fas(
 					voltage,
 					current,
 					serial_buf + msg_length);
+
+			if (batSettings.Capacity > 0) {
+				float fuel = 1.0f - batState.ConsumedEnergy / batSettings.Capacity;
+				msg_length += frsky_pack_fuel(
+					fuel,
+					serial_buf + msg_length);
+			}
 
 			msg_length += frsky_pack_stop(serial_buf + msg_length);
 
@@ -405,11 +414,6 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 						gpsPosData.Groundspeed,
 						serial_buf + msg_length);
 			}
-
-			// TODO! calculating fuel value
-			msg_length += frsky_pack_fuel(
-					0.0,
-					serial_buf + msg_length);
 
 			msg_length += frsky_pack_stop(serial_buf + msg_length);
 
@@ -571,7 +575,21 @@ static uint16_t frsky_pack_fuel(
 		uint8_t *serial_buf)
 {
 	uint8_t index = 0;
-	uint16_t level = abs(fuel_level) * 100;
+
+	uint16_t level = lroundf(abs(fuel_level * 100));
+
+	//Use fixed levels here because documentation says so.
+	if (level > 94)
+		level = 100;
+	else if (level > 69)
+		level = 75;
+	else if (level > 44)
+		level = 50;
+	else if (level > 19)
+		level = 25;
+	else
+		level = 0;
+
 	frsky_serialize_value(FRSKY_FUEL_LEVEL, (uint8_t*)&level, serial_buf, &index);
 
 	return index;
