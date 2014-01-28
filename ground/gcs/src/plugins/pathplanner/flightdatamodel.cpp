@@ -100,8 +100,8 @@ QVariant FlightDataModel::data(const QModelIndex &index, int role) const
         struct FlightDataModel::NED NED;
         switch(index.column())
         {
-        case WPDESCRITPTION:
-            return row->wpDescritption;
+        case WPDESCRIPTION:
+            return row->wpDescription;
         case LATPOSITION:
             return row->latPosition;
         case LNGPOSITION:
@@ -149,7 +149,7 @@ QVariant FlightDataModel::headerData(int section, Qt::Orientation orientation, i
          else if (orientation == Qt::Horizontal) {
              switch (section)
              {
-             case WPDESCRITPTION:
+             case WPDESCRIPTION:
                  return QString("Description");
              case LATPOSITION:
                  return QString("Latitude");
@@ -201,8 +201,8 @@ bool FlightDataModel::setData(const QModelIndex &index, const QVariant &value, i
         QModelIndex otherIndex;
         switch(index.column())
         {
-        case WPDESCRITPTION:
-            row->wpDescritption=value.toString();
+        case WPDESCRIPTION:
+            row->wpDescription=value.toString();
             break;
         case LATPOSITION:
             row->latPosition=value.toDouble();
@@ -375,7 +375,7 @@ bool FlightDataModel::writeToFile(QString fileName)
         waypoint.setAttribute("number",dataStorage.indexOf(obj));
         root.appendChild(waypoint);
         QDomElement field=doc.createElement("field");
-        field.setAttribute("value",obj->wpDescritption);
+        field.setAttribute("value",obj->wpDescription);
         field.setAttribute("name","description");
         waypoint.appendChild(field);
 
@@ -465,7 +465,7 @@ void FlightDataModel::readFromFile(QString fileName)
                     if(field.attribute("name")=="altitude")
                         data->altitude=field.attribute("value").toDouble();
                     else if(field.attribute("name")=="description")
-                        data->wpDescritption=field.attribute("value");
+                        data->wpDescription=field.attribute("value");
                     else if(field.attribute("name")=="latitude")
                         data->latPosition=field.attribute("value").toDouble();
                     else if(field.attribute("name")=="longitude")

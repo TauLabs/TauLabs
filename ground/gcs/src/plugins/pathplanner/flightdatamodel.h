@@ -33,7 +33,7 @@
 
 struct pathPlanData
 {
-    QString wpDescritption;
+    QString wpDescription;
     double latPosition;
     double lngPosition;
     double altitude;
@@ -53,7 +53,7 @@ public:
     {
         LATPOSITION,LNGPOSITION,ALTITUDE,
         NED_NORTH, NED_EAST, NED_DOWN,
-        VELOCITY,MODE,MODE_PARAMS,LOCKED, WPDESCRITPTION,
+        VELOCITY,MODE,MODE_PARAMS,LOCKED, WPDESCRIPTION,
         LASTCOLUMN
     };
 
