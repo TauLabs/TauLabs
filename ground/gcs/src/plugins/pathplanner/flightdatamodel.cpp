@@ -87,7 +87,7 @@ QVariant FlightDataModel::data(const QModelIndex &index, int role) const
         if(!index.isValid() || index.row() > dataStorage.length()-1)
             return QVariant::Invalid;
 
-        pathPlanData * row=dataStorage.at(index.row());
+        PathPlanData * row=dataStorage.at(index.row());
 
         // For the case of mode we want the model to normally return the string value
         // associated with that enum for display purposes.  However in the case of
@@ -191,7 +191,7 @@ bool FlightDataModel::setData(const QModelIndex &index, const QVariant &value, i
 {
     if (index.isValid() && role == Qt::EditRole)
     {
-        pathPlanData *row = dataStorage.at(index.row());
+        PathPlanData *row = dataStorage.at(index.row());
 
         // Do not allow changing any values except locked when the column is locked
         if (row->locked && index.column() != (int) FlightDataModel::LOCKED)
@@ -279,7 +279,7 @@ Qt::ItemFlags FlightDataModel::flags(const QModelIndex & index) const
         return Qt::ItemIsSelectable |  Qt::ItemIsEditable | Qt::ItemIsEnabled;
 
     // Suppress editable flag if row is locked
-    pathPlanData *row = dataStorage.at(index.row());
+    PathPlanData *row = dataStorage.at(index.row());
     if (row->locked)
         return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
@@ -295,19 +295,19 @@ Qt::ItemFlags FlightDataModel::flags(const QModelIndex & index) const
  */
 bool FlightDataModel::insertRows(int row, int count, const QModelIndex &/*parent*/)
 {
-    pathPlanData * data;
+    PathPlanData * data;
     beginInsertRows(QModelIndex(),row,row+count-1);
     for(int x=0; x<count;++x)
     {
         // Initialize new internal representation
-        data=new pathPlanData;
+        data=new PathPlanData;
         data->latPosition=0;
         data->lngPosition=0;
 
         // If there is a previous waypoint, initialize some of the fields to that value
         if(rowCount() > 0)
         {
-            pathPlanData * prevRow = dataStorage.at(rowCount()-1);
+            PathPlanData * prevRow = dataStorage.at(rowCount()-1);
             data->altitude    = prevRow->altitude;
             data->velocity    = prevRow->velocity;
             data->mode        = prevRow->mode;
@@ -368,7 +368,7 @@ bool FlightDataModel::writeToFile(QString fileName)
     QDomElement root = doc.createElement("waypoints");
     doc.appendChild(root);
 
-    foreach(pathPlanData * obj,dataStorage)
+    foreach(PathPlanData * obj,dataStorage)
     {
 
         QDomElement waypoint = doc.createElement("waypoint");
@@ -452,13 +452,13 @@ void FlightDataModel::readFromFile(QString fileName)
         return;
     }
 
-    pathPlanData * data=NULL;
+    PathPlanData * data=NULL;
     QDomNode node = root.firstChild();
     while (!node.isNull()) {
         QDomElement e = node.toElement();
         if (e.tagName() == "waypoint") {
             QDomNode fieldNode=e.firstChild();
-            data=new pathPlanData;
+            data=new PathPlanData;
             while (!fieldNode.isNull()) {
                 QDomElement field = fieldNode.toElement();
                 if (field.tagName() == "field") {
@@ -525,7 +525,7 @@ struct FlightDataModel::NED FlightDataModel::getNED(int index) const
 {
     double f_NED[3];
     double homeLLA[3];
-    pathPlanData * row = dataStorage.at(index);
+    PathPlanData * row = dataStorage.at(index);
     double LLA[3] = {row->latPosition, row->lngPosition, row->altitude};
 
     getHomeLocation(homeLLA);
@@ -549,7 +549,7 @@ bool FlightDataModel::setNED(int index, struct FlightDataModel::NED NED)
 {
     double homeLLA[3];
     double LLA[3];
-    pathPlanData * row = dataStorage.at(index);
+    PathPlanData * row = dataStorage.at(index);
     double f_NED[3] = {NED.North, NED.East, NED.Down};
 
     getHomeLocation(homeLLA);
