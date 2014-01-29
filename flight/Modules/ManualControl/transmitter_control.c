@@ -99,7 +99,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged);
 static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
 static void set_flight_mode();
-static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled);
+static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled, bool valid);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
 static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time);
@@ -162,6 +162,7 @@ int32_t transmitter_control_update()
 	lastSysTime = xTaskGetTickCount();
 
 	float scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
+	bool validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
 
 	if (settings_updated) {
 		settings_updated = false;
@@ -239,10 +240,13 @@ int32_t transmitter_control_update()
 
 		// If a channel has timed out this is not valid data and we shouldn't update anything
 		// until we decide to go to failsafe
-		if(cmd.Channel[n] == (uint16_t) PIOS_RCVR_TIMEOUT)
+		if(cmd.Channel[n] == (uint16_t) PIOS_RCVR_TIMEOUT) {
 			valid_input_detected = false;
-		else
+			validChannel[n] = false;
+		} else {
 			scaledChannel[n] = scaleChannel(cmd.Channel[n], settings.ChannelMax[n],	settings.ChannelMin[n], settings.ChannelNeutral[n]);
+			validChannel[n] = validInputRange(settings.ChannelMin[n], settings.ChannelMax[n], cmd.Channel[n], CONNECTION_OFFSET);
+		}
 	}
 
 	// Check settings, if error raise alarm
@@ -283,14 +287,19 @@ int32_t transmitter_control_update()
 
 	// the block above validates the input configuration. this simply checks that the range is valid if flight mode is configured.
 	bool flightmode_valid_input = settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-		validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], CONNECTION_OFFSET);
+	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE];
+
+	// because arming is optional we must determine if it is needed before checking it is valid
+	bool arming_valid_input = settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ARMING] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
+	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ARMING];
 
 	// decide if we have valid manual input or not
-	valid_input_detected &= validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], CONNECTION_OFFSET_THROTTLE) &&
-	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], CONNECTION_OFFSET) &&
-	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], CONNECTION_OFFSET) &&
-	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], CONNECTION_OFFSET) &&
-	     flightmode_valid_input;
+	valid_input_detected &= validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] &&
+	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL] &&
+	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW] &&
+	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH] &&
+	    flightmode_valid_input &&
+	    arming_valid_input;
 
 	// Implement hysteresis loop on connection status
 	if (valid_input_detected && (++connected_count > 10)) {
@@ -366,7 +375,7 @@ int32_t transmitter_control_update()
 	// Process arming outside conditional so system will disarm when disconnected.  Notice this
 	// is processed in the _update method instead of _select method so the state system is always
 	// evalulated, even if not detected.
-	process_transmitter_events(&cmd, &settings, scaledChannel);
+	process_transmitter_events(&cmd, &settings, scaledChannel, valid_input_detected);
 	
 	// Update cmd object
 	ManualControlCommandSet(&cmd);
@@ -473,10 +482,13 @@ static void set_armed_if_changed(uint8_t new_arm) {
 
 /**
  * @brief Process the inputs and determine whether to arm or not
- * @param[out] cmd The structure to set the armed in
+ * @param[in] cmd The manual control inputs
  * @param[in] settings Settings indicating the necessary position
+ * @param[in] scaled The scaled channels, used for checking arming
+ * @param[in] valid If the input data is valid (i.e. transmitter is transmitting)
  */
-static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled)
+static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings,
+    float * scaled, bool valid)
 {
 	static portTickType armedDisarmStart;
 	bool lowThrottle = cmd->Throttle <= 0;
@@ -487,7 +499,13 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 	if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED) {
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
 	} else if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCH) {
-		if (cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE) {
+		// For the switch we look at valid instead of cmd->Connected because the later
+		// has a hysteresis loop which means we can arm quickly on invalid data and
+		// then it will time out. This might be very temporary glitches will start the
+		// disarm timeout but you still need the full timeout to actually disarm. This
+		// is not a problem for the code blocks below because they require a full
+		// second to arm.
+		if (!valid) {
 			// When transmitter gone go back to normal disarm timeout behavior
 			if ((settings->ArmedTimeout != 0) && (timeDifferenceMs(armedDisarmStart, lastSysTime) > settings->ArmedTimeout))
 				set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
