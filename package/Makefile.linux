@@ -30,6 +30,7 @@ DEB_PLATFORM		:= amd64
 DEB_MACHINE_DIR		:= $(DEB_CFG_AMD64_DIR)
 DEB_MACHINE_FILES	:= $(DEB_CFG_AMD64_FILES)
 MACHINE_TYPE		:= $(shell uname -m)
+QT_SDK_DIR		:= $(ROOT_DIR)/tools/Qt5.2.0
 QT_PLUGINS_DIR		:= $(QT_SDK_DIR)/5.2.0/gcc_64/plugins
 ifneq ($(MACHINE_TYPE), x86_64)
  QT_PLUGINS_DIR		:= $(QT_SDK_DIR)/5.2.0/gcc/plugins
@@ -41,8 +42,6 @@ ALL_DEB_FILES  = $(foreach f, $(DEB_CFG_CMN_FILES), $(DEB_BUILD_DIR)/$(f))
 ALL_DEB_FILES += $(foreach f, $(DEB_MACHINE_FILES), $(DEB_BUILD_DIR)/$(f))
 
 DEB_PACKAGE_NAME	:= taulabs_$(VERSION_FULL)_$(DEB_PLATFORM)
-
-QT_SDK_DIR		:=$(ROOT_DIR)/tools/Qt5.2.0
 
 QT_PLUGINS_USED		:=imageformats platforms sqldrivers
 
