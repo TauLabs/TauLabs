@@ -123,8 +123,8 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->cbGPS->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbGPS->setProperty(falseString.toLatin1(), "Disabled");
 
-    ui->cbUavoMavlink->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbUavoMavlink->setProperty(falseString.toAscii(), "Disabled");
+    ui->cbUavoMavlink->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbUavoMavlink->setProperty(falseString.toLatin1(), "Disabled");
 
     ui->cbOveroSync->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbOveroSync->setProperty(falseString.toLatin1(), "Disabled");
