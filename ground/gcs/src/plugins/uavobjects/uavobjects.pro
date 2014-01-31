@@ -29,10 +29,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/actuatorcommand.h \
     $$UAVOBJECT_SYNTHETICS/actuatordesired.h \
     $$UAVOBJECT_SYNTHETICS/actuatorsettings.h \
-    $$UAVOBJECT_SYNTHETICS/adcrouting.h \
     $$UAVOBJECT_SYNTHETICS/airspeedsettings.h \
     $$UAVOBJECT_SYNTHETICS/airspeedactual.h \
-    $$UAVOBJECT_SYNTHETICS/altholdsmoothed.h \
     $$UAVOBJECT_SYNTHETICS/altitudeholddesired.h \
     $$UAVOBJECT_SYNTHETICS/altitudeholdsettings.h \
     $$UAVOBJECT_SYNTHETICS/attitudeactual.h \
@@ -117,6 +115,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/trimangles.h \
     $$UAVOBJECT_SYNTHETICS/trimanglessettings.h \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.h \
+    $$UAVOBJECT_SYNTHETICS/ubloxinfo.h \
     $$UAVOBJECT_SYNTHETICS/velocitydesired.h \
     $$UAVOBJECT_SYNTHETICS/velocityactual.h \
     $$UAVOBJECT_SYNTHETICS/vibrationanalysisoutput.h \
@@ -132,10 +131,8 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatorcommand.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatordesired.cpp \
     $$UAVOBJECT_SYNTHETICS/actuatorsettings.cpp \
-    $$UAVOBJECT_SYNTHETICS/adcrouting.cpp \
     $$UAVOBJECT_SYNTHETICS/airspeedsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/airspeedactual.cpp \
-    $$UAVOBJECT_SYNTHETICS/altholdsmoothed.cpp \
     $$UAVOBJECT_SYNTHETICS/altitudeholddesired.cpp \
     $$UAVOBJECT_SYNTHETICS/altitudeholdsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/attitudeactual.cpp \
@@ -221,6 +218,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/trimanglessettings.cpp \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/uavobjectsinit.cpp \
+    $$UAVOBJECT_SYNTHETICS/ubloxinfo.cpp \
     $$UAVOBJECT_SYNTHETICS/velocitydesired.cpp \
     $$UAVOBJECT_SYNTHETICS/velocityactual.cpp \
     $$UAVOBJECT_SYNTHETICS/vibrationanalysisoutput.cpp \

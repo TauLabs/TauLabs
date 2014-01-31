@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file       OsgViewer.java
+  * @file       OsgViewer.java
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Visualize a model with OSG
  * @see        The GNU Public License (GPL) Version 3
@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.osg.ColorPickerDialog;
 import org.taulabs.osg.EGLview;
 import org.taulabs.osg.osgNativeLib;
@@ -93,7 +94,7 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
     //Main Android Activity life cycle
     @SuppressLint("ShowToast") @Override protected void onCreate(Bundle icicle) {
     	super.onCreate(icicle);
-    	setContentView(R.layout.ui_layout_gles);
+
     	//Obtain every Ui element
     	mView= (EGLview) findViewById(R.id.surfaceGLES);
     	mView.setOnTouchListener(this);
@@ -121,6 +122,14 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
     	}
     	Log.d(TAG, "Create");
     }
+    
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.ui_layout_gles);
+		return navDrawer;
+	}
+	
     @Override protected void onPause() {
         super.onPause();
         mView.onPause();
@@ -347,8 +356,8 @@ public class OsgViewer extends ObjectManagerActivity implements View.OnTouchList
 
 	// The below methods should all be called by the parent activity at the appropriate times
 	@Override
-	public void onOPConnected() {
-		super.onOPConnected();
+	public void onConnected() {
+		super.onConnected();
 
 		UAVObject obj = objMngr.getObject("AttitudeActual");
 		if (obj != null) {

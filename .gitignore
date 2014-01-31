@@ -55,6 +55,13 @@ quad
 androidgcs/build.xml
 androidgcs/local.properties
 androidgcs/proguard-project.txt
+androidgcs/google-play-services_lib/.project
+androidgcs/google-play-services_lib/bin/
+androidgcs/google-play-services_lib/build.xml
+androidgcs/google-play-services_lib/gen/
+androidgcs/google-play-services_lib/local.properties
+androidgcs/google-play-services_lib/proguard-project.txt
+
 
 # Ignore build output from Eclipse android builds
 androidgcs/bin/
@@ -65,3 +72,4 @@ androidgcs/gen/
 
 #local doxygen pages
 /html
+

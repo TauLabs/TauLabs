@@ -102,13 +102,13 @@ static struct ms5611_dev * PIOS_MS5611_alloc(void)
 	if (!ms5611_dev)
 		return (NULL);
 
+	memset(ms5611_dev, 0, sizeof(*ms5611_dev));
+
 	ms5611_dev->queue = xQueueCreate(1, sizeof(struct pios_sensor_baro_data));
 	if (ms5611_dev->queue == NULL) {
 		vPortFree(ms5611_dev);
 		return NULL;
 	}
-
-	memset(ms5611_dev, 0, sizeof(ms5611_dev));
 
 	ms5611_dev->magic = PIOS_MS5611_DEV_MAGIC;
 

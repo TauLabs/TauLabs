@@ -168,8 +168,11 @@ void ConfigStabilizationWidget::processLinkedWidgets(QWidget * widget)
 void ConfigStabilizationWidget::applyRateLimits()
 {
     Core::IBoardType *board = getObjectUtilManager()->getBoardType();
-    Q_ASSERT(board);
-    double maxRate = board->queryMaxGyroRate() * 0.85;
+
+    double maxRate = 500; // Default to slowest across boards
+    if (board)
+        maxRate = board->queryMaxGyroRate() * 0.85;
+
     m_stabilization->fullStickRateRoll->setMaximum(maxRate);
     m_stabilization->fullStickRatePitch->setMaximum(maxRate);
     m_stabilization->fullStickRateYaw->setMaximum(maxRate);

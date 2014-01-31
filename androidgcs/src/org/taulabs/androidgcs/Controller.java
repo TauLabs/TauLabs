@@ -29,6 +29,7 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
 import org.taulabs.uavtalk.UAVDataObject;
 import org.taulabs.uavtalk.UAVObject;
 import org.taulabs.uavtalk.UAVObjectField;
@@ -74,7 +75,6 @@ public class Controller extends ObjectManagerActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.controller);
 
 		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 			orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
@@ -82,6 +82,13 @@ public class Controller extends ObjectManagerActivity {
 			orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 		setRequestedOrientation(orientation);
 		//setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+	}
+
+	@Override
+	protected NavDrawerActivityConfiguration getNavDrawerConfiguration() {
+		NavDrawerActivityConfiguration navDrawer = getDefaultNavDrawerConfiguration();
+		navDrawer.setMainLayout(R.layout.controller);
+		return navDrawer;
 	}
 
 	@Override
@@ -106,10 +113,10 @@ public class Controller extends ObjectManagerActivity {
 	};
 
 	@Override
-	void onOPConnected() {
-		super.onOPConnected();
+	void onConnected() {
+		super.onConnected();
 
-		if (DEBUG) Log.d(TAG, "onOPConnected()");
+		if (DEBUG) Log.d(TAG, "onConnected()");
 
 		DualJoystickView joystick = (DualJoystickView) findViewById(R.id.dualjoystickView);
 		joystick.setMovementConstraint(JoystickView.CONSTRAIN_BOX);

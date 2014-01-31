@@ -29,11 +29,11 @@
 	<application android:icon="@drawable/ic_logo" android:label="@string/app_name" android:theme="@android:style/Theme.Holo">
 		<!-- for map overlay -->
 		<uses-library android:name="com.google.android.maps" />
-		
+		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBaAV9pYtdvqFRlJ6psNH34GpDjejHoV8o"/>
 		
 		<!-- Object browser - main activity at the moment -->
-		<activity android:name="HomePage" android:label="@string/app_name">
+		<activity android:name="MainActivity" android:label="@string/app_name">
 		    
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -48,10 +48,9 @@
 <!--                 android:resource="@xml/device_filter" /> -->
 		</activity>
 
-		<activity android:name="AttitudeAdjustment" android:label="@string/attitude_adjustment" />
+		<activity android:name="HomeAdjustment" android:label="@string/home_adjustment" />
 		<activity android:name="ObjectBrowser" android:label="@string/object_browser_name" />
 
-		<activity android:name="PfdActivity" android:label="PFD" />
 		<activity android:name="Controller" android:label="@string/controller_name" 
 		    android:configChanges="keyboardHidden|orientation|screenSize"/>
 
@@ -61,11 +60,11 @@
 		<activity android:name="TuningActivity" android:label="Tuning" />
 
 		<activity android:name="PathPlanner" android:label="Path Planner" />
-		<activity android:name="TableControl" android:label="Table Control"/> <!-- android:hardwareAccelerated="false" -->
+		<activity android:name="TabletControl" android:label="@string/tablet_control"/> <!-- android:hardwareAccelerated="false" -->
 		<activity android:name="ObjectEditor" android:label="ObjectEditor"
 		    android:windowSoftInputMode="stateHidden"
 			android:theme="@android:style/Theme.Dialog" />
-		<activity android:name="Logger" android:label="@string/logger"/>
+		<activity android:name="Logging" android:label="@string/logger"/>
 
 		<activity
 		    android:name="FragmentTester"

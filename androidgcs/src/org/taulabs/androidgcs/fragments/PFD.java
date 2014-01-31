@@ -27,6 +27,7 @@ import org.taulabs.androidgcs.R;
 import org.taulabs.androidgcs.views.AltitudeView;
 import org.taulabs.androidgcs.views.AttitudeView;
 import org.taulabs.androidgcs.views.BatteryView;
+import org.taulabs.androidgcs.views.FlightStatusView;
 import org.taulabs.androidgcs.views.GpsView;
 import org.taulabs.androidgcs.views.HeadingView;
 import org.taulabs.uavtalk.UAVObject;
@@ -41,8 +42,7 @@ import android.view.ViewGroup;
 
 public class PFD extends ObjectManagerFragment {
 
-	private static final String TAG = ObjectManagerFragment.class
-			.getSimpleName();
+	private static final String TAG = PFD.class.getSimpleName();
 	private static final int LOGLEVEL = 0;
 	// private static boolean WARN = LOGLEVEL > 1;
 	private static final boolean DEBUG = LOGLEVEL > 0;
@@ -56,8 +56,8 @@ public class PFD extends ObjectManagerFragment {
 	}
 
 	@Override
-	public void onOPConnected(UAVObjectManager objMngr) {
-		super.onOPConnected(objMngr);
+	public void onConnected(UAVObjectManager objMngr) {
+		super.onConnected(objMngr);
 		if (DEBUG)
 			Log.d(TAG, "On connected");
 
@@ -84,6 +84,13 @@ public class PFD extends ObjectManagerFragment {
 			registerObjectUpdates(obj);
 			objectUpdated(obj);
 		}
+
+		obj = objMngr.getObject("FlightStatus");
+		if (obj != null) {
+			registerObjectUpdates(obj);
+			objectUpdated(obj);
+		}
+
 }
 
 	/**
@@ -172,7 +179,26 @@ public class PFD extends ObjectManagerFragment {
 				}
 			}
 		}
+		
+		if (obj.getName().compareTo("FlightStatus") == 0) {
+			String armedStatus = obj.getField("Armed").getValue().toString();
+			String flightMode = obj.getField("FlightMode").getValue().toString();
 
+			Activity parent = getActivity();
+			FlightStatusView flightStatusView = null;
+			if (parent != null) {
+				flightStatusView = (FlightStatusView) parent.findViewById(R.id.flight_status_view);
+			}
+			if (flightStatusView != null) {
+				flightStatusView.setArmed(armedStatus);
+				flightStatusView.setFlightMode(flightMode);
+			}
+		}
+	}
+
+	@Override
+	protected String getDebugTag() {
+		return TAG;
 	}
 
 }

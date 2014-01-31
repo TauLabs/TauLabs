@@ -3,10 +3,14 @@
 	<string name="app_name">Tau Labs GCS</string>
 	<string name="object_browser_name">Browser</string>
 	<string name="controller_name">Controller</string>
-	<string name="pfd_name">PFD</string>
+	<string name="main_activity_name">Main"</string>
 	<string name="location_name">Map</string>
 	<string name="logger_name">Logging</string>
-	
+	<string name="home_adjustment">Home Adjustment</string>
+	<string name="tablet_control">Tablet Control</string>
+	<string name="path_planner">Path Planner</string>
+	<string name="logger">Logging</string>
+		
 	<string name="menu_item_settings">Settings</string>
 	<string name="menu_item_connect">Connect</string>
 	<string name="menu_item_disconnect">Disconnect</string>
@@ -16,6 +20,9 @@
 	<string name="preference_checkbox_connection_type">Connection Type</string>
 	<string name="preference_checkbox_bluetooth">Bluetooth</string>
 	<string name="preference_connection_method_summary">Select the connection method</string>
+	
+	<string name="drawer_open">Open Drawer</string>
+	<string name="drawer_close">Closer Drawer</string>
 	
 	<string name="compass_name">Compass</string>
 	<string name="cardinal_north">N</string>
@@ -42,8 +49,6 @@
 	<string name="edit">Edit</string>
 	<string name="load">Load</string>
 	<string name="waypoint">waypoint</string>
-	<string name="tablet_control">Tablet Control</string>
-	<string name="path_planner">Path Planner</string>
 
 	<string name="uiToastNavPrincipal">Main navigation</string>
 	<string name="uiToastNavSecond">Second Navigation</string>
@@ -66,11 +71,7 @@
 
 	<string name="transmitter">Transmitter</string>
 
-	<string name="attitude_adjustment">Attitude Adjustment</string>
-
 	<string name="objecteditor">ObjectEditor</string>
-
-	<string name="logger">Logger</string>
 
 	<string name="reset_home_to_tablet">Reset Home to Tablet</string>
 
@@ -83,4 +84,8 @@
 	<string name="disarmed">Disarmed</string>
 
 	<string name="armed_">"Armed: "</string>
+
+	<string name="clear_uav_path">Clear UAV Path</string>
+
+	<string name="close_button">Close</string>
 </resources>

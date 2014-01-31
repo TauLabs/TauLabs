@@ -70,6 +70,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbBattery, ModuleSettings::ADMINSTATE_BATTERY);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbComBridge, ModuleSettings::ADMINSTATE_COMUSBBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGPS, ModuleSettings::ADMINSTATE_GPS);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUavoMavlink, ModuleSettings::ADMINSTATE_UAVOMAVLINKBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbOveroSync, ModuleSettings::ADMINSTATE_OVEROSYNC);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVtolFollower, ModuleSettings::ADMINSTATE_VTOLPATHFOLLOWER);
@@ -82,10 +83,13 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(airspeedSettingsName, "GPSSamplePeriod_ms", ui->sb_gpsUpdateRate);
     addUAVObjectToWidgetRelation(airspeedSettingsName, "Scale", ui->sb_pitotScale);
     addUAVObjectToWidgetRelation(airspeedSettingsName, "ZeroPoint", ui->sb_pitotZeroPoint);
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "AnalogPin", ui->cbAirspeedAnalog);
 
     addUAVObjectToWidgetRelation(batterySettingsName, "Type", ui->cb_batteryType);
     addUAVObjectToWidgetRelation(batterySettingsName, "NbCells", ui->sb_numBatteryCells);
     addUAVObjectToWidgetRelation(batterySettingsName, "Capacity", ui->sb_batteryCapacity);
+    addUAVObjectToWidgetRelation(batterySettingsName, "VoltagePin", ui->cbVoltagePin);
+    addUAVObjectToWidgetRelation(batterySettingsName, "CurrentPin", ui->cbCurrentPin);
     addUAVObjectToWidgetRelation(batterySettingsName, "VoltageThresholds", ui->sb_lowVoltageAlarm, FlightBatterySettings::VOLTAGETHRESHOLDS_ALARM);
     addUAVObjectToWidgetRelation(batterySettingsName, "VoltageThresholds", ui->sb_lowVoltageWarning, FlightBatterySettings::VOLTAGETHRESHOLDS_WARNING);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationFactor", ui->sb_voltageFactor, FlightBatterySettings::SENSORCALIBRATIONFACTOR_VOLTAGE);
@@ -98,6 +102,8 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "SampleRate", ui->sb_sampleRate);
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "FFTWindowSize", ui->cb_windowSize);
+
+    addHelpButton(ui->inputHelp,"https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Modules");
 
     // Connect any remaining widgets
     connect(airspeedSettings, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAirspeedUAVO(UAVObject *)));
@@ -116,6 +122,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     ui->cbGPS->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbGPS->setProperty(falseString.toLatin1(), "Disabled");
+
+    ui->cbUavoMavlink->setProperty(trueString.toAscii(), "Enabled");
+    ui->cbUavoMavlink->setProperty(falseString.toAscii(), "Disabled");
 
     ui->cbOveroSync->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbOveroSync->setProperty(falseString.toLatin1(), "Disabled");

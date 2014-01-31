@@ -6,7 +6,7 @@
  *             This class takes care of binding to the service and getting the
  *             object manager as well as setting up callbacks to the objects of
  *             interest that run on the UI thread.
- *             Implements a new Android lifecycle: onOPConnected() / onOPDisconnected()
+ *             Implements a new Android lifecycle: onConnected() / onDisconnected()
  *             which indicates when a valid telemetry is established as well as a
  *             valid object manager handle.
  * @see        The GNU Public License (GPL) Version 3
@@ -35,7 +35,16 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
+import org.taulabs.androidgcs.drawer.NavDrawerAdapter;
+import org.taulabs.androidgcs.drawer.NavDrawerItem;
+import org.taulabs.androidgcs.drawer.NavMenuActivity;
+import org.taulabs.androidgcs.drawer.NavMenuItem;
+import org.taulabs.androidgcs.drawer.NavMenuSection;
 import org.taulabs.androidgcs.fragments.ObjectManagerFragment;
+import org.taulabs.androidgcs.fragments.PFD;
+import org.taulabs.androidgcs.fragments.Map;
+import org.taulabs.androidgcs.fragments.SystemAlarmsFragment;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.ConnectionState;
 import org.taulabs.androidgcs.telemetry.OPTelemetryService.LocalBinder;
@@ -48,25 +57,34 @@ import org.taulabs.uavtalk.UAVObjectField;
 import org.taulabs.uavtalk.UAVObjectManager;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 public abstract class ObjectManagerActivity extends Activity {
 
 	private final String TAG = "ObjectManagerActivity";
 	private static int LOGLEVEL = 0;
-//	private static boolean WARN = LOGLEVEL > 1;
+	//	private static boolean WARN = LOGLEVEL > 1;
 	private static boolean DEBUG = LOGLEVEL > 0;
 
 	//! Object manager, populated by parent for the children to use
@@ -82,11 +100,59 @@ public abstract class ObjectManagerActivity extends Activity {
 	//! Maintain a list of all the UAVObject listeners for this activity
 	private HashMap<Observer, UAVObject> listeners;
 
+	private DrawerLayout mDrawerLayout;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private ListView mDrawerList;
+	private CharSequence mDrawerTitle;
+	private CharSequence mTitle;
 
 	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		navConf = getNavDrawerConfiguration();
+		setContentView(navConf.getMainLayout());
+
+		mTitle = mDrawerTitle = getTitle();
+
+		mDrawerLayout = (DrawerLayout) findViewById(navConf.getDrawerLayoutId());
+		mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
+
+		mDrawerList = (ListView) findViewById(navConf.getLeftDrawerId());
+		mDrawerList.setAdapter(navConf.getBaseAdapter());
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+		this.initDrawerShadow();
+
+		// enable ActionBar app icon to behave as action to toggle nav drawer
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
+
+		mDrawerToggle = new ActionBarDrawerToggle(
+				this,
+				mDrawerLayout,
+				getDrawerIcon(),
+				navConf.getDrawerOpenDesc(),
+				navConf.getDrawerCloseDesc()
+				) {
+			public void onDrawerClosed(View view) {
+				getActionBar().setTitle(mTitle);
+				invalidateOptionsMenu();
+			}
+
+			public void onDrawerOpened(View drawerView) {
+				getActionBar().setTitle(mDrawerTitle);
+				invalidateOptionsMenu();
+			}
+		};
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		if (savedInstanceState == null) {
+			selectItem(0);
+		}
+
 	}
 
 	/**
@@ -104,7 +170,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	 *
 	 * This should be called by all inherited classes if they want the telemetry bar etc
 	 */
-	void onOPConnected() {
+	void onConnected() {
 
 		// Cannot be called repeatedly
 		if (connectedCalled)
@@ -142,7 +208,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	 *
 	 * This should be called by all inherited classes if they want the telemetry bar etc
 	 */
-	void onOPDisconnected() {
+	void onDisconnected() {
 		if (!connectedCalled)
 			return;
 		connectedCalled = false;
@@ -242,11 +308,11 @@ public abstract class ObjectManagerActivity extends Activity {
 					if((task = binder.getTelemTask(0)) == null)
 						return;
 					objMngr = task.getObjectManager();
-					onOPConnected();
+					onConnected();
 					Log.d(TAG, "Connected()");
 					invalidateOptionsMenu();
 				} else if (intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_DISCONNECTED) == 0) {
-					onOPDisconnected();
+					onDisconnected();
 					objMngr = null;
 					Log.d(TAG, "Disonnected()");
 					invalidateOptionsMenu();
@@ -307,21 +373,6 @@ public abstract class ObjectManagerActivity extends Activity {
 			});
 		}
 	};
-	private class FragmentUpdatedObserver implements Observer  {
-		UAVObject obj;
-		ObjectManagerFragment frag;
-		FragmentUpdatedObserver(UAVObject obj, ObjectManagerFragment frag) {
-			this.obj = obj;
-			this.frag = frag;
-		};
-		@Override
-		public void update(Observable observable, Object data) {
-			uavobjHandler.post(new Runnable() {
-				@Override
-				public void run() { frag.objectUpdated(obj); }
-			});
-		}
-	};
 
 	/**
 	 * Unregister all the objects connected to this activity
@@ -347,8 +398,8 @@ public abstract class ObjectManagerActivity extends Activity {
 			obj.removeUpdatedObserver(o);
 		}
 		paused = true;
-
 	}
+
 
 	/**
 	 * When an activity is resumed, reconnect all now the view
@@ -372,23 +423,9 @@ public abstract class ObjectManagerActivity extends Activity {
 	}
 
 	/**
-	 * Register to listen to a single object from a fragment
-	 * @param object The object to listen to updates from
-	 * @param frag The fragment who should be notified
- 	 * the objectUpdated() method will be called in the original UI thread
-	 */
-	public void registerObjectUpdates(UAVObject object,
-			ObjectManagerFragment frag) {
-		Observer o = new FragmentUpdatedObserver(object, frag);
-		listeners.put(o, object);
-		if (!paused)
-			object.addUpdatedObserver(o);
-	}
-
-	/**
 	 * Register an activity to receive updates from this object
 	 * @param object The object the activity should listen to updates from
- 	 * the objectUpdated() method will be called in the original UI thread
+	 * the objectUpdated() method will be called in the original UI thread
 	 */
 	protected void registerObjectUpdates(UAVObject object) {
 		Observer o = new ActivityUpdatedObserver(object);
@@ -508,7 +545,7 @@ public abstract class ObjectManagerActivity extends Activity {
 	/*********** Deals with fragments listening for connections ***************/
 
 	/**
-	 * Callbacks so ObjectManagerFragments get the onOPConnected and onOPDisconnected signals
+	 * Callbacks so ObjectManagerFragments get the onConnected and onDisconnected signals
 	 */
 	class ConnectionObserver extends Observable  {
 		public void disconnected() {
@@ -531,22 +568,26 @@ public abstract class ObjectManagerActivity extends Activity {
 		ObjectManagerFragment fragment;
 		OnConnectionListener(ObjectManagerFragment fragment) { this.fragment = fragment; };
 
-		// Whenever the observer is updated either conenct or disconnect based on the data
+		// Whenever the observer is updated either connected or disconnected based on the data
 		@Override
 		public void update(Observable observable, Object data) {
 			Log.d(TAG, "onConnectionListener called");
 			if (data == null)
-				fragment.onOPDisconnected();
+				fragment.onDisconnected();
 			else
-				fragment.onOPConnected(objMngr);
+				fragment.onConnected(objMngr);
 		}
 
 	} ;
 	public void addOnConnectionListenerFragment(ObjectManagerFragment frag) {
 		connectionListeners.addObserver(new OnConnectionListener(frag));
 		if (DEBUG) Log.d(TAG, "Connecting " + frag + " there are now " + connectionListeners.countObservers());
-		if (getConnectionState() == ConnectionState.CONNECTED)
-			frag.onOPConnected(objMngr);
+		
+		// We have to check the connected called flag to make sure that the activity
+		// has acknowledged the connection already.
+		if (getConnectionState() == ConnectionState.CONNECTED &&
+				connectedCalled)
+			frag.onConnected(objMngr);
 	}
 
 
@@ -564,7 +605,7 @@ public abstract class ObjectManagerActivity extends Activity {
 				TelemTask task;
 				if((task = binder.getTelemTask(0)) != null) {
 					objMngr = task.getObjectManager();
-					onOPConnected();
+					onConnected();
 					invalidateOptionsMenu();
 				}
 
@@ -573,7 +614,7 @@ public abstract class ObjectManagerActivity extends Activity {
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			onOPDisconnected();
+			onDisconnected();
 			binder = null;
 			objMngr = null;
 			invalidateOptionsMenu();
@@ -583,6 +624,13 @@ public abstract class ObjectManagerActivity extends Activity {
 	/************* Deals with menus *****************/
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
+		// The action bar home/up action should open or close the drawer.
+		// ActionBarDrawerToggle will take care of this.
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+
 		if (binder == null) {
 			Log.e(TAG, "Unable to connect to service");
 			return super.onOptionsItemSelected(item);
@@ -621,7 +669,7 @@ public abstract class ObjectManagerActivity extends Activity {
 			disconnectionButton.setEnabled(channelOpen).setVisible(channelOpen);
 		}
 
-		return true;
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	//! Get the current connection state
@@ -643,7 +691,7 @@ public abstract class ObjectManagerActivity extends Activity {
 		summary = (AlarmsSummary) menu.findItem(R.id.alarms_status).getActionView();
 		updateAlarmSummary();
 
-		return true;
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -652,5 +700,174 @@ public abstract class ObjectManagerActivity extends Activity {
 		updateTelemetryStats();
 		return true;
 	}
+
+	/************ Deals with drawer navigation ************/
+	private NavDrawerActivityConfiguration navConf ;
+	protected abstract NavDrawerActivityConfiguration getNavDrawerConfiguration();
+	protected NavDrawerActivityConfiguration getDefaultNavDrawerConfiguration() {
+
+		NavDrawerActivityConfiguration navDrawerActivityConfiguration = new NavDrawerActivityConfiguration();
+		navDrawerActivityConfiguration.setDrawerLayoutId(R.id.drawer_layout);
+		navDrawerActivityConfiguration.setLeftDrawerId(R.id.left_drawer);
+		navDrawerActivityConfiguration.setDrawerShadow(R.drawable.drawer_shadow);       
+		navDrawerActivityConfiguration.setDrawerOpenDesc(R.string.drawer_open);
+		navDrawerActivityConfiguration.setDrawerCloseDesc(R.string.drawer_close);
+
+		// The main two things that can be overridden are the layout (must be) and the menu options
+
+		//navDrawerActivityConfiguration.setMainLayout(R.layout.main);
+
+		// Set up the menu
+		NavDrawerItem[] menu = new NavDrawerItem[] {
+				NavMenuSection.create( 100, "Main Screens"),
+				NavMenuItem.create(101, "PFD", "ic_pfd", true, this),
+				NavMenuItem.create(102, "Map", "ic_map", true, this),
+				NavMenuItem.create(103, "Alarms", "ic_alarms", true, this),
+				NavMenuActivity.create(104, "Tuning", "ic_tuning", TuningActivity.class, true, this),
+				NavMenuActivity.create(105, "Home Adjustment", "ic_map", HomeAdjustment.class, true, this),
+				NavMenuActivity.create(106, "Browser", "ic_browser", ObjectBrowser.class, true, this),
+				NavMenuActivity.create(107, "Logging", "ic_logging", Logging.class, true, this),
+				//NavMenuActivity.create(108, "Control", "ic_controller", Controller.class, true, this),
+				NavMenuActivity.create(109, "Tablet Control", "ic_tabletcontrol", TabletControl.class, true, this),
+				NavMenuActivity.create(1010, "OSG", "ic_osg", OsgViewer.class, true, this),
+		};
+
+		navDrawerActivityConfiguration.setNavItems(menu);
+		navDrawerActivityConfiguration.setBaseAdapter(
+				new NavDrawerAdapter(this, R.layout.navdrawer_item, menu ));
+
+		return navDrawerActivityConfiguration;
+	}
+
+	protected void initDrawerShadow() {
+		mDrawerLayout.setDrawerShadow(navConf.getDrawerShadow(), GravityCompat.START);
+	}
+
+	protected int getDrawerIcon() {
+		return R.drawable.ic_drawer;
+	}
+
+	/* The click listener for ListView in the navigation drawer */
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			selectItem(position);
+		}
+	}
+
+	/**
+	 * Map the IDs to the fragments for the default layout. These should
+	 * match the values used when creating the NavDrawerItems.
+	 * @param id of the fragment to fetch
+	 * @return the new fragment
+	 */
+	protected Fragment getFragmentById(int id) {
+		switch (id) {
+		case 101:
+			return new PFD();
+		case 102:
+			return new Map();
+		case 103:
+			return new SystemAlarmsFragment();
+		}
+		return null;
+	}
+	
+	private void selectItem(int position) {
+		
+		NavDrawerItem selectedItem = navConf.getNavItems()[position];
+
+		// Selected item indicates an activity to launch
+		if (selectedItem.getType() == NavMenuActivity.ACTIVITY_TYPE) {
+			NavMenuActivity launcherItem = (NavMenuActivity) selectedItem;
+			if (launcherItem.getLaunchClass() != null) {
+				Log.d(TAG, "ID: " + selectedItem.getId() + " " + selectedItem.getLabel() + " position: " + position);
+
+				mDrawerList.setItemChecked(position, true);
+
+				if ( selectedItem.updateActionBarTitle()) {
+					setTitle(selectedItem.getLabel());
+				}
+
+				if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
+					mDrawerLayout.closeDrawer(mDrawerList);
+				}
+
+				startActivity(new Intent(this, launcherItem.getLaunchClass()));
+			}
+			
+			return;
+		}
+
+		// Selected item indicates the contents to put in the main frame
+		if (selectedItem.getType() == NavMenuItem.ITEM_TYPE) {
+
+			if (findViewById(navConf.getMainLayout()) == null) {
+				// If not the new main activity should be activated.
+
+				// Close drawer first
+				mDrawerList.setItemChecked(position, true);
+				if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
+					mDrawerLayout.closeDrawer(mDrawerList);
+				}
+
+				// Activate main activity, indicating the fragment it should show 
+				Intent mainScreen = new Intent(this, MainActivity.class);
+				mainScreen.putExtra("ContentFrag",  selectedItem.getId());
+				if ( selectedItem.updateActionBarTitle())
+					mainScreen.putExtra("ContentName", selectedItem.getLabel());
+				startActivity(mainScreen);
+				
+				return;
+			} else {
+
+				int id = (int) selectedItem.getId();
+				FragmentTransaction trans = getFragmentManager().beginTransaction();
+				trans.replace(navConf.getMainLayout(), getFragmentById(id));
+				trans.addToBackStack(null);
+				trans.commit();
+				
+				mDrawerList.setItemChecked(position, true);
+	
+				if ( selectedItem.updateActionBarTitle()) {
+					Log.d(TAG, "Selected item title: " + selectedItem.getLabel());
+					setTitle(selectedItem.getLabel());
+				}
+	
+				if ( this.mDrawerLayout.isDrawerOpen(this.mDrawerList)) {
+					mDrawerLayout.closeDrawer(mDrawerList);
+				}
+			}
+		}
+		
+
+	}
+
+	@Override
+	public void setTitle(CharSequence title) {
+		mTitle = title;
+		getActionBar().setTitle(mTitle);
+	}
+
+
+	/**
+	 * When using the ActionBarDrawerToggle, you must call it during
+	 * onPostCreate() and onConfigurationChanged()...
+	 */
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// Pass any configuration change to the drawer toggls
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
 
 }

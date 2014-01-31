@@ -319,6 +319,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 				gps_fix_type = 2;
 				break;
 			case GPSPOSITION_STATUS_FIX3D:
+			case GPSPOSITION_STATUS_DIFF3D:
 				gps_fix_type = 3;
 				break;
 			default:

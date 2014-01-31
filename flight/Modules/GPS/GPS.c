@@ -45,6 +45,7 @@
 
 #include "NMEA.h"
 #include "UBX.h"
+#include "ubx_cfg.h"
 
 #if defined(PIOS_GPS_PROVIDES_AIRSPEED)
 #include "gps_airspeed.h"
@@ -149,6 +150,7 @@ int32_t GPSInitialize(void)
 	GPSTimeInitialize();
 	GPSSatellitesInitialize();
 	HomeLocationInitialize();
+	UBloxInfoInitialize();
 	updateSettings();
 
 #else
@@ -213,6 +215,39 @@ static void gpsTask(void *parameters)
 	timeOfLastUpdateMs = timeNowMs;
 	timeOfLastCommandMs = timeNowMs;
 
+
+#if !defined(PIOS_GPS_MINIMAL)
+	switch (gpsProtocol) {
+#if defined(PIOS_INCLUDE_GPS_UBX_PARSER)
+		case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
+		{
+			uint8_t gpsAutoConfigure;
+			ModuleSettingsGPSAutoConfigureGet(&gpsAutoConfigure);
+
+			if (gpsAutoConfigure == MODULESETTINGS_GPSAUTOCONFIGURE_TRUE) {
+
+				// Wait for power to stabilize before talking to external devices
+				vTaskDelay(MS2TICKS(1000));
+
+				// Runs through a number of possible GPS baud rates to
+				// configure the ublox baud rate. This uses a NMEA string
+				// so could work for either UBX or NMEA actually. This is
+				// somewhat redundant with updateSettings below, but that
+				// is only called on startup and is not an issue.
+				ModuleSettingsGPSSpeedOptions baud_rate;
+				ModuleSettingsGPSSpeedGet(&baud_rate);
+				ubx_cfg_set_baudrate(gpsPort, baud_rate);
+
+				vTaskDelay(MS2TICKS(1000));
+
+				ubx_cfg_send_configuration(gpsPort, gps_rx_buffer);
+			}
+		}
+			break;
+#endif
+	}
+#endif /* PIOS_GPS_MINIMAL */
+
 	GPSPositionGet(&gpsposition);
 	// Loop forever
 	while (1)
@@ -258,8 +293,10 @@ static void gpsTask(void *parameters)
 			// we appear to be receiving GPS sentences OK, we've had an update
 			//criteria for GPS-OK taken from this post...
 			//http://forums.openpilot.org/topic/1523-professors-insgps-in-svn/page__view__findpost__p__5220
-			if ((gpsposition.PDOP < 3.5f) && (gpsposition.Satellites >= 7) &&
-					(gpsposition.Status == GPSPOSITION_STATUS_FIX3D)) {
+			if (gpsposition.PDOP < 3.5f && 
+			    gpsposition.Satellites >= 7 &&
+			    (gpsposition.Status == GPSPOSITION_STATUS_FIX3D ||
+			         gpsposition.Status == GPSPOSITION_STATUS_DIFF3D)) {
 				AlarmsClear(SYSTEMALARMS_ALARM_GPS);
 #ifdef PIOS_GPS_SETS_HOMELOCATION
 				HomeLocationData home;
@@ -268,7 +305,8 @@ static void gpsTask(void *parameters)
 				if (home.Set == HOMELOCATION_SET_FALSE)
 					setHomeLocation(&gpsposition);
 #endif
-			} else if (gpsposition.Status == GPSPOSITION_STATUS_FIX3D)
+			} else if (gpsposition.Status == GPSPOSITION_STATUS_FIX3D ||
+			           gpsposition.Status == GPSPOSITION_STATUS_DIFF3D)
 						AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_WARNING);
 					else
 						AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_CRITICAL);
@@ -314,10 +352,6 @@ static void setHomeLocation(GPSPositionData * gpsData)
 
 /**
  * Update the GPS settings, called on startup.
- * FIXME: This should be in the GPSSettings object. But objects have
- * too much overhead yet. Also the GPS has no any specific settings
- * like protocol, etc. Thus the ModuleSettings object which contains the
- * GPS port speed is used for now.
  */
 static void updateSettings()
 {
@@ -349,6 +383,9 @@ static void updateSettings()
 			break;
 		case MODULESETTINGS_GPSSPEED_115200:
 			PIOS_COM_ChangeBaud(gpsPort, 115200);
+			break;
+		case MODULESETTINGS_GPSSPEED_230400:
+			PIOS_COM_ChangeBaud(gpsPort, 230400);
 			break;
 		}
 	}

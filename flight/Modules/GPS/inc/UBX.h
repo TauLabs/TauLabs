@@ -43,7 +43,7 @@
 // Messages classes
 #define UBX_CLASS_NAV	0x01
 
-// Message IDs
+// Message IDs (all in NAV class)
 #define UBX_ID_POSLLH	0x02
 #define UBX_ID_STATUS	0x03
 #define UBX_ID_DOP		0x04
@@ -52,6 +52,9 @@
 #define UBX_ID_TIMEUTC	0x21
 #define UBX_ID_SVINFO	0x30
 
+#define UBX_CLASS_MON	0x0A
+
+#define UBX_ID_MONVER   0x04
 // private structures
 
 // Geodetic Position Solution
@@ -191,6 +194,12 @@ struct UBX_NAV_SVINFO {
 	struct UBX_NAV_SVINFO_SV	sv[MAX_SVS]; // Repeated 'numCh' times
 };
 
+struct UBX_MON_VER {
+	uint8_t     swVersion[30];
+	uint8_t     hwVersion[10];
+	uint8_t     extra[30];
+};
+
 typedef union {
 	uint8_t		payload[0];
 	struct UBX_NAV_POSLLH	nav_posllh;
@@ -201,6 +210,7 @@ typedef union {
 #if !defined(PIOS_GPS_MINIMAL)
 	struct UBX_NAV_TIMEUTC	nav_timeutc;
 	struct UBX_NAV_SVINFO	nav_svinfo;
+	struct UBX_MON_VER      mon_ver;
 #endif
 } UBXPayload;
 
