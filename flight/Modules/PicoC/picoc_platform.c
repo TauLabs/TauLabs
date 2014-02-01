@@ -8,6 +8,7 @@
  * @file       picoc_platform.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      c-interpreter module for autonomous user programmed tasks
+ *             platform function library for picoc
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -30,15 +31,18 @@
 
 // conditional compilation of the module
 #include "pios.h"
- #if defined(PIOS_INCLUDE_PICOC)
+#ifdef PIOS_INCLUDE_PICOC
 
 #include "openpilot.h"
-#include "picocstatus.h"
 #include "picoc_port.h"
+#include "picocstatus.h"
 #include <setjmp.h>
 
 // Private variables
-jmp_buf picocExitBuf;
+static char *heap_memory;
+static size_t heap_size;
+static bool heap_used;
+jmp_buf PicocExitBuf;
 
 /**
  * picoc implemetation
@@ -52,36 +56,33 @@ jmp_buf picocExitBuf;
 #include "heap.c"
 #include "type.c"
 #include "variable.c"
-#include "clibrary.c"
+//#include "clibrary.c"	/* we have our own optimized version. */
 #include "platform.c"
 #include "include.c"
 #include "debug.c"
-
-// Private functions
-uint8_t getch();
-void putch(uint8_t ch);
-void pprintf(const char *format, ...);
-
 
 /**
  * picoc main program
  * parses source or switches to interactive mode
  * returns the exit() value
  */
-int picoc(const char * source, int stack_size)
+int picoc(const char * source, size_t stack_size)
 {
 	Picoc pc;
 	PicocInitialise(&pc, stack_size);
 
-	if (PicocPlatformSetExitPoint(&pc)) {
-		// we get here, if an error occures or 'exit();' was called.
+	if (PicocPlatformSetExitPoint(&pc))
+	{	/* we get here, if an error occures or 'exit();' was called. */
 		PicocCleanup(&pc);
 		return pc.PicocExitValue;
 	}
 
-	if (source) {
-		PicocParse(&pc, "nofile", source, strlen(source), TRUE, TRUE, FALSE, FALSE);
-	} else {
+	if (source)
+	{	/* start with complete source file */
+		PicocParse(&pc, "nofile", source, strlen(source), true, true, false, false);
+	}
+	else
+	{	/* start interactive */
 		PicocParseInteractive(&pc);
 	}
 
@@ -93,14 +94,6 @@ int picoc(const char * source, int stack_size)
  * PicoC platform depending system functions
  * normaly stored in platform_xxx.c
  */
-
-#ifdef NO_DEBUGGER
-void DebugCleanup(Picoc *pc)
-{
-	// XXX - no debugger here
-}
-#endif
-
 void PlatformInit(Picoc *pc)
 {
 }
@@ -112,31 +105,36 @@ void PlatformCleanup(Picoc *pc)
 /* get a line of interactive input */
 char *PlatformGetLine(char *line, int length, const char *prompt)
 {
+#ifdef PIOS_COM_PICOC
+	if (PIOS_COM_PICOC == 0)
+		return NULL;
+
 	int ix = 0;
 	char *cp = line;
-	char ch;
+	uint8_t ch;
 
-	pprintf("\n%s", prompt);
+	PIOS_COM_SendFormattedString(PIOS_COM_PICOC, "\n%s", prompt);
 	length -= 2;
 
 	while (1)
 	{
-		ch = getch();
-		if (ch == 0x08)
+		ch = 0;
+		while (PIOS_COM_ReceiveBuffer(PIOS_COM_PICOC, &ch, 1, 10) == 0);
+
+		if (ch == '\b')
 		{	// Backspace pressed
 			if (ix > 0)
 			{
-				putch(ch);
-				putch(' ');
-				putch(ch);
+				PIOS_COM_SendString(PIOS_COM_PICOC, "\b \b");
 				--ix;
 				--cp;
 			}
 			continue;
 		}
-		if (ch == 0x1B || ch == 0x03)
+
+		if (ch == 0x1b || ch == 0x03)
 		{	// ESC character or Ctrl-C - exit
-			pprintf("\nLeaving PicoC\n");
+			PIOS_COM_SendString(PIOS_COM_PICOC, "\nLeaving PicoC\n");
 			break;
 		}
 
@@ -144,154 +142,106 @@ char *PlatformGetLine(char *line, int length, const char *prompt)
 		{
 			if (ch == '\r' || ch == '\n')
 			{
-				*cp++ = '\n';  // if newline, send newline character followed by null
+				*cp++ = '\n'; // if newline, send newline character followed by null
 				*cp = 0;
-				putch('\n');
+				PIOS_COM_SendChar(PIOS_COM_PICOC, '\n');
 				return line;
 			}
 			*cp++ = ch;
 			ix++;
-			putch(ch);
+			PIOS_COM_SendChar(PIOS_COM_PICOC, ch);
 		}
 		else
 		{
-			pprintf("\n Line too long");
-			pprintf("\n%s", prompt);
+			PIOS_COM_SendFormattedString(PIOS_COM_PICOC, "\nLine too long\n%s", prompt);
 			ix = 0;
 			cp = line;
 		}
 	}
+#endif
 	return NULL;
 }
 
-/* get a character of interactive input*/
+/* get a character of interactive input */
 int PlatformGetCharacter()
 {
-	return getch();
+#ifdef PIOS_COM_PICOC
+	uint8_t ch = 0;
+	if ((PIOS_COM_PICOC) && (PIOS_COM_ReceiveBuffer(PIOS_COM_PICOC, &ch, 1, 0) == 1))
+		return ch;
+#endif
+	return -1;
 }
 
 /* write a character to the console */
 void PlatformPutc(unsigned char OutCh, union OutputStreamInfo *Stream)
 {
-	putch(OutCh);
+#ifdef PIOS_COM_PICOC
+	PIOS_COM_SendChar(PIOS_COM_PICOC, OutCh);
+#endif
 }
 
 /* read and scan a file for definitions */
 void PicocPlatformScanFile(Picoc *pc, const char *FileName)
 {
-	// XXX - unimplemented so far
+	PlatformDebug("no filesystem. %s failed", FileName);
 }
 
 /* exit the program */
 void PlatformExit(Picoc *pc, int RetVal)
 {
 	pc->PicocExitValue = RetVal;
-	longjmp(picocExitBuf, 1);
+	longjmp(PicocExitBuf, 1);
 }
 
 /**
- * basic functions for virtual stdIO
- * uses a optional USART or telemetry tunnel for communication
+ * simple memory functions
+ * On our platform free() is not functional. This is a workaround for this.
  */
-
-/* get a character from stdIn or telemetry link */
-uint8_t getch()
+void *PlatformMalloc(size_t size)
 {
-	uint8_t ch = 0;
-	uintptr_t stdIO = 0;
-	uint8_t stdIn;
-	uint16_t timeout;
-
-#ifdef PIOS_COM_PICOC
-	stdIO = PIOS_COM_PICOC;
-#endif
-
-	while (1) {
-		// try to get a char from stdIO
-		if (stdIO) {
-			if (PIOS_COM_ReceiveBuffer(stdIO, &ch, 1, 0) == 1) {
-				break;
-			}
-		}
-		// if there is a telemetry link, try it
-		PicoCStatusLinkTimeoutGet(&timeout);
-		PicoCStatusStdInGet(&stdIn);
-		if ((timeout) && (stdIn)) {
-			ch = stdIn;
-			stdIn = 0;
-			PicoCStatusStdInSet(&stdIn);
-			break;
-		}
-		if (timeout) {
-			timeout--;
-			PicoCStatusLinkTimeoutSet(&timeout);
-		}
-		if ((!stdIO) && (!timeout)) {
-			// there is no stdIO and telemetry link is lost. end here.
-			ch = 0;
-			break;
-		}
-		vTaskDelay(1);
+	if (heap_memory == NULL)
+	{	/* no heap memory used yet. try to get some */
+		heap_size = size;
+		heap_memory = (char *)pvPortMalloc(heap_size);
 	}
-	return ch;
+	if ((heap_size >= size) && (heap_memory != NULL) && (!heap_used))
+	{	/* memory is free and size fits */
+		heap_used = true;
+		return heap_memory;
+	}
+	return NULL;
 }
 
-/* put a character to stdOut */
-void putch(uint8_t ch)
+void PlatformFree(void *ptr)
 {
-	uintptr_t stdIO = 0;
-	uint8_t stdOut;
-	uint16_t timeout;
-
-#ifdef PIOS_COM_PICOC
-	stdIO = PIOS_COM_PICOC;
-#endif
-	if (stdIO) {
-		PIOS_COM_SendChar(stdIO, ch);
-	}
-
-	// if there is a telemetrylink, send it to gcs too.
-	while(1) {
-		PicoCStatusLinkTimeoutGet(&timeout);
-		PicoCStatusStdOutGet(&stdOut);
-		if ((timeout) && (!stdOut)) {
-			PicoCStatusStdOutSet(&ch);
-			break;
-		}
-		if (timeout) {
-			timeout--;
-			PicoCStatusLinkTimeoutSet(&timeout);
-		}
-		if (!timeout) {
-			// telemetry link is lost. end here.
-			break;
-		}
-		vTaskDelay(1);
+	if (ptr == heap_memory)
+	{	/* fake free() */
+		heap_used = false;
 	}
 }
 
-/* ported printf function for stdOut */
-void pprintf(const char *format, ...)
+size_t PlatformHeapSize()
+{	/* a replacement for #define HEAP_SIZE. So it is variable */
+	return heap_size;
+}
+
+/* litte debug message funtion. */
+void PlatformDebug(const char *format, ...)
 {
+#ifdef PIOS_COM_PICOC
 	uint8_t buffer[128];
 	va_list args;
-	uint16_t len;
-	uint16_t i;
 
 	va_start(args, format);
 	vsprintf((char *)buffer, format, args);
 
-	len = strlen((char *)buffer);
-	if (len) {
-		for (i=0; i<len; i++) {
-			putch(buffer[i]);
-		}
-	}
+	PIOS_COM_SendFormattedString(PIOS_COM_PICOC, "[debug:%s]\n", buffer);
+	vTaskDelay(200); // delay to make sure, this is sent out.
+#endif
 }
 
-
 #endif /* PIOS_INCLUDE_PICOC */
-
 
 /**
  * @}

@@ -5,9 +5,10 @@
  * @addtogroup PicoC Interpreter Module
  * @{ 
  *
- * @file       picocmodule.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @file       picoc_module.c
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      c-interpreter module for autonomous user programmed tasks
+ *             picoc module task
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -30,7 +31,7 @@
 
 // conditional compilation of the module
 #include "pios.h"
-#if defined(PIOS_INCLUDE_PICOC)
+#ifdef PIOS_INCLUDE_PICOC
 
 #include "openpilot.h"
 #include "picoc_port.h"
@@ -44,7 +45,7 @@ extern uintptr_t pios_waypoints_settings_fs_id;	/* use the waypoint filesystem *
 extern struct flashfs_logfs_cfg flashfs_waypoints_cfg;
 
 // Private constants
-#define STACK_SIZE_BYTES		(HEAP_SIZE + 16000)
+#define STACK_SIZE_BYTES		5000
 #define TASK_PRIORITY			(tskIDLE_PRIORITY + 1)
 #define PICOC_SOURCE_FILE_TYPE	0X00704300		/* mark picoc sources with this ID */
 #define PICOC_SECTOR_SIZE		48				/* size of filesystem object (less than slot_size - sizeof(slot_header) */
@@ -234,22 +235,24 @@ static void picocTask(void *parameters) {
 			switch (picocsettings.Source) {
 			case PICOCSETTINGS_SOURCE_DEMO:
 				// run the demo code.
-				picocstatus.ExitValue = picoc(demo, HEAP_SIZE);
+				picocstatus.ExitValue = picoc(demo, picocsettings.StackSize);
 				break;
 			case PICOCSETTINGS_SOURCE_INTERACTIVE:
 				// start picoc in interactive mode.
-				picocstatus.ExitValue = picoc(NULL, HEAP_SIZE);
+				picocstatus.ExitValue = picoc(NULL, picocsettings.StackSize);
 				break;
 			case PICOCSETTINGS_SOURCE_FILE:
 				// terminate source for security.
 				sourcebuffer[sourcebuffer_size - 1] = 0;
 				// start picoc in file mode.
-				picocstatus.ExitValue = picoc(sourcebuffer, HEAP_SIZE);
+				picocstatus.ExitValue = picoc(sourcebuffer, picocsettings.StackSize);
 				break;
 			default:
 				picocstatus.ExitValue = 0;
 			}
-			PicoCStatusExitValueSet(&picocstatus.ExitValue);
+			if (picocsettings.Source != PICOCSETTINGS_SOURCE_DISABLED) {
+				PicoCStatusExitValueSet(&picocstatus.ExitValue);
+			}
 		}
 
 		vTaskDelay(10);
@@ -458,9 +461,7 @@ int32_t format_partition()
 	return retval;
 }
 
-
 #endif /* PIOS_INCLUDE_PICOC */
-
 
 /**
  * @}

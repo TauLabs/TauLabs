@@ -8,6 +8,7 @@
  * @file       picoc_library.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      c-interpreter module for autonomous user programmed tasks
+ *             library functions for uavo communication
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -30,120 +31,586 @@
 
 // conditional compilation of the module
 #include "pios.h"
-#if defined(PIOS_INCLUDE_PICOC)
+#ifdef PIOS_INCLUDE_PICOC
 
 #include "openpilot.h"
 #include "picoc_port.h"
+
+/**
+ * string.h
+ */
+ #ifndef NO_STRING_FUNCTIONS
+void LibStrcpy(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	char *To = (char *)Param[0]->Val->Pointer;
+	char *From = (char *)Param[1]->Val->Pointer;
+
+	while (*From != '\0')
+		*To++ = *From++;
+
+	*To = '\0';
+}
+
+void LibStrncpy(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	char *To = (char *)Param[0]->Val->Pointer;
+	char *From = (char *)Param[1]->Val->Pointer;
+	int Len = Param[2]->Val->Integer;
+
+	for (; *From != '\0' && Len > 0; Len--)
+		*To++ = *From++;
+
+	if (Len > 0)
+		*To = '\0';
+}
+
+void LibStrcmp(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	char *Str1 = (char *)Param[0]->Val->Pointer;
+	char *Str2 = (char *)Param[1]->Val->Pointer;
+	int StrEnded;
+
+	for (StrEnded = FALSE; !StrEnded; StrEnded = (*Str1 == '\0' || *Str2 == '\0'), Str1++, Str2++)
+	{
+		if (*Str1 < *Str2) { ReturnValue->Val->Integer = -1; return; } 
+		else if (*Str1 > *Str2) { ReturnValue->Val->Integer = 1; return; }
+	}
+	ReturnValue->Val->Integer = 0;
+}
+
+void LibStrncmp(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	char *Str1 = (char *)Param[0]->Val->Pointer;
+	char *Str2 = (char *)Param[1]->Val->Pointer;
+	int Len = Param[2]->Val->Integer;
+	int StrEnded;
+
+	for (StrEnded = FALSE; !StrEnded && Len > 0; StrEnded = (*Str1 == '\0' || *Str2 == '\0'), Str1++, Str2++, Len--)
+	{
+		if (*Str1 < *Str2) { ReturnValue->Val->Integer = -1; return; } 
+		else if (*Str1 > *Str2) { ReturnValue->Val->Integer = 1; return; }
+	}
+	ReturnValue->Val->Integer = 0;
+}
+
+void LibStrcat(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	char *To = (char *)Param[0]->Val->Pointer;
+	char *From = (char *)Param[1]->Val->Pointer;
+
+	while (*To != '\0')
+		To++;
+
+	while (*From != '\0')
+		*To++ = *From++;
+
+	*To = '\0';
+}
+
+void LibIndex(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	char *Pos = (char *)Param[0]->Val->Pointer;
+	int SearchChar = Param[1]->Val->Integer;
+
+	while (*Pos != '\0' && *Pos != SearchChar)
+		Pos++;
+
+	if (*Pos != SearchChar)
+		ReturnValue->Val->Pointer = NULL;
+	else
+		ReturnValue->Val->Pointer = Pos;
+}
+
+void LibRindex(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	char *Pos = (char *)Param[0]->Val->Pointer;
+	int SearchChar = Param[1]->Val->Integer;
+
+	ReturnValue->Val->Pointer = NULL;
+	for (; *Pos != '\0'; Pos++)
+	{
+		if (*Pos == SearchChar)
+			ReturnValue->Val->Pointer = Pos;
+	}
+}
+
+void LibStrlen(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	char *Pos = (char *)Param[0]->Val->Pointer;
+	int Len;
+
+	for (Len = 0; *Pos != '\0'; Pos++)
+		Len++;
+
+	 ReturnValue->Val->Integer = Len;
+}
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_string[] =
+{
+	{ LibStrcpy,	"void strcpy(char *,char *);" },
+	{ LibStrncpy,	"void strncpy(char *,char *,int);" },
+	{ LibStrcmp,	"int strcmp(char *,char *);" },
+	{ LibStrncmp,	"int strncmp(char *,char *,int);" },
+	{ LibStrcat,	"void strcat(char *,char *);" },
+	{ LibIndex,		"char *index(char *,int);" },
+	{ LibRindex,	"char *rindex(char *,int);" },
+	{ LibStrlen,	"int strlen(char *);" },
+	{ NULL, NULL }
+};
+#endif
+
+
+/**
+ * math.h
+ */
+#ifndef NO_FP
+void LibSin(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = sin(Param[0]->Val->FP);
+}
+
+void LibCos(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = cos(Param[0]->Val->FP);
+}
+
+void LibTan(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = tan(Param[0]->Val->FP);
+}
+
+void LibAsin(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = asin(Param[0]->Val->FP);
+}
+
+void LibAcos(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = acos(Param[0]->Val->FP);
+}
+
+void LibAtan(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = atan(Param[0]->Val->FP);
+}
+
+void LibSinh(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = sinh(Param[0]->Val->FP);
+}
+
+void LibCosh(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = cosh(Param[0]->Val->FP);
+}
+
+void LibTanh(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = tanh(Param[0]->Val->FP);
+}
+
+void LibExp(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = exp(Param[0]->Val->FP);
+}
+
+void LibFabs(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = fabs(Param[0]->Val->FP);
+}
+
+void LibLog(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = log(Param[0]->Val->FP);
+}
+
+void LibLog10(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = log10(Param[0]->Val->FP);
+}
+
+void LibPow(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = pow(Param[0]->Val->FP, Param[1]->Val->FP);
+}
+
+void LibSqrt(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = sqrt(Param[0]->Val->FP);
+}
+
+void LibRound(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	/* this awkward definition of "round()" due to it being inconsistently declared in math.h */
+	ReturnValue->Val->FP = ceil(Param[0]->Val->FP - 0.5);
+}
+
+void LibCeil(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = ceil(Param[0]->Val->FP);
+}
+
+void LibFloor(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = floor(Param[0]->Val->FP);
+}
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_math[] =
+{
+	{ LibSin,		"float sin(float);" },
+	{ LibCos,		"float cos(float);" },
+	{ LibTan,		"float tan(float);" },
+	{ LibAsin,		"float asin(float);" },
+	{ LibAcos,		"float acos(float);" },
+	{ LibAtan,		"float atan(float);" },
+	{ LibSinh,		"float sinh(float);" },
+	{ LibCosh,		"float cosh(float);" },
+	{ LibTanh,		"float tanh(float);" },
+	{ LibExp,		"float exp(float);" },
+	{ LibFabs,		"float fabs(float);" },
+	{ LibLog,		"float log(float);" },
+	{ LibLog10,		"float log10(float);" },
+	{ LibPow,		"float pow(float,float);" },
+	{ LibSqrt,		"float sqrt(float);" },
+	{ LibRound,		"float round(float);" },
+	{ LibCeil,		"float ceil(float);" },
+	{ LibFloor,		"float floor(float);" },
+	{ NULL, NULL }
+};
+
+/* some constants */
+static double M_PIValue =	3.14159265358979323846;	/* pi */
+static double M_EValue =	2.7182818284590452354;	/* e */
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_math(Picoc *pc)
+{
+	VariableDefinePlatformVar(pc, NULL, "M_PI", &pc->FPType, (union AnyValue *)&M_PIValue, FALSE);
+	VariableDefinePlatformVar(pc, NULL, "M_E", &pc->FPType, (union AnyValue *)&M_EValue, FALSE);
+}
+#endif
+
+
+/**
+ * system.h
+ */
 #include "picocstatus.h"
 #include "flightstatus.h"
 
-// Private constants
-#define UAVO_GET 1
-#define UAVO_SET 2
-
-// Private variables
-static int uavoGetValue = UAVO_GET;
-static int uavoSetValue = UAVO_SET;
-
-/**
- * PicoC platform depending library functions for UAVOs
- * normaly stored in library_xxx.c
- */
-
-/**
- * picoc library functions
- * available after #include "picoc.h"
- */
-
 /* void delay(int): sleep for given ms-value */
- void Cdelay(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+ void SystemDelay(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
 {
-	int16_t value = Param[0]->Val->Integer;
-
-	if (value > 0) {
-		vTaskDelay(MS2TICKS(value));
+	if (Param[0]->Val->Integer > 0) {
+		vTaskDelay(MS2TICKS(Param[0]->Val->Integer));
 	}
 }
 
 /* void sync(int): synchronize an interval by given ms-value */
- void Csync(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+ void SystemSync(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
 {
 	static portTickType lastSysTime;
-	int16_t value = Param[0]->Val->Integer;
-
-	if ((lastSysTime == 0) || (value == 0)) {
+	if ((lastSysTime == 0) || (Param[0]->Val->Integer == 0)) {
 		lastSysTime = xTaskGetTickCount();
 	}
-	if (value > 0) {
-		vTaskDelayUntil(&lastSysTime, MS2TICKS(value));
+	if (Param[0]->Val->Integer > 0) {
+		vTaskDelayUntil(&lastSysTime, MS2TICKS(Param[0]->Val->Integer));
 	}
 }
 
-/* int armed: returns armed status */
- void Carmed(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+/* int armed(): returns armed status */
+ void SystemArmed(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
 {
 	FlightStatusData uavo;
 	FlightStatusArmedGet(&uavo.Armed);
 	ReturnValue->Val->Integer = (uavo.Armed == FLIGHTSTATUS_ARMED_ARMED);
 }
 
-/* void changebaud(long): changes the speed of picoc serial port */
-void Cchangebaud(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
-{
 #ifdef PIOS_COM_PICOC
-	uint32_t value = Param[0]->Val->LongInteger;
-
-	if ((PIOS_COM_PICOC) && (value >0) && (value <=115200)) {
-		PIOS_COM_ChangeBaud(PIOS_COM_PICOC, value);
+/* void ChangeBaud(long): changes the speed of picoc serial port */
+void SystemChangeBaud(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+{
+	if ((PIOS_COM_PICOC) && (Param[0]->Val->LongInteger > 0) && (Param[0]->Val->LongInteger <=115200)) {
+		PIOS_COM_ChangeBaud(PIOS_COM_PICOC, Param[0]->Val->LongInteger);
 	}
-#endif
 }
+#endif
 
-/* int picoctest(int,int): set and get picoc test value. prototype function for other UAVOs */
-void Ctestvalue(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+/* int testGet(): get the PicoCStatusTestValue */
+void SystemTestValueGet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
 {
 	PicoCStatusData uavo;
-	switch (Param[0]->Val->Integer) {
-	case UAVO_GET:
-		PicoCStatusTestValueGet(&uavo.TestValue);
-		ReturnValue->Val->Integer = uavo.TestValue;
-		break;
-	case UAVO_SET:
-		uavo.TestValue = Param[1]->Val->Integer;
-		PicoCStatusTestValueSet(&uavo.TestValue);
-		break;
-	default:
-		;
-	}
+	PicoCStatusTestValueGet(&uavo.TestValue);
+	ReturnValue->Val->Integer = uavo.TestValue;
+}
+
+/* void testSet(int): set the PicoCStatusTestValue */
+void SystemTestValueSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+{
+	PicoCStatusData uavo;
+	uavo.TestValue = Param[0]->Val->Integer;
+	PicoCStatusTestValueSet(&uavo.TestValue);
 }
 
 /* list of all library functions and their prototypes */
-struct LibraryFunction PlatformLibrary_picoc[] =
+struct LibraryFunction PlatformLibrary_system[] =
 {
-	{ Cdelay,		"void delay(int);"},
-	{ Csync,		"void sync(int);"},
-	{ Carmed,		"int armed(void);"},
-	{ Cchangebaud,	"void changebaud(long);"},
-	{ Ctestvalue,	"int testvalue(int,int);"},
+	{ SystemDelay,			"void delay(int);"},
+	{ SystemSync,			"void sync(int);"},
+	{ SystemArmed,			"int armed();"},
+#ifdef PIOS_COM_PICOC
+	{ SystemChangeBaud,		"void ChangeBaud(long);"},
+#endif
+	{ SystemTestValueGet,	"int TestValueGet();"},
+	{ SystemTestValueSet,	"void TestValueSet(int);"},
+	{ NULL, NULL }
+};
+
+
+/**
+ * altholdsmoothed.h
+ */
+#include "altholdsmoothed.h"
+
+/* library functions */
+#ifndef NO_FP
+void AltHoldSmoothedAltitude(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AltHoldSmoothedData data;
+	AltHoldSmoothedGet(&data);
+	ReturnValue->Val->FP = (double)data.Altitude;
+}
+
+void AltHoldSmoothedVelocity(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AltHoldSmoothedData data;
+	AltHoldSmoothedGet(&data);
+	ReturnValue->Val->FP = (double)data.Velocity;
+}
+
+void AltHoldSmoothedAccel(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AltHoldSmoothedData data;
+	AltHoldSmoothedGet(&data);
+	ReturnValue->Val->FP = (double)data.Accel;
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_altholdsmoothed[] =
+{
+#ifndef NO_FP
+	{ AltHoldSmoothedAltitude,	"float AltHoldSmoothedAltitude();" },
+	{ AltHoldSmoothedVelocity,	"float AltHoldSmoothedVelocity();" },
+	{ AltHoldSmoothedAccel,		"float AltHoldSmoothedAccel();" },
+#endif
 	{ NULL, NULL }
 };
 
 /* this is called when the header file is included */
-void PlatformLibrarySetup_picoc(Picoc *pc)
+void PlatformLibrarySetup_altholdsmoothed(Picoc *pc)
 {
-	// define some handy values for function handling
-	VariableDefinePlatformVar(pc, NULL, "GET", &pc->IntType, (union AnyValue *)&uavoGetValue, FALSE);
-	VariableDefinePlatformVar(pc, NULL, "SET", &pc->IntType, (union AnyValue *)&uavoSetValue, FALSE);
+	if (AltHoldSmoothedHandle() == NULL)
+		ProgramFailNoParser(pc, "no altholdsmoothed");
 }
 
+
+/**
+ * attitudeactual.h
+ */
+#include "attitudeactual.h"
+
+/* library functions */
+#ifndef NO_FP
+void AttitudeActualRoll(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AttitudeActualData data;
+	AttitudeActualGet(&data);
+	ReturnValue->Val->FP = (double)data.Roll;
+}
+
+void AttitudeActualPitch(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AttitudeActualData data;
+	AttitudeActualGet(&data);
+	ReturnValue->Val->FP = (double)data.Pitch;
+}
+
+void AttitudeActualYaw(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AttitudeActualData data;
+	AttitudeActualGet(&data);
+	ReturnValue->Val->FP = (double)data.Yaw;
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_attitudeactual[] =
+{
+#ifndef NO_FP
+	{ AttitudeActualRoll,	"float AttitudeActualRoll();" },
+	{ AttitudeActualPitch,	"float AttitudeActualPitch();" },
+	{ AttitudeActualYaw,	"float AttitudeActualYaw();" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_attitudeactual(Picoc *pc)
+{
+	if (AttitudeActualHandle() == NULL)
+		ProgramFailNoParser(pc, "no attitudeactual");
+}
+
+
+/**
+ * flightbatterystate.h
+ */
+#include "flightbatterystate.h"
+
+/* library functions */
+#ifndef NO_FP
+void FlightBatteryStateVoltage(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	FlightBatteryStateData data;
+	FlightBatteryStateGet(&data);
+	ReturnValue->Val->FP = (double)data.Voltage;
+}
+
+void FlightBatteryStateCurrent(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	FlightBatteryStateData data;
+	FlightBatteryStateGet(&data);
+	ReturnValue->Val->FP = (double)data.Current;
+}
+
+void FlightBatteryStateConsumedEnergy(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	FlightBatteryStateData data;
+	FlightBatteryStateGet(&data);
+	ReturnValue->Val->FP = (double)data.ConsumedEnergy;
+}
+
+void FlightBatteryStateEstimatedFlightTime(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	FlightBatteryStateData data;
+	FlightBatteryStateGet(&data);
+	ReturnValue->Val->FP = (double)data.EstimatedFlightTime;
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_flightbatterystate[] =
+{
+#ifndef NO_FP
+	{ FlightBatteryStateVoltage,				"float FlightBatteryStateVoltage();" },
+	{ FlightBatteryStateCurrent,				"float FlightBatteryStateCurrent();" },
+	{ FlightBatteryStateConsumedEnergy,			"float FlightBatteryStateConsumedEnergy();" },
+	{ FlightBatteryStateEstimatedFlightTime,	"float FlightBatteryStateEstimatedFlightTime();" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_flightbatterystate(Picoc *pc)
+{
+	if (FlightBatteryStateHandle() == NULL)
+		ProgramFailNoParser(pc, "no flightbatterystate");
+}
+
+
+/**
+ * flightstatus.h
+ */
+#include "flightstatus.h"
+
+/* library functions */
+void FlightStatusArmed(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	FlightStatusData data;
+	FlightStatusGet(&data);
+	ReturnValue->Val->Integer = data.Armed;
+}
+
+void FlightStatusFlightMode(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	FlightStatusData data;
+	FlightStatusGet(&data);
+	ReturnValue->Val->Integer = data.FlightMode;
+}
+
+void FlightStatusControlSource(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	FlightStatusData data;
+	FlightStatusGet(&data);
+	ReturnValue->Val->Integer = data.ControlSource;
+}
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_flightstatus[] =
+{
+	{ FlightStatusArmed,			"int FlightStatusArmed();" },
+	{ FlightStatusFlightMode,		"int FlightStatusFlightMode();" },
+	{ FlightStatusControlSource,	"int FlightStatusControlSource();" },
+	{ NULL, NULL }
+};
+
+
+/**
+ * gpsposition.h
+ */
+#include "gpsposition.h"
+
+/* library functions */
+void GPSPositionLatitude(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	GPSPositionData data;
+	GPSPositionGet(&data);
+	ReturnValue->Val->LongInteger = data.Latitude;
+}
+
+void GPSPositionLongitude(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	GPSPositionData data;
+	GPSPositionGet(&data);
+	ReturnValue->Val->LongInteger = data.Longitude;
+}
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_gpsposition[] =
+{
+	{ GPSPositionLatitude,		"long GPSPositionLatitude();" },
+	{ GPSPositionLongitude,		"long GPSPositionLongitude();" },
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_gpsposition(Picoc *pc)
+{
+	if (GPSPositionHandle() == NULL)
+		ProgramFailNoParser(pc, "no gpsposition");
+}
+
+
+/* list all includes */
 void PlatformLibraryInit(Picoc *pc)
 {
-    IncludeRegister(pc, "picoc.h", &PlatformLibrarySetup_picoc, &PlatformLibrary_picoc[0], NULL);
+#ifndef NO_STRING_FUNCTIONS
+	IncludeRegister(pc, "string.h", NULL, &PlatformLibrary_string[0], NULL);
+#endif
+#ifndef NO_FP
+	IncludeRegister(pc, "math.h", &PlatformLibrarySetup_math, &PlatformLibrary_math[0], NULL);
+#endif
+	IncludeRegister(pc, "system.h", NULL, &PlatformLibrary_system[0], NULL);
+	IncludeRegister(pc, "altholdsmoothed.h", &PlatformLibrarySetup_altholdsmoothed, &PlatformLibrary_altholdsmoothed[0], NULL);
+	IncludeRegister(pc, "attitudeactual.h", &PlatformLibrarySetup_attitudeactual, &PlatformLibrary_attitudeactual[0], NULL);
+	IncludeRegister(pc, "flightbatterystate.h", &PlatformLibrarySetup_flightbatterystate, &PlatformLibrary_flightbatterystate[0], NULL);
+	IncludeRegister(pc, "flightstatus.h", NULL, &PlatformLibrary_flightstatus[0], NULL);
+	IncludeRegister(pc, "gpsposition.h", &PlatformLibrarySetup_gpsposition, &PlatformLibrary_gpsposition[0], NULL);
 }
 
-
 #endif /* PIOS_INCLUDE_PICOC */
-
 
 /**
  * @}

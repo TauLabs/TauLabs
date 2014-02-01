@@ -57,13 +57,13 @@
 #define PIOS_INCLUDE_FASTHEAP
 
 /* Select the sensors to include */
-///#define PIOS_INCLUDE_HMC5883
+#define PIOS_INCLUDE_HMC5883
 //#define PIOS_INCLUDE_ETASV3
 //#define PIOS_INCLUDE_MPXV5004
 //#define PIOS_INCLUDE_MPXV7002
-///#define PIOS_INCLUDE_MPU6050
-///#define PIOS_MPU6050_ACCEL
-///#define PIOS_INCLUDE_MS5611
+#define PIOS_INCLUDE_MPU6050
+#define PIOS_MPU6050_ACCEL
+#define PIOS_INCLUDE_MS5611
 #define FLASH_FREERTOS
 /* Com systems to include */
 #define PIOS_INCLUDE_COM
