@@ -81,6 +81,8 @@
 #define CPULOAD_LIMIT_WARNING		80
 #define CPULOAD_LIMIT_CRITICAL		95
 
+#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 9959
+
 #define REVOLUTION
 
 // Enable POI tracking mode for camera stabilization
