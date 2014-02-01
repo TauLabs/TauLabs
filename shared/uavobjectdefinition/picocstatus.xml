@@ -1,7 +1,6 @@
 <xml>
 	<object name="PicoCStatus" singleinstance="true" settings="false">
 		<description>status information of the @ref PicoC Interpreter Module.</description>
-		<field name="LinkTimeout" units="ms" type="uint16" elements="1" defaultvalue="0"/>
 		<field name="ExitValue" units="" type="int16" elements="1" defaultvalue="0"/>
 		<field name="TestValue" units="" type="int16" elements="1" defaultvalue="0"/>
 		<field name="SectorID" units="" type="uint16" elements="1" defaultvalue="0"/>
@@ -19,8 +18,6 @@
 			</options>
 		</field>
 		<field name="CommandError" units="" type="int8" elements="1" defaultvalue="0"/>
-		<field name="StdIn" units="" type="uint8" elements="1" defaultvalue="0"/>
-		<field name="StdOut" units="" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="Sector" units="" type="uint8" elements="32"/>
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>

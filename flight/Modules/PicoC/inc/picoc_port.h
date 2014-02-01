@@ -8,6 +8,7 @@
  * @file       picocmodule.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      c-interpreter module for autonomous user programmed tasks
+ *             header file to 
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -27,23 +28,52 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-// defines for picoc
-#define HEAP_SIZE (16*1024)
-//#define USE_MALLOC_STACK		/* stack is allocated using malloc() */
-//#define USE_MALLOC_HEAP		/* heap is allocated using malloc() */
-#define BUILTIN_MINI_STDLIB
-#define PICOC_LIBRARY
+/* defines for picoc */
+#ifndef PICOC_PORT_H
+#define PICOC_PORT_H
+
+/* used picoc subversion number */
+#define VER "603"
+
+/* host specific platform defines */
+#define HEAP_SIZE PlatformHeapSize()
+#define USE_MALLOC_STACK
 #define NO_CTYPE
 #define NO_DEBUGGER
-#define NO_CALLOC
-#define NO_REALLOC
-#define NO_STRING_FUNCTIONS
-#define malloc pvPortMalloc
-#define calloc(a,b) pvPortMalloc(a*b)
-#define free vPortFree
-#define assert(x)
-#define PicocPlatformSetExitPoint(pc) setjmp(picocExitBuf)
+#define BUILTIN_MINI_STDLIB
+//#define NO_FP
+//#define NO_STRING_FUNCTIONS
+#define assert PIOS_Assert
+#define malloc PlatformMalloc
+#define free PlatformFree
+#define PicocPlatformSetExitPoint(pc) setjmp(PicocExitBuf)
 
+/* function prototypes */
+void *PlatformMalloc(size_t size);
+void PlatformFree(void *ptr);
+size_t PlatformHeapSize();
+void PlatformDebug(const char *format, ...);
+int picoc(const char *source, size_t stack_size);
+
+/* get all picoc definitions */
 #include "picoc.h"
 
-int picoc(const char * source, int stack_size);
+/* add missing things */
+extern struct LibraryFunction CLibrary[];
+
+#ifdef NO_CTYPE
+#define isdigit(c) ((c) >= '0' && (c) <= '9')
+#endif
+
+#ifdef NO_DEBUGGER
+#define DebugInit(pc)
+#define DebugCleanup(pc)
+#define DebugCheckStatement(parser)
+#endif
+
+#endif /* PICOC_PORT_H */
+
+/**
+ * @}
+ * @}
+ */
