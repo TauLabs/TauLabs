@@ -1271,8 +1271,8 @@ static void updateNedAccel()
 	q[2]=attitudeActual.q3;
 	q[3]=attitudeActual.q4;
 	Quaternion2R(q, Rbe);
-	for (uint8_t i = 0; i < 3; i++){
-		accel_ned[i]=0;
+	for (uint8_t i = 0; i < 3; i++) {
+		accel_ned[i] = 0;
 		for (uint8_t j = 0; j < 3; j++)
 			accel_ned[i] += Rbe[j][i] * accel[j];
 	}

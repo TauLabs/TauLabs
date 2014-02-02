@@ -53,20 +53,16 @@
 #include "velocityactual.h"
 #include "vtolpathfollowersettings.h"
 
-// Private types
-
 // Private variables
 static VtolPathFollowerSettingsData guidanceSettings;
 static AltitudeHoldSettingsData altitudeHoldSettings;
 struct pid vtol_pids[VTOL_PID_NUM];
 
-// Private functions
-
 /**
  * Compute desired velocity to follow the desired path from the current location.
  * @param[in] dT the time since last evaluation
- * @param [in] pathDesired the desired path to follow
- * @param [out] progress the current progress information along that path
+ * @param[in] pathDesired the desired path to follow
+ * @param[out] progress the current progress information along that path
  * @returns 0 if successful, <0 if an error occurred
  *
  * The calculated velocity to attempt is stored in @ref VelocityDesired
@@ -77,7 +73,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
 	
-	const float cur[3] = {positionActual.North, positionActual.East, positionActual.Down};
+	const float cur[3] = { positionActual.North, positionActual.East, positionActual.Down };
 	
 	path_progress(pathDesired, cur, progress);
 	
@@ -93,20 +89,21 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 
 	float groundspeed = pathDesired->StartingVelocity + 
 	    (pathDesired->EndingVelocity - pathDesired->StartingVelocity) * progress->fractional_progress;
-	if(progress->fractional_progress > 1)
+	if (progress->fractional_progress > 1)
 		groundspeed = 0;
 	
 	VelocityDesiredData velocityDesired;
 	velocityDesired.North = progress->path_direction[0] * groundspeed;
 	velocityDesired.East = progress->path_direction[1] * groundspeed;
 	
-	float error_speed = progress->error * guidanceSettings.HorizontalPosPI[VTOLPATHFOLLOWERSETTINGS_HORIZONTALPOSPI_KP];
+	float error_speed = progress->error * 
+	    guidanceSettings.HorizontalPosPI[VTOLPATHFOLLOWERSETTINGS_HORIZONTALPOSPI_KP];
 	float correction_velocity[2] = {progress->correction_direction[0] * error_speed, 
 	    progress->correction_direction[1] * error_speed};
 	
-	float total_vel = sqrtf(powf(correction_velocity[0],2) + powf(correction_velocity[1],2));
+	float total_vel = sqrtf( powf(correction_velocity[0], 2) + powf(correction_velocity[1], 2) );
 	float scale = 1;
-	if(total_vel > guidanceSettings.HorizontalVelMax)
+	if (total_vel > guidanceSettings.HorizontalVelMax)
 		scale = guidanceSettings.HorizontalVelMax / total_vel;
 
 	// Currently not apply a PID loop for horizontal corrections
@@ -115,7 +112,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	
 	// Interpolate desired velocity along the path
 	float altitudeSetpoint = pathDesired->Start[2] + (pathDesired->End[2] - pathDesired->Start[2]) *
-	    bound_min_max(progress->fractional_progress,0,1);
+	    bound_min_max(progress->fractional_progress, 0, 1);
 
 	float downError = altitudeSetpoint - positionActual.Down;
 	velocityDesired.Down = pid_apply_antiwindup(&vtol_pids[DOWN_POSITION], downError,
@@ -151,7 +148,7 @@ int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned
 	float northCommand;
 	float eastCommand;
 	
-	const float cur_pos_ned[3] = {positionActual.North, positionActual.East, positionActual.Down};
+	const float cur_pos_ned[3] = { positionActual.North, positionActual.East, positionActual.Down };
 
 	// Compute desired north command velocity from position error
 	northError = hold_pos_ned[0] - cur_pos_ned[0];
@@ -216,7 +213,7 @@ int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
 	float northCommand;
 	float eastCommand;
 	
-	const float cur_pos_ned[3] = {positionActual.North, positionActual.East, positionActual.Down};
+	const float cur_pos_ned[3] = { positionActual.North, positionActual.East, positionActual.Down };
 
 	// Compute desired north command velocity from position error
 	northError = hold_pos_ned[0] - cur_pos_ned[0];
@@ -229,9 +226,9 @@ int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
 	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
 
 	// Limit the maximum velocity any direction (not north and east separately)
-	float total_vel = sqrtf(powf(northCommand,2) + powf(eastCommand,2));
+	float total_vel = sqrtf( powf(northCommand, 2) + powf(eastCommand, 2) );
 	float scale = 1;
-	if(total_vel > guidanceSettings.HorizontalVelMax)
+	if (total_vel > guidanceSettings.HorizontalVelMax)
 		scale = guidanceSettings.HorizontalVelMax / total_vel;
 
 	velocityDesired.North = northCommand * scale;
@@ -292,7 +289,6 @@ static int32_t vtol_follower_control_accel(float dT)
 	    velocityDesired.East * guidanceSettings.VelocityFeedforward +
 	    -nedAccel.East * guidanceSettings.HorizontalVelPID[VTOLPATHFOLLOWERSETTINGS_HORIZONTALVELPID_KD];
 
-	// Store the desired acceleration
 	accelDesired.North = north_acceleration;
 	accelDesired.East = east_acceleration;
 
@@ -346,7 +342,7 @@ int32_t vtol_follower_control_attitude(float dT)
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 
 	// Calculate the throttle setting or use pass through from transmitter
-	if(guidanceSettings.ThrottleControl == VTOLPATHFOLLOWERSETTINGS_THROTTLECONTROL_FALSE) {
+	if (guidanceSettings.ThrottleControl == VTOLPATHFOLLOWERSETTINGS_THROTTLECONTROL_FALSE) {
 		ManualControlCommandThrottleGet(&stabDesired.Throttle);
 	} else {
 		float downCommand = accelDesired.Down;

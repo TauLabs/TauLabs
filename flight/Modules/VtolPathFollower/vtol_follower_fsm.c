@@ -59,7 +59,7 @@
 #include "vtolpathfollowerstatus.h"
 
 // Various navigation constants
-const static float RTH_MIN_ALTITUDE = 15;    //!< Hover at least 15 m above home */
+const static float RTH_MIN_ALTITUDE = 15.f;  //!< Hover at least 15 m above home */
 const static float RTH_VELOCITY     = 2.5f;  //!< Return home at 2.5 m/s */
 const static float RTH_ALT_ERROR    = 1.0f;  //!< The altitude to come within for RTH */
 const static float DT               = 0.05f; // TODO: make the self monitored
@@ -115,22 +115,22 @@ enum vtol_nav_mode {
 };
 
 // State transition methods, typically enabling for certain actions
-static void go_enable_hold_here();
-static void go_enable_fly_path();
-static void go_enable_pause_10s_here();
-static void go_enable_rise_here();
-static void go_enable_pause_home_10s();
-static void go_enable_fly_home();
-static void go_enable_land_home();
+static void go_enable_hold_here(void);
+static void go_enable_fly_path(void);
+static void go_enable_pause_10s_here(void);
+static void go_enable_rise_here(void);
+static void go_enable_pause_home_10s(void);
+static void go_enable_fly_home(void);
+static void go_enable_land_home(void);
 
 // Methods that actually achieve the desired nav mode
-static int32_t do_default();
-static int32_t do_hold();
-static int32_t do_path();
-static int32_t do_requested_path();
-static int32_t do_land();
-static int32_t do_loiter();
-static int32_t do_ph_climb();
+static int32_t do_default(void);
+static int32_t do_hold(void);
+static int32_t do_path(void);
+static int32_t do_requested_path(void);
+static int32_t do_land(void);
+static int32_t do_loiter(void);
+static int32_t do_ph_climb(void);
 
 // Utility functions
 static void configure_timeout(int32_t s);
@@ -271,7 +271,7 @@ static void vtol_fsm_process_auto()
 
 /**
  * Initialize the selected FSM
- * @param goal The FSM to make active and initialize
+ * @param[in] goal The FSM to make active and initialize
  */
 static void vtol_fsm_fsm_init(const struct vtol_fsm_transition *goal)
 {

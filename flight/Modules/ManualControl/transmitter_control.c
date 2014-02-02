@@ -37,7 +37,6 @@
 #include "actuatordesired.h"
 #include "altitudeholddesired.h"
 #include "baroaltitude.h"
-#include "fixedwingpathfollowersettings.h"
 #include "flighttelemetrystats.h"
 #include "flightstatus.h"
 #include "loitercommand.h"
@@ -936,8 +935,8 @@ static void set_loiter_command(ManualControlCommandData *cmd)
 	loiterCommand.Forward *= -MAX_SPEED / (1.0f - CMD_THRESHOLD);
 
 	loiterCommand.Right = (cmd->Roll > CMD_THRESHOLD) ? cmd->Roll - CMD_THRESHOLD :
-	                        (cmd->Roll < -CMD_THRESHOLD) ? cmd->Roll + CMD_THRESHOLD :
-	                        0;
+	                      (cmd->Roll < -CMD_THRESHOLD) ? cmd->Roll + CMD_THRESHOLD :
+	                      0;
 	loiterCommand.Right *= MAX_SPEED / (1.0f - CMD_THRESHOLD);
 
 	loiterCommand.Frame = LOITERCOMMAND_FRAME_BODY;
@@ -957,7 +956,7 @@ static void set_loiter_command(ManualControlCommandData *cmd)
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_PATHFOLLOWER);
 }
 
-#endif /* REVOLUTION */
+#endif /* !defined(COPTERCONTROL) && !defined(GIMBAL) */
 
 /**
  * Convert channel from servo pulse duration (microseconds) to scaled -1/+1 range.
