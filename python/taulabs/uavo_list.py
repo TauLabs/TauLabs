@@ -24,6 +24,6 @@ class UAVOList(list):
             #dtype += [(f['name'], uavo_def.type_numpy_map[f['type']]) for f in uavo_def.fields]
             #dtype += [(f['name'], None) for f in uavo_def.fields]
             for f in uavo_def.fields:
-                dtype += [(f['name'], '(1,' + `f['elements']` + ")" + f['type'])]
+                dtype += [(f['name'], '(1,' + `f['elements']` + ")" + uavo_def.type_numpy_map[f['type']])]
 
         return np.array(filtered_list, dtype=dtype)
