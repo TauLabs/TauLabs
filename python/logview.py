@@ -94,9 +94,19 @@ def main():
 
         import struct
         base_time = None
+        synced = False
 
         uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
         while fd:
+
+            if synced == False:
+                sync_test = ord(fd.read(1))
+                if sync_test == 0x3c:
+                    print "Found sync"
+                    synced = True
+                    fd.seek(fd.tell() - 1) # rewind the sync byte
+                continue
+
             # Read the next log record header
             log_hdr_fmt = "<IQ"
             log_hdr_data = fd.read(struct.calcsize(log_hdr_fmt))
@@ -120,10 +130,15 @@ def main():
             # Got a UAVO message header.  Unpack it.
             uavo_hdr = UAVOHeader._make(struct.unpack(uavo_hdr_fmt, uavo_hdr_data))
 
+            if uavo_hdr.sync != 0x3c:
+                print "Bad sync, data was: " + hex(uavo_hdr.sync)
+                synced = False
+                continue
+
             # Ignore meta objects entirely
             if uavo_hdr.id & 0x1:
-                # discard the rest of the log entry
-                fd.read(min(log_hdr.size,256) - len(uavo_hdr_data))
+                print "Got meta data, fast forwarding"
+                fd.read(8) # meta data is 7 bytes, plus checksum
                 continue
 
             # Is this a known UAVO?
