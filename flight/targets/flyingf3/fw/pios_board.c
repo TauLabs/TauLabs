@@ -1303,6 +1303,19 @@ void PIOS_Board_Init(void) {
 	if (PIOS_L3GD20_Test() != 0)
 		panic(1);
 
+	uint8_t hw_l3gd20_samplerate;
+	HwFlyingF3L3GD20RateGet(&hw_l3gd20_samplerate);
+	enum pios_l3gd20_rate l3gd20_samplerate = PIOS_L3GD20_RATE_380HZ_100HZ;
+	switch(hw_l3gd20_samplerate) {
+		case HWFLYINGF3_L3GD20RATE_380:
+			l3gd20_samplerate = PIOS_L3GD20_RATE_380HZ_100HZ;
+			break;
+		case HWFLYINGF3_L3GD20RATE_760:
+			l3gd20_samplerate = PIOS_L3GD20_RATE_760HZ_100HZ;
+			break;
+	}
+	PIOS_Assert(PIOS_L3GD20_SetSampleRate(l3gd20_samplerate) == 0);
+
 	// To be safe map from UAVO enum to driver enum
 	/*
 	 * FIXME: add support for this to l3gd20 driver
