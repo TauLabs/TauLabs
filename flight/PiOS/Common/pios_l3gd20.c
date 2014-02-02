@@ -126,8 +126,9 @@ static int32_t PIOS_L3GD20_Validate(struct l3gd20_dev *dev)
 
 /**
  * @brief Initialize the L3GD20 3-axis gyro sensor.
- * @return none
+ * @return 0 for success, -1 for failure to allocate, -2 for failure to get irq
  */
+
 int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_l3gd20_cfg *cfg)
 {
 	pios_l3gd20_dev = PIOS_L3GD20_alloc();
@@ -140,7 +141,8 @@ int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_
 	pios_l3gd20_dev->cfg = cfg;
 
 	/* Configure the L3GD20 Sensor */
-	PIOS_L3GD20_Config(cfg);
+	if(PIOS_L3GD20_Config(cfg) != 0)
+		return -2;
 
 	/* Set up EXTI */
 	PIOS_EXTI_Init(cfg->exti_cfg);
@@ -221,6 +223,10 @@ int32_t PIOS_L3GD20_SetSampleRate(enum pios_l3gd20_rate rate)
 
 	if (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG1, rate | l3gd20_reg1) != 0)
 		return -3;
+
+	// An initial read is needed to get it running
+	struct pios_l3gd20_data data;
+	PIOS_L3GD20_ReadGyros(&data);
 
 	return 0;
 }
