@@ -105,10 +105,10 @@ static bool frame_trigger(uint8_t frame_num);
 // ****************
 // Private constants
 
-#if defined(PIOS_FRSKY_STACK_SIZE)
+#if defined(PIOS_FRSKY_SENSOR_HUB_STACK_SIZE)
 #define STACK_SIZE_BYTES PIOS_FRSKY_SENSOR_HUB_STACK_SIZE
 #else
-#define STACK_SIZE_BYTES 800
+#define STACK_SIZE_BYTES 672
 #endif
 
 #define TASK_PRIORITY               (tskIDLE_PRIORITY + 1)
