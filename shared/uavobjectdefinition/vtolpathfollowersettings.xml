@@ -7,6 +7,7 @@
 		<field name="HorizontalVelPID" units="deg/(m/s)" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="3,0,0,0"/>
 		<field name="VelocityFeedforward" units="deg/(m/s)" type="float" elements="1" defaultvalue="0"/>
 		<field name="ThrottleControl" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
+		<field name="VelocityChangePrediction" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
 		<field name="MaxRollPitch" units="deg" type="float" elements="1" defaultvalue="20"/>
 
 		<!-- The distance within the waypoint (horizontally) that should be achieved to mark completed -->

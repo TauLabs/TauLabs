@@ -266,11 +266,16 @@ static int32_t vtol_follower_control_accel(float dT)
 	VelocityActualGet(&velocityActual);
 	VelocityDesiredGet(&velocityDesired);
 	
-	// Compute the acceleration required component from a changing velocity
-	north_acceleration = 0 * (velocityActual.North - last_north_velocity) / dT;
-	east_acceleration = 0 * (velocityActual.East - last_east_velocity) / dT;
-	last_north_velocity = velocityActual.North;
-	last_east_velocity = velocityActual.East;
+	// Optionally compute the acceleration required component from a changing velocity desired
+	if (guidanceSettings.VelocityChangePrediction == VTOLPATHFOLLOWERSETTINGS_VELOCITYCHANGEPREDICTION_TRUE && dT > 0) {
+		north_acceleration = (velocityDesired.North - last_north_velocity) / dT;
+		east_acceleration = (velocityDesired.East - last_east_velocity) / dT;
+		last_north_velocity = velocityDesired.North;
+		last_east_velocity = velocityDesired.East;
+	} else {
+		north_acceleration = 0;
+		east_acceleration = 0;
+	}
 
 	// Convert the max angles into the maximum angle that would be requested
 	const float MAX_ACCELERATION = GRAVITY * sinf(guidanceSettings.MaxRollPitch * DEG2RAD);
