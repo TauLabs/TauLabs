@@ -169,7 +169,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode);
 static int32_t setAttitudeINSGPS();
 //! Set the navigation to the current INSGPS estimate
 static int32_t setNavigationINSGPS();
-
+static void updateNedAccel();
 static void settingsUpdatedCb(UAVObjEvent * objEv);
 
 //! A low pass filter on the accels which helps with vibration resistance
@@ -358,6 +358,8 @@ static void AttitudeTask(void *parameters)
 		default:
 				setNavigationRaw();		
 		}
+
+		updateNedAccel();
 
 		if(ret_val == 0)
 			first_run = false;
@@ -1233,14 +1235,55 @@ float T[3];
 static int32_t getNED(GPSPositionData * gpsPosition, float * NED)
 {
 	float dL[3] = {(gpsPosition->Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
-		(gpsPosition->Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-		(gpsPosition->Altitude - homeLocation.Altitude)};
+                   (gpsPosition->Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
+                   (gpsPosition->Altitude - homeLocation.Altitude)};
 
 	NED[0] = T[0] * dL[0];
 	NED[1] = T[1] * dL[1];
 	NED[2] = T[2] * dL[2];
 
 	return 0;
+}
+
+/**
+ * Keep a running filtered version of the acceleration in the NED frame
+ */
+static void updateNedAccel()
+{
+	float accel[3];
+	float q[4];
+	float Rbe[3][3];
+	float accel_ned[3];
+	const float TAU = 0.95f;
+
+	// Collect downsampled attitude data
+	AccelsData accels;
+	AccelsGet(&accels);		
+	accel[0] = accels.x;
+	accel[1] = accels.y;
+	accel[2] = accels.z;
+	
+	//rotate avg accels into earth frame and store it
+	AttitudeActualData attitudeActual;
+	AttitudeActualGet(&attitudeActual);
+	q[0]=attitudeActual.q1;
+	q[1]=attitudeActual.q2;
+	q[2]=attitudeActual.q3;
+	q[3]=attitudeActual.q4;
+	Quaternion2R(q, Rbe);
+	for (uint8_t i = 0; i < 3; i++) {
+		accel_ned[i] = 0;
+		for (uint8_t j = 0; j < 3; j++)
+			accel_ned[i] += Rbe[j][i] * accel[j];
+	}
+	accel_ned[2] += GRAVITY;
+	
+	NedAccelData accelData;
+	NedAccelGet(&accelData);
+	accelData.North = accelData.North * TAU + accel_ned[0] * (1 - TAU);
+	accelData.East = accelData.East * TAU + accel_ned[1] * (1 - TAU);
+	accelData.Down = accelData.Down * TAU + accel_ned[2] * (1 - TAU);
+	NedAccelSet(&accelData);
 }
 
 static void settingsUpdatedCb(UAVObjEvent * ev) 

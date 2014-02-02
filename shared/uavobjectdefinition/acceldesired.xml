@@ -1,0 +1,12 @@
+<xml>
+    <object name="AccelDesired" singleinstance="true" settings="false">
+        <description>The desired acceleration from navigation</description>
+        <field name="North" units="m/s^2" type="float" elements="1"/>
+        <field name="East" units="m/s^2" type="float" elements="1"/>
+        <field name="Down" units="m/s^2" type="float" elements="1"/>
+        <access gcs="readwrite" flight="readwrite"/>
+        <telemetrygcs acked="false" updatemode="manual" period="0"/>
+        <telemetryflight acked="false" updatemode="periodic" period="10001"/>
+        <logging updatemode="manual" period="0"/>
+    </object>
+</xml>
