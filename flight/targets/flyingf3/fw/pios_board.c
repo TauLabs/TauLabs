@@ -159,6 +159,7 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
 #define PIOS_COM_MAVLINK_TX_BUF_LEN 32
+#define PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN 19
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
@@ -173,6 +174,7 @@ uintptr_t pios_com_bridge_id;
 uintptr_t pios_internal_adc_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_com_hott_id;
+uintptr_t pios_com_lighttelemetry_id;
 uintptr_t pios_com_overo_id;
 uintptr_t pios_com_can_id;
 
