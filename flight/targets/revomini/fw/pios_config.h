@@ -82,6 +82,7 @@
 #define PIOS_GPS_SETS_HOMELOCATION
 #define PIOS_INCLUDE_MAVLINK
 #define PIOS_INCLUDE_HOTT
+#define PIOS_INCLUDE_FRSKY_SENSOR_HUB
 
 /* Supported receiver interfaces */
 #define PIOS_INCLUDE_RCVR
