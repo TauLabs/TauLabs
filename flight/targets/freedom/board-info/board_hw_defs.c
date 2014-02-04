@@ -695,6 +695,7 @@ static const struct pios_usart_cfg pios_usart_flexi_cfg = {
 			.GPIO_OType = GPIO_OType_PP,
 			.GPIO_PuPd  = GPIO_PuPd_UP
 		},
+		.pin_source = GPIO_PinSource7,
 	},
 	.tx = {
 		.gpio = GPIOB,
@@ -705,6 +706,7 @@ static const struct pios_usart_cfg pios_usart_flexi_cfg = {
 			.GPIO_OType = GPIO_OType_PP,
 			.GPIO_PuPd  = GPIO_PuPd_UP
 		},
+		.pin_source = GPIO_PinSource6,
 	},
 };
 #endif /* PIOS_INCLUDE_COM_TELEM */

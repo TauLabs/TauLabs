@@ -1,0 +1,13 @@
+<xml>
+	<object name="LoiterCommand" singleinstance="true" settings="false">
+		<description>Requested movement while in loiter mode</description>
+		<field name="Forward" units="m/s" type="float" elements="1"/>
+		<field name="Right" units="m/s" type="float" elements="1"/>
+		<field name="Upwards" units="m/s" type="float" elements="1"/>
+		<field name="Frame" units="" type="enum" elements="1" options="Body,Earth" default="Body"/>
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="false" updatemode="manual" period="0"/>
+		<telemetryflight acked="false" updatemode="periodic" period="1000"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>
