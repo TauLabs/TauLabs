@@ -152,6 +152,9 @@ extern uintptr_t pios_com_debug_id;
 extern uintptr_t pios_com_mavlink_id;
 #define PIOS_COM_MAVLINK 				(pios_com_mavlink_id)
 
+extern uintptr_t pios_com_lighttelemetry_id;
+#define PIOS_COM_LIGHTTELEMETRY         (pios_com_lighttelemetry_id)
+
 //-------------------------
 // ADC
 // PIOS_ADC_PinGet(0) = Gyro Z
