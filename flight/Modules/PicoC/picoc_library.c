@@ -298,9 +298,10 @@ void PlatformLibrarySetup_math(Picoc *pc)
  */
 #include "picocstatus.h"
 #include "flightstatus.h"
+#include "accessorydesired.h"
 
 /* void delay(int): sleep for given ms-value */
- void SystemDelay(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+void SystemDelay(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
 	if (Param[0]->Val->Integer > 0) {
 		vTaskDelay(MS2TICKS(Param[0]->Val->Integer));
@@ -308,7 +309,7 @@ void PlatformLibrarySetup_math(Picoc *pc)
 }
 
 /* void sync(int): synchronize an interval by given ms-value */
- void SystemSync(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+void SystemSync(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
 	static portTickType lastSysTime;
 	if ((lastSysTime == 0) || (Param[0]->Val->Integer == 0)) {
@@ -320,16 +321,16 @@ void PlatformLibrarySetup_math(Picoc *pc)
 }
 
 /* int armed(): returns armed status */
- void SystemArmed(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+void SystemArmed(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	FlightStatusData uavo;
-	FlightStatusArmedGet(&uavo.Armed);
-	ReturnValue->Val->Integer = (uavo.Armed == FLIGHTSTATUS_ARMED_ARMED);
+	FlightStatusData data;
+	FlightStatusArmedGet(&data.Armed);
+	ReturnValue->Val->Integer = (data.Armed == FLIGHTSTATUS_ARMED_ARMED);
 }
 
 #ifdef PIOS_COM_PICOC
 /* void ChangeBaud(long): changes the speed of picoc serial port */
-void SystemChangeBaud(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+void SystemChangeBaud(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
 	if ((PIOS_COM_PICOC) && (Param[0]->Val->LongInteger > 0) && (Param[0]->Val->LongInteger <=115200)) {
 		PIOS_COM_ChangeBaud(PIOS_COM_PICOC, Param[0]->Val->LongInteger);
@@ -337,33 +338,54 @@ void SystemChangeBaud(struct ParseState *Parser, struct Value *ReturnValue, stru
 }
 #endif
 
-/* int testGet(): get the PicoCStatusTestValue */
-void SystemTestValueGet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+/* int TestValGet(): get the PicoCStatusTestValue */
+void SystemTestValGet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	PicoCStatusData uavo;
-	PicoCStatusTestValueGet(&uavo.TestValue);
-	ReturnValue->Val->Integer = uavo.TestValue;
+	PicoCStatusData data;
+	PicoCStatusTestValueGet(&data.TestValue);
+	ReturnValue->Val->Integer = data.TestValue;
 }
 
-/* void testSet(int): set the PicoCStatusTestValue */
-void SystemTestValueSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs) 
+/* void TestValueSet(int): set the PicoCStatusTestValue */
+void SystemTestValSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	PicoCStatusData uavo;
-	uavo.TestValue = Param[0]->Val->Integer;
-	PicoCStatusTestValueSet(&uavo.TestValue);
+	PicoCStatusData data;
+	data.TestValue = Param[0]->Val->Integer;
+	PicoCStatusTestValueSet(&data.TestValue);
 }
+
+#ifndef NO_FP
+/* float AccessoryValueGet(int): get the AccessoryDesiredAccessoryVal of the selected instance */
+void SystemAccessoryValGet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AccessoryDesiredData data;
+	ReturnValue->Val->FP = (AccessoryDesiredInstGet(Param[0]->Val->Integer, &data) == 0) ? (float)data.AccessoryVal : 0;
+}
+
+/* AccessoryValueGet(float): set the AccessoryDesiredAccessoryVal of the selected instance */
+void SystemAccessoryValSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AccessoryDesiredData data;
+	data.AccessoryVal = (float)Param[1]->Val->FP;
+	AccessoryDesiredInstSet(Param[0]->Val->Integer, &data);
+}
+#endif
 
 /* list of all library functions and their prototypes */
 struct LibraryFunction PlatformLibrary_system[] =
 {
-	{ SystemDelay,			"void delay(int);"},
-	{ SystemSync,			"void sync(int);"},
-	{ SystemArmed,			"int armed();"},
+	{ SystemDelay,			"void delay(int);" },
+	{ SystemSync,			"void sync(int);" },
+	{ SystemArmed,			"int armed();" },
 #ifdef PIOS_COM_PICOC
-	{ SystemChangeBaud,		"void ChangeBaud(long);"},
+	{ SystemChangeBaud,		"void ChangeBaud(long);" },
 #endif
-	{ SystemTestValueGet,	"int TestValueGet();"},
-	{ SystemTestValueSet,	"void TestValueSet(int);"},
+	{ SystemTestValGet,		"int TestValGet();" },
+	{ SystemTestValSet,		"void TestValSet(int);" },
+#ifndef NO_FP
+	{ SystemAccessoryValGet,"float AccessoryValGet(int);" },
+	{ SystemAccessoryValSet,"void AccessoryValSet(int,float);" },
+#endif
 	{ NULL, NULL }
 };
 
@@ -592,6 +614,8 @@ void PlatformLibrarySetup_gpsposition(Picoc *pc)
 		ProgramFailNoParser(pc, "no gpsposition");
 }
 
+
+/* list of all library functions and their prototypes */
 
 /* list all includes */
 void PlatformLibraryInit(Picoc *pc)
