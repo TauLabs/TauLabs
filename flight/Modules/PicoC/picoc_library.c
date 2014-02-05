@@ -391,54 +391,6 @@ struct LibraryFunction PlatformLibrary_system[] =
 
 
 /**
- * altholdsmoothed.h
- */
-#include "altholdsmoothed.h"
-
-/* library functions */
-#ifndef NO_FP
-void AltHoldSmoothedAltitude(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	AltHoldSmoothedData data;
-	AltHoldSmoothedGet(&data);
-	ReturnValue->Val->FP = (double)data.Altitude;
-}
-
-void AltHoldSmoothedVelocity(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	AltHoldSmoothedData data;
-	AltHoldSmoothedGet(&data);
-	ReturnValue->Val->FP = (double)data.Velocity;
-}
-
-void AltHoldSmoothedAccel(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	AltHoldSmoothedData data;
-	AltHoldSmoothedGet(&data);
-	ReturnValue->Val->FP = (double)data.Accel;
-}
-#endif
-
-/* list of all library functions and their prototypes */
-struct LibraryFunction PlatformLibrary_altholdsmoothed[] =
-{
-#ifndef NO_FP
-	{ AltHoldSmoothedAltitude,	"float AltHoldSmoothedAltitude();" },
-	{ AltHoldSmoothedVelocity,	"float AltHoldSmoothedVelocity();" },
-	{ AltHoldSmoothedAccel,		"float AltHoldSmoothedAccel();" },
-#endif
-	{ NULL, NULL }
-};
-
-/* this is called when the header file is included */
-void PlatformLibrarySetup_altholdsmoothed(Picoc *pc)
-{
-	if (AltHoldSmoothedHandle() == NULL)
-		ProgramFailNoParser(pc, "no altholdsmoothed");
-}
-
-
-/**
  * attitudeactual.h
  */
 #include "attitudeactual.h"
@@ -483,6 +435,54 @@ void PlatformLibrarySetup_attitudeactual(Picoc *pc)
 {
 	if (AttitudeActualHandle() == NULL)
 		ProgramFailNoParser(pc, "no attitudeactual");
+}
+
+
+/**
+ * baroaltitude.h
+ */
+#include "baroaltitude.h"
+
+/* library functions */
+#ifndef NO_FP
+void BaroAltitudeAltitude(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	BaroAltitudeData data;
+	BaroAltitudeGet(&data);
+	ReturnValue->Val->FP = (double)data.Altitude;
+}
+
+void BaroAltitudeTemperature(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	BaroAltitudeData data;
+	BaroAltitudeGet(&data);
+	ReturnValue->Val->FP = (double)data.Temperature;
+}
+
+void BaroAltitudePressure(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	BaroAltitudeData data;
+	BaroAltitudeGet(&data);
+	ReturnValue->Val->FP = (double)data.Pressure;
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_baroaltitude[] =
+{
+#ifndef NO_FP
+	{ BaroAltitudeAltitude,		"float BaroAltitudeAltitude();" },
+	{ BaroAltitudeTemperature,	"float BaroAltitudeTemperature();" },
+	{ BaroAltitudePressure,		"float BaroAltitudePressure();" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_baroaltitude(Picoc *pc)
+{
+	if (BaroAltitudeHandle() == NULL)
+		ProgramFailNoParser(pc, "no baroaltitude");
 }
 
 
@@ -627,8 +627,8 @@ void PlatformLibraryInit(Picoc *pc)
 	IncludeRegister(pc, "math.h", &PlatformLibrarySetup_math, &PlatformLibrary_math[0], NULL);
 #endif
 	IncludeRegister(pc, "system.h", NULL, &PlatformLibrary_system[0], NULL);
-	IncludeRegister(pc, "altholdsmoothed.h", &PlatformLibrarySetup_altholdsmoothed, &PlatformLibrary_altholdsmoothed[0], NULL);
 	IncludeRegister(pc, "attitudeactual.h", &PlatformLibrarySetup_attitudeactual, &PlatformLibrary_attitudeactual[0], NULL);
+	IncludeRegister(pc, "baroaltitude.h", &PlatformLibrarySetup_baroaltitude, &PlatformLibrary_baroaltitude[0], NULL);
 	IncludeRegister(pc, "flightbatterystate.h", &PlatformLibrarySetup_flightbatterystate, &PlatformLibrary_flightbatterystate[0], NULL);
 	IncludeRegister(pc, "flightstatus.h", NULL, &PlatformLibrary_flightstatus[0], NULL);
 	IncludeRegister(pc, "gpsposition.h", &PlatformLibrarySetup_gpsposition, &PlatformLibrary_gpsposition[0], NULL);
