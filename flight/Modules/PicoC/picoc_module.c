@@ -45,7 +45,7 @@ extern uintptr_t pios_waypoints_settings_fs_id;	/* use the waypoint filesystem *
 extern struct flashfs_logfs_cfg flashfs_waypoints_cfg;
 
 // Private constants
-#define STACK_SIZE_BYTES		5000
+#define STACK_SIZE_BYTES		10000
 #define TASK_PRIORITY			(tskIDLE_PRIORITY + 1)
 #define PICOC_SOURCE_FILE_TYPE	0X00704300		/* mark picoc sources with this ID */
 #define PICOC_SECTOR_SIZE		48				/* size of filesystem object (less than slot_size - sizeof(slot_header) */
