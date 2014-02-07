@@ -2,7 +2,8 @@
 	<object name="PicoCSettings" singleinstance="true" settings="true">
 		<description>Settings for the @ref PicoC Interpreter Module</description>
 		<field name="MaxFileSize" units="bytes [be careful!]" type="uint32" elements="1" defaultvalue="2048"/>
-		<field name="StackSize" units="bytes [be careful!]" type="uint32" elements="1" defaultvalue="16384"/>
+		<field name="TaskStackSize" units="bytes [be careful!]" type="uint32" elements="1" defaultvalue="16384"/>
+		<field name="PicoCStackSize" units="bytes [be careful!]" type="uint32" elements="1" defaultvalue="16384"/>
 		<field name="BootFileID" units="" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="Startup" units="" type="enum" elements="1" defaultvalue="Disabled">
 			<options>
