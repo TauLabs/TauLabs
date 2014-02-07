@@ -63,7 +63,6 @@ protected slots:
     void timerFired();
 
 signals:
-    void readReady();
     void replayStarted();
     void replayFinished();
 

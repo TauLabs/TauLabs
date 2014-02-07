@@ -83,11 +83,6 @@ private slots:
     void homeLocationUpdated(UAVObject *);
     void positionActualUpdated(UAVObject *);
 
-signals:
-    void readReady();
-    void replayStarted();
-    void replayFinished();
-
 protected:
     QFile logFile;
 
