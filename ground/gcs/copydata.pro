@@ -33,7 +33,8 @@ equals(copydata, 1) {
             libwinpthread-1.dll \
 	    libgcc_s_dw2-1.dll \
 	    libstdc++-6.dll \
-	    libwinpthread-1.dll
+            libwinpthread-1.dll \
+            Qt5SerialPort.dll
 
         for(dll, QT_DLLS) {
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_BINS]/$$dll\") $$targetPath(\"$$GCS_APP_PATH/$$dll\") $$addNewline()
