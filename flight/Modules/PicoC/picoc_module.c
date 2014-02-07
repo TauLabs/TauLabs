@@ -45,7 +45,6 @@ extern uintptr_t pios_waypoints_settings_fs_id;	/* use the waypoint filesystem *
 extern struct flashfs_logfs_cfg flashfs_waypoints_cfg;
 
 // Private constants
-#define STACK_SIZE_BYTES		10000
 #define TASK_PRIORITY			(tskIDLE_PRIORITY + 1)
 #define PICOC_SOURCE_FILE_TYPE	0X00704300		/* mark picoc sources with this ID */
 #define PICOC_SECTOR_SIZE		48				/* size of filesystem object (less than slot_size - sizeof(slot_header) */
@@ -85,7 +84,7 @@ static int32_t picocStart(void)
 	if (module_enabled) {
 		// Start task
 		xTaskCreate(picocTask, (signed char *) "PicoC",
-				STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY,
+				picocsettings.TaskStackSize / 4, NULL, TASK_PRIORITY,
 				&picocTaskHandle);
 		TaskMonitorAdd(TASKINFO_RUNNING_PICOC,
 				picocTaskHandle);
@@ -110,13 +109,17 @@ static int32_t picocInitialize(void)
 		PicoCSettingsInitialize();
 		PicoCStatusInitialize();
 
-		// get picoc USART for stdIO communication
-#ifdef PIOS_COM_PICOC
-		picocPort = PIOS_COM_PICOC;
-#endif
+		// get picoc settings
+		PicoCSettingsGet(&picocsettings);
+
+		// check stacksizes for module task and picoC
+		if ((picocsettings.TaskStackSize < 5000) || (picocsettings.TaskStackSize > 200000) ||
+			(picocsettings.PicoCStackSize < 10000) || (picocsettings.PicoCStackSize > 2000000)) {
+			return -1;
+		}
 
 		// allocate memory for source buffer
-		PicoCSettingsMaxFileSizeGet(&sourcebuffer_size);
+		sourcebuffer_size = picocsettings.MaxFileSize;
 		if (sourcebuffer_size) {
 			sourcebuffer = pvPortMalloc(sourcebuffer_size);
 		}
@@ -124,6 +127,11 @@ static int32_t picocInitialize(void)
 			// there is not enough free memory for source file buffer. the module could not run.
 			return -1;
 		}
+
+#ifdef PIOS_COM_PICOC
+		// get picoc USART for stdIO communication
+		picocPort = PIOS_COM_PICOC;
+#endif
 
 		module_enabled = true;
 	}
@@ -235,17 +243,17 @@ static void picocTask(void *parameters) {
 			switch (picocsettings.Source) {
 			case PICOCSETTINGS_SOURCE_DEMO:
 				// run the demo code.
-				picocstatus.ExitValue = picoc(demo, picocsettings.StackSize);
+				picocstatus.ExitValue = picoc(demo, picocsettings.PicoCStackSize);
 				break;
 			case PICOCSETTINGS_SOURCE_INTERACTIVE:
 				// start picoc in interactive mode.
-				picocstatus.ExitValue = picoc(NULL, picocsettings.StackSize);
+				picocstatus.ExitValue = picoc(NULL, picocsettings.PicoCStackSize);
 				break;
 			case PICOCSETTINGS_SOURCE_FILE:
 				// terminate source for security.
 				sourcebuffer[sourcebuffer_size - 1] = 0;
 				// start picoc in file mode.
-				picocstatus.ExitValue = picoc(sourcebuffer, picocsettings.StackSize);
+				picocstatus.ExitValue = picoc(sourcebuffer, picocsettings.PicoCStackSize);
 				break;
 			default:
 				picocstatus.ExitValue = 0;
@@ -266,12 +274,8 @@ static void updateSettings()
 {
 	// if there is a com port, setup its speed.
 	if (picocPort) {
-		// retrieve settings
-		uint8_t speed;
-		PicoCSettingsComSpeedGet(&speed);
-
 		// set port speed
-		switch (speed) {
+		switch (picocsettings.ComSpeed) {
 		case PICOCSETTINGS_COMSPEED_2400:
 			PIOS_COM_ChangeBaud(picocPort, 2400);
 			break;
