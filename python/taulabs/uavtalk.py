@@ -235,7 +235,38 @@ class UavTalk():
 		else:
 			self.state = UavTalk.STATE_ERROR
 
-	def __updateCRC(self, byte):
+	def sendSingleObject(self, obj):
+		"""
+		Generates a string containing a UAVTalk packet describing this object
+		"""
+
+		uavo_key = '{0:08x}'.format(obj.uavo_id)
+		uavo_def = self.uavo_defs[uavo_key]
+
+		length = 4
+
+		import struct
+		if uavo_def.meta['is_single_inst']:
+			uavo_hdr_fmt = "<BBHI"
+			length = struct.calcsize(uavo_hdr_fmt) + uavo_def.get_size_of_data()
+			hdr = struct.pack(uavo_hdr_fmt, UavTalk.SYNC_VAL, UavTalk.TYPE_OBJ | UavTalk.TYPE_VER,  length, obj.uavo_id)
+		else:
+			uavo_hdr_fmt = "<BBHIH"
+			length = struct.calcsize(uavo_hdr_fmt) + uavo_def.get_size_of_data()
+			hdr = struct.pack(uavo_hdr_fmt, UavTalk.SYNC_VAL, UavTalk.TYPE_OBJ | UavTalk.TYPE_VER, length, obj.uavo_id, obj.inst_id)
+
+		dat = uavo_def.bytes_from_instance(obj)
+		packet = hdr + dat.tostring()
+
+		cs = 0
+		for b in packet:
+			cs = self.__updateCRC(ord(b), cs)
+
+		packet += chr(cs)
+
+		return packet
+
+	def __updateCRC(self, byte, cs=None):
 		# CRC lookup table
 		crc_table = [
 			0x00, 0x07, 0x0e, 0x09, 0x1c, 0x1b, 0x12, 0x15, 0x38, 0x3f, 0x36, 0x31, 0x24, 0x23, 0x2a, 0x2d,
@@ -256,5 +287,9 @@ class UavTalk():
 			0xde, 0xd9, 0xd0, 0xd7, 0xc2, 0xc5, 0xcc, 0xcb, 0xe6, 0xe1, 0xe8, 0xef, 0xfa, 0xfd, 0xf4, 0xf3
 		]
 
-		return crc_table[self.cs ^ byte]
+		if cs is None:
+			cs = self.cs
+
+		return crc_table[cs ^ byte]
+
 	

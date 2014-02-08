@@ -73,6 +73,28 @@ class UAVO():
 
         return size
 
+    def bytes_from_instance(self, data):
+        """
+        Return a string containing the contents of the data instance suitable for
+        inserting into a UAVTalk stream. The class this is called on determines
+        the UAVO type definition.
+        """
+
+        import struct
+        import array
+
+        pack_field_values = array.array('c', ' ' * self.get_size_of_data())
+        offset = 0
+        for f in self.fields:
+            fmt = '<' + f['elements'].__str__() + self.struct_element_map[f['type']]
+            if f['elements'] == 1:
+                struct.pack_into(fmt, pack_field_values, offset, getattr(data, f['name']))
+            else:
+                struct.pack_into(fmt, pack_field_values, offset, *getattr(data, f['name']))
+            offset = offset + struct.calcsize(fmt)
+
+        return pack_field_values
+
     def instance_from_bytes(self, data, timestamp=None, timestamp_packet=False):
         import struct
 
