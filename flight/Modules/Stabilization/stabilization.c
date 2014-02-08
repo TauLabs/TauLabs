@@ -248,21 +248,21 @@ static void stabilizationTask(void* parameters)
 		float local_attitude_error[3];
 		
 		// Essentially zero errors for anything in rate or none
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
 			rpy_desired[0] = trimmedAttitudeSetpoint.Roll;
 		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			rpy_desired[0] = trimAngles.Roll;
 		else
 			rpy_desired[0] = stabDesired.Roll;
 		
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
 			rpy_desired[1] = trimmedAttitudeSetpoint.Pitch;
 		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			rpy_desired[1] = trimAngles.Pitch;
 		else
 			rpy_desired[1] = stabDesired.Pitch;
 		
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS)
+		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
 			rpy_desired[2] = trimmedAttitudeSetpoint.Yaw;
 		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
 			rpy_desired[2] = 0;
@@ -278,7 +278,7 @@ static void stabilizationTask(void* parameters)
 #else
 		// Simpler algorithm for CC, less memory
 		float local_attitude_error[3];
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS ||
+		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE ||
 			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON)
 			local_attitude_error[0] = trimmedAttitudeSetpoint.Roll - attitudeActual.Roll;
 		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
@@ -286,7 +286,7 @@ static void stabilizationTask(void* parameters)
 		else
 			local_attitude_error[0] = stabDesired.Roll - attitudeActual.Roll;
 
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS ||
+		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE ||
 			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON)
 			local_attitude_error[1] = trimmedAttitudeSetpoint.Pitch - attitudeActual.Pitch;
 		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
@@ -294,7 +294,7 @@ static void stabilizationTask(void* parameters)
 		else
 			local_attitude_error[1] = stabDesired.Pitch - attitudeActual.Pitch;
 
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS ||
+		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE ||
 			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON)
 			local_attitude_error[2] = trimmedAttitudeSetpoint.Yaw - attitudeActual.Yaw;
 		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
@@ -338,7 +338,6 @@ static void stabilizationTask(void* parameters)
 
 					break;
 
-				case STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS:
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE:
 					if(reinit) {
 						pids[PID_ATT_ROLL + i].iAccumulator = 0;
@@ -461,9 +460,8 @@ static void stabilizationTask(void* parameters)
 								axis_lock_accum[YAW] = 0;
 							}
 
-							//If we are in neither roll attitude mode nor attitude-plus mode, trigger an error
-							if ((stabDesired.StabilizationMode[ROLL] != STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE &&
-								  stabDesired.StabilizationMode[ROLL] != STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS ))
+							//If we are not in roll attitude mode, trigger an error
+							if (stabDesired.StabilizationMode[ROLL] != STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
 							{
 								error = true;
 								break ;
