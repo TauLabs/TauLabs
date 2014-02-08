@@ -10,8 +10,10 @@ class UavTalk():
 
 	(TYPE_OBJ, TYPE_OBJ_REQ, TYPE_OBJ_ACK, TYPE_ACK, TYPE_NACK, TYPE_OBJ_TS, TYPE_OBJ_ACK_TS) = (0x00, 0x01, 0x02, 0x03, 0x04, 0x80, 0x82)
 
-	def __init__(self):
-		self.state = 0
+	def __init__(self, uavo_defs):
+		self.uavo_defs = uavo_defs # The set of UAVO types to parse
+
+		self.state = UavTalk.STATE_COMPLETE
 		self.packetSize = 0
 		self.rxPacketLength = 0
 		self.rxCount = 0  # counts the number of bytes to receive in each state
@@ -19,10 +21,18 @@ class UavTalk():
 		self.length = 0
 		self.instanceLength = 0
 		self.timestampLength = 0
+		self.timestamp = 0
 		self.rxBuffer = "" # needs to be some kind of byte array
 
 		self.obj = None # stores the object type when found
 	
+	def getLastReceivedObject(self, timestamp=0):
+		if self.state == UavTalk.STATE_COMPLETE and self.obj is not None:
+			if self.type == UavTalk.TYPE_OBJ_TS:
+				return self.obj.instance_from_bytes(self.rxBuffer, timestamp=self.timestamp)
+			else:
+				return self.obj.instance_from_bytes(self.rxBuffer, timestamp=timestamp)
+
 	def processByte(self, rxbyte):
 
 		if self.state == UavTalk.STATE_ERROR or self.state == UavTalk.STATE_COMPLETE:
