@@ -107,7 +107,6 @@
 #define PIOS_MAVLINK_STACK_SIZE         600
 #define PIOS_COMUSBBRIDGE_STACK_SIZE    280
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 1995998
-//#define PIOS_QUATERNION_STABILIZATION
 
 // This can't be too high to stop eventdispatcher thread overflowing
 #define PIOS_EVENTDISAPTCHER_QUEUE      10

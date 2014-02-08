@@ -239,44 +239,7 @@ static void stabilizationTask(void* parameters)
 		// how much is requested.
 		horizonRateFraction = bound_sym(horizonRateFraction, HORIZON_MODE_MAX_BLEND) / HORIZON_MODE_MAX_BLEND;
 
-
-#if defined(PIOS_QUATERNION_STABILIZATION)
-		// Quaternion calculation of error in each axis.  Uses more memory.
-		float rpy_desired[3];
-		float q_desired[4];
-		float q_error[4];
-		float local_attitude_error[3];
-		
-		// Essentially zero errors for anything in rate or none
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			rpy_desired[0] = trimmedAttitudeSetpoint.Roll;
-		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
-			rpy_desired[0] = trimAngles.Roll;
-		else
-			rpy_desired[0] = stabDesired.Roll;
-		
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			rpy_desired[1] = trimmedAttitudeSetpoint.Pitch;
-		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
-			rpy_desired[1] = trimAngles.Pitch;
-		else
-			rpy_desired[1] = stabDesired.Pitch;
-		
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE)
-			rpy_desired[2] = trimmedAttitudeSetpoint.Yaw;
-		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
-			rpy_desired[2] = 0;
-		else
-			rpy_desired[2] = stabDesired.Yaw;
-		
-		RPY2Quaternion(rpy_desired, q_desired);
-		quat_inverse(q_desired);
-		quat_mult(q_desired, &attitudeActual.q1, q_error);
-		quat_inverse(q_error);
-		Quaternion2RPY(q_error, local_attitude_error);
-		
-#else
-		// Simpler algorithm for CC, less memory
+		// Calculate the errors in each axis
 		float local_attitude_error[3];
 		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE ||
 			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON)
@@ -304,7 +267,6 @@ static void stabilizationTask(void* parameters)
 
 		// Wrap yaw error to [-180,180]
 		local_attitude_error[2] = circular_modulus_deg(local_attitude_error[2]);
-#endif
 
 		static float gyro_filtered[3];
 		gyro_filtered[0] = gyro_filtered[0] * gyro_alpha + gyrosData.x * (1 - gyro_alpha);
