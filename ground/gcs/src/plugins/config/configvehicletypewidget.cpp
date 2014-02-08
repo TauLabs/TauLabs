@@ -916,7 +916,7 @@ void ConfigVehicleTypeWidget::bnLevelTrim_clicked()
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_STABILIZATIONMODE:
     {
         QMessageBox msgBox(QMessageBox::Critical, tr("Incorrect roll and pitch stabilization modes."),
-                           "Both roll and pitch must be in Attitude or AttitudePlus stabilization mode.", QMessageBox::Ok, this);
+                           "Both roll and pitch must be in Attitude stabilization mode.", QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
