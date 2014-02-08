@@ -1,13 +1,17 @@
 
 class UavTalk():
+	"""
+	Parses and generates a UAVTalk stream. This is the class is used for both log parsing
+	and also maintaing a telemetry stream. The set of objects that can be parsed are
+	determined by the uavo_defs field. 
+	"""
 
+	# Constants used for UAVTalk parsing
 	(STATE_SYNC,STATE_TYPE,STATE_SIZE,STATE_OBJID,STATE_INSTID,STATE_TIMESTAMP,STATE_DATA,STATE_CS,STATE_COMPLETE,STATE_ERROR) = (0,1,2,3,4,5,6,7,8,9)
-
 	(MIN_HEADER_LENGTH, MAX_HEADER_LENGTH, MAX_PAYLOAD_LENGTH) = (8, 12, (256-12))
 	(SYNC_VAL) = (0x3C)
 	(TYPE_MASK, TYPE_VER) = (0x78, 0x20)
 	(TIMESTAMPED) = (0x80)
-
 	(TYPE_OBJ, TYPE_OBJ_REQ, TYPE_OBJ_ACK, TYPE_ACK, TYPE_NACK, TYPE_OBJ_TS, TYPE_OBJ_ACK_TS) = (0x00, 0x01, 0x02, 0x03, 0x04, 0x80, 0x82)
 
 	def __init__(self, uavo_defs):
@@ -27,6 +31,10 @@ class UavTalk():
 		self.obj = None # stores the object type when found
 	
 	def getLastReceivedObject(self, timestamp=0):
+		"""
+		Return the object that was last updated
+		"""
+
 		if self.state == UavTalk.STATE_COMPLETE and self.obj is not None:
 			if self.type == UavTalk.TYPE_OBJ_TS:
 				return self.obj.instance_from_bytes(self.rxBuffer, timestamp=self.timestamp)
@@ -34,6 +42,11 @@ class UavTalk():
 				return self.obj.instance_from_bytes(self.rxBuffer, timestamp=timestamp)
 
 	def processByte(self, rxbyte):
+		"""
+		Process a byte from a telemetry stream. This implements a simple state machine
+		to know which part of a UAVTalk packet this byte is and respond to it appropriately.
+		The result of this parsing can be accessed with getLastReceivedObject
+		"""
 
 		if self.state == UavTalk.STATE_ERROR or self.state == UavTalk.STATE_COMPLETE:
 			self.state = UavTalk.STATE_SYNC
@@ -267,6 +280,10 @@ class UavTalk():
 		return packet
 
 	def __updateCRC(self, byte, cs=None):
+		"""
+		Calculate a CRC consistently with how they are computed on the firmware side
+		"""
+
 		# CRC lookup table
 		crc_table = [
 			0x00, 0x07, 0x0e, 0x09, 0x1c, 0x1b, 0x12, 0x15, 0x38, 0x3f, 0x36, 0x31, 0x24, 0x23, 0x2a, 0x2d,
