@@ -220,51 +220,46 @@ static void stabilizationTask(void* parameters)
 		trimmedAttitudeSetpoint.Pitch = bound_sym(stabDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
 		trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw;
 
-		// Track the stick with the most deflection to choose rate blending
-		// For horizon mode we need to compute the desire attitude from an unscaled value
+		// For horizon mode we need to compute the desire attitude from an unscaled value and apply the
+		// trim offset. Also track the stick with the most deflection to choose rate blending.
 		horizonRateFraction = 0.0f;
 		if (stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
 			trimmedAttitudeSetpoint.Roll = stabDesired.Roll * settings.RollMax;
+			trimmedAttitudeSetpoint.Roll = bound_sym(stabDesired.Roll + trimAngles.Roll, settings.RollMax);
 			horizonRateFraction = fabsf(stabDesired.Roll);
 		}
 		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
 			trimmedAttitudeSetpoint.Pitch = stabDesired.Pitch * settings.PitchMax;
+			trimmedAttitudeSetpoint.Pitch = bound_sym(stabDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
 			horizonRateFraction = MAX(horizonRateFraction, fabsf(stabDesired.Pitch));
 		}
 		if (stabDesired.StabilizationMode[YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
 			trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw * settings.YawMax;
 			horizonRateFraction = MAX(horizonRateFraction, fabsf(stabDesired.Yaw));
 		}
+
+		// For weak leveling mode the attitude setpoint is the trim value (drifts back towards "0")
+		if (stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) {
+			trimmedAttitudeSetpoint.Roll = trimAngles.Roll;
+		}
+		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) {
+			trimmedAttitudeSetpoint.Pitch = trimAngles.Pitch;
+		}
+		if (stabDesired.StabilizationMode[YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) {
+			trimmedAttitudeSetpoint.Yaw = 0;
+		}
+
 		// Note we divide by the maximum limit here so the fraction ranges from 0 to 1 depending on
 		// how much is requested.
 		horizonRateFraction = bound_sym(horizonRateFraction, HORIZON_MODE_MAX_BLEND) / HORIZON_MODE_MAX_BLEND;
 
-		// Calculate the errors in each axis
+		// Calculate the errors in each axis. The local error is used in the following modes:
+		//  ATTITUDE, HORIZON, WEAKLEVELING, RELAYATTITUDE
 		float local_attitude_error[3];
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE ||
-			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON)
-			local_attitude_error[0] = trimmedAttitudeSetpoint.Roll - attitudeActual.Roll;
-		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
-			local_attitude_error[0] = trimAngles.Roll - attitudeActual.Roll;
-		else
-			local_attitude_error[0] = stabDesired.Roll - attitudeActual.Roll;
-
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE ||
-			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON)
-			local_attitude_error[1] = trimmedAttitudeSetpoint.Pitch - attitudeActual.Pitch;
-		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
-			local_attitude_error[1] = trimAngles.Pitch - attitudeActual.Pitch;
-		else
-			local_attitude_error[1] = stabDesired.Pitch - attitudeActual.Pitch;
-
-		if (stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE ||
-			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON)
-			local_attitude_error[2] = trimmedAttitudeSetpoint.Yaw - attitudeActual.Yaw;
-		else if(stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING)
-			local_attitude_error[2] = -attitudeActual.Yaw;
-		else
-			local_attitude_error[2] = stabDesired.Yaw - attitudeActual.Yaw;
-
+		local_attitude_error[0] = trimmedAttitudeSetpoint.Roll - attitudeActual.Roll;
+		local_attitude_error[1] = trimmedAttitudeSetpoint.Pitch - attitudeActual.Pitch;
+		local_attitude_error[2] = trimmedAttitudeSetpoint.Yaw - attitudeActual.Yaw;
+		
 		// Wrap yaw error to [-180,180]
 		local_attitude_error[2] = circular_modulus_deg(local_attitude_error[2]);
 
