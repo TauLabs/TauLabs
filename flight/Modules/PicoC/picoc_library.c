@@ -615,7 +615,75 @@ void PlatformLibrarySetup_gpsposition(Picoc *pc)
 }
 
 
+/**
+ * pwm.h
+ */
+#include "actuatorsettings.h"
+#include "manualcontrolsettings.h"
+#include "pios_rcvr.h"
+
+/* library functions */
+void PWMFreqSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if ((Param[0]->Val->Integer > 0) && (Param[0]->Val->Integer <= ACTUATORSETTINGS_CHANNELUPDATEFREQ_NUMELEM)) {
+		ActuatorSettingsData data;
+		ActuatorSettingsChannelUpdateFreqGet(data.ChannelUpdateFreq);
+		data.ChannelUpdateFreq[Param[0]->Val->Integer - 1] = Param[1]->Val->UnsignedInteger;
+		ActuatorSettingsChannelUpdateFreqSet(data.ChannelUpdateFreq);
+	}
+}
+
+void PWMMinSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if ((Param[0]->Val->Integer > 0) && (Param[0]->Val->Integer <= ACTUATORSETTINGS_CHANNELMIN_NUMELEM)) {
+		ActuatorSettingsData data;
+		ActuatorSettingsChannelMinGet(data.ChannelMin);
+		data.ChannelMin[Param[0]->Val->Integer - 1] = Param[1]->Val->Integer;
+		ActuatorSettingsChannelMinSet(data.ChannelMin);
+	}
+}
+
+void PWMMaxSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if ((Param[0]->Val->Integer > 0) && (Param[0]->Val->Integer <= ACTUATORSETTINGS_CHANNELMAX_NUMELEM)) {
+		ActuatorSettingsData data;
+		ActuatorSettingsChannelMaxGet(data.ChannelMax);
+		data.ChannelMax[Param[0]->Val->Integer - 1] = Param[1]->Val->Integer;
+		ActuatorSettingsChannelMaxSet(data.ChannelMax);
+	}
+}
+
+void PWMValSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if ((Param[0]->Val->Integer > 0) && (Param[0]->Val->Integer <= ACTUATORSETTINGS_CHANNELNEUTRAL_NUMELEM)) {
+		ActuatorSettingsData data;
+		ActuatorSettingsChannelNeutralGet(data.ChannelNeutral);
+		data.ChannelNeutral[Param[0]->Val->Integer - 1] = Param[1]->Val->Integer;
+		ActuatorSettingsChannelNeutralSet(data.ChannelNeutral);
+	}
+}
+
+#ifdef PIOS_INCLUDE_PWM
+void PWMValGet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	extern uintptr_t pios_rcvr_group_map[];
+	ReturnValue->Val->Integer = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM], Param[0]->Val->Integer);
+}
+#endif
+
 /* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_pwm[] =
+{
+	{ PWMFreqSet,		"void PWMFreqSet(int,unsigned int);" },
+	{ PWMMinSet,		"void PWMMinSet(int,int);" },
+	{ PWMMaxSet,		"void PWMMaxSet(int,int);" },
+	{ PWMValSet,		"void PWMValSet(int,int);" },
+#ifdef PIOS_INCLUDE_PWM
+	{ PWMValGet,		"int PWMValGet(int);" },
+#endif
+	{ NULL, NULL }
+};
+
 
 /* list all includes */
 void PlatformLibraryInit(Picoc *pc)
@@ -632,6 +700,7 @@ void PlatformLibraryInit(Picoc *pc)
 	IncludeRegister(pc, "flightbatterystate.h", &PlatformLibrarySetup_flightbatterystate, &PlatformLibrary_flightbatterystate[0], NULL);
 	IncludeRegister(pc, "flightstatus.h", NULL, &PlatformLibrary_flightstatus[0], NULL);
 	IncludeRegister(pc, "gpsposition.h", &PlatformLibrarySetup_gpsposition, &PlatformLibrary_gpsposition[0], NULL);
+	IncludeRegister(pc, "pwm.h", NULL, &PlatformLibrary_pwm[0], NULL);
 }
 
 #endif /* PIOS_INCLUDE_PICOC */
