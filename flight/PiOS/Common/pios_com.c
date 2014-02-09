@@ -53,6 +53,7 @@ struct pios_com_dev {
 #if defined(PIOS_INCLUDE_FREERTOS)
 	xSemaphoreHandle tx_sem;
 	xSemaphoreHandle rx_sem;
+	xSemaphoreHandle sendbuffer_sem;
 #endif
 
 	bool has_rx;
@@ -133,6 +134,9 @@ int32_t PIOS_COM_Init(uintptr_t * com_id, const struct pios_com_driver * driver,
 #endif	/* PIOS_INCLUDE_FREERTOS */
 		(com_dev->driver->bind_tx_cb)(lower_id, PIOS_COM_TxOutCallback, (uintptr_t)com_dev);
 	}
+#if defined(PIOS_INCLUDE_FREERTOS)
+	com_dev->sendbuffer_sem = xSemaphoreCreateMutex();
+#endif /* PIOS_INCLUDE_FREERTOS */
 
 	*com_id = (uintptr_t)com_dev;
 	return(0);
@@ -251,6 +255,8 @@ int32_t PIOS_COM_ChangeBaud(uintptr_t com_id, uint32_t baud)
 * \return -1 if port not available
 * \return -2 if non-blocking mode activated: buffer is full
 *            caller should retry until buffer is free again
+* \return -3 another thread is already sending, caller should
+*            retry until com is available again
 * \return number of bytes transmitted on success
 */
 int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, uint16_t len)
@@ -264,6 +270,11 @@ int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, 
 
 	PIOS_Assert(com_dev->has_tx);
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+   	if(xSemaphoreTake(com_dev->sendbuffer_sem, 0) != pdTRUE){
+		return -3;
+	}
+#endif /* PIOS_INCLUDE_FREERTOS */
 	if (com_dev->driver->available && !com_dev->driver->available(com_dev->lower_id)) {
 		/*
 		 * Underlying device is down/unconnected.
@@ -273,10 +284,17 @@ int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, 
 		 * no longer accepting data.
 		 */
 		fifoBuf_clearData(&com_dev->tx);
+#if defined(PIOS_INCLUDE_FREERTOS)
+		xSemaphoreGive(com_dev->sendbuffer_sem);
+#endif /* PIOS_INCLUDE_FREERTOS */
+
 		return len;
 	}
 
 	if (len > fifoBuf_getFree(&com_dev->tx)) {
+#if defined(PIOS_INCLUDE_FREERTOS)
+		xSemaphoreGive(com_dev->sendbuffer_sem);
+#endif /* PIOS_INCLUDE_FREERTOS */
 		/* Buffer cannot accept all requested bytes (retry) */
 		return -2;
 	}
@@ -291,6 +309,9 @@ int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, 
 		}
 	}
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+	xSemaphoreGive(com_dev->sendbuffer_sem);
+#endif /* PIOS_INCLUDE_FREERTOS */
 	return (bytes_into_fifo);
 }
 
