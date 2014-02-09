@@ -25,6 +25,10 @@ def main():
     # Setup the command line arguments.
     parser = argparse.ArgumentParser(usage = USAGE, description = DESC)
 
+    parser.add_argument("-t", "--timestamped",
+                        action  = 'store_true',
+                        help    = "indicate that this is an overo log file or some format that has timestamps")
+
     parser.add_argument("-g", "--githash",
                         action  = "store",
                         dest    = "githash",
@@ -64,6 +68,13 @@ def main():
             print "Overriding git hash with '%s' instead of '%s' from file" % (args.githash, githash)
             githash = args.githash
 
+        # Log format indicates this log is using the old file format which
+        # embeds the timestamping information between the UAVTalk packet 
+        # instead of as part of the packet
+        logFormat = True
+        if args.timestamped is not None:
+            logFormat = False
+
         uavohash = fd.readline()
         divider = fd.readline()
 
@@ -78,10 +89,7 @@ def main():
 
         parser = taulabs.uavtalk.UavTalk(uavo_defs)
 
-        logFormat = True
-
-        from collections import namedtuple
-        LogHeader = namedtuple('LogHeader', 'time size')
+        base_time = None
 
         while fd:
 
@@ -92,6 +100,9 @@ def main():
                 # applied to this information so it can be totally messed up, especially if 
                 # there is a frame shift error. The internal timestamping method of UAVTalk is
                 # a much better idea.
+
+                from collections import namedtuple
+                LogHeader = namedtuple('LogHeader', 'time size')
 
                 # Read the next log record header
                 log_hdr_fmt = "<IQ"
@@ -105,15 +116,54 @@ def main():
                 # Got a log record header.  Unpack it.
                 log_hdr = LogHeader._make(struct.unpack(log_hdr_fmt, log_hdr_data))
 
+                # Set the baseline timestamp from the first record in the log file
+                if base_time is None:
+                    base_time = log_hdr.time
+
+
             parser.processByte(ord(fd.read(1)))
 
             if parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
-                u  = parser.getLastReceivedObject(timestamp=log_hdr.time)
+                if logFormat:
+                    u  = parser.getLastReceivedObject(timestamp=log_hdr.time)
+                else:
+                    u  = parser.getLastReceivedObject()
                 uavo_list.append(u)
 
         fd.close()
 
-        code.interact(local=locals())
+        print "Processed %d Log File Records" % len(uavo_list)
+
+        # Build a new module that will make up the global namespace for the
+        # interactive shell.  This allows us to restrict what the ipython shell sees.
+        import imp
+        user_module = imp.new_module('taulabs_env')
+        user_module.__dict__.update({
+                'operator'  : __import__('operator'),
+                'base_time' : base_time,
+                })
+
+        # Build the "user" (ie. local) namespace that the interactive shell
+        # will see.  These variables show up in the output of "%whos" in the shell.
+        user_ns = {
+            'base_time' : base_time,
+            'log_file'  : src,
+            'githash'   : githash,
+            'uavo_defs' : uavo_defs,
+            'uavo_list' : uavo_list,
+            }
+
+        # Extend the shell environment to include all of the uavo.UAVO_* classes that were
+        # auto-created when the uavo xml files were processed.
+        uavo_classes = [(t[0], t[1]) for t in taulabs.uavo.__dict__.iteritems() if 'UAVO_' in t[0]]
+        user_module.__dict__.update(uavo_classes)
+
+        # Instantiate an ipython shell to interact with the log data.
+        import IPython
+        from IPython.frontend.terminal.embed import InteractiveShellEmbed
+        e = InteractiveShellEmbed(user_ns = user_ns, user_module = user_module)
+        e.enable_pylab(import_all = True)
+        e("Analyzing log file: %s" % src)
 
 
 #-------------------------------------------------------------------------------
