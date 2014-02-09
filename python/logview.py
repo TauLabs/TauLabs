@@ -7,6 +7,8 @@ sys.path.insert(1, os.path.dirname(sys.path[0]))
 
 import argparse
 import errno
+import code
+import struct
 
 #-------------------------------------------------------------------------------
 USAGE = "%(prog)s [logfile...]"
@@ -22,6 +24,10 @@ def normalize_path(path):
 def main():
     # Setup the command line arguments.
     parser = argparse.ArgumentParser(usage = USAGE, description = DESC)
+
+    parser.add_argument("-t", "--timestamped",
+                        action  = 'store_true',
+                        help    = "indicate that this is an overo log file or some format that has timestamps")
 
     parser.add_argument("-g", "--githash",
                         action  = "store",
@@ -43,125 +49,87 @@ def main():
         src = normalize_path(src)
         fd  = open(src, "rb")
 
-        # Check the header signature
-        #    First line is "Tau Labs git hash:"
-        #    Second line is the actual git hash
-        #    Third line is the UAVO hash
-        #    Fourth line is "##"
-        sig = fd.readline()
-        if sig != 'Tau Labs git hash:\n':
-            print "Source file does not have a recognized header signature"
-            print '|' + sig + '|'
-            sys.exit(2)
+        # Log format indicates this log is using the old file format which
+        # embeds the timestamping information between the UAVTalk packet 
+        # instead of as part of the packet
+        logFormat = True
+        if args.timestamped is not None:
+            logFormat = False
 
-        # Determine the git hash that this log file is based on
-        githash = fd.readline()[:-1]
-        print "Log file is based on git hash: %s" % githash
-
+        print args.githash
         if args.githash is not None:
-            print "Overriding git hash with '%s' instead of '%s' from file" % (args.githash, githash)
             githash = args.githash
+        else:
+            # If we specify the log header no need to attempt to parse it
 
-        uavohash = fd.readline()
-        divider = fd.readline()
+            # Check the header signature
+            #    First line is "Tau Labs git hash:"
+            #    Second line is the actual git hash
+            #    Third line is the UAVO hash
+            #    Fourth line is "##"
+            sig = fd.readline()
+            if sig != 'Tau Labs git hash:\n':
+                print "Source file does not have a recognized header signature"
+                print '|' + sig + '|'
+                sys.exit(2)
+            # Determine the git hash that this log file is based on
+            githash = fd.readline()[:-1]
+            print "Log file is based on git hash: %s" % githash
+
+            uavohash = fd.readline()
+            divider = fd.readline()
 
         print "Exporting UAVO XML files from git repo"
 
         import taulabs
         uavo_defs = taulabs.uavo_collection.UAVOCollection()
         uavo_defs.from_git_hash(githash)
+        uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
 
         print "Found %d unique UAVO definitions" % len(uavo_defs)
 
-        # Remaining data in the file is in this format:
-        #   For GCS logging the format is as follows
-        #   4 bytes timestamp (milliseconds)
-        #   8 bytes data size
-        #   UAVTalk packet (always without timestamped packets)
-        #   Sync val (0x3c)
-        #   Message type (1 byte)
-        #   Length (2 bytes)
-        #   Object ID (4 bytes)
-        #   Instance ID (optional, 2 bytes)
-        #   Data (variable length)
-        #   Checksum (1 byte)
+        parser = taulabs.uavtalk.UavTalk(uavo_defs)
 
-        print "Processing Log File Records"
-
-        from collections import namedtuple
-        LogHeader = namedtuple('LogHeader', 'time size')
-        UAVOHeader = namedtuple('UAVOHeader', 'sync type length id')
-
-        import struct
         base_time = None
-        synced = False
 
-        uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
         while fd:
 
-            if synced == False:
-                sync_test = ord(fd.read(1))
-                if sync_test == 0x3c:
-                    print "Found sync"
-                    synced = True
-                    fd.seek(fd.tell() - 1) # rewind the sync byte
-                continue
+            if logFormat and parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
+                # This logging format is somewhat of a hack and simply prepends additional
+                # information in front of each UAVTalk packet.  We look for this information
+                # whenever the parser has completed a packet. Note that there is no checksum
+                # applied to this information so it can be totally messed up, especially if 
+                # there is a frame shift error. The internal timestamping method of UAVTalk is
+                # a much better idea.
 
-            # Read the next log record header
-            log_hdr_fmt = "<IQ"
-            log_hdr_data = fd.read(struct.calcsize(log_hdr_fmt))
+                from collections import namedtuple
+                LogHeader = namedtuple('LogHeader', 'time size')
 
-            # Check if we hit the end of the file
-            if len(log_hdr_data) == 0:
-                # Normal End of File (EOF) at a record boundary
-                break;
+                # Read the next log record header
+                log_hdr_fmt = "<IQ"
+                log_hdr_data = fd.read(struct.calcsize(log_hdr_fmt))
 
-            # Got a log record header.  Unpack it.
-            log_hdr = LogHeader._make(struct.unpack(log_hdr_fmt, log_hdr_data))
+                # Check if we hit the end of the file
+                if len(log_hdr_data) == 0:
+                    # Normal End of File (EOF) at a record boundary
+                    break;
 
-            # Set the baseline timestamp from the first record in the log file
-            if base_time is None:
-                base_time = log_hdr.time
+                # Got a log record header.  Unpack it.
+                log_hdr = LogHeader._make(struct.unpack(log_hdr_fmt, log_hdr_data))
 
-            # Read the UAVO message header
-            uavo_hdr_fmt = "<BBHI"
-            uavo_hdr_data = fd.read(struct.calcsize(uavo_hdr_fmt))
+                # Set the baseline timestamp from the first record in the log file
+                if base_time is None:
+                    base_time = log_hdr.time
 
-            # Got a UAVO message header.  Unpack it.
-            uavo_hdr = UAVOHeader._make(struct.unpack(uavo_hdr_fmt, uavo_hdr_data))
 
-            if uavo_hdr.sync != 0x3c:
-                print "Bad sync, data was: " + hex(uavo_hdr.sync)
-                synced = False
-                continue
+            parser.processByte(ord(fd.read(1)))
 
-            # Ignore meta objects entirely
-            if uavo_hdr.id & 0x1:
-                print "Got meta data, fast forwarding"
-                fd.read(8) # meta data is 7 bytes, plus checksum
-                continue
-
-            # Is this a known UAVO?
-            uavo_key = '{0:08x}'.format(uavo_hdr.id)
-            if not uavo_key in uavo_defs:
-                # Unknown UAVO.  Discard the rest of the log entry.
-                print "Unknown UAVO: %s" % uavo_key
-                fd.read(min(log_hdr.size,256) - len(uavo_hdr_data))
-                continue
-
-            # This is a known UAVO.
-            # Use the UAVO definition to read and parse the remainder of the UAVO message.
-            uavo_def = uavo_defs[uavo_key]
-            data = fd.read(uavo_def.get_size_of_data())
-            u = uavo_def.instance_from_bytes(data, timestamp=log_hdr.time)
-            uavo_list.append(u)
-
-            # Read (and discard) the checksum
-            fd.read(1)
-
-            # Make sure our sizes all matched up
-            if log_hdr.size - len(uavo_hdr_data) - 1 != uavo_def.get_size_of_data():
-                print "size mismatch"
+            if parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
+                if logFormat:
+                    u  = parser.getLastReceivedObject(timestamp=log_hdr.time)
+                else:
+                    u  = parser.getLastReceivedObject()
+                uavo_list.append(u)
 
         fd.close()
 
@@ -197,6 +165,7 @@ def main():
         e = InteractiveShellEmbed(user_ns = user_ns, user_module = user_module)
         e.enable_pylab(import_all = True)
         e("Analyzing log file: %s" % src)
+
 
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":
