@@ -49,25 +49,6 @@ def main():
         src = normalize_path(src)
         fd  = open(src, "rb")
 
-        # Check the header signature
-        #    First line is "Tau Labs git hash:"
-        #    Second line is the actual git hash
-        #    Third line is the UAVO hash
-        #    Fourth line is "##"
-        sig = fd.readline()
-        if sig != 'Tau Labs git hash:\n':
-            print "Source file does not have a recognized header signature"
-            print '|' + sig + '|'
-            sys.exit(2)
-
-        # Determine the git hash that this log file is based on
-        githash = fd.readline()[:-1]
-        print "Log file is based on git hash: %s" % githash
-
-        if args.githash is not None:
-            print "Overriding git hash with '%s' instead of '%s' from file" % (args.githash, githash)
-            githash = args.githash
-
         # Log format indicates this log is using the old file format which
         # embeds the timestamping information between the UAVTalk packet 
         # instead of as part of the packet
@@ -75,8 +56,28 @@ def main():
         if args.timestamped is not None:
             logFormat = False
 
-        uavohash = fd.readline()
-        divider = fd.readline()
+        print args.githash
+        if args.githash is not None:
+            githash = args.githash
+        else:
+            # If we specify the log header no need to attempt to parse it
+
+            # Check the header signature
+            #    First line is "Tau Labs git hash:"
+            #    Second line is the actual git hash
+            #    Third line is the UAVO hash
+            #    Fourth line is "##"
+            sig = fd.readline()
+            if sig != 'Tau Labs git hash:\n':
+                print "Source file does not have a recognized header signature"
+                print '|' + sig + '|'
+                sys.exit(2)
+            # Determine the git hash that this log file is based on
+            githash = fd.readline()[:-1]
+            print "Log file is based on git hash: %s" % githash
+
+            uavohash = fd.readline()
+            divider = fd.readline()
 
         print "Exporting UAVO XML files from git repo"
 

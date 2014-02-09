@@ -28,6 +28,10 @@ class UavTalk():
 		self.timestamp = 0
 		self.rxBuffer = "" # needs to be some kind of byte array
 
+		# These are used for accounting for timestamp wraparound
+		self.timestampBase = 0
+		self.lastTimestamp = 0
+
 		self.obj = None # stores the object type when found
 	
 	def getLastReceivedObject(self, timestamp=0):
@@ -130,7 +134,7 @@ class UavTalk():
 				if self.obj is not None:
 					self.instanceLength =  0 if self.obj.meta['is_single_inst'] else 2
 					self.timestampLength = 2 if self.type == UavTalk.TYPE_OBJ_TS or self.type == UavTalk.TYPE_OBJ_ACK_TS else 0
-					self.length = self.obj.get_size_of_data() - self.timestampLength
+					self.length = self.obj.get_size_of_data()
 
 				else:
 					# We don't know if it's a multi-instance object, so just assume it's 0.
@@ -204,6 +208,12 @@ class UavTalk():
 			if self.rxCount < 2:
 				# wait for both bytes
 				return
+
+			# Account for the 16 bit limitations of the timestamp
+			if self.timestamp < self.lastTimestamp:
+				self.timestampBase = self.timestampBase + 65536
+			self.lastTimestamp = self.timestamp
+			self.timestamp = self.timestamp + self.timestampBase
 
 			self.rxCount = 0
 
