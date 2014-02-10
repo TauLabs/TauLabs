@@ -226,7 +226,7 @@ size_t PlatformHeapSize()
 	return heap_size;
 }
 
-/* litte debug message funtion. */
+/* a little debug message function */
 void PlatformDebug(const char *format, ...)
 {
 #ifdef PIOS_COM_PICOC
