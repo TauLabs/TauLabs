@@ -46,6 +46,10 @@ extern struct flashfs_logfs_cfg flashfs_waypoints_cfg;
 
 // Private constants
 #define TASK_PRIORITY			(tskIDLE_PRIORITY + 1)
+#define TASK_STACKSIZE_MIN		(5*1024)
+#define TASK_STACKSIZE_MAX		(128*1024)
+#define PICOC_STACKSIZE_MIN		(10*1024)
+#define PICOC_STACKSIZE_MAX		(128*1024)
 #define PICOC_SOURCE_FILE_TYPE	0X00704300		/* mark picoc sources with this ID */
 #define PICOC_SECTOR_SIZE		48				/* size of filesystem object (less than slot_size - sizeof(slot_header) */
 #define SOH	0x01	/* (^A) start of heading */
@@ -113,8 +117,8 @@ static int32_t picocInitialize(void)
 		PicoCSettingsGet(&picocsettings);
 
 		// check stacksizes for module task and picoC
-		if ((picocsettings.TaskStackSize < 5000) || (picocsettings.TaskStackSize > 200000) ||
-			(picocsettings.PicoCStackSize < 10000) || (picocsettings.PicoCStackSize > 2000000)) {
+		if ((picocsettings.TaskStackSize < TASK_STACKSIZE_MIN) || (picocsettings.TaskStackSize > TASK_STACKSIZE_MAX) ||
+			(picocsettings.PicoCStackSize < PICOC_STACKSIZE_MIN) || (picocsettings.PicoCStackSize > PICOC_STACKSIZE_MAX)) {
 			return -1;
 		}
 
