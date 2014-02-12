@@ -49,17 +49,17 @@ jmp_buf PicocExitBuf;
  * This is needed to compile picoc without a makefile to prevent object name conflicts.
  * All original picoc source files are in the include folder.
  */
-#include "table.c"
-#include "lex.c"
-#include "parse.c"
-#include "expression.c"
-#include "heap.c"
-#include "type.c"
-#include "variable.c"
-//#include "clibrary.c"	/* we have our own optimized version. */
-#include "platform.c"
-#include "include.c"
-#include "debug.c"
+#include "inc/table.c"
+#include "inc/lex.c"
+#include "inc/parse.c"
+#include "inc/expression.c"
+#include "inc/heap.c"
+#include "inc/type.c"
+#include "inc/variable.c"
+//#include "inc/clibrary.c"	/* we have our own optimized version. */
+#include "inc/platform.c"
+#include "inc/include.c"
+#include "inc/debug.c"
 
 /**
  * picoc main program

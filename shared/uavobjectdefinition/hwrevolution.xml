@@ -17,6 +17,7 @@
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
+				<option>PicoC</option>
 			</options>
 		</field>
 		<field name="AuxSBusPort" units="function" type="enum" elements="1" defaultvalue="Disabled">
@@ -33,6 +34,7 @@
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
+				<option>PicoC</option>
 			</options>
 		</field>
 		<field name="FlexiPort" units="function" type="enum" elements="1" defaultvalue="Disabled">
@@ -49,6 +51,7 @@
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
+				<option>PicoC</option>
 			</options>
 		</field>
 		<field name="TelemetryPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,DebugConsole,ComBridge" defaultvalue="Telemetry"/>
