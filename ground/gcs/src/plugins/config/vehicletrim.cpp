@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       vehicletrim.cpp
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Gui-less support class for vehicle trimming
  *****************************************************************************/
 /*

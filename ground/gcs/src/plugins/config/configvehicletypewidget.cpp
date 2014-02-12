@@ -3,6 +3,7 @@
  *
  * @file       configvehicletypewidget.cpp
  * @author     E. Lafargue, K. Sebesta & The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014 
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -877,7 +878,7 @@ void ConfigVehicleTypeWidget::reverseMultirotorMotor(){
 void ConfigVehicleTypeWidget::bnLevelTrim_clicked()
 {
     QMessageBox msgBox(QMessageBox::Question, tr("Trim level"),
-                       "Use the transmitter trim to set the autopilot for straight and level flight? (Please see the tooltip for more information.)",
+                       tr("Use the transmitter trim to set the autopilot for straight and level flight? (Please see the tooltip for more information.)"),
                        QMessageBox::Yes | QMessageBox::No, this);
     int userChoice = msgBox.exec();
 
@@ -895,34 +896,34 @@ void ConfigVehicleTypeWidget::bnLevelTrim_clicked()
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_MISSING_RECEIVER:
     {
         QMessageBox msgBox(QMessageBox::Critical, tr("No receiver detected"),
-                           "Transmitter and receiver must be powered on.", QMessageBox::Ok, this);
+                           tr("Transmitter and receiver must be powered on."), QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_ARMED_STATE:
     {
         QMessageBox msgBox(QMessageBox::Critical, tr("Vehicle armed"),
-                           "The autopilot must be disarmed first.", QMessageBox::Ok, this);
+                           tr("The autopilot must be disarmed first."), QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_FLIGHTMODE:
     {
         QMessageBox msgBox(QMessageBox::Critical, tr("Vehicle not in Stabilized mode"),
-                           "The autopilot must be in Stabilized1, Stabilized2, or Stabilized3 mode.", QMessageBox::Ok, this);
+                           tr("The autopilot must be in Stabilized1, Stabilized2, or Stabilized3 mode."), QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_STABILIZATIONMODE:
     {
         QMessageBox msgBox(QMessageBox::Critical, tr("Incorrect roll and pitch stabilization modes."),
-                           "Both roll and pitch must be in Attitude stabilization mode.", QMessageBox::Ok, this);
+                           tr("Both roll and pitch must be in Attitude stabilization mode."), QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }
     case VehicleTrim::AUTOPILOT_LEVEL_SUCCESS:
         QMessageBox msgBox(QMessageBox::Information, tr("Trim updated"),
-                           "Trim successfully updated, please reset the transmitter's trim and be sure to configure stabilization settings to use AttitudePlus.", QMessageBox::Ok, this);
+                           tr("Trim successfully updated, please reset the transmitter's trim to zero and be sure to configure stabilization settings to use Attitude mode."), QMessageBox::Ok, this);
         msgBox.exec();
 
         // Set tab as dirty (i.e. having unsaved changes).
