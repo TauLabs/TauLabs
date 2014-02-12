@@ -31,13 +31,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
-
 #include "openpilot.h"
 #include "modulesettings.h"
 #include "gpsposition.h"
 #include "baroaltitude.h"
 
+#if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 // Private constants
 #define STACK_SIZE_BYTES 512
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
