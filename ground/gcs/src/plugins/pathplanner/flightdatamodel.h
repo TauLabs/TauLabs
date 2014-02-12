@@ -31,16 +31,20 @@
 #include <QAbstractTableModel>
 #include "pathplanner_global.h"
 
-struct pathPlanData
+/**
+ * @brief The PathPlanData struct is the internal representation
+ * of the waypoints. Notice this is in absolute terms, not NED.
+ */
+struct PathPlanData
 {
-    QString wpDescritption;
-    double latPosition;
-    double lngPosition;
-    double altitude;
-    float velocity;
-    int mode;
-    float mode_params;
-    bool locked;
+    QString wpDescription; //!< Description for the waypoint
+    double latPosition;    //!< Latitude of the waypoint
+    double lngPosition;    //!< Longitude of the waypoint
+    double altitude;       //!< Altitude of the waypoint (m above ellipsoid)
+    float velocity;        //!< Velocity associated with this waypoint
+    int mode;              //!< Navigation mode for this waypoint
+    float mode_params;     //!< Optional parameters associated with this waypoint
+    bool locked;           //!< Lock a waypoint
 };
 
 class PATHPLANNER_EXPORT FlightDataModel : public QAbstractTableModel
@@ -49,11 +53,11 @@ class PATHPLANNER_EXPORT FlightDataModel : public QAbstractTableModel
 public:
 
     //! The column names
-    enum pathPlanDataEnum
+    enum PathPlanDataEnum
     {
         LATPOSITION,LNGPOSITION,ALTITUDE,
         NED_NORTH, NED_EAST, NED_DOWN,
-        VELOCITY,MODE,MODE_PARAMS,LOCKED, WPDESCRITPTION,
+        VELOCITY,MODE,MODE_PARAMS,LOCKED, WPDESCRIPTION,
         LASTCOLUMN
     };
 
@@ -76,7 +80,7 @@ public:
     bool replaceData(FlightDataModel *newModel);
 
 private:
-    QList<pathPlanData *> dataStorage;
+    QList<PathPlanData *> dataStorage;
 
     //! NED representation of a location
     struct NED {
