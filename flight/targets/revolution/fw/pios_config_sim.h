@@ -69,7 +69,6 @@
 #define PIOS_TELEM_STACK_SIZE           2048
 
 /* Stabilization options */
-//#define PIOS_QUATERNION_STABILIZATION
 
 /* GPS options */
 #define PIOS_GPS_SETS_HOMELOCATION

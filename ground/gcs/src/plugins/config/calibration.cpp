@@ -41,6 +41,7 @@
 #include "homelocation.h"
 #include "magnetometer.h"
 #include "sensorsettings.h"
+#include "trimanglessettings.h"
 
 #include <Eigen/Core>
 #include <Eigen/Cholesky>
@@ -1015,6 +1016,14 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
         attitudeSettings->setData(attitudeSettingsData);
         attitudeSettings->updated();
+
+        // After recomputing the level for a frame, zero the trim settings
+        TrimAnglesSettings *trimSettings = TrimAnglesSettings::GetInstance(getObjectManager());
+        Q_ASSERT(trimSettings);
+        TrimAnglesSettings::DataFields trim = trimSettings->getData();
+        trim.Pitch = 0;
+        trim.Roll = 0;
+        trimSettings->setData(trim);
 
         // Inform the system that the calibration process has completed
         emit calibrationCompleted();
