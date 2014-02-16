@@ -299,6 +299,7 @@ void PlatformLibrarySetup_math(Picoc *pc)
 #include "picocstatus.h"
 #include "flightstatus.h"
 #include "accessorydesired.h"
+#include "manualcontrolsettings.h"
 
 /* void delay(int): sleep for given ms-value */
 void SystemDelay(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
@@ -371,6 +372,15 @@ void SystemAccessoryValSet(struct ParseState *Parser, struct Value *ReturnValue,
 }
 #endif
 
+/* TxChannelValGet(int): get a tx value of the selected channel*/
+void SystemTxChannelValGet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	extern uintptr_t pios_rcvr_group_map[];
+	ManualControlSettingsData data;
+	ManualControlSettingsChannelGroupsGet(data.ChannelGroups);
+	ReturnValue->Val->Integer = PIOS_RCVR_Read(pios_rcvr_group_map[data.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE]], Param[0]->Val->Integer);
+}
+
 /* list of all library functions and their prototypes */
 struct LibraryFunction PlatformLibrary_system[] =
 {
@@ -386,6 +396,7 @@ struct LibraryFunction PlatformLibrary_system[] =
 	{ SystemAccessoryValGet,"float AccessoryValGet(int);" },
 	{ SystemAccessoryValSet,"void AccessoryValSet(int,float);" },
 #endif
+	{ SystemTxChannelValGet,"int TxChannelValGet(int);" },
 	{ NULL, NULL }
 };
 
