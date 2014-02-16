@@ -150,6 +150,7 @@ static void picocTask(void *parameters) {
 
 	FlightStatusData flightstatus;
 	bool startup;
+	bool started = false;
 
 	// demo for picoc
 	const char *demo = "void test() {for (int i=0; i<10; i++) printf(\"i=%d\\n\", i); } test();";
@@ -243,11 +244,12 @@ static void picocTask(void *parameters) {
 		}
 
 		// start picoc interpreter in selected mode
-		if (startup) {
+		if (startup && !started) {
 			switch (picocsettings.Source) {
 			case PICOCSETTINGS_SOURCE_DEMO:
 				// run the demo code.
 				picocstatus.ExitValue = picoc(demo, picocsettings.PicoCStackSize);
+				started = true;
 				break;
 			case PICOCSETTINGS_SOURCE_INTERACTIVE:
 				// start picoc in interactive mode.
@@ -258,6 +260,7 @@ static void picocTask(void *parameters) {
 				sourcebuffer[sourcebuffer_size - 1] = 0;
 				// start picoc in file mode.
 				picocstatus.ExitValue = picoc(sourcebuffer, picocsettings.PicoCStackSize);
+				started = true;
 				break;
 			default:
 				picocstatus.ExitValue = 0;
@@ -266,6 +269,7 @@ static void picocTask(void *parameters) {
 				PicoCStatusExitValueSet(&picocstatus.ExitValue);
 			}
 		}
+		started &= startup;
 
 		vTaskDelay(10);
 	}
