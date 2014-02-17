@@ -69,7 +69,6 @@
 #define PIOS_TELEM_STACK_SIZE           2048
 
 /* Stabilization options */
-#define PIOS_QUATERNION_STABILIZATION
 
 /* GPS options */
 #define PIOS_GPS_SETS_HOMELOCATION
@@ -80,6 +79,8 @@
 #define IRQSTACK_LIMIT_CRITICAL		80
 #define CPULOAD_LIMIT_WARNING		80
 #define CPULOAD_LIMIT_CRITICAL		95
+
+#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 9959
 
 #define REVOLUTION
 
