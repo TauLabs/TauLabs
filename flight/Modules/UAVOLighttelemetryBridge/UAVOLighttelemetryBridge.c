@@ -8,10 +8,10 @@
  * @file       UAVOLighttelemetryBridge.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Bridges selected UAVObjects to a minimal one way telemetry 
- *			   protocol for really low bitrates (1200/2400 bauds). This can be 
- *			   used with FSK audio modems or increase range for serial telemetry.
- *			   Effective for ground OSD, groundstation HUD and Antenna tracker.
- *			   
+ *             protocol for really low bitrates (1200/2400 bauds). This can be 
+ *             used with FSK audio modems or increase range for serial telemetry.
+ *             Effective for ground OSD, groundstation HUD and Antenna tracker.
+ *             
  *              Protocol details: 3 different frames, little endian.
  *                * G Frame (GPS position) (2hz @ 1200 bauds , 5hz >= 2400 bauds): 18BYTES
  *                  0x24 0x54 0x47 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF 0xFF  0xFF   0xC0   
