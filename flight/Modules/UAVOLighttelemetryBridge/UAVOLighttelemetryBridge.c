@@ -58,7 +58,7 @@
 
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 // Private constants
-#define STACK_SIZE_BYTES 432
+#define STACK_SIZE_BYTES 512
 #define TASK_PRIORITY (tskIDLE_PRIORITY+1)
 #define UPDATE_PERIOD 100
 
