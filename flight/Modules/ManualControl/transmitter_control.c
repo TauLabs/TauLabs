@@ -132,9 +132,49 @@ int32_t transmitter_control_initialize()
 
 	/* For now manual instantiate extra instances of Accessory Desired.  In future  */
 	/* should be done dynamically this includes not even registering it if not used */
-	AccessoryDesiredCreateInstance();
-	AccessoryDesiredCreateInstance();
 
+	uint8_t AccessoryInstances = 0;
+	// Set Accessory 5
+	if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY5] != 
+		MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+		AccessoryInstances=5;
+	}
+	else
+	{
+		// Set Accessory 4
+		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY4] != 
+			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			AccessoryInstances=4;
+		}
+		else
+		{
+			// Set Accessory 3
+			if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY3] != 
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+				AccessoryInstances=3;
+			}
+			else
+			{
+				// Set Accessory 2
+				if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2] != 
+					MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+					AccessoryInstances=2;
+				}
+				else
+				{
+					// Set Accessory 1
+					if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY1] != 
+						MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+						AccessoryInstances=1;
+					}
+				}
+			}
+		}
+	}
+	for (uint8_t n = 0; n < AccessoryInstances; ++n) {
+		AccessoryDesiredInitialize();
+	}
+	
 	/* Reset the state machine for processing stick movements */
 	arm_state = ARM_STATE_DISARMED;
 
@@ -372,6 +412,27 @@ int32_t transmitter_control_update()
 			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY2];
 			if(AccessoryDesiredInstSet(2, &accessory) != 0) //These are allocated later and that allocation might fail
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
+		}
+		// Set Accessory 3
+		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY3] != 
+			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY3];
+			if(AccessoryDesiredInstSet(3, &accessory) != 0) //These are allocated later and that allocation might fail
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
+		}
+		// Set Accessory 4
+		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY4] != 
+			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY4];
+			if(AccessoryDesiredInstSet(4, &accessory) != 0) //These are allocated later and that allocation might fail
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
+		}
+		// Set Accessory 5
+		if (settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY5] != 
+			MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
+			accessory.AccessoryVal = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ACCESSORY5];
+			if(AccessoryDesiredInstSet(5, &accessory) != 0) //These are allocated later and that allocation might fail
 				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ACCESSORY);
 		}
 
