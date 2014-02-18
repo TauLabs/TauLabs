@@ -38,7 +38,7 @@ def ani_frame(pos, t1, t2):
 	background2, = ax.plot(east[bg_idx], north[bg_idx], color=col)
 
 
-    # Get the samples that are in this time window
+	# Get the samples that are in this time window
 	def getIdx(t):
 		idx = np.where((time > (t - lag)) & (time <= t))
 		return idx
@@ -85,13 +85,8 @@ def ani_frame(pos, t1, t2):
 		ax.autoscale()
 		plt.draw()
 
-		#ax.plot(x,y)
-		#path.set_xdata(np.ma.array(east[idx], mask=False))
-		#path.set_ydata(np.ma.array(north[idx], mask=False))
 		return lc,
 
-	
-	#init_func=init,
 	ani = animation.FuncAnimation(fig,update_img,np.arange(t1,t2,step=1000/fps),interval=0,blit=False)
 
 	writer = animation.writers['ffmpeg'](fps=30)
