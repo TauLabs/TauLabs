@@ -56,12 +56,12 @@ class UavTalk():
 			self.state = UavTalk.STATE_SYNC
 	
 		if self.rxPacketLength < 0xffff:
-			self.rxPacketLength = self.rxPacketLength + 1;   # update packet byte count
+			self.rxPacketLength = self.rxPacketLength + 1   # update packet byte count
 	
 		# Receive state machine
 		if self.state == UavTalk.STATE_SYNC:
 			if rxbyte != UavTalk.SYNC_VAL:
-				return;
+				return
 			
 			# Initialize and update the CRC, then advance state machine
 			self.cs = 0
@@ -80,9 +80,9 @@ class UavTalk():
 			
 			# Store the type and advance the state machine
 			self.type = rxbyte & ~UavTalk.TYPE_MASK
-			self.packetSize = 0;
-			self.state = UavTalk.STATE_SIZE;
-			self.rxCount = 0;
+			self.packetSize = 0
+			self.state = UavTalk.STATE_SIZE
+			self.rxCount = 0
 
 		elif self.state == UavTalk.STATE_SIZE:
 			
@@ -99,7 +99,7 @@ class UavTalk():
 			
 			
 			if self.packetSize < UavTalk.MIN_HEADER_LENGTH or self.packetSize > UavTalk.MAX_HEADER_LENGTH + UavTalk.MAX_PAYLOAD_LENGTH:
-				self.state = UavTalk.STATE_ERROR;
+				self.state = UavTalk.STATE_ERROR
 				return
 			
 			self.rxCount = 0
@@ -111,7 +111,7 @@ class UavTalk():
 			# update the CRC
 			self.cs = self.__updateCRC(rxbyte)
 			
-			self.objId = self.objId + (rxbyte << (8*self.rxCount));
+			self.objId = self.objId + (rxbyte << (8*self.rxCount))
 			self.rxCount = self.rxCount + 1
 
 			if self.rxCount < 4:
@@ -128,8 +128,8 @@ class UavTalk():
 				
 			# Determine data length
 			if self.type == UavTalk.TYPE_OBJ_REQ or self.type == UavTalk.TYPE_ACK or self.type == UavTalk.TYPE_NACK:
-				self.length = 0;
-				self.instanceLength = 0;
+				self.length = 0
+				self.instanceLength = 0
 			else:
 				if self.obj is not None:
 					self.instanceLength =  0 if self.obj.meta['is_single_inst'] else 2
@@ -155,8 +155,8 @@ class UavTalk():
 			self.instId = 0
 			if self.type == UavTalk.TYPE_NACK:
 				# If this is a NACK, we skip to Checksum
-				self.state = UavTalk.STATE_CS;
-			elif self.obj != 0 and not True: #UAVObjIsSingleInstance(self.obj):
+				self.state = UavTalk.STATE_CS
+			elif self.obj != 0 and not self.obj.meta['is_single_inst']:
 				# Check if this is a single instance object (i.e. if the instance ID field is coming next)
 				self.state = UavTalk.STATE_INSTID
 			elif self.obj != 0 and self.type & UavTalk.TIMESTAMPED:
@@ -219,9 +219,9 @@ class UavTalk():
 
 			# If there is a payload get it, otherwise receive checksum
 			if self.length > 0:
-				self.state = UavTalk.STATE_DATA;
+				self.state = UavTalk.STATE_DATA
 			else:
-				self.state = UavTalk.STATE_CS;
+				self.state = UavTalk.STATE_CS
 			
 		elif self.state == UavTalk.STATE_DATA:
 			
@@ -250,7 +250,7 @@ class UavTalk():
 			if (self.rxPacketLength != (self.packetSize + 1)):
 			   	# packet error - mismatched packet size
 			   	print "Bad packet size"
-				self.state = UavTalk.STATE_ERROR;
+				self.state = UavTalk.STATE_ERROR
 				return
 			
 			self.state = UavTalk.STATE_COMPLETE
