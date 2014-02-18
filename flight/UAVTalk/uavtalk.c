@@ -7,7 +7,7 @@
  *
  * @file       uavtalk.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      UAVTalk library, implements to telemetry protocol. See the wiki for more details.
  *
  * This code packetizes UAVObjects into UAVTalk messages includes the CRC for
@@ -67,8 +67,8 @@ UAVTalkConnection UAVTalkInitialize(UAVTalkOutputStream outputStream)
 	if (!connection->rxBuffer) return 0;
 	connection->txBuffer = pvPortMalloc(UAVTALK_MAX_PACKET_LENGTH);
 	if (!connection->txBuffer) return 0;
-	vSemaphoreCreateBinary(connection->respSema);
-	xSemaphoreTake(connection->respSema, 0); // reset to zero
+	connection->respSema = PIOS_Semaphore_Create();
+	PIOS_Semaphore_Take(connection->respSema, 0); // reset to zero
 	UAVTalkResetStats( (UAVTalkConnection) connection );
 	return (UAVTalkConnection) connection;
 }
@@ -258,13 +258,13 @@ static int32_t objectTransaction(UAVTalkConnectionData *connection, UAVObjHandle
 		sendObject(connection, obj, instId, type);
 		xSemaphoreGiveRecursive(connection->lock);
 		// Wait for response (or timeout)
-		respReceived = xSemaphoreTake(connection->respSema, timeoutMs/portTICK_RATE_MS);
+		respReceived = PIOS_Semaphore_Take(connection->respSema, timeoutMs);
 		// Check if a response was received
 		if (respReceived == pdFALSE)
 		{
 			// Cancel transaction
 			xSemaphoreTakeRecursive(connection->lock, portMAX_DELAY);
-			xSemaphoreTake(connection->respSema, 0); // non blocking call to make sure the value is reset to zero (binary sema)
+			PIOS_Semaphore_Take(connection->respSema, 0); // non blocking call to make sure the value is reset to zero (binary sema)
 			connection->respObj = 0;
 			xSemaphoreGiveRecursive(connection->lock);
 			xSemaphoreGiveRecursive(connection->transLock);
@@ -806,7 +806,7 @@ static void updateAck(UAVTalkConnectionData *connection, UAVObjHandle obj, uint1
 {
 	if (connection->respObj == obj && (connection->respInstId == instId || connection->respInstId == UAVOBJ_ALL_INSTANCES))
 	{
-		xSemaphoreGive(connection->respSema);
+		PIOS_Semaphore_Give(connection->respSema);
 		connection->respObj = 0;
 	}
 }
