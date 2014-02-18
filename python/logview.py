@@ -25,8 +25,12 @@ def main():
     # Setup the command line arguments.
     parser = argparse.ArgumentParser(usage = USAGE, description = DESC)
 
+    # Log format indicates this log is using the old file format which
+    # embeds the timestamping information between the UAVTalk packet 
+    # instead of as part of the packet
     parser.add_argument("-t", "--timestamped",
                         action  = 'store_true',
+                        default = False,
                         help    = "indicate that this is an overo log file or some format that has timestamps")
 
     parser.add_argument("-g", "--githash",
@@ -48,13 +52,6 @@ def main():
         # Open the log file
         src = normalize_path(src)
         fd  = open(src, "rb")
-
-        # Log format indicates this log is using the old file format which
-        # embeds the timestamping information between the UAVTalk packet 
-        # instead of as part of the packet
-        logFormat = True
-        if args.timestamped:
-            logFormat = False
 
         print args.githash
         if args.githash is not None:
@@ -87,14 +84,14 @@ def main():
         uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
 
         print "Found %d unique UAVO definitions" % len(uavo_defs)
-        print "Parsing using the LogFormat: " + `logFormat`
+        print "Parsing using the LogFormat: " + `args.timestamped`
         parser = taulabs.uavtalk.UavTalk(uavo_defs)
 
         base_time = None
 
         while fd:
             try:
-                if logFormat and parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
+                if args.timestamped and parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
                     # This logging format is somewhat of a hack and simply prepends additional
                     # information in front of each UAVTalk packet.  We look for this information
                     # whenever the parser has completed a packet. Note that there is no checksum
@@ -112,7 +109,7 @@ def main():
                     # Check if we hit the end of the file
                     if len(log_hdr_data) == 0:
                         # Normal End of File (EOF) at a record boundary
-                        break;
+                        break
 
                     # Got a log record header.  Unpack it.
                     log_hdr = LogHeader._make(struct.unpack(log_hdr_fmt, log_hdr_data))
@@ -125,7 +122,7 @@ def main():
                 parser.processByte(ord(fd.read(1)))
 
                 if parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
-                    if logFormat:
+                    if args.timestamped:
                         u  = parser.getLastReceivedObject(timestamp=log_hdr.time)
                     else:
                         u  = parser.getLastReceivedObject()
