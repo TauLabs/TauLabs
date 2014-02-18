@@ -33,6 +33,7 @@
 
 #include "uavobjectsinit.h"
 #include "pios_semaphore.h"
+#include "pios_mutex.h"
 
 // Private types and constants
 
@@ -83,8 +84,8 @@ typedef struct {
 typedef struct {
     uint8_t canari;
     UAVTalkOutputStream outStream;
-    xSemaphoreHandle lock;
-    xSemaphoreHandle transLock;
+    struct pios_recursive_mutex *lock;
+    struct pios_recursive_mutex *transLock;
     struct pios_semaphore *respSema;
     UAVObjHandle respObj;
     uint16_t respInstId;

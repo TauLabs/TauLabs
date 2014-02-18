@@ -34,6 +34,7 @@
 
 #include "openpilot.h"
 #include "uavtalk_priv.h"
+#include "pios_mutex.h"
 
 
 // Private functions
@@ -60,8 +61,10 @@ UAVTalkConnection UAVTalkInitialize(UAVTalkOutputStream outputStream)
 	connection->iproc.rxPacketLength = 0;
 	connection->iproc.state = UAVTALK_STATE_SYNC;
 	connection->outStream = outputStream;
-	connection->lock = xSemaphoreCreateRecursiveMutex();
-	connection->transLock = xSemaphoreCreateRecursiveMutex();
+	connection->lock = PIOS_Recursive_Mutex_Create();
+	PIOS_Assert(connection->lock != NULL);
+	connection->transLock = PIOS_Recursive_Mutex_Create();
+	PIOS_Assert(connection->transLock != NULL);
 	// allocate buffers
 	connection->rxBuffer = pvPortMalloc(UAVTALK_MAX_PACKET_LENGTH);
 	if (!connection->rxBuffer) return 0;
@@ -87,13 +90,13 @@ int32_t UAVTalkSetOutputStream(UAVTalkConnection connectionHandle, UAVTalkOutput
     CHECKCONHANDLE(connectionHandle,connection,return -1);
 
 	// Lock
-	xSemaphoreTakeRecursive(connection->lock, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);
 	
 	// set output stream
 	connection->outStream = outputStream;
 	
 	// Release lock
-	xSemaphoreGiveRecursive(connection->lock);
+	PIOS_Recursive_Mutex_Unlock(connection->lock);
 
 	return 0;
 
@@ -122,13 +125,13 @@ void UAVTalkGetStats(UAVTalkConnection connectionHandle, UAVTalkStats* statsOut)
     CHECKCONHANDLE(connectionHandle,connection,return );
 
 	// Lock
-	xSemaphoreTakeRecursive(connection->lock, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);
 	
 	// Copy stats
 	memcpy(statsOut, &connection->stats, sizeof(UAVTalkStats));
 	
 	// Release lock
-	xSemaphoreGiveRecursive(connection->lock);
+	PIOS_Recursive_Mutex_Unlock(connection->lock);
 }
 
 /**
@@ -141,13 +144,13 @@ void UAVTalkResetStats(UAVTalkConnection connectionHandle)
     CHECKCONHANDLE(connectionHandle,connection,return);
 
 	// Lock
-	xSemaphoreTakeRecursive(connection->lock, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);
 	
 	// Clear stats
 	memset(&connection->stats, 0, sizeof(UAVTalkStats));
 	
 	// Release lock
-	xSemaphoreGiveRecursive(connection->lock);
+	PIOS_Recursive_Mutex_Unlock(connection->lock);
 }
 
 /**
@@ -250,37 +253,37 @@ static int32_t objectTransaction(UAVTalkConnectionData *connection, UAVObjHandle
 	if (type == UAVTALK_TYPE_OBJ_ACK || type == UAVTALK_TYPE_OBJ_ACK_TS || type == UAVTALK_TYPE_OBJ_REQ)
 	{
 		// Get transaction lock (will block if a transaction is pending)
-		xSemaphoreTakeRecursive(connection->transLock, portMAX_DELAY);
+		PIOS_Recursive_Mutex_Lock(connection->transLock, PIOS_MUTEX_TIMEOUT_MAX);
 		// Send object
-		xSemaphoreTakeRecursive(connection->lock, portMAX_DELAY);
+		PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);
 		connection->respObj = obj;
 		connection->respInstId = instId;
 		sendObject(connection, obj, instId, type);
-		xSemaphoreGiveRecursive(connection->lock);
+		PIOS_Recursive_Mutex_Unlock(connection->lock);
 		// Wait for response (or timeout)
 		respReceived = PIOS_Semaphore_Take(connection->respSema, timeoutMs);
 		// Check if a response was received
 		if (respReceived == pdFALSE)
 		{
 			// Cancel transaction
-			xSemaphoreTakeRecursive(connection->lock, portMAX_DELAY);
+			PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);
 			PIOS_Semaphore_Take(connection->respSema, 0); // non blocking call to make sure the value is reset to zero (binary sema)
 			connection->respObj = 0;
-			xSemaphoreGiveRecursive(connection->lock);
-			xSemaphoreGiveRecursive(connection->transLock);
+			PIOS_Recursive_Mutex_Unlock(connection->lock);
+			PIOS_Recursive_Mutex_Unlock(connection->transLock);
 			return -1;
 		}
 		else
 		{
-			xSemaphoreGiveRecursive(connection->transLock);
+			PIOS_Recursive_Mutex_Unlock(connection->transLock);
 			return 0;
 		}
 	}
 	else if (type == UAVTALK_TYPE_OBJ || type == UAVTALK_TYPE_OBJ_TS)
 	{
-		xSemaphoreTakeRecursive(connection->lock, portMAX_DELAY);
+		PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);
 		sendObject(connection, obj, instId, type);
-		xSemaphoreGiveRecursive(connection->lock);
+		PIOS_Recursive_Mutex_Unlock(connection->lock);
 		return 0;
 	}
 	else
@@ -553,9 +556,9 @@ UAVTalkRxState UAVTalkProcessInputStream(UAVTalkConnection connectionHandle, uin
 		CHECKCONHANDLE(connectionHandle,connection,return -1);
 		UAVTalkInputProcessor *iproc = &connection->iproc;
 
-		xSemaphoreTakeRecursive(connection->lock, portMAX_DELAY);
+		PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);
 		receiveObject(connection, iproc->type, iproc->objId, iproc->instId, connection->rxBuffer, iproc->length);
-		xSemaphoreGiveRecursive(connection->lock);
+		PIOS_Recursive_Mutex_Unlock(connection->lock);
 	}
 
 	return state;
@@ -641,12 +644,12 @@ int32_t UAVTalkSendAck(UAVTalkConnection connectionHandle, UAVObjHandle obj, uin
 	CHECKCONHANDLE(connectionHandle,connection,return -1);
 
 	// Lock
-	xSemaphoreTakeRecursive(connection->lock, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);
 
 	int32_t ret = sendObject(connection, obj, instId, UAVTALK_TYPE_ACK);
 	
 	// Release lock
-	xSemaphoreGiveRecursive(connection->lock);
+	PIOS_Recursive_Mutex_Unlock(connection->lock);
 
 	return ret;
 }
@@ -664,12 +667,12 @@ int32_t UAVTalkSendNack(UAVTalkConnection connectionHandle, uint32_t objId)
 	CHECKCONHANDLE(connectionHandle,connection,return -1);
 
 	// Lock
-	xSemaphoreTakeRecursive(connection->lock, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);
 
 	int32_t ret = sendNack(connection, objId);
 	
 	// Release lock
-	xSemaphoreGiveRecursive(connection->lock);
+	PIOS_Recursive_Mutex_Unlock(connection->lock);
 
 	return ret;
 }
@@ -689,7 +692,7 @@ int32_t UAVTalkSendBuf(UAVTalkConnection connectionHandle, uint8_t *buf, uint16_
 	CHECKCONHANDLE(connectionHandle,connection, return -1);
 
 	// Lock
-	xSemaphoreTakeRecursive(connection->lock, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);
 
 	// Output the buffer
 	int32_t rc = (*connection->outStream)(buf, len);
@@ -698,7 +701,7 @@ int32_t UAVTalkSendBuf(UAVTalkConnection connectionHandle, uint8_t *buf, uint16_
 	connection->stats.txBytes += len;
 
 	// Release lock
-	xSemaphoreGiveRecursive(connection->lock);
+	PIOS_Recursive_Mutex_Unlock(connection->lock);
 
 	// Done
 	if (rc != len)
