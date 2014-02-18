@@ -53,7 +53,7 @@ def main():
         # embeds the timestamping information between the UAVTalk packet 
         # instead of as part of the packet
         logFormat = True
-        if args.timestamped is not None:
+        if args.timestamped:
             logFormat = False
 
         print args.githash
@@ -87,49 +87,52 @@ def main():
         uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
 
         print "Found %d unique UAVO definitions" % len(uavo_defs)
-
+        print "Parsing using the LogFormat: " + `logFormat`
         parser = taulabs.uavtalk.UavTalk(uavo_defs)
 
         base_time = None
 
         while fd:
+            try:
+                if logFormat and parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
+                    # This logging format is somewhat of a hack and simply prepends additional
+                    # information in front of each UAVTalk packet.  We look for this information
+                    # whenever the parser has completed a packet. Note that there is no checksum
+                    # applied to this information so it can be totally messed up, especially if 
+                    # there is a frame shift error. The internal timestamping method of UAVTalk is
+                    # a much better idea.
 
-            if logFormat and parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
-                # This logging format is somewhat of a hack and simply prepends additional
-                # information in front of each UAVTalk packet.  We look for this information
-                # whenever the parser has completed a packet. Note that there is no checksum
-                # applied to this information so it can be totally messed up, especially if 
-                # there is a frame shift error. The internal timestamping method of UAVTalk is
-                # a much better idea.
+                    from collections import namedtuple
+                    LogHeader = namedtuple('LogHeader', 'time size')
 
-                from collections import namedtuple
-                LogHeader = namedtuple('LogHeader', 'time size')
+                    # Read the next log record header
+                    log_hdr_fmt = "<IQ"
+                    log_hdr_data = fd.read(struct.calcsize(log_hdr_fmt))
 
-                # Read the next log record header
-                log_hdr_fmt = "<IQ"
-                log_hdr_data = fd.read(struct.calcsize(log_hdr_fmt))
+                    # Check if we hit the end of the file
+                    if len(log_hdr_data) == 0:
+                        # Normal End of File (EOF) at a record boundary
+                        break;
 
-                # Check if we hit the end of the file
-                if len(log_hdr_data) == 0:
-                    # Normal End of File (EOF) at a record boundary
-                    break;
+                    # Got a log record header.  Unpack it.
+                    log_hdr = LogHeader._make(struct.unpack(log_hdr_fmt, log_hdr_data))
 
-                # Got a log record header.  Unpack it.
-                log_hdr = LogHeader._make(struct.unpack(log_hdr_fmt, log_hdr_data))
-
-                # Set the baseline timestamp from the first record in the log file
-                if base_time is None:
-                    base_time = log_hdr.time
+                    # Set the baseline timestamp from the first record in the log file
+                    if base_time is None:
+                        base_time = log_hdr.time
 
 
-            parser.processByte(ord(fd.read(1)))
+                parser.processByte(ord(fd.read(1)))
 
-            if parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
-                if logFormat:
-                    u  = parser.getLastReceivedObject(timestamp=log_hdr.time)
-                else:
-                    u  = parser.getLastReceivedObject()
-                uavo_list.append(u)
+                if parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
+                    if logFormat:
+                        u  = parser.getLastReceivedObject(timestamp=log_hdr.time)
+                    else:
+                        u  = parser.getLastReceivedObject()
+                    uavo_list.append(u)
+            except TypeError:
+                print "End of file"
+                break
 
         fd.close()
 
