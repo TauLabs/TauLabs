@@ -7,7 +7,7 @@
  *
  * @file       eventdispatcher.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Event dispatcher, distributes object events as callbacks. Alternative
  * 	           to using tasks and queues. All callbacks are invoked from the event task.
  * @see        The GNU Public License (GPL) Version 3
@@ -30,6 +30,7 @@
  */
 
 #include "openpilot.h"
+#include "pios_mutex.h"
 
 // Private constants
 #if defined(PIOS_EVENTDISAPTCHER_QUEUE)
@@ -74,7 +75,7 @@ typedef struct PeriodicObjectListStruct PeriodicObjectList;
 static PeriodicObjectList* objList;
 static xQueueHandle queue;
 static xTaskHandle eventTaskHandle;
-static xSemaphoreHandle mutex;
+static struct pios_recursive_mutex *mutex;
 static EventStats stats;
 
 // Private functions
@@ -96,7 +97,7 @@ int32_t EventDispatcherInitialize()
 	memset(&stats, 0, sizeof(EventStats));
 
 	// Create mutex
-	mutex = xSemaphoreCreateRecursiveMutex();
+	mutex = PIOS_Recursive_Mutex_Create();
 	if (mutex == NULL)
 		return -1;
 
@@ -116,9 +117,9 @@ int32_t EventDispatcherInitialize()
  */
 void EventGetStats(EventStats* statsOut)
 {
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
 	memcpy(statsOut, &stats, sizeof(EventStats));
-	xSemaphoreGiveRecursive(mutex);
+	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
 /**
@@ -126,9 +127,9 @@ void EventGetStats(EventStats* statsOut)
  */
 void EventClearStats()
 {
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
 	memset(&stats, 0, sizeof(EventStats));
-	xSemaphoreGiveRecursive(mutex);
+	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
 /**
@@ -209,7 +210,7 @@ static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQue
 {
 	PeriodicObjectList* objEntry;
 	// Get lock
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
 	// Check that the object is not already connected
 	LL_FOREACH(objList, objEntry)
 	{
@@ -220,7 +221,7 @@ static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQue
 			objEntry->evInfo.ev.event == ev->event)
 		{
 			// Already registered, do nothing
-			xSemaphoreGiveRecursive(mutex);
+			PIOS_Recursive_Mutex_Unlock(mutex);
 			return -1;
 		}
 	}
@@ -237,7 +238,7 @@ static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQue
     // Add to list
     LL_APPEND(objList, objEntry);
 	// Release lock
-	xSemaphoreGiveRecursive(mutex);
+	PIOS_Recursive_Mutex_Unlock(mutex);
     return 0;
 }
 
@@ -253,7 +254,7 @@ static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, xQue
 {
 	PeriodicObjectList* objEntry;
 	// Get lock
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
 	// Find object
 	LL_FOREACH(objList, objEntry)
 	{
@@ -267,12 +268,12 @@ static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, xQue
 			objEntry->updatePeriodMs = periodMs;
 			objEntry->timeToNextUpdateMs = randomizePeriod(periodMs); // avoid bunching of updates
 			// Release lock
-			xSemaphoreGiveRecursive(mutex);
+			PIOS_Recursive_Mutex_Unlock(mutex);
 			return 0;
 		}
 	}
     // If this point is reached the object was not found
-	xSemaphoreGiveRecursive(mutex);
+	PIOS_Recursive_Mutex_Unlock(mutex);
     return -1;
 }
 
@@ -331,7 +332,7 @@ static int32_t processPeriodicUpdates()
     int32_t offset;
 
 	// Get lock
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
 
     // Iterate through each object and update its timer, if zero then transmit object.
     // Also calculate smallest delay to next update.
@@ -373,7 +374,7 @@ static int32_t processPeriodicUpdates()
     }
 
     // Done
-    xSemaphoreGiveRecursive(mutex);
+    PIOS_Recursive_Mutex_Unlock(mutex);
     return timeToNextUpdate;
 }
 
