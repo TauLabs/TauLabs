@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
 # @addtogroup 
 # @{
 # @addtogroup 
@@ -101,6 +101,7 @@ SRC += $(PIOSCOMMON)/pios_usb_util.c
 SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_heap.c
 SRC += $(PIOSCOMMON)/pios_semaphore.c
+SRC += $(PIOSCOMMON)/pios_mutex.c
 
 
 include ./UAVObjects.inc

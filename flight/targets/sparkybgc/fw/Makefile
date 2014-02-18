@@ -1,6 +1,6 @@
 ###############################################################################
 # @file       Makefile
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
 # @addtogroup
 # @{
 # @addtogroup
@@ -133,6 +133,7 @@ SRC += $(PIOSCOMMON)/pios_dma.c
 SRC += $(PIOSCOMMON)/pios_adc.c
 SRC += $(PIOSCOMMON)/pios_heap.c
 SRC += $(PIOSCOMMON)/pios_semaphore.c
+SRC += $(PIOSCOMMON)/pios_mutex.c
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)
