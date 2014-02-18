@@ -838,5 +838,5 @@ void UploaderGadgetWidget::versionMatchCheck()
 void UploaderGadgetWidget::openHelp()
 {
 
-    QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Uploader-Plugin", QUrl::StrictMode) );
+    QDesktopServices::openUrl( QUrl("http://wiki.taulabs.org/OnlineHelp:-Uploader-Plugin", QUrl::StrictMode) );
 }
