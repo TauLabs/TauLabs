@@ -785,6 +785,33 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 			break;
+		case HWREVOMINI_RCVRPORT_PPMPWM:
+		/* This is a combination of PPM and PWM inputs */
+#if defined(PIOS_INCLUDE_PPM)
+		{
+			uintptr_t pios_ppm_id;
+			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
+
+			uintptr_t pios_ppm_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_PPM */
+#if defined(PIOS_INCLUDE_PWM)
+		{
+			uintptr_t pios_pwm_id;
+			PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_with_ppm_cfg);
+
+			uintptr_t pios_pwm_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_PWM */
+			break;
 		case HWREVOMINI_RCVRPORT_PPM:
 		case HWREVOMINI_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
