@@ -20,7 +20,7 @@ static bool PIOS_RCVR_validate(struct pios_rcvr_dev * rcvr_dev)
   return (rcvr_dev->magic == PIOS_RCVR_DEV_MAGIC);
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 static struct pios_rcvr_dev * PIOS_RCVR_alloc(void)
 {
   struct pios_rcvr_dev * rcvr_dev;
