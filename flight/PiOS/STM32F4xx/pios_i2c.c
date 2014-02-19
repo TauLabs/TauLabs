@@ -8,7 +8,7 @@
  *
  * @file       pios_i2c.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      I2C Enable/Disable routines
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -954,7 +954,7 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 	portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
-#endif
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 }
 
 void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
@@ -1000,7 +1000,7 @@ void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 	portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
-#endif
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 }
 
 #endif
