@@ -37,7 +37,7 @@
 #include "fifo_buffer.h"
 #include <pios_com_priv.h>
 
-#if !defined(PIOS_INCLUDE_FREERTOS)
+#if !defined(PIOS_INCLUDE_FREERTOS) && !defined(PIOS_INCLUDE_CHIBIOS)
 #include "pios_delay.h"		/* PIOS_DELAY_WaitmS */
 #endif
 
