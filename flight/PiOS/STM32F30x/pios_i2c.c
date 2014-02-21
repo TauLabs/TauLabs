@@ -167,32 +167,11 @@ static void go_stopped(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
 	I2C_ITConfig(i2c_adapter->cfg->regs, I2C_IT_ERRI | I2C_IT_TCI | I2C_IT_NACKI | I2C_IT_RXI | I2C_IT_STOPI | I2C_IT_TXI, DISABLE);
 
-	if (i2c_adapter->callback) {
-		/*
-		 * Transfer with callback
-		 */
-
-		// Execute user supplied function
-		i2c_adapter->callback();
-
-		/* Unlock the bus */
-		if (PIOS_Semaphore_Give_FromISR(i2c_adapter->sem_busy, woken) == false) {
+	/* wake up blocked PIOS_I2C_Transfer() */
+	if (PIOS_Semaphore_Give_FromISR(i2c_adapter->sem_ready, woken) == false) {
 #if defined(I2C_HALT_ON_ERRORS)
-			PIOS_DEBUG_Assert(0);
+		PIOS_DEBUG_Assert(0);
 #endif
-		}
-
-	} else {
-		/*
-		 * Transfer without callback
-		 */
-
-		/* wake up blocked PIOS_I2C_Transfer() */
-		if (PIOS_Semaphore_Give_FromISR(i2c_adapter->sem_ready, woken) == false) {
-#if defined(I2C_HALT_ON_ERRORS)
-			PIOS_DEBUG_Assert(0);
-#endif
-		}
 	}
 }
 
@@ -572,7 +551,6 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 	/* Make sure the done/ready semaphore is consumed before we start */
 	semaphore_success &= (PIOS_Semaphore_Take(i2c_adapter->sem_ready, i2c_adapter->cfg->transfer_timeout_ms) == true);
 
-	i2c_adapter->callback = NULL;
 	i2c_adapter->bus_error = false;
 	i2c_adapter->nack = false;
 
@@ -594,35 +572,6 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 		i2c_adapter->bus_error ? -1 :
 		i2c_adapter->nack ? -3 :
 		0;
-}
-
-int32_t PIOS_I2C_Transfer_Callback(uint32_t i2c_id, const struct pios_i2c_txn txn_list[], uint32_t num_txns, void *callback)
-{
-	struct pios_i2c_adapter *i2c_adapter = (struct pios_i2c_adapter *)i2c_id;
-
-	bool valid = PIOS_I2C_validate(i2c_adapter);
-	PIOS_Assert(valid)
-	PIOS_Assert(callback);
-
-	PIOS_DEBUG_Assert(txn_list);
-	PIOS_DEBUG_Assert(num_txns);
-
-	bool semaphore_success = true;
-
-	if (PIOS_Semaphore_Take(i2c_adapter->sem_busy, i2c_adapter->cfg->transfer_timeout_ms) == false)
-		return -2;
-
-	PIOS_DEBUG_Assert(i2c_adapter->curr_state == I2C_STATE_STOPPED);
-
-	i2c_adapter->last_txn = &txn_list[num_txns - 1];
-	i2c_adapter->active_txn = &txn_list[0];
-	i2c_adapter->callback = callback;
-	i2c_adapter->bus_error = false;
-
-	bool dummy = false;
-	i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_START, &dummy);
-
-	return !semaphore_success ? -2 : 0;
 }
 
 void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
