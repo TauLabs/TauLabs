@@ -873,8 +873,6 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 	PIOS_DEBUG_Assert(txn_list);
 	PIOS_DEBUG_Assert(num_txns);
 
-	bool semaphore_success = true;
-
 	if (PIOS_Mutex_Lock(i2c_adapter->lock, i2c_adapter->cfg->transfer_timeout_ms) == false)
 		return -2;
 
@@ -884,14 +882,13 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 	i2c_adapter->active_txn = &txn_list[0];
 
 	/* Make sure the done/ready semaphore is consumed before we start */
-	semaphore_success &= (PIOS_Semaphore_Take(i2c_adapter->sem_ready, i2c_adapter->cfg->transfer_timeout_ms) == true);
+	PIOS_Semaphore_Take(i2c_adapter->sem_ready, 0);
 
 	i2c_adapter->bus_error = false;
 	i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_START);
 
 	/* Wait for the transfer to complete */
-	semaphore_success &= (PIOS_Semaphore_Take(i2c_adapter->sem_ready, i2c_adapter->cfg->transfer_timeout_ms) == true);
-	PIOS_Semaphore_Give(i2c_adapter->sem_ready);
+	bool semaphore_success = (PIOS_Semaphore_Take(i2c_adapter->sem_ready, i2c_adapter->cfg->transfer_timeout_ms) == true);
 
 	/* Spin waiting for the transfer to finish */
 	while (!i2c_adapter_fsm_terminated(i2c_adapter)) ;
@@ -902,16 +899,18 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 		i2c_adapter_fsm_init(i2c_adapter);
 	}
 
-	PIOS_Mutex_Unlock(i2c_adapter->lock);
-
 #if defined(PIOS_I2C_DIAGNOSTICS)
 	if (!semaphore_success)
 		i2c_adapter->i2c_timeout_counter++;
 #endif
 
-	return !semaphore_success ? -2 :
-		i2c_adapter->bus_error ? -1 :
-		0;
+	int32_t result = !semaphore_success ? -2 :
+			i2c_adapter->bus_error ? -1 :
+			0;
+
+	PIOS_Mutex_Unlock(i2c_adapter->lock);
+
+	return result;
 }
 
 
