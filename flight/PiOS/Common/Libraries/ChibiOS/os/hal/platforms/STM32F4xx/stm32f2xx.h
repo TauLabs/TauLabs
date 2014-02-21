@@ -635,8 +635,6 @@ typedef struct
 /** 
   * @brief General Purpose I/O
   */
-/* CHIBIOS FIX */
-#if 0
 typedef struct
 {
   __IO uint32_t MODER;    /*!< GPIO port mode register,               Address offset: 0x00      */
@@ -650,7 +648,6 @@ typedef struct
   __IO uint32_t LCKR;     /*!< GPIO port configuration lock register, Address offset: 0x1C      */
   __IO uint32_t AFR[2];   /*!< GPIO alternate function registers,     Address offset: 0x24-0x28 */
 } GPIO_TypeDef;
-#endif
 
 /** 
   * @brief System configuration controller
