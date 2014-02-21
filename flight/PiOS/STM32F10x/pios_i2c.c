@@ -8,7 +8,7 @@
  *
  * @file       pios_i2c.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      I2C Enable/Disable routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -791,7 +791,7 @@ int32_t PIOS_I2C_Init(uint32_t * i2c_id, const struct pios_i2c_adapter_cfg * cfg
 	i2c_adapter->cfg = cfg;
 
 	i2c_adapter->sem_ready = PIOS_Semaphore_Create();
-	i2c_adapter->sem_busy = PIOS_Semaphore_Create();
+	i2c_adapter->lock = PIOS_Mutex_Create();
 
 	/* Enable the associated peripheral clock */
 	switch ((uint32_t) i2c_adapter->cfg->regs) {
@@ -838,21 +838,21 @@ int32_t PIOS_I2C_CheckClear(uint32_t i2c_id)
 	bool valid = PIOS_I2C_validate(i2c_adapter);
 	PIOS_Assert(valid)
 
-	if (PIOS_Semaphore_Take(i2c_adapter->sem_busy, 0) == false)
+	if (PIOS_Mutex_Lock(i2c_adapter->lock, 0) == false)
 		return -1;
 
 	if (i2c_adapter->curr_state != I2C_STATE_STOPPED) {
-		PIOS_Semaphore_Give(i2c_adapter->sem_busy);
+		PIOS_Mutex_Unlock(i2c_adapter->lock);
 		return -2;
 	}
 
 	if (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) == Bit_RESET ||
 		GPIO_ReadInputDataBit(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin) == Bit_RESET) {
-		PIOS_Semaphore_Give(i2c_adapter->sem_busy);
+		PIOS_Mutex_Unlock(i2c_adapter->lock);
 		return -3;
 	}
 
-	PIOS_Semaphore_Give(i2c_adapter->sem_busy);
+	PIOS_Mutex_Unlock(i2c_adapter->lock);
 
 	return 0;
 }
@@ -875,7 +875,7 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 
 	bool semaphore_success = true;
 
-	if (PIOS_Semaphore_Take(i2c_adapter->sem_busy, i2c_adapter->cfg->transfer_timeout_ms) == false)
+	if (PIOS_Mutex_Lock(i2c_adapter->lock, i2c_adapter->cfg->transfer_timeout_ms) == false)
 		return -2;
 
 	PIOS_DEBUG_Assert(i2c_adapter->curr_state == I2C_STATE_STOPPED);
@@ -902,7 +902,7 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 		i2c_adapter_fsm_init(i2c_adapter);
 	}
 
-	PIOS_Semaphore_Give(i2c_adapter->sem_busy);
+	PIOS_Mutex_Unlock(i2c_adapter->lock);
 
 #if defined(PIOS_I2C_DIAGNOSTICS)
 	if (!semaphore_success)
