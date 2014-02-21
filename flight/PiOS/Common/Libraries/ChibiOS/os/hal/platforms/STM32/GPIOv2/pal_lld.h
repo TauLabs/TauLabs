@@ -155,7 +155,7 @@ typedef struct {
   volatile uint32_t     LCKR;
   volatile uint32_t     AFRL;
   volatile uint32_t     AFRH;
-} GPIO_TypeDef;
+} CH_GPIO_TypeDef;
 
 /**
  * @brief   GPIO port setup info.
@@ -250,7 +250,7 @@ typedef uint32_t iomode_t;
  *          any assumption about it, use the provided macros when populating
  *          variables of this type.
  */
-typedef GPIO_TypeDef * ioportid_t;
+typedef CH_GPIO_TypeDef * ioportid_t;
 
 /*===========================================================================*/
 /* I/O Ports Identifiers.                                                    */
@@ -345,7 +345,7 @@ typedef GPIO_TypeDef * ioportid_t;
  *
  * @notapi
  */
-#define pal_lld_readport(port) ((port)->IDR)
+#define pal_lld_readport(port) (((ioportid_t)(port))->IDR)
 
 /**
  * @brief   Reads the output latch.
@@ -359,7 +359,7 @@ typedef GPIO_TypeDef * ioportid_t;
  *
  * @notapi
  */
-#define pal_lld_readlatch(port) ((port)->ODR)
+#define pal_lld_readlatch(port) (((ioportid_t)(port))->ODR)
 
 /**
  * @brief   Writes on a I/O port.
@@ -371,7 +371,7 @@ typedef GPIO_TypeDef * ioportid_t;
  *
  * @notapi
  */
-#define pal_lld_writeport(port, bits) ((port)->ODR = (bits))
+#define pal_lld_writeport(port, bits) (((ioportid_t)(port))->ODR = (bits))
 
 /**
  * @brief   Sets a bits mask on a I/O port.
@@ -383,7 +383,7 @@ typedef GPIO_TypeDef * ioportid_t;
  *
  * @notapi
  */
-#define pal_lld_setport(port, bits) ((port)->BSRR.H.set = (uint16_t)(bits))
+#define pal_lld_setport(port, bits) (((ioportid_t)(port))->BSRR.H.set = (uint16_t)(bits))
 
 /**
  * @brief   Clears a bits mask on a I/O port.
@@ -395,7 +395,7 @@ typedef GPIO_TypeDef * ioportid_t;
  *
  * @notapi
  */
-#define pal_lld_clearport(port, bits) ((port)->BSRR.H.clear = (uint16_t)(bits))
+#define pal_lld_clearport(port, bits) (((ioportid_t)(port))->BSRR.H.clear = (uint16_t)(bits))
 
 /**
  * @brief   Writes a group of bits.
@@ -411,7 +411,7 @@ typedef GPIO_TypeDef * ioportid_t;
  * @notapi
  */
 #define pal_lld_writegroup(port, mask, offset, bits)                        \
-  ((port)->BSRR.W = ((~(bits) & (mask)) << (16 + (offset))) |               \
+  (((ioportid_t)(port))->BSRR.W = ((~(bits) & (mask)) << (16 + (offset))) |               \
                      (((bits) & (mask)) << (offset)))
 
 /**
