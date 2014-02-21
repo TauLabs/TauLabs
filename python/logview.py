@@ -29,8 +29,8 @@ def main():
     # embeds the timestamping information between the UAVTalk packet 
     # instead of as part of the packet
     parser.add_argument("-t", "--timestamped",
-                        action  = 'store_true',
-                        default = False,
+                        action  = 'store_false',
+                        default = True,
                         help    = "indicate that this is an overo log file or some format that has timestamps")
 
     parser.add_argument("-g", "--githash",
