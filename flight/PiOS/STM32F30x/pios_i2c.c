@@ -235,8 +235,6 @@ static void go_nack(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 
 static void i2c_adapter_inject_event(struct pios_i2c_adapter *i2c_adapter, enum i2c_adapter_event event, bool *woken)
 {
-	PIOS_IRQ_Disable();
-
 #if defined(PIOS_I2C_DIAGNOSTICS)
 	i2c_adapter->i2c_state_event_history[i2c_adapter->i2c_state_event_history_pointer] = event;
 	i2c_adapter->i2c_state_event_history_pointer = (i2c_adapter->i2c_state_event_history_pointer + 1) % I2C_LOG_DEPTH;
@@ -266,14 +264,10 @@ static void i2c_adapter_inject_event(struct pios_i2c_adapter *i2c_adapter, enum 
 
 	/* Process any AUTO transitions in the FSM */
 	i2c_adapter_process_auto(i2c_adapter, woken);
-
-	PIOS_IRQ_Enable();
 }
 
 static void i2c_adapter_process_auto(struct pios_i2c_adapter *i2c_adapter, bool *woken)
 {
-	PIOS_IRQ_Disable();
-
 	enum i2c_adapter_state prev_state = i2c_adapter->curr_state;
 	if (prev_state);
 
@@ -285,8 +279,6 @@ static void i2c_adapter_process_auto(struct pios_i2c_adapter *i2c_adapter, bool 
 			i2c_adapter_transitions[i2c_adapter->curr_state].entry_fn(i2c_adapter, woken);
 		}
 	}
-
-	PIOS_IRQ_Enable();
 }
 
 static void i2c_adapter_fsm_init(struct pios_i2c_adapter *i2c_adapter)
