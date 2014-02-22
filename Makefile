@@ -878,6 +878,7 @@ $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 ##############################
 
 ALL_UNITTESTS := logfs i2c_vm misc_math sin_lookup coordinate_conversions
+ALL_PYTHON_UNITTESTS := python_ut_test
 
 UT_OUT_DIR := $(BUILD_DIR)/unit_tests
 
@@ -897,7 +898,7 @@ all_ut_tap: all_ut_xml
 all_ut_xml: $(addsuffix _xml, $(addprefix ut_, $(ALL_UNITTESTS)))
 
 .PHONY: all_ut_run
-all_ut_run: $(addsuffix _run, $(addprefix ut_, $(ALL_UNITTESTS)))
+all_ut_run: $(addsuffix _run, $(addprefix ut_, $(ALL_UNITTESTS))) $(ALL_PYTHON_UNITTESTS)
 
 .PHONY: all_ut_gcov
 all_ut_gcov: | $(addsuffix _gcov, $(addprefix ut_, $(ALL_UNITTESTS)))
@@ -953,6 +954,11 @@ endef
 
 # Expand the unittest rules
 $(foreach ut, $(ALL_UNITTESTS), $(eval $(call UT_TEMPLATE,$(ut))))
+
+.PHONY: python_ut_test
+python_ut_test:
+	$(V0) @echo "  PYTHON_UT test.py"
+	$(V1) $(PYTHON) python/test.py
 
 # Disable parallel make when the all_ut_run target is requested otherwise the TAP
 # output is interleaved with the rest of the make output.
