@@ -112,12 +112,13 @@ void INSGPSInit()		//pretty much just a place holder for now
 	X[6] = 1.0f;
 	X[7] = X[8] = X[9] = 0.0f;	// initial quaternion (level and North) (m/s)
 	X[10] = X[11] = X[12] = 0.0f;	// initial gyro bias (rad/s)
-	X[11] = X[12] = X[13] = 0.0f;	// initial accel bias
+	X[13] = X[14] = X[15] = 0.0f;	// initial accel bias
 
 	Q[0] = Q[1] = Q[2] = 50e-4f;	// gyro noise variance (rad/s)^2
 	Q[3] = Q[4] = Q[5] = 0.00001f;	// accelerometer noise variance (m/s^2)^2
-	Q[6] = Q[7] = Q[8] = 2e-8f;	// gyro bias random walk variance (rad/s^2)^2
-	Q[9] = Q[10] = Q[11] = 2e-20f;	// accel bias random walk variance (m/s^3)^2
+	Q[6] = Q[7] = Q[8] = 2e-8f;	    // gyro bias random walk variance (rad/s^2)^2
+	Q[9] = Q[10] = 2e-9f;	        // accel bias random walk variance (m/s^3)^2
+	Q[11] = 2e-3f;
 
 	R[0] = R[1] = 0.004f;	// High freq GPS horizontal position noise variance (m^2)
 	R[2] = 0.036f;		// High freq GPS vertical position noise variance (m^2)
@@ -584,6 +585,8 @@ void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
 	float HP[NUMX], HPHR, Error;
 	uint8_t i, j, k, m;
 
+	// Iterate through all the possible measurements and apply the
+	// appropriate corrections
 	for (m = 0; m < NUMV; m++) {
 
 		if (SensorsUsed & (0x01 << m)) {	// use this sensor for update
@@ -672,9 +675,9 @@ void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 {
 	float ax, ay, az, wx, wy, wz, q0, q1, q2, q3;
 
-	ax=U[3]-X[13];
-	ay=U[4]-X[14];
-	az=U[5]-X[15];  // subtract the biases on accels
+	ax = U[3] - X[13];
+	ay = U[4] - X[14];
+	az = U[5] - X[15];  // subtract the biases on accels
 	wx = U[0] - X[10];
 	wy = U[1] - X[11];
 	wz = U[2] - X[12];	// subtract the biases on gyros
@@ -710,9 +713,31 @@ void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 
 	// best guess is that bias stays constant
 	Xdot[10] = Xdot[11] = Xdot[12] = 0;
-	Xdot[13] = Xdot[14] = Xdot[15] = 0;
+
+	// For accels to make sure things stay stable, assume bias always walks weakly
+	// towards zero for the horizontal axis. This prevents drifting around an
+	// unobservable manifold of possible attitudes and gyro biases. The z-axis
+	// we assume no drift becaues this is teh one we want to estimate most accurately.
+	float const accel_zero_rate = -1.0f;
+	Xdot[13] = accel_zero_rate * X[13];
+	Xdot[14] = accel_zero_rate * X[14];
+	Xdot[15] = 0.0f;
 }
 
+/**
+ * Linearize the state equations around the current state estimate.
+ * @param[in] X the current state estimate
+ * @param[in] U the control inputs
+ * @param[out] F the linearized natural dynamics
+ * @param[out] G the linearized influence of disturbance model
+ * 
+ * so the prediction of the next state is
+ *   Xdot = F * X + G * U
+ * where X is the current state and U is the current input
+ *
+ * For reference the state order (in F) is pos, vel, attitude, gyro bias, accel bias
+ * and the input order is gyro, bias
+ */
 void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 		 float G[NUMX][NUMW])
 {
@@ -747,9 +772,9 @@ void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 	F[5][8] = 2.0f * (-q0 * ax + q3 * ay - q2 * az);
 	F[5][9] = 2.0f * (q1 * ax + q2 * ay + q3 * az);
 
-	// dVdot/dabias & dVdot/dna
-	F[3][13]=G[3][3]=-q0*q0-q1*q1+q2*q2+q3*q3; F[3][14]=G[3][4]=2.0f*(-q1*q2+q0*q3);         F[3][15]=G[3][5]=-2.0f*(q1*q3+q0*q2);
-	F[4][13]=G[4][3]=-2.0f*(q1*q2+q0*q3);         F[4][14]=G[4][4]=-q0*q0+q1*q1-q2*q2+q3*q3; F[4][15]=G[4][5]=2.0f*(-q2*q3+q0*q1);
+	// dVdot/dabias & dVdot/dna - the equations for how the accel input and accel bias influence velocity are the same
+	F[3][13]=G[3][3]=-q0*q0-q1*q1+q2*q2+q3*q3;    F[3][14]=G[3][4]=2.0f*(-q1*q2+q0*q3);         F[3][15]=G[3][5]=-2.0f*(q1*q3+q0*q2);
+	F[4][13]=G[4][3]=-2.0f*(q1*q2+q0*q3);         F[4][14]=G[4][4]=-q0*q0+q1*q1-q2*q2+q3*q3;    F[4][15]=G[4][5]=2.0f*(-q2*q3+q0*q1);
 	F[5][13]=G[5][3]=2.0f*(-q1*q3+q0*q2);         F[5][14]=G[5][4]=-2.0f*(q2*q3+q0*q1);         F[5][15]=G[5][5]=-q0*q0+q1*q1+q2*q2-q3*q3;
 
 	// dqdot/dq
@@ -809,6 +834,12 @@ void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 	G[13][9] = G[14][10] = G[15][11] = 1.0f;
 }
 
+/**
+ * Predicts the measurements from the current state. Note
+ * that this is very similar to @ref LinearizeH except this
+ * directly computes the outputs instead of a matrix that
+ * you transform the state by
+ */
 void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 {
 	float q0, q1, q2, q3;
@@ -844,6 +875,11 @@ void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 	Y[9] = X[2] * -1.0f;
 }
 
+/**
+ * Linearize the measurement around the current state estiamte
+ * so the predicted measurements are
+ *    Z = H * X
+ */
 void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 {
 	float q0, q1, q2, q3;
@@ -853,12 +889,12 @@ void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 	q2 = X[8];
 	q3 = X[9];
 
-	// dP/dP=I;
+	// dP/dP=I;  (expect position to measure the position)
 	H[0][0] = H[1][1] = H[2][2] = 1.0f;
-	// dV/dV=I;
+	// dV/dV=I;  (expect velocity to measure the velocity)
 	H[3][3] = H[4][4] = H[5][5] = 1.0f;
 
-	// dBb/dq
+	// dBb/dq    (expected magnetometer readings)
 	H[6][6] = 2.0f * (q0 * Be[0] + q3 * Be[1] - q2 * Be[2]);
 	H[6][7] = 2.0f * (q1 * Be[0] + q2 * Be[1] + q3 * Be[2]);
 	H[6][8] = 2.0f * (-q2 * Be[0] + q1 * Be[1] - q0 * Be[2]);
@@ -872,7 +908,7 @@ void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 	H[8][8] = 2.0f * (q0 * Be[0] + q3 * Be[1] - q2 * Be[2]);
 	H[8][9] = 2.0f * (q1 * Be[0] + q2 * Be[1] + q3 * Be[2]);
 
-	// dAlt/dPz = -1
+	// dAlt/dPz = -1  (expected baro readings)
 	H[9][2] = -1.0f;
 }
 
