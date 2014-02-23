@@ -1134,6 +1134,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		float gyro_bias[3] = {gyrosBias.x * DEG2RAD, gyrosBias.y * DEG2RAD, gyrosBias.z * DEG2RAD};
 		INSSetGyroBias(gyro_bias);
 		gyroBiasSettingsUpdated = false;
+
+		INSSetAccelBias(zeros);
 	}
 
 	// Because the sensor module remove the bias we need to add it

@@ -242,6 +242,11 @@ void INSSetGyroBias(const float gyro_bias[3])
 	X[12] = gyro_bias[2];
 }
 
+void INSSetAccelBias(const float accel_bias[3])
+{
+	// Does nothing for 13 state version
+}
+
 void INSSetAccelVar(const float accel_var[3])
 {
 	Q[3] = accel_var[0];
