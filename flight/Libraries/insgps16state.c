@@ -743,13 +743,12 @@ void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 {
 	float ax, ay, az, wx, wy, wz, q0, q1, q2, q3;
 
-	// ax=U[3]-X[13]; ay=U[4]-X[14]; az=U[5]-X[15];  // subtract the biases on accels
-	ax = U[3];
-	ay = U[4];
-	az = U[5];		// NO BIAS STATES ON ACCELS
 	wx = U[0] - X[10];
 	wy = U[1] - X[11];
 	wz = U[2] - X[12];	// subtract the biases on gyros
+	ax = U[3] - X[13];
+	ay = U[4] - X[14];
+	az = U[5] - X[15];  // subtract the biases on accels
 	q0 = X[6];
 	q1 = X[7];
 	q2 = X[8];
