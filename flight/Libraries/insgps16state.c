@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup AHRS 
+ * @addtogroup Math 
  * @{
  * @addtogroup INSGPS
  * @{
@@ -76,6 +76,51 @@ uint16_t ins_get_num_states()
 	return NUMX;
 }
 
+/**
++ * Get the current state estimate (null input skips that get)
++ * @param[out] pos The position in NED space (m)
++ * @param[out] vel The velocity in NED (m/s)
++ * @param[out] attitude Quaternion representation of attitude
++ * @param[out] gyros_bias Estimate of gyro bias (rad/s)
++ */
+void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias)
+{
+       if (pos) {
+               pos[0] = X[0];
+               pos[1] = X[1];
+               pos[2] = X[2];
+       }
+
+       if (vel) {
+               vel[0] = X[3];
+               vel[1] = X[4];
+               vel[2] = X[5];
+       }
+
+       if (attitude) {
+               attitude[0] = X[6];
+               attitude[1] = X[7];
+               attitude[2] = X[8];
+               attitude[3] = X[9];
+       }
+
+       if (gyro_bias) {
+               gyro_bias[0] = X[10];
+               gyro_bias[1] = X[11];
+               gyro_bias[2] = X[12];
+       }
+}
+
+/**
+ * Get the variance, for visualizing the filter performance
+ * @param[out var_out The variances
+ */
+void INSGetVariance(float *var_out)
+ {
+   for (uint32_t i = 0; i < 13; i++) // Hardcoded 13 for compatibilty with ins13
+           var_out[i] = P[i][i];
+ }
+
 void INSGPSInit()		//pretty much just a place holder for now
 {
 	Be[0] = 1.0f;
@@ -111,7 +156,7 @@ void INSGPSInit()		//pretty much just a place holder for now
 	R[9] = .05f;		// High freq altimeter noise variance (m^2)
 }
 
-void INSResetP(float PDiag[NUMX])
+void INSResetP(const float *PDiag)
 {
 	uint8_t i,j;
 
@@ -125,27 +170,27 @@ void INSResetP(float PDiag[NUMX])
 	}
 }
 
-void INSSetState(float pos[3], float vel[3], float q[4], float gyro_bias[3], float accel_bias[3])
+void INSSetState(const float pos[3], const float vel[3], const float q[4], const float gyro_bias[3], const float accel_bias[3])
 {
-	Nav.Pos[0] = X[0] = pos[0];
-	Nav.Pos[1] = X[1] = pos[1];
-	Nav.Pos[2] = X[2] = pos[2];
-	Nav.Vel[0] = X[3] = vel[0];
-	Nav.Vel[1] = X[4] = vel[1];
-	Nav.Vel[2] = X[5] = vel[2];
-	Nav.q[0] = X[6] = q[0];
-	Nav.q[1] = X[7] = q[1];
-	Nav.q[2] = X[8] = q[2];
-	Nav.q[3] = X[9] = q[3];
-	Nav.gyro_bias[0] = X[10] = gyro_bias[0];
-	Nav.gyro_bias[1] = X[11] = gyro_bias[1];
-	Nav.gyro_bias[2] = X[12] = gyro_bias[2];
-	Nav.accel_bias[0] = X[13] = accel_bias[0];
-	Nav.accel_bias[1] = X[14] = accel_bias[1];
-	Nav.accel_bias[2] = X[15] = accel_bias[2];
+	X[0] = pos[0];
+	X[1] = pos[1];
+	X[2] = pos[2];
+	X[3] = vel[0];
+	X[4] = vel[1];
+	X[5] = vel[2];
+	X[6] = q[0];
+	X[7] = q[1];
+	X[8] = q[2];
+	X[9] = q[3];
+	X[10] = gyro_bias[0];
+	X[11] = gyro_bias[1];
+	X[12] = gyro_bias[2];
+	X[13] = accel_bias[0];
+	X[14] = accel_bias[1];
+	X[15] = accel_bias[2];
 }
 
-void INSPosVelReset(float pos[3], float vel[3]) 
+void INSPosVelReset(const float pos[3], const float vel[3]) 
 {
 	for (int i = 0; i < 6; i++) {
 		for(int j = i; j < NUMX; j++) {
@@ -175,42 +220,47 @@ void INSSetPosVelVar(float PosVar, float VelVar, float VertPosVar)
 	R[5] = VelVar;  // Don't change vertical velocity, not measured
 }
 
-void INSSetGyroBias(float gyro_bias[3])
+void INSSetGyroBias(const float gyro_bias[3])
 {
 	X[10] = gyro_bias[0];
 	X[11] = gyro_bias[1];
 	X[12] = gyro_bias[2];
 }
 
-void INSSetAccelVar(float accel_var[3])
+void INSSetAccelVar(const float accel_var[3])
 {
 	Q[3] = accel_var[0];
 	Q[4] = accel_var[1];
 	Q[5] = accel_var[2];
 }
 
-void INSSetGyroVar(float gyro_var[3])
+void INSSetGyroVar(const float gyro_var[3])
 {
 	Q[0] = gyro_var[0];
 	Q[1] = gyro_var[1];
 	Q[2] = gyro_var[2];
 }
 
-void INSSetMagVar(float scaled_mag_var[3])
+void INSSetMagVar(const float scaled_mag_var[3])
 {
 	R[6] = scaled_mag_var[0];
 	R[7] = scaled_mag_var[1];
 	R[8] = scaled_mag_var[2];
 }
 
-void INSSetMagNorth(float B[3])
+void INSSetBaroVar(const float baro_var)
+{
+	R[9] = baro_var;
+}
+
+void INSSetMagNorth(const float B[3])
 {
 	Be[0] = B[0];
 	Be[1] = B[1];
 	Be[2] = B[2];
 }
 
-void INSStatePrediction(float gyro_data[3], float accel_data[3], float dT)
+void INSStatePrediction(const float gyro_data[3], const float accel_data[3], float dT)
 {
 	float U[6];
 	float qmag;
@@ -233,22 +283,6 @@ void INSStatePrediction(float gyro_data[3], float accel_data[3], float dT)
 	X[7] /= qmag;
 	X[8] /= qmag;
 	X[9] /= qmag;
-	//CovariancePrediction(F,G,Q,dT,P);
-
-	// Update Nav solution structure
-	Nav.Pos[0] = X[0];
-	Nav.Pos[1] = X[1];
-	Nav.Pos[2] = X[2];
-	Nav.Vel[0] = X[3];
-	Nav.Vel[1] = X[4];
-	Nav.Vel[2] = X[5];
-	Nav.q[0] = X[6];
-	Nav.q[1] = X[7];
-	Nav.q[2] = X[8];
-	Nav.q[3] = X[9];
-	Nav.gyro_bias[0] = X[10];
-	Nav.gyro_bias[1] = X[11];
-	Nav.gyro_bias[2] = X[12];	
 }
 
 void INSCovariancePrediction(float dT)
@@ -256,45 +290,7 @@ void INSCovariancePrediction(float dT)
 	CovariancePrediction(F, G, Q, dT, P);
 }
 
-float zeros[3] = { 0.0f, 0.0f, 0.0f };
-
-void MagCorrection(float mag_data[3])
-{
-	INSCorrection(mag_data, zeros, zeros, zeros[0], MAG_SENSORS);
-}
-
-void MagVelBaroCorrection(float mag_data[3], float Vel[3], float BaroAlt)
-{
-	INSCorrection(mag_data, zeros, Vel, BaroAlt,
-		      MAG_SENSORS | HORIZ_SENSORS | VERT_SENSORS |
-		      BARO_SENSOR);
-}
-
-void GpsBaroCorrection(float Pos[3], float Vel[3], float BaroAlt)
-{
-	INSCorrection(zeros, Pos, Vel, BaroAlt,
-		      HORIZ_SENSORS | VERT_SENSORS | BARO_SENSOR);
-}
-
-void FullCorrection(float mag_data[3], float Pos[3], float Vel[3],
-		    float BaroAlt)
-{
-	INSCorrection(mag_data, Pos, Vel, BaroAlt, FULL_SENSORS);
-}
-
-void GpsMagCorrection(float mag_data[3], float Pos[3], float Vel[3])
-{
-	INSCorrection(mag_data, Pos, Vel, zeros[0],
-		      POS_SENSORS | HORIZ_SENSORS | MAG_SENSORS);
-}
-
-void VelBaroCorrection(float Vel[3], float BaroAlt)
-{
-	INSCorrection(zeros, zeros, Vel, BaroAlt,
-		      HORIZ_SENSORS | VERT_SENSORS | BARO_SENSOR);
-}
-
-void INSCorrection(float mag_data[3], float Pos[3], float Vel[3],
+void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[3],
 		   float BaroAlt, uint16_t SensorsUsed)
 {
 	float Z[10], Y[10];
@@ -330,24 +326,6 @@ void INSCorrection(float mag_data[3], float Pos[3], float Vel[3],
 	X[7] /= qmag;
 	X[8] /= qmag;
 	X[9] /= qmag;
-
-	// Update Nav solution structure
-	Nav.Pos[0] = X[0];
-	Nav.Pos[1] = X[1];
-	Nav.Pos[2] = X[2];
-	Nav.Vel[0] = X[3];
-	Nav.Vel[1] = X[4];
-	Nav.Vel[2] = X[5];
-	Nav.q[0] = X[6];
-	Nav.q[1] = X[7];
-	Nav.q[2] = X[8];
-	Nav.q[3] = X[9];
-	Nav.gyro_bias[0] = X[10];
-	Nav.gyro_bias[1] = X[11];
-	Nav.gyro_bias[2] = X[12];	
-	Nav.accel_bias[0] = X[13];
-	Nav.accel_bias[1] = X[14];
-	Nav.accel_bias[2] = X[15];
 }
 
 //  *************  CovariancePrediction *************

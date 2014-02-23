@@ -167,7 +167,7 @@ void INSGetVariance(float *var_out)
 		var_out[i] = P[i][i];
 }
 
-void INSResetP(const float PDiag[NUMX])
+void INSResetP(const float *PDiag)
 {
 	uint8_t i,j;
 
@@ -293,7 +293,6 @@ void INSStatePrediction(const float gyro_data[3], const float accel_data[3], flo
 	X[7] /= qmag;
 	X[8] /= qmag;
 	X[9] /= qmag;
-	//CovariancePrediction(F,G,Q,dT,P);
 }
 
 void INSCovariancePrediction(float dT)

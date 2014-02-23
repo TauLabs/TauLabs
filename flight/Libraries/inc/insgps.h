@@ -73,7 +73,7 @@ void INSGetState(float *pos, float *vel, float *attitude, float *bias);
 /** These methods alter the behavior of the filter **/
 /****************************************************/
 
-void INSResetP(const float PDiag[13]);
+void INSResetP(const float *PDiag);
 void INSSetState(const float pos[3], const float vel[3], const float q[4], const float gyro_bias[3], const float accel_bias[3]);
 void INSSetPosVelVar(float PosVar, float VelVar, float VertPosVar);
 void INSSetGyroBias(const float gyro_bias[3]);
