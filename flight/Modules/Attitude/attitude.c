@@ -1073,7 +1073,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			pos[2] = -(baroData.Altitude + baro_offset);
 
 			// Hard coded fake variances for indoor mode
-			INSSetPosVelVar(0.1f, 0.1f, 0.1f);
+			INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL], insSettings.gps_var[INSSETTINGS_GPS_VAR_VERTPOS]);
 
 			if (homeLocation.Set == HOMELOCATION_SET_TRUE &&
 			    (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]))
@@ -1205,7 +1205,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		NED[0] = NED[1] = 0;
 		NED[2] = -(baroData.Altitude + baro_offset);
 		sensors |= HORIZ_VEL_SENSORS | HORIZ_POS_SENSORS;
-		sensors |= VERT_VEL_SENSORS | VERT_POS_SENSORS;
+		sensors |= VERT_VEL_SENSORS;
 	}
 
 	/*
