@@ -827,11 +827,6 @@ void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 	G[9][0] = q2 / 2.0f;
 	G[9][1] = -q1 / 2.0f;
 	G[9][2] = -q0 / 2.0f;
-
-	// dwbias = random walk noise
-	G[10][6] = G[11][7] = G[12][8] = 1.0f;
-	// dabias = random walk noise
-	G[13][9] = G[14][10] = G[15][11] = 1.0f;
 }
 
 /**
