@@ -1216,7 +1216,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// Export the state and variance for monitoring the EKF
 	INSStateData state;
 	INSGetVariance(state.Var);
-	INSGetState(&state.State[0], &state.State[3], &state.State[6], &state.State[10]);
+	INSGetState(&state.State[0], &state.State[3], &state.State[6], &state.State[10], &state.State[13]);
 	INSStateSet(&state);
 
 	calc_ned_accel(&state.State[6], &accelsData.x);
@@ -1230,7 +1230,7 @@ static int32_t setAttitudeINSGPS()
 	float gyro_bias[3];
 	AttitudeActualData attitude;
 
-	INSGetState(NULL, NULL, &attitude.q1, gyro_bias);
+	INSGetState(NULL, NULL, &attitude.q1, gyro_bias, NULL);
 	Quaternion2RPY(&attitude.q1,&attitude.Roll);
 	AttitudeActualSet(&attitude);
 
@@ -1256,7 +1256,7 @@ static int32_t setNavigationINSGPS()
 	PositionActualData positionActual;
 	VelocityActualData velocityActual;
 
-	INSGetState(&positionActual.North, &velocityActual.North, NULL, NULL);
+	INSGetState(&positionActual.North, &velocityActual.North, NULL, NULL, NULL);
 
 	PositionActualSet(&positionActual);
 	VelocityActualSet(&velocityActual);

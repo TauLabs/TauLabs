@@ -67,7 +67,7 @@ void INSCovariancePrediction(float dT);
 void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[3], float BaroAlt, uint16_t SensorsUsed);
 
 //! Get the current state estimate
-void INSGetState(float *pos, float *vel, float *attitude, float *bias);
+void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias, float *accel_bias);
 
 /****************************************************/
 /** These methods alter the behavior of the filter **/

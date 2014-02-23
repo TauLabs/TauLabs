@@ -77,13 +77,14 @@ uint16_t ins_get_num_states()
 }
 
 /**
-+ * Get the current state estimate (null input skips that get)
-+ * @param[out] pos The position in NED space (m)
-+ * @param[out] vel The velocity in NED (m/s)
-+ * @param[out] attitude Quaternion representation of attitude
-+ * @param[out] gyros_bias Estimate of gyro bias (rad/s)
-+ */
-void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias)
+ * Get the current state estimate (null input skips that get)
+ * @param[out] pos The position in NED space (m)
+ * @param[out] vel The velocity in NED (m/s)
+ * @param[out] attitude Quaternion representation of attitude
+ * @param[out] gyros_bias Estimate of gyro bias (rad/s)
+ * @param[out] accel_bias Estiamte of the accel bias (m/s^2)
+ */
+void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias, float *accel_bias)
 {
        if (pos) {
                pos[0] = X[0];
@@ -109,6 +110,12 @@ void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias)
                gyro_bias[1] = X[11];
                gyro_bias[2] = X[12];
        }
+
+       if (accel_bias) {
+               accel_bias[0] = X[13];
+               accel_bias[1] = X[14];
+               accel_bias[2] = X[15];
+       }
 }
 
 /**
@@ -117,7 +124,7 @@ void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias)
  */
 void INSGetVariance(float *var_out)
  {
-   for (uint32_t i = 0; i < 13; i++) // Hardcoded 13 for compatibilty with ins13
+   for (uint32_t i = 0; i < NUMX; i++)
            var_out[i] = P[i][i];
  }
 

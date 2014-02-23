@@ -129,7 +129,7 @@ void INSGPSInit()		//pretty much just a place holder for now
  * @param[out] attitude Quaternion representation of attitude
  * @param[out] gyros_bias Estimate of gyro bias (rad/s)
  */
-void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias)
+void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias, float *accel_bias)
 {
 	if (pos) {
 		pos[0] = X[0];
@@ -154,6 +154,12 @@ void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias)
 		gyro_bias[0] = X[10];
 		gyro_bias[1] = X[11];
 		gyro_bias[2] = X[12];
+	}
+
+	if (accel_bias) {
+		accel_bias[0] = 0.0f;
+		accel_bias[1] = 0.0f;
+		accel_bias[2] = 0.0f;
 	}
 }
 
