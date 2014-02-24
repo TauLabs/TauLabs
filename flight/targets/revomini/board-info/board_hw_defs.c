@@ -681,6 +681,8 @@ static const struct pios_sbus_cfg pios_sbus_cfg = {
 	},
 	.gpio_inv_enable = Bit_SET,
 	.gpio_inv_disable = Bit_RESET,
+	.gpio_clk_func    = RCC_AHB1PeriphClockCmd,
+	.gpio_clk_periph  = RCC_AHB1Periph_GPIOC,
 };
 
 
