@@ -36,6 +36,7 @@
 #include "accessorydesired.h"
 #include "actuatordesired.h"
 #include "altitudeholddesired.h"
+#include "altitudeholdsettings.h"
 #include "baroaltitude.h"
 #include "flighttelemetrystats.h"
 #include "flightstatus.h"
@@ -883,7 +884,6 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 	const float DEADBAND_LOW = 0.45;
 	
 	static portTickType lastSysTime;
-	static bool zeroed = false;
 	portTickType thisSysTime;
 	float dT;
 	AltitudeHoldDesiredData altitudeHoldDesired;
@@ -900,20 +900,24 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 	altitudeHoldDesired.Pitch = cmd->Pitch * stabSettings.PitchMax;
 	altitudeHoldDesired.Yaw = cmd->Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW];
 	
-	float currentDown;
-	PositionActualDownGet(&currentDown);
+	uint8_t altitude_hold_expo, altitude_hold_maxrate;
+	AltitudeHoldSettingsMaxRateGet(&altitude_hold_maxrate);
+	AltitudeHoldSettingsExpoGet(&altitude_hold_expo);
 	if(flightModeChanged) {
 		// Initialize at the current location. Note that this object uses the up is positive
 		// convention.
 		PositionActualDownGet(&altitudeHoldDesired.Altitude);
 		altitudeHoldDesired.Altitude = - altitudeHoldDesired.Altitude;
-		zeroed = false;
-	} else if (cmd->Throttle > DEADBAND_HIGH && zeroed)
-		altitudeHoldDesired.Altitude += (cmd->Throttle - DEADBAND_HIGH) * dT;
-	else if (cmd->Throttle < DEADBAND_LOW && zeroed)
-		altitudeHoldDesired.Altitude += (cmd->Throttle - DEADBAND_LOW) * dT;
-	else if (cmd->Throttle >= DEADBAND_LOW && cmd->Throttle <= DEADBAND_HIGH)  // Require the stick to enter the dead band before they can move height
-		zeroed = true;
+	} else if (cmd->Throttle > DEADBAND_HIGH) {
+		float command = (cmd->Throttle - DEADBAND_HIGH) / (1.0f - DEADBAND_HIGH);
+		command = expo3(command, altitude_hold_expo) * altitude_hold_maxrate;
+		altitudeHoldDesired.Altitude += command * dT;
+	} else if (cmd->Throttle < DEADBAND_LOW) {
+		float command = (cmd->Throttle < 0) ? DEADBAND_LOW : DEADBAND_LOW - cmd->Throttle;
+		command = command / DEADBAND_LOW;
+		command = expo3(command, altitude_hold_expo) * altitude_hold_maxrate;
+		altitudeHoldDesired.Altitude -= command * dT;
+	}
 
 	AltitudeHoldDesiredSet(&altitudeHoldDesired);
 }
