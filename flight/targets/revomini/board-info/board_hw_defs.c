@@ -626,6 +626,7 @@ static const struct pios_usart_cfg pios_usart_main_cfg = {
  */
 static const struct pios_usart_cfg pios_usart_sbus_main_cfg = {
 	.regs = USART1,
+	.remap = GPIO_AF_USART1,
 	.init = {
 		.USART_BaudRate            = 100000,
 		.USART_WordLength          = USART_WordLength_8b,
@@ -651,16 +652,7 @@ static const struct pios_usart_cfg pios_usart_sbus_main_cfg = {
 			.GPIO_OType = GPIO_OType_PP,
 			.GPIO_PuPd  = GPIO_PuPd_UP
 		},
-	},
-	.tx = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_9,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_OUT,
-			.GPIO_OType = GPIO_OType_PP,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL
-		},
+		.pin_source = GPIO_PinSource10,
 	},
 };
 
