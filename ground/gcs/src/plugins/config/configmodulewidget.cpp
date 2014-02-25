@@ -32,7 +32,7 @@
 
 #include "airspeedsettings.h"
 #include "flightbatterysettings.h"
-#include "HoTTSettings.h"
+#include "hottsettings.h"
 #include "flightbatterystate.h"
 #include "modulesettings.h"
 #include "vibrationanalysissettings.h"
