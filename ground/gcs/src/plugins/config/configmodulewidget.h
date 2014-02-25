@@ -61,6 +61,7 @@ private:
     void enableBatteryTab(bool enabled);
     void enableAirspeedTab(bool enabled);
     void enableVibrationTab(bool enabled);
+    void enableHoTTTelemetryTab(bool enabled);
 
     static QString trueString;
     static QString falseString;
