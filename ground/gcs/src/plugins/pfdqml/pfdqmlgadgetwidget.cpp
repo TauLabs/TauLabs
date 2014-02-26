@@ -63,6 +63,7 @@ PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
                        "AttitudeActual" <<
                        "AirspeedActual" <<
                        "Accels" <<
+                       "Magnetometer" <<
                        "VelocityDesired" <<
                        "PositionDesired" <<
                        "AttitudeHoldDesired" <<
