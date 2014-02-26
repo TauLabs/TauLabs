@@ -92,7 +92,8 @@ FORMS += airframe.ui \
     mixercurve.ui \
     autotune.ui \
     hwfieldselector.ui \
-    modules.ui
+    modules.ui \
+    modules_osd.ui
 RESOURCES += configgadget.qrc
 
 

@@ -76,6 +76,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/hwrevolution.h \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.h \
     $$UAVOBJECT_SYNTHETICS/hwsparky.h \
+    $$UAVOBJECT_SYNTHETICS/hwbrain.h \
     $$UAVOBJECT_SYNTHETICS/i2cvm.h \
     $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.h \
     $$UAVOBJECT_SYNTHETICS/inssettings.h \
@@ -130,7 +131,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/watchdogstatus.h \
     $$UAVOBJECT_SYNTHETICS/waypoint.h \
     $$UAVOBJECT_SYNTHETICS/waypointactive.h \
-    $$UAVOBJECT_SYNTHETICS/windvelocityactual.h
+    $$UAVOBJECT_SYNTHETICS/windvelocityactual.h \
+    $$UAVOBJECT_SYNTHETICS/onscreendisplaysettings.h
 
 SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/acceldesired.cpp \
@@ -184,6 +186,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/hwrevolution.cpp \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.cpp \
     $$UAVOBJECT_SYNTHETICS/hwsparky.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwbrain.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cvm.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.cpp \
     $$UAVOBJECT_SYNTHETICS/inssettings.cpp \
@@ -239,4 +242,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/watchdogstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/waypoint.cpp \
     $$UAVOBJECT_SYNTHETICS/waypointactive.cpp\
-    $$UAVOBJECT_SYNTHETICS/windvelocityactual.cpp
+    $$UAVOBJECT_SYNTHETICS/windvelocityactual.cpp \
+    $$UAVOBJECT_SYNTHETICS/onscreendisplaysettings.cpp
+

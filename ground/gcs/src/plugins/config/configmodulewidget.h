@@ -27,6 +27,7 @@
 #define CONFIGMODULEWIDGET_H
 
 #include "ui_modules.h"
+#include "ui_modules_osd.h"
 
 #include "uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
@@ -35,6 +36,7 @@
 
 namespace Ui {
     class Modules;
+    class ModulesOsd;
 }
 
 class ConfigModuleWidget: public ConfigTaskWidget
@@ -46,6 +48,7 @@ public:
         ~ConfigModuleWidget();
 
 private slots:
+    void configOsdWidget();
     void updateAirspeedUAVO(UAVObject *);
     void updateAirspeedGroupbox(UAVObject *);
     void toggleVibrationTest();
@@ -62,11 +65,13 @@ private:
     void enableAirspeedTab(bool enabled);
     void enableVibrationTab(bool enabled);
     void enableHoTTTelemetryTab(bool enabled);
+    void enableOnScreenDisplayTab(bool enabled);
 
     static QString trueString;
     static QString falseString;
 
     Ui::Modules *ui;
+    Ui::ModulesOsd *ui_osd;
 
 protected:
     void resizeEvent(QResizeEvent *event);

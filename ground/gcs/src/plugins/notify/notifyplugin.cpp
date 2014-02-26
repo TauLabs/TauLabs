@@ -41,8 +41,9 @@
 
 #include <iostream>
 #include "qxttimer.h"
-#include <phonon/BackendCapabilities>
-#include <phonon/phonon>
+// #include <phonon/BackendCapabilities>
+// #include <phonon/phonon>
+#include "phonon/backendcapabilities.h"
 
 static const QString VERSION = "1.0.0";
 

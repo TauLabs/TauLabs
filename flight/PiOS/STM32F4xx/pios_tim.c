@@ -385,11 +385,13 @@ static void PIOS_TIM_3_irq_handler (void)
 	PIOS_TIM_generic_irq_handler (TIM3);
 }
 
+#if !defined(PIOS_VIDEO_TIM4_COUNTER)
 void TIM4_IRQHandler(void) __attribute__ ((alias ("PIOS_TIM_4_irq_handler")));
 static void PIOS_TIM_4_irq_handler (void)
 {
-	PIOS_TIM_generic_irq_handler (TIM4);
+    PIOS_TIM_generic_irq_handler (TIM4);
 }
+#endif /* !defined(PIOS_VIDEO_TIM4_COUNTER) */
 
 void TIM5_IRQHandler(void) __attribute__ ((alias ("PIOS_TIM_5_irq_handler")));
 static void PIOS_TIM_5_irq_handler (void)

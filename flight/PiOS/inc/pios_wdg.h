@@ -39,6 +39,7 @@
 #define PIOS_WDG_MANUAL          0x0008
 #define PIOS_WDG_SENSORS         0x0010
 #define PIOS_WDG_AUTOTUNE        0x0020
+#define PIOS_WDG_OSDGEN          0x0030
 
 uint16_t PIOS_WDG_Init();
 bool PIOS_WDG_RegisterFlag(uint16_t flag_requested);

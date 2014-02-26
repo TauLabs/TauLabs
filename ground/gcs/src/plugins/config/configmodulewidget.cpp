@@ -36,6 +36,7 @@
 #include "flightbatterystate.h"
 #include "modulesettings.h"
 #include "vibrationanalysissettings.h"
+#include "onscreendisplaysettings.h"
 
 // Define static variables
 QString ConfigModuleWidget::trueString("TrueString");
@@ -46,6 +47,10 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 {
     ui = new Ui::Modules();
     ui->setupUi(this);
+
+    // set up OSD UI
+    ui_osd = new Ui::ModulesOsd();
+    ui_osd->setupUi(ui->widget_Osd);
 
     connect(this, SIGNAL(autoPilotConnected()), this, SLOT(recheckTabs()));
 
@@ -83,6 +88,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOHottBridge, ModuleSettings::ADMINSTATE_UAVOHOTTBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOLighttelemetryBridge, ModuleSettings::ADMINSTATE_UAVOLIGHTTELEMETRYBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrskyBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbOnScreenDisplay, ModuleSettings::ADMINSTATE_ONSCREENDISPLAY);
 
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
@@ -328,7 +334,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     ui->cbUAVOFrskyBridge->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbUAVOFrskyBridge->setProperty(falseString.toLatin1(), "Disabled");
-    
+
     ui->cbUAVOLighttelemetryBridge->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbUAVOLighttelemetryBridge->setProperty(falseString.toLatin1(), "Disabled");	
 
@@ -338,10 +344,17 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->gb_measureCurrent->setProperty(trueString.toLatin1(), "Enabled");
     ui->gb_measureCurrent->setProperty(falseString.toLatin1(), "Disabled");
 
+    ui->cbOnScreenDisplay->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbOnScreenDisplay->setProperty(falseString.toLatin1(), "Disabled");
+
     enableBatteryTab(false);
     enableAirspeedTab(false);
     enableVibrationTab(false);
     enableHoTTTelemetryTab(false);
+    enableOnScreenDisplayTab(false);
+
+    // setup the OSD widgets
+    configOsdWidget();
 
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property
@@ -357,6 +370,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 ConfigModuleWidget::~ConfigModuleWidget()
 {
     delete ui;
+    delete ui_osd;
 }
 
 void ConfigModuleWidget::resizeEvent(QResizeEvent *event)
@@ -389,6 +403,10 @@ void ConfigModuleWidget::recheckTabs()
     obj = getObjectManager()->getObject(HoTTSettings::NAME);
     connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
     obj->requestUpdate();
+
+    obj = getObjectManager()->getObject(OnScreenDisplaySettings::NAME);
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
+    obj->requestUpdate();
 }
 
 //! Enable appropriate tab when objects are updated
@@ -406,6 +424,8 @@ void ConfigModuleWidget::objectUpdated(UAVObject * obj, bool success)
         enableVibrationTab(success);
     else if (objName.compare(HoTTSettings::NAME) == 0)
         enableHoTTTelemetryTab(success);
+    else if (objName.compare(OnScreenDisplaySettings::NAME) == 0)
+        enableOnScreenDisplayTab(success);
 }
 
 /**
@@ -570,6 +590,24 @@ void ConfigModuleWidget::enableHoTTTelemetryTab(bool enabled)
 {
     int idx = ui->moduleTab->indexOf(ui->tabHoTTTelemetry);
     ui->moduleTab->setTabEnabled(idx,enabled);
+}
+
+//! Enable or disable the OSD tab
+void ConfigModuleWidget::enableOnScreenDisplayTab(bool enabled)
+{
+    int idx = ui->moduleTab->indexOf(ui->tabOnScreenDisplay);
+    ui->moduleTab->setTabEnabled(idx,enabled);
+}
+
+//! Configure the OSD widgets
+void ConfigModuleWidget::configOsdWidget()
+{
+    OnScreenDisplaySettings osdSettings;
+    QString osdSettingsName = osdSettings.getName();
+    addUAVObjectToWidgetRelation(osdSettingsName, "White", ui_osd->sb_white);
+    addUAVObjectToWidgetRelation(osdSettingsName, "Black", ui_osd->sb_black);
+    addUAVObjectToWidgetRelation(osdSettingsName, "Units", ui_osd->cb_units);
+
 }
 
 /**

@@ -1,0 +1,19 @@
+<xml>
+	<object name="OnScreenDisplaySettings" singleinstance="true" settings="true">
+		<description>On Sreen Display Settings</description>
+				
+		<field name="Units" units="" type="enum" elements="1" options="Metric,Imperial" defaultvalue="Metric"/>
+		<field name="HomeSource" units="" type="enum" elements="1" options="GPS,Config" defaultvalue="GPS"/>
+		<field name="AltitudeSource" units="" type="enum" elements="1" options="GPS,Baro" defaultvalue="GPS"/>
+		<field name="HeadingSource" units="" type="enum" elements="1" options="GPS,Mag" defaultvalue="GPS"/>
+		<field name="White" units=""  type="uint8"  elements="1" defaultvalue="110"/>
+		<field name="Black" units=""  type="uint8"  elements="1" defaultvalue="30"/>
+		<field name="XOffset" units=""  type="int8"  elements="1" defaultvalue="0"/>
+		<field name="YOffset" units=""  type="int8"  elements="1" defaultvalue="0"/>
+		<field name="Screen" units=""  type="uint8"  elements="1" defaultvalue="0"/>
+	<access gcs="readwrite" flight="readwrite"/>
+	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+	<telemetryflight acked="true" updatemode="onchange" period="0"/>
+	<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

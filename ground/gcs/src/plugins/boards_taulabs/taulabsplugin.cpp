@@ -33,6 +33,7 @@
 #include "freedom.h"
 #include "sparky.h"
 #include "sparkybgc.h"
+#include "brain.h"
 #include <QtPlugin>
 
 
@@ -67,6 +68,9 @@ void TauLabsPlugin::extensionsInitialized()
 
     Freedom* freedom = new Freedom();
     addAutoReleasedObject(freedom);
+
+    Brain* brain = new Brain();
+    addAutoReleasedObject(brain);
 }
 
 void TauLabsPlugin::shutdown()
