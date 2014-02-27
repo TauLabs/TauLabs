@@ -7,7 +7,7 @@
  *
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -195,25 +195,28 @@ void PIOS_Board_Init(void) {
 	/* Mount all filesystems */
 	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
 
+	/* Initialize the task monitor library */
+	TaskMonitorInitialize();
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
+
+	/* Initialize the alarms library */
+	AlarmsInitialize();
+
+	HwCopterControlInitialize();
+	ModuleSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
 	/* Initialize the real-time clock and its associated tick */
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
 #endif
 
-	HwCopterControlInitialize();
-	ModuleSettingsInitialize();
-
 #ifndef ERASE_FLASH
 	/* Initialize watchdog as early as possible to catch faults during init */
 	PIOS_WDG_Init();
 #endif
-
-	/* Initialize the alarms library */
-	AlarmsInitialize();
 
 	/* Check for repeated boot failures */
 	PIOS_IAP_Init();

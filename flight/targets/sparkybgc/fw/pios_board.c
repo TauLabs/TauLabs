@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_board.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -347,9 +347,15 @@ void PIOS_Board_Init(void) {
 
 #endif	/* PIOS_INCLUDE_FLASH */
 
+	/* Initialize the task monitor library */
+	TaskMonitorInitialize();
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
+
+	/* Initialize the alarms library */
+	AlarmsInitialize();
 
 	HwSparkyInitialize();
 	ModuleSettingsInitialize();
@@ -367,12 +373,6 @@ void PIOS_Board_Init(void) {
 		PIOS_WDG_Init();
 	}
 #endif
-
-	/* Initialize the alarms library */
-	AlarmsInitialize();
-
-	/* Initialize the task monitor library */
-	TaskMonitorInitialize();
 
 	/* Set up pulse timers */
 	PIOS_TIM_InitClock(&tim_1_brushless_cfg);

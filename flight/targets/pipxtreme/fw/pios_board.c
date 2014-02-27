@@ -7,7 +7,7 @@
  *
  * @file       pios_board.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -90,6 +90,9 @@ void PIOS_Board_Init(void) {
 	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_internal_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
 #endif	/* PIOS_INCLUDE_FLASH && PIOS_INCLUDE_LOGFS_SETTINGS */
 
+	/* Initialize the task monitor library */
+	TaskMonitorInitialize();
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
@@ -114,9 +117,6 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_LED)
 	PIOS_LED_Init(&pios_led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
-
-	/* Initialize the task monitor library */
-	TaskMonitorInitialize();
 
 #if defined(PIOS_INCLUDE_TIM)
 	/* Set up pulse timers */

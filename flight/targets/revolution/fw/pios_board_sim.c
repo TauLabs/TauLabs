@@ -7,7 +7,7 @@
  *
  * @file       pios_board_sim.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Simulation of the board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -146,10 +146,16 @@ void PIOS_Board_Init(void) {
 	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_config_waypoints, FLASH_PARTITION_LABEL_WAYPOINTS) != 0)
 		fprintf(stderr, "Unable to open the waypoints partition\n");
 
+	/* Initialize the task monitor library */
+	TaskMonitorInitialize();
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
 	UAVObjectsInitializeAll();
+
+	/* Initialize the alarms library */
+	AlarmsInitialize();
 
 	AccelsInitialize();
 	BaroAltitudeInitialize();
@@ -157,12 +163,6 @@ void PIOS_Board_Init(void) {
 	GPSPositionInitialize();
 	GyrosInitialize();
 	GyrosBiasInitialize();
-
-	/* Initialize the alarms library */
-	AlarmsInitialize();
-
-	/* Initialize the task monitor library */
-	TaskMonitorInitialize();
 
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && 1
