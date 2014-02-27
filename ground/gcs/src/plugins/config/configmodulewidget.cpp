@@ -75,7 +75,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVtolFollower, ModuleSettings::ADMINSTATE_VTOLPATHFOLLOWER);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbPathPlanner, ModuleSettings::ADMINSTATE_PATHPLANNER);
-
+	addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOLighttelemetryBridge, ModuleSettings::ADMINSTATE_UAVOLIGHTTELEMETRYBRIDGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
 
@@ -136,7 +136,10 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->cbVtolFollower->setProperty(falseString.toAscii(), "Disabled");
 
     ui->cbPathPlanner->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbPathPlanner->setProperty(falseString.toAscii(), "Disabled");
+    ui->cbPathPlanner->setProperty(falseString.toAscii(), "Disabled");	
+
+    ui->cbUAVOLighttelemetryBridge->setProperty(trueString.toAscii(), "Enabled");
+    ui->cbUAVOLighttelemetryBridge->setProperty(falseString.toAscii(), "Disabled");	
 
     ui->gb_measureVoltage->setProperty(trueString.toAscii(), "Enabled");
     ui->gb_measureVoltage->setProperty(falseString.toAscii(), "Disabled");

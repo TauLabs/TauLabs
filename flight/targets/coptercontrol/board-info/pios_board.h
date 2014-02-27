@@ -154,6 +154,9 @@ extern uintptr_t pios_com_mavlink_id;
 
 extern uintptr_t pios_com_frsky_sensor_hub_id;
 #define PIOS_COM_FRSKY_SENSOR_HUB       (pios_com_frsky_sensor_hub_id)
+extern uintptr_t pios_com_lighttelemetry_id;
+#define PIOS_COM_LIGHTTELEMETRY         (pios_com_lighttelemetry_id)
+
 //-------------------------
 // ADC
 // PIOS_ADC_PinGet(0) = Gyro Z

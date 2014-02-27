@@ -125,6 +125,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="cbUAVOLighttelemetryBridge">
+         <property name="toolTip">
+          <string>Enable UAVOLighttelemetryBridge module which is required for LightTelemetry protocol</string>
+         </property>
+         <property name="text">
+          <string>Light Telemetry</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="cbPathPlanner">
          <property name="toolTip">
           <string>This enables the path planner module which is required for waypoint navigation.</string>
@@ -210,6 +220,40 @@
              <stringlist>
               <string>objname:ModuleSettings</string>
               <string>fieldname:ComUsbBridgeSpeed</string>
+             </stringlist>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_21">
+            <property name="text">
+             <string>LightTelemetry:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_22">
+            <property name="text">
+             <string>Mavlink:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="cb_LightTelemetrySpeed">
+            <property name="objrelation" stdset="0">
+             <stringlist>
+              <string>objname:ModuleSettings</string>
+              <string>fieldname:LightTelemetrySpeed</string>
+             </stringlist>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QComboBox" name="cb_MavlinkSpeed">
+            <property name="objrelation" stdset="0">
+             <stringlist>
+              <string>objname:ModuleSettings</string>
+              <string>fieldname:MavlinkSpeed</string>
              </stringlist>
             </property>
            </widget>
