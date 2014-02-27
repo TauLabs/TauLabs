@@ -228,6 +228,13 @@
       <widget class="QLineEdit" name="le_searchField"/>
      </item>
      <item>
+      <widget class="QPushButton" name="bn_clearSearchField">
+       <property name="text">
+        <string>Clear</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

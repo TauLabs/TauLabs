@@ -78,6 +78,7 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     connect((QTreeView*) treeView, SIGNAL(expanded(QModelIndex)), this, SLOT(onTreeItemExpanded(QModelIndex) ));
 
     connect(m_browser->le_searchField, SIGNAL(textChanged(QString)), this, SLOT(searchTextChanged(QString)));
+    connect(m_browser->bn_clearSearchField, SIGNAL(clicked()), this, SLOT(searchTextCleared()));
 
     // Set browser buttons to disabled
     enableUAVOBrowserButtons(false);
@@ -571,6 +572,11 @@ void UAVObjectBrowserWidget::enableUAVOBrowserButtons(bool enableState)
 void UAVObjectBrowserWidget::searchTextChanged(QString searchText)
 {
     proxyModel->setFilterRegExp(QRegExp(searchText, Qt::CaseInsensitive, QRegExp::FixedString));
+}
+
+void UAVObjectBrowserWidget::searchTextCleared()
+{
+    m_browser->le_searchField->clear();
 }
 
 //============================

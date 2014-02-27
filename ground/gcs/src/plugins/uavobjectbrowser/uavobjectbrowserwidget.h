@@ -116,6 +116,7 @@ private slots:
     void onTreeItemExpanded(QModelIndex);
 
     void searchTextChanged(QString searchText);
+    void searchTextCleared();
 
 signals:
     void viewOptionsChanged(bool categorized,bool scientific,bool metadata,bool hideNotPresent);
