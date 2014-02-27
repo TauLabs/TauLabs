@@ -117,6 +117,7 @@ extern uintptr_t pios_com_vcp_id;
 extern uintptr_t pios_com_mavlink_id;
 extern uint32_t pios_rfm22b_id;
 extern uintptr_t pios_com_hott_id;
+extern uintptr_t pios_com_frsky_sensor_hub_id;
 extern uintptr_t pios_com_lighttelemetry_id;
 
 #define PIOS_COM_GPS                    (pios_com_gps_id)
@@ -126,6 +127,7 @@ extern uintptr_t pios_com_lighttelemetry_id;
 #define PIOS_COM_VCP                    (pios_com_vcp_id)
 #define PIOS_COM_MAVLINK                (pios_com_mavlink_id)
 #define PIOS_COM_HOTT                   (pios_com_hott_id)
+#define PIOS_COM_FRSKY_SENSOR_HUB       (pios_com_frsky_sensor_hub_id)
 #define PIOS_COM_LIGHTTELEMETRY         (pios_com_lighttelemetry_id)
 
 

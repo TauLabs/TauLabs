@@ -59,6 +59,7 @@ OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += ComUsbBridge
 OPTMODULES += Airspeed/revolution
 OPTMODULES += UAVOHoTTBridge
+OPTMODULES += UAVOFrSKYSensorHubBridge
 
 PYMODULES = 
 #FlightPlan

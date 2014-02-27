@@ -65,6 +65,8 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 #define PIOS_COM_MAVLINK_TX_BUF_LEN 32
 
+#define PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN 128
+
 #define PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN 19
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
@@ -78,6 +80,7 @@ uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_gps_id;
 uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_mavlink_id;
+uintptr_t pios_com_frsky_sensor_hub_id;
 uintptr_t pios_com_lighttelemetry_id;
 uintptr_t pios_usb_rctx_id;
 uintptr_t pios_internal_adc_id;
@@ -580,6 +583,24 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_MAVLINK */
 #endif	/* PIOS_INCLUDE_GPS */
 	break;
+	case HWCOPTERCONTROL_MAINPORT_FRSKYSENSORHUB:
+	#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB)
+			{
+				uintptr_t pios_usart_generic_id;
+				if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_main_cfg)) {
+					PIOS_Assert(0);
+				}
+
+				uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN);
+				PIOS_Assert(tx_buffer);
+				if (PIOS_COM_Init(&pios_com_frsky_sensor_hub_id, &pios_usart_com_driver, pios_usart_generic_id,
+						  NULL, 0,
+						  tx_buffer, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN)) {
+					PIOS_Assert(0);
+				}
+			}
+			#endif	/* PIOS_INCLUDE_FRSKYSENSORHUB */
+	break;
 	
 	case HWCOPTERCONTROL_MAINPORT_LIGHTTELEMETRYTX:
     {
@@ -775,6 +796,24 @@ void PIOS_Board_Init(void) {
             PIOS_Assert(0);
         }         
 #endif  
+	case HWCOPTERCONTROL_FLEXIPORT_FRSKYSENSORHUB:
+	#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB)
+			{
+				uintptr_t pios_usart_generic_id;
+				if (PIOS_USART_Init(&pios_usart_generic_id, &pios_usart_generic_flexi_cfg)) {
+					PIOS_Assert(0);
+				}
+
+				uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN);
+				PIOS_Assert(tx_buffer);
+				if (PIOS_COM_Init(&pios_com_frsky_sensor_hub_id, &pios_usart_com_driver, pios_usart_generic_id,
+						  NULL, 0,
+						  tx_buffer, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN)) {
+					PIOS_Assert(0);
+				}
+			}
+			#endif	/* PIOS_INCLUDE_FRSKYSENSORHUB */
+	break;
 	}
     	break;
 }
