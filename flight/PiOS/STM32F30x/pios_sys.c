@@ -9,7 +9,7 @@
  * @file       pios_sys.c  
  * @author     Michael Smith Copyright (C) 2011
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Sets up basic STM32 system hardware, functions are called from Main.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -45,9 +45,11 @@ static void NVIC_Configuration(void);
 */
 void PIOS_SYS_Init(void)
 {
+#if !defined(PIOS_INCLUDE_CHIBIOS)
 	/* Setup STM32 system (RCC, clock, PLL and Flash configuration) - CMSIS Function */
 	SystemInit();
 	SystemCoreClockUpdate();	/* update SystemCoreClock for use elsewhere */
+#endif /* !defined(PIOS_INCLUDE_CHIBIOS) */
 
 	/*
 	 * @todo might make sense to fetch the bus clocks and save them somewhere to avoid
