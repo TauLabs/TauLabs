@@ -32,6 +32,7 @@
 #include <QModelIndex>
 #include <QWidget>
 #include <QTreeView>
+#include <QSortFilterProxyModel>
 #include "objectpersistence.h"
 #include "uavobjecttreemodel.h"
 
@@ -39,6 +40,17 @@ class QPushButton;
 class ObjectTreeItem;
 class Ui_UAVObjectBrowser;
 class Ui_viewoptions;
+
+class TreeSortFilterProxyModel : public QSortFilterProxyModel
+{
+public:
+    TreeSortFilterProxyModel(QObject *parent);
+
+protected:
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+    bool filterAcceptsRowItself(int source_row, const QModelIndex &source_parent) const;
+    bool hasAcceptedChildren(int source_row, const QModelIndex &source_parent) const;
+};
 
 class UAVOBrowserTreeView : public QTreeView
 {
@@ -103,6 +115,8 @@ private slots:
     void onTreeItemCollapsed(QModelIndex);
     void onTreeItemExpanded(QModelIndex);
 
+    void searchTextChanged(QString searchText);
+
 signals:
     void viewOptionsChanged(bool categorized,bool scientific,bool metadata,bool hideNotPresent);
 private:
@@ -112,6 +126,7 @@ private:
     Ui_viewoptions *m_viewoptions;
     QDialog *m_viewoptionsDialog;
     UAVObjectTreeModel *m_model;
+    TreeSortFilterProxyModel *proxyModel;
 
     int m_recentlyUpdatedTimeout;
     QColor m_recentlyUpdatedColor;
