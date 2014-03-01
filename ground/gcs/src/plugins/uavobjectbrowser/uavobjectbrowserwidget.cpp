@@ -62,7 +62,7 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     proxyModel->setSourceModel(m_model);
 
     // Create tree view and add to layout
-    treeView = new UAVOBrowserTreeView(m_model, MAXIMUM_UPDATE_PERIOD);
+    treeView = new UAVOBrowserTreeView(MAXIMUM_UPDATE_PERIOD);
     treeView->setObjectName(QString::fromUtf8("treeView"));
     m_browser->verticalLayout->addWidget(treeView);
 
@@ -88,6 +88,7 @@ void UAVObjectBrowserWidget::onTreeItemExpanded(QModelIndex currentProxyIndex)
 {
     QModelIndex currentIndex = proxyModel->mapToSource(currentProxyIndex);
     TreeItem *item = static_cast<TreeItem*>(currentIndex.internalPointer());
+    Q_ASSERT(item);
     TopTreeItem *top = dynamic_cast<TopTreeItem*>(item->parent());
 
     //Check if current tree index is the child of the top tree item
@@ -148,6 +149,7 @@ void UAVObjectBrowserWidget::onTreeItemCollapsed(QModelIndex currentProxyIndex)
 {
     QModelIndex currentIndex = proxyModel->mapToSource(currentProxyIndex);
     TreeItem *item = static_cast<TreeItem*>(currentIndex.internalPointer());
+    Q_ASSERT(item);
     TopTreeItem *top = dynamic_cast<TopTreeItem*>(item->parent());
 
     //Check if current tree index is the child of the top tree item
@@ -276,7 +278,7 @@ void UAVObjectBrowserWidget::initialize()
     treeView->setSelectionBehavior(QAbstractItemView::SelectItems);
     treeView->setUniformRowHeights(true);
 
-    BrowserItemDelegate *m_delegate = new BrowserItemDelegate();
+    BrowserItemDelegate *m_delegate = new BrowserItemDelegate(proxyModel);
     treeView->setItemDelegate(m_delegate);
 
     // Connect signals
@@ -502,6 +504,7 @@ void UAVObjectBrowserWidget::toggleUAVOButtons(const QModelIndex &currentProxyIn
 
     QModelIndex currentIndex = proxyModel->mapToSource(currentProxyIndex);
     TreeItem *item = static_cast<TreeItem*>(currentIndex.internalPointer());
+    Q_ASSERT(item);
     TopTreeItem *top = dynamic_cast<TopTreeItem*>(item);
     ObjectTreeItem *data = dynamic_cast<ObjectTreeItem*>(item);
     CategoryTreeItem *category = dynamic_cast<CategoryTreeItem*>(item);
@@ -584,8 +587,7 @@ void UAVObjectBrowserWidget::searchTextCleared()
 /**
  * @brief UAVOBrowserTreeView::UAVOBrowserTreeView Constructor for reimplementation of QTreeView
  */
-UAVOBrowserTreeView::UAVOBrowserTreeView(UAVObjectTreeModel *m_model_new, unsigned int updateTimerPeriod) : QTreeView(),
-    m_model(m_model_new),
+UAVOBrowserTreeView::UAVOBrowserTreeView(unsigned int updateTimerPeriod) : QTreeView(),
     m_updateTreeViewFlag(false)
 {
     // Start timer at 100ms
@@ -620,8 +622,8 @@ void UAVOBrowserTreeView::updateTimerPeriod(unsigned int val)
 void UAVOBrowserTreeView::onTimeout_updateView()
 {
     if (m_updateTreeViewFlag == true) {
-        QModelIndex topLeftData = m_model->getIndex(0, 0, m_model->getNonSettingsTree());
-        QModelIndex bottomRightData = m_model->getIndex(1, 1, m_model->getNonSettingsTree());
+        QModelIndex topLeftData = dynamic_cast<UAVObjectTreeModel *>(model())->getIndex(0, 0, dynamic_cast<UAVObjectTreeModel *>(model())->getNonSettingsTree());
+        QModelIndex bottomRightData = dynamic_cast<UAVObjectTreeModel *>(model())->getIndex(1, 1, dynamic_cast<UAVObjectTreeModel *>(model())->getNonSettingsTree());
 
         QTreeView::dataChanged(topLeftData, bottomRightData);
     }

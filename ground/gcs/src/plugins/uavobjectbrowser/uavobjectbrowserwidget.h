@@ -56,7 +56,7 @@ class UAVOBrowserTreeView : public QTreeView
 {
     Q_OBJECT
 public:
-    UAVOBrowserTreeView(UAVObjectTreeModel *m_model, unsigned int updateTimerPeriod);
+    UAVOBrowserTreeView(unsigned int updateTimerPeriod);
     void updateView(QModelIndex topLeft, QModelIndex bottomRight);
     void updateTimerPeriod(unsigned int val);
 
@@ -69,14 +69,10 @@ public:
     virtual void dataChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight,
                              const QVector<int> & roles = QVector<int> ());
 
-    void setModel(QAbstractItemModel *model) {m_model = dynamic_cast<UAVObjectTreeModel*>(model); QTreeView::setModel(model);}
-
 private slots:
     void onTimeout_updateView();
 
 private:
-    UAVObjectTreeModel *m_model;
-
     bool m_updateTreeViewFlag;
 
     QTimer m_updateViewTimer;
