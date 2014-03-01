@@ -47,8 +47,10 @@
 
 #include <openpilot.h>
 
+#if !defined(TRUE) && !defined(FALSE)
 #define TRUE 1
 #define FALSE 0
+#endif
 
 typedef unsigned long BIT32;
 typedef unsigned short BIT16;
