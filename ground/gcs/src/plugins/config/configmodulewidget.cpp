@@ -32,6 +32,7 @@
 
 #include "airspeedsettings.h"
 #include "flightbatterysettings.h"
+#include "hottsettings.h"
 #include "flightbatterystate.h"
 #include "modulesettings.h"
 #include "vibrationanalysissettings.h"
@@ -65,8 +66,12 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     VibrationAnalysisSettings vibrationAnalysisSettings;
     QString vibrationAnalysisSettingsName = vibrationAnalysisSettings.getName();
 
+    HoTTSettings hoTTSettings;
+    QString hoTTSettingsName = hoTTSettings.getName();
+
     // Link the checkboxes
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbAirspeed, ModuleSettings::ADMINSTATE_AIRSPEED);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbAltitudeHold, ModuleSettings::ADMINSTATE_ALTITUDEHOLD);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbBattery, ModuleSettings::ADMINSTATE_BATTERY);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbComBridge, ModuleSettings::ADMINSTATE_COMUSBBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGPS, ModuleSettings::ADMINSTATE_GPS);
@@ -75,7 +80,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVtolFollower, ModuleSettings::ADMINSTATE_VTOLPATHFOLLOWER);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbPathPlanner, ModuleSettings::ADMINSTATE_PATHPLANNER);
-	addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOLighttelemetryBridge, ModuleSettings::ADMINSTATE_UAVOLIGHTTELEMETRYBRIDGE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOHottBridge, ModuleSettings::ADMINSTATE_UAVOHOTTBRIDGE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrskyBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE);
+
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
 
@@ -103,6 +110,180 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "SampleRate", ui->sb_sampleRate);
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "FFTWindowSize", ui->cb_windowSize);
 
+    //HoTT Sensor
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Sensor", ui->cb_GAM, HoTTSettings::SENSOR_GAM);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Sensor", ui->cb_EAM, HoTTSettings::SENSOR_EAM);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Sensor", ui->cb_Vario, HoTTSettings::SENSOR_VARIO);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Sensor", ui->cb_GPS, HoTTSettings::SENSOR_GPS);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Sensor", ui->cb_ESC, HoTTSettings::SENSOR_ESC);
+
+    ui->cb_GAM->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_GAM->setProperty(falseString.toAscii(), "Disabled");
+
+    ui->cb_EAM->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_EAM->setProperty(falseString.toAscii(), "Disabled");
+
+    ui->cb_Vario->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_Vario->setProperty(falseString.toAscii(), "Disabled");
+
+    ui->cb_GPS->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_GPS->setProperty(falseString.toAscii(), "Disabled");
+
+    ui->cb_ESC->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_ESC->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings POWERVOLTAGE
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MINPOWERVOLTAGE, HoTTSettings::LIMIT_MINPOWERVOLTAGE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXPOWERVOLTAGE, HoTTSettings::LIMIT_MAXPOWERVOLTAGE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MINPOWERVOLTAGE, HoTTSettings::WARNING_MINPOWERVOLTAGE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXPOWERVOLTAGE, HoTTSettings::WARNING_MAXPOWERVOLTAGE);
+    ui->cb_MINPOWERVOLTAGE->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MINPOWERVOLTAGE->setProperty(falseString.toAscii(), "Disabled");
+    ui->cb_MAXPOWERVOLTAGE->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXPOWERVOLTAGE->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings CURRENT
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXCURRENT, HoTTSettings::LIMIT_MAXCURRENT);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXCURRENT, HoTTSettings::WARNING_MAXCURRENT);
+    ui->cb_MAXCURRENT->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXCURRENT->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings USEDCAPACITY
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXUSEDCAPACITY, HoTTSettings::LIMIT_MAXUSEDCAPACITY);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXUSEDCAPACITY, HoTTSettings::WARNING_MAXUSEDCAPACITY);
+    ui->cb_MAXUSEDCAPACITY->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXUSEDCAPACITY->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings CELLVOLTAGE
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MINCELLVOLTAGE, HoTTSettings::LIMIT_MINCELLVOLTAGE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MINCELLVOLTAGE, HoTTSettings::WARNING_MINCELLVOLTAGE);
+    ui->cb_MINCELLVOLTAGE->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MINCELLVOLTAGE->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings SENSOR1VOLTAGE
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MINSENSOR1VOLTAGE, HoTTSettings::LIMIT_MINSENSOR1VOLTAGE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXSENSOR1VOLTAGE, HoTTSettings::LIMIT_MAXSENSOR1VOLTAGE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MINSENSOR1VOLTAGE, HoTTSettings::WARNING_MINSENSOR1VOLTAGE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXSENSOR1VOLTAGE, HoTTSettings::WARNING_MAXSENSOR1VOLTAGE);
+    ui->cb_MINSENSOR1VOLTAGE->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MINSENSOR1VOLTAGE->setProperty(falseString.toAscii(), "Disabled");
+    ui->cb_MAXSENSOR1VOLTAGE->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXSENSOR1VOLTAGE->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings SENSOR2VOLTAGE
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MINSENSOR2VOLTAGE, HoTTSettings::LIMIT_MINSENSOR2VOLTAGE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXSENSOR2VOLTAGE, HoTTSettings::LIMIT_MAXSENSOR2VOLTAGE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MINSENSOR2VOLTAGE, HoTTSettings::WARNING_MINSENSOR2VOLTAGE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXSENSOR2VOLTAGE, HoTTSettings::WARNING_MAXSENSOR2VOLTAGE);
+    ui->cb_MINSENSOR2VOLTAGE->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MINSENSOR2VOLTAGE->setProperty(falseString.toAscii(), "Disabled");
+    ui->cb_MAXSENSOR2VOLTAGE->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXSENSOR2VOLTAGE->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings SENSOR1TEMP
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MINSENSOR1TEMP, HoTTSettings::LIMIT_MINSENSOR1TEMP);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXSENSOR1TEMP, HoTTSettings::LIMIT_MAXSENSOR1TEMP);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MINSENSOR1TEMP, HoTTSettings::WARNING_MINSENSOR1TEMP);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXSENSOR1TEMP, HoTTSettings::WARNING_MAXSENSOR1TEMP);
+    ui->cb_MINSENSOR1TEMP->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MINSENSOR1TEMP->setProperty(falseString.toAscii(), "Disabled");
+    ui->cb_MAXSENSOR1TEMP->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXSENSOR1TEMP->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings SENSOR2TEMP
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MINSENSOR2TEMP, HoTTSettings::LIMIT_MINSENSOR2TEMP);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXSENSOR2TEMP, HoTTSettings::LIMIT_MAXSENSOR2TEMP);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MINSENSOR2TEMP, HoTTSettings::WARNING_MINSENSOR2TEMP);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXSENSOR2TEMP, HoTTSettings::WARNING_MAXSENSOR2TEMP);
+    ui->cb_MINSENSOR2TEMP->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MINSENSOR2TEMP->setProperty(falseString.toAscii(), "Disabled");
+    ui->cb_MAXSENSOR2TEMP->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXSENSOR2TEMP->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings FUEL
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MINFUEL, HoTTSettings::LIMIT_MINFUEL);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MINFUEL, HoTTSettings::WARNING_MINFUEL);
+    ui->cb_MINFUEL->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MINFUEL->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings SENSOR1TEMP
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MINRPM, HoTTSettings::LIMIT_MINRPM);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXRPM, HoTTSettings::LIMIT_MAXRPM);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MINRPM, HoTTSettings::WARNING_MINRPM);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXRPM, HoTTSettings::WARNING_MAXRPM);
+    ui->cb_MINRPM->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MINRPM->setProperty(falseString.toAscii(), "Disabled");
+    ui->cb_MAXRPM->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXRPM->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings SERVOTEMP
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXSERVOTEMP, HoTTSettings::LIMIT_MAXSERVOTEMP);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXSERVOTEMP, HoTTSettings::WARNING_MAXSERVOTEMP);
+    ui->cb_MAXSERVOTEMP->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXSERVOTEMP->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings SERVODIFFERENCE
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXSERVODIFFERENCE, HoTTSettings::LIMIT_MAXSERVODIFFERENCE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXSERVODIFFERENCE, HoTTSettings::WARNING_MAXSERVODIFFERENCE);
+    ui->cb_MAXSERVODIFFERENCE->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXSERVODIFFERENCE->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings SPEED
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MINSPEED, HoTTSettings::LIMIT_MINSPEED);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXSPEED, HoTTSettings::LIMIT_MAXSPEED);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MINSPEED, HoTTSettings::WARNING_MINSPEED);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXSPEED, HoTTSettings::WARNING_MAXSPEED);
+    ui->cb_MINSPEED->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MINSPEED->setProperty(falseString.toAscii(), "Disabled");
+    ui->cb_MAXSPEED->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXSPEED->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings SPEED
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MINHEIGHT, HoTTSettings::LIMIT_MINHEIGHT);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXHEIGHT, HoTTSettings::LIMIT_MAXHEIGHT);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MINHEIGHT, HoTTSettings::WARNING_MINHEIGHT);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXHEIGHT, HoTTSettings::WARNING_MAXHEIGHT);
+    ui->cb_MINHEIGHT->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MINHEIGHT->setProperty(falseString.toAscii(), "Disabled");
+    ui->cb_MAXHEIGHT->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXHEIGHT->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings SERVOTEMP
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_MAXDISTANCE, HoTTSettings::LIMIT_MAXDISTANCE);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_MAXDISTANCE, HoTTSettings::WARNING_MAXDISTANCE);
+    ui->cb_MAXDISTANCE->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_MAXDISTANCE->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings NEGDIFFERENCE1
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_NEGDIFFERENCE1, HoTTSettings::LIMIT_NEGDIFFERENCE1);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_NEGDIFFERENCE1, HoTTSettings::WARNING_NEGDIFFERENCE1);
+    ui->cb_NEGDIFFERENCE1->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_NEGDIFFERENCE1->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings NEGDIFFERENCE2
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_NEGDIFFERENCE2, HoTTSettings::LIMIT_NEGDIFFERENCE2);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_NEGDIFFERENCE2, HoTTSettings::WARNING_NEGDIFFERENCE2);
+    ui->cb_NEGDIFFERENCE2->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_NEGDIFFERENCE2->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings POSDIFFERENCE1
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_POSDIFFERENCE1, HoTTSettings::LIMIT_POSDIFFERENCE1);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_POSDIFFERENCE1, HoTTSettings::WARNING_POSDIFFERENCE1);
+    ui->cb_POSDIFFERENCE1->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_POSDIFFERENCE1->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings POSDIFFERENCE2
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Limit", ui->sb_POSDIFFERENCE2, HoTTSettings::LIMIT_POSDIFFERENCE2);
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_POSDIFFERENCE2, HoTTSettings::WARNING_POSDIFFERENCE2);
+    ui->cb_POSDIFFERENCE2->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_POSDIFFERENCE2->setProperty(falseString.toAscii(), "Disabled");
+
+    //HoTT Settings ALTITUDEBEEP
+    addUAVObjectToWidgetRelation(hoTTSettingsName, "Warning", ui->cb_ALTITUDEBEEP, HoTTSettings::WARNING_ALTITUDEBEEP);
+    ui->cb_ALTITUDEBEEP->setProperty(trueString.toAscii(), "Enabled");
+    ui->cb_ALTITUDEBEEP->setProperty(falseString.toAscii(), "Disabled");
+
+    //Help button
     addHelpButton(ui->inputHelp,"http://wiki.taulabs.org/OnlineHelp:-Modules");
 
     // Connect any remaining widgets
@@ -113,6 +294,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     // to the checkbox's true (respectively, false) state.
     ui->cbAirspeed->setProperty(trueString.toAscii(), "Enabled");
     ui->cbAirspeed->setProperty(falseString.toAscii(), "Disabled");
+
+    ui->cbAltitudeHold->setProperty(trueString.toAscii(), "Enabled");
+    ui->cbAltitudeHold->setProperty(falseString.toAscii(), "Disabled");
 
     ui->cbBattery->setProperty(trueString.toAscii(), "Enabled");
     ui->cbBattery->setProperty(falseString.toAscii(), "Disabled");
@@ -136,10 +320,13 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->cbVtolFollower->setProperty(falseString.toAscii(), "Disabled");
 
     ui->cbPathPlanner->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbPathPlanner->setProperty(falseString.toAscii(), "Disabled");	
+    ui->cbPathPlanner->setProperty(falseString.toAscii(), "Disabled");
 
-    ui->cbUAVOLighttelemetryBridge->setProperty(trueString.toAscii(), "Enabled");
-    ui->cbUAVOLighttelemetryBridge->setProperty(falseString.toAscii(), "Disabled");	
+    ui->cbUAVOHottBridge->setProperty(trueString.toAscii(), "Enabled");
+    ui->cbUAVOHottBridge->setProperty(falseString.toAscii(), "Disabled");
+
+    ui->cbUAVOFrskyBridge->setProperty(trueString.toAscii(), "Enabled");
+    ui->cbUAVOFrskyBridge->setProperty(falseString.toAscii(), "Disabled");
 
     ui->gb_measureVoltage->setProperty(trueString.toAscii(), "Enabled");
     ui->gb_measureVoltage->setProperty(falseString.toAscii(), "Disabled");
@@ -150,6 +337,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     enableBatteryTab(false);
     enableAirspeedTab(false);
     enableVibrationTab(false);
+    enableHoTTTelemetryTab(false);
 
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property
@@ -193,6 +381,10 @@ void ConfigModuleWidget::recheckTabs()
     obj = getObjectManager()->getObject(VibrationAnalysisSettings::NAME);
     connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
     obj->requestUpdate();
+
+    obj = getObjectManager()->getObject(HoTTSettings::NAME);
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
+    obj->requestUpdate();
 }
 
 //! Enable appropriate tab when objects are updated
@@ -208,6 +400,8 @@ void ConfigModuleWidget::objectUpdated(UAVObject * obj, bool success)
         enableBatteryTab(success);
     else if (objName.compare(VibrationAnalysisSettings::NAME) == 0)
         enableVibrationTab(success);
+    else if (objName.compare(HoTTSettings::NAME) == 0)
+        enableHoTTTelemetryTab(success);
 }
 
 /**
@@ -364,6 +558,13 @@ void ConfigModuleWidget::enableAirspeedTab(bool enabled)
 void ConfigModuleWidget::enableVibrationTab(bool enabled)
 {
     int idx = ui->moduleTab->indexOf(ui->tabVibration);
+    ui->moduleTab->setTabEnabled(idx,enabled);
+}
+
+//! Enable or disable the HoTT telemetrie tab
+void ConfigModuleWidget::enableHoTTTelemetryTab(bool enabled)
+{
+    int idx = ui->moduleTab->indexOf(ui->tabHoTTTelemetry);
     ui->moduleTab->setTabEnabled(idx,enabled);
 }
 
