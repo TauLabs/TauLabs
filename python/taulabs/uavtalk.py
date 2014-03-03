@@ -156,7 +156,7 @@ class UavTalk():
 			if self.type == UavTalk.TYPE_NACK:
 				# If this is a NACK, we skip to Checksum
 				self.state = UavTalk.STATE_CS
-			elif self.obj != 0 and not self.obj.meta['is_single_inst']:
+			elif self.obj != 0 and self.obj is not None and not self.obj.meta['is_single_inst']:
 				# Check if this is a single instance object (i.e. if the instance ID field is coming next)
 				self.state = UavTalk.STATE_INSTID
 			elif self.obj != 0 and self.type & UavTalk.TIMESTAMPED:
