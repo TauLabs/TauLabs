@@ -473,9 +473,21 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         extraWidgets.clear();
         m_config->graphicsView->setVisible(false);
         setTxMovement(nothing);
+
+        // Store the previous settings, although set to always disarmed for safety
         manualSettingsData=manualSettingsObj->getData();
         manualSettingsData.Arming=ManualControlSettings::ARMING_ALWAYSDISARMED;
         previousManualSettingsData = manualSettingsData;
+
+        // Now clear all the previous channel settings
+        for (int i = 0; i++; i < ManualControlSettings::CHANNELNUMBER_NUMELEM) {
+            manualSettingsData.ChannelNumber[i] = 0;
+            manualSettingsData.ChannelMin[i] = 0;
+            manualSettingsData.ChannelNeutral[i] = 0;
+            manualSettingsData.ChannelMax[i] = 0;
+            manualSettingsData.ChannelGroups[i] = ManualControlSettings::CHANNELGROUPS_NONE;
+        }
+
         manualSettingsObj->setData(manualSettingsData);
         m_config->wzText->setText(tr("Welcome to the inputs configuration wizard.\n"
                                      "Please follow the instructions on the screen and only move your controls when asked to.\n"
