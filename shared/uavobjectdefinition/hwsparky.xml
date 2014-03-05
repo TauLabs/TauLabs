@@ -29,6 +29,8 @@
 				<option>MavLinkTX</option>
 				<option>MavLinkTX_GPS_RX</option>
 				<option>HoTT Telemetry</option>
+				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
 			</options>
 		</field>
 
@@ -46,6 +48,8 @@
 				<option>MavLinkTX</option>
 				<option>MavLinkTX_GPS_RX</option>
 				<option>HoTT Telemetry</option>
+				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
 			</options>
 		</field>
 

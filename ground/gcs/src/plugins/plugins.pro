@@ -162,13 +162,6 @@ plugin_pathplanner.depends = plugin_coreplugin
 plugin_pathplanner.depends += plugin_uavobjects
 SUBDIRS += plugin_pathplanner
 
-# Waypoint Editor gadget
-plugin_waypointeditor.subdir = waypointeditor
-plugin_waypointeditor.depends = plugin_coreplugin
-plugin_waypointeditor.depends += plugin_uavobjects
-SUBDIRS += plugin_waypointeditor
-
-
 # Telemetry Scheduler gadget
 plugin_telemetryscheduler.subdir = telemetryscheduler
 plugin_telemetryscheduler.depends = plugin_coreplugin

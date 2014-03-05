@@ -24,6 +24,7 @@
 # (all architectures)
 
 UAVOBJSRCFILENAMES =
+UAVOBJSRCFILENAMES += acceldesired
 UAVOBJSRCFILENAMES += accessorydesired
 UAVOBJSRCFILENAMES += actuatorcommand
 UAVOBJSRCFILENAMES += actuatordesired
@@ -58,7 +59,9 @@ UAVOBJSRCFILENAMES += gpssatellites
 UAVOBJSRCFILENAMES += gpstime
 UAVOBJSRCFILENAMES += gpsvelocity
 UAVOBJSRCFILENAMES += groundpathfollowersettings
+UAVOBJSRCFILENAMES += loitercommand
 UAVOBJSRCFILENAMES += vtolpathfollowersettings
+UAVOBJSRCFILENAMES += vtolpathfollowerstatus
 UAVOBJSRCFILENAMES += homelocation
 UAVOBJSRCFILENAMES += insstate
 UAVOBJSRCFILENAMES += manualcontrolcommand

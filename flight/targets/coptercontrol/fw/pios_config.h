@@ -7,7 +7,7 @@
  *
  * @file       pios_config.h 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Board specific options that modify PiOS capabilities
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -62,6 +62,8 @@
 #define PIOS_INCLUDE_GPS_NMEA_PARSER /* Include the NMEA protocol parser */
 #define PIOS_INCLUDE_GPS_UBX_PARSER  /* Include the UBX protocol parser */
 #define PIOS_INCLUDE_MAVLINK
+#define PIOS_INCLUDE_FRSKY_SENSOR_HUB
+//#define PIOS_INCLUDE_LIGHTTELEMETRY
 
 #define PIOS_INCLUDE_SERVO
 #define PIOS_INCLUDE_SPI
@@ -107,7 +109,6 @@
 #define PIOS_MAVLINK_STACK_SIZE         600
 #define PIOS_COMUSBBRIDGE_STACK_SIZE    280
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 1995998
-//#define PIOS_QUATERNION_STABILIZATION
 
 // This can't be too high to stop eventdispatcher thread overflowing
 #define PIOS_EVENTDISAPTCHER_QUEUE      10

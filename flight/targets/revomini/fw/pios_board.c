@@ -171,6 +171,13 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 #define PIOS_COM_MAVLINK_TX_BUF_LEN 128
 
+#define PIOS_COM_HOTT_RX_BUF_LEN 16
+#define PIOS_COM_HOTT_TX_BUF_LEN 16
+
+#define PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN 128
+
+#define PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN 19
+
 #define PIOS_COM_RFM22B_RF_RX_BUF_LEN 512
 #define PIOS_COM_RFM22B_RF_TX_BUF_LEN 512
 
@@ -187,6 +194,8 @@ uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_overo_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_com_hott_id;
+uintptr_t pios_com_frsky_sensor_hub_id;
+uintptr_t pios_com_lighttelemetry_id;
 uint32_t pios_rfm22b_id;
 uintptr_t pios_internal_adc_id = 0;
 uintptr_t pios_uavo_settings_fs_id;
@@ -611,9 +620,20 @@ void PIOS_Board_Init(void) {
 		break;
 		case HWREVOMINI_MAINPORT_HOTTTELEMETRY:
 #if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
+			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
 #endif /* PIOS_INCLUDE_HOTT */
 			break;
+        case HWREVOMINI_MAINPORT_FRSKYSENSORHUB:
+#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+            PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
+#endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
+		break;
+		case HWREVOMINI_MAINPORT_LIGHTTELEMETRYTX:
+#if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
+		PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
+#endif
+		break;
+		
 	} /* 	hw_mainport */
 
 	if (hw_mainport != HWREVOMINI_MAINPORT_SBUS) {
@@ -712,9 +732,19 @@ void PIOS_Board_Init(void) {
 		break;
 		case HWREVOMINI_FLEXIPORT_HOTTTELEMETRY:
 #if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
 #endif /* PIOS_INCLUDE_HOTT */
 			break;
+        case HWREVOMINI_FLEXIPORT_FRSKYSENSORHUB:
+#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+            PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
+#endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
+		break;
+		case HWREVOMINI_FLEXIPORT_LIGHTTELEMETRYTX:
+#if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
+		PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
+#endif  
+		break;
 	} /* hwsettings_rv_flexiport */
 
 	/* Initalize the RFM22B radio COM device. */
@@ -761,6 +791,33 @@ void PIOS_Board_Init(void) {
 			uintptr_t pios_pwm_id;
 			PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_cfg);
 			
+			uintptr_t pios_pwm_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_PWM */
+			break;
+		case HWREVOMINI_RCVRPORT_PPMPWM:
+		/* This is a combination of PPM and PWM inputs */
+#if defined(PIOS_INCLUDE_PPM)
+		{
+			uintptr_t pios_ppm_id;
+			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
+
+			uintptr_t pios_ppm_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_PPM */
+#if defined(PIOS_INCLUDE_PWM)
+		{
+			uintptr_t pios_pwm_id;
+			PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_with_ppm_cfg);
+
 			uintptr_t pios_pwm_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
 				PIOS_Assert(0);

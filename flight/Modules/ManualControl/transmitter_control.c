@@ -37,9 +37,9 @@
 #include "actuatordesired.h"
 #include "altitudeholddesired.h"
 #include "baroaltitude.h"
-#include "fixedwingpathfollowersettings.h"
 #include "flighttelemetrystats.h"
 #include "flightstatus.h"
+#include "loitercommand.h"
 #include "manualcontrolsettings.h"
 #include "manualcontrolcommand.h"
 #include "pathdesired.h"
@@ -97,9 +97,8 @@ static bool                       settings_updated;
 static void update_actuator_desired(ManualControlCommandData * cmd);
 static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged);
-static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home);
 static void set_flight_mode();
-static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled);
+static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled, bool valid);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
 static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time);
@@ -108,6 +107,7 @@ static void applyDeadband(float *value, float deadband);
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm);
 static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm);
 static void manual_control_settings_updated(UAVObjEvent * ev);
+static void set_loiter_command(ManualControlCommandData * cmd);
 
 #define assumptions (assumptions1 && assumptions3 && assumptions5 && assumptions7 && assumptions8 && assumptions_flightmode && assumptions_channelcount)
 
@@ -124,6 +124,11 @@ int32_t transmitter_control_initialize()
 	StabilizationDesiredInitialize();
 	ReceiverActivityInitialize();
 	ManualControlSettingsInitialize();
+
+	// Both the gimbal and coptercontrol do not support loitering
+#if !defined(COPTERCONTROL) && !defined(GIMBAL)
+	LoiterCommandInitialize();
+#endif
 
 	/* For now manual instantiate extra instances of Accessory Desired.  In future  */
 	/* should be done dynamically this includes not even registering it if not used */
@@ -162,6 +167,7 @@ int32_t transmitter_control_update()
 	lastSysTime = xTaskGetTickCount();
 
 	float scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
+	bool validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
 
 	if (settings_updated) {
 		settings_updated = false;
@@ -239,10 +245,13 @@ int32_t transmitter_control_update()
 
 		// If a channel has timed out this is not valid data and we shouldn't update anything
 		// until we decide to go to failsafe
-		if(cmd.Channel[n] == (uint16_t) PIOS_RCVR_TIMEOUT)
+		if(cmd.Channel[n] == (uint16_t) PIOS_RCVR_TIMEOUT) {
 			valid_input_detected = false;
-		else
+			validChannel[n] = false;
+		} else {
 			scaledChannel[n] = scaleChannel(cmd.Channel[n], settings.ChannelMax[n],	settings.ChannelMin[n], settings.ChannelNeutral[n]);
+			validChannel[n] = validInputRange(settings.ChannelMin[n], settings.ChannelMax[n], cmd.Channel[n], CONNECTION_OFFSET);
+		}
 	}
 
 	// Check settings, if error raise alarm
@@ -283,14 +292,19 @@ int32_t transmitter_control_update()
 
 	// the block above validates the input configuration. this simply checks that the range is valid if flight mode is configured.
 	bool flightmode_valid_input = settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-		validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE], CONNECTION_OFFSET);
+	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE];
+
+	// because arming is optional we must determine if it is needed before checking it is valid
+	bool arming_valid_input = settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ARMING] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
+	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ARMING];
 
 	// decide if we have valid manual input or not
-	valid_input_detected &= validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE], CONNECTION_OFFSET_THROTTLE) &&
-	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL], CONNECTION_OFFSET) &&
-	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW], CONNECTION_OFFSET) &&
-	     validInputRange(settings.ChannelMin[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], settings.ChannelMax[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], cmd.Channel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH], CONNECTION_OFFSET) &&
-	     flightmode_valid_input;
+	valid_input_detected &= validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] &&
+	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ROLL] &&
+	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW] &&
+	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH] &&
+	    flightmode_valid_input &&
+	    arming_valid_input;
 
 	// Implement hysteresis loop on connection status
 	if (valid_input_detected && (++connected_count > 10)) {
@@ -366,7 +380,7 @@ int32_t transmitter_control_update()
 	// Process arming outside conditional so system will disarm when disconnected.  Notice this
 	// is processed in the _update method instead of _select method so the state system is always
 	// evalulated, even if not detected.
-	process_transmitter_events(&cmd, &settings, scaledChannel);
+	process_transmitter_events(&cmd, &settings, scaledChannel, valid_input_detected);
 	
 	// Update cmd object
 	ManualControlCommandSet(&cmd);
@@ -417,10 +431,9 @@ int32_t transmitter_control_select(bool reset_controller)
 		altitude_hold_desired(&cmd, lastFlightMode != flightStatus.FlightMode);
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-		update_path_desired(&cmd, lastFlightMode != flightStatus.FlightMode, false);
-		break;
+		set_loiter_command(&cmd);
 	case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-		update_path_desired(&cmd, lastFlightMode != flightStatus.FlightMode, true);
+		// The path planner module processes data here
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
 		break;
@@ -473,10 +486,13 @@ static void set_armed_if_changed(uint8_t new_arm) {
 
 /**
  * @brief Process the inputs and determine whether to arm or not
- * @param[out] cmd The structure to set the armed in
+ * @param[in] cmd The manual control inputs
  * @param[in] settings Settings indicating the necessary position
+ * @param[in] scaled The scaled channels, used for checking arming
+ * @param[in] valid If the input data is valid (i.e. transmitter is transmitting)
  */
-static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled)
+static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings,
+    float * scaled, bool valid)
 {
 	static portTickType armedDisarmStart;
 	bool lowThrottle = cmd->Throttle <= 0;
@@ -487,7 +503,13 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 	if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED) {
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
 	} else if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCH) {
-		if (cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE) {
+		// For the switch we look at valid instead of cmd->Connected because the later
+		// has a hysteresis loop which means we can arm quickly on invalid data and
+		// then it will time out. This might be very temporary glitches will start the
+		// disarm timeout but you still need the full timeout to actually disarm. This
+		// is not a problem for the code blocks below because they require a full
+		// second to arm.
+		if (!valid) {
 			// When transmitter gone go back to normal disarm timeout behavior
 			if ((settings->ArmedTimeout != 0) && (timeDifferenceMs(armedDisarmStart, lastSysTime) > settings->ArmedTimeout))
 				set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
@@ -807,7 +829,6 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL]:
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Roll * stabSettings.RollMax :
-	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Roll * stabSettings.RollMax :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Roll :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Roll :
@@ -820,7 +841,6 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Pitch * stabSettings.PitchMax :
-	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Pitch * stabSettings.PitchMax :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Pitch :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Pitch :
@@ -833,7 +853,6 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Yaw * stabSettings.YawMax :
-	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Yaw * stabSettings.YawMax :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Yaw :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Yaw :
@@ -846,64 +865,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	StabilizationDesiredSet(&stabilization);
 }
 
-#if defined(REVOLUTION)
-
-/**
- * @brief Update the position desired to current location when
- * enabled and allow the waypoint to be moved by transmitter
- */
-static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
-{
-	if (!flightModeChanged)
-		return;
-
-	if (PathDesiredHandle() == NULL) {
-		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_PATHFOLLOWER);
-		return;
-	}
-
-	PositionActualData positionActual;
-	PositionActualGet(&positionActual);
-	PathDesiredData pathDesired;
-	PathDesiredGet(&pathDesired);
-
-	if (home) {
-		// Simple Return To Home mode - climb 10 meters and fly to home position
-		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
-		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
-		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down;
-		pathDesired.End[PATHDESIRED_END_NORTH] = 0;
-		pathDesired.End[PATHDESIRED_END_EAST] = 0;
-		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down - 10;
-		pathDesired.StartingVelocity=10;
-		pathDesired.EndingVelocity=10;
-	} else {
-		// Simple position hold - stay at present altitude and position
-		
-		pathDesired.Start[PATHDESIRED_START_NORTH] = positionActual.North;
-		pathDesired.Start[PATHDESIRED_START_EAST] = positionActual.East;
-		pathDesired.Start[PATHDESIRED_START_DOWN] = positionActual.Down;
-		pathDesired.End[PATHDESIRED_END_NORTH] = positionActual.North;
-		pathDesired.End[PATHDESIRED_END_EAST] = positionActual.East;
-		pathDesired.End[PATHDESIRED_END_DOWN] = positionActual.Down;
-		pathDesired.StartingVelocity=10;
-		pathDesired.EndingVelocity=10;
-	}
-
-	// Select how to hold position in a model type specific way
-	uint8_t vehicle_type;
-	SystemSettingsAirframeTypeGet(&vehicle_type);
-	if (vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWING ||
-	    vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGELEVON ||
-		vehicle_type == SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGVTAIL) {
-		FixedWingPathFollowerSettingsOrbitRadiusGet(&pathDesired.ModeParameters);
-		pathDesired.Mode = PATHDESIRED_MODE_CIRCLEPOSITIONLEFT;
-	} else {
-		pathDesired.ModeParameters = 0;
-		pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
-	}
-	PathDesiredSet(&pathDesired);
-}
+#if !defined(COPTERCONTROL) && !defined(GIMBAL)
 
 /**
  * @brief Update the altitude desired to current altitude when
@@ -956,19 +918,42 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 	AltitudeHoldDesiredSet(&altitudeHoldDesired);
 }
 
-#else /* For boards that do not support navigation set error if these modes are selected */
 
-static void update_path_desired(ManualControlCommandData * cmd, bool flightModeChanged, bool home)
+static void set_loiter_command(ManualControlCommandData *cmd)
 {
-	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
+	const float CMD_THRESHOLD = 0.5f;
+	const float MAX_SPEED     = 3.0f; // m/s
+
+	LoiterCommandData loiterCommand;
+	loiterCommand.Forward = (cmd->Pitch > CMD_THRESHOLD) ? cmd->Pitch - CMD_THRESHOLD :
+	                        (cmd->Pitch < -CMD_THRESHOLD) ? cmd->Pitch + CMD_THRESHOLD :
+	                        0;
+	// Note the negative - forward pitch is negative
+	loiterCommand.Forward *= -MAX_SPEED / (1.0f - CMD_THRESHOLD);
+
+	loiterCommand.Right = (cmd->Roll > CMD_THRESHOLD) ? cmd->Roll - CMD_THRESHOLD :
+	                      (cmd->Roll < -CMD_THRESHOLD) ? cmd->Roll + CMD_THRESHOLD :
+	                      0;
+	loiterCommand.Right *= MAX_SPEED / (1.0f - CMD_THRESHOLD);
+
+	loiterCommand.Frame = LOITERCOMMAND_FRAME_BODY;
+
+	LoiterCommandSet(&loiterCommand);
 }
+
+#else /* For boards that do not support navigation set error if these modes are selected */
 
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged)
 {
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD);
 }
 
-#endif /* REVOLUTION */
+static void set_loiter_command(ManualControlCommandData *cmd)
+{
+	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_PATHFOLLOWER);
+}
+
+#endif /* !defined(COPTERCONTROL) && !defined(GIMBAL) */
 
 /**
  * Convert channel from servo pulse duration (microseconds) to scaled -1/+1 range.
