@@ -202,7 +202,7 @@ class UavTalk():
 			# update the CRC
 			self.cs = self.__updateCRC(rxbyte)
 
-			self.timestamp = self.timestamp + rxbyte << (8*self.rxCount)
+			self.timestamp = self.timestamp + (rxbyte << (8*self.rxCount))
 			self.rxCount = self.rxCount + 1
 
 			if self.rxCount < 2:
