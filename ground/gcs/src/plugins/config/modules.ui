@@ -263,7 +263,7 @@
             <property name="objrelation" stdset="0">
              <stringlist>
               <string>objname:ModuleSettings</string>
-              <string>fieldname:ComUsbBridgeSpeed</string>
+              <string>fieldname:LightTelemetrySpeed</string>
              </stringlist>
             </property>
            </widget>
@@ -273,7 +273,7 @@
             <property name="objrelation" stdset="0">
              <stringlist>
               <string>objname:ModuleSettings</string>
-              <string>fieldname:ComUsbBridgeSpeed</string>
+              <string>fieldname:MavlinkSpeed</string>
              </stringlist>
             </property>
            </widget>
@@ -863,7 +863,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>387</width>
+            <width>290</width>
             <height>598</height>
            </rect>
           </property>
