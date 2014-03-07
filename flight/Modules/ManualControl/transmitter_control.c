@@ -894,11 +894,8 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 	altitudeHoldDesired.Pitch = cmd->Pitch * stabSettings.PitchMax;
 	altitudeHoldDesired.Yaw = cmd->Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW];
 	
-	uint8_t altitude_hold_expo, altitude_hold_maxrate;
 	float current_down;
 	PositionActualDownGet(&current_down);
-	AltitudeHoldSettingsMaxRateGet(&altitude_hold_maxrate);
-	AltitudeHoldSettingsExpoGet(&altitude_hold_expo);
 
 	if(flightModeChanged) {
 		// Initialize at the current location. Note that this object uses the up is positive
@@ -906,6 +903,10 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		altitudeHoldDesired.Altitude = -current_down;
 		altitudeHoldDesired.ClimbRate = 0;
 	} else {
+		uint8_t altitude_hold_expo, altitude_hold_maxrate;
+		AltitudeHoldSettingsMaxRateGet(&altitude_hold_maxrate);
+		AltitudeHoldSettingsExpoGet(&altitude_hold_expo);
+
 		float climb_rate = 0.0f;
 		if (cmd->Throttle > DEADBAND_HIGH) {
 			climb_rate = expo3((cmd->Throttle - DEADBAND_HIGH) / (1.0f - DEADBAND_HIGH), altitude_hold_expo) *
