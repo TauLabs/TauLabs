@@ -31,10 +31,8 @@
 #include <QStringList>
 #include <extensionsystem/pluginmanager.h>
 
-
 DebugPlugin::DebugPlugin()
 {
-    // Do nothing
 }
 
 DebugPlugin::~DebugPlugin()
@@ -54,10 +52,9 @@ bool DebugPlugin::initialize(const QStringList & args, QString *errMsg)
 
 void DebugPlugin::extensionsInitialized()
 {
-    // Do nothing
 }
 
 void DebugPlugin::shutdown()
 {
-    // Do nothing
+    qInstallMessageHandler(0);
 }

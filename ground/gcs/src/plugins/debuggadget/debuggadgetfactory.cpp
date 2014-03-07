@@ -29,6 +29,26 @@
 #include "debuggadget.h"
 #include <coreplugin/iuavgadget.h>
 
+void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    Q_UNUSED(context)
+    switch (type) {
+    case QtDebugMsg:
+        debugengine::getInstance()->writeDebug(msg);
+        break;
+    case QtWarningMsg:
+        debugengine::getInstance()->writeWarning(msg);
+        break;
+    case QtCriticalMsg:
+        debugengine::getInstance()->writeCritical(msg);
+        break;
+    case QtFatalMsg:
+        debugengine::getInstance()->writeFatal(msg);
+    default:
+        debugengine::getInstance()->writeDebug(msg);
+    }
+}
+
 DebugGadgetFactory::DebugGadgetFactory(QObject *parent) :
     IUAVGadgetFactory(QString("DebugGadget"),
                       tr("DebugGadget"),
@@ -40,6 +60,8 @@ DebugGadgetFactory::~DebugGadgetFactory()
 
 IUAVGadget *DebugGadgetFactory::createGadget(QWidget *parent)
 {
+    qInstallMessageHandler(customMessageHandler);
+
     DebugGadgetWidget *gadgetWidget = new DebugGadgetWidget(parent);
 
     return new DebugGadget(QString("DebugGadget"), gadgetWidget, parent);

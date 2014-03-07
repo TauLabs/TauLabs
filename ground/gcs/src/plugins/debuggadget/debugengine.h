@@ -3,19 +3,26 @@
 #include <QTextBrowser>
 #include <QPointer>
 #include <QMutex>
+#include <QObject>
 
-class debugengine {
-// Add all missing constructor etc... to have singleton
+
+class debugengine : public QObject {
+    Q_OBJECT
+    // Add all missing constructor etc... to have singleton
     debugengine();
-    ~debugengine();
 public:
     static debugengine *getInstance();
-    void setTextEdit(QTextBrowser *textEdit);
-    void writeMessage(const QString &message);
-    void setColor(const QColor &c);
-    QMutex *mut_lock;
-private:
-    QPointer<QTextBrowser> _textEdit;
+    void writeWarning(const QString &message);
+    void writeDebug(const QString &message);
+    void writeCritical(const QString &message);
+    void writeFatal(const QString &message);
+
+signals:
+    void warning(QString);
+    void debug(QString);
+    void critical(QString);
+    void fatal(QString);
+
 };
 
 #endif // DEBUGENGINE_H

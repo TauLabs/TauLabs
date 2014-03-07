@@ -2,43 +2,30 @@
 
 debugengine::debugengine()
 {
-    mut_lock = new QMutex(QMutex::Recursive);
 }
 
 debugengine *debugengine::getInstance()
 {
     static debugengine objectInstance;
-
     return &objectInstance;
 }
 
-debugengine::~debugengine()
+void debugengine::writeWarning(const QString &message)
 {
-    delete mut_lock;
-    mut_lock = NULL;
+    emit warning(message);
 }
 
-void debugengine::setTextEdit(QTextBrowser *textEdit)
+void debugengine::writeDebug(const QString &message)
 {
-    QMutexLocker lock(mut_lock);
-
-    _textEdit = textEdit;
+    emit debug(message);
 }
 
-void debugengine::writeMessage(const QString &message)
+void debugengine::writeCritical(const QString &message)
 {
-    QMutexLocker lock(mut_lock);
-
-    if (_textEdit) {
-        _textEdit->append(message);
-    }
+    emit critical(message);
 }
 
-void debugengine::setColor(const QColor &c)
+void debugengine::writeFatal(const QString &message)
 {
-    QMutexLocker lock(mut_lock);
-
-    if (_textEdit) {
-        _textEdit->setTextColor(c);
-    }
+    emit fatal(message);
 }
