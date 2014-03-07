@@ -37,13 +37,14 @@ class DebugGadgetWidget : public QLabel {
 public:
     DebugGadgetWidget(QWidget *parent = 0);
     ~DebugGadgetWidget();
-    static void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 private:
     Ui_Form *m_config;
 private slots:
     void saveLog();
-    void dbgMsgError(const QString & level, const QList<QVariant> & msgs);
-    void dbgMsg(const QString & level, const QList<QVariant> & msgs);
-};
+    void dbgMsgDebug(QString msg);
+    void dbgMsgWarning(QString msg);
+    void dbgMsgCritical(QString msg);
+    void dbgMsgFatal(QString msg);
 
+};
 #endif /* DEBUGGADGETWIDGET_H_ */

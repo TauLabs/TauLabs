@@ -39,48 +39,16 @@
 #include <QScrollBar>
 #include <QTime>
 
-QPointer<QTextBrowser> m_textedit;
-
-void DebugGadgetWidget::customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
-{
-    Q_UNUSED(context)
-    QString txt;
-    QColor color = Qt::black;
-
-    switch (type) {
-    case QtDebugMsg:
-        txt   = QString("Debug: %1").arg(msg);
-        color = Qt::black;
-        break;
-    case QtWarningMsg:
-        txt   = QString("Warning: %1").arg(msg);
-        color = Qt::red;
-        break;
-    case QtCriticalMsg:
-        txt   = QString("Critical: %1").arg(msg);
-        color = Qt::red;
-        break;
-    case QtFatalMsg:
-        txt   = QString("Fatal: %1").arg(msg);
-        abort();
-    }
-
-    debugengine::getInstance()->setTextEdit(m_textedit);
-    debugengine::getInstance()->setColor(color);
-    debugengine::getInstance()->writeMessage(txt);
-}
-
 DebugGadgetWidget::DebugGadgetWidget(QWidget *parent) : QLabel(parent)
 {
     m_config = new Ui_Form();
     m_config->setupUi(this);
+    debugengine *de = debugengine::getInstance();
 
-    // m_textedit = m_config->plainTextEdit;
-    // MyplainTextEdit=m_config->plainTextEdit;
-    // debugengine *de = new debugengine();
-    // qInstallMessageHandler(customMessageHandler);
-    // connect(de, SIGNAL(dbgMsg(QString, QList<QVariant>)), this, SLOT(dbgMsg(QString, QList<QVariant>)));
-    // connect(de, SIGNAL(dbgMsgError(QString, QList<QVariant>)), this, SLOT(dbgMsgError(QString, QList<QVariant>)));
+    connect(de, SIGNAL(debug(QString)), this, SLOT(dbgMsgDebug(QString)));
+    connect(de, SIGNAL(warning(QString)), this, SLOT(dbgMsgWarning(QString)));
+    connect(de, SIGNAL(critical(QString)), this, SLOT(dbgMsgCritical(QString)));
+    connect(de, SIGNAL(fatal(QString)), this, SLOT(dbgMsgFatal(QString)));
     connect(m_config->pushButton, SIGNAL(clicked()), this, SLOT(saveLog()));
 }
 
@@ -89,26 +57,46 @@ DebugGadgetWidget::~DebugGadgetWidget()
     // Do nothing
 }
 
-void DebugGadgetWidget::dbgMsg(const QString &level, const QList<QVariant> &msgs)
+void DebugGadgetWidget::dbgMsgDebug(QString msg)
+{
+    m_config->plainTextEdit->setTextColor(Qt::blue);
+
+    m_config->plainTextEdit->append(QString("%0[DEBUG]%1").arg(QTime::currentTime().toString()).arg(msg));
+
+    QScrollBar *sb = m_config->plainTextEdit->verticalScrollBar();
+    sb->setValue(sb->maximum());
+}
+
+void DebugGadgetWidget::dbgMsgWarning(QString msg)
 {
     m_config->plainTextEdit->setTextColor(Qt::red);
 
-    m_config->plainTextEdit->append(QString("%2[%0]%1").arg(level).arg(msgs[0].toString()).arg(QTime::currentTime().toString()));
+    m_config->plainTextEdit->append(QString("%0[WARNING]%1").arg(QTime::currentTime().toString()).arg(msg));
 
     QScrollBar *sb = m_config->plainTextEdit->verticalScrollBar();
     sb->setValue(sb->maximum());
 }
 
-void DebugGadgetWidget::dbgMsgError(const QString &level, const QList<QVariant> &msgs)
+void DebugGadgetWidget::dbgMsgCritical(QString msg)
 {
-    m_config->plainTextEdit->setTextColor(Qt::black);
+    m_config->plainTextEdit->setTextColor(Qt::red);
 
-
-    m_config->plainTextEdit->append(QString("%2[%0]%1").arg(level).arg(msgs[0].toString()).arg(QTime::currentTime().toString()));
+    m_config->plainTextEdit->append(QString("%0[CRITICAL]%1").arg(QTime::currentTime().toString()).arg(msg));
 
     QScrollBar *sb = m_config->plainTextEdit->verticalScrollBar();
     sb->setValue(sb->maximum());
 }
+
+void DebugGadgetWidget::dbgMsgFatal(QString msg)
+{
+    m_config->plainTextEdit->setTextColor(Qt::red);
+
+    m_config->plainTextEdit->append(QString("%0[FATAL]%1").arg(QTime::currentTime().toString()).arg(msg));
+
+    QScrollBar *sb = m_config->plainTextEdit->verticalScrollBar();
+    sb->setValue(sb->maximum());
+}
+
 void DebugGadgetWidget::saveLog()
 {
     QString fileName = QFileDialog::getSaveFileName(0, tr("Save log File As"), "");
