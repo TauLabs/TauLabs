@@ -22,7 +22,7 @@ ifdef OPENOCD_FTDI
 endif
 
 # Set up QT toolchain
-QT_SDK_DIR := $(TOOLS_DIR)/Qt5.2.0
+QT_SDK_DIR := $(TOOLS_DIR)/Qt5.2.1
 
 # Build openocd without FTDI (yes | no)
 OPENOCD_FTDI ?= yes
@@ -33,23 +33,23 @@ OPENOCD_FTDI ?= yes
 ifdef LINUX
   ifdef AMD64
     # Linux 64-bit
-    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.2/5.2.0/qt-linux-opensource-5.2.0-x86_64-offline.run
-    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.2.0/gcc_64/bin/qmake
+    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.2/6.2.1/qt-opensource-linux-x64-5.2.1.run
+    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.2.1/gcc_64/bin/qmake
   else
     # Linux 32-bit
-    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.2/5.2.0/qt-linux-opensource-5.2.0-x86-offline.run
-    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.2.0/gcc/bin/qmake
+    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.2/5.2.1/qt-opensource-linux-x86-5.2.1.run
+    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.2.1/gcc/bin/qmake
   endif
 endif
 
 ifdef MACOSX
-  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.2/5.2.0/qt-mac-opensource-5.2.0-clang-offline.dmg
-  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.2.0/clang_64/bin/qmake
+  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.2/5.2.1/qt-opensource-mac-x64-clang-5.2.1.dmg
+  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.2.1/clang_64/bin/qmake
 endif
 
 ifdef WINDOWS
-  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.2/5.2.0/qt-windows-opensource-5.2.0-mingw48_opengl-x86-offline.exe
-  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.2.0/mingw48_32/bin/qmake
+  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.2/5.2.1/qt-opensource-windows-x86-mingw48_opengl-5.2.1.exe
+  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.2.1/mingw48_32/bin/qmake
 endif
 
 qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
@@ -69,7 +69,7 @@ qt_sdk_install: qt_sdk_clean
 
 ifneq (,$(filter $(UNAME), Darwin))
 	$(V1) hdiutil attach -quiet -private -mountpoint /tmp/qt-installer "$(DL_DIR)/$(QT_SDK_FILE)" 
-	$(V1) /tmp/qt-installer/qt-mac-opensource-5.2.0-clang-offline.app/Contents/MacOS/qt-mac-opensource-5.2.0-clang-offline 
+	$(V1) /tmp/qt-installer/qt-opensource-mac-x64-clang-5.2.1.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.2.1
 	$(V1) hdiutil detach -quiet /tmp/qt-installer
 endif
  
@@ -80,7 +80,7 @@ ifneq (,$(filter $(UNAME), Linux))
 endif
 
 ifdef WINDOWS
-	$(V1) ./downloads/qt-windows-opensource-5.2.0-mingw48_opengl-x86-offline.exe
+	$(V1) ./downloads/qt-opensource-windows-x86-mingw48_opengl-5.2.1.exe
 endif
 
 .PHONY: qt_sdk_clean
