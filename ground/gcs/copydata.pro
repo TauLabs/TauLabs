@@ -1,10 +1,8 @@
 include(gcs.pri)
 
 TEMPLATE = subdirs
-
 # Copy Qt runtime libraries into the build directory (to run or package)
 equals(copydata, 1) {
-
     # Windows release only, no debug target DLLs ending with 'd'
     win32:CONFIG(release, debug|release) {
 
@@ -94,7 +92,22 @@ equals(copydata, 1) {
             SDL_DLL = SDL.dll
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$(QTMINGW)$$SDL_DLL\") $$targetPath(\"$$GCS_APP_PATH/$$SDL_DLL\") $$addNewline()
         }
+        data_copy.target = FORCE
+        QMAKE_EXTRA_TARGETS += data_copy
+    }
 
+    # copy OpenSSL DLLs
+    {
+        THIRDPARTY_PATH = $$GCS_SOURCE_TREE/../../tools
+        OPENSSL_DIR = $$THIRDPARTY_PATH/win32openssl
+        win32 {
+        OPENSSL_DLLS = \
+            ssleay32.dll \
+            libeay32.dll
+        }
+        for(dll, OPENSSL_DLLS) {
+            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$OPENSSL_DIR/$$dll\") $$targetPath(\"$$GCS_APP_PATH/$$dll\") $$addNewline()
+        }
         data_copy.target = FORCE
         QMAKE_EXTRA_TARGETS += data_copy
     }
