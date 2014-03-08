@@ -45,10 +45,10 @@ DebugGadgetWidget::DebugGadgetWidget(QWidget *parent) : QLabel(parent)
     m_config->setupUi(this);
     debugengine *de = debugengine::getInstance();
 
-    connect(de, SIGNAL(debug(QString)), this, SLOT(dbgMsgDebug(QString)));
-    connect(de, SIGNAL(warning(QString)), this, SLOT(dbgMsgWarning(QString)));
-    connect(de, SIGNAL(critical(QString)), this, SLOT(dbgMsgCritical(QString)));
-    connect(de, SIGNAL(fatal(QString)), this, SLOT(dbgMsgFatal(QString)));
+    connect(de, SIGNAL(debug(QString)), this, SLOT(dbgMsgDebug(QString)),Qt::QueuedConnection);
+    connect(de, SIGNAL(warning(QString)), this, SLOT(dbgMsgWarning(QString)),Qt::QueuedConnection);
+    connect(de, SIGNAL(critical(QString)), this, SLOT(dbgMsgCritical(QString)),Qt::QueuedConnection);
+    connect(de, SIGNAL(fatal(QString)), this, SLOT(dbgMsgFatal(QString)),Qt::QueuedConnection);
     connect(m_config->pushButton, SIGNAL(clicked()), this, SLOT(saveLog()));
 }
 
