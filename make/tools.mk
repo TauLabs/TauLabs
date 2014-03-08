@@ -33,7 +33,7 @@ OPENOCD_FTDI ?= yes
 ifdef LINUX
   ifdef AMD64
     # Linux 64-bit
-    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.2/6.2.1/qt-opensource-linux-x64-5.2.1.run
+    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.2/5.2.1/qt-opensource-linux-x64-5.2.1.run
     QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.2.1/gcc_64/bin/qmake
   else
     # Linux 32-bit
