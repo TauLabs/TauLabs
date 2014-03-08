@@ -524,4 +524,25 @@ else
   # not installed, hope it's in the path...
   ASTYLE ?= astyle
 endif	
-	
+
+.PHONY: openssl_install
+
+# OPENSSL download URL
+ifdef WINDOWS
+  openssl_install: OPENSSL_URL  := http://slproweb.com/download/Win32OpenSSL_Light-1_0_1f.exe
+  
+openssl_install: OPENSSL_FILE := $(notdir $(OPENSSL_URL))
+OPENSSL_DIR = $(TOOLS_DIR)/win32openssl
+# order-only prereq on directory existance:
+openssl_install : | $(DL_DIR) $(TOOLS_DIR)
+openssl_install: openssl_clean
+        # download the instalatopn file only if it's newer than what we already have
+	$(V1) wget -N -P "$(DL_DIR)" "$(OPENSSL_URL)"
+	$(V1) ./downloads/$(OPENSSL_FILE) /DIR=$(OPENSSL_DIR) /silent
+else
+	$(V1) echo "THIS IS A WINDOWS ONLY TARGET"
+endif
+
+.PHONY: openssl_clean
+openssl_clean:
+	$(V1) [ ! -d "$(OPENSSL_DIR)" ] || $(RM) -rf $(OPENSSL_DIR)
