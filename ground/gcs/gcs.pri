@@ -122,3 +122,7 @@ linux-g++* {
     QMAKE_LFLAGS += -Wl,--allow-shlib-undefined -Wl,--no-undefined
 }
 
+win32 {
+	# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=52991
+	QMAKE_CXXFLAGS += -mno-ms-bitfields
+}
