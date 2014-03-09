@@ -42,6 +42,10 @@
 #include <utils/stylehelper.h>
 #include <QMessageBox>
 
+#include "ui_input.h"
+#include "ui_inputchannelform.h"
+#include "inputchannelform.h"
+
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/generalsettings.h>
 
@@ -79,6 +83,8 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     {
         Q_ASSERT(index < ManualControlSettings::CHANNELGROUPS_NUMELEM);
         inputChannelForm * inpForm=new inputChannelForm(this,index==0);
+        inputChannelFormList.append(inpForm);
+
         m_config->channelSettings->layout()->addWidget(inpForm); //Add the row to the UI
         inpForm->setName(name);
         addUAVObjectToWidgetRelation("ManualControlSettings","ChannelGroups",inpForm->ui->channelGroup,index);
@@ -126,6 +132,10 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
 
     populateWidgets();
     refreshWidgetsValues();
+
+    // Connect the live view checkbox
+    connect(m_config->cb_liveView, SIGNAL(stateChanged(int)), this, SLOT(toggleLiveView(int)));
+
     // Connect the help button
     connect(m_config->inputHelp, SIGNAL(clicked()), this, SLOT(openHelp()));
 
@@ -1534,5 +1544,54 @@ void ConfigInputWidget::simpleCalibration(bool enable)
         manualSettingsObj->setData(manualSettingsData);
 
         disconnect(manualCommandObj, SIGNAL(objectUnpacked(UAVObject*)), this, SLOT(updateCalibration()));
+    }
+}
+
+
+/**
+ * @brief ConfigInputWidget::controlCommandUpdated Fires whenever the UAVO is updated
+ * @param obj
+ */
+void ConfigInputWidget::controlCommandUpdated(UAVObject *obj)
+{
+    Q_UNUSED(obj);
+    ManualControlCommand::DataFields manualControlCommandData = manualCommandObj->getData();
+
+    for (unsigned int i=0; i<ManualControlCommand::CHANNEL_NUMELEM; i++) {
+        inputChannelFormList.at(i)->setCommandValue(manualControlCommandData.Channel[i]);
+    }
+}
+
+
+/**
+ * @brief ConfigInputWidget::toggleLiveView Toggles the input live-view
+ * @param state
+ */
+void ConfigInputWidget::toggleLiveView(int state)
+{
+    UAVDataObject::Metadata mdata;
+
+    switch (state) {
+    case Qt::Checked:
+        connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(controlCommandUpdated(UAVObject*)));
+
+        // Store old update rate and replace with fast one.
+        mdata = manualCommandObj->getMetadata();
+        oldControlCommandUpdatePeriod = mdata.flightTelemetryUpdatePeriod;
+        mdata.flightTelemetryUpdatePeriod = 100;
+        manualCommandObj->setMetadata(mdata);
+        break;
+    case Qt::Unchecked:
+    case Qt::PartiallyChecked:
+        disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(controlCommandUpdated(UAVObject*)));
+        mdata = manualCommandObj->getMetadata();
+        mdata.flightTelemetryUpdatePeriod = oldControlCommandUpdatePeriod;
+        manualCommandObj->setMetadata(mdata);
+
+        // Set all channels to out of range. The sliders are strictly positive, to a negative number will not show
+        for (unsigned int i=0; i < ManualControlCommand::CHANNEL_NUMELEM; i++) {
+            inputChannelFormList.at(i)->setCommandValue(-32768);
+        }
+        break;
     }
 }

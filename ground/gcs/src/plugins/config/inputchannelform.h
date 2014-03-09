@@ -16,6 +16,8 @@ public:
     ~inputChannelForm();
     friend class ConfigInputWidget;
     void setName(QString &name);
+    void setCommandValue(int val);
+
 private slots:
     void minMaxUpdated();
     void groupUpdated();
@@ -24,6 +26,7 @@ private slots:
 
 private:
     Ui::inputChannelForm *ui;
+
 };
 
 #endif // INPUTCHANNELFORM_H

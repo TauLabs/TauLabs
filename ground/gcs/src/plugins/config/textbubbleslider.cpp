@@ -26,8 +26,9 @@
 */
 
 #include <QDebug>
+#include <QFrame>
 #include <QPainter>
-#include <QDebug>
+#include <QRect>
 #include <qmath.h>
 
 #include "textbubbleslider.h"
@@ -72,11 +73,16 @@ TextBubbleSlider::TextBubbleSlider(QSlider *copySlider, QWidget *parent) :
 void TextBubbleSlider::construct()
 {
     font = QFont("Arial", 13);
+    fontMetrics = new QFontMetrics(font);
+
+    ghostValue = -1;
+    neutralValue = 1500;
     slideHandleMargin = 2; // This is a dubious way to set the margin. In reality, it should be read from the style sheet.
 }
 
 TextBubbleSlider::~TextBubbleSlider()
 {
+    delete fontMetrics;
 }
 
 
@@ -118,9 +124,8 @@ void TextBubbleSlider::setMaxPixelWidth()
     }
 
     // Calculate maximum possible pixel width for string.
-    QFontMetrics fontMetrics(font);
-    maximumFontWidth = fontMetrics.width(QString("%1").arg(maximumWidthString));
-    maximumFontHeight = fontMetrics.height();
+    maximumFontWidth = fontMetrics->width(QString("%1").arg(maximumWidthString));
+    maximumFontHeight = fontMetrics->height();
 
     // Override stylesheet slider handle width
     slideHandleWidth = maximumFontWidth + 6;
@@ -158,38 +163,113 @@ void TextBubbleSlider::setMaximum(int max)
 }
 
 
+void TextBubbleSlider::setGhost(int ghostValue)
+{
+    // If changing to live-view mode, change the slider
+    if (this->ghostValue < 0 && ghostValue >= 0) {
+        // Save the neutral value
+        neutralValue = value();
+        setStyleSheet(QString("QSlider::handle:horizontal { width: 0px; margin: 0px 0;}"));
+    } else if (this->ghostValue >= 0 && ghostValue < 0) {
+        setValue(neutralValue);
+        setStyleSheet(QString("QSlider::handle:horizontal { width: %1px; margin: -5px 0;}").arg(slideHandleWidth));
+    }
+
+    this->ghostValue = ghostValue;
+    repaint();
+}
+
 /**
  * @brief TextBubbleSlider::paintEvent Reimplements QSlider::paintEvent.
  * @param bob
  */
 void TextBubbleSlider::paintEvent(QPaintEvent *paintEvent)
 {
-    // Pass paint event on to QSlider
-    QSlider::paintEvent(paintEvent);
-
-    /* Add numbers on top of handler */
-
-    // Calculate pixel position for text.
     int sliderWidth = width();
     int sliderHeight = height();
-    double valuePos;
 
+    //
+    if (ghostValue < 0)
+        neutralValue = value();
+
+    // Calculate pixel position for neutral text.
+    double valuePosition;
     if (!invertedAppearance()) {
-        valuePos = (slideHandleWidth - maximumFontWidth)/2 + slideHandleMargin + // First part centers text in handle...
-                (value()-minimum())/(double)(maximum()-minimum()) * (sliderWidth - (slideHandleWidth + slideHandleMargin) - 1); //... and second part moves text with handle
+        valuePosition = (slideHandleWidth - maximumFontWidth)/2 + slideHandleMargin + // First part horizontally centers text in handle...
+                (neutralValue-minimum())/(double)(maximum()-minimum()) * (sliderWidth - (slideHandleWidth + slideHandleMargin) - 1); //... and second part moves text with handle
     } else {
-        valuePos = (slideHandleWidth - maximumFontWidth)/2 + slideHandleMargin + // First part centers text in handle...
-                (maximum()-value())/(double)(maximum()-minimum()) * (sliderWidth - (slideHandleWidth + slideHandleMargin) - 1); //... and second part moves text with handle
+        valuePosition = (slideHandleWidth - maximumFontWidth)/2 + slideHandleMargin + // First part horizontally centers text in handle...
+                (maximum()-neutralValue)/(double)(maximum()-minimum()) * (sliderWidth - (slideHandleWidth + slideHandleMargin) - 1); //... and second part moves text with handle
+    }
+
+    // Compute text location. Centered horizontally in handle.
+    int textPositionX;
+    int textPositionY;
+    if (ghostValue < 0)
+        textPositionY = ceil((sliderHeight - maximumFontHeight)/2.0);
+    else
+        textPositionY = 1;
+
+    // Draw handle. If mouse is over handle, change the color and display
+    QString neutralString;
+    int slideHandleHeight= maximumFontHeight + 1;
+    if (ghostValue > 0){
+        QPoint p = this->mapFromGlobal(QCursor::pos());
+        QPainter painter(this);
+        if (p.x() > valuePosition - 3 && p.x() < valuePosition + slideHandleWidth-3 &&
+                p.y() > textPositionY && p.y() < textPositionY + slideHandleHeight) {
+            // Print neutral value
+            neutralString = QString("%1").arg(neutralValue);
+            painter.setBrush(QBrush(QColor(235,235,235)));
+            painter.drawRoundedRect(QRectF(valuePosition-6, textPositionY-1, slideHandleWidth+5, slideHandleHeight), 4, 4);
+         } else {
+            // Print live value
+            neutralString = QString("%1").arg(value());
+            painter.setBrush(QBrush(QColor(254, 173, 79)));
+            painter.drawRoundedRect(QRectF(valuePosition-6, textPositionY-1, slideHandleWidth+5, slideHandleHeight), 10, 10);
+        }
+    } else {
+        neutralString = QString("%1").arg(value());
+    }
+
+    int textWidth = fontMetrics->width(neutralString);
+    textPositionX = valuePosition; // + maximumFontHeight - textWidth;
+
+    if (ghostValue < 0) {
+        // Pass paint event on to QSlider
+        QSlider::paintEvent(paintEvent);
+    } else {
+
+        setValue(ghostValue);
+
+        // Pass paint event on to QSlider
+        QSlider::paintEvent(paintEvent);
+
+        // Draw pointing triangle
+        int triangleWidth = 8;
+        int triangleHeight = 8;
+        QPolygonF pointerTriangle;
+        pointerTriangle << QPointF(textPositionX - triangleWidth/2.0 + maximumFontWidth/2.0, textPositionY + maximumFontHeight) <<
+                           QPointF(textPositionX + triangleWidth/2.0 + maximumFontWidth/2.0, textPositionY + maximumFontHeight) <<
+                           QPointF(textPositionX + maximumFontWidth/2.0, textPositionY + maximumFontHeight + triangleHeight-1);
+
+        // Create painter and set pen and brush
+        QPainter painter(this);
+        painter.setPen(QPen(QColor(0,0,0)));
+        painter.setBrush(QBrush(QColor(0,0,0)));
+
+        // Color order depends on inverted appearance
+        painter.drawPolygon(pointerTriangle);
+
     }
 
     // Create painter and set font
     QPainter painter(this);
     painter.setFont(font);
 
-    // Draw neutral value text. Verically center it in the handle
-    QString neutralStringWidth = QString("%1").arg(value());
-    QFontMetrics fontMetrics(font);
-    int textWidth = fontMetrics.width(neutralStringWidth);
-    painter.drawText(QRectF(valuePos + maximumFontWidth - textWidth, ceil((sliderHeight - maximumFontHeight)/2.0), textWidth, maximumFontHeight),
-                     neutralStringWidth);
+    /* Paint numbers on top of handle */
+    painter.drawText(QRectF(textPositionX, textPositionY, maximumFontWidth, maximumFontHeight),
+                     neutralString);
+
+
 }

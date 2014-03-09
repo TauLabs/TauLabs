@@ -1,8 +1,10 @@
 #include "inputchannelform.h"
 #include "ui_inputchannelform.h"
 
-#include "manualcontrolsettings.h"
+#include "uavobjectutilmanager.h"
+
 #include "gcsreceiver.h"
+#include "manualcontrolsettings.h"
 
 inputChannelForm::inputChannelForm(QWidget *parent,bool showlegend) :
     ConfigTaskWidget(parent),
@@ -33,7 +35,7 @@ inputChannelForm::inputChannelForm(QWidget *parent,bool showlegend) :
     connect(ui->channelGroup,SIGNAL(currentIndexChanged(int)),this,SLOT(groupUpdated()));
 
     // This is awkward but since we want the UI to be a dropdown but the field is not an enum
-    // so it breaks the UAUVObject widget relation of the task gadget.  Running the data through
+    // so it breaks the UAUVObject widget relation of the task gadget. Running the data through
     // a spin box fixes this
     connect(ui->channelNumberDropdown,SIGNAL(currentIndexChanged(int)),this,SLOT(channelDropdownUpdated(int)));
     connect(ui->channelNumber,SIGNAL(valueChanged(int)),this,SLOT(channelNumberUpdated(int)));
@@ -151,4 +153,14 @@ void inputChannelForm::channelDropdownUpdated(int newval)
 void inputChannelForm::channelNumberUpdated(int newval)
 {
     ui->channelNumberDropdown->setCurrentIndex(newval);
+}
+
+
+/**
+ * @brief inputChannelForm::setCommandValue Sets the command value in the slider
+ * @param val The value to be written. When negative, this effectively disables the live view
+ */
+void inputChannelForm::setCommandValue(int val)
+{
+    ui->channelNeutral->setGhost(val);
 }
