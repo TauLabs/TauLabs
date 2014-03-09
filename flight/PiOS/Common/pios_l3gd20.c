@@ -169,10 +169,6 @@ static int32_t PIOS_L3GD20_Config(const struct pios_l3gd20_cfg *cfg)
 	                          PIOS_L3GD20_CTRL1_PD | PIOS_L3GD20_CTRL1_ZEN |
 	                          PIOS_L3GD20_CTRL1_YEN | PIOS_L3GD20_CTRL1_XEN) != 0);
 
-	// Set the sample rate
-	if(PIOS_L3GD20_SetSampleRate(PIOS_L3GD20_RATE_380HZ_100HZ) != 0)
-		return -1;
-
 	// Disable the high pass filters
 	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG2, 0) != 0);
 
@@ -216,10 +212,6 @@ int32_t PIOS_L3GD20_SetRange(enum pios_l3gd20_range range)
 		break;
 	}
 
-	// An initial read is needed to get it running
-	struct pios_l3gd20_data data;
-	PIOS_L3GD20_ReadGyros(&data);
-
 	return 0;
 }
 
@@ -233,7 +225,7 @@ int32_t PIOS_L3GD20_SetSampleRate(enum pios_l3gd20_rate rate)
 	if (PIOS_L3GD20_Validate(pios_l3gd20_dev) != 0)
 		return -1;
 
-	int32_t l3gd20_reg1 = PIOS_L3GD20_GetReg(PIOS_L3GD20_CTRL_REG1);
+	int32_t l3gd20_reg1 = PIOS_L3GD20_GetReg(PIOS_L3GD20_CTRL_REG1) & 0x0F;
 
 	if (l3gd20_reg1 == -1)
 		return -2;
