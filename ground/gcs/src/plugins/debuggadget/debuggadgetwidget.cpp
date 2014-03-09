@@ -47,7 +47,8 @@ DebugGadgetWidget::DebugGadgetWidget(QWidget *parent) : QLabel(parent)
     QxtLogger::getInstance()->addLoggerEngine("debugplugin", de);
     connect(de,SIGNAL(dbgMsg(QString,QList<QVariant>)),this,SLOT(dbgMsg(QString,QList<QVariant>)));
     connect(de,SIGNAL(dbgMsgError(QString,QList<QVariant>)),this,SLOT(dbgMsgError(QString,QList<QVariant>)));
-    connect(m_config->pushButton,SIGNAL(clicked()),this,SLOT(saveLog()));
+    connect(m_config->saveTofile,SIGNAL(clicked()),this,SLOT(saveLog()));
+    connect(m_config->clearLog,SIGNAL(clicked()),this,SLOT(clearLog()));
 }
 
 DebugGadgetWidget::~DebugGadgetWidget()
@@ -75,6 +76,7 @@ void DebugGadgetWidget::dbgMsgError(const QString &level, const QList<QVariant> 
     QScrollBar *sb = m_config->plainTextEdit->verticalScrollBar();
     sb->setValue(sb->maximum());
 }
+
 void DebugGadgetWidget::saveLog()
 {
     QString fileName = QFileDialog::getSaveFileName(0, tr("Save log File As"), "");
@@ -93,4 +95,25 @@ void DebugGadgetWidget::saveLog()
                               QMessageBox::Ok);
         return;
     }
+}
+
+void DebugGadgetWidget::clearLog()
+{
+    /*QString fileName = QFileDialog::getSaveFileName(0, tr("Save log File As"), "");
+    if (fileName.isEmpty()) {
+        return;
+    }
+
+    QFile file(fileName);
+    if (file.open(QIODevice::WriteOnly) &&
+            (file.write(m_config->plainTextEdit->toHtml().toAscii()) != -1)) {
+        file.close();
+    } else {
+        QMessageBox::critical(0,
+                              tr("Log Save"),
+                              tr("Unable to save log: ") + fileName,
+                              QMessageBox::Ok);
+        return;
+    }*/
+    m_config->plainTextEdit->clear();
 }

@@ -42,6 +42,7 @@ private:
     Ui_Form *m_config;
 private slots:
         void saveLog();
+        void clearLog();
         void dbgMsgError( const QString & level, const QList<QVariant> & msgs );
         void dbgMsg( const QString & level, const QList<QVariant> & msgs );
 };
