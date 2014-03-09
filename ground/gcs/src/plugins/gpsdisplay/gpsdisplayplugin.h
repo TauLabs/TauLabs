@@ -7,7 +7,7 @@
  * @{
  * @addtogroup GPSGadgetPlugin GPS Gadget Plugin
  * @{
- * @brief A gadget that displays GPS status and enables basic configuration 
+ * @brief A gadget that displays GPS status and enables basic configuration
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -32,16 +32,19 @@
 
 class GpsDisplayGadgetFactory;
 
-class GpsDisplayPlugin : public ExtensionSystem::IPlugin
-{
-public:
-        GpsDisplayPlugin();
-        ~GpsDisplayPlugin();
+class GpsDisplayPlugin : public ExtensionSystem::IPlugin {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.GpsDisplay")
 
-   void extensionsInitialized();
-   bool initialize(const QStringList & arguments, QString * errorString);
-   void shutdown();
+public:
+    GpsDisplayPlugin();
+    ~GpsDisplayPlugin();
+
+    void extensionsInitialized();
+    bool initialize(const QStringList & arguments, QString *errorString);
+    void shutdown();
 private:
-   GpsDisplayGadgetFactory *mf;
+    GpsDisplayGadgetFactory *mf;
 };
+
 #endif /* GPSDISPLAYPLUGIN_H_ */

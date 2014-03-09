@@ -27,8 +27,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "configtaskwidget.h"
-#include <QtGui/QWidget>
-#include <QtGui/QLineEdit>
+#include <QWidget>
+#include <QLineEdit>
 #include "uavsettingsimportexport/uavsettingsimportexportfactory.h"
 
 /**
@@ -492,7 +492,7 @@ void ConfigTaskWidget::forceShadowUpdates()
 void ConfigTaskWidget::widgetsContentsChanged()
 {
     emit widgetContentsChanged((QWidget*)sender());
-    double scale;
+    double scale = 0;
     objectToWidget * oTw= shadowsList.value((QWidget*)sender(),NULL);
     if(oTw)
     {

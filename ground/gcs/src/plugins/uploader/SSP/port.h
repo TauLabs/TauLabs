@@ -27,7 +27,8 @@
 #ifndef PORT_H
 #define PORT_H
 #include <qglobal.h>
-#include <qextserialport/src/qextserialport.h>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 #include <QTime>
 #include <QDebug>
 #include "common.h"
@@ -63,13 +64,13 @@ public:
     quint32		RxError;
     quint32		TxError;
     quint16		flags;
-    port(PortSettings settings,QString name);
+    port(QString name);
     ~port();
     portstatus status();
 private:
     portstatus mstatus;
     QTime timer;
-    QextSerialPort *sport;
+    QSerialPort *sport;
 };
 
 #endif // PORT_H

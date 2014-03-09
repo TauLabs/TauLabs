@@ -29,6 +29,8 @@
 #include "tlmapwidget.h"
 
 #include "homeitem.h"
+#include <QGraphicsSceneMouseEvent>
+
 namespace mapcontrol
 {
     HomeItem::HomeItem(MapGraphicItem* map, TLMapWidget* parent):

@@ -44,7 +44,7 @@ GLC_UniformShaderData::~GLC_UniformShaderData()
 //////////////////////////////////////////////////////////////////////
 void GLC_UniformShaderData::setLightValues(const GLC_Light& light)
 {
-    (void)light;
+
 }
 
 void GLC_UniformShaderData::setLightingState(bool enable)

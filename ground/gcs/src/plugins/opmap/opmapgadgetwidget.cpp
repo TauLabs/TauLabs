@@ -28,12 +28,12 @@
 
 #include "opmapgadgetwidget.h"
 #include "ui_opmap_widget.h"
-
-#include <QtGui/QApplication>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QClipboard>
-#include <QtGui/QMenu>
+#include <QInputDialog>
+#include <QApplication>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QClipboard>
+#include <QMenu>
 #include <QStringList>
 #include <QDir>
 #include <QFile>
@@ -365,7 +365,7 @@ void OPMapGadgetWidget::contextMenuEvent(QContextMenuEvent *event)
 
     // ****************
     // Dynamically create the popup menu
-
+    QMenu contextMenu;
     contextMenu.addAction(closeAct1);
     contextMenu.addSeparator();
     contextMenu.addAction(reloadAct);
@@ -1807,7 +1807,6 @@ void OPMapGadgetWidget::onOpenWayPointEditorAct_triggered()
     //create dialog
     pathPlannerDialog = new QDialog(this);
     pathPlannerDialog->setModal(true);
-    pathPlannerDialog->show();
 
     //create layout dialog
     QHBoxLayout *dialogLayout = new QHBoxLayout(pathPlannerDialog);
@@ -1815,6 +1814,8 @@ void OPMapGadgetWidget::onOpenWayPointEditorAct_triggered()
     //create elements of dialog
     QPointer<PathPlannerGadgetWidget> widget = new PathPlannerGadgetWidget(pathPlannerDialog);
     dialogLayout->addWidget(widget);
+    pathPlannerDialog->show();
+    pathPlannerDialog->resize(850,300);
 }
 
 void OPMapGadgetWidget::onAddWayPointAct_triggeredFromContextMenu()

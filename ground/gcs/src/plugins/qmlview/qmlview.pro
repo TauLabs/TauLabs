@@ -25,7 +25,8 @@ SOURCES += \
     qmlviewgadgetconfiguration.cpp \
     qmlviewgadgetoptionspage.cpp
 
-OTHER_FILES += QMLView.pluginspec
+OTHER_FILES += QMLView.pluginspec \
+    QMLView.json
 
 FORMS += qmlviewgadgetoptionspage.ui
 
