@@ -73,6 +73,7 @@ private slots:
     void removeTelemetryColumn();
     void changeVerticalHeader(int);
     void changeHorizontalHeader(int);
+    void customMenuRequested(QPoint pos);
 private:
     int stripMs(QVariant rate_ms);
 
