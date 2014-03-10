@@ -53,7 +53,6 @@ def main():
         src = normalize_path(src)
         fd  = open(src, "rb")
 
-        print args.githash
         if args.githash is not None:
             githash = args.githash
         else:
