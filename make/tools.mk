@@ -540,7 +540,8 @@ openssl_install: openssl_clean
 	$(V1) wget -N -P "$(DL_DIR)" "$(OPENSSL_URL)"
 	$(V1) ./downloads/$(OPENSSL_FILE) /DIR=$(OPENSSL_DIR) /silent
 else
-	$(V1) echo "THIS IS A WINDOWS ONLY TARGET"
+openssl_install:
+	$(V1) $(error THIS IS A WINDOWS ONLY TARGET)
 endif
 
 .PHONY: openssl_clean
