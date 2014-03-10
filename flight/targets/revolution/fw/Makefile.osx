@@ -326,7 +326,7 @@ LDFLAGS += -L$(OUTDIR)
 REMOVE  = rm -f
 
 $(OUTDIR)/sim_firmwareinfo.c: $(ROOT_DIR)/make/templates/firmwareinfotemplate_sim.c
-	$(V1) python $(ROOT_DIR)/make/scripts/version-info.py \
+	$(V1) $(PYTHON) $(ROOT_DIR)/make/scripts/version-info.py \
 		--path=$(ROOT_DIR) \
 		--template=$^ \
 		--outfile=$@ \

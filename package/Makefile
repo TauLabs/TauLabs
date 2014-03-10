@@ -13,7 +13,7 @@ ROOT_DIR := $(realpath $(WHEREAMI)/../)
 
 # Set up some macros
 BUILD_DIR    := $(ROOT_DIR)/build
-VERSION_CMD  := python $(ROOT_DIR)/make/scripts/version-info.py --path="$(ROOT_DIR)"
+VERSION_CMD  := $(PYTHON) $(ROOT_DIR)/make/scripts/version-info.py --path="$(ROOT_DIR)"
 # If there is a tag, use it for label instead of date-hash string
 PACKAGE_TAG  := $(shell $(VERSION_CMD) --format=\$${TAG})
 ifneq ($(PACKAGE_TAG),)
