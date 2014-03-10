@@ -1,4 +1,5 @@
 TEMPLATE = lib
+QT += widgets network
 TARGET = IPconnection
 include(../../taulabsgcsplugin.pri)
 include(ipconnection_dependencies.pri)
@@ -15,5 +16,6 @@ SOURCES += ipconnectionplugin.cpp \
 FORMS += ipconnectionoptionspage.ui
 RESOURCES += 
 DEFINES += IPconnection_LIBRARY
-OTHER_FILES += IPconnection.pluginspec
+OTHER_FILES += IPconnection.pluginspec \
+    IPconnection.json
 QT += network

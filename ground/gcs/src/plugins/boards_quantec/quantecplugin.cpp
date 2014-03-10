@@ -63,4 +63,3 @@ void QuantecPlugin::shutdown()
 {
 }
 
-Q_EXPORT_PLUGIN(QuantecPlugin)

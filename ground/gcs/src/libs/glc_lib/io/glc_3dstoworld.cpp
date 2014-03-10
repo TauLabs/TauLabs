@@ -284,7 +284,7 @@ GLC_3DRep GLC_3dsToWorld::create3DRep(Lib3dsMesh* p3dsMesh)
 	// The mesh normals
 	const int normalsNumber= p3dsMesh->faces * 3;
 
-	Lib3dsVector *normalL= new Lib3dsVector[normalsNumber];
+	Lib3dsVector *normalL= static_cast<Lib3dsVector*>(malloc(normalsNumber * sizeof(Lib3dsVector)));
 	lib3ds_mesh_calculate_normals(p3dsMesh, normalL);
 
 	// Position vector

@@ -1,4 +1,5 @@
 QT += xml
+QT+=widgets
 TEMPLATE = lib
 TARGET = PathPlanner
 
@@ -31,7 +32,8 @@ SOURCES += flightdatamodel.cpp
 SOURCES += modeluavoproxy.cpp
 SOURCES += algorithms/pathfillet.cpp
 
-OTHER_FILES += PathPlanner.pluginspec
+OTHER_FILES += PathPlanner.pluginspec \
+    PathPlanner.json
 
 FORMS += pathplanner.ui
 FORMS += waypoint_dialog.ui

@@ -112,7 +112,7 @@ help:
 	@echo "   Here is a summary of the available targets:"
 	@echo
 	@echo "   [Tool Installers]"
-	@echo "     qt_sdk_install       - Install the QT v4.7.3 tools"
+	@echo "     qt_sdk_install       - Install the Qt tools"
 	@echo "     arm_sdk_install      - Install the GNU ARM gcc toolchain"
 	@echo "     openocd_install      - Install the OpenOCD SWD/JTAG daemon"
 	@echo "        \$$OPENOCD_FTDI     - Set to no in order not to install legacy FTDI support for OpenOCD."
@@ -122,6 +122,7 @@ help:
 	@echo "     gui_install          - Install the make gui tool"
 	@echo "     gtest_install        - Install the google unit test suite"
 	@echo "     astyle_install       - Install the astyle code formatter"	
+	@echo "     openssl_install      - Install the openssl libraries on windows machines"	
 	@echo
 	@echo "   [Big Hammer]"
 	@echo "     all                  - Generate UAVObjects, build openpilot firmware and gcs"
@@ -238,6 +239,48 @@ $(BUILD_DIR):
 
 ##############################
 #
+# Set up paths to tools
+#
+##############################
+
+ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
+  QMAKE = $(QT_SDK_QMAKE_PATH)
+ifdef WINDOWS
+  # Windows needs to be told where to find Qt libraries
+  export PATH := $(QT_SDK_DIR)/5.2.1/mingw48_32/bin:$(PATH) 
+endif
+else
+  # not installed, hope it's in the path...
+  QMAKE = qmake
+endif
+
+ifeq ($(shell [ -d "$(ARM_SDK_DIR)" ] && echo "exists"), exists)
+  ARM_SDK_PREFIX := $(ARM_SDK_DIR)/bin/arm-none-eabi-
+else
+  # not installed, hope it's in the path...
+  ARM_SDK_PREFIX ?= arm-none-eabi-
+endif
+
+ifeq ($(shell [ -d "$(OPENOCD_DIR)" ] && echo "exists"), exists)
+  OPENOCD := $(OPENOCD_DIR)/bin/openocd
+else
+  # not installed, hope it's in the path...
+  OPENOCD ?= openocd
+endif
+
+ifeq ($(shell [ -d "$(ANDROID_SDK_DIR)" ] && echo "exists"), exists)
+  ANDROID     := $(ANDROID_SDK_DIR)/tools/android
+  ANDROID_DX  := $(ANDROID_SDK_DIR)/platform-tools/dx
+  ANDROID_ADB := $(ANDROID_SDK_DIR)/platform-tools/adb
+else
+  # not installed, hope it's in the path...
+  ANDROID     ?= android
+  ANDROID_DX  ?= dx
+  ANDROID_ADB ?= adb
+endif
+
+##############################
+#
 # GCS related components
 #
 ##############################
@@ -245,10 +288,13 @@ $(BUILD_DIR):
 .PHONY: all_ground
 all_ground: gcs
 
+ifndef WINDOWS
+# unfortunately the silent linking command is broken on windows
 ifeq ($(V), 1)
 GCS_SILENT := 
 else
 GCS_SILENT := silent
+endif
 endif
 
 .PHONY: gcs
@@ -259,17 +305,27 @@ gcs:  uavobjects_gcs
 	  $(MAKE) -w ; \
 	)
 
+# Workaround for qmake bug that prevents copying the application icon
+ifneq (,$(filter $(UNAME), Darwin))
+	$(V1) ( cd $(BUILD_DIR)/ground/gcs/src/app && \
+	  $(MAKE) ../../bin/Tau\ Labs\ GCS.app/Contents/Resources/taulabs.icns && \
+	  $(MAKE) ../../bin/Tau\ Labs\ GCS.app/Contents/Info.plist ; \
+	)
+endif
+
 .PHONY: gcs_clean
 gcs_clean:
 	$(V0) @echo " CLEAN      $@"
 	$(V1) [ ! -d "$(BUILD_DIR)/ground/gcs" ] || $(RM) -r "$(BUILD_DIR)/ground/gcs"
 
+ifndef WINDOWS
+# unfortunately the silent linking command is broken on windows
 ifeq ($(V), 1)
 UAVOGEN_SILENT := 
 else
 UAVOGEN_SILENT := silent
 endif
-
+endif
 .PHONY: uavobjgenerator
 uavobjgenerator:
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
@@ -815,7 +871,7 @@ ifeq ($(UNAME), Linux)
 SIM_BOARDS := sim_posix_revolution
 else ifeq ($(UNAME), Darwin)
 SIM_BOARDS := sim_osx_revolution
-else ifeq ($(UNAME), MINGW32_NT-6.1)   # Windows 7
+else ifdef WINDOWS
 SIM_BOARDS := 
 else # unknown OS
 SIM_BOARDS := 

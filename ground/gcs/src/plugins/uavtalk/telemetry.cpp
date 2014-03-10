@@ -28,7 +28,6 @@
  */
 
 #include "telemetry.h"
-#include "qxtlogger.h"
 #include "oplinksettings.h"
 #include "objectpersistence.h"
 #include <QTime>
@@ -416,7 +415,7 @@ void Telemetry::processObjectUpdates(UAVObject* obj, EventMask event, bool allIn
         {
             ++txErrors;
             obj->emitTransactionCompleted(false);
-            qxtLog->warning(tr("Telemetry: priority event queue is full, event lost (%1)").arg(obj->getName()));
+            qDebug() << tr("Telemetry: priority event queue is full, event lost (%1)").arg(obj->getName());
         }
     }
     else

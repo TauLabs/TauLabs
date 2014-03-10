@@ -63,5 +63,3 @@ void ScopePlugin::shutdown()
 {
     // Do nothing
 }
-Q_EXPORT_PLUGIN(ScopePlugin)
-

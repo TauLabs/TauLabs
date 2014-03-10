@@ -32,8 +32,8 @@
 #include "uavmetaobject.h"
 #include "uavobjectfield.h"
 #include "extensionsystem/pluginmanager.h"
-#include <QtGui/QColor>
-//#include <QtGui/QIcon>
+#include <QColor>
+//#include <QIcon>
 #include <QtCore/QTimer>
 #include <QtCore/QSignalMapper>
 #include <QtCore/QDebug>
@@ -224,7 +224,7 @@ void UAVObjectTreeModel::addSingleField(int index, UAVObjectField *field, TreeIt
     else
         data.append( QString("[%1]").arg((field->getElementNames())[index]) );
 
-    FieldTreeItem *item;
+    FieldTreeItem *item = NULL;
     UAVObjectField::FieldType type = field->getType();
     switch (type) {
     case UAVObjectField::BITFIELD:

@@ -33,6 +33,7 @@
 #include <QColor>
 #include <QList>
 #include <QFont>
+#include <uavobjectwidgetutils_global.h>
 
 class Edge;
 class MixerCurveWidget;
@@ -40,7 +41,7 @@ QT_BEGIN_NAMESPACE
 class QGraphicsSceneMouseEvent;
 QT_END_NAMESPACE
 
-class MixerNode : public QObject,public QGraphicsItem
+class UAVOBJECTWIDGETUTILS_EXPORT MixerNode : public QObject, public QGraphicsItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)

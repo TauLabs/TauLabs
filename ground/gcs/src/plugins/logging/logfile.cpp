@@ -61,7 +61,7 @@ bool LogFile::open(OpenMode mode) {
     }
 
     //Open file as either WriteOnly, or ReadOnly, depending on `mode` parameter
-    if(file.open(mode) == FALSE)
+    if(file.open(mode) == false)
     {
         qDebug() << "Unable to open " << file.fileName() << " for logging";
         return false;

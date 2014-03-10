@@ -39,8 +39,8 @@
 #include "scopes2d/scatterplotscopeconfig.h"
 #include "scopes3d/spectrogramscopeconfig.h"
 
-#include <QtGui/qpalette.h>
-#include <QtGui/QMessageBox>
+#include <qpalette.h>
+#include <QMessageBox>
 
 
 ScopeGadgetOptionsPage::ScopeGadgetOptionsPage(ScopeGadgetConfiguration *config, QObject *parent) :

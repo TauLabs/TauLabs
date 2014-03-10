@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = GpsDisplayGadget
-QT += svg
+QT += svg serialport
 include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(gpsdisplay_dependencies.pri)
@@ -29,7 +29,8 @@ SOURCES += gpsdisplaygadgetfactory.cpp
 SOURCES += gpsdisplaywidget.cpp
 SOURCES += gpsdisplaygadgetconfiguration.cpp
 SOURCES += gpsdisplaygadgetoptionspage.cpp
-OTHER_FILES += GpsDisplayGadget.pluginspec
+OTHER_FILES += GpsDisplayGadget.pluginspec \
+                GpsDisplayGadget.json
 FORMS += gpsdisplaygadgetoptionspage.ui
 FORMS += gpsdisplaywidget.ui
 RESOURCES += widgetresources.qrc

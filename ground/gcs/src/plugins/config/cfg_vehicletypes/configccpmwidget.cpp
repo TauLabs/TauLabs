@@ -30,10 +30,10 @@
 
 #include <QDebug>
 #include <QStringList>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include <QBrush>
 #include <math.h>
 #include <QMessageBox>
@@ -47,8 +47,8 @@ ConfigCcpmWidget::ConfigCcpmWidget(QWidget *parent) : VehicleConfig(parent)
     SwashLvlConfigurationInProgress=0;
     SwashLvlState=0;
     SwashLvlServoInterlock=0;
-    updatingFromHardware=FALSE;
-    updatingToHardware=FALSE;
+    updatingFromHardware=false;
+    updatingToHardware=false;
 
     m_ccpm = new Ui_ccpmWidget();
     m_ccpm->setupUi(this);
@@ -182,7 +182,6 @@ ConfigCcpmWidget::ConfigCcpmWidget(QWidget *parent) : VehicleConfig(parent)
     connect(m_ccpm->ccpmCollectivespinBox, SIGNAL(valueChanged(int)), this, SLOT(UpdateMixer()));
     connect(m_ccpm->ccpmType, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateType()));
     connect(m_ccpm->ccpmSingleServo, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateType()));
-    connect(m_ccpm->TabObject, SIGNAL(currentChanged ( QWidget * )), this, SLOT(UpdateType()));
 
     connect(m_ccpm->SwashLvlStartButton, SIGNAL(clicked()), this, SLOT(SwashLvlStartButtonPressed()));
     connect(m_ccpm->SwashLvlNextButton, SIGNAL(clicked()), this, SLOT(SwashLvlNextButtonPressed()));
@@ -718,9 +717,9 @@ SystemSettings::AirframeTypeOptions ConfigCcpmWidget::updateConfigObjects()
     bool useCCPM;
     bool useCyclic;
 
-    if (updatingFromHardware == TRUE) return airframeType;
+    if (updatingFromHardware == true) return airframeType;
 
-    updatingFromHardware = TRUE;
+    updatingFromHardware = true;
 
     //get the user options
     GUIConfigDataUnion config = GetConfigData();
@@ -771,7 +770,7 @@ SystemSettings::AirframeTypeOptions ConfigCcpmWidget::updateConfigObjects()
 
     SetConfigData(config);
 
-    updatingFromHardware = FALSE;
+    updatingFromHardware = false;
     return airframeType;
 }
 
@@ -865,7 +864,7 @@ void ConfigCcpmWidget::getMixer()
     if (SwashLvlConfigurationInProgress)return;
     if (updatingToHardware)return;
 
-    updatingFromHardware=TRUE;
+    updatingFromHardware=true;
 
     MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
     Q_ASSERT(mixerSettings);
@@ -893,7 +892,7 @@ void ConfigCcpmWidget::getMixer()
         m_ccpm->PitchCurve->ResetCurve();
     }
 
-    updatingFromHardware=FALSE;
+    updatingFromHardware=false;
 
     ccpmSwashplateUpdate();
 }
@@ -907,9 +906,9 @@ void ConfigCcpmWidget::setMixer()
     int i,j;
 
     if (SwashLvlConfigurationInProgress)return;
-    if (updatingToHardware == TRUE) return;
+    if (updatingToHardware == true) return;
 
-    updatingToHardware=TRUE;
+    updatingToHardware=true;
 
     MixerSettings * mixerSettings = MixerSettings::GetInstance(getObjectManager());
     Q_ASSERT(mixerSettings);
@@ -985,7 +984,7 @@ void ConfigCcpmWidget::setMixer()
     
     mixerSettings->setData(mixerSettingsData);
     mixerSettings->updated();
-    updatingToHardware=FALSE;
+    updatingToHardware=false;
 
 }
 
@@ -1419,7 +1418,7 @@ void ConfigCcpmWidget::setSwashplateLevel(int percent)
     if (percent>100)return;// -1;
     if (SwashLvlConfigurationInProgress!=1)return;// -1;
     int i;
-    double value;
+    double value = 0;
     double level = ((double)percent /50.00) - 1.00;
 
     SwashLvlServoInterlock=1;

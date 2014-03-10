@@ -26,7 +26,12 @@
  */
 #include "configgadgetoptionspage.h"
 
+#include <QDebug>
+#include <QStringList>
 #include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
 
 ConfigGadgetOptionsPage::ConfigGadgetOptionsPage(ConfigGadgetConfiguration *config, QObject *parent)
 {
