@@ -41,7 +41,7 @@ private:
     Ui_Form *m_config;
 private slots:
     void saveLog();
-    void dbgMsgDebug(QString msg);
+    void clearLog();
     void dbgMsgWarning(QString msg);
     void dbgMsgCritical(QString msg);
     void dbgMsgFatal(QString msg);

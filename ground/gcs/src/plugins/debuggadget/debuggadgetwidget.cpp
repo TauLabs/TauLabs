@@ -47,9 +47,8 @@ DebugGadgetWidget::DebugGadgetWidget(QWidget *parent) : QLabel(parent)
 
     connect(de, SIGNAL(debug(QString)), this, SLOT(dbgMsgDebug(QString)),Qt::QueuedConnection);
     connect(de, SIGNAL(warning(QString)), this, SLOT(dbgMsgWarning(QString)),Qt::QueuedConnection);
-    connect(de, SIGNAL(critical(QString)), this, SLOT(dbgMsgCritical(QString)),Qt::QueuedConnection);
-    connect(de, SIGNAL(fatal(QString)), this, SLOT(dbgMsgFatal(QString)),Qt::QueuedConnection);
-    connect(m_config->pushButton, SIGNAL(clicked()), this, SLOT(saveLog()));
+    connect(m_config->saveTofile,SIGNAL(clicked()),this,SLOT(saveLog()));
+    connect(m_config->clearLog,SIGNAL(clicked()),this,SLOT(clearLog()));
 }
 
 DebugGadgetWidget::~DebugGadgetWidget()
@@ -116,4 +115,9 @@ void DebugGadgetWidget::saveLog()
                               QMessageBox::Ok);
         return;
     }
+}
+
+void DebugGadgetWidget::clearLog()
+{
+    m_config->plainTextEdit->clear();
 }
