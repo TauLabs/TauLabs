@@ -117,8 +117,8 @@ extern uintptr_t pios_com_vcp_id;
 extern uintptr_t pios_com_mavlink_id;
 extern uintptr_t pios_com_hott_id;
 extern uintptr_t pios_com_frsky_sensor_hub_id;
-
 extern uintptr_t pios_com_lighttelemetry_id;
+
 #define PIOS_COM_GPS                    (pios_com_gps_id)
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 #define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
