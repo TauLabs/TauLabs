@@ -98,9 +98,9 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     connect(m_telemetryeditor->bnAddTelemetryColumn, SIGNAL(clicked()), this, SLOT(addTelemetryColumn()));
     connect(m_telemetryeditor->bnRemoveTelemetryColumn, SIGNAL(clicked()), this, SLOT(removeTelemetryColumn()));
     connect(schedulerModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(dataModel_itemChanged(QStandardItem *)));
-    connect(telemetryScheduleView->horizontalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeHorizontalHeader(int)));
-    connect(telemetryScheduleView->verticalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeVerticalHeader(int)));
-    connect(telemetryScheduleView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(customMenuRequested(QPoint)));
+    connect(telemetryScheduleView->horizontalHeader(), SIGNAL(sectionDoubleClicked(int)), this, SLOT(changeHorizontalHeader(int)));
+    connect(telemetryScheduleView->verticalHeader(), SIGNAL(sectionDoubleClicked(int)), this, SLOT(changeVerticalHeader(int)));
+    connect(telemetryScheduleView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customMenuRequested(QPoint)));
     telemetryScheduleView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     // Generate the list of UAVOs on left side
