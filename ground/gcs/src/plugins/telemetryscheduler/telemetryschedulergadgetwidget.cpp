@@ -608,17 +608,27 @@ void TelemetrySchedulerGadgetWidget::changeHorizontalHeader(int headerIndex)
 
 void TelemetrySchedulerGadgetWidget::customMenuRequested(QPoint pos)
 {
+    Q_UNUSED(pos)
     bool ok;
     QString text = QInputDialog::getText(this, tr("Mass value filling"),
                                          tr("Choose value to use"), QLineEdit::Normal,
                                          "", &ok);
-    if (ok && !text.isEmpty())
+    if(!ok)
+        return;
+    text.toInt(&ok);
+    if(!ok)
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Value must be numeric");
+        msgBox.exec();
+        return;
+    }
+    if (!text.isEmpty())
     {
         foreach (QModelIndex index , telemetryScheduleView->selectionModel()->selectedIndexes()) {
             telemetryScheduleView->model()->setData(index,text);
         }
     }
-
 }
 
 
