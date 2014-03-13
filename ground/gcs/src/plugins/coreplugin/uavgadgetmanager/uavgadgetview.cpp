@@ -225,6 +225,12 @@ void UAVGadgetView::updateToolBar()
 }
 
 /**
+ * @brief Function used to select the gadget to show on this view
+ * @param index index of the gadget to select according to the view's dropbox items
+ * @param forceLoadConfiguration should be true if it was a user selection during normal run
+ * since the gadget doesn't know which configuration the user wished to load. Should be false when creating
+ * a gadget which is part of a saved workspace.
+ */
 void UAVGadgetView::selectionActivated(int index, bool forceLoadConfiguration)
 {
     if (index < 0) // this could happen when called from SplitterOrView::restoreState()
@@ -242,6 +248,9 @@ void UAVGadgetView::selectionActivated(int index, bool forceLoadConfiguration)
 }
 
 /**
+ * @brief Slot called when the user changes the selected gadget on the view's dropbox
+ * @param index index of the gadget to select according to the view's dropbox items
+ */
 void UAVGadgetView::doReplaceGadget(int index)
 {
     selectionActivated(index, true);
