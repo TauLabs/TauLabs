@@ -76,15 +76,14 @@ public:
 
 public slots:
     void closeView();
-    void selectionActivated(int index);
-    void listSelectionActivated(int index);
+    void doReplaceGadget(int index);
 
 private slots:
     void currentGadgetChanged(IUAVGadget *gadget);
 
 private:
     void updateToolBar();
-
+    void selectionActivated(int index, bool forceLoadConfiguration);
     QPointer<UAVGadgetManager> m_uavGadgetManager;
     QPointer<IUAVGadget> m_uavGadget;
     QWidget *m_toolBar;
