@@ -39,6 +39,7 @@
 
 #include "acceldesired.h"
 #include "altitudeholdsettings.h"
+#include "altitudeholdstate.h"
 #include "modulesettings.h"
 #include "pathdesired.h"        // object that will be updated by the module
 #include "flightstatus.h"
@@ -104,6 +105,7 @@ int32_t VtolPathFollowerInitialize()
 
 	AccelDesiredInitialize();
 	AltitudeHoldSettingsInitialize();
+	AltitudeHoldStateInitialize();
 	PathDesiredInitialize();
 	PathStatusInitialize();
 	VelocityDesiredInitialize();

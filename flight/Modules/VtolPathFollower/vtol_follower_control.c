@@ -37,6 +37,7 @@
 
 #include "acceldesired.h"
 #include "altitudeholdsettings.h"
+#include "altitudeholdstate.h" 
 #include "attitudeactual.h"
 #include "pathdesired.h"        // object that will be updated by the module
 #include "positionactual.h"
@@ -347,11 +348,17 @@ int32_t vtol_follower_control_attitude(float dT)
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 
+
 	// Calculate the throttle setting or use pass through from transmitter
 	if (guidanceSettings.ThrottleControl == VTOLPATHFOLLOWERSETTINGS_THROTTLECONTROL_FALSE) {
 		ManualControlCommandThrottleGet(&stabDesired.Throttle);
 	} else {
 		float downCommand = accelDesired.Down;
+
+		AltitudeHoldStateData altitudeHoldState;
+		altitudeHoldState.VelocityDesired = downCommand;
+		altitudeHoldState.Integral = vtol_pids[DOWN_VELOCITY].iAccumulator / 1000.0f;
+		altitudeHoldState.AngleGain = 1.0f;
 
 		if (altitudeHoldSettings.AttitudeComp > 0) {
 			// Throttle desired is at this point the mount desired in the up direction, we can
@@ -376,7 +383,11 @@ int32_t vtol_follower_control_attitude(float dT)
 			// to go negative we are inverted and should shut off throttle
 			downCommand = (fraction > 0.1f) ? (downCommand / fraction) : 0.0f;
 
+			altitudeHoldState.AngleGain = 1.0f / fraction;
 		}
+
+		altitudeHoldState.Throttle = downCommand;
+		AltitudeHoldStateSet(&altitudeHoldState);
 
 		stabDesired.Throttle = bound_min_max(downCommand, 0, 1);
 	}
