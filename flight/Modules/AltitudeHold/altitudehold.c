@@ -187,8 +187,9 @@ static void altitudeHoldTask(void *parameters)
 
 			// Velocity desired is from the outer controller plus the set point
 			float velocity_desired = altitude_error * altitudeHoldSettings.PositionKp + altitudeHoldDesired.ClimbRate;
-			float throttle_desired = pid_apply(&velocity_pid, 
-				                velocity_desired - velocity_z,
+			float throttle_desired = pid_apply_antiwindup(&velocity_pid, 
+			                    velocity_desired - velocity_z,
+			                    0, 1.0f, // positive limits since this is throttle
 			                    dt_s);
 
 			if (altitudeHoldSettings.AttitudeComp == ALTITUDEHOLDSETTINGS_ATTITUDECOMP_TRUE) {
