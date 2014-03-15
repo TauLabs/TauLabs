@@ -67,7 +67,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 			return;
 		}
 
-		FullCorrection(mag_data, pos_data, vel_data, baro_data);
+        INSCorrection(mag_data, pos_data, vel_data, baro_data, FULL_SENSORS);
 	} else 	if(mlStringCompare(prhs[0], "INSMagCorrection")) {
 		if(nrhs != 2) {
 			mexErrMsgTxt("Incorrect number of inputs for correction\n");
@@ -79,7 +79,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 			return;
 		}
 
-		MagCorrection(mag_data);
+        INSCorrection(mag_data, pos_data, vel_data, baro_data, MAG_SENSORS);
     } else 	if(mlStringCompare(prhs[0], "INSBaroCorrection")) {
 		if(nrhs != 2) {
 			mexErrMsgTxt("Incorrect number of inputs for correction\n");
@@ -91,7 +91,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 			return;
 		}
 
-		BaroCorrection(baro_data);
+		INSCorrection(mag_data, pos_data, vel_data, baro_data, BARO_SENSOR);
 	} else 	if(mlStringCompare(prhs[0], "INSMagVelBaroCorrection")) {
 
 		if(nrhs != 4) {
@@ -106,7 +106,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 			return;
 		}
 
-		MagVelBaroCorrection(mag_data, vel_data, baro_data);
+        INSCorrection(mag_data, pos_data, vel_data, baro_data, MAG_SENSORS | BARO_SENSOR);
 	} else 	if(mlStringCompare(prhs[0], "INSGpsCorrection")) {
 
 		if(nrhs != 3) {
@@ -120,7 +120,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 			return;
 		}
 
-		GpsCorrection(pos_data, vel_data);
+        INSCorrection(mag_data, pos_data, vel_data, baro_data, HORIZ_POS_SENSORS | HORIZ_VEL_SENSORS);
 	} else 	if(mlStringCompare(prhs[0], "INSVelBaroCorrection")) {
 
 		if(nrhs != 3) {
@@ -134,7 +134,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 			return;
 		}
 
-		VelBaroCorrection(vel_data, baro_data);
+		INSCorrection(mag_data, pos_data, vel_data, baro_data, BARO_SENSOR | HORIZ_VEL_SENSORS);
 	} else if (mlStringCompare(prhs[0], "INSSetPosVelVar")) {
 		float pos_var;
         float vel_var;
@@ -143,7 +143,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 			mexErrMsgTxt("Error with input parameters\n");
 			return;
 		}
-		INSSetPosVelVar(pos_var, vel_var);
+		INSSetPosVelVar(pos_var, vel_var, 10);
 	} else if (mlStringCompare(prhs[0], "INSSetGyroBias")) {
 		float gyro_bias[3];
 		if((nrhs != 2) || !mlGetFloatArray(prhs[1], gyro_bias, 3)) {
