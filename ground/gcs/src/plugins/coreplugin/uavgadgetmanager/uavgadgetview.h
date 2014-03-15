@@ -66,7 +66,7 @@ class UAVGadgetView : public QWidget
 public:
     UAVGadgetView(UAVGadgetManager *uavGadgetManager, IUAVGadget *uavGadget = 0, QWidget *parent = 0);
     virtual ~UAVGadgetView();
-
+    void selectionActivated(int index, bool forceLoadConfiguration);
     void removeGadget();
     IUAVGadget *gadget() const;
     void setGadget(IUAVGadget *uavGadget);
@@ -76,14 +76,13 @@ public:
 
 public slots:
     void closeView();
-    void listSelectionActivated(int index);
+    void doReplaceGadget(int index);
 
 private slots:
     void currentGadgetChanged(IUAVGadget *gadget);
 
 private:
     void updateToolBar();
-
     QPointer<UAVGadgetManager> m_uavGadgetManager;
     QPointer<IUAVGadget> m_uavGadget;
     QWidget *m_toolBar;
