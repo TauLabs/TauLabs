@@ -211,10 +211,27 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 		double * data_out;
 		int i;
 
-		plhs[0] = mxCreateDoubleMatrix(1,13,0);
+        float pos[3], vel[3], q[4], gyro_bias[3], accel_bias[3];        
+        INSGetState(pos, vel, q, gyro_bias, accel_bias);
+
+        plhs[0] = mxCreateDoubleMatrix(1,16,0);
 		data_out = mxGetData(plhs[0]);
-		for(i = 0; i < NUMX; i++)
-			data_out[i] = X[i];
+        data_out[0] = pos[0];
+        data_out[1] = pos[1];
+        data_out[2] = pos[2];
+        data_out[3] = vel[0];
+        data_out[4] = vel[1];
+        data_out[5] = vel[2];
+        data_out[6] = q[0];
+        data_out[7] = q[1];
+        data_out[8] = q[2];
+        data_out[9] = q[3];
+        data_out[10] = gyro_bias[0];
+        data_out[11] = gyro_bias[1];
+        data_out[12] = gyro_bias[2];
+        data_out[13] = accel_bias[0];
+        data_out[14] = accel_bias[1];
+        data_out[15] = accel_bias[2];
 	}
 
 	if(nlhs > 1) {
@@ -222,7 +239,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 		double * data_copy = mxCalloc(NUMX*NUMX, sizeof(double));
 		int i, j, k;
 
-		plhs[1] = mxCreateDoubleMatrix(13,13,0);
+		plhs[1] = mxCreateDoubleMatrix(NUMX,NUMX,0);
 		for(i = 0; i < NUMX; i++)
 			for(j = 0; j < NUMX; j++)
 			{
