@@ -186,6 +186,13 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 			return;
 		}
 		INSSetMagVar(mag_var);
+	} else if (mlStringCompare(prhs[0], "INSSetBaroVar")) {
+		float baro_var;
+		if((nrhs != 2) || !mlGetFloatArray(prhs[1], &baro_var, 1)) {
+			mexErrMsgTxt("Error with input parameters\n");
+			return;
+		}
+		INSSetBaroVar(baro_var);
 	} else if (mlStringCompare(prhs[0], "INSSetState")) {
         int i;
 		float new_state[NUMX];
