@@ -32,10 +32,6 @@
 #include "openpilot.h"
 #include "pios_struct_helper.h"
 #include "pios_heap.h"		/* PIOS_malloc_no_dma */
-#if defined(PIOS_INCLUDE_SESSION_MANAGEMENT)
-#include "sessionmanaging.h"
-static void session_managing_updated(UAVObjEvent * ev);
-#endif /* PIOS_INCLUDE_SESSION_MANAGEMENT */
 
 extern uintptr_t pios_uavo_settings_fs_id;
 
@@ -179,7 +175,7 @@ static const UAVObjMetadata defMetadata = {
 };
 
 static UAVObjStats stats;
-
+static new_uavo_instance_cb_t newUavObjInstanceCB;
 /**
  * Initialize the object manager
  * \return 0 Success
@@ -196,10 +192,6 @@ int32_t UAVObjInitialize()
 	mutex = xSemaphoreCreateRecursiveMutex();
 	if (mutex == NULL)
 		return -1;
-#if defined(PIOS_INCLUDE_SESSION_MANAGEMENT)
-	SessionManagingInitialize();
-	SessionManagingConnectCallback(session_managing_updated);
-#endif
 	// Done
 	return 0;
 }
@@ -499,8 +491,7 @@ uint16_t UAVObjGetNumInstances(UAVObjHandle obj_handle)
  * \param[in] obj The object handle
  * \return The instance ID or 0 if an error
  */
-uint16_t UAVObjCreateInstance(UAVObjHandle obj_handle,
-			UAVObjInitializeCallback initCb)
+uint16_t UAVObjCreateInstance(UAVObjHandle obj_handle, UAVObjInitializeCallback initCb)
 {
 	PIOS_Assert(obj_handle);
 	bool created = false;
@@ -516,11 +507,10 @@ uint16_t UAVObjCreateInstance(UAVObjHandle obj_handle,
 
 	// Create new instance
 	instId = UAVObjGetNumInstances(obj_handle);
-	instEntry = createInstance( (struct UAVOData *)obj_handle, instId);
+	instEntry = createInstance((struct UAVOData *) obj_handle, instId);
 	if (instEntry == NULL) {
 		goto unlock_exit;
-	}
-	else
+	} else
 		created = true;
 
 	// Initialize instance data
@@ -528,17 +518,11 @@ uint16_t UAVObjCreateInstance(UAVObjHandle obj_handle,
 		initCb(obj_handle, instId);
 	}
 
-unlock_exit:
+	unlock_exit:
 	xSemaphoreGiveRecursive(mutex);
-	if(created){
-#if defined(PIOS_INCLUDE_SESSION_MANAGEMENT)
-		SessionManagingData sessionManaging;
-		SessionManagingGet(&sessionManaging);
-		sessionManaging.ObjectID = ((struct UAVOData *)obj_handle)->id;
-		sessionManaging.ObjectInstances = UAVObjGetNumInstances(obj_handle);
-		sessionManaging.SessionID = sessionManaging.SessionID + 1;
-		SessionManagingSet(&sessionManaging);
-#endif /* PIOS_INCLUDE_SESSION_MANAGEMENT */
+	if (created) {
+		if (newUavObjInstanceCB)
+			newUavObjInstanceCB(((struct UAVOData *) obj_handle)->id, UAVObjGetNumInstances(obj_handle));
 	}
 	return instId;
 }
@@ -1921,27 +1905,10 @@ uint32_t UAVObjIDByIndex(uint8_t index)
 	return 0;
 }
 
-#if defined(PIOS_INCLUDE_SESSION_MANAGEMENT)
-static void session_managing_updated(UAVObjEvent * ev)
+void registerNewUavObjInstanceCB(new_uavo_instance_cb_t callback)
 {
-	SessionManagingData sessionManaging;
-	SessionManagingGet(&sessionManaging);
-	if(ev->event == EV_UNPACKED){
-	if(sessionManaging.SessionID == 0){
-		sessionManaging.ObjectID = 0;
-		sessionManaging.ObjectInstances = 0;
-		sessionManaging.NumberOfObjects = UAVObjCount();
-		sessionManaging.ObjectOfInterestIndex = 0;
-	}
-	else{
-		uint8_t index = sessionManaging.ObjectOfInterestIndex;
-		sessionManaging.ObjectID = UAVObjIDByIndex(index);
-		sessionManaging.ObjectInstances = UAVObjGetNumInstances(UAVObjGetByID(sessionManaging.ObjectID));
-	}
-	SessionManagingSet(&sessionManaging);
-	}
+	newUavObjInstanceCB = callback;
 }
-#endif /* PIOS_INCLUDE_SESSION_MANAGEMENT */
 /**
  * @}
  * @}
