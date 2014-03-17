@@ -254,6 +254,10 @@ void UAVObjectBrowserWidget::setViewOptions(bool categorized, bool scientific, b
     m_viewoptions->cbHideNotPresent->setChecked(hideNotPresent);
 }
 
+/**
+ * @brief Initializes the model and makes the necessary SIGNAL/SLOT connections
+ *
+ */
 void UAVObjectBrowserWidget::initialize()
 {
     m_model->initializeModel(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked());
@@ -270,15 +274,18 @@ void UAVObjectBrowserWidget::initialize()
     connect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
 
     showMetaData(m_viewoptions->cbMetaData->isChecked());
-    handleNotPresentOnHardwareHiding();
+    refreshHiddenObjects();
     connect(m_viewoptions->cbScientific, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
     connect(m_viewoptions->cbHideNotPresent,SIGNAL(toggled(bool)),this,SLOT(showNotPresent(bool)));
     connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(showMetaData(bool)));
-    connect(m_model,SIGNAL(presentOnHardwareChanged()),this, SLOT(presentOnHardwareChangedSlot()));
+    connect(m_model,SIGNAL(presentOnHardwareChanged()),this, SLOT(doRefreshHiddenObjects()));
 }
 
-void UAVObjectBrowserWidget::handleNotPresentOnHardwareHiding()
+/**
+ * @brief Refreshes the hidden object display
+ */
+void UAVObjectBrowserWidget::refreshHiddenObjects()
 {
     QList<QModelIndex> indexList = m_model->getDataObjectIndexes();
     foreach(QModelIndex index , indexList)
@@ -296,12 +303,20 @@ void UAVObjectBrowserWidget::handleNotPresentOnHardwareHiding()
  */
 void UAVObjectBrowserWidget::showMetaData(bool show)
 {
-    emit viewOptionsChanged(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked(),m_viewoptions->cbMetaData->isChecked(),m_viewoptions->cbHideNotPresent->isChecked());
+    refreshViewOtpions();
     QList<QModelIndex> metaIndexes = m_model->getMetaDataIndexes();
     foreach(QModelIndex index , metaIndexes)
     {
         treeView->setRowHidden(index.row(), index.parent(), !show);
     }
+}
+
+/**
+ * @brief fires the viewOptionsChanged SIGNAL with the current values.
+ */
+void UAVObjectBrowserWidget::refreshViewOtpions()
+{
+    emit viewOptionsChanged(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked(),m_viewoptions->cbMetaData->isChecked(),m_viewoptions->cbHideNotPresent->isChecked());
 }
 
 /**
@@ -311,13 +326,13 @@ void UAVObjectBrowserWidget::showMetaData(bool show)
 void UAVObjectBrowserWidget::showNotPresent(bool show)
 {
     Q_UNUSED(show);
-    emit viewOptionsChanged(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked(),m_viewoptions->cbMetaData->isChecked(),m_viewoptions->cbHideNotPresent->isChecked());
-    handleNotPresentOnHardwareHiding();
+    refreshViewOtpions();
+    refreshHiddenObjects();
 }
 
-void UAVObjectBrowserWidget::presentOnHardwareChangedSlot()
+void UAVObjectBrowserWidget::doRefreshHiddenObjects()
 {
-    handleNotPresentOnHardwareHiding();
+    refreshHiddenObjects();
 }
 
 /**
@@ -523,7 +538,7 @@ void UAVObjectBrowserWidget::viewOptionsChangedSlot()
     emit viewOptionsChanged(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked(),m_viewoptions->cbMetaData->isChecked(),m_viewoptions->cbHideNotPresent);
     m_model->initializeModel(m_viewoptions->cbCategorized->isChecked(), m_viewoptions->cbScientific->isChecked());
     showMetaData(m_viewoptions->cbMetaData->isChecked());
-    handleNotPresentOnHardwareHiding();
+    refreshHiddenObjects();
 }
 
 
