@@ -229,8 +229,8 @@ static void send_LTM_Aframe()
 	AttitudeActualData adata;
 	AttitudeActualGet(&adata);
 	int16_t lt_pitch   = (int16_t)(roundf(adata.Pitch));	//-180/180°
-	int16_t lt_roll    = (int16_t)(roundf(adata.Roll));		//-180/180°
-	int16_t lt_heading = (int16_t)(roundf(adata.Yaw));      //-180/180°
+	int16_t lt_roll	   = (int16_t)(roundf(adata.Roll));		//-180/180°
+	int16_t lt_heading = (int16_t)(roundf(adata.Yaw));		//-180/180°
 	//pack A frame	
 	uint8_t LTBuff[LTM_AFRAME_SIZE];
 	
@@ -282,7 +282,10 @@ static void send_LTM_Sframe()
 	FlightStatusData fdata;
 	FlightStatusGet(&fdata);
 	lt_arm = fdata.Armed;									  //Armed status
-
+	if (lt_arm == 1)		//arming , we don't use this one
+		lt_arm = 0;		
+	else if (lt_arm == 2)  // armed
+		lt_arm = 1;
 	if (fdata.ControlSource == FLIGHTSTATUS_CONTROLSOURCE_FAILSAFE)
 		lt_failsafe = 1;
 	else
