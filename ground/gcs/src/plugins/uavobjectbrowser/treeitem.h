@@ -133,11 +133,13 @@ public:
 
     inline bool changed() { return m_changed; }
     inline bool updatedOnly() { return m_updated; }
-    inline virtual bool getIsPresentOnHardware() const {return isPresentOnHardware;}
+    inline virtual bool getIsPresentOnHardware() const { return isPresentOnHardware; }
     virtual void setIsPresentOnHardware(bool value) {
         foreach (TreeItem* item, treeChildren()) {
             item->setIsPresentOnHardware(value);
-        }isPresentOnHardware = value;}
+        }
+        isPresentOnHardware = value;
+    }
     inline void setChanged(bool changed) { m_changed = changed; }
     void setUpdatedOnly(bool updated);
     void setUpdatedOnlyParent();
@@ -282,8 +284,8 @@ public:
         if(dobj)
         {
             ObjectTreeItem::setObject(obj);
-            connect(dobj, SIGNAL(presentOnHardwareChanged(UAVDataObject*)), this, SLOT(presentOnHardwareChangedSlot(UAVDataObject*)));
-            presentOnHardwareChangedSlot(dobj);
+            connect(dobj, SIGNAL(presentOnHardwareChanged(UAVDataObject*)), this, SLOT(doRefreshHiddenObjects(UAVDataObject*)));
+            doRefreshHiddenObjects(dobj);
         }
         else
         {
@@ -300,11 +302,16 @@ public:
         foreach (TreeItem* item, treeChildren()) {
             if(!dynamic_cast<DataObjectTreeItem*>(item))
                 item->setIsPresentOnHardware(value);
-        }isPresentOnHardware = value;}
+        }
+        isPresentOnHardware = value;
+    }
 protected slots:
-    virtual void presentOnHardwareChangedSlot(UAVDataObject *dobj) {foreach (TreeItem *item, treeChildren()) {
+    virtual void doRefreshHiddenObjects(UAVDataObject *dobj) {
+        foreach (TreeItem *item, treeChildren()) {
             item->setIsPresentOnHardware(dobj->getIsPresentOnHardware());
-        }isPresentOnHardware = dobj->getIsPresentOnHardware();}
+        }
+        isPresentOnHardware = dobj->getIsPresentOnHardware();
+    }
 };
 
 class InstanceTreeItem : public DataObjectTreeItem
@@ -318,7 +325,7 @@ public:
     virtual void apply() { TreeItem::apply(); }
     virtual void update() { TreeItem::update(); }
 protected slots:
-    virtual void presentOnHardwareChangedSlot(UAVDataObject *dobj) {
+    virtual void doRefreshHiddenObjects(UAVDataObject *dobj) {
         foreach (TreeItem *item, treeChildren()) {
             item->setIsPresentOnHardware(dobj->getIsPresentOnHardware());
         }
