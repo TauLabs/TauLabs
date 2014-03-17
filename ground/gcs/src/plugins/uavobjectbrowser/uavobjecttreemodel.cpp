@@ -74,6 +74,12 @@ UAVObjectTreeModel::~UAVObjectTreeModel()
     delete m_rootItem;
 }
 
+/**
+ * @brief sets the data model for the uavo browser according to some options
+ * @param objManager pointer to the object manager
+ * @param categorize set to true to show a object grouped by category (set on xml definition ex:sensors)
+ * @param useScientificFloatNotation set to true if the model is going to use scientific notation for floats
+ */
 void UAVObjectTreeModel::setupModelData(UAVObjectManager *objManager, bool categorize, bool useScientificFloatNotation)
 {
     QMutexLocker locker(&mutex);
@@ -254,7 +260,7 @@ void UAVObjectTreeModel::addInstance(UAVObject *obj, TreeItem *parent)
     UAVDataObject * dobj = dynamic_cast<UAVDataObject *>(obj);
     if(dobj)
     {
-        connect(dobj,SIGNAL(presentOnHardwareChanged(UAVDataObject*)),this,SLOT(presentOnHardwareChangedCB(UAVDataObject*)),Qt::UniqueConnection);
+        connect(dobj, SIGNAL(presentOnHardwareChanged(UAVDataObject*)), this, SLOT(presentOnHardwareChangedCB(UAVDataObject*)), Qt::UniqueConnection);
     }
 }
 
