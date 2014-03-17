@@ -32,6 +32,7 @@
 #include "flighttelemetrystats.h"
 #include "gcstelemetrystats.h"
 #include "modulesettings.h"
+#include "sessionmanaging.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE   TELEM_QUEUE_SIZE
@@ -77,6 +78,8 @@ static void updateTelemetryStats();
 static void gcsTelemetryStatsUpdated();
 static void updateSettings();
 static uintptr_t getComPort();
+static void session_managing_updated(UAVObjEvent * ev);
+static void update_object_instances(uint32_t obj_id, uint32_t inst_id);
 
 /**
  * Initialise the telemetry module
@@ -137,6 +140,11 @@ int32_t TelemetryInitialize(void)
 	UAVObjEvent ev;
 	memset(&ev, 0, sizeof(UAVObjEvent));
 	EventPeriodicQueueCreate(&ev, priorityQueue, STATS_UPDATE_PERIOD_MS);
+
+	SessionManagingInitialize();
+	SessionManagingConnectCallback(session_managing_updated);
+
+	registerNewUavObjInstanceCB(update_object_instances);
 
 	return 0;
 }
@@ -584,6 +592,34 @@ static uintptr_t getComPort() {
 			return 0;
 }
 
+static void session_managing_updated(UAVObjEvent * ev)
+{
+	SessionManagingData sessionManaging;
+	SessionManagingGet(&sessionManaging);
+	if (ev->event == EV_UNPACKED) {
+		if (sessionManaging.SessionID == 0) {
+			sessionManaging.ObjectID = 0;
+			sessionManaging.ObjectInstances = 0;
+			sessionManaging.NumberOfObjects = UAVObjCount();
+			sessionManaging.ObjectOfInterestIndex = 0;
+		} else {
+			uint8_t index = sessionManaging.ObjectOfInterestIndex;
+			sessionManaging.ObjectID = UAVObjIDByIndex(index);
+			sessionManaging.ObjectInstances = UAVObjGetNumInstances(UAVObjGetByID(sessionManaging.ObjectID));
+		}
+		SessionManagingSet(&sessionManaging);
+	}
+}
+
+static void update_object_instances(uint32_t obj_id, uint32_t inst_id)
+{
+	SessionManagingData sessionManaging;
+	SessionManagingGet(&sessionManaging);
+	sessionManaging.ObjectID = obj_id;
+	sessionManaging.ObjectInstances = inst_id;
+	sessionManaging.SessionID = sessionManaging.SessionID + 1;
+	SessionManagingSet(&sessionManaging);
+}
 /**
   * @}
   * @}
