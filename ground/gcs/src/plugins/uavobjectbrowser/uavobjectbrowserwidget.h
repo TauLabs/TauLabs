@@ -85,11 +85,11 @@ public:
     void setOnlyHighlightChangedValues(bool highlight) { m_onlyHighlightChangedValues = highlight; m_model->setOnlyHighlightChangedValues(highlight); }
     void setViewOptions(bool categorized, bool scientific, bool metadata, bool hideNotPresent);
     void initialize();
-    void handleNotPresentOnHardwareHiding();
+    void refreshHiddenObjects();
 public slots:
     void showMetaData(bool show);
     void showNotPresent(bool show);
-    void presentOnHardwareChangedSlot();
+    void doRefreshHiddenObjects();
 private slots:
     void sendUpdate();
     void requestUpdate();
@@ -129,6 +129,7 @@ private:
     QMap<QString, unsigned int> expandedUavoItems;
 
     unsigned int updatePeriod;
+    void refreshViewOtpions();
 };
 
 #endif /* UAVOBJECTBROWSERWIDGET_H_ */
