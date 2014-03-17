@@ -40,7 +40,10 @@ class UavTalk():
 		"""
 
 		if self.state == UavTalk.STATE_COMPLETE and self.obj is not None:
-			return ('{0:08x}'.format(self.objId), self.rxBuffer, timestamp)
+			if self.type == UavTalk.TYPE_OBJ_TS:
+				return ('{0:08x}'.format(self.objId), self.rxBuffer, self.timestamp)
+			else:
+				return ('{0:08x}'.format(self.objId), self.rxBuffer, timestamp)
 
 	def processByte(self, rxbyte):
 		"""
