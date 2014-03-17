@@ -52,13 +52,13 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
     QMutexLocker locker(mutex);
     // Check if this object type is already in the list
     quint32 objID = obj->getObjID();
-    if(objects.contains(objID))//Known object ID
+    if (objects.contains(objID))//Known object ID
     {
-        if(objects.value(objID).contains(obj->getInstID()))//Instance already present
+        if (objects.value(objID).contains(obj->getInstID()))//Instance already present
             return false;
-        if(obj->isSingleInstance())
+        if (obj->isSingleInstance())
             return false;
-        if(obj->getInstID() >= MAX_INSTANCES)
+        if (obj->getInstID() >= MAX_INSTANCES)
             return false;
         UAVDataObject* refObj = dynamic_cast<UAVDataObject*>(objects.value(objID).first());
         if (refObj == NULL)
@@ -66,7 +66,7 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
             return false;
         }
         UAVMetaObject* mobj = refObj->getMetaObject();
-        if(objects.value(objID).last()->getInstID() < obj->getInstID())//Space between last existent instance and new one, lets fill the gaps
+        if (objects.value(objID).last()->getInstID() < obj->getInstID())//Space between last existent instance and new one, lets fill the gaps
         {
             for (quint32 instidx = objects.value(objID).last()->getInstID() + 1 ; instidx < obj->getInstID(); ++instidx)
             {
@@ -79,7 +79,7 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
                 emit newInstance(cobj);
             }
         }
-        else if(obj->getInstID() == 0)
+        else if (obj->getInstID() == 0)
             obj->initialize(objects.value(objID).last()->getObjID() + 1, mobj);
         else
         {
@@ -109,7 +109,9 @@ bool UAVObjectManager::registerObject(UAVDataObject* obj)
  }
 
 /**
- * Unegister an object with the manager.
+ * @brief unregisters an object instance and all instances bigger than the one passed as argument from the manager
+ * @param obj pointer to the object to unregister
+ * @return false if object is single instance
  */
 bool UAVObjectManager::unRegisterObject(UAVDataObject* obj)
 {
