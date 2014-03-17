@@ -77,7 +77,7 @@ void TelemetryManager::stop()
 void TelemetryManager::onStop()
 {
     telemetryMon->disconnect(this);
-    sessions = telemetryMon->getSessions();
+    sessions = telemetryMon->savedSessions();
     delete telemetryMon;
     delete telemetry;
     delete utalk;
