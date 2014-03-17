@@ -176,7 +176,7 @@ void ConfigTaskWidget::addUAVObjectToWidgetRelation(QString object, QString fiel
         UAVDataObject *dobj = dynamic_cast<UAVDataObject *>(obj);
         if(dobj)
         {
-            connect(dobj, SIGNAL(presentOnHardwareChanged(UAVDataObject*)),this, SLOT(presentOnHardwareChangedSlot(UAVDataObject*)));
+            connect(dobj, SIGNAL(presentOnHardwareChanged(UAVDataObject*)),this, SLOT(doRefreshHiddenObjects(UAVDataObject*)));
             if(widget)
                 widget->setEnabled(dobj->getIsPresentOnHardware());
         }
@@ -709,7 +709,7 @@ bool ConfigTaskWidget::addShadowWidget(QString object, QString field, QWidget *w
             UAVDataObject *dobj = dynamic_cast<UAVDataObject *>(oTw->object);
             if(dobj)
             {
-                connect(dobj, SIGNAL(presentOnHardwareChanged(UAVDataObject*)),this, SLOT(presentOnHardwareChangedSlot(UAVDataObject*)));
+                connect(dobj, SIGNAL(presentOnHardwareChanged(UAVDataObject*)),this, SLOT(doRefreshHiddenObjects(UAVDataObject*)));
                 if(widget)
                     widget->setEnabled(dobj->getIsPresentOnHardware());
             }
@@ -967,7 +967,7 @@ void ConfigTaskWidget::reloadButtonClicked()
     }
 }
 
-void ConfigTaskWidget::presentOnHardwareChangedSlot(UAVDataObject * obj)
+void ConfigTaskWidget::doRefreshHiddenObjects(UAVDataObject * obj)
 {
     foreach(objectToWidget * ow, shadowsList.values())
     {
