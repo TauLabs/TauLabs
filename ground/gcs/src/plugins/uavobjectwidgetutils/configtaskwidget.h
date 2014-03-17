@@ -172,7 +172,7 @@ private slots:
     void objectUpdated(UAVObject*);
     void defaultButtonClicked();
     void reloadButtonClicked();
-    void presentOnHardwareChangedSlot(UAVDataObject*);
+    void doRefreshHiddenObjects(UAVDataObject*);
 private:
     int currentBoard;
     bool isConnected;
