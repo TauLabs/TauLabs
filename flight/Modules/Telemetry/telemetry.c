@@ -144,6 +144,7 @@ int32_t TelemetryInitialize(void)
 	SessionManagingInitialize();
 	SessionManagingConnectCallback(session_managing_updated);
 
+	//register the new uavo instance callback function in the uavobjectmanager
 	registerNewUavObjInstanceCB(update_object_instances);
 
 	return 0;
@@ -592,6 +593,9 @@ static uintptr_t getComPort() {
 			return 0;
 }
 
+/**
+ * SessionManaging object updated callback
+ */
 static void session_managing_updated(UAVObjEvent * ev)
 {
 	SessionManagingData sessionManaging;
@@ -611,6 +615,12 @@ static void session_managing_updated(UAVObjEvent * ev)
 	}
 }
 
+/**
+ * New UAVO object instance callback
+ * This is called from the uavobjectmanager
+ * \param[in] obj_id The id of the object which had a new instance created
+ * \param[in] inst_id the instance ID that was created
+ */
 static void update_object_instances(uint32_t obj_id, uint32_t inst_id)
 {
 	SessionManagingData sessionManaging;
