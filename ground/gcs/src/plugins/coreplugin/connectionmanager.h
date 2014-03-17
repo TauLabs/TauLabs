@@ -37,8 +37,9 @@
 #include <QtCore/QVector>
 #include <QtCore/QIODevice>
 #include <QtCore/QLinkedList>
-#include <QtGui/QPushButton>
-#include <QtGui/QComboBox>
+#include <QPushButton>
+#include <QComboBox>
+#include <QPointer>
 
 #include "core_global.h"
 #include <QTimer>
@@ -68,7 +69,7 @@ public:
     DevListItem() : connection(NULL) { }
 
     QString getConName() {
-        if (connection == NULL)
+        if (connection == NULL || device.isNull())
             return "";
         return connection->shortName() + ": " + device->getDisplayName();
     }
@@ -78,7 +79,7 @@ public:
     }
 
     IConnection *connection;
-    IDevice *device;
+    QPointer<IDevice> device;
 };
 
 

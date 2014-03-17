@@ -389,8 +389,9 @@ void ConnectionManager::updateConnectionList(IConnection *connection)
             }
 
             // We have to delete the IDevice in that DevListItem before getting rid
-            // of the iter itself.
-            delete(iter->device);
+            // of the iter itself
+            if(!iter->device.isNull())
+                iter->device->deleteLater();
 
             iter = m_devList.erase(iter);
         } else
