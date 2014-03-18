@@ -164,6 +164,9 @@ def main():
             u = obj.instance_from_bytes(data, timestamp)
             uavo_list.append(u)
 
+        # We're done with this (potentially very large) variable, delete it.
+        del uavo_parsed
+
         # Build a new module that will make up the global namespace for the
         # interactive shell.  This allows us to restrict what the ipython shell sees.
         import imp
