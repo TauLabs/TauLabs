@@ -45,7 +45,7 @@
 //IAP object is very important, retry if not able to get it the first time
 #define IAP_OBJECT_RETRIES                  3
 
-//#define TELEMETRYMONITOR_DEBUG
+#define TELEMETRYMONITOR_DEBUG
 #ifdef TELEMETRYMONITOR_DEBUG
   #define TELEMETRYMONITOR_QXTLOG_DEBUG(...) qDebug()<<__VA_ARGS__
 #else  // TELEMETRYMONITOR_DEBUG
@@ -233,13 +233,16 @@ void TelemetryMonitor::retrieveNextObject()
         if(isManaged)
         {
             TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 connectionStatus set to CON_CONNECTED_MANAGED( %1 )").arg(Q_FUNC_INFO).arg(connectionStatus));
-            connectionStatus = CON_CONNECTED_MANAGED;
+            connectionStatus = CON_CONNECTED_MANAGED;            
         }
         else
         {
             TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 connectionStatus set to CON_CONNECTED_MANAGED( %1 )").arg(Q_FUNC_INFO).arg(connectionStatus));
             connectionStatus = CON_CONNECTED_UNMANAGED;
         }
+        //restart periodic updates on the FC
+        sessionObj->setObjectOfInterestIndex(0xFF);
+        sessionObj->updated();
         emit connected();
         sessionRetrieveTimeout->stop();
         sessionInitialRetrieveTimeout->stop();
