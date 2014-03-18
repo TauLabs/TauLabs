@@ -627,8 +627,10 @@ static void session_managing_updated(UAVObjEvent * ev)
 			pausePeriodicUpdatesTime = TICKS2MS(xTaskGetTickCount());
 		} else if(sessionManaging.ObjectOfInterestIndex == 0xFF) {
 			pausePeriodicUpdates = false;
+		} else if(sessionManaging.ObjectOfInterestIndex == 0xFE) {
+			pausePeriodicUpdates = true;
+			pausePeriodicUpdatesTime = TICKS2MS(xTaskGetTickCount());
 		} else {
-
 			uint8_t index = sessionManaging.ObjectOfInterestIndex;
 			sessionManaging.ObjectID = UAVObjIDByIndex(index);
 			sessionManaging.ObjectInstances = UAVObjGetNumInstances(UAVObjGetByID(sessionManaging.ObjectID));
