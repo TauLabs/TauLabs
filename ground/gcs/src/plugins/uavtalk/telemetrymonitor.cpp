@@ -338,6 +338,8 @@ void TelemetryMonitor::sessionObjUnpackedCB(UAVObject *obj)
     case CON_INITIALIZING:
         if(sessions.contains(sessionObj->getSessionID()) && (sessions.value(sessionObj->getSessionID()).count() == sessionObj->getNumberOfObjects()))
         {
+            sessionObj->setObjectOfInterestIndex(0xFE);
+            sessionObj->updated();
             sessionID = sessionObj->getSessionID();
             numberOfObjects = sessionObj->getNumberOfObjects();
             TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 status:%1 session already known startRetrievingObjects").arg(Q_FUNC_INFO).arg(connectionStatus));
