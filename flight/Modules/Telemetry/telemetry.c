@@ -44,7 +44,7 @@
 #define MAX_RETRIES 2
 #define STATS_UPDATE_PERIOD_MS 4000
 #define CONNECTION_TIMEOUT_MS 8000
-
+#define PAUSE_PERIODIC_UPDATE_TIMEOUT 6000
 // Private types
 
 // Private variables
@@ -65,7 +65,8 @@ static uint32_t txErrors;
 static uint32_t txRetries;
 static uint32_t timeOfLastObjectUpdate;
 static UAVTalkConnection uavTalkCon;
-
+static bool pausePeriodicUpdates;
+static uint32_t pausePeriodicUpdatesTime;
 // Private functions
 static void telemetryTxTask(void *parameters);
 static void telemetryRxTask(void *parameters);
@@ -80,6 +81,7 @@ static void updateSettings();
 static uintptr_t getComPort();
 static void session_managing_updated(UAVObjEvent * ev);
 static void update_object_instances(uint32_t obj_id, uint32_t inst_id);
+static void check_pause_periodic_updates_timeout();
 
 /**
  * Initialise the telemetry module
@@ -283,8 +285,15 @@ static void processObjEvent(UAVObjEvent * ev)
 		success = -1;
 		if (ev->event == EV_UPDATED || ev->event == EV_UPDATED_MANUAL || ((ev->event == EV_UPDATED_PERIODIC) && (updateMode != UPDATEMODE_THROTTLED))) {
 			// Send update to GCS (with retries)
+			if(pausePeriodicUpdates) {
+				check_pause_periodic_updates_timeout();
+			}
 			while (retries < MAX_RETRIES && success == -1) {
-				success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
+				if((ev->obj !=FlightTelemetryStatsHandle()) && (ev->event == EV_UPDATED_PERIODIC) && pausePeriodicUpdates) {
+					success = 0;
+				} else {
+					success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
+				}
 				++retries;
 			}
 			// Update stats
@@ -304,13 +313,21 @@ static void processObjEvent(UAVObjEvent * ev)
 				++txErrors;
 			}
 		} else if (ev->event == EV_UPDATED_PERIODIC && updateMode == UPDATEMODE_THROTTLED) {
+
 			// Get the event mask
 			int32_t eventMask = getEventMask(ev->obj, priorityQueue);
 
 			if (eventMask & EV_UPDATED_THROTTLED_DIRTY) { // If EV_UPDATED_THROTTLED_DIRTY flag is set then send the data like normal.
 				// Send update to GCS (with retries)
+				if(pausePeriodicUpdates) {
+					check_pause_periodic_updates_timeout();
+				}
 				while (retries < MAX_RETRIES && success == -1) {
-					success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
+					if(pausePeriodicUpdates) {
+						success = 0;
+					} else {
+						success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
+					}
 					++retries;
 				}
 				// Update stats
@@ -606,7 +623,12 @@ static void session_managing_updated(UAVObjEvent * ev)
 			sessionManaging.ObjectInstances = 0;
 			sessionManaging.NumberOfObjects = UAVObjCount();
 			sessionManaging.ObjectOfInterestIndex = 0;
+			pausePeriodicUpdates = true;
+			pausePeriodicUpdatesTime = TICKS2MS(xTaskGetTickCount());
+		} else if(sessionManaging.ObjectOfInterestIndex == 0xFF) {
+			pausePeriodicUpdates = false;
 		} else {
+
 			uint8_t index = sessionManaging.ObjectOfInterestIndex;
 			sessionManaging.ObjectID = UAVObjIDByIndex(index);
 			sessionManaging.ObjectInstances = UAVObjGetNumInstances(UAVObjGetByID(sessionManaging.ObjectID));
@@ -629,6 +651,21 @@ static void update_object_instances(uint32_t obj_id, uint32_t inst_id)
 	sessionManaging.ObjectInstances = inst_id;
 	sessionManaging.SessionID = sessionManaging.SessionID + 1;
 	SessionManagingSet(&sessionManaging);
+}
+
+/**
+ * Checks the periodic updates pause timeout
+ * This is called from the uavobjectmanager
+ * \param[in] obj_id The id of the object which had a new instance created
+ * \param[in] inst_id the instance ID that was created
+ */
+static void check_pause_periodic_updates_timeout()
+{
+	uint32_t timeNow;
+	timeNow = TICKS2MS(xTaskGetTickCount());
+	if ((timeNow - pausePeriodicUpdatesTime) > PAUSE_PERIODIC_UPDATE_TIMEOUT) {
+		pausePeriodicUpdates = false;
+	}
 }
 /**
   * @}
