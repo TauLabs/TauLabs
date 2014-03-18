@@ -41,9 +41,9 @@ class UavTalk():
 
 		if self.state == UavTalk.STATE_COMPLETE and self.obj is not None:
 			if self.type == UavTalk.TYPE_OBJ_TS:
-				return self.obj.instance_from_bytes(self.rxBuffer, timestamp=self.timestamp)
+				return ('{0:08x}'.format(self.objId), self.rxBuffer, self.timestamp)
 			else:
-				return self.obj.instance_from_bytes(self.rxBuffer, timestamp=timestamp)
+				return ('{0:08x}'.format(self.objId), self.rxBuffer, timestamp)
 
 	def processByte(self, rxbyte):
 		"""
