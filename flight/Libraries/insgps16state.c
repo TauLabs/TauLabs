@@ -107,6 +107,7 @@ void INSGPSInit()		//pretty much just a place holder for now
 	P[6][6] = P[7][7] = P[8][8] = P[9][9] = 1e-5f;	// initial quaternion variance
 	P[10][10] = P[11][11] = P[12][12] = 1e-9f;	// initial gyro bias variance (rad/s)^2
 	P[13][13] = P[14][14] = P[15][15] = 1e-9f;	// initial accel bias variance (deg/s)^2
+	P[15][15] = 1e-5f;
 
 	X[0] = X[1] = X[2] = X[3] = X[4] = X[5] = 0.0f;	// initial pos and vel (m)
 	X[6] = 1.0f;
