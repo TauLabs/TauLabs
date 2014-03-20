@@ -180,7 +180,7 @@ QIODevice *SerialConnection::openDevice(IDevice *deviceName)
         if (port.portName() == deviceName->getName()) {
             //we need to handle port settings here...
 
-            serialHandle = new QSerialPort(port, this);
+            serialHandle = new QSerialPort(port);
             if (serialHandle->open(QIODevice::ReadWrite)) {
                  if (serialHandle->setBaudRate(m_config->speed().toInt())
 	                    && serialHandle->setDataBits(QSerialPort::Data8)
