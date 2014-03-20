@@ -45,6 +45,9 @@ static const int READ_SIZE = 64;
 static const int WRITE_TIMEOUT = 1000;
 static const int WRITE_SIZE = 64;
 
+static const int WRITE_RETRIES = 3;
+
+
 
 
 // *********************************************************************************
@@ -221,6 +224,7 @@ RawHIDWriteThread::~RawHIDWriteThread()
 
 void RawHIDWriteThread::run()
 {
+    int retry = 0;
     while(m_running)
     {
         char buffer[WRITE_SIZE] = {0};
@@ -267,9 +271,17 @@ void RawHIDWriteThread::run()
         }
         else if(ret < 0) // < 0 => error
         {
-            //TODO! make proper error handling, this only quick hack for unplug freeze
-            m_running=false;
-            qDebug() << "Error writing to device";
+            ++retry;
+            if(retry > WRITE_RETRIES)
+            {
+                retry = 0;
+                m_running=false;//TODO! make proper error handling, this only quick hack for unplug freeze
+                qDebug() << "Error writing to device";
+            }
+            else
+            {
+                this->msleep(100);
+            }
         }
         else
         {
