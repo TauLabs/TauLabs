@@ -37,7 +37,7 @@
 //Delay between initial session object fetching retries (number of times defined above)
 #define SESSION_INITIAL_RETRIEVE_TIMEOUT    2000
 //Timeout for the all session negotiation, the system will go to failsafe after it
-#define SESSION_RETRIEVE_TIMEOUT            5000
+#define SESSION_RETRIEVE_TIMEOUT            20000
 //Number of retries for the session object fetching during negotiation
 #define SESSION_OBJ_RETRIEVE_RETRIES        3
 //Timeout for the object fetching fase, the system will stop fetching objects and emit connected after this
