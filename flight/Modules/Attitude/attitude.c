@@ -1047,10 +1047,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		INSSetAccelVar(insSettings.accel_var);
 		INSSetGyroVar(insSettings.gyro_var);
 		INSSetBaroVar(insSettings.baro_var);
-
-		// Set initial variances, selected by trial and error
-		float Pdiag[16]={25.0f,25.0f,25.0f,5.0f,5.0f,5.0f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-5f,1e-4f,1e-4f,1e-4f};
-		INSResetP(Pdiag);
+		INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL], insSettings.gps_var[INSSETTINGS_GPS_VAR_VERTPOS]);
 
 		// Initialize the gyro bias from the settings
 		float gyro_bias[3] = {gyrosBias.x * DEG2RAD, gyrosBias.y * DEG2RAD, gyrosBias.z * DEG2RAD};
@@ -1072,9 +1069,6 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			baro_offset = -baroData.Altitude;
 			pos[2] = -(baroData.Altitude + baro_offset);
 
-			// Hard coded fake variances for indoor mode
-			INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL], insSettings.gps_var[INSSETTINGS_GPS_VAR_VERTPOS]);
-
 			if (homeLocation.Set == HOMELOCATION_SET_TRUE &&
 			    (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]))
 			    // Use the configured mag, if one is available
@@ -1089,8 +1083,6 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		} else {
 			float NED[3];
 
-			// Use the UAVO for the position variance	
-			INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL], insSettings.gps_var[INSSETTINGS_GPS_VAR_VERTPOS]);
 			INSSetMagNorth(homeLocation.Be);
 
 			// Initialize the gyro bias from the settings
