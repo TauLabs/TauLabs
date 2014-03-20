@@ -9,16 +9,10 @@ bool mlStringCompare(const mxArray * mlVal, char * cStr);
 bool mlGetFloatArray(const mxArray * mlVal, float * dest, int numel);
 
 // constants/macros/typdefs
-#define NUMX 13			// number of states, X is the state vector
-#define NUMW 9			// number of plant noise inputs, w is disturbance noise vector
+#define NUMX 16			// number of states, X is the state vector
 #define NUMV 10			// number of measurements, v is the measurement noise vector
-#define NUMU 6			// number of deterministic inputs, U is the input vector
 
-extern float F[NUMX][NUMX], G[NUMX][NUMW], H[NUMV][NUMX];	// linearized system matrices
-extern float Be[3];			// local magnetic unit vector in NED frame
-extern float P[NUMX][NUMX], X[NUMX];	// covariance matrix and state vector
-extern float Q[NUMW], R[NUMV];		// input noise and measurement noise variances
-extern float K[NUMX][NUMV];		// feedback gain matrix
+extern float P[NUMX][NUMX];	// covariance matrix and state vector
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
 	char * function_name;
@@ -138,12 +132,14 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	} else if (mlStringCompare(prhs[0], "INSSetPosVelVar")) {
 		float pos_var;
         float vel_var;
-		if((nrhs != 3) || !mlGetFloatArray(prhs[1], &pos_var, 1) ||
-                !mlGetFloatArray(prhs[2], &vel_var, 1)) {
+        float vert_pos_var;
+		if((nrhs != 4) || !mlGetFloatArray(prhs[1], &pos_var, 1) ||
+                !mlGetFloatArray(prhs[2], &vel_var, 1) ||
+                !mlGetFloatArray(prhs[3], &vert_pos_var, 1)) {
 			mexErrMsgTxt("Error with input parameters\n");
 			return;
 		}
-		INSSetPosVelVar(pos_var, vel_var, 10);
+		INSSetPosVelVar(pos_var, vel_var, vert_pos_var);
 	} else if (mlStringCompare(prhs[0], "INSSetGyroBias")) {
 		float gyro_bias[3];
 		if((nrhs != 2) || !mlGetFloatArray(prhs[1], gyro_bias, 3)) {
@@ -200,8 +196,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 			mexErrMsgTxt("Error with input parameters\n");
 			return;
 		}
-		for(i = 0; i < NUMX; i++)
-			X[i] = new_state[i];
+        
+        INSSetState(&new_state[0], &new_state[3], &new_state[6], &new_state[10], &new_state[13]);
 	} else {
 		mexErrMsgTxt("Unknown function");
 	}
@@ -214,7 +210,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         float pos[3], vel[3], q[4], gyro_bias[3], accel_bias[3];        
         INSGetState(pos, vel, q, gyro_bias, accel_bias);
 
-        plhs[0] = mxCreateDoubleMatrix(1,16,0);
+        plhs[0] = mxCreateDoubleMatrix(1,NUMX,0);
 		data_out = mxGetData(plhs[0]);
         data_out[0] = pos[0];
         data_out[1] = pos[1];
@@ -249,20 +245,6 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 		mxSetData(plhs[1], data_copy);
 	}
 
-	if(nlhs > 2) {
-		//return covariance estimate
-		double * data_copy = mxCalloc(NUMX*NUMV, sizeof(double));
-		int i, j, k;
-
-		plhs[2] = mxCreateDoubleMatrix(NUMX,NUMV,0);
-		for(i = 0; i < NUMX; i++)
-			for(j = 0; j < NUMV; j++)
-			{
-				data_copy[j + i * NUMX] = K[i][j];
-			}
-
-		mxSetData(plhs[2], data_copy);
-	}
 	return;
 }
         
