@@ -118,7 +118,7 @@ void INSGPSInit()		//pretty much just a place holder for now
 	Q[3] = Q[4] = Q[5] = 0.00001f;	// accelerometer noise variance (m/s^2)^2
 	Q[6] = Q[7] = Q[8] = 2e-8f;	    // gyro bias random walk variance (rad/s^2)^2
 	Q[9] = Q[10] = 2e-9f;	        // accel bias random walk variance (m/s^3)^2
-	Q[11] = 1e-2f;
+	Q[11] = 1e-3f;
 
 	R[0] = R[1] = 0.004f;	// High freq GPS horizontal position noise variance (m^2)
 	R[2] = 0.036f;		// High freq GPS vertical position noise variance (m^2)
