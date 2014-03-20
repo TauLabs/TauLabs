@@ -1212,7 +1212,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	INSGetState(&state.State[0], &state.State[3], &state.State[6], &state.State[10], &state.State[13]);
 	INSStateSet(&state);
 
-	calc_ned_accel(&state.State[6], &accelsData.x);
+	float accel_bias_corrected[3] = {accelsData.x - state.State[13], accelsData.y - state.State[14], accelsData.z - state.State[15]};
+	calc_ned_accel(&state.State[6], accel_bias_corrected);
 
 	return 0;
 }
