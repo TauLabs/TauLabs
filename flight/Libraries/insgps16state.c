@@ -129,6 +129,21 @@ void INSGPSInit()		//pretty much just a place holder for now
 	R[9] = .05f;		// High freq altimeter noise variance (m^2)
 }
 
+//! Set the current flight state
+void INSSetArmed(bool armed)
+{
+	// Speed up convergence of accel and gyro bias when not armed
+	if (armed) {
+		Q[11] = 1e-5f;
+		Q[8] = 2e-4f;
+	} else {
+		Q[11] = 1e-2f;
+		Q[8] = 2e-8f;
+	}
+
+
+}
+
 
 /**
  * Get the current state estimate (null input skips that get)

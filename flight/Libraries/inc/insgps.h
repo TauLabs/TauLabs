@@ -31,6 +31,7 @@
 #define INSGPS_H_
 
 #include "stdint.h"
+#include "stdbool.h"
 
 /**
   * @addtogroup Constants
@@ -68,6 +69,9 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 
 //! Get the current state estimate
 void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias, float *accel_bias);
+
+//! Set the current flight state
+void INSSetArmed(bool armed);
 
 /****************************************************/
 /** These methods alter the behavior of the filter **/
