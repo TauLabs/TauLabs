@@ -5,7 +5,7 @@
 		<!-- Sensor noises -->
 		<field name="accel_var" units="(m/s)^2" type="float" elementnames="X,Y,Z" defaultvalue="0.003"/>
 		<field name="gyro_var" units="(deg/s)^2" type="float" elementnames="X,Y,Z" defaultvalue="0.00001,0.00001,0.0001"/>
-		<field name="mag_var" units="mGau^2" type="float" elementnames="X,Y,Z" defaultvalue="0.005,0.005,10"/>
+		<field name="mag_var" units="mGau^2" type="float" elementnames="X,Y,Z" defaultvalue="10,10,100"/>
 		<field name="gps_var" units="m^2" type="float" elementnames="Pos,Vel,VertPos" defaultvalue="0.001,0.01,10"/>
 		<field name="baro_var" units="m^2" type="float" elements="1" defaultvalue="0.01"/>
 

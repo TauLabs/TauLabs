@@ -294,10 +294,9 @@ void INSSetBaroVar(const float baro_var)
 
 void INSSetMagNorth(const float B[3])
 {
-	float mag = sqrtf(B[0] * B[0] + B[1] * B[1] + B[2] * B[2]);
-	Be[0] = B[0] / mag;
-	Be[1] = B[1] / mag;
-	Be[2] = B[2] / mag;
+	Be[0] = B[0];
+	Be[1] = B[1];
+	Be[2] = B[2];
 }
 
 void INSStatePrediction(const float gyro_data[3], const float accel_data[3], float dT)
@@ -334,7 +333,7 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 		   float BaroAlt, uint16_t SensorsUsed)
 {
 	float Z[10], Y[10];
-	float Bmag, qmag;
+	float qmag;
 
 	// GPS Position in meters and in local NED frame
 	Z[0] = Pos[0];
@@ -346,13 +345,10 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 	Z[4] = Vel[1];
 	Z[5] = Vel[2];
 
-	// magnetometer data in any units (use unit vector) and in body frame
-	Bmag =
-	    sqrtf(mag_data[0] * mag_data[0] + mag_data[1] * mag_data[1] +
-		 mag_data[2] * mag_data[2]);
-	Z[6] = mag_data[0] / Bmag;
-	Z[7] = mag_data[1] / Bmag;
-	Z[8] = mag_data[2] / Bmag;
+	// magnetometer data in body frame
+	Z[6] = mag_data[0];
+	Z[7] = mag_data[1];
+	Z[8] = mag_data[2];
 
 	// barometric altimeter in meters and in local NED frame
 	Z[9] = BaroAlt;
