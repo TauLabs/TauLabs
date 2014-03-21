@@ -203,7 +203,9 @@ static void vtolPathFollowerTask(void *parameters)
 		
 			// Track throttle before engaging this mode.  Cheap system ident
 			StabilizationDesiredThrottleGet(&vtol_pids[DOWN_VELOCITY].iAccumulator);
-			vtol_pids[DOWN_VELOCITY].iAccumulator *= 1000.0f; // pid library scales up accumulator by 1000
+			// pid library scales up accumulator by 1000. Note the negative sign because this
+			// is the accumulation for down.
+			vtol_pids[DOWN_VELOCITY].iAccumulator *= -1000.0f; 
 		}
 
 		AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);
