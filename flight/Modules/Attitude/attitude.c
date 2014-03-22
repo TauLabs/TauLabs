@@ -972,10 +972,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	if (first_run || home_location_updated) {
 		ins_state = INS_INIT;
 
-		mag_updated = 0;
-		baro_updated = 0;
-		gps_updated = 0;
-		gps_vel_updated = 0;
+		mag_updated = false;
+		baro_updated = false;
+		gps_updated = false;
+		gps_vel_updated = false;
 
 		home_location_updated = false;
 
@@ -1002,23 +1002,29 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	GyrosBiasGet(&gyrosBias);
 
 	// Need to get these values before initializing
+	if(baro_updated)
+		BaroAltitudeGet(&baroData);
+
 	if (mag_updated)
        MagnetometerGet(&magData);
 
 	if (gps_updated)
 		GPSPositionGet(&gpsData);
 
+	if (gps_vel_updated)
+		GPSVelocityGet(&gpsVelData);
+
 	// Discard mag if it has NAN (normally from bad calibration)
 	mag_updated &= (magData.x == magData.x && magData.y == magData.y && magData.z == magData.z);
 
 	// Indoor mode will fall back to reasonable Be and that is ok. For outdoor make sure home
 	// Be is set and a good value
-	mag_updated &= !outdoor_mode || (homeLocation.Set == HOMELOCATION_SET_TRUE && 
-	               (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]) );
+	mag_updated &= !outdoor_mode || (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]);
 
 	// A more stringent requirement for GPS to initialize the filter
 	bool gps_init_usable = gps_updated & (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
+	// Set user-friendly alarms appropriately based on state
 	if (ins_state == INS_INIT) {
 		if (!gps_init_usable && outdoor_mode)
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOGPS);
@@ -1103,27 +1109,28 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			INSSetState(NED, zeros, q, zeros, zeros);
 		} 
 
+		// Once all sensors have been updated and initialized then enter warmup
+		// state to make sure filter converges
 		ins_state = INS_WARMUP;
 
 		ins_last_time = PIOS_DELAY_GetRaw();	
 		ins_init_time = ins_last_time;
 
 		return 0;
-	}
-
-	// Still waiting for all data to be valid to initialize
-	if (ins_state == INS_INIT)
+	} else if (ins_state == INS_INIT)
 		return 0;
+
 	// Keep in warmup for first 10 seconds. This zeros biases.
 	if (ins_state == INS_WARMUP && PIOS_DELAY_DiffuS(ins_init_time) > 10e6f)
 		ins_state = INS_RUNNING;
 
+	// Let the filter know when we are armed
 	uint8_t armed;
 	FlightStatusArmedGet(&armed);
 	INSSetArmed (armed == FLIGHTSTATUS_ARMED_ARMED);
 	
 
-	// Have a minimum requirement for gps usage a little more liberal than initialization
+	// Have a minimum requirement for gps usage a little more liberal than during initialization
 	gps_updated &= (gpsData.Satellites >= 6) && (gpsData.PDOP <= 4.0f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	dT = PIOS_DELAY_DiffuS(ins_last_time) / 1.0e6f;
@@ -1170,13 +1177,11 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	
 	if(baro_updated) {
 		sensors |= BARO_SENSOR;
-		BaroAltitudeGet(&baroData);
 		baro_updated = false;
 	}
 
 	// GPS Position update
-	if (gps_updated && outdoor_mode)
-	{
+	if (gps_updated) { // only sets during outdoor mode
 		sensors |= HORIZ_POS_SENSORS;
 
 		// Transform the GPS position into NED coordinates
@@ -1184,7 +1189,6 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 		// Store this for inspecting offline
 		NEDPositionData nedPos;
-		NEDPositionGet(&nedPos);
 		nedPos.North = NED[0];
 		nedPos.East = NED[1];
 		nedPos.Down = NED[2];
@@ -1194,9 +1198,9 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	}
 
 	// GPS Velocity update
-	if (gps_vel_updated && outdoor_mode) {
+	if (gps_vel_updated) { // only sets during outdoor mode
 		sensors |= HORIZ_VEL_SENSORS;
-		GPSVelocityGet(&gpsVelData);
+
 		vel[0] = gpsVelData.North;
 		vel[1] = gpsVelData.East;
 		vel[2] = gpsVelData.Down;
@@ -1207,11 +1211,12 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// Update fake position at 10 hz
 	static uint32_t indoor_pos_time;
 	if (!outdoor_mode && PIOS_DELAY_DiffuS(indoor_pos_time) > 100000) {
+		sensors |= HORIZ_VEL_SENSORS | HORIZ_POS_SENSORS;
+
 		indoor_pos_time = PIOS_DELAY_GetRaw();
 		vel[0] = vel[1] = vel[2] = 0;
 		NED[0] = NED[1] = 0;
 		NED[2] = -(baroData.Altitude + baro_offset);
-		sensors |= HORIZ_VEL_SENSORS | HORIZ_POS_SENSORS;
 	}
 
 	/*
