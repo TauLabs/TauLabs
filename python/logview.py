@@ -140,7 +140,8 @@ def main():
                             u  = parser.getLastReceivedObject(timestamp=log_hdr.time)
                         else:
                             u  = parser.getLastReceivedObject()
-                        uavo_parsed.append(u)
+                        if u is not None:
+                            uavo_parsed.append(u)
 
                 except TypeError:
                     print "End of file"
