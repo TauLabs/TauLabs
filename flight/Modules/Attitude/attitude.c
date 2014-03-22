@@ -955,7 +955,9 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	static float baro_offset = 0;
 
 	static uint32_t ins_last_time = 0;
-	static bool inited;
+	static uint32_t ins_init_time = 0;
+
+	static enum {INS_INIT, INS_WARMUP, INS_RUNNING} ins_state;
 
 	float NED[3] = {0.0f, 0.0f, 0.0f};
 	float vel[3] = {0.0f, 0.0f, 0.0f};
@@ -968,7 +970,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// reinitialized to correctly offset the baro and make sure it 
 	// does not blow up.  This flag should only be set when not armed.
 	if (first_run || home_location_updated) {
-		inited = false;
+		ins_state = INS_INIT;
 
 		mag_updated = 0;
 		baro_updated = 0;
@@ -1017,7 +1019,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// A more stringent requirement for GPS to initialize the filter
 	bool gps_init_usable = gps_updated & (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
-	if (!inited) {
+	if (ins_state == INS_INIT) {
 		if (!gps_init_usable && outdoor_mode)
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOGPS);
 		else if (!mag_updated)
@@ -1040,7 +1042,9 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
 	}
 
-	if (!inited && mag_updated && baro_updated && (gps_init_usable || !outdoor_mode)) {
+	if (ins_state == INS_INIT &&
+	      mag_updated && baro_updated &&
+	      (gps_init_usable || !outdoor_mode)) {
 
 		INSGPSInit();
 		INSSetMagVar(insSettings.mag_var);
@@ -1052,6 +1056,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		// Initialize the gyro bias from the settings
 		float gyro_bias[3] = {gyrosBias.x * DEG2RAD, gyrosBias.y * DEG2RAD, gyrosBias.z * DEG2RAD};
 		INSSetGyroBias(gyro_bias);
+		INSSetAccelBias(zeros);
 
 		BaroAltitudeGet(&baroData);
 
@@ -1098,15 +1103,20 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			INSSetState(NED, zeros, q, zeros, zeros);
 		} 
 
-		inited = true;
+		ins_state = INS_WARMUP;
 
 		ins_last_time = PIOS_DELAY_GetRaw();	
+		ins_init_time = ins_last_time;
 
 		return 0;
 	}
 
-	if (!inited)
+	// Still waiting for all data to be valid to initialize
+	if (ins_state == INS_INIT)
 		return 0;
+	// Keep in warmup for first 10 seconds. This zeros biases.
+	if (ins_state == INS_WARMUP && PIOS_DELAY_DiffuS(ins_init_time) > 10e6f)
+		ins_state = INS_RUNNING;
 
 	uint8_t armed;
 	FlightStatusArmedGet(&armed);
@@ -1125,26 +1135,26 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	else if(dT <= 0.001f)
 		dT = 0.001f;
 
-	// If the gyro bias setting was updated we should reset
-	// the state estimate of the EKF
-	if(gyroBiasSettingsUpdated) {
-		float gyro_bias[3] = {gyrosBias.x * DEG2RAD, gyrosBias.y * DEG2RAD, gyrosBias.z * DEG2RAD};
-		INSSetGyroBias(gyro_bias);
+	// When the sensor settings are updated, reset the biases. Also
+	// while warming up, lock these at zero.
+	if (gyroBiasSettingsUpdated || ins_state == INS_WARMUP) {
 		gyroBiasSettingsUpdated = false;
-
+		INSSetGyroBias(zeros);
 		INSSetAccelBias(zeros);
 	}
 
 	// Because the sensor module remove the bias we need to add it
 	// back in here so that the INS algorithm can track it correctly
-	float gyros[3] = {gyrosData.x * DEG2RAD, gyrosData.y * DEG2RAD, gyrosData.z * DEG2RAD};
-	if (insSettings.ComputeGyroBias == INSSETTINGS_COMPUTEGYROBIAS_TRUE && 
-	    (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE)) {
-		gyros[0] += gyrosBias.x * DEG2RAD;
-		gyros[1] += gyrosBias.y * DEG2RAD;
-		gyros[2] += gyrosBias.z * DEG2RAD;
+	// this effectively means the INS is observing the "raw" data.
+	float gyros[3];
+	if (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE) {
+		gyros[0] = (gyrosData.x + gyrosBias.x) * DEG2RAD;
+		gyros[1] = (gyrosData.y + gyrosBias.y) * DEG2RAD;
+		gyros[2] = (gyrosData.z + gyrosBias.z) * DEG2RAD;
 	} else {
-		INSSetGyroBias(zeros);
+		gyros[0] = gyrosData.x * DEG2RAD;
+		gyros[1] = gyrosData.y * DEG2RAD;
+		gyros[2] = gyrosData.z * DEG2RAD;
 	}
 
 	// Advance the state estimate
@@ -1215,7 +1225,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	INSStateData state;
 	INSGetVariance(state.Var);
 	INSGetState(&state.State[0], &state.State[3], &state.State[6], &state.State[10], &state.State[13]);
-	INSStateSet(&state);
+	INSStateSet(&state); // this sets the UAVO
+
+	if (insSettings.ComputeGyroBias == INSSETTINGS_COMPUTEGYROBIAS_FALSE)
+		INSSetGyroBias(zeros);
 
 	float accel_bias_corrected[3] = {accelsData.x - state.State[13], accelsData.y - state.State[14], accelsData.z - state.State[15]};
 	calc_ned_accel(&state.State[6], accel_bias_corrected);
@@ -1234,8 +1247,7 @@ static int32_t setAttitudeINSGPS()
 	AttitudeActualSet(&attitude);
 
 	if (insSettings.ComputeGyroBias == INSSETTINGS_COMPUTEGYROBIAS_TRUE && 
-	    (attitudeSettings.BiasCorrectGyro == ATTITUDESETTINGS_BIASCORRECTGYRO_TRUE && 
-	    !gyroBiasSettingsUpdated)) {
+	    !gyroBiasSettingsUpdated) {
 		// Copy the gyro bias into the UAVO except when it was updated
 		// from the settings during the calculation, then consume it
 		// next cycle
@@ -1395,7 +1407,7 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		SensorSettingsData sensorSettings;
 		SensorSettingsGet(&sensorSettings);
 		
-		/* When the revo calibration is updated, update the GyroBias object */
+		/* When the calibration is updated, update the GyroBias object */
 		GyrosBiasData gyrosBias;
 		GyrosBiasGet(&gyrosBias);
 		gyrosBias.x = 0;
