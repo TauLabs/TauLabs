@@ -116,7 +116,7 @@ void INSGPSInit()		//pretty much just a place holder for now
 
 	Q[0] = Q[1] = Q[2] = 50e-4f;	// gyro noise variance (rad/s)^2
 	Q[3] = Q[4] = Q[5] = 0.00001f;	// accelerometer noise variance (m/s^2)^2
-	Q[6] = Q[7] = Q[8] = 2e-8f;	    // gyro bias random walk variance (rad/s^2)^2
+	Q[6] = Q[7] = Q[8] = 2e-5f;	    // gyro bias random walk variance (rad/s^2)^2
 	Q[9] = 1e-3f;	                // accel bias random walk variance (m/s^3)^2
 
 	R[0] = R[1] = 0.004f;	// High freq GPS horizontal position noise variance (m^2)
@@ -130,10 +130,11 @@ void INSGPSInit()		//pretty much just a place holder for now
 //! Set the current flight state
 void INSSetArmed(bool armed)
 {
+	return; 
 	// Speed up convergence of accel and gyro bias when not armed
 	if (armed) {
-		Q[9] = 1e-5f;
-		Q[8] = 2e-4f;
+		Q[9] = 1e-4f;
+		Q[8] = 2e-9f;
 	} else {
 		Q[9] = 1e-2f;
 		Q[8] = 2e-8f;
