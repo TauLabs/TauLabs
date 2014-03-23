@@ -346,14 +346,31 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 	Z[4] = Vel[1];
 	Z[5] = Vel[2];
 
-	// magnetometer data in any units (use unit vector) and in body frame
-	Bmag =
-	    sqrtf(mag_data[0] * mag_data[0] + mag_data[1] * mag_data[1] +
-		 mag_data[2] * mag_data[2]);
-	Z[6] = mag_data[0] / Bmag;
-	Z[7] = mag_data[1] / Bmag;
-	Z[8] = mag_data[2] / Bmag;
+    if (SensorsUsed & MAG_SENSORS) {
+        // magnetometer data in any units (use unit vector) and in body frame
+        float Rbe_a[3][3];
+        float q0 = X[6];
+        float q1 = X[7];
+        float q2 = X[8];
+        float q3 = X[9];
+        Rbe_a[0][0] = sqrt(-pow(q0*q2*2.0-q1*q3*2.0,2.0)+1.0);
+        Rbe_a[0][1] = 0.0f;
+        Rbe_a[0][2] = q0*q2*-2.0+q1*q3*2.0;
+        Rbe_a[1][0] = 1.0/sqrt(pow(q0*q1*2.0+q2*q3*2.0,2.0)+pow(q0*q0-q1*q1-q2*q2+q3*q3,2.0))*(q0*q1*2.0+q2*q3*2.0)*(q0*q2*2.0-q1*q3*2.0);
+        Rbe_a[1][1] = 1.0/sqrt(pow(q0*q1*2.0+q2*q3*2.0,2.0)+pow(q0*q0-q1*q1-q2*q2+q3*q3,2.0))*(q0*q0-q1*q1-q2*q2+q3*q3);
+        Rbe_a[1][2] = 1.0/sqrt(pow(q0*q1*2.0+q2*q3*2.0,2.0)+pow(q0*q0-q1*q1-q2*q2+q3*q3,2.0))*sqrt(-pow(q0*q2*2.0-q1*q3*2.0,2.0)+1.0)*(q0*q1*2.0+q2*q3*2.0);
+        Rbe_a[2][0] = 1.0/sqrt(pow(q0*q1*2.0+q2*q3*2.0,2.0)+pow(q0*q0-q1*q1-q2*q2+q3*q3,2.0))*(q0*q2*2.0-q1*q3*2.0)*(q0*q0-q1*q1-q2*q2+q3*q3);
+        Rbe_a[2][1] = -1.0/sqrt(pow(q0*q1*2.0+q2*q3*2.0,2.0)+pow(q0*q0-q1*q1-q2*q2+q3*q3,2.0))*(q0*q1*2.0+q2*q3*2.0);
+        Rbe_a[2][2] = 1.0/sqrt(pow(q0*q1*2.0+q2*q3*2.0,2.0)+pow(q0*q0-q1*q1-q2*q2+q3*q3,2.0))*sqrt(-pow(q0*q2*2.0-q1*q3*2.0,2.0)+1.0)*(q0*q0-q1*q1-q2*q2+q3*q3);
 
+        Z[6] = Rbe_a[0][0]*mag_data[0] + Rbe_a[0][1]*mag_data[1] + Rbe_a[0][2]*mag_data[2] ;
+        Z[7] = Rbe_a[1][0]*mag_data[0] + Rbe_a[1][1]*mag_data[1] + Rbe_a[1][2]*mag_data[2] ;
+        Z[8] = Rbe_a[2][0]*mag_data[0] + Rbe_a[2][1]*mag_data[1] + Rbe_a[2][2]*mag_data[2] ;
+
+        mexPrintf("q: %0.3f %0.3f %0.3f %0.3f\n", q0, q1, q2, q3);
+        mexPrintf("Rbe:\n%0.3f %0.3f %0.3f\n%0.3f %0.3f %0.3f\n%0.3f %0.3f %0.3f\n", Rbe_a[0][0], Rbe_a[0][1], Rbe_a[0][2], Rbe_a[1][0], Rbe_a[1][1], Rbe_a[1][2], Rbe_a[2][0], Rbe_a[2][1], Rbe_a[2][2]);
+        mexPrintf("Mag: %0.3f %0.3f %0.3f\n", Z[6], Z[7], Z[8]);
+    }
 	// barometric altimeter in meters and in local NED frame
 	Z[9] = BaroAlt;
 
@@ -821,19 +838,13 @@ void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 	Y[4] = X[4];
 	Y[5] = X[5];
 
-	// Bb=Rbe*Be
-	Y[6] =
-	    (q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3) * Be[0] +
-	    2.0f * (q1 * q2 + q0 * q3) * Be[1] + 2.0f * (q1 * q3 -
-						   q0 * q2) * Be[2];
-	Y[7] =
-	    2.0f * (q1 * q2 - q0 * q3) * Be[0] + (q0 * q0 - q1 * q1 +
-					       q2 * q2 - q3 * q3) * Be[1] +
-	    2.0f * (q2 * q3 + q0 * q1) * Be[2];
-	Y[8] =
-	    2.0f * (q1 * q3 + q0 * q2) * Be[0] + 2.0f * (q2 * q3 -
-						   q0 * q1) * Be[1] +
-	    (q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3) * Be[2];
+	// Rotate Be by only the yaw heading
+    float r = sqrtf( powf(2*q0*q3 + 2*q1*q2, 2) + powf(q0*q0 + q1*q1 - q2*q2 - q3*q3, 2) );
+    float cP = (q0*q0 + q1*q1 - q2*q2 - q3*q3) / r;
+    float sP = (2*q0*q3 + 2*q1*q2) / r;    
+    Y[6] = Be[0] * cP + Be[1] * sP;
+    Y[7] = -Be[0] * sP + Be[1] * cP;
+    Y[8] = 0;
 
 	// Alt = -Pz
 	Y[9] = X[2] * -1.0f;
@@ -859,20 +870,19 @@ void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 	H[3][3] = H[4][4] = H[5][5] = 1.0f;
 
 	// dBb/dq    (expected magnetometer readings)
-	H[6][6] = 2.0f * (q0 * Be[0] + q3 * Be[1] - q2 * Be[2]);
-	H[6][7] = 2.0f * (q1 * Be[0] + q2 * Be[1] + q3 * Be[2]);
-	H[6][8] = 2.0f * (-q2 * Be[0] + q1 * Be[1] - q0 * Be[2]);
-	H[6][9] = 2.0f * (-q3 * Be[0] + q0 * Be[1] + q1 * Be[2]);
-	H[7][6] = 2.0f * (-q3 * Be[0] + q0 * Be[1] + q1 * Be[2]);
-	H[7][7] = 2.0f * (q2 * Be[0] - q1 * Be[1] + q0 * Be[2]);
-	H[7][8] = 2.0f * (q1 * Be[0] + q2 * Be[1] + q3 * Be[2]);
-	H[7][9] = 2.0f * (-q0 * Be[0] - q3 * Be[1] + q2 * Be[2]);
-	H[8][6] = 2.0f * (q2 * Be[0] - q1 * Be[1] + q0 * Be[2]);
-	H[8][7] = 2.0f * (q3 * Be[0] - q0 * Be[1] - q1 * Be[2]);
-	H[8][8] = 2.0f * (q0 * Be[0] + q3 * Be[1] - q2 * Be[2]);
-	H[8][9] = 2.0f * (q1 * Be[0] + q2 * Be[1] + q3 * Be[2]);
+    float Be_0 = Be[0];
+    float Be_1 = Be[1];
+    H[6][6] = Be_0*q0*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0+Be_1*q3*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0-Be_0*(q0*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0+q3*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q0+q1*q1-q2*q2-q3*q3)*(1.0/2.0)-Be_1*(q0*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0+q3*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q3*2.0+q1*q2*2.0)*(1.0/2.0);
+    H[6][7] = Be_0*q1*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0+Be_1*q2*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0-Be_0*(q1*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0+q2*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q0+q1*q1-q2*q2-q3*q3)*(1.0/2.0)-Be_1*(q1*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0+q2*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q3*2.0+q1*q2*2.0)*(1.0/2.0);
+    H[6][8] = Be_0*q2*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*-2.0+Be_1*q1*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0+Be_0*(q2*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0-q1*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q0+q1*q1-q2*q2-q3*q3)*(1.0/2.0)+Be_1*(q2*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0-q1*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q3*2.0+q1*q2*2.0)*(1.0/2.0);
+    H[6][9] = Be_1*q0*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0-Be_0*q3*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0+Be_0*(q3*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0-q0*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q0+q1*q1-q2*q2-q3*q3)*(1.0/2.0)+Be_1*(q3*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0-q0*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q3*2.0+q1*q2*2.0)*(1.0/2.0);
+    H[7][6] = Be_1*q0*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0-Be_0*q3*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0-Be_1*(q0*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0+q3*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q0+q1*q1-q2*q2-q3*q3)*(1.0/2.0)+Be_0*(q0*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0+q3*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q3*2.0+q1*q2*2.0)*(1.0/2.0);
+    H[7][7] = Be_0*q2*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*-2.0+Be_1*q1*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0-Be_1*(q1*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0+q2*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q0+q1*q1-q2*q2-q3*q3)*(1.0/2.0)+Be_0*(q1*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0+q2*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q3*2.0+q1*q2*2.0)*(1.0/2.0);
+    H[7][8] = Be_0*q1*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*-2.0-Be_1*q2*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0+Be_1*(q2*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0-q1*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q0+q1*q1-q2*q2-q3*q3)*(1.0/2.0)-Be_0*(q2*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0-q1*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q3*2.0+q1*q2*2.0)*(1.0/2.0);
+    H[7][9] = Be_0*q0*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*-2.0-Be_1*q3*1.0/sqrt(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0))*2.0+Be_1*(q3*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0-q0*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q0+q1*q1-q2*q2-q3*q3)*(1.0/2.0)-Be_0*(q3*(q0*q0+q1*q1-q2*q2-q3*q3)*4.0-q0*(q0*q3*2.0+q1*q2*2.0)*4.0)*1.0/pow(pow(q0*q3*2.0+q1*q2*2.0,2.0)+pow(q0*q0+q1*q1-q2*q2-q3*q3,2.0),3.0/2.0)*(q0*q3*2.0+q1*q2*2.0)*(1.0/2.0);
+    H[8][6] = H[8][7] = H[8][9] = H[8][9] = 0.0f;
 
-	// dAlt/dPz = -1  (expected baro readings)
+    // dAlt/dPz = -1  (expected baro readings)
 	H[9][2] = -1.0f;
 }
 
