@@ -346,27 +346,30 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 	Z[4] = Vel[1];
 	Z[5] = Vel[2];
 
-    if (SensorsUsed & MAG_SENSORS) {
-        // magnetometer data in any units (use unit vector) and in body frame
-        float Rbe_a[3][3];
-        float q0 = X[6];
-        float q1 = X[7];
-        float q2 = X[8];
-        float q3 = X[9];
-        Rbe_a[0][0] = sqrtf(-powf(q0*q2*2.0f-q1*q3*2.0f,2.0f)+1.0f);
-        Rbe_a[0][1] = 0.0f;
-        Rbe_a[0][2] = q0*q2*-2.0f+q1*q3*2.0f;
-        Rbe_a[1][0] = 1.0f/sqrtf(powf(q0*q1*2.0f+q2*q3*2.0f,2.0f)+powf(q0*q0-q1*q1-q2*q2+q3*q3,2.0f))*(q0*q1*2.0f+q2*q3*2.0f)*(q0*q2*2.0f-q1*q3*2.0f);
-        Rbe_a[1][1] = 1.0f/sqrtf(powf(q0*q1*2.0f+q2*q3*2.0f,2.0f)+powf(q0*q0-q1*q1-q2*q2+q3*q3,2.0f))*(q0*q0-q1*q1-q2*q2+q3*q3);
-        Rbe_a[1][2] = 1.0f/sqrtf(powf(q0*q1*2.0f+q2*q3*2.0f,2.0f)+powf(q0*q0-q1*q1-q2*q2+q3*q3,2.0f))*sqrtf(-powf(q0*q2*2.0f-q1*q3*2.0f,2.0f)+1.0f)*(q0*q1*2.0f+q2*q3*2.0f);
-        Rbe_a[2][0] = 1.0f/sqrtf(powf(q0*q1*2.0f+q2*q3*2.0f,2.0f)+powf(q0*q0-q1*q1-q2*q2+q3*q3,2.0f))*(q0*q2*2.0f-q1*q3*2.0f)*(q0*q0-q1*q1-q2*q2+q3*q3);
-        Rbe_a[2][1] = -1.0f/sqrtf(powf(q0*q1*2.0f+q2*q3*2.0f,2.0f)+powf(q0*q0-q1*q1-q2*q2+q3*q3,2.0f))*(q0*q1*2.0f+q2*q3*2.0f);
-        Rbe_a[2][2] = 1.0f/sqrtf(powf(q0*q1*2.0f+q2*q3*2.0f,2.0f)+powf(q0*q0-q1*q1-q2*q2+q3*q3,2.0f))*sqrtf(-powf(q0*q2*2.0f-q1*q3*2.0f,2.0f)+1.0f)*(q0*q0-q1*q1-q2*q2+q3*q3);
+	if (SensorsUsed & MAG_SENSORS) {
+		// magnetometer data in any units (use unit vector) and in body frame
+		float Rbe_a[3][3];
+		float q0 = X[6];
+		float q1 = X[7];
+		float q2 = X[8];
+		float q3 = X[9];
+		float k1 = 1.0f/sqrtf(powf(q0*q1*2.0f+q2*q3*2.0f,2.0f)+powf(q0*q0-q1*q1-q2*q2+q3*q3,2.0f));
+		float k2 = sqrtf(-powf(q0*q2*2.0f-q1*q3*2.0f,2.0f)+1.0f);
 
-        Z[6] = Rbe_a[0][0]*mag_data[0] + Rbe_a[0][1]*mag_data[1] + Rbe_a[0][2]*mag_data[2] ;
-        Z[7] = Rbe_a[1][0]*mag_data[0] + Rbe_a[1][1]*mag_data[1] + Rbe_a[1][2]*mag_data[2] ;
-        Z[8] = Rbe_a[2][0]*mag_data[0] + Rbe_a[2][1]*mag_data[1] + Rbe_a[2][2]*mag_data[2] ;
-    }
+		Rbe_a[0][0] = k2;
+		Rbe_a[0][1] = 0.0f;
+		Rbe_a[0][2] = q0*q2*-2.0f+q1*q3*2.0f;
+		Rbe_a[1][0] = k1*(q0*q1*2.0f+q2*q3*2.0f)*(q0*q2*2.0f-q1*q3*2.0f);
+		Rbe_a[1][1] = k1*(q0*q0-q1*q1-q2*q2+q3*q3);
+		Rbe_a[1][2] = k1*sqrtf(-powf(q0*q2*2.0f-q1*q3*2.0f,2.0f)+1.0f)*(q0*q1*2.0f+q2*q3*2.0f);
+		Rbe_a[2][0] = k1*(q0*q2*2.0f-q1*q3*2.0f)*(q0*q0-q1*q1-q2*q2+q3*q3);
+		Rbe_a[2][1] = -k1*(q0*q1*2.0f+q2*q3*2.0f);
+		Rbe_a[2][2] = k1*k2*(q0*q0-q1*q1-q2*q2+q3*q3);
+
+		Z[6] = Rbe_a[0][0]*mag_data[0] + Rbe_a[0][1]*mag_data[1] + Rbe_a[0][2]*mag_data[2] ;
+		Z[7] = Rbe_a[1][0]*mag_data[0] + Rbe_a[1][1]*mag_data[1] + Rbe_a[1][2]*mag_data[2] ;
+		Z[8] = Rbe_a[2][0]*mag_data[0] + Rbe_a[2][1]*mag_data[1] + Rbe_a[2][2]*mag_data[2] ;
+	}
 
 	// barometric altimeter in meters and in local NED frame
 	Z[9] = BaroAlt;
