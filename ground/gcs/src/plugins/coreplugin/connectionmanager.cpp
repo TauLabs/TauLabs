@@ -272,12 +272,12 @@ void ConnectionManager::telemetryDisconnected()
     qDebug() << "TelemetryMonitor: disconnected";
 
     if (m_ioDev){
-        if(m_connectionDevice.connection->shortName()=="Serial") {
+        if(m_connectionDevice.connection->reconnect())//currently used with bluetooth only
+        {
             if(!reconnect->isActive())
                 reconnect->start(1000);
         }
     }
-
     //tell the monitor we're disconnected
     m_monitorWidget->disconnect();
 }

@@ -36,7 +36,7 @@
  */
 SerialPluginConfiguration::SerialPluginConfiguration(QString classId, QSettings* qSettings, QObject *parent) :
     IUAVGadgetConfiguration(classId, parent),
-    m_speed("57600")
+    m_speed("57600"), m_reconnect(true)
 {
     Q_UNUSED(qSettings);
 
@@ -50,7 +50,8 @@ SerialPluginConfiguration::SerialPluginConfiguration(QString classId, QSettings*
 IUAVGadgetConfiguration *SerialPluginConfiguration::clone()
 {
     SerialPluginConfiguration *m = new SerialPluginConfiguration(this->classId());
-        m->m_speed=m_speed;
+    m->m_speed = m_speed;
+    m->m_reconnect = m_reconnect;
     return m;
 }
 
@@ -69,6 +70,7 @@ void SerialPluginConfiguration::restoresettings()
         m_speed="57600";
     else
         m_speed=str;
+    m_reconnect = settings->value(QLatin1String("reconnect"), tr("")).toBool();
     settings->endGroup();
 
 }
@@ -76,6 +78,7 @@ void SerialPluginConfiguration::savesettings() const
 {
     settings->beginGroup(QLatin1String("SerialConnection"));
     settings->setValue(QLatin1String("speed"), m_speed);
+    settings->setValue(QLatin1String("reconnect"), m_reconnect);
     settings->endGroup();
 }
 SerialPluginConfiguration::~SerialPluginConfiguration()
