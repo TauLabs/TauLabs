@@ -170,10 +170,10 @@ static void send_LTM_Gframe()
 	int32_t lt_altitude = 0;
 	if (BaroAltitudeHandle() != NULL) {
 		BaroAltitudeGet(&bdata);
-		lt_altitude = (int32_t)roundf(bdata.Altitude * 100); //Baro alt in cm.
+		lt_altitude = (int32_t)roundf(bdata.Altitude * 100.0f); //Baro alt in cm.
 	}
 	else if (GPSPositionHandle() != NULL)
-		lt_altitude = (int32_t)roundf(pdata.Altitude * 100); //GPS alt in cm.
+		lt_altitude = (int32_t)roundf(pdata.Altitude * 100.0f); //GPS alt in cm.
 	
 	uint8_t lt_gpsfix;
 	switch (pdata.Status) {
