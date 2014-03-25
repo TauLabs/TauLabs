@@ -7,7 +7,7 @@
  *
  * @file       pid.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      PID Control algorithms
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -50,8 +50,8 @@ static float deriv_gamma = 1.0;
 float pid_apply(struct pid *pid, const float err, float dT)
 {	
 	if (pid->i == 0) {
-		// If Ki is zero, reset the integrator
-		pid->iAccumulator = 0;
+		// If Ki is zero, do not change the integrator. We do not reset to zero
+		// because sometimes the accumulator term is set externally
 	} else {
 		// Scale up accumulator by 1000 while computing to avoid losing precision
 		pid->iAccumulator += err * (pid->i * dT * 1000.0f);
@@ -87,8 +87,8 @@ float pid_apply_antiwindup(struct pid *pid, const float err,
 	float min_bound, float max_bound, float dT)
 {	
 	if (pid->i == 0) {
-		// If Ki is zero, reset the integrator
-		pid->iAccumulator = 0;
+		// If Ki is zero, do not change the integrator. We do not reset to zero
+		// because sometimes the accumulator term is set externally
 	} else {
 		// Scale up accumulator by 1000 while computing to avoid losing precision
 		pid->iAccumulator += err * (pid->i * dT * 1000.0f);
@@ -137,8 +137,8 @@ float pid_apply_setpoint(struct pid *pid, const float setpoint, const float meas
 	float err = setpoint - measured;
 	
 	if (pid->i == 0) {
-		// If Ki is zero, reset the integrator
-		pid->iAccumulator = 0;
+		// If Ki is zero, do not change the integrator. We do not reset to zero
+		// because sometimes the accumulator term is set externally
 	} else {
 		// Scale up accumulator by 1000 while computing to avoid losing precision
 		pid->iAccumulator += err * (pid->i * dT * 1000.0f);

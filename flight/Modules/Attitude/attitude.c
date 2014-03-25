@@ -958,9 +958,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// Discard mag if it has NAN (normally from bad calibration)
 	mag_updated &= (magData.x == magData.x && magData.y == magData.y && magData.z == magData.z);
 
-	// Don't require HomeLocation.Set to be true but at least require a mag configuration (allows easily
-	// switching between indoor and outdoor mode with Set = false)
-	mag_updated &= (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]);
+	// Indoor mode will fall back to reasonable Be and that is ok. For outdoor make sure home
+	// Be is set and a good value
+	mag_updated &= !outdoor_mode || (homeLocation.Set == HOMELOCATION_SET_TRUE && 
+	               (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]) );
 
 	// A more stringent requirement for GPS to initialize the filter
 	bool gps_init_usable = gps_updated & (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
@@ -1021,7 +1022,9 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			// Hard coded fake variances for indoor mode
 			INSSetPosVelVar(0.1f, 0.1f, 0.1f);
 
-			if (homeLocation.Set == HOMELOCATION_SET_TRUE)
+			if (homeLocation.Set == HOMELOCATION_SET_TRUE &&
+			    (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]))
+			    // Use the configured mag, if one is available
 				INSSetMagNorth(homeLocation.Be);
 			else {
 				// Reasonable default is safe for indoor
