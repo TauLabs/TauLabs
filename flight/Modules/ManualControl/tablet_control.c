@@ -92,7 +92,7 @@ int32_t tablet_control_select(bool reset_controller)
 		case TABLETINFO_TABLETMODEDESIRED_POSITIONHOLD:
 			if (mode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD || 
 			    last_tablet_mode != tabletInfo.TabletModeDesired) {
-				mode = FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD;
+				mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
 
 				PositionActualData positionActual;
 				PositionActualGet(&positionActual);
@@ -108,7 +108,7 @@ int32_t tablet_control_select(bool reset_controller)
 			}
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_RETURNTOHOME:
-			mode = FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD;
+			mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
 
 			pathDesired.End[0] = 0;
 			pathDesired.End[1] = 0;
@@ -124,7 +124,7 @@ int32_t tablet_control_select(bool reset_controller)
 		{
 			float NED[3];
 
-			mode = FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD;
+			mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
 			tabletInfo_to_ned(&tabletInfo, NED);
 
 			pathDesired.End[0] = NED[0];
@@ -167,7 +167,7 @@ int32_t tablet_control_select(bool reset_controller)
 				pathDesired.End[1] = positionActual.East;
 				pathDesired.End[2] = -HOME_ALTITUDE_OFFSET;
 			}
-			pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
+			pathDesired.Mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
 			pathDesired.StartingVelocity = 5;
 			pathDesired.EndingVelocity = 5;
 
