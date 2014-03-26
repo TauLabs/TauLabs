@@ -48,7 +48,7 @@
 static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED);
 
 //! Private constants
-#define HOME_ALTITUDE_OFFSET 5
+#define HOME_ALTITUDE_OFFSET 15
 #define FOLLOWME_RADIUS      20
 
 //! Initialize the tablet controller
