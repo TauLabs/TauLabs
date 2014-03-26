@@ -79,7 +79,6 @@
 #define PIOS_INCLUDE_GPS
 #define PIOS_INCLUDE_GPS_NMEA_PARSER
 #define PIOS_INCLUDE_GPS_UBX_PARSER
-#define PIOS_GPS_SETS_HOMELOCATION
 #define PIOS_INCLUDE_MAVLINK
 #define PIOS_INCLUDE_HOTT
 #define PIOS_INCLUDE_FRSKY_SENSOR_HUB
@@ -107,7 +106,6 @@
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */
 #define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
-#define PIOS_GPS_SETS_HOMELOCATION      /* GPS options */
 
 #define CAMERASTAB_POI_MODE
 

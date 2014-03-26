@@ -70,9 +70,6 @@
 
 /* Stabilization options */
 
-/* GPS options */
-#define PIOS_GPS_SETS_HOMELOCATION
-
 #define HEAP_LIMIT_WARNING		4000
 #define HEAP_LIMIT_CRITICAL		1000
 #define IRQSTACK_LIMIT_WARNING		150
