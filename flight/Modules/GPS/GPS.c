@@ -71,7 +71,7 @@ static void setHomeLocation(GPSPositionData * gpsData);
 
 #ifdef PIOS_GPS_SETS_HOMELOCATION
 // Unfortunately need a good size stack for the WMM calculation
-	#define STACK_SIZE_BYTES            850
+	#define STACK_SIZE_BYTES            1900
 #else
 #if defined(PIOS_GPS_MINIMAL)
 	#define STACK_SIZE_BYTES            500
