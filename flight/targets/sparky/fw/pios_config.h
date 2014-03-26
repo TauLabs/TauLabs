@@ -103,8 +103,8 @@
 //#define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
 
 /* Alarm Thresholds */
-#define HEAP_LIMIT_WARNING		1000
-#define HEAP_LIMIT_CRITICAL		500
+#define HEAP_LIMIT_WARNING		750
+#define HEAP_LIMIT_CRITICAL		400
 #define IRQSTACK_LIMIT_WARNING		150
 #define IRQSTACK_LIMIT_CRITICAL		80
 #define CPULOAD_LIMIT_WARNING		80
