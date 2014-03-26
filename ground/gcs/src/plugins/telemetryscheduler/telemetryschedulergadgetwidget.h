@@ -116,7 +116,7 @@ public:
     Qt::ItemFlags flags (const QModelIndex & index) const
     {
         if (index.column() == 0 || index.column() == 1)
-            return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+            return 0;
         else
             return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
     }
