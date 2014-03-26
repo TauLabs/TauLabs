@@ -92,7 +92,7 @@ int32_t tablet_control_select(bool reset_controller)
 		case TABLETINFO_TABLETMODEDESIRED_POSITIONHOLD:
 			if (mode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD || 
 			    last_tablet_mode != tabletInfo.TabletModeDesired) {
-				mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
+				mode = FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL;
 
 				PositionActualData positionActual;
 				PositionActualGet(&positionActual);
@@ -108,7 +108,7 @@ int32_t tablet_control_select(bool reset_controller)
 			}
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_RETURNTOHOME:
-			mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
+			mode = FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL;
 
 			pathDesired.End[0] = 0;
 			pathDesired.End[1] = 0;
@@ -124,7 +124,7 @@ int32_t tablet_control_select(bool reset_controller)
 		{
 			float NED[3];
 
-			mode = FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER;
+			mode = FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL;
 			tabletInfo_to_ned(&tabletInfo, NED);
 
 			pathDesired.End[0] = NED[0];
@@ -143,8 +143,10 @@ int32_t tablet_control_select(bool reset_controller)
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_FOLLOWME:
 		{
+			mode = FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL;
+			
 			// Follow the tablet location at a fixed height, but always following by
-			// a set radius
+			// a set radius. This mode is updated every cycle, unlike the others.
 			float NED[3];
 			tabletInfo_to_ned(&tabletInfo, NED);
 
