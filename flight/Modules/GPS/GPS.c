@@ -66,7 +66,7 @@ static void updateSettings();
 #if defined(PIOS_GPS_MINIMAL)
 	#define STACK_SIZE_BYTES            500
 #else
-	#define STACK_SIZE_BYTES            650
+	#define STACK_SIZE_BYTES            850
 #endif // PIOS_GPS_MINIMAL
 
 #define TASK_PRIORITY                   (tskIDLE_PRIORITY + 1)
