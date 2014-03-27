@@ -86,6 +86,6 @@
 				android:resource="@xml/telemetry_widget_info" />
 		</receiver>
 
-		<service android:name="org.taulabs.androidgcs.telemetry.OPTelemetryService"></service>
+		<service android:name="org.taulabs.androidgcs.telemetry.TelemetryService"></service>
 	</application>
 </manifest>
