@@ -33,6 +33,7 @@
 #include <QtCore/QPointer>
 #include <QWidget>
 #include <QSettings>
+#include <QtNetwork/QNetworkProxy>
 
 namespace Core {
 namespace Internal {
@@ -62,16 +63,18 @@ public:
     void readSettings(QSettings* qs);
     void saveSettings(QSettings* qs);
     bool useExpertMode() const;
+    QNetworkProxy getNetworkProxy();
 signals:
 
 private slots:
     void resetInterfaceColor();
     void resetLanguage();
     void showHelpForExternalEditor();
-    void slotAutoConnect(int);
+    void slotAutoConnect(int);    
 
 private:
     void fillLanguageBox() const;
+    void fillProxyTypesBox() const;
     QString language() const;
     void setLanguage(const QString&);
     Ui::GeneralSettings *m_page;
@@ -83,6 +86,11 @@ private:
     bool m_useExpertMode;
     QPointer<QWidget> m_dialog;
     QList<QTextCodec *> m_codecs;
+    int m_proxyType;
+    int m_proxyPort;
+    QString m_proxyHostname;
+    QString m_proxyUser;
+    QString m_proxyPassword;
 
 };
 } // namespace Internal
