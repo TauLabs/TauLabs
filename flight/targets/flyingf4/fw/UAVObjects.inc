@@ -108,8 +108,11 @@ UAVOBJSRCFILENAMES += altitudeholddesired
 UAVOBJSRCFILENAMES += waypoint
 UAVOBJSRCFILENAMES += waypointactive
 UAVOBJSRCFILENAMES += ubloxinfo
+UAVOBJSRCFILENAMES += picocsettings
+UAVOBJSRCFILENAMES += picocstatus
 
 UAVOBJSRCFILENAMES += txpidsettings
+
 UAVOBJSRCFILENAMES += vibrationanalysissettings
 UAVOBJSRCFILENAMES += vibrationanalysisoutput
 UAVOBJSRCFILENAMES += trimangles

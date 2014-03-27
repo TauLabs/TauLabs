@@ -24,6 +24,7 @@
 				<elementname>VibrationAnalysis</elementname>
 				<elementname>UAVOHoTTBridge</elementname>
 				<elementname>UAVOFrSKYSensorHubBridge</elementname>
+				<elementname>PicoC</elementname>
 			</elementnames>
 		</field>
 

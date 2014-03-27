@@ -1,0 +1,27 @@
+<xml>
+	<object name="PicoCStatus" singleinstance="true" settings="false">
+		<description>status information of the @ref PicoC Interpreter Module.</description>
+		<field name="ExitValue" units="" type="int16" elements="1" defaultvalue="0"/>
+		<field name="TestValue" units="" type="int16" elements="1" defaultvalue="0"/>
+		<field name="SectorID" units="" type="uint16" elements="1" defaultvalue="0"/>
+		<field name="FileID" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="Command" units="" type="enum" elements="1" defaultvalue="Idle">
+			<options>
+				<option>Idle</option>
+				<option>USARTmode</option>
+				<option>GetSector</option>
+				<option>SetSector</option>
+				<option>LoadFile</option>
+				<option>SaveFile</option>
+				<option>DeleteFile</option>
+				<option>FormatPartition</option>
+			</options>
+		</field>
+		<field name="CommandError" units="" type="int8" elements="1" defaultvalue="0"/>
+		<field name="Sector" units="" type="uint8" elements="32"/>
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

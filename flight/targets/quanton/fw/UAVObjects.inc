@@ -107,8 +107,10 @@ UAVOBJSRCFILENAMES += altitudeholdsettings
 UAVOBJSRCFILENAMES += altitudeholddesired
 UAVOBJSRCFILENAMES += waypoint
 UAVOBJSRCFILENAMES += waypointactive
-UAVOBJSRCFILENAMES += hottsettings
 UAVOBJSRCFILENAMES += ubloxinfo
+UAVOBJSRCFILENAMES += hottsettings
+UAVOBJSRCFILENAMES += picocsettings
+UAVOBJSRCFILENAMES += picocstatus
 
 UAVOBJSRCFILENAMES += txpidsettings
 
