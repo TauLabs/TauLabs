@@ -169,8 +169,6 @@ static void systemTask(void *parameters)
 	configuration_check();
 
 	// Whenever the configuration changes, make sure it is safe to fly
-	if (StateEstimationHandle())
-		StateEstimationConnectCallback(configurationUpdatedCb);
 	if (StabilizationSettingsHandle())
 		StabilizationSettingsConnectCallback(configurationUpdatedCb);
 	if (SystemSettingsHandle())
@@ -179,6 +177,10 @@ static void systemTask(void *parameters)
 		ManualControlSettingsConnectCallback(configurationUpdatedCb);
 	if (FlightStatusHandle())
 		FlightStatusConnectCallback(configurationUpdatedCb);
+#endif
+#if (defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
+	if (StateEstimationHandle())
+		StateEstimationConnectCallback(configurationUpdatedCb);
 #endif
 
 	// Main system loop
