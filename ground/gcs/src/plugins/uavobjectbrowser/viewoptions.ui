@@ -41,7 +41,7 @@
    <item>
     <widget class="QCheckBox" name="cbHideNotPresent">
      <property name="text">
-      <string>Hide Not Present UAVOs</string>
+      <string>Only show existing UAVOs</string>
      </property>
     </widget>
    </item>
