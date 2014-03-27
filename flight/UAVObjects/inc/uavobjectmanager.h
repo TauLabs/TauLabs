@@ -140,7 +140,7 @@ typedef struct {
 } UAVObjStats;
 
 typedef void (*new_uavo_instance_cb_t)(uint32_t,uint32_t);
-void registerNewUavObjInstanceCB(new_uavo_instance_cb_t callback);
+void UAVObjRegisterNewInstanceCB(new_uavo_instance_cb_t callback);
 
 int32_t UAVObjInitialize();
 void UAVObjGetStats(UAVObjStats* statsOut);
