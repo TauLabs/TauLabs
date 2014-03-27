@@ -1894,7 +1894,7 @@ uint32_t UAVObjIDByIndex(uint8_t index)
 	// Look for object
 	struct UAVOData * tmp_obj;
 	LL_FOREACH(uavo_list, tmp_obj) {
-		if(count == index)
+		if (count == index)
 		{
 			xSemaphoreGiveRecursive(mutex);
 			return tmp_obj->id;
