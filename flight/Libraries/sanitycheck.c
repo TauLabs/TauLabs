@@ -297,11 +297,13 @@ static int32_t check_safe_autonomous()
 	//   INSIndoor  |     INS          (unsafe)
 
 
+#if !defined(COPTERCONTROL)
 	StateEstimationData stateEstimation;
 	StateEstimationGet(&stateEstimation);
 
 	if (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSINDOOR)
 		return SYSTEMALARMS_CONFIGERROR_NAVFILTER;
+#endif
 
 	return SYSTEMALARMS_CONFIGERROR_NONE;
 }
