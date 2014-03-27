@@ -40,8 +40,7 @@
 #include <QComboBox>
 #include <QEventLoop>
 #include <alarmsmonitorwidget.h>
-#include <coreplugin/icore.h>
-#include <coreplugin/threadmanager.h>
+
 namespace Core {
 
 
@@ -114,7 +113,6 @@ bool ConnectionManager::connectDevice(DevListItem device)
         return false;
 
     QIODevice *io_dev = connection_device.connection->openDevice(connection_device.device);
-    io_dev->moveToThread(Core::ICore::instance()->threadManager()->getRealTimeThread());
     if (!io_dev)
         return false;
 
