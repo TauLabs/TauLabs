@@ -69,7 +69,7 @@ public class TelemetryMonitor extends Observable {
 	private long lastUpdateTime;
 	private final List<UAVObject> queue;
 
-	private OPTelemetryService telemService;
+	private TelemetryService telemService;
 	private boolean connected = false;
 	private boolean objects_updated = false;
 
@@ -84,7 +84,7 @@ public class TelemetryMonitor extends Observable {
 	};
 
 	public TelemetryMonitor(UAVObjectManager objMngr, Telemetry tel,
-			OPTelemetryService s) {
+			TelemetryService s) {
 		this(objMngr, tel);
 		telemService = s;
 	}
