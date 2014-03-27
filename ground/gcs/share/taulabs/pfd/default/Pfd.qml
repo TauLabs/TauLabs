@@ -1,6 +1,4 @@
-import QtQuick 1.1
-import "."
-import org.TauLabs 1.0
+import QtQuick 2.0
 
 Rectangle {
     color: "#666666"
@@ -154,24 +152,6 @@ Rectangle {
                 sceneSize: background.sceneSize
 
                 anchors.centerIn: parent
-            }
-
-            SvgElementImage {
-                id: side_slip
-                elementName: "sideslip"
-                sceneSize: background.sceneSize
-                smooth: true
-
-                LowPassFilter {
-                    id: accelsYfiltered
-                    input: Accels.y
-                }
-                property real sideSlip: accelsYfiltered.value
-
-                anchors.horizontalCenter: foreground.horizontalCenter
-                //0.5 coefficient is empirical to limit indicator movement
-                anchors.horizontalCenterOffset: -sideSlip*width*0.5
-                y: scaledBounds.y * sceneItem.height
             }
 
             Compass {
