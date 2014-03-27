@@ -1908,7 +1908,7 @@ uint32_t UAVObjIDByIndex(uint8_t index)
 /**
  * Registers a new UAVO instance created callback
  */
-void registerNewUavObjInstanceCB(new_uavo_instance_cb_t callback)
+void UAVObjRegisterNewInstanceCB(new_uavo_instance_cb_t callback)
 {
 	newUavObjInstanceCB = callback;
 }
