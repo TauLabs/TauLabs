@@ -272,10 +272,10 @@ void RawHIDWriteThread::run()
         else if(ret < 0) // < 0 => error
         {
             ++retry;
-            if(retry > WRITE_RETRIES)
+            if (retry > WRITE_RETRIES)
             {
                 retry = 0;
-                m_running=false;//TODO! make proper error handling, this only quick hack for unplug freeze
+                m_running = false; //TODO! make proper error handling, this only quick hack for unplug freeze
                 qDebug() << "Error writing to device";
             }
             else
