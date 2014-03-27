@@ -147,7 +147,7 @@ int32_t TelemetryInitialize(void)
 	SessionManagingConnectCallback(session_managing_updated);
 
 	//register the new uavo instance callback function in the uavobjectmanager
-	registerNewUavObjInstanceCB(update_object_instances);
+	UAVObjRegisterNewInstanceCB(update_object_instances);
 
 	return 0;
 }
@@ -285,7 +285,7 @@ static void processObjEvent(UAVObjEvent * ev)
 		success = -1;
 		if (ev->event == EV_UPDATED || ev->event == EV_UPDATED_MANUAL || ((ev->event == EV_UPDATED_PERIODIC) && (updateMode != UPDATEMODE_THROTTLED))) {
 			// Send update to GCS (with retries)
-			if(pausePeriodicUpdates) {
+			if (pausePeriodicUpdates) {
 				check_pause_periodic_updates_timeout();
 			}
 			while (retries < MAX_RETRIES && success == -1) {
@@ -319,11 +319,11 @@ static void processObjEvent(UAVObjEvent * ev)
 
 			if (eventMask & EV_UPDATED_THROTTLED_DIRTY) { // If EV_UPDATED_THROTTLED_DIRTY flag is set then send the data like normal.
 				// Send update to GCS (with retries)
-				if(pausePeriodicUpdates) {
+				if (pausePeriodicUpdates) {
 					check_pause_periodic_updates_timeout();
 				}
 				while (retries < MAX_RETRIES && success == -1) {
-					if(pausePeriodicUpdates) {
+					if (pausePeriodicUpdates) {
 						success = 0;
 					} else {
 						success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
@@ -625,9 +625,9 @@ static void session_managing_updated(UAVObjEvent * ev)
 			sessionManaging.ObjectOfInterestIndex = 0;
 			pausePeriodicUpdates = true;
 			pausePeriodicUpdatesTime = TICKS2MS(xTaskGetTickCount());
-		} else if(sessionManaging.ObjectOfInterestIndex == 0xFF) {
+		} else if (sessionManaging.ObjectOfInterestIndex == 0xFF) {
 			pausePeriodicUpdates = false;
-		} else if(sessionManaging.ObjectOfInterestIndex == 0xFE) {
+		} else if (sessionManaging.ObjectOfInterestIndex == 0xFE) {
 			pausePeriodicUpdates = true;
 			pausePeriodicUpdatesTime = TICKS2MS(xTaskGetTickCount());
 		} else {
