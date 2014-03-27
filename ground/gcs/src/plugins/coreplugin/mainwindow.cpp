@@ -88,6 +88,7 @@
 #include "dialogs/importsettings.h"
 #include <QDir>
 #include <QMimeData>
+#include <QNetworkProxy>
 
 using namespace Core;
 using namespace Core::Internal;
@@ -1172,6 +1173,7 @@ void MainWindow::readSettings(QSettings* qs, bool workspaceDiffOnly)
     }
 
     m_generalSettings->readSettings(qs);
+    QNetworkProxy::setApplicationProxy (m_generalSettings->getNetworkProxy());
     m_actionManager->readSettings(qs);
 
     qs->beginGroup(QLatin1String(settingsGroup));
