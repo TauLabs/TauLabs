@@ -38,7 +38,7 @@ namespace core {
         /// timeout for map connections
         /// </summary>
 
-        Proxy.setType(QNetworkProxy::NoProxy);
+        Proxy.setType(QNetworkProxy::DefaultProxy);
 
         /// <summary>
         /// Gets or sets the value of the User-agent HTTP header.
