@@ -488,6 +488,10 @@ libkml_clean:
 
 ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
   QMAKE = $(QT_SDK_QMAKE_PATH)
+ifdef WINDOWS
+  # Windows needs to be told where to find Qt libraries
+  export PATH := $(QT_SDK_DIR)/5.2.1/mingw48_32/bin:$(PATH) 
+endif
 else
   # not installed, hope it's in the path...
   QMAKE = qmake
@@ -540,7 +544,8 @@ openssl_install: openssl_clean
 	$(V1) wget -N -P "$(DL_DIR)" "$(OPENSSL_URL)"
 	$(V1) ./downloads/$(OPENSSL_FILE) /DIR=$(OPENSSL_DIR) /silent
 else
-	$(V1) echo "THIS IS A WINDOWS ONLY TARGET"
+openssl_install:
+	$(V1) $(error THIS IS A WINDOWS ONLY TARGET)
 endif
 
 .PHONY: openssl_clean

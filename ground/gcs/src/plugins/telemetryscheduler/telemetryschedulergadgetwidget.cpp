@@ -55,7 +55,7 @@
 #include "../../../../../build/ground/gcs/gcsversioninfo.h"
 #include <coreplugin/coreconstants.h>
 #include <coreplugin/generalsettings.h>
-
+#include <QMenu>
 
 TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) : QWidget(parent)
 {
@@ -98,8 +98,10 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     connect(m_telemetryeditor->bnAddTelemetryColumn, SIGNAL(clicked()), this, SLOT(addTelemetryColumn()));
     connect(m_telemetryeditor->bnRemoveTelemetryColumn, SIGNAL(clicked()), this, SLOT(removeTelemetryColumn()));
     connect(schedulerModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(dataModel_itemChanged(QStandardItem *)));
-    connect(telemetryScheduleView->horizontalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeHorizontalHeader(int)));
-    connect(telemetryScheduleView->verticalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeVerticalHeader(int)));
+    connect(telemetryScheduleView->horizontalHeader(), SIGNAL(sectionDoubleClicked(int)), this, SLOT(changeHorizontalHeader(int)));
+    connect(telemetryScheduleView->verticalHeader(), SIGNAL(sectionDoubleClicked(int)), this, SLOT(changeVerticalHeader(int)));
+    connect(telemetryScheduleView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customMenuRequested(QPoint)));
+    telemetryScheduleView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     // Generate the list of UAVOs on left side
     objManager = pm->getObject<UAVObjectManager>();
@@ -602,6 +604,31 @@ void TelemetrySchedulerGadgetWidget::changeHorizontalHeader(int headerIndex)
     columnHeaders.replace(headerIndex, headerName);
     m_telemetryeditor->cmbScheduleList->clear();
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
+}
+
+void TelemetrySchedulerGadgetWidget::customMenuRequested(QPoint pos)
+{
+    Q_UNUSED(pos)
+    bool ok;
+    QString text = QInputDialog::getText(this, tr("Mass value filling"),
+                                         tr("Choose value to use"), QLineEdit::Normal,
+                                         "", &ok);
+    if(!ok)
+        return;
+    text.toInt(&ok);
+    if(!ok)
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Value must be numeric");
+        msgBox.exec();
+        return;
+    }
+    if (!text.isEmpty())
+    {
+        foreach (QModelIndex index , telemetryScheduleView->selectionModel()->selectedIndexes()) {
+            telemetryScheduleView->model()->setData(index,text);
+        }
+    }
 }
 
 

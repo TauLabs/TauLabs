@@ -41,9 +41,9 @@ class UavTalk():
 
 		if self.state == UavTalk.STATE_COMPLETE and self.obj is not None:
 			if self.type == UavTalk.TYPE_OBJ_TS:
-				return self.obj.instance_from_bytes(self.rxBuffer, timestamp=self.timestamp)
+				return ('{0:08x}'.format(self.objId), self.rxBuffer, self.timestamp)
 			else:
-				return self.obj.instance_from_bytes(self.rxBuffer, timestamp=timestamp)
+				return ('{0:08x}'.format(self.objId), self.rxBuffer, timestamp)
 
 	def processByte(self, rxbyte):
 		"""
@@ -156,10 +156,10 @@ class UavTalk():
 			if self.type == UavTalk.TYPE_NACK:
 				# If this is a NACK, we skip to Checksum
 				self.state = UavTalk.STATE_CS
-			elif self.obj != 0 and self.obj is not None and not self.obj.meta['is_single_inst']:
+			elif self.obj is not None and not self.obj.meta['is_single_inst']:
 				# Check if this is a single instance object (i.e. if the instance ID field is coming next)
 				self.state = UavTalk.STATE_INSTID
-			elif self.obj != 0 and self.type & UavTalk.TIMESTAMPED:
+			elif self.obj is not None and self.type & UavTalk.TIMESTAMPED:
 				# Check if this is a single instance and has a timestamp in it
 				self.timestamp = 0
 				self.state = UavTalk.STATE_TIMESTAMP

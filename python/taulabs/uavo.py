@@ -139,16 +139,17 @@ class UAVO():
         # This gets a bit awkward. The order of field_values must match the structure
         # which for the intro header is name, timestamp, and id and then optionally
         # instance ID. For the timestamped packets we must parse the instance ID and
-        # then the timestamp, so we will pop that out and shuffle the order
+        # then the timestamp, so we will pop that out and shuffle the order. We also
+        # convert from ms to seconds here.
 
         if timestamp != None:
-            field_values.append(timestamp)
+            field_values.append(timestamp / 1000.0) 
         else:
             if self.meta['is_single_inst']:
                 offset = 0
             else:
                 offset = 1
-            field_values.append(unpack_field_values.pop(offset))
+            field_values.append(unpack_field_values.pop(offset) / 1000.0)
         field_values.append(self.id)
 
         # add the remaining fields
