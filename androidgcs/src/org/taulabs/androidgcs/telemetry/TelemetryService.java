@@ -55,10 +55,10 @@ import android.util.Log;
 import android.widget.Toast;
 import dalvik.system.DexClassLoader;
 
-public class OPTelemetryService extends Service {
+public class TelemetryService extends Service {
 
 	// Logging settings
-	private final String TAG = OPTelemetryService.class.getSimpleName();
+	private final String TAG = TelemetryService.class.getSimpleName();
 	public static int LOGLEVEL = 2;
 	public static boolean DEBUG = LOGLEVEL > 1;
 	public static boolean WARN = LOGLEVEL > 0;
@@ -101,17 +101,17 @@ public class OPTelemetryService extends Service {
 	private final IBinder mBinder = new LocalBinder();
 
 	static class ServiceHandler extends Handler {
-	    private final WeakReference<OPTelemetryService> mService;
+	    private final WeakReference<TelemetryService> mService;
 
-	    ServiceHandler(OPTelemetryService service, Looper looper) {
+	    ServiceHandler(TelemetryService service, Looper looper) {
 	    	super(looper);
-	        mService = new WeakReference<OPTelemetryService>(service);
+	        mService = new WeakReference<TelemetryService>(service);
 	    }
 
 	    @Override
 	    public void handleMessage(Message msg)
 	    {
-	    	OPTelemetryService service = mService.get();
+	    	TelemetryService service = mService.get();
 	         if (service != null) {
 	              service.handleMessage(msg);
 	         }
@@ -136,7 +136,7 @@ public class OPTelemetryService extends Service {
 			}
 
 			int connection_type;
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(OPTelemetryService.this);
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(TelemetryService.this);
 			try {
 				connection_type = Integer.decode(prefs.getString("connection_type", ""));
 			} catch (NumberFormatException e) {
@@ -276,7 +276,7 @@ public class OPTelemetryService extends Service {
 		mServiceLooper = thread.getLooper();
 		mServiceHandler = new ServiceHandler(this, mServiceLooper);
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(OPTelemetryService.this);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(TelemetryService.this);
 		if(prefs.getBoolean("autoconnect", false)) {
 			Message msg = mServiceHandler.obtainMessage();
 			msg.arg1 = MSG_CONNECT;
