@@ -179,6 +179,7 @@ static void vtolPathFollowerTask(void *parameters)
 				fsm_running = true;
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+			case FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL:
 				// TODO: currently when in this mode the follower just
 				// attempts to fly the path segments blindly which means
 				// the FSM cannot be utilized in a meaningful way. It might

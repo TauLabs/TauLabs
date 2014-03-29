@@ -231,7 +231,8 @@ static void attitudeUpdated(UAVObjEvent* ev)
 		}
 #if defined(CAMERASTAB_POI_MODE)		
 		else if (settings->Input[i] == CAMERASTABSETTINGS_INPUT_POI) {
-			// Process any updates of the tablet location
+			// Process any updates of the tablet location if it wants to
+			// be the POI
 			tablet_info_process();
 
 			PositionActualData positionActual;
@@ -364,31 +365,31 @@ static void tablet_info_process() {
 
 	TabletInfoData tablet;
 	TabletInfoGet(&tablet);
-	if (tablet.TabletModeDesired != TABLETINFO_TABLETMODEDESIRED_CAMERAPOI)
-		return;
+	if (tablet.Connected == TABLETINFO_CONNECTED_TRUE && tablet.POI == TABLETINFO_POI_TRUE)
+	{
+		HomeLocationData homeLocation;
+		HomeLocationGet(&homeLocation);
 
-	HomeLocationData homeLocation;
-	HomeLocationGet(&homeLocation);
+		PoiLocationData poi;
 
-	PoiLocationData poi;
+		float lat, alt;
+		lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
+		alt = homeLocation.Altitude;
 
-	float lat, alt;
-	lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
-	alt = homeLocation.Altitude;
+		float T[3];
+		T[0] = alt+6.378137E6f;
+		T[1] = cosf(lat)*(alt+6.378137E6f);
+		T[2] = -1.0f;
 
-	float T[3];
-	T[0] = alt+6.378137E6f;
-	T[1] = cosf(lat)*(alt+6.378137E6f);
-	T[2] = -1.0f;
+		float dL[3] = {(tablet.Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
+			(tablet.Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
+			(tablet.Altitude - homeLocation.Altitude)};
 
-	float dL[3] = {(tablet.Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
-		(tablet.Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-		(tablet.Altitude - homeLocation.Altitude)};
-
-	poi.North = T[0] * dL[0];
-	poi.East = T[1] * dL[1];
-	poi.Down = T[2] * dL[2];
-	PoiLocationSet(&poi);
+		poi.North = T[0] * dL[0];
+		poi.East = T[1] * dL[1];
+		poi.Down = T[2] * dL[2];
+		PoiLocationSet(&poi);
+	}
 }
 
 #endif /* CAMERASTAB_POI_MODE */
