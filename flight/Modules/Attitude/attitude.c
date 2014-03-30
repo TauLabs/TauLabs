@@ -1032,6 +1032,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_TOOFEWSATELLITES);
 		else if (gpsData.PDOP > 4.0f)
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_PDOPTOOHIGH);
+		else if (homeLocation.Set == HOMELOCATION_SET_FALSE)
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOHOME);
 		else
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_UNDEFINED);
 	} else {
@@ -1471,6 +1473,7 @@ static void set_state_estimation_error(SystemAlarmsStateEstimationOptions error_
 	case SYSTEMALARMS_STATEESTIMATION_NOGPS:
 	case SYSTEMALARMS_STATEESTIMATION_NOMAGNETOMETER:
 	case SYSTEMALARMS_STATEESTIMATION_NOBAROMETER:
+	case SYSTEMALARMS_STATEESTIMATION_NOHOME:
 	case SYSTEMALARMS_STATEESTIMATION_TOOFEWSATELLITES:
 	case SYSTEMALARMS_STATEESTIMATION_PDOPTOOHIGH:
 		severity = SYSTEMALARMS_ALARM_ERROR;
