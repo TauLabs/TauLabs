@@ -33,7 +33,8 @@
 
 #include <QtCore/QtPlugin>
 #include <QMainWindow>
-
+#include <coreplugin/icore.h>
+#include <coreplugin/threadmanager.h>
 #include <QDebug>
 
 
@@ -180,7 +181,7 @@ QIODevice *SerialConnection::openDevice(IDevice *deviceName)
         if (port.portName() == deviceName->getName()) {
             //we need to handle port settings here...
 
-            serialHandle = new QSerialPort(port, this);
+            serialHandle = new QSerialPort(port);
             if (serialHandle->open(QIODevice::ReadWrite)) {
                  if (serialHandle->setBaudRate(m_config->speed().toInt())
 	                    && serialHandle->setDataBits(QSerialPort::Data8)
@@ -190,7 +191,7 @@ QIODevice *SerialConnection::openDevice(IDevice *deviceName)
                             m_deviceOpened = true;
                  }
             }
-
+            serialHandle->moveToThread(Core::ICore::instance()->threadManager()->getRealTimeThread());
             return serialHandle;
         }
     }
