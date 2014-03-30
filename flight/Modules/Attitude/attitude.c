@@ -153,8 +153,11 @@ static void AttitudeTask(void *parameters);
 //! Set the navigation information to the raw estimates
 static int32_t setNavigationRaw();
 
+//! Provide no navigation updates (indoor flying or without gps)
+static int32_t setNavigationNone();
+
 //! Update the complementary filter attitude estimate
-static int32_t updateAttitudeComplementary(bool first_run, bool secondary);
+static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool raw_gps);
 //! Set the @ref AttitudeActual to the complementary filter estimate
 static int32_t setAttitudeComplementary();
 
@@ -329,9 +332,13 @@ static void AttitudeTask(void *parameters)
 		if (ins) {
 			ret_val = updateAttitudeINSGPS(first_run, outdoor);
 			if (complementary)
-				 updateAttitudeComplementary(first_run || complementary != last_complementary, true);
+				 updateAttitudeComplementary(first_run || complementary != last_complementary,
+				                               true,     // the secondary filter
+				                               false);   // no raw gps is used
 		} else {
-			ret_val = updateAttitudeComplementary(first_run, false);
+			ret_val = updateAttitudeComplementary(first_run,
+			                                       false,
+			                                       stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_RAW);
 		}
 
 		last_complementary = complementary;
@@ -351,12 +358,17 @@ static void AttitudeTask(void *parameters)
 		// Use the selected source for position and velocity
 		switch (stateEstimation.NavigationFilter) {
 		case STATEESTIMATION_NAVIGATIONFILTER_INS:
-				// TODO: When running in dual mode and the INS is not initialized set
-				// an error here
-				setNavigationINSGPS();
-				break;
+			// TODO: When running in dual mode and the INS is not initialized set
+			// an error here
+			setNavigationINSGPS();
+			break;
+		case STATEESTIMATION_NAVIGATIONFILTER_RAW:
+			setNavigationRaw();
+			break;
+		case STATEESTIMATION_NAVIGATIONFILTER_NONE:
 		default:
-				setNavigationRaw();		
+			setNavigationNone();
+			break;
 		}
 
 		updateNedAccel();
@@ -376,7 +388,7 @@ static float cf_q[4];
  * @param[in] first_run indicates the filter was just selected
  * @param[in] secondary indicates the EKF is running as well
  */
-static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
+static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool raw_gps)
 {
 	UAVObjEvent ev;
 	GyrosData gyrosData;
@@ -677,8 +689,11 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 		}
 
 	}
-	if (!secondary)
+	if (!secondary && !raw_gps) {
+		// When in raw GPS mode, it will set the error to none if
+		// reception is good
 		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
+	}
 
 	return 0;
 }
@@ -755,12 +770,24 @@ static int32_t setNavigationRaw()
 {
 	UAVObjEvent ev;
 
+	if (homeLocation.Set == HOMELOCATION_SET_FALSE) {
+		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOHOME);
+		return -1;
+	}
 
 	if ( xQueueReceive(gpsQueue, &ev, 0) == pdTRUE && homeLocation.Set == HOMELOCATION_SET_TRUE ) {
 		float NED[3];
 		// Transform the GPS position into NED coordinates
 		GPSPositionData gpsPosition;
 		GPSPositionGet(&gpsPosition);
+
+		if (gpsPosition.Satellites < 6)
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_TOOFEWSATELLITES);
+		else if (gpsPosition.PDOP > 4.0f)
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_PDOPTOOHIGH);
+		else
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
+
 		getNED(&gpsPosition, NED);
 
 		NEDPositionData nedPosition;
@@ -794,6 +821,21 @@ static int32_t setNavigationRaw()
 	} else {
 		VelocityActualDownSet(&cfvert.velocity_z);
 	}
+
+	return 0;
+}
+
+//! Set the navigation information to the raw estimates
+static int32_t setNavigationNone()
+{
+	UAVObjEvent ev;
+
+	// Throw away data to prevent queue overflows
+	xQueueReceive(gpsQueue, &ev, 0);
+	xQueueReceive(gpsVelQueue, &ev, 0);
+
+	PositionActualDownSet(&cfvert.position_z);
+	VelocityActualDownSet(&cfvert.velocity_z);
 
 	return 0;
 }
