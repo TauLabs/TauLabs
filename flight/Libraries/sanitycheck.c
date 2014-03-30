@@ -305,7 +305,9 @@ static int32_t check_safe_autonomous()
 	if (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSINDOOR)
 		return SYSTEMALARMS_CONFIGERROR_NAVFILTER;
 
-	if (stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_RAW)
+	// Anything not allowed is invalid, safe default
+	if (stateEstimation.NavigationFilter != STATEESTIMATION_NAVIGATIONFILTER_INS &&
+		stateEstimation.NavigationFilter != STATEESTIMATION_NAVIGATIONFILTER_RAW)
 		return SYSTEMALARMS_CONFIGERROR_NAVFILTER;
 #endif
 
