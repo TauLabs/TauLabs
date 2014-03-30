@@ -34,10 +34,9 @@
 #include <coreplugin/icore.h>
 #include <QMessageBox>
 #include <QtCore/QDir>
-
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QSettings>
-
+#include <QDialog>
 #include "ui_generalsettings.h"
 
 using namespace Utils;
@@ -49,7 +48,9 @@ GeneralSettings::GeneralSettings():
     m_autoSelect(true),
     m_useUDPMirror(false),
     m_useExpertMode(false),
-    m_dialog(0)
+    m_dialog(0),
+    m_proxyType(QNetworkProxy::NoProxy),
+    m_proxyPort(0)
 {
 }
 
@@ -109,12 +110,22 @@ void GeneralSettings::fillLanguageBox() const
     }
 }
 
+void GeneralSettings::fillProxyTypesBox() const
+{
+    m_page->proxyTypeCB->addItem("No Proxy", 2);
+    m_page->proxyTypeCB->addItem("Socks5Proxy", 1);
+    m_page->proxyTypeCB->addItem("HttpProxy", 3);
+    m_page->proxyTypeCB->addItem("HttpCachingProxy", 4);
+    m_page->proxyTypeCB->addItem("FtpCachingProxy", 5);
+}
+
 QWidget *GeneralSettings::createPage(QWidget *parent)
 {
     m_page = new Ui::GeneralSettings();
     QWidget *w = new QWidget(parent);
     m_page->setupUi(w);
     fillLanguageBox();
+    fillProxyTypesBox();
     connect(m_page->checkAutoConnect,SIGNAL(stateChanged(int)),this,SLOT(slotAutoConnect(int)));
     m_page->checkBoxSaveOnExit->setChecked(m_saveSettingsOnExit);
     m_page->checkAutoConnect->setChecked(m_autoConnect);
@@ -122,7 +133,11 @@ QWidget *GeneralSettings::createPage(QWidget *parent)
     m_page->cbUseUDPMirror->setChecked(m_useUDPMirror);
     m_page->cbExpertMode->setChecked(m_useExpertMode);
     m_page->colorButton->setColor(StyleHelper::baseColor());
-
+    m_page->proxyTypeCB->setCurrentIndex(m_page->proxyTypeCB->findData(m_proxyType));
+    m_page->portLE->setText(QString::number(m_proxyPort));
+    m_page->hostNameLE->setText(m_proxyHostname);
+    m_page->userLE->setText(m_proxyUser);
+    m_page->passwordLE->setText(m_proxyPassword);
     connect(m_page->resetButton, SIGNAL(clicked()),
             this, SLOT(resetInterfaceColor()));
 
@@ -141,6 +156,12 @@ void GeneralSettings::apply()
     m_useExpertMode=m_page->cbExpertMode->isChecked();
     m_autoConnect = m_page->checkAutoConnect->isChecked();
     m_autoSelect = m_page->checkAutoSelect->isChecked();
+    m_proxyType = m_page->proxyTypeCB->currentData().toInt();
+    m_proxyPort = m_page->portLE->text().toInt();
+    m_proxyHostname = m_page->hostNameLE->text();
+    m_proxyUser = m_page->userLE->text();
+    m_proxyPassword = m_page->passwordLE->text();
+    QNetworkProxy::setApplicationProxy (getNetworkProxy());
 }
 
 void GeneralSettings::finish()
@@ -157,6 +178,11 @@ void GeneralSettings::readSettings(QSettings* qs)
     m_autoSelect = qs->value(QLatin1String("AutoSelect"),m_autoSelect).toBool();
     m_useUDPMirror = qs->value(QLatin1String("UDPMirror"),m_useUDPMirror).toBool();
     m_useExpertMode = qs->value(QLatin1String("ExpertMode"),m_useExpertMode).toBool();
+    m_proxyType = qs->value(QLatin1String("proxytype"),m_proxyType).toInt();
+    m_proxyPort = qs->value(QLatin1String("proxyport"),m_proxyPort).toInt();
+    m_proxyHostname = qs->value(QLatin1String("proxyhostname"),m_proxyHostname).toString();
+    m_proxyUser = qs->value(QLatin1String("proxyuser"),m_proxyUser).toString();
+    m_proxyPassword = qs->value(QLatin1String("proxypassword"),m_proxyPassword).toString();
     qs->endGroup();
 }
 
@@ -174,6 +200,12 @@ void GeneralSettings::saveSettings(QSettings* qs)
     qs->setValue(QLatin1String("AutoSelect"), m_autoSelect);
     qs->setValue(QLatin1String("UDPMirror"), m_useUDPMirror);
     qs->setValue(QLatin1String("ExpertMode"), m_useExpertMode);
+
+    qs->setValue(QLatin1String("proxytype"), m_proxyType);
+    qs->setValue(QLatin1String("proxyport"), m_proxyPort);
+    qs->setValue(QLatin1String("proxyhostname"), m_proxyHostname);
+    qs->setValue(QLatin1String("proxyuser"), m_proxyUser);
+    qs->setValue(QLatin1String("proxypassword"), m_proxyPassword);
     qs->endGroup();
 }
 
@@ -190,16 +222,6 @@ void GeneralSettings::showHelpForExternalEditor()
         m_dialog->activateWindow();
         return;
     }
-#if 0
-    QMessageBox *mb = new QMessageBox(QMessageBox::Information,
-                                  tr("Variables"),
-                                  EditorManager::instance()->externalEditorHelpText(),
-                                  QMessageBox::Cancel,
-                                  m_page->helpExternalEditorButton);
-    mb->setWindowModality(Qt::NonModal);
-    m_dialog = mb;
-    mb->show();
-#endif
 }
 
 void GeneralSettings::resetLanguage()
@@ -247,6 +269,11 @@ bool GeneralSettings::useUDPMirror() const
 bool GeneralSettings::useExpertMode() const
 {
     return m_useExpertMode;
+}
+
+QNetworkProxy GeneralSettings::getNetworkProxy()
+{
+    return QNetworkProxy((QNetworkProxy::ProxyType)m_proxyType, m_proxyHostname, m_proxyPort, m_proxyUser, m_proxyPassword);
 }
 
 void GeneralSettings::slotAutoConnect(int value)
