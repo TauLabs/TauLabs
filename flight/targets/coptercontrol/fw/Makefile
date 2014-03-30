@@ -245,6 +245,8 @@ SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
 SRC += $(OPUAVSYNTHDIR)/trimanglessettings.c
 SRC += $(OPUAVSYNTHDIR)/trimangles.c
 SRC += $(OPUAVSYNTHDIR)/ubloxinfo.c
+SRC += $(OPUAVSYNTHDIR)/sessionmanaging.c
+
 endif
 
 ## PIOS Hardware (STM32F10x)

@@ -85,7 +85,7 @@ public:
     virtual QString shortName();
     virtual void suspendPolling();
     virtual void resumePolling();
-
+    virtual bool reconnect() { return m_config->reconnect(); }
     bool deviceOpened() {return m_deviceOpened;}
     SerialPluginConfiguration * Config() const { return m_config; }
     SerialPluginOptionsPage * Optionspage() const { return m_optionspage; }

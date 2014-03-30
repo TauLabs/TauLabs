@@ -116,6 +116,7 @@ typedef struct {
 	UAVObjEventType event;
 } UAVObjEvent;
 
+
 /**
  * Event callback, this function is called when an event is invoked. The function
  * will be executed in the event task. The ev parameter should be copied if needed
@@ -137,6 +138,9 @@ typedef struct {
 	uint32_t lastCallbackErrorID;
 	uint32_t lastQueueErrorID;
 } UAVObjStats;
+
+typedef void (*new_uavo_instance_cb_t)(uint32_t,uint32_t);
+void UAVObjRegisterNewInstanceCB(new_uavo_instance_cb_t callback);
 
 int32_t UAVObjInitialize();
 void UAVObjGetStats(UAVObjStats* statsOut);
@@ -201,6 +205,8 @@ void UAVObjUpdated(UAVObjHandle obj);
 void UAVObjInstanceUpdated(UAVObjHandle obj_handle, uint16_t instId);
 void UAVObjIterate(void (*iterator)(UAVObjHandle obj));
 int32_t getEventMask(UAVObjHandle obj_handle, xQueueHandle queue);
+uint8_t UAVObjCount();
+uint32_t UAVObjIDByIndex(uint8_t index);
 
 #endif // UAVOBJECTMANAGER_H
 

@@ -175,7 +175,7 @@ static const UAVObjMetadata defMetadata = {
 };
 
 static UAVObjStats stats;
-
+static new_uavo_instance_cb_t newUavObjInstanceCB;
 /**
  * Initialize the object manager
  * \return 0 Success
@@ -185,13 +185,13 @@ int32_t UAVObjInitialize()
 {
 	// Initialize variables
 	uavo_list = NULL;
+
 	memset(&stats, 0, sizeof(UAVObjStats));
 
 	// Create mutex
 	mutex = xSemaphoreCreateRecursiveMutex();
 	if (mutex == NULL)
 		return -1;
-
 	// Done
 	return 0;
 }
@@ -491,11 +491,10 @@ uint16_t UAVObjGetNumInstances(UAVObjHandle obj_handle)
  * \param[in] obj The object handle
  * \return The instance ID or 0 if an error
  */
-uint16_t UAVObjCreateInstance(UAVObjHandle obj_handle,
-			UAVObjInitializeCallback initCb)
+uint16_t UAVObjCreateInstance(UAVObjHandle obj_handle, UAVObjInitializeCallback initCb)
 {
 	PIOS_Assert(obj_handle);
-
+	bool created = false;
 	if (UAVObjIsMetaobject(obj_handle)) {
 		return 0;
 	}
@@ -508,19 +507,23 @@ uint16_t UAVObjCreateInstance(UAVObjHandle obj_handle,
 
 	// Create new instance
 	instId = UAVObjGetNumInstances(obj_handle);
-	instEntry = createInstance( (struct UAVOData *)obj_handle, instId);
+	instEntry = createInstance((struct UAVOData *) obj_handle, instId);
 	if (instEntry == NULL) {
 		goto unlock_exit;
-	}
+	} else
+		created = true;
 
 	// Initialize instance data
 	if (initCb) {
 		initCb(obj_handle, instId);
 	}
 
-unlock_exit:
+	unlock_exit:
 	xSemaphoreGiveRecursive(mutex);
-
+	if (created) {
+		if (newUavObjInstanceCB)
+			newUavObjInstanceCB(((struct UAVOData *) obj_handle)->id, UAVObjGetNumInstances(obj_handle));
+	}
 	return instId;
 }
 
@@ -1858,7 +1861,57 @@ int32_t getEventMask(UAVObjHandle obj_handle, xQueueHandle queue)
 	// Done
 	return eventMask;
 }
+/**
+ * UAVObjCount returns the registered uav objects count
+ * \return number of registered uav objects
+ */
+uint8_t UAVObjCount()
+{
+	uint8_t count = 0;
+	// Get lock
+	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
 
+	// Look for object
+	struct UAVOData * tmp_obj;
+	LL_FOREACH(uavo_list, tmp_obj) {
+		++count;
+	}
+
+	xSemaphoreGiveRecursive(mutex);
+	return count;
+}
+
+/**
+ * UAVObjIDByIndex returns the ID of the object with index index
+ * \return the ID of the object
+ */
+uint32_t UAVObjIDByIndex(uint8_t index)
+{
+	uint8_t count = 0;
+	// Get lock
+	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
+
+	// Look for object
+	struct UAVOData * tmp_obj;
+	LL_FOREACH(uavo_list, tmp_obj) {
+		if (count == index)
+		{
+			xSemaphoreGiveRecursive(mutex);
+			return tmp_obj->id;
+		}
+		++count;
+	}
+	xSemaphoreGiveRecursive(mutex);
+	return 0;
+}
+
+/**
+ * Registers a new UAVO instance created callback
+ */
+void UAVObjRegisterNewInstanceCB(new_uavo_instance_cb_t callback)
+{
+	newUavObjInstanceCB = callback;
+}
 /**
  * @}
  * @}

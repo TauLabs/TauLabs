@@ -91,6 +91,8 @@
 #define PIOS_INCLUDE_FLASH_JEDEC
 #define PIOS_INCLUDE_FLASH_INTERNAL
 
+#define PIOS_INCLUDE_SESSION_MANAGEMENT
+
 /* Alarm Thresholds */
 #define HEAP_LIMIT_WARNING             220
 #define HEAP_LIMIT_CRITICAL             40

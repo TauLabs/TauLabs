@@ -114,6 +114,8 @@ UAVOBJSRCFILENAMES += vibrationanalysisoutput
 UAVOBJSRCFILENAMES += trimangles
 UAVOBJSRCFILENAMES += trimanglessettings
 
+UAVOBJSRCFILENAMES += sessionmanaging
+
 #Support for radio module on RM
 UAVOBJSRCFILENAMES += oplinkstatus
 UAVOBJSRCFILENAMES += oplinksettings
