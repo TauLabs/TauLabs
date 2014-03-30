@@ -781,10 +781,8 @@ static int32_t setNavigationRaw()
 
 	if (homeLocation.Set == HOMELOCATION_SET_FALSE) {
 		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOHOME);
-		return -1;
-	}
-
-	if ( xQueueReceive(gpsQueue, &ev, 0) == pdTRUE && homeLocation.Set == HOMELOCATION_SET_TRUE ) {
+		xQueueReceive(gpsQueue, &ev, 0);
+	} else if (xQueueReceive(gpsQueue, &ev, 0) == pdTRUE) {
 		float NED[3];
 		// Transform the GPS position into NED coordinates
 		GPSPositionData gpsPosition;
