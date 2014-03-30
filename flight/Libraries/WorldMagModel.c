@@ -88,7 +88,7 @@ int WMM_Initialize()
 	MagneticModel.nMax = WMM_MAX_MODEL_DEGREES;
 	MagneticModel.nMaxSecVar = WMM_MAX_SECULAR_VARIATION_MODEL_DEGREES;
 	MagneticModel.SecularVariationUsed = 0;
-  MagneticModel.epoch       = MAGNETIC_MODEL_EPOCH;
+	MagneticModel.epoch       = MAGNETIC_MODEL_EPOCH;
 
 	// Must be updated periodically. Last update expires in 2015
 
