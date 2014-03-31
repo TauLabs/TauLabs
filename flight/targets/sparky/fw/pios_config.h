@@ -82,7 +82,6 @@
 #define PIOS_INCLUDE_GPS
 #define PIOS_INCLUDE_GPS_NMEA_PARSER
 #define PIOS_INCLUDE_GPS_UBX_PARSER
-#define PIOS_GPS_SETS_HOMELOCATION
 
 /* Supported receiver interfaces */
 #define PIOS_INCLUDE_RCVR
@@ -103,11 +102,10 @@
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */
 //#define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
-#define PIOS_GPS_SETS_HOMELOCATION      /* GPS options */
 
 /* Alarm Thresholds */
-#define HEAP_LIMIT_WARNING		1000
-#define HEAP_LIMIT_CRITICAL		500
+#define HEAP_LIMIT_WARNING		750
+#define HEAP_LIMIT_CRITICAL		400
 #define IRQSTACK_LIMIT_WARNING		150
 #define IRQSTACK_LIMIT_CRITICAL		80
 #define CPULOAD_LIMIT_WARNING		80
