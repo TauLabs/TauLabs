@@ -36,6 +36,7 @@
 #include "flightstatus.h"
 #include "manualcontrolsettings.h"
 #include "stabilizationsettings.h"
+#include "stateestimation.h"
 #include "systemstats.h"
 #include "systemsettings.h"
 #include "taskinfo.h"
@@ -176,6 +177,10 @@ static void systemTask(void *parameters)
 		ManualControlSettingsConnectCallback(configurationUpdatedCb);
 	if (FlightStatusHandle())
 		FlightStatusConnectCallback(configurationUpdatedCb);
+#endif
+#if (defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
+	if (StateEstimationHandle())
+		StateEstimationConnectCallback(configurationUpdatedCb);
 #endif
 
 	// Main system loop
