@@ -31,6 +31,7 @@
 #include "sanitycheck.h"
 #include "manualcontrolsettings.h"
 #include "stabilizationsettings.h"
+#include "stateestimation.h"
 #include "systemalarms.h"
 #include "systemsettings.h"
 
@@ -50,6 +51,9 @@ static int32_t check_stabilization_settings(int index, bool multirotor);
 
 //! Check a stabilization mode switch position for safety
 static int32_t check_stabilization_rates();
+
+//! Check the system is safe for autonomous flight
+static int32_t check_safe_autonomous();
 
 //!  Set the error code and alarm state
 static void set_config_error(SystemAlarmsConfigErrorOptions error_code);
@@ -137,6 +141,8 @@ int32_t configuration_check()
 				else {
 					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
 						error_code = SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL;
+					} else {
+						error_code = check_safe_autonomous();
 					}
 				}
 				break;
@@ -148,6 +154,8 @@ int32_t configuration_check()
 				else {
 					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
 						error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
+					} else {
+						error_code = check_safe_autonomous();
 					}
 				}
 				break;
@@ -160,6 +168,8 @@ int32_t configuration_check()
 					if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER) ||
 						!TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHPLANNER)) {
 						error_code = SYSTEMALARMS_CONFIGERROR_PATHPLANNER;
+					} else {
+						error_code = check_safe_autonomous();
 					}
 				}
 				break;
@@ -274,6 +284,37 @@ static int32_t check_safe_to_arm()
 }
 
 /**
+ * If an autonomous mode is available, make sure all the configurations are
+ * valid for it
+ */
+static int32_t check_safe_autonomous()
+{
+	// The current filter combinations are safe for navigation
+	//   Attitude   |  Navigation
+	//     Comp     |     Raw          (not recommended)
+	//     Comp     |     INS          (recommmended)
+	//    Anything  |     None         (unsafe)
+	//   INSOutdoor |     INS
+	//   INSIndoor  |     INS          (unsafe)
+
+
+#if !defined(COPTERCONTROL)
+	StateEstimationData stateEstimation;
+	StateEstimationGet(&stateEstimation);
+
+	if (stateEstimation.AttitudeFilter == STATEESTIMATION_ATTITUDEFILTER_INSINDOOR)
+		return SYSTEMALARMS_CONFIGERROR_NAVFILTER;
+
+	// Anything not allowed is invalid, safe default
+	if (stateEstimation.NavigationFilter != STATEESTIMATION_NAVIGATIONFILTER_INS &&
+		stateEstimation.NavigationFilter != STATEESTIMATION_NAVIGATIONFILTER_RAW)
+		return SYSTEMALARMS_CONFIGERROR_NAVFILTER;
+#endif
+
+	return SYSTEMALARMS_CONFIGERROR_NONE;
+}
+
+/**
  * Check the rates achieved via stabilization are ones that can be tracked
  * by the gyros as configured.
  * @return error code if not
@@ -314,6 +355,7 @@ static void set_config_error(SystemAlarmsConfigErrorOptions error_code)
 	case SYSTEMALARMS_CONFIGERROR_VELOCITYCONTROL:
 	case SYSTEMALARMS_CONFIGERROR_POSITIONHOLD:
 	case SYSTEMALARMS_CONFIGERROR_PATHPLANNER:
+	case SYSTEMALARMS_CONFIGERROR_NAVFILTER:
 	case SYSTEMALARMS_CONFIGERROR_UNSAFETOARM:
 		severity = SYSTEMALARMS_ALARM_ERROR;
 		break;

@@ -41,9 +41,7 @@
 
 	// internal structure definitions
 typedef struct {
-	float EditionDate;
 	float epoch;		//Base time of Geomagnetic model epoch (yrs)
-	char ModelName[20];
 //	float Main_Field_Coeff_G[NUMTERMS];	// C - Gauss coefficients of main geomagnetic model (nT)
 //	float Main_Field_Coeff_H[NUMTERMS];	// C - Gauss coefficients of main geomagnetic model (nT)
 //	float Secular_Var_Coeff_G[NUMTERMS];	// CD - Gauss coefficients of secular geomagnetic model (nT/yr)

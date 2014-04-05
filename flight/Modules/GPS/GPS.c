@@ -39,8 +39,6 @@
 #include "gpstime.h"
 #include "gpssatellites.h"
 #include "gpsvelocity.h"
-#include "WorldMagModel.h"
-#include "coordinate_conversions.h"
 #include "modulesettings.h"
 
 #include "NMEA.h"
@@ -58,10 +56,6 @@
 static void gpsTask(void *parameters);
 static void updateSettings();
 
-#ifdef PIOS_GPS_SETS_HOMELOCATION
-static void setHomeLocation(GPSPositionData * gpsData);
-#endif
-
 // ****************
 // Private constants
 
@@ -69,16 +63,11 @@ static void setHomeLocation(GPSPositionData * gpsData);
 #define GPS_COM_TIMEOUT_MS              100
 
 
-#ifdef PIOS_GPS_SETS_HOMELOCATION
-// Unfortunately need a good size stack for the WMM calculation
-	#define STACK_SIZE_BYTES            850
-#else
 #if defined(PIOS_GPS_MINIMAL)
 	#define STACK_SIZE_BYTES            500
 #else
-	#define STACK_SIZE_BYTES            650
+	#define STACK_SIZE_BYTES            850
 #endif // PIOS_GPS_MINIMAL
-#endif // PIOS_GPS_SETS_HOMELOCATION
 
 #define TASK_PRIORITY                   (tskIDLE_PRIORITY + 1)
 
@@ -160,9 +149,6 @@ int32_t GPSInitialize(void)
 #if !defined(PIOS_GPS_MINIMAL)
 		GPSTimeInitialize();
 		GPSSatellitesInitialize();
-#endif
-#ifdef PIOS_GPS_SETS_HOMELOCATION
-		HomeLocationInitialize();
 #endif
 #if defined(PIOS_GPS_PROVIDES_AIRSPEED)
 		AirspeedActualInitialize();
@@ -291,20 +277,12 @@ static void gpsTask(void *parameters)
 			AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_ERROR);
 		} else {
 			// we appear to be receiving GPS sentences OK, we've had an update
-			//criteria for GPS-OK taken from this post...
-			//http://forums.openpilot.org/topic/1523-professors-insgps-in-svn/page__view__findpost__p__5220
+			//criteria for GPS-OK taken from this post
 			if (gpsposition.PDOP < 3.5f && 
 			    gpsposition.Satellites >= 7 &&
 			    (gpsposition.Status == GPSPOSITION_STATUS_FIX3D ||
 			         gpsposition.Status == GPSPOSITION_STATUS_DIFF3D)) {
 				AlarmsClear(SYSTEMALARMS_ALARM_GPS);
-#ifdef PIOS_GPS_SETS_HOMELOCATION
-				HomeLocationData home;
-				HomeLocationGet(&home);
-
-				if (home.Set == HOMELOCATION_SET_FALSE)
-					setHomeLocation(&gpsposition);
-#endif
 			} else if (gpsposition.Status == GPSPOSITION_STATUS_FIX3D ||
 			           gpsposition.Status == GPSPOSITION_STATUS_DIFF3D)
 						AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_WARNING);
@@ -315,40 +293,6 @@ static void gpsTask(void *parameters)
 	}
 }
 
-#ifdef PIOS_GPS_SETS_HOMELOCATION
-
-// ****************
-
-static void setHomeLocation(GPSPositionData * gpsData)
-{
-	HomeLocationData home;
-	HomeLocationGet(&home);
-	GPSTimeData gps;
-	GPSTimeGet(&gps);
-
-	if (gps.Year >= 2000)
-	{
-		// Store LLA
-		home.Latitude = gpsData->Latitude;
-		home.Longitude = gpsData->Longitude;
-		home.Altitude = gpsData->Altitude; // Altitude referenced to mean sea level geoid (likely EGM 1996, but no guarantees)
-
-		// Compute home ECEF coordinates and the rotation matrix into NED
-		double LLA[3] = { ((double)home.Latitude) / 10e6, ((double)home.Longitude) / 10e6, ((double)home.Altitude) };
-
-		// Compute magnetic flux direction at home location
-		if (WMM_GetMagVector(LLA[0], LLA[1], LLA[2], gps.Month, gps.Day, gps.Year, &home.Be[0]) >= 0)
-		{   // calculations appeared to go OK
-
-			// Compute local acceleration due to gravity.  Vehicles that span a very large
-			// range of altitude (say, weather balloons) may need to update this during the
-			// flight.
-			home.Set = HOMELOCATION_SET_TRUE;
-			HomeLocationSet(&home);
-		}
-	}
-}
-#endif
 
 /**
  * Update the GPS settings, called on startup.
