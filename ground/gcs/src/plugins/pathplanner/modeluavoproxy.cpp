@@ -67,9 +67,10 @@ void ModelUavoProxy::modelToObjects()
     double NED[3];
     double LLA[3];
     getHomeLocation(homeLLA);
-
+    bool newInstance;
     for(int x=0;x<myModel->rowCount();++x)
     {
+        newInstance = false;
         Waypoint *wp = NULL;
 
         // Get the number of existing waypoints
@@ -78,6 +79,7 @@ void ModelUavoProxy::modelToObjects()
         // Create new instances of waypoints if this is more than exist
         if(x>instances-1)
         {
+            newInstance = true;
             wp=new Waypoint;
             wp->initialize(x,wp->getMetaObject());
             objManager->registerObject(wp);
@@ -110,6 +112,12 @@ void ModelUavoProxy::modelToObjects()
             qDebug() << "Upload failed";
             break;
         }
+        if(newInstance)
+        {
+            QEventLoop m_eventloop;
+            QTimer::singleShot(800, &m_eventloop, SLOT(quit()));
+            m_eventloop.exec();
+        }
     }
     wp->setMetadata(initialMeta);
 }
@@ -126,7 +134,7 @@ bool ModelUavoProxy::robustUpdate(Waypoint::DataFields data, int instance)
     connect(wp, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(waypointTransactionCompleted(UAVObject *, bool)));
     for (int i = 0; i < 10; i++) {
             QEventLoop m_eventloop;
-            QTimer::singleShot(500, &m_eventloop, SLOT(quit()));
+            QTimer::singleShot(1000, &m_eventloop, SLOT(quit()));
             connect(this, SIGNAL(waypointTransactionSucceeded()), &m_eventloop, SLOT(quit()));
             connect(this, SIGNAL(waypointTransactionFailed()), &m_eventloop, SLOT(quit()));
             waypointTransactionResult.insert(instance, false);
