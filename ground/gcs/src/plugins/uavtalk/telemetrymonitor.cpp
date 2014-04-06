@@ -170,7 +170,7 @@ void TelemetryMonitor::startRetrievingObjects()
     retrieveNextObject();
 }
 
-void TelemetryMonitor::changeObjectInstances(quint32 objID, quint32 instID)
+void TelemetryMonitor::changeObjectInstances(quint32 objID, quint32 instID, bool delayed)
 {
     TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 OBJID:%1 INSTID:%2").arg(Q_FUNC_INFO).arg(objID).arg(instID));
     UAVObject * obj = objMngr->getObject(objID);
@@ -215,7 +215,10 @@ void TelemetryMonitor::changeObjectInstances(quint32 objID, quint32 instID)
             UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(objMngr->getObject(objID,x));
             if(dobj)
             {
-                dobj->setIsPresentOnHardware(true);
+                if(delayed)
+                    delayedUpdate.append(dobj);
+                else
+                    dobj->setIsPresentOnHardware(true);
             }
         }
     }
@@ -243,6 +246,10 @@ void TelemetryMonitor::retrieveNextObject()
         //restart periodic updates on the FC
         sessionObj->setObjectOfInterestIndex(0xFF);
         sessionObj->updated();
+        foreach (UAVDataObject * uavo, delayedUpdate) {
+            uavo->setIsPresentOnHardware(true);
+        }
+        delayedUpdate.clear();
         emit connected();
         sessionRetrieveTimeout->stop();
         sessionInitialRetrieveTimeout->stop();
@@ -354,7 +361,7 @@ void TelemetryMonitor::sessionObjUnpackedCB(UAVObject *obj)
                     }
                     else
                     {
-                        changeObjectInstances(objs.objID,objs.instID);
+                        changeObjectInstances(objs.objID,objs.instID, true);
                     }
                 }
             }
@@ -374,7 +381,7 @@ void TelemetryMonitor::sessionObjUnpackedCB(UAVObject *obj)
         {
             TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 received sessionID shift by one, this signal that a multi instance object changed number of instances")
                                           .arg(Q_FUNC_INFO));
-            changeObjectInstances(sessionObj->getObjectID(),sessionObj->getObjectInstances());
+            changeObjectInstances(sessionObj->getObjectID(),sessionObj->getObjectInstances(), false);
             sessionID = sessionID + 1;
             saveSession();
         }
@@ -530,7 +537,7 @@ void TelemetryMonitor::startSessionRetrieving(UAVObject *session)
             }
             if((sessionObj->getObjectInstances() > 1) && !obj->isSingleInstance())
             {
-                changeObjectInstances(dobj->getObjID(),sessionObj->getObjectInstances());
+                changeObjectInstances(dobj->getObjID(),sessionObj->getObjectInstances(), true);
             }
         }
         ++currentIndex;
