@@ -49,13 +49,14 @@ ModelUavoProxy::ModelUavoProxy(QObject *parent, FlightDataModel *model):QObject(
 /**
  * @brief ModelUavoProxy::modelToObjects Cast from the internal representation of a path
  * to the UAV objects required to represent it
+ * @return true if all wp were sent ok
  */
-void ModelUavoProxy::modelToObjects()
+bool ModelUavoProxy::modelToObjects()
 {
     Waypoint *wp = Waypoint::GetInstance(objManager,0);
     Q_ASSERT(wp);
     if (wp == NULL)
-        return;
+        return false;
 
     // Make sure the object is acked
     UAVObject::Metadata initialMeta = wp->getMetadata();
@@ -106,10 +107,14 @@ void ModelUavoProxy::modelToObjects()
         waypoint.Mode = myModel->data(myModel->index(x,FlightDataModel::MODE), Qt::UserRole).toInt();
         waypoint.ModeParameters = myModel->data(myModel->index(x,FlightDataModel::MODE_PARAMS)).toFloat();
 
-        if (robustUpdate(waypoint, x))
+        if (robustUpdate(waypoint, x)) {
             qDebug() << "Successfully updated";
+            emit sendPathPlanToUavProgress(100 * x/(myModel->rowCount() -1));
+        }
         else {
             qDebug() << "Upload failed";
+            emit sendPathPlanToUavProgress(100 * x/(myModel->rowCount() -1));
+            return false;
             break;
         }
         if(newInstance)
@@ -120,6 +125,7 @@ void ModelUavoProxy::modelToObjects()
         }
     }
     wp->setMetadata(initialMeta);
+    return true;
 }
 
 /**
