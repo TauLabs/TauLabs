@@ -494,7 +494,6 @@ uint16_t UAVObjGetNumInstances(UAVObjHandle obj_handle)
 uint16_t UAVObjCreateInstance(UAVObjHandle obj_handle, UAVObjInitializeCallback initCb)
 {
 	PIOS_Assert(obj_handle);
-	bool created = false;
 	if (UAVObjIsMetaobject(obj_handle)) {
 		return 0;
 	}
@@ -510,8 +509,7 @@ uint16_t UAVObjCreateInstance(UAVObjHandle obj_handle, UAVObjInitializeCallback 
 	instEntry = createInstance((struct UAVOData *) obj_handle, instId);
 	if (instEntry == NULL) {
 		goto unlock_exit;
-	} else
-		created = true;
+	}
 
 	// Initialize instance data
 	if (initCb) {
@@ -520,10 +518,6 @@ uint16_t UAVObjCreateInstance(UAVObjHandle obj_handle, UAVObjInitializeCallback 
 
 	unlock_exit:
 	xSemaphoreGiveRecursive(mutex);
-	if (created) {
-		if (newUavObjInstanceCB)
-			newUavObjInstanceCB(((struct UAVOData *) obj_handle)->id, UAVObjGetNumInstances(obj_handle));
-	}
 	return instId;
 }
 
@@ -1720,6 +1714,9 @@ static InstanceHandle createInstance(struct UAVOData * obj, uint16_t instId)
 	UAVObjInstanceUpdated((UAVObjHandle) obj, instId);
 
 	// Done
+	if (newUavObjInstanceCB) {
+		newUavObjInstanceCB(obj->id, UAVObjGetNumInstances(obj));
+	}
 	return InstanceDataOffset(instEntry);
 }
 

@@ -74,6 +74,7 @@ private slots:
     void saveSession();
     void newInstanceSlot(UAVObject*);
 private:
+    QList<UAVDataObject *> delayedUpdate;
     enum connectionStatusEnum {CON_DISCONNECTED, CON_INITIALIZING, CON_SESSION_INITIALIZING, CON_RETRIEVING_OBJECTS, CON_CONNECTED_UNMANAGED,CON_CONNECTED_MANAGED};
     static const int STATS_UPDATE_PERIOD_MS = 4000;
     static const int STATS_CONNECT_PERIOD_MS = 2000;
@@ -96,7 +97,7 @@ private:
     QTimer* sessionRetrieveTimeout;
     QTimer* sessionInitialRetrieveTimeout;
     int retries;
-    void changeObjectInstances(quint32 objID, quint32 instID);
+    void changeObjectInstances(quint32 objID, quint32 instID, bool delayed);
     void startSessionRetrieving(UAVObject *session);
     void sessionFallback();
     bool isManaged;
