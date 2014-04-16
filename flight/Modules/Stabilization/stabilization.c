@@ -183,9 +183,14 @@ static void stabilizationTask(void* parameters)
 	// Force refresh of all settings immediately before entering main task loop
 	SettingsUpdatedCb((UAVObjEvent *) NULL);
 	
+	uint32_t iteration = 0;
+	float learning_offsets[3] = {0.0f, 0.0f, 0.0f};
+
 	// Main task loop
 	ZeroPids();
 	while(1) {
+		iteration++;
+
 		float dT;
 		
 		PIOS_WDG_UpdateFlag(PIOS_WDG_STABILIZATION);
@@ -395,16 +400,39 @@ static void stabilizationTask(void* parameters)
 					break;
 					
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE:
-					if(reinit)
+					if(reinit) {
 						pids[PID_ATT_ROLL + i].iAccumulator = 0;
+						pids[PID_RATE_ROLL + i].iAccumulator = 0;
+					}
 
-					// Compute the outer loop like attitude mode
+					if ((iteration % 50) == 0) {
+						uint32_t raw_time = PIOS_DELAY_GetRaw();
+						switch(raw_time & 0x00000007) {
+							case 0:
+								learning_offsets[i] = 0.04f;
+								break;
+							case 1:
+								learning_offsets[i] = -0.04f;
+								break;
+							case 2:
+								learning_offsets[i] = 0.08f;
+								break;
+							case 3:
+								learning_offsets[i] = -0.08f;
+								break;
+							default:
+								learning_offsets[i] = 0.0f;
+						}
+					}
+
+					// Compute the outer loop
 					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], local_attitude_error[i], dT);
 					rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
 
-					// Run the relay controller which also estimates the oscillation parameters
-					stabilization_relay_rate(rateDesiredAxis[i] - gyro_filtered[i], &actuatorDesiredAxis[i], i, reinit);
-					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0);
+					// Compute the inner loop
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
+					actuatorDesiredAxis[i] += learning_offsets[i];
+					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
 
