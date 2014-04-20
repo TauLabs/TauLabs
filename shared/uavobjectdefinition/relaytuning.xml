@@ -1,8 +1,10 @@
 <xml>
     <object name="RelayTuning" singleinstance="true" settings="false">
         <description>The input to the relay tuning.</description>
-	<field name="Period" units="ms" type="float" elementnames="Roll,Pitch,Yaw"/>
-	<field name="Gain" units="(deg/s)/output" type="float" elementnames="Roll,Pitch,Yaw"/>
+	<field name="Tau" units="s" type="float" elements="1"/>
+	<field name="Beta" units="" type="float" elementnames="Roll,Pitch,Yaw"/>
+	<field name="Bias" units="" type="float" elementnames="Roll,Pitch,Yaw"/>
+	<field name="Noise" units="(deg/s)^2" type="float" elementnames="Roll,Pitch,Yaw"/>
         <access gcs="readonly" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="manual" period="0"/>
         <telemetryflight acked="false" updatemode="periodic" period="1000"/>

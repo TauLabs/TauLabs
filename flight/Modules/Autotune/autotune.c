@@ -61,7 +61,7 @@ static bool module_enabled;
 // Private functions
 static void AutotuneTask(void *parameters);
 static void update_stabilization_settings();
-static void af_predict(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX], float u_in[3], float gyro[3]);
+static void af_predict(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX], const float u_in[3], const float gyro[3], const float dT_s);
 static void af_init(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX]);
 
 /**
@@ -121,6 +121,7 @@ static void AutotuneTask(void *parameters)
 
 	float X[AF_NUMX] = {0};
 	float P[AF_NUMX][AF_NUMX] = {{0}};
+	float noise[3] = {0};
 
 	af_init(X,P);
 
@@ -134,7 +135,7 @@ static void AutotuneTask(void *parameters)
 		portTickType diffTime;
 
 		const uint32_t PREPARE_TIME = 2000;
-		const uint32_t MEAURE_TIME = 30000;
+		const uint32_t MEAURE_TIME = 90000;
 
 		FlightStatusData flightStatus;
 		FlightStatusGet(&flightStatus);
@@ -239,16 +240,23 @@ static void AutotuneTask(void *parameters)
 					float y[3] = {gyros.x, gyros.y, gyros.z};
 					float u[3] = {desired.Roll, desired.Pitch, desired.Yaw};
 
-					af_predict(X,P,u,y);
+					af_predict(X,P,u,y, 0.003f);
+					for (uint32_t i = 0; i < 3; i++) {
+						const float NOISE_ALPHA = 0.9997f;  // 10 second time constant at 300 Hz
+						noise[i] = NOISE_ALPHA * noise[i] + (1-NOISE_ALPHA) * (y[i] - X[i]) * (y[i] - X[i]);
+					}
 
 					RelayTuningData relay;
-					relay.Beta[RELAYTUNING_BETA_ROLL]   = X[6];
-					relay.Beta[RELAYTUNING_BETA_PITCH]  = X[7];
-					relay.Beta[RELAYTUNING_BETA_YAW]    = X[8];
-					relay.Bias[RELAYTUNING_BIAS_ROLL]   = X[10];
-					relay.Bias[RELAYTUNING_BIAS_PITCH]  = X[11];
-					relay.Bias[RELAYTUNING_BIAS_YAW]    = X[12];
-					relay.Tau                           = X[9];
+					relay.Beta[RELAYTUNING_BETA_ROLL]    = X[6];
+					relay.Beta[RELAYTUNING_BETA_PITCH]   = X[7];
+					relay.Beta[RELAYTUNING_BETA_YAW]     = X[8];
+					relay.Bias[RELAYTUNING_BIAS_ROLL]    = X[10];
+					relay.Bias[RELAYTUNING_BIAS_PITCH]   = X[11];
+					relay.Bias[RELAYTUNING_BIAS_YAW]     = X[12];
+					relay.Tau                            = X[9];
+					relay.Noise[RELAYTUNING_NOISE_ROLL]  = noise[0];
+					relay.Noise[RELAYTUNING_NOISE_PITCH] = noise[1];
+					relay.Noise[RELAYTUNING_NOISE_YAW]   = noise[2];
 					RelayTuningSet(&relay);
 				}
 
@@ -332,13 +340,13 @@ static void update_stabilization_settings()
  * @param[in] the current control inputs (roll, pitch, yaw)
  * @param[in] the gyro measurements
  */
-static void af_predict(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX], float u_in[3], float gyro[3])
+static void af_predict(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX], const float u_in[3], const float gyro[3], const float dT_s)
 {
 
-	float Ts = 1.0f / 666.0f;
-	float Tsq = Ts * Ts;
-	float Tsq3 = Tsq * Ts;
-    float Tsq4 = Tsq * Tsq;
+	const float Ts = dT_s;
+	const float Tsq = Ts * Ts;
+	const float Tsq3 = Tsq * Ts;
+    const float Tsq4 = Tsq * Tsq;
 
 	// for convenience and clarity code below uses the named versions of
 	// the state variables
