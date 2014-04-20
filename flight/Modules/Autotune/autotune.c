@@ -346,7 +346,7 @@ static void af_predict(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX], const float 
 	const float Ts = dT_s;
 	const float Tsq = Ts * Ts;
 	const float Tsq3 = Tsq * Ts;
-    const float Tsq4 = Tsq * Tsq;
+	const float Tsq4 = Tsq * Tsq;
 
 	// for convenience and clarity code below uses the named versions of
 	// the state variables
@@ -386,15 +386,15 @@ static void af_predict(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX], const float 
 	u1 = X[3] = (Ts * u1_in)/(Ts + e_tau) + (u1*e_tau)/(Ts + e_tau);
 	u2 = X[4] = (Ts * u2_in)/(Ts + e_tau) + (u2*e_tau)/(Ts + e_tau);
     u3 = X[5] = (Ts*u3_in)/(Ts + e_tau) + (u3*e_tau)/(Ts + e_tau);
-    // X[6] to X[12] unchanged
+	// X[6] to X[12] unchanged
 
 	/**** filter parameters ****/
 	const float q_w = 1e-4f;
 	const float q_ud = 1e-4f;
-	const float q_B = 1e-7f;
-	const float q_tau = 1e-7f;
+	const float q_B = 1e-6f;
+	const float q_tau = 1e-5f;
 	const float q_bias = 1e-19f;
-	const float s_a = 1000.0f; // expected gyro noise
+	const float s_a = 100.0f; // expected gyro noise
 
 	const float Q[AF_NUMX] = {q_w, q_w, q_w, q_ud, q_ud, q_ud, q_B, q_B, q_B, q_tau, q_bias, q_bias, q_bias};
 
@@ -403,11 +403,11 @@ static void af_predict(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX], const float 
 		for (uint32_t j = 0; j < AF_NUMX; j++)
 			D[i][j] = P[i][j];
 
-    const float e_tau2    = e_tau * e_tau;
-    const float e_tau3    = e_tau * e_tau2;
-    const float e_tau4    = e_tau2 * e_tau2;
-    const float Ts_e_tau2 = (Ts + e_tau) * (Ts + e_tau);
-    const float Ts_e_tau4 = Ts_e_tau2 * Ts_e_tau2;
+	const float e_tau2    = e_tau * e_tau;
+	const float e_tau3    = e_tau * e_tau2;
+	const float e_tau4    = e_tau2 * e_tau2;
+	const float Ts_e_tau2 = (Ts + e_tau) * (Ts + e_tau);
+	const float Ts_e_tau4 = Ts_e_tau2 * Ts_e_tau2;
 
 	// covariance propagation - D is stored copy of covariance	
 	P[0][0] = D[0][0] + Q[0] + 2*Ts*e_b1*(D[0][3] - D[0][10] - D[0][6]*bias1 + D[0][6]*u1) + Tsq*(e_b1*e_b1)*(D[3][3] - 2*D[3][10] + D[10][10] - 2*D[3][6]*bias1 + 2*D[6][10]*bias1 + 2*D[3][6]*u1 - 2*D[6][10]*u1 + D[6][6]*(bias1*bias1) + D[6][6]*(u1*u1) - 2*D[6][6]*bias1*u1);
@@ -502,10 +502,10 @@ static void af_predict(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX], const float 
 	P[11][12] = P[12][11] = 0;
 	P[12][12] = D[12][12] + Q[12];
 
-    
+
 	/********* this is the update part of the equation ***********/
 
-    float S[3] = {P[0][0] + s_a, P[1][1] + s_a, P[2][2] + s_a};
+	float S[3] = {P[0][0] + s_a, P[1][1] + s_a, P[2][2] + s_a};
 
 	X[0] = w1 + (P[0][0]*(gyro_x - w1))/S[0];
 	X[1] = w2 + (P[1][1]*(gyro_y - w2))/S[1];
@@ -525,7 +525,7 @@ static void af_predict(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX], const float 
 	for (uint32_t i = 0; i < AF_NUMX; i++)
 		for (uint32_t j = 0; j < AF_NUMX; j++)
 			D[i][j] = P[i][j];
-    
+
 	// This is an approximation that removes some cross axis uncertainty but
 	// substantially reduces the number of calculations
 	P[0][0] = -D[0][0]*(D[0][0]/S[0] - 1);
@@ -619,25 +619,24 @@ static void af_predict(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX], const float 
 	P[11][11] = D[11][11] - D[1][11]*D[1][11]/S[1];
 	P[11][12] = P[12][11] = 0;
 	P[12][12] = D[12][12] - D[2][12]*D[2][12]/S[2];
-    
-    // apply limits to some of the state variables
-    if (X[9] > -1.5f)
-        X[9] = -1.5f;
-    if (X[9] < -5.0f)
-        X[9] = -5.0f;
-    // if (X[10] > 0.5f)
-    //     X[10] = 0.5f;
-    // if (X[10] < -0.5f)
-    //     X[10] = -0.5f;
-    // if (X[11] > 0.5f)
-    //     X[11] = 0.5f;
-    // if (X[11] < -0.5f)
-    //     X[11] = -0.5f;
-    // if (X[12] > 0.5f)
-    //     X[12] = 0.5f;
-    // if (X[12] < -0.5f)
-    //     X[12] = -0.5f;
-    
+
+	// apply limits to some of the state variables
+	if (X[9] > -1.5f)
+		X[9] = -1.5f;
+	if (X[9] < -5.0f)
+		X[9] = -5.0f;
+	if (X[10] > 0.5f)
+		X[10] = 0.5f;
+	if (X[10] < -0.5f)
+		X[10] = -0.5f;
+	if (X[11] > 0.5f)
+		X[11] = 0.5f;
+	if (X[11] < -0.5f)
+		X[11] = -0.5f;
+	if (X[12] > 0.5f)
+		X[12] = 0.5f;
+	if (X[12] < -0.5f)
+		X[12] = -0.5f;
 }
 
 /**
@@ -648,8 +647,7 @@ static void af_init(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX])
 {
 	X[0] = X[1] = X[2] = 0.0f;    // assume no rotation
 	X[3] = X[4] = X[5] = 0.0f;    // and no net torque
-	X[6] = X[7]        = 10.0f;   // medium amount of strength
-    X[8]               = 3.0f;    // yaw
+	X[6] = X[7] = X[8] = 6.0f;    // medium amount of strength
 	X[9] = -2.0f;                 // and 50 ms time scale
 	X[10] = X[11] = X[12] = 0.0f; // zero bias
 
