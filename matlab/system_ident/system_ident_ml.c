@@ -332,9 +332,9 @@ void af_init(float X[AF_NUMX], float P[AF_NUMP])
     
 	X[0] = X[1] = X[2] = 0.0f;    // assume no rotation
 	X[3] = X[4] = X[5] = 0.0f;    // and no net torque
-	X[6] = X[7]        = 6.0f;   // medium amount of strength
-    X[8]               = 6.0f;    // yaw
-	X[9] = -2.0f;                 // and 50 ms time scale
+	X[6] = X[7]        = 10.0f;   // medium amount of strength
+    X[8]               = 7.0f;    // yaw
+	X[9] = -4.0f;                 // and 50 ms time scale
 	X[10] = X[11] = X[12] = 0.0f; // zero bias
 
 	// P initialization
