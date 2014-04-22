@@ -396,16 +396,14 @@ static void stabilizationTask(void* parameters)
 						uint32_t raw_time = PIOS_DELAY_GetRaw();
 						switch(raw_time & 0x00000007) {
 							case 0:
-								learning_offsets[i] = 0.04f;
-								break;
 							case 1:
-								learning_offsets[i] = -0.04f;
-								break;
 							case 2:
-								learning_offsets[i] = 0.08f;
+								learning_offsets[i] = 0.1f;
 								break;
 							case 3:
-								learning_offsets[i] = -0.08f;
+							case 4:
+							case 5:
+								learning_offsets[i] = -0.1f;
 								break;
 							default:
 								learning_offsets[i] = 0.0f;
@@ -429,16 +427,14 @@ static void stabilizationTask(void* parameters)
 						uint32_t raw_time = PIOS_DELAY_GetRaw();
 						switch(raw_time & 0x00000007) {
 							case 0:
-								learning_offsets[i] = 0.04f;
-								break;
 							case 1:
-								learning_offsets[i] = -0.04f;
-								break;
 							case 2:
-								learning_offsets[i] = 0.08f;
+								learning_offsets[i] = 0.1f;
 								break;
 							case 3:
-								learning_offsets[i] = -0.08f;
+							case 4:
+							case 5:
+								learning_offsets[i] = -0.1f;
 								break;
 							default:
 								learning_offsets[i] = 0.0f;
