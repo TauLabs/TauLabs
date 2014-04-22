@@ -220,10 +220,26 @@ p, li { white-space: pre-wrap; }
               <string>Tuning Aggressiveness</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_2">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label">
+              <item row="1" column="1">
+               <widget class="QSlider" name="rateDamp">
+                <property name="minimum">
+                 <number>30</number>
+                </property>
+                <property name="maximum">
+                 <number>150</number>
+                </property>
+                <property name="value">
+                 <number>150</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_11">
                 <property name="text">
-                 <string>Aggressivness</string>
+                 <string>Damping</string>
                 </property>
                </widget>
               </item>
@@ -243,26 +259,17 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_11">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label">
                 <property name="text">
-                 <string>Damping</string>
+                 <string>Aggressivness</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QSlider" name="rateDamp">
-                <property name="minimum">
-                 <number>30</number>
-                </property>
-                <property name="maximum">
-                 <number>150</number>
-                </property>
-                <property name="value">
-                 <number>150</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+              <item row="0" column="2">
+               <widget class="QLabel" name="wn">
+                <property name="text">
+                 <string>50</string>
                 </property>
                </widget>
               </item>
@@ -365,18 +372,12 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="1" column="3">
-               <widget class="QLabel" name="label_15">
+               <widget class="QLabel" name="rollTau">
                 <property name="text">
                  <string>0</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-                <property name="objrelation" stdset="0">
-                 <stringlist>
-                  <string>objname:RelayTuning</string>
-                  <string>fieldname:Tau</string>
-                 </stringlist>
                 </property>
                </widget>
               </item>
@@ -388,25 +389,19 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="3" column="3">
-               <widget class="QLabel" name="label_2">
+               <widget class="QLabel" name="pitchTau">
                 <property name="text">
                  <string>0</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
-                <property name="objrelation" stdset="0">
-                 <stringlist>
-                  <string>objname:RelayTuning</string>
-                  <string>fieldname:Tau</string>
-                 </stringlist>
-                </property>
                </widget>
               </item>
               <item row="0" column="3">
                <widget class="QLabel" name="label_14">
                 <property name="text">
-                 <string>Tau (log s)</string>
+                 <string>Tau (s)</string>
                 </property>
                </widget>
               </item>

@@ -137,14 +137,17 @@ void ConfigAutotuneWidget::recomputeStabilization()
     stabSettings.DerivativeCutoff = 1 / (2*M_PI*tau_d);
 
     // Display these computed settings
-    m_autotune->rollRateKp->setText(QString().number(stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KP]));
-    m_autotune->rollRateKi->setText(QString().number(stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KI]));
-    m_autotune->rollRateKd->setText(QString().number(stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KD]));
-    m_autotune->pitchRateKp->setText(QString().number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KP]));
-    m_autotune->pitchRateKi->setText(QString().number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KI]));
-    m_autotune->pitchRateKd->setText(QString().number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KD]));
+    m_autotune->rollRateKp->setText(QString::number(stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KP]));
+    m_autotune->rollRateKi->setText(QString::number(stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KI]));
+    m_autotune->rollRateKd->setText(QString::number(stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KD]));
+    m_autotune->pitchRateKp->setText(QString::number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KP]));
+    m_autotune->pitchRateKi->setText(QString::number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KI]));
+    m_autotune->pitchRateKd->setText(QString::number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KD]));
 
-    m_autotune->derivativeCutoff->setText(QString().number(stabSettings.DerivativeCutoff));
+    m_autotune->derivativeCutoff->setText(QString::number(stabSettings.DerivativeCutoff));
+    m_autotune->rollTau->setText(QString::number(tau,'g',3));
+    m_autotune->pitchTau->setText(QString::number(tau,'g',3));
+    m_autotune->wn->setText(QString::number(wn / 2 / M_PI, 'f', 1));
 }
 
 void ConfigAutotuneWidget::refreshWidgetsValues(UAVObject *obj)
