@@ -46,7 +46,7 @@
 #include <pios_board_info.h>
  
 // Private constants
-#define STACK_SIZE_BYTES 2500
+#define STACK_SIZE_BYTES 3000
 #define TASK_PRIORITY (tskIDLE_PRIORITY+2)
 
 #define AF_NUMX 13
@@ -113,8 +113,6 @@ MODULE_INITCALL(AutotuneInitialize, AutotuneStart)
  */
 static void AutotuneTask(void *parameters)
 {
-	//AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
-	
 	enum AUTOTUNE_STATE state = AT_INIT;
 
 	portTickType lastUpdateTime = xTaskGetTickCount();
@@ -124,6 +122,9 @@ static void AutotuneTask(void *parameters)
 	float noise[3] = {0};
 
 	af_init(X,P);
+
+	uint32_t last_time = 0.0f;
+	const uint32_t DT_MS = 3;
 
 	while(1) {
 
@@ -213,6 +214,10 @@ static void AutotuneTask(void *parameters)
 					state = AT_RUN;
 					lastUpdateTime = xTaskGetTickCount();
 				}
+
+
+				last_time = PIOS_DELAY_GetRaw();
+
 				break;
 
 			case AT_RUN:
@@ -240,7 +245,9 @@ static void AutotuneTask(void *parameters)
 					float y[3] = {gyros.x, gyros.y, gyros.z};
 					float u[3] = {desired.Roll, desired.Pitch, desired.Yaw};
 
-					af_predict(X,P,u,y, 0.003f);
+					float dT_s = PIOS_DELAY_DiffuS(last_time) * 1.0e-6f;
+
+					af_predict(X,P,u,y, DT_MS * 0.001f);
 					for (uint32_t i = 0; i < 3; i++) {
 						const float NOISE_ALPHA = 0.9997f;  // 10 second time constant at 300 Hz
 						noise[i] = NOISE_ALPHA * noise[i] + (1-NOISE_ALPHA) * (y[i] - X[i]) * (y[i] - X[i]);
@@ -257,6 +264,7 @@ static void AutotuneTask(void *parameters)
 					relay.Noise[RELAYTUNING_NOISE_ROLL]  = noise[0];
 					relay.Noise[RELAYTUNING_NOISE_PITCH] = noise[1];
 					relay.Noise[RELAYTUNING_NOISE_YAW]   = noise[2];
+					relay.Period = dT_s * 1000.0f;
 					RelayTuningSet(&relay);
 				}
 
@@ -264,6 +272,8 @@ static void AutotuneTask(void *parameters)
 					state = AT_FINISHED;
 					lastUpdateTime = xTaskGetTickCount();
 				}
+
+				last_time = PIOS_DELAY_GetRaw();
 
 				break;
 
@@ -287,7 +297,7 @@ static void AutotuneTask(void *parameters)
 
 		StabilizationDesiredSet(&stabDesired);
 
-		vTaskDelay(3);
+		vTaskDelay(DT_MS);
 	}
 }
 
@@ -621,6 +631,12 @@ static void af_predict(float X[AF_NUMX], float P[AF_NUMX][AF_NUMX], const float 
 	P[12][12] = D[12][12] - D[2][12]*D[2][12]/S[2];
 
 	// apply limits to some of the state variables
+	if (X[6] < 4.0f)
+		X[6] = 4.0f;
+	if (X[7] < 4.0f)
+		X[7] = 4.0f;
+	if (X[8] < 2.0f)
+		X[8] = 2.0f;
 	if (X[9] > -1.5f)
 		X[9] = -1.5f;
 	if (X[9] < -5.0f)
