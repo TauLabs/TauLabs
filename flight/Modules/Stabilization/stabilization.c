@@ -58,7 +58,6 @@
 #include "misc_math.h"
 
 // Includes for various stabilization algorithms
-#include "relay_tuning.h"
 #include "virtualflybar.h"
 
 // Private constants
