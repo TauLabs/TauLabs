@@ -27,7 +27,6 @@ ConfigAutotuneWidget::ConfigAutotuneWidget(QWidget *parent) :
 
     // Whenever any value changes compute new potential stabilization settings
     connect(m_autotune->rateTuning, SIGNAL(valueChanged(int)), this, SLOT(recomputeStabilization()));
-    connect(m_autotune->attitudeTuning, SIGNAL(valueChanged(int)), this, SLOT(recomputeStabilization()));
 
     addUAVObject("ModuleSettings");
     addWidget(m_autotune->enableAutoTune);
@@ -79,59 +78,75 @@ void ConfigAutotuneWidget::recomputeStabilization()
     RelayTuning::DataFields relayTuningData = relayTuning->getData();
     stabSettings = stabilizationSettings->getData();
 
-    // Need to divide these by 100 because that is what the .ui file does
-    // to get the UAVO
-    const double gain_ratio_r = m_autotune->rateTuning->value() / 100.0;
-    const double zero_ratio_r = m_autotune->rateTuning->value() / 100.0;
-    const double gain_ratio_p = m_autotune->attitudeTuning->value() / 100.0;
-    const double zero_ratio_p = m_autotune->attitudeTuning->value() / 100.0;
+    // These three parameters define the desired response properties
+    // - rate scale in the fraction of the natural speed of the system
+    //   to strive for.
+    // - damp is the amount of damping in the system. higher values
+    //   make oscillations less likely
+    // - ghf is the amount of high frequency gain and limits the influence
+    //   of noise
+    const double scale = m_autotune->rateTuning->value() / 100.0;
+    const double damp = m_autotune->rateDamp->value() / 100.0;
+    const double ghf = 0.02;
+
+    double tau = exp(relayTuningData.Tau);
+    double beta_roll = relayTuningData.Beta[RelayTuning::BETA_ROLL];
+    double beta_pitch = relayTuningData.Beta[RelayTuning::BETA_PITCH];
+
+    const double wn = 1/tau*scale;
+
+    // Compute the derivative filter bandwdidth required to hit the
+    // noise sensitivity target for each axis
+    const double tau_d_roll = (2*damp*tau*wn - 1)/(4*tau*damp*damp*wn*wn - 2*damp*wn - tau*wn*wn + exp(beta_roll)*ghf);
+    const double tau_d_pitch = (2*damp*tau*wn - 1)/(4*tau*damp*damp*wn*wn - 2*damp*wn - tau*wn*wn + exp(beta_pitch)*ghf);
+
+    qDebug() << "wn: " << wn;
+
+    qDebug() << "tau_d_roll: " << tau_d_roll << " tau_d_pitch " << tau_d_pitch;
+
+    // Select the slowest filter property
+    const double tau_d = (tau_d_roll > tau_d_pitch) ? tau_d_roll : tau_d_pitch;
+
+    // Set the real pole position
+    const double a = (tau + tau_d) / (tau * tau_d) - 2 * damp * wn;
+
+    qDebug() << "a: " << a;
 
     // For now just run over roll and pitch
     for (int i = 0; i < 2; i++) {
-        if (relayTuningData.Period[i] == 0 || relayTuningData.Gain[i] == 0)
-            continue;
+        double beta = exp(relayTuningData.Beta[i]);
 
-        double wu = 1000.0 * 2 * M_PI / relayTuningData.Period[i]; // ultimate freq = output osc freq (rad/s)
-
-        double wc = wu * gain_ratio_r;      // target openloop crossover frequency (rad/s)
-        double zc = wc * zero_ratio_r;      // controller zero location (rad/s)
-        double kpu = 4.0f / M_PI / relayTuningData.Gain[i];  // ultimate gain, i.e. the proportional gain for instablity
-        double kp = kpu * gain_ratio_r;     // proportional gain
-        double ki = zc * kp;                // integral gain
-
-        // Now calculate gains for the next loop out knowing it is the integral of
-        // the inner loop -- the plant is position/velocity = scale*1/s
-        double wc2 = wc * gain_ratio_p;          // crossover of the attitude loop
-        double kp2 = wc2;                       // kp of attitude
-        double ki2 = wc2 * zero_ratio_p * kp2;  // ki of attitude
+        double kp = a * wn*wn * tau / beta * (tau / (tau * (2 * damp * wn + a)-1));
+        double kd = 1/beta*(tau * tau_d * (wn*wn + 2*a*damp*wn)-1-beta*kp*tau_d);
+        double ki = 0.05*kp/(tau*2*M_PI);
 
         switch(i) {
         case 0: // Roll
 
             stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KP] = kp;
             stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KI] = ki;
-            stabSettings.RollPI[StabilizationSettings::ROLLPI_KP] = kp2;
-            stabSettings.RollPI[StabilizationSettings::ROLLPI_KI] = ki2;
+            stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KD] = kd;
             break;
         case 1: // Pitch
             stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KP] = kp;
             stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KI] = ki;
-            stabSettings.PitchPI[StabilizationSettings::PITCHPI_KP] = kp2;
-            stabSettings.PitchPI[StabilizationSettings::PITCHPI_KI] = ki2;
+            stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KD] = kd;
             break;
         }
     }
+    stabSettings.DerivativeCutoff = 1 / (2*M_PI*tau_d);
 
     // Display these computed settings
     m_autotune->rollRateKp->setText(QString().number(stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KP]));
     m_autotune->rollRateKi->setText(QString().number(stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KI]));
-    m_autotune->rollAttitudeKp->setText(QString().number(stabSettings.RollPI[StabilizationSettings::ROLLPI_KP]));
-    m_autotune->rollAttitudeKi->setText(QString().number(stabSettings.RollPI[StabilizationSettings::ROLLPI_KI]));
+    m_autotune->rollRateKd->setText(QString().number(stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KD]));
     m_autotune->pitchRateKp->setText(QString().number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KP]));
     m_autotune->pitchRateKi->setText(QString().number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KI]));
-    m_autotune->pitchAttitudeKp->setText(QString().number(stabSettings.PitchPI[StabilizationSettings::PITCHPI_KP]));
-    m_autotune->pitchAttitudeKi->setText(QString().number(stabSettings.PitchPI[StabilizationSettings::PITCHPI_KI]));
+    m_autotune->pitchRateKd->setText(QString().number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KD]));
+
+    m_autotune->derivativeCutoff->setText(QString().number(stabSettings.DerivativeCutoff));
 }
+
 void ConfigAutotuneWidget::refreshWidgetsValues(UAVObject *obj)
 {
     ModuleSettings *moduleSettings = ModuleSettings::GetInstance(getObjectManager());
