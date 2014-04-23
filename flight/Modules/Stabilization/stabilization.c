@@ -46,6 +46,7 @@
 #include "flightstatus.h"
 #include "gyros.h"
 #include "ratedesired.h"
+#include "relaytuning.h"
 #include "stabilizationdesired.h"
 #include "stabilizationsettings.h"
 #include "trimangles.h"
@@ -184,6 +185,9 @@ static void stabilizationTask(void* parameters)
 	
 	uint32_t iteration = 0;
 	float learning_offsets[3] = {0.0f, 0.0f, 0.0f};
+
+	const uint32_t SYSTEM_IDENT_PERIOD = 100;
+	uint32_t system_ident_timeval = PIOS_DELAY_GetRaw();
 
 	// Main task loop
 	ZeroPids();
@@ -423,21 +427,69 @@ static void stabilizationTask(void* parameters)
 						pids[PID_RATE_ROLL + i].iAccumulator = 0;
 					}
 
-					if ((iteration % 50) == 0) {
-						uint32_t raw_time = PIOS_DELAY_GetRaw();
-						switch(raw_time & 0x00000007) {
+					static uint32_t ident_iteration = 0;
+					static float ident_offsets[3] = {0};
+
+					if (PIOS_DELAY_DiffuS(system_ident_timeval) / 1000.0f > SYSTEM_IDENT_PERIOD && RelayTuningHandle()) {
+						ident_iteration++;
+						system_ident_timeval = PIOS_DELAY_GetRaw();
+
+						RelayTuningData relayTuning;
+						RelayTuningGet(&relayTuning);
+
+						float roll_scale = expf(6.5f - relayTuning.Beta[RELAYTUNING_BETA_ROLL]);
+						float pitch_scale = expf(6.5f - relayTuning.Beta[RELAYTUNING_BETA_PITCH]);
+						float yaw_scale = expf(6.5f - relayTuning.Beta[RELAYTUNING_BETA_YAW]);
+
+						if (roll_scale > 0.25f)
+							roll_scale = 0.25f;
+						if (pitch_scale > 0.25f)
+							pitch_scale = 0.25f;
+						if (yaw_scale > 0.25f);
+							yaw_scale = 0.2f;
+
+						switch(ident_iteration & 0x07) {
 							case 0:
+								ident_offsets[0] = 0;
+								ident_offsets[1] = 0;
+								ident_offsets[2] = yaw_scale;
+								break;
 							case 1:
+								ident_offsets[0] = roll_scale;
+								ident_offsets[1] = 0;
+								ident_offsets[2] = 0;
+								break;
 							case 2:
-								learning_offsets[i] = 0.1f;
+								ident_offsets[0] = 0;
+								ident_offsets[1] = 0;
+								ident_offsets[2] = -yaw_scale;
 								break;
 							case 3:
-							case 4:
-							case 5:
-								learning_offsets[i] = -0.1f;
+								ident_offsets[0] = -roll_scale;
+								ident_offsets[1] = 0;
+								ident_offsets[2] = 0;
 								break;
-							default:
-								learning_offsets[i] = 0.0f;
+							case 4:
+								ident_offsets[0] = 0;
+								ident_offsets[1] = 0;
+								ident_offsets[2] = yaw_scale;
+								break;
+							case 5:
+								ident_offsets[0] = 0;
+								ident_offsets[1] = pitch_scale;
+								ident_offsets[2] = 0;
+								break;
+							case 6:
+								ident_offsets[0] = 0;
+								ident_offsets[1] = 0;
+								ident_offsets[2] = -yaw_scale;
+								break;
+							case 7:
+								ident_offsets[0] = 0;
+								ident_offsets[1] = -pitch_scale;
+								ident_offsets[2] = 0;
+								break;
+
 						}
 					}
 
@@ -447,7 +499,7 @@ static void stabilizationTask(void* parameters)
 
 					// Compute the inner loop
 					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
-					actuatorDesiredAxis[i] += learning_offsets[i];
+					actuatorDesiredAxis[i] += ident_offsets[i];
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
