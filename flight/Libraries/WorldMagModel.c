@@ -4,7 +4,7 @@
  * @{
  * @file       WorldMagModel.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Source file for the World Magnetic Model
  *             This is a port of code available from the US NOAA.
  *
@@ -42,7 +42,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-// I don't want this dependency, but currently using pvPortMalloc
 #include "openpilot.h"
 #include "physical_constants.h"
 
@@ -55,16 +54,11 @@
 #include "WorldMagModel.h"
 #include "WMMInternal.h"
 
-#define MALLOC(x) pvPortMalloc(x)
-#define FREE(x) vPortFree(x)
-//#define MALLOC(x) malloc(x)
-//#define FREE(x) free(x)
-
 // const should hopefully keep them in the flash region
 static const float CoeffFile[91][6] = COEFFS_FROM_NASA;
 
-static WMMtype_Ellipsoid        *Ellip = NULL;
-static WMMtype_MagneticModel    *MagneticModel = NULL;
+static WMMtype_Ellipsoid        Ellip;
+static WMMtype_MagneticModel    MagneticModel;
 static float                    decimal_date;
 
 /**************************************************************************************
@@ -81,27 +75,22 @@ static float                    decimal_date;
 int WMM_Initialize()
 //      Sets default values for WMM subroutines.
 //      UPDATES : Ellip and MagneticModel
-{	
-	if (!Ellip) return -1;          // invalid pointer
-	if (!MagneticModel) return -2;  // invalid pointer
-	
+{		
 	// Sets WGS-84 parameters
-	Ellip->a     = WGS84_A;               // semi-major axis of the ellipsoid in km
-	Ellip->b     = WGS84_B;               // semi-minor axis of the ellipsoid in km
-	Ellip->fla   = WGS84_FLATTENING;      // flattening
-	Ellip->eps   = WGS84_EPS;             // first eccentricity
-	Ellip->epssq = WGS84_EPS2;            // first eccentricity squared
-	Ellip->re    = WGS84_RADIUS_EARTH_KM; // Earth's radius in km
+	Ellip.a     = WGS84_A;               // semi-major axis of the ellipsoid in km
+	Ellip.b     = WGS84_B;               // semi-minor axis of the ellipsoid in km
+	Ellip.fla   = WGS84_FLATTENING;      // flattening
+	Ellip.eps   = WGS84_EPS;             // first eccentricity
+	Ellip.epssq = WGS84_EPS2;            // first eccentricity squared
+	Ellip.re    = WGS84_RADIUS_EARTH_KM; // Earth's radius in km
 
 	// Sets Magnetic Model parameters
-	MagneticModel->nMax = WMM_MAX_MODEL_DEGREES;
-	MagneticModel->nMaxSecVar = WMM_MAX_SECULAR_VARIATION_MODEL_DEGREES;
-	MagneticModel->SecularVariationUsed = 0;
+	MagneticModel.nMax = WMM_MAX_MODEL_DEGREES;
+	MagneticModel.nMaxSecVar = WMM_MAX_SECULAR_VARIATION_MODEL_DEGREES;
+	MagneticModel.SecularVariationUsed = 0;
+	MagneticModel.epoch       = MAGNETIC_MODEL_EPOCH;
 
 	// Must be updated periodically. Last update expires in 2015
-	MagneticModel->EditionDate = MAGNETIC_MODEL_EDITION_DATE;
-	MagneticModel->epoch       = MAGNETIC_MODEL_EPOCH;
-	sprintf(MagneticModel->ModelName, MAGNETIC_MODEL_NAME);
 
 	return 0;                       // OK
 }
@@ -122,25 +111,11 @@ int WMM_GetMagVector(float Lat, float Lon, float AltEllipsoid, uint16_t Month, u
     if (Lon < -180) return -3;  // error
     if (Lon >  180) return -4;  // error
 
-    // ***********
-    // allocated required memory
 
-//    Ellip = NULL;
-//    MagneticModel = NULL;
+    WMMtype_CoordSpherical CoordSpherical;
+    WMMtype_CoordGeodetic CoordGeodetic;
+    WMMtype_GeoMagneticElements GeoMagneticElements;
 
-//    MagneticModel = NULL;
-//    CoordGeodetic = NULL;
-//    GeoMagneticElements = NULL;
-
-    Ellip = (WMMtype_Ellipsoid *) MALLOC(sizeof(WMMtype_Ellipsoid));
-    MagneticModel = (WMMtype_MagneticModel *) MALLOC(sizeof(WMMtype_MagneticModel));
-
-    WMMtype_CoordSpherical *CoordSpherical = (WMMtype_CoordSpherical *) MALLOC(sizeof(WMMtype_CoordSpherical));
-    WMMtype_CoordGeodetic *CoordGeodetic = (WMMtype_CoordGeodetic *) MALLOC(sizeof(WMMtype_CoordGeodetic));
-    WMMtype_GeoMagneticElements *GeoMagneticElements = (WMMtype_GeoMagneticElements *) MALLOC(sizeof(WMMtype_GeoMagneticElements));
-
-    if (!Ellip || !MagneticModel || !CoordSpherical || !CoordGeodetic || !GeoMagneticElements)
-        returned = -5;  // error
 
     // ***********
 
@@ -152,12 +127,12 @@ int WMM_GetMagVector(float Lat, float Lon, float AltEllipsoid, uint16_t Month, u
 
     if (returned >= 0)
     {
-        CoordGeodetic->lambda = Lon;
-        CoordGeodetic->phi = Lat;
-        CoordGeodetic->HeightAboveEllipsoid = AltEllipsoid/1000.0f; // convert to km
+        CoordGeodetic.lambda = Lon;
+        CoordGeodetic.phi = Lat;
+        CoordGeodetic.HeightAboveEllipsoid = AltEllipsoid/1000.0f; // convert to km
 
         // Convert from geodeitic to Spherical Equations: 17-18, WMM Technical report
-        if (WMM_GeodeticToSpherical(CoordGeodetic, CoordSpherical) < 0)
+        if (WMM_GeodeticToSpherical(&CoordGeodetic, &CoordSpherical) < 0)
             returned = -7;  // error
     }
 
@@ -171,43 +146,19 @@ int WMM_GetMagVector(float Lat, float Lon, float AltEllipsoid, uint16_t Month, u
     if (returned >= 0)
     {
         // Compute the geoMagnetic field elements and their time change
-        if (WMM_Geomag(CoordSpherical, CoordGeodetic, GeoMagneticElements) < 0)
+        if (WMM_Geomag(&CoordSpherical, &CoordGeodetic, &GeoMagneticElements) < 0)
             returned = -9;  // error
         else
         {   // set the returned values
-            B[0] = GeoMagneticElements->X;
-            B[1] = GeoMagneticElements->Y;
-            B[2] = GeoMagneticElements->Z;
+            B[0] = GeoMagneticElements.X;
+            B[1] = GeoMagneticElements.Y;
+            B[2] = GeoMagneticElements.Z;
         }
     }
 
-   // ***********
-   // free allocated memory
-
-    if (GeoMagneticElements)
-        FREE(GeoMagneticElements);
-
-    if (CoordGeodetic)
-        FREE(CoordGeodetic);
-
-    if (CoordSpherical)
-        FREE(CoordSpherical);
-
-    if (MagneticModel)
-    {
-       FREE(MagneticModel);
-       MagneticModel = NULL;
-    }
-
-    if (Ellip)
-    {
-        FREE(Ellip);
-        Ellip = NULL;
-    }
-
-	B[0] = GeoMagneticElements->X * 1e-2f;
-	B[1] = GeoMagneticElements->Y * 1e-2f;
-	B[2] = GeoMagneticElements->Z * 1e-2f;
+	B[0] = GeoMagneticElements.X * 1e-2f;
+	B[1] = GeoMagneticElements.Y * 1e-2f;
+	B[2] = GeoMagneticElements.Z * 1e-2f;
 
     return returned;
 }
@@ -244,38 +195,32 @@ int WMM_Geomag(WMMtype_CoordSpherical * CoordSpherical, WMMtype_CoordGeodetic * 
     WMMtype_MagneticResults             MagneticResultsSphVar;
     WMMtype_MagneticResults             MagneticResultsGeoVar;
 
-    // ********
-    // allocate required memory
-
-    WMMtype_LegendreFunction            *LegendreFunction = (WMMtype_LegendreFunction *) MALLOC(sizeof(WMMtype_LegendreFunction));
-    WMMtype_SphericalHarmonicVariables  *SphVariables = (WMMtype_SphericalHarmonicVariables *) MALLOC(sizeof(WMMtype_SphericalHarmonicVariables));
-
-    if (!LegendreFunction || !SphVariables)
-        returned = -1;  // memory allocation error
+    WMMtype_LegendreFunction            LegendreFunction;
+    WMMtype_SphericalHarmonicVariables  SphVariables;
 
     // ********
 
     if (returned >= 0)
     {   // Compute Spherical Harmonic variables
-        if (WMM_ComputeSphericalHarmonicVariables(CoordSpherical, MagneticModel->nMax, SphVariables) < 0)
+        if (WMM_ComputeSphericalHarmonicVariables(CoordSpherical, MagneticModel.nMax, &SphVariables) < 0)
             returned = -2;  // error
     }
 
     if (returned >= 0)
     {   // Compute ALF
-        if (WMM_AssociatedLegendreFunction(CoordSpherical, MagneticModel->nMax, LegendreFunction) < 0)
+        if (WMM_AssociatedLegendreFunction(CoordSpherical, MagneticModel.nMax, &LegendreFunction) < 0)
             returned = -3;  // error
     }
 
     if (returned >= 0)
     {   // Accumulate the spherical harmonic coefficients
-        if (WMM_Summation(LegendreFunction, SphVariables, CoordSpherical, &MagneticResultsSph) < 0)
+        if (WMM_Summation(&LegendreFunction, &SphVariables, CoordSpherical, &MagneticResultsSph) < 0)
             returned = -4;  // error
     }
 
     if (returned >= 0)
     {   // Sum the Secular Variation Coefficients
-        if (WMM_SecVarSummation(LegendreFunction, SphVariables, CoordSpherical, &MagneticResultsSphVar) < 0)
+        if (WMM_SecVarSummation(&LegendreFunction, &SphVariables, CoordSpherical, &MagneticResultsSphVar) < 0)
             returned = -5;  // error
     }
 
@@ -302,17 +247,6 @@ int WMM_Geomag(WMMtype_CoordSpherical * CoordSpherical, WMMtype_CoordGeodetic * 
         if (WMM_CalculateSecularVariation(&MagneticResultsGeoVar, GeoMagneticElements) < 0)
             returned = -9;  // error
     }
-
-    // ********
-    // free allocated memory
-
-    if (SphVariables)
-        FREE(SphVariables);
-
-    if (LegendreFunction)
-        FREE(LegendreFunction);
-
-    // ********
 
     return returned;
 }
@@ -351,9 +285,9 @@ int WMM_ComputeSphericalHarmonicVariables(WMMtype_CoordSpherical *CoordSpherical
 	/* for n = 0 ... model_order, compute (Radius of Earth / Spherica radius r)^(n+2)
 	   for n  1..nMax-1 (this is much faster than calling pow MAX_N+1 times).      */
 
-	SphVariables->RelativeRadiusPower[0] = (Ellip->re / CoordSpherical->r) * (Ellip->re / CoordSpherical->r);
+	SphVariables->RelativeRadiusPower[0] = (Ellip.re / CoordSpherical->r) * (Ellip.re / CoordSpherical->r);
 	for (n = 1; n <= nMax; n++)
-		SphVariables->RelativeRadiusPower[n] = SphVariables->RelativeRadiusPower[n - 1] * (Ellip->re / CoordSpherical->r);
+		SphVariables->RelativeRadiusPower[n] = SphVariables->RelativeRadiusPower[n - 1] * (Ellip.re / CoordSpherical->r);
 
 	/*
 	   Compute cos(m*lambda), sin(m*lambda) for m = 0 ... nMax
@@ -440,7 +374,7 @@ int WMM_Summation(WMMtype_LegendreFunction * LegendreFunction,
 	MagneticResults->By = 0.0;
 	MagneticResults->Bx = 0.0;
 
-	for (n = 1; n <= MagneticModel->nMax; n++)
+	for (n = 1; n <= MagneticModel.nMax; n++)
 	{
 		for (m = 0; m <= n; m++)
 		{
@@ -516,13 +450,13 @@ int WMM_SecVarSummation(WMMtype_LegendreFunction * LegendreFunction,
     uint16_t m, n, index;
 	float cos_phi;
 
-	MagneticModel->SecularVariationUsed = TRUE;
+	MagneticModel.SecularVariationUsed = TRUE;
 
 	MagneticResults->Bz = 0.0;
 	MagneticResults->By = 0.0;
 	MagneticResults->Bx = 0.0;
 
-	for (n = 1; n <= MagneticModel->nMaxSecVar; n++)
+	for (n = 1; n <= MagneticModel.nMaxSecVar; n++)
 	{
 		for (m = 0; m <= n; m++)
 		{
@@ -728,26 +662,18 @@ int WMM_PcupHigh(float *Pcup, float *dPcup, float x, uint16_t nMax)
     uint16_t    k, kstart, m, n;
     float       pm2, pm1, pmm, plm, rescalem, z, scalef;
 
-	float       *f1 = (float *) MALLOC(sizeof(float) * NUMPCUP);
-	float       *f2 = (float *) MALLOC(sizeof(float) * NUMPCUP);
-	float       *PreSqr = (float *) MALLOC(sizeof(float) * NUMPCUP);
+    float f1_s[NUMPCUP];
+    float f2_s[NUMPCUP];
+    float pre_sqr[NUMPCUP];
 
-    if (!PreSqr || !f2 || !f1)
-    {   // memory allocation error
-        if (PreSqr) FREE(PreSqr);
-        if (f2) FREE(f2);
-        if (f1) FREE(f1);
-
-        return -1;
-    }
+	float       *f1 = f1_s;
+	float       *f2 = f2_s;
+	float       *PreSqr = pre_sqr;
+  
 
 	if (fabs(x) == 1.0)
 	{
-	    FREE(PreSqr);
-	    FREE(f2);
-	    FREE(f1);
-
-		// printf("Error in PcupHigh: derivative cannot be calculated at poles\n");
+		// Error in PcupHigh: derivative cannot be calculated at poles
 		return -2;
 	}
 
@@ -779,9 +705,6 @@ int WMM_PcupHigh(float *Pcup, float *dPcup, float x, uint16_t nMax)
 	dPcup[0] = 0.0;
 	if (nMax == 0)
     {
-        FREE(PreSqr);
-        FREE(f2);
-        FREE(f1);
         return -3;
     }
 	pm1 = x;
@@ -837,15 +760,6 @@ int WMM_PcupHigh(float *Pcup, float *dPcup, float x, uint16_t nMax)
 	Pcup[kstart] = pmm * rescalem;
 	dPcup[kstart] = -(float)(nMax) * x * Pcup[kstart] / z;
 
-	// *********
-	// free allocated memory
-
-	FREE(PreSqr);
-    FREE(f2);
-	FREE(f1);
-
-    // *********
-
 	return 0;   // OK
 }
 
@@ -877,10 +791,11 @@ int WMM_PcupLow(float *Pcup, float *dPcup, float x, uint16_t nMax)
 {
     uint16_t    n, m, index, index1, index2;
     float       k, z;
+    float schmidtQuasiNorm_s[NUMPCUP];
+    float       *schmidtQuasiNorm = schmidtQuasiNorm_s;
 
-    float       *schmidtQuasiNorm = (float *) MALLOC(sizeof(float) * NUMPCUP);
     if (!schmidtQuasiNorm)
-    {   // memory allocation error
+    {
         return -1;
     }
 
@@ -966,8 +881,6 @@ int WMM_PcupLow(float *Pcup, float *dPcup, float x, uint16_t nMax)
 		}
 	}
 
-	FREE(schmidtQuasiNorm);
-
 	return 0;   // OK
 }
 
@@ -990,9 +903,10 @@ int WMM_SummationSpecial(WMMtype_SphericalHarmonicVariables *
     float       schmidtQuasiNorm2;
     float       schmidtQuasiNorm3;
 
-    float       *PcupS = (float *) MALLOC(sizeof(float) * NUMPCUPS);
+    float PcupsS_s[NUMPCUPS];
+    float       *PcupS = PcupsS_s;
     if (!PcupS)
-        return -1;  // memory allocation error
+        return -1;
 
 	PcupS[0] = 1;
 	schmidtQuasiNorm1 = 1.0;
@@ -1000,7 +914,7 @@ int WMM_SummationSpecial(WMMtype_SphericalHarmonicVariables *
 	MagneticResults->By = 0.0;
 	sin_phi = sinf(CoordSpherical->phig * DEG2RAD);
 
-	for (n = 1; n <= MagneticModel->nMax; n++)
+	for (n = 1; n <= MagneticModel.nMax; n++)
 	{
 
 		/*Compute the ration between the Gauss-normalized associated Legendre
@@ -1033,8 +947,6 @@ int WMM_SummationSpecial(WMMtype_SphericalHarmonicVariables *
 		    * PcupS[n] * schmidtQuasiNorm3;
 	}
 
-	FREE(PcupS);
-
 	return 0;   // OK
 }
 
@@ -1056,9 +968,10 @@ int WMM_SecVarSummationSpecial(WMMtype_SphericalHarmonicVariables *
     float       schmidtQuasiNorm2;
     float       schmidtQuasiNorm3;
 
-    float       *PcupS = (float *) MALLOC(sizeof(float) * NUMPCUPS);
+    float PcupsS_s[NUMPCUPS];
+    float       *PcupS = PcupsS_s;
     if (!PcupS)
-        return -1;  // memory allocation error
+        return -1;
 
 	PcupS[0] = 1;
 	schmidtQuasiNorm1 = 1.0;
@@ -1066,7 +979,7 @@ int WMM_SecVarSummationSpecial(WMMtype_SphericalHarmonicVariables *
 	MagneticResults->By = 0.0;
 	sin_phi = sinf(CoordSpherical->phig * DEG2RAD);
 
-	for (n = 1; n <= MagneticModel->nMaxSecVar; n++)
+	for (n = 1; n <= MagneticModel.nMaxSecVar; n++)
 	{
 		index = (n * (n + 1) / 2 + 1);
 		schmidtQuasiNorm2 = schmidtQuasiNorm1 * (float)(2 * n - 1) / (float)n;
@@ -1094,8 +1007,6 @@ int WMM_SecVarSummationSpecial(WMMtype_SphericalHarmonicVariables *
 		    * PcupS[n] * schmidtQuasiNorm3;
 	}
 
-	FREE(PcupS);
-
 	return 0;   // OK
 }
 
@@ -1111,9 +1022,9 @@ float WMM_get_main_field_coeff_g(uint16_t index)
 
     float coeff = CoeffFile[index][2];
 	
-	a = MagneticModel->nMaxSecVar;
+	a = MagneticModel.nMaxSecVar;
 	b = (a * (a + 1) / 2 + a);
-	for (n = 1; n <= MagneticModel->nMax; n++)
+	for (n = 1; n <= MagneticModel.nMax; n++)
 	{
 		for (m = 0; m <= n; m++)
 		{
@@ -1125,7 +1036,7 @@ float WMM_get_main_field_coeff_g(uint16_t index)
 				continue;
 			
 			if (index <= b) 
-				coeff += (decimal_date - MagneticModel->epoch) * WMM_get_secular_var_coeff_g(sum_index);
+				coeff += (decimal_date - MagneticModel.epoch) * WMM_get_secular_var_coeff_g(sum_index);
 			
 		}
 	}
@@ -1141,9 +1052,9 @@ float WMM_get_main_field_coeff_h(uint16_t index)
     uint16_t n, m, sum_index, a, b;
 	float coeff = CoeffFile[index][3];
 	
-	a = MagneticModel->nMaxSecVar;
+	a = MagneticModel.nMaxSecVar;
 	b = (a * (a + 1) / 2 + a);
-	for (n = 1; n <= MagneticModel->nMax; n++)
+	for (n = 1; n <= MagneticModel.nMax; n++)
 	{
 		for (m = 0; m <= n; m++)
 		{
@@ -1155,7 +1066,7 @@ float WMM_get_main_field_coeff_h(uint16_t index)
 				continue;
 			
 			if (index <= b) 
-				coeff += (decimal_date - MagneticModel->epoch) * WMM_get_secular_var_coeff_h(sum_index);
+				coeff += (decimal_date - MagneticModel.epoch) * WMM_get_secular_var_coeff_h(sum_index);
 		}
 	}
 	
@@ -1220,12 +1131,12 @@ int WMM_GeodeticToSpherical(WMMtype_CoordGeodetic * CoordGeodetic, WMMtype_Coord
 	SinLat = sinf(CoordGeodetic->phi * DEG2RAD);
 
 	// compute the local radius of curvature on the WGS-84 reference ellipsoid
-	rc = Ellip->a / sqrtf(1.0f - Ellip->epssq * SinLat * SinLat);
+	rc = Ellip.a / sqrtf(1.0f - Ellip.epssq * SinLat * SinLat);
 
 	// compute ECEF Cartesian coordinates of specified point (for longitude=0)
 
 	xp = (rc + CoordGeodetic->HeightAboveEllipsoid) * CosLat;
-	zp = (rc * (1.0f - Ellip->epssq) + CoordGeodetic->HeightAboveEllipsoid) * SinLat;
+	zp = (rc * (1.0f - Ellip.epssq) + CoordGeodetic->HeightAboveEllipsoid) * SinLat;
 
 	// compute spherical radius and angle lambda and phi of specified point
 

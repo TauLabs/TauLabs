@@ -361,11 +361,11 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 
 			float voltage = 0.0f;
 			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYVOLTAGE] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
-				voltage = batState.Voltage * 1000;
+				voltage = batState.Voltage;
 
 			float current = 0.0f;
 			if (batSettings.SensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYCURRENT] == FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
-				current = batState.Current * 100;
+				current = batState.Current;
 
 			// As long as there is no voltage for each cell
 			// all cells will have the same voltage.

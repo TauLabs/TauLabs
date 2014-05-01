@@ -41,6 +41,7 @@
 #include "homelocation.h"
 #include "magnetometer.h"
 #include "sensorsettings.h"
+#include "trimanglessettings.h"
 
 #include <Eigen/Core>
 #include <Eigen/Cholesky>
@@ -446,7 +447,7 @@ void Calibration::doStartOrientation() {
 
     // Set all UAVObject rates to update slowly
     UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
@@ -515,7 +516,7 @@ void Calibration::doStartLeveling() {
 
     // Set all UAVObject rates to update slowly
     UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
@@ -628,7 +629,7 @@ void Calibration::doStartSixPoint()
 
     // Make all UAVObject rates update slowly
     UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
@@ -960,7 +961,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
 
         // Temporary variables
         double psi, theta, phi;
-
+        Q_UNUSED(psi);
         // Keep existing yaw rotation
         psi = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0;
 
@@ -1015,6 +1016,14 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
         attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_TRUE;
         attitudeSettings->setData(attitudeSettingsData);
         attitudeSettings->updated();
+
+        // After recomputing the level for a frame, zero the trim settings
+        TrimAnglesSettings *trimSettings = TrimAnglesSettings::GetInstance(getObjectManager());
+        Q_ASSERT(trimSettings);
+        TrimAnglesSettings::DataFields trim = trimSettings->getData();
+        trim.Pitch = 0;
+        trim.Roll = 0;
+        trimSettings->setData(trim);
 
         // Inform the system that the calibration process has completed
         emit calibrationCompleted();

@@ -185,10 +185,12 @@ static void altitudeHoldTask(void *parameters)
 			// Compute the altitude error
 			altitude_error = altitudeHoldDesired.Altitude - position_z;
 
-			float velocity_desired = altitude_error * altitudeHoldSettings.PositionKp;
+			// Velocity desired is from the outer controller plus the set point
+			float velocity_desired = altitude_error * altitudeHoldSettings.PositionKp + altitudeHoldDesired.ClimbRate;
 			float throttle_desired = pid_apply_antiwindup(&velocity_pid, 
-				                velocity_desired - velocity_z,
-			                    0, 1.0f, dt_s);
+			                    velocity_desired - velocity_z,
+			                    0, 1.0f, // positive limits since this is throttle
+			                    dt_s);
 
 			if (altitudeHoldSettings.AttitudeComp == ALTITUDEHOLDSETTINGS_ATTITUDECOMP_TRUE) {
 				// Throttle desired is at this point the mount desired in the up direction, we can
@@ -212,8 +214,8 @@ static void altitudeHoldTask(void *parameters)
 
 			StabilizationDesiredGet(&stabilizationDesired);
 			stabilizationDesired.Throttle = bound_min_max(throttle_desired, 0.0f, 1.0f);
-			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS;
-			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS;
+			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 			stabilizationDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
 			stabilizationDesired.Roll = altitudeHoldDesired.Roll;
 			stabilizationDesired.Pitch = altitudeHoldDesired.Pitch;

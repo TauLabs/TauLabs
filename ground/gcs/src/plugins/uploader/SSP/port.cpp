@@ -26,10 +26,10 @@
  */
 #include "port.h"
 #include "delay.h"
-port::port(PortSettings settings,QString name):mstatus(port::closed)
+port::port(QString name) : mstatus(port::closed)
 {
     timer.start();
-    sport = new QextSerialPort(name,settings, QextSerialPort::Polling);
+    sport = new QSerialPort(name);
     if(sport->open(QIODevice::ReadWrite|QIODevice::Unbuffered))
     {
         mstatus=port::open;

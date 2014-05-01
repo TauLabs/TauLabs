@@ -179,6 +179,7 @@ static void vtolPathFollowerTask(void *parameters)
 				fsm_running = true;
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+			case FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL:
 				// TODO: currently when in this mode the follower just
 				// attempts to fly the path segments blindly which means
 				// the FSM cannot be utilized in a meaningful way. It might
@@ -203,7 +204,9 @@ static void vtolPathFollowerTask(void *parameters)
 		
 			// Track throttle before engaging this mode.  Cheap system ident
 			StabilizationDesiredThrottleGet(&vtol_pids[DOWN_VELOCITY].iAccumulator);
-			vtol_pids[DOWN_VELOCITY].iAccumulator *= 1000.0f; // pid library scales up accumulator by 1000
+			// pid library scales up accumulator by 1000. Note the negative sign because this
+			// is the accumulation for down.
+			vtol_pids[DOWN_VELOCITY].iAccumulator *= -1000.0f; 
 		}
 
 		AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);

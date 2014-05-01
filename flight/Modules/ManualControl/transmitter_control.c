@@ -36,6 +36,7 @@
 #include "accessorydesired.h"
 #include "actuatordesired.h"
 #include "altitudeholddesired.h"
+#include "altitudeholdsettings.h"
 #include "baroaltitude.h"
 #include "flighttelemetrystats.h"
 #include "flightstatus.h"
@@ -829,7 +830,6 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL]:
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Roll * stabSettings.RollMax :
-	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Roll * stabSettings.RollMax :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Roll :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Roll :
@@ -842,7 +842,6 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Pitch * stabSettings.PitchMax :
-	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Pitch * stabSettings.PitchMax :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Pitch :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Pitch :
@@ -855,7 +854,6 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Yaw * stabSettings.YawMax :
-	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDEPLUS) ? cmd->Yaw * stabSettings.YawMax :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Yaw :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Yaw :
@@ -882,42 +880,55 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		return;
 	}
 
-	const float DEADBAND_HIGH = 0.55;
-	const float DEADBAND_LOW = 0.45;
+	const float DEADBAND_HIGH = 0.55f;
+	const float DEADBAND_LOW = 0.45f;
+	const float MIN_CLIMB_RATE = 0.01f;
 	
-	static portTickType lastSysTime;
-	static bool zeroed = false;
-	portTickType thisSysTime;
-	float dT;
 	AltitudeHoldDesiredData altitudeHoldDesired;
 	AltitudeHoldDesiredGet(&altitudeHoldDesired);
 
 	StabilizationSettingsData stabSettings;
 	StabilizationSettingsGet(&stabSettings);
 
-	thisSysTime = xTaskGetTickCount();
-	dT = TICKS2MS(thisSysTime - lastSysTime) / 1000.0f;
-	lastSysTime = thisSysTime;
-
 	altitudeHoldDesired.Roll = cmd->Roll * stabSettings.RollMax;
 	altitudeHoldDesired.Pitch = cmd->Pitch * stabSettings.PitchMax;
 	altitudeHoldDesired.Yaw = cmd->Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW];
 	
-	float currentDown;
-	PositionActualDownGet(&currentDown);
+	float current_down;
+	PositionActualDownGet(&current_down);
+
 	if(flightModeChanged) {
 		// Initialize at the current location. Note that this object uses the up is positive
 		// convention.
-		PositionActualDownGet(&altitudeHoldDesired.Altitude);
-		altitudeHoldDesired.Altitude = - altitudeHoldDesired.Altitude;
-		zeroed = false;
-	} else if (cmd->Throttle > DEADBAND_HIGH && zeroed)
-		altitudeHoldDesired.Altitude += (cmd->Throttle - DEADBAND_HIGH) * dT;
-	else if (cmd->Throttle < DEADBAND_LOW && zeroed)
-		altitudeHoldDesired.Altitude += (cmd->Throttle - DEADBAND_LOW) * dT;
-	else if (cmd->Throttle >= DEADBAND_LOW && cmd->Throttle <= DEADBAND_HIGH)  // Require the stick to enter the dead band before they can move height
-		zeroed = true;
+		altitudeHoldDesired.Altitude = -current_down;
+		altitudeHoldDesired.ClimbRate = 0;
+	} else {
+		uint8_t altitude_hold_expo, altitude_hold_maxrate;
+		AltitudeHoldSettingsMaxRateGet(&altitude_hold_maxrate);
+		AltitudeHoldSettingsExpoGet(&altitude_hold_expo);
 
+		float climb_rate = 0.0f;
+		if (cmd->Throttle > DEADBAND_HIGH) {
+			climb_rate = expo3((cmd->Throttle - DEADBAND_HIGH) / (1.0f - DEADBAND_HIGH), altitude_hold_expo) *
+		                         altitude_hold_maxrate;
+		} else if (cmd->Throttle < DEADBAND_LOW && altitude_hold_maxrate > MIN_CLIMB_RATE) {
+			climb_rate = ((cmd->Throttle < 0) ? DEADBAND_LOW : DEADBAND_LOW - cmd->Throttle) / DEADBAND_LOW;
+			climb_rate = -expo3(climb_rate, altitude_hold_expo) * altitude_hold_maxrate;
+		}
+
+		// If more than MIN_CLIMB_RATE enter vario mode
+		if (fabsf(climb_rate) > MIN_CLIMB_RATE) {
+			// Desired state is at the current location with the requested rate
+			altitudeHoldDesired.Altitude = -current_down;
+			altitudeHoldDesired.ClimbRate = climb_rate;
+		} else {
+			// Here we intentionally do not change the set point, it will
+			// remain where the user released vario mode
+			altitudeHoldDesired.ClimbRate = 0.0f;
+		}
+	}
+
+	// Must always set since this contains the control signals
 	AltitudeHoldDesiredSet(&altitudeHoldDesired);
 }
 

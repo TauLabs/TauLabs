@@ -39,11 +39,11 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QScrollBar>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
-#include <QtCore/QFileInfo>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QFileInfo>
 #include <QInputDialog>
 
 #include "extensionsystem/pluginmanager.h"
@@ -55,7 +55,7 @@
 #include "../../../../../build/ground/gcs/gcsversioninfo.h"
 #include <coreplugin/coreconstants.h>
 #include <coreplugin/generalsettings.h>
-
+#include <QMenu>
 
 TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) : QWidget(parent)
 {
@@ -74,7 +74,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     telemetryScheduleView->setObjectName(QString::fromUtf8("telemetryScheduleView"));
     telemetryScheduleView->setAlternatingRowColors(true);
     telemetryScheduleView->horizontalHeader()->setCascadingSectionResizes(false);
-    telemetryScheduleView->horizontalHeader()->setMovable(true);
+    telemetryScheduleView->horizontalHeader()->setSectionsMovable(true);
 
 
     // The dummy table exists only to force the other widgets into the correct place.
@@ -98,14 +98,16 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     connect(m_telemetryeditor->bnAddTelemetryColumn, SIGNAL(clicked()), this, SLOT(addTelemetryColumn()));
     connect(m_telemetryeditor->bnRemoveTelemetryColumn, SIGNAL(clicked()), this, SLOT(removeTelemetryColumn()));
     connect(schedulerModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(dataModel_itemChanged(QStandardItem *)));
-    connect(telemetryScheduleView->horizontalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeHorizontalHeader(int)));
-    connect(telemetryScheduleView->verticalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeVerticalHeader(int)));
+    connect(telemetryScheduleView->horizontalHeader(), SIGNAL(sectionDoubleClicked(int)), this, SLOT(changeHorizontalHeader(int)));
+    connect(telemetryScheduleView->verticalHeader(), SIGNAL(sectionDoubleClicked(int)), this, SLOT(changeVerticalHeader(int)));
+    connect(telemetryScheduleView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customMenuRequested(QPoint)));
+    telemetryScheduleView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     // Generate the list of UAVOs on left side
     objManager = pm->getObject<UAVObjectManager>();
     Q_ASSERT(objManager != NULL);
 
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     int rowIndex = 1;
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
@@ -323,7 +325,7 @@ void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
         // save file
         QFile file(filename);
         if (file.open(QIODevice::WriteOnly) &&
-                (file.write(xml.toAscii()) != -1)) {
+                (file.write(xml.toLatin1()) != -1)) {
             file.close();
         } else {
             QMessageBox::critical(0,
@@ -602,6 +604,31 @@ void TelemetrySchedulerGadgetWidget::changeHorizontalHeader(int headerIndex)
     columnHeaders.replace(headerIndex, headerName);
     m_telemetryeditor->cmbScheduleList->clear();
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
+}
+
+void TelemetrySchedulerGadgetWidget::customMenuRequested(QPoint pos)
+{
+    Q_UNUSED(pos)
+    bool ok;
+    QString text = QInputDialog::getText(this, tr("Mass value filling"),
+                                         tr("Choose value to use"), QLineEdit::Normal,
+                                         "", &ok);
+    if(!ok)
+        return;
+    text.toInt(&ok);
+    if(!ok)
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Value must be numeric");
+        msgBox.exec();
+        return;
+    }
+    if (!text.isEmpty())
+    {
+        foreach (QModelIndex index , telemetryScheduleView->selectionModel()->selectedIndexes()) {
+            telemetryScheduleView->model()->setData(index,text);
+        }
+    }
 }
 
 
@@ -914,7 +941,7 @@ void QFrozenTableViewWithCopyPaste::init()
     frozenTableView->setModel(frozenModel);
     frozenTableView->setFocusPolicy(Qt::NoFocus);
     frozenTableView->horizontalHeader()->hide();
-    frozenTableView->verticalHeader()->setResizeMode(QHeaderView::Fixed);
+    frozenTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
     viewport()->stackUnder(frozenTableView);
 

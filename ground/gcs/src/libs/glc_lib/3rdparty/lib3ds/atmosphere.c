@@ -78,8 +78,6 @@ layer_fog_read(Lib3dsLayerFog *fog, Lib3dsIo *io)
   Lib3dsWord chunk;
   Lib3dsBool have_lin=LIB3DS_FALSE;
 
-  (void)have_lin;
-
   if (!lib3ds_chunk_read_start(&c, LIB3DS_LAYER_FOG, io)) {
     return(LIB3DS_FALSE);
   }

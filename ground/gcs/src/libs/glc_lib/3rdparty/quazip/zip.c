@@ -320,7 +320,7 @@ local uLong ziplocal_TmzDateToDosDate(ptm,dosDate)
     const tm_zip* ptm;
     uLong dosDate;
 {
-    (void) dosDate; /* avoid "unused parameter" warning */
+    //(void) dosDate; /* avoid "unused parameter" warning */
     uLong year = (uLong)ptm->tm_year;
     if (year>1980)
         year-=1980;

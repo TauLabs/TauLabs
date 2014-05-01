@@ -1,6 +1,8 @@
 TEMPLATE = lib
 TARGET = Core
 DEFINES += CORE_LIBRARY
+
+QT += widgets
 QT += xml \
     network \
     script \
@@ -18,8 +20,6 @@ DEPENDPATH += dialogs \
     actionmanager
 SOURCES += mainwindow.cpp \
     tabpositionindicator.cpp \
-    fancyactionbar.cpp \
-    fancytabwidget.cpp \
     generalsettings.cpp \
     uniqueidmanager.cpp \
     messagemanager.cpp \
@@ -72,8 +72,6 @@ SOURCES += mainwindow.cpp \
     alarmsmonitorwidget.cpp
 HEADERS += mainwindow.h \
     tabpositionindicator.h \
-    fancyactionbar.h \
-    fancytabwidget.h \
     generalsettings.h \
     uniqueidmanager.h \
     messagemanager.h \
@@ -143,14 +141,14 @@ FORMS += dialogs/settingsdialog.ui \
     uavgadgetoptionspage.ui \
     workspacesettings.ui \
     dialogs/importsettings.ui
-RESOURCES += core.qrc \
-    fancyactionbar.qrc
+RESOURCES += core.qrc
 unix:!macx { 
     images.files = images/taulabs_logo_*.png
     images.files = images/qtcreator_logo_*.png
     images.path = /share/pixmaps
     INSTALLS += images
 }
-OTHER_FILES += Core.pluginspec
+OTHER_FILES += Core.pluginspec \
+    coreplugin.json
 
 include(gcsversioninfo.pri)

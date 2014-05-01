@@ -66,6 +66,8 @@ USE_ALTITUDE ?= NO
 USE_AUTOTUNE ?= YES
 TEST_FAULTS ?= NO
 USE_UAVOMAVLINKBRIDGE ?= YES
+USE_UAVOLIGHTTELEMETRYBRIDGE ?= YES
+USE_UAVOFRSKYSENSORHUBBRIDGE ?= YES
 USE_PCF8591 ?= NO
 ifeq ($(USE_PCF8591), YES)
 ifeq ($(USE_I2C), NO)
@@ -104,6 +106,9 @@ OPTMODULES += Autotune
 endif
 ifeq ($(USE_UAVOMAVLINKBRIDGE), YES)
 OPTMODULES += UAVOMavlinkBridge
+endif
+ifeq ($(USE_UAVOFRSKYSENSORHUBBRIDGE), YES)
+OPTMODULES += UAVOFrSKYSensorHubBridge
 endif
 ifeq ($(USE_BATTERY), YES)
 OPTMODULES += Battery
@@ -240,6 +245,8 @@ SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
 SRC += $(OPUAVSYNTHDIR)/trimanglessettings.c
 SRC += $(OPUAVSYNTHDIR)/trimangles.c
 SRC += $(OPUAVSYNTHDIR)/ubloxinfo.c
+SRC += $(OPUAVSYNTHDIR)/sessionmanaging.c
+
 endif
 
 ## PIOS Hardware (STM32F10x)
@@ -609,7 +616,6 @@ LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_sections.ld
 
 # Define programs and commands.
 REMOVE  = rm -f
-PYTHON  = python
 
 # List of all source files.
 ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC)

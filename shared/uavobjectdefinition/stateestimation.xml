@@ -2,7 +2,7 @@
     <object name="StateEstimation" singleinstance="true" settings="true">
         <description>Settings for how to estimate the state</description>
         <field name="AttitudeFilter" units="" type="enum" elements="1" options="Complementary,INSIndoor,INSOutdoor" defaultvalue="Complementary"/>
-        <field name="NavigationFilter" units="" type="enum" elements="1" options="Raw,INS" defaultvalue="Raw"/>
+        <field name="NavigationFilter" units="" type="enum" elements="1" options="None,Raw,INS" defaultvalue="None"/>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>

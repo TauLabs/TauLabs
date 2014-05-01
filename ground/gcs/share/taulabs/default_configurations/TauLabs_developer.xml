@@ -1059,7 +1059,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-horizontal.svg</dFile>
           <decimalPlaces>2</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,8,-1,5,50,0,0,0,0,0</font>
+          <font>Arial,8,-1,5,50,0,0,0,0,0</font>
           <greenMax>-9</greenMax>
           <greenMin>-10</greenMin>
           <maxValue>11</maxValue>
@@ -1082,7 +1082,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-horizontal.svg</dFile>
           <decimalPlaces>2</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,6,-1,5,50,0,0,0,0,0</font>
+          <font>Arial,6,-1,5,50,0,0,0,0,0</font>
           <greenMax>-9</greenMax>
           <greenMin>-10</greenMin>
           <maxValue>11</maxValue>
@@ -1105,7 +1105,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-horizontal.svg</dFile>
           <decimalPlaces>2</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,8,-1,5,50,0,0,0,0,0</font>
+          <font>Arial,8,-1,5,50,0,0,0,0,0</font>
           <greenMax>-9</greenMax>
           <greenMin>-10</greenMin>
           <maxValue>11</maxValue>
@@ -1128,7 +1128,7 @@
           <dFile>%%DATAPATH%%dials/default/arm-status.svg</dFile>
           <decimalPlaces>0</decimalPlaces>
           <factor>1</factor>
-          <font>,12,-1,5,50,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,50,0,0,0,0,0</font>
           <greenMax>100</greenMax>
           <greenMin>66</greenMin>
           <maxValue>100</maxValue>
@@ -1151,7 +1151,7 @@
           <dFile>%%DATAPATH%%dials/default/textonly.svg</dFile>
           <decimalPlaces>0</decimalPlaces>
           <factor>0.001</factor>
-          <font>,12,-1,5,50,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,50,0,0,0,0,0</font>
           <greenMax>100</greenMax>
           <greenMin>66</greenMin>
           <maxValue>100</maxValue>
@@ -1174,7 +1174,7 @@
           <dFile>%%DATAPATH%%dials/default/flightmode-status.svg</dFile>
           <decimalPlaces>0</decimalPlaces>
           <factor>1</factor>
-          <font>,12,-1,5,50,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,50,0,0,0,0,0</font>
           <greenMax>100</greenMax>
           <greenMin>66</greenMin>
           <maxValue>100</maxValue>
@@ -1197,7 +1197,7 @@
           <dFile>%%DATAPATH%%dials/default/gps-signal.svg</dFile>
           <decimalPlaces>0</decimalPlaces>
           <factor>1</factor>
-          <font>,12,-1,5,50,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,50,0,0,0,0,0</font>
           <greenMax>0</greenMax>
           <greenMin>0</greenMin>
           <maxValue>12</maxValue>
@@ -1220,7 +1220,7 @@
           <dFile>%%DATAPATH%%dials/default/gps-status.svg</dFile>
           <decimalPlaces>0</decimalPlaces>
           <factor>1</factor>
-          <font>,12,-1,5,50,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,50,0,0,0,0,0</font>
           <greenMax>100</greenMax>
           <greenMin>66</greenMin>
           <maxValue>100</maxValue>
@@ -1243,7 +1243,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-vertical.svg</dFile>
           <decimalPlaces>0</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,12,-1,5,75,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,75,0,0,0,0,0</font>
           <greenMax>90</greenMax>
           <greenMin>0</greenMin>
           <maxValue>100</maxValue>
@@ -1266,7 +1266,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-vertical.svg</dFile>
           <decimalPlaces>2</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,12,-1,5,75,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,75,0,0,0,0,0</font>
           <greenMax>0.5</greenMax>
           <greenMin>-0.5</greenMin>
           <maxValue>1</maxValue>
@@ -1289,7 +1289,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-vertical.svg</dFile>
           <decimalPlaces>2</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,12,-1,5,75,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,75,0,0,0,0,0</font>
           <greenMax>0.5</greenMax>
           <greenMin>-0.5</greenMin>
           <maxValue>1</maxValue>
@@ -1312,7 +1312,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-vertical.svg</dFile>
           <decimalPlaces>2</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,12,-1,5,75,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,75,0,0,0,0,0</font>
           <greenMax>0.8</greenMax>
           <greenMin>0.3</greenMin>
           <maxValue>90</maxValue>
@@ -1335,7 +1335,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-vertical.svg</dFile>
           <decimalPlaces>2</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,12,-1,5,75,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,75,0,0,0,0,0</font>
           <greenMax>0.5</greenMax>
           <greenMin>-0.5</greenMin>
           <maxValue>1</maxValue>
@@ -1358,7 +1358,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-vertical.svg</dFile>
           <decimalPlaces>2</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,12,-1,5,75,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,75,0,0,0,0,0</font>
           <greenMax>0.5</greenMax>
           <greenMin>-0.5</greenMin>
           <maxValue>1</maxValue>
@@ -1381,7 +1381,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-horizontal.svg</dFile>
           <decimalPlaces>0</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,12,-1,5,75,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,75,0,0,0,0,0</font>
           <greenMax>650</greenMax>
           <greenMin>0</greenMin>
           <maxValue>1200</maxValue>
@@ -1404,7 +1404,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-horizontal.svg</dFile>
           <decimalPlaces>0</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,12,-1,5,75,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,75,0,0,0,0,0</font>
           <greenMax>650</greenMax>
           <greenMin>0</greenMin>
           <maxValue>1200</maxValue>
@@ -1427,7 +1427,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-vertical.svg</dFile>
           <decimalPlaces>2</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,12,-1,5,75,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,75,0,0,0,0,0</font>
           <greenMax>0.5</greenMax>
           <greenMin>0</greenMin>
           <maxValue>1</maxValue>
@@ -1450,7 +1450,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-vertical.svg</dFile>
           <decimalPlaces>2</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,12,-1,5,75,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,75,0,0,0,0,0</font>
           <greenMax>0.5</greenMax>
           <greenMin>-0.5</greenMin>
           <maxValue>1</maxValue>
@@ -1473,7 +1473,7 @@
           <dFile>%%DATAPATH%%dials/deluxe/lineardial-vertical.svg</dFile>
           <decimalPlaces>2</decimalPlaces>
           <factor>1</factor>
-          <font>Andale Mono,12,-1,5,75,0,0,0,0,0</font>
+          <font>Arial,14,-1,5,75,0,0,0,0,0</font>
           <greenMax>0.5</greenMax>
           <greenMin>-0.5</greenMin>
           <maxValue>1</maxValue>

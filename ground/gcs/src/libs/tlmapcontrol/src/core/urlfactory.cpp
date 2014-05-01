@@ -38,7 +38,7 @@ namespace core {
         /// timeout for map connections
         /// </summary>
 
-        Proxy.setType(QNetworkProxy::NoProxy);
+        Proxy.setType(QNetworkProxy::DefaultProxy);
 
         /// <summary>
         /// Gets or sets the value of the User-agent HTTP header.
@@ -90,6 +90,11 @@ namespace core {
 
     void UrlFactory::TryCorrectGoogleVersions()
     {
+        static bool versionRetrieved = false;
+        if (versionRetrieved){
+            return;
+        }
+
         QMutexLocker locker(&mutex);
         if(CorrectGoogleVersions && !IsCorrectGoogleVersions())
         {
@@ -169,7 +174,7 @@ namespace core {
 #endif //DEBUG_URLFACTORY
             }
             reply->deleteLater();
-
+            versionRetrieved = true;
         }
 
     }

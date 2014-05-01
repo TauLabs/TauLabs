@@ -56,6 +56,7 @@
 #include "baroaltitude.h"
 #include "flightstatus.h"
 #include "gpsposition.h"
+#include "gpstime.h"
 #include "gpsvelocity.h"
 #include "gyros.h"
 #include "gyrosbias.h"
@@ -71,9 +72,10 @@
 #include "systemalarms.h"
 #include "velocityactual.h"
 #include "coordinate_conversions.h"
+#include "WorldMagModel.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 2448
+#define STACK_SIZE_BYTES 2100
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 #define FAILSAFE_TIMEOUT_MS 10
 
@@ -153,8 +155,11 @@ static void AttitudeTask(void *parameters);
 //! Set the navigation information to the raw estimates
 static int32_t setNavigationRaw();
 
+//! Provide no navigation updates (indoor flying or without gps)
+static int32_t setNavigationNone();
+
 //! Update the complementary filter attitude estimate
-static int32_t updateAttitudeComplementary(bool first_run, bool secondary);
+static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool raw_gps);
 //! Set the @ref AttitudeActual to the complementary filter estimate
 static int32_t setAttitudeComplementary();
 
@@ -187,6 +192,9 @@ static void accumulate_gyro(GyrosData *gyrosData);
 
 //! Set alarm and alarm code
 static void set_state_estimation_error(SystemAlarmsStateEstimationOptions error_code);
+
+//! Determine if it is safe to set the home location then do it
+static void check_home_location();
 
 /**
  * API for sensor fusion algorithms:
@@ -309,6 +317,10 @@ static void AttitudeTask(void *parameters)
 			first_run = true;
 		}
 
+		// Determine if we can set the home location. This is done here to share the stack
+		// space with the INS which is the largest stack on the code.
+		check_home_location();
+
 		// There are two options to select:
 		//   Attitude filter - what sets the attitude
 		//   Navigation filter - what sets the position and velocity
@@ -329,9 +341,13 @@ static void AttitudeTask(void *parameters)
 		if (ins) {
 			ret_val = updateAttitudeINSGPS(first_run, outdoor);
 			if (complementary)
-				 updateAttitudeComplementary(first_run || complementary != last_complementary, true);
+				 updateAttitudeComplementary(first_run || complementary != last_complementary,
+				                               true,     // the secondary filter
+				                               false);   // no raw gps is used
 		} else {
-			ret_val = updateAttitudeComplementary(first_run, false);
+			ret_val = updateAttitudeComplementary(first_run,
+			                                       false,
+			                                       stateEstimation.NavigationFilter == STATEESTIMATION_NAVIGATIONFILTER_RAW);
 		}
 
 		last_complementary = complementary;
@@ -351,12 +367,17 @@ static void AttitudeTask(void *parameters)
 		// Use the selected source for position and velocity
 		switch (stateEstimation.NavigationFilter) {
 		case STATEESTIMATION_NAVIGATIONFILTER_INS:
-				// TODO: When running in dual mode and the INS is not initialized set
-				// an error here
-				setNavigationINSGPS();
-				break;
+			// TODO: When running in dual mode and the INS is not initialized set
+			// an error here
+			setNavigationINSGPS();
+			break;
+		case STATEESTIMATION_NAVIGATIONFILTER_RAW:
+			setNavigationRaw();
+			break;
+		case STATEESTIMATION_NAVIGATIONFILTER_NONE:
 		default:
-				setNavigationRaw();		
+			setNavigationNone();
+			break;
 		}
 
 		updateNedAccel();
@@ -376,7 +397,7 @@ static float cf_q[4];
  * @param[in] first_run indicates the filter was just selected
  * @param[in] secondary indicates the EKF is running as well
  */
-static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
+static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool raw_gps)
 {
 	UAVObjEvent ev;
 	GyrosData gyrosData;
@@ -677,8 +698,11 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary)
 		}
 
 	}
-	if (!secondary)
+	if (!secondary && !raw_gps) {
+		// When in raw GPS mode, it will set the error to none if
+		// reception is good
 		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
+	}
 
 	return 0;
 }
@@ -755,12 +779,22 @@ static int32_t setNavigationRaw()
 {
 	UAVObjEvent ev;
 
-
-	if ( xQueueReceive(gpsQueue, &ev, 0) == pdTRUE && homeLocation.Set == HOMELOCATION_SET_TRUE ) {
+	if (homeLocation.Set == HOMELOCATION_SET_FALSE) {
+		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOHOME);
+		xQueueReceive(gpsQueue, &ev, 0);
+	} else if (xQueueReceive(gpsQueue, &ev, 0) == pdTRUE) {
 		float NED[3];
 		// Transform the GPS position into NED coordinates
 		GPSPositionData gpsPosition;
 		GPSPositionGet(&gpsPosition);
+
+		if (gpsPosition.Satellites < 6)
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_TOOFEWSATELLITES);
+		else if (gpsPosition.PDOP > 4.0f)
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_PDOPTOOHIGH);
+		else
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
+
 		getNED(&gpsPosition, NED);
 
 		NEDPositionData nedPosition;
@@ -794,6 +828,21 @@ static int32_t setNavigationRaw()
 	} else {
 		VelocityActualDownSet(&cfvert.velocity_z);
 	}
+
+	return 0;
+}
+
+//! Set the navigation information to the raw estimates
+static int32_t setNavigationNone()
+{
+	UAVObjEvent ev;
+
+	// Throw away data to prevent queue overflows
+	xQueueReceive(gpsQueue, &ev, 0);
+	xQueueReceive(gpsVelQueue, &ev, 0);
+
+	PositionActualDownSet(&cfvert.position_z);
+	VelocityActualDownSet(&cfvert.velocity_z);
 
 	return 0;
 }
@@ -958,9 +1007,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	// Discard mag if it has NAN (normally from bad calibration)
 	mag_updated &= (magData.x == magData.x && magData.y == magData.y && magData.z == magData.z);
 
-	// Don't require HomeLocation.Set to be true but at least require a mag configuration (allows easily
-	// switching between indoor and outdoor mode with Set = false)
-	mag_updated &= (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]);
+	// Indoor mode will fall back to reasonable Be and that is ok. For outdoor make sure home
+	// Be is set and a good value
+	mag_updated &= !outdoor_mode || (homeLocation.Set == HOMELOCATION_SET_TRUE && 
+	               (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]) );
 
 	// A more stringent requirement for GPS to initialize the filter
 	bool gps_init_usable = gps_updated & (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
@@ -980,6 +1030,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_TOOFEWSATELLITES);
 		else if (gpsData.PDOP > 4.0f)
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_PDOPTOOHIGH);
+		else if (homeLocation.Set == HOMELOCATION_SET_FALSE)
+			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOHOME);
 		else
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_UNDEFINED);
 	} else {
@@ -1021,7 +1073,9 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			// Hard coded fake variances for indoor mode
 			INSSetPosVelVar(0.1f, 0.1f, 0.1f);
 
-			if (homeLocation.Set == HOMELOCATION_SET_TRUE)
+			if (homeLocation.Set == HOMELOCATION_SET_TRUE &&
+			    (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]))
+			    // Use the configured mag, if one is available
 				INSSetMagNorth(homeLocation.Be);
 			else {
 				// Reasonable default is safe for indoor
@@ -1286,6 +1340,55 @@ static void updateNedAccel()
 	NedAccelSet(&accelData);
 }
 
+/**
+ * Check if it is safe to update the home location and do it
+ */
+static void check_home_location()
+{
+	// Do not attempt this calculation while armed
+	uint8_t armed;
+	FlightStatusArmedGet(&armed);
+	if (armed != FLIGHTSTATUS_ARMED_DISARMED)
+		return;
+
+	// Do not calculate if already set
+	HomeLocationData home;
+	if (home.Set == HOMELOCATION_SET_TRUE)
+		return;
+
+	GPSPositionData gps;
+	GPSPositionGet(&gps);
+	GPSTimeData gpsTime;
+	GPSTimeGet(&gpsTime);
+	
+	// Check for valid data for the calculation
+	if (gps.PDOP < 3.5f && 
+	     gps.Satellites >= 7 &&
+	     (gps.Status == GPSPOSITION_STATUS_FIX3D ||
+	     gps.Status == GPSPOSITION_STATUS_DIFF3D) &&
+	     gpsTime.Year >= 2000)
+	{
+		// Store LLA
+		home.Latitude = gps.Latitude;
+		home.Longitude = gps.Longitude;
+		home.Altitude = gps.Altitude; // Altitude referenced to mean sea level geoid (likely EGM 1996, but no guarantees)
+
+		// Compute home ECEF coordinates and the rotation matrix into NED
+		double LLA[3] = { ((double)home.Latitude) / 10e6, ((double)home.Longitude) / 10e6, ((double)home.Altitude) };
+
+		// Compute magnetic flux direction at home location
+		if (WMM_GetMagVector(LLA[0], LLA[1], LLA[2], gpsTime.Month, gpsTime.Day, gpsTime.Year, &home.Be[0]) >= 0)
+		{   // calculations appeared to go OK
+
+			// Compute local acceleration due to gravity.  Vehicles that span a very large
+			// range of altitude (say, weather balloons) may need to update this during the
+			// flight.
+			home.Set = HOMELOCATION_SET_TRUE;
+			HomeLocationSet(&home);
+		}
+	}
+}
+
 static void settingsUpdatedCb(UAVObjEvent * ev) 
 {
 	if (ev == NULL || ev->obj == SensorSettingsHandle()) {
@@ -1368,6 +1471,7 @@ static void set_state_estimation_error(SystemAlarmsStateEstimationOptions error_
 	case SYSTEMALARMS_STATEESTIMATION_NOGPS:
 	case SYSTEMALARMS_STATEESTIMATION_NOMAGNETOMETER:
 	case SYSTEMALARMS_STATEESTIMATION_NOBAROMETER:
+	case SYSTEMALARMS_STATEESTIMATION_NOHOME:
 	case SYSTEMALARMS_STATEESTIMATION_TOOFEWSATELLITES:
 	case SYSTEMALARMS_STATEESTIMATION_PDOPTOOHIGH:
 		severity = SYSTEMALARMS_ALARM_ERROR;

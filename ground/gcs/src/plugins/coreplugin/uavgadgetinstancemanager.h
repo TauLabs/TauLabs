@@ -33,7 +33,7 @@
 #include <QSettings>
 #include <QtCore/QMap>
 #include <QtCore/QStringList>
-#include <QtGui/QIcon>
+#include <QIcon>
 #include "core_global.h"
 #include "uavconfiginfo.h"
 
@@ -62,7 +62,7 @@ public:
     ~UAVGadgetInstanceManager();
     void readSettings(QSettings *qs);
     void saveSettings(QSettings *qs);
-    IUAVGadget *createGadget(QString classId, QWidget *parent);
+    IUAVGadget *createGadget(QString classId, QWidget *parent, bool forceLoadConfiguration = false);
     void removeGadget(IUAVGadget *gadget);
     void removeAllGadgets();
     bool canDeleteConfiguration(IUAVGadgetConfiguration *config);

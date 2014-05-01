@@ -29,10 +29,10 @@
 
 #include <QDebug>
 #include <QStringList>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include <QDesktopServices>
 #include <QUrl>
 #include <extensionsystem/pluginmanager.h>
@@ -143,7 +143,7 @@ void ConfigCCHWWidget::widgetsContentsChanged()
 
 void ConfigCCHWWidget::openHelp()
 {
-    QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Hardware-Settings", QUrl::StrictMode) );
+    QDesktopServices::openUrl( QUrl("http://wiki.taulabs.org/OnlineHelp:-Hardware-Settings", QUrl::StrictMode) );
 }
 
 /**

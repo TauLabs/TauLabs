@@ -33,10 +33,10 @@
 
 #include <QDebug>
 #include <QStringList>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QUrl>
@@ -356,7 +356,7 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
 void ConfigOutputWidget::openHelp()
 {
 
-    QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Output-Configuration", QUrl::StrictMode) );
+    QDesktopServices::openUrl( QUrl("http://wiki.taulabs.org/OnlineHelp:-Output-Configuration", QUrl::StrictMode) );
 }
 
 void ConfigOutputWidget::stopTests()

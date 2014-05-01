@@ -3,6 +3,7 @@
  *
  * @file       uavobjecttreemodel.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectBrowserPlugin UAVObject Browser Plugin
@@ -32,39 +33,39 @@
 #include "uavmetaobject.h"
 #include "uavobjectfield.h"
 #include "extensionsystem/pluginmanager.h"
-#include <QtGui/QColor>
-//#include <QtGui/QIcon>
+#include <QColor>
+//#include <QIcon>
 #include <QtCore/QTimer>
 #include <QtCore/QSignalMapper>
 #include <QtCore/QDebug>
 #include <math.h>
 
-UAVObjectTreeModel::UAVObjectTreeModel(QObject *parent, bool categorize, bool useScientificNotation) :
+#include <QApplication>
+
+UAVObjectTreeModel::UAVObjectTreeModel(QObject *parent, bool useScientificNotation) :
     QAbstractItemModel(parent),
+    m_rootItem(NULL),
     m_recentlyUpdatedTimeout(500), // ms
     m_recentlyUpdatedColor(QColor(255, 230, 230)),
     m_manuallyChangedColor(QColor(230, 230, 255)),
     m_updatedOnlyColor(QColor(174,207,250,255)),
-    m_useScientificFloatNotation(useScientificNotation)
+    m_isPresentOnHwColor(QApplication::palette().text().color()),
+    m_notPresentOnHwColor(QColor(174,207,250,255)),
+    m_useScientificFloatNotation(useScientificNotation),
+    m_hideNotPresent(false),
+    m_categorize(true),
+    m_highlightManager(NULL),
+    isInitialized(false)
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    objManager = pm->getObject<UAVObjectManager>();
 
     m_currentTime = QTime::currentTime();
-
     // Create timer that sets the rhythm for all highlight events.
     connect(&m_currentTimeTimer, SIGNAL(timeout()), this, SLOT(updateCurrentTime()));
     m_currentTimeTimer.start(lrint(fmax(m_recentlyUpdatedTimeout / 10.0f, 10))); // Update the timer 10 times faster than the time
                                                                                  // out. In any case, never go faster than 10ms.
-
-
-    // Create highlight manager, let it run every 300 ms.
-    m_highlightManager = new HighLightManager(300, &m_currentTime);
-    connect(objManager, SIGNAL(newObject(UAVObject*)), this, SLOT(newObject(UAVObject*)));
-    connect(objManager, SIGNAL(newInstance(UAVObject*)), this, SLOT(newObject(UAVObject*)));
-
     TreeItem::setHighlightTime(m_recentlyUpdatedTimeout);
-    setupModelData(objManager, categorize);
 }
 
 UAVObjectTreeModel::~UAVObjectTreeModel()
@@ -73,9 +74,31 @@ UAVObjectTreeModel::~UAVObjectTreeModel()
     delete m_rootItem;
 }
 
-void UAVObjectTreeModel::setupModelData(UAVObjectManager *objManager, bool categorize)
+/**
+ * @brief sets the data model for the uavo browser according to some options
+ * @param objManager pointer to the object manager
+ * @param categorize set to true to show a object grouped by category (set on xml definition ex:sensors)
+ * @param useScientificFloatNotation set to true if the model is going to use scientific notation for floats
+ */
+void UAVObjectTreeModel::setupModelData(UAVObjectManager *objManager, bool categorize, bool useScientificFloatNotation)
 {
+    QMutexLocker locker(&mutex);
+    m_useScientificFloatNotation = useScientificFloatNotation;
+    m_categorize = categorize;
     // root
+    if(m_rootItem)
+    {
+        disconnect(objManager, SIGNAL(newObject(UAVObject*)), this, SLOT(newObject(UAVObject*)));
+        disconnect(objManager, SIGNAL(newInstance(UAVObject*)), this, SLOT(newObject(UAVObject*)));
+        disconnect(objManager, SIGNAL(instanceRemoved(UAVObject*)), this, SLOT(instanceRemove(UAVObject*)));
+        delete m_highlightManager;
+        int count = m_rootItem->childCount();
+        beginRemoveRows(index(m_rootItem), 0, count);
+        delete m_rootItem;
+        endRemoveRows();
+    }
+    // Create highlight manager, let it run every 300 ms.
+    m_highlightManager = new HighLightManager(300, &m_currentTime);
     QList<QVariant> rootData;
     rootData << tr("Property") << tr("Value") << tr("Unit");
     m_rootItem = new TreeItem(rootData);
@@ -91,12 +114,15 @@ void UAVObjectTreeModel::setupModelData(UAVObjectManager *objManager, bool categ
     connect(m_settingsTree, SIGNAL(updateHighlight(TreeItem*)), this, SLOT(updateHighlight(TreeItem*)));
     connect(m_nonSettingsTree, SIGNAL(updateHighlight(TreeItem*)), this, SLOT(updateHighlight(TreeItem*)));
 
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
-            addDataObject(obj, categorize);
+            addDataObject(obj, m_categorize);
         }
     }
+    connect(objManager, SIGNAL(newObject(UAVObject*)), this, SLOT(newObject(UAVObject*)),Qt::UniqueConnection);
+    connect(objManager, SIGNAL(newInstance(UAVObject*)), this, SLOT(newObject(UAVObject*)),Qt::UniqueConnection);
+    connect(objManager, SIGNAL(instanceRemoved(UAVObject*)), this, SLOT(instanceRemove(UAVObject*)));
 }
 
 void UAVObjectTreeModel::newObject(UAVObject *obj)
@@ -104,6 +130,33 @@ void UAVObjectTreeModel::newObject(UAVObject *obj)
     UAVDataObject *dobj = qobject_cast<UAVDataObject*>(obj);
     if (dobj) {
         addDataObject(dobj);
+    }
+}
+
+void UAVObjectTreeModel::initializeModel(bool categorize, bool useScientificFloatNotation)
+{
+    setupModelData(objManager,categorize, useScientificFloatNotation);
+}
+
+void UAVObjectTreeModel::instanceRemove(UAVObject *obj)
+{
+    UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
+    if(!dobj)
+        return;
+
+    TopTreeItem *root = dobj->isSettings() ? m_settingsTree : m_nonSettingsTree;
+
+    ObjectTreeItem* existing = root->findDataObjectTreeItemByObjectId(obj->getObjID());
+    if(existing)
+    {
+        foreach (TreeItem* item, existing->treeChildren()) {
+            InstanceTreeItem *inst = dynamic_cast<InstanceTreeItem*>(item);
+            if(inst && inst->object() == obj)
+            {
+                inst->parent()->removeChild(inst);
+                inst->deleteLater();
+            }
+        }
     }
 }
 
@@ -177,11 +230,12 @@ void UAVObjectTreeModel::addInstance(UAVObject *obj, TreeItem *parent)
 {
     connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(highlightUpdatedObject(UAVObject*)));
     TreeItem *item;
+    DataObjectTreeItem *p = static_cast<DataObjectTreeItem*>(parent);
     if (obj->isSingleInstance()) {
         item = parent;
-        DataObjectTreeItem *p = static_cast<DataObjectTreeItem*>(parent);
         p->setObject(obj);
     } else {
+        p->setObject(NULL);
         QString name = tr("Instance") +  " " + QString::number(obj->getInstID());
         item = new InstanceTreeItem(obj, name);
         item->setHighlightManager(m_highlightManager);
@@ -202,6 +256,11 @@ void UAVObjectTreeModel::addInstance(UAVObject *obj, TreeItem *parent)
         } else {
             addSingleField(0, field, item);
         }
+    }
+    UAVDataObject * dobj = dynamic_cast<UAVDataObject *>(obj);
+    if(dobj)
+    {
+        connect(dobj, SIGNAL(presentOnHardwareChanged(UAVDataObject*)), this, SLOT(presentOnHardwareChangedCB(UAVDataObject*)), Qt::UniqueConnection);
     }
 }
 
@@ -224,7 +283,7 @@ void UAVObjectTreeModel::addSingleField(int index, UAVObjectField *field, TreeIt
     else
         data.append( QString("[%1]").arg((field->getElementNames())[index]) );
 
-    FieldTreeItem *item;
+    FieldTreeItem *item = NULL;
     UAVObjectField::FieldType type = field->getType();
     switch (type) {
     case UAVObjectField::BITFIELD:
@@ -303,7 +362,6 @@ QModelIndex UAVObjectTreeModel::parent(const QModelIndex &index) const
 
     TreeItem *childItem = static_cast<TreeItem*>(index.internalPointer());
     TreeItem *parentItem = childItem->parent();
-
     if (parentItem == m_rootItem)
         return QModelIndex();
 
@@ -347,6 +405,21 @@ QList<QModelIndex> UAVObjectTreeModel::getMetaDataIndexes()
     return metaIndexes;
 }
 
+QList<QModelIndex> UAVObjectTreeModel::getDataObjectIndexes()
+{
+    QList<QModelIndex> dataIndexes;
+    foreach(DataObjectTreeItem *dataItem , m_settingsTree->getDataObjectItems())
+    {
+        dataIndexes.append(index(dataItem));
+    }
+
+    foreach(DataObjectTreeItem *dataItem , m_nonSettingsTree->getDataObjectItems())
+    {
+        dataIndexes.append(index(dataItem));
+    }
+    return dataIndexes;
+}
+
 QVariant UAVObjectTreeModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
@@ -369,6 +442,16 @@ QVariant UAVObjectTreeModel::data(const QModelIndex &index, int role) const
             return QVariant(m_recentlyUpdatedColor);
         if (!dynamic_cast<TopTreeItem*>(item) && item->updatedOnly())
             return QVariant(m_updatedOnlyColor);
+    }
+
+    if (role == Qt::TextColorRole) {
+        if (item)
+        {
+            if(item->getIsPresentOnHardware())
+                return QVariant(m_isPresentOnHwColor);
+            else
+                return QVariant(m_notPresentOnHwColor);
+        }
     }
 
     if (index.column() == TreeItem::dataColumn && role == Qt::BackgroundRole) {
@@ -489,4 +572,10 @@ void UAVObjectTreeModel::updateHighlight(TreeItem *item)
 void UAVObjectTreeModel::updateCurrentTime()
 {
     m_currentTime = QTime::currentTime();
+}
+
+void UAVObjectTreeModel::presentOnHardwareChangedCB(UAVDataObject * obj)
+{
+    Q_UNUSED(obj);
+    emit presentOnHardwareChanged();
 }

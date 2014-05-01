@@ -3,6 +3,7 @@
  *
  * @file       uavgadgetdecorator.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
@@ -37,7 +38,7 @@ class UAVGadgetDecorator : public IUAVGadget
 {
 Q_OBJECT
 public:
-    explicit UAVGadgetDecorator(IUAVGadget *gadget, QList<IUAVGadgetConfiguration*> *configurations);
+    explicit UAVGadgetDecorator(IUAVGadget *gadget, QList<IUAVGadgetConfiguration*> *configurations, bool loadDefault = false);
     ~UAVGadgetDecorator();
 
     QWidget *widget() { return m_gadget->widget(); }

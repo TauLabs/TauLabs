@@ -31,8 +31,8 @@
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/icore.h>
 #include "systemalarms.h"
-#include <QtCore/QtPlugin>
-#include <QtGui/QMainWindow>
+#include <QtPlugin>
+#include <QMainWindow>
 
 #include <QDebug>
 
@@ -136,5 +136,3 @@ void SysAlarmsMessagingPlugin::onAutopilotDisconnect()
     foreach(GlobalMessage * msg,warningMessages.values())
         msg->setActive(false);
 }
-
-Q_EXPORT_PLUGIN(SysAlarmsMessagingPlugin)

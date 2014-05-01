@@ -32,8 +32,7 @@
 #include <coreplugin/generalsettings.h>
 //#define UAVTALK_DEBUG
 #ifdef UAVTALK_DEBUG
-  #include "qxtlogger.h"
-  #define UAVTALK_QXTLOG_DEBUG(...) qxtLog->debug(__VA_ARGS__)
+  #define UAVTALK_QXTLOG_DEBUG(...) qDebug(__VA_ARGS__)
 #else  // UAVTALK_DEBUG
   #define UAVTALK_QXTLOG_DEBUG(...)
 #endif	// UAVTALK_DEBUG
@@ -80,7 +79,7 @@ UAVTalk::UAVTalk(QIODevice* iodev, UAVObjectManager* objMngr)
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
     useUDPMirror=settings->useUDPMirror();
-    qDebug()<<"[uavtalk.cpp  ] Use UDP: "<<useUDPMirror;
+    UAVTALK_QXTLOG_DEBUG(QString("[uavtalk.cpp  ] Use UDP:%0").arg(useUDPMirror));
     if(useUDPMirror)
     {
         udpSocketTx=new QUdpSocket(this);
@@ -493,7 +492,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             obj = updateObject(objId, instId, data);
             if (obj == NULL)
             {
-                qDebug() << "[uavtalk.cpp  ] Received a UAVObject update for a UAVObject we don't know about";
+                UAVTALK_QXTLOG_DEBUG(QString("[uavtalk.cpp  ] Received a UAVObject update for a UAVObject we don't know about OBJID:%0 INSTID:%1").arg(QString(QString("0x") + QString::number(objId, 16).toUpper())).arg(instId));
                 error = true;
             }
         }
@@ -515,7 +514,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             }
             else
             {
-                qDebug() << "[uavtalk.cpp  ] Received an acknowledged UAVObject update for a UAVObject we don't know about";
+                UAVTALK_QXTLOG_DEBUG(QString("[uavtalk.cpp  ] Received an acknowledged UAVObject update for a UAVObject we don't know about:").arg(obj->getName()));
                 // UAVTALK Protocol update 2013.07.10 (E. Lafargue): send a NACK packet for this ObjID
                 transmitNack(objId);
                 error = true;
@@ -559,12 +558,12 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             // Check if object exists:
             if (obj != NULL)
             {
-                qDebug() << "[uavtalk.cpp  ] The" << obj->getName() << QString(QString("0x") + QString::number(objId, 16).toUpper()) << "UAVObject does not exist on the remote end, got a Nack";
+                UAVTALK_QXTLOG_DEBUG(QString("[uavtalk.cpp  ] The %0 UAVObject does not exist on the remote end, got a Nack").arg(obj->getName() + QString(QString(" 0x") + QString::number(objId, 16).toUpper())));
                 emit nackReceived(obj);
             }
             else
             {
-                qDebug() << "[uavtalk.cpp  ] Critical error: Received a Nack for an unknown UAVObject: " << QString(QString("0x") + QString::number(objId, 16).toUpper());
+                UAVTALK_QXTLOG_DEBUG(QString("[uavtalk.cpp  ] Critical error: Received a Nack for an unknown UAVObject:%0").arg(QString(QString("0x") + QString::number(objId, 16).toUpper())));
                 error = true;
             }
         }
@@ -575,12 +574,12 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
         {
             // Get object
             obj = objMngr->getObject(objId, instId);
-            qDebug() << "[uavtalk.cpp  ] Got ack for instance: " << instId << "of UAVObject" << obj->getName() << QString(QString("0x") + QString::number(objId, 16).toUpper());
+            UAVTALK_QXTLOG_DEBUG(QString("[uavtalk.cpp  ] Got ack for instance:%0 of UAVObject:%1 with ID:%2").arg(instId).arg(obj->getName()).arg(QString(QString("0x") + QString::number(objId, 16).toUpper())));
             // Check if we actually know this object (tiny chance the ObjID
             // could be unknown and got through CRC check...)
             if (obj != NULL)
             {
-                qDebug() << "[uavtalk.cpp  ] UAVObject name: " << obj->getName();
+                UAVTALK_QXTLOG_DEBUG(QString("[uavtalk.cpp  ] UAVObject name:%0").arg(aobj->getName()));
                 emit ackReceived(obj);
             }
             else

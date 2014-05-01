@@ -4,6 +4,7 @@
  * @file       splitterorview.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
@@ -34,10 +35,6 @@
 
 #include <QtCore/QDebug>
 
-
-#ifdef Q_WS_MAC
-#include <qmacstyle_mac.h>
-#endif
 
 using namespace Core;
 using namespace Core::Internal;
@@ -376,7 +373,7 @@ void SplitterOrView::restoreState(QSettings* qSettings)
     } else if (mode == "uavGadget") {
         QString classId = qSettings->value("classId").toString();
         int index = m_view->indexOfClassId(classId);
-        m_view->listSelectionActivated(index);
+        m_view->selectionActivated(index, false);
         if(qSettings->childGroups().contains("gadget")) {
             qSettings->beginGroup("gadget");
             gadget()->restoreState(qSettings);

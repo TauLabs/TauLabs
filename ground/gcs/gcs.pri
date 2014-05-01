@@ -1,18 +1,9 @@
 defineReplace(cleanPath) {
-    win32:1 ~= s|\\\\|/|g
-    contains(1, ^/.*):pfx = /
-    else:pfx =
-    segs = $$split(1, /)
-    out =
-    for(seg, segs) {
-        equals(seg, ..):out = $$member(out, 0, -2)
-        else:!equals(seg, .):out += $$seg
-    }
-    return($$join(out, /, $$pfx))
+    return($$clean_path($$1))
 }
 
 defineReplace(targetPath) {
-    return($$replace(1, /, $$QMAKE_DIR_SEP))
+    return($$shell_path($$1))
 }
 
 defineReplace(addNewline) { 
@@ -33,16 +24,8 @@ defineReplace(qtLibraryName) {
 }
 
 # For use in custom compilers which just copy files
-win32:i_flag = i
 defineReplace(stripSrcDir) {
-    win32 {
-        !contains(1, ^.:.*):1 = $$OUT_PWD/$$1
-    } else {
-        !contains(1, ^/.*):1 = $$OUT_PWD/$$1
-    }
-    out = $$cleanPath($$1)
-    out ~= s|^$$re_escape($$PWD/)||$$i_flag
-    return($$out)
+    return($$relative_path($$absolute_path($$1, $$OUT_PWD), $$_PRO_FILE_PWD_))
 }
 
 isEmpty(TEST):CONFIG(debug, debug|release) {
@@ -83,6 +66,7 @@ macx {
     GCS_DATA_PATH    = $$GCS_APP_PATH/$${GCS_APP_TARGET}.app/Contents/Resources
     GCS_DATA_BASENAME = Resources
     GCS_DOC_PATH     = $$GCS_DATA_PATH/doc
+    GCS_BIN_PATH     = $$GCS_APP_PATH/$${GCS_APP_TARGET}.app/Contents/MacOS
     copydata = 1
 } else {
     win32 {
@@ -138,3 +122,7 @@ linux-g++* {
     QMAKE_LFLAGS += -Wl,--allow-shlib-undefined -Wl,--no-undefined
 }
 
+win32 {
+	# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=52991
+	QMAKE_CXXFLAGS += -mno-ms-bitfields
+}

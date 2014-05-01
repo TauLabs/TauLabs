@@ -59,6 +59,9 @@ OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += ComUsbBridge
 OPTMODULES += Airspeed/revolution
 OPTMODULES += UAVOHoTTBridge
+OPTMODULES += UAVOFrSKYSensorHubBridge
+OPTMODULES += UAVOLighttelemetryBridge
+OPTMODULES += PicoC
 
 PYMODULES = 
 #FlightPlan
@@ -240,8 +243,6 @@ gencode: ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTDIR}/pmlibusr_img.c ${
 
 $(PYSRC): gencode
 
-PYTHON = python
-
 # Generate code for PyMite
 ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTDIR}/pmlibusr_img.c ${OUTDIR}/pmlibusr_nat.c ${OUTDIR}/pmfeatures.h: $(wildcard ${PYMITELIB}/*.py) $(wildcard ${PYMITEPLAT}/*.py) $(wildcard ${FLIGHTPLANLIB}/*.py) $(wildcard ${FLIGHTPLANS}/*.py) 
 	@echo $(MSG_PYMITEINIT) $(call toprel, $@)
@@ -403,7 +404,6 @@ LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 # Define programs and commands.
 REMOVE  = rm -f
-PYHON   = python
 
 # List of all source files.
 ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC)

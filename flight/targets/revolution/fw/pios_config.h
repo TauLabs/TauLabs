@@ -77,11 +77,12 @@
 #define PIOS_INCLUDE_COM_FLEXI
 #define PIOS_INCLUDE_MAVLINK
 #define PIOS_INCLUDE_HOTT
+#define PIOS_INCLUDE_SESSION_MANAGEMENT
+#define PIOS_INCLUDE_PICOC
 
 #define PIOS_INCLUDE_GPS
 #define PIOS_INCLUDE_GPS_NMEA_PARSER
 #define PIOS_INCLUDE_GPS_UBX_PARSER
-#define PIOS_GPS_SETS_HOMELOCATION
 
 #define PIOS_OVERO_SPI
 /* Supported receiver interfaces */
@@ -104,7 +105,6 @@
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */
 #define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
-//#define PIOS_QUATERNION_STABILIZATION   /* Stabilization options */
 
 #define CAMERASTAB_POI_MODE
 

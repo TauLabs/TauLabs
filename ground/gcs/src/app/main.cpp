@@ -44,9 +44,9 @@
 #include <QtCore/QSettings>
 #include <QtCore/QVariant>
 
-#include <QtGui/QMessageBox>
-#include <QtGui/QApplication>
-#include <QtGui/QMainWindow>
+#include <QMessageBox>
+#include <QApplication>
+#include <QMainWindow>
 
 #include <QPixmap>
 #include "customsplash.h"
@@ -242,6 +242,7 @@ int main(int argc, char **argv)
     getrlimit(RLIMIT_NOFILE, &rl);
     rl.rlim_cur = rl.rlim_max;
     setrlimit(RLIMIT_NOFILE, &rl);
+    QApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
 
     if ( QSysInfo::MacintoshVersion > QSysInfo::MV_10_8 )
     {
@@ -253,7 +254,6 @@ int main(int argc, char **argv)
 #ifdef Q_OS_LINUX
     QApplication::setAttribute(Qt::AA_X11InitThreads, true);
     // This should have faster performance on linux
-    QApplication::setGraphicsSystem("raster");
 #endif
 
     SharedTools::QtSingleApplication app((QLatin1String(appNameC)), argc, argv);
@@ -278,7 +278,7 @@ int main(int argc, char **argv)
     splash.show();
 
     splash.showMessage("Loading translations",Qt::AlignCenter | Qt::AlignBottom,Qt::black);
-
+    qApp->processEvents();
     const QString &creatorTrPath = QCoreApplication::applicationDirPath()
                                    + QLatin1String(SHARE_PATH "/translations");
     if (translator.load(QLatin1String("taulabs_") + locale, creatorTrPath)) {
@@ -301,6 +301,7 @@ int main(int argc, char **argv)
     const QStringList pluginPaths = getPluginPaths();
     pluginManager.setPluginPaths(pluginPaths);
     splash.showMessage("Parsing command line options",Qt::AlignCenter | Qt::AlignBottom,Qt::black);
+    qApp->processEvents();
     const QStringList arguments = app.arguments();
     QMap<QString, QString> foundAppOptions;
     if (arguments.size() > 1) {
@@ -334,6 +335,7 @@ int main(int argc, char **argv)
         }
     }
     splash.showMessage(QLatin1String("Checking core plugin"),Qt::AlignCenter | Qt::AlignBottom,Qt::black);
+    qApp->processEvents();
     if (!coreplugin) {
         QString nativePaths = QDir::toNativeSeparators(pluginPaths.join(QLatin1String(",")));
         const QString reason = QCoreApplication::translate("Application", "Could not find 'Core.pluginspec' in %1").arg(nativePaths);

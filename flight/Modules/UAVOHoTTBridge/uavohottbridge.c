@@ -35,7 +35,7 @@
 #include "uavohottbridge.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 800
+#define STACK_SIZE_BYTES 700
 #define TASK_PRIORITY				(tskIDLE_PRIORITY + 2)
 
 // Private variables
@@ -194,6 +194,8 @@ static void uavoHoTTBridgeTask(void *parameters) {
 				for (int i = 0; i < message_size; i++) {
 					// send message content with pause between each byte
 					PIOS_COM_SendCharNonBlocking(hott_port, tx_buffer[i]);
+					// grab possible incoming loopback data and throw it away
+					PIOS_COM_ReceiveBuffer(hott_port, rx_buffer, sizeof(rx_buffer), 0);
 					vTaskDelayUntil(&lastSysTime, datadelay);
 				}
 
@@ -312,9 +314,11 @@ uint16_t build_GPS_message(struct hott_gps_message *msg) {
 	switch (telestate->GPS.Status) {
 		case GPSPOSITION_STATUS_FIX2D:
 			msg->gps_fix_char = '2';
+			break;
 		case GPSPOSITION_STATUS_FIX3D:
 		case GPSPOSITION_STATUS_DIFF3D:
 			msg->gps_fix_char = '3';
+			break;
 		default:
 			msg->gps_fix_char = 0;
 	}

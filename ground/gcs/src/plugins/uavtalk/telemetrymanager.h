@@ -3,6 +3,7 @@
  *
  * @file       telemetrymanager.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVTalkPlugin UAVTalk Plugin
@@ -67,6 +68,7 @@ private:
     TelemetryMonitor* telemetryMon;
     QIODevice *device;
     bool autopilotConnected;
+    QHash<quint16, QList<TelemetryMonitor::objStruc> > sessions;
 };
 
 #endif // TELEMETRYMANAGER_H

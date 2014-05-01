@@ -16,6 +16,10 @@
 			<option>CameraPOI</option>
 		</options>
 	</field>
+
+	<!-- Indicate the tablet would like to be the POI -->
+        <field name="POI" units="" type="enum" elements="1" options="False,True"/>
+
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="manual" period="0"/>
         <telemetryflight acked="false" updatemode="onchange" period="0"/>

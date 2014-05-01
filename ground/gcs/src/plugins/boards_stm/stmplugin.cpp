@@ -70,4 +70,3 @@ void StmPlugin::shutdown()
 {
 }
 
-Q_EXPORT_PLUGIN(StmPlugin)

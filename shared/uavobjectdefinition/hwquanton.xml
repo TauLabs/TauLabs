@@ -21,6 +21,8 @@
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
 			</options>
 		</field>
 
@@ -41,6 +43,8 @@
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
 			</options>
 		</field>
 
@@ -61,6 +65,8 @@
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
 			</options>
 		</field>
 
@@ -79,7 +85,9 @@
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
+				<option>LighttelemetryTx</option>
 				<option>FrSKY Sensor Hub</option>
+				<option>PicoC</option>
 			</options>
 		</field>
 
@@ -99,11 +107,13 @@
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
 			</options>
 		</field>
 
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
-		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>
+		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
 
 		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
 

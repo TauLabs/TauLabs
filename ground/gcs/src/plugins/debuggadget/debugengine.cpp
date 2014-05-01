@@ -1,13 +1,31 @@
 #include "debugengine.h"
+
 debugengine::debugengine()
 {
 }
 
-void debugengine::writeToStdErr(const QString &level, const QList<QVariant> &msgs)
+debugengine *debugengine::getInstance()
 {
-    emit dbgMsgError(level,msgs);
+    static debugengine objectInstance;
+    return &objectInstance;
 }
-void debugengine::writeToStdOut(const QString &level, const QList<QVariant> &msgs)
+
+void debugengine::writeWarning(const QString &message)
 {
-    emit dbgMsg(level,msgs);
+    emit warning(message);
+}
+
+void debugengine::writeDebug(const QString &message)
+{
+    emit debug(message);
+}
+
+void debugengine::writeCritical(const QString &message)
+{
+    emit critical(message);
+}
+
+void debugengine::writeFatal(const QString &message)
+{
+    emit fatal(message);
 }

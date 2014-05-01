@@ -87,6 +87,8 @@ static mavlink_message_t mavMsg;
 
 static uint8_t * serial_buf;
 
+static void updateSettings();
+
 /**
  * Initialise the module
  * \return -1 if initialisation failed
@@ -119,7 +121,7 @@ static int32_t uavoMavlinkBridgeInitialize(void) {
 			&& (module_state[MODULESETTINGS_ADMINSTATE_UAVOMAVLINKBRIDGE]
 					== MODULESETTINGS_ADMINSTATE_ENABLED)) {
 		module_enabled = true;
-		PIOS_COM_ChangeBaud(mavlink_port, 57600);
+		updateSettings();
 
 		serial_buf = pvPortMalloc(MAVLINK_MAX_PACKET_LEN);
 		stream_ticks = pvPortMalloc(MAXSTREAMS);
@@ -474,6 +476,40 @@ static bool stream_trigger(enum MAV_DATA_STREAM stream_num) {
 	return false;
 }
 
+static void updateSettings()
+{
+	
+	if (mavlink_port) {
+		// Retrieve settings
+		uint8_t speed;
+		ModuleSettingsMavlinkSpeedGet(&speed);
+
+		// Set port speed
+		switch (speed) {
+		case MODULESETTINGS_MAVLINKSPEED_2400:
+			PIOS_COM_ChangeBaud(mavlink_port, 2400);
+			break;
+		case MODULESETTINGS_MAVLINKSPEED_4800:
+			PIOS_COM_ChangeBaud(mavlink_port, 4800);
+			break;
+		case MODULESETTINGS_MAVLINKSPEED_9600:
+			PIOS_COM_ChangeBaud(mavlink_port, 9600);
+			break;
+		case MODULESETTINGS_MAVLINKSPEED_19200:
+			PIOS_COM_ChangeBaud(mavlink_port, 19200);
+			break;
+		case MODULESETTINGS_MAVLINKSPEED_38400:
+			PIOS_COM_ChangeBaud(mavlink_port, 38400);
+			break;
+		case MODULESETTINGS_MAVLINKSPEED_57600:
+			PIOS_COM_ChangeBaud(mavlink_port, 57600);
+			break;
+		case MODULESETTINGS_MAVLINKSPEED_115200:
+			PIOS_COM_ChangeBaud(mavlink_port, 115200);
+			break;
+		}
+	}
+}
 /**
  * @}
  * @}

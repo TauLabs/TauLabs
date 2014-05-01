@@ -229,7 +229,6 @@ template<typename T, bool Align> inline void ei_conditional_aligned_delete(T *pt
 template<typename Scalar, typename Integer>
 inline static Integer ei_alignmentOffset(const Scalar* array, Integer size)
 {
-  typedef typename ei_packet_traits<Scalar>::type Packet;
   enum { PacketSize = ei_packet_traits<Scalar>::size,
          PacketAlignedMask = PacketSize-1
   };

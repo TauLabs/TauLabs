@@ -112,7 +112,7 @@ help:
 	@echo "   Here is a summary of the available targets:"
 	@echo
 	@echo "   [Tool Installers]"
-	@echo "     qt_sdk_install       - Install the QT v4.7.3 tools"
+	@echo "     qt_sdk_install       - Install the Qt tools"
 	@echo "     arm_sdk_install      - Install the GNU ARM gcc toolchain"
 	@echo "     openocd_install      - Install the OpenOCD SWD/JTAG daemon"
 	@echo "        \$$OPENOCD_FTDI     - Set to no in order not to install legacy FTDI support for OpenOCD."
@@ -122,6 +122,7 @@ help:
 	@echo "     gui_install          - Install the make gui tool"
 	@echo "     gtest_install        - Install the google unit test suite"
 	@echo "     astyle_install       - Install the astyle code formatter"	
+	@echo "     openssl_install      - Install the openssl libraries on windows machines"	
 	@echo
 	@echo "   [Big Hammer]"
 	@echo "     all                  - Generate UAVObjects, build openpilot firmware and gcs"
@@ -245,10 +246,13 @@ $(BUILD_DIR):
 .PHONY: all_ground
 all_ground: gcs
 
+ifndef WINDOWS
+# unfortunately the silent linking command is broken on windows
 ifeq ($(V), 1)
 GCS_SILENT := 
 else
 GCS_SILENT := silent
+endif
 endif
 
 .PHONY: gcs
@@ -259,17 +263,27 @@ gcs:  uavobjects_gcs
 	  $(MAKE) -w ; \
 	)
 
+# Workaround for qmake bug that prevents copying the application icon
+ifneq (,$(filter $(UNAME), Darwin))
+	$(V1) ( cd $(BUILD_DIR)/ground/gcs/src/app && \
+	  $(MAKE) ../../bin/Tau\ Labs\ GCS.app/Contents/Resources/taulabs.icns && \
+	  $(MAKE) ../../bin/Tau\ Labs\ GCS.app/Contents/Info.plist ; \
+	)
+endif
+
 .PHONY: gcs_clean
 gcs_clean:
 	$(V0) @echo " CLEAN      $@"
 	$(V1) [ ! -d "$(BUILD_DIR)/ground/gcs" ] || $(RM) -r "$(BUILD_DIR)/ground/gcs"
 
+ifndef WINDOWS
+# unfortunately the silent linking command is broken on windows
 ifeq ($(V), 1)
 UAVOGEN_SILENT := 
 else
 UAVOGEN_SILENT := silent
 endif
-
+endif
 .PHONY: uavobjgenerator
 uavobjgenerator:
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
@@ -815,7 +829,7 @@ ifeq ($(UNAME), Linux)
 SIM_BOARDS := sim_posix_revolution
 else ifeq ($(UNAME), Darwin)
 SIM_BOARDS := sim_osx_revolution
-else ifeq ($(UNAME), MINGW32_NT-6.1)   # Windows 7
+else ifdef WINDOWS
 SIM_BOARDS := 
 else # unknown OS
 SIM_BOARDS := 
@@ -878,6 +892,7 @@ $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 ##############################
 
 ALL_UNITTESTS := logfs i2c_vm misc_math sin_lookup coordinate_conversions
+ALL_PYTHON_UNITTESTS := python_ut_test
 
 UT_OUT_DIR := $(BUILD_DIR)/unit_tests
 
@@ -897,7 +912,7 @@ all_ut_tap: all_ut_xml
 all_ut_xml: $(addsuffix _xml, $(addprefix ut_, $(ALL_UNITTESTS)))
 
 .PHONY: all_ut_run
-all_ut_run: $(addsuffix _run, $(addprefix ut_, $(ALL_UNITTESTS)))
+all_ut_run: $(addsuffix _run, $(addprefix ut_, $(ALL_UNITTESTS))) $(ALL_PYTHON_UNITTESTS)
 
 .PHONY: all_ut_gcov
 all_ut_gcov: | $(addsuffix _gcov, $(addprefix ut_, $(ALL_UNITTESTS)))
@@ -953,6 +968,11 @@ endef
 
 # Expand the unittest rules
 $(foreach ut, $(ALL_UNITTESTS), $(eval $(call UT_TEMPLATE,$(ut))))
+
+.PHONY: python_ut_test
+python_ut_test:
+	$(V0) @echo "  PYTHON_UT test.py"
+	$(V1) $(PYTHON) python/test.py
 
 # Disable parallel make when the all_ut_run target is requested otherwise the TAP
 # output is interleaved with the rest of the make output.
