@@ -93,32 +93,35 @@ void ConfigAutotuneWidget::recomputeStabilization()
     double beta_roll = relayTuningData.Beta[RelayTuning::BETA_ROLL];
     double beta_pitch = relayTuningData.Beta[RelayTuning::BETA_PITCH];
 
-    const double wn = 1/tau*scale;
+    double wn = 1/tau;
+    double tau_d = 0;
+    for (int i = 0; i < 30; i++) {
+        double tau_d_roll = (2*damp*tau*wn - 1)/(4*tau*damp*damp*wn*wn - 2*damp*wn - tau*wn*wn + exp(beta_roll)*ghf);
+        double tau_d_pitch = (2*damp*tau*wn - 1)/(4*tau*damp*damp*wn*wn - 2*damp*wn - tau*wn*wn + exp(beta_pitch)*ghf);
 
-    // Compute the derivative filter bandwdidth required to hit the
-    // noise sensitivity target for each axis
-    const double tau_d_roll = (2*damp*tau*wn - 1)/(4*tau*damp*damp*wn*wn - 2*damp*wn - tau*wn*wn + exp(beta_roll)*ghf);
-    const double tau_d_pitch = (2*damp*tau*wn - 1)/(4*tau*damp*damp*wn*wn - 2*damp*wn - tau*wn*wn + exp(beta_pitch)*ghf);
+        // Select the slowest filter property
+        tau_d = (tau_d_roll > tau_d_pitch) ? tau_d_roll : tau_d_pitch;
+        wn = (tau + tau_d) / (tau*tau_d) / (2 * damp + 2);
+    }
+
+
 
     qDebug() << "wn: " << wn;
-
-    qDebug() << "tau_d_roll: " << tau_d_roll << " tau_d_pitch " << tau_d_pitch;
-
-    // Select the slowest filter property
-    const double tau_d = (tau_d_roll > tau_d_pitch) ? tau_d_roll : tau_d_pitch;
+    qDebug() << "tau_d: " << tau_d;
 
     // Set the real pole position
-    const double a = (tau + tau_d) / (tau * tau_d) - 2 * damp * wn;
+    const double a = ((tau+tau_d) / tau / tau_d - 2 * damp * wn) / 2;
+    const double b = ((tau+tau_d) / tau / tau_d - 2 * damp * wn - a);
 
-    qDebug() << "a: " << a;
+    qDebug() << "a: " << a << " b: " << b;
 
     // For now just run over roll and pitch
     for (int i = 0; i < 2; i++) {
         double beta = exp(relayTuningData.Beta[i]);
 
-        double kp = a * wn*wn * tau / beta * (tau / (tau * (2 * damp * wn + a)-1));
-        double kd = 1/beta*(tau * tau_d * (wn*wn + 2*a*damp*wn)-1-beta*kp*tau_d);
-        double ki = 0.05*kp/(tau*2*M_PI);
+        double ki = a * b * wn * wn * tau * tau_d / beta;
+        double kp = tau * tau_d * ((a+b)*wn*wn + 2*a*b*damp*wn) / beta - ki*tau_d;
+        double kd = (tau * tau_d * (a*b + wn*wn + (a+b)*2*damp*wn) - 1) / beta - kp * tau_d;
 
         switch(i) {
         case 0: // Roll
