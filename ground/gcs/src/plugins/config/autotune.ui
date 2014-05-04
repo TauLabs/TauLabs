@@ -220,56 +220,66 @@ p, li { white-space: pre-wrap; }
               <string>Tuning Aggressiveness</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_2">
-              <item row="1" column="1">
-               <widget class="QSlider" name="rateDamp">
-                <property name="minimum">
-                 <number>30</number>
-                </property>
-                <property name="maximum">
-                 <number>150</number>
-                </property>
-                <property name="value">
-                 <number>150</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>Natural frequency</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
+              <item row="0" column="0">
                <widget class="QLabel" name="label_11">
                 <property name="text">
                  <string>Damping</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QSlider" name="rateTuning">
+              <item row="1" column="0">
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Noise sensitivity</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="wn">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QSlider" name="rateNoise">
                 <property name="minimum">
-                 <number>30</number>
+                 <number>0</number>
                 </property>
                 <property name="maximum">
-                 <number>150</number>
+                 <number>10</number>
+                </property>
+                <property name="singleStep">
+                 <number>1</number>
                 </property>
                 <property name="value">
-                 <number>80</number>
+                 <number>1</number>
                 </property>
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
               </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label">
-                <property name="text">
-                 <string>Aggressivness</string>
+              <item row="0" column="1">
+               <widget class="QSlider" name="rateDamp">
+                <property name="minimum">
+                 <number>50</number>
                 </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="wn">
-                <property name="text">
-                 <string>50</string>
+                <property name="maximum">
+                 <number>150</number>
+                </property>
+                <property name="value">
+                 <number>150</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
               </item>
@@ -593,7 +603,7 @@ p, li { white-space: pre-wrap; }
                 <item row="0" column="0" colspan="3">
                  <widget class="QLabel" name="label_22">
                   <property name="text">
-                   <string>If you feel that the model could be a little more or less snappy, then slide the Aggressiveness slider to the right and left, respectively. If the values look sensible, click Apply Computer Values and do a test flight. If you like the settings go to the stabilization page and save them. Normally you can leave the damping slider on the far right for maximum stability.</string>
+                   <string>Decrease the damping slider to make your aircraft response more rapidly. Increase it for more stability. Increasing the noise sensitivity slider will make your aircraft respond more rapidly, but will cause twitches due to nose. Normally this should not need changing.</string>
                   </property>
                   <property name="wordWrap">
                    <bool>true</bool>

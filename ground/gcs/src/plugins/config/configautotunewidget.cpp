@@ -26,7 +26,8 @@ ConfigAutotuneWidget::ConfigAutotuneWidget(QWidget *parent) :
     disableMouseWheelEvents();
 
     // Whenever any value changes compute new potential stabilization settings
-    connect(m_autotune->rateTuning, SIGNAL(valueChanged(int)), this, SLOT(recomputeStabilization()));
+    connect(m_autotune->rateDamp, SIGNAL(valueChanged(int)), this, SLOT(recomputeStabilization()));
+    connect(m_autotune->rateNoise, SIGNAL(valueChanged(int)), this, SLOT(recomputeStabilization()));
 
     addUAVObject("ModuleSettings");
     addWidget(m_autotune->enableAutoTune);
@@ -85,9 +86,8 @@ void ConfigAutotuneWidget::recomputeStabilization()
     //   make oscillations less likely
     // - ghf is the amount of high frequency gain and limits the influence
     //   of noise
-    const double scale = m_autotune->rateTuning->value() / 100.0;
+    const double ghf = m_autotune->rateNoise->value() / 100.0;
     const double damp = m_autotune->rateDamp->value() / 100.0;
-    const double ghf = 0.02;
 
     double tau = exp(relayTuningData.Tau);
     double beta_roll = relayTuningData.Beta[RelayTuning::BETA_ROLL];
@@ -104,15 +104,11 @@ void ConfigAutotuneWidget::recomputeStabilization()
         wn = (tau + tau_d) / (tau*tau_d) / (2 * damp + 2);
     }
 
-
-
-    qDebug() << "wn: " << wn;
-    qDebug() << "tau_d: " << tau_d;
-
     // Set the real pole position
     const double a = ((tau+tau_d) / tau / tau_d - 2 * damp * wn) / 2;
     const double b = ((tau+tau_d) / tau / tau_d - 2 * damp * wn - a);
 
+    qDebug() << "wn: " << wn << "tau_d: " << tau_d;
     qDebug() << "a: " << a << " b: " << b;
 
     // For now just run over roll and pitch
@@ -125,7 +121,6 @@ void ConfigAutotuneWidget::recomputeStabilization()
 
         switch(i) {
         case 0: // Roll
-
             stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KP] = kp;
             stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KI] = ki;
             stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KD] = kd;
