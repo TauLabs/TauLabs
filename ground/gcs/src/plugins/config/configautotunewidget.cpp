@@ -86,7 +86,7 @@ void ConfigAutotuneWidget::recomputeStabilization()
     //   make oscillations less likely
     // - ghf is the amount of high frequency gain and limits the influence
     //   of noise
-    const double ghf = m_autotune->rateNoise->value() / 100.0;
+    const double ghf = m_autotune->rateNoise->value() / 1000.0;
     const double damp = m_autotune->rateDamp->value() / 100.0;
 
     double tau = exp(relayTuningData.Tau);
@@ -108,6 +108,7 @@ void ConfigAutotuneWidget::recomputeStabilization()
     const double a = ((tau+tau_d) / tau / tau_d - 2 * damp * wn) / 2;
     const double b = ((tau+tau_d) / tau / tau_d - 2 * damp * wn - a);
 
+    qDebug() << "ghf: " << ghf;
     qDebug() << "wn: " << wn << "tau_d: " << tau_d;
     qDebug() << "a: " << a << " b: " << b;
 
@@ -146,6 +147,9 @@ void ConfigAutotuneWidget::recomputeStabilization()
     m_autotune->rollTau->setText(QString::number(tau,'g',3));
     m_autotune->pitchTau->setText(QString::number(tau,'g',3));
     m_autotune->wn->setText(QString::number(wn / 2 / M_PI, 'f', 1));
+    m_autotune->lblDamp->setText(QString::number(damp, 'g', 2));
+    m_autotune->lblNoise->setText(QString::number(ghf * 100, 'g', 2) + " %");
+
 }
 
 void ConfigAutotuneWidget::refreshWidgetsValues(UAVObject *obj)

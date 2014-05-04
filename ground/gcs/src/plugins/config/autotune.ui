@@ -254,13 +254,13 @@ p, li { white-space: pre-wrap; }
                  <number>0</number>
                 </property>
                 <property name="maximum">
-                 <number>10</number>
+                 <number>100</number>
                 </property>
                 <property name="singleStep">
                  <number>1</number>
                 </property>
                 <property name="value">
-                 <number>1</number>
+                 <number>5</number>
                 </property>
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -280,6 +280,20 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="lblDamp">
+                <property name="text">
+                 <string>1.5</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="lblNoise">
+                <property name="text">
+                 <string>1</string>
                 </property>
                </widget>
               </item>
