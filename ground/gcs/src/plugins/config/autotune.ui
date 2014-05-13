@@ -260,7 +260,7 @@ p, li { white-space: pre-wrap; }
                  <number>1</number>
                 </property>
                 <property name="value">
-                 <number>5</number>
+                 <number>8</number>
                 </property>
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -276,7 +276,7 @@ p, li { white-space: pre-wrap; }
                  <number>150</number>
                 </property>
                 <property name="value">
-                 <number>150</number>
+                 <number>130</number>
                 </property>
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
