@@ -45,10 +45,10 @@
 #include <QtCore/QUrl>
 #include <QtCore/QDebug>
 
-#include <QtDeclarative/qdeclarative.h>
-#include <QtDeclarative/qdeclarativeview.h>
-#include <QtDeclarative/qdeclarativeengine.h>
-#include <QtDeclarative/qdeclarativecontext.h>
+#include <QtQml/qqml.h>
+#include <QtQuick/QQuickView>
+#include <QtQml/qqmlengine.h>
+#include <QtQml/qqmlcontext.h>
 
 #include <cstdlib>
 
@@ -61,7 +61,7 @@ struct WelcomeModePrivate
 {
     WelcomeModePrivate();
 
-    QDeclarativeView *declarativeView;
+    QQuickView *declarativeView;
 };
 
 WelcomeModePrivate::WelcomeModePrivate()
@@ -73,8 +73,8 @@ WelcomeMode::WelcomeMode() :
     m_d(new WelcomeModePrivate),
     m_priority(Core::Constants::P_MODE_WELCOME)
 {
-    m_d->declarativeView = new QDeclarativeView;
-    m_d->declarativeView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    m_d->declarativeView = new QQuickView;
+    m_d->declarativeView->setResizeMode(QQuickView::SizeRootObjectToView);
     m_d->declarativeView->engine()->rootContext()->setContextProperty("welcomePlugin", this);
     m_d->declarativeView->setSource(QUrl("qrc:/welcome/qml/main.qml"));
 }

@@ -28,14 +28,14 @@
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdir.h>
 
-#include <QtDeclarative/qdeclarativeengine.h>
-#include <QtDeclarative/qdeclarativecontext.h>
-#include <QtDeclarative/qdeclarative.h>
+#include <QtQml/qqmlengine.h>
+#include <QtQml/qqmlcontext.h>
+#include <QtQml/qqml.h>
 #include "lowpassfilter.h"
 #include "stabilizationdesired.h"
 
 PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
-    QDeclarativeView(parent),
+    QQuickView(parent),
     m_openGLEnabled(false),
     m_terrainEnabled(false),
     m_actualPositionUsed(false),
@@ -141,7 +141,7 @@ void PfdQmlGadgetWidget::setQmlFile(QString fn)
     qDebug() << Q_FUNC_INFO << fn;
     setSource(QUrl::fromLocalFile(fn));
 
-    foreach(const QDeclarativeError &error, errors()) {
+    foreach(const QQmlError &error, errors()) {
         qDebug() << error.description();
     }
 }

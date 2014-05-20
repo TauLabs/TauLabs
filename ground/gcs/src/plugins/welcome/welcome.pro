@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = Welcome
-QT += network declarative
+QT += network qml
 CONFIG += plugin
 
 include(../../taulabsgcsplugin.pri)
