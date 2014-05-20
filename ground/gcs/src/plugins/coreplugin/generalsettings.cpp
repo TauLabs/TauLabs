@@ -156,7 +156,7 @@ void GeneralSettings::apply()
     m_useExpertMode=m_page->cbExpertMode->isChecked();
     m_autoConnect = m_page->checkAutoConnect->isChecked();
     m_autoSelect = m_page->checkAutoSelect->isChecked();
-    m_proxyType = m_page->proxyTypeCB->currentData().toInt();
+    m_proxyType = m_page->proxyTypeCB->itemData(m_page->proxyTypeCB->currentIndex()).toInt();
     m_proxyPort = m_page->portLE->text().toInt();
     m_proxyHostname = m_page->hostNameLE->text();
     m_proxyUser = m_page->userLE->text();
