@@ -6,9 +6,8 @@
  * @brief Deals with the hardware interface to the 3-axis gyro
  * @{
  *
- * @file       PIOS_MPU9250.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
+ * @file       pios_mpu9250.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      MPU9250 9-DOF chip function headers
  * @see        The GNU Public License (GPL) Version 3
  *
