@@ -123,6 +123,7 @@ static struct mpu9250_dev * PIOS_MPU9250_alloc(const struct pios_mpu9250_cfg * c
 
 	mpu9250_dev->gyro_queue = xQueueCreate(PIOS_MPU9250_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
 	if (mpu9250_dev->gyro_queue == NULL) {
+		vQueueDelete(dev->accel_queue);
 		vPortFree(mpu9250_dev);
 		return NULL;
 	}
@@ -130,6 +131,8 @@ static struct mpu9250_dev * PIOS_MPU9250_alloc(const struct pios_mpu9250_cfg * c
 	if (cfg->use_magnetometer) {
 		mpu9250_dev->mag_queue = xQueueCreate(PIOS_MPU9250_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
 		if (mpu9250_dev->mag_queue == NULL) {
+			vQueueDelete(dev->accel_queue);
+			vQueueDelete(dev->gyro_queue);
 			vPortFree(mpu9250_dev);
 			return NULL;
 		}
@@ -137,6 +140,10 @@ static struct mpu9250_dev * PIOS_MPU9250_alloc(const struct pios_mpu9250_cfg * c
 
 	mpu9250_dev->data_ready_sema = PIOS_Semaphore_Create();
 	if (mpu9250_dev->data_ready_sema == NULL) {
+		vQueueDelete(dev->accel_queue);
+		vQueueDelete(dev->gyro_queue);
+		if (cfg->use_magnetometer)
+			vQueueDelete(dev->mag_queue);
 		vPortFree(mpu9250_dev);
 		return NULL;
 	}
