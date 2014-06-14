@@ -627,6 +627,63 @@ void PlatformLibrarySetup_gpsposition(Picoc *pc)
 
 
 /**
+ * manualcontrol.h
+ */
+#include "manualcontrolsettings.h"
+
+/* library functions */
+void FlightModePositionSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if ((Param[0]->Val->Integer > 0) && (Param[0]->Val->Integer <= MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_NUMELEM)) {
+		ManualControlSettingsData data;
+		ManualControlSettingsFlightModePositionGet(data.FlightModePosition);
+		data.FlightModePosition[Param[0]->Val->Integer - 1] = Param[1]->Val->Integer;
+		ManualControlSettingsFlightModePositionSet(data.FlightModePosition);
+	}
+}
+
+void Stabilization1SettingsSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ManualControlSettingsData data;
+	ManualControlSettingsStabilization1SettingsGet(data.Stabilization1Settings);
+	data.Stabilization1Settings[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_ROLL] = Param[0]->Val->Integer;
+	data.Stabilization1Settings[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_PITCH] = Param[1]->Val->Integer;
+	data.Stabilization1Settings[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_YAW] = Param[2]->Val->Integer;
+	ManualControlSettingsStabilization1SettingsSet(data.Stabilization1Settings);
+}
+
+void Stabilization2SettingsSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ManualControlSettingsData data;
+	ManualControlSettingsStabilization2SettingsGet(data.Stabilization2Settings);
+	data.Stabilization2Settings[MANUALCONTROLSETTINGS_STABILIZATION2SETTINGS_ROLL] = Param[0]->Val->Integer;
+	data.Stabilization2Settings[MANUALCONTROLSETTINGS_STABILIZATION2SETTINGS_PITCH] = Param[1]->Val->Integer;
+	data.Stabilization2Settings[MANUALCONTROLSETTINGS_STABILIZATION2SETTINGS_YAW] = Param[2]->Val->Integer;
+	ManualControlSettingsStabilization2SettingsSet(data.Stabilization2Settings);
+}
+
+void Stabilization3SettingsSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ManualControlSettingsData data;
+	ManualControlSettingsStabilization3SettingsGet(data.Stabilization3Settings);
+	data.Stabilization3Settings[MANUALCONTROLSETTINGS_STABILIZATION3SETTINGS_ROLL] = Param[0]->Val->Integer;
+	data.Stabilization3Settings[MANUALCONTROLSETTINGS_STABILIZATION3SETTINGS_PITCH] = Param[1]->Val->Integer;
+	data.Stabilization3Settings[MANUALCONTROLSETTINGS_STABILIZATION3SETTINGS_YAW] = Param[2]->Val->Integer;
+	ManualControlSettingsStabilization3SettingsSet(data.Stabilization3Settings);
+}
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_manualcontrol[] =
+{
+	{ FlightModePositionSet,		"void FlightModeSet(int,int);" },
+	{ Stabilization1SettingsSet,	"void Stabilized1Set(int,int,int);" },
+	{ Stabilization2SettingsSet,	"void Stabilized2Set(int,int,int);" },
+	{ Stabilization3SettingsSet,	"void Stabilized3Set(int,int,int);" },
+	{ NULL, NULL }
+};
+
+
+/**
  * pwm.h
  */
 #include "actuatorsettings.h"
@@ -711,6 +768,7 @@ void PlatformLibraryInit(Picoc *pc)
 	IncludeRegister(pc, "flightbatterystate.h", &PlatformLibrarySetup_flightbatterystate, &PlatformLibrary_flightbatterystate[0], NULL);
 	IncludeRegister(pc, "flightstatus.h", NULL, &PlatformLibrary_flightstatus[0], NULL);
 	IncludeRegister(pc, "gpsposition.h", &PlatformLibrarySetup_gpsposition, &PlatformLibrary_gpsposition[0], NULL);
+	IncludeRegister(pc, "manualcontrol.h", NULL, &PlatformLibrary_manualcontrol[0], NULL);
 	IncludeRegister(pc, "pwm.h", NULL, &PlatformLibrary_pwm[0], NULL);
 }
 
