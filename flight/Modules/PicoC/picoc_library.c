@@ -363,7 +363,7 @@ void SystemAccessoryValGet(struct ParseState *Parser, struct Value *ReturnValue,
 	ReturnValue->Val->FP = (AccessoryDesiredInstGet(Param[0]->Val->Integer, &data) == 0) ? (float)data.AccessoryVal : 0;
 }
 
-/* AccessoryValueGet(float): set the AccessoryDesiredAccessoryVal of the selected instance */
+/* AccessoryValueSet(int,float): set the AccessoryDesiredAccessoryVal of the selected instance */
 void SystemAccessoryValSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
 	AccessoryDesiredData data;
