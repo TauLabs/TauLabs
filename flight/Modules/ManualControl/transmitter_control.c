@@ -419,8 +419,8 @@ int32_t transmitter_control_select(bool reset_controller)
 	case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
 		update_actuator_desired(&cmd);
 		break;
-	case FLIGHTSTATUS_FLIGHTMODE_RATE:
-	case FLIGHTSTATUS_FLIGHTMODE_ATTITUDE:
+	case FLIGHTSTATUS_FLIGHTMODE_ACRO:
+	case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
 	case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
@@ -819,10 +819,10 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
 	switch(flightStatus.FlightMode) {
-		case FLIGHTSTATUS_FLIGHTMODE_RATE:
+		case FLIGHTSTATUS_FLIGHTMODE_ACRO:
 			stab_settings = RATE_SETTINGS;
 			break;
-		case FLIGHTSTATUS_FLIGHTMODE_ATTITUDE:
+		case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
 			stab_settings = ATTITUDE_SETTINGS;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
