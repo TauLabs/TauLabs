@@ -7,6 +7,9 @@
 		<field name="FlightMode" units="" type="enum" elements="1">
 			 <options>
 				<option>Manual</option>
+				<option>Acro</option>
+				<option>Leveling</option>
+				<option>VirtualBar</option>
 				<option>Stabilized1</option>
 				<option>Stabilized2</option>
 				<option>Stabilized3</option>
