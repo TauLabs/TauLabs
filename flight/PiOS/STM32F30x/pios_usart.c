@@ -184,6 +184,11 @@ int32_t PIOS_USART_Init(uintptr_t * usart_id, const struct pios_usart_cfg * cfg)
 	else
 		USART_SWAPPinCmd(usart_dev->cfg->regs, DISABLE);
 
+	if (usart_dev->cfg->single_wire == true)
+		USART_HalfDuplexCmd(usart_dev->cfg->regs, ENABLE);
+	else
+		USART_HalfDuplexCmd(usart_dev->cfg->regs, DISABLE);
+
 	/* Configure the USART */
 	USART_Init(usart_dev->cfg->regs, (USART_InitTypeDef *)&usart_dev->cfg->init);
 
