@@ -60,7 +60,7 @@
 #define PIOS_INCLUDE_MS5611
 #define PIOS_INCLUDE_LPS25H
 #define PIOS_MPU6050_ACCEL
-#define PIOS_INCLUDE_MPU9250
+#define PIOS_INCLUDE_MPU9250_BRAIN
 #define FLASH_FREERTOS
 /* Com systems to include */
 #define PIOS_INCLUDE_COM
