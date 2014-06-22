@@ -33,7 +33,7 @@
 #include "pios.h"
 #include "physical_constants.h"
 
-#if defined(PIOS_INCLUDE_MPU9250)
+#if defined(PIOS_INCLUDE_MPU9250_BRAIN)
 
 #include "pios_mpu60x0.h"
 

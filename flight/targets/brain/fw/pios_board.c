@@ -48,7 +48,7 @@
 /**
  * Configuration for the MPU9250 chip
  */
-#if defined(PIOS_INCLUDE_MPU9250)
+#if defined(PIOS_INCLUDE_MPU9250_BRAIN)
 #include "pios_mpu9250_brain.h"
 static const struct pios_exti_cfg pios_exti_mpu9250_cfg __exti_config = {
 	.vector = PIOS_MPU9250_IRQHandler,
@@ -828,7 +828,7 @@ void PIOS_Board_Init(void) {
 
 	PIOS_WDG_Clear();
 
-#if defined(PIOS_INCLUDE_MPU9250)
+#if defined(PIOS_INCLUDE_MPU9250_BRAIN)
 #if defined(PIOS_INCLUDE_MPU6050)
 	// Enable autoprobing when both 6050 and 9050 compiled in
 	bool mpu9250_found = false;
@@ -880,7 +880,7 @@ void PIOS_Board_Init(void) {
 				break;
 		}
 	}
-#endif /* PIOS_INCLUDE_MPU9250 */
+#endif /* PIOS_INCLUDE_MPU9250_BRAIN */
 
 	PIOS_WDG_Clear();
 
