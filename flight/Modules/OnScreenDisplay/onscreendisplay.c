@@ -49,11 +49,11 @@
 #include "sin_lookup.h"
 
 #include "attitudeactual.h"
-#include "baroaltitude.h"
 #include "flightstatus.h"
 #include "flightstatus.h"
 #include "flightbatterystate.h"
 #include "gpsposition.h"
+#include "positionactual.h"
 #include "gpstime.h"
 #include "gpssatellites.h"
 #include "homelocation.h"
@@ -1827,7 +1827,7 @@ void updateGraphics()
 	hud_draw_linear_compass(tmp, 120, 180, GRAPHICS_X_MIDDLE, 20, 15, 30, 5, 8, 0);
 
 	// Altitude
-	BaroAltitudeAltitudeGet(&tmp);
+	PositionActualDownGet(&tmp);
 	hud_draw_vertical_scale(tmp * convert_distance, 100, 1, GRAPHICS_RIGHT - 5, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 10000, 0);
 
 	// GPS Location
