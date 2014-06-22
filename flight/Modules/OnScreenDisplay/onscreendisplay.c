@@ -61,6 +61,7 @@
 #include "systemalarms.h"
 #include "systemstats.h"
 #include "taskinfo.h"
+#include "velocityactual.h"
 
 #ifdef DEBUG_TELEMETRY
 #include "flighttelemetrystats.h"
@@ -1778,7 +1779,7 @@ int utoa(unsigned int i, char *output, size_t olen)
 void updateGraphics()
 {
 	char temp[100] = { 0 };
-	float tmp;
+	float tmp, tmp2, tmp3;
 	int tmp_int1, tmp_int2;
 
 	// CPU
@@ -1828,19 +1829,34 @@ void updateGraphics()
 
 	// Altitude
 	PositionActualDownGet(&tmp);
-	hud_draw_vertical_scale(tmp * convert_distance, 100, 1, GRAPHICS_RIGHT - 5, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 10000, 0);
+	hud_draw_vertical_scale(-1 * tmp * convert_distance, 100, 1, GRAPHICS_RIGHT - 5, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 10000, 0);
+
+	// Speed
+	VelocityActualNorthGet(&tmp);
+	VelocityActualEastGet(&tmp2);
+	VelocityActualDownGet(&tmp3);
+	tmp = sqrt(tmp * tmp + tmp2 * tmp2 + tmp3 * tmp3);
+	hud_draw_vertical_scale(tmp * convert_speed, 30, -1, 5, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 100, 0);
+
+	// Home distance and direction
+	PositionActualNorthGet(&tmp);
+	PositionActualEastGet(&tmp2);
+	tmp3 = (float)sqrt(tmp * tmp + tmp2 * tmp2) * convert_distance; // distance
+
+	tmp = atan2f(tmp2, tmp) * RAD2DEG;    // direction relative to position
+	if (tmp < 0)
+		tmp += 360;
+	sprintf(temp, "Home: %0.1f %0.0fdeg", (double)tmp3, (double)tmp);
+	write_string(temp, 5, GRAPHICS_BOTTOM - 40, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 
 	// GPS Location
 	if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		GPSPositionData gps_data;
 		GPSPositionGet(&gps_data);
 
-		hud_draw_vertical_scale(gps_data.Groundspeed * convert_speed, 30, -1, 5, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 100, 0);
-
-		// XXX figure out how to print floats
 		sprintf(temp,"Fix:%d Sats:%d Lat:%0.7f Lon:%0.7f",(int)gps_data.Status,
-				(int)gps_data.Satellites, (double)gps_data.Latitude / 10000000.0f,
-				(double)gps_data.Longitude / 10000000.0f);
+				(int)gps_data.Satellites, (double)gps_data.Latitude / 10000000.0,
+				(double)gps_data.Longitude / 10000000.0);
 		write_string(temp, 5, GRAPHICS_BOTTOM - 10, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 	}
 

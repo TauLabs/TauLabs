@@ -47,7 +47,7 @@ static const struct pios_led pios_leds[] = {
 			},
 		},
 		.remap = 0,
-		.active_high = true,
+		.active_high = false,
 	},
 	[PIOS_LED_ALARM] = {
 		.pin = {
@@ -61,7 +61,7 @@ static const struct pios_led pios_leds[] = {
 			},
 		},
 		.remap = 0,
-		.active_high = true,
+		.active_high = false,
 	}
 };
 
