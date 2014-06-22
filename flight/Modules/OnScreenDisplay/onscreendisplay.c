@@ -1792,7 +1792,7 @@ void updateGraphics()
 	SystemStatsFlightTimeGet(&time);
 	tmp_int1 = time / 60000;
 	tmp_int2 = (time / 1000) - 60 * tmp_int1;
-	sprintf(temp, "%2d:%2d", (int)tmp_int1, (int)tmp_int2);
+	sprintf(temp, "%02d:%02d", (int)tmp_int1, (int)tmp_int2);
 	write_string(temp, GRAPHICS_RIGHT - 60, 40, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 
 	// Flight Mode
@@ -1830,6 +1830,7 @@ void updateGraphics()
 	BaroAltitudeAltitudeGet(&tmp);
 	hud_draw_vertical_scale(tmp * convert_distance, 100, 1, GRAPHICS_RIGHT - 5, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 10000, 0);
 
+	// GPS Location
 	if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		GPSPositionData gps_data;
 		GPSPositionGet(&gps_data);
@@ -1837,24 +1838,22 @@ void updateGraphics()
 		hud_draw_vertical_scale(gps_data.Groundspeed * convert_speed, 30, -1, 5, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 100, 0);
 
 		// XXX figure out how to print floats
-		sprintf(temp,"Fix:%d Sats:%d Lat:%d Lon:%d",(int)gps_data.Status,
-				(int)gps_data.Satellites, (int)gps_data.Latitude, (int)gps_data.Longitude);
+		sprintf(temp,"Fix:%d Sats:%d Lat:%0.7f Lon:%0.7f",(int)gps_data.Status,
+				(int)gps_data.Satellites, (double)gps_data.Latitude / 10000000.0f,
+				(double)gps_data.Longitude / 10000000.0f);
 		write_string(temp, 5, GRAPHICS_BOTTOM - 10, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 	}
 
+	// Battery
 	if (module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		FlightBatteryStateVoltageGet(&tmp);
-		tmp_int1 = (int)tmp;
-		tmp_int2 = 10 * (tmp - tmp_int1);
-		sprintf(temp, "%d.%dV", tmp_int1, tmp_int2);
+		sprintf(temp, "%0.1fV", (double)tmp);
 		write_string(temp, GRAPHICS_RIGHT - 60, 10, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 		FlightBatteryStateCurrentGet(&tmp);
-		tmp_int1 = (int)tmp;
-		tmp_int2 = 10 * (tmp - tmp_int1);
-		sprintf(temp, "%d.%dA", tmp_int1, tmp_int2);
+		sprintf(temp, "%0.1fA", (double)tmp);
 		write_string(temp, GRAPHICS_RIGHT - 60, 20, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 		FlightBatteryStateConsumedEnergyGet(&tmp);
-		sprintf(temp, "%dmAh", (int)tmp);
+		sprintf(temp, "%0.0fmAh", (double)tmp);
 		write_string(temp, GRAPHICS_RIGHT - 60, 30, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 	}
 
