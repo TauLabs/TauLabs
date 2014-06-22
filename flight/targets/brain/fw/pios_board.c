@@ -317,7 +317,6 @@ void OSD_configure_bw_levels(void)
  * 6 pulses - mag/baro I2C bus locked
  */
 static void panic(int32_t code) {
-	printf("panic: %d", code);
 	while(1){
 		for (int32_t i = 0; i < code; i++) {
 			PIOS_WDG_Clear();
@@ -335,23 +334,6 @@ static void panic(int32_t code) {
 	}
 }
 
-
-static int32_t i2c_test()
-{
-	uint8_t val = 0x55;
-	const struct pios_i2c_txn txn_list[] = {
-		{
-			.info = __func__,
-			.addr = 0x55,
-			.rw = PIOS_I2C_TXN_WRITE,
-			.len = 1,
-			.buf = &val,
-		 },
-	};
-
-	return PIOS_I2C_Transfer(pios_i2c_internal_id, txn_list, NELEMENTS(txn_list));
-}
-
 /**
  * PIOS_Board_Init()
  * initializes all the core subsystems on this specific hardware
@@ -364,8 +346,6 @@ void PIOS_Board_Init(void) {
 
 	/* Delay system */
 	PIOS_DELAY_Init();
-
-	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 
 #if defined(PIOS_INCLUDE_LED)
 	PIOS_LED_Init(&pios_led_cfg);
@@ -393,10 +373,7 @@ void PIOS_Board_Init(void) {
 		panic(1);
 
 	/* Register the partition table */
-	const struct pios_flash_partition * flash_partition_table;
-	uint32_t num_partitions;
-	flash_partition_table = PIOS_BOARD_HW_DEFS_GetPartitionTable(bdinfo->board_rev, &num_partitions);
-	PIOS_FLASH_register_partition_table(flash_partition_table, num_partitions);
+	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
 
 	/* Mount all filesystems */
 	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS) != 0)
@@ -929,12 +906,6 @@ void PIOS_Board_Init(void) {
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
 	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);
-
-	printf("PIOS_Board_Init(): out |");
-
-	PIOS_WDG_Clear();
-	PIOS_DELAY_WaitmS(200);
-	PIOS_WDG_Clear();
 }
 
 /**

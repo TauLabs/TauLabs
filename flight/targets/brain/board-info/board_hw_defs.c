@@ -303,12 +303,10 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.label        = FLASH_PARTITION_LABEL_FW,
 		.chip_desc    = &pios_flash_chip_internal,
 		.first_sector = 5,
-		.last_sector  = 6,
+		.last_sector  = 11,
 		.chip_offset  = (4 * FLASH_SECTOR_16KB) + (1 * FLASH_SECTOR_64KB),
-		.size         = (6 - 5 + 1) * FLASH_SECTOR_128KB,
+		.size         = (11 - 5 + 1) * FLASH_SECTOR_128KB,
 	},
-
-	/* NOTE: sectors 7-11 of the internal flash are currently unallocated */
 
 #endif /* PIOS_INCLUDE_FLASH_INTERNAL */
 
@@ -334,14 +332,6 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 
 	/* NOTE sectros 1024..2047 currently unused */
 };
-
-const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32_t board_revision, uint32_t * num_partitions)
-{
-	PIOS_Assert(num_partitions);
-
-	*num_partitions = NELEMENTS(pios_flash_partition_table);
-	return pios_flash_partition_table;
-}
 
 #endif	/* PIOS_INCLUDE_FLASH */
 

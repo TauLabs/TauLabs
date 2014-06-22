@@ -60,17 +60,20 @@ static const struct usb_string_langid usb_lang_id = {
 	.bLangID = htousbs(USB_LANGID_ENGLISH_US),
 };
 
-static const uint8_t usb_vendor_id[18] = {
+static const uint8_t usb_vendor_id[24] = {
 	sizeof(usb_vendor_id),
 	USB_DESC_TYPE_STRING,
 	'T', 0,
 	'a', 0,
 	'u', 0,
-	' ', 0,
 	'L', 0,
 	'a', 0,
 	'b', 0,
-	's', 0
+	's', 0,
+	'.', 0,
+	'o', 0,
+	'r', 0,
+	'g', 0,
 };
 
 int32_t PIOS_USB_BOARD_DATA_Init(void)

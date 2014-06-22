@@ -55,7 +55,6 @@ void PIOS_Board_Init() {
 	RCC_LSEConfig(RCC_LSE_OFF);
 
 	PIOS_LED_On(PIOS_LED_HEARTBEAT);
-	//PIOS_LED_On(PIOS_LED_ALARM);
 
 #if defined(PIOS_INCLUDE_SPI)
 	/* Set up the SPI interface to the flash */
@@ -74,6 +73,10 @@ void PIOS_Board_Init() {
 
 	/* Register the partition table */
 	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
+	
+	/* Clear flash flags. Without this, wriring to flash fails */
+	FLASH_ClearFlag(FLASH_FLAG_PGSERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_WRPERR |
+					FLASH_FLAG_OPERR | FLASH_FLAG_EOP);
 #endif	/* PIOS_INCLUDE_FLASH */
 
 #if defined(PIOS_INCLUDE_USB)
