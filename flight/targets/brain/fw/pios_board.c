@@ -49,7 +49,7 @@
  * Configuration for the MPU9250 chip
  */
 #if defined(PIOS_INCLUDE_MPU9250)
-#include "pios_mpu9250.h"
+#include "pios_mpu9250_brain.h"
 static const struct pios_exti_cfg pios_exti_mpu9250_cfg __exti_config = {
 	.vector = PIOS_MPU9250_IRQHandler,
 	.line = EXTI_Line13,
