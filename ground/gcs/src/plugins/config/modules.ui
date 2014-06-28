@@ -172,13 +172,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="cbOnScreenDisplay">
-         <property name="text">
-          <string>On-Screen Display</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -870,8 +863,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>396</width>
-            <height>632</height>
+            <width>290</width>
+            <height>598</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -2601,16 +2594,6 @@
           </layout>
          </widget>
         </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tabOnScreenDisplay">
-      <attribute name="title">
-       <string>OSD</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_8">
-       <item>
-        <widget class="QWidget" name="widget_Osd" native="true"/>
        </item>
       </layout>
      </widget>

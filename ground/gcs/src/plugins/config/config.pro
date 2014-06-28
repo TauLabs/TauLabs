@@ -41,7 +41,8 @@ HEADERS += calibration.h \
     tempcompcurve.h \
     textbubbleslider.h \
     vehicletrim.h \
-    configmodulewidget.h
+    configmodulewidget.h \
+    configosdwidget.h
 
 SOURCES += calibration.cpp \
     configplugin.cpp \
@@ -74,7 +75,8 @@ SOURCES += calibration.cpp \
     tempcompcurve.cpp \
     textbubbleslider.cpp \
     vehicletrim.cpp \
-    configmodulewidget.cpp
+    configmodulewidget.cpp \
+    configosdwidget.cpp
 
 FORMS += airframe.ui \
     cc_hw_settings.ui \
@@ -93,7 +95,8 @@ FORMS += airframe.ui \
     autotune.ui \
     hwfieldselector.ui \
     modules.ui \
-    modules_osd.ui
+    modules_osd.ui \
+    osd.ui
 RESOURCES += configgadget.qrc
 
 

@@ -32,6 +32,7 @@
 #include "configinputwidget.h"
 #include "configoutputwidget.h"
 #include "configstabilizationwidget.h"
+#include "configosdwidget.h"
 #include "configmodulewidget.h"
 #include "configautotunewidget.h"
 #include "configcamerastabilizationwidget.h"
@@ -102,6 +103,12 @@ ConfigGadgetWidget::ConfigGadgetWidget(QWidget *parent) : QWidget(parent)
     qwd = new ConfigStabilizationWidget(this);
     ftw->insertTab(ConfigGadgetWidget::stabilization, qwd, *icon, QString("Stabilization"));
 
+    icon = new QIcon();
+    icon->addFile(":/configgadget/images/osd_normal.png", QSize(), QIcon::Normal, QIcon::Off);
+    icon->addFile(":/configgadget/images/osd_selected.png", QSize(), QIcon::Selected, QIcon::Off);
+    qwd = new ConfigOsdWidget(this);
+    ftw->insertTab(ConfigGadgetWidget::osd, qwd, *icon, QString("OSD"));
+    
     icon = new QIcon();
     icon->addFile(":/configgadget/images/autotune_normal.png", QSize(), QIcon::Normal, QIcon::Off);
     icon->addFile(":/configgadget/images/autotune_selected.png", QSize(), QIcon::Selected, QIcon::Off);

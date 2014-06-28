@@ -25,7 +25,6 @@
 				<elementname>UAVOHoTTBridge</elementname>
 				<elementname>UAVOFrSKYSensorHubBridge</elementname>
 				<elementname>PicoC</elementname>
-				<elementname>OnScreenDisplay</elementname>
 			</elementnames>
 		</field>
 

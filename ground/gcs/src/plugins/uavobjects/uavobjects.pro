@@ -132,7 +132,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/waypoint.h \
     $$UAVOBJECT_SYNTHETICS/waypointactive.h \
     $$UAVOBJECT_SYNTHETICS/windvelocityactual.h \
-    $$UAVOBJECT_SYNTHETICS/onscreendisplaysettings.h
+    $$UAVOBJECT_SYNTHETICS/onscreendisplaysettings.h \
+    $$UAVOBJECT_SYNTHETICS/onscreendisplaypagesettings.h
 
 SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/acceldesired.cpp \
@@ -243,5 +244,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/waypoint.cpp \
     $$UAVOBJECT_SYNTHETICS/waypointactive.cpp\
     $$UAVOBJECT_SYNTHETICS/windvelocityactual.cpp \
-    $$UAVOBJECT_SYNTHETICS/onscreendisplaysettings.cpp
+    $$UAVOBJECT_SYNTHETICS/onscreendisplaysettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/onscreendisplaypagesettings.cpp
 

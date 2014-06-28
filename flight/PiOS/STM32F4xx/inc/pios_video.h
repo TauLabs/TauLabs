@@ -71,7 +71,7 @@ struct pios_video_cfg {
 extern bool PIOS_Vsync_ISR();
 extern void PIOS_Video_Init(const struct pios_video_cfg *cfg);
 extern void PIOS_Pixel_Init(void);
-extern void PIOS_Video_SetLevels(uint8_t, uint8_t);
+extern void PIOS_Video_SetLevels(uint8_t, uint8_t, uint8_t, uint8_t);
 extern void PIOS_Video_SetXOffset(int8_t);
 extern void PIOS_Video_SetYOffset(int8_t);
 

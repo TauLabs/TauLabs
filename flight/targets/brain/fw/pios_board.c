@@ -42,7 +42,7 @@
 #include <uavobjectsinit.h>
 #include "hwbrain.h"
 #include "manualcontrolsettings.h"
-#include "modulesettings.h"
+#include "onscreendisplaysettings.h"
 
 
 /**
@@ -896,9 +896,12 @@ void PIOS_Board_Init(void) {
 	GPIO_Init(pios_video_cfg.mask.miso.gpio, (GPIO_InitTypeDef*)&pios_video_cfg.mask.miso.init);
 	GPIO_ResetBits(pios_video_cfg.mask.miso.gpio, pios_video_cfg.mask.miso.init.GPIO_Pin);
 
-	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
-	ModuleSettingsAdminStateGet(module_state);
-	if (module_state[MODULESETTINGS_ADMINSTATE_ONSCREENDISPLAY] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+	// Initialize settings
+	OnScreenDisplaySettingsInitialize();
+
+	uint8_t osd_state;
+	OnScreenDisplaySettingsOSDEnabledGet(&osd_state);
+	if (osd_state == ONSCREENDISPLAYSETTINGS_OSDENABLED_ENABLED) {
 		OSD_configure_bw_levels();
 		PIOS_Video_Init(&pios_video_cfg);
 	}

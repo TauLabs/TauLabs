@@ -42,12 +42,14 @@
 
 #include "onscreendisplay.h"
 #include "onscreendisplaysettings.h"
+#include "onscreendisplaypagesettings.h"
 #include "modulesettings.h"
 #include "pios_video.h"
 
 #include "physical_constants.h"
 #include "sin_lookup.h"
 
+#include "accessorydesired.h"
 #include "attitudeactual.h"
 #include "flightstatus.h"
 #include "flightstatus.h"
@@ -62,15 +64,6 @@
 #include "systemstats.h"
 #include "taskinfo.h"
 #include "velocityactual.h"
-
-#ifdef DEBUG_TELEMETRY
-#include "flighttelemetrystats.h"
-#include "gcstelemetrystats.h"
-#endif
-
-#ifdef PIOS_INCLUDE_TSLRSDEBUG
-#include "pios_tslrsdebug.h"
-#endif
 
 #include "fonts.h"
 #include "font12x18.h"
@@ -113,7 +106,7 @@ xSemaphoreHandle onScreenDisplaySemaphore = NULL;
 uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 float convert_speed;
 float convert_distance;
-
+static volatile bool osd_settings_updated = true;
 
 #ifdef DEBUG_TIMING
 static portTickType in_ticks  = 0;
@@ -1891,6 +1884,19 @@ void updateGraphics()
 #endif
 }
 
+void render_user_page(uint8_t test, float test2)
+{
+	char temp[100] = { 0 };
+	sprintf(temp, "%d %0.3f", test, (double)test2);
+	write_string(temp, GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
+}
+
+
+static void OnScreenSettingsUpdatedCb(UAVObjEvent * ev)
+{
+	osd_settings_updated = true;
+}
+
 
 /**
  * Start the osd module
@@ -1916,34 +1922,28 @@ int32_t OnScreenDisplayStart(void)
  */
 int32_t OnScreenDisplayInitialize(void)
 {
-	uint8_t units;
+	uint8_t osd_state;
+	uint16_t num_instances;
+
 	ModuleSettingsAdminStateGet(module_state);
 
-	//module_enabled = false;
-	//return 0;
+	OnScreenDisplayPageSettingsInitialize();
 
-	if (module_state[MODULESETTINGS_ADMINSTATE_ONSCREENDISPLAY] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+	//num_instances = OnScreenDisplayPageSettingsGetNumInstances();
+	//for (int ii=0; ii < 6- num_instances; ii++) {
+	//	OnScreenDisplayPageSettingsCreateInstance();
+	//}
+
+	OnScreenDisplaySettingsOSDEnabledGet(&osd_state);
+	if (osd_state == ONSCREENDISPLAYSETTINGS_OSDENABLED_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;
 		return 0;
 	}
 
-	// Initialize settings
-	OnScreenDisplaySettingsInitialize();
-
-	// Get metric / imperial units
-	OnScreenDisplaySettingsUnitsGet(&units);
-
-	if (units == ONSCREENDISPLAYSETTINGS_UNITS_IMPERIAL){
-		convert_distance = M_TO_FEET;
-		convert_speed = MS_TO_MPH;
-	}
-	else{
-		convert_distance = 1.0f;
-		convert_speed = MS_TO_KMH;
-	}
-
+	/* Register callbacks for modified settings */
+	OnScreenDisplaySettingsConnectCallback(OnScreenSettingsUpdatedCb);
 	return 0;
 }
 
@@ -1957,8 +1957,9 @@ MODULE_INITCALL(OnScreenDisplayInitialize, OnScreenDisplayStart);
 #define INTRO_TIME 5000
 static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 {
-	uint8_t tmp1, tmp2;
-	int8_t offset;
+	AccessoryDesiredData accessory;
+	OnScreenDisplaySettingsData osd_settings;
+	uint8_t current_page = 0;
 
 
 	// blank
@@ -1990,21 +1991,46 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 			in_ticks = xTaskGetTickCount();
 			out_time = in_ticks - out_ticks;
 #endif
+			if (osd_settings_updated) {
+				OnScreenDisplaySettingsGet(&osd_settings);
+				PIOS_Video_SetLevels(osd_settings.PALBlack, osd_settings.PALWhite,
+									 osd_settings.NTSCBlack, osd_settings.NTSCWhite);
+
+				PIOS_Video_SetXOffset(osd_settings.XOffset);
+				PIOS_Video_SetYOffset(osd_settings.YOffset);
+
+				if (osd_settings.Units == ONSCREENDISPLAYSETTINGS_UNITS_IMPERIAL){
+					convert_distance = M_TO_FEET;
+					convert_speed = MS_TO_MPH;
+				}
+				else{
+					convert_distance = 1.0f;
+					convert_speed = MS_TO_KMH;
+				}
+
+				osd_settings_updated = false;
+			}
+
 			if (frame_counter % 10 == 0) {
-				// only update settings every 10 frames
-				OnScreenDisplaySettingsBlackGet(&tmp1);
-				OnScreenDisplaySettingsWhiteGet(&tmp2);
-
-				PIOS_Video_SetLevels(tmp1, tmp2);
-
-				OnScreenDisplaySettingsXOffsetGet(&offset);
-				PIOS_Video_SetXOffset(offset);
-				OnScreenDisplaySettingsYOffsetGet(&offset);
-				PIOS_Video_SetYOffset(offset);
+				// determine current page to use
+				AccessoryDesiredInstGet(osd_settings.PageSwitch, &accessory);
+				current_page = (uint8_t)roundf(((accessory.AccessoryVal + 1.0f) / 2.0f) * (osd_settings.NumPages - 1));
+				current_page = osd_settings.PageConfig[current_page];
 			}
 
 			clearGraphics();
-			updateGraphics();
+			//updateGraphics();
+			switch (current_page) {
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM1:
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM2:
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM3:
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM4:
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM5:
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM6:
+					render_user_page(current_page, accessory.AccessoryVal);
+					break;
+			}
+
 			frame_counter++;
 #ifdef DEBUG_TIMING
 			out_ticks = xTaskGetTickCount();

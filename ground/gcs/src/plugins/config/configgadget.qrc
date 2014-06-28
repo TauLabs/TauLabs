@@ -31,5 +31,7 @@
         <file>images/pipx-selected.png</file>
         <file>images/pipx-normal.png</file>
         <file>images/swap.svg</file>
+        <file>images/osd_selected.png</file>
+        <file>images/osd_normal.png</file>
     </qresource>
 </RCC>

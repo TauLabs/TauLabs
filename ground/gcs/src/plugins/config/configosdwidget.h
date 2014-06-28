@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
- * @file       configmodulewidget.h
- * @brief      Configure the optional modules
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @file       configosdwidget.h
+ * @brief      Configure the OSD
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -23,54 +23,55 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef CONFIGMODULEWIDGET_H
-#define CONFIGMODULEWIDGET_H
+#ifndef CONFIGOSDWIDGET_H
+#define CONFIGOSDWIDGET_H
 
-#include "ui_modules.h"
+#include "ui_osd.h"
 
 #include "uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 
+#include "onscreendisplaysettings.h"
+#include "manualcontrolcommand.h"
+#include "manualcontrolsettings.h"
+
 namespace Ui {
-    class Modules;
+    class Osd;
 }
 
-class ConfigModuleWidget: public ConfigTaskWidget
+class ConfigOsdWidget: public ConfigTaskWidget
 {
     Q_OBJECT
 
 public:
-        ConfigModuleWidget(QWidget *parent = 0);
-        ~ConfigModuleWidget();
+        ConfigOsdWidget(QWidget *parent = 0);
+        ~ConfigOsdWidget();
 
 private slots:
-    void updateAirspeedUAVO(UAVObject *);
-    void updateAirspeedGroupbox(UAVObject *);
-    void toggleVibrationTest();
-
-    void recheckTabs();
-    void objectUpdated(UAVObject * obj, bool success);
+    void movePageSlider();
+    void updatePositionSlider();
 
 private:
+    quint8 scaleSwitchChannel(quint8 channelNumber, quint8 switchPositions);
     QVariant getVariantFromWidget(QWidget * widget, double scale);
     bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
-
-    /* To activate the appropriate tabs */
-    void enableBatteryTab(bool enabled);
-    void enableAirspeedTab(bool enabled);
-    void enableVibrationTab(bool enabled);
-    void enableHoTTTelemetryTab(bool enabled);
 
     static QString trueString;
     static QString falseString;
 
-    Ui::Modules *ui;
+    Ui::Osd *ui;
 
+    OnScreenDisplaySettings * osdSettingsObj;
+    ManualControlSettings * manualSettingsObj;
+    ManualControlSettings::DataFields manualSettingsData;
+    ManualControlCommand * manualCommandObj;
+    ManualControlCommand::DataFields manualCommandData;
 protected:
     void resizeEvent(QResizeEvent *event);
     virtual void enableControls(bool enable);
 };
 
-#endif // CONFIGMODULEWIDGET_H
+#endif // CONFIGOSDWIDGET_H
+ 

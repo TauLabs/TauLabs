@@ -1416,7 +1416,8 @@ HEADERS += gcs/gcsversioninfo.h \
            gcs/../../shared/api/physical_constants.h \
            gcs/src/libs/eigen/Eigen/Core \
            gcs/src/libs/eigen/Eigen/Cholesky \
-           gcs/src/libs/eigen/Eigen/QR
+           gcs/src/libs/eigen/Eigen/QR \
+    gcs/src/plugins/config/configosdwidget.h
 FORMS += gcs/src/experimental/finaltest/mainwindow.ui \
          gcs/src/libs/extensionsystem/plugindetailsview.ui \
          gcs/src/libs/extensionsystem/pluginerrorview.ui \
@@ -1522,7 +1523,8 @@ FORMS += gcs/src/experimental/finaltest/mainwindow.ui \
          gcs/src/plugins/setupwizard/pages/vehiclepage.ui \
          gcs/src/libs/aggregation/examples/text/main.ui \
          gcs/src/libs/tlmapcontrol/src/mapwidget/mapripform.ui \
-         gcs/src/plugins/hitl/aerosimrc/src/udptestwidget.ui
+         gcs/src/plugins/hitl/aerosimrc/src/udptestwidget.ui \
+    gcs/src/plugins/config/osd.ui
 SOURCES += uavobjgenerator/main.cpp \
            uavobjgenerator/uavobjectparser.cpp \
            uavobjgenerator/generators/generator_common.cpp \
@@ -2445,7 +2447,8 @@ SOURCES += uavobjgenerator/main.cpp \
            gcs/src/libs/extensionsystem/test/auto/pluginmanager/correctplugins1/plugin3/plugin3.cpp \
            gcs/src/libs/extensionsystem/test/manual/pluginview/plugins/plugin1/plugin1.cpp \
            gcs/src/libs/extensionsystem/test/manual/pluginview/plugins/plugin2/plugin2.cpp \
-           gcs/src/libs/extensionsystem/test/manual/pluginview/plugins/plugin3/plugin3.cpp
+           gcs/src/libs/extensionsystem/test/manual/pluginview/plugins/plugin3/plugin3.cpp \
+    gcs/src/plugins/config/configosdwidget.cpp
 RESOURCES += gcs/src/app/app_resource.qrc \
              gcs/src/libs/extensionsystem/pluginview.qrc \
              gcs/src/libs/glc_lib/glc_lib.qrc \
