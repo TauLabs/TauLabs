@@ -62,6 +62,7 @@ private slots:
     void on_tbSendToUAV_clicked();
     void on_tbFetchFromUAVROM_clicked();
     void on_tbSendToUAVROM_clicked();
+    void on_tbEraseFromUAVROM_clicked();
     void setProgress(int);
 };
 
