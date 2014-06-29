@@ -364,6 +364,7 @@ QByteArray DFUObject::DownloadDescriptionAsBA(int const & numberOfChars)
   */
 bool DFUObject::DownloadPartition(QByteArray *firmwareArray, int device, int partition,int size)
 {
+    Q_UNUSED(device)
     qDebug()<<"DOWNLOAD PARTITION- SETTING DOWNLOAD CONFIG PARTITION="<<partition<<" SIZE:"<<size;
     if (isRunning())
         return false;
@@ -454,7 +455,6 @@ bool DFUObject::StartDownloadT(QByteArray *fw, qint32 const & numberOfBytes, int
         qDebug() << "StartDownload:"<<numberOfPackets<<"packets"<<" Last Packet Size="<<lastPacketCount<<" "<<result << " bytes sent";
     float percentage;
     int laspercentage = 0;
-    int total = 0;
 
     // Now get those packets:
     for(qint32 x=0;x<numberOfPackets;++x)
@@ -739,6 +739,7 @@ bool DFUObject::UploadPartition(const QString &sfile, const bool &verify,int dev
 
 OP_DFU::Status DFUObject::UploadPartitionT(const QString &sfile, const bool &verify,int device,int partition)
 {
+    Q_UNUSED(device)
     OP_DFU::Status ret;
 
     if (debug)

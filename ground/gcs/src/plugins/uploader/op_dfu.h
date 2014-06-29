@@ -241,7 +241,7 @@ namespace OP_DFU {
         QString requestFilename;
         bool requestVerify;
         int requestDevice;
-        int partition_size;
+        quint32 partition_size;
 
     protected:
        void run();// Executes the upload or download operations
