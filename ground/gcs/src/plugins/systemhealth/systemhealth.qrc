@@ -40,5 +40,14 @@
         <file>html/PathPlanner-Error.html</file>
         <file>html/PathPlanner-Critical.html</file>
         <file>html/PathFollower-Warning.html</file>
+        <file>html/StateEstimation-Accelerometer-Queue-Not-Updating.html</file>
+        <file>html/StateEstimation-Gyro-Queue-Not-Updating.html</file>
+        <file>html/StateEstimation-No-Barometer.html</file>
+        <file>html/StateEstimation-No-GPS.html</file>
+        <file>html/StateEstimation-No-Magnetometer.html</file>
+        <file>html/StateEstimation-NoHome.html</file>
+        <file>html/StateEstimation-PDOP-Too-High.html</file>
+        <file>html/StateEstimation-Too-Few-Satellites.html</file>
+        <file>html/StateEstimation-Undefined.html</file>
     </qresource>
 </RCC>
