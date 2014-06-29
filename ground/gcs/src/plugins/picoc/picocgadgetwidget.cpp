@@ -160,7 +160,6 @@ void PicoCGadgetWidget::on_tbFetchFromUAVROM_clicked()
     pcStatus->updated();
 
     // wait for execution of the command
-    sleep(5000);
     waitForExecution();
 
     // check command status after execution
@@ -195,7 +194,6 @@ void PicoCGadgetWidget::on_tbSendToUAVROM_clicked()
     pcStatus->updated();
 
     // wait for execution of the command
-    sleep(5000);
     waitForExecution();
 
     // check command status after execution
@@ -213,8 +211,23 @@ void PicoCGadgetWidget::on_tbSendToUAVROM_clicked()
 
     // enable the button again
     ui->tbSendToUAVROM->setEnabled(true);
+}
 
+void PicoCGadgetWidget::on_tbEraseFromUAVROM_clicked()
+{
+    // disable to button
+    ui->tbEraseFromUAVROM->setEnabled(false);
 
+    // set FileID and execute load command
+    pcStatus->setFileID(ui->sbFileID->value());
+    pcStatus->setCommand(PicoCStatus::COMMAND_DELETEFILE);
+    pcStatus->updated();
+
+    // wait for execution of the command
+    waitForExecution();
+
+    // enable the button again
+    ui->tbEraseFromUAVROM->setEnabled(true);
 }
 
 /**
