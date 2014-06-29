@@ -36,40 +36,64 @@ Item {
         id: xmlModel
         source: "http://github.com/TauLabs/TauLabs/commits/next.atom"
         query: "/feed/entry"
-        namespaceDeclarations: "declare default element namespace 'http://www.w3.org/2005/Atom';"
-
+        namespaceDeclarations: "declare namespace media=\"http://search.yahoo.com/mrss/\"; declare default element namespace \"http://www.w3.org/2005/Atom\" ;"
         XmlRole { name: "title"; query: "title/string()" }
-        XmlRole { name: "description"; query: "author/name/string()" }
-        XmlRole { name: "link"; query: "link/href" }
+        XmlRole { name: "author"; query: "author/name/string()" }
+        XmlRole { name: "authoruri"; query: "author/uri/string()" }
+        XmlRole { name: "link"; query: "link/@href/string()" }
+        XmlRole { name: "thumbnail"; query: 'media:thumbnail/@url/string()' }
     }
 
     Component {
         id: listDelegate
-        Item {
+        Item  {
             width: view.width
             height: column.height + 8
 
-            Column {
+            Row {
                 id: column
                 spacing: 4
-                Text {
-                    text: title
-                    width: view.width
-                    textFormat: text.indexOf("&") > 0 ? Text.StyledText : Text.PlainText
-                    elide: Text.ElideRight
-                    font.bold: true
-                    color: mouseArea.containsMouse ? "#224d81" : "black"
+                Image {
+                    id: recipeImage
+                    width: 30; height: 30
+                    source: thumbnail
+                    MouseArea {
+                        anchors.fill: parent  //...to cover the whole image
+                        onClicked: Qt.openUrlExternally(authoruri)
+                    }
+                }
+                Column
+                {
+                    Text {
+                        text: author
+                        font.italic: true
+                        width: view.width
+                        textFormat: text.indexOf("&") > 0 ? Text.StyledText : Text.PlainText
+                        elide: Text.ElideRight
+                        color: mouseArea.containsMouse ? "#224d81" : "black"
+                        MouseArea {
+                            anchors.fill: parent  //...to cover the whole image
+                            onClicked: Qt.openUrlExternally(authoruri)
+                        }
+                    }
+                    Text {
+                        text: title
+                        width: view.width
+                        textFormat: text.indexOf("&") > 0 ? Text.StyledText : Text.PlainText
+                        elide: Text.ElideRight
+                        font.bold: true
+                        color: mouseArea.containsMouse ? "#224d81" : "black"
+                        MouseArea {
+                            anchors.fill: parent  //...to cover the whole image
+                            onClicked: Qt.openUrlExternally(link)
+                        }
+                    }
+
+
+
                 }
 
-                Text {
-                    text: description
-                    width: view.width
-                    textFormat: text.indexOf("&") > 0 ? Text.StyledText : Text.PlainText
-                    elide: Text.ElideRight
-                    color: mouseArea.containsMouse ? "#224d81" : "black"
-                }
             }
-
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent
