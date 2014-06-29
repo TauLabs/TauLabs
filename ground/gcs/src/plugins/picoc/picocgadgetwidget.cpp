@@ -212,7 +212,7 @@ void PicoCGadgetWidget::on_tbSendToUAVROM_clicked()
     }
 
     // enable the button again
-    ui->tbFetchFromUAVROM->setEnabled(true);
+    ui->tbSendToUAVROM->setEnabled(true);
 
 
 }
