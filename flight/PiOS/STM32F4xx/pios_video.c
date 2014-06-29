@@ -37,7 +37,7 @@
 #include "pios_video.h"
 
 // How many frames until we redraw
-#define VSYNC_REDRAW_CNT 2
+#define VSYNC_REDRAW_CNT 4
 
 extern xSemaphoreHandle onScreenDisplaySemaphore;
 

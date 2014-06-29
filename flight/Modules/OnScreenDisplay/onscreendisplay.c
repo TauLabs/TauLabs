@@ -2019,17 +2019,17 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 			}
 
 			clearGraphics();
-			//updateGraphics();
-			switch (current_page) {
-				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM1:
-				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM2:
-				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM3:
-				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM4:
-				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM5:
-				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM6:
-					render_user_page(current_page, accessory.AccessoryVal);
-					break;
-			}
+			updateGraphics();
+//			switch (current_page) {
+//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM1:
+//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM2:
+//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM3:
+//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM4:
+//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM5:
+//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM6:
+//					render_user_page(current_page, accessory.AccessoryVal);
+//					break;
+//			}
 
 			frame_counter++;
 #ifdef DEBUG_TIMING
