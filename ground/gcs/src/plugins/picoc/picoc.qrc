@@ -7,5 +7,6 @@
         <file>images/down_alt.png</file>
         <file>images/down_rom.png</file>
         <file>images/up_rom.png</file>
+        <file>images/trash.png</file>
     </qresource>
 </RCC>
