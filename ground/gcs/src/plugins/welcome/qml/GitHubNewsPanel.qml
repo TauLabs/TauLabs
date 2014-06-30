@@ -10,7 +10,7 @@ Item {
 
     Text {
         id: header
-        text: "Project News"
+        text: "GitHub Activity"
         width: parent.width
         color: "#44515c"
         font {
@@ -79,7 +79,6 @@ Item {
                     Text {
                         text: title
                         width: view.width
-                        textFormat: text.indexOf("&") > 0 ? Text.StyledText : Text.PlainText
                         elide: Text.ElideRight
                         font.bold: true
                         color: mouseArea.containsMouse ? "#224d81" : "black"
