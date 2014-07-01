@@ -2707,7 +2707,7 @@
              <string>Bytes</string>
             </property>
             <property name="minimum">
-             <number>16384</number>
+             <number>5120</number>
             </property>
             <property name="maximum">
              <number>131072</number>
@@ -2727,7 +2727,7 @@
              <string>Bytes</string>
             </property>
             <property name="minimum">
-             <number>16384</number>
+             <number>10240</number>
             </property>
             <property name="maximum">
              <number>131072</number>

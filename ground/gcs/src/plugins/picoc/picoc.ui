@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>536</width>
+    <width>732</width>
     <height>262</height>
    </rect>
   </property>
@@ -210,6 +210,26 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QToolButton" name="tbStartScript">
+       <property name="toolTip">
+        <string>Start Script</string>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="picoc.qrc">
+         <normaloff>:/picoc/images/execute.png</normaloff>:/picoc/images/execute.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -225,11 +245,56 @@
     </widget>
    </item>
    <item>
-    <widget class="QProgressBar" name="pbPercent">
-     <property name="value">
-      <number>0</number>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
      </property>
-    </widget>
+     <item>
+      <widget class="QSpinBox" name="sbExitValue">
+       <property name="toolTip">
+        <string>Exit Value</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="minimum">
+        <number>-32768</number>
+       </property>
+       <property name="maximum">
+        <number>32768</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="sbTestValue">
+       <property name="toolTip">
+        <string>Test Value</string>
+       </property>
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
+       <property name="minimum">
+        <number>-32768</number>
+       </property>
+       <property name="maximum">
+        <number>32767</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="pbPercent">
+       <property name="toolTip">
+        <string>Progress</string>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
