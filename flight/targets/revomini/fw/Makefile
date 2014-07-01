@@ -59,6 +59,7 @@ OPTMODULES += Airspeed/revolution
 OPTMODULES += UAVOHoTTBridge
 OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += PicoC
+OPTMODULES += UAVOFrSKYSPortBridge
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
