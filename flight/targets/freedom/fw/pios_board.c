@@ -654,7 +654,7 @@ void PIOS_Board_Init(void) {
 			break;
 		case HWFREEDOM_MAINPORT_FRSKYSPORTTELEMETRY:
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
+			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
 			break;
 	} /* hw_freedom_mainport */
@@ -772,7 +772,7 @@ void PIOS_Board_Init(void) {
 			break;
 		case HWFREEDOM_FLEXIPORT_FRSKYSPORTTELEMETRY:
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
 			break;
 	} /* 	hw_freedom_flexiport */
