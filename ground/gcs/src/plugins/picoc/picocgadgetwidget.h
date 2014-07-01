@@ -33,8 +33,6 @@
 #include "picocsettings.h"
 #include "picoc_global.h"
 
-//class Ui_PicoCWidget;
-
 class PICOC_EXPORT PicoCGadgetWidget : public QLabel
 {
     Q_OBJECT
@@ -53,6 +51,7 @@ private:
     void sendScript();
     bool waitForExecution();
     void sleep(int);
+    void setProgress(int);
 
 private slots:
     void on_tbNewFile_clicked();
@@ -63,7 +62,8 @@ private slots:
     void on_tbFetchFromUAVROM_clicked();
     void on_tbSendToUAVROM_clicked();
     void on_tbEraseFromUAVROM_clicked();
-    void setProgress(int);
+    void on_tbStartScript_clicked();
+    void updatePicoCStatus(UAVObject *);
 };
 
 #endif /* PICOCGADGETWIDGET_H_ */

@@ -8,6 +8,7 @@
 		<field name="Command" units="" type="enum" elements="1" defaultvalue="Idle">
 			<options>
 				<option>Idle</option>
+				<option>StartScript</option>
 				<option>USARTmode</option>
 				<option>GetSector</option>
 				<option>SetSector</option>
