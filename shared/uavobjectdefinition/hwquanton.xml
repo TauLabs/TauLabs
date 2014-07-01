@@ -23,6 +23,7 @@
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -45,6 +46,7 @@
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -67,6 +69,7 @@
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -88,6 +91,7 @@
 				<option>LighttelemetryTx</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>PicoC</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -109,6 +113,7 @@
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
