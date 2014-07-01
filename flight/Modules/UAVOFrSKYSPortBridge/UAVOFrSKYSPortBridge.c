@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules TauLabs Modules
  * @{
- * @addtogroup UAVOFrSkySPortBridge UAVO to FrSKY S.PORT Bridge Module
+ * @addtogroup UAVOFrSKYSPortBridge UAVO to FrSKY S.PORT Bridge Module
  * @{
  *
  * @file       uavofrskysportbridge.c
