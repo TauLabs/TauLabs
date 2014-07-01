@@ -37,6 +37,7 @@
 #include "geofencesettings.h"
 #include "modulesettings.h"
 #include "vibrationanalysissettings.h"
+#include "picocsettings.h"
 
 // Define static variables
 QString ConfigModuleWidget::trueString("TrueString");
@@ -70,6 +71,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     HoTTSettings hoTTSettings;
     QString hoTTSettingsName = hoTTSettings.getName();
 
+    PicoCSettings picoCSettings;
+    QString picoCSettingsName = picoCSettings.getName();
+
     // Link the checkboxes
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbAirspeed, ModuleSettings::ADMINSTATE_AIRSPEED);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbAltitudeHold, ModuleSettings::ADMINSTATE_ALTITUDEHOLD);
@@ -81,6 +85,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVtolFollower, ModuleSettings::ADMINSTATE_VTOLPATHFOLLOWER);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbPathPlanner, ModuleSettings::ADMINSTATE_PATHPLANNER);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbPicoC, ModuleSettings::ADMINSTATE_PICOC);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOHottBridge, ModuleSettings::ADMINSTATE_UAVOHOTTBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOLighttelemetryBridge, ModuleSettings::ADMINSTATE_UAVOLIGHTTELEMETRYBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrskyBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE);
@@ -287,6 +292,15 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->cb_ALTITUDEBEEP->setProperty(trueString.toLatin1(), "Enabled");
     ui->cb_ALTITUDEBEEP->setProperty(falseString.toLatin1(), "Disabled");
 
+    // Connect PicoC settings
+    addUAVObjectToWidgetRelation(picoCSettingsName, "MaxFileSize", ui->sb_picocMaxFileSize);
+    addUAVObjectToWidgetRelation(picoCSettingsName, "TaskStackSize", ui->sb_picocTaskStackSize);
+    addUAVObjectToWidgetRelation(picoCSettingsName, "PicoCStackSize", ui->sb_picocPicoCStackSize);
+    addUAVObjectToWidgetRelation(picoCSettingsName, "BootFileID", ui->sb_picocBootFileID);
+    addUAVObjectToWidgetRelation(picoCSettingsName, "Startup", ui->cb_picocStartup);
+    addUAVObjectToWidgetRelation(picoCSettingsName, "Source", ui->cb_picocSource);
+    addUAVObjectToWidgetRelation(picoCSettingsName, "ComSpeed", ui->cb_picocComSpeed);
+
     //Help button
     addHelpButton(ui->inputHelp,"http://wiki.taulabs.org/OnlineHelp:-Modules");
 
@@ -326,6 +340,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->cbPathPlanner->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbPathPlanner->setProperty(falseString.toLatin1(), "Disabled");
 
+    ui->cbPicoC->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbPicoC->setProperty(falseString.toLatin1(), "Disabled");
+
     ui->cbUAVOHottBridge->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbUAVOHottBridge->setProperty(falseString.toLatin1(), "Disabled");
 
@@ -352,6 +369,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     enableVibrationTab(false);
     enableHoTTTelemetryTab(false);
     enableGeofenceTab(false);
+    enablePicoCTab(false);
 
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property
@@ -403,6 +421,10 @@ void ConfigModuleWidget::recheckTabs()
     obj = getObjectManager()->getObject(GeoFenceSettings::NAME);
     connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
     obj->requestUpdate();
+
+    obj = getObjectManager()->getObject(PicoCSettings::NAME);
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
+    obj->requestUpdate();
 }
 
 //! Enable appropriate tab when objects are updated
@@ -422,6 +444,8 @@ void ConfigModuleWidget::objectUpdated(UAVObject * obj, bool success)
         enableHoTTTelemetryTab(success);
     else if (objName.compare(GeoFenceSettings::NAME) == 0)
         enableGeofenceTab(success);
+    else if (objName.compare(PicoCSettings::NAME) == 0)
+        enablePicoCTab(success);
 }
 
 /**
@@ -592,6 +616,13 @@ void ConfigModuleWidget::enableHoTTTelemetryTab(bool enabled)
 void ConfigModuleWidget::enableGeofenceTab(bool enabled)
 {
     int idx = ui->moduleTab->indexOf(ui->tabGeofence);
+    ui->moduleTab->setTabEnabled(idx,enabled);
+}
+
+//! Enable or disable the PicoC tab
+void ConfigModuleWidget::enablePicoCTab(bool enabled)
+{
+    int idx = ui->moduleTab->indexOf(ui->tabPicoC);
     ui->moduleTab->setTabEnabled(idx,enabled);
 }
 
