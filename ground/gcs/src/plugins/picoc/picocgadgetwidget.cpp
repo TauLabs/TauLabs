@@ -52,6 +52,9 @@ PicoCGadgetWidget::PicoCGadgetWidget(QWidget *parent) : QLabel(parent)
     pcSettings = PicoCSettings::GetInstance(objManager);
     Q_ASSERT(pcSettings != NULL);
 
+    // Connect PicoCStatus
+    connect(pcStatus, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updatePicoCStatus(UAVObject *)));
+
 }
 
 PicoCGadgetWidget::~PicoCGadgetWidget()
@@ -182,7 +185,7 @@ void PicoCGadgetWidget::on_tbFetchFromUAVROM_clicked()
  */
 void PicoCGadgetWidget::on_tbSendToUAVROM_clicked()
 {
-    // disable to button
+    // disable the button
     ui->tbSendToUAVROM->setEnabled(false);
 
     // send content of editor to model
@@ -213,9 +216,12 @@ void PicoCGadgetWidget::on_tbSendToUAVROM_clicked()
     ui->tbSendToUAVROM->setEnabled(true);
 }
 
+/**
+ * @brief PicoCGadgetWidget::on_tbEraseFromUAVROM_clicked Erase script from UAV filesystem
+ */
 void PicoCGadgetWidget::on_tbEraseFromUAVROM_clicked()
 {
-    // disable to button
+    // disable the button
     ui->tbEraseFromUAVROM->setEnabled(false);
 
     // set FileID and execute load command
@@ -228,6 +234,38 @@ void PicoCGadgetWidget::on_tbEraseFromUAVROM_clicked()
 
     // enable the button again
     ui->tbEraseFromUAVROM->setEnabled(true);
+}
+
+/**
+ * @brief PicoCGadgetWidget::on_tbStartScript_clicked Execute actual script
+ */
+void PicoCGadgetWidget::on_tbStartScript_clicked()
+{
+    // disable the button
+    ui->tbStartScript->setEnabled(false);
+
+    // execute script via command
+    pcStatus->setTestValue(ui->sbTestValue->value());
+    pcStatus->setCommand(PicoCStatus::COMMAND_STARTSCRIPT);
+    pcStatus->updated();
+}
+
+/**
+ * @brief PicoCGadgetWidget::updatePicoCStatus Called when PicoCStatus changes
+ * @param obj
+ */
+void PicoCGadgetWidget::updatePicoCStatus(UAVObject *obj)
+{
+    Q_UNUSED(obj);
+
+    // update exit and test values
+    ui->sbExitValue->setValue(pcStatus->getExitValue());
+    ui->sbTestValue->setValue(pcStatus->getTestValue());
+
+    // enable some buttons in idle state
+    if (pcStatus->getCommand() == PicoCStatus::COMMAND_IDLE) {
+        ui->tbStartScript->setEnabled(true);
+    }
 }
 
 /**

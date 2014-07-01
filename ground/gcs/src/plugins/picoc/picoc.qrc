@@ -8,5 +8,6 @@
         <file>images/down_rom.png</file>
         <file>images/up_rom.png</file>
         <file>images/trash.png</file>
+        <file>images/execute.png</file>
     </qresource>
 </RCC>
