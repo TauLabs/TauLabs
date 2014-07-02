@@ -313,7 +313,7 @@ void PicoCGadgetWidget::fetchScript()
  */
 void PicoCGadgetWidget::sendScript()
 {
-    int max = ui->ptEditor->toPlainText().length();
+    int max = 1 + ui->ptEditor->toPlainText().length();
     int i = 0;
     char c = 0;
     do {
