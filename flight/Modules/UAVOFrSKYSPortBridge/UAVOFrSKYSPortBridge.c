@@ -473,7 +473,6 @@ static bool frsky_encode_gps_alt(uint32_t *value, bool test_presence_only, uint3
 	if (frsky->gps_position.Status != GPSPOSITION_STATUS_FIX3D
 			&& frsky->gps_position.Status != GPSPOSITION_STATUS_DIFF3D)
 		return false;
-	frsky->gps_position.Altitude = 302.5f;
 	if (test_presence_only)
 		return true;
 
