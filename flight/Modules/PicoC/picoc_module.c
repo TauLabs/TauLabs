@@ -177,6 +177,7 @@ static void picocTask(void *parameters) {
 			case PICOCSTATUS_COMMAND_STARTSCRIPT:
 				// external start request
 				picocstatus.ExitValue = picoc(sourcebuffer, picocsettings.PicoCStackSize);
+				PicoCStatusExitValueSet(&picocstatus.ExitValue);
 				picocstatus.CommandError = 0;
 				picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
 				started = true;
