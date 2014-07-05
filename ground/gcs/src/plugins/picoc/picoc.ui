@@ -128,6 +128,33 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="tbStartScript">
+       <property name="toolTip">
+        <string>Start Script on UAV</string>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="picoc.qrc">
+         <normaloff>:/picoc/images/execute.png</normaloff>:/picoc/images/execute.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QSpinBox" name="sbFileID">
        <property name="toolTip">
         <string>FileID</string>
@@ -140,7 +167,7 @@
      <item>
       <widget class="QToolButton" name="tbFetchFromUAVROM">
        <property name="toolTip">
-        <string>Fetch from UAV ROM</string>
+        <string>Read from UAV file</string>
        </property>
        <property name="text">
         <string>...</string>
@@ -160,7 +187,7 @@
      <item>
       <widget class="QToolButton" name="tbSendToUAVROM">
        <property name="toolTip">
-        <string>Send to UAV ROM</string>
+        <string>Save to UAV file</string>
        </property>
        <property name="text">
         <string>...</string>
@@ -180,7 +207,7 @@
      <item>
       <widget class="QToolButton" name="tbEraseFromUAVROM">
        <property name="toolTip">
-        <string>Erase from UAV ROM</string>
+        <string>Delete UAV file</string>
        </property>
        <property name="text">
         <string>...</string>
@@ -210,26 +237,6 @@
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QToolButton" name="tbStartScript">
-       <property name="toolTip">
-        <string>Start Script</string>
-       </property>
-       <property name="text">
-        <string>...</string>
-       </property>
-       <property name="icon">
-        <iconset resource="picoc.qrc">
-         <normaloff>:/picoc/images/execute.png</normaloff>:/picoc/images/execute.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>32</width>
-         <height>32</height>
-        </size>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
    <item>
@@ -241,6 +248,9 @@
      </property>
      <property name="plainText">
       <string/>
+     </property>
+     <property name="tabStopWidth">
+      <number>35</number>
      </property>
     </widget>
    </item>
@@ -299,8 +309,8 @@
   </layout>
  </widget>
  <resources>
-  <include location="picoc.qrc"/>
   <include location="../coreplugin/core.qrc"/>
+  <include location="picoc.qrc"/>
  </resources>
  <connections/>
 </ui>

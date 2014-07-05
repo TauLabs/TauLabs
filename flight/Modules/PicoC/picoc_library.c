@@ -35,6 +35,31 @@
 
 #include "openpilot.h"
 #include "picoc_port.h"
+#include "flightstatus.h"
+
+// Private variables
+static int access_level;
+
+/* check access level */
+bool security(int needlevel)
+{
+
+	if (needlevel < access_level)
+		// access level is insufficient 
+		return false;
+
+	FlightStatusData data;
+	FlightStatusArmedGet(&data.Armed);
+
+	// in level 1 flightstatus has to be disarmed
+	if ((access_level <= 1) && (data.Armed != FLIGHTSTATUS_ARMED_DISARMED))
+		return false;
+
+	// level 2 or higher is currently like root
+
+	// all checks are ok
+	return true;
+}
 
 /**
  * string.h
@@ -329,6 +354,12 @@ void SystemArmed(struct ParseState *Parser, struct Value *ReturnValue, struct Va
 	ReturnValue->Val->Integer = (data.Armed == FLIGHTSTATUS_ARMED_ARMED);
 }
 
+/* void AccessLevelSet(int): sets the access level. Used for security in some library functions */
+void SystemAccessLevelSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	access_level = Param[0]->Val->Integer;
+}
+
 #ifdef PIOS_COM_PICOC
 /* void ChangeBaud(long): changes the speed of picoc serial port */
 void SystemChangeBaud(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
@@ -387,6 +418,7 @@ struct LibraryFunction PlatformLibrary_system[] =
 	{ SystemDelay,			"void delay(int);" },
 	{ SystemSync,			"void sync(int);" },
 	{ SystemArmed,			"int armed();" },
+	{ SystemAccessLevelSet,	"void AccessLevelSet(int);" },
 #ifdef PIOS_COM_PICOC
 	{ SystemChangeBaud,		"void ChangeBaud(long);" },
 #endif
@@ -634,16 +666,20 @@ void PlatformLibrarySetup_gpsposition(Picoc *pc)
 /* library functions */
 void FlightModePositionSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	if ((Param[0]->Val->Integer > 0) && (Param[0]->Val->Integer <= MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_NUMELEM)) {
+	if (!security(1))
+		return;
+	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_NUMELEM)) {
 		ManualControlSettingsData data;
 		ManualControlSettingsFlightModePositionGet(data.FlightModePosition);
-		data.FlightModePosition[Param[0]->Val->Integer - 1] = Param[1]->Val->Integer;
+		data.FlightModePosition[Param[0]->Val->Integer] = Param[1]->Val->Integer;
 		ManualControlSettingsFlightModePositionSet(data.FlightModePosition);
 	}
 }
 
 void Stabilization1SettingsSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
+	if (!security(1))
+		return;
 	ManualControlSettingsData data;
 	ManualControlSettingsStabilization1SettingsGet(data.Stabilization1Settings);
 	data.Stabilization1Settings[MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_ROLL] = Param[0]->Val->Integer;
@@ -654,6 +690,8 @@ void Stabilization1SettingsSet(struct ParseState *Parser, struct Value *ReturnVa
 
 void Stabilization2SettingsSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
+	if (!security(1))
+		return;
 	ManualControlSettingsData data;
 	ManualControlSettingsStabilization2SettingsGet(data.Stabilization2Settings);
 	data.Stabilization2Settings[MANUALCONTROLSETTINGS_STABILIZATION2SETTINGS_ROLL] = Param[0]->Val->Integer;
@@ -664,6 +702,8 @@ void Stabilization2SettingsSet(struct ParseState *Parser, struct Value *ReturnVa
 
 void Stabilization3SettingsSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
+	if (!security(1))
+		return;
 	ManualControlSettingsData data;
 	ManualControlSettingsStabilization3SettingsGet(data.Stabilization3Settings);
 	data.Stabilization3Settings[MANUALCONTROLSETTINGS_STABILIZATION3SETTINGS_ROLL] = Param[0]->Val->Integer;
@@ -693,40 +733,46 @@ struct LibraryFunction PlatformLibrary_manualcontrol[] =
 /* library functions */
 void PWMFreqSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	if ((Param[0]->Val->Integer > 0) && (Param[0]->Val->Integer <= ACTUATORSETTINGS_CHANNELUPDATEFREQ_NUMELEM)) {
+	if (!security(1))
+		return;
+	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_CHANNELUPDATEFREQ_NUMELEM)) {
 		ActuatorSettingsData data;
 		ActuatorSettingsChannelUpdateFreqGet(data.ChannelUpdateFreq);
-		data.ChannelUpdateFreq[Param[0]->Val->Integer - 1] = Param[1]->Val->UnsignedInteger;
+		data.ChannelUpdateFreq[Param[0]->Val->Integer] = Param[1]->Val->UnsignedInteger;
 		ActuatorSettingsChannelUpdateFreqSet(data.ChannelUpdateFreq);
 	}
 }
 
 void PWMMinSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	if ((Param[0]->Val->Integer > 0) && (Param[0]->Val->Integer <= ACTUATORSETTINGS_CHANNELMIN_NUMELEM)) {
+	if (!security(1))
+		return;
+	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_CHANNELMIN_NUMELEM)) {
 		ActuatorSettingsData data;
 		ActuatorSettingsChannelMinGet(data.ChannelMin);
-		data.ChannelMin[Param[0]->Val->Integer - 1] = Param[1]->Val->Integer;
+		data.ChannelMin[Param[0]->Val->Integer] = Param[1]->Val->Integer;
 		ActuatorSettingsChannelMinSet(data.ChannelMin);
 	}
 }
 
 void PWMMaxSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	if ((Param[0]->Val->Integer > 0) && (Param[0]->Val->Integer <= ACTUATORSETTINGS_CHANNELMAX_NUMELEM)) {
+	if (!security(1))
+		return;
+	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_CHANNELMAX_NUMELEM)) {
 		ActuatorSettingsData data;
 		ActuatorSettingsChannelMaxGet(data.ChannelMax);
-		data.ChannelMax[Param[0]->Val->Integer - 1] = Param[1]->Val->Integer;
+		data.ChannelMax[Param[0]->Val->Integer] = Param[1]->Val->Integer;
 		ActuatorSettingsChannelMaxSet(data.ChannelMax);
 	}
 }
 
 void PWMValSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	if ((Param[0]->Val->Integer > 0) && (Param[0]->Val->Integer <= ACTUATORSETTINGS_CHANNELNEUTRAL_NUMELEM)) {
+	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_CHANNELNEUTRAL_NUMELEM)) {
 		ActuatorSettingsData data;
 		ActuatorSettingsChannelNeutralGet(data.ChannelNeutral);
-		data.ChannelNeutral[Param[0]->Val->Integer - 1] = Param[1]->Val->Integer;
+		data.ChannelNeutral[Param[0]->Val->Integer] = Param[1]->Val->Integer;
 		ActuatorSettingsChannelNeutralSet(data.ChannelNeutral);
 	}
 }
@@ -756,6 +802,9 @@ struct LibraryFunction PlatformLibrary_pwm[] =
 /* list all includes */
 void PlatformLibraryInit(Picoc *pc)
 {
+	// ensure we run in user state at startup
+	access_level = 0;
+
 #ifndef NO_STRING_FUNCTIONS
 	IncludeRegister(pc, "string.h", NULL, &PlatformLibrary_string[0], NULL);
 #endif
