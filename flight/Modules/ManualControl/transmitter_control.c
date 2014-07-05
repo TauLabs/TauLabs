@@ -419,6 +419,9 @@ int32_t transmitter_control_select(bool reset_controller)
 	case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
 		update_actuator_desired(&cmd);
 		break;
+	case FLIGHTSTATUS_FLIGHTMODE_ACRO:
+	case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
+	case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
@@ -800,10 +803,31 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	StabilizationSettingsData stabSettings;
 	StabilizationSettingsGet(&stabSettings);
 
-	uint8_t * stab_settings;
+	const uint8_t RATE_SETTINGS[3] = {  STABILIZATIONDESIRED_STABILIZATIONMODE_RATE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_RATE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
+	const uint8_t ATTITUDE_SETTINGS[3] = {
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
+	const uint8_t VIRTUALBAR_SETTINGS[3] = {
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
+
+	const uint8_t * stab_settings;
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
 	switch(flightStatus.FlightMode) {
+		case FLIGHTSTATUS_FLIGHTMODE_ACRO:
+			stab_settings = RATE_SETTINGS;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
+			stab_settings = ATTITUDE_SETTINGS;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
+			stab_settings = VIRTUALBAR_SETTINGS;
+			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 			stab_settings = settings->Stabilization1Settings;
 			break;

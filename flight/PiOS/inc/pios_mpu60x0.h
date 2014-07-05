@@ -8,7 +8,7 @@
  *
  * @file       PIOS_MPU60X0.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      MPU60X0 3-axis gyor function headers
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -41,7 +41,15 @@
 #define PIOS_MPU60X0_GYRO_CFG_REG         0X1B
 #define PIOS_MPU60X0_ACCEL_CFG_REG        0X1C
 #define PIOS_MPU60X0_FIFO_EN_REG          0x23
-#define PIOS_MPU60X0_I2C_MST_CFG_REG      0x36
+#define PIOS_MPU60X0_SLV0_ADDR_REG        0x25
+#define PIOS_MPU60X0_SLV0_REG_REG         0x26
+#define PIOS_MPU60X0_SLV0_CTRL_REG        0x27
+#define PIOS_MPU60X0_SLV4_ADDR_REG        0x31
+#define PIOS_MPU60X0_SLV4_REG_REG         0x32
+#define PIOS_MPU60X0_SLV4_DO_REG          0x33
+#define PIOS_MPU60X0_SLV4_CTRL_REG        0x34
+#define PIOS_MPU60X0_SLV4_DI_REG          0x35
+#define PIOS_MPU60X0_I2C_MST_STATUS_REG   0x36
 #define PIOS_MPU60X0_INT_CFG_REG          0x37
 #define PIOS_MPU60X0_INT_EN_REG           0x38
 #define PIOS_MPU60X0_INT_STATUS_REG       0x3A
@@ -90,6 +98,7 @@
 
 /* User control functionality */
 #define PIOS_MPU60X0_USERCTL_FIFO_EN      0X40
+#define PIOS_MPU60X0_USERCTL_I2C_MST_EN   0X20
 #define PIOS_MPU60X0_USERCTL_DIS_I2C      0X10
 #define PIOS_MPU60X0_USERCTL_FIFO_RST     0X02
 #define PIOS_MPU60X0_USERCTL_GYRO_RST     0X01
@@ -101,6 +110,18 @@
 #define PIOS_MPU60X0_PWRMGMT_PLL_Y_CLK    0X02
 #define PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK    0X03
 #define PIOS_MPU60X0_PWRMGMT_STOP_CLK     0X07
+
+/* I2C master status register bits */
+#define PIOS_MPU60X0_I2C_MST_SLV4_DONE    0x40
+#define PIOS_MPU60X0_I2C_MST_LOST_ARB     0x20
+#define PIOS_MPU60X0_I2C_MST_SLV4_NACK    0x10
+#define PIOS_MPU60X0_I2C_MST_SLV0_NACK    0x01
+
+/* I2C SLV register bits */
+#define PIOS_MPU60X0_I2CSLV_EN            0x80
+#define PIOS_MPU60X0_I2CSLV_BYTE_SW       0x40
+#define PIOS_MPU60X0_I2CSLV_REG_DIS       0x20
+#define PIOS_MPU60X0_I2CSLV_GRP           0x10
 
 enum pios_mpu60x0_range {
 	PIOS_MPU60X0_SCALE_250_DEG  = 0x00,
