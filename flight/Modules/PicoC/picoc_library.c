@@ -38,13 +38,13 @@
 #include "flightstatus.h"
 
 // Private variables
-static int access_level;
+static int accesslevel;
 
 /* check access level */
 bool security(int needlevel)
 {
 
-	if (needlevel < access_level)
+	if (needlevel < accesslevel)
 		// access level is insufficient 
 		return false;
 
@@ -52,7 +52,7 @@ bool security(int needlevel)
 	FlightStatusArmedGet(&data.Armed);
 
 	// in level 1 flightstatus has to be disarmed
-	if ((access_level <= 1) && (data.Armed != FLIGHTSTATUS_ARMED_DISARMED))
+	if ((accesslevel <= 1) && (data.Armed != FLIGHTSTATUS_ARMED_DISARMED))
 		return false;
 
 	// level 2 or higher is currently like root
@@ -357,7 +357,7 @@ void SystemArmed(struct ParseState *Parser, struct Value *ReturnValue, struct Va
 /* void AccessLevelSet(int): sets the access level. Used for security in some library functions */
 void SystemAccessLevelSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	access_level = Param[0]->Val->Integer;
+	accesslevel = Param[0]->Val->Integer;
 }
 
 #ifdef PIOS_COM_PICOC
@@ -803,7 +803,7 @@ struct LibraryFunction PlatformLibrary_pwm[] =
 void PlatformLibraryInit(Picoc *pc)
 {
 	// ensure we run in user state at startup
-	access_level = 0;
+	accesslevel = 0;
 
 #ifndef NO_STRING_FUNCTIONS
 	IncludeRegister(pc, "string.h", NULL, &PlatformLibrary_string[0], NULL);
