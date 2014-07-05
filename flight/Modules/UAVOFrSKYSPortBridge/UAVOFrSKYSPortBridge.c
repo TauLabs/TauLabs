@@ -53,7 +53,7 @@
 
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
 
-static void uavoFrSkySPortBridgeTask(void *parameters);
+static void uavoFrSKYSPortBridgeTask(void *parameters);
 static bool frsky_encode_gps_course(uint32_t *value, bool test_presence_only, uint32_t arg);
 static bool frsky_encode_altitude(uint32_t *value, bool test_presence_only, uint32_t arg);
 static bool frsky_encode_vario(uint32_t *value, bool test_presence_only, uint32_t arg);
@@ -173,7 +173,7 @@ static struct frsky_sport_telemetry *frsky;
  * Encode baro altitude value
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]
+ * @param[in] arg argument specified in frsky_value_items[]
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_altitude(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -196,7 +196,7 @@ static bool frsky_encode_altitude(uint32_t *value, bool test_presence_only, uint
  * Encode heading value
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]
+ * @param[in] arg argument specified in frsky_value_items[]
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_gps_course(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -219,7 +219,7 @@ static bool frsky_encode_gps_course(uint32_t *value, bool test_presence_only, ui
  * Encode vertical speed value
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]
+ * @param[in] arg argument specified in frsky_value_items[]
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_vario(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -242,7 +242,7 @@ static bool frsky_encode_vario(uint32_t *value, bool test_presence_only, uint32_
  * Encode battery current value
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]
+ * @param[in] arg argument specified in frsky_value_items[]
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_current(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -264,7 +264,7 @@ static bool frsky_encode_current(uint32_t *value, bool test_presence_only, uint3
  * Encode battery cells voltage
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[], index of battery cell pair
+ * @param[in] arg argument specified in frsky_value_items[], index of battery cell pair
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_cells(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -289,7 +289,7 @@ static bool frsky_encode_cells(uint32_t *value, bool test_presence_only, uint32_
  * Encode temperature of barosensor as T1
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]
+ * @param[in] arg argument specified in frsky_value_items[]
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_t1(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -317,7 +317,7 @@ static bool frsky_encode_t1(uint32_t *value, bool test_presence_only, uint32_t a
  * 4 - 3D fix and HomeLocation is SET - should be safe for navigation
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]
+ * @param[in] arg argument specified in frsky_value_items[]
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_t2(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -361,7 +361,7 @@ static bool frsky_encode_t2(uint32_t *value, bool test_presence_only, uint32_t a
  * Encode consumed battery energy as fuel
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]
+ * @param[in] arg argument specified in frsky_value_items[]
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_fuel(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -386,7 +386,7 @@ static bool frsky_encode_fuel(uint32_t *value, bool test_presence_only, uint32_t
  * Encode accelerometer values
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]; 0=X, 1=Y, 2=Z
+ * @param[in] arg argument specified in frsky_value_items[]; 0=X, 1=Y, 2=Z
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_acc(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -422,7 +422,7 @@ static bool frsky_encode_acc(uint32_t *value, bool test_presence_only, uint32_t 
  * Encode gps coordinates
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]; 0=lattitude, 1=longitude
+ * @param[in] arg argument specified in frsky_value_items[]; 0=lattitude, 1=longitude
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_gps_coord(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -463,7 +463,7 @@ static bool frsky_encode_gps_coord(uint32_t *value, bool test_presence_only, uin
  * Encode gps altitude
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]
+ * @param[in] arg argument specified in frsky_value_items[]
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_gps_alt(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -486,7 +486,7 @@ static bool frsky_encode_gps_alt(uint32_t *value, bool test_presence_only, uint3
  * Encode gps speed
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]
+ * @param[in] arg argument specified in frsky_value_items[]
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_gps_speed(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -508,7 +508,7 @@ static bool frsky_encode_gps_speed(uint32_t *value, bool test_presence_only, uin
  * Encode GPS UTC time
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]; 0=date, 1=time
+ * @param[in] arg argument specified in frsky_value_items[]; 0=date, 1=time
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_gps_time(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -551,7 +551,7 @@ static bool frsky_encode_gps_time(uint32_t *value, bool test_presence_only, uint
  * To work this propperly on Taranis, you have to set Blades to "1" in telemetry setting
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]
+ * @param[in] arg argument specified in frsky_value_items[]
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_rpm(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -574,7 +574,7 @@ static bool frsky_encode_rpm(uint32_t *value, bool test_presence_only, uint32_t 
  * Encode true airspeed(TAS)
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
- * @param[in] arg argument specified in value_records[]
+ * @param[in] arg argument specified in frsky_value_items[]
  * @returns true when value succesfully encoded or presence test passed
  */
 static bool frsky_encode_airspeed(uint32_t *value, bool test_presence_only, uint32_t arg)
@@ -716,7 +716,7 @@ static void frsky_receive_byte(uint8_t b)
  * Module start routine automatically called after initialization routine
  * @return 0 when was successful
  */
-static int32_t uavoFrSkySPortBridgeStart(void)
+static int32_t uavoFrSKYSPortBridgeStart(void)
 {
 	if (!module_enabled)
 		return -1;
@@ -735,7 +735,7 @@ static int32_t uavoFrSkySPortBridgeStart(void)
 			&& PIOS_SENSORS_GetQueue(PIOS_SENSOR_BARO) != NULL)
 		frsky->use_baro_sensor = true;
 
-	xTaskCreate(uavoFrSkySPortBridgeTask, (signed char *)"uavoFrSkySPortBridge",
+	xTaskCreate(uavoFrSKYSPortBridgeTask, (signed char *)"uavoFrSKYSPortBridge",
 			STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY,
 			&frsky->task);
 	TaskMonitorAdd(TASKINFO_RUNNING_UAVOFRSKYSPORTBRIDGE,
@@ -748,7 +748,7 @@ static int32_t uavoFrSkySPortBridgeStart(void)
  * Module initialization routine
  * @return 0 when initialization was successful
  */
-static int32_t uavoFrSkySPortBridgeInitialize(void)
+static int32_t uavoFrSKYSPortBridgeInitialize(void)
 {
 	uintptr_t sport_com = PIOS_COM_FRSKY_SPORT;
 
@@ -783,13 +783,13 @@ static int32_t uavoFrSkySPortBridgeInitialize(void)
 
 	return -1;
 }
-MODULE_INITCALL(uavoFrSkySPortBridgeInitialize, uavoFrSkySPortBridgeStart)
+MODULE_INITCALL(uavoFrSKYSPortBridgeInitialize, uavoFrSKYSPortBridgeStart)
 
 /**
  * Main task routine
  * @param[in] parameters parameter given by xTaskCreate()
  */
-static void uavoFrSkySPortBridgeTask(void *parameters)
+static void uavoFrSKYSPortBridgeTask(void *parameters)
 {
 	while (1) {
 		uint8_t b = 0;
