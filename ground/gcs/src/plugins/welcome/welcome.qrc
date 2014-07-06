@@ -4,7 +4,6 @@
         <file>qml/CommunityPanel.qml</file>
         <file>qml/SitesPanel.qml</file>
         <file>qml/WelcomePageButton.qml</file>
-        <file>qml/NewsPanel.qml</file>
         <file>qml/ScrollDecorator.qml</file>
         <file>qml/images/welcome-news-bg.png</file>
         <file>qml/images/welcome-logo.png</file>
@@ -31,5 +30,7 @@
         <file>qml/images/bttn-vehwizard-off.png</file>
         <file>qml/images/wizard-off.png</file>
         <file>qml/images/wizard-on.png</file>
+        <file>qml/ForumNewsPanel.qml</file>
+        <file>qml/GitHubNewsPanel.qml</file>
     </qresource>
 </RCC>
