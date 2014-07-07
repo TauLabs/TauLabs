@@ -65,7 +65,7 @@
 #define AK8963_ST2_BITM                     0x10
 #define AK8963_ST2_HOFL                     0x08
 #define AK8963_CNTL1_REG                    0x0A
-#define AK8963_CNTL2_REG                    0x0A
+#define AK8963_CNTL2_REG                    0x0B
 #define AK8963_CNTL2_SRST                   0x01
 #define AK8963_MODE_CONTINUOUS_FAST_16B     0x16
 
