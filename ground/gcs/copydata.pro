@@ -25,9 +25,9 @@ equals(copydata, 1) {
             Qt5MultimediaWidgets.dll \
             Qt5Quick.dll \
             Qt5Qml.dll \
-            icuin51.dll \
-            icudt51.dll \
-            icuuc51.dll \
+            icuin52.dll \
+            icudt52.dll \
+            icuuc52.dll \
             libwinpthread-1.dll \
 	    libgcc_s_dw2-1.dll \
 	    libstdc++-6.dll \
