@@ -1,6 +1,6 @@
 BOARD_TYPE          := 0x7F
 BOARD_REVISION      := 0x02
-BOOTLOADER_VERSION  := 0x81
+BOOTLOADER_VERSION  := 0x90
 HW_TYPE             := 0x00
 
 MCU                 := cortex-m4

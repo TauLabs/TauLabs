@@ -320,20 +320,15 @@ void UploaderGadgetWidget::goToBootloader(UAVObject* callerObj, bool success)
             dw->populate();
             m_config->systemElements->addTab(dw, QString("Device") + QString::number(i));
         }
-        /*
-        m_config->haltButton->setEnabled(false);
-        m_config->resetButton->setEnabled(false);
-        */
+
         // Need to re-enable in case we were not connected
         m_config->bootButton->setEnabled(true);
         m_config->safeBootButton->setEnabled(true);
-        /*
-        m_config->telemetryLink->setEnabled(false);
-        m_config->rescueButton->setEnabled(false);
-        */
         if (resetOnly) {
             resetOnly=false;
-            delay::msleep(3500);
+            QEventLoop m_eventloop;
+            QTimer::singleShot(3500,&m_eventloop, SLOT(quit()));
+            m_eventloop.exec();
             systemBoot();
             break;
         }
@@ -538,7 +533,7 @@ bool UploaderGadgetWidget::autoUpdate()
         return false;
     }
     dfu->AbortOperation();
-    if(!dfu->UploadFirmware(filename,false,0))
+    if(!dfu->UploadPartition(filename,false,0,OP_DFU::FW,dfu->devices[0].SizeOfCode))
     {
         emit autoUpdateSignal(FAILURE,QVariant());
         return false;

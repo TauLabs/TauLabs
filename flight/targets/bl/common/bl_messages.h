@@ -29,6 +29,8 @@
 
 #include <stdint.h>		/* uint*_t */
 
+#define BL_INCLUDE_CAP_EXTENSIONS
+
 /* Note:
  *   Writes are from PC -> FC
  *   Reads  are from FC -> PC

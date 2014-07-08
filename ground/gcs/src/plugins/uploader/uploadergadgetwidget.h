@@ -29,7 +29,6 @@
 #define UPLOADERGADGETWIDGET_H
 
 #include "ui_uploader.h"
-#include "delay.h"
 #include "devicewidget.h"
 #include "runningdevicewidget.h"
 #include "op_dfu.h"

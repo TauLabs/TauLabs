@@ -3,6 +3,7 @@
  *
  * @file       devicewidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup YModemUploader YModem Serial Uploader Plugin
@@ -43,6 +44,7 @@
 #include <QDir>
 #include <QCoreApplication>
 #include "uploader_global.h"
+#include "fileutils.h"
 
 using namespace OP_DFU;
 class UPLOADER_EXPORT deviceWidget : public QWidget
@@ -58,6 +60,7 @@ public:
     typedef enum { STATUSICON_OK, STATUSICON_RUNNING, STATUSICON_FAIL, STATUSICON_INFO} StatusIcon;
     QString setOpenFileName();
     QString setSaveFileName();
+    bool archive(const QString &filePath, const QDir &dir, const QString &comment = QString());
 private:
     deviceDescriptorStruct onBoardDescription;
     deviceDescriptorStruct LoadedDescription;
@@ -65,27 +68,34 @@ private:
     Ui_deviceWidget *myDevice;
     int deviceID;
     DFUObject *m_dfu;
-    QByteArray downloadedFirmware;
     QString filename;
     QPixmap devicePic;
     QByteArray descriptionArray;
     void status(QString str, StatusIcon ic);
     bool populateBoardStructuredDescription(QByteArray arr);
     bool populateLoadedStructuredDescription(QByteArray arr);
+    OP_DFU::Status last_upload_status;
+    bool last_download_success;
 
 signals:
     void uploadStarted();
     void uploadEnded(bool success);
+    void downloadFinishedCallback();
+    void uploadedFinishedCallback();
 public slots:
     void uploadFirmware();
     void loadFirmware();
-    void downloadFirmware();
+    void downloadPartitionBundle();
     void setProgress(int);
-    void downloadFinished();
+    void downloadFinished(bool result);
     void uploadFinished(OP_DFU::Status);
     void dfuStatus(QString);
     void confirmCB(int);
-
+    void writePartitions();
+    void readPartitions();
+    void wipePartitions();
+    void writeBundlePartitions();
+    void showHidePartBrowser(int);
 protected:
     void showEvent(QShowEvent *event);
     void resizeEvent(QResizeEvent *event);

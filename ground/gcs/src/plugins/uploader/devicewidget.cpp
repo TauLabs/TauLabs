@@ -3,6 +3,7 @@
  *
  * @file       devicewidget.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup Uploader Serial and USB Uploader Plugin
@@ -37,14 +38,42 @@ deviceWidget::deviceWidget(QWidget *parent) :
     myDevice->groupCustom->setVisible(false);
     myDevice->youdont->setVisible(false);
     myDevice->gVDevice->setScene(new QGraphicsScene(this));
-    connect(myDevice->retrieveButton, SIGNAL(clicked()), this, SLOT(downloadFirmware()));
+    connect(myDevice->retrievePartBundleButton, SIGNAL(clicked()), this, SLOT(downloadPartitionBundle()));
     connect(myDevice->updateButton, SIGNAL(clicked()), this, SLOT(uploadFirmware()));
     connect(myDevice->pbLoad, SIGNAL(clicked()), this, SLOT(loadFirmware()));
     connect(myDevice->youdont, SIGNAL(stateChanged(int)), this, SLOT(confirmCB(int)));
+    connect(myDevice->cbShowPartBrowser, SIGNAL(stateChanged(int)),this,SLOT(showHidePartBrowser(int)));
+    myDevice->cbShowPartBrowser->setChecked(false);
+    myDevice->gbPartitionBrowser->setVisible(false);
+
     QPixmap pix = QPixmap(QString(":uploader/images/view-refresh.svg"));
     myDevice->statusIcon->setPixmap(pix);
 
     myDevice->lblCertified->setText("");
+
+    QAction *partReadAct = new QAction("&Read to file", this);
+    partReadAct->setShortcut(tr("Ctrl+R"));
+    partReadAct->setStatusTip(tr("Reads the current partition(s) to a file"));
+    connect(partReadAct, SIGNAL(triggered()), this, SLOT(readPartitions()));
+
+    QAction *partWriteAct = new QAction("&Write from file", this);
+    partWriteAct->setShortcut(tr("Ctrl+W"));
+    partWriteAct->setStatusTip(tr("Writes the chosen file(s) to the current partition(s)"));
+    connect(partWriteAct, SIGNAL(triggered()), this, SLOT(writePartitions()));
+
+    QAction *partWipeAct = new QAction("Wipe", this);
+    partWipeAct->setStatusTip(tr("Wipes the current partition(s)"));
+    connect(partWipeAct, SIGNAL(triggered()), this, SLOT(wipePartitions()));
+
+    QAction *partBundleAct = new QAction("Write partition &bundle file", this);
+    partBundleAct->setShortcut(tr("Ctrl+b"));
+    partBundleAct->setStatusTip(tr("Writes a partition bundle file to the device"));
+    connect(partBundleAct, SIGNAL(triggered()), this, SLOT(writeBundlePartitions()));
+
+    myDevice->tablePartitions->insertAction(0,partBundleAct);
+    myDevice->tablePartitions->insertAction(partBundleAct,partWipeAct);
+    myDevice->tablePartitions->insertAction(partWipeAct,partWriteAct);
+    myDevice->tablePartitions->insertAction(partWriteAct,partReadAct);
 }
 
 
@@ -71,6 +100,10 @@ void deviceWidget::setDeviceID(int devID){
 void deviceWidget::setDfu(DFUObject *dfu)
 {
     m_dfu = dfu;
+    connect(m_dfu, SIGNAL(progressUpdated(int)), this, SLOT(setProgress(int)));
+    connect(m_dfu, SIGNAL(operationProgress(QString)), this, SLOT(dfuStatus(QString)));
+    connect(m_dfu, SIGNAL(uploadFinished(OP_DFU::Status)), this, SLOT(uploadFinished(OP_DFU::Status)));
+    connect(m_dfu, SIGNAL(downloadFinished(bool)), this, SLOT(downloadFinished(bool)));
 }
 
 /**
@@ -78,7 +111,7 @@ void deviceWidget::setDfu(DFUObject *dfu)
   */
 void deviceWidget::populate()
 {
-
+    qDebug()<<"POPULATE BEGIN";
     unsigned int id = m_dfu->devices[deviceID].ID;
     myDevice->lbldevID->setText(QString("Device ID: ") + QString::number(id & 0xFFFF, 16));
     // DeviceID tells us what sort of HW we have detected:
@@ -100,6 +133,50 @@ void deviceWidget::populate()
     myDevice->lblMaxCode->setText(QString("Max code size: ") +QString::number(m_dfu->devices[deviceID].SizeOfCode));
     myDevice->lblCRC->setText(QString::number(m_dfu->devices[deviceID].FW_CRC));
     myDevice->lblBLVer->setText(QString("BL version: ") + QString::number(m_dfu->devices[deviceID].BL_Version));
+    QString moreRecent;
+    bool checked;
+    qDebug()<<"POPULATE BL_VERSION:"<<m_dfu->devices[deviceID].BL_Version;
+    if(m_dfu->devices[deviceID].BL_Version < 0x90)
+    {
+        moreRecent = (tr("You need a more recent bootloader to use this function"));
+        checked = false;
+        qDebug()<<"POPULATE BL TOO OLD FOR PARTITION BROWSER";
+    }
+    else
+    {
+        moreRecent = "";
+        checked = true;
+        qDebug()<<"POPULATE BL OK FOR PARTITION BROWSER";
+    }
+    myDevice->cbShowPartBrowser->setEnabled(checked);
+    myDevice->cbShowPartBrowser->setToolTip(moreRecent);
+    myDevice->retrievePartBundleButton->setEnabled(checked);
+    myDevice->retrievePartBundleButton->setToolTip(moreRecent);
+    int x = 0;
+    myDevice->tablePartitions->clear();
+
+    qDebug()<<"POPULATE BEGIN PARTITION BROWSER LOAD, NUMBER OF PARTITIONS TO ADD"<<m_dfu->devices[deviceID].PartitionSizes.size();
+    while(true)
+    {
+        if(x >= m_dfu->devices[deviceID].PartitionSizes.size())
+        {
+            qDebug()<<"POPULATE LOADED "<<x<<" PARTITIONS";
+            break;
+        }
+        if(m_dfu->devices[deviceID].PartitionSizes.at(x) == 0)
+        {
+            qDebug()<<"POPULATE LOADED "<<x-1<<" PARTITIONS";
+            break;
+        }
+        myDevice->tablePartitions->insertRow(x);
+        QTableWidgetItem *item = new QTableWidgetItem;
+        item->setText(QString::number(x));
+        myDevice->tablePartitions->setItem(x,0,item);
+        item = new QTableWidgetItem;
+        item->setText(QString::number(m_dfu->devices[deviceID].PartitionSizes.at(x)));
+        myDevice->tablePartitions->setItem(x,1,item);
+        ++x;
+    }
     int size=((OP_DFU::device)m_dfu->devices[deviceID]).SizeOfDesc;
     m_dfu->enterDFU(deviceID);
     QByteArray desc = m_dfu->DownloadDescriptionAsBA(size);
@@ -128,7 +205,7 @@ void deviceWidget::freeze()
 {
     myDevice->pbLoad->setEnabled(false);
     myDevice->updateButton->setEnabled(false);
-    myDevice->retrieveButton->setEnabled(false);
+    myDevice->retrievePartBundleButton->setEnabled(false);
 }
 
 /**
@@ -139,7 +216,7 @@ void deviceWidget::unfreeze()
 {
     myDevice->pbLoad->setEnabled(true);
     myDevice->updateButton->setEnabled(true);
-    myDevice->retrieveButton->setEnabled(true);
+    myDevice->retrievePartBundleButton->setEnabled(true);
 }
 
 /**
@@ -252,7 +329,7 @@ void deviceWidget::loadFirmware()
 {
     myDevice->verticalGroupBox_loaded->setVisible(false);
     myDevice->groupCustom->setVisible(false);
-
+    myDevice->progressBar->setValue(0);
     filename = setOpenFileName();
 
     if (filename.isEmpty()) {
@@ -275,7 +352,6 @@ void deviceWidget::loadFirmware()
         myDevice->lblCRCL->setText(tr("Can't calculate, file too big for device"));
     else
         myDevice->lblCRCL->setText( QString::number(DFUObject::CRCFromQBArray(loadedFW,m_dfu->devices[deviceID].SizeOfCode)));
-    //myDevice->lblFirmwareSizeL->setText(QString("Firmware size: ")+QVariant(loadedFW.length()).toString()+ QString(" bytes"));
     if (populateLoadedStructuredDescription(desc))
     {
         myDevice->youdont->setChecked(true);
@@ -345,8 +421,8 @@ void deviceWidget::uploadFirmware()
         int board = m_dfu->devices[deviceID].ID;
         int firmwareBoard = ((desc.at(12)&0xff)<<8) + (desc.at(13)&0xff);
         if((board == 0x401 && firmwareBoard == 0x402) ||
-           (board == 0x901 && firmwareBoard == 0x902) || // L3GD20 revo supports Revolution firmware
-           (board == 0x902 && firmwareBoard == 0x903))   // RevoMini1 supporetd by RevoMini2 firmware
+                (board == 0x901 && firmwareBoard == 0x902) || // L3GD20 revo supports Revolution firmware
+                (board == 0x902 && firmwareBoard == 0x903))   // RevoMini1 supporetd by RevoMini2 firmware
         {
             // These firmwares are designed to be backwards compatible
         } else if (firmwareBoard != board) {
@@ -380,64 +456,136 @@ void deviceWidget::uploadFirmware()
         emit uploadEnded(false);
         return;
     }
-    OP_DFU::Status ret=m_dfu->StatusRequest();
-    qDebug() << m_dfu->StatusToString(ret);
+    OP_DFU::Status retstatus = m_dfu->StatusRequest();
+    qDebug() << m_dfu->StatusToString(retstatus);
     m_dfu->AbortOperation(); // Necessary, otherwise I get random failures.
 
-    connect(m_dfu, SIGNAL(progressUpdated(int)), this, SLOT(setProgress(int)));
-    connect(m_dfu, SIGNAL(operationProgress(QString)), this, SLOT(dfuStatus(QString)));
-    connect(m_dfu, SIGNAL(uploadFinished(OP_DFU::Status)), this, SLOT(uploadFinished(OP_DFU::Status)));
-    bool retstatus = m_dfu->UploadFirmware(filename,verify, deviceID);
-    if(!retstatus ) {
+    bool ret = m_dfu->UploadPartition(filename, verify, deviceID,OP_DFU::FW, m_dfu->devices[deviceID].SizeOfCode);
+    if(!ret) {
         status("Could not start upload", STATUSICON_FAIL);
         unfreeze();
         emit uploadEnded(false);
         return;
     }
     status("Uploading, please wait...", STATUSICON_RUNNING);
+    QEventLoop m_eventloop;
+    connect(this,SIGNAL(uploadedFinishedCallback()),&m_eventloop,SLOT(quit()));
+    m_eventloop.exec();
+    if(last_upload_status != OP_DFU::Last_operation_Success)
+    {
+        emit uploadEnded(false);
+        unfreeze();
+        return;
+    }
+    if (!descriptionArray.isEmpty()) {
+        // We have a structured array to save
+        status(QString("Updating description"), STATUSICON_RUNNING);
+        repaint(); // Make sure the text above shows right away
+        retstatus = m_dfu->UploadDescription(descriptionArray);
+        if( retstatus != OP_DFU::Last_operation_Success) {
+            status(QString("Upload failed with code: ") + m_dfu->StatusToString(retstatus).toLatin1().data(), STATUSICON_FAIL);
+            emit uploadEnded(false);
+            unfreeze();
+            return; emit uploadEnded(false);
+            unfreeze();
+            return;
+        }
+
+    } else if (!myDevice->description->text().isEmpty()) {
+        // Fallback: we save the description field:
+        status(QString("Updating description"), STATUSICON_RUNNING);
+        repaint(); // Make sure the text above shows right away
+        retstatus = m_dfu->UploadDescription(myDevice->description->text());
+        if( retstatus != OP_DFU::Last_operation_Success) {
+            status(QString("Upload failed with code: ") + m_dfu->StatusToString(retstatus).toLatin1().data(), STATUSICON_FAIL);
+            emit uploadEnded(false);
+            unfreeze();
+            return;
+        }
+    }
+    unfreeze();
+    populate();
+    emit uploadEnded(true);
 }
 
 /**
-  Retrieves the firmware from the device
+  Retrieves a partition bundle from the device
   */
-void deviceWidget::downloadFirmware()
+void deviceWidget::downloadPartitionBundle()
 {
-    if (!m_dfu->devices[deviceID].Readable) {
-        myDevice->statusLabel->setText(QString("Device not readable!"));
+    freeze();
+    QEventLoop loop;
+    QByteArray array;
+    connect(this, SIGNAL(downloadFinishedCallback()), &loop, SLOT(quit()));
+    QString bundleDirName("taulabs_partitions");
+    QDir bundleDir;
+    bundleDir = QDir::temp();
+    if(bundleDir.entryList().contains(bundleDirName))
+    {
+        FileUtils::removeDir(bundleDir.absolutePath() + QDir::separator() + bundleDirName);
+    }
+    if(!bundleDir.mkdir(bundleDirName))
+    {
+        status(tr("Could not create temporary directory"),STATUSICON_FAIL);
+        unfreeze();
         return;
     }
+    QString filename = QFileDialog::getSaveFileName(this,QString(tr("Select file to write the partitions bundle file to")),QDir::homePath(), "Compressed file (*.zip)");
+    if(filename.isEmpty())
+        return;
+    bundleDir.cd(bundleDirName);
+    bool success = false;
+    for(int i = 0;i < myDevice->tablePartitions->rowCount();++i)
+    {
+        int partition = myDevice->tablePartitions->item(i,0)->text().toInt();
+        QString filename = bundleDir.absolutePath()+QDir::separator()+QString::number(partition)+".bin";
+        status(QString("Downloading partition #%0 from device").arg(QString::number(i)), STATUSICON_RUNNING);
+        array.clear(); // Empty the byte array
+        int partition_size = myDevice->tablePartitions->item(i,1)->text().toInt();
 
-    myDevice->retrieveButton->setEnabled(false);
-    filename = setSaveFileName();
-
-    if (filename.isEmpty()) {
-        status("Empty filename", STATUSICON_FAIL);
+        bool ret = m_dfu->DownloadPartition(&array,deviceID,partition,partition_size);
+        if(!ret) {
+            status("Could not start download!", STATUSICON_FAIL);
+            continue;
+        }
+        loop.exec();
+        if(last_download_success)
+        {
+            success = true;
+            status(QString(tr("Partition #%0 successfully downloaded")).arg(i),STATUSICON_OK);
+            m_dfu->SaveByteArrayToFile(filename, array);
+        }
+    }
+    if(!success)
+    {
+        status(tr("All the partitions failed to be downloaded, skipping saving file"),STATUSICON_FAIL);
+        unfreeze();
+        FileUtils::removeDir(bundleDir.absolutePath());
         return;
     }
-
-    status("Downloading firmware from device", STATUSICON_RUNNING);
-    connect(m_dfu, SIGNAL(progressUpdated(int)), this, SLOT(setProgress(int)));
-    connect(m_dfu, SIGNAL(downloadFinished()), this, SLOT(downloadFinished()));
-    downloadedFirmware.clear(); // Empty the byte array
-    bool ret = m_dfu->DownloadFirmware(&downloadedFirmware,deviceID);
-    if(!ret) {
-        status("Could not start download!", STATUSICON_FAIL);
-        return;
-    }
-    status("Download started, please wait", STATUSICON_RUNNING);
+    if(FileUtils::archive(filename,bundleDir,QDateTime::currentDateTime().toString(),tr("TauLabs partitions bundle file")))
+        status(tr("Partition bundle successfully saved"),STATUSICON_OK);
+    else
+        status(tr("Failed to save bundle"),STATUSICON_FAIL);
+    FileUtils::removeDir(bundleDir.absolutePath());
+    unfreeze();
 }
 
 /**
   Callback for the firmware download result
   */
-void deviceWidget::downloadFinished()
+void deviceWidget::downloadFinished(bool result)
 {
-    disconnect(m_dfu, SIGNAL(downloadFinished()), this, SLOT(downloadFinished()));
-    disconnect(m_dfu, SIGNAL(progressUpdated(int)), this, SLOT(setProgress(int)));
-    status("Download successful", STATUSICON_OK);
-    // Now save the result (use the utility function from OP_DFU)
-    m_dfu->SaveByteArrayToFile(filename, downloadedFirmware);
-    myDevice->retrieveButton->setEnabled(true);
+    last_download_success = result;
+    if(result)
+    {
+        status("Download successful", STATUSICON_OK);
+        // Now save the result (use the utility function from OP_DFU)
+    }
+    else
+        status("Download failed", STATUSICON_FAIL);
+    myDevice->retrievePartBundleButton->setEnabled(true);
+    emit downloadFinishedCallback();
 }
 
 /**
@@ -445,39 +593,14 @@ void deviceWidget::downloadFinished()
   */
 void deviceWidget::uploadFinished(OP_DFU::Status retstatus)
 {
-    unfreeze();
-    disconnect(m_dfu, SIGNAL(uploadFinished(OP_DFU::Status)), this, SLOT(uploadFinished(OP_DFU::Status)));
-    disconnect(m_dfu, SIGNAL(progressUpdated(int)), this, SLOT(setProgress(int)));
-    disconnect(m_dfu, SIGNAL(operationProgress(QString)), this, SLOT(dfuStatus(QString)));
+    last_upload_status = retstatus;
+
     if(retstatus != OP_DFU::Last_operation_Success) {
         status(QString("Upload failed with code: ") + m_dfu->StatusToString(retstatus).toLatin1().data(), STATUSICON_FAIL);
-        emit uploadEnded(false);
+        emit uploadedFinishedCallback();
         return;
-    } else
-        if (!descriptionArray.isEmpty()) {
-            // We have a structured array to save
-            status(QString("Updating description"), STATUSICON_RUNNING);
-            repaint(); // Make sure the text above shows right away
-            retstatus = m_dfu->UploadDescription(descriptionArray);
-            if( retstatus != OP_DFU::Last_operation_Success) {
-                status(QString("Upload failed with code: ") + m_dfu->StatusToString(retstatus).toLatin1().data(), STATUSICON_FAIL);
-                emit uploadEnded(false);
-                return;
-            }
-
-        } else if (!myDevice->description->text().isEmpty()) {
-            // Fallback: we save the description field:
-            status(QString("Updating description"), STATUSICON_RUNNING);
-            repaint(); // Make sure the text above shows right away
-            retstatus = m_dfu->UploadDescription(myDevice->description->text());
-            if( retstatus != OP_DFU::Last_operation_Success) {
-                status(QString("Upload failed with code: ") + m_dfu->StatusToString(retstatus).toLatin1().data(), STATUSICON_FAIL);
-                emit uploadEnded(false);
-                return;
-            }
-        }
-    populate();
-    emit uploadEnded(true);
+    }
+    emit uploadedFinishedCallback();
     status("Upload successful", STATUSICON_OK);
 
 }
@@ -502,11 +625,11 @@ QString deviceWidget::setOpenFileName()
 
     //Format filename for file chooser
 #ifdef Q_OS_WIN
-	fwDirectoryStr=QCoreApplication::applicationDirPath();
-	fwDirectory=QDir(fwDirectoryStr);
-	fwDirectory.cdUp();
-	fwDirectory.cd("firmware");
-	fwDirectoryStr=fwDirectory.absolutePath();
+    fwDirectoryStr=QCoreApplication::applicationDirPath();
+    fwDirectory=QDir(fwDirectoryStr);
+    fwDirectory.cdUp();
+    fwDirectory.cd("firmware");
+    fwDirectoryStr=fwDirectory.absolutePath();
 #elif defined Q_OS_LINUX
 	fwDirectoryStr=QCoreApplication::applicationDirPath();
 	fwDirectory=QDir(fwDirectoryStr);
@@ -543,4 +666,228 @@ QString deviceWidget::setSaveFileName()
                                                     &selectedFilter,
                                                     options);
     return fileName;
+}
+
+/**
+ * @brief Iterates trough the selected partitions and reads it to a user selectable file
+ */
+void deviceWidget::readPartitions()
+{
+    freeze();
+    QEventLoop loop;
+    QByteArray array;
+    connect(this, SIGNAL(downloadFinishedCallback()), &loop, SLOT(quit()));
+    foreach(QTableWidgetItem *item,myDevice->tablePartitions->selectedItems())
+    {
+        if(item->column() == 0)
+        {
+            QString filename = QFileDialog::getSaveFileName(this,QString(tr("Select file to write the partition #%0 to")).arg(item->text()));
+            if (!filename.isEmpty()) {
+                status(QString("Downloading partition #%0 from device").arg(item->text()), STATUSICON_RUNNING);
+                array.clear(); // Empty the byte array
+                int partition_number = item->text().toInt();
+                int partition_size = myDevice->tablePartitions->item(item->row(),1)->text().toInt();
+
+                bool ret = m_dfu->DownloadPartition(&array,deviceID,partition_number,partition_size);
+                if(!ret) {
+                    status("Could not start download!", STATUSICON_FAIL);
+                    continue;
+                }
+                status(QString("Partition #%0 download started, please wait").arg(item->text()), STATUSICON_RUNNING);
+                loop.exec();
+                if(last_download_success)
+                    m_dfu->SaveByteArrayToFile(filename, array);
+            }
+        }
+    }
+    unfreeze();
+}
+
+/**
+ * @brief Deletes selected hw partitions
+ */
+void deviceWidget::wipePartitions()
+{
+    freeze();
+    foreach(QTableWidgetItem *item,myDevice->tablePartitions->selectedItems())
+    {
+        if(item->column() == 0)
+            m_dfu->WipePartition(item->text().toInt()); //currently no way to check success
+    }
+    unfreeze();
+}
+
+/**
+ * @brief Writes the contents of a partitions file bundle (zip file) to the correspondent partitions
+ */
+void deviceWidget::writeBundlePartitions()
+{
+    QString success;
+    QString failed;
+    freeze();
+    QEventLoop loop;
+    connect(this, SIGNAL(uploadedFinishedCallback()), &loop, SLOT(quit()));
+    QString bundleDirName("taulabs_partitions");
+    QDir bundleDir;
+    bundleDir = QDir::temp();
+    if(!bundleDir.mkdir(bundleDirName))
+    {
+        status(tr("Could not create temporary directory"),STATUSICON_FAIL);
+        unfreeze();
+        return;
+    }
+    bundleDir.cd(bundleDirName);
+    QString filename = QFileDialog::getOpenFileName(this,QString(tr("Select file to read the partitions bundle file from")),QDir::homePath(), "Compressed file (*.zip)");
+    if(!FileUtils::extractAll(filename,bundleDir.absolutePath()))
+    {
+        status(tr("Could not open compressed file"),STATUSICON_FAIL);
+        unfreeze();
+        FileUtils::removeDir(bundleDir.absolutePath());
+        return;
+    }
+
+    foreach(QString file,bundleDir.entryList()) {
+        m_dfu->AbortOperation();
+        bool ok;
+        int partition = QFileInfo(file).baseName().toInt(&ok);
+        if(!ok)
+        {
+            status(tr("Could not parse filename"),STATUSICON_FAIL);
+            continue;
+        }
+        QString filename = bundleDir.absolutePath()+QDir::separator()+QString::number(partition)+".bin";
+        status(QString("Uploading partition #%0 to device").arg(QString::number(partition)), STATUSICON_RUNNING);
+        if(partition > m_dfu->devices[deviceID].PartitionSizes.size())
+        {
+            if(!failed.isEmpty())
+                failed.append(",");
+            failed.append(QString::number(partition));
+            status(QString(tr("Partition #%0 upload failed")).arg(partition),STATUSICON_FAIL);
+            continue;//this should never hapen
+        }
+        bool ret = m_dfu->UploadPartition(filename, false, deviceID,partition, m_dfu->devices[deviceID].PartitionSizes.at(partition));
+        if(!ret) {
+            status("Could not start upload!", STATUSICON_FAIL);
+            if(!failed.isEmpty())
+                failed.append(",");
+            failed.append(QString::number(partition));
+            status(QString(tr("Partition #%0 upload failed")).arg(partition),STATUSICON_FAIL);
+            continue;
+        }
+        loop.exec();
+        if(last_upload_status == OP_DFU::Last_operation_Success)
+        {
+            if(!success.isEmpty())
+                success.append(",");
+            success.append(QString::number(partition));
+            status(QString(tr("Partition #%0 successfully uploaded")).arg(partition),STATUSICON_OK);
+
+        }
+        else
+        {
+            if(!failed.isEmpty())
+                failed.append(",");
+            failed.append(QString::number(partition));
+            status(QString(tr("Partition #%0 upload failed")).arg(partition),STATUSICON_FAIL);
+        }
+    }
+
+    FileUtils::removeDir(bundleDir.absolutePath());
+    unfreeze();
+    QString result;
+    if(!success.isEmpty())
+        result.append(QString("Partition(s) %0 uploaded successfully").arg(success));
+    if(!failed.isEmpty())
+    {
+        if(success.isEmpty())
+            result.append("Partitions");
+        else
+            result.append(", and partition(s)");
+        result.append(QString(" %0 failed to upload").arg(failed));
+    }
+    status(result, STATUSICON_INFO);
+}
+
+/**
+ * @brief (Un)Hides the partition browser
+ * @param value Qt:Checked to show partition browser
+ */
+void deviceWidget::showHidePartBrowser(int value)
+{
+    if(value == Qt::Checked)
+        myDevice->gbPartitionBrowser->setVisible(true);
+    else
+        myDevice->gbPartitionBrowser->setVisible(false);
+}
+
+/**
+ * @brief Iterates trough the selected partitions and asks the user for a file to write to that partition
+ */
+void deviceWidget::writePartitions()
+{
+    freeze();
+    QEventLoop loop;
+    QByteArray array;
+    QString success;
+    QString failed;
+    connect(this, SIGNAL(uploadedFinishedCallback()), &loop, SLOT(quit()));
+    foreach(QTableWidgetItem *item,myDevice->tablePartitions->selectedItems())
+    {
+        if(item->column() == 0)
+        {
+            QString filename = QFileDialog::getOpenFileName(this,QString(tr("Select file to read the partition #%0 from")).arg(item->text()));
+            if (!filename.isEmpty()) {
+                status(QString("Uploading partition #%0 to device").arg(item->text()), STATUSICON_RUNNING);
+                array.clear(); // Empty the byte array
+                int partition_number = item->text().toInt();
+                if(partition_number > m_dfu->devices[deviceID].PartitionSizes.size())
+                {
+                    if(!failed.isEmpty())
+                        failed.append(",");
+                    failed.append(QString::number(partition_number));
+                    status(QString(tr("Partition #%0 upload failed")).arg(partition_number),STATUSICON_FAIL);
+                    continue;//this should never hapen
+                }
+                bool ret = m_dfu->UploadPartition(filename, false, deviceID, partition_number, m_dfu->devices[deviceID].PartitionSizes.at(partition_number));
+                if(!ret) {
+                    status("Could not start upload!", STATUSICON_FAIL);
+                    if(!failed.isEmpty())
+                        failed.append(",");
+                    failed.append(QString::number(partition_number));
+                    status(QString(tr("Partition #%0 upload failed")).arg(partition_number),STATUSICON_FAIL);
+                    continue;
+                }
+                status(QString(tr("Upload of partition #%0 started, please wait")).arg(partition_number), STATUSICON_RUNNING);
+                loop.exec();
+                if(last_upload_status == OP_DFU::Last_operation_Success)
+                {
+                    if(!success.isEmpty())
+                        success.append(",");
+                    success.append(QString::number(partition_number));
+                    status(QString(tr("Partition #%0 successfully uploaded")).arg(partition_number),STATUSICON_OK);
+                }
+                else
+                {
+                    if(!failed.isEmpty())
+                        failed.append(",");
+                    failed.append(QString::number(partition_number));
+                    status(QString(tr("Partition #%0 upload failed")).arg(partition_number),STATUSICON_FAIL);
+
+                }
+            }
+        }
+    }
+    QString result;
+    if(!success.isEmpty())
+        result.append(QString("Partition(s) %0 uploaded successfully").arg(success));
+    if(!failed.isEmpty())
+    {
+        if(success.isEmpty())
+            result.append("Partitions");
+        else
+            result.append(", and partition(s)");
+        result.append(QString(" %0 failed to upload").arg(failed));
+    }
+    unfreeze();
+    status(result, STATUSICON_INFO);
 }

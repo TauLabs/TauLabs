@@ -1,3 +1,31 @@
+/**
+ ******************************************************************************
+ *
+ * @file       op_dfu.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup Uploader Uploader Plugin
+ * @{
+ * @brief The uploader plugin
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
 #ifndef OP_DFU_H
 #define OP_DFU_H
 
@@ -15,7 +43,6 @@
 #include <QList>
 #include <QVariant>
 #include <iostream>
-#include "delay.h"
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QTime>
@@ -28,7 +55,7 @@
 
 using namespace std;
 #define BUF_LEN 64
-
+#define BL_CAP_EXTENSION_MAGIC 0x3456
 #define MAX_PACKET_DATA_LEN	255
 #define MAX_PACKET_BUF_SIZE	(1+1+MAX_PACKET_DATA_LEN+2)
 
@@ -46,7 +73,6 @@ namespace OP_DFU {
         bytetobytecompare
     };
 
-    Q_ENUMS(Status)
     enum Status
     {
         DFUidle,//0
@@ -93,7 +119,7 @@ namespace OP_DFU {
         Download,//10
         Status_Request,//11
         Status_Rep,//12
-
+        Wipe_Partition//13
     };
 
     enum eBoardType
@@ -115,6 +141,7 @@ namespace OP_DFU {
             quint32 SizeOfCode;
             bool Readable;
             bool Writable;
+            QVector<quint32> PartitionSizes;
     };
 
 
@@ -141,7 +168,7 @@ namespace OP_DFU {
 
         // Upload (send to device) commands
         OP_DFU::Status UploadDescription(QVariant description);
-        bool UploadFirmware(const QString &sfile, const bool &verify,int device);
+        bool UploadPartition(const QString &sfile, const bool &verify, int device, int partition, int size);
 
         // Download (get from device) commands:
         // DownloadDescription is synchronous
@@ -170,11 +197,12 @@ namespace OP_DFU {
         static quint32 CRC32WideFast(quint32 Crc, quint32 Size, quint32 *Buffer);
         OP_DFU::eBoardType GetBoardType(int boardNum);
 
-
+        bool DownloadPartition(QByteArray *firmwareArray, int device, int partition,int size);
+        bool WipePartition(int partition);
 
     signals:
        void progressUpdated(int);
-       void downloadFinished();
+       void downloadFinished(bool);
        void uploadFinished(OP_DFU::Status);
        void operationProgress(QString status);
 
@@ -198,21 +226,22 @@ namespace OP_DFU {
 
         void CopyWords(char * source, char* destination, int count);
         void printProgBar( int const & percent,QString const& label);
-        bool StartUpload(qint32  const &numberOfBytes, TransferTypes const & type,quint32 crc);
+        bool StartUpload(qint32  const &numberOfBytes, const int &type, quint32 crc);
         bool UploadData(qint32 const & numberOfPackets,QByteArray  & data);
 
         // Thread management:
         // Same as startDownload except that we store in an external array:
-        bool StartDownloadT(QByteArray *fw, qint32 const & numberOfBytes, TransferTypes const & type);
-        OP_DFU::Status UploadFirmwareT(const QString &sfile, const bool &verify,int device);
+        bool StartDownloadT(QByteArray *fw, qint32 const & numberOfBytes, const int &type);
+        OP_DFU::Status UploadPartitionT(const QString &sfile, const bool &verify,int device,int partition);
         QMutex mutex;
         OP_DFU::Commands requestedOperation;
         qint32 requestSize;
-        OP_DFU::TransferTypes requestTransferType;
+        int requestTransferType;
         QByteArray *requestStorage;
         QString requestFilename;
         bool requestVerify;
         int requestDevice;
+        quint32 partition_size;
 
     protected:
        void run();// Executes the upload or download operations

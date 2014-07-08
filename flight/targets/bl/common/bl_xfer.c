@@ -345,7 +345,7 @@ bool bl_xfer_send_capabilities_self(void)
 
 #if defined(BL_INCLUDE_CAP_EXTENSIONS)
 	/* Fill in capabilities extensions */
-	msg.v.cap_rep_specific.cap_extension_magic = BL_CAP_EXTENSION_MAGIC,
+	msg.v.cap_rep_specific.cap_extension_magic = BL_CAP_EXTENSION_MAGIC;
 
 	uintptr_t partition_id;
 	uint32_t partition_size;
@@ -354,6 +354,7 @@ bool bl_xfer_send_capabilities_self(void)
 	if (PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_FW, &partition_id) == 0) {
 
 		PIOS_FLASH_get_partition_size(partition_id, &partition_size);
+		partition_size = partition_size - bdinfo->desc_size;
 		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_FW]   = htonl(partition_size);
 		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_DESC] = htonl(bdinfo->desc_size);
 	} else {
