@@ -29,13 +29,13 @@
 #define SVGIMAGEPROVIDER_H_
 
 #include <QObject>
-#include <QtDeclarative/qdeclarativeimageprovider.h>
+#include <QtQuick/qquickimageprovider.h>
 #include <QSvgRenderer>
 #include <QMap>
 
 #include "utils_global.h"
 
-class QTCREATOR_UTILS_EXPORT SvgImageProvider : public QObject, public QDeclarativeImageProvider
+class QTCREATOR_UTILS_EXPORT SvgImageProvider : public QObject, public QQuickImageProvider
 {
     Q_OBJECT
 public:

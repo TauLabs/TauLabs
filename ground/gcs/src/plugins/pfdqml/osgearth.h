@@ -19,14 +19,14 @@
 
 #include <osgViewer/Viewer>
 
-#include <QtDeclarative/QDeclarativeItem>
+#include <QtQuick/QQuickItem>
 #include <osgQt/GraphicsWindowQt>
 
 class QGLFramebufferObject;
 class QGLWidget;
 class OsgEarthItemRenderer;
 
-class OsgEarthItem : public QDeclarativeItem
+class OsgEarthItem : public QQuickItem
 {
     Q_OBJECT
     Q_DISABLE_COPY(OsgEarthItem)
@@ -43,7 +43,7 @@ class OsgEarthItem : public QDeclarativeItem
     Q_PROPERTY(double altitude READ altitude WRITE setAltitude NOTIFY altitudeChanged)
 
 public:
-    OsgEarthItem(QDeclarativeItem *parent = 0);
+    OsgEarthItem(QQuickItem *parent = 0);
     ~OsgEarthItem();
 
     QString sceneFile() const { return m_sceneFile; }

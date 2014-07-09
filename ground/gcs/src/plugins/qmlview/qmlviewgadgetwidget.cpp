@@ -38,11 +38,11 @@
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdir.h>
 
-#include <QtDeclarative/qdeclarativeengine.h>
-#include <QtDeclarative/qdeclarativecontext.h>
+#include <QtQml/qqmlengine.h>
+#include <QtQml/qqmlcontext.h>
 
 QmlViewGadgetWidget::QmlViewGadgetWidget(QWidget *parent) :
-    QDeclarativeView(parent)
+    QQuickView(parent)
 {
     setMinimumSize(64,64);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -89,7 +89,7 @@ void QmlViewGadgetWidget::setQmlFile(QString fn)
     qDebug() << Q_FUNC_INFO << fn;
     setSource(QUrl::fromLocalFile(fn));
 
-    foreach(const QDeclarativeError &error, errors()) {
+    foreach(const QQmlError &error, errors()) {
         qDebug() << error.description();
     }
 }

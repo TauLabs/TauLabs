@@ -18,9 +18,9 @@
 
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qthread.h>
-#include <QtDeclarative/qdeclarative.h>
-#include <QtDeclarative/qdeclarativeview.h>
-#include <QtDeclarative/qdeclarativeengine.h>
+#include <QtQml/qqml.h>
+#include <QtQuick/QQuickView>
+#include <QtQml/qqmlengine.h>
 #include <qpainter.h>
 #include <qvector3d.h>
 #include <QtOpenGL/qglframebufferobject.h>
@@ -41,8 +41,8 @@
 
 #include "utils/pathutils.h"
 
-OsgEarthItem::OsgEarthItem(QDeclarativeItem *parent):
-    QDeclarativeItem(parent),
+OsgEarthItem::OsgEarthItem(QQuickItem *parent):
+    QQuickItem(parent),
     m_renderer(0),
     m_rendererThread(0),
     m_currentSize(640, 480),
@@ -77,7 +77,7 @@ QString OsgEarthItem::resolvedSceneFile() const
 
     //try to resolve the relative scene file name:
     if (!QFileInfo(sceneFile).exists()) {
-        QDeclarativeView *view = qobject_cast<QDeclarativeView*>(scene()->views().first());
+        QQuickView *view = qobject_cast<QtQuick/QQuickView*>(scene()->views().first());
 
         if (view) {
             QUrl baseUrl = view->engine()->baseUrl();
