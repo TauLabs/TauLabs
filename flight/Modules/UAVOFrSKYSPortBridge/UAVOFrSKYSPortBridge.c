@@ -676,9 +676,7 @@ static void frsky_receive_byte(uint8_t b)
 	case FRSKY_STATE_WAIT_TX_DONE:
 		// because RX and TX are connected, we need to ignore bytes
 		// transmited by us
-		if (frsky->ignore_rx_chars)
-			frsky->ignore_rx_chars--;
-		else
+		if (--frsky->ignore_rx_chars == 0)
 			frsky->state = FRSKY_STATE_WAIT_POLL_REQUEST;
 		break;
 
@@ -701,7 +699,7 @@ static void frsky_receive_byte(uint8_t b)
 				if (GPSPositionHandle() != NULL)
 					GPSPositionGet(&frsky->gps_position);
 				// send item previously scheduled
-				if (frsky_send_scheduled_item())
+				if (frsky_send_scheduled_item() && frsky->ignore_rx_chars)
 					frsky->state = FRSKY_STATE_WAIT_TX_DONE;
 				// schedule item for next poll turn
 				frsky_schedule_next_item();
