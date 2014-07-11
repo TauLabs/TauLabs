@@ -434,6 +434,62 @@ struct LibraryFunction PlatformLibrary_system[] =
 
 
 /**
+ * accels.h
+ */
+#include "accels.h"
+
+/* library functions */
+#ifndef NO_FP
+void Accelsx(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AccelsData data;
+	AccelsGet(&data);
+	ReturnValue->Val->FP = (double)data.x;
+}
+
+void Accelsy(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AccelsData data;
+	AccelsGet(&data);
+	ReturnValue->Val->FP = (double)data.y;
+}
+
+void Accelsz(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AccelsData data;
+	AccelsGet(&data);
+	ReturnValue->Val->FP = (double)data.z;
+}
+
+void Accelstemperature(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	AccelsData data;
+	AccelsGet(&data);
+	ReturnValue->Val->FP = (double)data.temperature;
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_accels[] =
+{
+#ifndef NO_FP
+	{ Accelsx,				"float Accelsx();" },
+	{ Accelsy,				"float Accelsy();" },
+	{ Accelsz,				"float Accelsz();" },
+	{ Accelstemperature,	"float Accelstemperature();" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_accels(Picoc *pc)
+{
+	if (AccelsHandle() == NULL)
+		ProgramFailNoParser(pc, "no accels");
+}
+
+
+/**
  * attitudeactual.h
  */
 #include "attitudeactual.h"
@@ -659,6 +715,110 @@ void PlatformLibrarySetup_gpsposition(Picoc *pc)
 
 
 /**
+ * gyros.h
+ */
+#include "gyros.h"
+
+/* library functions */
+#ifndef NO_FP
+void Gyrosx(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	GyrosData data;
+	GyrosGet(&data);
+	ReturnValue->Val->FP = (double)data.x;
+}
+
+void Gyrosy(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	GyrosData data;
+	GyrosGet(&data);
+	ReturnValue->Val->FP = (double)data.y;
+}
+
+void Gyrosz(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	GyrosData data;
+	GyrosGet(&data);
+	ReturnValue->Val->FP = (double)data.z;
+}
+
+void Gyrostemperature(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	GyrosData data;
+	GyrosGet(&data);
+	ReturnValue->Val->FP = (double)data.temperature;
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_gyros[] =
+{
+#ifndef NO_FP
+	{ Gyrosx,			"float Gyrosx();" },
+	{ Gyrosy,			"float Gyrosy();" },
+	{ Gyrosz,			"float Gyrosz();" },
+	{ Gyrostemperature,	"float Gyrostemperature();" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_gyros(Picoc *pc)
+{
+	if (GyrosHandle() == NULL)
+		ProgramFailNoParser(pc, "no gyros");
+}
+
+
+/**
+ * magnetometer.h
+ */
+#include "magnetometer.h"
+
+/* library functions */
+#ifndef NO_FP
+void Magnetometerx(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	MagnetometerData data;
+	MagnetometerGet(&data);
+	ReturnValue->Val->FP = (double)data.x;
+}
+
+void Magnetometery(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	MagnetometerData data;
+	MagnetometerGet(&data);
+	ReturnValue->Val->FP = (double)data.y;
+}
+
+void Magnetometerz(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	MagnetometerData data;
+	MagnetometerGet(&data);
+	ReturnValue->Val->FP = (double)data.z;
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_magnetometer[] =
+{
+#ifndef NO_FP
+	{ Magnetometerx,	"float Magnetometerx();" },
+	{ Magnetometery,	"float Magnetometery();" },
+	{ Magnetometerz,	"float Magnetometerz();" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_magnetometer(Picoc *pc)
+{
+	if (MagnetometerHandle() == NULL)
+		ProgramFailNoParser(pc, "no magnetometer");
+}
+
+
+/**
  * manualcontrol.h
  */
 #include "manualcontrolsettings.h"
@@ -721,6 +881,54 @@ struct LibraryFunction PlatformLibrary_manualcontrol[] =
 	{ Stabilization3SettingsSet,	"void Stabilized3Set(int,int,int);" },
 	{ NULL, NULL }
 };
+
+
+/**
+ * positionactual.h
+ */
+#include "positionactual.h"
+
+/* library functions */
+#ifndef NO_FP
+void PositionActualNorth(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	PositionActualData data;
+	PositionActualGet(&data);
+	ReturnValue->Val->FP = (double)data.North;
+}
+
+void PositionActualEast(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	PositionActualData data;
+	PositionActualGet(&data);
+	ReturnValue->Val->FP = (double)data.East;
+}
+
+void PositionActualDown(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	PositionActualData data;
+	PositionActualGet(&data);
+	ReturnValue->Val->FP = (double)data.Down;
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_positionactual[] =
+{
+#ifndef NO_FP
+	{ PositionActualNorth,	"float PositionActualNorth();" },
+	{ PositionActualEast,	"float PositionActualEast();" },
+	{ PositionActualDown,	"float PositionActualDown();" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_positionactual(Picoc *pc)
+{
+	if (PositionActualHandle() == NULL)
+		ProgramFailNoParser(pc, "no positionactual");
+}
 
 
 /**
@@ -844,12 +1052,16 @@ void PlatformLibraryInit(Picoc *pc)
 	IncludeRegister(pc, "math.h", &PlatformLibrarySetup_math, &PlatformLibrary_math[0], NULL);
 #endif
 	IncludeRegister(pc, "system.h", NULL, &PlatformLibrary_system[0], NULL);
+	IncludeRegister(pc, "accels.h", &PlatformLibrarySetup_accels, &PlatformLibrary_accels[0], NULL);
 	IncludeRegister(pc, "attitudeactual.h", &PlatformLibrarySetup_attitudeactual, &PlatformLibrary_attitudeactual[0], NULL);
 	IncludeRegister(pc, "baroaltitude.h", &PlatformLibrarySetup_baroaltitude, &PlatformLibrary_baroaltitude[0], NULL);
 	IncludeRegister(pc, "flightbatterystate.h", &PlatformLibrarySetup_flightbatterystate, &PlatformLibrary_flightbatterystate[0], NULL);
 	IncludeRegister(pc, "flightstatus.h", NULL, &PlatformLibrary_flightstatus[0], NULL);
 	IncludeRegister(pc, "gpsposition.h", &PlatformLibrarySetup_gpsposition, &PlatformLibrary_gpsposition[0], NULL);
+	IncludeRegister(pc, "gyros.h", &PlatformLibrarySetup_gyros, &PlatformLibrary_gyros[0], NULL);
+	IncludeRegister(pc, "magnetometer.h", &PlatformLibrarySetup_magnetometer, &PlatformLibrary_magnetometer[0], NULL);
 	IncludeRegister(pc, "manualcontrol.h", NULL, &PlatformLibrary_manualcontrol[0], NULL);
+	IncludeRegister(pc, "positionactual.h", &PlatformLibrarySetup_positionactual, &PlatformLibrary_positionactual[0], NULL);
 	IncludeRegister(pc, "pwm.h", NULL, &PlatformLibrary_pwm[0], NULL);
 }
 
