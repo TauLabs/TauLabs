@@ -41,17 +41,17 @@
 static int accesslevel;
 
 /* check access level */
-bool security(int needlevel)
+bool security(int neededlevel)
 {
 
-	if (needlevel < accesslevel)
+	if (accesslevel < neededlevel)
 		// access level is insufficient 
 		return false;
 
 	FlightStatusData data;
 	FlightStatusArmedGet(&data.Armed);
 
-	// in level 1 flightstatus has to be disarmed
+	// in level 1 flightstatus has also to be disarmed
 	if ((accesslevel <= 1) && (data.Armed != FLIGHTSTATUS_ARMED_DISARMED))
 		return false;
 
@@ -727,6 +727,7 @@ struct LibraryFunction PlatformLibrary_manualcontrol[] =
  * pwm.h
  */
 #include "actuatorsettings.h"
+#include "mixersettings.h"
 #include "manualcontrolsettings.h"
 #include "pios_rcvr.h"
 
@@ -769,12 +770,43 @@ void PWMMaxSet(struct ParseState *Parser, struct Value *ReturnValue, struct Valu
 
 void PWMValSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_CHANNELNEUTRAL_NUMELEM)) {
-		ActuatorSettingsData data;
-		ActuatorSettingsChannelNeutralGet(data.ChannelNeutral);
-		data.ChannelNeutral[Param[0]->Val->Integer] = Param[1]->Val->Integer;
-		ActuatorSettingsChannelNeutralSet(data.ChannelNeutral);
-	}
+	int16_t channel = Param[0]->Val->Integer;
+	int16_t value = Param[1]->Val->Integer;
+
+	// check channel range
+	if ((channel < 0) || (channel >= ACTUATORSETTINGS_CHANNELNEUTRAL_NUMELEM))
+		return;
+
+	// check mixer settings
+	MixerSettingsData mixerSettings;
+	MixerSettingsGet(&mixerSettings);
+
+	// this structure is equivalent to the UAVObjects for one mixer.
+	typedef struct {
+		uint8_t type;
+		int8_t matrix[5];
+	} __attribute__((packed)) Mixer_t;
+
+	// base pointer to mixer vectors and types
+	Mixer_t * mixers = (Mixer_t *)&mixerSettings.Mixer1Type;
+
+	// the mixer has to be disabled for this channel.
+	if (mixers[channel].type != MIXERSETTINGS_MIXER1TYPE_DISABLED)
+		return;
+
+	// check actuator settings
+	ActuatorSettingsData actuatorSettings;
+	ActuatorSettingsGet(&actuatorSettings);
+
+	// the channel type has to be a PWM output.
+	if (actuatorSettings.ChannelType[channel] != ACTUATORSETTINGS_CHANNELTYPE_PWM)
+		return;
+
+	actuatorSettings.ChannelMin[channel] = value;
+	actuatorSettings.ChannelMax[channel] = value;
+	actuatorSettings.ChannelNeutral[channel] = value;
+
+	ActuatorSettingsSet(&actuatorSettings);
 }
 
 #ifdef PIOS_INCLUDE_PWM
