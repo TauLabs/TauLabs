@@ -325,6 +325,9 @@ void PlatformLibrarySetup_math(Picoc *pc)
 #include "flightstatus.h"
 #include "accessorydesired.h"
 #include "manualcontrolsettings.h"
+#include "actuatorsettings.h"
+#include "mixersettings.h"
+#include "pios_rcvr.h"
 
 /* void delay(int): sleep for given ms-value */
 void SystemDelay(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
@@ -403,7 +406,71 @@ void SystemAccessoryValSet(struct ParseState *Parser, struct Value *ReturnValue,
 }
 #endif
 
-/* TxChannelValGet(int): get a tx value of the selected channel*/
+/* PWMFreqSet(int,uint): set output update speed */
+void SystemPWMFreqSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (!security(1))
+		return;
+	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_CHANNELUPDATEFREQ_NUMELEM)) {
+		ActuatorSettingsData data;
+		ActuatorSettingsChannelUpdateFreqGet(data.ChannelUpdateFreq);
+		data.ChannelUpdateFreq[Param[0]->Val->Integer] = Param[1]->Val->UnsignedInteger;
+		ActuatorSettingsChannelUpdateFreqSet(data.ChannelUpdateFreq);
+	}
+}
+
+/* PWMOutSet(int,int): set output pulse width of an unused output channel */
+void SystemPWMOutSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	int16_t channel = Param[0]->Val->Integer;
+	int16_t value = Param[1]->Val->Integer;
+
+	// check channel range
+	if ((channel < 0) || (channel >= ACTUATORSETTINGS_CHANNELNEUTRAL_NUMELEM))
+		return;
+
+	// check mixer settings
+	MixerSettingsData mixerSettings;
+	MixerSettingsGet(&mixerSettings);
+
+	// this structure is equivalent to the UAVObjects for one mixer.
+	typedef struct {
+		uint8_t type;
+		int8_t matrix[5];
+	} __attribute__((packed)) Mixer_t;
+
+	// base pointer to mixer vectors and types
+	Mixer_t * mixers = (Mixer_t *)&mixerSettings.Mixer1Type;
+
+	// the mixer has to be disabled for this channel.
+	if (mixers[channel].type != MIXERSETTINGS_MIXER1TYPE_DISABLED)
+		return;
+
+	// check actuator settings
+	ActuatorSettingsData actuatorSettings;
+	ActuatorSettingsGet(&actuatorSettings);
+
+	// the channel type has to be a PWM output.
+	if (actuatorSettings.ChannelType[channel] != ACTUATORSETTINGS_CHANNELTYPE_PWM)
+		return;
+
+	actuatorSettings.ChannelMin[channel] = value;
+	actuatorSettings.ChannelMax[channel] = value;
+	actuatorSettings.ChannelNeutral[channel] = value;
+
+	ActuatorSettingsSet(&actuatorSettings);
+}
+
+/* SystemPWMInGet(int): get the measured pulse width value of a PWM input */
+#ifdef PIOS_INCLUDE_PWM
+void SystemPWMInGet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	extern uintptr_t pios_rcvr_group_map[];
+	ReturnValue->Val->Integer = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM], Param[0]->Val->Integer);
+}
+#endif
+
+/* TxChannelValGet(int): get a tx value of the selected channel */
 void SystemTxChannelValGet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
 	extern uintptr_t pios_rcvr_group_map[];
@@ -427,6 +494,11 @@ struct LibraryFunction PlatformLibrary_system[] =
 #ifndef NO_FP
 	{ SystemAccessoryValGet,"float AccessoryValGet(int);" },
 	{ SystemAccessoryValSet,"void AccessoryValSet(int,float);" },
+#endif
+	{ SystemPWMFreqSet,		"void PWMFreqSet(int,unsigned int);" },
+	{ SystemPWMOutSet,		"void PWMOutSet(int,int);" },
+#ifdef PIOS_INCLUDE_PWM
+	{ SystemPWMInGet,		"int PWMInGet(int);" },
 #endif
 	{ SystemTxChannelValGet,"int TxChannelValGet(int);" },
 	{ NULL, NULL }
@@ -939,114 +1011,6 @@ void PlatformLibrarySetup_positionactual(Picoc *pc)
 }
 
 
-/**
- * pwm.h
- */
-#include "actuatorsettings.h"
-#include "mixersettings.h"
-#include "manualcontrolsettings.h"
-#include "pios_rcvr.h"
-
-/* library functions */
-void PWMFreqSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	if (!security(1))
-		return;
-	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_CHANNELUPDATEFREQ_NUMELEM)) {
-		ActuatorSettingsData data;
-		ActuatorSettingsChannelUpdateFreqGet(data.ChannelUpdateFreq);
-		data.ChannelUpdateFreq[Param[0]->Val->Integer] = Param[1]->Val->UnsignedInteger;
-		ActuatorSettingsChannelUpdateFreqSet(data.ChannelUpdateFreq);
-	}
-}
-
-void PWMMinSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	if (!security(1))
-		return;
-	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_CHANNELMIN_NUMELEM)) {
-		ActuatorSettingsData data;
-		ActuatorSettingsChannelMinGet(data.ChannelMin);
-		data.ChannelMin[Param[0]->Val->Integer] = Param[1]->Val->Integer;
-		ActuatorSettingsChannelMinSet(data.ChannelMin);
-	}
-}
-
-void PWMMaxSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	if (!security(1))
-		return;
-	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_CHANNELMAX_NUMELEM)) {
-		ActuatorSettingsData data;
-		ActuatorSettingsChannelMaxGet(data.ChannelMax);
-		data.ChannelMax[Param[0]->Val->Integer] = Param[1]->Val->Integer;
-		ActuatorSettingsChannelMaxSet(data.ChannelMax);
-	}
-}
-
-void PWMValSet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	int16_t channel = Param[0]->Val->Integer;
-	int16_t value = Param[1]->Val->Integer;
-
-	// check channel range
-	if ((channel < 0) || (channel >= ACTUATORSETTINGS_CHANNELNEUTRAL_NUMELEM))
-		return;
-
-	// check mixer settings
-	MixerSettingsData mixerSettings;
-	MixerSettingsGet(&mixerSettings);
-
-	// this structure is equivalent to the UAVObjects for one mixer.
-	typedef struct {
-		uint8_t type;
-		int8_t matrix[5];
-	} __attribute__((packed)) Mixer_t;
-
-	// base pointer to mixer vectors and types
-	Mixer_t * mixers = (Mixer_t *)&mixerSettings.Mixer1Type;
-
-	// the mixer has to be disabled for this channel.
-	if (mixers[channel].type != MIXERSETTINGS_MIXER1TYPE_DISABLED)
-		return;
-
-	// check actuator settings
-	ActuatorSettingsData actuatorSettings;
-	ActuatorSettingsGet(&actuatorSettings);
-
-	// the channel type has to be a PWM output.
-	if (actuatorSettings.ChannelType[channel] != ACTUATORSETTINGS_CHANNELTYPE_PWM)
-		return;
-
-	actuatorSettings.ChannelMin[channel] = value;
-	actuatorSettings.ChannelMax[channel] = value;
-	actuatorSettings.ChannelNeutral[channel] = value;
-
-	ActuatorSettingsSet(&actuatorSettings);
-}
-
-#ifdef PIOS_INCLUDE_PWM
-void PWMValGet(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	extern uintptr_t pios_rcvr_group_map[];
-	ReturnValue->Val->Integer = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM], Param[0]->Val->Integer);
-}
-#endif
-
-/* list of all library functions and their prototypes */
-struct LibraryFunction PlatformLibrary_pwm[] =
-{
-	{ PWMFreqSet,		"void PWMFreqSet(int,unsigned int);" },
-	{ PWMMinSet,		"void PWMMinSet(int,int);" },
-	{ PWMMaxSet,		"void PWMMaxSet(int,int);" },
-	{ PWMValSet,		"void PWMValSet(int,int);" },
-#ifdef PIOS_INCLUDE_PWM
-	{ PWMValGet,		"int PWMValGet(int);" },
-#endif
-	{ NULL, NULL }
-};
-
-
 /* list all includes */
 void PlatformLibraryInit(Picoc *pc)
 {
@@ -1070,7 +1034,6 @@ void PlatformLibraryInit(Picoc *pc)
 	IncludeRegister(pc, "magnetometer.h", &PlatformLibrarySetup_magnetometer, &PlatformLibrary_magnetometer[0], NULL);
 	IncludeRegister(pc, "manualcontrol.h", NULL, &PlatformLibrary_manualcontrol[0], NULL);
 	IncludeRegister(pc, "positionactual.h", &PlatformLibrarySetup_positionactual, &PlatformLibrary_positionactual[0], NULL);
-	IncludeRegister(pc, "pwm.h", NULL, &PlatformLibrary_pwm[0], NULL);
 }
 
 #endif /* PIOS_INCLUDE_PICOC */
