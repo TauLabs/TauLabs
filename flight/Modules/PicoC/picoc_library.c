@@ -440,32 +440,21 @@ struct LibraryFunction PlatformLibrary_system[] =
 
 /* library functions */
 #ifndef NO_FP
-void Accelsx(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+void Accels_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	AccelsData data;
-	AccelsGet(&data);
-	ReturnValue->Val->FP = (double)data.x;
-}
+	if (Param[0]->Val->Pointer == NULL)
+		return;
 
-void Accelsy(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
 	AccelsData data;
 	AccelsGet(&data);
-	ReturnValue->Val->FP = (double)data.y;
-}
 
-void Accelsz(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	AccelsData data;
-	AccelsGet(&data);
-	ReturnValue->Val->FP = (double)data.z;
-}
-
-void Accelstemperature(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	AccelsData data;
-	AccelsGet(&data);
-	ReturnValue->Val->FP = (double)data.temperature;
+	// use the same struct like picoc. see below
+	struct mystruct {double x; double y; double z; double temperature;} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->x = data.x;
+	pdata->y = data.y;
+	pdata->z = data.z;
+	pdata->temperature = data.temperature;
 }
 #endif
 
@@ -473,10 +462,7 @@ void Accelstemperature(struct ParseState *Parser, struct Value *ReturnValue, str
 struct LibraryFunction PlatformLibrary_accels[] =
 {
 #ifndef NO_FP
-	{ Accelsx,				"float Accelsx();" },
-	{ Accelsy,				"float Accelsy();" },
-	{ Accelsz,				"float Accelsz();" },
-	{ Accelstemperature,	"float Accelstemperature();" },
+	{ Accels_Get,	"void AccelsGet(AccelsData *);" },
 #endif
 	{ NULL, NULL }
 };
@@ -484,6 +470,11 @@ struct LibraryFunction PlatformLibrary_accels[] =
 /* this is called when the header file is included */
 void PlatformLibrarySetup_accels(Picoc *pc)
 {
+#ifndef NO_FP
+	const char *definition = "typedef struct {float x; float y; float z; float temperature;} AccelsData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+#endif
+
 	if (AccelsHandle() == NULL)
 		ProgramFailNoParser(pc, "no accels");
 }
@@ -496,25 +487,20 @@ void PlatformLibrarySetup_accels(Picoc *pc)
 
 /* library functions */
 #ifndef NO_FP
-void AttitudeActualRoll(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+void AttitudeActual_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	AttitudeActualData data;
-	AttitudeActualGet(&data);
-	ReturnValue->Val->FP = (double)data.Roll;
-}
+	if (Param[0]->Val->Pointer == NULL)
+		return;
 
-void AttitudeActualPitch(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
 	AttitudeActualData data;
 	AttitudeActualGet(&data);
-	ReturnValue->Val->FP = (double)data.Pitch;
-}
 
-void AttitudeActualYaw(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	AttitudeActualData data;
-	AttitudeActualGet(&data);
-	ReturnValue->Val->FP = (double)data.Yaw;
+	// use the same struct like picoc. see below
+	struct mystruct {double Roll; double Pitch; double Yaw;} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->Roll = data.Roll;
+	pdata->Pitch = data.Pitch;
+	pdata->Yaw = data.Yaw;
 }
 #endif
 
@@ -522,9 +508,7 @@ void AttitudeActualYaw(struct ParseState *Parser, struct Value *ReturnValue, str
 struct LibraryFunction PlatformLibrary_attitudeactual[] =
 {
 #ifndef NO_FP
-	{ AttitudeActualRoll,	"float AttitudeActualRoll();" },
-	{ AttitudeActualPitch,	"float AttitudeActualPitch();" },
-	{ AttitudeActualYaw,	"float AttitudeActualYaw();" },
+	{ AttitudeActual_Get,	"void AttitudeActualGet(AttitudeActualData *);" },
 #endif
 	{ NULL, NULL }
 };
@@ -532,6 +516,11 @@ struct LibraryFunction PlatformLibrary_attitudeactual[] =
 /* this is called when the header file is included */
 void PlatformLibrarySetup_attitudeactual(Picoc *pc)
 {
+#ifndef NO_FP
+	const char *definition = "typedef struct {float Roll; float Pitch; float Yaw;} AttitudeActualData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+#endif
+
 	if (AttitudeActualHandle() == NULL)
 		ProgramFailNoParser(pc, "no attitudeactual");
 }
@@ -544,25 +533,20 @@ void PlatformLibrarySetup_attitudeactual(Picoc *pc)
 
 /* library functions */
 #ifndef NO_FP
-void BaroAltitudeAltitude(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+void BaroAltitude_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	BaroAltitudeData data;
-	BaroAltitudeGet(&data);
-	ReturnValue->Val->FP = (double)data.Altitude;
-}
+	if (Param[0]->Val->Pointer == NULL)
+		return;
 
-void BaroAltitudeTemperature(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
 	BaroAltitudeData data;
 	BaroAltitudeGet(&data);
-	ReturnValue->Val->FP = (double)data.Temperature;
-}
 
-void BaroAltitudePressure(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	BaroAltitudeData data;
-	BaroAltitudeGet(&data);
-	ReturnValue->Val->FP = (double)data.Pressure;
+	// use the same struct like picoc. see below
+	struct mystruct {double Altitude; double Temperature; double Pressure;} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->Altitude = data.Altitude;
+	pdata->Temperature = data.Temperature;
+	pdata->Pressure = data.Pressure;
 }
 #endif
 
@@ -570,9 +554,7 @@ void BaroAltitudePressure(struct ParseState *Parser, struct Value *ReturnValue, 
 struct LibraryFunction PlatformLibrary_baroaltitude[] =
 {
 #ifndef NO_FP
-	{ BaroAltitudeAltitude,		"float BaroAltitudeAltitude();" },
-	{ BaroAltitudeTemperature,	"float BaroAltitudeTemperature();" },
-	{ BaroAltitudePressure,		"float BaroAltitudePressure();" },
+	{ BaroAltitude_Get,	"void BaroAltitudeGet(BaroAltitudeData *);" },
 #endif
 	{ NULL, NULL }
 };
@@ -580,6 +562,11 @@ struct LibraryFunction PlatformLibrary_baroaltitude[] =
 /* this is called when the header file is included */
 void PlatformLibrarySetup_baroaltitude(Picoc *pc)
 {
+#ifndef NO_FP
+	const char *definition = "typedef struct {float Altitude; float Temperature; float Pressure;} BaroAltitudeData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+#endif
+
 	if (BaroAltitudeHandle() == NULL)
 		ProgramFailNoParser(pc, "no baroaltitude");
 }
@@ -592,32 +579,32 @@ void PlatformLibrarySetup_baroaltitude(Picoc *pc)
 
 /* library functions */
 #ifndef NO_FP
-void FlightBatteryStateVoltage(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+void FlightBatteryState_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	FlightBatteryStateData data;
-	FlightBatteryStateGet(&data);
-	ReturnValue->Val->FP = (double)data.Voltage;
-}
+	if (Param[0]->Val->Pointer == NULL)
+		return;
 
-void FlightBatteryStateCurrent(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
 	FlightBatteryStateData data;
 	FlightBatteryStateGet(&data);
-	ReturnValue->Val->FP = (double)data.Current;
-}
 
-void FlightBatteryStateConsumedEnergy(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	FlightBatteryStateData data;
-	FlightBatteryStateGet(&data);
-	ReturnValue->Val->FP = (double)data.ConsumedEnergy;
-}
-
-void FlightBatteryStateEstimatedFlightTime(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	FlightBatteryStateData data;
-	FlightBatteryStateGet(&data);
-	ReturnValue->Val->FP = (double)data.EstimatedFlightTime;
+	// use the same struct like picoc. see below
+	struct mystruct {
+		double Voltage;
+		double Current;
+		double BoardSupplyVoltage;
+		double PeakCurrent;
+		double AvgCurrent;
+		double ConsumedEnergy;
+		double EstimatedFlightTime;
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->Voltage = data.Voltage;
+	pdata->Current = data.Current;
+	pdata->BoardSupplyVoltage = data.BoardSupplyVoltage;
+	pdata->PeakCurrent = data.PeakCurrent;
+	pdata->AvgCurrent = data.AvgCurrent;
+	pdata->ConsumedEnergy = data.ConsumedEnergy;
+	pdata->EstimatedFlightTime = data.EstimatedFlightTime;
 }
 #endif
 
@@ -625,10 +612,7 @@ void FlightBatteryStateEstimatedFlightTime(struct ParseState *Parser, struct Val
 struct LibraryFunction PlatformLibrary_flightbatterystate[] =
 {
 #ifndef NO_FP
-	{ FlightBatteryStateVoltage,				"float FlightBatteryStateVoltage();" },
-	{ FlightBatteryStateCurrent,				"float FlightBatteryStateCurrent();" },
-	{ FlightBatteryStateConsumedEnergy,			"float FlightBatteryStateConsumedEnergy();" },
-	{ FlightBatteryStateEstimatedFlightTime,	"float FlightBatteryStateEstimatedFlightTime();" },
+	{ FlightBatteryState_Get,	"void FlightBatteryStateGet(FlightBatteryStateData *);" },
 #endif
 	{ NULL, NULL }
 };
@@ -636,6 +620,12 @@ struct LibraryFunction PlatformLibrary_flightbatterystate[] =
 /* this is called when the header file is included */
 void PlatformLibrarySetup_flightbatterystate(Picoc *pc)
 {
+#ifndef NO_FP
+	const char *definition = "typedef struct {float Voltage; float Current; float BoardSupplyVoltage;"
+		"float PeakCurrent; float AvgCurrent; float ConsumedEnergy; float EstimatedFlightTime;} FlightBatteryStateData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+#endif
+
 	if (FlightBatteryStateHandle() == NULL)
 		ProgramFailNoParser(pc, "no flightbatterystate");
 }
@@ -647,36 +637,35 @@ void PlatformLibrarySetup_flightbatterystate(Picoc *pc)
 #include "flightstatus.h"
 
 /* library functions */
-void FlightStatusArmed(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+void FlightStatus_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	FlightStatusData data;
-	FlightStatusGet(&data);
-	ReturnValue->Val->Integer = data.Armed;
-}
+	if (Param[0]->Val->Pointer == NULL)
+		return;
 
-void FlightStatusFlightMode(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
 	FlightStatusData data;
 	FlightStatusGet(&data);
-	ReturnValue->Val->Integer = data.FlightMode;
-}
 
-void FlightStatusControlSource(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	FlightStatusData data;
-	FlightStatusGet(&data);
-	ReturnValue->Val->Integer = data.ControlSource;
+	// use the same struct like picoc. see below
+	struct mystruct {unsigned char Armed; unsigned char FlightMode; unsigned char ControlSource;} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->Armed = data.Armed;
+	pdata->FlightMode = data.FlightMode;
+	pdata->ControlSource = data.ControlSource;
 }
 
 /* list of all library functions and their prototypes */
 struct LibraryFunction PlatformLibrary_flightstatus[] =
 {
-	{ FlightStatusArmed,			"int FlightStatusArmed();" },
-	{ FlightStatusFlightMode,		"int FlightStatusFlightMode();" },
-	{ FlightStatusControlSource,	"int FlightStatusControlSource();" },
+	{ FlightStatus_Get,	"void FlightStatusGet(FlightBatteryStateData *);" },
 	{ NULL, NULL }
 };
 
+/* this is called when the header file is included */
+void PlatformLibrarySetup_flightstatus(Picoc *pc)
+{
+	const char *definition = "typedef struct {unsigned char Armed; unsigned char FlightMode; unsigned char ControlSource;} FlightStatusData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+}
 
 /**
  * gpsposition.h
@@ -684,31 +673,69 @@ struct LibraryFunction PlatformLibrary_flightstatus[] =
 #include "gpsposition.h"
 
 /* library functions */
-void GPSPositionLatitude(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+void GPSPosition_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	GPSPositionData data;
-	GPSPositionGet(&data);
-	ReturnValue->Val->LongInteger = data.Latitude;
-}
+	if (Param[0]->Val->Pointer == NULL)
+	return;
 
-void GPSPositionLongitude(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
 	GPSPositionData data;
 	GPSPositionGet(&data);
-	ReturnValue->Val->LongInteger = data.Longitude;
+
+	// use the same struct like picoc. see below
+#ifndef NO_FP
+	struct mystruct {
+		long Latitude;
+		long Longitude;
+		double Altitude;
+		double GeoidSeparation;
+		double Heading;
+		double Groundspeed;
+		double PDOP;
+		double HDOP;
+		double VDOP;
+		unsigned char Status;
+		char Satellites;
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->Latitude = data.Latitude;
+	pdata->Longitude = data.Longitude;
+	pdata->Altitude = data.Altitude;
+	pdata->GeoidSeparation = data.GeoidSeparation;
+	pdata->Heading = data.Heading;
+	pdata->Groundspeed = data.Groundspeed;
+	pdata->PDOP = data.PDOP;
+	pdata->HDOP = data.HDOP;
+	pdata->VDOP = data.VDOP;
+	pdata->Status = data.Status;
+	pdata->Satellites = data.Satellites;
+#else
+	struct mystruct {long Latitude; long Longitude; unsigned char Status; char Satellites;} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->Latitude = data.Latitude;
+	pdata->Longitude = data.Longitude;
+	pdata->Status = data.Status;
+	pdata->Satellites = data.Satellites;
+#endif
 }
 
 /* list of all library functions and their prototypes */
 struct LibraryFunction PlatformLibrary_gpsposition[] =
 {
-	{ GPSPositionLatitude,		"long GPSPositionLatitude();" },
-	{ GPSPositionLongitude,		"long GPSPositionLongitude();" },
+	{ GPSPosition_Get,	"void GPSPositionGet(GPSPositionData *);" },
 	{ NULL, NULL }
 };
 
 /* this is called when the header file is included */
 void PlatformLibrarySetup_gpsposition(Picoc *pc)
 {
+#ifndef NO_FP
+	const char *definition = "typedef struct {long Latitude; long Longitude; float Altitude; float GeoidSeparation; float Heading;"
+		"float GroundSpeed; float PDOP; float HDOP; float VDOP; unsigned char Status; char Satellites;} GPSPositionData;";
+#else
+	const char *definition = "typedef struct {long Latitude; long Longitude; unsigned char Status; char Satellites;} GPSPositionData;";
+#endif
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
 	if (GPSPositionHandle() == NULL)
 		ProgramFailNoParser(pc, "no gpsposition");
 }
@@ -721,32 +748,21 @@ void PlatformLibrarySetup_gpsposition(Picoc *pc)
 
 /* library functions */
 #ifndef NO_FP
-void Gyrosx(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+void Gyros_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	GyrosData data;
-	GyrosGet(&data);
-	ReturnValue->Val->FP = (double)data.x;
-}
+	if (Param[0]->Val->Pointer == NULL)
+	return;
 
-void Gyrosy(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
 	GyrosData data;
 	GyrosGet(&data);
-	ReturnValue->Val->FP = (double)data.y;
-}
 
-void Gyrosz(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	GyrosData data;
-	GyrosGet(&data);
-	ReturnValue->Val->FP = (double)data.z;
-}
-
-void Gyrostemperature(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	GyrosData data;
-	GyrosGet(&data);
-	ReturnValue->Val->FP = (double)data.temperature;
+	// use the same struct like picoc. see below
+	struct mystruct {double x; double y; double z; double temperature;} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->x = data.x;
+	pdata->y = data.y;
+	pdata->z = data.z;
+	pdata->temperature = data.temperature;
 }
 #endif
 
@@ -754,10 +770,7 @@ void Gyrostemperature(struct ParseState *Parser, struct Value *ReturnValue, stru
 struct LibraryFunction PlatformLibrary_gyros[] =
 {
 #ifndef NO_FP
-	{ Gyrosx,			"float Gyrosx();" },
-	{ Gyrosy,			"float Gyrosy();" },
-	{ Gyrosz,			"float Gyrosz();" },
-	{ Gyrostemperature,	"float Gyrostemperature();" },
+	{ Gyros_Get,	"void GyrosGet(GyrosData *);" },
 #endif
 	{ NULL, NULL }
 };
@@ -765,6 +778,9 @@ struct LibraryFunction PlatformLibrary_gyros[] =
 /* this is called when the header file is included */
 void PlatformLibrarySetup_gyros(Picoc *pc)
 {
+	const char *definition = "typedef struct {float x; float y; float z; float temperature;} GyrosData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
 	if (GyrosHandle() == NULL)
 		ProgramFailNoParser(pc, "no gyros");
 }
@@ -777,25 +793,20 @@ void PlatformLibrarySetup_gyros(Picoc *pc)
 
 /* library functions */
 #ifndef NO_FP
-void Magnetometerx(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+void Magnetometer_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	MagnetometerData data;
-	MagnetometerGet(&data);
-	ReturnValue->Val->FP = (double)data.x;
-}
+	if (Param[0]->Val->Pointer == NULL)
+		return;
 
-void Magnetometery(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
 	MagnetometerData data;
 	MagnetometerGet(&data);
-	ReturnValue->Val->FP = (double)data.y;
-}
 
-void Magnetometerz(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	MagnetometerData data;
-	MagnetometerGet(&data);
-	ReturnValue->Val->FP = (double)data.z;
+	// use the same struct like picoc. see below
+	struct mystruct {double x; double y; double z;} *rdata;
+	rdata = Param[0]->Val->Pointer;
+	rdata->x = data.x;
+	rdata->y = data.y;
+	rdata->z = data.z;
 }
 #endif
 
@@ -803,9 +814,7 @@ void Magnetometerz(struct ParseState *Parser, struct Value *ReturnValue, struct 
 struct LibraryFunction PlatformLibrary_magnetometer[] =
 {
 #ifndef NO_FP
-	{ Magnetometerx,	"float Magnetometerx();" },
-	{ Magnetometery,	"float Magnetometery();" },
-	{ Magnetometerz,	"float Magnetometerz();" },
+	{ Magnetometer_Get,	"void MagnetometerGet(MagnetometerData *);" },
 #endif
 	{ NULL, NULL }
 };
@@ -813,6 +822,9 @@ struct LibraryFunction PlatformLibrary_magnetometer[] =
 /* this is called when the header file is included */
 void PlatformLibrarySetup_magnetometer(Picoc *pc)
 {
+	const char *definition = "typedef struct {float x; float y; float z;} MagnetometerData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
 	if (MagnetometerHandle() == NULL)
 		ProgramFailNoParser(pc, "no magnetometer");
 }
@@ -890,25 +902,20 @@ struct LibraryFunction PlatformLibrary_manualcontrol[] =
 
 /* library functions */
 #ifndef NO_FP
-void PositionActualNorth(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+void PositionActual_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	PositionActualData data;
-	PositionActualGet(&data);
-	ReturnValue->Val->FP = (double)data.North;
-}
+	if (Param[0]->Val->Pointer == NULL)
+		return;
 
-void PositionActualEast(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
 	PositionActualData data;
 	PositionActualGet(&data);
-	ReturnValue->Val->FP = (double)data.East;
-}
 
-void PositionActualDown(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	PositionActualData data;
-	PositionActualGet(&data);
-	ReturnValue->Val->FP = (double)data.Down;
+	// use the same struct like picoc. see below
+	struct mystruct {double North; double East; double Down;} *rdata;
+	rdata = Param[0]->Val->Pointer;
+	rdata->North = data.North;
+	rdata->East = data.East;
+	rdata->Down = data.Down;
 }
 #endif
 
@@ -916,9 +923,7 @@ void PositionActualDown(struct ParseState *Parser, struct Value *ReturnValue, st
 struct LibraryFunction PlatformLibrary_positionactual[] =
 {
 #ifndef NO_FP
-	{ PositionActualNorth,	"float PositionActualNorth();" },
-	{ PositionActualEast,	"float PositionActualEast();" },
-	{ PositionActualDown,	"float PositionActualDown();" },
+	{ PositionActual_Get,	"void PositionActualGet(PositionActualData *);" },
 #endif
 	{ NULL, NULL }
 };
@@ -926,6 +931,9 @@ struct LibraryFunction PlatformLibrary_positionactual[] =
 /* this is called when the header file is included */
 void PlatformLibrarySetup_positionactual(Picoc *pc)
 {
+	const char *definition = "typedef struct {float North; float East; float Down;} PositionActualData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
 	if (PositionActualHandle() == NULL)
 		ProgramFailNoParser(pc, "no positionactual");
 }
@@ -1056,7 +1064,7 @@ void PlatformLibraryInit(Picoc *pc)
 	IncludeRegister(pc, "attitudeactual.h", &PlatformLibrarySetup_attitudeactual, &PlatformLibrary_attitudeactual[0], NULL);
 	IncludeRegister(pc, "baroaltitude.h", &PlatformLibrarySetup_baroaltitude, &PlatformLibrary_baroaltitude[0], NULL);
 	IncludeRegister(pc, "flightbatterystate.h", &PlatformLibrarySetup_flightbatterystate, &PlatformLibrary_flightbatterystate[0], NULL);
-	IncludeRegister(pc, "flightstatus.h", NULL, &PlatformLibrary_flightstatus[0], NULL);
+	IncludeRegister(pc, "flightstatus.h", &PlatformLibrarySetup_flightstatus, &PlatformLibrary_flightstatus[0], NULL);
 	IncludeRegister(pc, "gpsposition.h", &PlatformLibrarySetup_gpsposition, &PlatformLibrary_gpsposition[0], NULL);
 	IncludeRegister(pc, "gyros.h", &PlatformLibrarySetup_gyros, &PlatformLibrary_gyros[0], NULL);
 	IncludeRegister(pc, "magnetometer.h", &PlatformLibrarySetup_magnetometer, &PlatformLibrary_magnetometer[0], NULL);
