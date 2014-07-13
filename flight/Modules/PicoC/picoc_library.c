@@ -521,7 +521,12 @@ void Accels_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Val
 	AccelsGet(&data);
 
 	// use the same struct like picoc. see below
-	struct mystruct {double x; double y; double z; double temperature;} *pdata;
+	struct mystruct {
+		double x;
+		double y;
+		double z;
+		double temperature;
+	} *pdata;
 	pdata = Param[0]->Val->Pointer;
 	pdata->x = data.x;
 	pdata->y = data.y;
@@ -543,7 +548,12 @@ struct LibraryFunction PlatformLibrary_accels[] =
 void PlatformLibrarySetup_accels(Picoc *pc)
 {
 #ifndef NO_FP
-	const char *definition = "typedef struct {float x; float y; float z; float temperature;} AccelsData;";
+	const char *definition = "typedef struct {"
+		"float x;"
+		"float y;"
+		"float z;"
+		"float temperature;"
+	"} AccelsData;";
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 #endif
 
@@ -568,7 +578,11 @@ void AttitudeActual_Get(struct ParseState *Parser, struct Value *ReturnValue, st
 	AttitudeActualGet(&data);
 
 	// use the same struct like picoc. see below
-	struct mystruct {double Roll; double Pitch; double Yaw;} *pdata;
+	struct mystruct {
+		double Roll;
+		double Pitch;
+		double Yaw;
+	} *pdata;
 	pdata = Param[0]->Val->Pointer;
 	pdata->Roll = data.Roll;
 	pdata->Pitch = data.Pitch;
@@ -589,7 +603,11 @@ struct LibraryFunction PlatformLibrary_attitudeactual[] =
 void PlatformLibrarySetup_attitudeactual(Picoc *pc)
 {
 #ifndef NO_FP
-	const char *definition = "typedef struct {float Roll; float Pitch; float Yaw;} AttitudeActualData;";
+	const char *definition = "typedef struct {"
+		"float Roll;"
+		"float Pitch;"
+		"float Yaw;"
+	"} AttitudeActualData;";
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 #endif
 
@@ -614,7 +632,11 @@ void BaroAltitude_Get(struct ParseState *Parser, struct Value *ReturnValue, stru
 	BaroAltitudeGet(&data);
 
 	// use the same struct like picoc. see below
-	struct mystruct {double Altitude; double Temperature; double Pressure;} *pdata;
+	struct mystruct {
+		double Altitude;
+		double Temperature;
+		double Pressure;
+	} *pdata;
 	pdata = Param[0]->Val->Pointer;
 	pdata->Altitude = data.Altitude;
 	pdata->Temperature = data.Temperature;
@@ -635,7 +657,11 @@ struct LibraryFunction PlatformLibrary_baroaltitude[] =
 void PlatformLibrarySetup_baroaltitude(Picoc *pc)
 {
 #ifndef NO_FP
-	const char *definition = "typedef struct {float Altitude; float Temperature; float Pressure;} BaroAltitudeData;";
+	const char *definition = "typedef struct {"
+		"float Altitude;"
+		"float Temperature;"
+		"float Pressure;"
+	"} BaroAltitudeData;";
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 #endif
 
@@ -693,8 +719,15 @@ struct LibraryFunction PlatformLibrary_flightbatterystate[] =
 void PlatformLibrarySetup_flightbatterystate(Picoc *pc)
 {
 #ifndef NO_FP
-	const char *definition = "typedef struct {float Voltage; float Current; float BoardSupplyVoltage;"
-		"float PeakCurrent; float AvgCurrent; float ConsumedEnergy; float EstimatedFlightTime;} FlightBatteryStateData;";
+	const char *definition = "typedef struct {"
+		"float Voltage;"
+		"float Current;"
+		"float BoardSupplyVoltage;"
+		"float PeakCurrent;"
+		"float AvgCurrent;"
+		"float ConsumedEnergy;"
+		"float EstimatedFlightTime;"
+	"} FlightBatteryStateData;";
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 #endif
 
@@ -718,7 +751,11 @@ void FlightStatus_Get(struct ParseState *Parser, struct Value *ReturnValue, stru
 	FlightStatusGet(&data);
 
 	// use the same struct like picoc. see below
-	struct mystruct {unsigned char Armed; unsigned char FlightMode; unsigned char ControlSource;} *pdata;
+	struct mystruct {
+		unsigned char Armed;
+		unsigned char FlightMode;
+		unsigned char ControlSource;
+	} *pdata;
 	pdata = Param[0]->Val->Pointer;
 	pdata->Armed = data.Armed;
 	pdata->FlightMode = data.FlightMode;
@@ -735,7 +772,11 @@ struct LibraryFunction PlatformLibrary_flightstatus[] =
 /* this is called when the header file is included */
 void PlatformLibrarySetup_flightstatus(Picoc *pc)
 {
-	const char *definition = "typedef struct {unsigned char Armed; unsigned char FlightMode; unsigned char ControlSource;} FlightStatusData;";
+	const char *definition = "typedef struct {"
+		"unsigned char Armed;"
+		"unsigned char FlightMode;"
+		"unsigned char ControlSource;"
+	"} FlightStatusData;";
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 }
 
@@ -781,7 +822,12 @@ void GPSPosition_Get(struct ParseState *Parser, struct Value *ReturnValue, struc
 	pdata->Status = data.Status;
 	pdata->Satellites = data.Satellites;
 #else
-	struct mystruct {long Latitude; long Longitude; unsigned char Status; char Satellites;} *pdata;
+	struct mystruct {
+		long Latitude;
+		long Longitude;
+		unsigned char Status;
+		char Satellites;
+	} *pdata;
 	pdata = Param[0]->Val->Pointer;
 	pdata->Latitude = data.Latitude;
 	pdata->Longitude = data.Longitude;
@@ -801,10 +847,26 @@ struct LibraryFunction PlatformLibrary_gpsposition[] =
 void PlatformLibrarySetup_gpsposition(Picoc *pc)
 {
 #ifndef NO_FP
-	const char *definition = "typedef struct {long Latitude; long Longitude; float Altitude; float GeoidSeparation; float Heading;"
-		"float GroundSpeed; float PDOP; float HDOP; float VDOP; unsigned char Status; char Satellites;} GPSPositionData;";
+	const char *definition = "typedef struct {"
+		"long Latitude;"
+		"long Longitude;"
+		"float Altitude;"
+		"float GeoidSeparation;"
+		"float Heading;"
+		"float GroundSpeed;"
+		"float PDOP;"
+		"float HDOP;"
+		"float VDOP;"
+		"unsigned char Status;"
+		"char Satellites;"
+	"} GPSPositionData;";
 #else
-	const char *definition = "typedef struct {long Latitude; long Longitude; unsigned char Status; char Satellites;} GPSPositionData;";
+	const char *definition = "typedef struct {"
+		"long Latitude;"
+		"long Longitude;"
+		"unsigned char Status;"
+		"char Satellites;"
+	"}GPSPositionData;";
 #endif
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 
@@ -829,7 +891,12 @@ void Gyros_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Valu
 	GyrosGet(&data);
 
 	// use the same struct like picoc. see below
-	struct mystruct {double x; double y; double z; double temperature;} *pdata;
+	struct mystruct {
+		double x;
+		double y;
+		double z;
+		double temperature;
+	} *pdata;
 	pdata = Param[0]->Val->Pointer;
 	pdata->x = data.x;
 	pdata->y = data.y;
@@ -850,7 +917,12 @@ struct LibraryFunction PlatformLibrary_gyros[] =
 /* this is called when the header file is included */
 void PlatformLibrarySetup_gyros(Picoc *pc)
 {
-	const char *definition = "typedef struct {float x; float y; float z; float temperature;} GyrosData;";
+	const char *definition = "typedef struct {"
+		"float x;"
+		"float y;"
+		"float z;"
+		"float temperature;"
+	"} GyrosData;";
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 
 	if (GyrosHandle() == NULL)
@@ -874,11 +946,15 @@ void Magnetometer_Get(struct ParseState *Parser, struct Value *ReturnValue, stru
 	MagnetometerGet(&data);
 
 	// use the same struct like picoc. see below
-	struct mystruct {double x; double y; double z;} *rdata;
-	rdata = Param[0]->Val->Pointer;
-	rdata->x = data.x;
-	rdata->y = data.y;
-	rdata->z = data.z;
+	struct mystruct {
+		double x;
+		double y;
+		double z;
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->x = data.x;
+	pdata->y = data.y;
+	pdata->z = data.z;
 }
 #endif
 
@@ -894,7 +970,11 @@ struct LibraryFunction PlatformLibrary_magnetometer[] =
 /* this is called when the header file is included */
 void PlatformLibrarySetup_magnetometer(Picoc *pc)
 {
-	const char *definition = "typedef struct {float x; float y; float z;} MagnetometerData;";
+	const char *definition = "typedef struct {"
+		"float x;"
+		"float y;"
+		"float z;"
+	"} MagnetometerData;";
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 
 	if (MagnetometerHandle() == NULL)
@@ -983,11 +1063,15 @@ void PositionActual_Get(struct ParseState *Parser, struct Value *ReturnValue, st
 	PositionActualGet(&data);
 
 	// use the same struct like picoc. see below
-	struct mystruct {double North; double East; double Down;} *rdata;
-	rdata = Param[0]->Val->Pointer;
-	rdata->North = data.North;
-	rdata->East = data.East;
-	rdata->Down = data.Down;
+	struct mystruct {
+		double North;
+		double East;
+		double Down;
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->North = data.North;
+	pdata->East = data.East;
+	pdata->Down = data.Down;
 }
 #endif
 
@@ -1003,7 +1087,11 @@ struct LibraryFunction PlatformLibrary_positionactual[] =
 /* this is called when the header file is included */
 void PlatformLibrarySetup_positionactual(Picoc *pc)
 {
-	const char *definition = "typedef struct {float North; float East; float Down;} PositionActualData;";
+	const char *definition = "typedef struct {"
+		"float North;"
+		"float East;"
+		"float Down;"
+	"} PositionActualData;";
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 
 	if (PositionActualHandle() == NULL)
