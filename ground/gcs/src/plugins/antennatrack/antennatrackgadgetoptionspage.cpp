@@ -156,9 +156,9 @@ FlowTypeString
         <<"FLOW_HARDWARE"
         <<"FLOW_XONXOFF";
 }
-bool sortPorts(QextPortInfo const& s1,QextPortInfo const& s2)
+bool sortPorts(QSerialPortInfo const& s1, QSerialPortInfo const& s2)
 {
-return s1.portName<s2.portName;
+    return s1.portName() < s2.portName();
 }
 
 
@@ -169,13 +169,14 @@ QWidget *AntennaTrackGadgetOptionsPage::createPage(QWidget *parent)
     QWidget *optionsPageWidget = new QWidget;
     options_page->setupUi(optionsPageWidget);
 
-
+    qDebug() << "Enumerating serial ports...";
     // PORTS
-    QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
-    qSort(ports.begin(), ports.end(),sortPorts);
-    foreach( QextPortInfo port, ports ) {
-        qDebug() << "Adding port: " << port.friendName << " (" << port.portName << ")";
-        options_page->portComboBox->addItem(port.friendName, port.friendName);
+    QList<QSerialPortInfo> ports = QSerialPortInfo::availablePorts();
+    qDebug() << "Sorting ports...";
+    qSort(ports.begin(), ports.end(), sortPorts);
+    foreach( QSerialPortInfo port, ports ) {
+        qDebug() << "Adding port: " << port.portName() << " (" << port.portName() << ")";
+        options_page->portComboBox->addItem(port.portName(), port.portName());
     }
 
     int portIndex = options_page->portComboBox->findData(m_config->port());
@@ -250,11 +251,11 @@ void AntennaTrackGadgetOptionsPage::apply()
     m_config->setPort(options_page->portComboBox->itemData(portIndex).toString());
     qDebug() << "apply(): port is " << m_config->port();
 
-    m_config->setSpeed((BaudRateType)BaudRateTypeStringALL.indexOf(options_page->portSpeedComboBox->currentText()));
-    m_config->setFlow((FlowType)FlowTypeString.indexOf(options_page->flowControlComboBox->currentText()));
-    m_config->setDataBits((DataBitsType)DataBitsTypeStringALL.indexOf(options_page->dataBitsComboBox->currentText()));
-    m_config->setStopBits((StopBitsType)StopBitsTypeStringALL.indexOf(options_page->stopBitsComboBox->currentText()));
-    m_config->setParity((ParityType)ParityTypeStringALL.indexOf(options_page->parityComboBox->currentText()));
+    m_config->setSpeed((QSerialPort::BaudRate)BaudRateTypeStringALL.indexOf(options_page->portSpeedComboBox->currentText()));
+    m_config->setFlow((QSerialPort::FlowControl)FlowTypeString.indexOf(options_page->flowControlComboBox->currentText()));
+    m_config->setDataBits((QSerialPort::DataBits)DataBitsTypeStringALL.indexOf(options_page->dataBitsComboBox->currentText()));
+    m_config->setStopBits((QSerialPort::StopBits)StopBitsTypeStringALL.indexOf(options_page->stopBitsComboBox->currentText()));
+    m_config->setParity((QSerialPort::Parity)ParityTypeStringALL.indexOf(options_page->parityComboBox->currentText()));
     m_config->setTimeOut( options_page->timeoutSpinBox->value());
     m_config->setConnectionMode(options_page->connectionMode->currentText());
 
