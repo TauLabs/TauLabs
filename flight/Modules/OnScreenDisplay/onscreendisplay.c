@@ -1546,21 +1546,22 @@ void hud_draw_linear_compass(int v, int home_dir, int range, int width, int x, i
 				// +1 fudge...!
 				write_string(headingstr, xs + 1, majtick_start + textoffset, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, 1);
 
-				// Put home direction
-				if (rr == home_dir) {
-					write_filled_rectangle_lm(xs - 5, majtick_start + textoffset + 7, 10, 10, 0, 1);
-					write_string("H", xs + 1, majtick_start + textoffset + 12, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, 1);
-					home_drawn = true;
-				}
-
 			} else if (style == 2) {
 				write_vline_outlined(xs, mintick_start, mintick_end, 2, 2, 0, 1);
 			}
 		}
+
+		// Put home direction
+		if (rr == home_dir) {
+			xs = ((long int)(r * width) / (long int)range) + x;
+			write_filled_rectangle_lm(xs - 5, majtick_start + textoffset + 7, 10, 10, 0, 1);
+			write_string("H", xs + 1, majtick_start + textoffset + 12, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, 1);
+			home_drawn = true;
+		}
 	}
 
 	if (home_dir > 0 && !home_drawn) {
-		if (v > home_dir)
+		if ((v > home_dir) && (v - home_dir < 180) || (v < home_dir) && (home_dir -v > 180))
 			r = x - ((long int)(range_2 * width) / (long int)range);
 		else
 			r = x + ((long int)(range_2 * width) / (long int)range);
@@ -1927,7 +1928,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 {
 	char tmp_str[100] = { 0 };
 	float tmp, tmp1;
-	float home_dist = 0.f;
+	float home_dist = -1.f;
 	int home_dir = -1;
 	uint8_t tmp_uint8;
 	int16_t tmp_int16;
@@ -1936,17 +1937,16 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	if (page == NULL)
 		return;
 
-	// Get home distance and direction
-	if (page->HomeDistance || page->CompassHomeDir) {
+	// Get home distance and direction (only makes sense if GPS is enabled
+	if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED && (page->HomeDistance || page->CompassHomeDir)) {
 		PositionActualNorthGet(&tmp);
 		PositionActualEastGet(&tmp1);
-		home_dist = (float)sqrt(tmp * tmp + tmp1 * tmp1) * convert_distance;
 
-		if (page->CompassHomeDir) {
+		if (page->HomeDistance)
+			home_dist = (float)sqrt(tmp * tmp + tmp1 * tmp1) * convert_distance;
+
+		if (page->CompassHomeDir)
 			home_dir = (int)(atan2f(tmp1, tmp) * RAD2DEG) + 180;
-		} else {
-			home_dir = -1;
-		}
 	}
 
 	// Alarms
@@ -2060,8 +2060,8 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		}
 	}
 
-	// Home distance
-	if (page->HomeDistance)
+	// Home distance (will be -1 if enabled but GPS is not enabled)
+	if (home_dist >= 0)
 	{
 		tmp = home_dist * convert_distance;
 		if (tmp < convert_distance_divider)
@@ -2111,9 +2111,17 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	if (page->Time) {
 		uint32_t time;
 		SystemStatsFlightTimeGet(&time);
-		tmp_int1 = time / 60000;
-		tmp_int2 = (time / 1000) - 60 * tmp_int1;
-		sprintf(tmp_str, "%02d:%02d", (int)tmp_int1, (int)tmp_int2);
+
+		tmp_int16 = (time / 3600000); // hours
+		if (tmp_int16 == 0) {
+			tmp_int1 = time / 60000; // minutes
+			tmp_int2 = (time / 1000) - 60 * tmp_int1; // seconds
+			sprintf(tmp_str, "%02d:%02d", (int)tmp_int1, (int)tmp_int2);
+		} else {
+			tmp_int1 = time / 60000 - 60 * tmp_int16; // minutes
+			tmp_int2 = (time / 1000) - 60 * tmp_int1 - 3600 * tmp_int16; // seconds
+			sprintf(tmp_str, "%02d:%02d:%02d", (int)tmp_int16, (int)tmp_int1, (int)tmp_int2);
+		}
 		write_string(tmp_str, page->TimePos[0], page->TimePos[1], 0, 0, TEXT_VA_TOP, (int)page->TimeAlign, 0, SIZE_TO_FONT[page->TimeFont]);
 	}
 }
