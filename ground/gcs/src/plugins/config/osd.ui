@@ -619,9 +619,9 @@ channel value for each flight mode.</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabPage1">
+     <widget class="QWidget" name="tabCustomPages">
       <attribute name="title">
-       <string>Custom Page 1</string>
+       <string>Custom Pages</string>
       </attribute>
      </widget>
     </widget>

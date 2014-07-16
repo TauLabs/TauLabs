@@ -50,7 +50,9 @@
 #include "sin_lookup.h"
 
 #include "accessorydesired.h"
+#include "airspeedactual.h"
 #include "attitudeactual.h"
+#include "baroaltitude.h"
 #include "flightstatus.h"
 #include "flightstatus.h"
 #include "flightbatterystate.h"
@@ -58,6 +60,7 @@
 #include "positionactual.h"
 #include "gpstime.h"
 #include "gpssatellites.h"
+#include "gpsvelocity.h"
 #include "homelocation.h"
 #include "manualcontrolcommand.h"
 #include "systemalarms.h"
@@ -90,6 +93,12 @@ static void onScreenDisplayTask(void *parameters);
 #define UPDATE_PERIOD    100
 #define BLINK_INTERVAL_FRAMES 6
 
+const char METRIC_DIST_UNIT_LONG[] = "km";
+const char METRIC_DIST_UNIT_SHORT[] = "m";
+
+const char IMPERIAL_DIST_UNIT_LONG[] = "M";
+const char IMPERIAL_DIST_UNIT_SHORT[] = "ft";
+
 // Unit conversion constants
 #define MS_TO_KMH 3.6f
 #define MS_TO_MPH 2.23694f
@@ -106,7 +115,17 @@ xSemaphoreHandle onScreenDisplaySemaphore = NULL;
 uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 float convert_speed;
 float convert_distance;
+float convert_distance_divider;
+const char * dist_unit_long = METRIC_DIST_UNIT_LONG;
+const char * dist_unit_short = METRIC_DIST_UNIT_SHORT;
+
+
+float home_baro_altitude = 0;
 static volatile bool osd_settings_updated = true;
+static volatile bool osd_page_updated = true;
+
+//                     small, normal, large
+const int SIZE_TO_FONT[3] = {2, 0, 3};
 
 #ifdef DEBUG_TIMING
 static portTickType in_ticks  = 0;
@@ -1467,7 +1486,7 @@ void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int hei
  */
 #define COMPASS_SMALL_NUMBER
 // #define COMPASS_FILLED_NUMBER
-void hud_draw_linear_compass(int v, int range, int width, int x, int y, int mintick_step, int majtick_step, int mintick_len, int majtick_len, __attribute__((unused)) int flags)
+void hud_draw_linear_compass(int v, int home_dir, int range, int width, int x, int y, int mintick_step, int majtick_step, int mintick_len, int majtick_len, __attribute__((unused)) int flags)
 {
 	v %= 360; // wrap, just in case.
 	struct FontEntry font_info;
@@ -1480,6 +1499,7 @@ void hud_draw_linear_compass(int v, int range, int width, int x, int y, int mint
 	textoffset    = 8;
 	int r, style, rr, xs; // rv,
 	int range_2 = range / 2;
+	bool home_drawn = false;
 	for (r = -range_2; r <= +range_2; r++) {
 		style = 0;
 		rr    = (v + r + 360) % 360; // normalise range for modulo, add to move compass track
@@ -1525,11 +1545,31 @@ void hud_draw_linear_compass(int v, int range, int width, int x, int y, int mint
 				}
 				// +1 fudge...!
 				write_string(headingstr, xs + 1, majtick_start + textoffset, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, 1);
+
+				// Put home direction
+				if (rr == home_dir) {
+					write_filled_rectangle_lm(xs - 5, majtick_start + textoffset + 7, 10, 10, 0, 1);
+					write_string("H", xs + 1, majtick_start + textoffset + 12, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, 1);
+					home_drawn = true;
+				}
+
 			} else if (style == 2) {
 				write_vline_outlined(xs, mintick_start, mintick_end, 2, 2, 0, 1);
 			}
 		}
 	}
+
+	if (home_dir > 0 && !home_drawn) {
+		if (v > home_dir)
+			r = x - ((long int)(range_2 * width) / (long int)range);
+		else
+			r = x + ((long int)(range_2 * width) / (long int)range);
+
+		write_filled_rectangle_lm(r - 5, majtick_start + textoffset + 7, 10, 10, 0, 1);
+		write_string("H", r + 1, majtick_start + textoffset + 12, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, 1);
+	}
+
+
 	// Then, draw a rectangle with the present heading in it.
 	// We want to cover up any other markers on the bottom.
 	// First compute font size.
@@ -1778,19 +1818,19 @@ int utoa(unsigned int i, char *output, size_t olen)
 }
 
 
-void updateGraphics()
+void render_legacy_page()
 {
 	char temp[100] = { 0 };
 	float tmp, tmp2, tmp3;
 	int tmp_int1, tmp_int2;
 
-	// CPU
+	// CPU OK
 	uint8_t cpu;
 	SystemStatsCPULoadGet(&cpu);
 	sprintf(temp, "CPU:%2d", cpu);
 	write_string(temp, 5, GRAPHICS_BOTTOM - 20, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 
-	// Time
+	// Time OK
 	uint32_t time;
 	SystemStatsFlightTimeGet(&time);
 	tmp_int1 = time / 60000;
@@ -1798,46 +1838,45 @@ void updateGraphics()
 	sprintf(temp, "%02d:%02d", (int)tmp_int1, (int)tmp_int2);
 	write_string(temp, GRAPHICS_RIGHT - 60, 40, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 
-	// Flight Mode
+	// Flight Mode OK
 	draw_flight_mode(20, 10, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 
-	// Alarms
+	// Alarms OK
 	draw_alarms(5, GRAPHICS_BOTTOM - 30, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 
-	// Arming
+	// Arming OK
 	uint8_t arm;
 	FlightStatusArmedGet(&arm);
 	if (arm != FLIGHTSTATUS_ARMED_DISARMED)
 		write_string("ARMED", 20, 25, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 
-	// RSSI
+	// RSSI OK
 	int16_t rssi;
 	ManualControlCommandRssiGet(&rssi);
 	sprintf(temp, "RSSI:%3d", rssi);
 	write_string(temp, 55, GRAPHICS_BOTTOM - 20, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
 
-	// Artificial horizon
+	// Artificial horizon OK
 	float roll, pitch;
 	AttitudeActualRollGet(&roll);
 	AttitudeActualPitchGet(&pitch);
 
 	simple_artifical_horizon(roll, pitch, GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE, 150, 150, 30);
 
-	// Compass
+	// Compass OK
 	AttitudeActualYawGet(&tmp);
 	if (tmp < 0)
 		tmp += 360;
-	hud_draw_linear_compass(tmp, 120, 180, GRAPHICS_X_MIDDLE, 20, 15, 30, 5, 8, 0);
+	hud_draw_linear_compass(tmp, -1, 120, 180, GRAPHICS_X_MIDDLE, 20, 15, 30, 5, 8, 0);
 
-	// Altitude
+	// Altitude OK
 	PositionActualDownGet(&tmp);
 	hud_draw_vertical_scale(-1 * tmp * convert_distance, 100, 1, GRAPHICS_RIGHT - 5, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 10000, 0);
 
-	// Speed
+	// Speed OK
 	VelocityActualNorthGet(&tmp);
 	VelocityActualEastGet(&tmp2);
-	VelocityActualDownGet(&tmp3);
-	tmp = sqrt(tmp * tmp + tmp2 * tmp2 + tmp3 * tmp3);
+	tmp = sqrt(tmp * tmp + tmp2 * tmp2);
 	hud_draw_vertical_scale(tmp * convert_speed, 30, -1, 5, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 100, 0);
 
 	// Home distance and direction
@@ -1880,21 +1919,215 @@ void updateGraphics()
 #ifdef DEBUG_TIMING
 	// show in time
 	sprintf(temp, "T.draw: %2dms", in_time);
-	write_string(temp, 120, GRAPHICS_BOTTOM -20, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
+	write_string(temp, 120, GRAPHICS_BOTTOM -20, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 1);
 #endif
 }
 
-void render_user_page(uint8_t test, float test2)
+void render_user_page(OnScreenDisplayPageSettingsData * page)
 {
-	char temp[100] = { 0 };
-	sprintf(temp, "%d %0.3f", test, (double)test2);
-	write_string(temp, GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
+	char tmp_str[100] = { 0 };
+	float tmp, tmp1;
+	float home_dist = 0.f;
+	int home_dir = -1;
+	uint8_t tmp_uint8;
+	int16_t tmp_int16;
+	int tmp_int1, tmp_int2;
+
+	if (page == NULL)
+		return;
+
+	// Get home distance and direction
+	if (page->HomeDistance || page->CompassHomeDir) {
+		PositionActualNorthGet(&tmp);
+		PositionActualEastGet(&tmp1);
+		home_dist = (float)sqrt(tmp * tmp + tmp1 * tmp1) * convert_distance;
+
+		if (page->CompassHomeDir) {
+			home_dir = (int)(atan2f(tmp1, tmp) * RAD2DEG) + 180;
+		} else {
+			home_dir = -1;
+		}
+	}
+
+	// Alarms
+	if (page->Alarm) {
+		draw_alarms((int)page->AlarmPos[0], (int)page->AlarmPos[1], 0, 0, TEXT_VA_TOP, (int)page->AlarmAlign, 0, SIZE_TO_FONT[page->AlarmFont]);
+	}
+	
+	// Altitude Scale
+	if (page->AltitudeScale) {
+		if (page->AltitudeScaleSource == ONSCREENDISPLAYPAGESETTINGS_ALTITUDESCALESOURCE_BARO) {
+			BaroAltitudeAltitudeGet(&tmp);
+			tmp -= home_baro_altitude;
+		} else {
+			PositionActualDownGet(&tmp);
+			tmp *= -1.0f;
+		}
+		if (page->AltitudeScaleAlign == ONSCREENDISPLAYPAGESETTINGS_ALTITUDESCALEALIGN_LEFT)
+			hud_draw_vertical_scale(tmp * convert_distance, 100, -1, page->AltitudeScalePos, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 10000, 0);
+		else
+			hud_draw_vertical_scale(tmp * convert_distance, 100, 1, page->AltitudeScalePos, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 10000, 0);
+	}
+	
+	// Arming Status
+	if (page->ArmStatus) {
+		FlightStatusArmedGet(&tmp_uint8);
+		if (tmp_uint8 != FLIGHTSTATUS_ARMED_DISARMED)
+			write_string("ARMED", page->ArmStatusPos[0], page->ArmStatusPos[1], 0, 0, TEXT_VA_TOP, (int)page->ArmAlign, 0, SIZE_TO_FONT[page->ArmStatusFont]);
+	}
+	
+	// Artificial Horizon
+	if (page->ArtificialHorizon) {
+		AttitudeActualRollGet(&tmp);
+		AttitudeActualPitchGet(&tmp1);
+		simple_artifical_horizon(tmp, tmp1, GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE, 150, 150, 30);
+	}
+	
+	// Battery
+	if (module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+		if (page->BatteryVolt) {
+			FlightBatteryStateVoltageGet(&tmp);
+			sprintf(tmp_str, "%0.1fV", (double)tmp);
+			write_string(tmp_str, page->BatteryVoltPos[0], page->BatteryVoltPos[1], 0, 0, TEXT_VA_TOP, (int)page->BatteryVoltAlign, 0, SIZE_TO_FONT[page->BatteryVoltFont]);
+		}
+		if (page->BatteryCurrent) {
+			FlightBatteryStateCurrentGet(&tmp);
+			sprintf(tmp_str, "%0.1fA", (double)tmp);
+			write_string(tmp_str, page->BatteryCurrentPos[0], page->BatteryCurrentPos[1], 0, 0, TEXT_VA_TOP, (int)page->BatteryCurrentAlign, 0, SIZE_TO_FONT[page->BatteryCurrentFont]);
+		}
+		if (page->BatteryConsumed) {
+			FlightBatteryStateConsumedEnergyGet(&tmp);
+			sprintf(tmp_str, "%0.0fmAh", (double)tmp);
+			write_string(tmp_str, page->BatteryConsumedPos[0], page->BatteryConsumedPos[1], 0, 0, TEXT_VA_TOP, (int)page->BatteryConsumedAlign, 0, SIZE_TO_FONT[page->BatteryConsumedFont]);
+		}
+	}
+	
+	// Compass
+	if (page->Compass) {
+		AttitudeActualYawGet(&tmp);
+		if (tmp < 0)
+			tmp += 360;
+		hud_draw_linear_compass(tmp, home_dir, 120, 180, GRAPHICS_X_MIDDLE, (int)page->CompassPos, 15, 30, 5, 8, 0);
+	}
+	
+	// CPU utilization
+	if (page->Cpu) {
+		SystemStatsCPULoadGet(&tmp_uint8);
+		sprintf(tmp_str, "CPU:%2d", tmp_uint8);
+		write_string(tmp_str, page->CpuPos[0], page->CpuPos[1], 0, 0, TEXT_VA_TOP, (int)page->CpuAlign, 0, SIZE_TO_FONT[page->CpuFont]);
+	}
+
+	// Flight mode
+	if (page->FlightMode) {
+		draw_flight_mode(page->FlightModePos[0], page->FlightModePos[1], 0, 0, TEXT_VA_TOP, (int)page->FlightModeAlign, 0, SIZE_TO_FONT[page->FlightModeFont]);
+	}
+
+	// GPS
+	if ((module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) &&
+		(page->GpsStatus || page->GpsLat || page->GpsLon)) {
+		GPSPositionData gps_data;
+		GPSPositionGet(&gps_data);
+
+		if (page->GpsStatus) {
+			switch (gps_data.Status)
+			{
+				case GPSPOSITION_STATUS_NOFIX:
+					sprintf(tmp_str, "NOFIX");
+					break;
+				case GPSPOSITION_STATUS_FIX2D:
+					sprintf(tmp_str, "FIX:2D Sats: %d", (int)gps_data.Satellites);
+					break;
+				case GPSPOSITION_STATUS_FIX3D:
+					sprintf(tmp_str, "FIX:3D Sats: %d", (int)gps_data.Satellites);
+					break;
+				case GPSPOSITION_STATUS_DIFF3D:
+					sprintf(tmp_str, "FIX:D3D Sats: %d", (int)gps_data.Satellites);
+					break;
+				default:
+					sprintf(tmp_str, "NOGPS");
+			}
+			write_string(tmp_str, page->GpsStatusPos[0], page->GpsStatusPos[1], 0, 0, TEXT_VA_TOP, (int)page->GpsStatusAlign, 0, SIZE_TO_FONT[page->GpsStatusFont]);
+		}
+
+		if (page->GpsLat) {
+			sprintf(tmp_str, "%0.7f", (double)gps_data.Latitude / 10000000.0);
+			write_string(tmp_str, page->GpsLatPos[0], page->GpsLatPos[1], 0, 0, TEXT_VA_TOP, (int)page->GpsLatAlign, 0, SIZE_TO_FONT[page->GpsLatFont]);
+		}
+
+		if (page->GpsLon) {
+			sprintf(tmp_str, "%0.7f", (double)gps_data.Longitude / 10000000.0);
+			write_string(tmp_str, page->GpsLonPos[0], page->GpsLonPos[1], 0, 0, TEXT_VA_TOP, (int)page->GpsLonAlign, 0, SIZE_TO_FONT[page->GpsLonFont]);
+		}
+	}
+
+	// Home distance
+	if (page->HomeDistance)
+	{
+		tmp = home_dist * convert_distance;
+		if (tmp < convert_distance_divider)
+			sprintf(tmp_str, "Home: %d%s", (int)tmp, dist_unit_short);
+		else
+			sprintf(tmp_str, "Home: %0.2f%s", (double)(tmp / convert_distance_divider), dist_unit_long);
+
+		write_string(tmp_str, page->HomeDistancePos[0], page->HomeDistancePos[1], 0, 0, TEXT_VA_TOP, (int)page->HomeDistanceAlign, 0, SIZE_TO_FONT[page->HomeDistanceFont]);
+	}
+
+	// RSSI
+	if (page->Rssi) {
+		ManualControlCommandRssiGet(&tmp_int16);
+		sprintf(tmp_str, "RSSI:%3d", tmp_int16);
+		write_string(tmp_str, page->RssiPos[0], page->RssiPos[1], 0, 0, TEXT_VA_TOP, (int)page->RssiAlign, 0, SIZE_TO_FONT[page->RssiFont]);
+	}
+
+	// Speed
+	if (page->SpeedScale) {
+		tmp = 0.f;
+		switch (page->SpeedScaleSource)
+		{
+			case ONSCREENDISPLAYPAGESETTINGS_SPEEDSCALESOURCE_NAV:
+				VelocityActualNorthGet(&tmp);
+				VelocityActualEastGet(&tmp1);
+				tmp = sqrt(tmp * tmp + tmp1 * tmp1);
+				break;
+			case ONSCREENDISPLAYPAGESETTINGS_SPEEDSCALESOURCE_GPS:
+				if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+					GPSVelocityNorthGet(&tmp);
+					GPSVelocityEastGet(&tmp1);
+					tmp = sqrt(tmp * tmp + tmp1 * tmp1);
+				}
+				break;
+			case ONSCREENDISPLAYPAGESETTINGS_SPEEDSCALESOURCE_AIRSPEED:
+				if (module_state[MODULESETTINGS_ADMINSTATE_AIRSPEED] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+					AirspeedActualTrueAirspeedGet(&tmp);
+				}
+		}
+		if (page->SpeedScaleAlign == ONSCREENDISPLAYPAGESETTINGS_SPEEDSCALEALIGN_LEFT)
+			hud_draw_vertical_scale(tmp * convert_speed, 30, -1,  page->SpeedScalePos, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 100, 0);
+		else
+			hud_draw_vertical_scale(tmp * convert_speed, 30, 1,  page->SpeedScalePos, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 100, 0);
+	}
+
+	// Time
+	if (page->Time) {
+		uint32_t time;
+		SystemStatsFlightTimeGet(&time);
+		tmp_int1 = time / 60000;
+		tmp_int2 = (time / 1000) - 60 * tmp_int1;
+		sprintf(tmp_str, "%02d:%02d", (int)tmp_int1, (int)tmp_int2);
+		write_string(tmp_str, page->TimePos[0], page->TimePos[1], 0, 0, TEXT_VA_TOP, (int)page->TimeAlign, 0, SIZE_TO_FONT[page->TimeFont]);
+	}
 }
 
 
 static void OnScreenSettingsUpdatedCb(UAVObjEvent * ev)
 {
 	osd_settings_updated = true;
+}
+
+
+static void OnScreenPageUpdatedCb(UAVObjEvent * ev)
+{
+	osd_page_updated = true;
 }
 
 
@@ -1923,7 +2156,6 @@ int32_t OnScreenDisplayStart(void)
 int32_t OnScreenDisplayInitialize(void)
 {
 	uint8_t osd_state;
-	uint16_t num_instances;
 
 	ModuleSettingsAdminStateGet(module_state);
 
@@ -1944,6 +2176,10 @@ int32_t OnScreenDisplayInitialize(void)
 
 	/* Register callbacks for modified settings */
 	OnScreenDisplaySettingsConnectCallback(OnScreenSettingsUpdatedCb);
+
+	/* Register callbacks for modified pages */
+	OnScreenDisplayPageSettingsConnectCallback(OnScreenPageUpdatedCb);
+
 	return 0;
 }
 
@@ -1959,13 +2195,24 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 {
 	AccessoryDesiredData accessory;
 	OnScreenDisplaySettingsData osd_settings;
+	OnScreenDisplayPageSettingsData osd_page_settings;
+
 	uint8_t current_page = 0;
+	uint8_t last_page = -1;
+	float tmp;
+	
+	OnScreenDisplaySettingsGet(&osd_settings);
+	home_baro_altitude = 0.;
 
 
 	// blank
 	while (xTaskGetTickCount() <= BLANK_TIME) {
 		if (xSemaphoreTake(onScreenDisplaySemaphore, LONG_TIME) == pdTRUE) {
 			clearGraphics();
+			frame_counter++;
+			// Accumulate baro altitude
+			BaroAltitudeAltitudeGet(&tmp);
+			home_baro_altitude += tmp;
 		}
 	}
 
@@ -1982,8 +2229,15 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 				introText(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 90);
 				showVideoType(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 60);
 			}
+			frame_counter++;
+			// Accumulate baro altitude
+			BaroAltitudeAltitudeGet(&tmp);
+			home_baro_altitude += tmp;
 		}
 	}
+	
+	// Create average altitude
+	home_baro_altitude /= frame_counter;
 
 	while (1) {
 		if (xSemaphoreTake(onScreenDisplaySemaphore, LONG_TIME) == pdTRUE) {
@@ -2001,11 +2255,17 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 
 				if (osd_settings.Units == ONSCREENDISPLAYSETTINGS_UNITS_IMPERIAL){
 					convert_distance = M_TO_FEET;
+					convert_distance_divider = 5280.f; // feet in a mile
 					convert_speed = MS_TO_MPH;
+					dist_unit_long = IMPERIAL_DIST_UNIT_LONG;
+					dist_unit_short = IMPERIAL_DIST_UNIT_SHORT;
 				}
 				else{
-					convert_distance = 1.0f;
+					convert_distance = 1.f;
+					convert_distance_divider = 1000.f;
 					convert_speed = MS_TO_KMH;
+					dist_unit_long = METRIC_DIST_UNIT_LONG;
+					dist_unit_short = METRIC_DIST_UNIT_SHORT;
 				}
 
 				osd_settings_updated = false;
@@ -2018,20 +2278,29 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 				current_page = osd_settings.PageConfig[current_page];
 			}
 
+			if (current_page != last_page || osd_page_updated) {
+				OnScreenDisplayPageSettingsGet(&osd_page_settings);
+				osd_page_updated = false;
+			}
+
 			clearGraphics();
-			updateGraphics();
-//			switch (current_page) {
-//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM1:
-//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM2:
-//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM3:
-//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM4:
-//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM5:
-//				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM6:
-//					render_user_page(current_page, accessory.AccessoryVal);
-//					break;
-//			}
+			switch (current_page) {
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_OFF:
+					break;
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM1:
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM2:
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM3:
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM4:
+					render_user_page(&osd_page_settings);
+					break;
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_LEGACY:
+					render_legacy_page();
+			}
+
+			//drawBox(0, 0, 351, 240);
 
 			frame_counter++;
+			last_page = current_page;
 #ifdef DEBUG_TIMING
 			out_ticks = xTaskGetTickCount();
 			in_time   = out_ticks - in_ticks;
