@@ -60,16 +60,6 @@ private:
     Ui::AntennaTrackGadgetOptionsPage *options_page;
     AntennaTrackGadgetConfiguration *m_config;
 
-    QStringList BaudRateTypeString;
-    QStringList BaudRateTypeStringALL;
-    QStringList DataBitsTypeStringALL;
-    QStringList ParityTypeStringALL;
-    QStringList StopBitsTypeStringALL;
-    QStringList DataBitsTypeString;
-    QStringList ParityTypeString;
-    QStringList StopBitsTypeString;
-    QStringList FlowTypeString;
-
 private slots:
 };
 
