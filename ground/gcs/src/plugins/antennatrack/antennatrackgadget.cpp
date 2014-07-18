@@ -28,11 +28,13 @@
 #include "antennatrackgadget.h"
 #include "antennatrackwidget.h"
 #include "antennatrackgadgetconfiguration.h"
+#include "../gpsdisplay/gpsdisplaygadgetconfiguration.h" /* For struct PortSettings declaration */
+
 
 AntennaTrackGadget::AntennaTrackGadget(QString classId, AntennaTrackWidget *widget, QWidget *parent) :
         IUAVGadget(classId, parent),
         m_widget(widget),
-        connected(FALSE)
+        connected(false)
 {
     connect(m_widget->connectButton, SIGNAL(clicked(bool)), this,SLOT(onConnect()));
     connect(m_widget->disconnectButton, SIGNAL(clicked(bool)), this,SLOT(onDisconnect()));
@@ -74,17 +76,17 @@ void AntennaTrackGadget::loadConfiguration(IUAVGadgetConfiguration* config)
     m_widget->connectButton->setEnabled(false);
     m_widget->disconnectButton->setEnabled(false);
 
-    QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
-    foreach( QextPortInfo nport, ports ) {
-        if(nport.friendName == AntennaTrackConfig->port())
-        {
+    QList<QSerialPortInfo> ports = QSerialPortInfo::availablePorts();
+    foreach( QSerialPortInfo nport, ports ) {
+      if (nport.portName() == AntennaTrackConfig->port()) {
             qDebug() << "Using Serial port";
             //parser = new NMEAParser();
 
 #ifdef Q_OS_WIN
-            port=new QextSerialPort(nport.portName,portsettings,QextSerialPort::EventDriven);
+            //port=new QextSerialPort(nport.portName,portsettings,QextSerialPort::EventDriven);
 #else
-            port=new QextSerialPort(nport.physName,portsettings,QextSerialPort::EventDriven);
+            port=new QSerialPort(nport);
+            //port=new QextSerialPort(nport.physName,portsettings,QextSerialPort::EventDriven);
 #endif
             m_widget->setPort(port);
             m_widget->connectButton->setEnabled(true);
