@@ -28,10 +28,9 @@
 #ifndef ANTENNATRACKGADGETOPTIONSPAGE_H
 #define ANTENNATRACKGADGETOPTIONSPAGE_H
 
-#include <qextserialport/src/qextserialenumerator.h>
+#include <QtSerialPort/QSerialPortInfo>
 #include "coreplugin/dialogs/ioptionspage.h"
 #include "QString"
-#include <QStringList>
 #include <QDebug>
 
 namespace Core {
@@ -59,16 +58,6 @@ public:
 private:
     Ui::AntennaTrackGadgetOptionsPage *options_page;
     AntennaTrackGadgetConfiguration *m_config;
-
-    QStringList BaudRateTypeString;
-    QStringList BaudRateTypeStringALL;
-    QStringList DataBitsTypeStringALL;
-    QStringList ParityTypeStringALL;
-    QStringList StopBitsTypeStringALL;
-    QStringList DataBitsTypeString;
-    QStringList ParityTypeString;
-    QStringList StopBitsTypeString;
-    QStringList FlowTypeString;
 
 private slots:
 };

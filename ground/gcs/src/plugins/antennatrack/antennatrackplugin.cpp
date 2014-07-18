@@ -30,5 +30,3 @@ void AntennaTrackPlugin::extensionsInitialized() {
 void AntennaTrackPlugin::shutdown() {
     // Do nothing
 }
-
-Q_EXPORT_PLUGIN(AntennaTrackPlugin)
