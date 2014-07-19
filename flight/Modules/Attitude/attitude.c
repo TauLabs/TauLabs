@@ -75,7 +75,7 @@
 #include "WorldMagModel.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 2100
+#define STACK_SIZE_BYTES 2200
 #define TASK_PRIORITY (tskIDLE_PRIORITY+3)
 #define FAILSAFE_TIMEOUT_MS 10
 
