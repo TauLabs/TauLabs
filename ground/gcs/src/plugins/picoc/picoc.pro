@@ -1,5 +1,5 @@
 QT += xml
-QT+=widgets
+QT += widgets
 TEMPLATE = lib
 TARGET = PicoC
 
@@ -14,17 +14,14 @@ HEADERS += picocplugin.h
 HEADERS += picocgadget.h
 HEADERS += picocgadgetfactory.h
 HEADERS += picocgadgetwidget.h
-HEADERS +=
 
 SOURCES += picocplugin.cpp
 SOURCES += picocgadget.cpp
 SOURCES += picocgadgetfactory.cpp
 SOURCES += picocgadgetwidget.cpp
-SOURCES +=
 
 OTHER_FILES += PicoC.pluginspec
 OTHER_FILES += PicoC.json
-OTHER_FILES +=
 
 FORMS += picoc.ui
 

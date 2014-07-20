@@ -45,22 +45,13 @@ public:
     PicoCGadget(QString classId, PicoCGadgetWidget *widget, QWidget *parent = 0);
     ~PicoCGadget();
 
-    QList<int> context() const
-    {
-        return m_context;
-    }
     QWidget *widget()
     {
         return m_widget;
     }
-    QString contextHelpId() const
-    {
-        return QString();
-    }
 
 private:
     QWidget *m_widget;
-    QList<int> m_context;
 };
 
 #endif // PICOCGADGET_H_
