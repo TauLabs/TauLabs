@@ -3,6 +3,7 @@
  *
  * @file       AntennaTracgadget.cpp
  * @author     Sami Korhonen & the OpenPilot team Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup AntennaTrackGadgetPlugin Antenna Track Gadget Plugin
@@ -83,7 +84,6 @@ void AntennaTrackGadget::loadConfiguration(IUAVGadgetConfiguration* config)
             //parser = new NMEAParser();
 
 #ifdef Q_OS_WIN
-            //port=new QextSerialPort(nport.portName,portsettings,QextSerialPort::EventDriven);
             port=new QSerialPort(nport);
 #else
             port=new QSerialPort(nport);

@@ -3,6 +3,7 @@
  *
  * @file       AntennaTracgadgetoptionspage.cpp
  * @author     Sami Korhonen & the OpenPilot team Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup AntennaTrackGadgetPlugin Antenna Track Gadget Plugin
@@ -157,11 +158,11 @@ void AntennaTrackGadgetOptionsPage::apply()
     m_config->setPort(options_page->portComboBox->itemData(portIndex).toString());
     qDebug() << "apply(): port is " << m_config->port();
 
-    m_config->setSpeed((QSerialPort::BaudRate)options_page->portSpeedComboBox->itemData(options_page->portSpeedComboBox->currentIndex()).toInt());
-    m_config->setFlow((QSerialPort::FlowControl)options_page->flowControlComboBox->itemData(options_page->flowControlComboBox->currentIndex()).toInt());
-    m_config->setDataBits((QSerialPort::DataBits)options_page->dataBitsComboBox->itemData(options_page->dataBitsComboBox->currentIndex()).toInt());
-    m_config->setStopBits((QSerialPort::StopBits)options_page->stopBitsComboBox->itemData(options_page->stopBitsComboBox->currentIndex()).toInt());
-    m_config->setParity((QSerialPort::Parity)options_page->parityComboBox->itemData(options_page->parityComboBox->currentIndex()).toInt());
+    m_config->setSpeed((QSerialPort::BaudRate)options_page->portSpeedComboBox->currentData().toInt());
+    m_config->setFlow((QSerialPort::FlowControl)options_page->flowControlComboBox->currentData().toInt());
+    m_config->setDataBits((QSerialPort::DataBits)options_page->dataBitsComboBox->currentData().toInt());
+    m_config->setStopBits((QSerialPort::StopBits)options_page->stopBitsComboBox->currentData().toInt());
+    m_config->setParity((QSerialPort::Parity)options_page->parityComboBox->currentData().toInt());
     m_config->setTimeOut( options_page->timeoutSpinBox->value());
     m_config->setConnectionMode(options_page->connectionMode->currentText());
 }
