@@ -1099,6 +1099,179 @@ void PlatformLibrarySetup_positionactual(Picoc *pc)
 }
 
 
+/**
+ * pid.h
+ */
+#ifndef NO_FP
+/* less comments here. all functions are functional identical to math/pid.c */
+
+/* library definitions */
+#define bound_min_max(val,min,max) ((val < min) ? min : (val > max) ? max : val)
+#define bound_sym(val,range) ((val < -range) ? -range : (val > range) ? range : val)
+
+struct pid {
+	double p;
+	double i;
+	double d;
+	double iLim;
+	double iAccumulator;
+	double lastErr;
+	double lastDer;
+	double dTau;
+};
+
+/* library functions */
+void PID_apply(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	struct pid *pid = Param[0]->Val->Pointer;
+	double err = Param[1]->Val->FP;
+	double dT = Param[2]->Val->FP;
+
+	if (pid->i != 0) {
+		pid->iAccumulator += err * (pid->i * dT);
+		pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim);
+	}
+
+	double diff = (err - pid->lastErr);
+	double dterm = 0;
+	pid->lastErr = err;
+	if(pid->d && dT)
+	{
+		dterm = pid->lastDer +  dT / ( dT + pid->dTau) * ((diff * pid->d / dT) - pid->lastDer);
+		pid->lastDer = dterm;
+	}
+ 
+	ReturnValue->Val->FP = (err * pid->p) + pid->iAccumulator + dterm;
+}
+
+void PID_apply_antiwindup(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	struct pid *pid = Param[0]->Val->Pointer;
+	double err = Param[1]->Val->FP;
+	double min_bound = Param[2]->Val->FP;
+	double max_bound = Param[3]->Val->FP;
+	double dT = Param[4]->Val->FP;
+
+	if (pid->i != 0) {
+		pid->iAccumulator += err * (pid->i * dT);
+	}
+
+	double diff = (err - pid->lastErr);
+	double dterm = 0;
+	pid->lastErr = err;
+	if(pid->d && dT)
+	{
+		dterm = pid->lastDer +  dT / ( dT + pid->dTau) * ((diff * pid->d / dT) - pid->lastDer);
+		pid->lastDer = dterm;
+	}
+
+	double ideal_output = ((err * pid->p) + pid->iAccumulator + dterm);
+	double saturation = 0;
+	if (ideal_output > max_bound) {
+		saturation = max_bound - ideal_output;
+		ideal_output = max_bound;
+	} else if (ideal_output < min_bound) {
+		saturation = min_bound - ideal_output;
+		ideal_output = min_bound;
+	}
+	// Use Kt 10x Ki
+	pid->iAccumulator += saturation * (pid->i * 10.0 * dT);
+	pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim);
+
+	ReturnValue->Val->FP = ideal_output;
+}
+
+void PID_apply_setpoint(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	struct pid *pid = Param[0]->Val->Pointer;
+	double setpoint = Param[1]->Val->FP;
+	double measured = Param[2]->Val->FP;
+	double dT = Param[3]->Val->FP;
+
+	double err = setpoint - measured;
+
+	if (pid->i != 0) {
+		pid->iAccumulator += err * (pid->i * dT);
+		pid->iAccumulator = bound_sym(pid->iAccumulator, pid->iLim);
+	}
+
+	double dterm = 0;
+	double diff = setpoint - measured - pid->lastErr;
+	pid->lastErr = setpoint - measured;
+	if(pid->d && dT)
+	{
+		dterm = pid->lastDer +  dT / ( dT + pid->dTau) * ((diff * pid->d / dT) - pid->lastDer);
+		pid->lastDer = dterm;
+	}
+
+	ReturnValue->Val->FP = (err * pid->p) + pid->iAccumulator + dterm;
+}
+
+void PID_zero(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	struct pid *pid = Param[0]->Val->Pointer;
+
+	pid->iAccumulator = 0;
+	pid->lastErr = 0;
+	pid->lastDer = 0;
+}
+
+void PID_configure(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	struct pid *pid = Param[0]->Val->Pointer;
+
+	pid->p = Param[1]->Val->FP;
+	pid->i = Param[2]->Val->FP;
+	pid->d = Param[3]->Val->FP;
+	pid->iLim = Param[4]->Val->FP;
+	double cutoff = bound_min_max(Param[5]->Val->FP,1,100);
+	pid->dTau = 1.0 / (2 * 3.14159265358979323846 * cutoff);
+}
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_pid[] =
+{
+	{ PID_apply,			"float pid_apply(pid *,float,float);" },
+	{ PID_apply_antiwindup,	"float pid_apply_antiwindup(pid *,float,float,float,float);" },
+	{ PID_apply_setpoint,	"float pid_apply_setpoint(pid *,float,float,float);" },
+	{ PID_zero,				"void pid_zero(pid *);" },
+	{ PID_configure,		"void pid_configure(pid *,float,float,float,float,float);" },
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_pid(Picoc *pc)
+{
+	const char *definition = "typedef struct {"
+		"float p;"
+		"float i;"
+		"float d;"
+		"float iLim;"
+		"float iAccumulator;"
+		"float lastErr;"
+		"float lastDer;"
+		"float dTau;"
+	"} pid;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+}
+#endif
+
+
 /* list all includes */
 void PlatformLibraryInit(Picoc *pc)
 {
@@ -1122,6 +1295,9 @@ void PlatformLibraryInit(Picoc *pc)
 	IncludeRegister(pc, "magnetometer.h", &PlatformLibrarySetup_magnetometer, &PlatformLibrary_magnetometer[0], NULL);
 	IncludeRegister(pc, "manualcontrol.h", NULL, &PlatformLibrary_manualcontrol[0], NULL);
 	IncludeRegister(pc, "positionactual.h", &PlatformLibrarySetup_positionactual, &PlatformLibrary_positionactual[0], NULL);
+#ifndef NO_FP
+	IncludeRegister(pc, "pid.h", &PlatformLibrarySetup_pid, &PlatformLibrary_pid[0], NULL);
+#endif
 }
 
 #endif /* PIOS_INCLUDE_PICOC */
