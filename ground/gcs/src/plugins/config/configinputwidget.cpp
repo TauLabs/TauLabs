@@ -480,7 +480,7 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         previousManualSettingsData = manualSettingsData;
 
         // Now clear all the previous channel settings
-        for (uint i = 0; i++; i < ManualControlSettings::CHANNELNUMBER_NUMELEM) {
+        for (uint i = 0; i < ManualControlSettings::CHANNELNUMBER_NUMELEM; i++) {
             manualSettingsData.ChannelNumber[i] = 0;
             manualSettingsData.ChannelMin[i] = 0;
             manualSettingsData.ChannelNeutral[i] = 0;

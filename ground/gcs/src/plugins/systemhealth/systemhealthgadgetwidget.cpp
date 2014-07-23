@@ -336,7 +336,7 @@ QString SystemHealthGadgetWidget::getAlarmDescriptionFileName(const QString item
             alarmDescriptionFileName = QString(":/systemhealth/html/ManualControl-None.html");
         break;
         }
-    } else if (itemId.contains("StateEstimation-")) {
+    } else if (itemId.contains("StateEstimation-") || itemId.contains("Attitude-")) {
         switch(systemAlarmsData.StateEstimation) {
         case SystemAlarms::STATEESTIMATION_GYROQUEUENOTUPDATING:
             alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-Gyro-Queue-Not-Updating.html");
@@ -361,6 +361,9 @@ QString SystemHealthGadgetWidget::getAlarmDescriptionFileName(const QString item
         break;
         case SystemAlarms::STATEESTIMATION_UNDEFINED:
             alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-Undefined.html");
+        break;
+        case SystemAlarms::STATEESTIMATION_NOHOME:
+            alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-NoHome.html");
         break;
         default:
             alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-None.html");

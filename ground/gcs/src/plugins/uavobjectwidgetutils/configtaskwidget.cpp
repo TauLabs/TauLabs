@@ -783,7 +783,7 @@ void ConfigTaskWidget::autoLoadWidgets()
                 else if(prop=="url")
                     uiRelation.url=str.mid(str.indexOf(":")+1);
             }
-            if(!uiRelation.buttonType==none)
+            if(uiRelation.buttonType!=none)
             {
                 QPushButton * button=NULL;
                 switch(uiRelation.buttonType)
