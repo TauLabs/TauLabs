@@ -280,11 +280,7 @@ static void stabilizationTask(void* parameters)
 
 		// Get throttle for Throttle PID Attenuation
 		if (use_tpa)
-		{
 			ManualControlCommandThrottleGet(&throttle);
-			// scale to 0.0 .. 1.0 range
-			throttle = (throttle + 1.0f) / 2;
-		}
 
 		//Run the selected stabilization algorithm on each axis:
 		for(uint8_t i=0; i< MAX_AXES; i++)
@@ -718,9 +714,10 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		if (tpa_attenuation[PID_RATE_ROLL] || tpa_attenuation[PID_RATE_PITCH] || tpa_attenuation[PID_RATE_YAW])
 		{
 			use_tpa = true;
-			tpa_threshold[PID_RATE_ROLL] = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD];
-			tpa_threshold[PID_RATE_PITCH] = settings.RollRateTPA[STABILIZATIONSETTINGS_PITCHRATETPA_THRESHOLD];
-			tpa_threshold[PID_RATE_YAW] = settings.RollRateTPA[STABILIZATIONSETTINGS_YAWRATETPA_THRESHOLD];
+			// scale thresholds from 0..1 range to -1..1 range
+			tpa_threshold[PID_RATE_ROLL] = 2.0f * (settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD] - 0.5f);
+			tpa_threshold[PID_RATE_PITCH] = 2.0f * (settings.RollRateTPA[STABILIZATIONSETTINGS_PITCHRATETPA_THRESHOLD] - 0.5f);
+			tpa_threshold[PID_RATE_YAW] = 2.0f * (settings.RollRateTPA[STABILIZATIONSETTINGS_YAWRATETPA_THRESHOLD] - 0.5f);
 		}
 		else
 			use_tpa = false;
