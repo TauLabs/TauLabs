@@ -63,6 +63,7 @@ enum pios_mpu9250_dev_magic {
 struct mpu9250_dev {
 	uint32_t i2c_id;
 	uint8_t i2c_addr;
+	bool use_mag;
 	enum pios_mpu60x0_accel_range accel_range;
 	enum pios_mpu60x0_range gyro_range;
 	xQueueHandle gyro_queue;
@@ -79,9 +80,9 @@ struct mpu9250_dev {
 static struct mpu9250_dev * dev;
 
 //! Private functions
-static struct mpu9250_dev * PIOS_MPU9250_alloc(void);
+static struct mpu9250_dev * PIOS_MPU9250_alloc(bool use_mag);
 static int32_t PIOS_MPU9250_Validate(struct mpu9250_dev * dev);
-static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg);
+static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg, bool use_mag);
 static int32_t PIOS_MPU9250_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_MPU9250_GetReg(uint8_t address);
 static int32_t PIOS_MPU9250_ReadID();
@@ -92,7 +93,7 @@ static void PIOS_MPU9250_Task(void *parameters);
 /**
  * @brief Allocate a new device
  */
-static struct mpu9250_dev * PIOS_MPU9250_alloc(void)
+static struct mpu9250_dev * PIOS_MPU9250_alloc(bool use_mag)
 {
 	struct mpu9250_dev * mpu9250_dev;
 	
@@ -113,10 +114,13 @@ static struct mpu9250_dev * PIOS_MPU9250_alloc(void)
 		return NULL;
 	}
 
-	mpu9250_dev->mag_queue = xQueueCreate(PIOS_MPU9250_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
-	if (mpu9250_dev->mag_queue == NULL) {
-		vPortFree(mpu9250_dev);
-		return NULL;
+	mpu9250_dev->use_mag = use_mag;
+	if (use_mag) {
+		mpu9250_dev->mag_queue = xQueueCreate(PIOS_MPU9250_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
+		if (mpu9250_dev->mag_queue == NULL) {
+			vPortFree(mpu9250_dev);
+			return NULL;
+		}
 	}
 
 	mpu9250_dev->data_ready_sema = xSemaphoreCreateMutex();
@@ -147,9 +151,9 @@ static int32_t PIOS_MPU9250_Validate(struct mpu9250_dev * dev)
  * @brief Initialize the MPU9250 3-axis gyro sensor.
  * @return 0 for success, -1 for failure to allocate, -2 for failure to get irq
  */
-int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu9250_cfg * cfg)
+int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, bool use_mag, const struct pios_mpu9250_cfg * cfg)
 {
-	dev = PIOS_MPU9250_alloc();
+	dev = PIOS_MPU9250_alloc(use_mag);
 	if (dev == NULL)
 		return -1;
 	
@@ -158,7 +162,7 @@ int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 	dev->cfg = cfg;
 
 	/* Configure the MPU9250 Sensor */
-	if (PIOS_MPU9250_Config(cfg) != 0)
+	if (PIOS_MPU9250_Config(cfg, use_mag) != 0)
 		return -2;
 
 	/* Set up EXTI line */
@@ -178,7 +182,9 @@ int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, dev->accel_queue);
 	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, dev->gyro_queue);
-	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, dev->mag_queue);
+
+	if (use_mag)
+		PIOS_SENSORS_Register(PIOS_SENSOR_MAG, dev->mag_queue);
 
 	return 0;
 }
@@ -189,7 +195,7 @@ int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
  * \param[in] PIOS_MPU9250_ConfigTypeDef struct to be used to configure sensor.
 *
 */
-static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg)
+static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg, bool use_mag)
 {
 	// Reset chip
 	if (PIOS_MPU9250_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, PIOS_MPU60X0_PWRMGMT_IMU_RST) != 0)
@@ -222,22 +228,24 @@ static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg)
 	// XXX why 0x02??? this is a reserved bit
 	PIOS_MPU9250_SetReg(PIOS_MPU60X0_INT_CFG_REG, cfg->interrupt_cfg | 0x02);
 
-	// To enable access to the mag on auxillary i2c we must set bit 0x02 in register 0x37
-	// and clear bit 0x40 in register 0x6a (PIOS_MPU60X0_USER_CTRL_REG, default condition)
-	
-	// Disable mag first
-	if (PIOS_MPU9250_Mag_SetReg(MPU9250_MAG_CNTR, 0x00) != 0)
-		return -1;
-	PIOS_DELAY_WaitmS(20);
-	PIOS_WDG_Clear();
-	// Clear status registers
-	PIOS_MPU9250_Mag_GetReg(MPU9250_MAG_STATUS);
-	PIOS_MPU9250_Mag_GetReg(MPU9250_MAG_STATUS2);
-	PIOS_MPU9250_Mag_GetReg(MPU9250_MAG_XH);
+	if (use_mag) {
+		// To enable access to the mag on auxillary i2c we must set bit 0x02 in register 0x37
+		// and clear bit 0x40 in register 0x6a (PIOS_MPU60X0_USER_CTRL_REG, default condition)
 
-	// Trigger first measurement
-	if (PIOS_MPU9250_Mag_SetReg(MPU9250_MAG_CNTR, 0x01) != 0)
+		// Disable mag first
+		if (PIOS_MPU9250_Mag_SetReg(MPU9250_MAG_CNTR, 0x00) != 0)
+			return -1;
+		PIOS_DELAY_WaitmS(20);
+		PIOS_WDG_Clear();
+		// Clear status registers
+		PIOS_MPU9250_Mag_GetReg(MPU9250_MAG_STATUS);
+		PIOS_MPU9250_Mag_GetReg(MPU9250_MAG_STATUS2);
+		PIOS_MPU9250_Mag_GetReg(MPU9250_MAG_XH);
+
+		// Trigger first measurement
+		if (PIOS_MPU9250_Mag_SetReg(MPU9250_MAG_CNTR, 0x01) != 0)
 		return -1;
+	}
 
 	// Interrupt enable
 	PIOS_MPU9250_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
@@ -729,7 +737,7 @@ static void PIOS_MPU9250_Task(void *parameters)
 		xQueueSendToBack(dev->gyro_queue, (void *)&gyro_data, 0);
 
 		// Check for mag data ready.  Reading it clears this flag.
-		if (PIOS_MPU9250_Mag_GetReg(MPU9250_MAG_STATUS) > 0) {
+		if (dev->use_mag && PIOS_MPU9250_Mag_GetReg(MPU9250_MAG_STATUS) > 0) {
 			struct pios_sensor_mag_data mag_data;
 			uint8_t mpu9250_mag_buffer[6];
 			if (PIOS_MPU9250_Mag_Read(MPU9250_MAG_XH, mpu9250_mag_buffer, sizeof(mpu9250_mag_buffer)) == 0) {

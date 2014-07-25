@@ -55,9 +55,11 @@ OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
 OPTMODULES += Airspeed/revolution
+OPTMODULES += UAVOHoTTBridge
+OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOLighttelemetryBridge
+OPTMODULES += PicoC
 OPTMODULES += OnScreenDisplay
-
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
@@ -129,6 +131,7 @@ include $(PIOS)/STM32F4xx/library_fw.mk
 SRC += $(PIOSCOMMON)/pios_delay.c
 SRC += $(PIOSCOMMON)/pios_gcsrcvr.c
 SRC += $(PIOSCOMMON)/pios_mpu9250.c
+SRC += $(PIOSCOMMON)/pios_hmc5883.c
 SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_lps25h.c
 SRC += $(PIOSCOMMON)/pios_etasv3.c

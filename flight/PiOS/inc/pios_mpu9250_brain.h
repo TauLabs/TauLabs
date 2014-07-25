@@ -64,7 +64,7 @@ struct pios_mpu9250_cfg {
 
 
 /* Public Functions */
-extern int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_mpu9250_cfg * new_cfg);
+extern int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, bool use_mag, const struct pios_mpu9250_cfg * new_cfg);
 extern uint8_t PIOS_MPU9250_Test();
 extern int32_t PIOS_MPU9250_Probe(uint32_t i2c_id, uint8_t i2c_addr);
 extern int32_t PIOS_MPU9250_SetGyroRange(enum pios_mpu60x0_range);

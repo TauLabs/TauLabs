@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup FlyingF4 FlyingF4 support files
+ * @addtogroup BrainFPV FC support files
  * @{
  *
  * @file       pios_config.h 
@@ -61,6 +61,7 @@
 #define PIOS_INCLUDE_LPS25H
 #define PIOS_MPU6050_ACCEL
 #define PIOS_INCLUDE_MPU9250_BRAIN
+#define PIOS_INCLUDE_HMC5883
 #define FLASH_FREERTOS
 /* Com systems to include */
 #define PIOS_INCLUDE_COM
@@ -68,6 +69,11 @@
 #define PIOS_INCLUDE_TELEMETRY_RF
 #define PIOS_INCLUDE_COM_FLEXI
 #define PIOS_INCLUDE_MAVLINK
+#define PIOS_INCLUDE_HOTT
+#define PIOS_INCLUDE_FRSKY_SENSOR_HUB
+#define PIOS_INCLUDE_SESSION_MANAGEMENT
+//#define PIOS_INCLUDE_LIGHTTELEMETRY
+#define PIOS_INCLUDE_PICOC
 
 #define PIOS_INCLUDE_GPS
 #define PIOS_INCLUDE_GPS_NMEA_PARSER
