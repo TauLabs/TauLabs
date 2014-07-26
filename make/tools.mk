@@ -33,11 +33,11 @@ OPENOCD_FTDI ?= yes
 ifdef LINUX
   ifdef AMD64
     # Linux 64-bit
-    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.3/5.3.0/qt-opensource-linux-x64-5.3.0.run
+    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.3/5.3.1/qt-opensource-linux-x64-5.3.1.run
     QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.3/gcc_64/bin/qmake
   else
     # Linux 32-bit
-    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.3/5.3.0/qt-opensource-linux-x86-5.3.0.run
+    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.3/5.3.1/qt-opensource-linux-x86-5.3.1.run
     QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.3/gcc/bin/qmake
   endif
 endif
@@ -48,7 +48,7 @@ ifdef MACOSX
 endif
 
 ifdef WINDOWS
-  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.3/5.3.0/qt-opensource-windows-x86-mingw482_opengl-5.3.0.exe
+  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.3/5.3.1/qt-opensource-windows-x86-mingw482_opengl-5.3.1.exe
   QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.3/mingw482_32/bin/qmake
 endif
 
@@ -80,7 +80,7 @@ ifneq (,$(filter $(UNAME), Linux))
 endif
 
 ifdef WINDOWS
-	$(V1) ./downloads/qt-opensource-windows-x86-mingw482_opengl-5.3.0.exe
+	$(V1) ./downloads/qt-opensource-windows-x86-mingw482_opengl-5.3.1.exe
 endif
 
 .PHONY: qt_sdk_clean
