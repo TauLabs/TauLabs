@@ -278,7 +278,7 @@ static bool frsky_encode_cells(uint32_t *value, bool test_presence_only, uint32_
 	FlightBatteryStateVoltageGet(&voltage);
 
 	uint32_t cell_voltage = (uint32_t)((voltage * 500.0f) / frsky->batt_cell_count);
-	*value = ((cell_voltage & 0xfff) << 8) | ((arg * 2) & 0x0f);
+	*value = ((cell_voltage & 0xfff) << 8) | ((arg * 2) & 0x0f) | ((frsky->batt_cell_count << 4) & 0xf0);
 	if (((int16_t)frsky->batt_cell_count - 1) >= (arg * 2 + 1))
 		*value |= ((cell_voltage & 0xfff) << 20);
 
