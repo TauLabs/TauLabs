@@ -290,7 +290,7 @@ static void stabilizationTask(void* parameters)
 			previous_mode[i] = stabDesired.StabilizationMode[i];
 
 			// Check wheter we apply Throttle PID Attenuation
-			if (tpa_attenuation[i] && tpa_threshold[i] < throttle)
+			if (tpa_attenuation[i] > 0.0f && tpa_threshold[i] < throttle)
 			{
 				pidScale = 1.0f - tpa_attenuation[i] * (throttle - tpa_threshold[i]) / (1.0f - tpa_threshold[i]);
 			}
@@ -707,17 +707,17 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		vbar_decay = expf(-fakeDt / settings.VbarTau);
 
 		// Set the throttle PID attenuation parameters
-		tpa_attenuation[PID_RATE_ROLL] = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_ATTENUATION];
-		tpa_attenuation[PID_RATE_PITCH] = settings.RollRateTPA[STABILIZATIONSETTINGS_PITCHRATETPA_ATTENUATION];
-		tpa_attenuation[PID_RATE_YAW] = settings.RollRateTPA[STABILIZATIONSETTINGS_YAWRATETPA_ATTENUATION];
+		tpa_attenuation[PID_RATE_ROLL] = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_ATTENUATION] / 100.0f;
+		tpa_attenuation[PID_RATE_PITCH] = settings.RollRateTPA[STABILIZATIONSETTINGS_PITCHRATETPA_ATTENUATION] / 100.0f;
+		tpa_attenuation[PID_RATE_YAW] = settings.RollRateTPA[STABILIZATIONSETTINGS_YAWRATETPA_ATTENUATION] / 100.f;
 
-		if (tpa_attenuation[PID_RATE_ROLL] || tpa_attenuation[PID_RATE_PITCH] || tpa_attenuation[PID_RATE_YAW])
+		if (tpa_attenuation[PID_RATE_ROLL] > 0.0f || tpa_attenuation[PID_RATE_PITCH] > 0.0f || tpa_attenuation[PID_RATE_YAW] > 0.0f)
 		{
 			use_tpa = true;
-			// scale thresholds from 0..1 range to -1..1 range
-			tpa_threshold[PID_RATE_ROLL] = 2.0f * (settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD] - 0.5f);
-			tpa_threshold[PID_RATE_PITCH] = 2.0f * (settings.RollRateTPA[STABILIZATIONSETTINGS_PITCHRATETPA_THRESHOLD] - 0.5f);
-			tpa_threshold[PID_RATE_YAW] = 2.0f * (settings.RollRateTPA[STABILIZATIONSETTINGS_YAWRATETPA_THRESHOLD] - 0.5f);
+			// scale thresholds from 0..100 range to -1..1 range
+			tpa_threshold[PID_RATE_ROLL] = (settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD] / 50.0f) - 1.0f;
+			tpa_threshold[PID_RATE_PITCH] = (settings.RollRateTPA[STABILIZATIONSETTINGS_PITCHRATETPA_THRESHOLD] / 50.0f) - 1.0f;
+			tpa_threshold[PID_RATE_YAW] = (settings.RollRateTPA[STABILIZATIONSETTINGS_YAWRATETPA_THRESHOLD] / 50.0f) - 1.0f;
 		}
 		else
 			use_tpa = false;
