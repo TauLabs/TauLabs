@@ -313,6 +313,17 @@ void PicoCGadgetWidget::fetchScript()
  */
 void PicoCGadgetWidget::sendScript()
 {
+    // security check for AccessLevelSet
+    if ((ui->ptEditor->toPlainText().contains("AccessLevelSet")) &&
+        (QMessageBox::question(0,
+                              tr("PicoC UAV"),
+                              tr("It seems, that you have used AccessLevels in your script. "
+                                 "This enables extended access to UAVOs and can lead to problems. "
+                                 "A programming error can cause loss of control over your vehicle. "
+                                 "Are you sure you want to upload the script?"),
+                              QMessageBox::Yes|QMessageBox::No) == QMessageBox::No))
+        return;
+
     int max = 1 + ui->ptEditor->toPlainText().length();
     int i = 0;
     char c = 0;
