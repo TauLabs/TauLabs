@@ -45,6 +45,7 @@
 #include <QQueue>
 #include <QComboBox>
 #include <QDateTime>
+#include <QErrorMessage>
 #include <firmwareiapobj.h>
 
 class UAVOBJECTUTIL_EXPORT UAVObjectUtilManager: public QObject
@@ -77,8 +78,8 @@ public:
     bool setMetadata(QMap<QString, UAVObject::Metadata>, metadataSetEnum metadataUpdateType);
     bool setAllNonSettingsMetadata(QMap<QString, UAVObject::Metadata>);
     bool resetMetadataToDefaults();
-
     int getBoardRevision();
+    void versionMatchCheck();
 protected:
     FirmwareIAPObj::DataFields getFirmwareIap();
 
@@ -98,7 +99,7 @@ private:
     UAVObjectManager *obm;
     UAVObjectUtilManager *obum;
     QMap<QString, UAVObject::Metadata> metadataChecklist;
-
+    QErrorMessage *incompatibleMsg;
 private slots:
     void objectPersistenceTransactionCompleted(UAVObject* obj, bool success);
     void objectPersistenceUpdated(UAVObject * obj);

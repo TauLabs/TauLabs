@@ -41,6 +41,9 @@
 #include "homelocation.h"
 #include "gpsposition.h"
 
+#include "../../../../../build/ground/gcs/gcsversioninfo.h"
+#include <coreplugin/coreconstants.h>
+
 // ******************************
 // constructor/destructor
 
@@ -64,11 +67,12 @@ UAVObjectUtilManager::UAVObjectUtilManager()
         obum = pm->getObject<UAVObjectUtilManager>();
     }
 
+    incompatibleMsg = new QErrorMessage();
 }
 
 UAVObjectUtilManager::~UAVObjectUtilManager()
 {
-
+    incompatibleMsg->deleteLater();
 	disconnect();
 
 	if (mutex)
@@ -704,4 +708,47 @@ bool UAVObjectUtilManager::descriptionToStructure(QByteArray desc, deviceDescrip
    return false;
 }
 
+void UAVObjectUtilManager::versionMatchCheck()
+{
+    deviceDescriptorStruct boardDescription;
+    getBoardDescriptionStruct(boardDescription);
+    QByteArray uavoHashArray;
+    QString uavoHash = QString::fromLatin1(Core::Constants::UAVOSHA1_STR);
+    uavoHash.chop(2);
+    uavoHash.remove(0,2);
+    uavoHash = uavoHash.trimmed();
+    bool ok;
+    foreach(QString str,uavoHash.split(","))
+    {
+        uavoHashArray.append(str.toInt(&ok,16));
+    }
+    if(!ok)
+        return;
+    QByteArray fwVersion=boardDescription.uavoHash;
+    if (fwVersion != uavoHashArray) {
+
+        QString gcsDescription = QString::fromLatin1(Core::Constants::GCS_REVISION_STR);
+        QString gcsGitHash = gcsDescription.mid(gcsDescription.indexOf(":")+1, 8);
+        gcsGitHash.remove( QRegExp("^[0]*") );
+        QString gcsGitDate = gcsDescription.mid(gcsDescription.indexOf(" ")+1, 14);
+
+        QString gcsUavoHashStr;
+        QString fwUavoHashStr;
+        foreach(char i, fwVersion)
+        {
+            fwUavoHashStr.append(QString::number(i,16).right(2));
+        }
+        foreach(char i, uavoHashArray)
+        {
+            gcsUavoHashStr.append(QString::number(i,16).right(2));
+        }
+        QString gcsVersion = gcsGitDate + " (" + gcsGitHash + "-"+ gcsUavoHashStr.left(8) + ")";
+        QString fwVersion = boardDescription.gitDate + " (" + boardDescription.gitHash + "-" + fwUavoHashStr.left(8) + ")";
+
+        QString warning = QString(tr(
+                                      "GCS and firmware versions of the UAV objects set do not match which can cause configuration problems. "
+                                      "GCS version: %1 Firmware version: %2.")).arg(gcsVersion).arg(fwVersion);
+        incompatibleMsg->showMessage(warning);
+    }
+}
 // ******************************
