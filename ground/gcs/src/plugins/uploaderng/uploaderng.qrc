@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/uploaderng">
+        <file>images/system-run.svg</file>
+        <file>images/process-stop.svg</file>
+        <file>images/dialog-apply.svg</file>
+        <file>images/gtk-info.svg</file>
+        <file>images/application-certificate.svg</file>
+        <file>images/warning.svg</file>
+        <file>images/error.svg</file>
+    </qresource>
+</RCC>

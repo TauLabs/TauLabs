@@ -106,6 +106,15 @@ plugin_uploader.depends += plugin_rawhid
 plugin_uploader.depends += plugin_uavobjectutil
 SUBDIRS += plugin_uploader
 
+# Uploaderng gadget
+plugin_uploaderng.subdir = uploaderng
+plugin_uploaderng.depends = plugin_coreplugin
+plugin_uploaderng.depends += plugin_uavobjects
+plugin_uploaderng.depends += plugin_uavtalk
+plugin_uploaderng.depends += plugin_rawhid
+plugin_uploaderng.depends += plugin_uavobjectutil
+SUBDIRS += plugin_uploaderng
+
 # Dial gadget
 plugin_dial.subdir = dial
 plugin_dial.depends = plugin_coreplugin
