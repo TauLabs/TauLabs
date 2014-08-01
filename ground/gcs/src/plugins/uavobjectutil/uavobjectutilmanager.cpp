@@ -697,6 +697,11 @@ bool UAVObjectUtilManager::descriptionToStructure(QByteArray desc, deviceDescrip
        struc.fwHash=desc.mid(40,20);
        struc.uavoHash.clear();
        struc.uavoHash=desc.mid(60,20);
+       if(struc.gitTag.startsWith("RELEASE",Qt::CaseSensitive))
+           struc.certified = true;
+       else
+           struc.certified = false;
+       struc.userDefined = desc.mid(80, 20);
 
        return true;
    }
