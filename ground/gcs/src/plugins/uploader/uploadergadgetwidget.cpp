@@ -792,7 +792,8 @@ void UploaderGadgetWidget::versionMatchCheck()
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectUtilManager *utilMngr = pm->getObject<UAVObjectUtilManager>();
-    deviceDescriptorStruct boardDescription = utilMngr->getBoardDescriptionStruct();
+    deviceDescriptorStruct boardDescription;
+    utilMngr->getBoardDescriptionStruct(boardDescription);
     QByteArray uavoHashArray;
     QString uavoHash = QString::fromLatin1(Core::Constants::UAVOSHA1_STR);
     uavoHash.chop(2);

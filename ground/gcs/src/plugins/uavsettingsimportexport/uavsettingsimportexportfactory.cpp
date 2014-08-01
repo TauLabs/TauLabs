@@ -375,7 +375,8 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
     root.appendChild(versionInfo);
 
     UAVObjectUtilManager *utilMngr = pm->getObject<UAVObjectUtilManager>();
-    deviceDescriptorStruct board = utilMngr->getBoardDescriptionStruct();
+    deviceDescriptorStruct board;
+    utilMngr->getBoardDescriptionStruct(board);
 
     QDomElement hw = doc.createElement("hardware");
     hw.setAttribute("type", QString().setNum(board.boardType, 16));
