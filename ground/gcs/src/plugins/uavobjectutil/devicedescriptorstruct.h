@@ -42,6 +42,7 @@ public:
     QByteArray uavoHash;
     int boardType;
     int boardRevision;
+    quint16 boardID();
     static QString idToBoardName(quint16 id);
     static QPixmap idToBoardPicture(quint16 id);
 
