@@ -302,7 +302,7 @@ plugin_setupwizard.subdir = setupwizard
 plugin_setupwizard.depends = plugin_coreplugin
 plugin_setupwizard.depends += plugin_uavobjectutil
 plugin_setupwizard.depends += plugin_config
-plugin_setupwizard.depends += plugin_uploader
+plugin_setupwizard.depends += plugin_uploaderng
 SUBDIRS += plugin_setupwizard
 
 # Setup alarm messaging plugin

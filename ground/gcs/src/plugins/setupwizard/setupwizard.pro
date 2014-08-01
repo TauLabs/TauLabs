@@ -9,7 +9,7 @@ include(../../plugins/uavobjectutil/uavobjectutil.pri)
 include(../../plugins/uavobjectwidgetutils/uavobjectwidgetutils.pri)
 include(../../plugins/config/config.pri)
 
-LIBS *= -l$$qtLibraryName(Uploader)
+LIBS *= -l$$qtLibraryName(Uploaderng)
 HEADERS += setupwizardplugin.h \ 
     setupwizard.h \
     pages/boardtype_unknown.h \
