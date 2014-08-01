@@ -78,6 +78,7 @@ public:
     bool setAllNonSettingsMetadata(QMap<QString, UAVObject::Metadata>);
     bool resetMetadataToDefaults();
 
+    int getBoardRevision();
 protected:
     FirmwareIAPObj::DataFields getFirmwareIap();
 

@@ -494,6 +494,14 @@ int UAVObjectUtilManager::getBoardModel()
     return ret;
 }
 
+//! Get the connected board hardware revision
+int UAVObjectUtilManager::getBoardRevision()
+{
+    FirmwareIAPObj::DataFields firmwareIapData = getFirmwareIap();
+    int ret = firmwareIapData.BoardRevision;
+    return ret;
+}
+
 //! Get the IBoardType corresponding to the connected board
 Core::IBoardType *UAVObjectUtilManager::getBoardType()
 {
