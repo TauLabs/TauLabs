@@ -36,7 +36,6 @@
 #include <QEventLoop>
 #include <QTimer>
 #include <objectpersistence.h>
-#include <QInputDialog>
 
 #include "firmwareiapobj.h"
 #include "homelocation.h"
@@ -69,9 +68,6 @@ UAVObjectUtilManager::UAVObjectUtilManager()
 
 UAVObjectUtilManager::~UAVObjectUtilManager()
 {
-//	while (!queue.isEmpty())
-	{
-	}
 
 	disconnect();
 
