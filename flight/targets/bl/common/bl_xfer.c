@@ -345,7 +345,7 @@ bool bl_xfer_send_capabilities_self(void)
 
 #if defined(BL_INCLUDE_CAP_EXTENSIONS)
 	/* Fill in capabilities extensions */
-	msg.v.cap_rep_specific.cap_extension_magic = BL_CAP_EXTENSION_MAGIC,
+	msg.v.cap_rep_specific.cap_extension_magic = BL_CAP_EXTENSION_MAGIC;
 
 	uintptr_t partition_id;
 	uint32_t partition_size;
