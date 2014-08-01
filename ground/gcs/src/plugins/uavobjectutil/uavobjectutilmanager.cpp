@@ -650,10 +650,9 @@ int UAVObjectUtilManager::getGPSPosition(double LLA[3])
 	return 0;	// OK
 }
 
-deviceDescriptorStruct UAVObjectUtilManager::getBoardDescriptionStruct()
+bool UAVObjectUtilManager::getBoardDescriptionStruct(deviceDescriptorStruct &device)
 {
-    deviceDescriptorStruct ret;
-    descriptionToStructure(getBoardDescription(),ret);
+    bool ret = descriptionToStructure(getBoardDescription(), device);
     return ret;
 }
 

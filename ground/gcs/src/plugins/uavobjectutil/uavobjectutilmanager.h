@@ -67,7 +67,7 @@ public:
     QByteArray getBoardCPUSerial();
     quint32 getFirmwareCRC();
     QByteArray getBoardDescription();
-    deviceDescriptorStruct getBoardDescriptionStruct();
+    bool getBoardDescriptionStruct(deviceDescriptorStruct &device);
     static bool descriptionToStructure(QByteArray desc,deviceDescriptorStruct & struc);
     UAVObjectManager* getObjectManager();
     void saveObjectToFlash(UAVObject *obj);
