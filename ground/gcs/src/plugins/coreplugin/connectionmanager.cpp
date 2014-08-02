@@ -361,6 +361,14 @@ void ConnectionManager::resumePolling()
 }
 
 /**
+*   Returns true if autoconnection is enabled
+*/
+bool ConnectionManager::getAutoconnect()
+{
+    return m_mainWindow->generalSettings()->autoConnect();
+}
+
+/**
  * Synchronize the list of connections displayed with those physically
  * present
  * @param[in] connection Connection type that you want to forget about :)
