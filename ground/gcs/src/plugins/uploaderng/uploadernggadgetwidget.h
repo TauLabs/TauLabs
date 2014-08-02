@@ -98,6 +98,9 @@ private slots:
     void onBootButtonClick();
     void onBootingTimout();
     void onAutoUpdateCount(int i);
+    void openHelp();
+    void onResetButtonClick();
+    void onAvailableDevicesChanged(QLinkedList<Core::DevListItem>);
 private:
     void FirmwareOnDeviceClear(bool clear);
     void FirmwareLoadedClear(bool clear);
@@ -125,13 +128,15 @@ private:
     ExtensionSystem::PluginManager *pm;
     USBSignalFilter *usbFilterBL;
     TelemetryManager* telMngr;
+    Core::ConnectionManager *conMngr;
     FirmwareIAPObj *firmwareIap;
     deviceInfo currentBoard;
-    Core::DevListItem lastConnectedTelemetryDevice;
+    QString lastConnectedTelemetryDevice;
     uploaderng::UploaderStatus uploaderStatus;
     uploaderng::UploaderStatus previousStatus;
     QByteArray tempArray;
     bool lastUploadResult;
+    QTimer bootTimeoutTimer;
 };
 }
 #endif // UPLOADERNGGADGETWIDGET_H

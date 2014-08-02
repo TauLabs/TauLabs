@@ -27,6 +27,7 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 #include "uploadernggadgetwidget.h"
 #include "firmwareiapobj.h"
@@ -40,7 +41,8 @@ using namespace uploaderng;
  * @brief Class constructor, sets signal to slot connections,
  * creates actions, creates utility classes instances, etc
  */
-UploaderngGadgetWidget::UploaderngGadgetWidget(QWidget *parent):QWidget(parent)
+UploaderngGadgetWidget::UploaderngGadgetWidget(QWidget *parent):QWidget(parent),
+    telemetryConnected(false), iapPresent(false), iapUpdated(false)
 {
     m_widget = new Ui_UploaderngWidget();
     m_widget->setupUi(this);
@@ -91,13 +93,16 @@ UploaderngGadgetWidget::UploaderngGadgetWidget(QWidget *parent):QWidget(parent)
     connect(m_widget->flashButton, SIGNAL(clicked()), this, SLOT(onFlashButtonClick()));
     connect(m_widget->bootButton, SIGNAL(clicked()), this, SLOT(onBootButtonClick()));
     connect(m_widget->safeBootButton, SIGNAL(clicked()), this, SLOT(onBootButtonClick()));
-
+    connect(m_widget->resetButton, SIGNAL(clicked()), this, SLOT(onResetButtonClick()));
+    connect(m_widget->pbHelp, SIGNAL(clicked()),this,SLOT(openHelp()));
     Core::BoardManager* brdMgr = Core::ICore::instance()->boardManager();
 
     //Setup usb discovery signals for boards in bl state
     usbFilterBL = new USBSignalFilter(brdMgr->getKnownVendorIDs(),-1,-1,USBMonitor::Bootloader);
     connect(usbFilterBL, SIGNAL(deviceRemoved()), this, SLOT(onBootloaderRemoved()));
 
+    conMngr = Core::ICore::instance()->connectionManager();
+    connect(conMngr, SIGNAL(availableDevicesChanged(QLinkedList<Core::DevListItem>)), this, SLOT(onAvailableDevicesChanged(QLinkedList<Core::DevListItem>)));
     // Check if a board is already in bootloader state when the GCS starts
     foreach (int i, brdMgr->getKnownVendorIDs()) {
         if(USBMonitor::instance()->availableDevices(i, -1, -1, USBMonitor::Bootloader).length() > 0)
@@ -107,6 +112,10 @@ UploaderngGadgetWidget::UploaderngGadgetWidget(QWidget *parent):QWidget(parent)
             break;
         }
     }
+
+    bootTimeoutTimer.setInterval(12000);
+    bootTimeoutTimer.setSingleShot(true);
+    connect(&bootTimeoutTimer, SIGNAL(timeout()), this, SLOT(onBootingTimout()));
 }
 
 /**
@@ -301,6 +310,7 @@ void UploaderngGadgetWidget::FirmwareLoadedUpdate(QByteArray firmwareArray)
 void UploaderngGadgetWidget::onAutopilotConnect()
 {
     telemetryConnected = true;
+    bootTimeoutTimer.stop();
     CheckAutopilotReady();
 }
 
@@ -315,7 +325,7 @@ void UploaderngGadgetWidget::onAutopilotDisconnect()
     telemetryConnected = false;
     iapPresent = false;
     iapUpdated = false;
-    if( (getUploaderStatus() == uploaderng::RESCUING) || (getUploaderStatus() == uploaderng::HALTING) )
+    if( (getUploaderStatus() == uploaderng::RESCUING) || (getUploaderStatus() == uploaderng::HALTING) || (getUploaderStatus() == uploaderng::BOOTING))
         return;
     setUploaderStatus(uploaderng::DISCONNECTED);
     setStatusInfo(tr("Telemetry disconnected"), uploaderng::STATUSICON_INFO);
@@ -411,9 +421,7 @@ void UploaderngGadgetWidget::onFlashButtonClick()
  */
 void UploaderngGadgetWidget::onRescueButtonClick()
 {
-    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
-    if(cm)
-        cm->suspendPolling();
+    conMngr->suspendPolling();
     setUploaderStatus(uploaderng::RESCUING);
     setStatusInfo(tr("Please connect the board with USB with no external power applied"), uploaderng::STATUSICON_INFO);
     onRescueTimer(true);
@@ -528,9 +536,7 @@ void UploaderngGadgetWidget::onBootloaderRemoved()
 {
     if( (getUploaderStatus() == uploaderng::RESCUING) || (getUploaderStatus() == uploaderng::HALTING) )
         return;
-    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
-    if(cm)
-        cm->resumePolling();
+    conMngr->resumePolling();
     setStatusInfo(tr("Bootloader disconnection detected"), uploaderng::STATUSICON_INFO);
     DeviceInformationClear();
     FirmwareOnDeviceClear(true);
@@ -582,9 +588,7 @@ void UploaderngGadgetWidget::onRescueTimer(bool start)
         setStatusInfo(tr("Failed to detect bootloader"), uploaderng::STATUSICON_FAIL);
         setUploaderStatus(uploaderng::DISCONNECTED);
         emit rescueFinish(false);
-        Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
-        if(cm)
-            cm->resumePolling();
+        conMngr->resumePolling();
     }
 }
 
@@ -841,7 +845,7 @@ void UploaderngGadgetWidget::onBootButtonClick()
     if(!CheckInBootloaderState())
         return;
     setUploaderStatus(uploaderng::BOOTING);
-    QTimer::singleShot(8000, this, SLOT(onBootingTimout()));
+    bootTimeoutTimer.start();
     bool safeboot = (sender() == m_widget->safeBootButton);
     dfu.JumpToApp(safeboot);
 }
@@ -1115,13 +1119,12 @@ void UploaderngGadgetWidget::setStatusInfo(QString str, uploaderng::StatusIcon i
 }
 
 /**
- * @brief slot called when the user clicks halt
+ * @brief slot called when the user clicks reset
  */
-void UploaderngGadgetWidget::onHaltButtonClick()
+void UploaderngGadgetWidget::onResetButtonClick()
 {
-    Core::ConnectionManager *cm = Core::ICore::instance()->connectionManager();
-    if(cm)
-        lastConnectedTelemetryDevice = cm->getCurrentDevice();
+
+    lastConnectedTelemetryDevice = conMngr->getCurrentDevice().device.data()->getName();
     if(!telMngr->isConnected() || !firmwareIap->getIsPresentOnHardware())
         return;
     previousStatus = getUploaderStatus();
@@ -1137,6 +1140,74 @@ void UploaderngGadgetWidget::onHaltButtonClick()
     int magicStep = 1111;
     for(int i = 0; i < 3; ++i)
     {
+        //Firmware IAP module specifies that the timing between iap commands must be
+        //between 500 and 5000ms
+        timeout.start(600);
+        loop.exec();
+        firmwareIap->setCommand(magicValue);
+        magicValue += magicStep;
+        if(magicValue == 3344)
+            magicValue = 4455;
+        setStatusInfo(QString(tr("Sending IAP Step %0").arg(i + 1)), uploaderng::STATUSICON_INFO);
+        firmwareIap->updated();
+        timeout.start(1000);
+        loop.exec();
+        if(!timeout.isActive())
+        {
+            setStatusInfo(QString(tr("Sending IAP Step %0 failed").arg(i + 1)), uploaderng::STATUSICON_FAIL);
+            setUploaderStatus(previousStatus);
+            return;
+        }
+        timeout.stop();
+    }
+    setUploaderStatus(uploaderng::BOOTING);
+    conMngr->disconnectDevice();
+    timeout.start(200);
+    loop.exec();
+    conMngr->suspendPolling();
+    bootTimeoutTimer.start();
+    return;
+}
+
+/**
+ * @brief slot by connectionManager when new devices arrive
+ * Used to reconnect the boards after booting if autoconnect is disabled
+ */
+void UploaderngGadgetWidget::onAvailableDevicesChanged(QLinkedList<Core::DevListItem> devList)
+{
+    if(conMngr->getAutoconnect() || conMngr->isConnected() || lastConnectedTelemetryDevice.isEmpty())
+        return;
+    foreach (Core::DevListItem item, devList) {
+        if(item.device.data()->getName() == lastConnectedTelemetryDevice)
+        {
+            conMngr->connectDevice(item);
+        }
+    }
+}
+
+/**
+ * @brief slot called when the user clicks halt
+ */
+void UploaderngGadgetWidget::onHaltButtonClick()
+{
+    lastConnectedTelemetryDevice = conMngr->getCurrentDevice().device.data()->getName();
+    if(!telMngr->isConnected() || !firmwareIap->getIsPresentOnHardware())
+        return;
+    previousStatus = getUploaderStatus();
+    setUploaderStatus(uploaderng::HALTING);
+    QEventLoop loop;
+    QTimer timeout;
+    timeout.setSingleShot(true);
+    firmwareIap->setBoardRevision(0);
+    firmwareIap->setBoardType(0);
+    connect(&timeout, SIGNAL(timeout()), &loop, SLOT(quit()));
+    connect(firmwareIap,SIGNAL(transactionCompleted(UAVObject*,bool)), &loop, SLOT(quit()));
+    int magicValue = 1122;
+    int magicStep = 1111;
+    for(int i = 0; i < 3; ++i)
+    {
+        //Firmware IAP module specifies that the timing between iap commands must be
+        //between 500 and 5000ms
         timeout.start(600);
         loop.exec();
         firmwareIap->setCommand(magicValue);
@@ -1153,10 +1224,10 @@ void UploaderngGadgetWidget::onHaltButtonClick()
         }
         timeout.stop();
     }
-    cm->disconnectDevice();
+    conMngr->disconnectDevice();
     timeout.start(200);
     loop.exec();
-    cm->suspendPolling();
+    conMngr->suspendPolling();
     onRescueTimer(true);
     return;
 }
@@ -1259,7 +1330,10 @@ void UploaderngGadgetWidget::setUploaderStatus(const uploaderng::UploaderStatus 
     case uploaderng::CONNECTED_TO_TELEMETRY:
         m_widget->rescueButton->setVisible(false);
         m_widget->openButton->setVisible(true);
-        m_widget->haltButton->setVisible(true);
+        if(conMngr->getCurrentDevice().connection->shortName() == "USB")
+            m_widget->haltButton->setVisible(true);
+        else
+            m_widget->haltButton->setVisible(false);
         m_widget->bootButton->setVisible(false);
         m_widget->safeBootButton->setVisible(false);
         m_widget->resetButton->setVisible(true);
@@ -1410,4 +1484,13 @@ bool UploaderngGadgetWidget::autoUpdate()
 void UploaderngGadgetWidget::onAutoUpdateCount(int i)
 {
     emit autoUpdateSignal(WAITING_CONNECT, i);
+}
+
+/**
+ * @brief Opens the plugin help page on the default browser
+ * TODO ADD SPECIFIC NG PAGE TO THE WIKI
+ */
+void UploaderngGadgetWidget::openHelp()
+{
+    QDesktopServices::openUrl( QUrl("http://wiki.taulabs.org/OnlineHelp:-Uploader-Plugin", QUrl::StrictMode) );
 }
