@@ -1,0 +1,74 @@
+<xml>
+	<object name="HwSparky2" singleinstance="true" settings="true" category="HardwareSettings">
+		<description>Selection of optional hardware configurations.</description>
+
+		<field name="RcvrPort" units="function" type="enum" elements="1" defaultvalue="PWM">
+		<options>
+			 <option>Disabled</option>
+			 <option>PWM</option>
+			 <option>PPM</option>
+			 <option>PPM+PWM</option>
+			 <option>PPM+Outputs</option>
+			 <option>Outputs</option>
+		</options>
+		</field>		
+		<field name="MainPort" units="function" type="enum" elements="1"  defaultvalue="Telemetry">
+			<options>
+				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>GPS</option>
+				<option>S.Bus</option>
+				<option>DSM2</option>
+				<option>DSMX (10bit)</option>
+				<option>DSMX (11bit)</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+				<option>HoTT Telemetry</option>
+				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
+			</options>
+		</field>
+		<field name="FlexiPort" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>GPS</option>
+				<option>I2C</option>
+				<option>DSM2</option>
+				<option>DSMX (10bit)</option>
+				<option>DSMX (11bit)</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+				<option>HoTT Telemetry</option>
+				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
+			</options>
+		</field>
+		<field name="RadioPort" units="function" type="enum" elements="1" options="Disabled,Telemetry" defaultvalue="Disabled"/>
+
+		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
+		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
+
+		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
+
+		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
+		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
+		<field name="MPU9250Rate" units="" type="enum" elements="1" options="200,333,500,666,1000,2000,4000,8000" defaultvalue="666"/>
+		<field name="MPU9250DLPF" units="" type="enum" elements="1" options="256,188,98,42,20,10,5" defaultvalue="256"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+    </object>
+</xml>

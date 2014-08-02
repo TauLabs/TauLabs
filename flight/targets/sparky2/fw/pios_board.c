@@ -39,56 +39,13 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include "hwrevomini.h"
+#include "hwsparky2.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
 
 /**
  * Sensor configurations 
  */
-
-#if defined(PIOS_INCLUDE_HMC5883)
-#include "pios_hmc5883_priv.h"
-static const struct pios_exti_cfg pios_exti_hmc5883_cfg __exti_config = {
-	.vector = PIOS_HMC5883_IRQHandler,
-	.line = EXTI_Line7,
-	.pin = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_7,
-			.GPIO_Speed = GPIO_Speed_100MHz,
-			.GPIO_Mode = GPIO_Mode_IN,
-			.GPIO_OType = GPIO_OType_OD,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL,
-		},
-	},
-	.irq = {
-		.init = {
-			.NVIC_IRQChannel = EXTI9_5_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
-			.NVIC_IRQChannelSubPriority = 0,
-			.NVIC_IRQChannelCmd = ENABLE,
-		},
-	},
-	.exti = {
-		.init = {
-			.EXTI_Line = EXTI_Line7, // matches above GPIO pin
-			.EXTI_Mode = EXTI_Mode_Interrupt,
-			.EXTI_Trigger = EXTI_Trigger_Rising,
-			.EXTI_LineCmd = ENABLE,
-		},
-	},
-};
-
-static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
-	.exti_cfg = &pios_exti_hmc5883_cfg,
-	.M_ODR = PIOS_HMC5883_ODR_75,
-	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
-	.Gain = PIOS_HMC5883_GAIN_1_9,
-	.Mode = PIOS_HMC5883_MODE_CONTINUOUS,
-	.Default_Orientation = PIOS_HMC5883_TOP_270DEG,
-};
-#endif /* PIOS_INCLUDE_HMC5883 */
 
 /**
  * Configuration for the MS5611 chip
@@ -103,12 +60,12 @@ static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 
 
 /**
- * Configuration for the MPU6000 chip
+ * Configuration for the MPU9250 chip
  */
-#if defined(PIOS_INCLUDE_MPU6000)
-#include "pios_mpu6000.h"
-static const struct pios_exti_cfg pios_exti_mpu6000_cfg __exti_config = {
-	.vector = PIOS_MPU6000_IRQHandler,
+#if defined(PIOS_INCLUDE_MPU9250_SPI)
+#include "pios_mpu9250.h"
+static const struct pios_exti_cfg pios_exti_mpu9250_cfg __exti_config = {
+	.vector = PIOS_MPU9250_IRQHandler,
 	.line = EXTI_Line4,
 	.pin = {
 		.gpio = GPIOC,
@@ -138,17 +95,17 @@ static const struct pios_exti_cfg pios_exti_mpu6000_cfg __exti_config = {
 	},
 };
 
-static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
-	.exti_cfg = &pios_exti_mpu6000_cfg,
+static const struct pios_mpu9250_cfg pios_mpu9250_cfg = {
+	.exti_cfg = &pios_exti_mpu9250_cfg,
 	.default_samplerate = 666,
 	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
-	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
-	.User_ctl = PIOS_MPU60X0_USERCTL_DIS_I2C,
-	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
-	.default_filter = PIOS_MPU60X0_LOWPASS_256_HZ,
-	.orientation = PIOS_MPU60X0_TOP_180DEG
+
+	.use_magnetometer = true,
+	.default_gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_250_HZ,
+	.default_accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_460_HZ,
+	.orientation = PIOS_MPU9250_TOP_180DEG
 };
-#endif /* PIOS_INCLUDE_MPU6000 */
+#endif /* PIOS_INCLUDE_MPU9250_SPI */
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
@@ -340,7 +297,7 @@ void PIOS_Board_Init(void) {
 	EventDispatcherInitialize();
 	UAVObjInitialize();
 
-	HwRevoMiniInitialize();
+	HwSparky2Initialize();
 	ModuleSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
@@ -371,7 +328,7 @@ void PIOS_Board_Init(void) {
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
-		HwRevoMiniSetDefaults(HwRevoMiniHandle(), 0);
+		HwSparky2SetDefaults(HwSparky2Handle(), 0);
 		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
@@ -407,11 +364,11 @@ void PIOS_Board_Init(void) {
 
 	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
-	HwRevoMiniUSB_VCPPortGet(&hw_usb_vcpport);
+	HwSparky2USB_VCPPortGet(&hw_usb_vcpport);
 
 	if (!usb_cdc_present) {
 		/* Force VCP port function to disabled if we haven't advertised VCP in our USB descriptor */
-		hw_usb_vcpport = HWREVOMINI_USB_VCPPORT_DISABLED;
+		hw_usb_vcpport = HWSPARKY2_USB_VCPPORT_DISABLED;
 	}
 
 	uintptr_t pios_usb_cdc_id;
@@ -420,9 +377,9 @@ void PIOS_Board_Init(void) {
 	}
 
 	switch (hw_usb_vcpport) {
-	case HWREVOMINI_USB_VCPPORT_DISABLED:
+	case HWSPARKY2_USB_VCPPORT_DISABLED:
 		break;
-	case HWREVOMINI_USB_VCPPORT_USBTELEMETRY:
+	case HWSPARKY2_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
@@ -437,7 +394,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWREVOMINI_USB_VCPPORT_COMBRIDGE:
+	case HWSPARKY2_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
@@ -452,7 +409,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWREVOMINI_USB_VCPPORT_DEBUGCONSOLE:
+	case HWSPARKY2_USB_VCPPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
@@ -467,7 +424,7 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWREVOMINI_USB_VCPPORT_PICOC:
+	case HWSPARKY2_USB_VCPPORT_PICOC:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_PICOC_RX_BUF_LEN);
@@ -488,11 +445,11 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
 	uint8_t hw_usb_hidport;
-	HwRevoMiniUSB_HIDPortGet(&hw_usb_hidport);
+	HwSparky2USB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hw_usb_hidport = HWREVOMINI_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWSPARKY2_USB_HIDPORT_DISABLED;
 	}
 
 	uintptr_t pios_usb_hid_id;
@@ -501,9 +458,9 @@ void PIOS_Board_Init(void) {
 	}
 
 	switch (hw_usb_hidport) {
-	case HWREVOMINI_USB_HIDPORT_DISABLED:
+	case HWSPARKY2_USB_HIDPORT_DISABLED:
 		break;
-	case HWREVOMINI_USB_HIDPORT_USBTELEMETRY:
+	case HWSPARKY2_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
@@ -529,21 +486,21 @@ void PIOS_Board_Init(void) {
 
 	/* Configure IO ports */
 	uint8_t hw_DSMxBind;
-	HwRevoMiniDSMxBindGet(&hw_DSMxBind);
+	HwSparky2DSMxBindGet(&hw_DSMxBind);
 	
 	/* Configure main USART port */
 	uint8_t hw_mainport;
-	HwRevoMiniMainPortGet(&hw_mainport);
+	HwSparky2MainPortGet(&hw_mainport);
 	switch (hw_mainport) {
-		case HWREVOMINI_MAINPORT_DISABLED:
+		case HWSPARKY2_MAINPORT_DISABLED:
 			break;
-		case HWREVOMINI_MAINPORT_TELEMETRY:
+		case HWSPARKY2_MAINPORT_TELEMETRY:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 			break;
-		case HWREVOMINI_MAINPORT_GPS:
+		case HWSPARKY2_MAINPORT_GPS:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
-		case HWREVOMINI_MAINPORT_SBUS:
+		case HWSPARKY2_MAINPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS)
                         {
                                 uintptr_t pios_usart_sbus_id;
@@ -564,20 +521,20 @@ void PIOS_Board_Init(void) {
                         }
 #endif
                         break;
-		case HWREVOMINI_MAINPORT_DSM2:
-		case HWREVOMINI_MAINPORT_DSMX10BIT:
-		case HWREVOMINI_MAINPORT_DSMX11BIT:
+		case HWSPARKY2_MAINPORT_DSM2:
+		case HWSPARKY2_MAINPORT_DSMX10BIT:
+		case HWSPARKY2_MAINPORT_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 			{
 				enum pios_dsm_proto proto;
 				switch (hw_mainport) {
-				case HWREVOMINI_MAINPORT_DSM2:
+				case HWSPARKY2_MAINPORT_DSM2:
 					proto = PIOS_DSM_PROTO_DSM2;
 					break;
-				case HWREVOMINI_MAINPORT_DSMX10BIT:
+				case HWSPARKY2_MAINPORT_DSMX10BIT:
 					proto = PIOS_DSM_PROTO_DSMX10BIT;
 					break;
-				case HWREVOMINI_MAINPORT_DSMX11BIT:
+				case HWSPARKY2_MAINPORT_DSMX11BIT:
 					proto = PIOS_DSM_PROTO_DSMX11BIT;
 					break;
 				default:
@@ -594,16 +551,16 @@ void PIOS_Board_Init(void) {
 			}
 #endif	/* PIOS_INCLUDE_DSM */
 			break;
-		case HWREVOMINI_MAINPORT_HOTTSUMD:
-		case HWREVOMINI_MAINPORT_HOTTSUMH:
+		case HWSPARKY2_MAINPORT_HOTTSUMD:
+		case HWSPARKY2_MAINPORT_HOTTSUMH:
 #if defined(PIOS_INCLUDE_HSUM)
 			{
 				enum pios_hsum_proto proto;
 				switch (hw_mainport) {
-				case HWREVOMINI_MAINPORT_HOTTSUMD:
+				case HWSPARKY2_MAINPORT_HOTTSUMD:
 					proto = PIOS_HSUM_PROTO_SUMD;
 					break;
-				case HWREVOMINI_MAINPORT_HOTTSUMH:
+				case HWSPARKY2_MAINPORT_HOTTSUMH:
 					proto = PIOS_HSUM_PROTO_SUMH;
 					break;
 				default:
@@ -614,64 +571,64 @@ void PIOS_Board_Init(void) {
 			}
 #endif	/* PIOS_INCLUDE_HSUM */
 			break;
-		case HWREVOMINI_MAINPORT_DEBUGCONSOLE:
+		case HWSPARKY2_MAINPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			{
 				PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
 			}
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
-		case HWREVOMINI_MAINPORT_COMBRIDGE:
+		case HWSPARKY2_MAINPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 			break;
-		case HWREVOMINI_MAINPORT_MAVLINKTX:
+		case HWSPARKY2_MAINPORT_MAVLINKTX:
 #if defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
 #endif		/* PIOS_INCLUDE_MAVLINK */
 		break;
-		case HWREVOMINI_MAINPORT_MAVLINKTX_GPS_RX:
+		case HWSPARKY2_MAINPORT_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 		pios_com_mavlink_id = pios_com_gps_id;
  #endif	/* PIOS_INCLUDE_MAVLINK */   	
 		break;
-		case HWREVOMINI_MAINPORT_HOTTTELEMETRY:
+		case HWSPARKY2_MAINPORT_HOTTTELEMETRY:
 #if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
 #endif /* PIOS_INCLUDE_HOTT */
 			break;
-        case HWREVOMINI_MAINPORT_FRSKYSENSORHUB:
+        case HWSPARKY2_MAINPORT_FRSKYSENSORHUB:
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
             PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
 #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 		break;
-		case HWREVOMINI_MAINPORT_LIGHTTELEMETRYTX:
+		case HWSPARKY2_MAINPORT_LIGHTTELEMETRYTX:
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 		PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
 #endif
 		break;
-		case HWREVOMINI_MAINPORT_PICOC:
+		case HWSPARKY2_MAINPORT_PICOC:
 #if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
 		break;
 	} /* 	hw_mainport */
 
-	if (hw_mainport != HWREVOMINI_MAINPORT_SBUS) {
+	if (hw_mainport != HWSPARKY2_MAINPORT_SBUS) {
 		GPIO_Init(pios_sbus_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_sbus_cfg.inv.init);
 		GPIO_WriteBit(pios_sbus_cfg.inv.gpio, pios_sbus_cfg.inv.init.GPIO_Pin, pios_sbus_cfg.gpio_inv_disable);
 	}
 
 	/* Configure FlexiPort */
 	uint8_t hw_flexiport;
-	HwRevoMiniFlexiPortGet(&hw_flexiport);
+	HwSparky2FlexiPortGet(&hw_flexiport);
 	switch (hw_flexiport) {
-		case HWREVOMINI_FLEXIPORT_DISABLED:
+		case HWSPARKY2_FLEXIPORT_DISABLED:
 			break;
-                case HWREVOMINI_FLEXIPORT_TELEMETRY:
+                case HWSPARKY2_FLEXIPORT_TELEMETRY:
                         PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 			break;
-		case HWREVOMINI_FLEXIPORT_I2C:
+		case HWSPARKY2_FLEXIPORT_I2C:
 #if defined(PIOS_INCLUDE_I2C)
 			{
 				if (PIOS_I2C_Init(&pios_i2c_flexiport_adapter_id, &pios_i2c_flexiport_adapter_cfg)) {
@@ -680,23 +637,23 @@ void PIOS_Board_Init(void) {
 			}
 #endif	/* PIOS_INCLUDE_I2C */
 			break;
-		case HWREVOMINI_FLEXIPORT_GPS:
+		case HWSPARKY2_FLEXIPORT_GPS:
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
-		case HWREVOMINI_FLEXIPORT_DSM2:
-		case HWREVOMINI_FLEXIPORT_DSMX10BIT:
-		case HWREVOMINI_FLEXIPORT_DSMX11BIT:
+		case HWSPARKY2_FLEXIPORT_DSM2:
+		case HWSPARKY2_FLEXIPORT_DSMX10BIT:
+		case HWSPARKY2_FLEXIPORT_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 			{
 				enum pios_dsm_proto proto;
 				switch (hw_flexiport) {
-				case HWREVOMINI_FLEXIPORT_DSM2:
+				case HWSPARKY2_FLEXIPORT_DSM2:
 					proto = PIOS_DSM_PROTO_DSM2;
 					break;
-				case HWREVOMINI_FLEXIPORT_DSMX10BIT:
+				case HWSPARKY2_FLEXIPORT_DSMX10BIT:
 					proto = PIOS_DSM_PROTO_DSMX10BIT;
 					break;
-				case HWREVOMINI_FLEXIPORT_DSMX11BIT:
+				case HWSPARKY2_FLEXIPORT_DSMX11BIT:
 					proto = PIOS_DSM_PROTO_DSMX11BIT;
 					break;
 				default:
@@ -710,16 +667,16 @@ void PIOS_Board_Init(void) {
 			break;
 #endif	/* PIOS_INCLUDE_DSM */
 			break;
-		case HWREVOMINI_FLEXIPORT_HOTTSUMD:
-		case HWREVOMINI_FLEXIPORT_HOTTSUMH:
+		case HWSPARKY2_FLEXIPORT_HOTTSUMD:
+		case HWSPARKY2_FLEXIPORT_HOTTSUMH:
 #if defined(PIOS_INCLUDE_HSUM)
 			{
 				enum pios_hsum_proto proto;
 				switch (hw_flexiport) {
-				case HWREVOMINI_FLEXIPORT_HOTTSUMD:
+				case HWSPARKY2_FLEXIPORT_HOTTSUMD:
 					proto = PIOS_HSUM_PROTO_SUMD;
 					break;
-				case HWREVOMINI_FLEXIPORT_HOTTSUMH:
+				case HWSPARKY2_FLEXIPORT_HOTTSUMH:
 					proto = PIOS_HSUM_PROTO_SUMH;
 					break;
 				default:
@@ -730,42 +687,42 @@ void PIOS_Board_Init(void) {
 			}
 #endif	/* PIOS_INCLUDE_HSUM */
 			break;
-		case HWREVOMINI_FLEXIPORT_DEBUGCONSOLE:
+		case HWSPARKY2_FLEXIPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			{
 				PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
 			}
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
-		case HWREVOMINI_FLEXIPORT_COMBRIDGE:
+		case HWSPARKY2_FLEXIPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 			break;
-		case HWREVOMINI_FLEXIPORT_MAVLINKTX:
+		case HWSPARKY2_FLEXIPORT_MAVLINKTX:
 #if defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
 #endif		/* PIOS_INCLUDE_MAVLINK */
 		break;
-		case HWREVOMINI_FLEXIPORT_MAVLINKTX_GPS_RX:
+		case HWSPARKY2_FLEXIPORT_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 		pios_com_mavlink_id = pios_com_gps_id;
 #endif    	/* PIOS_INCLUDE_MAVLINK */
 		break;
-		case HWREVOMINI_FLEXIPORT_HOTTTELEMETRY:
+		case HWSPARKY2_FLEXIPORT_HOTTTELEMETRY:
 #if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
 #endif /* PIOS_INCLUDE_HOTT */
 			break;
-        case HWREVOMINI_FLEXIPORT_FRSKYSENSORHUB:
+        case HWSPARKY2_FLEXIPORT_FRSKYSENSORHUB:
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
             PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
 #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 		break;
-		case HWREVOMINI_FLEXIPORT_LIGHTTELEMETRYTX:
+		case HWSPARKY2_FLEXIPORT_LIGHTTELEMETRYTX:
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 		PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
 #endif  
-		case HWREVOMINI_FLEXIPORT_PICOC:
+		case HWSPARKY2_FLEXIPORT_PICOC:
 #if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
@@ -775,11 +732,11 @@ void PIOS_Board_Init(void) {
 	/* Initalize the RFM22B radio COM device. */
 #if defined(PIOS_INCLUDE_RFM22B)
 	uint8_t hwsettings_radioport;
-	HwRevoMiniRadioPortGet(&hwsettings_radioport);
+	HwSparky2RadioPortGet(&hwsettings_radioport);
 	switch (hwsettings_radioport) {
-		case HWREVOMINI_RADIOPORT_DISABLED:
+		case HWSPARKY2_RADIOPORT_DISABLED:
 			break;
-		case HWREVOMINI_RADIOPORT_TELEMETRY:
+		case HWSPARKY2_RADIOPORT_TELEMETRY:
 		{
 			extern const struct pios_rfm22b_cfg * PIOS_BOARD_HW_DEFS_GetRfm22Cfg (uint32_t board_revision);
 			const struct pios_board_info * bdinfo = &pios_board_info_blob;
@@ -804,12 +761,12 @@ void PIOS_Board_Init(void) {
 
 	/* Configure the receiver port*/
 	uint8_t hw_rcvrport;
-	HwRevoMiniRcvrPortGet(&hw_rcvrport);
+	HwSparky2RcvrPortGet(&hw_rcvrport);
 	//   
 	switch (hw_rcvrport){
-		case HWREVOMINI_RCVRPORT_DISABLED:
+		case HWSPARKY2_RCVRPORT_DISABLED:
 			break;
-		case HWREVOMINI_RCVRPORT_PWM:
+		case HWSPARKY2_RCVRPORT_PWM:
 #if defined(PIOS_INCLUDE_PWM)
 		{
 			/* Set up the receiver port.  Later this should be optional */
@@ -824,7 +781,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 			break;
-		case HWREVOMINI_RCVRPORT_PPMPWM:
+		case HWSPARKY2_RCVRPORT_PPMPWM:
 		/* This is a combination of PPM and PWM inputs */
 #if defined(PIOS_INCLUDE_PPM)
 		{
@@ -851,8 +808,8 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 			break;
-		case HWREVOMINI_RCVRPORT_PPM:
-		case HWREVOMINI_RCVRPORT_PPMOUTPUTS:
+		case HWSPARKY2_RCVRPORT_PPM:
+		case HWSPARKY2_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
 		{
 			uintptr_t pios_ppm_id;
@@ -865,7 +822,7 @@ void PIOS_Board_Init(void) {
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_PPM */
-		case HWREVOMINI_RCVRPORT_OUTPUTS:
+		case HWSPARKY2_RCVRPORT_OUTPUTS:
 		
 			break;
 	}
@@ -884,14 +841,14 @@ void PIOS_Board_Init(void) {
 
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
 	switch (hw_rcvrport) {
-		case HWREVOMINI_RCVRPORT_DISABLED:
-		case HWREVOMINI_RCVRPORT_PWM:
-		case HWREVOMINI_RCVRPORT_PPM:
+		case HWSPARKY2_RCVRPORT_DISABLED:
+		case HWSPARKY2_RCVRPORT_PWM:
+		case HWSPARKY2_RCVRPORT_PPM:
 			/* Set up the servo outputs */
 			PIOS_Servo_Init(&pios_servo_cfg);
 			break;
-		case HWREVOMINI_RCVRPORT_PPMOUTPUTS:
-		case HWREVOMINI_RCVRPORT_OUTPUTS:
+		case HWSPARKY2_RCVRPORT_PPMOUTPUTS:
+		case HWSPARKY2_RCVRPORT_OUTPUTS:
 			//PIOS_Servo_Init(&pios_servo_rcvr_cfg);
 			//TODO: Prepare the configurations on board_hw_defs and handle here:
 			PIOS_Servo_Init(&pios_servo_cfg);
@@ -918,80 +875,76 @@ void PIOS_Board_Init(void) {
         GPIO_Init(pios_current_sonar_pin.gpio, &pios_current_sonar_pin.init);
 #endif
 
-#if defined(PIOS_INCLUDE_HMC5883)
-	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
-#endif
-	
 #if defined(PIOS_INCLUDE_MS5611)
 	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_mag_pressure_adapter_id);
 #endif
 
-#if defined(PIOS_INCLUDE_MPU6000)
-	PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg);
+#if defined(PIOS_INCLUDE_MPU9250_SPI)
+	PIOS_MPU9250_SPI_Init(pios_spi_gyro_id, 0, &pios_mpu9250_cfg);
 
 	// To be safe map from UAVO enum to driver enum
 	uint8_t hw_gyro_range;
-	HwRevoMiniGyroRangeGet(&hw_gyro_range);
+	HwSparky2GyroRangeGet(&hw_gyro_range);
 	switch(hw_gyro_range) {
-		case HWREVOMINI_GYRORANGE_250:
-			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
+		case HWSPARKY2_GYRORANGE_250:
+			PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
 			break;
-		case HWREVOMINI_GYRORANGE_500:
-			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
+		case HWSPARKY2_GYRORANGE_500:
+			PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 			break;
-		case HWREVOMINI_GYRORANGE_1000:
-			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
+		case HWSPARKY2_GYRORANGE_1000:
+			PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
 			break;
-		case HWREVOMINI_GYRORANGE_2000:
-			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
+		case HWSPARKY2_GYRORANGE_2000:
+			PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
 			break;
 	}
 
 	uint8_t hw_accel_range;
-	HwRevoMiniAccelRangeGet(&hw_accel_range);
+	HwSparky2AccelRangeGet(&hw_accel_range);
 	switch(hw_accel_range) {
-		case HWREVOMINI_ACCELRANGE_2G:
-			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
+		case HWSPARKY2_ACCELRANGE_2G:
+			PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
 			break;
-		case HWREVOMINI_ACCELRANGE_4G:
-			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
+		case HWSPARKY2_ACCELRANGE_4G:
+			PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
 			break;
-		case HWREVOMINI_ACCELRANGE_8G:
-			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
+		case HWSPARKY2_ACCELRANGE_8G:
+			PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 			break;
-		case HWREVOMINI_ACCELRANGE_16G:
-			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
+		case HWSPARKY2_ACCELRANGE_16G:
+			PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 			break;
 	}
 
 	// the filter has to be set before rate else divisor calculation will fail
-	uint8_t hw_mpu6000_dlpf;
-	HwRevoMiniMPU6000DLPFGet(&hw_mpu6000_dlpf);
-	enum pios_mpu60x0_filter mpu6000_dlpf = \
-	    (hw_mpu6000_dlpf == HWREVOMINI_MPU6000DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
-	    (hw_mpu6000_dlpf == HWREVOMINI_MPU6000DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
-	    (hw_mpu6000_dlpf == HWREVOMINI_MPU6000DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
-	    (hw_mpu6000_dlpf == HWREVOMINI_MPU6000DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
-	    (hw_mpu6000_dlpf == HWREVOMINI_MPU6000DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
-	    (hw_mpu6000_dlpf == HWREVOMINI_MPU6000DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
-	    (hw_mpu6000_dlpf == HWREVOMINI_MPU6000DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
-	    pios_mpu6000_cfg.default_filter;
-	PIOS_MPU6000_SetLPF(mpu6000_dlpf);
+	/*uint8_t hw_mpu9250_dlpf;
+	HwSparky2MPU9250DLPFGet(&hw_mpu9250_dlpf);
+	enum pios_mpu60x0_filter mpu9250_dlpf = \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
+	    pios_mpu9250_cfg.default_filter;
+	PIOS_MPU9250_SetLPF(mpu9250_dlpf);*/
 
-	uint8_t hw_mpu6000_samplerate;
-	HwRevoMiniMPU6000RateGet(&hw_mpu6000_samplerate);
-	uint16_t mpu6000_samplerate = \
-	    (hw_mpu6000_samplerate == HWREVOMINI_MPU6000RATE_200) ? 200 : \
-	    (hw_mpu6000_samplerate == HWREVOMINI_MPU6000RATE_333) ? 333 : \
-	    (hw_mpu6000_samplerate == HWREVOMINI_MPU6000RATE_500) ? 500 : \
-	    (hw_mpu6000_samplerate == HWREVOMINI_MPU6000RATE_666) ? 666 : \
-	    (hw_mpu6000_samplerate == HWREVOMINI_MPU6000RATE_1000) ? 1000 : \
-	    (hw_mpu6000_samplerate == HWREVOMINI_MPU6000RATE_2000) ? 2000 : \
-	    (hw_mpu6000_samplerate == HWREVOMINI_MPU6000RATE_4000) ? 4000 : \
-	    (hw_mpu6000_samplerate == HWREVOMINI_MPU6000RATE_8000) ? 8000 : \
-	    pios_mpu6000_cfg.default_samplerate;
-	PIOS_MPU6000_SetSampleRate(mpu6000_samplerate);
-#endif
+	uint8_t hw_mpu9250_samplerate;
+	HwSparky2MPU9250RateGet(&hw_mpu9250_samplerate);
+	uint16_t mpu9250_samplerate = \
+	    (hw_mpu9250_samplerate == HWSPARKY2_MPU9250RATE_200) ? 200 : \
+	    (hw_mpu9250_samplerate == HWSPARKY2_MPU9250RATE_333) ? 333 : \
+	    (hw_mpu9250_samplerate == HWSPARKY2_MPU9250RATE_500) ? 500 : \
+	    (hw_mpu9250_samplerate == HWSPARKY2_MPU9250RATE_666) ? 666 : \
+	    (hw_mpu9250_samplerate == HWSPARKY2_MPU9250RATE_1000) ? 1000 : \
+	    (hw_mpu9250_samplerate == HWSPARKY2_MPU9250RATE_2000) ? 2000 : \
+	    (hw_mpu9250_samplerate == HWSPARKY2_MPU9250RATE_4000) ? 4000 : \
+	    (hw_mpu9250_samplerate == HWSPARKY2_MPU9250RATE_8000) ? 8000 : \
+	    pios_mpu9250_cfg.default_samplerate;
+	PIOS_MPU9250_SetSampleRate(mpu9250_samplerate);
+#endif /* PIOS_INCLUDE_MPU9250_SPI */
 
 }
 
