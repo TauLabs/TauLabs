@@ -41,6 +41,7 @@
 #define IAP_CMD_STEP_1      1122
 #define IAP_CMD_STEP_2      2233
 #define IAP_CMD_STEP_3      3344
+#define IAP_CMD_STEP_3NB    4455
 
 #define IAP_CMD_CRC         100
 #define IAP_CMD_VERIFY      101
@@ -153,7 +154,7 @@ static void FirmwareIAPCallback(UAVObjEvent* ev)
 				}
 				break;
 			case IAP_STATE_STEP_2:
-				if( data.Command == IAP_CMD_STEP_3 ) {
+				if( (data.Command == IAP_CMD_STEP_3) || (data.Command == IAP_CMD_STEP_3NB) ) {
 					if( delta > iap_time_3_low_end && delta < iap_time_3_high_end ) {
 						
 						FlightStatusData flightStatus;
@@ -167,8 +168,10 @@ static void FirmwareIAPCallback(UAVObjEvent* ev)
 							
 						// we've met the three sequence of command numbers
 						// we've met the time requirements.
-						PIOS_IAP_SetRequest1();
-						PIOS_IAP_SetRequest2();
+						if(data.Command == IAP_CMD_STEP_3) {
+							PIOS_IAP_SetRequest1();
+							PIOS_IAP_SetRequest2();
+						}
 						
 						/* Note: Cant just wait timeout value, because first time is randomized */
 						reset_count = 0;
