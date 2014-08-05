@@ -32,6 +32,11 @@ namespace tl_dfu {
 
 #define BL_INCLUDE_CAP_EXTENSIONS
 
+#define uint8_t quint8
+#define uint16_t quint16
+#define uint32_t quint32
+
+
 /* Note:
  *   Writes are from PC -> FC
  *   Reads  are from FC -> PC
