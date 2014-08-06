@@ -440,6 +440,12 @@ int main(void)
 		PIOS_IAP_ClearRequest();
 		bl_fsm_inject_event(&bl_fsm_context, BL_EVENT_ENTER_DFU);
 	}
+	else if (PIOS_Boot_CheckRequest() == true) {
+		/* User has requested that we boot into firmware */
+		PIOS_IAP_ClearRequest();
+		PIOS_DELAY_WaitmS(1000);//needed so OS can detect BL USB disconnect
+		bl_fsm_inject_event(&bl_fsm_context, BL_EVENT_TIMER_EXPIRY);
+	}
 
 	/* Assume no USB connected */
 	bool usb_connected = false;

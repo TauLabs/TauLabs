@@ -83,7 +83,11 @@ int main() {
 		User_DFU_request = true;
 		PIOS_IAP_ClearRequest();
 	}
-
+	else if(PIOS_Boot_CheckRequest() == true) {
+		JumpToApp = true;
+		PIOS_IAP_ClearRequest();
+		PIOS_DELAY_WaitmS(1000);//needed so OS can detect BL USB disconnect
+	}
 	GO_dfu = (USB_connected == true) || (User_DFU_request == true);
 
 	if (GO_dfu == true) {
