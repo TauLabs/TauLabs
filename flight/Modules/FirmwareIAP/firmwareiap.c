@@ -172,6 +172,10 @@ static void FirmwareIAPCallback(UAVObjEvent* ev)
 							PIOS_IAP_SetRequest1();
 							PIOS_IAP_SetRequest2();
 						}
+						else if(data.Command == IAP_CMD_STEP_3NB) {
+							PIOS_IAP_SetRequest1();
+							PIOS_IAP_SetRequest3();
+						}
 						
 						/* Note: Cant just wait timeout value, because first time is randomized */
 						reset_count = 0;
