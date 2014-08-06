@@ -32,8 +32,10 @@
  ****************************************************************************************/
 void		PIOS_IAP_Init(void);
 uint32_t	PIOS_IAP_CheckRequest( void );
+uint32_t	PIOS_Boot_CheckRequest( void );
 void		PIOS_IAP_SetRequest1(void);
 void		PIOS_IAP_SetRequest2(void);
+void		PIOS_IAP_SetRequest3(void);
 void		PIOS_IAP_ClearRequest(void);
 uint16_t	PIOS_IAP_ReadBootCount(void);
 void		PIOS_IAP_WriteBootCount(uint16_t);
