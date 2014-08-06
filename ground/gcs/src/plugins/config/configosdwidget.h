@@ -37,8 +37,15 @@
 #include "manualcontrolcommand.h"
 #include "manualcontrolsettings.h"
 
+#include "onscreendisplaypagesettings.h"
+#include "onscreendisplaypagesettings2.h"
+#include "onscreendisplaypagesettings3.h"
+#include "onscreendisplaypagesettings4.h"
+
+
 namespace Ui {
     class Osd;
+    class OsdPage;
 }
 
 class ConfigOsdWidget: public ConfigTaskWidget
@@ -52,18 +59,44 @@ public:
 private slots:
     void movePageSlider();
     void updatePositionSlider();
+    void handle_button_0_1();
+    void handle_button_0_2();
+    void handle_button_0_3();
+
+    void handle_button_1_0();
+    void handle_button_1_2();
+    void handle_button_1_3();
+
+    void handle_button_2_0();
+    void handle_button_2_1();
+    void handle_button_2_3();
+
+    void handle_button_3_0();
+    void handle_button_3_1();
+    void handle_button_3_2();
 
 private:
+    void setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UAVObject * settings);
+    void copyOsdPage(int to, int from);
     quint8 scaleSwitchChannel(quint8 channelNumber, quint8 switchPositions);
     QVariant getVariantFromWidget(QWidget * widget, double scale);
     bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
+
 
     static QString trueString;
     static QString falseString;
 
     Ui::Osd *ui;
+    Ui::OsdPage * ui_pages[4];
+    QWidget *pages[4];
 
     OnScreenDisplaySettings * osdSettingsObj;
+    OnScreenDisplayPageSettings * osdPageSettingsObj;
+    OnScreenDisplayPageSettings2 * osdPageSettings2Obj;
+    OnScreenDisplayPageSettings3 * osdPageSettings3Obj;
+    OnScreenDisplayPageSettings4 * osdPageSettings4Obj;
+
+
     ManualControlSettings * manualSettingsObj;
     ManualControlSettings::DataFields manualSettingsData;
     ManualControlCommand * manualCommandObj;

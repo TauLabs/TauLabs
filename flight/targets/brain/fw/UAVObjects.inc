@@ -121,6 +121,9 @@ UAVOBJSRCFILENAMES += sessionmanaging
 
 UAVOBJSRCFILENAMES += onscreendisplaysettings
 UAVOBJSRCFILENAMES += onscreendisplaypagesettings
+UAVOBJSRCFILENAMES += onscreendisplaypagesettings2
+UAVOBJSRCFILENAMES += onscreendisplaypagesettings3
+UAVOBJSRCFILENAMES += onscreendisplaypagesettings4
 
 UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
 UAVOBJDEFINE = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )

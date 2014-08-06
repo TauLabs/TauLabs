@@ -90,7 +90,6 @@
 /* Private methods */
 static int32_t PIOS_LPS25H_Read(uint8_t address, uint8_t * buffer, uint8_t len);
 static int32_t PIOS_LPS25H_Write(uint8_t address, uint8_t value);
-static int32_t PIOS_LPS25H_StartADC(void);
 static int32_t PIOS_LPS25H_ReadADC(void);
 
 static void PIOS_LPS25H_Task(void *parameters);
@@ -287,17 +286,6 @@ static int32_t PIOS_LPS25H_ReleaseDevice(void)
 }
 
 /**
- * @brief Start the ADC conversion
- * @return 0 if no error
- */
-static int32_t PIOS_LPS25H_StartADC(void)
-{
-	if (PIOS_LPS25H_Write(LPS25H_CTRL_REG2, LPS25H_ONE_SHOT_ENABLE) != 0)
-		return -1;
-	return 0;
-}
-
-/**
  * @brief Read pressure and temperature
  * @return 0 if no error
  */
@@ -308,7 +296,7 @@ static int32_t PIOS_LPS25H_ReadADC(void)
 	if (PIOS_LPS25H_Read(LPS25H_STATUS_REG, &tmp, 1) != 0)
 		return -1;
 
-	if (tmp & 0x03 != 0x03)
+	if ((tmp & 0x03) != 0x03)
 		return -2;
 
 	// read pressure data LSB
@@ -414,7 +402,7 @@ static void PIOS_LPS25H_Task(void *parameters)
 
 		// Compute the altitude from the pressure and temperature and send it out
 		struct pios_sensor_baro_data data;
-		data.temperature = 42.5 + (float)((100 * dev->temperature_unscaled) / ST_PRESS_LSB_PER_CELSIUS) / 100.0f;
+		data.temperature = 42.5f + (float)((100 * dev->temperature_unscaled) / ST_PRESS_LSB_PER_CELSIUS) / 100.0f;
 		data.pressure = (float)((1000 * dev->pressure_unscaled) / (ST_PRESS_LSB_PER_KPA)) / 1000.0f;
 		data.altitude = 44330.0f * (1.0f - powf(data.pressure / 101.3250f, (1.0f / 5.255f)));
 		xQueueSend(dev->queue, (void*)&data, 0);

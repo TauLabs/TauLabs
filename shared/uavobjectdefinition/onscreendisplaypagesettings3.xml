@@ -1,7 +1,7 @@
 <xml>
-	<object name="OnScreenDisplayPageSettings" singleinstance="true" settings="true">
+	<object name="OnScreenDisplayPageSettings3" singleinstance="true" settings="true">
 		<description>On Sreen Display Page Settings</description>
-		<field name="Alarm" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+				<field name="Alarm" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="AlarmPosX" units="" type="int16" elements="1" defaultvalue="0" />
 		<field name="AlarmPosY" units="" type="int16" elements="1" defaultvalue="220"/>
 		<field name="AlarmFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
@@ -105,6 +105,7 @@
 		<field name="TimePosY" units="" type="int16" elements="1" defaultvalue="220"/>
 		<field name="TimeFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="TimeAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
+
 
 	<access gcs="readwrite" flight="readwrite"/>
 	<telemetrygcs acked="true" updatemode="onchange" period="0"/>

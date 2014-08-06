@@ -1524,7 +1524,8 @@ FORMS += gcs/src/experimental/finaltest/mainwindow.ui \
          gcs/src/libs/aggregation/examples/text/main.ui \
          gcs/src/libs/tlmapcontrol/src/mapwidget/mapripform.ui \
          gcs/src/plugins/hitl/aerosimrc/src/udptestwidget.ui \
-    gcs/src/plugins/config/osd.ui
+    gcs/src/plugins/config/osd.ui \
+    gcs/src/plugins/config/osdpage.ui
 SOURCES += uavobjgenerator/main.cpp \
            uavobjgenerator/uavobjectparser.cpp \
            uavobjgenerator/generators/generator_common.cpp \

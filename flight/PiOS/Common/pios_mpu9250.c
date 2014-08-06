@@ -72,7 +72,7 @@ struct mpu9250_dev {
 	xTaskHandle TaskHandle;
 	xSemaphoreHandle data_ready_sema;
 	const struct pios_mpu9250_cfg * cfg;
-	enum pios_mpu60x0_filter filter;
+	enum pios_mpu9250_filter filter;
 	enum pios_mpu9250_dev_magic magic;
 };
 
@@ -307,7 +307,7 @@ int32_t PIOS_MPU9250_SetSampleRate(uint16_t samplerate_hz)
 
 	if ((dev->filter == PIOS_MPU9250_LOWPASS_250_HZ) || (dev->filter == PIOS_MPU9250_LOWPASS_3600_HZ))
 		// the sample rate divisor cannot be used in this case..
-		return;
+		return 0;
 
 	// limit samplerate to filter frequency
 	if (samplerate_hz > filter_frequency)

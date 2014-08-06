@@ -41,6 +41,7 @@
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 #include "hwbrain.h"
+#include "modulesettings.h"
 #include "manualcontrolsettings.h"
 #include "onscreendisplaysettings.h"
 
@@ -162,6 +163,8 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
 #endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
+
+bool brain_external_mag_fail;
 
 uintptr_t pios_com_gps_id;
 uintptr_t pios_com_telem_usb_id;
@@ -1173,14 +1176,11 @@ void PIOS_Board_Init(void) {
 	}
 #endif
 
+	// set variable so the Sensors task sets an alarm
+	brain_external_mag_fail = !use_internal_mag && !ext_mag_init_ok;
+
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
 	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);
-
-	/* Set alarm if we use external mag and it failed to intalize */
-	// XXX this doesn work yet.. alarm gets cleared elsewhere
-	if (!use_internal_mag && !ext_mag_init_ok)
-		AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
-
 }
 
 /**

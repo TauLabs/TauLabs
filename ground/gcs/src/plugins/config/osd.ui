@@ -619,10 +619,45 @@ channel value for each flight mode.</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabCustomPages">
+     <widget class="QWidget" name="tabCustomPage1">
       <attribute name="title">
-       <string>Custom Pages</string>
+       <string>Custom Page 1</string>
       </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QWidget" name="osdPage1" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabCustomPage2">
+      <attribute name="title">
+       <string>Custom Page 2</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QWidget" name="osdPage2" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabCustomPage3">
+      <attribute name="title">
+       <string>Custom Page 3</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="QWidget" name="osdPage3" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabCustomPage4">
+      <attribute name="title">
+       <string>Custom Page 4</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QWidget" name="osdPage4" native="true"/>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>

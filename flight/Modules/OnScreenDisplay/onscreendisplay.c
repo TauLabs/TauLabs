@@ -38,11 +38,33 @@
 #define SIMULATE_DATA
 #define TEMP_GPS_STATUS_WORKAROUND
 
+// static assert
+#define ASSERT_CONCAT_(a, b) a##b
+#define ASSERT_CONCAT(a, b) ASSERT_CONCAT_(a, b)
+/* These can't be used after statements in c89. */
+#ifdef __COUNTER__
+  #define STATIC_ASSERT(e,m) \
+    { enum { ASSERT_CONCAT(static_assert_, __COUNTER__) = 1/(!!(e)) }; }
+#else
+  /* This can't be used twice on the same line so ensure if using in headers
+   * that the headers are not included twice (by wrapping in #ifndef...#endif)
+   * Note it doesn't cause an issue when used on same line of separate modules
+   * compiled with gcc -combine -fwhole-program.  */
+  #define STATIC_ASSERT(e,m) \
+    { enum { ASSERT_CONCAT(assert_line_, __LINE__) = 1/(!!(e)) }; }
+#endif
+
 #include <openpilot.h>
+#include "stm32f4xx_flash.h"
+#include <pios_board_info.h>
 
 #include "onscreendisplay.h"
 #include "onscreendisplaysettings.h"
 #include "onscreendisplaypagesettings.h"
+#include "onscreendisplaypagesettings2.h"
+#include "onscreendisplaypagesettings3.h"
+#include "onscreendisplaypagesettings4.h"
+
 #include "modulesettings.h"
 #include "pios_video.h"
 
@@ -133,6 +155,25 @@ static portTickType out_ticks = 0;
 static uint16_t in_time  = 0;
 static uint16_t out_time = 0;
 #endif
+
+
+
+char *FLASH_If_Read(uint32_t SectorAddress)
+{
+	return (char *) (SectorAddress);
+}
+
+
+void Read_FW_Tag(char * array, uint8_t size)
+{
+	const struct pios_board_info * bdinfo = &pios_board_info_blob;
+	uint8_t x = 0;
+	if (size > bdinfo->desc_size) size = bdinfo->desc_size;
+	for (uint32_t i = bdinfo->fw_base + bdinfo->fw_size + 14; i < bdinfo->fw_base + bdinfo->fw_size + 14 + size; ++i) {
+		array[x] = *FLASH_If_Read(i);
+		++x;
+	}
+}
 
 
 void clearGraphics()
@@ -1561,7 +1602,7 @@ void hud_draw_linear_compass(int v, int home_dir, int range, int width, int x, i
 	}
 
 	if (home_dir > 0 && !home_drawn) {
-		if ((v > home_dir) && (v - home_dir < 180) || (v < home_dir) && (home_dir -v > 180))
+		if (((v > home_dir) && (v - home_dir < 180)) || ((v < home_dir) && (home_dir -v > 180)))
 			r = x - ((long int)(range_2 * width) / (long int)range);
 		else
 			r = x + ((long int)(range_2 * width) / (long int)range);
@@ -1786,6 +1827,18 @@ void introText(int16_t x, int16_t y)
 	write_string("Tau Labs", x, y + 10, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 3);
 }
 
+void introFWVersion(int16_t x, int16_t y)
+{
+	char tmp[32] = { 0 };
+	tmp[0] = 'V';
+	tmp[1] = 'E';
+	tmp[2] = 'R';
+	tmp[3] = ':';
+	tmp[4] = ' ';
+	Read_FW_Tag(&tmp[5], 26);
+	write_string(tmp, x, y, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 2);
+}
+
 void showVideoType(int16_t x, int16_t y)
 {
 	if (PIOS_Video_GetType() == VIDEO_TYPE_NTSC) {
@@ -1819,111 +1872,6 @@ int utoa(unsigned int i, char *output, size_t olen)
 }
 
 
-void render_legacy_page()
-{
-	char temp[100] = { 0 };
-	float tmp, tmp2, tmp3;
-	int tmp_int1, tmp_int2;
-
-	// CPU OK
-	uint8_t cpu;
-	SystemStatsCPULoadGet(&cpu);
-	sprintf(temp, "CPU:%2d", cpu);
-	write_string(temp, 5, GRAPHICS_BOTTOM - 20, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
-
-	// Time OK
-	uint32_t time;
-	SystemStatsFlightTimeGet(&time);
-	tmp_int1 = time / 60000;
-	tmp_int2 = (time / 1000) - 60 * tmp_int1;
-	sprintf(temp, "%02d:%02d", (int)tmp_int1, (int)tmp_int2);
-	write_string(temp, GRAPHICS_RIGHT - 60, 40, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
-
-	// Flight Mode OK
-	draw_flight_mode(20, 10, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
-
-	// Alarms OK
-	draw_alarms(5, GRAPHICS_BOTTOM - 30, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
-
-	// Arming OK
-	uint8_t arm;
-	FlightStatusArmedGet(&arm);
-	if (arm != FLIGHTSTATUS_ARMED_DISARMED)
-		write_string("ARMED", 20, 25, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
-
-	// RSSI OK
-	int16_t rssi;
-	ManualControlCommandRssiGet(&rssi);
-	sprintf(temp, "RSSI:%3d", rssi);
-	write_string(temp, 55, GRAPHICS_BOTTOM - 20, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
-
-	// Artificial horizon OK
-	float roll, pitch;
-	AttitudeActualRollGet(&roll);
-	AttitudeActualPitchGet(&pitch);
-
-	simple_artifical_horizon(roll, pitch, GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE, 150, 150, 30);
-
-	// Compass OK
-	AttitudeActualYawGet(&tmp);
-	if (tmp < 0)
-		tmp += 360;
-	hud_draw_linear_compass(tmp, -1, 120, 180, GRAPHICS_X_MIDDLE, 20, 15, 30, 5, 8, 0);
-
-	// Altitude OK
-	PositionActualDownGet(&tmp);
-	hud_draw_vertical_scale(-1 * tmp * convert_distance, 100, 1, GRAPHICS_RIGHT - 5, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 10000, 0);
-
-	// Speed OK
-	VelocityActualNorthGet(&tmp);
-	VelocityActualEastGet(&tmp2);
-	tmp = sqrt(tmp * tmp + tmp2 * tmp2);
-	hud_draw_vertical_scale(tmp * convert_speed, 30, -1, 5, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 100, 0);
-
-	// Home distance and direction
-	PositionActualNorthGet(&tmp);
-	PositionActualEastGet(&tmp2);
-	tmp3 = (float)sqrt(tmp * tmp + tmp2 * tmp2) * convert_distance; // distance
-
-	tmp = atan2f(tmp2, tmp) * RAD2DEG;    // direction relative to position
-	if (tmp < 0)
-		tmp += 360;
-	sprintf(temp, "Home: %0.1f %0.0fdeg", (double)tmp3, (double)tmp);
-	write_string(temp, 5, GRAPHICS_BOTTOM - 40, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
-
-	// GPS Location
-	if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
-		GPSPositionData gps_data;
-		GPSPositionGet(&gps_data);
-
-		sprintf(temp,"Fix:%d Sats:%d Lat:%0.7f Lon:%0.7f",(int)gps_data.Status,
-				(int)gps_data.Satellites, (double)gps_data.Latitude / 10000000.0,
-				(double)gps_data.Longitude / 10000000.0);
-		write_string(temp, 5, GRAPHICS_BOTTOM - 10, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
-	}
-
-	// Battery
-	if (module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED) {
-		FlightBatteryStateVoltageGet(&tmp);
-		sprintf(temp, "%0.1fV", (double)tmp);
-		write_string(temp, GRAPHICS_RIGHT - 60, 10, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
-		FlightBatteryStateCurrentGet(&tmp);
-		sprintf(temp, "%0.1fA", (double)tmp);
-		write_string(temp, GRAPHICS_RIGHT - 60, 20, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
-		FlightBatteryStateConsumedEnergyGet(&tmp);
-		sprintf(temp, "%0.0fmAh", (double)tmp);
-		write_string(temp, GRAPHICS_RIGHT - 60, 30, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 2);
-	}
-
-	//drawBox(0, 0, GRAPHICS_RIGHT, GRAPHICS_BOTTOM);
-
-#ifdef DEBUG_TIMING
-	// show in time
-	sprintf(temp, "T.draw: %2dms", in_time);
-	write_string(temp, 120, GRAPHICS_BOTTOM -20, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, 1);
-#endif
-}
-
 void render_user_page(OnScreenDisplayPageSettingsData * page)
 {
 	char tmp_str[100] = { 0 };
@@ -1951,7 +1899,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 
 	// Alarms
 	if (page->Alarm) {
-		draw_alarms((int)page->AlarmPos[0], (int)page->AlarmPos[1], 0, 0, TEXT_VA_TOP, (int)page->AlarmAlign, 0, SIZE_TO_FONT[page->AlarmFont]);
+		draw_alarms((int)page->AlarmPosX, (int)page->AlarmPosY, 0, 0, TEXT_VA_TOP, (int)page->AlarmAlign, 0, SIZE_TO_FONT[page->AlarmFont]);
 	}
 	
 	// Altitude Scale
@@ -1973,7 +1921,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	if (page->ArmStatus) {
 		FlightStatusArmedGet(&tmp_uint8);
 		if (tmp_uint8 != FLIGHTSTATUS_ARMED_DISARMED)
-			write_string("ARMED", page->ArmStatusPos[0], page->ArmStatusPos[1], 0, 0, TEXT_VA_TOP, (int)page->ArmAlign, 0, SIZE_TO_FONT[page->ArmStatusFont]);
+			write_string("ARMED", page->ArmStatusPosX, page->ArmStatusPosY, 0, 0, TEXT_VA_TOP, (int)page->ArmStatusAlign, 0, SIZE_TO_FONT[page->ArmStatusFont]);
 	}
 	
 	// Artificial Horizon
@@ -1988,17 +1936,17 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		if (page->BatteryVolt) {
 			FlightBatteryStateVoltageGet(&tmp);
 			sprintf(tmp_str, "%0.1fV", (double)tmp);
-			write_string(tmp_str, page->BatteryVoltPos[0], page->BatteryVoltPos[1], 0, 0, TEXT_VA_TOP, (int)page->BatteryVoltAlign, 0, SIZE_TO_FONT[page->BatteryVoltFont]);
+			write_string(tmp_str, page->BatteryVoltPosX, page->BatteryVoltPosY, 0, 0, TEXT_VA_TOP, (int)page->BatteryVoltAlign, 0, SIZE_TO_FONT[page->BatteryVoltFont]);
 		}
 		if (page->BatteryCurrent) {
 			FlightBatteryStateCurrentGet(&tmp);
 			sprintf(tmp_str, "%0.1fA", (double)tmp);
-			write_string(tmp_str, page->BatteryCurrentPos[0], page->BatteryCurrentPos[1], 0, 0, TEXT_VA_TOP, (int)page->BatteryCurrentAlign, 0, SIZE_TO_FONT[page->BatteryCurrentFont]);
+			write_string(tmp_str, page->BatteryCurrentPosX, page->BatteryCurrentPosY, 0, 0, TEXT_VA_TOP, (int)page->BatteryCurrentAlign, 0, SIZE_TO_FONT[page->BatteryCurrentFont]);
 		}
 		if (page->BatteryConsumed) {
 			FlightBatteryStateConsumedEnergyGet(&tmp);
 			sprintf(tmp_str, "%0.0fmAh", (double)tmp);
-			write_string(tmp_str, page->BatteryConsumedPos[0], page->BatteryConsumedPos[1], 0, 0, TEXT_VA_TOP, (int)page->BatteryConsumedAlign, 0, SIZE_TO_FONT[page->BatteryConsumedFont]);
+			write_string(tmp_str, page->BatteryConsumedPosX, page->BatteryConsumedPosY, 0, 0, TEXT_VA_TOP, (int)page->BatteryConsumedAlign, 0, SIZE_TO_FONT[page->BatteryConsumedFont]);
 		}
 	}
 	
@@ -2014,12 +1962,12 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	if (page->Cpu) {
 		SystemStatsCPULoadGet(&tmp_uint8);
 		sprintf(tmp_str, "CPU:%2d", tmp_uint8);
-		write_string(tmp_str, page->CpuPos[0], page->CpuPos[1], 0, 0, TEXT_VA_TOP, (int)page->CpuAlign, 0, SIZE_TO_FONT[page->CpuFont]);
+		write_string(tmp_str, page->CpuPosX, page->CpuPosY, 0, 0, TEXT_VA_TOP, (int)page->CpuAlign, 0, SIZE_TO_FONT[page->CpuFont]);
 	}
 
 	// Flight mode
 	if (page->FlightMode) {
-		draw_flight_mode(page->FlightModePos[0], page->FlightModePos[1], 0, 0, TEXT_VA_TOP, (int)page->FlightModeAlign, 0, SIZE_TO_FONT[page->FlightModeFont]);
+		draw_flight_mode(page->FlightModePosX, page->FlightModePosY, 0, 0, TEXT_VA_TOP, (int)page->FlightModeAlign, 0, SIZE_TO_FONT[page->FlightModeFont]);
 	}
 
 	// GPS
@@ -2046,17 +1994,17 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 				default:
 					sprintf(tmp_str, "NOGPS");
 			}
-			write_string(tmp_str, page->GpsStatusPos[0], page->GpsStatusPos[1], 0, 0, TEXT_VA_TOP, (int)page->GpsStatusAlign, 0, SIZE_TO_FONT[page->GpsStatusFont]);
+			write_string(tmp_str, page->GpsStatusPosX, page->GpsStatusPosY, 0, 0, TEXT_VA_TOP, (int)page->GpsStatusAlign, 0, SIZE_TO_FONT[page->GpsStatusFont]);
 		}
 
 		if (page->GpsLat) {
-			sprintf(tmp_str, "%0.7f", (double)gps_data.Latitude / 10000000.0);
-			write_string(tmp_str, page->GpsLatPos[0], page->GpsLatPos[1], 0, 0, TEXT_VA_TOP, (int)page->GpsLatAlign, 0, SIZE_TO_FONT[page->GpsLatFont]);
+			sprintf(tmp_str, "%0.5f", (double)gps_data.Latitude / 10000000.0);
+			write_string(tmp_str, page->GpsLatPosX, page->GpsLatPosY, 0, 0, TEXT_VA_TOP, (int)page->GpsLatAlign, 0, SIZE_TO_FONT[page->GpsLatFont]);
 		}
 
 		if (page->GpsLon) {
-			sprintf(tmp_str, "%0.7f", (double)gps_data.Longitude / 10000000.0);
-			write_string(tmp_str, page->GpsLonPos[0], page->GpsLonPos[1], 0, 0, TEXT_VA_TOP, (int)page->GpsLonAlign, 0, SIZE_TO_FONT[page->GpsLonFont]);
+			sprintf(tmp_str, "%0.5f", (double)gps_data.Longitude / 10000000.0);
+			write_string(tmp_str, page->GpsLonPosX, page->GpsLonPosY, 0, 0, TEXT_VA_TOP, (int)page->GpsLonAlign, 0, SIZE_TO_FONT[page->GpsLonFont]);
 		}
 	}
 
@@ -2069,14 +2017,14 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		else
 			sprintf(tmp_str, "Home: %0.2f%s", (double)(tmp / convert_distance_divider), dist_unit_long);
 
-		write_string(tmp_str, page->HomeDistancePos[0], page->HomeDistancePos[1], 0, 0, TEXT_VA_TOP, (int)page->HomeDistanceAlign, 0, SIZE_TO_FONT[page->HomeDistanceFont]);
+		write_string(tmp_str, page->HomeDistancePosX, page->HomeDistancePosY, 0, 0, TEXT_VA_TOP, (int)page->HomeDistanceAlign, 0, SIZE_TO_FONT[page->HomeDistanceFont]);
 	}
 
 	// RSSI
 	if (page->Rssi) {
 		ManualControlCommandRssiGet(&tmp_int16);
 		sprintf(tmp_str, "RSSI:%3d", tmp_int16);
-		write_string(tmp_str, page->RssiPos[0], page->RssiPos[1], 0, 0, TEXT_VA_TOP, (int)page->RssiAlign, 0, SIZE_TO_FONT[page->RssiFont]);
+		write_string(tmp_str, page->RssiPosX, page->RssiPosY, 0, 0, TEXT_VA_TOP, (int)page->RssiAlign, 0, SIZE_TO_FONT[page->RssiFont]);
 	}
 
 	// Speed
@@ -2122,7 +2070,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 			tmp_int2 = (time / 1000) - 60 * tmp_int1 - 3600 * tmp_int16; // seconds
 			sprintf(tmp_str, "%02d:%02d:%02d", (int)tmp_int16, (int)tmp_int1, (int)tmp_int2);
 		}
-		write_string(tmp_str, page->TimePos[0], page->TimePos[1], 0, 0, TEXT_VA_TOP, (int)page->TimeAlign, 0, SIZE_TO_FONT[page->TimeFont]);
+		write_string(tmp_str, page->TimePosX, page->TimePosY, 0, 0, TEXT_VA_TOP, (int)page->TimeAlign, 0, SIZE_TO_FONT[page->TimeFont]);
 	}
 }
 
@@ -2166,13 +2114,16 @@ int32_t OnScreenDisplayInitialize(void)
 	uint8_t osd_state;
 
 	ModuleSettingsAdminStateGet(module_state);
+	
+	// XXX fix this!
+	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings2Data), "settings must be the same!");
+	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings3Data), "settings must be the same!");
+	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings4Data), "settings must be the same!");
 
 	OnScreenDisplayPageSettingsInitialize();
-
-	//num_instances = OnScreenDisplayPageSettingsGetNumInstances();
-	//for (int ii=0; ii < 6- num_instances; ii++) {
-	//	OnScreenDisplayPageSettingsCreateInstance();
-	//}
+	OnScreenDisplayPageSettings2Initialize();
+	OnScreenDisplayPageSettings3Initialize();
+	OnScreenDisplayPageSettings4Initialize();
 
 	OnScreenDisplaySettingsOSDEnabledGet(&osd_state);
 	if (osd_state == ONSCREENDISPLAYSETTINGS_OSDENABLED_ENABLED) {
@@ -2187,6 +2138,9 @@ int32_t OnScreenDisplayInitialize(void)
 
 	/* Register callbacks for modified pages */
 	OnScreenDisplayPageSettingsConnectCallback(OnScreenPageUpdatedCb);
+	OnScreenDisplayPageSettings2ConnectCallback(OnScreenPageUpdatedCb);
+	OnScreenDisplayPageSettings3ConnectCallback(OnScreenPageUpdatedCb);
+	OnScreenDisplayPageSettings4ConnectCallback(OnScreenPageUpdatedCb);
 
 	return 0;
 }
@@ -2211,6 +2165,8 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 	
 	OnScreenDisplaySettingsGet(&osd_settings);
 	home_baro_altitude = 0.;
+	
+	
 
 
 	// blank
@@ -2232,10 +2188,12 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 				introGraphics(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM / 2 - 20);
 				introText(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 70);
 				showVideoType(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 45);
+				introFWVersion(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 25);
 			} else {
 				introGraphics(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM / 2 - 30);
 				introText(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 90);
 				showVideoType(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 60);
+				introFWVersion(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 40);
 			}
 			frame_counter++;
 			// Accumulate baro altitude
@@ -2279,15 +2237,30 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 				osd_settings_updated = false;
 			}
 
-			if (frame_counter % 10 == 0) {
+			if (frame_counter % 5 == 0) {
 				// determine current page to use
 				AccessoryDesiredInstGet(osd_settings.PageSwitch, &accessory);
 				current_page = (uint8_t)roundf(((accessory.AccessoryVal + 1.0f) / 2.0f) * (osd_settings.NumPages - 1));
 				current_page = osd_settings.PageConfig[current_page];
+
+				if (current_page != last_page)
+					osd_page_updated = true;
 			}
 
-			if (current_page != last_page || osd_page_updated) {
-				OnScreenDisplayPageSettingsGet(&osd_page_settings);
+			if (osd_page_updated) {
+				switch (current_page) {
+					case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM2:
+						OnScreenDisplayPageSettings2Get((OnScreenDisplayPageSettings2Data*)&osd_page_settings);
+						break;
+					case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM3:
+						OnScreenDisplayPageSettings3Get((OnScreenDisplayPageSettings3Data*)&osd_page_settings);
+						break;
+					case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM4:
+						OnScreenDisplayPageSettings4Get((OnScreenDisplayPageSettings4Data*)&osd_page_settings);
+						break;
+					default:
+						OnScreenDisplayPageSettingsGet(&osd_page_settings);
+				}
 				osd_page_updated = false;
 			}
 
@@ -2301,8 +2274,6 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM4:
 					render_user_page(&osd_page_settings);
 					break;
-				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_LEGACY:
-					render_legacy_page();
 			}
 
 			//drawBox(0, 0, 351, 240);

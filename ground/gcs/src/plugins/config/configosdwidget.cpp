@@ -30,8 +30,13 @@
 #include <coreplugin/generalsettings.h>
 
 #include "onscreendisplaysettings.h"
+#include "onscreendisplaypagesettings.h"
+
 #include "manualcontrolcommand.h"
 #include "manualcontrolsettings.h"
+
+#include "ui_osdpage.h"
+
 
 // Define static variables
 QString ConfigOsdWidget::trueString("TrueString");
@@ -83,11 +88,66 @@ ConfigOsdWidget::ConfigOsdWidget(QWidget *parent) : ConfigTaskWidget(parent)
 
     // Prevent mouse wheel from changing values
     disableMouseWheelEvents();
+
+    // Setup OSD pages
+    pages[0] = ui->osdPage1;
+    pages[1] = ui->osdPage2;
+    pages[2] = ui->osdPage3;
+    pages[3] = ui->osdPage4;
+
+    ui_pages[0] = new Ui::OsdPage();
+    osdPageSettingsObj = OnScreenDisplayPageSettings::GetInstance(getObjectManager());
+    setupOsdPage(ui_pages[0], ui->osdPage1, osdPageSettingsObj);
+
+    ui_pages[0]->copyButton1->setText("Copy Page 2");
+    ui_pages[0]->copyButton2->setText("Copy Page 3");
+    ui_pages[0]->copyButton3->setText("Copy Page 4");
+
+    connect(ui_pages[0]->copyButton1, SIGNAL(released()), this, SLOT(handle_button_0_1()));
+    connect(ui_pages[0]->copyButton2, SIGNAL(released()), this, SLOT(handle_button_0_2()));
+    connect(ui_pages[0]->copyButton3, SIGNAL(released()), this, SLOT(handle_button_0_3()));
+
+    ui_pages[1] = new Ui::OsdPage();
+    osdPageSettings2Obj = OnScreenDisplayPageSettings2::GetInstance(getObjectManager());
+    setupOsdPage(ui_pages[1], ui->osdPage2, osdPageSettings2Obj);
+
+    ui_pages[1]->copyButton1->setText("Copy Page 1");
+    ui_pages[1]->copyButton2->setText("Copy Page 3");
+    ui_pages[1]->copyButton3->setText("Copy Page 4");
+
+    connect(ui_pages[1]->copyButton1, SIGNAL(released()), this, SLOT(handle_button_1_0()));
+    connect(ui_pages[1]->copyButton2, SIGNAL(released()), this, SLOT(handle_button_1_2()));
+    connect(ui_pages[1]->copyButton3, SIGNAL(released()), this, SLOT(handle_button_1_3()));
+
+    ui_pages[2] = new Ui::OsdPage();
+    osdPageSettings3Obj = OnScreenDisplayPageSettings3::GetInstance(getObjectManager());
+    setupOsdPage(ui_pages[2], ui->osdPage3, osdPageSettings3Obj);
+
+    ui_pages[2]->copyButton1->setText("Copy Page 1");
+    ui_pages[2]->copyButton2->setText("Copy Page 2");
+    ui_pages[2]->copyButton3->setText("Copy Page 4");
+
+    connect(ui_pages[2]->copyButton1, SIGNAL(released()), this, SLOT(handle_button_2_0()));
+    connect(ui_pages[2]->copyButton2, SIGNAL(released()), this, SLOT(handle_button_2_1()));
+    connect(ui_pages[2]->copyButton3, SIGNAL(released()), this, SLOT(handle_button_2_3()));
+
+    ui_pages[3] = new Ui::OsdPage();
+    osdPageSettings4Obj = OnScreenDisplayPageSettings4::GetInstance(getObjectManager());
+    setupOsdPage(ui_pages[3], ui->osdPage4, osdPageSettings4Obj);
+
+    ui_pages[3]->copyButton1->setText("Copy Page 1");
+    ui_pages[3]->copyButton2->setText("Copy Page 2");
+    ui_pages[3]->copyButton3->setText("Copy Page 3");
+
+    connect(ui_pages[3]->copyButton1, SIGNAL(released()), this, SLOT(handle_button_3_0()));
+    connect(ui_pages[3]->copyButton2, SIGNAL(released()), this, SLOT(handle_button_3_1()));
+    connect(ui_pages[3]->copyButton3, SIGNAL(released()), this, SLOT(handle_button_3_2()));
 }
 
 ConfigOsdWidget::~ConfigOsdWidget()
 {
     delete ui;
+    //delete [] ui_pages;
 }
 
 /**
@@ -211,6 +271,252 @@ void ConfigOsdWidget::updatePositionSlider()
     }
 }
 
+void ConfigOsdWidget::handle_button_0_1()
+{
+    copyOsdPage(0, 1);
+}
+
+void ConfigOsdWidget::handle_button_0_2()
+{
+    copyOsdPage(0, 2);
+}
+
+void ConfigOsdWidget::handle_button_0_3()
+{
+    copyOsdPage(0, 3);
+}
+
+void ConfigOsdWidget::handle_button_1_0()
+{
+    copyOsdPage(1, 0);
+}
+
+void ConfigOsdWidget::handle_button_1_2()
+{
+    copyOsdPage(1, 2);
+}
+
+void ConfigOsdWidget::handle_button_1_3()
+{
+    copyOsdPage(1, 3);
+}
+
+void ConfigOsdWidget::handle_button_2_0()
+{
+    copyOsdPage(2, 0);
+}
+
+void ConfigOsdWidget::handle_button_2_1()
+{
+    copyOsdPage(2, 1);
+}
+
+void ConfigOsdWidget::handle_button_2_3()
+{
+    copyOsdPage(2, 3);
+}
+
+void ConfigOsdWidget::handle_button_3_0()
+{
+    copyOsdPage(3, 0);
+}
+
+void ConfigOsdWidget::handle_button_3_1()
+{
+    copyOsdPage(3, 1);
+}
+
+void ConfigOsdWidget::handle_button_3_2()
+{
+    copyOsdPage(3, 2);
+}
+
+void ConfigOsdWidget::setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UAVObject * settings)
+{
+    page->setupUi(page_widget);
+    QString name = settings->getName();
+    
+    // Alarms
+    addUAVObjectToWidgetRelation(name, "Alarm", page->AlarmEnabled);
+    page->AlarmEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->AlarmEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "AlarmPosX", page->AlarmX);
+    addUAVObjectToWidgetRelation(name, "AlarmPosY", page->AlarmY);
+    addUAVObjectToWidgetRelation(name, "AlarmFont", page->AlarmFont);
+    addUAVObjectToWidgetRelation(name, "AlarmAlign", page->AlarmAlign);
+
+    // Altitude Scale
+    addUAVObjectToWidgetRelation(name, "AltitudeScale", page->AltitudeScaleEnabled);
+    page->AltitudeScaleEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->AltitudeScaleEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "AltitudeScalePos", page->AltitudeScaleX);
+    addUAVObjectToWidgetRelation(name, "AltitudeScaleAlign", page->AltitudeScaleAlign);
+    addUAVObjectToWidgetRelation(name, "AltitudeScaleSource", page->AltitudeScaleSource);
+
+    // Arming Status
+    addUAVObjectToWidgetRelation(name, "ArmStatus", page->ArmStatusEnabled);
+    page->ArmStatusEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->ArmStatusEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "ArmStatusPosX", page->ArmStatusX);
+    addUAVObjectToWidgetRelation(name, "ArmStatusPosY", page->ArmStatusY);
+    addUAVObjectToWidgetRelation(name, "ArmStatusFont", page->ArmStatusFont);
+    addUAVObjectToWidgetRelation(name, "ArmStatusAlign", page->ArmStatusAlign);
+
+    // Artificial Horizon
+    addUAVObjectToWidgetRelation(name, "ArtificialHorizon", page->ArtificialHorizonEnabled);
+    page->ArtificialHorizonEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->ArtificialHorizonEnabled->setProperty(falseString.toLatin1(), "Disabled");
+
+    // Battery Voltage
+    addUAVObjectToWidgetRelation(name, "BatteryVolt", page->BatteryVoltEnabled);
+    page->BatteryVoltEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->BatteryVoltEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "BatteryVoltPosX", page->BatteryVoltX);
+    addUAVObjectToWidgetRelation(name, "BatteryVoltPosY", page->BatteryVoltY);
+    addUAVObjectToWidgetRelation(name, "BatteryVoltFont", page->BatteryVoltFont);
+    addUAVObjectToWidgetRelation(name, "BatteryVoltAlign", page->BatteryVoltAlign);
+
+    // Battery Current
+    addUAVObjectToWidgetRelation(name, "BatteryCurrent", page->BatteryCurrentEnabled);
+    page->BatteryCurrentEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->BatteryCurrentEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "BatteryCurrentPosX", page->BatteryCurrentX);
+    addUAVObjectToWidgetRelation(name, "BatteryCurrentPosY", page->BatteryCurrentY);
+    addUAVObjectToWidgetRelation(name, "BatteryCurrentFont", page->BatteryCurrentFont);
+    addUAVObjectToWidgetRelation(name, "BatteryCurrentAlign", page->BatteryCurrentAlign);
+
+    // Battery Consumed
+    addUAVObjectToWidgetRelation(name, "BatteryConsumed", page->BatteryConsumedEnabled);
+    page->BatteryConsumedEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->BatteryConsumedEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "BatteryConsumedPosX", page->BatteryConsumedX);
+    addUAVObjectToWidgetRelation(name, "BatteryConsumedPosY", page->BatteryConsumedY);
+    addUAVObjectToWidgetRelation(name, "BatteryConsumedFont", page->BatteryConsumedFont);
+    addUAVObjectToWidgetRelation(name, "BatteryConsumedAlign", page->BatteryConsumedAlign);
+
+    // Compass
+    addUAVObjectToWidgetRelation(name, "Compass", page->CompassEnabled);
+    page->CompassEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->CompassEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "CompassPos", page->CompassY);
+    addUAVObjectToWidgetRelation(name, "CompassHomeDir", page->CompassHomeDir);
+    page->CompassHomeDir->setProperty(trueString.toLatin1(), "Enabled");
+    page->CompassHomeDir->setProperty(falseString.toLatin1(), "Disabled");
+
+    // CPU
+    addUAVObjectToWidgetRelation(name, "Cpu", page->CpuEnabled);
+    page->CpuEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->CpuEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "CpuPosX", page->CpuX);
+    addUAVObjectToWidgetRelation(name, "CpuPosY", page->CpuY);
+    addUAVObjectToWidgetRelation(name, "CpuFont", page->CpuFont);
+    addUAVObjectToWidgetRelation(name, "CpuAlign", page->CpuAlign);
+
+    // Flight Mode
+    addUAVObjectToWidgetRelation(name, "FlightMode", page->FlightModeEnabled);
+    page->FlightModeEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->FlightModeEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "FlightModePosX", page->FlightModeX);
+    addUAVObjectToWidgetRelation(name, "FlightModePosY", page->FlightModeY);
+    addUAVObjectToWidgetRelation(name, "FlightModeFont", page->FlightModeFont);
+    addUAVObjectToWidgetRelation(name, "FlightModeAlign", page->FlightModeAlign);
+
+    // GPS Status
+    addUAVObjectToWidgetRelation(name, "GpsStatus", page->GpsStatusEnabled);
+    page->GpsStatusEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->GpsStatusEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "GpsStatusPosX", page->GpsStatusX);
+    addUAVObjectToWidgetRelation(name, "GpsStatusPosY", page->GpsStatusY);
+    addUAVObjectToWidgetRelation(name, "GpsStatusFont", page->GpsStatusFont);
+    addUAVObjectToWidgetRelation(name, "GpsStatusAlign", page->GpsStatusAlign);
+
+    // GPS Latitude
+    addUAVObjectToWidgetRelation(name, "GpsLat", page->GpsLatEnabled);
+    page->GpsLatEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->GpsLatEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "GpsLatPosX", page->GpsLatX);
+    addUAVObjectToWidgetRelation(name, "GpsLatPosY", page->GpsLatY);
+    addUAVObjectToWidgetRelation(name, "GpsLatFont", page->GpsLatFont);
+    addUAVObjectToWidgetRelation(name, "GpsLatAlign", page->GpsLatAlign);
+
+    // GPS Longitude
+    addUAVObjectToWidgetRelation(name, "GpsLon", page->GpsLonEnabled);
+    page->GpsLonEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->GpsLonEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "GpsLonPosX", page->GpsLonX);
+    addUAVObjectToWidgetRelation(name, "GpsLonPosY", page->GpsLonY);
+    addUAVObjectToWidgetRelation(name, "GpsLonFont", page->GpsLonFont);
+    addUAVObjectToWidgetRelation(name, "GpsLonAlign", page->GpsLonAlign);
+
+    // Home Distance
+    addUAVObjectToWidgetRelation(name, "HomeDistance", page->HomeDistanceEnabled);
+    page->HomeDistanceEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->HomeDistanceEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "HomeDistancePosX", page->HomeDistanceX);
+    addUAVObjectToWidgetRelation(name, "HomeDistancePosY", page->HomeDistanceY);
+    addUAVObjectToWidgetRelation(name, "HomeDistanceFont", page->HomeDistanceFont);
+    addUAVObjectToWidgetRelation(name, "HomeDistanceAlign", page->HomeDistanceAlign);
+
+    // RSSI
+    addUAVObjectToWidgetRelation(name, "Rssi", page->RssiEnabled);
+    page->RssiEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->RssiEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "RssiPosX", page->RssiX);
+    addUAVObjectToWidgetRelation(name, "RssiPosY", page->RssiY);
+    addUAVObjectToWidgetRelation(name, "RssiFont", page->RssiFont);
+    addUAVObjectToWidgetRelation(name, "RssiAlign", page->RssiAlign);
+
+    // Speed Scale
+    addUAVObjectToWidgetRelation(name, "SpeedScale", page->SpeedScaleEnabled);
+    page->SpeedScaleEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->SpeedScaleEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "SpeedScalePos", page->SpeedScaleX);
+    addUAVObjectToWidgetRelation(name, "SpeedScaleAlign", page->SpeedScaleAlign);
+    addUAVObjectToWidgetRelation(name, "SpeedScaleSource", page->SpeedScaleSource);
+
+    // RSSI
+    addUAVObjectToWidgetRelation(name, "Time", page->TimeEnabled);
+    page->TimeEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->TimeEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "TimePosX", page->TimeX);
+    addUAVObjectToWidgetRelation(name, "TimePosY", page->TimeY);
+    addUAVObjectToWidgetRelation(name, "TimeFont", page->TimeFont);
+    addUAVObjectToWidgetRelation(name, "TimeAlign", page->TimeAlign);
+}
+
+void ConfigOsdWidget::copyOsdPage(int to, int from)
+{
+    QList<QCheckBox*> checkboxes = pages[from]->findChildren<QCheckBox*>();
+
+    foreach (QCheckBox *checkbox, checkboxes)
+    {
+         QCheckBox *cb_to = pages[to]->findChild<QCheckBox *>(checkbox->objectName());
+         if (cb_to != NULL) {
+             cb_to->setChecked(checkbox->checkState());
+         }
+    }
+
+    QList<QSpinBox*> spinboxes = pages[from]->findChildren<QSpinBox*>();
+
+    foreach (QSpinBox *spinbox, spinboxes)
+    {
+         QSpinBox *sb_to = pages[to]->findChild<QSpinBox *>(spinbox->objectName());
+         if (sb_to != NULL) {
+             sb_to->setValue(spinbox->value());
+         }
+    }
+
+    QList<QComboBox*> comboboxes = pages[from]->findChildren<QComboBox*>();
+
+    foreach (QComboBox *combobox, comboboxes)
+    {
+         QComboBox *cmb_to = pages[to]->findChild<QComboBox *>(combobox->objectName());
+         if (cmb_to != NULL) {
+             cmb_to->setCurrentIndex(combobox->currentIndex());
+         }
+    }
+}
+
 void ConfigOsdWidget::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
@@ -220,7 +526,6 @@ void ConfigOsdWidget::enableControls(bool enable)
 {
     Q_UNUSED(enable);
 }
-
 
 /**
  * @brief ModuleSettingsForm::getWidgetFromVariant Reimplements getWidgetFromVariant. This version supports "FalseString".

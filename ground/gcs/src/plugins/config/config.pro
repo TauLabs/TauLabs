@@ -95,8 +95,9 @@ FORMS += airframe.ui \
     autotune.ui \
     hwfieldselector.ui \
     modules.ui \
-    modules_osd.ui \
-    osd.ui
+    osd.ui \
+    osdpage.ui
+
 RESOURCES += configgadget.qrc
 
 
