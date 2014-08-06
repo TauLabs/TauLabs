@@ -32,10 +32,10 @@
 
 #include <QDebug>
 #include <QStringList>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QMessageBox>
@@ -480,7 +480,7 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         previousManualSettingsData = manualSettingsData;
 
         // Now clear all the previous channel settings
-        for (int i = 0; i++; i < ManualControlSettings::CHANNELNUMBER_NUMELEM) {
+        for (uint i = 0; i < ManualControlSettings::CHANNELNUMBER_NUMELEM; i++) {
             manualSettingsData.ChannelNumber[i] = 0;
             manualSettingsData.ChannelMin[i] = 0;
             manualSettingsData.ChannelNeutral[i] = 0;
@@ -725,7 +725,7 @@ void ConfigInputWidget::fastMdata()
     // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
     UAVObjectManager *objManager = getObjectManager();
     QMap<QString, UAVObject::Metadata> metaDataList;
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
@@ -1056,10 +1056,10 @@ void ConfigInputWidget::setTxMovement(txMovements movement)
 void ConfigInputWidget::moveTxControls()
 {
     QTransform trans;
-    QGraphicsItem * item;
+    QGraphicsItem * item = NULL;
     txMovementType move = vertical;
-    int limitMax;
-    int limitMin;
+    int limitMax = 0;
+    int limitMin = 0;
     static bool auxFlag=false;
     switch(currentMovement)
     {
@@ -1399,7 +1399,7 @@ quint8 ConfigInputWidget::scaleSwitchChannel(quint8 channelNumber, quint8 switch
 
     // Convert channel value into the switch position in the range [0..N-1]
     // This uses the same optimized computation as flight code to be consistent
-    quint8 pos = ((int16_t)(valueScaled * 256) + 256) * switchPositions >> 9;
+    quint8 pos = ((qint16)(valueScaled * 256) + 256) * switchPositions >> 9;
     if (pos >= switchPositions)
         pos = switchPositions - 1;
     return pos;

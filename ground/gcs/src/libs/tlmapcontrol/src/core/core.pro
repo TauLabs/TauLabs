@@ -1,4 +1,7 @@
 include (../common.pri)
+
+QT += widgets
+
 SOURCES += \
     pureimagecache.cpp \
     pureimage.cpp \

@@ -27,7 +27,8 @@
 
 #ifndef UPLOADERGADGETOPTIONSPAGE_H
 #define UPLOADERGADGETOPTIONSPAGE_H
-#include <qextserialport/src/qextserialenumerator.h>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 #include "coreplugin/dialogs/ioptionspage.h"
 #include "QString"
 #include <QStringList>

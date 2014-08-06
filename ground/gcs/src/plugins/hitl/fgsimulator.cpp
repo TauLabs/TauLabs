@@ -67,7 +67,7 @@ bool FGSimulator::setupProcess()
     //	xmlFile.close();
     //	QFile xmlFileOut(pathData + "/Protocol/opfgprotocol.xml");
     //	xmlFileOut.open(QIODevice::WriteOnly | QIODevice::Text);
-    //	xmlFileOut.write(xml.toAscii());
+    //	xmlFileOut.write(xml.toLatin1());
     //	xmlFileOut.close();
 
     Qt::HANDLE mainThread = QThread::currentThreadId();
@@ -112,7 +112,7 @@ bool FGSimulator::setupProcess()
     if (settings.startSim)
     {
         QString cmd("\"" + settings.binPath + "\" " + args + "\n");
-        simProcess->write(cmd.toAscii());
+        simProcess->write(cmd.toLatin1());
     }
     else
     {
@@ -190,7 +190,7 @@ void FGSimulator::transmitUpdate()
                 .arg(throttle) //throttle
                 .arg(udpCounterGCSsend); //UDP packet counter delay
 
-        QByteArray data = cmd.toAscii();
+        QByteArray data = cmd.toLatin1();
 
         if(outSocket->writeDatagram(data, QHostAddress(settings.remoteAddress), settings.outPort) == -1)
         {

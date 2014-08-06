@@ -5,7 +5,8 @@ QT += svg
 include(config_dependencies.pri)
 INCLUDEPATH *= ../../libs/eigen
 
-OTHER_FILES += Config.pluginspec
+OTHER_FILES += Config.pluginspec \
+    Config.json
 
 HEADERS += calibration.h \
     configplugin.h \
@@ -14,7 +15,6 @@ HEADERS += calibration.h \
     configgadgetfactory.h \
     configgadgetoptionspage.h \
     configgadget.h \
-    fancytabwidget.h \
     configinputwidget.h \
     configoutputwidget.h \
     configvehicletypewidget.h \
@@ -22,7 +22,6 @@ HEADERS += calibration.h \
     configpipxtremewidget.h \
     configstabilizationwidget.h \
     assertions.h \
-    calibration.h \
     defaulthwsettingswidget.h \
     inputchannelform.h \
     configcamerastabilizationwidget.h \
@@ -51,7 +50,6 @@ SOURCES += calibration.cpp \
     configgadgetfactory.cpp \
     configgadgetoptionspage.cpp \
     configgadget.cpp \
-    fancytabwidget.cpp \
     configinputwidget.cpp \
     configoutputwidget.cpp \
     configvehicletypewidget.cpp \

@@ -3,6 +3,7 @@
  *
  * @file       uavobjectbrowser.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectBrowserPlugin UAVObject Browser Plugin
@@ -32,7 +33,7 @@ UAVObjectBrowser::UAVObjectBrowser(QString classId, UAVObjectBrowserWidget *widg
         m_widget(widget),
         m_config(NULL)
 {
-    connect(m_widget,SIGNAL(viewOptionsChanged(bool,bool,bool)),this,SLOT(viewOptionsChangedSlot(bool,bool,bool)));
+    connect(m_widget,SIGNAL(viewOptionsChanged(bool,bool,bool,bool)),this,SLOT(viewOptionsChangedSlot(bool,bool,bool,bool)));
 }
 
 UAVObjectBrowser::~UAVObjectBrowser()
@@ -48,16 +49,19 @@ void UAVObjectBrowser::loadConfiguration(IUAVGadgetConfiguration* config)
     m_widget->setManuallyChangedColor(m->manuallyChangedColor());
     m_widget->setRecentlyUpdatedTimeout(m->recentlyUpdatedTimeout());
     m_widget->setOnlyHighlightChangedValues(m->onlyHighlightChangedValues());
-    m_widget->setViewOptions(m->categorizedView(),m->scientificView(),m->showMetaData());
+    m_widget->setViewOptions(m->categorizedView(),m->scientificView(),m->showMetaData(),m->hideNotPresentOnHw());
+    m_widget->setNotPresentOnHwColor(m->notPresentOnHwColor());
+    m_widget->initialize();
 }
 
-void UAVObjectBrowser::viewOptionsChangedSlot(bool categorized, bool scientific, bool metadata)
+void UAVObjectBrowser::viewOptionsChangedSlot(bool categorized, bool scientific, bool metadata, bool hideNotPresent)
 {
     if(m_config)
     {
         m_config->setCategorizedView(categorized);
         m_config->setScientificView(scientific);
         m_config->setShowMetaData(metadata);
+        m_config->setHideNotPresentOnHw(hideNotPresent);
     }
 }
 

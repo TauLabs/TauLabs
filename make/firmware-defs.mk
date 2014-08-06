@@ -116,7 +116,7 @@ FORCE:
 
 $(1).firmwareinfo.c: $(1) $(ROOT_DIR)/make/templates/firmwareinfotemplate.c FORCE
 	@echo $(MSG_FWINFO) $$(call toprel, $$@)
-	$(V1) python $(ROOT_DIR)/make/scripts/version-info.py \
+	$(V1) $(PYTHON) $(ROOT_DIR)/make/scripts/version-info.py \
 		--path=$(ROOT_DIR) \
 		--template=$(ROOT_DIR)/make/templates/firmwareinfotemplate.c \
 		--outfile=$$@ \

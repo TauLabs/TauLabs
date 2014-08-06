@@ -53,6 +53,8 @@ QT += network
 QT += sql
 QT += svg
 QT += xml
+QT += widgets
+
 RESOURCES += mapresources.qrc
 
 FORMS += \

@@ -4,7 +4,26 @@
 		<field name="Armed" units="" type="enum" elements="1" options="Disarmed,Arming,Armed" defaultvalue="Disarmed"/>
 
 		<!-- Note these enumerated values should be the same as ManualControlSettings -->
-		<field name="FlightMode" units="" type="enum" elements="1" options="Manual,Stabilized1,Stabilized2,Stabilized3,Autotune,AltitudeHold,VelocityControl,PositionHold,ReturnToHome,PathPlanner"/>
+		<field name="FlightMode" units="" type="enum" elements="1">
+			 <options>
+				<option>Manual</option>
+				<option>Acro</option>
+				<option>Leveling</option>
+				<option>VirtualBar</option>
+				<option>Stabilized1</option>
+				<option>Stabilized2</option>
+				<option>Stabilized3</option>
+				<option>Autotune</option>
+				<option>AltitudeHold</option>
+				<option>VelocityControl</option>
+				<option>PositionHold</option>
+				<option>ReturnToHome</option>
+				<option>PathPlanner</option>
+				<option>TabletControl</option>
+			</options>
+		</field>
+
+		<!-- Indicate what submodule is in control -->
 		<field name="ControlSource" units="" type="enum" elements="1" options="Geofence,Failsafe,Transmitter,Tablet" defaultvalue="Failsafe"/>
 
 		<access gcs="readwrite" flight="readwrite"/>

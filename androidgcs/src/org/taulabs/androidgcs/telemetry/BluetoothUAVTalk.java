@@ -55,7 +55,7 @@ public class BluetoothUAVTalk extends TelemetryTask {
 	private BluetoothSocket socket;
 	private BluetoothDevice device;
 
-	public BluetoothUAVTalk(OPTelemetryService caller) {
+	public BluetoothUAVTalk(TelemetryService caller) {
 		super(caller);
 	}
 

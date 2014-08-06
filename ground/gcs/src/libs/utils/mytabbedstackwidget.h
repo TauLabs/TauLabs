@@ -29,8 +29,10 @@
 #ifndef MYTABBEDSTACKWIDGET_H
 #define MYTABBEDSTACKWIDGET_H
 
-#include "utils/mylistwidget.h"
-#include <QtGui/QStackedWidget>
+#include "utils_global.h"
+#include <QStackedWidget>
+#include <QListWidget>
+
 
 /*
  * MyTabbedStackWidget is a MyListWidget combined with a QStackedWidget,
@@ -50,7 +52,6 @@ public:
     int currentIndex() const;
 
     void insertCornerWidget(int index, QWidget *widget);
-    int cornerWidgetCount() { return m_cornerWidgetCount; }
     QWidget * currentWidget(){return m_stackWidget->currentWidget();}
     QWidget * getWidget(int index) {return m_stackWidget->widget(index);}
 
@@ -65,12 +66,10 @@ private slots:
     void showWidget(int index);
 
 private:
-    MyListWidget *m_listWidget;
+    QListWidget *m_listWidget;
     QStackedWidget *m_stackWidget;
-    QWidget *m_selectionWidget;
     bool m_vertical;
     bool m_iconAbove;
-    int m_cornerWidgetCount;
 };
 
 #endif // MYTABBEDSTACKWIDGET_H

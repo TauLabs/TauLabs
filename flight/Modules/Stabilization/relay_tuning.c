@@ -34,9 +34,6 @@
 #include "relaytuningsettings.h"
 #include "sin_lookup.h"
 
-//! Private variables
-static const int SIN_RESOLUTION = 180;
-
 #define MAX_AXES 3
 
 /**

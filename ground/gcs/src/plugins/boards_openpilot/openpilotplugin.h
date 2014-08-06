@@ -32,6 +32,9 @@
 
 class OpenPilotPlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.OpenPilot" FILE "OpenPilot.json")
+
 public:
    OpenPilotPlugin();
    ~OpenPilotPlugin();

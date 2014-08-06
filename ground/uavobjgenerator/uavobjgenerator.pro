@@ -9,6 +9,8 @@ macx {
     QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
 }
 
+cache()
+
 TARGET = uavobjgenerator
 CONFIG += console
 CONFIG -= app_bundle

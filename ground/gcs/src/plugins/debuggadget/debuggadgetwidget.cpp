@@ -7,7 +7,7 @@
  * @{
  * @addtogroup DebugGadgetPlugin Debug Gadget Plugin
  * @{
- * @brief A place holder gadget plugin 
+ * @brief A place holder gadget plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -28,26 +28,29 @@
 
 #include <QDebug>
 #include <QStringList>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
-#include "qxtlogger.h"
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include "debugengine.h"
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QScrollBar>
 #include <QTime>
+
 DebugGadgetWidget::DebugGadgetWidget(QWidget *parent) : QLabel(parent)
 {
     m_config = new Ui_Form();
     m_config->setupUi(this);
-    debugengine * de=new debugengine();
-    QxtLogger::getInstance()->addLoggerEngine("debugplugin", de);
-    connect(de,SIGNAL(dbgMsg(QString,QList<QVariant>)),this,SLOT(dbgMsg(QString,QList<QVariant>)));
-    connect(de,SIGNAL(dbgMsgError(QString,QList<QVariant>)),this,SLOT(dbgMsgError(QString,QList<QVariant>)));
-    connect(m_config->pushButton,SIGNAL(clicked()),this,SLOT(saveLog()));
+    debugengine *de = debugengine::getInstance();
+
+    connect(de, SIGNAL(debug(QString)), this, SLOT(dbgMsgDebug(QString)),Qt::QueuedConnection);
+    connect(de, SIGNAL(warning(QString)), this, SLOT(dbgMsgWarning(QString)),Qt::QueuedConnection);
+    connect(de, SIGNAL(critical(QString)), this, SLOT(dbgMsgCritical(QString)),Qt::QueuedConnection);
+    connect(de, SIGNAL(fatal(QString)), this, SLOT(dbgMsgFatal(QString)),Qt::QueuedConnection);
+    connect(m_config->saveToFile, SIGNAL(clicked()), this, SLOT(saveLog()));
+    connect(m_config->clearLog, SIGNAL(clicked()), this, SLOT(clearLog()));
 }
 
 DebugGadgetWidget::~DebugGadgetWidget()
@@ -55,36 +58,57 @@ DebugGadgetWidget::~DebugGadgetWidget()
     // Do nothing
 }
 
-void DebugGadgetWidget::dbgMsg(const QString &level, const QList<QVariant> &msgs)
+void DebugGadgetWidget::dbgMsgDebug(QString msg)
+{
+    m_config->plainTextEdit->setTextColor(Qt::blue);
+
+    m_config->plainTextEdit->append(QString("%0[DEBUG]%1").arg(QTime::currentTime().toString()).arg(msg));
+
+    QScrollBar *sb = m_config->plainTextEdit->verticalScrollBar();
+    sb->setValue(sb->maximum());
+}
+
+void DebugGadgetWidget::dbgMsgWarning(QString msg)
 {
     m_config->plainTextEdit->setTextColor(Qt::red);
 
-        m_config->plainTextEdit->append(QString("%2[%0]%1").arg(level).arg(msgs[0].toString()).arg(QTime::currentTime().toString()));
+    m_config->plainTextEdit->append(QString("%0[WARNING]%1").arg(QTime::currentTime().toString()).arg(msg));
 
     QScrollBar *sb = m_config->plainTextEdit->verticalScrollBar();
     sb->setValue(sb->maximum());
 }
 
-void DebugGadgetWidget::dbgMsgError(const QString &level, const QList<QVariant> &msgs)
+void DebugGadgetWidget::dbgMsgCritical(QString msg)
 {
-    m_config->plainTextEdit->setTextColor(Qt::black);
+    m_config->plainTextEdit->setTextColor(Qt::red);
 
-
-        m_config->plainTextEdit->append(QString("%2[%0]%1").arg(level).arg(msgs[0].toString()).arg(QTime::currentTime().toString()));
+    m_config->plainTextEdit->append(QString("%0[CRITICAL]%1").arg(QTime::currentTime().toString()).arg(msg));
 
     QScrollBar *sb = m_config->plainTextEdit->verticalScrollBar();
     sb->setValue(sb->maximum());
 }
+
+void DebugGadgetWidget::dbgMsgFatal(QString msg)
+{
+    m_config->plainTextEdit->setTextColor(Qt::red);
+
+    m_config->plainTextEdit->append(QString("%0[FATAL]%1").arg(QTime::currentTime().toString()).arg(msg));
+
+    QScrollBar *sb = m_config->plainTextEdit->verticalScrollBar();
+    sb->setValue(sb->maximum());
+}
+
 void DebugGadgetWidget::saveLog()
 {
     QString fileName = QFileDialog::getSaveFileName(0, tr("Save log File As"), "");
+
     if (fileName.isEmpty()) {
         return;
     }
 
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly) &&
-            (file.write(m_config->plainTextEdit->toHtml().toAscii()) != -1)) {
+        (file.write(m_config->plainTextEdit->toHtml().toLatin1()) != -1)) {
         file.close();
     } else {
         QMessageBox::critical(0,
@@ -93,4 +117,9 @@ void DebugGadgetWidget::saveLog()
                               QMessageBox::Ok);
         return;
     }
+}
+
+void DebugGadgetWidget::clearLog()
+{
+    m_config->plainTextEdit->clear();
 }

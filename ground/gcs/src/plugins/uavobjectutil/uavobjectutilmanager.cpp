@@ -308,7 +308,7 @@ QMap<QString, UAVObject::Metadata> UAVObjectUtilManager::readMetadata(metadataSe
 
     // Save all metadata objects.
     UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             bool updateMetadataFlag = false;
@@ -365,7 +365,7 @@ bool UAVObjectUtilManager::setMetadata(QMap<QString, UAVObject::Metadata> metaDa
 
     // Load all metadata objects.
     UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             bool updateMetadataFlag = false;
@@ -411,7 +411,7 @@ bool UAVObjectUtilManager::resetMetadataToDefaults()
 
     // Load all metadata object defaults
     UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             metaDataList.insert(obj->getName(), obj->getDefaultMetadata());

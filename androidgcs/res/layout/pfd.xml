@@ -19,13 +19,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp" />
 
-    <org.taulabs.androidgcs.views.GpsView
-        android:id="@+id/gps_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp" />
 
     <org.taulabs.androidgcs.views.AltitudeView
         android:id="@+id/altitude_view"
@@ -33,21 +26,29 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/attitude_view"
         android:layout_centerVertical="true" />
+    
+    <org.taulabs.androidgcs.views.FlightStatusView
+        android:id="@+id/flight_status_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gps_view"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true" />
 
     <org.taulabs.androidgcs.views.BatteryView
         android:id="@+id/battery_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/gps_view"
+        android:layout_above="@+id/flight_status_view"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
         android:visibility="invisible" />
 
-    <org.taulabs.androidgcs.views.FlightStatusView
-        android:id="@+id/flight_status_view"
+    <org.taulabs.androidgcs.views.GpsView
+        android:id="@+id/gps_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/battery_view"
-        android:layout_marginBottom="5dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-
+    
 </RelativeLayout>

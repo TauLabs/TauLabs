@@ -107,6 +107,8 @@ UAVOBJSRCFILENAMES += waypoint
 UAVOBJSRCFILENAMES += waypointactive
 UAVOBJSRCFILENAMES += hottsettings
 UAVOBJSRCFILENAMES += ubloxinfo
+UAVOBJSRCFILENAMES += picocsettings
+UAVOBJSRCFILENAMES += picocstatus
 
 UAVOBJSRCFILENAMES += txpidsettings
 
@@ -114,6 +116,8 @@ UAVOBJSRCFILENAMES += vibrationanalysissettings
 UAVOBJSRCFILENAMES += vibrationanalysisoutput
 UAVOBJSRCFILENAMES += trimangles
 UAVOBJSRCFILENAMES += trimanglessettings
+
+UAVOBJSRCFILENAMES += sessionmanaging
 
 
 UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )

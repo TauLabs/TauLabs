@@ -3,6 +3,7 @@
  *
  * @file       uavobjectbrowserconfiguration.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectBrowserPlugin UAVObject Browser Plugin
@@ -29,7 +30,7 @@
 #define UAVOBJECTBROWSERCONFIGURATION_H
 
 #include <coreplugin/iuavgadgetconfiguration.h>
-#include <QtGui/QColor>
+#include <QColor>
 
 using namespace Core;
 
@@ -38,11 +39,14 @@ class UAVObjectBrowserConfiguration : public IUAVGadgetConfiguration
 Q_OBJECT
 Q_PROPERTY(QColor m_recentlyUpdatedColor READ recentlyUpdatedColor WRITE setRecentlyUpdatedColor)
 Q_PROPERTY(QColor m_manuallyChangedColor READ manuallyChangedColor WRITE setManuallyChangedColor)
+Q_PROPERTY(QColor m_notPresentOnHwColor READ notPresentOnHwColor WRITE setNotPresentOnHwColor)
 Q_PROPERTY(int m_recentlyUpdatedTimeout READ recentlyUpdatedTimeout WRITE setRecentlyUpdatedTimeout)
 Q_PROPERTY(bool m_onlyHighlightChangedValues READ onlyHighlightChangedValues WRITE setOnlyHighlightChangedValues)
 Q_PROPERTY(bool m_useCategorizedView READ categorizedView WRITE setCategorizedView)
 Q_PROPERTY(bool m_useScientificView READ scientificView WRITE setScientificView)
 Q_PROPERTY(bool m_showMetaData READ showMetaData WRITE setShowMetaData)
+Q_PROPERTY(bool m_hideNotPresentOnHw READ hideNotPresentOnHw WRITE setHideNotPresentOnHw)
+
 public:
     explicit UAVObjectBrowserConfiguration(QString classId, QSettings* qSettings = 0, QObject *parent = 0);
 
@@ -51,31 +55,36 @@ public:
 
     QColor recentlyUpdatedColor() const { return m_recentlyUpdatedColor; }
     QColor manuallyChangedColor() const { return m_manuallyChangedColor; }
+    QColor notPresentOnHwColor() const { return m_notPresentOnHwColor; }
     int recentlyUpdatedTimeout() const { return m_recentlyUpdatedTimeout; }
     bool onlyHighlightChangedValues() const {return m_onlyHighlightChangedValues;}
     bool categorizedView() const { return m_useCategorizedView; }
     bool scientificView() const { return m_useScientificView; }
     bool showMetaData() const { return m_showMetaData; }
+    bool hideNotPresentOnHw() const { return m_hideNotPresentOnHw; }
 
 signals:
 
 public slots:
     void setRecentlyUpdatedColor(QColor color) { m_recentlyUpdatedColor = color; }
     void setManuallyChangedColor(QColor color) { m_manuallyChangedColor = color; }
+    void setNotPresentOnHwColor(QColor color) { m_notPresentOnHwColor = color; }
     void setRecentlyUpdatedTimeout(int timeout) { m_recentlyUpdatedTimeout = timeout; }
     void setOnlyHighlightChangedValues(bool highlight) { m_onlyHighlightChangedValues = highlight; }
     void setCategorizedView(bool value) { m_useCategorizedView = value; }
     void setScientificView(bool value) { m_useScientificView = value; }
     void setShowMetaData(bool value) { m_showMetaData = value; }
-
+    void setHideNotPresentOnHw(bool value) { m_hideNotPresentOnHw = value; }
 private:
     QColor m_recentlyUpdatedColor;
     QColor m_manuallyChangedColor;
+    QColor m_notPresentOnHwColor;
     int m_recentlyUpdatedTimeout;
     bool m_onlyHighlightChangedValues;
     bool m_useCategorizedView;
     bool m_useScientificView;
     bool m_showMetaData;
+    bool m_hideNotPresentOnHw;
 };
 
 #endif // UAVOBJECTBROWSERCONFIGURATION_H

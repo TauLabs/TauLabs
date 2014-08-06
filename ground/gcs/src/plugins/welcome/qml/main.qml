@@ -99,7 +99,7 @@ Rectangle {
         CommunityPanel {
             id: communityPanel
             anchors.horizontalCenter: parent.horizontalCenter
-            width: Math.min(sourceSize.width, container.width)
+            width: container.width * 0.9
             height: Math.min(300, container.height*0.5)
         }
     }

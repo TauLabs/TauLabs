@@ -44,9 +44,9 @@ sips = "/usr/bin/sips"
 # 
 # installed with developer tools:
 # 
-setfile = "/Developer/Tools/SetFile"
-rez = "/Developer/Tools/Rez"
-derez = "/Developer/Tools/DeRez"
+setfile = "/usr/bin/SetFile"
+rez = "/usr/bin/Rez"
+derez = "/usr/bin/DeRez"
 # 
 # all of the above in a list
 # 

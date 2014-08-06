@@ -3,6 +3,7 @@
  *
  * @file       uavobjectbrowser.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectBrowserPlugin UAVObject Browser Plugin
@@ -49,7 +50,7 @@ public:
     QWidget *widget() { return m_widget; }
     void loadConfiguration(IUAVGadgetConfiguration* config);
 private slots:
-    void viewOptionsChangedSlot(bool categorized,bool scientific,bool metadata);
+    void viewOptionsChangedSlot(bool categorized, bool scientific, bool metadata, bool showNotPresent);
 private:
     UAVObjectBrowserWidget *m_widget;
     UAVObjectBrowserConfiguration *m_config;

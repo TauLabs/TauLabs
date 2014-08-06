@@ -1,0 +1,39 @@
+<xml>
+	<object name="PicoCSettings" singleinstance="true" settings="true">
+		<description>Settings for the @ref PicoC Interpreter Module</description>
+		<field name="MaxFileSize" units="bytes [be careful!]" type="uint32" elements="1" defaultvalue="2048"/>
+		<field name="TaskStackSize" units="bytes [be careful!]" type="uint32" elements="1" defaultvalue="16384"/>
+		<field name="PicoCStackSize" units="bytes [be careful!]" type="uint32" elements="1" defaultvalue="16384"/>
+		<field name="BootFileID" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="Startup" units="" type="enum" elements="1" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>OnBoot</option>
+				<option>WhenArmed</option>
+			</options>
+		</field>
+		<field name="Source" units="" type="enum" elements="1" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Demo</option>
+				<option>Interactive</option>
+				<option>File</option>
+			</options>
+		</field>
+		<field name="ComSpeed" units="bps" type="enum" elements="1" defaultvalue="115200">
+			<options>
+				<option>2400</option>
+				<option>4800</option>
+				<option>9600</option>
+				<option>19200</option>
+				<option>38400</option>
+				<option>57600</option>
+				<option>115200</option>
+			</options>
+		</field>
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

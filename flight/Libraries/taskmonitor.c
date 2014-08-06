@@ -58,10 +58,11 @@ int32_t TaskMonitorInitialize(void)
  */
 int32_t TaskMonitorAdd(TaskInfoRunningElem task, xTaskHandle handle)
 {
-	if (task < TASKINFO_RUNNING_NUMELEM)
+	uint32_t task_idx = (uint32_t) task;
+	if (task_idx < TASKINFO_RUNNING_NUMELEM)
 	{
-	    xSemaphoreTakeRecursive(lock, portMAX_DELAY);
-		handles[task] = handle;
+		xSemaphoreTakeRecursive(lock, portMAX_DELAY);
+		handles[task_idx] = handle;
 		xSemaphoreGiveRecursive(lock);
 		return 0;
 	}
@@ -76,10 +77,11 @@ int32_t TaskMonitorAdd(TaskInfoRunningElem task, xTaskHandle handle)
  */
 int32_t TaskMonitorRemove(TaskInfoRunningElem task)
 {
-	if (task < TASKINFO_RUNNING_NUMELEM)
+	uint32_t task_idx = (uint32_t) task;
+	if (task_idx < TASKINFO_RUNNING_NUMELEM)
 	{
 	    xSemaphoreTakeRecursive(lock, portMAX_DELAY);
-		handles[task] = 0;
+		handles[task_idx] = 0;
 		xSemaphoreGiveRecursive(lock);
 		return 0;
 	}
@@ -94,7 +96,8 @@ int32_t TaskMonitorRemove(TaskInfoRunningElem task)
  */
 bool TaskMonitorQueryRunning(TaskInfoRunningElem task)
 {
-	if (task < TASKINFO_RUNNING_NUMELEM && handles[task] != 0)
+	uint32_t task_idx = (uint32_t) task;
+	if (task_idx < TASKINFO_RUNNING_NUMELEM && handles[task_idx] != 0)
 		return true;
 	return false;
 }

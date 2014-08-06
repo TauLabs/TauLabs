@@ -32,7 +32,7 @@
 #include <QTableView>
 #include <QStandardItemModel>
 #include <QItemDelegate>
-#include <QtGui/QLabel>
+#include <QLabel>
 
 #include "uavobjectutil/uavobjectutilmanager.h"
 #include "extensionsystem/pluginmanager.h"
@@ -73,6 +73,7 @@ private slots:
     void removeTelemetryColumn();
     void changeVerticalHeader(int);
     void changeHorizontalHeader(int);
+    void customMenuRequested(QPoint pos);
 private:
     int stripMs(QVariant rate_ms);
 
@@ -115,7 +116,7 @@ public:
     Qt::ItemFlags flags (const QModelIndex & index) const
     {
         if (index.column() == 0 || index.column() == 1)
-            return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+            return 0;
         else
             return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
     }

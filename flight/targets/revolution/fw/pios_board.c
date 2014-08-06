@@ -257,6 +257,9 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_HOTT_RX_BUF_LEN 16
 #define PIOS_COM_HOTT_TX_BUF_LEN 16
 
+#define PIOS_COM_PICOC_RX_BUF_LEN 128
+#define PIOS_COM_PICOC_TX_BUF_LEN 128
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
@@ -270,6 +273,7 @@ uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_overo_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_com_hott_id;
+uintptr_t pios_com_picoc_id;
 uintptr_t pios_internal_adc_id = 0;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
@@ -540,6 +544,21 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 #endif	/* PIOS_INCLUDE_COM */
 		break;
+	case HWREVOLUTION_USB_VCPPORT_PICOC:
+#if defined(PIOS_INCLUDE_COM)
+		{
+			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_PICOC_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_PICOC_TX_BUF_LEN);
+			PIOS_Assert(rx_buffer);
+			PIOS_Assert(tx_buffer);
+			if (PIOS_COM_Init(&pios_com_picoc_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
+						rx_buffer, PIOS_COM_PICOC_RX_BUF_LEN,
+						tx_buffer, PIOS_COM_PICOC_TX_BUF_LEN)) {
+				PIOS_Assert(0);
+			}
+		}
+#endif	/* PIOS_INCLUDE_COM */
+		break;
 	}
 #endif	/* PIOS_INCLUDE_USB_CDC */
 
@@ -715,6 +734,12 @@ void PIOS_Board_Init(void) {
 #endif /* PIOS_INCLUDE_HOTT */
 			break;
 
+		case HWREVOLUTION_AUXPORT_PICOC:
+#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_aux_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
+#endif /* PIOS_INCLUDE_PICOC */
+			break;
+
 		case HWREVOLUTION_AUXPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			PIOS_Board_configure_com(&pios_usart_aux_cfg, 0, PIOS_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
@@ -830,6 +855,12 @@ void PIOS_Board_Init(void) {
 			PIOS_Board_configure_com(&pios_usart_auxsbus_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
 #endif /* PIOS_INCLUDE_HOTT */
 			break;
+
+		case HWREVOLUTION_AUXSBUSPORT_PICOC:
+#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_auxsbus_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
+#endif /* PIOS_INCLUDE_PICOC */
+			break;
 	} /* hw_auxport */
 	
 	/* Configure FlexiPort */
@@ -923,6 +954,12 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
 #endif /* PIOS_INCLUDE_HOTT */
+			break;
+
+		case HWREVOLUTION_FLEXIPORT_PICOC:
+#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
+#endif /* PIOS_INCLUDE_PICOC */
 			break;
 	} /* hw_flexiport */
 	

@@ -447,7 +447,7 @@ void Calibration::doStartOrientation() {
 
     // Set all UAVObject rates to update slowly
     UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
@@ -516,7 +516,7 @@ void Calibration::doStartLeveling() {
 
     // Set all UAVObject rates to update slowly
     UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
@@ -629,7 +629,7 @@ void Calibration::doStartSixPoint()
 
     // Make all UAVObject rates update slowly
     UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
@@ -961,7 +961,7 @@ bool Calibration::storeLevelingMeasurement(UAVObject *obj) {
 
         // Temporary variables
         double psi, theta, phi;
-
+        Q_UNUSED(psi);
         // Keep existing yaw rotation
         psi = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0;
 

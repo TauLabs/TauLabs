@@ -3,6 +3,7 @@
  *
  * @file       uavobjecttreemodel.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectBrowserPlugin UAVObject Browser Plugin
@@ -32,7 +33,7 @@
 #include <QAbstractItemModel>
 #include <QtCore/QMap>
 #include <QtCore/QList>
-#include <QtGui/QColor>
+#include <QColor>
 
 class TopTreeItem;
 class ObjectTreeItem;
@@ -49,7 +50,7 @@ class UAVObjectTreeModel : public QAbstractItemModel
 {
 Q_OBJECT
 public:
-    explicit UAVObjectTreeModel(QObject *parent = 0, bool categorize=true, bool useScientificNotation=false);
+    explicit UAVObjectTreeModel(QObject *parent = 0, bool useScientificNotation=false);
     ~UAVObjectTreeModel();
 
     QVariant data(const QModelIndex &index, int role) const;
@@ -68,6 +69,7 @@ public:
 
     void setRecentlyUpdatedColor(QColor color) { m_recentlyUpdatedColor = color; }
     void setManuallyChangedColor(QColor color) { m_manuallyChangedColor = color; }
+    void setNotPresentOnHwColor(QColor color) { m_notPresentOnHwColor = color; }
     void setRecentlyUpdatedTimeout(int timeout) {
         m_recentlyUpdatedTimeout = timeout;
         TreeItem::setHighlightTime(timeout);
@@ -75,21 +77,24 @@ public:
     void setOnlyHighlightChangedValues(bool highlight) {m_onlyHighlightChangedValues = highlight; }
 
     QList<QModelIndex> getMetaDataIndexes();
+    QList<QModelIndex> getDataObjectIndexes();
 
     QModelIndex getIndex(int indexRow, int indexCol, TopTreeItem *topTreeItem){return createIndex(indexRow, indexCol, topTreeItem);}
 
 signals:
-
+    void presentOnHardwareChanged();
 public slots:
     void newObject(UAVObject *obj);
-
+    void initializeModel(bool categorize = true, bool useScientificFloatNotation = true);
+    void instanceRemove(UAVObject*);
 private slots:
     void highlightUpdatedObject(UAVObject *obj);
     void updateHighlight(TreeItem*);
     void updateCurrentTime();
+    void presentOnHardwareChangedCB(UAVDataObject*);
 
 private:
-    void setupModelData(UAVObjectManager *objManager, bool categorize = true);
+    void setupModelData(UAVObjectManager *objManager, bool categorize = true, bool useScientificFloatNotation = true);
     QModelIndex index(TreeItem *item);
     void addDataObject(UAVDataObject *obj, bool categorize = true);
     MetaObjectTreeItem *addMetaObject(UAVMetaObject *obj, TreeItem *parent);
@@ -111,14 +116,19 @@ private:
     QColor m_recentlyUpdatedColor;
     QColor m_manuallyChangedColor;
     QColor m_updatedOnlyColor;
+    QColor m_isPresentOnHwColor;
+    QColor m_notPresentOnHwColor;
     bool m_onlyHighlightChangedValues;
     bool m_useScientificFloatNotation;
-
+    bool m_hideNotPresent;
+    bool m_categorize;
     QTimer m_currentTimeTimer;
     QTime m_currentTime;
-
+    UAVObjectManager *objManager;
     // Highlight manager to handle highlighting of tree items.
     HighLightManager *m_highlightManager;
+    QMutex mutex;
+    bool isInitialized;
 };
 
 #endif // UAVOBJECTTREEMODEL_H
