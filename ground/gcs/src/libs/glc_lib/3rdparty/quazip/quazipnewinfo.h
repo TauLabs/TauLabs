@@ -35,7 +35,7 @@ QuaZIP as long as you respect either GPL or LGPL for QuaZIP code.
 
 #include <QDateTime>
 #include <QString>
-#include "..\..\glc_config.h"
+#include "../../glc_config.h"
 
 /// Information about a file to be created.
 /** This structure holds information about a file to be created inside

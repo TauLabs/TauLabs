@@ -39,7 +39,7 @@ QuaZIP as long as you respect either GPL or LGPL for QuaZIP code.
 #include "zip.h"
 #include "unzip.h"
 
-#include "..\..\glc_config.h"
+#include "../../glc_config.h"
 
 #include "quazipfileinfo.h"
 
