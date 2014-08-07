@@ -1,4 +1,17 @@
-# Tau Labs
+# Tau Labs - Brain FPV Flight Controller
+
+This version of Tau Labs adds support for the Brain FPV Flight Controller. It closely follows the upstream "next" branch,
+the main differences to "next" are:
+
+* Hardware support files for Brain (under flight/targets/brain)
+* GCS support for Brain
+* On-Screen Display (OSD) code (flight/Modules/OnScreenDisplay, flight/PiOS/STM32F4xx/pios_video.c)
+* MPU9250 driver
+* LPS25H driver (work in progress)
+
+Drivers and hopefully also the OSD code will eventually be merged into the upstream Tau Labs "next" branch. When
+contributing code, please only open a pull request here if the changes are Brain specific, all other code should be 
+included in the upstream Tau Labs project (https://github.com/TauLabs/TauLabs).
 
 ## Goals
 The goal of Tau Labs is to focus on writing high quality open source code for autopilots that can easily provide the basis for research projects or further development by anyone.  The project focuses on high quality code, robust testing, and ease of use. Our target audience is professionals, researchers, and students, but we want to make those more advanced techniques easy and accessible for anyone.
