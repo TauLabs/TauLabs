@@ -57,10 +57,6 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     // Create data model
     m_model = new UAVObjectTreeModel(this);
 
-    // Create and configure the proxy model
-    proxyModel = new TreeSortFilterProxyModel(this);
-    proxyModel->setSourceModel(m_model);
-
     // Create tree view and add to layout
     treeView = new UAVOBrowserTreeView(MAXIMUM_UPDATE_PERIOD);
     treeView->setObjectName(QString::fromUtf8("treeView"));
@@ -88,7 +84,6 @@ void UAVObjectBrowserWidget::onTreeItemExpanded(QModelIndex currentProxyIndex)
 {
     QModelIndex currentIndex = proxyModel->mapToSource(currentProxyIndex);
     TreeItem *item = static_cast<TreeItem*>(currentIndex.internalPointer());
-    Q_ASSERT(item);
     TopTreeItem *top = dynamic_cast<TopTreeItem*>(item->parent());
 
     //Check if current tree index is the child of the top tree item
@@ -149,7 +144,6 @@ void UAVObjectBrowserWidget::onTreeItemCollapsed(QModelIndex currentProxyIndex)
 {
     QModelIndex currentIndex = proxyModel->mapToSource(currentProxyIndex);
     TreeItem *item = static_cast<TreeItem*>(currentIndex.internalPointer());
-    Q_ASSERT(item);
     TopTreeItem *top = dynamic_cast<TopTreeItem*>(item->parent());
 
     //Check if current tree index is the child of the top tree item
@@ -271,6 +265,10 @@ void UAVObjectBrowserWidget::setViewOptions(bool categorized, bool scientific, b
 void UAVObjectBrowserWidget::initialize()
 {
     m_model->initializeModel(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked());
+
+    // Create and configure the proxy model
+    proxyModel = new TreeSortFilterProxyModel(this);
+    proxyModel->setSourceModel(m_model);
     treeView->setModel(proxyModel);
     treeView->setColumnWidth(0, 300);
 
@@ -504,7 +502,6 @@ void UAVObjectBrowserWidget::toggleUAVOButtons(const QModelIndex &currentProxyIn
 
     QModelIndex currentIndex = proxyModel->mapToSource(currentProxyIndex);
     TreeItem *item = static_cast<TreeItem*>(currentIndex.internalPointer());
-    Q_ASSERT(item);
     TopTreeItem *top = dynamic_cast<TopTreeItem*>(item);
     ObjectTreeItem *data = dynamic_cast<ObjectTreeItem*>(item);
     CategoryTreeItem *category = dynamic_cast<CategoryTreeItem*>(item);
@@ -551,6 +548,16 @@ void UAVObjectBrowserWidget::viewOptionsChangedSlot()
 {
     emit viewOptionsChanged(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked(),m_viewoptions->cbMetaData->isChecked(),m_viewoptions->cbHideNotPresent);
     m_model->initializeModel(m_viewoptions->cbCategorized->isChecked(), m_viewoptions->cbScientific->isChecked());
+
+    // Reset proxy model
+    disconnect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
+    delete proxyModel;
+    proxyModel = new TreeSortFilterProxyModel(this);
+    proxyModel->setSourceModel(m_model);
+    treeView->setModel(proxyModel);
+    searchTextChanged(m_browser->le_searchField->text());
+    connect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
+
     showMetaData(m_viewoptions->cbMetaData->isChecked());
     refreshHiddenObjects();
 }
