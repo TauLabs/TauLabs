@@ -299,11 +299,11 @@ void UAVObjectBrowserWidget::refreshHiddenObjects()
     QList<QModelIndex> indexList = m_model->getDataObjectIndexes();
     foreach(QModelIndex modelIndex, indexList)
     {
-        QModelIndex index = proxyModel->mapFromSource(modelIndex);
+        QModelIndex proxyModelindex = proxyModel->mapFromSource(modelIndex);
 
-        TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+        TreeItem *item = static_cast<TreeItem*>(proxyModelindex.internalPointer());
         if(item)
-            treeView->setRowHidden(index.row(), index.parent(), m_viewoptions->cbHideNotPresent->isChecked() && !item->getIsPresentOnHardware());
+            treeView->setRowHidden(proxyModelindex.row(), proxyModelindex.parent(), m_viewoptions->cbHideNotPresent->isChecked() && !item->getIsPresentOnHardware());
     }
 }
 
@@ -318,9 +318,9 @@ void UAVObjectBrowserWidget::showMetaData(bool show)
     QList<QModelIndex> metaIndexes = m_model->getMetaDataIndexes();
     foreach(QModelIndex modelIndex, metaIndexes)
     {
-        QModelIndex index = proxyModel->mapFromSource(modelIndex);
+        QModelIndex proxyModelindex = proxyModel->mapFromSource(modelIndex);
 
-        treeView->setRowHidden(index.row(), index.parent(), !show);
+        treeView->setRowHidden(proxyModelindex.row(), proxyModelindex.parent(), !show);
     }
 }
 
@@ -391,7 +391,7 @@ void UAVObjectBrowserWidget::requestUpdate()
  */
 ObjectTreeItem *UAVObjectBrowserWidget::findCurrentObjectTreeItem()
 {
-    QModelIndex current = treeView->currentIndex();
+    QModelIndex current = proxyModel->mapToSource(treeView->currentIndex());
     TreeItem *item = static_cast<TreeItem*>(current.internalPointer());
     ObjectTreeItem *objItem = 0;
 
@@ -623,16 +623,18 @@ void UAVOBrowserTreeView::updateTimerPeriod(unsigned int val)
 
 
 /**
- * @brief UAVOBrowserTreeView::onTimeout_updateView On timeout, emits dataChanged() SIGNAL for
- * all data tree indices that have changed since last timeout.
+ * @brief UAVOBrowserTreeView::onTimeout_updateView On timeout, emits dataChanged() SIGNAL. Origingally,
+ * this was intended to only function on the the data tree indices that had changed since last timeout,
+ * but QTreeView does not respect the limits in dataChanged, instead redrawing the entire tree at each
+ * update.
  */
 void UAVOBrowserTreeView::onTimeout_updateView()
 {
     if (m_updateTreeViewFlag == true) {
-        QModelIndex topLeftData = dynamic_cast<UAVObjectTreeModel *>(model())->getIndex(0, 0, dynamic_cast<UAVObjectTreeModel *>(model())->getNonSettingsTree());
-        QModelIndex bottomRightData = dynamic_cast<UAVObjectTreeModel *>(model())->getIndex(1, 1, dynamic_cast<UAVObjectTreeModel *>(model())->getNonSettingsTree());
+        QModelIndex topLeftIndex = model()->index(0, 0);
+        QModelIndex bottomRightIndex = model()->index(1, 1);
 
-        QTreeView::dataChanged(topLeftData, bottomRightData);
+        QTreeView::dataChanged(topLeftIndex, bottomRightIndex);
     }
 
     m_updateTreeViewFlag = false;
@@ -644,12 +646,13 @@ void UAVOBrowserTreeView::onTimeout_updateView()
  * @param topLeft Top left index from data model update
  * @param bottomRight Bottom right index from data model update
  */
-void UAVOBrowserTreeView::updateView(QModelIndex topLeftProxy, QModelIndex bottomRightProxy)
+void UAVOBrowserTreeView::updateView(const QModelIndex &topLeftProxy, const QModelIndex &bottomRightProxy)
 {
     Q_UNUSED(bottomRightProxy);
 
     // First static_cast from *void to a tree item pointer. This is safe because we know all the indices are tree items
-    TreeItem *treeItemPtr = static_cast<TreeItem*>(topLeftProxy.internalPointer());
+    QModelIndex topLeftModel = proxyModel->mapToSource(topLeftProxy);
+    TreeItem *treeItemPtr = static_cast<TreeItem*>(topLeftModel.internalPointer());
 
     // Second, do a dynamic_cast in order to detect if this tree item is a data object
     DataObjectTreeItem *dataObjectTreeItemPtr = dynamic_cast<DataObjectTreeItem*>(treeItemPtr);

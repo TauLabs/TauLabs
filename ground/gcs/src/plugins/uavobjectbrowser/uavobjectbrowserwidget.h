@@ -57,8 +57,10 @@ class UAVOBrowserTreeView : public QTreeView
     Q_OBJECT
 public:
     UAVOBrowserTreeView(unsigned int updateTimerPeriod);
-    void updateView(QModelIndex topLeft, QModelIndex bottomRight);
+    void updateView(const QModelIndex &topLeft, const QModelIndex &bottomRight);
     void updateTimerPeriod(unsigned int val);
+
+    virtual void setModel(QAbstractItemModel *model){QTreeView::setModel(model); proxyModel = static_cast<TreeSortFilterProxyModel *>(model);}
 
     /**
      * @brief dataChanged Reimplements QTreeView::dataChanged signal
@@ -74,6 +76,7 @@ private slots:
 
 private:
     bool m_updateTreeViewFlag;
+    TreeSortFilterProxyModel *proxyModel;
 
     QTimer m_updateViewTimer;
 
