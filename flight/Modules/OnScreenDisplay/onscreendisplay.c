@@ -140,6 +140,8 @@ float convert_distance;
 float convert_distance_divider;
 const char * dist_unit_long = METRIC_DIST_UNIT_LONG;
 const char * dist_unit_short = METRIC_DIST_UNIT_SHORT;
+const char digits[16] = "0123456789abcdef";
+
 
 
 float home_baro_altitude = 0;
@@ -155,25 +157,6 @@ static portTickType out_ticks = 0;
 static uint16_t in_time  = 0;
 static uint16_t out_time = 0;
 #endif
-
-
-
-char *FLASH_If_Read(uint32_t SectorAddress)
-{
-	return (char *) (SectorAddress);
-}
-
-
-void Read_FW_Tag(char * array, uint8_t size)
-{
-	const struct pios_board_info * bdinfo = &pios_board_info_blob;
-	uint8_t x = 0;
-	if (size > bdinfo->desc_size) size = bdinfo->desc_size;
-	for (uint32_t i = bdinfo->fw_base + bdinfo->fw_size + 14; i < bdinfo->fw_base + bdinfo->fw_size + 14 + size; ++i) {
-		array[x] = *FLASH_If_Read(i);
-		++x;
-	}
-}
 
 
 void clearGraphics()
@@ -1827,15 +1810,37 @@ void introText(int16_t x, int16_t y)
 	write_string("Tau Labs", x, y + 10, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 3);
 }
 
-void introFWVersion(int16_t x, int16_t y)
+void printFWVersion(int16_t x, int16_t y)
 {
-	char tmp[32] = { 0 };
-	tmp[0] = 'V';
-	tmp[1] = 'E';
-	tmp[2] = 'R';
-	tmp[3] = ':';
-	tmp[4] = ' ';
-	Read_FW_Tag(&tmp[5], 26);
+	const struct pios_board_info * bdinfo = &pios_board_info_blob;
+	char tmp[64] = { 0 };
+	char this_char;
+	uint8_t pos = 0;
+	tmp[pos++] = 'V';
+	tmp[pos++] = 'E';
+	tmp[pos++] = 'R';
+	tmp[pos++] = ':';
+	tmp[pos++] = ' ';
+
+	// Git tag
+	for (int i = 0; i < 26; i++){
+		this_char = *(char*)(bdinfo->fw_base + bdinfo->fw_size + 14 + i);
+		if (this_char != 0) {
+			tmp[pos++] = this_char;
+		}
+		else
+			break;
+	}
+
+	tmp[pos++] = ' ';
+
+	// Git commit hash
+	for (int i = 0; i < 4; i++){
+		this_char = *(char*)(bdinfo->fw_base + bdinfo->fw_size + 7 - i);
+		tmp[pos++] = digits[(this_char & 0xF0) >> 4];
+		tmp[pos++] = digits[(this_char & 0x0F)];
+	}
+
 	write_string(tmp, x, y, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 2);
 }
 
@@ -1848,7 +1853,6 @@ void showVideoType(int16_t x, int16_t y)
 	}
 }
 
-char digits[10] = "0123456789";
 int utoa(unsigned int i, char *output, size_t olen)
 {
 	size_t sublen;
@@ -2188,12 +2192,12 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 				introGraphics(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM / 2 - 20);
 				introText(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 70);
 				showVideoType(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 45);
-				introFWVersion(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 25);
+				printFWVersion(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 20);
 			} else {
 				introGraphics(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM / 2 - 30);
 				introText(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 90);
 				showVideoType(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 60);
-				introFWVersion(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 40);
+				printFWVersion(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 35);
 			}
 			frame_counter++;
 			// Accumulate baro altitude
