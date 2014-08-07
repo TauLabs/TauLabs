@@ -589,6 +589,29 @@ void UAVObjectBrowserWidget::searchTextCleared()
     m_browser->le_searchField->clear();
 }
 
+void UAVObjectBrowserWidget::keyPressEvent(QKeyEvent *e)
+{
+    switch(e->key())
+    {
+    case Qt::Key_Escape:
+        searchTextCleared();
+    default:
+        QWidget::keyPressEvent(e);
+    }
+}
+
+void UAVObjectBrowserWidget::keyReleaseEvent(QKeyEvent *e)
+{
+    switch(e->key())
+    {
+    case Qt::Key_Escape:
+        searchTextCleared();
+    default:
+        QWidget::keyReleaseEvent(e);
+    }
+}
+
+
 //============================
 
 /**

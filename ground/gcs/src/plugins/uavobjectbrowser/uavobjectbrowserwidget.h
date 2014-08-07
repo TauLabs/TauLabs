@@ -31,6 +31,7 @@
 
 #include <QModelIndex>
 #include <QWidget>
+#include <QKeyEvent>
 #include <QTreeView>
 #include <QSortFilterProxyModel>
 #include "objectpersistence.h"
@@ -138,6 +139,8 @@ private:
     void enableUAVOBrowserButtons(bool enableState);
     ObjectTreeItem *findCurrentObjectTreeItem();
     void updateThrottlePeriod(UAVObject *);
+    void keyPressEvent(QKeyEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
 
     UAVOBrowserTreeView *treeView;
 
