@@ -316,7 +316,7 @@ void UAVObjectBrowserWidget::refreshHiddenObjects()
  */
 void UAVObjectBrowserWidget::showMetaData(bool show)
 {
-    refreshViewOtpions();
+    refreshViewOptions();
     QList<QModelIndex> metaIndexes = m_model->getMetaDataIndexes();
     foreach(QModelIndex modelIndex, metaIndexes)
     {
@@ -329,7 +329,7 @@ void UAVObjectBrowserWidget::showMetaData(bool show)
 /**
  * @brief fires the viewOptionsChanged SIGNAL with the current values.
  */
-void UAVObjectBrowserWidget::refreshViewOtpions()
+void UAVObjectBrowserWidget::refreshViewOptions()
 {
     emit viewOptionsChanged(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked(),m_viewoptions->cbMetaData->isChecked(),m_viewoptions->cbHideNotPresent->isChecked());
 }
@@ -341,7 +341,7 @@ void UAVObjectBrowserWidget::refreshViewOtpions()
 void UAVObjectBrowserWidget::showNotPresent(bool show)
 {
     Q_UNUSED(show);
-    refreshViewOtpions();
+    refreshViewOptions();
     refreshHiddenObjects();
 }
 
