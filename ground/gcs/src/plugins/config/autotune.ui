@@ -26,7 +26,16 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>12</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>12</number>
+   </property>
+   <property name="bottomMargin">
     <number>12</number>
    </property>
    <item>
@@ -39,7 +48,16 @@
        <string>Pre-Autotune</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
+       <property name="topMargin">
+        <number>12</number>
+       </property>
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <property name="bottomMargin">
         <number>12</number>
        </property>
        <item row="2" column="0" colspan="3">
@@ -111,7 +129,16 @@ p, li { white-space: pre-wrap; }
        <string>Autotune Setup</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -195,7 +222,7 @@ p, li { white-space: pre-wrap; }
             <x>0</x>
             <y>0</y>
             <width>808</width>
-            <height>710</height>
+            <height>746</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -211,7 +238,16 @@ p, li { white-space: pre-wrap; }
            <property name="spacing">
             <number>12</number>
            </property>
-           <property name="margin">
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
             <number>12</number>
            </property>
            <item>
@@ -254,7 +290,7 @@ p, li { white-space: pre-wrap; }
                  <number>0</number>
                 </property>
                 <property name="maximum">
-                 <number>100</number>
+                 <number>30</number>
                 </property>
                 <property name="singleStep">
                  <number>1</number>
@@ -293,7 +329,7 @@ p, li { white-space: pre-wrap; }
               <item row="1" column="2">
                <widget class="QLabel" name="lblNoise">
                 <property name="text">
-                 <string>1</string>
+                 <string>0.8</string>
                 </property>
                </widget>
               </item>
@@ -512,6 +548,62 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_18">
+                <property name="text">
+                 <string>Derivative cutoff</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="rollRateKi">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="pitchRateKp">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_19">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QLabel" name="derivativeCutoff">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>Roll</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QLabel" name="pitchRateKd">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLabel" name="pitchRateKi">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="3">
                <widget class="QLabel" name="label_10">
                 <property name="text">
@@ -519,8 +611,8 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item row="2" column="2">
-               <widget class="QLabel" name="pitchRateKi">
+              <item row="1" column="3">
+               <widget class="QLabel" name="rollRateKd">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -547,57 +639,15 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_4">
-                <property name="text">
-                 <string>Roll</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QLabel" name="rollRateKd">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="3">
-               <widget class="QLabel" name="pitchRateKd">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLabel" name="pitchRateKp">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QLabel" name="rollRateKi">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
               <item row="4" column="0">
-               <widget class="QLabel" name="label_18">
+               <widget class="QLabel" name="label_15">
                 <property name="text">
-                 <string>Derivative cutoff</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_19">
-                <property name="text">
-                 <string/>
+                 <string>Outer Kp</string>
                 </property>
                </widget>
               </item>
               <item row="4" column="1">
-               <widget class="QLabel" name="derivativeCutoff">
+               <widget class="QLabel" name="lblOuterKp">
                 <property name="text">
                  <string>0</string>
                 </property>

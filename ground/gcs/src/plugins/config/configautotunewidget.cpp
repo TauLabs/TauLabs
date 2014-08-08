@@ -154,6 +154,7 @@ void ConfigAutotuneWidget::recomputeStabilization()
     m_autotune->pitchRateKp->setText(QString::number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KP]));
     m_autotune->pitchRateKi->setText(QString::number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KI]));
     m_autotune->pitchRateKd->setText(QString::number(stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KD]));
+    m_autotune->lblOuterKp->setText(QString::number(stabSettings.RollPI[StabilizationSettings::ROLLPI_KP]));
 
     m_autotune->derivativeCutoff->setText(QString::number(stabSettings.DerivativeCutoff));
     m_autotune->rollTau->setText(QString::number(tau,'g',3));
