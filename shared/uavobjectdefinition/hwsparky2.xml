@@ -19,7 +19,6 @@
 				<option>Disabled</option>
 				<option>Telemetry</option>
 				<option>GPS</option>
-				<option>S.Bus</option>
 				<option>DSM2</option>
 				<option>DSMX (10bit)</option>
 				<option>DSMX (11bit)</option>

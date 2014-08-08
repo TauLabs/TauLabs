@@ -622,8 +622,9 @@ static const struct pios_usart_cfg pios_usart_main_cfg = {
 /*
  * S.Bus USART
  */
-static const struct pios_usart_cfg pios_usart_sbus_main_cfg = {
-	.regs = USART1,
+static const struct pios_usart_cfg pios_usart_sbus_rcvr_cfg = {
+	.regs = USART6,
+	.remap = GPIO_AF_USART6,
 	.init = {
 		.USART_BaudRate            = 100000,
 		.USART_WordLength          = USART_WordLength_8b,
@@ -634,26 +635,20 @@ static const struct pios_usart_cfg pios_usart_sbus_main_cfg = {
 	},
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel                   = USART1_IRQn,
+			.NVIC_IRQChannel                   = USART6_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
 			.NVIC_IRQChannelSubPriority        = 0,
 			.NVIC_IRQChannelCmd                = ENABLE,
 		  },
 	},
 	.rx = {
-		.gpio = GPIOA,
+		.gpio = GPIOC,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_10,
+			.GPIO_Pin   = GPIO_Pin_7,
 			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_IPU,
-		},
-	},
-	.tx = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_9,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_IN_FLOATING,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
 		},
 	},
 };
@@ -666,7 +661,7 @@ static const struct pios_sbus_cfg pios_sbus_cfg = {
 	.inv = {
 		.gpio = GPIOC,
 		.init = {
-			.GPIO_Pin   = GPIO_Pin_0,
+			.GPIO_Pin   = GPIO_Pin_6,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode  = GPIO_Mode_OUT,
 			.GPIO_OType = GPIO_OType_PP,

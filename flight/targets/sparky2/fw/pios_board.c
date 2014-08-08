@@ -528,27 +528,6 @@ void PIOS_Board_Init(void) {
 		case HWSPARKY2_MAINPORT_GPS:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
-		case HWSPARKY2_MAINPORT_SBUS:
-#if defined(PIOS_INCLUDE_SBUS)
-                        {
-                                uintptr_t pios_usart_sbus_id;
-                                if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart_sbus_main_cfg)) {
-                                        PIOS_Assert(0);
-                                }
-
-                                uintptr_t pios_sbus_id;
-                                if (PIOS_SBus_Init(&pios_sbus_id, &pios_sbus_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
-                                        PIOS_Assert(0);
-                                }
-
-                                uintptr_t pios_sbus_rcvr_id;
-                                if (PIOS_RCVR_Init(&pios_sbus_rcvr_id, &pios_sbus_rcvr_driver, pios_sbus_id)) {
-                                        PIOS_Assert(0);
-                                }
-                                pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
-                        }
-#endif
-                        break;
 		case HWSPARKY2_MAINPORT_DSM2:
 		case HWSPARKY2_MAINPORT_DSMX10BIT:
 		case HWSPARKY2_MAINPORT_DSMX11BIT:
@@ -642,7 +621,7 @@ void PIOS_Board_Init(void) {
 		break;
 	} /* 	hw_mainport */
 
-	if (hw_mainport != HWSPARKY2_MAINPORT_SBUS) {
+	if (hw_mainport != HWSPARKY2_RCVRPORT_SBUS) {
 		GPIO_Init(pios_sbus_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_sbus_cfg.inv.init);
 		GPIO_WriteBit(pios_sbus_cfg.inv.gpio, pios_sbus_cfg.inv.init.GPIO_Pin, pios_sbus_cfg.gpio_inv_disable);
 	}
@@ -858,11 +837,11 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uintptr_t pios_usart_sbus_id;
-			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_rcvr_sbus_cfg)) {
+			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart_dsm_hsum_rcvr_cfg)) {
 				PIOS_Assert(0);
 			}
 			uintptr_t pios_sbus_id;
-			if (PIOS_SBus_Init(&pios_sbus_id, &pios_rcvr_sbus_aux_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
+			if (PIOS_SBus_Init(&pios_sbus_id, &pios_sbus_cfg, &pios_usart_com_driver, pios_usart_sbus_id)) {
 				PIOS_Assert(0);
 			}
 			uintptr_t pios_sbus_rcvr_id;
