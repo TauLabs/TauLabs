@@ -186,7 +186,7 @@ static void stabilizationTask(void* parameters)
 	uint32_t iteration = 0;
 	float learning_offsets[3] = {0.0f, 0.0f, 0.0f};
 
-	const uint32_t SYSTEM_IDENT_PERIOD = 100;
+	const uint32_t SYSTEM_IDENT_PERIOD = 75;
 	uint32_t system_ident_timeval = PIOS_DELAY_GetRaw();
 
 	// Main task loop
@@ -437,9 +437,10 @@ static void stabilizationTask(void* parameters)
 						RelayTuningData relayTuning;
 						RelayTuningGet(&relayTuning);
 
-						float roll_scale = expf(6.5f - relayTuning.Beta[RELAYTUNING_BETA_ROLL]);
-						float pitch_scale = expf(6.5f - relayTuning.Beta[RELAYTUNING_BETA_PITCH]);
-						float yaw_scale = expf(6.5f - relayTuning.Beta[RELAYTUNING_BETA_YAW]);
+						const float SCALE_BIAS = 7.1f;
+						float roll_scale = expf(SCALE_BIAS - relayTuning.Beta[RELAYTUNING_BETA_ROLL]);
+						float pitch_scale = expf(SCALE_BIAS - relayTuning.Beta[RELAYTUNING_BETA_PITCH]);
+						float yaw_scale = expf(SCALE_BIAS - relayTuning.Beta[RELAYTUNING_BETA_YAW]);
 
 						if (roll_scale > 0.25f)
 							roll_scale = 0.25f;
