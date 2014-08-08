@@ -112,6 +112,12 @@ void ConfigAutotuneWidget::recomputeStabilization()
     qDebug() << "wn: " << wn << "tau_d: " << tau_d;
     qDebug() << "a: " << a << " b: " << b;
 
+    // Calculate the gain for the outer loop by approximating the
+    // inner loop as a single order lpf. Set the outer loop to be
+    // critically damped;
+    const double zeta_o = 1.0;
+    const double kp_o = 1 / 4.0 / (zeta_o * zeta_o) / (1/wn);
+
     // For now just run over roll and pitch
     for (int i = 0; i < 2; i++) {
         double beta = exp(relayTuningData.Beta[i]);
@@ -125,11 +131,15 @@ void ConfigAutotuneWidget::recomputeStabilization()
             stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KP] = kp;
             stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KI] = ki;
             stabSettings.RollRatePID[StabilizationSettings::ROLLRATEPID_KD] = kd;
+            stabSettings.RollPI[StabilizationSettings::ROLLPI_KP] = kp_o;
+            stabSettings.RollPI[StabilizationSettings::ROLLPI_KI] = 0;
             break;
         case 1: // Pitch
             stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KP] = kp;
             stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KI] = ki;
             stabSettings.PitchRatePID[StabilizationSettings::PITCHRATEPID_KD] = kd;
+            stabSettings.PitchPI[StabilizationSettings::PITCHPI_KP] = kp_o;
+            stabSettings.PitchPI[StabilizationSettings::PITCHPI_KI] = 0;
             break;
         }
     }
