@@ -104,8 +104,10 @@ void ConfigAutotuneWidget::recomputeStabilization()
         wn = (tau + tau_d) / (tau*tau_d) / (2 * damp + 2);
     }
 
-    // Set the real pole position
-    const double a = ((tau+tau_d) / tau / tau_d - 2 * damp * wn) / 2;
+    // Set the real pole position. The first pole is quite slow, which
+    // prevents the integral being too snappy and driving too much
+    // overshoot.
+    const double a = ((tau+tau_d) / tau / tau_d - 2 * damp * wn) / 20.0;
     const double b = ((tau+tau_d) / tau / tau_d - 2 * damp * wn - a);
 
     qDebug() << "ghf: " << ghf;
