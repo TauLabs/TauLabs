@@ -247,6 +247,34 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
 #endif
 
 /**
+ * Indicate a target-specific error code when a component fails to initialize
+ * 1 pulse - flash chip
+ * 2 pulses - MPU6050
+ * 3 pulses - HMC5883
+ * 4 pulses - MS5611
+ * 5 pulses - gyro I2C bus locked
+ * 6 pulses - mag/baro I2C bus locked
+ */
+static void panic(int32_t code) {
+	while(1){
+		for (int32_t i = 0; i < code; i++) {
+			PIOS_WDG_Clear();
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+			PIOS_WDG_Clear();
+			PIOS_LED_Toggle(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(200);
+		}
+		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(100);
+		PIOS_WDG_Clear();
+	}
+}
+
+/**
  * PIOS_Board_Init()
  * initializes all the core subsystems on this specific hardware
  * called from System/openpilot.c
@@ -876,7 +904,10 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_MS5611)
-	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_mag_pressure_adapter_id);
+	if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_mag_pressure_adapter_id) != 0)
+		panic(4);
+	if (PIOS_MS5611_Test() != 0)
+		panic(4);
 #endif
 
 #if defined(PIOS_INCLUDE_MPU9250_SPI)
