@@ -732,16 +732,13 @@ static const struct pios_usart_cfg pios_usart_flexi_cfg = {
  */
 #include <pios_dsm_priv.h>
 
-// Because of the inverter on the main port this will not
-// work.  Notice the mode is set to IN to maintain API
-// compatibility but protect the pins
 static const struct pios_dsm_cfg pios_dsm_main_cfg = {
 	.bind = {
 		.gpio = GPIOA,
 		.init = {
 			.GPIO_Pin   = GPIO_Pin_10,
 			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_IN,
+			.GPIO_Mode  = GPIO_Mode_OUT,
 			.GPIO_OType = GPIO_OType_PP,
 			.GPIO_PuPd  = GPIO_PuPd_NOPULL
 		},
@@ -761,6 +758,22 @@ static const struct pios_dsm_cfg pios_dsm_flexi_cfg = {
 	},
 };
 
+
+// Because of the inverter on the main port this will not
+// work.  Notice the mode is set to IN to maintain API
+// compatibility but protect the pins
+static const struct pios_dsm_cfg pios_dsm_rcvr_cfg = {
+	.bind = {
+		.gpio = GPIOC,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_7,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_IN,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_NOPULL
+		},
+	},
+};
 #endif	/* PIOS_INCLUDE_DSM */
 
 #if defined(PIOS_INCLUDE_HSUM)
@@ -855,6 +868,40 @@ static const struct pios_usart_cfg pios_usart_dsm_hsum_flexi_cfg = {
 			.GPIO_OType = GPIO_OType_PP,
 			.GPIO_PuPd  = GPIO_PuPd_UP
 		},
+	},
+};
+
+static const struct pios_usart_cfg pios_usart_dsm_hsum_rcvr_cfg = {
+	.regs = USART6,
+	.remap = GPIO_AF_USART6,
+	.init = {
+		.USART_BaudRate            = 115200,
+		.USART_WordLength          = USART_WordLength_8b,
+		.USART_Parity              = USART_Parity_No,
+		.USART_StopBits            = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode                = USART_Mode_Rx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = USART6_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		},
+	},
+	.rx = {
+		.gpio = GPIOC,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_7,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+	},
+	.tx = {
+		.gpio = NULL,
 	},
 };
 #endif	/* PIOS_INCLUDE_DSM || PIOS_INCLUDE_HSUM */

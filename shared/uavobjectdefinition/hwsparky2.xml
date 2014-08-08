@@ -4,12 +4,14 @@
 
 		<field name="RcvrPort" units="function" type="enum" elements="1" defaultvalue="PWM">
 		<options>
-			 <option>Disabled</option>
-			 <option>PWM</option>
-			 <option>PPM</option>
-			 <option>PPM+PWM</option>
-			 <option>PPM+Outputs</option>
-			 <option>Outputs</option>
+			<option>Disabled</option>
+			<option>PPM</option>
+			<option>S.Bus</option>
+			<option>DSM2</option>
+			<option>DSMX (10bit)</option>
+			<option>DSMX (11bit)</option>
+			<option>HoTT SUMD</option>
+			<option>HoTT SUMH</option>
 		</options>
 		</field>		
 		<field name="MainPort" units="function" type="enum" elements="1"  defaultvalue="Telemetry">
