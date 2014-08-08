@@ -235,8 +235,9 @@ static void AutotuneTask(void *parameters)
 
 				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE;
 
-				// Update the system identification
-				{
+				// Update the system identification, but only when throttle is applied
+				// so bad values don't result when landing
+				if (stabDesired.Throttle > 0) {
 					GyrosData gyros;
 					GyrosGet(&gyros);
 
