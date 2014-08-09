@@ -249,11 +249,8 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
 /**
  * Indicate a target-specific error code when a component fails to initialize
  * 1 pulse - flash chip
- * 2 pulses - MPU6050
- * 3 pulses - HMC5883
+ * 2 pulses - MPU9250
  * 4 pulses - MS5611
- * 5 pulses - gyro I2C bus locked
- * 6 pulses - mag/baro I2C bus locked
  */
 static void panic(int32_t code) {
 	while(1){
@@ -925,7 +922,8 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_MPU9250_SPI)
-	PIOS_MPU9250_SPI_Init(pios_spi_gyro_id, 0, &pios_mpu9250_cfg);
+	if (PIOS_MPU9250_SPI_Init(pios_spi_gyro_id, 0, &pios_mpu9250_cfg) != 0)
+		panic(2);
 
 	// To be safe map from UAVO enum to driver enum
 	uint8_t hw_gyro_range;
