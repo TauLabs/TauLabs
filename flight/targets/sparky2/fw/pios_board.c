@@ -282,7 +282,32 @@ static void panic(int32_t code) {
 
 #include <pios_board_info.h>
 
+/**
+ * Check the brown out reset threshold is 2.7 volts and if not
+ * resets it.  This solves an issue that can prevent boards
+ * powering up with some BEC
+ */
+void check_bor()
+{
+    uint8_t bor = FLASH_OB_GetBOR();
+
+    if (bor != OB_BOR_LEVEL3) {
+        FLASH_OB_Unlock();
+        FLASH_OB_BORConfig(OB_BOR_LEVEL3);
+        FLASH_OB_Launch();
+        while (FLASH_WaitForLastOperation() == FLASH_BUSY) {
+            ;
+        }
+        FLASH_OB_Lock();
+        while (FLASH_WaitForLastOperation() == FLASH_BUSY) {
+            ;
+        }
+    }
+}
+
 void PIOS_Board_Init(void) {
+
+	check_bor();
 
 	/* Delay system */
 	PIOS_DELAY_Init();
