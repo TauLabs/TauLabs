@@ -1060,9 +1060,13 @@ void PIOS_Board_Init(void) {
 #endif
 		break;
 	case HWBRAIN_RXPORT_PPMOUTPUTS:
-	case HWBRAIN_RXPORT_OUTPUTS:
 #ifdef PIOS_INCLUDE_SERVO
 		PIOS_Servo_Init(&pios_servo_rcvr_cfg);
+#endif
+		break;
+	case HWBRAIN_RXPORT_OUTPUTS:
+#ifdef PIOS_INCLUDE_SERVO
+		PIOS_Servo_Init(&pios_servo_rcvr_all_cfg);
 #endif
 		break;
 	}
