@@ -168,7 +168,7 @@ extern uint32_t pios_i2c_flexi_adapter_id;
 extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_telem_vcp_id;
 extern uintptr_t pios_com_telem_uart_telem_id;
-extern uintptr_t pios_com_telem_uart_flexi_id;
+extern uintptr_t pios_com_telem_uart_main_id;
 extern uintptr_t pios_com_telemetry_id;
 extern uintptr_t pios_com_rfm22b_id;
 extern uintptr_t pios_com_radio_id;
@@ -176,7 +176,7 @@ extern uintptr_t pios_ppm_rcvr_id;
 #define PIOS_COM_TELEM_USB         (pios_com_telem_usb_id)
 #define PIOS_COM_TELEM_VCP         (pios_com_telem_vcp_id)
 #define PIOS_COM_TELEM_UART_FLEXI  (pios_com_telem_uart_flexi_id)
-#define PIOS_COM_TELEM_UART_TELEM  (pios_com_telem_uart_telem_id)
+#define PIOS_COM_TELEM_UART_TELEM  (pios_com_telem_uart_main_id)
 #define PIOS_COM_TELEMETRY         (pios_com_telemetry_id)
 #define PIOS_COM_RFM22B            (pios_com_rfm22b_id)
 #define PIOS_COM_RADIO             (pios_com_radio_id)
