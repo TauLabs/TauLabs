@@ -566,6 +566,130 @@ UAVTalkRxState UAVTalkProcessInputStream(UAVTalkConnection connectionHandle, uin
 }
 
 /**
+ * Send a parsed packet received on one connection handle out on a different connection handle.
+ * The packet must be in a complete state, meaning it is completed parsing.
+ * The packet is re-assembled from the component parts into a complete message and sent.
+ * This can be used to relay packets from one UAVTalk connection to another.
+ * \param[in] connection UAVTalkConnection to be used
+ * \param[in] rxbyte Received byte
+ * \return 0 Success
+ * \return -1 Failure
+ */
+int32_t UAVTalkRelayPacket(UAVTalkConnection inConnectionHandle, UAVTalkConnection outConnectionHandle)
+{
+    UAVTalkConnectionData *inConnection;
+
+    CHECKCONHANDLE(inConnectionHandle, inConnection, return -1);
+    UAVTalkInputProcessor *inIproc = &inConnection->iproc;
+
+    // The input packet must be completely parsed.
+    if (inIproc->state != UAVTALK_STATE_COMPLETE) {
+        inConnection->stats.rxErrors++;
+
+        return -1;
+    }
+
+    UAVTalkConnectionData *outConnection;
+    CHECKCONHANDLE(outConnectionHandle, outConnection, return -1);
+
+    if (!outConnection->outStream) {
+        outConnection->stats.txErrors++;
+
+        return -1;
+    }
+
+    // Lock
+    xSemaphoreTakeRecursive(outConnection->lock, portMAX_DELAY);
+
+    outConnection->txBuffer[0] = UAVTALK_SYNC_VAL;
+    // Setup type
+    outConnection->txBuffer[1] = inIproc->type;
+    // next 2 bytes are reserved for data length (inserted here later)
+    // Setup object ID
+    outConnection->txBuffer[4] = (uint8_t)(inIproc->objId & 0xFF);
+    outConnection->txBuffer[5] = (uint8_t)((inIproc->objId >> 8) & 0xFF);
+    outConnection->txBuffer[6] = (uint8_t)((inIproc->objId >> 16) & 0xFF);
+    outConnection->txBuffer[7] = (uint8_t)((inIproc->objId >> 24) & 0xFF);
+    // Setup instance ID
+    outConnection->txBuffer[8] = (uint8_t)(inIproc->instId & 0xFF);
+    outConnection->txBuffer[9] = (uint8_t)((inIproc->instId >> 8) & 0xFF);
+    int32_t headerLength = 10;
+
+    // Add timestamp when the transaction type is appropriate
+    if (inIproc->type & UAVTALK_TIMESTAMPED) {
+        portTickType time = xTaskGetTickCount();
+        outConnection->txBuffer[10] = (uint8_t)(time & 0xFF);
+        outConnection->txBuffer[11] = (uint8_t)((time >> 8) & 0xFF);
+        headerLength += 2;
+    }
+
+    // Copy data (if any)
+    if (inIproc->length > 0) {
+        memcpy(&outConnection->txBuffer[headerLength], inConnection->rxBuffer, inIproc->length);
+    }
+
+    // Store the packet length
+    outConnection->txBuffer[2] = (uint8_t)((headerLength + inIproc->length) & 0xFF);
+    outConnection->txBuffer[3] = (uint8_t)(((headerLength + inIproc->length) >> 8) & 0xFF);
+
+    // Copy the checksum
+    outConnection->txBuffer[headerLength + inIproc->length] = inIproc->cs;
+
+    // Send the buffer.
+    int32_t rc = (*outConnection->outStream)(outConnection->txBuffer, headerLength + inIproc->length + UAVTALK_CHECKSUM_LENGTH);
+
+    // Update stats
+    outConnection->stats.txBytes += (rc > 0) ? rc : 0;
+
+    // evaluate return value before releasing the lock
+    int32_t ret = 0;
+    if (rc != (int32_t)(headerLength + inIproc->length + UAVTALK_CHECKSUM_LENGTH)) {
+        outConnection->stats.txErrors++;
+        ret = -1;
+    }
+
+    // Release lock
+    xSemaphoreGiveRecursive(outConnection->lock);
+
+    // Done
+    return ret;
+}
+
+/**
+ * Complete receiving a UAVTalk packet.  This will cause the packet to be unpacked, acked, etc.
+ * \param[in] connectionHandle UAVTalkConnection to be used
+ * \return 0 Success
+ * \return -1 Failure
+ */
+int32_t UAVTalkReceiveObject(UAVTalkConnection connectionHandle)
+{
+    UAVTalkConnectionData *connection;
+
+    CHECKCONHANDLE(connectionHandle, connection, return -1);
+
+    UAVTalkInputProcessor *iproc = &connection->iproc;
+    if (iproc->state != UAVTALK_STATE_COMPLETE) {
+        return -1;
+    }
+
+    return receiveObject(connection, iproc->type, iproc->objId, iproc->instId, connection->rxBuffer, iproc->length);
+}
+
+/**
+ * Get the object ID of the current packet.
+ * \param[in] connectionHandle UAVTalkConnection to be used
+ * \return The object ID, or 0 on error.
+ */
+uint32_t UAVTalkGetPacketObjId(UAVTalkConnection connectionHandle)
+{
+    UAVTalkConnectionData *connection;
+
+    CHECKCONHANDLE(connectionHandle, connection, return 0);
+
+    return connection->iproc.objId;
+}
+
+/**
  * Process an byte from the telemetry stream, sending the packet out the output stream when it's complete
  * This allows the interlieving of packets on an output UAVTalk stream, and is used by the OPLink device to
  * relay packets from an input com port to a different output com port without sending one packet in the middle

@@ -68,7 +68,7 @@ static void systemTask(void *parameters);
  * Create the module task.
  * \returns 0 on success or -1 if initialization failed
  */
-int32_t OPLinkModStart(void)
+int32_t PipXtremeModStart(void)
 {
 	// Initialize vars
 	stackOverflow = false;
@@ -85,22 +85,22 @@ int32_t OPLinkModStart(void)
  * Initialize the module, called on startup.
  * \returns 0 on success or -1 if initialization failed
  */
-int32_t OPLinkModInitialize(void)
+int32_t PipXtremeModInitialize(void)
 {
     // Must registers objects here for system thread because ObjectManager started in OpenPilotInit
 
     // Call the module start function.
-    OPLinkModStart();
+    PipXtremeModStart();
 
     return 0;
 }
 
-MODULE_INITCALL(OPLinkModInitialize, 0);
+MODULE_INITCALL(PipXtremeModInitialize, 0);
 
 /**
  * System task, periodically executes every SYSTEM_UPDATE_PERIOD_MS
  */
-static void systemTask(__attribute__((unused)) void *parameters)
+static void systemTask(void *parameters)
 {
 
 	uint32_t lastSysTime;
@@ -112,9 +112,6 @@ static void systemTask(__attribute__((unused)) void *parameters)
     MODULE_TASKCREATE_ALL;
 
     lastSysTime = PIOS_Thread_Systime();
-
-    /* start the delayed callback scheduler */
-    PIOS_CALLBACKSCHEDULER_Start();
 
     if (mallocFailed) {
         /* We failed to malloc during task creation,
