@@ -670,7 +670,7 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle, UAVTalkConn
  * @brief Callback that is called when the ObjectPersistence UAVObject is changed.
  * @param[in] objEv  The event that precipitated the callback.
  */
-static void objectPersistenceUpdatedCb(__attribute__((unused)) UAVObjEvent *objEv)
+static void objectPersistenceUpdatedCb(UAVObjEvent *objEv)
 {
     // Get the ObjectPersistence object.
     ObjectPersistenceData obj_per;
@@ -684,7 +684,7 @@ static void objectPersistenceUpdatedCb(__attribute__((unused)) UAVObjEvent *objE
         switch (obj_per.Operation) {
         case OBJECTPERSISTENCE_OPERATION_LOAD:
         {
-#if defined(PIOS_INCLUDE_FLASH_LOGFS_SETTINGS)
+#if defined(PIOS_INCLUDE_LOGFS_SETTINGS)
             // Load the settings.
             void *obj = UAVObjGetByID(obj_per.ObjectID);
             if (obj == 0) {
@@ -698,7 +698,7 @@ static void objectPersistenceUpdatedCb(__attribute__((unused)) UAVObjEvent *objE
         }
         case OBJECTPERSISTENCE_OPERATION_SAVE:
         {
-#if defined(PIOS_INCLUDE_FLASH_LOGFS_SETTINGS)
+#if defined(PIOS_INCLUDE_LOGFS_SETTINGS)
             void *obj = UAVObjGetByID(obj_per.ObjectID);
             if (obj == 0) {
                 success = false;
@@ -711,7 +711,7 @@ static void objectPersistenceUpdatedCb(__attribute__((unused)) UAVObjEvent *objE
         }
         case OBJECTPERSISTENCE_OPERATION_DELETE:
         {
-#if defined(PIOS_INCLUDE_FLASH_LOGFS_SETTINGS)
+#if 0 && defined(PIOS_INCLUDE_LOGFS_SETTINGS)
             void *obj = UAVObjGetByID(obj_per.ObjectID);
             if (obj == 0) {
                 success = false;
