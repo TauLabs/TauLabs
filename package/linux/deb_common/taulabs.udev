@@ -26,6 +26,12 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="4195", MODE="0664"
 # Quantec Networks GmbH - quanton flight control rev. 1
 SUBSYSTEM=="usb", ATTRS{idVendor}=="0fda", ATTRS{idProduct}=="0100", MODE="0664", GROUP="plugdev"
 
+# Team Black Sheep
+#
+
+# Team Black Sheep - colibri flight control rev. 1
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0fda", ATTRS{idProduct}=="0100", MODE="0664", GROUP="plugdev"
+
 #
 # Tau Labs
 #
