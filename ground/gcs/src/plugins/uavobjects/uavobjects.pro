@@ -99,6 +99,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.h \
     $$UAVOBJECT_SYNTHETICS/oplinksettings.h \
     $$UAVOBJECT_SYNTHETICS/oplinkstatus.h \
+    $$UAVOBJECT_SYNTHETICS/oplinkreceiver.h \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.h \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.h \
     $$UAVOBJECT_SYNTHETICS/pathdesired.h \
@@ -108,6 +109,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/picocstatus.h \
     $$UAVOBJECT_SYNTHETICS/poilocation.h \
     $$UAVOBJECT_SYNTHETICS/positionactual.h \
+    $$UAVOBJECT_SYNTHETICS/radiocombridgestats.h \
     $$UAVOBJECT_SYNTHETICS/ratedesired.h \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.h \
     $$UAVOBJECT_SYNTHETICS/sensorsettings.h \
@@ -212,6 +214,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.cpp \
     $$UAVOBJECT_SYNTHETICS/oplinksettings.cpp \
     $$UAVOBJECT_SYNTHETICS/oplinkstatus.cpp \
+    $$UAVOBJECT_SYNTHETICS/oplinkreceiver.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.cpp \
     $$UAVOBJECT_SYNTHETICS/pathdesired.cpp \
@@ -221,6 +224,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/picocstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/poilocation.cpp \
     $$UAVOBJECT_SYNTHETICS/positionactual.cpp \
+    $$UAVOBJECT_SYNTHETICS/radiocombridgestats.cpp \
     $$UAVOBJECT_SYNTHETICS/ratedesired.cpp \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.cpp \
     $$UAVOBJECT_SYNTHETICS/sensorsettings.cpp \
