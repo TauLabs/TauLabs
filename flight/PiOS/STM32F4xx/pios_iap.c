@@ -3,7 +3,7 @@
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup   PIOS_IAP IAP Functions
- * @brief STM32F4xx Hardware dependent I2C functionality
+ * @brief  STM32F4xx PIOS IAP Functions
  * @{
  *
  * @file       pios_iap.c  
