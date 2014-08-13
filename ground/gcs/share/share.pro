@@ -1,7 +1,7 @@
 include(../gcs.pri)
 
 TEMPLATE = subdirs
-#SUBDIRS = taulabs/translations
+SUBDIRS = taulabs/translations
 
 DATACOLLECTIONS = dials models pfd sounds diagrams mapicons stylesheets default_configurations
 
