@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_usb_board_data.c 
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Board specific USB specifications
  * @see        The GNU Public License (GPL) Version 3
  * 
