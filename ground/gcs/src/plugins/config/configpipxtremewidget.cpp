@@ -131,7 +131,7 @@ void ConfigPipXtremeWidget::applySettings()
 		pairID = m_oplink->PairID3->text().toUInt(&okay, 16);
 	else if (m_oplink->PairSelect4->isChecked())
 		pairID = m_oplink->PairID4->text().toUInt(&okay, 16);
-	oplinkSettingsData.PairID = pairID;
+    //oplinkSettingsData.PairID = pairID;
 	oplinkSettings->setData(oplinkSettingsData);
 }
 
@@ -155,8 +155,8 @@ void ConfigPipXtremeWidget::updateStatus(UAVObject *object)
 	// Get the current pairID
 	OPLinkSettings *oplinkSettings = OPLinkSettings::GetInstance(getObjectManager());
 	quint32 pairID = 0;
-	if (oplinkSettings)
-		pairID = oplinkSettings->getPairID();
+    //if (oplinkSettings)
+    //	pairID = oplinkSettings->getPairID();
 
 	// Update the detected devices.
 	UAVObjectField* pairIdField = object->getField("PairIDs");
@@ -299,13 +299,13 @@ void ConfigPipXtremeWidget::pairIDToggled(bool checked, quint8 idx)
 		{
 			if (idx == 4)
 			{
-				oplinkSettings->setPairID(0);
+//				oplinkSettings->setPairID(0);
 			}
 			else
 			{
 				quint32 pairID = oplinkStatus->getPairIDs(idx);
-				if (pairID)
-					oplinkSettings->setPairID(pairID);
+//				if (pairID)
+//					oplinkSettings->setPairID(pairID);
 			}
 		}
 	}
