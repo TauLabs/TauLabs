@@ -117,6 +117,9 @@ void inputChannelForm::groupUpdated()
     case ManualControlSettings::CHANNELGROUPS_SBUS:
         count = 18;
         break;
+    case ManualControlSettings::CHANNELGROUPS_OPLINK:
+        count = 8;
+        break;
     case ManualControlSettings::CHANNELGROUPS_GCS:
         count = GCSReceiver::CHANNEL_NUMELEM;
         break;
