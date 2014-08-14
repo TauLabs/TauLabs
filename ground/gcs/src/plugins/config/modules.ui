@@ -157,7 +157,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This enables Frsky Telemetry&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Frsky Telemetry</string>
+          <string>FrSky Hub Telemetry</string>
          </property>
         </widget>
        </item>
@@ -168,6 +168,13 @@
          </property>
          <property name="text">
           <string>Light Telemetry</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbUAVOFrSkySPortBridge">
+         <property name="text">
+          <string>FrSky S.PORT Telemetry</string>
          </property>
         </widget>
        </item>
@@ -866,8 +873,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>290</width>
-            <height>598</height>
+            <width>392</width>
+            <height>674</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">

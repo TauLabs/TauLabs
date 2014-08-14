@@ -57,6 +57,7 @@ OPTMODULES += ComUsbBridge
 OPTMODULES += Airspeed/revolution
 OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += PicoC
+OPTMODULES += UAVOFrSKYSPortBridge
 
 
 # Paths

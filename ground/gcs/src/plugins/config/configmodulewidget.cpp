@@ -83,6 +83,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOHottBridge, ModuleSettings::ADMINSTATE_UAVOHOTTBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOLighttelemetryBridge, ModuleSettings::ADMINSTATE_UAVOLIGHTTELEMETRYBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrskyBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrSkySPortBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSPORTBRIDGE);
 
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
@@ -329,6 +330,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->cbUAVOFrskyBridge->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbUAVOFrskyBridge->setProperty(falseString.toLatin1(), "Disabled");
     
+    ui->cbUAVOFrSkySPortBridge->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbUAVOFrSkySPortBridge->setProperty(falseString.toLatin1(), "Disabled");
+
     ui->cbUAVOLighttelemetryBridge->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbUAVOLighttelemetryBridge->setProperty(falseString.toLatin1(), "Disabled");	
 

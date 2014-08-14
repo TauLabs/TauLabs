@@ -48,6 +48,7 @@ struct pios_usart_cfg {
 	bool rx_invert;
 	bool tx_invert;
 	bool rxtx_swap;
+	bool single_wire;
 };
 
 extern int32_t PIOS_USART_Init(uintptr_t * usart_id, const struct pios_usart_cfg * cfg);
