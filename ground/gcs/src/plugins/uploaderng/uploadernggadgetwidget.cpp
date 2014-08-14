@@ -526,7 +526,11 @@ void UploaderngGadgetWidget::onBootloaderDetected()
         emit bootloaderDetected();
     }
     else
+    {
         setStatusInfo(tr("Could not open coms with the bootloader"), uploaderng::STATUSICON_FAIL);
+        setUploaderStatus((uploaderng::DISCONNECTED));
+        conMngr->resumePolling();
+    }
 }
 
 /**
