@@ -33,7 +33,7 @@
 class TBSPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "TauLabs.plugins.TBS" FILE "TBS.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.TBS" FILE "tbs.json")
 
 public:
    TBSPlugin();
