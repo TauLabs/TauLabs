@@ -8,7 +8,7 @@
  *
  * @file       pios_sbus.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Code to read Futaba S.Bus receiver serial stream
  * @see        The GNU Public License (GPL) Version 3
  *

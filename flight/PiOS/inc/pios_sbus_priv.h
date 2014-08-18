@@ -8,6 +8,7 @@
  *
  * @file       pios_sbus_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Futaba S.Bus Private structures.
  * @see        The GNU Public License (GPL) Version 3
  *
