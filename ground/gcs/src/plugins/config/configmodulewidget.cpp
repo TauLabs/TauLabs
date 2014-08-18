@@ -34,6 +34,7 @@
 #include "flightbatterysettings.h"
 #include "hottsettings.h"
 #include "flightbatterystate.h"
+#include "geofencesettings.h"
 #include "modulesettings.h"
 #include "vibrationanalysissettings.h"
 
@@ -84,6 +85,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOLighttelemetryBridge, ModuleSettings::ADMINSTATE_UAVOLIGHTTELEMETRYBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrskyBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrSkySPortBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSPORTBRIDGE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGeofence, ModuleSettings::ADMINSTATE_GEOFENCE);
 
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
@@ -329,12 +331,15 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     ui->cbUAVOFrskyBridge->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbUAVOFrskyBridge->setProperty(falseString.toLatin1(), "Disabled");
-    
+
     ui->cbUAVOFrSkySPortBridge->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbUAVOFrSkySPortBridge->setProperty(falseString.toLatin1(), "Disabled");
 
     ui->cbUAVOLighttelemetryBridge->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbUAVOLighttelemetryBridge->setProperty(falseString.toLatin1(), "Disabled");	
+
+    ui->cbGeofence->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbGeofence->setProperty(falseString.toLatin1(), "Disabled");
 
     ui->gb_measureVoltage->setProperty(trueString.toLatin1(), "Enabled");
     ui->gb_measureVoltage->setProperty(falseString.toLatin1(), "Disabled");
@@ -346,6 +351,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     enableAirspeedTab(false);
     enableVibrationTab(false);
     enableHoTTTelemetryTab(false);
+    enableGeofenceTab(false);
 
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property
@@ -393,6 +399,10 @@ void ConfigModuleWidget::recheckTabs()
     obj = getObjectManager()->getObject(HoTTSettings::NAME);
     connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
     obj->requestUpdate();
+
+    obj = getObjectManager()->getObject(GeoFenceSettings::NAME);
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
+    obj->requestUpdate();
 }
 
 //! Enable appropriate tab when objects are updated
@@ -410,6 +420,8 @@ void ConfigModuleWidget::objectUpdated(UAVObject * obj, bool success)
         enableVibrationTab(success);
     else if (objName.compare(HoTTSettings::NAME) == 0)
         enableHoTTTelemetryTab(success);
+    else if (objName.compare(GeoFenceSettings::NAME) == 0)
+        enableGeofenceTab(success);
 }
 
 /**
@@ -573,6 +585,13 @@ void ConfigModuleWidget::enableVibrationTab(bool enabled)
 void ConfigModuleWidget::enableHoTTTelemetryTab(bool enabled)
 {
     int idx = ui->moduleTab->indexOf(ui->tabHoTTTelemetry);
+    ui->moduleTab->setTabEnabled(idx,enabled);
+}
+
+//! Enable or disable the geofence tab
+void ConfigModuleWidget::enableGeofenceTab(bool enabled)
+{
+    int idx = ui->moduleTab->indexOf(ui->tabGeofence);
     ui->moduleTab->setTabEnabled(idx,enabled);
 }
 

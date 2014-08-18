@@ -63,6 +63,7 @@ OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += PicoC
 OPTMODULES += UAVOFrSKYSPortBridge
+OPTMODULES += Geofence
 
 PYMODULES = 
 #FlightPlan
