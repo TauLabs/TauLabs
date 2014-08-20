@@ -91,27 +91,6 @@
 			</options>
 		</field>
 
-		<field name="Uart5" units="function" type="enum" elements="1"  defaultvalue="GPS">
-			<options>
-				<option>Disabled</option>
-				<option>Telemetry</option>
-				<option>GPS</option>
-				<option>DSM2</option>
-				<option>DSMX (10bit)</option>
-				<option>DSMX (11bit)</option>
-				<option>DebugConsole</option>
-				<option>ComBridge</option>
-				<option>MavLinkTX</option>
-				<option>MavLinkTX_GPS_RX</option>
-				<option>HoTT SUMD</option>
-				<option>HoTT SUMH</option>
-				<option>HoTT Telemetry</option>
-				<option>FrSKY Sensor Hub</option>
-				<option>LighttelemetryTx</option>
-				<option>PicoC</option>
-			</options>
-		</field>
-
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
 		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
 
