@@ -49,7 +49,7 @@ class INS14:
 		              [2*(q1*q3+q0*q2), 2*(q2*q3-q0*q1), (q0*q0-q1*q1-q2*q2+q3*q3)]])
 		Reb = Rbe.T
 
-		atrue = Matrix([ax-nax,ay-nay,az-naz-nabz])
+		atrue = Matrix([ax-nax,ay-nay,az-naz-abz])
 		Pd = V
 		Vd = (Reb * atrue) + Matrix([0,0,9.81])
 		qd = Q/2 * Matrix([wx-nwx-wbx,wy-nwy-wby,wz-nwz-wbz])  # measured - noise - bias
@@ -63,15 +63,15 @@ class INS14:
 		# Compute jacobians of state equations.
 		wrt = [Px, Py, Pz, Vx, Vy, Vz, q0, q1, q2, q3, wbx, wby, wbz, abz, wx, wy, wz]
 		Xdl = lambdify(wrt,Xd_nn)
-		F = lambdify(wrt, Xd_nn.jacobian(X))
-		G = lambdify(wrt, Xd_nn.jacobian(n))
+		F = Xd_nn.jacobian(X)
+		G = Xd.jacobian(n)
 
 		# Output equations.
 		#Be = MatrixSymbol('Be',3,1)                    # mag near home location
 		Be = Matrix([400, 0, 1400])
 		Bb = Rbe * Matrix(Be);                         # predicted mag in body frame
 		Y  = Matrix([P, V, Bb, Matrix([-Pz])])         # predicted outputs
-		H  = lambdify(wrt, Y.jacobian(X))
+		H  = Y.jacobian(X)
 
 		# Store the useful functions.
 		self.X = X      # vector of state variables
@@ -175,7 +175,7 @@ class INS14:
 		#self.r_P = P + dT * (numpy.f*P + P*f.T) + (dT**2) * g * diag(self.Q) * g.T
 		#self.r_P = (eye(NUMX)+F*T)*Pplus*(eye(NUMX)+F*T)' + T^2*G*diag(Q)*G'
 		I = numpy.matrix(numpy.identity(14))
-		self.r_P = (I + f) * P * (I + f).T + (dT**2) * g * diag(self.Q) * g.T
+		self.r_P = (I + f * dT) * P * (I + f * dT).T + (dT**2) * g * diag(self.Q) * g.T
 
 		self.normalize()
 
