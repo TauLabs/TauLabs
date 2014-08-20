@@ -305,13 +305,70 @@ def run_uavo_list(uavo_list):
 				ax[1][1].cla()
 				ax[1][1].plot(times[0:steps],history[0:steps,10:])
 
+				ax[0][2].imshow(ins.r_P)
+
 				plt.draw()
 				fig.show()
 
 		t = t + 0.001 # advance 1ms
 	return ins
 
+def test():
+	""" test the INS with simulated data
+	"""
 
+	from numpy import cos, sin
+
+	import matplotlib.pyplot as plt
+	fig, ax = plt.subplots(2,2)
+
+	ins = INS14()
+	ins.prepare()
+
+	dT = 1.0 / 666.0
+
+	STEPS = 10000
+	history = numpy.zeros((STEPS,14))
+	times = numpy.zeros((STEPS,1))
+
+	for k in range(STEPS):
+		ins.predict(U=[0,0,1,0,0,-9.81+0.01])
+
+		history[k,:] = ins.r_X.T
+		times[k] = k * dT
+
+		angle = 1 * dT * k # radians 
+		height = 0.3 * k * dT
+
+		if k % 60 == 0:
+			ins.correction(pos=[[0],[0],[-height]])
+
+		if k % 60 == 5:
+			ins.correction(vel=[[0],[0],[0]])
+
+		if k % 20 == 8:
+			ins.correction(baro=[height])
+
+		if k % 20 == 15:
+			ins.correction(mag=[[400 * cos(angle)], [-400 * sin(angle)], [1600]])
+
+		if k % 250 == 0:
+			print `k`
+
+			ax[0][0].cla()
+			ax[0][0].plot(times[0:k:4],history[0:k:4,0:3])
+			ax[0][1].cla()
+			ax[0][1].plot(times[0:k:4],history[0:k:4,3:6])
+			ax[1][0].cla()
+			ax[1][0].plot(times[0:k:4],history[0:k:4,6:10])
+			ax[1][1].cla()
+			ax[1][1].plot(times[0:k:4],history[0:k:4,10:])
+
+			#print `ins.r_P`
+			#ax[0][2].imshow(ins.r_P)
+
+			plt.draw()
+			fig.show()
 
 def main():
 
@@ -345,6 +402,6 @@ def main():
 
 
 if  __name__ =='__main__':
-    main()
+    test()
 
 
