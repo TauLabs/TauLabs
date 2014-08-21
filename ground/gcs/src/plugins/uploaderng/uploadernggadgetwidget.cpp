@@ -549,7 +549,6 @@ void UploaderngGadgetWidget::onBootloaderRemoved()
     if(getUploaderStatus() != uploaderng::BOOTING)
         setUploaderStatus(uploaderng::DISCONNECTED);
     dfu.disconnect();
-    dfu.CloseBootloaderComs();
 }
 
 /**
