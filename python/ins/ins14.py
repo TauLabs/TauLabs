@@ -152,24 +152,48 @@ class INS14:
 	def normalize(self):
 		""" Make sure the quaternion state stays normalized
 		"""
+
 		q = self.r_X[6:10]
-		qn = numpy.sqrt(q[0]**2 + q[1]**2 + q[2]**2 + q[3]**2)
+		qn = sqrt(q[0]**2 + q[1]**2 + q[2]**2 + q[3]**2)
 		for i in range(4):
 			q[i] = q[i] / qn
 		self.r_X[6:10] = q
 
-		# set biases to zero
 		self.r_X[10:] = 0
+
+	def attitude_swing_twist(self):
+		""" Decompose the attitude into a yaw and non-yaw component
+		    with the swing twist-algorithm: 
+			( https://stackoverflow.com/a/22401169 )
+		"""
+
+		q  = self.r_X[6:10]
+		print "Attitude: " + `quat_rpy_display(q)`
+		ra = Matrix([q[1], q[2], q[3]])
+		di = Matrix([0, 0, 1])
+		p  = (ra.T * di)[0,0] * di
+		twist = Matrix([q[0,0], p[0], p[1], p[2]])
+		twist = twist / sqrt((twist.T * twist)[0,0])
+		print "Normed twist: " + `quat_rpy_display(twist)`
+		swing = quat_multiply(q, quat_inv(twist))
+		print "Remainder: " + `quat_rpy_display(swing)`
+
 
 	def predict(self, U=[0,0,0,0,0,0], dT = 1.0/666.0):
 		""" Perform the prediction step
 		"""
 
-		d = self.l_Xd(self.r_X.tolist(), U)
+		# fourth-order runga kuta state prediction
+		k1 = self.l_Xd(self.r_X.tolist(), U) 
+		k2 = self.l_Xd((self.r_X + 0.5*dT*k1).tolist(), U)
+		k3 = self.l_Xd((self.r_X + 0.5*dT*k2).tolist(), U)
+		k4 = self.l_Xd((self.r_X + dT*k3).tolist() , U)
+		d = (k1+2*k2+2*k3+k4) / 6
+
 		f = self.l_F(self.r_X.tolist(), U)
 		g = self.l_G(self.r_X.T.tolist())
 
-		self.r_X = self.r_X + dT * d;
+		self.r_X = self.r_X + dT * d
 
 		P = self.r_P
 		#self.r_P = P + dT * (numpy.f*P + P*f.T) + (dT**2) * g * diag(self.Q) * g.T
