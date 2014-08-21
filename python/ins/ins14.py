@@ -118,10 +118,10 @@ class INS14:
 		 * self.Q is the process noise (gyro, accel, gyro bias, accel bias)
 		"""
 
-		self.r_X = numpy.matrix([0,0,0,0,0,0,1,0,0,0,0,0,0,0]).T
-		self.r_P = numpy.diagflat([25,25,25,5,5,5,1e-5,1e-5,1e-5,1e-5,1e-9,1e-9,1e-9,1e-9])
-		self.R = numpy.diagflat([0.001, 0.001, 10, 0.01, 0.01, 0.01, 10, 10, 100, 0.01])
-		self.Q = numpy.diagflat([1e-5,1e-5,1e-4,0.003,0.003,0.003,2e-5,2e-5,2e-5,1e-5])
+		self.r_X = numpy.matrix([0,0,0,0,0,0,1.0,0,0,0,0,0,0,0]).T
+		self.r_P = numpy.diagflat([25,25,25,5,5,5,1,1,1,1,1e-9,1e-9,1e-9,1e-9])
+		self.R = numpy.diagflat([1e-5, 1e-5, 10, 1e-4, 1e-4, 0.1, 1, 1, 100, 1e-5])
+		self.Q = numpy.diagflat([1e-2,1e-2,1e-2,0.003,0.003,0.003,1e-8,1e-8,2e-5,1e-3])
 
 		# the noise inputs to the system are not used in the prediction (or assume their mean of zero)
 		Xd = self.Xd
