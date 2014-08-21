@@ -484,6 +484,7 @@ void UploaderngGadgetWidget::onBootloaderDetected()
                 }
                 label = new QTableWidgetItem(name);
                 size = new QTableWidgetItem(QString::number(i));
+                size->setTextAlignment(Qt::AlignRight);
                 m_widget->partitionBrowserTW->setItem(index, 0, label);
                 m_widget->partitionBrowserTW->setItem(index, 1, size);
                 ++index;
