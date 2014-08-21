@@ -172,8 +172,6 @@ class INS14:
 			q[i] = q[i] / qn
 		self.r_X[6:10] = q
 
-		self.r_X[10:] = 0
-
 	def attitude_swing_twist(self):
 		""" Decompose the attitude into a yaw and non-yaw component
 		    with the swing twist-algorithm: 
