@@ -1,9 +1,13 @@
-from sympy import symbols, lambdify
+from sympy import symbols, lambdify, sqrt
 from sympy import MatrixSymbol, Matrix
+from numpy import cos, sin, power
 from sympy.matrices import *
 import numpy
 
 class INS14:
+
+	GRAV = 9.81
+	MAG_HEADING = False # use the compass for heading only
 
 	def __init__(self):
 		""" Creates the INS14 class and prepares the equations. 
@@ -51,7 +55,7 @@ class INS14:
 
 		atrue = Matrix([ax-nax,ay-nay,az-naz-abz])
 		Pd = V
-		Vd = (Reb * atrue) + Matrix([0,0,9.81])
+		Vd = (Reb * atrue) + Matrix([0,0,INS14.GRAV])
 		qd = Q/2 * Matrix([wx-nwx-wbx,wy-nwy-wby,wz-nwz-wbz])  # measured - noise - bias
 		wbd = Matrix([nwbx, nwby, nwbz])
 		abd = nabz
@@ -69,7 +73,16 @@ class INS14:
 		# Output equations.
 		#Be = MatrixSymbol('Be',3,1)                    # mag near home location
 		Be = Matrix([400, 0, 1400])
-		Bb = Rbe * Matrix(Be);                         # predicted mag in body frame
+		if INS14.MAG_HEADING:
+			# Project the mag vector to the body frame by only the rotational component
+			k1 = sqrt(power(q0**2 + q1**2 - q2**2 - q3**2,2) + power(q0*q3*2 +  q1*q2*2,2))
+			Rbh = Matrix([[(q0**2 + q1**2 - q2**2 - q3**2)/k1,              (2*q0*q3 + 2*q1*q2)/k1      ,  0],
+				          [-(2*q0*q3 + 2*q1*q2)/k1           ,       (q0**2 + q1**2 - q2**2 - q3**2)/k1 ,  0],
+				          [0,0,1]]);
+			Bb = Rbh * Matrix(Be);                         # predicted mag in body frame
+		else:
+			Bb = Rbe * Matrix(Be);                         # predicted mag in body frame			
+
 		Y  = Matrix([P, V, Bb, Matrix([-Pz])])         # predicted outputs
 		H  = Y.jacobian(X)
 
@@ -224,8 +237,30 @@ class INS14:
 			Z.extend(vel[0:2])
 
 		if mag is not None:
+
+			if INS14.MAG_HEADING:
+				# Remove the influence of attitude
+				q0,q1,q2,q3 = self.r_X[6:10]
+				k1 = power( (q0*q1*2.0 + q2*q3*2.0)**2 + (q0*q0-q1*q1-q2*q2+q3*q3)**2, -0.5)
+				k2 = sqrt(1.0 - (q0*q2*2.0  - q1*q3*2.0)**2)
+
+				Rbh = numpy.zeros((3,3))
+				Rbh[0,0] = k2
+				Rbh[0,2] = q0*q2*-2.0+q1*q3*2.0
+				Rbh[1,0] = k1*(q0*q1*2.0+q2*q3*2.0)*(q0*q2*2.0-q1*q3*2.0)
+				Rbh[1,1] = k1*(q0*q0-q1*q1-q2*q2+q3*q3)
+				Rbh[1,2] = k1*sqrt(-power(q0*q2*2.0-q1*q3*2.0, 2.0)+1.0)*(q0*q1*2.0+q2*q3*2.0)
+				Rbh[2,0] = k1*(q0*q2*2.0-q1*q3*2.0)*(q0*q0-q1*q1-q2*q2+q3*q3)
+				Rbh[2,1] = -k1*(q0*q1*2.0+q2*q3*2.0)
+				Rbh[2,2] = k1*k2*(q0*q0-q1*q1-q2*q2+q3*q3)
+
+				#mag = (Rbh * numpy.matrix(mag))		
+				#Z.extend([[mag[0,0]],[mag[1,0]]])
+			else:
+				# Use full mag shape
+				Z.extend(mag[0:2])				
+
 			idx.extend((6,7))
-			Z.extend(mag[0:2])
 
 		if baro is not None:
 			idx.append(9)
@@ -238,8 +273,10 @@ class INS14:
 		R = self.R[idx,:][:,idx]
 
 		# calculate Kalman gain matrix
-		# K = P*H.T/(H*P*H.T + self.R);
-		K = numpy.linalg.lstsq(numpy.matrix(H*P*H.T + R), numpy.matrix(P*H.T).T)[0].T
+		# K = P*H.T/(H*P*H.T + R);
+		A = numpy.matrix(P*H.T)
+		B = numpy.matrix(H*P*H.T + R)
+		K = numpy.linalg.lstsq(B, A.T)[0].T
 
 		self.r_X = self.r_X + K*(Z-Y)
 
@@ -291,26 +328,22 @@ def run_uavo_list(uavo_list):
 			U = [gyros['x'][gyro_idx],gyros['y'][gyro_idx],gyros['z'][gyro_idx],accels['x'][accel_idx],accels['y'][accel_idx],accels['z'][accel_idx]]
 
 			dT = dT*0.99 + numpy.double(gyros['time'][gyro_idx] - t) * 0.01
-			print "dT: " + `dT`
+			
 			ins.predict(U=U)
 
 			if ned['time'][ned_idx] < t:
-				print `t` + " ned: " + `ned['time'][ned_idx]`
 				ins.correction(pos=[ned['North'][ned_idx], ned['East'][ned_idx], ned['Down'][ned_idx]])
 				ned_idx = ned_idx + 1
 
 			if vel['time'][vel_idx] < t:
-				print `t` + " vel: " + `vel['time'][vel_idx]`
 				ins.correction(vel=[vel['North'][vel_idx], vel['East'][vel_idx], vel['Down'][vel_idx]])
 				vel_idx = vel_idx + 1
 
 			if mag['time'][mag_idx] < t:
-				print `t` + " mag: " + `mag['time'][mag_idx]`
 				ins.correction(mag=[mag['x'][mag_idx], mag['y'][mag_idx], mag['z'][mag_idx]])
 				mag_idx = mag_idx + 1
 
 			if baro['time'][baro_idx] < t:
-				print `t` + " baro: " + `baro['time'][baro_idx]` + " " + `baro['Altitude'][baro_idx]`
 				ins.correction(baro=baro['Altitude'][baro_idx])
 				baro_idx = baro_idx + 1
 
@@ -320,22 +353,65 @@ def run_uavo_list(uavo_list):
 			steps = steps + 1
 
 			if steps % 50 == 0:
+				print "dT: " + `dT`
+
 				ax[0][0].cla()
 				ax[0][0].plot(times[0:steps],history[0:steps,0:3])
+				ax[0][0].plot(ned['times'],ned['North'],'.',ned['times'],ned['East'])
 				ax[0][1].cla()
 				ax[0][1].plot(times[0:steps],history[0:steps,3:6])
+				ax[0][0].plot(vel['times'],vel['North'],'.',vel['times'],vel['East'])
 				ax[1][0].cla()
 				ax[1][0].plot(times[0:steps],history[0:steps,6:10])
 				ax[1][1].cla()
 				ax[1][1].plot(times[0:steps],history[0:steps,10:])
-
-				ax[0][2].imshow(ins.r_P)
 
 				plt.draw()
 				fig.show()
 
 		t = t + 0.001 # advance 1ms
 	return ins
+
+def quat_multiply(q,r):
+	""" Compute the quaternion multiplication t = q * t """
+
+	q0,q1,q2,q3 = q
+	r0,r1,r2,r3 = r
+	t = Matrix([r0*q0-r1*r1-r2*r2-r3*q3,
+		r0*q1+r1*q0-r2*q3+r3*q2,
+		r0*q2+r1*q3+r2*q0-r3*q1,
+		r0*q3-r1*q2+r2*q1+r3*q0])
+	return t
+
+def quat_inv(q):
+	""" Return the quaternion inverse """
+	return Matrix([q[0],-q[1],-q[2],-q[3]])
+
+def quat_norm(q):
+	return q / q.norm()
+
+def quat_rot_vec(q,v):
+	v1 = [0,v[0],v[1],v[2]]
+	return quat_multiply(quat_multiply(q,p),quat_inv(q))
+
+def quat_rpy_display(q):
+	RAD2DEG = 180 / numpy.pi;
+
+	q0,q1,q2,q3 = q
+	q0s,q1s,q2s,q3s = [q0**2, q1**2, q2**2, q3**2]
+
+	R13 = numpy.double(2 * (q1 * q3 - q0 * q2))
+	R11 = numpy.double(q0s + q1s - q2s - q3s)
+	R12 = numpy.double(2 * (q1 * q2 + q0 * q3))
+	R23 = numpy.double(2 * (q2 * q3 + q0 * q1))
+	R33 = numpy.double(q0s - q1s - q2s + q3s)
+
+	rpy = [0,0,0]
+	rpy[1] = RAD2DEG * numpy.arcsin(-R13)
+	rpy[2] = RAD2DEG * numpy.arctan2(R12, R11)
+	rpy[0] = RAD2DEG * numpy.arctan2(R23, R33)
+
+	return "Quaternion: " + `q.T.tolist()[0]` + " RPY: " + `rpy`
 
 def test():
 	""" test the INS with simulated data
@@ -356,28 +432,31 @@ def test():
 	times = numpy.zeros((STEPS,1))
 
 	for k in range(STEPS):
-		ins.predict(U=[0,0,1,0,0,-9.81+0.01])
+		ROLL = 1.0
+		YAW  = 0.2
+		ins.predict(U=[0,0,YAW, 0,INS14.GRAV*sin(ROLL),-INS14.GRAV*cos(ROLL)], dT=0.0015)
 
 		history[k,:] = ins.r_X.T
 		times[k] = k * dT
 
-		angle = 1 * dT * k # radians 
-		height = 0.3 * k * dT
+		angle = YAW * dT * k # radians 
+		height = 0.5 * k * dT
 
-		if k % 60 == 0:
-			ins.correction(pos=[[0],[0],[-height]])
+		if True and k % 60 == 59:
+			ins.correction(pos=[[10],[5],[-height]])
 
-		if k % 60 == 5:
+		if True and k % 60 == 59:
 			ins.correction(vel=[[0],[0],[0]])
 
 		if k % 20 == 8:
 			ins.correction(baro=[height])
 
-		if k % 20 == 15:
+		if False and k % 20 == 15:
 			ins.correction(mag=[[400 * cos(angle)], [-400 * sin(angle)], [1600]])
 
 		if k % 250 == 0:
-			print `k`
+			print `k` + " Att: " + `quat_rpy_display(ins.r_X[6:10])`
+			print "Altitude: " + `height` + " estimate: " + `ins.r_X[2,0]` + " Angle: " + `angle * 180 / numpy.pi`
 
 			ax[0][0].cla()
 			ax[0][0].plot(times[0:k:4],history[0:k:4,0:3])
@@ -393,37 +472,6 @@ def test():
 
 			plt.draw()
 			fig.show()
-
-def main():
-
-	import sys
-	from IPython.core import ultratb
-	sys.excepthook = ultratb.FormattedTB(mode='Verbose',color_scheme='Linux', call_pdb=1)	
-
-	import matplotlib.pyplot as plt
-	fig, ax1 = plt.subplots()
-
-	i = INS14()
-	i.prepare()
-
-	STEPS = 1000
-	history = numpy.zeros((STEPS,14))
-	for k in range(STEPS):
-
-		i.predict()
-
-		if k % 10 == 0:
-			i.correction(vel=[0,0,0],baro=0)
-
-		history[k,:] = i.r_X.T
-
-		if k % 50 == 0:
-			print `k`
-			ax1.cla()
-			ax1.plot(numpy.arange(0,k),history[0:k,0])
-			plt.draw()
-			fig.show()
-
 
 if  __name__ =='__main__':
     test()
