@@ -8,7 +8,7 @@ import numpy
 class INS14:
 
 	GRAV = 9.81
-	MAG_HEADING = False # use the compass for heading only
+	MAG_HEADING = True # use the compass for heading only
 
 	def __init__(self):
 		""" Creates the INS14 class and prepares the equations. 
@@ -122,7 +122,7 @@ class INS14:
 		self.r_X = numpy.matrix([0,0,0,0,0,0,1.0,0,0,0,0,0,0,0]).T
 		self.r_P = numpy.diagflat([25,25,25,5,5,5,1,1,1,1,0,0,0,0])
 		self.R = numpy.diagflat([1e-5, 1e-5, 10, 1e-4, 1e-4, 0.1, 1, 1, 100, 1e-5, 1e-3])
-		self.Q = numpy.diagflat([1e-2,1e-2,1e-2,0.003,0.003,0.003,1e-8,1e-8,1e-5,1e-8])
+		self.Q = numpy.diagflat([1e-2,1e-2,1e-2,0.003,0.003,0.003,1e-8,1e-8,1e-5,1e-3])
 
 		# the noise inputs to the system are not used in the prediction (or assume their mean of zero)
 		Xd = self.Xd
@@ -188,7 +188,7 @@ class INS14:
 		k2 = self.l_Xd((self.r_X + 0.5*dT*k1).tolist(), U)
 		k3 = self.l_Xd((self.r_X + 0.5*dT*k2).tolist(), U)
 		k4 = self.l_Xd((self.r_X + dT*k3).tolist() , U)
-		d = (k1+2*k2+2*k3+k4) / 6
+		d = (k1 + 2*k2 + 2*k3 + k4) / 6
 
 		f = self.l_F(self.r_X.tolist(), U)
 		g = self.l_G(self.r_X.T.tolist())
@@ -369,20 +369,21 @@ def test():
 
 	dT = 1.0 / 666.0
 
-	STEPS = 10000
+	STEPS = 100000
 	history = numpy.zeros((STEPS,14))
 	times = numpy.zeros((STEPS,1))
 
+	ins.r_X[6:10] = numpy.matrix([1/sqrt(2),0,0,1/sqrt(2)]).T
 	for k in range(STEPS):
-		ROLL = 1.0
-		YAW  = 0.2
-		ins.predict(U=[0,0,YAW, 0,INS14.GRAV*sin(ROLL),-INS14.GRAV*cos(ROLL)], dT=0.0015)
+		ROLL = 0.5
+		YAW  = 0.5
+		ins.predict(U=[0,0,YAW, 0,INS14.GRAV*sin(ROLL),-INS14.GRAV*cos(ROLL) - 0.1], dT=0.0015)
 
 		history[k,:] = ins.r_X.T
 		times[k] = k * dT
 
-		angle = YAW * dT * k # radians 
-		height = 0.5 * k * dT
+		angle = numpy.pi/3 + YAW * dT * k # radians 
+		height = 1.0 * k * dT
 
 		if True and k % 60 == 59:
 			ins.correction(pos=[[10],[5],[-height]])
@@ -397,7 +398,7 @@ def test():
 			ins.correction(mag=[[400 * cos(angle)], [-400 * sin(angle)], [1600]])
 
 		ins.normalize()
-		if k < 500:
+		if k < 200:
 			ins.suppress_bias()
 
 		if k % 50 == 0:
