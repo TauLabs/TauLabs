@@ -119,9 +119,9 @@ class INS14:
 		"""
 
 		self.r_X = numpy.matrix([0,0,0,0,0,0,1.0,0,0,0,0,0,0,0]).T
-		self.r_P = numpy.diagflat([25,25,25,5,5,5,1,1,1,1,1e-9,1e-9,1e-9,1e-9])
-		self.R = numpy.diagflat([1e-5, 1e-5, 10, 1e-4, 1e-4, 0.1, 1, 1, 100, 1e-5])
-		self.Q = numpy.diagflat([1e-2,1e-2,1e-2,0.003,0.003,0.003,1e-8,1e-8,2e-5,1e-3])
+		self.r_P = numpy.diagflat([25,25,25,5,5,5,1,1,1,1,0,0,0,0])
+		self.R = numpy.diagflat([1e-5, 1e-5, 10, 1e-4, 1e-4, 0.1, 1, 1, 100, 1e-5, 1e-3])
+		self.Q = numpy.diagflat([1e-2,1e-2,1e-2,0.003,0.003,0.003,1e-8,1e-8,1e-5,1e-8])
 
 		# the noise inputs to the system are not used in the prediction (or assume their mean of zero)
 		Xd = self.Xd
@@ -166,29 +166,17 @@ class INS14:
 		""" Make sure the quaternion state stays normalized
 		"""
 
-		q = self.r_X[6:10]
+		q = self.r_X[6:10,0]
+		qnew = numpy.zeros((4,1))
 		qn = sqrt(q[0]**2 + q[1]**2 + q[2]**2 + q[3]**2)
 		for i in range(4):
-			q[i] = q[i] / qn
-		self.r_X[6:10] = q
+			qnew[i] = q[i] / qn
+		self.r_X[6:10] = qnew
 
-	def attitude_swing_twist(self):
-		""" Decompose the attitude into a yaw and non-yaw component
-		    with the swing twist-algorithm: 
-			( https://stackoverflow.com/a/22401169 )
-		"""
-
-		q  = self.r_X[6:10]
-		print "Attitude: " + `quat_rpy_display(q)`
-		ra = Matrix([q[1], q[2], q[3]])
-		di = Matrix([0, 0, 1])
-		p  = (ra.T * di)[0,0] * di
-		twist = Matrix([q[0,0], p[0], p[1], p[2]])
-		twist = twist / sqrt((twist.T * twist)[0,0])
-		print "Normed twist: " + `quat_rpy_display(twist)`
-		swing = quat_multiply(q, quat_inv(twist))
-		print "Remainder: " + `quat_rpy_display(swing)`
-
+	def suppress_bias(self):
+		self.r_X[10:] = 0
+		self.r_P[10:,:] = zeros(4,14)
+		self.r_P[:,10:] = zeros(14,4)
 
 	def predict(self, U=[0,0,0,0,0,0], dT = 1.0/666.0):
 		""" Perform the prediction step
@@ -211,8 +199,6 @@ class INS14:
 		#self.r_P = (eye(NUMX)+F*T)*Pplus*(eye(NUMX)+F*T)' + T^2*G*diag(Q)*G'
 		I = numpy.matrix(numpy.identity(14))
 		self.r_P = (I + f * dT) * P * (I + f * dT).T + (dT**2) * g * diag(self.Q) * g.T
-
-		self.normalize()
 
 	def correction(self, pos=None, vel=None, mag=None, baro=None):
 		""" Perform the INS correction based on the provided corrections
@@ -279,8 +265,6 @@ class INS14:
 		self.r_X = self.r_X + K*(Z-Y)
 
 		self.r_P = P - K*H*P;
-
-		self.normalize()
 
 def run_uavo_list(uavo_list):
 
@@ -449,12 +433,15 @@ def test():
 		if k % 20 == 8:
 			ins.correction(baro=[height])
 
-		if False and k % 20 == 15:
+		if True and k % 20 == 15:
 			ins.correction(mag=[[400 * cos(angle)], [-400 * sin(angle)], [1600]])
 
-		if k % 250 == 0:
-			print `k` + " Att: " + `quat_rpy_display(ins.r_X[6:10])`
-			print "Altitude: " + `height` + " estimate: " + `ins.r_X[2,0]` + " Angle: " + `angle * 180 / numpy.pi`
+		ins.normalize()
+		if k < 500:
+			ins.suppress_bias()
+
+		if k % 50 == 0:
+			print `k` + " Att: " + `quat_rpy_display(ins.r_X[6:10])` + " norm: " + `Matrix(ins.r_X[6:10]).norm()`
 
 			ax[0][0].cla()
 			ax[0][0].plot(times[0:k:4],history[0:k:4,0:3])
