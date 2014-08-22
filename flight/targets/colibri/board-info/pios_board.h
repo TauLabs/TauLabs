@@ -27,7 +27,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-
 #ifndef STM3210E_INS_H_
 #define STM3210E_INS_H_
 
@@ -38,7 +37,7 @@
 #define DEBUG_PRINTF(level, ...) {if(level <= DEBUG_LEVEL && pios_com_debug_id > 0) { PIOS_COM_SendFormattedStringNonBlocking(pios_com_debug_id, __VA_ARGS__); }}
 #else
 #define DEBUG_PRINTF(level, ...)
-#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+#endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
 //------------------------
 // Timers and Channels Used
@@ -80,7 +79,6 @@ TIM8  |           |           |           |
 #define BOARD_WRITABLE					true
 #define MAX_DEL_RETRYS					3
 
-
 //------------------------
 // PIOS_LED
 //------------------------
@@ -104,9 +102,7 @@ TIM8  |           |           |           |
 extern uint32_t pios_i2c_internal_adapter_id;
 extern uint32_t pios_i2c_usart1_adapter_id;
 extern uint32_t pios_i2c_usart3_adapter_id;
-#define PIOS_I2C_ETASV3_ADAPTER			(pios_i2c_usart1_adapter_id) //this is dirty and should be removed in favor a cleaner sensor api
-
-
+#define PIOS_I2C_ETASV3_ADAPTER			(pios_i2c_usart1_adapter_id)	//this is dirty and should be removed in favor a cleaner sensor api
 
 //-------------------------
 // PIOS_COM
@@ -138,48 +134,44 @@ extern uintptr_t pios_com_picoc_id;
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 extern uintptr_t pios_com_debug_id;
 #define PIOS_COM_DEBUG                  (pios_com_debug_id)
-#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
-
-
+#endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
 //------------------------
 // TELEMETRY
 //------------------------
 #define TELEM_QUEUE_SIZE				80
-#define PIOS_TELEM_STACK_SIZE			624		
+#define PIOS_TELEM_STACK_SIZE			624
 
 #define PIOS_SYSCLK						168000000
-//	Peripherals that belongs to APB1 are:
-//	DAC			|PWR				|CAN1,2
-//	I2C1,2,3	|UART4,5			|USART3,2
-//	I2S3Ext		|SPI3/I2S3			|SPI2/I2S2
-//	I2S2Ext		|IWDG				|WWDG
-//	RTC/BKP reg	
+//      Peripherals that belongs to APB1 are:
+//      DAC                     |PWR                            |CAN1,2
+//      I2C1,2,3        |UART4,5                        |USART3,2
+//      I2S3Ext         |SPI3/I2S3                      |SPI2/I2S2
+//      I2S2Ext         |IWDG                           |WWDG
+//      RTC/BKP reg     
 // TIM2,3,4,5,6,7,12,13,14
 
 // Calculated as SYSCLK / APBPresc * (APBPre == 1 ? 1 : 2)   
 // Default APB1 Prescaler = 4 
 #define PIOS_PERIPHERAL_APB1_CLOCK		(PIOS_SYSCLK / 2)
 
-//	Peripherals belonging to APB2
-//	SDIO			|EXTI				|SYSCFG			|SPI1
-//	ADC1,2,3				
-//	USART1,6
-//	TIM1,8,9,10,11
+//      Peripherals belonging to APB2
+//      SDIO                    |EXTI                           |SYSCFG                 |SPI1
+//      ADC1,2,3                                
+//      USART1,6
+//      TIM1,8,9,10,11
 //
 // Default APB2 Prescaler = 2
 //
 #define PIOS_PERIPHERAL_APB2_CLOCK		PIOS_SYSCLK
 
-
 //-------------------------
 // Interrupt Priorities
 //-------------------------
-#define PIOS_IRQ_PRIO_LOW				12              // lower than RTOS
-#define PIOS_IRQ_PRIO_MID				8               // higher than RTOS
-#define PIOS_IRQ_PRIO_HIGH				5               // for SPI, ADC, I2C etc...
-#define PIOS_IRQ_PRIO_HIGHEST			4               // for USART etc...
-
+#define PIOS_IRQ_PRIO_LOW				12	// lower than RTOS
+#define PIOS_IRQ_PRIO_MID				8	// higher than RTOS
+#define PIOS_IRQ_PRIO_HIGH				5	// for SPI, ADC, I2C etc...
+#define PIOS_IRQ_PRIO_HIGHEST			4	// for USART etc...
 
 //------------------------
 // PIOS_RCVR
@@ -218,7 +210,7 @@ extern uintptr_t pios_com_debug_id;
 // Servo outputs
 //-------------------------
 #define PIOS_SERVO_UPDATE_HZ			50
-#define PIOS_SERVOS_INITIAL_POSITION	0 /* dont want to start motors, have no pulse till settings loaded */
+#define PIOS_SERVOS_INITIAL_POSITION	0	/* dont want to start motors, have no pulse till settings loaded */
 
 //--------------------------
 // Timer controller settings
@@ -254,7 +246,7 @@ extern uintptr_t pios_com_debug_id;
 //-------------------------
 // USB
 //-------------------------
-#define PIOS_USB_ENABLED				1 /* Should remove all references to this */
+#define PIOS_USB_ENABLED				1	/* Should remove all references to this */
 
 #endif /* STM3210E_INS_H_ */
 

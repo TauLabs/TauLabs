@@ -28,10 +28,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "pios_usb_board_data.h" /* struct usb_*, USB_* */
-#include "pios_sys.h"		 /* PIOS_SYS_SerialNumberGet */
-#include "pios_usbhook.h"	 /* PIOS_USBHOOK_* */
-#include "pios_usb_util.h"	 /* PIOS_USB_UTIL_AsciiToUtf8 */
+#include "pios_usb_board_data.h"	/* struct usb_*, USB_* */
+#include "pios_sys.h"		/* PIOS_SYS_SerialNumberGet */
+#include "pios_usbhook.h"	/* PIOS_USBHOOK_* */
+#include "pios_usb_util.h"	/* PIOS_USB_UTIL_AsciiToUtf8 */
 
 static const uint8_t usb_product_id[22] = {
 	sizeof(usb_product_id),
@@ -48,7 +48,9 @@ static const uint8_t usb_product_id[22] = {
 	'c', 0,
 };
 
-static uint8_t usb_serial_number[2 + PIOS_SYS_SERIAL_NUM_ASCII_LEN*2 + (sizeof(PIOS_USB_BOARD_SN_SUFFIX)-1)*2] = {
+static uint8_t usb_serial_number[2 + PIOS_SYS_SERIAL_NUM_ASCII_LEN * 2 +
+				 (sizeof(PIOS_USB_BOARD_SN_SUFFIX) -
+				  1) * 2] = {
 	sizeof(usb_serial_number),
 	USB_DESC_TYPE_STRING,
 };
@@ -92,15 +94,29 @@ int32_t PIOS_USB_BOARD_DATA_Init(void)
 	PIOS_SYS_SerialNumberGet((char *)sn);
 
 	/* Concatenate the device serial number and the appropriate suffix ("+BL" or "+FW") into the USB serial number */
-	uint8_t * utf8 = &(usb_serial_number[2]);
-	utf8 = PIOS_USB_UTIL_AsciiToUtf8(utf8, sn, PIOS_SYS_SERIAL_NUM_ASCII_LEN);
-	utf8 = PIOS_USB_UTIL_AsciiToUtf8(utf8, (uint8_t *)PIOS_USB_BOARD_SN_SUFFIX, sizeof(PIOS_USB_BOARD_SN_SUFFIX)-1);
+	uint8_t *utf8 = &(usb_serial_number[2]);
+	utf8 =
+	    PIOS_USB_UTIL_AsciiToUtf8(utf8, sn,
+				      PIOS_SYS_SERIAL_NUM_ASCII_LEN);
+	utf8 =
+	    PIOS_USB_UTIL_AsciiToUtf8(utf8,
+				      (uint8_t *) PIOS_USB_BOARD_SN_SUFFIX,
+				      sizeof(PIOS_USB_BOARD_SN_SUFFIX) -
+				      1);
 
-	PIOS_USBHOOK_RegisterString(USB_STRING_DESC_PRODUCT, (uint8_t *)&usb_product_id, sizeof(usb_product_id));
-	PIOS_USBHOOK_RegisterString(USB_STRING_DESC_SERIAL, (uint8_t *)&usb_serial_number, sizeof(usb_serial_number));
+	PIOS_USBHOOK_RegisterString(USB_STRING_DESC_PRODUCT,
+				    (uint8_t *) & usb_product_id,
+				    sizeof(usb_product_id));
+	PIOS_USBHOOK_RegisterString(USB_STRING_DESC_SERIAL,
+				    (uint8_t *) & usb_serial_number,
+				    sizeof(usb_serial_number));
 
-	PIOS_USBHOOK_RegisterString(USB_STRING_DESC_LANG, (uint8_t *)&usb_lang_id, sizeof(usb_lang_id));
-	PIOS_USBHOOK_RegisterString(USB_STRING_DESC_VENDOR, (uint8_t *)&usb_vendor_id, sizeof(usb_vendor_id));
+	PIOS_USBHOOK_RegisterString(USB_STRING_DESC_LANG,
+				    (uint8_t *) & usb_lang_id,
+				    sizeof(usb_lang_id));
+	PIOS_USBHOOK_RegisterString(USB_STRING_DESC_VENDOR,
+				    (uint8_t *) & usb_vendor_id,
+				    sizeof(usb_vendor_id));
 
 	return 0;
 }

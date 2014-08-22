@@ -42,18 +42,20 @@
 
 uintptr_t pios_com_telem_usb_id;
 
-void PIOS_Board_Init() {
+void PIOS_Board_Init()
+{
 
 	/* Delay system */
 	PIOS_DELAY_Init();
 
-	const struct pios_board_info * bdinfo = &pios_board_info_blob;
+	const struct pios_board_info *bdinfo = &pios_board_info_blob;
 
 #if defined(PIOS_INCLUDE_LED)
-	const struct pios_led_cfg * led_cfg = PIOS_BOARD_HW_DEFS_GetLedCfg(bdinfo->board_rev);
+	const struct pios_led_cfg *led_cfg =
+	    PIOS_BOARD_HW_DEFS_GetLedCfg(bdinfo->board_rev);
 	PIOS_Assert(led_cfg);
 	PIOS_LED_Init(led_cfg);
-#endif	/* PIOS_INCLUDE_LED */
+#endif /* PIOS_INCLUDE_LED */
 
 	PWR_BackupAccessCmd(ENABLE);
 	RCC_LSEConfig(RCC_LSE_OFF);
@@ -66,19 +68,23 @@ void PIOS_Board_Init() {
 	if (PIOS_SPI_Init(&pios_spi_flash_id, &pios_spi_flash_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
-#endif	/* PIOS_INCLUDE_SPI */
+#endif /* PIOS_INCLUDE_SPI */
 
 #if defined(PIOS_INCLUDE_FLASH)
 	/* Inititialize all flash drivers */
-	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
+	PIOS_Flash_Internal_Init(&pios_internal_flash_id,
+				 &flash_internal_cfg);
 
 #if defined(PIOS_INCLUDE_SPI)
-	PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_flash_id, 0, &flash_mx25_cfg);
-#endif	/* PIOS_INCLUDE_SPI */
+	PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_flash_id,
+			      0, &flash_mx25_cfg);
+#endif /* PIOS_INCLUDE_SPI */
 
 	/* Register the partition table */
-	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
-#endif	/* PIOS_INCLUDE_FLASH */
+	PIOS_FLASH_register_partition_table(pios_flash_partition_table,
+					    NELEMENTS
+					    (pios_flash_partition_table));
+#endif /* PIOS_INCLUDE_FLASH */
 
 #if defined(PIOS_INCLUDE_USB)
 	/* Initialize board specific USB data */
@@ -88,19 +94,23 @@ void PIOS_Board_Init() {
 	PIOS_USB_DESC_HID_ONLY_Init();
 
 	uintptr_t pios_usb_id;
-	PIOS_USB_Init(&pios_usb_id, PIOS_BOARD_HW_DEFS_GetUsbCfg(bdinfo->board_rev));
+	PIOS_USB_Init(&pios_usb_id,
+		      PIOS_BOARD_HW_DEFS_GetUsbCfg(bdinfo->board_rev));
 
 #if defined(PIOS_INCLUDE_USB_HID) && defined(PIOS_INCLUDE_COM_MSG)
 	uintptr_t pios_usb_hid_id;
-	if (PIOS_USB_HID_Init(&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {
+	if (PIOS_USB_HID_Init
+	    (&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {
 		PIOS_Assert(0);
 	}
-	if (PIOS_COM_MSG_Init(&pios_com_telem_usb_id, &pios_usb_hid_com_driver, pios_usb_hid_id)) {
+	if (PIOS_COM_MSG_Init
+	    (&pios_com_telem_usb_id, &pios_usb_hid_com_driver,
+	     pios_usb_hid_id)) {
 		PIOS_Assert(0);
 	}
-#endif	/* PIOS_INCLUDE_USB_HID && PIOS_INCLUDE_COM_MSG */
+#endif /* PIOS_INCLUDE_USB_HID && PIOS_INCLUDE_COM_MSG */
 
 	PIOS_USBHOOK_Activate();
 
-#endif	/* PIOS_INCLUDE_USB */
+#endif /* PIOS_INCLUDE_USB */
 }

@@ -36,12 +36,11 @@
 
 #define PIOS_USB_BOARD_EP_NUM 4
 
-#include "pios_usb_defs.h" 	/* USB_* macros */
+#include "pios_usb_defs.h"	/* USB_* macros */
 
-
-#define PIOS_USB_BOARD_VENDOR_ID 0x0fda		//Team Black Sheep
+#define PIOS_USB_BOARD_VENDOR_ID 0x0fda	//Team Black Sheep
 #define PIOS_USB_BOARD_PRODUCT_ID 0x0100	//colibri flight control rev. 1
 #define PIOS_USB_BOARD_DEVICE_VER USB_OP_DEVICE_VER(0, USB_OP_BOARD_MODE_FW)
 #define PIOS_USB_BOARD_SN_SUFFIX "+FW"
 
-#endif	/* PIOS_USB_BOARD_DATA_H */
+#endif /* PIOS_USB_BOARD_DATA_H */

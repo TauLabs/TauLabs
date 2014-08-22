@@ -27,7 +27,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-
 /* OpenPilot Includes */
 #include "openpilot.h"
 #include "uavobjectsinit.h"
@@ -42,7 +41,7 @@ extern void Stack_Change(void);
 
 /* Local Variables */
 #define INIT_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define INIT_TASK_STACK		(1024 / 4)										// XXX this seems excessive
+#define INIT_TASK_STACK		(1024 / 4)	// XXX this seems excessive
 static xTaskHandle initTaskHandle;
 
 /* Function Prototypes */
@@ -62,7 +61,7 @@ extern void InitModules(void);
 */
 int main()
 {
-	int	result;
+	int result;
 
 	/* NOTE: Do NOT modify the following start-up sequence */
 	/* Any new initialization functions should be added in OpenPilotInit() */
@@ -74,8 +73,8 @@ int main()
 	/* For Revolution we use a FreeRTOS task to bring up the system so we can */
 	/* always rely on FreeRTOS primitive */
 	result = xTaskCreate(initTask, (const signed char *)"init",
-						 INIT_TASK_STACK, NULL, INIT_TASK_PRIORITY,
-						 &initTaskHandle);
+			     INIT_TASK_STACK, NULL, INIT_TASK_PRIORITY,
+			     &initTaskHandle);
 	PIOS_Assert(result == pdPASS);
 
 	/* Start the FreeRTOS scheduler */
@@ -83,21 +82,21 @@ int main()
 
 	/* If all is well we will never reach here as the scheduler will now be running. */
 	/* Do some PIOS_LED_HEARTBEAT to user that something bad just happened */
-	PIOS_LED_Off(PIOS_LED_HEARTBEAT); \
-	for(;;) { \
-		PIOS_LED_Toggle(PIOS_LED_HEARTBEAT); \
-		PIOS_DELAY_WaitmS(100); \
+	PIOS_LED_Off(PIOS_LED_HEARTBEAT);
+	for (;;) {
+		PIOS_LED_Toggle(PIOS_LED_HEARTBEAT);
+		PIOS_DELAY_WaitmS(100);
 	};
 
 	return 0;
 }
+
 /**
  * Initialisation task.
  *
  * Runs board and module initialisation, then terminates.
  */
-void
-initTask(void *parameters)
+void initTask(void *parameters)
 {
 	/* board driver init */
 	PIOS_Board_Init();
@@ -113,4 +112,3 @@ initTask(void *parameters)
  * @}
  * @}
  */
-
