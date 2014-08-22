@@ -663,18 +663,16 @@ void RungeKutta(float X[NUMX], float U[NUMU], float dT)
 
 void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 {
-	float ax, ay, az, wx, wy, wz, q0, q1, q2, q3;
-
-	ax = U[3];
-	ay = U[4];
-	az = U[5] - X[13];  // subtract the biases on accels
-	wx = U[0] - X[10];
-	wy = U[1] - X[11];
-	wz = U[2] - X[12];	// subtract the biases on gyros
-	q0 = X[6];
-	q1 = X[7];
-	q2 = X[8];
-	q3 = X[9];
+	const float wx = U[0] - X[10];
+	const float wy = U[1] - X[11];
+	const float wz = U[2] - X[12];	// subtract the biases on gyros
+	const float ax = U[3];
+	const float ay = U[4];
+	const float az = U[5] - X[13];  // subtract the biases on accels
+	const float q0 = X[6];
+	const float q1 = X[7];
+	const float q2 = X[8];
+	const float q3 = X[9];
 
 	// Pdot = V
 	Xdot[0] = X[3];
@@ -728,18 +726,16 @@ void StateEq(float X[NUMX], float U[NUMU], float Xdot[NUMX])
 void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 		 float G[NUMX][NUMW])
 {
-	float ax, ay, az, wx, wy, wz, q0, q1, q2, q3;
-
-	wx = U[0] - X[10];
-	wy = U[1] - X[11];
-	wz = U[2] - X[12];	// subtract the biases on gyros
-	ax = U[3];
-	ay = U[4];
-	az = U[5] - X[13];  // subtract the biases on accels
-	q0 = X[6];
-	q1 = X[7];
-	q2 = X[8];
-	q3 = X[9];
+	const float wx = U[0] - X[10];
+	const float wy = U[1] - X[11];
+	const float wz = U[2] - X[12];	// subtract the biases on gyros
+	const float ax = U[3];
+	const float ay = U[4];
+	const float az = U[5] - X[13];  // subtract the biases on accels
+	const float q0 = X[6];
+	const float q1 = X[7];
+	const float q2 = X[8];
+	const float q3 = X[9];
 
 	// Pdot = V
 	F[0][3] = F[1][4] = F[2][5] = 1.0f;
@@ -823,12 +819,10 @@ void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
  */
 void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 {
-	float q0, q1, q2, q3;
-
-	q0 = X[6];
-	q1 = X[7];
-	q2 = X[8];
-	q3 = X[9];
+	const float q0 = X[6];
+	const float q1 = X[7];
+	const float q2 = X[8];
+	const float q3 = X[9];
 
 	// first six outputs are P and V
 	Y[0] = X[0];
@@ -839,9 +833,11 @@ void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 	Y[5] = X[5];
 
 	// Rotate Be by only the yaw heading
-	float r = sqrtf( powf(2*q0*q3 + 2*q1*q2, 2) + powf(q0*q0 + q1*q1 - q2*q2 - q3*q3, 2) );
-	float cP = (q0*q0 + q1*q1 - q2*q2 - q3*q3) / r;
-	float sP = (2*q0*q3 + 2*q1*q2) / r;    
+	const float a1 = 2*q0*q3 + 2*q1*q2;
+	const float a2 = q0*q0 + q1*q1 - q2*q2 - q3*q3;
+	const float r = sqrtf( a1*a1 + a2*a2 );
+	const float cP = a2 / r;
+	const float sP = a1 / r;
 	Y[6] = Be[0] * cP + Be[1] * sP;
 	Y[7] = -Be[0] * sP + Be[1] * cP;
 	Y[8] = 0; // don't care
@@ -857,12 +853,10 @@ void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
  */
 void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 {
-	float q0, q1, q2, q3;
-
-	q0 = X[6];
-	q1 = X[7];
-	q2 = X[8];
-	q3 = X[9];
+	const float q0 = X[6];
+	const float q1 = X[7];
+	const float q2 = X[8];
+	const float q3 = X[9];
 
 	// dP/dP=I;  (expect position to measure the position)
 	H[0][0] = H[1][1] = H[2][2] = 1.0f;
@@ -874,13 +868,19 @@ void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 	// rotates the earth magnetic field into the horizontal plane, and then
 	// taking the partial derivative wrt each term in q. Maniuplated in
 	// matlab symbolic toolbox
-	float Be_0 = Be[0];
-	float Be_1 = Be[1];
-	float k1 = 1.0f/sqrtf(powf(q0*q3*2.0f+q1*q2*2.0f,2.0f)+powf(q0*q0+q1*q1-q2*q2-q3*q3,2.0f));
-	float k3 = 1.0f/powf(powf(q0*q3*2.0f+q1*q2*2.0f,2.0f)+powf(q0*q0+q1*q1-q2*q2-q3*q3,2.0f),3.0f/2.0f)*(q0*q0+q1*q1-q2*q2-q3*q3)*(1.0f/2.0f);
-	float k4 = (q0*q0+q1*q1-q2*q2-q3*q3)*4.0f;
-	float k5 = (q0*q3*2.0f+q1*q2*2.0f)*4.0f;
-	float k6 = 1.0f/powf(powf(q0*q3*2.0f+q1*q2*2.0f,2.0f)+powf(q0*q0+q1*q1-q2*q2-q3*q3,2.0f),3.0f/2.0f)*(q0*q3*2.0f+q1*q2*2.0f)*(1.0f/2.0f);
+	const float Be_0 = Be[0];
+	const float Be_1 = Be[1];
+	const float a1 = q0*q3*2.0f+q1*q2*2.0f;
+	const float a1s = a1*a1;
+	const float a2 = q0*q0+q1*q1-q2*q2-q3*q3;
+	const float a2s = a2*a2;
+	const float a3 = 1.0f/powf(a1s+a2s,3.0f/2.0f)*(1.0f/2.0f);
+
+	const float k1 = 1.0f/sqrtf(a1s + a2s);
+	const float k3 = a3*a2;
+	const float k4 = a2*4.0f;
+	const float k5 = a1*4.0f;
+	const float k6 = a3*a1;
 
 	H[6][6] = Be_0*q0*k1*2.0f  + Be_1*q3*k1*2.0f - Be_0*(q0*k4+q3*k5)*k3 - Be_1*(q0*k4+q3*k5)*k6;
 	H[6][7] = Be_0*q1*k1*2.0f  + Be_1*q2*k1*2.0f - Be_0*(q1*k4+q2*k5)*k3 - Be_1*(q1*k4+q2*k5)*k6;
