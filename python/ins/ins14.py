@@ -252,8 +252,8 @@ class INS14:
 				Rbh[2,1] = -k1*(q0*q1*2.0+q2*q3*2.0)
 				Rbh[2,2] = k1*k2*(q0*q0-q1*q1-q2*q2+q3*q3)
 
-				#mag = (Rbh * numpy.matrix(mag))		
-				#Z.extend([[mag[0,0]],[mag[1,0]]])
+				mag = (Rbh * numpy.matrix(mag))		
+				Z.extend([[mag[0,0]],[mag[1,0]]])
 			else:
 				# Use full mag shape
 				Z.extend(mag[0:2])				
