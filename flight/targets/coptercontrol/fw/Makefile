@@ -156,16 +156,6 @@ RTOSINCDIR = $(RTOSSRCDIR)/include
 RTOSPORTDIR = $(APPLIBDIR)/FreeRTOS/Source
 DOXYGENDIR = ../Doc/Doxygen
 MAVLINKINC  = $(FLIGHTLIB)/mavlink/v1.0/common
-PYMITE = $(FLIGHTLIB)/PyMite
-PYMITELIB = $(PYMITE)/lib
-PYMITEPLAT = $(PYMITE)/platform/openpilot
-PYMITETOOLS = $(PYMITE)/tools
-PYMITEVM = $(PYMITE)/vm
-PYMITEINC = $(PYMITEVM)
-PYMITEINC += $(PYMITEPLAT)
-PYMITEINC += $(OUTDIR)
-FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
-FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
@@ -364,14 +354,6 @@ SRC += $(RTOSPORTDIR)/portable/GCC/ARM_CM3/port.c
 #SRC += $(DOSFSDIR)/dosfs.c
 #SRC += $(DOSFSDIR)/dfs_sdcard.c
 
-## PyMite files
-#SRC += $(wildcard ${PYMITEVM}/*.c)
-#SRC += $(wildcard ${PYMITEPLAT}/*.c)
-#SRC += $(OUTDIR)/pmlib_img.c
-#SRC += $(OUTDIR)/pmlib_nat.c
-#SRC += $(OUTDIR)/pmlibusr_img.c
-#SRC += $(OUTDIR)/pmlibusr_nat.c
-
 ## Mass Storage Device
 #SRC += $(MSDDIR)/msd.c
 #SRC += $(MSDDIR)/msd_bot.c
@@ -432,7 +414,6 @@ EXTRAINCDIRS  += $(RTOSINCDIR)
 EXTRAINCDIRS  += $(APPLIBDIR)
 EXTRAINCDIRS  += $(RTOSPORTDIR)/portable/GCC/ARM_CM3
 EXTRAINCDIRS  += $(AHRSBOOTLOADERINC)
-EXTRAINCDIRS  += $(PYMITEINC)
 EXTRAINCDIRS  += $(MAVLINKINC)
 
 EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES}, ${OPMODULEDIR}/${MOD}/inc} ${OPMODULEDIR}/System/inc

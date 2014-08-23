@@ -57,6 +57,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/flighttelemetrystats.h \
     $$UAVOBJECT_SYNTHETICS/gcsreceiver.h \
     $$UAVOBJECT_SYNTHETICS/gcstelemetrystats.h \
+    $$UAVOBJECT_SYNTHETICS/geofencesettings.h \
     $$UAVOBJECT_SYNTHETICS/gpsposition.h \
     $$UAVOBJECT_SYNTHETICS/gpssatellites.h \
     $$UAVOBJECT_SYNTHETICS/gpstime.h \
@@ -165,6 +166,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/flighttelemetrystats.cpp \
     $$UAVOBJECT_SYNTHETICS/gcsreceiver.cpp \
     $$UAVOBJECT_SYNTHETICS/gcstelemetrystats.cpp \
+    $$UAVOBJECT_SYNTHETICS/geofencesettings.cpp \
     $$UAVOBJECT_SYNTHETICS/gpsposition.cpp \
     $$UAVOBJECT_SYNTHETICS/gpssatellites.cpp \
     $$UAVOBJECT_SYNTHETICS/gpstime.cpp \

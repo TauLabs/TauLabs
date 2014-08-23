@@ -21,6 +21,7 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -42,6 +43,7 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -63,6 +65,7 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -84,6 +87,7 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -105,6 +109,7 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 

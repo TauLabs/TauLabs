@@ -188,6 +188,9 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_PICOC_RX_BUF_LEN 128
 #define PIOS_COM_PICOC_TX_BUF_LEN 128
 
+#define PIOS_COM_FRSKYSPORT_TX_BUF_LEN 16
+#define PIOS_COM_FRSKYSPORT_RX_BUF_LEN 16
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
@@ -207,6 +210,7 @@ uintptr_t pios_com_picoc_id;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
 uintptr_t pios_internal_adc_id;
+uintptr_t pios_com_frsky_sport_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -717,6 +721,11 @@ void PIOS_Board_Init(void) {
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
 		break;
+	case HWQUANTON_UART1_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+		break;
 	}
 
 	/* UART2 Port */
@@ -841,6 +850,11 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
+		break;
+	case HWQUANTON_UART2_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
 		break;
 	}
 
@@ -971,6 +985,11 @@ void PIOS_Board_Init(void) {
 		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
 #endif  
 		break;
+	case HWQUANTON_UART3_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+		break;
 	}
 
 	/* UART4 Port */
@@ -1076,6 +1095,11 @@ void PIOS_Board_Init(void) {
 		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
 		break;
+	case HWQUANTON_UART4_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+		break;
 	}
 
 	/* UART5 Port */
@@ -1180,6 +1204,11 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
+		break;
+	case HWQUANTON_UART5_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
 		break;
 	}
 

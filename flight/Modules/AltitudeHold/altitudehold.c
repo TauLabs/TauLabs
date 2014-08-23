@@ -192,7 +192,7 @@ static void altitudeHoldTask(void *parameters)
 			                    0, 1.0f, // positive limits since this is throttle
 			                    dt_s);
 
-			if (altitudeHoldSettings.AttitudeComp == ALTITUDEHOLDSETTINGS_ATTITUDECOMP_TRUE) {
+			if (altitudeHoldSettings.AttitudeComp > 0) {
 				// Throttle desired is at this point the mount desired in the up direction, we can
 				// account for the attitude if desired
 				AttitudeActualData attitudeActual;
@@ -204,6 +204,10 @@ static void altitudeHoldTask(void *parameters)
 				                 attitudeActual.q2 * attitudeActual.q2 -
 				                 attitudeActual.q3 * attitudeActual.q3 +
 				                 attitudeActual.q4 * attitudeActual.q4;
+
+				// Add ability to scale up the amount of compensation to achieve
+				// level forward flight
+				fraction = powf(fraction, (float) altitudeHoldSettings.AttitudeComp / 100.0f);
 
 				// Dividing by the fraction remaining in the vertical projection will
 				// attempt to compensate for tilt. This acts like the thrust is linear

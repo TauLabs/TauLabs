@@ -90,6 +90,7 @@ OPTMODULES += GroundPathFollower
 OPTMODULES += CameraStab
 OPTMODULES += OveroSync/simulated
 OPTMODULES += Autotune
+OPTMODULES += Geofence
 
 # To run simulation instead of connect to SITL
 MODULES += Sensors/simulated

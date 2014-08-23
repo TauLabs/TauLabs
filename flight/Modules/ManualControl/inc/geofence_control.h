@@ -2,13 +2,15 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup FlightPlan Flight Plan Module
+ * @addtogroup Control Control Module
  * @{
  *
- * @file       flightplan.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Executes flight plan scripts in Python
+ * @file       geofence_control.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @brief      Geofence controller that is enabled when out of zone
  *
+ * Currently this implements a simple controller that disables motors
+ * whenever outside of the zone
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -28,9 +30,27 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef FLIGHTPLAN_H
-#define FLIGHTPLAN_H
+ #ifndef GEOFENCE_CONTROL_H
+ #define GEOFENCE_CONTROL_H
 
-int32_t FlightPlanInitialize();
+//! Initialize the geofence controller
+int32_t geofence_control_initialize();
 
-#endif // FLIGHTPLAN_H
+//! Perform any updates to the geofence controller
+int32_t geofence_control_update();
+
+//! Use geofence control mode
+int32_t geofence_control_select(bool reset_controller);
+
+//! Query if out of bounds and the geofence controller should take over
+bool geofence_control_activate();
+
+//! Get any control events
+enum control_events geofence_control_get_events();
+
+ #endif /* GEOFENCE_CONTROL_H */
+
+/**
+ * @}
+ * @}
+ */
