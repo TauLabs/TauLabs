@@ -97,15 +97,6 @@ SUBDIRS += plugin_modelview
 #    SUBDIRS += plugin_notify
 #}
 
-# Uploader gadget
-plugin_uploader.subdir = uploader
-plugin_uploader.depends = plugin_coreplugin
-plugin_uploader.depends += plugin_uavobjects
-plugin_uploader.depends += plugin_uavtalk
-plugin_uploader.depends += plugin_rawhid
-plugin_uploader.depends += plugin_uavobjectutil
-SUBDIRS += plugin_uploader
-
 # Uploaderng gadget
 plugin_uploaderng.subdir = uploaderng
 plugin_uploaderng.depends = plugin_coreplugin
