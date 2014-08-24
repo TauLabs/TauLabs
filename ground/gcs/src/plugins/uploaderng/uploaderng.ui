@@ -300,6 +300,13 @@ Rescue is possible in USB mode only.</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="1" column="1">
+                     <widget class="QLabel" name="hwRev_lbl">
+                      <property name="text">
+                       <string>TextLabel</string>
+                      </property>
+                     </widget>
+                    </item>
                     <item row="3" column="0">
                      <widget class="QLabel" name="label_max_code">
                       <property name="text">
@@ -310,13 +317,6 @@ Rescue is possible in USB mode only.</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="1" column="1">
-                     <widget class="QLabel" name="hwRev_lbl">
-                      <property name="text">
-                       <string>TextLabel</string>
-                      </property>
-                     </widget>
-                    </item>
                     <item row="2" column="0">
                      <widget class="QLabel" name="label_bl_ver">
                       <property name="text">
@@ -324,23 +324,6 @@ Rescue is possible in USB mode only.</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="4" column="0">
-                     <widget class="QLabel" name="label_cpu_serial">
-                      <property name="text">
-                       <string>CPU serial:</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="4" column="1">
-                     <widget class="QLabel" name="cpuSerial_lbl">
-                      <property name="text">
-                       <string>TextLabel</string>
                       </property>
                      </widget>
                     </item>

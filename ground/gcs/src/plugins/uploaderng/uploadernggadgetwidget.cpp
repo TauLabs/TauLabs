@@ -207,7 +207,6 @@ void UploaderngGadgetWidget::DeviceInformationUpdate(deviceInfo board)
     m_widget->hwRev_lbl->setText(board.hw_revision);
     m_widget->blVer_lbl->setText(board.bl_version);
     m_widget->maxCode_lbl->setText(board.max_code_size);
-    m_widget->cpuSerial_lbl->setText(board.cpu_serial);
     m_widget->baroCap_lbl->setVisible(board.board->queryCapabilities(Core::IBoardType::BOARD_CAPABILITIES_BAROS));
     m_widget->accCap_lbl->setVisible(board.board->queryCapabilities(Core::IBoardType::BOARD_CAPABILITIES_ACCELS));
     m_widget->gyroCap_lbl->setVisible(board.board->queryCapabilities(Core::IBoardType::BOARD_CAPABILITIES_GYROS));
