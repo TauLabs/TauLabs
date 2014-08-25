@@ -1,4 +1,4 @@
-BOARD_TYPE          := 0x86
+BOARD_TYPE          := 0x91
 BOARD_REVISION      := 0x01
 BOOTLOADER_VERSION  := 0x81
 HW_TYPE             := 0x00		# seems to be unused
