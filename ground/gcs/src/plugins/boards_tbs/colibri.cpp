@@ -42,12 +42,12 @@ Colibri::Colibri(void)
 {
     // Initialize our USB Structure definition here:
     USBInfo board;
-    board.vendorID = 0x0fda;
-    board.productID = 0x0100;
+    board.vendorID = 0x20a0;
+    board.productID = 0x4235;
 
     setUSBInfo(board);
 
-    boardType = 0x86;
+    boardType = 0x91;
 
     // Define the bank of channels that are connected to a given timer
     channelBanks.resize(6);

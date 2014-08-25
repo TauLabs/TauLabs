@@ -30,7 +30,7 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="0fda", ATTRS{idProduct}=="0100", MODE="0664"
 #
 
 # Team Black Sheep - colibri flight control rev. 1
-SUBSYSTEM=="usb", ATTRS{idVendor}=="0fda", ATTRS{idProduct}=="0100", MODE="0664", GROUP="plugdev"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="20a0", ATTRS{idProduct}=="4235", MODE="0664", GROUP="plugdev"
 
 #
 # Tau Labs
