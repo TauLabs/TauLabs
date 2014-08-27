@@ -34,10 +34,7 @@
 #define PIOS_INCLUDE_FREERTOS
 #define PIOS_INCLUDE_BL_HELPER
 
-/* Enable/Disable PiOS Modules */
-#define PIOS_INCLUDE_ADC
-#define PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION
- 
+/* Enable/Disable PiOS Modules */ 
 #define PIOS_INCLUDE_DELAY
 #define PIOS_INCLUDE_I2C
 #define PIOS_INCLUDE_CAN
