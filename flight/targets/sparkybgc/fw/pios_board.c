@@ -40,7 +40,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include "hwsparky.h"
+#include "hwsparkybgc.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
 
@@ -299,7 +299,7 @@ void PIOS_Board_Init(void) {
 	/* Initialize the alarms library */
 	AlarmsInitialize();
 
-	HwSparkyInitialize();
+	HwSparkyBGCInitialize();
 	ModuleSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
@@ -331,7 +331,7 @@ void PIOS_Board_Init(void) {
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
-		HwSparkySetDefaults(HwSparkyHandle(), 0);
+		HwSparkyBGCSetDefaults(HwSparkyBGCHandle(), 0);
 		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
@@ -364,17 +364,17 @@ void PIOS_Board_Init(void) {
 
 	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
-	HwSparkyUSB_VCPPortGet(&hw_usb_vcpport);
+	HwSparkyBGCUSB_VCPPortGet(&hw_usb_vcpport);
 
 	if (!usb_cdc_present) {
 		/* Force VCP port function to disabled if we haven't advertised VCP in our USB descriptor */
-		hw_usb_vcpport = HWSPARKY_USB_VCPPORT_DISABLED;
+		hw_usb_vcpport = HWSPARKYBGC_USB_VCPPORT_DISABLED;
 	}
 
 	switch (hw_usb_vcpport) {
-	case HWSPARKY_USB_VCPPORT_DISABLED:
+	case HWSPARKYBGC_USB_VCPPORT_DISABLED:
 		break;
-	case HWSPARKY_USB_VCPPORT_USBTELEMETRY:
+	case HWSPARKYBGC_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uintptr_t pios_usb_cdc_id;
@@ -393,7 +393,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSPARKY_USB_VCPPORT_COMBRIDGE:
+	case HWSPARKYBGC_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uintptr_t pios_usb_cdc_id;
@@ -412,7 +412,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSPARKY_USB_VCPPORT_DEBUGCONSOLE:
+	case HWSPARKYBGC_USB_VCPPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
@@ -438,17 +438,17 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
 	uint8_t hw_usb_hidport;
-	HwSparkyUSB_HIDPortGet(&hw_usb_hidport);
+	HwSparkyBGCUSB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hw_usb_hidport = HWSPARKY_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWSPARKYBGC_USB_HIDPORT_DISABLED;
 	}
 
 	switch (hw_usb_hidport) {
-	case HWSPARKY_USB_HIDPORT_DISABLED:
+	case HWSPARKYBGC_USB_HIDPORT_DISABLED:
 		break;
-	case HWSPARKY_USB_HIDPORT_USBTELEMETRY:
+	case HWSPARKYBGC_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uintptr_t pios_usb_hid_id;
@@ -474,25 +474,25 @@ void PIOS_Board_Init(void) {
 
 	/* Configure the IO ports */
 	uint8_t hw_DSMxBind;
-	HwSparkyDSMxBindGet(&hw_DSMxBind);
+	HwSparkyBGCDSMxBindGet(&hw_DSMxBind);
 
 	/* UART1 Port */
 	uint8_t hw_flexi;
-	HwSparkyFlexiPortGet(&hw_flexi);
+	HwSparkyBGCFlexiPortGet(&hw_flexi);
 	switch (hw_flexi) {
-	case HWSPARKY_FLEXIPORT_DISABLED:
+	case HWSPARKYBGC_FLEXIPORT_DISABLED:
 		break;
-	case HWSPARKY_FLEXIPORT_TELEMETRY:
+	case HWSPARKYBGC_FLEXIPORT_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWSPARKY_FLEXIPORT_GPS:
+	case HWSPARKYBGC_FLEXIPORT_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, 0, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWSPARKY_FLEXIPORT_SBUS:
+	case HWSPARKYBGC_FLEXIPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uintptr_t pios_usart_sbus_id;
@@ -511,20 +511,20 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_SBUS */
 		break;
-	case HWSPARKY_FLEXIPORT_DSM2:
-	case HWSPARKY_FLEXIPORT_DSMX10BIT:
-	case HWSPARKY_FLEXIPORT_DSMX11BIT:
+	case HWSPARKYBGC_FLEXIPORT_DSM2:
+	case HWSPARKYBGC_FLEXIPORT_DSMX10BIT:
+	case HWSPARKYBGC_FLEXIPORT_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
 			switch (hw_flexi) {
-			case HWSPARKY_FLEXIPORT_DSM2:
+			case HWSPARKYBGC_FLEXIPORT_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSPARKY_FLEXIPORT_DSMX10BIT:
+			case HWSPARKYBGC_FLEXIPORT_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSPARKY_FLEXIPORT_DSMX11BIT:
+			case HWSPARKYBGC_FLEXIPORT_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -536,22 +536,22 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSPARKY_FLEXIPORT_DEBUGCONSOLE:
+	case HWSPARKYBGC_FLEXIPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_flexi_usart_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_aux_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-	case HWSPARKY_FLEXIPORT_COMBRIDGE:
+	case HWSPARKYBGC_FLEXIPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
 		break;
-	case HWSPARKY_FLEXIPORT_MAVLINKTX:
+	case HWSPARKYBGC_FLEXIPORT_MAVLINKTX:
 #if defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_flexi_usart_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
 #endif  /* PIOS_INCLUDE_MAVLINK */
 		break;
-	case HWSPARKY_FLEXIPORT_MAVLINKTX_GPS_RX:
+	case HWSPARKYBGC_FLEXIPORT_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_GPS)
 #if defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
@@ -563,12 +563,12 @@ void PIOS_Board_Init(void) {
 
 	/* Configure the rcvr port */
 	uint8_t hw_rcvrport;
-	HwSparkyRcvrPortGet(&hw_rcvrport);
+	HwSparkyBGCRcvrPortGet(&hw_rcvrport);
 
 	switch (hw_rcvrport) {
-	case HWSPARKY_RCVRPORT_DISABLED:
+	case HWSPARKYBGC_RCVRPORT_DISABLED:
 		break;
-	case HWSPARKY_RCVRPORT_PPM:
+	case HWSPARKYBGC_RCVRPORT_PPM:
 #if defined(PIOS_INCLUDE_PPM)
 		{
 			uintptr_t pios_ppm_id;
@@ -582,20 +582,20 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PPM */
 		break;
-	case HWSPARKY_RCVRPORT_DSM2:
-	case HWSPARKY_RCVRPORT_DSMX10BIT:
-	case HWSPARKY_RCVRPORT_DSMX11BIT:
+	case HWSPARKYBGC_RCVRPORT_DSM2:
+	case HWSPARKYBGC_RCVRPORT_DSMX10BIT:
+	case HWSPARKYBGC_RCVRPORT_DSMX11BIT:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			enum pios_dsm_proto proto;
 			switch (hw_rcvrport) {
-			case HWSPARKY_RCVRPORT_DSM2:
+			case HWSPARKYBGC_RCVRPORT_DSM2:
 				proto = PIOS_DSM_PROTO_DSM2;
 				break;
-			case HWSPARKY_RCVRPORT_DSMX10BIT:
+			case HWSPARKYBGC_RCVRPORT_DSMX10BIT:
 				proto = PIOS_DSM_PROTO_DSMX10BIT;
 				break;
-			case HWSPARKY_RCVRPORT_DSMX11BIT:
+			case HWSPARKYBGC_RCVRPORT_DSMX11BIT:
 				proto = PIOS_DSM_PROTO_DSMX11BIT;
 				break;
 			default:
@@ -607,7 +607,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWSPARKY_RCVRPORT_SBUS:
+	case HWSPARKYBGC_RCVRPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uintptr_t pios_usart_sbus_id;
@@ -668,63 +668,63 @@ void PIOS_Board_Init(void) {
 
 	// To be safe map from UAVO enum to driver enum
 	uint8_t hw_gyro_range;
-	HwSparkyGyroRangeGet(&hw_gyro_range);
+	HwSparkyBGCGyroRangeGet(&hw_gyro_range);
 	switch(hw_gyro_range) {
-		case HWSPARKY_GYRORANGE_250:
+		case HWSPARKYBGC_GYRORANGE_250:
 			PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
 			break;
-		case HWSPARKY_GYRORANGE_500:
+		case HWSPARKYBGC_GYRORANGE_500:
 			PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 			break;
-		case HWSPARKY_GYRORANGE_1000:
+		case HWSPARKYBGC_GYRORANGE_1000:
 			PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
 			break;
-		case HWSPARKY_GYRORANGE_2000:
+		case HWSPARKYBGC_GYRORANGE_2000:
 			PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
 			break;
 
 
 		uint8_t hw_accel_range;
-		HwSparkyAccelRangeGet(&hw_accel_range);
+		HwSparkyBGCAccelRangeGet(&hw_accel_range);
 		switch(hw_accel_range) {
-			case HWSPARKY_ACCELRANGE_2G:
+			case HWSPARKYBGC_ACCELRANGE_2G:
 				PIOS_MPU9150_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
 				break;
-			case HWSPARKY_ACCELRANGE_4G:
+			case HWSPARKYBGC_ACCELRANGE_4G:
 				PIOS_MPU9150_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
 				break;
-			case HWSPARKY_ACCELRANGE_8G:
+			case HWSPARKYBGC_ACCELRANGE_8G:
 				PIOS_MPU9150_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 				break;
-			case HWSPARKY_ACCELRANGE_16G:
+			case HWSPARKYBGC_ACCELRANGE_16G:
 				PIOS_MPU9150_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 				break;
 		}
 
 		uint8_t hw_mpu9150_dlpf;
-		HwSparkyMPU9150DLPFGet(&hw_mpu9150_dlpf);
+		HwSparkyBGCMPU9150DLPFGet(&hw_mpu9150_dlpf);
 		enum pios_mpu60x0_filter mpu9150_dlpf = \
-		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
-		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
-		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
-		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
-		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
-		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
-		    (hw_mpu9150_dlpf == HWSPARKY_MPU9150DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKYBGC_MPU9150DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKYBGC_MPU9150DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKYBGC_MPU9150DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKYBGC_MPU9150DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKYBGC_MPU9150DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKYBGC_MPU9150DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
+		    (hw_mpu9150_dlpf == HWSPARKYBGC_MPU9150DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
 		    pios_mpu9150_cfg.default_filter;
 		PIOS_MPU9150_SetLPF(mpu9150_dlpf);
 
 		uint8_t hw_mpu9150_samplerate;
-		HwSparkyMPU9150RateGet(&hw_mpu9150_samplerate);
+		HwSparkyBGCMPU9150RateGet(&hw_mpu9150_samplerate);
 		uint16_t mpu9150_samplerate = \
-		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_200) ? 200 : \
-		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_333) ? 333 : \
-		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_500) ? 500 : \
-		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_666) ? 666 : \
-		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_1000) ? 1000 : \
-		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_2000) ? 2000 : \
-		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_4000) ? 4000 : \
-		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_8000) ? 8000 : \
+		    (hw_mpu9150_samplerate == HWSPARKYBGC_MPU9150RATE_200) ? 200 : \
+		    (hw_mpu9150_samplerate == HWSPARKYBGC_MPU9150RATE_333) ? 333 : \
+		    (hw_mpu9150_samplerate == HWSPARKYBGC_MPU9150RATE_500) ? 500 : \
+		    (hw_mpu9150_samplerate == HWSPARKYBGC_MPU9150RATE_666) ? 666 : \
+		    (hw_mpu9150_samplerate == HWSPARKYBGC_MPU9150RATE_1000) ? 1000 : \
+		    (hw_mpu9150_samplerate == HWSPARKYBGC_MPU9150RATE_2000) ? 2000 : \
+		    (hw_mpu9150_samplerate == HWSPARKYBGC_MPU9150RATE_4000) ? 4000 : \
+		    (hw_mpu9150_samplerate == HWSPARKYBGC_MPU9150RATE_8000) ? 8000 : \
 		    pios_mpu9150_cfg.default_samplerate;
 		PIOS_MPU9150_SetSampleRate(mpu9150_samplerate);	
 	}
