@@ -45,67 +45,9 @@
 #include "modulesettings.h"
 
 #ifndef PIOS_INCLUDE_BRUSHLESS
-#error MUST INCLUDE BRUSHLESS
+//#error MUST INCLUDE BRUSHLESS
 #endif
 
-/**
- * Configuration for the MS5611 chip
- */
-#if defined(PIOS_INCLUDE_MS5611)
-#include "pios_ms5611_priv.h"
-static const struct pios_ms5611_cfg pios_ms5611_cfg = {
-	.oversampling = MS5611_OSR_4096,
-	.temperature_interleaving = 1,
-};
-#endif /* PIOS_INCLUDE_MS5611 */
-
-/**
- * Configuration for the MPU6050 chip
- */
-#if defined(PIOS_INCLUDE_MPU6050)
-#include "pios_mpu6050.h"
-static const struct pios_exti_cfg pios_exti_mpu6050_cfg __exti_config = {
-	.vector = PIOS_MPU6050_IRQHandler,
-	.line = EXTI_Line15,
-	.pin = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin = GPIO_Pin_15,
-			.GPIO_Speed = GPIO_Speed_50MHz,
-			.GPIO_Mode = GPIO_Mode_IN,
-			.GPIO_OType = GPIO_OType_OD,
-			.GPIO_PuPd = GPIO_PuPd_NOPULL,
-		},
-	},
-	.irq = {
-		.init = {
-			.NVIC_IRQChannel = EXTI15_10_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
-			.NVIC_IRQChannelSubPriority = 0,
-			.NVIC_IRQChannelCmd = ENABLE,
-		},
-	},
-	.exti = {
-		.init = {
-			.EXTI_Line = EXTI_Line15, // matches above GPIO pin
-			.EXTI_Mode = EXTI_Mode_Interrupt,
-			.EXTI_Trigger = EXTI_Trigger_Rising,
-			.EXTI_LineCmd = ENABLE,
-		},
-	},
-};
-
-static const struct pios_mpu60x0_cfg pios_mpu6050_cfg = {
-	.exti_cfg = &pios_exti_mpu6050_cfg,
-	.default_samplerate = 500,
-	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
-	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
-	.User_ctl = 0,
-	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
-	.default_filter = PIOS_MPU60X0_LOWPASS_256_HZ,
-	.orientation = PIOS_MPU60X0_TOP_180DEG
-};
-#endif /* PIOS_INCLUDE_MPU6050 */
 
 /**
  * Configuration for the MPU9150 chip
@@ -809,39 +751,30 @@ void PIOS_Board_Init(void) {
 	PIOS_WDG_Clear();
 
 #if defined(PIOS_INCLUDE_MPU9150)
-#if defined(PIOS_INCLUDE_MPU6050)
-	// Enable autoprobing when both 6050 and 9050 compiled in
-	bool mpu9150_found = false;
-	if (PIOS_MPU9150_Probe(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW) == 0) {
-		mpu9150_found = true;
-#else
-	{
-#endif /* PIOS_INCLUDE_MPU6050 */
+	int retval;
+	retval = PIOS_MPU9150_Init(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW, &pios_mpu9150_cfg);
+	if (retval == -10)
+		panic(1); // indicate missing IRQ separately
+	if (retval != 0)
+		panic(2);
 
-		int retval;
-		retval = PIOS_MPU9150_Init(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW, &pios_mpu9150_cfg);
-		if (retval == -10)
-			panic(1); // indicate missing IRQ separately
-		if (retval != 0)
-			panic(2);
+	// To be safe map from UAVO enum to driver enum
+	uint8_t hw_gyro_range;
+	HwSparkyGyroRangeGet(&hw_gyro_range);
+	switch(hw_gyro_range) {
+		case HWSPARKY_GYRORANGE_250:
+			PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
+			break;
+		case HWSPARKY_GYRORANGE_500:
+			PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
+			break;
+		case HWSPARKY_GYRORANGE_1000:
+			PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
+			break;
+		case HWSPARKY_GYRORANGE_2000:
+			PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
+			break;
 
-		// To be safe map from UAVO enum to driver enum
-		uint8_t hw_gyro_range;
-		HwSparkyGyroRangeGet(&hw_gyro_range);
-		switch(hw_gyro_range) {
-			case HWSPARKY_GYRORANGE_250:
-				PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
-				break;
-			case HWSPARKY_GYRORANGE_500:
-				PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
-				break;
-			case HWSPARKY_GYRORANGE_1000:
-				PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
-				break;
-			case HWSPARKY_GYRORANGE_2000:
-				PIOS_MPU9150_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
-				break;
-		}
 
 		uint8_t hw_accel_range;
 		HwSparkyAccelRangeGet(&hw_accel_range);
@@ -889,56 +822,6 @@ void PIOS_Board_Init(void) {
 	}
 
 #endif /* PIOS_INCLUDE_MPU9150 */
-
-#if defined(PIOS_INCLUDE_MPU6050)
-#if defined(PIOS_INCLUDE_MPU9150)
-	// MPU9150 looks like an MPU6050 _plus_ additional hardware.  So we cannot try and
-	// probe if MPU9150 is found or we will find a duplicate
-	if (mpu9150_found == false)
-#endif /* PIOS_INCLUDE_MPU9150 */
-	{
-		if (PIOS_MPU6050_Init(pios_i2c_internal_id, PIOS_MPU6050_I2C_ADD_A0_LOW, &pios_mpu6050_cfg) != 0)
-			panic(2);
-		if (PIOS_MPU6050_Test() != 0)
-			panic(2);
-
-		// To be safe map from UAVO enum to driver enum
-		uint8_t hw_gyro_range;
-		HwSparkyGyroRangeGet(&hw_gyro_range);
-		switch(hw_gyro_range) {
-			case HWSPARKY_GYRORANGE_250:
-				PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
-				break;
-			case HWSPARKY_GYRORANGE_500:
-				PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
-				break;
-			case HWSPARKY_GYRORANGE_1000:
-				PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
-				break;
-			case HWSPARKY_GYRORANGE_2000:
-				PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
-				break;
-		}
-
-		uint8_t hw_accel_range;
-		HwSparkyAccelRangeGet(&hw_accel_range);
-		switch(hw_accel_range) {
-			case HWSPARKY_ACCELRANGE_2G:
-				PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
-				break;
-			case HWSPARKY_ACCELRANGE_4G:
-				PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
-				break;
-			case HWSPARKY_ACCELRANGE_8G:
-				PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
-				break;
-			case HWSPARKY_ACCELRANGE_16G:
-				PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
-				break;
-		}
-	}
-
-#endif /* PIOS_INCLUDE_MPU6050 */
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
 	PIOS_WDG_Clear();
