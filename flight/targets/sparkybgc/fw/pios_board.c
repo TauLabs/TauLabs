@@ -56,11 +56,11 @@
 #include "pios_mpu9150.h"
 static const struct pios_exti_cfg pios_exti_mpu9150_cfg __exti_config = {
 	.vector = PIOS_MPU9150_IRQHandler,
-	.line = EXTI_Line15,
+	.line = EXTI_Line8,
 	.pin = {
 		.gpio = GPIOA,
 		.init = {
-			.GPIO_Pin = GPIO_Pin_15,
+			.GPIO_Pin = GPIO_Pin_8,
 			.GPIO_Speed = GPIO_Speed_50MHz,
 			.GPIO_Mode = GPIO_Mode_IN,
 			.GPIO_OType = GPIO_OType_OD,
@@ -69,7 +69,7 @@ static const struct pios_exti_cfg pios_exti_mpu9150_cfg __exti_config = {
 	},
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel = EXTI15_10_IRQn,
+			.NVIC_IRQChannel = EXTI9_5_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
@@ -77,7 +77,7 @@ static const struct pios_exti_cfg pios_exti_mpu9150_cfg __exti_config = {
 	},
 	.exti = {
 		.init = {
-			.EXTI_Line = EXTI_Line15, // matches above GPIO pin
+			.EXTI_Line = EXTI_Line8, // matches above GPIO pin
 			.EXTI_Mode = EXTI_Mode_Interrupt,
 			.EXTI_Trigger = EXTI_Trigger_Rising,
 			.EXTI_LineCmd = ENABLE,
@@ -316,12 +316,11 @@ void PIOS_Board_Init(void) {
 	}
 #endif
 
+#if defined(PIOS_INCLUDE_BRUSHLESS)
 	/* Set up pulse timers */
-	PIOS_TIM_InitClock(&tim_1_brushless_cfg);
 	PIOS_TIM_InitClock(&tim_2_brushless_cfg);
 	PIOS_TIM_InitClock(&tim_3_brushless_cfg);
-	PIOS_TIM_InitClock(&tim_15_brushless_cfg);
-	PIOS_TIM_InitClock(&tim_16_brushless_cfg);
+#endif /* PIOS_INCLUDE_BRUSHLESS */
 
 	/* IAP System Setup */
 	PIOS_IAP_Init();
