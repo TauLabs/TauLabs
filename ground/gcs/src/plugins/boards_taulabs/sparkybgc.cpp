@@ -106,7 +106,7 @@ QStringList SparkyBGC::getSupportedProtocols()
 
 QPixmap SparkyBGC::getBoardPicture()
 {
-    return QPixmap(":/taulabs/images/sparky.png");
+    return QPixmap(":/taulabs/images/sparkybgc.png");
 }
 
 QString SparkyBGC::getHwUAVO()
@@ -198,5 +198,30 @@ enum Core::IBoardType::InputType SparkyBGC::getInputOnPort(int port_num)
         return INPUT_TYPE_DSMX11BIT;
     default:
         return INPUT_TYPE_UNKNOWN;
+    }
+}
+
+int SparkyBGC::queryMaxGyroRate()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwSparky *hwSparky = HwSparky::GetInstance(uavoManager);
+    Q_ASSERT(hwSparky);
+    if (!hwSparky)
+        return 0;
+
+    HwSparky::DataFields settings = hwSparky->getData();
+
+    switch(settings.GyroRange) {
+    case HwSparky::GYRORANGE_250:
+        return 250;
+    case HwSparky::GYRORANGE_500:
+        return 500;
+    case HwSparky::GYRORANGE_1000:
+        return 1000;
+    case HwSparky::GYRORANGE_2000:
+        return 2000;
+    default:
+        return 500;
     }
 }
