@@ -100,12 +100,12 @@ static const struct pios_exti_cfg pios_exti_mpu9250_cfg __exti_config = {
 
 static const struct pios_mpu9250_cfg pios_mpu9250_cfg = {
 	.exti_cfg = &pios_exti_mpu9250_cfg,
-	.default_samplerate = 666,
+	.default_samplerate = 500,
 	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
 
 	.use_magnetometer = true,
-	.default_gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_250_HZ,
-	.default_accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_460_HZ,
+	.default_gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_184_HZ,
+	.default_accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_184_HZ,
 	.orientation = PIOS_MPU9250_TOP_180DEG
 };
 #endif /* PIOS_INCLUDE_MPU9250_SPI */
