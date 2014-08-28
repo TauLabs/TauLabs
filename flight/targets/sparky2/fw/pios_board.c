@@ -69,11 +69,11 @@ static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 #include "pios_mpu9250.h"
 static const struct pios_exti_cfg pios_exti_mpu9250_cfg __exti_config = {
 	.vector = PIOS_MPU9250_IRQHandler,
-	.line = EXTI_Line4,
+	.line = EXTI_Line5,
 	.pin = {
 		.gpio = GPIOC,
 		.init = {
-			.GPIO_Pin = GPIO_Pin_4,
+			.GPIO_Pin = GPIO_Pin_5,
 			.GPIO_Speed = GPIO_Speed_100MHz,
 			.GPIO_Mode = GPIO_Mode_IN,
 			.GPIO_OType = GPIO_OType_OD,
@@ -82,7 +82,7 @@ static const struct pios_exti_cfg pios_exti_mpu9250_cfg __exti_config = {
 	},
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel = EXTI4_IRQn,
+			.NVIC_IRQChannel = EXTI9_5_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
@@ -90,7 +90,7 @@ static const struct pios_exti_cfg pios_exti_mpu9250_cfg __exti_config = {
 	},
 	.exti = {
 		.init = {
-			.EXTI_Line = EXTI_Line4, // matches above GPIO pin
+			.EXTI_Line = EXTI_Line5, // matches above GPIO pin
 			.EXTI_Mode = EXTI_Mode_Interrupt,
 			.EXTI_Trigger = EXTI_Trigger_Rising,
 			.EXTI_LineCmd = ENABLE,

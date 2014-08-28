@@ -77,7 +77,7 @@ const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revisio
 
 /* 
  * SPI1 Interface
- * Used for MPU6000 gyro and accelerometer
+ * Used for MPU9250 gyro, accelerometer and mag
  */
 void PIOS_SPI_gyro_irq_handler(void);
 void DMA2_Stream0_IRQHandler(void) __attribute__((alias("PIOS_SPI_gyro_irq_handler")));
@@ -177,7 +177,7 @@ static const struct pios_spi_cfg pios_spi_gyro_cfg = {
 	},
 	.slave_count = 1,
 	.ssel = { {
-		.gpio = GPIOA,
+		.gpio = GPIOC,
 		.init = {
 			.GPIO_Pin   = GPIO_Pin_4,
 			.GPIO_Speed = GPIO_Speed_50MHz,
