@@ -1352,8 +1352,7 @@ static void check_home_location()
 		return;
 
 	// Do not calculate if already set
-	HomeLocationData home;
-	if (home.Set == HOMELOCATION_SET_TRUE)
+	if (homeLocation.Set == HOMELOCATION_SET_TRUE)
 		return;
 
 	GPSPositionData gps;
@@ -1369,22 +1368,22 @@ static void check_home_location()
 	     gpsTime.Year >= 2000)
 	{
 		// Store LLA
-		home.Latitude = gps.Latitude;
-		home.Longitude = gps.Longitude;
-		home.Altitude = gps.Altitude; // Altitude referenced to mean sea level geoid (likely EGM 1996, but no guarantees)
+		homeLocation.Latitude = gps.Latitude;
+		homeLocation.Longitude = gps.Longitude;
+		homeLocation.Altitude = gps.Altitude; // Altitude referenced to mean sea level geoid (likely EGM 1996, but no guarantees)
 
 		// Compute home ECEF coordinates and the rotation matrix into NED
-		double LLA[3] = { ((double)home.Latitude) / 10e6, ((double)home.Longitude) / 10e6, ((double)home.Altitude) };
+		double LLA[3] = { ((double)homeLocation.Latitude) / 10e6, ((double)homeLocation.Longitude) / 10e6, ((double)homeLocation.Altitude) };
 
 		// Compute magnetic flux direction at home location
-		if (WMM_GetMagVector(LLA[0], LLA[1], LLA[2], gpsTime.Month, gpsTime.Day, gpsTime.Year, &home.Be[0]) >= 0)
+		if (WMM_GetMagVector(LLA[0], LLA[1], LLA[2], gpsTime.Month, gpsTime.Day, gpsTime.Year, &homeLocation.Be[0]) >= 0)
 		{   // calculations appeared to go OK
 
 			// Compute local acceleration due to gravity.  Vehicles that span a very large
 			// range of altitude (say, weather balloons) may need to update this during the
 			// flight.
-			home.Set = HOMELOCATION_SET_TRUE;
-			HomeLocationSet(&home);
+			homeLocation.Set = HOMELOCATION_SET_TRUE;
+			HomeLocationSet(&homeLocation);
 		}
 	}
 }
