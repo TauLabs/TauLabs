@@ -157,8 +157,6 @@ int pjrc_rawhid::open(int max, int vid, int pid, int usage_page, int usage)
     return attach_count;
 }
 
-int input_read_packet = 0;
-int input_write_packet = 0;
 /**
  * @brief receive - receive a packet
  * @param[in] num device to receive from (unused now)
@@ -196,9 +194,6 @@ int pjrc_rawhid::receive(int, void *buf, int len, int timeout)
             struct usb_report *report = input_queue.dequeue();
             memcpy(buf, report->data, report->len);
             free(report);
-
-            input_read_packet++;
-            qDebug() << "read packets: " << input_read_packet << " write packets: " << input_write_packet;
 
             break;
         } else if (info.timed_out) {
@@ -336,8 +331,6 @@ void pjrc_rawhid::input(quint8 *data, CFIndex len)
     memcpy(report->data, data, len);
     report->len = len;
     input_queue.enqueue(report);
-
-    input_write_packet++;
 
     if (received_runloop)
         CFRunLoopStop(received_runloop);
