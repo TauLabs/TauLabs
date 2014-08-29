@@ -2542,7 +2542,7 @@
       <showToolbars>false</showToolbars>
       <splitter>
         <side0>
-          <classId>Uploaderng</classId>
+          <classId>Uploader</classId>
           <gadget>
             <activeConfiguration>default</activeConfiguration>
           </gadget>

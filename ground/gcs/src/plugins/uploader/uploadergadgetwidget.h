@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
  *
- * @file       uploadernggadgetwidget.h
+ * @file       uploadergadgetwidget.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup  Uploaderng Uploaderng Plugin
+ * @addtogroup  Uploader Uploader Plugin
  * @{
  * @brief The Tau Labs uploader plugin main widget
  *****************************************************************************/
@@ -25,14 +25,14 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef UPLOADERNGGADGETWIDGET_H
-#define UPLOADERNGGADGETWIDGET_H
+#ifndef UPLOADERGADGETWIDGET_H
+#define UPLOADERGADGETWIDGET_H
 
 #include <QPointer>
-#include "ui_uploaderng.h"
+#include "ui_uploader.h"
 #include "tl_dfu.h"
 #include <coreplugin/iboardtype.h>
-#include "uploaderng_global.h"
+#include "uploader_global.h"
 #include "devicedescriptorstruct.h"
 #include "uavobjectutilmanager.h"
 #include "uavtalk/telemetrymanager.h"
@@ -40,11 +40,11 @@
 
 using namespace tl_dfu;
 
-namespace uploaderng {
+namespace uploader {
 
 typedef enum { STATUSICON_OK, STATUSICON_RUNNING, STATUSICON_FAIL, STATUSICON_INFO} StatusIcon;
 
-class UPLOADERNG_EXPORT UploaderngGadgetWidget : public QWidget
+class UPLOADER_EXPORT UploaderGadgetWidget : public QWidget
 {
     Q_OBJECT
     struct deviceInfo
@@ -62,8 +62,8 @@ class UPLOADERNG_EXPORT UploaderngGadgetWidget : public QWidget
     };
 
 public:
-    UploaderngGadgetWidget(QWidget *parent = 0);
-    ~UploaderngGadgetWidget();
+    UploaderGadgetWidget(QWidget *parent = 0);
+    ~UploaderGadgetWidget();
     bool autoUpdateCapable();
 public slots:
     bool autoUpdate();
@@ -110,15 +110,15 @@ private:
     void FirmwareOnDeviceUpdate(deviceDescriptorStruct firmware, QString crc);
     void FirmwareLoadedUpdate(QByteArray firmwareArray);
     QString LoadFirmwareFileDialog(QString);
-    uploaderng::UploaderStatus getUploaderStatus() const;
-    void setUploaderStatus(const uploaderng::UploaderStatus &value);
+    uploader::UploaderStatus getUploaderStatus() const;
+    void setUploaderStatus(const uploader::UploaderStatus &value);
     void CheckAutopilotReady();
     bool CheckInBootloaderState();
-    void setStatusInfo(QString str, uploaderng::StatusIcon ic);
+    void setStatusInfo(QString str, uploader::StatusIcon ic);
     void ProcessPartitionBundleFlash(bool result, bool start = false);
     void ProcessPartitionBundleSave(bool result, int count = -1);
 
-    Ui_UploaderngWidget *m_widget;
+    Ui_UploaderWidget *m_widget;
     bool telemetryConnected;
     bool iapPresent;
     bool iapUpdated;
@@ -132,11 +132,11 @@ private:
     FirmwareIAPObj *firmwareIap;
     deviceInfo currentBoard;
     QString lastConnectedTelemetryDevice;
-    uploaderng::UploaderStatus uploaderStatus;
-    uploaderng::UploaderStatus previousStatus;
+    uploader::UploaderStatus uploaderStatus;
+    uploader::UploaderStatus previousStatus;
     QByteArray tempArray;
     bool lastUploadResult;
     QTimer bootTimeoutTimer;
 };
 }
-#endif // UPLOADERNGGADGETWIDGET_H
+#endif // UPLOADERGADGETWIDGET_H

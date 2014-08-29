@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
  *
- * @file       uploadernggadgetfactory.h
+ * @file       uploadergadget.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup  Uploaderng Uploaderng Plugin
+ * @addtogroup  Uploader Uploader Plugin
  * @{
- * @brief The Tau Labs uploader plugin factory
+ * @brief The Tau Labs uploader plugin gadget
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,37 +25,35 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef UPLOADERNGGADGETFACTORY_H
-#define UPLOADERNGGADGETFACTORY_H
+#ifndef UPLOADERGADGET_H
+#define UPLOADERGADGET_H
 
-#include <coreplugin/iuavgadgetfactory.h>
-#include "uploaderng_global.h"
+#include <coreplugin/iuavgadget.h>
+#include "uploadergadgetwidget.h"
+#include "uploader_global.h"
 
-namespace Core {
 class IUAVGadget;
-class IUAVGadgetFactory;
-}
+class QWidget;
+class QString;
+class UploaderGadgetWidget;
 
 using namespace Core;
 
-namespace uploaderng {
+namespace uploader {
 
-class UPLOADERNG_EXPORT UploaderngGadgetFactory : public Core::IUAVGadgetFactory
+class UPLOADER_EXPORT UploaderGadget : public Core::IUAVGadget
 {
     Q_OBJECT
 public:
-    UploaderngGadgetFactory(QObject *parent = 0);
-    ~UploaderngGadgetFactory();
+    UploaderGadget(QString classId, UploaderGadgetWidget *widget, QWidget *parent = 0);
+    ~UploaderGadget();
 
-    Core::IUAVGadget *createGadget(QWidget *parent);
-    IUAVGadgetConfiguration *createConfiguration(QSettings* qSettings);
-    bool isAutoUpdateCapable();
+    QWidget *widget() { return m_widget; }
+    void loadConfiguration(IUAVGadgetConfiguration* config);
+
 private:
-    bool isautocapable;
-signals:
-    void autoUpdateSignal(UploaderStatus ,QVariant);
-    void autoUpdate();
+    UploaderGadgetWidget *m_widget;
 };
-
 }
-#endif // UPLOADERNGGADGETFACTORY_H
+#endif // UPLOADERGADGET_H
+

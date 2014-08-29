@@ -1,14 +1,13 @@
 /**
  ******************************************************************************
  *
- * @file       uploaderng_global.h
+ * @file       uploadergadget.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
- * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup
+ * @addtogroup  Uploader Uploader Plugin
  * @{
- * @brief
+ * @brief The Tau Labs uploader plugin gadget
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,19 +24,28 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#include "uploadergadget.h"
+#include "uploadergadgetwidget.h"
 
-#ifndef UPLOADERNG_GLOBAL_H
-#define UPLOADERNG_GLOBAL_H
+namespace uploader {
 
-#include <QtCore/qglobal.h>
-namespace uploaderng
+UploaderGadget::UploaderGadget(QString classId,  UploaderGadgetWidget *widget, QWidget *parent) :
+        IUAVGadget(classId, parent),
+        m_widget(widget)
 {
-typedef enum { WAITING_CONNECT, WAITING_DISCONNECT, FAILURE, FAILURE_FILENOTFOUND, LOADING_FW, SUCCESS, DISCONNECTED, BOOTING, HALTING, RESCUING, BL_FROM_HALT, BL_FROM_RESCUE, CONNECTED_TO_TELEMETRY, UPLOADING_FW, UPLOADING_DESC, DOWNLOADING_PARTITION, UPLOADING_PARTITION, DOWNLOADING_PARTITION_BUNDLE, UPLOADING_PARTITION_BUNDLE} UploaderStatus;
 }
-#if defined(UPLOADERNG_LIBRARY)
-#  define UPLOADERNG_EXPORT Q_DECL_EXPORT
-#else
-#  define UPLOADERNG_EXPORT Q_DECL_IMPORT
-#endif
 
-#endif
+UploaderGadget::~UploaderGadget()
+{
+    delete m_widget;
+}
+/**
+ * Loads a configuration.
+ *
+ */
+void UploaderGadget::loadConfiguration(IUAVGadgetConfiguration* config)
+{
+    Q_UNUSED(config);
+}
+
+}
