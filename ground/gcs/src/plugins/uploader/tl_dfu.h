@@ -5,7 +5,7 @@
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Uploaderng Uploaderng Plugin
+ * @addtogroup Uploader Uploader Plugin
  * @{
  * @brief Low level bootloader protocol functions
  *****************************************************************************/

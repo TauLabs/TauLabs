@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
  *
- * @file       uploadernggadgetfactory.cpp
+ * @file       uploadergadgetfactory.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup  Uploaderng Uploaderng Plugin
+ * @addtogroup  Uploader Uploader Plugin
  * @{
  * @brief The Tau Labs uploader plugin factory
  *****************************************************************************/
@@ -25,38 +25,38 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "uploadernggadgetfactory.h"
-#include "uploadernggadget.h"
+#include "uploadergadgetfactory.h"
+#include "uploadergadget.h"
 #include <coreplugin/iuavgadget.h>
-#include "uploadernggadgetwidget.h"
+#include "uploadergadgetwidget.h"
 
-using namespace uploaderng;
+using namespace uploader;
 
-UploaderngGadgetFactory::UploaderngGadgetFactory(QObject *parent) :
-    IUAVGadgetFactory(QString("Uploaderng"), tr("Uploaderng"), parent),isautocapable(false)
+UploaderGadgetFactory::UploaderGadgetFactory(QObject *parent) :
+    IUAVGadgetFactory(QString("Uploader"), tr("Uploader"), parent),isautocapable(false)
 {
     setSingleConfigurationGadgetTrue();
 }
 
-UploaderngGadgetFactory::~UploaderngGadgetFactory()
+UploaderGadgetFactory::~UploaderGadgetFactory()
 {
 }
 
-Core::IUAVGadget* UploaderngGadgetFactory::createGadget(QWidget *parent)
+Core::IUAVGadget* UploaderGadgetFactory::createGadget(QWidget *parent)
 {
-    UploaderngGadgetWidget* gadgetWidget = new UploaderngGadgetWidget(parent);
+    UploaderGadgetWidget* gadgetWidget = new UploaderGadgetWidget(parent);
     isautocapable=gadgetWidget->autoUpdateCapable();
     connect(this,SIGNAL(autoUpdate()),gadgetWidget,SLOT(autoUpdate()));
     connect(gadgetWidget,SIGNAL(autoUpdateSignal(UploaderStatus, QVariant)),this,SIGNAL(autoUpdateSignal(UploaderStatus ,QVariant)));
-    return new UploaderngGadget(QString("Uploaderng"), gadgetWidget, parent);
+    return new UploaderGadget(QString("Uploader"), gadgetWidget, parent);
 }
 
-IUAVGadgetConfiguration *UploaderngGadgetFactory::createConfiguration(QSettings* qSettings)
+IUAVGadgetConfiguration *UploaderGadgetFactory::createConfiguration(QSettings* qSettings)
 {
     Q_UNUSED(qSettings);
     return NULL;
 }
-bool UploaderngGadgetFactory::isAutoUpdateCapable()
+bool UploaderGadgetFactory::isAutoUpdateCapable()
 {
     return isautocapable;
 }

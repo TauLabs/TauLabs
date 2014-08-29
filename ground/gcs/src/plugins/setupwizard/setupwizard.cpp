@@ -51,9 +51,9 @@
 #include "vehicleconfigurationhelper.h"
 #include "actuatorsettings.h"
 #include "pages/autoupdatepage.h"
-#include "uploaderng/uploadernggadgetfactory.h"
+#include "uploader/uploadergadgetfactory.h"
 
-using namespace uploaderng;
+using namespace uploader;
 
 SetupWizard::SetupWizard(QWidget *parent) : QWizard(parent), VehicleConfigurationSource(),
     m_controllerType(NULL),
@@ -347,7 +347,7 @@ bool SetupWizard::canAutoUpdate() const
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
 
     Q_ASSERT(pm);
-    UploaderngGadgetFactory *uploader    = pm->getObject<UploaderngGadgetFactory>();
+    UploaderGadgetFactory *uploader    = pm->getObject<UploaderGadgetFactory>();
     Q_ASSERT(uploader);
     return uploader->isAutoUpdateCapable();
 }

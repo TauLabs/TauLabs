@@ -1,4 +1,4 @@
-<plugin name="Uploaderng" version="1.0.0" compatVersion="1.0.0">
+<plugin name="Uploader" version="1.0.0" compatVersion="1.0.0">
     <vendor>Tau Labs</vendor>
     <copyright>Tau Labs, http://taulabs.org, Copyright (C) 2014</copyright>
     <license>The GNU Public License (GPL) Version 3</license>

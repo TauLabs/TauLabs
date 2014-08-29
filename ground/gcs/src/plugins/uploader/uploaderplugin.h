@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
  *
- * @file       uploaderngplugin.h
+ * @file       uploaderplugin.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup  Uploaderng Uploaderng Plugin
+ * @addtogroup  Uploader Uploader Plugin
  * @{
  * @brief The Tau Labs uploader plugin
  *****************************************************************************/
@@ -40,30 +40,30 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef UPLOADERNGPLUGIN_H
-#define UPLOADERNGPLUGIN_H
+#ifndef UPLOADERPLUGIN_H
+#define UPLOADERPLUGIN_H
 
 #include <extensionsystem/iplugin.h>
-#include "uploaderng_global.h"
+#include "uploader_global.h"
 
-namespace uploaderng {
-    class UploaderngGadgetFactory;
+namespace uploader {
+    class UploaderGadgetFactory;
 }
 
-using namespace uploaderng;
+using namespace uploader;
 
-class UPLOADERNG_EXPORT UploaderngPlugin : public ExtensionSystem::IPlugin
+class UPLOADER_EXPORT UploaderPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "TauLabs.plugins.Uploaderng" FILE "Uploaderng.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.Uploader" FILE "Uploader.json")
 public:
-    UploaderngPlugin();
-   ~UploaderngPlugin();
+    UploaderPlugin();
+   ~UploaderPlugin();
 
    void extensionsInitialized();
    bool initialize(const QStringList & arguments, QString * errorString);
    void shutdown();
 private:
-   UploaderngGadgetFactory *mf;
+   UploaderGadgetFactory *mf;
 };
-#endif // UPLOADERNGPLUGIN_H
+#endif // UPLOADERPLUGIN_H

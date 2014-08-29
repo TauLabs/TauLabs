@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
  *
- * @file       uploaderngplugin.cpp
+ * @file       uploadergadgetfactory.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup  Uploaderng Uploaderng Plugin
+ * @addtogroup  Uploader Uploader Plugin
  * @{
- * @brief The Tau Labs uploader plugin
+ * @brief The Tau Labs uploader plugin factory
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,37 +24,38 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "uploaderngplugin.h"
-#include "uploadernggadgetfactory.h"
-#include <QtPlugin>
-#include <QStringList>
-#include <extensionsystem/pluginmanager.h>
 
-UploaderngPlugin::UploaderngPlugin()
-{
-   // Do nothing
+#ifndef UPLOADERGADGETFACTORY_H
+#define UPLOADERGADGETFACTORY_H
+
+#include <coreplugin/iuavgadgetfactory.h>
+#include "uploader_global.h"
+
+namespace Core {
+class IUAVGadget;
+class IUAVGadgetFactory;
 }
 
-UploaderngPlugin::~UploaderngPlugin()
-{
-   // Do nothing
-}
+using namespace Core;
 
-bool UploaderngPlugin::initialize(const QStringList& args, QString *errMsg)
-{
-   Q_UNUSED(args);
-   Q_UNUSED(errMsg);
-   mf = new UploaderngGadgetFactory(this);
-   addAutoReleasedObject(mf);
-   return true;
-}
+namespace uploader {
 
-void UploaderngPlugin::extensionsInitialized()
+class UPLOADER_EXPORT UploaderGadgetFactory : public Core::IUAVGadgetFactory
 {
-   // Do nothing
-}
+    Q_OBJECT
+public:
+    UploaderGadgetFactory(QObject *parent = 0);
+    ~UploaderGadgetFactory();
 
-void UploaderngPlugin::shutdown()
-{
-   // Do nothing
+    Core::IUAVGadget *createGadget(QWidget *parent);
+    IUAVGadgetConfiguration *createConfiguration(QSettings* qSettings);
+    bool isAutoUpdateCapable();
+private:
+    bool isautocapable;
+signals:
+    void autoUpdateSignal(UploaderStatus ,QVariant);
+    void autoUpdate();
+};
+
 }
+#endif // UPLOADERGADGETFACTORY_H

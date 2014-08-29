@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UploaderngWidget</class>
- <widget class="QWidget" name="UploaderngWidget">
+ <class>UploaderWidget</class>
+ <widget class="QWidget" name="UploaderWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>822</width>
-    <height>638</height>
+    <height>687</height>
    </rect>
   </property>
   <property name="windowTitle">

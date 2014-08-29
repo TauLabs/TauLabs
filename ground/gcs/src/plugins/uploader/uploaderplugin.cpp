@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
  *
- * @file       uploadernggadget.h
+ * @file       uploaderplugin.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup  Uploaderng Uploaderng Plugin
+ * @addtogroup  Uploader Uploader Plugin
  * @{
- * @brief The Tau Labs uploader plugin gadget
+ * @brief The Tau Labs uploader plugin
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,36 +24,37 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#include "uploaderplugin.h"
+#include "uploadergadgetfactory.h"
+#include <QtPlugin>
+#include <QStringList>
+#include <extensionsystem/pluginmanager.h>
 
-#ifndef UPLOADERNGGADGET_H
-#define UPLOADERNGGADGET_H
-
-#include <coreplugin/iuavgadget.h>
-#include "uploadernggadgetwidget.h"
-#include "uploaderng_global.h"
-
-class IUAVGadget;
-class QWidget;
-class QString;
-class UploaderngGadgetWidget;
-
-using namespace Core;
-
-namespace uploaderng {
-
-class UPLOADERNG_EXPORT UploaderngGadget : public Core::IUAVGadget
+UploaderPlugin::UploaderPlugin()
 {
-    Q_OBJECT
-public:
-    UploaderngGadget(QString classId, UploaderngGadgetWidget *widget, QWidget *parent = 0);
-    ~UploaderngGadget();
-
-    QWidget *widget() { return m_widget; }
-    void loadConfiguration(IUAVGadgetConfiguration* config);
-
-private:
-    UploaderngGadgetWidget *m_widget;
-};
+   // Do nothing
 }
-#endif // UPLOADERNGGADGET_H
 
+UploaderPlugin::~UploaderPlugin()
+{
+   // Do nothing
+}
+
+bool UploaderPlugin::initialize(const QStringList& args, QString *errMsg)
+{
+   Q_UNUSED(args);
+   Q_UNUSED(errMsg);
+   mf = new UploaderGadgetFactory(this);
+   addAutoReleasedObject(mf);
+   return true;
+}
+
+void UploaderPlugin::extensionsInitialized()
+{
+   // Do nothing
+}
+
+void UploaderPlugin::shutdown()
+{
+   // Do nothing
+}

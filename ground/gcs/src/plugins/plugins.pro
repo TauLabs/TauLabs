@@ -97,14 +97,14 @@ SUBDIRS += plugin_modelview
 #    SUBDIRS += plugin_notify
 #}
 
-# Uploaderng gadget
-plugin_uploaderng.subdir = uploaderng
-plugin_uploaderng.depends = plugin_coreplugin
-plugin_uploaderng.depends += plugin_uavobjects
-plugin_uploaderng.depends += plugin_uavtalk
-plugin_uploaderng.depends += plugin_rawhid
-plugin_uploaderng.depends += plugin_uavobjectutil
-SUBDIRS += plugin_uploaderng
+# Uploader gadget
+plugin_uploader.subdir = uploader
+plugin_uploader.depends = plugin_coreplugin
+plugin_uploader.depends += plugin_uavobjects
+plugin_uploader.depends += plugin_uavtalk
+plugin_uploader.depends += plugin_rawhid
+plugin_uploader.depends += plugin_uavobjectutil
+SUBDIRS += plugin_uploader
 
 # Dial gadget
 plugin_dial.subdir = dial
@@ -293,7 +293,7 @@ plugin_setupwizard.subdir = setupwizard
 plugin_setupwizard.depends = plugin_coreplugin
 plugin_setupwizard.depends += plugin_uavobjectutil
 plugin_setupwizard.depends += plugin_config
-plugin_setupwizard.depends += plugin_uploaderng
+plugin_setupwizard.depends += plugin_uploader
 SUBDIRS += plugin_setupwizard
 
 # Setup alarm messaging plugin

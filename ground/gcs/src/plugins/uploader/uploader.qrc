@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/uploaderng">
+    <qresource prefix="/uploader">
         <file>images/system-run.svg</file>
         <file>images/process-stop.svg</file>
         <file>images/dialog-apply.svg</file>

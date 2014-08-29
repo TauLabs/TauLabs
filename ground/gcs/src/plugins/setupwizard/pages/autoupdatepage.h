@@ -34,9 +34,9 @@
 #include "setupwizard.h"
 #include "uavtalk/telemetrymanager.h"
 #include "abstractwizardpage.h"
-#include "uploaderng/uploadernggadgetfactory.h"
+#include "uploader/uploadergadgetfactory.h"
 
-using namespace uploaderng;
+using namespace uploader;
 namespace Ui {
 class AutoUpdatePage;
 }
