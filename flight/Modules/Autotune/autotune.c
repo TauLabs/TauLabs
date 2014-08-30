@@ -172,21 +172,23 @@ static void AutotuneTask(void *parameters)
 
 				lastUpdateTime = xTaskGetTickCount();
 
-				af_init(X,P);
-
-				SystemIdentData relay;
-				relay.Beta[SYSTEMIDENT_BETA_ROLL]   = X[6];
-				relay.Beta[SYSTEMIDENT_BETA_PITCH]  = X[7];
-				relay.Beta[SYSTEMIDENT_BETA_YAW]    = X[8];
-				relay.Bias[SYSTEMIDENT_BIAS_ROLL]   = X[10];
-				relay.Bias[SYSTEMIDENT_BIAS_PITCH]  = X[11];
-				relay.Bias[SYSTEMIDENT_BIAS_YAW]    = X[12];
-				relay.Tau                           = X[9];
-				SystemIdentSet(&relay);
-
 				// Only start when armed and flying
-				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED && stabDesired.Throttle > 0)
+				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED && stabDesired.Throttle > 0) {
+
+					af_init(X,P);
+
+					SystemIdentData relay;
+					relay.Beta[SYSTEMIDENT_BETA_ROLL]   = X[6];
+					relay.Beta[SYSTEMIDENT_BETA_PITCH]  = X[7];
+					relay.Beta[SYSTEMIDENT_BETA_YAW]    = X[8];
+					relay.Bias[SYSTEMIDENT_BIAS_ROLL]   = X[10];
+					relay.Bias[SYSTEMIDENT_BIAS_PITCH]  = X[11];
+					relay.Bias[SYSTEMIDENT_BIAS_YAW]    = X[12];
+					relay.Tau                           = X[9];
+					SystemIdentSet(&relay);
+
 					state = AT_START;
+				}
 				break;
 
 			case AT_START:
@@ -269,6 +271,8 @@ static void AutotuneTask(void *parameters)
 				// autotune, that can be done here. However, that will await further
 				// testing.
 
+				// Save the settings locally. Note this is done after disarming.
+				UAVObjSave(SystemIdentHandle(), 0);
 				state = AT_INIT;
 				break;
 
