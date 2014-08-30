@@ -666,11 +666,6 @@ void PIOS_Board_Init(void) {
 		break;
 	} /* 	hw_mainport */
 
-	if (hw_mainport != HWSPARKY2_RCVRPORT_SBUS) {
-		GPIO_Init(pios_sbus_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_sbus_cfg.inv.init);
-		GPIO_WriteBit(pios_sbus_cfg.inv.gpio, pios_sbus_cfg.inv.init.GPIO_Pin, pios_sbus_cfg.gpio_inv_disable);
-	}
-
 	/* Configure FlexiPort */
 	uint8_t hw_flexiport;
 	HwSparky2FlexiPortGet(&hw_flexiport);
@@ -1010,7 +1005,16 @@ void PIOS_Board_Init(void) {
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_SBUS */
-		break;		break;	}
+		break;
+	default:
+		break;
+	}
+
+	if (hw_rcvrport != HWSPARKY2_RCVRPORT_SBUS) {
+		GPIO_Init(pios_sbus_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_sbus_cfg.inv.init);
+		GPIO_WriteBit(pios_sbus_cfg.inv.gpio, pios_sbus_cfg.inv.init.GPIO_Pin, pios_sbus_cfg.gpio_inv_disable);
+	}
+
 
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
