@@ -116,7 +116,7 @@ void ConfigAutotuneWidget::recomputeStabilization()
     // Calculate the gain for the outer loop by approximating the
     // inner loop as a single order lpf. Set the outer loop to be
     // critically damped;
-    const double zeta_o = 1.0;
+    const double zeta_o = 1.3;
     const double kp_o = 1 / 4.0 / (zeta_o * zeta_o) / (1/wn);
 
     // For now just run over roll and pitch
