@@ -41,6 +41,7 @@
 #define IAP_CMD_STEP_1      1122
 #define IAP_CMD_STEP_2      2233
 #define IAP_CMD_STEP_3      3344
+#define IAP_CMD_STEP_3NB    4455
 
 #define IAP_CMD_CRC         100
 #define IAP_CMD_VERIFY      101
@@ -102,8 +103,7 @@ int32_t FirmwareIAPInitialize()
 	PIOS_BL_HELPER_FLASH_Read_Description(data.Description,FIRMWAREIAPOBJ_DESCRIPTION_NUMELEM);
 	PIOS_SYS_SerialNumberGetBinary(data.CPUSerial);
 	data.BoardRevision= bdinfo->board_rev;
-	data.ArmReset=0;
-	data.crc = 0;
+	data.crc = PIOS_BL_HELPER_CRC_Memory_Calc();
 	FirmwareIAPObjSet( &data );
 	if(bdinfo->magic==PIOS_BOARD_INFO_BLOB_MAGIC) FirmwareIAPObjConnectCallback( &FirmwareIAPCallback );
 	return 0;
@@ -120,7 +120,6 @@ int32_t FirmwareIAPInitialize()
 static uint8_t    iap_state = IAP_STATE_READY;
 static void FirmwareIAPCallback(UAVObjEvent* ev)
 {
-	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 	static uint32_t   last_time = 0;
 	uint32_t          this_time;
 	uint32_t          delta;
@@ -137,19 +136,7 @@ static void FirmwareIAPCallback(UAVObjEvent* ev)
 		this_time = get_time();
 		delta = this_time - last_time;
 		last_time = this_time;
-		if((data.BoardType==bdinfo->board_type)&&(data.crc != PIOS_BL_HELPER_CRC_Memory_Calc()))
-		{
-			PIOS_BL_HELPER_FLASH_Read_Description(data.Description,FIRMWAREIAPOBJ_DESCRIPTION_NUMELEM);
-			PIOS_SYS_SerialNumberGetBinary(data.CPUSerial);
-			data.BoardRevision=bdinfo->board_rev;
-			data.crc = PIOS_BL_HELPER_CRC_Memory_Calc();
-			FirmwareIAPObjSet( &data );
-		}
-		if((data.ArmReset==1)&&(iap_state!=IAP_STATE_RESETTING))
-		{
-			data.ArmReset=0;
-			FirmwareIAPObjSet( &data );
-		}
+
 		switch(iap_state) {
 			case IAP_STATE_READY:
 				if( data.Command == IAP_CMD_STEP_1 ) {
@@ -167,7 +154,7 @@ static void FirmwareIAPCallback(UAVObjEvent* ev)
 				}
 				break;
 			case IAP_STATE_STEP_2:
-				if( data.Command == IAP_CMD_STEP_3 ) {
+				if( (data.Command == IAP_CMD_STEP_3) || (data.Command == IAP_CMD_STEP_3NB) ) {
 					if( delta > iap_time_3_low_end && delta < iap_time_3_high_end ) {
 						
 						FlightStatusData flightStatus;
@@ -181,8 +168,14 @@ static void FirmwareIAPCallback(UAVObjEvent* ev)
 							
 						// we've met the three sequence of command numbers
 						// we've met the time requirements.
-						PIOS_IAP_SetRequest1();
-						PIOS_IAP_SetRequest2();
+						if(data.Command == IAP_CMD_STEP_3) {
+							PIOS_IAP_SetRequest1();
+							PIOS_IAP_SetRequest2();
+						}
+						else if(data.Command == IAP_CMD_STEP_3NB) {
+							PIOS_IAP_SetRequest1();
+							PIOS_IAP_SetRequest3();
+						}
 						
 						/* Note: Cant just wait timeout value, because first time is randomized */
 						reset_count = 0;
@@ -249,15 +242,7 @@ static void resetTask(UAVObjEvent * ev)
 
 	if((portTickType) (xTaskGetTickCount() - lastResetSysTime) > MS2TICKS(RESET_DELAY_MS)) {
 		lastResetSysTime = xTaskGetTickCount();
-		data.BoardType=0xFF;
-		data.ArmReset=1;
-		data.crc=reset_count; /* Must change a value for this to get to INS */
-		FirmwareIAPObjSet(&data);
-		++reset_count;
-		if(reset_count>3)
-		{
 			PIOS_SYS_Reset();
-		}
 	}
 }
 

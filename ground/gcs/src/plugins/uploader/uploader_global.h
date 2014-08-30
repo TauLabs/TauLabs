@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       uploader_global.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -30,7 +30,10 @@
 #define UPLOADER_GLOBAL_H
 
 #include <QtCore/qglobal.h>
-
+namespace uploader
+{
+typedef enum { WAITING_CONNECT, WAITING_DISCONNECT, FAILURE, FAILURE_FILENOTFOUND, LOADING_FW, SUCCESS, DISCONNECTED, BOOTING, HALTING, RESCUING, BL_FROM_HALT, BL_FROM_RESCUE, CONNECTED_TO_TELEMETRY, UPLOADING_FW, UPLOADING_DESC, DOWNLOADING_PARTITION, UPLOADING_PARTITION, DOWNLOADING_PARTITION_BUNDLE, UPLOADING_PARTITION_BUNDLE} UploaderStatus;
+}
 #if defined(UPLOADER_LIBRARY)
 #  define UPLOADER_EXPORT Q_DECL_EXPORT
 #else

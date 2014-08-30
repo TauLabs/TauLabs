@@ -1,6 +1,7 @@
 BOARD_TYPE          := 0x04
 BOARD_REVISION      := 0x02
-BOOTLOADER_VERSION  := 0x80
+# Previous version was 0x080, 0x081 introduces forced boot from bkp registers
+BOOTLOADER_VERSION  := 0x81
 HW_TYPE             := 0x01
 
 MCU                 := cortex-m3

@@ -122,6 +122,12 @@ struct USBPortInfo {
     int vendorID;       ///< Vendor ID.
     int productID;      ///< Product ID
     int bcdDevice;
+    bool operator==(USBPortInfo const &port)
+    {
+        return ( (port.serialNumber == serialNumber) && (port.manufacturer == manufacturer) &&
+                 (port.product == product) && (port.UsagePage == UsagePage) && (port.Usage == Usage) &&
+                 (port.vendorID == vendorID) && (port.productID == productID) && (port.bcdDevice == bcdDevice) );
+    }
 };
 
 /**

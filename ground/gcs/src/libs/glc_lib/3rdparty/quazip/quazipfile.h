@@ -68,7 +68,7 @@ QuaZIP as long as you respect either GPL or LGPL for QuaZIP code.
  * this class.
  *
  **/
-class QuaZipFile: public QIODevice {
+class GLC_LIB_EXPORT QuaZipFile: public QIODevice {
   Q_OBJECT
   private:
     QuaZip *zip;

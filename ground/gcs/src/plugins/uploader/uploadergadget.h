@@ -2,12 +2,12 @@
  ******************************************************************************
  *
  * @file       uploadergadget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup YModemUploader YModem Serial Uploader Plugin
+ * @addtogroup  Uploader Uploader Plugin
  * @{
- * @brief The YModem protocol serial uploader plugin
+ * @brief The Tau Labs uploader plugin gadget
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -39,6 +39,8 @@ class UploaderGadgetWidget;
 
 using namespace Core;
 
+namespace uploader {
+
 class UPLOADER_EXPORT UploaderGadget : public Core::IUAVGadget
 {
     Q_OBJECT
@@ -52,6 +54,6 @@ public:
 private:
     UploaderGadgetWidget *m_widget;
 };
-
+}
 #endif // UPLOADERGADGET_H
 

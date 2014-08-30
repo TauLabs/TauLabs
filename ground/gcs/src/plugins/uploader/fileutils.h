@@ -1,16 +1,13 @@
 /**
  ******************************************************************************
  *
- * @file       enums.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @see        The GNU Public License (GPL) Version 3
- *
+ * @file       fileutils.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup UploaderPlugin Uploader plugin for upgrading firmware
+ * @addtogroup Uploader Uploader Plugin
  * @{
- * @brief
+ * @brief File functions helper class (zip, unzip, delete dirs...)
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -27,12 +24,22 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef ENUMS_H
-#define ENUMS_H
 
-namespace uploader
+#ifndef FILEUTILS_H
+#define FILEUTILS_H
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QFileInfoList>
+#include "3rdparty/quazip/quazipfile.h"
+
+class FileUtils
 {
-    typedef enum { IAP_STATE_READY, IAP_STATE_STEP_1, IAP_STATE_STEP_2, IAP_STEP_RESET, IAP_STATE_BOOTLOADER} IAPStep;
-    typedef enum { WAITING_DISCONNECT, WAITING_CONNECT, JUMP_TO_BL, LOADING_FW, UPLOADING_FW, UPLOADING_DESC, BOOTING, SUCCESS, FAILURE_FILENOTFOUND, FAILURE} AutoUpdateStep;
-}
-#endif // ENUMS_H
+public:
+    FileUtils();
+    static bool removeDir(const QString &dirName);
+    static bool archive(const QString &filePath, const QDir &dir, const QString &directory, const QString &comment);
+    static bool extractAll(QString zipfile, QDir destination);
+};
+
+#endif // FILEUTILS_H
