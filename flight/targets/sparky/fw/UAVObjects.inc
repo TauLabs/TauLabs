@@ -82,7 +82,6 @@ UAVOBJSRCFILENAMES += poilocation
 UAVOBJSRCFILENAMES += positionactual
 UAVOBJSRCFILENAMES += ratedesired
 UAVOBJSRCFILENAMES += relaytuning
-UAVOBJSRCFILENAMES += relaytuningsettings
 UAVOBJSRCFILENAMES += stateestimation
 UAVOBJSRCFILENAMES += sonaraltitude
 UAVOBJSRCFILENAMES += stabilizationdesired

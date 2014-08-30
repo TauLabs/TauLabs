@@ -221,7 +221,6 @@ SRC += $(OPUAVSYNTHDIR)/hwcoptercontrol.c
 SRC += $(OPUAVSYNTHDIR)/modulesettings.c
 SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
 SRC += $(OPUAVSYNTHDIR)/receiveractivity.c
-SRC += $(OPUAVSYNTHDIR)/relaytuningsettings.c
 SRC += $(OPUAVSYNTHDIR)/relaytuning.c
 SRC += $(OPUAVSYNTHDIR)/taskinfo.c
 SRC += $(OPUAVSYNTHDIR)/mixerstatus.c

@@ -10,7 +10,6 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QList>
-#include "relaytuningsettings.h"
 #include "relaytuning.h"
 #include "stabilizationsettings.h"
 #include "modulesettings.h"

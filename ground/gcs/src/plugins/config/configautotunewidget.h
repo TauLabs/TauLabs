@@ -33,7 +33,6 @@
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 #include "stabilizationsettings.h"
-#include "relaytuningsettings.h"
 #include "relaytuning.h"
 #include <QWidget>
 #include <QTimer>

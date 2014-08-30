@@ -40,7 +40,6 @@
 #include "gyros.h"
 #include "actuatordesired.h"
 #include "relaytuning.h"
-#include "relaytuningsettings.h"
 #include "stabilizationdesired.h"
 #include "stabilizationsettings.h"
 #include <pios_board_info.h>
@@ -61,7 +60,6 @@ static bool module_enabled;
 
 // Private functions
 static void AutotuneTask(void *parameters);
-static void update_stabilization_settings();
 static void af_predict(float X[AF_NUMX], float P[AF_NUMP], const float u_in[3], const float gyro[3], const float dT_s);
 static void af_init(float X[AF_NUMX], float P[AF_NUMP]);
 
@@ -84,7 +82,6 @@ int32_t AutotuneInitialize(void)
 #endif
 
 	if (module_enabled) {
-		RelayTuningSettingsInitialize();
 		RelayTuningInitialize();
 	}
 
@@ -160,9 +157,6 @@ static void AutotuneTask(void *parameters)
 
 		ManualControlCommandData manualControl;
 		ManualControlCommandGet(&manualControl);
-
-		RelayTuningSettingsData relaySettings;
-		RelayTuningSettingsGet(&relaySettings);
 
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL]  = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
@@ -271,7 +265,10 @@ static void AutotuneTask(void *parameters)
 				break;
 
 			case AT_SET:
-				update_stabilization_settings();
+				// If at some point we want to store the settings at the end of
+				// autotune, that can be done here. However, that will await further
+				// testing.
+			
 				state = AT_INIT;
 				break;
 
@@ -285,39 +282,6 @@ static void AutotuneTask(void *parameters)
 		vTaskDelay(DT_MS);
 	}
 }
-
-/**
- * Called after measuring roll and pitch to update the
- * stabilization settings
- * 
- * takes in @ref RelayTuning and outputs @ref StabilizationSettings
- */
-static void update_stabilization_settings()
-{
-	RelayTuningData relayTuning;
-	RelayTuningGet(&relayTuning);
-
-	RelayTuningSettingsData relaySettings;
-	RelayTuningSettingsGet(&relaySettings);
-
-	StabilizationSettingsData stabSettings;
-	StabilizationSettingsGet(&stabSettings);
-
-	switch(relaySettings.Behavior) {
-		case RELAYTUNINGSETTINGS_BEHAVIOR_MEASURE:
-			// Just measure, don't update the stab settings
-			break;
-		case RELAYTUNINGSETTINGS_BEHAVIOR_COMPUTE:
-			StabilizationSettingsSet(&stabSettings);
-			break;
-		case RELAYTUNINGSETTINGS_BEHAVIOR_SAVE:
-			StabilizationSettingsSet(&stabSettings);
-			UAVObjSave(StabilizationSettingsHandle(), 0);
-			break;
-	}
-	
-}
-
 
 /**
  * Prediction step for EKF on control inputs to quad that

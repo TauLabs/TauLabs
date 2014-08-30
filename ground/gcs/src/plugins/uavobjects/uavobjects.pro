@@ -105,7 +105,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/ratedesired.h \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.h \
     $$UAVOBJECT_SYNTHETICS/relaytuning.h \
-    $$UAVOBJECT_SYNTHETICS/relaytuningsettings.h \
     $$UAVOBJECT_SYNTHETICS/sensorsettings.h \
     $$UAVOBJECT_SYNTHETICS/sessionmanaging.h \
     $$UAVOBJECT_SYNTHETICS/sonaraltitude.h \
@@ -213,7 +212,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/ratedesired.cpp \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.cpp \
     $$UAVOBJECT_SYNTHETICS/relaytuning.cpp \
-    $$UAVOBJECT_SYNTHETICS/relaytuningsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/sensorsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/sessionmanaging.cpp \
     $$UAVOBJECT_SYNTHETICS/sonaraltitude.cpp \
