@@ -420,6 +420,7 @@ void UploaderGadgetWidget::onFlashButtonClick()
  */
 void UploaderGadgetWidget::onRescueButtonClick()
 {
+    qDebug()<<"UPLOADER: RESCUE BUTTON CLICKED";
     conMngr->suspendPolling();
     setUploaderStatus(uploader::RESCUING);
     setStatusInfo(tr("Please connect the board with USB with no external power applied"), uploader::STATUSICON_INFO);
@@ -432,18 +433,27 @@ void UploaderGadgetWidget::onRescueButtonClick()
  */
 void UploaderGadgetWidget::onBootloaderDetected()
 {
+    qDebug()<< "UPLOADER: entering onBootloaderDetected";
     Core::BoardManager* brdMgr = Core::ICore::instance()->boardManager();
     QList<USBPortInfo> devices;
     foreach(int vendorID, brdMgr->getKnownVendorIDs()) {
         devices.append(USBMonitor::instance()->availableDevices(vendorID,-1,-1,USBMonitor::Bootloader));
     }
+    qDebug()<< "UPLOADER: entering onBootloaderDetected";
+    qDebug()<< "START OF DEVICE LIST";
+    foreach (USBPortInfo i, devices) {
+        qDebug()<< i.vendorID << i.productID << i.bcdDevice;
+    }
+    qDebug()<< "END OF DEVICE LIST";
     if(devices.length() > 1)
     {
+        qDebug()<< "UPLOADER: onBootloaderDetected more than one device on devices list, getting the fuck out of here";
         setStatusInfo(tr("More than one device was detected in bootloader state"), uploader::STATUSICON_INFO);
         return;
     }
     else if(devices.length() == 0)
     {
+        qDebug()<< "UPLOADER: onBootloaderDetected no devices on devices list, please buy a board";
         setStatusInfo("No devices in bootloader state detected", uploader::STATUSICON_FAIL);
         return;
     }
@@ -526,11 +536,13 @@ void UploaderGadgetWidget::onBootloaderDetected()
         default:
             break;
         }
+        qDebug()<< "UPLOADER: onBootloaderDetected BOOTLOADER CONNECTED";
         setStatusInfo(tr("Connection to bootloader successful"), uploader::STATUSICON_OK);
         emit bootloaderDetected();
     }
     else
     {
+        qDebug()<< "UPLOADER: onBootloaderDetected CONNECTION WITH THE BOOTLOADER FAILED";
         setStatusInfo(tr("Could not open coms with the bootloader"), uploader::STATUSICON_FAIL);
     }
 }
@@ -562,15 +574,13 @@ void UploaderGadgetWidget::onRescueTimer(bool start)
     static QTimer timer;
     if(sender() == usbFilterBL)
     {
-        timer.stop();
+        qDebug()<< "UPLOADER: RESCUE TIMER RECEIVED A DEVICE DISCOVERED EVENT, (STOPING TIMER AND DISCONNECTING USBFILTER SIGNALS)";
         m_widget->progressBar->setValue(0);
-        disconnect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onBootloaderDetected()));
-        disconnect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onRescueTimer()));
-        rescueFinish(true);
         return;
     }
     if(start)
     {
+        qDebug()<< "UPLOADER: RESCUE TIMER STARTING USBFILTER SIGNALS CONNECTED";
         setStatusInfo(tr("Trying to detect bootloader"), uploader::STATUSICON_INFO);
         progress = 100;
         connect(&timer, SIGNAL(timeout()), this, SLOT(onRescueTimer()),Qt::UniqueConnection);
@@ -588,6 +598,7 @@ void UploaderGadgetWidget::onRescueTimer(bool start)
     m_widget->progressBar->setValue(progress);
     if(progress == 0)
     {
+        qDebug()<< "UPLOADER: RESCUE TIMER TIMEDOUT AND NO BOARD IN BL STATE WAS DISCOVERED";
         disconnect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onBootloaderDetected()));
         disconnect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onRescueTimer()));
         disconnect(this, SIGNAL(bootloaderDetected()), &timer, SLOT(stop()));
@@ -1254,7 +1265,7 @@ uploader::UploaderStatus UploaderGadgetWidget::getUploaderStatus() const
  */
 void UploaderGadgetWidget::setUploaderStatus(const uploader::UploaderStatus &value)
 {
-    qDebug()<< "STATUS="<<value;
+    qDebug()<< "UPLODADER STATUS CHANGED ="<<statusToString(value);
     uploaderStatus = value;
     switch (uploaderStatus) {
     case uploader::DISCONNECTED:
@@ -1500,4 +1511,70 @@ void UploaderGadgetWidget::onAutoUpdateCount(int i)
 void UploaderGadgetWidget::openHelp()
 {
     QDesktopServices::openUrl( QUrl("http://wiki.taulabs.org/OnlineHelp:-Uploader-Plugin", QUrl::StrictMode) );
+}
+
+QString UploaderGadgetWidget::statusToString(UploaderStatus status)
+{
+    switch (status) {
+    case WAITING_CONNECT:
+        return "WAITING_CONNECT";
+        break;
+    case WAITING_DISCONNECT:
+        return "WAITING_DISCONNECT";
+        break;
+    case FAILURE:
+        return "FAILURE";
+        break;
+    case FAILURE_FILENOTFOUND:
+        return "FAILURE_FILENOTFOUND";
+        break;
+    case LOADING_FW:
+        return "LOADING_FW";
+        break;
+    case SUCCESS:
+        return "SUCCESS";
+        break;
+    case DISCONNECTED:
+        return "DISCONNECTED";
+        break;
+    case BOOTING:
+        return "BOOTING";
+        break;
+    case HALTING:
+        return "HALTING";
+        break;
+    case RESCUING:
+        return "RESCUING";
+        break;
+    case BL_FROM_HALT:
+        return "BL_FROM_HALT";
+        break;
+    case BL_FROM_RESCUE:
+        return "BL_FROM_RESCUE";
+        break;
+    case CONNECTED_TO_TELEMETRY:
+        return "CONNECTED_TO_TELEMETRY";
+        break;
+    case UPLOADING_FW:
+        return "UPLOADING_FW";
+        break;
+    case UPLOADING_DESC:
+        return "UPLOADING_DESC";
+        break;
+    case DOWNLOADING_PARTITION:
+        return "DOWNLOADING_PARTITION";
+        break;
+    case UPLOADING_PARTITION:
+        return "UPLOADING_PARTITION";
+        break;
+    case DOWNLOADING_PARTITION_BUNDLE:
+        return "DOWNLOADING_PARTITION_BUNDLE";
+        break;
+    case UPLOADING_PARTITION_BUNDLE:
+        return "UPLOADING_PARTITION_BUNDLE";
+        break;
+    default:
+        return "STATUS UNKOWN";
+        break;
+    }
 }

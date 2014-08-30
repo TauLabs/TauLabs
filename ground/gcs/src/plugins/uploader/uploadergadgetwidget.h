@@ -137,6 +137,7 @@ private:
     QByteArray tempArray;
     bool lastUploadResult;
     QTimer bootTimeoutTimer;
+    QString statusToString(UploaderStatus status);
 };
 }
 #endif // UPLOADERGADGETWIDGET_H
