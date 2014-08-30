@@ -134,7 +134,7 @@ static void AutotuneTask(void *parameters)
 		portTickType diffTime;
 
 		const uint32_t PREPARE_TIME = 2000;
-		const uint32_t MEAURE_TIME = 90000;
+		const uint32_t MEAURE_TIME = 60000;
 
 		FlightStatusData flightStatus;
 		FlightStatusGet(&flightStatus);
