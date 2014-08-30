@@ -291,8 +291,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>793</width>
-            <height>767</height>
+            <width>808</width>
+            <height>710</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -312,15 +312,9 @@ p, li { white-space: pre-wrap; }
             <number>12</number>
            </property>
            <item>
-            <widget class="QGroupBox" name="groupBox">
-             <property name="title">
-              <string>Tuning Aggressiveness</string>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_2">
-              <item row="0" column="0" colspan="3">
-               <widget class="QLabel" name="label_20">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+            <widget class="QLabel" name="label_20">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
 &lt;ul&gt;
 &lt;li&gt;Decrease the damping slider to make your aircraft response more rapidly. Increase it for more stability.&lt;/li&gt; &lt;li&gt;Increasing the noise sensitivity slider will make your aircraft respond more rapidly, but will cause twitches due to nose.&lt;/li&gt;
 &lt;li&gt;Default values should fly well.
@@ -331,97 +325,10 @@ p, li { white-space: pre-wrap; }
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>Natural frequency</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_11">
-                <property name="text">
-                 <string>Damping</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QLabel" name="wn">
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label">
-                <property name="text">
-                 <string>Noise sensitivity</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QSlider" name="rateNoise">
-                <property name="minimum">
-                 <number>0</number>
-                </property>
-                <property name="maximum">
-                 <number>30</number>
-                </property>
-                <property name="singleStep">
-                 <number>1</number>
-                </property>
-                <property name="value">
-                 <number>10</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QSlider" name="rateDamp">
-                <property name="minimum">
-                 <number>50</number>
-                </property>
-                <property name="maximum">
-                 <number>150</number>
-                </property>
-                <property name="value">
-                 <number>110</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="2">
-               <widget class="QLabel" name="lblDamp">
-                <property name="text">
-                 <string>1.1</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="2">
-               <widget class="QLabel" name="lblNoise">
-                <property name="text">
-                 <string>1.0</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_21">
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -598,6 +505,92 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>Tuning Aggressiveness</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_2">
+              <item row="1" column="2">
+               <widget class="QLabel" name="lblDamp">
+                <property name="text">
+                 <string>1.1</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLabel" name="lblNoise">
+                <property name="text">
+                 <string>1.0</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QSlider" name="rateNoise">
+                <property name="minimum">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <number>30</number>
+                </property>
+                <property name="singleStep">
+                 <number>1</number>
+                </property>
+                <property name="value">
+                 <number>10</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QSlider" name="rateDamp">
+                <property name="minimum">
+                 <number>50</number>
+                </property>
+                <property name="maximum">
+                 <number>150</number>
+                </property>
+                <property name="value">
+                 <number>110</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Noise sensitivity</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Damping</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>Natural frequency</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLabel" name="wn">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -608,7 +601,7 @@ p, li { white-space: pre-wrap; }
              <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
-               <height>20</height>
+               <height>10</height>
               </size>
              </property>
             </spacer>
@@ -736,33 +729,19 @@ p, li { white-space: pre-wrap; }
            </item>
            <item>
             <widget class="QGroupBox" name="groupBox_4">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>60</height>
+              </size>
+             </property>
              <property name="title">
               <string/>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
                <layout class="QGridLayout" name="gridLayout_4">
-                <item row="0" column="0" colspan="3">
-                 <widget class="QLabel" name="label_22">
-                  <property name="text">
-                   <string>Decrease the damping slider to make your aircraft response more rapidly. Increase it for more stability. Increasing the noise sensitivity slider will make your aircraft respond more rapidly, but will cause twitches due to nose. Normally this should not need changing.</string>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1" colspan="2">
-                 <widget class="QPushButton" name="useComputedValues">
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="text">
-                   <string>Apply Computed Values</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
+                <item row="0" column="0">
                  <spacer name="horizontalSpacer">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
@@ -775,23 +754,20 @@ p, li { white-space: pre-wrap; }
                   </property>
                  </spacer>
                 </item>
+                <item row="0" column="1" colspan="2">
+                 <widget class="QPushButton" name="useComputedValues">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>Apply Computed Values</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
              </layout>
             </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>77</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
