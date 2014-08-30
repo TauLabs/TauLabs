@@ -164,21 +164,10 @@ static void AutotuneTask(void *parameters)
 		RelayTuningSettingsData relaySettings;
 		RelayTuningSettingsGet(&relaySettings);
 
-		bool rate = relaySettings.Mode == RELAYTUNINGSETTINGS_MODE_RATE;
-
-		if (rate) { // rate mode
-			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL]  = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
-			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
-
-			stabDesired.Roll = manualControl.Roll * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL];
-			stabDesired.Pitch = manualControl.Pitch * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH];
-		} else {
-			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL]  = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-			stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-
-			stabDesired.Roll = manualControl.Roll * stabSettings.RollMax;
-			stabDesired.Pitch = manualControl.Pitch * stabSettings.PitchMax;
-		}
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL]  = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+		stabDesired.Roll = manualControl.Roll * stabSettings.RollMax;
+		stabDesired.Pitch = manualControl.Pitch * stabSettings.PitchMax;
 
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
 		stabDesired.Yaw = manualControl.Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW];
@@ -225,15 +214,9 @@ static void AutotuneTask(void *parameters)
 
 				diffTime = xTaskGetTickCount() - lastUpdateTime;
 
-				// Run relay mode on the roll axis for the measurement time
-				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = rate ? STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE :
-					STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE;
-
-				// Run relay mode on the pitch axis for the measurement time
-				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = rate ? STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE :
-					STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE;
-
-				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE;
+				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
+				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
+				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
 
 				// Update the system identification, but only when throttle is applied
 				// so bad values don't result when landing

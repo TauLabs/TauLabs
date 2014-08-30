@@ -5,7 +5,6 @@
 	<field name="AttitudeGain" units="" type="float" elements="1" defaultvalue="0.2"/>
 	<field name="Amplitude" units="" type="float" elements="1" defaultvalue="0.35"/>
 	<field name="HysteresisThresh" units="deg/s" type="uint8" elements="1" defaultvalue="5"/>
-	<field name="Mode" units="" type="enum" elements="1" options="Rate,Attitude" defaultvalue="Attitude"/>
 	<field name="Behavior" units="" type="enum" elements="1" options="Measure,Compute,Save" defaultvalue="Compute"/>
 	<access gcs="readwrite" flight="readwrite"/>
 	<telemetrygcs acked="true" updatemode="onchange" period="0"/>

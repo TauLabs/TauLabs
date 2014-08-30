@@ -183,9 +183,8 @@ static void stabilizationTask(void* parameters)
 	// Force refresh of all settings immediately before entering main task loop
 	SettingsUpdatedCb((UAVObjEvent *) NULL);
 	
+	// Settings for system identification
 	uint32_t iteration = 0;
-	float learning_offsets[3] = {0.0f, 0.0f, 0.0f};
-
 	const uint32_t SYSTEM_IDENT_PERIOD = 75;
 	uint32_t system_ident_timeval = PIOS_DELAY_GetRaw();
 
@@ -392,36 +391,8 @@ static void stabilizationTask(void* parameters)
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
-				case STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE:
-					// Store to rate desired variable for storing to UAVO
-					rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
-
-					if ((iteration % 50) == 0) {
-						uint32_t raw_time = PIOS_DELAY_GetRaw();
-						switch(raw_time & 0x00000007) {
-							case 0:
-							case 1:
-							case 2:
-								learning_offsets[i] = 0.1f;
-								break;
-							case 3:
-							case 4:
-							case 5:
-								learning_offsets[i] = -0.1f;
-								break;
-							default:
-								learning_offsets[i] = 0.0f;
-						}
-					}
-
-					// Run the relay controller which also estimates the oscillation parameters
-					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
-					actuatorDesiredAxis[i] += learning_offsets[i];
-					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0);
 					
-					break;
-					
-				case STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE:
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT:
 					if(reinit) {
 						pids[PID_ATT_ROLL + i].iAccumulator = 0;
 						pids[PID_RATE_ROLL + i].iAccumulator = 0;
@@ -490,18 +461,27 @@ static void stabilizationTask(void* parameters)
 								ident_offsets[1] = -pitch_scale;
 								ident_offsets[2] = 0;
 								break;
-
 						}
 					}
 
-					// Compute the outer loop
-					rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], local_attitude_error[i], dT);
-					rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
+					if (i == ROLL || i == PITCH) {
+						// Compute the outer loop
+						rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], local_attitude_error[i], dT);
+						rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
 
-					// Compute the inner loop
-					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
-					actuatorDesiredAxis[i] += ident_offsets[i];
-					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
+						// Compute the inner loop
+						actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
+						actuatorDesiredAxis[i] += ident_offsets[i];
+						actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
+					} else {
+						// Get the desired rate. yaw is always in rate mode in system ident.
+						rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
+
+						// Compute the inner loop only for yaw
+						actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
+						actuatorDesiredAxis[i] += ident_offsets[i];
+						actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);						
+					}
 
 					break;
 
