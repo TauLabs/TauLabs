@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <QTextEdit>
 #include <QVBoxLayout>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QDesktopServices>
 #include <QUrl>
@@ -50,6 +51,15 @@ void ConfigAutotuneWidget::saveStabilization()
     if(!stabilizationSettings)
         return;
 
+    // Check the settings are reasonable, or if not have the
+    // user confirm they want to continue.
+    SystemIdent *systemIdent = SystemIdent::GetInstance(getObjectManager());
+    Q_ASSERT(systemIdent);
+    if(!systemIdent)
+        return;
+    if (approveSettings(systemIdent->getData()) == false)
+        return;
+
     // Make sure to recompute in case the other stab settings changed since
     // the last time
     recomputeStabilization();
@@ -57,6 +67,42 @@ void ConfigAutotuneWidget::saveStabilization()
     // Apply this data to the board
     stabilizationSettings->setData(stabSettings);
     stabilizationSettings->updated();
+}
+
+/**
+ * @brief ConfigAutotuneWidget::approveSettings
+ * @param data The system ident values
+ * @return True if these are ok, False if not
+ *
+ * For values that seem potentially problematic
+ * a dialog will explicitly check the user wants
+ * to apply them.
+ */
+bool ConfigAutotuneWidget::approveSettings(
+        SystemIdent::DataFields systemIdentData)
+{
+    // Check the axis gains
+    if (systemIdentData.Beta[SystemIdent::BETA_ROLL] < 6 ||
+        systemIdentData.Beta[SystemIdent::BETA_PITCH] < 6) {
+
+        int ans = QMessageBox::warning(this,tr("Extreme values"),
+                                     tr("Your roll or pitch gain was lower than expected. This will result in large PID values. "
+                                                           "Do you still want to proceed?"), QMessageBox::Yes,QMessageBox::No);
+        if (ans == QMessageBox::No)
+            return false;
+    }
+
+    // Check the response speed
+    if (exp(systemIdentData.Tau) > 0.1) {
+
+        int ans = QMessageBox::warning(this,tr("Extreme values"),
+                                     tr("Your estimated response speed (tau) is slower than normal. This will result in large PID values. "
+                                                           "Do you still want to proceed?"), QMessageBox::Yes,QMessageBox::No);
+        if (ans == QMessageBox::No)
+            return false;
+    }
+
+    return true;
 }
 
 /**
@@ -75,7 +121,7 @@ void ConfigAutotuneWidget::recomputeStabilization()
     if(!stabilizationSettings)
         return;
 
-    systemIdent::DataFields systemIdentData = systemIdent->getData();
+    SystemIdent::DataFields systemIdentData = systemIdent->getData();
     stabSettings = stabilizationSettings->getData();
 
     // These three parameters define the desired response properties

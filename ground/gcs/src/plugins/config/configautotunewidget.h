@@ -47,6 +47,8 @@ private:
     Ui_AutotuneWidget *m_autotune;
     StabilizationSettings::DataFields stabSettings;
 
+    bool approveSettings(SystemIdent::DataFields systemIdentData);
+
 signals:
 
 public slots:
