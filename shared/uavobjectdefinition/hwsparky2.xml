@@ -2,7 +2,7 @@
 	<object name="HwSparky2" singleinstance="true" settings="true" category="HardwareSettings">
 		<description>Selection of optional hardware configurations.</description>
 
-		<field name="RcvrPort" units="function" type="enum" elements="1" defaultvalue="PWM">
+		<field name="RcvrPort" units="function" type="enum" elements="1" defaultvalue="Disabled">
 		<options>
 			<option>Disabled</option>
 			<option>PPM</option>
@@ -13,8 +13,11 @@
 			<option>HoTT SUMD</option>
 			<option>HoTT SUMH</option>
 		</options>
-		</field>		
-		<field name="MainPort" units="function" type="enum" elements="1"  defaultvalue="Telemetry">
+		</field>
+
+		<!-- Note that when either serial port is set to telemetry it will block the radio port -->
+
+		<field name="MainPort" units="function" type="enum" elements="1"  defaultvalue="Disabled">
 			<options>
 				<option>Disabled</option>
 				<option>Telemetry</option>
@@ -55,12 +58,26 @@
 				<option>PicoC</option>
 			</options>
 		</field>
-		<field name="RadioPort" units="function" type="enum" elements="1" options="Disabled,Telemetry" defaultvalue="Disabled"/>
 
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
 		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
 
 		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
+
+		<!-- select the function for the radio port -->
+		<!--  1. Telem - able to receive radio connection from CoordID partner -->
+		<!--  2. TelemCoord - able to establish a receiver connection -->
+		<!--  3. PPM - receiver functionality is on to allow receiving PPM packtes from CoordID -->
+                <field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,TelemCoord,PPM" defaultvalue="Disabled"/>
+		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
+		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
+
+		<!-- radio settings -->
+		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" options="9600,19200,32000,64000,100000,192000" defaultvalue="64000"/>
+		<field name="MaxRfPower" units="mW" type="enum" elements="1" options="0,1.25,1.6,3.16,6.3,12.6,25,50,100" defaultvalue="0"/>
+		<field name="MinChannel" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="MaxChannel" units="" type="uint8" elements="1" defaultvalue="250"/>
+		<field name="ChannelSet" units="" type="uint8" elements="1" defaultvalue="39"/>
 
 		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
 		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
