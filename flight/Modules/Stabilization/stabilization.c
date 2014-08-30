@@ -46,7 +46,7 @@
 #include "flightstatus.h"
 #include "gyros.h"
 #include "ratedesired.h"
-#include "relaytuning.h"
+#include "systemident.h"
 #include "stabilizationdesired.h"
 #include "stabilizationsettings.h"
 #include "trimangles.h"
@@ -401,17 +401,17 @@ static void stabilizationTask(void* parameters)
 					static uint32_t ident_iteration = 0;
 					static float ident_offsets[3] = {0};
 
-					if (PIOS_DELAY_DiffuS(system_ident_timeval) / 1000.0f > SYSTEM_IDENT_PERIOD && RelayTuningHandle()) {
+					if (PIOS_DELAY_DiffuS(system_ident_timeval) / 1000.0f > SYSTEM_IDENT_PERIOD && SystemIdentHandle()) {
 						ident_iteration++;
 						system_ident_timeval = PIOS_DELAY_GetRaw();
 
-						RelayTuningData relayTuning;
-						RelayTuningGet(&relayTuning);
+						SystemIdentData systemIdent;
+						SystemIdentGet(&systemIdent);
 
 						const float SCALE_BIAS = 7.1f;
-						float roll_scale = expf(SCALE_BIAS - relayTuning.Beta[RELAYTUNING_BETA_ROLL]);
-						float pitch_scale = expf(SCALE_BIAS - relayTuning.Beta[RELAYTUNING_BETA_PITCH]);
-						float yaw_scale = expf(SCALE_BIAS - relayTuning.Beta[RELAYTUNING_BETA_YAW]);
+						float roll_scale = expf(SCALE_BIAS - systemIdent.Beta[SYSTEMIDENT_BETA_ROLL]);
+						float pitch_scale = expf(SCALE_BIAS - systemIdent.Beta[SYSTEMIDENT_BETA_PITCH]);
+						float yaw_scale = expf(SCALE_BIAS - systemIdent.Beta[SYSTEMIDENT_BETA_YAW]);
 
 						if (roll_scale > 0.25f)
 							roll_scale = 0.25f;

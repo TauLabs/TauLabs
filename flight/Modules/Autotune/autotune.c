@@ -39,9 +39,9 @@
 #include "manualcontrolsettings.h"
 #include "gyros.h"
 #include "actuatordesired.h"
-#include "relaytuning.h"
 #include "stabilizationdesired.h"
 #include "stabilizationsettings.h"
+#include "systemident.h"
 #include <pios_board_info.h>
  
 // Private constants
@@ -82,7 +82,7 @@ int32_t AutotuneInitialize(void)
 #endif
 
 	if (module_enabled) {
-		RelayTuningInitialize();
+		SystemIdentInitialize();
 	}
 
 	return 0;
@@ -174,15 +174,15 @@ static void AutotuneTask(void *parameters)
 
 				af_init(X,P);
 
-				RelayTuningData relay;
-				relay.Beta[RELAYTUNING_BETA_ROLL]   = X[6];
-				relay.Beta[RELAYTUNING_BETA_PITCH]  = X[7];
-				relay.Beta[RELAYTUNING_BETA_YAW]    = X[8];
-				relay.Bias[RELAYTUNING_BIAS_ROLL]   = X[10];
-				relay.Bias[RELAYTUNING_BIAS_PITCH]  = X[11];
-				relay.Bias[RELAYTUNING_BIAS_YAW]    = X[12];
+				SystemIdentData relay;
+				relay.Beta[SYSTEMIDENT_BETA_ROLL]   = X[6];
+				relay.Beta[SYSTEMIDENT_BETA_PITCH]  = X[7];
+				relay.Beta[SYSTEMIDENT_BETA_YAW]    = X[8];
+				relay.Bias[SYSTEMIDENT_BIAS_ROLL]   = X[10];
+				relay.Bias[SYSTEMIDENT_BIAS_PITCH]  = X[11];
+				relay.Bias[SYSTEMIDENT_BIAS_YAW]    = X[12];
 				relay.Tau                           = X[9];
-				RelayTuningSet(&relay);
+				SystemIdentSet(&relay);
 
 				// Only start when armed and flying
 				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED && stabDesired.Throttle > 0)
@@ -232,19 +232,19 @@ static void AutotuneTask(void *parameters)
 						noise[i] = NOISE_ALPHA * noise[i] + (1-NOISE_ALPHA) * (y[i] - X[i]) * (y[i] - X[i]);
 					}
 
-					RelayTuningData relay;
-					relay.Beta[RELAYTUNING_BETA_ROLL]    = X[6];
-					relay.Beta[RELAYTUNING_BETA_PITCH]   = X[7];
-					relay.Beta[RELAYTUNING_BETA_YAW]     = X[8];
-					relay.Bias[RELAYTUNING_BIAS_ROLL]    = X[10];
-					relay.Bias[RELAYTUNING_BIAS_PITCH]   = X[11];
-					relay.Bias[RELAYTUNING_BIAS_YAW]     = X[12];
+					SystemIdentData relay;
+					relay.Beta[SYSTEMIDENT_BETA_ROLL]    = X[6];
+					relay.Beta[SYSTEMIDENT_BETA_PITCH]   = X[7];
+					relay.Beta[SYSTEMIDENT_BETA_YAW]     = X[8];
+					relay.Bias[SYSTEMIDENT_BIAS_ROLL]    = X[10];
+					relay.Bias[SYSTEMIDENT_BIAS_PITCH]   = X[11];
+					relay.Bias[SYSTEMIDENT_BIAS_YAW]     = X[12];
 					relay.Tau                            = X[9];
-					relay.Noise[RELAYTUNING_NOISE_ROLL]  = noise[0];
-					relay.Noise[RELAYTUNING_NOISE_PITCH] = noise[1];
-					relay.Noise[RELAYTUNING_NOISE_YAW]   = noise[2];
+					relay.Noise[SYSTEMIDENT_NOISE_ROLL]  = noise[0];
+					relay.Noise[SYSTEMIDENT_NOISE_PITCH] = noise[1];
+					relay.Noise[SYSTEMIDENT_NOISE_YAW]   = noise[2];
 					relay.Period = dT_s * 1000.0f;
-					RelayTuningSet(&relay);
+					SystemIdentSet(&relay);
 				}
 
 				if (diffTime > MEAURE_TIME) { // Move on to next state
@@ -268,7 +268,7 @@ static void AutotuneTask(void *parameters)
 				// If at some point we want to store the settings at the end of
 				// autotune, that can be done here. However, that will await further
 				// testing.
-			
+
 				state = AT_INIT;
 				break;
 

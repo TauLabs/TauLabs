@@ -1,5 +1,5 @@
 <xml>
-    <object name="RelayTuning" singleinstance="true" settings="false">
+    <object name="SystemIdent" singleinstance="true" settings="false">
         <description>The input to the relay tuning.</description>
 	<field name="Tau" units="s" type="float" elements="1"/>
 	<field name="Beta" units="" type="float" elementnames="Roll,Pitch,Yaw"/>
