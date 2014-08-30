@@ -347,19 +347,6 @@ static void simulateModelQuadcopter()
 	rpy[0] = control_scaling * actuatorDesired.Roll * (1 - ACTUATOR_ALPHA) + rpy[0] * ACTUATOR_ALPHA;
 	rpy[1] = control_scaling * actuatorDesired.Pitch * (1 - ACTUATOR_ALPHA) + rpy[1] * ACTUATOR_ALPHA;
 	rpy[2] = control_scaling * actuatorDesired.Yaw * (1 - ACTUATOR_ALPHA) + rpy[2] * ACTUATOR_ALPHA;
-//	
-//	GyrosData gyrosData; // Skip get as we set all the fields
-//	gyrosData.x = rpy[0] * 180 / M_PI + rand_gauss();
-//	gyrosData.y = rpy[1] * 180 / M_PI + rand_gauss();
-//	gyrosData.z = rpy[2] * 180 / M_PI + rand_gauss();
-	
-	// RateDesiredData rateDesired;
-	// RateDesiredGet(&rateDesired);
-	
-	// rpy[0] = (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) * rateDesired.Roll * (1 - ACTUATOR_ALPHA) + rpy[0] * ACTUATOR_ALPHA;
-	// rpy[1] = (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) * rateDesired.Pitch * (1 - ACTUATOR_ALPHA) + rpy[1] * ACTUATOR_ALPHA;
-	// rpy[2] = (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) * rateDesired.Yaw * (1 - ACTUATOR_ALPHA) + rpy[2] * ACTUATOR_ALPHA;
-	
 
 	temperature = 20;
 	GyrosData gyrosData; // Skip get as we set all the fields
