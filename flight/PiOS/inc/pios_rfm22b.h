@@ -33,7 +33,6 @@
 #define PIOS_RFM22B_H
 
 #include <uavobjectmanager.h>
-#include <oplinksettings.h>
 
 /* Constant definitions */
 enum gpio_direction { GPIO0_TX_GPIO1_RX, GPIO0_RX_GPIO1_TX };
