@@ -35,7 +35,7 @@
 #include <openpilot.h>
 #include <oplinkstatus.h>
 #include <objectpersistence.h>
-#include <oplinksettings.h>
+#include <taulinksettings.h>
 #include <oplinkreceiver.h>
 #include <radiocombridgestats.h>
 #include <uavtalk_priv.h>
@@ -94,7 +94,7 @@ typedef struct {
     bool     parseUAVTalk;
 
     // The current configured uart speed
-    OPLinkSettingsComSpeedOptions comSpeed;
+    TauLinkSettingsComSpeedOptions comSpeed;
 } RadioComBridgeData;
 
 // ****************
@@ -127,42 +127,41 @@ static int32_t RadioComBridgeStart(void)
 {
     if (data) {
         // Get the settings.
-        OPLinkSettingsData oplinkSettings;
-        OPLinkSettingsGet(&oplinkSettings);
+        TauLinkSettingsData taulinkSettings;
+        TauLinkSettingsGet(&taulinkSettings);
 
         // Check if this is the coordinator modem
         data->isCoordinator = taulinkSettings.Radio == TAULINKSETTINGS_RADIO_TELEMCOORD ||
                               taulinkSettings.Radio == TAULINKSETTINGS_RADIO_TELEMCOORDPPM;
 
         // We will not parse/send UAVTalk if any ports are configured as Serial (except for over the USB HID port).
-        data->parseUAVTalk  = ((oplinkSettings.MainPort != OPLINKSETTINGS_MAINPORT_SERIAL) &&
-                               (oplinkSettings.FlexiPort != OPLINKSETTINGS_FLEXIPORT_SERIAL) &&
-                               (oplinkSettings.VCPPort != OPLINKSETTINGS_VCPPORT_SERIAL));
+        data->parseUAVTalk  = ((taulinkSettings.MainPort != TAULINKSETTINGS_MAINPORT_COMBRIDGE) &&
+                               (taulinkSettings.VCPPort != TAULINKSETTINGS_VCPPORT_COMBRIDGE));
 
         // Set the maximum radio RF power.
-        switch (oplinkSettings.MaxRFPower) {
-        case OPLINKSETTINGS_MAXRFPOWER_125:
+        switch (taulinkSettings.MaxRfPower) {
+        case TAULINKSETTINGS_MAXRFPOWER_125:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
             break;
-        case OPLINKSETTINGS_MAXRFPOWER_16:
+        case TAULINKSETTINGS_MAXRFPOWER_16:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_1);
             break;
-        case OPLINKSETTINGS_MAXRFPOWER_316:
+        case TAULINKSETTINGS_MAXRFPOWER_316:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_2);
             break;
-        case OPLINKSETTINGS_MAXRFPOWER_63:
+        case TAULINKSETTINGS_MAXRFPOWER_63:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_3);
             break;
-        case OPLINKSETTINGS_MAXRFPOWER_126:
+        case TAULINKSETTINGS_MAXRFPOWER_126:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_4);
             break;
-        case OPLINKSETTINGS_MAXRFPOWER_25:
+        case TAULINKSETTINGS_MAXRFPOWER_25:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_5);
             break;
-        case OPLINKSETTINGS_MAXRFPOWER_50:
+        case TAULINKSETTINGS_MAXRFPOWER_50:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_6);
             break;
-        case OPLINKSETTINGS_MAXRFPOWER_100:
+        case TAULINKSETTINGS_MAXRFPOWER_100:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_7);
             break;
         default:
@@ -250,7 +249,7 @@ static int32_t RadioComBridgeInitialize(void)
     data->radioTxRetries     = 0;
 
     data->parseUAVTalk = true;
-    data->comSpeed     = OPLINKSETTINGS_COMSPEED_9600;
+    data->comSpeed     = TAULINKSETTINGS_COMSPEED_9600;
     PIOS_COM_RADIO     = PIOS_COM_RFM22B;
 
     return 0;
@@ -597,10 +596,10 @@ static void ProcessTelemetryStream(UAVTalkConnection inConnectionHandle, UAVTalk
         uint32_t objId = UAVTalkGetPacketObjId(inConnectionHandle);
         switch (objId) {
         case OPLINKSTATUS_OBJID:
-        case OPLINKSETTINGS_OBJID:
+        case TAULINKSETTINGS_OBJID:
         case OPLINKRECEIVER_OBJID:
         case MetaObjectId(OPLINKSTATUS_OBJID):
-        case MetaObjectId(OPLINKSETTINGS_OBJID):
+        case MetaObjectId(TAULINKSETTINGS_OBJID):
         case MetaObjectId(OPLINKRECEIVER_OBJID):
             UAVTalkReceiveObject(inConnectionHandle);
             break;
@@ -645,13 +644,13 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle, UAVTalkConn
         uint32_t objId = UAVTalkGetPacketObjId(inConnectionHandle);
         switch (objId) {
         case OPLINKSTATUS_OBJID:
-        case OPLINKSETTINGS_OBJID:
+        case TAULINKSETTINGS_OBJID:
         case MetaObjectId(OPLINKSTATUS_OBJID):
-        case MetaObjectId(OPLINKSETTINGS_OBJID):
+        case MetaObjectId(TAULINKSETTINGS_OBJID):
             // Ignore object...
             // These objects are shadowed by the modem and are not transmitted to the telemetry port
             // - OPLINKSTATUS_OBJID : ground station will receive the OPLM link status instead
-            // - OPLINKSETTINGS_OBJID : ground station will read and write the OPLM settings instead
+            // - TAULINKSETTINGS_OBJID : ground station will read and write the OPLM settings instead
             break;
         case OPLINKRECEIVER_OBJID:
         case MetaObjectId(OPLINKRECEIVER_OBJID):
@@ -681,7 +680,7 @@ static void objectPersistenceUpdatedCb(UAVObjEvent *objEv)
     ObjectPersistenceGet(&obj_per);
 
     // Is this concerning our setting object?
-    if (obj_per.ObjectID == OPLINKSETTINGS_OBJID) {
+    if (obj_per.ObjectID == TAULINKSETTINGS_OBJID) {
         // Is this a save, load, or delete?
         bool success = false;
         switch (obj_per.Operation) {
