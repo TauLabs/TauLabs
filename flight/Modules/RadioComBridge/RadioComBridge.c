@@ -138,36 +138,6 @@ static int32_t RadioComBridgeStart(void)
         data->parseUAVTalk  = ((taulinkSettings.MainPort != TAULINKSETTINGS_MAINPORT_COMBRIDGE) &&
                                (taulinkSettings.VCPPort != TAULINKSETTINGS_VCPPORT_COMBRIDGE));
 
-        // Set the maximum radio RF power.
-        switch (taulinkSettings.MaxRfPower) {
-        case TAULINKSETTINGS_MAXRFPOWER_125:
-            PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
-            break;
-        case TAULINKSETTINGS_MAXRFPOWER_16:
-            PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_1);
-            break;
-        case TAULINKSETTINGS_MAXRFPOWER_316:
-            PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_2);
-            break;
-        case TAULINKSETTINGS_MAXRFPOWER_63:
-            PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_3);
-            break;
-        case TAULINKSETTINGS_MAXRFPOWER_126:
-            PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_4);
-            break;
-        case TAULINKSETTINGS_MAXRFPOWER_25:
-            PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_5);
-            break;
-        case TAULINKSETTINGS_MAXRFPOWER_50:
-            PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_6);
-            break;
-        case TAULINKSETTINGS_MAXRFPOWER_100:
-            PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_7);
-            break;
-        default:
-            // do nothing
-            break;
-        }
 
         // Configure our UAVObjects for updates.
         UAVObjConnectQueue(UAVObjGetByID(OPLINKSTATUS_OBJID), data->uavtalkEventQueue, EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
