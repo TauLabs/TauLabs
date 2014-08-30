@@ -10,7 +10,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QList>
-#include "relaytuning.h"
+#include "systemident.h"
 #include "stabilizationsettings.h"
 #include "modulesettings.h"
 
@@ -31,10 +31,10 @@ ConfigAutotuneWidget::ConfigAutotuneWidget(QWidget *parent) :
     addUAVObject("ModuleSettings");
     addWidget(m_autotune->enableAutoTune);
 
-    RelayTuning *relayTuning = RelayTuning::GetInstance(getObjectManager());
-    Q_ASSERT(relayTuning);
-    if(relayTuning)
-        connect(relayTuning, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(recomputeStabilization()));
+    SystemIdent *systemIdent = SystemIdent::GetInstance(getObjectManager());
+    Q_ASSERT(systemIdent);
+    if(systemIdent)
+        connect(systemIdent, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(recomputeStabilization()));
 
     // Connect the apply button for the stabilization settings
     connect(m_autotune->useComputedValues, SIGNAL(pressed()), this, SLOT(saveStabilization()));
@@ -65,9 +65,9 @@ void ConfigAutotuneWidget::saveStabilization()
   */
 void ConfigAutotuneWidget::recomputeStabilization()
 {
-    RelayTuning *relayTuning = RelayTuning::GetInstance(getObjectManager());
-    Q_ASSERT(relayTuning);
-    if(!relayTuning)
+    SystemIdent *systemIdent = SystemIdent::GetInstance(getObjectManager());
+    Q_ASSERT(systemIdent);
+    if(!systemIdent)
         return;
 
     StabilizationSettings *stabilizationSettings = StabilizationSettings::GetInstance(getObjectManager());
@@ -75,7 +75,7 @@ void ConfigAutotuneWidget::recomputeStabilization()
     if(!stabilizationSettings)
         return;
 
-    RelayTuning::DataFields relayTuningData = relayTuning->getData();
+    systemIdent::DataFields systemIdentData = systemIdent->getData();
     stabSettings = stabilizationSettings->getData();
 
     // These three parameters define the desired response properties
@@ -88,9 +88,9 @@ void ConfigAutotuneWidget::recomputeStabilization()
     const double ghf = m_autotune->rateNoise->value() / 1000.0;
     const double damp = m_autotune->rateDamp->value() / 100.0;
 
-    double tau = exp(relayTuningData.Tau);
-    double beta_roll = relayTuningData.Beta[RelayTuning::BETA_ROLL];
-    double beta_pitch = relayTuningData.Beta[RelayTuning::BETA_PITCH];
+    double tau = exp(systemIdentData.Tau);
+    double beta_roll = systemIdentData.Beta[SystemIdent::BETA_ROLL];
+    double beta_pitch = systemIdentData.Beta[SystemIdent::BETA_PITCH];
 
     double wn = 1/tau;
     double tau_d = 0;
@@ -121,7 +121,7 @@ void ConfigAutotuneWidget::recomputeStabilization()
 
     // For now just run over roll and pitch
     for (int i = 0; i < 2; i++) {
-        double beta = exp(relayTuningData.Beta[i]);
+        double beta = exp(systemIdentData.Beta[i]);
 
         double ki = a * b * wn * wn * tau * tau_d / beta;
         double kp = tau * tau_d * ((a+b)*wn*wn + 2*a*b*damp*wn) / beta - ki*tau_d;

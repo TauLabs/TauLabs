@@ -359,7 +359,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
-                  <string>objname:RelayTuning</string>
+                  <string>objname:SystemIdent</string>
                   <string>fieldname:Beta</string>
                   <string>element:Roll</string>
                  </stringlist>
@@ -376,7 +376,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
-                  <string>objname:RelayTuning</string>
+                  <string>objname:SystemIdent</string>
                   <string>fieldname:Bias</string>
                   <string>element:Roll</string>
                  </stringlist>
@@ -407,7 +407,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
-                  <string>objname:RelayTuning</string>
+                  <string>objname:SystemIdent</string>
                   <string>fieldname:Beta</string>
                   <string>element:Pitch</string>
                  </stringlist>
@@ -424,7 +424,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
-                  <string>objname:RelayTuning</string>
+                  <string>objname:SystemIdent</string>
                   <string>fieldname:Bias</string>
                   <string>element:Pitch</string>
                  </stringlist>
@@ -482,7 +482,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
-                  <string>objname:RelayTuning</string>
+                  <string>objname:SystemIdent</string>
                   <string>fieldname:Noise</string>
                   <string>element:Roll</string>
                  </stringlist>
@@ -499,7 +499,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
-                  <string>objname:RelayTuning</string>
+                  <string>objname:SystemIdent</string>
                   <string>fieldname:Noise</string>
                   <string>element:Pitch</string>
                  </stringlist>
