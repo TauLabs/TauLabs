@@ -517,6 +517,10 @@ void UploaderGadgetWidget::onBootloaderDetected()
             setUploaderStatus(uploader::BL_FROM_HALT);
             break;
         case uploader::RESCUING:
+            m_widget->progressBar->setValue(0);
+            disconnect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onBootloaderDetected()));
+            disconnect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onRescueTimer()));
+            emit rescueFinish(true);
             setUploaderStatus(uploader::BL_FROM_RESCUE);
             break;
         default:
@@ -528,8 +532,6 @@ void UploaderGadgetWidget::onBootloaderDetected()
     else
     {
         setStatusInfo(tr("Could not open coms with the bootloader"), uploader::STATUSICON_FAIL);
-        setUploaderStatus((uploader::DISCONNECTED));
-        conMngr->resumePolling();
     }
 }
 
@@ -573,8 +575,9 @@ void UploaderGadgetWidget::onRescueTimer(bool start)
         progress = 100;
         connect(&timer, SIGNAL(timeout()), this, SLOT(onRescueTimer()),Qt::UniqueConnection);
         timer.start(200);
-        connect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onBootloaderDetected()), Qt::UniqueConnection);
-        connect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onRescueTimer()), Qt::UniqueConnection);
+        connect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onBootloaderDetected()), (Qt::ConnectionType) (Qt::UniqueConnection | Qt::QueuedConnection));
+        connect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onRescueTimer()), (Qt::ConnectionType) (Qt::UniqueConnection | Qt::QueuedConnection));
+        connect(this, SIGNAL(bootloaderDetected()), &timer, SLOT(stop()), Qt::UniqueConnection);
         emit rescueTimer(0);
     }
     else
@@ -587,6 +590,7 @@ void UploaderGadgetWidget::onRescueTimer(bool start)
     {
         disconnect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onBootloaderDetected()));
         disconnect(usbFilterBL, SIGNAL(deviceDiscovered()), this, SLOT(onRescueTimer()));
+        disconnect(this, SIGNAL(bootloaderDetected()), &timer, SLOT(stop()));
         timer.disconnect();
         setStatusInfo(tr("Failed to detect bootloader"), uploader::STATUSICON_FAIL);
         setUploaderStatus(uploader::DISCONNECTED);
