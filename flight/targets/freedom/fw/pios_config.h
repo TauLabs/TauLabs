@@ -58,6 +58,7 @@
 
 /* Variables related to the RFM22B functionality */
 #define PIOS_INCLUDE_RFM22B
+#define PIOS_INCLUDE_RFM22B_COM
 #define RFM22_EXT_INT_USE
  
 /* Select the sensors to include */
