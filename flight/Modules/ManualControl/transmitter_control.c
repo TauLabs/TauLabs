@@ -721,7 +721,8 @@ static bool updateRcvrActivityCompare(uintptr_t rcvr_id, struct rcvr_activity_fs
 				group = RECEIVERACTIVITY_ACTIVEGROUP_HOTTSUM;
 				break;
 			default:
-				PIOS_Assert(0);
+				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
+				group = RECEIVERACTIVITY_ACTIVEGROUP_PWM;
 				break;
 			}
 
