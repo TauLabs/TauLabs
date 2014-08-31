@@ -37,20 +37,26 @@
 
 /* Provide a COM driver */
 static void PIOS_RFM22B_COM_ChangeBaud(uintptr_t rfm22b_id, uint32_t baud);
-static void PIOS_RFM22B_COM_RegisterRxCallback(uintptr_t rfm22b_id, pios_com_callback rx_in_cb, uintptr_t context);
-static void PIOS_RFM22B_COM_RegisterTxCallback(uintptr_t     rfm22b_id, pios_com_callback tx_out_cb, uintptr_t context);
-static void PIOS_RFM22B_COM_TxStart(uintptr_t rfm22b_id, uint16_t tx_bytes_avail);
-static void PIOS_RFM22B_COM_RxStart(uintptr_t rfm22b_id, uint16_t rx_bytes_avail);
+static void PIOS_RFM22B_COM_RegisterRxCallback(uintptr_t rfm22b_id,
+					       pios_com_callback rx_in_cb,
+					       uintptr_t context);
+static void PIOS_RFM22B_COM_RegisterTxCallback(uintptr_t rfm22b_id,
+					       pios_com_callback tx_out_cb,
+					       uintptr_t context);
+static void PIOS_RFM22B_COM_TxStart(uintptr_t rfm22b_id,
+				    uint16_t tx_bytes_avail);
+static void PIOS_RFM22B_COM_RxStart(uintptr_t rfm22b_id,
+				    uint16_t rx_bytes_avail);
 static bool PIOS_RFM22B_COM_Available(uintptr_t rfm22b_com_id);
 
 /* Local variables */
 const struct pios_com_driver pios_rfm22b_com_driver = {
-    .set_baud   = PIOS_RFM22B_COM_ChangeBaud,
-    .tx_start   = PIOS_RFM22B_COM_TxStart,
-    .rx_start   = PIOS_RFM22B_COM_RxStart,
-    .bind_tx_cb = PIOS_RFM22B_COM_RegisterTxCallback,
-    .bind_rx_cb = PIOS_RFM22B_COM_RegisterRxCallback,
-    .available  = PIOS_RFM22B_COM_Available
+	.set_baud = PIOS_RFM22B_COM_ChangeBaud,
+	.tx_start = PIOS_RFM22B_COM_TxStart,
+	.rx_start = PIOS_RFM22B_COM_RxStart,
+	.bind_tx_cb = PIOS_RFM22B_COM_RegisterTxCallback,
+	.bind_rx_cb = PIOS_RFM22B_COM_RegisterRxCallback,
+	.available = PIOS_RFM22B_COM_Available
 };
 
 /**
@@ -59,9 +65,12 @@ const struct pios_com_driver pios_rfm22b_com_driver = {
  * @param[in] rfm22b_id  The defice ID
  * @param[in] baud Requested baud rate
  */
-static void PIOS_RFM22B_COM_ChangeBaud(__attribute__((unused)) uintptr_t rfm22b_id,
-                                       __attribute__((unused)) uint32_t baud)
-{}
+static void PIOS_RFM22B_COM_ChangeBaud( __attribute__ ((unused)) uintptr_t
+				       rfm22b_id,
+				       __attribute__ ((unused)) uint32_t
+				       baud)
+{
+}
 
 /**
  * Start a receive from the COM device
@@ -69,9 +78,12 @@ static void PIOS_RFM22B_COM_ChangeBaud(__attribute__((unused)) uintptr_t rfm22b_
  * @param[in] rfm22b_dev  The device ID.
  * @param[in] rx_bytes_available  The number of bytes available to receive
  */
-static void PIOS_RFM22B_COM_RxStart(__attribute__((unused)) uintptr_t rfm22b_id,
-                                    __attribute__((unused)) uint16_t rx_bytes_avail)
-{}
+static void PIOS_RFM22B_COM_RxStart( __attribute__ ((unused)) uintptr_t
+				    rfm22b_id,
+				    __attribute__ ((unused)) uint16_t
+				    rx_bytes_avail)
+{
+}
 
 /**
  * Start a transmit from the COM device
@@ -79,10 +91,12 @@ static void PIOS_RFM22B_COM_RxStart(__attribute__((unused)) uintptr_t rfm22b_id,
  * @param[in] rfm22b_dev  The device ID.
  * @param[in] tx_bytes_available  The number of bytes available to transmit
  */
-static void PIOS_RFM22B_COM_TxStart(__attribute__((unused)) uintptr_t rfm22b_id,
-                                    __attribute__((unused)) uint16_t tx_bytes_avail)
-{}
-
+static void PIOS_RFM22B_COM_TxStart( __attribute__ ((unused)) uintptr_t
+				    rfm22b_id,
+				    __attribute__ ((unused)) uint16_t
+				    tx_bytes_avail)
+{
+}
 
 /**
  * Register the callback to pass received data to
@@ -91,20 +105,23 @@ static void PIOS_RFM22B_COM_TxStart(__attribute__((unused)) uintptr_t rfm22b_id,
  * @param[in] rx_in_cb  The Rx callback function.
  * @param[in] context  The callback context.
  */
-static void PIOS_RFM22B_COM_RegisterRxCallback(uintptr_t rfm22b_id, pios_com_callback rx_in_cb, uintptr_t context)
+static void PIOS_RFM22B_COM_RegisterRxCallback(uintptr_t rfm22b_id,
+					       pios_com_callback rx_in_cb,
+					       uintptr_t context)
 {
-    struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)rfm22b_id;
+	struct pios_rfm22b_dev *rfm22b_dev =
+	    (struct pios_rfm22b_dev *)rfm22b_id;
 
-    if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
-        return;
-    }
+	if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
+		return;
+	}
 
-    /*
-     * Order is important in these assignments since ISR uses _cb
-     * field to determine if it's ok to dereference _cb and _context
-     */
-    rfm22b_dev->rx_in_context = context;
-    rfm22b_dev->rx_in_cb = rx_in_cb;
+	/*
+	 * Order is important in these assignments since ISR uses _cb
+	 * field to determine if it's ok to dereference _cb and _context
+	 */
+	rfm22b_dev->rx_in_context = context;
+	rfm22b_dev->rx_in_cb = rx_in_cb;
 }
 
 /**
@@ -114,20 +131,23 @@ static void PIOS_RFM22B_COM_RegisterRxCallback(uintptr_t rfm22b_id, pios_com_cal
  * @param[in] rx_in_cb  The Tx callback function.
  * @param[in] context  The callback context.
  */
-static void PIOS_RFM22B_COM_RegisterTxCallback(uintptr_t rfm22b_id, pios_com_callback tx_out_cb, uintptr_t context)
+static void PIOS_RFM22B_COM_RegisterTxCallback(uintptr_t rfm22b_id,
+					       pios_com_callback tx_out_cb,
+					       uintptr_t context)
 {
-    struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)rfm22b_id;
+	struct pios_rfm22b_dev *rfm22b_dev =
+	    (struct pios_rfm22b_dev *)rfm22b_id;
 
-    if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
-        return;
-    }
+	if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
+		return;
+	}
 
-    /*
-     * Order is important in these assignments since ISR uses _cb
-     * field to determine if it's ok to dereference _cb and _context
-     */
-    rfm22b_dev->tx_out_context = context;
-    rfm22b_dev->tx_out_cb = tx_out_cb;
+	/*
+	 * Order is important in these assignments since ISR uses _cb
+	 * field to determine if it's ok to dereference _cb and _context
+	 */
+	rfm22b_dev->tx_out_context = context;
+	rfm22b_dev->tx_out_cb = tx_out_cb;
 }
 
 /**
@@ -138,7 +158,7 @@ static void PIOS_RFM22B_COM_RegisterTxCallback(uintptr_t rfm22b_id, pios_com_cal
  */
 static bool PIOS_RFM22B_COM_Available(uintptr_t rfm22b_id)
 {
-    return PIOS_RFM22B_LinkStatus(rfm22b_id);
+	return PIOS_RFM22B_LinkStatus(rfm22b_id);
 }
 
 #endif /* PIOS_INCLUDE_RFM22B_COM */
