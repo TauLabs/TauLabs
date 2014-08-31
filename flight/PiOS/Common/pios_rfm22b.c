@@ -2244,7 +2244,9 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 
 			// Call the PPM received callback if it's available.
 			if (radio_dev->rfm22b_rcvr_id) {
+#if defined(PIOS_INCLUDE_RFM22B_RCVR)
 				PIOS_RFM22B_Rcvr_UpdateChannels(radio_dev->rfm22b_rcvr_id, radio_dev->ppm);
+#endif
 			}
 		}
 	}
