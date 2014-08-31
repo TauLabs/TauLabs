@@ -49,13 +49,23 @@ Sparky2::Sparky2(void)
     boardType = 0x92;
 
     // Define the bank of channels that are connected to a given timer
+    //   Ch1 TIM3
+    //   Ch2 TIM3
+    //   Ch3 TIM9
+    //   Ch4 TIM9
+    //   Ch5 TIM5
+    //   Ch6 TIM5
+    //  LED1 TIM12
+    //  LED2 TIM12
+    //  LED3 TIM8
+    //  LED4 TIM8
     channelBanks.resize(6);
     channelBanks[0] = QVector<int> () << 1 << 2;
-    channelBanks[1] = QVector<int> () << 3;
-    channelBanks[2] = QVector<int> () << 4 << 7 << 9;
-    channelBanks[3] = QVector<int> () << 5;
-    channelBanks[4] = QVector<int> () << 6 << 10;
-    channelBanks[5] = QVector<int> () << 8;
+    channelBanks[1] = QVector<int> () << 3 << 4;
+    channelBanks[2] = QVector<int> () << 5 << 6;
+    channelBanks[3] = QVector<int> () << 7 << 8;
+    channelBanks[4] = QVector<int> () << 9 << 10;
+    channelBanks[5] = QVector<int> ();
 }
 
 Sparky2::~Sparky2()
@@ -106,7 +116,7 @@ QStringList Sparky2::getSupportedProtocols()
 
 QPixmap Sparky2::getBoardPicture()
 {
-    return QPixmap(":/taulabs/images/sparky.png");
+    return QPixmap(":/taulabs/images/sparky2.png");
 }
 
 QString Sparky2::getHwUAVO()
