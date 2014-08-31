@@ -28,7 +28,7 @@
  */
 
 #include "telemetry.h"
-#include "oplinksettings.h"
+#include "taulinksettings.h"
 #include "objectpersistence.h"
 #include <QTime>
 #include <QtGlobal>
@@ -480,8 +480,14 @@ void Telemetry::processObjectQueue()
     if ( gcsStats.Status != GCSTelemetryStats::STATUS_CONNECTED )
     {
         objQueue.clear();
-        if ( objInfo.obj->getObjID() != GCSTelemetryStats::OBJID && objInfo.obj->getObjID() != OPLinkSettings::OBJID  && objInfo.obj->getObjID() != ObjectPersistence::OBJID )
+        if ( objInfo.obj->getObjID() != GCSTelemetryStats::OBJID &&
+             objInfo.obj->getObjID() != TauLinkSettings::OBJID &&
+             objInfo.obj->getObjID() != ObjectPersistence::OBJID )
         {
+            // If Telemetry is not connected, then all transactions fail except
+            // - GCSTelemetryStats (to establish connection)
+            // - TauLinkSettings (to configure the modem)
+            // - ObjectPersistence (to save modem configuration)
             objInfo.obj->emitTransactionCompleted(false);
             objInfo.obj->emitTransactionCompleted(false,false);
             return;
