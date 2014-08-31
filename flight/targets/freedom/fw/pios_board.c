@@ -43,9 +43,11 @@
 #include "modulesettings.h"
 #include "manualcontrolsettings.h"
 #include "oplinkstatus.h"
+
 #include "pios_internal_adc_priv.h"
 #include "pios_adc_priv.h"
 #include "pios_rfm22b_priv.h"
+#include "pios_rfm22b_rcvr_priv.h"
 
 /**
  * Sensor configurations 
@@ -758,7 +760,6 @@ void PIOS_Board_Init(void) {
     /* Initalize the RFM22B radio COM device. */
 #if defined(PIOS_INCLUDE_RFM22B)
 	OPLinkStatusInitialize();
-	OPLinkReceiverInitialize();
 
 	// Initialize out status object.
 	OPLinkStatusData oplinkStatus;
@@ -772,9 +773,9 @@ void PIOS_Board_Init(void) {
 	HwFreedomGet(&hwFreedom);
 
 	bool is_coordinator = hwFreedom.Radio == HWFREEDOM_RADIO_TELEMCOORD;
-	bool is_oneway   = false;
-	bool ppm_only    = false;
-	bool ppm_mode    = false;
+	bool ppm_mode    = hwFreedom.Radio != HWFREEDOM_RADIO_DISABLED;
+	bool ppm_only    = hwFreedom.Radio == HWFREEDOM_RADIO_PPM;
+	bool is_oneway   = false; // does not matter for this side
 
 	if (hwFreedom.MaxRfPower != HWFREEDOM_MAXRFPOWER_0 &&
 		hwFreedom.Radio != HWFREEDOM_RADIO_DISABLED) {
@@ -860,6 +861,18 @@ void PIOS_Board_Init(void) {
 
 		/* Reinitialize the modem. */
 		PIOS_RFM22B_Reinit(pios_rfm22b_id);
+
+#if defined(PIOS_INCLUDE_RFM22B_RCVR)
+		{
+			uintptr_t pios_rfm22brcvr_id;
+			PIOS_RFM22B_Rcvr_Init(&pios_rfm22brcvr_id, pios_rfm22b_id);
+			uintptr_t pios_rfm22brcvr_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_rfm22brcvr_rcvr_id, &pios_rfm22b_rcvr_driver, pios_rfm22brcvr_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_RFM22B] = pios_rfm22brcvr_rcvr_id;
+		}
+#endif /* PIOS_INCLUDE_RFM22B_RCVR */
 	} else {
 		oplinkStatus.LinkState = OPLINKSTATUS_LINKSTATE_DISABLED;
 	}
