@@ -35,7 +35,6 @@
 #include <openpilot.h>
 #include <oplinkstatus.h>
 #include <objectpersistence.h>
-#include <taulinksettings.h>
 #include <oplinkreceiver.h>
 #include <radiocombridgestats.h>
 #include <uavtalk_priv.h>
@@ -126,18 +125,11 @@ static RadioComBridgeData *data;
 static int32_t RadioComBridgeStart(void)
 {
     if (data) {
-        // Get the settings.
-        TauLinkSettingsData taulinkSettings;
-        TauLinkSettingsGet(&taulinkSettings);
-
         // Check if this is the coordinator modem
-        data->isCoordinator = taulinkSettings.Radio == TAULINKSETTINGS_RADIO_TELEMCOORD ||
-                              taulinkSettings.Radio == TAULINKSETTINGS_RADIO_TELEMCOORDPPM;
+        data->isCoordinator = PIOS_RFM22B_IsCoordinator(pios_rfm22b_id);
 
-        // We will not parse/send UAVTalk if any ports are configured as Serial (except for over the USB HID port).
-        data->parseUAVTalk  = ((taulinkSettings.MainPort != TAULINKSETTINGS_MAINPORT_COMBRIDGE) &&
-                               (taulinkSettings.VCPPort != TAULINKSETTINGS_VCPPORT_COMBRIDGE));
-
+        // Parse UAVTalk out of the link
+        data->parseUAVTalk  = true;
 
         // Configure our UAVObjects for updates.
         UAVObjConnectQueue(UAVObjGetByID(OPLINKSTATUS_OBJID), data->uavtalkEventQueue, EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);

@@ -664,6 +664,22 @@ extern void PIOS_RFM22B_SetCoordinator(uint32_t rfm22b_id, bool coordinator)
 }
 
 /**
+ * Query if a modem is a coordinator
+ * @param[in] rfm22b_id The RFM22B device index.
+ * @returns True if coordinator, false if not
+ */
+extern bool PIOS_RFM22B_IsCoordinator(uint32_t rfm22b_id)
+{
+    struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)rfm22b_id;
+
+    if (PIOS_RFM22B_Validate(rfm22b_dev)) {
+        return false;
+    }
+
+    return rfm22b_dev->coordinator;
+}
+
+/**
  * Sets the device coordinator ID.
  *
  * @param[in] rfm22b_id The RFM22B device index.
