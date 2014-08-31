@@ -69,26 +69,6 @@ uint8_t *pios_uart_tx_buffer;
 
 uintptr_t pios_uavo_settings_fs_id;
 
-
-static void PIOS_Board_PPM_callback(const int16_t *channels)
-{
-#if defined(PIOS_INCLUDE_PPM) && defined(PIOS_INCLUDE_PPM_OUT)
-    if (pios_ppm_out_id) {
-        for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS; ++i) {
-            if (channels[i] != PIOS_RCVR_INVALID) {
-                PIOS_PPM_OUT_Set(PIOS_PPM_OUTPUT, i, channels[i]);
-            }
-        }
-    }
-#if defined(PIOS_INCLUDE_SERVO)
-    for (uint8_t i = 0; i < servo_count; ++i) {
-        uint16_t val = (channels[i] == PIOS_RCVR_INVALID) ? 0 : channels[i];
-        PIOS_Servo_Set(i, val);
-    }
-#endif /* PIOS_INCLUDE_SERVO */
-#endif /* PIOS_INCLUDE_PPM && PIOS_INCLUDE_PPM_OUT */
-}
-
 /**
  * PIOS_Board_Init()
  * initializes all the core subsystems on this specific hardware
@@ -374,11 +354,6 @@ void PIOS_Board_Init(void) {
         // Set the radio configuration parameters.
         PIOS_RFM22B_SetChannelConfig(pios_rfm22b_id, datarate, taulinkSettings.MinChannel, taulinkSettings.MaxChannel, taulinkSettings.ChannelSet, is_coordinator, is_oneway, ppm_mode, ppm_only);
         PIOS_RFM22B_SetCoordinatorID(pios_rfm22b_id, taulinkSettings.CoordID);
-
-        /* Set the PPM callback if we should be receiving PPM. */
-        if (ppm_mode) {
-            PIOS_RFM22B_SetPPMCallback(pios_rfm22b_id, PIOS_Board_PPM_callback);
-        }
 
         // Reinitilize the modem to affect te changes.
         PIOS_RFM22B_Reinit(pios_rfm22b_id);
