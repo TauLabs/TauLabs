@@ -37,6 +37,7 @@
 #include <objectpersistence.h>
 #include <oplinkreceiver.h>
 #include <radiocombridgestats.h>
+#include "taulinksettings.h"
 #include <uavtalk_priv.h>
 #include <pios_rfm22b.h>
 #include <ecc.h>
@@ -91,9 +92,6 @@ typedef struct {
 
     // Should we parse UAVTalk?
     bool     parseUAVTalk;
-
-    // The current configured uart speed
-    TauLinkSettingsComSpeedOptions comSpeed;
 } RadioComBridgeData;
 
 // ****************
@@ -126,7 +124,7 @@ static int32_t RadioComBridgeStart(void)
 {
     if (data) {
         // Check if this is the coordinator modem
-        data->isCoordinator = PIOS_RFM22B_IsCoordinator(pios_rfm22b_id);
+        data->isCoordinator = PIOS_RFM22B_IsCoordinator(PIOS_COM_RFM22B);
 
         // Parse UAVTalk out of the link
         data->parseUAVTalk  = true;
@@ -211,7 +209,6 @@ static int32_t RadioComBridgeInitialize(void)
     data->radioTxRetries     = 0;
 
     data->parseUAVTalk = true;
-    data->comSpeed     = TAULINKSETTINGS_COMSPEED_9600;
     PIOS_COM_RADIO     = PIOS_COM_RFM22B;
 
     return 0;
