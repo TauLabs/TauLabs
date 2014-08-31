@@ -87,12 +87,12 @@ int32_t PipXtremeModStart(void)
  */
 int32_t PipXtremeModInitialize(void)
 {
-    // Must registers objects here for system thread because ObjectManager started in OpenPilotInit
+	// Must registers objects here for system thread because ObjectManager started in OpenPilotInit
 
-    // Call the module start function.
-    PipXtremeModStart();
+	// Call the module start function.
+	PipXtremeModStart();
 
-    return 0;
+	return 0;
 }
 
 MODULE_INITCALL(PipXtremeModInitialize, 0);
@@ -127,75 +127,103 @@ static void systemTask(void *parameters)
     // Main system loop
     while (1) {
         // Flash the heartbeat LED
+
 #if defined(PIOS_LED_HEARTBEAT)
-        PIOS_LED_Toggle(PIOS_LED_HEARTBEAT);
+		PIOS_LED_Toggle(PIOS_LED_HEARTBEAT);
 #endif /* PIOS_LED_HEARTBEAT */
 
-        // Update the OPLinkStatus UAVO
-        OPLinkStatusData oplinkStatus;
-        OPLinkStatusGet(&oplinkStatus);
+		// Update the OPLinkStatus UAVO
+		OPLinkStatusData oplinkStatus;
+		OPLinkStatusGet(&oplinkStatus);
 
-        // Get the other device stats.
-        PIOS_RFM2B_GetPairStats(pios_rfm22b_id, oplinkStatus.PairIDs, oplinkStatus.PairSignalStrengths, OPLINKSTATUS_PAIRIDS_NUMELEM);
+		// Get the other device stats.
+		PIOS_RFM2B_GetPairStats(pios_rfm22b_id,
+					oplinkStatus.PairIDs,
+					oplinkStatus.PairSignalStrengths,
+					OPLINKSTATUS_PAIRIDS_NUMELEM);
 
-        // Get the stats from the radio device
-        struct rfm22b_stats radio_stats;
-        PIOS_RFM22B_GetStats(pios_rfm22b_id, &radio_stats);
+		// Get the stats from the radio device
+		struct rfm22b_stats radio_stats;
+		PIOS_RFM22B_GetStats(pios_rfm22b_id, &radio_stats);
 
-        if (pios_rfm22b_id) {
-            // Update the status
-            oplinkStatus.HeapRemaining = xPortGetFreeHeapSize();
-            oplinkStatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
-            oplinkStatus.RxGood = radio_stats.rx_good;
-            oplinkStatus.RxCorrected   = radio_stats.rx_corrected;
-            oplinkStatus.RxErrors = radio_stats.rx_error;
-            oplinkStatus.RxMissed = radio_stats.rx_missed;
-            oplinkStatus.RxFailure     = radio_stats.rx_failure;
-            oplinkStatus.TxDropped     = radio_stats.tx_dropped;
-            oplinkStatus.TxResent = radio_stats.tx_resent;
-            oplinkStatus.TxFailure     = radio_stats.tx_failure;
-            oplinkStatus.Resets      = radio_stats.resets;
-            oplinkStatus.Timeouts    = radio_stats.timeouts;
-            oplinkStatus.RSSI        = radio_stats.rssi;
-            oplinkStatus.LinkQuality = radio_stats.link_quality;
-            if (first_time) {
-                first_time = false;
-            } else {
-                uint16_t tx_count = radio_stats.tx_byte_count;
-                uint16_t rx_count = radio_stats.rx_byte_count;
-                uint16_t tx_bytes = (tx_count < prev_tx_count) ? (0xffff - prev_tx_count + tx_count) : (tx_count - prev_tx_count);
-                uint16_t rx_bytes = (rx_count < prev_rx_count) ? (0xffff - prev_rx_count + rx_count) : (rx_count - prev_rx_count);
-                oplinkStatus.TXRate = (uint16_t)((float)(tx_bytes * 1000) / SYSTEM_UPDATE_PERIOD_MS);
-                oplinkStatus.RXRate = (uint16_t)((float)(rx_bytes * 1000) / SYSTEM_UPDATE_PERIOD_MS);
-                prev_tx_count = tx_count;
-                prev_rx_count = rx_count;
-            }
-            oplinkStatus.TXSeq     = radio_stats.tx_seq;
-            oplinkStatus.RXSeq     = radio_stats.rx_seq;
-            oplinkStatus.LinkState = radio_stats.link_state;
-        } else {
-            oplinkStatus.LinkState = OPLINKSTATUS_LINKSTATE_DISABLED;
-        }
+		if (pios_rfm22b_id) {
+			// Update the status
+			oplinkStatus.HeapRemaining =
+			    xPortGetFreeHeapSize();
+			oplinkStatus.DeviceID =
+			    PIOS_RFM22B_DeviceID(pios_rfm22b_id);
+			oplinkStatus.RxGood = radio_stats.rx_good;
+			oplinkStatus.RxCorrected =
+			    radio_stats.rx_corrected;
+			oplinkStatus.RxErrors = radio_stats.rx_error;
+			oplinkStatus.RxMissed = radio_stats.rx_missed;
+			oplinkStatus.RxFailure = radio_stats.rx_failure;
+			oplinkStatus.TxDropped = radio_stats.tx_dropped;
+			oplinkStatus.TxResent = radio_stats.tx_resent;
+			oplinkStatus.TxFailure = radio_stats.tx_failure;
+			oplinkStatus.Resets = radio_stats.resets;
+			oplinkStatus.Timeouts = radio_stats.timeouts;
+			oplinkStatus.RSSI = radio_stats.rssi;
+			oplinkStatus.LinkQuality =
+			    radio_stats.link_quality;
+			if (first_time) {
+				first_time = false;
+			} else {
+				uint16_t tx_count =
+				    radio_stats.tx_byte_count;
+				uint16_t rx_count =
+				    radio_stats.rx_byte_count;
+				uint16_t tx_bytes =
+				    (tx_count <
+				     prev_tx_count) ? (0xffff -
+						       prev_tx_count +
+						       tx_count)
+				    : (tx_count - prev_tx_count);
+				uint16_t rx_bytes =
+				    (rx_count <
+				     prev_rx_count) ? (0xffff -
+						       prev_rx_count +
+						       rx_count)
+				    : (rx_count - prev_rx_count);
+				oplinkStatus.TXRate =
+				    (uint16_t) ((float)(tx_bytes * 1000) /
+						SYSTEM_UPDATE_PERIOD_MS);
+				oplinkStatus.RXRate =
+				    (uint16_t) ((float)(rx_bytes * 1000) /
+						SYSTEM_UPDATE_PERIOD_MS);
+				prev_tx_count = tx_count;
+				prev_rx_count = rx_count;
+			}
+			oplinkStatus.TXSeq = radio_stats.tx_seq;
+			oplinkStatus.RXSeq = radio_stats.rx_seq;
+			oplinkStatus.LinkState = radio_stats.link_state;
+		} else {
+			oplinkStatus.LinkState =
+			    OPLINKSTATUS_LINKSTATE_DISABLED;
+		}
 
-        if (radio_stats.link_state == OPLINKSTATUS_LINKSTATE_CONNECTED) {
-            LINK_LED_ON;
-        } else {
-            LINK_LED_OFF;
-        }
+		if (radio_stats.link_state ==
+		    OPLINKSTATUS_LINKSTATE_CONNECTED) {
+			LINK_LED_ON;
+		} else {
+			LINK_LED_OFF;
+		}
 
-        // Update the object
-        OPLinkStatusSet(&oplinkStatus);
+		// Update the object
+		OPLinkStatusSet(&oplinkStatus);
 
-        // Wait until next period
-        PIOS_Thread_Sleep_Until(&lastSysTime, SYSTEM_UPDATE_PERIOD_MS);
-    }
+		// Wait until next period
+		PIOS_Thread_Sleep_Until(&lastSysTime, SYSTEM_UPDATE_PERIOD_MS);
+	}
+
 }
 
 /**
  * Called by the RTOS when the CPU is idle, used to measure the CPU idle time.
  */
 void vApplicationIdleHook(void)
-{}
+{
+}
 
 /**
  * Called by the RTOS when a stack overflow is detected.
@@ -203,13 +231,13 @@ void vApplicationIdleHook(void)
 #define DEBUG_STACK_OVERFLOW 0
 void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
 {
-    stackOverflow = true;
+	stackOverflow = true;
 #if DEBUG_STACK_OVERFLOW
-    static volatile bool wait_here = true;
-    while (wait_here) {
-        ;
-    }
-    wait_here = true;
+	static volatile bool wait_here = true;
+	while (wait_here) {
+		;
+	}
+	wait_here = true;
 #endif
 }
 
@@ -219,13 +247,13 @@ void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
 #define DEBUG_MALLOC_FAILURES 0
 void vApplicationMallocFailedHook(void)
 {
-    mallocFailed = true;
+	mallocFailed = true;
 #if DEBUG_MALLOC_FAILURES
-    static volatile bool wait_here = true;
-    while (wait_here) {
-        ;
-    }
-    wait_here = true;
+	static volatile bool wait_here = true;
+	while (wait_here) {
+		;
+	}
+	wait_here = true;
 #endif
 }
 
