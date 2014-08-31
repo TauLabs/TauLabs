@@ -118,7 +118,7 @@ void inputChannelForm::groupUpdated()
     case ManualControlSettings::CHANNELGROUPS_SBUS:
         count = 18;
         break;
-    case ManualControlSettings::CHANNELGROUPS_OPLINK:
+    case ManualControlSettings::CHANNELGROUPS_RFM22B:
         count = 8;
         break;
     case ManualControlSettings::CHANNELGROUPS_GCS:
