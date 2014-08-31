@@ -209,6 +209,7 @@ void DFUObject::run()
   */
 bool DFUObject::DownloadPartition(QByteArray *fw, qint32 const & numberOfBytes, dfu_partition_label const & partition)
 {
+    EnterDFU();
     emit operationProgress(QString("%0 partition download").arg(partitionStringFromLabel(partition)), -1);
     messagePackets msg = CalculatePadding(numberOfBytes);
     bl_messages message;
@@ -404,6 +405,7 @@ bool DFUObject::OpenBootloaderComs(USBPortInfo port)
     {
         QTimer::singleShot(200,&m_eventloop, SLOT(quit()));
         m_eventloop.exec();
+        AbortOperation();
         if(!EnterDFU())
         {
             TL_DFU_QXTLOG_DEBUG(QString("Could not process enterDFU command"));
