@@ -6,8 +6,7 @@
  * @{
  *
  * @file       pios_usb_board_data.c 
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Board specific USB specifications
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -36,16 +35,16 @@
 static const uint8_t usb_product_id[22] = {
 	sizeof(usb_product_id),
 	USB_DESC_TYPE_STRING,
-	'R', 0,
-	'e', 0,
-	'v', 0,
-	'o', 0,
-	'l', 0,
-	'u', 0,
-	't', 0,
-	'i', 0,
-	'o', 0,
-	'n', 0,
+	'S', 0,
+	'p', 0,
+	'a', 0,
+	'r', 0,
+	'k', 0,
+	'y', 0,
+	' ', 0,
+	'2', 0,
+	'.', 0,
+	'0', 0,
 };
 
 static uint8_t usb_serial_number[2 + PIOS_SYS_SERIAL_NUM_ASCII_LEN*2 + (sizeof(PIOS_USB_BOARD_SN_SUFFIX)-1)*2] = {
@@ -59,22 +58,17 @@ static const struct usb_string_langid usb_lang_id = {
 	.bLangID = htousbs(USB_LANGID_ENGLISH_US),
 };
 
-static const uint8_t usb_vendor_id[28] = {
+static const uint8_t usb_vendor_id[18] = {
 	sizeof(usb_vendor_id),
 	USB_DESC_TYPE_STRING,
-	'o', 0,
-	'p', 0,
-	'e', 0,
-	'n', 0,
-	'p', 0,
-	'i', 0,
-	'l', 0,
-	'o', 0,
-	't', 0,
-	'.', 0,
-	'o', 0,
-	'r', 0,
-	'g', 0
+	'T', 0,
+	'a', 0,
+	'u', 0,
+	' ', 0,
+	'L', 0,
+	'a', 0,
+	'b', 0,
+	's', 0,
 };
 
 int32_t PIOS_USB_BOARD_DATA_Init(void)
