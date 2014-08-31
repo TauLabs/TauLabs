@@ -35,7 +35,7 @@
 #include <openpilot.h>
 #include <oplinkstatus.h>
 #include <objectpersistence.h>
-#include <oplinkreceiver.h>
+#include <rfm22breceiver.h>
 #include <radiocombridgestats.h>
 #include "taulinksettings.h"
 #include <uavtalk_priv.h>
@@ -143,13 +143,13 @@ static int32_t RadioComBridgeStart(void)
 				   EV_UPDATED | EV_UPDATED_MANUAL);
 		if (data->isCoordinator) {
 			UAVObjConnectQueue(UAVObjGetByID
-					   (OPLINKRECEIVER_OBJID),
+					   (RFM22BRECEIVER_OBJID),
 					   data->radioEventQueue,
 					   EV_UPDATED | EV_UPDATED_MANUAL |
 					   EV_UPDATE_REQ);
 		} else {
 			UAVObjConnectQueue(UAVObjGetByID
-					   (OPLINKRECEIVER_OBJID),
+					   (RFM22BRECEIVER_OBJID),
 					   data->uavtalkEventQueue,
 					   EV_UPDATED | EV_UPDATED_MANUAL |
 					   EV_UPDATE_REQ);
@@ -228,7 +228,7 @@ static int32_t RadioComBridgeInitialize(void)
 	// Initialize the UAVObjects that we use
 	OPLinkStatusInitialize();
 	ObjectPersistenceInitialize();
-	OPLinkReceiverInitialize();
+	RFM22BReceiverInitialize();
 	RadioComBridgeStatsInitialize();
 
 	// Initialise UAVTalk
@@ -504,7 +504,7 @@ static void telemetryRxTask( __attribute__ ((unused))
 }
 
 /**
- * @brief Reads the PPM input device and sends out OPLinkReceiver objects.
+ * @brief Reads the PPM input device and sends out RFM22BReceiver objects.
  *
  * @param[in] parameters  The task parameters (unused)
  */
@@ -521,7 +521,7 @@ static void PPMInputTask( __attribute__ ((unused))
 		vTaskDelay(20);
 
 		// Read the receiver inputs.
-		for (uint8_t i = 0; i < OPLINKRECEIVER_CHANNEL_NUMELEM;
+		for (uint8_t i = 0; i < RFM22BRECEIVER_CHANNEL_NUMELEM;
 		     ++i) {
 			channels[i] =
 			    PIOS_RCVR_Read(PIOS_PPM_RECEIVER, i + 1);
@@ -664,10 +664,10 @@ static void ProcessTelemetryStream(UAVTalkConnection inConnectionHandle,
 		switch (objId) {
 		case OPLINKSTATUS_OBJID:
 		case TAULINKSETTINGS_OBJID:
-		case OPLINKRECEIVER_OBJID:
+		case RFM22BRECEIVER_OBJID:
 		case MetaObjectId(OPLINKSTATUS_OBJID):
 		case MetaObjectId(TAULINKSETTINGS_OBJID):
-		case MetaObjectId(OPLINKRECEIVER_OBJID):
+		case MetaObjectId(RFM22BRECEIVER_OBJID):
 			UAVTalkReceiveObject(inConnectionHandle);
 			PIOS_LED_Toggle(PIOS_LED_LINK);
 
@@ -727,11 +727,11 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle,
 			// - OPLINKSTATUS_OBJID : ground station will receive the OPLM link status instead
 			// - TAULINKSETTINGS_OBJID : ground station will read and write the OPLM settings instead
 			break;
-		case OPLINKRECEIVER_OBJID:
-		case MetaObjectId(OPLINKRECEIVER_OBJID):
+		case RFM22BRECEIVER_OBJID:
+		case MetaObjectId(RFM22BRECEIVER_OBJID):
 			// Receive object locally
 			// These objects are received by the modem and are not transmitted to the telemetry port
-			// - OPLINKRECEIVER_OBJID : not sure why
+			// - RFM22BRECEIVER_OBJID : sent periodically from flight controller, not needed to echo
 			// some objects will send back a response to the remote modem
 			UAVTalkReceiveObject(inConnectionHandle);
 			break;
