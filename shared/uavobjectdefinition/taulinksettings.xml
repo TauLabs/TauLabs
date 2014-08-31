@@ -5,15 +5,15 @@
 		<!-- select the function for the radio port -->
 		<!--  1. Telem - able to receive a telemetry connection from a coordinator -->
 		<!--  2. TelemCoord - establish a telemetry connection -->
-		<!--  3. TelemCoord+PPM - establish connection and send PPM packets regardless -->
-		<!--  4. PPM - send PPM packets with an established connection -->
-                <field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,TelemCoord,TelemCoord+PPM,PPM" defaultvalue="TelemCoord"/>
+		<!--  3. PPM - send PPM packets regardless of established connection -->
+                <field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,TelemCoord,PPM" defaultvalue="TelemCoord"/>
 		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
 		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
 
 		<!-- Function of the main serial port -->
 		<field name="MainPort" units="" type="enum" elements="1" options="Disabled,GPS,Telemetry,ComBridge" defaultvalue="Disabled"/>
-		<field name="PPMPort" units="" type="enum" elements="1" options="Disabled,PPM_IN,PPM_OUT,PPM_IN+PPM_OUT" defaultvalue="PPM_IN"/>
+		<!-- Whenever port is on PPM_IN that data will be sent to remove side -->
+		<field name="PPMPort" units="" type="enum" elements="1" options="Disabled,PPM" defaultvalue="PPM"/>
 		<field name="VCPPort" units="" type="enum" elements="1" options="Disabled,Telemetry,ComBridge" defaultvalue="Disabled"/>
 		<field name="ComSpeed" units="bps" type="enum" elements="1" options="4800,9600,19200,38400,57600,115200" defaultvalue="38400"/>
 

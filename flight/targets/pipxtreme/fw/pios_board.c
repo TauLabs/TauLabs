@@ -221,7 +221,7 @@ void PIOS_Board_Init(void) {
     TauLinkSettingsGet(&taulinkSettings);
 
     bool is_coordinator = taulinkSettings.Radio == TAULINKSETTINGS_RADIO_TELEMCOORD ||
-                          taulinkSettings.Radio == TAULINKSETTINGS_RADIO_TELEMCOORDPPM;
+                          taulinkSettings.Radio == TAULINKSETTINGS_RADIO_PPM;
     bool is_oneway   = taulinkSettings.Radio == TAULINKSETTINGS_RADIO_PPM;
     bool ppm_only    = taulinkSettings.Radio == TAULINKSETTINGS_RADIO_PPM;
     bool ppm_mode    = false;
@@ -258,20 +258,17 @@ void PIOS_Board_Init(void) {
 
     // Configure the flexi port
     switch (taulinkSettings.PPMPort) {
-    case TAULINKSETTINGS_PPMPORT_PPM_IN:
+    case TAULINKSETTINGS_PPMPORT_PPM:
     {
-#if 0 & defined(PIOS_INCLUDE_PPM)
-        /* PPM input is configured on the coordinator modem and output on the remote modem. */
-        if (is_coordinator) {
-            uintptr_t pios_ppm_id;
-            PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_flexi_cfg);
+#if defined(PIOS_INCLUDE_PPM)
+        /* PPM input is configured on the coordinator modem and sent in the RFM22BReceiver UAVO. */
+        uintptr_t pios_ppm_id;
+        PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
 
-            if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
-                PIOS_Assert(0);
-            }
-        } else {
-            PIOS_PPM_Out_Init(&pios_ppm_out_id, &pios_flexi_ppm_out_cfg);
+        if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
+            PIOS_Assert(0);
         }
+
 #endif /* PIOS_INCLUDE_PPM */
         ppm_mode = true;
         break;
