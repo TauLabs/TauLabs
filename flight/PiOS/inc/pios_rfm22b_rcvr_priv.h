@@ -36,7 +36,8 @@
 
 extern const struct pios_rcvr_driver pios_rfm22b_rcvr_driver;
 
-extern int32_t PIOS_RFM22B_Rcvr_Init(uintptr_t * rfm22b_rcvr_id);
+extern int32_t PIOS_RFM22B_Rcvr_Init(uintptr_t * rfm22b_rcvr_id, uint32_t rfm22b_id);
+extern int32_t PIOS_RFM22B_Rcvr_UpdateChannels(uintptr_t rfm22b_rcvr_id, int16_t * channels);
 
 #endif /* PIOS_RFM22B_RCVR_PRIV_H */
 

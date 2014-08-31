@@ -46,7 +46,6 @@ struct pios_rfm22b_cfg {
 	uint8_t slave_num;
 	enum gpio_direction gpio_direction;
 };
-typedef void (*PPMReceivedCallback) (const int16_t * channels);
 
 enum rfm22b_tx_power {
 	RFM22_tx_pwr_txpow_0 = 0x00,	// +1dBm .. 1.25mW
@@ -129,8 +128,7 @@ extern bool PIOS_RFM22B_TransmitPacket(uint32_t rfm22b_id, uint8_t * p,
 				       uint8_t len);
 extern pios_rfm22b_int_result PIOS_RFM22B_ProcessTx(uint32_t rfm22b_id);
 extern pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id);
-extern void PIOS_RFM22B_SetPPMCallback(uint32_t rfm22b_id,
-				       PPMReceivedCallback cb);
+extern void PIOS_RFM22B_RegisterRcvr(uint32_t rfm22b_id, uintptr_t rfm22b_rcvr_id);
 extern void PIOS_RFM22B_PPMSet(uint32_t rfm22b_id, int16_t * channels);
 extern void PIOS_RFM22B_PPMGet(uint32_t rfm22b_id, int16_t * channels);
 extern bool PIOS_RFM22B_IsCoordinator(uint32_t rfm22b_id);

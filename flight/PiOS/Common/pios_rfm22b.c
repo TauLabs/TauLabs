@@ -93,6 +93,7 @@
 
 #include <pios_spi_priv.h>
 #include <pios_rfm22b_priv.h>
+#include <pios_rfm22b_rcvr_priv.h>
 #include <ecc.h>
 
 /* Local Defines */
@@ -483,7 +484,7 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 	rfm22b_dev->tx_out_cb = NULL;
 
 	// Initialzie the PPM callback.
-	rfm22b_dev->ppm_callback = NULL;
+	rfm22b_dev->rfm22b_rcvr_id = 0;
 
 	// Initialize the stats.
 	rfm22b_dev->stats.packets_per_sec = 0;
@@ -1260,12 +1261,12 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 }
 
 /**
- * Set the PPM packet received callback.
+ * Register a RFM22B_Rcvr interface to inform of PPM packets
  *
- * @param[in] rfm22b_dev  The RFM22B device ID.
- * @param[in] cb          The callback function pointer.
+ * @param[in] rfm22b_dev     The RFM22B device ID.
+ * @param[in] rfm22b_rcvr_id The receiver device to inform of PPM packets
  */
-void PIOS_RFM22B_SetPPMCallback(uint32_t rfm22b_id, PPMReceivedCallback cb)
+void PIOS_RFM22B_RegisterRcvr(uint32_t rfm22b_id, uintptr_t rfm22b_rcvr_id)
 {
 	struct pios_rfm22b_dev *rfm22b_dev =
 	    (struct pios_rfm22b_dev *)rfm22b_id;
@@ -1274,7 +1275,7 @@ void PIOS_RFM22B_SetPPMCallback(uint32_t rfm22b_id, PPMReceivedCallback cb)
 		return;
 	}
 
-	rfm22b_dev->ppm_callback = cb;
+	rfm22b_dev->rfm22b_rcvr_id = rfm22b_rcvr_id;
 }
 
 /**
@@ -2242,8 +2243,8 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 			data_len -= RFM22B_PPM_NUM_CHANNELS + 1;
 
 			// Call the PPM received callback if it's available.
-			if (radio_dev->ppm_callback) {
-				radio_dev->ppm_callback(radio_dev->ppm);
+			if (radio_dev->rfm22b_rcvr_id) {
+				PIOS_RFM22B_Rcvr_UpdateChannels(radio_dev->rfm22b_rcvr_id, radio_dev->ppm);
 			}
 		}
 	}

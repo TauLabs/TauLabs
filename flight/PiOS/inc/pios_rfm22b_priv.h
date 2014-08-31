@@ -744,8 +744,9 @@ struct pios_rfm22b_dev {
 
 	// The PPM buffer
 	int16_t ppm[RFM22B_PPM_NUM_CHANNELS];
-	// The PPM packet received callback.
-	PPMReceivedCallback ppm_callback;
+
+	// RFM22B RCVR interface
+	uintptr_t rfm22b_rcvr_id;
 
 	// The id that the packet was received from
 	uint32_t rx_destination_id;

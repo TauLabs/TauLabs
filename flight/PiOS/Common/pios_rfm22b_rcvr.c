@@ -39,11 +39,10 @@
 
 #include <uavobjectmanager.h>
 #include <rfm22breceiver.h>
+#include <pios_rfm22b_priv.h>
 #include <pios_rfm22b_rcvr_priv.h>
 
 #define PIOS_RFM22B_RCVR_TIMEOUT_MS  100
-
-static RFM22BReceiverData rfm22breceiverdata;
 
 /* Provide a RCVR driver */
 static int32_t PIOS_RFM22B_Rcvr_Get(uintptr_t rcvr_id, uint8_t channel);
@@ -60,12 +59,10 @@ enum pios_rfm22b_rcvr_dev_magic {
 
 struct pios_rfm22b_rcvr_dev {
 	enum pios_rfm22b_rcvr_dev_magic magic;
-
+	int16_t channels[RFM22B_PPM_NUM_CHANNELS];
 	uint8_t supv_timer;
 	bool fresh;
 };
-
-static struct pios_rfm22b_rcvr_dev *global_rfm22b_rcvr_dev;
 
 static bool PIOS_RFM22B_Rcvr_Validate(struct pios_rfm22b_rcvr_dev
 				      *rfm22b_rcvr_dev)
@@ -88,24 +85,10 @@ static struct pios_rfm22b_rcvr_dev *PIOS_RFM22B_Rcvr_alloc(void)
 	rfm22b_rcvr_dev->fresh = false;
 	rfm22b_rcvr_dev->supv_timer = 0;
 
-	/* The update callback cannot receive the device pointer, so set it in a global */
-	global_rfm22b_rcvr_dev = rfm22b_rcvr_dev;
-
 	return rfm22b_rcvr_dev;
 }
 
-static void rfm22breceiver_updated(UAVObjEvent * ev)
-{
-	struct pios_rfm22b_rcvr_dev *rfm22b_rcvr_dev =
-	    global_rfm22b_rcvr_dev;
-
-	if (ev->obj == RFM22BReceiverHandle()) {
-		RFM22BReceiverGet(&rfm22breceiverdata);
-		rfm22b_rcvr_dev->fresh = true;
-	}
-}
-
-extern int32_t PIOS_RFM22B_Rcvr_Init(uintptr_t * rfm22b_rcvr_id)
+extern int32_t PIOS_RFM22B_Rcvr_Init(uintptr_t * rfm22b_rcvr_id, uint32_t rfm22b_id)
 {
 	struct pios_rfm22b_rcvr_dev *rfm22b_rcvr_dev;
 
@@ -116,21 +99,61 @@ extern int32_t PIOS_RFM22B_Rcvr_Init(uintptr_t * rfm22b_rcvr_id)
 		return -1;
 	}
 
-	for (uint8_t i = 0; i < RFM22BRECEIVER_CHANNEL_NUMELEM; i++) {
-		/* Flush channels */
-		rfm22breceiverdata.Channel[i] = PIOS_RCVR_TIMEOUT;
-	}
-
 	/* Register uavobj callback */
     RFM22BReceiverInitialize();
-    RFM22BReceiverSet(&rfm22breceiverdata);
-	RFM22BReceiverConnectCallback(rfm22breceiver_updated);
+    RFM22BReceiverData rcvr;
+	for (uint8_t i = 0; i < RFM22BRECEIVER_CHANNEL_NUMELEM; i++) {
+		/* Flush channels */
+		rcvr.Channel[i] = PIOS_RCVR_TIMEOUT;
+	}
+    RFM22BReceiverSet(&rcvr);
+
+    *rfm22b_rcvr_id = (uintptr_t) rfm22b_rcvr_dev;
+	PIOS_RFM22B_RegisterRcvr(rfm22b_id, *rfm22b_rcvr_id);
 
 	/* Register the failsafe timer callback. */
 	if (!PIOS_RTC_RegisterTickCallback
-	    (PIOS_RFM22B_Rcvr_Supervisor, (uint32_t) rfm22b_rcvr_dev)) {
+	    (PIOS_RFM22B_Rcvr_Supervisor, *rfm22b_rcvr_id)) {
 		PIOS_DEBUG_Assert(0);
 	}
+
+	return 0;
+}
+
+/**
+ * Called from the core driver to set the channel values whenever a
+ * PPM packet is received. This method stores the data locally as well
+ * as sets the data into the RFM22BReceiver UAVO for visibility
+ */
+int32_t PIOS_RFM22B_Rcvr_UpdateChannels(uintptr_t rfm22b_rcvr_id, int16_t * channels)
+{
+	/* Recover our device context */
+	struct pios_rfm22b_rcvr_dev *rfm22b_rcvr_dev =
+	    (struct pios_rfm22b_rcvr_dev *)rfm22b_rcvr_id;
+
+	if (!PIOS_RFM22B_Rcvr_Validate(rfm22b_rcvr_dev)) {
+		/* Invalid device specified */
+		return -1;
+	}
+
+	for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS; i++) {
+		rfm22b_rcvr_dev->channels[i] = channels[i];
+	}
+
+	// Also store the received data in a UAVO for easy
+	// debugging. However this is not what is used in
+	// ManualControl (it fetches directly from this driver)
+    RFM22BReceiverData rcvr;
+	for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS; i++) {
+		if (i < RFM22BRECEIVER_CHANNEL_NUMELEM)
+			rcvr.Channel[i] = channels[i];
+	}
+	for (int i = RFM22B_PPM_NUM_CHANNELS - 1; i < RFM22BRECEIVER_CHANNEL_NUMELEM; i++)
+		rcvr.Channel[i] = PIOS_RCVR_INVALID;
+	RFM22BReceiverSet(&rcvr);
+
+	// let supervisor know we have new data
+	rfm22b_rcvr_dev->fresh = true;
 
 	return 0;
 }
@@ -142,14 +165,23 @@ extern int32_t PIOS_RFM22B_Rcvr_Init(uintptr_t * rfm22b_rcvr_id)
  * \output PIOS_RCVR_TIMEOUT failsafe condition or missing receiver
  * \output >=0 channel value
  */
-static int32_t PIOS_RFM22B_Rcvr_Get(uintptr_t rcvr_id, uint8_t channel)
+static int32_t PIOS_RFM22B_Rcvr_Get(uintptr_t rfm22b_rcvr_id, uint8_t channel)
 {
-	if (channel >= RFM22BRECEIVER_CHANNEL_NUMELEM) {
+	if (channel >= RFM22B_PPM_NUM_CHANNELS) {
 		/* channel is out of range */
 		return PIOS_RCVR_INVALID;
 	}
 
-	return rfm22breceiverdata.Channel[channel];
+	/* Recover our device context */
+	struct pios_rfm22b_rcvr_dev *rfm22b_rcvr_dev =
+	    (struct pios_rfm22b_rcvr_dev *)rfm22b_rcvr_id;
+
+	if (!PIOS_RFM22B_Rcvr_Validate(rfm22b_rcvr_dev)) {
+		/* Invalid device specified */
+		return PIOS_RCVR_INVALID;
+	}
+
+	return rfm22b_rcvr_dev->channels[channel];
 }
 
 static void PIOS_RFM22B_Rcvr_Supervisor(uintptr_t rfm22b_rcvr_id)
@@ -175,7 +207,7 @@ static void PIOS_RFM22B_Rcvr_Supervisor(uintptr_t rfm22b_rcvr_id)
 	if (!rfm22b_rcvr_dev->fresh) {
 		for (int32_t i = 0; i < RFM22BRECEIVER_CHANNEL_NUMELEM;
 		     i++) {
-			rfm22breceiverdata.Channel[i] = PIOS_RCVR_TIMEOUT;
+			rfm22b_rcvr_dev->channels[i] = PIOS_RCVR_TIMEOUT;
 		}
 	}
 
