@@ -38,12 +38,12 @@
 #ifdef PIOS_INCLUDE_RFM22B_RCVR
 
 #include <uavobjectmanager.h>
-#include <oplinkreceiver.h>
+#include <rfm22breceiver.h>
 #include <pios_rfm22b_rcvr_priv.h>
 
 #define PIOS_RFM22B_RCVR_TIMEOUT_MS  100
 
-static OPLinkReceiverData oplinkreceiverdata;
+static RFM22BReceiverData rfm22breceiverdata;
 
 /* Provide a RCVR driver */
 static int32_t PIOS_RFM22B_Rcvr_Get(uintptr_t rcvr_id, uint8_t channel);
@@ -94,18 +94,18 @@ static struct pios_rfm22b_rcvr_dev *PIOS_RFM22B_Rcvr_alloc(void)
 	return rfm22b_rcvr_dev;
 }
 
-static void oplinkreceiver_updated(UAVObjEvent * ev)
+static void rfm22breceiver_updated(UAVObjEvent * ev)
 {
 	struct pios_rfm22b_rcvr_dev *rfm22b_rcvr_dev =
 	    global_rfm22b_rcvr_dev;
 
-	if (ev->obj == OPLinkReceiverHandle()) {
-		OPLinkReceiverGet(&oplinkreceiverdata);
+	if (ev->obj == RFM22BReceiverHandle()) {
+		RFM22BReceiverGet(&rfm22breceiverdata);
 		rfm22b_rcvr_dev->fresh = true;
 	}
 }
 
-extern int32_t PIOS_RFM22B_Rcvr_Init(uintptr_t * oplinkrcvr_id)
+extern int32_t PIOS_RFM22B_Rcvr_Init(uintptr_t * rfm22b_rcvr_id)
 {
 	struct pios_rfm22b_rcvr_dev *rfm22b_rcvr_dev;
 
@@ -116,13 +116,15 @@ extern int32_t PIOS_RFM22B_Rcvr_Init(uintptr_t * oplinkrcvr_id)
 		return -1;
 	}
 
-	for (uint8_t i = 0; i < OPLINKRECEIVER_CHANNEL_NUMELEM; i++) {
+	for (uint8_t i = 0; i < RFM22BRECEIVER_CHANNEL_NUMELEM; i++) {
 		/* Flush channels */
-		oplinkreceiverdata.Channel[i] = PIOS_RCVR_TIMEOUT;
+		rfm22breceiverdata.Channel[i] = PIOS_RCVR_TIMEOUT;
 	}
 
 	/* Register uavobj callback */
-	OPLinkReceiverConnectCallback(oplinkreceiver_updated);
+    RFM22BReceiverInitialize();
+    RFM22BReceiverSet(&rfm22breceiverdata);
+	RFM22BReceiverConnectCallback(rfm22breceiver_updated);
 
 	/* Register the failsafe timer callback. */
 	if (!PIOS_RTC_RegisterTickCallback
@@ -142,12 +144,12 @@ extern int32_t PIOS_RFM22B_Rcvr_Init(uintptr_t * oplinkrcvr_id)
  */
 static int32_t PIOS_RFM22B_Rcvr_Get(uintptr_t rcvr_id, uint8_t channel)
 {
-	if (channel >= OPLINKRECEIVER_CHANNEL_NUMELEM) {
+	if (channel >= RFM22BRECEIVER_CHANNEL_NUMELEM) {
 		/* channel is out of range */
 		return PIOS_RCVR_INVALID;
 	}
 
-	return oplinkreceiverdata.Channel[channel];
+	return rfm22breceiverdata.Channel[channel];
 }
 
 static void PIOS_RFM22B_Rcvr_Supervisor(uintptr_t rfm22b_rcvr_id)
@@ -171,9 +173,9 @@ static void PIOS_RFM22B_Rcvr_Supervisor(uintptr_t rfm22b_rcvr_id)
 	rfm22b_rcvr_dev->supv_timer = 0;
 
 	if (!rfm22b_rcvr_dev->fresh) {
-		for (int32_t i = 0; i < OPLINKRECEIVER_CHANNEL_NUMELEM;
+		for (int32_t i = 0; i < RFM22BRECEIVER_CHANNEL_NUMELEM;
 		     i++) {
-			oplinkreceiverdata.Channel[i] = PIOS_RCVR_TIMEOUT;
+			rfm22breceiverdata.Channel[i] = PIOS_RCVR_TIMEOUT;
 		}
 	}
 

@@ -1,6 +1,6 @@
 <xml>
-    <object name="OPLinkReceiver" singleinstance="true" settings="false" category="System">
-        <description>A receiver channel group carried over the OPLink radio.</description>
+    <object name="RFM22BLinkReceiver" singleinstance="true" settings="false" category="System">
+        <description>A receiver channel group carried over the RFM22B radio.</description>
         <field name="Channel" units="us" type="int16" elements="8"/>
         <access gcs="readonly" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="onchange" period="0"/>
