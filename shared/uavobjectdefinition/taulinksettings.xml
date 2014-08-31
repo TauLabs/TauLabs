@@ -7,7 +7,7 @@
 		<!--  2. TelemCoord - establish a telemetry connection -->
 		<!--  3. TelemCoord+PPM - establish connection and send PPM packets regardless -->
 		<!--  4. PPM - send PPM packets with an established connection -->
-                <field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,TelemCoord,TelemCoord+PPM,PPM" defaultvalue="Disabled"/>
+                <field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,TelemCoord,TelemCoord+PPM,PPM" defaultvalue="TelemCoord"/>
 		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
 		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
 
@@ -19,7 +19,7 @@
 
 		<!-- radio settings -->
 		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" options="9600,19200,32000,64000,100000,192000" defaultvalue="64000"/>
-		<field name="MaxRfPower" units="mW" type="enum" elements="1" options="0,1.25,1.6,3.16,6.3,12.6,25,50,100" defaultvalue="0"/>
+		<field name="MaxRfPower" units="mW" type="enum" elements="1" options="0,1.25,1.6,3.16,6.3,12.6,25,50,100" defaultvalue="3.16"/>
 		<field name="MinChannel" units="" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="MaxChannel" units="" type="uint8" elements="1" defaultvalue="250"/>
 		<field name="ChannelSet" units="" type="uint8" elements="1" defaultvalue="39"/>
