@@ -1,290 +1,104 @@
-/**
- ******************************************************************************
- * @addtogroup TauLabsModules Tau Labs Modules
- * @{
- * @addtogroup AutotuningModule Autotuning Module
- * @{
- *
- * @file       autotune.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
- * @brief      State machine to run autotuning. Low level work done by @ref
- *             StabilizationModule 
- *
- * @see        The GNU Public License (GPL) Version 3
- *
- ******************************************************************************/
-/*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- */
-
-#include "openpilot.h"
-#include "pios.h"
-#include "physical_constants.h"
-#include "flightstatus.h"
-#include "modulesettings.h"
-#include "manualcontrolcommand.h"
-#include "manualcontrolsettings.h"
-#include "gyros.h"
-#include "actuatordesired.h"
-#include "stabilizationdesired.h"
-#include "stabilizationsettings.h"
-#include "systemident.h"
-#include <pios_board_info.h>
- 
-// Private constants
-#define STACK_SIZE_BYTES 2000
-#define TASK_PRIORITY (tskIDLE_PRIORITY+2)
+#include "math.h"
+#include "mex.h"   
+#include "string.h"
+#include "stdint.h"
+#include "stdbool.h"
 
 #define AF_NUMX 13
 #define AF_NUMP 43
+void af_predict(float X[AF_NUMX], float P[AF_NUMP], float u_in[3], float gyro[3], float noise[3]);
+void af_init(float X[AF_NUMX], float P[AF_NUMP]);
+bool mlGetFloatArray(const mxArray * mlVal, float * dest, int numel);
 
-// Private types
-enum AUTOTUNE_STATE {AT_INIT, AT_START, AT_RUN, AT_FINISHED, AT_SET};
-
-// Private variables
-static xTaskHandle taskHandle;
-static bool module_enabled;
-
-// Private functions
-static void AutotuneTask(void *parameters);
-static void af_predict(float X[AF_NUMX], float P[AF_NUMP], const float u_in[3], const float gyro[3], const float dT_s);
-static void af_init(float X[AF_NUMX], float P[AF_NUMP]);
-
-/**
- * Initialise the module, called on startup
- * \returns 0 on success or -1 if initialisation failed
- */
-int32_t AutotuneInitialize(void)
+void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-	// Create a queue, connect to manual control command and flightstatus
-#ifdef MODULE_Autotune_BUILTIN
-	module_enabled = true;
-#else
-	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
-	ModuleSettingsAdminStateGet(module_state);
-	if (module_state[MODULESETTINGS_ADMINSTATE_AUTOTUNE] == MODULESETTINGS_ADMINSTATE_ENABLED)
-		module_enabled = true;
-	else
-		module_enabled = false;
-#endif
+    // calling convention is [state, p] = autotune_c_imp(state, p, gyro, control)
+	float X[AF_NUMX];
+    float P[AF_NUMP];
+    float control[3];
+    float gyro[3];
+    float noise[3];
+    
+    if (nrhs == 0) {
+        af_init(X, P);
+    } else if (nrhs == 5) {
+        if (!mlGetFloatArray(prhs[0], X, AF_NUMX))
+            mexErrMsgTxt("Invalid state vector\n");
+        
+        if (!mlGetFloatArray(prhs[1], P, AF_NUMP))
+            mexErrMsgTxt("Invalid covariance array\n");
+        
+        if (!mlGetFloatArray(prhs[2], gyro, 3))
+            mexErrMsgTxt("Invalid control vector\n");
 
-	if (module_enabled) {
-		SystemIdentInitialize();
+        if (!mlGetFloatArray(prhs[3], control, 3))
+            mexErrMsgTxt("Invalid gyro vector\n");
+        
+        if (!mlGetFloatArray(prhs[4], noise, 3))
+            mexErrMsgTxt("Invalid gyro vector\n");
+        
+        af_predict(X, P, control, gyro, noise);
+
+    } else {
+        mexErrMsgTxt("Incorrect number of inputs for state prediction\n");
+        
+    }
+
+    
+    // Return data
+    if(nlhs > 0) {
+		// return current state vector
+		double * data_out;
+		int i;
+
+		plhs[0] = mxCreateDoubleMatrix(1,AF_NUMX,0);
+		data_out = mxGetData(plhs[0]);
+		for(i = 0; i < AF_NUMX; i++)
+			data_out[i] = X[i];
 	}
 
-	return 0;
+	if(nlhs > 1) {
+		//return covariance estimate
+		double * data_copy = mxCalloc(AF_NUMP, sizeof(double));
+		int i, j, k;
+
+		plhs[1] = mxCreateDoubleMatrix(1,AF_NUMP,0);
+		for(i = 0; i < AF_NUMP; i++)
+            data_copy[i] = P[i];
+			
+		mxSetData(plhs[1], data_copy);
+	}
+    
+    if(nlhs > 2) {
+		// return current state vector
+		double * data_out;
+		int i;
+
+		plhs[2] = mxCreateDoubleMatrix(1,3,0);
+		data_out = mxGetData(plhs[2]);
+		for(i = 0; i < 3; i++)
+			data_out[i] = noise[i];
+	}
+
 }
 
-/**
- * Initialise the module, called on startup
- * \returns 0 on success or -1 if initialisation failed
- */
-int32_t AutotuneStart(void)
+bool mlGetFloatArray(const mxArray * mlVal, float * dest, int numel)
 {
-	// Start main task if it is enabled
-	if(module_enabled) {
-		xTaskCreate(AutotuneTask, (signed char *)"Autotune", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
-
-		TaskMonitorAdd(TASKINFO_RUNNING_AUTOTUNE, taskHandle);
-		PIOS_WDG_RegisterFlag(PIOS_WDG_AUTOTUNE);
+	if(!mxIsNumeric(mlVal) || (!mxIsDouble(mlVal) && !mxIsSingle(mlVal)) || (mxGetNumberOfElements(mlVal) != numel)) {
+		mexErrMsgTxt("Data misformatted (either not double or not the right number)");
+		return false;
 	}
-	return 0;
-}
-
-MODULE_INITCALL(AutotuneInitialize, AutotuneStart)
-
-/**
- * Module thread, should not return.
- */
-static void AutotuneTask(void *parameters)
-{
-	enum AUTOTUNE_STATE state = AT_INIT;
-
-	portTickType lastUpdateTime = xTaskGetTickCount();
-
-	float X[AF_NUMX] = {0};
-	float P[AF_NUMP] = {0};
-	float noise[3] = {0};
-
-	af_init(X,P);
-
-	uint32_t last_time = 0.0f;
-	const uint32_t DT_MS = 3;
-
-	while(1) {
-
-		PIOS_WDG_UpdateFlag(PIOS_WDG_AUTOTUNE);
-		// TODO:
-		// 1. get from queue
-		// 2. based on whether it is flightstatus or manualcontrol
-
-		portTickType diffTime;
-
-		const uint32_t PREPARE_TIME = 2000;
-		const uint32_t MEAURE_TIME = 60000;
-
-		FlightStatusData flightStatus;
-		FlightStatusGet(&flightStatus);
-
-		// Only allow this module to run when autotuning
-		if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE) {
-			state = AT_INIT;
-			vTaskDelay(50);
-			continue;
-		}
-
-		StabilizationDesiredData stabDesired;
-		StabilizationDesiredGet(&stabDesired);
-
-		StabilizationSettingsData stabSettings;
-		StabilizationSettingsGet(&stabSettings);
-
-		ManualControlSettingsData manualSettings;
-		ManualControlSettingsGet(&manualSettings);
-
-		ManualControlCommandData manualControl;
-		ManualControlCommandGet(&manualControl);
-
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL]  = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-		stabDesired.Roll = manualControl.Roll * stabSettings.RollMax;
-		stabDesired.Pitch = manualControl.Pitch * stabSettings.PitchMax;
-
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
-		stabDesired.Yaw = manualControl.Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW];
-		stabDesired.Throttle = manualControl.Throttle;
-
-		switch(state) {
-			case AT_INIT:
-
-				lastUpdateTime = xTaskGetTickCount();
-
-				// Only start when armed and flying
-				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED && stabDesired.Throttle > 0) {
-
-					af_init(X,P);
-
-					SystemIdentData relay;
-					relay.Beta[SYSTEMIDENT_BETA_ROLL]   = X[6];
-					relay.Beta[SYSTEMIDENT_BETA_PITCH]  = X[7];
-					relay.Beta[SYSTEMIDENT_BETA_YAW]    = X[8];
-					relay.Bias[SYSTEMIDENT_BIAS_ROLL]   = X[10];
-					relay.Bias[SYSTEMIDENT_BIAS_PITCH]  = X[11];
-					relay.Bias[SYSTEMIDENT_BIAS_YAW]    = X[12];
-					relay.Tau                           = X[9];
-					SystemIdentSet(&relay);
-
-					state = AT_START;
-				}
-				break;
-
-			case AT_START:
-
-				diffTime = xTaskGetTickCount() - lastUpdateTime;
-
-				// Spend the first block of time in normal rate mode to get airborne
-				if (diffTime > PREPARE_TIME) {
-					state = AT_RUN;
-					lastUpdateTime = xTaskGetTickCount();
-				}
-
-
-				last_time = PIOS_DELAY_GetRaw();
-
-				break;
-
-			case AT_RUN:
-
-				diffTime = xTaskGetTickCount() - lastUpdateTime;
-
-				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
-				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
-				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
-
-				// Update the system identification, but only when throttle is applied
-				// so bad values don't result when landing
-				if (stabDesired.Throttle > 0) {
-					GyrosData gyros;
-					GyrosGet(&gyros);
-
-					ActuatorDesiredData desired;
-					ActuatorDesiredGet(&desired);
-
-					float y[3] = {gyros.x, gyros.y, gyros.z};
-					float u[3] = {desired.Roll, desired.Pitch, desired.Yaw};
-
-					float dT_s = PIOS_DELAY_DiffuS(last_time) * 1.0e-6f;
-
-					af_predict(X,P,u,y, DT_MS * 0.001f);
-					for (uint32_t i = 0; i < 3; i++) {
-						const float NOISE_ALPHA = 0.9997f;  // 10 second time constant at 300 Hz
-						noise[i] = NOISE_ALPHA * noise[i] + (1-NOISE_ALPHA) * (y[i] - X[i]) * (y[i] - X[i]);
-					}
-
-					SystemIdentData relay;
-					relay.Beta[SYSTEMIDENT_BETA_ROLL]    = X[6];
-					relay.Beta[SYSTEMIDENT_BETA_PITCH]   = X[7];
-					relay.Beta[SYSTEMIDENT_BETA_YAW]     = X[8];
-					relay.Bias[SYSTEMIDENT_BIAS_ROLL]    = X[10];
-					relay.Bias[SYSTEMIDENT_BIAS_PITCH]   = X[11];
-					relay.Bias[SYSTEMIDENT_BIAS_YAW]     = X[12];
-					relay.Tau                            = X[9];
-					relay.Noise[SYSTEMIDENT_NOISE_ROLL]  = noise[0];
-					relay.Noise[SYSTEMIDENT_NOISE_PITCH] = noise[1];
-					relay.Noise[SYSTEMIDENT_NOISE_YAW]   = noise[2];
-					relay.Period = dT_s * 1000.0f;
-					SystemIdentSet(&relay);
-				}
-
-				if (diffTime > MEAURE_TIME) { // Move on to next state
-					state = AT_FINISHED;
-					lastUpdateTime = xTaskGetTickCount();
-				}
-
-				last_time = PIOS_DELAY_GetRaw();
-
-				break;
-
-			case AT_FINISHED:
-
-				// Wait until disarmed and landed before updating the settings
-				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_DISARMED && stabDesired.Throttle <= 0)
-					state = AT_SET;
-
-				break;
-
-			case AT_SET:
-				// If at some point we want to store the settings at the end of
-				// autotune, that can be done here. However, that will await further
-				// testing.
-
-				// Save the settings locally. Note this is done after disarming.
-				UAVObjSave(SystemIdentHandle(), 0);
-				state = AT_INIT;
-				break;
-
-			default:
-				// Set an alarm or some shit like that
-				break;
-		}
-
-		StabilizationDesiredSet(&stabDesired);
-
-		vTaskDelay(DT_MS);
+	
+	if(mxIsSingle(mlVal)) {
+		memcpy(dest,mxGetData(mlVal),numel*sizeof(*dest));
+	} else {
+		int i;
+		double * data_in = mxGetData(mlVal);
+		for(i = 0; i < numel; i++)
+			dest[i] = data_in[i]; 
 	}
+
+	return true;
 }
 
 /**
@@ -295,18 +109,9 @@ static void AutotuneTask(void *parameters)
  * @param[in] the current control inputs (roll, pitch, yaw)
  * @param[in] the gyro measurements
  */
-/**
- * Prediction step for EKF on control inputs to quad that
- * learns the system properties
- * @param X the current state estimate which is updated in place
- * @param P the current covariance matrix, updated in place
- * @param[in] the current control inputs (roll, pitch, yaw)
- * @param[in] the gyro measurements
- */
-static void af_predict(float X[AF_NUMX], float P[AF_NUMP], const float u_in[3], const float gyro[3], const float dT_s)
-{
+void af_predict(float X[AF_NUMX], float P[AF_NUMP], float u_in[3], float gyro[3], float noise[3]) {
 
-	const float Ts = dT_s;
+	float Ts = 1.0f / 666.0f;
 	float Tsq = Ts * Ts;
 	float Tsq3 = Tsq * Ts;
     float Tsq4 = Tsq * Tsq;
@@ -320,13 +125,13 @@ static void af_predict(float X[AF_NUMX], float P[AF_NUMP], const float u_in[3], 
 	float u2 = X[4];           // scaled pitch torque
 	float u3 = X[5];           // scaled yaw torque
 	const float e_b1 = expf(X[6]);   // roll torque scale
-	const float b1 = X[6];
+    const float b1 = X[6];
 	const float e_b2 = expf(X[7]);   // pitch torque scale
-	const float b2 = X[7];
+    const float b2 = X[7];
 	const float e_b3 = expf(X[8]);   // yaw torque scale
-	const float b3 = X[8];
+    const float b3 = X[8];
 	const float e_tau = expf(X[9]); // time response of the motors
-	const float tau = X[9];
+    const float tau = X[9];
 	const float bias1 = X[10];        // bias in the roll torque
 	const float bias2 = X[11];       // bias in the pitch torque
 	const float bias3 = X[12];       // bias in the yaw torque
@@ -358,6 +163,8 @@ static void af_predict(float X[AF_NUMX], float P[AF_NUMP], const float u_in[3], 
 	const float q_tau = 1e-5f;
 	const float q_bias = 1e-19f;
 	const float s_a = 3000.0f;  // expected gyro noise
+    const float s_a2 = s_a * s_a;
+    const float s_a3 = s_a2 * s_a;
 
 	const float Q[AF_NUMX] = {q_w, q_w, q_w, q_ud, q_ud, q_ud, q_B, q_B, q_B, q_tau, q_bias, q_bias, q_bias};
 
@@ -485,44 +292,48 @@ static void af_predict(float X[AF_NUMX], float P[AF_NUMP], const float u_in[3], 
 	P[41] = D[41] - (D[20]*D[38])/S[2];
 	P[42] = D[42] - D[38]*D[38]/S[2];
 
-
-	// apply limits to some of the state variables
-	if (X[9] > -1.5f)
-	    X[9] = -1.5f;
-	if (X[9] < -5.0f)
-	    X[9] = -5.0f;
-	if (X[10] > 0.5f)
-	    X[10] = 0.5f;
-	if (X[10] < -0.5f)
-	    X[10] = -0.5f;
-	if (X[11] > 0.5f)
-	    X[11] = 0.5f;
-	if (X[11] < -0.5f)
-	    X[11] = -0.5f;
-	if (X[12] > 0.5f)
-	    X[12] = 0.5f;
-	if (X[12] < -0.5f)
-	    X[12] = -0.5f;
+    
+    // apply limits to some of the state variables
+    if (X[9] > -1.5f)
+        X[9] = -1.5f;
+    if (X[9] < -5.0f)
+        X[9] = -5.0f;
+    if (X[10] > 0.5f)
+        X[10] = 0.5f;
+    if (X[10] < -0.5f)
+        X[10] = -0.5f;
+    if (X[11] > 0.5f)
+        X[11] = 0.5f;
+    if (X[11] < -0.5f)
+        X[11] = -0.5f;
+    if (X[12] > 0.5f)
+        X[12] = 0.5f;
+    if (X[12] < -0.5f)
+        X[12] = -0.5f;
+    
+    // Slowly track the residual noise
+    noise[0] = noise[0] * 0.99f + powf(gyro_x - w1,2.0f) * 0.01f;
+    noise[1] = noise[1] *0.99f + powf(gyro_y - w2,2.0f) * 0.01f;
+    noise[2] = noise[2] *  0.99f + powf(gyro_z - w3,2.0f) * 0.01f;
 }
 
 /**
  * Initialize the state variable and covariance matrix
  * for the system identification EKF
  */
-static void af_init(float X[AF_NUMX], float P[AF_NUMP])
+void af_init(float X[AF_NUMX], float P[AF_NUMP])
 {
-	const float q_init[AF_NUMX] = {
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		0.05f, 0.05f, 0.005f,
-		0.05f,
-		0.05f, 0.05f, 0.05f
-	};
-
+    const float q_init[AF_NUMX] = {
+        1.0f, 1.0f, 1.0f,
+        1.0f, 1.0f, 1.0f,
+        0.05f, 0.05f, 0.005f,
+        0.05f,
+        0.05f, 0.05f, 0.05f};
+    
 	X[0] = X[1] = X[2] = 0.0f;    // assume no rotation
 	X[3] = X[4] = X[5] = 0.0f;    // and no net torque
 	X[6] = X[7]        = 10.0f;   // medium amount of strength
-	X[8]               = 7.0f;    // yaw
+    X[8]               = 7.0f;    // yaw
 	X[9] = -4.0f;                 // and 50 ms time scale
 	X[10] = X[11] = X[12] = 0.0f; // zero bias
 
@@ -570,9 +381,5 @@ static void af_init(float X[AF_NUMX], float P[AF_NUMP])
 	P[40] = 0.0f;
 	P[41] = 0.0f;
 	P[42] = q_init[12];
-}
 
-/**
- * @}
- * @}
- */
+}
