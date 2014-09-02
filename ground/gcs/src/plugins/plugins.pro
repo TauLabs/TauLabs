@@ -337,10 +337,10 @@ plugin_boards_quantec.depends = plugin_uavobjects
 SUBDIRS += plugin_boards_quantec
 
 # Team Black Sheep
-plugin_boards_TBS.subdir = boards_tbs
-plugin_boards_TBS.depends = plugin_coreplugin
-plugin_boards_TBS.depends = plugin_uavobjects
-SUBDIRS += plugin_boards_TBS
+plugin_boards_tbs.subdir = boards_tbs
+plugin_boards_tbs.depends = plugin_coreplugin
+plugin_boards_tbs.depends = plugin_uavobjects
+SUBDIRS += plugin_boards_tbs
 
 # STM boards
 plugin_boards_stm.subdir = boards_stm
