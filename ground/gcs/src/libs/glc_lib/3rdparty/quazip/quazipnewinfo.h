@@ -35,6 +35,7 @@ QuaZIP as long as you respect either GPL or LGPL for QuaZIP code.
 
 #include <QDateTime>
 #include <QString>
+#include "../../glc_config.h"
 
 /// Information about a file to be created.
 /** This structure holds information about a file to be created inside
@@ -42,7 +43,7 @@ QuaZIP as long as you respect either GPL or LGPL for QuaZIP code.
  * passing this structure to
  * QuaZipFile::open(OpenMode,const QuaZipNewInfo&,int,int,bool).
  **/
-struct QuaZipNewInfo {
+struct GLC_LIB_EXPORT QuaZipNewInfo {
   /// File name.
   /** This field holds file name inside archive, including path relative
    * to archive root.

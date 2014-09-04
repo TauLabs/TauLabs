@@ -51,7 +51,7 @@ struct timeout_info {
 };
 
 pjrc_rawhid::pjrc_rawhid() :
-    hid_manager(NULL), buffer_count(0), device_open(false), unplugged(false)
+    hid_manager(NULL), device_open(false), unplugged(false)
 {
     m_writeMutex = new QMutex();
     m_readMutex = new QMutex();
@@ -190,15 +190,17 @@ int pjrc_rawhid::receive(int, void *buf, int len, int timeout)
 
     // Run the CFRunLoop until either a timeout or data is available
     while(1) {
-        if (buffer_count != 0) {
-            if (len > buffer_count) len = buffer_count;
-            memcpy(buf, buffer, len);
-            buffer_count = 0;
+        if (input_queue.count() > 0) {
+            struct usb_report *report = input_queue.dequeue();
+            memcpy(buf, report->data, report->len);
+            free(report);
+
             break;
         } else if (info.timed_out) {
             len = 0;
             break;
         }
+
         CFRunLoopRun(); // Wait for data
     }
 
@@ -300,7 +302,7 @@ void pjrc_rawhid::close(int)
 
         if (!unplugged) {
             IOHIDDeviceUnscheduleFromRunLoop(dev, the_correct_runloop, kCFRunLoopDefaultMode);
-            IOHIDDeviceRegisterInputReportCallback(dev, buffer, sizeof(buffer), NULL, NULL);
+            IOHIDDeviceRegisterInputReportCallback(dev, driver_buffer, sizeof(driver_buffer), NULL, NULL);
             IOHIDDeviceClose(dev, kIOHIDOptionsTypeNone);
         }
 
@@ -324,12 +326,15 @@ void pjrc_rawhid::input(quint8 *data, CFIndex len)
         return;
 
     if (len > BUFFER_SIZE) len = BUFFER_SIZE;
-    // Note: packet preprocessing done in OS independent code
-    memcpy(buffer, &data[0], len);
-    buffer_count = len;
+
+    struct usb_report *report = (struct usb_report*) malloc(sizeof(struct usb_report));
+    memcpy(report->data, data, len);
+    report->len = len;
+    input_queue.enqueue(report);
 
     if (received_runloop)
         CFRunLoopStop(received_runloop);
+    received_runloop = NULL;
 }
 
 //! Callback for the HID driver on an input report
@@ -381,7 +386,7 @@ void pjrc_rawhid::attach(IOHIDDeviceRef d)
     // Disconnect the attach callback since we don't want to automatically reconnect
     IOHIDManagerRegisterDeviceMatchingCallback(hid_manager, NULL, NULL);
     IOHIDDeviceScheduleWithRunLoop(dev, the_correct_runloop, kCFRunLoopDefaultMode);
-    IOHIDDeviceRegisterInputReportCallback(dev, buffer, sizeof(buffer), pjrc_rawhid::input_callback, this);
+    IOHIDDeviceRegisterInputReportCallback(dev, driver_buffer, sizeof(driver_buffer), pjrc_rawhid::input_callback, this);
 
     attach_count++;
     device_open = true;

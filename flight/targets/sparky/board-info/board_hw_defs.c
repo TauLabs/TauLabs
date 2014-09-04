@@ -683,6 +683,78 @@ static const struct pios_sbus_cfg pios_main_sbus_aux_cfg = {
 };
 #endif	/* PIOS_INCLUDE_SBUS */
 
+#ifdef PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY
+static const struct pios_usart_cfg pios_flexi_usart_sport_cfg = {
+	.regs = USART1,
+	.remap = GPIO_AF_7,
+	.init = {
+		.USART_BaudRate = 57600,
+		.USART_WordLength = USART_WordLength_8b,
+		.USART_Parity = USART_Parity_No,
+		.USART_StopBits = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode = USART_Mode_Rx | USART_Mode_Tx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = USART1_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.rx_invert = true,
+	.tx_invert = true,
+	.single_wire = true,
+	.tx = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_6,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_DOWN
+		},
+		.pin_source = GPIO_PinSource6,
+	},
+};
+
+static const struct pios_usart_cfg pios_main_usart_sport_cfg = {
+	.regs = USART3,
+	.remap = GPIO_AF_7,
+	.init = {
+		.USART_BaudRate = 57600,
+		.USART_WordLength = USART_WordLength_8b,
+		.USART_Parity = USART_Parity_No,
+		.USART_StopBits = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode = USART_Mode_Rx | USART_Mode_Tx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = USART3_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.rx_invert = true,
+	.tx_invert = true,
+	.single_wire = true,
+	.tx = {
+		.gpio = GPIOB,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_10,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_DOWN
+		},
+		.pin_source = GPIO_PinSource10,
+	},
+};
+#endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
+
 static const struct pios_usart_cfg pios_flexi_usart_cfg = {
 	.regs = USART1,
 	.remap = GPIO_AF_7,

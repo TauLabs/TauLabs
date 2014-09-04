@@ -36,7 +36,11 @@
 			<elementname>UAVOHoTTBridge</elementname>
 			<elementname>UAVOFrSKYSensorHubBridge</elementname>
 			<elementname>PicoC</elementname>
+<<<<<<< HEAD
 			<elementname>OnScreenDisplay</elementname>
+=======
+			<elementname>UAVOFrSkySPortBridge</elementname>
+>>>>>>> next
 		</elementnames>
 	</field>
 	<field name="Running" units="bool" type="enum">
@@ -75,6 +79,7 @@
 			<elementname>UAVOFrSKYSBridge</elementname>
 			<elementname>PicoC</elementname>
 			<elementname>OnScreenDisplay</elementname>
+			<elementname>UAVOFrSkySPortBridge</elementname>
 		</elementnames>
 		<options>
 			<option>False</option>
@@ -117,6 +122,7 @@
 			<elementname>UAVOFrSKYSensorHubBridge</elementname>
 			<elementname>PicoC</elementname>
 			<elementname>OnScreenDisplay</elementname>
+			<elementname>UAVOFrSkySPortBridge</elementname>
 		</elementnames>
 	</field> 
 	<access gcs="readwrite" flight="readwrite"/>

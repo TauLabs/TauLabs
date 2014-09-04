@@ -1,6 +1,7 @@
 TEMPLATE = lib
 TARGET = AntennaTrack
-include(../../openpilotgcsplugin.pri)
+QT += serialport
+include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(antennatrack_dependencies.pri)
 include(../../libs/qwt/qwt.pri)

@@ -3,6 +3,7 @@
  *
  * @file       telemetryparser.h
  * @author     Sami Korhonen & the OpenPilot team Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup AntennaTrackGadgetPlugin Antenna Track Gadget Plugin

@@ -3,6 +3,7 @@
  *
  * @file       AntennaTracgadgetconfiguration.h
  * @author     Sami Korhonen & the OpenPilot team Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup AntennaTrackGadgetPlugin Antenna Track Gadget Plugin
@@ -29,7 +30,7 @@
 #define ANTENNATRACKGADGETCONFIGURATION_H
 
 #include <coreplugin/iuavgadgetconfiguration.h>
-#include <qextserialport/src/qextserialport.h>
+#include <QtSerialPort/QSerialPort>
 
 using namespace Core;
 
@@ -43,21 +44,21 @@ class AntennaTrackGadgetConfiguration : public IUAVGadgetConfiguration
         QString connectionMode() { return m_connectionMode; }
 
         //set port configuration functions
-        void setSpeed(BaudRateType speed) {m_defaultSpeed=speed;}
-        void setDataBits(DataBitsType databits) {m_defaultDataBits=databits;}
-        void setFlow(FlowType flow) {m_defaultFlow=flow;}
-        void setParity(ParityType parity) {m_defaultParity=parity;}
-        void setStopBits(StopBitsType stopbits) {m_defaultStopBits=stopbits;}
+        void setSpeed(QSerialPort::BaudRate speed) {m_defaultSpeed=speed;}
+        void setDataBits(QSerialPort::DataBits databits) {m_defaultDataBits=databits;}
+        void setFlow(QSerialPort::FlowControl flow) {m_defaultFlow=flow;}
+        void setParity(QSerialPort::Parity parity) {m_defaultParity=parity;}
+        void setStopBits(QSerialPort::StopBits stopbits) {m_defaultStopBits=stopbits;}
         void setPort(QString port){m_defaultPort=port;}
         void setTimeOut(long timeout){m_defaultTimeOut=timeout;}
 
         //get port configuration functions
         QString port(){return m_defaultPort;}
-        BaudRateType speed() {return m_defaultSpeed;}
-        FlowType flow() {return m_defaultFlow;}
-        DataBitsType dataBits() {return m_defaultDataBits;}
-        StopBitsType stopBits() {return m_defaultStopBits;}
-        ParityType parity() {return m_defaultParity;}
+        QSerialPort::BaudRate speed() {return m_defaultSpeed;}
+        QSerialPort::FlowControl flow() {return m_defaultFlow;}
+        QSerialPort::DataBits dataBits() {return m_defaultDataBits;}
+        QSerialPort::StopBits stopBits() {return m_defaultStopBits;}
+        QSerialPort::Parity parity() {return m_defaultParity;}
         long timeOut(){return m_defaultTimeOut;}
 
         void saveConfig(QSettings* settings) const;
@@ -66,11 +67,11 @@ class AntennaTrackGadgetConfiguration : public IUAVGadgetConfiguration
     private:
         QString m_connectionMode;
         QString m_defaultPort;
-        BaudRateType m_defaultSpeed;
-        DataBitsType m_defaultDataBits;
-        FlowType m_defaultFlow;
-        ParityType m_defaultParity;
-        StopBitsType m_defaultStopBits;
+        QSerialPort::BaudRate m_defaultSpeed;
+        QSerialPort::DataBits m_defaultDataBits;
+        QSerialPort::FlowControl m_defaultFlow;
+        QSerialPort::Parity m_defaultParity;
+        QSerialPort::StopBits m_defaultStopBits;
         long m_defaultTimeOut;
 
 };

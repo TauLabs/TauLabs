@@ -115,8 +115,6 @@
  */
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (1459667)
 
-#define REVOLUTION
-
 #define CAMERASTAB_POI_MODE
 
 #define GIMBAL

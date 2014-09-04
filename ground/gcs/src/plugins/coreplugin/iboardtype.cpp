@@ -1,4 +1,6 @@
 #include "iboardtype.h"
+#include "extensionsystem/pluginmanager.h"
+
 namespace Core{
 
 /**
@@ -48,5 +50,20 @@ QStringList IBoardType::queryChannelBanks()
     }
 
     return banksStringList;
+}
+
+QString IBoardType::getBoardNameFromID(int id)
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    if (pm == NULL)
+        return "Unknown";
+
+    QList <Core::IBoardType *> boards = pm->getObjects<Core::IBoardType>();
+    foreach (Core::IBoardType *board, boards) {
+        if (board->getBoardType() == (id >> 8))
+            return board->shortName();
+    }
+
+    return "Unknown";
 }
 }

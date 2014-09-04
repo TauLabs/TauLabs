@@ -198,6 +198,8 @@ public:
      */
     virtual int queryMaxGyroRate() { return -1; }
 
+    static QString getBoardNameFromID(int id);
+
 signals:
 
 protected:
