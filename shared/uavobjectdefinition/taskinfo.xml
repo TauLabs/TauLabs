@@ -36,11 +36,8 @@
 			<elementname>UAVOHoTTBridge</elementname>
 			<elementname>UAVOFrSKYSensorHubBridge</elementname>
 			<elementname>PicoC</elementname>
-<<<<<<< HEAD
 			<elementname>OnScreenDisplay</elementname>
-=======
 			<elementname>UAVOFrSkySPortBridge</elementname>
->>>>>>> next
 		</elementnames>
 	</field>
 	<field name="Running" units="bool" type="enum">
