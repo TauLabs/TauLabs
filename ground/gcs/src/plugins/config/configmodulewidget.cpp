@@ -368,7 +368,10 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     enableAirspeedTab(false);
     enableVibrationTab(false);
     enableHoTTTelemetryTab(false);
+<<<<<<< HEAD
     enableGeofenceTab(false);
+=======
+>>>>>>> FETCH_HEAD
     enablePicoCTab(false);
 
     // Load UAVObjects to widget relations from UI file
@@ -418,10 +421,13 @@ void ConfigModuleWidget::recheckTabs()
     connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
     obj->requestUpdate();
 
+<<<<<<< HEAD
     obj = getObjectManager()->getObject(GeoFenceSettings::NAME);
     connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
     obj->requestUpdate();
 
+=======
+>>>>>>> FETCH_HEAD
     obj = getObjectManager()->getObject(PicoCSettings::NAME);
     connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
     obj->requestUpdate();
@@ -442,8 +448,11 @@ void ConfigModuleWidget::objectUpdated(UAVObject * obj, bool success)
         enableVibrationTab(success);
     else if (objName.compare(HoTTSettings::NAME) == 0)
         enableHoTTTelemetryTab(success);
+<<<<<<< HEAD
     else if (objName.compare(GeoFenceSettings::NAME) == 0)
         enableGeofenceTab(success);
+=======
+>>>>>>> FETCH_HEAD
     else if (objName.compare(PicoCSettings::NAME) == 0)
         enablePicoCTab(success);
 }
@@ -612,6 +621,7 @@ void ConfigModuleWidget::enableHoTTTelemetryTab(bool enabled)
     ui->moduleTab->setTabEnabled(idx,enabled);
 }
 
+<<<<<<< HEAD
 //! Enable or disable the geofence tab
 void ConfigModuleWidget::enableGeofenceTab(bool enabled)
 {
@@ -619,6 +629,8 @@ void ConfigModuleWidget::enableGeofenceTab(bool enabled)
     ui->moduleTab->setTabEnabled(idx,enabled);
 }
 
+=======
+>>>>>>> FETCH_HEAD
 //! Enable or disable the PicoC tab
 void ConfigModuleWidget::enablePicoCTab(bool enabled)
 {
