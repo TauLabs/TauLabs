@@ -88,7 +88,7 @@ static const struct pios_hmc5883_cfg pios_hmc5883_internal_cfg = {
 	.Meas_Conf = PIOS_HMC5883_MEASCONF_NORMAL,
 	.Gain = PIOS_HMC5883_GAIN_1_9,
 	.Mode = PIOS_HMC5883_MODE_CONTINUOUS,
-	.Default_Orientation = PIOS_HMC5883_TOP_90DEG,
+	.Default_Orientation = PIOS_HMC5883_BOTTOM_90DEG,
 };
 
 static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
@@ -156,7 +156,7 @@ static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
 	.User_ctl = PIOS_MPU60X0_USERCTL_DIS_I2C,
 	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
 	.default_filter = PIOS_MPU60X0_LOWPASS_256_HZ,
-	.orientation = PIOS_MPU60X0_TOP_180DEG
+	.orientation = PIOS_MPU60X0_BOTTOM_180DEG
 };
 #endif /* PIOS_INCLUDE_MPU6000 */
 
