@@ -62,10 +62,7 @@ private:
     void enableAirspeedTab(bool enabled);
     void enableVibrationTab(bool enabled);
     void enableHoTTTelemetryTab(bool enabled);
-<<<<<<< HEAD
     void enableGeofenceTab(bool enabled);
-=======
->>>>>>> FETCH_HEAD
     void enablePicoCTab(bool enabled);
 
     static QString trueString;
