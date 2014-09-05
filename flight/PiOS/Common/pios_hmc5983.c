@@ -138,8 +138,6 @@ int32_t PIOS_HMC5983_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
 
 	PIOS_Assert(result == pdPASS);
 
-	dev->data_ready_sema = PIOS_Semaphore_Create();
-
 	return 0;
 }
 
