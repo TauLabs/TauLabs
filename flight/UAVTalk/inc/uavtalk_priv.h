@@ -7,7 +7,7 @@
  *
  * @file       uavtalk_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Private include file of the UAVTalk library
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -32,6 +32,8 @@
 #define UAVTALK_PRIV_H
 
 #include "uavobjectsinit.h"
+#include "pios_semaphore.h"
+#include "pios_mutex.h"
 
 // Private types and constants
 
@@ -82,9 +84,9 @@ typedef struct {
 typedef struct {
     uint8_t canari;
     UAVTalkOutputStream outStream;
-    xSemaphoreHandle lock;
-    xSemaphoreHandle transLock;
-    xSemaphoreHandle respSema;
+    struct pios_recursive_mutex *lock;
+    struct pios_recursive_mutex *transLock;
+    struct pios_semaphore *respSema;
     UAVObjHandle respObj;
     uint16_t respInstId;
     UAVTalkStats stats;

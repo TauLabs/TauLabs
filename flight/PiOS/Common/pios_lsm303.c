@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pios_lsm303.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_LSM303 LSM303 Functions
@@ -30,6 +30,8 @@
 
 #if defined(PIOS_INCLUDE_LSM303)
 
+#include "pios_semaphore.h"
+
 /* Private constants */
 #define LSM303_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
 #define LSM303_TASK_STACK		(512 / 4)
@@ -53,7 +55,7 @@ struct lsm303_dev {
 	xQueueHandle queue_accel;
 	xQueueHandle queue_mag;
 	xTaskHandle TaskHandle;
-	xSemaphoreHandle data_ready_sema;
+	struct pios_semaphore *data_ready_sema;
 	const struct pios_lsm303_cfg *cfg;
 	enum pios_lsm303_dev_magic magic;
 };
@@ -113,7 +115,7 @@ static struct lsm303_dev *PIOS_LSM303_alloc(void)
 		return NULL;
 	}
 
-	lsm303_dev->data_ready_sema = xSemaphoreCreateMutex();
+	lsm303_dev->data_ready_sema = PIOS_Semaphore_Create();
 
 	if (lsm303_dev->data_ready_sema == NULL) {
 		vPortFree(lsm303_dev);
@@ -597,18 +599,18 @@ bool PIOS_LSM303_IRQHandler(void)
 	if (PIOS_LSM303_Validate(pios_lsm303_dev) != 0)
 		return false;
 
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+	bool woken = false;
 
-	xSemaphoreGiveFromISR(pios_lsm303_dev->data_ready_sema, &xHigherPriorityTaskWoken);
+	PIOS_Semaphore_Give_FromISR(pios_lsm303_dev->data_ready_sema, &woken);
 
-	return xHigherPriorityTaskWoken == pdTRUE;
+	return woken;
 }
 
 static void PIOS_LSM303_Task(void *parameters)
 {
 	while (1) {
 		//Wait for data ready interrupt
-		if (xSemaphoreTake(pios_lsm303_dev->data_ready_sema, MS2TICKS(5)) != pdTRUE) {
+		if (PIOS_Semaphore_Take(pios_lsm303_dev->data_ready_sema, 5) != true) {
 			// If this expires kick start the sensor
 			struct pios_lsm303_accel_data data;
 			PIOS_LSM303_Accel_ReadData(&data);

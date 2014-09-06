@@ -5,7 +5,7 @@
  *
  * @file       taskmonitor.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Task monitoring library
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
@@ -27,13 +27,14 @@
 
 #include "openpilot.h"
 //#include "taskmonitor.h"
+#include "pios_mutex.h"
 
 // Private constants
 
 // Private types
 
 // Private variables
-static xSemaphoreHandle lock;
+static struct pios_mutex *lock;
 static xTaskHandle handles[TASKINFO_RUNNING_NUMELEM];
 static uint32_t lastMonitorTime;
 
@@ -44,7 +45,8 @@ static uint32_t lastMonitorTime;
  */
 int32_t TaskMonitorInitialize(void)
 {
-	lock = xSemaphoreCreateRecursiveMutex();
+	lock = PIOS_Mutex_Create();
+	PIOS_Assert(lock != NULL);
 	memset(handles, 0, sizeof(xTaskHandle)*TASKINFO_RUNNING_NUMELEM);
 	lastMonitorTime = 0;
 #if defined(DIAG_TASKS)
@@ -61,9 +63,9 @@ int32_t TaskMonitorAdd(TaskInfoRunningElem task, xTaskHandle handle)
 	uint32_t task_idx = (uint32_t) task;
 	if (task_idx < TASKINFO_RUNNING_NUMELEM)
 	{
-		xSemaphoreTakeRecursive(lock, portMAX_DELAY);
+		PIOS_Mutex_Lock(lock, PIOS_MUTEX_TIMEOUT_MAX);
 		handles[task_idx] = handle;
-		xSemaphoreGiveRecursive(lock);
+		PIOS_Mutex_Unlock(lock);
 		return 0;
 	}
 	else
@@ -80,9 +82,9 @@ int32_t TaskMonitorRemove(TaskInfoRunningElem task)
 	uint32_t task_idx = (uint32_t) task;
 	if (task_idx < TASKINFO_RUNNING_NUMELEM)
 	{
-	    xSemaphoreTakeRecursive(lock, portMAX_DELAY);
+		PIOS_Mutex_Lock(lock, PIOS_MUTEX_TIMEOUT_MAX);
 		handles[task_idx] = 0;
-		xSemaphoreGiveRecursive(lock);
+		PIOS_Mutex_Unlock(lock);
 		return 0;
 	}
 	else
@@ -112,7 +114,7 @@ void TaskMonitorUpdateAll(void)
 	int n;
 
 	// Lock
-	xSemaphoreTakeRecursive(lock, portMAX_DELAY);
+	PIOS_Mutex_Lock(lock, PIOS_MUTEX_TIMEOUT_MAX);
 
 #if ( configGENERATE_RUN_TIME_STATS == 1 )
 	uint32_t currentTime;
@@ -157,7 +159,7 @@ void TaskMonitorUpdateAll(void)
 	TaskInfoSet(&data);
 
 	// Done
-	xSemaphoreGiveRecursive(lock);
+	PIOS_Mutex_Unlock(lock);
 #endif
 }
 

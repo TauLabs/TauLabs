@@ -8,7 +8,7 @@
 *
 * @file       pios_rfm22b.c
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
-* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
 * @brief      Implements a driver the the RFM22B driver
 * @see        The GNU Public License (GPL) Version 3
 *
@@ -576,7 +576,8 @@ int32_t PIOS_RFM22B_Init(uint32_t *rfm22b_id, uint32_t spi_id, uint32_t slave_nu
 	rfm22b_dev->cfg = *cfg;
 
 	// Create a semaphore to know if an ISR needs responding to
-	vSemaphoreCreateBinary( rfm22b_dev->isrPending );
+	rfm22b_dev->isrPending = PIOS_Semaphore_Create();
+	PIOS_Assert(rfm22b_dev->isrPending != NULL);
 
 	// Create our (hopefully) unique 32 bit id from the processor serial number.
 	uint8_t crcs[] = { 0, 0, 0, 0 };
@@ -641,16 +642,16 @@ void PIOS_RFM22B_InjectEvent(struct pios_rfm22b_dev *rfm22b_dev, enum pios_rfm22
 
 	// Signal the semaphore to wake up the handler thread.
 	if (inISR) {
-		portBASE_TYPE pxHigherPriorityTaskWoken;
-		if (xSemaphoreGiveFromISR(rfm22b_dev->isrPending, &pxHigherPriorityTaskWoken) != pdTRUE) {
+		bool woken = false;
+		if (PIOS_Semaphore_Give_FromISR(rfm22b_dev->isrPending, &woken) != true) {
 			// Something went fairly seriously wrong
 			rfm22b_dev->errors++;
 		}
-		portEND_SWITCHING_ISR(pxHigherPriorityTaskWoken);
+		portEND_SWITCHING_ISR(woken == true ? pdTRUE : pdFALSE);
 	}
 	else
 	{
-		if (xSemaphoreGive(rfm22b_dev->isrPending) != pdTRUE) {
+		if (PIOS_Semaphore_Give(rfm22b_dev->isrPending) != true) {
 			// Something went fairly seriously wrong
 			rfm22b_dev->errors++;
 		}
@@ -846,7 +847,7 @@ static void PIOS_RFM22B_Task(void *parameters)
 #endif /* PIOS_WDG_RFM22B */
 
 		// Wait for a signal indicating an external interrupt or a pending send/receive request.
-		if (xSemaphoreTake(rfm22b_dev->isrPending,  MS2TICKS(ISR_TIMEOUT)) == pdTRUE) {
+		if (PIOS_Semaphore_Take(rfm22b_dev->isrPending,  ISR_TIMEOUT) == true) {
 			lastEventTicks = xTaskGetTickCount();
 
 			// Process events through the state machine.

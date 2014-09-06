@@ -8,7 +8,7 @@
  *
  * @file       pios_ms5611.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      MS5611 Pressure Sensor Routines
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -35,6 +35,7 @@
 #if defined(PIOS_INCLUDE_MS5611)
 
 #include "pios_ms5611_priv.h"
+#include "pios_semaphore.h"
 
 /* Private constants */
 #define PIOS_MS5611_OVERSAMPLING oversampling
@@ -82,11 +83,7 @@ struct ms5611_dev {
 	enum conversion_type current_conversion_type;
 	enum pios_ms5611_dev_magic magic;
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-	xSemaphoreHandle busy;
-#else
-	bool busy;
-#endif
+	struct pios_semaphore *busy;
 };
 
 static struct ms5611_dev *dev;
@@ -112,12 +109,8 @@ static struct ms5611_dev * PIOS_MS5611_alloc(void)
 
 	ms5611_dev->magic = PIOS_MS5611_DEV_MAGIC;
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-	vSemaphoreCreateBinary(ms5611_dev->busy);
+	ms5611_dev->busy = PIOS_Semaphore_Create();
 	PIOS_Assert(ms5611_dev->busy != NULL);
-#else
-	ms5611_dev->busy = false;
-#endif
 
 	return ms5611_dev;
 }
@@ -181,24 +174,7 @@ static int32_t PIOS_MS5611_ClaimDevice(void)
 {
 	PIOS_Assert(PIOS_MS5611_Validate(dev) == 0);
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-	if (xSemaphoreTake(dev->busy, 0xffff) != pdTRUE)
-		return -1;
-#else
-	uint32_t timeout = 0xffff;
-	while ((dev->busy == true) && --timeout);
-	if (timeout == 0) //timed out
-		return -1;
-
-	PIOS_IRQ_Disable();
-	if (dev->busy == true) {
-		PIOS_IRQ_Enable();
-		return -1;
-	}
-	dev->busy = true;
-	PIOS_IRQ_Enable();
-#endif
-	return 0;
+	return PIOS_Semaphore_Take(dev->busy, PIOS_SEMAPHORE_TIMEOUT_MAX) == true ? 0 : 1;
 }
 
 /**
@@ -209,15 +185,7 @@ static int32_t PIOS_MS5611_ReleaseDevice(void)
 {
 	PIOS_Assert(PIOS_MS5611_Validate(dev) == 0);
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-	xSemaphoreGive(dev->busy);
-#else
-	PIOS_IRQ_Disable();
-	dev->busy = false;
-	PIOS_IRQ_Enable();
-#endif
-
-	return 0;
+	return PIOS_Semaphore_Give(dev->busy) == true ? 0 : 1;
 }
 
 /**

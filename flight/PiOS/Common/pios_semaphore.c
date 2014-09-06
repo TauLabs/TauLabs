@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pios_semaphore.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_Semaphore Semaphore Abstraction
@@ -100,6 +100,8 @@ bool PIOS_Semaphore_Give(struct pios_semaphore *sema)
 #endif
 }
 
+/* Workaround for simulator version of FreeRTOS. */
+#if !defined(USE_SIM_POSIX)
 bool PIOS_Semaphore_Take_FromISR(struct pios_semaphore *sema, bool *woken)
 {
 	PIOS_Assert(sema != NULL);
@@ -159,4 +161,4 @@ bool PIOS_Semaphore_Give_FromISR(struct pios_semaphore *sema, bool *woken)
 	return result;
 #endif
 }
-
+#endif /* !defined(USE_SIM_POSIX) */

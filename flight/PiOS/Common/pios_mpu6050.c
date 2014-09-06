@@ -36,6 +36,8 @@
 
 #if defined(PIOS_INCLUDE_MPU6050)
 
+#include "pios_semaphore.h"
+
 /* Private constants */
 #define MPU6050_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
 #define MPU6050_TASK_STACK		(484 / 4)
@@ -58,7 +60,7 @@ struct mpu6050_dev {
 	xQueueHandle accel_queue;
 #endif /* PIOS_MPU6050_ACCEL */
 	xTaskHandle TaskHandle;
-	xSemaphoreHandle data_ready_sema;
+	struct pios_semaphore *data_ready_sema;
 	const struct pios_mpu60x0_cfg *cfg;
 	enum pios_mpu6050_dev_magic magic;
 	enum pios_mpu60x0_filter filter;
@@ -105,7 +107,7 @@ static struct mpu6050_dev *PIOS_MPU6050_alloc(void)
 		return NULL;
 	}
 
-	mpu6050_dev->data_ready_sema = xSemaphoreCreateMutex();
+	mpu6050_dev->data_ready_sema = PIOS_Semaphore_Create();
 
 	if (mpu6050_dev->data_ready_sema == NULL) {
 		vPortFree(mpu6050_dev);
@@ -581,18 +583,18 @@ bool PIOS_MPU6050_IRQHandler(void)
 	if (PIOS_MPU6050_Validate(pios_mpu6050_dev) != 0)
 		return false;
 
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+	bool woken = false;
 
-	xSemaphoreGiveFromISR(pios_mpu6050_dev->data_ready_sema, &xHigherPriorityTaskWoken);
+	PIOS_Semaphore_Give_FromISR(pios_mpu6050_dev->data_ready_sema, &woken);
 
-	return xHigherPriorityTaskWoken == pdTRUE;
+	return woken;
 }
 
 static void PIOS_MPU6050_Task(void *parameters)
 {
 	while (1) {
 		//Wait for data ready interrupt
-		if (xSemaphoreTake(pios_mpu6050_dev->data_ready_sema, portMAX_DELAY) != pdTRUE)
+		if (PIOS_Semaphore_Take(pios_mpu6050_dev->data_ready_sema, PIOS_SEMAPHORE_TIMEOUT_MAX) != true)
 			continue;
 
 		enum {

@@ -33,6 +33,8 @@
 #include "overosyncstats.h"
 #include "systemstats.h"
 
+#include "pios_mutex.h"
+
 // Private constants
 #define OVEROSYNC_PACKET_SIZE 1024
 #define MAX_QUEUE_SIZE   40
@@ -63,8 +65,7 @@ struct overosync {
 	struct dma_transaction transactions[2];
 	uint32_t active_transaction_id;
 	uint32_t loading_transaction_id;
-	xSemaphoreHandle transaction_lock;
-	xSemaphoreHandle buffer_lock;
+	struct pios_mutex *buffer_lock;
 	volatile bool transaction_done;
 	uint32_t sent_bytes;
 	uint32_t write_pointer;
@@ -105,11 +106,7 @@ int32_t OveroSyncStart(void)
 	if(overosync == NULL)
 		return -1;
 
-	overosync->transaction_lock = xSemaphoreCreateMutex();
-	if(overosync->transaction_lock == NULL)
-		return -1;
-
-	overosync->buffer_lock = xSemaphoreCreateMutex();
+	overosync->buffer_lock = PIOS_Mutex_Create();
 	if(overosync->buffer_lock == NULL)
 		return -1;
 
@@ -212,7 +209,7 @@ static void overoSyncTask(void *parameters)
 static int32_t packData(uint8_t * data, int32_t length)
 {
 	// Get the lock for manipulating the buffer
-	xSemaphoreTake(overosync->buffer_lock, portMAX_DELAY);
+	PIOS_Mutex_Lock(overosync->buffer_lock, PIOS_MUTEX_TIMEOUT_MAX);
 
 	portTickType tickTime = xTaskGetTickCount();
 	uint64_t packetSize = data[2] + (data[3] << 8);
@@ -222,7 +219,7 @@ static int32_t packData(uint8_t * data, int32_t length)
 	overosync->sent_bytes += length;
 	overosync->sent_objects++;
 
-	xSemaphoreGive(overosync->buffer_lock);
+	PIOS_Mutex_Unlock(overosync->buffer_lock);
 	
 	return length;
 }
