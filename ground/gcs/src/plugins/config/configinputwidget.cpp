@@ -409,6 +409,9 @@ void ConfigInputWidget::wzNext()
         wizardSetUpStep(wizardIdentifyInverted);
         break;
     case wizardIdentifyInverted:
+        wizardSetUpStep(wizardVerifyFailsafe);
+        break;
+    case wizardVerifyFailsafe:
         wizardSetUpStep(wizardFinish);
         break;
     case wizardFinish:
@@ -453,8 +456,11 @@ void ConfigInputWidget::wzBack()
     case wizardIdentifyInverted:
         wizardSetUpStep(wizardIdentifyLimits);
         break;
-    case wizardFinish:
+    case wizardVerifyFailsafe:
         wizardSetUpStep(wizardIdentifyInverted);
+        break;
+    case wizardFinish:
+        wizardSetUpStep(wizardVerifyFailsafe);
         break;
     default:
         Q_ASSERT(0);
@@ -495,6 +501,7 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
                                      "You can press 'back' at any time to return to the previous screeen or press 'Cancel' to quit the wizard.\n"));
         m_config->stackedWidget->setCurrentIndex(1);
         m_config->wzBack->setEnabled(false);
+        m_config->wzNext->setEnabled(true);
         break;
     case wizardChooseMode:
     {
@@ -599,6 +606,15 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         m_config->wzText->setText(QString(tr("Please check the picture below and correct all the sticks which show an inverted movement, press next when ready.")));
         fastMdata();
         break;
+    case wizardVerifyFailsafe:
+        dimOtherControls(false);
+        setTxMovement(nothing);
+        extraWidgets.clear();
+        detectFailsafe();
+        failsafeDetection = FS_AWAITING_CONNECTION;
+        connect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(detectFailsafe()));
+        m_config->wzNext->setEnabled(false);
+        break;
     case wizardFinish:
         dimOtherControls(false);
         connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
@@ -691,6 +707,11 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
         }
         extraWidgets.clear();
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
+        break;
+    case wizardVerifyFailsafe:
+        dimOtherControls(false);
+        extraWidgets.clear();
+        disconnect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(detectFailsafe()));
         break;
     case wizardFinish:
         dimOtherControls(false);
@@ -1252,6 +1273,38 @@ void ConfigInputWidget::moveTxControls()
             movePos=movePos+2;
             growing=true;
         }
+    }
+}
+
+/**
+ * @brief ConfigInputWidget::detectFailsafe
+ * Detect that the FlightStatus object indicates a Failsafe condition
+ */
+void ConfigInputWidget::detectFailsafe()
+{
+    FlightStatus::DataFields flightStatusData = flightStatusObj->getData();
+    switch (failsafeDetection)
+    {
+    case FS_AWAITING_CONNECTION:
+        if (flightStatusData.ControlSource == FlightStatus::CONTROLSOURCE_TRANSMITTER) {
+            m_config->wzText->setText(QString(tr("To verify that the failsafe mode on your receiver is safe, please turn off your transmitter now.\n")));
+            failsafeDetection = FS_AWAITING_FAILSAFE;    // Now wait for it to go away
+        } else {
+            m_config->wzText->setText(QString(tr("Unable to detect transmitter to verify failsafe. Please ensure it is turned on.\n")));
+        }
+        break;
+    case FS_AWAITING_FAILSAFE:
+        if (flightStatusData.ControlSource == FlightStatus::CONTROLSOURCE_FAILSAFE) {
+            m_config->wzText->setText(QString(tr("Failsafe mode detected. Please turn on your transmitter again.\n")));
+            failsafeDetection = FS_AWAITING_RECONNECT;    // Now wait for it to go away
+        }
+        break;
+    case FS_AWAITING_RECONNECT:
+        if (flightStatusData.ControlSource == FlightStatus::CONTROLSOURCE_TRANSMITTER) {
+            m_config->wzText->setText(QString(tr("Congratulations. Failsafe detection appears to be working reliably.\n")));
+            m_config->wzNext->setEnabled(true);
+        }
+        break;
     }
 }
 
