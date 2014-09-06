@@ -28,7 +28,7 @@
 #include "pios_semaphore.h"
 
 #if !defined(PIOS_INCLUDE_FREERTOS) && !defined(PIOS_INCLUDE_IRQ)
-#error pios_semaphore.c requires either PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_IRQ to be defined
+#error "pios_semaphore.c requires either PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_IRQ to be defined"
 #endif
 
 #if defined(PIOS_INCLUDE_FREERTOS)
