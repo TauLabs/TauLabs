@@ -8,7 +8,7 @@
 *
 * @file       pios_rfm22b.c
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
-* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013 - 2014
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
 * @brief      Implements a driver the the RFM22B driver
 * @see        The GNU Public License (GPL) Version 3
 *
@@ -518,7 +518,8 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 	rfm22b_dev->cfg = *cfg;
 
 	// Create a semaphore to know if an ISR needs responding to
-	vSemaphoreCreateBinary(rfm22b_dev->isrPending);
+	rfm22b_dev->isrPending = PIOS_Semaphore_Create();
+	PIOS_Assert(rfm22b_dev->isrPending != NULL);
 
 	// Create our (hopefully) unique 32 bit id from the processor serial number.
 	uint8_t crcs[] = { 0, 0, 0, 0 };
@@ -1355,9 +1356,8 @@ static void pios_rfm22_task(void *parameters)
 #endif /* PIOS_WDG_RFM22B */
 
 		// Wait for a signal indicating an external interrupt or a pending send/receive request.
-		if (xSemaphoreTake
-		    (rfm22b_dev->isrPending,
-		     ISR_TIMEOUT / portTICK_RATE_MS) == pdTRUE) {
+		if (PIOS_Semaphore_Take(rfm22b_dev->isrPending,
+		     ISR_TIMEOUT / portTICK_RATE_MS) == true) {
 			lastEventTicks = xTaskGetTickCount();
 
 			// Process events through the state machine.
@@ -1453,17 +1453,15 @@ static void pios_rfm22_inject_event(struct pios_rfm22b_dev *rfm22b_dev,
 			return;
 		}
 		// Signal the semaphore to wake up the handler thread.
-		portBASE_TYPE pxHigherPriorityTaskWoken2;
-		if (xSemaphoreGiveFromISR
-		    (rfm22b_dev->isrPending,
-		     &pxHigherPriorityTaskWoken2) != pdTRUE) {
+		bool woken = false;
+		if (PIOS_Semaphore_Give_FromISR(rfm22b_dev->isrPending,
+		     &woken) != true) {
 			// Something went fairly seriously wrong
 			rfm22b_dev->errors++;
 		}
 		portEND_SWITCHING_ISR((pxHigherPriorityTaskWoken1 ==
 				       pdTRUE)
-				      || (pxHigherPriorityTaskWoken2 ==
-					  pdTRUE));
+				      || woken);
 	} else {
 		// Store the event.
 		if (xQueueSend
@@ -1472,7 +1470,7 @@ static void pios_rfm22_inject_event(struct pios_rfm22b_dev *rfm22b_dev,
 			return;
 		}
 		// Signal the semaphore to wake up the handler thread.
-		if (xSemaphoreGive(rfm22b_dev->isrPending) != pdTRUE) {
+		if (PIOS_Semaphore_Give(rfm22b_dev->isrPending) != true) {
 			// Something went fairly seriously wrong
 			rfm22b_dev->errors++;
 		}
