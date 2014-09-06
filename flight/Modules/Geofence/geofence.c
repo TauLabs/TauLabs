@@ -95,7 +95,7 @@ int32_t GeofenceInitialize(void)
 			.instId = 0,
 			.event = 0,
 		};
-		EventPeriodicCallbackCreate(&ev, checkPosition, MS2TICKS(SAMPLE_PERIOD_MS));
+		EventPeriodicCallbackCreate(&ev, checkPosition, SAMPLE_PERIOD_MS);
 
 		return 0;
 	}

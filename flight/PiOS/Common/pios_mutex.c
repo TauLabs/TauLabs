@@ -33,6 +33,11 @@
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 
+// portTICK_RATE_MS is in [ms/tick].
+// See http://sourceforge.net/tracker/?func=detail&aid=3498382&group_id=111543&atid=659636
+#define TICKS2MS(t) ((t) * (portTICK_RATE_MS))
+#define MS2TICKS(m) ((m) / (portTICK_RATE_MS))
+
 struct pios_mutex *PIOS_Mutex_Create(void)
 {
 	struct pios_mutex *mtx = PIOS_malloc(sizeof(struct pios_mutex));

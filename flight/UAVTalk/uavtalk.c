@@ -35,6 +35,7 @@
 #include "openpilot.h"
 #include "uavtalk_priv.h"
 #include "pios_mutex.h"
+#include "pios_thread.h"
 
 
 // Private functions
@@ -607,7 +608,7 @@ UAVTalkRxState UAVTalkRelayInputStream(UAVTalkConnection connectionHandle, uint8
 		// Add timestamp when the transaction type is appropriate
 		if (iproc->type & UAVTALK_TIMESTAMPED)
 		{
-			portTickType time = xTaskGetTickCount();
+			uint32_t time = PIOS_Thread_Systime();
 			connection->txBuffer[dataOffset] = (uint8_t)(time & 0xFF);
 			connection->txBuffer[dataOffset + 1] = (uint8_t)((time >> 8) & 0xFF);
 			dataOffset += 2;
@@ -916,7 +917,7 @@ static int32_t sendSingleObject(UAVTalkConnectionData *connection, UAVObjHandle 
 	// Add timestamp when the transaction type is appropriate
 	if (type & UAVTALK_TIMESTAMPED)
 	{
-		portTickType time = xTaskGetTickCount();
+		uint32_t time = PIOS_Thread_Systime();
 		connection->txBuffer[dataOffset] = (uint8_t)(time & 0xFF);
 		connection->txBuffer[dataOffset + 1] = (uint8_t)((time >> 8) & 0xFF);
 		dataOffset += 2;

@@ -6,7 +6,7 @@
  * @{ 
  *
  * @file	   UAVOLighttelemetryBridge.c
- * @author	   Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author	   Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief	   Bridges selected UAVObjects to a minimal one way telemetry 
  *			   protocol for really low bitrates (1200/2400 bauds). This can be 
  *			   used with FSK audio modems or increase range for serial telemetry.
@@ -54,11 +54,12 @@
 #include "accels.h"
 #include "manualcontrolcommand.h"
 #include "flightstatus.h"
+#include "pios_thread.h"
 
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 // Private constants
 #define STACK_SIZE_BYTES 512
-#define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 #define UPDATE_PERIOD 100
 
 #define LTM_GFRAME_SIZE 18
@@ -68,7 +69,7 @@
 // Private types
 
 // Private variables
-static xTaskHandle taskHandle;
+static struct pios_thread *taskHandle;
 
 static uint32_t lighttelemetryPort;
 static uint8_t ltm_scheduler;
@@ -89,7 +90,7 @@ static void send_LTM_Sframe();
  */
 int32_t uavoLighttelemetryBridgeStart()
 {
-	xTaskCreate(uavoLighttelemetryBridgeTask, (signed char *)"uavoLighttelemetryBridge", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(uavoLighttelemetryBridgeTask, "uavoLighttelemetryBridge", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_UAVOLIGHTTELEMETRYBRIDGE, taskHandle);
 	return 0;
 }
@@ -122,10 +123,10 @@ MODULE_INITCALL(uavoLighttelemetryBridgeInitialize, uavoLighttelemetryBridgeStar
 
 static void uavoLighttelemetryBridgeTask(void *parameters)
 {
-	portTickType lastSysTime;
+	uint32_t lastSysTime;
 
 	// Main task loop
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 	while (1)
 	{
 
@@ -146,7 +147,7 @@ static void uavoLighttelemetryBridgeTask(void *parameters)
 		if (ltm_scheduler > 10)
 			ltm_scheduler = 1;
 		// Delay until it is time to read the next sample
-		vTaskDelayUntil(&lastSysTime, UPDATE_PERIOD / portTICK_RATE_MS);
+		PIOS_Thread_Sleep_Until(&lastSysTime, UPDATE_PERIOD);
 	}
 }
 

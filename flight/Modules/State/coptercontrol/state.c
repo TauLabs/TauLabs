@@ -6,7 +6,7 @@
  * @{
  *
  * @file       state.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      State estimation for CC(3D)
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -33,6 +33,7 @@
 #include "state.h"
 #include "sensorfetch.h"
 #include "attitudedrift.h"
+#include "pios_thread.h"
 
 #include "accels.h"
 #include "attitudeactual.h"
@@ -55,7 +56,7 @@
 
 // Private constants
 #define STACK_SIZE_BYTES 800
-#define TASK_PRIORITY (tskIDLE_PRIORITY+3)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 
 #define SENSOR_PERIOD 4
 #define LOOP_RATE_MS  25.0f
@@ -63,7 +64,7 @@
 // Private types
 
 // Private variables
-static xTaskHandle taskHandle;
+static struct pios_thread *taskHandle;
 static xQueueHandle gyro_queue;
 
 static bool gpsNew_flag;
@@ -109,8 +110,7 @@ int32_t StateStart(void)
 {
 
 	// Start main task
-	xTaskCreate(StateTask, (signed char *)"State", STACK_SIZE_BYTES / 4,
-		    NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(StateTask, "State", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, taskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
 
@@ -259,7 +259,7 @@ static void StateTask(void *parameters)
 		FlightStatusGet(&flightStatus);
 
 		//Change gyro calibration parameters...
-		if ((xTaskGetTickCount() > 1000) && (xTaskGetTickCount() < 7000)) {
+		if ((PIOS_Thread_Systime() > 1000) && (PIOS_Thread_Systime() < 7000)) {
 			//...during first 7 seconds or so...
 			// For first 7 seconds use accels to get gyro bias
 			glblAtt->accelKp = 1;

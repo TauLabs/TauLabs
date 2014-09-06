@@ -3,6 +3,7 @@
  *
  * @file       pios_tcp.c   
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      TCP commands. Inits UDPs, controls UDPs & Interupt handlers.
  * @see        The GNU Public License (GPL) Version 3
  * @defgroup   PIOS_UDP UDP Functions
@@ -33,6 +34,7 @@
 
 #include <signal.h>
 #include <pios_tcp_priv.h>
+#include "pios_thread.h"
 
 /* We need a list of TCP devices */
 
@@ -98,7 +100,7 @@ static void PIOS_TCP_RxTask(void *tcp_dev_n)
 		} else
 			fifoBuf_clearData(&tcp_dev->rx_fifo);	
 		
-		vTaskDelay(1);
+		PIOS_Thread_Sleep(1);
 	}
 }
 
@@ -154,7 +156,7 @@ static void *PIOS_TCP_RxThread(void *tcp_dev_n)
 /**
  * Open UDP socket
  */
-xTaskHandle tcpRxTaskHandle;
+struct pios_thread *tcpRxTaskHandle;
 int32_t PIOS_TCP_Init(uintptr_t *tcp_id, const struct pios_tcp_cfg * cfg)
 {
 	
@@ -191,7 +193,8 @@ int32_t PIOS_TCP_Init(uintptr_t *tcp_id, const struct pios_tcp_cfg * cfg)
 	
 	pthread_create(&tcp_dev->rxThread, NULL, PIOS_TCP_RxThread, (void*)tcp_dev);
 
-	xTaskCreate(PIOS_TCP_RxTask, (signed char *)"TcpRx", 1024, (void*)tcp_dev, 2, &tcpRxTaskHandle);
+	tcpRxTaskHandle = PIOS_Thread_Create(
+			PIOS_TCP_RxTask, "pios_tcp_rx", 4096, tcp_dev, 2);
 	
 	printf("udp dev %i - socket %i opened - result %i\n",pios_tcp_num_devices-1,tcp_dev->socket,res);
 	

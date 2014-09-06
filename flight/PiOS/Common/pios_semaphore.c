@@ -31,6 +31,15 @@
 #error pios_semaphore.c requires either PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_IRQ to be defined
 #endif
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+
+// portTICK_RATE_MS is in [ms/tick].
+// See http://sourceforge.net/tracker/?func=detail&aid=3498382&group_id=111543&atid=659636
+#define TICKS2MS(t) ((t) * (portTICK_RATE_MS))
+#define MS2TICKS(m) ((m) / (portTICK_RATE_MS))
+
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 struct pios_semaphore *PIOS_Semaphore_Create(void)
 {
 	struct pios_semaphore *sema = PIOS_malloc(sizeof(struct pios_semaphore));

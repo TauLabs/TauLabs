@@ -7,7 +7,7 @@
  *
  * @file       i2c_vm.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      The virtual machine for I2C sensors
  *****************************************************************************/
 /*
@@ -34,6 +34,7 @@
 #include "uavobjectmanager.h" /* UAVO types */
 #include "i2cvm.h"	      /* UAVO that holds VM state snapshots */
 #include "i2c_vm_asm.h"	      /* Minimal assembler for I2C VM */
+#include "pios_thread.h"
 
 struct i2c_vm_regs {
 	bool     halted;
@@ -674,7 +675,7 @@ static bool i2c_vm_send_uavo (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_
  */
 static bool i2c_vm_delay (struct i2c_vm_regs * vm_state, uint8_t op1, uint8_t imm_hi, uint8_t imm_lo)
 {
-	vTaskDelay(MS2TICKS(SIMM_VAL(imm_hi, imm_lo)));
+	PIOS_Thread_Sleep(SIMM_VAL(imm_hi, imm_lo));
 
 	vm_state->uavo.pc++;
 	return true;

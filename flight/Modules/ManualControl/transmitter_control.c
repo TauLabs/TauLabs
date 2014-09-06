@@ -32,6 +32,7 @@
 #include "openpilot.h"
 #include "control.h"
 #include "transmitter_control.h"
+#include "pios_thread.h"
 
 #include "accessorydesired.h"
 #include "actuatordesired.h"
@@ -88,8 +89,8 @@ static ManualControlSettingsData  settings;
 static uint8_t                    disconnected_count = 0;
 static uint8_t                    connected_count = 0;
 static struct rcvr_activity_fsm   activity_fsm;
-static portTickType               lastActivityTime;
-static portTickType               lastSysTime;
+static uint32_t               lastActivityTime;
+static uint32_t               lastSysTime;
 static float                      flight_mode_value;
 static enum control_events        pending_control_event;
 static bool                       settings_updated;
@@ -102,7 +103,7 @@ static void set_flight_mode();
 static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled, bool valid);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
-static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time);
+static uint32_t timeDifferenceMs(uint32_t start_time, uint32_t end_time);
 static bool validInputRange(int16_t min, int16_t max, uint16_t value, uint16_t offset);
 static void applyDeadband(float *value, float deadband);
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm);
@@ -143,7 +144,7 @@ int32_t transmitter_control_initialize()
 	pending_control_event = CONTROL_EVENTS_NONE;
 
 	/* Initialize the RcvrActivty FSM */
-	lastActivityTime = xTaskGetTickCount();
+	lastActivityTime = PIOS_Thread_Systime();
 	resetRcvrActivity(&activity_fsm);
 
 	// Use callback to update the settings when they change
@@ -151,7 +152,7 @@ int32_t transmitter_control_initialize()
 	manual_control_settings_updated(NULL);
 
 	// Main task loop
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 	return 0;
 }
 
@@ -165,7 +166,7 @@ int32_t transmitter_control_initialize()
   */
 int32_t transmitter_control_update()
 {
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 
 	float scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
 	bool validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
@@ -498,7 +499,7 @@ static void set_armed_if_changed(uint8_t new_arm) {
 static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings,
     float * scaled, bool valid)
 {
-	static portTickType armedDisarmStart;
+	static uint32_t armedDisarmStart;
 	bool lowThrottle = cmd->Throttle <= 0;
 
 	uint8_t arm_status;
@@ -1021,10 +1022,10 @@ static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutr
 	return valueScaled;
 }
 
-static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time) {
+static uint32_t timeDifferenceMs(uint32_t start_time, uint32_t end_time) {
 	if(end_time > start_time)
-		return TICKS2MS(end_time - start_time);
-	return TICKS2MS((((portTICK_RATE_MS) -1 ) - start_time) + end_time);
+		return end_time - start_time;
+	return ((((PIOS_THREAD_TIMEOUT_MAX) -1) - start_time) + end_time);
 }
 
 /**

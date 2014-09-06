@@ -7,7 +7,7 @@
  *
  * @file       sensors.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Update available sensors registered with @ref PIOS_Sensors
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -32,6 +32,7 @@
 #include "pios.h"
 #include "openpilot.h"
 #include "physical_constants.h"
+#include "pios_thread.h"
 
 #include "accels.h"
 #include "actuatordesired.h"
@@ -56,13 +57,13 @@
 
 // Private constants
 #define STACK_SIZE_BYTES 1540
-#define TASK_PRIORITY (tskIDLE_PRIORITY+3)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define SENSOR_PERIOD 2
 
 // Private types
 
 // Private variables
-static xTaskHandle sensorsTaskHandle;
+static struct pios_thread *sensorsTaskHandle;
 
 // Private functions
 static void SensorsTask(void *parameters);
@@ -112,7 +113,7 @@ int32_t SensorsInitialize(void)
 int32_t SensorsStart(void)
 {
 	// Start main task
-	xTaskCreate(SensorsTask, (signed char *)"Sensors", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &sensorsTaskHandle);
+	sensorsTaskHandle = PIOS_Thread_Create(SensorsTask, "Sensors", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_SENSORS, sensorsTaskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_SENSORS);
 
@@ -195,7 +196,7 @@ static void SensorsTask(void *parameters)
 				simulateModelCar();
 		}
 
-		vTaskDelay(MS2TICKS(2));
+		PIOS_Thread_Sleep(2);
 
 	}
 }

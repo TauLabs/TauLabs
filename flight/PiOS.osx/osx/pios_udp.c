@@ -4,6 +4,7 @@
  * @file       pios_udp.c   
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * 	        Parts by Thorsten Klose (tk@midibox.org) (tk@midibox.org)
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      UDP commands. Inits UDPs, controls UDPs & Interupt handlers.
  * @see        The GNU Public License (GPL) Version 3
  * @defgroup   PIOS_UDP UDP Functions
@@ -34,6 +35,7 @@
 
 #include <signal.h>
 #include <pios_udp_priv.h>
+#include "pios_thread.h"
 
 /* We need a list of UDP devices */
 
@@ -151,7 +153,8 @@ int32_t PIOS_UDP_Init(uint32_t * udp_id, const struct pios_udp_cfg * cfg)
   int res= bind(udp_dev->socket, (struct sockaddr *)&udp_dev->server,sizeof(udp_dev->server));
 
   /* Create transmit thread for this connection */
-  xTaskCreate(PIOS_UDP_RxThread, (signed char *)"UdpRx", 1024, (void*)udp_dev, 2, &udp_dev->rxThread);
+  udp_dev->rxThread = PIOS_Thread_Create(
+		  PIOS_TCP_RxTask, "pios_udp_rx", 4096, udp_dev, 2);
 
   printf("udp dev %i - socket %i opened - result %i\n",pios_udp_num_devices-1,udp_dev->socket,res);
 

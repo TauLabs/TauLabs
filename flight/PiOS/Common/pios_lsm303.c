@@ -31,10 +31,11 @@
 #if defined(PIOS_INCLUDE_LSM303)
 
 #include "pios_semaphore.h"
+#include "pios_thread.h"
 
 /* Private constants */
-#define LSM303_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define LSM303_TASK_STACK		(512 / 4)
+#define LSM303_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
+#define LSM303_TASK_STACK_BYTES	512
 
 #include "fifo_buffer.h"
 
@@ -54,7 +55,7 @@ struct lsm303_dev {
 	enum pios_lsm303_mag_range mag_range;
 	xQueueHandle queue_accel;
 	xQueueHandle queue_mag;
-	xTaskHandle TaskHandle;
+	struct pios_thread *TaskHandle;
 	struct pios_semaphore *data_ready_sema;
 	const struct pios_lsm303_cfg *cfg;
 	enum pios_lsm303_dev_magic magic;
@@ -172,10 +173,9 @@ int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg *cfg)
 	/* Configure the LSM303 Sensor */
 	PIOS_LSM303_Config(cfg);
 
-	int result = xTaskCreate(PIOS_LSM303_Task, (const signed char *)"pios_lsm303",
-	                         LSM303_TASK_STACK, NULL, LSM303_TASK_PRIORITY,
-	                         &pios_lsm303_dev->TaskHandle);
-	PIOS_Assert(result == pdPASS);
+	pios_lsm303_dev->TaskHandle = PIOS_Thread_Create(
+			PIOS_LSM303_Task, "pios_lsm303", LSM303_TASK_STACK_BYTES, NULL, LSM303_TASK_PRIORITY);
+	PIOS_Assert(pios_lsm303_dev->TaskHandle != NULL);
 
 	/* Set up EXTI line */
 	PIOS_EXTI_Init(cfg->exti_cfg);

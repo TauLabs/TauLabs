@@ -28,9 +28,10 @@
 #define TASKMONITOR_H
 
 #include "taskinfo.h"
+#include "pios_thread.h"
 
 int32_t TaskMonitorInitialize(void);
-int32_t TaskMonitorAdd(TaskInfoRunningElem task, xTaskHandle handle);
+int32_t TaskMonitorAdd(TaskInfoRunningElem task, struct pios_thread *handlep);
 int32_t TaskMonitorRemove(TaskInfoRunningElem task);
 bool TaskMonitorQueryRunning(TaskInfoRunningElem task);
 void TaskMonitorUpdateAll(void);

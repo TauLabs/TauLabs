@@ -8,6 +8,7 @@
  *
  * @file       pios_opahrs.c  
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      Hardware commands to communicate with the AHRS
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -50,7 +51,7 @@ static int32_t opahrs_msg_txrx(const uint8_t * tx, uint8_t * rx, uint32_t len)
 
 	PIOS_SPI_RC_PinSet(PIOS_OPAHRS_SPI, 0);
 #ifdef PIOS_INCLUDE_FREERTOS
-	vTaskDelay(MS2TICKS(1));
+	PIOS_Thread_Sleep(1);
 #else
 	PIOS_DELAY_WaitmS(20);
 #endif
@@ -83,7 +84,7 @@ static enum opahrs_result opahrs_msg_v1_send_req(const struct opahrs_msg_v1 *req
 			case OPAHRS_MSG_LINK_STATE_INACTIVE:
 				/* Wait for a small delay and retry */
 #ifdef PIOS_INCLUDE_FREERTOS
-				vTaskDelay(MS2TICKS(1));
+				PIOS_Thread_Sleep(1);
 #else
 				PIOS_DELAY_WaitmS(20);
 #endif
@@ -97,7 +98,7 @@ static enum opahrs_result opahrs_msg_v1_send_req(const struct opahrs_msg_v1 *req
 		case OPAHRS_MSG_TYPE_USER_V1:
 			/* Wait for a small delay and retry */
 #ifdef PIOS_INCLUDE_FREERTOS
-			vTaskDelay(MS2TICKS(1));
+			PIOS_Thread_Sleep(1);
 #else
 			PIOS_DELAY_WaitmS(50);
 #endif
@@ -130,7 +131,7 @@ static enum opahrs_result opahrs_msg_v1_recv_rsp(enum opahrs_msg_v1_tag tag, str
 			case OPAHRS_MSG_LINK_STATE_BUSY:
 				/* Wait for a small delay and retry */
 #ifdef PIOS_INCLUDE_FREERTOS
-				vTaskDelay(MS2TICKS(1));
+				PIOS_Thread_Sleep(1);
 #else
 				PIOS_DELAY_WaitmS(20);
 #endif
@@ -195,7 +196,7 @@ enum opahrs_result PIOS_OPAHRS_resync(void)
 
 	PIOS_SPI_RC_PinSet(PIOS_OPAHRS_SPI, 0);
 #ifdef PIOS_INCLUDE_FREERTOS
-	vTaskDelay(MS2TICKS(1));
+	PIOS_Thread_Sleep(1);
 #else
 	PIOS_DELAY_WaitmS(20);
 #endif
@@ -213,14 +214,13 @@ enum opahrs_result PIOS_OPAHRS_resync(void)
 			break;
 		}
 #ifdef PIOS_INCLUDE_FREERTOS
-		vTaskDelay(MS2TICKS(1));
+		PIOS_Thread_Sleep(1);
 #else
 		PIOS_DELAY_WaitmS(10);
 #endif
 	}
 
 	PIOS_SPI_RC_PinSet(PIOS_OPAHRS_SPI, 1);
-	//vTaskDelay(MS2TICKS(5));
 
 	return rc;
 }
