@@ -102,6 +102,7 @@ SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_heap.c
 SRC += $(PIOSCOMMON)/pios_semaphore.c
 SRC += $(PIOSCOMMON)/pios_mutex.c
+SRC += $(PIOSCOMMON)/pios_thread.c
 
 
 include ./UAVObjects.inc
