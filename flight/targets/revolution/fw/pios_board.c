@@ -417,9 +417,15 @@ void PIOS_Board_Init(void) {
 	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
 	PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS);
 
+	/* Initialize the task monitor library */
+	TaskMonitorInitialize();
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
+
+	/* Initialize the alarms library */
+	AlarmsInitialize();
 
 	HwRevolutionInitialize();
 	ModuleSettingsInitialize();
@@ -427,12 +433,6 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_RTC)
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
 #endif
-
-	/* Initialize the alarms library */
-	AlarmsInitialize();
-
-	/* Initialize the task monitor library */
-	TaskMonitorInitialize();
 
 	/* Set up pulse timers */
 	PIOS_TIM_InitClock(&tim_1_cfg);

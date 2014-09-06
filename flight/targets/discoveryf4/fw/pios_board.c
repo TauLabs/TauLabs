@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_board.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -161,17 +161,23 @@ void PIOS_Board_Init(void) {
 		panic(1);
 #endif	/* PIOS_INCLUDE_FLASH */
 
+	/* Initialize the task monitor library */
+	TaskMonitorInitialize();
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
+
+	/* Initialize the alarms library */
+	AlarmsInitialize();
+
+	HwDiscoveryF4Initialize();
+	ModuleSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
 	/* Initialize the real-time clock and its associated tick */
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
 #endif
-
-	HwDiscoveryF4Initialize();
-	ModuleSettingsInitialize();
 
 #ifndef ERASE_FLASH
 	/* Initialize watchdog as early as possible to catch faults during init */
@@ -179,12 +185,6 @@ void PIOS_Board_Init(void) {
 	//PIOS_WDG_Init();
 #endif
 #endif
-
-	/* Initialize the alarms library */
-	AlarmsInitialize();
-
-	/* Initialize the task monitor library */
-	TaskMonitorInitialize();
 
 	/* Check for repeated boot failures */
 	PIOS_IAP_Init();
