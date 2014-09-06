@@ -96,7 +96,7 @@
 #define CPULOAD_LIMIT_CRITICAL		95
 
 /* Task stack sizes */
-#define PIOS_EVENTDISPATCHER_STACK_SIZE	256
+#define PIOS_EVENTDISPATCHER_STACK_SIZE	1024
 
 /*
  * This has been calibrated 2013/03/11 using next @ 6d21c7a590619ebbc074e60cab5e134e65c9d32b.
