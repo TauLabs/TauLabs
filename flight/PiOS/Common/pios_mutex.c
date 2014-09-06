@@ -28,7 +28,7 @@
 #include "pios_mutex.h"
 
 #if !defined(PIOS_INCLUDE_FREERTOS)
-#error pios_mutex.c requires PIOS_INCLUDE_FREERTOS
+#error "pios_mutex.c requires PIOS_INCLUDE_FREERTOS"
 #endif
 
 #if defined(PIOS_INCLUDE_FREERTOS)
