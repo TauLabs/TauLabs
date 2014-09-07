@@ -957,10 +957,11 @@ void QFrozenTableViewWithCopyPaste::init()
     frozenTableView->setRowHeight(rowHeight(0), 0 );
 
     frozenTableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     frozenTableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     frozenTableView->show();
 
-    updateFrozenTableGeometry();
+    updateFrozenTableGeometry(0);
 
     setHorizontalScrollMode(ScrollPerPixel);
     setVerticalScrollMode(ScrollPerPixel);
@@ -978,21 +979,30 @@ void QFrozenTableViewWithCopyPaste::init()
 void QFrozenTableViewWithCopyPaste::updateSectionWidth(int logicalIndex, int, int newSize)
 {
     frozenTableView->setColumnWidth(logicalIndex,newSize);
-    updateFrozenTableGeometry();
+    updateFrozenTableGeometry(0);
 }
 
 void QFrozenTableViewWithCopyPaste::updateSectionHeight(int logicalIndex, int, int newSize)
 {
     if(logicalIndex==0){
         frozenTableView->setRowHeight(0, newSize);
-        updateFrozenTableGeometry();
+        updateFrozenTableGeometry(0);
     }
+}
+
+
+void QFrozenTableViewWithCopyPaste::fixGeometry(int value)
+{
+    for(int x = 0; x < frozenTableView->model()->columnCount(); ++x)
+    {
+        frozenTableView->setColumnWidth(x, horizontalHeader()->sectionSize(x));
+    }
+    updateFrozenTableGeometry(value);
 }
 
 void QFrozenTableViewWithCopyPaste::resizeEvent(QResizeEvent * event)
 {
     QTableView::resizeEvent(event);
-    updateFrozenTableGeometry();
 }
 
 void QFrozenTableViewWithCopyPaste::scrollTo (const QModelIndex & index, ScrollHint hint){
@@ -1002,8 +1012,10 @@ void QFrozenTableViewWithCopyPaste::scrollTo (const QModelIndex & index, ScrollH
     }
 }
 
-void QFrozenTableViewWithCopyPaste::updateFrozenTableGeometry()
+void QFrozenTableViewWithCopyPaste::updateFrozenTableGeometry(int verticalHeaderWidth)
 {
+    if(verticalHeaderWidth == 0)
+         verticalHeaderWidth = verticalHeader()->width();
     int col_width = 0;
     for(int i = 0;i< this->model()->columnCount();++i)
     {
@@ -1011,7 +1023,7 @@ void QFrozenTableViewWithCopyPaste::updateFrozenTableGeometry()
     }
     frozenTableView->setGeometry(frameWidth(),
                                   horizontalHeader()->height() + frameWidth(),
-                                  verticalHeader()->width() + col_width,
+                                  verticalHeaderWidth + col_width,
                                   rowHeight(0));
 }
 
@@ -1023,7 +1035,7 @@ void QFrozenTableViewWithCopyPaste::updateFrozenTableGeometry()
 void QFrozenTableViewWithCopyPaste::setHorizontalHeaderItem(int column, QStandardItem *item)
 {
     frozenModel->setHorizontalHeaderItem(column, item);
-    updateFrozenTableGeometry();
+    updateFrozenTableGeometry(0);
 }
 
 
@@ -1034,7 +1046,7 @@ void QFrozenTableViewWithCopyPaste::setHorizontalHeaderItem(int column, QStandar
 bool QFrozenTableViewWithCopyPaste::removeColumns(int column, int count, const QModelIndex &parent)
 {
     bool ret = frozenModel->removeColumns(column, count, parent);
-    updateFrozenTableGeometry();
+    updateFrozenTableGeometry(0);
 
     return ret;
 }

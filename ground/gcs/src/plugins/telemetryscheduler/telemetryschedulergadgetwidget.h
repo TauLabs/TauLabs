@@ -140,6 +140,7 @@ public:
     void setHorizontalHeaderItem(int column, QStandardItem *item);
     bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex());
 
+    void fixGeometry(int value);
 protected:
     virtual void keyPressEvent(QKeyEvent * event);
 
@@ -155,7 +156,7 @@ private:
     void paste();
     void deleteCells();
 
-    void updateFrozenTableGeometry();
+    void updateFrozenTableGeometry(int verticalHeaderWidth);
     void init();
     QTableView *frozenTableView;
     QStandardItemModel *frozenModel;
