@@ -162,6 +162,12 @@ plugin_pathplanner.depends = plugin_coreplugin
 plugin_pathplanner.depends += plugin_uavobjects
 SUBDIRS += plugin_pathplanner
 
+# PicoC gadget
+plugin_picoc.subdir = picoc
+plugin_picoc.depends = plugin_coreplugin
+plugin_picoc.depends += plugin_uavobjects
+SUBDIRS += plugin_picoc
+
 # Telemetry Scheduler gadget
 plugin_telemetryscheduler.subdir = telemetryscheduler
 plugin_telemetryscheduler.depends = plugin_coreplugin

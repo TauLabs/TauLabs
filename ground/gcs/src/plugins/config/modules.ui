@@ -142,6 +142,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="cbPicoC">
+         <property name="toolTip">
+          <string>This enables the picoC module which can run user scripts.</string>
+         </property>
+         <property name="text">
+          <string>PicoC Interpreter</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="cbUAVOHottBridge">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This enables the Graupner HoTT Telemetry&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -2702,6 +2712,151 @@
           </layout>
          </widget>
         </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabPicoC">
+      <attribute name="title">
+       <string>PicoC</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <item>
+        <widget class="QGroupBox" name="gb_picocMain">
+         <property name="title">
+          <string>Main Settings</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_10">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>Bootfile ID</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="sb_picocBootFileID">
+            <property name="maximum">
+             <number>255</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_27">
+            <property name="text">
+             <string>Startup Mode</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="cb_picocStartup"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_29">
+            <property name="text">
+             <string>Script Source</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="cb_picocSource"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_30">
+            <property name="text">
+             <string>USART Speed</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="cb_picocComSpeed"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="gb_picocMemory">
+         <property name="title">
+          <string>Memory Settings (adjust carefully)</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_11">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>Max File Size</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="sb_picocMaxFileSize">
+            <property name="suffix">
+             <string>Bytes</string>
+            </property>
+            <property name="minimum">
+             <number>2048</number>
+            </property>
+            <property name="maximum">
+             <number>131072</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_19">
+            <property name="text">
+             <string>Task Stack Size</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="sb_picocTaskStackSize">
+            <property name="suffix">
+             <string>Bytes</string>
+            </property>
+            <property name="minimum">
+             <number>5120</number>
+            </property>
+            <property name="maximum">
+             <number>131072</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_26">
+            <property name="text">
+             <string>PicoC Stack Size</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QSpinBox" name="sb_picocPicoCStackSize">
+            <property name="suffix">
+             <string>Bytes</string>
+            </property>
+            <property name="minimum">
+             <number>10240</number>
+            </property>
+            <property name="maximum">
+             <number>131072</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

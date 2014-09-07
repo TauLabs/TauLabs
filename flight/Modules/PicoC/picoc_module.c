@@ -174,6 +174,14 @@ static void picocTask(void *parameters) {
 		// handle file and buffer commands
 		if (picocstatus.Command != PICOCSTATUS_COMMAND_IDLE) {
 			switch (picocstatus.Command) {
+			case PICOCSTATUS_COMMAND_STARTSCRIPT:
+				// external start request
+				picocstatus.ExitValue = picoc(sourcebuffer, picocsettings.PicoCStackSize);
+				PicoCStatusExitValueSet(&picocstatus.ExitValue);
+				picocstatus.CommandError = 0;
+				picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
+				started = true;
+				break;
 			case PICOCSTATUS_COMMAND_USARTMODE:
 				// handle commands via USART
 				picocstatus.CommandError = usart_cmd(sourcebuffer, sourcebuffer_size);

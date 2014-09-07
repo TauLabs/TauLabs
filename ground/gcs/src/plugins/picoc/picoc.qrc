@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/picoc">
+        <file>images/Ekisho Deep Ocean HD1.png</file>
+        <file>images/new archive.png</file>
+        <file>images/unarchive.png</file>
+        <file>images/up_alt.png</file>
+        <file>images/down_alt.png</file>
+        <file>images/down_rom.png</file>
+        <file>images/up_rom.png</file>
+        <file>images/trash.png</file>
+        <file>images/execute.png</file>
+    </qresource>
+</RCC>
