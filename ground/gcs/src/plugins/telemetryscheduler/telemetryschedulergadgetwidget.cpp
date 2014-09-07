@@ -225,14 +225,19 @@ void TelemetrySchedulerGadgetWidget::updateCurrentColumn(UAVObject *obj)
     }
 }
 
-
+/**
+ * @brief Called when an item of the model is changed
+ * @param item the item that was changed
+ */
 void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
 {
     int col = item->column();
     dataModel_itemChanged(col);
-
 }
 
+/**
+ * @brief Recalculates the bandwith required for a given column (value presented on the horizontal header)
+ */
 void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(int col)
 {
     // Update the speed estimate
