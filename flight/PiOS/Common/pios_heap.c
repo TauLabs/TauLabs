@@ -50,11 +50,11 @@ bool PIOS_heap_malloc_failed_p(void)
 	return malloc_failed_flag;
 }
 
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 
 #include "pios_thread.h"
 
-#endif	/* PIOS_INCLUDE_FREERTOS */
+#endif	/* PIOS_INCLUDE_FREERTOS || defined(PIOS_INCLUDE_CHIBIOS) */
 
 struct pios_heap {
 	const uintptr_t start_addr;
@@ -77,18 +77,18 @@ static void * simple_malloc(struct pios_heap *heap, size_t size)
 	void * buf = NULL;
 	uint32_t align_pad = (sizeof(uintptr_t) - (size & (sizeof(uintptr_t) - 1))) % sizeof(uintptr_t);
 
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 	PIOS_Thread_Scheduler_Suspend();
-#endif	/* PIOS_INCLUDE_FREERTOS */
+#endif	/* PIOS_INCLUDE_FREERTOS || defined(PIOS_INCLUDE_CHIBIOS) */
 
 	if (heap->free_addr + size <= heap->end_addr) {
 		buf = (void *)heap->free_addr;
 		heap->free_addr += size + align_pad;
 	}
 
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 	PIOS_Thread_Scheduler_Resume();
-#endif	/* PIOS_INCLUDE_FREERTOS */
+#endif	/* PIOS_INCLUDE_FREERTOS || defined(PIOS_INCLUDE_CHIBIOS) */
 
 	return buf;
 }
@@ -211,15 +211,15 @@ void PIOS_heap_initialize_blocks(void)
 void xPortIncreaseHeapSize(size_t bytes) __attribute__((alias ("PIOS_heap_increase_size")));
 void PIOS_heap_increase_size(size_t bytes)
 {
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 	PIOS_Thread_Scheduler_Suspend();
-#endif	/* PIOS_INCLUDE_FREERTOS */
+#endif	/* PIOS_INCLUDE_FREERTOS || defined(PIOS_INCLUDE_CHIBIOS) */
 
 	simple_extend_heap(&pios_standard_heap, bytes);
 
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 	PIOS_Thread_Scheduler_Resume();
-#endif	/* PIOS_INCLUDE_FREERTOS */
+#endif	/* PIOS_INCLUDE_FREERTOS || defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 /**
