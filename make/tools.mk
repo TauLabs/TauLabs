@@ -331,7 +331,7 @@ dfuutil_clean:
 # see http://developer.android.com/sdk/ for latest versions
 ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-linux
 .PHONY: android_sdk_install
-android_sdk_install: ANDROID_SDK_URL  := http://dl.google.com/android/android-sdk_r21.0.1-linux.tgz
+android_sdk_install: ANDROID_SDK_URL  := http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
 android_sdk_install: ANDROID_SDK_FILE := $(notdir $(ANDROID_SDK_URL))
 # order-only prereq on directory existance:
 android_sdk_install: | $(DL_DIR) $(TOOLS_DIR)
@@ -352,7 +352,7 @@ android_sdk_clean:
 .PHONY: android_sdk_update
 android_sdk_update:
 	$(V0) @echo " UPDATE       $(ANDROID_SDK_DIR)"
-	$(ANDROID_SDK_DIR)/tools/android update sdk --no-ui -t platform-tools,android-14,addon-google_apis-google-14
+	$(ANDROID_SDK_DIR)/tools/android update sdk --no-ui -t platform-tools,build-tools-20.0.0,android-14,addon-google_apis-google-14
 
 # Set up Google Test (gtest) tools
 GTEST_DIR       := $(TOOLS_DIR)/gtest-1.6.0
@@ -513,7 +513,7 @@ endif
 
 ifeq ($(shell [ -d "$(ANDROID_SDK_DIR)" ] && echo "exists"), exists)
   ANDROID     := $(ANDROID_SDK_DIR)/tools/android
-  ANDROID_DX  := $(ANDROID_SDK_DIR)/platform-tools/dx
+  ANDROID_DX  := $(ANDROID_SDK_DIR)/build-tools/20.0.0/dx
   ANDROID_ADB := $(ANDROID_SDK_DIR)/platform-tools/adb
 else
   # not installed, hope it's in the path...
