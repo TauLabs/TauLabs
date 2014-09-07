@@ -551,6 +551,7 @@ void vApplicationIdleHook(void)
 /**
  * Called by the RTOS when a stack overflow is detected.
  */
+#if defined(PIOS_INCLUDE_FREERTOS)
 #define DEBUG_STACK_OVERFLOW 0
 void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
 {
@@ -561,6 +562,7 @@ void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
 	wait_here = true;
 #endif
 }
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
 /**
   * @}
