@@ -267,11 +267,12 @@ void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
 {
     QString file = filename;
     QString filter = tr("Telemetry Scheduler file (*.xml)");
-    file = QFileDialog::getSaveFileName(0, tr("Save Telemetry Schedule to file .."), QFileInfo(file).absoluteFilePath(), filter).trimmed();
+    file = QFileDialog::getSaveFileName(0, tr("Save Telemetry Schedule to file .."), QFileInfo(file).absoluteFilePath(), filter, &filter).trimmed();
     if (file.isEmpty()) {
         return;
     }
-
+    if(!file.endsWith(".xml",Qt::CaseInsensitive))
+        file.append(".xml");
     filename = file;
 
     // Create an XML document from UAVObject database
