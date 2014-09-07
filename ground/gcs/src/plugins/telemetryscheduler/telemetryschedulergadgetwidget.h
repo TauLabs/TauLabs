@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       telemetryschedulergadgetwidget.h
- * @author     Tau Labs, http://taulabs.org Copyright (C) 2014.
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2013-2014.
  * @addtogroup Telemetry Scheduler GCS Plugins
  * @{
  * @addtogroup TelemetrySchedulerGadgetPlugin Telemetry Scheduler Gadget Plugin

@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       telemetryschedulergadgetwidget.cpp
- * @author     Tau Labs, http://taulabs.org Copyright (C) 2014.
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2013-2014.
  * @addtogroup Telemetry Scheduler GCS Plugins
  * @{
  * @addtogroup TelemetrySchedulerGadgetPlugin Telemetry Scheduler Gadget Plugin
@@ -159,7 +159,6 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
 
         // Save default metadata for later use
         defaultMdata.insert(obj->getName().append("Meta"), mdataDefault);
-        qDebug()<<"DEFAULT"<<obj->getName()<<mdataDefault.flightTelemetryUpdatePeriod;
 
         // Connect live values to the "Current" column
         UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
