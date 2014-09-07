@@ -63,18 +63,22 @@ private slots:
     void loadTelemetryFromFile();
 
     //! Apply selected telemetry schedule to the UAV
-    void applySchedule();
+    QList<UAVMetaObject *> applySchedule();
     //! Save selected telemetry schedule on the UAV
     void saveSchedule();
 
     void updateCurrentColumn(UAVObject *);
-    void dataModel_itemChanged(QStandardItem *);
+    void dataModel_itemChanged(int col);
+    void dataModel_itemChanged(QStandardItem *item);
     void addTelemetryColumn();
     void removeTelemetryColumn();
     void changeVerticalHeader(int);
     void changeHorizontalHeader(int);
     void customMenuRequested(QPoint pos);
+    void uavoPresentOnHardwareChanged(UAVDataObject*);
+    void onHideNotPresent(bool);
 private:
+
     int stripMs(QVariant rate_ms);
 
     void importTelemetryConfiguration(const QString& fileName);

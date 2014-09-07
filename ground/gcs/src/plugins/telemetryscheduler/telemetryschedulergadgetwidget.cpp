@@ -86,6 +86,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     m_telemetryeditor->tableWidgetDummy->setVisible(false);
     m_telemetryeditor->gridLayout->addWidget(telemetryScheduleView, row, col, rowSpan, colSpan);
 
+    connect(m_telemetryeditor->hideNotPresent, SIGNAL(clicked(bool)), this, SLOT(onHideNotPresent(bool)));
     // Sets the fields in the table to spinboxes
     SpinBoxDelegate *delegate = new SpinBoxDelegate();
     telemetryScheduleView->setItemDelegate(delegate);
@@ -222,13 +223,21 @@ void TelemetrySchedulerGadgetWidget::updateCurrentColumn(UAVObject *obj)
 void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
 {
     int col = item->column();
+    dataModel_itemChanged(col);
 
+}
+
+void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(int col)
+{
     // Update the speed estimate
     double bandwidthRequired_bps = 0;
     for (int i=1; i<schedulerModel->rowCount(); i++){
         // Get UAVO size
         QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
         UAVObject *obj = objManager->getObject(uavObjectName);
+        UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
+        if(dobj && m_telemetryeditor->hideNotPresent->isChecked() && (!dobj->getIsPresentOnHardware()))
+            continue;
         Q_ASSERT(obj);
         quint16 size = obj->getNumBytes();
 
@@ -628,6 +637,45 @@ void TelemetrySchedulerGadgetWidget::customMenuRequested(QPoint pos)
         foreach (QModelIndex index , telemetryScheduleView->selectionModel()->selectedIndexes()) {
             telemetryScheduleView->model()->setData(index,text);
         }
+    }
+}
+
+void TelemetrySchedulerGadgetWidget::uavoPresentOnHardwareChanged(UAVDataObject *obj)
+{
+    if(m_telemetryeditor->hideNotPresent->isChecked())
+        telemetryScheduleView->setRowHidden(uavoIndex.value(obj), !(obj->getIsPresentOnHardware()));
+    int width = telemetryScheduleView->verticalHeader()->sizeHint().width();
+    telemetryScheduleView->getFrozenTableView()->verticalHeader()->setFixedWidth(width);
+    telemetryScheduleView->fixGeometry(width);
+    for(int x = 0; x < schedulerModel->columnCount(); ++x)
+    {
+        dataModel_itemChanged(x);
+    }
+}
+
+void TelemetrySchedulerGadgetWidget::onHideNotPresent(bool hide)
+{
+    if(hide)
+    {
+        foreach (UAVDataObject* obj, uavoIndex.keys()) {
+            telemetryScheduleView->setRowHidden(uavoIndex.value(obj), !(obj->getIsPresentOnHardware()));
+        }
+        int width = telemetryScheduleView->verticalHeader()->sizeHint().width();
+        telemetryScheduleView->getFrozenTableView()->verticalHeader()->setFixedWidth(width);
+        telemetryScheduleView->fixGeometry(width);
+    }
+    else
+    {
+        foreach (int index, uavoIndex.values()) {
+            telemetryScheduleView->setRowHidden(index, false);
+        }
+        int width = telemetryScheduleView->verticalHeader()->sizeHint().width();
+        telemetryScheduleView->getFrozenTableView()->verticalHeader()->setFixedWidth(width);
+        telemetryScheduleView->fixGeometry(width);
+    }
+    for(int x = 0; x < schedulerModel->columnCount(); ++x)
+    {
+        dataModel_itemChanged(x);
     }
 }
 

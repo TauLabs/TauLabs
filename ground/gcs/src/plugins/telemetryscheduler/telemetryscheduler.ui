@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>690</width>
+    <width>805</width>
     <height>519</height>
    </rect>
   </property>
@@ -20,6 +20,19 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="6">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>10</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item row="3" column="6">
     <widget class="QFrame" name="frame">
      <property name="maximumSize">
@@ -38,7 +51,16 @@
       <number>1</number>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="margin">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
        <number>0</number>
       </property>
       <item>
@@ -80,10 +102,17 @@ p, li { white-space: pre-wrap; }
      </layout>
     </widget>
    </item>
+   <item row="5" column="0">
+    <widget class="QCheckBox" name="hideNotPresent">
+     <property name="text">
+      <string>Hide objects not present on hw</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0" rowspan="4" colspan="6">
     <widget class="QTableWidget" name="tableWidgetDummy"/>
    </item>
-   <item row="5" column="0" colspan="7">
+   <item row="4" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QPushButton" name="bnLoadTelemetryFromFile">
@@ -156,19 +185,6 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="2" column="6">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>10</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>
