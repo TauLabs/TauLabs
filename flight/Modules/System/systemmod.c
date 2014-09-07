@@ -404,12 +404,7 @@ static void updateStats()
 	// Get stats and update
 	SystemStatsGet(&stats);
 	stats.FlightTime = PIOS_Thread_Systime();
-#if defined(ARCH_POSIX) || defined(ARCH_WIN32)
-	// POSIX port of FreeRTOS doesn't have xPortGetFreeHeapSize()
-	stats.HeapRemaining = 10240;
-#else
 	stats.HeapRemaining = PIOS_heap_get_free_size();
-#endif
 
 	// Get Irq stack status
 	stats.IRQStackRemaining = GetFreeIrqStackSize();

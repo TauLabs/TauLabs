@@ -556,8 +556,8 @@ void PIOS_Board_Init(void) {
 			if (PIOS_USB_HID_Init(&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {
 				PIOS_Assert(0);
 			}
-			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
+			uint8_t * rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_hid_com_driver, pios_usb_hid_id,

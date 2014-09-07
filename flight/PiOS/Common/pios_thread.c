@@ -27,8 +27,8 @@
 #include "pios.h"
 #include "pios_thread.h"
 
-#if !defined(PIOS_INCLUDE_FREERTOS)
-#error "pios_thread.c requires PIOS_INCLUDE_FREERTOS"
+#if !defined(PIOS_INCLUDE_FREERTOS) && !defined(PIOS_INCLUDE_CHIBIOS)
+#error "pios_thread.c requires PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_CHIBIOS"
 #endif
 
 #if defined(PIOS_INCLUDE_FREERTOS)
@@ -203,7 +203,7 @@ void PIOS_Thread_Scheduler_Resume(void)
 
 #elif defined(PIOS_INCLUDE_CHIBIOS)
 
-#define ST2MS(n) (((((n) - 1UL) * 1000UL) / CH_CFG_ST_FREQUENCY) + 1UL)
+#define ST2MS(n) (((((n) - 1UL) * 1000UL) / CH_FREQUENCY) + 1UL)
 
 /**
  *
