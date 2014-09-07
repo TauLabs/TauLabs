@@ -151,6 +151,9 @@ public:
     //! Get the board type number
     int getBoardType() { return boardType; }
 
+    //! Return a custom configuration widget, if one is provided
+    virtual QWidget *getBoardConfiguration(QWidget * /*parent*/ = 0, bool /*connected*/ = true) { return NULL; }
+
     /***** methods related to configuring specific boards *****/
 
     //! Types of input to configure for the default port
