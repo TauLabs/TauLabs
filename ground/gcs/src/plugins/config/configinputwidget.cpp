@@ -606,9 +606,11 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         fastMdata();
         break;
     case wizardVerifyFailsafe:
+        restoreMdata(); // make sure other updates do not clobber failsafe
         dimOtherControls(false);
         setTxMovement(nothing);
         extraWidgets.clear();
+        flightStatusObj->requestUpdate();
         detectFailsafe();
         failsafeDetection = FS_AWAITING_CONNECTION;
         connect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(detectFailsafe()));
