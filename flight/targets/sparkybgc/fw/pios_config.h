@@ -34,10 +34,7 @@
 #define PIOS_INCLUDE_FREERTOS
 #define PIOS_INCLUDE_BL_HELPER
 
-/* Enable/Disable PiOS Modules */
-#define PIOS_INCLUDE_ADC
-#define PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION
- 
+/* Enable/Disable PiOS Modules */ 
 #define PIOS_INCLUDE_DELAY
 #define PIOS_INCLUDE_I2C
 #define PIOS_INCLUDE_CAN
@@ -57,7 +54,6 @@
 #define PIOS_INCLUDE_WDG
 
 /* Select the sensors to include */
-#define PIOS_INCLUDE_MS5611
 #define PIOS_MPU6050_ACCEL
 #define PIOS_MPU6050_SIMPLE_INIT_SEQUENCE
 #define PIOS_INCLUDE_MPU9150
