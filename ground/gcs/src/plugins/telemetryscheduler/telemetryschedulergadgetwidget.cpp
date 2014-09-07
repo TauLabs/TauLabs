@@ -400,14 +400,7 @@ QList<UAVMetaObject*> TelemetrySchedulerGadgetWidget::applySchedule()
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
         if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) >= 0) {
             updatePeriod_ms = stripMs(schedulerModel->data(index));
-        } else {
-            updatePeriod_ms = -1;
-        }
-
-        // Set new update rate value
-        mdata.flightTelemetryUpdatePeriod = updatePeriod_ms;
-        if(updatePeriod_ms > -1)
-        {
+            mdata.flightTelemetryUpdatePeriod = updatePeriod_ms;
             metaDataList.insert(uavObjectName, mdata);
             metaList.append(dobj->getMetaObject());
         }
