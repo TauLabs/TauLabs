@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       telemetryschedulergadgetwidget.h
- * @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2014.
  * @addtogroup Telemetry Scheduler GCS Plugins
  * @{
  * @addtogroup TelemetrySchedulerGadgetPlugin Telemetry Scheduler Gadget Plugin
@@ -152,8 +152,8 @@ protected:
     void scrollTo (const QModelIndex & index, ScrollHint hint = EnsureVisible);
 
 private slots:
-      void updateSectionWidth(int logicalIndex,int, int newSize);
-      void updateSectionHeight(int logicalIndex, int, int newSize);
+    void updateSectionWidth(int logicalIndex,int, int newSize);
+    void updateSectionHeight(int logicalIndex, int, int newSize);
 
 private:
     void copy();
