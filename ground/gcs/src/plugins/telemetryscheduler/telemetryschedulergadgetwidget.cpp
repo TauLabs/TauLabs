@@ -1046,7 +1046,10 @@ void QFrozenTableViewWithCopyPaste::updateSectionHeight(int logicalIndex, int, i
     }
 }
 
-
+/**
+ * @brief This class uses a tableview inside a table view to achieve the frozen row effect on the 1st row
+ * this function is used to keep both tables column width in sync
+ */
 void QFrozenTableViewWithCopyPaste::fixGeometry(int value)
 {
     for(int x = 0; x < frozenTableView->model()->columnCount(); ++x)
