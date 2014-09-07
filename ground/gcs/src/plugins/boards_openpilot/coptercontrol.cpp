@@ -31,7 +31,7 @@
 #include <uavobjectmanager.h>
 #include "uavobjectutil/uavobjectutilmanager.h"
 #include <extensionsystem/pluginmanager.h>
-
+#include "config_cc_hw_widget.h"
 #include "hwcoptercontrol.h"
 
 /**
@@ -244,4 +244,17 @@ int CopterControl::queryMaxGyroRate()
     default:
         return 500;
     }
+}
+
+/**
+ * @brief CopterControl::getBoardConfiguration create the custom configuration
+ * dialog for CopterControl.
+ * @param parent
+ * @param connected
+ * @return
+ */
+QWidget * CopterControl::getBoardConfiguration(QWidget *parent, bool connected)
+{
+    Q_UNUSED(connected);
+    return new ConfigCCHWWidget(parent);
 }

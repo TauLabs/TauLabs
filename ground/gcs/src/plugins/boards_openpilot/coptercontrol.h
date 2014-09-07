@@ -69,6 +69,8 @@ public:
     virtual QString getConnectionDiagram() { return ":/openpilot/images/connection-diagrams.svg"; }
 
     virtual int queryMaxGyroRate();
+
+    QWidget *getBoardConfiguration(QWidget *parent, bool connected);
 };
 
 
