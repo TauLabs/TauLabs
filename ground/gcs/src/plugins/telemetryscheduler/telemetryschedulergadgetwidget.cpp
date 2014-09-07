@@ -366,6 +366,7 @@ void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
 
 /**
  * @brief TelemetrySchedulerGadgetWidget::applySchedule Uploads new settings to board
+ * @returns list of the metaobjects which were actually applied
  */
 QList<UAVMetaObject*> TelemetrySchedulerGadgetWidget::applySchedule()
 {
