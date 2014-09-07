@@ -235,7 +235,7 @@ void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
         // Get UAVO speed
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
         double updatePeriod_s;
-        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) > 0)
+        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) >= 0)
             updatePeriod_s = stripMs(schedulerModel->data(index)) / 1000.0;
         else
             updatePeriod_s = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod / 1000.0;
@@ -375,7 +375,7 @@ void TelemetrySchedulerGadgetWidget::applySchedule()
         // Get update period
         double updatePeriod_ms;
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
-        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) > 0) {
+        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) >= 0) {
             updatePeriod_ms = stripMs(schedulerModel->data(index));
         } else {
             updatePeriod_ms = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod;
@@ -734,7 +734,7 @@ void SpinBoxDelegate::setEditorData(QWidget *editor,
     int value = index.model()->data(index, Qt::EditRole).toInt();
 
     QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
-    if (value > 0)
+    if (value >= 0)
         spinBox->setValue(value);
     else
         spinBox->clear();
@@ -747,7 +747,7 @@ void SpinBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     spinBox->interpretText();
     int value = spinBox->value();
 
-    if (value > 0)
+    if (value >= 0)
         model->setData(index, QString("%1ms").arg(value), Qt::EditRole);
 }
 
