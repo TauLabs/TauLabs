@@ -173,6 +173,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
 
     // Populate combobox
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
+    onHideNotPresent(true);
 }
 
 

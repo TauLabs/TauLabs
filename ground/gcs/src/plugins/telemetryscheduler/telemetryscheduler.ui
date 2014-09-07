@@ -107,6 +107,9 @@ p, li { white-space: pre-wrap; }
      <property name="text">
       <string>Hide objects not present on hw</string>
      </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item row="0" column="0" rowspan="4" colspan="6">
