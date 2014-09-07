@@ -2157,7 +2157,7 @@ static const struct pios_usb_cfg pios_usb_main_cfg = {
 			.GPIO_Speed = GPIO_Speed_25MHz,
 			.GPIO_Mode  = GPIO_Mode_IN,
 			.GPIO_OType = GPIO_OType_OD,
-			.GPIO_PuPd  = GPIO_PuPd_NOPULL,
+			.GPIO_PuPd  = GPIO_PuPd_UP,
 		},
 	}
 };
