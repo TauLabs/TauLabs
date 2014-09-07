@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/TBS">
         <file>images/colibri.png</file>
+        <file>images/gemini.png</file>
     </qresource>
 </RCC>

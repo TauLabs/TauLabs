@@ -1,14 +1,14 @@
 /**
  ******************************************************************************
  *
- * @file       colibri.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @file       colibriconfiguration.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup Boards_TBS TBS boards support Plugin
  * @{
- * @brief Plugin to support boards by Team Black Sheep
+ * @brief Plugin to support boards by TBS
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -25,28 +25,35 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef COLIBRI_H
-#define COLIBRI_H
 
-#include <coreplugin/iboardtype.h>
+#ifndef COLIBRICONFIGURATION_H
+#define COLIBRICONFIGURATION_H
 
-class IBoardType;
+#include <QPixmap>
+#include "configtaskwidget.h"
 
-class Colibri : public Core::IBoardType
+namespace Ui {
+class ColibriConfiguration;
+}
+
+class ColibriConfiguration : public ConfigTaskWidget
 {
+    Q_OBJECT
+    
 public:
-    Colibri();
-    virtual ~Colibri();
+    explicit ColibriConfiguration(QWidget *parent = 0);
+    ~ColibriConfiguration();
 
-    virtual QString shortName();
-    virtual QString boardDescription();
-    virtual bool queryCapabilities(BoardCapabilities capability);
-    virtual QStringList getSupportedProtocols();
-    virtual QPixmap getBoardPicture();
-    virtual QString getHwUAVO();
-    virtual int queryMaxGyroRate();
-    virtual QWidget *getBoardConfiguration(QWidget *parent, bool connected);
+private slots:
+    void openHelp();
+    void refreshValues();
+    void widgetsContentsChanged();
+    void resizeEvent(QResizeEvent *event);
+
+private:
+    Ui::ColibriConfiguration *ui;
+
+    QPixmap frame;
 };
 
-
-#endif // COLIBRI_H
+#endif // COLIBRICONFIGURATION_H

@@ -31,7 +31,7 @@
 #include <uavobjectmanager.h>
 #include "uavobjectutil/uavobjectutilmanager.h"
 #include <extensionsystem/pluginmanager.h>
-
+#include "colibriconfiguration.h"
 #include "hwcolibri.h"
 
 /**
@@ -135,4 +135,10 @@ int Colibri::queryMaxGyroRate()
     default:
         return 500;
     }
+}
+
+QWidget * Colibri::getBoardConfiguration(QWidget *parent, bool connected)
+{
+    Q_UNUSED(connected);
+    return new ColibriConfiguration(parent);
 }

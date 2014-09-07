@@ -340,6 +340,8 @@ SUBDIRS += plugin_boards_quantec
 plugin_boards_tbs.subdir = boards_tbs
 plugin_boards_tbs.depends = plugin_coreplugin
 plugin_boards_tbs.depends = plugin_uavobjects
+plugin_boards_tbs.depends = plugin_uavobjectutil
+plugin_boards_tbs.depends += plugin_uavobjectwidgetutils
 SUBDIRS += plugin_boards_tbs
 
 # STM boards
