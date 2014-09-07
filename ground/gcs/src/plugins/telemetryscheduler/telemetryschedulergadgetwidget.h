@@ -92,9 +92,9 @@ private:
     QString filename;
 
     QMap<QString, UAVObject::Metadata> defaultMdata;
+    QMap<UAVDataObject*, int> uavoIndex;
 
     QStringList columnHeaders;
-    QStringList rowHeaders;
 
     SchedulerModel *schedulerModel;
     QFrozenTableViewWithCopyPaste *telemetryScheduleView;

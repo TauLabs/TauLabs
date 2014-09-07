@@ -356,10 +356,10 @@ void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
 /**
  * @brief TelemetrySchedulerGadgetWidget::applySchedule Uploads new settings to board
  */
-void TelemetrySchedulerGadgetWidget::applySchedule()
+QList<UAVMetaObject*> TelemetrySchedulerGadgetWidget::applySchedule()
 {
     int col = -1;
-
+    QList<UAVMetaObject*> metaList;
     // Iterate over the list of columns, looking for the selected schedule
     for (int j=0; j<schedulerModel->columnCount(); j++){
         if (schedulerModel->horizontalHeaderItem(j)->text() == m_telemetryeditor->cmbScheduleList->currentText()){
@@ -371,14 +371,16 @@ void TelemetrySchedulerGadgetWidget::applySchedule()
     // This shouldn't be possible. Leaving the check in just in case.
     if (col == -1){
         Q_ASSERT(0);
-        return;
+        return metaList;
     }
-
     QMap<QString, UAVObject::Metadata> metaDataList;
     for (int i=1; i<schedulerModel->rowCount(); i++) {
         // Get UAVO name and metadata
         QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
         UAVObject *obj = objManager->getObject(uavObjectName);
+        UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
+        if(dobj && !(dobj->getIsPresentOnHardware()))
+            continue;
         UAVObject::Metadata mdata = obj->getMetadata();
 
         // Get update period
@@ -387,16 +389,21 @@ void TelemetrySchedulerGadgetWidget::applySchedule()
         if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) >= 0) {
             updatePeriod_ms = stripMs(schedulerModel->data(index));
         } else {
-            updatePeriod_ms = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod;
+            updatePeriod_ms = -1;
         }
 
         // Set new update rate value
         mdata.flightTelemetryUpdatePeriod = updatePeriod_ms;
-        metaDataList.insert(uavObjectName, mdata);
+        if(updatePeriod_ms > -1)
+        {
+            metaDataList.insert(uavObjectName, mdata);
+            metaList.append(dobj->getMetaObject());
+        }
     }
 
     // Set new metadata
     getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
+    return metaList;
 }
 
 /**
@@ -405,16 +412,12 @@ void TelemetrySchedulerGadgetWidget::applySchedule()
 void TelemetrySchedulerGadgetWidget::saveSchedule()
 {
     // Make sure we are saving the selected schedule
-    applySchedule();
-
-    for (int i=1; i<schedulerModel->rowCount(); i++) {
-        // Get UAVO name and metadata
-        QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
-        UAVDataObject * obj = dynamic_cast<UAVDataObject*>(objManager->getObject(uavObjectName));
-        if (obj) {
-            UAVMetaObject * meta = obj->getMetaObject();
-            getObjectUtilManager()->saveObjectToFlash(meta);
-        }
+    QList<UAVMetaObject*> metaList = applySchedule();
+    if(metaList.isEmpty())
+        return;
+    foreach (UAVMetaObject* meta, metaList)
+    {
+        getObjectUtilManager()->saveObjectToFlash(meta);
     }
 }
 
