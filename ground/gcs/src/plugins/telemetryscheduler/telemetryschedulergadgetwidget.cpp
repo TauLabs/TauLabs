@@ -172,6 +172,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     }
 
     // Populate combobox
+    m_telemetryeditor->cmbScheduleList->addItem("");
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
     onHideNotPresent(true);
 }
@@ -373,6 +374,11 @@ QList<UAVMetaObject*> TelemetrySchedulerGadgetWidget::applySchedule()
 {
     int col = -1;
     QList<UAVMetaObject*> metaList;
+    if (m_telemetryeditor->cmbScheduleList->currentText().isEmpty())
+    {
+       QMessageBox::warning(this, tr("No Schedule selected"), tr("Please select a schedule on the dropbox to the left and retry"), QMessageBox::Ok);
+       return metaList;
+    }
     // Iterate over the list of columns, looking for the selected schedule
     for (int j=0; j<schedulerModel->columnCount(); j++){
         if (schedulerModel->horizontalHeaderItem(j)->text() == m_telemetryeditor->cmbScheduleList->currentText()){
@@ -503,6 +509,7 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
 
     // Populate combobox
     m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItem("");
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
 
 
@@ -586,6 +593,7 @@ void TelemetrySchedulerGadgetWidget::addTelemetryColumn()
 
     columnHeaders.append(newColumnString);
     m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItem("");
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
 }
 
@@ -601,6 +609,7 @@ void TelemetrySchedulerGadgetWidget::removeTelemetryColumn()
 
     columnHeaders.pop_back();
     m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItem("");
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
 }
 
@@ -621,6 +630,7 @@ void TelemetrySchedulerGadgetWidget::changeHorizontalHeader(int headerIndex)
 
     columnHeaders.replace(headerIndex, headerName);
     m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItem("");
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
 }
 
