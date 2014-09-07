@@ -109,15 +109,23 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     Q_ASSERT(objManager != NULL);
 
     QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
-    int rowIndex = 1;
+    QStringList strList;
     foreach (QVector<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            if(!obj->isSettings()) {
-                schedulerModel->setVerticalHeaderItem(rowIndex, new QStandardItem(obj->getName()));
-                rowHeaders << obj->getName();
-                rowIndex++;
+            if(!list.first()->isSettings()) {
+                strList.append(list.first()->getName());
+                connect(list.first(), SIGNAL(presentOnHardwareChanged(UAVDataObject*)), this, SLOT(uavoPresentOnHardwareChanged(UAVDataObject*)), Qt::UniqueConnection);
             }
-        }
+    }
+    strList.sort(Qt::CaseInsensitive);
+    int rowIndex = 1;
+    foreach (QString str, strList) {
+            schedulerModel->setVerticalHeaderItem(rowIndex, new QStandardItem(str));
+            UAVObject *obj = objManager->getObject(str);
+            Q_ASSERT(obj);
+            UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
+            Q_ASSERT(dobj);
+            uavoIndex.insert(dobj,rowIndex);
+            rowIndex++;
     }
 
     // Set the bandwidth required header
@@ -142,27 +150,27 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     // 1) Populate the "Current" column with live update rates. 2) Connect these values to
     // the current metadata. 3) Populate the default column.
     rowIndex = 1;
-    foreach (QVector<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            if(!obj->isSettings()) {
-                // Add defaults
-                UAVObject::Metadata mdataDefault = obj->getDefaultMetadata();
-                QModelIndex index = schedulerModel->index(rowIndex,0, QModelIndex());
-                schedulerModel->setData(index, QString("%1ms").arg(mdataDefault.flightTelemetryUpdatePeriod));
+    foreach (QString objStr, strList) {
+        // Add defaults
+        UAVObject *obj = objManager->getObject(objStr);
+        Q_ASSERT(obj);
+        UAVObject::Metadata mdataDefault = obj->getDefaultMetadata();
+        QModelIndex index = schedulerModel->index(rowIndex,0, QModelIndex());
+        schedulerModel->setData(index, QString("%1ms").arg(mdataDefault.flightTelemetryUpdatePeriod));
 
-                // Save default metadata for later use
-                defaultMdata.insert(obj->getName().append("Meta"), mdataDefault);
+        // Save default metadata for later use
+        defaultMdata.insert(obj->getName().append("Meta"), mdataDefault);
+        qDebug()<<"DEFAULT"<<obj->getName()<<mdataDefault.flightTelemetryUpdatePeriod;
 
-                // Connect live values to the "Current" column
-                UAVMetaObject *mobj = obj->getMetaObject();
-                connect(mobj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateCurrentColumn(UAVObject*)));
+        // Connect live values to the "Current" column
+        UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
+        Q_ASSERT(dobj);
+        UAVMetaObject *mobj = dobj->getMetaObject();
+        connect(mobj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateCurrentColumn(UAVObject*)));
 
-                // Updates the "Current" column with the live value
-                updateCurrentColumn(mobj);
-
-                rowIndex++;
-            }
-        }
+        // Updates the "Current" column with the live value
+        updateCurrentColumn(mobj);
+        rowIndex++;
     }
 
     // Populate combobox
