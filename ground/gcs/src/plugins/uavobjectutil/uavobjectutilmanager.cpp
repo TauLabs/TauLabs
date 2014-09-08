@@ -190,7 +190,7 @@ void UAVObjectUtilManager::saveNextObject()
   */
 void UAVObjectUtilManager::objectPersistenceTransactionCompleted(UAVObject* obj, bool success)
 {
-    if(success) {
+    if (success) {
         Q_ASSERT(obj->getName().compare("ObjectPersistence") == 0);
         Q_ASSERT(saveState == AWAITING_ACK);
         // Two things can happen then:
@@ -228,7 +228,7 @@ void UAVObjectUtilManager::objectPersistenceTransactionCompleted(UAVObject* obj,
   */
 void UAVObjectUtilManager::objectPersistenceOperationFailed()
 {
-    if(saveState == AWAITING_COMPLETED) {
+    if (saveState == AWAITING_COMPLETED) {
 
         ObjectPersistence * objectPersistence = ObjectPersistence::GetInstance(getObjectManager());
         Q_ASSERT(objectPersistence);
@@ -271,7 +271,7 @@ void UAVObjectUtilManager::objectPersistenceUpdated(UAVObject * obj)
         failureTimer.stop();
         // Check right object saved
         UAVObject* savingObj = queue.head();
-        if(objectPersistence.ObjectID != savingObj->getObjID() ) {
+        if (objectPersistence.ObjectID != savingObj->getObjID() ) {
             objectPersistenceOperationFailed();
             return;
         }
@@ -317,12 +317,12 @@ QMap<QString, UAVObject::Metadata> UAVObjectUtilManager::readMetadata(metadataSe
                 updateMetadataFlag = true;
                 break;
             case SETTINGS_METADATA_ONLY:
-                if(obj->isSettings()) {
+                if (obj->isSettings()) {
                     updateMetadataFlag = true;
                 }
                 break;
             case NONSETTINGS_METADATA_ONLY:
-                if(!obj->isSettings()) {
+                if (!obj->isSettings()) {
                     updateMetadataFlag = true;
                 }
                 break;
@@ -374,12 +374,12 @@ bool UAVObjectUtilManager::setMetadata(QMap<QString, UAVObject::Metadata> metaDa
                 updateMetadataFlag = true;
                 break;
             case SETTINGS_METADATA_ONLY:
-                if(obj->isSettings()) {
+                if (obj->isSettings()) {
                     updateMetadataFlag = true;
                 }
                 break;
             case NONSETTINGS_METADATA_ONLY:
-                if(!obj->isSettings()) {
+                if (!obj->isSettings()) {
                     updateMetadataFlag = true;
                 }
                 break;
@@ -439,10 +439,10 @@ void UAVObjectUtilManager::metadataTransactionCompleted(UAVObject* uavoObject, b
 
 
     // If the UAVO is on the list, check that the data was set correctly
-    if(metadataChecklist.contains(uavoObject->getName()))
+    if (metadataChecklist.contains(uavoObject->getName()))
     {
         UAVObject::Metadata mdata = metadataChecklist.value(uavoObject->getName());
-        if( uavoObject->getMetadata().flags == mdata.flags &&
+        if ( uavoObject->getMetadata().flags == mdata.flags &&
                 uavoObject->getMetadata().flightTelemetryUpdatePeriod == mdata.flightTelemetryUpdatePeriod &&
                 uavoObject->getMetadata().gcsTelemetryUpdatePeriod == mdata.gcsTelemetryUpdatePeriod &&
                 uavoObject->getMetadata().loggingUpdatePeriod == mdata.loggingUpdatePeriod)
@@ -455,7 +455,7 @@ void UAVObjectUtilManager::metadataTransactionCompleted(UAVObject* uavoObject, b
         }
     }
 
-   if(metadataChecklist.empty()){
+   if (metadataChecklist.empty()){
        //We're done, that was the last item checked off the list.
        emit completedMetadataWrite();
    }
@@ -697,7 +697,7 @@ bool UAVObjectUtilManager::descriptionToStructure(QByteArray desc, deviceDescrip
        struc.fwHash=desc.mid(40,20);
        struc.uavoHash.clear();
        struc.uavoHash=desc.mid(60,20);
-       if(struc.gitTag.startsWith("RELEASE",Qt::CaseSensitive))
+       if (struc.gitTag.startsWith("RELEASE",Qt::CaseSensitive))
            struc.certified = true;
        else
            struc.certified = false;
@@ -722,7 +722,7 @@ void UAVObjectUtilManager::versionMatchCheck()
     {
         uavoHashArray.append(str.toInt(&ok,16));
     }
-    if(!ok)
+    if (!ok)
         return;
     QByteArray fwVersion=boardDescription.uavoHash;
     if (fwVersion != uavoHashArray) {

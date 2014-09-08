@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       telemetryschedulergadgetwidget.h
- * @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2013-2014.
  * @addtogroup Telemetry Scheduler GCS Plugins
  * @{
  * @addtogroup TelemetrySchedulerGadgetPlugin Telemetry Scheduler Gadget Plugin
@@ -63,18 +63,22 @@ private slots:
     void loadTelemetryFromFile();
 
     //! Apply selected telemetry schedule to the UAV
-    void applySchedule();
+    QList<UAVMetaObject *> applySchedule();
     //! Save selected telemetry schedule on the UAV
     void saveSchedule();
 
     void updateCurrentColumn(UAVObject *);
-    void dataModel_itemChanged(QStandardItem *);
+    void dataModel_itemChanged(int col);
+    void dataModel_itemChanged(QStandardItem *item);
     void addTelemetryColumn();
     void removeTelemetryColumn();
     void changeVerticalHeader(int);
     void changeHorizontalHeader(int);
     void customMenuRequested(QPoint pos);
+    void uavoPresentOnHardwareChanged(UAVDataObject*);
+    void onHideNotPresent(bool);
 private:
+
     int stripMs(QVariant rate_ms);
 
     void importTelemetryConfiguration(const QString& fileName);
@@ -88,9 +92,9 @@ private:
     QString filename;
 
     QMap<QString, UAVObject::Metadata> defaultMdata;
+    QMap<UAVDataObject*, int> uavoIndex;
 
     QStringList columnHeaders;
-    QStringList rowHeaders;
 
     SchedulerModel *schedulerModel;
     QFrozenTableViewWithCopyPaste *telemetryScheduleView;
@@ -140,6 +144,7 @@ public:
     void setHorizontalHeaderItem(int column, QStandardItem *item);
     bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex());
 
+    void fixGeometry(int value);
 protected:
     virtual void keyPressEvent(QKeyEvent * event);
 
@@ -147,15 +152,15 @@ protected:
     void scrollTo (const QModelIndex & index, ScrollHint hint = EnsureVisible);
 
 private slots:
-      void updateSectionWidth(int logicalIndex,int, int newSize);
-      void updateSectionHeight(int logicalIndex, int, int newSize);
+    void updateSectionWidth(int logicalIndex,int, int newSize);
+    void updateSectionHeight(int logicalIndex, int, int newSize);
 
 private:
     void copy();
     void paste();
     void deleteCells();
 
-    void updateFrozenTableGeometry();
+    void updateFrozenTableGeometry(int verticalHeaderWidth);
     void init();
     QTableView *frozenTableView;
     QStandardItemModel *frozenModel;
