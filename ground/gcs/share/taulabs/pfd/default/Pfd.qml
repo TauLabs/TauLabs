@@ -96,57 +96,6 @@ Rectangle {
             }
 
             SvgElementImage {
-                id: pitch_desired
-
-                elementName: "pitch-desired"
-                sceneSize: sceneItem.sceneSize
-
-                // Center the pitch desired bar in the middle of the PFD
-                anchors.centerIn: parent
-
-                transform: [
-                    Translate {
-                        id: pitchDesiredTranslate
-                        x: 0
-                        y: -pitch_desired.parent.height/2*Math.sin((StabilizationDesired.Pitch-AttitudeActual.Pitch)*Math.PI/180)*(Math.sin(Math.PI/2)/Math.sin(pitch_desired.parent.fovY_D*Math.PI/180/2))
-                    },
-                    Rotation {
-                        angle: -AttitudeActual.Roll
-                        origin.x : pitch_desired.width/2
-                        origin.y : 0
-                    }
-                ]
-
-                //hide if not set
-                opacity: StabilizationDesired.StabilizationMode_Pitch == StabilizationDesiredType.STABILIZATIONMODE_ATTITUDE ? 1 : 
-                         0
-                Behavior on opacity { NumberAnimation { duration: 1000 } }
-            }
-
-            SvgElementImage {
-                id: roll_desired
-
-                elementName: "roll-desired"
-                sceneSize: background.sceneSize
-
-                smooth: true
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: rollscale.top
-
-                //rotate it around the center of scene
-                transform: Rotation {
-                    angle: StabilizationDesired.Roll-AttitudeActual.Roll
-                    origin.x : sceneItem.width/2 - x
-                    origin.y : sceneItem.height/2 - y
-                }
-
-                //hide if not set
-                opacity: StabilizationDesired.StabilizationMode_Roll == StabilizationDesiredType.STABILIZATIONMODE_ATTITUDE ? 1 : 
-                         0
-                Behavior on opacity { NumberAnimation { duration: 1000 } }
-            }
-
-            SvgElementImage {
                 id: foreground
                 elementName: "foreground"
                 sceneSize: background.sceneSize
