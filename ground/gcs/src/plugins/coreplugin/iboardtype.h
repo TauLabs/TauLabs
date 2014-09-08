@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       iboardtype.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -150,6 +150,9 @@ public:
 
     //! Get the board type number
     int getBoardType() { return boardType; }
+
+    //! Return a custom configuration widget, if one is provided
+    virtual QWidget *getBoardConfiguration(QWidget * /*parent*/ = 0, bool /*connected*/ = true) { return NULL; }
 
     /***** methods related to configuring specific boards *****/
 
