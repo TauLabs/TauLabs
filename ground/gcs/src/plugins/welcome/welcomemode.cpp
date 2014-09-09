@@ -35,7 +35,6 @@
 #include <coreplugin/uniqueidmanager.h>
 #include <coreplugin/modemanager.h>
 
-#include <utils/styledbar.h>
 #include <utils/welcomemodetreewidget.h>
 #include <utils/iwelcomepage.h>
 
