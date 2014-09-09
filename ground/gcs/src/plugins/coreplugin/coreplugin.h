@@ -50,8 +50,6 @@ public:
     virtual void extensionsInitialized();
     virtual void shutdown();
 
-public slots:
-    void remoteArgument(const QString&);
 signals:
     void splashMessages(QString);
 private:
