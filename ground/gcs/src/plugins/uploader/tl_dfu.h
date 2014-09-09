@@ -150,6 +150,8 @@ private:
         Actions requestedOperation;
     } ThreadJobStruc;
     ThreadJobStruc threadJob;
+
+    bool open;
 protected:
     void run();// Executes the upload or download operations
 };

@@ -38,7 +38,7 @@
 
 using namespace tl_dfu;
 
-DFUObject::DFUObject()
+DFUObject::DFUObject() : open(false)
 {
     qRegisterMetaType<tl_dfu::Status>("TL_DFU::Status");
 }
@@ -398,6 +398,12 @@ device DFUObject::findCapabilities()
   */
 bool DFUObject::OpenBootloaderComs(USBPortInfo port)
 {
+    // If device was unplugged the previous coms are
+    // not closed. We must close it before openning
+    // a new one.
+    if (open)
+        CloseBootloaderComs();
+
     QEventLoop m_eventloop;
     QTimer::singleShot(200,&m_eventloop, SLOT(quit()));
     m_eventloop.exec();
@@ -418,6 +424,8 @@ bool DFUObject::OpenBootloaderComs(USBPortInfo port)
             hidHandle.close(0);
             return false;
         }
+
+        open = true;
         return true;
     } else
     {
@@ -434,6 +442,7 @@ bool DFUObject::OpenBootloaderComs(USBPortInfo port)
 void DFUObject::CloseBootloaderComs()
 {
     hidHandle.close(0);
+    open = false;
 }
 
 /**
