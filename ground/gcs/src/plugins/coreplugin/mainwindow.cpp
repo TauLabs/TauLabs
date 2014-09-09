@@ -145,25 +145,8 @@ MainWindow::MainWindow() :
     QCoreApplication::setOrganizationName(QLatin1String(Core::Constants::GCS_AUTHOR));
     QCoreApplication::setOrganizationDomain(QLatin1String("taulabs.org"));
     QSettings::setDefaultFormat(XmlConfig::XmlSettingsFormat);
-    QString baseName = QApplication::style()->objectName();
 
-    qDebug() << baseName;
-    if (Utils::HostOsInfo::isAnyUnixHost() && !Utils::HostOsInfo::isMacHost()) {
-        if (baseName == QLatin1String("windows")) {
-            // Sometimes we get the standard windows 95 style as a fallback
-            if (QStyleFactory::keys().contains(QLatin1String("Fusion"))) {
-                baseName = QLatin1String("fusion"); // Qt5
-            } else { // Qt4
-                // e.g. if we are running on a KDE4 desktop
-                QByteArray desktopEnvironment = qgetenv("DESKTOP_SESSION");
-                if (desktopEnvironment == "kde")
-                    baseName = QLatin1String("plastique");
-                else
-                    baseName = QLatin1String("cleanlooks");
-            }
-        }
-    }
-    qApp->setStyle(QStyleFactory::create("Fusion"));
+    qApp->setStyle(QStyleFactory::create("plastique"));
 
 
     setDockNestingEnabled(true);
@@ -328,8 +311,7 @@ void MainWindow::extensionsInitialized()
     qs->beginGroup("General");
     m_config_description=qs->value("Description","none").toString();
     m_config_details=qs->value("Details","none").toString();
-    m_config_stylesheet=qs->value("StyleSheet","none").toString();
-    loadStyleSheet(m_config_stylesheet);
+
     qs->endGroup();
     m_uavGadgetInstanceManager = new UAVGadgetInstanceManager(this);
     connect(m_uavGadgetInstanceManager,SIGNAL(splashMessages(QString)),this,SIGNAL(splashMessages(QString)));
@@ -342,43 +324,6 @@ void MainWindow::extensionsInitialized()
     emit m_coreImpl->coreAboutToOpen();
     show();
     emit m_coreImpl->coreOpened();
-}
-
-void MainWindow::loadStyleSheet(QString name) {
-    /* Let's use QFile and point to a resource... */
-    QDir directory(QCoreApplication::applicationDirPath());
-#ifdef Q_OS_MAC
-    directory.cdUp();
-    directory.cd("Resources");
-#else
-    directory.cdUp();
-    directory.cd("share");
-    directory.cd("taulabs");
-#endif
-    directory.cd("stylesheets");
-#ifdef Q_OS_MAC
-    QFile data(directory.absolutePath()+QDir::separator()+name+"_macos.qss");
-#elif defined(Q_OS_LINUX)
-    QFile data(directory.absolutePath()+QDir::separator()+name+"_linux.qss");
-#else
-    QFile data(directory.absolutePath()+QDir::separator()+name+"_windows.qss");
-#endif
-    QString style;
-    /* ...to open the file */
-    if(data.open(QFile::ReadOnly)) {
-        /* QTextStream... */
-        QTextStream styleIn(&data);
-        /* ...read file to a string. */
-        style = styleIn.readAll();
-        data.close();
-        /* We'll use qApp macro to get the QApplication pointer
-         * and set the style sheet application wide. */
-        qApp->setStyleSheet(style);
-        emit splashMessages(QString(tr("Loading stylesheet %1")).arg(name));
-        qDebug()<<"Loaded stylesheet:" << directory.absolutePath() << name;
-    }
-    else
-        qDebug()<<"Failed to openstylesheet file" << directory.absolutePath() << name;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -1251,7 +1196,6 @@ void MainWindow::saveSettings(QSettings* qs)
     qs->beginGroup("General");
     qs->setValue("Description",m_config_description);
     qs->setValue("Details",m_config_details);
-    qs->setValue("StyleSheet",m_config_stylesheet);
     qs->endGroup();
 }
 
