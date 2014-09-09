@@ -173,7 +173,6 @@ private:
     void registerDefaultContainers();
     void registerDefaultActions();
     void createWorkspaces(QSettings* qs, bool diffOnly = false);
-    void loadStyleSheet(QString name);
 
     CoreImpl *m_coreImpl;
     UniqueIDManager *m_uniqueIDManager;
@@ -225,7 +224,6 @@ private:
 
     QString m_config_description;
     QString m_config_details;
-    QString m_config_stylesheet;
 #ifdef Q_OS_MAC
     QAction *m_minimizeAction;
     QAction *m_zoomAction;

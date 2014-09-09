@@ -35,9 +35,8 @@
 #include "minisplitter.h"
 #include <coreplugin/coreconstants.h>
 #include <coreplugin/actionmanager/actionmanager.h>
-
+#include <QStyledItemDelegate>
 #include <utils/qtcassert.h>
-#include <utils/styledbar.h>
 
 #include <QtCore/QDebug>
 
@@ -123,7 +122,17 @@ UAVGadgetView::UAVGadgetView(Core::UAVGadgetManager *uavGadgetManager, IUAVGadge
         m_closeButton->setAutoRaise(true);
         m_closeButton->setIcon(QIcon(":/core/images/closebutton.png"));
 
-        m_top = new Utils::StyledBar(this);
+        m_top = new QWidget(this);
+        m_top->setObjectName("m_top");
+        QString style;
+        style.append("QWidget#m_top {min-height: 30px;max-height: 30px;background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(49, 49, 49, 255), stop:1 rgba(197, 197, 197, 255));}");
+        style.append("QComboBox {color: white;border: 1px solid gray;border-radius: 3px;padding: 1px 18px 1px 3px;min-width: 6em;background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(49, 49, 49, 255), stop:1 rgba(197, 197, 197, 255));}");
+        style.append("QComboBox:on {padding-top: 3px;padding-left: 4px;color:black;}");
+        style.append("QComboBox::drop-down {subcontrol-origin: padding;subcontrol-position: top right;width: 15px;border-left-width: 1px;border-left-style: solid;border-top-right-radius: 3px;border-bottom-right-radius: 3px;}");
+        style.append("QComboBox::down-arrow:on {top: 1px;left: 1px;}");
+        style.append("QComboBox::down-arrow {image: url(:/core/images/1downarrow.png);}");
+
+        m_top->setStyleSheet(style);
         QHBoxLayout *toplayout = new QHBoxLayout(m_top);
         toplayout->setSpacing(0);
         toplayout->setMargin(0);
@@ -132,7 +141,8 @@ UAVGadgetView::UAVGadgetView(Core::UAVGadgetManager *uavGadgetManager, IUAVGadge
         toplayout->addWidget(spacerWidget);
         toplayout->addWidget(m_activeLabel);
         toplayout->addWidget(m_closeButton);
-
+        QStyledItemDelegate* itemDelegate = new QStyledItemDelegate();
+        m_uavGadgetList->setItemDelegate(itemDelegate);
         m_top->setLayout(toplayout);
         tl->addWidget(m_top);
 
@@ -223,6 +233,8 @@ void UAVGadgetView::updateToolBar()
     m_toolBar->layout()->addWidget(toolBar);
     m_activeToolBar->setVisible(false);
     m_activeToolBar = toolBar;
+    QStyledItemDelegate* itemDelegate = new QStyledItemDelegate();
+    toolBar->setItemDelegate(itemDelegate);
 }
 
 /**
