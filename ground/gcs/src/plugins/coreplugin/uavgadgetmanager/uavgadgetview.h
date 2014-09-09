@@ -48,10 +48,6 @@ class QLabel;
 class QVBoxLayout;
 QT_END_NAMESPACE
 
-namespace Utils {
-class StyledBar;
-}
-
 namespace Core {
 
 class IUAVGadget;
