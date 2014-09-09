@@ -252,7 +252,7 @@ int main(int argc, char **argv)
     QTranslator qtTranslator;
 
     QPixmap pixmap(":/images/resources/tau_trans.png");
-    CustomSplash splash(pixmap);
+    CustomSplash splash(pixmap,  Qt::WindowStaysOnTopHint);
     splash.show();
 
     splash.showMessage("Loading translations",Qt::AlignCenter | Qt::AlignBottom,Qt::black);
