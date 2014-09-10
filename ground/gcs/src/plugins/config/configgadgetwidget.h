@@ -70,7 +70,7 @@ protected:
 
 private:
 	UAVDataObject* oplinkStatusObj;
-
+    int lastTabIndex;
 	// A timer that timesout the connction to the OPLink.
 	QTimer *oplinkTimeout;
 	bool oplinkConnected;
