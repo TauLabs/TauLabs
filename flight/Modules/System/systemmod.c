@@ -85,6 +85,7 @@ static void objectUpdatedCb(UAVObjEvent * ev);
 static void configurationUpdatedCb(UAVObjEvent * ev);
 #endif
 
+static bool indicateError();
 static void updateStats();
 static void updateSystemAlarms();
 static void systemTask(void *parameters);
@@ -206,13 +207,15 @@ static void systemTask(void *parameters)
 #endif	/* PIOS_LED_HEARTBEAT */
 
 		// Turn on the error LED if an alarm is set
+		if (indicateError()) {
 #if defined (PIOS_LED_ALARM)
-		if (AlarmsHasWarnings()) {
 			PIOS_LED_On(PIOS_LED_ALARM);
-		} else {
-			PIOS_LED_Off(PIOS_LED_ALARM);
-		}
 #endif	/* PIOS_LED_ALARM */
+		} else {
+#if defined (PIOS_LED_ALARM)
+			PIOS_LED_Off(PIOS_LED_ALARM);
+#endif	/* PIOS_LED_ALARM */
+		}
 
 		FlightStatusData flightStatus;
 		FlightStatusGet(&flightStatus);
@@ -503,6 +506,30 @@ static void updateSystemAlarms()
 		SystemStatsSet(&sysStats);
 	}
 		
+}
+
+/**
+ * Indicate there are conditions worth an error LED
+ */
+bool indicateError()
+{
+	SystemAlarmsData alarms;
+	SystemAlarmsGet(&alarms);
+	bool error = false;
+	for (uint32_t i = 0; i < SYSTEMALARMS_ALARM_NUMELEM; i++) {
+		switch(i) {
+		case SYSTEMALARMS_ALARM_TELEMETRY:
+			// Suppress most alarms from telemetry. The user can identify if present
+			// from GCS.
+			error |= (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_CRITICAL);
+			break;
+		default:
+			// Warning deserves an error by default
+			error |= (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_WARNING);
+		}
+	}
+
+	return error;
 }
 
 /**
