@@ -281,6 +281,35 @@
                    </layout>
                   </item>
                   <item>
+                   <widget class="QGroupBox" name="bypassFailsafeGroup">
+                    <property name="title">
+                     <string>Bypass Failsafe Check</string>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_4">
+                     <item>
+                      <widget class="QLabel" name="label_2">
+                       <property name="text">
+                        <string>I understand that this means the flight controller cannot failsafe and will fly away (NOT RECOMMENDED)</string>
+                       </property>
+                       <property name="wordWrap">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QCheckBox" name="cbBypassFailsafe">
+                       <property name="enabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="text">
+                        <string>Bypass Failsafe Check</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_3">
                     <item>
                      <widget class="QPushButton" name="wzBack">

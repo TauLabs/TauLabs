@@ -502,6 +502,7 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         m_config->stackedWidget->setCurrentIndex(1);
         m_config->wzBack->setEnabled(false);
         m_config->wzNext->setEnabled(true);
+        m_config->bypassFailsafeGroup->setVisible(false);
         break;
     case wizardChooseMode:
     {
@@ -615,6 +616,9 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         failsafeDetection = FS_AWAITING_CONNECTION;
         connect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(detectFailsafe()));
         m_config->wzNext->setEnabled(false);
+        m_config->graphicsView->setVisible(false);
+        m_config->bypassFailsafeGroup->setVisible(true);
+        connect(m_config->cbBypassFailsafe,SIGNAL(toggled(bool)), this, SLOT(detectFailsafe()));
         break;
     case wizardFinish:
         dimOtherControls(false);
@@ -711,6 +715,9 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
         dimOtherControls(false);
         extraWidgets.clear();
         disconnect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(detectFailsafe()));
+        m_config->graphicsView->setVisible(true);
+        m_config->bypassFailsafeGroup->setVisible(false);
+        disconnect(m_config->cbBypassFailsafe,SIGNAL(toggled(bool)), this, SLOT(detectFailsafe()));
         break;
     case wizardFinish:
         dimOtherControls(false);
@@ -1303,6 +1310,10 @@ void ConfigInputWidget::detectFailsafe()
             m_config->wzNext->setEnabled(true);
         }
         break;
+    }
+    if (m_config->cbBypassFailsafe->checkState()) {
+        m_config->wzText->setText(QString(tr("You are selecting to bypass failsafe detection. If this is not working, then the flight controller is likely to fly away. Please check on the forums how to configure this properly.\n")));
+        m_config->wzNext->setEnabled(true);
     }
 }
 
