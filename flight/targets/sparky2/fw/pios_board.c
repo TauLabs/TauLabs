@@ -142,6 +142,9 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_RFM22B_RF_RX_BUF_LEN 512
 #define PIOS_COM_RFM22B_RF_TX_BUF_LEN 512
 
+#define PIOS_COM_CAN_RX_BUF_LEN 256
+#define PIOS_COM_CAN_TX_BUF_LEN 256
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
@@ -159,10 +162,13 @@ uintptr_t pios_com_frsky_sensor_hub_id;
 uintptr_t pios_com_lighttelemetry_id;
 uintptr_t pios_com_picoc_id;
 uintptr_t pios_com_rf_id;
+uintptr_t pios_com_can_id;
 uint32_t pios_rfm22b_id;
 uintptr_t pios_internal_adc_id = 0;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
+
+uintptr_t pios_can_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -1015,7 +1021,23 @@ void PIOS_Board_Init(void) {
 	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
-	
+
+#if defined(PIOS_INCLUDE_CAN)
+	if (PIOS_CAN_Init(&pios_can_id, &pios_can_cfg) != 0)
+		panic(6);
+
+	uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_CAN_RX_BUF_LEN);
+	uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_CAN_TX_BUF_LEN);
+	PIOS_Assert(rx_buffer);
+	PIOS_Assert(tx_buffer);
+	if (PIOS_COM_Init(&pios_com_can_id, &pios_can_com_driver, pios_can_id,
+	                  rx_buffer, PIOS_COM_CAN_RX_BUF_LEN,
+	                  tx_buffer, PIOS_COM_CAN_TX_BUF_LEN))
+		panic(6);
+
+	pios_com_bridge_id = pios_com_can_id;
+#endif
+
 	PIOS_DELAY_WaitmS(50);
 
 	PIOS_SENSORS_Init();
