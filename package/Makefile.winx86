@@ -10,6 +10,8 @@ NSIS_TEMPLATE := $(NSIS_DIR)/taulabs.tpl
 NSIS_HEADER   := $(BUILD_DIR)/ground/gcs/taulabs.nsh
 
 win_package: gcs package_flight package_matlab
+	$(V1) windeployqt -quick --release --list relative --qmldir $(ROOT_DIR)/build/ground/gcs/share/taulabs/welcome $(ROOT_DIR)/build/ground/gcs/bin/taulabsgcs.exe 
+	$(V1) windeployqt -quick --release --force --qmldir $(ROOT_DIR)/build/ground/gcs/share/taulabs/welcome $(ROOT_DIR)/build/ground/gcs/bin/taulabsgcs.exe 
 	$(V1) mkdir -p "$(dir $(NSIS_HEADER))"
 	$(VERSION_CMD) --template="$(NSIS_TEMPLATE)" --outfile="$(NSIS_HEADER)" PACKAGE_LBL="$(PACKAGE_LBL)"
 	$(V1) echo "Building Windows installer, please wait..."
