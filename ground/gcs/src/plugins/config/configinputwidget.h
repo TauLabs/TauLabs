@@ -60,11 +60,14 @@ class ConfigInputWidget: public ConfigTaskWidget
 public:
         ConfigInputWidget(QWidget *parent = 0);
         ~ConfigInputWidget();
-        enum wizardSteps{wizardWelcome,wizardChooseMode,wizardChooseType,wizardIdentifySticks,wizardIdentifyCenter,wizardIdentifyLimits,wizardIdentifyInverted,wizardFinish,wizardNone};
+        enum wizardSteps {
+            wizardWelcome, wizardChooseMode, wizardChooseType, wizardIdentifySticks, wizardIdentifyCenter,
+            wizardIdentifyLimits, wizardIdentifyInverted, wizardVerifyFailsafe, wizardFinish, wizardNone};
         enum txMode{mode1,mode2};
         enum txMovements{moveLeftVerticalStick,moveRightVerticalStick,moveLeftHorizontalStick,moveRightHorizontalStick,moveAccess0,moveAccess1,moveAccess2,moveFlightMode,centerAll,moveAll,armingSwitch,nothing};
         enum txMovementType{vertical,horizontal,jump,mix};
         enum txType {acro, heli};
+        enum failsafeDetection {FS_AWAITING_CONNECTION, FS_AWAITING_FAILSAFE, FS_AWAITING_RECONNECT};
         void startInputWizard() { goToWizard(); }
 
 private:
@@ -89,6 +92,8 @@ private:
         QList<QPointer<QWidget> > extraWidgets;
         txMode transmitterMode;
         txType transmitterType;
+
+        enum failsafeDetection failsafeDetection;
         struct channelsStruct
         {
             bool operator ==(const channelsStruct& rhs) const
@@ -111,7 +116,6 @@ private:
         ManualControlCommand * manualCommandObj;
         ManualControlCommand::DataFields manualCommandData;
         FlightStatus * flightStatusObj;
-        FlightStatus::DataFields flightStatusData;
         AccessoryDesired * accessoryDesiredObj0;
         AccessoryDesired * accessoryDesiredObj1;
         AccessoryDesired * accessoryDesiredObj2;
@@ -180,6 +184,7 @@ private slots:
         void identifyLimits();
         void moveTxControls();
         void moveSticks();
+        void detectFailsafe();
         void dimOtherControls(bool value);
         void moveFMSlider();
         void updatePositionSlider();
