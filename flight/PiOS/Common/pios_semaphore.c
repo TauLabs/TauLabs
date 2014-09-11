@@ -101,7 +101,7 @@ bool PIOS_Semaphore_Give(struct pios_semaphore *sema)
 }
 
 /* Workaround for simulator version of FreeRTOS. */
-#if !defined(USE_SIM_POSIX)
+#if !defined(SIM_POSIX) && !defined(SIM_OSX)
 bool PIOS_Semaphore_Take_FromISR(struct pios_semaphore *sema, bool *woken)
 {
 	PIOS_Assert(sema != NULL);
@@ -161,4 +161,4 @@ bool PIOS_Semaphore_Give_FromISR(struct pios_semaphore *sema, bool *woken)
 	return result;
 #endif
 }
-#endif /* !defined(USE_SIM_POSIX) */
+#endif /* !defined(SIM_POSIX) && !defined(SIM_OSX)  */
