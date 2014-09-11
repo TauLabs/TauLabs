@@ -851,6 +851,7 @@ void UploaderGadgetWidget::onBootButtonClick()
     bootTimeoutTimer.start();
     bool safeboot = (sender() == m_widget->safeBootButton);
     dfu.JumpToApp(safeboot);
+    dfu.CloseBootloaderComs();
 }
 
 /**
