@@ -212,6 +212,8 @@ static void PIOS_CAN_RegisterTxCallback(uintptr_t can_id, pios_com_callback tx_o
 	can_dev->tx_out_cb = tx_out_cb;
 }
 
+static CanRxMsg LastRxMessage;
+
 /**
  * @brief  This function handles CAN1 RX1 request.
  * @note   We are using RX1 instead of RX0 to avoid conflicts with the
@@ -227,12 +229,13 @@ void CAN1_RX1_IRQHandler(void)
 	CanRxMsg RxMessage;
 	CAN_Receive(CAN1, CAN_FIFO1, &RxMessage);
 
-	if (RxMessage.StdId != CAN_COM_ID)
-		return;
-
 	bool rx_need_yield = false;
-	if (can_dev->rx_in_cb) {
-		(void) (can_dev->rx_in_cb)(can_dev->rx_in_context, RxMessage.Data, RxMessage.DLC, NULL, &rx_need_yield);
+	if (RxMessage.StdId == CAN_COM_ID) {
+		if (can_dev->rx_in_cb) {
+			(void) (can_dev->rx_in_cb)(can_dev->rx_in_context, RxMessage.Data, RxMessage.DLC, NULL, &rx_need_yield);
+		}
+	} else {
+		memcpy(&LastRxMessage, &RxMessage, sizeof(RxMessage));
 	}
 
 	portEND_SWITCHING_ISR(rx_need_yield);
@@ -271,6 +274,44 @@ void USB_HP_CAN1_TX_IRQHandler(void)
 	}
 	
 	portEND_SWITCHING_ISR(tx_need_yield);
+}
+
+/**
+ * PIOS_CAN_TxData transmits a data message with a specified ID
+ * @param[in] id the CAN device ID
+ * @param[in] msg_id The message ID (std ID < 0x7FF)
+ * @param[in] data Pointer to data message
+ * @param[in] bytes Number of bytes to send (< 8 bytes) 
+ * @returns number of bytes sent if successful, -1 if not
+ */
+int32_t PIOS_CAN_TxData(uintptr_t id, uint32_t msg_id, uint8_t *data, uint32_t bytes)
+{
+	CanTxMsg msg;
+	msg.StdId = msg_id & 0x7FF;
+	msg.ExtId = 0;
+	msg.IDE = CAN_ID_STD;
+	msg.RTR = CAN_RTR_DATA;			
+	msg.DLC = (bytes > 8) ? 8 : bytes;
+	memcpy(msg.Data, data, msg.DLC);
+	CAN_Transmit(can_dev->cfg->regs, &msg);
+
+	return msg.DLC;
+}
+
+/**
+ * PIOS_CAN_TxData transmits a data message with a specified ID
+ * @param[in] id the CAN device ID
+ * @param[in] msg_id The message ID (std ID < 0x7FF)
+ * @param[out] data Pointer to data message
+ * @returns number of bytes received
+ */
+int32_t PIOS_CAN_RxData(uintptr_t id, uint32_t std_id, uint8_t *data)
+{
+	if (LastRxMessage.StdId == std_id) {
+		memcpy(data, LastRxMessage.Data, LastRxMessage.DLC);
+		return LastRxMessage.DLC;
+	}
+	return 0;
 }
 
 #endif /* PIOS_INCLUDE_CAN */
