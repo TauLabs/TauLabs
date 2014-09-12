@@ -31,6 +31,12 @@
 #if !defined(PIOS_CAN_H)
 #define PIOS_CAN_H
 
+//! Transmit a data message with a particular message ID
+int32_t PIOS_CAN_TxData(uintptr_t id, uint32_t std_id, uint8_t *data, uint32_t bytes);
+
+//! Fetch the last data message with a particular message ID
+int32_t PIOS_CAN_RxData(uintptr_t id, uint32_t std_id, uint8_t *data);
+
 #endif /* PIOS_CAN_H */
 
 /**
