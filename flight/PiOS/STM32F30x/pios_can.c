@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_can.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      PiOS CAN interface header
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -281,12 +281,27 @@ xQueueHandle PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_messages 
 	return queue;
 }
 
+// Map the specific IRQ handlers to the device handle
+
+static void PIOS_CAN_RxGeneric(void);
+static void PIOS_CAN_TxGeneric(void);
+
+void CAN1_RX1_IRQHandler(void)
+{
+	PIOS_CAN_RxGeneric();
+}
+
+void USB_HP_CAN1_TX_IRQHandler(void)
+{
+	PIOS_CAN_TxGeneric();
+}
+
 /**
  * @brief  This function handles CAN1 RX1 request.
  * @note   We are using RX1 instead of RX0 to avoid conflicts with the
  *         USB IRQ handler.
  */
-void CAN1_RX1_IRQHandler(void)
+static void PIOS_CAN_RxGeneric(void)
 {
 	CAN_ClearITPendingBit(can_dev->cfg->regs, CAN_IT_FMP1);
 
@@ -313,7 +328,7 @@ void CAN1_RX1_IRQHandler(void)
 /**
  * @brief  This function handles CAN1 TX irq and sends more data if available
  */
-void USB_HP_CAN1_TX_IRQHandler(void)
+static void PIOS_CAN_TxGeneric(void)
 {
 	CAN_ClearITPendingBit(can_dev->cfg->regs, CAN_IT_TME);
 
