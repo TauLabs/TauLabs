@@ -7,20 +7,42 @@
     <x>0</x>
     <y>0</y>
     <width>536</width>
-    <height>437</height>
+    <height>441</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>General settings</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <property name="topMargin">
+       <number>1</number>
+      </property>
+      <property name="bottomMargin">
+       <number>1</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>2</number>
+      </property>
       <item row="1" column="0">
        <widget class="QLabel" name="colorLabel">
         <property name="text">
          <string>User interface color:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1">
+       <widget class="QCheckBox" name="cbExpertMode">
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -106,16 +128,6 @@
         </layout>
        </widget>
       </item>
-      <item row="10" column="1">
-       <widget class="QCheckBox" name="checkBoxSaveOnExit">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="10" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
@@ -126,12 +138,12 @@
         </property>
        </widget>
       </item>
-      <item row="11" column="0">
-       <widget class="QLabel" name="label_5">
+      <item row="10" column="1">
+       <widget class="QCheckBox" name="checkBoxSaveOnExit">
         <property name="text">
-         <string>Automatically connect a Tau Labs USB device:</string>
+         <string/>
         </property>
-        <property name="wordWrap">
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
@@ -146,6 +158,20 @@
         </property>
        </widget>
       </item>
+      <item row="14" column="0">
+       <widget class="QLabel" name="labelExpert">
+        <property name="text">
+         <string>Expert Mode</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Language:</string>
+        </property>
+       </widget>
+      </item>
       <item row="12" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
@@ -153,6 +179,30 @@
         </property>
         <property name="wordWrap">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="1">
+       <widget class="QCheckBox" name="cbUseUDPMirror">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Automatically connect a Tau Labs USB device:</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="QLabel" name="labelUDP">
+        <property name="text">
+         <string>Use UDP Mirror</string>
         </property>
        </widget>
       </item>
@@ -166,34 +216,6 @@
         </property>
         <property name="checked">
          <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="1">
-       <widget class="QCheckBox" name="cbUseUDPMirror">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="0">
-       <widget class="QLabel" name="labelUDP">
-        <property name="text">
-         <string>Use UDP Mirror</string>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="0">
-       <widget class="QLabel" name="labelExpert">
-        <property name="text">
-         <string>Expert Mode</string>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="1">
-       <widget class="QCheckBox" name="cbExpertMode">
-        <property name="text">
-         <string/>
         </property>
        </widget>
       </item>
@@ -217,10 +239,17 @@
         </item>
        </layout>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_3">
+      <item row="15" column="1">
+       <widget class="QCheckBox" name="cbSessionMessaging">
         <property name="text">
-         <string>Language:</string>
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Session Managing</string>
         </property>
        </widget>
       </item>
@@ -233,6 +262,12 @@
       <string>Proxy Settings</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_5">
+      <property name="topMargin">
+       <number>1</number>
+      </property>
+      <property name="bottomMargin">
+       <number>1</number>
+      </property>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
@@ -341,6 +376,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="core.qrc"/>
   <include location="core.qrc"/>
  </resources>
  <connections/>
