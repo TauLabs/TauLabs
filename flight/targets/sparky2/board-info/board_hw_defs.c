@@ -1685,7 +1685,9 @@ static void PIOS_ADC_DMA_irq_handler(void)
 struct pios_can_cfg pios_can_cfg = {
 	.regs = CAN2,
 	.init = {
-  		.CAN_Prescaler = 16,   /*!< Specifies the length of a time quantum. 
+		// To make it easy to use both F3 and F4 use the other APB1 bus rate
+		// divided by 2. This matches the baud rate across devices
+  		.CAN_Prescaler = 21-1,   /*!< Specifies the length of a time quantum. 
                                  It ranges from 1 to 1024. */
   		.CAN_Mode = CAN_Mode_Normal,         /*!< Specifies the CAN operating mode.
                                  This parameter can be a value of @ref CAN_operating_mode */
