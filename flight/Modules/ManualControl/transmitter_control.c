@@ -1023,9 +1023,10 @@ static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutr
 }
 
 static uint32_t timeDifferenceMs(uint32_t start_time, uint32_t end_time) {
-	if(end_time > start_time)
+	if (end_time >= start_time)
 		return end_time - start_time;
-	return ((((PIOS_THREAD_TIMEOUT_MAX) -1) - start_time) + end_time);
+	else
+		return (uint32_t)PIOS_THREAD_TIMEOUT_MAX - start_time + end_time + 1;
 }
 
 /**
