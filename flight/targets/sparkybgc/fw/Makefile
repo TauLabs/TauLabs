@@ -38,7 +38,7 @@ MODULES += ManualControl
 MODULES += Stabilization
 MODULES += FirmwareIAP
 MODULES += Telemetry
-MODULES += UAVORelay
+MODULES += GimbalControl
 
 OPTMODULES += GPS
 OPTMODULES += CameraStab
