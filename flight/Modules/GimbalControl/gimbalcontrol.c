@@ -2,12 +2,12 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{ 
- * @addtogroup UAVORelay UAVORelay Module
+ * @addtogroup GimbalControl GimbalControl Module
  * @{ 
  *
- * @file       uavorelay.c
+ * @file       gimbalcontrol.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
- * @brief      Forward a set of UAVObjects when updated out a PIOS_COM port
+ * @brief      Receive CameraDesired via the CAN bus
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -42,11 +42,11 @@
 
 // Private variables
 static xQueueHandle queue;
-static struct pios_thread *uavoRelayTaskHandle;
+static struct pios_thread *gimbalControlTaskHandle;
 static bool module_enabled;
 
 // Private functions
-static void    uavoRelayTask(void *parameters);
+static void    gimbalControlTask(void *parameters);
 
 // External variables
 extern uintptr_t pios_can_id;
@@ -56,19 +56,13 @@ extern uintptr_t pios_can_id;
  * \return -1 if initialisation failed
  * \return 0 on success
  */
-int32_t UAVORelayInitialize(void)
+int32_t GimbalControlInitialize(void)
 {
 
-#ifdef MODULE_UAVORelay_BUILTIN
+#ifdef MODULE_GimbalControl_BUILTIN
 	module_enabled = true;
 #else
-	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
-	ModuleSettingsAdminStateGet(module_state);
-	if (module_state[MODULESETTINGS_ADMINSTATE_UAVORELAY] == MODULESETTINGS_ADMINSTATE_ENABLED) {
-		module_enabled = true;
-	} else {
-		module_enabled = false;
-	}
+	module_enabled = false;
 #endif
 
 	if (!module_enabled)
@@ -87,7 +81,7 @@ int32_t UAVORelayInitialize(void)
  * \return -1 if initialisation failed
  * \return 0 on success
  */
-int32_t UAVORelayStart(void)
+int32_t GimbalControlStart(void)
 {
 	//Check if module is enabled or not
 	if (module_enabled == false) {
@@ -95,18 +89,18 @@ int32_t UAVORelayStart(void)
 	}
 	
 	// Start relay task
-	uavoRelayTaskHandle = PIOS_Thread_Create(
-			uavoRelayTask, "UAVORelay", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+	gimbalControlTaskHandle = PIOS_Thread_Create(
+			gimbalControlTask, "GimbalControl", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
-	TaskMonitorAdd(TASKINFO_RUNNING_UAVORELAY, uavoRelayTaskHandle);
+	TaskMonitorAdd(TASKINFO_RUNNING_UAVORELAY, gimbalControlTaskHandle);
 	
 	return 0;
 }
 
-MODULE_INITCALL(UAVORelayInitialize, UAVORelayStart)
+MODULE_INITCALL(GimbalControlInitialize, GimbalControlStart)
 ;
 
-static void uavoRelayTask(void *parameters)
+static void gimbalControlTask(void *parameters)
 {
 
 	// Loop forever
