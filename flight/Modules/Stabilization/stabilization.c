@@ -663,6 +663,59 @@ static void calculate_pids()
 	float pitch_scale = 1.0f;
 	float yaw_scale = 1.0f;
 
+	// Fetch the current throttle settings
+	float throttle;
+	StabilizationDesiredThrottleGet(&throttle);
+
+	// Calculate the desired PID suppression based on throttle settings. This is
+	// similar to an algorithm used by MultiWii and empirically works well. It
+	// creates a piecewise linear suppression of PIDs versus throttle.
+	for (uint32_t i = 0; i < 3; i++) {
+		float attenuation;
+		float threshold;
+		float scale = 1.0f;
+
+		switch(i) {
+		case 0:
+			attenuation = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_ATTENUATION] / 100.0f;
+			threshold = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD] / 100.0f;
+			break;
+		case 1:
+			attenuation = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_ATTENUATION] / 100.0f;
+			threshold = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD] / 100.0f;
+			break;
+		case 2:
+			attenuation = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_ATTENUATION] / 100.0f;
+			threshold = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD] / 100.0f;
+			break;
+		}
+
+		// Ensure everything is in a valid range to keep scale well behaved
+		if (throttle > 0 && throttle < 1.0f &&
+			attenuation > 0 && attenuation < 0.9f &&
+			threshold > 0 && threshold < 1) {
+
+			if (throttle > threshold)
+				scale = 1.0f - attenuation * (throttle - threshold) / (1.0f - threshold);
+		}
+
+		switch(i) {
+		case 0:
+			roll_scale = scale;
+			break;
+		case 1:
+			pitch_scale = scale;
+			break;
+		case 2:
+			yaw_scale = scale;
+			break;
+		}
+	}
+
+	if (settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD]);
+	roll_scale = 1.0f - settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_ATTENUATION] * 
+	    (throttle - settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD]);
+
 	// Set the roll rate PID constants
 	pid_configure(&pids[PID_RATE_ROLL],
 	              settings.RollRatePID[STABILIZATIONSETTINGS_ROLLRATEPID_KP] * roll_scale,
