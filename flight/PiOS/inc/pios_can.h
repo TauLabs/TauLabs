@@ -31,6 +31,8 @@
 #if !defined(PIOS_CAN_H)
 #define PIOS_CAN_H
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+
 //! The set of CAN messages
 enum pios_can_messages {
 	PIOS_CAN_GIMBAL = 0,
@@ -52,6 +54,8 @@ int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages, uint8_t *data);
 
 //! Get a queue to receive messages of a particular message ID
 xQueueHandle PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_messages msg_id);
+
+#endif /* PIOS_INCLUDE_FREERTOS */
 
 #endif /* PIOS_CAN_H */
 
