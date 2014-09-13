@@ -110,7 +110,7 @@ struct pid pids[PID_MAX];
 
 // Private functions
 static void stabilizationTask(void* parameters);
-static void ZeroPids(void);
+static void zero_pids(void);
 static void calculate_pids(void);
 static void SettingsUpdatedCb(UAVObjEvent * ev);
 
@@ -190,7 +190,7 @@ static void stabilizationTask(void* parameters)
 	uint32_t system_ident_timeval = PIOS_DELAY_GetRaw();
 
 	// Main task loop
-	ZeroPids();
+	zero_pids();
 	while(1) {
 		iteration++;
 
@@ -644,7 +644,7 @@ static void stabilizationTask(void* parameters)
 /**
  * Clear the accumulators and derivatives for all the axes
  */
-static void ZeroPids(void)
+static void zero_pids(void)
 {
 	for(uint32_t i = 0; i < PID_MAX; i++)
 		pid_zero(&pids[i]);
