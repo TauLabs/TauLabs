@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_can.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      PiOS CAN interface header
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -50,8 +50,8 @@ struct pios_can_gimbal_message {
 //! Transmit a data message with a particular message ID
 int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages, uint8_t *data);
 
-//! Fetch the last data message with a particular message ID
-int32_t PIOS_CAN_RxData(uintptr_t id, enum pios_can_messages, uint8_t *data);
+//! Get a queue to receive messages of a particular message ID
+xQueueHandle PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_messages msg_id);
 
 #endif /* PIOS_CAN_H */
 

@@ -216,7 +216,70 @@ static void PIOS_CAN_RegisterTxCallback(uintptr_t can_id, pios_com_callback tx_o
 	can_dev->tx_out_cb = tx_out_cb;
 }
 
-static CanRxMsg LastRxMessage;
+//! The mapping of message types to CAN BUS StdID
+static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
+	[PIOS_CAN_GIMBAL] = 0x130,
+};
+
+//! The mapping of message types to CAN BUS StdID
+static xQueueHandle pios_can_queues[PIOS_CAN_LAST];
+
+/**
+ * Process received CAN messages and push them out any corresponding
+ * queues. Called from ISR.
+ */
+static bool process_received_message(CanRxMsg message)
+{
+	// Look for a known message that matches this CAN StdId
+	uint32_t msg_id;
+	for (msg_id = 0; msg_id < PIOS_CAN_LAST && pios_can_message_stdid[msg_id] != message.StdId; msg_id++);
+
+	// If StdId is not one of the known messages, bail out
+	if (msg_id == PIOS_CAN_LAST)
+		return false;
+
+	// Get the queue for this message and send the data
+	xQueueHandle queue = pios_can_queues[msg_id];
+	if (queue == NULL)
+		return false;
+
+	portBASE_TYPE xHigherPriorityTaskWoken;
+	xQueueSendToBackFromISR(queue, message.Data, &xHigherPriorityTaskWoken);
+
+	return xHigherPriorityTaskWoken == pdTRUE;
+}
+
+/**
+ * Create a queue to receive messages for a particular message
+ * and return it
+ * @param[in] id the CAN device ID
+ * @param[in] msg_id The message ID (std ID < 0x7FF)
+ */
+xQueueHandle PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_messages msg_id)
+{
+	// Fetch the size of this message type or error if unknown
+	uint32_t bytes;
+	switch(msg_id) {
+	case PIOS_CAN_GIMBAL:
+		bytes = sizeof(struct pios_can_gimbal_message);
+		break;
+	default:
+		return NULL;
+	}
+
+	// Return existing queue if created
+	if (pios_can_queues[msg_id] != NULL)
+		return pios_can_queues[msg_id];
+
+	// Create a queue that can manage the data message size
+	xQueueHandle queue;
+	queue = xQueueCreate(2, bytes);
+
+	// Store the queue handle for the driver
+	pios_can_queues[msg_id] = queue;
+
+	return queue;
+}
 
 /**
  * @brief  This function handles CAN1 RX1 request.
@@ -239,7 +302,7 @@ void CAN1_RX1_IRQHandler(void)
 			(void) (can_dev->rx_in_cb)(can_dev->rx_in_context, RxMessage.Data, RxMessage.DLC, NULL, &rx_need_yield);
 		}
 	} else {
-		memcpy(&LastRxMessage, &RxMessage, sizeof(RxMessage));
+		rx_need_yield = process_received_message(RxMessage);
 	}
 
 #if defined(PIOS_INCLUDE_FREERTOS)
@@ -284,10 +347,6 @@ void USB_HP_CAN1_TX_IRQHandler(void)
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
 }
 
-//! The mapping of message types to CAN BUS StdID
-static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
-	[PIOS_CAN_GIMBAL] = 0x130,
-};
 
 /**
  * PIOS_CAN_TxData transmits a data message with a specified ID
@@ -324,35 +383,6 @@ int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages msg_id, uint8_t *da
 	return msg.DLC;
 }
 
-/**
- * PIOS_CAN_TxData transmits a data message with a specified ID
- * @param[in] id the CAN device ID
- * @param[in] msg_id The message ID (std ID < 0x7FF)
- * @param[out] data Pointer to data message
- * @returns number of bytes received
- */
-int32_t PIOS_CAN_RxData(uintptr_t id, enum pios_can_messages msg_id, uint8_t *data)
-{
-	// Fetch the size of this message type or error if unknown
-	uint32_t bytes;
-	switch(msg_id) {
-	case PIOS_CAN_GIMBAL:
-		bytes = sizeof(struct pios_can_gimbal_message);
-		break;
-	default:
-		return -1;
-	}
-
-	// Look up the CAN BUS Standard ID for this message type
-	uint32_t std_id = pios_can_message_stdid[msg_id];
-
-	// Unpack the message
-	if (LastRxMessage.StdId == std_id && LastRxMessage.DLC == bytes) {
-		memcpy(data, LastRxMessage.Data, LastRxMessage.DLC);
-		return LastRxMessage.DLC;
-	}
-	return 0;
-}
 
 #endif /* PIOS_INCLUDE_CAN */
 /**
