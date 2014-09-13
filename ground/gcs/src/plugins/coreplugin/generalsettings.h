@@ -60,6 +60,7 @@ public:
     bool autoConnect() const;
     bool autoSelect() const;
     bool useUDPMirror() const;
+    bool useSessionManaging() const;
     void readSettings(QSettings* qs);
     void saveSettings(QSettings* qs);
     bool useExpertMode() const;
@@ -91,7 +92,7 @@ private:
     QString m_proxyHostname;
     QString m_proxyUser;
     QString m_proxyPassword;
-
+    bool m_useSessionManaging;
 };
 } // namespace Internal
 } // namespace Core
