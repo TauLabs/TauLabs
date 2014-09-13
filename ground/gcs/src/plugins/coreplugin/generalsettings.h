@@ -66,7 +66,7 @@ public:
     bool useExpertMode() const;
     QNetworkProxy getNetworkProxy();
 signals:
-
+    void generalSettingsChanged();
 private slots:
     void resetInterfaceColor();
     void resetLanguage();

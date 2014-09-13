@@ -165,6 +165,7 @@ void GeneralSettings::apply()
     m_proxyUser = m_page->userLE->text();
     m_proxyPassword = m_page->passwordLE->text();
     QNetworkProxy::setApplicationProxy (getNetworkProxy());
+    emit generalSettingsChanged();
 }
 
 void GeneralSettings::finish()
