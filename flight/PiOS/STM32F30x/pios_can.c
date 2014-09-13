@@ -284,18 +284,36 @@ void USB_HP_CAN1_TX_IRQHandler(void)
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
 }
 
+//! The mapping of message types to CAN BUS StdID
+static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
+	[PIOS_CAN_GIMBAL] = 0x130,
+};
+
 /**
  * PIOS_CAN_TxData transmits a data message with a specified ID
  * @param[in] id the CAN device ID
  * @param[in] msg_id The message ID (std ID < 0x7FF)
  * @param[in] data Pointer to data message
- * @param[in] bytes Number of bytes to send (< 8 bytes) 
  * @returns number of bytes sent if successful, -1 if not
  */
-int32_t PIOS_CAN_TxData(uintptr_t id, uint32_t msg_id, uint8_t *data, uint32_t bytes)
+int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages msg_id, uint8_t *data)
 {
+	// Fetch the size of this message type or error if unknown
+	uint32_t bytes;
+	switch(msg_id) {
+	case PIOS_CAN_GIMBAL:
+		bytes = sizeof(struct pios_can_gimbal_message);
+		break;
+	default:
+		return -1;
+	}
+
+	// Look up the CAN BUS Standard ID for this message type
+	uint32_t std_id = pios_can_message_stdid[msg_id];
+
+	// Format and send the message
 	CanTxMsg msg;
-	msg.StdId = msg_id & 0x7FF;
+	msg.StdId = std_id & 0x7FF;
 	msg.ExtId = 0;
 	msg.IDE = CAN_ID_STD;
 	msg.RTR = CAN_RTR_DATA;			
@@ -313,9 +331,23 @@ int32_t PIOS_CAN_TxData(uintptr_t id, uint32_t msg_id, uint8_t *data, uint32_t b
  * @param[out] data Pointer to data message
  * @returns number of bytes received
  */
-int32_t PIOS_CAN_RxData(uintptr_t id, uint32_t std_id, uint8_t *data)
+int32_t PIOS_CAN_RxData(uintptr_t id, enum pios_can_messages msg_id, uint8_t *data)
 {
-	if (LastRxMessage.StdId == std_id) {
+	// Fetch the size of this message type or error if unknown
+	uint32_t bytes;
+	switch(msg_id) {
+	case PIOS_CAN_GIMBAL:
+		bytes = sizeof(struct pios_can_gimbal_message);
+		break;
+	default:
+		return -1;
+	}
+
+	// Look up the CAN BUS Standard ID for this message type
+	uint32_t std_id = pios_can_message_stdid[msg_id];
+
+	// Unpack the message
+	if (LastRxMessage.StdId == std_id && LastRxMessage.DLC == bytes) {
 		memcpy(data, LastRxMessage.Data, LastRxMessage.DLC);
 		return LastRxMessage.DLC;
 	}
