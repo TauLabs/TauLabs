@@ -233,6 +233,8 @@ void TelemetrySchedulerGadgetWidget::updateCurrentColumn(UAVObject *obj)
  */
 void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
 {
+    m_telemetryeditor->bnSaveSchedule->setIcon(QIcon());
+    m_telemetryeditor->bnApplySchedule->setIcon(QIcon());
     int col = item->column();
     dataModel_itemChanged(col);
 }
@@ -414,6 +416,18 @@ QList<UAVMetaObject*> TelemetrySchedulerGadgetWidget::applySchedule()
     }
 
     // Set new metadata
+    if(sender() == m_telemetryeditor->bnApplySchedule)
+    {
+        connect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), this, SLOT(onCompletedMetadataWrite(bool)));
+        m_telemetryeditor->bnApplySchedule->setIcon(QIcon(":/uploader/images/system-run.svg"));
+    }
+    else
+    {
+        connect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), this, SLOT(onSavedSchedule(bool)));
+        m_telemetryeditor->bnSaveSchedule->setIcon(QIcon(":/uploader/images/system-run.svg"));
+    }
+    m_telemetryeditor->bnApplySchedule->setEnabled(false);
+    m_telemetryeditor->bnSaveSchedule->setEnabled(false);
     getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
     return metaList;
 }
@@ -424,12 +438,70 @@ QList<UAVMetaObject*> TelemetrySchedulerGadgetWidget::applySchedule()
 void TelemetrySchedulerGadgetWidget::saveSchedule()
 {
     // Make sure we are saving the selected schedule
-    QList<UAVMetaObject*> metaList = applySchedule();
-    if(metaList.isEmpty())
+    metaObjectsToSave = applySchedule();
+}
+
+void TelemetrySchedulerGadgetWidget::onSavedSchedule(bool value)
+{
+    disconnect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), this, SLOT(onSavedSchedule(bool)));
+    if(metaObjectsToSave.isEmpty())
+    {
+        m_telemetryeditor->bnSaveSchedule->setIcon(QIcon(":/uploader/images/dialog-apply.svg"));
         return;
-    foreach (UAVMetaObject* meta, metaList)
+    }
+    if(!value)
+    {
+        m_telemetryeditor->bnSaveSchedule->setIcon(QIcon(":/uploader/images/process-stop.svg"));
+        return;
+    }
+    connect(getObjectUtilManager(), SIGNAL(saveCompleted(int,bool)), this, SLOT(onCompletedMetadataSave(int, bool)));
+    onCompletedMetadataSave(-1,true);
+    foreach (UAVMetaObject* meta, metaObjectsToSave)
     {
         getObjectUtilManager()->saveObjectToFlash(meta);
+    }
+}
+
+void TelemetrySchedulerGadgetWidget::onCompletedMetadataWrite(bool value)
+{
+    if(value)
+        m_telemetryeditor->bnApplySchedule->setIcon(QIcon(":/uploader/images/dialog-apply.svg"));
+    else
+        m_telemetryeditor->bnApplySchedule->setIcon(QIcon(":/uploader/images/process-stop.svg"));
+    m_telemetryeditor->bnApplySchedule->setEnabled(true);
+    m_telemetryeditor->bnSaveSchedule->setEnabled(true);
+    disconnect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), this, SLOT(onCompletedMetadataWrite(bool)));
+}
+
+void TelemetrySchedulerGadgetWidget::onCompletedMetadataSave(int id, bool result)
+{
+    static bool success = true;
+    if(id == -1)
+    {
+        success = true;
+        return;
+    }
+    UAVObject *obj = getObjectManager()->getObject(id);
+    Q_ASSERT(obj);
+    UAVMetaObject *meta = dynamic_cast<UAVMetaObject*>(obj);
+    if(meta)
+    {
+        if(!result && metaObjectsToSave.contains(meta))
+        {
+            qDebug()<<meta->getName()<<"save failed";
+            success = false;
+        }
+        metaObjectsToSave.removeAll(meta);
+    }
+    if(metaObjectsToSave.isEmpty())
+    {
+        if(success)
+            m_telemetryeditor->bnSaveSchedule->setIcon(QIcon(":/uploader/images/dialog-apply.svg"));
+        else
+            m_telemetryeditor->bnSaveSchedule->setIcon(QIcon(":/uploader/images/process-stop.svg"));
+        m_telemetryeditor->bnApplySchedule->setEnabled(true);
+        m_telemetryeditor->bnSaveSchedule->setEnabled(true);
+        disconnect(getObjectUtilManager(), SIGNAL(saveCompleted(int,bool)), this, SLOT(onCompletedMetadataSave(int, bool)));
     }
 }
 

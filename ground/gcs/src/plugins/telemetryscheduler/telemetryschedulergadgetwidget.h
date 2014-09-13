@@ -66,7 +66,9 @@ private slots:
     QList<UAVMetaObject *> applySchedule();
     //! Save selected telemetry schedule on the UAV
     void saveSchedule();
-
+    void onSavedSchedule(bool);
+    void onCompletedMetadataWrite(bool);
+    void onCompletedMetadataSave(int, bool);
     void updateCurrentColumn(UAVObject *);
     void dataModel_itemChanged(int col);
     void dataModel_itemChanged(QStandardItem *item);
@@ -78,9 +80,8 @@ private slots:
     void uavoPresentOnHardwareChanged(UAVDataObject*);
     void onHideNotPresent(bool);
 private:
-
     int stripMs(QVariant rate_ms);
-
+    QList<UAVMetaObject *> metaObjectsToSave;
     void importTelemetryConfiguration(const QString& fileName);
     UAVObjectUtilManager *getObjectUtilManager();
     UAVObjectManager *getObjectManager();
