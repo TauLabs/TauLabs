@@ -97,7 +97,7 @@ static struct mpu6050_dev *PIOS_MPU6050_alloc(void)
 	mpu6050_dev->accel_queue = PIOS_Queue_Create(PIOS_MPU6050_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
 	if (mpu6050_dev->accel_queue == NULL) {
-		vPortFree(mpu6050_dev);
+		PIOS_free(mpu6050_dev);
 		return NULL;
 	}
 #endif /* PIOS_MPU6050_ACCEL */
@@ -105,14 +105,14 @@ static struct mpu6050_dev *PIOS_MPU6050_alloc(void)
 	mpu6050_dev->gyro_queue = PIOS_Queue_Create(PIOS_MPU6050_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
 	if (mpu6050_dev->gyro_queue == NULL) {
-		vPortFree(mpu6050_dev);
+		PIOS_free(mpu6050_dev);
 		return NULL;
 	}
 
 	mpu6050_dev->data_ready_sema = PIOS_Semaphore_Create();
 
 	if (mpu6050_dev->data_ready_sema == NULL) {
-		vPortFree(mpu6050_dev);
+		PIOS_free(mpu6050_dev);
 		return NULL;
 	}
 

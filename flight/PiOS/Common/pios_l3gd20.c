@@ -100,7 +100,7 @@ static struct l3gd20_dev *PIOS_L3GD20_alloc(void)
 	l3gd20_dev->queue = PIOS_Queue_Create(PIOS_L3GD20_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
 	if (l3gd20_dev->queue == NULL) {
-		vPortFree(l3gd20_dev);
+		PIOS_free(l3gd20_dev);
 		return NULL;
 	}
 

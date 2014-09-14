@@ -106,21 +106,21 @@ static struct lsm303_dev *PIOS_LSM303_alloc(void)
 	lsm303_dev->queue_accel = PIOS_Queue_Create(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
 	if (lsm303_dev->queue_accel == NULL) {
-		vPortFree(lsm303_dev);
+		PIOS_free(lsm303_dev);
 		return NULL;
 	}
 
 	lsm303_dev->queue_mag = PIOS_Queue_Create(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_mag_data));
 
 	if (lsm303_dev->queue_mag == NULL) {
-		vPortFree(lsm303_dev);
+		PIOS_free(lsm303_dev);
 		return NULL;
 	}
 
 	lsm303_dev->data_ready_sema = PIOS_Semaphore_Create();
 
 	if (lsm303_dev->data_ready_sema == NULL) {
-		vPortFree(lsm303_dev);
+		PIOS_free(lsm303_dev);
 		return NULL;
 	}
 

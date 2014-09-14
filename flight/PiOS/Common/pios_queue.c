@@ -58,7 +58,8 @@ struct pios_queue *PIOS_Queue_Create(size_t queue_length, size_t item_size)
 
 void PIOS_Queue_Delete(struct pios_queue *queuep)
 {
-
+	vQueueDelete(queuep->queue_handle);
+	PIOS_free(queuep);
 }
 
 bool PIOS_Queue_Send(struct pios_queue *queuep, const void *itemp, uint32_t timeout_ms)

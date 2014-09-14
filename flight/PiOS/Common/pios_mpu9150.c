@@ -106,25 +106,25 @@ static struct mpu9150_dev * PIOS_MPU9150_alloc(void)
 	
 	mpu9150_dev->accel_queue = PIOS_Queue_Create(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
 	if (mpu9150_dev->accel_queue == NULL) {
-		vPortFree(mpu9150_dev);
+		PIOS_free(mpu9150_dev);
 		return NULL;
 	}
 
 	mpu9150_dev->gyro_queue = PIOS_Queue_Create(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
 	if (mpu9150_dev->gyro_queue == NULL) {
-		vPortFree(mpu9150_dev);
+		PIOS_free(mpu9150_dev);
 		return NULL;
 	}
 
 	mpu9150_dev->mag_queue = PIOS_Queue_Create(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
 	if (mpu9150_dev->mag_queue == NULL) {
-		vPortFree(mpu9150_dev);
+		PIOS_free(mpu9150_dev);
 		return NULL;
 	}
 
 	mpu9150_dev->data_ready_sema = PIOS_Semaphore_Create();
 	if (mpu9150_dev->data_ready_sema == NULL) {
-		vPortFree(mpu9150_dev);
+		PIOS_free(mpu9150_dev);
 		return NULL;
 	}
 

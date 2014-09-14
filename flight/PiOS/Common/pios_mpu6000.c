@@ -92,7 +92,7 @@ static struct mpu6000_dev *PIOS_MPU6000_alloc(void)
 	mpu6000_dev->accel_queue = PIOS_Queue_Create(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
 	if (mpu6000_dev->accel_queue == NULL) {
-		vPortFree(mpu6000_dev);
+		PIOS_free(mpu6000_dev);
 		return NULL;
 	}
 #endif /* PIOS_MPU6000_ACCEL */
@@ -100,7 +100,7 @@ static struct mpu6000_dev *PIOS_MPU6000_alloc(void)
 	mpu6000_dev->gyro_queue = PIOS_Queue_Create(PIOS_MPU6000_MAX_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
 	if (mpu6000_dev->gyro_queue == NULL) {
-		vPortFree(mpu6000_dev);
+		PIOS_free(mpu6000_dev);
 		return NULL;
 	}
 

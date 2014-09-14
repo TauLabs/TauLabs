@@ -1825,7 +1825,7 @@ static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 		if ((event->queue == queue
 				&& event->cb == cb)) {
 			LL_DELETE(obj->next_event, event);
-			vPortFree(event);
+			PIOS_free(event);
 			return 0;
 		}
 	}
