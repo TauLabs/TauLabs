@@ -38,6 +38,7 @@
 #include <oplinkstatus.h>
 #include "pios_semaphore.h"
 #include "pios_rfm22b.h"
+#include "pios_thread.h"
 
 // ************************************
 
@@ -665,7 +666,7 @@ struct pios_rfm22b_dev {
 	bool coordinator;
 
 	// The task handle
-	xTaskHandle taskHandle;
+	struct pios_thread *taskHandle;
 
 	// The potential paired statistics
 	struct rfm22b_pair_stats pair_stats[OPLINKSTATUS_PAIRIDS_NUMELEM];
@@ -779,9 +780,9 @@ struct pios_rfm22b_dev {
 
 	// The maximum time (ms) that it should take to transmit / receive a packet.
 	uint32_t max_packet_time;
-	portTickType packet_start_ticks;
-	portTickType tx_complete_ticks;
-	portTickType rx_complete_ticks;
+	uint32_t packet_start_ticks;
+	uint32_t tx_complete_ticks;
+	uint32_t rx_complete_ticks;
 	uint8_t max_ack_delay;
 };
 

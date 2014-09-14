@@ -43,10 +43,11 @@
 #include "stabilizationsettings.h"
 #include "systemident.h"
 #include <pios_board_info.h>
- 
+#include "pios_thread.h"
+
 // Private constants
 #define STACK_SIZE_BYTES 2000
-#define TASK_PRIORITY (tskIDLE_PRIORITY+2)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
 
 #define AF_NUMX 13
 #define AF_NUMP 43
@@ -55,7 +56,7 @@
 enum AUTOTUNE_STATE {AT_INIT, AT_START, AT_RUN, AT_FINISHED, AT_SET};
 
 // Private variables
-static xTaskHandle taskHandle;
+static struct pios_thread *taskHandle;
 static bool module_enabled;
 
 // Private functions
@@ -96,7 +97,7 @@ int32_t AutotuneStart(void)
 {
 	// Start main task if it is enabled
 	if(module_enabled) {
-		xTaskCreate(AutotuneTask, (signed char *)"Autotune", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+		taskHandle = PIOS_Thread_Create(AutotuneTask, "Autotune", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 		TaskMonitorAdd(TASKINFO_RUNNING_AUTOTUNE, taskHandle);
 		PIOS_WDG_RegisterFlag(PIOS_WDG_AUTOTUNE);
@@ -113,7 +114,7 @@ static void AutotuneTask(void *parameters)
 {
 	enum AUTOTUNE_STATE state = AT_INIT;
 
-	portTickType lastUpdateTime = xTaskGetTickCount();
+	uint32_t lastUpdateTime = PIOS_Thread_Systime();
 
 	float X[AF_NUMX] = {0};
 	float P[AF_NUMP] = {0};
@@ -131,7 +132,7 @@ static void AutotuneTask(void *parameters)
 		// 1. get from queue
 		// 2. based on whether it is flightstatus or manualcontrol
 
-		portTickType diffTime;
+		uint32_t diffTime;
 
 		const uint32_t PREPARE_TIME = 2000;
 		const uint32_t MEAURE_TIME = 60000;
@@ -142,7 +143,7 @@ static void AutotuneTask(void *parameters)
 		// Only allow this module to run when autotuning
 		if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE) {
 			state = AT_INIT;
-			vTaskDelay(50);
+			PIOS_Thread_Sleep(50);
 			continue;
 		}
 
@@ -170,7 +171,7 @@ static void AutotuneTask(void *parameters)
 		switch(state) {
 			case AT_INIT:
 
-				lastUpdateTime = xTaskGetTickCount();
+				lastUpdateTime = PIOS_Thread_Systime();
 
 				// Only start when armed and flying
 				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED && stabDesired.Throttle > 0) {
@@ -193,12 +194,12 @@ static void AutotuneTask(void *parameters)
 
 			case AT_START:
 
-				diffTime = xTaskGetTickCount() - lastUpdateTime;
+				diffTime = PIOS_Thread_Systime() - lastUpdateTime;
 
 				// Spend the first block of time in normal rate mode to get airborne
 				if (diffTime > PREPARE_TIME) {
 					state = AT_RUN;
-					lastUpdateTime = xTaskGetTickCount();
+					lastUpdateTime = PIOS_Thread_Systime();
 				}
 
 
@@ -208,7 +209,7 @@ static void AutotuneTask(void *parameters)
 
 			case AT_RUN:
 
-				diffTime = xTaskGetTickCount() - lastUpdateTime;
+				diffTime = PIOS_Thread_Systime() - lastUpdateTime;
 
 				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
 				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
@@ -251,7 +252,7 @@ static void AutotuneTask(void *parameters)
 
 				if (diffTime > MEAURE_TIME) { // Move on to next state
 					state = AT_FINISHED;
-					lastUpdateTime = xTaskGetTickCount();
+					lastUpdateTime = PIOS_Thread_Systime();
 				}
 
 				last_time = PIOS_DELAY_GetRaw();
@@ -283,7 +284,7 @@ static void AutotuneTask(void *parameters)
 
 		StabilizationDesiredSet(&stabDesired);
 
-		vTaskDelay(DT_MS);
+		PIOS_Thread_Sleep(DT_MS);
 	}
 }
 

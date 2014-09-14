@@ -7,7 +7,7 @@
  *
  * @file       camerastab.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Stabilize camera against the roll pitch and yaw of aircraft
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -44,6 +44,7 @@
 #include "openpilot.h"
 #include "misc_math.h"
 #include "physical_constants.h"
+#include "pios_thread.h"
 
 #include "accessorydesired.h"
 #include "attitudeactual.h"
@@ -67,7 +68,7 @@ enum {ROLL,PITCH,YAW,MAX_AXES};
 
 // Private variables
 static struct CameraStab_data {
-	portTickType lastSysTime;
+	uint32_t lastSysTime;
 	uint8_t AttitudeFilter;
 	float attitude_filtered[MAX_AXES];
 	float inputs[CAMERASTABSETTINGS_INPUT_NUMELEM];
@@ -121,7 +122,7 @@ int32_t CameraStabInitialize(void)
 
 		// make sure that all inputs[] are zeroed
 		memset(csd, 0, sizeof(struct CameraStab_data));
-		csd->lastSysTime = xTaskGetTickCount() - MS2TICKS(SAMPLE_PERIOD_MS);
+		csd->lastSysTime = PIOS_Thread_Systime() - SAMPLE_PERIOD_MS;
 
 		AttitudeActualInitialize();
 		CameraStabSettingsInitialize();
@@ -140,7 +141,7 @@ int32_t CameraStabInitialize(void)
 			.instId = 0,
 			.event = 0,
 		};
-		EventPeriodicCallbackCreate(&ev, attitudeUpdated, MS2TICKS(SAMPLE_PERIOD_MS));
+		EventPeriodicCallbackCreate(&ev, attitudeUpdated, SAMPLE_PERIOD_MS);
 
 		return 0;
 	}
@@ -170,8 +171,8 @@ static void attitudeUpdated(UAVObjEvent* ev)
 	CameraStabSettingsData *settings = &csd->settings;
 
 	// Check how long since last update, time delta between calls in ms
-	portTickType thisSysTime = xTaskGetTickCount();
-	float dT_ms = TICKS2MS(thisSysTime - csd->lastSysTime);
+	uint32_t thisSysTime = PIOS_Thread_Systime();
+	float dT_ms = thisSysTime - csd->lastSysTime;
 	csd->lastSysTime = thisSysTime;
 
 	if (dT_ms <= 0)
@@ -280,7 +281,7 @@ static void attitudeUpdated(UAVObjEvent* ev)
 
 		// Set output channels
 		output = bound_sym((attitude + csd->inputs[i]) / settings->OutputRange[i], 1.0f);
-		if (TICKS2MS(thisSysTime) > LOAD_DELAY) {
+		if (thisSysTime > LOAD_DELAY) {
 			switch (i) {
 			case ROLL:
 				CameraDesiredRollSet(&output);

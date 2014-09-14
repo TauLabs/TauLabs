@@ -7,7 +7,7 @@
  *
  * @file       baro_airspeed.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Compute airspeed from multiple types of sensors
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -39,6 +39,7 @@
 #include "openpilot.h"
 #include "airspeedsettings.h"
 #include "baroairspeed.h"	// object that will be updated by the module
+#include "pios_thread.h"
 
 #if defined(PIOS_INCLUDE_ETASV3)
 
@@ -55,10 +56,10 @@
 static uint16_t calibrationCount = 0;
 static uint32_t calibrationSum = 0;
 
-void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
+void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
 {
 	//Wait until our turn.
-	vTaskDelayUntil(lastSysTime, MS2TICKS(SAMPLING_DELAY_MS_ETASV3));
+	PIOS_Thread_Sleep_Until(lastSysTime, SAMPLING_DELAY_MS_ETASV3);
 
 	AirspeedSettingsData airspeedSettingsData;
 	AirspeedSettingsGet(&airspeedSettingsData);
@@ -102,10 +103,10 @@ void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *la
 
 #else
 
-void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
+void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
 {
 	/* Do nothing when driver support not compiled. */
-	vTaskDelayUntil(lastSysTime, MS2TICKS(1000));
+	PIOS_Thread_Sleep_Until(lastSysTime, 1000);
 }
 #endif
 

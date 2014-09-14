@@ -50,6 +50,7 @@
 #include "accels.h"
 #include "flightstatus.h"
 #include "airspeedactual.h"
+#include "pios_thread.h"
 
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
 
@@ -143,7 +144,7 @@ static const struct frsky_value_item frsky_value_items[] = {
 
 static const uint8_t frsky_sensor_ids[] = {0x1b, 0x0d, 0x34, 0x67};
 struct frsky_sport_telemetry {
-	xTaskHandle task;
+	struct pios_thread *task;
 	uintptr_t com;
 	uint32_t item_last_triggered[NELEMENTS(frsky_value_items)];
 	uint32_t last_poll_time;
@@ -164,7 +165,7 @@ struct frsky_sport_telemetry {
 #else
 #define STACK_SIZE_BYTES 672
 #endif
-#define TASK_PRIORITY               (tskIDLE_PRIORITY + 1)
+#define TASK_PRIORITY               PIOS_THREAD_PRIO_LOW
 
 static bool module_enabled;
 static struct frsky_sport_telemetry *frsky;
@@ -733,9 +734,9 @@ static int32_t uavoFrSKYSPortBridgeStart(void)
 			&& PIOS_SENSORS_GetQueue(PIOS_SENSOR_BARO) != NULL)
 		frsky->use_baro_sensor = true;
 
-	xTaskCreate(uavoFrSKYSPortBridgeTask, (signed char *)"uavoFrSKYSPortBridge",
-			STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY,
-			&frsky->task);
+	frsky->task = PIOS_Thread_Create(
+			uavoFrSKYSPortBridgeTask, "uavoFrSKYSPortBridge",
+			STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_UAVOFRSKYSPORTBRIDGE,
 			frsky->task);
 
@@ -785,7 +786,7 @@ MODULE_INITCALL(uavoFrSKYSPortBridgeInitialize, uavoFrSKYSPortBridgeStart)
 
 /**
  * Main task routine
- * @param[in] parameters parameter given by xTaskCreate()
+ * @param[in] parameters parameter given by PIOS_Thread_Create()
  */
 static void uavoFrSKYSPortBridgeTask(void *parameters)
 {

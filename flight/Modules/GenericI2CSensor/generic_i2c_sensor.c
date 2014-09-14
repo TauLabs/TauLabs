@@ -7,7 +7,7 @@
  *
  * @file       generic_i2c_sensor.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Runs the built-in or user defined program on the I2C Virtual Machine
  *****************************************************************************/
 /*
@@ -33,15 +33,16 @@
 
 #include "i2cvm.h"	   /* UAV Object (VM register file outputs) */
 #include "i2cvmuserprogram.h"	/* UAV Object (bytecode to run) */
+#include "pios_thread.h"
 
 extern bool i2c_vm_run (const uint32_t * code, uint8_t code_len, uintptr_t i2c_adapter);
 
 // Private constants
 #define STACK_SIZE_BYTES 370
-#define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private variables
-static xTaskHandle taskHandle;
+static struct pios_thread *taskHandle;
 static bool module_enabled = false;
 
 // Private functions
@@ -59,7 +60,7 @@ static int32_t GenericI2CSensorStart(void)
 		return -1;
 
 	// Start main task
-	xTaskCreate(GenericI2CSensorTask, (signed char *)"GenericI2CSensor", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(GenericI2CSensorTask, "GenericI2CSensor", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_GENERICI2CSENSOR, taskHandle);
 	return 0;
 }
@@ -156,12 +157,12 @@ static void GenericI2CSensorTask(void *parameters)
 			 * empty or does not infinitely loop.
 			 * Delay in order to prevent these programs from consuming all CPU.
 			 */
-			vTaskDelay(MS2TICKS(10));
+			PIOS_Thread_Sleep(10);
 		} else {
 			/* Program faulted
-			 * Delay to prevent beoken programs from consuming all CPU
+			 * Delay to prevent broken programs from consuming all CPU
 			 */
-			vTaskDelay(MS2TICKS(100));
+			PIOS_Thread_Sleep(100);
 		}
 	}
 }

@@ -31,6 +31,7 @@
 
 #include "openpilot.h"
 #include "pios_mutex.h"
+#include "pios_thread.h"
 
 // Private constants
 #if defined(PIOS_EVENTDISAPTCHER_QUEUE)
@@ -40,12 +41,12 @@
 #endif
 
 #if defined(PIOS_EVENTDISPATCHER_STACK_SIZE)
-#define STACK_SIZE PIOS_EVENTDISPATCHER_STACK_SIZE
+#define STACK_SIZE_BYTES PIOS_EVENTDISPATCHER_STACK_SIZE
 #else
-#define STACK_SIZE configMINIMAL_STACK_SIZE
+#define STACK_SIZE_BYTES PIOS_THREAD_STACK_SIZE_MIN
 #endif /* PIOS_EVENTDISPATCHER_STACK_SIZE */
 
-#define TASK_PRIORITY (tskIDLE_PRIORITY + 3)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define MAX_UPDATE_PERIOD_MS 1000
 
 // Private types
@@ -74,7 +75,7 @@ typedef struct PeriodicObjectListStruct PeriodicObjectList;
 // Private variables
 static PeriodicObjectList* objList;
 static xQueueHandle queue;
-static xTaskHandle eventTaskHandle;
+static struct pios_thread *eventTaskHandle;
 static struct pios_recursive_mutex *mutex;
 static EventStats stats;
 
@@ -105,7 +106,7 @@ int32_t EventDispatcherInitialize()
 	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(EventCallbackInfo));
 
 	// Create task
-	xTaskCreate( eventTask, (signed char*)"Event", STACK_SIZE, NULL, TASK_PRIORITY, &eventTaskHandle );
+	eventTaskHandle = PIOS_Thread_Create(eventTask, "event", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 	// Done
 	return 0;
@@ -290,30 +291,30 @@ static void eventTask()
 	TaskMonitorAdd(TASKINFO_RUNNING_EVENTDISPATCHER, eventTaskHandle);
 
 	// Initialize time
-	timeToNextUpdateMs = xTaskGetTickCount()*portTICK_RATE_MS;
+	timeToNextUpdateMs = PIOS_Thread_Systime();
 
 	// Loop forever
 	while (1)
 	{
 		// Calculate delay time
-		delayMs = timeToNextUpdateMs-(xTaskGetTickCount()*portTICK_RATE_MS);
+		delayMs = timeToNextUpdateMs - PIOS_Thread_Systime();
 		if (delayMs < 0)
 		{
 			delayMs = 0;
 		}
 
 		// Wait for queue message
-		if ( xQueueReceive(queue, &evInfo, delayMs/portTICK_RATE_MS) == pdTRUE )
+		if (xQueueReceive(queue, &evInfo, MS2TICKS(delayMs)) == pdTRUE)
 		{
 			// Invoke callback, if one
-			if ( evInfo.cb != 0)
+			if (evInfo.cb != 0)
 			{
 				evInfo.cb(&evInfo.ev); // the function is expected to copy the event information
 			}
 		}
 
 		// Process periodic updates
-		if ((xTaskGetTickCount()*portTICK_RATE_MS) >= timeToNextUpdateMs )
+		if (PIOS_Thread_Systime() >= timeToNextUpdateMs)
 		{
 			timeToNextUpdateMs = processPeriodicUpdates();
 		}
@@ -336,14 +337,14 @@ static int32_t processPeriodicUpdates()
 
     // Iterate through each object and update its timer, if zero then transmit object.
     // Also calculate smallest delay to next update.
-    timeToNextUpdate = xTaskGetTickCount()*portTICK_RATE_MS + MAX_UPDATE_PERIOD_MS;
+    timeToNextUpdate = PIOS_Thread_Systime() + MAX_UPDATE_PERIOD_MS;
     LL_FOREACH(objList, objEntry)
     {
         // If object is configured for periodic updates
         if (objEntry->updatePeriodMs > 0)
         {
             // Check if time for the next update
-        	timeNow = xTaskGetTickCount()*portTICK_RATE_MS;
+        	timeNow = PIOS_Thread_Systime();
             if (objEntry->timeToNextUpdateMs <= timeNow)
             {
                 // Reset timer

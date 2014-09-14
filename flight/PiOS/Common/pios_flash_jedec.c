@@ -8,7 +8,7 @@
  *
  * @file       pios_flash_w25x.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Driver for talking to W25X flash chip (and most JEDEC chips)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -34,6 +34,9 @@
 
 #include "pios_flash_jedec_priv.h"
 #include "pios_semaphore.h"
+#if defined(FLASH_FREERTOS)
+#include "pios_thread.h"
+#endif /* defined(FLASH_FREERTOS) */
 
 #define JEDEC_WRITE_ENABLE           0x06
 #define JEDEC_WRITE_DISABLE          0x04
@@ -332,7 +335,7 @@ static int32_t PIOS_Flash_Jedec_EraseSector(uintptr_t chip_id, uint32_t chip_sec
 	// Keep polling when bus is busy too
 	while (PIOS_Flash_Jedec_Busy(flash_dev) != 0) {
 #if defined(FLASH_FREERTOS)
-		vTaskDelay(1);
+		PIOS_Thread_Sleep(1);
 #endif
 	}
 
@@ -396,7 +399,7 @@ static int32_t PIOS_Flash_Jedec_WriteData(uintptr_t chip_id, uint32_t chip_offse
 	// Keep polling when bus is busy too
 #if defined(FLASH_FREERTOS)
 	while (PIOS_Flash_Jedec_Busy(flash_dev) != 0) {
-		vTaskDelay(1);
+		PIOS_Thread_Sleep(1);
 	}
 #else
 

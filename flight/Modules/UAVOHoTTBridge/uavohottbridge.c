@@ -6,7 +6,7 @@
  * @{ 
  *
  * @file       uavohottbridge.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      sends telemery data on HoTT request
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -33,13 +33,14 @@
 #if defined(PIOS_INCLUDE_HOTT)
 
 #include "uavohottbridge.h"
+#include "pios_thread.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 700
-#define TASK_PRIORITY				(tskIDLE_PRIORITY + 2)
+#define TASK_PRIORITY				PIOS_THREAD_PRIO_NORMAL
 
 // Private variables
-static xTaskHandle uavoHoTTBridgeTaskHandle;
+static struct pios_thread *uavoHoTTBridgeTaskHandle;
 static uint32_t hott_port;
 static bool module_enabled;
 static struct telemetrydata *telestate;
@@ -69,9 +70,9 @@ static int32_t uavoHoTTBridgeStart(void)
 {
 	if (module_enabled) {
 		// Start task
-		xTaskCreate(uavoHoTTBridgeTask, (signed char *) "uavoHoTTBridge",
-				STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY,
-				&uavoHoTTBridgeTaskHandle);
+		uavoHoTTBridgeTaskHandle = PIOS_Thread_Create(
+				uavoHoTTBridgeTask, "uavoHoTTBridge",
+				STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_UAVOHOTTBRIDGE,
 				uavoHoTTBridgeTaskHandle);
 		return 0;
@@ -124,11 +125,11 @@ static void uavoHoTTBridgeTask(void *parameters) {
 	memset(telestate, 0, sizeof(*telestate));
 
 	// initialize timer variables
-	portTickType lastSysTime = xTaskGetTickCount();
+	uint32_t lastSysTime = PIOS_Thread_Systime();
 	// idle delay between telemetry request and answer
-	portTickType idledelay = MS2TICKS(IDLE_TIME);
+	uint32_t idledelay = IDLE_TIME;
 	// data delay between transmitted bytes
-	portTickType datadelay = MS2TICKS(DATA_TIME);
+	uint32_t datadelay = DATA_TIME;
 
 	// work on hott telemetry. endless loop.
 	while (1) {
@@ -140,10 +141,10 @@ static void uavoHoTTBridgeTask(void *parameters) {
 
 		// wait for a byte of telemetry request in data delay interval
 		while (PIOS_COM_ReceiveBuffer(hott_port, rx_buffer, 1, 0) == 0) {
-			vTaskDelayUntil(&lastSysTime, datadelay);
+			PIOS_Thread_Sleep_Until(&lastSysTime, datadelay);
 		}
 		// set start trigger point
-		lastSysTime = xTaskGetTickCount();
+		lastSysTime = PIOS_Thread_Systime();
 
 		// examine received data stream
 		if (rx_buffer[1] == HOTT_BINARY_ID) {
@@ -187,7 +188,7 @@ static void uavoHoTTBridgeTask(void *parameters) {
 		// check if a message is in the transmit buffer.
 		if (message_size > 0) {
 			// check idle line before transmit. pause, then check receiver buffer
-			vTaskDelayUntil(&lastSysTime, idledelay);
+			PIOS_Thread_Sleep_Until(&lastSysTime, idledelay);
 
 			if (PIOS_COM_ReceiveBuffer(hott_port, rx_buffer, 1, 0) == 0) {
 				// nothing received means idle line. ready to transmit the requested message
@@ -196,11 +197,11 @@ static void uavoHoTTBridgeTask(void *parameters) {
 					PIOS_COM_SendCharNonBlocking(hott_port, tx_buffer[i]);
 					// grab possible incoming loopback data and throw it away
 					PIOS_COM_ReceiveBuffer(hott_port, rx_buffer, sizeof(rx_buffer), 0);
-					vTaskDelayUntil(&lastSysTime, datadelay);
+					PIOS_Thread_Sleep_Until(&lastSysTime, datadelay);
 				}
 
 				// after transmitting the message, any loopback data needs to be cleaned up.
-				vTaskDelayUntil(&lastSysTime, idledelay);
+				PIOS_Thread_Sleep_Until(&lastSysTime, idledelay);
 				PIOS_COM_ReceiveBuffer(hott_port, tx_buffer, message_size, 0);
 			}
 		}

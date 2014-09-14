@@ -36,6 +36,7 @@
 #include "openpilot.h"
 #include "picoc_port.h"
 #include "flightstatus.h"
+#include "pios_thread.h"
 
 // Private variables
 static int accesslevel;
@@ -333,19 +334,19 @@ void PlatformLibrarySetup_math(Picoc *pc)
 void SystemDelay(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
 	if (Param[0]->Val->Integer > 0) {
-		vTaskDelay(MS2TICKS(Param[0]->Val->Integer));
+		PIOS_Thread_Sleep(Param[0]->Val->Integer);
 	}
 }
 
 /* void sync(int): synchronize an interval by given ms-value */
 void SystemSync(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	static portTickType lastSysTime;
+	static uint32_t lastSysTime;
 	if ((lastSysTime == 0) || (Param[0]->Val->Integer == 0)) {
-		lastSysTime = xTaskGetTickCount();
+		lastSysTime = PIOS_Thread_Systime();
 	}
 	if (Param[0]->Val->Integer > 0) {
-		vTaskDelayUntil(&lastSysTime, MS2TICKS(Param[0]->Val->Integer));
+		PIOS_Thread_Sleep_Until(&lastSysTime, Param[0]->Val->Integer);
 	}
 }
 

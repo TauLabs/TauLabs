@@ -13,7 +13,7 @@
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Update attitude for CC(3D)
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -47,10 +47,11 @@
 #include "manualcontrolcommand.h"
 #include "coordinate_conversions.h"
 #include <pios_board_info.h>
+#include "pios_thread.h"
  
 // Private constants
 #define STACK_SIZE_BYTES 580
-#define TASK_PRIORITY (tskIDLE_PRIORITY+3)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 
 #define SENSOR_PERIOD 4
 #define GYRO_NEUTRAL 1665
@@ -64,7 +65,7 @@ enum complimentary_filter_status {
 };
 
 // Private variables
-static xTaskHandle taskHandle;
+static struct pios_thread *taskHandle;
 static SensorSettingsData sensorSettings;
 
 // Private functions
@@ -125,7 +126,7 @@ int32_t AttitudeStart(void)
 {
 	
 	// Start main task
-	xTaskCreate(AttitudeTask, (signed char *)"Attitude", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(AttitudeTask, "Attitude", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, taskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
 	
@@ -220,15 +221,15 @@ static void AttitudeTask(void *parameters)
 
 		if (complimentary_filter_status == CF_POWERON) {
 
-			complimentary_filter_status = (xTaskGetTickCount() > 1000) ?
+			complimentary_filter_status = (PIOS_Thread_Systime() > 1000) ?
 				CF_INITIALIZING : CF_POWERON;
 
 		} else if(complimentary_filter_status == CF_INITIALIZING &&
-			(xTaskGetTickCount() < 7000) && 
-			(xTaskGetTickCount() > 1000)) {
+			(PIOS_Thread_Systime() < 7000) && 
+			(PIOS_Thread_Systime() > 1000)) {
 
 			// For first 7 seconds use accels to get gyro bias
-			accelKp = 0.1f + 0.1f * (xTaskGetTickCount() < 4000);
+			accelKp = 0.1f + 0.1f * (PIOS_Thread_Systime() < 4000);
 			accelKi = 0.1;
 			yawBiasRate = 0.1;
 			accel_filter_enabled = false;
@@ -581,12 +582,12 @@ static inline void apply_accel_filter(const float * raw, float * filtered)
 static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 {
 	float dT;
-	portTickType thisSysTime = xTaskGetTickCount();
-	static portTickType lastSysTime = 0;
+	uint32_t thisSysTime = PIOS_Thread_Systime();
+	static uint32_t lastSysTime = 0;
 	static float accels_filtered[3] = {0,0,0};
 	static float grot_filtered[3] = {0,0,0};
 
-	dT = (thisSysTime == lastSysTime) ? 0.001f : TICKS2MS(portMAX_DELAY & (thisSysTime - lastSysTime)) / 1000.0f;
+	dT = (thisSysTime == lastSysTime) ? 0.001f : (PIOS_THREAD_TIMEOUT_MAX & (thisSysTime - lastSysTime)) / 1000.0f;
 	lastSysTime = thisSysTime;
 	
 	// Bad practice to assume structure order, but saves memory

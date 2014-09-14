@@ -36,11 +36,12 @@
 
 #include "pios_ms5611_priv.h"
 #include "pios_semaphore.h"
+#include "pios_thread.h"
 
 /* Private constants */
 #define PIOS_MS5611_OVERSAMPLING oversampling
-#define MS5611_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define MS5611_TASK_STACK		(512 / 4)
+#define MS5611_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
+#define MS5611_TASK_STACK_BYTES	512
 
 /* MS5611 Addresses */
 #define MS5611_RESET            0x1E
@@ -74,7 +75,7 @@ struct ms5611_dev {
 	const struct pios_ms5611_cfg *cfg;
 	uint32_t spi_id;
 	uint32_t slave_num;
-	xTaskHandle task;
+	struct pios_thread *task;
 	xQueueHandle queue;
 
 	int64_t pressure_unscaled;
@@ -159,10 +160,9 @@ int32_t PIOS_MS5611_SPI_Init(uint32_t spi_id, uint32_t slave_num, const struct p
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, dev->queue);
 
-	portBASE_TYPE result = xTaskCreate(PIOS_MS5611_Task, (const signed char *)"pios_ms5611",
-					MS5611_TASK_STACK, NULL, MS5611_TASK_PRIORITY,
-					&dev->task);
-	PIOS_Assert(result == pdPASS);
+	dev->task = PIOS_Thread_Create(
+			PIOS_MS5611_Task, "pios_ms5611", MS5611_TASK_STACK_BYTES, NULL, MS5611_TASK_PRIORITY);
+	PIOS_Assert(dev->task != NULL);
 
 	return 0;
 }
@@ -417,13 +417,13 @@ int32_t PIOS_MS5611_SPI_Test()
 
 	PIOS_MS5611_ClaimDevice();
 	PIOS_MS5611_StartADC(TEMPERATURE_CONV);
-	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
+	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay());
 	PIOS_MS5611_ReadADC();
 	PIOS_MS5611_ReleaseDevice();
 
 	PIOS_MS5611_ClaimDevice();
 	PIOS_MS5611_StartADC(PRESSURE_CONV);
-	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
+	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay());
 	PIOS_MS5611_ReadADC();
 	PIOS_MS5611_ReleaseDevice();
 
@@ -451,7 +451,7 @@ static void PIOS_MS5611_Task(void *parameters)
 			// Update the temperature data
 			PIOS_MS5611_ClaimDevice();
 			PIOS_MS5611_StartADC(TEMPERATURE_CONV);
-			vTaskDelay(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
+			PIOS_Thread_Sleep(PIOS_MS5611_GetDelay());
 			PIOS_MS5611_ReadADC();
 			PIOS_MS5611_ReleaseDevice();
 
@@ -463,7 +463,7 @@ static void PIOS_MS5611_Task(void *parameters)
 		// Update the pressure data
 		PIOS_MS5611_ClaimDevice();
 		PIOS_MS5611_StartADC(PRESSURE_CONV);
-		vTaskDelay(PIOS_MS5611_GetDelay() / portTICK_RATE_MS);
+		PIOS_Thread_Sleep(PIOS_MS5611_GetDelay());
 		PIOS_MS5611_ReadADC();
 		PIOS_MS5611_ReleaseDevice();
 

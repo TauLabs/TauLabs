@@ -103,7 +103,7 @@ int32_t TxPIDInitialize(void)
 			.instId = 0,
 			.event = 0,
 		};
-		EventPeriodicCallbackCreate(&ev, updatePIDs, MS2TICKS(SAMPLE_PERIOD_MS));
+		EventPeriodicCallbackCreate(&ev, updatePIDs, SAMPLE_PERIOD_MS);
 
 #if (TELEMETRY_UPDATE_PERIOD_MS != 0)
 		// Change StabilizationSettings update rate from OnChange to periodic

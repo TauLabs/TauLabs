@@ -7,7 +7,7 @@
  *
  * @file       telemetry.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Telemetry module, handles telemetry and UAVObject updates
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -33,13 +33,14 @@
 #include "gcstelemetrystats.h"
 #include "modulesettings.h"
 #include "sessionmanaging.h"
+#include "pios_thread.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE   TELEM_QUEUE_SIZE
 #define STACK_SIZE_BYTES PIOS_TELEM_STACK_SIZE
-#define TASK_PRIORITY_RX (tskIDLE_PRIORITY + 2)
-#define TASK_PRIORITY_TX (tskIDLE_PRIORITY + 2)
-#define TASK_PRIORITY_TXPRI (tskIDLE_PRIORITY + 2)
+#define TASK_PRIORITY_RX PIOS_THREAD_PRIO_NORMAL
+#define TASK_PRIORITY_TX PIOS_THREAD_PRIO_NORMAL
+#define TASK_PRIORITY_TXPRI PIOS_THREAD_PRIO_NORMAL
 #define REQ_TIMEOUT_MS 250
 #define MAX_RETRIES 2
 #define STATS_UPDATE_PERIOD_MS 4000
@@ -53,14 +54,14 @@ static xQueueHandle queue;
 
 #if defined(PIOS_TELEM_PRIORITY_QUEUE)
 static xQueueHandle priorityQueue;
-static xTaskHandle telemetryTxPriTaskHandle;
+static struct pios_thread *telemetryTxPriTaskHandle;
 static void telemetryTxPriTask(void *parameters);
 #else
 #define priorityQueue queue
 #endif
 
-static xTaskHandle telemetryTxTaskHandle;
-static xTaskHandle telemetryRxTaskHandle;
+static struct pios_thread *telemetryTxTaskHandle;
+static struct pios_thread *telemetryRxTaskHandle;
 static uint32_t txErrors;
 static uint32_t txRetries;
 static uint32_t timeOfLastObjectUpdate;
@@ -97,13 +98,13 @@ int32_t TelemetryStart(void)
 	GCSTelemetryStatsConnectQueue(priorityQueue);
     
 	// Start telemetry tasks
-	xTaskCreate(telemetryTxTask, (signed char *)"TelTx", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY_TX, &telemetryTxTaskHandle);
-	xTaskCreate(telemetryRxTask, (signed char *)"TelRx", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY_RX, &telemetryRxTaskHandle);
+	telemetryTxTaskHandle = PIOS_Thread_Create(telemetryTxTask, "TelTx", STACK_SIZE_BYTES, NULL, TASK_PRIORITY_TX);
+	telemetryRxTaskHandle = PIOS_Thread_Create(telemetryRxTask, "TelRx", STACK_SIZE_BYTES, NULL, TASK_PRIORITY_RX);
 	TaskMonitorAdd(TASKINFO_RUNNING_TELEMETRYTX, telemetryTxTaskHandle);
 	TaskMonitorAdd(TASKINFO_RUNNING_TELEMETRYRX, telemetryRxTaskHandle);
 
 #if defined(PIOS_TELEM_PRIORITY_QUEUE)
-	xTaskCreate(telemetryTxPriTask, (signed char *)"TelPriTx", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY_TXPRI, &telemetryTxPriTaskHandle);
+	telemetryTxPriTaskHandle = PIOS_Thread_Create(telemetryTxPriTask, "TelPriTx", STACK_SIZE_BYTES, NULL, TASK_PRIORITY_TXPRI);
 	TaskMonitorAdd(TASKINFO_RUNNING_TELEMETRYTXPRI, telemetryTxPriTaskHandle);
 #endif
 
@@ -407,7 +408,7 @@ static void telemetryRxTask(void *parameters)
 				}
 			}
 		} else {
-			vTaskDelay(5);
+			PIOS_Thread_Sleep(5);
 		}
 	}
 }
@@ -503,7 +504,7 @@ static void updateTelemetryStats()
 	}
 
 	// Check for connection timeout
-	timeNow = TICKS2MS(xTaskGetTickCount());
+	timeNow = PIOS_Thread_Systime();
 	if (utalkStats.rxObjects > 0) {
 		timeOfLastObjectUpdate = timeNow;
 	}
@@ -624,12 +625,12 @@ static void session_managing_updated(UAVObjEvent * ev)
 			sessionManaging.NumberOfObjects = UAVObjCount();
 			sessionManaging.ObjectOfInterestIndex = 0;
 			pausePeriodicUpdates = true;
-			pausePeriodicUpdatesTime = TICKS2MS(xTaskGetTickCount());
+			pausePeriodicUpdatesTime = PIOS_Thread_Systime();
 		} else if (sessionManaging.ObjectOfInterestIndex == 0xFF) {
 			pausePeriodicUpdates = false;
 		} else if (sessionManaging.ObjectOfInterestIndex == 0xFE) {
 			pausePeriodicUpdates = true;
-			pausePeriodicUpdatesTime = TICKS2MS(xTaskGetTickCount());
+			pausePeriodicUpdatesTime = PIOS_Thread_Systime();
 		} else {
 			uint8_t index = sessionManaging.ObjectOfInterestIndex;
 			sessionManaging.ObjectID = UAVObjIDByIndex(index);
@@ -664,7 +665,7 @@ static void update_object_instances(uint32_t obj_id, uint32_t inst_id)
 static void check_pause_periodic_updates_timeout()
 {
 	uint32_t timeNow;
-	timeNow = TICKS2MS(xTaskGetTickCount());
+	timeNow = PIOS_Thread_Systime();
 	if ((timeNow - pausePeriodicUpdatesTime) > PAUSE_PERIODIC_UPDATE_TIMEOUT) {
 		pausePeriodicUpdates = false;
 	}

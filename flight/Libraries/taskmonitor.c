@@ -35,7 +35,7 @@
 
 // Private variables
 static struct pios_mutex *lock;
-static xTaskHandle handles[TASKINFO_RUNNING_NUMELEM];
+static struct pios_thread *handles[TASKINFO_RUNNING_NUMELEM];
 static uint32_t lastMonitorTime;
 
 // Private functions
@@ -47,7 +47,7 @@ int32_t TaskMonitorInitialize(void)
 {
 	lock = PIOS_Mutex_Create();
 	PIOS_Assert(lock != NULL);
-	memset(handles, 0, sizeof(xTaskHandle)*TASKINFO_RUNNING_NUMELEM);
+	memset(handles, 0, sizeof(struct pios_thread) * TASKINFO_RUNNING_NUMELEM);
 	lastMonitorTime = 0;
 #if defined(DIAG_TASKS)
 	lastMonitorTime = portGET_RUN_TIME_COUNTER_VALUE();
@@ -58,13 +58,13 @@ int32_t TaskMonitorInitialize(void)
 /**
  * Register a task handle with the library
  */
-int32_t TaskMonitorAdd(TaskInfoRunningElem task, xTaskHandle handle)
+int32_t TaskMonitorAdd(TaskInfoRunningElem task, struct pios_thread *threadp)
 {
 	uint32_t task_idx = (uint32_t) task;
 	if (task_idx < TASKINFO_RUNNING_NUMELEM)
 	{
 		PIOS_Mutex_Lock(lock, PIOS_MUTEX_TIMEOUT_MAX);
-		handles[task_idx] = handle;
+		handles[task_idx] = threadp;
 		PIOS_Mutex_Unlock(lock);
 		return 0;
 	}
@@ -116,7 +116,6 @@ void TaskMonitorUpdateAll(void)
 	// Lock
 	PIOS_Mutex_Lock(lock, PIOS_MUTEX_TIMEOUT_MAX);
 
-#if ( configGENERATE_RUN_TIME_STATS == 1 )
 	uint32_t currentTime;
 	uint32_t deltaTime;
 	
@@ -127,8 +126,7 @@ void TaskMonitorUpdateAll(void)
 	 */
 	currentTime = portGET_RUN_TIME_COUNTER_VALUE();
 	deltaTime = ((currentTime - lastMonitorTime) / 100) ? : 1; /* avoid divide-by-zero if the interval is too small */
-	lastMonitorTime = currentTime;			
-#endif
+	lastMonitorTime = currentTime;
 	
 	// Update all task information
 	for (n = 0; n < TASKINFO_RUNNING_NUMELEM; ++n)
@@ -136,16 +134,9 @@ void TaskMonitorUpdateAll(void)
 		if (handles[n] != 0)
 		{
 			data.Running[n] = TASKINFO_RUNNING_TRUE;
-#if defined(ARCH_POSIX) || defined(ARCH_WIN32)
-			data.StackRemaining[n] = 10000;
-#else
-			data.StackRemaining[n] = uxTaskGetStackHighWaterMark(handles[n]) * 4;
-#endif
-#if ( configGENERATE_RUN_TIME_STATS == 1 )
+			data.StackRemaining[n] = PIOS_Thread_Get_Stack_Usage(handles[n]);
 			/* Generate run time stats */
-			data.RunningTime[n] = uxTaskGetRunTime(handles[n]) / deltaTime;
-#endif
-			
+			data.RunningTime[n] = PIOS_Thread_Get_Runtime(handles[n]) / deltaTime;
 		}
 		else
 		{

@@ -7,6 +7,7 @@
  *
  * @file       firmwareiap.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      In Application Programming module to support firmware upgrades by
  *             providing a means to enter the bootloader.
  *
@@ -36,6 +37,7 @@
 #include "firmwareiap.h"
 #include "firmwareiapobj.h"
 #include "flightstatus.h"
+#include "pios_thread.h"
 
 // Private constants
 #define IAP_CMD_STEP_1      1122
@@ -63,7 +65,7 @@ const uint32_t    iap_time_3_high_end = 5000;
 
 // Private variables
 static uint8_t reset_count = 0;
-static portTickType lastResetSysTime;
+static uint32_t lastResetSysTime;
 
 // Private functions
 static void FirmwareIAPCallback(UAVObjEvent* ev);
@@ -179,7 +181,7 @@ static void FirmwareIAPCallback(UAVObjEvent* ev)
 						
 						/* Note: Cant just wait timeout value, because first time is randomized */
 						reset_count = 0;
-						lastResetSysTime = xTaskGetTickCount();
+						lastResetSysTime = PIOS_Thread_Systime();
 						UAVObjEvent * ev = pvPortMalloc(sizeof(UAVObjEvent));
 						memset(ev,0,sizeof(UAVObjEvent));
 						EventPeriodicCallbackCreate(ev, resetTask, 100);
@@ -217,11 +219,7 @@ static void FirmwareIAPCallback(UAVObjEvent* ev)
 
 static uint32_t get_time(void)
 {
-	portTickType	ticks;
-	
-	ticks = xTaskGetTickCount();
-	
-	return TICKS2MS(ticks);
+	return PIOS_Thread_Systime();
 }
 
 /**
@@ -240,8 +238,8 @@ static void resetTask(UAVObjEvent * ev)
 	FirmwareIAPObjData data;
 	FirmwareIAPObjGet(&data);
 
-	if((portTickType) (xTaskGetTickCount() - lastResetSysTime) > MS2TICKS(RESET_DELAY_MS)) {
-		lastResetSysTime = xTaskGetTickCount();
+	if((uint32_t) (PIOS_Thread_Systime() - lastResetSysTime) > RESET_DELAY_MS) {
+		lastResetSysTime = PIOS_Thread_Systime();
 			PIOS_SYS_Reset();
 	}
 }

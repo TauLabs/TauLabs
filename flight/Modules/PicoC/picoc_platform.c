@@ -37,6 +37,7 @@
 #include "picoc_port.h"
 #include "picocstatus.h"
 #include <setjmp.h>
+#include "pios_thread.h"
 
 // Private variables
 static char *heap_memory;
@@ -237,7 +238,7 @@ void PlatformDebug(const char *format, ...)
 	vsprintf((char *)buffer, format, args);
 
 	PIOS_COM_SendFormattedString(PIOS_COM_PICOC, "[debug:%s]\n", buffer);
-	vTaskDelay(200); // delay to make sure, this is sent out.
+	PIOS_Thread_Sleep(200); // delay to make sure, this is sent out.
 #endif
 }
 
