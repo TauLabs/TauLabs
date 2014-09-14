@@ -3,11 +3,12 @@
  *
  * @file       svgimageprovider.h
  * @author     Dmytro Poplavskiy Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup OPMapPlugin QML Viewer Plugin
+ * @addtogroup QML Viewer Plugin
  * @{
- * @brief Svg declarative image provider
+ * @brief Svg QtQuick image provider
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -29,13 +30,13 @@
 #define SVGIMAGEPROVIDER_H_
 
 #include <QObject>
-#include <QtDeclarative/qdeclarativeimageprovider.h>
+#include <QtQuick/QQuickImageProvider>
 #include <QSvgRenderer>
 #include <QMap>
 
 #include "utils_global.h"
 
-class QTCREATOR_UTILS_EXPORT SvgImageProvider : public QObject, public QDeclarativeImageProvider
+class QTCREATOR_UTILS_EXPORT SvgImageProvider : public QObject, public QQuickImageProvider
 {
     Q_OBJECT
 public:
