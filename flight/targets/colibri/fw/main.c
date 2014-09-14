@@ -61,7 +61,7 @@ int main()
 {
 	/* NOTE: Do NOT modify the following start-up sequence */
 	/* Any new initialization functions should be added in OpenPilotInit() */
-	vPortInitialiseBlocks();
+	PIOS_heap_initialize_blocks();
 
 	/* Brings up System using CMSIS functions, enables the LEDs. */
 	PIOS_SYS_Init();
