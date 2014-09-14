@@ -33,6 +33,11 @@
 #include "systemmod.h"
 #include "pios_thread.h"
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#include "task.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 /* Prototype of PIOS_Board_Init() function */
 extern void PIOS_Board_Init(void);
 extern void Stack_Change(void);
