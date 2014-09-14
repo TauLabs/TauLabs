@@ -33,6 +33,11 @@
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
+
 // portTICK_RATE_MS is in [ms/tick].
 // See http://sourceforge.net/tracker/?func=detail&aid=3498382&group_id=111543&atid=659636
 #define TICKS2MS(t) ((t) * (portTICK_RATE_MS))
@@ -45,9 +50,9 @@ struct pios_queue *PIOS_Queue_Create(size_t queue_length, size_t item_size)
 	if (queuep == NULL)
 		return NULL;
 
-	queuep->queue_handle = NULL;
+	queuep->queue_handle = (uintptr_t)NULL;
 
-	if ((queuep->queue_handle = xQueueCreate(queue_length, item_size)) == NULL)
+	if ((queuep->queue_handle = (uintptr_t)xQueueCreate(queue_length, item_size)) == (uintptr_t)NULL)
 	{
 		PIOS_free(queuep);
 		return NULL;
@@ -58,26 +63,26 @@ struct pios_queue *PIOS_Queue_Create(size_t queue_length, size_t item_size)
 
 void PIOS_Queue_Delete(struct pios_queue *queuep)
 {
-	vQueueDelete(queuep->queue_handle);
+	vQueueDelete((xQueueHandle)queuep->queue_handle);
 	PIOS_free(queuep);
 }
 
 bool PIOS_Queue_Send(struct pios_queue *queuep, const void *itemp, uint32_t timeout_ms)
 {
-	return xQueueSendToBack(queuep->queue_handle, itemp, MS2TICKS(timeout_ms)) == pdTRUE;
+	return xQueueSendToBack((xQueueHandle)queuep->queue_handle, itemp, MS2TICKS(timeout_ms)) == pdTRUE;
 }
 
 bool PIOS_Queue_Send_FromISR(struct pios_queue *queuep, const void *itemp, bool *wokenp)
 {
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-	portBASE_TYPE result = xQueueSendToBackFromISR(queuep->queue_handle, itemp, &xHigherPriorityTaskWoken);
+	portBASE_TYPE result = xQueueSendToBackFromISR((xQueueHandle)queuep->queue_handle, itemp, &xHigherPriorityTaskWoken);
 	*wokenp = *wokenp || xHigherPriorityTaskWoken == pdTRUE;
 	return result == pdTRUE;
 }
 
 bool PIOS_Queue_Receive(struct pios_queue *queuep, void *itemp, uint32_t timeout_ms)
 {
-	return xQueueReceive(queuep->queue_handle, itemp, MS2TICKS(timeout_ms)) == pdTRUE;
+	return xQueueReceive((xQueueHandle)queuep->queue_handle, itemp, MS2TICKS(timeout_ms)) == pdTRUE;
 }
 
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */

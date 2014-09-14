@@ -33,6 +33,11 @@
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
+
 // portTICK_RATE_MS is in [ms/tick].
 // See http://sourceforge.net/tracker/?func=detail&aid=3498382&group_id=111543&atid=659636
 #define TICKS2MS(t) ((t) * (portTICK_RATE_MS))
@@ -52,7 +57,9 @@ struct pios_semaphore *PIOS_Semaphore_Create(void)
 	 * FreeRTOS executes a "give" upon creation.
 	 */
 #if defined(PIOS_INCLUDE_FREERTOS)
-	vSemaphoreCreateBinary(sema->sema_handle);
+	xSemaphoreHandle temp;
+	vSemaphoreCreateBinary(temp);
+	sema->sema_handle = (uintptr_t)temp;
 #else
 	sema->sema_count = 1;
 #endif

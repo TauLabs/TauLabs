@@ -35,7 +35,7 @@
 #if defined(PIOS_INCLUDE_FREERTOS)
 struct pios_queue
 {
-	xQueueHandle queue_handle;
+	uintptr_t queue_handle;
 };
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
 

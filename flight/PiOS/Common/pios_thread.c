@@ -33,6 +33,11 @@
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
+
 // portTICK_RATE_MS is in [ms/tick].
 // See http://sourceforge.net/tracker/?func=detail&aid=3498382&group_id=111543&atid=659636
 #define TICKS2MS(t) ((t) * (portTICK_RATE_MS))
@@ -45,9 +50,9 @@ struct pios_thread *PIOS_Thread_Create(void (*fp)(void *), const char *namep, si
 	if (thread == NULL)
 		return NULL;
 
-	thread->task_handle = NULL;
+	thread->task_handle = (uintptr_t)NULL;
 
-	if (xTaskCreate(fp, (signed char*)namep, stack_bytes / 4, argp, prio, &thread->task_handle) != pdPASS)
+	if (xTaskCreate(fp, (signed char*)namep, stack_bytes / 4, argp, prio, (xTaskHandle*)&thread->task_handle) != pdPASS)
 	{
 		PIOS_free(thread);
 		return NULL;
@@ -62,7 +67,7 @@ void PIOS_Thread_Delete(struct pios_thread *threadp)
 	if (threadp == NULL)
 		vTaskDelete(NULL);
 	else
-		vTaskDelete(threadp->task_handle);
+		vTaskDelete((xTaskHandle)threadp->task_handle);
 }
 #else
 #error "PIOS_Thread_Delete requires INCLUDE_vTaskDelete to be defined 1"
@@ -100,7 +105,7 @@ uint32_t PIOS_Thread_Get_Stack_Usage(struct pios_thread *threadp)
 {
 #if (INCLUDE_uxTaskGetStackHighWaterMark == 1)
 	/* @note: This will fail when FreeRTOS TCB structure changes. */
-	return uxTaskGetStackHighWaterMark(threadp->task_handle) * 4;
+	return uxTaskGetStackHighWaterMark((xTaskHandle)threadp->task_handle) * 4;
 #else
 	return 1024;
 #endif /* (INCLUDE_uxTaskGetStackHighWaterMark == 1) */
@@ -109,7 +114,7 @@ uint32_t PIOS_Thread_Get_Stack_Usage(struct pios_thread *threadp)
 uint32_t PIOS_Thread_Get_Runtime(struct pios_thread *threadp)
 {
 #if (INCLUDE_uxTaskGetRunTime == 1)
-	return uxTaskGetRunTime(threadp->task_handle);
+	return uxTaskGetRunTime((xTaskHandle)threadp->task_handle);
 #else
 	return 0;
 #endif /* (INCLUDE_uxTaskGetRunTime == 1) */

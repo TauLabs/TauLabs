@@ -33,6 +33,11 @@
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
+
 // portTICK_RATE_MS is in [ms/tick].
 // See http://sourceforge.net/tracker/?func=detail&aid=3498382&group_id=111543&atid=659636
 #define TICKS2MS(t) ((t) * (portTICK_RATE_MS))
@@ -45,7 +50,7 @@ struct pios_mutex *PIOS_Mutex_Create(void)
 	if (mtx == NULL)
 		return NULL;
 
-	mtx->mtx_handle = xSemaphoreCreateMutex();
+	mtx->mtx_handle = (uintptr_t)xSemaphoreCreateMutex();
 
 	return mtx;
 }
@@ -77,7 +82,7 @@ struct pios_recursive_mutex *PIOS_Recursive_Mutex_Create(void)
 	if (mtx == NULL)
 		return NULL;
 
-	mtx->mtx_handle = xSemaphoreCreateRecursiveMutex();
+	mtx->mtx_handle = (uintptr_t)xSemaphoreCreateRecursiveMutex();
 
 	return mtx;
 }
@@ -92,14 +97,14 @@ bool PIOS_Recursive_Mutex_Lock(struct pios_recursive_mutex *mtx, uint32_t timeou
 	else
 		timeout_ticks = MS2TICKS(timeout_ms);
 
-	return xSemaphoreTakeRecursive(mtx->mtx_handle, timeout_ticks) == pdTRUE;
+	return xSemaphoreTakeRecursive((xSemaphoreHandle)mtx->mtx_handle, timeout_ticks) == pdTRUE;
 }
 
 bool PIOS_Recursive_Mutex_Unlock(struct pios_recursive_mutex *mtx)
 {
 	PIOS_Assert(mtx != NULL);
 
-	return xSemaphoreGiveRecursive(mtx->mtx_handle) == pdTRUE;
+	return xSemaphoreGiveRecursive((xSemaphoreHandle)mtx->mtx_handle) == pdTRUE;
 }
 
 #endif
