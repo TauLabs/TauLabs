@@ -104,29 +104,94 @@ static void brushlessGimbalTask(void* parameters)
 	TIM15->CNT = 0;
 	TIM17->CNT = 0;
 
-	bool armed = false;
-	bool previous_armed = false;
+	enum gimbal_state {
+		POWERUP_DELAY,
+		ROLL_RIGHT,
+		ROLL_LEFT,
+		PITCH_UP,
+		PITCH_DOWN,
+		RUNNING
+	} gimbal_state = POWERUP_DELAY;
+
+	uint32_t raw_time = PIOS_DELAY_GetRaw();
+
+	const uint32_t POWERUP_TIME_US = 5e6; // wait 5 seconds to start moving
+	const uint32_t TEST_TIME_US = 2e6;    // move each direction half a second
+	const float    TEST_SPEED_DPS = 100;   // test at 100 deg/s
+
+	PIOS_Brushless_SetUpdateRate(60000);
+
 	while (1) {
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
 
 		// Wait until the ActuatorDesired object is updated
 		PIOS_Queue_Receive(queue, &ev, 1);
 
-		previous_armed = armed;
-		armed |= PIOS_Thread_Systime() > 10000;
+		BrushlessGimbalSettingsData settings;
+		BrushlessGimbalSettingsGet(&settings);
 
-		if (armed && !previous_armed) {
-			PIOS_Brushless_SetUpdateRate(60000);
+		bool stabilize = false;
+		switch(gimbal_state) {
+		case POWERUP_DELAY:
+			if (PIOS_DELAY_DiffuS(raw_time) > POWERUP_TIME_US) {
+				gimbal_state = ROLL_RIGHT;
+				raw_time = PIOS_DELAY_GetRaw();
+
+				PIOS_Brushless_SetUpdateRate(60000);
+				PIOS_Brushless_SetScale(settings.PowerScale[0], settings.PowerScale[1], settings.PowerScale[2]);
+
+				PIOS_Brushless_Lock(false);
+				PIOS_Brushless_SetPhaseLag(0, 0);
+				PIOS_Brushless_SetPhaseLag(1, 0);
+			}
+			break;
+		case ROLL_RIGHT:
+			if (PIOS_DELAY_DiffuS(raw_time) > TEST_TIME_US) {
+				gimbal_state = ROLL_LEFT;
+				raw_time = PIOS_DELAY_GetRaw();
+			} else {
+				PIOS_Brushless_SetSpeed(0, TEST_SPEED_DPS, 0.001f);
+				PIOS_Brushless_SetSpeed(1, 0, 0.001f);
+			}
+			break;
+		case ROLL_LEFT:
+			if (PIOS_DELAY_DiffuS(raw_time) > TEST_TIME_US) {
+				gimbal_state = PITCH_UP;
+				raw_time = PIOS_DELAY_GetRaw();
+			} else {
+				PIOS_Brushless_SetSpeed(0, -TEST_SPEED_DPS, 0.001f);
+				PIOS_Brushless_SetSpeed(1, 0, 0.001f);
+			}
+			break;
+		case PITCH_UP:
+			if (PIOS_DELAY_DiffuS(raw_time) > TEST_TIME_US) {
+				gimbal_state = PITCH_DOWN;
+				raw_time = PIOS_DELAY_GetRaw();
+			} else {
+				PIOS_Brushless_SetSpeed(0, 0, 0.001f);
+				PIOS_Brushless_SetSpeed(1, TEST_SPEED_DPS, 0.001f);
+			}
+			break;
+		case PITCH_DOWN:
+			if (PIOS_DELAY_DiffuS(raw_time) > TEST_TIME_US) {
+				gimbal_state = RUNNING;
+				raw_time = PIOS_DELAY_GetRaw();
+			} else {
+				PIOS_Brushless_SetSpeed(0, 0, 0.001f);
+				PIOS_Brushless_SetSpeed(1, -TEST_SPEED_DPS, 0.001f);
+			}
+			break;
+		case RUNNING:
+		default:
+			stabilize = true;
 		}
 
-		if (!armed)
+		// Only run this code when the power up sequence is complete
+		if (!stabilize)
 			continue;
 
 		CameraDesiredData cameraDesired;
 		CameraDesiredGet(&cameraDesired);
-
-		BrushlessGimbalSettingsData settings;
-		BrushlessGimbalSettingsGet(&settings);
 
 		bool locked = false;
 
