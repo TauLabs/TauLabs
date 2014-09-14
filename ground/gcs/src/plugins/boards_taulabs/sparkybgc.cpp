@@ -30,6 +30,7 @@
 #include <uavobjectmanager.h>
 #include "uavobjectutil/uavobjectutilmanager.h"
 #include <extensionsystem/pluginmanager.h>
+#include "sparkybgcconfiguration.h"
 
 #include "hwsparkybgc.h"
 
@@ -224,4 +225,17 @@ int SparkyBGC::queryMaxGyroRate()
     default:
         return 500;
     }
+}
+
+/**
+ * @brief SparkyBGC::getBoardConfiguration create the custom configuration
+ * dialog for SparkyBGC.
+ * @param parent
+ * @param connected
+ * @return
+ */
+QWidget * SparkyBGC::getBoardConfiguration(QWidget *parent, bool connected)
+{
+    Q_UNUSED(connected);
+    return new SparkyBgcConfiguration(parent);
 }
