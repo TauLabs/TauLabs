@@ -125,14 +125,18 @@ static void brushlessGimbalTask(void* parameters)
 		CameraDesiredData cameraDesired;
 		CameraDesiredGet(&cameraDesired);
 
+		BrushlessGimbalSettingsData settings;
+		BrushlessGimbalSettingsGet(&settings);
+
 		bool locked = false;
 
 		// If the frame is tilted by a large amount, lock the gimbal
-		locked |= fabsf(cameraDesired.Roll) > 55.0f || fabsf(cameraDesired.Pitch) > 55.0f;
+		locked |= fabsf(cameraDesired.Roll) > settings.MaxAngle[BRUSHLESSGIMBALSETTINGS_MAXANGLE_ROLL] ||
+		          fabsf(cameraDesired.Pitch) > settings.MaxAngle[BRUSHLESSGIMBALSETTINGS_MAXANGLE_PITCH];
 
 		// If the difference between the setpoint and the frame is too large, lock the gimbal
 		float pitch_setpoint = -cameraDesired.Declination;
-		locked |= circular_modulus_deg(cameraDesired.Pitch - pitch_setpoint) > 55.0f;
+		locked |= circular_modulus_deg(cameraDesired.Pitch - pitch_setpoint) > settings.MaxAngle[BRUSHLESSGIMBALSETTINGS_MAXANGLE_PITCH];
 
 		PIOS_Brushless_Lock(locked);
 
@@ -140,12 +144,6 @@ static void brushlessGimbalTask(void* parameters)
 
 			ActuatorDesiredData actuatorDesired;
 			ActuatorDesiredGet(&actuatorDesired);
-
-			// Set the rotation in electrical degrees per second.  Note these
-			// will be divided by the number of physical poles to get real
-			// mechanical degrees per second
-			BrushlessGimbalSettingsData settings;
-			BrushlessGimbalSettingsGet(&settings);
 
 			PIOS_Brushless_SetScale(settings.PowerScale[0], settings.PowerScale[1], settings.PowerScale[2]);
 			PIOS_Brushless_SetMaxAcceleration(settings.SlewLimit[0], settings.SlewLimit[1], settings.SlewLimit[2]);
