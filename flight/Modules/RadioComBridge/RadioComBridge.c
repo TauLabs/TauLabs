@@ -142,7 +142,7 @@ static int32_t RadioComBridgeInitialize(void)
 {
 
 	// allocate and initialize the static data storage only if module is enabled
-	data = (RadioComBridgeData *)pvPortMalloc(sizeof(RadioComBridgeData));
+	data = (RadioComBridgeData *)PIOS_malloc(sizeof(RadioComBridgeData));
 	if (!data)
 		return -1;
 

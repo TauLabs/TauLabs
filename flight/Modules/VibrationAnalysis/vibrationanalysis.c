@@ -154,7 +154,7 @@ static int32_t VibrationAnalysisStart(void)
 	
 	
 	// Allocate and initialize the static data storage only if module is enabled
-	vtd = (struct VibrationAnalysis_data *) pvPortMalloc(sizeof(struct VibrationAnalysis_data));
+	vtd = (struct VibrationAnalysis_data *) PIOS_malloc(sizeof(struct VibrationAnalysis_data));
 	if (vtd == NULL) {
 		module_enabled = false;
 		return -1;
@@ -170,24 +170,24 @@ static int32_t VibrationAnalysisStart(void)
 	vtd->num_upscale_bits = num_upscale_bits;
 	
 	// Allocate ouput vector
-	vtd->fft_output = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*(vtd->fft_output))));
+	vtd->fft_output = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*(vtd->fft_output))));
 	if (vtd->fft_output == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;
 	}
 	
 	//Create the buffers. They are in Q15 format.
-	vtd->accel_buffer_complex_x_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_x_q15)));
+	vtd->accel_buffer_complex_x_q15 = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_x_q15)));
 	if (vtd->accel_buffer_complex_x_q15 == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;
 	}
-	vtd->accel_buffer_complex_y_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_y_q15)));
+	vtd->accel_buffer_complex_y_q15 = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_y_q15)));
 	if (vtd->accel_buffer_complex_y_q15 == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;
 	}
-	vtd->accel_buffer_complex_z_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_z_q15)));
+	vtd->accel_buffer_complex_z_q15 = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_z_q15)));
 	if (vtd->accel_buffer_complex_z_q15 == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;

@@ -97,7 +97,7 @@ static struct ms5611_dev * PIOS_MS5611_alloc(void)
 {
 	struct ms5611_dev *ms5611_dev;
 
-	ms5611_dev = (struct ms5611_dev *)pvPortMalloc(sizeof(*ms5611_dev));
+	ms5611_dev = (struct ms5611_dev *)PIOS_malloc(sizeof(*ms5611_dev));
 	if (!ms5611_dev)
 		return (NULL);
 

@@ -5,6 +5,7 @@
  *
  * @file       startup.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      C based startup of F4
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -99,10 +100,17 @@ _main(void)
 /**
  * Default handler for CPU exceptions.
  */
+void **HARDFAULT_PSP;
+register void *stack_pointer asm("sp");
+
+
 static void
 default_cpu_handler(void)
 {
-	for (;;) ;
+    // Hijack the process stack pointer to make backtrace work
+    asm("mrs %0, psp" : "=r"(HARDFAULT_PSP) : :);
+    stack_pointer = HARDFAULT_PSP;
+    while(1);
 }
 
 /** Prototype for optional exception vector handlers */

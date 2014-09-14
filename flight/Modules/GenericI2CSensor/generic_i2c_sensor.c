@@ -94,7 +94,7 @@ static int32_t GenericI2CSensorInitialize(void)
 	case MODULESETTINGS_I2CVMPROGRAMSELECT_USER:
 		I2CVMUserProgramInitialize();
 		uint32_t * user_program;
-		user_program = pvPortMalloc(sizeof(((I2CVMUserProgramData *)0)->Program));
+		user_program = PIOS_malloc(sizeof(((I2CVMUserProgramData *)0)->Program));
 		if (!user_program) {
 			/* Failed to allocate sufficient memory for the user program */
 			return -1;

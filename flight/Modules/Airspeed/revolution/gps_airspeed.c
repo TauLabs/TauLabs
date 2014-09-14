@@ -7,7 +7,7 @@
  *
  * @file       gps_airspeed.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Use GPS data to estimate airspeed
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -63,7 +63,7 @@ static struct GPSGlobals *gps;
 void gps_airspeedInitialize()
 {
 	//This method saves memory in case we don't use the GPS module.
-	gps=(struct GPSGlobals *)pvPortMalloc(sizeof(struct GPSGlobals));
+	gps=(struct GPSGlobals *)PIOS_malloc(sizeof(struct GPSGlobals));
 	
 	//GPS airspeed calculation variables
 	GPSVelocityData gpsVelData;

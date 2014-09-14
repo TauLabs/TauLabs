@@ -231,7 +231,7 @@ static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, stru
 		}
 	}
     // Create handle
-	objEntry = (PeriodicObjectList*)pvPortMalloc(sizeof(PeriodicObjectList));
+	objEntry = (PeriodicObjectList*)PIOS_malloc(sizeof(PeriodicObjectList));
 	if (objEntry == NULL) return -1;
 	objEntry->evInfo.ev.obj = ev->obj;
 	objEntry->evInfo.ev.instId = ev->instId;

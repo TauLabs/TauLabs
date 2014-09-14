@@ -99,7 +99,7 @@ static int32_t uavoHoTTBridgeInitialize(void)
 		HoTTSettingsInitialize();
 
 		// allocate memory for telemetry data
-		telestate = (struct telemetrydata *)pvPortMalloc(sizeof(*telestate));
+		telestate = (struct telemetrydata *)PIOS_malloc(sizeof(*telestate));
 
 		if (telestate == NULL) {
 			// there is not enough free memory. the module could not run.

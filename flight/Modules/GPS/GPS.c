@@ -161,10 +161,10 @@ int32_t GPSInitialize(void)
 		ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
 		switch (gpsProtocol) {
 			case MODULESETTINGS_GPSDATAPROTOCOL_NMEA:
-				gps_rx_buffer = pvPortMalloc(NMEA_MAX_PACKET_LENGTH);
+				gps_rx_buffer = PIOS_malloc(NMEA_MAX_PACKET_LENGTH);
 				break;
 			case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
-				gps_rx_buffer = pvPortMalloc(sizeof(struct UBXPacket));
+				gps_rx_buffer = PIOS_malloc(sizeof(struct UBXPacket));
 				break;
 			default:
 				gps_rx_buffer = NULL;
