@@ -32,6 +32,7 @@
 
 #include "pios_semaphore.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 /* Private constants */
 #define LSM303_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
@@ -53,8 +54,8 @@ struct lsm303_dev {
 	uint8_t i2c_addr_mag;
 	enum pios_lsm303_accel_range accel_range;
 	enum pios_lsm303_mag_range mag_range;
-	xQueueHandle queue_accel;
-	xQueueHandle queue_mag;
+	struct pios_queue *queue_accel;
+	struct pios_queue *queue_mag;
 	struct pios_thread *TaskHandle;
 	struct pios_semaphore *data_ready_sema;
 	const struct pios_lsm303_cfg *cfg;
@@ -102,14 +103,14 @@ static struct lsm303_dev *PIOS_LSM303_alloc(void)
 
 	lsm303_dev->magic = PIOS_LSM303_DEV_MAGIC;
 
-	lsm303_dev->queue_accel = xQueueCreate(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
+	lsm303_dev->queue_accel = PIOS_Queue_Create(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
 	if (lsm303_dev->queue_accel == NULL) {
 		vPortFree(lsm303_dev);
 		return NULL;
 	}
 
-	lsm303_dev->queue_mag = xQueueCreate(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_mag_data));
+	lsm303_dev->queue_mag = PIOS_Queue_Create(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_mag_data));
 
 	if (lsm303_dev->queue_mag == NULL) {
 		vPortFree(lsm303_dev);
@@ -654,7 +655,7 @@ static void PIOS_LSM303_Task(void *parameters)
 			normalized_data.z = -data.accel_z * accel_scale;
 			normalized_data.temperature = 0;
 
-			xQueueSendToBack(pios_lsm303_dev->queue_accel, (void *)&normalized_data, 0);
+			PIOS_Queue_Send(pios_lsm303_dev->queue_accel, &normalized_data, 0);
 		}
 
 		/*
@@ -694,7 +695,7 @@ static void PIOS_LSM303_Task(void *parameters)
 
 				normalized_data.z = -data.mag_z * mag_scale_z;
 
-				xQueueSendToBack(pios_lsm303_dev->queue_mag, (void *)&normalized_data, 0);
+				PIOS_Queue_Send(pios_lsm303_dev->queue_mag, &normalized_data, 0);
 			}
 		}
 	}

@@ -160,7 +160,7 @@ bool PIOS_ADC_Available(uintptr_t adc_id, uint32_t device_pin)
  * \param[in] adc_id handle to the device
  * \param[in] data_queue handle to the queue to be used
  */
-void PIOS_ADC_SetQueue(uintptr_t adc_id, xQueueHandle data_queue)
+void PIOS_ADC_SetQueue(uintptr_t adc_id, struct pios_queue *data_queue)
 {
 	struct pios_adc_dev *adc_dev = (struct pios_adc_dev *) adc_id;
 

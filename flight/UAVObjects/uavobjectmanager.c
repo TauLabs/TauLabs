@@ -33,6 +33,7 @@
 #include "pios_struct_helper.h"
 #include "pios_heap.h"		/* PIOS_malloc_no_dma */
 #include "pios_mutex.h"
+#include "pios_queue.h"
 
 extern uintptr_t pios_uavo_settings_fs_id;
 
@@ -51,7 +52,7 @@ extern uintptr_t pios_uavo_settings_fs_id;
 typedef void* InstanceHandle; 
 
 struct ObjectEventEntry {
-	xQueueHandle              queue;
+	struct pios_queue         *queue;
 	UAVObjEventCallback       cb;
 	uint8_t                   eventMask;
 	struct ObjectEventEntry * next;
@@ -155,9 +156,9 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 			UAVObjEventType event);
 static InstanceHandle createInstance(struct UAVOData * obj, uint16_t instId);
 static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId);
-static int32_t connectObj(UAVObjHandle obj_handle, xQueueHandle queue,
+static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 			UAVObjEventCallback cb, uint8_t eventMask);
-static int32_t disconnectObj(UAVObjHandle obj_handle, xQueueHandle queue,
+static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 			UAVObjEventCallback cb);
 
 // Private variables
@@ -1499,7 +1500,7 @@ int8_t UAVObjReadOnly(UAVObjHandle obj_handle)
  * \param[in] eventMask The event mask, if EV_MASK_ALL_UPDATES then all events are enabled (e.g. EV_UPDATED | EV_UPDATED_MANUAL)
  * \return 0 if success or -1 if failure
  */
-int32_t UAVObjConnectQueue(UAVObjHandle obj_handle, xQueueHandle queue,
+int32_t UAVObjConnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue,
 			uint8_t eventMask)
 {
 	PIOS_Assert(obj_handle);
@@ -1517,7 +1518,7 @@ int32_t UAVObjConnectQueue(UAVObjHandle obj_handle, xQueueHandle queue,
  * \param[in] queue The event queue
  * \return 0 if success or -1 if failure
  */
-int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, xQueueHandle queue)
+int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue)
 {
 	PIOS_Assert(obj_handle);
 	PIOS_Assert(queue);
@@ -1653,7 +1654,7 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 			// Send to queue if a valid queue is registered
 			if (event->queue) {
 				// will not block
-				if (xQueueSend(event->queue, &msg, 0) != pdTRUE) {
+				if (PIOS_Queue_Send(event->queue, &msg, 0) != true) {
 					stats.lastQueueErrorID = UAVObjGetID(obj);
 					++stats.eventQueueErrors;
 				}
@@ -1662,7 +1663,7 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 			// Invoke callback (from event task) if a valid one is registered
 			if (event->cb) {
 				// invoke callback from the event task, will not block
-				if (EventCallbackDispatch(&msg, event->cb) != pdTRUE) {
+				if (EventCallbackDispatch(&msg, event->cb) != 0) {
 					++stats.eventCallbackErrors;
 					stats.lastCallbackErrorID = UAVObjGetID(obj);
 				}
@@ -1775,7 +1776,7 @@ static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId)
  * \param[in] eventMask The event mask, if EV_MASK_ALL_UPDATES then all events are enabled (e.g. EV_UPDATED | EV_UPDATED_MANUAL)
  * \return 0 if success or -1 if failure
  */
-static int32_t connectObj(UAVObjHandle obj_handle, xQueueHandle queue,
+static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 			UAVObjEventCallback cb, uint8_t eventMask)
 {
 	struct ObjectEventEntry *event;
@@ -1812,7 +1813,7 @@ static int32_t connectObj(UAVObjHandle obj_handle, xQueueHandle queue,
  * \param[in] cb The event callback
  * \return 0 if success or -1 if failure
  */
-static int32_t disconnectObj(UAVObjHandle obj_handle, xQueueHandle queue,
+static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 			UAVObjEventCallback cb)
 {
 	struct ObjectEventEntry *event;
@@ -1840,7 +1841,7 @@ static int32_t disconnectObj(UAVObjHandle obj_handle, xQueueHandle queue,
  * \param[in] queue The event queue
  * \return eventMask The event mask, if EV_MASK_ALL then all events are disabled
  */
-int32_t getEventMask(UAVObjHandle obj_handle, xQueueHandle queue)
+int32_t getEventMask(UAVObjHandle obj_handle, struct pios_queue *queue)
 {
 	struct ObjectEventEntry *event;
 	struct UAVOBase *obj;

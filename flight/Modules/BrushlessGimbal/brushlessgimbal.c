@@ -7,7 +7,7 @@
  * @{
  *
  * @file       brushlessgimbal.c
- * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013-2014
  * @brief      Drives the gimbal outputs
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -36,6 +36,7 @@
 #include "brushlessgimbalsettings.h"
 #include "gyros.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -52,7 +53,7 @@
 // Private types
 
 // Private variables
-static xQueueHandle queue;
+static struct pios_queue *queue;
 static struct pios_thread *taskHandle;
 
 // Private functions
@@ -80,7 +81,7 @@ static int32_t BrushlessGimbalInitialize()
 {
 	// Listen for ActuatorDesired updates (Primary input to this module)
 	ActuatorDesiredInitialize();
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 	ActuatorDesiredConnectQueue(queue);
 
 	BrushlessGimbalSettingsInitialize();
@@ -107,7 +108,7 @@ static void brushlessGimbalTask(void* parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
 
 		// Wait until the ActuatorDesired object is updated
-		xQueueReceive(queue, &ev, 1);
+		PIOS_Queue_Receive(queue, &ev, 1);
 
 		previous_armed = armed;
 		armed |= PIOS_Thread_Systime() > 10000;

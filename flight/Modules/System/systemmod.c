@@ -43,6 +43,7 @@
 #include "watchdogstatus.h"
 #include "taskmonitor.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 //#define DEBUG_THIS_FILE
 
@@ -76,7 +77,7 @@
 static uint32_t idleCounter;
 static uint32_t idleCounterClear;
 static struct pios_thread *systemTaskHandle;
-static xQueueHandle objectPersistenceQueue;
+static struct pios_queue *objectPersistenceQueue;
 static bool stackOverflow;
 
 // Private functions
@@ -128,7 +129,7 @@ int32_t SystemModInitialize(void)
 	WatchdogStatusInitialize();
 #endif
 
-	objectPersistenceQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	objectPersistenceQueue = PIOS_Queue_Create(1, sizeof(UAVObjEvent));
 	if (objectPersistenceQueue == NULL)
 		return -1;
 
@@ -226,7 +227,7 @@ static void systemTask(void *parameters)
 			SYSTEM_UPDATE_PERIOD_MS / (LED_BLINK_RATE_HZ * 2) :
 			SYSTEM_UPDATE_PERIOD_MS;
 
-		if(xQueueReceive(objectPersistenceQueue, &ev, delayTime) == pdTRUE) {
+		if (PIOS_Queue_Receive(objectPersistenceQueue, &ev, delayTime) == true) {
 			// If object persistence is updated call the callback
 			objectUpdatedCb(&ev);
 		}
@@ -551,7 +552,7 @@ void vApplicationIdleHook(void)
  * Called by the RTOS when a stack overflow is detected.
  */
 #define DEBUG_STACK_OVERFLOW 0
-void vApplicationStackOverflowHook(xTaskHandle * pxTask, signed portCHAR * pcTaskName)
+void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
 {
 	stackOverflow = true;
 #if DEBUG_STACK_OVERFLOW

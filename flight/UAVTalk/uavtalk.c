@@ -248,7 +248,7 @@ int32_t UAVTalkSendObjectTimestamped(UAVTalkConnection connectionHandle, UAVObjH
  */
 static int32_t objectTransaction(UAVTalkConnectionData *connection, UAVObjHandle obj, uint16_t instId, uint8_t type, int32_t timeoutMs)
 {
-	int32_t respReceived;
+	bool respReceived;
 	
 	// Send object depending on if a response is needed
 	if (type == UAVTALK_TYPE_OBJ_ACK || type == UAVTALK_TYPE_OBJ_ACK_TS || type == UAVTALK_TYPE_OBJ_REQ)
@@ -264,7 +264,7 @@ static int32_t objectTransaction(UAVTalkConnectionData *connection, UAVObjHandle
 		// Wait for response (or timeout)
 		respReceived = PIOS_Semaphore_Take(connection->respSema, timeoutMs);
 		// Check if a response was received
-		if (respReceived == pdFALSE)
+		if (respReceived == false)
 		{
 			// Cancel transaction
 			PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);

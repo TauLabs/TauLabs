@@ -33,6 +33,7 @@
 #include "pios.h"
 #include "physical_constants.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 // UAVOs
 #include "accels.h"
@@ -100,7 +101,7 @@ static enum mag_calibration_algo mag_calibration_algo = MAG_CALIBRATION_PRELEMAR
 
 /**
  * API for sensor fusion algorithms:
- * Configure(xQueueHandle gyro, xQueueHandle accel, xQueueHandle mag, xQueueHandle baro)
+ * Configure(struct pios_queue *gyro, struct pios_queue *accel, struct pios_queue *mag, struct pios_queue *baro)
  *   Stores all the queues the algorithm will pull data from
  * FinalizeSensors() -- before saving the sensors modifies them based on internal state (gyro bias)
  * Update() -- queries queues and updates the attitude estiamte
@@ -183,15 +184,15 @@ static void SensorsTask(void *parameters)
 		uint32_t timeval = PIOS_DELAY_GetRaw();
 
 		//Block on gyro data but nothing else
-		xQueueHandle queue;
+		struct pios_queue *queue;
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_GYRO);
-		if(queue == NULL || xQueueReceive(queue, (void *) &gyros, SENSOR_PERIOD) == errQUEUE_EMPTY) {
+		if (queue == NULL || PIOS_Queue_Receive(queue, &gyros, SENSOR_PERIOD) == false) {
 			good_runs = 0;
 			continue;
 		}
 
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_ACCEL);
-		if(queue == NULL || xQueueReceive(queue, (void *) &accels, 0) == errQUEUE_EMPTY) {
+		if (queue == NULL || PIOS_Queue_Receive(queue, &accels, 0) == false) {
 			//If no new accels data is ready, reuse the latest sample
 			AccelsSet(&accelsData);
 		}
@@ -203,12 +204,12 @@ static void SensorsTask(void *parameters)
 		update_gyros(&gyros);
 
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG);
-		if(queue != NULL && xQueueReceive(queue, (void *) &mags, 0) != errQUEUE_EMPTY) {
+		if (queue != NULL && PIOS_Queue_Receive(queue, &mags, 0) != false) {
 			update_mags(&mags);
 		}
 
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_BARO);
-		if (queue != NULL && xQueueReceive(queue, (void *) &baro, 0) != errQUEUE_EMPTY) {
+		if (queue != NULL && PIOS_Queue_Receive(queue, &baro, 0) != false) {
 			update_baro(&baro);
 		}
 

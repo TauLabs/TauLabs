@@ -29,6 +29,7 @@
 
 #include "pios.h"
 #include <pios_internal_adc_priv.h>
+#include "pios_queue.h"
 
 // Private functions
 static void PIOS_INTERNAL_ADC_downsample_data(uint32_t internal_adc_id);
@@ -37,7 +38,7 @@ static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev *);
 static void PIOS_INTERNAL_ADC_Config(uint32_t internal_adc_id, uint32_t oversampling);
 static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
 #if defined(PIOS_INCLUDE_FREERTOS)
-static void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queue);
+static void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, struct pios_queue *data_queue);
 #endif
 static uint8_t PIOS_INTERNAL_ADC_Number_of_Channels(uint32_t internal_adc_id);
 static bool PIOS_INTERNAL_ADC_Available(uint32_t adc_id, uint32_t device_pin);
@@ -59,7 +60,7 @@ struct pios_internal_adc_dev {
 	const struct pios_internal_adc_cfg * cfg;
 	ADCCallback callback_function;
 #if defined(PIOS_INCLUDE_FREERTOS)
-	xQueueHandle data_queue;
+	struct pios_queue *data_queue;
 #endif
 	volatile int16_t *valid_data_buffer;
 	volatile uint8_t adc_oversample;
@@ -296,7 +297,7 @@ static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
  * @brief Register a queue to add data to when downsampled 
  * \param[in] internal_adc_id handle to the device
  */
-static void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, xQueueHandle data_queue)
+static void PIOS_INTERNAL_ADC_SetQueue(uint32_t internal_adc_id, struct pios_queue *data_queue)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
 	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
@@ -333,9 +334,9 @@ static void PIOS_INTERNAL_ADC_downsample_data(uint32_t internal_adc_id)
 	
 #if defined(PIOS_INCLUDE_FREERTOS)
 	if(adc_dev->data_queue) {
-		static portBASE_TYPE xHigherPriorityTaskWoken;
-		xQueueSendFromISR(adc_dev->data_queue, adc_dev->downsampled_buffer, &xHigherPriorityTaskWoken);
-		portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);		
+		bool woken = false;
+		PIOS_Queue_Send_FromISR(adc_dev->data_queue, adc_dev->downsampled_buffer, &woken);
+		portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
 	}
 #endif
 	if(adc_dev->callback_function)

@@ -46,6 +46,7 @@
 
 #include "pios_rcvr_priv.h"
 #include "pios_gcsrcvr_priv.h"
+#include "pios_queue.h"
 
 void Stack_Change() {
 }
@@ -235,10 +236,10 @@ void PIOS_Board_Init(void) {
 	// Register fake address.  Later if we really fake entire sensors then
 	// it will make sense to have real queues registered.  For now if these
 	// queues are used a crash is appropriate.
-	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, (xQueueHandle) 1);
-	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, (xQueueHandle) 1);
-	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, (xQueueHandle) 1);
-	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, (xQueueHandle) 1);
+	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, (struct pios_queue*)1);
+	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, (struct pios_queue*)1);
+	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, (struct pios_queue*)1);
+	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, (struct pios_queue*)1);
 }
 
 /**

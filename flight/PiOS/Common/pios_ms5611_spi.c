@@ -37,6 +37,7 @@
 #include "pios_ms5611_priv.h"
 #include "pios_semaphore.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 /* Private constants */
 #define PIOS_MS5611_OVERSAMPLING oversampling
@@ -76,7 +77,7 @@ struct ms5611_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;
 	struct pios_thread *task;
-	xQueueHandle queue;
+	struct pios_queue *queue;
 
 	int64_t pressure_unscaled;
 	int64_t temperature_unscaled;
@@ -102,7 +103,7 @@ static struct ms5611_dev * PIOS_MS5611_alloc(void)
 
 	memset(ms5611_dev, 0, sizeof(*ms5611_dev));
 
-	ms5611_dev->queue = xQueueCreate(1, sizeof(struct pios_sensor_baro_data));
+	ms5611_dev->queue = PIOS_Queue_Create(1, sizeof(struct pios_sensor_baro_data));
 	if (ms5611_dev->queue == NULL) {
 		vPortFree(ms5611_dev);
 		return NULL;
@@ -473,7 +474,7 @@ static void PIOS_MS5611_Task(void *parameters)
 		data.pressure = ((float) dev->pressure_unscaled) / 1000.0f;
 		data.altitude = 44330.0f * (1.0f - powf(data.pressure / MS5611_P0, (1.0f / 5.255f)));
 
-		xQueueSend(dev->queue, (void*)&data, 0);
+		PIOS_Queue_Send(dev->queue, &data, 0);
 	}
 }
 

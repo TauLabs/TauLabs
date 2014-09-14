@@ -36,6 +36,7 @@
 
 #include "pios_semaphore.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 /* Private constants */
 #define HMC5983_TASK_PRIORITY        PIOS_THREAD_PRIO_HIGHEST
@@ -53,7 +54,7 @@ struct hmc5983_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;
 	const struct pios_hmc5983_cfg *cfg;
-	xQueueHandle queue;
+	struct pios_queue *queue;
 	struct pios_thread *task;
 	struct pios_semaphore *data_ready_sema;
 	enum pios_hmc5983_dev_magic magic;
@@ -80,7 +81,7 @@ static struct hmc5983_dev *PIOS_HMC5983_alloc(void) {
 
 	hmc5983_dev->magic = PIOS_HMC5983_DEV_MAGIC;
 
-	hmc5983_dev->queue = xQueueCreate(PIOS_HMC5983_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
+	hmc5983_dev->queue = PIOS_Queue_Create(PIOS_HMC5983_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
 	if (hmc5983_dev->queue == NULL) {
 		vPortFree(hmc5983_dev);
 		return NULL;
@@ -92,7 +93,7 @@ static struct hmc5983_dev *PIOS_HMC5983_alloc(void) {
 		return NULL;
 	}
 
-	return(hmc5983_dev);
+	return hmc5983_dev;
 }
 
 /**
@@ -523,7 +524,7 @@ static void PIOS_HMC5983_Task(void *parameters)
 
 		struct pios_sensor_mag_data mag_data;
 		if (PIOS_HMC5983_ReadMag(&mag_data) == 0)
-			xQueueSend(dev->queue, (void *)&mag_data, 0);
+			PIOS_Queue_Send(dev->queue, &mag_data, 0);
 	}
 }
 

@@ -48,6 +48,7 @@
 #include "coordinate_conversions.h"
 #include <pios_board_info.h>
 #include "pios_thread.h"
+#include "pios_queue.h"
  
 // Private constants
 #define STACK_SIZE_BYTES 580
@@ -72,7 +73,7 @@ static SensorSettingsData sensorSettings;
 static void AttitudeTask(void *parameters);
 
 static float gyro_correct_int[3] = {0,0,0};
-static xQueueHandle gyro_queue;
+static struct pios_queue *gyro_queue;
 
 static int32_t updateSensors(AccelsData *, GyrosData *);
 static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData);
@@ -197,7 +198,7 @@ static void AttitudeTask(void *parameters)
 	if (!cc3d) {
 #if defined(PIOS_INCLUDE_ADC)
 		// Create queue for passing gyro data, allow 2 back samples in case
-		gyro_queue = xQueueCreate(1, sizeof(float) * 4);
+		gyro_queue = PIOS_Queue_Create(1, sizeof(float) * 4);
 		PIOS_Assert(gyro_queue != NULL);
 		PIOS_ADC_SetQueue(PIOS_INTERNAL_ADC,gyro_queue);
 
@@ -324,7 +325,7 @@ static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
 	float gyro[4];
 	
 	// Only wait the time for two nominal updates before setting an alarm
-	if(xQueueReceive(gyro_queue, (void * const) gyro, PIOS_INTERNAL_ADC_UPDATE_RATE * 2) == errQUEUE_EMPTY) {
+	if (PIOS_Queue_Receive(gyro_queue, (void * const) gyro, PIOS_INTERNAL_ADC_UPDATE_RATE * 2) == false) {
 		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR);
 		return -1;
 	}
@@ -387,17 +388,17 @@ static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
 {
 	struct pios_sensor_gyro_data gyros;
 	struct pios_sensor_accel_data accels;
-	xQueueHandle queue;
+	struct pios_queue *queue;
 
 	queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_GYRO);
-	if(queue == NULL || xQueueReceive(queue, (void *) &gyros, 4) == errQUEUE_EMPTY) {
+	if(queue == NULL || PIOS_Queue_Receive(queue, (void *) &gyros, 4) == false) {
 		return-1;
 	}
 
 	// As it says below, because the rest of the code expects the accel to be ready when
 	// the gyro is we must block here too
 	queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_ACCEL);
-	if(queue == NULL || xQueueReceive(queue, (void *) &accels, 1) == errQUEUE_EMPTY) {
+	if(queue == NULL || PIOS_Queue_Receive(queue, (void *) &accels, 1) == false) {
 		return -1;
 	}
 	else

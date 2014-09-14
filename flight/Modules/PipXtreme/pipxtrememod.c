@@ -220,7 +220,7 @@ void vApplicationIdleHook(void)
  * Called by the RTOS when a stack overflow is detected.
  */
 #define DEBUG_STACK_OVERFLOW 0
-void vApplicationStackOverflowHook(xTaskHandle * pxTask, signed portCHAR * pcTaskName)
+void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
 {
 	stackOverflow = true;
 #if DEBUG_STACK_OVERFLOW

@@ -38,6 +38,7 @@
 #include "pios_mpu60x0.h"
 #include "pios_semaphore.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 /* Private constants */
 #define MPU9150_TASK_PRIORITY		PIOS_THREAD_PRIO_HIGHEST
@@ -67,9 +68,9 @@ struct mpu9150_dev {
 	uint8_t i2c_addr;
 	enum pios_mpu60x0_accel_range accel_range;
 	enum pios_mpu60x0_range gyro_range;
-	xQueueHandle gyro_queue;
-	xQueueHandle accel_queue;
-	xQueueHandle mag_queue;
+	struct pios_queue *gyro_queue;
+	struct pios_queue *accel_queue;
+	struct pios_queue *mag_queue;
 	struct pios_thread *TaskHandle;
 	struct pios_semaphore *data_ready_sema;
 	const struct pios_mpu60x0_cfg * cfg;
@@ -103,19 +104,19 @@ static struct mpu9150_dev * PIOS_MPU9150_alloc(void)
 	
 	mpu9150_dev->magic = PIOS_MPU9150_DEV_MAGIC;
 	
-	mpu9150_dev->accel_queue = xQueueCreate(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
+	mpu9150_dev->accel_queue = PIOS_Queue_Create(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
 	if (mpu9150_dev->accel_queue == NULL) {
 		vPortFree(mpu9150_dev);
 		return NULL;
 	}
 
-	mpu9150_dev->gyro_queue = xQueueCreate(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
+	mpu9150_dev->gyro_queue = PIOS_Queue_Create(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_gyro_data));
 	if (mpu9150_dev->gyro_queue == NULL) {
 		vPortFree(mpu9150_dev);
 		return NULL;
 	}
 
-	mpu9150_dev->mag_queue = xQueueCreate(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
+	mpu9150_dev->mag_queue = PIOS_Queue_Create(PIOS_MPU9150_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
 	if (mpu9150_dev->mag_queue == NULL) {
 		vPortFree(mpu9150_dev);
 		return NULL;
@@ -127,7 +128,7 @@ static struct mpu9150_dev * PIOS_MPU9150_alloc(void)
 		return NULL;
 	}
 
-	return(mpu9150_dev);
+	return mpu9150_dev;
 }
 
 /**
@@ -756,8 +757,8 @@ static void PIOS_MPU9150_Task(void *parameters)
 		gyro_data.z *= gyro_scale;
 		gyro_data.temperature = temperature;
 
-		xQueueSendToBack(dev->accel_queue, (void *)&accel_data, 0);
-		xQueueSendToBack(dev->gyro_queue, (void *)&gyro_data, 0);
+		PIOS_Queue_Send(dev->accel_queue, &accel_data, 0);
+		PIOS_Queue_Send(dev->gyro_queue, &gyro_data, 0);
 
 		// Check for mag data ready.  Reading it clears this flag.
 		if (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_STATUS) > 0) {
@@ -815,7 +816,7 @@ static void PIOS_MPU9150_Task(void *parameters)
 				// Trigger another measurement
 				PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01);
 
-				xQueueSendToBack(dev->mag_queue, (void *) &mag_data, 0);
+				PIOS_Queue_Send(dev->mag_queue, &mag_data, 0);
 			}
 		}
 

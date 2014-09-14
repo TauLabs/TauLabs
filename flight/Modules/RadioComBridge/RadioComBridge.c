@@ -40,6 +40,7 @@
 #include <pios_rfm22b.h>
 #include <ecc.h>
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 #include <stdbool.h>
 
@@ -70,8 +71,8 @@ typedef struct {
 	UAVTalkConnection inUAVTalkCon;
 
 	// Queue handles.
-	xQueueHandle gcsEventQueue;
-	xQueueHandle uavtalkEventQueue;
+	struct pios_queue *gcsEventQueue;
+	struct pios_queue *uavtalkEventQueue;
 
 	// Error statistics.
 	uint32_t comTxErrors;
@@ -90,7 +91,7 @@ static void radioTxTask(void *parameters);
 static int32_t UAVTalkSendHandler(uint8_t *buf, int32_t length);
 static int32_t RadioSendHandler(uint8_t *buf, int32_t length);
 static void ProcessInputStream(UAVTalkConnection connectionHandle, uint8_t rxbyte);
-static void queueEvent(xQueueHandle queue, void *obj, uint16_t instId, UAVObjEventType type);
+static void queueEvent(struct pios_queue *queue, void *obj, uint16_t instId, UAVObjEventType type);
 static void configureComCallback(OPLinkSettingsOutputConnectionOptions com_port, OPLinkSettingsComSpeedOptions com_speed);
 static void updateSettings();
 
@@ -155,7 +156,7 @@ static int32_t RadioComBridgeInitialize(void)
 	data->inUAVTalkCon = UAVTalkInitialize(&RadioSendHandler);
 
 	// Initialize the queues.
-	data->uavtalkEventQueue = xQueueCreate(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
+	data->uavtalkEventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 	// Configure our UAVObjects for updates.
 	UAVObjConnectQueue(UAVObjGetByID(OPLINKSTATUS_OBJID), data->uavtalkEventQueue, EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
@@ -183,7 +184,7 @@ static void telemetryTxTask(void *parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_TELEMETRY);
 #endif
 		// Wait for queue message
-		if (xQueueReceive(data->uavtalkEventQueue, &ev, MAX_PORT_DELAY) == pdTRUE) {
+		if (PIOS_Queue_Receive(data->uavtalkEventQueue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
 			if ((ev.event == EV_UPDATED) || (ev.event == EV_UPDATE_REQ))
 			{
 				// Send update (with retries)
@@ -405,13 +406,13 @@ static void ProcessInputStream(UAVTalkConnection connectionHandle, uint8_t rxbyt
  * \param[in] obj  The data pointer
  * \param[in] type The event type
  */
-static void queueEvent(xQueueHandle queue, void *obj, uint16_t instId, UAVObjEventType type)
+static void queueEvent(struct pios_queue *queue, void *obj, uint16_t instId, UAVObjEventType type)
 {
 	UAVObjEvent ev;
 	ev.obj = (UAVObjHandle)obj;
 	ev.instId = instId;
 	ev.event = type;
-	xQueueSend(queue, &ev, portMAX_DELAY);
+	PIOS_Queue_Send(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX);
 }
 
 /**

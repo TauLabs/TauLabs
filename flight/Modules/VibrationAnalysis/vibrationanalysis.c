@@ -41,6 +41,7 @@
 #include "physical_constants.h"
 #include "arm_math.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 #include "accels.h"
 #include "modulesettings.h"
@@ -66,7 +67,7 @@
 
 // Private variables
 static struct pios_thread *taskHandle;
-static xQueueHandle queue;
+static struct pios_queue *queue;
 static bool module_enabled = false;
 
 static struct VibrationAnalysis_data {
@@ -226,7 +227,7 @@ static int32_t VibrationAnalysisInitialize(void)
 	VibrationAnalysisOutputInitialize();
 		
 	// Create object queue
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 		
 	return 0;
 	
@@ -294,7 +295,7 @@ static void VibrationAnalysisTask(void *parameters)
 		}
 		
 		// Wait until the Accels object is updated, and never time out
-		if ( xQueueReceive(queue, &ev, portMAX_DELAY) == pdTRUE )
+		if (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true)
 		{
 			/**
 			 * Accumulate accelerometer data. This would be a great place to add a 
