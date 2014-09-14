@@ -408,7 +408,7 @@ static void updateStats()
 	// POSIX port of FreeRTOS doesn't have xPortGetFreeHeapSize()
 	stats.HeapRemaining = 10240;
 #else
-	stats.HeapRemaining = xPortGetFreeHeapSize();
+	stats.HeapRemaining = PIOS_heap_get_free_size();
 #endif
 
 	// Get Irq stack status
