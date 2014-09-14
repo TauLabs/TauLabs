@@ -151,12 +151,6 @@ void PIOS_SYS_Init(void)
 */
 int32_t PIOS_SYS_Reset(void)
 {
-	/* Disable all RTOS tasks */
-#if defined(PIOS_INCLUDE_FREERTOS)
-	/* port specific FreeRTOS function to disable tasks (nested) */
-	portENTER_CRITICAL();
-#endif
-
 	// disable all interrupts
 	PIOS_IRQ_Disable();
 
