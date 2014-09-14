@@ -52,6 +52,10 @@
 
 #if defined(PIOS_INCLUDE_RFM22B)
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 #include <pios_spi_priv.h>
 #include <packet_handler.h>
 #include <pios_rfm22b_priv.h>
@@ -649,7 +653,9 @@ void PIOS_RFM22B_InjectEvent(struct pios_rfm22b_dev *rfm22b_dev, enum pios_rfm22
 			// Something went fairly seriously wrong
 			rfm22b_dev->errors++;
 		}
-		portEND_SWITCHING_ISR(woken == true ? pdTRUE : pdFALSE);
+#if defined(PIOS_INCLUDE_FREERTOS)
+		portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 	}
 	else
 	{

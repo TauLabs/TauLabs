@@ -47,6 +47,10 @@
 
 #if defined(PIOS_INCLUDE_ADC)
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 #include "pios_queue.h"
 
 #if !defined(PIOS_ADC_MAX_SAMPLES)

@@ -31,6 +31,10 @@
 #include <pios_internal_adc_priv.h>
 #include "pios_queue.h"
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 // Private functions
 static void PIOS_INTERNAL_ADC_downsample_data(uint32_t internal_adc_id);
 static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate();

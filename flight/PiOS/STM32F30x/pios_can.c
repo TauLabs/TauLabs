@@ -33,6 +33,10 @@
 
 #if defined(PIOS_INCLUDE_CAN)
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 #include "pios_can_priv.h"
 
 /* Provide a COM driver */
@@ -235,7 +239,9 @@ void CAN1_RX1_IRQHandler(void)
 		(void) (can_dev->rx_in_cb)(can_dev->rx_in_context, RxMessage.Data, RxMessage.DLC, NULL, &rx_need_yield);
 	}
 
-	portEND_SWITCHING_ISR(rx_need_yield);
+#if defined(PIOS_INCLUDE_FREERTOS)
+	portEND_SWITCHING_ISR(rx_need_yield ? pdTRUE : pdFALSE);
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 }
 
 /**
@@ -270,7 +276,9 @@ void USB_HP_CAN1_TX_IRQHandler(void)
 		// TODO: deal with failure to send and keep the message to retransmit
 	}
 	
-	portEND_SWITCHING_ISR(tx_need_yield);
+#if defined(PIOS_INCLUDE_FREERTOS)
+	portEND_SWITCHING_ISR(tx_need_yield ? pdTRUE : pdFALSE);
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 }
 
 #endif /* PIOS_INCLUDE_CAN */
