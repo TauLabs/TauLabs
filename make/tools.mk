@@ -23,6 +23,13 @@ endif
 
 # Set up QT toolchain
 QT_SDK_DIR := $(TOOLS_DIR)/Qt5.3.1
+ifdef LINUX
+  ifdef AMD64
+    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.3/gcc_64/plugins
+  else
+    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.3/gcc/plugins
+  endif
+endif
 
 # Build openocd without FTDI (yes | no)
 OPENOCD_FTDI ?= yes
