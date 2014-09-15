@@ -991,6 +991,9 @@ endif
 .PHONY: package
 package:
 	$(V1) cd $@ && $(MAKE) --no-print-directory $@
+	
+linux_standalone:
+	$(V1) cd package && $(MAKE) --no-print-directory $@ QT_PLUGINS_DIR="$(QT_PLUGINS_DIR)"
 
 .PHONY: package_resources
 package_resources:
