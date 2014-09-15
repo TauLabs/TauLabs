@@ -47,7 +47,7 @@ struct pios_can_gimbal_message {
 	int8_t setpoint_roll;
 	int8_t setpoint_pitch;
 	uint8_t setpoint_yaw;
-};
+} __attribute__((packed));
 
 //! Transmit a data message with a particular message ID
 int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages, uint8_t *data);
