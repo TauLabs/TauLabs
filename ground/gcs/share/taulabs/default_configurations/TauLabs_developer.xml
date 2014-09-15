@@ -2347,7 +2347,7 @@
             <side0>
               <classId>ModelViewGadget</classId>
               <gadget>
-                <activeConfiguration>Test Quad X</activeConfiguration>
+                <activeConfiguration>Gemini</activeConfiguration>
               </gadget>
               <type>uavGadget</type>
             </side0>
