@@ -488,7 +488,7 @@ static void stabilizationTask(void* parameters)
 						rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
 
 						// Compute the inner loop
-						actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
+						actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT, pidScale);
 						actuatorDesiredAxis[i] += ident_offsets[i];
 						actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 					} else {
@@ -496,7 +496,7 @@ static void stabilizationTask(void* parameters)
 						rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
 
 						// Compute the inner loop only for yaw
-						actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
+						actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT, pidScale);
 						actuatorDesiredAxis[i] += ident_offsets[i];
 						actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);						
 					}

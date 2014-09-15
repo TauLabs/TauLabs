@@ -1,6 +1,6 @@
 BOARD_TYPE          := 0x8A
 BOARD_REVISION      := 0x01
-BOOTLOADER_VERSION  := 0x81
+BOOTLOADER_VERSION  := 0x82
 HW_TYPE             := 0x00		# seems to be unused
 
 MCU                 := cortex-m4

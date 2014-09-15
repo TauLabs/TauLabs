@@ -50,7 +50,6 @@ OPTMODULES += CameraStab
 OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += VibrationAnalysis
-OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
@@ -59,6 +58,7 @@ OPTMODULES += UAVOHoTTBridge
 OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += PicoC
+OPTMODULES += Geofence
 OPTMODULES += OnScreenDisplay
 
 # Paths
