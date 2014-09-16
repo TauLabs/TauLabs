@@ -24,19 +24,33 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "taulinkgadgetwidget.h"
+#include "tllinkstatus.h"
 #include "ui_taulink.h"
 
-#include <QDebug>
-#include <QStringList>
-#include <QWidget>
-#include <QTextEdit>
-#include <QVBoxLayout>
-#include <QPushButton>
-
-TauLinkGadgetWidget::TauLinkGadgetWidget(QWidget *parent) : QLabel(parent)
+TauLinkGadgetWidget::TauLinkGadgetWidget(QWidget *parent) : ConfigTaskWidget(parent)
 {
     ui = new Ui_TauLink();
     ui->setupUi(this);
+
+    autoLoadWidgets();
+
+    addUAVObjectToWidgetRelation("TLLinkStatus", "RxGood", ui->Good);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "RxCorrected", ui->Corrected);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "RxErrors", ui->Errors);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "RxMissed", ui->Missed);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "RxFailure", ui->RxFailure);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "UAVTalkErrors", ui->UAVTalkErrors);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "TxDropped", ui->Dropped);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "TxResent", ui->Resent);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "TxFailure", ui->TxFailure);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "Resets", ui->Resets);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "Timeouts", ui->Timeouts);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "RSSI", ui->RSSI);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "LinkQuality", ui->LinkQuality);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "RXSeq", ui->RXSeq);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "TXSeq", ui->TXSeq);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "RXRate", ui->RXRate);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "TXRate", ui->TXRate);
 }
 
 TauLinkGadgetWidget::~TauLinkGadgetWidget()

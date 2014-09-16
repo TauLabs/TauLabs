@@ -26,16 +26,14 @@
 #ifndef TAULINKGADGETWIDGET_H_
 #define TAULINKGADGETWIDGET_H_
 
-#include <QLabel>
 #include "extensionsystem/pluginmanager.h"
-#include "scope/scopeplugin.h"
-#include "scope/scopegadgetfactory.h"
-
+#include "configtaskwidget.h"
+#include "ui_taulink.h"
 
 class Ui_TauLink;
 class TauLinkPlugin;
 
-class TauLinkGadgetWidget : public QLabel
+class TauLinkGadgetWidget : public ConfigTaskWidget
 {
     Q_OBJECT
 
