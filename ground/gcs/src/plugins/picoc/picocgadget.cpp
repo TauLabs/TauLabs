@@ -1,12 +1,12 @@
 /**
  ******************************************************************************
- *
- * @file       uavobjectgeneratorpython.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      produce python code for uavobjects
- *
- * @see        The GNU Public License (GPL) Version 3
- *
+ * @file       picocgadget.cpp
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup PicoCGadgetPlugin PicoC Gadget Plugin
+ * @{
+ * @brief A gadget to edit PicoC scripts
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -23,23 +23,17 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#include "picocgadget.h"
+#include "picocgadgetwidget.h"
 
-#ifndef UAVOBJECTGENERATORPYTHON_H
-#define UAVOBJECTGENERATORPYTHON_H
-
-#include "../generator_common.h"
-
-class UAVObjectGeneratorPython
+PicoCGadget::PicoCGadget(QString classId, PicoCGadgetWidget *widget, QWidget *parent) :
+        IUAVGadget(classId, parent),
+        m_widget(widget)
 {
-public:
-    bool generate(UAVObjectParser* gen,QString templatepath,QString outputpath);
+    // Do nothing
+}
 
-private:
-    bool process_object(ObjectInfo* info);
-
-    QString pythonCodeTemplate;
-    QDir pythonCodePath;
-    QDir pythonOutputPath;
-};
-
-#endif
+PicoCGadget::~PicoCGadget()
+{
+    delete m_widget;
+}

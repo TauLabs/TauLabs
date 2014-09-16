@@ -31,17 +31,17 @@
 
 /* Project Includes */
 #include "pios.h"
-#include "pios_semaphore.h"
-#include "physical_constants.h"
 
 #if defined(PIOS_INCLUDE_MPU9250_SPI)
 
+#include "physical_constants.h"
 #include "pios_mpu9250.h"
-
+#include "pios_semaphore.h"
+#include "pios_thread.h"
 
 /* Private constants */
-#define MPU9250_TASK_PRIORITY   (tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define MPU9250_TASK_STACK      (512 / 4)
+#define MPU9250_TASK_PRIORITY    PIOS_THREAD_PRIO_HIGHEST
+#define MPU9250_TASK_STACK_BYTES 512
 #define PIOS_MPU9250_MAX_DOWNSAMPLE 2
 
 #define MPU9250_WHOAMI_ID       0x71
@@ -83,7 +83,7 @@ struct mpu9250_dev {
 	xQueueHandle gyro_queue;
 	xQueueHandle accel_queue;
 	xQueueHandle mag_queue;
-	xTaskHandle TaskHandle;
+	struct pios_thread *TaskHandle;
 	struct pios_semaphore *data_ready_sema;
 	const struct pios_mpu9250_cfg *cfg;
 	enum pios_mpu9250_gyro_filter gyro_filter;
@@ -416,10 +416,9 @@ int32_t PIOS_MPU9250_SPI_Init(uint32_t spi_id, uint32_t slave_num, const struct 
 		return -10;
 	}
 
-	int result = xTaskCreate(PIOS_MPU9250_Task, (const signed char *)"PIOS_MPU9250_Task",
-						 MPU9250_TASK_STACK, NULL, MPU9250_TASK_PRIORITY,
-						 &dev->TaskHandle);
-	PIOS_Assert(result == pdPASS);
+	dev->TaskHandle = PIOS_Thread_Create(
+			PIOS_MPU9150_Task, "pios_mpu9250", MPU9250_TASK_STACK_BYTES, NULL, MPU9250_TASK_PRIORITY);
+	PIOS_Assert(dev->TaskHandle != NULL);
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, dev->accel_queue);
 	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, dev->gyro_queue);

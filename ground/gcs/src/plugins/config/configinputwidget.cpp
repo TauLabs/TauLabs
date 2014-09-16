@@ -133,7 +133,6 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     m_config->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     m_renderer = new QSvgRenderer();
     QGraphicsScene *l_scene = m_config->graphicsView->scene();
-    m_config->graphicsView->setBackgroundBrush(QBrush(Utils::StyleHelper::baseColor()));
     if (QFile::exists(":/configgadget/images/TX2.svg") && m_renderer->load(QString(":/configgadget/images/TX2.svg")) && m_renderer->isValid())
     {
         l_scene->clear(); // Deletes all items contained in the scene as well.
@@ -263,6 +262,7 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
         m_txAccess2->setTransform(m_txAccess2Orig,true);
     }
     m_config->graphicsView->fitInView(m_txMainBody, Qt::KeepAspectRatio );
+    m_config->graphicsView->setStyleSheet("background: transparent");
     animate=new QTimer(this);
     connect(animate,SIGNAL(timeout()),this,SLOT(moveTxControls()));
 
@@ -409,6 +409,9 @@ void ConfigInputWidget::wzNext()
         wizardSetUpStep(wizardIdentifyInverted);
         break;
     case wizardIdentifyInverted:
+        wizardSetUpStep(wizardVerifyFailsafe);
+        break;
+    case wizardVerifyFailsafe:
         wizardSetUpStep(wizardFinish);
         break;
     case wizardFinish:
@@ -453,8 +456,11 @@ void ConfigInputWidget::wzBack()
     case wizardIdentifyInverted:
         wizardSetUpStep(wizardIdentifyLimits);
         break;
-    case wizardFinish:
+    case wizardVerifyFailsafe:
         wizardSetUpStep(wizardIdentifyInverted);
+        break;
+    case wizardFinish:
+        wizardSetUpStep(wizardVerifyFailsafe);
         break;
     default:
         Q_ASSERT(0);
@@ -495,6 +501,8 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
                                      "You can press 'back' at any time to return to the previous screeen or press 'Cancel' to quit the wizard.\n"));
         m_config->stackedWidget->setCurrentIndex(1);
         m_config->wzBack->setEnabled(false);
+        m_config->wzNext->setEnabled(true);
+        m_config->bypassFailsafeGroup->setVisible(false);
         break;
     case wizardChooseMode:
     {
@@ -571,7 +579,6 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         }
         connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(identifyLimits()));
         connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
-        connect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         connect(accessoryDesiredObj0, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
     }
         break;
@@ -599,10 +606,23 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         m_config->wzText->setText(QString(tr("Please check the picture below and correct all the sticks which show an inverted movement, press next when ready.")));
         fastMdata();
         break;
+    case wizardVerifyFailsafe:
+        restoreMdata(); // make sure other updates do not clobber failsafe
+        dimOtherControls(false);
+        setTxMovement(nothing);
+        extraWidgets.clear();
+        flightStatusObj->requestUpdate();
+        detectFailsafe();
+        failsafeDetection = FS_AWAITING_CONNECTION;
+        connect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(detectFailsafe()));
+        m_config->wzNext->setEnabled(false);
+        m_config->graphicsView->setVisible(false);
+        m_config->bypassFailsafeGroup->setVisible(true);
+        connect(m_config->cbBypassFailsafe,SIGNAL(toggled(bool)), this, SLOT(detectFailsafe()));
+        break;
     case wizardFinish:
         dimOtherControls(false);
         connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
-        connect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         connect(accessoryDesiredObj0, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         m_config->wzText->setText(QString(tr("You have completed this wizard, please check below if the picture mimics your sticks movement.\n"
                                              "These new settings aren't saved to the board yet, after pressing next you will go to the Arming Settings "
@@ -673,7 +693,6 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
     case wizardIdentifyLimits:
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(identifyLimits()));
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
-        disconnect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         disconnect(accessoryDesiredObj0, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         manualSettingsObj->setData(manualSettingsData);
         setTxMovement(nothing);
@@ -692,11 +711,18 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
         extraWidgets.clear();
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         break;
+    case wizardVerifyFailsafe:
+        dimOtherControls(false);
+        extraWidgets.clear();
+        disconnect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(detectFailsafe()));
+        m_config->graphicsView->setVisible(true);
+        m_config->bypassFailsafeGroup->setVisible(false);
+        disconnect(m_config->cbBypassFailsafe,SIGNAL(toggled(bool)), this, SLOT(detectFailsafe()));
+        break;
     case wizardFinish:
         dimOtherControls(false);
         setTxMovement(nothing);
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
-        disconnect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         disconnect(accessoryDesiredObj0, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         restoreMdata();
         break;
@@ -734,10 +760,10 @@ void ConfigInputWidget::fastMdata()
 
                 switch(obj->getObjID()){
                     case ReceiverActivity::OBJID:
+                    case FlightStatus::OBJID:
                         UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
                         break;
                     case AccessoryDesired::OBJID:
-                    case FlightStatus::OBJID:
                     case ManualControlCommand::OBJID:
                         UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
                         mdata.flightTelemetryUpdatePeriod = fastUpdate;
@@ -1255,11 +1281,46 @@ void ConfigInputWidget::moveTxControls()
     }
 }
 
+/**
+ * @brief ConfigInputWidget::detectFailsafe
+ * Detect that the FlightStatus object indicates a Failsafe condition
+ */
+void ConfigInputWidget::detectFailsafe()
+{
+    FlightStatus::DataFields flightStatusData = flightStatusObj->getData();
+    switch (failsafeDetection)
+    {
+    case FS_AWAITING_CONNECTION:
+        if (flightStatusData.ControlSource == FlightStatus::CONTROLSOURCE_TRANSMITTER) {
+            m_config->wzText->setText(QString(tr("To verify that the failsafe mode on your receiver is safe, please turn off your transmitter now.\n")));
+            failsafeDetection = FS_AWAITING_FAILSAFE;    // Now wait for it to go away
+        } else {
+            m_config->wzText->setText(QString(tr("Unable to detect transmitter to verify failsafe. Please ensure it is turned on.\n")));
+        }
+        break;
+    case FS_AWAITING_FAILSAFE:
+        if (flightStatusData.ControlSource == FlightStatus::CONTROLSOURCE_FAILSAFE) {
+            m_config->wzText->setText(QString(tr("Failsafe mode detected. Please turn on your transmitter again.\n")));
+            failsafeDetection = FS_AWAITING_RECONNECT;    // Now wait for it to go away
+        }
+        break;
+    case FS_AWAITING_RECONNECT:
+        if (flightStatusData.ControlSource == FlightStatus::CONTROLSOURCE_TRANSMITTER) {
+            m_config->wzText->setText(QString(tr("Congratulations. Failsafe detection appears to be working reliably.\n")));
+            m_config->wzNext->setEnabled(true);
+        }
+        break;
+    }
+    if (m_config->cbBypassFailsafe->checkState()) {
+        m_config->wzText->setText(QString(tr("You are selecting to bypass failsafe detection. If this is not working, then the flight controller is likely to fly away. Please check on the forums how to configure this properly.\n")));
+        m_config->wzNext->setEnabled(true);
+    }
+}
+
 void ConfigInputWidget::moveSticks()
 {
     QTransform trans;
     manualCommandData = manualCommandObj->getData();
-    flightStatusData=flightStatusObj->getData();
     accessoryDesiredData0=accessoryDesiredObj0->getData();
     accessoryDesiredData1=accessoryDesiredObj1->getData();
     accessoryDesiredData2=accessoryDesiredObj2->getData();

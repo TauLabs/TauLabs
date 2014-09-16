@@ -7,7 +7,7 @@
  *
  * @file       GPS.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      GPS module, handles UBX and NMEA streams from GPS
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -40,6 +40,7 @@
 #include "gpssatellites.h"
 #include "gpsvelocity.h"
 #include "modulesettings.h"
+#include "pios_thread.h"
 
 #include "NMEA.h"
 #include "UBX.h"
@@ -48,7 +49,6 @@
 #if defined(PIOS_GPS_PROVIDES_AIRSPEED)
 #include "gps_airspeed.h"
 #endif
-
 
 // ****************
 // Private functions
@@ -69,7 +69,7 @@ static void updateSettings();
 	#define STACK_SIZE_BYTES            850
 #endif // PIOS_GPS_MINIMAL
 
-#define TASK_PRIORITY                   (tskIDLE_PRIORITY + 1)
+#define TASK_PRIORITY                   PIOS_THREAD_PRIO_LOW
 
 // ****************
 // Private variables
@@ -77,7 +77,7 @@ static void updateSettings();
 static uint32_t gpsPort;
 static bool module_enabled = false;
 
-static xTaskHandle gpsTaskHandle;
+static struct pios_thread *gpsTaskHandle;
 
 static char* gps_rx_buffer;
 
@@ -98,7 +98,7 @@ int32_t GPSStart(void)
 	if (module_enabled) {
 		if (gpsPort) {
 			// Start gps task
-			xTaskCreate(gpsTask, (signed char *)"GPS", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &gpsTaskHandle);
+			gpsTaskHandle = PIOS_Thread_Create(gpsTask, "GPS", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 			TaskMonitorAdd(TASKINFO_RUNNING_GPS, gpsTaskHandle);
 			return 0;
 		}
@@ -186,8 +186,8 @@ MODULE_INITCALL(GPSInitialize, GPSStart);
 
 static void gpsTask(void *parameters)
 {
-	portTickType xDelay = MS2TICKS(GPS_COM_TIMEOUT_MS);
-	uint32_t timeNowMs = TICKS2MS(xTaskGetTickCount());
+	uint32_t xDelay = GPS_COM_TIMEOUT_MS;
+	uint32_t timeNowMs = PIOS_Thread_Systime();
 
 	GPSPositionData gpsposition;
 	uint8_t	gpsProtocol;
@@ -213,7 +213,7 @@ static void gpsTask(void *parameters)
 			if (gpsAutoConfigure == MODULESETTINGS_GPSAUTOCONFIGURE_TRUE) {
 
 				// Wait for power to stabilize before talking to external devices
-				vTaskDelay(MS2TICKS(1000));
+				PIOS_Thread_Sleep(1000);
 
 				// Runs through a number of possible GPS baud rates to
 				// configure the ublox baud rate. This uses a NMEA string
@@ -224,7 +224,7 @@ static void gpsTask(void *parameters)
 				ModuleSettingsGPSSpeedGet(&baud_rate);
 				ubx_cfg_set_baudrate(gpsPort, baud_rate);
 
-				vTaskDelay(MS2TICKS(1000));
+				PIOS_Thread_Sleep(1000);
 
 				ubx_cfg_send_configuration(gpsPort, gps_rx_buffer);
 			}
@@ -261,14 +261,14 @@ static void gpsTask(void *parameters)
 			}
 
 			if (res == PARSER_COMPLETE) {
-				timeNowMs = TICKS2MS(xTaskGetTickCount());
+				timeNowMs = PIOS_Thread_Systime();
 				timeOfLastUpdateMs = timeNowMs;
 				timeOfLastCommandMs = timeNowMs;
 			}
 		}
 
 		// Check for GPS timeout
-		timeNowMs = TICKS2MS(xTaskGetTickCount());
+		timeNowMs = PIOS_Thread_Systime();
 		if ((timeNowMs - timeOfLastUpdateMs) >= GPS_TIMEOUT_MS) {
 			// we have not received any valid GPS sentences for a while.
 			// either the GPS is not plugged in or a hardware problem or the GPS has locked up.

@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_board.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -386,9 +386,15 @@ void PIOS_Board_Init(void) {
 		panic(1);
 #endif	/* PIOS_INCLUDE_FLASH */
 
+	/* Initialize the task monitor library */
+	TaskMonitorInitialize();
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
+
+	/* Initialize the alarms library */
+	AlarmsInitialize();
 
 	HwQuantonInitialize();
 	ModuleSettingsInitialize();
@@ -406,12 +412,6 @@ void PIOS_Board_Init(void) {
 		PIOS_WDG_Init();
 	}
 #endif
-
-	/* Initialize the alarms library */
-	AlarmsInitialize();
-
-	/* Initialize the task monitor library */
-	TaskMonitorInitialize();
 
 	/* Set up pulse timers */
 	//Timers used for inputs (1, 2, 5, 8)
@@ -856,6 +856,11 @@ void PIOS_Board_Init(void) {
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
 		break;
+	}
+
+	if (hw_uart2 != HWQUANTON_UART2_SBUS) {
+		GPIO_Init(pios_usart2_sbus_aux_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_usart2_sbus_aux_cfg.inv.init);
+		GPIO_WriteBit(pios_usart2_sbus_aux_cfg.inv.gpio, pios_usart2_sbus_aux_cfg.inv.init.GPIO_Pin, pios_usart2_sbus_aux_cfg.gpio_inv_disable);
 	}
 
 	/* UART3 Port */

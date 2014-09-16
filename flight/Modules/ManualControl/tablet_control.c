@@ -37,6 +37,7 @@
 #include "flightstatus.h"
 #include "gpsposition.h"
 #include "homelocation.h"
+#include "loitercommand.h"
 #include "pathdesired.h"
 #include "positionactual.h"
 #include "tabletinfo.h"
@@ -86,38 +87,26 @@ int32_t tablet_control_select(bool reset_controller)
 	PathDesiredGet(&pathDesired);
 
 	uint8_t mode = flightStatus.FlightMode;
-	static TabletInfoTabletModeDesiredOptions last_tablet_mode;
 
 	switch(tabletInfo.TabletModeDesired) {
 		case TABLETINFO_TABLETMODEDESIRED_POSITIONHOLD:
-			if (mode != FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD || 
-			    last_tablet_mode != tabletInfo.TabletModeDesired) {
-				mode = FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL;
+			// Use the position hold FSM. This will take the current position
+			// when flight mode first is position hold. The tablet does not
+			// set the position explicitly
+			mode = FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD;
 
-				PositionActualData positionActual;
-				PositionActualGet(&positionActual);
+			// Command to not move. This code is identical to that in manualcontrol
+			LoiterCommandData loiterCommand;
+			loiterCommand.Forward = 0;
+			loiterCommand.Right = 0;
+			loiterCommand.Frame = LOITERCOMMAND_FRAME_BODY;
+			LoiterCommandSet(&loiterCommand);
 
-				pathDesired.End[0] = positionActual.North;
-				pathDesired.End[1] = positionActual.East;
-				pathDesired.End[2] = positionActual.Down;
-				pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
-				pathDesired.StartingVelocity = 5;
-				pathDesired.EndingVelocity = 5;
-
-				PathDesiredSet(&pathDesired);				
-			}
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_RETURNTOHOME:
-			mode = FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL;
 
-			pathDesired.End[0] = 0;
-			pathDesired.End[1] = 0;
-			pathDesired.End[2] = -HOME_ALTITUDE_OFFSET;
-			pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
-			pathDesired.StartingVelocity = 5;
-			pathDesired.EndingVelocity = 5;
-
-			PathDesiredSet(&pathDesired);
+			// Use the return to home FSM.
+			mode = FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME;
 
 			break;
 		case TABLETINFO_TABLETMODEDESIRED_RETURNTOTABLET:
@@ -183,9 +172,6 @@ int32_t tablet_control_select(bool reset_controller)
 			// Fail out.  This will trigger failsafe mode.
 			return -1;
 	}
-
-	// Cache the last tablet mode
-	last_tablet_mode = tabletInfo.TabletModeDesired;
 
 	// Update mode if changed
 	if (mode != flightStatus.FlightMode) {

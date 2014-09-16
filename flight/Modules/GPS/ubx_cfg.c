@@ -7,7 +7,7 @@
  * @{
  *
  * @file       ubx_cfg.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Include file for UBX configuration
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -32,6 +32,7 @@
 
 #include "openpilot.h"
 #include "pios_com.h"
+#include "pios_thread.h"
 
 #if !defined(PIOS_GPS_MINIMAL)
 
@@ -284,8 +285,8 @@ static void ubx_cfg_pause_parse(uintptr_t gps_port, uint32_t delay_ticks)
     GPSPositionData     gpsPosition;
 
     uint8_t c;
-    portTickType enterTime = xTaskGetTickCount();
-    while ((xTaskGetTickCount() - enterTime) < delay_ticks)
+    uint32_t enterTime = PIOS_Thread_Systime();
+    while ((PIOS_Thread_Systime() - enterTime) < delay_ticks)
     {
         int32_t received = PIOS_COM_ReceiveBuffer(gps_port, &c, 1, 1);
         if (received > 0)
@@ -310,7 +311,7 @@ static void ubx_cfg_send_checksummed(uintptr_t gps_port,
     PIOS_COM_SendChar(gps_port, ubloxTxCK_A);
     PIOS_COM_SendChar(gps_port, ubloxTxCK_B);
 
-    ubx_cfg_pause_parse(gps_port, TICKS2MS(UBLOX_WAIT_MS));
+    ubx_cfg_pause_parse(gps_port, UBLOX_WAIT_MS);
 }
 
 /**
@@ -334,7 +335,7 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
     uint32_t i = 0;
     do {
         ubx_cfg_poll_version(gps_port);
-        ubx_cfg_pause_parse(gps_port, MS2TICKS(UBLOX_WAIT_MS));
+        ubx_cfg_pause_parse(gps_port, UBLOX_WAIT_MS);
         UBloxInfoGet(&ublox);
     } while (ublox.swVersion == 0 && i++ < 10);
 
@@ -418,7 +419,7 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
     const uint32_t baud_rates[] = {2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400};
     for (uint32_t i = 0; i < NELEMENTS(baud_rates); i++) {
         PIOS_COM_ChangeBaud(gps_port, baud_rates[i]);
-        vTaskDelay(MS2TICKS(UBLOX_WAIT_MS));
+        PIOS_Thread_Sleep(UBLOX_WAIT_MS);
 
         // Send the baud rate change message
         PIOS_COM_SendString(gps_port, msg);
@@ -427,7 +428,7 @@ void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud
         // 34 bytes * 10bits/byte = 340 bits
         // At 2400bps, that's (340 / 2400) = 142ms
         // add some margin and we end up with 200ms
-        vTaskDelay(MS2TICKS(200));
+        PIOS_Thread_Sleep(200);
     }
 
     // Set to proper baud rate

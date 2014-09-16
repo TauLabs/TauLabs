@@ -38,6 +38,8 @@
 
 #include "openpilot.h"
 
+#include "pios_thread.h"
+
 #include "control.h"
 #include "failsafe_control.h"
 #include "tablet_control.h"
@@ -56,12 +58,12 @@
 #define STACK_SIZE_BYTES 1000
 #endif
 
-#define TASK_PRIORITY (tskIDLE_PRIORITY+4)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGHEST
 #define UPDATE_PERIOD_MS 20
 
 // Private variables
-static xTaskHandle taskHandle;
-static portTickType lastSysTime;
+static struct pios_thread *taskHandle;
+static uint32_t lastSysTime;
 
 // Private functions
 static void manualControlTask(void *parameters);
@@ -79,7 +81,7 @@ static int32_t control_event_disarm();
 int32_t ManualControlStart()
 {
 	// Start main task
-	xTaskCreate(manualControlTask, (signed char *)"Control", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(manualControlTask, "Control", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_MANUALCONTROL, taskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_MANUAL);
 
@@ -113,7 +115,7 @@ static void manualControlTask(void *parameters)
 	FlightStatusSet(&flightStatus);
 
 	// Main task loop
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 
 	// Select failsafe before run
 	failsafe_control_select(true);
@@ -189,7 +191,7 @@ static void manualControlTask(void *parameters)
 		}
 
 		// Wait until next update
-		vTaskDelayUntil(&lastSysTime, MS2TICKS(UPDATE_PERIOD_MS));
+		PIOS_Thread_Sleep_Until(&lastSysTime, UPDATE_PERIOD_MS);
 		PIOS_WDG_UpdateFlag(PIOS_WDG_MANUAL);
 	}
 }

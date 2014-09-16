@@ -33,6 +33,7 @@
 #include "misc_math.h"
 #include "paths.h"
 #include "pid.h"
+#include "pios_thread.h"
 
 #include "vtol_follower_priv.h"
 
@@ -52,12 +53,12 @@
 // Private constants
 #define MAX_QUEUE_SIZE 4
 #define STACK_SIZE_BYTES 1548
-#define TASK_PRIORITY (tskIDLE_PRIORITY+2)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
 
 // Private types
 
 // Private variables
-static xTaskHandle pathfollowerTaskHandle;
+static struct pios_thread *pathfollowerTaskHandle;
 static VtolPathFollowerSettingsData guidanceSettings;
 
 // Private functions
@@ -72,7 +73,7 @@ int32_t VtolPathFollowerStart()
 {
 	if (module_enabled) {
 		// Start main task
-		xTaskCreate(vtolPathFollowerTask, (signed char *)"VtolPathFollower", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &pathfollowerTaskHandle);
+		pathfollowerTaskHandle = PIOS_Thread_Create(vtolPathFollowerTask, "VtolPathFollower", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_PATHFOLLOWER, pathfollowerTaskHandle);
 	}
 
@@ -124,7 +125,7 @@ static void vtolPathFollowerTask(void *parameters)
 	SystemSettingsData systemSettings;
 	FlightStatusData flightStatus;
 
-	portTickType lastUpdateTime;
+	uint32_t lastUpdateTime;
 	
 	VtolPathFollowerSettingsConnectCallback(vtol_follower_control_settings_updated);
 	AltitudeHoldSettingsConnectCallback(vtol_follower_control_settings_updated);
@@ -133,7 +134,7 @@ static void vtolPathFollowerTask(void *parameters)
 	VtolPathFollowerSettingsGet(&guidanceSettings);
 	
 	// Main task loop
-	lastUpdateTime = xTaskGetTickCount();
+	lastUpdateTime = PIOS_Thread_Systime();
 	while (1) {
 
 		SystemSettingsGet(&systemSettings);
@@ -152,12 +153,12 @@ static void vtolPathFollowerTask(void *parameters)
 			// This should be a critical alarm since the system will not attempt to
 			// control in this situation.
 			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_CRITICAL);
-			vTaskDelay(1000);
+			PIOS_Thread_Sleep(1000);
 			continue;
 		}
 
 		// Continue collecting data if not enough time
-		vTaskDelayUntil(&lastUpdateTime, MS2TICKS(guidanceSettings.UpdatePeriod));
+		PIOS_Thread_Sleep_Until(&lastUpdateTime, guidanceSettings.UpdatePeriod);
 		
 		static uint8_t last_flight_mode;
 		FlightStatusGet(&flightStatus);

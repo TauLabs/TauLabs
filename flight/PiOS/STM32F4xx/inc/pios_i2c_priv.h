@@ -3,7 +3,7 @@
  *
  * @file       pios_i2c_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      I2C private definitions.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -31,6 +31,7 @@
 #include <pios_stm32.h>
 #include <stdbool.h>
 #include "pios_semaphore.h"
+#include "pios_mutex.h"
 #include <inttypes.h>
 
 struct pios_i2c_adapter_cfg {
@@ -131,7 +132,7 @@ struct pios_i2c_adapter {
 	enum pios_i2c_adapter_magic         magic;
 	const struct pios_i2c_adapter_cfg * cfg;
 
-	struct pios_semaphore *sem_busy;
+	struct pios_mutex *lock;
 	struct pios_semaphore *sem_ready;
 
 	bool bus_error;

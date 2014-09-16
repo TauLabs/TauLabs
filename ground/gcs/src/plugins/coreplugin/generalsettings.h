@@ -60,12 +60,13 @@ public:
     bool autoConnect() const;
     bool autoSelect() const;
     bool useUDPMirror() const;
+    bool useSessionManaging() const;
     void readSettings(QSettings* qs);
     void saveSettings(QSettings* qs);
     bool useExpertMode() const;
     QNetworkProxy getNetworkProxy();
 signals:
-
+    void generalSettingsChanged();
 private slots:
     void resetInterfaceColor();
     void resetLanguage();
@@ -91,7 +92,7 @@ private:
     QString m_proxyHostname;
     QString m_proxyUser;
     QString m_proxyPassword;
-
+    bool m_useSessionManaging;
 };
 } // namespace Internal
 } // namespace Core

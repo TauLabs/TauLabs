@@ -7,7 +7,7 @@
  *
  * @file       airspeed.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Airspeed module
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -53,6 +53,7 @@
 
 #include "baro_airspeed_etasv3.h"
 #include "baro_airspeed_analog.h"
+#include "pios_thread.h"
 
 // Private constants
 #if defined (PIOS_INCLUDE_GPS)
@@ -75,7 +76,7 @@
 #endif
 
 
-#define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 #define SAMPLING_DELAY_MS_FALLTHROUGH  50 //Fallthrough update at 20Hz. The fallthrough runs faster than the GPS to ensure that we don't miss GPS updates because we're slightly out of sync
 
@@ -89,7 +90,7 @@
 // Private types
 
 // Private variables
-static xTaskHandle taskHandle;
+static struct pios_thread *taskHandle;
 static bool module_enabled = false;
 volatile bool gpsNew = false;
 static uint8_t airspeedSensorType;
@@ -102,7 +103,7 @@ static int8_t airspeedADCPin=-1;
 
 // Private functions
 static void airspeedTask(void *parameters);
-void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin);
+void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin);
 static void AirspeedSettingsUpdatedCb(UAVObjEvent * ev);
 
 #ifdef GPS_AIRSPEED_PRESENT
@@ -126,7 +127,7 @@ int32_t AirspeedStart()
 	}
 		
 	// Start main task
-	xTaskCreate(airspeedTask, (signed char *)"Airspeed", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(airspeedTask, "Airspeed", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_AIRSPEED, taskHandle);
 	return 0;
 }
@@ -183,8 +184,8 @@ static void airspeedTask(void *parameters)
 	airspeedData.BaroConnected = BAROAIRSPEED_BAROCONNECTED_FALSE;
 	
 #ifdef BARO_AIRSPEED_PRESENT		
-	portTickType lastGPSTime = xTaskGetTickCount(); //Time since last GPS-derived airspeed calculation
-	portTickType lastLoopTime= xTaskGetTickCount(); //Time since last loop
+	uint32_t lastGPSTime = PIOS_Thread_Systime(); //Time since last GPS-derived airspeed calculation
+	uint32_t lastLoopTime= PIOS_Thread_Systime(); //Time since last loop
 
 	float airspeedErrInt=0;
 #endif
@@ -196,7 +197,7 @@ static void airspeedTask(void *parameters)
 #endif
 	
 	// Main task loop
-	portTickType lastSysTime = xTaskGetTickCount();
+	uint32_t lastSysTime = PIOS_Thread_Systime();
 	while (1)
 	{
 		// Update the airspeed object
@@ -237,7 +238,7 @@ static void airspeedTask(void *parameters)
 			airspeedData.SensorValue=12345;
 			
 			//Likely, we have a GPS, so let's configure the fallthrough at close to GPS refresh rates
-			vTaskDelayUntil(&lastSysTime, MS2TICKS(SAMPLING_DELAY_MS_FALLTHROUGH));
+			PIOS_Thread_Sleep_Until(&lastSysTime, SAMPLING_DELAY_MS_FALLTHROUGH);
 		}
 		
 #ifdef GPS_AIRSPEED_PRESENT
@@ -247,9 +248,9 @@ static void airspeedTask(void *parameters)
 		//sensor or not. In the case we do, shoot for about once per second. Otherwise, consume GPS
 		//as quickly as possible.
  #ifdef BARO_AIRSPEED_PRESENT
-		float delT = TICKS2MS(lastSysTime - lastLoopTime) / 1000.0f;
+		float delT = (lastSysTime - lastLoopTime) / 1000.0f;
 		lastLoopTime=lastSysTime;
-		if ( (TICKS2MS(lastSysTime - lastGPSTime) > 1000 || airspeedSensorType==AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_GPSONLY)
+		if ( ((lastSysTime - lastGPSTime) > 1000 || airspeedSensorType==AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_GPSONLY)
 				&& gpsNew) {
 			lastGPSTime=lastSysTime;
  #else
@@ -337,7 +338,7 @@ static void GPSVelocityUpdatedCb(UAVObjEvent * ev)
 #endif
 
 #ifdef BARO_AIRSPEED_PRESENT
-void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin_dummy)
+void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin_dummy)
 {
 	//Find out which sensor we're using.
 	switch (airspeedSensorType) {
@@ -352,7 +353,7 @@ void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, portTickType *lastSysT
 			break;
 		default:
 			baroAirspeedData->BaroConnected = BAROAIRSPEED_BAROCONNECTED_FALSE;
-			vTaskDelayUntil(lastSysTime, MS2TICKS(SAMPLING_DELAY_MS_FALLTHROUGH));
+			PIOS_Thread_Sleep_Until(lastSysTime, SAMPLING_DELAY_MS_FALLTHROUGH);
 			break;
 	}
 }

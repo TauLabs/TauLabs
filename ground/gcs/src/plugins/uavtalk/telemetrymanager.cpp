@@ -42,6 +42,9 @@ TelemetryManager::TelemetryManager() :
     // connect to start stop signals
     connect(this, SIGNAL(myStart()), this, SLOT(onStart()),Qt::QueuedConnection);
     connect(this, SIGNAL(myStop()), this, SLOT(onStop()),Qt::QueuedConnection);
+    settings = pm->getObject<Core::Internal::GeneralSettings>();
+    connect(settings, SIGNAL(generalSettingsChanged()), this, SLOT(onGeneralSettingsChanged()));
+    connect(pm, SIGNAL(pluginsLoadEnded()), this, SLOT(onGeneralSettingsChanged()));
 }
 
 TelemetryManager::~TelemetryManager()
@@ -94,4 +97,23 @@ void TelemetryManager::onDisconnect()
 {
     autopilotConnected = false;
     emit disconnected();
+}
+
+void TelemetryManager::onGeneralSettingsChanged()
+{
+    if (!settings->useSessionManaging())
+    {
+        foreach(UAVObjectManager::ObjectMap map, objMngr->getObjects())
+        {
+            foreach(UAVObject* obj, map.values())
+            {
+                UAVDataObject* dobj = dynamic_cast<UAVDataObject*>(obj);
+                if(dobj)
+                {
+                    dobj->setIsPresentOnHardware(false);
+                    dobj->setIsPresentOnHardware(true);
+                }
+            }
+        }
+    }
 }

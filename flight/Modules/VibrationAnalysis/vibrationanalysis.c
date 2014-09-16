@@ -6,7 +6,7 @@
  * @{
  *
  * @file       vibrationanalysis.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Performs an FFT on the accels to estimation vibration
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -40,6 +40,7 @@
 #include "openpilot.h"
 #include "physical_constants.h"
 #include "arm_math.h"
+#include "pios_thread.h"
 
 #include "accels.h"
 #include "modulesettings.h"
@@ -57,14 +58,14 @@
 																				  // but instead from the heap. Nonetheless, we 
 																				  // can know a priori how much RAM this module 
 																				  // will take.
-#define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 #define SETTINGS_THROTTLING_MS 100
 
 #define MAX_ACCEL_RANGE 16                          // Maximum accelerometer resolution in [g]
 #define FLOAT_TO_Q15 (32768/(MAX_ACCEL_RANGE*GRAVITY)) // This is the scaling constant that scales all input floats to +-
 
 // Private variables
-static xTaskHandle taskHandle;
+static struct pios_thread *taskHandle;
 static xQueueHandle queue;
 static bool module_enabled = false;
 
@@ -192,7 +193,7 @@ static int32_t VibrationAnalysisStart(void)
 	}
 	
 	// Start main task
-	xTaskCreate(VibrationAnalysisTask, (signed char *)"VibrationAnalysis", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(VibrationAnalysisTask, "VibrationAnalysis", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_VIBRATIONANALYSIS, taskHandle);
 	return 0;
 }
@@ -237,8 +238,8 @@ static void VibrationAnalysisTask(void *parameters)
 {
 #define MAX_BLOCKSIZE   2048
 	
-	portTickType lastSysTime;
-	portTickType lastSettingsUpdateTime;
+	uint32_t lastSysTime;
+	uint32_t lastSettingsUpdateTime;
 	uint8_t runAnalysisFlag = VIBRATIONANALYSISSETTINGS_TESTINGSTATUS_OFF; // By default, turn analysis off
 	uint16_t sampleRate_ms = 100; // Default sample rate of 100ms
 	uint8_t sample_count;
@@ -267,15 +268,15 @@ static void VibrationAnalysisTask(void *parameters)
 	// Main task loop
 	VibrationAnalysisOutputData vibrationAnalysisOutputData;
 	sample_count = 0;
-	lastSysTime = xTaskGetTickCount();
-	lastSettingsUpdateTime = xTaskGetTickCount() - MS2TICKS(SETTINGS_THROTTLING_MS);
+	lastSysTime = PIOS_Thread_Systime();
+	lastSettingsUpdateTime = PIOS_Thread_Systime() - SETTINGS_THROTTLING_MS;
 
 	
 	// Main module task, never exit from while loop
 	while(1)
 	{
 		// Only check settings once every 100ms
-		if(xTaskGetTickCount() - lastSettingsUpdateTime > MS2TICKS(SETTINGS_THROTTLING_MS)){
+		if(PIOS_Thread_Systime() - lastSettingsUpdateTime > SETTINGS_THROTTLING_MS) {
 			//First check if the analysis is active
 			VibrationAnalysisSettingsTestingStatusGet(&runAnalysisFlag);
 			
@@ -283,12 +284,12 @@ static void VibrationAnalysisTask(void *parameters)
 			VibrationAnalysisSettingsSampleRateGet(&sampleRate_ms);
 			sampleRate_ms = sampleRate_ms > 0 ? sampleRate_ms : 1; //Ensure sampleRate never is 0.
 			
-			lastSettingsUpdateTime = xTaskGetTickCount();
+			lastSettingsUpdateTime = PIOS_Thread_Systime();
 		}
 		
 		// If analysis is turned off, delay and then loop.
 		if (runAnalysisFlag == VIBRATIONANALYSISSETTINGS_TESTINGSTATUS_OFF) {
-			vTaskDelay(200);
+			PIOS_Thread_Sleep(200);
 			continue;
 		}
 		
@@ -312,11 +313,11 @@ static void VibrationAnalysisTask(void *parameters)
 		}
 		
 		// If not enough time has passed, keep accumulating data
-		if(xTaskGetTickCount() - lastSysTime < MS2TICKS(sampleRate_ms)) {
+		if(PIOS_Thread_Systime() - lastSysTime < sampleRate_ms) {
 			continue;
 		}
 		
-		lastSysTime += MS2TICKS(sampleRate_ms);
+		lastSysTime += sampleRate_ms;
 		
 		
 		//Calculate averaged values

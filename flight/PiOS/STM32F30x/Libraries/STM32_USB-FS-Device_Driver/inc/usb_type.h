@@ -27,11 +27,13 @@
 #define NULL ((void *)0)
 #endif
 
+#if !defined(FALSE) && !defined(TRUE)
 typedef enum
 {
   FALSE = false, TRUE  = !FALSE
 }
 usb_fs_device_driver_bool;
+#endif
 
 #ifndef __STM32F30x_H
 

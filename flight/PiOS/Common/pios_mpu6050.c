@@ -8,7 +8,7 @@
  *
  * @file       pios_mpu6050.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      MPU6050 6-axis gyro and accel chip
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -36,9 +36,12 @@
 
 #if defined(PIOS_INCLUDE_MPU6050)
 
+#include "pios_semaphore.h"
+#include "pios_thread.h"
+
 /* Private constants */
-#define MPU6050_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define MPU6050_TASK_STACK		(484 / 4)
+#define MPU6050_TASK_PRIORITY		PIOS_THREAD_PRIO_HIGHEST
+#define MPU6050_TASK_STACK_BYTES	484
 
 /* Global Variables */
 
@@ -57,8 +60,8 @@ struct mpu6050_dev {
 	enum pios_mpu60x0_accel_range accel_range;
 	xQueueHandle accel_queue;
 #endif /* PIOS_MPU6050_ACCEL */
-	xTaskHandle TaskHandle;
-	xSemaphoreHandle data_ready_sema;
+	struct pios_thread *TaskHandle;
+	struct pios_semaphore *data_ready_sema;
 	const struct pios_mpu60x0_cfg *cfg;
 	enum pios_mpu6050_dev_magic magic;
 	enum pios_mpu60x0_filter filter;
@@ -105,7 +108,7 @@ static struct mpu6050_dev *PIOS_MPU6050_alloc(void)
 		return NULL;
 	}
 
-	mpu6050_dev->data_ready_sema = xSemaphoreCreateMutex();
+	mpu6050_dev->data_ready_sema = PIOS_Semaphore_Create();
 
 	if (mpu6050_dev->data_ready_sema == NULL) {
 		vPortFree(mpu6050_dev);
@@ -151,10 +154,9 @@ int32_t PIOS_MPU6050_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 	/* Configure the MPU6050 Sensor */
 	PIOS_MPU6050_Config(cfg);
 
-	int result = xTaskCreate(PIOS_MPU6050_Task, (const signed char *)"pios_mpu6050",
-	                         MPU6050_TASK_STACK, NULL, MPU6050_TASK_PRIORITY,
-	                         &pios_mpu6050_dev->TaskHandle);
-	PIOS_Assert(result == pdPASS);
+	pios_mpu6050_dev->TaskHandle = PIOS_Thread_Create(
+			PIOS_MPU6050_Task, "pios_mpu6050", MPU6050_TASK_STACK_BYTES, NULL, MPU6050_TASK_PRIORITY);
+	PIOS_Assert(pios_mpu6050_dev->TaskHandle != NULL);
 
 	/* Set up EXTI line */
 	PIOS_EXTI_Init(cfg->exti_cfg);
@@ -581,18 +583,18 @@ bool PIOS_MPU6050_IRQHandler(void)
 	if (PIOS_MPU6050_Validate(pios_mpu6050_dev) != 0)
 		return false;
 
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+	bool woken = false;
 
-	xSemaphoreGiveFromISR(pios_mpu6050_dev->data_ready_sema, &xHigherPriorityTaskWoken);
+	PIOS_Semaphore_Give_FromISR(pios_mpu6050_dev->data_ready_sema, &woken);
 
-	return xHigherPriorityTaskWoken == pdTRUE;
+	return woken;
 }
 
 static void PIOS_MPU6050_Task(void *parameters)
 {
 	while (1) {
 		//Wait for data ready interrupt
-		if (xSemaphoreTake(pios_mpu6050_dev->data_ready_sema, portMAX_DELAY) != pdTRUE)
+		if (PIOS_Semaphore_Take(pios_mpu6050_dev->data_ready_sema, PIOS_SEMAPHORE_TIMEOUT_MAX) != true)
 			continue;
 
 		enum {

@@ -5,7 +5,7 @@
 # Makefile for simulation
 #
 # The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# Tau Labs, http://taulabs.org, Copyright (C) 2013
+# Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
 #
 #
 # This program is free software; you can redistribute it and/or modify
@@ -170,6 +170,9 @@ SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_board_info.c
+SRC += $(PIOSCOMMON)/pios_semaphore.c
+SRC += $(PIOSCOMMON)/pios_mutex.c
+SRC += $(PIOSCOMMON)/pios_thread.c
 
 SRC += $(PIOSPOSIX)/pios_gcsrcvr.c
 SRC += $(PIOSPOSIX)/pios_delay.c

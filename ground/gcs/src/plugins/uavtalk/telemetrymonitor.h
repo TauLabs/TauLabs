@@ -41,6 +41,8 @@
 #include "systemstats.h"
 #include "telemetry.h"
 #include "sessionmanaging.h"
+#include <coreplugin/generalsettings.h>
+#include <extensionsystem/pluginmanager.h>
 
 class TelemetryMonitor : public QObject
 {
@@ -103,6 +105,7 @@ private:
     bool isManaged;
     QHash<quint16, QList<objStruc> > sessions;
     int sessionObjRetries;
+    Core::Internal::GeneralSettings *settings;
 };
 
 #endif // TELEMETRYMONITOR_H

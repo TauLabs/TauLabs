@@ -33,7 +33,6 @@
 #include "generators/flight/uavobjectgeneratorflight.h"
 #include "generators/gcs/uavobjectgeneratorgcs.h"
 #include "generators/matlab/uavobjectgeneratormatlab.h"
-#include "generators/python/uavobjectgeneratorpython.h"
 #include "generators/wireshark/uavobjectgeneratorwireshark.h"
 
 #define RETURN_ERR_USAGE 1
@@ -46,12 +45,11 @@ using namespace std;
  * print usage info
  */
 void usage() {
-    cout << "Usage: uavobjectgenerator [-gcs] [-flight] [-java] [-python] [-matlab] [-wireshark] [-none] [-v] xml_path template_base [UAVObj1] ... [UAVObjN]" << endl;
+    cout << "Usage: uavobjectgenerator [-gcs] [-flight] [-java] [-matlab] [-wireshark] [-none] [-v] xml_path template_base [UAVObj1] ... [UAVObjN]" << endl;
     cout << "Languages: "<< endl;
     cout << "\t-gcs           build groundstation code" << endl;
     cout << "\t-flight        build flight code" << endl;
     cout << "\t-java          build java code" << endl;
-    cout << "\t-python        build python code" << endl;
     cout << "\t-matlab        build matlab code" << endl;
     cout << "\t-wireshark     build wireshark plugin" << endl;
     cout << "\tIf no language is specified ( and not -none ) -> all are built." << endl;
@@ -103,12 +101,11 @@ int main(int argc, char *argv[])
     bool do_gcs=(arguments_stringlist.removeAll("-gcs")>0);
     bool do_flight=(arguments_stringlist.removeAll("-flight")>0);
     bool do_java=(arguments_stringlist.removeAll("-java")>0);
-    bool do_python=(arguments_stringlist.removeAll("-python")>0);
     bool do_matlab=(arguments_stringlist.removeAll("-matlab")>0);
     bool do_wireshark=(arguments_stringlist.removeAll("-wireshark")>0);
     bool do_none=(arguments_stringlist.removeAll("-none")>0); //
 
-    bool do_all=((do_gcs||do_flight||do_java||do_python||do_matlab)==false);
+    bool do_all=((do_gcs||do_flight||do_java||do_matlab)==false);
     bool do_allObjects=true;
 
     if (arguments_stringlist.length() >= 2) {
@@ -220,13 +217,6 @@ int main(int argc, char *argv[])
         cout << "generating java code" << endl ;
         UAVObjectGeneratorJava javagen;
         javagen.generate(parser,templatepath,outputpath);
-    }
-
-    // generate python code if wanted
-    if (do_python|do_all) {
-        cout << "generating python code" << endl ;
-        UAVObjectGeneratorPython pygen;
-        pygen.generate(parser,templatepath,outputpath);
     }
 
     // generate matlab code if wanted

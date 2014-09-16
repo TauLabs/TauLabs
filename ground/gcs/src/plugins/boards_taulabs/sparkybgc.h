@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       sparkybgc.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -66,6 +66,8 @@ public:
      * @return a string with the name of the resource for this board diagram
      */
     virtual QString getConnectionDiagram() { return ":/taulabs/images/sparky-connection-diagram.svg"; }
+
+    virtual int queryMaxGyroRate();
 };
 
 

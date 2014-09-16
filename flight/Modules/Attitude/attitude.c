@@ -73,10 +73,11 @@
 #include "velocityactual.h"
 #include "coordinate_conversions.h"
 #include "WorldMagModel.h"
+#include "pios_thread.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 2200
-#define TASK_PRIORITY (tskIDLE_PRIORITY+3)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define FAILSAFE_TIMEOUT_MS 10
 
 // Private types
@@ -129,7 +130,7 @@ struct cfvert {
 };
 
 // Private variables
-static xTaskHandle attitudeTaskHandle;
+static struct pios_thread *attitudeTaskHandle;
 
 static xQueueHandle gyroQueue;
 static xQueueHandle accelQueue;
@@ -277,7 +278,7 @@ int32_t AttitudeStart(void)
 		GPSVelocityConnectQueue(gpsVelQueue);
 
 	// Start main task
-	xTaskCreate(AttitudeTask, (signed char *)"Attitude", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);
+	attitudeTaskHandle = PIOS_Thread_Create(AttitudeTask, "Attitude", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
 
@@ -300,7 +301,7 @@ static void AttitudeTask(void *parameters)
 	settingsUpdatedCb(NULL);
 
 	// Wait for all the sensors be to read
-	vTaskDelay(100);
+	PIOS_Thread_Sleep(100);
 
 	// Invalidate previous algorithm to trigger a first run
 	last_algorithm = 0xfffffff;
@@ -479,7 +480,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 		(ms_since_reset > 1000)) {
 
 		// For first 7 seconds use accels to get gyro bias
-		attitudeSettings.AccelKp = 0.1f + 0.1f * (xTaskGetTickCount() < 4000);
+		attitudeSettings.AccelKp = 0.1f + 0.1f * (PIOS_Thread_Systime() < 4000);
 		attitudeSettings.AccelKi = 0.1f;
 		attitudeSettings.YawBiasRate = 0.1f;
 		attitudeSettings.MagKp = 0.1f;

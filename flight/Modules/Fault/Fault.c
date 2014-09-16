@@ -7,6 +7,7 @@
  *
  * @file       Fault.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      Fault module, inserts faults for testing
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -33,6 +34,7 @@
 #include <stdbool.h>
 #include "modulesettings.h"
 #include "faultsettings.h"
+#include "pios_thread.h"
 
 static bool module_enabled;
 static uint8_t active_fault;
@@ -88,18 +90,13 @@ static void fault_task(void *parameters);
 
 static int32_t fault_start(void)
 {
-	xTaskHandle fault_task_handle;
+	struct pios_thread *fault_task_handle;
 
 	if (module_enabled) {
 		switch (active_fault) {
 		case FAULTSETTINGS_ACTIVATEFAULT_RUNAWAYTASK:
 		case FAULTSETTINGS_ACTIVATEFAULT_TASKOUTOFMEMORY:
-			xTaskCreate(fault_task,
-				(signed char *)"Fault",
-				configMINIMAL_STACK_SIZE,
-				NULL,
-				configMAX_PRIORITIES-1,
-				&fault_task_handle);
+			fault_task_handle = PIOS_Thread_Create(fault_task, "Fault", PIOS_THREAD_STACK_SIZE_MIN, NULL, PIOS_THREAD_PRIO_HIGHEST);
 			return 0;
 			break;
 		}
@@ -119,7 +116,7 @@ static void fault_task(void *parameters)
 		/* Leak all available memory and then sleep */
 		while (pvPortMalloc(10)) ;
 		while (1) {
-			vTaskDelay(1000);
+			PIOS_Thread_Sleep(1000);
 		}
 		break;
 	}

@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pios_semaphore.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_Semaphore Semaphore Abstraction
@@ -42,6 +42,12 @@ struct pios_semaphore
 #endif
 };
 
+/* Workaround for simulator version of FreeRTOS. */
+#if defined(SIM_POSIX) || defined(SIM_OSX)
+#define PIOS_Semaphore_Take_FromISR(semap, wokenp) PIOS_Semaphore_Take(semap, 0)
+#define PIOS_Semaphore_Give_FromISR(semap, wokenp) PIOS_Semaphore_Give(semap)
+#endif /* defined(USE_SIM_POSIX) */
+
 /*
  * The following functions implement the concept of a binary semaphore usable
  * with and without PIOS_INCLUDE_FREERTOS.
@@ -57,8 +63,12 @@ struct pios_semaphore
 struct pios_semaphore *PIOS_Semaphore_Create(void);
 bool PIOS_Semaphore_Take(struct pios_semaphore *sema, uint32_t timeout_ms);
 bool PIOS_Semaphore_Give(struct pios_semaphore *sema);
+
+/* Workaround for simulator version of FreeRTOS. */
+#if !defined(SIM_POSIX) && !defined(SIM_OSX)
 bool PIOS_Semaphore_Take_FromISR(struct pios_semaphore *sema, bool *woken);
 bool PIOS_Semaphore_Give_FromISR(struct pios_semaphore *sema, bool *woken);
+#endif /* !defined(USE_SIM_POSIX) */
 
 #endif /* PIOS_SEMAPHORE_H_ */
 

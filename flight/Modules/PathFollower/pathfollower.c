@@ -7,6 +7,7 @@
  *
  * @file       pathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      This module compared @ref PositionActuatl to @ref ActiveWaypoint 
  * and sets @ref AttitudeDesired.  It only does this when the FlightMode field
  * of @ref ManualControlCommand is Auto.
@@ -38,7 +39,6 @@
  */
 
 #include "openpilot.h"
-
 #include "airspeedactual.h"
 #include "fixedwingairspeeds.h"
 #include "fixedwingpathfollowersettingscc.h"
@@ -52,11 +52,12 @@
 #include "dubinscartpathfollower.h"
 
 #include "coordinate_conversions.h"
+#include "pios_thread.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
 #define STACK_SIZE_BYTES 750
-#define TASK_PRIORITY (tskIDLE_PRIORITY+2)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
 #define CRITICAL_ERROR_THRESHOLD_MS 5000	//Time in [ms] before an error becomes a critical error
 
 enum pathFollowerTypes {
@@ -65,7 +66,7 @@ enum pathFollowerTypes {
 };
 
 // Private variables
-static xTaskHandle PathFollowerTaskHandle;
+static struct pios_thread *PathFollowerTaskHandle;
 static uint8_t flightMode = FLIGHTSTATUS_FLIGHTMODE_MANUAL;
 static bool followerEnabled = false;
 bool flightStatusUpdate = false;
@@ -84,9 +85,7 @@ int32_t PathFollowerStart()
 	// Start main task
 	if (followerEnabled) {
 		// Start main task
-		xTaskCreate(PathFollowerTask, (signed char *)"PathFollower",
-			    STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY,
-			    &PathFollowerTaskHandle);
+		PathFollowerTaskHandle = PIOS_Thread_Create(manualControlTask, "PathFollower", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_PATHFOLLOWER,
 			       PathFollowerTaskHandle);
 	}
@@ -192,16 +191,16 @@ MODULE_INITCALL(PathFollowerInitialize, PathFollowerStart)
  */
 static void PathFollowerTask(void *parameters)
 {
-	portTickType lastUpdateTime;
+	uint32_t lastUpdateTime;
 	FixedWingPathFollowerSettingsCCData fixedwingpathfollowerSettings;
 
 	// Main task loop
-	lastUpdateTime = xTaskGetTickCount();
+	lastUpdateTime = PIOS_Thread_Systime();
 	while (1) {
 		// TODO: Refactor this into the fixed wing method as a callback
 		FixedWingPathFollowerSettingsCCGet(&fixedwingpathfollowerSettings);
 
-		vTaskDelayUntil(&lastUpdateTime, MS2TICKS(fixedwingpathfollowerSettings.UpdatePeriod));
+		PIOS_Thread_Sleep_Until(&lastUpdateTime, fixedwingpathfollowerSettings.UpdatePeriod);
 
 		if (flightStatusUpdate)
 			FlightStatusFlightModeGet(&flightMode);

@@ -38,6 +38,7 @@
 
 #include "openpilot.h"
 #include "stabilization.h"
+#include "pios_thread.h"
 
 #include "accels.h"
 #include "actuatordesired.h"
@@ -71,7 +72,7 @@
 #define STACK_SIZE_BYTES 724
 #endif
 
-#define TASK_PRIORITY (tskIDLE_PRIORITY+4)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGHEST
 #define FAILSAFE_TIMEOUT_MS 30
 #define COORDINATED_FLIGHT_MIN_ROLL_THRESHOLD 3.0f
 #define COORDINATED_FLIGHT_MAX_YAW_THRESHOLD 0.05f
@@ -95,7 +96,7 @@ enum {
 
 
 // Private variables
-static xTaskHandle taskHandle;
+static struct pios_thread *taskHandle;
 static StabilizationSettingsData settings;
 static TrimAnglesData trimAngles;
 static xQueueHandle queue;
@@ -135,7 +136,7 @@ int32_t StabilizationStart()
 	TrimAnglesSettingsConnectCallback(SettingsUpdatedCb);
 
 	// Start main task
-	xTaskCreate(stabilizationTask, (signed char*)"Stabilization", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(stabilizationTask, "Stabilization", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_STABILIZATION, taskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_STABILIZATION);
 	return 0;
@@ -435,7 +436,7 @@ static void stabilizationTask(void* parameters)
 							roll_scale = 0.25f;
 						if (pitch_scale > 0.25f)
 							pitch_scale = 0.25f;
-						if (yaw_scale > 0.25f);
+						if (yaw_scale > 0.25f)
 							yaw_scale = 0.2f;
 
 						switch(ident_iteration & 0x07) {

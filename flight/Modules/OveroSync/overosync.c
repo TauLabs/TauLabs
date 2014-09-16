@@ -7,7 +7,7 @@
  *
  * @file       overosync.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Communication with an Overo via SPI
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -33,18 +33,19 @@
 #include "overosync.h"
 #include "overosyncstats.h"
 #include "systemstats.h"
+#include "pios_thread.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE   200
 #define STACK_SIZE_BYTES 512
-#define TASK_PRIORITY (tskIDLE_PRIORITY + 0)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private types
 
 // Private variables
 static xQueueHandle queue;
 static UAVTalkConnection uavTalkCon;
-static xTaskHandle overoSyncTaskHandle;
+static struct pios_thread *overoSyncTaskHandle;
 static bool module_enabled;
 
 // Private functions
@@ -122,7 +123,7 @@ int32_t OveroSyncStart(void)
 	UAVObjIterate(&register_object);
 	
 	// Start telemetry tasks
-	xTaskCreate(overoSyncTask, (signed char *)"OveroSync", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &overoSyncTaskHandle);
+	overoSyncTaskHandle = PIOS_Thread_Create(overoSyncTask, "OveroSync", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	
 	TaskMonitorAdd(TASKINFO_RUNNING_OVEROSYNC, overoSyncTaskHandle);
 	
@@ -173,8 +174,8 @@ static void overoSyncTask(void *parameters)
 	overosync->failed_objects = 0;
 	overosync->received_objects = 0;
 	
-	portTickType lastUpdateTime = xTaskGetTickCount();
-	portTickType updateTime;
+	uint32_t lastUpdateTime = PIOS_Thread_Systime();
+	uint32_t updateTime;
 
 	bool initialized = false;
 	uint8_t last_connected = OVEROSYNCSTATS_CONNECTED_FALSE;
@@ -186,7 +187,7 @@ static void overoSyncTask(void *parameters)
 
 			// For the first seconds do not send updates to allow the
 			// overo to boot.  Then enable it and act normally.
-			if (!initialized && xTaskGetTickCount() < 5000) {
+			if (!initialized && PIOS_Thread_Systime() < 5000) {
 				continue;
 			} else if (!initialized) {
 				initialized = true;
@@ -196,8 +197,8 @@ static void overoSyncTask(void *parameters)
 			// Process event.  This calls transmitData
 			UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
 			
-			updateTime = xTaskGetTickCount();
-			if(((portTickType) (updateTime - lastUpdateTime)) > 1000) {
+			updateTime = PIOS_Thread_Systime();
+			if(((uint32_t) (updateTime - lastUpdateTime)) > 1000) {
 				// Update stats.  This will trigger a local send event too
 				OveroSyncStatsData syncStats;
 				syncStats.Send = overosync->sent_bytes;

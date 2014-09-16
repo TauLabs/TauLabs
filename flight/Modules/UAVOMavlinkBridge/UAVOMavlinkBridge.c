@@ -6,7 +6,7 @@
  * @{ 
  *
  * @file       UAVOMavlinkBridge.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Bridges selected UAVObjects to Mavlink
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -43,6 +43,7 @@
 #include "homelocation.h"
 #include "baroaltitude.h"
 #include "mavlink.h"
+#include "pios_thread.h"
 
 // ****************
 // Private functions
@@ -59,7 +60,7 @@ static bool stream_trigger(enum MAV_DATA_STREAM stream_num);
 #define STACK_SIZE_BYTES 800
 #endif
 
-#define TASK_PRIORITY               (tskIDLE_PRIORITY + 1)
+#define TASK_PRIORITY               PIOS_THREAD_PRIO_LOW
 #define TASK_RATE_HZ				10
 
 static const uint8_t mav_rates[] =
@@ -75,7 +76,7 @@ static const uint8_t mav_rates[] =
 // ****************
 // Private variables
 
-static xTaskHandle uavoMavlinkBridgeTaskHandle;
+static struct pios_thread *uavoMavlinkBridgeTaskHandle;
 
 static uint32_t mavlink_port;
 
@@ -97,9 +98,8 @@ static void updateSettings();
 static int32_t uavoMavlinkBridgeStart(void) {
 	if (module_enabled) {
 		// Start tasks
-		xTaskCreate(uavoMavlinkBridgeTask, (signed char *) "uavoMavlinkBridge",
-				STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY,
-				&uavoMavlinkBridgeTaskHandle);
+		uavoMavlinkBridgeTaskHandle = PIOS_Thread_Create(
+				uavoMavlinkBridgeTask, "uavoMavlinkBridge", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_UAVOMAVLINKBRIDGE,
 				uavoMavlinkBridgeTaskHandle);
 		return 0;
@@ -210,12 +210,12 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	}
 
 	uint16_t msg_length;
-	portTickType lastSysTime;
+	uint32_t lastSysTime;
 	// Main task loop
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 
 	while (1) {
-		vTaskDelayUntil(&lastSysTime, MS2TICKS(1000 / TASK_RATE_HZ));
+		PIOS_Thread_Sleep_Until(&lastSysTime, 1000 / TASK_RATE_HZ);
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTENDED_STATUS)) {
 			if (FlightBatteryStateHandle() != NULL )

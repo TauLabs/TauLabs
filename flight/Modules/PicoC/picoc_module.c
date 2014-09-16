@@ -39,13 +39,14 @@
 #include "picocstatus.h" 
 #include "flightstatus.h"
 #include "modulesettings.h"
+#include "pios_thread.h"
 
 // Global variables
 extern uintptr_t pios_waypoints_settings_fs_id;	/* use the waypoint filesystem */
 extern struct flashfs_logfs_cfg flashfs_waypoints_cfg;
 
 // Private constants
-#define TASK_PRIORITY			(tskIDLE_PRIORITY + 1)
+#define TASK_PRIORITY			PIOS_THREAD_PRIO_LOW
 #define TASK_STACKSIZE_MIN		(5*1024)
 #define TASK_STACKSIZE_MAX		(128*1024)
 #define PICOC_STACKSIZE_MIN		(10*1024)
@@ -59,7 +60,7 @@ extern struct flashfs_logfs_cfg flashfs_waypoints_cfg;
 #define ENQ	0x05	/* (^E) enquiry */
 
 // Private variables
-static xTaskHandle picocTaskHandle;
+static struct pios_thread *picocTaskHandle;
 static uintptr_t picocPort;
 static bool module_enabled;
 static char *sourcebuffer;
@@ -87,9 +88,8 @@ static int32_t picocStart(void)
 {
 	if (module_enabled) {
 		// Start task
-		xTaskCreate(picocTask, (signed char *) "PicoC",
-				picocsettings.TaskStackSize / 4, NULL, TASK_PRIORITY,
-				&picocTaskHandle);
+		picocTaskHandle = PIOS_Thread_Create(picocTask,
+				"PicoC", picocsettings.TaskStackSize, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_PICOC,
 				picocTaskHandle);
 		return 0;
@@ -174,6 +174,14 @@ static void picocTask(void *parameters) {
 		// handle file and buffer commands
 		if (picocstatus.Command != PICOCSTATUS_COMMAND_IDLE) {
 			switch (picocstatus.Command) {
+			case PICOCSTATUS_COMMAND_STARTSCRIPT:
+				// external start request
+				picocstatus.ExitValue = picoc(sourcebuffer, picocsettings.PicoCStackSize);
+				PicoCStatusExitValueSet(&picocstatus.ExitValue);
+				picocstatus.CommandError = 0;
+				picocstatus.Command = PICOCSTATUS_COMMAND_IDLE;
+				started = true;
+				break;
 			case PICOCSTATUS_COMMAND_USARTMODE:
 				// handle commands via USART
 				picocstatus.CommandError = usart_cmd(sourcebuffer, sourcebuffer_size);
@@ -271,7 +279,7 @@ static void picocTask(void *parameters) {
 		}
 		started &= startup;
 
-		vTaskDelay(10);
+		PIOS_Thread_Sleep(10);
 	}
 }
 

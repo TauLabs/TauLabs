@@ -7,7 +7,7 @@
  *
  * @file       baro_airspeed.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Read airspeed from various modules
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -39,6 +39,7 @@
 #include "openpilot.h"
 #include "airspeedsettings.h"
 #include "baroairspeed.h"	// object that will be updated by the module
+#include "pios_thread.h"
 
 #if defined(PIOS_INCLUDE_MPXV7002) || defined (PIOS_INCLUDE_MPXV5004)
 
@@ -56,10 +57,10 @@
 static uint16_t calibrationCount=0;
 
 
-void baro_airspeedGetAnalog(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
+void baro_airspeedGetAnalog(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
 {
 	//Wait until our turn
-	vTaskDelayUntil(lastSysTime, MS2TICKS(SAMPLING_DELAY_MS_MPXV));
+	PIOS_Thread_Sleep_Until(lastSysTime, SAMPLING_DELAY_MS_MPXV);
 
 	//Ensure that the ADC pin is properly configured
 	if(airspeedADCPin <0){ //It's not, so revert to former sensor type
@@ -136,10 +137,10 @@ void baro_airspeedGetAnalog(BaroAirspeedData *baroAirspeedData, portTickType *la
 
 #else
 
-void baro_airspeedGetAnalog(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
+void baro_airspeedGetAnalog(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin)
 {
 	/* Do nothing when driver support not compiled. */
-	vTaskDelayUntil(lastSysTime, MS2TICKS(1000));
+	PIOS_Thread_Sleep_Until(lastSysTime, 1000);
 }
 #endif
 

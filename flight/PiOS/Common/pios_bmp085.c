@@ -37,6 +37,7 @@
 #endif /* PIOS_INCLUDE_EXTI */
 
 #include <pios_exti.h>
+#include "pios_semaphore.h"
 
 /* Glocal Variables */
 ConversionTypeTypeDef CurrentRead;
@@ -54,28 +55,17 @@ static volatile uint16_t Temperature;
 
 #ifdef PIOS_BMP085_HAS_GPIOS
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-xSemaphoreHandle PIOS_BMP085_EOC;
-#else
-int32_t PIOS_BMP085_EOC;
-#endif
+struct pios_semaphore *eoc_sema;
 
 void PIOS_BMP085_EndOfConversion (void)
 {
-#if defined(PIOS_INCLUDE_FREERTOS)
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-#endif
-
 	/* Read the ADC Value */
-#if defined(PIOS_INCLUDE_FREERTOS)
-	xSemaphoreGiveFromISR(PIOS_BMP085_EOC, &xHigherPriorityTaskWoken);
-#else
-	PIOS_BMP085_EOC=1;
-#endif
+	bool woken = false;
+	PIOS_Semaphore_Take_FromISR(eoc_sema, &woken);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 	/* Yield From ISR if needed */
-	portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
+	portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
 #endif
 }
 
@@ -114,15 +104,8 @@ static const struct pios_exti_cfg pios_exti_bmp085_cfg __exti_config = {
 void PIOS_BMP085_Init(void)
 {
 #ifdef PIOS_BMP085_HAS_GPIOS
-
-#if defined(PIOS_INCLUDE_FREERTOS)
-	/* Semaphore used by ISR to signal End-Of-Conversion */
-	vSemaphoreCreateBinary(PIOS_BMP085_EOC);
-	/* Must start off empty so that first transfer waits for EOC */
-	xSemaphoreTake(PIOS_BMP085_EOC, portMAX_DELAY);
-#else
-	PIOS_BMP085_EOC = 0;
-#endif
+	eoc_sema = PIOS_Semaphore_Create();
+	PIOS_Semaphore_Take(eoc_sema, PIOS_SEMAPHORE_TIMEOUT_MAX);
 
 	/* Enable EOC GPIO clock */
 	RCC_APB2PeriphClockCmd(PIOS_BMP085_EOC_CLK | RCC_APB2Periph_AFIO, ENABLE);

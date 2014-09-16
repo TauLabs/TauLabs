@@ -7,7 +7,7 @@
  * @{
  * @addtogroup OPMapPlugin QML Viewer Plugin
  * @{
- * @brief Svg declarative image provider
+ * @brief Svg QtQuick image provider
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@
 
 SvgImageProvider::SvgImageProvider(const QString &basePath):
     QObject(),
-    QDeclarativeImageProvider(QDeclarativeImageProvider::Image),
+    QQuickImageProvider(QQuickImageProvider::Image),
     m_basePath(basePath)
 {
 }

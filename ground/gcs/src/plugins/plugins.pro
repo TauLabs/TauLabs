@@ -162,6 +162,12 @@ plugin_pathplanner.depends = plugin_coreplugin
 plugin_pathplanner.depends += plugin_uavobjects
 SUBDIRS += plugin_pathplanner
 
+# PicoC gadget
+plugin_picoc.subdir = picoc
+plugin_picoc.depends = plugin_coreplugin
+plugin_picoc.depends += plugin_uavobjects
+SUBDIRS += plugin_picoc
+
 # Telemetry Scheduler gadget
 plugin_telemetryscheduler.subdir = telemetryscheduler
 plugin_telemetryscheduler.depends = plugin_coreplugin
@@ -320,6 +326,8 @@ plugin_boards_openpilot.subdir = boards_openpilot
 plugin_boards_openpilot.depends = plugin_coreplugin
 plugin_boards_openpilot.depends = plugin_uavobjects
 plugin_boards_openpilot.depends = plugin_uavobjectutil
+plugin_boards_openpilot.depends += plugin_uavobjectwidgetutils
+
 SUBDIRS += plugin_boards_openpilot
 
 # Quantec Networks GmbH
