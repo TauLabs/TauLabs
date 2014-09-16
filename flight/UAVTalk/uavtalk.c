@@ -599,7 +599,7 @@ int32_t UAVTalkRelayPacket(UAVTalkConnection inConnectionHandle, UAVTalkConnecti
     }
 
     // Lock
-    xSemaphoreTakeRecursive(outConnection->lock, portMAX_DELAY);
+    PIOS_Recursive_Mutex_Lock(outConnection->lock, PIOS_MUTEX_TIMEOUT_MAX);
 
     outConnection->txBuffer[0] = UAVTALK_SYNC_VAL;
     // Setup type
@@ -649,7 +649,7 @@ int32_t UAVTalkRelayPacket(UAVTalkConnection inConnectionHandle, UAVTalkConnecti
     }
 
     // Release lock
-    xSemaphoreGiveRecursive(outConnection->lock);
+    PIOS_Recursive_Mutex_Unlock(outConnection->lock);
 
     // Done
     return ret;
