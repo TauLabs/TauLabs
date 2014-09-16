@@ -618,9 +618,9 @@ uint32_t PIOS_RFM22B_DeviceID(uint32_t rfm22b_id)
 static bool rfm22_isConnected(struct pios_rfm22b_dev *rfm22b_dev)
 {
 	return (rfm22b_dev->stats.link_state ==
-		OPLINKSTATUS_LINKSTATE_CONNECTED)
+		TLLINKSTATUS_LINKSTATE_CONNECTED)
 	    || (rfm22b_dev->stats.link_state ==
-		OPLINKSTATUS_LINKSTATE_CONNECTING);
+		TLLINKSTATUS_LINKSTATE_CONNECTING);
 }
 
 /**
@@ -823,8 +823,8 @@ uint8_t PIOS_RFM2B_GetPairStats(uint32_t rfm22b_id, uint32_t * device_ids,
 
 	uint8_t mp =
 	    (max_pairs >=
-	     OPLINKSTATUS_PAIRIDS_NUMELEM) ? max_pairs :
-	    OPLINKSTATUS_PAIRIDS_NUMELEM;
+	     TLLINKSTATUS_PAIRIDS_NUMELEM) ? max_pairs :
+	    TLLINKSTATUS_PAIRIDS_NUMELEM;
 	for (uint8_t i = 0; i < mp; ++i) {
 		device_ids[i] = rfm22b_dev->pair_stats[i].pairID;
 		RSSIs[i] = rfm22b_dev->pair_stats[i].rssi;
@@ -1558,7 +1558,7 @@ static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 	rfm22_clearLEDs();
 
 	// Initialize the detected device statistics.
-	for (uint8_t i = 0; i < OPLINKSTATUS_PAIRIDS_NUMELEM; ++i) {
+	for (uint8_t i = 0; i < TLLINKSTATUS_PAIRIDS_NUMELEM; ++i) {
 		rfm22b_dev->pair_stats[i].pairID = 0;
 		rfm22b_dev->pair_stats[i].rssi = -127;
 		rfm22b_dev->pair_stats[i].afc_correction = 0;
@@ -1571,7 +1571,7 @@ static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 	}
 
 	// Initialize the state
-	rfm22b_dev->stats.link_state = OPLINKSTATUS_LINKSTATE_ENABLED;
+	rfm22b_dev->stats.link_state = TLLINKSTATUS_LINKSTATE_ENABLED;
 
 	// Initialize the packets.
 	rfm22b_dev->rx_packet_len = 0;
@@ -2276,7 +2276,7 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 		    && (radio_dev->channel_index == 0)) {
 			rfm22_synchronizeClock(radio_dev);
 			radio_dev->stats.link_state =
-			    OPLINKSTATUS_LINKSTATE_CONNECTED;
+			    TLLINKSTATUS_LINKSTATE_CONNECTED;
 			radio_dev->on_sync_channel = false;
 		}
 	} else {
@@ -2348,7 +2348,7 @@ static void rfm22_updatePairStatus(struct pios_rfm22b_dev *radio_dev)
 	bool found = false;
 	uint8_t id_idx = 0;
 
-	for (; id_idx < OPLINKSTATUS_PAIRIDS_NUMELEM; ++id_idx) {
+	for (; id_idx < TLLINKSTATUS_PAIRIDS_NUMELEM; ++id_idx) {
 		if (radio_dev->pair_stats[id_idx].pairID == id) {
 			found = true;
 			break;
@@ -2364,7 +2364,7 @@ static void rfm22_updatePairStatus(struct pios_rfm22b_dev *radio_dev)
 		// If we haven't seen it, find a slot to put it in.
 		uint8_t min_idx = 0;
 		int8_t min_rssi = radio_dev->pair_stats[0].rssi;
-		for (id_idx = 1; id_idx < OPLINKSTATUS_PAIRIDS_NUMELEM;
+		for (id_idx = 1; id_idx < TLLINKSTATUS_PAIRIDS_NUMELEM;
 		     ++id_idx) {
 			if (radio_dev->pair_stats[id_idx].rssi < min_rssi) {
 				min_rssi =
@@ -2568,9 +2568,9 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev,
 
 			// Set the link state to disconnected.
 			if (rfm22b_dev->stats.link_state ==
-			    OPLINKSTATUS_LINKSTATE_CONNECTED) {
+			    TLLINKSTATUS_LINKSTATE_CONNECTED) {
 				rfm22b_dev->stats.link_state =
-				    OPLINKSTATUS_LINKSTATE_DISCONNECTED;
+				    TLLINKSTATUS_LINKSTATE_DISCONNECTED;
 				// Set the PPM outputs to INVALID
 				for (uint8_t i = 0;
 				     i < RFM22B_PPM_NUM_CHANNELS; ++i) {

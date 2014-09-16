@@ -33,7 +33,7 @@
 // ****************
 
 #include <openpilot.h>
-#include <oplinkstatus.h>
+#include <tllinkstatus.h>
 #include <objectpersistence.h>
 #include <rfm22breceiver.h>
 #include <radiocombridgestats.h>
@@ -134,7 +134,7 @@ static int32_t RadioComBridgeStart(void)
 		data->parseUAVTalk = true;
 
 		// Configure our UAVObjects for updates.
-		UAVObjConnectQueue(UAVObjGetByID(OPLINKSTATUS_OBJID),
+		UAVObjConnectQueue(UAVObjGetByID(TLLINKSTATUS_OBJID),
 				   data->uavtalkEventQueue,
 				   EV_UPDATED | EV_UPDATED_MANUAL |
 				   EV_UPDATE_REQ);
@@ -226,7 +226,7 @@ static int32_t RadioComBridgeInitialize(void)
 		return -1;
 	}
 	// Initialize the UAVObjects that we use
-	OPLinkStatusInitialize();
+	TLLinkStatusInitialize();
 	ObjectPersistenceInitialize();
 	RFM22BReceiverInitialize();
 	RadioComBridgeStatsInitialize();
@@ -662,10 +662,10 @@ static void ProcessTelemetryStream(UAVTalkConnection inConnectionHandle,
 		// We only want to unpack certain telemetry objects
 		uint32_t objId = UAVTalkGetPacketObjId(inConnectionHandle);
 		switch (objId) {
-		case OPLINKSTATUS_OBJID:
+		case TLLINKSTATUS_OBJID:
 		case TAULINKSETTINGS_OBJID:
 		case RFM22BRECEIVER_OBJID:
-		case MetaObjectId(OPLINKSTATUS_OBJID):
+		case MetaObjectId(TLLINKSTATUS_OBJID):
 		case MetaObjectId(TAULINKSETTINGS_OBJID):
 		case MetaObjectId(RFM22BRECEIVER_OBJID):
 			UAVTalkReceiveObject(inConnectionHandle);
@@ -718,13 +718,13 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle,
 		// Similarly we only want to relay certain objects to the telemetry port
 		uint32_t objId = UAVTalkGetPacketObjId(inConnectionHandle);
 		switch (objId) {
-		case OPLINKSTATUS_OBJID:
+		case TLLINKSTATUS_OBJID:
 		case TAULINKSETTINGS_OBJID:
-		case MetaObjectId(OPLINKSTATUS_OBJID):
+		case MetaObjectId(TLLINKSTATUS_OBJID):
 		case MetaObjectId(TAULINKSETTINGS_OBJID):
 			// Ignore object...
 			// These objects are shadowed by the modem and are not transmitted to the telemetry port
-			// - OPLINKSTATUS_OBJID : ground station will receive the OPLM link status instead
+			// - TLLINKSTATUS_OBJID : ground station will receive the OPLM link status instead
 			// - TAULINKSETTINGS_OBJID : ground station will read and write the OPLM settings instead
 			break;
 		case RFM22BRECEIVER_OBJID:

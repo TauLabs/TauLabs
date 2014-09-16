@@ -9,7 +9,7 @@
  * @file       pios_rfm22b_rcvr_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2013.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
- * @brief      OPLINK receiver private functions
+ * @brief      TauLabs Link receiver private functions
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/

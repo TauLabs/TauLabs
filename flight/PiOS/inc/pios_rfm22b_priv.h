@@ -35,7 +35,7 @@
 #include <pios.h>
 #include <fifo_buffer.h>
 #include <uavobjectmanager.h>
-#include <oplinkstatus.h>
+#include <tllinkstatus.h>
 #include "pios_rfm22b.h"
 #include "pios_semaphore.h"
 
@@ -682,7 +682,7 @@ struct pios_rfm22b_dev {
 	xTaskHandle taskHandle;
 
 	// The potential paired statistics
-	rfm22b_pair_stats pair_stats[OPLINKSTATUS_PAIRIDS_NUMELEM];
+	rfm22b_pair_stats pair_stats[TLLINKSTATUS_PAIRIDS_NUMELEM];
 
 	// ISR pending semaphore
 	struct pios_semaphore *isrPending;
