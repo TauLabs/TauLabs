@@ -42,7 +42,7 @@
 #include "hwsparky2.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
-#include <oplinkstatus.h>
+#include <tllinkstatus.h>
 #include <rfm22breceiver.h>
 #include <pios_rfm22b_rcvr_priv.h>
 /**
@@ -777,15 +777,15 @@ void PIOS_Board_Init(void) {
 
     /* Initalize the RFM22B radio COM device. */
 #if defined(PIOS_INCLUDE_RFM22B)
-	OPLinkStatusInitialize();
+	TLLinkStatusInitialize();
 
 	// Initialize out status object.
-	OPLinkStatusData oplinkStatus;
-	OPLinkStatusGet(&oplinkStatus);
-	oplinkStatus.BoardType     = bdinfo->board_type;
-	PIOS_BL_HELPER_FLASH_Read_Description(oplinkStatus.Description, OPLINKSTATUS_DESCRIPTION_NUMELEM);
-	PIOS_SYS_SerialNumberGetBinary(oplinkStatus.CPUSerial);
-	oplinkStatus.BoardRevision = bdinfo->board_rev;
+	TLLinkStatusData tllinkStatus;
+	TLLinkStatusGet(&tllinkStatus);
+	tllinkStatus.BoardType     = bdinfo->board_type;
+	PIOS_BL_HELPER_FLASH_Read_Description(tllinkStatus.Description, TLLINKSTATUS_DESCRIPTION_NUMELEM);
+	PIOS_SYS_SerialNumberGetBinary(tllinkStatus.CPUSerial);
+	tllinkStatus.BoardRevision = bdinfo->board_rev;
 
 	HwSparky2Data hwSparky2;
 	HwSparky2Get(&hwSparky2);
@@ -821,7 +821,7 @@ void PIOS_Board_Init(void) {
 		if (!pios_com_telem_rf_id) {
 			pios_com_telem_rf_id = pios_com_rf_id;
 		}
-		oplinkStatus.LinkState = OPLINKSTATUS_LINKSTATE_ENABLED;
+		tllinkStatus.LinkState = TLLINKSTATUS_LINKSTATE_ENABLED;
 
 		// Set the RF data rate on the modem to ~2X the selected buad rate because the modem is half duplex.
 		enum rfm22b_datarate datarate = RFM22_datarate_64000;
@@ -897,10 +897,10 @@ void PIOS_Board_Init(void) {
 #endif /* PIOS_INCLUDE_RFM22B_RCVR */
 
 	} else {
-		oplinkStatus.LinkState = OPLINKSTATUS_LINKSTATE_DISABLED;
+		tllinkStatus.LinkState = TLLINKSTATUS_LINKSTATE_DISABLED;
 	}
 
-	OPLinkStatusSet(&oplinkStatus);
+	TLLinkStatusSet(&tllinkStatus);
 #endif /* PIOS_INCLUDE_RFM22B */
 
 	/* Configure the receiver port*/

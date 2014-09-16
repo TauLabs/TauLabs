@@ -92,6 +92,7 @@ UAVOBJSRCFILENAMES += systemsettings
 UAVOBJSRCFILENAMES += systemstats
 UAVOBJSRCFILENAMES += tabletinfo
 UAVOBJSRCFILENAMES += taskinfo
+UAVOBJSRCFILENAMES += tllinkstatus
 UAVOBJSRCFILENAMES += velocityactual
 UAVOBJSRCFILENAMES += velocitydesired
 UAVOBJSRCFILENAMES += watchdogstatus
@@ -118,8 +119,6 @@ UAVOBJSRCFILENAMES += trimanglessettings
 
 UAVOBJSRCFILENAMES += sessionmanaging
 
-#Support for radio module on RM
-UAVOBJSRCFILENAMES += oplinkstatus
 
 
 
