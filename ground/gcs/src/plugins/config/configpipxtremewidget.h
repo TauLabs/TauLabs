@@ -45,8 +45,8 @@ public slots:
 private:
 	Ui_PipXtremeWidget *m_oplink;
 
-	// The OPLink status UAVObject
-	UAVDataObject* oplinkStatusObj;
+	// The link status UAVObject
+	UAVDataObject* tllinkStatusObj;
 
 	// The OPLink ssettins UAVObject
 	UAVDataObject* oplinkSettingsObj;

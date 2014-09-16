@@ -98,7 +98,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/nedposition.h \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.h \
     $$UAVOBJECT_SYNTHETICS/oplinksettings.h \
-    $$UAVOBJECT_SYNTHETICS/oplinkstatus.h \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.h \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.h \
     $$UAVOBJECT_SYNTHETICS/pathdesired.h \
@@ -125,6 +124,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/tabletinfo.h \
     $$UAVOBJECT_SYNTHETICS/taskinfo.h \
     $$UAVOBJECT_SYNTHETICS/taulinksettings.h \
+    $$UAVOBJECT_SYNTHETICS/tllinkstatus.h \
     $$UAVOBJECT_SYNTHETICS/trimangles.h \
     $$UAVOBJECT_SYNTHETICS/trimanglessettings.h \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.h \
@@ -214,7 +214,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/nedposition.cpp \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.cpp \
     $$UAVOBJECT_SYNTHETICS/oplinksettings.cpp \
-    $$UAVOBJECT_SYNTHETICS/oplinkstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.cpp \
     $$UAVOBJECT_SYNTHETICS/pathdesired.cpp \
@@ -241,6 +240,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/tabletinfo.cpp \
     $$UAVOBJECT_SYNTHETICS/taskinfo.cpp \
     $$UAVOBJECT_SYNTHETICS/taulinksettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/tllinkstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/trimangles.cpp \
     $$UAVOBJECT_SYNTHETICS/trimanglessettings.cpp \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.cpp \

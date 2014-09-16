@@ -144,11 +144,11 @@ ConfigGadgetWidget::ConfigGadgetWidget(QWidget *parent) : QWidget(parent)
 
     // Connect to the PipXStatus object updates
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    oplinkStatusObj = dynamic_cast<UAVDataObject*>(objManager->getObject("OPLinkStatus"));
-    if (oplinkStatusObj != NULL ) {
-        connect(oplinkStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateOPLinkStatus(UAVObject*)));
+    tllinkStatusObj = dynamic_cast<UAVDataObject*>(objManager->getObject("TLLinkStatus"));
+    if (tllinkStatusObj != NULL ) {
+        connect(tllinkStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateTLLinkStatus(UAVObject*)));
     } else {
-	qDebug() << "Error: Object is unknown (OPLinkStatus).";
+	qDebug() << "Error: Object is unknown (TLLinkStatus).";
     }
 
     // Create the timer that is used to timeout the connection to the OPLink.
@@ -265,9 +265,9 @@ void ConfigGadgetWidget::tabAboutToChange(int i, bool * proceed)
 }
 
 /*!
-  \brief Called by updates to @OPLinkStatus
+  \brief Called by updates to @TLLinkStatus
   */
-void ConfigGadgetWidget::updateOPLinkStatus(UAVObject *)
+void ConfigGadgetWidget::updateTLLinkStatus(UAVObject *)
 {
     // Restart the disconnection timer.
     oplinkTimeout->start(5000);

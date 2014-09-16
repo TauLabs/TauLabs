@@ -55,7 +55,7 @@ public slots:
     void onAutopilotConnect();
     void onAutopilotDisconnect();
     void tabAboutToChange(int i,bool *);
-    void updateOPLinkStatus(UAVObject *object);
+    void updateTLLinkStatus(UAVObject *object);
     void onOPLinkDisconnect();
 
 signals:
@@ -69,7 +69,7 @@ protected:
         MyTabbedStackWidget *ftw;
 
 private:
-	UAVDataObject* oplinkStatusObj;
+	UAVDataObject* tllinkStatusObj;
 
 	// A timer that timesout the connction to the OPLink.
 	QTimer *oplinkTimeout;
