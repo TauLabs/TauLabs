@@ -53,6 +53,8 @@
 #include "pages/autoupdatepage.h"
 #include "uploader/uploadergadgetfactory.h"
 
+using namespace uploader;
+
 SetupWizard::SetupWizard(QWidget *parent) : QWizard(parent), VehicleConfigurationSource(),
     m_controllerType(NULL),
     m_vehicleType(VEHICLE_UNKNOWN), m_inputType(Core::IBoardType::INPUT_TYPE_UNKNOWN), m_escType(ESC_UNKNOWN),

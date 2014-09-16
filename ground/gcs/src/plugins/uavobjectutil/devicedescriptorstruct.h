@@ -38,13 +38,15 @@ public:
     QString gitHash;
     QString gitDate;
     QString gitTag;
+    QString userDefined;
     QByteArray fwHash;
     QByteArray uavoHash;
-    int boardType;
-    int boardRevision;
+    quint8 boardType;
+    quint8 boardRevision;
+    quint16 boardID();
     static QString idToBoardName(quint16 id);
     static QPixmap idToBoardPicture(quint16 id);
-
+    bool certified;
     deviceDescriptorStruct();
 };
 

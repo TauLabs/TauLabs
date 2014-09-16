@@ -5,7 +5,7 @@
  *
  * @file       WMMInternal.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Include file of the WorldMagModel internal functionality.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -31,8 +31,12 @@
 #define WMMINTERNAL_H_
 
 	// internal constants
+#if !defined(TRUE)
 #define TRUE            ((uint16_t)1)
+#endif
+#if !defined(FALSE)
 #define FALSE           ((uint16_t)0)
+#endif
 #define WMM_MAX_MODEL_DEGREES	12
 #define WMM_MAX_SECULAR_VARIATION_MODEL_DEGREES	12
 #define	NUMTERMS 91		// ((WMM_MAX_MODEL_DEGREES+1)*(WMM_MAX_MODEL_DEGREES+2)/2);

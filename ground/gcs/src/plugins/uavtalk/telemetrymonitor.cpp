@@ -45,7 +45,6 @@
 //IAP object is very important, retry if not able to get it the first time
 #define IAP_OBJECT_RETRIES                  3
 
-#define TELEMETRYMONITOR_DEBUG
 #ifdef TELEMETRYMONITOR_DEBUG
   #define TELEMETRYMONITOR_QXTLOG_DEBUG(...) qDebug()<<__VA_ARGS__
 #else  // TELEMETRYMONITOR_DEBUG
@@ -98,19 +97,25 @@ TelemetryMonitor::TelemetryMonitor(UAVObjectManager* objMngr, Telemetry* tel, QH
     connect(this,SIGNAL(telemetryUpdated(double,double)),cm,SLOT(telemetryUpdated(double,double)));
     connect(sessionObj,SIGNAL(objectUnpacked(UAVObject*)),this,SLOT(sessionObjUnpackedCB(UAVObject*)));
     connect(objMngr,SIGNAL(newInstance(UAVObject*)),this,SLOT(newInstanceSlot(UAVObject*)));
+
+    ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
+    settings=pm->getObject<Core::Internal::GeneralSettings>();
 }
 
 TelemetryMonitor::~TelemetryMonitor() {
     // Before saying goodbye, set the GCS connection status to disconnected too:
     GCSTelemetryStats::DataFields gcsStats = gcsStatsObj->getData();
     gcsStats.Status = GCSTelemetryStats::STATUS_DISCONNECTED;
-    foreach(UAVObjectManager::ObjectMap map, objMngr->getObjects())
+    if (settings->useSessionManaging())
     {
-        foreach(UAVObject* obj, map.values())
+        foreach(UAVObjectManager::ObjectMap map, objMngr->getObjects())
         {
-            UAVDataObject* dobj = dynamic_cast<UAVDataObject*>(obj);
-            if(dobj)
-                dobj->setIsPresentOnHardware(false);
+            foreach(UAVObject* obj, map.values())
+            {
+                UAVDataObject* dobj = dynamic_cast<UAVDataObject*>(obj);
+                if(dobj)
+                    dobj->setIsPresentOnHardware(false);
+            }
         }
     }
     // Set data
@@ -646,23 +651,37 @@ void TelemetryMonitor::processStatsUpdates()
     {
         statsTimer->setInterval(STATS_UPDATE_PERIOD_MS);
         qDebug() << "Connection with the autopilot established";
-        connectionStatus = CON_INITIALIZING;
-        sessionInitialRetrieveTimeout->start(SESSION_INITIAL_RETRIEVE_TIMEOUT);
-        connect(sessionObj,SIGNAL(transactionCompleted(UAVObject*,bool,bool)),this, SLOT(checkSessionObjNacked(UAVObject*, bool, bool)),Qt::UniqueConnection);
-        sessionObj->requestUpdate();
-        isManaged = true;
+        ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
+        Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
+        if (!settings->useSessionManaging())
+        {
+            sessionFallback();
+        }
+        else
+        {
+            connectionStatus = CON_INITIALIZING;
+            sessionInitialRetrieveTimeout->start(SESSION_INITIAL_RETRIEVE_TIMEOUT);
+            connect(sessionObj,SIGNAL(transactionCompleted(UAVObject*,bool,bool)),this, SLOT(checkSessionObjNacked(UAVObject*, bool, bool)),Qt::UniqueConnection);
+            sessionObj->requestUpdate();
+            isManaged = true;
+        }
     }
     if (gcsStats.Status == GCSTelemetryStats::STATUS_DISCONNECTED && gcsStats.Status != oldStatus)
     {
         statsTimer->setInterval(STATS_CONNECT_PERIOD_MS);
         connectionStatus = CON_DISCONNECTED;
-        foreach(UAVObjectManager::ObjectMap map, objMngr->getObjects())
+        ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
+        Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
+        if (settings->useSessionManaging())
         {
-            foreach(UAVObject* obj, map.values())
+            foreach(UAVObjectManager::ObjectMap map, objMngr->getObjects())
             {
-                UAVDataObject* dobj = dynamic_cast<UAVDataObject*>(obj);
-                if(dobj)
-                    dobj->setIsPresentOnHardware(false);
+                foreach(UAVObject* obj, map.values())
+                {
+                    UAVDataObject* dobj = dynamic_cast<UAVDataObject*>(obj);
+                    if(dobj)
+                        dobj->setIsPresentOnHardware(false);
+                }
             }
         }
         emit disconnected();

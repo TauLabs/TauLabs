@@ -1325,7 +1325,6 @@ void OPMapGadgetWidget::createActions()
 
     setHomeAct = new QAction(tr("Set the home location"), this);
     setHomeAct->setStatusTip(tr("Set the home location to where you clicked"));
-    setHomeAct->setEnabled(false);
     connect(setHomeAct, SIGNAL(triggered()), this, SLOT(onSetHomeAct_triggered()));
 
     goHomeAct = new QAction(tr("Go to &Home location"), this);

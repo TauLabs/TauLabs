@@ -53,14 +53,15 @@
 #include "positionactual.h"
 #include "velocityactual.h"
 #include "modulesettings.h"
+#include "pios_thread.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
 #define STACK_SIZE_BYTES 540
-#define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private variables
-static xTaskHandle altitudeHoldTaskHandle;
+static struct pios_thread *altitudeHoldTaskHandle;
 static xQueueHandle queue;
 static bool module_enabled;
 
@@ -75,7 +76,7 @@ int32_t AltitudeHoldStart()
 {
 	// Start main task if it is enabled
 	if (module_enabled) {
-		xTaskCreate(altitudeHoldTask, (signed char *)"AltitudeHold", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &altitudeHoldTaskHandle);
+		altitudeHoldTaskHandle = PIOS_Thread_Create(altitudeHoldTask, "AltitudeHold", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_ALTITUDEHOLD, altitudeHoldTaskHandle);
 		return 0;
 	}
@@ -192,7 +193,7 @@ static void altitudeHoldTask(void *parameters)
 			                    0, 1.0f, // positive limits since this is throttle
 			                    dt_s);
 
-			if (altitudeHoldSettings.AttitudeComp == ALTITUDEHOLDSETTINGS_ATTITUDECOMP_TRUE) {
+			if (altitudeHoldSettings.AttitudeComp > 0) {
 				// Throttle desired is at this point the mount desired in the up direction, we can
 				// account for the attitude if desired
 				AttitudeActualData attitudeActual;
@@ -204,6 +205,10 @@ static void altitudeHoldTask(void *parameters)
 				                 attitudeActual.q2 * attitudeActual.q2 -
 				                 attitudeActual.q3 * attitudeActual.q3 +
 				                 attitudeActual.q4 * attitudeActual.q4;
+
+				// Add ability to scale up the amount of compensation to achieve
+				// level forward flight
+				fraction = powf(fraction, (float) altitudeHoldSettings.AttitudeComp / 100.0f);
 
 				// Dividing by the fraction remaining in the vertical projection will
 				// attempt to compensate for tilt. This acts like the thrust is linear

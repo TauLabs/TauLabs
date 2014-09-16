@@ -2,12 +2,12 @@
  ******************************************************************************
  *
  * @file       uploadergadgetwidget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup YModemUploader YModem Serial Uploader Plugin
+ * @addtogroup  Uploader Uploader Plugin
  * @{
- * @brief The YModem protocol serial uploader plugin
+ * @brief The Tau Labs uploader plugin main widget
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -28,90 +28,115 @@
 #ifndef UPLOADERGADGETWIDGET_H
 #define UPLOADERGADGETWIDGET_H
 
+#include <QPointer>
 #include "ui_uploader.h"
-#include "delay.h"
-#include "devicewidget.h"
-#include "runningdevicewidget.h"
-#include "op_dfu.h"
-#include <QtSerialPort/QSerialPort>
-#include <QtSerialPort/QSerialPortInfo>
-
-
+#include "tl_dfu.h"
+#include <coreplugin/iboardtype.h>
+#include "uploader_global.h"
+#include "devicedescriptorstruct.h"
+#include "uavobjectutilmanager.h"
 #include "uavtalk/telemetrymanager.h"
-#include "extensionsystem/pluginmanager.h"
-#include "uavobjectmanager.h"
-#include "uavobject.h"
-
-#include "coreplugin/icore.h"
 #include "coreplugin/connectionmanager.h"
 
-#include "rawhid/rawhidplugin.h"
-#include <QWidget>
-#include <QLabel>
-#include <QLineEdit>
-#include <QThread>
-#include <QMessageBox>
-#include <QTimer>
-#include "devicedescriptorstruct.h"
-#include <QProgressDialog>
-#include <QErrorMessage>
-#include <QDesktopServices>
-#include "uploader_global.h"
-#include "enums.h"
-using namespace OP_DFU;
-using namespace uploader;
+using namespace tl_dfu;
+
+namespace uploader {
+
+typedef enum { STATUSICON_OK, STATUSICON_RUNNING, STATUSICON_FAIL, STATUSICON_INFO} StatusIcon;
 
 class UPLOADER_EXPORT UploaderGadgetWidget : public QWidget
 {
     Q_OBJECT
-
+    struct deviceInfo
+    {
+        QPointer<Core::IBoardType> board;
+        QString bl_version;
+        QString max_code_size;
+        QString cpu_serial;
+        QString hw_revision;
+    };
+    struct partitionStruc
+    {
+        QByteArray partitionData;
+        int partitionNumber;
+    };
 
 public:
     UploaderGadgetWidget(QWidget *parent = 0);
-   ~UploaderGadgetWidget();
-    void log(QString str);
+    ~UploaderGadgetWidget();
     bool autoUpdateCapable();
 public slots:
+    bool autoUpdate();
+signals:
+    void bootloaderDetected();
+    void rescueTimer(int);
+    void rescueFinish(bool);
+    void uploadFinish(bool);
+    void uploadProgress(UploaderStatus, QVariant);
+    void autoUpdateSignal(UploaderStatus, QVariant);
+private slots:
     void onAutopilotConnect();
     void onAutopilotDisconnect();
-    void populate();
+    void onAutopilotReady();
+    void onIAPPresentChanged(UAVDataObject*);
+    void onIAPUpdated();
+    void onLoadFirmwareButtonClick();
+    void onHaltButtonClick();
+    void onFlashButtonClick();
+    void onRescueButtonClick();
+    void onBootloaderDetected();
+    void onBootloaderRemoved();
+    void onRescueTimer(bool start = false);
+    void onStatusUpdate(QString, int);
+    void onUploadFinish(tl_dfu::Status);
+    void onDownloadFinish(bool);
+    void onPartitionSave();
+    void onPartitionFlash();
+    void onPartitionErase();
+    void onPartitionsBundleSave();
+    void onPartitionsBundleFlash();
+    void onBootButtonClick();
+    void onBootingTimout();
+    void onAutoUpdateCount(int i);
     void openHelp();
-    bool autoUpdate();
-    void autoUpdateProgress(int);
-signals:
-    void autoUpdateSignal(uploader::AutoUpdateStep,QVariant);
+    void onResetButtonClick();
+    void onAvailableDevicesChanged(QLinkedList<Core::DevListItem>);
 private:
-     Ui_UploaderWidget *m_config;
-     DFUObject *dfu;
-     IAPStep currentStep;
-     bool resetOnly;
-     void clearLog();
-     QString getPortDevice(const QString &friendName);
-     QProgressDialog* m_progress;
-     QTimer* m_timer;
-     QLineEdit* openFileNameLE;
-     QEventLoop m_eventloop;
-     QErrorMessage * msg;
-     void connectSignalSlot(QWidget * widget);
-     int autoUpdateConnectTimeout;
-private slots:
-    void onPhisicalHWConnect();
-    void versionMatchCheck();
-    void error(QString errorString,int errorNumber);
-    void info(QString infoString,int infoNumber);
-    void goToBootloader(UAVObject* = NULL, bool = false);
-    void systemReset();
-    void systemBoot();
-    void systemSafeBoot();
-    void commonSystemBoot(bool = false);
-    void systemRescue();
-    void getSerialPorts();
-    void perform();
-    void performAuto();
-    void cancel();
-    void uploadStarted();
-    void uploadEnded(bool succeed);
+    void FirmwareOnDeviceClear(bool clear);
+    void FirmwareLoadedClear(bool clear);
+    void PartitionBrowserClear();
+    void DeviceInformationClear();
+    void DeviceInformationUpdate(deviceInfo board);
+    void FirmwareOnDeviceUpdate(deviceDescriptorStruct firmware, QString crc);
+    void FirmwareLoadedUpdate(QByteArray firmwareArray);
+    QString LoadFirmwareFileDialog(QString);
+    uploader::UploaderStatus getUploaderStatus() const;
+    void setUploaderStatus(const uploader::UploaderStatus &value);
+    void CheckAutopilotReady();
+    bool CheckInBootloaderState();
+    void setStatusInfo(QString str, uploader::StatusIcon ic);
+    void ProcessPartitionBundleFlash(bool result, bool start = false);
+    void ProcessPartitionBundleSave(bool result, int count = -1);
 
+    Ui_UploaderWidget *m_widget;
+    bool telemetryConnected;
+    bool iapPresent;
+    bool iapUpdated;
+    UAVObjectUtilManager* utilMngr;
+    QByteArray loadedFile;
+    DFUObject dfu;
+    ExtensionSystem::PluginManager *pm;
+    USBSignalFilter *usbFilterBL;
+    TelemetryManager* telMngr;
+    Core::ConnectionManager *conMngr;
+    FirmwareIAPObj *firmwareIap;
+    deviceInfo currentBoard;
+    QString lastConnectedTelemetryDevice;
+    uploader::UploaderStatus uploaderStatus;
+    uploader::UploaderStatus previousStatus;
+    QByteArray tempArray;
+    bool lastUploadResult;
+    QTimer bootTimeoutTimer;
 };
-
+}
 #endif // UPLOADERGADGETWIDGET_H

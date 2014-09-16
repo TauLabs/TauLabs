@@ -6,7 +6,7 @@
  * @{ 
  *
  * @file       uavorelay.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Forward a set of UAVObjects when updated out a PIOS_COM port
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -30,18 +30,19 @@
 #include "openpilot.h"
 #include "modulesettings.h"
 #include "cameradesired.h"
+#include "pios_thread.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE   5
 #define STACK_SIZE_BYTES 512
-#define TASK_PRIORITY (tskIDLE_PRIORITY + 0)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private types
 
 // Private variables
 static xQueueHandle queue;
 static UAVTalkConnection uavTalkCon;
-static xTaskHandle uavoRelayTaskHandle;
+static struct pios_thread *uavoRelayTaskHandle;
 static bool module_enabled;
 
 // Private functions
@@ -111,8 +112,8 @@ int32_t UAVORelayStart(void)
 		register_object(CameraDesiredHandle());
 	
 	// Start relay task
-	xTaskCreate(uavoRelayTask, (signed char *)"UAVORelay", STACK_SIZE_BYTES/4,
-	            NULL, TASK_PRIORITY, &uavoRelayTaskHandle);
+	uavoRelayTaskHandle = PIOS_Thread_Create(
+			uavoRelayTask, "UAVORelay", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 	TaskMonitorAdd(TASKINFO_RUNNING_UAVORELAY, uavoRelayTaskHandle);
 	
@@ -140,7 +141,7 @@ static void uavoRelayTask(void *parameters)
 	// Loop forever
 	while (1) {
 
-		vTaskDelay(50);
+		PIOS_Thread_Sleep(50);
 
 		// Wait for queue message
 		if (xQueueReceive(queue, &ev, 2) == pdTRUE) {

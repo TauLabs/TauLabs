@@ -4,6 +4,7 @@
  * @file       pios_udp_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * 	       Parts by Thorsten Klose (tk@midibox.org)
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      UDP private definitions.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -37,6 +38,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <netinet/in.h>
+#include "pios_thread.h"
 
 struct pios_udp_cfg {
   const char * ip;
@@ -45,7 +47,7 @@ struct pios_udp_cfg {
 
 typedef struct {
   const struct pios_udp_cfg * cfg;
-  xTaskHandle rxThread;
+  struct pios_thread *rxThread;
 
   int socket;
   struct sockaddr_in server;

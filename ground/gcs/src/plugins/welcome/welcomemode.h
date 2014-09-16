@@ -69,6 +69,7 @@ public slots:
 
 private:
     WelcomeModePrivate *m_d;
+    QWidget *m_container;
     int m_priority;
 };
 

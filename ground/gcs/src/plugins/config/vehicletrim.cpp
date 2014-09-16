@@ -66,7 +66,8 @@ VehicleTrim::autopilotLevelBiasMessages VehicleTrim::setAutopilotBias()
     }
 
     // Check that vehicle is in stabilized{1,2,3} flight mode
-    if (flightStatus->getFlightMode() != FlightStatus::FLIGHTMODE_STABILIZED1 &&
+    if (flightStatus->getFlightMode() != FlightStatus::FLIGHTMODE_LEVELING &&
+            flightStatus->getFlightMode() != FlightStatus::FLIGHTMODE_STABILIZED1 &&
             flightStatus->getFlightMode() != FlightStatus::FLIGHTMODE_STABILIZED2 &&
             flightStatus->getFlightMode() != FlightStatus::FLIGHTMODE_STABILIZED3){
         return AUTOPILOT_LEVEL_FAILED_DUE_TO_FLIGHTMODE;

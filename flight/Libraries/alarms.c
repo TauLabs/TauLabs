@@ -5,6 +5,7 @@
  *
  * @file       alarms.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      Library for setting and clearing system alarms
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -27,13 +28,14 @@
 
 #include "openpilot.h"
 #include "alarms.h"
+#include "pios_mutex.h"
 
 // Private constants
 
 // Private types
 
 // Private variables
-static xSemaphoreHandle lock;
+static struct pios_mutex *lock;
 
 // Private functions
 static int32_t hasSeverity(SystemAlarmsAlarmOptions severity);
@@ -44,7 +46,8 @@ static int32_t hasSeverity(SystemAlarmsAlarmOptions severity);
 int32_t AlarmsInitialize(void)
 {
 	SystemAlarmsInitialize();
-	lock = xSemaphoreCreateRecursiveMutex();
+	lock = PIOS_Mutex_Create();
+	PIOS_Assert(lock != NULL);
 	return 0;
 }
 
@@ -65,7 +68,7 @@ int32_t AlarmsSet(SystemAlarmsAlarmElem alarm, SystemAlarmsAlarmOptions severity
 	}
 
 	// Lock
-    xSemaphoreTakeRecursive(lock, portMAX_DELAY);
+	PIOS_Mutex_Lock(lock, PIOS_MUTEX_TIMEOUT_MAX);
 
     // Read alarm and update its severity only if it was changed
     SystemAlarmsGet(&alarms);
@@ -76,7 +79,7 @@ int32_t AlarmsSet(SystemAlarmsAlarmElem alarm, SystemAlarmsAlarmOptions severity
     }
 
     // Release lock
-    xSemaphoreGiveRecursive(lock);
+    PIOS_Mutex_Unlock(lock);
     return 0;
 
 }
@@ -182,7 +185,7 @@ static int32_t hasSeverity(SystemAlarmsAlarmOptions severity)
 	uint32_t n;
 
 	// Lock
-    xSemaphoreTakeRecursive(lock, portMAX_DELAY);
+	PIOS_Mutex_Lock(lock, PIOS_MUTEX_TIMEOUT_MAX);
 
     // Read alarms
     SystemAlarmsGet(&alarms);
@@ -192,13 +195,13 @@ static int32_t hasSeverity(SystemAlarmsAlarmOptions severity)
     {
     	if ( alarms.Alarm[n] >= severity)
     	{
-    		xSemaphoreGiveRecursive(lock);
+    		PIOS_Mutex_Unlock(lock);
     		return 1;
     	}
     }
 
     // If this point is reached then no alarms found
-    xSemaphoreGiveRecursive(lock);
+	PIOS_Mutex_Unlock(lock);
     return 0;
 }
 

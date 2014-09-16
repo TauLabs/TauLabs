@@ -73,11 +73,12 @@
 #include "velocityactual.h"
 #include "coordinate_conversions.h"
 #include "WorldMagModel.h"
+#include "pios_thread.h"
 
 // Private constants
 
 #define STACK_SIZE_BYTES 2200
-#define TASK_PRIORITY (tskIDLE_PRIORITY+3)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define FAILSAFE_TIMEOUT_MS 10
 
 // Private types
@@ -130,7 +131,7 @@ struct cfvert {
 };
 
 // Private variables
-static xTaskHandle attitudeTaskHandle;
+static struct pios_thread *attitudeTaskHandle;
 
 static xQueueHandle gyroQueue;
 static xQueueHandle accelQueue;
@@ -278,7 +279,7 @@ int32_t AttitudeStart(void)
 		GPSVelocityConnectQueue(gpsVelQueue);
 
 	// Start main task
-	xTaskCreate(AttitudeTask, (signed char *)"Attitude", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);
+	attitudeTaskHandle = PIOS_Thread_Create(AttitudeTask, "Attitude", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
 
@@ -301,7 +302,7 @@ static void AttitudeTask(void *parameters)
 	settingsUpdatedCb(NULL);
 
 	// Wait for all the sensors be to read
-	vTaskDelay(100);
+	PIOS_Thread_Sleep(100);
 
 	// Invalidate previous algorithm to trigger a first run
 	last_algorithm = 0xfffffff;
@@ -480,7 +481,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 		(ms_since_reset > 1000)) {
 
 		// For first 7 seconds use accels to get gyro bias
-		attitudeSettings.AccelKp = 0.1f + 0.1f * (xTaskGetTickCount() < 4000);
+		attitudeSettings.AccelKp = 0.1f + 0.1f * (PIOS_Thread_Systime() < 4000);
 		attitudeSettings.AccelKi = 0.1f;
 		attitudeSettings.YawBiasRate = 0.1f;
 		attitudeSettings.MagKp = 0.1f;
@@ -1353,8 +1354,7 @@ static void check_home_location()
 		return;
 
 	// Do not calculate if already set
-	HomeLocationData home;
-	if (home.Set == HOMELOCATION_SET_TRUE)
+	if (homeLocation.Set == HOMELOCATION_SET_TRUE)
 		return;
 
 	GPSPositionData gps;
@@ -1370,22 +1370,22 @@ static void check_home_location()
 	     gpsTime.Year >= 2000)
 	{
 		// Store LLA
-		home.Latitude = gps.Latitude;
-		home.Longitude = gps.Longitude;
-		home.Altitude = gps.Altitude; // Altitude referenced to mean sea level geoid (likely EGM 1996, but no guarantees)
+		homeLocation.Latitude = gps.Latitude;
+		homeLocation.Longitude = gps.Longitude;
+		homeLocation.Altitude = gps.Altitude; // Altitude referenced to mean sea level geoid (likely EGM 1996, but no guarantees)
 
 		// Compute home ECEF coordinates and the rotation matrix into NED
-		double LLA[3] = { ((double)home.Latitude) / 10e6, ((double)home.Longitude) / 10e6, ((double)home.Altitude) };
+		double LLA[3] = { ((double)homeLocation.Latitude) / 10e6, ((double)homeLocation.Longitude) / 10e6, ((double)homeLocation.Altitude) };
 
 		// Compute magnetic flux direction at home location
-		if (WMM_GetMagVector(LLA[0], LLA[1], LLA[2], gpsTime.Month, gpsTime.Day, gpsTime.Year, &home.Be[0]) >= 0)
+		if (WMM_GetMagVector(LLA[0], LLA[1], LLA[2], gpsTime.Month, gpsTime.Day, gpsTime.Year, &homeLocation.Be[0]) >= 0)
 		{   // calculations appeared to go OK
 
 			// Compute local acceleration due to gravity.  Vehicles that span a very large
 			// range of altitude (say, weather balloons) may need to update this during the
 			// flight.
-			home.Set = HOMELOCATION_SET_TRUE;
-			HomeLocationSet(&home);
+			homeLocation.Set = HOMELOCATION_SET_TRUE;
+			HomeLocationSet(&homeLocation);
 		}
 	}
 }

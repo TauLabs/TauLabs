@@ -7,7 +7,7 @@
  *
  * @file       board_hw_defs.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Defines board specific static initializers for hardware for the
  *             RevoMini board.
  * @see        The GNU Public License (GPL) Version 3
@@ -626,6 +626,7 @@ static const struct pios_usart_cfg pios_usart_main_cfg = {
  */
 static const struct pios_usart_cfg pios_usart_sbus_main_cfg = {
 	.regs = USART1,
+	.remap = GPIO_AF_USART1,
 	.init = {
 		.USART_BaudRate            = 100000,
 		.USART_WordLength          = USART_WordLength_8b,
@@ -647,16 +648,11 @@ static const struct pios_usart_cfg pios_usart_sbus_main_cfg = {
 		.init = {
 			.GPIO_Pin   = GPIO_Pin_10,
 			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_IPU,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
 		},
-	},
-	.tx = {
-		.gpio = GPIOA,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_9,
-			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_IN_FLOATING,
-		},
+		.pin_source = GPIO_PinSource10,
 	},
 };
 
@@ -677,6 +673,8 @@ static const struct pios_sbus_cfg pios_sbus_cfg = {
 	},
 	.gpio_inv_enable = Bit_SET,
 	.gpio_inv_disable = Bit_RESET,
+	.gpio_clk_func    = RCC_AHB1PeriphClockCmd,
+	.gpio_clk_periph  = RCC_AHB1Periph_GPIOC,
 };
 
 

@@ -34,6 +34,8 @@ QmlViewGadget::QmlViewGadget(QString classId, QmlViewGadgetWidget *widget, QWidg
         IUAVGadget(classId, parent),
         m_widget(widget)
 {
+    m_container = NULL;
+    m_parent    = parent;
 }
 
 QmlViewGadget::~QmlViewGadget()
@@ -51,5 +53,4 @@ void QmlViewGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 {
     QmlViewGadgetConfiguration *m = qobject_cast<QmlViewGadgetConfiguration*>(config);
     m_widget->setQmlFile(m->dialFile());
-    m_widget->enableOpenGL(m->useOpenGL());
 }

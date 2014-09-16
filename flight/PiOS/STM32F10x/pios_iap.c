@@ -1,11 +1,33 @@
-/*!
- * 	@File iap.c
- *	@Brief	
+/**
+ ******************************************************************************
+ * @addtogroup PIOS PIOS Core hardware abstraction layer
+ * @{
+ * @addtogroup   PIOS_IAP IAP Functions
+ * @brief STM32F1xx PIOS IAP Functions
+ * @{
  *
- *  Created on: Sep 6, 2010
- *      Author: joe
+ * @file       pios_iap.c
+ * @author     joe 2010
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
+ * @brief      In application programming functions
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-
 
 /****************************************************************************************
  *  Header files
@@ -19,6 +41,7 @@
 /* these definitions reside here for protection and privacy. */
 #define IAP_MAGIC_WORD_1	0x1122
 #define IAP_MAGIC_WORD_2	0xAA55
+#define IAP_MAGIC_WORD_3	0xBB11
 
 #define UPPERWORD16(lw)	(uint16_t)((uint32_t)(lw)>>16)
 #define LOWERWORD16(lw)	(uint16_t)((uint32_t)(lw)&0x0000ffff)
@@ -63,11 +86,7 @@ void PIOS_IAP_Init( void )
 
 /*!
  * \brief     Determines if an In-Application-Programming request has been made.
- * \param   *comm - Which communication stream to use for the IAP (USB, Telemetry, I2C, SPI, etc)
- * \return    true - if correct sequence found, along with 'comm' updated.
- * 			false - Note that 'comm' will have an invalid comm identifier.
- * \retval
- *
+ * \return    true - if correct sequence found
  */
 uint32_t	PIOS_IAP_CheckRequest( void )
 {
@@ -87,7 +106,27 @@ uint32_t	PIOS_IAP_CheckRequest( void )
 	return retval;
 }
 
+/*!
+ * \brief     Determines if a boot request has been made.
+ * \return    true - if correct sequence found
+ */
+uint32_t	PIOS_Boot_CheckRequest( void )
+{
+	uint32_t	retval = false;
+	uint16_t	reg1;
+	uint16_t	reg2;
 
+	reg1 = BKP_ReadBackupRegister( MAGIC_REG_1 );
+	reg2 = BKP_ReadBackupRegister( MAGIC_REG_2 );
+
+	if( reg1 == IAP_MAGIC_WORD_1 && reg2 == IAP_MAGIC_WORD_3 ) {
+		// We have a match.
+		retval = true;
+	} else {
+		retval = false;
+	}
+	return retval;
+}
 
 /*!
  * \brief   Sets the 1st word of the request sequence.
@@ -103,6 +142,11 @@ void	PIOS_IAP_SetRequest1(void)
 void	PIOS_IAP_SetRequest2(void)
 {
 	BKP_WriteBackupRegister( MAGIC_REG_2, IAP_MAGIC_WORD_2);
+}
+
+void	PIOS_IAP_SetRequest3(void)
+{
+	BKP_WriteBackupRegister( MAGIC_REG_2, IAP_MAGIC_WORD_3);
 }
 
 void	PIOS_IAP_ClearRequest(void)

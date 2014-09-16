@@ -6,7 +6,7 @@
  * @{
  *
  * @file       flyingf3.c 
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Start FreeRTOS and the Modules.
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -32,18 +32,16 @@
 #include "openpilot.h"
 #include "uavobjectsinit.h"
 #include "systemmod.h"
-
-/* Task Priorities */
-#define PRIORITY_TASK_HOOKS             (tskIDLE_PRIORITY + 3)
+#include "pios_thread.h"
 
 /* Prototype of PIOS_Board_Init() function */
 extern void PIOS_Board_Init(void);
 extern void Stack_Change(void);
 
 /* Local Variables */
-#define INIT_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define INIT_TASK_STACK		(640 / 4)
-static xTaskHandle initTaskHandle;
+#define INIT_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
+#define INIT_TASK_STACK		640
+static struct pios_thread *initTaskHandle;
 
 /* Function Prototypes */
 static void initTask(void *parameters);
@@ -62,8 +60,6 @@ extern void InitModules(void);
  */
 int main()
 {
-	int	result;
-
 	/* NOTE: Do NOT modify the following start-up sequence */
 	/* Any new initialization functions should be added in OpenPilotInit() */
 	vPortInitialiseBlocks();
@@ -73,10 +69,8 @@ int main()
 
 	/* For Revolution we use a FreeRTOS task to bring up the system so we can */
 	/* always rely on FreeRTOS primitive */
-	result = xTaskCreate(initTask, (const signed char *)"init",
-						 INIT_TASK_STACK, NULL, INIT_TASK_PRIORITY,
-						 &initTaskHandle);
-	PIOS_Assert(result == pdPASS);
+	initTaskHandle = PIOS_Thread_Create(initTask, "init", INIT_TASK_STACK, NULL, INIT_TASK_PRIORITY);
+	PIOS_Assert(initTaskHandle != NULL);
 
 	/* Start the FreeRTOS scheduler */
 	vTaskStartScheduler();
@@ -106,7 +100,7 @@ initTask(void *parameters)
 	MODULE_INITIALISE_ALL(PIOS_WDG_Clear);
 
 	/* terminate this task */
-	vTaskDelete(NULL);
+	PIOS_Thread_Delete(NULL);
 }
 
 /**

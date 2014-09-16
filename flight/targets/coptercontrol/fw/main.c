@@ -35,9 +35,6 @@
 #include "uavobjectsinit.h"
 #include "systemmod.h"
 
-/* Task Priorities */
-#define PRIORITY_TASK_HOOKS             (tskIDLE_PRIORITY + 3)
-
 /* Global Variables */
 
 /* Prototype of PIOS_Board_Init() function */

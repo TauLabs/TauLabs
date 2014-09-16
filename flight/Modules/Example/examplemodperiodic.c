@@ -3,6 +3,7 @@
  *
  * @file       examplemodperiodic.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      Example module to be used as a template for actual modules.
  *             Threaded periodic version.
  *
@@ -45,15 +46,16 @@
 #include "examplemodperiodic.h"
 #include "exampleobject2.h"	// object that will be updated by the module
 #include "examplesettings.h"	// object holding module settings
+#include "pios_thread.h"
 
 // Private constants
-#define STACK_SIZE configMINIMAL_STACK_SIZE
-#define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+#define STACK_SIZE_BYTES PIOS_THREAD_STACK_SIZE_MIN
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private types
 
 // Private variables
-static xTaskHandle taskHandle;
+static struct pios_thread *taskHandle;
 
 // Private functions
 static void exampleTask(void *parameters);
@@ -65,7 +67,7 @@ static void exampleTask(void *parameters);
 int32_t ExampleModPeriodicInitialize()
 {
 	// Start main task
-	xTaskCreate(exampleTask, (signed char *)"ExamplePeriodic", STACK_SIZE, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(exampleTask, "ExamplePeriodic", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 	return 0;
 }
@@ -78,10 +80,10 @@ static void exampleTask(void *parameters)
 	ExampleSettingsData settings;
 	ExampleObject2Data data;
 	int32_t step;
-	portTickType lastSysTime;
+	uint32_t lastSysTime;
 
 	// Main task loop
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 	while (1) {
 		// Update settings with latest value
 		ExampleSettingsGet(&settings);
@@ -112,8 +114,6 @@ static void exampleTask(void *parameters)
 
 		// Since this module executes at fixed time intervals, we need to
 		// block the task until it is time for the next update.
-		// The settings field is in ms, to convert to RTOS ticks we need
-		// to use the MS2TICKS macro.
-		vTaskDelayUntil(&lastSysTime, MS2TICKS(settings.UpdatePeriod));
+		PIOS_Thread_Sleep_Until(&lastSysTime, settings.UpdatePeriod);
 	}
 }

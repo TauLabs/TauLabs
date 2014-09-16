@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_board.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -180,6 +180,9 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 #define PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN 128
 
+#define PIOS_COM_FRSKYSPORT_TX_BUF_LEN 16
+#define PIOS_COM_FRSKYSPORT_RX_BUF_LEN 16
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
@@ -196,6 +199,7 @@ uintptr_t pios_com_hott_id;
 uintptr_t pios_com_frsky_sensor_hub_id;
 uintptr_t pios_com_lighttelemetry_id; 
 uintptr_t pios_com_can_id;
+uintptr_t pios_com_frsky_sport_id;
 
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
@@ -380,9 +384,15 @@ void PIOS_Board_Init(void) {
 
 #endif	/* PIOS_INCLUDE_FLASH */
 
+	/* Initialize the task monitor library */
+	TaskMonitorInitialize();
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
+
+	/* Initialize the alarms library */
+	AlarmsInitialize();
 
 	HwSparkyInitialize();
 	ModuleSettingsInitialize();
@@ -400,12 +410,6 @@ void PIOS_Board_Init(void) {
 		PIOS_WDG_Init();
 	}
 #endif
-
-	/* Initialize the alarms library */
-	AlarmsInitialize();
-
-	/* Initialize the task monitor library */
-	TaskMonitorInitialize();
 
 	/* Set up pulse timers */
 	//inputs
@@ -668,7 +672,12 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 	PIOS_Board_configure_com(&pios_flexi_usart_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
 #endif
-		break;	
+		break;
+	case HWSPARKY_FLEXIPORT_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
+		PIOS_Board_configure_com(&pios_flexi_usart_sport_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
+		break;
 	}
 
 	/* UART3 Port */
@@ -768,7 +777,12 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 	PIOS_Board_configure_com(&pios_main_usart_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
 #endif /* PIOS_INCLUDE_LIGHTTELEMETRY */
-		break;  
+		break;
+	case HWSPARKY_MAINPORT_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
+		PIOS_Board_configure_com(&pios_main_usart_sport_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
+		break;
 	}
 
 	/* Configure the rcvr port */

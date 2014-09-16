@@ -3,7 +3,7 @@
  *
  * @file       configgadgetwidget.cpp
  * @author     E. Lafargue & The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -36,7 +36,6 @@
 #include "configautotunewidget.h"
 #include "configcamerastabilizationwidget.h"
 #include "configtxpidwidget.h"
-#include "config_cc_hw_widget.h"
 #include "configpipxtremewidget.h"
 #include "configattitudewidget.h"
 #include "defaulthwsettingswidget.h"
@@ -201,30 +200,31 @@ void ConfigGadgetWidget::onAutopilotConnect() {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
     if (utilMngr) {
-        int board = utilMngr->getBoardModel();
-        if ((board & 0xff00) == 1024) {
-            // CopterControl family
-            ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
+        ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
+        ftw->removeTab(ConfigGadgetWidget::hardware);
+        icon = new QIcon();
+        icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
+        icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Selected, QIcon::Off);
 
-            // Delete the current hardware panel, replace with CopterControl/CC3D hardware configuration
-            ftw->removeTab(ConfigGadgetWidget::hardware);
-            icon = new QIcon();
-            icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
-            icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Selected, QIcon::Off);
-            qwd = new ConfigCCHWWidget(this);
-            ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
-            ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
-        } else {
-            // Non-CopterControl family
-            ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
-            ftw->removeTab(ConfigGadgetWidget::hardware);
-            QIcon *icon = new QIcon();
-            icon->addFile(":/configgadget/images/hardware_normal.png", QSize(), QIcon::Normal, QIcon::Off);
-            icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Normal, QIcon::On);
-            QWidget *qwd = new DefaultHwSettingsWidget(this, true);
-            ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
-            ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
+        // If the board provides a custom configuration widget then use it,
+        // otherwise use the default which populates the fields from the
+        // hardware UAVO
+        Core::IBoardType *board = utilMngr->getBoardType();
+        if (board == NULL) {
+            QLabel *txt = new QLabel(this);
+            txt->setText(tr("Board detected, but of unknown type. This could be because either your GCS or firmware is out of date."));
+            qwd = txt;
         }
+        else {
+            qwd = board->getBoardConfiguration();
+            if (qwd == NULL) {
+                qwd = new DefaultHwSettingsWidget(this, true);
+            } else {
+            }
+        }
+
+        ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString(tr("Hardware")));
+        ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
     }
 
     //! Remove and recreate the attitude widget to refresh board capabilities

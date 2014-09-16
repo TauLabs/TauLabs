@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
 # @addtogroup
 # @{
 # @addtogroup
@@ -61,6 +61,8 @@ OPTMODULES += Airspeed/revolution
 OPTMODULES += UAVOHoTTBridge
 OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOLighttelemetryBridge
+OPTMODULES += UAVOFrSKYSPortBridge
+OPTMODULES += Geofence
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
@@ -151,6 +153,8 @@ SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_ms5611_spi.c
 SRC += $(PIOSCOMMON)/pios_heap.c
 SRC += $(PIOSCOMMON)/pios_semaphore.c
+SRC += $(PIOSCOMMON)/pios_mutex.c
+SRC += $(PIOSCOMMON)/pios_thread.c
 
 
 include ./UAVObjects.inc

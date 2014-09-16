@@ -61,7 +61,6 @@ QWidget *QmlViewGadgetOptionsPage::createPage(QWidget *parent)
     options_page->svgSourceFile->setPromptDialogFilter(tr("QML file (*.qml)"));
     options_page->svgSourceFile->setPromptDialogTitle(tr("Choose QML file"));
     options_page->svgSourceFile->setPath(m_config->dialFile());
-    options_page->useOpenGL->setChecked(m_config->useOpenGL());
 
     return optionsPageWidget;
 }
@@ -75,7 +74,6 @@ QWidget *QmlViewGadgetOptionsPage::createPage(QWidget *parent)
 void QmlViewGadgetOptionsPage::apply()
 {
     m_config->setDialFile(options_page->svgSourceFile->path());
-    m_config->setUseOpenGL(options_page->useOpenGL->checkState());
 }
 
 void QmlViewGadgetOptionsPage::finish()

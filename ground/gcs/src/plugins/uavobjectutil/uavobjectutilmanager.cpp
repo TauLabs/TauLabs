@@ -36,11 +36,16 @@
 #include <QEventLoop>
 #include <QTimer>
 #include <objectpersistence.h>
-#include <QInputDialog>
 
 #include "firmwareiapobj.h"
 #include "homelocation.h"
 #include "gpsposition.h"
+
+#include "../../../../../build/ground/gcs/gcsversioninfo.h"
+#include <coreplugin/coreconstants.h>
+
+#define META_SEND_TIMEOUT   1500
+#define META_SEND_RETRIES   3
 
 // ******************************
 // constructor/destructor
@@ -65,14 +70,15 @@ UAVObjectUtilManager::UAVObjectUtilManager()
         obum = pm->getObject<UAVObjectUtilManager>();
     }
 
+    incompatibleMsg = new QErrorMessage();
+
+    metadataSendTimeout.setSingleShot(true);
+    metadataSendTimeout.setInterval(META_SEND_TIMEOUT);
 }
 
 UAVObjectUtilManager::~UAVObjectUtilManager()
 {
-//	while (!queue.isEmpty())
-	{
-	}
-
+    incompatibleMsg->deleteLater();
 	disconnect();
 
 	if (mutex)
@@ -178,6 +184,11 @@ void UAVObjectUtilManager::saveNextObject()
     //    the objectPersistence operation we asked for (saved, other).
 }
 
+void UAVObjectUtilManager::onMetadataSendTimeout()
+{
+    metadataTransactionCompleted(NULL, false);
+}
+
 
 /**
   * @brief Process the transactionCompleted message from Telemetry indicating request sent successfully
@@ -190,7 +201,7 @@ void UAVObjectUtilManager::saveNextObject()
   */
 void UAVObjectUtilManager::objectPersistenceTransactionCompleted(UAVObject* obj, bool success)
 {
-    if(success) {
+    if (success) {
         Q_ASSERT(obj->getName().compare("ObjectPersistence") == 0);
         Q_ASSERT(saveState == AWAITING_ACK);
         // Two things can happen then:
@@ -228,7 +239,7 @@ void UAVObjectUtilManager::objectPersistenceTransactionCompleted(UAVObject* obj,
   */
 void UAVObjectUtilManager::objectPersistenceOperationFailed()
 {
-    if(saveState == AWAITING_COMPLETED) {
+    if (saveState == AWAITING_COMPLETED) {
 
         ObjectPersistence * objectPersistence = ObjectPersistence::GetInstance(getObjectManager());
         Q_ASSERT(objectPersistence);
@@ -271,7 +282,7 @@ void UAVObjectUtilManager::objectPersistenceUpdated(UAVObject * obj)
         failureTimer.stop();
         // Check right object saved
         UAVObject* savingObj = queue.head();
-        if(objectPersistence.ObjectID != savingObj->getObjID() ) {
+        if (objectPersistence.ObjectID != savingObj->getObjID() ) {
             objectPersistenceOperationFailed();
             return;
         }
@@ -317,12 +328,12 @@ QMap<QString, UAVObject::Metadata> UAVObjectUtilManager::readMetadata(metadataSe
                 updateMetadataFlag = true;
                 break;
             case SETTINGS_METADATA_ONLY:
-                if(obj->isSettings()) {
+                if (obj->isSettings()) {
                     updateMetadataFlag = true;
                 }
                 break;
             case NONSETTINGS_METADATA_ONLY:
-                if(!obj->isSettings()) {
+                if (!obj->isSettings()) {
                     updateMetadataFlag = true;
                 }
                 break;
@@ -361,42 +372,40 @@ bool UAVObjectUtilManager::setAllNonSettingsMetadata(QMap<QString, UAVObject::Me
  */
 bool UAVObjectUtilManager::setMetadata(QMap<QString, UAVObject::Metadata> metaDataSetList, metadataSetEnum metadataSetType)
 {
-    metadataChecklist = metaDataSetList;
-
+    if (!metadataSendlist.isEmpty())
+        return false;
     // Load all metadata objects.
     UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
-    foreach (QVector<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            bool updateMetadataFlag = false;
-            switch (metadataSetType){
-            case ALL_METADATA:
+    foreach (QString str, metaDataSetList.keys()){
+        UAVDataObject *obj = dynamic_cast<UAVDataObject*>(objManager->getObject(str));
+        bool updateMetadataFlag = false;
+        switch (metadataSetType){
+        case ALL_METADATA:
+            updateMetadataFlag = true;
+            break;
+        case SETTINGS_METADATA_ONLY:
+            if (obj->isSettings()) {
                 updateMetadataFlag = true;
-                break;
-            case SETTINGS_METADATA_ONLY:
-                if(obj->isSettings()) {
-                    updateMetadataFlag = true;
-                }
-                break;
-            case NONSETTINGS_METADATA_ONLY:
-                if(!obj->isSettings()) {
-                    updateMetadataFlag = true;
-                }
-                break;
             }
-
-            if (metaDataSetList.contains(obj->getName()) && updateMetadataFlag){
-                obj->setMetadata(metaDataSetList.value(obj->getName()));
-
-                // Connect to object
-                connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
-                // Request update
-                obj->requestUpdate();
-
+            break;
+        case NONSETTINGS_METADATA_ONLY:
+            if (!obj->isSettings()) {
+                updateMetadataFlag = true;
             }
+            break;
+        }
+
+        if (updateMetadataFlag){
+            metadataSendlist.insert(obj, metaDataSetList.value(str));
         }
     }
-
+    metadataSendRetries = 0;
+    metadataSendSuccess = true;
+    metadataSendlist.keys().first()->setMetadata(metadataSendlist.value(metadataSendlist.keys().first()));
+    connect(&metadataSendTimeout, SIGNAL(timeout()),this, SLOT(onMetadataSendTimeout()), Qt::UniqueConnection);
+    connect(metadataSendlist.keys().first(), SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
+    metadataSendTimeout.start();
+    metadataSendlist.keys().first()->requestUpdate();
     return true;
 }
 
@@ -434,33 +443,64 @@ bool UAVObjectUtilManager::resetMetadataToDefaults()
 void UAVObjectUtilManager::metadataTransactionCompleted(UAVObject* uavoObject, bool success)
 {
     Q_UNUSED(success);
-    // Disconnect from sending UAVO
-    disconnect(uavoObject, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
-
-
-    // If the UAVO is on the list, check that the data was set correctly
-    if(metadataChecklist.contains(uavoObject->getName()))
+    metadataSendTimeout.stop();
+    bool retry = false;
+    if (uavoObject)
     {
-        UAVObject::Metadata mdata = metadataChecklist.value(uavoObject->getName());
-        if( uavoObject->getMetadata().flags == mdata.flags &&
-                uavoObject->getMetadata().flightTelemetryUpdatePeriod == mdata.flightTelemetryUpdatePeriod &&
-                uavoObject->getMetadata().gcsTelemetryUpdatePeriod == mdata.gcsTelemetryUpdatePeriod &&
-                uavoObject->getMetadata().loggingUpdatePeriod == mdata.loggingUpdatePeriod)
+        UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(uavoObject);
+        Q_ASSERT(dobj);
+        // If the UAVO is on the list, check that the data was set correctly
+        if (metadataSendlist.contains(dobj))
         {
-            metadataChecklist.take(uavoObject->getName());
-        }
-        else{
-            qDebug() << "Writing metadata failed on " << uavoObject->getName();
-            Q_ASSERT(0);
+            UAVObject::Metadata mdata = metadataSendlist.value(dobj);
+            if ( uavoObject->getMetadata().flags == mdata.flags &&
+                 uavoObject->getMetadata().flightTelemetryUpdatePeriod == mdata.flightTelemetryUpdatePeriod &&
+                 uavoObject->getMetadata().gcsTelemetryUpdatePeriod == mdata.gcsTelemetryUpdatePeriod &&
+                 uavoObject->getMetadata().loggingUpdatePeriod == mdata.loggingUpdatePeriod)
+            {
+                qDebug() << "Writing metadata succeded on " << uavoObject->getName();
+                metadataSendRetries = 0;
+            }
+            else{
+                ++metadataSendRetries;
+                if(metadataSendRetries < META_SEND_RETRIES)
+                    retry = true;
+                else
+                {
+                    metadataSendSuccess = false;
+                    metadataSendRetries = 0;
+                }
+                qDebug() << "Writing metadata failed on " << uavoObject->getName()<< "Retry?" << retry;
+            }
         }
     }
-
-   if(metadataChecklist.empty()){
-       //We're done, that was the last item checked off the list.
-       emit completedMetadataWrite();
-   }
-
-   // TODO: Implement a timeout
+    else
+    {
+        ++metadataSendRetries;
+        if(metadataSendRetries < META_SEND_RETRIES)
+            retry = true;
+        else
+        {
+            metadataSendSuccess = false;
+            metadataSendRetries = 0;
+        }
+        qDebug()<<metadataSendlist.keys().first()<<"metadata send timeout Retry? "<< retry;
+    }
+    UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(metadataSendlist.keys().first());
+    disconnect(dobj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
+    if(!retry)
+        metadataSendlist.take(dobj);
+    if(!metadataSendlist.keys().isEmpty())
+    {
+        metadataSendlist.keys().first()->setMetadata(metadataSendlist.value(metadataSendlist.keys().first()));
+        connect(metadataSendlist.keys().first(), SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
+        metadataSendTimeout.start();
+        metadataSendlist.keys().first()->requestUpdate();
+        return;
+    }
+    else{
+        emit completedMetadataWrite(metadataSendSuccess);
+    }
 }
 
 
@@ -491,6 +531,14 @@ int UAVObjectUtilManager::getBoardModel()
     FirmwareIAPObj::DataFields firmwareIapData = getFirmwareIap();
     int ret=firmwareIapData.BoardType <<8;
     ret = ret + firmwareIapData.BoardRevision;
+    return ret;
+}
+
+//! Get the connected board hardware revision
+int UAVObjectUtilManager::getBoardRevision()
+{
+    FirmwareIAPObj::DataFields firmwareIapData = getFirmwareIap();
+    int ret = firmwareIapData.BoardRevision;
     return ret;
 }
 
@@ -642,10 +690,9 @@ int UAVObjectUtilManager::getGPSPosition(double LLA[3])
 	return 0;	// OK
 }
 
-deviceDescriptorStruct UAVObjectUtilManager::getBoardDescriptionStruct()
+bool UAVObjectUtilManager::getBoardDescriptionStruct(deviceDescriptorStruct &device)
 {
-    deviceDescriptorStruct ret;
-    descriptionToStructure(getBoardDescription(),ret);
+    bool ret = descriptionToStructure(getBoardDescription(), device);
     return ret;
 }
 
@@ -690,10 +737,58 @@ bool UAVObjectUtilManager::descriptionToStructure(QByteArray desc, deviceDescrip
        struc.fwHash=desc.mid(40,20);
        struc.uavoHash.clear();
        struc.uavoHash=desc.mid(60,20);
+       if (struc.gitTag.startsWith("RELEASE",Qt::CaseSensitive))
+           struc.certified = true;
+       else
+           struc.certified = false;
+       struc.userDefined = desc.mid(80, 20);
 
        return true;
    }
    return false;
 }
 
+void UAVObjectUtilManager::versionMatchCheck()
+{
+    deviceDescriptorStruct boardDescription;
+    getBoardDescriptionStruct(boardDescription);
+    QByteArray uavoHashArray;
+    QString uavoHash = QString::fromLatin1(Core::Constants::UAVOSHA1_STR);
+    uavoHash.chop(2);
+    uavoHash.remove(0,2);
+    uavoHash = uavoHash.trimmed();
+    bool ok;
+    foreach(QString str,uavoHash.split(","))
+    {
+        uavoHashArray.append(str.toInt(&ok,16));
+    }
+    if (!ok)
+        return;
+    QByteArray fwVersion=boardDescription.uavoHash;
+    if (fwVersion != uavoHashArray) {
+
+        QString gcsDescription = QString::fromLatin1(Core::Constants::GCS_REVISION_STR);
+        QString gcsGitHash = gcsDescription.mid(gcsDescription.indexOf(":")+1, 8);
+        gcsGitHash.remove( QRegExp("^[0]*") );
+        QString gcsGitDate = gcsDescription.mid(gcsDescription.indexOf(" ")+1, 14);
+
+        QString gcsUavoHashStr;
+        QString fwUavoHashStr;
+        foreach(char i, fwVersion)
+        {
+            fwUavoHashStr.append(QString::number(i,16).right(2));
+        }
+        foreach(char i, uavoHashArray)
+        {
+            gcsUavoHashStr.append(QString::number(i,16).right(2));
+        }
+        QString gcsVersion = gcsGitDate + " (" + gcsGitHash + "-"+ gcsUavoHashStr.left(8) + ")";
+        QString fwVersion = boardDescription.gitDate + " (" + boardDescription.gitHash + "-" + fwUavoHashStr.left(8) + ")";
+
+        QString warning = QString(tr(
+                                      "GCS and firmware versions of the UAV objects set do not match which can cause configuration problems. "
+                                      "GCS version: %1 Firmware version: %2.")).arg(gcsVersion).arg(fwVersion);
+        incompatibleMsg->showMessage(warning);
+    }
+}
 // ******************************

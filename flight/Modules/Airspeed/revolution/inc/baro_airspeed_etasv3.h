@@ -7,6 +7,7 @@
  *
  * @file       baro_airspeed_etasv3.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      Calculate airspeed using GPS
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -30,7 +31,7 @@
 #ifndef ETASV3_AIRSPEED_H
 #define ETASV3_AIRSPEED_H
 
-void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, portTickType *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin);
+void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin);
 
 #endif // ETASV3_AIRSPEED_H
 

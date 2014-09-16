@@ -40,18 +40,15 @@ public:
 
     //set dial configuration functions
     void setDialFile(QString dialFile){m_defaultDial=dialFile;}
-    void setUseOpenGL(bool flag) { useOpenGLFlag = flag; }
 
     //get dial configuration functions
     QString dialFile() {return m_defaultDial;}
-    bool useOpenGL() { return useOpenGLFlag; }
 
     void saveConfig(QSettings* settings) const;
     IUAVGadgetConfiguration *clone();
 
 private:
     QString m_defaultDial; // The name of the dial's SVG source file
-    bool useOpenGLFlag;
 };
 
 #endif // QmlViewGADGETCONFIGURATION_H

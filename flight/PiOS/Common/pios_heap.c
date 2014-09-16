@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pios_heap.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_HEAP Heap Allocation Abstraction
@@ -52,15 +52,7 @@ bool PIOS_heap_malloc_failed_p(void)
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 
-/*
- * Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
- * all the API functions to use the MPU wrappers.  That should only be done when
- * task.h is included from an application file.
- * */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
-#include "FreeRTOS.h"		/* needed by task.h */
-#include "task.h"		/* vTaskSuspendAll, xTaskResumeAll */
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#include "pios_thread.h"
 
 #endif	/* PIOS_INCLUDE_FREERTOS */
 
@@ -86,7 +78,7 @@ static void * simple_malloc(struct pios_heap *heap, size_t size)
 	uint32_t align_pad = (sizeof(uintptr_t) - (size & (sizeof(uintptr_t) - 1))) % sizeof(uintptr_t);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	vTaskSuspendAll();
+	PIOS_Thread_Scheduler_Suspend();
 #endif	/* PIOS_INCLUDE_FREERTOS */
 
 	if (heap->free_addr + size <= heap->end_addr) {
@@ -95,7 +87,7 @@ static void * simple_malloc(struct pios_heap *heap, size_t size)
 	}
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	xTaskResumeAll();
+	PIOS_Thread_Scheduler_Resume();
 #endif	/* PIOS_INCLUDE_FREERTOS */
 
 	return buf;
@@ -198,13 +190,13 @@ size_t xPortGetFreeHeapSize(void) __attribute__((alias ("PIOS_heap_get_free_size
 size_t PIOS_heap_get_free_size(void)
 {
 #if defined(PIOS_INCLUDE_FREERTOS)
-	vTaskSuspendAll();
+	PIOS_Thread_Scheduler_Suspend();
 #endif	/* PIOS_INCLUDE_FREERTOS */
 
 	size_t free_bytes = simple_get_free_bytes(&pios_standard_heap);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	xTaskResumeAll();
+	PIOS_Thread_Scheduler_Resume();
 #endif	/* PIOS_INCLUDE_FREERTOS */
 
 	return free_bytes;
@@ -220,13 +212,13 @@ void xPortIncreaseHeapSize(size_t bytes) __attribute__((alias ("PIOS_heap_increa
 void PIOS_heap_increase_size(size_t bytes)
 {
 #if defined(PIOS_INCLUDE_FREERTOS)
-	vTaskSuspendAll();
+	PIOS_Thread_Scheduler_Suspend();
 #endif	/* PIOS_INCLUDE_FREERTOS */
 
 	simple_extend_heap(&pios_standard_heap, bytes);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	xTaskResumeAll();
+	PIOS_Thread_Scheduler_Resume();
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 

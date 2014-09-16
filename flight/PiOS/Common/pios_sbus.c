@@ -8,7 +8,7 @@
  *
  * @file       pios_sbus.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Code to read Futaba S.Bus receiver serial stream
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -231,7 +231,7 @@ static void PIOS_SBus_UpdateState(struct pios_sbus_state *state, uint8_t b)
 		state->received_data[state->byte_count - 1] = b;
 		state->byte_count++;
 	} else {
-		if (b == SBUS_EOF_BYTE) {
+		if (b == SBUS_EOF_BYTE || (b & SBUS_R7008SB_EOF_COUNTER_MASK) == SBUS_R7008SB_EOF_BYTE) {
 			/* full frame received */
 			uint8_t flags = state->received_data[SBUS_FRAME_LENGTH - 3];
 			if (flags & SBUS_FLAG_FL) {

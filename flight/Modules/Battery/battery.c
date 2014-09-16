@@ -7,7 +7,7 @@
  *
  * @file       battery.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Module to read the battery Voltage and Current periodically and set alarms appropriately.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -34,17 +34,18 @@
 #include "flightbatterystate.h"
 #include "flightbatterysettings.h"
 #include "modulesettings.h"
+#include "pios_thread.h"
 
 // ****************
 // Private constants
 #define STACK_SIZE_BYTES            468
-#define TASK_PRIORITY               (tskIDLE_PRIORITY + 1)
+#define TASK_PRIORITY               PIOS_THREAD_PRIO_LOW
 #define SAMPLE_PERIOD_MS            500
 // Private types
 
 // Private variables
 static bool module_enabled = false;
-static xTaskHandle batteryTaskHandle;
+static struct pios_thread *batteryTaskHandle;
 static int8_t voltageADCPin = -1; //ADC pin for voltage
 static int8_t currentADCPin = -1; //ADC pin for current
 
@@ -60,7 +61,7 @@ static int32_t BatteryStart(void)
 		FlightBatterySettingsConnectCallback(settingsUpdatedCb);
 
 		// Start tasks
-		xTaskCreate(batteryTask, (signed char *) "batteryBridge", STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY, &batteryTaskHandle);
+		batteryTaskHandle = PIOS_Thread_Create(batteryTask, "batteryBridge", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_BATTERY, batteryTaskHandle);
 		return 0;
 	}
@@ -104,10 +105,10 @@ static void batteryTask(void * parameters)
 	settingsUpdatedCb(NULL);
 
 	// Main task loop
-	portTickType lastSysTime;
-	lastSysTime = xTaskGetTickCount();
+	uint32_t lastSysTime;
+	lastSysTime = PIOS_Thread_Systime();
 	while (true) {
-		vTaskDelayUntil(&lastSysTime, MS2TICKS(SAMPLE_PERIOD_MS));
+		PIOS_Thread_Sleep_Until(&lastSysTime, SAMPLE_PERIOD_MS);
 
 		FlightBatteryStateData flightBatteryData;
 		FlightBatterySettingsData batterySettings;

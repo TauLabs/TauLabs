@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_mpu9150.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      MPU9150 9-axis gyro accel and mag chip
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -36,10 +36,12 @@
 #if defined(PIOS_INCLUDE_MPU9150)
 
 #include "pios_mpu60x0.h"
+#include "pios_semaphore.h"
+#include "pios_thread.h"
 
 /* Private constants */
-#define MPU9150_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define MPU9150_TASK_STACK		(512 / 4)
+#define MPU9150_TASK_PRIORITY		PIOS_THREAD_PRIO_HIGHEST
+#define MPU9150_TASK_STACK_BYTES	512
 
 #define MPU9150_WHOAMI_ID        0x68
 #define MPU9150_MAG_ADDR         0x0c
@@ -68,8 +70,8 @@ struct mpu9150_dev {
 	xQueueHandle gyro_queue;
 	xQueueHandle accel_queue;
 	xQueueHandle mag_queue;
-	xTaskHandle TaskHandle;
-	xSemaphoreHandle data_ready_sema;
+	struct pios_thread *TaskHandle;
+	struct pios_semaphore *data_ready_sema;
 	const struct pios_mpu60x0_cfg * cfg;
 	enum pios_mpu60x0_filter filter;
 	enum pios_mpu9150_dev_magic magic;
@@ -119,7 +121,7 @@ static struct mpu9150_dev * PIOS_MPU9150_alloc(void)
 		return NULL;
 	}
 
-	mpu9150_dev->data_ready_sema = xSemaphoreCreateMutex();
+	mpu9150_dev->data_ready_sema = PIOS_Semaphore_Create();
 	if (mpu9150_dev->data_ready_sema == NULL) {
 		vPortFree(mpu9150_dev);
 		return NULL;
@@ -166,15 +168,14 @@ int32_t PIOS_MPU9150_Init(uint32_t i2c_id, uint8_t i2c_addr, const struct pios_m
 
 	// Wait 5 ms for data ready interrupt and make sure it happens
 	// twice
-	if ((xSemaphoreTake(dev->data_ready_sema, 5) != pdTRUE) ||
-		(xSemaphoreTake(dev->data_ready_sema, 5) != pdTRUE)) {
+	if ((PIOS_Semaphore_Take(dev->data_ready_sema, 5) != true) ||
+		(PIOS_Semaphore_Take(dev->data_ready_sema, 5) != true)) {
 		return -10;
 	}
 
-	int result = xTaskCreate(PIOS_MPU9150_Task, (const signed char *)"PIOS_MPU9150_Task",
-						 MPU9150_TASK_STACK, NULL, MPU9150_TASK_PRIORITY,
-						 &dev->TaskHandle);
-	PIOS_Assert(result == pdPASS);
+	dev->TaskHandle = PIOS_Thread_Create(
+			PIOS_MPU9150_Task, "pios_mpu9150", MPU9150_TASK_STACK_BYTES, NULL, MPU9150_TASK_PRIORITY);
+	PIOS_Assert(dev->TaskHandle != NULL);
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_ACCEL, dev->accel_queue);
 	PIOS_SENSORS_Register(PIOS_SENSOR_GYRO, dev->gyro_queue);
@@ -624,18 +625,18 @@ bool PIOS_MPU9150_IRQHandler(void)
 	if (PIOS_MPU9150_Validate(dev) != 0)
 		return false;
 
-    portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+	bool woken = false;
 
-    xSemaphoreGiveFromISR(dev->data_ready_sema, &xHigherPriorityTaskWoken);
+	PIOS_Semaphore_Give_FromISR(dev->data_ready_sema, &woken);
 
-    return xHigherPriorityTaskWoken == pdTRUE;
+	return woken;
 }
 
 static void PIOS_MPU9150_Task(void *parameters)
 {
 	while (1) {
 		//Wait for data ready interrupt
-		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE)
+		if (PIOS_Semaphore_Take(dev->data_ready_sema, PIOS_SEMAPHORE_TIMEOUT_MAX) != true)
 			continue;
 
 		enum {

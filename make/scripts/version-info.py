@@ -250,7 +250,7 @@ def xtrim(string, suffix, length):
         assert n > 0, "length of truncated string+suffix exceeds maximum length"
         return ''.join([string[:n], '+', suffix])
 
-def GetHashofDirs(directory, verbose=0, raw=0, what_to_hash='..*.xml'):
+def GetHashofDirs(directory, verbose=0, raw=0, what_to_hash='..*.xml$'):
   import hashlib, os, re
   SHAhash = hashlib.sha1()
   if not os.path.exists (directory):

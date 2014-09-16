@@ -506,9 +506,6 @@ void UAVObjectBrowserWidget::toggleUAVOButtons(const QModelIndex &currentIndex, 
     if (category)
         enableState = false;
 
-    if(!item->getIsPresentOnHardware())
-        enableState = false;
-
     enableUAVOBrowserButtons(enableState);
 }
 

@@ -36,6 +36,7 @@
 #include <QDebug>
 #include <QMutex>
 #include <QString>
+#include <QQueue>
 #include "rawhid_global.h"
 
 #if defined( Q_OS_MAC)
@@ -141,10 +142,22 @@ private:
      CFRunLoopRef the_correct_runloop;
      CFRunLoopRef received_runloop;
 
+     // for cases where the receiving run loop does not
+     // keep up with the USB driver, we use a ring buffer
+     // to track the last packets coming in.
      static const int BUFFER_SIZE = 64;
-     quint8 buffer[BUFFER_SIZE];
+     quint8 driver_buffer[BUFFER_SIZE];
+
+     // add the packets received by the HID driver to a queue
+     // that is processed in userspace
+     struct usb_report {
+         quint8 data[BUFFER_SIZE];
+         quint8 len;
+     };
+
+     QQueue <struct usb_report*> input_queue;
+
      int attach_count;
-     int buffer_count;
      bool device_open;
      bool unplugged;
 

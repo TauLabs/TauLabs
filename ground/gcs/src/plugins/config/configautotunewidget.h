@@ -33,8 +33,7 @@
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 #include "stabilizationsettings.h"
-#include "relaytuningsettings.h"
-#include "relaytuning.h"
+#include "systemident.h"
 #include <QWidget>
 #include <QTimer>
 
@@ -47,6 +46,8 @@ public:
 private:
     Ui_AutotuneWidget *m_autotune;
     StabilizationSettings::DataFields stabSettings;
+
+    bool approveSettings(SystemIdent::DataFields systemIdentData);
 
 signals:
 

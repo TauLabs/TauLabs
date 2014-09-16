@@ -7,7 +7,7 @@
  *
  * @file       systemmod.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      System module
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -42,6 +42,7 @@
 #include "taskinfo.h"
 #include "watchdogstatus.h"
 #include "taskmonitor.h"
+#include "pios_thread.h"
 
 //#define DEBUG_THIS_FILE
 
@@ -67,14 +68,14 @@
 #define STACK_SIZE_BYTES 924
 #endif
 
-#define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private types
 
 // Private variables
 static uint32_t idleCounter;
 static uint32_t idleCounterClear;
-static xTaskHandle systemTaskHandle;
+static struct pios_thread *systemTaskHandle;
 static xQueueHandle objectPersistenceQueue;
 static bool stackOverflow;
 
@@ -85,6 +86,7 @@ static void objectUpdatedCb(UAVObjEvent * ev);
 static void configurationUpdatedCb(UAVObjEvent * ev);
 #endif
 
+static bool indicateError();
 static void updateStats();
 static void updateSystemAlarms();
 static void systemTask(void *parameters);
@@ -100,7 +102,7 @@ int32_t SystemModStart(void)
 	// Initialize vars
 	stackOverflow = false;
 	// Create system task
-	xTaskCreate(systemTask, (signed char *)"System", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &systemTaskHandle);
+	systemTaskHandle = PIOS_Thread_Create(systemTask, "System", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	// Register task
 	TaskMonitorAdd(TASKINFO_RUNNING_SYSTEM, systemTaskHandle);
 
@@ -206,21 +208,23 @@ static void systemTask(void *parameters)
 #endif	/* PIOS_LED_HEARTBEAT */
 
 		// Turn on the error LED if an alarm is set
+		if (indicateError()) {
 #if defined (PIOS_LED_ALARM)
-		if (AlarmsHasWarnings()) {
 			PIOS_LED_On(PIOS_LED_ALARM);
-		} else {
-			PIOS_LED_Off(PIOS_LED_ALARM);
-		}
 #endif	/* PIOS_LED_ALARM */
+		} else {
+#if defined (PIOS_LED_ALARM)
+			PIOS_LED_Off(PIOS_LED_ALARM);
+#endif	/* PIOS_LED_ALARM */
+		}
 
 		FlightStatusData flightStatus;
 		FlightStatusGet(&flightStatus);
 
 		UAVObjEvent ev;
 		int delayTime = flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED ?
-			MS2TICKS(SYSTEM_UPDATE_PERIOD_MS) / (LED_BLINK_RATE_HZ * 2) :
-			MS2TICKS(SYSTEM_UPDATE_PERIOD_MS);
+			SYSTEM_UPDATE_PERIOD_MS / (LED_BLINK_RATE_HZ * 2) :
+			SYSTEM_UPDATE_PERIOD_MS;
 
 		if(xQueueReceive(objectPersistenceQueue, &ev, delayTime) == pdTRUE) {
 			// If object persistence is updated call the callback
@@ -277,7 +281,7 @@ static void objectUpdatedCb(UAVObjEvent * ev)
 				retval = UAVObjSave(obj, objper.InstanceID);
 
 				// Not sure why this is needed
-				vTaskDelay(10);
+				PIOS_Thread_Sleep(10);
 
 				// Verify saving worked
 				if (retval == 0)
@@ -393,12 +397,12 @@ uint32_t *ptr = &_irq_stack_end;
  */
 static void updateStats()
 {
-	static portTickType lastTickCount = 0;
+	static uint32_t lastTickCount = 0;
 	SystemStatsData stats;
 
 	// Get stats and update
 	SystemStatsGet(&stats);
-	stats.FlightTime = TICKS2MS(xTaskGetTickCount());
+	stats.FlightTime = PIOS_Thread_Systime();
 #if defined(ARCH_POSIX) || defined(ARCH_WIN32)
 	// POSIX port of FreeRTOS doesn't have xPortGetFreeHeapSize()
 	stats.HeapRemaining = 10240;
@@ -414,9 +418,9 @@ static void updateStats()
 		idleCounter = 0;
 	}
 
-	portTickType now = xTaskGetTickCount();
+	uint32_t now = PIOS_Thread_Systime();
 	if (now > lastTickCount) {
-		float dT = TICKS2MS(xTaskGetTickCount() - lastTickCount) / 1000.0f;
+		float dT = (PIOS_Thread_Systime() - lastTickCount) / 1000.0f;
 
 		// In the case of a slightly miscalibrated max idle count, make sure CPULoad does
 		// not go negative and set an alarm inappropriately.
@@ -503,6 +507,30 @@ static void updateSystemAlarms()
 		SystemStatsSet(&sysStats);
 	}
 		
+}
+
+/**
+ * Indicate there are conditions worth an error LED
+ */
+bool indicateError()
+{
+	SystemAlarmsData alarms;
+	SystemAlarmsGet(&alarms);
+	bool error = false;
+	for (uint32_t i = 0; i < SYSTEMALARMS_ALARM_NUMELEM; i++) {
+		switch(i) {
+		case SYSTEMALARMS_ALARM_TELEMETRY:
+			// Suppress most alarms from telemetry. The user can identify if present
+			// from GCS.
+			error |= (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_CRITICAL);
+			break;
+		default:
+			// Warning deserves an error by default
+			error |= (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_WARNING);
+		}
+	}
+
+	return error;
 }
 
 /**

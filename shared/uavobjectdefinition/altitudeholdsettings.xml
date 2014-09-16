@@ -4,7 +4,7 @@
         <field name="PositionKp" units="(m/s)/m" type="float" elements="1" defaultvalue="1.0"/>
         <field name="VelocityKp" units="throttle/m" type="float" elements="1" defaultvalue="0.3"/>
         <field name="VelocityKi" units="throttle/m/s" type="float" elements="1" defaultvalue="0.3"/>
-        <field name="AttitudeComp" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="TRUE"/>
+        <field name="AttitudeComp" units="%" type="uint16" elements="1" defaultvalue="100"/>
         <field name="MaxRate" units="m/s" type="uint8" elements="1" defaultvalue="4"/>
         <field name="Expo" units="" type="uint8" elements="1" defaultvalue="40"/>
         <access gcs="readwrite" flight="readwrite"/>

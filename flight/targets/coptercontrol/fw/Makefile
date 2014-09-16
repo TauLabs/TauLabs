@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
 # @addtogroup 
 # @{
 # @addtogroup 
@@ -156,16 +156,6 @@ RTOSINCDIR = $(RTOSSRCDIR)/include
 RTOSPORTDIR = $(APPLIBDIR)/FreeRTOS/Source
 DOXYGENDIR = ../Doc/Doxygen
 MAVLINKINC  = $(FLIGHTLIB)/mavlink/v1.0/common
-PYMITE = $(FLIGHTLIB)/PyMite
-PYMITELIB = $(PYMITE)/lib
-PYMITEPLAT = $(PYMITE)/platform/openpilot
-PYMITETOOLS = $(PYMITE)/tools
-PYMITEVM = $(PYMITE)/vm
-PYMITEINC = $(PYMITEVM)
-PYMITEINC += $(PYMITEPLAT)
-PYMITEINC += $(OUTDIR)
-FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
-FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
@@ -221,8 +211,7 @@ SRC += $(OPUAVSYNTHDIR)/hwcoptercontrol.c
 SRC += $(OPUAVSYNTHDIR)/modulesettings.c
 SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
 SRC += $(OPUAVSYNTHDIR)/receiveractivity.c
-SRC += $(OPUAVSYNTHDIR)/relaytuningsettings.c
-SRC += $(OPUAVSYNTHDIR)/relaytuning.c
+SRC += $(OPUAVSYNTHDIR)/systemident.c
 SRC += $(OPUAVSYNTHDIR)/taskinfo.c
 SRC += $(OPUAVSYNTHDIR)/mixerstatus.c
 SRC += $(OPUAVSYNTHDIR)/ratedesired.c
@@ -304,6 +293,8 @@ SRC += $(PIOSCOMMON)/pios_pcf8591_adc.c
 endif
 SRC += $(PIOSCOMMON)/pios_heap.c
 SRC += $(PIOSCOMMON)/pios_semaphore.c
+SRC += $(PIOSCOMMON)/pios_mutex.c
+SRC += $(PIOSCOMMON)/pios_thread.c
 
 
 ## Libraries for flight calculations
@@ -363,14 +354,6 @@ SRC += $(RTOSPORTDIR)/portable/GCC/ARM_CM3/port.c
 ## Dosfs file system
 #SRC += $(DOSFSDIR)/dosfs.c
 #SRC += $(DOSFSDIR)/dfs_sdcard.c
-
-## PyMite files
-#SRC += $(wildcard ${PYMITEVM}/*.c)
-#SRC += $(wildcard ${PYMITEPLAT}/*.c)
-#SRC += $(OUTDIR)/pmlib_img.c
-#SRC += $(OUTDIR)/pmlib_nat.c
-#SRC += $(OUTDIR)/pmlibusr_img.c
-#SRC += $(OUTDIR)/pmlibusr_nat.c
 
 ## Mass Storage Device
 #SRC += $(MSDDIR)/msd.c
@@ -432,7 +415,6 @@ EXTRAINCDIRS  += $(RTOSINCDIR)
 EXTRAINCDIRS  += $(APPLIBDIR)
 EXTRAINCDIRS  += $(RTOSPORTDIR)/portable/GCC/ARM_CM3
 EXTRAINCDIRS  += $(AHRSBOOTLOADERINC)
-EXTRAINCDIRS  += $(PYMITEINC)
 EXTRAINCDIRS  += $(MAVLINKINC)
 
 EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES}, ${OPMODULEDIR}/${MOD}/inc} ${OPMODULEDIR}/System/inc

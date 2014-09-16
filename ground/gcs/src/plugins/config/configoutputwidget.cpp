@@ -76,6 +76,7 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
     }
 
     connect(m_config->channelOutTest, SIGNAL(toggled(bool)), this, SLOT(runChannelTests(bool)));
+    connect(m_config->calibrateESC, SIGNAL(clicked()), this, SLOT(startESCCalibration()));
 
     // Configure the task widget
     // Connect the help button
@@ -111,6 +112,7 @@ void ConfigOutputWidget::enableControls(bool enable)
     if(!enable)
         m_config->channelOutTest->setChecked(false);
     m_config->channelOutTest->setEnabled(enable);
+    m_config->calibrateESC->setEnabled(enable);
 }
 
 ConfigOutputWidget::~ConfigOutputWidget()
@@ -242,6 +244,119 @@ void ConfigOutputWidget::sendChannelTest(int index, int value)
     actuatorCommand->setData(actuatorCommandFields);
 }
 
+bool showOutputChannelSelectWindow(bool (&selectedChannels)[ActuatorCommand::CHANNEL_NUMELEM])
+{
+    // Get channel descriptions
+    QStringList ChannelDesc = ConfigVehicleTypeWidget::getChannelDescriptions();
+
+    // Build up dialog
+    QDialog dialog;
+    QVBoxLayout layout;
+    QCheckBox* checkBoxes[ActuatorCommand::CHANNEL_NUMELEM];
+    QLabel infoLabel("Select output channels to calibrate: ");
+    layout.addWidget(&infoLabel);
+    for (unsigned int i = 0; i < ActuatorCommand::CHANNEL_NUMELEM; i++)
+    {
+        checkBoxes[i] = new QCheckBox();
+        checkBoxes[i]->setText(QString("Channel ") + QString::number(i+1) + QString("  (") + ChannelDesc[i] + QString(")"));
+        checkBoxes[i]->setChecked(false);
+        layout.addWidget(checkBoxes[i]);
+    }
+
+    QHBoxLayout horizontalLayout;
+    QPushButton buttonOk("Ok");
+    QPushButton buttonCancel("Cancel");
+    horizontalLayout.addWidget(&buttonOk);
+    horizontalLayout.addWidget(&buttonCancel);
+    layout.addLayout(&horizontalLayout);
+
+    // Connect buttons with dialog slots
+    dialog.connect(&buttonOk, SIGNAL(clicked()), &dialog, SLOT(accept()));
+    dialog.connect(&buttonCancel, SIGNAL(clicked()), &dialog, SLOT(reject()));
+
+    // Show dialog
+    dialog.setLayout(&layout);
+    int retCode = dialog.exec();
+    if (retCode == dialog.Accepted)
+    {
+        for (unsigned int i = 0; i < ActuatorCommand::CHANNEL_NUMELEM; i++)
+            selectedChannels[i] = checkBoxes[i]->isChecked();
+        return true;
+    }
+    else
+        return false;
+}
+
+/**
+ * @brief ConfigOutputWidget::startESCCalibration Starts the process of ESC calibration.
+ */
+void ConfigOutputWidget::startESCCalibration()
+{
+    bool channelsToCalibrate[ActuatorCommand::CHANNEL_NUMELEM];
+    if(!showOutputChannelSelectWindow(channelsToCalibrate))
+        return;
+
+    QMessageBox mbox;
+    mbox.setText(QString(tr("Starting ESC calibration.<br/><b>Please remove all propellers and disconnect battery from ESCs.</b>")));
+    mbox.setStandardButtons(QMessageBox::Ok);
+    mbox.exec();
+
+    // Get access to actuator command (for setting actual value)
+    ActuatorCommand * actuatorCommand = ActuatorCommand::GetInstance(getObjectManager());
+    Q_ASSERT(actuatorCommand);
+    ActuatorCommand::DataFields actuatorCommandFields = actuatorCommand->getData();
+    UAVObject::Metadata mdata = actuatorCommand->getMetadata();
+    // Get access to actuator settings (for min / max values)
+    ActuatorSettings *actuatorSettings = ActuatorSettings::GetInstance(getObjectManager());
+    Q_ASSERT(actuatorSettings);
+    ActuatorSettings::DataFields actuatorSettingsData = actuatorSettings->getData();
+
+    // Save previous metadata
+    accInitialData = mdata;
+
+    // Change settings for period of calibration
+    UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
+    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
+    UAVObject::SetGcsTelemetryAcked(mdata, false);
+    UAVObject::SetGcsTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
+    mdata.gcsTelemetryUpdatePeriod = 100;
+    actuatorCommand->setMetadata(mdata);
+    actuatorCommand->updated();
+
+    // Increase output for all motors
+    for (unsigned int i = 0; i < ActuatorCommand::CHANNEL_NUMELEM; i++)
+    {
+        // Check if the output channel was selected
+        if (!channelsToCalibrate[i])
+            continue;
+
+        actuatorCommandFields.Channel[i] = actuatorSettingsData.ChannelMax[i];
+    }
+    actuatorCommand->setData(actuatorCommandFields);
+
+    mbox.setText(QString(tr("Motors outputs were increased to maximum. "
+                            "Reconnect the battery and wait for notification from ESCs that they recognized high throttle position.<br/>"
+                            "<b>Immediately after that proceed to next step.</b>")));
+    mbox.exec();
+
+    // Decrease output for all motors
+    for (unsigned int i = 0; i < ActuatorCommand::CHANNEL_NUMELEM; i++)
+    {
+        // Check if the output channel was selected
+        if (!channelsToCalibrate[i])
+            continue;
+
+        actuatorCommandFields.Channel[i] = actuatorSettingsData.ChannelMin[i];
+    }
+    actuatorCommand->setData(actuatorCommandFields);
+
+    mbox.setText(QString(tr("Motors outputs were decreased to minimum.<br/>Wait for notification from ESCs that calibration is finished.")));
+    mbox.exec();
+
+    // Restore metadata
+    actuatorCommand->setMetadata(accInitialData);
+    actuatorCommand->updated();
+}
 
 
 /********************************

@@ -7,7 +7,7 @@
  * @{
  * @file       pios_hmc5983.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      HMC5983 Magnetic Sensor Functions from AHRS
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -34,9 +34,12 @@
 
 #if defined(PIOS_INCLUDE_HMC5983)
 
+#include "pios_semaphore.h"
+#include "pios_thread.h"
+
 /* Private constants */
-#define HMC5983_TASK_PRIORITY        (tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)  // max priority
-#define HMC5983_TASK_STACK	         (512 / 4)
+#define HMC5983_TASK_PRIORITY        PIOS_THREAD_PRIO_HIGHEST
+#define HMC5983_TASK_STACK_BYTES     512
 #define PIOS_HMC5983_MAX_DOWNSAMPLE  1
 
 /* Global Variables */
@@ -51,8 +54,8 @@ struct hmc5983_dev {
 	uint32_t slave_num;
 	const struct pios_hmc5983_cfg *cfg;
 	xQueueHandle queue;
-	xTaskHandle task;
-	xSemaphoreHandle data_ready_sema;
+	struct pios_thread *task;
+	struct pios_semaphore *data_ready_sema;
 	enum pios_hmc5983_dev_magic magic;
 };
 
@@ -83,7 +86,7 @@ static struct hmc5983_dev *PIOS_HMC5983_alloc(void) {
 		return NULL;
 	}
 
-	hmc5983_dev->data_ready_sema = xSemaphoreCreateMutex();
+	hmc5983_dev->data_ready_sema = PIOS_Semaphore_Create();
 	if (hmc5983_dev->data_ready_sema == NULL) {
 		vPortFree(hmc5983_dev);
 		return NULL;
@@ -130,13 +133,9 @@ int32_t PIOS_HMC5983_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, dev->queue);
 
-	int result = xTaskCreate(PIOS_HMC5983_Task, (const signed char *)"pios_hmc5983",
-				HMC5983_TASK_STACK, NULL, HMC5983_TASK_PRIORITY,
-				&dev->task);
+	dev->task = PIOS_Thread_Create(PIOS_HMC5883_Task, "pios_hmc5983", HMC5983_TASK_STACK_BYTES, NULL, HMC5983_TASK_PRIORITY);
 
-	PIOS_Assert(result == pdPASS);
-
-	dev->data_ready_sema = xSemaphoreCreateMutex();
+	PIOS_Assert(dev->task != NULL);
 
 	return 0;
 }
@@ -500,9 +499,10 @@ bool PIOS_HMC5983_IRQHandler(void)
 		return false;
 
 	portBASE_TYPE xHigherPriorityTaskWoken;
-	xSemaphoreGiveFromISR(dev->data_ready_sema, &xHigherPriorityTaskWoken);
+	bool woken = false;
+	PIOS_Semaphore_Give_FromISR(dev->data_ready_sema, &woken);
 
-	return xHigherPriorityTaskWoken == pdTRUE;
+	return woken;
 }
 
 /**
@@ -512,12 +512,12 @@ static void PIOS_HMC5983_Task(void *parameters)
 {
 	while (1) {
 		if (PIOS_HMC5983_Validate(dev) != 0) {
-			vTaskDelay(100 * portTICK_RATE_MS);
+			PIOS_Thread_Sleep(100);
 			continue;
 		}
 
-		if (xSemaphoreTake(dev->data_ready_sema, portMAX_DELAY) != pdTRUE) {
-			vTaskDelay(100 * portTICK_RATE_MS);
+		if (PIOS_Semaphore_Take(dev->data_ready_sema, PIOS_SEMAPHORE_TIMEOUT_MAX) != true) {
+			PIOS_Thread_Sleep(100);
 			continue;
 		}
 

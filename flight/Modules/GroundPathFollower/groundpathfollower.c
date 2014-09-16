@@ -7,7 +7,7 @@
  *
  * @file       groundpathfollower.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Perform the path segment requested by @ref PathDesired
 
  *****************************************************************************/
@@ -64,16 +64,17 @@
 #include "velocityactual.h"
 #include "groundpathfollowersettings.h"
 #include "coordinate_conversions.h"
+#include "pios_thread.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
 #define STACK_SIZE_BYTES 1548
-#define TASK_PRIORITY (tskIDLE_PRIORITY+2)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
 
 // Private types
 
 // Private variables
-static xTaskHandle pathfollowerTaskHandle;
+static struct pios_thread *pathfollowerTaskHandle;
 static PathDesiredData pathDesired;
 static GroundPathFollowerSettingsData guidanceSettings;
 
@@ -97,7 +98,7 @@ int32_t GroundPathFollowerStart()
 {
 	if (module_enabled) {
 		// Start main task
-		xTaskCreate(groundPathFollowerTask, (signed char *)"GroundPathFollower", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &pathfollowerTaskHandle);
+		pathfollowerTaskHandle = PIOS_Thread_Create(groundPathFollowerTask, "GroundPathFollower", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_PATHFOLLOWER, pathfollowerTaskHandle);
 	}
 
@@ -152,7 +153,7 @@ static void groundPathFollowerTask(void *parameters)
 	SystemSettingsData systemSettings;
 	FlightStatusData flightStatus;
 
-	portTickType lastUpdateTime;
+	uint32_t lastUpdateTime;
 
 	GroundPathFollowerSettingsConnectCallback(SettingsUpdatedCb);
 	PathDesiredConnectCallback(SettingsUpdatedCb);
@@ -161,7 +162,7 @@ static void groundPathFollowerTask(void *parameters)
 	PathDesiredGet(&pathDesired);
 
 	// Main task loop
-	lastUpdateTime = xTaskGetTickCount();
+	lastUpdateTime = PIOS_Thread_Systime();
 	while (1) {
 
 		// Conditions when this runs:
@@ -175,12 +176,12 @@ static void groundPathFollowerTask(void *parameters)
 			(systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE) )
 		{
 			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_WARNING);
-			vTaskDelay(1000);
+			PIOS_Thread_Sleep(1000);
 			continue;
 		}
 
 		// Continue collecting data if not enough time
-		vTaskDelayUntil(&lastUpdateTime, MS2TICKS(guidanceSettings.UpdatePeriod));
+		PIOS_Thread_Sleep_Until(&lastUpdateTime, guidanceSettings.UpdatePeriod);
 
 		// Convert the accels into the NED frame
 		updateNedAccel();

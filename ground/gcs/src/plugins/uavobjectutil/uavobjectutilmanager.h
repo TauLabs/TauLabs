@@ -45,6 +45,7 @@
 #include <QQueue>
 #include <QComboBox>
 #include <QDateTime>
+#include <QErrorMessage>
 #include <firmwareiapobj.h>
 
 class UAVOBJECTUTIL_EXPORT UAVObjectUtilManager: public QObject
@@ -61,48 +62,47 @@ public:
     int getHomeLocation(bool &set, double LLA[3]);
 
     int getGPSPosition(double LLA[3]);
-
     int getBoardModel();
     Core::IBoardType* getBoardType();
     QByteArray getBoardCPUSerial();
     quint32 getFirmwareCRC();
     QByteArray getBoardDescription();
-    deviceDescriptorStruct getBoardDescriptionStruct();
+    bool getBoardDescriptionStruct(deviceDescriptorStruct &device);
     static bool descriptionToStructure(QByteArray desc,deviceDescriptorStruct & struc);
     UAVObjectManager* getObjectManager();
     void saveObjectToFlash(UAVObject *obj);
-
     QMap<QString, UAVObject::Metadata> readMetadata(metadataSetEnum metadataReadType);
     QMap<QString, UAVObject::Metadata> readAllNonSettingsMetadata();
     bool setMetadata(QMap<QString, UAVObject::Metadata>, metadataSetEnum metadataUpdateType);
     bool setAllNonSettingsMetadata(QMap<QString, UAVObject::Metadata>);
     bool resetMetadataToDefaults();
-
+    int getBoardRevision();
+    void versionMatchCheck();
 protected:
     FirmwareIAPObj::DataFields getFirmwareIap();
-
 signals:
     void saveCompleted(int objectID, bool status);
-    void completedMetadataWrite();
+    void completedMetadataWrite(bool);
 
 private:
-
     QMutex *mutex;
     QQueue<UAVObject *> queue;
     enum {IDLE, AWAITING_ACK, AWAITING_COMPLETED} saveState;
     void saveNextObject();
     QTimer failureTimer;
-
     ExtensionSystem::PluginManager *pm;
     UAVObjectManager *obm;
     UAVObjectUtilManager *obum;
-    QMap<QString, UAVObject::Metadata> metadataChecklist;
-
+    QMap<UAVDataObject*, UAVObject::Metadata> metadataSendlist;
+    QTimer metadataSendTimeout;
+    bool metadataSendSuccess;
+    int metadataSendRetries;
+    QErrorMessage *incompatibleMsg;
 private slots:
+    void onMetadataSendTimeout();
     void objectPersistenceTransactionCompleted(UAVObject* obj, bool success);
     void objectPersistenceUpdated(UAVObject * obj);
     void objectPersistenceOperationFailed();
-
     void metadataTransactionCompleted(UAVObject*, bool);
 };
 

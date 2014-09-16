@@ -7,7 +7,7 @@
  *
  * @file       main.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Start PiOS and bootloader functions
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -82,8 +82,11 @@ int main() {
 		PIOS_DELAY_WaitmS(1000);
 		User_DFU_request = true;
 		PIOS_IAP_ClearRequest();
+	} else if(PIOS_Boot_CheckRequest() == true) {
+		JumpToApp = true;
+		PIOS_IAP_ClearRequest();
+		PIOS_DELAY_WaitmS(1000);//needed so OS can detect BL USB disconnect
 	}
-
 	GO_dfu = (USB_connected == true) || (User_DFU_request == true);
 
 	if (GO_dfu == true) {
