@@ -219,6 +219,14 @@ plugin_logging.depends += plugin_uavtalk
 plugin_logging.depends += plugin_scope
 SUBDIRS += plugin_logging
 
+# TauLink monitoring plugin
+plugin_taulink.subdir = taulink
+plugin_taulink.depends = plugin_coreplugin
+plugin_taulink.depends += plugin_uavobjects
+plugin_taulink.depends += plugin_uavtalk
+plugin_taulink.depends += plugin_uavobjectwidgetutils
+SUBDIRS += plugin_taulink
+
 KML { 
     # KML Export plugin
     plugin_kmlexport.subdir = kmlexport
