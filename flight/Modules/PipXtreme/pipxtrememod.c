@@ -133,7 +133,7 @@ static void systemTask(void *parameters)
 #endif /* PIOS_LED_HEARTBEAT */
 
 		// Update the TLLinkStatus UAVO
-		TLinkStatusData tllinkStatus;
+		TLLinkStatusData tllinkStatus;
 		TLLinkStatusGet(&tllinkStatus);
 
 		// Get the other device stats.

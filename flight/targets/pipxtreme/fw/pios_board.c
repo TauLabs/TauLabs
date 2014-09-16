@@ -32,7 +32,7 @@
 #include <openpilot.h>
 #include <board_hw_defs.c>
 #include <taulinksettings.h>
-#include <oplinkstatus.h>
+#include <tllinkstatus.h>
 
 #define PIOS_COM_TELEM_RX_BUF_LEN 256
 #define PIOS_COM_TELEM_TX_BUF_LEN 256
@@ -119,7 +119,7 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_RFM22B)
     TauLinkSettingsInitialize();
-    OPLinkStatusInitialize();
+    TLLinkStatusInitialize();
 #endif /* PIOS_INCLUDE_RFM22B */
 
 #if defined(PIOS_INCLUDE_LED)
@@ -268,17 +268,17 @@ void PIOS_Board_Init(void) {
     }
 
     // Initialize out status object.
-    OPLinkStatusData oplinkStatus;
-    OPLinkStatusGet(&oplinkStatus);
+    TLLinkStatusData tllinkStatus;
+    TLLinkStatusGet(&tllinkStatus);
 
-    oplinkStatus.BoardType     = bdinfo->board_type;
-    PIOS_BL_HELPER_FLASH_Read_Description(oplinkStatus.Description, OPLINKSTATUS_DESCRIPTION_NUMELEM);
-    PIOS_SYS_SerialNumberGetBinary(oplinkStatus.CPUSerial);
-    oplinkStatus.BoardRevision = bdinfo->board_rev;
+    tllinkStatus.BoardType     = bdinfo->board_type;
+    PIOS_BL_HELPER_FLASH_Read_Description(tllinkStatus.Description, TLLINKSTATUS_DESCRIPTION_NUMELEM);
+    PIOS_SYS_SerialNumberGetBinary(tllinkStatus.CPUSerial);
+    tllinkStatus.BoardRevision = bdinfo->board_rev;
 
     /* Initalize the RFM22B radio COM device. */
     if (taulinkSettings.MaxRfPower != TAULINKSETTINGS_MAXRFPOWER_0) {
-        oplinkStatus.LinkState = OPLINKSTATUS_LINKSTATE_ENABLED;
+        tllinkStatus.LinkState = TLLINKSTATUS_LINKSTATE_ENABLED;
 
         // Configure the RFM22B device
         const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
@@ -358,11 +358,11 @@ void PIOS_Board_Init(void) {
         // Reinitilize the modem to affect te changes.
         PIOS_RFM22B_Reinit(pios_rfm22b_id);
     } else {
-        oplinkStatus.LinkState = OPLINKSTATUS_LINKSTATE_DISABLED;
+        tllinkStatus.LinkState = TLLINKSTATUS_LINKSTATE_DISABLED;
     }
 
     // Update the object
-    OPLinkStatusSet(&oplinkStatus);
+    TLLinkStatusSet(&tllinkStatus);
 
     // Update the com baud rate.
     uint32_t comBaud = 9600;
