@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>825</width>
-    <height>68</height>
+    <height>61</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,6 +22,9 @@
    </property>
    <property name="horizontalSpacing">
     <number>12</number>
+   </property>
+   <property name="verticalSpacing">
+    <number>1</number>
    </property>
    <item row="1" column="1">
     <widget class="QLabel" name="actuatorName">
@@ -102,13 +105,6 @@
        <bold>true</bold>
       </font>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
-color: rgb(255, 255, 255);
-border-radius: 5;
-font:bold;
-margin:1px;</string>
-     </property>
      <property name="text">
       <string>Neutral (see tooltip)</string>
      </property>
@@ -140,13 +136,6 @@ margin:1px;</string>
      </property>
      <property name="layoutDirection">
       <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
-color: rgb(255, 255, 255);
-border-radius: 5;
-font:bold;
-margin:1px;</string>
      </property>
      <property name="text">
       <string>#</string>
@@ -202,13 +191,6 @@ margin:1px;</string>
        <bold>true</bold>
       </font>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
-color: rgb(255, 255, 255);
-border-radius: 5;
-font:bold;
-margin:1px;</string>
-     </property>
      <property name="text">
       <string>Min</string>
      </property>
@@ -228,7 +210,7 @@ margin:1px;</string>
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>25</height>
+       <height>38</height>
       </size>
      </property>
      <property name="focusPolicy">
@@ -338,13 +320,6 @@ p, li { white-space: pre-wrap; }
        <bold>true</bold>
       </font>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
-color: rgb(255, 255, 255);
-border-radius: 5;
-font:bold;
-margin:1px;</string>
-     </property>
      <property name="text">
       <string>Assignment</string>
      </property>
@@ -390,13 +365,6 @@ margin:1px;</string>
        <bold>true</bold>
       </font>
      </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
-color: rgb(255, 255, 255);
-border-radius: 5;
-font:bold;
-margin:1px;</string>
-     </property>
      <property name="text">
       <string>Max</string>
      </property>
@@ -425,13 +393,6 @@ margin:1px;</string>
        <italic>false</italic>
        <bold>true</bold>
       </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
-color: rgb(255, 255, 255);
-border-radius: 5;
-font:bold;
-margin:1px;</string>
      </property>
      <property name="text">
       <string>Reverse</string>
@@ -464,13 +425,6 @@ margin:1px;</string>
        <italic>false</italic>
        <bold>true</bold>
       </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
-color: rgb(255, 255, 255);
-border-radius: 5;
-font:bold;
-margin:1px;</string>
      </property>
      <property name="text">
       <string>Link</string>
