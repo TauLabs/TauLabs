@@ -84,9 +84,6 @@ void inputChannelForm::minMaxUpdated()
         ui->channelNeutral->setProperty("state", "normal");
     }
     ui->channelNeutral->setInvertedAppearance(reverse);
-
-    // Force refresh of style sheet.
-    ui->channelNeutral->setStyle(QApplication::style());
 }
 
 /**
