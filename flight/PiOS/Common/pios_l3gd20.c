@@ -214,7 +214,7 @@ int32_t PIOS_L3GD20_SetRange(enum pios_l3gd20_range range)
 }
 
 /**
- * @brief Set the sample rate, 780 or 360
+ * @brief Set the sample rate, 760 or 380
  * @param[in] enum pios_l3gd20_rate
  * @return 0 if successful, -1 for invalid device, -2 if unable to get register, -3 if unable to set register
  */
