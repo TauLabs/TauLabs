@@ -1560,17 +1560,17 @@
           <enableVbo>false</enableVbo>
         </data>
       </CopterControl>
-      <Danker__PCT__27s__PCT__20Quad>
+      <Gemini>
         <configInfo>
           <locked>false</locked>
           <version>0.0.0</version>
         </configInfo>
         <data>
-          <acFilename>%%DATAPATH%%models/multi/dankers_quad/dankers_quad.3ds</acFilename>
+          <acFilename>%%DATAPATH%%models/multi/gemini/TBS-GEMINI-Black.3DS</acFilename>
           <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
           <enableVbo>false</enableVbo>
         </data>
-      </Danker__PCT__27s__PCT__20Quad>
+      </Gemini>
       <Easyquad__PCT__20X>
         <configInfo>
           <locked>false</locked>
@@ -2351,7 +2351,7 @@
             <side0>
               <classId>ModelViewGadget</classId>
               <gadget>
-                <activeConfiguration>Test Quad X</activeConfiguration>
+                <activeConfiguration>Gemini</activeConfiguration>
               </gadget>
               <type>uavGadget</type>
             </side0>
