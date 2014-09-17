@@ -1,6 +1,9 @@
 # Makefile for Taulabs project
 .DEFAULT_GOAL := help
 
+WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
+ROOT_DIR := $(realpath $(WHEREAMI)/ )
+
 # import macros common to all supported build systems
 include $(CURDIR)/make/system-id.mk
 
