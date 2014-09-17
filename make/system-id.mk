@@ -17,14 +17,12 @@ endif
 ifeq ($(UNAME), Linux)
   OSFAMILY := linux
   LINUX := 1
-  ROOT_DIR := $(CURDIR)
 endif
 
 # Mac OSX
 ifeq ($(UNAME), Darwin)
   OSFAMILY := macosx
   MACOSX := 1
-  ROOT_DIR := $(CURDIR)
 endif
 
 # Windows using MinGW shell
@@ -32,7 +30,6 @@ ifeq (MINGW, $(findstring MINGW,$(UNAME)))
   OSFAMILY := windows
   MINGW := 1
   WINDOWS := 1
-  ROOT_DIR := $(CURDIR)
 endif
 
 # Windows using Cygwin shell
@@ -40,7 +37,6 @@ ifeq (CYGWIN ,$(findstring CYGWIN,$(UNAME)))
   OSFAMILY := windows
   WINDOWS := 1
   CYGWIN := 1
-  ROOT_DIR := $(shell cygpath -m $(CURDIR))
 endif
 
 # report an error if we couldn't work out what OS this is running on

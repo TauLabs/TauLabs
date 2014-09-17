@@ -30,10 +30,7 @@ DEB_PLATFORM		:= amd64
 DEB_MACHINE_DIR		:= $(DEB_CFG_AMD64_DIR)
 DEB_MACHINE_FILES	:= $(DEB_CFG_AMD64_FILES)
 MACHINE_TYPE		:= $(shell uname -m)
-QT_SDK_DIR		:= $(ROOT_DIR)/tools/Qt5.2.0
-QT_PLUGINS_DIR		:= $(QT_SDK_DIR)/5.2.0/gcc_64/plugins
 ifneq ($(MACHINE_TYPE), x86_64)
- QT_PLUGINS_DIR		:= $(QT_SDK_DIR)/5.2.0/gcc/plugins
  DEB_PLATFORM		:= i386
  DEB_MACHINE_DIR	:= $(DEB_CFG_I386_DIR)
  DEB_MACHINE_FILES	:= $(DEB_CFG_I386_FILES)
@@ -53,6 +50,9 @@ linux_standalone: gcs
 	$(V1)cp -v -R $(QT_PLUGINS_DIR)/platforms $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins/
 	$(V1) mkdir -p "$(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins/sqldrivers"
 	$(V1)cp -v -R $(QT_PLUGINS_DIR)/sqldrivers/libqsqlite.so $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins/sqldrivers
+	$(V1) mkdir -p "$(ROOT_DIR)/build/ground/gcs/lib/taulabs/qml"
+	$(V1)cp -v -R $(QT_PLUGINS_DIR)/../qml/QtQuick.2 $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qml/
+	$(V1)cp -v -R $(QT_PLUGINS_DIR)/../qml/QtQuick $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qml/
 	@echo Copying platform libraries dependencies
 	$(V1)find $(QT_PLUGINS_DIR)/platforms/ -name '*.so'	| xargs -I '{}' ldd '{}'| sed -e '/^[^\t]/ d; s/^\t\(.* => \)\?\([^ ]*\) (.*/\2/g' \
 	| grep "Qt5" | grep -v "build/ground" | sort | uniq | xargs -I '{}' cp -v -f '{}' $(ROOT_DIR)/build/ground/gcs/lib/taulabs 
