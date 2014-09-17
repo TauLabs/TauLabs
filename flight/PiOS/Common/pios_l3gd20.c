@@ -165,7 +165,7 @@ int32_t PIOS_L3GD20_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_
 static int32_t PIOS_L3GD20_Config(const struct pios_l3gd20_cfg *cfg)
 {
 	// This register enables the channels
-	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG1, PIOS_L3GD20_CTRL1_380HZ_100HZ |
+	while (PIOS_L3GD20_SetReg(PIOS_L3GD20_CTRL_REG1, PIOS_L3GD20_RATE_380HZ_100HZ |
 	                          PIOS_L3GD20_CTRL1_PD | PIOS_L3GD20_CTRL1_ZEN |
 	                          PIOS_L3GD20_CTRL1_YEN | PIOS_L3GD20_CTRL1_XEN) != 0);
 
@@ -216,7 +216,7 @@ int32_t PIOS_L3GD20_SetRange(enum pios_l3gd20_range range)
 }
 
 /**
- * @brief Set the sample rate, 780 or 360
+ * @brief Set the sample rate, 760 or 380
  * @param[in] enum pios_l3gd20_rate
  * @return 0 if successful, -1 for invalid device, -2 if unable to get register, -3 if unable to set register
  */
