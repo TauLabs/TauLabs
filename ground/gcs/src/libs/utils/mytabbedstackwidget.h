@@ -55,6 +55,8 @@ public:
     QWidget * currentWidget(){return m_stackWidget->currentWidget();}
     QWidget * getWidget(int index) {return m_stackWidget->widget(index);}
 
+    void setMaxLabelSize(int maxLabelSize);
+
 signals:
     void currentAboutToShow(int index,bool * proceed);
     void currentChanged(int index);
@@ -70,6 +72,7 @@ private:
     QStackedWidget *m_stackWidget;
     bool m_vertical;
     bool m_iconAbove;
+    int m_maxLabelSize;
 };
 
 #endif // MYTABBEDSTACKWIDGET_H
