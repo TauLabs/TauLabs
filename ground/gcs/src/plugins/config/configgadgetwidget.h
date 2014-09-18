@@ -69,11 +69,11 @@ protected:
         MyTabbedStackWidget *ftw;
 
 private:
-	UAVDataObject* oplinkStatusObj;
-    int lastTabIndex;
-	// A timer that timesout the connction to the OPLink.
-	QTimer *oplinkTimeout;
-	bool oplinkConnected;
+        UAVDataObject* oplinkStatusObj;
+        int lastTabIndex;
+        // A timer that timesout the connction to the OPLink.
+        QTimer *oplinkTimeout;
+        bool oplinkConnected;
 };
 
 #endif // CONFIGGADGETWIDGET_H
