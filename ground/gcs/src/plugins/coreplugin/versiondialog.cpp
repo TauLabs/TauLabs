@@ -42,6 +42,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QTextBrowser>
+#include <QApplication>
+#include <QDesktopServices>
 
 using namespace Core;
 using namespace Core::Internal;
@@ -75,9 +77,13 @@ VersionDialog::VersionDialog(QWidget *parent)
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     QGridLayout *layout = new QGridLayout(this);
     layout->setSizeConstraint(QLayout::SetFixedSize);
-
-    QString version = QLatin1String(GCS_VERSION_LONG);
-    version += QDate(2007, 25, 10).toString(Qt::SystemLocaleDate);
+    QString versionName;
+    QString versionData;
+#ifdef GCS_REVISION_GITHUB
+    versionData = QLatin1String(GCS_REVISION_GITHUB_STR);
+    versionName = versionData.split("%@%").at(0);
+    versionData = versionData.split("%@%").at(1);
+#endif
 
     QString ideRev;
 #ifdef GCS_REVISION
@@ -104,18 +110,22 @@ VersionDialog::VersionDialog(QWidget *parent)
      }
      uavoHashStr = tr("UAVO hash %1<br/>").arg(gcsUavoHashStr);
  #endif
-
-     const QString description = tr(
-        "<h3>Tau Labs GCS %1 %9 (%10)</h3>"
+     const QString version_name = tr("<h2><center><i>%1<i/><center/></h2>").arg(versionName);
+     const QString version_description = tr(
+        "<h3>Tau Labs GCS %1</h3>"
         "Based on Qt %2 (%3 bit)<br/>"
         "<br/>"
         "Built on %4 at %5<br />"
         "<br/>"
-        "%8"
+        "%6"
         "<br/>"
-        "%11"
-        "<br/>"
-        "Copyright 2012-%6 %7, 2010-2012 OpenPilot. All rights reserved.<br/>"
+        "%7"
+        "<br/>").arg(versionData,
+                     QLatin1String(QT_VERSION_STR), QString::number(QSysInfo::WordSize),
+                     QLatin1String(__DATE__), QLatin1String(__TIME__), ideRev, uavoHashStr);
+
+     const QString copyright = tr(
+        "Copyright 2012-%1 %2, 2010-2012 OpenPilot. All rights reserved.<br/>"
         "<br/>"
          "Between 2010 and 2012, a significant part of this application was designed<br/>"
          "and implemented within the OpenPilot project. This work was further based<br/>"
@@ -127,15 +137,20 @@ VersionDialog::VersionDialog(QWidget *parent)
          "(at your option) any later version.<br/><br/>"
         "The program is provided AS IS with NO WARRANTY OF ANY KIND, "
         "INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A "
-        "PARTICULAR PURPOSE.</small><br/>")
-        .arg(version, QLatin1String(QT_VERSION_STR), QString::number(QSysInfo::WordSize),
-             QLatin1String(__DATE__), QLatin1String(__TIME__), QLatin1String(GCS_YEAR), 
-             (QLatin1String(GCS_AUTHOR)), ideRev).arg(QLatin1String(GCS_VERSION_TYPE), QLatin1String(GCS_VERSION_CODENAME), uavoHashStr);
+        "PARTICULAR PURPOSE.</small><br/>").arg(QLatin1String(GCS_YEAR), (QLatin1String(GCS_AUTHOR)));
 
-    QLabel *copyRightLabel = new QLabel(description);
+    QLabel *copyRightLabel = new QLabel(copyright);
+    QLabel *versionNameLabel = new QLabel(version_name);
+    QLabel *versionDescription = new QLabel(version_description);
     copyRightLabel->setWordWrap(true);
     copyRightLabel->setOpenExternalLinks(true);
     copyRightLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    versionDescription->setWordWrap(true);
+    versionDescription->setOpenExternalLinks(true);
+    versionDescription->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    versionNameLabel->setWordWrap(true);
+    versionNameLabel->setOpenExternalLinks(true);
+    versionNameLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     QPushButton *closeButton = buttonBox->button(QDialogButtonBox::Close);
@@ -145,7 +160,30 @@ VersionDialog::VersionDialog(QWidget *parent)
 
     QLabel *logoLabel = new QLabel;
     logoLabel->setPixmap(QPixmap(QLatin1String(":/core/images/taulabs_logo_128.png")));
-    layout->addWidget(logoLabel , 0, 0, 1, 1);
-    layout->addWidget(copyRightLabel, 0, 1, 4, 4);
-    layout->addWidget(buttonBox, 4, 0, 1, 5);
+    ClickableLabel *xkcd = new ClickableLabel;
+    xkcd->setPixmap(QPixmap(QApplication::applicationDirPath()+"/../share/taulabs/xkcd.png"));
+    connect(xkcd, SIGNAL(clicked()), this, SLOT(goToXKCD()));
+    if (xkcd->pixmap()->width() > xkcd->pixmap()->height())
+    {
+        layout->addWidget(versionNameLabel , 0, 0, 1, 2);
+        layout->addWidget(logoLabel , 1, 1, 1, 1);
+        layout->addWidget(versionDescription , 1, 0, 1, 1);
+        layout->addWidget(xkcd, 2, 0, 1, 2);
+        layout->addWidget(copyRightLabel, 3, 0, 1, 2);
+        layout->addWidget(buttonBox, 5, 0, 1, 2);
+    }
+    else
+    {
+        layout->addWidget(versionNameLabel , 0, 0, 1, 3);
+        layout->addWidget(logoLabel , 1, 2, 1, 1);
+        layout->addWidget(versionDescription , 1, 1, 1, 1);
+        layout->addWidget(xkcd, 1, 0, 2, 1);
+        layout->addWidget(copyRightLabel, 2, 1, 1, 2);
+        layout->addWidget(buttonBox, 4, 0, 1, 3);
+    }
+}
+
+void VersionDialog::goToXKCD()
+{
+    QDesktopServices::openUrl(QUrl("http://xkcd.com"));
 }
