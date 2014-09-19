@@ -49,7 +49,8 @@ const char * const GCS_VERSION_CODENAME = "Phoenix";
 const char * const GCS_NAME              = "Tau Labs GCS";
 const char * const GCS_VERSION_LONG      = GCS_VERSION;
 const char * const GCS_AUTHOR            = "Tau Labs";
-const char * const GCS_YEAR              = "2014";
+const char t []                          = __DATE__;
+const char * const GCS_YEAR              = t + 7;
 
 const char * const GCS_HELP              = "http://github.com/TauLabs";
 #ifdef GCS_REVISION
