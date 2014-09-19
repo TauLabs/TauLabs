@@ -25,6 +25,8 @@ isEmpty($$PYTHON_LOCAL) {
     VERSION_INFO_TEMPLATE = $$ROOT_DIR/make/templates/gcsversioninfotemplate.h
     VERSION_INFO_COMMAND  = $$PYTHON_LOCAL \"$$VERSION_INFO_SCRIPT\"
     UAVO_DEF_PATH         = $$ROOT_DIR/shared/uavobjectdefinition
+    XKCD_PIC_FILE         = $$GCS_BUILD_TREE/share/taulabs/xkcd.png
+
 
     # Create custom version_info target which generates a header
     version_info.target   = $$VERSION_INFO_HEADER
@@ -32,7 +34,9 @@ isEmpty($$PYTHON_LOCAL) {
                                     --path=\"$$GCS_SOURCE_TREE\" \
                                     --template=\"$$VERSION_INFO_TEMPLATE\" \
                                     --uavodir=\"$$UAVO_DEF_PATH\" \
-                                    --outfile=\"$$VERSION_INFO_HEADER\"
+                                    --outfile=\"$$VERSION_INFO_HEADER\" \
+                                    --xkcdpicfile=\"$$XKCD_PIC_FILE\"
+
     version_info.depends = FORCE
     QMAKE_EXTRA_TARGETS += version_info
 
