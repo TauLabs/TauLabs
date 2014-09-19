@@ -47,6 +47,23 @@ using namespace Core;
 using namespace Core::Internal;
 using namespace Core::Constants;
 
+ClickableLabel::ClickableLabel( const QString& text, QWidget * parent ) :
+    QLabel(parent)
+
+  {
+      this->setText(text);
+  }
+
+  ClickableLabel::~ClickableLabel()
+  {
+  }
+
+  void ClickableLabel::mousePressEvent ( QMouseEvent * event )
+
+  {
+      emit clicked();
+  }
+
 VersionDialog::VersionDialog(QWidget *parent)
     : QDialog(parent)
 {
