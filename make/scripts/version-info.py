@@ -11,6 +11,8 @@ from subprocess import Popen, PIPE
 from re import search, MULTILINE
 from datetime import datetime
 from string import Template
+from requests import get
+from json import loads
 import optparse
 import hashlib
 import sys
@@ -305,6 +307,27 @@ def GetHashofDirs(directory, verbose=0, raw=0, what_to_hash='..*.xml$'):
       hex_stream = lambda s:",".join(['0x'+hex(ord(c))[2:].zfill(2) for c in s])
       return hex_stream(SHAhash.digest())
 
+def download_xkcd_json():
+  try:
+    return get("http://xkcd.com/info.0.json").json()
+  except (requests.exceptions.ConnectionError, ValueError):
+    return None
+
+def download_xkcd_image(target_file):
+  print("Fetching comic")
+  info = download_xkcd_json()
+  if not info:
+    print("Error: URL could not be retrieved")
+    return
+  title, alt, num = info['safe_title'], info['alt'], str(info['num'])
+  image = num+search("\.([a-z])+$", info['img']).group()
+  with open(target_file, 'wb') as image_file:
+    req = get(info['img'], stream=True)
+    for block in req.iter_content(1024):
+      if block:
+	image_file.write(block)
+	image_file.flush()
+                    
 def main():
     """This utility uses git repository in the current working directory
 or from the given path to extract some info about it and HEAD commit.
@@ -365,13 +388,15 @@ string given.
                         help='board revision, for example, 0x01');
     parser.add_option('--uavodir', default = "",
                         help='uav object definition directory');
+    parser.add_option('--xkcdpicfile', default = "",
+                        help='name of the xkcd comic image file');
     (args, positional_args) = parser.parse_args()
 
     # Process arguments.  No advanced error handling is here.
     # Any error will raise an exception and terminate process
     # with non-zero exit code.
     r = Repo(args.path)
-
+    xkcd = download_xkcd_json()
     dictionary = dict(
         TEMPLATE = args.template,
         OUTFILENAME = args.outfile,
@@ -391,6 +416,7 @@ string given.
         SHA1 = sha1(args.image),
         UAVOSHA1TXT = GetHashofDirs(args.uavodir,verbose=0,raw=1),
         UAVOSHA1 = GetHashofDirs(args.uavodir,verbose=0,raw=0),
+        XKCD_TITLE = xkcd['safe_title'],
     )
 
     # Process positional arguments in the form of:
@@ -407,6 +433,9 @@ string given.
 
     if args.outfile != None:
         file_from_template(args.template, args.outfile, dictionary)
+        
+    if args.xkcdpicfile != None:
+	download_xkcd_image(args.xkcdpicfile)
 
     return 0
 
