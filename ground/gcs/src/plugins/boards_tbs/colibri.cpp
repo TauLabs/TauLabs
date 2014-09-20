@@ -142,3 +142,105 @@ QWidget * Colibri::getBoardConfiguration(QWidget *parent, bool connected)
     Q_UNUSED(connected);
     return new ColibriConfiguration(parent);
 }
+
+
+/**
+ * Configure the board to use a receiver input type on a port number
+ * @param type the type of receiver to use
+ * @param port_num which input port to configure (board specific numbering)
+ * @return true if successfully configured or false otherwise
+ */
+bool Colibri::setInputOnPort(enum InputType type, int port_num)
+{
+    if (port_num != 0)
+        return false;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwColibri *hwColibri = HwColibri::GetInstance(uavoManager);
+    Q_ASSERT(hwColibri);
+    if (!hwColibri)
+        return false;
+
+    HwColibri::DataFields settings = hwColibri->getData();
+
+    switch(type) {
+    case INPUT_TYPE_PWM:
+        settings.Uart2 = HwColibri::UART2_DISABLED;
+        settings.RcvrPort = HwColibri::RCVRPORT_PWM;
+        break;
+    case INPUT_TYPE_PPM:
+        settings.Uart2 = HwColibri::UART2_DISABLED;
+        settings.RcvrPort = HwColibri::RCVRPORT_PPM;
+        break;
+    case INPUT_TYPE_SBUS:
+        settings.Uart2 = HwColibri::UART2_SBUS;
+        settings.RcvrPort = HwColibri::RCVRPORT_DISABLED;
+        break;
+    case INPUT_TYPE_DSM2:
+        settings.Uart2 = HwColibri::UART2_DSM2;
+        settings.RcvrPort = HwColibri::RCVRPORT_DISABLED;
+        break;
+    case INPUT_TYPE_DSMX10BIT:
+        settings.Uart2 = HwColibri::UART2_DSMX10BIT;
+        settings.RcvrPort = HwColibri::RCVRPORT_DISABLED;
+        break;
+    case INPUT_TYPE_DSMX11BIT:
+        settings.Uart2 = HwColibri::UART2_DSMX11BIT;
+        settings.RcvrPort = HwColibri::RCVRPORT_DISABLED;
+        break;
+    default:
+        return false;
+    }
+
+    // Apply these changes
+    hwColibri->setData(settings);
+
+    return true;
+}
+
+/**
+ * @brief Sparky::getInputOnPort fetch the currently selected input type
+ * @param port_num the port number to query (must be zero)
+ * @return the selected input type
+ */
+enum Core::IBoardType::InputType Colibri::getInputOnPort(int port_num)
+{
+    if (port_num != 0)
+        return INPUT_TYPE_UNKNOWN;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwColibri *hwColibri = HwColibri::GetInstance(uavoManager);
+    Q_ASSERT(hwColibri);
+    if (!hwColibri)
+        return INPUT_TYPE_UNKNOWN;
+
+    HwColibri::DataFields settings = hwColibri->getData();
+
+    bool pwm_ppm_disabled = settings.RcvrPort == HwColibri::RCVRPORT_DISABLED;
+
+    // Only return an input type if it is completely unambiguous
+    switch(settings.Uart2) {
+    case HwColibri::UART2_SBUS:
+        return pwm_ppm_disabled ? INPUT_TYPE_SBUS : INPUT_TYPE_UNKNOWN;
+    case HwColibri::UART2_DSM2:
+        return pwm_ppm_disabled ? INPUT_TYPE_DSM2 : INPUT_TYPE_UNKNOWN;
+    case HwColibri::UART2_DSMX10BIT:
+        return pwm_ppm_disabled ? INPUT_TYPE_DSMX10BIT : INPUT_TYPE_UNKNOWN;
+    case HwColibri::UART2_DSMX11BIT:
+        return pwm_ppm_disabled ? INPUT_TYPE_DSMX11BIT : INPUT_TYPE_UNKNOWN;
+    case HwColibri::UART2_DISABLED:
+        switch(settings.RcvrPort) {
+        case HwColibri::RCVRPORT_PPM:
+            return INPUT_TYPE_PPM;
+        case HwColibri::RCVRPORT_PWM:
+            return INPUT_TYPE_PWM;
+        default:
+            return INPUT_TYPE_UNKNOWN;
+        }
+    default:
+        return INPUT_TYPE_UNKNOWN;
+    }
+
+}
