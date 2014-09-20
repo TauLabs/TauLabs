@@ -750,7 +750,6 @@ void ConfigInputWidget::fastMdata()
 
     // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
     UAVObjectManager *objManager = getObjectManager();
-    QMap<QString, UAVObject::Metadata> metaDataList;
     QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
@@ -779,14 +778,11 @@ void ConfigInputWidget::fastMdata()
                         break;
                 }
 
-                metaDataList.insert(obj->getName(), mdata);
+                // Set the metadata
+                obj->setMetadata(mdata);
             }
         }
     }
-
-    // Set new metadata
-    utilMngr->setAllNonSettingsMetadata(metaDataList);
-
 
 }
 
@@ -796,7 +792,10 @@ void ConfigInputWidget::fastMdata()
 void ConfigInputWidget::restoreMdata()
 {
     UAVObjectUtilManager* utilMngr = getObjectUtilManager();
-    utilMngr->setAllNonSettingsMetadata(originalMetaData);
+    foreach (QString objName, originalMetaData.keys()) {
+        UAVObject *obj = getObjectManager()->getObject(objName);
+        obj->setMetadata(originalMetaData.value(objName));
+    }
     originalMetaData.clear();
 }
 
