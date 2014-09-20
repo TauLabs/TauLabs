@@ -51,6 +51,7 @@ TauLinkGadgetWidget::TauLinkGadgetWidget(QWidget *parent) : ConfigTaskWidget(par
     addUAVObjectToWidgetRelation("TLLinkStatus", "TXSeq", ui->TXSeq);
     addUAVObjectToWidgetRelation("TLLinkStatus", "RXRate", ui->RXRate);
     addUAVObjectToWidgetRelation("TLLinkStatus", "TXRate", ui->TXRate);
+    addUAVObjectToWidgetRelation("TLLinkStatus", "LinkState", ui->LinkState);
 }
 
 TauLinkGadgetWidget::~TauLinkGadgetWidget()
