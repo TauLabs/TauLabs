@@ -22,6 +22,7 @@
  */
 package org.taulabs.androidgcs.views;
 
+import org.taulabs.androidgcs.MainActivity;
 import org.taulabs.androidgcs.R;
 import org.taulabs.androidgcs.SystemAlarmActivity;
 
@@ -72,15 +73,14 @@ public class AlarmsSummary extends LinearLayout {
 				Activity activity = ((Activity)getContext());
 				String currentActivity = activity.getClass().getSimpleName();
 
-				// Do not nest multiple of the alarm activities
-				if(!currentActivity.equals("SystemAlarmActivity"))
-					activity.startActivity(new Intent(getContext(), SystemAlarmActivity.class));
+				Intent alarmScreen = new Intent(activity, MainActivity.class);
+				alarmScreen.putExtra("ContentFrag",  103);
+				activity.startActivity(alarmScreen);
 			}
 
 		});
 		invalidate();
 	}
-
 
 
 	//! Set the icon based on the alarm level
