@@ -183,6 +183,16 @@ void Calibration::slowDataUpdates()
 {
     // Save previous sensor states
     originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
+    QList<QString> keys = originalMetaData.keys();
+    qDebug() << keys;
+    foreach (QString objName, keys) {
+        qDebug() << "Checking" << objName;
+        if (objName.compare("Accels") == 0 ||
+            objName.compare("Gyro") == 0 ||
+            objName.compare("Magnetometer") == 0)
+            continue;
+        originalMetaData.remove(objName);
+    }
 
     // Set all UAVObject rates to update slowly
     UAVObjectManager *objManager = getObjectManager();
@@ -191,11 +201,18 @@ void Calibration::slowDataUpdates()
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
 
+                // Only configure the sensors currently
+                if (obj->getObjID() == Accels::OBJID ||
+                    obj->getObjID() == Gyros::OBJID ||
+                    obj->getObjID() == Magnetometer::OBJID)
+                {
+
                 UAVObject::Metadata mdata = obj->getMetadata();
                 UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
 
                 mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
                 metaDataList.insert(obj->getName(), mdata);
+                }
             }
         }
     }
