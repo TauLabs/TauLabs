@@ -88,7 +88,7 @@ VersionDialog::VersionDialog(QWidget *parent)
     QString ideRev;
 #ifdef GCS_REVISION
      //: This gets conditionally inserted as argument %8 into the description string.
-     ideRev = tr("From revision %1<br/>").arg(QString::fromLatin1(GCS_REVISION_STR).left(60));
+     ideRev = tr("From revision %1<br/>").arg(QString::fromLatin1(GCS_REVISION_STR).split(":").at(1).left(60));
 #endif
      QString uavoHashStr;
  #ifdef UAVO_HASH
@@ -108,20 +108,20 @@ VersionDialog::VersionDialog(QWidget *parent)
      {
          gcsUavoHashStr.append(QString::number(i,16).right(2));
      }
-     uavoHashStr = tr("UAVO hash %1<br/>").arg(gcsUavoHashStr);
+     uavoHashStr = tr("UAVO hash %1<br/>").arg(gcsUavoHashStr.left(8));
  #endif
-     const QString version_name = tr("<h2><center><i>%1<i/><center/></h2>").arg(versionName);
+     const QString version_name = tr("<h2><center><i>%1<i/><center/></h2>"
+                                     "<h3><center>Tau Labs GCS<center></h3>"
+                                     "</h3><center>%2<center></h3>").arg(versionName, versionData);
      const QString version_description = tr(
-        "<h3>Tau Labs GCS %1</h3>"
-        "Based on Qt %2 (%3 bit)<br/>"
+        "Based on Qt %1 (%2 bit)<br/>"
         "<br/>"
-        "Built on %4 at %5<br />"
+        "Built on %3 at %4<br />"
+        "<br/>"
+        "%5"
         "<br/>"
         "%6"
-        "<br/>"
-        "%7"
-        "<br/>").arg(versionData,
-                     QLatin1String(QT_VERSION_STR), QString::number(QSysInfo::WordSize),
+        "<br/>").arg(QLatin1String(QT_VERSION_STR), QString::number(QSysInfo::WordSize),
                      QLatin1String(__DATE__), QLatin1String(__TIME__), ideRev, uavoHashStr);
 
      QString copyright = tr(
