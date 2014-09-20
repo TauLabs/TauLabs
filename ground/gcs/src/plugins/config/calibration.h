@@ -158,6 +158,10 @@ private:
     //! Assign the metadata update rate
     void assignUpdateRate(UAVObject* obj, quint32 updatePeriod);
 
+    //! Slow the metadata update rate
+    void slowUpdateRate(UAVObject* obj);
+
+
     QTimer timer;
 
     //! Whether to attempt to calibrate the magnetometer (normally if it is present)
@@ -197,7 +201,7 @@ private:
     static const int NUM_SENSOR_UPDATES_YAW_ORIENTATION = 300;
     static const int NUM_SENSOR_UPDATES_SIX_POINT = 100;
     static const int SENSOR_UPDATE_PERIOD = 20;
-    static const int NON_SENSOR_UPDATE_PERIOD = 5000;
+    static const int NON_SENSOR_UPDATE_PERIOD = 0;
     double MIN_TEMPERATURE_RANGE;
 
     double initialBoardRotation[3];
