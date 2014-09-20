@@ -68,18 +68,18 @@
 		<!--  1. Telem - able to receive radio connection from CoordID partner -->
 		<!--  2. TelemCoord - able to establish a receiver connection -->
 		<!--  3. PPM - receiver functionality is on to allow receiving PPM packtes from CoordID -->
-                <field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,TelemCoord,PPM" defaultvalue="Disabled"/>
+                <field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,TelemCoord,PPM" defaultvalue="Telem"/>
 		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
 		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
 
 		<!-- radio settings -->
 		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" options="9600,19200,32000,64000,100000,192000" defaultvalue="64000"/>
-		<field name="MaxRfPower" units="mW" type="enum" elements="1" options="0,1.25,1.6,3.16,6.3,12.6,25,50,100" defaultvalue="0"/>
+		<field name="MaxRfPower" units="mW" type="enum" elements="1" options="0,1.25,1.6,3.16,6.3,12.6,25,50,100" defaultvalue="1.25"/>
 		<field name="MinChannel" units="" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="MaxChannel" units="" type="uint8" elements="1" defaultvalue="250"/>
 		<field name="ChannelSet" units="" type="uint8" elements="1" defaultvalue="39"/>
 
-		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
+		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="2000"/>
 		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
 		<field name="MPU9250Rate" units="" type="enum" elements="1" options="200,333,500,666,1000,2000,4000,8000" defaultvalue="666"/>
 		<field name="MPU9250DLPF" units="" type="enum" elements="1" options="256,188,98,42,20,10,5" defaultvalue="256"/>
