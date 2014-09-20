@@ -835,7 +835,6 @@ public abstract class ObjectManagerActivity extends Activity {
 				int id = (int) selectedItem.getId();
 				FragmentTransaction trans = getFragmentManager().beginTransaction();
 				trans.replace(navConf.getMainLayout(), getFragmentById(id));
-				trans.addToBackStack(null);
 				trans.commit();
 				
 				mDrawerList.setItemChecked(position, true);
