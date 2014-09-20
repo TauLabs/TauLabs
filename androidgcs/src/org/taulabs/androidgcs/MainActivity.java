@@ -46,14 +46,11 @@ public class MainActivity extends ObjectManagerActivity {
 			// If there is no intent or it is invalid, default to PFD
 			if (b == null || !b.containsKey("ContentFrag")) {
 				contentFrag = new PFD();
-				setTitle("PFD");
+				setSelectionById(101);
 			} else {
 				int id = b.getInt("ContentFrag");
 				contentFrag = getFragmentById(id);
-
-				String title = b.getString("ContentName");
-				if (title != null)
-					setTitle(title);
+				setSelectionById(id);
 			}
 
 			FragmentTransaction fragmentTransaction = getFragmentManager()

@@ -773,6 +773,19 @@ public abstract class ObjectManagerActivity extends Activity {
 		return null;
 	}
 	
+	//! Set the selected drawer item and title by ID
+	public void setSelectionById(int id) {
+		NavDrawerItem selectedItem[] = navConf.getNavItems();
+		for (int i = 0; i < selectedItem.length; i++) {
+			if (selectedItem[i].getId() == id) {
+				mDrawerList.setItemChecked(i, true);
+				if ( selectedItem[i].updateActionBarTitle()) {
+					setTitle(selectedItem[i].getLabel());
+				}
+			}
+		}
+	}
+	
 	private void selectItem(int position) {
 		
 		NavDrawerItem selectedItem = navConf.getNavItems()[position];
@@ -814,8 +827,6 @@ public abstract class ObjectManagerActivity extends Activity {
 				// Activate main activity, indicating the fragment it should show 
 				Intent mainScreen = new Intent(this, MainActivity.class);
 				mainScreen.putExtra("ContentFrag",  selectedItem.getId());
-				if ( selectedItem.updateActionBarTitle())
-					mainScreen.putExtra("ContentName", selectedItem.getLabel());
 				startActivity(mainScreen);
 				
 				return;
