@@ -24,7 +24,6 @@ package org.taulabs.androidgcs.views;
 
 import org.taulabs.androidgcs.MainActivity;
 import org.taulabs.androidgcs.R;
-import org.taulabs.androidgcs.SystemAlarmActivity;
 
 import android.app.Activity;
 import android.content.Context;
