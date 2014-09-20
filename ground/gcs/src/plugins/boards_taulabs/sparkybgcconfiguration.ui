@@ -564,6 +564,57 @@
       <property name="margin">
        <number>12</number>
       </property>
+      <item row="0" column="1">
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>497</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButton_4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Reset all values to GCS defaults</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Default</string>
+        </property>
+        <property name="objrelation" stdset="0">
+         <stringlist>
+          <string>objname:StabilizationSettings</string>
+          <string>button:default</string>
+          <string>buttongroup:4</string>
+         </stringlist>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="0" colspan="3">
        <widget class="QGroupBox" name="RateStabilizationGroup_9">
         <property name="sizePolicy">
@@ -1012,71 +1063,39 @@
          <property name="bottomMargin">
           <number>9</number>
          </property>
-         <item row="3" column="4">
-          <widget class="QDoubleSpinBox" name="PitchRateKd">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>22</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>22</height>
-            </size>
-           </property>
-           <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-           <property name="decimals">
-            <number>0</number>
-           </property>
-           <property name="singleStep">
-            <double>1.000000000000000</double>
-           </property>
-           <property name="objrelation" stdset="0">
-            <stringlist>
-             <string>objname:BrushlessGimbalSettings</string>
-             <string>fieldname:PowerScale</string>
-             <string>element:Pitch</string>
-            </stringlist>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_44">
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_25">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>58</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>Damping</string>
+            <string>Locking Angle</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="2" column="4">
-          <widget class="QDoubleSpinBox" name="RatePitchKi">
+         <item row="7" column="2">
+          <widget class="QDoubleSpinBox" name="lockAngleRoll_2">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1099,8 +1118,7 @@
             <enum>Qt::StrongFocus</enum>
            </property>
            <property name="toolTip">
-            <string>As a rule of thumb, you can set the Ki at roughly the same
-value as the Kp.</string>
+            <string/>
            </property>
            <property name="styleSheet">
             <string notr="true"/>
@@ -1108,27 +1126,245 @@ value as the Kp.</string>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
-           <property name="suffix">
-            <string/>
-           </property>
            <property name="decimals">
-            <number>1</number>
-           </property>
-           <property name="minimum">
-            <double>0.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>5.000000000000000</double>
+            <number>0</number>
            </property>
            <property name="singleStep">
-            <double>0.100000000000000</double>
+            <double>1.000000000000000</double>
            </property>
            <property name="objrelation" stdset="0">
             <stringlist>
              <string>objname:BrushlessGimbalSettings</string>
-             <string>fieldname:Damping</string>
+             <string>fieldname:RollFraction</string>
+            </stringlist>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_27">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>58</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Max Rate (deg/s)</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_26">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>58</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Tracking Fraction</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="4">
+          <widget class="QDoubleSpinBox" name="PitchMaxRate">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="decimals">
+            <number>0</number>
+           </property>
+           <property name="singleStep">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="objrelation" stdset="0">
+            <stringlist>
+             <string>objname:StabilizationSettings</string>
+             <string>fieldname:PoiMaximumRate</string>
              <string>element:Pitch</string>
             </stringlist>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="2">
+          <widget class="QDoubleSpinBox" name="RollMaxRate">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="decimals">
+            <number>0</number>
+           </property>
+           <property name="singleStep">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="objrelation" stdset="0">
+            <stringlist>
+             <string>objname:StabilizationSettings</string>
+             <string>fieldname:PoiMaximumRate</string>
+             <string>element:Roll</string>
+            </stringlist>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QDoubleSpinBox" name="RollRateKd">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="decimals">
+            <number>0</number>
+           </property>
+           <property name="singleStep">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="objrelation" stdset="0">
+            <stringlist>
+             <string>objname:BrushlessGimbalSettings</string>
+             <string>fieldname:PowerScale</string>
+             <string>element:Roll</string>
+            </stringlist>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_43">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>69</width>
+             <height>16</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Proportional</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -2232,48 +2468,51 @@ border-radius: 5;</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_43">
+         <item row="4" column="4">
+          <widget class="QDoubleSpinBox" name="PitchRateKd">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="minimumSize">
             <size>
-             <width>69</width>
-             <height>16</height>
+             <width>0</width>
+             <height>22</height>
             </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
            </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
-           <property name="text">
-            <string>Proportional</string>
-           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
+           <property name="decimals">
+            <number>0</number>
+           </property>
+           <property name="singleStep">
+            <double>1.000000000000000</double>
+           </property>
+           <property name="objrelation" stdset="0">
+            <stringlist>
+             <string>objname:BrushlessGimbalSettings</string>
+             <string>fieldname:PowerScale</string>
+             <string>element:Pitch</string>
+            </stringlist>
+           </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <spacer name="horizontalSpacer_26">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>10</width>
-             <height>10</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="1" column="2">
+         <item row="2" column="2">
           <widget class="QDoubleSpinBox" name="RateRollKp_2">
            <property name="sizePolicy">
             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -2297,8 +2536,7 @@ border-radius: 5;</string>
             <enum>Qt::StrongFocus</enum>
            </property>
            <property name="toolTip">
-            <string>Slowly raise Kp until you start seeing clear oscillations when you fly.
-Then lower the value by 20% or so.</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;After increasing Damping, slowly raise Kp until you start seeing clear oscillations. Decrease 10-20%.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="styleSheet">
             <string notr="true"/>
@@ -2327,24 +2565,8 @@ Then lower the value by 20% or so.</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="0">
-          <spacer name="horizontalSpacer_24">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>140</width>
-             <height>13</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="2" column="2">
-          <widget class="QDoubleSpinBox" name="RateRollKi_2">
+         <item row="6" column="4">
+          <widget class="QDoubleSpinBox" name="lockAnglePitch">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -2366,10 +2588,6 @@ Then lower the value by 20% or so.</string>
            <property name="focusPolicy">
             <enum>Qt::StrongFocus</enum>
            </property>
-           <property name="toolTip">
-            <string>As a rule of thumb, you can set the Ki at roughly the same
-value as the Kp.</string>
-           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -2377,24 +2595,21 @@ value as the Kp.</string>
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
            <property name="decimals">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <double>5.000000000000000</double>
+            <number>0</number>
            </property>
            <property name="singleStep">
-            <double>0.100000000000000</double>
+            <double>1.000000000000000</double>
            </property>
            <property name="objrelation" stdset="0">
             <stringlist>
              <string>objname:BrushlessGimbalSettings</string>
-             <string>fieldname:Damping</string>
-             <string>element:Roll</string>
+             <string>fieldname:MaxAngle</string>
+             <string>element:Pitch</string>
             </stringlist>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
+         <item row="4" column="0">
           <widget class="QLabel" name="label_24">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -2425,7 +2640,7 @@ value as the Kp.</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="4">
+         <item row="2" column="4">
           <widget class="QDoubleSpinBox" name="RatePitchKp">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2449,8 +2664,7 @@ value as the Kp.</string>
             <enum>Qt::StrongFocus</enum>
            </property>
            <property name="toolTip">
-            <string>Slowly raise Kp until you start seeing clear oscillations when you fly.
-Then lower the value by 20% or so.</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;After increasing Damping, slowly raise Kp until you start seeing clear oscillations. Decrease 10-20%.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="styleSheet">
             <string notr="true"/>
@@ -2476,55 +2690,8 @@ Then lower the value by 20% or so.</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="2">
-          <widget class="QDoubleSpinBox" name="RollRateKd">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>22</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>22</height>
-            </size>
-           </property>
-           <property name="focusPolicy">
-            <enum>Qt::StrongFocus</enum>
-           </property>
-           <property name="toolTip">
-            <string/>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-           <property name="decimals">
-            <number>0</number>
-           </property>
-           <property name="singleStep">
-            <double>1.000000000000000</double>
-           </property>
-           <property name="objrelation" stdset="0">
-            <stringlist>
-             <string>objname:BrushlessGimbalSettings</string>
-             <string>fieldname:PowerScale</string>
-             <string>element:Roll</string>
-            </stringlist>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="3">
-          <spacer name="horizontalSpacer_27">
+         <item row="0" column="0">
+          <spacer name="horizontalSpacer_24">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -2533,57 +2700,13 @@ Then lower the value by 20% or so.</string>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>10</width>
-             <height>10</height>
+             <width>140</width>
+             <height>13</height>
             </size>
            </property>
           </spacer>
          </item>
-         <item row="2" column="5">
-          <spacer name="horizontalSpacer_21">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_25">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>58</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Locking Angle</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="2">
+         <item row="6" column="2">
           <widget class="QDoubleSpinBox" name="lockAngleRoll">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2630,8 +2753,43 @@ Then lower the value by 20% or so.</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="4">
-          <widget class="QDoubleSpinBox" name="lockAnglePitch">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_44">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Damping</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <spacer name="horizontalSpacer_26">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>10</width>
+             <height>10</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="2">
+          <widget class="QDoubleSpinBox" name="RollDamping">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -2653,6 +2811,9 @@ Then lower the value by 20% or so.</string>
            <property name="focusPolicy">
             <enum>Qt::StrongFocus</enum>
            </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;First increase the damping until you see high frequency oscillation, then bring it back 0.1-0.2.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -2660,72 +2821,109 @@ Then lower the value by 20% or so.</string>
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
            <property name="decimals">
-            <number>0</number>
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <double>5.000000000000000</double>
            </property>
            <property name="singleStep">
-            <double>1.000000000000000</double>
+            <double>0.100000000000000</double>
            </property>
            <property name="objrelation" stdset="0">
             <stringlist>
              <string>objname:BrushlessGimbalSettings</string>
-             <string>fieldname:MaxAngle</string>
+             <string>fieldname:Damping</string>
+             <string>element:Roll</string>
+            </stringlist>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <spacer name="horizontalSpacer_27">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>10</width>
+             <height>10</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="4">
+          <widget class="QDoubleSpinBox" name="RateDamping">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;First increase the damping until you see high frequency oscillation, then bring it back 0.1-0.2.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="suffix">
+            <string/>
+           </property>
+           <property name="decimals">
+            <number>1</number>
+           </property>
+           <property name="minimum">
+            <double>0.000000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>5.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="objrelation" stdset="0">
+            <stringlist>
+             <string>objname:BrushlessGimbalSettings</string>
+             <string>fieldname:Damping</string>
              <string>element:Pitch</string>
             </stringlist>
            </property>
           </widget>
          </item>
+         <item row="2" column="5">
+          <spacer name="horizontalSpacer_21">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <spacer name="horizontalSpacer_6">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>497</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="pushButton_4">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Reset all values to GCS defaults</string>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>Default</string>
-        </property>
-        <property name="objrelation" stdset="0">
-         <stringlist>
-          <string>objname:StabilizationSettings</string>
-          <string>button:default</string>
-          <string>buttongroup:4</string>
-         </stringlist>
-        </property>
        </widget>
       </item>
      </layout>
