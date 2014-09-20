@@ -36,6 +36,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QEventLoop>
+#include <QApplication>
 
 #include "accels.h"
 #include "attitudesettings.h"
@@ -226,8 +227,13 @@ void Calibration::setDataUpdates()
     QTimer::singleShot(15000, &loop, SLOT(quit()));
     connect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), &loop, SLOT(quit()));
 
+    // Show the UI is blocking
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
     // Set new metadata
     getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
+
+    QApplication::restoreOverrideCursor();
 
     loop.exec();
 }
