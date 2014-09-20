@@ -395,17 +395,25 @@ bool UAVObjectUtilManager::setMetadata(QMap<QString, UAVObject::Metadata> metaDa
             break;
         }
 
-        if (updateMetadataFlag){
+        // Only enqueue objects that are present on hardware. If session
+        // management is disabled this will always return true.
+        if (updateMetadataFlag && obj->getIsPresentOnHardware()){
+            qDebug() << "Enqueued " << obj->getName();
             metadataSendlist.insert(obj, metaDataSetList.value(str));
         }
     }
     metadataSendRetries = 0;
     metadataSendSuccess = true;
-    metadataSendlist.keys().first()->setMetadata(metadataSendlist.value(metadataSendlist.keys().first()));
+    UAVDataObject *obj = metadataSendlist.keys().first();
+
+    // Connect transaction and timeout timers before making the request
     connect(&metadataSendTimeout, SIGNAL(timeout()),this, SLOT(onMetadataSendTimeout()), Qt::UniqueConnection);
-    connect(metadataSendlist.keys().first(), SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
+
+    obj->setMetadata(metadataSendlist.value(obj));
+    obj->requestUpdate();
     metadataSendTimeout.start();
-    metadataSendlist.keys().first()->requestUpdate();
+
     return true;
 }
 
@@ -445,7 +453,7 @@ void UAVObjectUtilManager::metadataTransactionCompleted(UAVObject* uavoObject, b
     Q_UNUSED(success);
     metadataSendTimeout.stop();
     bool retry = false;
-    if (uavoObject)
+    if (uavoObject && success)
     {
         UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(uavoObject);
         Q_ASSERT(dobj);
@@ -473,9 +481,8 @@ void UAVObjectUtilManager::metadataTransactionCompleted(UAVObject* uavoObject, b
                 qDebug() << "Writing metadata failed on " << uavoObject->getName()<< "Retry?" << retry;
             }
         }
-    }
-    else
-    {
+    } else {
+        // If unsuccessful
         ++metadataSendRetries;
         if(metadataSendRetries < META_SEND_RETRIES)
             retry = true;
