@@ -40,20 +40,27 @@ public class MainActivity extends ObjectManagerActivity {
 		// Only do this when null as the default on create will restore
 		// the existing fragment after rotation
 		if ( savedInstanceState == null ) {
-			Fragment contentFrag;
+			Fragment contentFrag = null;
+			boolean newPFD = false;
 			Bundle b = getIntent().getExtras();
 			if (b == null) {
-				contentFrag = new PFD();
-				setTitle("PFD");
+				newPFD = true;
 			} else {
 				int id = b.getInt("ContentFrag");
 				contentFrag = getFragmentById(id);
-
-				String title = b.getString("ContentName");
-				if (title != null)
-					setTitle(title);
+				if (contentFrag == null)
+					newPFD = true;
+				else {
+					String title = b.getString("ContentName");
+					if (title != null)
+						setTitle(title);
+				}
 			}
-
+			if (newPFD) {
+				contentFrag = new PFD();
+				setTitle("PFD");
+			}
+			
 			FragmentTransaction fragmentTransaction = getFragmentManager()
 					.beginTransaction();
 			fragmentTransaction.add(R.id.content_frame, contentFrag);
