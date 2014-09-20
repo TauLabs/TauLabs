@@ -411,7 +411,6 @@ bool UAVObjectUtilManager::setMetadata(QMap<QString, UAVObject::Metadata> metaDa
     connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
 
     obj->setMetadata(metadataSendlist.value(obj));
-    obj->requestUpdate();
     metadataSendTimeout.start();
 
     return true;
