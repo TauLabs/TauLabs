@@ -61,8 +61,8 @@ ClickableLabel::ClickableLabel( const QString& text, QWidget * parent ) :
   }
 
   void ClickableLabel::mousePressEvent ( QMouseEvent * event )
-
   {
+      Q_UNUSED(event);
       emit clicked();
   }
 
@@ -124,7 +124,7 @@ VersionDialog::VersionDialog(QWidget *parent)
                      QLatin1String(QT_VERSION_STR), QString::number(QSysInfo::WordSize),
                      QLatin1String(__DATE__), QLatin1String(__TIME__), ideRev, uavoHashStr);
 
-     const QString copyright = tr(
+     QString copyright = tr(
         "Copyright 2012-%1 %2, 2010-2012 OpenPilot. All rights reserved.<br/>"
         "<br/>"
          "Between 2010 and 2012, a significant part of this application was designed<br/>"
@@ -139,12 +139,8 @@ VersionDialog::VersionDialog(QWidget *parent)
         "INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A "
         "PARTICULAR PURPOSE.</small><br/>").arg(QLatin1String(GCS_YEAR), (QLatin1String(GCS_AUTHOR)));
 
-    QLabel *copyRightLabel = new QLabel(copyright);
     QLabel *versionNameLabel = new QLabel(version_name);
     QLabel *versionDescription = new QLabel(version_description);
-    copyRightLabel->setWordWrap(true);
-    copyRightLabel->setOpenExternalLinks(true);
-    copyRightLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
     versionDescription->setWordWrap(true);
     versionDescription->setOpenExternalLinks(true);
     versionDescription->setTextInteractionFlags(Qt::TextBrowserInteraction);
@@ -162,7 +158,15 @@ VersionDialog::VersionDialog(QWidget *parent)
     logoLabel->setPixmap(QPixmap(QLatin1String(":/core/images/taulabs_logo_128.png")));
     ClickableLabel *xkcd = new ClickableLabel;
     xkcd->setPixmap(QPixmap(QApplication::applicationDirPath()+"/../share/taulabs/xkcd.png"));
+    if(!xkcd->pixmap()->isNull())
+        copyright.prepend(tr("Above image and GCS title credits go to <a href=\"http://www.xkcd.com\">xkcd.com</a> <br/><br/>"));
+
     connect(xkcd, SIGNAL(clicked()), this, SLOT(goToXKCD()));
+    QLabel *copyRightLabel = new QLabel(copyright);
+    copyRightLabel->setWordWrap(true);
+    copyRightLabel->setOpenExternalLinks(true);
+    copyRightLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+
     if (xkcd->pixmap()->width() > xkcd->pixmap()->height())
     {
         layout->addWidget(versionNameLabel , 0, 0, 1, 2);
