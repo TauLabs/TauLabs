@@ -321,7 +321,7 @@ def download_xkcd_json():
   from json import loads
   try:
     return get("http://xkcd.com/info.0.json").json()
-  except (requests.exceptions.ConnectionError, ValueError):
+  except:
     return None
 
 def download_xkcd_image(target_file):
@@ -330,11 +330,8 @@ def download_xkcd_image(target_file):
     
   from requests import get
   from json import loads
-
-  print("Fetching comic")
   info = download_xkcd_json()
   if not info:
-    print("Error: URL could not be retrieved")
     return
   title, alt, num = info['safe_title'], info['alt'], str(info['num'])
   image = num+search("\.([a-z])+$", info['img']).group()
