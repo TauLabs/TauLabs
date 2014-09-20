@@ -146,6 +146,12 @@ signals:
     void calibrationCompleted();
 
 private:
+    //! Slow all the other data updates
+    void slowDataUpdates();
+
+    //! Slow all the other data updates
+    void setDataUpdates();
+
     //! Perform the leveling calculation
     void doStartLeveling();
 

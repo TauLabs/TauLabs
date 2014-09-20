@@ -175,6 +175,37 @@ void Calibration::assignUpdateRate(UAVObject* obj, quint32 updatePeriod)
     metaDataList.insert(obj->getName(), mdata);
 }
 
+
+//! Slow all the other data updates
+void Calibration::slowDataUpdates()
+{
+    // Save previous sensor states
+    originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
+
+    // Set all UAVObject rates to update slowly
+    UAVObjectManager *objManager = getObjectManager();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
+    foreach (QVector<UAVDataObject*> list, objList) {
+        foreach (UAVDataObject* obj, list) {
+            if(!obj->isSettings()) {
+
+                UAVObject::Metadata mdata = obj->getMetadata();
+                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+
+                mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
+                metaDataList.insert(obj->getName(), mdata);
+            }
+        }
+    }
+}
+
+//! Sets the data rates of all the metadata. Blocks until success.
+void Calibration::setDataUpdates()
+{
+    // Set new metadata
+    getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
+}
+
 /**
  * @brief Calibration::dataUpdated Receive updates of any connected sensors and
  * process them based on the calibration state (e.g. six point, leveling, or
@@ -511,30 +542,11 @@ void Calibration::doStartLeveling() {
 
     calibration_state = LEVELING;
 
-    // Save previous sensor states
-    originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
-
-    // Set all UAVObject rates to update slowly
-    UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
-    foreach (QVector<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            if(!obj->isSettings()) {
-                UAVObject::Metadata mdata = obj->getMetadata();
-                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-
-                mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
-                metaDataList.insert(obj->getName(), mdata);
-            }
-        }
-    }
-
     // Connect to the sensor updates and set higher rates
+    slowDataUpdates();
     connectSensor(ACCEL, true);
     connectSensor(GYRO, true);
-
-    // Set new metadata
-    getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
+    setDataUpdates();
 
     emit toggleControls(false);
     emit showLevelingMessage(tr("Leave vehicle flat"));
