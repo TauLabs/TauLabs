@@ -42,7 +42,9 @@ public class MainActivity extends ObjectManagerActivity {
 		if ( savedInstanceState == null ) {
 			Fragment contentFrag;
 			Bundle b = getIntent().getExtras();
-			if (b == null) {
+			
+			// If there is no intent or it is invalid, default to PFD
+			if (b == null || !b.containsKey("ContentFrag")) {
 				contentFrag = new PFD();
 				setTitle("PFD");
 			} else {
