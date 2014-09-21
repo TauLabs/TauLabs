@@ -38,6 +38,7 @@ MODULES += ManualControl
 MODULES += Stabilization
 MODULES += FirmwareIAP
 MODULES += Telemetry
+MODULES += GimbalControl
 
 OPTMODULES += GPS
 OPTMODULES += CameraStab
@@ -47,7 +48,6 @@ OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
-OPTMODULES += UAVORelay
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc

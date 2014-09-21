@@ -66,7 +66,9 @@ struct pios_can_dev {
 #define CAN_COM_ID      0x11
 #define MAX_SEND_LEN    8
 
-void USB_HP_CAN1_TX_IRQHandler(void);
+
+static void PIOS_CAN_RxGeneric(void);
+static void PIOS_CAN_TxGeneric(void);
 
 static bool PIOS_CAN_validate(struct pios_can_dev *can_dev)
 {
@@ -111,7 +113,12 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 	can_dev->cfg = cfg;
 
 	/* Configure the CAN device */
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1, ENABLE);
+	if (can_dev->cfg->regs == CAN1) {
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1, ENABLE);
+	} else {
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1, ENABLE);
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN2, ENABLE);
+	}
 
 	/* Map pins to CAN function */
 	if (can_dev->cfg->remap) {
@@ -179,7 +186,7 @@ static void PIOS_CAN_TxStart(uintptr_t can_id, uint16_t tx_bytes_avail)
 
  	CAN_ITConfig(can_dev->cfg->regs, CAN_IT_TME, ENABLE);
 	
-	USB_HP_CAN1_TX_IRQHandler();
+	PIOS_CAN_TxGeneric();
 }
 
 static void PIOS_CAN_RegisterRxCallback(uintptr_t can_id, pios_com_callback rx_in_cb, uintptr_t context)
@@ -277,17 +284,31 @@ xQueueHandle PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_messages 
 	return queue;
 }
 
-// Map the specific IRQ handlers to the device handle
 
-static void PIOS_CAN_RxGeneric(void);
-static void PIOS_CAN_TxGeneric(void);
-
+// Rx handlers
+void CAN1_RX0_IRQHandler(void)
+{
+	PIOS_CAN_RxGeneric();
+}
 void CAN1_RX1_IRQHandler(void)
 {
 	PIOS_CAN_RxGeneric();
 }
+void CAN2_RX0_IRQHandler(void)
+{
+	PIOS_CAN_RxGeneric();
+}
+void CAN2_RX1_IRQHandler(void)
+{
+	PIOS_CAN_RxGeneric();
+}
 
-void USB_HP_CAN1_TX_IRQHandler(void)
+// Tx handlers
+void CAN1_TX_IRQHandler(void)
+{
+	PIOS_CAN_TxGeneric();
+}
+void CAN2_TX_IRQHandler(void)
 {
 	PIOS_CAN_TxGeneric();
 }
@@ -338,7 +359,7 @@ static void PIOS_CAN_TxGeneric(void)
 		msg.StdId = CAN_COM_ID;
 		msg.ExtId = 0;
 		msg.IDE = CAN_ID_STD;
-		msg.RTR = CAN_RTR_DATA;			
+		msg.RTR = CAN_RTR_DATA;
 		msg.DLC = (can_dev->tx_out_cb)(can_dev->tx_out_context, msg.Data, MAX_SEND_LEN, NULL, &tx_need_yield);
 
 		// Send message and get mailbox number
@@ -364,6 +385,8 @@ static void PIOS_CAN_TxGeneric(void)
  */
 int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages msg_id, uint8_t *data)
 {
+
+	PIOS_LED_Toggle(PIOS_LED_LINK);
 	// Fetch the size of this message type or error if unknown
 	uint32_t bytes;
 	switch(msg_id) {
