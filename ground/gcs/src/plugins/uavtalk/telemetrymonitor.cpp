@@ -400,6 +400,8 @@ void TelemetryMonitor::sessionObjUnpackedCB(UAVObject *obj)
         }
         break;
     case CON_SESSION_INITIALIZING:
+        // Reset timer for receiving the next update
+        objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
         startSessionRetrieving(obj);
         break;
     case CON_RETRIEVING_OBJECTS:
@@ -413,10 +415,21 @@ void TelemetryMonitor::sessionObjUnpackedCB(UAVObject *obj)
 
 void TelemetryMonitor::objectRetrieveTimeoutCB()
 {
-    TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 re-requestiong %1 from board INSTID:%2").
-                                  arg(Q_FUNC_INFO).arg(sessionManagementQueryObj->getName()).
-                                  arg(sessionManagementQueryObj->getInstID()));
-    sessionManagementQueryObj->requestUpdateAllInstances();
+    switch(connectionStatus)
+    {
+    case CON_SESSION_INITIALIZING:
+        objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
+        startSessionRetrieving(sessionObj);
+        break;
+    case CON_RETRIEVING_OBJECTS:
+        TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 re-requestiong %1 from board INSTID:%2").
+                                      arg(Q_FUNC_INFO).arg(sessionManagementQueryObj->getName()).
+                                      arg(sessionManagementQueryObj->getInstID()));
+        sessionManagementQueryObj->requestUpdateAllInstances();
+        break;
+    default:
+        break;
+    }
 
 }
 
