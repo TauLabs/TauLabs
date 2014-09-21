@@ -610,10 +610,16 @@ int32_t UAVTalkRelayPacket(UAVTalkConnection inConnectionHandle, UAVTalkConnecti
     outConnection->txBuffer[5] = (uint8_t)((inIproc->objId >> 8) & 0xFF);
     outConnection->txBuffer[6] = (uint8_t)((inIproc->objId >> 16) & 0xFF);
     outConnection->txBuffer[7] = (uint8_t)((inIproc->objId >> 24) & 0xFF);
-    // Setup instance ID
-    outConnection->txBuffer[8] = (uint8_t)(inIproc->instId & 0xFF);
-    outConnection->txBuffer[9] = (uint8_t)((inIproc->instId >> 8) & 0xFF);
     int32_t headerLength = 8;
+
+    if (inIproc->obj) {
+    	if (!UAVObjIsSingleInstance(inIproc->obj)) {
+			// Setup instance ID
+			outConnection->txBuffer[8] = (uint8_t)(inIproc->instId & 0xFF);
+			outConnection->txBuffer[9] = (uint8_t)((inIproc->instId >> 8) & 0xFF);
+			headerLength = 10;
+		}
+    }
 
     // Add timestamp when the transaction type is appropriate
     if (inIproc->type & UAVTALK_TIMESTAMPED) {
