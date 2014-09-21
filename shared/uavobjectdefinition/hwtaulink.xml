@@ -1,5 +1,5 @@
 <xml>
-	<object name="TauLinkSettings" singleinstance="true" settings="true" category="HardwareSettings">
+	<object name="HwTauLink" singleinstance="true" settings="true" category="HardwareSettings">
 		<description>TauLink configurations options.</description>
 
 		<!-- select the function for the radio port -->

@@ -37,7 +37,7 @@
 #include <objectpersistence.h>
 #include <rfm22breceiver.h>
 #include <radiocombridgestats.h>
-#include "taulinksettings.h"
+#include "hwtaulink.h"
 #include <uavtalk_priv.h>
 #include <pios_rfm22b.h>
 #include <ecc.h>
@@ -663,10 +663,10 @@ static void ProcessTelemetryStream(UAVTalkConnection inConnectionHandle,
 		uint32_t objId = UAVTalkGetPacketObjId(inConnectionHandle);
 		switch (objId) {
 		case TLLINKSTATUS_OBJID:
-		case TAULINKSETTINGS_OBJID:
+		case HWTAULINK_OBJID:
 		case RFM22BRECEIVER_OBJID:
 		case MetaObjectId(TLLINKSTATUS_OBJID):
-		case MetaObjectId(TAULINKSETTINGS_OBJID):
+		case MetaObjectId(HWTAULINK_OBJID):
 		case MetaObjectId(RFM22BRECEIVER_OBJID):
 			UAVTalkReceiveObject(inConnectionHandle);
 			PIOS_LED_Toggle(PIOS_LED_LINK);
@@ -719,13 +719,13 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle,
 		uint32_t objId = UAVTalkGetPacketObjId(inConnectionHandle);
 		switch (objId) {
 		case TLLINKSTATUS_OBJID:
-		case TAULINKSETTINGS_OBJID:
+		case HWTAULINK_OBJID:
 		case MetaObjectId(TLLINKSTATUS_OBJID):
-		case MetaObjectId(TAULINKSETTINGS_OBJID):
+		case MetaObjectId(HWTAULINK_OBJID):
 			// Ignore object...
 			// These objects are shadowed by the modem and are not transmitted to the telemetry port
 			// - TLLINKSTATUS_OBJID : ground station will receive the OPLM link status instead
-			// - TAULINKSETTINGS_OBJID : ground station will read and write the OPLM settings instead
+			// - HWTAULINK_OBJID : ground station will read and write the OPLM settings instead
 			break;
 		case RFM22BRECEIVER_OBJID:
 		case MetaObjectId(RFM22BRECEIVER_OBJID):
@@ -756,7 +756,7 @@ static void objectPersistenceUpdatedCb(UAVObjEvent * objEv)
 	ObjectPersistenceGet(&obj_per);
 
 	// Is this concerning our setting object?
-	if (obj_per.ObjectID == TAULINKSETTINGS_OBJID) {
+	if (obj_per.ObjectID == HWTAULINK_OBJID) {
 		// Is this a save, load, or delete?
 		bool success = false;
 		switch (obj_per.Operation) {

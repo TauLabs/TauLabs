@@ -104,7 +104,7 @@ endif
 ## UAVOBJECTS
 ifndef TESTAPP
 SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
-SRC += $(OPUAVSYNTHDIR)/taulinksettings.c
+SRC += $(OPUAVSYNTHDIR)/hwtaulink.c
 SRC += $(OPUAVSYNTHDIR)/tllinkstatus.c
 SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
 SRC += $(OPUAVSYNTHDIR)/rfm22breceiver.c

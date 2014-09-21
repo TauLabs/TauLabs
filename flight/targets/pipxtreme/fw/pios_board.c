@@ -31,7 +31,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <board_hw_defs.c>
-#include <taulinksettings.h>
+#include <hwtaulink.h>
 #include <tllinkstatus.h>
 
 #define PIOS_COM_TELEM_RX_BUF_LEN 256
@@ -118,7 +118,7 @@ void PIOS_Board_Init(void) {
 #endif /* PIOS_INCLUDE_RTC */
 
 #if defined(PIOS_INCLUDE_RFM22B)
-    TauLinkSettingsInitialize();
+    HwTauLinkInitialize();
     TLLinkStatusInitialize();
 #endif /* PIOS_INCLUDE_RFM22B */
 
@@ -197,19 +197,19 @@ void PIOS_Board_Init(void) {
     pios_uart_tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_TX_BUF_LEN);
 
     // Configure the main port
-    TauLinkSettingsData taulinkSettings;
-    TauLinkSettingsGet(&taulinkSettings);
+    HwTauLinkData hwTauLink;
+    HwTauLinkGet(&hwTauLink);
 
-    bool is_coordinator = taulinkSettings.Radio == TAULINKSETTINGS_RADIO_TELEMCOORD ||
-                          taulinkSettings.Radio == TAULINKSETTINGS_RADIO_PPM;
-    bool is_oneway   = taulinkSettings.Radio == TAULINKSETTINGS_RADIO_PPM;
-    bool ppm_only    = taulinkSettings.Radio == TAULINKSETTINGS_RADIO_PPM;
+    bool is_coordinator = hwTauLink.Radio == HWTAULINK_RADIO_TELEMCOORD ||
+                          hwTauLink.Radio == HWTAULINK_RADIO_PPM;
+    bool is_oneway   = hwTauLink.Radio == HWTAULINK_RADIO_PPM;
+    bool ppm_only    = hwTauLink.Radio == HWTAULINK_RADIO_PPM;
     bool ppm_mode    = false;
 
     // Configure the main serial port function
-    switch (taulinkSettings.MainPort) {
-    case TAULINKSETTINGS_MAINPORT_TELEMETRY:
-    case TAULINKSETTINGS_MAINPORT_COMBRIDGE:
+    switch (hwTauLink.MainPort) {
+    case HWTAULINK_MAINPORT_TELEMETRY:
+    case HWTAULINK_MAINPORT_COMBRIDGE:
     {
         /* Configure the main port for uart serial */
 #ifndef PIOS_RFM22B_DEBUG_ON_TELEM
@@ -232,13 +232,13 @@ void PIOS_Board_Init(void) {
 #endif
         break;
     }
-    case TAULINKSETTINGS_MAINPORT_DISABLED:
+    case HWTAULINK_MAINPORT_DISABLED:
         break;
     }
 
     // Configure the flexi port
-    switch (taulinkSettings.PPMPort) {
-    case TAULINKSETTINGS_PPMPORT_PPM:
+    switch (hwTauLink.PPMPort) {
+    case HWTAULINK_PPMPORT_PPM:
     {
 #if defined(PIOS_INCLUDE_PPM)
         /* PPM input is configured on the coordinator modem and sent in the RFM22BReceiver UAVO. */
@@ -253,17 +253,17 @@ void PIOS_Board_Init(void) {
         ppm_mode = true;
         break;
     }
-    case TAULINKSETTINGS_PPMPORT_DISABLED:
+    case HWTAULINK_PPMPORT_DISABLED:
     default:
         break;
     }
 
     // Configure the USB VCP port
-    switch (taulinkSettings.VCPPort) {
-    case TAULINKSETTINGS_VCPPORT_TELEMETRY:
+    switch (hwTauLink.VCPPort) {
+    case HWTAULINK_VCPPORT_TELEMETRY:
         PIOS_COM_TELEMETRY = pios_com_telem_vcp_id;
         break;
-    case TAULINKSETTINGS_VCPPORT_DISABLED:
+    case HWTAULINK_VCPPORT_DISABLED:
         break;
     }
 
@@ -277,7 +277,7 @@ void PIOS_Board_Init(void) {
     tllinkStatus.BoardRevision = bdinfo->board_rev;
 
     /* Initalize the RFM22B radio COM device. */
-    if (taulinkSettings.MaxRfPower != TAULINKSETTINGS_MAXRFPOWER_0) {
+    if (hwTauLink.MaxRfPower != HWTAULINK_MAXRFPOWER_0) {
         tllinkStatus.LinkState = TLLINKSTATUS_LINKSTATE_ENABLED;
 
         // Configure the RFM22B device
@@ -299,51 +299,51 @@ void PIOS_Board_Init(void) {
 
         // Set the RF data rate on the modem to ~2X the selected buad rate because the modem is half duplex.
         enum rfm22b_datarate datarate = RFM22_datarate_64000;
-        switch (taulinkSettings.MaxRfSpeed) {
-        case TAULINKSETTINGS_MAXRFSPEED_9600:
+        switch (hwTauLink.MaxRfSpeed) {
+        case HWTAULINK_MAXRFSPEED_9600:
             datarate = RFM22_datarate_9600;
             break;
-        case TAULINKSETTINGS_MAXRFSPEED_19200:
+        case HWTAULINK_MAXRFSPEED_19200:
             datarate = RFM22_datarate_19200;
             break;
-        case TAULINKSETTINGS_MAXRFSPEED_32000:
+        case HWTAULINK_MAXRFSPEED_32000:
             datarate = RFM22_datarate_32000;
             break;
-        case TAULINKSETTINGS_MAXRFSPEED_64000:
+        case HWTAULINK_MAXRFSPEED_64000:
             datarate = RFM22_datarate_64000;
             break;
-        case TAULINKSETTINGS_MAXRFSPEED_100000:
+        case HWTAULINK_MAXRFSPEED_100000:
             datarate = RFM22_datarate_100000;
             break;
-        case TAULINKSETTINGS_MAXRFSPEED_192000:
+        case HWTAULINK_MAXRFSPEED_192000:
             datarate = RFM22_datarate_192000;
             break;
         }
 
         /* Set the modem Tx poer level */
-        switch (taulinkSettings.MaxRfPower) {
-        case TAULINKSETTINGS_MAXRFPOWER_125:
+        switch (hwTauLink.MaxRfPower) {
+        case HWTAULINK_MAXRFPOWER_125:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
             break;
-        case TAULINKSETTINGS_MAXRFPOWER_16:
+        case HWTAULINK_MAXRFPOWER_16:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_1);
             break;
-        case TAULINKSETTINGS_MAXRFPOWER_316:
+        case HWTAULINK_MAXRFPOWER_316:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_2);
             break;
-        case TAULINKSETTINGS_MAXRFPOWER_63:
+        case HWTAULINK_MAXRFPOWER_63:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_3);
             break;
-        case TAULINKSETTINGS_MAXRFPOWER_126:
+        case HWTAULINK_MAXRFPOWER_126:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_4);
             break;
-        case TAULINKSETTINGS_MAXRFPOWER_25:
+        case HWTAULINK_MAXRFPOWER_25:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_5);
             break;
-        case TAULINKSETTINGS_MAXRFPOWER_50:
+        case HWTAULINK_MAXRFPOWER_50:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_6);
             break;
-        case TAULINKSETTINGS_MAXRFPOWER_100:
+        case HWTAULINK_MAXRFPOWER_100:
             PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_7);
             break;
         default:
@@ -352,8 +352,8 @@ void PIOS_Board_Init(void) {
         }
 
         // Set the radio configuration parameters.
-        PIOS_RFM22B_SetChannelConfig(pios_rfm22b_id, datarate, taulinkSettings.MinChannel, taulinkSettings.MaxChannel, taulinkSettings.ChannelSet, is_coordinator, is_oneway, ppm_mode, ppm_only);
-        PIOS_RFM22B_SetCoordinatorID(pios_rfm22b_id, taulinkSettings.CoordID);
+        PIOS_RFM22B_SetChannelConfig(pios_rfm22b_id, datarate, hwTauLink.MinChannel, hwTauLink.MaxChannel, hwTauLink.ChannelSet, is_coordinator, is_oneway, ppm_mode, ppm_only);
+        PIOS_RFM22B_SetCoordinatorID(pios_rfm22b_id, hwTauLink.CoordID);
 
         // Reinitilize the modem to affect te changes.
         PIOS_RFM22B_Reinit(pios_rfm22b_id);
@@ -366,23 +366,23 @@ void PIOS_Board_Init(void) {
 
     // Update the com baud rate.
     uint32_t comBaud = 9600;
-    switch (taulinkSettings.ComSpeed) {
-    case TAULINKSETTINGS_COMSPEED_4800:
+    switch (hwTauLink.ComSpeed) {
+    case HWTAULINK_COMSPEED_4800:
         comBaud = 4800;
         break;
-    case TAULINKSETTINGS_COMSPEED_9600:
+    case HWTAULINK_COMSPEED_9600:
         comBaud = 9600;
         break;
-    case TAULINKSETTINGS_COMSPEED_19200:
+    case HWTAULINK_COMSPEED_19200:
         comBaud = 19200;
         break;
-    case TAULINKSETTINGS_COMSPEED_38400:
+    case HWTAULINK_COMSPEED_38400:
         comBaud = 38400;
         break;
-    case TAULINKSETTINGS_COMSPEED_57600:
+    case HWTAULINK_COMSPEED_57600:
         comBaud = 57600;
         break;
-    case TAULINKSETTINGS_COMSPEED_115200:
+    case HWTAULINK_COMSPEED_115200:
         comBaud = 115200;
         break;
     }
