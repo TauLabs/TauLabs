@@ -52,6 +52,7 @@ uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_telem_vcp_id;
 uintptr_t pios_com_telem_uart_telem_id;
 uintptr_t pios_com_telem_uart_flexi_id;
+uintptr_t pios_com_telem_uart_telem_id;
 uintptr_t pios_com_telemetry_id;
 #if defined(PIOS_INCLUDE_PPM)
 uintptr_t pios_ppm_rcvr_id;
