@@ -43,6 +43,13 @@
 #define TICKS2MS(t) ((t) * (portTICK_RATE_MS))
 #define MS2TICKS(m) ((m) / (portTICK_RATE_MS))
 
+/**
+ *
+ * @brief   Creates a non recursive mutex.
+ *
+ * @returns instance of @p struct pios_mutex or NULL on failure
+ *
+ */
 struct pios_mutex *PIOS_Mutex_Create(void)
 {
 	struct pios_mutex *mtx = PIOS_malloc(sizeof(struct pios_mutex));
@@ -55,6 +62,16 @@ struct pios_mutex *PIOS_Mutex_Create(void)
 	return mtx;
 }
 
+/**
+ *
+ * @brief   Locks a non recursive mutex.
+ *
+ * @param[in] mtx          pointer to instance of @p struct pios_mutex
+ * @param[in] timeout_ms   timeout for acquiring the lock in milliseconds
+ *
+ * @returns true on success or false on timeout or failure
+ *
+ */
 bool PIOS_Mutex_Lock(struct pios_mutex *mtx, uint32_t timeout_ms)
 {
 	PIOS_Assert(mtx != NULL);
@@ -68,6 +85,15 @@ bool PIOS_Mutex_Lock(struct pios_mutex *mtx, uint32_t timeout_ms)
 	return xSemaphoreTake(mtx->mtx_handle, timeout_ticks) == pdTRUE;
 }
 
+/**
+ *
+ * @brief   Unlocks a non recursive mutex.
+ *
+ * @param[in] mtx          pointer to instance of @p struct pios_mutex
+ *
+ * @returns true on success or false on timeout or failure
+ *
+ */
 bool PIOS_Mutex_Unlock(struct pios_mutex *mtx)
 {
 	PIOS_Assert(mtx != NULL);
@@ -75,6 +101,13 @@ bool PIOS_Mutex_Unlock(struct pios_mutex *mtx)
 	return xSemaphoreGive(mtx->mtx_handle) == pdTRUE;
 }
 
+/**
+ *
+ * @brief   Creates a recursive mutex.
+ *
+ * @returns instance of @p struct pios_recursive mutex or NULL on failure
+ *
+ */
 struct pios_recursive_mutex *PIOS_Recursive_Mutex_Create(void)
 {
 	struct pios_recursive_mutex *mtx = PIOS_malloc(sizeof(struct pios_recursive_mutex));
@@ -87,6 +120,16 @@ struct pios_recursive_mutex *PIOS_Recursive_Mutex_Create(void)
 	return mtx;
 }
 
+/**
+ *
+ * @brief   Locks a recursive mutex.
+ *
+ * @param[in] mtx          pointer to instance of @p struct pios_recursive_mutex
+ * @param[in] timeout_ms   timeout for acquiring the lock in milliseconds
+ *
+ * @returns true on success or false on timeout or failure
+ *
+ */
 bool PIOS_Recursive_Mutex_Lock(struct pios_recursive_mutex *mtx, uint32_t timeout_ms)
 {
 	PIOS_Assert(mtx != NULL);
@@ -100,6 +143,15 @@ bool PIOS_Recursive_Mutex_Lock(struct pios_recursive_mutex *mtx, uint32_t timeou
 	return xSemaphoreTakeRecursive((xSemaphoreHandle)mtx->mtx_handle, timeout_ticks) == pdTRUE;
 }
 
+/**
+ *
+ * @brief   Unlocks a recursive mutex.
+ *
+ * @param[in] mtx          pointer to instance of @p struct pios_recursive_mutex
+ *
+ * @returns true on success or false on timeout or failure
+ *
+ */
 bool PIOS_Recursive_Mutex_Unlock(struct pios_recursive_mutex *mtx)
 {
 	PIOS_Assert(mtx != NULL);

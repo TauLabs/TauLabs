@@ -43,6 +43,13 @@
 #define TICKS2MS(t) ((t) * (portTICK_RATE_MS))
 #define MS2TICKS(m) ((m) / (portTICK_RATE_MS))
 
+/**
+ *
+ * @brief   Creates a queue.
+ *
+ * @returns instance of @p struct pios_queue or NULL on failure
+ *
+ */
 struct pios_queue *PIOS_Queue_Create(size_t queue_length, size_t item_size)
 {
 	struct pios_queue *queuep = PIOS_malloc(sizeof(struct pios_queue));
@@ -61,17 +68,46 @@ struct pios_queue *PIOS_Queue_Create(size_t queue_length, size_t item_size)
 	return queuep;
 }
 
+/**
+ *
+ * @brief   Destroys an instance of @p struct pios_queue
+ *
+ * @param[in] queuep       pointer to instance of @p struct pios_queue
+ *
+ */
 void PIOS_Queue_Delete(struct pios_queue *queuep)
 {
 	vQueueDelete((xQueueHandle)queuep->queue_handle);
 	PIOS_free(queuep);
 }
 
+/**
+ *
+ * @brief   Appends an item to a queue.
+ *
+ * @param[in] queuep       pointer to instance of @p struct pios_queue
+ * @param[in] itemp        pointer to item which will be appended to the queue
+ * @param[in] timeout_ms   timeout for appending item to queue in milliseconds
+ *
+ * @returns true on success or false on timeout or failure
+ *
+ */
 bool PIOS_Queue_Send(struct pios_queue *queuep, const void *itemp, uint32_t timeout_ms)
 {
 	return xQueueSendToBack((xQueueHandle)queuep->queue_handle, itemp, MS2TICKS(timeout_ms)) == pdTRUE;
 }
 
+/**
+ *
+ * @brief   Appends an item to a queue from ISR context.
+ *
+ * @param[in] queuep       pointer to instance of @p struct pios_queue
+ * @param[in] itemp        pointer to item which will be appended to the queue
+ * @param[in] timeout_ms   timeout for appending item to queue in milliseconds
+ *
+ * @returns true on success or false on timeout or failure
+ *
+ */
 bool PIOS_Queue_Send_FromISR(struct pios_queue *queuep, const void *itemp, bool *wokenp)
 {
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
@@ -80,6 +116,17 @@ bool PIOS_Queue_Send_FromISR(struct pios_queue *queuep, const void *itemp, bool 
 	return result == pdTRUE;
 }
 
+/**
+ *
+ * @brief   Retrieves an item from the front of a queue.
+ *
+ * @param[in] queuep       pointer to instance of @p struct pios_queue
+ * @param[in] itemp        pointer to item which will be retrieved
+ * @param[in] timeout_ms   timeout for retrieving item from queue in milliseconds
+ *
+ * @returns true on success or false on timeout or failure
+ *
+ */
 bool PIOS_Queue_Receive(struct pios_queue *queuep, void *itemp, uint32_t timeout_ms)
 {
 	return xQueueReceive((xQueueHandle)queuep->queue_handle, itemp, MS2TICKS(timeout_ms)) == pdTRUE;
