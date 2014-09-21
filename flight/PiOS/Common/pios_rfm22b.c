@@ -96,6 +96,11 @@
 #include <pios_rfm22b_rcvr_priv.h>
 #include <ecc.h>
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
+
 /* Local Defines */
 #define STACK_SIZE_BYTES                 200
 #define TASK_PRIORITY                    (tskIDLE_PRIORITY + 4)	// flight control relevant device driver (ppm link)

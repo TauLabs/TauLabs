@@ -39,6 +39,11 @@
 #include "pios_rfm22b.h"
 #include "pios_semaphore.h"
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
+
 // ************************************
 
 #define RFM22B_MAX_PACKET_LEN                     64
