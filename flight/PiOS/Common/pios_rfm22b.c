@@ -779,7 +779,7 @@ void PIOS_RFM22B_GetStats(uint32_t rfm22b_id, struct rfm22b_stats *stats)
 	rfm22_calculateLinkQuality(rfm22b_dev);
 
 	// Return the stats.
-	*stats = rfm22b_dev->stats;
+	memcpy(stats, &rfm22b_dev->stats, sizeof(rfm22b_dev->stats));
 }
 
 /**
@@ -2409,16 +2409,19 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 static void rfm22b_add_rx_status(struct pios_rfm22b_dev *rfm22b_dev,
 				 enum pios_rfm22b_rx_packet_status status)
 {
-	// Shift the status registers
-	for (uint8_t i = RFM22B_RX_PACKET_STATS_LEN - 1; i > 0; --i) {
-		rfm22b_dev->rx_packet_stats[i] =
-		    (rfm22b_dev->rx_packet_stats[i] << 2) | (rfm22b_dev->
-							     rx_packet_stats
-							     [i -
-							      1] >> 30);
-	}
-	rfm22b_dev->rx_packet_stats[0] =
-	    (rfm22b_dev->rx_packet_stats[0] << 2) | status;
+	// track a local ring pointer where to store status values to. initial
+	// value doesn't matter
+	static uint32_t rx_status_count;
+
+	// sixteen values per uint32_t
+	uint32_t rx_status_address = (rx_status_count / 16) % RFM22B_RX_PACKET_STATS_LEN;
+	uint32_t rx_status_offset = rx_status_count % 16;
+
+	// replace that value in the ring buffer with new status
+	rfm22b_dev->rx_packet_stats[rx_status_address] &= ~(0x00000003 << (rx_status_offset * 2));
+	rfm22b_dev->rx_packet_stats[rx_status_address] |= (status && 0x00000003) << (rx_status_offset * 2);
+
+    rx_status_count++;
 }
 
 /*****************************************************************************
