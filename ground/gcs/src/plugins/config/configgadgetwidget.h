@@ -48,32 +48,21 @@ class ConfigGadgetWidget: public QWidget
 public:
     ConfigGadgetWidget(QWidget *parent = 0);
     ~ConfigGadgetWidget();
-    enum widgetTabs {hardware=0, aircraft, input, output, sensors, stabilization, modules, camerastabilization, txpid, oplink, autotune};
+    enum widgetTabs {hardware=0, aircraft, input, output, sensors, stabilization, modules, camerastabilization, txpid, autotune};
     void startInputWizard();
 
 public slots:
     void onAutopilotConnect();
     void onAutopilotDisconnect();
     void tabAboutToChange(int i,bool *);
-    void updateRFM22BStatus(UAVObject *object);
-    void onOPLinkDisconnect();
 
 signals:
     void autopilotConnected();
     void autopilotDisconnected();
-    void oplinkConnect();
-    void oplinkDisconnect();
 
 protected:
         void resizeEvent(QResizeEvent * event);
         MyTabbedStackWidget *ftw;
-
-private:
-	UAVDataObject* tllinkStatusObj;
-
-	// A timer that timesout the connction to the OPLink.
-	QTimer *oplinkTimeout;
-	bool oplinkConnected;
 };
 
 #endif // CONFIGGADGETWIDGET_H
