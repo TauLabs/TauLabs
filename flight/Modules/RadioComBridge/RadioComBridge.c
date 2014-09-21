@@ -45,12 +45,8 @@
 #include <pios_eeprom.h>
 #endif
 
-#include <stdbool.h>
-
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "semphr.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 // ****************
 // Private constants
@@ -81,8 +77,8 @@ typedef struct {
 	UAVTalkConnection radioUAVTalkCon;
 
 	// Queue handles.
-	xQueueHandle uavtalkEventQueue;
-	xQueueHandle radioEventQueue;
+	struct pios_queue *uavtalkEventQueue;
+	struct pios_queue *radioEventQueue;
 
 	// The raw serial Rx buffer
 	uint8_t serialRxBuf[SERIAL_RX_BUF_LEN];
@@ -224,10 +220,8 @@ static int32_t RadioComBridgeInitialize(void)
 	data->radioUAVTalkCon = UAVTalkInitialize(&RadioSendHandler);
 
 	// Initialize the queues.
-	data->uavtalkEventQueue =
-	    xQueueCreate(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
-	data->radioEventQueue =
-	    xQueueCreate(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
+	data->uavtalkEventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
+	data->radioEventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 	// Initialize the statistics.
 	data->telemetryTxRetries = 0;
@@ -324,9 +318,7 @@ static void telemetryTxTask( __attribute__ ((unused))
 		PIOS_WDG_UpdateFlag(PIOS_WDG_TELEMETRYTX);
 #endif
 		// Wait for queue message
-		if (xQueueReceive
-		    (data->uavtalkEventQueue, &ev,
-		     MAX_PORT_DELAY) == pdTRUE) {
+		if (PIOS_Queue_Receive(data->uavtalkEventQueue, &ev, MAX_PORT_DELAY)) {
 			if (ev.obj == RadioComBridgeStatsHandle()) {
 				updateRadioComBridgeStats();
 			}
@@ -368,8 +360,7 @@ static void radioTxTask( __attribute__ ((unused))
 		UAVObjEvent ev;
 
 		// Wait for queue message
-		if (xQueueReceive(data->radioEventQueue, &ev, 20) ==
-		    pdTRUE) {
+		if (PIOS_Queue_Receive(data->radioEventQueue, &ev, 20)) {
 			if ((ev.event == EV_UPDATED)
 			    || (ev.event == EV_UPDATE_REQ)) {
 				// Send update (with retries)
