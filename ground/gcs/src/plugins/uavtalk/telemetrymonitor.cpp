@@ -41,7 +41,7 @@
 //Number of retries for the session object fetching during negotiation
 #define SESSION_OBJ_RETRIEVE_RETRIES        3
 //Timeout for the object fetching fase, the system will stop fetching objects and emit connected after this
-#define OBJECT_RETRIEVE_TIMEOUT             5000
+#define OBJECT_RETRIEVE_TIMEOUT             500
 //IAP object is very important, retry if not able to get it the first time
 #define IAP_OBJECT_RETRIES                  3
 
