@@ -132,7 +132,6 @@ void TelemetryMonitor::startRetrievingObjects()
     // Get all objects, add metaobjects, settings and data objects with OnChange update mode to the queue
     queue.empty();
     retries = 0;
-    objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
     foreach(UAVObjectManager::ObjectMap map, objMngr->getObjects().values())
     {
         UAVObject* obj = map.first();
@@ -269,7 +268,7 @@ void TelemetryMonitor::retrieveNextObject()
                                   arg(sessionManagementQueryObj->getInstID()));
     connect(sessionManagementQueryObj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(transactionCompleted(UAVObject*,bool)));
     // Request update
-    objectRetrieveTimeout->start();
+    objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
     sessionManagementQueryObj->requestUpdateAllInstances();
 }
 
@@ -281,6 +280,7 @@ void TelemetryMonitor::transactionCompleted(UAVObject* obj, bool success)
     TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 received %1 OBJID:%2 result:%3").arg(Q_FUNC_INFO).arg(obj->getName()).arg(obj->getObjID()).arg(success));
     Q_UNUSED(success);
     QMutexLocker locker(mutex);
+    objectRetrieveTimeout->stop();
     if(obj->getObjID() == FirmwareIAPObj::OBJID)
     {
         if(!success && (retries < IAP_OBJECT_RETRIES))
