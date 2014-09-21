@@ -2396,6 +2396,8 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 	    64 + rfm22b_dev->stats.rx_good - rfm22b_dev->stats.rx_error -
 	    rfm22b_dev->stats.tx_resent;
 
+	rfm22b_dev->stats.rssi = rfm22b_dev->rssi_dBm;
+
 }
 
 /**
