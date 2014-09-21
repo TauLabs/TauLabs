@@ -128,40 +128,29 @@ static int32_t RadioComBridgeStart(void)
 {
 	if (data) {
 		// Check if this is the coordinator modem
-		data->isCoordinator =
-		    PIOS_RFM22B_IsCoordinator(PIOS_COM_RFM22B);
+		data->isCoordinator = PIOS_RFM22B_IsCoordinator(PIOS_COM_RFM22B);
 
 		// Parse UAVTalk out of the link
 		data->parseUAVTalk = true;
 
 		// Configure our UAVObjects for updates.
-		UAVObjConnectQueue(UAVObjGetByID(RFM22BSTATUS_OBJID),
-				   data->uavtalkEventQueue,
-				   EV_UPDATED | EV_UPDATED_MANUAL |
-				   EV_UPDATE_REQ);
-		UAVObjConnectQueue(UAVObjGetByID(OBJECTPERSISTENCE_OBJID),
-				   data->uavtalkEventQueue,
+		UAVObjConnectQueue(UAVObjGetByID(RFM22BSTATUS_OBJID), data->uavtalkEventQueue,
+				   EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
+		UAVObjConnectQueue(UAVObjGetByID(OBJECTPERSISTENCE_OBJID), data->uavtalkEventQueue,
 				   EV_UPDATED | EV_UPDATED_MANUAL);
 		if (data->isCoordinator) {
-			UAVObjConnectQueue(UAVObjGetByID
-					   (RFM22BRECEIVER_OBJID),
-					   data->radioEventQueue,
-					   EV_UPDATED | EV_UPDATED_MANUAL |
-					   EV_UPDATE_REQ);
+			UAVObjConnectQueue(UAVObjGetByID(RFM22BRECEIVER_OBJID), data->radioEventQueue,
+					   EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
 		} else {
-			UAVObjConnectQueue(UAVObjGetByID
-					   (RFM22BRECEIVER_OBJID),
-					   data->uavtalkEventQueue,
-					   EV_UPDATED | EV_UPDATED_MANUAL |
-					   EV_UPDATE_REQ);
+			UAVObjConnectQueue(UAVObjGetByID(RFM22BRECEIVER_OBJID), data->uavtalkEventQueue,
+					   EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
 		}
 
 		if (data->isCoordinator) {
 			registerObject(RadioComBridgeStatsHandle());
 		}
 		// Configure the UAVObject callbacks
-		ObjectPersistenceConnectCallback
-		    (&objectPersistenceUpdatedCb);
+		ObjectPersistenceConnectCallback(&objectPersistenceUpdatedCb);
 
 		// Start the primary tasks for receiving/sending UAVTalk packets from the GCS.
 		data->telemetryTxTaskHandle = PIOS_Thread_Create(telemetryTxTask, "telemetryTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
@@ -253,11 +242,8 @@ static void registerObject(UAVObjHandle obj)
 
 	UAVObjGetMetadata(obj, &metadata);
 
-	EventPeriodicQueueCreate(&ev, data->uavtalkEventQueue,
-				 metadata.telemetryUpdatePeriod);
-	UAVObjConnectQueue(obj, data->uavtalkEventQueue,
-			   EV_UPDATED_PERIODIC | EV_UPDATED_MANUAL |
-			   EV_UPDATE_REQ);
+	EventPeriodicQueueCreate(&ev, data->uavtalkEventQueue, metadata.telemetryUpdatePeriod);
+	UAVObjConnectQueue(obj, data->uavtalkEventQueue, EV_UPDATED_PERIODIC | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
 }
 
 /**
@@ -326,11 +312,7 @@ static void telemetryTxTask( __attribute__ ((unused))
 			int32_t ret = -1;
 			uint32_t retries = 0;
 			while (retries <= MAX_RETRIES && ret == -1) {
-				ret =
-				    UAVTalkSendObject(data->
-						      telemUAVTalkCon,
-						      ev.obj, ev.instId, 0,
-						      RETRY_TIMEOUT_MS);
+				ret = UAVTalkSendObject(data->telemUAVTalkCon, ev.obj, ev.instId, 0, RETRY_TIMEOUT_MS);
 				if (ret == -1) {
 					++retries;
 				}
