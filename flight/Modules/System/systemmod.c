@@ -374,7 +374,7 @@ static void updateRfm22bStats() {
             static bool first_time = true;
             static uint16_t prev_tx_count = 0;
             static uint16_t prev_rx_count = 0;
-            rfm22bStatus.HeapRemaining = xPortGetFreeHeapSize();
+            rfm22bStatus.HeapRemaining = PIOS_heap_get_free_size();
             rfm22bStatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
             rfm22bStatus.RxGood = radio_stats.rx_good;
             rfm22bStatus.RxCorrected   = radio_stats.rx_corrected;
