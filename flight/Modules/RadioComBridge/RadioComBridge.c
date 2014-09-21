@@ -668,31 +668,28 @@ static void ProcessTelemetryStream(UAVTalkConnection inConnectionHandle,
 		case MetaObjectId(TLLINKSTATUS_OBJID):
 		case MetaObjectId(HWTAULINK_OBJID):
 		case MetaObjectId(RFM22BRECEIVER_OBJID):
+			// These objects are received here and only here
 			UAVTalkReceiveObject(inConnectionHandle);
-			PIOS_LED_Toggle(PIOS_LED_LINK);
-
 			break;
+
 		case OBJECTPERSISTENCE_OBJID:
 		case MetaObjectId(OBJECTPERSISTENCE_OBJID):
-			// receive object locally
-			// some objects will send back a response to telemetry
-			// FIXME:
-			// OPLM will ack or nack all objects requests and acked object sends
-			// Receiver will probably also ack / nack the same messages
-			// This has some consequences like :
-			// Second ack/nack will not match an open transaction or will apply to wrong transaction
-			// Question : how does GCS handle receiving the same object twice
-			// The OBJECTPERSISTENCE logic can be broken too if for example OPLM nacks and then REVO acks...
+			// Handle saving settings on modem
 			UAVTalkReceiveObject(inConnectionHandle);
-			// relay packet to remote modem
-			UAVTalkRelayPacket(inConnectionHandle,
-					   outConnectionHandle);
-			PIOS_LED_Toggle(PIOS_LED_USB);
+
+			ObjectPersistenceData objectPersistence;
+			ObjectPersistenceGet(&objectPersistence);
+			if (objectPersistence.ObjectID != HWTAULINK_OBJID &&
+				objectPersistence.ObjectID != MetaObjectId(HWTAULINK_OBJID)) {
+				// relay packet to remote modem except for requests to save
+				// the settings which happens locally
+				UAVTalkRelayPacket(inConnectionHandle, outConnectionHandle);
+			}
+
 			break;
 		default:
-			// all other packets are relayed to the remote modem
-			UAVTalkRelayPacket(inConnectionHandle,
-					   outConnectionHandle);
+			// all other packets are transparently relayed to the remote modem
+			UAVTalkRelayPacket(inConnectionHandle, outConnectionHandle);
 			break;
 		}
 	}
