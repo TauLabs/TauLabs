@@ -55,8 +55,8 @@
 // ****************
 // Private constants
 
-#define STACK_SIZE_BYTES  150
-#define TASK_PRIORITY     (tskIDLE_PRIORITY + 1)
+#define STACK_SIZE_BYTES  600
+#define TASK_PRIORITY     PIOS_THREAD_PRIO_LOW
 #define MAX_RETRIES       2
 #define RETRY_TIMEOUT_MS  20
 #define EVENT_QUEUE_SIZE  10
@@ -69,12 +69,12 @@
 
 typedef struct {
 	// The task handles.
-	xTaskHandle telemetryTxTaskHandle;
-	xTaskHandle telemetryRxTaskHandle;
-	xTaskHandle radioTxTaskHandle;
-	xTaskHandle radioRxTaskHandle;
-	xTaskHandle PPMInputTaskHandle;
-	xTaskHandle serialRxTaskHandle;
+	struct pios_thread *telemetryTxTaskHandle;
+	struct pios_thread *telemetryRxTaskHandle;
+	struct pios_thread *radioTxTaskHandle;
+	struct pios_thread *radioRxTaskHandle;
+	struct pios_thread *PPMInputTaskHandle;
+	struct pios_thread *serialRxTaskHandle;
 
 	// The UAVTalk connection on the com side.
 	UAVTalkConnection telemUAVTalkCon;
@@ -168,41 +168,24 @@ static int32_t RadioComBridgeStart(void)
 		    (&objectPersistenceUpdatedCb);
 
 		// Start the primary tasks for receiving/sending UAVTalk packets from the GCS.
-		xTaskCreate(telemetryTxTask,
-			    (const signed char *)"telemetryTxTask",
-			    STACK_SIZE_BYTES, NULL, TASK_PRIORITY,
-			    &(data->telemetryTxTaskHandle));
-		xTaskCreate(telemetryRxTask,
-			    (const signed char *)"telemetryRxTask",
-			    STACK_SIZE_BYTES, NULL, TASK_PRIORITY,
-			    &(data->telemetryRxTaskHandle));
+		data->telemetryTxTaskHandle = PIOS_Thread_Create(telemetryTxTask, "telemetryTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		data->telemetryRxTaskHandle = PIOS_Thread_Create(telemetryRxTask, "telemetryRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+			    
 		if (PIOS_PPM_RECEIVER != 0) {
-			xTaskCreate(PPMInputTask,
-				    (const signed char *)"PPMInputTask",
-				    STACK_SIZE_BYTES, NULL, TASK_PRIORITY,
-				    &(data->PPMInputTaskHandle));
+			data->PPMInputTaskHandle = PIOS_Thread_Create(PPMInputTask, "PPMInputTask",STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 #ifdef PIOS_INCLUDE_WDG
 			PIOS_WDG_RegisterFlag(PIOS_WDG_PPMINPUT);
 #endif
 		}
 		if (!data->parseUAVTalk) {
 			// If the user wants raw serial communication, we need to spawn another thread to handle it.
-			xTaskCreate(serialRxTask,
-				    (const signed char *)"serialRxTask",
-				    STACK_SIZE_BYTES, NULL, TASK_PRIORITY,
-				    &(data->serialRxTaskHandle));
+			data->serialRxTaskHandle = PIOS_Thread_Create(serialRxTask, "serialRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 #ifdef PIOS_INCLUDE_WDG
 			PIOS_WDG_RegisterFlag(PIOS_WDG_SERIALRX);
 #endif
 		}
-		xTaskCreate(radioTxTask,
-			    (const signed char *)"radioTxTask",
-			    STACK_SIZE_BYTES, NULL, TASK_PRIORITY,
-			    &(data->radioTxTaskHandle));
-		xTaskCreate(radioRxTask,
-			    (const signed char *)"radioRxTask",
-			    STACK_SIZE_BYTES, NULL, TASK_PRIORITY,
-			    &(data->radioRxTaskHandle));
+		data->radioTxTaskHandle = PIOS_Thread_Create(radioTxTask, "radioTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		data->radioRxTaskHandle = PIOS_Thread_Create(radioRxTask, "radioRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 		// Register the watchdog timers.
 #ifdef PIOS_INCLUDE_WDG
@@ -458,7 +441,7 @@ static void radioRxTask( __attribute__ ((unused))
 				}
 			}
 		} else {
-			vTaskDelay(5);
+			PIOS_Thread_Sleep(5);
 		}
 	}
 }
@@ -503,7 +486,7 @@ static void telemetryRxTask( __attribute__ ((unused))
 				}
 			}
 		} else {
-			vTaskDelay(5);
+			PIOS_Thread_Sleep(5);
 		}
 	}
 }
@@ -523,7 +506,7 @@ static void PPMInputTask( __attribute__ ((unused))
 		PIOS_WDG_UpdateFlag(PIOS_WDG_PPMINPUT);
 #endif
 
-		vTaskDelay(20);
+		PIOS_Thread_Sleep(20);
 
 		// Read the receiver inputs.
 		for (uint8_t i = 0; i < RFM22BRECEIVER_CHANNEL_NUMELEM;
@@ -575,7 +558,7 @@ static void serialRxTask( __attribute__ ((unused))
 				}
 			}
 		} else {
-			vTaskDelay(5);
+			PIOS_Thread_Sleep(5);
 		}
 	}
 }
