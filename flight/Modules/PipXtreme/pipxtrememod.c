@@ -122,7 +122,7 @@ static void systemTask(void *parameters)
     }
 
     // Initialize vars
-    lastSysTime = xTaskGetTickCount();
+    lastSysTime = PIOS_Thread_Systime();
 
     // Main system loop
     while (1) {
@@ -148,10 +148,8 @@ static void systemTask(void *parameters)
 
 		if (pios_rfm22b_id) {
 			// Update the status
-			rfm22bStatus.HeapRemaining =
-			    xPortGetFreeHeapSize();
-			rfm22bStatus.DeviceID =
-			    PIOS_RFM22B_DeviceID(pios_rfm22b_id);
+			rfm22bStatus.HeapRemaining = PIOS_heap_get_free_size();
+			rfm22bStatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
 			rfm22bStatus.RxGood = radio_stats.rx_good;
 			rfm22bStatus.RxCorrected =
 			    radio_stats.rx_corrected;
