@@ -34,6 +34,10 @@
 
 #if defined(PIOS_INCLUDE_USB_RCTX)
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 #include "pios_usb.h"
 #include "pios_usb_rctx_priv.h"
 
@@ -123,7 +127,7 @@ static void PIOS_USB_RCTX_SendReport(struct pios_usb_rctx_dev * usb_rctx_dev)
 	SetEPTxValid(usb_rctx_dev->cfg->data_tx_ep);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	portEND_SWITCHING_ISR(need_yield);
+	portEND_SWITCHING_ISR(need_yield ? pdTRUE : pdFALSE);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 

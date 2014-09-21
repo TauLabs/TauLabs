@@ -34,6 +34,11 @@
 #include "systemmod.h"
 #include "pios_thread.h"
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#include "task.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 /* Global Variables */
 
 /* Prototype of PIOS_Board_Init() function */
@@ -64,7 +69,7 @@ int main()
 {
 	/* NOTE: Do NOT modify the following start-up sequence */
 	/* Any new initialization functions should be added in OpenPilotInit() */
-	vPortInitialiseBlocks();
+	PIOS_heap_initialize_blocks();
 
 	/* Brings up System using CMSIS functions, enables the LEDs. */
 	PIOS_SYS_Init();

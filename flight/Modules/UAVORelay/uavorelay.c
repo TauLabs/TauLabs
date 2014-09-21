@@ -31,6 +31,7 @@
 #include "modulesettings.h"
 #include "cameradesired.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE   5
@@ -40,7 +41,7 @@
 // Private types
 
 // Private variables
-static xQueueHandle queue;
+static struct pios_queue *queue;
 static UAVTalkConnection uavTalkCon;
 static struct pios_thread *uavoRelayTaskHandle;
 static bool module_enabled;
@@ -85,7 +86,7 @@ int32_t UAVORelayInitialize(void)
 		return -1;
 
 	// Create object queues
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 	
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&send_data);
@@ -144,7 +145,7 @@ static void uavoRelayTask(void *parameters)
 		PIOS_Thread_Sleep(50);
 
 		// Wait for queue message
-		if (xQueueReceive(queue, &ev, 2) == pdTRUE) {
+		if (PIOS_Queue_Receive(queue, &ev, 2) == true) {
 			// Process event.  This calls transmitData
 			UAVTalkSendObject(uavTalkCon, ev.obj, ev.instId, false, 0);
 		}

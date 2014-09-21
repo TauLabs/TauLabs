@@ -85,7 +85,7 @@ static float followOrbit(float c[3], float rho, bool direction, float p[3],
 
 void initializeFixedWingPathFollower()
 {
-	integral = (struct Integral *)pvPortMalloc(sizeof(struct Integral));
+	integral = (struct Integral *)PIOS_malloc(sizeof(struct Integral));
 	memset(integral, 0, sizeof(struct Integral));
 }
 

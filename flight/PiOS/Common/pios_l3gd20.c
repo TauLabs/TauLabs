@@ -8,7 +8,7 @@
  *
  * @file       pios_l3gd20.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      L3GD20 3-axis gyro chip
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -36,6 +36,7 @@
 #if defined(PIOS_INCLUDE_L3GD20)
 
 #include "fifo_buffer.h"
+#include "pios_queue.h"
 
 /* Global Variables */
 enum pios_l3gd20_dev_magic {
@@ -48,7 +49,7 @@ enum pios_l3gd20_dev_magic {
 struct l3gd20_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;
-	xQueueHandle queue;
+	struct pios_queue *queue;
 	const struct pios_l3gd20_cfg *cfg;
 	enum pios_l3gd20_filter bandwidth;
 	enum pios_l3gd20_range range;
@@ -96,10 +97,10 @@ static struct l3gd20_dev *PIOS_L3GD20_alloc(void)
 
 	l3gd20_dev->configured = false;
 
-	l3gd20_dev->queue = xQueueCreate(PIOS_L3GD20_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
+	l3gd20_dev->queue = PIOS_Queue_Create(PIOS_L3GD20_QUEUESIZE, sizeof(struct pios_sensor_gyro_data));
 
 	if (l3gd20_dev->queue == NULL) {
-		vPortFree(l3gd20_dev);
+		PIOS_free(l3gd20_dev);
 		return NULL;
 	}
 
@@ -453,10 +454,9 @@ bool PIOS_L3GD20_IRQHandler(void)
 	normalized_data.z = -data.gyro_z * scale;
 	normalized_data.temperature = PIOS_L3GD20_GetRegIsr(PIOS_L3GD20_OUT_TEMP, &woken);
 
-	portBASE_TYPE xHigherPriorityTaskWoken;
-	xQueueSendToBackFromISR(pios_l3gd20_dev->queue, (void *)&normalized_data, &xHigherPriorityTaskWoken);
+	PIOS_Queue_Send_FromISR(pios_l3gd20_dev->queue, &normalized_data, &woken);
 
-	return woken || (xHigherPriorityTaskWoken == pdTRUE);
+	return woken;
 }
 
 #endif /* PIOS_INCLUDE_L3GD20 */

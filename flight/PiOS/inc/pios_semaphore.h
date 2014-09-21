@@ -36,7 +36,7 @@
 struct pios_semaphore
 {
 #if defined(PIOS_INCLUDE_FREERTOS)
-	xSemaphoreHandle sema_handle;
+	uintptr_t sema_handle;
 #else
 	uint32_t sema_count;
 #endif

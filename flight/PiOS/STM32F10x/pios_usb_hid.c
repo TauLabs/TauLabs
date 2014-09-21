@@ -35,6 +35,10 @@
 
 #if defined(PIOS_INCLUDE_USB_HID)
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 #include "pios_usb.h"
 #include "pios_usb_hid_priv.h"
 #include "pios_usb_board_data.h" /* PIOS_BOARD_*_DATA_LENGTH */
@@ -178,7 +182,7 @@ static void PIOS_USB_HID_SendReport(struct pios_usb_hid_dev * usb_hid_dev)
 	SetEPTxValid(usb_hid_dev->cfg->data_tx_ep);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	portEND_SWITCHING_ISR(need_yield);
+	portEND_SWITCHING_ISR(need_yield ? pdTRUE : pdFALSE);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 
@@ -337,7 +341,7 @@ static void PIOS_USB_HID_EP_OUT_Callback(void)
 	}
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	portEND_SWITCHING_ISR(need_yield);
+	portEND_SWITCHING_ISR(need_yield ? pdTRUE : pdFALSE);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 

@@ -792,7 +792,7 @@ static void uavoFrSKYSPortBridgeTask(void *parameters)
 {
 	while (1) {
 		uint8_t b = 0;
-		uint16_t count = PIOS_COM_ReceiveBuffer(frsky->com, &b, 1, portMAX_DELAY);
+		uint16_t count = PIOS_COM_ReceiveBuffer(frsky->com, &b, 1, PIOS_QUEUE_TIMEOUT_MAX);
 		if (count)
 			frsky_receive_byte(b);
 	}

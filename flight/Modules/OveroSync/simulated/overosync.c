@@ -35,6 +35,7 @@
 
 #include "pios_mutex.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define OVEROSYNC_PACKET_SIZE 1024
@@ -45,7 +46,7 @@
 // Private types
 
 // Private variables
-static xQueueHandle queue;
+static struct pios_queue *queue;
 static UAVTalkConnection uavTalkCon;
 static struct pios_thread *overoSyncTaskHandle;
 volatile bool buffer_swap_failed;
@@ -88,7 +89,7 @@ int32_t OveroSyncInitialize(void)
 	OveroSyncStatsInitialize();
 
 	// Create object queues
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&packData);
@@ -103,7 +104,7 @@ int32_t OveroSyncInitialize(void)
  */
 int32_t OveroSyncStart(void)
 {
-	overosync = (struct overosync *) pvPortMalloc(sizeof(*overosync));
+	overosync = (struct overosync *) PIOS_malloc(sizeof(*overosync));
 	if(overosync == NULL)
 		return -1;
 
@@ -172,7 +173,7 @@ static void overoSyncTask(void *parameters)
 	// Loop forever
 	while (1) {
 		// Wait for queue message
-		if (xQueueReceive(queue, &ev, portMAX_DELAY) == pdTRUE) {
+		if (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
 		
 			// Check it will fit before packetizing
 			if ((overosync->write_pointer + UAVObjGetNumBytes(ev.obj) + 12) >=

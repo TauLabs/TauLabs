@@ -35,8 +35,9 @@
 #if defined(PIOS_INCLUDE_I2C)
 
 #if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
 #define USE_FREERTOS
-#endif
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
 #include <pios_i2c_priv.h>
 
@@ -620,7 +621,7 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 	}
 
 #ifdef USE_FREERTOS
-	portEND_SWITCHING_ISR(woken == true ? pdTRUE : pdFALSE);
+	portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
 #endif
 }
 
@@ -691,7 +692,7 @@ void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
 	i2c_adapter_inject_event(i2c_adapter, I2C_EVENT_BUS_ERROR, &woken);
 
 #ifdef USE_FREERTOS
-	portEND_SWITCHING_ISR(woken == true ? pdTRUE : pdFALSE);
+	portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
 #endif
 }
 

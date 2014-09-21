@@ -260,7 +260,7 @@ int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, 
 	PIOS_Assert(com_dev->has_tx);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (PIOS_Mutex_Lock(com_dev->sendbuffer_mtx, 0) != pdTRUE) {
+	if (PIOS_Mutex_Lock(com_dev->sendbuffer_mtx, 0) != true) {
 		return -3;
 	}
 #endif /* PIOS_INCLUDE_FREERTOS */

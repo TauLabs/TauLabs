@@ -34,6 +34,7 @@
 #include "modulesettings.h"
 #include "sessionmanaging.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE   TELEM_QUEUE_SIZE
@@ -50,10 +51,10 @@
 
 // Private variables
 static uintptr_t telemetryPort;
-static xQueueHandle queue;
+static struct pios_queue *queue;
 
 #if defined(PIOS_TELEM_PRIORITY_QUEUE)
-static xQueueHandle priorityQueue;
+static struct pios_queue *priorityQueue;
 static struct pios_thread *telemetryTxPriTaskHandle;
 static void telemetryTxPriTask(void *parameters);
 #else
@@ -125,9 +126,9 @@ int32_t TelemetryInitialize(void)
 	timeOfLastObjectUpdate = 0;
 
 	// Create object queues
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 #if defined(PIOS_TELEM_PRIORITY_QUEUE)
-	priorityQueue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	priorityQueue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 #endif
 
 	// Update telemetry settings
@@ -360,7 +361,7 @@ static void telemetryTxTask(void *parameters)
 	// Loop forever
 	while (1) {
 		// Wait for queue message
-		if (xQueueReceive(queue, &ev, portMAX_DELAY) == pdTRUE) {
+		if (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
 			// Process event
 			processObjEvent(&ev);
 		}
@@ -378,7 +379,7 @@ static void telemetryTxPriTask(void *parameters)
 	// Loop forever
 	while (1) {
 		// Wait for queue message
-		if (xQueueReceive(priorityQueue, &ev, portMAX_DELAY) == pdTRUE) {
+		if (PIOS_Queue_Receive(priorityQueue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
 			// Process event
 			processObjEvent(&ev);
 		}

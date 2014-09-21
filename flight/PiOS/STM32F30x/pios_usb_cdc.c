@@ -35,6 +35,10 @@
 
 #if defined(PIOS_INCLUDE_USB_CDC)
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 #include "pios_usb.h"
 #include "pios_usb_cdc_priv.h"
 #include "pios_usb_board_data.h" /* PIOS_BOARD_*_DATA_LENGTH */
@@ -215,7 +219,7 @@ static void PIOS_USB_CDC_SendData(struct pios_usb_cdc_dev * usb_cdc_dev)
 	SetEPTxValid(usb_cdc_dev->cfg->data_tx_ep);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	portEND_SWITCHING_ISR(need_yield);
+	portEND_SWITCHING_ISR(need_yield ? pdTRUE : pdFALSE);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 
@@ -298,7 +302,7 @@ static void PIOS_USB_CDC_DATA_EP_OUT_Callback(void)
 	}
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	portEND_SWITCHING_ISR(need_yield);
+	portEND_SWITCHING_ISR(need_yield ? pdTRUE : pdFALSE);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 

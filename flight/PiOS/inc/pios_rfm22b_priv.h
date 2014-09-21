@@ -39,6 +39,7 @@
 #include "pios_semaphore.h"
 #include "pios_rfm22b.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 // ************************************
 
@@ -693,7 +694,7 @@ struct pios_rfm22b_dev {
 	enum pios_rfm22b_state state;
 
 	// The event queue handle
-	xQueueHandle eventQueue;
+	struct pios_queue *eventQueue;
 
 	// device status register
 	uint8_t device_status;
@@ -718,7 +719,7 @@ struct pios_rfm22b_dev {
 	int8_t rssi_dBm;
 
 	// The packet queue handle
-	xQueueHandle packetQueue;
+	struct pios_queue *packetQueue;
 
 	// The tx data packet
 	PHPacket data_packet;

@@ -7,7 +7,7 @@
  *
  * @file       eventdispatcher.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Event dispatcher, distributes object events as callbacks. Alternative
  * 	           to using tasks and queues. All callbacks are invoked from the event task.
  * @see        The GNU Public License (GPL) Version 3
@@ -32,6 +32,8 @@
 #ifndef EVENTDISPATCHER_H
 #define EVENTDISPATCHER_H
 
+#include "pios_queue.h"
+
 // Public types
 /**
  * Event dispatcher statistics
@@ -48,8 +50,8 @@ void EventClearStats();
 int32_t EventCallbackDispatch(UAVObjEvent* ev, UAVObjEventCallback cb);
 int32_t EventPeriodicCallbackCreate(UAVObjEvent* ev, UAVObjEventCallback cb, uint16_t periodMs);
 int32_t EventPeriodicCallbackUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, uint16_t periodMs);
-int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, xQueueHandle queue, uint16_t periodMs);
-int32_t EventPeriodicQueueUpdate(UAVObjEvent* ev, xQueueHandle queue, uint16_t periodMs);
+int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, struct pios_queue *queue, uint16_t periodMs);
+int32_t EventPeriodicQueueUpdate(UAVObjEvent* ev, struct pios_queue *queue, uint16_t periodMs);
 
 #endif // EVENTDISPATCHER_H
 

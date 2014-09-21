@@ -6,7 +6,7 @@
  * @{
  *
  * @file       geofence.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Check the UAV is within the geofence boundaries
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -80,7 +80,7 @@ int32_t GeofenceInitialize(void)
 		GeoFenceSettingsInitialize();
 
 		// allocate and initialize the static data storage only if module is enabled
-		geofenceSettings = (GeoFenceSettingsData *) pvPortMalloc(sizeof(GeoFenceSettingsData));
+		geofenceSettings = (GeoFenceSettingsData *) PIOS_malloc(sizeof(GeoFenceSettingsData));
 		if (geofenceSettings == NULL) {
 			module_enabled = false;
 			return -1;
