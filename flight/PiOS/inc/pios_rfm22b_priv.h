@@ -539,7 +539,6 @@ enum pios_radio_state {
 	RADIO_STATE_RX_FAILURE,
 	RADIO_STATE_TX_START,
 	RADIO_STATE_TX_DATA,
-	RADIO_STATE_TX_FAILURE,
 	RADIO_STATE_TIMEOUT,
 	RADIO_STATE_ERROR,
 	RADIO_STATE_FATAL_ERROR,
@@ -709,7 +708,6 @@ struct pios_rfm22b_dev {
 	rfm22b_device_status status_regs;
 
 	// The error statistics counters
-	uint16_t prev_rx_seq_num;
 	uint32_t rx_packet_stats[RFM22B_RX_PACKET_STATS_LEN];
 
 	// The RFM22B state machine state
@@ -732,8 +730,6 @@ struct pios_rfm22b_dev {
 	uint16_t tx_data_rd;
 	// The tx data write index
 	uint16_t tx_data_wr;
-	// The tx packet sequence number
-	uint16_t tx_seq;
 
 	// The rx data packet
 	uint8_t rx_packet[RFM22B_MAX_PACKET_LEN];

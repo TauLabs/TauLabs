@@ -379,11 +379,8 @@ static void updateRfm22bStats() {
             rfm22bStatus.RxGood = radio_stats.rx_good;
             rfm22bStatus.RxCorrected   = radio_stats.rx_corrected;
             rfm22bStatus.RxErrors = radio_stats.rx_error;
-            rfm22bStatus.RxMissed = radio_stats.rx_missed;
             rfm22bStatus.RxFailure     = radio_stats.rx_failure;
-            rfm22bStatus.TxDropped     = radio_stats.tx_dropped;
             rfm22bStatus.TxResent = radio_stats.tx_resent;
-            rfm22bStatus.TxFailure     = radio_stats.tx_failure;
             rfm22bStatus.Resets      = radio_stats.resets;
             rfm22bStatus.Timeouts    = radio_stats.timeouts;
             rfm22bStatus.RSSI        = radio_stats.rssi;
@@ -400,8 +397,6 @@ static void updateRfm22bStats() {
                 prev_tx_count = tx_count;
                 prev_rx_count = rx_count;
             }
-            rfm22bStatus.TXSeq     = radio_stats.tx_seq;
-            rfm22bStatus.RXSeq     = radio_stats.rx_seq;
 
             rfm22bStatus.LinkState = radio_stats.link_state;
         } else {

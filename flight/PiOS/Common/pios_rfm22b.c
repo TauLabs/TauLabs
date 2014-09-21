@@ -216,7 +216,6 @@ static enum pios_radio_event radio_rxData(struct pios_rfm22b_dev *rfm22b_dev);
 static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev *rfm22b_dev, uint8_t *p, uint16_t rx_len);
 static enum pios_radio_event radio_txStart(struct pios_rfm22b_dev *rfm22b_dev);
 static enum pios_radio_event radio_txData(struct pios_rfm22b_dev *rfm22b_dev);
-static enum pios_radio_event rfm22_txFailure(struct pios_rfm22b_dev *rfm22b_dev);
 static enum pios_radio_event rfm22_process_state_transition(struct pios_rfm22b_dev *rfm22b_dev, enum pios_radio_event event);
 static void rfm22_process_event(struct pios_rfm22b_dev *rfm22b_dev, enum pios_radio_event event);
 static enum pios_radio_event rfm22_timeout(struct pios_rfm22b_dev *rfm22b_dev);
@@ -351,21 +350,6 @@ static const struct pios_rfm22b_transition
 						RADIO_STATE_FATAL_ERROR,
 						},
 				 },
-	[RADIO_STATE_TX_FAILURE] = {
-				    .entry_fn = rfm22_txFailure,
-				    .next_state = {
-						   [RADIO_EVENT_TX_START] =
-						   RADIO_STATE_TX_START,
-						   [RADIO_EVENT_TIMEOUT] =
-						   RADIO_STATE_TIMEOUT,
-						   [RADIO_EVENT_ERROR] =
-						   RADIO_STATE_ERROR,
-						   [RADIO_EVENT_INITIALIZE]
-						   =
-						   RADIO_STATE_INITIALIZING,
-						   [RADIO_EVENT_FATAL_ERROR] = RADIO_STATE_FATAL_ERROR,
-						   },
-				    },
 	[RADIO_STATE_TIMEOUT] = {
 				 .entry_fn = rfm22_timeout,
 				 .next_state = {
@@ -491,16 +475,11 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 	rfm22b_dev->stats.rx_good = 0;
 	rfm22b_dev->stats.rx_corrected = 0;
 	rfm22b_dev->stats.rx_error = 0;
-	rfm22b_dev->stats.rx_missed = 0;
-	rfm22b_dev->stats.tx_dropped = 0;
 	rfm22b_dev->stats.tx_resent = 0;
 	rfm22b_dev->stats.resets = 0;
 	rfm22b_dev->stats.timeouts = 0;
 	rfm22b_dev->stats.link_quality = 0;
 	rfm22b_dev->stats.rssi = 0;
-	rfm22b_dev->stats.tx_seq = 0;
-	rfm22b_dev->stats.rx_seq = 0;
-	rfm22b_dev->stats.tx_failure = 0;
 
 	// Initialize the channels.
 	PIOS_RFM22B_SetChannelConfig(*rfm22b_id,
@@ -2089,8 +2068,6 @@ static enum pios_radio_event radio_txStart(struct pios_rfm22b_dev
 		|| !rfm22_isCoordinator(radio_dev))) {
 		return RADIO_EVENT_RX_MODE;
 	}
-	// Increment the packet sequence number.
-	radio_dev->stats.tx_seq++;
 
 	// Add the error correcting code.
 	if (!radio_dev->ppm_only_mode) {
@@ -2418,6 +2395,7 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 	rfm22b_dev->stats.link_quality =
 	    64 + rfm22b_dev->stats.rx_good - rfm22b_dev->stats.rx_error -
 	    rfm22b_dev->stats.tx_resent;
+
 }
 
 /**
@@ -2632,21 +2610,6 @@ static bool rfm22_changeChannel(struct pios_rfm22b_dev *rfm22b_dev)
 /*****************************************************************************
 * Error Handling Functions
 *****************************************************************************/
-
-/**
- * Recover from a transmit failure.
- *
- * @param[in] rfm22b_dev The device structure
- * @return enum pios_radio_event  The next event to inject
- */
-static enum pios_radio_event rfm22_txFailure(struct pios_rfm22b_dev
-					     *rfm22b_dev)
-{
-	rfm22b_dev->stats.tx_failure++;
-	rfm22b_dev->packet_start_ticks = 0;
-	rfm22b_dev->tx_data_wr = rfm22b_dev->tx_data_rd = 0;
-	return RADIO_EVENT_TX_START;
-}
 
 /**
  * Recover from a timeout event.

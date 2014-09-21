@@ -81,16 +81,11 @@ struct rfm22b_stats {
 	uint16_t packets_per_sec;
 	uint16_t tx_byte_count;
 	uint16_t rx_byte_count;
-	uint16_t tx_seq;
-	uint16_t rx_seq;
 	uint8_t rx_good;
 	uint8_t rx_corrected;
 	uint8_t rx_error;
-	uint8_t rx_missed;
 	uint8_t rx_failure;
-	uint8_t tx_dropped;
 	uint8_t tx_resent;
-	uint8_t tx_failure;
 	uint8_t resets;
 	uint8_t timeouts;
 	uint8_t link_quality;
