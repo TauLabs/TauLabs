@@ -46,21 +46,13 @@ TauLinkGadgetWidget::TauLinkGadgetWidget(QWidget *parent) : ConfigTaskWidget(par
         addUAVObjectToWidgetRelation("RFM22BStatus", "RxGood", ui->Good);
         addUAVObjectToWidgetRelation("RFM22BStatus", "RxCorrected", ui->Corrected);
         addUAVObjectToWidgetRelation("RFM22BStatus", "RxErrors", ui->Errors);
-        addUAVObjectToWidgetRelation("RFM22BStatus", "RxMissed", ui->Missed);
         addUAVObjectToWidgetRelation("RFM22BStatus", "RxFailure", ui->RxFailure);
-        addUAVObjectToWidgetRelation("RFM22BStatus", "UAVTalkErrors", ui->UAVTalkErrors);
-        addUAVObjectToWidgetRelation("RFM22BStatus", "TxDropped", ui->Dropped);
-        addUAVObjectToWidgetRelation("RFM22BStatus", "TxResent", ui->Resent);
-        addUAVObjectToWidgetRelation("RFM22BStatus", "TxFailure", ui->TxFailure);
         addUAVObjectToWidgetRelation("RFM22BStatus", "Resets", ui->Resets);
         addUAVObjectToWidgetRelation("RFM22BStatus", "Timeouts", ui->Timeouts);
         addUAVObjectToWidgetRelation("RFM22BStatus", "RSSI", ui->RSSI);
         addUAVObjectToWidgetRelation("RFM22BStatus", "LinkQuality", ui->LinkQuality);
-        addUAVObjectToWidgetRelation("RFM22BStatus", "RXSeq", ui->RXSeq);
-        addUAVObjectToWidgetRelation("RFM22BStatus", "TXSeq", ui->TXSeq);
         addUAVObjectToWidgetRelation("RFM22BStatus", "RXRate", ui->RXRate);
         addUAVObjectToWidgetRelation("RFM22BStatus", "TXRate", ui->TXRate);
-        addUAVObjectToWidgetRelation("RFM22BStatus", "LinkState", ui->LinkState);
     }
 
 }
