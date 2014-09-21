@@ -617,7 +617,7 @@ int32_t UAVTalkRelayPacket(UAVTalkConnection inConnectionHandle, UAVTalkConnecti
 
     // Add timestamp when the transaction type is appropriate
     if (inIproc->type & UAVTALK_TIMESTAMPED) {
-        portTickType time = xTaskGetTickCount();
+        uint32_t time = PIOS_Thread_Systime();
         outConnection->txBuffer[10] = (uint8_t)(time & 0xFF);
         outConnection->txBuffer[11] = (uint8_t)((time >> 8) & 0xFF);
         headerLength += 2;
