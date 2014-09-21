@@ -106,7 +106,6 @@ private:
     QHash<quint16, QList<objStruc> > sessions;
     int sessionObjRetries;
     Core::Internal::GeneralSettings *settings;
-    UAVObject *sessionManagementQueryObj;
 };
 
 #endif // TELEMETRYMONITOR_H

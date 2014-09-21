@@ -42,6 +42,8 @@
 #define SESSION_OBJ_RETRIEVE_RETRIES        3
 //Timeout for the object fetching fase, the system will stop fetching objects and emit connected after this
 #define OBJECT_RETRIEVE_TIMEOUT             500
+//Number of times to try and retrieve initial values of objects
+#define OBJECT_RETRIEVE_RETRIES             1
 //IAP object is very important, retry if not able to get it the first time
 #define IAP_OBJECT_RETRIES                  3
 
@@ -131,7 +133,6 @@ void TelemetryMonitor::startRetrievingObjects()
     connectionStatus = CON_RETRIEVING_OBJECTS;
     // Get all objects, add metaobjects, settings and data objects with OnChange update mode to the queue
     queue.empty();
-    retries = 0;
     foreach(UAVObjectManager::ObjectMap map, objMngr->getObjects().values())
     {
         UAVObject* obj = map.first();
@@ -261,7 +262,9 @@ void TelemetryMonitor::retrieveNextObject()
         return;
     }
     // Get next object from the queue
-    sessionManagementQueryObj = queue.dequeue();
+    objRetriveObj = queue.dequeue();
+    retries = 0;
+
     // Connect to object
     TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 requestiong %1 from board INSTID:%2").arg(Q_FUNC_INFO).
                                   arg(sessionManagementQueryObj->getName()).
@@ -269,7 +272,7 @@ void TelemetryMonitor::retrieveNextObject()
     connect(sessionManagementQueryObj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(transactionCompleted(UAVObject*,bool)));
     // Request update
     objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
-    sessionManagementQueryObj->requestUpdateAllInstances();
+    objRetriveObj->requestUpdateAllInstances();
 }
 
 /**
@@ -422,10 +425,16 @@ void TelemetryMonitor::objectRetrieveTimeoutCB()
         startSessionRetrieving(sessionObj);
         break;
     case CON_RETRIEVING_OBJECTS:
-        TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 re-requestiong %1 from board INSTID:%2").
-                                      arg(Q_FUNC_INFO).arg(sessionManagementQueryObj->getName()).
-                                      arg(sessionManagementQueryObj->getInstID()));
-        sessionManagementQueryObj->requestUpdateAllInstances();
+        if (retries < OBJECT_RETRIEVE_RETRIES) {
+            retries++;
+            TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 re-requestiong %1 from board INSTID:%2").
+                                          arg(Q_FUNC_INFO).arg(objRetriveObj->getName()).
+                                          arg(sessionManagementQueryObj->getInstID()));
+            objRetriveObj->requestUpdateAllInstances();
+        } else {
+            // Move on to the next object
+            retrieveNextObject();
+        }
         break;
     default:
         break;
