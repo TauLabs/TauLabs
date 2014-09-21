@@ -43,8 +43,6 @@
 
 #include "FreeRTOS.h"
 #include "task.h"
-#include "queue.h"
-#include "semphr.h"
 
 // ************************************
 
@@ -709,7 +707,7 @@ struct pios_rfm22b_dev {
 	enum pios_radio_state state;
 
 	// The event queue handle
-	xQueueHandle eventQueue;
+	struct pios_queue *eventQueue;
 
 	// The device status registers.
 	rfm22b_device_status status_regs;

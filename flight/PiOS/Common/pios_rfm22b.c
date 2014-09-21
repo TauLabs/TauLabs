@@ -96,10 +96,10 @@
 #include <pios_rfm22b_rcvr_priv.h>
 #include <ecc.h>
 
+#if defined(PIOS_INCLUDE_FREERTOS)
 #include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 #include "task.h"
-#include "queue.h"
-#include "semphr.h"
 
 /* Local Defines */
 #define STACK_SIZE_BYTES                 800
@@ -495,8 +495,7 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 				     false, false, false);
 
 	// Create the event queue
-	rfm22b_dev->eventQueue =
-	    xQueueCreate(EVENT_QUEUE_SIZE, sizeof(enum pios_radio_event));
+	rfm22b_dev->eventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(enum pios_radio_event));
 
 	// Bind the configuration to the device instance
 	rfm22b_dev->cfg = *cfg;
@@ -1343,9 +1342,7 @@ static void pios_rfm22_task(void *parameters)
 
 			// Process events through the state machine.
 			enum pios_radio_event event;
-			while (xQueueReceive
-			       (rfm22b_dev->eventQueue, &event,
-				0) == pdTRUE) {
+			while (PIOS_Queue_Receive(rfm22b_dev->eventQueue, &event, 0)) {
 				if ((event == RADIO_EVENT_INT_RECEIVED)
 				    &&
 				    ((rfm22b_dev->state ==
@@ -1364,9 +1361,7 @@ static void pios_rfm22_task(void *parameters)
 			     curTicks) > PIOS_RFM22B_SUPERVISOR_TIMEOUT) {
 				// Clear the event queue.
 				enum pios_radio_event event;
-				while (xQueueReceive
-				       (rfm22b_dev->eventQueue, &event,
-					0) == pdTRUE) {
+				while (PIOS_Queue_Receive(rfm22b_dev->eventQueue, &event, 0)) {
 					// Do nothing;
 				}
 				lastEventTicks = xTaskGetTickCount();
@@ -1426,28 +1421,27 @@ static void pios_rfm22_inject_event(struct pios_rfm22b_dev *rfm22b_dev,
 				    bool inISR)
 {
 	if (inISR) {
+		bool woken = false;
+
 		// Store the event.
-		portBASE_TYPE pxHigherPriorityTaskWoken1;
-		if (xQueueSendFromISR
-		    (rfm22b_dev->eventQueue, &event,
-		     &pxHigherPriorityTaskWoken1) != pdTRUE) {
+		if (PIOS_Queue_Send_FromISR(rfm22b_dev->eventQueue, &event, &woken) == false) {
+#if defined(PIOS_INCLUDE_FREERTOS)		
+				portEND_SWITCHING_ISR(woken);
+#endif /* PIOS_INCLUDE_FREERTOS */
 			return;
 		}
 		// Signal the semaphore to wake up the handler thread.
-		bool woken = false;
 		if (PIOS_Semaphore_Give_FromISR(rfm22b_dev->isrPending,
 		     &woken) != true) {
 			// Something went fairly seriously wrong
 			rfm22b_dev->errors++;
 		}
-		portEND_SWITCHING_ISR((pxHigherPriorityTaskWoken1 ==
-				       pdTRUE)
-				      || woken);
+#if defined(PIOS_INCLUDE_FREERTOS)		
+		portEND_SWITCHING_ISR(woken);
+#endif /* PIOS_INCLUDE_FREERTOS */
 	} else {
 		// Store the event.
-		if (xQueueSend
-		    (rfm22b_dev->eventQueue, &event,
-		     portMAX_DELAY) != pdTRUE) {
+		if (PIOS_Queue_Send(rfm22b_dev->eventQueue, &event, PIOS_QUEUE_TIMEOUT_MAX)) {
 			return;
 		}
 		// Signal the semaphore to wake up the handler thread.
