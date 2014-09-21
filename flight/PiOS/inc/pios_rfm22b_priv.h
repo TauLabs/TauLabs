@@ -38,8 +38,6 @@
 #include <oplinkstatus.h>
 #include "pios_semaphore.h"
 #include "pios_rfm22b.h"
-#include "pios_thread.h"
-#include "pios_queue.h"
 
 // ************************************
 
@@ -667,7 +665,7 @@ struct pios_rfm22b_dev {
 	bool coordinator;
 
 	// The task handle
-	struct pios_thread *taskHandle;
+	xTaskHandle taskHandle;
 
 	// The potential paired statistics
 	struct rfm22b_pair_stats pair_stats[OPLINKSTATUS_PAIRIDS_NUMELEM];
@@ -694,7 +692,7 @@ struct pios_rfm22b_dev {
 	enum pios_rfm22b_state state;
 
 	// The event queue handle
-	struct pios_queue *eventQueue;
+	xQueueHandle eventQueue;
 
 	// device status register
 	uint8_t device_status;
@@ -719,7 +717,7 @@ struct pios_rfm22b_dev {
 	int8_t rssi_dBm;
 
 	// The packet queue handle
-	struct pios_queue *packetQueue;
+	xQueueHandle packetQueue;
 
 	// The tx data packet
 	PHPacket data_packet;
@@ -781,9 +779,9 @@ struct pios_rfm22b_dev {
 
 	// The maximum time (ms) that it should take to transmit / receive a packet.
 	uint32_t max_packet_time;
-	uint32_t packet_start_ticks;
-	uint32_t tx_complete_ticks;
-	uint32_t rx_complete_ticks;
+	portTickType packet_start_ticks;
+	portTickType tx_complete_ticks;
+	portTickType rx_complete_ticks;
 	uint8_t max_ack_delay;
 };
 

@@ -52,20 +52,14 @@
 
 #if defined(PIOS_INCLUDE_RFM22B)
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-#include "FreeRTOS.h"
-#endif /* defined(PIOS_INCLUDE_FREERTOS) */
-
 #include <pios_spi_priv.h>
 #include <packet_handler.h>
 #include <pios_rfm22b_priv.h>
 #include <ecc.h>
-#include "pios_thread.h"
-#include "pios_queue.h"
 
 /* Local Defines */
-#define STACK_SIZE_BYTES 800
-#define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
+#define STACK_SIZE_BYTES 200
+#define TASK_PRIORITY (tskIDLE_PRIORITY + 2)
 #define ISR_TIMEOUT 2 // ms
 #define EVENT_QUEUE_SIZE 5
 #define RFM22B_DEFAULT_RX_DATARATE RFM22_datarate_9600
@@ -506,11 +500,12 @@ static const uint8_t ss_reg_70[] = {  0x24, 0x2D}; // rfm22_modulation_mode_cont
 static const uint8_t ss_reg_71[] = {  0x2B, 0x23}; // rfm22_modulation_mode_control2
 
 
-static inline uint32_t timeDifferenceMs(uint32_t start_time, uint32_t end_time)
+static inline uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time)
 {
-	if (end_time >= start_time)
-		return end_time - start_time;
-	return (uint32_t)PIOS_THREAD_TIMEOUT_MAX - start_time + end_time + 1;
+	if(end_time >= start_time)
+		return TICKS2MS(end_time - start_time);
+	// Rollover
+	return TICKS2MS((portMAX_DELAY - start_time) + end_time);
 }
 
 bool PIOS_RFM22B_validate(struct pios_rfm22b_dev * rfm22b_dev)
@@ -575,7 +570,7 @@ int32_t PIOS_RFM22B_Init(uint32_t *rfm22b_id, uint32_t spi_id, uint32_t slave_nu
 	rfm22b_dev->stats.rssi = 0;
 
 	// Create the event queue
-	rfm22b_dev->eventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(enum pios_rfm22b_event));
+	rfm22b_dev->eventQueue = xQueueCreate(EVENT_QUEUE_SIZE, sizeof(enum pios_rfm22b_event));
 
 	// Bind the configuration to the device instance
 	rfm22b_dev->cfg = *cfg;
@@ -614,8 +609,7 @@ int32_t PIOS_RFM22B_Init(uint32_t *rfm22b_id, uint32_t spi_id, uint32_t slave_nu
 	PIOS_RFM22B_InjectEvent(rfm22b_dev, RFM22B_EVENT_INITIALIZE, false);
 
 	// Start the driver task.  This task controls the radio state machine and removed all of the IO from the IRQ handler.
-	rfm22b_dev->taskHandle = PIOS_Thread_Create(
-			PIOS_RFM22B_Task, "pios_rfm22b", STACK_SIZE_BYTES, rfm22b_dev, TASK_PRIORITY);
+	xTaskCreate(PIOS_RFM22B_Task, (signed char *)"PIOS_RFM22B_Task", STACK_SIZE_BYTES, (void*)rfm22b_dev, TASK_PRIORITY, &(rfm22b_dev->taskHandle));
 
 	return(0);
 }
@@ -643,7 +637,7 @@ void PIOS_RFM22B_InjectEvent(struct pios_rfm22b_dev *rfm22b_dev, enum pios_rfm22
 {
 
 	// Store the event.
-	if (PIOS_Queue_Send(rfm22b_dev->eventQueue, &event, PIOS_QUEUE_TIMEOUT_MAX) != true)
+	if (xQueueSend(rfm22b_dev->eventQueue, &event, portMAX_DELAY) != pdTRUE)
 		return;
 
 	// Signal the semaphore to wake up the handler thread.
@@ -653,9 +647,7 @@ void PIOS_RFM22B_InjectEvent(struct pios_rfm22b_dev *rfm22b_dev, enum pios_rfm22
 			// Something went fairly seriously wrong
 			rfm22b_dev->errors++;
 		}
-#if defined(PIOS_INCLUDE_FREERTOS)
-		portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
-#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+		portEND_SWITCHING_ISR(woken == true ? pdTRUE : pdFALSE);
 	}
 	else
 	{
@@ -843,9 +835,9 @@ static void PIOS_RFM22B_Task(void *parameters)
 	struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)parameters;
 	if (!PIOS_RFM22B_validate(rfm22b_dev))
 	    return;
-	uint32_t lastEventTicks = PIOS_Thread_Systime();
-	uint32_t lastStatusTicks = lastEventTicks;
-	uint32_t lastPPMTicks = lastEventTicks;
+	portTickType lastEventTicks = xTaskGetTickCount();
+	portTickType lastStatusTicks = lastEventTicks;
+	portTickType lastPPMTicks = lastEventTicks;
 
 	while(1)
 	{
@@ -856,11 +848,11 @@ static void PIOS_RFM22B_Task(void *parameters)
 
 		// Wait for a signal indicating an external interrupt or a pending send/receive request.
 		if (PIOS_Semaphore_Take(rfm22b_dev->isrPending,  ISR_TIMEOUT) == true) {
-			lastEventTicks = PIOS_Thread_Systime();
+			lastEventTicks = xTaskGetTickCount();
 
 			// Process events through the state machine.
 			enum pios_rfm22b_event event;
-			while (PIOS_Queue_Receive(rfm22b_dev->eventQueue, &event, 0) == true)
+			while (xQueueReceive(rfm22b_dev->eventQueue, &event, 0) == pdTRUE)
 			{
 				if ((event == RFM22B_EVENT_INT_RECEIVED) &&
 				    ((rfm22b_dev->state == RFM22B_STATE_UNINITIALIZED) || (rfm22b_dev->state == RFM22B_STATE_INITIALIZING)))
@@ -871,7 +863,7 @@ static void PIOS_RFM22B_Task(void *parameters)
 		else
 		{
 			// Has it been too long since the last event?
-			uint32_t curTicks = PIOS_Thread_Systime();
+			portTickType curTicks = xTaskGetTickCount();
 			if (timeDifferenceMs(lastEventTicks, curTicks) > PIOS_RFM22B_SUPERVISOR_TIMEOUT)
 			{
  				// Transsition through an error event.
@@ -879,13 +871,13 @@ static void PIOS_RFM22B_Task(void *parameters)
 
 				// Clear the event queue.
 				enum pios_rfm22b_event event;
-				while (PIOS_Queue_Receive(rfm22b_dev->eventQueue, &event, 0) == true)
+				while (xQueueReceive(rfm22b_dev->eventQueue, &event, 0) == pdTRUE)
 					;
-				lastEventTicks = PIOS_Thread_Systime();
+				lastEventTicks = xTaskGetTickCount();
 			}
 		}
 
-		uint32_t curTicks = PIOS_Thread_Systime();
+		portTickType curTicks = xTaskGetTickCount();
 		// Have we been sending this packet too long?
 		if ((rfm22b_dev->packet_start_ticks > 0) && (timeDifferenceMs(rfm22b_dev->packet_start_ticks, curTicks) > (rfm22b_dev->max_packet_time * 3)))
 			rfm22_process_event(rfm22b_dev, RFM22B_EVENT_TIMEOUT);
@@ -961,7 +953,7 @@ static void rfm22_setDatarate(struct pios_rfm22b_dev * rfm22b_dev, enum rfm22b_d
 	if (rfm22b_dev->stats.link_state == OPLINKSTATUS_LINKSTATE_CONNECTED)
 	{
 		// Generate a pseudo-random number from 0-8 to add to the delay
-		uint8_t random = PIOS_CRC_updateByte(0, (uint8_t)(PIOS_Thread_Systime() & 0xff)) & 0x03;
+		uint8_t random = PIOS_CRC_updateByte(0, (uint8_t)(xTaskGetTickCount() & 0xff)) & 0x03;
 		rfm22b_dev->max_ack_delay = (uint16_t)((float)(sizeof(PHPacketHeader) * 8 * 1000) / (float)(datarate_bps) + 0.5f) * 4 + random;
 	}
 	else
@@ -1402,7 +1394,7 @@ static enum pios_rfm22b_event rfm22_txStart(struct pios_rfm22b_dev *rfm22b_dev)
 	encode_data((unsigned char*)p, PHPacketSize(p), (unsigned char*)p);
 
 	rfm22b_dev->tx_packet = p;
-	rfm22b_dev->packet_start_ticks = PIOS_Thread_Systime();
+	rfm22b_dev->packet_start_ticks = xTaskGetTickCount();
 	if (rfm22b_dev->packet_start_ticks == 0)
 		rfm22b_dev->packet_start_ticks = 1;
 
@@ -1578,7 +1570,7 @@ static enum pios_rfm22b_event rfm22_detectPreamble(struct pios_rfm22b_dev *rfm22
 	// Valid preamble detected
 	if (rfm22b_dev->int_status2 & RFM22_is2_ipreaval)
 	{
-		rfm22b_dev->packet_start_ticks = PIOS_Thread_Systime();
+		rfm22b_dev->packet_start_ticks = xTaskGetTickCount();
 		if (rfm22b_dev->packet_start_ticks == 0)
 			rfm22b_dev->packet_start_ticks = 1;
 		RX_LED_ON;
@@ -1782,7 +1774,7 @@ static enum pios_rfm22b_event rfm22_rxData(struct pios_rfm22b_dev *rfm22b_dev)
 			else
 				ret_event = RFM22B_EVENT_RX_ERROR;
 			rfm22b_dev->rx_buffer_wr = 0;
-			rfm22b_dev->rx_complete_ticks = PIOS_Thread_Systime();
+			rfm22b_dev->rx_complete_ticks = xTaskGetTickCount();
 			if (rfm22b_dev->rx_complete_ticks == 0)
 				rfm22b_dev->rx_complete_ticks = 1;
 #ifdef PIOS_RFM22B_DEBUG_ON_TELEM
@@ -1806,7 +1798,7 @@ static enum pios_rfm22b_event rfm22_rxFailure(struct pios_rfm22b_dev *rfm22b_dev
 {
 	rfm22b_dev->stats.rx_failure++;
 	rfm22b_dev->rx_buffer_wr = 0;
-	rfm22b_dev->rx_complete_ticks = PIOS_Thread_Systime();
+	rfm22b_dev->rx_complete_ticks = xTaskGetTickCount();
 	rfm22b_dev->in_rx_mode = false;
 	if (rfm22b_dev->rx_complete_ticks == 0)
 		rfm22b_dev->rx_complete_ticks = 1;
@@ -1863,10 +1855,10 @@ static enum pios_rfm22b_event rfm22_txData(struct pios_rfm22b_dev *rfm22b_dev)
 		{
 			// We need to wait for an ACK if this packet it not an ACK or NACK.
 			rfm22b_dev->prev_tx_packet = rfm22b_dev->tx_packet;
-			rfm22b_dev->tx_complete_ticks = PIOS_Thread_Systime();
+			rfm22b_dev->tx_complete_ticks = xTaskGetTickCount();
 		}
 		// Set the Tx period
-		uint32_t curTicks = PIOS_Thread_Systime();
+		portTickType curTicks = xTaskGetTickCount();
 		if (rfm22b_dev->tx_packet->header.type == PACKET_TYPE_ACK)
 			rfm22b_dev->time_to_send_offset = curTicks + 0x4;
 		else if (rfm22b_dev->tx_packet->header.type == PACKET_TYPE_ACK_RTS)
@@ -1931,7 +1923,7 @@ static enum pios_rfm22b_event rfm22_sendNack(struct pios_rfm22b_dev *rfm22b_dev)
 static enum pios_rfm22b_event rfm22_receiveAck(struct pios_rfm22b_dev *rfm22b_dev)
 {
 	PHPacketHandle prev = rfm22b_dev->prev_tx_packet;
-	uint32_t curTicks = PIOS_Thread_Systime();
+	portTickType curTicks = xTaskGetTickCount();
 
 	// Clear the previous TX packet.
 	rfm22b_dev->prev_tx_packet = NULL;

@@ -7,7 +7,7 @@
  *
  * @file       RadioComBridge.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  * @brief      Bridges selected Com Port to the COM VCP emulated serial port
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -39,8 +39,6 @@
 #include <uavtalk_priv.h>
 #include <pios_rfm22b.h>
 #include <ecc.h>
-#include "pios_thread.h"
-#include "pios_queue.h"
 
 #include <stdbool.h>
 
@@ -48,7 +46,7 @@
 // Private constants
 
 #define STACK_SIZE_BYTES 150
-#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
+#define TASK_PRIORITY (tskIDLE_PRIORITY + 1)
 #define MAX_RETRIES 2
 #define RETRY_TIMEOUT_MS 20
 #define EVENT_QUEUE_SIZE 10
@@ -62,17 +60,17 @@
 typedef struct {
 
 	// The task handles.
-	struct pios_thread *telemetryTxTaskHandle;
-	struct pios_thread *radioRxTaskHandle;
-	struct pios_thread *radioTxTaskHandle;
+	xTaskHandle telemetryTxTaskHandle;
+	xTaskHandle radioRxTaskHandle;
+	xTaskHandle radioTxTaskHandle;
 
 	// The UAVTalk connection on the com side.
 	UAVTalkConnection outUAVTalkCon;
 	UAVTalkConnection inUAVTalkCon;
 
 	// Queue handles.
-	struct pios_queue *gcsEventQueue;
-	struct pios_queue *uavtalkEventQueue;
+	xQueueHandle gcsEventQueue;
+	xQueueHandle uavtalkEventQueue;
 
 	// Error statistics.
 	uint32_t comTxErrors;
@@ -91,7 +89,7 @@ static void radioTxTask(void *parameters);
 static int32_t UAVTalkSendHandler(uint8_t *buf, int32_t length);
 static int32_t RadioSendHandler(uint8_t *buf, int32_t length);
 static void ProcessInputStream(UAVTalkConnection connectionHandle, uint8_t rxbyte);
-static void queueEvent(struct pios_queue *queue, void *obj, uint16_t instId, UAVObjEventType type);
+static void queueEvent(xQueueHandle queue, void *obj, uint16_t instId, UAVObjEventType type);
 static void configureComCallback(OPLinkSettingsOutputConnectionOptions com_port, OPLinkSettingsComSpeedOptions com_speed);
 static void updateSettings();
 
@@ -116,9 +114,9 @@ static int32_t RadioComBridgeStart(void)
 		updateSettings();
 
 		// Start the primary tasks for receiving/sending UAVTalk packets from the GCS.
-		data->telemetryTxTaskHandle = PIOS_Thread_Create(telemetryTxTask, "telemTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-		data->radioRxTaskHandle = PIOS_Thread_Create(radioRxTask, "radioRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-		data->radioTxTaskHandle = PIOS_Thread_Create(radioTxTask, "radioTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		xTaskCreate(telemetryTxTask, (signed char *)"telemTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY, &(data->telemetryTxTaskHandle));
+		xTaskCreate(radioRxTask, (signed char *)"radioRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY, &(data->radioRxTaskHandle));
+		xTaskCreate(radioTxTask, (signed char *)"radioTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY, &(data->radioTxTaskHandle));
 
 		// Register the watchdog timers.
 #ifdef PIOS_INCLUDE_WDG
@@ -142,7 +140,7 @@ static int32_t RadioComBridgeInitialize(void)
 {
 
 	// allocate and initialize the static data storage only if module is enabled
-	data = (RadioComBridgeData *)PIOS_malloc(sizeof(RadioComBridgeData));
+	data = (RadioComBridgeData *)pvPortMalloc(sizeof(RadioComBridgeData));
 	if (!data)
 		return -1;
 
@@ -156,7 +154,7 @@ static int32_t RadioComBridgeInitialize(void)
 	data->inUAVTalkCon = UAVTalkInitialize(&RadioSendHandler);
 
 	// Initialize the queues.
-	data->uavtalkEventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
+	data->uavtalkEventQueue = xQueueCreate(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 	// Configure our UAVObjects for updates.
 	UAVObjConnectQueue(UAVObjGetByID(OPLINKSTATUS_OBJID), data->uavtalkEventQueue, EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
@@ -184,7 +182,7 @@ static void telemetryTxTask(void *parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_TELEMETRY);
 #endif
 		// Wait for queue message
-		if (PIOS_Queue_Receive(data->uavtalkEventQueue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
+		if (xQueueReceive(data->uavtalkEventQueue, &ev, MAX_PORT_DELAY) == pdTRUE) {
 			if ((ev.event == EV_UPDATED) || (ev.event == EV_UPDATE_REQ))
 			{
 				// Send update (with retries)
@@ -406,13 +404,13 @@ static void ProcessInputStream(UAVTalkConnection connectionHandle, uint8_t rxbyt
  * \param[in] obj  The data pointer
  * \param[in] type The event type
  */
-static void queueEvent(struct pios_queue *queue, void *obj, uint16_t instId, UAVObjEventType type)
+static void queueEvent(xQueueHandle queue, void *obj, uint16_t instId, UAVObjEventType type)
 {
 	UAVObjEvent ev;
 	ev.obj = (UAVObjHandle)obj;
 	ev.instId = instId;
 	ev.event = type;
-	PIOS_Queue_Send(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX);
+	xQueueSend(queue, &ev, portMAX_DELAY);
 }
 
 /**
