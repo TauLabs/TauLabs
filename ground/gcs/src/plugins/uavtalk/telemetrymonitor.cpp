@@ -262,12 +262,15 @@ void TelemetryMonitor::retrieveNextObject()
         return;
     }
     // Get next object from the queue
-    UAVObject* obj = queue.dequeue();
+    sessionManagementQueryObj = queue.dequeue();
     // Connect to object
-    TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 requestiong %1 from board INSTID:%2").arg(Q_FUNC_INFO).arg(obj->getName()).arg(obj->getInstID()));
-    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(transactionCompleted(UAVObject*,bool)));
+    TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 requestiong %1 from board INSTID:%2").arg(Q_FUNC_INFO).
+                                  arg(sessionManagementQueryObj->getName()).
+                                  arg(sessionManagementQueryObj->getInstID()));
+    connect(sessionManagementQueryObj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(transactionCompleted(UAVObject*,bool)));
     // Request update
-    obj->requestUpdateAllInstances();
+    objectRetrieveTimeout->start();
+    sessionManagementQueryObj->requestUpdateAllInstances();
 }
 
 /**
@@ -410,7 +413,11 @@ void TelemetryMonitor::sessionObjUnpackedCB(UAVObject *obj)
 
 void TelemetryMonitor::objectRetrieveTimeoutCB()
 {
-    queue.empty();
+    TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 re-requestiong %1 from board INSTID:%2").
+                                  arg(Q_FUNC_INFO).arg(sessionManagementQueryObj->getName()).
+                                  arg(sessionManagementQueryObj->getInstID()));
+    sessionManagementQueryObj->requestUpdateAllInstances();
+
 }
 
 void TelemetryMonitor::sessionInitialRetrieveTimeoutCB()
