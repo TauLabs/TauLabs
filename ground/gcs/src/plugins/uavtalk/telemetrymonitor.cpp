@@ -258,21 +258,19 @@ void TelemetryMonitor::retrieveNextObject()
         emit connected();
         sessionRetrieveTimeout->stop();
         sessionInitialRetrieveTimeout->stop();
-        objectRetrieveTimeout->stop();
         return;
     }
     // Get next object from the queue
-    objRetriveObj = queue.dequeue();
+    UAVObject *obj = queue.dequeue();
     retries = 0;
 
     // Connect to object
     TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 requestiong %1 from board INSTID:%2").arg(Q_FUNC_INFO).
-                                  arg(sessionManagementQueryObj->getName()).
-                                  arg(sessionManagementQueryObj->getInstID()));
-    connect(sessionManagementQueryObj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(transactionCompleted(UAVObject*,bool)));
+                                  arg(obj->getName()).
+                                  arg(obj->getInstID()));
+    connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(transactionCompleted(UAVObject*,bool)));
     // Request update
-    objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
-    objRetriveObj->requestUpdateAllInstances();
+    obj->requestUpdateAllInstances();
 }
 
 /**
@@ -283,7 +281,6 @@ void TelemetryMonitor::transactionCompleted(UAVObject* obj, bool success)
     TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 received %1 OBJID:%2 result:%3").arg(Q_FUNC_INFO).arg(obj->getName()).arg(obj->getObjID()).arg(success));
     Q_UNUSED(success);
     QMutexLocker locker(mutex);
-    objectRetrieveTimeout->stop();
     if(obj->getObjID() == FirmwareIAPObj::OBJID)
     {
         if(!success && (retries < IAP_OBJECT_RETRIES))
@@ -305,7 +302,6 @@ void TelemetryMonitor::transactionCompleted(UAVObject* obj, bool success)
     {
         TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 connection lost while retrieving objects, stopped object retrievel").arg(Q_FUNC_INFO));
         queue.empty();
-        objectRetrieveTimeout->stop();
         sessionRetrieveTimeout->stop();
         sessionInitialRetrieveTimeout->stop();
         connectionStatus = CON_DISCONNECTED;
@@ -423,18 +419,6 @@ void TelemetryMonitor::objectRetrieveTimeoutCB()
     case CON_SESSION_INITIALIZING:
         objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
         startSessionRetrieving(sessionObj);
-        break;
-    case CON_RETRIEVING_OBJECTS:
-        if (retries < OBJECT_RETRIEVE_RETRIES) {
-            retries++;
-            TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 re-requestiong %1 from board INSTID:%2").
-                                          arg(Q_FUNC_INFO).arg(objRetriveObj->getName()).
-                                          arg(sessionManagementQueryObj->getInstID()));
-            objRetriveObj->requestUpdateAllInstances();
-        } else {
-            // Move on to the next object
-            retrieveNextObject();
-        }
         break;
     default:
         break;
