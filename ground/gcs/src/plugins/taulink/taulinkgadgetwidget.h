@@ -41,8 +41,13 @@ public:
     TauLinkGadgetWidget(QWidget *parent = 0);
     ~TauLinkGadgetWidget();
 
+private slots:
+    void updateStatus(UAVObject *object);
+
 private:
     Ui_TauLink *ui;
+    UAVObject *rfm22bStatusObj;
+
 };
 
 #endif /* TAULINKGADGETWIDGET_H_ */
