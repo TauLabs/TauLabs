@@ -26,7 +26,7 @@
  */
 
 #define GCS_REVISION ${TAG_OR_BRANCH}:${HASH8}${DIRTY} ${DATETIME}
-#define GCS_REVISION_GITHUB ${XKCD_TITLE}%@%${DATE}-${HASH8}
+#define GCS_REVISION_PRETTY ${XKCD_TITLE}%@%${DATE}-${HASH8}%@%${XKCD_NUM}
 #define UAVO_HASH "{ ${UAVOSHA1} }"
 /**
  * @}

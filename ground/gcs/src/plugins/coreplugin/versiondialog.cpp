@@ -43,7 +43,6 @@
 #include <QPushButton>
 #include <QTextBrowser>
 #include <QApplication>
-#include <QDesktopServices>
 
 using namespace Core;
 using namespace Core::Internal;
@@ -79,9 +78,11 @@ VersionDialog::VersionDialog(QWidget *parent)
     layout->setSizeConstraint(QLayout::SetFixedSize);
     QString versionName;
     QString versionData;
-#ifdef GCS_REVISION_GITHUB
-    versionData = QLatin1String(GCS_REVISION_GITHUB_STR);
+    QString xkcdLink;
+#ifdef GCS_REVISION_PRETTY
+    versionData = QLatin1String(GCS_REVISION_PRETTY_STR);
     versionName = versionData.split("%@%").at(0);
+    xkcdLink    = versionData.split("%@%").at(2);
     versionData = versionData.split("%@%").at(1);
 #endif
 
@@ -110,9 +111,9 @@ VersionDialog::VersionDialog(QWidget *parent)
      }
      uavoHashStr = tr("UAVO hash %1<br/>").arg(gcsUavoHashStr.left(8));
  #endif
-     const QString version_name = tr("<h2><center><i>%1<i/><center/></h2>"
+     const QString version_name = tr("<h2><center><a href=\"http://xkcd.com/%0\">%1</a><center/></h2>"
                                      "<h3><center>Tau Labs GCS<center></h3>"
-                                     "</h3><center>%2<center></h3>").arg(versionName, versionData);
+                                     "</h3><center>%2<center></h3>").arg(xkcdLink,versionName, versionData);
      const QString version_description = tr(
         "Based on Qt %1 (%2 bit)<br/>"
         "<br/>"
@@ -135,6 +136,7 @@ VersionDialog::VersionDialog(QWidget *parent)
          "it under the terms of the GNU General Public License as published by<br/>"
          "the Free Software Foundation; either version 3 of the License, or<br/>"
          "(at your option) any later version.<br/><br/>"
+         "GCS title credits go to <a href=\"http://www.xkcd.com\">xkcd.com</a> <br/><br/>"
         "The program is provided AS IS with NO WARRANTY OF ANY KIND, "
         "INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A "
         "PARTICULAR PURPOSE.</small><br/>").arg(QLatin1String(GCS_YEAR), (QLatin1String(GCS_AUTHOR)));
@@ -156,38 +158,15 @@ VersionDialog::VersionDialog(QWidget *parent)
 
     QLabel *logoLabel = new QLabel;
     logoLabel->setPixmap(QPixmap(QLatin1String(":/core/images/taulabs_logo_128.png")));
-    ClickableLabel *xkcd = new ClickableLabel;
-    xkcd->setPixmap(QPixmap(QApplication::applicationDirPath()+"/../share/taulabs/xkcd.png"));
-    if(!xkcd->pixmap()->isNull())
-        copyright.prepend(tr("Above image and GCS title credits go to <a href=\"http://www.xkcd.com\">xkcd.com</a> <br/><br/>"));
 
-    connect(xkcd, SIGNAL(clicked()), this, SLOT(goToXKCD()));
     QLabel *copyRightLabel = new QLabel(copyright);
     copyRightLabel->setWordWrap(true);
     copyRightLabel->setOpenExternalLinks(true);
     copyRightLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
 
-    if (xkcd->pixmap()->width() > xkcd->pixmap()->height())
-    {
-        layout->addWidget(versionNameLabel , 0, 0, 1, 2);
-        layout->addWidget(logoLabel , 1, 1, 1, 1);
-        layout->addWidget(versionDescription , 1, 0, 1, 1);
-        layout->addWidget(xkcd, 2, 0, 1, 2);
-        layout->addWidget(copyRightLabel, 3, 0, 1, 2);
-        layout->addWidget(buttonBox, 5, 0, 1, 2);
-    }
-    else
-    {
-        layout->addWidget(versionNameLabel , 0, 0, 1, 3);
-        layout->addWidget(logoLabel , 1, 2, 1, 1);
-        layout->addWidget(versionDescription , 1, 1, 1, 1);
-        layout->addWidget(xkcd, 1, 0, 2, 1);
-        layout->addWidget(copyRightLabel, 2, 1, 1, 2);
-        layout->addWidget(buttonBox, 4, 0, 1, 3);
-    }
-}
-
-void VersionDialog::goToXKCD()
-{
-    QDesktopServices::openUrl(QUrl("http://xkcd.com"));
+    layout->addWidget(versionNameLabel , 0, 0, 1, 2);
+    layout->addWidget(logoLabel , 1, 1, 1, 1);
+    layout->addWidget(versionDescription , 1, 0, 1, 1);
+    layout->addWidget(copyRightLabel, 3, 0, 1, 2);
+    layout->addWidget(buttonBox, 5, 0, 1, 2);
 }

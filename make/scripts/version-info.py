@@ -323,24 +323,6 @@ def download_xkcd_json():
     return get("http://xkcd.com/info.0.json").json()
   except:
     return None
-
-def download_xkcd_image(target_file):
-  if not (module_exists('requests')) or not (module_exists('json')):
-      return
-    
-  from requests import get
-  from json import loads
-  info = download_xkcd_json()
-  if not info:
-    return
-  title, alt, num = info['safe_title'], info['alt'], str(info['num'])
-  image = num+search("\.([a-z])+$", info['img']).group()
-  with open(target_file, 'wb') as image_file:
-    req = get(info['img'], stream=True)
-    for block in req.iter_content(1024):
-      if block:
-	image_file.write(block)
-	image_file.flush()
 		    
 def main():
     """This utility uses git repository in the current working directory
@@ -402,8 +384,6 @@ string given.
 			help='board revision, for example, 0x01');
     parser.add_option('--uavodir', default = "",
 			help='uav object definition directory');
-    parser.add_option('--xkcdpicfile', default = "",
-			help='name of the xkcd comic image file');
     (args, positional_args) = parser.parse_args()
 
     # Process arguments.  No advanced error handling is here.
@@ -431,6 +411,7 @@ string given.
 	UAVOSHA1TXT = GetHashofDirs(args.uavodir,verbose=0,raw=1),
 	UAVOSHA1 = GetHashofDirs(args.uavodir,verbose=0,raw=0),
 	XKCD_TITLE = xkcd['safe_title'],
+	XKCD_NUM = xkcd['num'],
     )
 
     # Process positional arguments in the form of:
@@ -447,9 +428,6 @@ string given.
 
     if args.outfile != None:
 	file_from_template(args.template, args.outfile, dictionary)
-	
-    if args.xkcdpicfile != None:
-	download_xkcd_image(args.xkcdpicfile)
 
     return 0
 

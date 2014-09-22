@@ -60,10 +60,10 @@ const char * const UAVOSHA1_STR          = STRINGIFY(UAVO_HASH);
 const char * const GCS_REVISION_STR      = "";
 const char * const UAVOSHA1_STR          = "";
 #endif
-#ifdef GCS_REVISION_GITHUB
-const char * const GCS_REVISION_GITHUB_STR      = STRINGIFY(GCS_REVISION_GITHUB);
+#ifdef GCS_REVISION_PRETTY
+const char * const GCS_REVISION_PRETTY_STR      = STRINGIFY(GCS_REVISION_PRETTY);
 #else
-const char * const GCS_REVISION_GITHUB_STR      = "";
+const char * const GCS_REVISION_PRETTY_STR      = "";
 #endif
 
 #undef GCS_VERSION
