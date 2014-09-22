@@ -146,6 +146,9 @@ signals:
     void calibrationCompleted();
 
 private:
+    //! Helper function to set a QMap of metadata
+    void setMetadata(QMap<QString, UAVObject::Metadata> metaList);
+
     //! Slow all the other data updates
     void slowDataUpdates();
 

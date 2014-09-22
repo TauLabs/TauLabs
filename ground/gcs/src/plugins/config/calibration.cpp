@@ -1736,3 +1736,16 @@ int Calibration::SixPointInConstFieldCal( double ConstMag, double x[6], double y
 
     return 1;
 }
+
+void Calibration::setMetadata(QMap<QString, UAVObject::Metadata> metaList)
+{
+    QEventLoop loop;
+    QTimer::singleShot(META_OPERATIONS_TIMEOUT, &loop, SLOT(quit()));
+    connect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), &loop, SLOT(quit()));
+    // Show the UI is blocking
+    emit calibrationBusy(true);
+    // Set new metadata
+    getObjectUtilManager()->setAllNonSettingsMetadata(metaList);
+    loop.exec();
+    emit calibrationBusy(false);
+}
