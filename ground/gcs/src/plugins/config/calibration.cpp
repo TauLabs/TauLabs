@@ -182,10 +182,10 @@ void Calibration::assignUpdateRate(UAVObject* obj, quint32 updatePeriod)
     QTimer::singleShot(15000, &loop, SLOT(quit()));
     connect(dobj->getMetaObject(), SIGNAL(transactionCompleted(UAVObject*,bool)), &loop, SLOT(quit()));
     // Show the UI is blocking
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    emit calibrationBusy(true);
     obj->setMetadata(mdata);
-    QApplication::restoreOverrideCursor();
     loop.exec();
+    emit calibrationBusy(false);
 }
 
 /**
@@ -204,10 +204,10 @@ void Calibration::slowUpdateRate(UAVObject* obj)
     QTimer::singleShot(15000, &loop, SLOT(quit()));
     connect(dobj->getMetaObject(), SIGNAL(transactionCompleted(UAVObject*,bool)), &loop, SLOT(quit()));
     // Show the UI is blocking
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    emit calibrationBusy(true);
     obj->setMetadata(mdata);
-    QApplication::restoreOverrideCursor();
     loop.exec();
+    emit calibrationBusy(false);
 }
 
 

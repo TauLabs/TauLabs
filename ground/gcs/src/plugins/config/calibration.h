@@ -109,6 +109,8 @@ public slots:
     void setTempCalRange(int r);
 
 signals:
+    //! Indicate whether the calibration is busy
+    void calibrationBusy(bool busy);
     //! Indicate whether to enable or disable controls
     void toggleControls(bool enable);
 
