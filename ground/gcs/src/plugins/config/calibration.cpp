@@ -188,8 +188,6 @@ void Calibration::assignUpdateRate(UAVObject* obj, quint32 updatePeriod)
     loop.exec();
 }
 
-    // Update QMap value
-    metaDataList.insert(obj->getName(), mdata);
 /**
  * @brief Calibration::slowUpdateRate Slows down the update rate to NON_SENSOR_UPDATE_PERIOD
  * @param obj UAVObject to slow down
@@ -510,29 +508,9 @@ void Calibration::doStartOrientation() {
 
     calibration_state = YAW_ORIENTATION;
 
-    // Save previous sensor states
-    originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
-
-    // Set all UAVObject rates to update slowly
-    UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
-    foreach (QVector<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            if(!obj->isSettings()) {
-                UAVObject::Metadata mdata = obj->getMetadata();
-                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-
-                mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
-                metaDataList.insert(obj->getName(), mdata);
-            }
-        }
-    }
-
-    // Connect to the sensor updates and set higher rates
+    // Update sensor rates
+    slowDataUpdates();
     connectSensor(ACCEL, true);
-
-    // Set new metadata
-    getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
 
     emit toggleControls(false);
     emit showYawOrientationMessage(tr("Pitch vehicle forward approximately 30 degrees. Ensure it absolutely does not roll"));
@@ -579,30 +557,10 @@ void Calibration::doStartLeveling() {
 
     calibration_state = LEVELING;
 
-    // Save previous sensor states
-    originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
-
-    // Set all UAVObject rates to update slowly
-    UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
-    foreach (QVector<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            if(!obj->isSettings()) {
-                UAVObject::Metadata mdata = obj->getMetadata();
-                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-
-                mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
-                metaDataList.insert(obj->getName(), mdata);
-            }
-        }
-    }
-
     // Connect to the sensor updates and set higher rates
+    slowDataUpdates();
     connectSensor(ACCEL, true);
     connectSensor(GYRO, true);
-
-    // Set new metadata
-    getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
 
     emit toggleControls(false);
     emit showLevelingMessage(tr("Leave vehicle flat"));
@@ -692,23 +650,8 @@ void Calibration::doStartSixPoint()
     // TODO: Document why the thread needs to wait 100ms.
     Thread::usleep(100000);
 
-    // Save previous sensor states
-    originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
+    slowDataUpdates();
 
-    // Make all UAVObject rates update slowly
-    UAVObjectManager *objManager = getObjectManager();
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
-    foreach (QVector<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            if(!obj->isSettings()) {
-                UAVObject::Metadata mdata = obj->getMetadata();
-                UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-
-                mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
-                metaDataList.insert(obj->getName(), mdata);
-            }
-        }
-    }
 
     // Connect sensors and set higher update rate
     if (calibrateAccels)
@@ -717,7 +660,6 @@ void Calibration::doStartSixPoint()
         connectSensor(MAG, true);
 
     // Set new metadata
-    getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
 
     // Show UI parts and update the calibration state
     emit showSixPointMessage(tr("Place horizontally and click save position..."));
@@ -833,14 +775,9 @@ void Calibration::doStartTempCal()
 
     calibration_state = GYRO_TEMP_CAL;
 
-    // Save previous sensor states
-    originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
-
-    // Connect to the sensor updates and speed them up
+    // Set up the data rates
+    slowDataUpdates();
     connectSensor(GYRO, true);
-
-    // Set new metadata
-    getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
 
     emit toggleControls(false);
     emit showTempCalMessage(tr("Leave board flat and very still while it changes temperature"));
