@@ -53,6 +53,8 @@
 #include <Eigen/QR>
 #include <cstdlib>
 
+#define META_OPERATIONS_TIMEOUT 5000
+
 class Thread : public QThread
 {
 public:
@@ -179,7 +181,7 @@ void Calibration::assignUpdateRate(UAVObject* obj, quint32 updatePeriod)
     UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
     mdata.flightTelemetryUpdatePeriod = updatePeriod;
     QEventLoop loop;
-    QTimer::singleShot(15000, &loop, SLOT(quit()));
+    QTimer::singleShot(META_OPERATIONS_TIMEOUT, &loop, SLOT(quit()));
     connect(dobj->getMetaObject(), SIGNAL(transactionCompleted(UAVObject*,bool)), &loop, SLOT(quit()));
     // Show the UI is blocking
     emit calibrationBusy(true);
@@ -201,7 +203,7 @@ void Calibration::slowUpdateRate(UAVObject* obj)
     UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
     mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
     QEventLoop loop;
-    QTimer::singleShot(15000, &loop, SLOT(quit()));
+    QTimer::singleShot(META_OPERATIONS_TIMEOUT, &loop, SLOT(quit()));
     connect(dobj->getMetaObject(), SIGNAL(transactionCompleted(UAVObject*,bool)), &loop, SLOT(quit()));
     // Show the UI is blocking
     emit calibrationBusy(true);
