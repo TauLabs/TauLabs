@@ -173,13 +173,20 @@ void Calibration::connectSensor(sensor_type sensor, bool con)
  */
 void Calibration::assignUpdateRate(UAVObject* obj, quint32 updatePeriod)
 {
-    // Fetch value from QMap
-    UAVObject::Metadata mdata = metaDataList.value(obj->getName());
-
-    // Fetch value from QMap, and change settings
-    mdata = metaDataList.value(obj->getName());
+    UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
+    Q_ASSERT(dobj);
+    UAVObject::Metadata mdata = obj->getMetadata();
     UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
     mdata.flightTelemetryUpdatePeriod = updatePeriod;
+    QEventLoop loop;
+    QTimer::singleShot(15000, &loop, SLOT(quit()));
+    connect(dobj->getMetaObject(), SIGNAL(transactionCompleted(UAVObject*,bool)), &loop, SLOT(quit()));
+    // Show the UI is blocking
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    obj->setMetadata(mdata);
+    QApplication::restoreOverrideCursor();
+    loop.exec();
+}
 
     // Update QMap value
     metaDataList.insert(obj->getName(), mdata);
