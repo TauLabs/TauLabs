@@ -2176,6 +2176,9 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 			rfm22_synchronizeClock(radio_dev);
 			radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
 			radio_dev->on_sync_channel = false;
+		} else if (rfm22_isCoordinator(radio_dev) && radio_dev->rx_destination_id == radio_dev->deviceID) {
+			// If we are coordinator and receive a packet addressed to this modem
+			radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
 		}
 	} else {
 		ret_event = RADIO_EVENT_RX_COMPLETE;
