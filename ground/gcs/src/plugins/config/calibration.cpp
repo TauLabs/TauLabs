@@ -34,6 +34,9 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QThread>
+#include <QTimer>
+#include <QEventLoop>
+#include <QApplication>
 
 #include "accels.h"
 #include "attitudesettings.h"
@@ -42,6 +45,7 @@
 #include "magnetometer.h"
 #include "sensorsettings.h"
 #include "trimanglessettings.h"
+#include "flighttelemetrystats.h"
 
 #include <Eigen/Core>
 #include <Eigen/Cholesky>
@@ -200,6 +204,36 @@ void Calibration::slowUpdateRate(UAVObject* obj)
     QApplication::restoreOverrideCursor();
     loop.exec();
 }
+
+
+//! Slow all the other data updates
+void Calibration::slowDataUpdates()
+{
+    // Save previous sensor states
+    originalMetaData = getObjectUtilManager()->readAllNonSettingsMetadata();
+    foreach (QString key, originalMetaData.keys()) {
+        UAVObject *obj = getObjectManager()->getObject(key);
+        Q_ASSERT(obj);
+        UAVObject::Metadata mdata = obj->getMetadata();
+        UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
+        mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
+        slowedDownMetaDataList.insert(key, mdata);
+    }
+    slowedDownMetaDataList.remove(FlightTelemetryStats::NAME);
+    // Wait up to 15 seconds to set all the meta data
+    QEventLoop loop;
+    QTimer::singleShot(15000, &loop, SLOT(quit()));
+    connect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), &loop, SLOT(quit()));
+
+    // Show the UI is blocking
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    // Set new metadata
+    getObjectUtilManager()->setAllNonSettingsMetadata(slowedDownMetaDataList);
+
+    QApplication::restoreOverrideCursor();
+
+    loop.exec();
 }
 
 /**

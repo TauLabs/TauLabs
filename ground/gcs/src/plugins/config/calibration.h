@@ -146,6 +146,9 @@ signals:
     void calibrationCompleted();
 
 private:
+    //! Slow all the other data updates
+    void slowDataUpdates();
+
     //! Perform the leveling calculation
     void doStartLeveling();
 
@@ -180,7 +183,7 @@ private:
     QMap<QString, UAVObject::Metadata> originalMetaData;
 
     //! List of optimized metadata rates
-    QMap<QString, UAVObject::Metadata> metaDataList;
+    QMap<QString, UAVObject::Metadata> slowedDownMetaDataList;
 
     QList<double> gyro_accum_x;
     QList<double> gyro_accum_y;
