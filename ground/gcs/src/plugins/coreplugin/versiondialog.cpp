@@ -89,7 +89,8 @@ VersionDialog::VersionDialog(QWidget *parent)
     QString ideRev;
 #ifdef GCS_REVISION
      //: This gets conditionally inserted as argument %8 into the description string.
-     ideRev = tr("From revision %1<br/>").arg(QString::fromLatin1(GCS_REVISION_STR).split(":").at(1).left(60));
+     QString revision = QString::fromLatin1(GCS_REVISION_STR).remove(0, (QString::fromLatin1(GCS_REVISION_STR).indexOf(":")));
+     ideRev = tr("From revision %1<br/>").arg(revision);
 #endif
      QString uavoHashStr;
  #ifdef UAVO_HASH
