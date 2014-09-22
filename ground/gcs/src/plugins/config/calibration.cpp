@@ -510,6 +510,8 @@ void Calibration::doStartOrientation() {
 
     // Update sensor rates
     slowDataUpdates();
+    connectSensor(GYRO, false);
+    connectSensor(MAG, false);
     connectSensor(ACCEL, true);
 
     emit toggleControls(false);
@@ -559,6 +561,7 @@ void Calibration::doStartLeveling() {
 
     // Connect to the sensor updates and set higher rates
     slowDataUpdates();
+    connectSensor(MAG, false);
     connectSensor(ACCEL, true);
     connectSensor(GYRO, true);
 
@@ -652,6 +655,9 @@ void Calibration::doStartSixPoint()
 
     slowDataUpdates();
 
+    connectSensor(ACCEL, false);
+    connectSensor(GYRO, false);
+    connectSensor(MAG, false);
 
     // Connect sensors and set higher update rate
     if (calibrateAccels)
