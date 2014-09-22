@@ -94,12 +94,9 @@ private:
     UAVObjectManager *obm;
     UAVObjectUtilManager *obum;
     QMap<UAVDataObject*, UAVObject::Metadata> metadataSendlist;
-    QTimer metadataSendTimeout;
     bool metadataSendSuccess;
-    int metadataSendRetries;
     QErrorMessage *incompatibleMsg;
 private slots:
-    void onMetadataSendTimeout();
     void objectPersistenceTransactionCompleted(UAVObject* obj, bool success);
     void objectPersistenceUpdated(UAVObject * obj);
     void objectPersistenceOperationFailed();
