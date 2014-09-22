@@ -225,20 +225,8 @@ void Calibration::slowDataUpdates()
         slowedDownMetaDataList.insert(key, mdata);
     }
     slowedDownMetaDataList.remove(FlightTelemetryStats::NAME);
-    // Wait up to 15 seconds to set all the meta data
-    QEventLoop loop;
-    QTimer::singleShot(15000, &loop, SLOT(quit()));
-    connect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), &loop, SLOT(quit()));
-
-    // Show the UI is blocking
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-
     // Set new metadata
-    getObjectUtilManager()->setAllNonSettingsMetadata(slowedDownMetaDataList);
-
-    QApplication::restoreOverrideCursor();
-
-    loop.exec();
+    setMetadata(slowedDownMetaDataList);
 }
 
 /**
@@ -271,7 +259,7 @@ void Calibration::dataUpdated(UAVObject * obj) {
         if(storeYawOrientationMeasurement(obj)) {
             //Disconnect sensors and reset metadata
             connectSensor(ACCEL, false);
-            getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
+            setMetadata(originalMetaData);
 
             calibration_state = IDLE;
 
@@ -288,7 +276,7 @@ void Calibration::dataUpdated(UAVObject * obj) {
             //Disconnect sensors and reset metadata
             connectSensor(GYRO, false);
             connectSensor(ACCEL, false);
-            getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
+            setMetadata(originalMetaData);
 
             calibration_state = IDLE;
 
@@ -361,7 +349,7 @@ void Calibration::dataUpdated(UAVObject * obj) {
                 connectSensor(ACCEL, false);
             if (calibrateMags)
                 connectSensor(MAG, false);
-            getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
+            setMetadata(originalMetaData);
 
             calibration_state = IDLE;
             emit toggleControls(true);
@@ -411,7 +399,7 @@ void Calibration::dataUpdated(UAVObject * obj) {
             // Disconnect and reset data and metadata
             connectSensor(GYRO, false);
             resetSensorCalibrationToOriginalValues();
-            getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
+            setMetadata(originalMetaData);
 
             calibration_state = IDLE;
             emit toggleControls(true);
@@ -434,7 +422,7 @@ void Calibration::dataUpdated(UAVObject * obj) {
 void Calibration::timeout()
 {
     // Reset metadata update rates
-    getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
+    setMetadata(originalMetaData);
 
     switch(calibration_state) {
     case IDLE:
@@ -689,7 +677,7 @@ void Calibration::doCancelSixPoint(){
     if(calibrateMags)
         connectSensor(MAG, false);
 
-    getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
+    setMetadata(originalMetaData);
 
     calibration_state = IDLE;
     emit toggleControls(true);
@@ -804,7 +792,7 @@ void Calibration::doAcceptTempCal()
         qDebug() << "Accepting";
         // Disconnect sensor and reset UAVO update rates
         connectSensor(GYRO, false);
-        getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
+        setMetadata(originalMetaData);
 
         calibration_state = IDLE;
         emit showTempCalMessage(tr("Temperature calibration accepted"));
@@ -827,7 +815,7 @@ void Calibration::doCancelTempCalPoint()
         qDebug() << "Canceling";
         // Disconnect sensor and reset UAVO update rates
         connectSensor(GYRO, false);
-        getObjectUtilManager()->setAllNonSettingsMetadata(originalMetaData);
+        setMetadata(originalMetaData);
 
         // Reenable gyro bias correction
         AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
@@ -859,7 +847,6 @@ void Calibration::setTempCalRange(int r)
 {
     MIN_TEMPERATURE_RANGE = r;
 }
-
 
 /**
  * @brief Calibration::storeYawOrientationMeasurement Store an accelerometer
