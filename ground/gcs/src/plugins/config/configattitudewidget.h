@@ -85,6 +85,7 @@ private slots:
     // Slots for measuring the sensor noise
     void do_SetDirty();
     void configureSixPoint();
+    void onCalibrationBusy(bool busy);
 
 };
 

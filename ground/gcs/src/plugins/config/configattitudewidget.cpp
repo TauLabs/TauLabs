@@ -167,6 +167,9 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     // Let the calibration gadget mark the tab as dirty, i.e. having unsaved data.
     connect(&calibration, SIGNAL(calibrationCompleted()), this, SLOT(do_SetDirty()));
 
+    // Let the calibration class mark the widget as busy
+    connect(&calibration, SIGNAL(calibrationBusy(bool)), this, SLOT(onCalibrationBusy(bool)));
+
     m_ui->sixPointStart->setEnabled(true);
     m_ui->yawOrientationStart->setEnabled(true);
     m_ui->levelingStart->setEnabled(true);
@@ -255,6 +258,15 @@ void ConfigAttitudeWidget::configureSixPoint()
         m_ui->cbCalibrateMags->setChecked(true && board_has_magnetometer);
     }
     calibration.initialize(m_ui->cbCalibrateAccels->isChecked(), m_ui->cbCalibrateMags->isChecked());
+}
+
+void ConfigAttitudeWidget::onCalibrationBusy(bool busy)
+{
+    // Show the UI is blocking
+    if (busy)
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+    else
+        QApplication::restoreOverrideCursor();
 }
 
 
