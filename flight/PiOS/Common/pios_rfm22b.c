@@ -2142,11 +2142,10 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 						 *radio_dev, uint8_t * p,
 						 uint16_t rx_len)
 {
-	bool good_packet = true;
+	bool good_packet = false;
 	bool corrected_packet = false;
 	uint8_t data_len = rx_len;
 
-	// We don't rsencode ppm only packets.
 	if (!radio_dev->ppm_only_mode) {
 		data_len -= RS_ECC_NPARITY;
 
@@ -2156,20 +2155,21 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 			good_packet = check_syndrome() == 0;
 
 			// We have an error.  Try to correct it.
-			if (!good_packet
-			    &&
-			    (correct_errors_erasures
-			     ((unsigned char *)p, rx_len, 0, 0) != 0)) {
+			if (!good_packet &&
+			    (correct_errors_erasures((unsigned char *)p, rx_len, 0, 0) != 0)) {
 				// We corrected it
 				corrected_packet = true;
 			}
 		}
+	} else {
+		// We don't rsencode ppm only packets.
+		good_packet = true;
 	}
-	// Should we pull PPM data off of the head of the packet?
+
+	uint8_t ppm_len = RFM22B_PPM_NUM_CHANNELS + (radio_dev->ppm_only_mode ? 2 : 1);
+
+	// Parse PPM data from the packet when expecting it
 	if ((good_packet || corrected_packet) && radio_dev->ppm_recv_mode) {
-		uint8_t ppm_len =
-		    RFM22B_PPM_NUM_CHANNELS +
-		    (radio_dev->ppm_only_mode ? 2 : 1);
 
 #if defined(PIOS_LED_LINK)
 	    // if we have a link LED and are expecting PPM, that is the most
@@ -2181,12 +2181,11 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 		if (data_len < ppm_len) {
 			good_packet = false;
 		}
+
 		// Verify the CRC if this is a PPM only packet.
-		if ((good_packet || corrected_packet)
-		    && radio_dev->ppm_only_mode) {
+		if (good_packet && radio_dev->ppm_only_mode) {
 			uint8_t crc = 0;
-			for (uint8_t i = 0;
-			     i < RFM22B_PPM_NUM_CHANNELS + 1; ++i) {
+			for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS + 1; ++i) {
 				crc = PIOS_CRC_updateByte(crc, p[i]);
 			}
 			if (p[RFM22B_PPM_NUM_CHANNELS + 1] != crc) {
@@ -2195,18 +2194,14 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 			}
 		}
 
-		if (good_packet || corrected_packet) {
-			for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS;
-			     ++i) {
+		if (good_packet) {
+			for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS; ++i) {
 				// Is this a valid channel?
 				if (p[0] & (1 << i)) {
 					uint32_t val = p[i + 1];
-					radio_dev->ppm[i] =
-					    (uint16_t) (1000 +
-							val * 900 / 256);
+					radio_dev->ppm[i] = (uint16_t) (1000 + val * 900 / 256);
 				} else {
-					radio_dev->ppm[i] =
-					    PIOS_RCVR_INVALID;
+					radio_dev->ppm[i] = PIOS_RCVR_INVALID;
 				}
 			}
 
@@ -2221,6 +2216,7 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 			}
 		}
 	}
+
 	// Set the packet status
 	if (good_packet) {
 		rfm22b_add_rx_status(radio_dev, RADIO_GOOD_RX_PACKET);
@@ -2236,20 +2232,17 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 	if (good_packet || corrected_packet) {
 		// Send the data to the com port
 		bool rx_need_yield;
-		if (radio_dev->rx_in_cb && (data_len > 0)
-		    && !radio_dev->ppm_only_mode) {
-			(radio_dev->rx_in_cb) (radio_dev->rx_in_context, p,
-					       data_len, NULL,
-					       &rx_need_yield);
+		if (radio_dev->rx_in_cb && (data_len > 0) && !radio_dev->ppm_only_mode) {
+			(radio_dev->rx_in_cb) (radio_dev->rx_in_context, p, data_len, NULL, &rx_need_yield);
 		}
+
 		// We only synchronize the clock on packets from our coordinator on the sync channel.
-		if (!rfm22_isCoordinator(radio_dev)
-		    && (radio_dev->rx_destination_id ==
-			rfm22_destinationID(radio_dev))
-		    && (radio_dev->channel_index == 0)) {
+		if (!rfm22_isCoordinator(radio_dev) && 
+			  radio_dev->rx_destination_id == rfm22_destinationID(radio_dev) &&
+		      radio_dev->channel_index == 0) {
+			
 			rfm22_synchronizeClock(radio_dev);
-			radio_dev->stats.link_state =
-			    RFM22BSTATUS_LINKSTATE_CONNECTED;
+			radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
 			radio_dev->on_sync_channel = false;
 		}
 	} else {
