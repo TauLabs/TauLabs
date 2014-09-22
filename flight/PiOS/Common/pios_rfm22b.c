@@ -102,8 +102,8 @@
 #include "semphr.h"
 
 /* Local Defines */
-#define STACK_SIZE_BYTES                 200
-#define TASK_PRIORITY                    (tskIDLE_PRIORITY + 4)	// flight control relevant device driver (ppm link)
+#define STACK_SIZE_BYTES                 800
+#define TASK_PRIORITY                    PIOS_THREAD_PRIO_HIGHEST	// flight control relevant device driver (ppm link)
 #define ISR_TIMEOUT                      1	// ms
 #define EVENT_QUEUE_SIZE                 5
 #define RFM22B_DEFAULT_RX_DATARATE       RFM22_datarate_9600
@@ -236,14 +236,14 @@ static bool rfm22_isCoordinator(struct pios_rfm22b_dev *rfm22b_dev);
 static uint32_t rfm22_destinationID(struct pios_rfm22b_dev *rfm22b_dev);
 static bool rfm22_timeToSend(struct pios_rfm22b_dev *rfm22b_dev);
 static void rfm22_synchronizeClock(struct pios_rfm22b_dev *rfm22b_dev);
-static portTickType rfm22_coordinatorTime(struct pios_rfm22b_dev *rfm22b_dev, portTickType ticks);
+static uint32_t rfm22_coordinatorTime(struct pios_rfm22b_dev *rfm22b_dev, uint32_t ticks);
 static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev, uint8_t index);
 static uint8_t rfm22_calcChannelFromClock(struct pios_rfm22b_dev *rfm22b_dev);
 static bool rfm22_changeChannel(struct pios_rfm22b_dev *rfm22b_dev);
 static void rfm22_clearLEDs();
 
 // Utility functions.
-static uint32_t pios_rfm22_time_difference_ms(portTickType start_time, portTickType end_time);
+static uint32_t pios_rfm22_time_difference_ms(uint32_t start_time, uint32_t end_time);
 static struct pios_rfm22b_dev *pios_rfm22_alloc(void);
 
 // SPI read/write functions
@@ -539,10 +539,7 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 	pios_rfm22_inject_event(rfm22b_dev, RADIO_EVENT_INITIALIZE, false);
 
 	// Start the driver task.  This task controls the radio state machine and removed all of the IO from the IRQ handler.
-	xTaskCreate(pios_rfm22_task,
-		    (const signed char *)"PIOS_RFM22B_Task",
-		    STACK_SIZE_BYTES, (void *)rfm22b_dev, TASK_PRIORITY,
-		    &(rfm22b_dev->taskHandle));
+	rfm22b_dev->taskHandle = PIOS_Thread_Create(pios_rfm22_task, "PIOS_RFM22B_Task", STACK_SIZE_BYTES, (void *)rfm22b_dev, TASK_PRIORITY);
 
 	return 0;
 }
@@ -1331,7 +1328,7 @@ static void pios_rfm22_task(void *parameters)
 	if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
 		return;
 	}
-	portTickType lastEventTicks = xTaskGetTickCount();
+	uint32_t lastEventTicks = PIOS_Thread_Systime();
 
 	while (1) {
 #if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
@@ -1361,7 +1358,7 @@ static void pios_rfm22_task(void *parameters)
 			}
 		} else {
 			// Has it been too long since the last event?
-			portTickType curTicks = xTaskGetTickCount();
+			uint32_t curTicks = PIOS_Thread_Systime();
 			if (pios_rfm22_time_difference_ms
 			    (lastEventTicks,
 			     curTicks) > PIOS_RFM22B_SUPERVISOR_TIMEOUT) {
@@ -1386,7 +1383,7 @@ static void pios_rfm22_task(void *parameters)
 					    RADIO_EVENT_RX_MODE);
 		}
 
-		portTickType curTicks = xTaskGetTickCount();
+		uint32_t curTicks = PIOS_Thread_Systime();
 		// Have we been sending / receiving this packet too long?
 
 		if ((rfm22b_dev->packet_start_ticks > 0) &&
@@ -2472,7 +2469,7 @@ uint32_t rfm22_destinationID(struct pios_rfm22b_dev * rfm22b_dev)
  */
 static void rfm22_synchronizeClock(struct pios_rfm22b_dev *rfm22b_dev)
 {
-	portTickType start_time = rfm22b_dev->packet_start_ticks;
+	uint32_t start_time = rfm22b_dev->packet_start_ticks;
 
 	// This packet was transmitted on channel 0, calculate the time delta that will force us to transmit on channel 0 at the time this packet started.
 	uint8_t num_chan = num_channels[rfm22b_dev->datarate];
@@ -2494,8 +2491,8 @@ static void rfm22_synchronizeClock(struct pios_rfm22b_dev *rfm22b_dev)
  *
  * @param[in] rfm22b_dev  The device structure
  */
-static portTickType rfm22_coordinatorTime(struct pios_rfm22b_dev
-					  *rfm22b_dev, portTickType ticks)
+static uint32_t rfm22_coordinatorTime(struct pios_rfm22b_dev
+					  *rfm22b_dev, uint32_t ticks)
 {
 	if (rfm22_isCoordinator(rfm22b_dev)) {
 		return ticks;
@@ -2510,8 +2507,7 @@ static portTickType rfm22_coordinatorTime(struct pios_rfm22b_dev
  */
 static bool rfm22_timeToSend(struct pios_rfm22b_dev *rfm22b_dev)
 {
-	portTickType time =
-	    rfm22_coordinatorTime(rfm22b_dev, xTaskGetTickCount());
+	uint32_t time = rfm22_coordinatorTime(rfm22b_dev, xTaskGetTickCount());
 	bool is_coordinator = rfm22_isCoordinator(rfm22b_dev);
 
 	// If this is a one-way link, only the coordinator can send.
@@ -2587,8 +2583,7 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev,
 static uint8_t rfm22_calcChannelFromClock(struct pios_rfm22b_dev
 					  *rfm22b_dev)
 {
-	portTickType time =
-	    rfm22_coordinatorTime(rfm22b_dev, xTaskGetTickCount());
+	uint32_t time = rfm22_coordinatorTime(rfm22b_dev, xTaskGetTickCount());
 	// Divide time into 8ms blocks.  Coordinator sends in first 2 ms, and remote send in 5th and 6th ms.
 	// Channel changes occur in the last 2 ms.
 	uint8_t num_chan = num_channels[rfm22b_dev->datarate];
@@ -2707,18 +2702,12 @@ static enum pios_radio_event rfm22_fatal_error( __attribute__ ((unused))
  * Calculate the time difference between the start time and end time.
  * Times are in ticks.  Also handles rollover.
  *
- * @param[in] start_time  The start time in ticks.
- * @param[in] end_time  The end time in ticks.
+ * @param[in] start_time  The start time in ms.
+ * @param[in] end_time  The end time in ms.
  */
-static uint32_t pios_rfm22_time_difference_ms(portTickType start_time,
-					      portTickType end_time)
+static uint32_t pios_rfm22_time_difference_ms(uint32_t start_time, uint32_t end_time)
 {
-	if (end_time >= start_time) {
-		return (end_time - start_time) * portTICK_RATE_MS;
-	}
-	// Rollover
-	return ((portMAX_DELAY - start_time) +
-		end_time) * portTICK_RATE_MS;
+	return end_time - start_time;
 }
 
 /**

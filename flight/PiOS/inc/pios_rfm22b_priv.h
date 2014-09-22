@@ -38,6 +38,8 @@
 #include <rfm22bstatus.h>
 #include "pios_rfm22b.h"
 #include "pios_semaphore.h"
+#include "pios_queue.h"
+#include "pios_thread.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -683,7 +685,7 @@ struct pios_rfm22b_dev {
 	uint32_t coordinatorID;
 
 	// The task handle
-	xTaskHandle taskHandle;
+	struct pios_thread *taskHandle;
 
 	// The potential paired statistics
 	rfm22b_pair_stats pair_stats[RFM22BSTATUS_PAIRIDS_NUMELEM];
@@ -780,9 +782,9 @@ struct pios_rfm22b_dev {
 	int8_t afc_correction_Hz;
 
 	// The packet timers.
-	portTickType packet_start_ticks;
-	portTickType tx_complete_ticks;
-	portTickType time_delta;
+	uint32_t packet_start_ticks;
+	uint32_t tx_complete_ticks;
+	uint32_t time_delta;
 	bool on_sync_channel;
 };
 
