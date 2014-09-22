@@ -266,16 +266,14 @@ static const struct pios_rfm22b_transition
 				       .entry_fn = 0,
 				       .next_state = {
 						      [RADIO_EVENT_INITIALIZE] = RADIO_STATE_INITIALIZING,
-						      [RADIO_EVENT_ERROR] =
-						      RADIO_STATE_ERROR,
+						      [RADIO_EVENT_ERROR] = RADIO_STATE_ERROR,
 						      },
 				       },
 	[RADIO_STATE_INITIALIZING] = {
 				      .entry_fn = rfm22_init,
 				      .next_state = {
 						     [RADIO_EVENT_INITIALIZED] = RADIO_STATE_RX_MODE,
-						     [RADIO_EVENT_ERROR] =
-						     RADIO_STATE_ERROR,
+						     [RADIO_EVENT_ERROR] = RADIO_STATE_ERROR,
 						     [RADIO_EVENT_INITIALIZE] = RADIO_STATE_INITIALIZING,
 						     [RADIO_EVENT_FATAL_ERROR] = RADIO_STATE_FATAL_ERROR,
 						     },
@@ -284,99 +282,65 @@ static const struct pios_rfm22b_transition
 	[RADIO_STATE_RX_MODE] = {
 				 .entry_fn = radio_setRxMode,
 				 .next_state = {
-						[RADIO_EVENT_INT_RECEIVED]
-						= RADIO_STATE_RX_DATA,
-						[RADIO_EVENT_TX_START] =
-						RADIO_STATE_TX_START,
-						[RADIO_EVENT_RX_MODE] =
-						RADIO_STATE_RX_MODE,
-						[RADIO_EVENT_TIMEOUT] =
-						RADIO_STATE_TIMEOUT,
-						[RADIO_EVENT_ERROR] =
-						RADIO_STATE_ERROR,
-						[RADIO_EVENT_INITIALIZE] =
-						RADIO_STATE_INITIALIZING,
-						[RADIO_EVENT_FATAL_ERROR] =
-						RADIO_STATE_FATAL_ERROR,
+						[RADIO_EVENT_INT_RECEIVED] = RADIO_STATE_RX_DATA,
+						[RADIO_EVENT_TX_START] = RADIO_STATE_TX_START,
+						[RADIO_EVENT_RX_MODE] = RADIO_STATE_RX_MODE,
+						[RADIO_EVENT_TIMEOUT] = RADIO_STATE_TIMEOUT,
+						[RADIO_EVENT_ERROR] = RADIO_STATE_ERROR,
+						[RADIO_EVENT_INITIALIZE] = RADIO_STATE_INITIALIZING,
+						[RADIO_EVENT_FATAL_ERROR] = RADIO_STATE_FATAL_ERROR,
 						},
 				 },
 	[RADIO_STATE_RX_DATA] = {
 				 .entry_fn = radio_rxData,
 				 .next_state = {
-						[RADIO_EVENT_INT_RECEIVED]
-						= RADIO_STATE_RX_DATA,
-						[RADIO_EVENT_TX_START] =
-						RADIO_STATE_TX_START,
-						[RADIO_EVENT_RX_COMPLETE] =
-						RADIO_STATE_TX_START,
-						[RADIO_EVENT_RX_MODE] =
-						RADIO_STATE_RX_MODE,
-						[RADIO_EVENT_TIMEOUT] =
-						RADIO_STATE_TIMEOUT,
-						[RADIO_EVENT_ERROR] =
-						RADIO_STATE_ERROR,
-						[RADIO_EVENT_INITIALIZE] =
-						RADIO_STATE_INITIALIZING,
-						[RADIO_EVENT_FATAL_ERROR] =
-						RADIO_STATE_FATAL_ERROR,
+						[RADIO_EVENT_INT_RECEIVED] = RADIO_STATE_RX_DATA,
+						[RADIO_EVENT_TX_START] = RADIO_STATE_TX_START,
+						[RADIO_EVENT_RX_COMPLETE] = RADIO_STATE_TX_START,
+						[RADIO_EVENT_RX_MODE] = RADIO_STATE_RX_MODE,
+						[RADIO_EVENT_TIMEOUT] = RADIO_STATE_TIMEOUT,
+						[RADIO_EVENT_ERROR] = RADIO_STATE_ERROR,
+						[RADIO_EVENT_INITIALIZE] = RADIO_STATE_INITIALIZING,
+						[RADIO_EVENT_FATAL_ERROR] = RADIO_STATE_FATAL_ERROR,
 						},
 				 },
 	[RADIO_STATE_TX_START] = {
 				  .entry_fn = radio_txStart,
 				  .next_state = {
-						 [RADIO_EVENT_INT_RECEIVED]
-						 = RADIO_STATE_TX_DATA,
-						 [RADIO_EVENT_RX_MODE] =
-						 RADIO_STATE_RX_MODE,
-						 [RADIO_EVENT_TIMEOUT] =
-						 RADIO_STATE_TIMEOUT,
-						 [RADIO_EVENT_ERROR] =
-						 RADIO_STATE_ERROR,
-						 [RADIO_EVENT_INITIALIZE] =
-						 RADIO_STATE_INITIALIZING,
-						 [RADIO_EVENT_FATAL_ERROR]
-						 = RADIO_STATE_FATAL_ERROR,
+						 [RADIO_EVENT_INT_RECEIVED] = RADIO_STATE_TX_DATA,
+						 [RADIO_EVENT_RX_MODE] = RADIO_STATE_RX_MODE,
+						 [RADIO_EVENT_TIMEOUT] = RADIO_STATE_TIMEOUT,
+						 [RADIO_EVENT_ERROR] = RADIO_STATE_ERROR,
+						 [RADIO_EVENT_INITIALIZE] = RADIO_STATE_INITIALIZING,
+						 [RADIO_EVENT_FATAL_ERROR] = RADIO_STATE_FATAL_ERROR,
 						 },
 				  },
 	[RADIO_STATE_TX_DATA] = {
 				 .entry_fn = radio_txData,
 				 .next_state = {
-						[RADIO_EVENT_INT_RECEIVED]
-						= RADIO_STATE_TX_DATA,
-						[RADIO_EVENT_RX_MODE] =
-						RADIO_STATE_RX_MODE,
-						[RADIO_EVENT_TIMEOUT] =
-						RADIO_STATE_TIMEOUT,
-						[RADIO_EVENT_ERROR] =
-						RADIO_STATE_ERROR,
-						[RADIO_EVENT_INITIALIZE] =
-						RADIO_STATE_INITIALIZING,
-						[RADIO_EVENT_FATAL_ERROR] =
-						RADIO_STATE_FATAL_ERROR,
+						[RADIO_EVENT_INT_RECEIVED] = RADIO_STATE_TX_DATA,
+						[RADIO_EVENT_RX_MODE] = RADIO_STATE_RX_MODE,
+						[RADIO_EVENT_TIMEOUT] = RADIO_STATE_TIMEOUT,
+						[RADIO_EVENT_ERROR] = RADIO_STATE_ERROR,
+						[RADIO_EVENT_INITIALIZE] = RADIO_STATE_INITIALIZING,
+						[RADIO_EVENT_FATAL_ERROR] = RADIO_STATE_FATAL_ERROR,
 						},
 				 },
 	[RADIO_STATE_TIMEOUT] = {
 				 .entry_fn = rfm22_timeout,
 				 .next_state = {
-						[RADIO_EVENT_TX_START] =
-						RADIO_STATE_TX_START,
-						[RADIO_EVENT_RX_MODE] =
-						RADIO_STATE_RX_MODE,
-						[RADIO_EVENT_ERROR] =
-						RADIO_STATE_ERROR,
-						[RADIO_EVENT_INITIALIZE] =
-						RADIO_STATE_INITIALIZING,
-						[RADIO_EVENT_FATAL_ERROR] =
-						RADIO_STATE_FATAL_ERROR,
+						[RADIO_EVENT_TX_START] = RADIO_STATE_TX_START,
+						[RADIO_EVENT_RX_MODE] = RADIO_STATE_RX_MODE,
+						[RADIO_EVENT_ERROR] = RADIO_STATE_ERROR,
+						[RADIO_EVENT_INITIALIZE] = RADIO_STATE_INITIALIZING,
+						[RADIO_EVENT_FATAL_ERROR] = RADIO_STATE_FATAL_ERROR,
 						},
 				 },
 	[RADIO_STATE_ERROR] = {
 			       .entry_fn = rfm22_error,
 			       .next_state = {
-					      [RADIO_EVENT_INITIALIZE] =
-					      RADIO_STATE_INITIALIZING,
-					      [RADIO_EVENT_FATAL_ERROR] =
-					      RADIO_STATE_FATAL_ERROR,
+					      [RADIO_EVENT_INITIALIZE] = RADIO_STATE_INITIALIZING,
+					      [RADIO_EVENT_FATAL_ERROR] = RADIO_STATE_FATAL_ERROR,
 					      },
 			       },
 	[RADIO_STATE_FATAL_ERROR] = {
@@ -1025,23 +989,17 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessTx(uint32_t rfm22b_id)
 		uint16_t max_bytes = FIFO_SIZE - TX_FIFO_LO_WATERMARK - 1;
 		rfm22_claimBus(rfm22b_dev);
 		rfm22_assertCs(rfm22b_dev);
-		PIOS_SPI_TransferByte(rfm22b_dev->spi_id,
-				      RFM22_fifo_access | 0x80);
-		int bytes_to_write =
-		    (rfm22b_dev->tx_data_wr - rfm22b_dev->tx_data_rd);
-		bytes_to_write =
-		    (bytes_to_write >
-		     max_bytes) ? max_bytes : bytes_to_write;
-		PIOS_SPI_TransferBlock(rfm22b_dev->spi_id,
-				       &tx_buffer[rfm22b_dev->tx_data_rd],
+		PIOS_SPI_TransferByte(rfm22b_dev->spi_id, RFM22_fifo_access | 0x80);
+		int bytes_to_write = (rfm22b_dev->tx_data_wr - rfm22b_dev->tx_data_rd);
+		bytes_to_write = (bytes_to_write > max_bytes) ? max_bytes : bytes_to_write;
+		PIOS_SPI_TransferBlock(rfm22b_dev->spi_id, &tx_buffer[rfm22b_dev->tx_data_rd],
 				       NULL, bytes_to_write, NULL);
 		rfm22b_dev->tx_data_rd += bytes_to_write;
 		rfm22_deassertCs(rfm22b_dev);
 		rfm22_releaseBus(rfm22b_dev);
 
 		return PIOS_RFM22B_INT_SUCCESS;
-	} else if (rfm22b_dev->status_regs.int_status_1.
-		   packet_sent_interrupt) {
+	} else if (rfm22b_dev->status_regs.int_status_1.packet_sent_interrupt) {
 		// Transition out of Tx mode.
 		rfm22b_dev->rfm22b_state = RFM22B_STATE_TRANSITION;
 		return PIOS_RFM22B_TX_COMPLETE;
@@ -1058,8 +1016,7 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessTx(uint32_t rfm22b_id)
  */
 pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 {
-	struct pios_rfm22b_dev *rfm22b_dev =
-	    (struct pios_rfm22b_dev *)rfm22b_id;
+	struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)rfm22b_id;
 
 	if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
 		return PIOS_RFM22B_INT_FAILURE;
@@ -1084,8 +1041,7 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 		rfm22_claimBus(rfm22b_dev);
 
 		// read the total length of the packet data
-		uint32_t len =
-		    rfm22_read(rfm22b_dev, RFM22_received_packet_length);
+		uint32_t len = rfm22_read(rfm22b_dev, RFM22_received_packet_length);
 
 		// The received packet is going to be larger than the receive buffer
 		if (len > rfm22b_dev->max_packet_len) {
@@ -1095,30 +1051,21 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 		}
 		// there must still be data in the RX FIFO we need to get
 		if (rfm22b_dev->rx_buffer_wr < len) {
-			int32_t bytes_to_read =
-			    len - rfm22b_dev->rx_buffer_wr;
+			int32_t bytes_to_read = len - rfm22b_dev->rx_buffer_wr;
 			// Fetch the data from the RX FIFO
 			rfm22_assertCs(rfm22b_dev);
-			PIOS_SPI_TransferByte(rfm22b_dev->spi_id,
-					      RFM22_fifo_access & 0x7F);
+			PIOS_SPI_TransferByte(rfm22b_dev->spi_id, RFM22_fifo_access & 0x7F);
 			rfm22b_dev->rx_buffer_wr +=
-			    (PIOS_SPI_TransferBlock
-			     (rfm22b_dev->spi_id, OUT_FF,
-			      (uint8_t *) & rx_buffer[rfm22b_dev->
-						      rx_buffer_wr],
-			      bytes_to_read,
-			      NULL) == 0) ? bytes_to_read : 0;
+			    (PIOS_SPI_TransferBlock(rfm22b_dev->spi_id, OUT_FF,
+			      (uint8_t *) & rx_buffer[rfm22b_dev->rx_buffer_wr],
+			      bytes_to_read, NULL) == 0) ? bytes_to_read : 0;
 			rfm22_deassertCs(rfm22b_dev);
 		}
 		// Read the packet header (destination ID)
-		rfm22b_dev->rx_destination_id =
-		    rfm22_read(rfm22b_dev, RFM22_received_header0);
-		rfm22b_dev->rx_destination_id |=
-		    (rfm22_read(rfm22b_dev, RFM22_received_header1) << 8);
-		rfm22b_dev->rx_destination_id |=
-		    (rfm22_read(rfm22b_dev, RFM22_received_header2) << 16);
-		rfm22b_dev->rx_destination_id |=
-		    (rfm22_read(rfm22b_dev, RFM22_received_header3) << 24);
+		rfm22b_dev->rx_destination_id = rfm22_read(rfm22b_dev, RFM22_received_header0);
+		rfm22b_dev->rx_destination_id |= (rfm22_read(rfm22b_dev, RFM22_received_header1) << 8);
+		rfm22b_dev->rx_destination_id |= (rfm22_read(rfm22b_dev, RFM22_received_header2) << 16);
+		rfm22b_dev->rx_destination_id |= (rfm22_read(rfm22b_dev, RFM22_received_header3) << 24);
 
 		// Release the SPI bus.
 		rfm22_releaseBus(rfm22b_dev);
@@ -1129,8 +1076,7 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 			return PIOS_RFM22B_INT_FAILURE;
 		}
 		// Increment the total byte received count.
-		rfm22b_dev->stats.rx_byte_count +=
-		    rfm22b_dev->rx_buffer_wr;
+		rfm22b_dev->stats.rx_byte_count += rfm22b_dev->rx_buffer_wr;
 
 		// Update the pair status with this packet.
 		rfm22_updatePairStatus(rfm22b_dev);
@@ -1139,8 +1085,7 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 		rfm22b_dev->rfm22b_state = RFM22B_STATE_TRANSITION;
 
 		ret = PIOS_RFM22B_RX_COMPLETE;
-	} else if (rfm22b_dev->status_regs.int_status_1.
-		   rx_fifo_almost_full) {
+	} else if (rfm22b_dev->status_regs.int_status_1.rx_fifo_almost_full) {
 		// RX FIFO almost full, it needs emptying
 		// read data from the rf chips FIFO buffer
 
@@ -1152,28 +1097,22 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 		    rfm22_read(rfm22b_dev, RFM22_received_packet_length);
 
 		// The received packet is going to be larger than the specified length
-		if ((rfm22b_dev->rx_buffer_wr + RX_FIFO_HI_WATERMARK) >
-		    len) {
+		if ((rfm22b_dev->rx_buffer_wr + RX_FIFO_HI_WATERMARK) > len) {
 			rfm22_releaseBus(rfm22b_dev);
 			rfm22_rxFailure(rfm22b_dev);
 			return PIOS_RFM22B_INT_FAILURE;
 		}
 		// The received packet is going to be larger than the receive buffer
-		if ((rfm22b_dev->rx_buffer_wr + RX_FIFO_HI_WATERMARK) >
-		    rfm22b_dev->max_packet_len) {
+		if ((rfm22b_dev->rx_buffer_wr + RX_FIFO_HI_WATERMARK) > rfm22b_dev->max_packet_len) {
 			rfm22_releaseBus(rfm22b_dev);
 			rfm22_rxFailure(rfm22b_dev);
 			return PIOS_RFM22B_INT_FAILURE;
 		}
 		// Fetch the data from the RX FIFO
 		rfm22_assertCs(rfm22b_dev);
-		PIOS_SPI_TransferByte(rfm22b_dev->spi_id,
-				      RFM22_fifo_access & 0x7F);
-		rfm22b_dev->rx_buffer_wr +=
-		    (PIOS_SPI_TransferBlock
-		     (rfm22b_dev->spi_id, OUT_FF,
-		      (uint8_t *) & rx_buffer[rfm22b_dev->rx_buffer_wr],
-		      RX_FIFO_HI_WATERMARK,
+		PIOS_SPI_TransferByte(rfm22b_dev->spi_id, RFM22_fifo_access & 0x7F);
+		rfm22b_dev->rx_buffer_wr += (PIOS_SPI_TransferBlock(rfm22b_dev->spi_id, OUT_FF,
+		      (uint8_t *) & rx_buffer[rfm22b_dev->rx_buffer_wr], RX_FIFO_HI_WATERMARK,
 		      NULL) == 0) ? RX_FIFO_HI_WATERMARK : 0;
 		rfm22_deassertCs(rfm22b_dev);
 
@@ -1182,8 +1121,7 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 
 		// Make sure that we're in RX mode.
 		rfm22b_dev->rfm22b_state = RFM22B_STATE_RX_MODE;
-	} else if (rfm22b_dev->status_regs.int_status_2.
-		   valid_preamble_detected) {
+	} else if (rfm22b_dev->status_regs.int_status_2.valid_preamble_detected) {
 		// Valid preamble detected
 		RX_LED_ON;
 
@@ -1203,21 +1141,17 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 
 		// read the 10-bit signed afc correction value
 		// bits 9 to 2
-		uint16_t afc_correction =
-		    (uint16_t) rfm22_read(rfm22b_dev,
+		uint16_t afc_correction = (uint16_t) rfm22_read(rfm22b_dev,
 					  RFM22_afc_correction_read) << 8;
 		// bits 1 & 0
-		afc_correction |=
-		    (uint16_t) rfm22_read(rfm22b_dev,
-					  RFM22_ook_counter_value1) &
-		    0x00c0;
+		afc_correction |= (uint16_t) rfm22_read(rfm22b_dev,
+					  RFM22_ook_counter_value1) & 0x00c0;
 		afc_correction >>= 6;
+
 		// convert the afc value to Hz
-		int32_t afc_corr =
-		    (int32_t) (rfm22b_dev->frequency_step_size *
+		int32_t afc_corr = (int32_t) (rfm22b_dev->frequency_step_size *
 			       afc_correction + 0.5f);
-		rfm22b_dev->afc_correction_Hz =
-		    (afc_corr <
+		rfm22b_dev->afc_correction_Hz =  (afc_corr <
 		     -127) ? -127 : ((afc_corr > 127) ? 127 : afc_corr);
 
 		// read rx signal strength .. 45 = -100dBm, 205 = -20dBm
@@ -1367,15 +1301,13 @@ static void pios_rfm22_task(void *parameters)
 				lastEventTicks = PIOS_Thread_Systime();
 
 				// Transsition through an error event.
-				rfm22_process_event(rfm22b_dev,
-						    RADIO_EVENT_ERROR);
+				rfm22_process_event(rfm22b_dev, RADIO_EVENT_ERROR);
 			}
 		}
 
 		// Change channels if necessary.
 		if (rfm22_changeChannel(rfm22b_dev)) {
-			rfm22_process_event(rfm22b_dev,
-					    RADIO_EVENT_RX_MODE);
+			rfm22_process_event(rfm22b_dev, RADIO_EVENT_RX_MODE);
 		}
 
 		uint32_t curTicks = PIOS_Thread_Systime();
