@@ -1364,7 +1364,7 @@ static void pios_rfm22_task(void *parameters)
 				while (PIOS_Queue_Receive(rfm22b_dev->eventQueue, &event, 0)) {
 					// Do nothing;
 				}
-				lastEventTicks = xTaskGetTickCount();
+				lastEventTicks = PIOS_Thread_Systime();
 
 				// Transsition through an error event.
 				rfm22_process_event(rfm22b_dev,
