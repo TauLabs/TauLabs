@@ -2460,16 +2460,13 @@ static void rfm22_synchronizeClock(struct pios_rfm22b_dev *rfm22b_dev)
 
 	// This packet was transmitted on channel 0, calculate the time delta that will force us to transmit on channel 0 at the time this packet started.
 	uint8_t num_chan = num_channels[rfm22b_dev->datarate];
-	uint16_t frequency_hop_cycle_time =
-	    rfm22b_dev->packet_time * num_chan;
+	uint16_t frequency_hop_cycle_time = rfm22b_dev->packet_time * num_chan;
 	uint16_t time_delta = start_time % frequency_hop_cycle_time;
 
 	// Calculate the adjustment for the preamble
-	uint8_t offset =
-	    (uint8_t) ceil(35000.0F / data_rate[rfm22b_dev->datarate]);
+	uint8_t offset = (uint8_t) ceil(35000.0F / data_rate[rfm22b_dev->datarate]);
 
-	rfm22b_dev->time_delta =
-	    frequency_hop_cycle_time - time_delta + offset;
+	rfm22b_dev->time_delta = frequency_hop_cycle_time - time_delta + offset;
 }
 
 /**
@@ -2531,22 +2528,20 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev,
 
 	// Are we switching to a new channel?
 	if (idx != rfm22b_dev->channel_index) {
+
 		// If the on_sync_channel flag is set, it means that we were on the sync channel, but no packet was received, so transition to a non-connected state.
 		if (!rfm22_isCoordinator(rfm22b_dev)
 		    && (rfm22b_dev->channel_index == 0)
 		    && rfm22b_dev->on_sync_channel) {
+
 			rfm22b_dev->on_sync_channel = false;
 
 			// Set the link state to disconnected.
-			if (rfm22b_dev->stats.link_state ==
-			    RFM22BSTATUS_LINKSTATE_CONNECTED) {
-				rfm22b_dev->stats.link_state =
-				    RFM22BSTATUS_LINKSTATE_DISCONNECTED;
+			if (rfm22b_dev->stats.link_state == RFM22BSTATUS_LINKSTATE_CONNECTED) {
+				rfm22b_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_DISCONNECTED;
 				// Set the PPM outputs to INVALID
-				for (uint8_t i = 0;
-				     i < RFM22B_PPM_NUM_CHANNELS; ++i) {
-					rfm22b_dev->ppm[i] =
-					    PIOS_RCVR_INVALID;
+				for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS; ++i) {
+					rfm22b_dev->ppm[i] = PIOS_RCVR_TIMEOUT;
 				}
 			}
 			// Stay on the sync channel.
