@@ -40,8 +40,12 @@
 #define SESSION_RETRIEVE_TIMEOUT            20000
 //Number of retries for the session object fetching during negotiation
 #define SESSION_OBJ_RETRIEVE_RETRIES        3
+//Timeout for asking SessionManagement if the object exists
+#define SESSION_OBJECT_QUERY_TIMEOUT        500
 //Timeout for the object fetching fase, the system will stop fetching objects and emit connected after this
 #define OBJECT_RETRIEVE_TIMEOUT             5000
+//Number of times to try and retrieve initial values of objects
+#define OBJECT_RETRIEVE_RETRIES             1
 //IAP object is very important, retry if not able to get it the first time
 #define IAP_OBJECT_RETRIES                  3
 
@@ -131,8 +135,6 @@ void TelemetryMonitor::startRetrievingObjects()
     connectionStatus = CON_RETRIEVING_OBJECTS;
     // Get all objects, add metaobjects, settings and data objects with OnChange update mode to the queue
     queue.empty();
-    retries = 0;
-    objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
     foreach(UAVObjectManager::ObjectMap map, objMngr->getObjects().values())
     {
         UAVObject* obj = map.first();
@@ -172,6 +174,7 @@ void TelemetryMonitor::startRetrievingObjects()
     // Start retrieving
     TELEMETRYMONITOR_QXTLOG_DEBUG(QString(tr("Starting to retrieve meta and settings objects from the autopilot (%1 objects)"))
                                   .arg( queue.length()));
+    objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
     retrieveNextObject();
 }
 
@@ -258,13 +261,16 @@ void TelemetryMonitor::retrieveNextObject()
         emit connected();
         sessionRetrieveTimeout->stop();
         sessionInitialRetrieveTimeout->stop();
-        objectRetrieveTimeout->stop();
         return;
     }
     // Get next object from the queue
-    UAVObject* obj = queue.dequeue();
+    UAVObject *obj = queue.dequeue();
+    retries = 0;
+
     // Connect to object
-    TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 requestiong %1 from board INSTID:%2").arg(Q_FUNC_INFO).arg(obj->getName()).arg(obj->getInstID()));
+    TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 requestiong %1 from board INSTID:%2").arg(Q_FUNC_INFO).
+                                  arg(obj->getName()).
+                                  arg(obj->getInstID()));
     connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(transactionCompleted(UAVObject*,bool)));
     // Request update
     obj->requestUpdateAllInstances();
@@ -299,7 +305,6 @@ void TelemetryMonitor::transactionCompleted(UAVObject* obj, bool success)
     {
         TELEMETRYMONITOR_QXTLOG_DEBUG(QString("%0 connection lost while retrieving objects, stopped object retrievel").arg(Q_FUNC_INFO));
         queue.empty();
-        objectRetrieveTimeout->stop();
         sessionRetrieveTimeout->stop();
         sessionInitialRetrieveTimeout->stop();
         connectionStatus = CON_DISCONNECTED;
@@ -397,6 +402,8 @@ void TelemetryMonitor::sessionObjUnpackedCB(UAVObject *obj)
         }
         break;
     case CON_SESSION_INITIALIZING:
+        // Reset timer for receiving the next update
+        objectRetrieveTimeout->start(SESSION_OBJECT_QUERY_TIMEOUT);
         startSessionRetrieving(obj);
         break;
     case CON_RETRIEVING_OBJECTS:
@@ -410,7 +417,19 @@ void TelemetryMonitor::sessionObjUnpackedCB(UAVObject *obj)
 
 void TelemetryMonitor::objectRetrieveTimeoutCB()
 {
-    queue.empty();
+    switch(connectionStatus)
+    {
+    case CON_SESSION_INITIALIZING:
+        objectRetrieveTimeout->start(SESSION_OBJECT_QUERY_TIMEOUT);
+        startSessionRetrieving(sessionObj);
+        break;
+    case CON_RETRIEVING_OBJECTS:
+        queue.empty();
+        break;
+    default:
+        break;
+    }
+
 }
 
 void TelemetryMonitor::sessionInitialRetrieveTimeoutCB()
