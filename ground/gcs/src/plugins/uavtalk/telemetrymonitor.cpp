@@ -35,7 +35,7 @@
 //This is needed because sometimes the object is lost when asked right uppon connection
 #define SESSION_INIT_RETRIES                3
 //Delay between initial session object fetching retries (number of times defined above)
-#define SESSION_INITIAL_RETRIEVE_TIMEOUT    2000
+#define SESSION_INITIAL_RETRIEVE_TIMEOUT    500
 //Timeout for the all session negotiation, the system will go to failsafe after it
 #define SESSION_RETRIEVE_TIMEOUT            20000
 //Number of retries for the session object fetching during negotiation
