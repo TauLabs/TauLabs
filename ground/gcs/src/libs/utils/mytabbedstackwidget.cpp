@@ -38,40 +38,6 @@ MyTabbedStackWidget::MyTabbedStackWidget(QWidget *parent, bool isVertical, bool 
       m_maxLabelSize(8)
 {
     m_listWidget = new QListWidget(this);
-    m_listWidget->setStyleSheet(QString::fromUtf8(
-                                      "QScrollBar:vertical {"
-                                      "    border: 1px solid #999999;"
-                                      "    background:#c8c8c8;;"
-                                      "    width:10px;    "
-                                      "    margin: 0px 0px 0px 0px;"
-                                      "}"
-                                      "QScrollBar::handle:vertical {"
-                                      "background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,"
-                                      "    stop: 0 #66e, stop: 1 #bbf);"
-                                      "background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,"
-                                      "    stop: 0 #bbf, stop: 1 #55f);"
-                                      "    min-height: 0px;"
-                                      ""
-                                      "}"
-                                      "QScrollBar::add-line:vertical {"
-                                      "background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,"
-                                      "    stop: 0 #66e, stop: 1 #bbf);"
-                                      "background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,"
-                                      "    stop: 0 #bbf, stop: 1 #55f);"
-                                      "    height: px;"
-                                      "    subcontrol-position: bottom;"
-                                      "    subcontrol-origin: margin;"
-                                      "}"
-                                      "QScrollBar::sub-line:vertical {"
-                                      "background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,"
-                                      "    stop: 0 #66e, stop: 1 #bbf);"
-                                      "background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,"
-                                      "    stop: 0 #bbf, stop: 1 #55f);"
-                                      "    height: 0px;"
-                                      "    subcontrol-position: top;"
-                                      "    subcontrol-origin: margin;"
-                                      "}"
-                                      ""));
     m_stackWidget = new QStackedWidget();
     m_stackWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
