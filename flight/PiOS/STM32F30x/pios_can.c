@@ -218,7 +218,7 @@ static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
 };
 
 //! The mapping of message types to CAN BUS StdID
-static xQueueHandle pios_can_queues[PIOS_CAN_LAST];
+static struct pios_queue *pios_can_queues[PIOS_CAN_LAST];
 
 /**
  * Process received CAN messages and push them out any corresponding
@@ -235,14 +235,14 @@ static bool process_received_message(CanRxMsg message)
 		return false;
 
 	// Get the queue for this message and send the data
-	xQueueHandle queue = pios_can_queues[msg_id];
+	struct pios_queue *queue = pios_can_queues[msg_id];
 	if (queue == NULL)
 		return false;
 
-	portBASE_TYPE xHigherPriorityTaskWoken;
-	xQueueSendToBackFromISR(queue, message.Data, &xHigherPriorityTaskWoken);
+	bool woken = false;
+	PIOS_Queue_Send_FromISR(queue, message.Data, &woken);
 
-	return xHigherPriorityTaskWoken == pdTRUE;
+	return woken;
 }
 
 /**
@@ -251,7 +251,7 @@ static bool process_received_message(CanRxMsg message)
  * @param[in] id the CAN device ID
  * @param[in] msg_id The message ID (std ID < 0x7FF)
  */
-xQueueHandle PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_messages msg_id)
+struct pios_queue * PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_messages msg_id)
 {
 	// Fetch the size of this message type or error if unknown
 	uint32_t bytes;
@@ -268,8 +268,10 @@ xQueueHandle PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_messages 
 		return pios_can_queues[msg_id];
 
 	// Create a queue that can manage the data message size
-	xQueueHandle queue;
-	queue = xQueueCreate(2, bytes);
+	struct pios_queue *queue;
+	queue = PIOS_Queue_Create(2, bytes);
+	if (queue == NULL)
+		return NULL;
 
 	// Store the queue handle for the driver
 	pios_can_queues[msg_id] = queue;
