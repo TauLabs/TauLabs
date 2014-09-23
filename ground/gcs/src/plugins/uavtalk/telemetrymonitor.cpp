@@ -40,8 +40,10 @@
 #define SESSION_RETRIEVE_TIMEOUT            20000
 //Number of retries for the session object fetching during negotiation
 #define SESSION_OBJ_RETRIEVE_RETRIES        3
+//Timeout for asking SessionManagement if the object exists
+#define SESSION_OBJECT_QUERY_TIMEOUT        500
 //Timeout for the object fetching fase, the system will stop fetching objects and emit connected after this
-#define OBJECT_RETRIEVE_TIMEOUT             500
+#define OBJECT_RETRIEVE_TIMEOUT             5000
 //Number of times to try and retrieve initial values of objects
 #define OBJECT_RETRIEVE_RETRIES             1
 //IAP object is very important, retry if not able to get it the first time
@@ -172,6 +174,7 @@ void TelemetryMonitor::startRetrievingObjects()
     // Start retrieving
     TELEMETRYMONITOR_QXTLOG_DEBUG(QString(tr("Starting to retrieve meta and settings objects from the autopilot (%1 objects)"))
                                   .arg( queue.length()));
+    objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
     retrieveNextObject();
 }
 
@@ -400,7 +403,7 @@ void TelemetryMonitor::sessionObjUnpackedCB(UAVObject *obj)
         break;
     case CON_SESSION_INITIALIZING:
         // Reset timer for receiving the next update
-        objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
+        objectRetrieveTimeout->start(SESSION_OBJECT_QUERY_TIMEOUT);
         startSessionRetrieving(obj);
         break;
     case CON_RETRIEVING_OBJECTS:
@@ -417,8 +420,11 @@ void TelemetryMonitor::objectRetrieveTimeoutCB()
     switch(connectionStatus)
     {
     case CON_SESSION_INITIALIZING:
-        objectRetrieveTimeout->start(OBJECT_RETRIEVE_TIMEOUT);
+        objectRetrieveTimeout->start(SESSION_OBJECT_QUERY_TIMEOUT);
         startSessionRetrieving(sessionObj);
+        break;
+    case CON_RETRIEVING_OBJECTS:
+        queue.empty();
         break;
     default:
         break;
