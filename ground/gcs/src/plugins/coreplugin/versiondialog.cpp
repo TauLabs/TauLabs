@@ -42,10 +42,28 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QTextBrowser>
+#include <QApplication>
 
 using namespace Core;
 using namespace Core::Internal;
 using namespace Core::Constants;
+
+ClickableLabel::ClickableLabel( const QString& text, QWidget * parent ) :
+    QLabel(parent)
+
+  {
+      this->setText(text);
+  }
+
+  ClickableLabel::~ClickableLabel()
+  {
+  }
+
+  void ClickableLabel::mousePressEvent ( QMouseEvent * event )
+  {
+      Q_UNUSED(event);
+      emit clicked();
+  }
 
 VersionDialog::VersionDialog(QWidget *parent)
     : QDialog(parent)
@@ -58,14 +76,21 @@ VersionDialog::VersionDialog(QWidget *parent)
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     QGridLayout *layout = new QGridLayout(this);
     layout->setSizeConstraint(QLayout::SetFixedSize);
-
-    QString version = QLatin1String(GCS_VERSION_LONG);
-    version += QDate(2007, 25, 10).toString(Qt::SystemLocaleDate);
+    QString versionName;
+    QString versionData;
+    QString xkcdLink;
+#ifdef GCS_REVISION_PRETTY
+    versionData = QLatin1String(GCS_REVISION_PRETTY_STR);
+    versionName = versionData.split("%@%").at(0);
+    xkcdLink    = versionData.split("%@%").at(2);
+    versionData = versionData.split("%@%").at(1);
+#endif
 
     QString ideRev;
 #ifdef GCS_REVISION
      //: This gets conditionally inserted as argument %8 into the description string.
-     ideRev = tr("From revision %1<br/>").arg(QString::fromLatin1(GCS_REVISION_STR).left(60));
+     QString revision = QString::fromLatin1(GCS_REVISION_STR).remove(0, (QString::fromLatin1(GCS_REVISION_STR).indexOf(":")));
+     ideRev = tr("From revision %1<br/>").arg(revision);
 #endif
      QString uavoHashStr;
  #ifdef UAVO_HASH
@@ -85,40 +110,46 @@ VersionDialog::VersionDialog(QWidget *parent)
      {
          gcsUavoHashStr.append(QString::number(i,16).right(2));
      }
-     uavoHashStr = tr("UAVO hash %1<br/>").arg(gcsUavoHashStr);
+     uavoHashStr = tr("UAVO hash %1<br/>").arg(gcsUavoHashStr.left(8));
  #endif
+     const QString version_name = tr("<h2><center><a href=\"http://xkcd.com/%0\">%1</a><center/></h2>"
+                                     "<h3><center>Tau Labs GCS<center></h3>"
+                                     "</h3><center>%2<center></h3>").arg(xkcdLink,versionName, versionData);
+     const QString version_description = tr(
+        "Based on Qt %1 (%2 bit)<br/>"
+        "<br/>"
+        "Built on %3 at %4<br />"
+        "<br/>"
+        "%5"
+        "<br/>"
+        "%6"
+        "<br/>").arg(QLatin1String(QT_VERSION_STR), QString::number(QSysInfo::WordSize),
+                     QLatin1String(__DATE__), QLatin1String(__TIME__), ideRev, uavoHashStr);
 
-     const QString description = tr(
-        "<h3>Tau Labs GCS %1 %9 (%10)</h3>"
-        "Based on Qt %2 (%3 bit)<br/>"
+     QString copyright = tr(
+        "Copyright 2012-%1 %2, 2010-2012 OpenPilot. All rights reserved.<br/>"
         "<br/>"
-        "Built on %4 at %5<br />"
-        "<br/>"
-        "%8"
-        "<br/>"
-        "%11"
-        "<br/>"
-        "Copyright 2012-%6 %7, 2010-2012 OpenPilot. All rights reserved.<br/>"
-        "<br/>"
-         "Between 2010 and 2012, a significant part of this application was designed<br/>"
-         "and implemented within the OpenPilot project. This work was further based<br/>"
-         "on work from the Nokia Corporation for Qt Creator.<br/>"
+         "Between 2010 and 2012, a significant part of this application was designed "
+         "and implemented within the OpenPilot project.<br/>"
+         "This work was further based on work from the Nokia Corporation for Qt Creator.<br/>"
          "<br/>"
-         "<small>This program is free software; you can redistribute it and/or modify<br/>"
-         "it under the terms of the GNU General Public License as published by<br/>"
-         "the Free Software Foundation; either version 3 of the License, or<br/>"
+         "<small>This program is free software; you can redistribute it and/or modify"
+         "it under the terms of the GNU General Public License as published by"
+         "the Free Software Foundation; either version 3 of the License, or"
          "(at your option) any later version.<br/><br/>"
+         "GCS title credits go to <a href=\"http://www.xkcd.com\">xkcd.com</a> <br/><br/>"
         "The program is provided AS IS with NO WARRANTY OF ANY KIND, "
         "INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A "
-        "PARTICULAR PURPOSE.</small><br/>")
-        .arg(version, QLatin1String(QT_VERSION_STR), QString::number(QSysInfo::WordSize),
-             QLatin1String(__DATE__), QLatin1String(__TIME__), QLatin1String(GCS_YEAR), 
-             (QLatin1String(GCS_AUTHOR)), ideRev).arg(QLatin1String(GCS_VERSION_TYPE), QLatin1String(GCS_VERSION_CODENAME), uavoHashStr);
+        "PARTICULAR PURPOSE.</small><br/>").arg(QLatin1String(GCS_YEAR), (QLatin1String(GCS_AUTHOR)));
 
-    QLabel *copyRightLabel = new QLabel(description);
-    copyRightLabel->setWordWrap(true);
-    copyRightLabel->setOpenExternalLinks(true);
-    copyRightLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    QLabel *versionNameLabel = new QLabel(version_name);
+    QLabel *versionDescription = new QLabel(version_description);
+    versionDescription->setWordWrap(true);
+    versionDescription->setOpenExternalLinks(true);
+    versionDescription->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    versionNameLabel->setWordWrap(true);
+    versionNameLabel->setOpenExternalLinks(true);
+    versionNameLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     QPushButton *closeButton = buttonBox->button(QDialogButtonBox::Close);
@@ -128,7 +159,15 @@ VersionDialog::VersionDialog(QWidget *parent)
 
     QLabel *logoLabel = new QLabel;
     logoLabel->setPixmap(QPixmap(QLatin1String(":/core/images/taulabs_logo_128.png")));
-    layout->addWidget(logoLabel , 0, 0, 1, 1);
-    layout->addWidget(copyRightLabel, 0, 1, 4, 4);
-    layout->addWidget(buttonBox, 4, 0, 1, 5);
+
+    QLabel *copyRightLabel = new QLabel(copyright);
+    copyRightLabel->setWordWrap(true);
+    copyRightLabel->setOpenExternalLinks(true);
+    copyRightLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+
+    layout->addWidget(versionNameLabel , 0, 0, 1, 2);
+    layout->addWidget(logoLabel , 1, 1, 1, 1);
+    layout->addWidget(versionDescription , 1, 0, 1, 1);
+    layout->addWidget(copyRightLabel, 3, 0, 1, 2);
+    layout->addWidget(buttonBox, 5, 0, 1, 2);
 }
