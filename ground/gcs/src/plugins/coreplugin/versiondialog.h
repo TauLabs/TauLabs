@@ -33,26 +33,9 @@
 #include "../../../../../build/ground/gcs/gcsversioninfo.h"
 
 #include <QDialog>
-#include <QLabel>
 
 namespace Core {
 namespace Internal {
-
-class ClickableLabel : public QLabel
-{
-
-Q_OBJECT
-
-public:
-    explicit ClickableLabel( const QString& text ="", QWidget * parent = 0 );
-    ~ClickableLabel();
-
-signals:
-    void clicked();
-
-protected:
-    void mousePressEvent ( QMouseEvent * event ) ;
-};
 
 class VersionDialog : public QDialog
 {

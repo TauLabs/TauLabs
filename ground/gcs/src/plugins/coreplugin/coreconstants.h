@@ -49,8 +49,7 @@ const char * const GCS_VERSION_CODENAME = "Phoenix";
 const char * const GCS_NAME              = "Tau Labs GCS";
 const char * const GCS_VERSION_LONG      = GCS_VERSION;
 const char * const GCS_AUTHOR            = "Tau Labs";
-const char t []                          = __DATE__;
-const char * const GCS_YEAR              = t + 7;
+const char * const GCS_YEAR              = "2014";
 
 const char * const GCS_HELP              = "http://github.com/TauLabs";
 #ifdef GCS_REVISION
@@ -59,11 +58,6 @@ const char * const UAVOSHA1_STR          = STRINGIFY(UAVO_HASH);
 #else
 const char * const GCS_REVISION_STR      = "";
 const char * const UAVOSHA1_STR          = "";
-#endif
-#ifdef GCS_REVISION_PRETTY
-const char * const GCS_REVISION_PRETTY_STR      = STRINGIFY(GCS_REVISION_PRETTY);
-#else
-const char * const GCS_REVISION_PRETTY_STR      = "";
 #endif
 
 #undef GCS_VERSION
