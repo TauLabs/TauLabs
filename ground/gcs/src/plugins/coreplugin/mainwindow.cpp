@@ -346,22 +346,35 @@ void MainWindow::loadStyleSheet(QString name) {
 #else
     QFile data(directory.absolutePath()+QDir::separator()+name+"_windows.qss");
 #endif
+    QFile defaultStyle(directory.absolutePath()+QDir::separator()+"default_common.qss");
     QString style;
+    if(defaultStyle.open(QFile::ReadOnly)) {
+        /* QTextStream... */
+        QTextStream styleIn(&defaultStyle);
+        /* ...read file to a string. */
+        style.append(styleIn.readAll());
+        data.close();
+        emit splashMessages(QString(tr("Loading default stylesheet")));
+        qDebug()<<"Loaded stylesheet:" << directory.absolutePath() << name;
+    }
+    else
+        qDebug()<<"Failed to open default stylesheet file";
     /* ...to open the file */
     if(data.open(QFile::ReadOnly)) {
         /* QTextStream... */
         QTextStream styleIn(&data);
         /* ...read file to a string. */
-        style = styleIn.readAll();
+        style.append(styleIn.readAll());
         data.close();
-        /* We'll use qApp macro to get the QApplication pointer
-         * and set the style sheet application wide. */
-        qApp->setStyleSheet(style);
         emit splashMessages(QString(tr("Loading stylesheet %1")).arg(name));
         qDebug()<<"Loaded stylesheet:" << directory.absolutePath() << name;
     }
     else
         qDebug()<<"Failed to openstylesheet file" << directory.absolutePath() << name;
+    /* We'll use qApp macro to get the QApplication pointer
+     * and set the style sheet application wide. */
+    emit splashMessages(QString(tr("Applying stylesheets")).arg(name));
+    qApp->setStyleSheet(style);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
