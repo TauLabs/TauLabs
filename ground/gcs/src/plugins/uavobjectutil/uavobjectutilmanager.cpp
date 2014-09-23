@@ -44,8 +44,11 @@
 #include "../../../../../build/ground/gcs/gcsversioninfo.h"
 #include <coreplugin/coreconstants.h>
 
-// ******************************
-// constructor/destructor
+#ifdef UAVOBJECTUTIL_DEBUG
+  #define UAVOBJECTUTIL_QXTLOG_DEBUG(...) qDebug()<<__VA_ARGS__
+#else  // UAVOBJECTUTIL_DEBUG
+  #define UAVOBJECTUTIL_QXTLOG_DEBUG(...)
+#endif	// UAVOBJECTUTIL_DEBUG
 
 UAVObjectUtilManager::UAVObjectUtilManager()
 {
@@ -119,7 +122,7 @@ void UAVObjectUtilManager::saveObjectToFlash(UAVObject *obj)
 {
     // Add to queue
     queue.enqueue(obj);
-    qDebug() << "Enqueue object: " << obj->getName();
+    UAVOBJECTUTIL_QXTLOG_DEBUG(QString("Enqueue object:%0").arg(obj->getName()));
 
     // If queue length is one, then start sending (call sendNextObject)
     // Otherwise, do nothing, because we are already sending.
@@ -144,7 +147,7 @@ void UAVObjectUtilManager::saveNextObject()
     // Get next object from the queue (don't dequeue yet)
     UAVObject* obj = queue.head();
     Q_ASSERT(obj);
-    qDebug() << "Send save object request to board " << obj->getName();
+    UAVOBJECTUTIL_QXTLOG_DEBUG(QString("Send save object request to board %0").arg(obj->getName()));
 
     ObjectPersistence * objectPersistence = ObjectPersistence::GetInstance(getObjectManager());
     Q_ASSERT(objectPersistence);
@@ -159,7 +162,7 @@ void UAVObjectUtilManager::saveNextObject()
     // or "Error".
     connect(objectPersistence, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(objectPersistenceUpdated(UAVObject *)), Qt::UniqueConnection);
     saveState = AWAITING_ACK;
-    qDebug() << "[saveObjectToFlash] Moving on to AWAITING_ACK";
+    UAVOBJECTUTIL_QXTLOG_DEBUG(QString("[saveObjectToFlash] Moving on to AWAITING_ACK"));
 
     ObjectPersistence::DataFields data;
     data.Operation = ObjectPersistence::OPERATION_SAVE;
@@ -200,12 +203,12 @@ void UAVObjectUtilManager::objectPersistenceTransactionCompleted(UAVObject* obj,
         // For this reason, we will arm a 1 second timer to make provision for this and not block
         // the queue:
         saveState = AWAITING_COMPLETED;
-        qDebug() << "[saveObjectToFlash] Moving on to AWAITING_COMPLETED";
+        UAVOBJECTUTIL_QXTLOG_DEBUG(QString("[saveObjectToFlash] Moving on to AWAITING_COMPLETED"));
         disconnect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectPersistenceTransactionCompleted(UAVObject*,bool)));
         failureTimer.start(2000); // Create a timeout
     } else {
         // Can be caused by timeout errors on sending.  Forget it and send next.
-        qDebug() << "objectPersistenceTranscationCompleted (error)";
+        UAVOBJECTUTIL_QXTLOG_DEBUG(QString("objectPersistenceTranscationCompleted (error))"));
         ObjectPersistence * objectPersistence = ObjectPersistence::GetInstance(getObjectManager());
         Q_ASSERT(objectPersistence);
 
@@ -278,7 +281,7 @@ void UAVObjectUtilManager::objectPersistenceUpdated(UAVObject * obj)
         obj->disconnect(this);
         queue.dequeue(); // We can now remove the object, it's done.
         saveState = IDLE;
-        qDebug() << "[saveObjectToFlash] Object save succeeded";
+        UAVOBJECTUTIL_QXTLOG_DEBUG(QString("[saveObjectToFlash] Object save succeeded"));
         emit saveCompleted(objectPersistence.ObjectID, true);
         saveNextObject();
     }
@@ -386,7 +389,7 @@ bool UAVObjectUtilManager::setMetadata(QMap<QString, UAVObject::Metadata> metaDa
         // Only enqueue objects that are present on hardware. If session
         // management is disabled this will always return true.
         if (updateMetadataFlag && obj->getIsPresentOnHardware()){
-            qDebug() << "Enqueued " << obj->getName();
+            UAVOBJECTUTIL_QXTLOG_DEBUG(QString("Enqueued %0").arg(obj->getName()));
             metadataSendlist.insert(obj, metaDataSetList.value(str));
         }
     }
@@ -441,13 +444,13 @@ void UAVObjectUtilManager::metadataTransactionCompleted(UAVObject* uavoObject, b
     {
         if (success)
         {
-            qDebug() << "Writing metadata succeded on " << uavoObject->getName();
+            UAVOBJECTUTIL_QXTLOG_DEBUG(QString("Writing metadata succeded on %0").arg(uavoObject->getName()));
         }
         else
         {
             // If unsuccessful
             metadataSendSuccess = false;
-            qDebug()<<metadataSendlist.keys().first()<<"metadata send failed";
+            UAVOBJECTUTIL_QXTLOG_DEBUG(QString("metadata send failed").arg(metadataSendlist.keys().first()));
         }
         disconnect(mobj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
         metadataSendlist.take(dobj);
