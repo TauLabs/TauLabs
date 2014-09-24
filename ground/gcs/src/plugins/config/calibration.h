@@ -166,10 +166,6 @@ private:
     //! Assign the metadata update rate
     void assignUpdateRate(UAVObject* obj, quint32 updatePeriod);
 
-    //! Slow the metadata update rate
-    void slowUpdateRate(UAVObject* obj);
-
-
     QTimer timer;
 
     //! Whether to attempt to calibrate the magnetometer (normally if it is present)

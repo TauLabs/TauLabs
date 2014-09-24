@@ -138,7 +138,7 @@ void Calibration::connectSensor(sensor_type sensor, bool con)
             Accels * accels = Accels::GetInstance(getObjectManager());
             Q_ASSERT(accels);
 
-            slowUpdateRate(accels);
+            assignUpdateRate(accels, NON_SENSOR_UPDATE_PERIOD);
             disconnect(accels, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
         }
             break;
@@ -148,7 +148,7 @@ void Calibration::connectSensor(sensor_type sensor, bool con)
             Magnetometer * mag = Magnetometer::GetInstance(getObjectManager());
             Q_ASSERT(mag);
 
-            slowUpdateRate(mag);
+            assignUpdateRate(mag, NON_SENSOR_UPDATE_PERIOD);
             disconnect(mag, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
         }
             break;
@@ -158,7 +158,7 @@ void Calibration::connectSensor(sensor_type sensor, bool con)
             Gyros * gyros = Gyros::GetInstance(getObjectManager());
             Q_ASSERT(gyros);
 
-            slowUpdateRate(gyros);
+            assignUpdateRate(gyros, NON_SENSOR_UPDATE_PERIOD);
             disconnect(gyros, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(dataUpdated(UAVObject *)));
         }
             break;
@@ -189,29 +189,6 @@ void Calibration::assignUpdateRate(UAVObject* obj, quint32 updatePeriod)
     loop.exec();
     emit calibrationBusy(false);
 }
-
-/**
- * @brief Calibration::slowUpdateRate Slows down the update rate to NON_SENSOR_UPDATE_PERIOD
- * @param obj UAVObject to slow down
- */
-void Calibration::slowUpdateRate(UAVObject* obj)
-{
-    UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
-    Q_ASSERT(dobj);
-    UAVObject::Metadata mdata = obj->getMetadata();
-    mdata = slowedDownMetaDataList.value(obj->getName());
-    UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
-    mdata.flightTelemetryUpdatePeriod = NON_SENSOR_UPDATE_PERIOD;
-    QEventLoop loop;
-    QTimer::singleShot(META_OPERATIONS_TIMEOUT, &loop, SLOT(quit()));
-    connect(dobj->getMetaObject(), SIGNAL(transactionCompleted(UAVObject*,bool)), &loop, SLOT(quit()));
-    // Show the UI is blocking
-    emit calibrationBusy(true);
-    obj->setMetadata(mdata);
-    loop.exec();
-    emit calibrationBusy(false);
-}
-
 
 //! Slow all the other data updates
 void Calibration::slowDataUpdates()
