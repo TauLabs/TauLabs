@@ -450,7 +450,7 @@ void UAVObjectUtilManager::metadataTransactionCompleted(UAVObject* uavoObject, b
         {
             // If unsuccessful
             metadataSendSuccess = false;
-            UAVOBJECTUTIL_QXTLOG_DEBUG(QString("metadata send failed").arg(metadataSendlist.keys().first()));
+            UAVOBJECTUTIL_QXTLOG_DEBUG(QString("metadata send failed").arg(metadataSendlist.keys().first()->getName()));
         }
         disconnect(mobj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(metadataTransactionCompleted(UAVObject*,bool)));
         metadataSendlist.take(dobj);
