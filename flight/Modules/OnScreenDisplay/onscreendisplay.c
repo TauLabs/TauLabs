@@ -57,6 +57,7 @@
 #include <openpilot.h>
 #include "stm32f4xx_flash.h"
 #include <pios_board_info.h>
+#include "pios_thread.h"
 
 #include "onscreendisplay.h"
 #include "onscreendisplaysettings.h"
@@ -110,7 +111,7 @@ static void onScreenDisplayTask(void *parameters);
 // ****************
 // Private constants
 #define LONG_TIME        0xffff
-#define STACK_SIZE_BYTES 4096
+#define STACK_SIZE_BYTES 2048
 #define TASK_PRIORITY    (tskIDLE_PRIORITY + 1)
 #define UPDATE_PERIOD    100
 #define BLINK_INTERVAL_FRAMES 6
@@ -132,7 +133,7 @@ const char IMPERIAL_DIST_UNIT_SHORT[] = "ft";
 // Private variables
 static uint16_t frame_counter = 0;
 static bool module_enabled = false;
-static xTaskHandle onScreenDisplayTaskHandle;
+static struct pios_thread *taskHandle;
 xSemaphoreHandle onScreenDisplaySemaphore = NULL;
 uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 float convert_speed;
@@ -2099,8 +2100,10 @@ int32_t OnScreenDisplayStart(void)
 	if (module_enabled)
 	{
 		vSemaphoreCreateBinary(onScreenDisplaySemaphore);
-		xTaskCreate(onScreenDisplayTask, (signed char *)"OnScreenDisplay", STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY, &onScreenDisplayTaskHandle);
-		TaskMonitorAdd(TASKINFO_RUNNING_ONSCREENDISPLAY, onScreenDisplayTaskHandle);
+
+		taskHandle = PIOS_Thread_Create(onScreenDisplayTask, "OnScreenDisplay", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		TaskMonitorAdd(TASKINFO_RUNNING_ONSCREENDISPLAY, taskHandle);
+
 #if defined(PIOS_INCLUDE_WDG) && defined(OSD_USE_WDG)
 		PIOS_WDG_RegisterFlag(PIOS_WDG_OSDGEN);
 #endif
@@ -2120,9 +2123,9 @@ int32_t OnScreenDisplayInitialize(void)
 	ModuleSettingsAdminStateGet(module_state);
 	
 	// XXX fix this!
-	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings2Data), "settings must be the same!");
-	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings3Data), "settings must be the same!");
-	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings4Data), "settings must be the same!");
+//	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings2Data), "settings must be the same!");
+//	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings3Data), "settings must be the same!");
+//	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings4Data), "settings must be the same!");
 
 	OnScreenDisplayPageSettingsInitialize();
 	OnScreenDisplayPageSettings2Initialize();
@@ -2169,9 +2172,6 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 	
 	OnScreenDisplaySettingsGet(&osd_settings);
 	home_baro_altitude = 0.;
-	
-	
-
 
 	// blank
 	while (xTaskGetTickCount() <= BLANK_TIME) {
