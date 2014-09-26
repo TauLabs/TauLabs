@@ -14,6 +14,9 @@ ROOT_DIR := $(realpath $(WHEREAMI)/../)
 # import macros common to all supported build systems
 include $(ROOT_DIR)/make/system-id.mk
 
+TOOLS_DIR := $(ROOT_DIR)/tools
+BUILD_DIR := $(ROOT_DIR)/build
+
 # include the tools makefile
 include $(ROOT_DIR)/make/tools.mk
 

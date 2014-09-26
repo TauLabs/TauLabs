@@ -42,9 +42,6 @@ cp "${BUILD_DIR}/matlab/LogConvert.m" "/Volumes/${VOL_NAME}/Utilities/LogConvert
 
 cp "${ROOT_DIR}/HISTORY.txt" "/Volumes/${VOL_NAME}"
 
-"${ROOT_DIR}/package/osx/libraries" \
-	"/Volumes/${VOL_NAME}/Tau Labs GCS.app" || exit 1
-
 echo "Changing mounted folder icons"
 # Set the icon for the mounted DMG.
 # Inspired from http://stackoverflow.com/questions/988920/where-to-find-volume-mount-icon-on-leopard

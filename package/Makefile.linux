@@ -42,7 +42,7 @@ DEB_PACKAGE_NAME	:= taulabs_$(VERSION_FULL)_$(DEB_PLATFORM)
 
 QT_PLUGINS_USED		:=imageformats platforms sqldrivers
 
-linux_standalone: gcs
+standalone: gcs
 	@echo $@ starting
 	@echo Copying Qt5 plugins libraries
 	$(V1) mkdir -p "$(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins"
@@ -61,7 +61,8 @@ linux_standalone: gcs
 	| sed -e '/^[^\t]/ d; s/^\t\(.* => \)\?\([^ ]*\) (.*/\2/g'| grep "Qt5" | grep -v "build/ground" | sort | uniq | xargs -I '{}' cp -v -f '{}' $(ROOT_DIR)/build/ground/gcs/lib/taulabs
 	@echo Copying qt.conf file
 	$(V1)cp -v $(ROOT_DIR)/package/linux/qt.conf $(ROOT_DIR)/build/ground/gcs/bin/
-linux_deb_package: deb_build linux_standalone
+
+linux_deb_package: deb_build standalone
 	@echo $@ starting
 	cd .. && dpkg-buildpackage -b -us -uc
 	$(V1)mv $(ROOT_DIR)/../$(DEB_PACKAGE_NAME).deb $(BUILD_DIR)
