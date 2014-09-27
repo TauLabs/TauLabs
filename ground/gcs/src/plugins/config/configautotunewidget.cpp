@@ -14,6 +14,13 @@
 #include "systemident.h"
 #include "stabilizationsettings.h"
 #include "modulesettings.h"
+#include "coreplugin/generalsettings.h"
+#include "utils/phpbb.h"
+#include "extensionsystem/pluginmanager.h"
+#include <QMessageBox>
+
+#define FORUM_SHARING_FORUM     24
+#define FORUM_SHARING_THREAD    255
 
 ConfigAutotuneWidget::ConfigAutotuneWidget(QWidget *parent) :
     ConfigTaskWidget(parent)
@@ -39,6 +46,8 @@ ConfigAutotuneWidget::ConfigAutotuneWidget(QWidget *parent) :
 
     // Connect the apply button for the stabilization settings
     connect(m_autotune->useComputedValues, SIGNAL(pressed()), this, SLOT(saveStabilization()));
+
+    connect(m_autotune->shareDataPB, SIGNAL(pressed()),this, SLOT(onShareData()));
 }
 
 /**
@@ -67,6 +76,126 @@ void ConfigAutotuneWidget::saveStabilization()
     // Apply this data to the board
     stabilizationSettings->setData(stabSettings);
     stabilizationSettings->updated();
+}
+
+void ConfigAutotuneWidget::onShareData()
+{
+    forumLoginForm = new Utils::ForumCredentialsForm(this);
+    connect(forumLoginForm, SIGNAL(finished(int)), this, SLOT(onForumCredentialsSet(int)));
+    ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
+    Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
+    if (!settings->getForumPassword().isEmpty())
+    {
+       forumLoginForm->setPassword(settings->getForumPassword());
+       forumLoginForm->setUserName(settings->getForumUser());
+    }
+    forumLoginForm->setObservations(settings->getObservations());
+    forumLoginForm->setAircraftDescription(settings->getAircraftDescription());
+    forumLoginForm->show();
+    forumLoginForm->raise();
+    forumLoginForm->activateWindow();
+}
+
+void ConfigAutotuneWidget::onForumCredentialsSet(int value)
+{
+    if(!value)
+    {
+        forumLoginForm->deleteLater();
+        return;
+    }
+    ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
+    Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
+    if (forumLoginForm->getSaveCredentials())
+    {
+        settings->setForumPassword(forumLoginForm->getPassword());
+        settings->setForumUser(forumLoginForm->getUserName());
+    }
+    else
+    {
+        settings->setForumPassword("");
+        settings->setForumUser("");
+    }
+    settings->setObservations(forumLoginForm->getObservations());
+    settings->setAircraftDescription(forumLoginForm->getAircraftDescription());
+    Utils::PHPBB php("http://forum.taulabs.org", this);
+    if (!php.login(forumLoginForm->getUserName(), forumLoginForm->getPassword()))
+    {
+       QMessageBox::warning(this, tr("Forum login"), tr("Forum login failed, probably wrong username or password"));
+       forumLoginForm->deleteLater();
+       return;
+    }
+
+    QString message0 = tr(
+                "[b]Aircraft description[/b]:%0\n\n"
+                "[b]Observations[/b]:%1\n\n"
+                "[b]Measured properties[/b]"
+                "[table][tr][td][/td]"
+                "[td][b]Gain[/b][/td]"
+                "[td][b]Bias[/b][/td]"
+                "[td][b]Tau(s)[/b][/td]"
+                "[td][b]Noise[/b][/td][/tr]"
+                "[tr][td][b]Roll[/b][/td]"
+                "[td]%2[/td]"
+                "[td]%3[/td]"
+                "[td]%4[/td]"
+                "[td]%5[/td][/tr]"
+                "[tr][td][b]Pitch[/b][/td]"
+                "[td]%6[/td]"
+                "[td]%7[/td]"
+                "[td]%8[/td]"
+                "[td]%9[/td][/tr][/table]"
+                "[b]\nTuning aggressiveness [/b]"
+                "[table][tr][td][b]Damping[/b][/td]"
+                "[td]%10[/td][/tr]"
+                "[tr][td][b]Noise sensitivity[/b][/td]"
+                "[td]%11[/td][/tr]"
+                "[tr][td][b]Natural frequency[/b][/td]"
+                "[td]%12[/td][/tr][/table]")
+            .arg(forumLoginForm->getAircraftDescription()).arg(forumLoginForm->getObservations())
+            .arg(m_autotune->measuredRollGain->text()).arg(m_autotune->measuredRollBias->text())
+            .arg(m_autotune->rollTau->text()).arg(m_autotune->measuredRollNoise->text())
+            .arg(m_autotune->measuredPitchGain->text()).arg(m_autotune->measuredPitchBias->text())
+            .arg(m_autotune->pitchTau->text()).arg(m_autotune->measuredPitchNoise->text())
+            .arg(m_autotune->lblDamp->text()).arg(m_autotune->lblNoise->text())
+            .arg(m_autotune->wn->text());
+    QString message1 = tr(
+                "[b]\nComputed Values[/b]"
+                "[table][tr][td][/td]"
+                "[td][b]RateKp[/b][/td]"
+                "[td][b]RateKi[/b][/td]"
+                "[td][b]RateKd[/b][/td][/tr]"
+                "[tr][td][b]Roll[/b][/td]"
+                "[td]%1[/td]"
+                "[td]%2[/td]"
+                "[td]%3[/td][/tr]"
+                "[tr][td][b]Pitch[/b][/td]"
+                "[td]%4[/td]"
+                "[td]%5[/td]"
+                "[td]%6[/td][/tr]"
+                "[tr][td][b]Outer Kp[/b][/td]"
+                "[td]%7[/td]"
+                "[td]-[/td]"
+                "[td]-[/td][/tr]"
+                "[tr][td][b]Derivative cutoff[/b][/td]"
+                "[td]%8[/td]"
+                "[td]-[/td]"
+                "[td]-[/td][/tr][/table]")
+            .arg(m_autotune->rollRateKp->text()).arg(m_autotune->rollRateKi->text()).arg(m_autotune->rollRateKd->text())
+            .arg(m_autotune->pitchRateKp->text()).arg(m_autotune->pitchRateKi->text()).arg(m_autotune->pitchRateKd->text())
+            .arg(m_autotune->lblOuterKp->text()).arg(m_autotune->derivativeCutoff->text());
+
+    QString message = message0 + message1;
+    if(php.postReply(FORUM_SHARING_FORUM, FORUM_SHARING_THREAD, "Autotune Results", message))
+    {
+        QMessageBox::information(this, tr("Autotune results sharing"), tr("Thank you for sharing your results"));
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("Autotune results sharing"), tr("Ooops, something went wrong, your results were not shared"));
+    }
+    forumLoginForm->deleteLater();
+
+    qDebug()<<value<<message0;
 }
 
 /**

@@ -36,6 +36,7 @@
 #include "systemident.h"
 #include <QWidget>
 #include <QTimer>
+#include "utils/forumcredentialsform.h"
 
 class ConfigAutotuneWidget : public ConfigTaskWidget
 {
@@ -48,7 +49,7 @@ private:
     StabilizationSettings::DataFields stabSettings;
 
     bool approveSettings(SystemIdent::DataFields systemIdentData);
-
+    Utils::ForumCredentialsForm *forumLoginForm;
 signals:
 
 public slots:
@@ -57,6 +58,8 @@ public slots:
 private slots:
     void recomputeStabilization();
     void saveStabilization();
+    void onShareData();
+    void onForumCredentialsSet(int value);
 };
 
 #endif // CONFIGAUTOTUNE_H
