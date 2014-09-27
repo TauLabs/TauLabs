@@ -2,11 +2,11 @@
  ******************************************************************************
  * @file       phpbb.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
- * @addtogroup [Group]
+ * @addtogroup Utils
  * @{
  * @addtogroup PHPBB
  * @{
- * @brief [Brief]
+ * @brief Utility class to comunicate with a phpbb3 forum
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

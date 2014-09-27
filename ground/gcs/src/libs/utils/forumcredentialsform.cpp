@@ -2,11 +2,12 @@
  ******************************************************************************
  * @file       forumcredentialsform.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
- * @addtogroup [Group]
+ * @addtogroup Utils
  * @{
  * @addtogroup ForumCredentialsForm
  * @{
- * @brief [Brief]
+ * @brief Utility to present a form to the user where he can input is forum
+ * credentials and aircraft details
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
