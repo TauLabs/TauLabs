@@ -102,42 +102,90 @@ static uintptr_t PIOS_USART_1_id;
 void USART1_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_1_irq_handler")));
 static void PIOS_USART_1_irq_handler (void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_USART_generic_irq_handler (PIOS_USART_1_id);
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 static uintptr_t PIOS_USART_2_id;
 void USART2_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_2_irq_handler")));
 static void PIOS_USART_2_irq_handler (void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_USART_generic_irq_handler (PIOS_USART_2_id);
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 static uintptr_t PIOS_USART_3_id;
 void USART3_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_3_irq_handler")));
 static void PIOS_USART_3_irq_handler (void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_USART_generic_irq_handler (PIOS_USART_3_id);
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 static uintptr_t PIOS_USART_4_id;
 void USART4_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_4_irq_handler")));
 static void PIOS_USART_4_irq_handler (void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_USART_generic_irq_handler (PIOS_USART_4_id);
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 static uintptr_t PIOS_USART_5_id;
 void USART5_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_5_irq_handler")));
 static void PIOS_USART_5_irq_handler (void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_USART_generic_irq_handler (PIOS_USART_5_id);
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 static uintptr_t PIOS_USART_6_id;
 void USART6_IRQHandler(void) __attribute__ ((alias ("PIOS_USART_6_irq_handler")));
 static void PIOS_USART_6_irq_handler (void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_USART_generic_irq_handler (PIOS_USART_6_id);
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 /**
