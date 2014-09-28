@@ -144,6 +144,10 @@ static void PIOS_OVERO_WriteData(struct pios_overo_dev *overo_dev)
  */
 void PIOS_OVERO_DMA_irq_handler(uintptr_t overo_id)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *) overo_id;
 	if(!PIOS_OVERO_validate(overo_dev))
 		return;
@@ -175,6 +179,10 @@ void PIOS_OVERO_DMA_irq_handler(uintptr_t overo_id)
 	PIOS_OVERO_WriteData(overo_dev);
 
 	overo_dev->packets++;
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 /**
