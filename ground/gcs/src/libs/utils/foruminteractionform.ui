@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ForumCredentialsForm</class>
- <widget class="QDialog" name="ForumCredentialsForm">
+ <class>ForumInteractionForm</class>
+ <widget class="QDialog" name="ForumInteractionForm">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -139,7 +139,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ForumCredentialsForm</receiver>
+   <receiver>ForumInteractionForm</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -155,7 +155,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ForumCredentialsForm</receiver>
+   <receiver>ForumInteractionForm</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

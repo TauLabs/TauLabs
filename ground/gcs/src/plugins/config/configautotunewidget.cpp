@@ -80,7 +80,7 @@ void ConfigAutotuneWidget::saveStabilization()
 
 void ConfigAutotuneWidget::onShareData()
 {
-    forumLoginForm = new Utils::ForumCredentialsForm(this);
+    forumLoginForm = new Utils::ForumInteractionForm(this);
     connect(forumLoginForm, SIGNAL(finished(int)), this, SLOT(onForumCredentialsSet(int)));
     ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();

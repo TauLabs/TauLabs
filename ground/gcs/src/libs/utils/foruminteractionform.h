@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file       forumcredentialsform.h
+ * @file       foruminteractionform.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup [Utils
  * @{
@@ -25,25 +25,25 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef FORUMCREDENTIALSFORM_H
-#define FORUMCREDENTIALSFORM_H
+#ifndef FORUMINTERACTIONFORM_H
+#define FORUMINTERACTIONFORM_H
 
 #include <QDialog>
 #include "utils_global.h"
 
 namespace Ui {
-class ForumCredentialsForm;
+class ForumInteractionForm;
 }
 
 namespace Utils {
 
-class QTCREATOR_UTILS_EXPORT ForumCredentialsForm : public QDialog
+class QTCREATOR_UTILS_EXPORT ForumInteractionForm : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ForumCredentialsForm(QWidget *parent = 0);
-    ~ForumCredentialsForm();
+    explicit ForumInteractionForm(QWidget *parent = 0);
+    ~ForumInteractionForm();
     void setPassword(QString value);
     void setUserName(QString value);
     QString getUserName();
@@ -55,8 +55,8 @@ public:
     bool getSaveCredentials();
 
 private:
-    Ui::ForumCredentialsForm *ui;
+    Ui::ForumInteractionForm *ui;
 };
 
 }
-#endif // FORUMCREDENTIALSFORM_H
+#endif // FORUMINTERACTIONFORM_H

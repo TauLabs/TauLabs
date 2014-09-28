@@ -1,10 +1,10 @@
 /**
  ******************************************************************************
- * @file       forumcredentialsform.cpp
+ * @file       foruminteractionform.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup Utils
  * @{
- * @addtogroup ForumCredentialsForm
+ * @addtogroup ForumInteractionForm
  * @{
  * @brief Utility to present a form to the user where he can input is forum
  * credentials and aircraft details
@@ -25,66 +25,66 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "forumcredentialsform.h"
-#include "ui_forumcredentialsform.h"
+#include "foruminteractionform.h"
+#include "ui_foruminteractionform.h"
 
 namespace Utils {
 
-ForumCredentialsForm::ForumCredentialsForm(QWidget *parent) :
+ForumInteractionForm::ForumInteractionForm(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ForumCredentialsForm)
+    ui(new Ui::ForumInteractionForm)
 {
     ui->setupUi(this);
 }
 
-ForumCredentialsForm::~ForumCredentialsForm()
+ForumInteractionForm::~ForumInteractionForm()
 {
     delete ui;
 }
 
-void ForumCredentialsForm::setPassword(QString value)
+void ForumInteractionForm::setPassword(QString value)
 {
     ui->passwordLE->setText(value);
     ui->saveCredentialsCB->setChecked(true);
 }
 
-void ForumCredentialsForm::setUserName(QString value)
+void ForumInteractionForm::setUserName(QString value)
 {
     ui->userNameLE->setText(value);
     ui->saveCredentialsCB->setChecked(true);
 }
 
-QString ForumCredentialsForm::getUserName()
+QString ForumInteractionForm::getUserName()
 {
     return ui->userNameLE->text();
 }
 
-QString ForumCredentialsForm::getPassword()
+QString ForumInteractionForm::getPassword()
 {
     return ui->passwordLE->text();
 }
 
-void ForumCredentialsForm::setObservations(QString value)
+void ForumInteractionForm::setObservations(QString value)
 {
     ui->observationsTE->setText(value);
 }
 
-void ForumCredentialsForm::setAircraftDescription(QString value)
+void ForumInteractionForm::setAircraftDescription(QString value)
 {
     ui->aircraftDescriptionTE->setText(value);
 }
 
-QString ForumCredentialsForm::getObservations()
+QString ForumInteractionForm::getObservations()
 {
     return ui->observationsTE->toPlainText();
 }
 
-QString ForumCredentialsForm::getAircraftDescription()
+QString ForumInteractionForm::getAircraftDescription()
 {
     return ui->aircraftDescriptionTE->toPlainText();
 }
 
-bool ForumCredentialsForm::getSaveCredentials()
+bool ForumInteractionForm::getSaveCredentials()
 {
     return ui->saveCredentialsCB->isChecked();
 }

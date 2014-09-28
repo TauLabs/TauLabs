@@ -58,7 +58,7 @@ SOURCES += reloadpromptutils.cpp \
     cachedsvgitem.cpp \
     svgimageprovider.cpp \
     phpbb.cpp \
-    forumcredentialsform.cpp
+    foruminteractionform.cpp
 
 SOURCES += xmlconfig.cpp
 
@@ -117,7 +117,7 @@ HEADERS += utils_global.h \
     cachedsvgitem.h \
     svgimageprovider.h \
     phpbb.h \
-    forumcredentialsform.h
+    foruminteractionform.h
 
 
 HEADERS += xmlconfig.h
@@ -127,6 +127,6 @@ FORMS += filewizardpage.ui \
     newclasswidget.ui \
     submiteditorwidget.ui \
     checkablemessagebox.ui \
-    forumcredentialsform.ui
+    foruminteractionform.ui
 
 RESOURCES += utils.qrc
