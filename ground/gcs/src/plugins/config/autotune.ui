@@ -41,7 +41,7 @@
    <item>
     <widget class="QTabWidget" name="Autotune_tabs">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="Preautotune_tab">
       <attribute name="title">
