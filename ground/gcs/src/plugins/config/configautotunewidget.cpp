@@ -194,8 +194,6 @@ void ConfigAutotuneWidget::onForumCredentialsSet(int value)
         QMessageBox::warning(this, tr("Autotune results sharing"), tr("Ooops, something went wrong, your results were not shared"));
     }
     forumLoginForm->deleteLater();
-
-    qDebug()<<value<<message0;
 }
 
 /**

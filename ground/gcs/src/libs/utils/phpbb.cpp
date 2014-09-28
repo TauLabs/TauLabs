@@ -75,13 +75,10 @@ QNetworkReply *PHPBB::postData(QString url) {
     send.append(endBoundary.toLatin1());
 
     fields.clear();
-
     request.setRawHeader("Host", host.toLatin1());
     request.setHeader(QNetworkRequest::ContentTypeHeader, contentType.toLatin1());
     request.setHeader(QNetworkRequest::ContentLengthHeader, QVariant(send.size()).toString());
     request.setUrl(QUrl(url));
-    qDebug()<<url;
-    qDebug()<<send;
     return this->post(request, send);
 }
 
@@ -123,7 +120,6 @@ bool PHPBB::postReply(int forumID, int threadID, QString subject, QString messag
     if(reply->error() != QNetworkReply::NoError)
         return false;
     QString replyStr(reply->readAll());
-    qDebug()<<replyStr;
     if(replyStr.contains("This message has been posted successfully"))
         return true;
     else
@@ -145,7 +141,6 @@ bool PHPBB::login(QString username, QString password)
     if(reply->error() != QNetworkReply::NoError)
         return false;
     QString replyStr(reply->readAll());
-    qDebug()<<replyStr;
     if(replyStr.contains("You have been successfully logged in"))
         return true;
     else
