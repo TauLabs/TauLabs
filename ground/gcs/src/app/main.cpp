@@ -352,12 +352,14 @@ int main(int argc, char **argv)
     if (!isFirstInstance && foundAppOptions.contains(QLatin1String(CLIENT_OPTION)))
         return sendArguments(app, pluginManager.arguments()) ? 0 : -1;
 
+#if !defined(Q_OS_MAC)
     // Set up splash screen to show loading progress
     QPixmap pixmap(":/images/resources/tau_trans.png");
     CustomSplash splash(pixmap);
     splash.showMessage("Loading plugins", Qt::AlignCenter | Qt::AlignBottom, Qt::black);
     QObject::connect(&pluginManager,SIGNAL(splashMessages(QString)),&splash,SLOT(showMessage(const QString)));
     splash.show();
+#endif /* Q_OS_MAC */
 
     pluginManager.loadPlugins();
     if (coreplugin->hasError()) {
@@ -385,6 +387,9 @@ int main(int argc, char **argv)
     QObject::connect(&app, SIGNAL(fileOpenRequest(QString)), coreplugin->plugin(), SLOT(remoteArgument(QString)));
     // Do this after the event loop has started
     QTimer::singleShot(100, &pluginManager, SLOT(startTests()));
+
+#if !defined(Q_OS_MAC)
     splash.close();
+#endif /* Q_OS_MAC */
     return app.exec();
 }
