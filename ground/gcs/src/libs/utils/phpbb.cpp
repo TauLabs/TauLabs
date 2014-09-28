@@ -91,7 +91,7 @@ bool PHPBB::postReply(int forumID, int threadID, QString subject, QString messag
     connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
     QString secrets = reply->readAll();
-    if( !(secrets.contains("creation_time") && secrets.contains("form_token")) )
+    if ( !(secrets.contains("creation_time") && secrets.contains("form_token")) )
         return false;
     int creation_index = secrets.indexOf("creation_time");
     creation_index = secrets.indexOf("value=", creation_index);
@@ -117,10 +117,10 @@ bool PHPBB::postReply(int forumID, int threadID, QString subject, QString messag
     reply = postData(host + QString("/posting.php?mode=reply&f=%0&t=%1").arg(forumID).arg(threadID));
     connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
-    if(reply->error() != QNetworkReply::NoError)
+    if (reply->error() != QNetworkReply::NoError)
         return false;
     QString replyStr(reply->readAll());
-    if(replyStr.contains("This message has been posted successfully"))
+    if (replyStr.contains("This message has been posted successfully"))
         return true;
     else
         return false;
@@ -138,13 +138,12 @@ bool PHPBB::login(QString username, QString password)
     //return true;
     connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
-    if(reply->error() != QNetworkReply::NoError)
+    if (reply->error() != QNetworkReply::NoError)
         return false;
     QString replyStr(reply->readAll());
-    if(replyStr.contains("You have been successfully logged in"))
+    if (replyStr.contains("You have been successfully logged in"))
         return true;
     else
         return false;
 }
-
 }
