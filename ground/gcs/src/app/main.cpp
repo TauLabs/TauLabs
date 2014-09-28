@@ -266,11 +266,6 @@ int main(int argc, char **argv)
     QTranslator translator;
     QTranslator qtTranslator;
 
-    QPixmap pixmap(":/images/resources/tau_trans.png");
-    CustomSplash splash(pixmap);
-    splash.show();
-
-    splash.showMessage("Loading translations",Qt::AlignCenter | Qt::AlignBottom,Qt::black);
     qApp->processEvents();
     const QString &creatorTrPath = QCoreApplication::applicationDirPath()
                                    + QLatin1String(SHARE_PATH "/translations");
@@ -293,7 +288,6 @@ int main(int argc, char **argv)
 
     const QStringList pluginPaths = getPluginPaths();
     pluginManager.setPluginPaths(pluginPaths);
-    splash.showMessage("Parsing command line options",Qt::AlignCenter | Qt::AlignBottom,Qt::black);
     qApp->processEvents();
     const QStringList arguments = app.arguments();
     QMap<QString, QString> foundAppOptions;
@@ -327,7 +321,7 @@ int main(int argc, char **argv)
             break;
         }
     }
-    splash.showMessage(QLatin1String("Checking core plugin"),Qt::AlignCenter | Qt::AlignBottom,Qt::black);
+
     qApp->processEvents();
     if (!coreplugin) {
         QString nativePaths = QDir::toNativeSeparators(pluginPaths.join(QLatin1String(",")));
@@ -358,7 +352,13 @@ int main(int argc, char **argv)
     if (!isFirstInstance && foundAppOptions.contains(QLatin1String(CLIENT_OPTION)))
         return sendArguments(app, pluginManager.arguments()) ? 0 : -1;
 
+    // Set up splash screen to show loading progress
+    QPixmap pixmap(":/images/resources/tau_trans.png");
+    CustomSplash splash(pixmap);
+    splash.showMessage("Loading plugins", Qt::AlignCenter | Qt::AlignBottom, Qt::black);
     QObject::connect(&pluginManager,SIGNAL(splashMessages(QString)),&splash,SLOT(showMessage(const QString)));
+    splash.show();
+
     pluginManager.loadPlugins();
     if (coreplugin->hasError()) {
         displayError(msgCoreLoadFailure(coreplugin->errorString()));
