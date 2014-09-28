@@ -96,10 +96,18 @@ void PIOS_USBHOOK_Deactivate(void)
 
 void OTG_FS_IRQHandler(void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	if(!USBD_OTG_ISR_Handler(&pios_usb_otg_core_handle)) {
 		/* spurious interrupt, disable IRQ */
 	  
 	}
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 struct usb_if_entry {
