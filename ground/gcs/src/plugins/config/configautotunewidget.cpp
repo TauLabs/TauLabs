@@ -84,8 +84,7 @@ void ConfigAutotuneWidget::onShareData()
     connect(forumLoginForm, SIGNAL(finished(int)), this, SLOT(onForumCredentialsSet(int)));
     ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
-    if (!settings->getForumPassword().isEmpty())
-    {
+    if (!settings->getForumPassword().isEmpty()) {
        forumLoginForm->setPassword(settings->getForumPassword());
        forumLoginForm->setUserName(settings->getForumUser());
     }
@@ -98,28 +97,23 @@ void ConfigAutotuneWidget::onShareData()
 
 void ConfigAutotuneWidget::onForumCredentialsSet(int value)
 {
-    if(!value)
-    {
+    if (!value) {
         forumLoginForm->deleteLater();
         return;
     }
     ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
-    if (forumLoginForm->getSaveCredentials())
-    {
+    if (forumLoginForm->getSaveCredentials()) {
         settings->setForumPassword(forumLoginForm->getPassword());
         settings->setForumUser(forumLoginForm->getUserName());
-    }
-    else
-    {
+    } else {
         settings->setForumPassword("");
         settings->setForumUser("");
     }
     settings->setObservations(forumLoginForm->getObservations());
     settings->setAircraftDescription(forumLoginForm->getAircraftDescription());
     Utils::PHPBB php("http://forum.taulabs.org", this);
-    if (!php.login(forumLoginForm->getUserName(), forumLoginForm->getPassword()))
-    {
+    if (!php.login(forumLoginForm->getUserName(), forumLoginForm->getPassword())) {
        QMessageBox::warning(this, tr("Forum login"), tr("Forum login failed, probably wrong username or password"));
        forumLoginForm->deleteLater();
        return;
@@ -185,12 +179,9 @@ void ConfigAutotuneWidget::onForumCredentialsSet(int value)
             .arg(m_autotune->lblOuterKp->text()).arg(m_autotune->derivativeCutoff->text());
 
     QString message = message0 + message1;
-    if(php.postReply(FORUM_SHARING_FORUM, FORUM_SHARING_THREAD, "Autotune Results", message))
-    {
+    if(php.postReply(FORUM_SHARING_FORUM, FORUM_SHARING_THREAD, "Autotune Results", message)) {
         QMessageBox::information(this, tr("Autotune results sharing"), tr("Thank you for sharing your results"));
-    }
-    else
-    {
+    } else {
         QMessageBox::warning(this, tr("Autotune results sharing"), tr("Ooops, something went wrong, your results were not shared"));
     }
     forumLoginForm->deleteLater();
