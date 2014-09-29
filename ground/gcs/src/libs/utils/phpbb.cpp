@@ -126,6 +126,59 @@ bool PHPBB::postReply(int forumID, int threadID, QString subject, QString messag
         return false;
 }
 
+QList<PHPBB::forumPost> PHPBB::getAllPosts(int forumID, int threadID)
+{
+    addField("post", "Submit");
+    QEventLoop loop;
+    QList<PHPBB::forumPost> list;
+    int current_page = 0;
+    int total_of_pages = 0;
+    while(true){
+        QTimer::singleShot(1000, &loop, SLOT(quit()));
+        loop.exec();
+        int cindex = 0;
+        QString pageStr;
+        if (current_page != 0) {
+            pageStr = "&start=" + QString::number(current_page * 10);
+        }
+        QString url = host + QString("/viewtopic.php?f=%0&t=%1%2").arg(forumID).arg(threadID).arg(pageStr);
+        QTimer::singleShot(TIMEOUT, &loop, SLOT(quit()));
+        QNetworkReply *reply = this->postData(url);
+        connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+        loop.exec();
+        QString str = reply->readAll();
+        total_of_pages = str.count("<span class=\"page-sep\">, </span>");
+        while(true) {
+            PHPBB::forumPost post;
+            int start_index = str.indexOf("<div class=\"postbody\">", cindex);
+            if (start_index == -1) {
+                break;
+            }
+            start_index = str.indexOf("<a href", start_index);
+            start_index = str.indexOf("\">", start_index);
+            int end_index = str.indexOf("</a>", start_index);
+            cindex = end_index;
+            post.title = str.mid(start_index + 2, end_index - start_index - 2);
+            start_index = str.indexOf("class=\"author\"", end_index);
+            start_index = str.indexOf("href=\"", start_index);
+            end_index = str.indexOf("\">", start_index);
+            post.link = host + str.mid(start_index + 6 + 1, end_index -start_index - 7);
+            start_index = str.indexOf("<strong>", start_index);
+            start_index = str.indexOf("\">", start_index);
+            end_index = str.indexOf("</a>", start_index);
+            post.author = str.mid(start_index + 2, end_index -start_index - 2);
+            start_index = str.indexOf("<div class=\"content\">", start_index);
+            end_index = str.indexOf("</div>", start_index);
+            post.text = str.mid(start_index + QString("<div class=\"content\">").length(), end_index - start_index - QString("<div class=\"content\">").length());
+            list.append(post);
+        }
+        ++current_page;
+        if(current_page >= total_of_pages)
+            break;
+    }
+    return list;
+}
+
 bool PHPBB::login(QString username, QString password)
 {
     addField("username", username);

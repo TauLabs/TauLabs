@@ -44,9 +44,17 @@ class QTCREATOR_UTILS_EXPORT PHPBB: public QNetworkAccessManager
 {
     Q_OBJECT
 public:
+    struct forumPost
+    {
+        QString author;
+        QString link;
+        QString title;
+        QString text;
+    };
     PHPBB(QString host, QObject * parent = 0);
     QNetworkReply *postData(QString url);
     bool postReply(int forumID, int threadID, QString subject, QString message);
+    QList<forumPost> getAllPosts(int forumID, int threadID);
     bool login(QString username, QString password);
     void addField(QString name, QString value);
     ~PHPBB();
