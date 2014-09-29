@@ -111,7 +111,7 @@ bool PHPBB::postReply(int forumID, int threadID, QString subject, QString messag
     addField("creation_time", creationTime);
     addField("subject", subject);
     addField("message", message);
-    addField("post", "Submit"); // adds fields in name/value pairs    QEventLoop loop;
+    addField("post", "Submit");
 
     QTimer::singleShot(TIMEOUT, &loop, SLOT(quit()));
     reply = postData(host + QString("/posting.php?mode=reply&f=%0&t=%1").arg(forumID).arg(threadID));
@@ -134,8 +134,6 @@ bool PHPBB::login(QString username, QString password)
     QEventLoop loop;
     QTimer::singleShot(TIMEOUT, &loop, SLOT(quit()));
     QNetworkReply *reply = postData(host + "/ucp.php?mode=login");
-    //connect(this ,SIGNAL(finished(QNetworkReply *)),this,SLOT(readData(QNetworkReply *)),Qt::UniqueConnection);
-    //return true;
     connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
     if (reply->error() != QNetworkReply::NoError)
