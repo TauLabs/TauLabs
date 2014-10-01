@@ -10,8 +10,8 @@ NSIS_TEMPLATE := $(NSIS_DIR)/taulabs.tpl
 NSIS_HEADER   := $(BUILD_DIR)/ground/gcs/taulabs.nsh
 
 standalone: gcs
-	$(V1) windeployqt -quick --release --list relative --qmldir $(ROOT_DIR)/build/ground/gcs/share/taulabs/welcome $(ROOT_DIR)/build/ground/gcs/bin/taulabsgcs.exe 
-	$(V1) windeployqt -quick --release --force --qmldir $(ROOT_DIR)/build/ground/gcs/share/taulabs/welcome $(ROOT_DIR)/build/ground/gcs/bin/taulabsgcs.exe 
+	$(V1) windeployqt -printsupport -concurrent -gui -opengl -xml -quick -test -script -sql -serialport -multimedia -multimediawidgets --list relative --qmldir $(ROOT_DIR)/build/ground/gcs/share/taulabs/welcome $(ROOT_DIR)/build/ground/gcs/bin/taulabsgcs.exe 
+	$(V1) windeployqt -printsupport -concurrent -gui -opengl -xml -quick -test -script -sql -serialport -multimedia -multimediawidgets --qmldir $(ROOT_DIR)/build/ground/gcs/share/taulabs/welcome $(ROOT_DIR)/build/ground/gcs/bin/taulabsgcs.exe 
 
 win_package: standalone package_flight package_matlab
 	$(V1) mkdir -p "$(dir $(NSIS_HEADER))"
