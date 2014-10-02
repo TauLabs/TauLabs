@@ -68,7 +68,7 @@ bool PIOS_Semaphore_Give(struct pios_semaphore *sema);
 #if !defined(SIM_POSIX) && !defined(SIM_OSX)
 bool PIOS_Semaphore_Take_FromISR(struct pios_semaphore *sema, bool *woken);
 bool PIOS_Semaphore_Give_FromISR(struct pios_semaphore *sema, bool *woken);
-#endif /* !defined(USE_SIM_POSIX) */
+#endif /* !defined(SIM_POSIX) && !defined(SIM_OSX) */
 
 #endif /* PIOS_SEMAPHORE_H_ */
 
