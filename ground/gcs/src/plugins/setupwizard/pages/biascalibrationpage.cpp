@@ -93,10 +93,15 @@ void BiasCalibrationPage::performCalibration()
     enableButtons(false);
     ui->progressLabel->setText(QString(tr("Retrieving data...")));
 
+    QTimer *timer = new QTimer(this);
+    timer->setSingleShot(true);
+    timer->setInterval(20000);
+
     connect(m_calibrationUtil, SIGNAL(levelingProgressChanged(int)), this, SLOT(calibrationProgress(int)));
     connect(m_calibrationUtil, SIGNAL(calibrationCompleted()), this, SLOT(calibrationDone()));
-    QTimer::singleShot(20000, this, SLOT(calibrationDone()));
-
+    connect(m_calibrationUtil, SIGNAL(calibrationCompleted()), timer, SLOT(stop()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(calibrationTimeout()));
+    timer->start();
     m_calibrationUtil->doStartBiasAndLeveling();
 }
 
