@@ -43,9 +43,6 @@ BiasCalibrationPage::BiasCalibrationPage(SetupWizard *wizard, QWidget *parent) :
 
 BiasCalibrationPage::~BiasCalibrationPage()
 {
-    if (m_calibrationUtil) {
-        delete m_calibrationUtil;
-    }
     delete ui;
 }
 
