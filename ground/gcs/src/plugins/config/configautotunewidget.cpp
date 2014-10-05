@@ -120,8 +120,8 @@ void ConfigAutotuneWidget::onForumCredentialsSet(int value)
     }
 
     QString message0 = tr(
-                "[b]Aircraft description[/b]:%0\n\n"
-                "[b]Observations[/b]:%1\n\n"
+                "[b]Aircraft description[/b]:%0\n\n\n"
+                "[b]Observations[/b]:%1\n\n\n"
                 "[b]Measured properties[/b]"
                 "[table][tr][td][/td]"
                 "[td][b]Gain[/b][/td]"
@@ -138,7 +138,7 @@ void ConfigAutotuneWidget::onForumCredentialsSet(int value)
                 "[td]%7[/td]"
                 "[td]%8[/td]"
                 "[td]%9[/td][/tr][/table]"
-                "[b]\nTuning aggressiveness [/b]"
+                "[b]\n\nTuning aggressiveness [/b]"
                 "[table][tr][td][b]Damping[/b][/td]"
                 "[td]%10[/td][/tr]"
                 "[tr][td][b]Noise sensitivity[/b][/td]"
@@ -153,7 +153,7 @@ void ConfigAutotuneWidget::onForumCredentialsSet(int value)
             .arg(m_autotune->lblDamp->text()).arg(m_autotune->lblNoise->text())
             .arg(m_autotune->wn->text());
     QString message1 = tr(
-                "[b]\nComputed Values[/b]"
+                "[b]\n\nComputed Values[/b]"
                 "[table][tr][td][/td]"
                 "[td][b]RateKp[/b][/td]"
                 "[td][b]RateKi[/b][/td]"
@@ -173,7 +173,8 @@ void ConfigAutotuneWidget::onForumCredentialsSet(int value)
                 "[tr][td][b]Derivative cutoff[/b][/td]"
                 "[td]%8[/td]"
                 "[td]-[/td]"
-                "[td]-[/td][/tr][/table]")
+                "[td]-[/td][/tr][/table]"
+                "\n\n")
             .arg(m_autotune->rollRateKp->text()).arg(m_autotune->rollRateKi->text()).arg(m_autotune->rollRateKd->text())
             .arg(m_autotune->pitchRateKp->text()).arg(m_autotune->pitchRateKi->text()).arg(m_autotune->pitchRateKd->text())
             .arg(m_autotune->lblOuterKp->text()).arg(m_autotune->derivativeCutoff->text());
