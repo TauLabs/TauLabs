@@ -598,7 +598,7 @@ static bool frsky_encode_airspeed(uint32_t *value, bool test_presence_only, uint
  * @param[out] obuff buffer where byte stuffed data will came in
  * @param[in,out] chk checksum byte to update
  * @param[in] byte
- * @returns count of bytes inserted to obuff
+ * @returns count of bytes inserted to obuff (1 or 2)
  */
 static uint8_t frsky_insert_byte(uint8_t *obuff, uint16_t *chk, uint8_t byte)
 {
@@ -624,6 +624,9 @@ static uint8_t frsky_insert_byte(uint8_t *obuff, uint16_t *chk, uint8_t byte)
  */
 static void frsky_send_frame(enum frsky_value_id id, uint32_t value)
 {
+	/* each call of frsky_insert_byte can add 2 bytes to the buffer at maximum
+	 * and therefore the worst-case is 15 bytes total (the first byte 0x10 won't be
+	 * escaped) */
 	uint8_t tx_data[15];
 	uint16_t chk = 0;
 	uint8_t cnt = 0;
