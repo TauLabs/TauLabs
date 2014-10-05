@@ -843,8 +843,8 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="iconSize">
                    <size>
-                    <width>72</width>
-                    <height>72</height>
+                    <width>30</width>
+                    <height>30</height>
                    </size>
                   </property>
                   <property name="flat">
