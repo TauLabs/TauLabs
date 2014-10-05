@@ -187,6 +187,7 @@ SRC += $(PIOSPOSIX)/pios_sys.c
 SRC += $(PIOSPOSIX)/pios_tcp.c
 SRC += $(PIOSPOSIX)/pios_debug.c
 SRC += $(PIOSPOSIX)/pios_heap.c
+SRC += $(PIOSPOSIX)/pios_irq.c
 
 EXTRAINCDIRS += $(PIOSCOMMON)/inc
 
