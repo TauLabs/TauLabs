@@ -151,18 +151,20 @@ out_fail:
 static void PIOS_COM_UnblockRx(struct pios_com_dev * com_dev, bool * need_yield)
 {
 #if defined(PIOS_INCLUDE_FREERTOS)
-	PIOS_Semaphore_Give_FromISR(com_dev->rx_sem, need_yield);
-#else
-	*need_yield = false;
+	if (PIOS_IRQ_InISR() == true)
+		PIOS_Semaphore_Give_FromISR(com_dev->rx_sem, need_yield);
+	else
+		PIOS_Semaphore_Give(com_dev->rx_sem);
 #endif
 }
 
 static void PIOS_COM_UnblockTx(struct pios_com_dev * com_dev, bool * need_yield)
 {
 #if defined(PIOS_INCLUDE_FREERTOS)
-	PIOS_Semaphore_Give_FromISR(com_dev->tx_sem, need_yield);
-#else
-	*need_yield = false;
+	if (PIOS_IRQ_InISR() == true)
+		PIOS_Semaphore_Give_FromISR(com_dev->tx_sem, need_yield);
+	else
+		PIOS_Semaphore_Give(com_dev->tx_sem);
 #endif
 }
 
