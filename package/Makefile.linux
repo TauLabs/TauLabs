@@ -56,6 +56,8 @@ standalone: gcs
 	@echo Copying platform libraries dependencies
 	$(V1)find $(QT_PLUGINS_DIR)/platforms/ -name '*.so'	| xargs -I '{}' ldd '{}'| sed -e '/^[^\t]/ d; s/^\t\(.* => \)\?\([^ ]*\) (.*/\2/g' \
 	| grep "Qt5" | grep -v "build/ground" | sort | uniq | xargs -I '{}' cp -v -f '{}' $(ROOT_DIR)/build/ground/gcs/lib/taulabs 
+	$(V1)find $(QT_PLUGINS_DIR)/../qml/QtQuick/ -name '*.so'	| xargs -I '{}' ldd '{}'| sed -e '/^[^\t]/ d; s/^\t\(.* => \)\?\([^ ]*\) (.*/\2/g' \
+	| grep "Qt5" | grep -v "build/ground" | sort | uniq | xargs -I '{}' cp -v -f '{}' $(ROOT_DIR)/build/ground/gcs/lib/taulabs 
 	@echo Searching and copying used Qt5 libraries
 	$(V1)find $(ROOT_DIR)/build/ground/gcs/bin/taulabsgcs.bin $(ROOT_DIR)/build/ground/gcs/lib/taulabs/plugins/TauLabs/*.so -exec ldd {} \; \
 	| sed -e '/^[^\t]/ d; s/^\t\(.* => \)\?\([^ ]*\) (.*/\2/g'| grep "Qt5" | grep -v "build/ground" | sort | uniq | xargs -I '{}' cp -v -f '{}' $(ROOT_DIR)/build/ground/gcs/lib/taulabs
