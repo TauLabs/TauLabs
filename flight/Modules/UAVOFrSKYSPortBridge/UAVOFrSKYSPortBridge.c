@@ -638,7 +638,7 @@ static void frsky_send_frame(enum frsky_value_id id, uint32_t value)
 
 	PIOS_COM_SendBuffer(frsky->com, tx_data, cnt);
 
-	frsky->ignore_rx_chars = 8;
+	frsky->ignore_rx_chars = cnt;
 }
 
 /**
