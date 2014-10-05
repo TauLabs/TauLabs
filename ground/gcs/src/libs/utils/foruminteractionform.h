@@ -4,7 +4,7 @@
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup [Utils
  * @{
- * @addtogroup ForumCredentialsForm
+ * @addtogroup ForumInteractionForm
  * @{
  * @brief Utility to present a form to the user where he can input is forum
  * credentials and aircraft details
