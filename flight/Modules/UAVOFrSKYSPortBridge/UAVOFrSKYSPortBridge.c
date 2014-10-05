@@ -602,6 +602,7 @@ static bool frsky_encode_airspeed(uint32_t *value, bool test_presence_only, uint
  */
 static uint8_t frsky_insert_byte(uint8_t *obuff, uint16_t *chk, uint8_t byte)
 {
+	/* checksum calculation is based on data before byte-stuffing */
 	*chk += byte;
 	*chk += (*chk) >> 8;
 	*chk &= 0x00ff;
