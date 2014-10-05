@@ -49,7 +49,7 @@ private:
     StabilizationSettings::DataFields stabSettings;
 
     bool approveSettings(SystemIdent::DataFields systemIdentData);
-    Utils::ForumInteractionForm *forumLoginForm;
+    Utils::ForumInteractionForm *forumInteractionForm;
 signals:
 
 public slots:
@@ -59,7 +59,7 @@ private slots:
     void recomputeStabilization();
     void saveStabilization();
     void onShareData();
-    void onForumCredentialsSet(int value);
+    void onForumInteractionSet(int value);
 };
 
 #endif // CONFIGAUTOTUNE_H

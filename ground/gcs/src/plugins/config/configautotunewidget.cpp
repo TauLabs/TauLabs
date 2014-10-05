@@ -80,42 +80,42 @@ void ConfigAutotuneWidget::saveStabilization()
 
 void ConfigAutotuneWidget::onShareData()
 {
-    forumLoginForm = new Utils::ForumInteractionForm(this);
-    connect(forumLoginForm, SIGNAL(finished(int)), this, SLOT(onForumCredentialsSet(int)));
+    forumInteractionForm = new Utils::ForumInteractionForm(this);
+    connect(forumInteractionForm, SIGNAL(finished(int)), this, SLOT(onForumInteractionSet(int)));
     ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
     if (!settings->getForumPassword().isEmpty()) {
-       forumLoginForm->setPassword(settings->getForumPassword());
-       forumLoginForm->setUserName(settings->getForumUser());
+       forumInteractionForm->setPassword(settings->getForumPassword());
+       forumInteractionForm->setUserName(settings->getForumUser());
     }
-    forumLoginForm->setObservations(settings->getObservations());
-    forumLoginForm->setAircraftDescription(settings->getAircraftDescription());
-    forumLoginForm->show();
-    forumLoginForm->raise();
-    forumLoginForm->activateWindow();
+    forumInteractionForm->setObservations(settings->getObservations());
+    forumInteractionForm->setAircraftDescription(settings->getAircraftDescription());
+    forumInteractionForm->show();
+    forumInteractionForm->raise();
+    forumInteractionForm->activateWindow();
 }
 
-void ConfigAutotuneWidget::onForumCredentialsSet(int value)
+void ConfigAutotuneWidget::onForumInteractionSet(int value)
 {
     if (!value) {
-        forumLoginForm->deleteLater();
+        forumInteractionForm->deleteLater();
         return;
     }
     ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
-    if (forumLoginForm->getSaveCredentials()) {
-        settings->setForumPassword(forumLoginForm->getPassword());
-        settings->setForumUser(forumLoginForm->getUserName());
+    if (forumInteractionForm->getSaveCredentials()) {
+        settings->setForumPassword(forumInteractionForm->getPassword());
+        settings->setForumUser(forumInteractionForm->getUserName());
     } else {
         settings->setForumPassword("");
         settings->setForumUser("");
     }
-    settings->setObservations(forumLoginForm->getObservations());
-    settings->setAircraftDescription(forumLoginForm->getAircraftDescription());
+    settings->setObservations(forumInteractionForm->getObservations());
+    settings->setAircraftDescription(forumInteractionForm->getAircraftDescription());
     Utils::PHPBB php("http://forum.taulabs.org", this);
-    if (!php.login(forumLoginForm->getUserName(), forumLoginForm->getPassword())) {
+    if (!php.login(forumInteractionForm->getUserName(), forumInteractionForm->getPassword())) {
        QMessageBox::warning(this, tr("Forum login"), tr("Forum login failed, probably wrong username or password"));
-       forumLoginForm->deleteLater();
+       forumInteractionForm->deleteLater();
        return;
     }
 
@@ -145,7 +145,7 @@ void ConfigAutotuneWidget::onForumCredentialsSet(int value)
                 "[td]%11[/td][/tr]"
                 "[tr][td][b]Natural frequency[/b][/td]"
                 "[td]%12[/td][/tr][/table]")
-            .arg(forumLoginForm->getAircraftDescription()).arg(forumLoginForm->getObservations())
+            .arg(forumInteractionForm->getAircraftDescription()).arg(forumInteractionForm->getObservations())
             .arg(m_autotune->measuredRollGain->text()).arg(m_autotune->measuredRollBias->text())
             .arg(m_autotune->rollTau->text()).arg(m_autotune->measuredRollNoise->text())
             .arg(m_autotune->measuredPitchGain->text()).arg(m_autotune->measuredPitchBias->text())
@@ -185,7 +185,7 @@ void ConfigAutotuneWidget::onForumCredentialsSet(int value)
     } else {
         QMessageBox::warning(this, tr("Autotune results sharing"), tr("Ooops, something went wrong, your results were not shared"));
     }
-    forumLoginForm->deleteLater();
+    forumInteractionForm->deleteLater();
 }
 
 /**
