@@ -68,7 +68,7 @@
 		<!--  1. Telem - able to receive radio connection from CoordID partner -->
 		<!--  2. TelemCoord - able to establish a receiver connection -->
 		<!--  3. PPM - receiver functionality is on to allow receiving PPM packtes from CoordID -->
-                <field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,TelemCoord,PPM" defaultvalue="Telem"/>
+                <field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,TelemCoord,PPM" defaultvalue="Disabled"/>
 		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
 		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
 
