@@ -69,6 +69,19 @@ public:
 
     virtual int queryMaxGyroRate();
 
+    /**
+     * Get the RFM22b device ID this modem
+     * @return RFM22B device ID or 0 if not supported
+     */
+    virtual quint32 getRfmID();
+
+    /**
+     * Set the coordinator ID. If set to zero this device will
+     * be a coordinator.
+     * @return true if successful or false if not
+     */
+    virtual bool setCoordID(quint32 id);
+
 };
 
 

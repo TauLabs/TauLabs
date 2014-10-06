@@ -237,3 +237,51 @@ int Sparky2::queryMaxGyroRate()
         return 500;
     }
 }
+
+
+/**
+ * Get the RFM22b device ID this modem
+ * @return RFM22B device ID or 0 if not supported
+ */
+quint32 Sparky2::getRfmID()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    // Flight controllers are instance 1
+    RFM22BStatus *rfm22bStatus = RFM22BStatus::GetInstance(uavoManager,1);
+    Q_ASSERT(rfm22bStatus);
+    RFM22BStatus::DataFields rfm22b = rfm22bStatus->getData();
+
+    return rfm22b.DeviceID;
+}
+
+/**
+ * Set the coordinator ID. If set to zero this device will
+ * be a coordinator.
+ * @return true if successful or false if not
+ */
+bool Sparky2::setCoordID(quint32 id)
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    HwSparky2 *hwSparky2 = HwSparky2::GetInstance(uavoManager);
+    Q_ASSERT(hwSparky2);
+    HwSparky2::DataFields settings = hwSparky2->getData();
+
+    if (id == 0) {
+        // set as coordinator
+        settings.Radio = HwSparky2::RADIO_TELEMCOORD;
+        settings.CoordID = 0;
+    } else {
+        settings.Radio = HwSparky2::RADIO_TELEM;
+        settings.CoordID = id;
+    }
+
+    hwSparky2->setData(settings);
+
+    // save the settings
+    UAVObjectUtilManager* uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
+    uavoUtilManager->saveObjectToFlash(hwSparky2);
+}
