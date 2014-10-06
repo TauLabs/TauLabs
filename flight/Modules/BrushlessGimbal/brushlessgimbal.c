@@ -115,8 +115,8 @@ static void brushlessGimbalTask(void* parameters)
 
 	uint32_t raw_time = PIOS_DELAY_GetRaw();
 
-	const uint32_t POWERUP_TIME_US = 5e6; // wait 5 seconds to start moving
-	const uint32_t TEST_TIME_US = 2e6;    // move each direction half a second
+	const uint32_t POWERUP_TIME_US = 7e6;  // wait 7 seconds to start moving for sensor cal to end
+	const uint32_t TEST_TIME_US = 1e6;     // move each direction one second
 	const float    TEST_SPEED_DPS = 100;   // test at 100 deg/s
 
 	PIOS_Brushless_SetUpdateRate(60000);
