@@ -310,6 +310,14 @@ plugin_setupwizard.depends += plugin_config
 plugin_setupwizard.depends += plugin_uploader
 SUBDIRS += plugin_setupwizard
 
+# RFM22b Wizard plugin
+plugin_rfmbindwizard.subdir = rfmbindwizard
+plugin_rfmbindwizard.depends = plugin_coreplugin
+plugin_rfmbindwizard.depends += plugin_uavobjectutil
+plugin_rfmbindwizard.depends += plugin_config
+plugin_rfmbindwizard.depends += plugin_uploader
+SUBDIRS += plugin_rfmbindwizard
+
 # Setup alarm messaging plugin
 plugin_sysalarmsmessaging.subdir = sysalarmsmessaging
 plugin_sysalarmsmessaging.depends = plugin_coreplugin
