@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
- * @file       taulabsplugin.cpp
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @file       taulink.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -24,50 +24,41 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#ifndef TAULINK_H
+#define TAULINK_H
 
-#include "taulabsplugin.h"
-#include "freedom.h"
-#include "sparky.h"
-#include "sparkybgc.h"
-#include "taulink.h"
+#include <coreplugin/iboardtype.h>
 
+class IBoardType;
 
-TauLabsPlugin::TauLabsPlugin()
+class TauLink : public Core::IBoardType
 {
-   // Do nothing
-}
+public:
+    TauLink();
+    virtual ~TauLink();
 
-TauLabsPlugin::~TauLabsPlugin()
-{
-   // Do nothing
-}
+    virtual QString shortName();
+    virtual QString boardDescription();
+    virtual bool queryCapabilities(BoardCapabilities capability);
+    virtual QStringList getSupportedProtocols();
+    virtual QPixmap getBoardPicture();
+    virtual QString getHwUAVO();
 
-bool TauLabsPlugin::initialize(const QStringList& args, QString *errMsg)
-{
-   Q_UNUSED(args);
-   Q_UNUSED(errMsg);
-   return true;
-}
 
-void TauLabsPlugin::extensionsInitialized()
-{
     /**
-     * Create the board objects here.
-     *
+     * Get the RFM22b device ID this modem
+     * @return RFM22B device ID or 0 if not supported
      */
-    Sparky* sparky = new Sparky();
-    addAutoReleasedObject(sparky);
+    virtual quint32 getRfmID();
 
-    SparkyBGC* sparkybgc = new SparkyBGC();
-    addAutoReleasedObject(sparkybgc);
+    /**
+     * Set the coordinator ID. If set to zero this device will
+     * be a coordinator.
+     * @return true if successful or false if not
+     */
+    virtual bool setCoordID(quint32 id);
 
-    Freedom* freedom = new Freedom();
-    addAutoReleasedObject(freedom);
+};
 
-    TauLink* taulink = new TauLink();
-    addAutoReleasedObject(taulink);
-}
 
-void TauLabsPlugin::shutdown()
-{
-}
+#endif // TAULINK_H
