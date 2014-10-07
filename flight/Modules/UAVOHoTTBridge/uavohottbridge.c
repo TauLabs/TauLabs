@@ -557,12 +557,12 @@ void update_telemetrydata () {
 	if (VelocityActualHandle() != NULL)
 		VelocityActualGet(&telestate->Velocity);
 
-	// send actual climbrate value to ring buffer
+	// send actual climbrate value to ring buffer as mm per 0.2s values
 	uint8_t n = telestate->climbrate_pointer;
-	telestate->climbratebuffer[telestate->climbrate_pointer++] = -telestate->Velocity.Down;
+	telestate->climbratebuffer[telestate->climbrate_pointer++] = -telestate->Velocity.Down * 200;
 	telestate->climbrate_pointer %= climbratesize;
 
-	// calculate smoothed climbrates per 1, 3 and 10 second(s) based on 200ms interval
+	// calculate avarage climbrates in meters per 1, 3 and 10 second(s) based on 200ms interval
 	telestate->climbrate1s = 0;
 	telestate->climbrate3s = 0;
 	telestate->climbrate10s = 0;
@@ -573,9 +573,9 @@ void update_telemetrydata () {
 		n += climbratesize - 1;
 		n %= climbratesize;
 	}
-	telestate->climbrate1s = telestate->climbrate1s / 5;
-	telestate->climbrate3s = telestate->climbrate3s / 5;
-	telestate->climbrate10s = telestate->climbrate10s / 5;
+	telestate->climbrate1s = telestate->climbrate1s / 1000;
+	telestate->climbrate3s = telestate->climbrate3s / 1000;
+	telestate->climbrate10s = telestate->climbrate10s / 1000;
 
 	// set altitude offset and clear min/max values when arming
 	if ((telestate->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING) || ((telestate->last_armed != FLIGHTSTATUS_ARMED_ARMED) && (telestate->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED))) {
