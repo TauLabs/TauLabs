@@ -34,5 +34,3 @@ FORMS += \
     pages/endpage.ui \
     pages/coordinatorpage.ui
 
-RESOURCES += \
-    rfmbindResources.qrc

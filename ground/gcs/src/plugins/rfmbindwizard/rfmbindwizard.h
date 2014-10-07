@@ -49,8 +49,6 @@ public:
     void setMaxBps(uint32_t bps) { m_maxBps = bps; }
     uint32_t getMaxBps() const { return m_maxBps; }
 
-    QString getSummaryText();
-
     Core::ConnectionManager *getConnectionManager()
     {
         if (!m_connectionManager) {

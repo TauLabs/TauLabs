@@ -62,13 +62,6 @@ int RfmBindWizard::nextId() const
     }
 }
 
-QString RfmBindWizard::getSummaryText()
-{
-    QString summary = "";
-
-    return summary;
-}
-
 void RfmBindWizard::createPages()
 {
     setPage(PAGE_START, new TLStartPage(this));
