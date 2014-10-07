@@ -1,6 +1,6 @@
 <xml>
-	<object name="TLLinkStatus" singleinstance="true" settings="false" category="System" priority="true">
-		<description>OPLink device status.</description>
+	<object name="RFM22BStatus" singleinstance="true" settings="false" category="System" priority="true">
+		<description>RFM22B link status.</description>
 		<field name="Description" units="" type="uint8" elements="40"/> 
 		<field name="CPUSerial" units="hex" type="uint8" elements="12" /> 
 		<field name="BoardRevision" units="" type="uint16" elements="1"/> 
