@@ -604,6 +604,9 @@ void update_telemetrydata () {
 	// statusline
 	const char *txt_unknown = "unknown";
 	const char *txt_manual = "Manual";
+	const char *txt_acro = "Acro";
+	const char *txt_leveling = "Leveling";
+	const char *txt_virtualbar = "Virtualbar";
 	const char *txt_stabilized1 = "Stabilized1";
 	const char *txt_stabilized2 = "Stabilized2";
 	const char *txt_stabilized3 = "Stabilized3";
@@ -613,6 +616,7 @@ void update_telemetrydata () {
 	const char *txt_positionhold = "PositionHold";
 	const char *txt_returntohome = "ReturnToHome";
 	const char *txt_pathplanner = "PathPlanner";
+	const char *txt_tabletcontrol = "TabletCtrl";
 	const char *txt_disarmed = "Disarmed";
 	const char *txt_arming = "Arming";
 	const char *txt_armed = "Armed";
@@ -621,6 +625,15 @@ void update_telemetrydata () {
 	switch (telestate->FlightStatus.FlightMode) {
 		case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
 			txt_flightmode = txt_manual;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_ACRO:
+			txt_flightmode = txt_acro;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
+			txt_flightmode = txt_leveling;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
+			txt_flightmode = txt_virtualbar;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 			txt_flightmode = txt_stabilized1;
@@ -648,6 +661,9 @@ void update_telemetrydata () {
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
 			txt_flightmode = txt_pathplanner;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL:
+			txt_flightmode = txt_tabletcontrol;
 			break;
 		default:
 			txt_flightmode = txt_unknown;
