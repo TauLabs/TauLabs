@@ -119,7 +119,7 @@ UAVOBJSRCFILENAMES += trimanglessettings
 UAVOBJSRCFILENAMES += sessionmanaging
 
 #Support for radio module on RM
-UAVOBJSRCFILENAMES += tllinkstatus
+UAVOBJSRCFILENAMES += rfm22bstatus
 
 
 UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )

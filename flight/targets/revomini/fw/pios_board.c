@@ -43,7 +43,7 @@
 #include "hwrevomini.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
-#include <tllinkstatus.h>
+#include <rfm22bstatus.h>
 #include <pios_rfm22b_rcvr_priv.h>
 
 /**
@@ -768,10 +768,10 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_RFM22B)
 
 	// Initialize out status object.
-	TLLinkStatusData tllinkStatus;
-	TLLinkStatusGet(&tllinkStatus);
+	RFM22BStatusData tllinkStatus;
+	RFM22BStatusGet(&tllinkStatus);
 	tllinkStatus.BoardType     = bdinfo->board_type;
-	PIOS_BL_HELPER_FLASH_Read_Description(tllinkStatus.Description, TLLINKSTATUS_DESCRIPTION_NUMELEM);
+	PIOS_BL_HELPER_FLASH_Read_Description(tllinkStatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
 	PIOS_SYS_SerialNumberGetBinary(tllinkStatus.CPUSerial);
 	tllinkStatus.BoardRevision = bdinfo->board_rev;
 
@@ -805,7 +805,7 @@ void PIOS_Board_Init(void) {
 		if (!pios_com_telem_rf_id) {
 			pios_com_telem_rf_id = pios_com_rf_id;
 		}
-		tllinkStatus.LinkState = TLLINKSTATUS_LINKSTATE_ENABLED;
+		tllinkStatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
 
 		// Set the RF data rate on the modem to ~2X the selected buad rate because the modem is half duplex.
 		enum rfm22b_datarate datarate = RFM22_datarate_64000;
@@ -881,10 +881,10 @@ void PIOS_Board_Init(void) {
 #endif /* PIOS_INCLUDE_RFM22B_RCVR */
 
 	} else {
-		tllinkStatus.LinkState = TLLINKSTATUS_LINKSTATE_DISABLED;
+		tllinkStatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
 	}
 
-	TLLinkStatusSet(&tllinkStatus);
+	RFM22BStatusSet(&tllinkStatus);
 #endif /* PIOS_INCLUDE_RFM22B */
 
 	/* Configure the receiver port*/
