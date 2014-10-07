@@ -42,12 +42,12 @@ public:
     int nextId() const;
 
     // gettor and accessor for coordinator ID
-    void setCoordID(uint32_t id) { m_coordID = id; }
-    uint32_t getCoordID() const { return m_coordID; }
+    void setCoordID(quint32 id) { m_coordID = id; }
+    quint32 getCoordID() const { return m_coordID; }
 
     // gettor and accessor for the max BPS
-    void setMaxBps(uint32_t bps) { m_maxBps = bps; }
-    uint32_t getMaxBps() const { return m_maxBps; }
+    void setMaxBps(quint32 bps) { m_maxBps = bps; }
+    quint32 getMaxBps() const { return m_maxBps; }
 
     Core::ConnectionManager *getConnectionManager()
     {
@@ -79,8 +79,8 @@ private:
     enum { PAGE_START, PAGE_COORDINATOR, PAGE_COORDINATED, PAGE_END };
 
     bool m_ppm;
-    uint32_t m_maxBps;
-    uint32_t m_coordID;
+    quint32 m_maxBps;
+    quint32 m_coordID;
 
     void createPages();
 
