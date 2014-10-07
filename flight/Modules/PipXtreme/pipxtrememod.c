@@ -34,7 +34,7 @@
 #include <uavobjectmanager.h>
 #include <openpilot.h>
 
-#include <tllinkstatus.h>
+#include <rfm22bstatus.h>
 #include <taskinfo.h>
 
 #include <pios_rfm22b.h>
@@ -132,15 +132,15 @@ static void systemTask(void *parameters)
 		PIOS_LED_Toggle(PIOS_LED_HEARTBEAT);
 #endif /* PIOS_LED_HEARTBEAT */
 
-		// Update the TLLinkStatus UAVO
-		TLLinkStatusData tllinkStatus;
-		TLLinkStatusGet(&tllinkStatus);
+		// Update the RFM22BStatus UAVO
+		RFM22BStatusData rfm22bStatus;
+		RFM22BStatusGet(&rfm22bStatus);
 
 		// Get the other device stats.
 		PIOS_RFM2B_GetPairStats(pios_rfm22b_id,
-					tllinkStatus.PairIDs,
-					tllinkStatus.PairSignalStrengths,
-					TLLINKSTATUS_PAIRIDS_NUMELEM);
+					rfm22bStatus.PairIDs,
+					rfm22bStatus.PairSignalStrengths,
+					RFM22BSTATUS_PAIRIDS_NUMELEM);
 
 		// Get the stats from the radio device
 		struct rfm22b_stats radio_stats;
@@ -148,23 +148,23 @@ static void systemTask(void *parameters)
 
 		if (pios_rfm22b_id) {
 			// Update the status
-			tllinkStatus.HeapRemaining =
+			rfm22bStatus.HeapRemaining =
 			    xPortGetFreeHeapSize();
-			tllinkStatus.DeviceID =
+			rfm22bStatus.DeviceID =
 			    PIOS_RFM22B_DeviceID(pios_rfm22b_id);
-			tllinkStatus.RxGood = radio_stats.rx_good;
-			tllinkStatus.RxCorrected =
+			rfm22bStatus.RxGood = radio_stats.rx_good;
+			rfm22bStatus.RxCorrected =
 			    radio_stats.rx_corrected;
-			tllinkStatus.RxErrors = radio_stats.rx_error;
-			tllinkStatus.RxMissed = radio_stats.rx_missed;
-			tllinkStatus.RxFailure = radio_stats.rx_failure;
-			tllinkStatus.TxDropped = radio_stats.tx_dropped;
-			tllinkStatus.TxResent = radio_stats.tx_resent;
-			tllinkStatus.TxFailure = radio_stats.tx_failure;
-			tllinkStatus.Resets = radio_stats.resets;
-			tllinkStatus.Timeouts = radio_stats.timeouts;
-			tllinkStatus.RSSI = radio_stats.rssi;
-			tllinkStatus.LinkQuality =
+			rfm22bStatus.RxErrors = radio_stats.rx_error;
+			rfm22bStatus.RxMissed = radio_stats.rx_missed;
+			rfm22bStatus.RxFailure = radio_stats.rx_failure;
+			rfm22bStatus.TxDropped = radio_stats.tx_dropped;
+			rfm22bStatus.TxResent = radio_stats.tx_resent;
+			rfm22bStatus.TxFailure = radio_stats.tx_failure;
+			rfm22bStatus.Resets = radio_stats.resets;
+			rfm22bStatus.Timeouts = radio_stats.timeouts;
+			rfm22bStatus.RSSI = radio_stats.rssi;
+			rfm22bStatus.LinkQuality =
 			    radio_stats.link_quality;
 			if (first_time) {
 				first_time = false;
@@ -185,32 +185,32 @@ static void systemTask(void *parameters)
 						       prev_rx_count +
 						       rx_count)
 				    : (rx_count - prev_rx_count);
-				tllinkStatus.TXRate =
+				rfm22bStatus.TXRate =
 				    (uint16_t) ((float)(tx_bytes * 1000) /
 						SYSTEM_UPDATE_PERIOD_MS);
-				tllinkStatus.RXRate =
+				rfm22bStatus.RXRate =
 				    (uint16_t) ((float)(rx_bytes * 1000) /
 						SYSTEM_UPDATE_PERIOD_MS);
 				prev_tx_count = tx_count;
 				prev_rx_count = rx_count;
 			}
-			tllinkStatus.TXSeq = radio_stats.tx_seq;
-			tllinkStatus.RXSeq = radio_stats.rx_seq;
-			tllinkStatus.LinkState = radio_stats.link_state;
+			rfm22bStatus.TXSeq = radio_stats.tx_seq;
+			rfm22bStatus.RXSeq = radio_stats.rx_seq;
+			rfm22bStatus.LinkState = radio_stats.link_state;
 		} else {
-			tllinkStatus.LinkState =
-			    TLLINKSTATUS_LINKSTATE_DISABLED;
+			rfm22bStatus.LinkState =
+			    RFM22BSTATUS_LINKSTATE_DISABLED;
 		}
 
 		if (radio_stats.link_state ==
-		    TLLINKSTATUS_LINKSTATE_CONNECTED) {
+		    RFM22BSTATUS_LINKSTATE_CONNECTED) {
 			LINK_LED_ON;
 		} else {
 			LINK_LED_OFF;
 		}
 
 		// Update the object
-		TLLinkStatusSet(&tllinkStatus);
+		RFM22BStatusSet(&rfm22bStatus);
 
 		// Wait until next period
 		PIOS_Thread_Sleep_Until(&lastSysTime, SYSTEM_UPDATE_PERIOD_MS);

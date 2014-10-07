@@ -35,7 +35,7 @@
 #include "objectpersistence.h"
 #include "flightstatus.h"
 #include "manualcontrolsettings.h"
-#include "tllinkstatus.h"
+#include "rfm22bstatus.h"
 #include "stabilizationsettings.h"
 #include "stateestimation.h"
 #include "systemstats.h"
@@ -358,13 +358,13 @@ static void updateWDGstats()
 static void updateRfm22bStats() {
 	#if defined(PIOS_INCLUDE_RFM22B)
 
-        // Update the TLLinkStatus UAVO
-        TLLinkStatusData tllinkStatus;
-        TLLinkStatusGet(&tllinkStatus);
+        // Update the RFM22BStatus UAVO
+        RFM22BStatusData rfm22bStatus;
+        RFM22BStatusGet(&rfm22bStatus);
 
         if (pios_rfm22b_id) {
             // Get the other device stats.
-            PIOS_RFM2B_GetPairStats(pios_rfm22b_id, tllinkStatus.PairIDs, tllinkStatus.PairSignalStrengths, TLLINKSTATUS_PAIRIDS_NUMELEM);
+            PIOS_RFM2B_GetPairStats(pios_rfm22b_id, rfm22bStatus.PairIDs, rfm22bStatus.PairSignalStrengths, RFM22BSTATUS_PAIRIDS_NUMELEM);
 
             // Get the stats from the radio device
             struct rfm22b_stats radio_stats;
@@ -374,20 +374,20 @@ static void updateRfm22bStats() {
             static bool first_time = true;
             static uint16_t prev_tx_count = 0;
             static uint16_t prev_rx_count = 0;
-            tllinkStatus.HeapRemaining = xPortGetFreeHeapSize();
-            tllinkStatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
-            tllinkStatus.RxGood = radio_stats.rx_good;
-            tllinkStatus.RxCorrected   = radio_stats.rx_corrected;
-            tllinkStatus.RxErrors = radio_stats.rx_error;
-            tllinkStatus.RxMissed = radio_stats.rx_missed;
-            tllinkStatus.RxFailure     = radio_stats.rx_failure;
-            tllinkStatus.TxDropped     = radio_stats.tx_dropped;
-            tllinkStatus.TxResent = radio_stats.tx_resent;
-            tllinkStatus.TxFailure     = radio_stats.tx_failure;
-            tllinkStatus.Resets      = radio_stats.resets;
-            tllinkStatus.Timeouts    = radio_stats.timeouts;
-            tllinkStatus.RSSI        = radio_stats.rssi;
-            tllinkStatus.LinkQuality = radio_stats.link_quality;
+            rfm22bStatus.HeapRemaining = xPortGetFreeHeapSize();
+            rfm22bStatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
+            rfm22bStatus.RxGood = radio_stats.rx_good;
+            rfm22bStatus.RxCorrected   = radio_stats.rx_corrected;
+            rfm22bStatus.RxErrors = radio_stats.rx_error;
+            rfm22bStatus.RxMissed = radio_stats.rx_missed;
+            rfm22bStatus.RxFailure     = radio_stats.rx_failure;
+            rfm22bStatus.TxDropped     = radio_stats.tx_dropped;
+            rfm22bStatus.TxResent = radio_stats.tx_resent;
+            rfm22bStatus.TxFailure     = radio_stats.tx_failure;
+            rfm22bStatus.Resets      = radio_stats.resets;
+            rfm22bStatus.Timeouts    = radio_stats.timeouts;
+            rfm22bStatus.RSSI        = radio_stats.rssi;
+            rfm22bStatus.LinkQuality = radio_stats.link_quality;
             if (first_time) {
                 first_time = false;
             } else {
@@ -395,19 +395,19 @@ static void updateRfm22bStats() {
                 uint16_t rx_count = radio_stats.rx_byte_count;
                 uint16_t tx_bytes = (tx_count < prev_tx_count) ? (0xffff - prev_tx_count + tx_count) : (tx_count - prev_tx_count);
                 uint16_t rx_bytes = (rx_count < prev_rx_count) ? (0xffff - prev_rx_count + rx_count) : (rx_count - prev_rx_count);
-                tllinkStatus.TXRate = (uint16_t)((float)(tx_bytes * 1000) / SYSTEM_UPDATE_PERIOD_MS);
-                tllinkStatus.RXRate = (uint16_t)((float)(rx_bytes * 1000) / SYSTEM_UPDATE_PERIOD_MS);
+                rfm22bStatus.TXRate = (uint16_t)((float)(tx_bytes * 1000) / SYSTEM_UPDATE_PERIOD_MS);
+                rfm22bStatus.RXRate = (uint16_t)((float)(rx_bytes * 1000) / SYSTEM_UPDATE_PERIOD_MS);
                 prev_tx_count = tx_count;
                 prev_rx_count = rx_count;
             }
-            tllinkStatus.TXSeq     = radio_stats.tx_seq;
-            tllinkStatus.RXSeq     = radio_stats.rx_seq;
+            rfm22bStatus.TXSeq     = radio_stats.tx_seq;
+            rfm22bStatus.RXSeq     = radio_stats.rx_seq;
 
-            tllinkStatus.LinkState = radio_stats.link_state;
+            rfm22bStatus.LinkState = radio_stats.link_state;
         } else {
-            tllinkStatus.LinkState = TLLINKSTATUS_LINKSTATE_DISABLED;
+            rfm22bStatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
         }
-        TLLinkStatusSet(&tllinkStatus);
+        RFM22BStatusSet(&rfm22bStatus);
 
 #endif /* if defined(PIOS_INCLUDE_RFM22B) */
 }
