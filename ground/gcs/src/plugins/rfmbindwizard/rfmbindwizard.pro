@@ -15,14 +15,16 @@ HEADERS += rfmbindwizardplugin.h \
     pages/abstractwizardpage.h \
     pages/tlendpage.h \
     pages/tlstartpage.h \
-    pages/coordinatorpage.h
+    pages/coordinatorpage.h \
+    pages/coordinatedpage.h
 
 SOURCES += rfmbindwizardplugin.cpp \
     rfmbindwizard.cpp \
     pages/abstractwizardpage.cpp \
     pages/tlendpage.cpp \
     pages/tlstartpage.cpp \
-    pages/coordinatorpage.cpp
+    pages/coordinatorpage.cpp \
+    pages/coordinatedpage.cpp
 
 OTHER_FILES += RfmBindWizard.pluginspec \
     RfmBindWizard.json

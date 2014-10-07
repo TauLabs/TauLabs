@@ -31,6 +31,7 @@
 #include "pages/tlstartpage.h"
 #include "pages/tlendpage.h"
 #include "pages/coordinatorpage.h"
+#include "pages/coordinatedpage.h"
 
 #include "uploader/uploadergadgetfactory.h"
 
@@ -72,7 +73,7 @@ void RfmBindWizard::createPages()
 {
     setPage(PAGE_START, new TLStartPage(this));
     setPage(PAGE_COORDINATOR, new CoordinatorPage(this));
-    //setPage(PAGE_COORDINATED, new AutoUpdatePage(this));
+    setPage(PAGE_COORDINATED, new CoordinatedPage(this));
     setPage(PAGE_END, new TLEndPage(this));
 
     setStartId(PAGE_START);
