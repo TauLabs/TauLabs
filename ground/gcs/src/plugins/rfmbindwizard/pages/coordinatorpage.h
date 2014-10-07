@@ -29,6 +29,7 @@
 #ifndef COORDINATORPAGE_H
 #define COORDINATORPAGE_H
 
+#include <QMap>
 #include <coreplugin/iboardtype.h>
 #include <coreplugin/icore.h>
 #include <coreplugin/connectionmanager.h>
@@ -52,24 +53,31 @@ public:
 
 private:
     Ui::CoordinatorPage *ui;
-    bool anyControllerConnected();
     Core::IBoardType* getControllerType() const;
     void setupDeviceList();
     void setControllerType(Core::IBoardType *);
     Core::ConnectionManager *m_connectionManager;
     TelemetryManager *m_telemtryManager;
 
-    //! This board is a valid radio coordinator
-    bool validCoordinator() const;
-
     bool m_coordinatorConfigured;
+    Core::IBoardType *m_boardType;
+
+    QMap <UAVObject*, Core::IBoardType*> boardPluginMap;
+    QTimer probeTimer;
 
 private slots:
     void devicesChanged(QLinkedList<Core::DevListItem> devices);
     void connectionStatusChanged();
     void connectDisconnect();
+
     //! Configure this board as the coordinator
     bool configureCoordinator();
+
+    //! Probe if a radio is plugged in
+    void probeRadio();
+
+    //! Receive if a hardware object is updated
+    void transactionReceived(UAVObject*obj, bool success);
 };
 
 #endif // COORDINATORPAGE_H

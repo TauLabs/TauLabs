@@ -33,9 +33,12 @@
 #include <extensionsystem/pluginmanager.h>
 #include <uavobjectutil/uavobjectutilmanager.h>
 
+#include <QTimer>
+#include <coreplugin/iboardtype.h>
+
 CoordinatorPage::CoordinatorPage(RfmBindWizard *wizard, QWidget *parent) :
     AbstractWizardPage(wizard, parent), ui(new Ui::CoordinatorPage),
-    m_coordinatorConfigured(false)
+    m_coordinatorConfigured(false), m_boardType(NULL)
 {
     ui->setupUi(this);
     ui->setCoordinator->setEnabled(false);
@@ -65,30 +68,41 @@ CoordinatorPage::~CoordinatorPage()
 
 void CoordinatorPage::initializePage()
 {
-    if (anyControllerConnected()) {
-        Core::IBoardType* type = getControllerType();
-        setControllerType(type);
-    } else {
-        setControllerType(NULL);
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *objMngr = pm->getObject<UAVObjectManager>();
+    QList <Core::IBoardType *> boards = pm->getObjects<Core::IBoardType>();
+
+    // Store all the board hardware settings for probing
+    boardPluginMap.clear();
+    foreach (Core::IBoardType *board, boards) {
+        if (board->queryCapabilities(Core::IBoardType::BOARD_CAPABILITIES_RADIO) ) {
+            UAVObject *obj = objMngr->getObject(board->getHwUAVO());
+            if (obj != NULL) {
+                boardPluginMap.insert(obj, board);
+                connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)),
+                        this, SLOT(transactionReceived(UAVObject*,bool)),
+                        Qt::UniqueConnection);
+            }
+        }
     }
+
+    connect(&probeTimer, SIGNAL(timeout()), this, SLOT(probeRadio()));
+    setControllerType(NULL);
+
     emit completeChanged();
 }
 
 bool CoordinatorPage::isComplete() const
 {
-    return (getControllerType() != NULL) &&
-           m_connectionManager->getCurrentDevice().getConName().startsWith("USB:", Qt::CaseInsensitive);
+    return m_coordinatorConfigured;
 }
 
 bool CoordinatorPage::validatePage()
 {
-    return m_coordinatorConfigured;
+    disconnect(this);
+    return true;
 }
 
-bool CoordinatorPage::anyControllerConnected()
-{
-    return m_telemtryManager->isConnected();
-}
 
 /**
  * @brief ControllerPage::getControllerType get the interface for
@@ -97,9 +111,23 @@ bool CoordinatorPage::anyControllerConnected()
  */
 Core::IBoardType *CoordinatorPage::getControllerType() const
 {
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectUtilManager *utilMngr     = pm->getObject<UAVObjectUtilManager>();
-    return utilMngr->getBoardType();
+    return m_boardType;
+}
+
+//! Indicate the type of board detected and enable binding button
+void CoordinatorPage::setControllerType(Core::IBoardType *board)
+{
+    m_boardType = board;
+    if (board == NULL) {
+        ui->boardTypeLabel->setText("Unknown");
+        ui->setCoordinator->setEnabled(false);
+    } else {
+        ui->boardTypeLabel->setText(board->shortName());
+
+        // Do not allow performing this for multiple boards
+        if (!m_coordinatorConfigured)
+            ui->setCoordinator->setEnabled(true);
+    }
 }
 
 void CoordinatorPage::setupDeviceList()
@@ -108,13 +136,6 @@ void CoordinatorPage::setupDeviceList()
     connectionStatusChanged();
 }
 
-void CoordinatorPage::setControllerType(Core::IBoardType *board)
-{
-    if (board == NULL)
-        ui->boardTypeLabel->setText("Unknown");
-    else
-        ui->boardTypeLabel->setText(board->shortName());
-}
 
 void CoordinatorPage::devicesChanged(QLinkedList<Core::DevListItem> devices)
 {
@@ -148,6 +169,7 @@ void CoordinatorPage::devicesChanged(QLinkedList<Core::DevListItem> devices)
     }
 }
 
+//! Called when a board is connected or disconnected
 void CoordinatorPage::connectionStatusChanged()
 {
     if (m_connectionManager->isConnected()) {
@@ -160,38 +182,31 @@ void CoordinatorPage::connectionStatusChanged()
                 break;
             }
         }
-
-        if (validCoordinator()) {
-            ui->setCoordinator->setEnabled(true);
-            qDebug() << "Potential coordinator detected";
-        } else
-            qDebug() << "Board connected but cannot be coordinator";
+        probeTimer.start();
+        setControllerType(NULL);
     } else {
         ui->deviceCombo->setEnabled(true);
         ui->connectButton->setText(tr("Connect"));
-        ui->setCoordinator->setEnabled(false);
         qDebug() << "Connection status changed: Disconnected";
+        probeTimer.stop();
+        setControllerType(NULL);
     }
     emit completeChanged();
 }
 
+//! Called when the connect/disconnect button is clicked
 void CoordinatorPage::connectDisconnect()
 {
     if (m_connectionManager->isConnected()) {
         m_connectionManager->disconnectDevice();
+        probeTimer.stop();
+        setControllerType(NULL);
     } else {
         m_connectionManager->connectDevice(m_connectionManager->findDevice(ui->deviceCombo->itemData(ui->deviceCombo->currentIndex(), Qt::ToolTipRole).toString()));
+        probeTimer.start();
+        setControllerType(NULL);
     }
     emit completeChanged();
-}
-
-//! Return if this board can serve as a coordinator
-bool CoordinatorPage::validCoordinator() const
-{
-    Core::IBoardType *board = getControllerType();
-    if (board == NULL)
-        return false;
-    return board->queryCapabilities(Core::IBoardType::BOARD_CAPABILITIES_RADIO);
 }
 
 bool CoordinatorPage::configureCoordinator()
@@ -212,4 +227,30 @@ bool CoordinatorPage::configureCoordinator()
     qDebug() << "Coordinator ID: " << rfmId;
 
     return true;
+}
+
+void CoordinatorPage::probeRadio()
+{
+    qDebug() << "Testing if radio is attached";
+
+    // Probe for each board by checking for the corresponding
+    // hardware settings. This is inelegant but because the
+    // modem does not establish a connection with the GCS, it
+    // is necessary.
+    QList <UAVObject*> objects = boardPluginMap.keys();
+    foreach (UAVObject *obj,  objects) {
+        qDebug() << "Probing " << obj->getName();
+        obj->requestUpdate();
+    }
+
+}
+
+void CoordinatorPage::transactionReceived(UAVObject *obj, bool success)
+{
+    qDebug() << obj->getName() << " " << success;
+    if (success) {
+        ui->boardTypeLabel->setText(obj->getName());
+        setControllerType(boardPluginMap[obj]);
+        probeTimer.stop();
+    }
 }
