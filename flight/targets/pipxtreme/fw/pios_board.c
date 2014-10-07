@@ -32,7 +32,7 @@
 #include <openpilot.h>
 #include <board_hw_defs.c>
 #include <hwtaulink.h>
-#include <tllinkstatus.h>
+#include <rfm22bstatus.h>
 
 #define PIOS_COM_TELEM_RX_BUF_LEN 256
 #define PIOS_COM_TELEM_TX_BUF_LEN 256
@@ -119,7 +119,7 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_RFM22B)
     HwTauLinkInitialize();
-    TLLinkStatusInitialize();
+    RFM22BStatusInitialize();
 #endif /* PIOS_INCLUDE_RFM22B */
 
 #if defined(PIOS_INCLUDE_LED)
@@ -268,17 +268,17 @@ void PIOS_Board_Init(void) {
     }
 
     // Initialize out status object.
-    TLLinkStatusData tllinkStatus;
-    TLLinkStatusGet(&tllinkStatus);
+    RFM22BStatusData tllinkStatus;
+    RFM22BStatusGet(&tllinkStatus);
 
     tllinkStatus.BoardType     = bdinfo->board_type;
-    PIOS_BL_HELPER_FLASH_Read_Description(tllinkStatus.Description, TLLINKSTATUS_DESCRIPTION_NUMELEM);
+    PIOS_BL_HELPER_FLASH_Read_Description(tllinkStatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
     PIOS_SYS_SerialNumberGetBinary(tllinkStatus.CPUSerial);
     tllinkStatus.BoardRevision = bdinfo->board_rev;
 
     /* Initalize the RFM22B radio COM device. */
     if (hwTauLink.MaxRfPower != HWTAULINK_MAXRFPOWER_0) {
-        tllinkStatus.LinkState = TLLINKSTATUS_LINKSTATE_ENABLED;
+        tllinkStatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
 
         // Configure the RFM22B device
         const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
@@ -358,11 +358,11 @@ void PIOS_Board_Init(void) {
         // Reinitilize the modem to affect te changes.
         PIOS_RFM22B_Reinit(pios_rfm22b_id);
     } else {
-        tllinkStatus.LinkState = TLLINKSTATUS_LINKSTATE_DISABLED;
+        tllinkStatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
     }
 
     // Update the object
-    TLLinkStatusSet(&tllinkStatus);
+    RFM22BStatusSet(&tllinkStatus);
 
     // Update the com baud rate.
     uint32_t comBaud = 9600;

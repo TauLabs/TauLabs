@@ -105,7 +105,7 @@ endif
 ifndef TESTAPP
 SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
 SRC += $(OPUAVSYNTHDIR)/hwtaulink.c
-SRC += $(OPUAVSYNTHDIR)/tllinkstatus.c
+SRC += $(OPUAVSYNTHDIR)/rfm22bstatus.c
 SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
 SRC += $(OPUAVSYNTHDIR)/rfm22breceiver.c
 SRC += $(OPUAVSYNTHDIR)/radiocombridgestats.c
