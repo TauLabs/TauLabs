@@ -557,12 +557,12 @@ void update_telemetrydata () {
 	if (VelocityActualHandle() != NULL)
 		VelocityActualGet(&telestate->Velocity);
 
-	// send actual climbrate value to ring buffer
+	// send actual climbrate value to ring buffer as mm per 0.2s values
 	uint8_t n = telestate->climbrate_pointer;
-	telestate->climbratebuffer[telestate->climbrate_pointer++] = -telestate->Velocity.Down;
+	telestate->climbratebuffer[telestate->climbrate_pointer++] = -telestate->Velocity.Down * 200;
 	telestate->climbrate_pointer %= climbratesize;
 
-	// calculate smoothed climbrates per 1, 3 and 10 second(s) based on 200ms interval
+	// calculate avarage climbrates in meters per 1, 3 and 10 second(s) based on 200ms interval
 	telestate->climbrate1s = 0;
 	telestate->climbrate3s = 0;
 	telestate->climbrate10s = 0;
@@ -573,9 +573,9 @@ void update_telemetrydata () {
 		n += climbratesize - 1;
 		n %= climbratesize;
 	}
-	telestate->climbrate1s = telestate->climbrate1s / 5;
-	telestate->climbrate3s = telestate->climbrate3s / 5;
-	telestate->climbrate10s = telestate->climbrate10s / 5;
+	telestate->climbrate1s = telestate->climbrate1s / 1000;
+	telestate->climbrate3s = telestate->climbrate3s / 1000;
+	telestate->climbrate10s = telestate->climbrate10s / 1000;
 
 	// set altitude offset and clear min/max values when arming
 	if ((telestate->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMING) || ((telestate->last_armed != FLIGHTSTATUS_ARMED_ARMED) && (telestate->FlightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED))) {
@@ -604,6 +604,9 @@ void update_telemetrydata () {
 	// statusline
 	const char *txt_unknown = "unknown";
 	const char *txt_manual = "Manual";
+	const char *txt_acro = "Acro";
+	const char *txt_leveling = "Leveling";
+	const char *txt_virtualbar = "Virtualbar";
 	const char *txt_stabilized1 = "Stabilized1";
 	const char *txt_stabilized2 = "Stabilized2";
 	const char *txt_stabilized3 = "Stabilized3";
@@ -613,6 +616,7 @@ void update_telemetrydata () {
 	const char *txt_positionhold = "PositionHold";
 	const char *txt_returntohome = "ReturnToHome";
 	const char *txt_pathplanner = "PathPlanner";
+	const char *txt_tabletcontrol = "TabletCtrl";
 	const char *txt_disarmed = "Disarmed";
 	const char *txt_arming = "Arming";
 	const char *txt_armed = "Armed";
@@ -621,6 +625,15 @@ void update_telemetrydata () {
 	switch (telestate->FlightStatus.FlightMode) {
 		case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
 			txt_flightmode = txt_manual;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_ACRO:
+			txt_flightmode = txt_acro;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
+			txt_flightmode = txt_leveling;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
+			txt_flightmode = txt_virtualbar;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 			txt_flightmode = txt_stabilized1;
@@ -648,6 +661,9 @@ void update_telemetrydata () {
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
 			txt_flightmode = txt_pathplanner;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL:
+			txt_flightmode = txt_tabletcontrol;
 			break;
 		default:
 			txt_flightmode = txt_unknown;
