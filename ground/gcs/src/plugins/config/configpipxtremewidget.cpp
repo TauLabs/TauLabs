@@ -28,7 +28,7 @@
 #include "configpipxtremewidget.h"
 
 #include <oplinksettings.h>
-#include <tllinkstatus.h>
+#include <rfm22bstatus.h>
 
 ConfigPipXtremeWidget::ConfigPipXtremeWidget(QWidget *parent) : ConfigTaskWidget(parent)
 {
@@ -38,11 +38,11 @@ ConfigPipXtremeWidget::ConfigPipXtremeWidget(QWidget *parent) : ConfigTaskWidget
 	// Connect to the LinkStatus object updates
 	ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
 	UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-	tllinkStatusObj = dynamic_cast<UAVDataObject*>(objManager->getObject("TLLinkStatus"));
+	tllinkStatusObj = dynamic_cast<UAVDataObject*>(objManager->getObject("RFM22BStatus"));
 	if (tllinkStatusObj != NULL ) {
 		connect(tllinkStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateStatus(UAVObject*)));
 	} else {
-		qDebug() << "Error: Object is unknown (TLLinkStatus).";
+		qDebug() << "Error: Object is unknown (RFM22BStatus).";
 	}
 
 	// Connect to the OPLinkSettings object updates
@@ -68,24 +68,24 @@ ConfigPipXtremeWidget::ConfigPipXtremeWidget(QWidget *parent) : ConfigTaskWidget
 	addUAVObjectToWidgetRelation("OPLinkSettings", "MinFrequency", m_oplink->MinFrequency);
 	addUAVObjectToWidgetRelation("OPLinkSettings", "MaxFrequency", m_oplink->MaxFrequency);
 
-	addUAVObjectToWidgetRelation("TLLinkStatus", "RxGood", m_oplink->Good);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "RxCorrected", m_oplink->Corrected);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "RxErrors", m_oplink->Errors);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "RxMissed", m_oplink->Missed);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "RxFailure", m_oplink->RxFailure);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "UAVTalkErrors", m_oplink->UAVTalkErrors);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "TxDropped", m_oplink->Dropped);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "TxResent", m_oplink->Resent);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "TxFailure", m_oplink->TxFailure);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "Resets", m_oplink->Resets);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "Timeouts", m_oplink->Timeouts);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "RSSI", m_oplink->RSSI);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "AFCCorrection", m_oplink->AFCCorrection);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "LinkQuality", m_oplink->LinkQuality);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "RXSeq", m_oplink->RXSeq);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "TXSeq", m_oplink->TXSeq);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "RXRate", m_oplink->RXRate);
-	addUAVObjectToWidgetRelation("TLLinkStatus", "TXRate", m_oplink->TXRate);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "RxGood", m_oplink->Good);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "RxCorrected", m_oplink->Corrected);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "RxErrors", m_oplink->Errors);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "RxMissed", m_oplink->Missed);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "RxFailure", m_oplink->RxFailure);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "UAVTalkErrors", m_oplink->UAVTalkErrors);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "TxDropped", m_oplink->Dropped);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "TxResent", m_oplink->Resent);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "TxFailure", m_oplink->TxFailure);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "Resets", m_oplink->Resets);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "Timeouts", m_oplink->Timeouts);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "RSSI", m_oplink->RSSI);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "AFCCorrection", m_oplink->AFCCorrection);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "LinkQuality", m_oplink->LinkQuality);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "RXSeq", m_oplink->RXSeq);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "TXSeq", m_oplink->TXSeq);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "RXRate", m_oplink->RXRate);
+	addUAVObjectToWidgetRelation("RFM22BStatus", "TXRate", m_oplink->TXRate);
 
 	// Connect to the pair ID radio buttons.
 	connect(m_oplink->PairSelectB, SIGNAL(toggled(bool)), this, SLOT(pairBToggled(bool)));
@@ -143,7 +143,7 @@ void ConfigPipXtremeWidget::saveSettings()
 }
 
 /*!
-  \brief Called by updates to @TLLinkStatus
+  \brief Called by updates to @RFM22BStatus
   */
 void ConfigPipXtremeWidget::updateStatus(UAVObject *object)
 {
@@ -212,7 +212,7 @@ void ConfigPipXtremeWidget::updateStatus(UAVObject *object)
 		 *  20 bytes: SHA1 sum of the firmware.
 		 *  40 bytes: free for now.
 		 */
-		char buf[TLLinkStatus::DESCRIPTION_NUMELEM];
+		char buf[RFM22BStatus::DESCRIPTION_NUMELEM];
 		for (unsigned int i = 0; i < 26; ++i)
 			buf[i] = descField->getValue(i + 14).toChar().toLatin1();
 		buf[26] = '\0';
@@ -231,15 +231,15 @@ void ConfigPipXtremeWidget::updateStatus(UAVObject *object)
 	// Update the serial number field
 	UAVObjectField* serialField = object->getField("CPUSerial");
 	if (serialField) {
-		char buf[TLLinkStatus::CPUSERIAL_NUMELEM * 2 + 1];
-		for (unsigned int i = 0; i < TLLinkStatus::CPUSERIAL_NUMELEM; ++i)
+		char buf[RFM22BStatus::CPUSERIAL_NUMELEM * 2 + 1];
+		for (unsigned int i = 0; i < RFM22BStatus::CPUSERIAL_NUMELEM; ++i)
 		{
 			unsigned char val = serialField->getValue(i).toUInt() >> 4;
 			buf[i * 2] = ((val < 10) ? '0' : '7') + val;
 			val = serialField->getValue(i).toUInt() & 0xf;
 			buf[i * 2 + 1] = ((val < 10) ? '0' : '7') + val;
 		}
-		buf[TLLinkStatus::CPUSERIAL_NUMELEM * 2] = '\0';
+		buf[RFM22BStatus::CPUSERIAL_NUMELEM * 2] = '\0';
 		m_oplink->SerialNumber->setText(buf);
  	} else {
  		qDebug() << "PipXtremeGadgetWidget: Count not read Description field.";
@@ -292,7 +292,7 @@ void ConfigPipXtremeWidget::pairIDToggled(bool checked, quint8 idx)
 {
 	if(checked)
 	{
-		TLLinkStatus *tllinkStatus = TLLinkStatus::GetInstance(getObjectManager());
+		RFM22BStatus *tllinkStatus = RFM22BStatus::GetInstance(getObjectManager());
 		OPLinkSettings *oplinkSettings = OPLinkSettings::GetInstance(getObjectManager());
 
         if (tllinkStatus && oplinkSettings)
