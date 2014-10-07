@@ -34,8 +34,9 @@
 #include <coreplugin/icore.h>
 #include <coreplugin/connectionmanager.h>
 #include "rfmbindwizard.h"
-#include "uavtalk/telemetrymanager.h"
 #include "abstractwizardpage.h"
+
+#include <uavobject.h>
 
 namespace Ui {
 class CoordinatorPage;
@@ -57,7 +58,6 @@ private:
     void setupDeviceList();
     void setControllerType(Core::IBoardType *);
     Core::ConnectionManager *m_connectionManager;
-    TelemetryManager *m_telemtryManager;
 
     bool m_coordinatorConfigured;
     Core::IBoardType *m_boardType;

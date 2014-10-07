@@ -46,13 +46,7 @@ CoordinatorPage::CoordinatorPage(RfmBindWizard *wizard, QWidget *parent) :
     m_connectionManager = getWizard()->getConnectionManager();
     Q_ASSERT(m_connectionManager);
     connect(m_connectionManager, SIGNAL(availableDevicesChanged(QLinkedList<Core::DevListItem>)), this, SLOT(devicesChanged(QLinkedList<Core::DevListItem>)));
-
-    ExtensionSystem::PluginManager *pluginManager = ExtensionSystem::PluginManager::instance();
-    Q_ASSERT(pluginManager);
-    m_telemtryManager = pluginManager->getObject<TelemetryManager>();
-    Q_ASSERT(m_telemtryManager);
-    connect(m_telemtryManager, SIGNAL(connected()), this, SLOT(connectionStatusChanged()));
-    connect(m_telemtryManager, SIGNAL(disconnected()), this, SLOT(connectionStatusChanged()));
+    connect(m_connectionManager, SIGNAL(deviceConnected(QIODevice*)), this,  SLOT(connectionStatusChanged()));
 
     connect(ui->connectButton, SIGNAL(clicked()), this, SLOT(connectDisconnect()));
 
@@ -136,7 +130,6 @@ void CoordinatorPage::setupDeviceList()
     connectionStatusChanged();
 }
 
-
 void CoordinatorPage::devicesChanged(QLinkedList<Core::DevListItem> devices)
 {
     // Get the selected item before the update if any
@@ -187,11 +180,9 @@ void CoordinatorPage::connectionStatusChanged()
     } else {
         ui->deviceCombo->setEnabled(true);
         ui->connectButton->setText(tr("Connect"));
-        qDebug() << "Connection status changed: Disconnected";
         probeTimer.stop();
         setControllerType(NULL);
     }
-    emit completeChanged();
 }
 
 //! Called when the connect/disconnect button is clicked
@@ -206,7 +197,6 @@ void CoordinatorPage::connectDisconnect()
         probeTimer.start();
         setControllerType(NULL);
     }
-    emit completeChanged();
 }
 
 bool CoordinatorPage::configureCoordinator()
@@ -223,8 +213,11 @@ bool CoordinatorPage::configureCoordinator()
     getWizard()->setCoordID(rfmId);
 
     m_coordinatorConfigured = true;
+    ui->setCoordinator->setEnabled(false);
 
     qDebug() << "Coordinator ID: " << rfmId;
+
+    emit completeChanged();
 
     return true;
 }
