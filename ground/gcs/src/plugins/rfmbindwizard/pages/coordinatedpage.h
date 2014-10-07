@@ -39,7 +39,7 @@
 #include <uavobject.h>
 
 namespace Ui {
-class CoordinatorPage;
+class CoordinatedPage;
 }
 
 class CoordinatedPage : public AbstractWizardPage {
@@ -53,7 +53,7 @@ public:
     bool validatePage();
 
 private:
-    Ui::CoordinatorPage *ui;
+    Ui::CoordinatedPage *ui;
     Core::IBoardType* getControllerType() const;
     void setupDeviceList();
     void setControllerType(Core::IBoardType *);

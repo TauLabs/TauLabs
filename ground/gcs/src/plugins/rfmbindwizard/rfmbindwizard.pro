@@ -32,5 +32,6 @@ OTHER_FILES += RfmBindWizard.pluginspec \
 FORMS += \
     pages/startpage.ui \
     pages/endpage.ui \
-    pages/coordinatorpage.ui
+    pages/coordinatorpage.ui \
+    pages/coordinatedpage.ui
 

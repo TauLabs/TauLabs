@@ -27,7 +27,7 @@
  */
 
 #include "coordinatedpage.h"
-#include "ui_coordinatorpage.h"
+#include "ui_coordinatedpage.h"
 #include "rfmbindwizard.h"
 
 #include <extensionsystem/pluginmanager.h>
@@ -37,7 +37,7 @@
 #include <coreplugin/iboardtype.h>
 
 CoordinatedPage::CoordinatedPage(RfmBindWizard *wizard, QWidget *parent) :
-    AbstractWizardPage(wizard, parent), ui(new Ui::CoordinatorPage),
+    AbstractWizardPage(wizard, parent), ui(new Ui::CoordinatedPage),
     m_coordinatorConfigured(false), m_boardType(NULL)
 {
     ui->setupUi(this);
@@ -82,8 +82,6 @@ void CoordinatedPage::initializePage()
 
     connect(&probeTimer, SIGNAL(timeout()), this, SLOT(probeRadio()));
     setControllerType(NULL);
-
-    ui->setCoordinator->setText("Bind board");
 
     emit completeChanged();
 }
