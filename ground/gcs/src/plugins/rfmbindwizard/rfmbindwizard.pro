@@ -13,6 +13,7 @@ LIBS *= -l$$qtLibraryName(Uploader)
 HEADERS += rfmbindwizardplugin.h \ 
     rfmbindwizard.h \
     pages/abstractwizardpage.h \
+    pages/radioprobepage.h \
     pages/tlendpage.h \
     pages/tlstartpage.h \
     pages/coordinatorpage.h \
@@ -21,6 +22,7 @@ HEADERS += rfmbindwizardplugin.h \
 SOURCES += rfmbindwizardplugin.cpp \
     rfmbindwizard.cpp \
     pages/abstractwizardpage.cpp \
+    pages/radioprobepage.cpp \
     pages/tlendpage.cpp \
     pages/tlstartpage.cpp \
     pages/coordinatorpage.cpp \
