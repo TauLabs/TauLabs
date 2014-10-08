@@ -37,22 +37,14 @@
 #include <coreplugin/iboardtype.h>
 
 CoordinatedPage::CoordinatedPage(RfmBindWizard *wizard, QWidget *parent) :
-    AbstractWizardPage(wizard, parent), ui(new Ui::CoordinatedPage),
-    m_coordinatorConfigured(false), m_boardType(NULL)
+    RadioProbePage(wizard, parent), ui(new Ui::CoordinatedPage),
+    m_coordinatorConfigured(false)
 {
     ui->setupUi(this);
     ui->setCoordinator->setEnabled(false);
 
-    m_connectionManager = getWizard()->getConnectionManager();
-    Q_ASSERT(m_connectionManager);
-    connect(m_connectionManager, SIGNAL(availableDevicesChanged(QLinkedList<Core::DevListItem>)), this, SLOT(devicesChanged(QLinkedList<Core::DevListItem>)));
-    connect(m_connectionManager, SIGNAL(deviceConnected(QIODevice*)), this,  SLOT(connectionStatusChanged()));
-
-    connect(ui->connectButton, SIGNAL(clicked()), this, SLOT(connectDisconnect()));
-
     connect(ui->setCoordinator, SIGNAL(clicked()), this, SLOT(bindCoordinator()));
-
-    setupDeviceList();
+    connect(this, SIGNAL(probeChanged(bool)), this, SLOT(updateProbe(bool)));
 }
 
 CoordinatedPage::~CoordinatedPage()
@@ -62,27 +54,6 @@ CoordinatedPage::~CoordinatedPage()
 
 void CoordinatedPage::initializePage()
 {
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objMngr = pm->getObject<UAVObjectManager>();
-    QList <Core::IBoardType *> boards = pm->getObjects<Core::IBoardType>();
-
-    // Store all the board hardware settings for probing
-    boardPluginMap.clear();
-    foreach (Core::IBoardType *board, boards) {
-        if (board->queryCapabilities(Core::IBoardType::BOARD_CAPABILITIES_RADIO) ) {
-            UAVObject *obj = objMngr->getObject(board->getHwUAVO());
-            if (obj != NULL) {
-                boardPluginMap.insert(obj, board);
-                connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)),
-                        this, SLOT(transactionReceived(UAVObject*,bool)),
-                        Qt::UniqueConnection);
-            }
-        }
-    }
-
-    connect(&probeTimer, SIGNAL(timeout()), this, SLOT(probeRadio()));
-    setControllerType(NULL);
-
     emit completeChanged();
 }
 
@@ -97,111 +68,34 @@ bool CoordinatedPage::validatePage()
     return true;
 }
 
-
-/**
- * @brief ControllerPage::getControllerType get the interface for
- * the connected board
- * @return the IBoardType
- */
-Core::IBoardType *CoordinatedPage::getControllerType() const
+//! Update the UI when the probe status changes
+void CoordinatedPage::updateProbe(bool probed)
 {
-    return m_boardType;
-}
-
-//! Indicate the type of board detected and enable binding button
-void CoordinatedPage::setControllerType(Core::IBoardType *board)
-{
-    m_boardType = board;
-    if (board == NULL) {
-        ui->boardTypeLabel->setText("Unknown");
-        ui->setCoordinator->setEnabled(false);
-    } else {
+    Core::IBoardType *board = getBoardType();
+    if (probed && board) {
         ui->boardTypeLabel->setText(board->shortName());
+
+        // Get the ID for this board and make it a coordinator
+        quint32 rfmId = board->getRfmID();
+
+        if (rfmId == getWizard()->getCoordID()) {
+            // Don't allow binding the same board
+            ui->setCoordinator->setEnabled(false);
+            return;
+        }
 
         // Do not allow performing this for multiple boards
         if (!m_coordinatorConfigured)
             ui->setCoordinator->setEnabled(true);
-    }
-}
-
-void CoordinatedPage::setupDeviceList()
-{
-    devicesChanged(m_connectionManager->getAvailableDevices());
-    connectionStatusChanged();
-}
-
-void CoordinatedPage::devicesChanged(QLinkedList<Core::DevListItem> devices)
-{
-    // Get the selected item before the update if any
-    QString currSelectedDeviceName = ui->deviceCombo->currentIndex() != -1 ?
-                                     ui->deviceCombo->itemData(ui->deviceCombo->currentIndex(), Qt::ToolTipRole).toString() : "";
-
-    // Clear the box
-    ui->deviceCombo->clear();
-
-    int indexOfSelectedItem = -1;
-    int i = 0;
-
-    // Loop and fill the combo with items from connectionmanager
-    foreach(Core::DevListItem deviceItem, devices) {
-        ui->deviceCombo->addItem(deviceItem.getConName());
-        QString deviceName = (const QString)deviceItem.getConName();
-        ui->deviceCombo->setItemData(ui->deviceCombo->count() - 1, deviceName, Qt::ToolTipRole);
-        if (!deviceName.startsWith("USB:", Qt::CaseInsensitive)) {
-            ui->deviceCombo->setItemData(ui->deviceCombo->count() - 1, QVariant(0), Qt::UserRole - 1);
-        }
-        if (currSelectedDeviceName != "" && currSelectedDeviceName == deviceName) {
-            indexOfSelectedItem = i;
-        }
-        i++;
-    }
-
-    // Re select the item that was selected before if any
-    if (indexOfSelectedItem != -1) {
-        ui->deviceCombo->setCurrentIndex(indexOfSelectedItem);
-    }
-}
-
-//! Called when a board is connected or disconnected
-void CoordinatedPage::connectionStatusChanged()
-{
-    if (m_connectionManager->isConnected()) {
-        ui->deviceCombo->setEnabled(false);
-        ui->connectButton->setText(tr("Disconnect"));
-        QString connectedDeviceName = m_connectionManager->getCurrentDevice().getConName();
-        for (int i = 0; i < ui->deviceCombo->count(); ++i) {
-            if (connectedDeviceName == ui->deviceCombo->itemData(i, Qt::ToolTipRole).toString()) {
-                ui->deviceCombo->setCurrentIndex(i);
-                break;
-            }
-        }
-        probeTimer.start();
-        setControllerType(NULL);
     } else {
-        ui->deviceCombo->setEnabled(true);
-        ui->connectButton->setText(tr("Connect"));
-        probeTimer.stop();
-        setControllerType(NULL);
-    }
-}
-
-//! Called when the connect/disconnect button is clicked
-void CoordinatedPage::connectDisconnect()
-{
-    if (m_connectionManager->isConnected()) {
-        m_connectionManager->disconnectDevice();
-        probeTimer.stop();
-        setControllerType(NULL);
-    } else {
-        m_connectionManager->connectDevice(m_connectionManager->findDevice(ui->deviceCombo->itemData(ui->deviceCombo->currentIndex(), Qt::ToolTipRole).toString()));
-        probeTimer.start();
-        setControllerType(NULL);
+        ui->boardTypeLabel->setText("Unknown");
+        ui->setCoordinator->setEnabled(false);
     }
 }
 
 bool CoordinatedPage::bindCoordinator()
 {
-    Core::IBoardType *board = getControllerType();
+    Core::IBoardType *board = getBoardType();
     if (board == NULL)
         return false;
 
@@ -220,32 +114,8 @@ bool CoordinatedPage::bindCoordinator()
     qDebug() << "Coordinator ID: " << rfmId;
 
     emit completeChanged();
+    stopProbing();
 
     return true;
 }
 
-void CoordinatedPage::probeRadio()
-{
-    qDebug() << "Testing if radio is attached";
-
-    // Probe for each board by checking for the corresponding
-    // hardware settings. This is inelegant but because the
-    // modem does not establish a connection with the GCS, it
-    // is necessary.
-    QList <UAVObject*> objects = boardPluginMap.keys();
-    foreach (UAVObject *obj,  objects) {
-        qDebug() << "Probing " << obj->getName();
-        obj->requestUpdate();
-    }
-
-}
-
-void CoordinatedPage::transactionReceived(UAVObject *obj, bool success)
-{
-    qDebug() << obj->getName() << " " << success;
-    if (success) {
-        ui->boardTypeLabel->setText(obj->getName());
-        setControllerType(boardPluginMap[obj]);
-        probeTimer.stop();
-    }
-}
