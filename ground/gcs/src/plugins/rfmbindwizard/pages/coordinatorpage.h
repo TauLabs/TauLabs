@@ -34,7 +34,7 @@
 #include <coreplugin/icore.h>
 #include <coreplugin/connectionmanager.h>
 #include "rfmbindwizard.h"
-#include "abstractwizardpage.h"
+#include "radioprobepage.h"
 
 #include <uavobject.h>
 
@@ -42,7 +42,7 @@ namespace Ui {
 class CoordinatorPage;
 }
 
-class CoordinatorPage : public AbstractWizardPage {
+class CoordinatorPage : public RadioProbePage {
     Q_OBJECT
 
 public:
@@ -54,30 +54,15 @@ public:
 
 private:
     Ui::CoordinatorPage *ui;
-    Core::IBoardType* getControllerType() const;
-    void setupDeviceList();
-    void setControllerType(Core::IBoardType *);
-    Core::ConnectionManager *m_connectionManager;
-
     bool m_coordinatorConfigured;
-    Core::IBoardType *m_boardType;
-
-    QMap <UAVObject*, Core::IBoardType*> boardPluginMap;
-    QTimer probeTimer;
 
 private slots:
-    void devicesChanged(QLinkedList<Core::DevListItem> devices);
-    void connectionStatusChanged();
-    void connectDisconnect();
+    //! Update UI to indicate either a board was probed or not
+    void updateProbe(bool);
 
-    //! Configure this board as the coordinator
+    //! Bind this board to the coordinator
     bool configureCoordinator();
 
-    //! Probe if a radio is plugged in
-    void probeRadio();
-
-    //! Receive if a hardware object is updated
-    void transactionReceived(UAVObject*obj, bool success);
 };
 
 #endif // COORDINATORPAGE_H
