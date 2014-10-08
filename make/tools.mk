@@ -81,7 +81,7 @@ qt_sdk_install: qt_sdk_clean
 
 ifneq (,$(filter $(UNAME), Darwin))
 	$(V1) hdiutil attach -quiet -private -mountpoint /tmp/qt-installer "$(DL_DIR)/$(QT_SDK_FILE)" 
-	$(V1) /tmp/qt-installer/qt-opensource-mac-x64-clang-5.3.2.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.3.2
+	$(V1) /tmp/qt-installer/qt-opensource-mac-x64-clang-5.3.1.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.3.1
 	$(V1) hdiutil detach -quiet /tmp/qt-installer
 endif
  
