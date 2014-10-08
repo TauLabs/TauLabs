@@ -427,10 +427,10 @@ static void stabilizationTask(void* parameters)
 					float cfgI8 = pids[PID_RATE_ROLL + i].i;
 
 					// Calculate proportional component
-					float PTerm = raw_input[i] * 500 - gyro_filtered[i] * dynP8;
+					float PTerm = raw_input[i] - gyro_filtered[i] * dynP8;
 
 					// Calculate integral component
-					float error = raw_input[i] * 500 / cfgP8 - gyro_filtered[i];
+					float error = raw_input[i] / cfgP8 - gyro_filtered[i];
 					pids[PID_RATE_ROLL + i].iAccumulator += error;
 					pids[PID_RATE_ROLL + i].iAccumulator = bound_sym(pids[PID_RATE_ROLL + i].iAccumulator,16000);
 					float ITerm = pids[PID_RATE_ROLL + i].iAccumulator  * cfgI8;
