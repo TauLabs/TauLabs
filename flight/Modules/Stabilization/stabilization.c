@@ -427,13 +427,13 @@ static void stabilizationTask(void* parameters)
 					float cfgI8 = pids[PID_RATE_ROLL + i].i;
 
 					// Calculate proportional component
-					float PTerm = raw_input[i] * 500 - gyro_filtered[i] * dynP8 / 10.0f / 8.0f;
+					float PTerm = raw_input[i] * 500 - gyro_filtered[i] * dynP8;
 
 					// Calculate integral component
-					float error = raw_input[i] * 500 * 10.0f * 8.0f / cfgP8 - gyro_filtered[i];
+					float error = raw_input[i] * 500 / cfgP8 - gyro_filtered[i];
 					pids[PID_RATE_ROLL + i].iAccumulator += error;
 					pids[PID_RATE_ROLL + i].iAccumulator = bound_sym(pids[PID_RATE_ROLL + i].iAccumulator,16000);
-					float ITerm = (pids[PID_RATE_ROLL + i].iAccumulator * cfgI8) / 8182.0f;
+					float ITerm = pids[PID_RATE_ROLL + i].iAccumulator  * cfgI8;
 
 					// Calculate the derivative component
 					float delta = gyro_filtered[i] - last_gyro[i];
@@ -442,7 +442,7 @@ static void stabilizationTask(void* parameters)
 					// Cache previous derivatives for moving sum
 					last_delta[i][1] = last_delta[i][0];
 					last_delta[i][0] = delta;
-					float DTerm = (delta_sum * dynD8) / 32.0f;
+					float DTerm = (delta_sum * dynD8) / 3.0f;
 
 					// Set the output
 					actuatorDesiredAxis[i] = bound_sym(PTerm + ITerm + DTerm,1.0f);
