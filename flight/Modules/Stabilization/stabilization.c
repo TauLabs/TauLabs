@@ -458,9 +458,8 @@ static void stabilizationTask(void* parameters)
 					float *raw_input = &stabDesired.Roll;
 
 					// dynamic PIDs are scaled both by throttle and stick position
-					float cfg_rollPitchRate = 50.0;
-					float in_scale = fabs(raw_input[i]);
-					float pid_scale = (100.0f - cfg_rollPitchRate * in_scale) / 100.0f;
+					float scale = (i == 0 || i == 1) ? settings.MWRollPitchRate : settings.MWYawRate;
+					float pid_scale = (100.0f - scale * fabsf(raw_input[i])) / 100.0f;
 					float dynP8 = pids[PID_RATE_ROLL + i].p * pid_scale;
 					float dynD8 = pids[PID_RATE_ROLL + i].d * pid_scale;
 					// these terms are used by the integral loop this proportional term is scaled by throttle (this is different than MW
@@ -480,11 +479,11 @@ static void stabilizationTask(void* parameters)
 					// Calculate the derivative component
 					float delta = gyro_filtered[i] - last_gyro[i];
 					last_gyro[i] = gyro_filtered[i];
-					float delta_sum = delta + last_delta[i][0] + last_delta[i][1];
+					float delta_sum = (delta + last_delta[i][0] + last_delta[i][1]) / 3.0f / dT;
 					// Cache previous derivatives for moving sum
 					last_delta[i][1] = last_delta[i][0];
 					last_delta[i][0] = delta;
-					float DTerm = (delta_sum * dynD8) / 3.0f;
+					float DTerm = delta_sum * dynD8;
 
 					// Set the output
 					actuatorDesiredAxis[i] = bound_sym(PTerm + ITerm + DTerm,1.0f);
