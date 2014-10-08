@@ -472,8 +472,12 @@ static void stabilizationTask(void* parameters)
 
 					// Calculate integral component
 					float error = raw_input[i] / cfgP8 - gyro_filtered[i];
-					pids[PID_RATE_ROLL + i].iAccumulator += error;
-					pids[PID_RATE_ROLL + i].iAccumulator = bound_sym(pids[PID_RATE_ROLL + i].iAccumulator,16000);
+					pids[PID_RATE_ROLL + i].iAccumulator += error * dT;
+					pids[PID_RATE_ROLL + i].iAccumulator = bound_sym(pids[PID_RATE_ROLL + i].iAccumulator,pids[PID_RATE_ROLL + i].iLim);
+					if (i < 2 && fabsf(gyro_filtered[i]) > 150.0f)
+						pids[PID_RATE_ROLL + i].iAccumulator = 0;
+					if (i == 2 && fabsf(raw_input[i]) > 0.2f)
+						pids[PID_RATE_ROLL + i].iAccumulator = 0;
 					float ITerm = pids[PID_RATE_ROLL + i].iAccumulator  * cfgI8;
 
 					// Calculate the derivative component
