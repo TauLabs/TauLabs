@@ -397,7 +397,57 @@ static void stabilizationTask(void* parameters)
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
-					
+
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_RATEMW:
+				{
+					static float last_gyro[3];
+					static float last_delta[3][2];
+					if(reinit) {
+						pids[PID_RATE_ROLL + i].iAccumulator = 0;
+						for (uint32_t j = 0; j < 3; j++) {
+							last_gyro[j] = 0;
+							last_delta[j][0] = 0;
+							last_delta[j][1] = 0;
+						}
+
+					}
+
+					// The unscaled input (-1,1) - note in MW this is from (-500,500)
+					float *raw_input = &stabDesired.Roll;
+
+					// dynamic PIDs are scaled both by throttle and stick position
+					float cfg_rollPitchRate = 50.0;
+					float in_scale = fabs(raw_input[i]);
+					float pid_scale = (100.0f - cfg_rollPitchRate * in_scale) / 100.0f;
+					float dynP8 = pids[PID_RATE_ROLL + i].p * pid_scale;
+					float dynD8 = pids[PID_RATE_ROLL + i].d * pid_scale;
+					// these terms are used by the integral loop this proportional term is scaled by throttle (this is different than MW
+					// that does not apply scale 
+					float cfgP8 = pids[PID_RATE_ROLL + i].p;
+					float cfgI8 = pids[PID_RATE_ROLL + i].i;
+
+					// Calculate proportional component
+					float PTerm = raw_input[i] * 500 - gyro_filtered[i] * dynP8 / 10.0f / 8.0f;
+
+					// Calculate integral component
+					float error = raw_input[i] * 500 * 10.0f * 8.0f / cfgP8 - gyro_filtered[i];
+					pids[PID_RATE_ROLL + i].iAccumulator += error;
+					pids[PID_RATE_ROLL + i].iAccumulator = bound_sym(pids[PID_RATE_ROLL + i].iAccumulator,16000);
+					float ITerm = (pids[PID_RATE_ROLL + i].iAccumulator * cfgI8) / 8182.0f;
+
+					// Calculate the derivative component
+					float delta = gyro_filtered[i] - last_gyro[i];
+					last_gyro[i] = gyro_filtered[i];
+					float delta_sum = delta + last_delta[i][0] + last_delta[i][1];
+					// Cache previous derivatives for moving sum
+					last_delta[i][1] = last_delta[i][0];
+					last_delta[i][0] = delta;
+					float DTerm = (delta_sum * dynD8) / 32.0f;
+
+					// Set the output
+					actuatorDesiredAxis[i] = bound_sym(PTerm + ITerm + DTerm,1.0f);
+				}
+					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT:
 					if(reinit) {
 						pids[PID_ATT_ROLL + i].iAccumulator = 0;
