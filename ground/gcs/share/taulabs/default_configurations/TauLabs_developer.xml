@@ -2487,23 +2487,20 @@
       <splitter>
         <side0>
           <side0>
-            <classId>HITL</classId>
-            <gadget>
-              <activeConfiguration>XPlane HITL</activeConfiguration>
-            </gadget>
+            <classId>TelemetrySchedulerGadget</classId>
             <type>uavGadget</type>
           </side0>
           <side1>
-            <classId>EmptyGadget</classId>
+            <classId>PathPlannerGadget</classId>
             <type>uavGadget</type>
           </side1>
-          <splitterOrientation>1</splitterOrientation>
-          <splitterSizes>@Variant(AAAACQAAAAA=)</splitterSizes>
+          <splitterOrientation>2</splitterOrientation>
+          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB7gAAAAIAAAER)</splitterSizes>
           <type>splitter</type>
         </side0>
         <side1>
           <side0>
-            <classId>EmptyGadget</classId>
+            <classId>PicoCGadget</classId>
             <type>uavGadget</type>
           </side0>
           <side1>
@@ -2513,11 +2510,11 @@
             </gadget>
             <type>uavGadget</type>
           </side1>
-          <splitterOrientation>1</splitterOrientation>
-          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB6AAAAAIAAADC)</splitterSizes>
+          <splitterOrientation>2</splitterOrientation>
+          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB7gAAAAIAAAER)</splitterSizes>
           <type>splitter</type>
         </side1>
-        <splitterOrientation>2</splitterOrientation>
+        <splitterOrientation>1</splitterOrientation>
         <splitterSizes>@Variant(AAAACQAAAAIAAAACAAADDAAAAAIAAAJJ)</splitterSizes>
         <type>splitter</type>
       </splitter>
@@ -2571,15 +2568,15 @@
   <Workspace>
     <AllowTabBarMovement>false</AllowTabBarMovement>
     <Icon1>:/core/images/ah.png</Icon1>
-    <Icon10>:/core/images/openpilot_logo_64.png</Icon10>
+    <Icon10>:/core/images/taulabs_logo_64.png</Icon10>
     <Icon2>:/core/images/config.png</Icon2>
     <Icon3>:/core/images/cog.png</Icon3>
     <Icon4>:/core/images/scopes.png</Icon4>
     <Icon5>:/core/images/joystick.png</Icon5>
     <Icon6>:/core/images/cpu.png</Icon6>
-    <Icon7>:/core/images/openpilot_logo_64.png</Icon7>
-    <Icon8>:/core/images/openpilot_logo_64.png</Icon8>
-    <Icon9>:/core/images/openpilot_logo_64.png</Icon9>
+    <Icon7>:/core/images/taulabs_logo_64.png</Icon7>
+    <Icon8>:/core/images/taulabs_logo_64.png</Icon8>
+    <Icon9>:/core/images/taulabs_logo_64.png</Icon9>
     <NumberOfWorkspaces>6</NumberOfWorkspaces>
     <TabBarPlacementIndex>1</TabBarPlacementIndex>
     <Workspace1>Flight data</Workspace1>
@@ -2587,7 +2584,7 @@
     <Workspace2>Configuration</Workspace2>
     <Workspace3>System</Workspace3>
     <Workspace4>Scopes</Workspace4>
-    <Workspace5>HITL</Workspace5>
+    <Workspace5>Advanced</Workspace5>
     <Workspace6>Firmware</Workspace6>
     <Workspace7>Workspace7</Workspace7>
     <Workspace8>Workspace8</Workspace8>
