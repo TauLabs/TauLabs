@@ -681,12 +681,12 @@ static void calculate_pids()
 			threshold = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD] / 100.0f;
 			break;
 		case 1:
-			attenuation = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_ATTENUATION] / 100.0f;
-			threshold = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD] / 100.0f;
+			attenuation = settings.RollRateTPA[STABILIZATIONSETTINGS_PITCHRATETPA_ATTENUATION] / 100.0f;
+			threshold = settings.RollRateTPA[STABILIZATIONSETTINGS_PITCHRATETPA_THRESHOLD] / 100.0f;
 			break;
 		case 2:
-			attenuation = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_ATTENUATION] / 100.0f;
-			threshold = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD] / 100.0f;
+			attenuation = settings.RollRateTPA[STABILIZATIONSETTINGS_YAWRATETPA_ATTENUATION] / 100.0f;
+			threshold = settings.RollRateTPA[STABILIZATIONSETTINGS_YAWRATETPA_THRESHOLD] / 100.0f;
 			break;
 		}
 
@@ -711,10 +711,6 @@ static void calculate_pids()
 			break;
 		}
 	}
-
-	if (settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD]);
-	roll_scale = 1.0f - settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_ATTENUATION] * 
-	    (throttle - settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD]);
 
 	// Set the roll rate PID constants
 	pid_configure(&pids[PID_RATE_ROLL],
