@@ -51,6 +51,7 @@
 #define FEET2MILES                       0.3048f
 #define KNOTS2M_PER_SECOND          0.514444444f
 #define FEET_PER_SECOND2CM_PER_SECOND     30.48f
+#define FEET_PER_SECOND2M_PER_SECOND     0.3048f
 #define METERS_PER_SECOND2KM_PER_HOUR       3.6f
 #define KM_PER_HOUR2METERS_PER_SECOND (1.0f/3.6f)
 #define NM2DEG_LAT                         60.0f  // 60 nautical miles per degree latitude
