@@ -188,7 +188,7 @@ static void pathfollowerTask(void *parameters)
 			(systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGELEVON) &&
 			(systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGVTAIL) )
 		{
-			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_WARNING);
+			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_CRITICAL);
 			PIOS_Thread_Sleep(1000);
 			continue;
 		}
@@ -196,64 +196,102 @@ static void pathfollowerTask(void *parameters)
 		// Continue collecting data if not enough time
 		PIOS_Thread_Sleep_Until(&lastUpdateTime, fixedwingpathfollowerSettings.UpdatePeriod);
 
-		
+		static uint8_t last_flight_mode;
 		FlightStatusGet(&flightStatus);
 		PathStatusGet(&pathStatus);
-	
-		uint8_t result;
-		// Check the combinations of flightmode and pathdesired mode
-		switch(flightStatus.FlightMode) {
-			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+
+		PositionActualData positionActual;
+
+		static bool fsm_running = false;
+
+		if (flightStatus.FlightMode != last_flight_mode) {
+			// The mode has changed
+
+			last_flight_mode = flightStatus.FlightMode;
+
+			switch(flightStatus.FlightMode) {
 			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-				pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
-				if (pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION ||
-					pathDesired.Mode == PATHDESIRED_MODE_CIRCLEPOSITIONLEFT ||
-					pathDesired.Mode == PATHDESIRED_MODE_CIRCLEPOSITIONLEFT) {
-					updatePathVelocity();
-					result = updateFixedDesiredAttitude();
-					if (result) {
-						AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_OK);
-					} else {
-						AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_WARNING);
-					}
-				} else {
-					AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
-				}
+				fsm_running = true;
+
+				PositionActualGet(&positionActual);
+
+				pathDesired.Mode = PATHDESIRED_MODE_CIRCLEPOSITIONRIGHT;
+				pathDesired.Start[0] = positionActual.North;
+				pathDesired.Start[1] = positionActual.East;
+				pathDesired.Start[2] = positionActual.Down;
+				pathDesired.End[0] = 0;
+				pathDesired.End[1] = 0;
+				pathDesired.End[2] = -30.0f;
+				pathDesired.ModeParameters = fixedwingpathfollowerSettings.OrbitRadius;
+				pathDesired.StartingVelocity = fixedWingAirspeeds.CruiseSpeed;
+				pathDesired.EndingVelocity = fixedWingAirspeeds.CruiseSpeed;
+				PathDesiredSet(&pathDesired);
+
+				break;
+			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+				fsm_running = true;
+
+				PositionActualGet(&positionActual);
+
+				pathDesired.Mode = PATHDESIRED_MODE_CIRCLEPOSITIONRIGHT;
+				pathDesired.Start[0] = positionActual.North;
+				pathDesired.Start[1] = positionActual.East;
+				pathDesired.Start[2] = positionActual.Down;
+				pathDesired.End[0] = positionActual.North;
+				pathDesired.End[1] = positionActual.East;
+				pathDesired.End[2] = positionActual.Down;
+				pathDesired.ModeParameters = fixedwingpathfollowerSettings.OrbitRadius;
+				pathDesired.StartingVelocity = fixedWingAirspeeds.CruiseSpeed;
+				pathDesired.EndingVelocity = fixedWingAirspeeds.CruiseSpeed;
+				PathDesiredSet(&pathDesired);
+
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-				pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
+			case FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL:
+				fsm_running = true;
+
+				PathDesiredGet(&pathDesired);
 				switch(pathDesired.Mode) {
 					case PATHDESIRED_MODE_FLYENDPOINT:
 					case PATHDESIRED_MODE_FLYVECTOR:
 					case PATHDESIRED_MODE_FLYCIRCLERIGHT:
 					case PATHDESIRED_MODE_FLYCIRCLELEFT:
-						updatePathVelocity();
-						result = updateFixedDesiredAttitude();
-						if (result) {
-							AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_OK);
-						} else {
-							AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_WARNING);
-						}
 						break;
 					default:
 						pathStatus.Status = PATHSTATUS_STATUS_CRITICAL;
-						AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_ERROR);
+						fsm_running = false;
+						AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_CRITICAL);
+						continue;
 						break;
 				}
 				break;
 			default:
-				// Be cleaner and get rid of global variables
-				northVelIntegral = 0;
-				eastVelIntegral = 0;
-				downVelIntegral = 0;
-				bearingIntegral = 0;
-				speedIntegral = 0;
-				accelIntegral = 0;
-				powerIntegral = 0;
-
+				fsm_running = false;
 				break;
+			}
 		}
-		PathStatusSet(&pathStatus);
+
+		if (fsm_running) {
+			updatePathVelocity();
+			uint8_t result = updateFixedDesiredAttitude();
+			if (result) {
+				AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);
+			} else {
+				AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_WARNING);
+			}
+			PathStatusSet(&pathStatus);
+		} else {
+			// Be cleaner and get rid of global variables
+			northVelIntegral = 0;
+			eastVelIntegral = 0;
+			downVelIntegral = 0;
+			bearingIntegral = 0;
+			speedIntegral = 0;
+			accelIntegral = 0;
+			powerIntegral = 0;
+			airspeedErrorInt = 0;
+			AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);
+		}
 	}
 }
 
@@ -586,7 +624,20 @@ static uint8_t updateFixedDesiredAttitude()
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_NONE;
 	
-	StabilizationDesiredSet(&stabDesired);
+	if (isnan(stabDesired.Roll) || isnan(stabDesired.Pitch) || isnan(stabDesired.Yaw) || isnan(stabDesired.Throttle)) {
+		northVelIntegral = 0;
+		eastVelIntegral = 0;
+		downVelIntegral = 0;
+		bearingIntegral = 0;
+		speedIntegral = 0;
+		accelIntegral = 0;
+		powerIntegral = 0;
+		airspeedErrorInt = 0;
+
+		result = 0;
+	} else {
+		StabilizationDesiredSet(&stabDesired);
+	}
 
 	FixedWingPathFollowerStatusSet(&fixedwingpathfollowerStatus);
 
