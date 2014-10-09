@@ -70,7 +70,7 @@
 
 
 		<field name="GpsLat" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
-		<field name="GpsLatPosX" units="" type="int16" elements="1" defaultvalue="210"/>
+		<field name="GpsLatPosX" units="" type="int16" elements="1" defaultvalue="200"/>
 		<field name="GpsLatPosY" units="" type="int16" elements="1" defaultvalue="230"/>
 		<field name="GpsLatFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="GpsLatAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
