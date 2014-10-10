@@ -5,30 +5,22 @@
     <Description>Developer</Description>
     <Details>Developer mode configuration</Details>
     <ExpertMode>true</ExpertMode>
-    <LastPreferenceCategory>OPMapGadget</LastPreferenceCategory>
-    <LastPreferencePage>default</LastPreferencePage>
     <OverrideLanguage>en_US</OverrideLanguage>
     <SaveSettingsOnExit>true</SaveSettingsOnExit>
-    <SettingsWindowHeight>628</SettingsWindowHeight>
-    <SettingsWindowWidth>697</SettingsWindowWidth>
     <StyleSheet>default</StyleSheet>
     <UDPMirror>false</UDPMirror>
+    <UseSessionManaging>true</UseSessionManaging>
+    <proxyhostname></proxyhostname>
+    <proxypassword></proxypassword>
+    <proxyport>0</proxyport>
+    <proxytype>2</proxytype>
+    <proxyuser></proxyuser>
   </General>
-  <IPconnection>
-    <Current>
-      <arr_1>
-        <HostName>127.0.0.1</HostName>
-        <Port>9000</Port>
-        <UseTCP>1</UseTCP>
-      </arr_1>
-      <size>1</size>
-    </Current>
-  </IPconnection>
   <KeyBindings>
     <size>0</size>
   </KeyBindings>
   <MainWindow>
-    <Color>#666666</Color>
+    <Color>#626262</Color>
     <FullScreen>false</FullScreen>
     <Maximized>true</Maximized>
   </MainWindow>
@@ -41,43 +33,24 @@
     <Mode6>86</Mode6>
     <Welcome>100</Welcome>
   </ModePriorities>
-  <Plugins>
-    <SoundNotifyPlugin>
-      <configInfo>
-        <locked>false</locked>
-        <version>1.0.0</version>
-      </configInfo>
-      <data>
-        <Current>
-          <arr_1>
-            <CurrentLanguage>default</CurrentLanguage>
-            <DataObject>Accels</DataObject>
-            <ExpireTimeout>0</ExpireTimeout>
-            <Mute>false</Mute>
-            <ObjectField></ObjectField>
-            <RangeLimit>-1</RangeLimit>
-            <Repeat>0</Repeat>
-            <SayOrder>0</SayOrder>
-            <Sound1></Sound1>
-            <Sound2></Sound2>
-            <Sound3></Sound3>
-            <SoundCollectionPath>%%DATAPATH%%sounds</SoundCollectionPath>
-            <Value1></Value1>
-            <Value2>0</Value2>
-          </arr_1>
-          <size>1</size>
-        </Current>
-        <EnableSound>false</EnableSound>
-        <listNotifies>
-          <size>0</size>
-        </listNotifies>
-      </data>
-    </SoundNotifyPlugin>
-  </Plugins>
-  <SerialConnection>
-    <speed>57600</speed>
-  </SerialConnection>
   <UAVGadgetConfigurations>
+    <AntennaTrackGadget>
+      <default>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <connectionMode>Serial</connectionMode>
+          <defaultDataBits>8</defaultDataBits>
+          <defaultFlow>0</defaultFlow>
+          <defaultParity>0</defaultParity>
+          <defaultPort>Unknown</defaultPort>
+          <defaultSpeed>4800</defaultSpeed>
+          <defaultStopBits>1</defaultStopBits>
+        </data>
+      </default>
+    </AntennaTrackGadget>
     <ConfigGadget>
       <default>
         <configInfo>
@@ -935,6 +908,7 @@
           <controlHostUDP></controlHostUDP>
           <controlPortUDP>0</controlPortUDP>
           <controlsMode>2</controlsMode>
+          <gcsReceiverMode>false</gcsReceiverMode>
           <pitchChannel>1</pitchChannel>
           <rollChannel>0</rollChannel>
           <throttleChannel>2</throttleChannel>
@@ -981,15 +955,33 @@
           <version>0.0.0</version>
         </configInfo>
         <data>
+          <addNoise>false</addNoise>
+          <airspeedActualEnabled>false</airspeedActualEnabled>
+          <airspeedActualRate>0</airspeedActualRate>
+          <attActCalc>false</attActCalc>
+          <attActHW>false</attActHW>
+          <attActSim>false</attActSim>
+          <attActualEnabled>false</attActualEnabled>
+          <attRawEnabled>false</attRawEnabled>
+          <attRawRate>0</attRawRate>
+          <baroAltRate>0</baroAltRate>
+          <baroAltitudeEnabled>false</baroAltitudeEnabled>
           <binPath>\usr\games\fgfs</binPath>
           <dataPath>\usr\share\games\FlightGear</dataPath>
+          <gcsReceiverEnabled>false</gcsReceiverEnabled>
+          <gpsPosRate>0</gpsPosRate>
+          <gpsPositionEnabled>false</gpsPositionEnabled>
+          <groundTruthEnabled>false</groundTruthEnabled>
+          <groundTruthRate>0</groundTruthRate>
           <hostAddress>127.0.0.1</hostAddress>
           <inPort>9009</inPort>
+          <inputCommand>false</inputCommand>
           <latitude></latitude>
           <longitude></longitude>
-          <manual>false</manual>
+          <manualControlEnabled>false</manualControlEnabled>
+          <minOutputPeriod>0</minOutputPeriod>
           <outPort>9010</outPort>
-          <remoteHostAddress>127.0.0.1</remoteHostAddress>
+          <remoteAddress></remoteAddress>
           <simulatorId>FG</simulatorId>
           <startSim>true</startSim>
         </data>
@@ -1000,55 +992,38 @@
           <version>0.0.0</version>
         </configInfo>
         <data>
+          <addNoise>false</addNoise>
+          <airspeedActualEnabled>false</airspeedActualEnabled>
+          <airspeedActualRate>0</airspeedActualRate>
+          <attActCalc>false</attActCalc>
+          <attActHW>false</attActHW>
+          <attActSim>false</attActSim>
+          <attActualEnabled>false</attActualEnabled>
+          <attRawEnabled>false</attRawEnabled>
+          <attRawRate>0</attRawRate>
+          <baroAltRate>0</baroAltRate>
+          <baroAltitudeEnabled>false</baroAltitudeEnabled>
           <binPath>\home\lafargue\X-Plane 9\X-Plane-i686</binPath>
           <dataPath>\usr\share\games\FlightGear</dataPath>
+          <gcsReceiverEnabled>false</gcsReceiverEnabled>
+          <gpsPosRate>0</gpsPosRate>
+          <gpsPositionEnabled>false</gpsPositionEnabled>
+          <groundTruthEnabled>false</groundTruthEnabled>
+          <groundTruthRate>0</groundTruthRate>
           <hostAddress>127.0.0.3</hostAddress>
           <inPort>6756</inPort>
+          <inputCommand>false</inputCommand>
           <latitude></latitude>
           <longitude></longitude>
-          <manual>false</manual>
+          <manualControlEnabled>false</manualControlEnabled>
+          <minOutputPeriod>0</minOutputPeriod>
           <outPort>49000</outPort>
-          <remoteHostAddress>127.0.0.1</remoteHostAddress>
+          <remoteAddress></remoteAddress>
           <simulatorId>X-Plane</simulatorId>
           <startSim>false</startSim>
         </data>
       </XPlane__PCT__20HITL>
     </HITL>
-    <HITLv2>
-      <default>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <attActCalc>false</attActCalc>
-          <attActHW>false</attActHW>
-          <attActSim>true</attActSim>
-          <attActual>true</attActual>
-          <attRaw>true</attRaw>
-          <attRawRate>20</attRawRate>
-          <binPath></binPath>
-          <dataPath></dataPath>
-          <gcsReciever>true</gcsReciever>
-          <gpsPosRate>200</gpsPosRate>
-          <gpsPosition>true</gpsPosition>
-          <homeLocRate>0</homeLocRate>
-          <homeLocation>true</homeLocation>
-          <hostAddress>127.0.0.1</hostAddress>
-          <inPort>40100</inPort>
-          <inputCommand>true</inputCommand>
-          <manualControl>false</manualControl>
-          <manualOutput>false</manualOutput>
-          <outPort>40200</outPort>
-          <outputRate>20</outputRate>
-          <remoteAddress>127.0.0.1</remoteAddress>
-          <simulatorId>ASimRC</simulatorId>
-          <sonarAltRate>50</sonarAltRate>
-          <sonarAltitude>false</sonarAltitude>
-          <sonarMaxAlt>@Variant(AAAAh0CgAAA=)</sonarMaxAlt>
-        </data>
-      </default>
-    </HITLv2>
     <LineardialGadget>
       <Accel__PCT__20Horizontal__PCT__20X>
         <configInfo>
@@ -1498,15 +1473,17 @@
           <addNoise>false</addNoise>
           <airspeedActualEnabled>false</airspeedActualEnabled>
           <airspeedActualRate>100</airspeedActualRate>
-          <attActualRate>50</attActualRate>
+          <attActualEnabled>false</attActualEnabled>
           <attActualHW>false</attActualHW>
           <attActualMocap>false</attActualMocap>
-          <attActualEnabled>false</attActualEnabled>
+          <attActualRate>50</attActualRate>
           <attRawEnabled>false</attRawEnabled>
           <attRawRate>20</attRawRate>
           <baroAltRate>100</baroAltRate>
           <baroAltitudeEnabled>false</baroAltitudeEnabled>
-          <exportId>NatNet</exportId>
+          <binPath></binPath>
+          <dataPath></dataPath>
+          <exporterId></exporterId>
           <gcsReceiverEnabled>false</gcsReceiverEnabled>
           <gpsPosRate>100</gpsPosRate>
           <gpsPositionEnabled>false</gpsPositionEnabled>
@@ -1515,6 +1492,8 @@
           <hostAddress>239.255.42.99</hostAddress>
           <inPort>1511</inPort>
           <inputCommand>false</inputCommand>
+          <latitude></latitude>
+          <longitude></longitude>
           <manualControlEnabled>false</manualControlEnabled>
           <minOutputPeriod>100</minOutputPeriod>
           <outPort>0</outPort>
@@ -1556,17 +1535,6 @@
           <enableVbo>false</enableVbo>
         </data>
       </CopterControl>
-      <Gemini>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <acFilename>%%DATAPATH%%models/multi/gemini/TBS-GEMINI-Black.3DS</acFilename>
-          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
-          <enableVbo>false</enableVbo>
-        </data>
-      </Gemini>
       <Easyquad__PCT__20X>
         <configInfo>
           <locked>false</locked>
@@ -1622,6 +1590,17 @@
           <enableVbo>false</enableVbo>
         </data>
       </Gaui__PCT__20330X>
+      <Gemini>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <acFilename>%%DATAPATH%%models/multi/gemini/TBS-GEMINI-Black.3DS</acFilename>
+          <bgFilename>%%DATAPATH%%models/backgrounds/default_background.png</bgFilename>
+          <enableVbo>false</enableVbo>
+        </data>
+      </Gemini>
       <Helicopter__PCT__20-__PCT__20TRex__PCT__20450>
         <configInfo>
           <locked>false</locked>
@@ -1767,6 +1746,7 @@
           <defaultLatitude>0</defaultLatitude>
           <defaultLongitude>0</defaultLongitude>
           <defaultZoom>2</defaultZoom>
+          <geolanguage>autoDetect</geolanguage>
           <mapProvider>GoogleSatellite</mapProvider>
           <maxUpdateRate>2000</maxUpdateRate>
           <overlayOpacity>1</overlayOpacity>
@@ -1774,6 +1754,9 @@
           <uavSymbol>mapquad.png</uavSymbol>
           <useMemoryCache>true</useMemoryCache>
           <useOpenGL>false</useOpenGL>
+          <userImageHorizontalScale>@Variant(AAAAhwAAAAA=)</userImageHorizontalScale>
+          <userImageLocation></userImageLocation>
+          <userImageVerticalScale>@Variant(AAAAhwAAAAA=)</userImageVerticalScale>
         </data>
       </Google__PCT__20Sat>
       <Memory__PCT__20Only>
@@ -1787,6 +1770,7 @@
           <defaultLatitude>0</defaultLatitude>
           <defaultLongitude>0</defaultLongitude>
           <defaultZoom>2</defaultZoom>
+          <geolanguage>autoDetect</geolanguage>
           <mapProvider>GoogleMap</mapProvider>
           <maxUpdateRate>2000</maxUpdateRate>
           <overlayOpacity>1</overlayOpacity>
@@ -1794,6 +1778,9 @@
           <uavSymbol>airplanepip.png</uavSymbol>
           <useMemoryCache>true</useMemoryCache>
           <useOpenGL>false</useOpenGL>
+          <userImageHorizontalScale>@Variant(AAAAhwAAAAA=)</userImageHorizontalScale>
+          <userImageLocation></userImageLocation>
+          <userImageVerticalScale>@Variant(AAAAhwAAAAA=)</userImageVerticalScale>
         </data>
       </Memory__PCT__20Only>
       <default>
@@ -1807,6 +1794,7 @@
           <defaultLatitude>29.97</defaultLatitude>
           <defaultLongitude>95.35</defaultLongitude>
           <defaultZoom>7</defaultZoom>
+          <geolanguage>autoDetect</geolanguage>
           <mapProvider>GoogleMap</mapProvider>
           <maxUpdateRate>2000</maxUpdateRate>
           <overlayOpacity>1</overlayOpacity>
@@ -1814,6 +1802,9 @@
           <uavSymbol>mapquad.png</uavSymbol>
           <useMemoryCache>true</useMemoryCache>
           <useOpenGL>true</useOpenGL>
+          <userImageHorizontalScale>@Variant(AAAAhwAAAAA=)</userImageHorizontalScale>
+          <userImageLocation></userImageLocation>
+          <userImageVerticalScale>@Variant(AAAAhwAAAAA=)</userImageVerticalScale>
         </data>
       </default>
     </OPMapGadget>
@@ -1887,7 +1878,6 @@
         </configInfo>
         <data>
           <dialFile>Unknown</dialFile>
-          <useOpenGLFlag>true</useOpenGLFlag>
         </data>
       </default>
     </QmlViewGadget>
@@ -2254,15 +2244,6 @@
       </Vibration>
     </ScopeGadget>
     <SystemHealthGadget>
-      <default>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <diagram>%%DATAPATH%%diagrams/default/system-health.svg</diagram>
-        </data>
-      </default>
       <Linear>
         <configInfo>
           <locked>false</locked>
@@ -2272,6 +2253,15 @@
           <diagram>%%DATAPATH%%diagrams/default/system-health-linear.svg</diagram>
         </data>
       </Linear>
+      <default>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <diagram>%%DATAPATH%%diagrams/default/system-health.svg</diagram>
+        </data>
+      </default>
     </SystemHealthGadget>
     <UAVObjectBrowser>
       <default>
@@ -2282,8 +2272,10 @@
         <data>
           <CategorizedView>false</CategorizedView>
           <ScientificView>false</ScientificView>
+          <hideNotPresentOnHw>false</hideNotPresentOnHw>
           <manuallyChangedColor>#5baa56</manuallyChangedColor>
-          <onlyHilightChangedValues>false</onlyHilightChangedValues>
+          <notPresentOnHwColor>#aaaaaa</notPresentOnHwColor>
+          <onlyHighlightChangedValues>false</onlyHighlightChangedValues>
           <recentlyUpdatedColor>#ff7957</recentlyUpdatedColor>
           <recentlyUpdatedTimeout>500</recentlyUpdatedTimeout>
           <showMetaData>false</showMetaData>
@@ -2495,26 +2487,20 @@
       <splitter>
         <side0>
           <side0>
-            <classId>HITL</classId>
-            <gadget>
-              <activeConfiguration>XPlane HITL</activeConfiguration>
-            </gadget>
+            <classId>TelemetrySchedulerGadget</classId>
             <type>uavGadget</type>
           </side0>
           <side1>
-            <classId>HITLv2</classId>
-            <gadget>
-              <activeConfiguration>default</activeConfiguration>
-            </gadget>
+            <classId>PathPlannerGadget</classId>
             <type>uavGadget</type>
           </side1>
-          <splitterOrientation>1</splitterOrientation>
-          <splitterSizes>@Variant(AAAACQAAAAA=)</splitterSizes>
+          <splitterOrientation>2</splitterOrientation>
+          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB7gAAAAIAAAER)</splitterSizes>
           <type>splitter</type>
         </side0>
         <side1>
           <side0>
-            <classId>EmptyGadget</classId>
+            <classId>PicoCGadget</classId>
             <type>uavGadget</type>
           </side0>
           <side1>
@@ -2524,11 +2510,11 @@
             </gadget>
             <type>uavGadget</type>
           </side1>
-          <splitterOrientation>1</splitterOrientation>
-          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB6AAAAAIAAADC)</splitterSizes>
+          <splitterOrientation>2</splitterOrientation>
+          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB7gAAAAIAAAER)</splitterSizes>
           <type>splitter</type>
         </side1>
-        <splitterOrientation>2</splitterOrientation>
+        <splitterOrientation>1</splitterOrientation>
         <splitterSizes>@Variant(AAAACQAAAAIAAAACAAADDAAAAAIAAAJJ)</splitterSizes>
         <type>splitter</type>
       </splitter>
@@ -2539,9 +2525,6 @@
       <splitter>
         <side0>
           <classId>Uploader</classId>
-          <gadget>
-            <activeConfiguration>default</activeConfiguration>
-          </gadget>
           <type>uavGadget</type>
         </side0>
         <side1>
@@ -2585,15 +2568,15 @@
   <Workspace>
     <AllowTabBarMovement>false</AllowTabBarMovement>
     <Icon1>:/core/images/ah.png</Icon1>
-    <Icon10>:/core/images/openpilot_logo_64.png</Icon10>
+    <Icon10>:/core/images/taulabs_logo_64.png</Icon10>
     <Icon2>:/core/images/config.png</Icon2>
     <Icon3>:/core/images/cog.png</Icon3>
     <Icon4>:/core/images/scopes.png</Icon4>
     <Icon5>:/core/images/joystick.png</Icon5>
     <Icon6>:/core/images/cpu.png</Icon6>
-    <Icon7>:/core/images/openpilot_logo_64.png</Icon7>
-    <Icon8>:/core/images/openpilot_logo_64.png</Icon8>
-    <Icon9>:/core/images/openpilot_logo_64.png</Icon9>
+    <Icon7>:/core/images/taulabs_logo_64.png</Icon7>
+    <Icon8>:/core/images/taulabs_logo_64.png</Icon8>
+    <Icon9>:/core/images/taulabs_logo_64.png</Icon9>
     <NumberOfWorkspaces>6</NumberOfWorkspaces>
     <TabBarPlacementIndex>1</TabBarPlacementIndex>
     <Workspace1>Flight data</Workspace1>
@@ -2601,7 +2584,7 @@
     <Workspace2>Configuration</Workspace2>
     <Workspace3>System</Workspace3>
     <Workspace4>Scopes</Workspace4>
-    <Workspace5>HITL</Workspace5>
+    <Workspace5>Advanced</Workspace5>
     <Workspace6>Firmware</Workspace6>
     <Workspace7>Workspace7</Workspace7>
     <Workspace8>Workspace8</Workspace8>
