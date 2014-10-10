@@ -108,6 +108,7 @@ namespace mapcontrol
         }
 
     }
+
     void TLMapWidget::SetUavPic(QString UAVPic)
     {
         if(UAV!=0)
@@ -124,6 +125,7 @@ namespace mapcontrol
         ret->setOpacity(overlayOpacity);
         return ret;
     }
+
     MapLine * TLMapWidget::WPLineCreate(HomeItem *from, WayPointItem *to,QColor color)
     {
         if(!from|!to)
@@ -168,6 +170,7 @@ namespace mapcontrol
         ret->setOpacity(overlayOpacity);
         return ret;
     }
+
     void TLMapWidget::SetShowUAV(const bool &value)
     {
         if(value && UAV==0)
@@ -188,6 +191,7 @@ namespace mapcontrol
 
         }
     }
+
     void TLMapWidget::SetShowHome(const bool &value)
     {
             Home->setVisible(value);
@@ -208,16 +212,19 @@ namespace mapcontrol
         }
 
     }
+
     QSize TLMapWidget::sizeHint() const
     {
         return map->sizeHint();
     }
+
     void TLMapWidget::showEvent(QShowEvent *event)
     {
         connect(scene(),SIGNAL(sceneRectChanged(QRectF)),map,SLOT(resize(QRectF)));
         map->start();
         QGraphicsView::showEvent(event);
     }
+
     TLMapWidget::~TLMapWidget()
     {
         if(UAV)
@@ -236,11 +243,13 @@ namespace mapcontrol
                 delete i;
         }
     }
+
     void TLMapWidget::closeEvent(QCloseEvent *event)
     {
         core->OnMapClose();
         event->accept();
     }
+
     void TLMapWidget::SetUseOpenGL(const bool &value)
     {
         useOpenGL=value;
@@ -250,6 +259,7 @@ namespace mapcontrol
             setupViewport(new QWidget());
         update();
     }
+
     internals::PointLatLng TLMapWidget::currentMousePosition()
     {
         return currentmouseposition;
@@ -262,6 +272,7 @@ namespace mapcontrol
         p=map->mapFromParent(p);
         currentmouseposition=map->FromLocalToLatLng(p.x(),p.y());
     }
+
     ////////////////WAYPOINT////////////////////////
     WayPointItem* TLMapWidget::WPCreate()
     {
@@ -272,6 +283,7 @@ namespace mapcontrol
         emit WPCreated(position,item);
         return item;
     }
+
     WayPointItem* TLMapWidget::magicWPCreate()
     {
         WayPointItem* item=new WayPointItem(map,true);
@@ -279,6 +291,7 @@ namespace mapcontrol
         item->setParentItem(map);
         return item;
     }
+
     void TLMapWidget::WPCreate(WayPointItem* item)
     {
         ConnectWP(item);
@@ -287,6 +300,7 @@ namespace mapcontrol
         emit WPCreated(position,item);
         setOverlayOpacity(overlayOpacity);
     }
+
     WayPointItem* TLMapWidget::WPCreate(internals::PointLatLng const& coord,int const& altitude)
     {
         WayPointItem* item=new WayPointItem(coord,altitude,map);
@@ -297,6 +311,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     WayPointItem* TLMapWidget::WPCreate(internals::PointLatLng const& coord,int const& altitude, QString const& description)
     {
         WayPointItem* item=new WayPointItem(coord,altitude,description,map);
@@ -307,6 +322,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     WayPointItem* TLMapWidget::WPCreate(const distBearingAltitude &relativeCoord, const QString &description)
     {
         WayPointItem* item=new WayPointItem(relativeCoord,description,map);
@@ -317,6 +333,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     WayPointItem* TLMapWidget::WPInsert(const int &position)
     {
         WayPointItem* item=new WayPointItem(this->CurrentPosition(),0,map);
@@ -327,6 +344,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     void TLMapWidget::WPInsert(WayPointItem* item,const int &position)
     {
         item->SetNumber(position);
@@ -335,6 +353,7 @@ namespace mapcontrol
         emit WPInserted(position,item);
         setOverlayOpacity(overlayOpacity);
     }
+
     WayPointItem* TLMapWidget::WPInsert(internals::PointLatLng const& coord,int const& altitude,const int &position)
     {
         WayPointItem* item=new WayPointItem(coord,altitude,map);
@@ -345,6 +364,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     WayPointItem* TLMapWidget::WPInsert(internals::PointLatLng const& coord,int const& altitude, QString const& description,const int &position)
     {
         internals::PointLatLng mcoord;
@@ -366,6 +386,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     WayPointItem* TLMapWidget::WPInsert(distBearingAltitude const& relative, QString const& description,const int &position)
     {
         WayPointItem* item=new WayPointItem(relative,description,map);
@@ -376,11 +397,13 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     void TLMapWidget::WPDelete(WayPointItem *item)
     {
         emit WPDeleted(item->Number(),item);
         delete item;
     }
+
     void TLMapWidget::WPDelete(int number)
     {
         foreach(QGraphicsItem* i,map->childItems())
@@ -397,6 +420,7 @@ namespace mapcontrol
             }
         }
     }
+
     WayPointItem * TLMapWidget::WPFind(int number)
     {
         foreach(QGraphicsItem* i,map->childItems())
@@ -412,6 +436,7 @@ namespace mapcontrol
         }
         return NULL;
     }
+
     void TLMapWidget::WPSetVisibleAll(bool value)
     {
         foreach(QGraphicsItem* i,map->childItems())
@@ -424,6 +449,7 @@ namespace mapcontrol
             }
         }
     }
+
     void TLMapWidget::WPDeleteAll()
     {
         foreach(QGraphicsItem* i,map->childItems())
@@ -439,6 +465,7 @@ namespace mapcontrol
             }
         }
     }
+
     bool TLMapWidget::WPPresent()
     {
         foreach(QGraphicsItem* i,map->childItems())
@@ -470,6 +497,7 @@ namespace mapcontrol
             }
         }
     }
+
     QList<WayPointItem*> TLMapWidget::WPSelected()
     {
         QList<WayPointItem*> list;
@@ -481,6 +509,7 @@ namespace mapcontrol
         }
         return list;
     }
+
     void TLMapWidget::WPRenumber(WayPointItem *item, const int &newnumber)
     {
         item->SetNumber(newnumber);
@@ -495,6 +524,7 @@ namespace mapcontrol
         connect(this,SIGNAL(WPNumberChanged(int,int,WayPointItem*)),item,SLOT(WPRenumbered(int,int,WayPointItem*)),Qt::DirectConnection);
         connect(this,SIGNAL(WPDeleted(int,WayPointItem*)),item,SLOT(WPDeleted(int,WayPointItem*)),Qt::DirectConnection);
     }
+
     void TLMapWidget::diagRefresh()
     {
         if(showDiag)
@@ -599,6 +629,7 @@ namespace mapcontrol
         map->setOverlayOpacity(value);
         overlayOpacity=value;
     }
+
     void TLMapWidget::SetRotate(qreal const& value)
     {
         map->mapRotate(value);
@@ -609,6 +640,7 @@ namespace mapcontrol
             windCompass->setRotation(value);
         }
     }
+
     void TLMapWidget::RipMap()
     {
         new MapRipper(core,map->SelectedArea());
