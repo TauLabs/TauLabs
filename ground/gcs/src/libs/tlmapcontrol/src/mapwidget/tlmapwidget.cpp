@@ -34,19 +34,24 @@
 namespace mapcontrol
 {
 
-    TLMapWidget::TLMapWidget(QWidget *parent, Configuration *config):QGraphicsView(parent),configuration(config),UAV(0),GPS(0),Home(0)
-      ,followmouse(true),compassRose(0),windCompass(0),showuav(false),showhome(false),diagTimer(0),diagGraphItem(0),showDiag(false),overlayOpacity(1)
+    TLMapWidget::TLMapWidget(QWidget *parent, Configuration *config) : QGraphicsView(parent),
+        configuration(config),UAV(0),GPS(0),Home(0),followmouse(true),
+        compassRose(0),windCompass(0),showuav(false),showhome(false),
+        diagTimer(0),diagGraphItem(0),showDiag(false),overlayOpacity(1)
     {
         setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        this->setScene(new QGraphicsScene(this));
+
         core=new internals::Core;
         map=new MapGraphicItem(core,config);
-        mscene.addItem(map);
-        this->setScene(&mscene);
+
+        scene()->addItem(map);
         Home=new HomeItem(map,this);
         Home->setParentItem(map);
         Home->setZValue(-1);
+
         setStyleSheet("QToolTip {font-size:8pt; color:blue;opacity: 223; padding:2px; border-width:2px; border-style:solid; border-color: rgb(170, 170, 127);border-radius:4px }");
-        this->adjustSize();
+
         connect(map,SIGNAL(zoomChanged(double,double,double)),this,SIGNAL(zoomChanged(double,double,double)));
         connect(map->core,SIGNAL(OnCurrentPositionChanged(internals::PointLatLng)),this,SIGNAL(OnCurrentPositionChanged(internals::PointLatLng)));
         connect(map->core,SIGNAL(OnEmptyTileError(int,core::Point)),this,SIGNAL(OnEmptyTileError(int,core::Point)));
@@ -57,13 +62,16 @@ namespace mapcontrol
         connect(map->core,SIGNAL(OnTileLoadStart()),this,SIGNAL(OnTileLoadStart()));
         connect(map->core,SIGNAL(OnTilesStillToLoad(int)),this,SIGNAL(OnTilesStillToLoad(int)));
         connect(map,SIGNAL(wpdoubleclicked(WayPointItem*)),this,SIGNAL(OnWayPointDoubleClicked(WayPointItem*)));
-        connect(&mscene,SIGNAL(selectionChanged()),this,SLOT(OnSelectionChanged()));
+        connect(scene(),SIGNAL(selectionChanged()),this,SLOT(OnSelectionChanged()));
         SetShowDiagnostics(showDiag);
         this->setMouseTracking(followmouse);
         SetShowCompassRose(true);
         SetShowWindCompass(false);
         QPixmapCache::setCacheLimit(64*1024);
+
+        this->adjustSize();
     }
+
     void TLMapWidget::SetShowDiagnostics(bool const& value)
     {
         showDiag=value;
@@ -206,7 +214,7 @@ namespace mapcontrol
     }
     void TLMapWidget::showEvent(QShowEvent *event)
     {
-        connect(&mscene,SIGNAL(sceneRectChanged(QRectF)),map,SLOT(resize(QRectF)));
+        connect(scene(),SIGNAL(sceneRectChanged(QRectF)),map,SLOT(resize(QRectF)));
         map->start();
         QGraphicsView::showEvent(event);
     }
@@ -465,7 +473,7 @@ namespace mapcontrol
     QList<WayPointItem*> TLMapWidget::WPSelected()
     {
         QList<WayPointItem*> list;
-        foreach(QGraphicsItem* i,mscene.selectedItems())
+        foreach(QGraphicsItem* i,scene()->selectedItems())
         {
             WayPointItem* w=qgraphicsitem_cast<WayPointItem*>(i);
             if(w)
@@ -494,7 +502,7 @@ namespace mapcontrol
             if(diagGraphItem==0)
             {
                 diagGraphItem=new QGraphicsTextItem();
-                mscene.addItem(diagGraphItem);
+                scene()->addItem(diagGraphItem);
                 diagGraphItem->setPos(10,100);
                 diagGraphItem->setZValue(3);
                 diagGraphItem->setFlag(QGraphicsItem::ItemIsMovable,true);
@@ -523,7 +531,7 @@ namespace mapcontrol
             compassRose->setScale(0.1+0.05*(qreal)(this->size().width())/1000*(qreal)(this->size().height())/600);
             compassRose->setFlag(QGraphicsItem::ItemIsMovable,false);
             compassRose->setFlag(QGraphicsItem::ItemIsSelectable,false);
-            mscene.addItem(compassRose);
+            scene()->addItem(compassRose);
             compassRose->setTransformOriginPoint(compassRose->boundingRect().width()/2,compassRose->boundingRect().height()/2);
             compassRose->setPos(55-compassRose->boundingRect().width()/2,55-compassRose->boundingRect().height()/2);
             compassRose->setZValue(3);
@@ -550,14 +558,14 @@ namespace mapcontrol
             windCompass->setTransformOriginPoint(windCompass->boundingRect().width()/2, windCompass->boundingRect().height()/2);
             windCompass->setZValue(compassRose->zValue() + 1);
             windCompass->setOpacity(0.70);
-            mscene.addItem(windCompass);
+            scene()->addItem(windCompass);
 
             // Add text
             windspeedTxt = new QGraphicsTextItem();
             windspeedTxt->setDefaultTextColor(QColor("Black"));
             windspeedTxt->setZValue(compassRose->zValue() + 2);
 
-            mscene.addItem(windspeedTxt);
+            scene()->addItem(windspeedTxt);
 
             // Reset and position
             double dummyWind[3] = {0,0,0};

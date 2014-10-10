@@ -395,7 +395,6 @@ namespace mapcontrol
       private:
         internals::Core *core;
         MapGraphicItem *map;
-        QGraphicsScene mscene;
         bool useOpenGL;
         GeoCoderStatusCode x;
         MapType y;
