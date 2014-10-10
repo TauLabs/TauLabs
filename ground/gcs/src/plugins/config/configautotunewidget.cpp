@@ -120,8 +120,8 @@ void ConfigAutotuneWidget::onForumInteractionSet(int value)
     }
 
     QString message0 = tr(
-                "[b]Aircraft description[/b]:%0\n\n\n"
-                "[b]Observations[/b]:%1\n\n\n"
+                "[b]Aircraft description[/b]: %0\n\n\n"
+                "[b]Observations[/b]: %1\n\n\n"
                 "[b]Measured properties[/b]"
                 "[table][tr][td][/td]"
                 "[td][b]Gain[/b][/td]"
