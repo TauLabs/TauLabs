@@ -31,5 +31,6 @@
         <file>images/pipx-selected.png</file>
         <file>images/pipx-normal.png</file>
         <file>images/swap.svg</file>
+        <file>images/share-2-icon.png</file>
     </qresource>
 </RCC>

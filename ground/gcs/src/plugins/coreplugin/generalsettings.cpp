@@ -2,6 +2,7 @@
  ******************************************************************************
  *
  * @file       generalsettings.cpp
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
  * @addtogroup GCSPlugins GCS Plugins
@@ -188,6 +189,10 @@ void GeneralSettings::readSettings(QSettings* qs)
     m_proxyHostname = qs->value(QLatin1String("proxyhostname"),m_proxyHostname).toString();
     m_proxyUser = qs->value(QLatin1String("proxyuser"),m_proxyUser).toString();
     m_proxyPassword = qs->value(QLatin1String("proxypassword"),m_proxyPassword).toString();
+    m_forumUser = qs->value(QLatin1String("forumuser"),m_forumUser).toString();
+    m_forumPassword = qs->value(QLatin1String("forumpassword"),m_forumPassword).toString();
+    m_aircraft = qs->value(QLatin1String("aircraft"),m_aircraft).toString();
+    m_observations = qs->value(QLatin1String("observations"),m_observations).toString();
     qs->endGroup();
     emit generalSettingsChanged();
 }
@@ -213,6 +218,10 @@ void GeneralSettings::saveSettings(QSettings* qs)
     qs->setValue(QLatin1String("proxyhostname"), m_proxyHostname);
     qs->setValue(QLatin1String("proxyuser"), m_proxyUser);
     qs->setValue(QLatin1String("proxypassword"), m_proxyPassword);
+    qs->setValue(QLatin1String("forumuser"), m_forumUser);
+    qs->setValue(QLatin1String("forumpassword"), m_forumPassword);
+    qs->setValue(QLatin1String("observations"), m_observations);
+    qs->setValue(QLatin1String("aircraft"), m_aircraft);
     qs->endGroup();
 }
 
@@ -283,9 +292,49 @@ bool GeneralSettings::useExpertMode() const
     return m_useExpertMode;
 }
 
+QString GeneralSettings::getForumUser() const
+{
+    return m_forumUser;
+}
+
+QString GeneralSettings::getForumPassword() const
+{
+    return m_forumPassword;
+}
+
+void GeneralSettings::setForumUser(QString value)
+{
+    m_forumUser = value;
+}
+
+void GeneralSettings::setForumPassword(QString value)
+{
+    m_forumPassword = value;
+}
+
 QNetworkProxy GeneralSettings::getNetworkProxy()
 {
     return QNetworkProxy((QNetworkProxy::ProxyType)m_proxyType, m_proxyHostname, m_proxyPort, m_proxyUser, m_proxyPassword);
+}
+
+void GeneralSettings::setObservations(QString value)
+{
+    m_observations = value;
+}
+
+void GeneralSettings::setAircraftDescription(QString value)
+{
+    m_aircraft = value;
+}
+
+QString GeneralSettings::getObservations()
+{
+    return m_observations;
+}
+
+QString GeneralSettings::getAircraftDescription()
+{
+    return m_aircraft;
 }
 
 void GeneralSettings::slotAutoConnect(int value)
