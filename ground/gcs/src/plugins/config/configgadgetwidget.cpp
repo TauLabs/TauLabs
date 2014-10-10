@@ -50,7 +50,7 @@
 
 
 
-ConfigGadgetWidget::ConfigGadgetWidget(QWidget *parent) : QWidget(parent)
+ConfigGadgetWidget::ConfigGadgetWidget(QWidget *parent) : QWidget(parent), lastTabIndex(ConfigGadgetWidget::hardware)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
@@ -184,6 +184,7 @@ void ConfigGadgetWidget::onAutopilotDisconnect() {
     icon->addFile(":/configgadget/images/hardware_selected.png", QSize(), QIcon::Selected, QIcon::Off);
     QWidget *qwd = new DefaultHwSettingsWidget(this, false);
     ftw->insertTab(ConfigGadgetWidget::hardware, qwd, *icon, QString("Hardware"));
+    lastTabIndex = ftw->currentIndex();
     ftw->setCurrentIndex(ConfigGadgetWidget::hardware);
 
     emit autopilotDisconnected();
@@ -234,7 +235,7 @@ void ConfigGadgetWidget::onAutopilotConnect() {
     icon->addFile(":/configgadget/images/ins_selected.png", QSize(), QIcon::Selected, QIcon::Off);
     qwd = new ConfigAttitudeWidget(this);
     ftw->insertTab(ConfigGadgetWidget::sensors, qwd, *icon, QString("Attitude"));
-
+    ftw->setCurrentIndex(lastTabIndex);
     emit autopilotConnected();
 }
 

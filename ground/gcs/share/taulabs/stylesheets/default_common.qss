@@ -1,0 +1,45 @@
+
+MyTabbedStackWidget QScrollBar:vertical {
+  border: 1px solid #999999;
+  background:#c8c8c8;
+  width:10px;
+  margin: 0px 0px 0px 0px;
+}
+MyTabbedStackWidget QScrollBar::handle:vertical {
+  background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1, stop: 0 #66e, stop: 1 #bbf);
+  background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,stop: 0 #bbf, stop: 1 #55f);
+  min-height: 0px;
+}
+MyTabbedStackWidget QScrollBar::add-line:vertical {
+  background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1, stop: 0 #66e, stop: 1 #bbf);
+  background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1, stop: 0 #bbf, stop: 1 #55f);
+  height: px;
+  subcontrol-position: bottom;
+  subcontrol-origin: margin;
+}
+MyTabbedStackWidget QScrollBar::sub-line:vertical {
+  background: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,stop: 0 #66e, stop: 1 #bbf);
+  background: qlineargradient(x1: 0, y1: 0.2, x2: 1, y2: 1,stop: 0 #bbf, stop: 1 #55f);
+  height: 0px;
+  subcontrol-position: top;
+  subcontrol-origin: margin;
+}
+
+QWidget#m_top {
+    min-height: 30px;max-height: 30px;background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(49, 49, 49, 255), stop:1 rgba(197, 197, 197, 255));
+}
+QWidget#m_top QComboBox {
+    color: white;border: 1px solid gray;border-radius: 3px;padding: 1px 18px 1px 3px;min-width: 6em;background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(49, 49, 49, 255), stop:1 rgba(197, 197, 197, 255));
+}
+QWidget#m_top QComboBox:on {
+    padding-top: 3px;padding-left: 4px;color:black;
+}
+QWidget#m_top QComboBox::drop-down {
+    subcontrol-origin: padding;subcontrol-position: top right;width: 15px;border-left-width: 1px;border-left-style: solid;border-top-right-radius: 3px;border-bottom-right-radius: 3px;
+}
+QWidget#m_top QComboBox::down-arrow:on {
+    top: 1px;left: 1px;
+}
+QWidget#m_top QComboBox::down-arrow {
+    image: url(:/core/images/1downarrow.png);
+}

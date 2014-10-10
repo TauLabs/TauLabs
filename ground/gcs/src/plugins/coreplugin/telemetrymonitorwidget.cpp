@@ -215,9 +215,7 @@ void TelemetryMonitorWidget::resizeEvent(QResizeEvent* event)
 {
     Q_UNUSED(event);
 
-    // This offset is required because the widget is not centered while
-    // it is a child of the connection selector widget
-    graph->setPos(0,-20);
+    graph->setPos(0,0);
     fitInView(graph, Qt::KeepAspectRatio);
 }
 

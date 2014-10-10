@@ -62,5 +62,6 @@
         <file>images/taulabs_logo_32.png</file>
         <file>images/taulabs_logo_64.png</file>
         <file>images/taulabs_logo_128.png</file>
+        <file>images/1downarrow.png</file>
     </qresource>
 </RCC>

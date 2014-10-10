@@ -48,10 +48,6 @@ class QLabel;
 class QVBoxLayout;
 QT_END_NAMESPACE
 
-namespace Utils {
-class StyledBar;
-}
-
 namespace Core {
 
 class IUAVGadget;
@@ -92,7 +88,7 @@ private:
     QWidget *m_activeToolBar;
     QComboBox *m_uavGadgetList;
     QToolButton *m_closeButton;
-    Utils::StyledBar *m_top;
+    QWidget *m_top;
     QVBoxLayout *tl; // top layout
     int m_defaultIndex;
     QLabel *m_activeLabel;

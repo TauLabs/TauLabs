@@ -52,7 +52,6 @@
 #include "icorelistener.h"
 #include "iconfigurableplugin.h"
 #include <QStyleFactory>
-#include "manhattanstyle.h"
 #include "rightpane.h"
 #include "settingsdialog.h"
 #include "threadmanager.h"
@@ -146,25 +145,8 @@ MainWindow::MainWindow() :
     QCoreApplication::setOrganizationName(QLatin1String(Core::Constants::GCS_AUTHOR));
     QCoreApplication::setOrganizationDomain(QLatin1String("taulabs.org"));
     QSettings::setDefaultFormat(XmlConfig::XmlSettingsFormat);
-    QString baseName = QApplication::style()->objectName();
 
-    qDebug() << baseName;
-    if (Utils::HostOsInfo::isAnyUnixHost() && !Utils::HostOsInfo::isMacHost()) {
-        if (baseName == QLatin1String("windows")) {
-            // Sometimes we get the standard windows 95 style as a fallback
-            if (QStyleFactory::keys().contains(QLatin1String("Fusion"))) {
-                baseName = QLatin1String("fusion"); // Qt5
-            } else { // Qt4
-                // e.g. if we are running on a KDE4 desktop
-                QByteArray desktopEnvironment = qgetenv("DESKTOP_SESSION");
-                if (desktopEnvironment == "kde")
-                    baseName = QLatin1String("plastique");
-                else
-                    baseName = QLatin1String("cleanlooks");
-            }
-        }
-    }
-    qApp->setStyle(new ManhattanStyle(baseName));
+    qApp->setStyle(QStyleFactory::create("fusion"));
 
 
     setDockNestingEnabled(true);
@@ -364,22 +346,35 @@ void MainWindow::loadStyleSheet(QString name) {
 #else
     QFile data(directory.absolutePath()+QDir::separator()+name+"_windows.qss");
 #endif
+    QFile defaultStyle(directory.absolutePath()+QDir::separator()+"default_common.qss");
     QString style;
+    if(defaultStyle.open(QFile::ReadOnly)) {
+        /* QTextStream... */
+        QTextStream styleIn(&defaultStyle);
+        /* ...read file to a string. */
+        style.append(styleIn.readAll());
+        data.close();
+        emit splashMessages(QString(tr("Loading default stylesheet")));
+        qDebug()<<"Loaded stylesheet:" << directory.absolutePath() << name;
+    }
+    else
+        qDebug()<<"Failed to open default stylesheet file";
     /* ...to open the file */
     if(data.open(QFile::ReadOnly)) {
         /* QTextStream... */
         QTextStream styleIn(&data);
         /* ...read file to a string. */
-        style = styleIn.readAll();
+        style.append(styleIn.readAll());
         data.close();
-        /* We'll use qApp macro to get the QApplication pointer
-         * and set the style sheet application wide. */
-        qApp->setStyleSheet(style);
         emit splashMessages(QString(tr("Loading stylesheet %1")).arg(name));
         qDebug()<<"Loaded stylesheet:" << directory.absolutePath() << name;
     }
     else
         qDebug()<<"Failed to openstylesheet file" << directory.absolutePath() << name;
+    /* We'll use qApp macro to get the QApplication pointer
+     * and set the style sheet application wide. */
+    emit splashMessages(QString(tr("Applying stylesheets")).arg(name));
+    qApp->setStyleSheet(style);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

@@ -59,70 +59,6 @@
        </property>
        <item>
         <widget class="QScrollArea" name="scrollArea">
-         <property name="palette">
-          <palette>
-           <active>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>255</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="0">
-               <red>232</red>
-               <green>232</green>
-               <blue>232</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>255</red>
-               <green>255</green>
-               <blue>255</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="0">
-               <red>232</red>
-               <green>232</green>
-               <blue>232</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="0">
-               <red>232</red>
-               <green>232</green>
-               <blue>232</blue>
-              </color>
-             </brush>
-            </colorrole>
-            <colorrole role="Window">
-             <brush brushstyle="SolidPattern">
-              <color alpha="0">
-               <red>232</red>
-               <green>232</green>
-               <blue>232</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
@@ -135,7 +71,7 @@
             <x>0</x>
             <y>0</y>
             <width>670</width>
-            <height>664</height>
+            <height>668</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -693,20 +629,26 @@ Leave at 50Hz for fixed wing.</string>
               <string/>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout">
+              <property name="spacing">
+               <number>1</number>
+              </property>
               <property name="leftMargin">
                <number>0</number>
               </property>
               <property name="topMargin">
-               <number>12</number>
+               <number>1</number>
               </property>
               <property name="rightMargin">
                <number>0</number>
               </property>
               <property name="bottomMargin">
-               <number>12</number>
+               <number>1</number>
               </property>
               <item>
                <layout class="QVBoxLayout" name="channelLayout">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
                 <property name="sizeConstraint">
                  <enum>QLayout::SetDefaultConstraint</enum>
                 </property>
@@ -775,24 +717,27 @@ Leave at 50Hz for fixed wing.</string>
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>60</height>
+               <height>0</height>
               </size>
              </property>
              <property name="title">
               <string/>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_6">
+              <property name="spacing">
+               <number>1</number>
+              </property>
               <property name="leftMargin">
-               <number>12</number>
+               <number>1</number>
               </property>
               <property name="topMargin">
-               <number>12</number>
+               <number>1</number>
               </property>
               <property name="rightMargin">
-               <number>12</number>
+               <number>1</number>
               </property>
               <property name="bottomMargin">
-               <number>12</number>
+               <number>1</number>
               </property>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -927,9 +872,6 @@ Leave at 50Hz for fixed wing.</string>
         <string>Send to flight controller but don't write to non volatile memory.
 Be sure to set the Neutral position on all sliders before sending!</string>
        </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
        <property name="text">
         <string>Apply</string>
        </property>
@@ -953,9 +895,6 @@ Be sure to set the Neutral position on all sliders before sending!</string>
         <string>Be sure to set the Neutral position on all sliders before sending!
 Applies and Saves all settings to SD</string>
        </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
        <property name="text">
         <string>Save</string>
        </property>
@@ -970,6 +909,7 @@ Applies and Saves all settings to SD</string>
   <tabstop>saveRCOutputToSD</tabstop>
  </tabstops>
  <resources>
+  <include location="../coreplugin/core.qrc"/>
   <include location="../coreplugin/core.qrc"/>
  </resources>
  <connections/>

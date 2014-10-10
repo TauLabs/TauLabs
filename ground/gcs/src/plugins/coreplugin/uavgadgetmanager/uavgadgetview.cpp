@@ -35,9 +35,8 @@
 #include "minisplitter.h"
 #include <coreplugin/coreconstants.h>
 #include <coreplugin/actionmanager/actionmanager.h>
-
+#include <QStyledItemDelegate>
 #include <utils/qtcassert.h>
-#include <utils/styledbar.h>
 
 #include <QtCore/QDebug>
 
@@ -123,7 +122,8 @@ UAVGadgetView::UAVGadgetView(Core::UAVGadgetManager *uavGadgetManager, IUAVGadge
         m_closeButton->setAutoRaise(true);
         m_closeButton->setIcon(QIcon(":/core/images/closebutton.png"));
 
-        m_top = new Utils::StyledBar(this);
+        m_top = new QWidget(this);
+        m_top->setObjectName("m_top");
         QHBoxLayout *toplayout = new QHBoxLayout(m_top);
         toplayout->setSpacing(0);
         toplayout->setMargin(0);
@@ -132,7 +132,8 @@ UAVGadgetView::UAVGadgetView(Core::UAVGadgetManager *uavGadgetManager, IUAVGadge
         toplayout->addWidget(spacerWidget);
         toplayout->addWidget(m_activeLabel);
         toplayout->addWidget(m_closeButton);
-
+        QStyledItemDelegate* itemDelegate = new QStyledItemDelegate();
+        m_uavGadgetList->setItemDelegate(itemDelegate);
         m_top->setLayout(toplayout);
         tl->addWidget(m_top);
 
@@ -223,6 +224,8 @@ void UAVGadgetView::updateToolBar()
     m_toolBar->layout()->addWidget(toolBar);
     m_activeToolBar->setVisible(false);
     m_activeToolBar = toolBar;
+    QStyledItemDelegate* itemDelegate = new QStyledItemDelegate();
+    toolBar->setItemDelegate(itemDelegate);
 }
 
 /**

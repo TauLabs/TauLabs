@@ -104,6 +104,7 @@ void CustomSplash::showMessage(const QString &message, int alignment, const QCol
     }
     settings.setValue(QString::number(message_number),time.elapsed());
     ++message_number;
+    repaint();
 }
 /**
  * @brief Closes the splashscreen

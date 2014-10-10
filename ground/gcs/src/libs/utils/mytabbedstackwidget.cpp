@@ -34,7 +34,8 @@
 MyTabbedStackWidget::MyTabbedStackWidget(QWidget *parent, bool isVertical, bool iconAbove)
     : QWidget(parent),
       m_vertical(isVertical),
-      m_iconAbove(iconAbove)
+      m_iconAbove(iconAbove),
+      m_maxLabelSize(8)
 {
     m_listWidget = new QListWidget(this);
     m_stackWidget = new QStackedWidget();
@@ -77,7 +78,10 @@ void MyTabbedStackWidget::insertTab(const int index, QWidget *tab, const QIcon &
 {
     tab->setContentsMargins(0, 0, 0, 0);
     m_stackWidget->insertWidget(index, tab);
-    QListWidgetItem *item = new QListWidgetItem(icon, label);
+    QString adjLabel = label;
+    if (adjLabel.size() > m_maxLabelSize)
+        adjLabel = adjLabel.left(m_maxLabelSize - 3) + "...";
+    QListWidgetItem *item = new QListWidgetItem(icon, adjLabel);
     item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
     item->setTextAlignment(Qt::AlignHCenter | Qt::AlignBottom);
     item->setToolTip(label);
@@ -119,6 +123,11 @@ void MyTabbedStackWidget::showWidget(int index)
     {
         m_listWidget->setCurrentRow(m_stackWidget->currentIndex(),QItemSelectionModel::ClearAndSelect);
     }
+}
+
+void MyTabbedStackWidget::setMaxLabelSize(int maxLabelSize)
+{
+    m_maxLabelSize = maxLabelSize;
 }
 
 void MyTabbedStackWidget::insertCornerWidget(int index, QWidget *widget)

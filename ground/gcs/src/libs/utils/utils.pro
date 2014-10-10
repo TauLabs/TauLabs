@@ -42,7 +42,6 @@ SOURCES += reloadpromptutils.cpp \
     parameteraction.cpp \
     treewidgetcolumnstretcher.cpp \
     checkablemessagebox.cpp \
-    styledbar.cpp \
     stylehelper.cpp \
     welcomemodetreewidget.cpp \
     iwelcomepage.cpp \
@@ -99,7 +98,6 @@ HEADERS += utils_global.h \
     treewidgetcolumnstretcher.h \
     checkablemessagebox.h \
     qtcassert.h \
-    styledbar.h \
     stylehelper.h \
     welcomemodetreewidget.h \
     iwelcomepage.h \

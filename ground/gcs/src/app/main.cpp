@@ -27,7 +27,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "qtsingleapplication.h"
 #include "utils/xmlconfig.h"
 
 #include <extensionsystem/pluginmanager.h>
@@ -159,27 +158,6 @@ static inline QString prepareRemoteArgument(const QString &a)
     return a;
 }
 
-// Send the arguments to an already running instance of Tau Labs GCS
-static bool sendArguments(SharedTools::QtSingleApplication &app, const QStringList &arguments)
-{
-    if (!arguments.empty()) {
-        // Send off arguments
-        const QStringList::const_iterator acend = arguments.constEnd();
-        for (QStringList::const_iterator it = arguments.constBegin(); it != acend; ++it) {
-            if (!app.sendMessage(prepareRemoteArgument(*it))) {
-                displayError(msgSendArgumentFailed());
-                return false;
-            }
-        }
-    }
-    // Special empty argument means: Show and raise (the slot just needs to be triggered)
-    if (!app.sendMessage(QString())) {
-        displayError(msgSendArgumentFailed());
-        return false;
-    }
-    return true;
-}
-
 static inline QStringList getPluginPaths()
 {
     QStringList rc;
@@ -256,7 +234,7 @@ int main(int argc, char **argv)
     // This should have faster performance on linux
 #endif
 
-    SharedTools::QtSingleApplication app((QLatin1String(appNameC)), argc, argv);
+    QApplication app(argc, argv);
 
     QString locale = QLocale::system().name();
 
@@ -274,11 +252,11 @@ int main(int argc, char **argv)
     QTranslator qtTranslator;
 
     QPixmap pixmap(":/images/resources/tau_trans.png");
-    CustomSplash splash(pixmap);
+    CustomSplash splash(pixmap,  Qt::WindowStaysOnTopHint);
     splash.show();
 
     splash.showMessage("Loading translations",Qt::AlignCenter | Qt::AlignBottom,Qt::black);
-    qApp->processEvents();
+    app.processEvents();
     const QString &creatorTrPath = QCoreApplication::applicationDirPath()
                                    + QLatin1String(SHARE_PATH "/translations");
     if (translator.load(QLatin1String("taulabs_") + locale, creatorTrPath)) {
@@ -292,8 +270,7 @@ int main(int argc, char **argv)
             translator.load(QString()); // unload()
         }
     }
-    app.setProperty("qtc_locale", locale); // Do we need this?
-
+\
     // Load
     ExtensionSystem::PluginManager pluginManager;
     pluginManager.setFileExtension(QLatin1String("pluginspec"));
@@ -301,7 +278,7 @@ int main(int argc, char **argv)
     const QStringList pluginPaths = getPluginPaths();
     pluginManager.setPluginPaths(pluginPaths);
     splash.showMessage("Parsing command line options",Qt::AlignCenter | Qt::AlignBottom,Qt::black);
-    qApp->processEvents();
+    app.processEvents();
     const QStringList arguments = app.arguments();
     QMap<QString, QString> foundAppOptions;
     if (arguments.size() > 1) {
@@ -335,7 +312,7 @@ int main(int argc, char **argv)
         }
     }
     splash.showMessage(QLatin1String("Checking core plugin"),Qt::AlignCenter | Qt::AlignBottom,Qt::black);
-    qApp->processEvents();
+    app.processEvents();
     if (!coreplugin) {
         QString nativePaths = QDir::toNativeSeparators(pluginPaths.join(QLatin1String(",")));
         const QString reason = QCoreApplication::translate("Application", "Could not find 'Core.pluginspec' in %1").arg(nativePaths);
@@ -361,10 +338,6 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    const bool isFirstInstance = !app.isRunning();
-    if (!isFirstInstance && foundAppOptions.contains(QLatin1String(CLIENT_OPTION)))
-        return sendArguments(app, pluginManager.arguments()) ? 0 : -1;
-
     QObject::connect(&pluginManager,SIGNAL(splashMessages(QString)),&splash,SLOT(showMessage(const QString)));
     pluginManager.loadPlugins();
     if (coreplugin->hasError()) {
@@ -382,14 +355,6 @@ int main(int argc, char **argv)
                 errors.join(QString::fromLatin1("\n\n")));
     }
 
-    if (isFirstInstance) {
-        // Set up lock and remote arguments for the first instance only.
-        // Silently fallback to unconnected instances for any subsequent
-        // instances.
-        app.initialize();
-        QObject::connect(&app, SIGNAL(messageReceived(QString)), coreplugin->plugin(), SLOT(remoteArgument(QString)));
-    }
-    QObject::connect(&app, SIGNAL(fileOpenRequest(QString)), coreplugin->plugin(), SLOT(remoteArgument(QString)));
     // Do this after the event loop has started
     QTimer::singleShot(100, &pluginManager, SLOT(startTests()));
     splash.close();
