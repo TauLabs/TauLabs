@@ -1,12 +1,12 @@
 /**
 ******************************************************************************
 *
-* @file       opmapwidget.h
+* @file       tlmapwidget.h
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
-* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
 * @brief      The Map Widget, this is the part exposed to the user
 * @see        The GNU Public License (GPL) Version 3
-* @defgroup   OPMapWidget
+* @defgroup   TLMapWidget
 * @{
 *
 *****************************************************************************/
@@ -25,8 +25,8 @@
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
-#ifndef OPMAPWIDGET_H
-#define OPMAPWIDGET_H
+#ifndef TLMAPWIDGET_H
+#define TLMAPWIDGET_H
 
 #include "../mapwidget/mapgraphicitem.h"
 #include "../core/geodecoderstatus.h"
@@ -533,4 +533,4 @@ namespace mapcontrol
 
     };
 }
-#endif // OPMAPWIDGET_H
+#endif // TLMAPWIDGET_H
