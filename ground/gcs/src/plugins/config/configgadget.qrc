@@ -33,5 +33,6 @@
         <file>images/swap.svg</file>
         <file>images/osd_selected.png</file>
         <file>images/osd_normal.png</file>
+        <file>images/share-2-icon.png</file>
     </qresource>
 </RCC>

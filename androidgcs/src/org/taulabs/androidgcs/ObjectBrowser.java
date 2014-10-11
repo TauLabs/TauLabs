@@ -103,13 +103,13 @@ public class ObjectBrowser extends ObjectManagerActivity
 		Fragment newFrag = new ObjectViewer();
 		newFrag.setArguments(b);
 		
+		// If currently editing something, remove that from the
+		// back stack during horizontal navigation
 		if (displayMode == DisplayMode.EDIT)
 			getFragmentManager().popBackStack();
 
 		FragmentTransaction trans = getFragmentManager().beginTransaction();
 		trans.replace(R.id.object_information, newFrag);
-		if (displayMode != DisplayMode.NONE)
-			trans.addToBackStack(null);
 		trans.commit();
 		
 		displayMode = DisplayMode.VIEW;

@@ -68,6 +68,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/gyrosbias.h \
     $$UAVOBJECT_SYNTHETICS/homelocation.h \
     $$UAVOBJECT_SYNTHETICS/hottsettings.h \
+    $$UAVOBJECT_SYNTHETICS/hwcolibri.h \
     $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.h \
     $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.h \
     $$UAVOBJECT_SYNTHETICS/hwfreedom.h \
@@ -183,6 +184,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/gyrosbias.cpp \
     $$UAVOBJECT_SYNTHETICS/homelocation.cpp \
     $$UAVOBJECT_SYNTHETICS/hottsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwcolibri.cpp \
     $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.cpp \
     $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.cpp \
     $$UAVOBJECT_SYNTHETICS/hwfreedom.cpp \

@@ -47,6 +47,9 @@
 
 #include "actuatorcommand.h"
 
+// The fraction of range to place the neutral position in
+#define THROTTLE_NEUTRAL_FRACTION 0.02
+
 #define ACCESS_MIN_MOVE -3
 #define ACCESS_MAX_MOVE 3
 #define STICK_MIN_MOVE -8
@@ -632,7 +635,7 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_THROTTLE]=
                 manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE]+
                 ((manualSettingsData.ChannelMax[ManualControlSettings::CHANNELMAX_THROTTLE]-
-                  manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE])*0.02);
+                  manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE])*THROTTLE_NEUTRAL_FRACTION);
         if((abs(manualSettingsData.ChannelMax[ManualControlSettings::CHANNELMAX_FLIGHTMODE]-manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_FLIGHTMODE])<100) ||
                 (abs(manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_FLIGHTMODE]-manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_FLIGHTMODE])<100))
         {
@@ -750,7 +753,6 @@ void ConfigInputWidget::fastMdata()
 
     // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
     UAVObjectManager *objManager = getObjectManager();
-    QMap<QString, UAVObject::Metadata> metaDataList;
     QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
@@ -779,14 +781,11 @@ void ConfigInputWidget::fastMdata()
                         break;
                 }
 
-                metaDataList.insert(obj->getName(), mdata);
+                // Set the metadata
+                obj->setMetadata(mdata);
             }
         }
     }
-
-    // Set new metadata
-    utilMngr->setAllNonSettingsMetadata(metaDataList);
-
 
 }
 
@@ -796,7 +795,10 @@ void ConfigInputWidget::fastMdata()
 void ConfigInputWidget::restoreMdata()
 {
     UAVObjectUtilManager* utilMngr = getObjectUtilManager();
-    utilMngr->setAllNonSettingsMetadata(originalMetaData);
+    foreach (QString objName, originalMetaData.keys()) {
+        UAVObject *obj = getObjectManager()->getObject(objName);
+        obj->setMetadata(originalMetaData.value(objName));
+    }
     originalMetaData.clear();
 }
 
@@ -1325,17 +1327,24 @@ void ConfigInputWidget::moveSticks()
     accessoryDesiredData1=accessoryDesiredObj1->getData();
     accessoryDesiredData2=accessoryDesiredObj2->getData();
 
+    // 0 for throttle is THROTTLE_NEUTRAL_FRACTION of the total range
+    // here we map it from [-1,0,1] -> [0,THROTTLE_NEUTRAL_FRACTION,1]
+    double throttlePosition = manualCommandData.Throttle < 0 ?
+                0 + THROTTLE_NEUTRAL_FRACTION * (1 - manualCommandData.Throttle) :
+                THROTTLE_NEUTRAL_FRACTION + manualCommandData.Throttle * (1-THROTTLE_NEUTRAL_FRACTION);
+    // now map [0,1] -> [-1,1] for consistence with other channels
+    throttlePosition = 2 * throttlePosition - 1;
     if(transmitterMode == mode2)
     {
         trans = m_txLeftStickOrig;
-        m_txLeftStick->setTransform(trans.translate(manualCommandData.Yaw * STICK_MAX_MOVE*10, -manualCommandData.Throttle * STICK_MAX_MOVE * 10), false);
+        m_txLeftStick->setTransform(trans.translate(manualCommandData.Yaw * STICK_MAX_MOVE*10, -throttlePosition * STICK_MAX_MOVE * 10), false);
         trans = m_txRightStickOrig;
         m_txRightStick->setTransform(trans.translate(manualCommandData.Roll * STICK_MAX_MOVE * 10, manualCommandData.Pitch * STICK_MAX_MOVE * 10), false);
     }
     else
     {
         trans = m_txRightStickOrig;
-        m_txRightStick->setTransform(trans.translate(manualCommandData.Roll * STICK_MAX_MOVE * 10, -manualCommandData.Throttle * STICK_MAX_MOVE * 10), false);
+        m_txRightStick->setTransform(trans.translate(manualCommandData.Roll * STICK_MAX_MOVE * 10, -throttlePosition * STICK_MAX_MOVE * 10), false);
         trans = m_txLeftStickOrig;
         m_txLeftStick->setTransform(trans.translate(manualCommandData.Yaw * STICK_MAX_MOVE * 10, manualCommandData.Pitch * STICK_MAX_MOVE*10), false);
     }

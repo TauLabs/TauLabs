@@ -151,18 +151,20 @@ out_fail:
 static void PIOS_COM_UnblockRx(struct pios_com_dev * com_dev, bool * need_yield)
 {
 #if defined(PIOS_INCLUDE_FREERTOS)
-	PIOS_Semaphore_Give_FromISR(com_dev->rx_sem, need_yield);
-#else
-	*need_yield = false;
+	if (PIOS_IRQ_InISR() == true)
+		PIOS_Semaphore_Give_FromISR(com_dev->rx_sem, need_yield);
+	else
+		PIOS_Semaphore_Give(com_dev->rx_sem);
 #endif
 }
 
 static void PIOS_COM_UnblockTx(struct pios_com_dev * com_dev, bool * need_yield)
 {
 #if defined(PIOS_INCLUDE_FREERTOS)
-	PIOS_Semaphore_Give_FromISR(com_dev->tx_sem, need_yield);
-#else
-	*need_yield = false;
+	if (PIOS_IRQ_InISR() == true)
+		PIOS_Semaphore_Give_FromISR(com_dev->tx_sem, need_yield);
+	else
+		PIOS_Semaphore_Give(com_dev->tx_sem);
 #endif
 }
 
@@ -260,7 +262,7 @@ int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, 
 	PIOS_Assert(com_dev->has_tx);
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	if (PIOS_Mutex_Lock(com_dev->sendbuffer_mtx, 0) != pdTRUE) {
+	if (PIOS_Mutex_Lock(com_dev->sendbuffer_mtx, 0) != true) {
 		return -3;
 	}
 #endif /* PIOS_INCLUDE_FREERTOS */

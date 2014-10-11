@@ -41,6 +41,7 @@
 #include "physical_constants.h"
 #include "arm_math.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 #include "accels.h"
 #include "modulesettings.h"
@@ -66,7 +67,7 @@
 
 // Private variables
 static struct pios_thread *taskHandle;
-static xQueueHandle queue;
+static struct pios_queue *queue;
 static bool module_enabled = false;
 
 static struct VibrationAnalysis_data {
@@ -153,7 +154,7 @@ static int32_t VibrationAnalysisStart(void)
 	
 	
 	// Allocate and initialize the static data storage only if module is enabled
-	vtd = (struct VibrationAnalysis_data *) pvPortMalloc(sizeof(struct VibrationAnalysis_data));
+	vtd = (struct VibrationAnalysis_data *) PIOS_malloc(sizeof(struct VibrationAnalysis_data));
 	if (vtd == NULL) {
 		module_enabled = false;
 		return -1;
@@ -169,24 +170,24 @@ static int32_t VibrationAnalysisStart(void)
 	vtd->num_upscale_bits = num_upscale_bits;
 	
 	// Allocate ouput vector
-	vtd->fft_output = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*(vtd->fft_output))));
+	vtd->fft_output = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*(vtd->fft_output))));
 	if (vtd->fft_output == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;
 	}
 	
 	//Create the buffers. They are in Q15 format.
-	vtd->accel_buffer_complex_x_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_x_q15)));
+	vtd->accel_buffer_complex_x_q15 = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_x_q15)));
 	if (vtd->accel_buffer_complex_x_q15 == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;
 	}
-	vtd->accel_buffer_complex_y_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_y_q15)));
+	vtd->accel_buffer_complex_y_q15 = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_y_q15)));
 	if (vtd->accel_buffer_complex_y_q15 == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;
 	}
-	vtd->accel_buffer_complex_z_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_z_q15)));
+	vtd->accel_buffer_complex_z_q15 = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_z_q15)));
 	if (vtd->accel_buffer_complex_z_q15 == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;
@@ -226,7 +227,7 @@ static int32_t VibrationAnalysisInitialize(void)
 	VibrationAnalysisOutputInitialize();
 		
 	// Create object queue
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 		
 	return 0;
 	
@@ -294,7 +295,7 @@ static void VibrationAnalysisTask(void *parameters)
 		}
 		
 		// Wait until the Accels object is updated, and never time out
-		if ( xQueueReceive(queue, &ev, portMAX_DELAY) == pdTRUE )
+		if (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true)
 		{
 			/**
 			 * Accumulate accelerometer data. This would be a great place to add a 

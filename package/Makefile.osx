@@ -2,19 +2,31 @@
 # MacOSX-specific packaging
 #
 
-osx_package: gcs package_flight package_matlab
-	( \
-	  ROOT_DIR="$(ROOT_DIR)" \
-	  BUILD_DIR="$(BUILD_DIR)" \
-	  PACKAGE_LBL="$(PACKAGE_LBL)" \
-	  PACKAGE_DIR="$(PACKAGE_DIR)" \
-	  FW_DIR="$(FW_DIR)" \
-	  "$(ROOT_DIR)/package/osx/package" \
-	)
+APP_NAME="Tau Labs GCS.app"
+APP_PATH="${BUILD_DIR}/ground/gcs/bin/"
+TEMP_FILE="${PACKAGE_DIR}/TauLabs-temp.dmg.sparseimage"
+OUT_FILE="${PACKAGE_DIR}/TauLabs-${PACKAGE_LBL}.dmg"
+ICON_FILE="${ROOT_DIR}/package/linux/taulabs.png"
+VOL_NAME="Tau Labs"
+
+# calls macdeployqt and bundles the extra libraries into .app
+standalone: gcs
+	"${ROOT_DIR}/package/osx/libraries" ${APP_PATH}/${APP_NAME}
+
+
+# puts the files into a dmg
+dmg: standalone package_flight package_matlab
+	ROOT_DIR="$(ROOT_DIR)" \
+	BUILD_DIR="$(BUILD_DIR)" \
+	PACKAGE_LBL="$(PACKAGE_LBL)" \
+	PACKAGE_DIR="$(PACKAGE_DIR)" \
+	FW_DIR="$(FW_DIR)" \
+	"$(ROOT_DIR)/package/osx/package"
 
 gcs: uavobjects_gcs
 	$(V1) $(MAKE) -C $(ROOT_DIR) GCS_BUILD_CONF=release $@
 
-ground_package: | osx_package
+ground_package: | dmg
+
 
 .PHONY: gcs ground_package osx_package

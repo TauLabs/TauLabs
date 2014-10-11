@@ -32,6 +32,7 @@
 #include "openpilot.h"
 #include "pios_mutex.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #if defined(PIOS_EVENTDISAPTCHER_QUEUE)
@@ -58,7 +59,7 @@
 typedef struct {
 	UAVObjEvent ev; /** The actual event */
 	UAVObjEventCallback cb; /** The callback function, or zero if none */
-	xQueueHandle queue; /** The queue or zero if none */
+	struct pios_queue *queue; /** The queue or zero if none */
 } EventCallbackInfo;
 
 /**
@@ -74,7 +75,7 @@ typedef struct PeriodicObjectListStruct PeriodicObjectList;
 
 // Private variables
 static PeriodicObjectList* objList;
-static xQueueHandle queue;
+static struct pios_queue *queue;
 static struct pios_thread *eventTaskHandle;
 static struct pios_recursive_mutex *mutex;
 static EventStats stats;
@@ -82,8 +83,8 @@ static EventStats stats;
 // Private functions
 static int32_t processPeriodicUpdates();
 static void eventTask();
-static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQueueHandle queue, uint16_t periodMs);
-static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, xQueueHandle queue, uint16_t periodMs);
+static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
+static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
 static uint16_t randomizePeriod(uint16_t periodMs);
 
 
@@ -103,7 +104,7 @@ int32_t EventDispatcherInitialize()
 		return -1;
 
 	// Create event queue
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(EventCallbackInfo));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(EventCallbackInfo));
 
 	// Create task
 	eventTaskHandle = PIOS_Thread_Create(eventTask, "event", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
@@ -148,7 +149,10 @@ int32_t EventCallbackDispatch(UAVObjEvent* ev, UAVObjEventCallback cb)
 	evInfo.cb = cb;
 	evInfo.queue = 0;
 	// Push to queue
-	return xQueueSend(queue, &evInfo, 0); // will not block if queue is full
+	if (PIOS_Queue_Send(queue, &evInfo, 0) == true)
+		return 0;
+	else
+		return -1;
 }
 
 /**
@@ -182,7 +186,7 @@ int32_t EventPeriodicCallbackUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, uin
  * \param[in] periodMs The period the event is generated
  * \return Success (0), failure (-1)
  */
-int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, xQueueHandle queue, uint16_t periodMs)
+int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, struct pios_queue *queue, uint16_t periodMs)
 {
 	return eventPeriodicCreate(ev, 0, queue, periodMs);
 }
@@ -194,7 +198,7 @@ int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, xQueueHandle queue, uint16_t p
  * \param[in] periodMs The period the event is generated
  * \return Success (0), failure (-1)
  */
-int32_t EventPeriodicQueueUpdate(UAVObjEvent* ev, xQueueHandle queue, uint16_t periodMs)
+int32_t EventPeriodicQueueUpdate(UAVObjEvent* ev, struct pios_queue *queue, uint16_t periodMs)
 {
 	return eventPeriodicUpdate(ev, 0, queue, periodMs);
 }
@@ -207,7 +211,7 @@ int32_t EventPeriodicQueueUpdate(UAVObjEvent* ev, xQueueHandle queue, uint16_t p
  * \param[in] periodMs The period the event is generated
  * \return Success (0), failure (-1)
  */
-static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQueueHandle queue, uint16_t periodMs)
+static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs)
 {
 	PeriodicObjectList* objEntry;
 	// Get lock
@@ -227,7 +231,7 @@ static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQue
 		}
 	}
     // Create handle
-	objEntry = (PeriodicObjectList*)pvPortMalloc(sizeof(PeriodicObjectList));
+	objEntry = (PeriodicObjectList*)PIOS_malloc(sizeof(PeriodicObjectList));
 	if (objEntry == NULL) return -1;
 	objEntry->evInfo.ev.obj = ev->obj;
 	objEntry->evInfo.ev.instId = ev->instId;
@@ -251,7 +255,7 @@ static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQue
  * \param[in] periodMs The period the event is generated
  * \return Success (0), failure (-1)
  */
-static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, xQueueHandle queue, uint16_t periodMs)
+static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs)
 {
 	PeriodicObjectList* objEntry;
 	// Get lock
@@ -304,7 +308,7 @@ static void eventTask()
 		}
 
 		// Wait for queue message
-		if (xQueueReceive(queue, &evInfo, MS2TICKS(delayMs)) == pdTRUE)
+		if (PIOS_Queue_Receive(queue, &evInfo, delayMs) == true)
 		{
 			// Invoke callback, if one
 			if (evInfo.cb != 0)
@@ -358,7 +362,7 @@ static int32_t processPeriodicUpdates()
     			// Push event to queue, if one
     			if ( objEntry->evInfo.queue != 0)
     			{
-    				if ( xQueueSend(objEntry->evInfo.queue, &objEntry->evInfo.ev, 0) != pdTRUE ) // do not block if queue is full
+    				if (PIOS_Queue_Send(objEntry->evInfo.queue, &objEntry->evInfo.ev, 0) != true ) // do not block if queue is full
     				{
 						if (objEntry->evInfo.ev.obj != NULL)
 							stats.lastErrorID = UAVObjGetID(objEntry->evInfo.ev.obj);

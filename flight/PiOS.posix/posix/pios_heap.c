@@ -67,6 +67,10 @@ void PIOS_free(void * buf)
 	vPortFree(buf);
 }
 
+void PIOS_heap_initialize_blocks(void)
+{
+}
+
 /**
  * @}
  * @}

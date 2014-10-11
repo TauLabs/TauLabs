@@ -36,6 +36,10 @@
 #error PIOS_EXTI Must be included in the project!
 #endif /* PIOS_INCLUDE_EXTI */
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 #include <pios_exti.h>
 #include "pios_semaphore.h"
 

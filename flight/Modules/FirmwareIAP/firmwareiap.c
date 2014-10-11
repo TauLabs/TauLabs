@@ -182,7 +182,7 @@ static void FirmwareIAPCallback(UAVObjEvent* ev)
 						/* Note: Cant just wait timeout value, because first time is randomized */
 						reset_count = 0;
 						lastResetSysTime = PIOS_Thread_Systime();
-						UAVObjEvent * ev = pvPortMalloc(sizeof(UAVObjEvent));
+						UAVObjEvent * ev = PIOS_malloc(sizeof(UAVObjEvent));
 						memset(ev,0,sizeof(UAVObjEvent));
 						EventPeriodicCallbackCreate(ev, resetTask, 100);
 						iap_state = IAP_STATE_RESETTING;

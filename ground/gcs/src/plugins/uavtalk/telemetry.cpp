@@ -366,13 +366,14 @@ void Telemetry::transactionTimeout(ObjectTransactionInfo *transInfo)
     // Check if more retries are pending
     if (transInfo->retriesRemaining > 0)
     {
-        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction timeout:%0 Instance:%1").arg(transInfo->obj->getName() + QString(QString(" 0x") + QString::number(transInfo->obj->getObjID(), 16).toUpper())).arg(transInfo->obj->getInstID()));
+        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction timeout:%0 Instance:%1 Retrying").arg(transInfo->obj->getName() + QString(QString(" 0x") + QString::number(transInfo->obj->getObjID(), 16).toUpper())).arg(transInfo->obj->getInstID()));
         --transInfo->retriesRemaining;
         processObjectTransaction(transInfo);
         ++txRetries;
     }
     else
     {
+        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction timeout:%0 Instance:%1 no more retries. FAILED TRANSACT").arg(transInfo->obj->getName() + QString(QString(" 0x") + QString::number(transInfo->obj->getObjID(), 16).toUpper())).arg(transInfo->obj->getInstID()));
         transInfo->timer->stop();
         transactionFailure(transInfo->obj);
         ++txErrors;

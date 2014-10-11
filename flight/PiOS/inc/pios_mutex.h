@@ -37,12 +37,12 @@
 
 struct pios_mutex
 {
-	xSemaphoreHandle mtx_handle;
+	uintptr_t mtx_handle;
 };
 
 struct pios_recursive_mutex
 {
-	xSemaphoreHandle mtx_handle;
+	uintptr_t mtx_handle;
 };
 
 #endif

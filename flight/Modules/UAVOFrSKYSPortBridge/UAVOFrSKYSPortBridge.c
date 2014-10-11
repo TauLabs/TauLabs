@@ -594,35 +594,55 @@ static bool frsky_encode_airspeed(uint32_t *value, bool test_presence_only, uint
 }
 
 /**
+ * Performs byte stuffing and checksum calculation
+ * @param[out] obuff buffer where byte stuffed data will came in
+ * @param[in,out] chk checksum byte to update
+ * @param[in] byte
+ * @returns count of bytes inserted to obuff (1 or 2)
+ */
+static uint8_t frsky_insert_byte(uint8_t *obuff, uint16_t *chk, uint8_t byte)
+{
+	/* checksum calculation is based on data before byte-stuffing */
+	*chk += byte;
+	*chk += (*chk) >> 8;
+	*chk &= 0x00ff;
+	*chk += (*chk) >> 8;
+	*chk &= 0x00ff;
+
+	if (byte == 0x7e || byte == 0x7d) {
+		obuff[0] = 0x7d;
+		obuff[1] = byte &= ~0x20;
+		return 2;
+	}
+
+	obuff[0] = byte;
+	return 1;
+}
+/**
  * Send u32 value dataframe to FrSky SmartPort bus
  * @param[in] id FrSky value ID
  * @param[in] value value
  */
 static void frsky_send_frame(enum frsky_value_id id, uint32_t value)
 {
-	uint8_t tx_data[8];
+	/* each call of frsky_insert_byte can add 2 bytes to the buffer at maximum
+	 * and therefore the worst-case is 15 bytes total (the first byte 0x10 won't be
+	 * escaped) */
+	uint8_t tx_data[15];
 	uint16_t chk = 0;
-	tx_data[0] = 0x10;		// FrSky data frame
-	tx_data[1] = (uint16_t)id & 0xff;
-	tx_data[2] = ((uint16_t)id >> 8) & 0xff;
-	tx_data[3] = value & 0xff;
-	tx_data[4] = (value >> 8) & 0xff;
-	tx_data[5] = (value >> 16) & 0xff;
-	tx_data[6] = (value >> 24) & 0xff;
+	uint8_t cnt = 0;
+	cnt += frsky_insert_byte(&tx_data[cnt], &chk, 0x10);
+	cnt += frsky_insert_byte(&tx_data[cnt], &chk, (uint16_t)id & 0xff);
+	cnt += frsky_insert_byte(&tx_data[cnt], &chk, ((uint16_t)id >> 8) & 0xff);
+	cnt += frsky_insert_byte(&tx_data[cnt], &chk, value & 0xff);
+	cnt += frsky_insert_byte(&tx_data[cnt], &chk, (value >> 8) & 0xff);
+	cnt += frsky_insert_byte(&tx_data[cnt], &chk, (value >> 16) & 0xff);
+	cnt += frsky_insert_byte(&tx_data[cnt], &chk, (value >> 24) & 0xff);
+	cnt += frsky_insert_byte(&tx_data[cnt], &chk, 0xff - chk);
 
-	uint8_t i;
-	for (i = 0; i < 7; i++) {
-		chk += tx_data[i];
-		chk += chk >> 8;
-		chk &= 0x00ff;
-		chk += chk >> 8;
-		chk &= 0x00ff;
-	}
-	tx_data[7] = 0xff - chk;
+	PIOS_COM_SendBuffer(frsky->com, tx_data, cnt);
 
-	PIOS_COM_SendBuffer(frsky->com, tx_data, 8);
-
-	frsky->ignore_rx_chars = 8;
+	frsky->ignore_rx_chars = cnt;
 }
 
 /**
@@ -792,7 +812,7 @@ static void uavoFrSKYSPortBridgeTask(void *parameters)
 {
 	while (1) {
 		uint8_t b = 0;
-		uint16_t count = PIOS_COM_ReceiveBuffer(frsky->com, &b, 1, portMAX_DELAY);
+		uint16_t count = PIOS_COM_ReceiveBuffer(frsky->com, &b, 1, PIOS_QUEUE_TIMEOUT_MAX);
 		if (count)
 			frsky_receive_byte(b);
 	}

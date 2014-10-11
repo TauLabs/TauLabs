@@ -22,7 +22,19 @@ ifdef OPENOCD_FTDI
 endif
 
 # Set up QT toolchain
-QT_SDK_DIR := $(TOOLS_DIR)/Qt5.3.1
+ifdef MACOSX
+  QT_SDK_DIR := $(TOOLS_DIR)/Qt5.3.1
+else
+  QT_SDK_DIR := $(TOOLS_DIR)/Qt5.3.2
+endif
+
+ifdef LINUX
+  ifdef AMD64
+    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.3/gcc_64/plugins
+  else
+    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.3/gcc/plugins
+  endif
+endif
 
 # Build openocd without FTDI (yes | no)
 OPENOCD_FTDI ?= yes
@@ -33,11 +45,11 @@ OPENOCD_FTDI ?= yes
 ifdef LINUX
   ifdef AMD64
     # Linux 64-bit
-    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.3/5.3.1/qt-opensource-linux-x64-5.3.1.run
+    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.3/5.3.2/qt-opensource-linux-x64-5.3.2.run
     QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.3/gcc_64/bin/qmake
   else
     # Linux 32-bit
-    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.3/5.3.1/qt-opensource-linux-x86-5.3.1.run
+    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.3/5.3.2/qt-opensource-linux-x86-5.3.2.run
     QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.3/gcc/bin/qmake
   endif
 endif
@@ -48,7 +60,7 @@ ifdef MACOSX
 endif
 
 ifdef WINDOWS
-  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.3/5.3.1/qt-opensource-windows-x86-mingw482_opengl-5.3.1.exe
+  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.3/5.3.2/qt-opensource-windows-x86-mingw482_opengl-5.3.2.exe
   QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.3/mingw482_32/bin/qmake
 endif
 
@@ -80,7 +92,7 @@ ifneq (,$(filter $(UNAME), Linux))
 endif
 
 ifdef WINDOWS
-	$(V1) ./downloads/qt-opensource-windows-x86-mingw482_opengl-5.3.1.exe
+	$(V1) ./downloads/qt-opensource-windows-x86-mingw482_opengl-5.3.2.exe
 endif
 
 .PHONY: qt_sdk_clean
@@ -533,7 +545,7 @@ endif
 
 # OPENSSL download URL
 ifdef WINDOWS
-  openssl_install: OPENSSL_URL  := http://slproweb.com/download/Win32OpenSSL-1_0_1g.exe
+  openssl_install: OPENSSL_URL  := http://slproweb.com/download/Win32OpenSSL-1_0_1i.exe
   
 openssl_install: OPENSSL_FILE := $(notdir $(OPENSSL_URL))
 OPENSSL_DIR = $(TOOLS_DIR)/win32openssl

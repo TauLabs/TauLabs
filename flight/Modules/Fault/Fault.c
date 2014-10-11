@@ -71,7 +71,7 @@ static int32_t fault_initialize(void)
 			break;
 		case FAULTSETTINGS_ACTIVATEFAULT_INITOUTOFMEMORY:
 			/* Leak all available memory */
-			while (pvPortMalloc(10)) ;
+			while (PIOS_malloc(10)) ;
 			break;
 		case FAULTSETTINGS_ACTIVATEFAULT_INITBUSERROR:
 			{
@@ -114,7 +114,7 @@ static void fault_task(void *parameters)
 		break;
 	case FAULTSETTINGS_ACTIVATEFAULT_TASKOUTOFMEMORY:
 		/* Leak all available memory and then sleep */
-		while (pvPortMalloc(10)) ;
+		while (PIOS_malloc(10)) ;
 		while (1) {
 			PIOS_Thread_Sleep(1000);
 		}

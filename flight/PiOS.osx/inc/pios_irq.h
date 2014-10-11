@@ -31,8 +31,12 @@
 #ifndef PIOS_IRQ_H
 #define PIOS_IRQ_H
 
+#include <stdint.h>
+#include <stdbool.h>
+
 /* Public Functions */
 extern int32_t PIOS_IRQ_Disable(void);
 extern int32_t PIOS_IRQ_Enable(void);
+extern bool PIOS_IRQ_InISR(void);
 
 #endif /* PIOS_IRQ_H */
