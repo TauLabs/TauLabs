@@ -208,9 +208,13 @@ public:
     /**
      * Set the coordinator ID. If set to zero this device will
      * be a coordinator.
+     * @param id - the ID of the coordinator to bind to, or 0 to make this
+     *     board the coordinator
+     * @param baud_rate - the maximum baud rate to use, or 0 to leave unchanged
+     * @param rf_power - the maximum radio power to use or -1 to leave unchanged
      * @return true if successful or false if not
      */
-    virtual bool setCoordID(quint32 /* id */) { return false; }
+    virtual bool setCoordID(quint32 /* id */, quint32 /*baud_rate*/ = 0, float /*rf_power*/ = -1) { return false; }
 
     static QString getBoardNameFromID(int id);
 
