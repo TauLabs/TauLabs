@@ -128,7 +128,7 @@ quint32 TauLink::getRfmID()
  * be a coordinator.
  * @return true if successful or false if not
  */
-bool TauLink::setCoordID(quint32 id)
+bool TauLink::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
@@ -146,9 +146,64 @@ bool TauLink::setCoordID(quint32 id)
         settings.CoordID = id;
     }
 
+    switch(baud_rate) {
+    case 9600:
+        settings.MaxRfSpeed = HwTauLink::MAXRFSPEED_9600;
+        break;
+    case 19200:
+        settings.MaxRfSpeed = HwTauLink::MAXRFSPEED_19200;
+        break;
+    case 32000:
+        settings.MaxRfSpeed = HwTauLink::MAXRFSPEED_32000;
+        break;
+    case 64000:
+        settings.MaxRfSpeed = HwTauLink::MAXRFSPEED_64000;
+        break;
+    case 100000:
+        settings.MaxRfSpeed = HwTauLink::MAXRFSPEED_100000;
+        break;
+    case 192000:
+        settings.MaxRfSpeed = HwTauLink::MAXRFSPEED_192000;
+        break;
+    }
+
+    // Round to an integer to use a switch statement
+    quint32 rf_power_100 = rf_power * 100;
+    switch(rf_power_100) {
+    case 0:
+        settings.MaxRfPower = HwTauLink::MAXRFPOWER_0;
+        break;
+    case 125:
+        settings.MaxRfPower = HwTauLink::MAXRFPOWER_125;
+        break;
+    case 160:
+        settings.MaxRfPower = HwTauLink::MAXRFPOWER_16;
+        break;
+    case 316:
+        settings.MaxRfPower = HwTauLink::MAXRFPOWER_316;
+        break;
+    case 630:
+        settings.MaxRfPower = HwTauLink::MAXRFPOWER_63;
+        break;
+    case 1260:
+        settings.MaxRfPower = HwTauLink::MAXRFPOWER_126;
+        break;
+    case 2500:
+        settings.MaxRfPower = HwTauLink::MAXRFPOWER_25;
+        break;
+    case 5000:
+        settings.MaxRfPower = HwTauLink::MAXRFPOWER_50;
+        break;
+    case 10000:
+        settings.MaxRfPower = HwTauLink::MAXRFPOWER_100;
+        break;
+    }
+
     hwTauLink->setData(settings);
 
     // save the settings
     UAVObjectUtilManager* uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
     uavoUtilManager->saveObjectToFlash(hwTauLink);
+
+    return true;
 }
