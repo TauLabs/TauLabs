@@ -58,7 +58,6 @@
 
 /* Select the sensors to include */
 #define PIOS_INCLUDE_MS5611
-#define PIOS_INCLUDE_LPS25H
 #define PIOS_MPU6050_ACCEL
 #define PIOS_INCLUDE_MPU9250_BRAIN
 #define PIOS_INCLUDE_HMC5883

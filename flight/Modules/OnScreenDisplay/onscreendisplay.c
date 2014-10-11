@@ -58,6 +58,7 @@
 #include "stm32f4xx_flash.h"
 #include <pios_board_info.h>
 #include "pios_thread.h"
+#include "pios_semaphore.h"
 
 #include "onscreendisplay.h"
 #include "onscreendisplaysettings.h"
@@ -112,7 +113,7 @@ static void onScreenDisplayTask(void *parameters);
 // Private constants
 #define LONG_TIME        0xffff
 #define STACK_SIZE_BYTES 2048
-#define TASK_PRIORITY    (tskIDLE_PRIORITY + 1)
+#define TASK_PRIORITY    PIOS_THREAD_PRIO_LOW
 #define UPDATE_PERIOD    100
 #define BLINK_INTERVAL_FRAMES 6
 
@@ -134,7 +135,7 @@ const char IMPERIAL_DIST_UNIT_SHORT[] = "ft";
 static uint16_t frame_counter = 0;
 static bool module_enabled = false;
 static struct pios_thread *taskHandle;
-xSemaphoreHandle onScreenDisplaySemaphore = NULL;
+struct pios_semaphore * onScreenDisplaySemaphore = NULL;
 uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 float convert_speed;
 float convert_distance;
@@ -2099,7 +2100,7 @@ int32_t OnScreenDisplayStart(void)
 {
 	if (module_enabled)
 	{
-		vSemaphoreCreateBinary(onScreenDisplaySemaphore);
+		onScreenDisplaySemaphore = PIOS_Semaphore_Create();
 
 		taskHandle = PIOS_Thread_Create(onScreenDisplayTask, "OnScreenDisplay", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_ONSCREENDISPLAY, taskHandle);
@@ -2174,8 +2175,8 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 	home_baro_altitude = 0.;
 
 	// blank
-	while (xTaskGetTickCount() <= BLANK_TIME) {
-		if (xSemaphoreTake(onScreenDisplaySemaphore, LONG_TIME) == pdTRUE) {
+	while (PIOS_Thread_Systime() <= BLANK_TIME) {
+		if (PIOS_Semaphore_Take(onScreenDisplaySemaphore, LONG_TIME) == true) {
 			clearGraphics();
 			frame_counter++;
 			// Accumulate baro altitude
@@ -2185,8 +2186,8 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 	}
 
 	// intro
-	while (xTaskGetTickCount() <= BLANK_TIME + INTRO_TIME) {
-		if (xSemaphoreTake(onScreenDisplaySemaphore, LONG_TIME) == pdTRUE) {
+	while (PIOS_Thread_Systime() <= BLANK_TIME + INTRO_TIME) {
+		if (PIOS_Semaphore_Take(onScreenDisplaySemaphore, LONG_TIME) == true) {
 			clearGraphics();
 			if (PIOS_Video_GetType() == VIDEO_TYPE_NTSC) {
 				introGraphics(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM / 2 - 20);
@@ -2210,9 +2211,9 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 	home_baro_altitude /= frame_counter;
 
 	while (1) {
-		if (xSemaphoreTake(onScreenDisplaySemaphore, LONG_TIME) == pdTRUE) {
+		if (PIOS_Semaphore_Take(onScreenDisplaySemaphore, LONG_TIME) == true) {
 #ifdef DEBUG_TIMING
-			in_ticks = xTaskGetTickCount();
+			in_ticks = PIOS_Thread_Systime();
 			out_time = in_ticks - out_ticks;
 #endif
 			if (osd_settings_updated) {
@@ -2285,7 +2286,7 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 			frame_counter++;
 			last_page = current_page;
 #ifdef DEBUG_TIMING
-			out_ticks = xTaskGetTickCount();
+			out_ticks = PIOS_Thread_Systime();
 			in_time   = out_ticks - in_ticks;
 #endif
 		}

@@ -117,17 +117,6 @@ static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 };
 #endif /* PIOS_INCLUDE_MS5611 */
 
-/** Configuration for the LPS25H baro
- *
- */
-#if defined(PIOS_INCLUDE_LPS25H)
-#include "pios_lps25h.h"
-static const struct pios_lps25h_cfg pios_lps25h_cfg = {
-	.i2c_addr = LPS25H_I2C_ADDR_SA0_HIGH,
-	.odr = LPS25H_ODR_25HZ
-};
-#endif /* PIOS_INCLUDE_LPS25H */
-
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
@@ -1081,23 +1070,13 @@ void PIOS_Board_Init(void) {
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
 	PIOS_WDG_Clear();
 
-	uint8_t hw_baro;
-	HwBrainBarometerGet(&hw_baro);
-	switch (hw_baro) {
-	case HWBRAIN_BAROMETER_LPS25H:
-#if defined(PIOS_INCLUDE_LPS25H)
-		if (PIOS_LPS25H_Init(&pios_lps25h_cfg, pios_i2c_internal_id) != 0)
-			panic(5);
-#endif
-		break;
-	case HWBRAIN_BAROMETER_MS5611:
+
 #if defined(PIOS_INCLUDE_MS5611)
-		PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_internal_id);
-		if (PIOS_MS5611_Test() != 0)
-			panic(4);
+	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_internal_id);
+	if (PIOS_MS5611_Test() != 0)
+		panic(4);
 #endif
-		break;
-	}
+
 
 	PIOS_WDG_Clear();
 

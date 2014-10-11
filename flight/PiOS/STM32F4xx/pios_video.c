@@ -33,13 +33,18 @@
 
 #if defined(PIOS_INCLUDE_VIDEO)
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 #include "pios.h"
 #include "pios_video.h"
+#include "pios_semaphore.h"
 
 // How many frames until we redraw
 #define VSYNC_REDRAW_CNT 4
 
-extern xSemaphoreHandle onScreenDisplaySemaphore;
+extern struct pios_semaphore * onScreenDisplaySemaphore;
 
 static const struct pios_video_type_boundary pios_video_type_boundary_ntsc = {
 	.graphics_right  = 351,         // must be: graphics_width_real - 1
@@ -118,7 +123,7 @@ static void prepare_line();
  */
 bool PIOS_Vsync_ISR()
 {
-	static portBASE_TYPE xHigherPriorityTaskWoken;
+	static bool woken = false;
 	static uint16_t Vsync_update = 0;
 
 	// Stop the line counter
@@ -131,8 +136,6 @@ bool PIOS_Vsync_ISR()
 	if (num_video_lines > VIDEO_TYPE_PAL_ROWS) {
 		video_type_tmp = VIDEO_TYPE_PAL;
 	}
-
-	xHigherPriorityTaskWoken = pdFALSE;
 
 	// if video type has changed set new active values
 	if (video_type_act != video_type_tmp) {
@@ -162,7 +165,7 @@ bool PIOS_Vsync_ISR()
 	if (++Vsync_update >= VSYNC_REDRAW_CNT) {
 		Vsync_update = 0;
 		swap_buffers();
-		xHigherPriorityTaskWoken = xSemaphoreGiveFromISR(onScreenDisplaySemaphore, &xHigherPriorityTaskWoken);
+		PIOS_Semaphore_Give_FromISR(onScreenDisplaySemaphore, &woken);
 	}
 
 	// Get ready for the first line
@@ -171,10 +174,11 @@ bool PIOS_Vsync_ISR()
 	// Set the number of lines to wait until we start clocking out pixels
 	dev_cfg->line_counter->CNT = 0xffff - (pios_video_type_cfg_act->graphics_line_start + y_offset);
 	TIM_Cmd(dev_cfg->line_counter, ENABLE);
-
-	portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
-
-	return xHigherPriorityTaskWoken == pdTRUE;
+#if defined(PIOS_INCLUDE_FREERTOS)
+	/* Yield From ISR if needed */
+	portEND_SWITCHING_ISR(woken == true ? pdTRUE : pdFALSE);
+#endif
+	return woken;
 }
 
 
