@@ -49,6 +49,10 @@ public:
     void setMaxBps(quint32 bps) { m_maxBps = bps; }
     quint32 getMaxBps() const { return m_maxBps; }
 
+    // gettor and accessor for rf power
+    void setMaxRfPower(float rfPower) { m_maxRfPower = rfPower; }
+    float getMaxRfPower() const { return m_maxRfPower; }
+
     Core::ConnectionManager *getConnectionManager()
     {
         if (!m_connectionManager) {
@@ -76,10 +80,11 @@ private:
      *    - save the settings
      * 4. inform the user they should get a bind when both boards powered
      */
-    enum { PAGE_START, PAGE_COORDINATOR, PAGE_COORDINATED, PAGE_END };
+    enum { PAGE_START, PAGE_CONFIGURE, PAGE_COORDINATOR, PAGE_COORDINATED, PAGE_END };
 
     bool m_ppm;
     quint32 m_maxBps;
+    float m_maxRfPower;
     quint32 m_coordID;
 
     void createPages();

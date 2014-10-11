@@ -30,6 +30,7 @@
 #include "rfmbindwizard.h"
 #include "pages/tlstartpage.h"
 #include "pages/tlendpage.h"
+#include "pages/configurepage.h"
 #include "pages/coordinatorpage.h"
 #include "pages/coordinatedpage.h"
 
@@ -52,6 +53,8 @@ int RfmBindWizard::nextId() const
 {
     switch (currentId()) {
     case PAGE_START:
+        return PAGE_CONFIGURE;
+    case PAGE_CONFIGURE:
         return PAGE_COORDINATOR;
     case PAGE_COORDINATOR:
         return PAGE_COORDINATED;
@@ -65,6 +68,7 @@ int RfmBindWizard::nextId() const
 void RfmBindWizard::createPages()
 {
     setPage(PAGE_START, new TLStartPage(this));
+    setPage(PAGE_CONFIGURE, new ConfigurePage(this));
     setPage(PAGE_COORDINATOR, new CoordinatorPage(this));
     setPage(PAGE_COORDINATED, new CoordinatedPage(this));
     setPage(PAGE_END, new TLEndPage(this));
