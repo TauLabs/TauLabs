@@ -368,7 +368,7 @@ void SystemAccessLevelSet(struct ParseState *Parser, struct Value *ReturnValue, 
 /* void ChangeBaud(long): changes the speed of picoc serial port */
 void SystemChangeBaud(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	if ((PIOS_COM_PICOC) && (Param[0]->Val->LongInteger > 0) && (Param[0]->Val->LongInteger <=115200)) {
+	if ((PIOS_COM_PICOC) && (Param[0]->Val->LongInteger > 0)) {
 		PIOS_COM_ChangeBaud(PIOS_COM_PICOC, Param[0]->Val->LongInteger);
 	}
 }
@@ -488,7 +488,7 @@ struct LibraryFunction PlatformLibrary_system[] =
 	{ SystemArmed,			"int armed();" },
 	{ SystemAccessLevelSet,	"void AccessLevelSet(int);" },
 #ifdef PIOS_COM_PICOC
-	{ SystemChangeBaud,		"void ChangeBaud(long);" },
+	{ SystemChangeBaud,		"void ChangeBaud(unsigned long);" },
 #endif
 	{ SystemTestValGet,		"int TestValGet();" },
 	{ SystemTestValSet,		"void TestValSet(int);" },
@@ -766,7 +766,7 @@ void FlightStatus_Get(struct ParseState *Parser, struct Value *ReturnValue, stru
 /* list of all library functions and their prototypes */
 struct LibraryFunction PlatformLibrary_flightstatus[] =
 {
-	{ FlightStatus_Get,	"void FlightStatusGet(FlightBatteryStateData *);" },
+	{ FlightStatus_Get,	"void FlightStatusGet(FlightStatusData *);" },
 	{ NULL, NULL }
 };
 
