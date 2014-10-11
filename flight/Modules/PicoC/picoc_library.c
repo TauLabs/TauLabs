@@ -369,7 +369,7 @@ void SystemAccessLevelSet(struct ParseState *Parser, struct Value *ReturnValue, 
 void SystemChangeBaud(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
 	if ((PIOS_COM_PICOC) && (Param[0]->Val->LongInteger > 0)) {
-		PIOS_COM_ChangeBaud(PIOS_COM_PICOC, Param[0]->Val->LongInteger);
+		PIOS_COM_ChangeBaud(PIOS_COM_PICOC, Param[0]->Val->UnsignedLongInteger);
 	}
 }
 #endif
