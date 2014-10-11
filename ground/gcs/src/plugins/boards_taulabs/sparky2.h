@@ -80,7 +80,7 @@ public:
      * be a coordinator.
      * @return true if successful or false if not
      */
-    virtual bool setCoordID(quint32 id);
+    virtual bool setCoordID(quint32 id, quint32 baud_rate = 0, float rf_power = -1);
 
 };
 
