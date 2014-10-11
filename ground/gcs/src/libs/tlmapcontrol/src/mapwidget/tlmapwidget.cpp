@@ -256,7 +256,7 @@ namespace mapcontrol
         if (useOpenGL)
             setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers), this));
         else
-            setupViewport(new QWidget());
+            setViewport(new QWidget());
         update();
     }
 
