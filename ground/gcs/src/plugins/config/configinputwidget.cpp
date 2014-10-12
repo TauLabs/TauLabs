@@ -945,6 +945,15 @@ void ConfigInputWidget::identifyLimits()
             if(manualSettingsData.ChannelMin[i]<manualCommandData.Channel[i])
                 manualSettingsData.ChannelMin[i]=manualCommandData.Channel[i];
         }
+
+        if (i == ManualControlSettings::CHANNELNEUTRAL_THROTTLE) {
+            // Keep the throttle neutral position near the minimum value so that
+            // the stick visualization keeps working consistently (it expects this
+            // ratio between + and - range.
+            manualSettingsData.ChannelNeutral[i]=
+                    manualSettingsData.ChannelMin[i]+
+                    ((manualSettingsData.ChannelMax[i] - manualSettingsData.ChannelMin[i])*THROTTLE_NEUTRAL_FRACTION);
+        }
     }
     manualSettingsObj->setData(manualSettingsData);
 }
