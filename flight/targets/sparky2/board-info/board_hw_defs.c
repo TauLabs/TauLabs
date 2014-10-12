@@ -1399,15 +1399,13 @@ const struct pios_servo_cfg pios_servo_cfg = {
 };
 
 
-/*
- * PWM Inputs
- * TIM8
- */
 #if defined(PIOS_INCLUDE_PPM)
-#include <pios_pwm_priv.h>
-static const struct pios_tim_channel pios_tim_rcvrport =
-{
-	.timer = TIM8,
+/*
+ * PPM Inputs
+ * TIM3
+ */
+static const struct pios_tim_channel pios_tim_rcvrport = {
+	.timer = TIM3,
 	.timer_chan = TIM_Channel_2,
 	.pin = {
 		.gpio = GPIOC,
@@ -1420,7 +1418,7 @@ static const struct pios_tim_channel pios_tim_rcvrport =
 		},
 		.pin_source = GPIO_PinSource7,
 	},
-	.remap = GPIO_AF_TIM8,
+	.remap = GPIO_AF_TIM3,
 };
 
 #include <pios_ppm_priv.h>
@@ -1437,7 +1435,7 @@ static const struct pios_ppm_cfg pios_ppm_cfg = {
 	.num_channels = 1,
 };
 
-#endif //PPM
+#endif /* PIOS_INCLUDE_PPM */
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
 #include "pios_gcsrcvr_priv.h"
