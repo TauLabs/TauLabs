@@ -34,10 +34,13 @@
 #if defined(PIOS_INCLUDE_BMP085)
 
 #include "pios_bmp085_priv.h"
+#include "pios_semaphore.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 /* Private constants */
-#define BMP085_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define BMP085_TASK_STACK		(512 / 4)
+#define BMP085_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
+#define BMP085_TASK_STACK		512
 
 /* BMP085 Addresses */
 #define BMP085_I2C_ADDR       0x77
@@ -74,8 +77,8 @@ enum conversion_type {
 struct bmp085_dev {
     const struct pios_bmp085_cfg *cfg;
     uint32_t i2c_id;
-    xTaskHandle task;
-    xQueueHandle queue;
+    struct pios_thread *task;
+    struct pios_queue *queue;
 
     int64_t pressure_unscaled;
     int64_t temperature_unscaled;
@@ -107,12 +110,12 @@ static struct bmp085_dev *PIOS_BMP085_alloc(void)
 {
    struct bmp085_dev *bmp085_dev;
 
-    bmp085_dev = (struct bmp085_dev *)pvPortMalloc(sizeof(*bmp085_dev));
+    bmp085_dev = (struct bmp085_dev *)PIOS_malloc(sizeof(*bmp085_dev));
     if (!bmp085_dev) return (NULL);
 
-    bmp085_dev->queue = xQueueCreate(1, sizeof(struct pios_sensor_baro_data));
+    bmp085_dev->queue = PIOS_Queue_Create(1, sizeof(struct pios_sensor_baro_data));
     if (bmp085_dev->queue == NULL) {
-        vPortFree(bmp085_dev);
+        PIOS_free(bmp085_dev);
         return NULL;
     }
 
@@ -152,12 +155,15 @@ int32_t PIOS_BMP085_Init(const struct pios_bmp085_cfg *cfg, int32_t i2c_device)
     dev->cfg = cfg;
 
     uint8_t data[22];
-    PIOS_BMP085_Read(BMP085_CALIB_ADDR, data, 2);
+    if (PIOS_BMP085_Read(BMP085_CALIB_ADDR, data, 2) != 0)
+    	return -2;
     dev->AC1 = (data[0] << 8) | data[1];
-    PIOS_BMP085_Read(BMP085_CALIB_ADDR, data, 2);
+    if (PIOS_BMP085_Read(BMP085_CALIB_ADDR, data, 2) != 0)
+    	return -2;
     dev->AC1 = (data[0] << 8) | data[1];
 
-    PIOS_BMP085_Read(BMP085_CALIB_ADDR, data, 22);
+    if (PIOS_BMP085_Read(BMP085_CALIB_ADDR, data, 22) != 0)
+    	return -2;
     /* Parameters AC1-AC6 */
     dev->AC1 = (data[0] << 8) | data[1];
     dev->AC2 = (data[2] << 8) | data[3];
@@ -175,10 +181,10 @@ int32_t PIOS_BMP085_Init(const struct pios_bmp085_cfg *cfg, int32_t i2c_device)
     dev->MC  = (data[18] << 8) | data[19];
     dev->MD  = (data[20] << 8) | data[21];
 
-    portBASE_TYPE result = xTaskCreate(PIOS_BMP085_Task, (const signed char *)"pios_bmp085",
-                                                BMP085_TASK_STACK, NULL, BMP085_TASK_PRIORITY,
-                                                &dev->task);
-    PIOS_Assert(result == pdPASS);
+    dev->task = PIOS_Thread_Create(
+    	PIOS_BMP085_Task, "pios_bmp085", BMP085_TASK_STACK, NULL, BMP085_TASK_PRIORITY);
+    if (dev->task == NULL)
+    	return -3;
 
     PIOS_SENSORS_Register(PIOS_SENSOR_BARO, dev->queue);
 
@@ -393,13 +399,13 @@ static void PIOS_BMP085_Task(void *parameters)
         {
             // Update the temperature data
             PIOS_BMP085_StartADC(TEMPERATURE_CONV);
-            vTaskDelay(5);
+            PIOS_Thread_Sleep(5);
             PIOS_BMP085_ReadADC();
             temp_press_interleave_count = dev->temperature_interleaving;
         }
         // Update the pressure data
         PIOS_BMP085_StartADC(PRESSURE_CONV);
-        vTaskDelay(PIOS_BMP085_GetDelay());
+        PIOS_Thread_Sleep(PIOS_BMP085_GetDelay());
         PIOS_BMP085_ReadADC();
 
         // Compute the altitude from the pressure and temperature and send it out
@@ -408,7 +414,7 @@ static void PIOS_BMP085_Task(void *parameters)
         data.pressure = ((float) dev->pressure_unscaled) / 1000.0f;
         data.altitude = 44330.0f * (1.0f - powf(data.pressure / BMP085_P0, (1.0f / 5.255f)));
 
-        xQueueSend(dev->queue, (void*)&data, 0);
+        PIOS_Queue_Send(dev->queue, (void*)&data, 0);
     }
 }
 
