@@ -1576,7 +1576,7 @@ static const struct pios_exti_cfg pios_exti_vsync_cfg __exti_config = {
 	},
 };
 
-static const struct pios_video_cfg pios_video_cfg = {
+const struct pios_video_cfg pios_video_cfg = {
 	.mask_dma = DMA2,
 	.mask                                              = {
 		.regs  = SPI1,

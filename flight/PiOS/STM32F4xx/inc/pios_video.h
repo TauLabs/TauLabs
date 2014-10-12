@@ -68,6 +68,8 @@ struct pios_video_cfg {
 	TIM_OCInitTypeDef tim_oc_init;
 };
 
+extern const struct pios_video_cfg pios_video_cfg;
+
 extern bool PIOS_Vsync_ISR();
 extern void PIOS_Video_Init(const struct pios_video_cfg *cfg);
 extern void PIOS_Pixel_Init(void);

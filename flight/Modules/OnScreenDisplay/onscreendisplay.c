@@ -2176,14 +2176,15 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 
 	// blank
 	while (PIOS_Thread_Systime() <= BLANK_TIME) {
-		if (PIOS_Semaphore_Take(onScreenDisplaySemaphore, LONG_TIME) == true) {
-			clearGraphics();
-			frame_counter++;
-			// Accumulate baro altitude
-			BaroAltitudeAltitudeGet(&tmp);
-			home_baro_altitude += tmp;
-		}
+		// Accumulate baro altitude
+		PIOS_Thread_Sleep(20);
+		frame_counter++;
+		BaroAltitudeAltitudeGet(&tmp);
+		home_baro_altitude += tmp;
 	}
+
+	// initialize interupts
+	PIOS_Video_Init(&pios_video_cfg);
 
 	// intro
 	while (PIOS_Thread_Systime() <= BLANK_TIME + INTRO_TIME) {
