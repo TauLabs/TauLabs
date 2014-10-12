@@ -32,9 +32,12 @@
 #include "openpilot.h"
 #include "uavobjectsinit.h"
 #include "systemmod.h"
+#include "pios_thread.h"
 
-/* Task Priorities */
-#define PRIORITY_TASK_HOOKS             (tskIDLE_PRIORITY + 3)
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#include "task.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
 /* Prototype of PIOS_Board_Init() function */
 extern void PIOS_Board_Init(void);
@@ -63,8 +66,6 @@ extern void InitModules(void);
 */
 int main()
 {
-	int	result;
-
 	/* NOTE: Do NOT modify the following start-up sequence */
 	/* Any new initialization functions should be added in OpenPilotInit() */
 	PIOS_heap_initialize_blocks();
