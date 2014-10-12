@@ -1599,7 +1599,7 @@ void ConfigInputWidget::simpleCalibration(bool enable)
         manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_THROTTLE]=
                 manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE]+
                 ((manualSettingsData.ChannelMax[ManualControlSettings::CHANNELMAX_THROTTLE]-
-                  manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE])*0.02);
+                  manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE])*THROTTLE_NEUTRAL_FRACTION);
 
         manualSettingsObj->setData(manualSettingsData);
 
