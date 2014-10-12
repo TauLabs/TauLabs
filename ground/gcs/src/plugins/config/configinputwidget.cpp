@@ -1434,6 +1434,14 @@ void ConfigInputWidget::invertControls()
                 aux=manualSettingsData.ChannelMax[index];
                 manualSettingsData.ChannelMax[index]=manualSettingsData.ChannelMin[index];
                 manualSettingsData.ChannelMin[index]=aux;
+                if (index == ManualControlSettings::CHANNELNEUTRAL_THROTTLE) {
+                    // Keep the throttle neutral position near the minimum value so that
+                    // the stick visualization keeps working consistently (it expects this
+                    // ratio between + and - range.
+                    manualSettingsData.ChannelNeutral[index]=
+                            manualSettingsData.ChannelMin[index]+
+                            ((manualSettingsData.ChannelMax[index] - manualSettingsData.ChannelMin[index])*THROTTLE_NEUTRAL_FRACTION);
+                }
             }
         }
     }
