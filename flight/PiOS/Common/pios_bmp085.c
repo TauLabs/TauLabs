@@ -99,6 +99,8 @@ struct bmp085_dev {
     uint32_t temperature_interleaving;
     int32_t bmp085_read_flag;
     enum pios_bmp085_dev_magic magic;
+
+    struct pios_semaphore *busy;
 };
 
 static struct bmp085_dev *dev;
@@ -118,6 +120,8 @@ static struct bmp085_dev *PIOS_BMP085_alloc(void)
         PIOS_free(bmp085_dev);
         return NULL;
     }
+
+	bmp085_dev->busy = PIOS_Semaphore_Create();
 
     bmp085_dev->magic = PIOS_BMP085_DEV_MAGIC;
 
@@ -190,6 +194,31 @@ int32_t PIOS_BMP085_Init(const struct pios_bmp085_cfg *cfg, int32_t i2c_device)
 
     return 0;
 }
+
+
+/**
+ * Claim the MS5611 device semaphore.
+ * \return 0 if no error
+ * \return -1 if timeout before claiming semaphore
+ */
+static int32_t PIOS_BMP085_ClaimDevice(void)
+{
+	PIOS_Assert(PIOS_BMP085_Validate(dev) == 0);
+
+	return PIOS_Semaphore_Take(dev->busy, PIOS_SEMAPHORE_TIMEOUT_MAX) == true ? 0 : 1;
+}
+
+/**
+ * Release the MS5611 device semaphore.
+ * \return 0 if no error
+ */
+static int32_t PIOS_BMP085_ReleaseDevice(void)
+{
+	PIOS_Assert(PIOS_BMP085_Validate(dev) == 0);
+
+	return PIOS_Semaphore_Give(dev->busy) == true ? 0 : 1;
+}
+
 
 /**
 * Start the ADC conversion
@@ -372,17 +401,21 @@ int32_t PIOS_BMP085_Test()
     // TODO: Is there a better way to test this than just checking that pressure/temperature has changed?
     int32_t cur_value = 0;
 
+	PIOS_BMP085_ClaimDevice();
     cur_value = dev->temperature_unscaled;
     PIOS_BMP085_StartADC(TEMPERATURE_CONV);
     PIOS_DELAY_WaitmS(5);
     PIOS_BMP085_ReadADC();
+    PIOS_BMP085_ReleaseDevice();
     if (cur_value == dev->temperature_unscaled)
         return -1;
 
+	PIOS_BMP085_ClaimDevice();
     cur_value = dev->pressure_unscaled;
     PIOS_BMP085_StartADC(PRESSURE_CONV);
     PIOS_DELAY_WaitmS(26);
     PIOS_BMP085_ReadADC();
+    PIOS_BMP085_ReleaseDevice();
     if (cur_value == dev->pressure_unscaled)
         return -1;
 
@@ -398,15 +431,19 @@ static void PIOS_BMP085_Task(void *parameters)
         if(temp_press_interleave_count <= 0)
         {
             // Update the temperature data
+			PIOS_BMP085_ClaimDevice();
             PIOS_BMP085_StartADC(TEMPERATURE_CONV);
             PIOS_Thread_Sleep(5);
             PIOS_BMP085_ReadADC();
+            PIOS_BMP085_ReleaseDevice();
             temp_press_interleave_count = dev->temperature_interleaving;
         }
         // Update the pressure data
+		PIOS_BMP085_ClaimDevice();
         PIOS_BMP085_StartADC(PRESSURE_CONV);
         PIOS_Thread_Sleep(PIOS_BMP085_GetDelay());
         PIOS_BMP085_ReadADC();
+        PIOS_BMP085_ReleaseDevice();
 
         // Compute the altitude from the pressure and temperature and send it out
         struct pios_sensor_baro_data data;
