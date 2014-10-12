@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_bmp085.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      BMP085 Pressure Sensor Routines
  * @see        The GNU Public License (GPL) Version 3
  ******************************************************************************/

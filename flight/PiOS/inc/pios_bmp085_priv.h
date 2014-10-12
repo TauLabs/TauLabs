@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_bmp085_priv.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      BMP085 functions header.
  * @see        The GNU Public License (GPL) Version 3
  *
