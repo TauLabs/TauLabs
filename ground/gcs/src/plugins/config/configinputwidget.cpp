@@ -953,6 +953,9 @@ void ConfigInputWidget::identifyLimits()
             manualSettingsData.ChannelNeutral[i]=
                     manualSettingsData.ChannelMin[i]+
                     ((manualSettingsData.ChannelMax[i] - manualSettingsData.ChannelMin[i])*THROTTLE_NEUTRAL_FRACTION);
+        } else {
+            manualSettingsData.ChannelNeutral[i] =
+                    (manualSettingsData.ChannelMin[i] + manualSettingsData.ChannelMax[i]) * 0.5;
         }
     }
     manualSettingsObj->setData(manualSettingsData);
