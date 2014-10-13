@@ -109,11 +109,11 @@ bool ModelUavoProxy::modelToObjects()
 
         if (robustUpdate(waypoint, x)) {
             qDebug() << "Successfully updated";
-            emit sendPathPlanToUavProgress(100 * (x + 1)/(myModel->rowCount()));
+            emit sendPathPlanToUavProgress(100 * (x + 1) / myModel->rowCount());
         }
         else {
             qDebug() << "Upload failed";
-            emit sendPathPlanToUavProgress(100 * (x + 1)/(myModel->rowCount()));
+            emit sendPathPlanToUavProgress(100 * (x + 1) / myModel->rowCount());
             return false;
             break;
         }
