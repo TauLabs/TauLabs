@@ -201,8 +201,6 @@ quint8 ConfigOsdWidget::scaleSwitchChannel(quint8 channelNumber, quint8 switchPo
 
 void ConfigOsdWidget::movePageSlider()
 {
-
-    qDebug() << "MOVE\n";
     OnScreenDisplaySettings::DataFields onScreenDisplaySettingsDataPriv = osdSettingsObj->getData();
 
     switch(onScreenDisplaySettingsDataPriv.PageSwitch) {
