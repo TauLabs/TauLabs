@@ -45,7 +45,8 @@ DFUObject::DFUObject() : open(false)
 
 DFUObject::~DFUObject()
 {
-    hidHandle.close(0);
+    if (open)
+        hidHandle.close(0);
 }
 
 /**

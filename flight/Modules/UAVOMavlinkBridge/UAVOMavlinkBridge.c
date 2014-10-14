@@ -123,8 +123,8 @@ static int32_t uavoMavlinkBridgeInitialize(void) {
 		module_enabled = true;
 		updateSettings();
 
-		serial_buf = pvPortMalloc(MAVLINK_MAX_PACKET_LEN);
-		stream_ticks = pvPortMalloc(MAXSTREAMS);
+		serial_buf = PIOS_malloc(MAVLINK_MAX_PACKET_LEN);
+		stream_ticks = PIOS_malloc(MAXSTREAMS);
 		for (int x = 0; x < MAXSTREAMS; ++x) {
 			stream_ticks[x] = (TASK_RATE_HZ / mav_rates[x]);
 		}

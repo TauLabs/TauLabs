@@ -39,6 +39,7 @@
 #include "waypointactive.h"
 #include "modulesettings.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 1024
@@ -50,7 +51,7 @@
 
 // Private variables
 static struct pios_thread *taskHandle;
-static xQueueHandle queue;
+static struct pios_queue *queue;
 static PathPlannerSettingsData pathPlannerSettings;
 static WaypointActiveData waypointActive;
 static WaypointData waypoint;
@@ -116,7 +117,7 @@ int32_t PathPlannerInitialize()
 		WaypointActiveInitialize();
 
 		// Create object queue
-		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+		queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 		return 0;
 	}

@@ -26,7 +26,16 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>12</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>12</number>
+   </property>
+   <property name="bottomMargin">
     <number>12</number>
    </property>
    <item>
@@ -39,7 +48,16 @@
        <string>Pre-Autotune</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
+       <property name="topMargin">
+        <number>12</number>
+       </property>
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <property name="bottomMargin">
         <number>12</number>
        </property>
        <item row="2" column="0" colspan="3">
@@ -60,27 +78,27 @@
              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.Lucida Grande UI'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:20pt; font-weight:600; color:#ff0000;&quot;&gt;WARNING:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Lucida Grande';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Lucida Grande';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande';&quot;&gt;This is an advanced plugin for the GCS that is going to make your aircraft shake automatically, so test with lots of space and be &lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-weight:600;&quot;&gt;extremely wary&lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande';&quot;&gt; for it creating bad tuning values.  Basically there is no reason to think this will work at all.&lt;br /&gt;&lt;br /&gt;To use autotuning, here are the steps. Read and understand them all before going flying.&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Go to https://vimeo.com/104806460 and watch the autotuning tutorial.&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; font-family:'Lucida Grande';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;On the &lt;span style=&quot; font-style:italic;&quot;&gt;Input configuration&lt;/span&gt; tab, &lt;span style=&quot; font-style:italic;&quot;&gt;Flight Mode Switch Settings&lt;/span&gt;, set one of your flight modes to &amp;quot;Autotune&amp;quot;.&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; font-family:'Lucida Grande';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Click the &lt;span style=&quot; font-style:italic;&quot;&gt;Enable Autotune Module&lt;/span&gt; checkbox above this text, click S&lt;span style=&quot; font-style:italic;&quot;&gt;ave,&lt;/span&gt; and reboot the autopilot.&lt;br /&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Take off, change flight mode to autotune, and focus on keeping the UAV in the air while it's shaking.&lt;/li&gt;
-&lt;ol type=&quot;a&quot; style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 2;&quot;&gt;&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In the first few seconds, nothing will happen...&lt;/li&gt;
-&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;then the UAV will start twitching for about 60 seconds. It will still respond to your inputs and moving the sticks won't hurt.&lt;/li&gt;
-&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;then finally the twitching will stop. The flight phase is completed.&lt;/li&gt;&lt;/ol&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; font-family:'Lucida Grande';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Land and disarm while still in Autotune mode. At this point, your settings are saved. You can power off the controller if needed.&lt;br /&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Connect to GCS and check the values on the autotune setup page. If you like them, then click Apply Computed Values. &lt;span style=&quot; font-weight:600;&quot;&gt;For extreme values a prompt will ask if you want to continue. Check your settings carefully in this case.&lt;/span&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;On the &lt;span style=&quot; font-style:italic;&quot;&gt;Stabilization&lt;/span&gt; configuration screen, check your settings before trying them out (i.e., compare to what you currently use. If they are vastly different, this is an indication to be wary. If you feel confident in them, then click apply.&lt;br /&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Test fly the new settings. Remember to leave autotune flight mode before taking off.&lt;/li&gt;
-&lt;li style=&quot; font-family:'Lucida Grande';&quot; style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Once you are happy with the vehicle's tuning, reconnect to GCS and return to the Stabilization Settings. Click &lt;span style=&quot; font-style:italic;&quot;&gt;Save&lt;/span&gt;. You may now power down the controller board.&lt;/li&gt;&lt;/ol&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande';&quot;&gt;Once you have understood the above steps, begin the procedure. Advanced users can proceed to the &lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-style:italic;&quot;&gt;Autotune Setup&lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande';&quot;&gt; tab for more options.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;This is an advanced plugin for the GCS that is going to make your aircraft shake automatically, so test with lots of space and be &lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt; font-weight:600;&quot;&gt;extremely wary&lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt; for it creating bad tuning values.  Basically there is no reason to think this will work at all.&lt;br /&gt;&lt;br /&gt;To use autotuning, here are the steps. Read and understand them all before going flying.&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Go to https://vimeo.com/104806460 and watch the autotuning tutorial.&lt;/li&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;On the &lt;span style=&quot; font-style:italic;&quot;&gt;Input configuration&lt;/span&gt; tab, &lt;span style=&quot; font-style:italic;&quot;&gt;Flight Mode Switch Settings&lt;/span&gt;, set one of your flight modes to &amp;quot;Autotune&amp;quot;.&lt;/li&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Click the &lt;span style=&quot; font-style:italic;&quot;&gt;Enable Autotune Module&lt;/span&gt; checkbox above this text, click S&lt;span style=&quot; font-style:italic;&quot;&gt;ave,&lt;/span&gt; and reboot the autopilot.&lt;br /&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Take off, change flight mode to autotune, and focus on keeping the UAV in the air while it's shaking.&lt;/li&gt;
+&lt;ol type=&quot;a&quot; style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 2;&quot;&gt;&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In the first few seconds, nothing will happen...&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;then the UAV will start twitching for about 60 seconds. It will still respond to your inputs and moving the sticks won't hurt.&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;then finally the twitching will stop. The flight phase is completed.&lt;/li&gt;&lt;/ol&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Land and disarm while still in Autotune mode. At this point, your settings are saved. You can power off the controller if needed.&lt;br /&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Connect to GCS and check the values on the autotune setup page. If you like them, then click Apply Computed Values. &lt;span style=&quot; font-weight:600;&quot;&gt;For extreme values a prompt will ask if you want to continue. Check your settings carefully in this case.&lt;/span&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;On the &lt;span style=&quot; font-style:italic;&quot;&gt;Stabilization&lt;/span&gt; configuration screen, check your settings before trying them out (i.e., compare to what you currently use. If they are vastly different, this is an indication to be wary. If you feel confident in them, then click apply.&lt;br /&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Test fly the new settings. Remember to leave autotune flight mode before taking off.&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Once you are happy with the vehicle's tuning, reconnect to GCS and return to the Stabilization Settings. Click &lt;span style=&quot; font-style:italic;&quot;&gt;Save&lt;/span&gt;. You may now power down the controller board.&lt;/li&gt;&lt;/ol&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;Once you have understood the above steps, begin the procedure. Advanced users can proceed to the &lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt; font-style:italic;&quot;&gt;Autotune Setup&lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt; tab for more options.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -207,7 +225,16 @@ p, li { white-space: pre-wrap; }
        <string>Autotune Setup</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -290,8 +317,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>808</width>
-            <height>710</height>
+            <width>810</width>
+            <height>704</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -307,11 +334,26 @@ p, li { white-space: pre-wrap; }
            <property name="spacing">
             <number>12</number>
            </property>
-           <property name="margin">
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
             <number>12</number>
            </property>
            <item>
             <widget class="QLabel" name="label_20">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
 &lt;ul&gt;
@@ -332,6 +374,12 @@ p, li { white-space: pre-wrap; }
            </item>
            <item>
             <widget class="QGroupBox" name="groupBox_3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
              <property name="title">
               <string>Measured Properties</string>
              </property>
@@ -344,7 +392,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLabel" name="measuredRollPeriod">
+               <widget class="QLabel" name="measuredRollGain">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -361,7 +409,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="1" column="2">
-               <widget class="QLabel" name="measuredRollGain">
+               <widget class="QLabel" name="measuredRollBias">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -392,7 +440,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QLabel" name="measuredPitchPeriod">
+               <widget class="QLabel" name="measuredPitchGain">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -409,7 +457,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="3" column="2">
-               <widget class="QLabel" name="measuredPitchGain">
+               <widget class="QLabel" name="measuredPitchBias">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -467,7 +515,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="1" column="4">
-               <widget class="QLabel" name="measuredRollGain_2">
+               <widget class="QLabel" name="measuredRollNoise">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -484,7 +532,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="3" column="4">
-               <widget class="QLabel" name="measuredPitchGain_2">
+               <widget class="QLabel" name="measuredPitchNoise">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -505,6 +553,12 @@ p, li { white-space: pre-wrap; }
            </item>
            <item>
             <widget class="QGroupBox" name="groupBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
              <property name="title">
               <string>Tuning Aggressiveness</string>
              </property>
@@ -607,6 +661,12 @@ p, li { white-space: pre-wrap; }
            </item>
            <item>
             <widget class="QGroupBox" name="groupBox_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
              <property name="title">
               <string>Computed Values</string>
              </property>
@@ -728,19 +788,38 @@ p, li { white-space: pre-wrap; }
            </item>
            <item>
             <widget class="QGroupBox" name="groupBox_4">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>60</height>
-              </size>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
              <property name="title">
               <string/>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <property name="spacing">
+               <number>1</number>
+              </property>
+              <property name="topMargin">
+               <number>1</number>
+              </property>
+              <property name="bottomMargin">
+               <number>1</number>
+              </property>
               <item>
                <layout class="QGridLayout" name="gridLayout_4">
-                <item row="0" column="0">
+                <item row="0" column="2" colspan="2">
+                 <widget class="QPushButton" name="useComputedValues">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>Apply Computed Values</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
                  <spacer name="horizontalSpacer">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
@@ -753,13 +832,23 @@ p, li { white-space: pre-wrap; }
                   </property>
                  </spacer>
                 </item>
-                <item row="0" column="1" colspan="2">
-                 <widget class="QPushButton" name="useComputedValues">
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
+                <item row="0" column="0">
+                 <widget class="QPushButton" name="shareDataPB">
                   <property name="text">
-                   <string>Apply Computed Values</string>
+                   <string>Share Data on the forum</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="configgadget.qrc">
+                    <normaloff>:/configgadget/images/share-2-icon.png</normaloff>:/configgadget/images/share-2-icon.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="flat">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -778,6 +867,8 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="configgadget.qrc"/>
+ </resources>
  <connections/>
 </ui>

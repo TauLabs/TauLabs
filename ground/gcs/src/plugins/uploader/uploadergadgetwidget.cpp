@@ -113,7 +113,7 @@ UploaderGadgetWidget::UploaderGadgetWidget(QWidget *parent):QWidget(parent),
         }
     }
 
-    bootTimeoutTimer.setInterval(12000);
+    bootTimeoutTimer.setInterval(3000);
     bootTimeoutTimer.setSingleShot(true);
     connect(&bootTimeoutTimer, SIGNAL(timeout()), this, SLOT(onBootingTimout()));
 }

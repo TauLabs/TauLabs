@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_sensors.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Generic interface for sensors
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -32,8 +32,7 @@
 #define PIOS_SENSOR_H
 
 #include "stdint.h"
-#include "FreeRTOS.h"
-#include "queue.h"
+#include "pios_queue.h"
 
 //! Pios sensor structure for generic gyro data
 struct pios_sensor_gyro_data {
@@ -78,17 +77,17 @@ enum pios_sensor_type
 //! Structure to register the data
 struct pios_sensor_registration {
 	enum pios_sensor_type type;
-	xQueueHandle queue;
+	struct pios_queue *queue;
 };
 
 //! Initialize the PIOS_SENSORS interface
 int32_t PIOS_SENSORS_Init();
 
 //! Register a sensor with the PIOS_SENSORS interface
-int32_t PIOS_SENSORS_Register(enum pios_sensor_type type, xQueueHandle queue);
+int32_t PIOS_SENSORS_Register(enum pios_sensor_type type, struct pios_queue *queue);
 
 //! Get the data queue for a sensor type
-xQueueHandle PIOS_SENSORS_GetQueue(enum pios_sensor_type type);
+struct pios_queue *PIOS_SENSORS_GetQueue(enum pios_sensor_type type);
 
 //! Set the maximum gyro rate in deg/s
 void PIOS_SENSORS_SetMaxGyro(int32_t rate);

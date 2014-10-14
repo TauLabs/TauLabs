@@ -34,6 +34,10 @@
 
 #if defined(PIOS_INCLUDE_EXTI)
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 /* Map EXTI line to full config */
 #define EXTI_MAX_LINES 16
 #define PIOS_EXTI_INVALID 0xFF

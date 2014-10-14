@@ -204,7 +204,7 @@ void *PlatformMalloc(size_t size)
 	if (heap_memory == NULL)
 	{	/* no heap memory used yet. try to get some */
 		heap_size = size;
-		heap_memory = (char *)pvPortMalloc(heap_size);
+		heap_memory = (char *)PIOS_malloc(heap_size);
 	}
 	if ((heap_size >= size) && (heap_memory != NULL) && (!heap_used))
 	{	/* memory is free and size fits */

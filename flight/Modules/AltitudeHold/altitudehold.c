@@ -54,6 +54,7 @@
 #include "velocityactual.h"
 #include "modulesettings.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
@@ -62,7 +63,7 @@
 
 // Private variables
 static struct pios_thread *altitudeHoldTaskHandle;
-static xQueueHandle queue;
+static struct pios_queue *queue;
 static bool module_enabled;
 
 // Private functions
@@ -107,7 +108,7 @@ int32_t AltitudeHoldInitialize()
 		AltitudeHoldDesiredInitialize();
 
 		// Create object queue
-		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+		queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 		return 0;
 	}
@@ -147,7 +148,7 @@ static void altitudeHoldTask(void *parameters)
 	uint32_t timeout = dt_ms;
 
 	while (1) {
-		if ( xQueueReceive(queue, &ev, MS2TICKS(timeout)) != pdTRUE ) {
+		if (PIOS_Queue_Receive(queue, &ev, timeout) != true) {
 
 		} else if (ev.obj == FlightStatusHandle()) {
 

@@ -35,7 +35,7 @@
 //This is needed because sometimes the object is lost when asked right uppon connection
 #define SESSION_INIT_RETRIES                3
 //Delay between initial session object fetching retries (number of times defined above)
-#define SESSION_INITIAL_RETRIEVE_TIMEOUT    2000
+#define SESSION_INITIAL_RETRIEVE_TIMEOUT    500
 //Timeout for the all session negotiation, the system will go to failsafe after it
 #define SESSION_RETRIEVE_TIMEOUT            20000
 //Number of retries for the session object fetching during negotiation
@@ -345,6 +345,7 @@ void TelemetryMonitor::checkSessionObjNacked(UAVObject *obj, bool success, bool 
 
 void TelemetryMonitor::sessionObjUnpackedCB(UAVObject *obj)
 {
+    sessionObjRetries = 0;
     switch(connectionStatus)
     {
     case CON_INITIALIZING:
@@ -415,7 +416,7 @@ void TelemetryMonitor::objectRetrieveTimeoutCB()
 
 void TelemetryMonitor::sessionInitialRetrieveTimeoutCB()
 {
-    if(connectionStatus == CON_INITIALIZING)
+    if ( (connectionStatus == CON_INITIALIZING) || (connectionStatus == CON_SESSION_INITIALIZING) )
     {
         if(sessionObjRetries < SESSION_OBJ_RETRIEVE_RETRIES)
         {
@@ -497,7 +498,6 @@ void TelemetryMonitor::startSessionRetrieving(UAVObject *session)
     }
     else if(sessionObj->getSessionID() == 0)
     {
-        sessionInitialRetrieveTimeout->stop();
         objectCount = sessionObj->getNumberOfObjects();
         if(objectCount == 0)
             return;

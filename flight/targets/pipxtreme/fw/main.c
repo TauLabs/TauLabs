@@ -34,6 +34,11 @@
 #include "uavobjectsinit.h"
 #include "systemmod.h"
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#include "task.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 /* Global Variables */
 
 /* Prototype of PIOS_Board_Init() function */

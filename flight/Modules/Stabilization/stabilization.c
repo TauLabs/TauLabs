@@ -39,6 +39,7 @@
 #include "openpilot.h"
 #include "stabilization.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 #include "accels.h"
 #include "actuatordesired.h"
@@ -98,7 +99,7 @@ enum {
 static struct pios_thread *taskHandle;
 static StabilizationSettingsData settings;
 static TrimAnglesData trimAngles;
-static xQueueHandle queue;
+static struct pios_queue *queue;
 float gyro_alpha = 0;
 float axis_lock_accum[3] = {0,0,0};
 uint8_t max_axis_lock = 0;
@@ -121,7 +122,7 @@ int32_t StabilizationStart()
 {
 	// Initialize variables
 	// Create object queue
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 	// Listen for updates.
 	//	AttitudeActualConnectQueue(queue);
@@ -199,7 +200,7 @@ static void stabilizationTask(void* parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_STABILIZATION);
 		
 		// Wait until the AttitudeRaw object is updated, if a timeout then go to failsafe
-		if ( xQueueReceive(queue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE )
+		if (PIOS_Queue_Receive(queue, &ev, FAILSAFE_TIMEOUT_MS) != true)
 		{
 			AlarmsSet(SYSTEMALARMS_ALARM_STABILIZATION,SYSTEMALARMS_ALARM_WARNING);
 			continue;

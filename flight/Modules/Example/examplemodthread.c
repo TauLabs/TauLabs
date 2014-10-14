@@ -48,6 +48,7 @@
 #include "exampleobject2.h"	// object the module will update (output)
 #include "examplesettings.h"	// object holding module settings (input)
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 20
@@ -57,7 +58,7 @@
 // Private types
 
 // Private variables
-static xQueueHandle queue;
+static struct pios_queue *queue;
 static struct pios_thread *taskHandle;
 
 // Private functions
@@ -70,7 +71,7 @@ static void exampleTask(void *parameters);
 int32_t ExampleModThreadInitialize()
 {
 	// Create object queue
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 	// Listen for ExampleObject1 updates
 	ExampleObject1ConnectQueue(queue);
@@ -99,7 +100,7 @@ static void exampleTask(void *parameters)
 		// the module could listen to multiple objects.
 		// Since this object only executes on object updates, the task
 		// will block until an object event is pushed in the queue.
-		while (xQueueReceive(queue, &ev, portMAX_DELAY) != pdTRUE) ;
+		while (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) != true) ;
 
 		// Make sure that the object update is for ExampleObject1
 		// This is redundant in this example since we have only

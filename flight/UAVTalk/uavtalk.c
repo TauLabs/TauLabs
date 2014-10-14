@@ -56,7 +56,7 @@ static void updateAck(UAVTalkConnectionData *connection, UAVObjHandle obj, uint1
 UAVTalkConnection UAVTalkInitialize(UAVTalkOutputStream outputStream)
 {
 	// allocate object
-	UAVTalkConnectionData * connection = pvPortMalloc(sizeof(UAVTalkConnectionData));
+	UAVTalkConnectionData * connection = PIOS_malloc(sizeof(UAVTalkConnectionData));
 	if (!connection) return 0;
 	connection->canari = UAVTALK_CANARI;
 	connection->iproc.rxPacketLength = 0;
@@ -67,9 +67,9 @@ UAVTalkConnection UAVTalkInitialize(UAVTalkOutputStream outputStream)
 	connection->transLock = PIOS_Recursive_Mutex_Create();
 	PIOS_Assert(connection->transLock != NULL);
 	// allocate buffers
-	connection->rxBuffer = pvPortMalloc(UAVTALK_MAX_PACKET_LENGTH);
+	connection->rxBuffer = PIOS_malloc(UAVTALK_MAX_PACKET_LENGTH);
 	if (!connection->rxBuffer) return 0;
-	connection->txBuffer = pvPortMalloc(UAVTALK_MAX_PACKET_LENGTH);
+	connection->txBuffer = PIOS_malloc(UAVTALK_MAX_PACKET_LENGTH);
 	if (!connection->txBuffer) return 0;
 	connection->respSema = PIOS_Semaphore_Create();
 	PIOS_Semaphore_Take(connection->respSema, 0); // reset to zero
@@ -248,7 +248,7 @@ int32_t UAVTalkSendObjectTimestamped(UAVTalkConnection connectionHandle, UAVObjH
  */
 static int32_t objectTransaction(UAVTalkConnectionData *connection, UAVObjHandle obj, uint16_t instId, uint8_t type, int32_t timeoutMs)
 {
-	int32_t respReceived;
+	bool respReceived;
 	
 	// Send object depending on if a response is needed
 	if (type == UAVTALK_TYPE_OBJ_ACK || type == UAVTALK_TYPE_OBJ_ACK_TS || type == UAVTALK_TYPE_OBJ_REQ)
@@ -264,7 +264,7 @@ static int32_t objectTransaction(UAVTalkConnectionData *connection, UAVObjHandle
 		// Wait for response (or timeout)
 		respReceived = PIOS_Semaphore_Take(connection->respSema, timeoutMs);
 		// Check if a response was received
-		if (respReceived == pdFALSE)
+		if (respReceived == false)
 		{
 			// Cancel transaction
 			PIOS_Recursive_Mutex_Lock(connection->lock, PIOS_MUTEX_TIMEOUT_MAX);

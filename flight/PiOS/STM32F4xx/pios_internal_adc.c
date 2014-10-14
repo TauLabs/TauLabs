@@ -47,6 +47,12 @@
 
 #if defined(PIOS_INCLUDE_ADC)
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
+#include "pios_queue.h"
+
 #if !defined(PIOS_ADC_MAX_SAMPLES)
 #define PIOS_ADC_MAX_SAMPLES 0
 #endif
@@ -72,7 +78,7 @@ struct pios_internal_adc_dev {
 	const struct pios_internal_adc_cfg * cfg;
 	ADCCallback callback_function;
 #if defined(PIOS_INCLUDE_FREERTOS)
-	xQueueHandle data_queue;
+	struct pios_queue *data_queue;
 #endif
 	volatile int16_t *valid_data_buffer;
 	volatile uint8_t adc_oversample;
@@ -393,9 +399,9 @@ void accumulate(uint16_t *buffer, uint32_t count)
 #if defined(PIOS_INCLUDE_FREERTOS)
 	// XXX should do something with this
 	if (pios_adc_dev->data_queue) {
-		static portBASE_TYPE xHigherPriorityTaskWoken;
-//		xQueueSendFromISR(pios_adc_dev->data_queue, pios_adc_dev->downsampled_buffer, &xHigherPriorityTaskWoken);
-		portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);		
+		bool woken = false;
+//		PIOS_Queue_Send_FromISR(adc_dev->data_queue, pios_adc_dev->downsampled_buffer, &woken);
+		portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
 	}
 
 #endif

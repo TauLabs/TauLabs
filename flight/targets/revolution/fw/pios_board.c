@@ -296,7 +296,7 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 
 	uint8_t * rx_buffer;
 	if (rx_buf_len > 0) {
-		rx_buffer = (uint8_t *) pvPortMalloc(rx_buf_len);
+		rx_buffer = (uint8_t *) PIOS_malloc(rx_buf_len);
 		PIOS_Assert(rx_buffer);
 	} else {
 		rx_buffer = NULL;
@@ -304,7 +304,7 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 
 	uint8_t * tx_buffer;
 	if (tx_buf_len > 0) {
-		tx_buffer = (uint8_t *) pvPortMalloc(tx_buf_len);
+		tx_buffer = (uint8_t *) PIOS_malloc(tx_buf_len);
 		PIOS_Assert(tx_buffer);
 	} else {
 		tx_buffer = NULL;
@@ -506,8 +506,8 @@ void PIOS_Board_Init(void) {
 	case HWREVOLUTION_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
+			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
@@ -521,8 +521,8 @@ void PIOS_Board_Init(void) {
 	case HWREVOLUTION_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
+			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_vcp_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
@@ -537,7 +537,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_debug_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
 						NULL, 0,
@@ -551,8 +551,8 @@ void PIOS_Board_Init(void) {
 	case HWREVOLUTION_USB_VCPPORT_PICOC:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_PICOC_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_PICOC_TX_BUF_LEN);
+			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_picoc_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
@@ -587,8 +587,8 @@ void PIOS_Board_Init(void) {
 	case HWREVOLUTION_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
+			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_hid_com_driver, pios_usb_hid_id,
@@ -1044,8 +1044,8 @@ void PIOS_Board_Init(void) {
 				PIOS_DEBUG_Assert(0);
 			}
 			const uint32_t PACKET_SIZE = 1024;
-			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PACKET_SIZE);
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PACKET_SIZE);
+			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PACKET_SIZE);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PACKET_SIZE);
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_overo_id, &pios_overo_com_driver, pios_overo_id,

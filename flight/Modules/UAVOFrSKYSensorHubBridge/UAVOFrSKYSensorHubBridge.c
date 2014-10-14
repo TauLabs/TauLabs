@@ -216,11 +216,11 @@ static int32_t uavoFrSKYSensorHubBridgeInitialize(void)
 					== MODULESETTINGS_ADMINSTATE_ENABLED)) {
 		PIOS_COM_ChangeBaud(frsky_port, FRSKY_BAUD_RATE);
 
-		serial_buf = pvPortMalloc(FRSKY_MAX_PACKET_LEN);
+		serial_buf = PIOS_malloc(FRSKY_MAX_PACKET_LEN);
 		if (serial_buf == 0)
 			return -1;
 
-		frame_ticks = pvPortMalloc(MAXSTREAMS);
+		frame_ticks = PIOS_malloc(MAXSTREAMS);
 		if (frame_ticks == 0)
 			return -1;
 

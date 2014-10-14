@@ -6,7 +6,7 @@
 * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      The main graphicsItem used on the widget, contains the map and map logic
 * @see        The GNU Public License (GPL) Version 3
-* @defgroup   OPMapWidget
+* @defgroup   TLMapWidget
 * @{
 *
 *****************************************************************************/

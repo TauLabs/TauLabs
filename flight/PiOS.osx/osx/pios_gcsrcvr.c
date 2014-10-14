@@ -8,7 +8,7 @@
  *
  * @file       pios_gcsrcvr.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, 2013.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      GCS Input functions (STM32 dependent)
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -66,7 +66,7 @@ static struct pios_gcsrcvr_dev *PIOS_gcsrcvr_alloc(void)
 {
 	struct pios_gcsrcvr_dev * gcsrcvr_dev;
 
-	gcsrcvr_dev = (struct pios_gcsrcvr_dev *)pvPortMalloc(sizeof(*gcsrcvr_dev));
+	gcsrcvr_dev = (struct pios_gcsrcvr_dev *)PIOS_malloc(sizeof(*gcsrcvr_dev));
 	if (!gcsrcvr_dev) return(NULL);
 
 	gcsrcvr_dev->magic = PIOS_GCSRCVR_DEV_MAGIC;

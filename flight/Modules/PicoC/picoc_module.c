@@ -125,7 +125,7 @@ static int32_t picocInitialize(void)
 		// allocate memory for source buffer
 		sourcebuffer_size = picocsettings.MaxFileSize;
 		if (sourcebuffer_size) {
-			sourcebuffer = pvPortMalloc(sourcebuffer_size);
+			sourcebuffer = PIOS_malloc(sourcebuffer_size);
 		}
 		if (sourcebuffer == NULL) {
 			// there is not enough free memory for source file buffer. the module could not run.

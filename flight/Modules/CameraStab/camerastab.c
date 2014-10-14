@@ -114,7 +114,7 @@ int32_t CameraStabInitialize(void)
 	if (module_enabled) {
 
 		// allocate and initialize the static data storage only if module is enabled
-		csd = (struct CameraStab_data *) pvPortMalloc(sizeof(struct CameraStab_data));
+		csd = (struct CameraStab_data *) PIOS_malloc(sizeof(struct CameraStab_data));
 		if (csd == NULL) {
 			module_enabled = false;
 			return -1;

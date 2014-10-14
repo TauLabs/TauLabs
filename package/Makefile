@@ -11,6 +11,15 @@
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 ROOT_DIR := $(realpath $(WHEREAMI)/../)
 
+# import macros common to all supported build systems
+include $(ROOT_DIR)/make/system-id.mk
+
+TOOLS_DIR := $(ROOT_DIR)/tools
+BUILD_DIR := $(ROOT_DIR)/build
+
+# include the tools makefile
+include $(ROOT_DIR)/make/tools.mk
+
 # Set up some macros
 BUILD_DIR    := $(ROOT_DIR)/build
 VERSION_CMD  := $(PYTHON) $(ROOT_DIR)/make/scripts/version-info.py --path="$(ROOT_DIR)"
@@ -36,7 +45,7 @@ CLEAN_FLIGHT := YES
 endif
 
 # Set up targets
-ALL_BOARDS        := coptercontrol pipxtreme revolution revomini sparky freedom quanton flyingf3 flyingf4
+ALL_BOARDS        := coptercontrol pipxtreme revolution revomini sparky freedom quanton colibri flyingf3 flyingf4
 ALL_BOARDS_BU     := coptercontrol pipxtreme
 FW_TARGETS        := $(addprefix fw_, $(ALL_BOARDS))
 FW_TARGETS_TOOLS  := $(addprefix fw_, $(ALL_BOARDS))

@@ -47,6 +47,7 @@
 #include "cameradesired.h"
 #include "manualcontrolcommand.h"
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -65,7 +66,7 @@
 
 
 // Private variables
-static xQueueHandle queue;
+static struct pios_queue *queue;
 static struct pios_thread *taskHandle;
 
 static float lastResult[MAX_MIX_ACTUATORS]={0,0,0,0,0,0,0,0};
@@ -124,7 +125,7 @@ int32_t ActuatorInitialize()
 
 	// Listen for ActuatorDesired updates (Primary input to this module)
 	ActuatorDesiredInitialize();
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 	ActuatorDesiredConnectQueue(queue);
 
 	// Primary output of this module
@@ -187,7 +188,7 @@ static void actuatorTask(void* parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
 
 		// Wait until the ActuatorDesired object is updated
-		uint8_t rc = xQueueReceive(queue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS));
+		bool rc = PIOS_Queue_Receive(queue, &ev, FAILSAFE_TIMEOUT_MS);
 
 		/* Process settings updated events even in timeout case so we always act on the latest settings */
 		if (actuator_settings_updated) {
@@ -200,7 +201,7 @@ static void actuatorTask(void* parameters)
 			MixerSettingsGet (&mixerSettings);
 		}
 
-		if (rc != pdTRUE) {
+		if (rc != true) {
 			/* Update of ActuatorDesired timed out.  Go to failsafe */
 			setFailsafe(&actuatorSettings, &mixerSettings);
 			continue;

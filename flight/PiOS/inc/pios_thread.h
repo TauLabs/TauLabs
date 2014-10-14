@@ -47,7 +47,7 @@ enum pios_thread_prio_e
 
 struct pios_thread
 {
-	xTaskHandle task_handle;
+	uintptr_t task_handle;
 };
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
 

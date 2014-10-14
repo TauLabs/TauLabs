@@ -349,7 +349,7 @@ static void go_stopping(struct pios_i2c_adapter *i2c_adapter)
 	}
 
 #ifdef USE_FREERTOS
-	portEND_SWITCHING_ISR(woken == true ? pdTRUE : pdFALSE);
+	portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
 #endif
 }
 

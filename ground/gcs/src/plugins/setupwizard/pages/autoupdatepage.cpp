@@ -52,7 +52,8 @@ void AutoUpdatePage::updateStatus(UploaderStatus status, QVariant value)
 {
     switch (status) {
     case uploader::WAITING_DISCONNECT:
-        getWizard()->setWindowFlags(getWizard()->windowFlags() & ~Qt::WindowStaysOnTopHint);
+        getWizard()->setWindowFlags(getWizard()->windowFlags() | Qt::WindowStaysOnTopHint);
+        getWizard()->setWindowIcon(qApp->windowIcon());
         disableButtons();
         ui->statusLabel->setText(tr("Waiting for all boards to be disconnected"));
         break;

@@ -52,11 +52,16 @@
 
 #if defined(PIOS_INCLUDE_RFM22B)
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 #include <pios_spi_priv.h>
 #include <packet_handler.h>
 #include <pios_rfm22b_priv.h>
 #include <ecc.h>
 #include "pios_thread.h"
+#include "pios_queue.h"
 
 /* Local Defines */
 #define STACK_SIZE_BYTES 800
@@ -503,10 +508,9 @@ static const uint8_t ss_reg_71[] = {  0x2B, 0x23}; // rfm22_modulation_mode_cont
 
 static inline uint32_t timeDifferenceMs(uint32_t start_time, uint32_t end_time)
 {
-	if(end_time >= start_time)
-		return TICKS2MS(end_time - start_time);
-	// Rollover
-	return TICKS2MS((portMAX_DELAY - start_time) + end_time);
+	if (end_time >= start_time)
+		return end_time - start_time;
+	return (uint32_t)PIOS_THREAD_TIMEOUT_MAX - start_time + end_time + 1;
 }
 
 bool PIOS_RFM22B_validate(struct pios_rfm22b_dev * rfm22b_dev)
@@ -571,7 +575,7 @@ int32_t PIOS_RFM22B_Init(uint32_t *rfm22b_id, uint32_t spi_id, uint32_t slave_nu
 	rfm22b_dev->stats.rssi = 0;
 
 	// Create the event queue
-	rfm22b_dev->eventQueue = xQueueCreate(EVENT_QUEUE_SIZE, sizeof(enum pios_rfm22b_event));
+	rfm22b_dev->eventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(enum pios_rfm22b_event));
 
 	// Bind the configuration to the device instance
 	rfm22b_dev->cfg = *cfg;
@@ -639,7 +643,7 @@ void PIOS_RFM22B_InjectEvent(struct pios_rfm22b_dev *rfm22b_dev, enum pios_rfm22
 {
 
 	// Store the event.
-	if (xQueueSend(rfm22b_dev->eventQueue, &event, portMAX_DELAY) != pdTRUE)
+	if (PIOS_Queue_Send(rfm22b_dev->eventQueue, &event, PIOS_QUEUE_TIMEOUT_MAX) != true)
 		return;
 
 	// Signal the semaphore to wake up the handler thread.
@@ -649,7 +653,9 @@ void PIOS_RFM22B_InjectEvent(struct pios_rfm22b_dev *rfm22b_dev, enum pios_rfm22
 			// Something went fairly seriously wrong
 			rfm22b_dev->errors++;
 		}
-		portEND_SWITCHING_ISR(woken == true ? pdTRUE : pdFALSE);
+#if defined(PIOS_INCLUDE_FREERTOS)
+		portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 	}
 	else
 	{
@@ -854,7 +860,7 @@ static void PIOS_RFM22B_Task(void *parameters)
 
 			// Process events through the state machine.
 			enum pios_rfm22b_event event;
-			while (xQueueReceive(rfm22b_dev->eventQueue, &event, 0) == pdTRUE)
+			while (PIOS_Queue_Receive(rfm22b_dev->eventQueue, &event, 0) == true)
 			{
 				if ((event == RFM22B_EVENT_INT_RECEIVED) &&
 				    ((rfm22b_dev->state == RFM22B_STATE_UNINITIALIZED) || (rfm22b_dev->state == RFM22B_STATE_INITIALIZING)))
@@ -873,7 +879,7 @@ static void PIOS_RFM22B_Task(void *parameters)
 
 				// Clear the event queue.
 				enum pios_rfm22b_event event;
-				while (xQueueReceive(rfm22b_dev->eventQueue, &event, 0) == pdTRUE)
+				while (PIOS_Queue_Receive(rfm22b_dev->eventQueue, &event, 0) == true)
 					;
 				lastEventTicks = PIOS_Thread_Systime();
 			}
