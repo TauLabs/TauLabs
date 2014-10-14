@@ -1082,6 +1082,7 @@ void PathDesired_Get(struct ParseState *Parser, struct Value *ReturnValue, struc
 	pdata->StartingVelocity = data.StartingVelocity;
 	pdata->EndingVelocity = data.EndingVelocity;
 	pdata->ModeParameters = data.ModeParameters;
+	pdata->Mode = data.Mode;
 }
 
 void PathDesired_Set(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
@@ -1111,6 +1112,7 @@ void PathDesired_Set(struct ParseState *Parser, struct Value *ReturnValue, struc
 	data.StartingVelocity = pdata->StartingVelocity;
 	data.EndingVelocity = pdata->EndingVelocity;
 	data.ModeParameters = pdata->ModeParameters;
+	data.Mode = pdata->Mode;
 
 	PathDesiredSet(&data);
 }
