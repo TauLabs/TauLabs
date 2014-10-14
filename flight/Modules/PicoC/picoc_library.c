@@ -1049,6 +1049,154 @@ struct LibraryFunction PlatformLibrary_manualcontrol[] =
 
 
 /**
+ * pathdesired.h
+ */
+#include "pathdesired.h"
+
+/* library functions */
+#ifndef NO_FP
+void PathDesired_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	PathDesiredData data;
+	PathDesiredGet(&data);
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+		double Start[3];
+		double End[3];
+		double StartingVelocity;
+		double EndingVelocity;
+		double ModeParameters;
+		unsigned char Mode;
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->Start[0] = data.Start[0];
+	pdata->Start[1] = data.Start[1];
+	pdata->Start[2] = data.Start[2];
+	pdata->End[0] = data.End[0];
+	pdata->End[1] = data.End[1];
+	pdata->End[2] = data.End[2];
+	pdata->StartingVelocity = data.StartingVelocity;
+	pdata->EndingVelocity = data.EndingVelocity;
+	pdata->ModeParameters = data.ModeParameters;
+}
+
+void PathDesired_Set(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	PathDesiredData data;
+	PathDesiredGet(&data);
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+		double Start[3];
+		double End[3];
+		double StartingVelocity;
+		double EndingVelocity;
+		double ModeParameters;
+		unsigned char Mode;
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	data.Start[0] = pdata->Start[0];
+	data.Start[1] = pdata->Start[1];
+	data.Start[2] = pdata->Start[2];
+	data.End[0] = pdata->End[0];
+	data.End[1] = pdata->End[1];
+	data.End[2] = pdata->End[2];
+	data.StartingVelocity = pdata->StartingVelocity;
+	data.EndingVelocity = pdata->EndingVelocity;
+	data.ModeParameters = pdata->ModeParameters;
+
+	PathDesiredSet(&data);
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_pathdesired[] =
+{
+#ifndef NO_FP
+	{ PathDesired_Get,	"void PathDesiredGet(PathDesiredData *);" },
+	{ PathDesired_Set,	"void PathDesiredSet(PathDesiredData *);" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_pathdesired(Picoc *pc)
+{
+	const char *definition = "typedef struct {"
+		"float Start[3];"
+		"float End[3];"
+		"float StartingVelocity;"
+		"float EndingVelocity;"
+		"float ModeParameters;"
+		"unsigned char Mode;"
+	"} PathDesiredData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
+	if (PathDesiredHandle() == NULL)
+		ProgramFailNoParser(pc, "no pathdesired");
+}
+
+
+/**
+ * pathstatus.h
+ */
+#include "pathstatus.h"
+
+/* library functions */
+#ifndef NO_FP
+void PathStatus_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	PathStatusData data;
+	PathStatusGet(&data);
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+		double fractional_progress;
+		double error;
+		unsigned char Status;
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->fractional_progress = data.fractional_progress;
+	pdata->error = data.error;
+	pdata->Status = data.Status;
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_pathstatus[] =
+{
+#ifndef NO_FP
+	{ PathStatus_Get,	"void PathStatusGet(PathStatusData *);" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_pathstatus(Picoc *pc)
+{
+	const char *definition = "typedef struct {"
+		"float fractional_progress;"
+		"float error;"
+		"unsigned char Status;"
+	"} PathStatusData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
+	if (PathStatusHandle() == NULL)
+		ProgramFailNoParser(pc, "no pathstatus");
+}
+
+
+/**
  * positionactual.h
  */
 #include "positionactual.h"
@@ -1295,6 +1443,8 @@ void PlatformLibraryInit(Picoc *pc)
 	IncludeRegister(pc, "gyros.h", &PlatformLibrarySetup_gyros, &PlatformLibrary_gyros[0], NULL);
 	IncludeRegister(pc, "magnetometer.h", &PlatformLibrarySetup_magnetometer, &PlatformLibrary_magnetometer[0], NULL);
 	IncludeRegister(pc, "manualcontrol.h", NULL, &PlatformLibrary_manualcontrol[0], NULL);
+	IncludeRegister(pc, "pathdesired.h", &PlatformLibrarySetup_pathdesired, &PlatformLibrary_pathdesired[0], NULL);
+	IncludeRegister(pc, "pathstatus.h", &PlatformLibrarySetup_pathstatus, &PlatformLibrary_pathstatus[0], NULL);
 	IncludeRegister(pc, "positionactual.h", &PlatformLibrarySetup_positionactual, &PlatformLibrary_positionactual[0], NULL);
 #ifndef NO_FP
 	IncludeRegister(pc, "pid.h", &PlatformLibrarySetup_pid, &PlatformLibrary_pid[0], NULL);
