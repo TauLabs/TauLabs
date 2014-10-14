@@ -688,7 +688,7 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
         manualSettingsData=manualSettingsObj->getData();
         for(unsigned int i=0;i<ManualControlCommand::CHANNEL_NUMELEM;++i)
         {
-            manualSettingsData.ChannelNeutral[i]=manualCommandData.Channel[i];
+            manualSettingsData.ChannelNeutral[i] = manualCommandData.Channel[i];
         }
         manualSettingsObj->setData(manualSettingsData);
         setTxMovement(nothing);
@@ -950,9 +950,8 @@ void ConfigInputWidget::identifyLimits()
             // Keep the throttle neutral position near the minimum value so that
             // the stick visualization keeps working consistently (it expects this
             // ratio between + and - range.
-            manualSettingsData.ChannelNeutral[i]=
-                    manualSettingsData.ChannelMin[i]+
-                    ((manualSettingsData.ChannelMax[i] - manualSettingsData.ChannelMin[i])*THROTTLE_NEUTRAL_FRACTION);
+            manualSettingsData.ChannelNeutral[i] = manualSettingsData.ChannelMin[i] +
+                    (manualSettingsData.ChannelMax[i] - manualSettingsData.ChannelMin[i]) * THROTTLE_NEUTRAL_FRACTION;
         } else {
             manualSettingsData.ChannelNeutral[i] =
                     (manualSettingsData.ChannelMin[i] + manualSettingsData.ChannelMax[i]) * 0.5;
@@ -1438,9 +1437,8 @@ void ConfigInputWidget::invertControls()
                     // Keep the throttle neutral position near the minimum value so that
                     // the stick visualization keeps working consistently (it expects this
                     // ratio between + and - range.
-                    manualSettingsData.ChannelNeutral[index]=
-                            manualSettingsData.ChannelMin[index]+
-                            ((manualSettingsData.ChannelMax[index] - manualSettingsData.ChannelMin[index])*THROTTLE_NEUTRAL_FRACTION);
+                    manualSettingsData.ChannelNeutral[index] = manualSettingsData.ChannelMin[index] +
+                            (manualSettingsData.ChannelMax[index] - manualSettingsData.ChannelMin[index]) * THROTTLE_NEUTRAL_FRACTION;
                 }
             }
         }
@@ -1616,10 +1614,10 @@ void ConfigInputWidget::simpleCalibration(bool enable)
                 manualSettingsData.ChannelMin[ManualControlSettings::CHANNELNUMBER_FLIGHTMODE]) / 2;
 
         // Force throttle to be near min
-        manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_THROTTLE]=
-                manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE]+
-                ((manualSettingsData.ChannelMax[ManualControlSettings::CHANNELMAX_THROTTLE]-
-                  manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE])*THROTTLE_NEUTRAL_FRACTION);
+        manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_THROTTLE] =
+                manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE] +
+                (manualSettingsData.ChannelMax[ManualControlSettings::CHANNELMAX_THROTTLE] -
+                  manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE]) * THROTTLE_NEUTRAL_FRACTION;
 
         manualSettingsObj->setData(manualSettingsData);
 
