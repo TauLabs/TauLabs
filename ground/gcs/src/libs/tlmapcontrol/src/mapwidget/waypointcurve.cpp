@@ -117,7 +117,7 @@ void WayPointCurve::refreshLocations()
     // Work out how far to go along the perpendicular bisector
     d = sqrt(radius * radius / (p_n * p_n + p_e * p_e) - 0.25f);
 
-    if (fabs(p_n) < 1e-3 && fabs(p_e) < 1e-3 || ((d == d) == false)) {
+    if ((fabs(p_n) < 1e-3 && fabs(p_e) < 1e-3) || ((d == d) == false)) {
         // Segment has no length, put valid values there to prevent crash
         // check for nan in the d term too
         center_x = m_n;
