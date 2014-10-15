@@ -49,10 +49,10 @@ GeneralSettings::GeneralSettings():
     m_autoSelect(true),
     m_useUDPMirror(false),
     m_useExpertMode(false),
-    m_useSessionManaging(true),
     m_dialog(0),
     m_proxyType(QNetworkProxy::NoProxy),
-    m_proxyPort(0)
+    m_proxyPort(0),
+    m_useSessionManaging(true)
 {
 }
 
