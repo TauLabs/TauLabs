@@ -46,7 +46,7 @@ SparkyBgcConfiguration::SparkyBgcConfiguration(QWidget *parent) : ConfigTaskWidg
     if(!settings->useExpertMode())
         ui->saveSettings->setVisible(false);
 
-    addApplySaveButtons(ui->saveSettings, ui->applySettings);
+    addApplySaveButtons(ui->applySettings, ui->saveSettings);
 
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property
