@@ -406,44 +406,12 @@ static void stabilizationTask(void* parameters)
 
 					/*
 					 Conversion from MultiWii PID settings to our units.
+						Kp = Kp_mw * 4 / 80 / 500
+						Kd = Kd_mw * looptime * 1e-6 * 4 * 3 / 32 / 500
+						Ki = Ki_mw * 4 / 125 / 64 / (looptime * 1e-6) / 500
 
-					 Kp - the input and output are both expected (in MW) to be in units
-					      of (500,500) but we have both (-1,1). that scaling can be ignored.
-					      the gyro scale is 4 LSB per deg/s, and then their Kp (dynamic scaled)
-					      is divided by 80.
-					      * We want out Kp in output (-1/1) / (deg / s)
-
-					      output (-500,500) = gyro (deg/s) * 4 * Kp / 80
-					      output (-1,1) = gyro (deg/s) * 4 * Kp / 80 / 500
-
-					      so our Kp is Kp_mw * 4 / 80 / 500
-
-					 Kd - again the output is in (-500,500). there is no input other than gyros.
-					      it takes the sum of the last three derivative values (in (deg/s) * 4)
-					      divides by 32 and scales by Kd and does not account for time.
-					      * We want out Kd in output (-1,1) / (deg / s^2)
-						  
-					      output (-500,500) = [d Gyro (deg/s) / dT] * dT_mw * Kd * 4 * 3 / 32
-					      output (-1,1) = [d Gyro (deg/s) / dT] * dT_mw * Kd * 4 * 3 / 32 / 500
-					       - where dT_mw is the loop time (in seconds)
-
-					      so our Kd is Kd_mw * looptime * 1e-6 * 4 * 3 / 32 / 500
-
-				     Ki - this is a bit strange because not only is time ignored but the input
-				          is scaled by the Kp.
-				          * We want Ki in output (-1/1) / (deg/s) / s 
-
-				          theirs:
-						    accum += (input (-500,500) * 80 / Kp - gyro * 4)
-						    zero if yaw and strong input OR fast rotation (150 deg/s)
-				            output (-500,500) = accum / 125 / 64 * Ki
-
-				          ours:
-				            accum += (input (-1,1) / Kp - gyro) * dT
-				            zero for same condition
-				            output (-1,1) = accum * Ki
-
-				          so our Ki is Ki_mw * 4 / 125 / 64 / (looptime * 1e-6) / 500
+						These values will just be approximate and should help
+						you get started.
 					*/
 
 					// The unscaled input (-1,1) - note in MW this is from (-500,500)
