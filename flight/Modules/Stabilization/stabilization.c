@@ -400,16 +400,8 @@ static void stabilizationTask(void* parameters)
 
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_RATEMW:
 				{
-					static float last_gyro[3];
-					static float last_delta[3][2];
 					if(reinit) {
 						pids[PID_RATE_ROLL + i].iAccumulator = 0;
-						for (uint32_t j = 0; j < 3; j++) {
-							last_gyro[j] = 0;
-							last_delta[j][0] = 0;
-							last_delta[j][1] = 0;
-						}
-
 					}
 
 					/*
@@ -467,30 +459,33 @@ static void stabilizationTask(void* parameters)
 					float cfgP8 = pids[PID_RATE_ROLL + i].p;
 					float cfgI8 = pids[PID_RATE_ROLL + i].i;
 
-					// Calculate proportional component
-					float PTerm = raw_input[i] - gyro_filtered[i] * dynP8;
+					// Dynamically adjust PID settings
+					struct pid mw_pid;
+					mw_pid.p = 0;      // use zero Kp here because of strange setpoint. applied later.
+					mw_pid.d = dynD8;
+					mw_pid.i = cfgI8;
+					mw_pid.iLim = pids[PID_RATE_ROLL + i].iLim;
+					mw_pid.iAccumulator = pids[PID_RATE_ROLL + i].iAccumulator;
+					mw_pid.lastErr = pids[PID_RATE_ROLL + i].lastErr;
+					mw_pid.lastDer = pids[PID_RATE_ROLL + i].lastDer;
 
-					// Calculate integral component
-					float error = raw_input[i] / cfgP8 - gyro_filtered[i];
-					pids[PID_RATE_ROLL + i].iAccumulator += error * dT;
-					pids[PID_RATE_ROLL + i].iAccumulator = bound_sym(pids[PID_RATE_ROLL + i].iAccumulator,pids[PID_RATE_ROLL + i].iLim);
-					if (i < 2 && fabsf(gyro_filtered[i]) > 150.0f)
-						pids[PID_RATE_ROLL + i].iAccumulator = 0;
-					if (i == 2 && fabsf(raw_input[i]) > 0.2f)
-						pids[PID_RATE_ROLL + i].iAccumulator = 0;
-					float ITerm = pids[PID_RATE_ROLL + i].iAccumulator  * cfgI8;
+					// Zero integral for aggressive maneuvers
+ 					if ((i < 2 && fabsf(gyro_filtered[i]) > 150.0f) ||
+ 					    (i == 0 && fabsf(raw_input[i]) > 0.2f)) {
+						mw_pid.iAccumulator = 0;
+						mw_pid.i = 0;
+					}
 
-					// Calculate the derivative component
-					float delta = gyro_filtered[i] - last_gyro[i];
-					last_gyro[i] = gyro_filtered[i];
-					float delta_sum = (delta + last_delta[i][0] + last_delta[i][1]) / 3.0f / dT;
-					// Cache previous derivatives for moving sum
-					last_delta[i][1] = last_delta[i][0];
-					last_delta[i][0] = delta;
-					float DTerm = delta_sum * dynD8;
+					// Apply controller as if we want zero change, then add stick input afterwards
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&mw_pid,  raw_input[i] / cfgP8,  gyro_filtered[i], dT);
+					actuatorDesiredAxis[i] += raw_input[i];             // apply input
+					actuatorDesiredAxis[i] -= dynP8 * gyro_filtered[i]; // apply Kp term
+					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
-					// Set the output
-					actuatorDesiredAxis[i] = bound_sym(PTerm + ITerm + DTerm,1.0f);
+					// Store PID accumulators for next cycle
+					pids[PID_RATE_ROLL + i].iAccumulator = mw_pid.iAccumulator;
+					pids[PID_RATE_ROLL + i].lastErr = mw_pid.lastErr;
+					pids[PID_RATE_ROLL + i].lastDer = mw_pid.lastDer;
 				}
 					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT:
