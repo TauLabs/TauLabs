@@ -372,6 +372,29 @@ void SystemChangeBaud(struct ParseState *Parser, struct Value *ReturnValue, stru
 		PIOS_COM_ChangeBaud(PIOS_COM_PICOC, Param[0]->Val->UnsignedLongInteger);
 	}
 }
+/* long SendBuffer(unsigned char *,unsigned int): sends a buffer content to picoc serial port */
+void SystemSendBuffer(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if ((PIOS_COM_PICOC) && (Param[0]->Val->Pointer != NULL)) {
+		uint8_t *buffer = Param[0]->Val->Pointer;
+		uint16_t buf_len = Param[1]->Val->UnsignedInteger;
+		ReturnValue->Val->Integer = PIOS_COM_SendBuffer(PIOS_COM_PICOC, buffer, buf_len);
+	} else {
+		ReturnValue->Val->Integer = -1;
+	}
+}
+/* long ReceiveBuffer(unsigned char *,unsigned int,unsigned long): receives buffer from picoc serial port */
+void SystemReceiveBuffer(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if ((PIOS_COM_PICOC) && (Param[0]->Val->Pointer != NULL)) {
+		uint8_t *buffer = Param[0]->Val->Pointer;
+		uint16_t buf_len = Param[1]->Val->UnsignedInteger;
+		uint32_t timeout = Param[2]->Val->UnsignedLongInteger;
+		ReturnValue->Val->Integer = PIOS_COM_ReceiveBuffer(PIOS_COM_PICOC, buffer, buf_len, timeout);
+	} else {
+		ReturnValue->Val->Integer = -1;
+	}
+}
 #endif
 
 /* int TestValGet(): get the PicoCStatusTestValue */
@@ -489,6 +512,8 @@ struct LibraryFunction PlatformLibrary_system[] =
 	{ SystemAccessLevelSet,	"void AccessLevelSet(int);" },
 #ifdef PIOS_COM_PICOC
 	{ SystemChangeBaud,		"void ChangeBaud(unsigned long);" },
+	{ SystemSendBuffer,		"long SendBuffer(void *,unsigned int);" },
+	{ SystemReceiveBuffer,	"long ReceiveBuffer(void *,unsigned int,unsigned long);" },
 #endif
 	{ SystemTestValGet,		"int TestValGet();" },
 	{ SystemTestValSet,		"void TestValSet(int);" },
