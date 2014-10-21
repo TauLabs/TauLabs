@@ -89,6 +89,7 @@ static FixedWingAirspeedsData fixedWingAirspeeds;
 // Private functions
 static void pathfollowerTask(void *parameters);
 static void SettingsUpdatedCb(UAVObjEvent * ev);
+static void pathDesiredUpdated(UAVObjEvent * ev);
 static void updatePathVelocity();
 static uint8_t updateFixedDesiredAttitude();
 static void airspeedActualUpdatedCb(UAVObjEvent * ev);
@@ -152,6 +153,7 @@ static float airspeedErrorInt=0;
 
 // correct speed by measured airspeed
 static float indicatedAirspeedActualBias = 0;
+static bool path_desired_updated;
 
 /**
  * Module thread, should not return.
@@ -172,8 +174,10 @@ static void pathfollowerTask(void *parameters)
 	SettingsUpdatedCb(NULL);
 	
 	FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
+	path_desired_updated = false;
 	PathDesiredGet(&pathDesired);
-	
+	PathDesiredConnectCallback(pathDesiredUpdated);
+
 	// Main task loop
 	lastUpdateTime = PIOS_Thread_Systime();
 	while (1) {
@@ -204,9 +208,21 @@ static void pathfollowerTask(void *parameters)
 
 		static bool fsm_running = false;
 
-		if (flightStatus.FlightMode != last_flight_mode) {
-			// The mode has changed
+		// Check whether an update to the path desired occured and we should
+		// process it
+		bool process_path_desired_update = 
+		    (last_flight_mode == FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER ||
+		     last_flight_mode == FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER) &&
+		    path_desired_updated;
+		path_desired_updated = false;
 
+		// Process most of these when the flight mode changes
+		// except when in path following mode in which case
+		// each iteration must make sure this has the latest
+		// PathDesired
+		if (flightStatus.FlightMode != last_flight_mode ||
+			process_path_desired_update) {
+			
 			last_flight_mode = flightStatus.FlightMode;
 
 			switch(flightStatus.FlightMode) {
@@ -261,7 +277,6 @@ static void pathfollowerTask(void *parameters)
 						pathStatus.Status = PATHSTATUS_STATUS_CRITICAL;
 						fsm_running = false;
 						AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_CRITICAL);
-						continue;
 						break;
 				}
 				break;
@@ -669,6 +684,11 @@ static void airspeedActualUpdatedCb(UAVObjEvent * ev)
 	// note - we do fly by Indicated Airspeed (== calibrated airspeed)
 	// however since airspeed is updated less often than groundspeed, we use sudden changes to groundspeed to offset the airspeed by the same measurement.
 
+}
+
+static void pathDesiredUpdated(UAVObjEvent * ev)
+{
+	path_desired_updated = true;
 }
 
 /**
