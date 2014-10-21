@@ -665,8 +665,6 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
 	if (ev == NULL || ev->obj == FixedWingAirspeedsHandle())
 		FixedWingAirspeedsGet(&fixedWingAirspeeds);
-	if (ev == NULL || ev->obj == PathDesiredHandle())
-		PathDesiredGet(&pathDesired);
 }
 
 static void airspeedActualUpdatedCb(UAVObjEvent * ev)
