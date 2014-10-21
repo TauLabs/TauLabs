@@ -206,10 +206,11 @@ static void pathfollowerTask(void *parameters)
 
 		PositionActualData positionActual;
 
-		static bool fsm_running = false;
+		static enum {FW_FOLLOWER_IDLE, FW_FOLLOWER_RUNNING, FW_FOLLOWER_ERR} state = FW_FOLLOWER_IDLE;
 
 		// Check whether an update to the path desired occured and we should
-		// process it
+		// process it. This makes sure that the follower alarm state is
+		// updated.
 		bool process_path_desired_update = 
 		    (last_flight_mode == FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER ||
 		     last_flight_mode == FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER) &&
@@ -227,7 +228,7 @@ static void pathfollowerTask(void *parameters)
 
 			switch(flightStatus.FlightMode) {
 			case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
-				fsm_running = true;
+				state = FW_FOLLOWER_RUNNING;
 
 				PositionActualGet(&positionActual);
 
@@ -245,7 +246,7 @@ static void pathfollowerTask(void *parameters)
 
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
-				fsm_running = true;
+				state = FW_FOLLOWER_RUNNING;
 
 				PositionActualGet(&positionActual);
 
@@ -264,7 +265,7 @@ static void pathfollowerTask(void *parameters)
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
 			case FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL:
-				fsm_running = true;
+				state = FW_FOLLOWER_RUNNING;
 
 				PathDesiredGet(&pathDesired);
 				switch(pathDesired.Mode) {
@@ -274,19 +275,22 @@ static void pathfollowerTask(void *parameters)
 					case PATHDESIRED_MODE_FLYCIRCLELEFT:
 						break;
 					default:
+						state = FW_FOLLOWER_ERR;
 						pathStatus.Status = PATHSTATUS_STATUS_CRITICAL;
-						fsm_running = false;
+						PathStatusSet(&pathStatus);
 						AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_CRITICAL);
 						break;
 				}
 				break;
 			default:
-				fsm_running = false;
+				state = FW_FOLLOWER_IDLE;
 				break;
 			}
 		}
 
-		if (fsm_running) {
+		switch(state) {
+		case FW_FOLLOWER_RUNNING:
+		{
 			updatePathVelocity();
 			uint8_t result = updateFixedDesiredAttitude();
 			if (result) {
@@ -295,7 +299,9 @@ static void pathfollowerTask(void *parameters)
 				AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_WARNING);
 			}
 			PathStatusSet(&pathStatus);
-		} else {
+			break;
+		}
+		case FW_FOLLOWER_IDLE:
 			// Be cleaner and get rid of global variables
 			northVelIntegral = 0;
 			eastVelIntegral = 0;
@@ -306,6 +312,11 @@ static void pathfollowerTask(void *parameters)
 			powerIntegral = 0;
 			airspeedErrorInt = 0;
 			AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);
+			break;
+		case FW_FOLLOWER_ERR:
+		default:
+			// Leave alarms set above
+			break;
 		}
 	}
 }
