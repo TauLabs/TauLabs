@@ -210,7 +210,7 @@ static void actuatorTask(void* parameters)
 		// Check how long since last update
 		thisSysTime = PIOS_Thread_Systime();
 		if(thisSysTime > lastSysTime) // reuse dt in case of wraparound
-			dT = thisSysTime - lastSysTime / 1000.0f;
+			dT = (thisSysTime - lastSysTime) / 1000.0f;
 		lastSysTime = thisSysTime;
 
 		FlightStatusGet(&flightStatus);
