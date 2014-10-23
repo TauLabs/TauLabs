@@ -195,7 +195,7 @@ struct telemetrydata{
 	PositionActualData Position;
 	SystemAlarmsData SysAlarms;
 	VelocityActualData Velocity;
-	float climbratebuffer[climbratesize];
+	int16_t climbratebuffer[climbratesize];
 	uint8_t climbrate_pointer;
 	float altitude;
 	float min_altitude;

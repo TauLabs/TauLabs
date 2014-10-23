@@ -22,7 +22,12 @@ ifdef OPENOCD_FTDI
 endif
 
 # Set up QT toolchain
-QT_SDK_DIR := $(TOOLS_DIR)/Qt5.3.2
+ifdef MACOSX
+  QT_SDK_DIR := $(TOOLS_DIR)/Qt5.3.1
+else
+  QT_SDK_DIR := $(TOOLS_DIR)/Qt5.3.2
+endif
+
 ifdef LINUX
   ifdef AMD64
     QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.3/gcc_64/plugins
@@ -50,7 +55,7 @@ ifdef LINUX
 endif
 
 ifdef MACOSX
-  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.3/5.3.2/qt-opensource-mac-x64-clang-5.3.2.dmg
+  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.3/5.3.1/qt-opensource-mac-x64-clang-5.3.1.dmg
   QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.3/clang_64/bin/qmake
 endif
 
@@ -76,7 +81,7 @@ qt_sdk_install: qt_sdk_clean
 
 ifneq (,$(filter $(UNAME), Darwin))
 	$(V1) hdiutil attach -quiet -private -mountpoint /tmp/qt-installer "$(DL_DIR)/$(QT_SDK_FILE)" 
-	$(V1) /tmp/qt-installer/qt-opensource-mac-x64-clang-5.3.2.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.3.2
+	$(V1) /tmp/qt-installer/qt-opensource-mac-x64-clang-5.3.1.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.3.1
 	$(V1) hdiutil detach -quiet /tmp/qt-installer
 endif
  

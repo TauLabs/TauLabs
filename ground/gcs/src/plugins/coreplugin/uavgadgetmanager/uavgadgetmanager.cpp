@@ -71,13 +71,6 @@ using namespace Utils;
 
 enum { debugUAVGadgetManager=0 };
 
-static inline ExtensionSystem::PluginManager *pluginManager()
-{
-    return ExtensionSystem::PluginManager::instance();
-}
-
-//===================UAVGadgetManager=====================
-
 UAVGadgetManager::UAVGadgetManager(ICore *core, QString name, QIcon icon, int priority, QString uniqueName, QWidget *parent) :
     m_showToolbars(true),
     m_splitterOrView(0),

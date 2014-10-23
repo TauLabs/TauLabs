@@ -213,7 +213,7 @@ help:
 	@echo
 	@echo "   [Package]"
 	@echo "     package              - Executes a make all_clean and then generates a complete package build for"
-	@echo "     standalone           - Executes a make all_clean and compiles a package without packaging""
+	@echo "     standalone           - Executes a make all_clean and compiles a package without packaging"
 	@echo "                            the GCS and all target board firmwares."
 	@echo
 	@echo "   [Misc]"
@@ -996,6 +996,7 @@ endif
 package:
 	$(V1) cd $@ && $(MAKE) --no-print-directory $@
 	
+.PHONY: standalone
 standalone:
 	$(V1) cd package && $(MAKE) --no-print-directory $@
 

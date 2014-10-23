@@ -29,50 +29,50 @@
 
 
 namespace core {
-    const QString ProviderStrings::levelsForSigPacSpainMap[] = {"0", "1", "2", "3", "4",
-                                                                "MTNSIGPAC",
-                                                                "MTN2000", "MTN2000", "MTN2000", "MTN2000", "MTN2000",
-                                                                "MTN200", "MTN200", "MTN200",
-                                                                "MTN25", "MTN25",
-                                                                "ORTOFOTOS","ORTOFOTOS","ORTOFOTOS","ORTOFOTOS"};
+const QString ProviderStrings::levelsForSigPacSpainMap[] = {"0", "1", "2", "3", "4",
+                                                            "MTNSIGPAC",
+                                                            "MTN2000", "MTN2000", "MTN2000", "MTN2000", "MTN2000",
+                                                            "MTN200", "MTN200", "MTN200",
+                                                            "MTN25", "MTN25",
+                                                            "ORTOFOTOS","ORTOFOTOS","ORTOFOTOS","ORTOFOTOS"};
 
-    ProviderStrings::ProviderStrings()
-    {
-        VersionGoogleMap = "m@221000000";
-        VersionGoogleSatellite = "132";
-        VersionGoogleLabels = "h@221000000";
-        VersionGoogleTerrain = "t@131,r@221000000";
-        SecGoogleWord = "Galileo";
+ProviderStrings::ProviderStrings()
+{
+    VersionGoogleMap = "h@249000000";
+    VersionGoogleSatellite = "145";
+    VersionGoogleLabels = "h@221000000";
+    VersionGoogleTerrain = "t@132,r@249000000";
+    SecGoogleWord = "Galileo";
 
-        // Google (China) version strings
-        VersionGoogleMapChina = "m@221000000";
-        VersionGoogleSatelliteChina = "s@132";
-        VersionGoogleLabelsChina = "h@221000000";
-        VersionGoogleTerrainChina = "t@131,r@221000000";
+    // Google (China) version strings
+    VersionGoogleMapChina = "m@221000000";
+    VersionGoogleSatelliteChina = "s@132";
+    VersionGoogleLabelsChina = "h@221000000";
+    VersionGoogleTerrainChina = "t@131,r@221000000";
 
-        // Google (Korea) version strings
-        VersionGoogleMapKorea = "m@221000000";
-        VersionGoogleSatelliteKorea = "132";
-        VersionGoogleLabelsKorea = "h@221000000";
+    // Google (Korea) version strings
+    VersionGoogleMapKorea = "m@221000000";
+    VersionGoogleSatelliteKorea = "132";
+    VersionGoogleLabelsKorea = "h@221000000";
 
-        // Yahoo version strings
-        VersionYahooMap = "4.3";
-        VersionYahooSatellite = "1.9";
-        VersionYahooLabels = "4.3";
+    // Yahoo version strings
+    VersionYahooMap = "4.3";
+    VersionYahooSatellite = "1.9";
+    VersionYahooLabels = "4.3";
 
-        // BingMaps
-        VersionBingMaps = "563";
+    // BingMaps
+    VersionBingMaps = "563";
 
-        // YandexMap
-        VersionYandexMap = "2.16.0";
-        //VersionYandexSatellite = "1.19.0";
-        ////////////////////
+    // YandexMap
+    VersionYandexMap = "2.16.0";
+    //VersionYandexSatellite = "1.19.0";
+    ////////////////////
 
-        /// <summary>
-        /// Bing Maps Customer Identification, more info here
-        /// http://msdn.microsoft.com/en-us/library/bb924353.aspx
-        /// </summary>
-        BingMapsClientToken = "";
+    /// <summary>
+    /// Bing Maps Customer Identification, more info here
+    /// http://msdn.microsoft.com/en-us/library/bb924353.aspx
+    /// </summary>
+    BingMapsClientToken = "";
 
-    }
+}
 }

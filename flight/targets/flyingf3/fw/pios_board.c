@@ -136,6 +136,16 @@ static const struct pios_lsm303_cfg pios_lsm303_cfg = {
 };
 #endif /* PIOS_INCLUDE_LSM303 */
 
+/**
+ * Configuration for the BMP085 chip
+ */
+#if defined(PIOS_INCLUDE_BMP085)
+#include "pios_bmp085_priv.h"
+static const struct pios_bmp085_cfg pios_bmp085_cfg = {
+    .oversampling = BMP085_OSR_3,
+    .temperature_interleaving = 1,
+};
+#endif /* PIOS_INCLUDE_BMP085 */
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
@@ -1303,6 +1313,19 @@ void PIOS_Board_Init(void) {
 	if (PIOS_L3GD20_Test() != 0)
 		panic(1);
 
+	uint8_t hw_l3gd20_samplerate;
+	HwFlyingF3L3GD20RateGet(&hw_l3gd20_samplerate);
+	enum pios_l3gd20_rate l3gd20_samplerate = PIOS_L3GD20_RATE_380HZ_100HZ;
+	switch(hw_l3gd20_samplerate) {
+		case HWFLYINGF3_L3GD20RATE_380:
+			l3gd20_samplerate = PIOS_L3GD20_RATE_380HZ_100HZ;
+			break;
+		case HWFLYINGF3_L3GD20RATE_760:
+			l3gd20_samplerate = PIOS_L3GD20_RATE_760HZ_100HZ;
+			break;
+	}
+	PIOS_Assert(PIOS_L3GD20_SetSampleRate(l3gd20_samplerate) == 0);
+
 	// To be safe map from UAVO enum to driver enum
 	/*
 	 * FIXME: add support for this to l3gd20 driver
@@ -1409,6 +1432,14 @@ void PIOS_Board_Init(void) {
 			PIOS_DEBUG_Assert(0);
 		}
 #endif	/* PIOS_INCLUDE_SPI */
+		break;
+	case HWFLYINGF3_SHIELD_BMP085:
+#if defined(PIOS_INCLUDE_BMP085) && defined(PIOS_INCLUDE_I2C)
+	if (PIOS_BMP085_Init(&pios_bmp085_cfg, pios_i2c_external_id) != 0)
+		panic(5);
+	if (PIOS_BMP085_Test() != 0)
+		panic(5);
+#endif /* PIOS_INCLUDE_BMP085 && PIOS_INCLUDE_I2C */
 		break;
 	case HWFLYINGF3_SHIELD_NONE:
 		break;

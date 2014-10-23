@@ -51,6 +51,7 @@ bool sortPorts(QSerialPortInfo const& s1, QSerialPortInfo const& s2)
 //creates options page widget (uses the UI file)
 QWidget *AntennaTrackGadgetOptionsPage::createPage(QWidget *parent)
 {
+    Q_UNUSED(parent);
     options_page = new Ui::AntennaTrackGadgetOptionsPage();
     QWidget *optionsPageWidget = new QWidget;
     options_page->setupUi(optionsPageWidget);

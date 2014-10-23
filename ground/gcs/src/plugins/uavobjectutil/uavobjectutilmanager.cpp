@@ -388,12 +388,16 @@ bool UAVObjectUtilManager::setMetadata(QMap<QString, UAVObject::Metadata> metaDa
 
         // Only enqueue objects that are present on hardware. If session
         // management is disabled this will always return true.
-        if (updateMetadataFlag && obj->getIsPresentOnHardware()){
+        if (updateMetadataFlag && obj->getIsPresentOnHardware()) {
             UAVOBJECTUTIL_QXTLOG_DEBUG(QString("Enqueued %0").arg(obj->getName()));
             metadataSendlist.insert(obj, metaDataSetList.value(str));
         }
     }
     metadataSendSuccess = true;
+    if (metadataSendlist.isEmpty()) {
+        emit completedMetadataWrite(true);
+        return true;
+    }
     UAVDataObject *obj = metadataSendlist.keys().first();
 
     // Connect transaction and timeout timers before making the request
