@@ -20,6 +20,8 @@ By “research”, we mean not only universities or institutions focused on rese
 
 The Tau Labs software is released under the GPL and will be treated in that spirit.  The code was forked from the OpenPilot project in November of 2012.  Porting the software to new boards is encouraged and fun.  The project will also maintain a set of reference platforms which the code will be more frequently tested against and will be expected to perform optimally.  As it was put, these will receive “A+ development support.”  As Lilvinz put it, with open source you can only give and create and we want to continue doing that.
 
+Open source hardware information (where available) lives in this repository at flight/hardware/*/hw.
+
 ## Getting involved
 Click that big fork button on github and start coding!  We use pull requests as reviews so expect a lot of constructive feedback!
 
@@ -39,4 +41,3 @@ Here is a quick breakdown of the main directories to get you oriented
 * ground - contains the GCS code
 * shared - contains UAV Object definitions shared between the GCS and the flight firmware
 * androidgcs - contains the ground control software for android
-

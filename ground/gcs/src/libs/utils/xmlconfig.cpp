@@ -98,7 +98,7 @@ void XmlConfig::handleNode(QDomElement* node, QSettings::SettingsMap &map, QStri
         path += "/" + nodeName;
 
 //    qDebug() << "Node: " << ": " << path << " Children: " << node->childNodes().length();
-    for ( uint i = 0; i < node->childNodes().length(); ++i ){
+    for ( int i = 0; i < node->childNodes().length(); ++i ){
         QDomNode child = node->childNodes().item(i);
         if ( child.isElement() ){
             handleNode( static_cast<QDomElement*>(&child), map, path);
