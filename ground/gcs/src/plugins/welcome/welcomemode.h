@@ -68,8 +68,7 @@ public slots:
     void triggerAction(const QString &actionId);
 
 private:
-    WelcomeModePrivate *m_d;
-    QWidget *m_container;
+    QWidget *m_widget;
     int m_priority;
 };
 
