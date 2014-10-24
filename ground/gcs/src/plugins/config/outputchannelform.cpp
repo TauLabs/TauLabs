@@ -68,8 +68,8 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
     connect(ui.actuatorNeutral, SIGNAL(valueChanged(int)), this, SLOT(sendChannelTest(int)));
 
     // Connect UI elements to dirty/clean (i.e. changed/unchanged) signal/slot
-    connect(ui.actuatorMin, SIGNAL(editingFinished()), this, SLOT(notifyFormChanged()));
-    connect(ui.actuatorMax, SIGNAL(editingFinished()), this, SLOT(notifyFormChanged()));
+    connect(ui.actuatorMin, SIGNAL(valueChanged(int)), this, SLOT(notifyFormChanged()));
+    connect(ui.actuatorMax, SIGNAL(valueChanged(int)), this, SLOT(notifyFormChanged()));
     connect(ui.actuatorNeutral, SIGNAL(sliderReleased()), this, SLOT(notifyFormChanged()));
 
     ui.actuatorLink->setChecked(false);
