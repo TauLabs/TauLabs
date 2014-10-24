@@ -145,9 +145,7 @@ typedef struct {
 	double curr;
 } ADCfiltered;
 
-// Max/Min macros.
-#define MAX(a, b)                    ((a) > (b) ? (a) : (b))
-#define MIN(a, b)                    ((a) < (b) ? (a) : (b))
+// Max/Min macros
 #define MAX3(a, b, c)                MAX(a, MAX(b, c))
 #define MIN3(a, b, c)                MIN(a, MIN(b, c))
 #define LIMIT(x, l, h)               MAX(l, MIN(x, h))

@@ -59,6 +59,7 @@
 #include <pios_board_info.h>
 #include "pios_thread.h"
 #include "pios_semaphore.h"
+#include "misc_math.h"
 
 #include "onscreendisplay.h"
 #include "onscreendisplaysettings.h"
@@ -91,6 +92,8 @@
 #include "systemstats.h"
 #include "taskinfo.h"
 #include "velocityactual.h"
+#include "waypoint.h"
+#include "waypointactive.h"
 
 #include "fonts.h"
 #include "font12x18.h"
@@ -1799,6 +1802,207 @@ void draw_alarms(int x, int y, int xs, int ys, int va, int ha, int flags, int fo
 	}
 }
 
+
+// map with home at center
+void draw_map_home_center(int width_px, int height_px, int width_m, int height_m, bool show_wp, bool show_home)
+{
+	char tmp_str[10] = { 0 };
+	WaypointData waypoint;
+	WaypointActiveData waypoint_active;
+	float scale_x, scale_y;
+	float p_north, p_east, p_north_draw, p_east_draw, yaw, rot, aspect, aspect_pos;
+	int x, y;
+	bool draw_uav;
+
+	scale_x = (float)width_px / width_m;
+	scale_y = (float)height_px / height_m;
+
+	// draw waypoints
+	if ((module_state[MODULESETTINGS_ADMINSTATE_PATHPLANNER] == MODULESETTINGS_ADMINSTATE_ENABLED) && show_wp) {
+		int num_wp = UAVObjGetNumInstances(WaypointHandle());
+		WaypointActiveGet(&waypoint_active);
+		for (int i=0; i < num_wp; i++) {
+			WaypointInstGet(i, &waypoint);
+			if ((num_wp == 1) && (waypoint.Position[WAYPOINT_POSITION_EAST] == 0.f) && (waypoint.Position[WAYPOINT_POSITION_NORTH] == 0.f)) {
+				// single waypoint at home
+				break;
+			}
+			if ((fabs(waypoint.Position[WAYPOINT_POSITION_EAST]) < width_m / 2) && (fabs(waypoint.Position[WAYPOINT_POSITION_NORTH]) < height_m / 2)) {
+				x = GRAPHICS_X_MIDDLE + scale_x * waypoint.Position[WAYPOINT_POSITION_EAST];
+				y = GRAPHICS_Y_MIDDLE - scale_y * waypoint.Position[WAYPOINT_POSITION_NORTH];
+				if (i == waypoint_active.Index) {
+					write_filled_rectangle_lm(x - 5, y - 5, i < 9 ? 10 : 18, 10, 0, 1);
+				}
+				sprintf(tmp_str, "%d", i + 1);
+				write_string(tmp_str, x, y - 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+			}
+		}
+	}
+
+	// draw home
+	if (show_home) {
+		write_string("H", GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE - 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+	}
+
+	// draw UAV position and orientation
+	PositionActualNorthGet(&p_north);
+	PositionActualEastGet(&p_east);
+
+	// decide wether the UAV is outside of the map range and where to draw it
+	if ((2.0f * (float)fabs(p_north) > height_m) || (2.0f * (float)fabs(p_east) > width_m)) {
+		draw_uav = frame_counter % BLINK_INTERVAL_FRAMES < BLINK_INTERVAL_FRAMES / 2;
+		if (draw_uav) {
+			aspect = (float)width_m / (float)height_m;
+			aspect_pos = p_north / p_east;
+			if ((float)fabs(aspect_pos) < aspect) {
+				// left or right of map
+				p_east_draw = sign(p_east) * width_m / 2.f;
+				p_north_draw = p_east_draw * aspect_pos;
+			} else {
+				// above or below map
+				p_north_draw = sign(p_north) * height_m / 2.f;
+				p_east_draw = p_north_draw / aspect_pos;
+			}
+			p_north_draw = GRAPHICS_Y_MIDDLE - p_north_draw * scale_y;
+			p_east_draw = GRAPHICS_X_MIDDLE + p_east_draw * scale_x;
+		}
+	} else {
+		// inside map
+		p_north_draw = GRAPHICS_Y_MIDDLE - p_north * scale_y;
+		p_east_draw = GRAPHICS_X_MIDDLE + p_east * scale_x;
+		draw_uav = true;
+	}
+
+	if (draw_uav) {
+		AttitudeActualYawGet(&yaw);
+		if (yaw < 0)
+			yaw += 360;
+
+		rot = yaw - 210;
+		if (rot < 0)
+			rot += 360;
+		x = p_east_draw + 10.f * sin_lookup_deg(rot);
+		y = p_north_draw - 10.f * cos_lookup_deg(rot);
+		write_line_outlined(p_east_draw, p_north_draw, x, y, 2, 0, 0, 1);
+		rot = yaw - 150;
+		if (rot < 0)
+			rot += 360;
+		x = p_east_draw + 10 * sin_lookup_deg(rot);
+		y = p_north_draw - 10 * cos_lookup_deg(rot);
+		write_line_outlined(p_east_draw, p_north_draw, x, y, 2, 0, 0, 1);
+	}
+}
+
+// map with uav at center
+void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m, bool show_wp, bool show_uav)
+{
+	char tmp_str[10] = { 0 };
+	WaypointData waypoint;
+	WaypointActiveData waypoint_active;
+	float scale_x, scale_y;
+	float p_north, p_east, p_north_draw, p_east_draw, p_north_draw2, p_east_draw2, yaw, aspect, aspect_pos, sin_yaw, cos_yaw;
+	int x, y;
+	bool draw_outside = frame_counter % BLINK_INTERVAL_FRAMES < BLINK_INTERVAL_FRAMES / 2;
+	bool draw_this_wp = false;
+
+	// scaling
+	scale_x = (float)width_px / (float)width_m;
+	scale_y = (float)height_px / (float)height_m;
+	aspect = (float)width_m / (float)height_m;
+
+	// Get UAV position an yaw
+	AttitudeActualYawGet(&yaw);
+	PositionActualNorthGet(&p_north);
+	PositionActualEastGet(&p_east);
+	if (yaw < 0)
+		yaw += 360;
+	sin_yaw = sin_lookup_deg(yaw);
+	cos_yaw = cos_lookup_deg(yaw);
+
+	// Draw waypoints
+	if ((module_state[MODULESETTINGS_ADMINSTATE_PATHPLANNER] == MODULESETTINGS_ADMINSTATE_ENABLED) && show_wp) {
+		int num_wp = UAVObjGetNumInstances(WaypointHandle());
+		WaypointActiveGet(&waypoint_active);
+		for (int i=0; i < num_wp; i++) {
+			WaypointInstGet(i, &waypoint);
+			if ((num_wp == 1) && (waypoint.Position[WAYPOINT_POSITION_EAST] == 0.f) && (waypoint.Position[WAYPOINT_POSITION_NORTH] == 0.f)) {
+				// single waypoint at home
+				break;
+			}
+			// translation
+			p_east_draw2 = waypoint.Position[WAYPOINT_POSITION_EAST] - p_east;
+			p_north_draw2 = waypoint.Position[WAYPOINT_POSITION_NORTH] - p_north;
+
+			// rotation
+			p_east_draw = cos_yaw * p_east_draw2 - sin_yaw * p_north_draw2;
+			p_north_draw = sin_yaw * p_east_draw2 + cos_yaw * p_north_draw2;
+
+			draw_this_wp = false;
+			if ((2.0f * (float)fabs(p_north_draw) > height_m) || (2.0f * (float)fabs(p_east_draw) > width_m)) {
+				if (draw_outside) {
+					aspect_pos = p_north_draw / p_east_draw;
+					if ((float)fabs(aspect_pos) < aspect) {
+						// left or right of map
+						p_east_draw = sign(p_east_draw) * width_m / 2.f;
+						p_north_draw = p_east_draw * aspect_pos;
+					} else {
+						// above or below map
+						p_north_draw = sign(p_north_draw) * height_m / 2.f;
+						p_east_draw = p_north_draw / aspect_pos;
+					}
+					draw_this_wp = true;
+				}
+			} else {
+				// inside map
+				draw_this_wp = true;
+			}
+			if (draw_this_wp) {
+				x = GRAPHICS_X_MIDDLE + p_east_draw * scale_x;
+				y = GRAPHICS_Y_MIDDLE - p_north_draw * scale_y;
+				if (i == waypoint_active.Index) {
+					write_filled_rectangle_lm(x - 5, y - 5, i < 9 ? 10 : 18, 10, 0, 1);
+				}
+				sprintf(tmp_str, "%d", i + 1);
+				write_string(tmp_str, x, y - 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+			}
+		}
+	}
+
+	// Draw the home location
+	p_east_draw = cos_yaw * -1 * p_east + sin_yaw * p_north;
+	p_north_draw = sin_yaw * -1 * p_east - cos_yaw * p_north;
+
+	if ((2.0f * (float)fabs(p_north_draw) > height_m) || (2.0f * (float)fabs(p_east_draw) > width_m)) {
+		if (draw_outside) {
+			aspect_pos = p_north_draw / p_east_draw;
+			if ((float)fabs(aspect_pos) < aspect) {
+				// left or right of map
+				p_east_draw = sign(p_east_draw) * width_m / 2.f;
+				p_north_draw = p_east_draw * aspect_pos;
+			} else {
+				// above or below map
+				p_north_draw = sign(p_north_draw) * height_m / 2.f;
+				p_east_draw = p_north_draw / aspect_pos;
+			}
+			x = GRAPHICS_X_MIDDLE + p_east_draw * scale_x;
+			y = GRAPHICS_Y_MIDDLE - p_north_draw * scale_y;
+			write_string("H", x, y- 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+		}
+	} else {
+		// inside map
+		x = GRAPHICS_X_MIDDLE + p_east_draw * scale_x;
+		y = GRAPHICS_Y_MIDDLE - p_north_draw * scale_y;
+		write_string("H", x, y- 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+	}
+
+	// Draw UAV
+	if (show_uav) {
+		write_line_outlined(GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE, GRAPHICS_X_MIDDLE - 5, GRAPHICS_Y_MIDDLE + 9, 2, 0, 0, 1);
+		write_line_outlined(GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE, GRAPHICS_X_MIDDLE + 5, GRAPHICS_Y_MIDDLE + 9, 2, 0, 0, 1);
+	}
+}
+
+
 void introGraphics(int16_t x, int16_t y)
 {
 	/* logo */
@@ -1901,6 +2105,20 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 
 		if (page->CompassHomeDir)
 			home_dir = (int)(atan2f(tmp1, tmp) * RAD2DEG) + 180;
+	}
+
+	// Draw Map
+	if (page->Map) {
+		if (page->MapCenterMode == ONSCREENDISPLAYPAGESETTINGS_MAPCENTERMODE_UAV) {
+			draw_map_uav_center(page->MapWidthPixels, page->MapHeightPixels,
+								page->MapWidthMeters, page->MapHeightMeters,
+								page->MapShowWp, page->MapShowUavHome);
+
+		} else {
+			draw_map_home_center(page->MapWidthPixels, page->MapHeightPixels,
+								page->MapWidthMeters, page->MapHeightMeters,
+								page->MapShowWp, page->MapShowUavHome);
+		}
 	}
 
 	// Alarms
@@ -2185,6 +2403,12 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 
 	// initialize interupts
 	PIOS_Video_Init(&pios_video_cfg);
+
+	// initialize settings
+	PIOS_Video_SetLevels(osd_settings.PALBlack, osd_settings.PALWhite,
+						 osd_settings.NTSCBlack, osd_settings.NTSCWhite);
+	PIOS_Video_SetXOffset(osd_settings.XOffset);
+	PIOS_Video_SetYOffset(osd_settings.YOffset);
 
 	// intro
 	while (PIOS_Thread_Systime() <= BLANK_TIME + INTRO_TIME) {

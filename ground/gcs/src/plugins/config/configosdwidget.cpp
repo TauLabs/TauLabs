@@ -480,6 +480,22 @@ void ConfigOsdWidget::setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UA
     addUAVObjectToWidgetRelation(name, "TimePosY", page->TimeY);
     addUAVObjectToWidgetRelation(name, "TimeFont", page->TimeFont);
     addUAVObjectToWidgetRelation(name, "TimeAlign", page->TimeAlign);
+
+    // Map
+    addUAVObjectToWidgetRelation(name, "Map", page->MapEnabled);
+    page->MapEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->MapEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "MapCenterMode", page->mapCenterMode);
+    addUAVObjectToWidgetRelation(name, "MapShowWp", page->mapShowWp);
+    page->mapShowWp->setProperty(trueString.toLatin1(), "Enabled");
+    page->mapShowWp->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "MapShowUavHome", page->mapShowUavHome);
+    page->mapShowUavHome->setProperty(trueString.toLatin1(), "Enabled");
+    page->mapShowUavHome->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "MapWidthMeters", page->mapWidthMeters);
+    addUAVObjectToWidgetRelation(name, "MapHeightMeters", page->mapHeightMeters);
+    addUAVObjectToWidgetRelation(name, "MapWidthPixels", page->mapWidthPixels);
+    addUAVObjectToWidgetRelation(name, "MapHeightPixels", page->mapHeightPixels);
 }
 
 void ConfigOsdWidget::copyOsdPage(int to, int from)

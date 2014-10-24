@@ -88,6 +88,15 @@
 		<field name="HomeDistanceFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="HomeDistanceAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
 
+		<field name="Map" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
+		<field name="MapCenterMode" units="" type="enum" elements="1" options="UAV,Home" defaultvalue="UAV"/>
+		<field name="MapShowWp" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
+		<field name="MapShowUavHome" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="MapWidthMeters" units="" type="int16" elements="1" defaultvalue="2000"/>
+		<field name="MapWidthPixels" units="" type="int16" elements="1" defaultvalue="180"/>
+		<field name="MapHeightMeters" units="" type="int16" elements="1" defaultvalue="2000"/>
+		<field name="MapHeightPixels" units="" type="int16" elements="1" defaultvalue="140"/>
+
 		<field name="Rssi" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="RssiPosX" units="" type="int16" elements="1" defaultvalue="150"/>
 		<field name="RssiPosY" units="" type="int16" elements="1" defaultvalue="195"/>
