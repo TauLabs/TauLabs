@@ -1,12 +1,12 @@
 /**
 ******************************************************************************
 *
-* @file       opmapwidget.cpp
+* @file       tlmapwidget.cpp
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
-* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+* @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
 * @brief      The Map Widget, this is the part exposed to the user
 * @see        The GNU Public License (GPL) Version 3
-* @defgroup   OPMapWidget
+* @defgroup   TLMapWidget
 * @{
 *
 *****************************************************************************/
@@ -34,19 +34,24 @@
 namespace mapcontrol
 {
 
-    TLMapWidget::TLMapWidget(QWidget *parent, Configuration *config):QGraphicsView(parent),configuration(config),UAV(0),GPS(0),Home(0)
-      ,followmouse(true),compassRose(0),windCompass(0),showuav(false),showhome(false),diagTimer(0),diagGraphItem(0),showDiag(false),overlayOpacity(1)
+    TLMapWidget::TLMapWidget(QWidget *parent, Configuration *config) : QGraphicsView(parent),
+        configuration(config),UAV(0),GPS(0),Home(0),followmouse(true),
+        compassRose(0),windCompass(0),showuav(false),showhome(false),
+        diagTimer(0),diagGraphItem(0),showDiag(false),overlayOpacity(1)
     {
         setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        this->setScene(new QGraphicsScene(this));
+
         core=new internals::Core;
         map=new MapGraphicItem(core,config);
-        mscene.addItem(map);
-        this->setScene(&mscene);
+
+        scene()->addItem(map);
         Home=new HomeItem(map,this);
         Home->setParentItem(map);
         Home->setZValue(-1);
+
         setStyleSheet("QToolTip {font-size:8pt; color:blue;opacity: 223; padding:2px; border-width:2px; border-style:solid; border-color: rgb(170, 170, 127);border-radius:4px }");
-        this->adjustSize();
+
         connect(map,SIGNAL(zoomChanged(double,double,double)),this,SIGNAL(zoomChanged(double,double,double)));
         connect(map->core,SIGNAL(OnCurrentPositionChanged(internals::PointLatLng)),this,SIGNAL(OnCurrentPositionChanged(internals::PointLatLng)));
         connect(map->core,SIGNAL(OnEmptyTileError(int,core::Point)),this,SIGNAL(OnEmptyTileError(int,core::Point)));
@@ -57,13 +62,16 @@ namespace mapcontrol
         connect(map->core,SIGNAL(OnTileLoadStart()),this,SIGNAL(OnTileLoadStart()));
         connect(map->core,SIGNAL(OnTilesStillToLoad(int)),this,SIGNAL(OnTilesStillToLoad(int)));
         connect(map,SIGNAL(wpdoubleclicked(WayPointItem*)),this,SIGNAL(OnWayPointDoubleClicked(WayPointItem*)));
-        connect(&mscene,SIGNAL(selectionChanged()),this,SLOT(OnSelectionChanged()));
+        connect(scene(),SIGNAL(selectionChanged()),this,SLOT(OnSelectionChanged()));
         SetShowDiagnostics(showDiag);
         this->setMouseTracking(followmouse);
         SetShowCompassRose(true);
         SetShowWindCompass(false);
         QPixmapCache::setCacheLimit(64*1024);
+
+        this->adjustSize();
     }
+
     void TLMapWidget::SetShowDiagnostics(bool const& value)
     {
         showDiag=value;
@@ -100,6 +108,7 @@ namespace mapcontrol
         }
 
     }
+
     void TLMapWidget::SetUavPic(QString UAVPic)
     {
         if(UAV!=0)
@@ -116,6 +125,7 @@ namespace mapcontrol
         ret->setOpacity(overlayOpacity);
         return ret;
     }
+
     MapLine * TLMapWidget::WPLineCreate(HomeItem *from, WayPointItem *to,QColor color)
     {
         if(!from|!to)
@@ -160,6 +170,7 @@ namespace mapcontrol
         ret->setOpacity(overlayOpacity);
         return ret;
     }
+
     void TLMapWidget::SetShowUAV(const bool &value)
     {
         if(value && UAV==0)
@@ -180,6 +191,7 @@ namespace mapcontrol
 
         }
     }
+
     void TLMapWidget::SetShowHome(const bool &value)
     {
             Home->setVisible(value);
@@ -200,16 +212,19 @@ namespace mapcontrol
         }
 
     }
+
     QSize TLMapWidget::sizeHint() const
     {
         return map->sizeHint();
     }
+
     void TLMapWidget::showEvent(QShowEvent *event)
     {
-        connect(&mscene,SIGNAL(sceneRectChanged(QRectF)),map,SLOT(resize(QRectF)));
+        connect(scene(),SIGNAL(sceneRectChanged(QRectF)),map,SLOT(resize(QRectF)));
         map->start();
         QGraphicsView::showEvent(event);
     }
+
     TLMapWidget::~TLMapWidget()
     {
         if(UAV)
@@ -228,20 +243,23 @@ namespace mapcontrol
                 delete i;
         }
     }
+
     void TLMapWidget::closeEvent(QCloseEvent *event)
     {
         core->OnMapClose();
         event->accept();
     }
+
     void TLMapWidget::SetUseOpenGL(const bool &value)
     {
         useOpenGL=value;
         if (useOpenGL)
-            setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+            setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers), this));
         else
-            setupViewport(new QWidget());
+            setViewport(new QWidget());
         update();
     }
+
     internals::PointLatLng TLMapWidget::currentMousePosition()
     {
         return currentmouseposition;
@@ -250,10 +268,11 @@ namespace mapcontrol
     void TLMapWidget::mouseMoveEvent(QMouseEvent *event)
     {
         QGraphicsView::mouseMoveEvent(event);
-        QPointF p=event->posF();
+        QPointF p=event->pos();
         p=map->mapFromParent(p);
         currentmouseposition=map->FromLocalToLatLng(p.x(),p.y());
     }
+
     ////////////////WAYPOINT////////////////////////
     WayPointItem* TLMapWidget::WPCreate()
     {
@@ -264,6 +283,7 @@ namespace mapcontrol
         emit WPCreated(position,item);
         return item;
     }
+
     WayPointItem* TLMapWidget::magicWPCreate()
     {
         WayPointItem* item=new WayPointItem(map,true);
@@ -271,6 +291,7 @@ namespace mapcontrol
         item->setParentItem(map);
         return item;
     }
+
     void TLMapWidget::WPCreate(WayPointItem* item)
     {
         ConnectWP(item);
@@ -279,6 +300,7 @@ namespace mapcontrol
         emit WPCreated(position,item);
         setOverlayOpacity(overlayOpacity);
     }
+
     WayPointItem* TLMapWidget::WPCreate(internals::PointLatLng const& coord,int const& altitude)
     {
         WayPointItem* item=new WayPointItem(coord,altitude,map);
@@ -289,6 +311,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     WayPointItem* TLMapWidget::WPCreate(internals::PointLatLng const& coord,int const& altitude, QString const& description)
     {
         WayPointItem* item=new WayPointItem(coord,altitude,description,map);
@@ -299,6 +322,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     WayPointItem* TLMapWidget::WPCreate(const distBearingAltitude &relativeCoord, const QString &description)
     {
         WayPointItem* item=new WayPointItem(relativeCoord,description,map);
@@ -309,6 +333,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     WayPointItem* TLMapWidget::WPInsert(const int &position)
     {
         WayPointItem* item=new WayPointItem(this->CurrentPosition(),0,map);
@@ -319,6 +344,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     void TLMapWidget::WPInsert(WayPointItem* item,const int &position)
     {
         item->SetNumber(position);
@@ -327,6 +353,7 @@ namespace mapcontrol
         emit WPInserted(position,item);
         setOverlayOpacity(overlayOpacity);
     }
+
     WayPointItem* TLMapWidget::WPInsert(internals::PointLatLng const& coord,int const& altitude,const int &position)
     {
         WayPointItem* item=new WayPointItem(coord,altitude,map);
@@ -337,6 +364,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     WayPointItem* TLMapWidget::WPInsert(internals::PointLatLng const& coord,int const& altitude, QString const& description,const int &position)
     {
         internals::PointLatLng mcoord;
@@ -358,6 +386,7 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     WayPointItem* TLMapWidget::WPInsert(distBearingAltitude const& relative, QString const& description,const int &position)
     {
         WayPointItem* item=new WayPointItem(relative,description,map);
@@ -368,11 +397,13 @@ namespace mapcontrol
         setOverlayOpacity(overlayOpacity);
         return item;
     }
+
     void TLMapWidget::WPDelete(WayPointItem *item)
     {
         emit WPDeleted(item->Number(),item);
         delete item;
     }
+
     void TLMapWidget::WPDelete(int number)
     {
         foreach(QGraphicsItem* i,map->childItems())
@@ -389,6 +420,7 @@ namespace mapcontrol
             }
         }
     }
+
     WayPointItem * TLMapWidget::WPFind(int number)
     {
         foreach(QGraphicsItem* i,map->childItems())
@@ -404,6 +436,7 @@ namespace mapcontrol
         }
         return NULL;
     }
+
     void TLMapWidget::WPSetVisibleAll(bool value)
     {
         foreach(QGraphicsItem* i,map->childItems())
@@ -416,6 +449,7 @@ namespace mapcontrol
             }
         }
     }
+
     void TLMapWidget::WPDeleteAll()
     {
         foreach(QGraphicsItem* i,map->childItems())
@@ -431,6 +465,7 @@ namespace mapcontrol
             }
         }
     }
+
     bool TLMapWidget::WPPresent()
     {
         foreach(QGraphicsItem* i,map->childItems())
@@ -462,10 +497,11 @@ namespace mapcontrol
             }
         }
     }
+
     QList<WayPointItem*> TLMapWidget::WPSelected()
     {
         QList<WayPointItem*> list;
-        foreach(QGraphicsItem* i,mscene.selectedItems())
+        foreach(QGraphicsItem* i,scene()->selectedItems())
         {
             WayPointItem* w=qgraphicsitem_cast<WayPointItem*>(i);
             if(w)
@@ -473,6 +509,7 @@ namespace mapcontrol
         }
         return list;
     }
+
     void TLMapWidget::WPRenumber(WayPointItem *item, const int &newnumber)
     {
         item->SetNumber(newnumber);
@@ -487,6 +524,7 @@ namespace mapcontrol
         connect(this,SIGNAL(WPNumberChanged(int,int,WayPointItem*)),item,SLOT(WPRenumbered(int,int,WayPointItem*)),Qt::DirectConnection);
         connect(this,SIGNAL(WPDeleted(int,WayPointItem*)),item,SLOT(WPDeleted(int,WayPointItem*)),Qt::DirectConnection);
     }
+
     void TLMapWidget::diagRefresh()
     {
         if(showDiag)
@@ -494,7 +532,7 @@ namespace mapcontrol
             if(diagGraphItem==0)
             {
                 diagGraphItem=new QGraphicsTextItem();
-                mscene.addItem(diagGraphItem);
+                scene()->addItem(diagGraphItem);
                 diagGraphItem->setPos(10,100);
                 diagGraphItem->setZValue(3);
                 diagGraphItem->setFlag(QGraphicsItem::ItemIsMovable,true);
@@ -523,7 +561,7 @@ namespace mapcontrol
             compassRose->setScale(0.1+0.05*(qreal)(this->size().width())/1000*(qreal)(this->size().height())/600);
             compassRose->setFlag(QGraphicsItem::ItemIsMovable,false);
             compassRose->setFlag(QGraphicsItem::ItemIsSelectable,false);
-            mscene.addItem(compassRose);
+            scene()->addItem(compassRose);
             compassRose->setTransformOriginPoint(compassRose->boundingRect().width()/2,compassRose->boundingRect().height()/2);
             compassRose->setPos(55-compassRose->boundingRect().width()/2,55-compassRose->boundingRect().height()/2);
             compassRose->setZValue(3);
@@ -550,14 +588,14 @@ namespace mapcontrol
             windCompass->setTransformOriginPoint(windCompass->boundingRect().width()/2, windCompass->boundingRect().height()/2);
             windCompass->setZValue(compassRose->zValue() + 1);
             windCompass->setOpacity(0.70);
-            mscene.addItem(windCompass);
+            scene()->addItem(windCompass);
 
             // Add text
             windspeedTxt = new QGraphicsTextItem();
             windspeedTxt->setDefaultTextColor(QColor("Black"));
             windspeedTxt->setZValue(compassRose->zValue() + 2);
 
-            mscene.addItem(windspeedTxt);
+            scene()->addItem(windspeedTxt);
 
             // Reset and position
             double dummyWind[3] = {0,0,0};
@@ -591,6 +629,7 @@ namespace mapcontrol
         map->setOverlayOpacity(value);
         overlayOpacity=value;
     }
+
     void TLMapWidget::SetRotate(qreal const& value)
     {
         map->mapRotate(value);
@@ -601,6 +640,7 @@ namespace mapcontrol
             windCompass->setRotation(value);
         }
     }
+
     void TLMapWidget::RipMap()
     {
         new MapRipper(core,map->SelectedArea());

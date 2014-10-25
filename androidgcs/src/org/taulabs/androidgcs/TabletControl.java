@@ -83,7 +83,7 @@ public class TabletControl extends ObjectManagerActivity {
     	}
 
     	// Update the POI track button
-    	if (obj != null && (field = obj.getField("TabletPoiTarget")) != null) {
+    	if (obj != null && (field = obj.getField("POI")) != null) {
     		boolean poiTrack = field.getValue().toString().compareTo("True") == 0;
     		ToggleButton poiTrackButton = (ToggleButton) findViewById(R.id.cameraPoiButton);
     		if (poiTrackButton != null)
@@ -155,7 +155,7 @@ public class TabletControl extends ObjectManagerActivity {
 			UAVObject obj = objMngr.getObject("TabletInfo");
 			if (obj == null)
 				return;
-			UAVObjectField field = obj.getField("TabletPoiTarget");
+			UAVObjectField field = obj.getField("POI");
 			if (field == null)
 				return;
 			if (toggle.isChecked())

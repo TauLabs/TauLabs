@@ -3,6 +3,7 @@
  *
  * @file       uavdataobject.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -49,9 +50,16 @@ public:
     virtual UAVDataObject* clone(quint32 instID = 0) = 0;
     virtual UAVDataObject* dirtyClone() = 0;
 
+    bool getIsPresentOnHardware() const;
+    void setIsPresentOnHardware(bool value);
+
+signals:
+    void presentOnHardwareChanged(UAVDataObject*);
+
 private:
     UAVMetaObject* mobj;
     bool isSet;
+    bool isPresentOnHardware;
 
 };
 

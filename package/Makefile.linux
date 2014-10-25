@@ -40,7 +40,31 @@ ALL_DEB_FILES += $(foreach f, $(DEB_MACHINE_FILES), $(DEB_BUILD_DIR)/$(f))
 
 DEB_PACKAGE_NAME	:= taulabs_$(VERSION_FULL)_$(DEB_PLATFORM)
 
-linux_deb_package: deb_build gcs
+QT_PLUGINS_USED		:=imageformats platforms sqldrivers
+
+standalone: gcs
+	@echo $@ starting
+	@echo Copying Qt5 plugins libraries
+	$(V1) mkdir -p "$(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins"
+	$(V1)cp -v -R $(QT_PLUGINS_DIR)/imageformats $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins/
+	$(V1)cp -v -R $(QT_PLUGINS_DIR)/platforms $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins/
+	$(V1) mkdir -p "$(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins/sqldrivers"
+	$(V1)cp -v -R $(QT_PLUGINS_DIR)/sqldrivers/libqsqlite.so $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins/sqldrivers
+	$(V1) mkdir -p "$(ROOT_DIR)/build/ground/gcs/lib/taulabs/qml"
+	$(V1)cp -v -R $(QT_PLUGINS_DIR)/../qml/QtQuick.2 $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qml/
+	$(V1)cp -v -R $(QT_PLUGINS_DIR)/../qml/QtQuick $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qml/
+	@echo Copying platform libraries dependencies
+	$(V1)find $(QT_PLUGINS_DIR)/platforms/ -name '*.so'	| xargs -I '{}' ldd '{}'| sed -e '/^[^\t]/ d; s/^\t\(.* => \)\?\([^ ]*\) (.*/\2/g' \
+	| grep "Qt5" | grep -v "build/ground" | sort | uniq | xargs -I '{}' cp -v -f '{}' $(ROOT_DIR)/build/ground/gcs/lib/taulabs 
+	$(V1)find $(QT_PLUGINS_DIR)/../qml/QtQuick/ -name '*.so'	| xargs -I '{}' ldd '{}'| sed -e '/^[^\t]/ d; s/^\t\(.* => \)\?\([^ ]*\) (.*/\2/g' \
+	| grep "Qt5" | grep -v "build/ground" | sort | uniq | xargs -I '{}' cp -v -f '{}' $(ROOT_DIR)/build/ground/gcs/lib/taulabs 
+	@echo Searching and copying used Qt5 libraries
+	$(V1)find $(ROOT_DIR)/build/ground/gcs/bin/taulabsgcs.bin $(ROOT_DIR)/build/ground/gcs/lib/taulabs/plugins/TauLabs/*.so -exec ldd {} \; \
+	| sed -e '/^[^\t]/ d; s/^\t\(.* => \)\?\([^ ]*\) (.*/\2/g'| grep "Qt5" | grep -v "build/ground" | sort | uniq | xargs -I '{}' cp -v -f '{}' $(ROOT_DIR)/build/ground/gcs/lib/taulabs
+	@echo Copying qt.conf file
+	$(V1)cp -v $(ROOT_DIR)/package/linux/qt.conf $(ROOT_DIR)/build/ground/gcs/bin/
+
+linux_deb_package: deb_build standalone
 	@echo $@ starting
 	cd .. && dpkg-buildpackage -b -us -uc
 	$(V1)mv $(ROOT_DIR)/../$(DEB_PACKAGE_NAME).deb $(BUILD_DIR)
@@ -62,7 +86,7 @@ $(foreach cpfile, $(DEB_CFG_CMN_FILES), $(eval $(call CP_DEB_FILES_TEMPLATE,$(cp
 
 $(foreach cpfile, $(DEB_MACHINE_FILES), $(eval $(call CP_DEB_FILES_TEMPLATE,$(cpfile),$(DEB_BUILD_DIR),$(DEB_MACHINE_DIR))))
 
-gcs: uavobjects
+gcs: uavobjects_gcs
 	@echo "Linux Package Make of GCS."
 	$(V1) $(MAKE) -C $(ROOT_DIR) GCS_BUILD_CONF=release $@
 

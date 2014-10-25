@@ -3,7 +3,7 @@
  *
  * @file       Antennatrackwidget.cpp
  * @author     Sami Korhonen & the OpenPilot team Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup AntennaTrackGadgetPlugin Antenna Track Gadget Plugin
@@ -49,7 +49,7 @@ AntennaTrackWidget::AntennaTrackWidget(QWidget *parent) : QWidget(parent)
 AntennaTrackWidget::~AntennaTrackWidget()
 {
 }
-void AntennaTrackWidget::setPort(QPointer<QextSerialPort> portx)
+void AntennaTrackWidget::setPort(QPointer<QSerialPort> portx)
 {
     port=portx;
 }
@@ -199,7 +199,7 @@ void AntennaTrackWidget::calcAntennaPosition(void)
     if(port->isOpen())
     {
         if(azimuth_old!=azimuth || elevation!=elevation_old)
-            port->write(str3.toAscii());
+            port->write(str3.toLatin1());
         azimuth_old = azimuth;
         elevation_old = elevation;
     }

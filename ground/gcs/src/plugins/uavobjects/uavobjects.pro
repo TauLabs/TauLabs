@@ -20,7 +20,8 @@ SOURCES += uavobject.cpp \
     uavobjectfield.cpp \
     uavobjectsplugin.cpp
 
-OTHER_FILES += UAVObjects.pluginspec
+OTHER_FILES += UAVObjects.pluginspec \
+    UAVObjects.json
 
 # Add in all of the synthetic/generated uavobject files
 HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
@@ -56,6 +57,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/flighttelemetrystats.h \
     $$UAVOBJECT_SYNTHETICS/gcsreceiver.h \
     $$UAVOBJECT_SYNTHETICS/gcstelemetrystats.h \
+    $$UAVOBJECT_SYNTHETICS/geofencesettings.h \
     $$UAVOBJECT_SYNTHETICS/gpsposition.h \
     $$UAVOBJECT_SYNTHETICS/gpssatellites.h \
     $$UAVOBJECT_SYNTHETICS/gpstime.h \
@@ -66,6 +68,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/gyrosbias.h \
     $$UAVOBJECT_SYNTHETICS/homelocation.h \
     $$UAVOBJECT_SYNTHETICS/hottsettings.h \
+    $$UAVOBJECT_SYNTHETICS/hwcolibri.h \
     $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.h \
     $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.h \
     $$UAVOBJECT_SYNTHETICS/hwfreedom.h \
@@ -75,6 +78,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/hwrevolution.h \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.h \
     $$UAVOBJECT_SYNTHETICS/hwsparky.h \
+    $$UAVOBJECT_SYNTHETICS/hwsparkybgc.h \
     $$UAVOBJECT_SYNTHETICS/i2cvm.h \
     $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.h \
     $$UAVOBJECT_SYNTHETICS/inssettings.h \
@@ -97,18 +101,20 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/pathdesired.h \
     $$UAVOBJECT_SYNTHETICS/pathplannersettings.h \
     $$UAVOBJECT_SYNTHETICS/pathstatus.h \
+    $$UAVOBJECT_SYNTHETICS/picocsettings.h \
+    $$UAVOBJECT_SYNTHETICS/picocstatus.h \
     $$UAVOBJECT_SYNTHETICS/poilocation.h \
     $$UAVOBJECT_SYNTHETICS/positionactual.h \
     $$UAVOBJECT_SYNTHETICS/ratedesired.h \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.h \
-    $$UAVOBJECT_SYNTHETICS/relaytuning.h \
-    $$UAVOBJECT_SYNTHETICS/relaytuningsettings.h \
     $$UAVOBJECT_SYNTHETICS/sensorsettings.h \
+    $$UAVOBJECT_SYNTHETICS/sessionmanaging.h \
     $$UAVOBJECT_SYNTHETICS/sonaraltitude.h \
     $$UAVOBJECT_SYNTHETICS/stabilizationdesired.h \
     $$UAVOBJECT_SYNTHETICS/stabilizationsettings.h \
     $$UAVOBJECT_SYNTHETICS/stateestimation.h \
     $$UAVOBJECT_SYNTHETICS/systemstats.h \
+    $$UAVOBJECT_SYNTHETICS/systemident.h \
     $$UAVOBJECT_SYNTHETICS/systemalarms.h \
     $$UAVOBJECT_SYNTHETICS/systemsettings.h \
     $$UAVOBJECT_SYNTHETICS/tabletinfo.h \
@@ -161,6 +167,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/flighttelemetrystats.cpp \
     $$UAVOBJECT_SYNTHETICS/gcsreceiver.cpp \
     $$UAVOBJECT_SYNTHETICS/gcstelemetrystats.cpp \
+    $$UAVOBJECT_SYNTHETICS/geofencesettings.cpp \
     $$UAVOBJECT_SYNTHETICS/gpsposition.cpp \
     $$UAVOBJECT_SYNTHETICS/gpssatellites.cpp \
     $$UAVOBJECT_SYNTHETICS/gpstime.cpp \
@@ -171,6 +178,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/gyrosbias.cpp \
     $$UAVOBJECT_SYNTHETICS/homelocation.cpp \
     $$UAVOBJECT_SYNTHETICS/hottsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwcolibri.cpp \
     $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.cpp \
     $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.cpp \
     $$UAVOBJECT_SYNTHETICS/hwfreedom.cpp \
@@ -180,6 +188,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/hwrevolution.cpp \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.cpp \
     $$UAVOBJECT_SYNTHETICS/hwsparky.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwsparkybgc.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cvm.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.cpp \
     $$UAVOBJECT_SYNTHETICS/inssettings.cpp \
@@ -202,18 +211,20 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/pathdesired.cpp \
     $$UAVOBJECT_SYNTHETICS/pathplannersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/pathstatus.cpp \
+    $$UAVOBJECT_SYNTHETICS/picocsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/picocstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/poilocation.cpp \
     $$UAVOBJECT_SYNTHETICS/positionactual.cpp \
     $$UAVOBJECT_SYNTHETICS/ratedesired.cpp \
     $$UAVOBJECT_SYNTHETICS/receiveractivity.cpp \
-    $$UAVOBJECT_SYNTHETICS/relaytuning.cpp \
-    $$UAVOBJECT_SYNTHETICS/relaytuningsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/sensorsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/sessionmanaging.cpp \
     $$UAVOBJECT_SYNTHETICS/sonaraltitude.cpp \
     $$UAVOBJECT_SYNTHETICS/stabilizationdesired.cpp \
     $$UAVOBJECT_SYNTHETICS/stabilizationsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/stateestimation.cpp \
     $$UAVOBJECT_SYNTHETICS/systemalarms.cpp \
+    $$UAVOBJECT_SYNTHETICS/systemident.cpp \
     $$UAVOBJECT_SYNTHETICS/systemsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/systemstats.cpp \
     $$UAVOBJECT_SYNTHETICS/tabletinfo.cpp \

@@ -28,13 +28,13 @@
 
 #include "uavgadgetdecorator.h"
 #include "iuavgadgetconfiguration.h"
-#include <QtGui/QComboBox>
+#include <QComboBox>
 #include <QtCore/QByteArray>
 #include <QtCore/QDebug>
 
 using namespace Core;
 
-UAVGadgetDecorator::UAVGadgetDecorator(IUAVGadget *gadget, QList<IUAVGadgetConfiguration*> *configurations) :
+UAVGadgetDecorator::UAVGadgetDecorator(IUAVGadget *gadget, QList<IUAVGadgetConfiguration*> *configurations, bool loadDefault) :
         IUAVGadget(gadget->classId(), gadget->parent()),
         m_gadget(gadget),
         m_toolbar(new QComboBox),
@@ -49,7 +49,7 @@ UAVGadgetDecorator::UAVGadgetDecorator(IUAVGadget *gadget, QList<IUAVGadgetConfi
 
     // If a gadget configuration exists, use the first configuration when
     // creating the gadget.
-    if (m_configurations->count() > 0){
+    if ((m_configurations->count() > 0) && loadDefault ){
         // Must call loadConfiguration(), or else GCS crashes when
         // changing widgets using Edit Gadgets mode.
         loadConfiguration(0);

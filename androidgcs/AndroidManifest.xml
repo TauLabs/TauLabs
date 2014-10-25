@@ -56,7 +56,6 @@
 
 		<activity android:name="Preferences" android:label="@string/preference_title" />
 		<activity android:name="Map" android:label="@string/location_name" />
-		<activity android:name="SystemAlarmActivity" android:label="System Alarms" />
 		<activity android:name="TuningActivity" android:label="Tuning" />
 
 		<activity android:name="PathPlanner" android:label="Path Planner" />
@@ -86,6 +85,6 @@
 				android:resource="@xml/telemetry_widget_info" />
 		</receiver>
 
-		<service android:name="org.taulabs.androidgcs.telemetry.OPTelemetryService"></service>
+		<service android:name="org.taulabs.androidgcs.telemetry.TelemetryService"></service>
 	</application>
 </manifest>

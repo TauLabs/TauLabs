@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MixerCurve</class>
- <widget class="QFrame" name="MixerCurve">
+ <class>MixerCurvePlot</class>
+ <widget class="QFrame" name="MixerCurvePlot">
   <property name="geometry">
    <rect>
     <x>0</x>

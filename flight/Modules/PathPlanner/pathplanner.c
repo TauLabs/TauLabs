@@ -6,7 +6,7 @@
  * @{ 
  *
  * @file       pathplanner.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Simple path planner which activates a sequence of waypoints
  *****************************************************************************/
 /*
@@ -38,18 +38,20 @@
 #include "waypoint.h"
 #include "waypointactive.h"
 #include "modulesettings.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 1024
-#define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 #define MAX_QUEUE_SIZE 2
 #define UPDATE_RATE_MS 20
 
 // Private types
 
 // Private variables
-static xTaskHandle taskHandle;
-static xQueueHandle queue;
+static struct pios_thread *taskHandle;
+static struct pios_queue *queue;
 static PathPlannerSettingsData pathPlannerSettings;
 static WaypointActiveData waypointActive;
 static WaypointData waypoint;
@@ -82,7 +84,7 @@ int32_t PathPlannerStart()
 		taskHandle = NULL;
 
 		// Start VM thread
-		xTaskCreate(pathPlannerTask, (signed char *)"PathPlanner", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+		taskHandle = PIOS_Thread_Create(pathPlannerTask, "PathPlanner", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_PATHPLANNER, taskHandle);
 		return 0;
 	}
@@ -115,7 +117,7 @@ int32_t PathPlannerInitialize()
 		WaypointActiveInitialize();
 
 		// Create object queue
-		queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+		queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 		return 0;
 	}
@@ -133,7 +135,7 @@ static void pathPlannerTask(void *parameters)
 	// If the PathStatus isn't available no follower is running and we should abort
 	while (PathStatusHandle() == NULL || !TaskMonitorQueryRunning(TASKINFO_RUNNING_PATHFOLLOWER)) {
 		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_CRITICAL);
-		vTaskDelay(1000);
+		PIOS_Thread_Sleep(1000);
 	}
 	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
 
@@ -154,7 +156,7 @@ static void pathPlannerTask(void *parameters)
 	while (1)
 	{
 
-		vTaskDelay(MS2TICKS(UPDATE_RATE_MS));
+		PIOS_Thread_Sleep(UPDATE_RATE_MS);
 
 		// When not running the path planner short circuit and wait
 		FlightStatusGet(&flightStatus);

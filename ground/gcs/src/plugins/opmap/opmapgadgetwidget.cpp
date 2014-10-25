@@ -28,12 +28,12 @@
 
 #include "opmapgadgetwidget.h"
 #include "ui_opmap_widget.h"
-
-#include <QtGui/QApplication>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QClipboard>
-#include <QtGui/QMenu>
+#include <QInputDialog>
+#include <QApplication>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QClipboard>
+#include <QMenu>
 #include <QStringList>
 #include <QDir>
 #include <QFile>
@@ -60,7 +60,6 @@
 #include "../pathplanner/pathplannergadgetwidget.h"
 #include "../pathplanner/waypointdialog.h"
 
-#define allow_manual_home_location_move
 
 // *************************************************************************************
 
@@ -365,7 +364,7 @@ void OPMapGadgetWidget::contextMenuEvent(QContextMenuEvent *event)
 
     // ****************
     // Dynamically create the popup menu
-
+    QMenu contextMenu;
     contextMenu.addAction(closeAct1);
     contextMenu.addSeparator();
     contextMenu.addAction(reloadAct);
@@ -1326,9 +1325,6 @@ void OPMapGadgetWidget::createActions()
 
     setHomeAct = new QAction(tr("Set the home location"), this);
     setHomeAct->setStatusTip(tr("Set the home location to where you clicked"));
-    #if !defined(allow_manual_home_location_move)
-        setHomeAct->setEnabled(false);
-    #endif
     connect(setHomeAct, SIGNAL(triggered()), this, SLOT(onSetHomeAct_triggered()));
 
     goHomeAct = new QAction(tr("Go to &Home location"), this);
@@ -1807,7 +1803,6 @@ void OPMapGadgetWidget::onOpenWayPointEditorAct_triggered()
     //create dialog
     pathPlannerDialog = new QDialog(this);
     pathPlannerDialog->setModal(true);
-    pathPlannerDialog->show();
 
     //create layout dialog
     QHBoxLayout *dialogLayout = new QHBoxLayout(pathPlannerDialog);
@@ -1815,6 +1810,8 @@ void OPMapGadgetWidget::onOpenWayPointEditorAct_triggered()
     //create elements of dialog
     QPointer<PathPlannerGadgetWidget> widget = new PathPlannerGadgetWidget(pathPlannerDialog);
     dialogLayout->addWidget(widget);
+    pathPlannerDialog->show();
+    pathPlannerDialog->resize(850,300);
 }
 
 void OPMapGadgetWidget::onAddWayPointAct_triggeredFromContextMenu()
@@ -1987,11 +1984,7 @@ void OPMapGadgetWidget::showMagicWaypointControls()
     m_widget->lineWaypoint->setVisible(true);
     m_widget->toolButtonHomeWaypoint->setVisible(true);
 
-    #if defined(allow_manual_home_location_move)
-        m_widget->toolButtonMoveToWP->setVisible(true);
-    #else
-        m_widget->toolButtonMoveToWP->setVisible(false);
-    #endif
+    m_widget->toolButtonMoveToWP->setVisible(true);
 }
 
 // *************************************************************************************
@@ -2174,7 +2167,7 @@ bool OPMapGadgetWidget::setHomeLocationObject()
 		return false;
 
 	double LLA[3] = {m_home_position.coord.Lat(), m_home_position.coord.Lng(), m_home_position.altitude};
-	return (obum->setHomeLocation(LLA, true) >= 0);
+    return (obum->setHomeLocation(LLA, false) >= 0);
 }
 
 // *************************************************************************************

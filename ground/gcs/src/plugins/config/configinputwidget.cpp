@@ -32,10 +32,10 @@
 
 #include <QDebug>
 #include <QStringList>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QMessageBox>
@@ -46,6 +46,9 @@
 #include <coreplugin/generalsettings.h>
 
 #include "actuatorcommand.h"
+
+// The fraction of range to place the neutral position in
+#define THROTTLE_NEUTRAL_FRACTION 0.02
 
 #define ACCESS_MIN_MOVE -3
 #define ACCESS_MAX_MOVE 3
@@ -133,7 +136,6 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     m_config->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     m_renderer = new QSvgRenderer();
     QGraphicsScene *l_scene = m_config->graphicsView->scene();
-    m_config->graphicsView->setBackgroundBrush(QBrush(Utils::StyleHelper::baseColor()));
     if (QFile::exists(":/configgadget/images/TX2.svg") && m_renderer->load(QString(":/configgadget/images/TX2.svg")) && m_renderer->isValid())
     {
         l_scene->clear(); // Deletes all items contained in the scene as well.
@@ -263,6 +265,7 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
         m_txAccess2->setTransform(m_txAccess2Orig,true);
     }
     m_config->graphicsView->fitInView(m_txMainBody, Qt::KeepAspectRatio );
+    m_config->graphicsView->setStyleSheet("background: transparent");
     animate=new QTimer(this);
     connect(animate,SIGNAL(timeout()),this,SLOT(moveTxControls()));
 
@@ -409,6 +412,9 @@ void ConfigInputWidget::wzNext()
         wizardSetUpStep(wizardIdentifyInverted);
         break;
     case wizardIdentifyInverted:
+        wizardSetUpStep(wizardVerifyFailsafe);
+        break;
+    case wizardVerifyFailsafe:
         wizardSetUpStep(wizardFinish);
         break;
     case wizardFinish:
@@ -453,8 +459,11 @@ void ConfigInputWidget::wzBack()
     case wizardIdentifyInverted:
         wizardSetUpStep(wizardIdentifyLimits);
         break;
-    case wizardFinish:
+    case wizardVerifyFailsafe:
         wizardSetUpStep(wizardIdentifyInverted);
+        break;
+    case wizardFinish:
+        wizardSetUpStep(wizardVerifyFailsafe);
         break;
     default:
         Q_ASSERT(0);
@@ -480,7 +489,7 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         previousManualSettingsData = manualSettingsData;
 
         // Now clear all the previous channel settings
-        for (int i = 0; i++; i < ManualControlSettings::CHANNELNUMBER_NUMELEM) {
+        for (uint i = 0; i < ManualControlSettings::CHANNELNUMBER_NUMELEM; i++) {
             manualSettingsData.ChannelNumber[i] = 0;
             manualSettingsData.ChannelMin[i] = 0;
             manualSettingsData.ChannelNeutral[i] = 0;
@@ -495,6 +504,8 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
                                      "You can press 'back' at any time to return to the previous screeen or press 'Cancel' to quit the wizard.\n"));
         m_config->stackedWidget->setCurrentIndex(1);
         m_config->wzBack->setEnabled(false);
+        m_config->wzNext->setEnabled(true);
+        m_config->bypassFailsafeGroup->setVisible(false);
         break;
     case wizardChooseMode:
     {
@@ -571,7 +582,6 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         }
         connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(identifyLimits()));
         connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
-        connect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         connect(accessoryDesiredObj0, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
     }
         break;
@@ -599,10 +609,23 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         m_config->wzText->setText(QString(tr("Please check the picture below and correct all the sticks which show an inverted movement, press next when ready.")));
         fastMdata();
         break;
+    case wizardVerifyFailsafe:
+        restoreMdata(); // make sure other updates do not clobber failsafe
+        dimOtherControls(false);
+        setTxMovement(nothing);
+        extraWidgets.clear();
+        flightStatusObj->requestUpdate();
+        detectFailsafe();
+        failsafeDetection = FS_AWAITING_CONNECTION;
+        connect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(detectFailsafe()));
+        m_config->wzNext->setEnabled(false);
+        m_config->graphicsView->setVisible(false);
+        m_config->bypassFailsafeGroup->setVisible(true);
+        connect(m_config->cbBypassFailsafe,SIGNAL(toggled(bool)), this, SLOT(detectFailsafe()));
+        break;
     case wizardFinish:
         dimOtherControls(false);
         connect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
-        connect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         connect(accessoryDesiredObj0, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         m_config->wzText->setText(QString(tr("You have completed this wizard, please check below if the picture mimics your sticks movement.\n"
                                              "These new settings aren't saved to the board yet, after pressing next you will go to the Arming Settings "
@@ -612,7 +635,7 @@ void ConfigInputWidget::wizardSetUpStep(enum wizardSteps step)
         manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_THROTTLE]=
                 manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE]+
                 ((manualSettingsData.ChannelMax[ManualControlSettings::CHANNELMAX_THROTTLE]-
-                  manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE])*0.02);
+                  manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE])*THROTTLE_NEUTRAL_FRACTION);
         if((abs(manualSettingsData.ChannelMax[ManualControlSettings::CHANNELMAX_FLIGHTMODE]-manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_FLIGHTMODE])<100) ||
                 (abs(manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_FLIGHTMODE]-manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_FLIGHTMODE])<100))
         {
@@ -665,7 +688,7 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
         manualSettingsData=manualSettingsObj->getData();
         for(unsigned int i=0;i<ManualControlCommand::CHANNEL_NUMELEM;++i)
         {
-            manualSettingsData.ChannelNeutral[i]=manualCommandData.Channel[i];
+            manualSettingsData.ChannelNeutral[i] = manualCommandData.Channel[i];
         }
         manualSettingsObj->setData(manualSettingsData);
         setTxMovement(nothing);
@@ -673,7 +696,6 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
     case wizardIdentifyLimits:
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(identifyLimits()));
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
-        disconnect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         disconnect(accessoryDesiredObj0, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         manualSettingsObj->setData(manualSettingsData);
         setTxMovement(nothing);
@@ -692,11 +714,18 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
         extraWidgets.clear();
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         break;
+    case wizardVerifyFailsafe:
+        dimOtherControls(false);
+        extraWidgets.clear();
+        disconnect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(detectFailsafe()));
+        m_config->graphicsView->setVisible(true);
+        m_config->bypassFailsafeGroup->setVisible(false);
+        disconnect(m_config->cbBypassFailsafe,SIGNAL(toggled(bool)), this, SLOT(detectFailsafe()));
+        break;
     case wizardFinish:
         dimOtherControls(false);
         setTxMovement(nothing);
         disconnect(manualCommandObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
-        disconnect(flightStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         disconnect(accessoryDesiredObj0, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(moveSticks()));
         restoreMdata();
         break;
@@ -724,8 +753,7 @@ void ConfigInputWidget::fastMdata()
 
     // Iterate over list of UAVObjects, configuring all dynamic data metadata objects.
     UAVObjectManager *objManager = getObjectManager();
-    QMap<QString, UAVObject::Metadata> metaDataList;
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             if(!obj->isSettings()) {
@@ -734,10 +762,10 @@ void ConfigInputWidget::fastMdata()
 
                 switch(obj->getObjID()){
                     case ReceiverActivity::OBJID:
+                    case FlightStatus::OBJID:
                         UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
                         break;
                     case AccessoryDesired::OBJID:
-                    case FlightStatus::OBJID:
                     case ManualControlCommand::OBJID:
                         UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_PERIODIC);
                         mdata.flightTelemetryUpdatePeriod = fastUpdate;
@@ -753,14 +781,11 @@ void ConfigInputWidget::fastMdata()
                         break;
                 }
 
-                metaDataList.insert(obj->getName(), mdata);
+                // Set the metadata
+                obj->setMetadata(mdata);
             }
         }
     }
-
-    // Set new metadata
-    utilMngr->setAllNonSettingsMetadata(metaDataList);
-
 
 }
 
@@ -769,8 +794,10 @@ void ConfigInputWidget::fastMdata()
   */
 void ConfigInputWidget::restoreMdata()
 {
-    UAVObjectUtilManager* utilMngr = getObjectUtilManager();
-    utilMngr->setAllNonSettingsMetadata(originalMetaData);
+    foreach (QString objName, originalMetaData.keys()) {
+        UAVObject *obj = getObjectManager()->getObject(objName);
+        obj->setMetadata(originalMetaData.value(objName));
+    }
     originalMetaData.clear();
 }
 
@@ -917,6 +944,17 @@ void ConfigInputWidget::identifyLimits()
             if(manualSettingsData.ChannelMin[i]<manualCommandData.Channel[i])
                 manualSettingsData.ChannelMin[i]=manualCommandData.Channel[i];
         }
+
+        if (i == ManualControlSettings::CHANNELNEUTRAL_THROTTLE) {
+            // Keep the throttle neutral position near the minimum value so that
+            // the stick visualization keeps working consistently (it expects this
+            // ratio between + and - range.
+            manualSettingsData.ChannelNeutral[i] = manualSettingsData.ChannelMin[i] +
+                    (manualSettingsData.ChannelMax[i] - manualSettingsData.ChannelMin[i]) * THROTTLE_NEUTRAL_FRACTION;
+        } else {
+            manualSettingsData.ChannelNeutral[i] =
+                    (manualSettingsData.ChannelMin[i] + manualSettingsData.ChannelMax[i]) * 0.5;
+        }
     }
     manualSettingsObj->setData(manualSettingsData);
 }
@@ -1056,10 +1094,10 @@ void ConfigInputWidget::setTxMovement(txMovements movement)
 void ConfigInputWidget::moveTxControls()
 {
     QTransform trans;
-    QGraphicsItem * item;
+    QGraphicsItem * item = NULL;
     txMovementType move = vertical;
-    int limitMax;
-    int limitMin;
+    int limitMax = 0;
+    int limitMin = 0;
     static bool auxFlag=false;
     switch(currentMovement)
     {
@@ -1255,26 +1293,68 @@ void ConfigInputWidget::moveTxControls()
     }
 }
 
+/**
+ * @brief ConfigInputWidget::detectFailsafe
+ * Detect that the FlightStatus object indicates a Failsafe condition
+ */
+void ConfigInputWidget::detectFailsafe()
+{
+    FlightStatus::DataFields flightStatusData = flightStatusObj->getData();
+    switch (failsafeDetection)
+    {
+    case FS_AWAITING_CONNECTION:
+        if (flightStatusData.ControlSource == FlightStatus::CONTROLSOURCE_TRANSMITTER) {
+            m_config->wzText->setText(QString(tr("To verify that the failsafe mode on your receiver is safe, please turn off your transmitter now.\n")));
+            failsafeDetection = FS_AWAITING_FAILSAFE;    // Now wait for it to go away
+        } else {
+            m_config->wzText->setText(QString(tr("Unable to detect transmitter to verify failsafe. Please ensure it is turned on.\n")));
+        }
+        break;
+    case FS_AWAITING_FAILSAFE:
+        if (flightStatusData.ControlSource == FlightStatus::CONTROLSOURCE_FAILSAFE) {
+            m_config->wzText->setText(QString(tr("Failsafe mode detected. Please turn on your transmitter again.\n")));
+            failsafeDetection = FS_AWAITING_RECONNECT;    // Now wait for it to go away
+        }
+        break;
+    case FS_AWAITING_RECONNECT:
+        if (flightStatusData.ControlSource == FlightStatus::CONTROLSOURCE_TRANSMITTER) {
+            m_config->wzText->setText(QString(tr("Congratulations. Failsafe detection appears to be working reliably.\n")));
+            m_config->wzNext->setEnabled(true);
+        }
+        break;
+    }
+    if (m_config->cbBypassFailsafe->checkState()) {
+        m_config->wzText->setText(QString(tr("You are selecting to bypass failsafe detection. If this is not working, then the flight controller is likely to fly away. Please check on the forums how to configure this properly.\n")));
+        m_config->wzNext->setEnabled(true);
+    }
+}
+
 void ConfigInputWidget::moveSticks()
 {
     QTransform trans;
     manualCommandData = manualCommandObj->getData();
-    flightStatusData=flightStatusObj->getData();
     accessoryDesiredData0=accessoryDesiredObj0->getData();
     accessoryDesiredData1=accessoryDesiredObj1->getData();
     accessoryDesiredData2=accessoryDesiredObj2->getData();
 
+    // 0 for throttle is THROTTLE_NEUTRAL_FRACTION of the total range
+    // here we map it from [-1,0,1] -> [0,THROTTLE_NEUTRAL_FRACTION,1]
+    double throttlePosition = manualCommandData.Throttle < 0 ?
+                0 + THROTTLE_NEUTRAL_FRACTION * (1 - manualCommandData.Throttle) :
+                THROTTLE_NEUTRAL_FRACTION + manualCommandData.Throttle * (1-THROTTLE_NEUTRAL_FRACTION);
+    // now map [0,1] -> [-1,1] for consistence with other channels
+    throttlePosition = 2 * throttlePosition - 1;
     if(transmitterMode == mode2)
     {
         trans = m_txLeftStickOrig;
-        m_txLeftStick->setTransform(trans.translate(manualCommandData.Yaw * STICK_MAX_MOVE*10, -manualCommandData.Throttle * STICK_MAX_MOVE * 10), false);
+        m_txLeftStick->setTransform(trans.translate(manualCommandData.Yaw * STICK_MAX_MOVE*10, -throttlePosition * STICK_MAX_MOVE * 10), false);
         trans = m_txRightStickOrig;
         m_txRightStick->setTransform(trans.translate(manualCommandData.Roll * STICK_MAX_MOVE * 10, manualCommandData.Pitch * STICK_MAX_MOVE * 10), false);
     }
     else
     {
         trans = m_txRightStickOrig;
-        m_txRightStick->setTransform(trans.translate(manualCommandData.Roll * STICK_MAX_MOVE * 10, -manualCommandData.Throttle * STICK_MAX_MOVE * 10), false);
+        m_txRightStick->setTransform(trans.translate(manualCommandData.Roll * STICK_MAX_MOVE * 10, -throttlePosition * STICK_MAX_MOVE * 10), false);
         trans = m_txLeftStickOrig;
         m_txLeftStick->setTransform(trans.translate(manualCommandData.Yaw * STICK_MAX_MOVE * 10, manualCommandData.Pitch * STICK_MAX_MOVE*10), false);
     }
@@ -1352,6 +1432,13 @@ void ConfigInputWidget::invertControls()
                 aux=manualSettingsData.ChannelMax[index];
                 manualSettingsData.ChannelMax[index]=manualSettingsData.ChannelMin[index];
                 manualSettingsData.ChannelMin[index]=aux;
+                if (index == ManualControlSettings::CHANNELNEUTRAL_THROTTLE) {
+                    // Keep the throttle neutral position near the minimum value so that
+                    // the stick visualization keeps working consistently (it expects this
+                    // ratio between + and - range.
+                    manualSettingsData.ChannelNeutral[index] = manualSettingsData.ChannelMin[index] +
+                            (manualSettingsData.ChannelMax[index] - manualSettingsData.ChannelMin[index]) * THROTTLE_NEUTRAL_FRACTION;
+                }
             }
         }
     }
@@ -1399,7 +1486,7 @@ quint8 ConfigInputWidget::scaleSwitchChannel(quint8 channelNumber, quint8 switch
 
     // Convert channel value into the switch position in the range [0..N-1]
     // This uses the same optimized computation as flight code to be consistent
-    quint8 pos = ((int16_t)(valueScaled * 256) + 256) * switchPositions >> 9;
+    quint8 pos = ((qint16)(valueScaled * 256) + 256) * switchPositions >> 9;
     if (pos >= switchPositions)
         pos = switchPositions - 1;
     return pos;
@@ -1526,10 +1613,10 @@ void ConfigInputWidget::simpleCalibration(bool enable)
                 manualSettingsData.ChannelMin[ManualControlSettings::CHANNELNUMBER_FLIGHTMODE]) / 2;
 
         // Force throttle to be near min
-        manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_THROTTLE]=
-                manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE]+
-                ((manualSettingsData.ChannelMax[ManualControlSettings::CHANNELMAX_THROTTLE]-
-                  manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE])*0.02);
+        manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_THROTTLE] =
+                manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE] +
+                (manualSettingsData.ChannelMax[ManualControlSettings::CHANNELMAX_THROTTLE] -
+                  manualSettingsData.ChannelMin[ManualControlSettings::CHANNELMIN_THROTTLE]) * THROTTLE_NEUTRAL_FRACTION;
 
         manualSettingsObj->setData(manualSettingsData);
 

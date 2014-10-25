@@ -180,7 +180,7 @@ bool UAVConfigInfo::askToAbort(int compat, QString message)
     msgBox.setInformativeText(tr("Do you want to continue the import?"));
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
 
-    int result;
+    int result = 0;
 
     switch(compat){
 
@@ -213,7 +213,7 @@ bool UAVConfigInfo::askToAbort(int compat, QString message)
         return true;
 
     default:
-        msgBox.setText("INTERNAL ERROR: " + message + tr("Unknown compatibility level: " + compat));
+        msgBox.setText("INTERNAL ERROR: " + message + tr("Unknown compatibility level: ") + QString::number(compat));
     }
     if ( result == QMessageBox::Ok )
         return false;

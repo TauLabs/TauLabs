@@ -68,7 +68,8 @@ GLC_Factory* GLC_Factory::instance()
 // Protected constructor
 GLC_Factory::GLC_Factory()
 {
-	loadPlugins();
+    //disabled for qt5 merge, was causing segfault on win
+    //loadPlugins();
 }
 
 // Destructor

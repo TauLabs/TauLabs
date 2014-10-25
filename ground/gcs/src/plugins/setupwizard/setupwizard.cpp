@@ -29,8 +29,8 @@
  */
 
 #include "setupwizard.h"
-#include "pages/startpage.h"
-#include "pages/endpage.h"
+#include "pages/tlstartpage.h"
+#include "pages/tlendpage.h"
 #include "pages/boardtype_unknown.h"
 #include "pages/controllerpage.h"
 #include "pages/vehiclepage.h"
@@ -52,6 +52,8 @@
 #include "actuatorsettings.h"
 #include "pages/autoupdatepage.h"
 #include "uploader/uploadergadgetfactory.h"
+
+using namespace uploader;
 
 SetupWizard::SetupWizard(QWidget *parent) : QWizard(parent), VehicleConfigurationSource(),
     m_controllerType(NULL),
@@ -280,7 +282,7 @@ QString SetupWizard::getSummaryText()
 
 void SetupWizard::createPages()
 {
-    setPage(PAGE_START, new StartPage(this));
+    setPage(PAGE_START, new TLStartPage(this));
     setPage(PAGE_UPDATE, new AutoUpdatePage(this));
     setPage(PAGE_CONTROLLER, new ControllerPage(this));
     setPage(PAGE_VEHICLES, new VehiclePage(this));
@@ -298,7 +300,7 @@ void SetupWizard::createPages()
     setPage(PAGE_REBOOT, new RebootPage(this));
     setPage(PAGE_NOTYETIMPLEMENTED, new NotYetImplementedPage(this));
     setPage(PAGE_BOARDTYPE_UNKNOWN, new BoardtypeUnknown(this));
-    setPage(PAGE_END, new EndPage(this));
+    setPage(PAGE_END, new TLEndPage(this));
 
     setStartId(PAGE_START);
 

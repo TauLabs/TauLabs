@@ -3,6 +3,7 @@
  *
  * @file       antennatrackwidget.h
  * @author     Sami Korhonen & the OpenPilot team Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup AntennaTrackGadgetPlugin Antenna Track Gadget Plugin
@@ -34,7 +35,7 @@
 #include <QGraphicsView>
 #include <QtSvg/QSvgRenderer>
 #include <QtSvg/QGraphicsSvgItem>
-#include <qextserialport/src/qextserialport.h>
+#include <QtSerialPort/QSerialPort>
 #include <QPointer>
 
 class Ui_AntennaTrackWidget;
@@ -58,7 +59,7 @@ public:
     AntennaTrackWidget(QWidget *parent = 0);
    ~AntennaTrackWidget();
    TrackData_t TrackData;
-   void setPort(QPointer<QextSerialPort> portx);
+   void setPort(QPointer<QSerialPort> portx);
 
 private slots:
    void setPosition(double, double, double);
@@ -68,7 +69,7 @@ private slots:
 private:
    void calcAntennaPosition(void);
    QGraphicsSvgItem * marker;
-   QPointer<QextSerialPort> port;
+   QPointer<QSerialPort> port;
    double azimuth_old;
    double elevation_old;
 };

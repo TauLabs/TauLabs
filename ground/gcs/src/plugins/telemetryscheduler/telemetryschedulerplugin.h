@@ -33,6 +33,9 @@ class TelemetrySchedulerGadgetFactory;
 
 class TelemetrySchedulerPlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TelemetryScheduler.plugins.Config." FILE "telemetryscheduler.json")
+
 public:
     TelemetrySchedulerPlugin();
    ~TelemetrySchedulerPlugin();

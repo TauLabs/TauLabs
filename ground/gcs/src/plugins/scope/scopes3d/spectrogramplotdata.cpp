@@ -151,7 +151,7 @@ bool SpectrogramData::append(UAVObject* multiObj)
 
 
         // Get list of object instances
-        QVector<UAVObject*> list = objManager->getObjectInstances(multiObj->getName());
+        QVector<UAVObject*> list = objManager->getObjectInstancesVector(multiObj->getName());
 
         // Remove a row's worth of data.
         unsigned int spectrogramWidth = list.size();

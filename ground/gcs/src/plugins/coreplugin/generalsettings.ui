@@ -7,16 +7,31 @@
     <x>0</x>
     <y>0</y>
     <width>536</width>
-    <height>322</height>
+    <height>441</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>General settings</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <property name="topMargin">
+       <number>1</number>
+      </property>
+      <property name="bottomMargin">
+       <number>1</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>2</number>
+      </property>
       <item row="1" column="0">
        <widget class="QLabel" name="colorLabel">
         <property name="text">
@@ -24,10 +39,26 @@
         </property>
        </widget>
       </item>
+      <item row="14" column="1">
+       <widget class="QCheckBox" name="cbExpertMode">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="1">
        <widget class="QWidget" name="widget" native="true">
         <layout class="QGridLayout" name="gridLayout_2">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item row="0" column="1">
@@ -82,20 +113,19 @@
       <item row="9" column="1">
        <widget class="QWidget" name="widget_2" native="true">
         <layout class="QGridLayout" name="gridLayout_3">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
         </layout>
-       </widget>
-      </item>
-      <item row="10" column="1">
-       <widget class="QCheckBox" name="checkBoxSaveOnExit">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
        </widget>
       </item>
       <item row="10" column="0">
@@ -108,12 +138,12 @@
         </property>
        </widget>
       </item>
-      <item row="11" column="0">
-       <widget class="QLabel" name="label_5">
+      <item row="10" column="1">
+       <widget class="QCheckBox" name="checkBoxSaveOnExit">
         <property name="text">
-         <string>Automatically connect a Tau Labs USB device:</string>
+         <string/>
         </property>
-        <property name="wordWrap">
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
@@ -128,6 +158,20 @@
         </property>
        </widget>
       </item>
+      <item row="14" column="0">
+       <widget class="QLabel" name="labelExpert">
+        <property name="text">
+         <string>Expert Mode</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Language:</string>
+        </property>
+       </widget>
+      </item>
       <item row="12" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
@@ -135,6 +179,30 @@
         </property>
         <property name="wordWrap">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="1">
+       <widget class="QCheckBox" name="cbUseUDPMirror">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Automatically connect a Tau Labs USB device:</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="QLabel" name="labelUDP">
+        <property name="text">
+         <string>Use UDP Mirror</string>
         </property>
        </widget>
       </item>
@@ -148,34 +216,6 @@
         </property>
         <property name="checked">
          <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="1">
-       <widget class="QCheckBox" name="cbUseUDPMirror">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="0">
-       <widget class="QLabel" name="labelUDP">
-        <property name="text">
-         <string>Use UDP Mirror</string>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="0">
-       <widget class="QLabel" name="labelExpert">
-        <property name="text">
-         <string>Expert Mode</string>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="1">
-       <widget class="QCheckBox" name="cbExpertMode">
-        <property name="text">
-         <string/>
         </property>
        </widget>
       </item>
@@ -199,10 +239,114 @@
         </item>
        </layout>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_3">
+      <item row="15" column="1">
+       <widget class="QCheckBox" name="cbSessionMessaging">
         <property name="text">
-         <string>Language:</string>
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>Session Managing</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Proxy Settings</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5">
+      <property name="topMargin">
+       <number>1</number>
+      </property>
+      <property name="bottomMargin">
+       <number>1</number>
+      </property>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Hostname</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>User (leave blank if not needed)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="hostNameLE">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="portLE">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Type</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Port</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QComboBox" name="proxyTypeCB"/>
+        </item>
+       </layout>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Password (leave blank if not needed)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="userLE">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="passwordLE">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -232,6 +376,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="core.qrc"/>
   <include location="core.qrc"/>
  </resources>
  <connections/>

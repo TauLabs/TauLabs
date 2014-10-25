@@ -30,6 +30,8 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 		<field name="FlexiPort" units="function" type="enum" elements="1"  defaultvalue="Disabled">
@@ -50,12 +52,14 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 		<field name="RadioPort" units="function" type="enum" elements="1" options="Disabled,Telemetry" defaultvalue="Disabled"/>
 
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
-		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>
+		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
 
 		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
 

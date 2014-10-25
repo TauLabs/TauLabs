@@ -113,6 +113,11 @@ int32_t configuration_check()
 					error_code = SYSTEMALARMS_CONFIGERROR_STABILIZATION;
 				}
 				break;
+			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_ACRO:
+			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_LEVELING:
+			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_VIRTUALBAR:
+				// always ok
+				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_STABILIZED1:
 				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(1, multirotor) : error_code;
 				break;
@@ -230,8 +235,7 @@ static int32_t check_stabilization_settings(int index, bool multirotor)
 			// If this axis allows enabling an autotune behavior without the module
 			// running then set an alarm now that aututune module initializes the
 			// appropriate objects
-			if ((modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYRATE || 
-				modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_RELAYATTITUDE) &&
+			if ((modes[i] == MANUALCONTROLSETTINGS_STABILIZATION1SETTINGS_SYSTEMIDENT) &&
 				(!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE)))
 				return SYSTEMALARMS_CONFIGERROR_AUTOTUNE;
 		}
@@ -270,6 +274,9 @@ static int32_t check_safe_to_arm()
 	if (flightStatus.Armed != FLIGHTSTATUS_ARMED_ARMED) {
 		switch (flightStatus.FlightMode) {
 			case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
+			case FLIGHTSTATUS_FLIGHTMODE_ACRO:
+			case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
+			case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
 			case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 			case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
 			case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:

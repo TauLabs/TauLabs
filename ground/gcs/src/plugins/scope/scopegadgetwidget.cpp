@@ -51,9 +51,9 @@
 #include <QDebug>
 #include <QColor>
 #include <QStringList>
-#include <QtGui/QWidget>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include <QMutexLocker>
 #include <QWheelEvent>
 
@@ -416,5 +416,6 @@ void ScopeGadgetWidget::startTimer(int refreshInterval){
             replotTimer->start(refreshInterval);
         else
             replotTimer->setInterval(refreshInterval);
+
     }
 }

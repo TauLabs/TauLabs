@@ -26,7 +26,16 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>12</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>12</number>
+   </property>
+   <property name="bottomMargin">
     <number>12</number>
    </property>
    <item>
@@ -39,7 +48,16 @@
        <string>Pre-Autotune</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
+       <property name="topMargin">
+        <number>12</number>
+       </property>
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <property name="bottomMargin">
         <number>12</number>
        </property>
        <item row="2" column="0" colspan="3">
@@ -60,27 +78,27 @@
              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Lucida Grande'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600; color:#ff0000;&quot;&gt;WARNING:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This is an experimental plugin for the GCS that is going to make your aircraft shake violently, so test with lots of space and be &lt;span style=&quot; font-weight:600;&quot;&gt;extremely wary&lt;/span&gt; for it creating bad tuning values.  Basically there is no reason to think this will work at all.&lt;br /&gt;&lt;br /&gt;To use autotuning, here are the steps. Read and understand them all before going flying.&lt;br /&gt;&lt;/p&gt;
-&lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Go to https://vimeo.com/57907478 and watch the autotuning tutorial.&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;On the &lt;span style=&quot; font-style:italic;&quot;&gt;Input configuration&lt;/span&gt; tab, &lt;span style=&quot; font-style:italic;&quot;&gt;Flight Mode Switch Settings&lt;/span&gt;, set one of your flight modes to &amp;quot;Autotune&amp;quot;.&lt;/li&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Click the &lt;span style=&quot; font-style:italic;&quot;&gt;Enable Autotune Module&lt;/span&gt; checkbox above this text, click S&lt;span style=&quot; font-style:italic;&quot;&gt;ave,&lt;/span&gt; and reboot the autopilot.&lt;br /&gt;&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Take off, change flight mode to autotune, and focus on keeping the UAV in the air while it's shaking.&lt;/li&gt;
-&lt;ol type=&quot;a&quot; style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 2;&quot;&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In the first few seconds, nothing will happen...&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;then the UAV will abrupty increase power and start rolling right and left for around 30 seconds...&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;then the UAV will start pitching forward and backwards for about 30 seconds...&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;then finally the UAV will abrupty reduce power and oscillations will stop. The flight phase is completed.&lt;/li&gt;&lt;/ol&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Land and disarm.  (Note - you &lt;span style=&quot; font-weight:600;&quot;&gt;MUST&lt;/span&gt; stay in autotune mode through this point, leaving autotune before disarming aborts the process.) Once you disarm, leave autotune mode. Do not power off or otherwise reboot the controller board, or else you will have to repeat the procedure.&lt;br /&gt;&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;On the &lt;span style=&quot; font-style:italic;&quot;&gt;Stabilization&lt;/span&gt; configuration screen, check your settings before trying them out (i.e., compare to what you currently use. If they are vastly different, this is probably a good indication bad things will happen).&lt;br /&gt;&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Test fly the new settings. Remember to leave autotune flight mode before taking off.&lt;/li&gt;
-&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Once you are happy with the vehicle's tuning, click &lt;span style=&quot; font-style:italic;&quot;&gt;Save&lt;/span&gt;. You may now power down the controller board.&lt;/li&gt;&lt;/ol&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Once you have understood the above steps, begin the procedure. Advanced users can proceed to the &lt;span style=&quot; font-style:italic;&quot;&gt;Autotune Setup&lt;/span&gt; tab for more options.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:20pt; font-weight:600; color:#ff0000;&quot;&gt;WARNING:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;This is an advanced plugin for the GCS that is going to make your aircraft shake automatically, so test with lots of space and be &lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt; font-weight:600;&quot;&gt;extremely wary&lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt; for it creating bad tuning values.  Basically there is no reason to think this will work at all.&lt;br /&gt;&lt;br /&gt;To use autotuning, here are the steps. Read and understand them all before going flying.&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Go to https://vimeo.com/104806460 and watch the autotuning tutorial.&lt;/li&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;On the &lt;span style=&quot; font-style:italic;&quot;&gt;Input configuration&lt;/span&gt; tab, &lt;span style=&quot; font-style:italic;&quot;&gt;Flight Mode Switch Settings&lt;/span&gt;, set one of your flight modes to &amp;quot;Autotune&amp;quot;.&lt;/li&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Click the &lt;span style=&quot; font-style:italic;&quot;&gt;Enable Autotune Module&lt;/span&gt; checkbox above this text, click S&lt;span style=&quot; font-style:italic;&quot;&gt;ave,&lt;/span&gt; and reboot the autopilot.&lt;br /&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Take off, change flight mode to autotune, and focus on keeping the UAV in the air while it's shaking.&lt;/li&gt;
+&lt;ol type=&quot;a&quot; style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 2;&quot;&gt;&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In the first few seconds, nothing will happen...&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;then the UAV will start twitching for about 60 seconds. It will still respond to your inputs and moving the sticks won't hurt.&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;then finally the twitching will stop. The flight phase is completed.&lt;/li&gt;&lt;/ol&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Land and disarm while still in Autotune mode. At this point, your settings are saved. You can power off the controller if needed.&lt;br /&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Connect to GCS and check the values on the autotune setup page. If you like them, then click Apply Computed Values. &lt;span style=&quot; font-weight:600;&quot;&gt;For extreme values a prompt will ask if you want to continue. Check your settings carefully in this case.&lt;/span&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;On the &lt;span style=&quot; font-style:italic;&quot;&gt;Stabilization&lt;/span&gt; configuration screen, check your settings before trying them out (i.e., compare to what you currently use. If they are vastly different, this is an indication to be wary. If you feel confident in them, then click apply.&lt;br /&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Test fly the new settings. Remember to leave autotune flight mode before taking off.&lt;/li&gt;
+&lt;li style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot; style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Once you are happy with the vehicle's tuning, reconnect to GCS and return to the Stabilization Settings. Click &lt;span style=&quot; font-style:italic;&quot;&gt;Save&lt;/span&gt;. You may now power down the controller board.&lt;/li&gt;&lt;/ol&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;Once you have understood the above steps, begin the procedure. Advanced users can proceed to the &lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt; font-style:italic;&quot;&gt;Autotune Setup&lt;/span&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt; tab for more options.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -101,6 +119,102 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="spacing">
+             <number>4</number>
+            </property>
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>13</width>
+                <height>25</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="stabilizationReloadBoardData_6">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Reloads the saved settings into GCS. Useful if you have accidentally changed some settings.</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Reload Board Data</string>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>button:reload</string>
+                <string>buttongroup:10</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="saveStabilizationToRAM_6">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Send settings to the board but do not save to the non-volatile memory</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Apply</string>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>button:apply</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="saveStabilizationToSD_6">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Send settings to the board and save to the non-volatile memory</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Save</string>
+              </property>
+              <property name="objrelation" stdset="0">
+               <stringlist>
+                <string>button:save</string>
+               </stringlist>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
         </widget>
        </item>
@@ -111,7 +225,16 @@ p, li { white-space: pre-wrap; }
        <string>Autotune Setup</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -194,8 +317,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>808</width>
-            <height>657</height>
+            <width>810</width>
+            <height>704</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -211,70 +334,52 @@ p, li { white-space: pre-wrap; }
            <property name="spacing">
             <number>12</number>
            </property>
-           <property name="margin">
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
             <number>12</number>
            </property>
            <item>
-            <widget class="QGroupBox" name="groupBox">
-             <property name="title">
-              <string>Tuning Aggressiveness</string>
+            <widget class="QLabel" name="label_20">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <layout class="QGridLayout" name="gridLayout_2">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label">
-                <property name="text">
-                 <string>Rate Tuning:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>Attitude Tuning:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QSlider" name="rateTuning">
-                <property name="maximum">
-                 <number>100</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="objrelation" stdset="0">
-                 <stringlist>
-                  <string>objname:RelayTuningSettings</string>
-                  <string>fieldname:RateGain</string>
-                  <string>scale:0.01</string>
-                  <string>haslimits:no</string>
-                 </stringlist>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QSlider" name="attitudeTuning">
-                <property name="maximum">
-                 <number>100</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="objrelation" stdset="0">
-                 <stringlist>
-                  <string>objname:RelayTuningSettings</string>
-                  <string>fieldname:AttitudeGain</string>
-                  <string>scale:0.01</string>
-                  <string>haslimits:no</string>
-                 </stringlist>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+&lt;ul&gt;
+&lt;li&gt;Decrease the damping slider to make your aircraft response more rapidly. Increase it for more stability.&lt;/li&gt; &lt;li&gt;Increasing the noise sensitivity slider will make your aircraft respond more rapidly, but will cause twitches due to nose.&lt;/li&gt;
+&lt;li&gt;Default values should fly well.
+  &lt;ul&gt;
+   &lt;li&gt;Use damping 1.3 and noise sensitivity 0.8 for very smooth flight&lt;/li&gt;
+   &lt;li&gt;Use damping 1.0 and noise sensitivity 1.3 for very snappy flight&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item>
             <widget class="QGroupBox" name="groupBox_3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
              <property name="title">
               <string>Measured Properties</string>
              </property>
@@ -287,23 +392,6 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLabel" name="measuredRollPeriod">
-                <property name="text">
-                 <string>0</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-                <property name="objrelation" stdset="0">
-                 <stringlist>
-                  <string>objname:RelayTuning</string>
-                  <string>fieldname:Period</string>
-                  <string>element:Roll</string>
-                 </stringlist>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
                <widget class="QLabel" name="measuredRollGain">
                 <property name="text">
                  <string>0</string>
@@ -313,36 +401,15 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
-                  <string>objname:RelayTuning</string>
-                  <string>fieldname:Gain</string>
+                  <string>objname:SystemIdent</string>
+                  <string>fieldname:Beta</string>
                   <string>element:Roll</string>
                  </stringlist>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="label_6">
-                <property name="text">
-                 <string>Period (ms)</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_7">
-                <property name="text">
-                 <string>Gain (deg/s) / output</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_8">
-                <property name="text">
-                 <string>Pitch</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLabel" name="measuredPitchPeriod">
+              <item row="1" column="2">
+               <widget class="QLabel" name="measuredRollBias">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -351,14 +418,28 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
-                  <string>objname:RelayTuning</string>
-                  <string>fieldname:Period</string>
-                  <string>element:Pitch</string>
+                  <string>objname:SystemIdent</string>
+                  <string>fieldname:Bias</string>
+                  <string>element:Roll</string>
                  </stringlist>
                 </property>
                </widget>
               </item>
-              <item row="2" column="2">
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_6">
+                <property name="text">
+                 <string>Gain</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>Pitch</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
                <widget class="QLabel" name="measuredPitchGain">
                 <property name="text">
                  <string>0</string>
@@ -368,8 +449,100 @@ p, li { white-space: pre-wrap; }
                 </property>
                 <property name="objrelation" stdset="0">
                  <stringlist>
-                  <string>objname:RelayTuning</string>
-                  <string>fieldname:Gain</string>
+                  <string>objname:SystemIdent</string>
+                  <string>fieldname:Beta</string>
+                  <string>element:Pitch</string>
+                 </stringlist>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="2">
+               <widget class="QLabel" name="measuredPitchBias">
+                <property name="text">
+                 <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <property name="objrelation" stdset="0">
+                 <stringlist>
+                  <string>objname:SystemIdent</string>
+                  <string>fieldname:Bias</string>
+                  <string>element:Pitch</string>
+                 </stringlist>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLabel" name="rollTau">
+                <property name="text">
+                 <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Bias</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="QLabel" name="pitchTau">
+                <property name="text">
+                 <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Tau (s)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="4">
+               <widget class="QLabel" name="label_16">
+                <property name="text">
+                 <string>Noise</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="4">
+               <widget class="QLabel" name="measuredRollNoise">
+                <property name="text">
+                 <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <property name="objrelation" stdset="0">
+                 <stringlist>
+                  <string>objname:SystemIdent</string>
+                  <string>fieldname:Noise</string>
+                  <string>element:Roll</string>
+                 </stringlist>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="4">
+               <widget class="QLabel" name="measuredPitchNoise">
+                <property name="text">
+                 <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <property name="objrelation" stdset="0">
+                 <stringlist>
+                  <string>objname:SystemIdent</string>
+                  <string>fieldname:Noise</string>
                   <string>element:Pitch</string>
                  </stringlist>
                 </property>
@@ -379,7 +552,121 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="title">
+              <string>Tuning Aggressiveness</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_2">
+              <item row="1" column="2">
+               <widget class="QLabel" name="lblDamp">
+                <property name="text">
+                 <string>1.1</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLabel" name="lblNoise">
+                <property name="text">
+                 <string>1.0</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QSlider" name="rateNoise">
+                <property name="minimum">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <number>30</number>
+                </property>
+                <property name="singleStep">
+                 <number>1</number>
+                </property>
+                <property name="value">
+                 <number>10</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QSlider" name="rateDamp">
+                <property name="minimum">
+                 <number>50</number>
+                </property>
+                <property name="maximum">
+                 <number>150</number>
+                </property>
+                <property name="value">
+                 <number>110</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Noise sensitivity</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Damping</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>Natural frequency</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLabel" name="wn">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>10</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QGroupBox" name="groupBox_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
              <property name="title">
               <string>Computed Values</string>
              </property>
@@ -391,15 +678,71 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item row="0" column="3">
-               <widget class="QLabel" name="label_10">
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_18">
                 <property name="text">
-                 <string>AttitudeKp</string>
+                 <string>Derivative cutoff</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="rollRateKi">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="pitchRateKp">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_19">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QLabel" name="derivativeCutoff">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>Roll</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QLabel" name="pitchRateKd">
+                <property name="text">
+                 <string>0</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="2">
                <widget class="QLabel" name="pitchRateKi">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>RateKd</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLabel" name="rollRateKd">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -426,57 +769,15 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item row="0" column="4">
-               <widget class="QLabel" name="label_11">
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_15">
                 <property name="text">
-                 <string>AttitudeKi</string>
+                 <string>Outer Kp</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_4">
-                <property name="text">
-                 <string>Roll</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QLabel" name="rollAttitudeKp">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="4">
-               <widget class="QLabel" name="pitchAttitudeKi">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="3">
-               <widget class="QLabel" name="pitchAttitudeKp">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLabel" name="pitchRateKp">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QLabel" name="rollRateKi">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="4">
-               <widget class="QLabel" name="rollAttitudeKi">
+              <item row="4" column="1">
+               <widget class="QLabel" name="lblOuterKp">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -487,13 +788,28 @@ p, li { white-space: pre-wrap; }
            </item>
            <item>
             <widget class="QGroupBox" name="groupBox_4">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="title">
               <string/>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <property name="spacing">
+               <number>1</number>
+              </property>
+              <property name="topMargin">
+               <number>1</number>
+              </property>
+              <property name="bottomMargin">
+               <number>1</number>
+              </property>
               <item>
                <layout class="QGridLayout" name="gridLayout_4">
-                <item row="0" column="1" colspan="2">
+                <item row="0" column="2" colspan="2">
                  <widget class="QPushButton" name="useComputedValues">
                   <property name="styleSheet">
                    <string notr="true"/>
@@ -503,32 +819,7 @@ p, li { white-space: pre-wrap; }
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="1">
-                 <widget class="QLabel" name="label_21">
-                  <property name="text">
-                   <string>Step Size</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QSlider" name="stepSizeSlider">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="objrelation" stdset="0">
-                   <stringlist>
-                    <string>objname:RelayTuningSettings</string>
-                    <string>fieldname:Amplitude</string>
-                    <string>scale:0.01</string>
-                    <string>haslimits:no</string>
-                   </stringlist>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="3">
+                <item row="0" column="1">
                  <spacer name="horizontalSpacer">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
@@ -541,30 +832,23 @@ p, li { white-space: pre-wrap; }
                   </property>
                  </spacer>
                 </item>
-                <item row="1" column="0">
-                 <spacer name="horizontalSpacer_2">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                <item row="0" column="0">
+                 <widget class="QPushButton" name="shareDataPB">
+                  <property name="text">
+                   <string>Share Data on the forum</string>
                   </property>
-                  <property name="sizeHint" stdset="0">
+                  <property name="icon">
+                   <iconset resource="configgadget.qrc">
+                    <normaloff>:/configgadget/images/share-2-icon.png</normaloff>:/configgadget/images/share-2-icon.png</iconset>
+                  </property>
+                  <property name="iconSize">
                    <size>
-                    <width>40</width>
-                    <height>20</height>
+                    <width>30</width>
+                    <height>30</height>
                    </size>
                   </property>
-                 </spacer>
-                </item>
-                <item row="2" column="0" colspan="4">
-                 <widget class="QLabel" name="label_22">
-                  <property name="text">
-                   <string>
-If you feel that the model could be a little more or less snappy, then slide the
- Rate Tuning and Attitude Tuning sliders to the right and left, respectively.
-Click Apply Computer Values and do a test flight.
-</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
+                  <property name="flat">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -572,19 +856,6 @@ Click Apply Computer Values and do a test flight.
               </item>
              </layout>
             </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>77</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
@@ -594,105 +865,10 @@ Click Apply Computer Values and do a test flight.
      </widget>
     </widget>
    </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="spacing">
-      <number>4</number>
-     </property>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>13</width>
-         <height>25</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="stabilizationReloadBoardData_6">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Reloads the saved settings into GCS.
-Useful if you have accidentally changed some settings.</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>Reload Board Data</string>
-       </property>
-       <property name="objrelation" stdset="0">
-        <stringlist>
-         <string>button:reload</string>
-         <string>buttongroup:10</string>
-        </stringlist>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="saveStabilizationToRAM_6">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Send settings to the board but do not save to the non-volatile memory</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>Apply</string>
-       </property>
-       <property name="objrelation" stdset="0">
-        <stringlist>
-         <string>button:apply</string>
-        </stringlist>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="saveStabilizationToSD_6">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Send settings to the board and save to the non-volatile memory</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>Save</string>
-       </property>
-       <property name="objrelation" stdset="0">
-        <stringlist>
-         <string>button:save</string>
-        </stringlist>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="configgadget.qrc"/>
+ </resources>
  <connections/>
 </ui>

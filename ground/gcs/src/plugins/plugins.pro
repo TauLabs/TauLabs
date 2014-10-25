@@ -82,24 +82,20 @@ SUBDIRS += plugin_uavobjectbrowser
 
 # ModelView UAVGadget
 !LIGHTWEIGHT_GCS {
- !macx {
-  plugin_modelview.subdir = modelview
-  plugin_modelview.depends = plugin_coreplugin
-  plugin_modelview.depends += plugin_uavobjects
-  SUBDIRS += plugin_modelview
- }
+plugin_modelview.subdir = modelview
+plugin_modelview.depends = plugin_coreplugin
+plugin_modelview.depends += plugin_uavobjects
+SUBDIRS += plugin_modelview
 }
 
-#Qt 4.8.0 / phonon may crash on Mac, fixed in Qt 4.8.1, QTBUG-23128
-macx:contains(QT_VERSION, ^4\\.8\\.0): CONFIG += disable_notify_plugin
-# Notify gadget
-!disable_notify_plugin {
-    plugin_notify.subdir = notify
-    plugin_notify.depends = plugin_coreplugin
-    plugin_notify.depends += plugin_uavobjects
-    plugin_notify.depends += plugin_uavtalk
-    SUBDIRS += plugin_notify
-}
+# Notify gadget NEEDS PHONON UPGRADED TO QT5
+#!disable_notify_plugin {
+#    plugin_notify.subdir = notify
+#    plugin_notify.depends = plugin_coreplugin
+#    plugin_notify.depends += plugin_uavobjects
+#    plugin_notify.depends += plugin_uavtalk
+#    SUBDIRS += plugin_notify
+#}
 
 # Uploader gadget
 plugin_uploader.subdir = uploader
@@ -165,6 +161,12 @@ plugin_pathplanner.subdir = pathplanner
 plugin_pathplanner.depends = plugin_coreplugin
 plugin_pathplanner.depends += plugin_uavobjects
 SUBDIRS += plugin_pathplanner
+
+# PicoC gadget
+plugin_picoc.subdir = picoc
+plugin_picoc.depends = plugin_coreplugin
+plugin_picoc.depends += plugin_uavobjects
+SUBDIRS += plugin_picoc
 
 # Telemetry Scheduler gadget
 plugin_telemetryscheduler.subdir = telemetryscheduler
@@ -242,10 +244,10 @@ KML {
 }
 
 # Antenna tracker
-#plugin_antennatrack.subdir = antennatrack
-#plugin_antennatrack.depends = plugin_coreplugin
-#plugin_antennatrack.depends += plugin_uavobjects
-#SUBDIRS += plugin_antennatrack
+plugin_antennatrack.subdir = antennatrack
+plugin_antennatrack.depends = plugin_coreplugin
+plugin_antennatrack.depends += plugin_uavobjects
+SUBDIRS += plugin_antennatrack
 
 # Scope OpenGL Gadget
 #plugin_scopeogl.subdir = scopeogl
@@ -315,8 +317,8 @@ SUBDIRS += plugin_sysalarmsmessaging
 
 # Tau Labs project
 plugin_boards_taulabs.subdir = boards_taulabs
-plugin_boards_taulabs.depends = plugin_coreplugin
-plugin_boards_taulabs.depends = plugin_uavobjects
+plugin_boards_taulabs.depends += plugin_coreplugin
+plugin_boards_taulabs.depends += plugin_uavobjects
 SUBDIRS += plugin_boards_taulabs
 
 # OpenPilot project
@@ -324,6 +326,8 @@ plugin_boards_openpilot.subdir = boards_openpilot
 plugin_boards_openpilot.depends = plugin_coreplugin
 plugin_boards_openpilot.depends = plugin_uavobjects
 plugin_boards_openpilot.depends = plugin_uavobjectutil
+plugin_boards_openpilot.depends += plugin_uavobjectwidgetutils
+
 SUBDIRS += plugin_boards_openpilot
 
 # Quantec Networks GmbH
@@ -331,6 +335,14 @@ plugin_boards_quantec.subdir = boards_quantec
 plugin_boards_quantec.depends = plugin_coreplugin
 plugin_boards_quantec.depends = plugin_uavobjects
 SUBDIRS += plugin_boards_quantec
+
+# Team Black Sheep
+plugin_boards_tbs.subdir = boards_tbs
+plugin_boards_tbs.depends = plugin_coreplugin
+plugin_boards_tbs.depends = plugin_uavobjects
+plugin_boards_tbs.depends = plugin_uavobjectutil
+plugin_boards_tbs.depends += plugin_uavobjectwidgetutils
+SUBDIRS += plugin_boards_tbs
 
 # STM boards
 plugin_boards_stm.subdir = boards_stm

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
-import org.taulabs.androidgcs.telemetry.OPTelemetryService.TelemTask;
+import org.taulabs.androidgcs.telemetry.TelemetryService.TelemTask;
 import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
 import org.taulabs.uavtalk.UAVObject;
 

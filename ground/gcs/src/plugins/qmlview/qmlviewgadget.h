@@ -26,7 +26,7 @@
  */
 
 #ifndef QMLVIEWGADGET_H_
-#define QMLVIEWQMLGADGET_H_
+#define QMLVIEWGADGET_H_
 
 #include <coreplugin/iuavgadget.h>
 #include "qmlviewgadgetwidget.h"
@@ -45,11 +45,21 @@ public:
     QmlViewGadget(QString classId, QmlViewGadgetWidget *widget, QWidget *parent = 0);
     ~QmlViewGadget();
 
-    QWidget *widget() { return m_widget; }
+    QWidget *widget() {
+        if (!m_container) {
+            m_container = QWidget::createWindowContainer(m_widget, m_parent);
+            m_container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+            m_container->setMinimumSize(64, 64);
+        }
+        return m_container;
+    }
+
     void loadConfiguration(IUAVGadgetConfiguration* config);
 
 private:
     QmlViewGadgetWidget *m_widget;
+    QWidget *m_container;
+    QWidget *m_parent;
 };
 
 

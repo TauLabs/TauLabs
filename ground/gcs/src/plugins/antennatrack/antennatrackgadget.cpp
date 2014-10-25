@@ -3,6 +3,7 @@
  *
  * @file       AntennaTracgadget.cpp
  * @author     Sami Korhonen & the OpenPilot team Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup AntennaTrackGadgetPlugin Antenna Track Gadget Plugin
@@ -28,11 +29,13 @@
 #include "antennatrackgadget.h"
 #include "antennatrackwidget.h"
 #include "antennatrackgadgetconfiguration.h"
+#include "../gpsdisplay/gpsdisplaygadgetconfiguration.h" /* For struct PortSettings declaration */
+
 
 AntennaTrackGadget::AntennaTrackGadget(QString classId, AntennaTrackWidget *widget, QWidget *parent) :
         IUAVGadget(classId, parent),
         m_widget(widget),
-        connected(FALSE)
+        connected(false)
 {
     connect(m_widget->connectButton, SIGNAL(clicked(bool)), this,SLOT(onConnect()));
     connect(m_widget->disconnectButton, SIGNAL(clicked(bool)), this,SLOT(onDisconnect()));
@@ -74,17 +77,16 @@ void AntennaTrackGadget::loadConfiguration(IUAVGadgetConfiguration* config)
     m_widget->connectButton->setEnabled(false);
     m_widget->disconnectButton->setEnabled(false);
 
-    QList<QextPortInfo> ports = QextSerialEnumerator::getPorts();
-    foreach( QextPortInfo nport, ports ) {
-        if(nport.friendName == AntennaTrackConfig->port())
-        {
+    QList<QSerialPortInfo> ports = QSerialPortInfo::availablePorts();
+    foreach( QSerialPortInfo nport, ports ) {
+      if (nport.portName() == AntennaTrackConfig->port()) {
             qDebug() << "Using Serial port";
             //parser = new NMEAParser();
 
 #ifdef Q_OS_WIN
-            port=new QextSerialPort(nport.portName,portsettings,QextSerialPort::EventDriven);
+            port=new QSerialPort(nport);
 #else
-            port=new QextSerialPort(nport.physName,portsettings,QextSerialPort::EventDriven);
+            port=new QSerialPort(nport);
 #endif
             m_widget->setPort(port);
             m_widget->connectButton->setEnabled(true);

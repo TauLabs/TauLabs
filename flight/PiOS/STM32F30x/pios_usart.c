@@ -38,6 +38,10 @@
 
 #if defined(PIOS_INCLUDE_USART)
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 #include <pios_usart_priv.h>
 
 /* Provide a COM driver */
@@ -183,6 +187,11 @@ int32_t PIOS_USART_Init(uintptr_t * usart_id, const struct pios_usart_cfg * cfg)
 		USART_SWAPPinCmd(usart_dev->cfg->regs, ENABLE);
 	else
 		USART_SWAPPinCmd(usart_dev->cfg->regs, DISABLE);
+
+	if (usart_dev->cfg->single_wire == true)
+		USART_HalfDuplexCmd(usart_dev->cfg->regs, ENABLE);
+	else
+		USART_HalfDuplexCmd(usart_dev->cfg->regs, DISABLE);
 
 	/* Configure the USART */
 	USART_Init(usart_dev->cfg->regs, (USART_InitTypeDef *)&usart_dev->cfg->init);
@@ -348,7 +357,7 @@ static void PIOS_USART_generic_irq_handler(uintptr_t usart_id)
 	}
 	
 #if defined(PIOS_INCLUDE_FREERTOS)
-	portEND_SWITCHING_ISR(rx_need_yield || tx_need_yield);
+	portEND_SWITCHING_ISR((rx_need_yield || tx_need_yield) ? pdTRUE : pdFALSE);
 #endif	/* PIOS_INCLUDE_FREERTOS */
 }
 

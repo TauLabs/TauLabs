@@ -38,6 +38,9 @@ class GCSControlGadgetFactory;
 
 class GCSControlWidgetPlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.GCSControlPlugin" FILE "GCSControlWidget.json")
+
 public:
     GCSControlWidgetPlugin();
    ~GCSControlWidgetPlugin();

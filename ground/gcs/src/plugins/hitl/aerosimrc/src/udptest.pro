@@ -1,6 +1,6 @@
 include(../../../../../gcs.pri)
 
-QT += core gui network
+QT += core gui network widgets
 
 TEMPLATE = app
 TARGET = udp_test

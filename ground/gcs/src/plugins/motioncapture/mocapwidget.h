@@ -29,7 +29,7 @@
 #ifndef MOCAPWIDGET_H
 #define MOCAPWIDGET_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QProcess>
 #include "exporter.h"
 

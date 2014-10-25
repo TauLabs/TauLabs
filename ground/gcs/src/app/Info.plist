@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
+<?xml version=1.0 encoding=UTF-8?>
+<!DOCTYPE plist PUBLIC -//Apple//DTD PLIST 1.0//EN http://www.apple.com/DTDs/PropertyList-1.0.dtd>
+<plist version=1.0>
 <dict>
 	<key>CFBundleDocumentTypes</key>
 	<array>
@@ -35,13 +35,13 @@
 	<key>CFBundleGetInfoString</key>
 	<string>Tau Labs GCS; Copyright Tau Labs</string>
 	<key>CFBundleIconFile</key>
-	<string>@ICON@</string>
+	<string>taulabs.icns</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
-	<string>@TYPEINFO@</string>
+	<string>????</string>
 	<key>CFBundleExecutable</key>
-	<string>@EXECUTABLE@</string>
+	<string></string>
 	<key>CFBundleIdentifier</key>
 	<string>org.taulabs.gcs</string>
 	<key>CFBundleVersion</key>

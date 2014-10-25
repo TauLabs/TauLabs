@@ -139,8 +139,8 @@ void USBMonitor::setUpNotifications( )
     ZeroMemory(&dbh, sizeof(dbh));
     dbh.dbcc_size = sizeof(dbh);
     dbh.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
-    CopyMemory(&dbh.dbcc_classguid, &guid_hid, sizeof(GUID));
-    if( RegisterDeviceNotification( notificationWidget->winId( ), &dbh, DEVICE_NOTIFY_WINDOW_HANDLE ) == NULL)
+    ::CopyMemory(&dbh.dbcc_classguid, &guid_hid, sizeof(GUID));
+    if( RegisterDeviceNotification( (HWND)notificationWidget->winId( ), &dbh, DEVICE_NOTIFY_WINDOW_HANDLE ) == NULL)
         qWarning() << "RegisterDeviceNotification failed:" << GetLastError();
     // setting up notifications doesn't tell us about devices already connected
     // so get those manually
@@ -166,8 +166,9 @@ LRESULT USBMonitor::onDeviceChangeWin( WPARAM wParam, LPARAM lParam )
     return 0;
 }
 #ifdef QT_GUI_LIB
-bool USBRegistrationWidget::winEvent( MSG* message, long* result )
+bool USBRegistrationWidget::nativeEvent(const QByteArray & /*eventType*/, void *msg, long *result)
 {
+    MSG *message = static_cast<MSG *>(msg);
     if ( message->message == WM_DEVICECHANGE ) {
         qese->onDeviceChangeWin( message->wParam, message->lParam );
         *result = 1;

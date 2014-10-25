@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>169</width>
-    <height>96</height>
+    <width>194</width>
+    <height>120</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,12 +26,22 @@
      <property name="text">
       <string>Show Categorized</string>
      </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item>
     <widget class="QCheckBox" name="cbScientific">
      <property name="text">
       <string>Show Scientific</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="cbHideNotPresent">
+     <property name="text">
+      <string>Only show existing UAVOs</string>
      </property>
     </widget>
    </item>

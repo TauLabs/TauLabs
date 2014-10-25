@@ -489,7 +489,7 @@ lib3ds_node_read(Lib3dsNode *node, Lib3dsFile *file, Lib3dsIo *io)
 {
   Lib3dsChunk c;
   Lib3dsWord chunk;
-  (void)file;
+
   ASSERT(node);
   if (!lib3ds_chunk_read_start(&c, 0, io)) {
     return(LIB3DS_FALSE);

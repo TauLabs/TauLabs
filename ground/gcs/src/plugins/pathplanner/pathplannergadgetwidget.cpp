@@ -27,14 +27,13 @@
 #include "waypointdialog.h"
 #include "waypointdelegate.h"
 #include "ui_pathplanner.h"
-
 #include <QFileDialog>
 #include <QString>
 #include <QStringList>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
 
 #include "algorithms/pathfillet.h"
 #include "extensionsystem/pluginmanager.h"
@@ -43,7 +42,7 @@ PathPlannerGadgetWidget::PathPlannerGadgetWidget(QWidget *parent) : QLabel(paren
 {
     ui = new Ui_PathPlanner();
     ui->setupUi(this);
-
+    ui->statusTL->setVisible(false);
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     FlightDataModel *model = pm->getObject<FlightDataModel>();
     Q_ASSERT(model);
@@ -74,6 +73,8 @@ void PathPlannerGadgetWidget::setModel(FlightDataModel *model, QItemSelectionMod
     ui->tableView->resizeColumnsToContents();
 
     ui->tableView->resizeColumnsToContents();
+
+    connect(proxy, SIGNAL(sendPathPlanToUavProgress(int)), this, SLOT(on_waypointSendProgress(int)));
 }
 
 void PathPlannerGadgetWidget::on_tbAdd_clicked()
@@ -130,7 +131,17 @@ void PathPlannerGadgetWidget::on_tbDetails_clicked()
  */
 void PathPlannerGadgetWidget::on_tbSendToUAV_clicked()
 {
-    proxy->modelToObjects();
+    enableButtons(false);
+    ui->statusTL->setVisible(false);
+    ui->statusPB->setValue(0);
+    bool result;
+    result = proxy->modelToObjects();
+    if(result)
+        ui->statusTL->setText("All waypoints were sent successfully");
+    else
+        ui->statusTL->setText("WARNING: Not all waypoints were sent successfully");
+    ui->statusTL->setVisible(true);
+    enableButtons(true);
 }
 
 /**
@@ -174,6 +185,19 @@ void PathPlannerGadgetWidget::on_tbUnfilletPath_clicked()
 {
     if (prevModel)
         model->replaceData(prevModel);
+}
+
+void PathPlannerGadgetWidget::on_waypointSendProgress(int value)
+{
+    ui->statusPB->setValue(value);
+}
+
+void PathPlannerGadgetWidget::enableButtons(bool enable)
+{
+    QList<QToolButton*> blist = this->findChildren<QToolButton*>();
+    foreach (QToolButton * button, blist) {
+        button->setEnabled(enable);
+}
 }
 
 /**

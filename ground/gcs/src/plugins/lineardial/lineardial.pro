@@ -17,6 +17,7 @@ SOURCES += lineardialgadgetfactory.cpp
 SOURCES += lineardialgadgetwidget.cpp
 SOURCES += lineardialgadgetconfiguration.cpp
 SOURCES += lineardialgadgetoptionspage.cpp
-OTHER_FILES += LineardialGadget.pluginspec
+OTHER_FILES += LineardialGadget.pluginspec \
+    LineardialGadget.json
 FORMS += lineardialgadgetoptionspage.ui
 RESOURCES += lineardial.qrc

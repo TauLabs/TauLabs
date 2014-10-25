@@ -73,7 +73,7 @@ public abstract class TelemetryTask implements Runnable {
 	protected Handler handler;
 
 	//! Handle to the parent service
-	protected final OPTelemetryService telemService;
+	protected final TelemetryService telemService;
 
 	//! The object manager that will be used for this telemetry task
 	protected UAVObjectManager objMngr;
@@ -114,7 +114,7 @@ public abstract class TelemetryTask implements Runnable {
 	//! Generate audio alerts based on object updates
 	private final AudioTask audioTask = new AudioTask();
 
-	TelemetryTask(OPTelemetryService s) {
+	TelemetryTask(TelemetryService s) {
 		telemService = s;
 		shutdown = false;
 		connected = false;
@@ -137,7 +137,7 @@ public abstract class TelemetryTask implements Runnable {
 	boolean attemptSucceeded() {
 
 		Intent intent = new Intent();
-		intent.setAction(OPTelemetryService.INTENT_CHANNEL_OPENED);
+		intent.setAction(TelemetryService.INTENT_CHANNEL_OPENED);
 		telemService.sendBroadcast(intent,null);
 
 		// Create a new object manager and register all objects
@@ -293,7 +293,7 @@ public abstract class TelemetryTask implements Runnable {
 			if (DEBUG) Log.d(TAG, "Mon updated. Connected: " + mon.getConnected() + " objects updated: " + mon.getObjectsUpdated());
 			if(mon.getConnected()) {
 				Intent intent = new Intent();
-				intent.setAction(OPTelemetryService.INTENT_ACTION_CONNECTED);
+				intent.setAction(TelemetryService.INTENT_ACTION_CONNECTED);
 				telemService.sendBroadcast(intent,null);
 			}
 		}
@@ -324,8 +324,8 @@ public abstract class TelemetryTask implements Runnable {
 		return uavTalk;
 	}
 
-	public OPTelemetryService.TelemTask getTelemTaskIface() {
-		return new OPTelemetryService.TelemTask() {
+	public TelemetryService.TelemTask getTelemTaskIface() {
+		return new TelemetryService.TelemTask() {
 			@Override
 			public UAVObjectManager getObjectManager() {
 				return objMngr;

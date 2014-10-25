@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       telemetryschedulergadgetwidget.cpp
- * @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2013-2014.
  * @addtogroup Telemetry Scheduler GCS Plugins
  * @{
  * @addtogroup TelemetrySchedulerGadgetPlugin Telemetry Scheduler Gadget Plugin
@@ -39,11 +39,11 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QScrollBar>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
-#include <QtCore/QFileInfo>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QFileInfo>
 #include <QInputDialog>
 
 #include "extensionsystem/pluginmanager.h"
@@ -55,7 +55,7 @@
 #include "../../../../../build/ground/gcs/gcsversioninfo.h"
 #include <coreplugin/coreconstants.h>
 #include <coreplugin/generalsettings.h>
-
+#include <QMenu>
 
 TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) : QWidget(parent)
 {
@@ -74,7 +74,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     telemetryScheduleView->setObjectName(QString::fromUtf8("telemetryScheduleView"));
     telemetryScheduleView->setAlternatingRowColors(true);
     telemetryScheduleView->horizontalHeader()->setCascadingSectionResizes(false);
-    telemetryScheduleView->horizontalHeader()->setMovable(true);
+    telemetryScheduleView->horizontalHeader()->setSectionsMovable(true);
 
 
     // The dummy table exists only to force the other widgets into the correct place.
@@ -85,7 +85,7 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     m_telemetryeditor->gridLayout->removeWidget(m_telemetryeditor->tableWidgetDummy);
     m_telemetryeditor->tableWidgetDummy->setVisible(false);
     m_telemetryeditor->gridLayout->addWidget(telemetryScheduleView, row, col, rowSpan, colSpan);
-
+    connect(m_telemetryeditor->hideNotPresent, SIGNAL(clicked(bool)), this, SLOT(onHideNotPresent(bool)));
     // Sets the fields in the table to spinboxes
     SpinBoxDelegate *delegate = new SpinBoxDelegate();
     telemetryScheduleView->setItemDelegate(delegate);
@@ -98,23 +98,33 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     connect(m_telemetryeditor->bnAddTelemetryColumn, SIGNAL(clicked()), this, SLOT(addTelemetryColumn()));
     connect(m_telemetryeditor->bnRemoveTelemetryColumn, SIGNAL(clicked()), this, SLOT(removeTelemetryColumn()));
     connect(schedulerModel, SIGNAL(itemChanged(QStandardItem *)), this, SLOT(dataModel_itemChanged(QStandardItem *)));
-    connect(telemetryScheduleView->horizontalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeHorizontalHeader(int)));
-    connect(telemetryScheduleView->verticalHeader(),SIGNAL(sectionDoubleClicked(int)), this,SLOT(changeVerticalHeader(int)));
+    connect(telemetryScheduleView->horizontalHeader(), SIGNAL(sectionDoubleClicked(int)), this, SLOT(changeHorizontalHeader(int)));
+    connect(telemetryScheduleView->verticalHeader(), SIGNAL(sectionDoubleClicked(int)), this, SLOT(changeVerticalHeader(int)));
+    connect(telemetryScheduleView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customMenuRequested(QPoint)));
+    telemetryScheduleView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     // Generate the list of UAVOs on left side
     objManager = pm->getObject<UAVObjectManager>();
     Q_ASSERT(objManager != NULL);
 
-    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
-    int rowIndex = 1;
+    QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
+    QStringList strList;
     foreach (QVector<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            if(!obj->isSettings()) {
-                schedulerModel->setVerticalHeaderItem(rowIndex, new QStandardItem(obj->getName()));
-                rowHeaders << obj->getName();
-                rowIndex++;
+            if(!list.first()->isSettings()) {
+                strList.append(list.first()->getName());
+                connect(list.first(), SIGNAL(presentOnHardwareChanged(UAVDataObject*)), this, SLOT(uavoPresentOnHardwareChanged(UAVDataObject*)), Qt::UniqueConnection);
             }
-        }
+    }
+    strList.sort(Qt::CaseInsensitive);
+    int rowIndex = 1;
+    foreach (QString str, strList) {
+            schedulerModel->setVerticalHeaderItem(rowIndex, new QStandardItem(str));
+            UAVObject *obj = objManager->getObject(str);
+            Q_ASSERT(obj);
+            UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
+            Q_ASSERT(dobj);
+            uavoIndex.insert(dobj,rowIndex);
+            rowIndex++;
     }
 
     // Set the bandwidth required header
@@ -139,31 +149,32 @@ TelemetrySchedulerGadgetWidget::TelemetrySchedulerGadgetWidget(QWidget *parent) 
     // 1) Populate the "Current" column with live update rates. 2) Connect these values to
     // the current metadata. 3) Populate the default column.
     rowIndex = 1;
-    foreach (QVector<UAVDataObject*> list, objList) {
-        foreach (UAVDataObject* obj, list) {
-            if(!obj->isSettings()) {
-                // Add defaults
-                UAVObject::Metadata mdataDefault = obj->getDefaultMetadata();
-                QModelIndex index = schedulerModel->index(rowIndex,0, QModelIndex());
-                schedulerModel->setData(index, QString("%1ms").arg(mdataDefault.flightTelemetryUpdatePeriod));
+    foreach (QString objStr, strList) {
+        // Add defaults
+        UAVObject *obj = objManager->getObject(objStr);
+        Q_ASSERT(obj);
+        UAVObject::Metadata mdataDefault = obj->getDefaultMetadata();
+        QModelIndex index = schedulerModel->index(rowIndex,0, QModelIndex());
+        schedulerModel->setData(index, QString("%1ms").arg(mdataDefault.flightTelemetryUpdatePeriod));
 
-                // Save default metadata for later use
-                defaultMdata.insert(obj->getName().append("Meta"), mdataDefault);
+        // Save default metadata for later use
+        defaultMdata.insert(obj->getName().append("Meta"), mdataDefault);
 
-                // Connect live values to the "Current" column
-                UAVMetaObject *mobj = obj->getMetaObject();
-                connect(mobj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateCurrentColumn(UAVObject*)));
+        // Connect live values to the "Current" column
+        UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
+        Q_ASSERT(dobj);
+        UAVMetaObject *mobj = dobj->getMetaObject();
+        connect(mobj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateCurrentColumn(UAVObject*)));
 
-                // Updates the "Current" column with the live value
-                updateCurrentColumn(mobj);
-
-                rowIndex++;
-            }
-        }
+        // Updates the "Current" column with the live value
+        updateCurrentColumn(mobj);
+        rowIndex++;
     }
 
     // Populate combobox
+    m_telemetryeditor->cmbScheduleList->addItem("");
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
+    onHideNotPresent(true);
 }
 
 
@@ -216,30 +227,44 @@ void TelemetrySchedulerGadgetWidget::updateCurrentColumn(UAVObject *obj)
     }
 }
 
-
+/**
+ * @brief Called when an item of the model is changed
+ * @param item the item that was changed
+ */
 void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(QStandardItem *item)
 {
+    m_telemetryeditor->bnSaveSchedule->setIcon(QIcon());
+    m_telemetryeditor->bnApplySchedule->setIcon(QIcon());
     int col = item->column();
+    dataModel_itemChanged(col);
+}
 
+/**
+ * @brief Recalculates the bandwith required for a given column (value presented on the horizontal header)
+ */
+void TelemetrySchedulerGadgetWidget::dataModel_itemChanged(int col)
+{
     // Update the speed estimate
     double bandwidthRequired_bps = 0;
     for (int i=1; i<schedulerModel->rowCount(); i++){
         // Get UAVO size
         QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
         UAVObject *obj = objManager->getObject(uavObjectName);
+        UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
+        if(dobj && m_telemetryeditor->hideNotPresent->isChecked() && (!dobj->getIsPresentOnHardware()))
+            continue;
         Q_ASSERT(obj);
         quint16 size = obj->getNumBytes();
 
         // Get UAVO speed
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
         double updatePeriod_s;
-        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) > 0)
+        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) >= 0)
             updatePeriod_s = stripMs(schedulerModel->data(index)) / 1000.0;
         else
             updatePeriod_s = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod / 1000.0;
 
         double updateFrequency_Hz = updatePeriod_s > 0 ? 1.0 / updatePeriod_s : 0;
-
 
         // Accumulate bandwidth
         bandwidthRequired_bps += updateFrequency_Hz * size;
@@ -256,11 +281,12 @@ void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
 {
     QString file = filename;
     QString filter = tr("Telemetry Scheduler file (*.xml)");
-    file = QFileDialog::getSaveFileName(0, tr("Save Telemetry Schedule to file .."), QFileInfo(file).absoluteFilePath(), filter).trimmed();
+    file = QFileDialog::getSaveFileName(0, tr("Save Telemetry Schedule to file .."), QFileInfo(file).absoluteFilePath(), filter, &filter).trimmed();
     if (file.isEmpty()) {
         return;
     }
-
+    if(!file.endsWith(".xml",Qt::CaseInsensitive))
+        file.append(".xml");
     filename = file;
 
     // Create an XML document from UAVObject database
@@ -323,7 +349,7 @@ void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
         // save file
         QFile file(filename);
         if (file.open(QIODevice::WriteOnly) &&
-                (file.write(xml.toAscii()) != -1)) {
+                (file.write(xml.toLatin1()) != -1)) {
             file.close();
         } else {
             QMessageBox::critical(0,
@@ -344,11 +370,17 @@ void TelemetrySchedulerGadgetWidget::saveTelemetryToFile()
 
 /**
  * @brief TelemetrySchedulerGadgetWidget::applySchedule Uploads new settings to board
+ * @returns list of the metaobjects which were actually applied
  */
-void TelemetrySchedulerGadgetWidget::applySchedule()
+QList<UAVMetaObject*> TelemetrySchedulerGadgetWidget::applySchedule()
 {
     int col = -1;
-
+    QList<UAVMetaObject*> metaList;
+    if (m_telemetryeditor->cmbScheduleList->currentText().isEmpty())
+    {
+       QMessageBox::warning(this, tr("No Schedule selected"), tr("Please select a schedule on the dropbox to the left and retry"), QMessageBox::Ok);
+       return metaList;
+    }
     // Iterate over the list of columns, looking for the selected schedule
     for (int j=0; j<schedulerModel->columnCount(); j++){
         if (schedulerModel->horizontalHeaderItem(j)->text() == m_telemetryeditor->cmbScheduleList->currentText()){
@@ -360,32 +392,44 @@ void TelemetrySchedulerGadgetWidget::applySchedule()
     // This shouldn't be possible. Leaving the check in just in case.
     if (col == -1){
         Q_ASSERT(0);
-        return;
+        return metaList;
     }
-
     QMap<QString, UAVObject::Metadata> metaDataList;
     for (int i=1; i<schedulerModel->rowCount(); i++) {
         // Get UAVO name and metadata
         QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
         UAVObject *obj = objManager->getObject(uavObjectName);
+        UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
+        if(dobj && !(dobj->getIsPresentOnHardware()))
+            continue;
         UAVObject::Metadata mdata = obj->getMetadata();
 
         // Get update period
         double updatePeriod_ms;
         QModelIndex index = schedulerModel->index(i, col, QModelIndex());
-        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) > 0) {
+        if (schedulerModel->data(index).isValid() && stripMs(schedulerModel->data(index)) >= 0) {
             updatePeriod_ms = stripMs(schedulerModel->data(index));
-        } else {
-            updatePeriod_ms = defaultMdata.value(obj->getName().append("Meta")).flightTelemetryUpdatePeriod;
+            mdata.flightTelemetryUpdatePeriod = updatePeriod_ms;
+            metaDataList.insert(uavObjectName, mdata);
+            metaList.append(dobj->getMetaObject());
         }
-
-        // Set new update rate value
-        mdata.flightTelemetryUpdatePeriod = updatePeriod_ms;
-        metaDataList.insert(uavObjectName, mdata);
     }
 
     // Set new metadata
+    if(sender() == m_telemetryeditor->bnApplySchedule)
+    {
+        connect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), this, SLOT(onCompletedMetadataWrite(bool)));
+        m_telemetryeditor->bnApplySchedule->setIcon(QIcon(":/uploader/images/system-run.svg"));
+    }
+    else
+    {
+        connect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), this, SLOT(onSavedSchedule(bool)));
+        m_telemetryeditor->bnSaveSchedule->setIcon(QIcon(":/uploader/images/system-run.svg"));
+    }
+    m_telemetryeditor->bnApplySchedule->setEnabled(false);
+    m_telemetryeditor->bnSaveSchedule->setEnabled(false);
     getObjectUtilManager()->setAllNonSettingsMetadata(metaDataList);
+    return metaList;
 }
 
 /**
@@ -394,16 +438,70 @@ void TelemetrySchedulerGadgetWidget::applySchedule()
 void TelemetrySchedulerGadgetWidget::saveSchedule()
 {
     // Make sure we are saving the selected schedule
-    applySchedule();
+    metaObjectsToSave = applySchedule();
+}
 
-    for (int i=1; i<schedulerModel->rowCount(); i++) {
-        // Get UAVO name and metadata
-        QString uavObjectName = schedulerModel->verticalHeaderItem(i)->text();
-        UAVDataObject * obj = dynamic_cast<UAVDataObject*>(objManager->getObject(uavObjectName));
-        if (obj) {
-            UAVMetaObject * meta = obj->getMetaObject();
-            getObjectUtilManager()->saveObjectToFlash(meta);
+void TelemetrySchedulerGadgetWidget::onSavedSchedule(bool value)
+{
+    disconnect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), this, SLOT(onSavedSchedule(bool)));
+    if(metaObjectsToSave.isEmpty())
+    {
+        m_telemetryeditor->bnSaveSchedule->setIcon(QIcon(":/uploader/images/dialog-apply.svg"));
+        return;
+    }
+    if(!value)
+    {
+        m_telemetryeditor->bnSaveSchedule->setIcon(QIcon(":/uploader/images/process-stop.svg"));
+        return;
+    }
+    connect(getObjectUtilManager(), SIGNAL(saveCompleted(int,bool)), this, SLOT(onCompletedMetadataSave(int, bool)));
+    onCompletedMetadataSave(-1,true);
+    foreach (UAVMetaObject* meta, metaObjectsToSave)
+    {
+        getObjectUtilManager()->saveObjectToFlash(meta);
+    }
+}
+
+void TelemetrySchedulerGadgetWidget::onCompletedMetadataWrite(bool value)
+{
+    if(value)
+        m_telemetryeditor->bnApplySchedule->setIcon(QIcon(":/uploader/images/dialog-apply.svg"));
+    else
+        m_telemetryeditor->bnApplySchedule->setIcon(QIcon(":/uploader/images/process-stop.svg"));
+    m_telemetryeditor->bnApplySchedule->setEnabled(true);
+    m_telemetryeditor->bnSaveSchedule->setEnabled(true);
+    disconnect(getObjectUtilManager(), SIGNAL(completedMetadataWrite(bool)), this, SLOT(onCompletedMetadataWrite(bool)));
+}
+
+void TelemetrySchedulerGadgetWidget::onCompletedMetadataSave(int id, bool result)
+{
+    static bool success = true;
+    if(id == -1)
+    {
+        success = true;
+        return;
+    }
+    UAVObject *obj = getObjectManager()->getObject(id);
+    Q_ASSERT(obj);
+    UAVMetaObject *meta = dynamic_cast<UAVMetaObject*>(obj);
+    if(meta)
+    {
+        if(!result && metaObjectsToSave.contains(meta))
+        {
+            qDebug()<<meta->getName()<<"save failed";
+            success = false;
         }
+        metaObjectsToSave.removeAll(meta);
+    }
+    if(metaObjectsToSave.isEmpty())
+    {
+        if(success)
+            m_telemetryeditor->bnSaveSchedule->setIcon(QIcon(":/uploader/images/dialog-apply.svg"));
+        else
+            m_telemetryeditor->bnSaveSchedule->setIcon(QIcon(":/uploader/images/process-stop.svg"));
+        m_telemetryeditor->bnApplySchedule->setEnabled(true);
+        m_telemetryeditor->bnSaveSchedule->setEnabled(true);
+        disconnect(getObjectUtilManager(), SIGNAL(saveCompleted(int,bool)), this, SLOT(onCompletedMetadataSave(int, bool)));
     }
 }
 
@@ -483,6 +581,7 @@ void TelemetrySchedulerGadgetWidget::importTelemetryConfiguration(const QString&
 
     // Populate combobox
     m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItem("");
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
 
 
@@ -566,6 +665,7 @@ void TelemetrySchedulerGadgetWidget::addTelemetryColumn()
 
     columnHeaders.append(newColumnString);
     m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItem("");
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
 }
 
@@ -581,6 +681,7 @@ void TelemetrySchedulerGadgetWidget::removeTelemetryColumn()
 
     columnHeaders.pop_back();
     m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItem("");
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
 }
 
@@ -601,7 +702,72 @@ void TelemetrySchedulerGadgetWidget::changeHorizontalHeader(int headerIndex)
 
     columnHeaders.replace(headerIndex, headerName);
     m_telemetryeditor->cmbScheduleList->clear();
+    m_telemetryeditor->cmbScheduleList->addItem("");
     m_telemetryeditor->cmbScheduleList->addItems(columnHeaders);
+}
+
+void TelemetrySchedulerGadgetWidget::customMenuRequested(QPoint pos)
+{
+    Q_UNUSED(pos)
+    bool ok;
+    QString text = QInputDialog::getText(this, tr("Mass value filling"),
+                                         tr("Choose value to use"), QLineEdit::Normal,
+                                         "", &ok);
+    if(!ok)
+        return;
+    text.toInt(&ok);
+    if(!ok)
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Value must be numeric");
+        msgBox.exec();
+        return;
+    }
+    if (!text.isEmpty())
+    {
+        foreach (QModelIndex index , telemetryScheduleView->selectionModel()->selectedIndexes()) {
+            telemetryScheduleView->model()->setData(index,text);
+        }
+    }
+}
+
+void TelemetrySchedulerGadgetWidget::uavoPresentOnHardwareChanged(UAVDataObject *obj)
+{
+    if(m_telemetryeditor->hideNotPresent->isChecked())
+        telemetryScheduleView->setRowHidden(uavoIndex.value(obj), !(obj->getIsPresentOnHardware()));
+    int width = telemetryScheduleView->verticalHeader()->sizeHint().width();
+    telemetryScheduleView->getFrozenTableView()->verticalHeader()->setFixedWidth(width);
+    telemetryScheduleView->fixGeometry(width);
+    for(int x = 0; x < schedulerModel->columnCount(); ++x)
+    {
+        dataModel_itemChanged(x);
+    }
+}
+
+void TelemetrySchedulerGadgetWidget::onHideNotPresent(bool hide)
+{
+    if(hide)
+    {
+        foreach (UAVDataObject* obj, uavoIndex.keys()) {
+            telemetryScheduleView->setRowHidden(uavoIndex.value(obj), !(obj->getIsPresentOnHardware()));
+        }
+        int width = telemetryScheduleView->verticalHeader()->sizeHint().width();
+        telemetryScheduleView->getFrozenTableView()->verticalHeader()->setFixedWidth(width);
+        telemetryScheduleView->fixGeometry(width);
+    }
+    else
+    {
+        foreach (int index, uavoIndex.values()) {
+            telemetryScheduleView->setRowHidden(index, false);
+        }
+        int width = telemetryScheduleView->verticalHeader()->sizeHint().width();
+        telemetryScheduleView->getFrozenTableView()->verticalHeader()->setFixedWidth(width);
+        telemetryScheduleView->fixGeometry(width);
+    }
+    for(int x = 0; x < schedulerModel->columnCount(); ++x)
+    {
+        dataModel_itemChanged(x);
+    }
 }
 
 
@@ -707,7 +873,7 @@ void SpinBoxDelegate::setEditorData(QWidget *editor,
     int value = index.model()->data(index, Qt::EditRole).toInt();
 
     QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
-    if (value > 0)
+    if (value >= 0)
         spinBox->setValue(value);
     else
         spinBox->clear();
@@ -720,7 +886,7 @@ void SpinBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     spinBox->interpretText();
     int value = spinBox->value();
 
-    if (value > 0)
+    if (value >= 0)
         model->setData(index, QString("%1ms").arg(value), Qt::EditRole);
 }
 
@@ -914,7 +1080,7 @@ void QFrozenTableViewWithCopyPaste::init()
     frozenTableView->setModel(frozenModel);
     frozenTableView->setFocusPolicy(Qt::NoFocus);
     frozenTableView->horizontalHeader()->hide();
-    frozenTableView->verticalHeader()->setResizeMode(QHeaderView::Fixed);
+    frozenTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
     viewport()->stackUnder(frozenTableView);
 
@@ -930,10 +1096,11 @@ void QFrozenTableViewWithCopyPaste::init()
     frozenTableView->setRowHeight(rowHeight(0), 0 );
 
     frozenTableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     frozenTableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     frozenTableView->show();
 
-    updateFrozenTableGeometry();
+    updateFrozenTableGeometry(0);
 
     setHorizontalScrollMode(ScrollPerPixel);
     setVerticalScrollMode(ScrollPerPixel);
@@ -951,21 +1118,33 @@ void QFrozenTableViewWithCopyPaste::init()
 void QFrozenTableViewWithCopyPaste::updateSectionWidth(int logicalIndex, int, int newSize)
 {
     frozenTableView->setColumnWidth(logicalIndex,newSize);
-    updateFrozenTableGeometry();
+    updateFrozenTableGeometry(0);
 }
 
 void QFrozenTableViewWithCopyPaste::updateSectionHeight(int logicalIndex, int, int newSize)
 {
     if(logicalIndex==0){
         frozenTableView->setRowHeight(0, newSize);
-        updateFrozenTableGeometry();
+        updateFrozenTableGeometry(0);
     }
+}
+
+/**
+ * @brief This class uses a tableview inside a table view to achieve the frozen row effect on the 1st row
+ * this function is used to keep both tables column width in sync
+ */
+void QFrozenTableViewWithCopyPaste::fixGeometry(int value)
+{
+    for(int x = 0; x < frozenTableView->model()->columnCount(); ++x)
+    {
+        frozenTableView->setColumnWidth(x, horizontalHeader()->sectionSize(x));
+    }
+    updateFrozenTableGeometry(value);
 }
 
 void QFrozenTableViewWithCopyPaste::resizeEvent(QResizeEvent * event)
 {
     QTableView::resizeEvent(event);
-    updateFrozenTableGeometry();
 }
 
 void QFrozenTableViewWithCopyPaste::scrollTo (const QModelIndex & index, ScrollHint hint){
@@ -975,8 +1154,10 @@ void QFrozenTableViewWithCopyPaste::scrollTo (const QModelIndex & index, ScrollH
     }
 }
 
-void QFrozenTableViewWithCopyPaste::updateFrozenTableGeometry()
+void QFrozenTableViewWithCopyPaste::updateFrozenTableGeometry(int verticalHeaderWidth)
 {
+    if(verticalHeaderWidth == 0)
+         verticalHeaderWidth = verticalHeader()->width();
     int col_width = 0;
     for(int i = 0;i< this->model()->columnCount();++i)
     {
@@ -984,7 +1165,7 @@ void QFrozenTableViewWithCopyPaste::updateFrozenTableGeometry()
     }
     frozenTableView->setGeometry(frameWidth(),
                                   horizontalHeader()->height() + frameWidth(),
-                                  verticalHeader()->width() + col_width,
+                                  verticalHeaderWidth + col_width,
                                   rowHeight(0));
 }
 
@@ -996,7 +1177,7 @@ void QFrozenTableViewWithCopyPaste::updateFrozenTableGeometry()
 void QFrozenTableViewWithCopyPaste::setHorizontalHeaderItem(int column, QStandardItem *item)
 {
     frozenModel->setHorizontalHeaderItem(column, item);
-    updateFrozenTableGeometry();
+    updateFrozenTableGeometry(0);
 }
 
 
@@ -1007,7 +1188,7 @@ void QFrozenTableViewWithCopyPaste::setHorizontalHeaderItem(int column, QStandar
 bool QFrozenTableViewWithCopyPaste::removeColumns(int column, int count, const QModelIndex &parent)
 {
     bool ret = frozenModel->removeColumns(column, count, parent);
-    updateFrozenTableGeometry();
+    updateFrozenTableGeometry(0);
 
     return ret;
 }

@@ -7,7 +7,7 @@
  * @{
  * @addtogroup GPSGadgetPlugin GPS Gadget Plugin
  * @{
- * @brief A gadget that displays GPS status and enables basic configuration 
+ * @brief A gadget that displays GPS status and enables basic configuration
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,8 @@
 #ifndef GPSDISPLAYGADGETOPTIONSPAGE_H
 #define GPSDISPLAYGADGETOPTIONSPAGE_H
 
-#include <qextserialport/src/qextserialenumerator.h>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 #include "coreplugin/dialogs/ioptionspage.h"
 #include "QString"
 #include <QStringList>
@@ -41,14 +42,13 @@ class IUAVGadgetConfiguration;
 class GpsDisplayGadgetConfiguration;
 
 namespace Ui {
-    class GpsDisplayGadgetOptionsPage;
+class GpsDisplayGadgetOptionsPage;
 }
 
 using namespace Core;
 
-class GpsDisplayGadgetOptionsPage : public IOptionsPage
-{
-Q_OBJECT
+class GpsDisplayGadgetOptionsPage : public IOptionsPage {
+    Q_OBJECT
 public:
     explicit GpsDisplayGadgetOptionsPage(GpsDisplayGadgetConfiguration *config, QObject *parent = 0);
 
@@ -59,16 +59,6 @@ public:
 private:
     Ui::GpsDisplayGadgetOptionsPage *options_page;
     GpsDisplayGadgetConfiguration *m_config;
-
-    QStringList BaudRateTypeString;
-    QStringList BaudRateTypeStringALL;
-    QStringList DataBitsTypeStringALL;
-    QStringList ParityTypeStringALL;
-    QStringList StopBitsTypeStringALL;
-    QStringList DataBitsTypeString;
-    QStringList ParityTypeString;
-    QStringList StopBitsTypeString;
-    QStringList FlowTypeString;
 
 private slots:
 };

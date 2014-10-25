@@ -512,6 +512,7 @@ public class FtdiSerialDriver extends CommonUsbSerialDriver {
         supportedDevices.put(Integer.valueOf(UsbId.VENDOR_FTDI),
                 new int[] {
                     UsbId.FTDI_FT232R,
+                    UsbId.FTDI_FT230X,
                 });
         return supportedDevices;
     }

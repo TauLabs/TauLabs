@@ -11,9 +11,18 @@
 WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 ROOT_DIR := $(realpath $(WHEREAMI)/../)
 
+# import macros common to all supported build systems
+include $(ROOT_DIR)/make/system-id.mk
+
+TOOLS_DIR := $(ROOT_DIR)/tools
+BUILD_DIR := $(ROOT_DIR)/build
+
+# include the tools makefile
+include $(ROOT_DIR)/make/tools.mk
+
 # Set up some macros
 BUILD_DIR    := $(ROOT_DIR)/build
-VERSION_CMD  := python $(ROOT_DIR)/make/scripts/version-info.py --path="$(ROOT_DIR)"
+VERSION_CMD  := $(PYTHON) $(ROOT_DIR)/make/scripts/version-info.py --path="$(ROOT_DIR)"
 # If there is a tag, use it for label instead of date-hash string
 PACKAGE_TAG  := $(shell $(VERSION_CMD) --format=\$${TAG})
 ifneq ($(PACKAGE_TAG),)
@@ -36,7 +45,7 @@ CLEAN_FLIGHT := YES
 endif
 
 # Set up targets
-ALL_BOARDS        := coptercontrol pipxtreme revolution revomini sparky freedom quanton flyingf3 flyingf4
+ALL_BOARDS        := coptercontrol pipxtreme revolution revomini sparky freedom quanton colibri flyingf3 flyingf4
 ALL_BOARDS_BU     := coptercontrol pipxtreme
 FW_TARGETS        := $(addprefix fw_, $(ALL_BOARDS))
 FW_TARGETS_TOOLS  := $(addprefix fw_, $(ALL_BOARDS))
@@ -63,10 +72,10 @@ help:
 	@echo
 
 # Clean and build uavobjects since all parts depend on them
-uavobjects: all_clean
+uavobjects_%: all_clean
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
 
-matlab: uavobjects
+matlab: uavobjects_matlab
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
 
 all_clean:
@@ -96,10 +105,10 @@ endif
 endef
 
 # Firmware
-$(eval $(call INSTALL_TEMPLATE,all_fw,uavobjects,$(FW_DIR),,-$(PACKAGE_LBL),,,$(FW_TARGETS),install))
+$(eval $(call INSTALL_TEMPLATE,all_fw,uavobjects_flight,$(FW_DIR),,-$(PACKAGE_LBL),,,$(FW_TARGETS),install))
 
 # Bootloaders (change 'install' to 'bin' if you don't want to install bootloaders)
-$(eval $(call INSTALL_TEMPLATE,all_bl,uavobjects,$(BL_DIR),,-$(PACKAGE_LBL),,,$(BL_TARGETS),install))
+$(eval $(call INSTALL_TEMPLATE,all_bl,uavobjects_flight,$(BL_DIR),,-$(PACKAGE_LBL),,,$(BL_TARGETS),install))
 
 # Bootloader updaters
 $(eval $(call INSTALL_TEMPLATE,all_bu,all_bl,$(BU_DIR),,-$(PACKAGE_LBL),,,$(BU_TARGETS),install))
@@ -113,7 +122,7 @@ package_ground: | ground_package
 
 package: | package_flight package_ground package_matlab
 
-.PHONY: help uavobjects all_clean package_flight package_ground package
+.PHONY: help uavobjects_flight uavobjects_gcs uavobjects_matlab all_clean package_flight package_ground package
 
 # tlfw_resource must be generated before the ground package,
 # and it depends on flight firmware images

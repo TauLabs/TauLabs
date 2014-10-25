@@ -1,67 +1,10 @@
 include(gcs.pri)
 
 TEMPLATE = subdirs
-
 # Copy Qt runtime libraries into the build directory (to run or package)
 equals(copydata, 1) {
-
     # Windows release only, no debug target DLLs ending with 'd'
     win32:CONFIG(release, debug|release) {
-
-        # copy Qt DLLs and phonon4
-        QT_DLLS = phonon4.dll \
-                  QtCore4.dll \
-                  QtGui4.dll \
-                  QtNetwork4.dll \
-                  QtOpenGL4.dll \
-                  QtSql4.dll \
-                  QtSvg4.dll \
-                  QtTest4.dll \
-                  QtXml4.dll \
-                  QtDeclarative4.dll \
-                  QtXmlPatterns4.dll \
-                  QtScript4.dll
-        for(dll, QT_DLLS) {
-            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_BINS]/$$dll\") $$targetPath(\"$$GCS_APP_PATH/$$dll\") $$addNewline()
-        }
-
-        message($$MINGW_PATH)
-
-        # copy MinGW DLLs
-        MINGW_DLLS = libgcc_s_dw2-1.dll \
-                     mingwm10.dll \
-                     libstdc++-6.dll
-        for(dll, MINGW_DLLS) {
-            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$(QTMINGW)/$$dll\") $$targetPath(\"$$GCS_APP_PATH/$$dll\") $$addNewline()
-        }
-
-        # copy iconengines
-        QT_ICONENGINE_DLLS = qsvgicon4.dll
-        data_copy.commands += -@$(MKDIR) $$targetPath(\"$$GCS_APP_PATH/iconengines\") $$addNewline()
-        for(dll, QT_ICONENGINE_DLLS) {
-            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_PLUGINS]/iconengines/$$dll\") $$targetPath(\"$$GCS_APP_PATH/iconengines/$$dll\") $$addNewline()
-        }
-
-        # copy imageformats
-        QT_IMAGEFORMAT_DLLS = qgif4.dll qico4.dll qjpeg4.dll qmng4.dll qsvg4.dll qtiff4.dll
-        data_copy.commands += -@$(MKDIR) $$targetPath(\"$$GCS_APP_PATH/imageformats\") $$addNewline()
-        for(dll, QT_IMAGEFORMAT_DLLS) {
-            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_PLUGINS]/imageformats/$$dll\") $$targetPath(\"$$GCS_APP_PATH/imageformats/$$dll\") $$addNewline()
-        }
-
-        # copy phonon_backend
-        QT_PHONON_BACKEND_DLLS = phonon_ds94.dll
-        data_copy.commands += -@$(MKDIR) $$targetPath(\"$$GCS_APP_PATH/phonon_backend\") $$addNewline()
-        for(dll, QT_PHONON_BACKEND_DLLS) {
-            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_PLUGINS]/phonon_backend/$$dll\") $$targetPath(\"$$GCS_APP_PATH/phonon_backend/$$dll\") $$addNewline()
-        }
-
-        # copy sqldrivers
-        QT_SQLDRIVERS_DLLS = qsqlite4.dll
-        data_copy.commands += -@$(MKDIR) $$targetPath(\"$$GCS_APP_PATH/sqldrivers\") $$addNewline()
-        for(dll, QT_SQLDRIVERS_DLLS) {
-            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_PLUGINS]/sqldrivers/$$dll\") $$targetPath(\"$$GCS_APP_PATH/sqldrivers/$$dll\") $$addNewline()
-        }
 
         SDL {
             # copy SDL - Simple DirectMedia Layer (www.libsdl.org)
@@ -80,7 +23,22 @@ equals(copydata, 1) {
             SDL_DLL = SDL.dll
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$(QTMINGW)$$SDL_DLL\") $$targetPath(\"$$GCS_APP_PATH/$$SDL_DLL\") $$addNewline()
         }
+        data_copy.target = FORCE
+        QMAKE_EXTRA_TARGETS += data_copy
+    }
 
+    # copy OpenSSL DLLs
+    {
+        THIRDPARTY_PATH = $$GCS_SOURCE_TREE/../../tools
+        OPENSSL_DIR = $$THIRDPARTY_PATH/win32openssl
+        win32 {
+        OPENSSL_DLLS = \
+            ssleay32.dll \
+            libeay32.dll
+        }
+        for(dll, OPENSSL_DLLS) {
+            data_copy.commands += $(COPY_FILE) $$targetPath(\"$$OPENSSL_DIR/$$dll\") $$targetPath(\"$$GCS_APP_PATH/$$dll\") $$addNewline()
+        }
         data_copy.target = FORCE
         QMAKE_EXTRA_TARGETS += data_copy
     }

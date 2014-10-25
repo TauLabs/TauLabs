@@ -21,6 +21,7 @@ SOURCES += uavobjectwidgetutilsplugin.cpp \
     popupwidget.cpp
 
 
-OTHER_FILES += UAVObjectWidgetUtils.pluginspec
+OTHER_FILES += UAVObjectWidgetUtils.pluginspec \
+    UAVObjectWidgetUtils.json
 
 FORMS +=

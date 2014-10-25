@@ -4,6 +4,7 @@
  * @file       coreconstants.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ * @author     Tau Labs, http://taulabs.org Copyright (C) 2012-2013
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
@@ -45,9 +46,10 @@ const char * const GCS_VERSION_CODENAME = "Phoenix";
     "." STRINGIFY(GCS_VERSION_MINOR) \
     "." STRINGIFY(GCS_VERSION_RELEASE)
 
+const char * const GCS_NAME              = "Tau Labs GCS";
 const char * const GCS_VERSION_LONG      = GCS_VERSION;
 const char * const GCS_AUTHOR            = "Tau Labs";
-const char * const GCS_YEAR              = "2012";
+const char * const GCS_YEAR              = "2014";
 
 const char * const GCS_HELP              = "http://github.com/TauLabs";
 #ifdef GCS_REVISION
@@ -212,6 +214,7 @@ const char * const ICON_PREV             = ":/core/images/prev.png";
 const char * const ICON_DIR              = ":/core/images/dir.png";
 const char * const ICON_CLEAN_PANE       = ":/core/images/clean_pane_small.png";
 const char * const ICON_CLEAR            = ":/core/images/clear.png";
+const char * const ICON_CLOSE            = ":/core/images/closebutton.png";
 const char * const ICON_FIND             = ":/core/images/find.png";
 const char * const ICON_FINDNEXT         = ":/core/images/findnext.png";
 const char * const ICON_REPLACE          = ":/core/images/replace.png";
@@ -222,8 +225,7 @@ const char * const ICON_PLUGIN           = ":/core/images/pluginicon.png";
 const char * const ICON_EXIT             = ":/core/images/exiticon.png";
 const char * const ICON_OPTIONS          = ":/core/images/optionsicon.png";
 const char * const ICON_HELP             = ":/core/images/helpicon.png";
-const char * const ICON_TAULABS          = ":/core/images/openpiloticon.png";
-
+const char * const ICON_TAULABS          = ":/core/images/taulabs_logo_128.png";
 
 // wizard kind
 const char * const WIZARD_TYPE_FILE      = "GCS::WizardType::File";

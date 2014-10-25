@@ -3,6 +3,7 @@
  *
  * @file       uavsettingsimportexportfactory.cpp
  * @author     (C) 2011 The OpenPilot Team, http://www.openpilot.org
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVSettingsImportExport UAVSettings Import/Export Plugin
@@ -169,10 +170,13 @@ void UAVSettingsImportExportFactory::importUAVSettings()
 
             // Sanity Check:
             UAVObject *obj = objManager->getObject(uavObjectName);
+            UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
             if (obj == NULL) {
                 // This object is unknown!
                 qDebug() << "Object unknown:" << uavObjectName << uavObjectID;
                 swui.addLine(uavObjectName, "Error (Object unknown)", false);
+            } else if(dobj && !dobj->getIsPresentOnHardware()) {
+                swui.addLine(uavObjectName, "Error (Object not present on hw)", false);
             } else {
                 //  - Update each field
                 //  - Issue and "updated" command
@@ -294,8 +298,11 @@ bool UAVSettingsImportExportFactory::importWaypoints()
             if (obj == NULL) {
                 // This object is unknown!
                 qDebug() << "Object unknown:" << uavObjectName << uavObjectID;
-            } else {
-
+            }
+            else if(obj->getIsPresentOnHardware()) {
+                qDebug() << "Object not present on Hardware" << uavObjectName << uavObjectID;
+            }
+            else {
                 unsigned int numInstances = objManager->getNumInstances(obj->getObjID());
                 if (instId >= numInstances) {
                     obj = obj->clone(instId);
@@ -368,7 +375,8 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
     root.appendChild(versionInfo);
 
     UAVObjectUtilManager *utilMngr = pm->getObject<UAVObjectUtilManager>();
-    deviceDescriptorStruct board = utilMngr->getBoardDescriptionStruct();
+    deviceDescriptorStruct board;
+    utilMngr->getBoardDescriptionStruct(board);
 
     QDomElement hw = doc.createElement("hardware");
     hw.setAttribute("type", QString().setNum(board.boardType, 16));
@@ -422,9 +430,11 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
     case Both:
     {
         // iterate over settings objects
-        QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjects();
+        QVector< QVector<UAVDataObject*> > objList = objManager->getDataObjectsVector();
         foreach (QVector<UAVDataObject*> list, objList) {
             foreach (UAVDataObject *obj, list) {
+                if(!obj->getIsPresentOnHardware())
+                    continue;
                 if (((what == Settings) && obj->isSettings()) ||
                         ((what == Data) && !obj->isSettings()) ||
                         (what == Both)) {
@@ -480,7 +490,7 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
     case Waypoints:
     {
         // iterate over waypoints until the first one that is set to Stop
-        QVector<UAVObject*> list = objManager->getObjectInstances("Waypoint");
+        QVector<UAVObject*> list = objManager->getObjectInstancesVector("Waypoint");
         foreach (UAVObject *obj, list) {
             // add each object to the XML
             QDomElement o = doc.createElement("object");
@@ -556,7 +566,7 @@ void UAVSettingsImportExportFactory::exportUAVSettings()
     // save file
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly) &&
-            (file.write(xml.toAscii()) != -1)) {
+            (file.write(xml.toLatin1()) != -1)) {
         file.close();
     } else {
         QMessageBox::critical(0,
@@ -607,7 +617,7 @@ void UAVSettingsImportExportFactory::exportUAVData()
     // save file
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly) &&
-            (file.write(xml.toAscii()) != -1)) {
+            (file.write(xml.toLatin1()) != -1)) {
         file.close();
     } else {
         QMessageBox::critical(0,
@@ -644,7 +654,7 @@ void UAVSettingsImportExportFactory::exportWaypoints()
     // save file
     QFile file(fileName);
     if (file.open(QIODevice::WriteOnly) &&
-            (file.write(xml.toAscii()) != -1)) {
+            (file.write(xml.toLatin1()) != -1)) {
         file.close();
     } else {
         QMessageBox::critical(0,

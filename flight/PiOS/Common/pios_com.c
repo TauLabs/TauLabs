@@ -6,26 +6,26 @@
  * @brief Hardware communication layer
  * @{
  *
- * @file       pios_com.c  
+ * @file       pios_com.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      COM layer functions
  * @see        The GNU Public License (GPL) Version 3
- * 
+ *
  *****************************************************************************/
-/* 
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or 
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
- * 
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
@@ -41,6 +41,9 @@
 #include "pios_delay.h"		/* PIOS_DELAY_WaitmS */
 #endif
 
+#include "pios_semaphore.h"
+#include "pios_mutex.h"
+
 enum pios_com_dev_magic {
   PIOS_COM_DEV_MAGIC = 0xaa55aa55,
 };
@@ -51,8 +54,9 @@ struct pios_com_dev {
 	const struct pios_com_driver * driver;
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	xSemaphoreHandle tx_sem;
-	xSemaphoreHandle rx_sem;
+	struct pios_semaphore *tx_sem;
+	struct pios_semaphore *rx_sem;
+	struct pios_mutex *sendbuffer_mtx;
 #endif
 
 	bool has_rx;
@@ -116,7 +120,7 @@ int32_t PIOS_COM_Init(uintptr_t * com_id, const struct pios_com_driver * driver,
 	if (has_rx) {
 		fifoBuf_init(&com_dev->rx, rx_buffer, rx_buffer_len);
 #if defined(PIOS_INCLUDE_FREERTOS)
-		vSemaphoreCreateBinary(com_dev->rx_sem);
+		com_dev->rx_sem = PIOS_Semaphore_Create();
 #endif	/* PIOS_INCLUDE_FREERTOS */
 		(com_dev->driver->bind_rx_cb)(lower_id, PIOS_COM_RxInCallback, (uintptr_t)com_dev);
 		if (com_dev->driver->rx_start) {
@@ -129,10 +133,13 @@ int32_t PIOS_COM_Init(uintptr_t * com_id, const struct pios_com_driver * driver,
 	if (has_tx) {
 		fifoBuf_init(&com_dev->tx, tx_buffer, tx_buffer_len);
 #if defined(PIOS_INCLUDE_FREERTOS)
-		vSemaphoreCreateBinary(com_dev->tx_sem);
+		com_dev->tx_sem = PIOS_Semaphore_Create();
 #endif	/* PIOS_INCLUDE_FREERTOS */
 		(com_dev->driver->bind_tx_cb)(lower_id, PIOS_COM_TxOutCallback, (uintptr_t)com_dev);
 	}
+#if defined(PIOS_INCLUDE_FREERTOS)
+	com_dev->sendbuffer_mtx = PIOS_Mutex_Create();
+#endif /* PIOS_INCLUDE_FREERTOS */
 
 	*com_id = (uintptr_t)com_dev;
 	return(0);
@@ -144,32 +151,20 @@ out_fail:
 static void PIOS_COM_UnblockRx(struct pios_com_dev * com_dev, bool * need_yield)
 {
 #if defined(PIOS_INCLUDE_FREERTOS)
-	static signed portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-	xSemaphoreGiveFromISR(com_dev->rx_sem, &xHigherPriorityTaskWoken);
-
-	if (xHigherPriorityTaskWoken != pdFALSE) {
-		*need_yield = true;
-	} else {
-		*need_yield = false;
-	}
-#else
-	*need_yield = false;
+	if (PIOS_IRQ_InISR() == true)
+		PIOS_Semaphore_Give_FromISR(com_dev->rx_sem, need_yield);
+	else
+		PIOS_Semaphore_Give(com_dev->rx_sem);
 #endif
 }
 
 static void PIOS_COM_UnblockTx(struct pios_com_dev * com_dev, bool * need_yield)
 {
 #if defined(PIOS_INCLUDE_FREERTOS)
-	static signed portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-	xSemaphoreGiveFromISR(com_dev->tx_sem, &xHigherPriorityTaskWoken);
-
-	if (xHigherPriorityTaskWoken != pdFALSE) {
-		*need_yield = true;
-	} else {
-		*need_yield = false;
-	}
-#else
-	*need_yield = false;
+	if (PIOS_IRQ_InISR() == true)
+		PIOS_Semaphore_Give_FromISR(com_dev->tx_sem, need_yield);
+	else
+		PIOS_Semaphore_Give(com_dev->tx_sem);
 #endif
 }
 
@@ -251,6 +246,8 @@ int32_t PIOS_COM_ChangeBaud(uintptr_t com_id, uint32_t baud)
 * \return -1 if port not available
 * \return -2 if non-blocking mode activated: buffer is full
 *            caller should retry until buffer is free again
+* \return -3 another thread is already sending, caller should
+*            retry until com is available again
 * \return number of bytes transmitted on success
 */
 int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, uint16_t len)
@@ -264,6 +261,11 @@ int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, 
 
 	PIOS_Assert(com_dev->has_tx);
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+	if (PIOS_Mutex_Lock(com_dev->sendbuffer_mtx, 0) != true) {
+		return -3;
+	}
+#endif /* PIOS_INCLUDE_FREERTOS */
 	if (com_dev->driver->available && !com_dev->driver->available(com_dev->lower_id)) {
 		/*
 		 * Underlying device is down/unconnected.
@@ -273,10 +275,17 @@ int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, 
 		 * no longer accepting data.
 		 */
 		fifoBuf_clearData(&com_dev->tx);
+#if defined(PIOS_INCLUDE_FREERTOS)
+		PIOS_Mutex_Unlock(com_dev->sendbuffer_mtx);
+#endif /* PIOS_INCLUDE_FREERTOS */
+
 		return len;
 	}
 
 	if (len > fifoBuf_getFree(&com_dev->tx)) {
+#if defined(PIOS_INCLUDE_FREERTOS)
+		PIOS_Mutex_Unlock(com_dev->sendbuffer_mtx);
+#endif /* PIOS_INCLUDE_FREERTOS */
 		/* Buffer cannot accept all requested bytes (retry) */
 		return -2;
 	}
@@ -291,6 +300,9 @@ int32_t PIOS_COM_SendBufferNonBlocking(uintptr_t com_id, const uint8_t *buffer, 
 		}
 	}
 
+#if defined(PIOS_INCLUDE_FREERTOS)
+	PIOS_Mutex_Unlock(com_dev->sendbuffer_mtx);
+#endif /* PIOS_INCLUDE_FREERTOS */
 	return (bytes_into_fifo);
 }
 
@@ -341,7 +353,7 @@ int32_t PIOS_COM_SendBuffer(uintptr_t com_id, const uint8_t *buffer, uint16_t le
 								fifoBuf_getUsed(&com_dev->tx));
 				}
 #if defined(PIOS_INCLUDE_FREERTOS)
-				if (xSemaphoreTake(com_dev->tx_sem, 5000) != pdTRUE) {
+				if (PIOS_Semaphore_Take(com_dev->tx_sem, 5000) != true) {
 					return -3;
 				}
 #endif
@@ -482,7 +494,7 @@ uint16_t PIOS_COM_ReceiveBuffer(uintptr_t com_id, uint8_t * buf, uint16_t buf_le
 		}
 		if (timeout_ms > 0) {
 #if defined(PIOS_INCLUDE_FREERTOS)
-			if (xSemaphoreTake(com_dev->rx_sem, MS2TICKS(timeout_ms)) == pdTRUE) {
+			if (PIOS_Semaphore_Take(com_dev->rx_sem, timeout_ms) == true) {
 				/* Make sure we don't come back here again */
 				timeout_ms = 0;
 				goto check_again;

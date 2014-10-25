@@ -17,6 +17,8 @@
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
+				<option>PicoC</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 		<field name="AuxSBusPort" units="function" type="enum" elements="1" defaultvalue="Disabled">
@@ -33,6 +35,8 @@
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
+				<option>PicoC</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 		<field name="FlexiPort" units="function" type="enum" elements="1" defaultvalue="Disabled">
@@ -49,13 +53,15 @@
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
+				<option>PicoC</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 		<field name="TelemetryPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,DebugConsole,ComBridge" defaultvalue="Telemetry"/>
 		<field name="GPSPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,DebugConsole,ComBridge" defaultvalue="GPS"/>
 
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
-		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>
+		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
 
 		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
 

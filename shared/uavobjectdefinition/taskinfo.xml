@@ -35,6 +35,8 @@
 			<elementname>Battery</elementname>
 			<elementname>UAVOHoTTBridge</elementname>
 			<elementname>UAVOFrSKYSensorHubBridge</elementname>
+			<elementname>PicoC</elementname>
+			<elementname>UAVOFrSkySPortBridge</elementname>
 		</elementnames>
 	</field> 
 	<field name="Running" units="bool" type="enum">
@@ -71,6 +73,8 @@
 			<elementname>Battery</elementname>
 			<elementname>UAVOHoTTBridge</elementname>
 			<elementname>UAVOFrSKYSBridge</elementname>
+			<elementname>PicoC</elementname>
+			<elementname>UAVOFrSkySPortBridge</elementname>
 		</elementnames>
 		<options>
 			<option>False</option>
@@ -111,6 +115,8 @@
 			<elementname>Battery</elementname>
 			<elementname>UAVOHoTTBridge</elementname>
 			<elementname>UAVOFrSKYSensorHubBridge</elementname>
+			<elementname>PicoC</elementname>
+			<elementname>UAVOFrSkySPortBridge</elementname>
 		</elementnames>
 	</field> 
 	<access gcs="readwrite" flight="readwrite"/>

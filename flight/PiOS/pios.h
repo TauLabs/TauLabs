@@ -5,7 +5,7 @@
  *
  * @file       pios.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Main PiOS header to include all the compiled in PiOS options
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -33,14 +33,6 @@
 
 /* PIOS Feature Selection */
 #include "pios_config.h"
-
-#if defined(PIOS_INCLUDE_FREERTOS)
-/* FreeRTOS Includes */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "semphr.h"
-#endif
 
 /* C Lib Includes */
 #include <stdio.h>
@@ -203,11 +195,6 @@
 #include <pios_crc.h>
 
 #define NELEMENTS(x) (sizeof(x) / sizeof(*(x)))
-
-// portTICK_RATE_MS is in [ms/tick].
-// See http://sourceforge.net/tracker/?func=detail&aid=3498382&group_id=111543&atid=659636
-#define TICKS2MS(t)	((t) * (portTICK_RATE_MS))
-#define MS2TICKS(m)	((m) / (portTICK_RATE_MS))
 
 #endif /* PIOS_H */
 

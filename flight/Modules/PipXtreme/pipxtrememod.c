@@ -7,7 +7,7 @@
  *
  * @file       pipxtrememod.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      This starts and handles the RF tasks for radio links
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -35,6 +35,7 @@
 #include <pios_board_info.h>
 #include <oplinksettings.h>
 #include "systemmod.h"
+#include "pios_thread.h"
 
 // Private constants
 #define SYSTEM_UPDATE_PERIOD_MS 1000
@@ -46,14 +47,14 @@
 #define STACK_SIZE_BYTES 924
 #endif
 
-#define TASK_PRIORITY (tskIDLE_PRIORITY+2)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
 
 // Private types
 
 // Private variables
 static uint32_t idleCounter;
 static uint32_t idleCounterClear;
-static xTaskHandle systemTaskHandle;
+static struct pios_thread *systemTaskHandle;
 static bool stackOverflow;
 static bool mallocFailed;
 
@@ -70,7 +71,7 @@ int32_t PipXtremeModStart(void)
 	stackOverflow = false;
 	mallocFailed = false;
 	// Create pipxtreme system task
-	xTaskCreate(systemTask, (signed char *)"PipXtreme", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &systemTaskHandle);
+	systemTaskHandle = PIOS_Thread_Create(systemTask, "PipXtreme", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	// Register task
 	TaskMonitorAdd(TASKINFO_RUNNING_SYSTEM, systemTaskHandle);
 
@@ -115,7 +116,7 @@ MODULE_INITCALL(PipXtremeModInitialize, 0)
  */
 static void systemTask(void *parameters)
 {
-	portTickType lastSysTime;
+	uint32_t lastSysTime;
 	uint16_t prev_tx_count = 0;
 	uint16_t prev_rx_count = 0;
 	bool first_time = true;
@@ -134,7 +135,7 @@ static void systemTask(void *parameters)
 	// Initialize vars
 	idleCounter = 0;
 	idleCounterClear = 0;
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 
 	// Main system loop
 	while (1) {
@@ -197,7 +198,7 @@ static void systemTask(void *parameters)
 		OPLinkStatusSet(&oplinkStatus);
 
 		// Wait until next period
-		vTaskDelayUntil(&lastSysTime, MS2TICKS(SYSTEM_UPDATE_PERIOD_MS));
+		PIOS_Thread_Sleep_Until(&lastSysTime, SYSTEM_UPDATE_PERIOD_MS);
 	}
 }
 
@@ -219,7 +220,7 @@ void vApplicationIdleHook(void)
  * Called by the RTOS when a stack overflow is detected.
  */
 #define DEBUG_STACK_OVERFLOW 0
-void vApplicationStackOverflowHook(xTaskHandle * pxTask, signed portCHAR * pcTaskName)
+void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
 {
 	stackOverflow = true;
 #if DEBUG_STACK_OVERFLOW

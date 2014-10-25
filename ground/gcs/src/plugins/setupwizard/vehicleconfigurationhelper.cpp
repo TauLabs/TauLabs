@@ -266,9 +266,9 @@ void VehicleConfigurationHelper::applyFlighModeConfiguration()
     data.Stabilization3Settings[1] = ManualControlSettings::STABILIZATION3SETTINGS_RATE;
     data.Stabilization3Settings[2] = ManualControlSettings::STABILIZATION3SETTINGS_RATE;
     data.FlightModeNumber = 3;
-    data.FlightModePosition[0]     = ManualControlSettings::FLIGHTMODEPOSITION_STABILIZED1;
-    data.FlightModePosition[1]     = ManualControlSettings::FLIGHTMODEPOSITION_STABILIZED2;
-    data.FlightModePosition[2]     = ManualControlSettings::FLIGHTMODEPOSITION_STABILIZED3;
+    data.FlightModePosition[0]     = ManualControlSettings::FLIGHTMODEPOSITION_LEVELING;
+    data.FlightModePosition[1]     = ManualControlSettings::FLIGHTMODEPOSITION_ACRO;
+    data.FlightModePosition[2]     = ManualControlSettings::FLIGHTMODEPOSITION_STABILIZED1;
     data.FlightModePosition[3]     = ManualControlSettings::FLIGHTMODEPOSITION_ALTITUDEHOLD;
     data.FlightModePosition[4]     = ManualControlSettings::FLIGHTMODEPOSITION_POSITIONHOLD;
     data.FlightModePosition[5]     = ManualControlSettings::FLIGHTMODEPOSITION_MANUAL;
@@ -618,9 +618,6 @@ GUIConfigDataUnion VehicleConfigurationHelper::getGUIConfigData()
 {
     GUIConfigDataUnion configData;
 
-    SystemSettings *systemSettings = SystemSettings::GetInstance(m_uavoManager);
-    Q_ASSERT(systemSettings);
-
     for (int i = 0; i < (int)(SystemSettings::AIRFRAMECATEGORYSPECIFICCONFIGURATION_NUMELEM); i++) {
         configData.UAVObject[i] = 0; // systemSettingsData.GUIConfigData[i];
     }
@@ -632,7 +629,7 @@ void VehicleConfigurationHelper::setupQuadCopter()
 {
     mixerChannelSettings channels[10];
     GUIConfigDataUnion guiSettings = getGUIConfigData();
-    SystemSettings::AirframeTypeOptions frame = SystemSettings::AIRFRAMETYPE_FIXEDWING;
+    SystemSettings::AirframeTypeOptions frame = SystemSettings::AIRFRAMETYPE_QUADP;
 
     switch (m_configSource->getVehicleSubType()) {
     case VehicleConfigurationSource::MULTI_ROTOR_QUAD_PLUS:
@@ -722,7 +719,7 @@ void VehicleConfigurationHelper::setupHexaCopter()
 {
     mixerChannelSettings channels[10];
     GUIConfigDataUnion guiSettings = getGUIConfigData();
-    SystemSettings::AirframeTypeOptions frame = SystemSettings::AIRFRAMETYPE_FIXEDWING;
+    SystemSettings::AirframeTypeOptions frame = SystemSettings::AIRFRAMETYPE_HEXA;
 
     switch (m_configSource->getVehicleSubType()) {
     case VehicleConfigurationSource::MULTI_ROTOR_HEXA:
@@ -901,7 +898,7 @@ void VehicleConfigurationHelper::setupOctoCopter()
 {
     mixerChannelSettings channels[10];
     GUIConfigDataUnion guiSettings = getGUIConfigData();
-    SystemSettings::AirframeTypeOptions frame = SystemSettings::AIRFRAMETYPE_FIXEDWING;
+    SystemSettings::AirframeTypeOptions frame = SystemSettings::AIRFRAMETYPE_OCTO;
 
     switch (m_configSource->getVehicleSubType()) {
     case VehicleConfigurationSource::MULTI_ROTOR_OCTO:

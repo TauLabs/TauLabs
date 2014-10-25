@@ -108,7 +108,7 @@ public class HidUAVTalk extends TelemetryTask {
 	private Thread writeThread;
 
 
-	public HidUAVTalk(OPTelemetryService service) {
+	public HidUAVTalk(TelemetryService service) {
 		super(service);
 	}
 

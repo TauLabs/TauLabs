@@ -40,7 +40,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QSettings>
 #include <QtCore/QDebug>
-#include <QtGui/QMessageBox>
+#include <QMessageBox>
 
 
 using namespace Core;
@@ -263,7 +263,7 @@ void UAVGadgetInstanceManager::createOptionsPages()
 }
 
 
-IUAVGadget *UAVGadgetInstanceManager::createGadget(QString classId, QWidget *parent)
+IUAVGadget *UAVGadgetInstanceManager::createGadget(QString classId, QWidget *parent, bool forceLoadConfiguration)
 {
     IUAVGadgetFactory *f = factory(classId);
     if (f) {
@@ -273,7 +273,7 @@ IUAVGadget *UAVGadgetInstanceManager::createGadget(QString classId, QWidget *par
             emit splashMessages(tr("Loading EmptyGadget"));
         QList<IUAVGadgetConfiguration*> *configs = configurations(classId);
         IUAVGadget *g = f->createGadget(parent);
-        IUAVGadget *gadget = new UAVGadgetDecorator(g, configs);
+        IUAVGadget *gadget = new UAVGadgetDecorator(g, configs, forceLoadConfiguration);
         m_gadgetInstances.append(gadget);
         connect(this, SIGNAL(configurationAdded(IUAVGadgetConfiguration*)), gadget, SLOT(configurationAdded(IUAVGadgetConfiguration*)));
         connect(this, SIGNAL(configurationChanged(IUAVGadgetConfiguration*)), gadget, SLOT(configurationChanged(IUAVGadgetConfiguration*)));

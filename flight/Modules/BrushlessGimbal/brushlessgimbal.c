@@ -7,7 +7,7 @@
  * @{
  *
  * @file       brushlessgimbal.c
- * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013-2014
  * @brief      Drives the gimbal outputs
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -35,24 +35,26 @@
 #include "actuatordesired.h"
 #include "brushlessgimbalsettings.h"
 #include "gyros.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
 
-#if defined(PIOS_ACTUATOR_STACK_SIZE)
-#define STACK_SIZE_BYTES PIOS_ACTUATOR_STACK_SIZE
+#if defined(PIOS_BRUSHLESSGIMBAL_STACK_SIZE)
+#define STACK_SIZE_BYTES PIOS_BRUSHLESSGIMBAL_STACK_SIZE
 #else
 #define STACK_SIZE_BYTES 1312
 #endif
 
-#define TASK_PRIORITY (tskIDLE_PRIORITY+4)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGHEST
 #define FAILSAFE_TIMEOUT_MS 100
 
 // Private types
 
 // Private variables
-static xQueueHandle queue;
-static xTaskHandle taskHandle;
+static struct pios_queue *queue;
+static struct pios_thread *taskHandle;
 
 // Private functions
 static void brushlessGimbalTask(void* parameters);
@@ -64,7 +66,7 @@ static void brushlessGimbalTask(void* parameters);
 static int32_t BrushlessGimbalStart()
 {
 	// Start main task
-	xTaskCreate(brushlessGimbalTask, (signed char*)"BrushlessGimbal", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(brushlessGimbalTask, "BrushlessGimbal", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_ACTUATOR, taskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_ACTUATOR);
 
@@ -79,7 +81,7 @@ static int32_t BrushlessGimbalInitialize()
 {
 	// Listen for ActuatorDesired updates (Primary input to this module)
 	ActuatorDesiredInitialize();
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 	ActuatorDesiredConnectQueue(queue);
 
 	BrushlessGimbalSettingsInitialize();
@@ -106,10 +108,10 @@ static void brushlessGimbalTask(void* parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
 
 		// Wait until the ActuatorDesired object is updated
-		xQueueReceive(queue, &ev, 1);
+		PIOS_Queue_Receive(queue, &ev, 1);
 
 		previous_armed = armed;
-		armed |= xTaskGetTickCount() > 10000;
+		armed |= PIOS_Thread_Systime() > 10000;
 
 		if (armed && !previous_armed) {
 			PIOS_Brushless_SetUpdateRate(60000);

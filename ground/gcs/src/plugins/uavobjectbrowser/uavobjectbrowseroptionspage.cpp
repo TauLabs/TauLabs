@@ -28,12 +28,12 @@
 
 #include "uavobjectbrowseroptionspage.h"
 #include "uavobjectbrowserconfiguration.h"
-#include <QtGui/QLabel>
-#include <QtGui/QSpinBox>
-#include <QtGui/QPushButton>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QColorDialog>
+#include <QLabel>
+#include <QSpinBox>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QColorDialog>
 
 #include "ui_uavobjectbrowseroptionspage.h"
 
@@ -52,6 +52,7 @@ QWidget *UAVObjectBrowserOptionsPage::createPage(QWidget *parent)
 
     m_page->recentlyUpdatedButton->setColor(m_config->recentlyUpdatedColor());
     m_page->manuallyChangedButton->setColor(m_config->manuallyChangedColor());
+    m_page->notPresentOnHwButton->setColor(m_config->notPresentOnHwColor());
     m_page->recentlyUpdatedTimeoutSpinBox->setValue(m_config->recentlyUpdatedTimeout());
     m_page->highlightBox->setChecked(m_config->onlyHighlightChangedValues());
 
@@ -63,6 +64,7 @@ void UAVObjectBrowserOptionsPage::apply()
 {
     m_config->setRecentlyUpdatedColor(m_page->recentlyUpdatedButton->color());
     m_config->setManuallyChangedColor(m_page->manuallyChangedButton->color());
+    m_config->setNotPresentOnHwColor(m_page->notPresentOnHwButton->color());
     m_config->setRecentlyUpdatedTimeout(m_page->recentlyUpdatedTimeoutSpinBox->value());
     m_config->setOnlyHighlightChangedValues(m_page->highlightBox->isChecked());
 }

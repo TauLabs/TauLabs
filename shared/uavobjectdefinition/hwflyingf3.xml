@@ -21,6 +21,7 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -42,6 +43,7 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -63,6 +65,7 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -84,6 +87,7 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -105,6 +109,7 @@
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
+				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
 
@@ -114,6 +119,14 @@
 		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
 
 		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
+		
+		<field name="L3GD20Rate" units="" type="enum" elements="1" defaultvalue="380">
+			<options>
+				<option>380</option>
+				<option>760</option>
+			</options>
+		</field>
+
 		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
 
 		<field name="Shield" units="" type="enum" elements="1" defaultvalue="None">
@@ -121,6 +134,7 @@
 				<option>None</option>
 				<option>RCFlyer</option>
 				<option>CheBuzz</option>
+				<option>BMP085</option>
 			</options>
 		</field>
 				

@@ -40,6 +40,8 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QWriteLocker>
 #include <QtDebug>
+#include <QMetaMethod>
+
 #ifdef WITH_TESTS
 #include <QTest>
 #endif
@@ -429,8 +431,8 @@ void PluginManager::startTests()
         methods.append("arg0");
         // We only want slots starting with "test"
         for (int i = mo->methodOffset(); i < mo->methodCount(); ++i) {
-            if (QByteArray(mo->method(i).signature()).startsWith("test")) {
-                QString method = QString::fromLatin1(mo->method(i).signature());
+            if (QByteArray(mo->method(i).methodSignature()).startsWith("test")) {
+                QString method = QString::fromLatin1(mo->method(i).methodSignature());
                 methods.append(method.left(method.size()-2));
             }
         }
@@ -582,6 +584,7 @@ void PluginManagerPrivate::loadPlugins()
         if(spec->name() == "Core")
             QObject::connect(spec->plugin(),SIGNAL(splashMessages(QString)),q,SIGNAL(splashMessages(QString)));
     }
+
     foreach (PluginSpec *spec, queue) {
         emit q->splashMessages(QString(QObject::tr("Initializing %1 plugin")).arg(spec->name()));
         loadPlugin(spec, PluginSpec::Initialized);

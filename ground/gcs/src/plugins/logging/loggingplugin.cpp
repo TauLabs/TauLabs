@@ -3,6 +3,7 @@
  *
  * @file       logging.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @see        The GNU Public License (GPL) Version 3
  * @brief      Import/Export Plugin
  * @addtogroup GCSPlugins GCS Plugins
@@ -81,8 +82,9 @@ QIODevice* LoggingConnection::openDevice(IDevice *deviceName)
     QString fileName = QFileDialog::getOpenFileName(NULL, tr("Open file"), QString(""), tr("Tau Labs Log (*.tll)"));
     if (!fileName.isNull()) {
         startReplay(fileName);
+        return &logFile;
     }
-    return &logFile;
+    return NULL;
 }
 
 void LoggingConnection::startReplay(QString file)
@@ -168,7 +170,7 @@ void LoggingThread::run()
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
-    QVector< QVector<UAVObject*> > list = objManager->getObjects();
+    QVector< QVector<UAVObject*> > list = objManager->getObjectsVector();
     QVector< QVector<UAVObject*> >::const_iterator i;
     QVector<UAVObject*>::const_iterator j;
     int objects = 0;
@@ -210,7 +212,7 @@ void LoggingThread::stopLogging()
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
-    QVector< QVector<UAVObject*> > list = objManager->getObjects();
+    QVector< QVector<UAVObject*> > list = objManager->getObjectsVector();
     QVector< QVector<UAVObject*> >::const_iterator i;
     QVector<UAVObject*>::const_iterator j;
 
@@ -240,7 +242,7 @@ void LoggingThread::retrieveSettings()
     // Get UAVObjectManager instance
     ExtensionSystem::PluginManager* pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objMngr = pm->getObject<UAVObjectManager>();
-    QVector< QVector<UAVDataObject*> > objs = objMngr->getDataObjects();
+    QVector< QVector<UAVDataObject*> > objs = objMngr->getDataObjectsVector();
     for (int n = 0; n < objs.size(); ++n)
     {
         UAVDataObject* obj = objs[n][0];
@@ -466,7 +468,6 @@ void LoggingPlugin::shutdown()
 {
     // Do nothing
 }
-Q_EXPORT_PLUGIN(LoggingPlugin)
 
 /**
  * @}

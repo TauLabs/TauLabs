@@ -7,7 +7,7 @@
  *
  * @file       ComUsbBridge.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Bridges selected Com Port to the USB VCP emulated serial port
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -31,7 +31,9 @@
 // ****************
 
 #include "openpilot.h"
+
 #include "modulesettings.h"
+#include "pios_thread.h"
 
 #include <stdbool.h>
 
@@ -51,15 +53,15 @@ static void updateSettings();
 #define STACK_SIZE_BYTES 384
 #endif
 
-#define TASK_PRIORITY                   (tskIDLE_PRIORITY + 1)
+#define TASK_PRIORITY                   PIOS_THREAD_PRIO_LOW
 
 #define BRIDGE_BUF_LEN 10
 
 // ****************
 // Private variables
 
-static xTaskHandle com2UsbBridgeTaskHandle;
-static xTaskHandle usb2ComBridgeTaskHandle;
+static struct pios_thread *com2UsbBridgeTaskHandle;
+static struct pios_thread *usb2ComBridgeTaskHandle;
 
 static uint8_t * com2usb_buf;
 static uint8_t * usb2com_buf;
@@ -79,9 +81,9 @@ static int32_t comUsbBridgeStart(void)
 {
 	if (module_enabled) {
 		// Start tasks
-		xTaskCreate(com2UsbBridgeTask, (signed char *)"Com2UsbBridge", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &com2UsbBridgeTaskHandle);
+		com2UsbBridgeTaskHandle = PIOS_Thread_Create(com2UsbBridgeTask, "Com2UsbBridge", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_COM2USBBRIDGE, com2UsbBridgeTaskHandle);
-		xTaskCreate(usb2ComBridgeTask, (signed char *)"Usb2ComBridge", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &usb2ComBridgeTaskHandle);
+		usb2ComBridgeTaskHandle = PIOS_Thread_Create(usb2ComBridgeTask, "Usb2ComBridge", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_USB2COMBRIDGE, usb2ComBridgeTaskHandle);
 		return 0;
 	}
@@ -118,9 +120,9 @@ static int32_t comUsbBridgeInitialize(void)
 #endif
 
 	if (module_enabled) {
-		com2usb_buf = pvPortMalloc(BRIDGE_BUF_LEN);
+		com2usb_buf = PIOS_malloc(BRIDGE_BUF_LEN);
 		PIOS_Assert(com2usb_buf);
-		usb2com_buf = pvPortMalloc(BRIDGE_BUF_LEN);
+		usb2com_buf = PIOS_malloc(BRIDGE_BUF_LEN);
 		PIOS_Assert(usb2com_buf);
 
 		updateSettings();

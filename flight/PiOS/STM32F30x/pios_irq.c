@@ -94,6 +94,11 @@ int32_t PIOS_IRQ_Enable(void)
 	return 0;
 }
 
+bool PIOS_IRQ_InISR(void)
+{
+	return (__get_IPSR() & 0xff) != 0;
+}
+
 #endif
 
 /**

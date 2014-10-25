@@ -40,6 +40,7 @@ class MainWindow;
 class CorePlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.Core" FILE "coreplugin.json")
 
 public:
     CorePlugin();

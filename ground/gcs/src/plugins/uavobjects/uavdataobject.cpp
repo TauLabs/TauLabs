@@ -3,6 +3,7 @@
  *
  * @file       uavdataobject.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -35,6 +36,7 @@ UAVDataObject::UAVDataObject(quint32 objID, bool isSingleInst, bool isSet,const 
 {
     mobj = NULL;
     this->isSet = isSet;
+    this->isPresentOnHardware = false;
 }
 
 /**
@@ -97,4 +99,17 @@ UAVMetaObject* UAVDataObject::getMetaObject()
 {
     return mobj;
 }
+bool UAVDataObject::getIsPresentOnHardware() const
+{
+    return isPresentOnHardware;
+}
+
+void UAVDataObject::setIsPresentOnHardware(bool value)
+{
+    bool temp = isPresentOnHardware;
+    isPresentOnHardware = value;
+    if(temp != isPresentOnHardware)
+        emit presentOnHardwareChanged(this);
+}
+
 

@@ -1,12 +1,10 @@
-
 TEMPLATE = lib 
+QT += widgets
 TARGET = NotifyPlugin 
  
 include(../../taulabsgcsplugin.pri) 
 include(../../plugins/coreplugin/coreplugin.pri) 
 include(notifyplugin_dependencies.pri)
-
-QT        += phonon
 
 HEADERS += notifyplugin.h \  
     notifypluginoptionspage.h \
@@ -22,12 +20,11 @@ SOURCES += notifyplugin.cpp \
     notificationitem.cpp \
     notifylogging.cpp
  
-OTHER_FILES += NotifyPlugin.pluginspec
+OTHER_FILES += NotifyPlugin.pluginspec\
+    NotifyPlugin.json
 
 FORMS += \
     notifypluginoptionspage.ui
 
 RESOURCES += \
     res.qrc
-
-

@@ -5,7 +5,7 @@
  * @addtogroup VisualizationModule Visualization module for simulation
  * @{
  * @file       visualization.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Sends the state of the UAV out a UDP port to be visualized in a
  *             standalone application
  *****************************************************************************/
@@ -28,6 +28,7 @@
 #include "pios.h"
 #include "physical_constants.h"
 #include "openpilot.h"
+#include "pios_thread.h"
 
 #include "cameradesired.h"
 #include "attitudesimulated.h"
@@ -43,13 +44,13 @@
 
 // Private constants
 #define STACK_SIZE_BYTES 1540
-#define TASK_PRIORITY (tskIDLE_PRIORITY+2)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
 #define VISUALIZATION_PERIOD 20
 
 // Private types
 
 // Private variables
-static xTaskHandle visualizationTaskHandle;
+static struct pios_thread *visualizationTaskHandle;
 
 // Private functions
 static void VisualizationTask(void *parameters);
@@ -71,7 +72,7 @@ int32_t SimVisualizationInitialize(void)
 int32_t SimVisualizationStart(void)
 {
 	// Start main task
-	xTaskCreate(VisualizationTask, (signed char *)"Visualization", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &visualizationTaskHandle);
+	visualizationTaskHandle = PIOS_Thread_Create(VisualizationTask, "Visualization", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 	return 0;
 }
@@ -120,7 +121,7 @@ static void VisualizationTask(void *parameters)
 		uav_data.camera_pitch = camera.Pitch * 45;
 		sendto(s, (struct sockaddr *) &uav_data, sizeof(uav_data), 0, (struct sockaddr *) &server, sizeof(server));
 		usleep(100000);
-		vTaskDelay(100);
+		PIOS_Thread_Sleep(100);
 
 	}
 }

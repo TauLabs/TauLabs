@@ -18,7 +18,8 @@ SOURCES += magicwaypointgadgetfactory.cpp
 SOURCES += magicwaypointplugin.cpp
 SOURCES += positionfield.cpp
 
-OTHER_FILES += MagicWaypoint.pluginspec
+OTHER_FILES += MagicWaypoint.pluginspec \
+    MagicWaypoint.json
 
 FORMS += magicwaypoint.ui
 

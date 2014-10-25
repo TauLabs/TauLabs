@@ -1,5 +1,6 @@
 TEMPLATE = lib
 TARGET = RawHID
+QT +=widgets
 include(../../taulabsgcsplugin.pri)
 include(rawhid_dependencies.pri)
 HEADERS += rawhid_global.h \
@@ -17,7 +18,8 @@ SOURCES += rawhidplugin.cpp \
 FORMS += 
 RESOURCES += 
 DEFINES += RAWHID_LIBRARY
-OTHER_FILES += RawHID.pluginspec
+OTHER_FILES += RawHID.pluginspec \
+    RawHID.json
 
 # Platform Specific USB HID Stuff
 win32 { 

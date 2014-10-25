@@ -7,7 +7,7 @@
  *
  * @file       sin_lookup.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Fast lookup table based sin/cos functions
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -77,7 +77,7 @@ int sin_lookup_initialize()
 	if (sin_table)
 		return 0;
 
-	sin_table = (float *) pvPortMalloc(sizeof(float) * SIN_RESOLUTION);
+	sin_table = (float *) PIOS_malloc(sizeof(float) * SIN_RESOLUTION);
 	if (sin_table == NULL)
 		return -1;
 

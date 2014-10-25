@@ -43,7 +43,6 @@
 #include <coreplugin/icore.h>
 #include <coreplugin/threadmanager.h>
 #include <math.h>
-#include <qxtlogger.h>
 #include "utils/coordinateconversions.h"
 
 //#define NATNET_DEBUG

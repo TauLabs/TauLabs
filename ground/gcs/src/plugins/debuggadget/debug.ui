@@ -15,9 +15,16 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="saveToFile">
      <property name="text">
       <string>Save to file</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="clearLog">
+     <property name="text">
+      <string>Clear Log</string>
      </property>
     </widget>
    </item>

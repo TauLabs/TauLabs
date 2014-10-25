@@ -18,4 +18,5 @@ SOURCES += \
 
 FORMS += uavtalkrelayoptionspage.ui
 DEFINES += UAVTALKRELAY_LIBRARY
-OTHER_FILES += UAVTalkRelay.pluginspec
+OTHER_FILES += UAVTalkRelay.pluginspec \
+    UAVTalkRelay.json

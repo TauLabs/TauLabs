@@ -6,7 +6,7 @@
  * @{
  *
  * @file       vibrationanalysis.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Performs an FFT on the accels to estimation vibration
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -40,6 +40,8 @@
 #include "openpilot.h"
 #include "physical_constants.h"
 #include "arm_math.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 #include "accels.h"
 #include "modulesettings.h"
@@ -57,15 +59,15 @@
 																				  // but instead from the heap. Nonetheless, we 
 																				  // can know a priori how much RAM this module 
 																				  // will take.
-#define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 #define SETTINGS_THROTTLING_MS 100
 
 #define MAX_ACCEL_RANGE 16                          // Maximum accelerometer resolution in [g]
 #define FLOAT_TO_Q15 (32768/(MAX_ACCEL_RANGE*GRAVITY)) // This is the scaling constant that scales all input floats to +-
 
 // Private variables
-static xTaskHandle taskHandle;
-static xQueueHandle queue;
+static struct pios_thread *taskHandle;
+static struct pios_queue *queue;
 static bool module_enabled = false;
 
 static struct VibrationAnalysis_data {
@@ -152,7 +154,7 @@ static int32_t VibrationAnalysisStart(void)
 	
 	
 	// Allocate and initialize the static data storage only if module is enabled
-	vtd = (struct VibrationAnalysis_data *) pvPortMalloc(sizeof(struct VibrationAnalysis_data));
+	vtd = (struct VibrationAnalysis_data *) PIOS_malloc(sizeof(struct VibrationAnalysis_data));
 	if (vtd == NULL) {
 		module_enabled = false;
 		return -1;
@@ -168,31 +170,31 @@ static int32_t VibrationAnalysisStart(void)
 	vtd->num_upscale_bits = num_upscale_bits;
 	
 	// Allocate ouput vector
-	vtd->fft_output = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*(vtd->fft_output))));
+	vtd->fft_output = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*(vtd->fft_output))));
 	if (vtd->fft_output == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;
 	}
 	
 	//Create the buffers. They are in Q15 format.
-	vtd->accel_buffer_complex_x_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_x_q15)));
+	vtd->accel_buffer_complex_x_q15 = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_x_q15)));
 	if (vtd->accel_buffer_complex_x_q15 == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;
 	}
-	vtd->accel_buffer_complex_y_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_y_q15)));
+	vtd->accel_buffer_complex_y_q15 = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_y_q15)));
 	if (vtd->accel_buffer_complex_y_q15 == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;
 	}
-	vtd->accel_buffer_complex_z_q15 = (int16_t *) pvPortMalloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_z_q15)));
+	vtd->accel_buffer_complex_z_q15 = (int16_t *) PIOS_malloc(fft_window_size*2*sizeof(typeof(*vtd->accel_buffer_complex_z_q15)));
 	if (vtd->accel_buffer_complex_z_q15 == NULL) {
 		module_enabled = false; //Check if allocation succeeded
 		return -1;
 	}
 	
 	// Start main task
-	xTaskCreate(VibrationAnalysisTask, (signed char *)"VibrationAnalysis", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(VibrationAnalysisTask, "VibrationAnalysis", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_VIBRATIONANALYSIS, taskHandle);
 	return 0;
 }
@@ -225,7 +227,7 @@ static int32_t VibrationAnalysisInitialize(void)
 	VibrationAnalysisOutputInitialize();
 		
 	// Create object queue
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 		
 	return 0;
 	
@@ -237,8 +239,8 @@ static void VibrationAnalysisTask(void *parameters)
 {
 #define MAX_BLOCKSIZE   2048
 	
-	portTickType lastSysTime;
-	portTickType lastSettingsUpdateTime;
+	uint32_t lastSysTime;
+	uint32_t lastSettingsUpdateTime;
 	uint8_t runAnalysisFlag = VIBRATIONANALYSISSETTINGS_TESTINGSTATUS_OFF; // By default, turn analysis off
 	uint16_t sampleRate_ms = 100; // Default sample rate of 100ms
 	uint8_t sample_count;
@@ -267,15 +269,15 @@ static void VibrationAnalysisTask(void *parameters)
 	// Main task loop
 	VibrationAnalysisOutputData vibrationAnalysisOutputData;
 	sample_count = 0;
-	lastSysTime = xTaskGetTickCount();
-	lastSettingsUpdateTime = xTaskGetTickCount() - MS2TICKS(SETTINGS_THROTTLING_MS);
+	lastSysTime = PIOS_Thread_Systime();
+	lastSettingsUpdateTime = PIOS_Thread_Systime() - SETTINGS_THROTTLING_MS;
 
 	
 	// Main module task, never exit from while loop
 	while(1)
 	{
 		// Only check settings once every 100ms
-		if(xTaskGetTickCount() - lastSettingsUpdateTime > MS2TICKS(SETTINGS_THROTTLING_MS)){
+		if(PIOS_Thread_Systime() - lastSettingsUpdateTime > SETTINGS_THROTTLING_MS) {
 			//First check if the analysis is active
 			VibrationAnalysisSettingsTestingStatusGet(&runAnalysisFlag);
 			
@@ -283,17 +285,17 @@ static void VibrationAnalysisTask(void *parameters)
 			VibrationAnalysisSettingsSampleRateGet(&sampleRate_ms);
 			sampleRate_ms = sampleRate_ms > 0 ? sampleRate_ms : 1; //Ensure sampleRate never is 0.
 			
-			lastSettingsUpdateTime = xTaskGetTickCount();
+			lastSettingsUpdateTime = PIOS_Thread_Systime();
 		}
 		
 		// If analysis is turned off, delay and then loop.
 		if (runAnalysisFlag == VIBRATIONANALYSISSETTINGS_TESTINGSTATUS_OFF) {
-			vTaskDelay(200);
+			PIOS_Thread_Sleep(200);
 			continue;
 		}
 		
 		// Wait until the Accels object is updated, and never time out
-		if ( xQueueReceive(queue, &ev, portMAX_DELAY) == pdTRUE )
+		if (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true)
 		{
 			/**
 			 * Accumulate accelerometer data. This would be a great place to add a 
@@ -312,11 +314,11 @@ static void VibrationAnalysisTask(void *parameters)
 		}
 		
 		// If not enough time has passed, keep accumulating data
-		if(xTaskGetTickCount() - lastSysTime < MS2TICKS(sampleRate_ms)) {
+		if(PIOS_Thread_Systime() - lastSysTime < sampleRate_ms) {
 			continue;
 		}
 		
-		lastSysTime += MS2TICKS(sampleRate_ms);
+		lastSysTime += sampleRate_ms;
 		
 		
 		//Calculate averaged values

@@ -7,7 +7,7 @@
  *
  * @file       overosync.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Log all updates to a file during simulation like Overo would
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -33,18 +33,22 @@
 #include "overosyncstats.h"
 #include "systemstats.h"
 
+#include "pios_mutex.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
+
 // Private constants
 #define OVEROSYNC_PACKET_SIZE 1024
 #define MAX_QUEUE_SIZE   40
 #define STACK_SIZE_BYTES 512
-#define TASK_PRIORITY (tskIDLE_PRIORITY + 0)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private types
 
 // Private variables
-static xQueueHandle queue;
+static struct pios_queue *queue;
 static UAVTalkConnection uavTalkCon;
-static xTaskHandle overoSyncTaskHandle;
+static struct pios_thread *overoSyncTaskHandle;
 volatile bool buffer_swap_failed;
 volatile uint32_t buffer_swap_timeval;
 FILE * fid;
@@ -63,8 +67,7 @@ struct overosync {
 	struct dma_transaction transactions[2];
 	uint32_t active_transaction_id;
 	uint32_t loading_transaction_id;
-	xSemaphoreHandle transaction_lock;
-	xSemaphoreHandle buffer_lock;
+	struct pios_mutex *buffer_lock;
 	volatile bool transaction_done;
 	uint32_t sent_bytes;
 	uint32_t write_pointer;
@@ -86,7 +89,7 @@ int32_t OveroSyncInitialize(void)
 	OveroSyncStatsInitialize();
 
 	// Create object queues
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&packData);
@@ -101,15 +104,11 @@ int32_t OveroSyncInitialize(void)
  */
 int32_t OveroSyncStart(void)
 {
-	overosync = (struct overosync *) pvPortMalloc(sizeof(*overosync));
+	overosync = (struct overosync *) PIOS_malloc(sizeof(*overosync));
 	if(overosync == NULL)
 		return -1;
 
-	overosync->transaction_lock = xSemaphoreCreateMutex();
-	if(overosync->transaction_lock == NULL)
-		return -1;
-
-	overosync->buffer_lock = xSemaphoreCreateMutex();
+	overosync->buffer_lock = PIOS_Mutex_Create();
 	if(overosync->buffer_lock == NULL)
 		return -1;
 
@@ -123,7 +122,7 @@ int32_t OveroSyncStart(void)
 	UAVObjIterate(&registerObject);
 	
 	// Start telemetry tasks
-	xTaskCreate(overoSyncTask, (signed char *)"OveroSync", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &overoSyncTaskHandle);
+	overoSyncTaskHandle = PIOS_Thread_Create(overoSyncTask, "OveroSync", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	
 	TaskMonitorAdd(TASKINFO_RUNNING_OVEROSYNC, overoSyncTaskHandle);
 	
@@ -166,15 +165,15 @@ static void overoSyncTask(void *parameters)
 	overosync->failed_objects = 0;
 	overosync->received_objects = 0;
 	
-	portTickType lastUpdateTime = xTaskGetTickCount();
-	portTickType updateTime;
+	uint32_t lastUpdateTime = PIOS_Thread_Systime();
+	uint32_t updateTime;
 	
 	fid = fopen("sim_log.opl", "w");
 
 	// Loop forever
 	while (1) {
 		// Wait for queue message
-		if (xQueueReceive(queue, &ev, portMAX_DELAY) == pdTRUE) {
+		if (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
 		
 			// Check it will fit before packetizing
 			if ((overosync->write_pointer + UAVObjGetNumBytes(ev.obj) + 12) >=
@@ -185,8 +184,8 @@ static void overoSyncTask(void *parameters)
 				UAVTalkSendObject(uavTalkCon, ev.obj, ev.instId, false, 0);
 			}
 
-			updateTime = xTaskGetTickCount();
-			if(((portTickType) (updateTime - lastUpdateTime)) > 1000) {
+			updateTime = PIOS_Thread_Systime();
+			if(((uint32_t) (updateTime - lastUpdateTime)) > 1000) {
 				// Update stats.  This will trigger a local send event too
 				OveroSyncStatsData syncStats;
 				syncStats.Send = overosync->sent_bytes;
@@ -212,9 +211,9 @@ static void overoSyncTask(void *parameters)
 static int32_t packData(uint8_t * data, int32_t length)
 {
 	// Get the lock for manipulating the buffer
-	xSemaphoreTake(overosync->buffer_lock, portMAX_DELAY);
+	PIOS_Mutex_Lock(overosync->buffer_lock, PIOS_MUTEX_TIMEOUT_MAX);
 
-	portTickType tickTime = xTaskGetTickCount();
+	uint32_t tickTime = PIOS_Thread_Systime();
 	uint64_t packetSize = data[2] + (data[3] << 8);
 	fwrite((void *) &tickTime, 1, sizeof(tickTime), fid);
 	fwrite((void *) &packetSize, sizeof(packetSize), 1, fid);
@@ -222,7 +221,7 @@ static int32_t packData(uint8_t * data, int32_t length)
 	overosync->sent_bytes += length;
 	overosync->sent_objects++;
 
-	xSemaphoreGive(overosync->buffer_lock);
+	PIOS_Mutex_Unlock(overosync->buffer_lock);
 	
 	return length;
 }

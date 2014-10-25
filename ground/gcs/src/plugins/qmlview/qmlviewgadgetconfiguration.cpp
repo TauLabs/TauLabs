@@ -39,7 +39,6 @@ QmlViewGadgetConfiguration::QmlViewGadgetConfiguration(QString classId, QSetting
     //if a saved configuration exists load it
     if(qSettings != 0) {
         QString dialFile = qSettings->value("dialFile").toString();
-        useOpenGLFlag = qSettings->value("useOpenGLFlag").toBool();
         m_defaultDial=Utils::PathUtils().InsertDataPath(dialFile);
     }
 }
@@ -52,7 +51,6 @@ IUAVGadgetConfiguration *QmlViewGadgetConfiguration::clone()
 {
     QmlViewGadgetConfiguration *m = new QmlViewGadgetConfiguration(this->classId());
     m->m_defaultDial=m_defaultDial;
-    m->useOpenGLFlag = useOpenGLFlag;
     return m;
 }
 
@@ -63,5 +61,4 @@ IUAVGadgetConfiguration *QmlViewGadgetConfiguration::clone()
 void QmlViewGadgetConfiguration::saveConfig(QSettings* qSettings) const {
     QString dialFile = Utils::PathUtils().RemoveDataPath(m_defaultDial);
     qSettings->setValue("dialFile", dialFile);
-    qSettings->setValue("useOpenGLFlag", useOpenGLFlag);
 }

@@ -37,10 +37,10 @@
 #endif
 
 #include <QDebug>
-#include <QtGui/QCheckBox>
-#include <QtGui/QComboBox>
-#include <QtGui/QDoubleSpinBox>
-#include <QtGui/QLabel>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QDoubleSpinBox>
+#include <QLabel>
 
 namespace Core {
 class IUAVGadgetConfiguration;

@@ -46,6 +46,7 @@ class KmlExportPlugin;
 class KmlExportPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.KmlExportPlugin" FILE "KmlExportPlugin.json")
 
 public:
     KmlExportPlugin();

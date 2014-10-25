@@ -1349,6 +1349,184 @@ static const struct pios_sbus_cfg pios_usart5_sbus_aux_cfg = {
 
 #endif	/* PIOS_INCLUDE_SBUS */
 
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
+static const struct pios_usart_cfg pios_usart1_sport_cfg = {
+	.regs = USART1,
+	.remap = GPIO_AF_7,
+	.init = {
+		.USART_BaudRate = 57600,
+		.USART_WordLength = USART_WordLength_8b,
+		.USART_Parity = USART_Parity_No,
+		.USART_StopBits = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode = USART_Mode_Rx | USART_Mode_Tx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = USART1_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.rxtx_swap = true,
+	.rx_invert = true,
+	.tx_invert = true,
+	.single_wire = true,
+	.tx = {
+		.gpio = GPIOC,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_5,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_DOWN
+		},
+		.pin_source = GPIO_PinSource5,
+	},
+};
+
+static const struct pios_usart_cfg pios_usart2_sport_cfg = {
+	.regs = USART2,
+	.remap = GPIO_AF_7,
+	.init = {
+		.USART_BaudRate = 57600,
+		.USART_WordLength = USART_WordLength_8b,
+		.USART_Parity = USART_Parity_No,
+		.USART_StopBits = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode = USART_Mode_Rx | USART_Mode_Tx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = USART2_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.rx_invert = true,
+	.tx_invert = true,
+	.single_wire = true,
+	.tx = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_5,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_DOWN
+		},
+		.pin_source = GPIO_PinSource5,
+	},
+};
+
+static const struct pios_usart_cfg pios_usart3_sport_cfg = {
+	.regs = USART3,
+	.remap = GPIO_AF_7,
+	.init = {
+		.USART_BaudRate = 57600,
+		.USART_WordLength = USART_WordLength_8b,
+		.USART_Parity = USART_Parity_No,
+		.USART_StopBits = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode = USART_Mode_Rx | USART_Mode_Tx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = USART3_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.rx_invert = true,
+	.tx_invert = true,
+	.single_wire = true,
+	.tx = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_8,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_DOWN
+		},
+		.pin_source = GPIO_PinSource8,
+	},
+};
+
+static const struct pios_usart_cfg pios_usart4_sport_cfg = {
+	.regs = UART4,
+	.remap = GPIO_AF_5,
+	.init = {
+		.USART_BaudRate = 57600,
+		.USART_WordLength = USART_WordLength_8b,
+		.USART_Parity = USART_Parity_No,
+		.USART_StopBits = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode = USART_Mode_Rx | USART_Mode_Tx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = UART4_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.rx_invert = true,
+	.tx_invert = true,
+	.single_wire = true,
+	.tx = {
+		.gpio = GPIOC,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_10,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_DOWN
+		},
+		.pin_source = GPIO_PinSource10,
+	},
+};
+
+static const struct pios_usart_cfg pios_usart5_sport_cfg = {
+	.regs = UART5,
+	.remap = GPIO_AF_5,
+	.init = {
+		.USART_BaudRate = 57600,
+		.USART_WordLength = USART_WordLength_8b,
+		.USART_Parity = USART_Parity_No,
+		.USART_StopBits = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode = USART_Mode_Rx | USART_Mode_Tx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = UART5_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.rx_invert = true,
+	.tx_invert = true,
+	.single_wire = true,
+	.tx = {
+		.gpio = GPIOC,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_12,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_DOWN
+		},
+		.pin_source = GPIO_PinSource12,
+	},
+};
+
+#endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
 static const struct pios_usart_cfg pios_usart1_cfg = {
 	.regs = USART1,
 	.remap = GPIO_AF_7,

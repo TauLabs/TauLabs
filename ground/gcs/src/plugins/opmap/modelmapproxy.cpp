@@ -317,7 +317,6 @@ void ModelMapProxy::rowsInserted(const QModelIndex &parent, int first, int last)
     {
         QModelIndex index;
         internals::PointLatLng latlng;
-        WayPointItem *item;
         double altitude;
         index=model->index(x,FlightDataModel::WPDESCRIPTION);
         QString desc=index.data(Qt::DisplayRole).toString();
@@ -327,7 +326,7 @@ void ModelMapProxy::rowsInserted(const QModelIndex &parent, int first, int last)
         latlng.SetLng(index.data(Qt::DisplayRole).toDouble());
         index=model->index(x,FlightDataModel::ALTITUDE);
         altitude=index.data(Qt::DisplayRole).toDouble();
-        item=myMap->WPInsert(latlng,altitude,desc,x);
+        myMap->WPInsert(latlng,altitude,desc,x);
     }
     refreshOverlays();
 }

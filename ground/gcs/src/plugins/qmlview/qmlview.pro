@@ -2,7 +2,8 @@ TEMPLATE = lib
 TARGET = QMLView
 QT += svg
 QT += opengl
-QT += declarative
+QT += qml
+QT += quick
 
 include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
@@ -25,7 +26,8 @@ SOURCES += \
     qmlviewgadgetconfiguration.cpp \
     qmlviewgadgetoptionspage.cpp
 
-OTHER_FILES += QMLView.pluginspec
+OTHER_FILES += QMLView.pluginspec \
+    QMLView.json
 
 FORMS += qmlviewgadgetoptionspage.ui
 

@@ -4,8 +4,7 @@ include(../../taulabsgcsplugin.pri)
 include(../../plugins/uavobjects/uavobjects.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 
-OTHER_FILES += TauLabs.pluginspec \
-                TauLabs.json
+OTHER_FILES += TauLabs.json
 
 HEADERS += \
     taulabsplugin.h \

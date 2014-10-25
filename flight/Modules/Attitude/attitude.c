@@ -73,10 +73,12 @@
 #include "velocityactual.h"
 #include "coordinate_conversions.h"
 #include "WorldMagModel.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 2100
-#define TASK_PRIORITY (tskIDLE_PRIORITY+3)
+#define STACK_SIZE_BYTES 2200
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define FAILSAFE_TIMEOUT_MS 10
 
 // Private types
@@ -129,14 +131,14 @@ struct cfvert {
 };
 
 // Private variables
-static xTaskHandle attitudeTaskHandle;
+static struct pios_thread *attitudeTaskHandle;
 
-static xQueueHandle gyroQueue;
-static xQueueHandle accelQueue;
-static xQueueHandle magQueue;
-static xQueueHandle baroQueue;
-static xQueueHandle gpsQueue;
-static xQueueHandle gpsVelQueue;
+static struct pios_queue *gyroQueue;
+static struct pios_queue *accelQueue;
+static struct pios_queue *magQueue;
+static struct pios_queue *baroQueue;
+static struct pios_queue *gpsQueue;
+static struct pios_queue *gpsVelQueue;
 
 static AttitudeSettingsData attitudeSettings;
 static HomeLocationData homeLocation;
@@ -198,7 +200,7 @@ static void check_home_location();
 
 /**
  * API for sensor fusion algorithms:
- * Configure(xQueueHandle gyro, xQueueHandle accel, xQueueHandle mag, xQueueHandle baro)
+ * Configure(struct pios_queue *gyro, struct pios_queue *accel, struct pios_queue *mag, struct pios_queue *baro)
  *   Stores all the queues the algorithm will pull data from
  * FinalizeSensors() -- before saving the sensors modifies them based on internal state (gyro bias)
  * Update() -- queries queues and updates the attitude estiamte
@@ -241,12 +243,12 @@ int32_t AttitudeInitialize(void)
 int32_t AttitudeStart(void)
 {
 	// Create the queues for the sensors
-	gyroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	accelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	magQueue = xQueueCreate(2, sizeof(UAVObjEvent));
-	baroQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	gpsQueue = xQueueCreate(1, sizeof(UAVObjEvent));
-	gpsVelQueue = xQueueCreate(1, sizeof(UAVObjEvent));
+	gyroQueue = PIOS_Queue_Create(1, sizeof(UAVObjEvent));
+	accelQueue = PIOS_Queue_Create(1, sizeof(UAVObjEvent));
+	magQueue = PIOS_Queue_Create(2, sizeof(UAVObjEvent));
+	baroQueue = PIOS_Queue_Create(1, sizeof(UAVObjEvent));
+	gpsQueue = PIOS_Queue_Create(1, sizeof(UAVObjEvent));
+	gpsVelQueue = PIOS_Queue_Create(1, sizeof(UAVObjEvent));
 
 	// Initialize quaternion
 	AttitudeActualData attitude;
@@ -277,7 +279,7 @@ int32_t AttitudeStart(void)
 		GPSVelocityConnectQueue(gpsVelQueue);
 
 	// Start main task
-	xTaskCreate(AttitudeTask, (signed char *)"Attitude", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &attitudeTaskHandle);
+	attitudeTaskHandle = PIOS_Thread_Create(AttitudeTask, "Attitude", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
 
@@ -300,7 +302,7 @@ static void AttitudeTask(void *parameters)
 	settingsUpdatedCb(NULL);
 
 	// Wait for all the sensors be to read
-	vTaskDelay(100);
+	PIOS_Thread_Sleep(100);
 
 	// Invalidate previous algorithm to trigger a first run
 	last_algorithm = 0xfffffff;
@@ -408,8 +410,8 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 	// If this is the primary estimation filter, wait until the accel and
 	// gyro objects are updated. If it timeouts then go to failsafe.
 	if (!secondary) {
-		bool gyroTimeout  = (xQueueReceive(gyroQueue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE);
-		bool accelTimeout = (xQueueReceive(accelQueue, &ev, MS2TICKS(1)) != pdTRUE );
+		bool gyroTimeout  = PIOS_Queue_Receive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS) != true;
+		bool accelTimeout = PIOS_Queue_Receive(accelQueue, &ev, 1) != true;
 
 		// When one of these is updated so should the other.
 		if (gyroTimeout || accelTimeout) {
@@ -438,7 +440,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 
 		// Wait for a mag reading if a magnetometer was registered
 		if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG) != NULL) {
-			if ( !secondary && xQueueReceive(magQueue, &ev, MS2TICKS(20)) != pdTRUE ) {
+			if (!secondary && PIOS_Queue_Receive(magQueue, &ev, 20) != true) {
 				return -1;
 			}
 			MagnetometerGet(&magData);
@@ -479,7 +481,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 		(ms_since_reset > 1000)) {
 
 		// For first 7 seconds use accels to get gyro bias
-		attitudeSettings.AccelKp = 0.1f + 0.1f * (xTaskGetTickCount() < 4000);
+		attitudeSettings.AccelKp = 0.1f + 0.1f * (PIOS_Thread_Systime() < 4000);
 		attitudeSettings.AccelKi = 0.1f;
 		attitudeSettings.YawBiasRate = 0.1f;
 		attitudeSettings.MagKp = 0.1f;
@@ -588,7 +590,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 	}
 
 	float mag_err[3];
-	if ( secondary || xQueueReceive(magQueue, &ev, 0) == pdTRUE )
+	if (secondary || PIOS_Queue_Receive(magQueue, &ev, 0) == true)
 	{
 		MagnetometerData mag;
 		MagnetometerGet(&mag);
@@ -691,7 +693,7 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 		// When this is the only filter compute th vertical state from baro data
 		// Reset the filter for barometric data
 		cfvert_predict_pos(&cfvert, z_accel, dT);
-		if ( xQueueReceive(baroQueue, &ev, 0) == pdTRUE) {
+		if (PIOS_Queue_Receive(baroQueue, &ev, 0) == true) {
 			float baro;
 			BaroAltitudeAltitudeGet(&baro);
 			cfvert_update_baro(&cfvert, baro, dT);
@@ -781,8 +783,8 @@ static int32_t setNavigationRaw()
 
 	if (homeLocation.Set == HOMELOCATION_SET_FALSE) {
 		set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOHOME);
-		xQueueReceive(gpsQueue, &ev, 0);
-	} else if (xQueueReceive(gpsQueue, &ev, 0) == pdTRUE) {
+		PIOS_Queue_Receive(gpsQueue, &ev, 0);
+	} else if (PIOS_Queue_Receive(gpsQueue, &ev, 0) == true) {
 		float NED[3];
 		// Transform the GPS position into NED coordinates
 		GPSPositionData gpsPosition;
@@ -814,7 +816,7 @@ static int32_t setNavigationRaw()
 		PositionActualDownSet(&cfvert.position_z);
 	}
 
-	if ( xQueueReceive(gpsVelQueue, &ev, 0) == pdTRUE ) {
+	if (PIOS_Queue_Receive(gpsVelQueue, &ev, 0) == true) {
 		// Transform the GPS position into NED coordinates
 		GPSVelocityData gpsVelocity;
 		GPSVelocityGet(&gpsVelocity);
@@ -838,8 +840,8 @@ static int32_t setNavigationNone()
 	UAVObjEvent ev;
 
 	// Throw away data to prevent queue overflows
-	xQueueReceive(gpsQueue, &ev, 0);
-	xQueueReceive(gpsVelQueue, &ev, 0);
+	PIOS_Queue_Receive(gpsQueue, &ev, 0);
+	PIOS_Queue_Receive(gpsVelQueue, &ev, 0);
 
 	PositionActualDownSet(&cfvert.position_z);
 	VelocityActualDownSet(&cfvert.velocity_z);
@@ -980,14 +982,14 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		return 0;
 	}
 
-	mag_updated |= (xQueueReceive(magQueue, &ev, MS2TICKS(0)) == pdTRUE);
-	baro_updated |= xQueueReceive(baroQueue, &ev, MS2TICKS(0)) == pdTRUE;
-	gps_updated |= (xQueueReceive(gpsQueue, &ev, MS2TICKS(0)) == pdTRUE) && outdoor_mode;
-	gps_vel_updated |= (xQueueReceive(gpsVelQueue, &ev, MS2TICKS(0)) == pdTRUE) && outdoor_mode;
+	mag_updated = mag_updated || PIOS_Queue_Receive(magQueue, &ev, 0);
+	baro_updated = baro_updated || PIOS_Queue_Receive(baroQueue, &ev, 0);
+	gps_updated = gps_updated || (PIOS_Queue_Receive(gpsQueue, &ev, 0) && outdoor_mode);
+	gps_vel_updated = gps_vel_updated || (PIOS_Queue_Receive(gpsVelQueue, &ev, 0) && outdoor_mode);
 
 	// Wait until the gyro and accel object is updated, if a timeout then go to failsafe
-	if ( (xQueueReceive(gyroQueue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS)) != pdTRUE) ||
-		 (xQueueReceive(accelQueue, &ev, MS2TICKS(1)) != pdTRUE) )
+	if (PIOS_Queue_Receive(gyroQueue, &ev, FAILSAFE_TIMEOUT_MS) != true ||
+		PIOS_Queue_Receive(accelQueue, &ev, 1) != true)
 	{
 		return -1;
 	}
@@ -1352,8 +1354,7 @@ static void check_home_location()
 		return;
 
 	// Do not calculate if already set
-	HomeLocationData home;
-	if (home.Set == HOMELOCATION_SET_TRUE)
+	if (homeLocation.Set == HOMELOCATION_SET_TRUE)
 		return;
 
 	GPSPositionData gps;
@@ -1369,22 +1370,22 @@ static void check_home_location()
 	     gpsTime.Year >= 2000)
 	{
 		// Store LLA
-		home.Latitude = gps.Latitude;
-		home.Longitude = gps.Longitude;
-		home.Altitude = gps.Altitude; // Altitude referenced to mean sea level geoid (likely EGM 1996, but no guarantees)
+		homeLocation.Latitude = gps.Latitude;
+		homeLocation.Longitude = gps.Longitude;
+		homeLocation.Altitude = gps.Altitude; // Altitude referenced to mean sea level geoid (likely EGM 1996, but no guarantees)
 
 		// Compute home ECEF coordinates and the rotation matrix into NED
-		double LLA[3] = { ((double)home.Latitude) / 10e6, ((double)home.Longitude) / 10e6, ((double)home.Altitude) };
+		double LLA[3] = { ((double)homeLocation.Latitude) / 10e6, ((double)homeLocation.Longitude) / 10e6, ((double)homeLocation.Altitude) };
 
 		// Compute magnetic flux direction at home location
-		if (WMM_GetMagVector(LLA[0], LLA[1], LLA[2], gpsTime.Month, gpsTime.Day, gpsTime.Year, &home.Be[0]) >= 0)
+		if (WMM_GetMagVector(LLA[0], LLA[1], LLA[2], gpsTime.Month, gpsTime.Day, gpsTime.Year, &homeLocation.Be[0]) >= 0)
 		{   // calculations appeared to go OK
 
 			// Compute local acceleration due to gravity.  Vehicles that span a very large
 			// range of altitude (say, weather balloons) may need to update this during the
 			// flight.
-			home.Set = HOMELOCATION_SET_TRUE;
-			HomeLocationSet(&home);
+			homeLocation.Set = HOMELOCATION_SET_TRUE;
+			HomeLocationSet(&homeLocation);
 		}
 	}
 }

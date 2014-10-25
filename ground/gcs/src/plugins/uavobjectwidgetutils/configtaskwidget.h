@@ -3,6 +3,7 @@
  *
  * @file       configtaskwidget.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -34,7 +35,7 @@
 #include "uavobject.h"
 #include "uavobjectutilmanager.h"
 #include <QQueue>
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QList>
 #include <QLabel>
 #include "smartsavebutton.h"
@@ -171,7 +172,7 @@ private slots:
     void objectUpdated(UAVObject*);
     void defaultButtonClicked();
     void reloadButtonClicked();
-
+    void doRefreshHiddenObjects(UAVDataObject*);
 private:
     int currentBoard;
     bool isConnected;

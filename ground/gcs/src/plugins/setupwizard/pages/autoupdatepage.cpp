@@ -16,7 +16,8 @@
 #include <extensionsystem/pluginmanager.h>
 #include <uavobjectutil/uavobjectutilmanager.h>
 #include <extensionsystem/pluginmanager.h>
-#include "uploader/uploadergadgetfactory.h"
+
+using namespace uploader;
 
 AutoUpdatePage::AutoUpdatePage(SetupWizard *wizard, QWidget *parent) :
     AbstractWizardPage(wizard, parent),
@@ -29,7 +30,7 @@ AutoUpdatePage::AutoUpdatePage(SetupWizard *wizard, QWidget *parent) :
     Q_ASSERT(uploader);
     connect(ui->startUpdate, SIGNAL(clicked()), this, SLOT(disableButtons()));
     connect(ui->startUpdate, SIGNAL(clicked()), uploader, SIGNAL(autoUpdate()));
-    connect(uploader, SIGNAL(autoUpdateSignal(uploader::AutoUpdateStep, QVariant)), this, SLOT(updateStatus(uploader::AutoUpdateStep, QVariant)));
+    connect(uploader, SIGNAL(autoUpdateSignal(UploaderStatus,QVariant)), this, SLOT(updateStatus(UploaderStatus , QVariant)));
 }
 
 AutoUpdatePage::~AutoUpdatePage()
@@ -47,11 +48,12 @@ void AutoUpdatePage::enableButtons(bool enable)
     QApplication::processEvents();
 }
 
-void AutoUpdatePage::updateStatus(uploader::AutoUpdateStep status, QVariant value)
+void AutoUpdatePage::updateStatus(UploaderStatus status, QVariant value)
 {
     switch (status) {
     case uploader::WAITING_DISCONNECT:
-        getWizard()->setWindowFlags(getWizard()->windowFlags() & ~Qt::WindowStaysOnTopHint);
+        getWizard()->setWindowFlags(getWizard()->windowFlags() | Qt::WindowStaysOnTopHint);
+        getWizard()->setWindowIcon(qApp->windowIcon());
         disableButtons();
         ui->statusLabel->setText(tr("Waiting for all boards to be disconnected"));
         break;
@@ -62,10 +64,6 @@ void AutoUpdatePage::updateStatus(uploader::AutoUpdateStep status, QVariant valu
         getWizard()->show();
         ui->statusLabel->setText(tr("Please connect the board to the USB port (don't use external supply)"));
         ui->levellinProgressBar->setValue(value.toInt());
-        break;
-    case uploader::JUMP_TO_BL:
-        ui->levellinProgressBar->setValue(0);
-        ui->statusLabel->setText(tr("Board going into bootloader mode"));
         break;
     case uploader::LOADING_FW:
         ui->statusLabel->setText(tr("Loading firmware"));

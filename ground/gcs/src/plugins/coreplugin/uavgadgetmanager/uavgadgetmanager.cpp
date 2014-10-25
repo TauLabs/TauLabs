@@ -53,15 +53,15 @@
 #include <QtCore/QProcess>
 #include <QtCore/QSet>
 
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QLayout>
-#include <QtGui/QMainWindow>
-#include <QtGui/QMenu>
-#include <QtGui/QMessageBox>
-#include <QtGui/QPushButton>
-#include <QtGui/QSplitter>
-#include <QtGui/QStackedLayout>
+#include <QAction>
+#include <QApplication>
+#include <QLayout>
+#include <QMainWindow>
+#include <QMenu>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QSplitter>
+#include <QStackedLayout>
 
 Q_DECLARE_METATYPE(Core::IUAVGadget*)
 
@@ -70,13 +70,6 @@ using namespace Core::Internal;
 using namespace Utils;
 
 enum { debugUAVGadgetManager=0 };
-
-static inline ExtensionSystem::PluginManager *pluginManager()
-{
-    return ExtensionSystem::PluginManager::instance();
-}
-
-//===================UAVGadgetManager=====================
 
 UAVGadgetManager::UAVGadgetManager(ICore *core, QString name, QIcon icon, int priority, QString uniqueName, QWidget *parent) :
     m_showToolbars(true),

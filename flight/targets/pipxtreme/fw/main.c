@@ -34,8 +34,10 @@
 #include "uavobjectsinit.h"
 #include "systemmod.h"
 
-/* Task Priorities */
-#define PRIORITY_TASK_HOOKS             (tskIDLE_PRIORITY + 3)
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#include "task.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
 /* Global Variables */
 
@@ -85,7 +87,7 @@ int main()
 		PIOS_DELAY_WaitmS(100);
 	}
 
-    return 0;
+	return 0;
 }
 
 /**

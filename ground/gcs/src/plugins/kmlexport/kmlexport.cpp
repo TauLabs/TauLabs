@@ -214,7 +214,7 @@ bool KmlExport::open()
     }
 
     //Open log file as  ReadOnly
-    if(logFile.open(QIODevice::ReadOnly) == FALSE)
+    if(logFile.open(QIODevice::ReadOnly) == false)
     {
         qDebug() << "Unable to open " << logFile.fileName() << " for logging";
         return false;

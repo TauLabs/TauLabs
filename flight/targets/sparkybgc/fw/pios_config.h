@@ -34,10 +34,7 @@
 #define PIOS_INCLUDE_FREERTOS
 #define PIOS_INCLUDE_BL_HELPER
 
-/* Enable/Disable PiOS Modules */
-#define PIOS_INCLUDE_ADC
-#define PIOS_INCLUDE_DMA_CB_SUBSCRIBING_FUNCTION
- 
+/* Enable/Disable PiOS Modules */ 
 #define PIOS_INCLUDE_DELAY
 #define PIOS_INCLUDE_I2C
 #define PIOS_INCLUDE_CAN
@@ -57,7 +54,6 @@
 #define PIOS_INCLUDE_WDG
 
 /* Select the sensors to include */
-#define PIOS_INCLUDE_MS5611
 #define PIOS_MPU6050_ACCEL
 #define PIOS_MPU6050_SIMPLE_INIT_SEQUENCE
 #define PIOS_INCLUDE_MPU9150
@@ -100,7 +96,7 @@
 #define CPULOAD_LIMIT_CRITICAL		95
 
 /* Task stack sizes */
-#define PIOS_EVENTDISPATCHER_STACK_SIZE	256
+#define PIOS_EVENTDISPATCHER_STACK_SIZE	1024
 
 /*
  * This has been calibrated 2013/03/11 using next @ 6d21c7a590619ebbc074e60cab5e134e65c9d32b.
@@ -114,8 +110,6 @@
  * A change in the cpu load calculation or the idle task handler will invalidate this as well.
  */
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (1459667)
-
-#define REVOLUTION
 
 #define CAMERASTAB_POI_MODE
 

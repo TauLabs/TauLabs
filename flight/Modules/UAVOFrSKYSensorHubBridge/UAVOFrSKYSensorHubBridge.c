@@ -39,6 +39,7 @@
 #include "baroaltitude.h"
 #include "accels.h"
 #include "flightstatus.h"
+#include "pios_thread.h"
 
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB)
 // ****************
@@ -111,7 +112,7 @@ static bool frame_trigger(uint8_t frame_num);
 #define STACK_SIZE_BYTES 672
 #endif
 
-#define TASK_PRIORITY               (tskIDLE_PRIORITY + 1)
+#define TASK_PRIORITY               PIOS_THREAD_PRIO_LOW
 #define TASK_RATE_HZ 10
 
 #define FRSKY_MAX_PACKET_LEN 106
@@ -170,7 +171,7 @@ static const uint8_t frsky_rates[] = {
 // ****************
 // Private variables
 
-static xTaskHandle uavoFrSKYSensorHubBridgeTaskHandle;
+static struct pios_thread *uavoFrSKYSensorHubBridgeTaskHandle;
 
 static uint32_t frsky_port;
 
@@ -189,9 +190,9 @@ static int32_t uavoFrSKYSensorHubBridgeStart(void)
 {
 	if (module_enabled) {
 		// Start tasks
-		xTaskCreate(uavoFrSKYSensorHubBridgeTask, (signed char *)"uavoFrSKYSensorHubBridge",
-				STACK_SIZE_BYTES / 4, NULL, TASK_PRIORITY,
-				&uavoFrSKYSensorHubBridgeTaskHandle);
+		uavoFrSKYSensorHubBridgeTaskHandle = PIOS_Thread_Create(
+				uavoFrSKYSensorHubBridgeTask, "uavoFrSKYSensorHubBridge",
+				STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_UAVOFRSKYSBRIDGE,
 				uavoFrSKYSensorHubBridgeTaskHandle);
 		return 0;
@@ -215,11 +216,11 @@ static int32_t uavoFrSKYSensorHubBridgeInitialize(void)
 					== MODULESETTINGS_ADMINSTATE_ENABLED)) {
 		PIOS_COM_ChangeBaud(frsky_port, FRSKY_BAUD_RATE);
 
-		serial_buf = pvPortMalloc(FRSKY_MAX_PACKET_LEN);
+		serial_buf = PIOS_malloc(FRSKY_MAX_PACKET_LEN);
 		if (serial_buf == 0)
 			return -1;
 
-		frame_ticks = pvPortMalloc(MAXSTREAMS);
+		frame_ticks = PIOS_malloc(MAXSTREAMS);
 		if (frame_ticks == 0)
 			return -1;
 
@@ -301,13 +302,13 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 	float altitude_offset = 0.0f;
 
 	uint16_t msg_length = 0;
-	portTickType lastSysTime;
+	uint32_t lastSysTime;
 
 	// Main task loop
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 
 	while (1) {
-		vTaskDelayUntil(&lastSysTime, MS2TICKS(1000 / TASK_RATE_HZ));
+		PIOS_Thread_Sleep_Until(&lastSysTime, 1000 / TASK_RATE_HZ);
 
 		if (frame_trigger(FRSKY_FRAME_VARIO)) {
 			msg_length = 0;

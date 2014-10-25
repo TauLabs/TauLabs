@@ -1,6 +1,7 @@
 TEMPLATE = lib
 TARGET = HITL
 QT += network
+QT += widgets
 
 include(../../taulabsgcsplugin.pri)
 include(hitl_dependencies.pri)
@@ -29,7 +30,8 @@ SOURCES += hitlplugin.cpp \
     fgsimulator.cpp \
     il2simulator.cpp \
     xplanesimulator.cpp
-OTHER_FILES += hitl.pluginspec
+OTHER_FILES += hitl.pluginspec \
+                hitl.json
 FORMS += hitloptionspage.ui \
     hitlwidget.ui
 RESOURCES += hitlresources.qrc

@@ -80,6 +80,7 @@ QWidget *SerialPluginOptionsPage::createPage(QWidget *parent)
 
     options_page->cb_speed->addItems(allowedSpeeds);
     options_page->cb_speed->setCurrentIndex(options_page->cb_speed->findText(m_config->speed()));
+    options_page->reconnectCB->setChecked(m_config->reconnect());
     return optionsPageWidget;
 }
 
@@ -92,6 +93,7 @@ QWidget *SerialPluginOptionsPage::createPage(QWidget *parent)
 void SerialPluginOptionsPage::apply()
 {
     m_config->setSpeed(options_page->cb_speed->currentText());
+    m_config->setReconnect(options_page->reconnectCB->isChecked());
     m_config->savesettings();
 }
 

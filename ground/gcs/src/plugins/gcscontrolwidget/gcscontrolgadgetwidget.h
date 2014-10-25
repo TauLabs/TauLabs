@@ -28,9 +28,10 @@
 #ifndef GCSControlGADGETWIDGET_H_
 #define GCSControlGADGETWIDGET_H_
 
-#include <QtGui/QLabel>
 #include "manualcontrolsettings.h"
+#include "manualcontrolcommand.h"
 #include <QMap>
+#include <QLabel>
 
 #define UDP_PORT 2323
 

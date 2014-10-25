@@ -6,7 +6,7 @@
 * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      A graphicsItem representing a WayPoint
 * @see        The GNU Public License (GPL) Version 3
-* @defgroup   OPMapWidget
+* @defgroup   TLMapWidget
 * @{
 *
 *****************************************************************************/
@@ -27,6 +27,7 @@
 */
 #include "waypointitem.h"
 #include "homeitem.h"
+#include <QGraphicsSceneMouseEvent>
 
 namespace mapcontrol
 {

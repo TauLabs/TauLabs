@@ -48,7 +48,7 @@ public class TcpUAVTalk extends TelemetryTask {
 	 * Construct a TcpUAVTalk object attached to the OPTelemetryService.  Gets the
 	 * connection settings from the preferences.
 	 */
-	public TcpUAVTalk(OPTelemetryService caller) {
+	public TcpUAVTalk(TelemetryService caller) {
 		super(caller);
 	}
 

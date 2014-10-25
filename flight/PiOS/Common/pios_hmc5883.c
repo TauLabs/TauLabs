@@ -7,7 +7,7 @@
  * @{
  * @file       pios_hmc5883.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      HMC5883 Magnetic Sensor Functions from AHRS
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -36,10 +36,12 @@
 #if defined(PIOS_INCLUDE_HMC5883)
 
 #include "pios_semaphore.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 /* Private constants */
-#define HMC5883_TASK_PRIORITY        (tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)  // max priority
-#define HMC5883_TASK_STACK	         (512 / 4)
+#define HMC5883_TASK_PRIORITY        PIOS_THREAD_PRIO_HIGHEST
+#define HMC5883_TASK_STACK_BYTES     512
 #define PIOS_HMC5883_MAX_DOWNSAMPLE  1
 
 /* Global Variables */
@@ -52,8 +54,8 @@ enum pios_hmc5883_dev_magic {
 struct hmc5883_dev {
 	uint32_t i2c_id;
 	const struct pios_hmc5883_cfg *cfg;
-	xQueueHandle queue;
-	xTaskHandle task;
+	struct pios_queue *queue;
+	struct pios_thread *task;
 	struct pios_semaphore *data_ready_sema;
 	enum pios_hmc5883_dev_magic magic;
 	enum pios_hmc5883_orientation orientation;
@@ -79,13 +81,13 @@ static struct hmc5883_dev * PIOS_HMC5883_alloc(void)
 	
 	hmc5883_dev->magic = PIOS_HMC5883_DEV_MAGIC;
 	
-	hmc5883_dev->queue = xQueueCreate(PIOS_HMC5883_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
+	hmc5883_dev->queue = PIOS_Queue_Create(PIOS_HMC5883_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_mag_data));
 	if (hmc5883_dev->queue == NULL) {
-		vPortFree(hmc5883_dev);
+		PIOS_free(hmc5883_dev);
 		return NULL;
 	}
 
-	return(hmc5883_dev);
+	return hmc5883_dev;
 }
 
 /**
@@ -130,11 +132,9 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_MAG, dev->queue);
 
-	int result = xTaskCreate(PIOS_HMC5883_Task, (const signed char *)"pios_hmc5883",
-						 HMC5883_TASK_STACK, NULL, HMC5883_TASK_PRIORITY,
-						 &dev->task);
+	dev->task = PIOS_Thread_Create(PIOS_HMC5883_Task, "pios_hmc5883", HMC5883_TASK_STACK_BYTES, NULL, HMC5883_TASK_PRIORITY);
 
-	PIOS_Assert(result == pdPASS);
+	PIOS_Assert(dev->task != NULL);
 
 	return 0;
 }
@@ -481,51 +481,51 @@ bool PIOS_HMC5883_IRQHandler(void)
 static void PIOS_HMC5883_Task(void *parameters)
 {
 	while (PIOS_HMC5883_Validate(dev) != 0) {
-		vTaskDelay(MS2TICKS(100));
+		PIOS_Thread_Sleep(100);
 	}
 
-	portTickType sample_delay;
+	uint32_t sample_delay;
 
 	switch (dev->cfg->M_ODR) {
 	case PIOS_HMC5883_ODR_0_75:
-		sample_delay = MS2TICKS(1000 / 0.75f) + 0.99999f;
+		sample_delay = 1000 / 0.75f + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_1_5:
-		sample_delay = MS2TICKS(1000 / 1.5f) + 0.99999f;
+		sample_delay = 1000 / 1.5f + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_3:
-		sample_delay = MS2TICKS(1000 / 3.0f) + 0.99999f;
+		sample_delay = 1000 / 3.0f + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_7_5:
-		sample_delay = MS2TICKS(1000 / 7.5f) + 0.99999f;
+		sample_delay = 1000 / 7.5f + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_15:
-		sample_delay = MS2TICKS(1000 / 15.0f) + 0.99999f;
+		sample_delay = 1000 / 15.0f + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_30:
-		sample_delay = MS2TICKS(1000 / 30.0f) + 0.99999f;
+		sample_delay = 1000 / 30.0f + 0.99999f;
 		break;
 	case PIOS_HMC5883_ODR_75:
 	default:
-		sample_delay = MS2TICKS(1000 / 75.0f) + 0.99999f;
+		sample_delay = 1000 / 75.0f + 0.99999f;
 		break;
 	}
 
-	portTickType now = xTaskGetTickCount();
+	uint32_t now = PIOS_Thread_Systime();
 
 	while (1) {
 		if (dev->cfg->Mode == PIOS_HMC5883_MODE_CONTINUOUS) {
 			if (PIOS_Semaphore_Take(dev->data_ready_sema, PIOS_SEMAPHORE_TIMEOUT_MAX) != true) {
-				vTaskDelay(MS2TICKS(100));
+				PIOS_Thread_Sleep(100);
 				continue;
 			}
 		} else {
-			vTaskDelayUntil(&now, sample_delay);
+			PIOS_Thread_Sleep_Until(&now, sample_delay);
 		}
 
 		struct pios_sensor_mag_data mag_data;
 		if (PIOS_HMC5883_ReadMag(&mag_data) == 0)
-			xQueueSend(dev->queue, (void *) &mag_data, 0);
+			PIOS_Queue_Send(dev->queue, &mag_data, 0);
 	}
 }
 

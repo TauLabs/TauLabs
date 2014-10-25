@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       coptercontrol.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -69,6 +69,8 @@ public:
     virtual QString getConnectionDiagram() { return ":/openpilot/images/connection-diagrams.svg"; }
 
     virtual int queryMaxGyroRate();
+
+    QWidget *getBoardConfiguration(QWidget *parent, bool connected);
 };
 
 

@@ -5,7 +5,7 @@
  *
  * @file       taskmonitor.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Task monitoring library
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
@@ -27,14 +27,15 @@
 
 #include "openpilot.h"
 //#include "taskmonitor.h"
+#include "pios_mutex.h"
 
 // Private constants
 
 // Private types
 
 // Private variables
-static xSemaphoreHandle lock;
-static xTaskHandle handles[TASKINFO_RUNNING_NUMELEM];
+static struct pios_mutex *lock;
+static struct pios_thread *handles[TASKINFO_RUNNING_NUMELEM];
 static uint32_t lastMonitorTime;
 
 // Private functions
@@ -44,8 +45,9 @@ static uint32_t lastMonitorTime;
  */
 int32_t TaskMonitorInitialize(void)
 {
-	lock = xSemaphoreCreateRecursiveMutex();
-	memset(handles, 0, sizeof(xTaskHandle)*TASKINFO_RUNNING_NUMELEM);
+	lock = PIOS_Mutex_Create();
+	PIOS_Assert(lock != NULL);
+	memset(handles, 0, sizeof(struct pios_thread) * TASKINFO_RUNNING_NUMELEM);
 	lastMonitorTime = 0;
 #if defined(DIAG_TASKS)
 	lastMonitorTime = portGET_RUN_TIME_COUNTER_VALUE();
@@ -56,13 +58,14 @@ int32_t TaskMonitorInitialize(void)
 /**
  * Register a task handle with the library
  */
-int32_t TaskMonitorAdd(TaskInfoRunningElem task, xTaskHandle handle)
+int32_t TaskMonitorAdd(TaskInfoRunningElem task, struct pios_thread *threadp)
 {
-	if (task < TASKINFO_RUNNING_NUMELEM)
+	uint32_t task_idx = (uint32_t) task;
+	if (task_idx < TASKINFO_RUNNING_NUMELEM)
 	{
-	    xSemaphoreTakeRecursive(lock, portMAX_DELAY);
-		handles[task] = handle;
-		xSemaphoreGiveRecursive(lock);
+		PIOS_Mutex_Lock(lock, PIOS_MUTEX_TIMEOUT_MAX);
+		handles[task_idx] = threadp;
+		PIOS_Mutex_Unlock(lock);
 		return 0;
 	}
 	else
@@ -76,11 +79,12 @@ int32_t TaskMonitorAdd(TaskInfoRunningElem task, xTaskHandle handle)
  */
 int32_t TaskMonitorRemove(TaskInfoRunningElem task)
 {
-	if (task < TASKINFO_RUNNING_NUMELEM)
+	uint32_t task_idx = (uint32_t) task;
+	if (task_idx < TASKINFO_RUNNING_NUMELEM)
 	{
-	    xSemaphoreTakeRecursive(lock, portMAX_DELAY);
-		handles[task] = 0;
-		xSemaphoreGiveRecursive(lock);
+		PIOS_Mutex_Lock(lock, PIOS_MUTEX_TIMEOUT_MAX);
+		handles[task_idx] = 0;
+		PIOS_Mutex_Unlock(lock);
 		return 0;
 	}
 	else
@@ -94,7 +98,8 @@ int32_t TaskMonitorRemove(TaskInfoRunningElem task)
  */
 bool TaskMonitorQueryRunning(TaskInfoRunningElem task)
 {
-	if (task < TASKINFO_RUNNING_NUMELEM && handles[task] != 0)
+	uint32_t task_idx = (uint32_t) task;
+	if (task_idx < TASKINFO_RUNNING_NUMELEM && handles[task_idx] != 0)
 		return true;
 	return false;
 }
@@ -109,9 +114,8 @@ void TaskMonitorUpdateAll(void)
 	int n;
 
 	// Lock
-	xSemaphoreTakeRecursive(lock, portMAX_DELAY);
+	PIOS_Mutex_Lock(lock, PIOS_MUTEX_TIMEOUT_MAX);
 
-#if ( configGENERATE_RUN_TIME_STATS == 1 )
 	uint32_t currentTime;
 	uint32_t deltaTime;
 	
@@ -122,8 +126,7 @@ void TaskMonitorUpdateAll(void)
 	 */
 	currentTime = portGET_RUN_TIME_COUNTER_VALUE();
 	deltaTime = ((currentTime - lastMonitorTime) / 100) ? : 1; /* avoid divide-by-zero if the interval is too small */
-	lastMonitorTime = currentTime;			
-#endif
+	lastMonitorTime = currentTime;
 	
 	// Update all task information
 	for (n = 0; n < TASKINFO_RUNNING_NUMELEM; ++n)
@@ -131,16 +134,9 @@ void TaskMonitorUpdateAll(void)
 		if (handles[n] != 0)
 		{
 			data.Running[n] = TASKINFO_RUNNING_TRUE;
-#if defined(ARCH_POSIX) || defined(ARCH_WIN32)
-			data.StackRemaining[n] = 10000;
-#else
-			data.StackRemaining[n] = uxTaskGetStackHighWaterMark(handles[n]) * 4;
-#endif
-#if ( configGENERATE_RUN_TIME_STATS == 1 )
+			data.StackRemaining[n] = PIOS_Thread_Get_Stack_Usage(handles[n]);
 			/* Generate run time stats */
-			data.RunningTime[n] = uxTaskGetRunTime(handles[n]) / deltaTime;
-#endif
-			
+			data.RunningTime[n] = PIOS_Thread_Get_Runtime(handles[n]) / deltaTime;
 		}
 		else
 		{
@@ -154,7 +150,7 @@ void TaskMonitorUpdateAll(void)
 	TaskInfoSet(&data);
 
 	// Done
-	xSemaphoreGiveRecursive(lock);
+	PIOS_Mutex_Unlock(lock);
 #endif
 }
 

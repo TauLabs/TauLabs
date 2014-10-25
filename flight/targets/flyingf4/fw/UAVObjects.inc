@@ -58,6 +58,7 @@ UAVOBJSRCFILENAMES += fixedwingpathfollowersettings
 UAVOBJSRCFILENAMES += fixedwingpathfollowerstatus
 UAVOBJSRCFILENAMES += gcstelemetrystats
 UAVOBJSRCFILENAMES += gcsreceiver
+UAVOBJSRCFILENAMES += geofencesettings
 UAVOBJSRCFILENAMES += gpsposition
 UAVOBJSRCFILENAMES += gpssatellites
 UAVOBJSRCFILENAMES += gpstime
@@ -83,13 +84,12 @@ UAVOBJSRCFILENAMES += pathstatus
 UAVOBJSRCFILENAMES += poilocation
 UAVOBJSRCFILENAMES += positionactual
 UAVOBJSRCFILENAMES += ratedesired
-UAVOBJSRCFILENAMES += relaytuning
-UAVOBJSRCFILENAMES += relaytuningsettings
 UAVOBJSRCFILENAMES += sonaraltitude
 UAVOBJSRCFILENAMES += stabilizationdesired
 UAVOBJSRCFILENAMES += stabilizationsettings
 UAVOBJSRCFILENAMES += stateestimation
 UAVOBJSRCFILENAMES += systemalarms
+UAVOBJSRCFILENAMES += systemident
 UAVOBJSRCFILENAMES += systemsettings
 UAVOBJSRCFILENAMES += systemstats
 UAVOBJSRCFILENAMES += tabletinfo
@@ -108,13 +108,17 @@ UAVOBJSRCFILENAMES += altitudeholddesired
 UAVOBJSRCFILENAMES += waypoint
 UAVOBJSRCFILENAMES += waypointactive
 UAVOBJSRCFILENAMES += ubloxinfo
+UAVOBJSRCFILENAMES += picocsettings
+UAVOBJSRCFILENAMES += picocstatus
 
 UAVOBJSRCFILENAMES += txpidsettings
+
 UAVOBJSRCFILENAMES += vibrationanalysissettings
 UAVOBJSRCFILENAMES += vibrationanalysisoutput
 UAVOBJSRCFILENAMES += trimangles
 UAVOBJSRCFILENAMES += trimanglessettings
 
+UAVOBJSRCFILENAMES += sessionmanaging
 
 UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
 UAVOBJDEFINE = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )

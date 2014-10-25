@@ -23,7 +23,7 @@
 package org.taulabs.androidgcs;
 
 import org.taulabs.androidgcs.R;
-import org.taulabs.androidgcs.telemetry.OPTelemetryService;
+import org.taulabs.androidgcs.telemetry.TelemetryService;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -36,10 +36,10 @@ public class TelemetryWidget extends AppWidgetProvider {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if(intent.getAction().equals(OPTelemetryService.INTENT_ACTION_CONNECTED)) {
+		if(intent.getAction().equals(TelemetryService.INTENT_ACTION_CONNECTED)) {
 			changeStatus(context, true);
 		}
-		if(intent.getAction().equals(OPTelemetryService.INTENT_ACTION_DISCONNECTED)) {
+		if(intent.getAction().equals(TelemetryService.INTENT_ACTION_DISCONNECTED)) {
 			changeStatus(context, false);
 		}
 

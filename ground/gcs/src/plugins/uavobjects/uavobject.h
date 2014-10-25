@@ -127,7 +127,9 @@ public:
     QString toStringBrief();
     QString toStringData();
     void emitTransactionCompleted(bool success);
+    void emitTransactionCompleted(bool success, bool nacked);
     void emitNewInstance(UAVObject *);
+    void emitInstanceRemoved(UAVObject *);
 
     // Metadata accessors
     static void MetadataInitialize(Metadata& meta);
@@ -146,6 +148,7 @@ public:
 		
 public slots:
     void requestUpdate();
+    void requestUpdateAllInstances();
     void updated();
 
 signals:
@@ -198,6 +201,11 @@ signals:
     void updateRequested(UAVObject* obj);
 
     /**
+     * @brief updateAllInstancesRequested
+     * @param obj
+     */
+    void updateAllInstancesRequested(UAVObject* obj);
+    /**
      * @brief transactionCompleted. Triggered by a call to
      * emitTransactionCompleted - done in telemetry.cpp whenever a
      * transaction finishes.
@@ -205,12 +213,18 @@ signals:
      * @param success
      */
     void transactionCompleted(UAVObject* obj, bool success);
-
+    void transactionCompleted(UAVObject* obj, bool success, bool nack);
     /**
      * @brief newInstance
      * @param obj
      */
     void newInstance(UAVObject* obj);
+
+    /**
+     * @brief instance removed from manager
+     * @param obj
+     */
+    void instanceRemoved(UAVObject* obj);
 
 private slots:
     void fieldUpdated(UAVObjectField* field);
@@ -226,10 +240,10 @@ protected:
     QMutex* mutex;
     quint8* data;
     QList<UAVObjectField*> fields;
-
     void initializeFields(QList<UAVObjectField*>& fields, quint8* data, quint32 numBytes);
     void setDescription(const QString& description);
     void setCategory(const QString& category);
+
 };
 
 #endif // UAVOBJECT_H

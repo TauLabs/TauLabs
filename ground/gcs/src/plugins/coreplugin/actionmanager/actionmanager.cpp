@@ -36,10 +36,10 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QSettings>
-#include <QtGui/QMenu>
-#include <QtGui/QAction>
-#include <QtGui/QShortcut>
-#include <QtGui/QMenuBar>
+#include <QMenu>
+#include <QAction>
+#include <QShortcut>
+#include <QMenuBar>
 
 namespace {
     enum { warnAboutFindFailures = 0 };
@@ -359,7 +359,7 @@ Command *ActionManagerPrivate::registerOverridableAction(QAction *action, const 
         baseAction->setShortcutContext(Qt::ApplicationShortcut);
         baseAction->setEnabled(false);
         baseAction->setParent(m_mainWnd);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
         baseAction->setIconVisibleInMenu(false);
 #endif
         a->setAction(baseAction);

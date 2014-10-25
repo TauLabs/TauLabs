@@ -28,8 +28,6 @@
 
 #include "modemanager.h"
 
-#include "fancytabwidget.h"
-#include "fancyactionbar.h"
 #include "utils/mytabwidget.h"
 #include "icore.h"
 #include "mainwindow.h"
@@ -49,11 +47,11 @@
 #include <QtCore/QObject>
 #include <QtCore/QDebug>
 #include <QtCore/QSignalMapper>
-#include <QtGui/QShortcut>
+#include <QShortcut>
 
-#include <QtGui/QAction>
-#include <QtGui/QTabWidget>
-#include <QtGui/QVBoxLayout>
+#include <QAction>
+#include <QTabWidget>
+#include <QVBoxLayout>
 
 using namespace Core;
 using namespace Core::Internal;
@@ -175,7 +173,7 @@ void ModeManager::setDefaultKeyshortcuts() {
         Command *currentCmd = m_modeShortcuts.at(i);
         bool currentlyHasDefaultSequence = (currentCmd->keySequence()
                                             == currentCmd->defaultKeySequence());
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
         currentCmd->setDefaultKeySequence(QKeySequence(QString("Meta+%1").arg(i+1)));
 #else
         currentCmd->setDefaultKeySequence(QKeySequence(QString("Ctrl+%1").arg(i+1)));

@@ -78,6 +78,13 @@ public:
     virtual void suspendPolling() {}
     virtual void resumePolling() {}
 
+    /**
+     * @brief Used to flag that the device wants that we try to reconnect if it gets disconnected
+     * Currently this should be used only with bluetooth devices
+     * @return true if the device want's us to try to reconnect it
+     */
+    virtual bool reconnect() { return false; }
+
 signals:
     /**
     *   Available devices list has changed, signal it to connection manager (and whoever wants to know)

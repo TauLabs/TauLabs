@@ -3,6 +3,7 @@
  *
  * @file       telemetrymanager.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVTalkPlugin UAVTalk Plugin
@@ -41,6 +42,9 @@ TelemetryManager::TelemetryManager() :
     // connect to start stop signals
     connect(this, SIGNAL(myStart()), this, SLOT(onStart()),Qt::QueuedConnection);
     connect(this, SIGNAL(myStop()), this, SLOT(onStop()),Qt::QueuedConnection);
+    settings = pm->getObject<Core::Internal::GeneralSettings>();
+    connect(settings, SIGNAL(generalSettingsChanged()), this, SLOT(onGeneralSettingsChanged()));
+    connect(pm, SIGNAL(pluginsLoadEnded()), this, SLOT(onGeneralSettingsChanged()));
 }
 
 TelemetryManager::~TelemetryManager()
@@ -62,7 +66,7 @@ void TelemetryManager::onStart()
 {
     utalk = new UAVTalk(device, objMngr);
     telemetry = new Telemetry(utalk, objMngr);
-    telemetryMon = new TelemetryMonitor(objMngr, telemetry);
+    telemetryMon = new TelemetryMonitor(objMngr, telemetry, sessions);
     connect(telemetryMon, SIGNAL(connected()), this, SLOT(onConnect()));
     connect(telemetryMon, SIGNAL(disconnected()), this, SLOT(onDisconnect()));
 }
@@ -76,6 +80,7 @@ void TelemetryManager::stop()
 void TelemetryManager::onStop()
 {
     telemetryMon->disconnect(this);
+    sessions = telemetryMon->savedSessions();
     delete telemetryMon;
     delete telemetry;
     delete utalk;
@@ -92,4 +97,23 @@ void TelemetryManager::onDisconnect()
 {
     autopilotConnected = false;
     emit disconnected();
+}
+
+void TelemetryManager::onGeneralSettingsChanged()
+{
+    if (!settings->useSessionManaging())
+    {
+        foreach(UAVObjectManager::ObjectMap map, objMngr->getObjects())
+        {
+            foreach(UAVObject* obj, map.values())
+            {
+                UAVDataObject* dobj = dynamic_cast<UAVDataObject*>(obj);
+                if(dobj)
+                {
+                    dobj->setIsPresentOnHardware(false);
+                    dobj->setIsPresentOnHardware(true);
+                }
+            }
+        }
+    }
 }

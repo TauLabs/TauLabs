@@ -55,6 +55,7 @@ typedef struct {
 class SoundNotifyPlugin : public Core::IConfigurablePlugin
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.NotifyPlugin" FILE "NotifyPlugin.json")
 public:
     SoundNotifyPlugin();
     ~SoundNotifyPlugin();

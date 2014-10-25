@@ -3,6 +3,7 @@
  *
  * @file       systemhealthgadgetwidget.cpp
  * @author     OpenPilot Team & Edouard Lafargue Copyright (C) 2012.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup SystemHealthPlugin System Health Plugin
@@ -55,7 +56,7 @@ SystemHealthGadgetWidget::SystemHealthGadgetWidget(QWidget *parent) : QGraphicsV
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
-    SystemAlarms* obj = dynamic_cast<SystemAlarms*>(objManager->getObject(QString("SystemAlarms")));
+    SystemAlarms* obj = SystemAlarms::GetInstance(objManager);
     connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAlarms(UAVObject*)));
 
     // Listen to autopilot connection events
@@ -84,6 +85,7 @@ void SystemHealthGadgetWidget::onAutopilotDisconnect()
 
 void SystemHealthGadgetWidget::updateAlarms(UAVObject* systemAlarm)
 {
+    static QList<QString> warningClean;
     // This code does not know anything about alarms beforehand, and
     // I found no efficient way to locate items inside the scene by
     // name, so it's just as simple to reset the scene:
@@ -116,11 +118,15 @@ void SystemHealthGadgetWidget::updateAlarms(UAVObject* systemAlarm)
                 matrix.translate(startX,startY);
                 ind->setTransform(matrix,false);
             } else {
-                if (value.compare("Uninitialised") != 0)
+                if ((value.compare("Uninitialised") != 0) && !warningClean.contains(element2))
+                {
                     qDebug() << "[SystemHealth] Warning: The SystemHealth SVG does not contain a graphical element for the " << element2 << " alarm.";
+                    warningClean.append(element2);
+                }
             }
-        } else {
+        } else if(!warningClean.contains(element)){
             qDebug() << "[SystemHealth] Warning: The SystemHealth SVG does not contain a graphical element for the " << element << " alarm.";
+            warningClean.append(element);
         }
     }
 }
@@ -163,7 +169,7 @@ void SystemHealthGadgetWidget::setSystemFile(QString dfn)
          TelemetryManager* telMngr = pm->getObject<TelemetryManager>();
          if (telMngr->isConnected()) {
              onAutopilotConnect();
-             SystemAlarms* obj = dynamic_cast<SystemAlarms*>(objManager->getObject(QString("SystemAlarms")));
+             SystemAlarms* obj = SystemAlarms::GetInstance(objManager);
              updateAlarms(obj);
          }
        }
@@ -330,7 +336,7 @@ QString SystemHealthGadgetWidget::getAlarmDescriptionFileName(const QString item
             alarmDescriptionFileName = QString(":/systemhealth/html/ManualControl-None.html");
         break;
         }
-    } else if (itemId.contains("StateEstimation-")) {
+    } else if (itemId.contains("StateEstimation-") || itemId.contains("Attitude-")) {
         switch(systemAlarmsData.StateEstimation) {
         case SystemAlarms::STATEESTIMATION_GYROQUEUENOTUPDATING:
             alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-Gyro-Queue-Not-Updating.html");
@@ -355,6 +361,9 @@ QString SystemHealthGadgetWidget::getAlarmDescriptionFileName(const QString item
         break;
         case SystemAlarms::STATEESTIMATION_UNDEFINED:
             alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-Undefined.html");
+        break;
+        case SystemAlarms::STATEESTIMATION_NOHOME:
+            alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-NoHome.html");
         break;
         default:
             alarmDescriptionFileName = QString(":/systemhealth/html/StateEstimation-None.html");

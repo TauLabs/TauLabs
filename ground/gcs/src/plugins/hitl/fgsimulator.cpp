@@ -67,7 +67,7 @@ bool FGSimulator::setupProcess()
     //	xmlFile.close();
     //	QFile xmlFileOut(pathData + "/Protocol/opfgprotocol.xml");
     //	xmlFileOut.open(QIODevice::WriteOnly | QIODevice::Text);
-    //	xmlFileOut.write(xml.toAscii());
+    //	xmlFileOut.write(xml.toLatin1());
     //	xmlFileOut.close();
 
     Qt::HANDLE mainThread = QThread::currentThreadId();
@@ -112,7 +112,7 @@ bool FGSimulator::setupProcess()
     if (settings.startSim)
     {
         QString cmd("\"" + settings.binPath + "\" " + args + "\n");
-        simProcess->write(cmd.toAscii());
+        simProcess->write(cmd.toLatin1());
     }
     else
     {
@@ -190,7 +190,7 @@ void FGSimulator::transmitUpdate()
                 .arg(throttle) //throttle
                 .arg(udpCounterGCSsend); //UDP packet counter delay
 
-        QByteArray data = cmd.toAscii();
+        QByteArray data = cmd.toLatin1();
 
         if(outSocket->writeDatagram(data, QHostAddress(settings.remoteAddress), settings.outPort) == -1)
         {
@@ -256,11 +256,11 @@ void FGSimulator::processUpdate(const QByteArray& inp)
     // Get pressure (kpa)
     float pressure = fields[FG_PRESSURE].toFloat() * INCHES_MERCURY2KPA;
     // Get VelocityActual Down (cm/s)
-    float velocityActualDown = - fields[FG_VEL_ACT_DOWN].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
+    float velocityActualDown = - fields[FG_VEL_ACT_DOWN].toFloat() * FEET_PER_SECOND2M_PER_SECOND;
     // Get VelocityActual East (cm/s)
-    float velocityActualEast = fields[FG_VEL_ACT_EAST].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
+    float velocityActualEast = fields[FG_VEL_ACT_EAST].toFloat() * FEET_PER_SECOND2M_PER_SECOND;
     // Get VelocityActual Down (cm/s)
-    float velocityActualNorth = fields[FG_VEL_ACT_NORTH].toFloat() * FEET_PER_SECOND2CM_PER_SECOND;
+    float velocityActualNorth = fields[FG_VEL_ACT_NORTH].toFloat() * FEET_PER_SECOND2M_PER_SECOND;
 
     // Get UDP packets received by FG
     int n = fields[FG_COUNTER_RECV].toInt();

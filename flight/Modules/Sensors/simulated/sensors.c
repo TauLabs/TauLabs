@@ -7,7 +7,7 @@
  *
  * @file       sensors.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Update available sensors registered with @ref PIOS_Sensors
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -32,6 +32,7 @@
 #include "pios.h"
 #include "openpilot.h"
 #include "physical_constants.h"
+#include "pios_thread.h"
 
 #include "accels.h"
 #include "actuatordesired.h"
@@ -56,13 +57,13 @@
 
 // Private constants
 #define STACK_SIZE_BYTES 1540
-#define TASK_PRIORITY (tskIDLE_PRIORITY+3)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define SENSOR_PERIOD 2
 
 // Private types
 
 // Private variables
-static xTaskHandle sensorsTaskHandle;
+static struct pios_thread *sensorsTaskHandle;
 
 // Private functions
 static void SensorsTask(void *parameters);
@@ -112,7 +113,7 @@ int32_t SensorsInitialize(void)
 int32_t SensorsStart(void)
 {
 	// Start main task
-	xTaskCreate(SensorsTask, (signed char *)"Sensors", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &sensorsTaskHandle);
+	sensorsTaskHandle = PIOS_Thread_Create(SensorsTask, "Sensors", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_SENSORS, sensorsTaskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_SENSORS);
 
@@ -195,7 +196,7 @@ static void SensorsTask(void *parameters)
 				simulateModelCar();
 		}
 
-		vTaskDelay(MS2TICKS(2));
+		PIOS_Thread_Sleep(2);
 
 	}
 }
@@ -316,7 +317,7 @@ static void simulateModelQuadcopter()
 	static float temperature = 20;
 	float Rbe[3][3];
 	
-	const float ACTUATOR_ALPHA = 0.8;
+	const float ACTUATOR_ALPHA = 0.9;
 	const float MAX_THRUST = GRAVITY * 2;
 	const float K_FRICTION = 1;
 	const float GPS_PERIOD = 0.1;
@@ -342,24 +343,11 @@ static void simulateModelQuadcopter()
 	if (thrust != thrust)
 		thrust = 0;
 	
-//	float control_scaling = thrust * thrustToDegs;
-//	// In rad/s
-//	rpy[0] = control_scaling * actuatorDesired.Roll * (1 - ACTUATOR_ALPHA) + rpy[0] * ACTUATOR_ALPHA;
-//	rpy[1] = control_scaling * actuatorDesired.Pitch * (1 - ACTUATOR_ALPHA) + rpy[1] * ACTUATOR_ALPHA;
-//	rpy[2] = control_scaling * actuatorDesired.Yaw * (1 - ACTUATOR_ALPHA) + rpy[2] * ACTUATOR_ALPHA;
-//	
-//	GyrosData gyrosData; // Skip get as we set all the fields
-//	gyrosData.x = rpy[0] * 180 / M_PI + rand_gauss();
-//	gyrosData.y = rpy[1] * 180 / M_PI + rand_gauss();
-//	gyrosData.z = rpy[2] * 180 / M_PI + rand_gauss();
-	
-	RateDesiredData rateDesired;
-	RateDesiredGet(&rateDesired);
-	
-	rpy[0] = (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) * rateDesired.Roll * (1 - ACTUATOR_ALPHA) + rpy[0] * ACTUATOR_ALPHA;
-	rpy[1] = (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) * rateDesired.Pitch * (1 - ACTUATOR_ALPHA) + rpy[1] * ACTUATOR_ALPHA;
-	rpy[2] = (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED) * rateDesired.Yaw * (1 - ACTUATOR_ALPHA) + rpy[2] * ACTUATOR_ALPHA;
-	
+	float control_scaling = 500.0f;
+	// In rad/s
+	rpy[0] = control_scaling * actuatorDesired.Roll * (1 - ACTUATOR_ALPHA) + rpy[0] * ACTUATOR_ALPHA;
+	rpy[1] = control_scaling * actuatorDesired.Pitch * (1 - ACTUATOR_ALPHA) + rpy[1] * ACTUATOR_ALPHA;
+	rpy[2] = control_scaling * actuatorDesired.Yaw * (1 - ACTUATOR_ALPHA) + rpy[2] * ACTUATOR_ALPHA;
 
 	temperature = 20;
 	GyrosData gyrosData; // Skip get as we set all the fields

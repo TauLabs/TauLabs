@@ -62,6 +62,8 @@ private:
     void enableAirspeedTab(bool enabled);
     void enableVibrationTab(bool enabled);
     void enableHoTTTelemetryTab(bool enabled);
+    void enableGeofenceTab(bool enabled);
+    void enablePicoCTab(bool enabled);
 
     static QString trueString;
     static QString falseString;

@@ -25,7 +25,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QResizeEvent>
 #include <math.h>
 #include "mixercurve.h"
@@ -33,7 +33,7 @@
 
 MixerCurve::MixerCurve(QWidget *parent) :
     QFrame(parent),
-    m_mixerUI(new Ui::MixerCurve)
+    m_mixerUI(new Ui::MixerCurvePlot)
 {
     m_mixerUI->setupUi(this);
 

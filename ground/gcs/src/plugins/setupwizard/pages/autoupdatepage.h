@@ -34,8 +34,9 @@
 #include "setupwizard.h"
 #include "uavtalk/telemetrymanager.h"
 #include "abstractwizardpage.h"
-#include "uploader/enums.h"
+#include "uploader/uploadergadgetfactory.h"
 
+using namespace uploader;
 namespace Ui {
 class AutoUpdatePage;
 }
@@ -48,7 +49,7 @@ public:
     ~AutoUpdatePage();
 
 private slots:
-    void updateStatus(uploader::AutoUpdateStep, QVariant);
+    void updateStatus(UploaderStatus , QVariant);
     void disableButtons()
     {
         enableButtons(false);

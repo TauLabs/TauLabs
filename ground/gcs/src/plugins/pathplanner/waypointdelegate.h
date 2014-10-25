@@ -30,6 +30,7 @@
 
 #include <QStyledItemDelegate>
 #include <QComboBox>
+#include <QEvent>
 
 /**
  * @brief The WaypointDelegate class is used to handle updating the values in
@@ -46,6 +47,9 @@ class WaypointDelegate : public QStyledItemDelegate
     //! Create the QComboxBox for the mode or pass to the default implementation
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                           const QModelIndex &index) const;
+
+    //! This filter is required to make combo boxes work
+    bool eventFilter(QObject *object, QEvent *event);
 
     //! Set data in the UI when the model is changed
     void setEditorData(QWidget *editor, const QModelIndex &index) const;

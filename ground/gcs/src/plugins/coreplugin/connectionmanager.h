@@ -29,7 +29,7 @@
 #ifndef CONNECTIONMANAGER_H
 #define CONNECTIONMANAGER_H
 
-#include <QWidget>
+#include "QWidget"
 #include "mainwindow.h"
 #include "generalsettings.h"
 #include "telemetrymonitorwidget.h"
@@ -54,8 +54,6 @@ namespace Core {
     class IDevice;
 
 namespace Internal {
-    class FancyTabWidget;
-    class FancyActionBar;
     class MainWindow;
 } // namespace Internal
 
@@ -106,7 +104,7 @@ public:
     void suspendPolling();
     void resumePolling();
     TelemetryMonitorWidget * getTelemetryMonitorWidget(){return m_monitorWidget;}
-
+    bool getAutoconnect();
 protected:
     void updateConnectionList(IConnection *connection);
     void registerDevice(IConnection *conn, IDevice *device);

@@ -33,6 +33,7 @@ SOURCES +=
 SOURCES += joystickcontrol.cpp
 
 OTHER_FILES += GCSControlWidget.pluginspec
+                GCSControlWidget.json
 
 FORMS += gcscontrol.ui \
     gcscontrolgadgetoptionspage.ui

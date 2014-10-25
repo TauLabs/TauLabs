@@ -142,6 +142,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="cbPicoC">
+         <property name="toolTip">
+          <string>This enables the picoC module which can run user scripts.</string>
+         </property>
+         <property name="text">
+          <string>PicoC Interpreter</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="cbUAVOHottBridge">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This enables the Graupner HoTT Telemetry&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -157,7 +167,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This enables Frsky Telemetry&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Frsky Telemetry</string>
+          <string>FrSky Hub Telemetry</string>
          </property>
         </widget>
        </item>
@@ -168,6 +178,23 @@
          </property>
          <property name="text">
           <string>Light Telemetry</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbGeofence">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This enables the geofence module, which will cause the UAV to crash at the geofence boundary. Please see the submodule tab or help for more information.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Geofence</string>
+         </property>
+        </widget>        
+       </item>
+       <item>
+        <widget class="QCheckBox" name="cbUAVOFrSkySPortBridge">
+         <property name="text">
+          <string>FrSky S.PORT Telemetry</string>
          </property>
         </widget>
        </item>
@@ -511,7 +538,7 @@
            </widget>
           </item>
           <item row="2" column="0">
-           <widget class="QLabel" name="label_21">
+           <widget class="QLabel" name="label_31">
             <property name="text">
              <string>Calibration offset</string>
             </property>
@@ -592,7 +619,7 @@
            </widget>
           </item>
           <item row="2" column="0">
-           <widget class="QLabel" name="label_22">
+           <widget class="QLabel" name="label_32">
             <property name="text">
              <string>Calibration offset</string>
             </property>
@@ -601,13 +628,16 @@
           <item row="2" column="1">
            <widget class="QDoubleSpinBox" name="sb_currentOffSet">
             <property name="suffix">
-             <string>V</string>
+             <string>A</string>
             </property>
             <property name="decimals">
              <number>4</number>
             </property>
             <property name="minimum">
-             <double>-100.000000000000000</double>
+             <double>-200.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>200.000000000000000</double>
             </property>
             <property name="singleStep">
              <double>0.100000000000000</double>
@@ -809,6 +839,94 @@
        </item>
       </layout>
      </widget>
+
+     <widget class="QWidget" name="tabGeofence">
+      <attribute name="title">
+       <string>Geofence</string>
+      </attribute>
+      <layout class="QFormLayout" name="formLayout_10">
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_21">
+         <property name="text">
+          <string>Geofence Warning Radius (m)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>Geofence Error Radius (m)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QSpinBox" name="sb_geofenceWarning">
+         <property name="maximum">
+          <number>1000</number>
+         </property>
+         <property name="objrelation" stdset="0">
+          <stringlist>
+           <string>objname:GeoFenceSettings</string>
+           <string>fieldname:WarningRadius</string>
+          </stringlist>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QSpinBox" name="sb_geofenceError">
+         <property name="maximum">
+          <number>1000</number>
+         </property>
+         <property name="objrelation" stdset="0">
+          <stringlist>
+           <string>objname:GeoFenceSettings</string>
+           <string>fieldname:ErrorRadius</string>
+          </stringlist>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_34">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This module is a safety feature of last resort to prevent fly aways and hopefully will never be triggered. The behavior upon reaching the error geofence boundary is to &lt;span style=&quot; font-weight:600;&quot;&gt;ACTIVELY CRASH&lt;/span&gt;. For a multirotor the motors will stop. For a plane the motor will stop and it will enter a circling pattern.&lt;/p&gt;&lt;p&gt;The rationale for this is that a crash within a known radius is safer than flying away.&lt;/p&gt;&lt;p&gt;Flying past the warning radius will provide an warning in the alarms to alert the pilot and provide time to return towards home. This will avoid crashing&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="0">
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+
      <widget class="QWidget" name="tabHoTTTelemetry">
       <attribute name="title">
        <string>HoTT Telemetry</string>
@@ -863,8 +981,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>290</width>
-            <height>598</height>
+            <width>392</width>
+            <height>674</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -2594,6 +2712,151 @@
           </layout>
          </widget>
         </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabPicoC">
+      <attribute name="title">
+       <string>PicoC</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <item>
+        <widget class="QGroupBox" name="gb_picocMain">
+         <property name="title">
+          <string>Main Settings</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_10">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>Bootfile ID</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="sb_picocBootFileID">
+            <property name="maximum">
+             <number>255</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_27">
+            <property name="text">
+             <string>Startup Mode</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="cb_picocStartup"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_29">
+            <property name="text">
+             <string>Script Source</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="cb_picocSource"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_30">
+            <property name="text">
+             <string>USART Speed</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="cb_picocComSpeed"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="gb_picocMemory">
+         <property name="title">
+          <string>Memory Settings (adjust carefully)</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_11">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>Max File Size</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="sb_picocMaxFileSize">
+            <property name="suffix">
+             <string>Bytes</string>
+            </property>
+            <property name="minimum">
+             <number>2048</number>
+            </property>
+            <property name="maximum">
+             <number>131072</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_19">
+            <property name="text">
+             <string>Task Stack Size</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="sb_picocTaskStackSize">
+            <property name="suffix">
+             <string>Bytes</string>
+            </property>
+            <property name="minimum">
+             <number>5120</number>
+            </property>
+            <property name="maximum">
+             <number>131072</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_26">
+            <property name="text">
+             <string>PicoC Stack Size</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QSpinBox" name="sb_picocPicoCStackSize">
+            <property name="suffix">
+             <string>Bytes</string>
+            </property>
+            <property name="minimum">
+             <number>10240</number>
+            </property>
+            <property name="maximum">
+             <number>131072</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

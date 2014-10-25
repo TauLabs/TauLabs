@@ -29,8 +29,8 @@
 #define SERIALPLUGIN_H
 
 //#include "serial_global.h"
-#include <qextserialport.h>
-#include <qextserialenumerator.h>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 #include "coreplugin/iconnection.h"
 #include <extensionsystem/iplugin.h>
 #include "serialpluginconfiguration.h"
@@ -38,7 +38,7 @@
 #include <QThread>
 
 class IConnection;
-class QextSerialEnumerator;
+class QSerialPortInfo;
 class SerialConnection;
 
 /**
@@ -46,7 +46,6 @@ class SerialConnection;
 *   Some operating systems do not send device insertion events so
 *   for those we have to poll
 */
-//class SERIAL_EXPORT SerialEnumerationThread : public QThread
 class SerialEnumerationThread : public QThread
 {
     Q_OBJECT
@@ -70,7 +69,6 @@ protected:
 *   Plugin will add a instance of this class to the pool,
 *   so the connection manager can use it.
 */
-//class SERIAL_EXPORT SerialConnection
 class SerialConnection
     : public Core::IConnection
 {
@@ -87,18 +85,17 @@ public:
     virtual QString shortName();
     virtual void suspendPolling();
     virtual void resumePolling();
-
+    virtual bool reconnect() { return m_config->reconnect(); }
     bool deviceOpened() {return m_deviceOpened;}
     SerialPluginConfiguration * Config() const { return m_config; }
     SerialPluginOptionsPage * Optionspage() const { return m_optionspage; }
 
 
 private:
-    QextSerialPort*  serialHandle;
+    QSerialPort*  serialHandle;
     bool enablePolling;
     SerialPluginConfiguration *m_config;
     SerialPluginOptionsPage *m_optionspage;
-    BaudRateType stringToBaud(QString str);
 
 protected slots:
     void onEnumerationChanged();
@@ -115,6 +112,7 @@ class SerialPlugin
     : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.Serial" FILE "Serial.json")
 
 public:
     SerialPlugin();

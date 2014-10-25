@@ -6,7 +6,7 @@
  *
  * @file       uavobjectmanager.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Object manager library. This library holds a collection of all objects.
  *             It can be used by all modules/libraries to find an object reference.
  * @see        The GNU Public License (GPL) Version 3
@@ -30,6 +30,8 @@
 
 #ifndef UAVOBJECTMANAGER_H
 #define UAVOBJECTMANAGER_H
+
+#include "pios_queue.h"
 
 #define UAVOBJ_ALL_INSTANCES 0xFFFF
 #define UAVOBJ_MAX_INSTANCES 1000
@@ -116,6 +118,7 @@ typedef struct {
 	UAVObjEventType event;
 } UAVObjEvent;
 
+
 /**
  * Event callback, this function is called when an event is invoked. The function
  * will be executed in the event task. The ev parameter should be copied if needed
@@ -137,6 +140,9 @@ typedef struct {
 	uint32_t lastCallbackErrorID;
 	uint32_t lastQueueErrorID;
 } UAVObjStats;
+
+typedef void (*new_uavo_instance_cb_t)(uint32_t,uint32_t);
+void UAVObjRegisterNewInstanceCB(new_uavo_instance_cb_t callback);
 
 int32_t UAVObjInitialize();
 void UAVObjGetStats(UAVObjStats* statsOut);
@@ -191,8 +197,8 @@ void UAVObjSetTelemetryUpdateMode(UAVObjMetadata* dataOut, UAVObjUpdateMode val)
 UAVObjUpdateMode UAVObjGetGcsTelemetryUpdateMode(const UAVObjMetadata* dataOut);
 void UAVObjSetTelemetryGcsUpdateMode(UAVObjMetadata* dataOut, UAVObjUpdateMode val);
 int8_t UAVObjReadOnly(UAVObjHandle obj);
-int32_t UAVObjConnectQueue(UAVObjHandle obj_handle, xQueueHandle queue, uint8_t eventMask);
-int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, xQueueHandle queue);
+int32_t UAVObjConnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue, uint8_t eventMask);
+int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue);
 int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb, uint8_t eventMask);
 int32_t UAVObjDisconnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb);
 void UAVObjRequestUpdate(UAVObjHandle obj);
@@ -200,7 +206,9 @@ void UAVObjRequestInstanceUpdate(UAVObjHandle obj_handle, uint16_t instId);
 void UAVObjUpdated(UAVObjHandle obj);
 void UAVObjInstanceUpdated(UAVObjHandle obj_handle, uint16_t instId);
 void UAVObjIterate(void (*iterator)(UAVObjHandle obj));
-int32_t getEventMask(UAVObjHandle obj_handle, xQueueHandle queue);
+int32_t getEventMask(UAVObjHandle obj_handle, struct pios_queue *queue);
+uint8_t UAVObjCount();
+uint32_t UAVObjIDByIndex(uint8_t index);
 
 #endif // UAVOBJECTMANAGER_H
 

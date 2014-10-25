@@ -7,7 +7,7 @@
  *
  * @file       telemetry.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Telemetry module, handles telemetry and UAVObject updates
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -32,39 +32,43 @@
 #include "flighttelemetrystats.h"
 #include "gcstelemetrystats.h"
 #include "modulesettings.h"
+#include "sessionmanaging.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE   TELEM_QUEUE_SIZE
 #define STACK_SIZE_BYTES PIOS_TELEM_STACK_SIZE
-#define TASK_PRIORITY_RX (tskIDLE_PRIORITY + 2)
-#define TASK_PRIORITY_TX (tskIDLE_PRIORITY + 2)
-#define TASK_PRIORITY_TXPRI (tskIDLE_PRIORITY + 2)
+#define TASK_PRIORITY_RX PIOS_THREAD_PRIO_NORMAL
+#define TASK_PRIORITY_TX PIOS_THREAD_PRIO_NORMAL
+#define TASK_PRIORITY_TXPRI PIOS_THREAD_PRIO_NORMAL
 #define REQ_TIMEOUT_MS 250
 #define MAX_RETRIES 2
 #define STATS_UPDATE_PERIOD_MS 4000
 #define CONNECTION_TIMEOUT_MS 8000
-
+#define PAUSE_PERIODIC_UPDATE_TIMEOUT 6000
 // Private types
 
 // Private variables
 static uintptr_t telemetryPort;
-static xQueueHandle queue;
+static struct pios_queue *queue;
 
 #if defined(PIOS_TELEM_PRIORITY_QUEUE)
-static xQueueHandle priorityQueue;
-static xTaskHandle telemetryTxPriTaskHandle;
+static struct pios_queue *priorityQueue;
+static struct pios_thread *telemetryTxPriTaskHandle;
 static void telemetryTxPriTask(void *parameters);
 #else
 #define priorityQueue queue
 #endif
 
-static xTaskHandle telemetryTxTaskHandle;
-static xTaskHandle telemetryRxTaskHandle;
+static struct pios_thread *telemetryTxTaskHandle;
+static struct pios_thread *telemetryRxTaskHandle;
 static uint32_t txErrors;
 static uint32_t txRetries;
 static uint32_t timeOfLastObjectUpdate;
 static UAVTalkConnection uavTalkCon;
-
+static bool pausePeriodicUpdates;
+static uint32_t pausePeriodicUpdatesTime;
 // Private functions
 static void telemetryTxTask(void *parameters);
 static void telemetryRxTask(void *parameters);
@@ -77,6 +81,9 @@ static void updateTelemetryStats();
 static void gcsTelemetryStatsUpdated();
 static void updateSettings();
 static uintptr_t getComPort();
+static void session_managing_updated(UAVObjEvent * ev);
+static void update_object_instances(uint32_t obj_id, uint32_t inst_id);
+static void check_pause_periodic_updates_timeout();
 
 /**
  * Initialise the telemetry module
@@ -92,13 +99,13 @@ int32_t TelemetryStart(void)
 	GCSTelemetryStatsConnectQueue(priorityQueue);
     
 	// Start telemetry tasks
-	xTaskCreate(telemetryTxTask, (signed char *)"TelTx", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY_TX, &telemetryTxTaskHandle);
-	xTaskCreate(telemetryRxTask, (signed char *)"TelRx", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY_RX, &telemetryRxTaskHandle);
+	telemetryTxTaskHandle = PIOS_Thread_Create(telemetryTxTask, "TelTx", STACK_SIZE_BYTES, NULL, TASK_PRIORITY_TX);
+	telemetryRxTaskHandle = PIOS_Thread_Create(telemetryRxTask, "TelRx", STACK_SIZE_BYTES, NULL, TASK_PRIORITY_RX);
 	TaskMonitorAdd(TASKINFO_RUNNING_TELEMETRYTX, telemetryTxTaskHandle);
 	TaskMonitorAdd(TASKINFO_RUNNING_TELEMETRYRX, telemetryRxTaskHandle);
 
 #if defined(PIOS_TELEM_PRIORITY_QUEUE)
-	xTaskCreate(telemetryTxPriTask, (signed char *)"TelPriTx", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY_TXPRI, &telemetryTxPriTaskHandle);
+	telemetryTxPriTaskHandle = PIOS_Thread_Create(telemetryTxPriTask, "TelPriTx", STACK_SIZE_BYTES, NULL, TASK_PRIORITY_TXPRI);
 	TaskMonitorAdd(TASKINFO_RUNNING_TELEMETRYTXPRI, telemetryTxPriTaskHandle);
 #endif
 
@@ -119,9 +126,9 @@ int32_t TelemetryInitialize(void)
 	timeOfLastObjectUpdate = 0;
 
 	// Create object queues
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 #if defined(PIOS_TELEM_PRIORITY_QUEUE)
-	priorityQueue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	priorityQueue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 #endif
 
 	// Update telemetry settings
@@ -137,6 +144,12 @@ int32_t TelemetryInitialize(void)
 	UAVObjEvent ev;
 	memset(&ev, 0, sizeof(UAVObjEvent));
 	EventPeriodicQueueCreate(&ev, priorityQueue, STATS_UPDATE_PERIOD_MS);
+
+	SessionManagingInitialize();
+	SessionManagingConnectCallback(session_managing_updated);
+
+	//register the new uavo instance callback function in the uavobjectmanager
+	UAVObjRegisterNewInstanceCB(update_object_instances);
 
 	return 0;
 }
@@ -274,8 +287,15 @@ static void processObjEvent(UAVObjEvent * ev)
 		success = -1;
 		if (ev->event == EV_UPDATED || ev->event == EV_UPDATED_MANUAL || ((ev->event == EV_UPDATED_PERIODIC) && (updateMode != UPDATEMODE_THROTTLED))) {
 			// Send update to GCS (with retries)
+			if (pausePeriodicUpdates) {
+				check_pause_periodic_updates_timeout();
+			}
 			while (retries < MAX_RETRIES && success == -1) {
-				success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
+				if((ev->obj !=FlightTelemetryStatsHandle()) && (ev->event == EV_UPDATED_PERIODIC) && pausePeriodicUpdates) {
+					success = 0;
+				} else {
+					success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
+				}
 				++retries;
 			}
 			// Update stats
@@ -295,13 +315,21 @@ static void processObjEvent(UAVObjEvent * ev)
 				++txErrors;
 			}
 		} else if (ev->event == EV_UPDATED_PERIODIC && updateMode == UPDATEMODE_THROTTLED) {
+
 			// Get the event mask
 			int32_t eventMask = getEventMask(ev->obj, priorityQueue);
 
 			if (eventMask & EV_UPDATED_THROTTLED_DIRTY) { // If EV_UPDATED_THROTTLED_DIRTY flag is set then send the data like normal.
 				// Send update to GCS (with retries)
+				if (pausePeriodicUpdates) {
+					check_pause_periodic_updates_timeout();
+				}
 				while (retries < MAX_RETRIES && success == -1) {
-					success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
+					if (pausePeriodicUpdates) {
+						success = 0;
+					} else {
+						success = UAVTalkSendObject(uavTalkCon, ev->obj, ev->instId, UAVObjGetTelemetryAcked(&metadata), REQ_TIMEOUT_MS);	// call blocks until ack is received or timeout
+					}
 					++retries;
 				}
 				// Update stats
@@ -333,7 +361,7 @@ static void telemetryTxTask(void *parameters)
 	// Loop forever
 	while (1) {
 		// Wait for queue message
-		if (xQueueReceive(queue, &ev, portMAX_DELAY) == pdTRUE) {
+		if (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
 			// Process event
 			processObjEvent(&ev);
 		}
@@ -351,7 +379,7 @@ static void telemetryTxPriTask(void *parameters)
 	// Loop forever
 	while (1) {
 		// Wait for queue message
-		if (xQueueReceive(priorityQueue, &ev, portMAX_DELAY) == pdTRUE) {
+		if (PIOS_Queue_Receive(priorityQueue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
 			// Process event
 			processObjEvent(&ev);
 		}
@@ -381,7 +409,7 @@ static void telemetryRxTask(void *parameters)
 				}
 			}
 		} else {
-			vTaskDelay(5);
+			PIOS_Thread_Sleep(5);
 		}
 	}
 }
@@ -477,7 +505,7 @@ static void updateTelemetryStats()
 	}
 
 	// Check for connection timeout
-	timeNow = TICKS2MS(xTaskGetTickCount());
+	timeNow = PIOS_Thread_Systime();
 	if (utalkStats.rxObjects > 0) {
 		timeOfLastObjectUpdate = timeNow;
 	}
@@ -584,6 +612,65 @@ static uintptr_t getComPort() {
 			return 0;
 }
 
+/**
+ * SessionManaging object updated callback
+ */
+static void session_managing_updated(UAVObjEvent * ev)
+{
+	SessionManagingData sessionManaging;
+	SessionManagingGet(&sessionManaging);
+	if (ev->event == EV_UNPACKED) {
+		if (sessionManaging.SessionID == 0) {
+			sessionManaging.ObjectID = 0;
+			sessionManaging.ObjectInstances = 0;
+			sessionManaging.NumberOfObjects = UAVObjCount();
+			sessionManaging.ObjectOfInterestIndex = 0;
+			pausePeriodicUpdates = true;
+			pausePeriodicUpdatesTime = PIOS_Thread_Systime();
+		} else if (sessionManaging.ObjectOfInterestIndex == 0xFF) {
+			pausePeriodicUpdates = false;
+		} else if (sessionManaging.ObjectOfInterestIndex == 0xFE) {
+			pausePeriodicUpdates = true;
+			pausePeriodicUpdatesTime = PIOS_Thread_Systime();
+		} else {
+			uint8_t index = sessionManaging.ObjectOfInterestIndex;
+			sessionManaging.ObjectID = UAVObjIDByIndex(index);
+			sessionManaging.ObjectInstances = UAVObjGetNumInstances(UAVObjGetByID(sessionManaging.ObjectID));
+		}
+		SessionManagingSet(&sessionManaging);
+	}
+}
+
+/**
+ * New UAVO object instance callback
+ * This is called from the uavobjectmanager
+ * \param[in] obj_id The id of the object which had a new instance created
+ * \param[in] inst_id the instance ID that was created
+ */
+static void update_object_instances(uint32_t obj_id, uint32_t inst_id)
+{
+	SessionManagingData sessionManaging;
+	SessionManagingGet(&sessionManaging);
+	sessionManaging.ObjectID = obj_id;
+	sessionManaging.ObjectInstances = inst_id;
+	sessionManaging.SessionID = sessionManaging.SessionID + 1;
+	SessionManagingSet(&sessionManaging);
+}
+
+/**
+ * Checks the periodic updates pause timeout
+ * This is called from the uavobjectmanager
+ * \param[in] obj_id The id of the object which had a new instance created
+ * \param[in] inst_id the instance ID that was created
+ */
+static void check_pause_periodic_updates_timeout()
+{
+	uint32_t timeNow;
+	timeNow = PIOS_Thread_Systime();
+	if ((timeNow - pausePeriodicUpdatesTime) > PAUSE_PERIODIC_UPDATE_TIMEOUT) {
+		pausePeriodicUpdates = false;
+	}
+}
 /**
   * @}
   * @}

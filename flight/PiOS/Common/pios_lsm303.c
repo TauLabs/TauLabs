@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       pios_lsm303.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_LSM303 LSM303 Functions
@@ -30,9 +30,13 @@
 
 #if defined(PIOS_INCLUDE_LSM303)
 
+#include "pios_semaphore.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
+
 /* Private constants */
-#define LSM303_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define LSM303_TASK_STACK		(512 / 4)
+#define LSM303_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
+#define LSM303_TASK_STACK_BYTES	512
 
 #include "fifo_buffer.h"
 
@@ -50,10 +54,10 @@ struct lsm303_dev {
 	uint8_t i2c_addr_mag;
 	enum pios_lsm303_accel_range accel_range;
 	enum pios_lsm303_mag_range mag_range;
-	xQueueHandle queue_accel;
-	xQueueHandle queue_mag;
-	xTaskHandle TaskHandle;
-	xSemaphoreHandle data_ready_sema;
+	struct pios_queue *queue_accel;
+	struct pios_queue *queue_mag;
+	struct pios_thread *TaskHandle;
+	struct pios_semaphore *data_ready_sema;
 	const struct pios_lsm303_cfg *cfg;
 	enum pios_lsm303_dev_magic magic;
 };
@@ -99,24 +103,24 @@ static struct lsm303_dev *PIOS_LSM303_alloc(void)
 
 	lsm303_dev->magic = PIOS_LSM303_DEV_MAGIC;
 
-	lsm303_dev->queue_accel = xQueueCreate(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
+	lsm303_dev->queue_accel = PIOS_Queue_Create(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_accel_data));
 
 	if (lsm303_dev->queue_accel == NULL) {
-		vPortFree(lsm303_dev);
+		PIOS_free(lsm303_dev);
 		return NULL;
 	}
 
-	lsm303_dev->queue_mag = xQueueCreate(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_mag_data));
+	lsm303_dev->queue_mag = PIOS_Queue_Create(PIOS_LSM303_MAX_QUEUESIZE, sizeof(struct pios_sensor_mag_data));
 
 	if (lsm303_dev->queue_mag == NULL) {
-		vPortFree(lsm303_dev);
+		PIOS_free(lsm303_dev);
 		return NULL;
 	}
 
-	lsm303_dev->data_ready_sema = xSemaphoreCreateMutex();
+	lsm303_dev->data_ready_sema = PIOS_Semaphore_Create();
 
 	if (lsm303_dev->data_ready_sema == NULL) {
-		vPortFree(lsm303_dev);
+		PIOS_free(lsm303_dev);
 		return NULL;
 	}
 
@@ -170,10 +174,9 @@ int32_t PIOS_LSM303_Init(uint32_t i2c_id, const struct pios_lsm303_cfg *cfg)
 	/* Configure the LSM303 Sensor */
 	PIOS_LSM303_Config(cfg);
 
-	int result = xTaskCreate(PIOS_LSM303_Task, (const signed char *)"pios_lsm303",
-	                         LSM303_TASK_STACK, NULL, LSM303_TASK_PRIORITY,
-	                         &pios_lsm303_dev->TaskHandle);
-	PIOS_Assert(result == pdPASS);
+	pios_lsm303_dev->TaskHandle = PIOS_Thread_Create(
+			PIOS_LSM303_Task, "pios_lsm303", LSM303_TASK_STACK_BYTES, NULL, LSM303_TASK_PRIORITY);
+	PIOS_Assert(pios_lsm303_dev->TaskHandle != NULL);
 
 	/* Set up EXTI line */
 	PIOS_EXTI_Init(cfg->exti_cfg);
@@ -597,18 +600,18 @@ bool PIOS_LSM303_IRQHandler(void)
 	if (PIOS_LSM303_Validate(pios_lsm303_dev) != 0)
 		return false;
 
-	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+	bool woken = false;
 
-	xSemaphoreGiveFromISR(pios_lsm303_dev->data_ready_sema, &xHigherPriorityTaskWoken);
+	PIOS_Semaphore_Give_FromISR(pios_lsm303_dev->data_ready_sema, &woken);
 
-	return xHigherPriorityTaskWoken == pdTRUE;
+	return woken;
 }
 
 static void PIOS_LSM303_Task(void *parameters)
 {
 	while (1) {
 		//Wait for data ready interrupt
-		if (xSemaphoreTake(pios_lsm303_dev->data_ready_sema, MS2TICKS(5)) != pdTRUE) {
+		if (PIOS_Semaphore_Take(pios_lsm303_dev->data_ready_sema, 5) != true) {
 			// If this expires kick start the sensor
 			struct pios_lsm303_accel_data data;
 			PIOS_LSM303_Accel_ReadData(&data);
@@ -652,7 +655,7 @@ static void PIOS_LSM303_Task(void *parameters)
 			normalized_data.z = -data.accel_z * accel_scale;
 			normalized_data.temperature = 0;
 
-			xQueueSendToBack(pios_lsm303_dev->queue_accel, (void *)&normalized_data, 0);
+			PIOS_Queue_Send(pios_lsm303_dev->queue_accel, &normalized_data, 0);
 		}
 
 		/*
@@ -692,7 +695,7 @@ static void PIOS_LSM303_Task(void *parameters)
 
 				normalized_data.z = -data.mag_z * mag_scale_z;
 
-				xQueueSendToBack(pios_lsm303_dev->queue_mag, (void *)&normalized_data, 0);
+				PIOS_Queue_Send(pios_lsm303_dev->queue_mag, &normalized_data, 0);
 			}
 		}
 	}

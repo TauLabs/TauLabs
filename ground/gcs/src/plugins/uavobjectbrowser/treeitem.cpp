@@ -3,6 +3,7 @@
  *
  * @file       treeitem.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVObjectBrowserPlugin UAVObject Browser Plugin
@@ -108,6 +109,7 @@ QTime* TreeItem::m_currentTime = NULL;
 
 TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
         QObject(0),
+        isPresentOnHardware(true),
         m_data(data),
         m_parent(parent),
         m_highlight(false),
@@ -118,6 +120,7 @@ TreeItem::TreeItem(const QList<QVariant> &data, TreeItem *parent) :
 
 TreeItem::TreeItem(const QVariant &data, TreeItem *parent) :
         QObject(0),
+        isPresentOnHardware(true),
         m_parent(parent),
         m_highlight(false),
         m_changed(false),
@@ -135,6 +138,11 @@ void TreeItem::appendChild(TreeItem *child)
 {
     m_children.append(child);
     child->setParentTree(this);
+}
+
+void TreeItem::removeChild(TreeItem *child)
+{
+    m_children.removeAll(child);
 }
 
 void TreeItem::insertChild(TreeItem *child)
@@ -274,4 +282,9 @@ void TreeItem::setCurrentTime(QTime *currentTime)
 QList<MetaObjectTreeItem *> TopTreeItem::getMetaObjectItems()
 {
     return m_metaObjectTreeItemsPerObjectIds.values();
+}
+
+QList<DataObjectTreeItem *> TopTreeItem::getDataObjectItems()
+{
+    return m_objectTreeItemsPerObjectIds.values();
 }

@@ -3,6 +3,7 @@
  *
  * @file       mixercurve.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -28,7 +29,7 @@
 #define MIXERCURVE_H
 
 #include <QFrame>
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QList>
 #include <QTableWidget>
 
@@ -40,7 +41,7 @@
 
 
 namespace Ui {
-class MixerCurve;
+class MixerCurvePlot;
 }
 
 class  MixerCurve : public QFrame
@@ -93,7 +94,7 @@ private slots:
     void UpdateCurveUI();
 
 private:
-    Ui::MixerCurve* m_mixerUI;
+    Ui::MixerCurvePlot* m_mixerUI;
     MixerCurveWidget* m_curve;
     QTableWidget* m_settings;
     MixerCurveType m_curveType;

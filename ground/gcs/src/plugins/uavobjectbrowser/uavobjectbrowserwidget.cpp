@@ -33,12 +33,12 @@
 #include "ui_viewoptions.h"
 #include "uavobjectmanager.h"
 #include <QStringList>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
-#include <QtGui/QComboBox>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QComboBox>
 #include <QtCore/QDebug>
-#include <QtGui/QItemEditorFactory>
+#include <QItemEditorFactory>
 #include "extensionsystem/pluginmanager.h"
 #include <math.h>
 
@@ -55,38 +55,20 @@ UAVObjectBrowserWidget::UAVObjectBrowserWidget(QWidget *parent) : QWidget(parent
     m_browser->setupUi(this);
 
     // Create data model
-    m_model = new UAVObjectTreeModel();
+    m_model = new UAVObjectTreeModel(this);
 
     // Create tree view and add to layout
     treeView = new UAVOBrowserTreeView(m_model, MAXIMUM_UPDATE_PERIOD);
     treeView->setObjectName(QString::fromUtf8("treeView"));
     m_browser->verticalLayout->addWidget(treeView);
 
-    treeView->setModel(m_model);
-    treeView->setColumnWidth(0, 300);
-    treeView->setEditTriggers(QAbstractItemView::AllEditTriggers);
-    treeView->setSelectionBehavior(QAbstractItemView::SelectItems);
-    treeView->setUniformRowHeights(true);
-
-    BrowserItemDelegate *m_delegate = new BrowserItemDelegate();
-    treeView->setItemDelegate(m_delegate);
-
-    showMetaData(m_viewoptions->cbMetaData->isChecked());
-
-    // Connect signals
-    connect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
-    connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(showMetaData(bool)));
-    connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(categorize(bool)));
     connect(m_browser->saveSDButton, SIGNAL(clicked()), this, SLOT(saveObject()));
     connect(m_browser->readSDButton, SIGNAL(clicked()), this, SLOT(loadObject()));
     connect(m_browser->eraseSDButton, SIGNAL(clicked()), this, SLOT(eraseObject()));
     connect(m_browser->sendButton, SIGNAL(clicked()), this, SLOT(sendUpdate()));
     connect(m_browser->requestButton, SIGNAL(clicked()), this, SLOT(requestUpdate()));
     connect(m_browser->viewSettingsButton,SIGNAL(clicked()),this,SLOT(viewSlot()));
-    connect(m_viewoptions->cbScientific, SIGNAL(toggled(bool)), this, SLOT(useScientificNotation(bool)));
-    connect(m_viewoptions->cbScientific, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
-    connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
-    connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
+
 
     connect((QTreeView*) treeView, SIGNAL(collapsed(QModelIndex)), this, SLOT(onTreeItemCollapsed(QModelIndex) ));
     connect((QTreeView*) treeView, SIGNAL(expanded(QModelIndex)), this, SLOT(onTreeItemExpanded(QModelIndex) ));
@@ -205,7 +187,7 @@ void UAVObjectBrowserWidget::updateThrottlePeriod(UAVObject *obj)
         Q_ASSERT(pm);
         UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
         Q_ASSERT(objManager);
-        QVector<UAVObject*> list = objManager->getObjectInstances(obj->getObjID() - 1);
+        QVector<UAVObject*> list = objManager->getObjectInstancesVector(obj->getObjID() - 1);
         obj = list.at(0);
     }
 
@@ -264,11 +246,54 @@ UAVObjectBrowserWidget::~UAVObjectBrowserWidget()
  * @param scientific true turns on scientific notation view
  * @param metadata true turns on metadata view
  */
-void UAVObjectBrowserWidget::setViewOptions(bool categorized, bool scientific, bool metadata)
+void UAVObjectBrowserWidget::setViewOptions(bool categorized, bool scientific, bool metadata, bool hideNotPresent)
 {
     m_viewoptions->cbCategorized->setChecked(categorized);
     m_viewoptions->cbMetaData->setChecked(metadata);
     m_viewoptions->cbScientific->setChecked(scientific);
+    m_viewoptions->cbHideNotPresent->setChecked(hideNotPresent);
+}
+
+/**
+ * @brief Initializes the model and makes the necessary SIGNAL/SLOT connections
+ *
+ */
+void UAVObjectBrowserWidget::initialize()
+{
+    m_model->initializeModel(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked());
+    treeView->setModel(m_model);
+    treeView->setColumnWidth(0, 300);
+    treeView->setEditTriggers(QAbstractItemView::AllEditTriggers);
+    treeView->setSelectionBehavior(QAbstractItemView::SelectItems);
+    treeView->setUniformRowHeights(true);
+
+    BrowserItemDelegate *m_delegate = new BrowserItemDelegate();
+    treeView->setItemDelegate(m_delegate);
+
+    // Connect signals
+    connect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
+
+    showMetaData(m_viewoptions->cbMetaData->isChecked());
+    refreshHiddenObjects();
+    connect(m_viewoptions->cbScientific, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
+    connect(m_viewoptions->cbCategorized, SIGNAL(toggled(bool)), this, SLOT(viewOptionsChangedSlot()));
+    connect(m_viewoptions->cbHideNotPresent,SIGNAL(toggled(bool)),this,SLOT(showNotPresent(bool)));
+    connect(m_viewoptions->cbMetaData, SIGNAL(toggled(bool)), this, SLOT(showMetaData(bool)));
+    connect(m_model,SIGNAL(presentOnHardwareChanged()),this, SLOT(doRefreshHiddenObjects()), (Qt::ConnectionType) (Qt::UniqueConnection | Qt::QueuedConnection));
+}
+
+/**
+ * @brief Refreshes the hidden object display
+ */
+void UAVObjectBrowserWidget::refreshHiddenObjects()
+{
+    QList<QModelIndex> indexList = m_model->getDataObjectIndexes();
+    foreach(QModelIndex index , indexList)
+    {
+        TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+        if(item)
+            treeView->setRowHidden(index.row(), index.parent(), m_viewoptions->cbHideNotPresent->isChecked() && !item->getIsPresentOnHardware());
+    }
 }
 
 
@@ -278,6 +303,7 @@ void UAVObjectBrowserWidget::setViewOptions(bool categorized, bool scientific, b
  */
 void UAVObjectBrowserWidget::showMetaData(bool show)
 {
+    refreshViewOtpions();
     QList<QModelIndex> metaIndexes = m_model->getMetaDataIndexes();
     foreach(QModelIndex index , metaIndexes)
     {
@@ -285,71 +311,29 @@ void UAVObjectBrowserWidget::showMetaData(bool show)
     }
 }
 
-
 /**
- * @brief UAVObjectBrowserWidget::categorize Enable grouping UAVOs into categories
- * @param categorize true enables categorization, false disable categorization
+ * @brief fires the viewOptionsChanged SIGNAL with the current values.
  */
-void UAVObjectBrowserWidget::categorize(bool categorize)
+void UAVObjectBrowserWidget::refreshViewOtpions()
 {
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    Q_ASSERT(pm);
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    Q_ASSERT(objManager);
-
-    // Save the pointer so we can delete it only once the
-    // treeView has been set to the new model
-    UAVObjectTreeModel* tmpModelPtr = m_model;
-
-    // Create new model
-    m_model = new UAVObjectTreeModel(0, categorize, m_viewoptions->cbScientific->isChecked());
-    m_model->setRecentlyUpdatedColor(m_recentlyUpdatedColor);
-    m_model->setManuallyChangedColor(m_manuallyChangedColor);
-    m_model->setRecentlyUpdatedTimeout(m_recentlyUpdatedTimeout);
-    m_model->setOnlyHighlightChangedValues(m_onlyHighlightChangedValues);
-    treeView->setModel(m_model);
-    showMetaData(m_viewoptions->cbMetaData->isChecked());
-
-    // Disconnect former model signal, and replace with new one.
-    disconnect(tmpModelPtr, SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
-    connect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
-
-    // Now that we're done with the old model, delete it.
-    delete tmpModelPtr;
+    emit viewOptionsChanged(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked(),m_viewoptions->cbMetaData->isChecked(),m_viewoptions->cbHideNotPresent->isChecked());
 }
 
-
 /**
- * @brief UAVObjectBrowserWidget::useScientificNotation Enable scientific notation. Displays 6 significant digits
- * @param scientific true enable scientific notation output, false disables scientific notation output
+ * @brief UAVObjectBrowserWidget::showNotPresent Shows or hides object not present on the hardware
+ * @param show true shows the objects not present on the hardware, false hides them
  */
-void UAVObjectBrowserWidget::useScientificNotation(bool scientific)
+void UAVObjectBrowserWidget::showNotPresent(bool show)
 {
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    Q_ASSERT(pm);
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    Q_ASSERT(objManager);
-
-    // Save the pointer so we can delete it only once the
-    // treeView has been set to the new model
-    UAVObjectTreeModel* tmpModelPtr = m_model;
-
-    // Create new model
-    m_model = new UAVObjectTreeModel(0, m_viewoptions->cbCategorized->isChecked(), scientific);
-    m_model->setRecentlyUpdatedColor(m_recentlyUpdatedColor);
-    m_model->setManuallyChangedColor(m_manuallyChangedColor);
-    m_model->setRecentlyUpdatedTimeout(m_recentlyUpdatedTimeout);
-    treeView->setModel(m_model);
-    showMetaData(m_viewoptions->cbMetaData->isChecked());
-
-    // Disconnect former model signal, and replace with new one.
-    disconnect(tmpModelPtr, SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
-    connect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(toggleUAVOButtons(QModelIndex,QModelIndex)));
-
-    // Now that we're done with the old model, delete it.
-    delete tmpModelPtr;
+    Q_UNUSED(show);
+    refreshViewOtpions();
+    refreshHiddenObjects();
 }
 
+void UAVObjectBrowserWidget::doRefreshHiddenObjects()
+{
+    refreshHiddenObjects();
+}
 
 /**
  * @brief UAVObjectBrowserWidget::sendUpdate Sends a UAVO to board RAM. Does not affect board NVRAM.
@@ -548,7 +532,10 @@ void UAVObjectBrowserWidget::viewSlot()
  */
 void UAVObjectBrowserWidget::viewOptionsChangedSlot()
 {
-    emit viewOptionsChanged(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked(),m_viewoptions->cbMetaData->isChecked());
+    emit viewOptionsChanged(m_viewoptions->cbCategorized->isChecked(),m_viewoptions->cbScientific->isChecked(),m_viewoptions->cbMetaData->isChecked(),m_viewoptions->cbHideNotPresent);
+    m_model->initializeModel(m_viewoptions->cbCategorized->isChecked(), m_viewoptions->cbScientific->isChecked());
+    showMetaData(m_viewoptions->cbMetaData->isChecked());
+    refreshHiddenObjects();
 }
 
 

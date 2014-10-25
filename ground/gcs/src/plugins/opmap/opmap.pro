@@ -32,7 +32,8 @@ SOURCES += opmapplugin.cpp \
     modelmapproxy.cpp \
     homeeditor.cpp
 
-OTHER_FILES += OPMapGadget.pluginspec
+OTHER_FILES += OPMapGadget.pluginspec \
+    OPMapGadget.json
 
 FORMS += opmapgadgetoptionspage.ui \
     opmap_widget.ui \

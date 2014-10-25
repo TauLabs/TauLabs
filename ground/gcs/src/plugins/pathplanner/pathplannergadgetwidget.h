@@ -28,7 +28,7 @@
 #ifndef PathPlannerGADGETWIDGET_H_
 #define PathPlannerGADGETWIDGET_H_
 
-#include <QtGui/QLabel>
+#include <QLabel>
 #include <QItemSelectionModel>
 #include "flightdatamodel.h"
 #include "modeluavoproxy.h"
@@ -67,6 +67,7 @@ private slots:
     //! Restore path before filleting
     void on_tbUnfilletPath_clicked();
 
+    void on_waypointSendProgress(int);
 private:
     Ui_PathPlanner  *ui;
     FlightDataModel *model;
@@ -75,6 +76,7 @@ private:
 
     //! Store previous models for rolling back changes
     FlightDataModel *prevModel;
+    void enableButtons(bool);
 signals:
     void sendPathPlanToUAV();
     void receivePathPlanFromUAV();

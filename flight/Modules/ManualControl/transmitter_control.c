@@ -32,6 +32,7 @@
 #include "openpilot.h"
 #include "control.h"
 #include "transmitter_control.h"
+#include "pios_thread.h"
 
 #include "accessorydesired.h"
 #include "actuatordesired.h"
@@ -88,8 +89,8 @@ static ManualControlSettingsData  settings;
 static uint8_t                    disconnected_count = 0;
 static uint8_t                    connected_count = 0;
 static struct rcvr_activity_fsm   activity_fsm;
-static portTickType               lastActivityTime;
-static portTickType               lastSysTime;
+static uint32_t               lastActivityTime;
+static uint32_t               lastSysTime;
 static float                      flight_mode_value;
 static enum control_events        pending_control_event;
 static bool                       settings_updated;
@@ -102,7 +103,7 @@ static void set_flight_mode();
 static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled, bool valid);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
-static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time);
+static uint32_t timeDifferenceMs(uint32_t start_time, uint32_t end_time);
 static bool validInputRange(int16_t min, int16_t max, uint16_t value, uint16_t offset);
 static void applyDeadband(float *value, float deadband);
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm);
@@ -143,7 +144,7 @@ int32_t transmitter_control_initialize()
 	pending_control_event = CONTROL_EVENTS_NONE;
 
 	/* Initialize the RcvrActivty FSM */
-	lastActivityTime = xTaskGetTickCount();
+	lastActivityTime = PIOS_Thread_Systime();
 	resetRcvrActivity(&activity_fsm);
 
 	// Use callback to update the settings when they change
@@ -151,7 +152,7 @@ int32_t transmitter_control_initialize()
 	manual_control_settings_updated(NULL);
 
 	// Main task loop
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 	return 0;
 }
 
@@ -165,7 +166,7 @@ int32_t transmitter_control_initialize()
   */
 int32_t transmitter_control_update()
 {
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 
 	float scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
 	bool validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_NUMELEM];
@@ -419,6 +420,9 @@ int32_t transmitter_control_select(bool reset_controller)
 	case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
 		update_actuator_desired(&cmd);
 		break;
+	case FLIGHTSTATUS_FLIGHTMODE_ACRO:
+	case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
+	case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
@@ -495,7 +499,7 @@ static void set_armed_if_changed(uint8_t new_arm) {
 static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings,
     float * scaled, bool valid)
 {
-	static portTickType armedDisarmStart;
+	static uint32_t armedDisarmStart;
 	bool lowThrottle = cmd->Throttle <= 0;
 
 	uint8_t arm_status;
@@ -800,10 +804,31 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	StabilizationSettingsData stabSettings;
 	StabilizationSettingsGet(&stabSettings);
 
-	uint8_t * stab_settings;
+	const uint8_t RATE_SETTINGS[3] = {  STABILIZATIONDESIRED_STABILIZATIONMODE_RATE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_RATE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
+	const uint8_t ATTITUDE_SETTINGS[3] = {
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
+	const uint8_t VIRTUALBAR_SETTINGS[3] = {
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
+
+	const uint8_t * stab_settings;
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
 	switch(flightStatus.FlightMode) {
+		case FLIGHTSTATUS_FLIGHTMODE_ACRO:
+			stab_settings = RATE_SETTINGS;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
+			stab_settings = ATTITUDE_SETTINGS;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
+			stab_settings = VIRTUALBAR_SETTINGS;
+			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 			stab_settings = settings->Stabilization1Settings;
 			break;
@@ -833,8 +858,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Roll :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Roll :
-	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
-	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Roll * stabSettings.RollMax :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT) ? cmd->Roll * stabSettings.RollMax :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Roll :
 	     0; // this is an invalid mode
 
@@ -845,8 +869,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Pitch :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Pitch :
-	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
-	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Pitch * stabSettings.PitchMax :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT) ? cmd->Pitch * stabSettings.PitchMax :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Pitch :
 	     0; // this is an invalid mode
 
@@ -857,8 +880,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Yaw :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? cmd->Yaw :
-	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYRATE) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
-	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RELAYATTITUDE) ? cmd->Yaw * stabSettings.YawMax :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT) ? cmd->Yaw * stabSettings.YawMax :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_COORDINATEDFLIGHT) ? cmd->Yaw :
 	     0; // this is an invalid mode
 
@@ -1000,10 +1022,11 @@ static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutr
 	return valueScaled;
 }
 
-static uint32_t timeDifferenceMs(portTickType start_time, portTickType end_time) {
-	if(end_time > start_time)
-		return TICKS2MS(end_time - start_time);
-	return TICKS2MS((((portTICK_RATE_MS) -1 ) - start_time) + end_time);
+static uint32_t timeDifferenceMs(uint32_t start_time, uint32_t end_time) {
+	if (end_time >= start_time)
+		return end_time - start_time;
+	else
+		return (uint32_t)PIOS_THREAD_TIMEOUT_MAX - start_time + end_time + 1;
 }
 
 /**

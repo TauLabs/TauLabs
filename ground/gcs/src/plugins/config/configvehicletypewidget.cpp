@@ -30,14 +30,15 @@
 #include <QDebug>
 #include <QStringList>
 #include <QTimer>
-#include <QtGui/QWidget>
-#include <QtGui/QTextEdit>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QPushButton>
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include <math.h>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QEventLoop>
+#include <QMessageBox>
 
 #include "systemsettings.h"
 #include "mixersettings.h"
@@ -910,7 +911,7 @@ void ConfigVehicleTypeWidget::bnLevelTrim_clicked()
     case VehicleTrim::AUTOPILOT_LEVEL_FAILED_DUE_TO_FLIGHTMODE:
     {
         QMessageBox msgBox(QMessageBox::Critical, tr("Vehicle not in Stabilized mode"),
-                           tr("The autopilot must be in Stabilized1, Stabilized2, or Stabilized3 mode."), QMessageBox::Ok, this);
+                           tr("The autopilot must be in Leveling, Stabilized1, Stabilized2, or Stabilized3 mode."), QMessageBox::Ok, this);
         msgBox.exec();
         break;
     }

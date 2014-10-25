@@ -3,6 +3,7 @@
  *
  * @file       pjrc_rawhid.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup RawHIDPlugin Raw HID Plugin
@@ -35,6 +36,7 @@
 #include <QDebug>
 #include <QMutex>
 #include <QString>
+#include <QQueue>
 #include "rawhid_global.h"
 
 #if defined( Q_OS_MAC)
@@ -50,8 +52,33 @@
 #elif defined(Q_OS_WIN32)
 #include <windows.h>
 #include <setupapi.h>
-#include <ddk/hidsdi.h>
-#include <ddk/hidclass.h>
+#include <hidsdi.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+// Some functions no longer included in hidsdi.h
+
+//HIDAPI BOOL NTAPI HidD_GetAttributes (HANDLE, PHIDD_ATTRIBUTES);
+HIDAPI VOID NTAPI HidD_GetHidGuid (LPGUID);
+HIDAPI BOOL NTAPI HidD_GetPreparsedData(HANDLE, PHIDP_PREPARSED_DATA  *);
+HIDAPI BOOL NTAPI HidD_FreePreparsedData(PHIDP_PREPARSED_DATA);
+HIDAPI BOOL NTAPI HidD_FlushQueue (HANDLE);
+HIDAPI BOOL NTAPI HidD_GetConfiguration (HANDLE, PHIDD_CONFIGURATION, ULONG);
+HIDAPI BOOL NTAPI HidD_SetConfiguration (HANDLE, PHIDD_CONFIGURATION, ULONG);
+//HIDAPI BOOL NTAPI HidD_GetFeature (HANDLE, PVOID, ULONG);
+//HIDAPI BOOL NTAPI HidD_SetFeature (HANDLE, PVOID, ULONG);
+//HIDAPI BOOL NTAPI HidD_GetNumInputBuffers (HANDLE, PULONG);
+//HIDAPI BOOL NTAPI HidD_SetNumInputBuffers (HANDLE HidDeviceObject, ULONG);
+HIDAPI BOOL NTAPI HidD_GetPhysicalDescriptor (HANDLE, PVOID, ULONG);
+//HIDAPI BOOL NTAPI HidD_GetManufacturerString (HANDLE, PVOID, ULONG);
+//HIDAPI BOOL NTAPI HidD_GetProductString ( HANDLE, PVOID, ULONG);
+HIDAPI BOOL NTAPI HidD_GetIndexedString ( HANDLE, ULONG, PVOID, ULONG);
+HIDAPI BOOL NTAPI HidD_GetSerialNumberString (HANDLE, PVOID, ULONG);
+
+#ifdef __cplusplus
+}
+#endif
 #endif
 
 // ************
@@ -115,10 +142,22 @@ private:
      CFRunLoopRef the_correct_runloop;
      CFRunLoopRef received_runloop;
 
+     // for cases where the receiving run loop does not
+     // keep up with the USB driver, we use a ring buffer
+     // to track the last packets coming in.
      static const int BUFFER_SIZE = 64;
-     quint8 buffer[BUFFER_SIZE];
+     quint8 driver_buffer[BUFFER_SIZE];
+
+     // add the packets received by the HID driver to a queue
+     // that is processed in userspace
+     struct usb_report {
+         quint8 data[BUFFER_SIZE];
+         quint8 len;
+     };
+
+     QQueue <struct usb_report*> input_queue;
+
      int attach_count;
-     int buffer_count;
      bool device_open;
      bool unplugged;
 

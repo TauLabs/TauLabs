@@ -7,7 +7,7 @@
  *
  * @file       eventdispatcher.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Event dispatcher, distributes object events as callbacks. Alternative
  * 	           to using tasks and queues. All callbacks are invoked from the event task.
  * @see        The GNU Public License (GPL) Version 3
@@ -30,6 +30,9 @@
  */
 
 #include "openpilot.h"
+#include "pios_mutex.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #if defined(PIOS_EVENTDISAPTCHER_QUEUE)
@@ -39,12 +42,12 @@
 #endif
 
 #if defined(PIOS_EVENTDISPATCHER_STACK_SIZE)
-#define STACK_SIZE PIOS_EVENTDISPATCHER_STACK_SIZE
+#define STACK_SIZE_BYTES PIOS_EVENTDISPATCHER_STACK_SIZE
 #else
-#define STACK_SIZE configMINIMAL_STACK_SIZE
+#define STACK_SIZE_BYTES PIOS_THREAD_STACK_SIZE_MIN
 #endif /* PIOS_EVENTDISPATCHER_STACK_SIZE */
 
-#define TASK_PRIORITY (tskIDLE_PRIORITY + 3)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define MAX_UPDATE_PERIOD_MS 1000
 
 // Private types
@@ -56,7 +59,7 @@
 typedef struct {
 	UAVObjEvent ev; /** The actual event */
 	UAVObjEventCallback cb; /** The callback function, or zero if none */
-	xQueueHandle queue; /** The queue or zero if none */
+	struct pios_queue *queue; /** The queue or zero if none */
 } EventCallbackInfo;
 
 /**
@@ -72,16 +75,16 @@ typedef struct PeriodicObjectListStruct PeriodicObjectList;
 
 // Private variables
 static PeriodicObjectList* objList;
-static xQueueHandle queue;
-static xTaskHandle eventTaskHandle;
-static xSemaphoreHandle mutex;
+static struct pios_queue *queue;
+static struct pios_thread *eventTaskHandle;
+static struct pios_recursive_mutex *mutex;
 static EventStats stats;
 
 // Private functions
 static int32_t processPeriodicUpdates();
 static void eventTask();
-static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQueueHandle queue, uint16_t periodMs);
-static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, xQueueHandle queue, uint16_t periodMs);
+static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
+static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
 static uint16_t randomizePeriod(uint16_t periodMs);
 
 
@@ -96,15 +99,15 @@ int32_t EventDispatcherInitialize()
 	memset(&stats, 0, sizeof(EventStats));
 
 	// Create mutex
-	mutex = xSemaphoreCreateRecursiveMutex();
+	mutex = PIOS_Recursive_Mutex_Create();
 	if (mutex == NULL)
 		return -1;
 
 	// Create event queue
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(EventCallbackInfo));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(EventCallbackInfo));
 
 	// Create task
-	xTaskCreate( eventTask, (signed char*)"Event", STACK_SIZE, NULL, TASK_PRIORITY, &eventTaskHandle );
+	eventTaskHandle = PIOS_Thread_Create(eventTask, "event", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 	// Done
 	return 0;
@@ -116,9 +119,9 @@ int32_t EventDispatcherInitialize()
  */
 void EventGetStats(EventStats* statsOut)
 {
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
 	memcpy(statsOut, &stats, sizeof(EventStats));
-	xSemaphoreGiveRecursive(mutex);
+	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
 /**
@@ -126,9 +129,9 @@ void EventGetStats(EventStats* statsOut)
  */
 void EventClearStats()
 {
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
 	memset(&stats, 0, sizeof(EventStats));
-	xSemaphoreGiveRecursive(mutex);
+	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
 /**
@@ -146,7 +149,10 @@ int32_t EventCallbackDispatch(UAVObjEvent* ev, UAVObjEventCallback cb)
 	evInfo.cb = cb;
 	evInfo.queue = 0;
 	// Push to queue
-	return xQueueSend(queue, &evInfo, 0); // will not block if queue is full
+	if (PIOS_Queue_Send(queue, &evInfo, 0) == true)
+		return 0;
+	else
+		return -1;
 }
 
 /**
@@ -180,7 +186,7 @@ int32_t EventPeriodicCallbackUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, uin
  * \param[in] periodMs The period the event is generated
  * \return Success (0), failure (-1)
  */
-int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, xQueueHandle queue, uint16_t periodMs)
+int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, struct pios_queue *queue, uint16_t periodMs)
 {
 	return eventPeriodicCreate(ev, 0, queue, periodMs);
 }
@@ -192,7 +198,7 @@ int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, xQueueHandle queue, uint16_t p
  * \param[in] periodMs The period the event is generated
  * \return Success (0), failure (-1)
  */
-int32_t EventPeriodicQueueUpdate(UAVObjEvent* ev, xQueueHandle queue, uint16_t periodMs)
+int32_t EventPeriodicQueueUpdate(UAVObjEvent* ev, struct pios_queue *queue, uint16_t periodMs)
 {
 	return eventPeriodicUpdate(ev, 0, queue, periodMs);
 }
@@ -205,11 +211,11 @@ int32_t EventPeriodicQueueUpdate(UAVObjEvent* ev, xQueueHandle queue, uint16_t p
  * \param[in] periodMs The period the event is generated
  * \return Success (0), failure (-1)
  */
-static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQueueHandle queue, uint16_t periodMs)
+static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs)
 {
 	PeriodicObjectList* objEntry;
 	// Get lock
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
 	// Check that the object is not already connected
 	LL_FOREACH(objList, objEntry)
 	{
@@ -220,12 +226,12 @@ static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQue
 			objEntry->evInfo.ev.event == ev->event)
 		{
 			// Already registered, do nothing
-			xSemaphoreGiveRecursive(mutex);
+			PIOS_Recursive_Mutex_Unlock(mutex);
 			return -1;
 		}
 	}
     // Create handle
-	objEntry = (PeriodicObjectList*)pvPortMalloc(sizeof(PeriodicObjectList));
+	objEntry = (PeriodicObjectList*)PIOS_malloc(sizeof(PeriodicObjectList));
 	if (objEntry == NULL) return -1;
 	objEntry->evInfo.ev.obj = ev->obj;
 	objEntry->evInfo.ev.instId = ev->instId;
@@ -237,7 +243,7 @@ static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQue
     // Add to list
     LL_APPEND(objList, objEntry);
 	// Release lock
-	xSemaphoreGiveRecursive(mutex);
+	PIOS_Recursive_Mutex_Unlock(mutex);
     return 0;
 }
 
@@ -249,11 +255,11 @@ static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, xQue
  * \param[in] periodMs The period the event is generated
  * \return Success (0), failure (-1)
  */
-static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, xQueueHandle queue, uint16_t periodMs)
+static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs)
 {
 	PeriodicObjectList* objEntry;
 	// Get lock
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
 	// Find object
 	LL_FOREACH(objList, objEntry)
 	{
@@ -267,12 +273,12 @@ static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, xQue
 			objEntry->updatePeriodMs = periodMs;
 			objEntry->timeToNextUpdateMs = randomizePeriod(periodMs); // avoid bunching of updates
 			// Release lock
-			xSemaphoreGiveRecursive(mutex);
+			PIOS_Recursive_Mutex_Unlock(mutex);
 			return 0;
 		}
 	}
     // If this point is reached the object was not found
-	xSemaphoreGiveRecursive(mutex);
+	PIOS_Recursive_Mutex_Unlock(mutex);
     return -1;
 }
 
@@ -289,30 +295,30 @@ static void eventTask()
 	TaskMonitorAdd(TASKINFO_RUNNING_EVENTDISPATCHER, eventTaskHandle);
 
 	// Initialize time
-	timeToNextUpdateMs = xTaskGetTickCount()*portTICK_RATE_MS;
+	timeToNextUpdateMs = PIOS_Thread_Systime();
 
 	// Loop forever
 	while (1)
 	{
 		// Calculate delay time
-		delayMs = timeToNextUpdateMs-(xTaskGetTickCount()*portTICK_RATE_MS);
+		delayMs = timeToNextUpdateMs - PIOS_Thread_Systime();
 		if (delayMs < 0)
 		{
 			delayMs = 0;
 		}
 
 		// Wait for queue message
-		if ( xQueueReceive(queue, &evInfo, delayMs/portTICK_RATE_MS) == pdTRUE )
+		if (PIOS_Queue_Receive(queue, &evInfo, delayMs) == true)
 		{
 			// Invoke callback, if one
-			if ( evInfo.cb != 0)
+			if (evInfo.cb != 0)
 			{
 				evInfo.cb(&evInfo.ev); // the function is expected to copy the event information
 			}
 		}
 
 		// Process periodic updates
-		if ((xTaskGetTickCount()*portTICK_RATE_MS) >= timeToNextUpdateMs )
+		if (PIOS_Thread_Systime() >= timeToNextUpdateMs)
 		{
 			timeToNextUpdateMs = processPeriodicUpdates();
 		}
@@ -331,18 +337,18 @@ static int32_t processPeriodicUpdates()
     int32_t offset;
 
 	// Get lock
-	xSemaphoreTakeRecursive(mutex, portMAX_DELAY);
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
 
     // Iterate through each object and update its timer, if zero then transmit object.
     // Also calculate smallest delay to next update.
-    timeToNextUpdate = xTaskGetTickCount()*portTICK_RATE_MS + MAX_UPDATE_PERIOD_MS;
+    timeToNextUpdate = PIOS_Thread_Systime() + MAX_UPDATE_PERIOD_MS;
     LL_FOREACH(objList, objEntry)
     {
         // If object is configured for periodic updates
         if (objEntry->updatePeriodMs > 0)
         {
             // Check if time for the next update
-        	timeNow = xTaskGetTickCount()*portTICK_RATE_MS;
+        	timeNow = PIOS_Thread_Systime();
             if (objEntry->timeToNextUpdateMs <= timeNow)
             {
                 // Reset timer
@@ -356,7 +362,7 @@ static int32_t processPeriodicUpdates()
     			// Push event to queue, if one
     			if ( objEntry->evInfo.queue != 0)
     			{
-    				if ( xQueueSend(objEntry->evInfo.queue, &objEntry->evInfo.ev, 0) != pdTRUE ) // do not block if queue is full
+    				if (PIOS_Queue_Send(objEntry->evInfo.queue, &objEntry->evInfo.ev, 0) != true ) // do not block if queue is full
     				{
 						if (objEntry->evInfo.ev.obj != NULL)
 							stats.lastErrorID = UAVObjGetID(objEntry->evInfo.ev.obj);
@@ -373,7 +379,7 @@ static int32_t processPeriodicUpdates()
     }
 
     // Done
-    xSemaphoreGiveRecursive(mutex);
+    PIOS_Recursive_Mutex_Unlock(mutex);
     return timeToNextUpdate;
 }
 

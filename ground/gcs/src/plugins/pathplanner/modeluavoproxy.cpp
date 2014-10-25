@@ -49,13 +49,14 @@ ModelUavoProxy::ModelUavoProxy(QObject *parent, FlightDataModel *model):QObject(
 /**
  * @brief ModelUavoProxy::modelToObjects Cast from the internal representation of a path
  * to the UAV objects required to represent it
+ * @return true if all wp were sent ok
  */
-void ModelUavoProxy::modelToObjects()
+bool ModelUavoProxy::modelToObjects()
 {
     Waypoint *wp = Waypoint::GetInstance(objManager,0);
     Q_ASSERT(wp);
     if (wp == NULL)
-        return;
+        return false;
 
     // Make sure the object is acked
     UAVObject::Metadata initialMeta = wp->getMetadata();
@@ -67,9 +68,10 @@ void ModelUavoProxy::modelToObjects()
     double NED[3];
     double LLA[3];
     getHomeLocation(homeLLA);
-
+    bool newInstance;
     for(int x=0;x<myModel->rowCount();++x)
     {
+        newInstance = false;
         Waypoint *wp = NULL;
 
         // Get the number of existing waypoints
@@ -78,6 +80,7 @@ void ModelUavoProxy::modelToObjects()
         // Create new instances of waypoints if this is more than exist
         if(x>instances-1)
         {
+            newInstance = true;
             wp=new Waypoint;
             wp->initialize(x,wp->getMetaObject());
             objManager->registerObject(wp);
@@ -104,14 +107,25 @@ void ModelUavoProxy::modelToObjects()
         waypoint.Mode = myModel->data(myModel->index(x,FlightDataModel::MODE), Qt::UserRole).toInt();
         waypoint.ModeParameters = myModel->data(myModel->index(x,FlightDataModel::MODE_PARAMS)).toFloat();
 
-        if (robustUpdate(waypoint, x))
+        if (robustUpdate(waypoint, x)) {
             qDebug() << "Successfully updated";
+            emit sendPathPlanToUavProgress(100 * (x + 1) / myModel->rowCount());
+        }
         else {
             qDebug() << "Upload failed";
+            emit sendPathPlanToUavProgress(100 * (x + 1) / myModel->rowCount());
+            return false;
             break;
+        }
+        if(newInstance)
+        {
+            QEventLoop m_eventloop;
+            QTimer::singleShot(800, &m_eventloop, SLOT(quit()));
+            m_eventloop.exec();
         }
     }
     wp->setMetadata(initialMeta);
+    return true;
 }
 
 /**
@@ -126,7 +140,7 @@ bool ModelUavoProxy::robustUpdate(Waypoint::DataFields data, int instance)
     connect(wp, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(waypointTransactionCompleted(UAVObject *, bool)));
     for (int i = 0; i < 10; i++) {
             QEventLoop m_eventloop;
-            QTimer::singleShot(500, &m_eventloop, SLOT(quit()));
+            QTimer::singleShot(1000, &m_eventloop, SLOT(quit()));
             connect(this, SIGNAL(waypointTransactionSucceeded()), &m_eventloop, SLOT(quit()));
             connect(this, SIGNAL(waypointTransactionFailed()), &m_eventloop, SLOT(quit()));
             waypointTransactionResult.insert(instance, false);

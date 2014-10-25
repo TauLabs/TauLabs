@@ -27,7 +27,8 @@ SOURCES += osgearthviewgadgetoptionspage.cpp
 FORMS += osgearthviewgadgetoptionspage.ui \
     osgearthview.ui
 
-OTHER_FILES += OsgEarthviewGadget.pluginspec
+OTHER_FILES += OsgEarthviewGadget.pluginspec \
+    OsgEarthviewGadjet.json
 RESOURCES += osgearthview.qrc
 
 

@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2012.
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
 # @addtogroup 
 # @{
 # @addtogroup 
@@ -58,6 +58,9 @@ OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += Airspeed/revolution
 OPTMODULES += UAVOHoTTBridge
 OPTMODULES += UAVOFrSKYSensorHubBridge
+OPTMODULES += PicoC
+OPTMODULES += UAVOFrSKYSPortBridge
+OPTMODULES += Geofence
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
@@ -79,16 +82,6 @@ STMSPDINCDIR = $(STMSPDDIR)/inc
 DEBUG_CM3_DIR = $(PIOSCOMMONLIB)/Debug
 DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
-PYMITE = $(FLIGHTLIB)/PyMite
-PYMITELIB = $(PYMITE)/lib
-PYMITEPLAT = $(PYMITE)/platform/openpilot
-PYMITETOOLS = $(PYMITE)/tools
-PYMITEVM = $(PYMITE)/vm
-PYMITEINC = $(PYMITEVM)
-PYMITEINC += $(PYMITEPLAT)
-PYMITEINC += $(OUTDIR)
-FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
-FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 
 SRC = 
@@ -100,16 +93,6 @@ include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
-
-## PyMite files and modules
-SRC += $(OUTDIR)/pmlib_img.c
-SRC += $(OUTDIR)/pmlib_nat.c
-SRC += $(OUTDIR)/pmlibusr_img.c
-SRC += $(OUTDIR)/pmlibusr_nat.c
-PYSRC += $(wildcard ${PYMITEVM}/*.c)
-PYSRC += $(wildcard ${PYMITEPLAT}/*.c)
-PYSRC += ${foreach MOD, ${PYMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
-SRC += $(PYSRC)
 
 ## MODULES
 SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
@@ -166,6 +149,7 @@ SRC += $(PIOSCOMMON)/pios_rfm22b.c
 SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_hsum.c
+SRC += $(PIOSCOMMON)/pios_sbus.c
 SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_flash_jedec.c
@@ -177,6 +161,9 @@ SRC += $(PIOSCOMMON)/pios_usb_util.c
 SRC += $(PIOSCOMMON)/pios_adc.c
 SRC += $(PIOSCOMMON)/pios_heap.c
 SRC += $(PIOSCOMMON)/pios_semaphore.c
+SRC += $(PIOSCOMMON)/pios_mutex.c
+SRC += $(PIOSCOMMON)/pios_thread.c
+SRC += $(PIOSCOMMON)/pios_queue.c
 
 
 include ./UAVObjects.inc
@@ -228,24 +215,9 @@ EXTRAINCDIRS  += $(STMSPDINCDIR)
 EXTRAINCDIRS  += $(CMSISDIR)
 EXTRAINCDIRS  += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS  += $(BOOTINC)
-EXTRAINCDIRS  += $(PYMITEINC)
 EXTRAINCDIRS  += $(DEBUG_CM3_DIR_INC)
 EXTRAINCDIRS  += $(MAVLINKINC)
 
-
-# Generate intermediate code
-gencode: ${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTDIR}/pmlibusr_img.c ${OUTDIR}/pmlibusr_nat.c ${OUTDIR}/pmfeatures.h 
-
-$(PYSRC): gencode
-
-PYTHON = python
-
-# Generate code for PyMite
-${OUTDIR}/pmlib_img.c ${OUTDIR}/pmlib_nat.c ${OUTDIR}/pmlibusr_img.c ${OUTDIR}/pmlibusr_nat.c ${OUTDIR}/pmfeatures.h: $(wildcard ${PYMITELIB}/*.py) $(wildcard ${PYMITEPLAT}/*.py) $(wildcard ${FLIGHTPLANLIB}/*.py) $(wildcard ${FLIGHTPLANS}/*.py) 
-	@echo $(MSG_PYMITEINIT) $(call toprel, $@)
-	@$(PYTHON) $(PYMITETOOLS)/pmImgCreator.py -f $(PYMITEPLAT)/pmfeatures.py -c -s --memspace=flash -o $(OUTDIR)/pmlib_img.c --native-file=$(OUTDIR)/pmlib_nat.c $(PYMITELIB)/list.py $(PYMITELIB)/dict.py $(PYMITELIB)/__bi.py $(PYMITELIB)/sys.py $(PYMITELIB)/string.py $(wildcard $(FLIGHTPLANLIB)/*.py)
-	@$(PYTHON) $(PYMITETOOLS)/pmGenPmFeatures.py $(PYMITEPLAT)/pmfeatures.py > $(OUTDIR)/pmfeatures.h
-	@$(PYTHON) $(PYMITETOOLS)/pmImgCreator.py -f $(PYMITEPLAT)/pmfeatures.py -c -u -o $(OUTDIR)/pmlibusr_img.c --native-file=$(OUTDIR)/pmlibusr_nat.c $(FLIGHTPLANS)/test.py
 EXTRAINCDIRS += ${foreach MOD, ${MODULES} ${OPTMODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
 # List any extra directories to look for library files here.
@@ -403,7 +375,6 @@ LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 # Define programs and commands.
 REMOVE  = rm -f
-PYHON   = python
 
 # List of all source files.
 ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC)

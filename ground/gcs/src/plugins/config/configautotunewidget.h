@@ -33,10 +33,10 @@
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 #include "stabilizationsettings.h"
-#include "relaytuningsettings.h"
-#include "relaytuning.h"
-#include <QtGui/QWidget>
+#include "systemident.h"
+#include <QWidget>
 #include <QTimer>
+#include "utils/foruminteractionform.h"
 
 class ConfigAutotuneWidget : public ConfigTaskWidget
 {
@@ -48,6 +48,8 @@ private:
     Ui_AutotuneWidget *m_autotune;
     StabilizationSettings::DataFields stabSettings;
 
+    bool approveSettings(SystemIdent::DataFields systemIdentData);
+    Utils::ForumInteractionForm *forumInteractionForm;
 signals:
 
 public slots:
@@ -56,6 +58,8 @@ public slots:
 private slots:
     void recomputeStabilization();
     void saveStabilization();
+    void onShareData();
+    void onForumInteractionSet(int value);
 };
 
 #endif // CONFIGAUTOTUNE_H

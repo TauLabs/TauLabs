@@ -3,6 +3,7 @@
  *
  * @file       examplemodthread.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @brief      Example module to be used as a template for actual modules.
  *             Threaded version.
  *
@@ -46,17 +47,19 @@
 #include "exampleobject1.h"	// object the module will listen for updates (input)
 #include "exampleobject2.h"	// object the module will update (output)
 #include "examplesettings.h"	// object holding module settings (input)
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 20
-#define STACK_SIZE configMINIMAL_STACK_SIZE
-#define TASK_PRIORITY (tskIDLE_PRIORITY+1)
+#define STACK_SIZE_BYTES PIOS_THREAD_STACK_SIZE_MIN
+#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private types
 
 // Private variables
-static xQueueHandle queue;
-static xTaskHandle taskHandle;
+static struct pios_queue *queue;
+static struct pios_thread *taskHandle;
 
 // Private functions
 static void exampleTask(void *parameters);
@@ -68,13 +71,13 @@ static void exampleTask(void *parameters);
 int32_t ExampleModThreadInitialize()
 {
 	// Create object queue
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 	// Listen for ExampleObject1 updates
 	ExampleObject1ConnectQueue(queue);
 
 	// Start main task
-	xTaskCreate(exampleTask, (signed char *)"ExampleThread", STACK_SIZE, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(exampleTask, "ExampleThread", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 	return 0;
 }
@@ -97,7 +100,7 @@ static void exampleTask(void *parameters)
 		// the module could listen to multiple objects.
 		// Since this object only executes on object updates, the task
 		// will block until an object event is pushed in the queue.
-		while (xQueueReceive(queue, &ev, portMAX_DELAY) != pdTRUE) ;
+		while (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) != true) ;
 
 		// Make sure that the object update is for ExampleObject1
 		// This is redundant in this example since we have only

@@ -1,6 +1,7 @@
 TEMPLATE = lib
 TARGET = Welcome
-QT += network declarative
+QT += network qml quick
+CONFIG += plugin
 
 include(../../taulabsgcsplugin.pri)
 include(welcome_dependencies.pri)
@@ -13,4 +14,5 @@ SOURCES += welcomeplugin.cpp \
 
 RESOURCES += welcome.qrc
 DEFINES += WELCOME_LIBRARY
-OTHER_FILES += Welcome.pluginspec
+OTHER_FILES += Welcome.pluginspec \
+    welcome.json

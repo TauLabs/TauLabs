@@ -44,6 +44,28 @@ QWidget *BrowserItemDelegate::createEditor(QWidget *parent,
     return editor;
 }
 
+/**
+ * @brief BrowserItemDelegate::eventFilter Filter any events that are
+ * on the combox box from going to the view.  This makes the combo
+ * box contents pop up and be selectable.
+ */
+bool BrowserItemDelegate::eventFilter(QObject *object, QEvent *event)
+{
+    QComboBox * comboBox = dynamic_cast<QComboBox*>(object);
+    if (comboBox)
+    {
+        if (event->type() == QEvent::MouseButtonRelease)
+        {
+            comboBox->showPopup();
+            return true;
+        }
+    }
+    else
+    {
+        return QStyledItemDelegate::eventFilter( object, event );
+    }
+    return false;
+}
 
 void BrowserItemDelegate::setEditorData(QWidget *editor,
                                         const QModelIndex &index) const

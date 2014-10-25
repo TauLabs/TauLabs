@@ -34,7 +34,7 @@
 #include "uavobject.h"
 #include "uavobjectutilmanager.h"
 #include "cfg_vehicletypes/vehicleconfig.h"
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QList>
 
 class Ui_OutputWidget;
@@ -70,6 +70,7 @@ private slots:
     void updateObjectsFromWidgets();
     void runChannelTests(bool state);
     void sendChannelTest(int index, int value);
+    void startESCCalibration();
     void openHelp();
     void do_SetDirty();
     void assignOutputChannels(UAVObject *obj);

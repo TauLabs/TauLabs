@@ -29,6 +29,7 @@
 #include "pathchooser.h"
 
 #include "basevalidatinglineedit.h"
+#include "hostosinfo.h"
 #include "qtcassert.h"
 
 #include <QtCore/QDebug>
@@ -36,15 +37,16 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QSettings>
 
-#include <QtGui/QDesktopServices>
-#include <QtGui/QFileDialog>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLineEdit>
-#include <QtGui/QToolButton>
-#include <QtGui/QPushButton>
+#include <QDesktopServices>
+#include <QStandardPaths>
+#include <QFileDialog>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QToolButton>
+#include <QPushButton>
 
 /*static*/ const char * const Utils::PathChooser::browseButtonLabel =
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
                    QT_TRANSLATE_NOOP("Utils::PathChooser", "Choose...");
 #else
                    QT_TRANSLATE_NOOP("Utils::PathChooser", "Browse...");
@@ -127,7 +129,7 @@ PathChooser::~PathChooser()
 
 void PathChooser::addButton(const QString &text, QObject *receiver, const char *slotFunc)
 {
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     QPushButton *button = new QPushButton;
 #else
     QToolButton *button = new QToolButton;
@@ -272,14 +274,12 @@ QString PathChooser::label()
 
 QString PathChooser::homePath()
 {
-#ifdef Q_OS_WIN
     // Return 'users/<name>/Documents' on Windows, since Windows explorer
     // does not let people actually display the contents of their home
     // directory. Alternatively, create a QtCreator-specific directory?
-    return QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-#else
+    if (HostOsInfo::isWindowsHost())
+        return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     return QDir::homePath();
-#endif
 }
 
 void PathChooser::setExpectedKind(Kind expected)

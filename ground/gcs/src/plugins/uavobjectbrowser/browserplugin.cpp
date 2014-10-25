@@ -59,5 +59,3 @@ void BrowserPlugin::shutdown()
 {
    // Do nothing
 }
-Q_EXPORT_PLUGIN(BrowserPlugin)
-

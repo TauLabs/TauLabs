@@ -21,7 +21,8 @@ SOURCES += loggingplugin.cpp \
     loggingdevice.cpp
 #    logginggadgetconfiguration.cpp \
 #    logginggadgetoptionspage.cpp
-OTHER_FILES += LoggingGadget.pluginspec
+OTHER_FILES += LoggingGadget.pluginspec \
+    LoggingGadget.json
 FORMS += logging.ui
 #    logginggadgetwidget.ui \
 #    loggingdialog.ui

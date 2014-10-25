@@ -28,7 +28,6 @@
  */
 
 
-#include "qxtlogger.h"
 #include "extensionsystem/pluginmanager.h"
 #include "coreplugin/icore.h"
 #include "coreplugin/threadmanager.h"
@@ -165,11 +164,6 @@ void Exporter::onStart()
                        "Remote interface: " + settings.remoteAddress + "\n" + \
                        "inputPort: " + QString::number(settings.inPort) + "\n" + \
                        "outputPort: " + QString::number(settings.outPort) + "\n");
-
-    qxtLog->info("\nLocal interface: " + settings.hostAddress + "\n" + \
-                 "Remote interface: " + settings.remoteAddress + "\n" + \
-                 "inputPort: " + QString::number(settings.inPort) + "\n" + \
-                 "outputPort: " + QString::number(settings.outPort) + "\n");
 
 	connect(inSocket, SIGNAL(readyRead()), this, SLOT(receiveUpdate()),Qt::DirectConnection);
 

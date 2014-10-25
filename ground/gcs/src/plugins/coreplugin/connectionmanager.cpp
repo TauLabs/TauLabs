@@ -32,8 +32,8 @@
 #include <coreplugin/iconnection.h>
 #include <coreplugin/idevice.h>
 #include <extensionsystem/pluginmanager.h>
-#include "qextserialport/src/qextserialenumerator.h"
-#include "qextserialport/src/qextserialport.h"
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 #include <QDebug>
 #include <QLabel>
 #include <QHBoxLayout>
@@ -106,13 +106,10 @@ void ConnectionManager::init()
 */
 bool ConnectionManager::connectDevice(DevListItem device)
 {
-    Q_UNUSED(device);
-
-    DevListItem connection_device = findDevice(m_availableDevList->itemData(m_availableDevList->currentIndex(),Qt::ToolTipRole).toString());
-    if (!connection_device.connection)
+    if (!device.connection)
         return false;
 
-    QIODevice *io_dev = connection_device.connection->openDevice(connection_device.device);
+    QIODevice *io_dev = device.connection->openDevice(device.device);
     if (!io_dev)
         return false;
 
@@ -123,9 +120,15 @@ bool ConnectionManager::connectDevice(DevListItem device)
         return false;
     }
 
+    // The device is connected make it the one selected on the dropbox
+    for(int x = 0; x < m_availableDevList->count(); ++x)
+    {
+        if(device.getConName() == m_availableDevList->itemData(x,Qt::ToolTipRole).toString())
+            m_availableDevList->setCurrentIndex(x);
+    }
     // we appear to have connected to the device OK
     // remember the connection/device details
-    m_connectionDevice = connection_device;
+    m_connectionDevice = device;
     m_ioDev = io_dev;
 
     connect(m_connectionDevice.connection, SIGNAL(destroyed(QObject *)), this, SLOT(onConnectionDestroyed(QObject *)), Qt::QueuedConnection);
@@ -270,12 +273,12 @@ void ConnectionManager::telemetryDisconnected()
     qDebug() << "TelemetryMonitor: disconnected";
 
     if (m_ioDev){
-        if(m_connectionDevice.connection->shortName()=="Serial") {
+        if(m_connectionDevice.connection->reconnect())//currently used with bluetooth only
+        {
             if(!reconnect->isActive())
                 reconnect->start(1000);
         }
     }
-
     //tell the monitor we're disconnected
     m_monitorWidget->disconnect();
 }
@@ -358,6 +361,14 @@ void ConnectionManager::resumePolling()
     m_connectBtn->setEnabled(true);
     m_availableDevList->setEnabled(true);
     polling = true;
+}
+
+/**
+*   Returns true if autoconnection is enabled
+*/
+bool ConnectionManager::getAutoconnect()
+{
+    return m_mainWindow->generalSettings()->autoConnect();
 }
 
 /**

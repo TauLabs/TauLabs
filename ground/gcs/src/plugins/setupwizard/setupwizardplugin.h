@@ -35,6 +35,7 @@
 
 class SetupWizardPlugin : public ExtensionSystem::IPlugin {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.SetupWizard" FILE "SetupWizard.json")
 public:
     SetupWizardPlugin();
     ~SetupWizardPlugin();
@@ -52,3 +53,8 @@ private:
 };
 
 #endif // SETUPWIZARDPLUGIN_H
+
+/**
+ * @}
+ * @}
+ */

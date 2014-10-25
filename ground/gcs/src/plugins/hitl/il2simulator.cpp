@@ -70,7 +70,6 @@
 #include <coreplugin/icore.h>
 #include <coreplugin/threadmanager.h>
 #include <math.h>
-#include <qxtlogger.h>
 
 IL2Simulator::IL2Simulator(const SimulatorSettings& params) :
     Simulator(params)
@@ -89,7 +88,7 @@ void IL2Simulator::setupUdpPorts(const QString& host, int inPort, int outPort)
 
     inSocket->connectToHost(host,inPort); // IL2
     if(!inSocket->waitForConnected())
-        qxtLog->error(Name() + " cann't connect to UDP Port: " + QString::number(inPort));
+        qDebug() << Name() + " cann't connect to UDP Port: " + QString::number(inPort);
 }
 
 void IL2Simulator::transmitUpdate()
@@ -108,7 +107,7 @@ void IL2Simulator::transmitUpdate()
             .arg(ailerons)
             .arg(elevator)
             .arg(rudder);
-    QByteArray data = cmd.toAscii();
+    QByteArray data = cmd.toLatin1();
     //outSocket->write(data);
     inSocket->write(data);  // for IL2 must send to the same port as input!!!!!!!!!!!!!
 }

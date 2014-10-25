@@ -29,7 +29,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../opmap/opmap.qrc">
+        <iconset resource="pathplanner.qrc">
          <normaloff>:/opmap/images/plus3.png</normaloff>:/opmap/images/plus3.png</iconset>
        </property>
       </widget>
@@ -43,7 +43,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../opmap/opmap.qrc">
+        <iconset resource="pathplanner.qrc">
          <normaloff>:/opmap/images/stopb.png</normaloff>:/opmap/images/stopb.png</iconset>
        </property>
       </widget>
@@ -57,7 +57,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../opmap/opmap.qrc">
+        <iconset resource="pathplanner.qrc">
          <normaloff>:/opmap/images/forward_alt.png</normaloff>:/opmap/images/forward_alt.png</iconset>
        </property>
       </widget>
@@ -71,7 +71,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../opmap/opmap.qrc">
+        <iconset resource="pathplanner.qrc">
          <normaloff>:/opmap/images/unarchive.png</normaloff>:/opmap/images/unarchive.png</iconset>
        </property>
       </widget>
@@ -85,7 +85,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../opmap/opmap.qrc">
+        <iconset resource="pathplanner.qrc">
          <normaloff>:/opmap/images/Ekisho Deep Ocean HD1.png</normaloff>:/opmap/images/Ekisho Deep Ocean HD1.png</iconset>
        </property>
       </widget>
@@ -99,7 +99,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../opmap/opmap.qrc">
+        <iconset resource="pathplanner.qrc">
          <normaloff>:/opmap/images/up_alt.png</normaloff>:/opmap/images/up_alt.png</iconset>
        </property>
       </widget>
@@ -113,7 +113,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../opmap/opmap.qrc">
+        <iconset resource="pathplanner.qrc">
          <normaloff>:/opmap/images/down_alt.png</normaloff>:/opmap/images/down_alt.png</iconset>
        </property>
       </widget>
@@ -184,7 +184,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../opmap/opmap.qrc">
+        <iconset resource="pathplanner.qrc">
          <normaloff>:/opmap/images/star.png</normaloff>:/opmap/images/star.png</iconset>
        </property>
       </widget>
@@ -198,11 +198,27 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QProgressBar" name="statusPB">
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="statusTL">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>Sending Objects...</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources>
   <include location="../coreplugin/core.qrc"/>
-  <include location="../opmap/opmap.qrc"/>
   <include location="pathplanner.qrc"/>
  </resources>
  <connections/>

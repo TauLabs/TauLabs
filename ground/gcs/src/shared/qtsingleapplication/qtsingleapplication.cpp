@@ -29,8 +29,8 @@
 #include "qtsingleapplication.h"
 #include "qtlocalpeer.h"
 
-#include <QtGui/QWidget>
-#include <QtGui/QFileOpenEvent>
+#include <QWidget>
+#include <QFileOpenEvent>
 
 namespace SharedTools {
 
@@ -53,13 +53,6 @@ QtSingleApplication::QtSingleApplication(const QString &appId, int &argc, char *
     : QApplication(argc, argv)
 {
     sysInit(appId);
-}
-
-
-QtSingleApplication::QtSingleApplication(int &argc, char **argv, Type type)
-    : QApplication(argc, argv, type)
-{
-    sysInit();
 }
 
 

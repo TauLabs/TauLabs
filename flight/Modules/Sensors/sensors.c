@@ -7,7 +7,7 @@
  *
  * @file       sensors.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Acquire sensor data from sensors registered with @ref PIOS_Sensors
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -32,6 +32,8 @@
 #include "openpilot.h"
 #include "pios.h"
 #include "physical_constants.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 // UAVOs
 #include "accels.h"
@@ -49,7 +51,7 @@
 
 // Private constants
 #define STACK_SIZE_BYTES 1000
-#define TASK_PRIORITY (tskIDLE_PRIORITY+3)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define SENSOR_PERIOD 6		// this allows sensor data to arrive as slow as 166Hz
 #define REQUIRED_GOOD_CYCLES 50
 
@@ -74,7 +76,7 @@ static void mag_calibration_fix_length(MagnetometerData *mag);
 static void updateTemperatureComp(float temperature, float *temp_bias);
 
 // Private variables
-static xTaskHandle sensorsTaskHandle;
+static struct pios_thread *sensorsTaskHandle;
 static INSSettingsData insSettings;
 static AccelsData accelsData;
 
@@ -99,7 +101,7 @@ static enum mag_calibration_algo mag_calibration_algo = MAG_CALIBRATION_PRELEMAR
 
 /**
  * API for sensor fusion algorithms:
- * Configure(xQueueHandle gyro, xQueueHandle accel, xQueueHandle mag, xQueueHandle baro)
+ * Configure(struct pios_queue *gyro, struct pios_queue *accel, struct pios_queue *mag, struct pios_queue *baro)
  *   Stores all the queues the algorithm will pull data from
  * FinalizeSensors() -- before saving the sensors modifies them based on internal state (gyro bias)
  * Update() -- queries queues and updates the attitude estiamte
@@ -138,7 +140,7 @@ static int32_t SensorsInitialize(void)
 static int32_t SensorsStart(void)
 {
 	// Start main task
-	xTaskCreate(SensorsTask, (signed char *)"Sensors", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &sensorsTaskHandle);
+	sensorsTaskHandle = PIOS_Thread_Create(SensorsTask, "Sensors", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_SENSORS, sensorsTaskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_SENSORS);
 
@@ -154,7 +156,7 @@ MODULE_INITCALL(SensorsInitialize, SensorsStart)
  */
 static void SensorsTask(void *parameters)
 {
-	portTickType lastSysTime;
+	uint32_t lastSysTime;
 
 	AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
 
@@ -163,15 +165,15 @@ static void SensorsTask(void *parameters)
 
 
 	// Main task loop
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 	uint32_t good_runs = 1;
 
 	while (1) {
 		if (good_runs == 0) {
 			PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
-			lastSysTime = xTaskGetTickCount();
+			lastSysTime = PIOS_Thread_Systime();
 			AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
-			vTaskDelayUntil(&lastSysTime, MS2TICKS(SENSOR_PERIOD));
+			PIOS_Thread_Sleep_Until(&lastSysTime, SENSOR_PERIOD);
 		}
 
 		struct pios_sensor_gyro_data gyros;
@@ -182,15 +184,15 @@ static void SensorsTask(void *parameters)
 		uint32_t timeval = PIOS_DELAY_GetRaw();
 
 		//Block on gyro data but nothing else
-		xQueueHandle queue;
+		struct pios_queue *queue;
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_GYRO);
-		if(queue == NULL || xQueueReceive(queue, (void *) &gyros, SENSOR_PERIOD) == errQUEUE_EMPTY) {
+		if (queue == NULL || PIOS_Queue_Receive(queue, &gyros, SENSOR_PERIOD) == false) {
 			good_runs = 0;
 			continue;
 		}
 
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_ACCEL);
-		if(queue == NULL || xQueueReceive(queue, (void *) &accels, 0) == errQUEUE_EMPTY) {
+		if (queue == NULL || PIOS_Queue_Receive(queue, &accels, 0) == false) {
 			//If no new accels data is ready, reuse the latest sample
 			AccelsSet(&accelsData);
 		}
@@ -202,12 +204,12 @@ static void SensorsTask(void *parameters)
 		update_gyros(&gyros);
 
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_MAG);
-		if(queue != NULL && xQueueReceive(queue, (void *) &mags, 0) != errQUEUE_EMPTY) {
+		if (queue != NULL && PIOS_Queue_Receive(queue, &mags, 0) != false) {
 			update_mags(&mags);
 		}
 
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_BARO);
-		if (queue != NULL && xQueueReceive(queue, (void *) &baro, 0) != errQUEUE_EMPTY) {
+		if (queue != NULL && PIOS_Queue_Receive(queue, &baro, 0) != false) {
 			update_baro(&baro);
 		}
 

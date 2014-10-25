@@ -3,6 +3,7 @@
  *
  * @file       uavobject.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -176,6 +177,14 @@ quint32 UAVObject::getNumBytes()
 void UAVObject::requestUpdate()
 {
     emit updateRequested(this);
+}
+
+/**
+ * Request that this object and all it's instances updated with the latest values from the autopilot
+ */
+void UAVObject::requestUpdateAllInstances()
+{
+    emit updateAllInstancesRequested(this);
 }
 
 /**
@@ -481,11 +490,19 @@ QString UAVObject::toStringData()
 }
 
 /**
- * Emit the transactionCompleted event (used by the UAVTalk plugin)
+ * (overloaded) Emit the transactionCompleted event (used by the UAVTalk plugin)
  */
 void UAVObject::emitTransactionCompleted(bool success)
 {
     emit transactionCompleted(this, success);
+}
+
+/**
+ * (overloaded) Emit the transactionCompletedNack event
+ */
+void UAVObject::emitTransactionCompleted(bool success, bool nacked)
+{
+    emit transactionCompleted(this, success, nacked);
 }
 
 /**
@@ -494,6 +511,14 @@ void UAVObject::emitTransactionCompleted(bool success)
 void UAVObject::emitNewInstance(UAVObject * obj)
 {
     emit newInstance(obj);
+}
+
+/**
+ * Emit the instanceRemoved event
+ */
+void UAVObject::emitInstanceRemoved(UAVObject * obj)
+{
+    emit instanceRemoved(obj);
 }
 
 /**

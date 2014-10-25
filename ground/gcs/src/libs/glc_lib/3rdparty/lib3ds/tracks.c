@@ -1175,7 +1175,7 @@ lib3ds_quat_track_read(Lib3dsQuatTrack *track, Lib3dsIo *io)
   int keys;
   int i,j;
   Lib3dsQuatKey *p,*k;
-  (void)p;
+
   track->flags=lib3ds_io_read_word(io);
   lib3ds_io_read_dword(io);
   lib3ds_io_read_dword(io);
@@ -1409,8 +1409,6 @@ lib3ds_morph_track_read(Lib3dsMorphTrack *track, Lib3dsIo *io)
 Lib3dsBool
 lib3ds_morph_track_write(Lib3dsMorphTrack *track, Lib3dsIo *io)
 {
-  (void)track;
-  (void)io;
   /* FIXME: */
   ASSERT(0);
   return(LIB3DS_FALSE);
@@ -1549,8 +1547,6 @@ lib3ds_dump_tracks(Lib3dsNode *node)
     case LIB3DS_SPOT_NODE:
       printf("pos: ");
       lib3ds_lin3Track_dump(&node->data.spot.pos_track);
-      break;
-    default:
       break;
   }
 }

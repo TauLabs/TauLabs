@@ -201,6 +201,3 @@ void GCSControl::receiverActivitySlot()
     if(m_gcsReceiver)
         m_gcsReceiver->updated();
 }
-
-Q_EXPORT_PLUGIN(GCSControl)
-

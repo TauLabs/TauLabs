@@ -84,5 +84,3 @@ void UAVTalkPlugin::onDeviceDisconnect()
 {
     telMngr->stop();
 }
-
-Q_EXPORT_PLUGIN(UAVTalkPlugin)

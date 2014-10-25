@@ -323,10 +323,10 @@ QwtPointArrayData::QwtPointArrayData( const double *x,
         const double *y, size_t size )
 {
     d_x.resize( size );
-    qMemCopy( d_x.data(), x, size * sizeof( double ) );
+    memcpy( d_x.data(), x, size * sizeof( double ) );
 
     d_y.resize( size );
-    qMemCopy( d_y.data(), y, size * sizeof( double ) );
+    memcpy( d_y.data(), y, size * sizeof( double ) );
 }
 
 /*!

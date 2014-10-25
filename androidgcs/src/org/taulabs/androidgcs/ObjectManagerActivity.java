@@ -45,10 +45,10 @@ import org.taulabs.androidgcs.fragments.ObjectManagerFragment;
 import org.taulabs.androidgcs.fragments.PFD;
 import org.taulabs.androidgcs.fragments.Map;
 import org.taulabs.androidgcs.fragments.SystemAlarmsFragment;
-import org.taulabs.androidgcs.telemetry.OPTelemetryService;
-import org.taulabs.androidgcs.telemetry.OPTelemetryService.ConnectionState;
-import org.taulabs.androidgcs.telemetry.OPTelemetryService.LocalBinder;
-import org.taulabs.androidgcs.telemetry.OPTelemetryService.TelemTask;
+import org.taulabs.androidgcs.telemetry.TelemetryService;
+import org.taulabs.androidgcs.telemetry.TelemetryService.ConnectionState;
+import org.taulabs.androidgcs.telemetry.TelemetryService.LocalBinder;
+import org.taulabs.androidgcs.telemetry.TelemetryService.TelemTask;
 import org.taulabs.androidgcs.views.AlarmsSummary;
 import org.taulabs.androidgcs.views.AlarmsSummary.AlarmsStatus;
 import org.taulabs.androidgcs.views.TelemetryStats;
@@ -300,9 +300,9 @@ public abstract class ObjectManagerActivity extends Activity {
 				if (DEBUG)
 					Log.d(TAG, "Received intent");
 				TelemTask task;
-				if(intent.getAction().compareTo(OPTelemetryService.INTENT_CHANNEL_OPENED) == 0) {
+				if(intent.getAction().compareTo(TelemetryService.INTENT_CHANNEL_OPENED) == 0) {
 					invalidateOptionsMenu();
-				} else if(intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_CONNECTED) == 0) {
+				} else if(intent.getAction().compareTo(TelemetryService.INTENT_ACTION_CONNECTED) == 0) {
 					if(binder  == null)
 						return;
 					if((task = binder.getTelemTask(0)) == null)
@@ -311,7 +311,7 @@ public abstract class ObjectManagerActivity extends Activity {
 					onConnected();
 					Log.d(TAG, "Connected()");
 					invalidateOptionsMenu();
-				} else if (intent.getAction().compareTo(OPTelemetryService.INTENT_ACTION_DISCONNECTED) == 0) {
+				} else if (intent.getAction().compareTo(TelemetryService.INTENT_ACTION_DISCONNECTED) == 0) {
 					onDisconnected();
 					objMngr = null;
 					Log.d(TAG, "Disonnected()");
@@ -322,15 +322,15 @@ public abstract class ObjectManagerActivity extends Activity {
 
 		// Set up the filters
 		IntentFilter filter = new IntentFilter();
-		filter.addCategory(OPTelemetryService.INTENT_CATEGORY_GCS);
-		filter.addAction(OPTelemetryService.INTENT_CHANNEL_OPENED);
-		filter.addAction(OPTelemetryService.INTENT_ACTION_CONNECTED);
-		filter.addAction(OPTelemetryService.INTENT_ACTION_DISCONNECTED);
+		filter.addCategory(TelemetryService.INTENT_CATEGORY_GCS);
+		filter.addAction(TelemetryService.INTENT_CHANNEL_OPENED);
+		filter.addAction(TelemetryService.INTENT_ACTION_CONNECTED);
+		filter.addAction(TelemetryService.INTENT_ACTION_DISCONNECTED);
 		registerReceiver(connectedReceiver, filter);
 
 		// Bind to the telemetry service (which will start it)
 		Intent intent = new Intent(getApplicationContext(),
-				org.taulabs.androidgcs.telemetry.OPTelemetryService.class);
+				org.taulabs.androidgcs.telemetry.TelemetryService.class);
 		startService(intent);
 		if (DEBUG)
 			Log.d(TAG, "Attempting to bind: " + intent);
@@ -773,6 +773,19 @@ public abstract class ObjectManagerActivity extends Activity {
 		return null;
 	}
 	
+	//! Set the selected drawer item and title by ID
+	public void setSelectionById(int id) {
+		NavDrawerItem selectedItem[] = navConf.getNavItems();
+		for (int i = 0; i < selectedItem.length; i++) {
+			if (selectedItem[i].getId() == id) {
+				mDrawerList.setItemChecked(i, true);
+				if ( selectedItem[i].updateActionBarTitle()) {
+					setTitle(selectedItem[i].getLabel());
+				}
+			}
+		}
+	}
+	
 	private void selectItem(int position) {
 		
 		NavDrawerItem selectedItem = navConf.getNavItems()[position];
@@ -814,8 +827,6 @@ public abstract class ObjectManagerActivity extends Activity {
 				// Activate main activity, indicating the fragment it should show 
 				Intent mainScreen = new Intent(this, MainActivity.class);
 				mainScreen.putExtra("ContentFrag",  selectedItem.getId());
-				if ( selectedItem.updateActionBarTitle())
-					mainScreen.putExtra("ContentName", selectedItem.getLabel());
 				startActivity(mainScreen);
 				
 				return;
@@ -824,7 +835,6 @@ public abstract class ObjectManagerActivity extends Activity {
 				int id = (int) selectedItem.getId();
 				FragmentTransaction trans = getFragmentManager().beginTransaction();
 				trans.replace(navConf.getMainLayout(), getFragmentById(id));
-				trans.addToBackStack(null);
 				trans.commit();
 				
 				mDrawerList.setItemChecked(position, true);

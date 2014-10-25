@@ -149,6 +149,7 @@ private slots:
     void objectUpdatedPeriodic(UAVObject* obj);
     void objectUnpacked(UAVObject* obj);
     void updateRequested(UAVObject* obj);
+    void updateAllInstancesRequested(UAVObject* obj);
     void newObject(UAVObject* obj);
     void newInstance(UAVObject* obj);
     void processPeriodicUpdates();

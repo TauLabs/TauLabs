@@ -12,7 +12,7 @@
  *
  * @file       actuator.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Actuator module. Drives the actuators (servos, motors etc).
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -46,6 +46,8 @@
 #include "mixerstatus.h"
 #include "cameradesired.h"
 #include "manualcontrolcommand.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -56,7 +58,7 @@
 #define STACK_SIZE_BYTES 1312
 #endif
 
-#define TASK_PRIORITY (tskIDLE_PRIORITY+4)
+#define TASK_PRIORITY PIOS_THREAD_PRIO_HIGHEST
 #define FAILSAFE_TIMEOUT_MS 100
 #define MAX_MIX_ACTUATORS ACTUATORCOMMAND_CHANNEL_NUMELEM
 
@@ -64,8 +66,8 @@
 
 
 // Private variables
-static xQueueHandle queue;
-static xTaskHandle taskHandle;
+static struct pios_queue *queue;
+static struct pios_thread *taskHandle;
 
 static float lastResult[MAX_MIX_ACTUATORS]={0,0,0,0,0,0,0,0};
 static float filterAccumulator[MAX_MIX_ACTUATORS]={0,0,0,0,0,0,0,0};
@@ -100,7 +102,7 @@ typedef struct {
 int32_t ActuatorStart()
 {
 	// Start main task
-	xTaskCreate(actuatorTask, (signed char*)"Actuator", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(actuatorTask, "Actuator", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_ACTUATOR, taskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_ACTUATOR);
 
@@ -123,7 +125,7 @@ int32_t ActuatorInitialize()
 
 	// Listen for ActuatorDesired updates (Primary input to this module)
 	ActuatorDesiredInitialize();
-	queue = xQueueCreate(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 	ActuatorDesiredConnectQueue(queue);
 
 	// Primary output of this module
@@ -154,8 +156,8 @@ MODULE_INITCALL(ActuatorInitialize, ActuatorStart)
 static void actuatorTask(void* parameters)
 {
 	UAVObjEvent ev;
-	portTickType lastSysTime;
-	portTickType thisSysTime;
+	uint32_t lastSysTime;
+	uint32_t thisSysTime;
 	float dT = 0.0f;
 
 	ActuatorCommandData command;
@@ -180,13 +182,13 @@ static void actuatorTask(void* parameters)
 	setFailsafe(&actuatorSettings, &mixerSettings);
 
 	// Main task loop
-	lastSysTime = xTaskGetTickCount();
+	lastSysTime = PIOS_Thread_Systime();
 	while (1)
 	{
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
 
 		// Wait until the ActuatorDesired object is updated
-		uint8_t rc = xQueueReceive(queue, &ev, MS2TICKS(FAILSAFE_TIMEOUT_MS));
+		bool rc = PIOS_Queue_Receive(queue, &ev, FAILSAFE_TIMEOUT_MS);
 
 		/* Process settings updated events even in timeout case so we always act on the latest settings */
 		if (actuator_settings_updated) {
@@ -199,16 +201,16 @@ static void actuatorTask(void* parameters)
 			MixerSettingsGet (&mixerSettings);
 		}
 
-		if (rc != pdTRUE) {
+		if (rc != true) {
 			/* Update of ActuatorDesired timed out.  Go to failsafe */
 			setFailsafe(&actuatorSettings, &mixerSettings);
 			continue;
 		}
 
 		// Check how long since last update
-		thisSysTime = xTaskGetTickCount();
+		thisSysTime = PIOS_Thread_Systime();
 		if(thisSysTime > lastSysTime) // reuse dt in case of wraparound
-			dT = TICKS2MS(thisSysTime - lastSysTime) / 1000.0f;
+			dT = (thisSysTime - lastSysTime) / 1000.0f;
 		lastSysTime = thisSysTime;
 
 		FlightStatusGet(&flightStatus);
@@ -647,9 +649,9 @@ static bool set_channel(uint8_t mixer_channel, uint16_t value, const ActuatorSet
 
 			// Play tune
 			bool buzzOn = false;
-			static portTickType lastSysTime = 0;
-			portTickType thisSysTime = xTaskGetTickCount();
-			portTickType dT = 0;
+			static uint32_t lastSysTime = 0;
+			uint32_t thisSysTime = PIOS_Thread_Systime();
+			uint32_t dT = 0;
 
 			// For now, only look at the battery alarm, because functions like AlarmsHasCritical() can block for some time; to be discussed
 			if (currBuzzTune||currArmingTune||currInfoTune) {

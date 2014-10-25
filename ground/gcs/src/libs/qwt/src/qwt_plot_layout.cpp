@@ -1090,7 +1090,7 @@ void QwtPlotLayout::activate( const QwtPlot *plot,
         // subtract d_data->legendRect from rect
 
         const QRegion region( rect.toRect() );
-        rect = region.subtract( d_data->legendRect.toRect() ).boundingRect();
+        rect = region.subtracted( d_data->legendRect.toRect() ).boundingRect();
 
         switch ( d_data->legendPos )
         {

@@ -31,6 +31,8 @@
 #include "enums.h"
 #include "settings.h"
 
+#define MAX_PATH 260
+
 bool isFirstRun = true;
 QString debugInfo(DBG_BUFFER_MAX_SIZE, ' ');
 QString pluginFolder(MAX_PATH, ' ');
@@ -76,7 +78,7 @@ SIM_DLL_EXPORT void AeroSIMRC_Plugin_ReportStructSizes(quint32 *sizeSimToPlugin,
                                                        quint32 *sizePluginInit)
 {
     // debug redirection
-    qInstallMsgHandler(myQDebugHandler);
+    qInstallMessageHandler(myQDebugHandler);
 
     qDebug() << "AeroSIMRC_Plugin_ReportStructSizes";
     *sizeSimToPlugin = sizeof(simToPlugin);
@@ -389,6 +391,6 @@ SIM_DLL_EXPORT void AeroSIMRC_Plugin_Run(const simToPlugin *stp,
 
     // debug info is shown on the screen
     InfoText(stp, pts);
-    pts->dbgInfoText = debugInfo.toAscii();
+    pts->dbgInfoText = debugInfo.toLatin1();
     isFirstRun = false;
 }

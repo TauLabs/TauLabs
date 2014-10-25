@@ -1940,8 +1940,6 @@ file_bounding_box_of_nodes_impl(Lib3dsNode *node, Lib3dsFile *file, Lib3dsBool i
         }
       }
       break;
-    default:
-      break;
    /*
     case LIB3DS_CAMERA_NODE:
     case LIB3DS_TARGET_NODE:

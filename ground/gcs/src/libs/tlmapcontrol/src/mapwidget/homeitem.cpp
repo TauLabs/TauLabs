@@ -6,7 +6,7 @@
 * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      A graphicsItem representing a trail point
 * @see        The GNU Public License (GPL) Version 3
-* @defgroup   OPMapWidget
+* @defgroup   TLMapWidget
 * @{
 *
 *****************************************************************************/
@@ -29,6 +29,8 @@
 #include "tlmapwidget.h"
 
 #include "homeitem.h"
+#include <QGraphicsSceneMouseEvent>
+
 namespace mapcontrol
 {
     HomeItem::HomeItem(MapGraphicItem* map, TLMapWidget* parent):

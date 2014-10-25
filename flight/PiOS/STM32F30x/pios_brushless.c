@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_brushless.c
- * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013.
+ * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013-2014
  * @brief      Brushless gimbal controller
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -31,6 +31,7 @@
 #include "pios.h"
 #include "pios_brushless_priv.h"
 #include "pios_tim_priv.h"
+#include "pios_thread.h"
 
 #include "physical_constants.h"
 #include "sin_lookup.h"
@@ -42,11 +43,11 @@ static void PIOS_BRUSHLESS_Task(void* parameters);
 
 // Private variables
 static const struct pios_brushless_cfg * brushless_cfg;
-static xTaskHandle taskHandle;
+static struct pios_thread *taskHandle;
 
 #define NUM_BGC_CHANNELS 3
 #define STACK_SIZE_BYTES 400
-#define TASK_PRIORITY  (tskIDLE_PRIORITY+4)
+#define TASK_PRIORITY  PIOS_THREAD_PRIO_HIGHEST
 
 /**
 * Initialise Servos
@@ -99,7 +100,8 @@ int32_t PIOS_Brushless_Init(const struct pios_brushless_cfg * cfg)
 	}
 
 	// Start main task
-	xTaskCreate(PIOS_BRUSHLESS_Task, (signed char*)"PIOS_BRUSHLESS", STACK_SIZE_BYTES/4, NULL, TASK_PRIORITY, &taskHandle);
+	taskHandle = PIOS_Thread_Create(
+			PIOS_BRUSHLESS_Task, "pios_brushless", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 	return 0;
 }
@@ -245,13 +247,13 @@ static void PIOS_BRUSHLESS_Task(void* parameters)
 {
 	const uint32_t TICK_DELAY = 1;
 
-	portTickType lastSysTime = xTaskGetTickCount();
+	uint32_t lastSysTime = PIOS_Thread_Systime();
 
 	while (1) {
 
-		vTaskDelayUntil(&lastSysTime, TICK_DELAY);
+		PIOS_Thread_Sleep_Until(&lastSysTime, TICK_DELAY);
 
-		const float dT = TICKS2MS(TICK_DELAY) * 0.001f;
+		const float dT = TICK_DELAY * 0.001f;
 
 		for (int channel = 0; channel < NUM_BGC_CHANNELS; channel++) {
 

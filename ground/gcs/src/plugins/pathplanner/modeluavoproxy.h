@@ -47,7 +47,7 @@ private:
 
 public slots:
     //! Cast from the internal representation to the UAVOs
-    void modelToObjects();
+    bool modelToObjects();
 
     //! Cast from the UAVOs to the internal representation
     void objectsToModel();
@@ -58,7 +58,7 @@ public slots:
 signals:
     void waypointTransactionSucceeded();
     void waypointTransactionFailed();
-
+    void sendPathPlanToUavProgress(int percent);
 private:
     UAVObjectManager *objManager;
     Waypoint         *waypointObj;

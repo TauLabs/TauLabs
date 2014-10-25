@@ -230,7 +230,7 @@ void Scatterplot2dScopeConfig::loadConfiguration(ScopeGadgetWidget *scopeGadgetW
         QString uavFieldName = plotCurveConfig->uavFieldName;
         QRgb color = plotCurveConfig->color;
 
-        ScatterplotData* scatterplotData;
+        ScatterplotData* scatterplotData = NULL;
 
         switch(scatterplot2dType){
         case SERIES2D:

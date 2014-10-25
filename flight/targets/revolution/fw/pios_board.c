@@ -257,6 +257,12 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_HOTT_RX_BUF_LEN 16
 #define PIOS_COM_HOTT_TX_BUF_LEN 16
 
+#define PIOS_COM_PICOC_RX_BUF_LEN 128
+#define PIOS_COM_PICOC_TX_BUF_LEN 128
+
+#define PIOS_COM_FRSKYSPORT_TX_BUF_LEN 16
+#define PIOS_COM_FRSKYSPORT_RX_BUF_LEN 16
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
@@ -270,9 +276,11 @@ uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_overo_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_com_hott_id;
+uintptr_t pios_com_picoc_id;
 uintptr_t pios_internal_adc_id = 0;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
+uintptr_t pios_com_frsky_sport_id;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -288,7 +296,7 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 
 	uint8_t * rx_buffer;
 	if (rx_buf_len > 0) {
-		rx_buffer = (uint8_t *) pvPortMalloc(rx_buf_len);
+		rx_buffer = (uint8_t *) PIOS_malloc(rx_buf_len);
 		PIOS_Assert(rx_buffer);
 	} else {
 		rx_buffer = NULL;
@@ -296,7 +304,7 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 
 	uint8_t * tx_buffer;
 	if (tx_buf_len > 0) {
-		tx_buffer = (uint8_t *) pvPortMalloc(tx_buf_len);
+		tx_buffer = (uint8_t *) PIOS_malloc(tx_buf_len);
 		PIOS_Assert(tx_buffer);
 	} else {
 		tx_buffer = NULL;
@@ -409,9 +417,15 @@ void PIOS_Board_Init(void) {
 	PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
 	PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS);
 
+	/* Initialize the task monitor library */
+	TaskMonitorInitialize();
+
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
+
+	/* Initialize the alarms library */
+	AlarmsInitialize();
 
 	HwRevolutionInitialize();
 	ModuleSettingsInitialize();
@@ -419,12 +433,6 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_RTC)
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
 #endif
-
-	/* Initialize the alarms library */
-	AlarmsInitialize();
-
-	/* Initialize the task monitor library */
-	TaskMonitorInitialize();
 
 	/* Set up pulse timers */
 	PIOS_TIM_InitClock(&tim_1_cfg);
@@ -498,8 +506,8 @@ void PIOS_Board_Init(void) {
 	case HWREVOLUTION_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
+			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
@@ -513,8 +521,8 @@ void PIOS_Board_Init(void) {
 	case HWREVOLUTION_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
+			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_vcp_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
@@ -529,7 +537,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_debug_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
 						NULL, 0,
@@ -538,6 +546,21 @@ void PIOS_Board_Init(void) {
 			}
 		}
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+#endif	/* PIOS_INCLUDE_COM */
+		break;
+	case HWREVOLUTION_USB_VCPPORT_PICOC:
+#if defined(PIOS_INCLUDE_COM)
+		{
+			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_TX_BUF_LEN);
+			PIOS_Assert(rx_buffer);
+			PIOS_Assert(tx_buffer);
+			if (PIOS_COM_Init(&pios_com_picoc_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
+						rx_buffer, PIOS_COM_PICOC_RX_BUF_LEN,
+						tx_buffer, PIOS_COM_PICOC_TX_BUF_LEN)) {
+				PIOS_Assert(0);
+			}
+		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
 	}
@@ -564,8 +587,8 @@ void PIOS_Board_Init(void) {
 	case HWREVOLUTION_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
-			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
+			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_hid_com_driver, pios_usb_hid_id,
@@ -715,6 +738,12 @@ void PIOS_Board_Init(void) {
 #endif /* PIOS_INCLUDE_HOTT */
 			break;
 
+		case HWREVOLUTION_AUXPORT_PICOC:
+#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_aux_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
+#endif /* PIOS_INCLUDE_PICOC */
+			break;
+
 		case HWREVOLUTION_AUXPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			PIOS_Board_configure_com(&pios_usart_aux_cfg, 0, PIOS_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
@@ -722,6 +751,11 @@ void PIOS_Board_Init(void) {
 			break;
 		case HWREVOLUTION_AUXPORT_COMBRIDGE:
 			PIOS_Board_configure_com(&pios_usart_aux_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
+			break;
+		case HWREVOLUTION_AUXPORT_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_aux_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
 			break;
 	} /* hw_auxport */
 	/* Configure AUXSbusPort */
@@ -830,6 +864,17 @@ void PIOS_Board_Init(void) {
 			PIOS_Board_configure_com(&pios_usart_auxsbus_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
 #endif /* PIOS_INCLUDE_HOTT */
 			break;
+
+		case HWREVOLUTION_AUXSBUSPORT_PICOC:
+#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_auxsbus_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
+#endif /* PIOS_INCLUDE_PICOC */
+			break;
+		case HWREVOLUTION_AUXSBUSPORT_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_auxsbus_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+			break;
 	} /* hw_auxport */
 	
 	/* Configure FlexiPort */
@@ -924,6 +969,17 @@ void PIOS_Board_Init(void) {
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
 #endif /* PIOS_INCLUDE_HOTT */
 			break;
+
+		case HWREVOLUTION_FLEXIPORT_PICOC:
+#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
+#endif /* PIOS_INCLUDE_PICOC */
+			break;
+		case HWREVOLUTION_FLEXIPORT_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+			break;
 	} /* hw_flexiport */
 	
 	
@@ -988,8 +1044,8 @@ void PIOS_Board_Init(void) {
 				PIOS_DEBUG_Assert(0);
 			}
 			const uint32_t PACKET_SIZE = 1024;
-			uint8_t * rx_buffer = (uint8_t *) pvPortMalloc(PACKET_SIZE);
-			uint8_t * tx_buffer = (uint8_t *) pvPortMalloc(PACKET_SIZE);
+			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PACKET_SIZE);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PACKET_SIZE);
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_overo_id, &pios_overo_com_driver, pios_overo_id,

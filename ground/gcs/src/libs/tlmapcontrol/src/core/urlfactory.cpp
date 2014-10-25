@@ -38,7 +38,7 @@ namespace core {
         /// timeout for map connections
         /// </summary>
 
-        Proxy.setType(QNetworkProxy::NoProxy);
+        Proxy.setType(QNetworkProxy::DefaultProxy);
 
         /// <summary>
         /// Gets or sets the value of the User-agent HTTP header.
@@ -90,10 +90,15 @@ namespace core {
 
     void UrlFactory::TryCorrectGoogleVersions()
     {
+        static bool versionRetrieved = false;
+        if (versionRetrieved){
+            return;
+        }
+
         QMutexLocker locker(&mutex);
         if(CorrectGoogleVersions && !IsCorrectGoogleVersions())
         {
-            QNetworkReply *reply;
+            QNetworkReply *reply = 0;
             QNetworkRequest qheader;
             QNetworkAccessManager network;
             QEventLoop q;
@@ -107,16 +112,22 @@ namespace core {
             qDebug()<<"Correct GoogleVersion";
 #endif //DEBUG_URLFACTORY
             setIsCorrectGoogleVersions(true);
-            QString url = "https://maps.google.com";
-
-            qheader.setUrl(QUrl(url));
-            qheader.setRawHeader("User-Agent",UserAgent);
-            reply=network.get(qheader);
-            tT.start(Timeout);
-            q.exec();
-            if(!tT.isActive())
-                return;
-            tT.stop();
+            QUrl url = QUrl("https://google.com/maps");
+            int redirects = 0;
+            while( !url.isEmpty() || (redirects < 4) )
+            {
+                ++redirects;
+                qheader.setUrl(url);
+                qheader.setRawHeader("User-Agent",UserAgent);
+                reply = network.get(qheader);
+                tT.start(Timeout);
+                q.exec();
+                if(!tT.isActive())
+                    return;
+                tT.stop();
+                QVariant possibleRedirectUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+                url = possibleRedirectUrl.toUrl();
+            }
             if( (reply->error()!=QNetworkReply::NoError))
             {
 #ifdef DEBUG_URLFACTORY
@@ -124,8 +135,7 @@ namespace core {
 #endif //DEBUG_URLFACTORY
                 return;
             }
-            QString html=QString(reply->readAll());
-\
+            QString html = QString(reply->readAll());
             QRegExp reg("\"*https?://mt\\D?\\d.google.com/vt/lyrs=m@(\\d*)",Qt::CaseInsensitive);
             if(reg.indexIn(html)!=-1)
             {
@@ -169,7 +179,7 @@ namespace core {
 #endif //DEBUG_URLFACTORY
             }
             reply->deleteLater();
-
+            versionRetrieved = true;
         }
 
     }

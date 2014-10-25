@@ -36,6 +36,11 @@ deviceDescriptorStruct::deviceDescriptorStruct()
 
 }
 
+quint16 deviceDescriptorStruct::boardID()
+{
+    return ( (boardType << 8) | boardRevision );
+}
+
 //! Get the name for a board via the plugin system
 QString deviceDescriptorStruct::idToBoardName(quint16 id)
 {

@@ -5,7 +5,7 @@
  # Makefile for OpenPilot project build PiOS and the AP.
  #
  # The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
- # Tau Labs, http://taulabs.org, Copyright (C) 2013
+ # Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  #
  # 
  # This program is free software; you can redistribute it and/or modify
@@ -81,16 +81,6 @@ RTOSDIR = $(PIOSCOMMON)/Libraries/FreeRTOS
 RTOSSRCDIR = $(RTOSDIR)/Source
 RTOSINCDIR = $(RTOSSRCDIR)/include
 RTOSPORTDIR = $(APPLIBDIR)/FreeRTOS/Source
-PYMITE = $(FLIGHTLIB)/PyMite
-PYMITELIB = $(PYMITE)/lib
-PYMITEPLAT = $(PYMITE)/platform/openpilot
-PYMITETOOLS = $(PYMITE)/tools
-PYMITEVM = $(PYMITE)/vm
-PYMITEINC = $(PYMITEVM)
-PYMITEINC += $(PYMITEPLAT)
-PYMITEINC += $(OUTDIR)
-FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
-FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
@@ -161,6 +151,9 @@ SRC += $(PIOSCOMMON)/pios_rfm22b.c
 SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
 SRC += $(PIOSCOMMON)/pios_heap.c
 SRC += $(PIOSCOMMON)/pios_semaphore.c
+SRC += $(PIOSCOMMON)/pios_mutex.c
+SRC += $(PIOSCOMMON)/pios_thread.c
+SRC += $(PIOSCOMMON)/pios_queue.c
 
 
 ## Libraries for flight calculations
@@ -261,7 +254,6 @@ EXTRAINCDIRS  += $(MSDDIR)
 EXTRAINCDIRS  += $(RTOSINCDIR)
 EXTRAINCDIRS  += $(APPLIBDIR)
 EXTRAINCDIRS  += $(RTOSPORTDIR)/portable/GCC/ARM_CM3
-EXTRAINCDIRS  += $(PYMITEINC)
 
 EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES}, ${OPMODULEDIR}/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
@@ -437,7 +429,6 @@ LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_sections.ld
 
 # Define programs and commands.
 REMOVE  = rm -f
-PYTHON  = python
 
 # List of all source files.
 ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC)

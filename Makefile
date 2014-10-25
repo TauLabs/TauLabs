@@ -1,6 +1,9 @@
 # Makefile for Taulabs project
 .DEFAULT_GOAL := help
 
+WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
+ROOT_DIR := $(realpath $(WHEREAMI)/ )
+
 # import macros common to all supported build systems
 include $(CURDIR)/make/system-id.mk
 
@@ -51,6 +54,7 @@ endef
 # These specific variables can influence gcc in unexpected (and undesirable) ways
 SANITIZE_GCC_VARS := TMPDIR GCC_EXEC_PREFIX COMPILER_PATH LIBRARY_PATH
 SANITIZE_GCC_VARS += CFLAGS CPATH C_INCLUDE_PATH CPLUS_INCLUDE_PATH OBJC_INCLUDE_PATH DEPENDENCIES_OUTPUT
+SANITIZE_GCC_VARS += ARCHFLAGS
 $(foreach var, $(SANITIZE_GCC_VARS), $(eval $(call SANITIZE_VAR,$(var),disallowed)))
 
 # These specific variables used to be valid but now they make no sense
@@ -112,7 +116,7 @@ help:
 	@echo "   Here is a summary of the available targets:"
 	@echo
 	@echo "   [Tool Installers]"
-	@echo "     qt_sdk_install       - Install the QT v4.7.3 tools"
+	@echo "     qt_sdk_install       - Install the Qt tools"
 	@echo "     arm_sdk_install      - Install the GNU ARM gcc toolchain"
 	@echo "     openocd_install      - Install the OpenOCD SWD/JTAG daemon"
 	@echo "        \$$OPENOCD_FTDI     - Set to no in order not to install legacy FTDI support for OpenOCD."
@@ -122,6 +126,7 @@ help:
 	@echo "     gui_install          - Install the make gui tool"
 	@echo "     gtest_install        - Install the google unit test suite"
 	@echo "     astyle_install       - Install the astyle code formatter"	
+	@echo "     openssl_install      - Install the openssl libraries on windows machines"	
 	@echo
 	@echo "   [Big Hammer]"
 	@echo "     all                  - Generate UAVObjects, build openpilot firmware and gcs"
@@ -208,6 +213,7 @@ help:
 	@echo
 	@echo "   [Package]"
 	@echo "     package              - Executes a make all_clean and then generates a complete package build for"
+	@echo "     standalone           - Executes a make all_clean and compiles a package without packaging"
 	@echo "                            the GCS and all target board firmwares."
 	@echo
 	@echo "   [Misc]"
@@ -245,10 +251,13 @@ $(BUILD_DIR):
 .PHONY: all_ground
 all_ground: gcs
 
+ifndef WINDOWS
+# unfortunately the silent linking command is broken on windows
 ifeq ($(V), 1)
 GCS_SILENT := 
 else
 GCS_SILENT := silent
+endif
 endif
 
 .PHONY: gcs
@@ -259,17 +268,27 @@ gcs:  uavobjects_gcs
 	  $(MAKE) -w ; \
 	)
 
+# Workaround for qmake bug that prevents copying the application icon
+ifneq (,$(filter $(UNAME), Darwin))
+	$(V1) ( cd $(BUILD_DIR)/ground/gcs/src/app && \
+	  $(MAKE) ../../bin/Tau\ Labs\ GCS.app/Contents/Resources/taulabs.icns && \
+	  $(MAKE) ../../bin/Tau\ Labs\ GCS.app/Contents/Info.plist ; \
+	)
+endif
+
 .PHONY: gcs_clean
 gcs_clean:
 	$(V0) @echo " CLEAN      $@"
 	$(V1) [ ! -d "$(BUILD_DIR)/ground/gcs" ] || $(RM) -r "$(BUILD_DIR)/ground/gcs"
 
+ifndef WINDOWS
+# unfortunately the silent linking command is broken on windows
 ifeq ($(V), 1)
 UAVOGEN_SILENT := 
 else
 UAVOGEN_SILENT := silent
 endif
-
+endif
 .PHONY: uavobjgenerator
 uavobjgenerator:
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
@@ -278,7 +297,7 @@ uavobjgenerator:
 	  $(MAKE) --no-print-directory -w ; \
 	)
 
-UAVOBJ_TARGETS := gcs flight python matlab java wireshark
+UAVOBJ_TARGETS := gcs flight matlab java wireshark
 .PHONY:uavobjects
 uavobjects:  $(addprefix uavobjects_, $(UAVOBJ_TARGETS))
 
@@ -381,7 +400,7 @@ androidgcs_clean:
 #
 # Find the git hashes of each commit that changes uavobjects with:
 #   git log --format=%h -- shared/uavobjectdefinition/ | head -n 6 | tr '\n' ' '
-UAVO_GIT_VERSIONS := next 
+UAVO_GIT_VERSIONS := HEAD 
 
 # All versions includes a pseudo collection called "working" which represents
 # the UAVOs in the source tree
@@ -815,7 +834,7 @@ ifeq ($(UNAME), Linux)
 SIM_BOARDS := sim_posix_revolution
 else ifeq ($(UNAME), Darwin)
 SIM_BOARDS := sim_osx_revolution
-else ifeq ($(UNAME), MINGW32_NT-6.1)   # Windows 7
+else ifdef WINDOWS
 SIM_BOARDS := 
 else # unknown OS
 SIM_BOARDS := 
@@ -976,6 +995,10 @@ endif
 .PHONY: package
 package:
 	$(V1) cd $@ && $(MAKE) --no-print-directory $@
+	
+.PHONY: standalone
+standalone:
+	$(V1) cd package && $(MAKE) --no-print-directory $@
 
 .PHONY: package_resources
 package_resources:

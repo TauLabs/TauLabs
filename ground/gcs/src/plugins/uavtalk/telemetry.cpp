@@ -28,13 +28,18 @@
  */
 
 #include "telemetry.h"
-#include "qxtlogger.h"
 #include "oplinksettings.h"
 #include "objectpersistence.h"
 #include <QTime>
 #include <QtGlobal>
 #include <stdlib.h>
 #include <QDebug>
+
+#ifdef TELEMETRY_DEBUG
+  #define TELEMETRY_QXTLOG_DEBUG(...) qDebug()<<(__VA_ARGS__)
+#else  // TELEMETRY_DEBUG
+  #define TELEMETRY_QXTLOG_DEBUG(...)
+#endif	// TELEMETRY_DEBUG
 
 /**
  * @brief The TransactionKey class A key for the QMap to track transactions
@@ -77,7 +82,7 @@ Telemetry::Telemetry(UAVTalk* utalk, UAVObjectManager* objMngr)
     this->objMngr = objMngr;
     mutex = new QMutex(QMutex::Recursive);
     // Process all objects in the list
-    QVector< QVector<UAVObject*> > objs = objMngr->getObjects();
+    QVector< QVector<UAVObject*> > objs = objMngr->getObjectsVector();
     const int objSize = objs.size();
     for (int objidx = 0; objidx < objSize; ++objidx)
     {
@@ -168,7 +173,7 @@ void Telemetry::setUpdatePeriod(UAVObject* obj, qint32 periodMs)
  */
 void Telemetry::connectToObjectInstances(UAVObject* obj, quint32 eventMask)
 {
-    QVector<UAVObject*> objs = objMngr->getObjectInstances(obj->getObjID());
+    QVector<UAVObject*> objs = objMngr->getObjectInstancesVector(obj->getObjID());
     int objsSize = objs.size();
     for (int n = 0; n < objsSize; ++n)
     {
@@ -194,6 +199,7 @@ void Telemetry::connectToObjectInstances(UAVObject* obj, quint32 eventMask)
         if ( (eventMask&EV_UPDATE_REQ) != 0)
         {
             connect(objs[n], SIGNAL(updateRequested(UAVObject*)), this, SLOT(updateRequested(UAVObject*)));
+            connect(objs[n], SIGNAL(updateAllInstancesRequested(UAVObject*)), this, SLOT(updateAllInstancesRequested(UAVObject*)));
         }
     }
 }
@@ -271,10 +277,11 @@ void Telemetry::updateObject(UAVObject* obj, quint32 eventType)
 void Telemetry::transactionSuccess(UAVObject* obj)
 {
     if (updateTransactionMap(obj,false)) {
-        qDebug() << "[telemetry.cpp] Transaction succeeded:" << obj->getName() << QString(QString("0x") + QString::number(obj->getObjID(), 16).toUpper()) << " Instance: " << obj->getInstID();
+        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction succeeded:%0 Instance:%1").arg(obj->getName() + QString(QString(" 0x") + QString::number(obj->getObjID(), 16).toUpper())).arg(obj->getInstID()));
         obj->emitTransactionCompleted(true);
+        obj->emitTransactionCompleted(true,false);
     } else {
-        qDebug() << "[telemetry.cpp] Received an ACK we were not expecting";
+        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Received an ACK we were not expecting object:%0").arg(obj->getName()));
     }
     // Process new object updates from queue
     processObjectQueue();
@@ -290,13 +297,17 @@ void Telemetry::transactionSuccess(UAVObject* obj)
  */
 void Telemetry::transactionFailure(UAVObject* obj)
 {
+    bool nacked = false;
+    if(sender() == this->utalk)
+        nacked = true;
     // Here we need to check for true or false as a NAK can occur for OBJ_REQ or an
     // object set
     if (updateTransactionMap(obj, true) || updateTransactionMap(obj, false)) {
-        qDebug() << "[telemetry.cpp] Transaction failed:" << obj->getName() << QString(QString("0x") + QString::number(obj->getObjID(), 16).toUpper()) << " Instance: " << obj->getInstID();
+        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction failed:%0 Instance:%1").arg(obj->getName() + QString(QString(" 0x") + QString::number(obj->getObjID(), 16).toUpper())).arg(obj->getInstID()));
         obj->emitTransactionCompleted(false);
+        obj->emitTransactionCompleted(false,nacked);
     } else {
-        qDebug() << "[telemetry.cpp] Received a NACK we were not expecting";
+        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Received a NACK we were not expecting for object %0").arg(obj->getName()));
     }
     // Process new object updates from queue
     processObjectQueue();
@@ -310,10 +321,11 @@ void Telemetry::transactionFailure(UAVObject* obj)
 void Telemetry::transactionRequestCompleted(UAVObject* obj)
 {
     if (updateTransactionMap(obj,true)) {
-        qDebug() << "[telemetry.cpp] Transaction succeeded:" << obj->getName() << QString(QString("0x") + QString::number(obj->getObjID(), 16).toUpper()) << " Instance:" << obj->getInstID();
+        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction succeeded:%0 Instance:%1").arg(obj->getName() + QString(QString(" 0x") + QString::number(obj->getObjID(), 16).toUpper())).arg(obj->getInstID()));
         obj->emitTransactionCompleted(true);
+        obj->emitTransactionCompleted(true,false);
     } else {
-        qDebug() << "[telemetry.cpp] Received an ACK we were not expecting";
+        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Received a ACK we were not expecting for object %0").arg(obj->getName()));
     }
     // Process new object updates from queue
     processObjectQueue();
@@ -354,13 +366,14 @@ void Telemetry::transactionTimeout(ObjectTransactionInfo *transInfo)
     // Check if more retries are pending
     if (transInfo->retriesRemaining > 0)
     {
-        qDebug() << "[telemetry.cpp] UAVObject transaction timeout for " << transInfo->obj->getName() << QString(QString("0x") + QString::number(transInfo->obj->getObjID(), 16).toUpper()) <<", re-requesting.";
+        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction timeout:%0 Instance:%1 Retrying").arg(transInfo->obj->getName() + QString(QString(" 0x") + QString::number(transInfo->obj->getObjID(), 16).toUpper())).arg(transInfo->obj->getInstID()));
         --transInfo->retriesRemaining;
         processObjectTransaction(transInfo);
         ++txRetries;
     }
     else
     {
+        TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Transaction timeout:%0 Instance:%1 no more retries. FAILED TRANSACT").arg(transInfo->obj->getName() + QString(QString(" 0x") + QString::number(transInfo->obj->getObjID(), 16).toUpper())).arg(transInfo->obj->getInstID()));
         transInfo->timer->stop();
         transactionFailure(transInfo->obj);
         ++txErrors;
@@ -416,7 +429,8 @@ void Telemetry::processObjectUpdates(UAVObject* obj, EventMask event, bool allIn
         {
             ++txErrors;
             obj->emitTransactionCompleted(false);
-            qxtLog->warning(tr("Telemetry: priority event queue is full, event lost (%1)").arg(obj->getName()));
+            obj->emitTransactionCompleted(false,false);
+            TELEMETRY_QXTLOG_DEBUG(QString(tr("Telemetry: priority event queue is full, event lost (%1)").arg(obj->getName())));
         }
     }
     else
@@ -428,6 +442,7 @@ void Telemetry::processObjectUpdates(UAVObject* obj, EventMask event, bool allIn
         else
         {
             ++txErrors;
+            obj->emitTransactionCompleted(false,false);
             obj->emitTransactionCompleted(false);
         }
     }
@@ -441,7 +456,9 @@ void Telemetry::processObjectUpdates(UAVObject* obj, EventMask event, bool allIn
 void Telemetry::processObjectQueue()
 {
     if (objQueue.length() > 1)
-        qDebug() << "[telemetry.cpp] **************** Object Queue above 1 in backlog ****************";
+    {
+        TELEMETRY_QXTLOG_DEBUG("[telemetry.cpp] **************** Object Queue above 1 in backlog ****************");
+    }
     // Get object information from queue (first the priority and then the regular queue)
     ObjectQueueInfo objInfo;
     if ( !objPriorityQueue.isEmpty() )
@@ -466,6 +483,7 @@ void Telemetry::processObjectQueue()
         if ( objInfo.obj->getObjID() != GCSTelemetryStats::OBJID && objInfo.obj->getObjID() != OPLinkSettings::OBJID  && objInfo.obj->getObjID() != ObjectPersistence::OBJID )
         {
             objInfo.obj->emitTransactionCompleted(false);
+            objInfo.obj->emitTransactionCompleted(false,false);
             return;
         }
     }
@@ -477,7 +495,7 @@ void Telemetry::processObjectQueue()
     {
         // We are either going to send an object, or are requesting one:
         if (transMap.contains(TransactionKey(objInfo.obj, objInfo.event == EV_UPDATE_REQ))) {
-            qDebug() << "[telemetry.cpp] Warning: Got request for " << objInfo.obj->getName() << " for which a request is already in progress. Not doing it";
+            TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] Warning: Got request for %0 for which a request is already in progress. Not doing it").arg(objInfo.obj->getName()));
             // We will not re-request it, then, we should wait for a timeout or success...
         } else
         {
@@ -520,7 +538,7 @@ void Telemetry::processObjectQueue()
     if ( objInfo.event == EV_UNPACKED ) {
         // TODO: Check here this is for a OBJ_REQ
         if (transMap.contains(TransactionKey(objInfo.obj, true))) {
-            qDebug() << "[telemetry.cpp] EV_UNPACKED " << objInfo.obj->getName() << QString(QString("0x") + QString::number(objInfo.obj->getObjID(), 16).toUpper()) << " Instance: " << objInfo.obj->getInstID();
+            TELEMETRY_QXTLOG_DEBUG(QString("[telemetry.cpp] EV_UNPACKED %0 Instance:%1").arg(objInfo.obj->getName() + QString(QString("0x") + QString::number(objInfo.obj->getObjID(), 16).toUpper())).arg(objInfo.obj->getInstID()));
             transactionRequestCompleted(objInfo.obj);
         } else
         {
@@ -649,6 +667,12 @@ void Telemetry::updateRequested(UAVObject* obj)
 {
     QMutexLocker locker(mutex);
     processObjectUpdates(obj, EV_UPDATE_REQ, false, true);
+}
+
+void Telemetry::updateAllInstancesRequested(UAVObject* obj)
+{
+    QMutexLocker locker(mutex);
+    processObjectUpdates(obj, EV_UPDATE_REQ, true, true);
 }
 
 void Telemetry::newObject(UAVObject* obj)

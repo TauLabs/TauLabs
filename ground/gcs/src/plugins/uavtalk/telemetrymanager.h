@@ -3,6 +3,7 @@
  *
  * @file       telemetrymanager.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVTalkPlugin UAVTalk Plugin
@@ -29,6 +30,8 @@
 #define TELEMETRYMANAGER_H
 
 #include "uavtalk_global.h"
+#include <coreplugin/generalsettings.h>
+#include <extensionsystem/pluginmanager.h>
 #include "telemetrymonitor.h"
 #include "telemetry.h"
 #include "uavtalk.h"
@@ -59,7 +62,7 @@ private slots:
     void onDisconnect();
     void onStart();
     void onStop();
-
+    void onGeneralSettingsChanged();
 private:
     UAVObjectManager* objMngr;
     UAVTalk* utalk;
@@ -67,6 +70,8 @@ private:
     TelemetryMonitor* telemetryMon;
     QIODevice *device;
     bool autopilotConnected;
+    QHash<quint16, QList<TelemetryMonitor::objStruc> > sessions;
+    Core::Internal::GeneralSettings *settings;
 };
 
 #endif // TELEMETRYMANAGER_H

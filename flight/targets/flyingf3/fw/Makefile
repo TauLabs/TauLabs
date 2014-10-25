@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
 # @addtogroup
 # @{
 # @addtogroup
@@ -60,6 +60,9 @@ OPTMODULES += ComUsbBridge
 OPTMODULES += Airspeed/revolution
 OPTMODULES += UAVOHoTTBridge
 OPTMODULES += UAVOFrSKYSensorHubBridge
+OPTMODULES += UAVOLighttelemetryBridge
+OPTMODULES += UAVOFrSKYSPortBridge
+OPTMODULES += Geofence
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
@@ -132,6 +135,7 @@ SRC += $(PIOSCOMMON)/pios_lsm303.c
 SRC += $(PIOSCOMMON)/pios_etasv3.c
 SRC += $(PIOSCOMMON)/pios_mpxv5004.c
 SRC += $(PIOSCOMMON)/pios_mpxv7002.c
+SRC += $(PIOSCOMMON)/pios_bmp085.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
@@ -150,6 +154,9 @@ SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_ms5611_spi.c
 SRC += $(PIOSCOMMON)/pios_heap.c
 SRC += $(PIOSCOMMON)/pios_semaphore.c
+SRC += $(PIOSCOMMON)/pios_mutex.c
+SRC += $(PIOSCOMMON)/pios_thread.c
+SRC += $(PIOSCOMMON)/pios_queue.c
 
 
 include ./UAVObjects.inc

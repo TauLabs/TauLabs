@@ -36,7 +36,6 @@ install:
 	cp -arp build/ground/gcs/bin   debian/taulabs/usr/local/TauLabs
 	cp -arp build/ground/gcs/lib   debian/taulabs/usr/local/TauLabs
 	cp -arp build/ground/gcs/share debian/taulabs/usr/local/TauLabs
-	cp -arp build/ground/gcs/.obj  debian/taulabs/usr/local/TauLabs
 	cp -arp build/ground/gcs/gcsversioninfo.h debian/taulabs/usr/local/TauLabs
 	cp -arp package/linux/taulabs.desktop debian/taulabs/usr/share/applications
 	cp -arp package/linux/taulabs.png     debian/taulabs/usr/share/pixmaps

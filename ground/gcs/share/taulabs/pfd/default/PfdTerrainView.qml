@@ -1,5 +1,4 @@
-import Qt 4.7
-import org.OpenPilot 1.0
+import QtQuick 2.0
 
 Item {
     id: container

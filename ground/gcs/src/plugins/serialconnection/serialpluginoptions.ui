@@ -49,6 +49,13 @@
         </property>
        </spacer>
       </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="reconnectCB">
+        <property name="text">
+         <string>Use BlueTooth reconnect hack</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

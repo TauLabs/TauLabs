@@ -38,6 +38,9 @@ class HITLFactory;
 
 class HITLPlugin : public ExtensionSystem::IPlugin
 {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.HITLPlugin" FILE "hitl.json")
+
 public:
     HITLPlugin();
    ~HITLPlugin();

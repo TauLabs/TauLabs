@@ -55,15 +55,15 @@
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
 
-#define INCLUDE_vTaskPrioritySet				1
-#define INCLUDE_uxTaskPriorityGet				1
+#define INCLUDE_vTaskPrioritySet				0
+#define INCLUDE_uxTaskPriorityGet				0
 #define INCLUDE_vTaskDelete						1
-#define INCLUDE_vTaskCleanUpResources			1
-#define INCLUDE_vTaskSuspend					1
+#define INCLUDE_vTaskCleanUpResources			0
+#define INCLUDE_vTaskSuspend					0
 #define INCLUDE_vTaskDelayUntil					1
 #define INCLUDE_vTaskDelay						1
-#define INCLUDE_xTaskGetSchedulerState			1
-#define INCLUDE_xTaskGetCurrentTaskHandle		1
+#define INCLUDE_xTaskGetSchedulerState			0
+#define INCLUDE_xTaskGetCurrentTaskHandle		0
 #define INCLUDE_uxTaskGetStackHighWaterMark		1
 
 /* This is the raw value as per the Cortex-M3 NVIC.  Values can be 255

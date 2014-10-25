@@ -35,9 +35,10 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
-#include <QtGui/QWidget>
-#include <QtSvg/QSvgRenderer>
-#include <QtSvg/QGraphicsSvgItem>
+#include "calibration.h"
+#include <QWidget>
+#include <QSvgRenderer>
+#include <QGraphicsSvgItem>
 #include <QList>
 #include <QTimer>
 #include <QMutex>
@@ -84,6 +85,7 @@ private slots:
     // Slots for measuring the sensor noise
     void do_SetDirty();
     void configureSixPoint();
+    void onCalibrationBusy(bool busy);
 
 };
 

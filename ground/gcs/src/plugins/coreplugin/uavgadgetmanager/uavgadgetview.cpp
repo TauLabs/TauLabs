@@ -4,6 +4,7 @@
  * @file       uavgadgetview.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup CorePlugin Core Plugin
@@ -40,21 +41,17 @@
 
 #include <QtCore/QDebug>
 
-#include <QtGui/QApplication>
-#include <QtGui/QComboBox>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QPainter>
-#include <QtGui/QStyle>
-#include <QtGui/QStyleOption>
-#include <QtGui/QToolButton>
-#include <QtGui/QMenu>
-#include <QtGui/QClipboard>
-
-#ifdef Q_WS_MAC
-#include <qmacstyle_mac.h>
-#endif
+#include <QApplication>
+#include <QComboBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QStyle>
+#include <QStyleOption>
+#include <QToolButton>
+#include <QMenu>
+#include <QClipboard>
 
 Q_DECLARE_METATYPE(Core::IUAVGadget *)
 
@@ -139,14 +136,14 @@ UAVGadgetView::UAVGadgetView(Core::UAVGadgetManager *uavGadgetManager, IUAVGadge
         m_top->setLayout(toplayout);
         tl->addWidget(m_top);
 
-        connect(m_uavGadgetList, SIGNAL(activated(int)), this, SLOT(listSelectionActivated(int)));
+        connect(m_uavGadgetList, SIGNAL(activated(int)), this, SLOT(doReplaceGadget(int)));
         connect(m_closeButton, SIGNAL(clicked()), this, SLOT(closeView()), Qt::QueuedConnection);
         connect(m_uavGadgetManager, SIGNAL(currentGadgetChanged(IUAVGadget*)), this, SLOT(currentGadgetChanged(IUAVGadget*)));
     }
     if (m_uavGadget) {
         setGadget(m_uavGadget);
     } else {
-        listSelectionActivated(m_defaultIndex);
+        selectionActivated(m_defaultIndex, false);
     }
 }
 
@@ -228,7 +225,14 @@ void UAVGadgetView::updateToolBar()
     m_activeToolBar = toolBar;
 }
 
-void UAVGadgetView::listSelectionActivated(int index)
+/**
+ * @brief Function used to select the gadget to show on this view
+ * @param index index of the gadget to select according to the view's dropbox items
+ * @param forceLoadConfiguration should be true if it was a user selection during normal run
+ * since the gadget doesn't know which configuration the user wished to load. Should be false when creating
+ * a gadget which is part of a saved workspace.
+ */
+void UAVGadgetView::selectionActivated(int index, bool forceLoadConfiguration)
 {
     if (index < 0) // this could happen when called from SplitterOrView::restoreState()
         index = m_defaultIndex;
@@ -237,10 +241,20 @@ void UAVGadgetView::listSelectionActivated(int index)
         return;
     UAVGadgetInstanceManager *im = ICore::instance()->uavGadgetInstanceManager();
     IUAVGadget *gadgetToRemove = m_uavGadget;
-    IUAVGadget *gadget = im->createGadget(classId, this);
+    IUAVGadget *gadget = im->createGadget(classId, this, forceLoadConfiguration);
+
     setGadget(gadget);
     m_uavGadgetManager->setCurrentGadget(gadget);
     im->removeGadget(gadgetToRemove);
+}
+
+/**
+ * @brief Slot called when the user changes the selected gadget on the view's dropbox
+ * @param index index of the gadget to select according to the view's dropbox items
+ */
+void UAVGadgetView::doReplaceGadget(int index)
+{
+    selectionActivated(index, true);
 }
 
 int UAVGadgetView::indexOfClassId(QString classId)

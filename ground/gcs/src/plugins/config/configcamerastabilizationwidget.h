@@ -33,6 +33,8 @@
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 #include "camerastabsettings.h"
+#include <QWidget>
+#include <QList>
 
 class ConfigCameraStabilizationWidget: public ConfigTaskWidget
 {
