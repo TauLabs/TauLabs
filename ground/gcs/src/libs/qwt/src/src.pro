@@ -9,17 +9,15 @@
 
 # qmake project file for building the qwt libraries
 
-QWT_ROOT = $${PWD}/..
-include( $${QWT_ROOT}/qwtconfig.pri )
-include( $${QWT_ROOT}/qwtbuild.pri )
-include( $${QWT_ROOT}/qwtfunctions.pri )
+TEMPLATE = lib
+TARGET = Qwt
+DEFINES += QWT_LIBRARY
+QT += printsupport
+QMAKE_CXXFLAGS += -Wno-sign-compare
 
-QWT_OUT_ROOT = $${OUT_PWD}/..
+include(../../../taulabslibrary.pri)
+include( ../qwtconfig.pri )
 
-TEMPLATE          = lib
-TARGET            = $$qwtLibraryTarget(qwt)
-
-DESTDIR           = $${QWT_OUT_ROOT}/lib
 
 contains(QWT_CONFIG, QwtDll) {
 
@@ -36,11 +34,6 @@ contains(QWT_CONFIG, QwtFramework) {
 }
 
 include ( $${PWD}/src.pri )
-
-# Install directives
-
-target.path    = $${QWT_INSTALL_LIBS}
-INSTALLS       = target 
 
 CONFIG(lib_bundle) {
 

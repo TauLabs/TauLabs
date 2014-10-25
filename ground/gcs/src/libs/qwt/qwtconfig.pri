@@ -7,28 +7,16 @@
 # modify it under the terms of the Qwt License, Version 1.0
 ################################################################
 
-QWT_VER_MAJ      = 6
-QWT_VER_MIN      = 1
-QWT_VER_PAT      = 1
-QWT_VERSION      = $${QWT_VER_MAJ}.$${QWT_VER_MIN}.$${QWT_VER_PAT}
+#QWT_VER_MAJ      = 6
+#QWT_VER_MIN      = 1
+#QWT_VER_PAT      = 1
+#QWT_VERSION      = $${QWT_VER_MAJ}.$${QWT_VER_MIN}.$${QWT_VER_PAT}
 
 ######################################################################
 # Install paths
 ######################################################################
 
-QWT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
-
-unix {
-    QWT_INSTALL_PREFIX    = /usr/local/qwt-$$QWT_VERSION
-}
-
-win32 {
-    QWT_INSTALL_PREFIX    = C:/Qwt-$$QWT_VERSION
-}
-
-QWT_INSTALL_DOCS      = $${QWT_INSTALL_PREFIX}/doc
-QWT_INSTALL_HEADERS   = $${QWT_INSTALL_PREFIX}/include
-QWT_INSTALL_LIBS      = $${QWT_INSTALL_PREFIX}/lib
+# Remove QWT install paths. Use our own.
 
 ######################################################################
 # Designer plugin
@@ -40,14 +28,14 @@ QWT_INSTALL_LIBS      = $${QWT_INSTALL_PREFIX}/lib
 # runtime environment of designer/creator.
 ######################################################################
 
-QWT_INSTALL_PLUGINS   = $${QWT_INSTALL_PREFIX}/plugins/designer
+# QWT_INSTALL_PLUGINS   = $${QWT_INSTALL_PREFIX}/plugins/designer
 
 # linux distributors often organize the Qt installation
 # their way and QT_INSTALL_PREFIX doesn't offer a good
 # path. Also QT_INSTALL_PREFIX is only one of the default
 # search paths of the designer - not the Qt creator
 
-#QWT_INSTALL_PLUGINS   = $$[QT_INSTALL_PREFIX]/plugins/designer
+# QWT_INSTALL_PLUGINS   = $$[QT_INSTALL_PREFIX]/plugins/designer
 
 ######################################################################
 # Features
@@ -61,7 +49,7 @@ QWT_INSTALL_PLUGINS   = $${QWT_INSTALL_PREFIX}/plugins/designer
 # with every Qt upgrade. 
 ######################################################################
 
-QWT_INSTALL_FEATURES  = $${QWT_INSTALL_PREFIX}/features
+# QWT_INSTALL_FEATURES  = $${QWT_INSTALL_PREFIX}/features
 # QWT_INSTALL_FEATURES  = $$[QT_INSTALL_PREFIX]/features
 
 ######################################################################
@@ -97,7 +85,7 @@ QWT_CONFIG     += QwtSvg
 # If you want to use a OpenGL plot canvas
 ######################################################################
 
-QWT_CONFIG     += QwtOpenGL
+# QWT_CONFIG     += QwtOpenGL
 
 ######################################################################
 # You can use the MathML renderer of the Qt solutions package to 
@@ -108,7 +96,7 @@ QWT_CONFIG     += QwtOpenGL
 # to your qmake project file.
 ######################################################################
 
-#QWT_CONFIG     += QwtMathML
+QWT_CONFIG     += QwtMathML
 
 ######################################################################
 # If you want to build the Qwt designer plugin, 
@@ -116,7 +104,7 @@ QWT_CONFIG     += QwtOpenGL
 # Otherwise you have to build it from the designer directory.
 ######################################################################
 
-QWT_CONFIG     += QwtDesigner
+#QWT_CONFIG     += QwtDesigner
 
 ######################################################################
 # Compile all Qwt classes into the designer plugin instead
@@ -131,7 +119,7 @@ QWT_CONFIG     += QwtDesigner
 ######################################################################
 
 win32 {
-    QWT_CONFIG     += QwtDesignerSelfContained
+#    QWT_CONFIG     += QwtDesignerSelfContained
 }
 
 ######################################################################
@@ -139,7 +127,7 @@ win32 {
 # Otherwise you have to build them from the examples directory.
 ######################################################################
 
-#QWT_CONFIG     += QwtExamples
+# QWT_CONFIG     += QwtExamples
 
 ######################################################################
 # The playground is primarily intended for the Qwt development 
@@ -150,7 +138,7 @@ win32 {
 # Otherwise you have to build them from the playground directory.
 ######################################################################
 
-#QWT_CONFIG     += QwtPlayground
+# QWT_CONFIG     += QwtPlayground
 
 ######################################################################
 # When Qt has been built as framework qmake wants 
@@ -159,7 +147,7 @@ win32 {
 
 macx:!static:CONFIG(qt_framework, qt_framework|qt_no_framework) {
 
-    QWT_CONFIG += QwtFramework
+#    QWT_CONFIG += QwtFramework
 }  
 
 ######################################################################
@@ -169,5 +157,5 @@ macx:!static:CONFIG(qt_framework, qt_framework|qt_no_framework) {
 
 unix {
 
-    #QWT_CONFIG     += QwtPkgConfig
+#    QWT_CONFIG     += QwtPkgConfig
 }
