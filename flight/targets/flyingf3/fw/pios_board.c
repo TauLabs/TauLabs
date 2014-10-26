@@ -136,6 +136,16 @@ static const struct pios_lsm303_cfg pios_lsm303_cfg = {
 };
 #endif /* PIOS_INCLUDE_LSM303 */
 
+/**
+ * Configuration for the BMP085 chip
+ */
+#if defined(PIOS_INCLUDE_BMP085)
+#include "pios_bmp085_priv.h"
+static const struct pios_bmp085_cfg pios_bmp085_cfg = {
+    .oversampling = BMP085_OSR_3,
+    .temperature_interleaving = 1,
+};
+#endif /* PIOS_INCLUDE_BMP085 */
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
@@ -1422,6 +1432,14 @@ void PIOS_Board_Init(void) {
 			PIOS_DEBUG_Assert(0);
 		}
 #endif	/* PIOS_INCLUDE_SPI */
+		break;
+	case HWFLYINGF3_SHIELD_BMP085:
+#if defined(PIOS_INCLUDE_BMP085) && defined(PIOS_INCLUDE_I2C)
+	if (PIOS_BMP085_Init(&pios_bmp085_cfg, pios_i2c_external_id) != 0)
+		panic(5);
+	if (PIOS_BMP085_Test() != 0)
+		panic(5);
+#endif /* PIOS_INCLUDE_BMP085 && PIOS_INCLUDE_I2C */
 		break;
 	case HWFLYINGF3_SHIELD_NONE:
 		break;

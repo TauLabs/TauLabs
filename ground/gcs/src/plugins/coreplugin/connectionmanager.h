@@ -40,6 +40,7 @@
 #include <QPushButton>
 #include <QComboBox>
 #include <QPointer>
+
 #include "core_global.h"
 #include <QTimer>
 

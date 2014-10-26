@@ -158,15 +158,9 @@ namespace internals {
 #ifdef DEBUG_CORE
                                     qDebug()<<"ProcessLoadTask: " << task.ToString()<< " -> empty tile, retry " << retry<<" ID="<<debug;;
 #endif //DEBUG_CORE
-                                    {
-                                        QWaitCondition wait;
-                                        QMutex m;
-                                        m.lock();
-                                        wait.wait(&m,500);
-                                    }
                                 }
                             }
-                            while((++retry < TLMaps::Instance()->RetryLoadTile) && (tl == MapType::UserImage));
+                            while(++retry < TLMaps::Instance()->RetryLoadTile);
                         }
 
                         if(t->Overlays.count() > 0)

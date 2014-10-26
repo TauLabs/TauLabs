@@ -120,7 +120,7 @@ bool UAVObjectManager::unRegisterObject(UAVDataObject* obj)
     quint32 objID = obj->getObjID();
     if(obj->isSingleInstance())
         return false;
-    int instances = (quint32)objects.value(obj->getObjID()).count();
+    quint32 instances = (quint32)objects.value(obj->getObjID()).count();
     for(quint32 x = obj->getInstID(); x < instances; ++x)
     {
         getObject(objects.value(objID).value(x)->getObjID())->emitInstanceRemoved(objects.value(objID).value(x));

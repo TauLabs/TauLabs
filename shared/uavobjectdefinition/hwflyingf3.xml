@@ -134,6 +134,7 @@
 				<option>None</option>
 				<option>RCFlyer</option>
 				<option>CheBuzz</option>
+				<option>BMP085</option>
 			</options>
 		</field>
 				
