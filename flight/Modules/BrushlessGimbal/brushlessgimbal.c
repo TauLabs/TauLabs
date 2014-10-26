@@ -200,8 +200,7 @@ static void brushlessGimbalTask(void* parameters)
 		          fabsf(cameraDesired.Pitch) > settings.MaxAngle[BRUSHLESSGIMBALSETTINGS_MAXANGLE_PITCH];
 
 		// If the difference between the setpoint and the frame is too large, lock the gimbal
-		float pitch_setpoint = -cameraDesired.Declination;
-		locked |= circular_modulus_deg(cameraDesired.Pitch - pitch_setpoint) > settings.MaxAngle[BRUSHLESSGIMBALSETTINGS_MAXANGLE_PITCH];
+		locked |= fabsf(cameraDesired.Pitch - cameraDesired.Declination) > settings.MaxAngle[BRUSHLESSGIMBALSETTINGS_MAXANGLE_PITCH];
 
 		PIOS_Brushless_Lock(locked);
 
