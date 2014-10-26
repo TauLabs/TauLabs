@@ -25,6 +25,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "configstabilizationwidget.h"
+#include "convertmwrate.h"
 
 #include <QDebug>
 #include <QStringList>
@@ -66,6 +67,8 @@ ConfigStabilizationWidget::ConfigStabilizationWidget(QWidget *parent) : ConfigTa
     connect(m_stabilization->checkBox_3,SIGNAL(stateChanged(int)),this,SLOT(linkCheckBoxes(int)));
 
     connect(this,SIGNAL(widgetContentsChanged(QWidget*)),this,SLOT(processLinkedWidgets(QWidget*)));
+
+    connect(m_stabilization->calculateMW, SIGNAL(clicked()), this, SLOT(showMWRateConvertDialog()));
 
     disableMouseWheelEvents();
 
@@ -197,4 +200,27 @@ void ConfigStabilizationWidget::applyRateLimits()
     m_stabilization->maxRateAttYaw->setMaximum(maxRate);
 }
 
+void ConfigStabilizationWidget::showMWRateConvertDialog()
+{
+    ConvertMWRate *dialog = new ConvertMWRate(this);
+
+    connect(dialog, SIGNAL(accepted()), this, SLOT(applyMWRateConvertDialog()));
+    dialog->exec();
+}
+
+void ConfigStabilizationWidget::applyMWRateConvertDialog()
+{
+    ConvertMWRate *dialog = dynamic_cast<ConvertMWRate *>(sender());
+    if (dialog) {
+        m_stabilization->MWRateRollKp->setValue(dialog->getRollKp());
+        m_stabilization->MWRateRollKi->setValue(dialog->getRollKi());
+        m_stabilization->MWRateRollKd->setValue(dialog->getRollKd());
+        m_stabilization->MWRatePitchKp->setValue(dialog->getPitchKp());
+        m_stabilization->MWRatePitchKi->setValue(dialog->getPitchKi());
+        m_stabilization->MWRatePitchKd->setValue(dialog->getPitchKd());
+        m_stabilization->MWRateYawKp->setValue(dialog->getRollKp());
+        m_stabilization->MWRateYawKi->setValue(dialog->getYawKi());
+        m_stabilization->MWRateYawKd->setValue(dialog->getYawKd());
+    }
+}
 

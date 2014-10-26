@@ -1,13 +1,12 @@
 /**
  ******************************************************************************
- *
- * @file       configstabilizationwidget.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       convertmwrate.cpp
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
  * @{
- * @brief Stabilization configuration panel
+ * @brief The Configuration Gadget used to update settings in the firmware
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,38 +23,41 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef CONFIGSTABILIZATIONWIDGET_H
-#define CONFIGSTABILIZATIONWIDGET_H
 
-#include "ui_stabilization.h"
-#include "../uavobjectwidgetutils/configtaskwidget.h"
-#include "extensionsystem/pluginmanager.h"
-#include "uavobjectmanager.h"
-#include "uavobject.h"
-#include "stabilizationsettings.h"
-#include <QWidget>
-#include <QTimer>
+#ifndef CONVERTMWRATE_H
+#define CONVERTMWRATE_H
 
+#include <QDialog>
 
-class ConfigStabilizationWidget: public ConfigTaskWidget
+namespace Ui {
+class ConvertMWRate;
+}
+
+class ConvertMWRate : public QDialog
 {
     Q_OBJECT
-
+    
 public:
-    ConfigStabilizationWidget(QWidget *parent = 0);
-    ~ConfigStabilizationWidget();
+    explicit ConvertMWRate(QWidget *parent = 0);
+    ~ConvertMWRate();
+
+    double getRollKp() const;
+    double getRollKi() const;
+    double getRollKd() const;
+    double getPitchKp() const;
+    double getPitchKi() const;
+    double getPitchKd() const;
+    double getYawKp() const;
+    double getYawKi() const;
+    double getYawKd() const;
 
 private:
-    Ui_StabilizationWidget *m_stabilization;
-    QTimer * realtimeUpdates;
-private slots:
-    void realtimeUpdatesSlot(int);
-    void linkCheckBoxes(int value);
-    void processLinkedWidgets(QWidget*);
-    void applyRateLimits();
-
-    void showMWRateConvertDialog();
-    void applyMWRateConvertDialog();
+    Ui::ConvertMWRate *ui;
 };
 
-#endif // ConfigStabilizationWidget_H
+#endif // CONVERTMWRATE_H
+
+/**
+ * @}
+ * @}
+ */
