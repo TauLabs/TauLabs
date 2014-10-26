@@ -163,6 +163,22 @@ void ConfigStabilizationWidget::processLinkedWidgets(QWidget * widget)
             m_stabilization->AttitudeRollILimit->setValue(m_stabilization->AttitudePitchILimit_2->value());
         }
     }
+
+    // sync the multiwii rate settings
+    if (m_stabilization->cb_linkMwRollPitch->checkState()==Qt::Checked) {
+        if (widget == m_stabilization->MWRatePitchKp)
+            m_stabilization->MWRateRollKp->setValue(m_stabilization->MWRatePitchKp->value());
+        else if (widget == m_stabilization->MWRateRollKp)
+            m_stabilization->MWRatePitchKp->setValue(m_stabilization->MWRateRollKp->value());
+        else if (widget == m_stabilization->MWRatePitchKi)
+            m_stabilization->MWRateRollKi->setValue(m_stabilization->MWRatePitchKi->value());
+        else if (widget == m_stabilization->MWRateRollKi)
+            m_stabilization->MWRatePitchKi->setValue(m_stabilization->MWRateRollKi->value());
+        else if (widget == m_stabilization->MWRatePitchKd)
+            m_stabilization->MWRateRollKd->setValue(m_stabilization->MWRatePitchKd->value());
+        else if (widget == m_stabilization->MWRateRollKd)
+            m_stabilization->MWRatePitchKd->setValue(m_stabilization->MWRateRollKd->value());
+    }
 }
 
 void ConfigStabilizationWidget::applyRateLimits()
