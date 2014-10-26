@@ -91,6 +91,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/mixersettings.h \
     $$UAVOBJECT_SYNTHETICS/mixerstatus.h \
     $$UAVOBJECT_SYNTHETICS/modulesettings.h \
+    $$UAVOBJECT_SYNTHETICS/mwratesettings.h \
     $$UAVOBJECT_SYNTHETICS/nedaccel.h \
     $$UAVOBJECT_SYNTHETICS/nedposition.h \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.h \
@@ -201,6 +202,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/mixersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/mixerstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/modulesettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/mwratesettings.cpp \
     $$UAVOBJECT_SYNTHETICS/nedaccel.cpp \
     $$UAVOBJECT_SYNTHETICS/nedposition.cpp \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.cpp \
