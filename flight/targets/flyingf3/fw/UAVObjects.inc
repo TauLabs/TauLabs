@@ -69,6 +69,7 @@ UAVOBJSRCFILENAMES += homelocation
 UAVOBJSRCFILENAMES += insstate
 UAVOBJSRCFILENAMES += manualcontrolcommand
 UAVOBJSRCFILENAMES += manualcontrolsettings
+UAVOBJSRCFILENAMES += mwratesettings
 UAVOBJSRCFILENAMES += mixersettings
 UAVOBJSRCFILENAMES += mixerstatus
 UAVOBJSRCFILENAMES += nedaccel
