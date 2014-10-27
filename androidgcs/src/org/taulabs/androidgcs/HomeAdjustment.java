@@ -114,6 +114,7 @@ public class HomeAdjustment extends ObjectManagerActivity {
 	 */
 	public void poiToUAV(View v) {
 		UAVObject gps = objMngr.getObject("GPSPosition");
+		UAVObject position = objMngr.getObject("PositionActual");
 		UAVObject tablet = objMngr.getObject("TabletInfo");
 		UAVObject home = objMngr.getObject("HomeLocation");
 		
@@ -125,9 +126,8 @@ public class HomeAdjustment extends ObjectManagerActivity {
 		
 		// Altitude on the flight controller is always used as altitude
 		// plug geoid separation
-		double gps_altitude = gps.getField("Altitude").getDouble() +
-				gps.getField("GeoidSeparation").getDouble();
-		double alt_offset = gps_altitude - current.getLatitude();
+		double uav_altitude = -position.getField("Down").getDouble();
+		double alt_offset = uav_altitude;
 		
 		double lat_offset = gps.getField("Latitude").getDouble() - current.getLatitude() * 10e6;
 		double lon_offset = gps.getField("Longitude").getDouble() - current.getLongitude() * 10e6;
