@@ -89,7 +89,8 @@ static const struct pios_mpu9250_cfg pios_mpu9250_cfg = {
 	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
 	.User_ctl = 0,
 	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
-	.default_filter = PIOS_MPU9250_LOWPASS_184_HZ,
+	.accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_41_HZ,
+	.gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_184_HZ,
 	.orientation = PIOS_MPU60X0_TOP_0DEG
 };
 #endif /* PIOS_INCLUDE_MPU9250 */

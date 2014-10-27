@@ -56,6 +56,8 @@
 #define MPU9250_MAG_STATUS2      0x09
 #define MPU9250_MAG_CNTR         0x0a
 
+#define PIOS_MPU9250_ACCEL_DLPF_CFG_REG     0x1D
+
 /* Global Variables */
 
 enum pios_mpu9250_dev_magic {
@@ -75,7 +77,8 @@ struct mpu9250_dev {
 	struct pios_thread *TaskHandle;
 	struct pios_semaphore *data_ready_sema;
 	const struct pios_mpu9250_cfg * cfg;
-	enum pios_mpu9250_filter filter;
+	enum pios_mpu9250_gyro_filter gyro_filter;
+	enum pios_mpu9250_accel_filter accel_filter;
 	enum pios_mpu9250_dev_magic magic;
 };
 
@@ -86,6 +89,8 @@ static struct mpu9250_dev * dev;
 static struct mpu9250_dev * PIOS_MPU9250_alloc(bool use_mag);
 static int32_t PIOS_MPU9250_Validate(struct mpu9250_dev * dev);
 static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg, bool use_mag);
+void PIOS_MPU9250_SetGyroLPF(enum pios_mpu9250_gyro_filter filter);
+void PIOS_MPU9250_SetAccelLPF(enum pios_mpu9250_accel_filter filter);
 static int32_t PIOS_MPU9250_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_MPU9250_GetReg(uint8_t address);
 static int32_t PIOS_MPU9250_ReadID();
@@ -216,7 +221,8 @@ static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg, bool use
 
 	// Digital low-pass filter and scale
 	// set this before sample rate else sample rate calculation will fail
-	PIOS_MPU9250_SetLPF(cfg->default_filter);
+	PIOS_MPU9250_SetGyroLPF(cfg->gyro_filter);
+	PIOS_MPU9250_SetAccelLPF(cfg->accel_filter);
 
 	// Sample rate
 	PIOS_MPU9250_SetSampleRate(cfg->default_samplerate);
@@ -308,7 +314,11 @@ int32_t PIOS_MPU9250_SetSampleRate(uint16_t samplerate_hz)
 {
 	uint16_t filter_frequency = 1000;
 
-	if ((dev->filter == PIOS_MPU9250_LOWPASS_250_HZ) || (dev->filter == PIOS_MPU9250_LOWPASS_3600_HZ))
+	if ((dev->gyro_filter == PIOS_MPU9250_GYRO_LOWPASS_250_HZ) || (dev->gyro_filter == PIOS_MPU9250_GYRO_LOWPASS_3600_HZ))
+		// the sample rate divisor cannot be used in this case..
+		return 0;
+
+	if ((dev->accel_filter == PIOS_MPU9250_ACCEL_LOWPASS_460_HZ) || (dev->accel_filter == PIOS_MPU9250_ACCEL_LOWPASS_3600_HZ))
 		// the sample rate divisor cannot be used in this case..
 		return 0;
 
@@ -330,13 +340,25 @@ int32_t PIOS_MPU9250_SetSampleRate(uint16_t samplerate_hz)
 }
 
 /**
- * Configure the digital low-pass filter
+ * @brief Set gyroscope lowpass filter cut-off frequency
+ * @param filter[in] Filter frequency
  */
-void PIOS_MPU9250_SetLPF(enum pios_mpu60x0_filter filter)
+void PIOS_MPU9250_SetGyroLPF(enum pios_mpu9250_gyro_filter filter)
 {
 	PIOS_MPU9250_SetReg(PIOS_MPU60X0_DLPF_CFG_REG, filter);
 
-	dev->filter = filter;
+	dev->gyro_filter = filter;
+}
+
+/**
+ * @brief Set accelerometer lowpass filter cut-off frequency
+ * @param filter[in] Filter frequency
+ */
+void PIOS_MPU9250_SetAccelLPF(enum pios_mpu9250_accel_filter filter)
+{
+	PIOS_MPU9250_SetReg(PIOS_MPU9250_ACCEL_DLPF_CFG_REG, filter);
+
+	dev->accel_filter = filter;
 }
 
 /**

@@ -39,15 +39,26 @@
 #define PIOS_MPU9250_I2C_ADD_A0_LOW       0x68
 #define PIOS_MPU9250_I2C_ADD_A0_HIGH      0x69
 
-enum pios_mpu9250_filter {
-	PIOS_MPU9250_LOWPASS_250_HZ = 0x00,  // do not use, sample rat div. cannot be used
-	PIOS_MPU9250_LOWPASS_184_HZ = 0x01,
-	PIOS_MPU9250_LOWPASS_92_HZ  = 0x02,
-	PIOS_MPU9250_LOWPASS_41_HZ  = 0x03,
-	PIOS_MPU9250_LOWPASS_20_HZ  = 0x04,
-	PIOS_MPU9250_LOWPASS_10_HZ  = 0x05,
-	PIOS_MPU9250_LOWPASS_5_HZ   = 0x06,
-	PIOS_MPU9250_LOWPASS_3600_HZ   = 0x07 // do not use, sample rat div. cannot be used
+enum pios_mpu9250_gyro_filter {
+	PIOS_MPU9250_GYRO_LOWPASS_250_HZ  = 0x00, // do not use, sample rat div. cannot be used
+	PIOS_MPU9250_GYRO_LOWPASS_184_HZ  = 0x01,
+	PIOS_MPU9250_GYRO_LOWPASS_92_HZ   = 0x02,
+	PIOS_MPU9250_GYRO_LOWPASS_41_HZ   = 0x03,
+	PIOS_MPU9250_GYRO_LOWPASS_20_HZ   = 0x04,
+	PIOS_MPU9250_GYRO_LOWPASS_10_HZ   = 0x05,
+	PIOS_MPU9250_GYRO_LOWPASS_5_HZ    = 0x06,
+	PIOS_MPU9250_GYRO_LOWPASS_3600_HZ = 0x07 // do not use, sample rat div. cannot be used
+};
+
+enum pios_mpu9250_accel_filter {
+	PIOS_MPU9250_ACCEL_LOWPASS_460_HZ  = 0x00, // do not use, sample rat div. cannot be used
+	PIOS_MPU9250_ACCEL_LOWPASS_184_HZ  = 0x01,
+	PIOS_MPU9250_ACCEL_LOWPASS_92_HZ   = 0x02,
+	PIOS_MPU9250_ACCEL_LOWPASS_41_HZ   = 0x03,
+	PIOS_MPU9250_ACCEL_LOWPASS_20_HZ   = 0x04,
+	PIOS_MPU9250_ACCEL_LOWPASS_10_HZ   = 0x05,
+	PIOS_MPU9250_ACCEL_LOWPASS_5_HZ    = 0x06,
+	PIOS_MPU9250_ACCEL_LOWPASS_3600_HZ = 0x07 // do not use, sample rat div. cannot be used
 };
 
 struct pios_mpu9250_cfg {
@@ -58,10 +69,10 @@ struct pios_mpu9250_cfg {
 	uint8_t interrupt_en;			/* Interrupt configuration (See datasheet page 35 for more details) */
 	uint8_t User_ctl;				/* User control settings (See datasheet page 41 for more details)  */
 	uint8_t Pwr_mgmt_clk;			/* Power management and clock selection (See datasheet page 32 for more details) */
-	enum pios_mpu9250_filter default_filter;
+	enum pios_mpu9250_gyro_filter gyro_filter;
+	enum pios_mpu9250_accel_filter accel_filter;
 	enum pios_mpu60x0_orientation orientation;
 };
-
 
 /* Public Functions */
 extern int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, bool use_mag, const struct pios_mpu9250_cfg * new_cfg);
