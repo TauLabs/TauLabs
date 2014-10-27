@@ -38,22 +38,22 @@ const QString ProviderStrings::levelsForSigPacSpainMap[] = {"0", "1", "2", "3", 
 
 ProviderStrings::ProviderStrings()
 {
-    VersionGoogleMap = "h@249000000";
-    VersionGoogleSatellite = "145";
-    VersionGoogleLabels = "h@221000000";
-    VersionGoogleTerrain = "t@132,r@249000000";
+    VersionGoogleMap = "m@279000000";
+    VersionGoogleSatellite = "159";
+    VersionGoogleLabels = "h@279000000";
+    VersionGoogleTerrain = "t@159,r@279000000";
     SecGoogleWord = "Galileo";
 
     // Google (China) version strings
-    VersionGoogleMapChina = "m@221000000";
-    VersionGoogleSatelliteChina = "s@132";
-    VersionGoogleLabelsChina = "h@221000000";
-    VersionGoogleTerrainChina = "t@131,r@221000000";
+    VersionGoogleMapChina = "m@279000000";
+    VersionGoogleSatelliteChina = "159";
+    VersionGoogleLabelsChina = "h@279000000";
+    VersionGoogleTerrainChina = "t@159,r@279000000";
 
     // Google (Korea) version strings
-    VersionGoogleMapKorea = "m@221000000";
-    VersionGoogleSatelliteKorea = "132";
-    VersionGoogleLabelsKorea = "h@221000000";
+    VersionGoogleMapKorea = "m@279000000";
+    VersionGoogleSatelliteKorea = "159";
+    VersionGoogleLabelsKorea = "h@279000000";
 
     // Yahoo version strings
     VersionYahooMap = "4.3";
