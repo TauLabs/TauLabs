@@ -34,8 +34,8 @@ class IBoardType;
 class Brain : public Core::IBoardType
 {
 public:
-	Brain();
-	virtual ~Brain();
+    Brain();
+    virtual ~Brain();
 
     virtual QString shortName();
     virtual QString boardDescription();
@@ -68,7 +68,7 @@ public:
     virtual QString getConnectionDiagram() { return ":/taulabs/images/sparky-connection-diagram.svg"; }
 
     virtual int queryMaxGyroRate();
-
+    QWidget * getBoardConfiguration(QWidget *parent, bool connected);
 };
 
 

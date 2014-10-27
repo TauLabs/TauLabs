@@ -31,6 +31,7 @@
 #include "uavobjectutil/uavobjectutilmanager.h"
 #include <extensionsystem/pluginmanager.h>
 
+#include "brainconfiguration.h"
 #include "hwbrain.h"
 
 /**
@@ -105,7 +106,7 @@ QStringList Brain::getSupportedProtocols()
 
 QPixmap Brain::getBoardPicture()
 {
-    return QPixmap(":/taulabs/images/Brain.png");
+    return QPixmap(":/brainfpv/images/brain.png");
 }
 
 QString Brain::getHwUAVO()
@@ -208,4 +209,10 @@ int Brain::queryMaxGyroRate()
     default:
         return 500;
     }
+}
+
+QWidget * Brain::getBoardConfiguration(QWidget *parent, bool connected)
+{
+    Q_UNUSED(connected);
+    return new BrainConfiguration(parent);
 }

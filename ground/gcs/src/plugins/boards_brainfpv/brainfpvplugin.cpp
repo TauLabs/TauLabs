@@ -1,17 +1,14 @@
 /**
  ******************************************************************************
- * @file       taulabsplugin.cpp
-<<<<<<< HEAD
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
-=======
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
->>>>>>> GCS: Add board plugin for taulabs
+ *
+ * @file       brainfpvplugin.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_TauLabsPlugin Tau Labs boards support Plugin
+ * @addtogroup Boards_BrainFPV BrainFPV boards support Plugin
  * @{
- * @brief Plugin to support boards by the Tau Labs project
+ * @brief Plugin to support boards by BrainFPV LLC
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -29,46 +26,40 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "taulabsplugin.h"
-#include "freedom.h"
-#include "sparky.h"
-#include "sparkybgc.h"
+#include "brainfpvplugin.h"
+#include "brain.h"
 #include <QtPlugin>
 
 
-TauLabsPlugin::TauLabsPlugin()
+BrainFPVPlugin::BrainFPVPlugin()
 {
    // Do nothing
 }
 
-TauLabsPlugin::~TauLabsPlugin()
+BrainFPVPlugin::~BrainFPVPlugin()
 {
    // Do nothing
 }
 
-bool TauLabsPlugin::initialize(const QStringList& args, QString *errMsg)
+bool BrainFPVPlugin::initialize(const QStringList& args, QString *errMsg)
 {
    Q_UNUSED(args);
    Q_UNUSED(errMsg);
    return true;
 }
 
-void TauLabsPlugin::extensionsInitialized()
+void BrainFPVPlugin::extensionsInitialized()
 {
     /**
      * Create the board objects here.
      *
      */
-    Sparky* sparky = new Sparky();
-    addAutoReleasedObject(sparky);
+    Brain* brain = new Brain();
+    addAutoReleasedObject(brain);
 
-    SparkyBGC* sparkybgc = new SparkyBGC();
-    addAutoReleasedObject(sparkybgc);
-
-    Freedom* freedom = new Freedom();
-    addAutoReleasedObject(freedom);
 }
 
-void TauLabsPlugin::shutdown()
+void BrainFPVPlugin::shutdown()
 {
 }
+

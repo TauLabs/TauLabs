@@ -10,15 +10,13 @@ HEADERS += \
     taulabsplugin.h \
     freedom.h \
     sparky.h \
-    sparkybgc.h \
-    brain.h
+    sparkybgc.h 
 
 SOURCES += \
     taulabsplugin.cpp \
     freedom.cpp \
     sparky.cpp \
-    sparkybgc.cpp \
-    brain.cpp
+    sparkybgc.cpp
 
 RESOURCES += \
     taulabs.qrc
