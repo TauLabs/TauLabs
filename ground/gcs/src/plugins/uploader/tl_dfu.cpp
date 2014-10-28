@@ -46,7 +46,7 @@ DFUObject::DFUObject() : open(false)
 DFUObject::~DFUObject()
 {
     if (open)
-        hidHandle.close(0);
+        hid_close(m_hidHandle);
 }
 
 /**
@@ -408,7 +408,9 @@ bool DFUObject::OpenBootloaderComs(USBPortInfo port)
     QEventLoop m_eventloop;
     QTimer::singleShot(200,&m_eventloop, SLOT(quit()));
     m_eventloop.exec();
-    if ( hidHandle.open(1, port.vendorID, port.productID, 0, 0) )
+    hid_init();
+    m_hidHandle = hid_open(port.vendorID, port.productID, NULL);
+    if ( m_hidHandle )
     {
         QTimer::singleShot(200,&m_eventloop, SLOT(quit()));
         m_eventloop.exec();
@@ -416,13 +418,13 @@ bool DFUObject::OpenBootloaderComs(USBPortInfo port)
         if(!EnterDFU())
         {
             TL_DFU_QXTLOG_DEBUG(QString("Could not process enterDFU command"));
-            hidHandle.close(0);
+            hid_close(m_hidHandle);
             return false;
         }
         if(StatusRequest() != tl_dfu::DFUidle)
         {
             TL_DFU_QXTLOG_DEBUG(QString("Status different that DFUidle after enterDFU command"));
-            hidHandle.close(0);
+            hid_close(m_hidHandle);
             return false;
         }
 
@@ -431,7 +433,7 @@ bool DFUObject::OpenBootloaderComs(USBPortInfo port)
     } else
     {
         TL_DFU_QXTLOG_DEBUG(QString("Could not open USB port"));
-        hidHandle.close(0);
+        hid_close(m_hidHandle);
         return false;
     }
     return false;
@@ -442,7 +444,8 @@ bool DFUObject::OpenBootloaderComs(USBPortInfo port)
   */
 void DFUObject::CloseBootloaderComs()
 {
-    hidHandle.close(0);
+    hid_close(m_hidHandle);
+    m_hidHandle = NULL;
     open = false;
 }
 
@@ -647,7 +650,7 @@ int DFUObject::SendData(bl_messages data)
     char array[sizeof(bl_messages) + 1];
     array[0] = 0x02;
     memcpy(array + 1, &data, sizeof(bl_messages));
-    return hidHandle.send(0, array, BUF_LEN, 5000);
+    return hid_write(m_hidHandle, (unsigned char *) array, BUF_LEN);
 }
 
 /**
@@ -658,7 +661,7 @@ int DFUObject::SendData(bl_messages data)
 int DFUObject::ReceiveData(bl_messages &data)
 {
     char array[sizeof(bl_messages) + 1];
-    int received = hidHandle.receive(0, array, BUF_LEN, 10000);
+    int received = hid_read_timeout(m_hidHandle, (unsigned char *) array, BUF_LEN, 10000);
     memcpy(&data, array + 1, sizeof(bl_messages));
     return received;
 }
