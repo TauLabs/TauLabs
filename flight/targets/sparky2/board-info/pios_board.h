@@ -248,7 +248,7 @@ extern uint32_t pios_packet_handler;
 //-------------------------
 #define PIOS_DMA_PIN_CONFIG                                                                 \
 {                                                                                           \
-	{GPIOC, GPIO_Pin_1,     ADC_Channel_11},                                                \
+	{GPIOC, GPIO_Pin_3,     ADC_Channel_13},                                                \
 	{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                                                \
 	{NULL,  0,              ADC_Channel_Vrefint},           /* Voltage reference */         \
 	{NULL,  0,              ADC_Channel_TempSensor},        /* Temperature sensor */        \
