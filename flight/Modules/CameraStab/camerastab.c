@@ -389,7 +389,7 @@ static void tablet_info_process() {
 
 		float dL[3] = {(tablet.Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
 			(tablet.Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-			(tablet.Altitude - homeLocation.Altitude)};
+			(tablet.Altitude)};
 
 		poi.North = T[0] * dL[0];
 		poi.East = T[1] * dL[1];
