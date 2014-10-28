@@ -76,6 +76,8 @@
         
         <field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
         <field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
+	<field name="AccelGyroLPF" units="Hz" type="enum" elements="1" options="20Hz,41Hz,92Hz,184Hz" defaultvalue="92Hz"/>
+
         
 		<field name="Magnetometer" units="function" type="enum" elements="1" options="Internal,ExternalFlxPort" defaultvalue="Internal"/>
 		<field name="ExtMagOrientation" units="function" type="enum" elements="1" options="Top0degCW,Top90degCW,Top180degCW,Top270degCW,Bottom0degCW,Bottom90degCW,Bottom180degCW,Bottom270degCW" defaultvalue="Top0degCW" />

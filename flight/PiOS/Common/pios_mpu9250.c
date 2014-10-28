@@ -88,7 +88,7 @@ static struct mpu9250_dev * dev;
 //! Private functions
 static struct mpu9250_dev * PIOS_MPU9250_alloc(bool use_mag);
 static int32_t PIOS_MPU9250_Validate(struct mpu9250_dev * dev);
-static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg, bool use_mag);
+static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg, bool use_mag, enum pios_mpu9250_gyro_filter gyro_filter, enum pios_mpu9250_accel_filter accel_filter);
 void PIOS_MPU9250_SetGyroLPF(enum pios_mpu9250_gyro_filter filter);
 void PIOS_MPU9250_SetAccelLPF(enum pios_mpu9250_accel_filter filter);
 static int32_t PIOS_MPU9250_SetReg(uint8_t address, uint8_t buffer);
@@ -159,7 +159,8 @@ static int32_t PIOS_MPU9250_Validate(struct mpu9250_dev * dev)
  * @brief Initialize the MPU9250 3-axis gyro sensor.
  * @return 0 for success, -1 for failure to allocate, -2 for failure to get irq
  */
-int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, bool use_mag, const struct pios_mpu9250_cfg * cfg)
+int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, bool use_mag, enum pios_mpu9250_gyro_filter gyro_filter,
+						  enum pios_mpu9250_accel_filter accel_filter, const struct pios_mpu9250_cfg * cfg)
 {
 	dev = PIOS_MPU9250_alloc(use_mag);
 	if (dev == NULL)
@@ -170,7 +171,7 @@ int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, bool use_mag, const
 	dev->cfg = cfg;
 
 	/* Configure the MPU9250 Sensor */
-	if (PIOS_MPU9250_Config(cfg, use_mag) != 0)
+	if (PIOS_MPU9250_Config(cfg, use_mag, gyro_filter, accel_filter) != 0)
 		return -2;
 
 	/* Set up EXTI line */
@@ -203,7 +204,8 @@ int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, bool use_mag, const
  * \param[in] PIOS_MPU9250_ConfigTypeDef struct to be used to configure sensor.
 *
 */
-static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg, bool use_mag)
+static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg, bool use_mag,
+								   enum pios_mpu9250_gyro_filter gyro_filter, enum pios_mpu9250_accel_filter accel_filter)
 {
 	// Reset chip
 	if (PIOS_MPU9250_SetReg(PIOS_MPU60X0_PWR_MGMT_REG, PIOS_MPU60X0_PWRMGMT_IMU_RST) != 0)
@@ -221,8 +223,8 @@ static int32_t PIOS_MPU9250_Config(struct pios_mpu9250_cfg const * cfg, bool use
 
 	// Digital low-pass filter and scale
 	// set this before sample rate else sample rate calculation will fail
-	PIOS_MPU9250_SetGyroLPF(cfg->gyro_filter);
-	PIOS_MPU9250_SetAccelLPF(cfg->accel_filter);
+	PIOS_MPU9250_SetGyroLPF(gyro_filter);
+	PIOS_MPU9250_SetAccelLPF(accel_filter);
 
 	// Sample rate
 	PIOS_MPU9250_SetSampleRate(cfg->default_samplerate);

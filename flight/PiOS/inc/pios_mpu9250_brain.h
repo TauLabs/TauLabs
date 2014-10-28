@@ -69,13 +69,12 @@ struct pios_mpu9250_cfg {
 	uint8_t interrupt_en;			/* Interrupt configuration (See datasheet page 35 for more details) */
 	uint8_t User_ctl;				/* User control settings (See datasheet page 41 for more details)  */
 	uint8_t Pwr_mgmt_clk;			/* Power management and clock selection (See datasheet page 32 for more details) */
-	enum pios_mpu9250_gyro_filter gyro_filter;
-	enum pios_mpu9250_accel_filter accel_filter;
 	enum pios_mpu60x0_orientation orientation;
 };
 
 /* Public Functions */
-extern int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, bool use_mag, const struct pios_mpu9250_cfg * new_cfg);
+extern int32_t PIOS_MPU9250_Init(uint32_t i2c_id, uint8_t i2c_addr, bool use_mag, enum pios_mpu9250_gyro_filter gyro_filter,
+								 enum pios_mpu9250_accel_filter accel_filter, const struct pios_mpu9250_cfg * cfg);
 extern uint8_t PIOS_MPU9250_Test();
 extern int32_t PIOS_MPU9250_Probe(uint32_t i2c_id, uint8_t i2c_addr);
 extern int32_t PIOS_MPU9250_SetGyroRange(enum pios_mpu60x0_range);

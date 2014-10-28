@@ -89,8 +89,6 @@ static const struct pios_mpu9250_cfg pios_mpu9250_cfg = {
 	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
 	.User_ctl = 0,
 	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
-	.accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_41_HZ,
-	.gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_184_HZ,
 	.orientation = PIOS_MPU60X0_TOP_0DEG
 };
 #endif /* PIOS_INCLUDE_MPU9250 */
@@ -363,6 +361,8 @@ void PIOS_Board_Init(void) {
 	bool use_internal_mag = true;
 	bool ext_mag_init_ok = false;
 	bool use_rxport_usart = false;
+	enum pios_mpu9250_gyro_filter gyro_filter;
+	enum pios_mpu9250_accel_filter accel_filter;
 
 	/* Delay system */
 	PIOS_DELAY_Init();
@@ -1090,9 +1090,30 @@ void PIOS_Board_Init(void) {
 #else
 	{
 #endif /* PIOS_INCLUDE_MPU6050 */
+		uint8_t hw_accelgyrolpf;
+		HwBrainAccelGyroLPFGet(&hw_accelgyrolpf);
+		switch(hw_accelgyrolpf)
+		{
+			case HWBRAIN_ACCELGYROLPF_20HZ:
+				accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_20_HZ;
+				gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_20_HZ;
+				break;
+			case HWBRAIN_ACCELGYROLPF_41HZ:
+				accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_41_HZ;
+				gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_41_HZ;
+				break;
+			case HWBRAIN_ACCELGYROLPF_92HZ:
+				accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_92_HZ;
+				gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_92_HZ;
+				break;
+			default:
+				accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_184_HZ;
+				gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_184_HZ;
+		}
 
 		int retval;
-		retval = PIOS_MPU9250_Init(pios_i2c_internal_id, PIOS_MPU9250_I2C_ADD_A0_LOW, use_internal_mag, &pios_mpu9250_cfg);
+		retval = PIOS_MPU9250_Init(pios_i2c_internal_id, PIOS_MPU9250_I2C_ADD_A0_LOW, use_internal_mag,
+									gyro_filter, accel_filter, &pios_mpu9250_cfg);
 		if (retval == -10)
 			panic(1); // indicate missing IRQ separately
 		if (retval != 0)
