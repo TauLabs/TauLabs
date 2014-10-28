@@ -162,7 +162,6 @@ bool bl_xfer_send_next_read_packet(struct xfer_state * xfer)
 
 	PIOS_FLASH_end_transaction(xfer->partition_id);
 
-	PIOS_DELAY_WaitmS(500);
 	PIOS_COM_MSG_Send(PIOS_COM_TELEM_USB, (uint8_t *)&msg, sizeof(msg));
 
 	/* Update our transfer state */
