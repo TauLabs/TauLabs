@@ -134,7 +134,11 @@ static void brushlessGimbalTask(void* parameters)
 		switch(gimbal_state) {
 		case POWERUP_DELAY:
 			if (PIOS_DELAY_DiffuS(raw_time) > POWERUP_TIME_US) {
-				gimbal_state = ROLL_RIGHT;
+				if (settings.PowerupSequence == BRUSHLESSGIMBALSETTINGS_POWERUPSEQUENCE_TRUE) {
+					gimbal_state = ROLL_RIGHT;
+				} else {
+					gimbal_state = RUNNING;
+				}
 				raw_time = PIOS_DELAY_GetRaw();
 
 				PIOS_Brushless_SetUpdateRate(60000);
