@@ -14,6 +14,8 @@
 
 #if QT_VERSION < 0x040601
 #define qAtan2(y, x) ::atan2(y, x)
+#define qFastSin(x) qSin(x)
+#define qFastCos(x) qCos(x)
 #endif
 
 class QwtIntervalSymbol::PrivateData
@@ -150,6 +152,25 @@ const QBrush& QwtIntervalSymbol::brush() const
     return d_data->brush;
 }
 
+/*! 
+  Build and assign a pen
+    
+  In Qt5 the default pen width is 1.0 ( 0.0 in Qt4 ) what makes it
+  non cosmetic ( see QPen::isCosmetic() ). This method has been introduced
+  to hide this incompatibility.
+
+  \param color Pen color
+  \param width Pen width
+  \param style Pen style
+    
+  \sa pen(), brush()
+ */ 
+void QwtIntervalSymbol::setPen( const QColor &color, 
+    qreal width, Qt::PenStyle style )
+{   
+    setPen( QPen( color, width, style ) );
+}
+
 /*!
   Assign a pen
 
@@ -231,8 +252,8 @@ void QwtIntervalSymbol::draw( QPainter *painter, Qt::Orientation orientation,
                     const double angle = qAtan2( dy, dx ) + M_PI_2;
                     double dw2 = sw / 2.0;
 
-                    const double cx = qCos( angle ) * dw2;
-                    const double sy = qSin( angle ) * dw2;
+                    const double cx = qFastCos( angle ) * dw2;
+                    const double sy = qFastSin( angle ) * dw2;
 
                     QwtPainter::drawLine( painter,
                         p1.x() - cx, p1.y() - sy,
@@ -279,8 +300,8 @@ void QwtIntervalSymbol::draw( QPainter *painter, Qt::Orientation orientation,
                     const double angle = qAtan2( dy, dx ) + M_PI_2;
                     double dw2 = sw / 2.0;
 
-                    const int cx = qCos( angle ) * dw2;
-                    const int sy = qSin( angle ) * dw2;
+                    const double cx = qFastCos( angle ) * dw2;
+                    const double sy = qFastSin( angle ) * dw2;
 
                     QPolygonF polygon;
                     polygon += QPointF( p1.x() - cx, p1.y() - sy );

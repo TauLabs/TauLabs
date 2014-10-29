@@ -12,10 +12,10 @@
 
 #include "qwt_global.h"
 #include <qobject.h>
+#include <qsize.h>
 
 class QwtPlot;
 class QwtScaleMap;
-class QSizeF;
 class QRectF;
 class QPainter;
 class QPaintDevice;
@@ -55,7 +55,20 @@ public:
         DiscardLegend           = 0x04,
 
         //! Don't render the background of the canvas
-        DiscardCanvasBackground = 0x08
+        DiscardCanvasBackground = 0x08,
+
+        //! Don't render the footer of the plot
+        DiscardFooter           = 0x10,
+
+        /*! 
+            Don't render the frame of the canvas
+
+            \note This flag has no effect when using
+                  style sheets, where the frame is part
+                  of the background
+         */
+        DiscardCanvasFrame           = 0x20
+
     };
 
     //! Disard flags
@@ -67,17 +80,14 @@ public:
      */
     enum LayoutFlag
     {
-        //! Use the default layout without margins and frames
+        //! Use the default layout as on screen
         DefaultLayout   = 0x00,
-
-        //! Render all frames of the plot
-        KeepFrames      = 0x01,
 
         /*!
           Instead of the scales a box is painted around the plot canvas,
           where the scale ticks are aligned to.
          */
-        FrameWithScales = 0x02
+        FrameWithScales = 0x01
     };
 
     //! Layout flags
@@ -98,11 +108,11 @@ public:
     void setLayoutFlags( LayoutFlags flags );
     LayoutFlags layoutFlags() const;
 
-    void renderDocument( QwtPlot *, const QString &format,
+    void renderDocument( QwtPlot *, const QString &fileName,
         const QSizeF &sizeMM, int resolution = 85 );
 
     void renderDocument( QwtPlot *,
-        const QString &title, const QString &format,
+        const QString &fileName, const QString &format,
         const QSizeF &sizeMM, int resolution = 85 );
 
 #ifndef QWT_NO_SVG
@@ -122,10 +132,10 @@ public:
     virtual void render( QwtPlot *,
         QPainter *, const QRectF &rect ) const;
 
-    virtual void renderLegendItem( const QwtPlot *, 
-        QPainter *, const QWidget *, const QRectF & ) const;
-
     virtual void renderTitle( const QwtPlot *,
+        QPainter *, const QRectF & ) const;
+
+    virtual void renderFooter( const QwtPlot *,
         QPainter *, const QRectF & ) const;
 
     virtual void renderScale( const QwtPlot *, QPainter *,
@@ -139,9 +149,15 @@ public:
     virtual void renderLegend( 
         const QwtPlot *, QPainter *, const QRectF & ) const;
 
-protected:
+    bool exportTo( QwtPlot *, const QString &documentName,
+        const QSizeF &sizeMM = QSizeF( 300, 200 ), int resolution = 85 );
+
+private:
     void buildCanvasMaps( const QwtPlot *,
         const QRectF &, QwtScaleMap maps[] ) const;
+
+    bool updateCanvasMargins( QwtPlot *,
+        const QRectF &, const QwtScaleMap maps[] ) const;
 
 private:
     class PrivateData;
