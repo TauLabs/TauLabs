@@ -27,6 +27,7 @@
  */
 
 #include "revomini.h"
+#include "rfm22bstatus.h"
 
 #include <uavobjectmanager.h>
 #include "uavobjectutil/uavobjectutilmanager.h"
@@ -234,4 +235,107 @@ int RevoMini::queryMaxGyroRate()
     default:
         return 500;
     }
+}
+
+
+/**
+ * Get the RFM22b device ID this modem
+ * @return RFM22B device ID or 0 if not supported
+ */
+quint32 RevoMini::getRfmID()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    // Flight controllers are instance 1
+    RFM22BStatus *rfm22bStatus = RFM22BStatus::GetInstance(uavoManager,1);
+    Q_ASSERT(rfm22bStatus);
+    RFM22BStatus::DataFields rfm22b = rfm22bStatus->getData();
+
+    return rfm22b.DeviceID;
+}
+
+/**
+ * Set the coordinator ID. If set to zero this device will
+ * be a coordinator.
+ * @return true if successful or false if not
+ */
+bool RevoMini::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    HwRevoMini *hwRevoMini = HwRevoMini::GetInstance(uavoManager);
+    Q_ASSERT(hwRevoMini);
+    HwRevoMini::DataFields settings = hwRevoMini->getData();
+
+    if (id == 0) {
+        // set as coordinator
+        settings.Radio = HwRevoMini::RADIO_TELEMCOORD;
+        settings.CoordID = 0;
+    } else {
+        settings.Radio = HwRevoMini::RADIO_TELEM;
+        settings.CoordID = id;
+    }
+
+    switch(baud_rate) {
+    case 9600:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_9600;
+        break;
+    case 19200:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_19200;
+        break;
+    case 32000:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_32000;
+        break;
+    case 64000:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_64000;
+        break;
+    case 100000:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_100000;
+        break;
+    case 192000:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_192000;
+        break;
+    }
+
+    // Round to an integer to use a switch statement
+    quint32 rf_power_100 = rf_power * 100;
+    switch(rf_power_100) {
+    case 0:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_0;
+        break;
+    case 125:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_125;
+        break;
+    case 160:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_16;
+        break;
+    case 316:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_316;
+        break;
+    case 630:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_63;
+        break;
+    case 1260:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_126;
+        break;
+    case 2500:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_25;
+        break;
+    case 5000:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_50;
+        break;
+    case 10000:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_100;
+        break;
+    }
+
+    hwRevoMini->setData(settings);
+
+    // save the settings
+    UAVObjectUtilManager* uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
+    uavoUtilManager->saveObjectToFlash(hwRevoMini);
+
+    return true;
 }
