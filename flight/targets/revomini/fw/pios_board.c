@@ -786,8 +786,22 @@ void PIOS_Board_Init(void) {
 	bool ppm_only    = false;
 	bool ppm_mode    = false;
 
-	if (hwRevoMini.MaxRfPower != HWREVOMINI_MAXRFPOWER_0 &&
-		hwRevoMini.Radio != HWREVOMINI_RADIO_DISABLED) {
+	if (hwRevoMini.Radio == HWREVOMINI_RADIO_DISABLED) {
+
+			// When radio disabled, it is ok for init to fail. This allows boards without populating
+			// this component.
+			const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
+			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg) == 0) {
+				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
+
+				rfm22bstatus.BoardType     = bdinfo->board_type;
+				PIOS_BL_HELPER_FLASH_Read_Description(rfm22bstatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
+				PIOS_SYS_SerialNumberGetBinary(rfm22bstatus.CPUSerial);
+				rfm22bstatus.BoardRevision = bdinfo->board_rev;
+				rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
+			}
+
+	} else {
 		/* Configure the RFM22B device. */
 		const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
@@ -883,8 +897,6 @@ void PIOS_Board_Init(void) {
 		}
 #endif /* PIOS_INCLUDE_RFM22B_RCVR */
 
-	} else {
-		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
 	}
 
 	RFM22BStatusInstSet(1,&rfm22bstatus);
