@@ -106,7 +106,7 @@ bool CoordinatedPage::bindCoordinator()
     if (rfmId == getWizard()->getCoordID())
         return false;
 
-    board->setCoordID(getWizard()->getCoordID());
+    board->setCoordID(getWizard()->getCoordID(), getWizard()->getMaxBps(), getWizard()->getMaxRfPower());
 
     m_coordinatorConfigured = true;
     ui->setCoordinator->setEnabled(false);
