@@ -778,19 +778,34 @@ void PIOS_Board_Init(void) {
     /* Initalize the RFM22B radio COM device. */
 	RFM22BStatusInitialize();
 	RFM22BStatusCreateInstance();
-	RFM22BStatusData tllinkStatus;
-	RFM22BStatusGet(&tllinkStatus);
+	RFM22BStatusData rfm22bstatus;
+	RFM22BStatusGet(&rfm22bstatus);
 
 #if defined(PIOS_INCLUDE_RFM22B)
 	HwSparky2Data hwSparky2;
 	HwSparky2Get(&hwSparky2);
-	if (hwSparky2.Radio != HWSPARKY2_RADIO_DISABLED) {
+	if (hwSparky2.Radio == HWSPARKY2_RADIO_DISABLED) {
+
+			// When radio disabled, it is ok for init to fail. This allows boards without populating
+			// this component.
+			const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
+			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg) == 0) {
+				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
+
+				rfm22bstatus.BoardType     = bdinfo->board_type;
+				PIOS_BL_HELPER_FLASH_Read_Description(rfm22bstatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
+				PIOS_SYS_SerialNumberGetBinary(rfm22bstatus.CPUSerial);
+				rfm22bstatus.BoardRevision = bdinfo->board_rev;
+				rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
+			}
+
+	} else {
 
 		// Initialize out status object.
-		tllinkStatus.BoardType     = bdinfo->board_type;
-		PIOS_BL_HELPER_FLASH_Read_Description(tllinkStatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
-		PIOS_SYS_SerialNumberGetBinary(tllinkStatus.CPUSerial);
-		tllinkStatus.BoardRevision = bdinfo->board_rev;
+		rfm22bstatus.BoardType     = bdinfo->board_type;
+		PIOS_BL_HELPER_FLASH_Read_Description(rfm22bstatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
+		PIOS_SYS_SerialNumberGetBinary(rfm22bstatus.CPUSerial);
+		rfm22bstatus.BoardRevision = bdinfo->board_rev;
 
 		// currently you can not receive PPM packets when using the flight
 		// controller as a coordinator.
@@ -823,7 +838,7 @@ void PIOS_Board_Init(void) {
 			if (!pios_com_telem_rf_id) {
 				pios_com_telem_rf_id = pios_com_rf_id;
 			}
-			tllinkStatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
+			rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
 
 			// Set the RF data rate on the modem to ~2X the selected buad rate because the modem is half duplex.
 			enum rfm22b_datarate datarate = RFM22_datarate_64000;
@@ -899,11 +914,9 @@ void PIOS_Board_Init(void) {
 		}
 #endif /* PIOS_INCLUDE_RFM22B_RCVR */
 
-	} else {
-		tllinkStatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
 	}
 
-	RFM22BStatusSet(&tllinkStatus);
+	RFM22BStatusInstSet(1,&rfm22bstatus);
 #endif /* PIOS_INCLUDE_RFM22B */
 
 	/* Configure the receiver port*/
