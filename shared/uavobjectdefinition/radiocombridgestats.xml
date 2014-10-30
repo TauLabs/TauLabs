@@ -1,5 +1,5 @@
 <xml>
-    <object name="RadioComBridgeStats" singleinstance="true" settings="false" category="System">
+    <object name="RadioComBridgeStats" singleinstance="true" settings="false">
         <description>Maintains the telemetry statistics from the OPLM RadioComBridge.</description>
 
         <field name="TelemetryTxBytes" units="bytes" type="uint32" elements="1"/>
