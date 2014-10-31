@@ -778,34 +778,31 @@ void PIOS_Board_Init(void) {
     /* Initalize the RFM22B radio COM device. */
 	RFM22BStatusInitialize();
 	RFM22BStatusCreateInstance();
+
+#if defined(PIOS_INCLUDE_RFM22B)
 	RFM22BStatusData rfm22bstatus;
 	RFM22BStatusGet(&rfm22bstatus);
 
-#if defined(PIOS_INCLUDE_RFM22B)
 	HwSparky2Data hwSparky2;
 	HwSparky2Get(&hwSparky2);
-	if (hwSparky2.Radio == HWSPARKY2_RADIO_DISABLED) {
+
+	// Initialize out status object.
+	rfm22bstatus.BoardType     = bdinfo->board_type;
+	PIOS_BL_HELPER_FLASH_Read_Description(rfm22bstatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
+	PIOS_SYS_SerialNumberGetBinary(rfm22bstatus.CPUSerial);
+	rfm22bstatus.BoardRevision = bdinfo->board_rev;
+
+	if (hwSparky2.Radio == HWSPARKY2_RADIO_DISABLED || hwSparky2.MaxRfPower == HWSPARKY2_MAXRFPOWER_0) {
 
 			// When radio disabled, it is ok for init to fail. This allows boards without populating
 			// this component.
 			const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg) == 0) {
 				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
-
-				rfm22bstatus.BoardType     = bdinfo->board_type;
-				PIOS_BL_HELPER_FLASH_Read_Description(rfm22bstatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
-				PIOS_SYS_SerialNumberGetBinary(rfm22bstatus.CPUSerial);
-				rfm22bstatus.BoardRevision = bdinfo->board_rev;
 				rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
 			}
 
 	} else {
-
-		// Initialize out status object.
-		rfm22bstatus.BoardType     = bdinfo->board_type;
-		PIOS_BL_HELPER_FLASH_Read_Description(rfm22bstatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
-		PIOS_SYS_SerialNumberGetBinary(rfm22bstatus.CPUSerial);
-		rfm22bstatus.BoardRevision = bdinfo->board_rev;
 
 		// currently you can not receive PPM packets when using the flight
 		// controller as a coordinator.
@@ -816,107 +813,103 @@ void PIOS_Board_Init(void) {
 		bool ppm_only    = hwSparky2.Radio == HWSPARKY2_RADIO_PPM;
 		bool is_oneway   = false; // does not matter for this side
 
-		if (hwSparky2.MaxRfPower != HWSPARKY2_MAXRFPOWER_0 &&
-			hwSparky2.Radio != HWSPARKY2_RADIO_DISABLED) {
-			/* Configure the RFM22B device. */
-			const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
-			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
-				PIOS_Assert(0);
-			}
-
-			/* Configure the radio com interface */
-			uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_RFM22B_RF_RX_BUF_LEN);
-			uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_RFM22B_RF_TX_BUF_LEN);
-			PIOS_Assert(rx_buffer);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_rf_id, &pios_rfm22b_com_driver, pios_rfm22b_id,
-			                  rx_buffer, PIOS_COM_RFM22B_RF_RX_BUF_LEN,
-			                  tx_buffer, PIOS_COM_RFM22B_RF_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
-			/* Set Telemetry to use OPLinkMini if no other telemetry is configured (USB always overrides anyway) */
-			if (!pios_com_telem_rf_id) {
-				pios_com_telem_rf_id = pios_com_rf_id;
-			}
-			rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
-
-			// Set the RF data rate on the modem to ~2X the selected buad rate because the modem is half duplex.
-			enum rfm22b_datarate datarate = RFM22_datarate_64000;
-			switch (hwSparky2.MaxRfSpeed) {
-			case HWSPARKY2_MAXRFSPEED_9600:
-				datarate = RFM22_datarate_9600;
-				break;
-			case HWSPARKY2_MAXRFSPEED_19200:
-				datarate = RFM22_datarate_19200;
-				break;
-			case HWSPARKY2_MAXRFSPEED_32000:
-				datarate = RFM22_datarate_32000;
-				break;
-			case HWSPARKY2_MAXRFSPEED_64000:
-				datarate = RFM22_datarate_64000;
-				break;
-			case HWSPARKY2_MAXRFSPEED_100000:
-				datarate = RFM22_datarate_100000;
-				break;
-			case HWSPARKY2_MAXRFSPEED_192000:
-				datarate = RFM22_datarate_192000;
-				break;
-			}
-
-			/* Set the radio configuration parameters. */
-			PIOS_RFM22B_SetChannelConfig(pios_rfm22b_id, datarate, hwSparky2.MinChannel, hwSparky2.MaxChannel, hwSparky2.ChannelSet, is_coordinator, is_oneway, ppm_mode, ppm_only);
-			PIOS_RFM22B_SetCoordinatorID(pios_rfm22b_id, hwSparky2.CoordID);
-
-			/* Set the modem Tx poer level */
-			switch (hwSparky2.MaxRfPower) {
-			case HWSPARKY2_MAXRFPOWER_125:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
-				break;
-			case HWSPARKY2_MAXRFPOWER_16:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_1);
-				break;
-			case HWSPARKY2_MAXRFPOWER_316:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_2);
-				break;
-			case HWSPARKY2_MAXRFPOWER_63:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_3);
-				break;
-			case HWSPARKY2_MAXRFPOWER_126:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_4);
-				break;
-			case HWSPARKY2_MAXRFPOWER_25:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_5);
-				break;
-			case HWSPARKY2_MAXRFPOWER_50:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_6);
-				break;
-			case HWSPARKY2_MAXRFPOWER_100:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_7);
-				break;
-			default:
-				// do nothing
-				break;
-			}
-
-			/* Reinitialize the modem. */
-			PIOS_RFM22B_Reinit(pios_rfm22b_id);
-
-	#if defined(PIOS_INCLUDE_RFM22B_RCVR)
-			{
-				uintptr_t pios_rfm22brcvr_id;
-				PIOS_RFM22B_Rcvr_Init(&pios_rfm22brcvr_id, pios_rfm22b_id);
-				uintptr_t pios_rfm22brcvr_rcvr_id;
-				if (PIOS_RCVR_Init(&pios_rfm22brcvr_rcvr_id, &pios_rfm22b_rcvr_driver, pios_rfm22brcvr_id)) {
-					PIOS_Assert(0);
-				}
-				pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_RFM22B] = pios_rfm22brcvr_rcvr_id;
-			}
+		/* Configure the RFM22B device. */
+		const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
+		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
+			PIOS_Assert(0);
 		}
-#endif /* PIOS_INCLUDE_RFM22B_RCVR */
 
+		/* Configure the radio com interface */
+		uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_RFM22B_RF_RX_BUF_LEN);
+		uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_RFM22B_RF_TX_BUF_LEN);
+		PIOS_Assert(rx_buffer);
+		PIOS_Assert(tx_buffer);
+		if (PIOS_COM_Init(&pios_com_rf_id, &pios_rfm22b_com_driver, pios_rfm22b_id,
+		                  rx_buffer, PIOS_COM_RFM22B_RF_RX_BUF_LEN,
+		                  tx_buffer, PIOS_COM_RFM22B_RF_TX_BUF_LEN)) {
+			PIOS_Assert(0);
+		}
+		/* Set Telemetry to use OPLinkMini if no other telemetry is configured (USB always overrides anyway) */
+		if (!pios_com_telem_rf_id) {
+			pios_com_telem_rf_id = pios_com_rf_id;
+		}
+		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
+
+		enum rfm22b_datarate datarate = RFM22_datarate_64000;
+		switch (hwSparky2.MaxRfSpeed) {
+		case HWSPARKY2_MAXRFSPEED_9600:
+			datarate = RFM22_datarate_9600;
+			break;
+		case HWSPARKY2_MAXRFSPEED_19200:
+			datarate = RFM22_datarate_19200;
+			break;
+		case HWSPARKY2_MAXRFSPEED_32000:
+			datarate = RFM22_datarate_32000;
+			break;
+		case HWSPARKY2_MAXRFSPEED_64000:
+			datarate = RFM22_datarate_64000;
+			break;
+		case HWSPARKY2_MAXRFSPEED_100000:
+			datarate = RFM22_datarate_100000;
+			break;
+		case HWSPARKY2_MAXRFSPEED_192000:
+			datarate = RFM22_datarate_192000;
+			break;
+		}
+
+		/* Set the radio configuration parameters. */
+		PIOS_RFM22B_SetChannelConfig(pios_rfm22b_id, datarate, hwSparky2.MinChannel, hwSparky2.MaxChannel, hwSparky2.ChannelSet, is_coordinator, is_oneway, ppm_mode, ppm_only);
+		PIOS_RFM22B_SetCoordinatorID(pios_rfm22b_id, hwSparky2.CoordID);
+
+		/* Set the modem Tx poer level */
+		switch (hwSparky2.MaxRfPower) {
+		case HWSPARKY2_MAXRFPOWER_125:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
+			break;
+		case HWSPARKY2_MAXRFPOWER_16:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_1);
+			break;
+		case HWSPARKY2_MAXRFPOWER_316:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_2);
+			break;
+		case HWSPARKY2_MAXRFPOWER_63:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_3);
+			break;
+		case HWSPARKY2_MAXRFPOWER_126:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_4);
+			break;
+		case HWSPARKY2_MAXRFPOWER_25:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_5);
+			break;
+		case HWSPARKY2_MAXRFPOWER_50:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_6);
+			break;
+		case HWSPARKY2_MAXRFPOWER_100:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_7);
+			break;
+		default:
+			// do nothing
+			break;
+		}
+
+		/* Reinitialize the modem. */
+		PIOS_RFM22B_Reinit(pios_rfm22b_id);
+
+#if defined(PIOS_INCLUDE_RFM22B_RCVR)
+		{
+			uintptr_t pios_rfm22brcvr_id;
+			PIOS_RFM22B_Rcvr_Init(&pios_rfm22brcvr_id, pios_rfm22b_id);
+			uintptr_t pios_rfm22brcvr_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_rfm22brcvr_rcvr_id, &pios_rfm22b_rcvr_driver, pios_rfm22brcvr_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_RFM22B] = pios_rfm22brcvr_rcvr_id;
+		}
 	}
 
 	RFM22BStatusInstSet(1,&rfm22bstatus);
+#endif /* PIOS_INCLUDE_RFM22B_RCVR */
+
 #endif /* PIOS_INCLUDE_RFM22B */
 
 	/* Configure the receiver port*/
