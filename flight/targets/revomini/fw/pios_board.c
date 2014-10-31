@@ -770,38 +770,38 @@ void PIOS_Board_Init(void) {
 
     /* Initalize the RFM22B radio COM device. */
 #if defined(PIOS_INCLUDE_RFM22B)
-
 	RFM22BStatusData rfm22bstatus;
 	RFM22BStatusGet(&rfm22bstatus);
+
+	HwRevoMiniData hwRevoMini;
+	HwRevoMiniGet(&hwRevoMini);
+
 	rfm22bstatus.BoardType     = bdinfo->board_type;
 	PIOS_BL_HELPER_FLASH_Read_Description(rfm22bstatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
 	PIOS_SYS_SerialNumberGetBinary(rfm22bstatus.CPUSerial);
 	rfm22bstatus.BoardRevision = bdinfo->board_rev;
 
-	HwRevoMiniData hwRevoMini;
-	HwRevoMiniGet(&hwRevoMini);
-
-	bool is_coordinator = hwRevoMini.Radio == HWREVOMINI_RADIO_TELEMCOORD;
-	bool is_oneway   = false;
-	bool ppm_only    = false;
-	bool ppm_mode    = false;
-
-	if (hwRevoMini.Radio == HWREVOMINI_RADIO_DISABLED) {
+	if (hwRevoMini.Radio == HWREVOMINI_RADIO_DISABLED || hwRevoMini.MaxRfPower == HWREVOMINI_MAXRFPOWER_0) {
 
 			// When radio disabled, it is ok for init to fail. This allows boards without populating
 			// this component.
 			const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg) == 0) {
 				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
-
-				rfm22bstatus.BoardType     = bdinfo->board_type;
-				PIOS_BL_HELPER_FLASH_Read_Description(rfm22bstatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
-				PIOS_SYS_SerialNumberGetBinary(rfm22bstatus.CPUSerial);
-				rfm22bstatus.BoardRevision = bdinfo->board_rev;
 				rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
 			}
 
 	} else {
+
+		// currently you can not receive PPM packets when using the flight
+		// controller as a coordinator.
+		bool is_coordinator = hwRevoMini.Radio == HWREVOMINI_RADIO_TELEMCOORD;
+
+		// always allow receiving PPM when radio is on
+		bool ppm_mode    = hwRevoMini.Radio != HWREVOMINI_RADIO_DISABLED;
+		bool ppm_only    = hwRevoMini.Radio == HWREVOMINI_RADIO_PPM;
+		bool is_oneway   = false; // does not matter for this side
+
 		/* Configure the RFM22B device. */
 		const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
@@ -824,7 +824,6 @@ void PIOS_Board_Init(void) {
 		}
 		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
 
-		// Set the RF data rate on the modem to ~2X the selected buad rate because the modem is half duplex.
 		enum rfm22b_datarate datarate = RFM22_datarate_64000;
 		switch (hwRevoMini.MaxRfSpeed) {
 		case HWREVOMINI_MAXRFSPEED_9600:
@@ -895,11 +894,11 @@ void PIOS_Board_Init(void) {
 			}
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_RFM22B] = pios_rfm22brcvr_rcvr_id;
 		}
-#endif /* PIOS_INCLUDE_RFM22B_RCVR */
 
 	}
-
 	RFM22BStatusInstSet(1,&rfm22bstatus);
+#endif /* PIOS_INCLUDE_RFM22B_RCVR */
+
 #endif /* PIOS_INCLUDE_RFM22B */
 
 	/* Configure the receiver port*/
