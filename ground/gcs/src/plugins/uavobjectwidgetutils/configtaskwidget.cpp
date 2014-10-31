@@ -149,6 +149,19 @@ void ConfigTaskWidget::addUAVObjectToWidgetRelation(UAVObject * obj,UAVObjectFie
 }
 
 /**
+ * Set a UAVObject as not mandatory, meaning that if it doesn't exist on the 
+ * hardware a failed upload or save will be marked as successfull
+ */
+void ConfigTaskWidget::setNotMandatory(QString object)
+{
+    UAVObject *obj = objManager->getObject(object);
+    Q_ASSERT(obj);
+    if(smartsave) {
+        smartsave->setNotMandatory((UAVDataObject*)obj);
+    }
+}
+
+/**
  * Add an UAVObject field to widget relation to the management system
  * @param object name of the object to add
  * @param field name of the field to add
