@@ -230,6 +230,21 @@ void smartSaveButton::addObject(UAVDataObject * obj)
 }
 
 /**
+ * @brief smartSaveButton::addObject
+ * The smartSaveButton contains a list of objects it will work with, addObject
+ * is used to add a new object to a smartSaveButton instance.
+ * @param obj object to add to the framework
+ * @param isMandatory if object is not mandatory the save or upload result
+ * will show as successfull even if the object doesn't exist on the hardware
+ */
+void smartSaveButton::addObject(UAVDataObject * obj, bool isMandatory)
+{
+    Q_ASSERT(obj);
+    if(!objects.contains(obj))
+        objects.append(obj);
+    if(!isMandatory)
+        mandatoryList.insert(obj, false);
+}
  * @brief smartSaveButton::removeObject
  * The smartSaveButton contains a list of objects it will work with, addObject
  * is used to remove an object from a smartSaveButton instance.
@@ -286,6 +301,13 @@ void smartSaveButton::resetIcons()
 {
     foreach(QPushButton * button,buttonList.keys())
         button->setIcon(QIcon());
+/**
+ * Set a UAVObject as not mandatory, meaning that if it doesn't exist on the 
+ * hardware a failed upload or save will be marked as successfull
+ */
+void smartSaveButton::setNotMandatory(UAVDataObject *obj)
+{
+    mandatoryList.insert(obj, false);
 }
 
 void smartSaveButton::apply()
