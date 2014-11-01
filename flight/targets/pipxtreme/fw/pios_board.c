@@ -227,6 +227,8 @@ void PIOS_Board_Init(void) {
 											tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
 			PIOS_Assert(0);
 		}
+
+		pios_com_telemetry_id = pios_com_telem_uart_telem_id;
 	}
 
 #endif
