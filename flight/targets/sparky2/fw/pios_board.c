@@ -829,7 +829,8 @@ void PIOS_Board_Init(void) {
 		                  tx_buffer, PIOS_COM_RFM22B_RF_TX_BUF_LEN)) {
 			PIOS_Assert(0);
 		}
-		/* Set Telemetry to use OPLinkMini if no other telemetry is configured (USB always overrides anyway) */
+
+		/* Set Telemetry to use RFM22b if no other telemetry is configured (USB always overrides anyway) */
 		if (!pios_com_telem_rf_id) {
 			pios_com_telem_rf_id = pios_com_rf_id;
 		}
