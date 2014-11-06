@@ -37,6 +37,7 @@ class ScopeConfig;
 class UAVDataObject;
 
 #include "qwt/src/qwt.h"
+#include "qwt/src/qwt_legend.h"
 #include "qwt/src/qwt_plot.h"
 #include "qwt/src/qwt_plot_grid.h"
 #include "qwt/src/qwt_plot_layout.h"
@@ -104,7 +105,7 @@ protected:
 private slots:
     void uavObjectReceived(UAVObject*);
     void replotNewData();
-    void showCurve(QwtPlotItem *item, bool on);
+    void showCurve(const QVariant & itemInfo, bool on, int index);
     void startPlotting();
     void stopPlotting();
 
