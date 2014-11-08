@@ -33,7 +33,7 @@
 class BrainFPVPlugin : public ExtensionSystem::IPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "TauLabs.plugins.BrainFPV" FILE "brainfpv.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.BrainFPV" FILE "BrainFPV.json")
 
 public:
    BrainFPVPlugin();

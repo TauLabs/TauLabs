@@ -6,7 +6,7 @@ include(../../plugins/coreplugin/coreplugin.pri)
 include(../../plugins/uavobjectutil/uavobjectutil.pri)
 include(../../plugins/uavobjectwidgetutils/uavobjectwidgetutils.pri)
 
-OTHER_FILES += brainfpv.pluginspec
+OTHER_FILES += BrainFPV.pluginspec
 
 HEADERS += \
     brainfpvplugin.h \
