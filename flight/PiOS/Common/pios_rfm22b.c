@@ -1962,8 +1962,9 @@ static enum pios_radio_event radio_txStart(struct pios_rfm22b_dev
 		len += (radio_dev->tx_out_cb) (radio_dev->tx_out_context, p + len, max_data_len - len, NULL, &need_yield);
 	}
 
-	// Always send a packet on the sync channel if this modem is a coordinator.
-	if ((len == 0) && ((radio_dev->channel_index != 0) || !rfm22_isCoordinator(radio_dev))) {
+	// Always send a packet on the sync channel. So if length is zero (no data)
+	// and not sync channel, return to listener mode.
+	if ((len == 0) && (radio_dev->channel_index != 0)) {
 		return RADIO_EVENT_RX_MODE;
 	}
 
