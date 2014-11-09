@@ -628,6 +628,8 @@ void PIOS_RFM22B_SetChannelConfig(uint32_t rfm22b_id,
 	}
 
 	rfm22b_dev->packet_time = (ppm_mode ? packet_time_ppm[datarate] : packet_time[datarate]);
+	if (!rfm22b_dev->one_way_link)
+		rfm22b_dev->packet_time *= 2;  // double the time to allow a send and receive in each slice
 
 	// Find the first N channels that meet the min/max criteria out of the random channel list.
 	uint8_t num_found = 0;
@@ -2372,11 +2374,11 @@ static bool rfm22_timeToSend(struct pios_rfm22b_dev *rfm22b_dev)
 	}
 
 	if (!is_coordinator) {
-		time += packet_period - 1;
+		time += (packet_period/2) - 1;
 	} else {
 		time -= 1;
 	}
-	return (time % (packet_period * 2)) == 0;
+	return (time % packet_period) == 0;
 }
 
 /**
