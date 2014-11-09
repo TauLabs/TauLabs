@@ -566,20 +566,6 @@ static bool rfm22_isConnected(struct pios_rfm22b_dev *rfm22b_dev)
 }
 
 /**
- * Returns true if the modem is not actively sending or receiving a packet.
- *
- * @param[in] rfm22b_id The RFM22B device index.
- * @return True if the modem is not actively sending or receiving a packet.
- */
-bool rfm22_InRxWait(struct pios_rfm22b_dev *rfm22b_dev)
-{
-	return (rfm22b_dev->rfm22b_state == RFM22B_STATE_RX_WAIT) ||
-	       (rfm22b_dev->rfm22b_state ==	RFM22B_STATE_TRANSITION);
-
-	return false;
-}
-
-/**
  * Sets the radio device transmit power.
  *
  * @param[in] rfm22b_id The RFM22B device index.
