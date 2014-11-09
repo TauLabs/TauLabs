@@ -389,8 +389,7 @@ static const uint8_t reg_71[] = { 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23
 static const uint8_t reg_72[] = { 0x30, 0x48, 0x48, 0x48, 0x48, 0x60, 0x90, 0xCD, 0x0F };	// rfm22_frequency_deviation
 
 static const uint8_t packet_time[] = { 80, 40, 25, 15, 13, 10, 8, 6, 5 };
-static const uint8_t packet_time_ppm[] =
-    { 26, 25, 25, 15, 13, 10, 8, 6, 5 };
+static const uint8_t packet_time_ppm[] = { 26, 25, 25, 15, 13, 10, 8, 6, 5 };
 static const uint8_t num_channels[] = { 4, 4, 4, 6, 8, 8, 10, 12, 16 };
 
 static struct pios_rfm22b_dev *g_rfm22b_dev = NULL;
@@ -562,10 +561,8 @@ uint32_t PIOS_RFM22B_DeviceID(uint32_t rfm22b_id)
  */
 static bool rfm22_isConnected(struct pios_rfm22b_dev *rfm22b_dev)
 {
-	return (rfm22b_dev->stats.link_state ==
-		RFM22BSTATUS_LINKSTATE_CONNECTED)
-	    || (rfm22b_dev->stats.link_state ==
-		RFM22BSTATUS_LINKSTATE_CONNECTING);
+	return (rfm22b_dev->stats.link_state ==	RFM22BSTATUS_LINKSTATE_CONNECTED) || 
+	       (rfm22b_dev->stats.link_state ==	RFM22BSTATUS_LINKSTATE_CONNECTING);
 }
 
 /**
@@ -644,14 +641,12 @@ void PIOS_RFM22B_SetChannelConfig(uint32_t rfm22b_id,
 		rfm22b_dev->one_way_link = oneway;
 		rfm22b_dev->datarate = datarate;
 	}
-	rfm22b_dev->packet_time =
-	    (ppm_mode ? packet_time_ppm[datarate] : packet_time[datarate]);
+
+	rfm22b_dev->packet_time = (ppm_mode ? packet_time_ppm[datarate] : packet_time[datarate]);
 
 	// Find the first N channels that meet the min/max criteria out of the random channel list.
 	uint8_t num_found = 0;
-	for (uint16_t i = 0;
-	     (i < RFM22B_NUM_CHANNELS)
-	     && (num_found < num_channels[datarate]); ++i) {
+	for (uint16_t i = 0; (i < RFM22B_NUM_CHANNELS) && (num_found < num_channels[datarate]); ++i) {
 		uint8_t idx = (i + chan_set) % RFM22B_NUM_CHANNELS;
 		uint8_t chan = channel_list[idx];
 		if ((chan >= min_chan) && (chan <= max_chan)) {
@@ -681,8 +676,7 @@ void PIOS_RFM22B_SetChannelConfig(uint32_t rfm22b_id,
 extern void PIOS_RFM22B_SetCoordinator(uint32_t rfm22b_id,
 				       bool coordinator)
 {
-	struct pios_rfm22b_dev *rfm22b_dev =
-	    (struct pios_rfm22b_dev *)rfm22b_id;
+	struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)rfm22b_id;
 
 	if (PIOS_RFM22B_Validate(rfm22b_dev)) {
 		rfm22b_dev->coordinator = coordinator;
@@ -1940,19 +1934,13 @@ static enum pios_radio_event radio_txStart(struct pios_rfm22b_dev
 		// Read the PPM input.
 		for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS; ++i) {
 			int32_t val = radio_dev->ppm[i];
-			if ((val == PIOS_RCVR_INVALID)
-			    || (val == PIOS_RCVR_TIMEOUT)) {
+			if ((val == PIOS_RCVR_INVALID) || (val == PIOS_RCVR_TIMEOUT)) {
 				p[i + 1] = 0;
 			} else {
 				p[0] |= 1 << i;
 				p[i + 1] =
-				    (val <
-				     1000) ? 0 : ((val >=
-						   1900) ? 255
-						  : (uint8_t) (256 *
-							       (val -
-								1000) /
-							       900));
+				    (val < 1000) ? 0 : ((val >= 1900) ? 255
+						  : (uint8_t) (256 * (val - 1000) / 900));
 			}
 		}
 
@@ -1966,27 +1954,23 @@ static enum pios_radio_event radio_txStart(struct pios_rfm22b_dev
 			p[RFM22B_PPM_NUM_CHANNELS + 1] = crc;
 		}
 	}
+
 	// Append data from the com interface if applicable.
 	if (!radio_dev->ppm_only_mode && radio_dev->tx_out_cb) {
 		// Try to get some data to send
 		bool need_yield = false;
-		len +=
-		    (radio_dev->tx_out_cb) (radio_dev->tx_out_context,
-					    p + len, max_data_len - len,
-					    NULL, &need_yield);
+		len += (radio_dev->tx_out_cb) (radio_dev->tx_out_context, p + len, max_data_len - len, NULL, &need_yield);
 	}
+
 	// Always send a packet on the sync channel if this modem is a coordinator.
-	if ((len == 0)
-	    && ((radio_dev->channel_index != 0)
-		|| !rfm22_isCoordinator(radio_dev))) {
+	if ((len == 0) && ((radio_dev->channel_index != 0) || !rfm22_isCoordinator(radio_dev))) {
 		return RADIO_EVENT_RX_MODE;
 	}
 
 	// Add the error correcting code.
 	if (!radio_dev->ppm_only_mode) {
 		if (len != 0) {
-			encode_data((unsigned char *)p, len,
-				    (unsigned char *)p);
+			encode_data((unsigned char *)p, len, (unsigned char *)p);
 		}
 		len += RS_ECC_NPARITY;
 	}
@@ -2446,7 +2430,8 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev,
 	// Are we switching to a new channel?
 	if (idx != rfm22b_dev->channel_index) {
 
-		// If the on_sync_channel flag is set, it means that we were on the sync channel, but no packet was received, so transition to a non-connected state.
+		// If the on_sync_channel flag is set, it means that we were on the sync channel, but no packet was
+		// received, so transition to a non-connected state.
 		if (!rfm22_isCoordinator(rfm22b_dev)
 		    && (rfm22b_dev->channel_index == 0)
 		    && rfm22b_dev->on_sync_channel) {
@@ -2499,16 +2484,14 @@ static uint8_t rfm22_calcChannelFromClock(struct pios_rfm22b_dev
 static bool rfm22_changeChannel(struct pios_rfm22b_dev *rfm22b_dev)
 {
 	// A disconnected non-coordinator modem should sit on the sync channel until connected.
-	if (!rfm22_isCoordinator(rfm22b_dev)
-	    && !rfm22_isConnected(rfm22b_dev)) {
-		return rfm22_setFreqHopChannel(rfm22b_dev,
-					       rfm22_calcChannel
-					       (rfm22b_dev, 0));
+	uint8_t channel_idx;
+	if (!rfm22_isCoordinator(rfm22b_dev) && !rfm22_isConnected(rfm22b_dev)) {
+		channel_idx = rfm22_calcChannel(rfm22b_dev, 0);
 	} else {
-		return rfm22_setFreqHopChannel(rfm22b_dev,
-					       rfm22_calcChannelFromClock
-					       (rfm22b_dev));
+		channel_idx = rfm22_calcChannelFromClock(rfm22b_dev);
+					       
 	}
+	return rfm22_setFreqHopChannel(rfm22b_dev, channel_idx);
 }
 
 /*****************************************************************************
