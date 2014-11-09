@@ -42,17 +42,17 @@ endif
 ifdef MACOSX
   ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-macosx
   ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-macosx.zip
-else
+endif
 
 ifdef LINUX
   ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-linux
   ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
-else
+endif
 
 ifdef WINDOWS
   ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-windows
   ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-windows.zip
-else
+endif
 
 # Build openocd without FTDI (yes | no)
 OPENOCD_FTDI ?= yes
