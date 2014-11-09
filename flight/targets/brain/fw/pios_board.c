@@ -916,9 +916,9 @@ void PIOS_Board_Init(void) {
 		if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
 			PIOS_Assert(0);
 		}
+		pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
 		break;
 	}
-
 
 	/* Configure the RxPort USART */
 	if (use_rxport_usart) {
@@ -1044,6 +1044,7 @@ void PIOS_Board_Init(void) {
 	case HWBRAIN_RXPORT_DISABLED:
 	case HWBRAIN_RXPORT_PWM:
 	case HWBRAIN_RXPORT_PPM:
+	case HWBRAIN_RXPORT_PPMUSART:
 		/* Set up the servo outputs */
 #ifdef PIOS_INCLUDE_SERVO
 		PIOS_Servo_Init(&pios_servo_cfg);
