@@ -37,8 +37,6 @@ ifdef LINUX
 endif
 
 # Set variables for Android SDK
-# ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-macosx
-# android_sdk_install: ANDROID_SDK_URL  := http://dl.google.com/android/android-sdk_r23.0.2-macosx.zip
 ifdef MACOSX
   ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-macosx
   ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-macosx.zip
