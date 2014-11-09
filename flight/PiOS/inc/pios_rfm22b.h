@@ -116,7 +116,6 @@ extern void PIOS_RFM22B_GetStats(uint32_t rfm22b_id,
 extern uint8_t PIOS_RFM2B_GetPairStats(uint32_t rfm22b_id,
 				       uint32_t * device_ids,
 				       int8_t * RSSIs, uint8_t max_pairs);
-extern bool PIOS_RFM22B_InRxWait(uint32_t rfb22b_id);
 extern bool PIOS_RFM22B_LinkStatus(uint32_t rfm22b_id);
 extern bool PIOS_RFM22B_ReceivePacket(uint32_t rfm22b_id, uint8_t * p);
 extern bool PIOS_RFM22B_TransmitPacket(uint32_t rfm22b_id, uint8_t * p,

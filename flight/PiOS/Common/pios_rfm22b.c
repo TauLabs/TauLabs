@@ -241,6 +241,7 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev, uint8_t ind
 static uint8_t rfm22_calcChannelFromClock(struct pios_rfm22b_dev *rfm22b_dev);
 static bool rfm22_changeChannel(struct pios_rfm22b_dev *rfm22b_dev);
 static void rfm22_clearLEDs();
+static bool rfm22_InRxWait(struct pios_rfm22b_dev * rfb22b_id);
 
 // Utility functions.
 static uint32_t pios_rfm22_time_difference_ms(uint32_t start_time, uint32_t end_time);
@@ -573,16 +574,11 @@ static bool rfm22_isConnected(struct pios_rfm22b_dev *rfm22b_dev)
  * @param[in] rfm22b_id The RFM22B device index.
  * @return True if the modem is not actively sending or receiving a packet.
  */
-bool PIOS_RFM22B_InRxWait(uint32_t rfm22b_id)
+bool rfm22_InRxWait(struct pios_rfm22b_dev *rfm22b_dev)
 {
-	struct pios_rfm22b_dev *rfm22b_dev =
-	    (struct pios_rfm22b_dev *)rfm22b_id;
+	return (rfm22b_dev->rfm22b_state == RFM22B_STATE_RX_WAIT) ||
+	       (rfm22b_dev->rfm22b_state ==	RFM22B_STATE_TRANSITION);
 
-	if (PIOS_RFM22B_Validate(rfm22b_dev)) {
-		return (rfm22b_dev->rfm22b_state == RFM22B_STATE_RX_WAIT)
-		    || (rfm22b_dev->rfm22b_state ==
-			RFM22B_STATE_TRANSITION);
-	}
 	return false;
 }
 
@@ -1322,10 +1318,8 @@ static void pios_rfm22_task(void *parameters)
 			D4_LED_OFF;
 		}
 #endif
-		if (time_to_send
-		    && PIOS_RFM22B_InRxWait((uint32_t) rfm22b_dev)) {
-			rfm22_process_event(rfm22b_dev,
-					    RADIO_EVENT_TX_START);
+		if (time_to_send && rfm22_InRxWait(rfm22b_dev)) {
+			rfm22_process_event(rfm22b_dev, RADIO_EVENT_TX_START);
 		}
 	}
 }
@@ -1923,20 +1917,18 @@ static enum pios_radio_event radio_txStart(struct pios_rfm22b_dev
 	    (radio_dev->ppm_only_mode ? 0 : RS_ECC_NPARITY);
 
 	// Don't send if it's not our turn, or if we're receiving a packet.
-	if (!rfm22_timeToSend(radio_dev)
-	    || !PIOS_RFM22B_InRxWait((uint32_t) radio_dev)) {
+	if (!rfm22_timeToSend(radio_dev) || !rfm22_InRxWait(radio_dev)) {
 		return RADIO_EVENT_RX_MODE;
 	}
+
 	// Don't send anything if we're bound to a coordinator and not yet connected.
-	if (!rfm22_isCoordinator(radio_dev)
-	    && !rfm22_isConnected(radio_dev)) {
+	if (!rfm22_isCoordinator(radio_dev) && !rfm22_isConnected(radio_dev)) {
 		return RADIO_EVENT_RX_MODE;
 	}
+
 	// Should we append PPM data to the packet?
 	if (radio_dev->ppm_send_mode) {
-		len =
-		    RFM22B_PPM_NUM_CHANNELS +
-		    (radio_dev->ppm_only_mode ? 2 : 1);
+		len = RFM22B_PPM_NUM_CHANNELS + (radio_dev->ppm_only_mode ? 2 : 1);
 
 		// Ensure we can fit the PPM data in the packet.
 		if (max_data_len < len) {
