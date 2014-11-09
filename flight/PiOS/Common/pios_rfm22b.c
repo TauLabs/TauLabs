@@ -532,8 +532,8 @@ bool PIOS_RFM22_EXT_Int(void)
 		return false;
 	}
 	// Inject an interrupt event into the state machine.
-	pios_rfm22_inject_event(g_rfm22b_dev, RADIO_EVENT_INT_RECEIVED,
-				true);
+	pios_rfm22_inject_event(g_rfm22b_dev, RADIO_EVENT_INT_RECEIVED, true);
+
 	return false;
 }
 
@@ -545,8 +545,7 @@ bool PIOS_RFM22_EXT_Int(void)
  */
 uint32_t PIOS_RFM22B_DeviceID(uint32_t rfm22b_id)
 {
-	struct pios_rfm22b_dev *rfm22b_dev =
-	    (struct pios_rfm22b_dev *)rfm22b_id;
+	struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)rfm22b_id;
 
 	if (PIOS_RFM22B_Validate(rfm22b_dev)) {
 		return rfm22b_dev->deviceID;
@@ -741,9 +740,7 @@ uint8_t PIOS_RFM2B_GetPairStats(uint32_t rfm22b_id, uint32_t * device_ids,
 		return 0;
 	}
 
-	uint8_t mp =
-	    (max_pairs >=
-	     RFM22BSTATUS_PAIRIDS_NUMELEM) ? max_pairs :
+	uint8_t mp = (max_pairs >= RFM22BSTATUS_PAIRIDS_NUMELEM) ? max_pairs :
 	    RFM22BSTATUS_PAIRIDS_NUMELEM;
 	for (uint8_t i = 0; i < mp; ++i) {
 		device_ids[i] = rfm22b_dev->pair_stats[i].pairID;
@@ -887,12 +884,10 @@ bool PIOS_RFM22B_TransmitPacket(uint32_t rfm22b_id, uint8_t * p,
 	rfm22_write(rfm22b_dev, RFM22_transmit_header3, (id >> 24) & 0xff);
 
 	// FIFO mode, GFSK modulation
-	uint8_t fd_bit =
-	    rfm22_read(rfm22b_dev,
-		       RFM22_modulation_mode_control2) & RFM22_mmc2_fd;
+	uint8_t fd_bit = rfm22_read(rfm22b_dev,
+		    RFM22_modulation_mode_control2) & RFM22_mmc2_fd;
 	rfm22_write(rfm22b_dev, RFM22_modulation_mode_control2,
-		    fd_bit | RFM22_mmc2_dtmod_fifo |
-		    RFM22_mmc2_modtyp_gfsk);
+		    fd_bit | RFM22_mmc2_dtmod_fifo | RFM22_mmc2_modtyp_gfsk);
 
 	// Clear the FIFOs.
 	rfm22_write(rfm22b_dev, RFM22_op_and_func_ctrl2,
@@ -905,25 +900,21 @@ bool PIOS_RFM22B_TransmitPacket(uint32_t rfm22b_id, uint8_t * p,
 	// Add some data to the chips TX FIFO before enabling the transmitter
 	uint8_t *tx_buffer = rfm22b_dev->tx_packet_handle;
 	rfm22_assertCs(rfm22b_dev);
-	PIOS_SPI_TransferByte(rfm22b_dev->spi_id,
-			      RFM22_fifo_access | 0x80);
-	int bytes_to_write =
-	    (rfm22b_dev->tx_data_wr - rfm22b_dev->tx_data_rd);
-	bytes_to_write =
-	    (bytes_to_write > FIFO_SIZE) ? FIFO_SIZE : bytes_to_write;
-	PIOS_SPI_TransferBlock(rfm22b_dev->spi_id,
-			       &tx_buffer[rfm22b_dev->tx_data_rd], NULL,
-			       bytes_to_write, NULL);
+	PIOS_SPI_TransferByte(rfm22b_dev->spi_id, RFM22_fifo_access | 0x80);
+	int bytes_to_write = (rfm22b_dev->tx_data_wr - rfm22b_dev->tx_data_rd);
+	bytes_to_write = (bytes_to_write > FIFO_SIZE) ? FIFO_SIZE : bytes_to_write;
+	PIOS_SPI_TransferBlock(rfm22b_dev->spi_id, &tx_buffer[rfm22b_dev->tx_data_rd], 
+	                       NULL, bytes_to_write, NULL);
 	rfm22b_dev->tx_data_rd += bytes_to_write;
 	rfm22_deassertCs(rfm22b_dev);
 
 	// Enable TX interrupts.
 	rfm22_write(rfm22b_dev, RFM22_interrupt_enable1,
-		    RFM22_ie1_enpksent | RFM22_ie1_entxffaem);
+	        RFM22_ie1_enpksent | RFM22_ie1_entxffaem);
 
 	// Enable the transmitter.
 	rfm22_write(rfm22b_dev, RFM22_op_and_func_ctrl1,
-		    RFM22_opfc1_pllon | RFM22_opfc1_txon);
+	        RFM22_opfc1_pllon | RFM22_opfc1_txon);
 
 	// Release the SPI bus.
 	rfm22_releaseBus(rfm22b_dev);
@@ -1151,6 +1142,10 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 	return ret;
 }
 
+/*****************************************************************************
+* PPM Code
+*****************************************************************************/
+
 /**
  * Register a RFM22B_Rcvr interface to inform of PPM packets
  *
@@ -1207,17 +1202,6 @@ extern void PIOS_RFM22B_PPMGet(uint32_t rfm22b_id, int16_t * channels)
 	for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS; ++i) {
 		channels[i] = rfm22b_dev->ppm[i];
 	}
-}
-
-/**
- * Validate that the device structure is valid.
- *
- * @param[in] rfm22b_dev  The RFM22B device structure pointer.
- */
-inline bool PIOS_RFM22B_Validate(struct pios_rfm22b_dev *rfm22b_dev)
-{
-	return rfm22b_dev != NULL
-	    && rfm22b_dev->magic == PIOS_RFM22B_DEV_MAGIC;
 }
 
 /*****************************************************************************
@@ -1316,8 +1300,7 @@ static void pios_rfm22_task(void *parameters)
  * @param[in] inISR Is this being called from an interrrup service routine?
  */
 static void pios_rfm22_inject_event(struct pios_rfm22b_dev *rfm22b_dev,
-				    enum pios_radio_event event,
-				    bool inISR)
+				    enum pios_radio_event event, bool inISR)
 {
 	if (inISR) {
 		bool woken = false;
@@ -1358,12 +1341,8 @@ static void pios_rfm22_inject_event(struct pios_rfm22b_dev *rfm22b_dev,
  * @param[in] event The event to process
  * @return enum pios_radio_event  The next event to inject
  */
-static enum pios_radio_event rfm22_process_state_transition(struct
-							    pios_rfm22b_dev
-							    *rfm22b_dev,
-							    enum
-							    pios_radio_event
-							    event)
+static enum pios_radio_event rfm22_process_state_transition(struct pios_rfm22b_dev *rfm22b_dev,
+							    enum pios_radio_event event)
 {
 	// No event
 	if (event >= RADIO_EVENT_NUM_EVENTS) {
@@ -2157,11 +2136,10 @@ static enum pios_radio_event radio_rxData(struct pios_rfm22b_dev
 	case PIOS_RFM22B_RX_COMPLETE:
 
 		// Receive the packet.
-		ret_event =
-		    radio_receivePacket(radio_dev,
-					radio_dev->rx_packet_handle,
+		ret_event = radio_receivePacket(radio_dev, radio_dev->rx_packet_handle,
 					radio_dev->rx_buffer_wr);
 		radio_dev->rx_buffer_wr = 0;
+
 #ifdef PIOS_RFM22B_DEBUG_ON_TELEM
 		D2_LED_OFF;
 #endif
@@ -2451,12 +2429,12 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev,
  *
  * @param[in] rfm22b_dev  The device structure
  */
-static uint8_t rfm22_calcChannelFromClock(struct pios_rfm22b_dev
-					  *rfm22b_dev)
+static uint8_t rfm22_calcChannelFromClock(struct pios_rfm22b_dev *rfm22b_dev)
 {
 	uint32_t time = rfm22_coordinatorTime(rfm22b_dev, PIOS_Thread_Systime());
-	// Divide time into 8ms blocks.  Coordinator sends in first 2 ms, and remote send in 5th and 6th ms.
-	// Channel changes occur in the last 2 ms.
+
+	// Divide time into slices based on the packet_time (determine from the data rate).
+	// Coordinator sends in the first half and the non-coordinator in the second half.
 	uint8_t num_chan = num_channels[rfm22b_dev->datarate];
 	uint8_t n = (time / rfm22b_dev->packet_time) % num_chan;
 
@@ -2582,7 +2560,6 @@ static uint32_t pios_rfm22_time_difference_ms(uint32_t start_time, uint32_t end_
 /**
  * Allocate the device structure
  */
-#if defined(PIOS_INCLUDE_FREERTOS)
 static struct pios_rfm22b_dev *pios_rfm22_alloc(void)
 {
 	struct pios_rfm22b_dev *rfm22b_dev;
@@ -2597,23 +2574,32 @@ static struct pios_rfm22b_dev *pios_rfm22_alloc(void)
 	rfm22b_dev->magic = PIOS_RFM22B_DEV_MAGIC;
 	return rfm22b_dev;
 }
-#else
-static struct pios_rfm22b_dev pios_rfm22b_devs[PIOS_RFM22B_MAX_DEVS];
-static uint8_t pios_rfm22b_num_devs;
-static struct pios_rfm22b_dev *pios_rfm22_alloc(void)
+
+
+/**
+ * Validate that the device structure is valid.
+ *
+ * @param[in] rfm22b_dev  The RFM22B device structure pointer.
+ */
+bool PIOS_RFM22B_Validate(struct pios_rfm22b_dev *rfm22b_dev)
 {
-	struct pios_rfm22b_dev *rfm22b_dev;
-
-	if (pios_rfm22b_num_devs >= PIOS_RFM22B_MAX_DEVS) {
-		return NULL;
-	}
-
-	rfm22b_dev = &pios_rfm22b_devs[pios_rfm22b_num_devs++];
-	rfm22b_dev->magic = PIOS_RFM22B_DEV_MAGIC;
-
-	return rfm22b_dev;
+	return rfm22b_dev != NULL
+	    && rfm22b_dev->magic == PIOS_RFM22B_DEV_MAGIC;
 }
-#endif /* if defined(PIOS_INCLUDE_FREERTOS) */
+
+/**
+ * Returns true if the modem is not actively sending or receiving a packet.
+ *
+ * @param[in] rfm22b_id The RFM22B device index.
+ * @return True if the modem is not actively sending or receiving a packet.
+ */
+bool rfm22_InRxWait(struct pios_rfm22b_dev *rfm22b_dev)
+{
+	return (rfm22b_dev->rfm22b_state == RFM22B_STATE_RX_WAIT) ||
+	       (rfm22b_dev->rfm22b_state ==	RFM22B_STATE_TRANSITION);
+
+	return false;
+}
 
 /**
  * Turn off all of the LEDs
