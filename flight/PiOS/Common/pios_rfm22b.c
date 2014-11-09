@@ -2113,6 +2113,9 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 			rfm22_synchronizeClock(radio_dev);
 			radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
 			radio_dev->on_sync_channel = false;
+		} else if (rfm22_isCoordinator(radio_dev) && radio_dev->channel_index == 0) {
+			radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
+			radio_dev->on_sync_channel = false;
 		}
 	} else {
 		ret_event = RADIO_EVENT_RX_COMPLETE;
@@ -2399,9 +2402,7 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev,
 
 		// If the on_sync_channel flag is set, it means that we were on the sync channel, but no packet was
 		// received, so transition to a non-connected state.
-		if (!rfm22_isCoordinator(rfm22b_dev)
-		    && (rfm22b_dev->channel_index == 0)
-		    && rfm22b_dev->on_sync_channel) {
+		if ((rfm22b_dev->channel_index == 0) && rfm22b_dev->on_sync_channel) {
 
 			rfm22b_dev->on_sync_channel = false;
 
@@ -2413,8 +2414,11 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev,
 					rfm22b_dev->ppm[i] = PIOS_RCVR_TIMEOUT;
 				}
 			}
-			// Stay on the sync channel.
-			idx = 0;
+
+			// Stay on the sync channel if not coordinator
+			if (!rfm22_isCoordinator(rfm22b_dev))
+				idx = 0;
+
 		} else if (idx == 0) {
 			// If we're switching to the sync channel, set a flag that can be used to detect if a packet was received.
 			rfm22b_dev->on_sync_channel = true;
