@@ -1,5 +1,5 @@
 TEMPLATE = lib
-TARGET = TheBrainFPV
+TARGET = BrainFPV
 include(../../taulabsgcsplugin.pri)
 include(../../plugins/uavobjects/uavobjects.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
