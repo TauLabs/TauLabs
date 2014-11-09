@@ -880,7 +880,7 @@ bool PIOS_RFM22B_TransmitPacket(uint32_t rfm22b_id, uint8_t * p,
 
 	rfm22b_dev->tx_packet_handle = p;
 	rfm22b_dev->stats.tx_byte_count += len;
-	rfm22b_dev->packet_start_ticks = xTaskGetTickCount();
+	rfm22b_dev->packet_start_ticks = PIOS_Thread_Systime();
 	if (rfm22b_dev->packet_start_ticks == 0) {
 		rfm22b_dev->packet_start_ticks = 1;
 	}
@@ -1129,7 +1129,7 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 #ifdef PIOS_RFM22B_DEBUG_ON_TELEM
 		D2_LED_ON;
 #endif // PIOS_RFM22B_DEBUG_ON_TELEM
-		rfm22b_dev->packet_start_ticks = xTaskGetTickCount();
+		rfm22b_dev->packet_start_ticks = PIOS_Thread_Systime();
 		if (rfm22b_dev->packet_start_ticks == 0) {
 			rfm22b_dev->packet_start_ticks = 1;
 		}
@@ -1261,7 +1261,7 @@ static void pios_rfm22_task(void *parameters)
 	if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
 		return;
 	}
-	uint32_t lastEventTicks = PIOS_Thread_Systime();
+	uint32_t lastEventTime_ms = PIOS_Thread_Systime();
 
 	while (1) {
 #if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
@@ -1270,9 +1270,8 @@ static void pios_rfm22_task(void *parameters)
 #endif /* PIOS_WDG_RFM22B */
 
 		// Wait for a signal indicating an external interrupt or a pending send/receive request.
-		if (PIOS_Semaphore_Take(rfm22b_dev->isrPending,
-		     ISR_TIMEOUT / portTICK_RATE_MS) == true) {
-			lastEventTicks = xTaskGetTickCount();
+		if (PIOS_Semaphore_Take(rfm22b_dev->isrPending, ISR_TIMEOUT) == true) {
+			lastEventTime_ms = PIOS_Thread_Systime();
 
 			// Process events through the state machine.
 			enum pios_radio_event event;
@@ -1289,16 +1288,14 @@ static void pios_rfm22_task(void *parameters)
 			}
 		} else {
 			// Has it been too long since the last event?
-			uint32_t curTicks = PIOS_Thread_Systime();
-			if (pios_rfm22_time_difference_ms
-			    (lastEventTicks,
-			     curTicks) > PIOS_RFM22B_SUPERVISOR_TIMEOUT) {
+			uint32_t curTime_ms = PIOS_Thread_Systime();
+			if (pios_rfm22_time_difference_ms(lastEventTime_ms, curTime_ms) > PIOS_RFM22B_SUPERVISOR_TIMEOUT) {
 				// Clear the event queue.
 				enum pios_radio_event event;
 				while (PIOS_Queue_Receive(rfm22b_dev->eventQueue, &event, 0)) {
 					// Do nothing;
 				}
-				lastEventTicks = PIOS_Thread_Systime();
+				lastEventTime_ms = PIOS_Thread_Systime();
 
 				// Transsition through an error event.
 				rfm22_process_event(rfm22b_dev, RADIO_EVENT_ERROR);
@@ -1310,15 +1307,11 @@ static void pios_rfm22_task(void *parameters)
 			rfm22_process_event(rfm22b_dev, RADIO_EVENT_RX_MODE);
 		}
 
-		uint32_t curTicks = PIOS_Thread_Systime();
 		// Have we been sending / receiving this packet too long?
-
+		uint32_t curTime_ms = PIOS_Thread_Systime();
 		if ((rfm22b_dev->packet_start_ticks > 0) &&
-		    (pios_rfm22_time_difference_ms
-		     (rfm22b_dev->packet_start_ticks,
-		      curTicks) > (rfm22b_dev->packet_time * 3))) {
-			rfm22_process_event(rfm22b_dev,
-					    RADIO_EVENT_TIMEOUT);
+		    (pios_rfm22_time_difference_ms(rfm22b_dev->packet_start_ticks, curTime_ms) > (rfm22b_dev->packet_time * 3))) {
+			rfm22_process_event(rfm22b_dev, RADIO_EVENT_TIMEOUT);
 		}
 		// Start transmitting a packet if it's time.
 		bool time_to_send = rfm22_timeToSend(rfm22b_dev);
@@ -2026,7 +2019,7 @@ static enum pios_radio_event radio_txData(struct pios_rfm22b_dev
 
 	// Is the transmition complete
 	if (res == PIOS_RFM22B_TX_COMPLETE) {
-		radio_dev->tx_complete_ticks = xTaskGetTickCount();
+		radio_dev->tx_complete_ticks = PIOS_Thread_Systime();
 
 		// Is this an ACK?
 		ret_event = RADIO_EVENT_RX_MODE;
@@ -2423,7 +2416,7 @@ static uint32_t rfm22_coordinatorTime(struct pios_rfm22b_dev
  */
 static bool rfm22_timeToSend(struct pios_rfm22b_dev *rfm22b_dev)
 {
-	uint32_t time = rfm22_coordinatorTime(rfm22b_dev, xTaskGetTickCount());
+	uint32_t time = rfm22_coordinatorTime(rfm22b_dev, PIOS_Thread_Systime());
 	bool is_coordinator = rfm22_isCoordinator(rfm22b_dev);
 
 	// If this is a one-way link, only the coordinator can send.
@@ -2497,7 +2490,7 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev,
 static uint8_t rfm22_calcChannelFromClock(struct pios_rfm22b_dev
 					  *rfm22b_dev)
 {
-	uint32_t time = rfm22_coordinatorTime(rfm22b_dev, xTaskGetTickCount());
+	uint32_t time = rfm22_coordinatorTime(rfm22b_dev, PIOS_Thread_Systime());
 	// Divide time into 8ms blocks.  Coordinator sends in first 2 ms, and remote send in 5th and 6th ms.
 	// Channel changes occur in the last 2 ms.
 	uint8_t num_chan = num_channels[rfm22b_dev->datarate];
