@@ -36,6 +36,24 @@ ifdef LINUX
   endif
 endif
 
+# Set variables for Android SDK
+# ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-macosx
+# android_sdk_install: ANDROID_SDK_URL  := http://dl.google.com/android/android-sdk_r23.0.2-macosx.zip
+ifdef MACOSX
+  ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-macosx
+  ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-macosx.zip
+else
+
+ifdef LINUX
+  ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-linux
+  ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
+else
+
+ifdef WINDOWS
+  ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-windows
+  ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-windows.zip
+else
+
 # Build openocd without FTDI (yes | no)
 OPENOCD_FTDI ?= yes
 
@@ -341,9 +359,7 @@ dfuutil_clean:
 	$(V1) [ ! -d "$(DFUUTIL_DIR)" ] || $(RM) -r "$(DFUUTIL_DIR)"
 
 # see http://developer.android.com/sdk/ for latest versions
-ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-linux
 .PHONY: android_sdk_install
-android_sdk_install: ANDROID_SDK_URL  := http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
 android_sdk_install: ANDROID_SDK_FILE := $(notdir $(ANDROID_SDK_URL))
 # order-only prereq on directory existance:
 android_sdk_install: | $(DL_DIR) $(TOOLS_DIR)
