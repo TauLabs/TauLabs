@@ -788,8 +788,6 @@ void PIOS_Board_Init(void) {
 
 	// Initialize out status object.
 	rfm22bstatus.BoardType     = bdinfo->board_type;
-	PIOS_BL_HELPER_FLASH_Read_Description(rfm22bstatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
-	PIOS_SYS_SerialNumberGetBinary(rfm22bstatus.CPUSerial);
 	rfm22bstatus.BoardRevision = bdinfo->board_rev;
 
 	if (hwSparky2.Radio == HWSPARKY2_RADIO_DISABLED || hwSparky2.MaxRfPower == HWSPARKY2_MAXRFPOWER_0) {
