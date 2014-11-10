@@ -363,9 +363,6 @@ static void updateRfm22bStats() {
         RFM22BStatusInstGet(1,&rfm22bStatus);
 
         if (pios_rfm22b_id) {
-            // Get the other device stats.
-            PIOS_RFM2B_GetPairStats(pios_rfm22b_id, rfm22bStatus.PairIDs, rfm22bStatus.PairSignalStrengths, RFM22BSTATUS_PAIRIDS_NUMELEM);
-
             // Get the stats from the radio device
             struct rfm22b_stats radio_stats;
             PIOS_RFM22B_GetStats(pios_rfm22b_id, &radio_stats);

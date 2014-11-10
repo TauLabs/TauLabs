@@ -586,13 +586,6 @@ enum pios_rfm22b_rx_packet_status {
 	RADIO_RESENT_TX_PACKET = 0x03
 };
 
-typedef struct {
-	uint32_t pairID;
-	int8_t rssi;
-	int8_t afc_correction;
-	uint8_t lastContact;
-} rfm22b_pair_stats;
-
 enum pios_rfm22b_chip_power_state {
 	RFM22B_IDLE_STATE = 0x00,
 	RFM22B_RX_STATE = 0x01,
@@ -684,9 +677,6 @@ struct pios_rfm22b_dev {
 
 	// The task handle
 	struct pios_thread *taskHandle;
-
-	// The potential paired statistics
-	rfm22b_pair_stats pair_stats[RFM22BSTATUS_PAIRIDS_NUMELEM];
 
 	// ISR pending semaphore
 	struct pios_semaphore *isrPending;

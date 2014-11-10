@@ -229,7 +229,6 @@ static enum pios_radio_event rfm22_fatal_error(struct pios_rfm22b_dev *rfm22b_de
 static void rfm22b_add_rx_status(struct pios_rfm22b_dev *rfm22b_dev, enum pios_rfm22b_rx_packet_status status);
 static void rfm22_setNominalCarrierFrequency(struct pios_rfm22b_dev *rfm22b_dev, uint8_t init_chan);
 static bool rfm22_setFreqHopChannel(struct pios_rfm22b_dev *rfm22b_dev, uint8_t channel);
-static void rfm22_updatePairStatus(struct pios_rfm22b_dev *radio_dev);
 static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev);
 static bool rfm22_isConnected(struct pios_rfm22b_dev *rfm22b_dev);
 static bool rfm22_isCoordinator(struct pios_rfm22b_dev *rfm22b_dev);
@@ -725,34 +724,6 @@ void PIOS_RFM22B_GetStats(uint32_t rfm22b_id, struct rfm22b_stats *stats)
 }
 
 /**
- * Get the stats of the oter radio devices that are in range.
- *
- * @param[out] device_ids  A pointer to the array to store the device IDs.
- * @param[out] RSSIs  A pointer to the array to store the RSSI values in.
- * @param[in] mx_pairs  The length of the pdevice_ids and RSSIs arrays.
- * @return  The number of pair stats returned.
- */
-uint8_t PIOS_RFM2B_GetPairStats(uint32_t rfm22b_id, uint32_t * device_ids,
-				int8_t * RSSIs, uint8_t max_pairs)
-{
-	struct pios_rfm22b_dev *rfm22b_dev =
-	    (struct pios_rfm22b_dev *)rfm22b_id;
-
-	if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
-		return 0;
-	}
-
-	uint8_t mp = (max_pairs >= RFM22BSTATUS_PAIRIDS_NUMELEM) ? max_pairs :
-	    RFM22BSTATUS_PAIRIDS_NUMELEM;
-	for (uint8_t i = 0; i < mp; ++i) {
-		device_ids[i] = rfm22b_dev->pair_stats[i].pairID;
-		RSSIs[i] = rfm22b_dev->pair_stats[i].rssi;
-	}
-
-	return mp;
-}
-
-/**
  * Check the radio device for a valid connection
  *
  * @param[in] rfm22b_id  The rfm22b device.
@@ -1046,9 +1017,6 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 		}
 		// Increment the total byte received count.
 		rfm22b_dev->stats.rx_byte_count += rfm22b_dev->rx_buffer_wr;
-
-		// Update the pair status with this packet.
-		rfm22_updatePairStatus(rfm22b_dev);
 
 		// We're finished with Rx mode
 		rfm22b_dev->rfm22b_state = RFM22B_STATE_TRANSITION;
@@ -1411,14 +1379,6 @@ static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 
 	// Clean the LEDs
 	rfm22_clearLEDs();
-
-	// Initialize the detected device statistics.
-	for (uint8_t i = 0; i < RFM22BSTATUS_PAIRIDS_NUMELEM; ++i) {
-		rfm22b_dev->pair_stats[i].pairID = 0;
-		rfm22b_dev->pair_stats[i].rssi = -127;
-		rfm22b_dev->pair_stats[i].afc_correction = 0;
-		rfm22b_dev->pair_stats[i].lastContact = 0;
-	}
 
 	// Initlize the link stats.
 	for (uint8_t i = 0; i < RFM22B_RX_PACKET_STATS_LEN; ++i) {
@@ -2169,52 +2129,6 @@ static enum pios_radio_event radio_rxData(struct pios_rfm22b_dev
 /*****************************************************************************
 * Link Statistics Functions
 *****************************************************************************/
-
-/**
- * Update the modem pair status.
- *
- * @param[in] rfm22b_dev  The device structure
- */
-static void rfm22_updatePairStatus(struct pios_rfm22b_dev *radio_dev)
-{
-	int8_t rssi = radio_dev->rssi_dBm;
-	int8_t afc = radio_dev->afc_correction_Hz;
-	uint32_t id = radio_dev->rx_destination_id;
-
-	// Have we seen this device recently?
-	bool found = false;
-	uint8_t id_idx = 0;
-
-	for (; id_idx < RFM22BSTATUS_PAIRIDS_NUMELEM; ++id_idx) {
-		if (radio_dev->pair_stats[id_idx].pairID == id) {
-			found = true;
-			break;
-		}
-	}
-
-	// If we have seen it, update the RSSI and reset the last contact counter
-	if (found) {
-		radio_dev->pair_stats[id_idx].rssi = rssi;
-		radio_dev->pair_stats[id_idx].afc_correction = afc;
-		radio_dev->pair_stats[id_idx].lastContact = 0;
-	} else {
-		// If we haven't seen it, find a slot to put it in.
-		uint8_t min_idx = 0;
-		int8_t min_rssi = radio_dev->pair_stats[0].rssi;
-		for (id_idx = 1; id_idx < RFM22BSTATUS_PAIRIDS_NUMELEM;
-		     ++id_idx) {
-			if (radio_dev->pair_stats[id_idx].rssi < min_rssi) {
-				min_rssi =
-				    radio_dev->pair_stats[id_idx].rssi;
-				min_idx = id_idx;
-			}
-		}
-		radio_dev->pair_stats[min_idx].pairID = id;
-		radio_dev->pair_stats[min_idx].rssi = rssi;
-		radio_dev->pair_stats[min_idx].afc_correction = afc;
-		radio_dev->pair_stats[min_idx].lastContact = 0;
-	}
-}
 
 /**
  * Calculate the link quality from the packet receipt, tranmittion statistics.
