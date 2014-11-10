@@ -2405,6 +2405,9 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev,
 		// received, so transition to a non-connected state.
 		if ((rfm22b_dev->channel_index == 0) && rfm22b_dev->on_sync_channel) {
 
+			// track that a sync packet was misssed (error)
+			rfm22b_add_rx_status(rfm22b_dev, RADIO_ERROR_RX_PACKET);
+
 			rfm22b_dev->on_sync_channel = false;
 
 			// Set the link state to disconnected.
