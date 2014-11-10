@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>522</width>
-    <height>607</height>
+    <height>302</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,174 +33,6 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QGroupBox" name="groupBox_2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="title">
-            <string>Pairing</string>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_3">
-            <item row="3" column="0">
-             <widget class="QLineEdit" name="PairID4">
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="2">
-             <widget class="QLabel" name="PairSignalStrengthLabel4">
-              <property name="text">
-               <string>-100dB</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="2">
-             <widget class="QLabel" name="PairSignalStrengthLabel3">
-              <property name="text">
-               <string>-100dB</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QLabel" name="PairSignalStrengthLabel2">
-              <property name="text">
-               <string>-100dB</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLineEdit" name="PairID3">
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QProgressBar" name="PairSignalStrengthBar4">
-              <property name="minimum">
-               <number>-127</number>
-              </property>
-              <property name="maximum">
-               <number>0</number>
-              </property>
-              <property name="value">
-               <number>0</number>
-              </property>
-              <property name="textVisible">
-               <bool>false</bool>
-              </property>
-              <property name="format">
-               <string>%v dBm</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QProgressBar" name="PairSignalStrengthBar3">
-              <property name="minimum">
-               <number>-127</number>
-              </property>
-              <property name="maximum">
-               <number>0</number>
-              </property>
-              <property name="value">
-               <number>0</number>
-              </property>
-              <property name="textVisible">
-               <bool>false</bool>
-              </property>
-              <property name="format">
-               <string>%v dBm</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QProgressBar" name="PairSignalStrengthBar1">
-              <property name="minimum">
-               <number>-127</number>
-              </property>
-              <property name="maximum">
-               <number>0</number>
-              </property>
-              <property name="value">
-               <number>-127</number>
-              </property>
-              <property name="textVisible">
-               <bool>false</bool>
-              </property>
-              <property name="format">
-               <string>%v dBm</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLineEdit" name="PairID2">
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QLabel" name="PairSignalStrengthLabel1">
-              <property name="text">
-               <string>-100dB</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLineEdit" name="PairID1">
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="placeholderText">
-               <string>12345678</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QProgressBar" name="PairSignalStrengthBar2">
-              <property name="minimum">
-               <number>-127</number>
-              </property>
-              <property name="maximum">
-               <number>0</number>
-              </property>
-              <property name="value">
-               <number>0</number>
-              </property>
-              <property name="textVisible">
-               <bool>false</bool>
-              </property>
-              <property name="format">
-               <string>%v dBm</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
           <widget class="QGroupBox" name="groupBox_3">
            <property name="minimumSize">
             <size>
@@ -218,14 +50,240 @@
             <string>Status</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_4">
-            <item row="0" column="3">
-             <widget class="QLineEdit" name="TXRate">
+            <item row="4" column="2">
+             <widget class="QLabel" name="ErrorsLabel">
+              <property name="text">
+               <string>RX Errors</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="3">
+             <widget class="QLineEdit" name="Good">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>0</width>
                 <height>0</height>
                </size>
               </property>
+              <property name="maximumSize">
+               <size>
+                <width>101</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="toolTip">
+               <string>The percentage of packets that were corrected with error correction</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit {
+  border: none;
+  border-radius: 1px;
+  padding: 0 4px;
+  background: rgba(0, 0, 0, 16);
+/*  background: transparent; */
+/*     selection-background-color: darkgray;*/
+}</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="DeviceIDLabel">
+              <property name="text">
+               <string>Device ID</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLabel" name="GoodLabel">
+              <property name="text">
+               <string>RX Good</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="3">
+             <widget class="QLineEdit" name="Errors">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>101</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="toolTip">
+               <string>The percentage of packets that could not be corrected with error correction</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit {
+  border: none;
+  border-radius: 1px;
+  padding: 0 4px;
+  background: rgba(0, 0, 0, 16);
+/*  background: transparent; */
+/*     selection-background-color: darkgray;*/
+}</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="3">
+             <widget class="QLineEdit" name="RxFailure">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>101</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="toolTip">
+               <string>The percentage of packets that were not received at all</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit {
+  border: none;
+  border-radius: 1px;
+  padding: 0 4px;
+  background: rgba(0, 0, 0, 16);
+/*  background: transparent; */
+/*     selection-background-color: darkgray;*/
+}</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="3">
+             <widget class="QLineEdit" name="Corrected">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>101</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="toolTip">
+               <string>The percentage of packets that were corrected with error correction</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit {
+  border: none;
+  border-radius: 1px;
+  padding: 0 4px;
+  background: rgba(0, 0, 0, 16);
+/*  background: transparent; */
+/*     selection-background-color: darkgray;*/
+}</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="2">
+             <widget class="QLabel" name="RxFailureLabel">
+              <property name="text">
+               <string>RX Failure</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="LinkQualityLabel">
+              <property name="text">
+               <string>Link Quality</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QLineEdit" name="LinkQuality">
               <property name="maximumSize">
                <size>
                 <width>101</width>
@@ -250,93 +308,6 @@
               </property>
               <property name="frame">
                <bool>false</bool>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="RXRate">
-              <property name="maximumSize">
-               <size>
-                <width>101</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
-  border: none;
-  border-radius: 1px;
-  padding: 0 4px;
-  background: rgba(0, 0, 0, 16);
-/*  background: transparent; */
-/*     selection-background-color: darkgray;*/
-}</string>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="RXRateLabel">
-              <property name="text">
-               <string>RX Rate (B/s)</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="RSSILabel">
-              <property name="text">
-               <string>RSSI</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLineEdit" name="RSSI">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>101</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
-  border: none;
-  border-radius: 1px;
-  padding: 0 4px;
-  background: rgba(0, 0, 0, 16);
-/*  background: transparent; */
-/*     selection-background-color: darkgray;*/
-}</string>
               </property>
               <property name="readOnly">
                <bool>true</bool>
@@ -393,8 +364,63 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="3">
-             <widget class="QLineEdit" name="LinkQuality">
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="RSSI">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>101</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit {
+  border: none;
+  border-radius: 1px;
+  padding: 0 4px;
+  background: rgba(0, 0, 0, 16);
+/*  background: transparent; */
+/*     selection-background-color: darkgray;*/
+}</string>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="RSSILabel">
+              <property name="text">
+               <string>RSSI</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="RXRateLabel">
+              <property name="text">
+               <string>RX Rate (B/s)</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="RXRate">
               <property name="maximumSize">
                <size>
                 <width>101</width>
@@ -425,44 +451,8 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="2">
-             <widget class="QLabel" name="LinkQualityLabel">
-              <property name="text">
-               <string>Link Quality</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="2">
-             <widget class="QLabel" name="RxFailureLabel">
-              <property name="text">
-               <string>RX Failure</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_9">
-              <property name="text">
-               <string>Firmware Ver.</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="3">
-             <widget class="QLineEdit" name="Corrected">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
+            <item row="0" column="3">
+             <widget class="QLineEdit" name="TXRate">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -481,9 +471,6 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="toolTip">
-               <string>The percentage of packets that were corrected with error correction</string>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
   border: none;
@@ -494,28 +481,16 @@
 /*     selection-background-color: darkgray;*/
 }</string>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              <property name="frame">
+               <bool>false</bool>
               </property>
               <property name="readOnly">
                <bool>true</bool>
               </property>
              </widget>
             </item>
-            <item row="7" column="3">
-             <widget class="QLineEdit" name="RxFailure">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="Timeouts">
               <property name="maximumSize">
                <size>
                 <width>101</width>
@@ -528,9 +503,6 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="toolTip">
-               <string>The percentage of packets that were not received at all</string>
-              </property>
               <property name="styleSheet">
                <string notr="true">QLineEdit {
   border: none;
@@ -541,126 +513,18 @@
 /*     selection-background-color: darkgray;*/
 }</string>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              <property name="frame">
+               <bool>false</bool>
               </property>
               <property name="readOnly">
                <bool>true</bool>
               </property>
              </widget>
             </item>
-            <item row="6" column="3">
-             <widget class="QLineEdit" name="Errors">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>101</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="toolTip">
-               <string>The percentage of packets that could not be corrected with error correction</string>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
-  border: none;
-  border-radius: 1px;
-  padding: 0 4px;
-  background: rgba(0, 0, 0, 16);
-/*  background: transparent; */
-/*     selection-background-color: darkgray;*/
-}</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="2">
-             <widget class="QLabel" name="GoodLabel">
+            <item row="5" column="0">
+             <widget class="QLabel" name="TimeoutsLabel">
               <property name="text">
-               <string>RX Good</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="DeviceIDLabel">
-              <property name="text">
-               <string>Device ID</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="3">
-             <widget class="QLineEdit" name="Good">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>101</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="toolTip">
-               <string>The percentage of packets that were corrected with error correction</string>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
-  border: none;
-  border-radius: 1px;
-  padding: 0 4px;
-  background: rgba(0, 0, 0, 16);
-/*  background: transparent; */
-/*     selection-background-color: darkgray;*/
-}</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="2">
-             <widget class="QLabel" name="ErrorsLabel">
-              <property name="text">
-               <string>RX Errors</string>
+               <string>Timeouts</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -668,6 +532,74 @@
              </widget>
             </item>
             <item row="4" column="1">
+             <widget class="QLineEdit" name="Resets">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>101</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit {
+  border: none;
+  border-radius: 1px;
+  padding: 0 4px;
+  background: rgba(0, 0, 0, 16);
+/*  background: transparent; */
+/*     selection-background-color: darkgray;*/
+}</string>
+              </property>
+              <property name="frame">
+               <bool>false</bool>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QLabel" name="CorrectedLabel">
+              <property name="text">
+               <string>RX Corrected</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="TXRateLabel">
+              <property name="text">
+               <string>TX Rate (B/s)</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="ResetsLabel">
+              <property name="text">
+               <string>Resets</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
              <widget class="QLineEdit" name="DeviceID">
               <property name="minimumSize">
                <size>
@@ -711,26 +643,6 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>Serial Number</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QLabel" name="TXRateLabel">
-              <property name="text">
-               <string>TX Rate (B/s)</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_11">
               <property name="text">
@@ -738,198 +650,6 @@
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1" colspan="3">
-             <widget class="QLineEdit" name="SerialNumber">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <italic>false</italic>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="acceptDrops">
-               <bool>false</bool>
-              </property>
-              <property name="toolTip">
-               <string>The modems serial number</string>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
-  border: none;
-  border-radius: 1px;
-  padding: 0 4px;
-  background: rgba(0, 0, 0, 16);
-/*  background: transparent; */
-/*     selection-background-color: darkgray;*/
-}</string>
-              </property>
-              <property name="frame">
-               <bool>true</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="2">
-             <widget class="QLabel" name="CorrectedLabel">
-              <property name="text">
-               <string>RX Corrected</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1" colspan="3">
-             <widget class="QLineEdit" name="FirmwareVersion">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
-  border: none;
-  border-radius: 1px;
-  padding: 0 4px;
-  background: rgba(0, 0, 0, 16);
-/*  background: transparent; */
-/*     selection-background-color: darkgray;*/
-}</string>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="ResetsLabel">
-              <property name="text">
-               <string>Resets</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLineEdit" name="Resets">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>101</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
-  border: none;
-  border-radius: 1px;
-  padding: 0 4px;
-  background: rgba(0, 0, 0, 16);
-/*  background: transparent; */
-/*     selection-background-color: darkgray;*/
-}</string>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="0">
-             <widget class="QLabel" name="TimeoutsLabel">
-              <property name="text">
-               <string>Timeouts</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <widget class="QLineEdit" name="Timeouts">
-              <property name="maximumSize">
-               <size>
-                <width>101</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit {
-  border: none;
-  border-radius: 1px;
-  padding: 0 4px;
-  background: rgba(0, 0, 0, 16);
-/*  background: transparent; */
-/*     selection-background-color: darkgray;*/
-}</string>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -945,12 +665,6 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>PairID1</tabstop>
-  <tabstop>PairID2</tabstop>
-  <tabstop>PairID3</tabstop>
-  <tabstop>PairID4</tabstop>
-  <tabstop>FirmwareVersion</tabstop>
-  <tabstop>SerialNumber</tabstop>
   <tabstop>DeviceID</tabstop>
   <tabstop>Errors</tabstop>
  </tabstops>
