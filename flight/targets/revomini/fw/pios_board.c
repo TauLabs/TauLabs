@@ -791,12 +791,8 @@ void PIOS_Board_Init(void) {
 
 	} else {
 
-		// currently you can not receive PPM packets when using the flight
-		// controller as a coordinator.
-		bool is_coordinator = hwRevoMini.Radio == HWREVOMINI_RADIO_TELEMCOORD;
-
 		// always allow receiving PPM when radio is on
-		bool ppm_mode    = hwRevoMini.Radio != HWREVOMINI_RADIO_DISABLED;
+		bool ppm_mode    = hwRevoMini.Radio == HWREVOMINI_RADIO_TELEMPPM || hwRevoMini.Radio == HWREVOMINI_RADIO_PPM;
 		bool ppm_only    = hwRevoMini.Radio == HWREVOMINI_RADIO_PPM;
 		bool is_oneway   = false; // does not matter for this side
 
@@ -845,8 +841,7 @@ void PIOS_Board_Init(void) {
 		}
 
 		/* Set the radio configuration parameters. */
-		PIOS_RFM22B_SetChannelConfig(pios_rfm22b_id, datarate, hwRevoMini.MinChannel, hwRevoMini.MaxChannel, hwRevoMini.ChannelSet, is_coordinator, is_oneway, ppm_mode, ppm_only);
-		PIOS_RFM22B_SetCoordinatorID(pios_rfm22b_id, hwRevoMini.CoordID);
+		PIOS_RFM22B_Config(pios_rfm22b_id, datarate, hwRevoMini.MinChannel, hwRevoMini.MaxChannel, hwRevoMini.CoordID, is_oneway, ppm_mode, ppm_only);
 
 		/* Set the modem Tx poer level */
 		switch (hwRevoMini.MaxRfPower) {
