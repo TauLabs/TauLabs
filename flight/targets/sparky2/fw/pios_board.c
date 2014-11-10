@@ -802,12 +802,8 @@ void PIOS_Board_Init(void) {
 
 	} else {
 
-		// currently you can not receive PPM packets when using the flight
-		// controller as a coordinator.
-		bool is_coordinator = hwSparky2.Radio == HWSPARKY2_RADIO_TELEMCOORD;
-
 		// always allow receiving PPM when radio is on
-		bool ppm_mode    = hwSparky2.Radio != HWSPARKY2_RADIO_DISABLED;
+		bool ppm_mode    = hwSparky2.Radio == HWSPARKY2_RADIO_TELEMPPM || hwSparky2.Radio == HWSPARKY2_RADIO_PPM;
 		bool ppm_only    = hwSparky2.Radio == HWSPARKY2_RADIO_PPM;
 		bool is_oneway   = false; // does not matter for this side
 
@@ -857,8 +853,7 @@ void PIOS_Board_Init(void) {
 		}
 
 		/* Set the radio configuration parameters. */
-		PIOS_RFM22B_SetChannelConfig(pios_rfm22b_id, datarate, hwSparky2.MinChannel, hwSparky2.MaxChannel, hwSparky2.ChannelSet, is_coordinator, is_oneway, ppm_mode, ppm_only);
-		PIOS_RFM22B_SetCoordinatorID(pios_rfm22b_id, hwSparky2.CoordID);
+		PIOS_RFM22B_Config(pios_rfm22b_id, datarate, hwSparky2.MinChannel, hwSparky2.MaxChannel, hwSparky2.CoordID, is_oneway, ppm_mode, ppm_only);
 
 		/* Set the modem Tx poer level */
 		switch (hwSparky2.MaxRfPower) {
