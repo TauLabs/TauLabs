@@ -777,8 +777,6 @@ void PIOS_Board_Init(void) {
 	HwRevoMiniGet(&hwRevoMini);
 
 	rfm22bstatus.BoardType     = bdinfo->board_type;
-	PIOS_BL_HELPER_FLASH_Read_Description(rfm22bstatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
-	PIOS_SYS_SerialNumberGetBinary(rfm22bstatus.CPUSerial);
 	rfm22bstatus.BoardRevision = bdinfo->board_rev;
 
 	if (hwRevoMini.Radio == HWREVOMINI_RADIO_DISABLED || hwRevoMini.MaxRfPower == HWREVOMINI_MAXRFPOWER_0) {
