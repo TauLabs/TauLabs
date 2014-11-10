@@ -463,8 +463,9 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 						serial_no_str[i]);
 		}
 	}
-	rfm22b_dev->deviceID =
-	    crcs[0] | crcs[1] << 8 | crcs[2] << 16 | crcs[3] << 24;
+	rfm22b_dev->deviceID = crcs[0] | crcs[1] << 8 | crcs[2] << 16 | crcs[3] << 24;
+	if (rfm22b_dev->deviceID == 0)
+		rfm22b_dev->deviceID = 1;
 	DEBUG_PRINTF(2, "RF device ID: %x\n\r", rfm22b_dev->deviceID);
 
 	// Initialize the external interrupt.
