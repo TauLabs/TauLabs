@@ -194,21 +194,6 @@ static const uint8_t OUT_FF[64] = {
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 };
 
-// The randomized channel list.
-static const uint8_t channel_list[] = {
-    68,  34,  2,   184, 166, 94,  204, 18,  47,  118, 239, 176, 5,   213, 218, 186, 104, 160, 199, 209, 231, 197, 92,
-    191, 88,  129, 40,  19,  93,  200, 156, 14,  247, 182, 193, 194, 208, 210, 248, 76,  244, 48,  179, 105, 25,  74,
-    155, 203, 39,  97,  195, 81,  83,  180, 134, 172, 235, 132, 198, 119, 207, 154, 0,   61,  140, 171, 245, 26,  95,
-    3,   22,  62,  169, 55,  127, 144, 45,  33,  170, 91,  158, 167, 63,  201, 41,  21,  190, 51,  103, 49,  189, 205,
-    240, 89,  181, 149, 6,   157, 249, 230, 115, 72,  163, 17,  29,  99,  28,  117, 219, 73,  78,  53,  69,  216, 161,
-    124, 110, 242, 214, 145, 13,  11,  220, 113, 138, 58,  54,  162, 237, 37,  152, 187, 232, 77,  126, 85,  38,  238,
-    173, 23,  188, 100, 131, 226, 31,  9,   114, 106, 221, 42,  233, 139, 4,   241, 96,  211, 8,   98,  121, 147, 24,
-    217, 27,  87,  122, 125, 135, 148, 178, 71,  206, 57,  141, 35,  30,  246, 159, 16,  32,  15,  229, 20,  12,  223,
-    150, 101, 79,  56,  102, 111, 174, 236, 137, 143, 52,  225, 64,  224, 112, 168, 243, 130, 108, 202, 123, 146, 228,
-    75,  46,  153, 7,   192, 175, 151, 222, 59,  82,  90,  1,   65,  109, 44,  165, 84,  43,  36,  128, 196, 67,  80,
-    136, 86,  70,  234, 66,  185, 10,  164, 177, 116, 50,  107, 183, 215, 212, 60,  227, 133, 120, 14
-};
-
 /* Local function forwared declarations */
 static void pios_rfm22_task(void *parameters);
 static bool pios_rfm22_readStatus(struct pios_rfm22b_dev *rfm22b_dev);
@@ -450,12 +435,11 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 	rfm22b_dev->stats.rssi = 0;
 
 	// Initialize the channels.
-	PIOS_RFM22B_SetChannelConfig(*rfm22b_id,
+	PIOS_RFM22B_Config(*rfm22b_id,
 				     RFM22B_DEFAULT_RX_DATARATE,
 				     RFM22B_DEFAULT_MIN_CHANNEL,
 				     RFM22B_DEFAULT_MAX_CHANNEL,
-				     RFM22B_DEFAULT_CHANNEL_SET, false,
-				     false, false, false);
+				     0, false, false, false);
 
 	// Create the event queue
 	rfm22b_dev->eventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(enum pios_radio_event));
@@ -596,23 +580,28 @@ void PIOS_RFM22B_SetTxPower(uint32_t rfm22b_id,
  * @param[in] ppm_mode Should this modem send/receive ppm packets?
  * @param[in] oneway Only the coordinator can send packets if true.
  */
-void PIOS_RFM22B_SetChannelConfig(uint32_t rfm22b_id,
+void PIOS_RFM22B_Config(uint32_t rfm22b_id,
 				  enum rfm22b_datarate datarate,
 				  uint8_t min_chan, uint8_t max_chan,
-				  uint8_t chan_set, bool coordinator,
+				  uint32_t coordinator_id,
 				  bool oneway, bool ppm_mode,
 				  bool ppm_only)
 {
-	struct pios_rfm22b_dev *rfm22b_dev =
-	    (struct pios_rfm22b_dev *)rfm22b_id;
+	struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)rfm22b_id;
 
 	if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
 		return;
 	}
+
+	bool coordinator = coordinator_id == 0;
+
 	ppm_mode = ppm_mode || ppm_only;
 	rfm22b_dev->coordinator = coordinator;
+	rfm22b_dev->coordinatorID = coordinator_id;
 	rfm22b_dev->ppm_send_mode = ppm_mode && coordinator;
 	rfm22b_dev->ppm_recv_mode = ppm_mode && !coordinator;
+
+	// If datarate is so slow that we can only do PPM, force this
 	if (ppm_mode && (datarate <= RFM22B_PPM_ONLY_DATARATE)) {
 		ppm_only = true;
 	}
@@ -622,7 +611,7 @@ void PIOS_RFM22B_SetChannelConfig(uint32_t rfm22b_id,
 		datarate = RFM22B_PPM_ONLY_DATARATE;
 		rfm22b_dev->datarate = RFM22B_PPM_ONLY_DATARATE;
 	} else {
-		rfm22b_dev->one_way_link = oneway;
+		rfm22b_dev->one_way_link = false;
 		rfm22b_dev->datarate = datarate;
 	}
 
@@ -631,11 +620,25 @@ void PIOS_RFM22B_SetChannelConfig(uint32_t rfm22b_id,
 		rfm22b_dev->packet_time *= 2;  // double the time to allow a send and receive in each slice
 
 	// Find the first N channels that meet the min/max criteria out of the random channel list.
+	uint32_t crc = 0;
+	const uint8_t CRC_INC = 0x39;
+	if (coordinator) {
+		crc = PIOS_CRC_updateByte(rfm22b_dev->deviceID, CRC_INC);
+	} else {
+		crc = PIOS_CRC_updateByte(rfm22b_dev->coordinatorID, CRC_INC);
+	}
+
 	uint8_t num_found = 0;
-	for (uint16_t i = 0; (i < RFM22B_NUM_CHANNELS) && (num_found < num_channels[datarate]); ++i) {
-		uint8_t idx = (i + chan_set) % RFM22B_NUM_CHANNELS;
-		uint8_t chan = channel_list[idx];
-		if ((chan >= min_chan) && (chan <= max_chan)) {
+	while (num_found < num_channels[datarate]) {
+		crc = PIOS_CRC_updateByte(crc, CRC_INC);
+		uint8_t chan = min_chan + (crc % (max_chan - min_chan));
+
+		if (chan < RFM22B_NUM_CHANNELS) {
+			// skip any duplicates
+			for (int32_t i = 0; i < num_found; i++) {
+				if (rfm22b_dev->channels[i] == chan)
+					continue;
+			}
 			rfm22b_dev->channels[num_found++] = chan;
 		}
 	}
@@ -654,22 +657,6 @@ void PIOS_RFM22B_SetChannelConfig(uint32_t rfm22b_id,
 }
 
 /**
- * Set a modem to be a coordinator or not.
- *
- * @param[in] rfm22b_id The RFM22B device index.
- * @param[in] coordinator If true, this modem will be configured as a coordinator.
- */
-extern void PIOS_RFM22B_SetCoordinator(uint32_t rfm22b_id,
-				       bool coordinator)
-{
-	struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)rfm22b_id;
-
-	if (PIOS_RFM22B_Validate(rfm22b_dev)) {
-		rfm22b_dev->coordinator = coordinator;
-	}
-}
-
-/**
  * Query if a modem is a coordinator
  * @param[in] rfm22b_id The RFM22B device index.
  * @returns True if coordinator, false if not
@@ -684,22 +671,6 @@ extern bool PIOS_RFM22B_IsCoordinator(uint32_t rfm22b_id)
 	}
 
 	return rfm22b_dev->coordinator;
-}
-
-/**
- * Sets the device coordinator ID.
- *
- * @param[in] rfm22b_id The RFM22B device index.
- * @param[in] coord_id The coordinator ID.
- */
-void PIOS_RFM22B_SetCoordinatorID(uint32_t rfm22b_id, uint32_t coord_id)
-{
-	struct pios_rfm22b_dev *rfm22b_dev =
-	    (struct pios_rfm22b_dev *)rfm22b_id;
-
-	if (PIOS_RFM22B_Validate(rfm22b_dev)) {
-		rfm22b_dev->coordinatorID = coord_id;
-	}
 }
 
 /**
