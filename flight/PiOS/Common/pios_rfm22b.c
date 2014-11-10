@@ -2231,7 +2231,8 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 	for (uint8_t i = 0; i < RFM22B_RX_PACKET_STATS_LEN; ++i) {
 		uint32_t val = rfm22b_dev->rx_packet_stats[i];
 		for (uint8_t j = 0; j < 16; ++j) {
-			switch ((val >> (j * 2)) & 0x3) {
+			enum pios_rfm22b_rx_packet_status status = (val >> (j * 2)) & 0x00000003;
+			switch (status) {
 			case RADIO_GOOD_RX_PACKET:
 				rfm22b_dev->stats.rx_good++;
 				break;
@@ -2279,7 +2280,7 @@ static void rfm22b_add_rx_status(struct pios_rfm22b_dev *rfm22b_dev,
 
 	// replace that value in the ring buffer with new status
 	rfm22b_dev->rx_packet_stats[rx_status_address] &= ~(0x00000003 << (rx_status_offset * 2));
-	rfm22b_dev->rx_packet_stats[rx_status_address] |= (status && 0x00000003) << (rx_status_offset * 2);
+	rfm22b_dev->rx_packet_stats[rx_status_address] |= ((status & 0x00000003) << (rx_status_offset * 2));
 
     rx_status_count++;
 }
