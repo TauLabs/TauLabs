@@ -582,8 +582,7 @@ enum pios_rfm22b_state {
 enum pios_rfm22b_rx_packet_status {
 	RADIO_GOOD_RX_PACKET = 0x00,
 	RADIO_CORRECTED_RX_PACKET = 0x01,
-	RADIO_ERROR_RX_PACKET = 0x02,
-	RADIO_RESENT_TX_PACKET = 0x03
+	RADIO_ERROR_RX_PACKET = 0x02
 };
 
 enum pios_rfm22b_chip_power_state {

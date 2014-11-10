@@ -2141,7 +2141,6 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 	rfm22b_dev->stats.rx_good = 0;
 	rfm22b_dev->stats.rx_corrected = 0;
 	rfm22b_dev->stats.rx_error = 0;
-	rfm22b_dev->stats.tx_resent = 0;
 	for (uint8_t i = 0; i < RFM22B_RX_PACKET_STATS_LEN; ++i) {
 		uint32_t val = rfm22b_dev->rx_packet_stats[i];
 		for (uint8_t j = 0; j < 16; ++j) {
@@ -2155,9 +2154,6 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 				break;
 			case RADIO_ERROR_RX_PACKET:
 				rfm22b_dev->stats.rx_error++;
-				break;
-			case RADIO_RESENT_TX_PACKET:
-				rfm22b_dev->stats.tx_resent++;
 				break;
 			}
 		}

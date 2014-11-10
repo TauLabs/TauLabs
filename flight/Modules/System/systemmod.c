@@ -377,7 +377,6 @@ static void updateRfm22bStats() {
             rfm22bStatus.RxCorrected   = radio_stats.rx_corrected;
             rfm22bStatus.RxErrors = radio_stats.rx_error;
             rfm22bStatus.RxFailure     = radio_stats.rx_failure;
-            rfm22bStatus.TxResent = radio_stats.tx_resent;
             rfm22bStatus.Resets      = radio_stats.resets;
             rfm22bStatus.Timeouts    = radio_stats.timeouts;
             rfm22bStatus.RSSI        = radio_stats.rssi;
