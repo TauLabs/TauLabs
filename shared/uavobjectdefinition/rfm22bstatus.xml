@@ -1,8 +1,6 @@
 <xml>
 	<object name="RFM22BStatus" singleinstance="false" settings="false">
 		<description>RFM22B link status.</description>
-		<field name="Description" units="" type="uint8" elements="40"/> 
-		<field name="CPUSerial" units="hex" type="uint8" elements="12" /> 
 		<field name="BoardRevision" units="" type="uint16" elements="1"/> 
 		<field name="BoardType" units="" type="uint8" elements="1"/> 
 		<field name="DeviceID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
