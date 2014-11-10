@@ -765,8 +765,6 @@ void PIOS_Board_Init(void) {
 	RFM22BStatusData tllinkStatus;
 	RFM22BStatusGet(&tllinkStatus);
 	tllinkStatus.BoardType     = bdinfo->board_type;
-	PIOS_BL_HELPER_FLASH_Read_Description(tllinkStatus.Description, RFM22BSTATUS_DESCRIPTION_NUMELEM);
-	PIOS_SYS_SerialNumberGetBinary(tllinkStatus.CPUSerial);
 	tllinkStatus.BoardRevision = bdinfo->board_rev;
 
 	HwFreedomData hwFreedom;
