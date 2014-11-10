@@ -200,11 +200,9 @@ void PIOS_Board_Init(void) {
     HwTauLinkData hwTauLink;
     HwTauLinkGet(&hwTauLink);
 
-    bool is_coordinator = hwTauLink.Radio == HWTAULINK_RADIO_TELEMCOORD ||
-                          hwTauLink.Radio == HWTAULINK_RADIO_PPM;
     bool is_oneway   = hwTauLink.Radio == HWTAULINK_RADIO_PPM;
     bool ppm_only    = hwTauLink.Radio == HWTAULINK_RADIO_PPM;
-    bool ppm_mode    = false;
+    bool ppm_mode    = hwTauLink.Radio == HWTAULINK_RADIO_TELEMPPM || hwTauLink.Radio == HWTAULINK_RADIO_PPM;
 
     // Configure the main serial port function
     switch (hwTauLink.MainPort) {
@@ -352,8 +350,7 @@ void PIOS_Board_Init(void) {
         }
 
         // Set the radio configuration parameters.
-        PIOS_RFM22B_SetChannelConfig(pios_rfm22b_id, datarate, hwTauLink.MinChannel, hwTauLink.MaxChannel, hwTauLink.ChannelSet, is_coordinator, is_oneway, ppm_mode, ppm_only);
-        PIOS_RFM22B_SetCoordinatorID(pios_rfm22b_id, hwTauLink.CoordID);
+        PIOS_RFM22B_Config(pios_rfm22b_id, datarate, hwTauLink.MinChannel, hwTauLink.MaxChannel, hwTauLink.CoordID, is_oneway, ppm_mode, ppm_only);
 
         // Reinitilize the modem to affect te changes.
         PIOS_RFM22B_Reinit(pios_rfm22b_id);
