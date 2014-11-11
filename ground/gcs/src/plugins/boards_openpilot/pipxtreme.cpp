@@ -143,7 +143,7 @@ bool PipXtreme::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
 
     if (id == 0) {
         // set as coordinator
-        settings.Radio = HwTauLink::RADIO_TELEMCOORD;
+        settings.Radio = HwTauLink::RADIO_TELEM;
         settings.CoordID = 0;
     } else {
         settings.Radio = HwTauLink::RADIO_TELEM;
