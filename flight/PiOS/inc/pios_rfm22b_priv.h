@@ -38,7 +38,6 @@
 #include <rfm22bstatus.h>
 #include "pios_rfm22b.h"
 #include "pios_semaphore.h"
-#include "pios_queue.h"
 #include "pios_thread.h"
 
 // ************************************
@@ -674,9 +673,6 @@ struct pios_rfm22b_dev {
 	// The task handle
 	struct pios_thread *taskHandle;
 
-	// ISR pending semaphore
-	struct pios_semaphore *isrPending;
-
 	// The COM callback functions.
 	pios_com_callback rx_in_cb;
 	uint32_t rx_in_context;
@@ -693,7 +689,7 @@ struct pios_rfm22b_dev {
 	enum pios_radio_state state;
 
 	// The event queue handle
-	struct pios_queue *eventQueue;
+	struct pios_semaphore *sema_isr;
 
 	// The device status registers.
 	rfm22b_device_status status_regs;

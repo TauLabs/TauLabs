@@ -104,8 +104,6 @@
 /* Local Defines */
 #define STACK_SIZE_BYTES                 800
 #define TASK_PRIORITY                    PIOS_THREAD_PRIO_HIGHEST	// flight control relevant device driver (ppm link)
-#define ISR_TIMEOUT                      1	// ms
-#define EVENT_QUEUE_SIZE                 5
 #define RFM22B_DEFAULT_RX_DATARATE       RFM22_datarate_9600
 #define RFM22B_DEFAULT_TX_POWER          RFM22_tx_pwr_txpow_0
 #define RFM22B_NOMINAL_CARRIER_FREQUENCY 430000000
@@ -199,7 +197,6 @@ static void pios_rfm22_task(void *parameters);
 static bool pios_rfm22_readStatus(struct pios_rfm22b_dev *rfm22b_dev);
 static void pios_rfm22_setDatarate(struct pios_rfm22b_dev *rfm22b_dev);
 static void rfm22_rxFailure(struct pios_rfm22b_dev *rfm22b_dev);
-static void pios_rfm22_inject_event(struct pios_rfm22b_dev *rfm22b_dev, enum pios_radio_event event, bool inISR);
 static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev);
 static enum pios_radio_event radio_setRxMode(struct pios_rfm22b_dev *rfm22b_dev);
 static enum pios_radio_event radio_rxData(struct pios_rfm22b_dev *rfm22b_dev);
@@ -382,6 +379,8 @@ static struct pios_rfm22b_dev *g_rfm22b_dev = NULL;
 * External Interface Functions
 *****************************************************************************/
 
+static bool init_requested;
+
 /**
  * Initialise an RFM22B device
  *
@@ -398,8 +397,7 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 	PIOS_DEBUG_Assert(cfg);
 
 	// Allocate the device structure.
-	struct pios_rfm22b_dev *rfm22b_dev =
-	    (struct pios_rfm22b_dev *)pios_rfm22_alloc();
+	struct pios_rfm22b_dev *rfm22b_dev = pios_rfm22_alloc();
 	if (!rfm22b_dev) {
 		return -1;
 	}
@@ -439,15 +437,8 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 				     RFM22B_DEFAULT_MAX_CHANNEL,
 				     0, false, false, false);
 
-	// Create the event queue
-	rfm22b_dev->eventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(enum pios_radio_event));
-
 	// Bind the configuration to the device instance
 	rfm22b_dev->cfg = *cfg;
-
-	// Create a semaphore to know if an ISR needs responding to
-	rfm22b_dev->isrPending = PIOS_Semaphore_Create();
-	PIOS_Assert(rfm22b_dev->isrPending != NULL);
 
 	// Create our (hopefully) unique 32 bit id from the processor serial number.
 	uint8_t crcs[] = { 0, 0, 0, 0 };
@@ -481,7 +472,7 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 	rfm22b_dev->state = RADIO_STATE_UNINITIALIZED;
 
 	// Initialize the radio device.
-	pios_rfm22_inject_event(rfm22b_dev, RADIO_EVENT_INITIALIZE, false);
+	init_requested = true;
 
 	// Start the driver task.  This task controls the radio state machine and removed all of the IO from the IRQ handler.
 	rfm22b_dev->taskHandle = PIOS_Thread_Create(pios_rfm22_task, "PIOS_RFM22B_Task", STACK_SIZE_BYTES, (void *)rfm22b_dev, TASK_PRIORITY);
@@ -496,13 +487,9 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
  */
 void PIOS_RFM22B_Reinit(uint32_t rfm22b_id)
 {
-	struct pios_rfm22b_dev *rfm22b_dev =
-	    (struct pios_rfm22b_dev *)rfm22b_id;
+	//struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)rfm22b_id;
 
-	if (PIOS_RFM22B_Validate(rfm22b_dev)) {
-		pios_rfm22_inject_event(rfm22b_dev, RADIO_EVENT_INITIALIZE,
-					false);
-	}
+	init_requested = true;
 }
 
 /**
@@ -513,10 +500,12 @@ bool PIOS_RFM22_EXT_Int(void)
 	if (!PIOS_RFM22B_Validate(g_rfm22b_dev)) {
 		return false;
 	}
-	// Inject an interrupt event into the state machine.
-	pios_rfm22_inject_event(g_rfm22b_dev, RADIO_EVENT_INT_RECEIVED, true);
 
-	return false;
+	// Indicate to main task that an ISR occurred
+	bool woken = false;
+	PIOS_Semaphore_Give_FromISR(g_rfm22b_dev->sema_isr, &woken);
+
+	return woken;
 }
 
 /**
@@ -1000,8 +989,7 @@ pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id)
 		rfm22_claimBus(rfm22b_dev);
 
 		// Read the total length of the packet data
-		uint16_t len =
-		    rfm22_read(rfm22b_dev, RFM22_received_packet_length);
+		uint16_t len = rfm22_read(rfm22b_dev, RFM22_received_packet_length);
 
 		// The received packet is going to be larger than the specified length
 		if ((rfm22b_dev->rx_buffer_wr + RX_FIFO_HI_WATERMARK) > len) {
@@ -1155,51 +1143,46 @@ extern void PIOS_RFM22B_PPMGet(uint32_t rfm22b_id, int16_t * channels)
  */
 static void pios_rfm22_task(void *parameters)
 {
-	struct pios_rfm22b_dev *rfm22b_dev =
-	    (struct pios_rfm22b_dev *)parameters;
+	struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)parameters;
 
 	if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
 		return;
 	}
+
 	uint32_t lastEventTime_ms = PIOS_Thread_Systime();
+	uint32_t curTime_ms = lastEventTime_ms;
 
 	while (1) {
+
+		// The main task for the radio must be serviced reliably every ms
+		curTime_ms = PIOS_Thread_Systime();
+
 #if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
 		// Update the watchdog timer
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
 #endif /* PIOS_WDG_RFM22B */
 
+		if (init_requested) {
+			rfm22_process_event(rfm22b_dev, RADIO_EVENT_INITIALIZE);
+			init_requested = false;
+		}
+
 		// Wait for a signal indicating an external interrupt or a pending send/receive request.
-		if (PIOS_Semaphore_Take(rfm22b_dev->isrPending, ISR_TIMEOUT) == true) {
+		if (PIOS_Semaphore_Take(rfm22b_dev->sema_isr, 1) == true) {
 			lastEventTime_ms = PIOS_Thread_Systime();
 
-			// Process events through the state machine.
-			enum pios_radio_event event;
-			while (PIOS_Queue_Receive(rfm22b_dev->eventQueue, &event, 0)) {
-				if ((event == RADIO_EVENT_INT_RECEIVED)
-				    &&
-				    ((rfm22b_dev->state ==
-				      RADIO_STATE_UNINITIALIZED)
-				     || (rfm22b_dev->state ==
-					 RADIO_STATE_INITIALIZING))) {
-					continue;
-				}
-				rfm22_process_event(rfm22b_dev, event);
+			// Ignore interrupts while initializing
+			if (rfm22b_dev->state != RADIO_STATE_UNINITIALIZED && rfm22b_dev->state != RADIO_STATE_INITIALIZING) {
+				rfm22_process_event(rfm22b_dev, RADIO_EVENT_INT_RECEIVED);
 			}
-		} else {
-			// Has it been too long since the last event?
-			uint32_t curTime_ms = PIOS_Thread_Systime();
-			if (pios_rfm22_time_difference_ms(lastEventTime_ms, curTime_ms) > PIOS_RFM22B_SUPERVISOR_TIMEOUT) {
-				// Clear the event queue.
-				enum pios_radio_event event;
-				while (PIOS_Queue_Receive(rfm22b_dev->eventQueue, &event, 0)) {
-					// Do nothing;
-				}
-				lastEventTime_ms = PIOS_Thread_Systime();
 
-				// Transsition through an error event.
-				rfm22_process_event(rfm22b_dev, RADIO_EVENT_ERROR);
-			}
+			continue;
+		}
+
+		// Throw an error if it has been too long since the last ISR
+		if (pios_rfm22_time_difference_ms(lastEventTime_ms, curTime_ms) > PIOS_RFM22B_SUPERVISOR_TIMEOUT) {
+			lastEventTime_ms = PIOS_Thread_Systime();
+			rfm22_process_event(rfm22b_dev, RADIO_EVENT_ERROR);
 		}
 
 		// Change channels if necessary.
@@ -1208,7 +1191,6 @@ static void pios_rfm22_task(void *parameters)
 		}
 
 		// Have we been sending / receiving this packet too long?
-		uint32_t curTime_ms = PIOS_Thread_Systime();
 		if ((rfm22b_dev->packet_start_ticks > 0) &&
 		    (pios_rfm22_time_difference_ms(rfm22b_dev->packet_start_ticks, curTime_ms) > (rfm22b_dev->packet_time * 3))) {
 			rfm22_process_event(rfm22b_dev, RADIO_EVENT_TIMEOUT);
@@ -1242,48 +1224,6 @@ static void pios_rfm22_task(void *parameters)
 /*****************************************************************************
 * The State Machine Functions
 *****************************************************************************/
-
-/**
- * Inject an event into the RFM22B state machine.
- *
- * @param[in] rfm22b_dev The device structure
- * @param[in] event The event to inject
- * @param[in] inISR Is this being called from an interrrup service routine?
- */
-static void pios_rfm22_inject_event(struct pios_rfm22b_dev *rfm22b_dev,
-				    enum pios_radio_event event, bool inISR)
-{
-	if (inISR) {
-		bool woken = false;
-
-		// Store the event.
-		if (PIOS_Queue_Send_FromISR(rfm22b_dev->eventQueue, &event, &woken) == false) {
-#if defined(PIOS_INCLUDE_FREERTOS)		
-				portEND_SWITCHING_ISR(woken);
-#endif /* PIOS_INCLUDE_FREERTOS */
-			return;
-		}
-		// Signal the semaphore to wake up the handler thread.
-		if (PIOS_Semaphore_Give_FromISR(rfm22b_dev->isrPending,
-		     &woken) != true) {
-			// Something went fairly seriously wrong
-			rfm22b_dev->errors++;
-		}
-#if defined(PIOS_INCLUDE_FREERTOS)		
-		portEND_SWITCHING_ISR(woken);
-#endif /* PIOS_INCLUDE_FREERTOS */
-	} else {
-		// Store the event.
-		if (PIOS_Queue_Send(rfm22b_dev->eventQueue, &event, PIOS_QUEUE_TIMEOUT_MAX)) {
-			return;
-		}
-		// Signal the semaphore to wake up the handler thread.
-		if (PIOS_Semaphore_Give(rfm22b_dev->isrPending) != true) {
-			// Something went fairly seriously wrong
-			rfm22b_dev->errors++;
-		}
-	}
-}
 
 /**
  * Process the next state transition from the given event.
@@ -2465,10 +2405,16 @@ static struct pios_rfm22b_dev *pios_rfm22_alloc(void)
 {
 	struct pios_rfm22b_dev *rfm22b_dev;
 
-	rfm22b_dev =
-	    (struct pios_rfm22b_dev *)PIOS_malloc(sizeof(*rfm22b_dev));
+	rfm22b_dev = (struct pios_rfm22b_dev *)PIOS_malloc(sizeof(*rfm22b_dev));
 	rfm22b_dev->spi_id = 0;
 	if (!rfm22b_dev) {
+		return NULL;
+	}
+
+	// Create the ISR signal
+	rfm22b_dev->sema_isr = PIOS_Semaphore_Create();
+	if (!rfm22b_dev->sema_isr) {
+		PIOS_free(rfm22b_dev);
 		return NULL;
 	}
 
