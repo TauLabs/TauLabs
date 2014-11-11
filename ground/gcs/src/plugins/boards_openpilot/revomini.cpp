@@ -271,7 +271,7 @@ bool RevoMini::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
 
     if (id == 0) {
         // set as coordinator
-        settings.Radio = HwRevoMini::RADIO_TELEMCOORD;
+        settings.Radio = HwRevoMini::RADIO_TELEM;
         settings.CoordID = 0;
     } else {
         settings.Radio = HwRevoMini::RADIO_TELEM;
