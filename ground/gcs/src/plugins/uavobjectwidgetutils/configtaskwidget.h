@@ -147,6 +147,7 @@ public:
     void forceShadowUpdates();
     void forceConnectedState();
 
+    void setNotMandatory(QString object);
 public slots:
     void onAutopilotDisconnect();
     void onAutopilotConnect();

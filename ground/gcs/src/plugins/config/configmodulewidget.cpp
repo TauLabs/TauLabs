@@ -380,6 +380,13 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     // Prevent mouse wheel from changing values
     disableMouseWheelEvents();
+
+    setNotMandatory(batterySettingsName);
+    setNotMandatory(airspeedSettingsName);
+    setNotMandatory(vibrationAnalysisSettingsName);
+    setNotMandatory(hoTTSettingsName);
+    setNotMandatory(picoCSettingsName);
+    setNotMandatory(GeoFenceSettings::NAME);
 }
 
 ConfigModuleWidget::~ConfigModuleWidget()
