@@ -424,11 +424,9 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 	rfm22b_dev->rfm22b_rcvr_id = 0;
 
 	// Initialize the stats.
-	rfm22b_dev->stats.packets_per_sec = 0;
 	rfm22b_dev->stats.rx_good = 0;
 	rfm22b_dev->stats.rx_corrected = 0;
 	rfm22b_dev->stats.rx_error = 0;
-	rfm22b_dev->stats.tx_resent = 0;
 	rfm22b_dev->stats.resets = 0;
 	rfm22b_dev->stats.timeouts = 0;
 	rfm22b_dev->stats.link_quality = 0;
@@ -2132,12 +2130,12 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 	}
 
 	// Calculate the link quality metric, which is related to the number of good packets in relation to the number of bad packets.
-	// Note: This assumes that the number of packets sampled for the stats is 64.
-	// Using this equation, error and resent packets are counted as -2, and corrected packets are counted as -1.
-	// The range is 0 (all error or resent packets) to 128 (all good packets).
+	// Note: This assumes that the number of packets sampled for the stats is 256.
+	// Using this equation, error packets are counted as -1/4, and good packets as +1/4.
+	// Corrected packets are 0.
+	// The range is 0 (all error) to 128 (all good packets).
 	rfm22b_dev->stats.link_quality =
-	    64 + rfm22b_dev->stats.rx_good - rfm22b_dev->stats.rx_error -
-	    rfm22b_dev->stats.tx_resent;
+	    64 + (rfm22b_dev->stats.rx_good - rfm22b_dev->stats.rx_error) / 4;
 
 	rfm22b_dev->stats.rssi = rfm22b_dev->rssi_dBm;
 

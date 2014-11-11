@@ -41,9 +41,6 @@
 #include "pios_queue.h"
 #include "pios_thread.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
-
 // ************************************
 
 #define RFM22B_MAX_PACKET_LEN                     64
@@ -578,7 +575,7 @@ enum pios_rfm22b_state {
 	RFM22B_STATE_NUM_STATES	// Must be last
 };
 
-#define RFM22B_RX_PACKET_STATS_LEN 4
+#define RFM22B_RX_PACKET_STATS_LEN 16
 enum pios_rfm22b_rx_packet_status {
 	RADIO_GOOD_RX_PACKET = 0x00,
 	RADIO_CORRECTED_RX_PACKET = 0x01,
