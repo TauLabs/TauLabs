@@ -367,11 +367,11 @@ android_sdk_update:
 	$(ANDROID_SDK_DIR)/tools/android update sdk --no-ui -t platform-tools,build-tools-20.0.0,android-14,addon-google_apis-google-14
 
 # Set up Google Test (gtest) tools
-GTEST_DIR       := $(TOOLS_DIR)/gtest-1.6.0
+GTEST_DIR       := $(TOOLS_DIR)/gtest-1.7.0
 
 .PHONY: gtest_install
 gtest_install: | $(DL_DIR) $(TOOLS_DIR)
-gtest_install: GTEST_URL  := http://googletest.googlecode.com/files/gtest-1.6.0.zip
+gtest_install: GTEST_URL  := http://googletest.googlecode.com/files/gtest-1.7.0.zip
 gtest_install: GTEST_FILE := $(notdir $(GTEST_URL))
 gtest_install: gtest_clean
         # download the file unconditionally since google code gives back 404
