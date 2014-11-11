@@ -272,7 +272,7 @@ bool Sparky2::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
 
     if (id == 0) {
         // set as coordinator
-        settings.Radio = HwSparky2::RADIO_TELEMCOORD;
+        settings.Radio = HwSparky2::RADIO_TELEM;
         settings.CoordID = 0;
     } else {
         settings.Radio = HwSparky2::RADIO_TELEM;
