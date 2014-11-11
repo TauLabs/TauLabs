@@ -7,6 +7,7 @@
         <field name="AttitudeComp" units="%" type="uint16" elements="1" defaultvalue="100"/>
         <field name="MaxRate" units="m/s" type="uint8" elements="1" defaultvalue="4"/>
         <field name="Expo" units="" type="uint8" elements="1" defaultvalue="40"/>
+        <field name="Deadband" units="%" type="uint8" elements="1" defaultvalue="10"/>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>

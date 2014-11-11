@@ -905,8 +905,6 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		return;
 	}
 
-	const float DEADBAND_HIGH = 0.55f;
-	const float DEADBAND_LOW = 0.45f;
 	const float MIN_CLIMB_RATE = 0.01f;
 	
 	AltitudeHoldDesiredData altitudeHoldDesired;
@@ -928,9 +926,13 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		altitudeHoldDesired.Altitude = -current_down;
 		altitudeHoldDesired.ClimbRate = 0;
 	} else {
-		uint8_t altitude_hold_expo, altitude_hold_maxrate;
+		uint8_t altitude_hold_expo, altitude_hold_maxrate, altitude_hold_deadband;
 		AltitudeHoldSettingsMaxRateGet(&altitude_hold_maxrate);
 		AltitudeHoldSettingsExpoGet(&altitude_hold_expo);
+		AltitudeHoldSettingsDeadbandGet(&altitude_hold_deadband);
+
+		const float DEADBAND_HIGH = 0.50f + altitude_hold_deadband * 0.01f;
+		const float DEADBAND_LOW = 0.50f - altitude_hold_deadband * 0.01f;
 
 		float climb_rate = 0.0f;
 		if (cmd->Throttle > DEADBAND_HIGH) {
