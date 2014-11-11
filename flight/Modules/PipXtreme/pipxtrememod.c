@@ -184,13 +184,6 @@ static void systemTask(void *parameters)
 			    RFM22BSTATUS_LINKSTATE_DISABLED;
 		}
 
-		if (radio_stats.link_state ==
-		    RFM22BSTATUS_LINKSTATE_CONNECTED) {
-			LINK_LED_ON;
-		} else {
-			LINK_LED_OFF;
-		}
-
 		// Update the object
 		RFM22BStatusSet(&rfm22bStatus);
 
