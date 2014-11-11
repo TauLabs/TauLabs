@@ -941,6 +941,9 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 			climb_rate = -expo3(climb_rate, altitude_hold_expo) * altitude_hold_maxrate;
 		}
 
+		// When throttle is negative tell the module that we are in landing mode
+		altitudeHoldDesired.Land = (cmd->Throttle < 0) ? ALTITUDEHOLDDESIRED_LAND_TRUE : ALTITUDEHOLDDESIRED_LAND_FALSE;
+
 		// If more than MIN_CLIMB_RATE enter vario mode
 		if (fabsf(climb_rate) > MIN_CLIMB_RATE) {
 			// Desired state is at the current location with the requested rate
