@@ -1225,6 +1225,17 @@ static void pios_rfm22_task(void *parameters)
 		if (time_to_send && rfm22_InRxWait(rfm22b_dev)) {
 			rfm22_process_event(rfm22b_dev, RADIO_EVENT_TX_START);
 		}
+
+#if defined(PIOS_LED_LINK)
+		// If not listening for PPM indicate link status with link led
+		if (!rfm22b_dev->ppm_recv_mode) {
+				if (rfm22b_dev->stats.link_state == RFM22BSTATUS_LINKSTATE_CONNECTED)
+						PIOS_LED_On(PIOS_LED_LINK);
+			   else
+						PIOS_LED_Off(PIOS_LED_LINK);
+	   }
+#endif /* PIOS_LED_LINK */
+
 	}
 }
 
