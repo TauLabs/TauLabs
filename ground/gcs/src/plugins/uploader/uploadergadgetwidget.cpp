@@ -272,8 +272,9 @@ void UploaderGadgetWidget::FirmwareLoadedUpdate(QByteArray firmwareArray)
     currentBoard.max_code_size.toLong(&ok);
     if(!ok)
         m_widget->crcLD_lbl->setText("Not Available");
-    else
-    {
+    else if (firmwareArray.length() > currentBoard.max_code_size.toLong()) {
+        m_widget->crcLD_lbl->setText("Not Available");
+    } else {
         quint32 crc = dfu.CRCFromQBArray(firmwareArray, currentBoard.max_code_size.toLong());
         m_widget->crcLD_lbl->setText(QString::number(crc));
     }
