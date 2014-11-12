@@ -84,10 +84,8 @@ TIM8  |           |           |           |
 //------------------------
 // PIOS_LED
 //------------------------
-#define PIOS_LED_GREEN		0
-#define PIOS_LED_ORANGE		1
-#define PIOS_LED_RED		2
-#define PIOS_LED_BLUE		3
+#define PIOS_LED_BLUE		0
+#define PIOS_LED_RED		1
 
 #define PIOS_LED_HEARTBEAT	PIOS_LED_BLUE
 #define PIOS_LED_ALARM		PIOS_LED_RED

@@ -70,6 +70,11 @@ static const struct pios_led_cfg pios_led_cfg = {
 	.num_leds = NELEMENTS(pios_leds),
 };
 
+const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revision)
+{
+	return &pios_led_cfg;
+}
+
 #endif	/* PIOS_INCLUDE_LED */
 
 
@@ -332,6 +337,14 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 
 	/* NOTE sectros 1024..2047 currently unused */
 };
+
+const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32_t board_revision, uint32_t * num_partitions)
+{
+	PIOS_Assert(num_partitions);
+
+	*num_partitions = NELEMENTS(pios_flash_partition_table);
+	return pios_flash_partition_table;
+}
 
 #endif	/* PIOS_INCLUDE_FLASH */
 
