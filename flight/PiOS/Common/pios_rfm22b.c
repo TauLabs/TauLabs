@@ -691,8 +691,8 @@ bool PIOS_RFM22B_LinkStatus(uint32_t rfm22b_id)
 	if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
 		return false;
 	}
-	return rfm22b_dev->stats.link_quality >
-	    RFM22B_LINK_QUALITY_THRESHOLD;
+
+	return true;
 }
 
 /**
