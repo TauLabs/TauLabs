@@ -1976,31 +1976,30 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 		rfm22b_add_rx_status(radio_dev, RADIO_ERROR_RX_PACKET);
 	}
 
-	enum pios_radio_event ret_event = RADIO_EVENT_RX_COMPLETE;
 	if (good_packet || corrected_packet) {
 		// Send the data to the com port
 		bool rx_need_yield;
 		if (radio_dev->rx_in_cb && (data_len > 0) && !radio_dev->ppm_only_mode) {
 			(radio_dev->rx_in_cb) (radio_dev->rx_in_context, p, data_len, NULL, &rx_need_yield);
 		}
-
-		// We only synchronize the clock on packets from our coordinator on the sync channel.
-		if (!rfm22_isCoordinator(radio_dev) && 
-			  radio_dev->rx_destination_id == rfm22_destinationID(radio_dev) &&
-		      radio_dev->channel_index == 0) {
-			
-			rfm22_synchronizeClock(radio_dev);
-			radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
-			radio_dev->on_sync_channel = false;
-		} else if (rfm22_isCoordinator(radio_dev) && radio_dev->channel_index == 0) {
-			radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
-			radio_dev->on_sync_channel = false;
-		}
-	} else {
-		ret_event = RADIO_EVENT_RX_COMPLETE;
 	}
 
-	return ret_event;
+	// We only synchronize the clock on packets from our coordinator on the sync channel.
+	// These packets are not error checked. This can be improved in the future
+	if (!rfm22_isCoordinator(radio_dev) && 
+	      radio_dev->rx_destination_id == rfm22_destinationID(radio_dev) &&
+	      radio_dev->channel_index == 0) {
+		
+		rfm22_synchronizeClock(radio_dev);
+		radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
+		radio_dev->on_sync_channel = false;
+	} else if (rfm22_isCoordinator(radio_dev) && radio_dev->channel_index == 0) {
+		radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
+		radio_dev->on_sync_channel = false;
+	}
+
+
+	return RADIO_EVENT_RX_COMPLETE;
 }
 
 /**
