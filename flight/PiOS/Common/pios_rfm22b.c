@@ -1199,6 +1199,8 @@ static void pios_rfm22_task(void *parameters)
 #endif
 		if (time_to_send && rfm22_InRxWait(rfm22b_dev)) {
 			rfm22_process_event(rfm22b_dev, RADIO_EVENT_TX_START);
+		} else if (time_to_send) {
+			rfm22b_add_rx_status(rfm22b_dev,RADIO_ERROR_TX_MISSED);
 		}
 
 #if defined(PIOS_LED_LINK)
@@ -2054,6 +2056,7 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 	rfm22b_dev->stats.rx_good = 0;
 	rfm22b_dev->stats.rx_corrected = 0;
 	rfm22b_dev->stats.rx_error = 0;
+	rfm22b_dev->stats.tx_missed = 0;
 	for (uint8_t i = 0; i < RFM22B_RX_PACKET_STATS_LEN; ++i) {
 		uint32_t val = rfm22b_dev->rx_packet_stats[i];
 		for (uint8_t j = 0; j < 16; ++j) {
@@ -2068,6 +2071,9 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 			case RADIO_ERROR_RX_PACKET:
 				rfm22b_dev->stats.rx_error++;
 				break;
+			case RADIO_ERROR_TX_MISSED:
+				rfm22b_dev->stats.tx_missed++;
+				break;
 			}
 		}
 	}
@@ -2078,7 +2084,7 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 	// Corrected packets are 0.
 	// The range is 0 (all error) to 128 (all good packets).
 	rfm22b_dev->stats.link_quality =
-	    64 + (rfm22b_dev->stats.rx_good - rfm22b_dev->stats.rx_error) / 4;
+	    64 + (rfm22b_dev->stats.rx_good - rfm22b_dev->stats.rx_error - rfm22b_dev->stats.tx_missed) / 4;
 
 	rfm22b_dev->stats.rssi = rfm22b_dev->rssi_dBm;
 

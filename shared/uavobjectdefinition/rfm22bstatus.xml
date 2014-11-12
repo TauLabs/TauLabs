@@ -9,6 +9,7 @@
 		<field name="RxCorrected" units="%" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="RxFailure" units="%" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="RxErrors" units="%" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="TxMissed" units="%" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="Resets" units="" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="Timeouts" units="" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="RSSI" units="dBm" type="int8" elements="1" defaultvalue="0"/>
