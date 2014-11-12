@@ -1149,9 +1149,6 @@ static void pios_rfm22_task(void *parameters)
 
 	while (1) {
 
-		// The main task for the radio must be serviced reliably every ms
-		curTime_ms = PIOS_Thread_Systime();
-
 #if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
 		// Update the watchdog timer
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
@@ -1170,9 +1167,10 @@ static void pios_rfm22_task(void *parameters)
 			if (rfm22b_dev->state != RADIO_STATE_UNINITIALIZED && rfm22b_dev->state != RADIO_STATE_INITIALIZING) {
 				rfm22_process_event(rfm22b_dev, RADIO_EVENT_INT_RECEIVED);
 			}
-
-			continue;
 		}
+
+		// The main task for the radio must be serviced reliably every ms
+		curTime_ms = PIOS_Thread_Systime();
 
 		// Throw an error if it has been too long since the last ISR
 		if (pios_rfm22_time_difference_ms(lastEventTime_ms, curTime_ms) > PIOS_RFM22B_SUPERVISOR_TIMEOUT) {
