@@ -1968,8 +1968,8 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 	} else if (corrected_packet) {
 		// We corrected the error.
 		rfm22b_add_rx_status(radio_dev, RADIO_CORRECTED_RX_PACKET);
-	} else {
-		// We couldn't correct the error, so drop the packet.
+	} else if (data_len) {
+		// There was data but we could not correct it
 		rfm22b_add_rx_status(radio_dev, RADIO_ERROR_RX_PACKET);
 	}
 
@@ -2056,11 +2056,12 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 	rfm22b_dev->stats.rx_good = 0;
 	rfm22b_dev->stats.rx_corrected = 0;
 	rfm22b_dev->stats.rx_error = 0;
+	rfm22b_dev->stats.rx_sync_missed = 0;
 	rfm22b_dev->stats.tx_missed = 0;
 	for (uint8_t i = 0; i < RFM22B_RX_PACKET_STATS_LEN; ++i) {
 		uint32_t val = rfm22b_dev->rx_packet_stats[i];
-		for (uint8_t j = 0; j < 16; ++j) {
-			enum pios_rfm22b_rx_packet_status status = (val >> (j * 2)) & 0x00000003;
+		for (uint8_t j = 0; j < 8; ++j) {
+			enum pios_rfm22b_rx_packet_status status = (val >> (j * 4)) & 0x0000000F;
 			switch (status) {
 			case RADIO_GOOD_RX_PACKET:
 				rfm22b_dev->stats.rx_good++;
@@ -2070,6 +2071,9 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 				break;
 			case RADIO_ERROR_RX_PACKET:
 				rfm22b_dev->stats.rx_error++;
+				break;
+			case RADIO_ERROR_RX_SYNC_MISSED:
+				rfm22b_dev->stats.rx_sync_missed++;
 				break;
 			case RADIO_ERROR_TX_MISSED:
 				rfm22b_dev->stats.tx_missed++;
@@ -2084,7 +2088,7 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 	// Corrected packets are 0.
 	// The range is 0 (all error) to 128 (all good packets).
 	rfm22b_dev->stats.link_quality =
-	    64 + (rfm22b_dev->stats.rx_good - rfm22b_dev->stats.rx_error - rfm22b_dev->stats.tx_missed) / 4;
+	    64 + (rfm22b_dev->stats.rx_good - rfm22b_dev->stats.rx_sync_missed - rfm22b_dev->stats.rx_error - rfm22b_dev->stats.tx_missed) / 4;
 
 	rfm22b_dev->stats.rssi = rfm22b_dev->rssi_dBm;
 
@@ -2104,12 +2108,12 @@ static void rfm22b_add_rx_status(struct pios_rfm22b_dev *rfm22b_dev,
 	static uint32_t rx_status_count;
 
 	// sixteen values per uint32_t
-	uint32_t rx_status_address = (rx_status_count / 16) % RFM22B_RX_PACKET_STATS_LEN;
-	uint32_t rx_status_offset = rx_status_count % 16;
+	uint32_t rx_status_address = (rx_status_count / 8) % RFM22B_RX_PACKET_STATS_LEN;
+	uint32_t rx_status_offset = rx_status_count % 8;
 
 	// replace that value in the ring buffer with new status
-	rfm22b_dev->rx_packet_stats[rx_status_address] &= ~(0x00000003 << (rx_status_offset * 2));
-	rfm22b_dev->rx_packet_stats[rx_status_address] |= ((status & 0x00000003) << (rx_status_offset * 2));
+	rfm22b_dev->rx_packet_stats[rx_status_address] &= ~(0x0000000F << (rx_status_offset * 4));
+	rfm22b_dev->rx_packet_stats[rx_status_address] |= ((status & 0x0000000F) << (rx_status_offset * 4));
 
     rx_status_count++;
 }
@@ -2235,7 +2239,7 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev,
 		if ((rfm22b_dev->channel_index == 0) && rfm22b_dev->on_sync_channel) {
 
 			// track that a sync packet was misssed (error)
-			rfm22b_add_rx_status(rfm22b_dev, RADIO_ERROR_RX_PACKET);
+			rfm22b_add_rx_status(rfm22b_dev, RADIO_ERROR_RX_SYNC_MISSED);
 
 			rfm22b_dev->on_sync_channel = false;
 

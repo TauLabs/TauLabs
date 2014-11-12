@@ -574,12 +574,13 @@ enum pios_rfm22b_state {
 	RFM22B_STATE_NUM_STATES	// Must be last
 };
 
-#define RFM22B_RX_PACKET_STATS_LEN 16
+#define RFM22B_RX_PACKET_STATS_LEN 32
 enum pios_rfm22b_rx_packet_status {
 	RADIO_GOOD_RX_PACKET = 0x00,
 	RADIO_CORRECTED_RX_PACKET = 0x01,
 	RADIO_ERROR_RX_PACKET = 0x02,
-	RADIO_ERROR_TX_MISSED = 0x03,
+	RADIO_ERROR_RX_SYNC_MISSED = 0x03,
+	RADIO_ERROR_TX_MISSED = 0x04,
 };
 
 enum pios_rfm22b_chip_power_state {

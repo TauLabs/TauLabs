@@ -147,6 +147,7 @@ static void systemTask(void *parameters)
 			rfm22bStatus.RxGood = radio_stats.rx_good;
 			rfm22bStatus.RxCorrected = radio_stats.rx_corrected;
 			rfm22bStatus.RxErrors = radio_stats.rx_error;
+			rfm22bStatus.RxSyncMissed = radio_stats.rx_sync_missed;
 			rfm22bStatus.TxMissed = radio_stats.tx_missed;
 			rfm22bStatus.RxFailure = radio_stats.rx_failure;
 			rfm22bStatus.Resets = radio_stats.resets;

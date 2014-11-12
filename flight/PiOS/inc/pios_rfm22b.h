@@ -83,6 +83,7 @@ struct rfm22b_stats {
 	uint8_t rx_good;
 	uint8_t rx_corrected;
 	uint8_t rx_error;
+	uint8_t rx_sync_missed;
 	uint8_t rx_failure;
 	uint8_t tx_missed;
 	uint8_t resets;
