@@ -98,6 +98,8 @@
 /* PIOS Initcall infrastructure */
 #define PIOS_INCLUDE_INITCALL
 
+#define PIOS_INCLUDE_DEBUG_CONSOLE
+
 /* Turn on debugging signals on the telemetry port */
 //#define PIOS_RFM22B_DEBUG_ON_TELEM
 
