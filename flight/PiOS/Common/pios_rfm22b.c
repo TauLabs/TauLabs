@@ -1147,6 +1147,9 @@ static void pios_rfm22_task(void *parameters)
 	uint32_t lastEventTime_ms = PIOS_Thread_Systime();
 	uint32_t curTime_ms = lastEventTime_ms;
 
+
+	bool transmitted_this_slice = false;
+
 	while (1) {
 
 #if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
@@ -1181,6 +1184,7 @@ static void pios_rfm22_task(void *parameters)
 		// Change channels if necessary.
 		if (rfm22_changeChannel(rfm22b_dev)) {
 			rfm22_process_event(rfm22b_dev, RADIO_EVENT_RX_MODE);
+			transmitted_this_slice = false;
 		}
 
 		// Have we been sending / receiving this packet too long?
@@ -1189,7 +1193,7 @@ static void pios_rfm22_task(void *parameters)
 			rfm22_process_event(rfm22b_dev, RADIO_EVENT_TIMEOUT);
 		}
 		// Start transmitting a packet if it's time.
-		bool time_to_send = rfm22_timeToSend(rfm22b_dev);
+		bool time_to_send = rfm22_timeToSend(rfm22b_dev) && !transmitted_this_slice;
 #ifdef PIOS_RFM22B_DEBUG_ON_TELEM
 		if (time_to_send) {
 			D4_LED_ON;
@@ -1198,6 +1202,7 @@ static void pios_rfm22_task(void *parameters)
 		}
 #endif
 		if (time_to_send && rfm22_InRxWait(rfm22b_dev)) {
+			transmitted_this_slice = true;
 			rfm22_process_event(rfm22b_dev, RADIO_EVENT_TX_START);
 		}
 
@@ -2187,26 +2192,20 @@ static uint32_t rfm22_coordinatorTime(struct pios_rfm22b_dev
  */
 static bool rfm22_timeToSend(struct pios_rfm22b_dev *rfm22b_dev)
 {
-	uint32_t time = rfm22_coordinatorTime(rfm22b_dev, PIOS_Thread_Systime());
 	bool is_coordinator = rfm22_isCoordinator(rfm22b_dev);
 
 	// If this is a one-way link, only the coordinator can send.
-	uint8_t packet_period = rfm22b_dev->packet_time;
+	const uint8_t packet_time_ms = rfm22b_dev->packet_time;
+	const uint32_t time_ms = rfm22_coordinatorTime(rfm22b_dev, PIOS_Thread_Systime()) % packet_time_ms;
 
-	if (rfm22b_dev->one_way_link) {
-		if (is_coordinator) {
-			return ((time - 1) % (packet_period)) == 0;
-		} else {
-			return false;
-		}
+	if (is_coordinator) {
+		return time_ms >= 1 && time_ms < 4;
+	} else if (!rfm22b_dev->one_way_link) {
+		//one way links never transmitter as non-coordinator
+		return time_ms > packet_time_ms/2;
 	}
 
-	if (!is_coordinator) {
-		time += (packet_period/2) - 1;
-	} else {
-		time -= 1;
-	}
-	return (time % packet_period) == 0;
+	return false;
 }
 
 /**
