@@ -96,11 +96,6 @@
 #include <pios_rfm22b_rcvr_priv.h>
 #include <ecc.h>
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-#include "FreeRTOS.h"
-#endif /* defined(PIOS_INCLUDE_FREERTOS) */
-#include "task.h"
-
 /* Local Defines */
 #define STACK_SIZE_BYTES                 800
 #define TASK_PRIORITY                    PIOS_THREAD_PRIO_HIGHEST	// flight control relevant device driver (ppm link)
