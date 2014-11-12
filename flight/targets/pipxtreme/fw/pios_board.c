@@ -259,7 +259,6 @@ void PIOS_Board_Init(void) {
         }
 
 #endif /* PIOS_INCLUDE_PPM */
-        ppm_mode = true;
         break;
     }
     case HWTAULINK_PPMPORT_DISABLED:
