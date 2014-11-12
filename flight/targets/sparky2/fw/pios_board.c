@@ -805,7 +805,7 @@ void PIOS_Board_Init(void) {
 		// always allow receiving PPM when radio is on
 		bool ppm_mode    = hwSparky2.Radio == HWSPARKY2_RADIO_TELEMPPM || hwSparky2.Radio == HWSPARKY2_RADIO_PPM;
 		bool ppm_only    = hwSparky2.Radio == HWSPARKY2_RADIO_PPM;
-		bool is_oneway   = false; // does not matter for this side
+		bool is_oneway   = hwSparky2.Radio == HWSPARKY2_RADIO_PPM; // Sparky2 can only receive PPM only
 
 		/* Configure the RFM22B device. */
 		const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
