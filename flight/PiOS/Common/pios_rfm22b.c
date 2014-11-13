@@ -131,6 +131,9 @@
 // preamble byte (preceeds SYNC_BYTE's)
 #define PREAMBLE_BYTE                    0x55
 
+// empty packet key
+#define EMPTY_PACKET                     0x86
+
 // RF sync bytes (32-bit in all)
 #define SYNC_BYTE_1                      0x2D
 #define SYNC_BYTE_2                      0xD4
@@ -1815,6 +1818,9 @@ static enum pios_radio_event radio_txStart(struct pios_rfm22b_dev
 	if (!radio_dev->ppm_only_mode) {
 		if (len != 0) {
 			encode_data((unsigned char *)p, len, (unsigned char *)p);
+		} else {
+			for (uint32_t i = 0; i < RS_ECC_NPARITY; i++)
+				p[i] = EMPTY_PACKET + i;
 		}
 		len += RS_ECC_NPARITY;
 	}
@@ -1889,6 +1895,7 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 {
 	bool good_packet = false;
 	bool corrected_packet = false;
+	bool empty_packet = false;
 	uint8_t data_len = rx_len;
 
 	if (!radio_dev->ppm_only_mode) {
@@ -1905,6 +1912,11 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 				// We corrected it
 				corrected_packet = true;
 			}
+		} else {
+			// Empty packets have specific code for ECC
+			empty_packet = true;
+			for (uint32_t i = 0; i < RS_ECC_NPARITY; i++)
+				empty_packet &= (p[i] == EMPTY_PACKET + i);
 		}
 	} else {
 		// We don't rsencode ppm only packets.
@@ -1968,7 +1980,7 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 	} else if (corrected_packet) {
 		// We corrected the error.
 		rfm22b_add_rx_status(radio_dev, RADIO_CORRECTED_RX_PACKET);
-	} else if (data_len) {
+	} else if (!empty_packet) {
 		// There was data but we could not correct it
 		rfm22b_add_rx_status(radio_dev, RADIO_ERROR_RX_PACKET);
 	}
@@ -1981,18 +1993,22 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 		}
 	}
 
-	// We only synchronize the clock on packets from our coordinator on the sync channel.
-	// These packets are not error checked. This can be improved in the future
-	if (!rfm22_isCoordinator(radio_dev) && 
-	      radio_dev->rx_destination_id == rfm22_destinationID(radio_dev) &&
-	      radio_dev->channel_index == 0) {
-		
-		rfm22_synchronizeClock(radio_dev);
-		radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
-		radio_dev->on_sync_channel = false;
-	} else if (rfm22_isCoordinator(radio_dev) && radio_dev->channel_index == 0) {
-		radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
-		radio_dev->on_sync_channel = false;
+	// Flag that we have received a packet
+	if (good_packet || corrected_packet || empty_packet) {
+
+		// We only synchronize the clock on packets from our coordinator on the sync channel.
+		// These packets are not error checked. This can be improved in the future
+		if (!rfm22_isCoordinator(radio_dev) && 
+		      radio_dev->rx_destination_id == rfm22_destinationID(radio_dev) &&
+		      radio_dev->channel_index == 0) {
+			
+			rfm22_synchronizeClock(radio_dev);
+			radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
+			radio_dev->on_sync_channel = false;
+		} else if (rfm22_isCoordinator(radio_dev) && radio_dev->channel_index == 0) {
+			radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
+			radio_dev->on_sync_channel = false;
+		}
 	}
 
 
