@@ -2093,6 +2093,8 @@ static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev)
 			case RADIO_ERROR_TX_MISSED:
 				rfm22b_dev->stats.tx_missed++;
 				break;
+			case RADIO_STATS_IGNORE:
+				break;
 			}
 		}
 	}
@@ -2131,6 +2133,11 @@ static void rfm22b_add_rx_status(struct pios_rfm22b_dev *rfm22b_dev,
 	rfm22b_dev->rx_packet_stats[rx_status_address] |= ((status & 0x0000000F) << (rx_status_offset * 4));
 
     rx_status_count++;
+
+    // Keep the last element in the ring buffer padded to avoid rollover
+    // errors counting the statistcs
+    if ((rx_status_count % (RFM22B_RX_PACKET_STATS_LEN * 8)) == 0)
+    	rfm22b_add_rx_status(rfm22b_dev, RADIO_STATS_IGNORE);
 }
 
 /*****************************************************************************
