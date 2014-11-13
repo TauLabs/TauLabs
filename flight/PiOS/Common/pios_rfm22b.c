@@ -107,7 +107,7 @@
 #define RFM22B_DEFAULT_MAX_CHANNEL       250
 #define RFM22B_DEFAULT_CHANNEL_SET       24
 #define RFM22B_PPM_ONLY_DATARATE         RFM22_datarate_9600
-
+#define RADIO_SYNC_PULSES_DISCONNECT     3
 // The maximum amount of time without activity before initiating a reset.
 #define PIOS_RFM22B_SUPERVISOR_TIMEOUT   150	// ms
 
@@ -210,6 +210,7 @@ static void rfm22b_add_rx_status(struct pios_rfm22b_dev *rfm22b_dev, enum pios_r
 static void rfm22_setNominalCarrierFrequency(struct pios_rfm22b_dev *rfm22b_dev, uint8_t init_chan);
 static bool rfm22_setFreqHopChannel(struct pios_rfm22b_dev *rfm22b_dev, uint8_t channel);
 static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev);
+static bool rfm22_setConnected(struct pios_rfm22b_dev *rfm22b_dev, bool);
 static bool rfm22_isConnected(struct pios_rfm22b_dev *rfm22b_dev);
 static bool rfm22_isCoordinator(struct pios_rfm22b_dev *rfm22b_dev);
 static uint32_t rfm22_destinationID(struct pios_rfm22b_dev *rfm22b_dev);
@@ -528,14 +529,35 @@ uint32_t PIOS_RFM22B_DeviceID(uint32_t rfm22b_id)
 }
 
 /**
+ * Indicate if the device is connected or not
+ *
+ * @param[in] rfm22b_dev device to set connection on
+ * @param[in] connected set the connection status
+ * @return true if the status changes
+ */
+static bool rfm22_setConnected(struct pios_rfm22b_dev *rfm22b_dev, bool connected)
+{
+	uint8_t status = rfm22b_dev->stats.link_state;
+	if (connected) {
+		rfm22b_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
+	} else {
+		rfm22b_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_DISCONNECTED;
+		for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS; ++i) {
+			rfm22b_dev->ppm[i] = PIOS_RCVR_TIMEOUT;
+		}
+	}
+
+	return status != rfm22b_dev->stats.link_state;
+}
+
+/**
  * Are we connected to the remote modem?
  *
  * @param[in] rfm22b_dev  The device structure
  */
 static bool rfm22_isConnected(struct pios_rfm22b_dev *rfm22b_dev)
 {
-	return (rfm22b_dev->stats.link_state ==	RFM22BSTATUS_LINKSTATE_CONNECTED) || 
-	       (rfm22b_dev->stats.link_state ==	RFM22BSTATUS_LINKSTATE_CONNECTING);
+	return rfm22b_dev->stats.link_state == RFM22BSTATUS_LINKSTATE_CONNECTED;
 }
 
 /**
@@ -1170,6 +1192,9 @@ static void pios_rfm22_task(void *parameters)
 			rfm22_process_event(rfm22b_dev, RADIO_EVENT_RX_MODE);
 		}
 
+		// Update the connected status
+		rfm22_setConnected(rfm22b_dev, rfm22b_dev->sync_pulses_missed < RADIO_SYNC_PULSES_DISCONNECT);
+
 		// Have we been sending / receiving this packet too long?
 		if ((rfm22b_dev->packet_start_ticks > 0) &&
 		    (pios_rfm22_time_difference_ms(rfm22b_dev->packet_start_ticks, curTime_ms) > (rfm22b_dev->packet_time * 3))) {
@@ -1305,7 +1330,7 @@ static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 	rfm22b_dev->packet_start_ticks = 0;
 	rfm22b_dev->tx_complete_ticks = 0;
 	rfm22b_dev->rfm22b_state = RFM22B_STATE_INITIALIZING;
-	rfm22b_dev->on_sync_channel = false;
+	rfm22b_dev->packet_received_slice = false;
 
 	// software reset the RF chip .. following procedure according to Si4x3x Errata (rev. B)
 	rfm22_write_claim(rfm22b_dev, RFM22_op_and_func_ctrl1,
@@ -1980,21 +2005,20 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 	// Flag that we have received a packet
 	if (good_packet || corrected_packet || empty_packet) {
 
+		radio_dev->packet_received_slice = true;
+
 		// We only synchronize the clock on packets from our coordinator on the sync channel.
 		// These packets are not error checked. This can be improved in the future
 		if (!rfm22_isCoordinator(radio_dev) && 
 		      radio_dev->rx_destination_id == rfm22_destinationID(radio_dev) &&
 		      radio_dev->channel_index == 0) {
-			
+
+			radio_dev->sync_pulses_missed = 0;
+			rfm22_setConnected(radio_dev, true);
+
 			rfm22_synchronizeClock(radio_dev);
-			radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
-			radio_dev->on_sync_channel = false;
-		} else if (rfm22_isCoordinator(radio_dev) && radio_dev->channel_index == 0) {
-			radio_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
-			radio_dev->on_sync_channel = false;
 		}
 	}
-
 
 	return RADIO_EVENT_RX_COMPLETE;
 }
@@ -2241,33 +2265,18 @@ static uint8_t rfm22_calcChannel(struct pios_rfm22b_dev *rfm22b_dev,
 	// Are we switching to a new channel?
 	if (idx != rfm22b_dev->channel_index) {
 
-		// If the on_sync_channel flag is set, it means that we were on the sync channel, but no packet was
-		// received, so transition to a non-connected state.
-		if ((rfm22b_dev->channel_index == 0) && rfm22b_dev->on_sync_channel) {
-
-			// track that a sync packet was misssed (error)
-			rfm22b_add_rx_status(rfm22b_dev, RADIO_ERROR_RX_SYNC_MISSED);
-
-			rfm22b_dev->on_sync_channel = false;
-
-			// Set the link state to disconnected.
-			if (rfm22b_dev->stats.link_state == RFM22BSTATUS_LINKSTATE_CONNECTED) {
-				rfm22b_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_DISCONNECTED;
-				// Set the PPM outputs to INVALID
-				for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS; ++i) {
-					rfm22b_dev->ppm[i] = PIOS_RCVR_TIMEOUT;
-				}
+		// If the on_sync_channel track statistics
+		if (rfm22b_dev->channel_index == 0)  {
+			if (rfm22b_dev->packet_received_slice) {
+				rfm22b_dev->sync_pulses_missed = 0;
+			} else {
+				// track that a sync packet was misssed (error)
+				rfm22b_add_rx_status(rfm22b_dev, RADIO_ERROR_RX_SYNC_MISSED);
+				rfm22b_dev->sync_pulses_missed++;
 			}
-
-			// Stay on the sync channel if not coordinator
-			if (!rfm22_isCoordinator(rfm22b_dev))
-				idx = 0;
-
-		} else if (idx == 0) {
-			// If we're switching to the sync channel, set a flag that can be used to detect if a packet was received.
-			rfm22b_dev->on_sync_channel = true;
 		}
 
+		rfm22b_dev->packet_received_slice = false;
 		rfm22b_dev->channel_index = idx;
 	}
 
@@ -2304,7 +2313,6 @@ static bool rfm22_changeChannel(struct pios_rfm22b_dev *rfm22b_dev)
 		channel_idx = rfm22_calcChannel(rfm22b_dev, 0);
 	} else {
 		channel_idx = rfm22_calcChannelFromClock(rfm22b_dev);
-					       
 	}
 	return rfm22_setFreqHopChannel(rfm22b_dev, channel_idx);
 }

@@ -768,7 +768,11 @@ struct pios_rfm22b_dev {
 	uint32_t packet_start_ticks;
 	uint32_t tx_complete_ticks;
 	uint32_t time_delta;
-	bool on_sync_channel;
+
+	// Track when a packet is received in this slice
+	bool packet_received_slice;
+	// Track consecutive sync packets that were missed
+	uint8_t sync_pulses_missed;
 };
 
 // External function definitions
