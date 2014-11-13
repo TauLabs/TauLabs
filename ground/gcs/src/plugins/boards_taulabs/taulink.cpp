@@ -58,7 +58,7 @@ TauLink::~TauLink()
 
 QString TauLink::shortName()
 {
-    return QString("TauLink");
+    return QString("PipXtreme");
 }
 
 QString TauLink::boardDescription()
