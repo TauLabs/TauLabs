@@ -350,6 +350,12 @@ void SystemSync(struct ParseState *Parser, struct Value *ReturnValue, struct Val
 	}
 }
 
+/* unsigned long time(): returns actual systemtime as ms-value */
+void SystemTime(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->UnsignedLongInteger = PIOS_Thread_Systime();
+}
+
 /* int armed(): returns armed status */
 void SystemArmed(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
@@ -378,7 +384,20 @@ void SystemSendBuffer(struct ParseState *Parser, struct Value *ReturnValue, stru
 	if ((PIOS_COM_PICOC) && (Param[0]->Val->Pointer != NULL)) {
 		uint8_t *buffer = Param[0]->Val->Pointer;
 		uint16_t buf_len = Param[1]->Val->UnsignedInteger;
-		ReturnValue->Val->LongInteger = PIOS_COM_SendBuffer(PIOS_COM_PICOC, buffer, buf_len);
+		ReturnValue->Val->LongInteger = 0;
+		while (buf_len > 0) {
+			int32_t rc = PIOS_COM_SendBufferNonBlocking(PIOS_COM_PICOC, buffer, buf_len);
+			if (rc > 0) {
+				buf_len -= rc;
+				buffer += rc;
+				ReturnValue->Val->LongInteger += rc;
+			} else if (rc == 0) {
+				PIOS_Thread_Sleep(1);
+			} else {
+				ReturnValue->Val->LongInteger = rc;
+				return;
+			}
+		}
 	} else {
 		ReturnValue->Val->LongInteger = -1;
 	}
@@ -390,7 +409,19 @@ void SystemReceiveBuffer(struct ParseState *Parser, struct Value *ReturnValue, s
 		uint8_t *buffer = Param[0]->Val->Pointer;
 		uint16_t buf_len = Param[1]->Val->UnsignedInteger;
 		uint32_t timeout = Param[2]->Val->UnsignedLongInteger;
-		ReturnValue->Val->LongInteger = PIOS_COM_ReceiveBuffer(PIOS_COM_PICOC, buffer, buf_len, timeout);
+		ReturnValue->Val->LongInteger = 0;
+		while (buf_len > 0) {
+			uint16_t rc = PIOS_COM_ReceiveBuffer(PIOS_COM_PICOC, buffer, buf_len, 0);
+			if (rc > 0) {
+				buf_len -= rc;
+				buffer += rc;
+				ReturnValue->Val->LongInteger += rc;
+			} else if (timeout-- > 0) {
+				PIOS_Thread_Sleep(1);
+			} else {
+				return;
+			}
+		}
 	} else {
 		ReturnValue->Val->LongInteger = -1;
 	}
@@ -508,6 +539,7 @@ struct LibraryFunction PlatformLibrary_system[] =
 {
 	{ SystemDelay,			"void delay(int);" },
 	{ SystemSync,			"void sync(int);" },
+	{ SystemTime,			"unsigned long time();" },
 	{ SystemArmed,			"int armed();" },
 	{ SystemAccessLevelSet,	"void AccessLevelSet(int);" },
 #ifdef PIOS_COM_PICOC
