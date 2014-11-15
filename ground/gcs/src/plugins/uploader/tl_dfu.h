@@ -28,7 +28,7 @@
 #ifndef TL_DFU_H
 #define TL_DFU_H
 
-#include <rawhid/pjrc_rawhid.h>
+#include <rawhid/hidapi/hidapi.h>
 #include <rawhid/usbsignalfilter.h>
 #include <QDebug>
 #include <QFile>
@@ -131,7 +131,7 @@ private:
     // USB coms:
     int SendData(bl_messages);
     int ReceiveData(bl_messages &data);
-    pjrc_rawhid hidHandle;
+    hid_device *m_hidHandle;
 
     bool StartUpload(qint32  const &numberOfBytes, const dfu_partition_label &label, quint32 crc);
     bool UploadData(qint32 const & numberOfPackets,QByteArray  & data);

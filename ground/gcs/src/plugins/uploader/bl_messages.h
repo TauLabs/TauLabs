@@ -65,7 +65,7 @@ enum bl_commands {
 #define BL_MSG_FLAGS_MASK     0xC0
 #define BL_MSG_COMMAND_MASK   0x3F
 
-
+#if !defined(ntohl)
 #define ntohl(v) (				\
     (((v) & 0xFF000000) >> 24) |		\
     (((v) & 0x00FF0000) >>  8) |		\
@@ -79,6 +79,7 @@ enum bl_commands {
 #define htonl(v) ntohl((v))
 
 #define htons(v) ntohs((v))
+#endif
 
 /*
  * Note: These enum values MUST NOT be changed or backward
