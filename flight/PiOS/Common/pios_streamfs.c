@@ -76,11 +76,13 @@ struct streamfs_state {
 	enum pios_flashfs_streamfs_dev_magic magic;
 	const struct streamfs_cfg *cfg;
 
+
 	/* pios_com interface */
 	pios_com_callback rx_in_cb;
 	uintptr_t rx_in_context;
 	pios_com_callback tx_out_cb;
 	uintptr_t tx_out_context;
+	uint8_t *com_buffer;
 
 	/* Information for current file handle */
 	bool file_open_writing;
@@ -353,6 +355,8 @@ static int32_t streamfs_append_to_file(struct streamfs_state *streamfs, uint8_t 
 	if (streamfs->file_open_reading)
 		return -2;
 
+	uint32_t total_written = 0;
+
 	while (len > 0) {
 		uint32_t start_address = streamfs_get_addr(streamfs, streamfs->active_file_arena,
 			                                                 streamfs->active_file_arena_offset);
@@ -370,6 +374,7 @@ static int32_t streamfs_append_to_file(struct streamfs_state *streamfs, uint8_t 
 		// Increment pointers
 		streamfs->active_file_arena_offset += bytes_to_write;
 		len -= bytes_to_write;
+		total_written += bytes_to_write;
 		data = &data[bytes_to_write];
 
 
@@ -380,7 +385,7 @@ static int32_t streamfs_append_to_file(struct streamfs_state *streamfs, uint8_t 
 		}
 	}
 
-	return 0;
+	return total_written;
 }
 
 /* NOTE: Must be called while holding the flash transaction lock */
@@ -535,6 +540,12 @@ int32_t PIOS_STREAMFS_Init(uintptr_t *fs_id, const struct streamfs_cfg *cfg, enu
 	if (!streamfs) {
 		rc = -1;
 		goto out_exit;
+	}
+
+	streamfs->com_buffer = (uint8_t *)PIOS_malloc(cfg->write_size);
+	if (!streamfs->com_buffer) {
+		PIOS_free(streamfs);
+		return -1;
 	}
 
 	/* Bind configuration parameters to this filesystem instance */
@@ -829,7 +840,8 @@ int32_t PIOS_STREAMFS_Testing_Write(uintptr_t fs_id, uint8_t *data, uint32_t len
 		goto out_exit;
 	}
 
-	if (streamfs_append_to_file (streamfs, data, len) != 0) {
+	rc = streamfs_append_to_file (streamfs, data, len);
+	if (rc < 0) {
 		rc = -2;
 		goto out_end_trans;
 	}
@@ -872,6 +884,7 @@ out_end_trans:
 out_exit:
 	return rc;
 }
+
 /**********************************
  *
  * Provide a PIOS_COM driver
@@ -884,19 +897,72 @@ static void PIOS_STREAMFS_RxStart(uintptr_t fs_id, uint16_t rx_bytes_avail)
 	
 	bool valid = streamfs_validate(streamfs);
 	PIOS_Assert(valid);
-	
-	// TODO: give semaphore for reading
-	//USART_ITConfig(usart_dev->cfg->regs, USART_IT_RXNE, ENABLE);
+
+	if (!streamfs->file_open_reading)
+		return;
+
+	if (!streamfs->rx_in_cb) {
+		return;
+	}
+
+	if (PIOS_FLASH_start_transaction(streamfs->partition_id) != 0) {
+		return;
+	}
+
+	while (rx_bytes_avail) {
+
+		int32_t bytes_to_read = MIN(rx_bytes_avail, streamfs->cfg->write_size);
+		if (bytes_to_read == 0)
+			goto out_end_trans;
+
+		int32_t bytes_buffered = streamfs_read_from_file(streamfs, streamfs->com_buffer, bytes_to_read);
+		if (bytes_buffered == 0)
+			goto out_end_trans;
+
+		int32_t bytes_written = (streamfs->rx_in_cb)(streamfs->rx_in_context, streamfs->com_buffer,
+			                                         bytes_buffered, NULL, NULL);
+
+		rx_bytes_avail -= bytes_written;
+	}
+
+out_end_trans:
+	PIOS_FLASH_end_transaction(streamfs->partition_id);
 }
+
 static void PIOS_STREAMFS_TxStart(uintptr_t fs_id, uint16_t tx_bytes_avail)
 {
 	struct streamfs_state *streamfs = (struct streamfs_state *)fs_id;
 	
 	bool valid = streamfs_validate(streamfs);
 	PIOS_Assert(valid);
-	
-	// TODO: give semaphore for writing
-	//USART_ITConfig(usart_dev->cfg->regs, USART_IT_TXE, ENABLE);
+
+	if (!streamfs->file_open_writing)
+		return;
+
+	if (!streamfs->tx_out_cb) {
+		return;
+	}
+
+	if (PIOS_FLASH_start_transaction(streamfs->partition_id) != 0) {
+		return;
+	}
+
+	// Flush available data from PIOS_COM interface to file system
+	int32_t bytes_to_write;
+	while(1) {
+		bytes_to_write = (streamfs->tx_out_cb)(streamfs->tx_out_context,
+			              streamfs->com_buffer, streamfs->cfg->write_size, NULL, NULL);
+
+		if (bytes_to_write <= 0)
+			break;
+
+		if (streamfs_append_to_file (streamfs, streamfs->com_buffer, bytes_to_write) != 0) {
+			goto out_end_trans;
+		}
+	}
+
+out_end_trans:
+	PIOS_FLASH_end_transaction(streamfs->partition_id);
 }
 
 
@@ -929,62 +995,6 @@ static void PIOS_STREAMFS_RegisterTxCallback(uintptr_t fs_id, pios_com_callback 
 	streamfs->tx_out_context = context;
 	streamfs->tx_out_cb = tx_out_cb;
 }
-
-// TODO: create a task that handles all the buffer work
-
-#if 0
-static void PIOS_USART_generic_irq_handler(uintptr_t usart_id)
-{
-	struct pios_usart_dev * usart_dev = (struct pios_usart_dev *)usart_id;
-
-	bool rx_need_yield = false;
-	bool tx_need_yield = false;
-
-	bool valid = PIOS_USART_validate(usart_dev);
-	PIOS_Assert(valid);
-	
-	/* Check if RXNE flag is set */
-	if (USART_GetITStatus(usart_dev->cfg->regs, USART_IT_RXNE)) {
-		uint8_t byte = (uint8_t)USART_ReceiveData(usart_dev->cfg->regs);
-		if (usart_dev->rx_in_cb) {
-			(void) (usart_dev->rx_in_cb)(usart_dev->rx_in_context, &byte, 1, NULL, &rx_need_yield);
-		}
-	}
-	/* Check if TXE flag is set */
-	if (USART_GetITStatus(usart_dev->cfg->regs, USART_IT_TXE)) {
-		if (usart_dev->tx_out_cb) {
-			uint8_t b;
-			uint16_t bytes_to_send;
-			
-			bytes_to_send = (usart_dev->tx_out_cb)(usart_dev->tx_out_context, &b, 1, NULL, &tx_need_yield);
-			
-			if (bytes_to_send > 0) {
-				/* Send the byte we've been given */
-				USART_SendData(usart_dev->cfg->regs, b);
-			} else {
-				/* No bytes to send, disable TXE interrupt */
-				USART_ITConfig(usart_dev->cfg->regs, USART_IT_TXE, DISABLE);
-			}
-		} else {
-			/* No bytes to send, disable TXE interrupt */
-			USART_ITConfig(usart_dev->cfg->regs, USART_IT_TXE, DISABLE);
-		}
-	}
-	/* Check for overrun condition
-	 * Note i really wanted to use USART_GetITStatus but it fails on getting the
-	 * ORE flag although RXNE interrupt is enabled.
-	 * Probably a bug in the ST library...
-	 */
-	if (USART_GetFlagStatus(usart_dev->cfg->regs, USART_FLAG_ORE)) {
-		USART_ClearITPendingBit(usart_dev->cfg->regs, USART_IT_ORE);
-		++usart_dev->error_overruns;
-	}
-	
-#if defined(PIOS_INCLUDE_FREERTOS)
-	portEND_SWITCHING_ISR((rx_need_yield || tx_need_yield) ? pdTRUE : pdFALSE);
-#endif	/* PIOS_INCLUDE_FREERTOS */
-}
-#endif 
 
 /**
  * @}
