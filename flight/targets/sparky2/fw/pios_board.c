@@ -161,6 +161,7 @@ uintptr_t pios_com_hott_id;
 uintptr_t pios_com_frsky_sensor_hub_id;
 uintptr_t pios_com_lighttelemetry_id;
 uintptr_t pios_com_picoc_id;
+uintptr_t pios_com_logging_id;
 uintptr_t pios_com_rf_id;
 uintptr_t pios_com_can_id;
 uint32_t pios_rfm22b_id;
@@ -1077,6 +1078,18 @@ void PIOS_Board_Init(void) {
 	    pios_mpu9250_cfg.default_samplerate;
 	PIOS_MPU9250_SetSampleRate(mpu9250_samplerate);
 #endif /* PIOS_INCLUDE_MPU9250_SPI */
+
+#ifdef PIOS_INCLUDE_FLASH
+	const uint32_t LOG_BUF_LEN = 256;
+	uintptr_t streamfs_id;
+	uint8_t *log_rx_buffer = PIOS_malloc(LOG_BUF_LEN);
+	uint8_t *log_tx_buffer = PIOS_malloc(LOG_BUF_LEN);
+	if (PIOS_STREAMFS_Init(&streamfs_id, &streamfs_settings, FLASH_PARTITION_LABEL_LOG) != 0)
+		panic(8);
+	if (PIOS_COM_Init(&pios_com_logging_id, &pios_streamfs_com_driver, streamfs_id,
+		log_rx_buffer, LOG_BUF_LEN, log_tx_buffer, LOG_BUF_LEN) != 0)
+		panic(9);
+#endif	/* PIOS_INCLUDE_FLASH */
 
 }
 

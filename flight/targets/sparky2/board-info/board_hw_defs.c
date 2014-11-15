@@ -498,18 +498,36 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.size         = (6 - 5 + 1) * FLASH_SECTOR_128KB,
 	},
 
+	{
+		.label        = FLASH_PARTITION_LABEL_SETTINGS,
+		.chip_desc    = &pios_flash_chip_internal,
+		.first_sector = 7,
+		.last_sector  = 11,
+		.chip_offset  = (4 * FLASH_SECTOR_16KB) + (1 * FLASH_SECTOR_64KB) + (2 * FLASH_SECTOR_128KB),
+		.size         = (11 - 7 + 1) * FLASH_SECTOR_128KB,
+	},
+
 	/* NOTE: sectors 7-11 of the internal flash are currently unallocated */
 
 #endif /* PIOS_INCLUDE_FLASH_INTERNAL */
 
 #if defined(PIOS_INCLUDE_FLASH_JEDEC)
 	{
-		.label        = FLASH_PARTITION_LABEL_SETTINGS,
+		.label        = FLASH_PARTITION_LABEL_LOG,
 		.chip_desc    = &pios_flash_chip_external,
 		.first_sector = 0,
-		.last_sector  = 15,
+		.last_sector  = 5,
 		.chip_offset  = 0,
-		.size         = (15 - 0 + 1) * FLASH_SECTOR_64KB,
+		.size         = (5 - 0 + 1) * FLASH_SECTOR_64KB,
+	},
+
+	{
+		.label        = FLASH_PARTITION_LABEL_WAYPOINTS,
+		.chip_desc    = &pios_flash_chip_external,
+		.first_sector = 6,
+		.last_sector  = 10,
+		.chip_offset  = (6 * FLASH_SECTOR_64KB),
+		.size         = (10 - 6 + 1) * FLASH_SECTOR_64KB,
 	},
 
 	{
@@ -530,6 +548,13 @@ const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32
 	*num_partitions = NELEMENTS(pios_flash_partition_table);
 	return pios_flash_partition_table;
 }
+
+#include "pios_streamfs_priv.h"
+const struct streamfs_cfg streamfs_settings = {
+	.fs_magic      = 0x89abceef,
+	.arena_size    = 0x00010000, /* 64 KB */
+	.write_size    = 0x00000100, /* 256 bytes */
+};
 
 #endif	/* PIOS_INCLUDE_FLASH */
 
