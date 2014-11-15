@@ -1,0 +1,12 @@
+<xml>
+    <object name="LoggingStats" singleinstance="true" settings="false">
+        <description>Information about logging</description>
+	<field name="BytesLogged" units="bytes" type="uint32" elements="1"/>
+	<field name="MinFileId" units="" type="uint16" elements="1"/>
+	<field name="MaxFileId" units="" type="uint16" elements="1"/>
+        <access gcs="readwrite" flight="readwrite"/>
+        <telemetrygcs acked="false" updatemode="manual" period="0"/>
+        <telemetryflight acked="false" updatemode="periodic" period="1000"/>
+        <logging updatemode="manual" period="0"/>
+    </object>
+</xml>
