@@ -41,7 +41,8 @@
 extern "C" {
 
 #include "pios_flash.h"		/* PIOS_FLASH_* API */
-
+#include "pios_com.h"
+#include "pios_com_priv.h"
 #include "pios_flash_priv.h"	/* struct pios_flash_partition */
 
 extern const struct pios_flash_partition pios_flash_partition_table[];
@@ -149,8 +150,10 @@ protected:
   void CompareArray(uint8_t *a, uint8_t *b, int32_t size) {
     for (int32_t i = 0; i < size; i++) {
       EXPECT_EQ(a[i], b[i]);
-      if (a[i] != b[i])
+      if (a[i] != b[i]) {
+        fprintf(stderr, "Mismatch on element %d\r\n", i);
         break;
+      }
     }
   }
 
@@ -350,11 +353,28 @@ TEST_F(StreamfsTestUsed, ReadChunk) {
   EXPECT_EQ(0, PIOS_STREAMFS_OpenRead(fs_id,1));
   int32_t total_read = 0;
   uint8_t data_read[DATA_LEN];
-  bool error = false;
-  while(total_read < DATA_LEN && !error) {
+  while(total_read < DATA_LEN) {
     EXPECT_EQ(100, PIOS_STREAMFS_Testing_Read(fs_id, &data_read[total_read], 100));
     total_read += 100;
   }
+  CompareArray(data2, data_read, DATA_LEN);
+  EXPECT_EQ(0, PIOS_STREAMFS_Close(fs_id));
+}
+
+TEST_F(StreamfsTestUsed, WriteChunk) {
+  EXPECT_EQ(0, PIOS_STREAMFS_OpenWrite(fs_id));
+  int32_t total_write = 0;
+  while(total_write < DATA_LEN) {
+    EXPECT_EQ(0, PIOS_STREAMFS_Testing_Write(fs_id, &data2[total_write], 100));
+    total_write += 100;
+  }
+  EXPECT_EQ(0, PIOS_STREAMFS_Close(fs_id));
+
+  int32_t file_id = PIOS_STREAMFS_MaxFileId(fs_id);
+  uint8_t data_read[DATA_LEN];
+
+  EXPECT_EQ(0, PIOS_STREAMFS_OpenRead(fs_id,file_id));
+  EXPECT_EQ(DATA_LEN, PIOS_STREAMFS_Testing_Read(fs_id, data_read, DATA_LEN));
   CompareArray(data2, data_read, DATA_LEN);
   EXPECT_EQ(0, PIOS_STREAMFS_Close(fs_id));
 }
@@ -365,6 +385,75 @@ TEST_F(StreamfsTestUsed, ReadLong) {
   EXPECT_EQ(DATA_LEN, PIOS_STREAMFS_Testing_Read(fs_id, data_read, DATA_LEN * 2));
   CompareArray(data1, data_read, DATA_LEN);
   EXPECT_EQ(0, PIOS_STREAMFS_Close(fs_id));
-
 }
 
+#define BUF_LEN 50
+class StreamfsComTest : public StreamfsTestCooked {
+protected:
+  virtual void SetUp() {
+    /* First, we need to set up the super fixture (StreamfsTestRaw) */
+    StreamfsTestCooked::SetUp();
+
+    PIOS_COM_Init(&com_id, &pios_streamfs_com_driver, fs_id,
+            rx_buffer, BUF_LEN,
+            tx_buffer, BUF_LEN);
+  }
+
+  virtual void TearDown() {
+    StreamfsTestCooked::TearDown();
+  }
+
+  uintptr_t com_id;
+  uint8_t rx_buffer[BUF_LEN];
+  uint8_t tx_buffer[BUF_LEN];
+};
+
+TEST_F(StreamfsComTest, ComWriteClosed) {
+  uint8_t data_read[DATA_LEN];
+  EXPECT_EQ(10, PIOS_COM_SendBufferNonBlocking(com_id, data_read, 10));
+  EXPECT_EQ(-2, PIOS_COM_SendBufferNonBlocking(com_id, data_read, (uint16_t)DATA_LEN));
+  EXPECT_EQ(-2, PIOS_COM_SendBufferNonBlocking(com_id, data_read, (uint16_t)DATA_LEN));
+}
+
+TEST_F(StreamfsComTest, ComWrite) {
+  EXPECT_EQ(0, PIOS_STREAMFS_OpenWrite(fs_id));
+  int32_t total_write = 0;
+  while(total_write < DATA_LEN) {
+    EXPECT_EQ(100, PIOS_COM_SendBuffer(com_id, &data2[total_write], 100));
+    total_write += 100;
+  }
+  EXPECT_EQ(0, PIOS_STREAMFS_Close(fs_id));
+
+  int32_t file_id = PIOS_STREAMFS_MaxFileId(fs_id);
+  uint8_t data_read[DATA_LEN];
+  EXPECT_EQ(0, PIOS_STREAMFS_OpenRead(fs_id,file_id));
+  EXPECT_EQ(DATA_LEN, PIOS_STREAMFS_Testing_Read(fs_id, data_read, DATA_LEN));
+  CompareArray(data2, data_read, DATA_LEN);
+  EXPECT_EQ(0, PIOS_STREAMFS_Close(fs_id));
+}
+
+TEST_F(StreamfsComTest, ComReadClosed) {
+  uint8_t data_read[DATA_LEN];
+  EXPECT_EQ(0, PIOS_COM_ReceiveBuffer(com_id, data_read, (uint16_t) DATA_LEN, 0));
+  EXPECT_EQ(0, PIOS_COM_ReceiveBuffer(com_id, data_read, (uint16_t)DATA_LEN, 0));
+}
+
+TEST_F(StreamfsComTest, ComRead) {
+  EXPECT_EQ(0, PIOS_STREAMFS_OpenWrite(fs_id));
+  EXPECT_EQ(0, PIOS_STREAMFS_Testing_Write(fs_id, data1, DATA_LEN));
+  EXPECT_EQ(0, PIOS_STREAMFS_Close(fs_id));
+
+  uint8_t data_read[DATA_LEN];
+  int32_t file_id = PIOS_STREAMFS_MaxFileId(fs_id);
+
+  EXPECT_EQ(0, PIOS_STREAMFS_OpenRead(fs_id,file_id));
+  int32_t total_read = 0;
+  int32_t read = 1;
+  while(read) {
+    read = PIOS_COM_ReceiveBuffer(com_id, &data_read[total_read], 10, 2); 
+    EXPECT_TRUE(read >= 0);
+    total_read += read;
+  }
+  EXPECT_EQ(0, PIOS_STREAMFS_Close(fs_id));
+  CompareArray(data1, data_read, DATA_LEN);
+}

@@ -27,6 +27,7 @@
 /* Project Includes */
 #include "pios.h"		/* PIOS_INCLUDE_* */
 
+#include "FreeRTOS.h"
 #include "pios_heap.h"		/* External API declaration */
 #include <stdbool.h>		/* bool */
 

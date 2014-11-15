@@ -28,6 +28,7 @@ TOP      := $(realpath $(WHEREAMI)/../../../)
 include $(TOP)/make/firmware-defs.mk
 
 EXTRAINCDIRS += $(PIOS)/inc
+EXTRAINCDIRS += $(PIOS)/../Libraries/inc
 
 CFLAGS += -O0
 CFLAGS += -Wall
@@ -36,6 +37,8 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
 CONLYFLAGS += -std=gnu99
 
-SRC := $(PIOS)/Common/pios_streamfs.c $(PIOS)/Common/pios_com.c $(PIOS)/Common/pios_flash.c
+SRC := $(PIOS)/Common/pios_streamfs.c $(PIOS)/Common/pios_flash.c 
+SRC += $(PIOS)/Common/pios_com.c $(PIOS)/../Libraries/fifo_buffer.c
+#SRC += $(PIOS)/Common/printf-stdarg.c
 
 include $(TOP)/make/unittest.mk
