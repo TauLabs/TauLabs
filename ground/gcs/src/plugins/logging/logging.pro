@@ -9,7 +9,8 @@ HEADERS += loggingplugin.h \
     logginggadgetwidget.h \
     logginggadget.h \
     logginggadgetfactory.h \
-    loggingdevice.h
+    loggingdevice.h \
+    flightlogdownload.h
 #    logginggadgetconfiguration.h
 #   logginggadgetoptionspage.h
 
@@ -18,11 +19,13 @@ SOURCES += loggingplugin.cpp \
     logginggadgetwidget.cpp \
     logginggadget.cpp \
     logginggadgetfactory.cpp \
-    loggingdevice.cpp
+    loggingdevice.cpp \
+    flightlogdownload.cpp
 #    logginggadgetconfiguration.cpp \
 #    logginggadgetoptionspage.cpp
 OTHER_FILES += LoggingGadget.pluginspec \
     LoggingGadget.json
-FORMS += logging.ui
+FORMS += logging.ui \
+    flightlogdownload.ui
 #    logginggadgetwidget.ui \
 #    loggingdialog.ui

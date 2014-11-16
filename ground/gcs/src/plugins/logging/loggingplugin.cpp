@@ -31,6 +31,8 @@
 #include "loggingplugin.h"
 #include "loggingdevice.h"
 #include "logginggadgetfactory.h"
+#include "flightlogdownload.h"
+
 #include <QDebug>
 #include <QtPlugin>
 #include <QThread>
@@ -352,6 +354,16 @@ bool LoggingPlugin::initialize(const QStringList& args, QString *errMsg)
 
     connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(toggleLogging()));
 
+    // Command to downlaod log
+    cmd = am->registerAction(new QAction(this),
+                                            "LoggingPlugin.Download",
+                                            QList<int>() <<
+                                            Core::Constants::C_GLOBAL_ID);
+    cmd->setDefaultKeySequence(QKeySequence("Ctrl+D"));
+    cmd->action()->setText("Download log...");
+    ac->addAction(cmd, "Logging");
+    connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(downloadLog()));
+
 
     mf = new LoggingGadgetFactory(this);
     addAutoReleasedObject(mf);
@@ -361,6 +373,12 @@ bool LoggingPlugin::initialize(const QStringList& args, QString *errMsg)
     connect(getLogfile(),SIGNAL(replayStarted()), this, SLOT(replayStarted()));
 
     return true;
+}
+
+void LoggingPlugin::downloadLog()
+{
+    FlightLogDownload download;
+    download.exec();
 }
 
 /**
