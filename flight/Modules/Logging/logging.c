@@ -42,7 +42,7 @@
 #include "loggingstats.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 600
+#define STACK_SIZE_BYTES 700
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private types
@@ -111,9 +111,6 @@ int32_t LoggingStart(void)
 		return -1;
 	}
 
-	if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0)
-		return -1;
-
 	// Start logging task
 	loggingTaskHandle = PIOS_Thread_Create(loggingTask, "Logging", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
@@ -126,12 +123,31 @@ MODULE_INITCALL(LoggingInitialize, LoggingStart);
 
 static void loggingTask(void *parameters)
 {
+	const bool AUTOSTART_LOGGING = true;
+
+	bool write_open = false;
+	bool read_open = false;
+	int32_t read_sector = 0;
+	uint8_t read_data[LOGGINGSTATS_FILESECTOR_NUMELEM];
 
 	LoggingStatsData loggingData;
 	LoggingStatsGet(&loggingData);
 	loggingData.BytesLogged = 0;
 	loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
 	loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
+
+	if (AUTOSTART_LOGGING) {
+		if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
+			loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
+			write_open = false;
+		} else {
+			loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING;
+			write_open = true;
+		}
+	} else {
+		loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
+	}
+
 	LoggingStatsSet(&loggingData);
 
 	int i = 0;
@@ -141,20 +157,98 @@ static void loggingTask(void *parameters)
 		// Do not update anything at more than 40 Hz
 		PIOS_Thread_Sleep(20);
 
-		UAVTalkSendObjectTimestamped(uavTalkCon, AttitudeActualHandle(), 0, false, 0);
-		UAVTalkSendObjectTimestamped(uavTalkCon, AccelsHandle(), 0, false, 0);
-		UAVTalkSendObjectTimestamped(uavTalkCon, GyrosHandle(), 0, false, 0);
+		LoggingStatsGet(&loggingData);
 
-		if ((i % 10) == 0) {
-			UAVTalkSendObjectTimestamped(uavTalkCon, BaroAltitudeHandle(), 0, false, 0);
-			UAVTalkSendObjectTimestamped(uavTalkCon, GPSPositionHandle(), 0, false, 0);
+		// If currently downloading a log, close the file
+		if (loggingData.Operation == LOGGINGSTATS_OPERATION_LOGGING && read_open) {
+			PIOS_STREAMFS_Close(streamfs_id);
+			read_open = false;
 		}
 
-		if ((i % 50) == 1) {
-			UAVTalkSendObjectTimestamped(uavTalkCon, GPSTimeHandle(), 0, false, 0);	
+		if (loggingData.Operation == LOGGINGSTATS_OPERATION_LOGGING && !write_open) {
+			if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
+				loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
+			} else {
+				write_open = true;
+			}
+			loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
+			loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
+			LoggingStatsSet(&loggingData);
+		} else if (loggingData.Operation != LOGGINGSTATS_OPERATION_LOGGING && write_open) {
+			PIOS_STREAMFS_Close(streamfs_id);
+			write_open = false;
 		}
 
-		LoggingStatsBytesLoggedSet(&written_bytes);
+		switch (loggingData.Operation) {
+		case LOGGINGSTATS_OPERATION_LOGGING:
+			if (!write_open)
+				continue;
+
+			UAVTalkSendObjectTimestamped(uavTalkCon, AttitudeActualHandle(), 0, false, 0);
+			UAVTalkSendObjectTimestamped(uavTalkCon, AccelsHandle(), 0, false, 0);
+			UAVTalkSendObjectTimestamped(uavTalkCon, GyrosHandle(), 0, false, 0);
+
+			if ((i % 10) == 0) {
+				UAVTalkSendObjectTimestamped(uavTalkCon, BaroAltitudeHandle(), 0, false, 0);
+				UAVTalkSendObjectTimestamped(uavTalkCon, GPSPositionHandle(), 0, false, 0);
+			}
+
+			if ((i % 50) == 1) {
+				UAVTalkSendObjectTimestamped(uavTalkCon, GPSTimeHandle(), 0, false, 0);	
+			}
+
+			LoggingStatsBytesLoggedSet(&written_bytes);
+
+			break;
+
+		case LOGGINGSTATS_OPERATION_DOWNLOAD:
+			if (!read_open) {
+				// Start reading
+				if (PIOS_STREAMFS_OpenRead(streamfs_id, loggingData.FileRequest) != 0) {
+					loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
+				} else {
+					read_open = true;
+					read_sector = -1;
+				}
+			}
+
+			if (read_open && read_sector == loggingData.FileSectorNum) {
+				// Request received for same sector. Reupdate.
+				memcpy(loggingData.FileSector, read_data, LOGGINGSTATS_FILESECTOR_NUMELEM);
+				loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
+			} else if (read_open && (read_sector + 1) == loggingData.FileSectorNum) {
+				int32_t bytes_read = PIOS_COM_ReceiveBuffer(logging_com_id, read_data, LOGGINGSTATS_FILESECTOR_NUMELEM, 1);
+
+				if (bytes_read < 0 || bytes_read > LOGGINGSTATS_FILESECTOR_NUMELEM) {
+					// close on error
+					loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
+					PIOS_STREAMFS_Close(streamfs_id);
+					read_open = false;
+				} else if (bytes_read < LOGGINGSTATS_FILESECTOR_NUMELEM) {
+
+					// Check it has really run out of bytes by reading again
+					int32_t bytes_read2 = PIOS_COM_ReceiveBuffer(logging_com_id, &read_data[bytes_read], LOGGINGSTATS_FILESECTOR_NUMELEM - bytes_read, 1);
+					memcpy(loggingData.FileSector, read_data, LOGGINGSTATS_FILESECTOR_NUMELEM);
+
+					if ((bytes_read + bytes_read2) < LOGGINGSTATS_FILESECTOR_NUMELEM) {
+						// indicate end of file
+						loggingData.Operation = LOGGINGSTATS_OPERATION_COMPLETE;
+						PIOS_STREAMFS_Close(streamfs_id);
+						read_open = false;
+					} else {
+						// Indicate sent
+						loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
+					}
+				} else {
+					// Indicate sent
+					loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
+					memcpy(loggingData.FileSector, read_data, LOGGINGSTATS_FILESECTOR_NUMELEM);
+				}
+				read_sector = loggingData.FileSectorNum;
+			}
+			LoggingStatsSet(&loggingData);
+
+		}
 
 		i++;
 	}
