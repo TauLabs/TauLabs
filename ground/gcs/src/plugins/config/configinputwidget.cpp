@@ -690,6 +690,14 @@ void ConfigInputWidget::wizardTearDownStep(enum wizardSteps step)
         {
             manualSettingsData.ChannelNeutral[i] = manualCommandData.Channel[i];
         }
+
+        // If user skipped flight mode then force the number of flight modes to 1
+        // for valid connection
+        if (manualSettingsData.ChannelGroups[ManualControlSettings::CHANNELMIN_FLIGHTMODE] ==
+                ManualControlSettings::CHANNELGROUPS_NONE) {
+            manualSettingsData.FlightModeNumber = 1;
+        }
+
         manualSettingsObj->setData(manualSettingsData);
         setTxMovement(nothing);
         break;
