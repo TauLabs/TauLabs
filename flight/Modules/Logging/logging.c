@@ -37,12 +37,14 @@
 #include "accels.h"
 #include "gyros.h"
 #include "baroaltitude.h"
+#include "flightstatus.h"
 #include "gpsposition.h"
 #include "gpstime.h"
+#include "loggingsettings.h"
 #include "loggingstats.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 700
+#define STACK_SIZE_BYTES 900
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private types
@@ -92,6 +94,7 @@ int32_t LoggingInitialize(void)
 		return -1;
 
 	LoggingStatsInitialize();
+	LoggingSettingsInitialize();
 
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&send_data);
@@ -123,12 +126,13 @@ MODULE_INITCALL(LoggingInitialize, LoggingStart);
 
 static void loggingTask(void *parameters)
 {
-	const bool AUTOSTART_LOGGING = true;
-
+	bool armed = false;
 	bool write_open = false;
 	bool read_open = false;
 	int32_t read_sector = 0;
 	uint8_t read_data[LOGGINGSTATS_FILESECTOR_NUMELEM];
+
+	//PIOS_STREAMFS_Format(streamfs_id);
 
 	LoggingStatsData loggingData;
 	LoggingStatsGet(&loggingData);
@@ -136,7 +140,10 @@ static void loggingTask(void *parameters)
 	loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
 	loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
 
-	if (AUTOSTART_LOGGING) {
+	LoggingSettingsData settings;
+	LoggingSettingsGet(&settings);
+
+	if (settings.LogBehavior == LOGGINGSETTINGS_LOGBEHAVIOR_LOGONSTART) {
 		if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
 			loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
 			write_open = false;
@@ -159,6 +166,25 @@ static void loggingTask(void *parameters)
 
 		LoggingStatsGet(&loggingData);
 
+		// Check for change in armed state if logging on armed
+		LoggingSettingsGet(&settings);
+		if (settings.LogBehavior == LOGGINGSETTINGS_LOGBEHAVIOR_LOGONARM) {
+			FlightStatusData flightStatus;
+			FlightStatusGet(&flightStatus);
+
+			if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED && !armed) {
+				// Start logging because just armed
+				loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING;
+				armed = true;
+				LoggingStatsSet(&loggingData);
+			} else if (flightStatus.Armed == FLIGHTSTATUS_ARMED_DISARMED && armed) {
+				loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
+				armed = false;
+				LoggingStatsSet(&loggingData);
+			}
+		}
+
+
 		// If currently downloading a log, close the file
 		if (loggingData.Operation == LOGGINGSTATS_OPERATION_LOGGING && read_open) {
 			PIOS_STREAMFS_Close(streamfs_id);
@@ -176,6 +202,9 @@ static void loggingTask(void *parameters)
 			LoggingStatsSet(&loggingData);
 		} else if (loggingData.Operation != LOGGINGSTATS_OPERATION_LOGGING && write_open) {
 			PIOS_STREAMFS_Close(streamfs_id);
+			loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
+			loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
+			LoggingStatsSet(&loggingData);
 			write_open = false;
 		}
 
