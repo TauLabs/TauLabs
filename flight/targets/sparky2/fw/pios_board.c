@@ -171,6 +171,8 @@ uintptr_t pios_waypoints_settings_fs_id;
 
 uintptr_t pios_can_id;
 
+uintptr_t streamfs_id;
+
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
  */
@@ -1079,13 +1081,13 @@ void PIOS_Board_Init(void) {
 	PIOS_MPU9250_SetSampleRate(mpu9250_samplerate);
 #endif /* PIOS_INCLUDE_MPU9250_SPI */
 
-#ifdef PIOS_INCLUDE_FLASH
+#if defined(PIOS_INCLUDE_FLASH)
+	if ( PIOS_STREAMFS_Init(&streamfs_id, &streamfs_settings, FLASH_PARTITION_LABEL_LOG) != 0)
+		panic(8);
+		
 	const uint32_t LOG_BUF_LEN = 256;
-	uintptr_t streamfs_id;
 	uint8_t *log_rx_buffer = PIOS_malloc(LOG_BUF_LEN);
 	uint8_t *log_tx_buffer = PIOS_malloc(LOG_BUF_LEN);
-	if (PIOS_STREAMFS_Init(&streamfs_id, &streamfs_settings, FLASH_PARTITION_LABEL_LOG) != 0)
-		panic(8);
 	if (PIOS_COM_Init(&pios_com_logging_id, &pios_streamfs_com_driver, streamfs_id,
 		log_rx_buffer, LOG_BUF_LEN, log_tx_buffer, LOG_BUF_LEN) != 0)
 		panic(9);
