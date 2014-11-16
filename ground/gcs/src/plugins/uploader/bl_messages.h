@@ -91,6 +91,8 @@ enum dfu_partition_label {
     DFU_PARTITION_BL,
     DFU_PARTITION_SETTINGS,
     DFU_PARTITION_WAYPOINTS,
+    DFU_PARTITION_LOG,
+    DFU_PARTITION_OTA,
 }__attribute__((packed));
 
 struct bl_messages {
