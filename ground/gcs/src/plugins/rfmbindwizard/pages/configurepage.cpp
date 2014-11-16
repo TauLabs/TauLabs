@@ -58,6 +58,15 @@ ConfigurePage::ConfigurePage(RfmBindWizard *wizard, QWidget *parent) :
     ui->cbBaudRate->clear();
     ui->cbBaudRate->insertItems(0, MaxRfSpeedEnumOptions);
     ui->cbBaudRate->setCurrentText("100000");
+
+    ui->cbLinkMode->clear();
+    ui->cbLinkMode->addItem("Telemetry Only", QVariant(LINK_TELEM));
+    ui->cbLinkMode->addItem("Telemetry and PPM", QVariant(LINK_TELEM_PPM));
+    ui->cbLinkMode->addItem("PPM Only", QVariant(LINK_PPM));
+    ui->cbBaudRate->setCurrentIndex(0);
+
+    ui->sbMinChannel->setValue(0);
+    ui->sbMaxChannel->setValue(250);
 }
 
 ConfigurePage::~ConfigurePage()
@@ -75,12 +84,20 @@ bool ConfigurePage::isComplete() const
     return true;
 }
 
+//! Store the configuration data in the wizard
 bool ConfigurePage::validatePage()
 {
     quint32 bps = ui->cbBaudRate->currentText().toInt();
     quint32 maxRfPower = ui->cbRfPower->currentText().toFloat();
+    quint8 minChannel = ui->sbMinChannel->value();
+    quint8 maxChannel = ui->sbMaxChannel->value();
+    enum LinkMode linkMode = ui->cbLinkMode->currentData().value<LinkMode>();
+
     getWizard()->setMaxBps(bps);
     getWizard()->setMaxRfPower(maxRfPower);
+    getWizard()->setMinChannel(minChannel);
+    getWizard()->setMaxChannel(maxChannel);
+    getWizard()->setLinkMode(linkMode);
 
     return true;
 }
