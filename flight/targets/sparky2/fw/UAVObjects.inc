@@ -60,6 +60,7 @@ UAVOBJSRCFILENAMES += gpssatellites
 UAVOBJSRCFILENAMES += gpstime
 UAVOBJSRCFILENAMES += gpsvelocity
 UAVOBJSRCFILENAMES += groundpathfollowersettings
+UAVOBJSRCFILENAMES += loggingsettings
 UAVOBJSRCFILENAMES += loggingstats
 UAVOBJSRCFILENAMES += loitercommand
 UAVOBJSRCFILENAMES += vtolpathfollowersettings
