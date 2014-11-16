@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_brushless.c
- * @author     Tau Labs, http://github.com/TauLabs Copyright (C) 2013-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Brushless gimbal controller
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -113,7 +113,7 @@ static float    scales[NUM_BGC_CHANNELS];      /*! fractional scale for each cha
 static float    accel_limit[NUM_BGC_CHANNELS]; /*! slew rate limit (deg/s^2) */
 static int16_t  scale;                         /*! amplitude of sine wave */
 static int32_t  center;                        /*! center value of sine wave */
-
+static bool     locked;                        /*! whether the gimbal is currently locked */
 /**
 * Set the servo update rate (Max 500Hz)
 * \param[in] rate in Hz
@@ -189,6 +189,13 @@ int32_t PIOS_Brushless_SetMaxAcceleration(float roll, float pitch, float yaw)
 	return 0;
 }
 
+//! Lock or unlock the gimbal at the current position
+int32_t PIOS_Brushless_Lock(bool lock)
+{
+	locked = lock;
+	return 0;
+}
+
 /**
  * PIOS_Brushless_SetPhase set the phase for one of the channel outputs
  * @param[in] channel The channel to set
@@ -255,16 +262,29 @@ static void PIOS_BRUSHLESS_Task(void* parameters)
 
 		const float dT = TICK_DELAY * 0.001f;
 
-		for (int channel = 0; channel < NUM_BGC_CHANNELS; channel++) {
+		if (!locked) {
+			for (int channel = 0; channel < NUM_BGC_CHANNELS; channel++) {
 
-			// Update phase and keep within [0 360)
-			phases[channel] += speeds[channel] * dT;
-			if (phases[channel] < 0)
-				phases[channel] += 360;
-			if (phases[channel] >= 360)
-				phases[channel] -= 360;
+				// Update phase and keep within [0 360)
+				phases[channel] += speeds[channel] * dT;
+				if (phases[channel] < 0)
+					phases[channel] += 360;
+				if (phases[channel] >= 360)
+					phases[channel] -= 360;
 
-			PIOS_Brushless_SetPhase(channel, phases[channel] + phase_lag[channel]);
+				PIOS_Brushless_SetPhase(channel, phases[channel] + phase_lag[channel]);
+			}
+		} else {
+			for (int channel = 0; channel < NUM_BGC_CHANNELS; channel++) {
+				
+				// Update phase and keep within [0 360)
+				if (phases[channel] < 0)
+					phases[channel] += 360;
+				if (phases[channel] >= 360)
+					phases[channel] -= 360;
+
+				PIOS_Brushless_SetPhase(channel, phases[channel]);
+			}
 		}
 	}
 }
