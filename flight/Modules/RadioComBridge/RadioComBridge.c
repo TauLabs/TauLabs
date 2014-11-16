@@ -479,13 +479,11 @@ static void PPMInputTask( __attribute__ ((unused))
 		PIOS_WDG_UpdateFlag(PIOS_WDG_PPMINPUT);
 #endif
 
-		PIOS_Thread_Sleep(20);
+		PIOS_Thread_Sleep(2);
 
 		// Read the receiver inputs.
-		for (uint8_t i = 0; i < RFM22BRECEIVER_CHANNEL_NUMELEM;
-		     ++i) {
-			channels[i] =
-			    PIOS_RCVR_Read(PIOS_PPM_RECEIVER, i + 1);
+		for (uint8_t i = 0; i < RFM22BRECEIVER_CHANNEL_NUMELEM; ++i) {
+			channels[i] = PIOS_RCVR_Read(PIOS_PPM_RECEIVER, i + 1);
 		}
 
 		// Pass the channel values to the radio device.
