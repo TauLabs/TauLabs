@@ -775,13 +775,15 @@ void PIOS_Board_Init(void) {
 	} /* hwsettings_rv_flexiport */
 
 
+#if defined(PIOS_INCLUDE_RFM22B)
     /* Initalize the RFM22B radio COM device. */
 	RFM22BStatusInitialize();
 	RFM22BStatusCreateInstance();
 
-#if defined(PIOS_INCLUDE_RFM22B)
 	RFM22BStatusData rfm22bstatus;
 	RFM22BStatusGet(&rfm22bstatus);
+	RFM22BStatusInstSet(1,&rfm22bstatus);
+
 
 	HwSparky2Data hwSparky2;
 	HwSparky2Get(&hwSparky2);
@@ -797,6 +799,8 @@ void PIOS_Board_Init(void) {
 			const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg) == 0) {
 				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
+			} else {
+				pios_rfm22b_id = 0;
 			}
 			rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
 
