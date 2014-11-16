@@ -904,10 +904,11 @@ void PIOS_Board_Init(void) {
 	}
 #endif	/* PIOS_INCLUDE_PPM */
 		break;
-	case HWBRAIN_RXPORT_USART:
+	case HWBRAIN_RXPORT_UART:
 		use_rxport_usart = true;
 		break;
-	case HWBRAIN_RXPORT_PPMUSART:
+	case HWBRAIN_RXPORT_PPMUART:
+	case HWBRAIN_RXPORT_PPMUARTOUTPUTS:
 		use_rxport_usart = true;
 		uintptr_t pios_ppm_id;
 		PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
@@ -1044,7 +1045,7 @@ void PIOS_Board_Init(void) {
 	case HWBRAIN_RXPORT_DISABLED:
 	case HWBRAIN_RXPORT_PWM:
 	case HWBRAIN_RXPORT_PPM:
-	case HWBRAIN_RXPORT_PPMUSART:
+	case HWBRAIN_RXPORT_PPMUART:
 		/* Set up the servo outputs */
 #ifdef PIOS_INCLUDE_SERVO
 		PIOS_Servo_Init(&pios_servo_cfg);
@@ -1052,7 +1053,12 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWBRAIN_RXPORT_PPMOUTPUTS:
 #ifdef PIOS_INCLUDE_SERVO
-		PIOS_Servo_Init(&pios_servo_rcvr_cfg);
+		PIOS_Servo_Init(&pios_servo_rcvr_ppm_cfg);
+#endif
+		break;
+	case HWBRAIN_RXPORT_PPMUARTOUTPUTS:
+#ifdef PIOS_INCLUDE_SERVO
+		PIOS_Servo_Init(&pios_servo_rcvr_ppm_uart_out_cfg);
 #endif
 		break;
 	case HWBRAIN_RXPORT_OUTPUTS:

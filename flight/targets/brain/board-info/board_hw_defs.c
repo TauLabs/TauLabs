@@ -1238,7 +1238,7 @@ const struct pios_servo_cfg pios_servo_cfg = {
 	.num_channels = NELEMENTS(pios_tim_servoport_all_pins),
 };
 
-const struct pios_servo_cfg pios_servo_rcvr_cfg = {
+const struct pios_servo_cfg pios_servo_rcvr_ppm_cfg = {
 	.tim_oc_init = {
 		.TIM_OCMode = TIM_OCMode_PWM1,
 		.TIM_OutputState = TIM_OutputState_Enable,
@@ -1251,6 +1251,21 @@ const struct pios_servo_cfg pios_servo_rcvr_cfg = {
 	},
 	.channels = pios_tim_servoport_rcvrport_pins,
 	.num_channels = NELEMENTS(pios_tim_servoport_rcvrport_pins) - 2,
+};
+
+const struct pios_servo_cfg pios_servo_rcvr_ppm_uart_out_cfg = {
+	.tim_oc_init = {
+		.TIM_OCMode = TIM_OCMode_PWM1,
+		.TIM_OutputState = TIM_OutputState_Enable,
+		.TIM_OutputNState = TIM_OutputNState_Disable,
+		.TIM_Pulse = PIOS_SERVOS_INITIAL_POSITION,
+		.TIM_OCPolarity = TIM_OCPolarity_High,
+		.TIM_OCNPolarity = TIM_OCPolarity_High,
+		.TIM_OCIdleState = TIM_OCIdleState_Reset,
+		.TIM_OCNIdleState = TIM_OCNIdleState_Reset,
+	},
+	.channels = pios_tim_servoport_rcvrport_pins,
+	.num_channels = NELEMENTS(pios_tim_servoport_rcvrport_pins) - 4,
 };
 
 const struct pios_servo_cfg pios_servo_rcvr_all_cfg = {
