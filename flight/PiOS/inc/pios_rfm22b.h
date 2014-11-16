@@ -118,7 +118,6 @@ extern pios_rfm22b_int_result PIOS_RFM22B_ProcessTx(uint32_t rfm22b_id);
 extern pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id);
 extern void PIOS_RFM22B_RegisterRcvr(uint32_t rfm22b_id, uintptr_t rfm22b_rcvr_id);
 extern void PIOS_RFM22B_PPMSet(uint32_t rfm22b_id, int16_t * channels);
-extern void PIOS_RFM22B_PPMGet(uint32_t rfm22b_id, int16_t * channels);
 extern bool PIOS_RFM22B_IsCoordinator(uint32_t rfm22b_id);
 
 /* Global Variables */

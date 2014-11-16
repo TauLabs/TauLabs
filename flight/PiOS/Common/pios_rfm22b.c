@@ -1114,26 +1114,6 @@ extern void PIOS_RFM22B_PPMSet(uint32_t rfm22b_id, int16_t * channels)
 	}
 }
 
-/**
- * Fetch the PPM values that have been received.
- *
- * @param[in] rfm22b_dev  The RFM22B device structure pointer.
- * @param[out] channels   The PPM channel values.
- */
-extern void PIOS_RFM22B_PPMGet(uint32_t rfm22b_id, int16_t * channels)
-{
-	struct pios_rfm22b_dev *rfm22b_dev =
-	    (struct pios_rfm22b_dev *)rfm22b_id;
-
-	if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
-		return;
-	}
-
-	for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS; ++i) {
-		channels[i] = rfm22b_dev->ppm[i];
-	}
-}
-
 /*****************************************************************************
 * The Device Control Thread
 *****************************************************************************/
