@@ -542,9 +542,6 @@ static bool rfm22_setConnected(struct pios_rfm22b_dev *rfm22b_dev, bool connecte
 		rfm22b_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_CONNECTED;
 	} else {
 		rfm22b_dev->stats.link_state = RFM22BSTATUS_LINKSTATE_DISCONNECTED;
-		for (uint8_t i = 0; i < RFM22B_PPM_NUM_CHANNELS; ++i) {
-			rfm22b_dev->ppm[i] = PIOS_RCVR_TIMEOUT;
-		}
 	}
 
 	return status != rfm22b_dev->stats.link_state;
@@ -1967,7 +1964,7 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 					uint32_t val = p[i + 1];
 					radio_dev->ppm[i] = (uint16_t) (1000 + val * 900 / 256);
 				} else {
-					radio_dev->ppm[i] = PIOS_RCVR_INVALID;
+					radio_dev->ppm[i] = PIOS_RCVR_TIMEOUT;
 				}
 			}
 
