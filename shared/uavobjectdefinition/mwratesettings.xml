@@ -1,0 +1,22 @@
+<xml>
+    <object name="MWRateSettings" singleinstance="true" settings="true">
+        <description>PID settings used by the MWRate stabilization settings</description>
+
+	<!-- Standard PID settings -->
+	<field name="RollRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.004,0.0086,0.00005,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
+	<field name="PitchRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.004,0.0086,0.00005,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
+	<field name="YawRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.0085,0.013,0,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
+
+	<!-- how much the PIDs are attenuated as the sticks go to full range -->
+	<field name="RollPitchRate" units="%" type="uint8" elements="1" defaultvalue="0"/>
+	<field name="YawRate" units="%" type="uint8" elements="1" defaultvalue="0"/>
+
+	<!-- how much the derivative looks at changes in input -->
+	<field name="DerivativeGamma" units="" type="float" elements="1" defaultvalue="0"/>
+
+	<access gcs="readwrite" flight="readwrite"/>
+	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+	<telemetryflight acked="true" updatemode="onchange" period="0"/>
+	<logging updatemode="manual" period="0"/>
+    </object>
+</xml>
