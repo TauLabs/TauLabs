@@ -108,6 +108,9 @@ bool CoordinatedPage::bindCoordinator()
 
     board->setCoordID(getWizard()->getCoordID(), getWizard()->getMaxBps(), getWizard()->getMaxRfPower());
 
+    board->setLinkMode(getWizard()->getLinkMode());
+    board->setMinMaxChannel(getWizard()->getMinChannel(), getWizard()->getMaxChannel());
+
     m_coordinatorConfigured = true;
     ui->setCoordinator->setEnabled(false);
 

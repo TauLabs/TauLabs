@@ -34,8 +34,7 @@
 #include <coreplugin/iboardtype.h>
 #include <coreplugin/connectionmanager.h>
 
-enum LinkMode { LINK_TELEM, LINK_TELEM_PPM, LINK_PPM };
-Q_DECLARE_METATYPE(LinkMode)
+Q_DECLARE_METATYPE(Core::IBoardType::LinkMode)
 
 class RfmBindWizard : public QWizard {
     Q_OBJECT
@@ -65,8 +64,8 @@ public:
     quint8 getMaxChannel() const { return m_maxChannel; }
 
     // gettor and accessor for link mode
-    void setLinkMode(enum LinkMode m) { m_linkMode = m; }
-    enum LinkMode getLinkMode() const { return m_linkMode; }
+    void setLinkMode(enum Core::IBoardType::LinkMode m) { m_linkMode = m; }
+    enum Core::IBoardType::LinkMode getLinkMode() const { return m_linkMode; }
 
     Core::ConnectionManager *getConnectionManager()
     {
@@ -103,7 +102,7 @@ private:
     quint8 m_minChannel;
     quint8 m_maxChannel;
 
-    enum LinkMode m_linkMode;
+    enum Core::IBoardType::LinkMode m_linkMode;
 
     quint32 m_coordID;
 
