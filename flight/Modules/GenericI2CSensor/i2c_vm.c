@@ -644,7 +644,7 @@ static bool i2c_vm_write (struct i2c_vm_regs * vm_state, uint8_t ram_addr, uint8
 		},
 	};
 
-	uint32_t rc = PIOS_I2C_Transfer(vm_state->i2c_adapter, txn_list, NELEMENTS(txn_list));
+	int32_t rc = PIOS_I2C_Transfer(vm_state->i2c_adapter, txn_list, NELEMENTS(txn_list));
 
 	/* Fault the VM if the I2C transfer fails */
 	if (rc < 0)
