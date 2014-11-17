@@ -27,7 +27,9 @@
 #ifndef SPARKY2_H
 #define SPARKY2_H
 
+#include "hwsparky2.h"
 #include <coreplugin/iboardtype.h>
+#include <uavobjectutil/uavobjectutilmanager.h>
 
 class IBoardType;
 
@@ -43,6 +45,7 @@ public:
     virtual QStringList getSupportedProtocols();
     virtual QPixmap getBoardPicture();
     virtual QString getHwUAVO();
+    HwSparky2 * getSettings();
 
     //! Determine if this board supports configuring the receiver
     virtual bool isInputConfigurationSupported();
@@ -82,6 +85,14 @@ public:
      */
     virtual bool setCoordID(quint32 id, quint32 baud_rate = 0, float rf_power = -1);
 
+    //! Set the radio link mode
+    virtual bool setLinkMode(Core::IBoardType::LinkMode /* linkMode */);
+
+    //! Set the minimum and maximum channel index
+    virtual bool setMinMaxChannel(quint8 /* min */, quint8 /* max */);
+
+private:
+    UAVObjectUtilManager* uavoUtilManager;
 };
 
 

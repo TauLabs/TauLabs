@@ -28,10 +28,8 @@
 #include "sparky2.h"
 
 #include <uavobjectmanager.h>
-#include "uavobjectutil/uavobjectutilmanager.h"
 #include <extensionsystem/pluginmanager.h>
 
-#include "hwsparky2.h"
 #include "rfm22bstatus.h"
 
 
@@ -68,6 +66,9 @@ Sparky2::Sparky2(void)
     channelBanks[3] = QVector<int> () << 7 << 8;
     channelBanks[4] = QVector<int> () << 9 << 10;
     channelBanks[5] = QVector<int> ();
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
 }
 
 Sparky2::~Sparky2()
@@ -124,6 +125,18 @@ QPixmap Sparky2::getBoardPicture()
 QString Sparky2::getHwUAVO()
 {
     return "HwSparky2";
+}
+
+//! Get the settings object
+HwSparky2 * Sparky2::getSettings()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    HwSparky2 *hwSparky2 = HwSparky2::GetInstance(uavoManager);
+    Q_ASSERT(hwSparky2);
+
+    return hwSparky2;
 }
 
 //! Determine if this board supports configuring the receiver
@@ -263,12 +276,7 @@ quint32 Sparky2::getRfmID()
  */
 bool Sparky2::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
 {
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
-
-    HwSparky2 *hwSparky2 = HwSparky2::GetInstance(uavoManager);
-    Q_ASSERT(hwSparky2);
-    HwSparky2::DataFields settings = hwSparky2->getData();
+    HwSparky2::DataFields settings = getSettings()->getData();
 
     if (id == 0) {
         // set as coordinator
@@ -332,11 +340,43 @@ bool Sparky2::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
         break;
     }
 
-    hwSparky2->setData(settings);
+    getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash(getSettings());
 
-    // save the settings
-    UAVObjectUtilManager* uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
-    uavoUtilManager->saveObjectToFlash(hwSparky2);
+    return true;
+}
+
+//! Set the radio link mode
+bool Sparky2::setLinkMode(Core::IBoardType::LinkMode linkMode)
+{
+    HwSparky2::DataFields settings = getSettings()->getData();
+
+    switch(linkMode) {
+    case Core::IBoardType::LINK_TELEM:
+        settings.Radio = HwSparky2::RADIO_TELEM;
+        break;
+    case Core::IBoardType::LINK_TELEM_PPM:
+        settings.Radio = HwSparky2::RADIO_TELEMPPM;
+        break;
+    case Core::IBoardType::LINK_PPM:
+        settings.Radio = HwSparky2::RADIO_PPM;
+        break;
+    }
+
+    getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash(getSettings());
+
+    return true;
+}
+
+//! Set the minimum and maximum channel index
+bool Sparky2::setMinMaxChannel(quint8 min, quint8 max)
+{
+    HwSparky2::DataFields settings = getSettings()->getData();
+    settings.MinChannel = min;
+    settings.MaxChannel = max;
+    getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash(getSettings());
 
     return true;
 }
