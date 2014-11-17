@@ -28,10 +28,8 @@
 #include "taulink.h"
 
 #include <uavobjectmanager.h>
-#include "uavobjectutil/uavobjectutilmanager.h"
 #include <extensionsystem/pluginmanager.h>
 
-#include "hwtaulink.h"
 #include "rfm22bstatus.h"
 
 /**
@@ -48,6 +46,9 @@ TauLink::TauLink(void)
     setUSBInfo(board);
 
     boardType = 0x03;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
 }
 
 TauLink::~TauLink()
@@ -106,6 +107,17 @@ QString TauLink::getHwUAVO()
     return "HwTauLink";
 }
 
+//! Get the settings object
+HwTauLink * TauLink::getSettings()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    HwTauLink *wwTauLink = HwTauLink::GetInstance(uavoManager);
+    Q_ASSERT(wwTauLink);
+
+    return wwTauLink;
+}
 /**
  * Get the RFM22b device ID this modem
  * @return RFM22B device ID or 0 if not supported
@@ -130,12 +142,7 @@ quint32 TauLink::getRfmID()
  */
 bool TauLink::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
 {
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
-
-    HwTauLink *hwTauLink = HwTauLink::GetInstance(uavoManager);
-    Q_ASSERT(hwTauLink);
-    HwTauLink::DataFields settings = hwTauLink->getData();
+    HwTauLink::DataFields settings = getSettings()->getData();
 
     if (id == 0) {
         // set as coordinator
@@ -199,11 +206,43 @@ bool TauLink::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
         break;
     }
 
-    hwTauLink->setData(settings);
+    getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash( getSettings());
 
-    // save the settings
-    UAVObjectUtilManager* uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
-    uavoUtilManager->saveObjectToFlash(hwTauLink);
+    return true;
+}
+
+//! Set the radio link mode
+bool TauLink::setLinkMode(Core::IBoardType::LinkMode linkMode)
+{
+    HwTauLink::DataFields settings = getSettings()->getData();
+
+    switch(linkMode) {
+    case Core::IBoardType::LINK_TELEM:
+        settings.Radio = HwTauLink::RADIO_TELEM;
+        break;
+    case Core::IBoardType::LINK_TELEM_PPM:
+        settings.Radio = HwTauLink::RADIO_TELEMPPM;
+        break;
+    case Core::IBoardType::LINK_PPM:
+        settings.Radio = HwTauLink::RADIO_PPM;
+        break;
+    }
+
+    getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash(getSettings());
+
+    return true;
+}
+
+//! Set the minimum and maximum channel index
+bool TauLink::setMinMaxChannel(quint8 min, quint8 max)
+{
+    HwTauLink::DataFields settings = getSettings()->getData();
+    settings.MinChannel = min;
+    settings.MaxChannel = max;
+    getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash(getSettings());
 
     return true;
 }

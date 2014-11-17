@@ -28,6 +28,8 @@
 #define TAULINK_H
 
 #include <coreplugin/iboardtype.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include "hwtaulink.h"
 
 class IBoardType;
 
@@ -43,7 +45,7 @@ public:
     virtual QStringList getSupportedProtocols();
     virtual QPixmap getBoardPicture();
     virtual QString getHwUAVO();
-
+    HwTauLink * getSettings();
 
     /**
      * Get the RFM22b device ID this modem
@@ -58,6 +60,14 @@ public:
      */
     virtual bool setCoordID(quint32 id, quint32 baud_rate = 0, float rf_power = -1);
 
+    //! Set the radio link mode
+    virtual bool setLinkMode(LinkMode /* linkMode */);
+
+    //! Set the minimum and maximum channel index
+    virtual bool setMinMaxChannel(quint8 /* min */, quint8 /* max */);
+
+private:
+    UAVObjectUtilManager* uavoUtilManager;
 };
 
 
