@@ -216,6 +216,14 @@ public:
      */
     virtual bool setCoordID(quint32 /* id */, quint32 /*baud_rate*/ = 0, float /*rf_power*/ = -1) { return false; }
 
+    enum LinkMode { LINK_TELEM, LINK_TELEM_PPM, LINK_PPM };
+
+    //! Set the radio link mode
+    virtual bool setLinkMode(LinkMode /* linkMode */) { return false; }
+
+    //! Set the minimum and maximum channel index
+    virtual bool setMinMaxChannel(quint8 /* min */, quint8 /* max */) { return false; }
+
     static QString getBoardNameFromID(int id);
 
 signals:
