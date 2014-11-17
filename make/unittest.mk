@@ -27,7 +27,7 @@
 CPPFLAGS += -I$(GTEST_DIR)/include
 
 # Flags passed to the C++ compiler.
-CXXFLAGS += -g -Wall -Wextra
+CXXFLAGS += -g -Wall -Wextra -Wno-missing-field-initializers
 
 # Google Test needs the pthread library
 LDFLAGS += -lpthread
