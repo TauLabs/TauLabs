@@ -43,7 +43,7 @@ Brain::Brain(void)
     // Initialize our USB Structure definition here:
     USBInfo board;
     board.vendorID = 0x20A0;
-    board.productID = 0x415b;
+    board.productID = 0x4242;
 
     setUSBInfo(board);
 

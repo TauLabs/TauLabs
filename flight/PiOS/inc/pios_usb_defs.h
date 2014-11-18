@@ -366,7 +366,9 @@ enum usb_product_ids {
 	/* Tau Labs Boards */
 	USB_PRODUCT_ID_FREEDOM        = 0x41d0,
 	USB_PRODUCT_ID_SPARKY         = USB_PRODUCT_ID_FREEDOM,
-	USB_PRODUCT_ID_BRAIN          = 0x415B,    //XXX get USB pid
+
+    /* BrainFPV Boards */
+	USB_PRODUCT_ID_BRAIN          = 0x4242,
 
 	/* ST Eval Boards */
 	USB_PRODUCT_ID_DISCOVERYF4    = USB_PRODUCT_ID_SPARE,

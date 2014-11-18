@@ -75,5 +75,5 @@ BrainConfiguration::~BrainConfiguration()
 
 void BrainConfiguration::openHelp()
 {
-    QDesktopServices::openUrl( QUrl("http://wwww.brainfpv.com/products/brain/hardware-setup", QUrl::StrictMode) );
+    QDesktopServices::openUrl( QUrl("http://wwww.brainfpv.com/support", QUrl::StrictMode) );
 }
