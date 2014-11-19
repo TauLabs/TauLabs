@@ -4,9 +4,9 @@
 		<field name="OSDEnabled" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="Units" units="" type="enum" elements="1" options="Metric,Imperial" defaultvalue="Metric"/>
 		<field name="PALWhite" units=""  type="uint8"  elements="1" defaultvalue="110"/>
-		<field name="PALBlack" units=""  type="uint8"  elements="1" defaultvalue="30"/>
+		<field name="PALBlack" units=""  type="uint8"  elements="1" defaultvalue="35"/>
 		<field name="NTSCWhite" units=""  type="uint8"  elements="1" defaultvalue="110"/>
-		<field name="NTSCBlack" units=""  type="uint8"  elements="1" defaultvalue="10"/>
+		<field name="NTSCBlack" units=""  type="uint8"  elements="1" defaultvalue="20"/>
 		<field name="XOffset" units=""  type="int8"  elements="1" defaultvalue="0"/>
 		<field name="YOffset" units=""  type="int8"  elements="1" defaultvalue="0"/>
 		<field name="NumPages" units=""  type="int8"  elements="1" defaultvalue="2"/>
