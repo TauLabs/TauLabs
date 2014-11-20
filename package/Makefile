@@ -45,8 +45,8 @@ CLEAN_FLIGHT := YES
 endif
 
 # Set up targets
-ALL_BOARDS        := coptercontrol pipxtreme revolution revomini sparky freedom quanton colibri flyingf3 flyingf4
-ALL_BOARDS_BU     := coptercontrol pipxtreme
+ALL_BOARDS        := brain
+ALL_BOARDS_BU     := brain
 FW_TARGETS        := $(addprefix fw_, $(ALL_BOARDS))
 FW_TARGETS_TOOLS  := $(addprefix fw_, $(ALL_BOARDS))
 BL_TARGETS        := $(addprefix bl_, $(ALL_BOARDS))
