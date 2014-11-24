@@ -408,7 +408,7 @@ static void stabilizationTask(void* parameters)
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_RATEMW:
 				{
 					if(reinit) {
-						pids[PID_RATE_ROLL + i].iAccumulator = 0;
+						pids[PID_MWR_ROLL + i].iAccumulator = 0;
 					}
 
 					/*
