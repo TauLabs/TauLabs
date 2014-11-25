@@ -905,8 +905,6 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		return;
 	}
 
-	const float DEADBAND_HIGH = 0.55f;
-	const float DEADBAND_LOW = 0.45f;
 	const float MIN_CLIMB_RATE = 0.01f;
 	
 	AltitudeHoldDesiredData altitudeHoldDesired;
@@ -928,9 +926,13 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		altitudeHoldDesired.Altitude = -current_down;
 		altitudeHoldDesired.ClimbRate = 0;
 	} else {
-		uint8_t altitude_hold_expo, altitude_hold_maxrate;
+		uint8_t altitude_hold_expo, altitude_hold_maxrate, altitude_hold_deadband;
 		AltitudeHoldSettingsMaxRateGet(&altitude_hold_maxrate);
 		AltitudeHoldSettingsExpoGet(&altitude_hold_expo);
+		AltitudeHoldSettingsDeadbandGet(&altitude_hold_deadband);
+
+		const float DEADBAND_HIGH = 0.50f + altitude_hold_deadband * 0.01f;
+		const float DEADBAND_LOW = 0.50f - altitude_hold_deadband * 0.01f;
 
 		float climb_rate = 0.0f;
 		if (cmd->Throttle > DEADBAND_HIGH) {
@@ -940,6 +942,9 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 			climb_rate = ((cmd->Throttle < 0) ? DEADBAND_LOW : DEADBAND_LOW - cmd->Throttle) / DEADBAND_LOW;
 			climb_rate = -expo3(climb_rate, altitude_hold_expo) * altitude_hold_maxrate;
 		}
+
+		// When throttle is negative tell the module that we are in landing mode
+		altitudeHoldDesired.Land = (cmd->Throttle < 0) ? ALTITUDEHOLDDESIRED_LAND_TRUE : ALTITUDEHOLDDESIRED_LAND_FALSE;
 
 		// If more than MIN_CLIMB_RATE enter vario mode
 		if (fabsf(climb_rate) > MIN_CLIMB_RATE) {
