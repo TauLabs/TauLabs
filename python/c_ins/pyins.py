@@ -67,7 +67,6 @@ class PyINS:
 			sensors = sensors | 0x0200
 			Z[9] = baro
 
-		print "Applying correction: " + hex(sensors)
 		ins.correction(Z, sensors)
 
 def test():
@@ -111,17 +110,20 @@ def test():
 		if True and k % 20 == 15:
 			sim.correction(mag=[[400 * cos(angle)], [-400 * sin(angle)], [1600]])
 
-		if k % 50 == 0:
-			print `k` + " Att: " + `quat_rpy_display(sim.state[6:10])`
+		if k % 1000 == 0:
 
 			ax[0][0].cla()
 			ax[0][0].plot(times[0:k:4],history[0:k:4,0:3])
+			ax[0][0].set_title('Position')
 			ax[0][1].cla()
 			ax[0][1].plot(times[0:k:4],history[0:k:4,3:6])
+			ax[0][1].set_title('Velocity')
 			ax[1][0].cla()
 			ax[1][0].plot(times[0:k:4],history[0:k:4,6:10])
+			ax[1][0].set_title('Attitude')
 			ax[1][1].cla()
 			ax[1][1].plot(times[0:k:4],history[0:k:4,10:])
+			ax[1][1].set_title('Biases')
 
 			plt.draw()
 			fig.show()
