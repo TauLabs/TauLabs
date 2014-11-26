@@ -15,19 +15,19 @@
  * Convert a python array type to a 3 element float
  * vector.
  */
-static bool parseFloatVec3(PyArrayObject *vec_in, float *vec_out)
+static bool parseFloatVecN(PyArrayObject *vec_in, float *vec_out, int N)
 {
-  	NpyIter *iter;
+    NpyIter *iter;
     NpyIter_IterNextFunc *iternext;
-	
-	/*  create the iterators */
+  
+  /*  create the iterators */
     iter = NpyIter_New(vec_in, NPY_ITER_READONLY, NPY_KEEPORDER,
                              NPY_NO_CASTING, NULL);
     if (iter == NULL)
         goto fail;
 
-	iternext = NpyIter_GetIterNext(iter, NULL);
-	if (iternext == NULL) {
+  iternext = NpyIter_GetIterNext(iter, NULL);
+  if (iternext == NULL) {
         NpyIter_Deallocate(iter);
         goto fail;
     }
@@ -38,14 +38,29 @@ static bool parseFloatVec3(PyArrayObject *vec_in, float *vec_out)
     int i = 0;
     do {
         vec_out[i++] = **dataptr;
-    } while(iternext(iter) && (i < 3));
+    } while(iternext(iter) && (i < N));
 
-	NpyIter_Deallocate(iter);
+  NpyIter_Deallocate(iter);
 
-	return true;
+  return true;
 
 fail:
-	return false;
+  return false;
+}
+
+/**
+ * parseFloatVec3(vec_in, vec_out)
+ *
+ * @param[in] vec_in the python array to extract elements from
+ * @param[out] vec_out float array of the numbers
+ * @return true if successful, false if not
+ *
+ * Convert a python array type to a 3 element float
+ * vector.
+ */
+static bool parseFloatVec3(PyArrayObject *vec_in, float *vec_out)
+{
+  return parseFloatVecN(vec_in, vec_out, 3);
 }
 
 /**
@@ -110,36 +125,34 @@ prediction(PyObject* self, PyObject* args)
 	parseFloatVec3(vec_gyro, gyro_data);
 	parseFloatVec3(vec_accel, accel_data);
 
-	printf("dT: %f [%f %f %f] [%f %f %f]\n", dT, gyro_data[0], gyro_data[1], gyro_data[2], accel_data[0], accel_data[1], accel_data[2]);
-
 	INSStatePrediction(gyro_data, accel_data, dT);
 	INSCovariancePrediction(dT);
 
 	return pack_state(self);
-	
-fail:
-	return NULL;
 }
  
-static PyObject*
-full_correction(PyObject* self, PyObject* args)
+/**
+ * correction - perform a correction of the EKF
+ * @params[in] self
+ * @params[in] args
+ *  - Z - vector of measurements (position, velocity, mag, baro)
+ *  - sensors - binary flags for which sensors should be used
+ * @return state
+ */
+ static PyObject*
+correction(PyObject* self, PyObject* args)
 {
-	PyArrayObject *vec_pos, *vec_vel, *vec_mag;
-	float pos_data[3], vel_data[3], mag_data[3];
-	float baro_data;
+	PyArrayObject *vec_z;
+	float z[10];
+  int sensors;
 
-    if (!PyArg_ParseTuple(args, "O!O!O!f", &PyArray_Type, &vec_pos,
-    	           &PyArray_Type, &vec_vel, &PyArray_Type, &vec_mag,
-    	           &baro_data))  return NULL;
-	if (NULL == vec_pos)  return NULL;
-	if (NULL == vec_vel)  return NULL;
-	if (NULL == vec_mag)  return NULL;	
+    if (!PyArg_ParseTuple(args, "O!i", &PyArray_Type, &vec_z,
+    	           &sensors))  return NULL;
+	if (NULL == vec_z)  return NULL;
 
-	parseFloatVec3(vec_pos, pos_data);
-	parseFloatVec3(vec_vel, vel_data);
-	parseFloatVec3(vec_mag, mag_data);
+	parseFloatVecN(vec_z, z, 10);
 
-    INSCorrection(mag_data, pos_data, vel_data, baro_data, FULL_SENSORS);
+  INSCorrection(&z[6], &z[0], &z[3], z[9], sensors);
 
 	return pack_state(self);
 }
@@ -147,6 +160,7 @@ full_correction(PyObject* self, PyObject* args)
 static PyMethodDef InsMethods[] =
 {
      {"prediction", prediction, METH_VARARGS, "Advance state 1 time step."},
+     {"correction", correction, METH_VARARGS, "Apply state correction based on measured sensors."},
      {NULL, NULL, 0, NULL}
 };
  
