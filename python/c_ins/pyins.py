@@ -52,7 +52,7 @@ class PyINS:
 			Z[1] = pos[1]
 
 		if vel is not None:
-			sensors = sensors | 0x0038
+			sensors = sensors | 0x0018
 			Z[3] = vel[0]
 			Z[4] = vel[1]
 			Z[5] = vel[2]
@@ -170,29 +170,29 @@ def test():
 	sim.prepare()
 
 	dT = 1.0 / 666.0
-	STEPS = 1000000
+	STEPS = 100000
 
 	history = numpy.zeros((STEPS,16))
 	history_rpy = numpy.zeros((STEPS,3))
 	times = numpy.zeros((STEPS,1))
 
 	for k in range(STEPS):
-		ROLL = 0.5
-		YAW  = 0.5
-		sim.predict(U=[0,0,YAW, 0, PyINS.GRAV*sin(ROLL),-PyINS.GRAV*cos(ROLL) - 0.1], dT=dT)
+		ROLL = 0.1
+		YAW  = 0.2
+		sim.predict(U=[0,0,YAW, 0, PyINS.GRAV*sin(ROLL), -PyINS.GRAV*cos(ROLL) - 0.0], dT=dT)
 
 		history[k,:] = sim.state
 		history_rpy[k,:] = quat_rpy(sim.state[6:10])
 		times[k] = k * dT
 
-		angle = numpy.pi/3 + YAW * dT * k # radians 
+		angle = 0*numpy.pi/3 + YAW * dT * k # radians 
 		height = 1.0 * k * dT
 
 		if True and k % 60 == 59:
 			sim.correction(pos=[[10],[5],[-height]])
 
 		if True and k % 60 == 59:
-			sim.correction(vel=[[0],[0],[0]])
+			sim.correction(vel=[[0],[0],[-1]])
 
 		if k % 20 == 8:
 			sim.correction(baro=[height])
@@ -219,6 +219,8 @@ def test():
 
 			plt.draw()
 			fig.show()
+
+	plt.show()
 
 if  __name__ =='__main__':
 	test()
