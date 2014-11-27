@@ -165,20 +165,9 @@ correction(PyObject* self, PyObject* args)
 	return pack_state(self);
 }
 
-static PyMethodDef InsMethods[] =
+static PyObject*
+init(PyObject* self, PyObject* args)
 {
-	{"prediction", prediction, METH_VARARGS, "Advance state 1 time step."},
-	{"correction", correction, METH_VARARGS, "Apply state correction based on measured sensors."},
-	{NULL, NULL, 0, NULL}
-};
- 
-PyMODINIT_FUNC
-initins(void)
-{
-	(void) Py_InitModule("ins", InsMethods);
-	import_array();
-	 
-	INSGPSInit();
 	const float mag_var[3] = {0.1f, 0.1f, 10.0f};
 	const float accel_var[3] = {3e-3f, 3e-3f, 3e-3f};
 	const float gyro_var[3] = {1e-5f, 1e-5f, 1e-4f};
@@ -191,4 +180,23 @@ initins(void)
 	INSSetGyroVar(gyro_var);
 	INSSetBaroVar(baro_var);
 	INSSetPosVelVar(gps_pos_var, gps_vel_var, gps_vert_var);
+
+	return pack_state(self);	
+}
+
+static PyMethodDef InsMethods[] =
+{
+	{"init", init, METH_VARARGS, "Reset INS state."},
+	{"prediction", prediction, METH_VARARGS, "Advance state 1 time step."},
+	{"correction", correction, METH_VARARGS, "Apply state correction based on measured sensors."},
+	{NULL, NULL, 0, NULL}
+};
+ 
+PyMODINIT_FUNC
+initins(void)
+{
+	(void) Py_InitModule("ins", InsMethods);
+	import_array();
+	init(NULL, NULL);
+	INSGPSInit();
 }
