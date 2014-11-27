@@ -171,13 +171,13 @@ initins(void)
 	import_array();
 	 
 	INSGPSInit();
-	const float mag_var[3] = {0.1f, 0.1f, 0.1f};
-	const float accel_var[3] = {1e-4f, 1e-4f, 1e-5f};
+	const float mag_var[3] = {0.001f, 0.001f, 10.0f};
+	const float accel_var[3] = {3e-3f, 3e-3f, 3e-3f};
 	const float gyro_var[3] = {1e-5f, 1e-5f, 1e-4f};
-	const float baro_var = 0.1f;
+	const float baro_var = 0.01f;
 	const float gps_pos_var = 1e-3f;
-	const float gps_vel_var = 1e-3f;
-	const float gps_vert_var = 0.1f;
+	const float gps_vel_var = 1e-2f;
+	const float gps_vert_var = 10.0f;
 	INSSetMagVar(mag_var);
 	INSSetAccelVar(accel_var);
 	INSSetGyroVar(gyro_var);
