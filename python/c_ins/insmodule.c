@@ -1,5 +1,7 @@
 #include <Python.h>
 #include "math.h"
+
+#define NPY_NO_DEPRECATED_API 7
 #include "numpy/arrayobject.h"
 #include "numpy/ndarraytypes.h"
 
@@ -79,7 +81,7 @@ pack_state(PyObject* self)
 
 	PyArrayObject *state;
 	state = (PyArrayObject*) PyArray_FromDims(nd, dims, NPY_DOUBLE);
-	double *s = (double *) state->data;
+	double *s = (double *) PyArray_DATA(state);
 
 	s[0] = pos[0];
 	s[1] = pos[1];
