@@ -9,7 +9,7 @@ import ins
 
 class PyINS:
 
-	GRAV = 9.81
+	GRAV = 9.805
 
 	def __init__(self):
 		""" Creates the INS14 class and prepares the equations. 
@@ -41,30 +41,25 @@ class PyINS:
 		"""
 		ins.init()
 		self.configure(
-			mag_var=numpy.array([0.1,0.1,10]),
+			mag_var=numpy.array([10.0,10.0,100.0]),
 			gyro_var=numpy.array([1e-5,1e-5,1e-4]),
 			accel_var=numpy.array([1e-5,1e-5,1e-5]),
-			baro_var=0.1,
-			gps_var=numpy.array([1e-5,1e-5,10.0])
+			baro_var=1e-2,
+			gps_var=numpy.array([1e-3,1e-2,1e-3])
 			)
 
-	def predict(self, U=[0,0,0,0,0,0], dT = 1.0/666.0):
+	def predict(self, gyros, accels, dT = 1.0/666.0):
 		""" Perform the prediction step
 		"""
 
-		gyros = numpy.array(U[0:3])
-		accels = numpy.array(U[3:])
 		self.state = ins.prediction(gyros, accels, dT)
-
-		#print `self.state`
-
 
 	def correction(self, pos=None, vel=None, mag=None, baro=None):
 		""" Perform the INS correction based on the provided corrections
 		"""
 
 		sensors = 0
-		Z = numpy.zeros((10,1))
+		Z = numpy.zeros((10,),numpy.float64)
 
 		# the masks must match the values in insgps.h
 
@@ -74,13 +69,13 @@ class PyINS:
 			Z[1] = pos[1]
 
 		if vel is not None:
-			sensors = sensors | 0x0018
+			sensors = sensors | 0x0038
 			Z[3] = vel[0]
 			Z[4] = vel[1]
 			Z[5] = vel[2]
 
 		if mag is not None:
-			sensors = sensors | 0x00C0
+			sensors = sensors | 0x01C0
 			Z[6] = mag[0]
 			Z[7] = mag[1]
 			Z[8] = mag[2]
