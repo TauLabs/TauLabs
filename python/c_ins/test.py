@@ -9,15 +9,25 @@ from quaternions import *
 import numpy
 import ins
 
-VISUALIZE = True
+VISUALIZE = False
 
 class TestSequenceFunctions(unittest.TestCase):
 
     def setUp(self):
         self.sim = PyINS()
         self.sim.prepare()
+        self.sim.configure(
+            mag_var=numpy.array([100.0,100.0,100.0]),
+            gyro_var=numpy.array([1e-5,1e-5,1e-4]),
+            accel_var=numpy.array([1e-5,1e-5,1e-5]),
+            baro_var=1e-2,
+            gps_var=numpy.array([1e-3,1e-2,1e-1])
+            )
 
-    def run_static(self, accel=[0,0,-PyINS.GRAV], gyro=[0,0,0], mag=[400,0,1600], pos=[0,0,0], vel=[0,0,0], STEPS=200000):
+    def run_static(self, accel=[0.0,0.0,-PyINS.GRAV],
+        gyro=[0.0,0.0,0.0], mag=[400,0,1600],
+        pos=[0,0,0], vel=[0,0,0],
+        noise=False, STEPS=200000):
         """ simulate a static set of inputs and measurements
         """
 
@@ -25,31 +35,43 @@ class TestSequenceFunctions(unittest.TestCase):
 
         dT = 1.0 / 666.0
 
+        #numpy.random.seed(1)
+
         history = numpy.zeros((STEPS,16))
+        history_rpy = numpy.zeros((STEPS,3))
         times = numpy.zeros((STEPS,1))
 
-        U = gyro
-        U.extend(accel)
-
         for k in range(STEPS):
-            sim.predict(U=U, dT=dT)
+            ng = numpy.zeros(3,)
+            na = numpy.zeros(3,)
+            np = numpy.zeros(3,)
+            nv = numpy.zeros(3,)
+            nm = numpy.zeros(3,)
+
+            if noise:
+                ng = numpy.random.randn(3,) * 1e-3
+                na = numpy.random.randn(3,) * 1e-3
+                np = numpy.random.randn(3,) * 1e-3
+                nv = numpy.random.randn(3,) * 1e-3
+                nm = numpy.random.randn(3,) * 10.0
+
+            sim.predict(gyro+ng, accel+na, dT=dT)
 
             history[k,:] = sim.state
+            history_rpy[k,:] = quat_rpy(sim.state[6:10])
             times[k] = k * dT
 
-            height = 1.0 * k * dT
+            if True and k % 60 == 59:
+                sim.correction(pos=pos+np)
 
             if True and k % 60 == 59:
-                sim.correction(pos=pos)
-
-            if True and k % 60 == 59:
-                sim.correction(vel=vel)
+                sim.correction(vel=vel+nv)
 
             if k % 20 == 8:
-                sim.correction(baro=-pos[2])
+                sim.correction(baro=-pos[2]+np[2])
 
             if True and k % 20 == 15:
-                sim.correction(mag=mag)
+                sim.correction(mag=mag+nm)
 
         if VISUALIZE:
             from numpy import cos, sin
@@ -62,18 +84,29 @@ class TestSequenceFunctions(unittest.TestCase):
             ax[0][0].cla()
             ax[0][0].plot(times[0:k:4],history[0:k:4,0:3])
             ax[0][0].set_title('Position')
+            plt.sca(ax[0][0])
+            plt.ylabel('m')
             ax[0][1].cla()
             ax[0][1].plot(times[0:k:4],history[0:k:4,3:6])
             ax[0][1].set_title('Velocity')
             plt.sca(ax[0][1])
-            plt.ylim(-2,2)
+            plt.ylabel('m/s')
+            #plt.ylim(-2,2)
             ax[1][0].cla()
-            ax[1][0].plot(times[0:k:4],history[0:k:4,6:10])
+            ax[1][0].plot(times[0:k:4],history_rpy[0:k:4,:])
             ax[1][0].set_title('Attitude')
+            plt.sca(ax[1][0])
+            plt.ylabel('Angle (Deg)')
+            plt.xlabel('Time (s)')
+            #plt.ylim(-1.1,1.1)
             ax[1][1].cla()
             ax[1][1].plot(times[0:k:4],history[0:k:4,10:])
             ax[1][1].set_title('Biases')
+            plt.sca(ax[1][1])
+            plt.ylabel('Bias (rad/s)')
+            plt.xlabel('Time (s)')
 
+            plt.suptitle(unittest.TestCase.shortDescription(self))
             plt.show()
 
 
@@ -108,28 +141,90 @@ class TestSequenceFunctions(unittest.TestCase):
         self.assertAlmostEqual(state[15],bias[5],places=2)
 
     def test_face_west(self):
-        """ test convergence at origin
+        """ test convergence to face west
         """
 
         mag = [0,-400,1600]
-        state, history, times = self.run_static(mag=mag, STEPS=5000)
+        state, history, times = self.run_static(mag=mag, STEPS=50000)
         self.assertState(state,rpy=[0,0,90])
 
     def test_pos_offset(self):
-        """ test convergence at origin
+        """ test convergence to location away from origin
         """
 
         self.sim.configure(gps_var=numpy.array([1e-7,1e-7,1e-3]),baro_var=1e-3)
 
         pos = [10,5,7]
-        state, history, times = self.run_static(pos=pos, STEPS=5000)
+        state, history, times = self.run_static(pos=pos, STEPS=50000)
         self.assertState(state,pos=pos)
+
+    def test_accel_bias(self):
+        """ test convergence with biased accelerometers
+        """
+
+        bias = -0.2
+        state, history, times = self.run_static(accel=[0,0,-PyINS.GRAV+bias], STEPS=50000)
+        self.assertState(state,bias=[0,0,0,0,0,bias])
+
+    def test_gyro_bias(self):
+        """ test convergence with biased gyros
+        """
+
+        state, history, times = self.run_static(gyro=[0.1,-0.05,0.06], STEPS=150000)
+        self.assertState(state,bias=[0.1,-0.05,0.06,0,0,0])
+
+    def test_init_100m(self):
+        """ test convergence to origin when initialized 100m away
+        """
+
+        ins.set_state(pos=numpy.array([100.0,100.0,50]))
+        state, history, times = self.run_static(STEPS=50000)
+        self.assertState(state)
+
+    def test_init_bad_q(self):
+        """ test convergence with bad initial attitude
+        """
+
+        ins.set_state(q=numpy.array([0.7, 0.7, 0, 0]))
+        state, history, times = self.run_static() #STEPS=5000)
+        self.assertState(state)
+
+    def test_init_bad_bias(self):
+        """ test convergence with bad initial gyro biases
+        """
+
+        ins.set_state(gyro_bias=numpy.array([0.05,0.05,-0.05]))
+        state, history, times = self.run_static(STEPS=100000)
+        self.assertState(state)
+
+    def test_init_bad_q_bias(self):
+        """ test convergence with bad initial attitude and biases
+        """
+
+        ins.set_state(q=numpy.array([0.7, 0.7, 0, 0]),gyro_bias=numpy.array([0.05,0.05,-0.05]))
+        state, history, times = self.run_static(STEPS=100000)
+        self.assertState(state)
+
+    def test_mag_offset(self):
+        """ test convergence with an incorrectly scaled mag
+        """
+
+        mag = [300,0,900]
+        state, history, times = self.run_static(mag=mag,STEPS=50000)
+        self.assertState(state)
 
     def test_origin(self):
         """ test convergence at origin
         """
 
-        state, history, times = self.run_static(STEPS=5000)
+        state, history, times = self.run_static(STEPS=50000)
+        self.assertState(state)
+
+    def test_stable(self):
+        """ test stability at origin with noise
+        """
+
+        state, history, times = self.run_static(STEPS=50000, noise=True)
         self.assertState(state)
 
 if __name__ == '__main__':
