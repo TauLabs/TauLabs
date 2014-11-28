@@ -11,18 +11,11 @@ import ins
 
 VISUALIZE = False
 
-class TestSequenceFunctions(unittest.TestCase):
+class StaticTestFunctions(unittest.TestCase):
 
     def setUp(self):
         self.sim = PyINS()
         self.sim.prepare()
-        self.sim.configure(
-            mag_var=numpy.array([100.0,100.0,100.0]),
-            gyro_var=numpy.array([1e-5,1e-5,1e-4]),
-            accel_var=numpy.array([1e-5,1e-5,1e-5]),
-            baro_var=1e-2,
-            gps_var=numpy.array([1e-3,1e-2,1e-1])
-            )
 
     def run_static(self, accel=[0.0,0.0,-PyINS.GRAV],
         gyro=[0.0,0.0,0.0], mag=[400,0,1600],
@@ -152,8 +145,6 @@ class TestSequenceFunctions(unittest.TestCase):
         """ test convergence to location away from origin
         """
 
-        self.sim.configure(gps_var=numpy.array([1e-7,1e-7,1e-3]),baro_var=1e-3)
-
         pos = [10,5,7]
         state, history, times = self.run_static(pos=pos, STEPS=50000)
         self.assertState(state,pos=pos)
@@ -227,13 +218,63 @@ class TestSequenceFunctions(unittest.TestCase):
         state, history, times = self.run_static(STEPS=50000, noise=True)
         self.assertState(state)
 
+class ReplayFlightFunctions(unittest.TestCase):
+
+    def __init__(self, *args, **kwargs):
+        super(ReplayFlightFunctions, self).__init__(*args, **kwargs)
+        self.uavolist = []
+
+    def setUp(self):
+        self.sim = PyINS()
+        self.sim.prepare()
+
+        # add python directory to search path so the modules can be loaded
+        import sys,os
+        sys.path.insert(1, os.path.dirname(sys.path[0]))
+
+        import taulabs
+        import cPickle
+
+        filename = "/Users/Cotton/Documents/TauLabs/Logs/20140818_nav_testing/log_20140327_183850.dat.pickle"
+        filename = "/Users/Cotton/Documents/TauLabs/Logs/20140820_navigation/log_20140820_232224.dat.pickle"
+
+        # load data from file
+        handle = open(filename, 'rb')
+        githash = cPickle.load(handle)
+        uavo_parsed = cPickle.load(handle)
+        handle.close()
+
+        # prepare the parser
+        uavo_defs = taulabs.uavo_collection.UAVOCollection()
+        uavo_defs.from_git_hash(githash)
+        parser = taulabs.uavtalk.UavTalk(uavo_defs)
+
+        print "Converting log records into python objects"
+        uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
+        for obj_id, data, timestamp in uavo_parsed:
+            obj = uavo_defs[obj_id]
+            u = obj.instance_from_bytes(data, timestamp)
+            uavo_list.append(u)
+
+        # We're done with this (potentially very large) variable, delete it.
+        del uavo_parsed
+
+        self.uavo_list = uavo_list
+
+    def test_replay(self):
+        """ replay a logfile """
+
+        from pyins import run_uavo_list
+        run_uavo_list(self.uavo_list)
+
+
 if __name__ == '__main__':
     selected_test = None
 
     if selected_test is not None:
         VISUALIZE = True
         suite = unittest.TestSuite()
-        suite.addTest(TestSequenceFunctions(selected_test))
+        suite.addTest(StaticTestFunctions(selected_test))
         unittest.TextTestRunner().run(suite)
     else:
         unittest.main()

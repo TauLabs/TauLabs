@@ -93,6 +93,7 @@ def run_uavo_list(uavo_list):
 	import matplotlib.pyplot as plt
 	fig, ax = plt.subplots(2,2)
 
+	attitude = uavo_list.as_numpy_array(taulabs.uavo.UAVO_AttitudeActual)
 	gyros = uavo_list.as_numpy_array(taulabs.uavo.UAVO_Gyros)
 	accels = uavo_list.as_numpy_array(taulabs.uavo.UAVO_Accels)
 	ned = uavo_list.as_numpy_array(taulabs.uavo.UAVO_NEDPosition)
@@ -100,8 +101,9 @@ def run_uavo_list(uavo_list):
 	mag = uavo_list.as_numpy_array(taulabs.uavo.UAVO_Magnetometer)
 	baro = uavo_list.as_numpy_array(taulabs.uavo.UAVO_BaroAltitude)
 
-	STEPS = gyros['time'].shape[0]
+	STEPS = gyros['time'].size
 	history = numpy.zeros((STEPS,16))
+	history_rpy = numpy.zeros((STEPS,3))
 	times = numpy.zeros((STEPS,1))
 
 	steps = 0
@@ -116,62 +118,70 @@ def run_uavo_list(uavo_list):
 	sim = PyINS()
 	sim.prepare()
 
-	dT = 1 / 666.0
-	tlast = t - dT
+	dT = numpy.mean(numpy.diff(gyros['time']))
 
-	while(True):
-		if (gyros['time'][gyro_idx] < t) & (accels['time'][accel_idx] < t):
-			# once the time marker is past both of these sample that were used
-			# then find the next one in the future for each
-			while gyros['time'][gyro_idx] < t:
-				gyro_idx = gyro_idx + 1
-			while accels['time'][accel_idx] < t:
-				accel_idx = accel_idx + 1
-			U = [gyros['x'][gyro_idx],gyros['y'][gyro_idx],gyros['z'][gyro_idx],accels['x'][accel_idx],accels['y'][accel_idx],accels['z'][accel_idx]]
+	for gyro_idx in numpy.arange(STEPS):
 
-			dT = dT*0.99 + numpy.double(gyros['time'][gyro_idx] - t) * 0.01
+		t = gyros['time'][gyro_idx]
+		steps = gyro_idx
+		accel_idx = (numpy.abs(accels['time']-t)).argmin()
 			
-			sim.predict(U=U)
+		gyros_dat = numpy.array([gyros['x'][gyro_idx],gyros['y'][gyro_idx],gyros['z'][gyro_idx]]).T[0]
+		accels_dat = numpy.array([accels['x'][accel_idx],accels['y'][accel_idx],accels['z'][accel_idx]]).T[0]
 
-			if ned['time'][ned_idx] < t:
-				sim.correction(pos=[ned['North'][ned_idx], ned['East'][ned_idx], ned['Down'][ned_idx]])
-				ned_idx = ned_idx + 1
+		sim.predict(gyros_dat,accels_dat,dT)
 
-			if vel['time'][vel_idx] < t:
-				sim.correction(vel=[vel['North'][vel_idx], vel['East'][vel_idx], vel['Down'][vel_idx]])
-				vel_idx = vel_idx + 1
+		if (ned_idx < ned['time'].size) and (ned['time'][ned_idx] < t):
+			sim.correction(pos=[ned['North'][ned_idx,0], ned['East'][ned_idx,0], ned['Down'][ned_idx,0]])
+			ned_idx = ned_idx + 1
 
-			if mag['time'][mag_idx] < t:
-				sim.correction(mag=[mag['x'][mag_idx], mag['y'][mag_idx], mag['z'][mag_idx]])
-				mag_idx = mag_idx + 1
+		if (vel_idx < vel['time'].size) and (vel['time'][vel_idx] < t):
+			sim.correction(vel=[vel['North'][vel_idx,0], vel['East'][vel_idx,0], vel['Down'][vel_idx,0]])
+			vel_idx = vel_idx + 1
 
-			if baro['time'][baro_idx] < t:
-				sim.correction(baro=baro['Altitude'][baro_idx])
-				baro_idx = baro_idx + 1
+		if (mag_idx < mag['time'].size) and (mag['time'][mag_idx] < t):
+			sim.correction(mag=[mag['x'][mag_idx,0], mag['y'][mag_idx,0], mag['z'][mag_idx,0]])
+			mag_idx = mag_idx + 1
 
-			history[steps,:] = sim.state
-			times[steps] = t
+		if (baro_idx < baro['time'].size) and (baro['time'][baro_idx] < t):
+			sim.correction(baro=baro['Altitude'][baro_idx,0])
+			baro_idx = baro_idx + 1
 
-			steps = steps + 1
+		history[steps,:] = sim.state
+		history_rpy[steps,:] = quat_rpy(sim.state[6:10])
+		times[steps] = t
 
-			if steps % 50 == 0:
-				print "dT: " + `dT`
+	ax[0][0].cla()
+	ax[0][0].plot(ned['time'],ned['North'],'k',ned['time'],ned['East'],'k',ned['time'],ned['Down'],'k', baro['time'], -baro['Altitude'],'k')
+	ax[0][0].plot(times,history[:,0:3])
+	ax[0][0].set_title('Position')
+	plt.sca(ax[0][0])
+	plt.ylabel('m')
+	ax[0][1].cla()
+	ax[0][1].plot(vel['time'],vel['North'],'k',vel['time'],vel['East'],'k')
+	ax[0][1].plot(times,history[:,3:6])
+	ax[0][1].set_title('Velocity')
+	plt.sca(ax[0][1])
+	plt.ylabel('m/s')
+	#plt.ylim(-2,2)
+	ax[1][0].cla()
+	ax[1][0].plot(attitude['time'],attitude['Roll'],'k',attitude['time'],attitude['Pitch'],'k',attitude['time'],attitude['Yaw'],'k')
+	ax[1][0].plot(times,history_rpy[:,:])
+	ax[1][0].set_title('Attitude')
+	plt.sca(ax[1][0])
+	plt.ylabel('Angle (Deg)')
+	plt.xlabel('Time (s)')
+	#plt.ylim(-1.1,1.1)
+	ax[1][1].cla()
+	ax[1][1].plot(times,history[:,10:])
+	ax[1][1].set_title('Biases')
+	plt.sca(ax[1][1])
+	plt.ylabel('Bias (rad/s)')
+	plt.xlabel('Time (s)')
 
-				ax[0][0].cla()
-				ax[0][0].plot(times[0:steps],history[0:steps,0:3])
-				ax[0][0].plot(ned['time'],ned['North'],'.',ned['time'],ned['East'])
-				ax[0][1].cla()
-				ax[0][1].plot(times[0:steps],history[0:steps,3:6])
-				ax[0][0].plot(vel['time'],vel['North'],'.',vel['time'],vel['East'])
-				ax[1][0].cla()
-				ax[1][0].plot(times[0:steps],history[0:steps,6:10])
-				ax[1][1].cla()
-				ax[1][1].plot(times[0:steps],history[0:steps,10:])
+	plt.draw()
+	plt.show()
 
-				plt.draw()
-				fig.show()
-
-		t = t + 0.001 # advance 1ms
 	return ins
 
 def test():
