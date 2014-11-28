@@ -235,12 +235,13 @@ class ReplayFlightFunctions(unittest.TestCase):
         import taulabs
         import cPickle
 
-        filename = "/Users/Cotton/Documents/TauLabs/Logs/20140818_nav_testing/log_20140327_183850.dat.pickle"
+        #filename = "/Users/Cotton/Documents/TauLabs/Logs/20140820_navigation/log_20140820_231724.dat.pickle"
         filename = "/Users/Cotton/Documents/TauLabs/Logs/20140820_navigation/log_20140820_232224.dat.pickle"
 
         # load data from file
         handle = open(filename, 'rb')
         githash = cPickle.load(handle)
+        print "Attempting to load data with githash of " + `githash`
         uavo_parsed = cPickle.load(handle)
         handle.close()
 
@@ -252,9 +253,12 @@ class ReplayFlightFunctions(unittest.TestCase):
         print "Converting log records into python objects"
         uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
         for obj_id, data, timestamp in uavo_parsed:
-            obj = uavo_defs[obj_id]
-            u = obj.instance_from_bytes(data, timestamp)
-            uavo_list.append(u)
+            if obj_id in uavo_defs:
+                obj = uavo_defs[obj_id]
+                u = obj.instance_from_bytes(data, timestamp)
+                uavo_list.append(u)
+            else:
+                print "Missing key: " + `obj_id`
 
         # We're done with this (potentially very large) variable, delete it.
         del uavo_parsed

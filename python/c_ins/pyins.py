@@ -97,9 +97,9 @@ class PyINS:
 def run_uavo_list(uavo_list):
 
 	import taulabs
+	import math
 
-	import matplotlib.pyplot as plt
-	fig, ax = plt.subplots(2,2)
+	print "Replaying log file"
 
 	attitude = uavo_list.as_numpy_array(taulabs.uavo.UAVO_AttitudeActual)
 	gyros = uavo_list.as_numpy_array(taulabs.uavo.UAVO_Gyros)
@@ -137,6 +137,7 @@ def run_uavo_list(uavo_list):
 		gyros_dat = numpy.array([gyros['x'][gyro_idx],gyros['y'][gyro_idx],gyros['z'][gyro_idx]]).T[0]
 		accels_dat = numpy.array([accels['x'][accel_idx],accels['y'][accel_idx],accels['z'][accel_idx]]).T[0]
 
+		gyros_dat = gyros_dat / 180 * math.pi
 		sim.predict(gyros_dat,accels_dat,dT)
 
 		if (ned_idx < ned['time'].size) and (ned['time'][ned_idx] < t):
@@ -159,8 +160,13 @@ def run_uavo_list(uavo_list):
 		history_rpy[steps,:] = quat_rpy(sim.state[6:10])
 		times[steps] = t
 
+	print "Plotting results"
+	
+	import matplotlib.pyplot as plt
+	fig, ax = plt.subplots(2,3)
+
 	ax[0][0].cla()
-	ax[0][0].plot(ned['time'],ned['North'],'k',ned['time'],ned['East'],'k',ned['time'],ned['Down'],'k', baro['time'], -baro['Altitude'],'k')
+	ax[0][0].plot(ned['time'],ned['North'],'k',ned['time'],ned['East'],'k',ned['time'],ned['Down'],'k--', baro['time'], -baro['Altitude'],'k')
 	ax[0][0].plot(times,history[:,0:3])
 	ax[0][0].set_title('Position')
 	plt.sca(ax[0][0])
@@ -186,6 +192,11 @@ def run_uavo_list(uavo_list):
 	plt.sca(ax[1][1])
 	plt.ylabel('Bias (rad/s)')
 	plt.xlabel('Time (s)')
+
+	ax[0][2].cla()
+	ax[0][2].plot(gyros['time'],gyros['x'],gyros['time'],gyros['y'],gyros['time'],gyros['z'])
+	ax[1][2].cla()
+	ax[1][2].plot(accels['time'],accels['x'],accels['time'],accels['y'],accels['time'],accels['z'])
 
 	plt.draw()
 	plt.show()
