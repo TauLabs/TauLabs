@@ -7,6 +7,22 @@
 
 #include <insgps.h>
 
+int not_doublevector(PyArrayObject *vec)
+{
+	if (PyArray_TYPE(vec) != NPY_DOUBLE) {
+		PyErr_SetString(PyExc_ValueError,
+              "Vector is not a float or double vector.");
+		return 1;
+	}
+	if (PyArray_NDIM(vec) != 1)  {
+		PyErr_Format(PyExc_ValueError,
+              "Vector is not a 1 dimensional vector (%d).", PyArray_NDIM(vec));
+		return 1;  
+	}
+	return 0;
+}
+ 
+
 /**
  * parseFloatVec3(vec_in, vec_out)
  *
@@ -19,17 +35,27 @@
  */
 static bool parseFloatVecN(PyArrayObject *vec_in, float *vec_out, int N)
 {
+	/* verify it is a valid vector */
+	if (not_doublevector(vec_in))
+		return false;
+
+	if (PyArray_DIM(vec_in,0) != N) {
+		PyErr_SetString(PyExc_ValueError, "Vector length incorrect.");
+              //sprintf("Expected %d elements but only received %d.")); //, N, PyArray_DIM(vec_in,0)));
+		return false;
+	}
+
 	NpyIter *iter;
 	NpyIter_IterNextFunc *iternext;
-  
-  /*  create the iterators */
+
+	/*  create the iterators */
 	iter = NpyIter_New(vec_in, NPY_ITER_READONLY, NPY_KEEPORDER,
 							 NPY_NO_CASTING, NULL);
 	if (iter == NULL)
 		goto fail;
 
-  iternext = NpyIter_GetIterNext(iter, NULL);
-  if (iternext == NULL) {
+	iternext = NpyIter_GetIterNext(iter, NULL);
+	if (iternext == NULL) {
 		NpyIter_Deallocate(iter);
 		goto fail;
 	}
@@ -42,12 +68,13 @@ static bool parseFloatVecN(PyArrayObject *vec_in, float *vec_out, int N)
 		vec_out[i++] = **dataptr;
 	} while(iternext(iter) && (i < N));
 
-  NpyIter_Deallocate(iter);
+	NpyIter_Deallocate(iter);
 
-  return true;
+	return true;
 
 fail:
-  return false;
+	fprintf(stderr, "Parse fail\r\n");
+	return false;
 }
 
 /**
@@ -124,8 +151,10 @@ prediction(PyObject* self, PyObject* args)
 	if (NULL == vec_gyro)  return NULL;
 	if (NULL == vec_accel)  return NULL;
 
-	parseFloatVec3(vec_gyro, gyro_data);
-	parseFloatVec3(vec_accel, accel_data);
+	if (!parseFloatVec3(vec_gyro, gyro_data))
+		return NULL;
+	if (!parseFloatVec3(vec_accel, accel_data))
+		return NULL;
 
 	INSStatePrediction(gyro_data, accel_data, dT);
 	INSCovariancePrediction(dT);
@@ -158,7 +187,8 @@ correction(PyObject* self, PyObject* args)
 				   &sensors))  return NULL;
 	if (NULL == vec_z)  return NULL;
 
-	parseFloatVecN(vec_z, z, 10);
+	if (!parseFloatVecN(vec_z, z, 10))
+		return NULL;
 
 	INSCorrection(&z[6], &z[0], &z[3], z[9], sensors);
 
@@ -190,34 +220,38 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 
 	if (mag_var) {
 		float mag[3];
-		parseFloatVec3(mag_var, mag);
-		//fprintf(stdout, "Received mag_var: %f\r\n", mag[2]);
+		if (!parseFloatVec3(mag_var, mag))
+			return NULL;
+		fprintf(stdout, "Received mag_var: %f\r\n", mag[2]);
 		INSSetMagVar(mag);
 	}
 
 	if (accel_var) {
 		float accel[3];
-		parseFloatVec3(accel_var, accel);
-		//fprintf(stdout, "Received accel_var: %f\r\n", accel[2]);
+		if (!parseFloatVec3(accel_var, accel))
+			return NULL;
+		fprintf(stdout, "Received accel_var: %f\r\n", accel[2]);
 		INSSetAccelVar(accel);
 	}
 
 	if (gyro_var) {
 		float gyro[3];
-		parseFloatVec3(gyro_var, gyro);
-		//fprintf(stdout, "Received gyro_var: %f\r\n", gyro[2]);
+		if (!parseFloatVec3(gyro_var, gyro))
+			return NULL;
+		fprintf(stdout, "Received gyro_var: %f\r\n", gyro[2]);
 		INSSetGyroVar(gyro);
 	}
 
 	if (baro_var != 0.0f) {
-		//fprintf(stdout, "Received baro_var: %f\r\n", baro_var);
+		fprintf(stdout, "Received baro_var: %f\r\n", baro_var);
 		INSSetBaroVar(baro_var);
 	}
 
 	if (gps_var) {
 		float gps[3];
-		parseFloatVec3(gps_var, gps);
-		//fprintf(stdout, "Received gps_var: %f %f %f\r\n", gps[0], gps[1], gps[2]);
+		if (!parseFloatVec3(gps_var, gps))
+			return NULL;
+		fprintf(stdout, "Received gps_var: %f %f %f\r\n", gps[0], gps[1], gps[2]);
 		INSSetPosVelVar(gps[0], gps[1], gps[2]);
 	}
 
@@ -225,22 +259,52 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 }
 
 static PyObject*
+set_state(PyObject* self, PyObject* args, PyObject *kwarg)
+{
+	static char *kwlist[] = {"pos", "vel", "q", "gyro_bias", "accel_bias", NULL};
+
+	PyArrayObject *vec_pos = NULL, *vec_vel = NULL, *vec_q = NULL, *vec_gyro_bias = NULL, *vec_accel_bias = NULL;
+
+	if (!PyArg_ParseTupleAndKeywords(args, kwarg, "|OOOOO", kwlist,
+		 &vec_pos, &vec_vel, &vec_q, &vec_gyro_bias, &vec_accel_bias)) {
+		return NULL;
+	}
+
+	float pos[3], vel[3], q[4], gyro_bias[3], accel_bias[3];
+	INSGetState(pos, vel, q, gyro_bias, accel_bias);
+
+	// Overwrite state with any that were passed in
+	if (vec_pos) {
+		if (!parseFloatVec3(vec_pos, pos))
+			return NULL;
+	}
+	if (vec_vel) {
+		if (!parseFloatVec3(vec_vel, vel))
+			return NULL;
+	}
+	if (vec_q) {
+		if (!parseFloatVecN(vec_q, q, 4))
+			return NULL;
+	}
+	if (vec_gyro_bias) {
+		if (!parseFloatVec3(vec_gyro_bias, gyro_bias))
+			return NULL;
+	}
+	if (vec_accel_bias) {
+		if (!parseFloatVec3(vec_accel_bias, accel_bias))
+			return NULL;
+	}
+
+	INSSetState(pos, vel, q, gyro_bias, accel_bias);
+
+	return Py_None;
+}
+
+
+static PyObject*
 init(PyObject* self, PyObject* args)
 {
 	INSGPSInit();
-
-	const float mag_var[3] = {0.1f, 0.1f, 10.0f};
-	const float accel_var[3] = {3e-3f, 3e-3f, 3e-3f};
-	const float gyro_var[3] = {1e-5f, 1e-5f, 1e-4f};
-	const float baro_var = 0.01f;
-	const float gps_pos_var = 1e-5f;
-	const float gps_vel_var = 1e-5f;
-	const float gps_vert_var = 10.0f;
-	INSSetMagVar(mag_var);
-	INSSetAccelVar(accel_var);
-	INSSetGyroVar(gyro_var);
-	INSSetBaroVar(baro_var);
-	INSSetPosVelVar(gps_pos_var, gps_vel_var, gps_vert_var);
 
 	return pack_state(self);	
 }
@@ -251,6 +315,7 @@ static PyMethodDef InsMethods[] =
 	{"prediction", prediction, METH_VARARGS, "Advance state 1 time step."},
 	{"correction", correction, METH_VARARGS, "Apply state correction based on measured sensors."},
 	{"configure", (PyCFunction)configure, METH_VARARGS|METH_KEYWORDS, "Configure EKF parameters."},
+	{"set_state", (PyCFunction)set_state, METH_VARARGS|METH_KEYWORDS, "Set the EKF state."},
 	{NULL, NULL, 0, NULL}
 };
  
