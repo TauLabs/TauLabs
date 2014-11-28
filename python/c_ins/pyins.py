@@ -22,9 +22,31 @@ class PyINS:
 
 		self.state = []
 
+	def configure(self, mag_var=None, gyro_var=None, accel_var=None, baro_var=None, gps_var=None):
+		""" configure the INS parameters """
+
+		if mag_var is not None:
+			ins.configure(mag_var=mag_var)
+		if gyro_var is not None:
+			ins.configure(gyro_var=gyro_var)
+		if accel_var is not None:
+			ins.configure(accel_var=accel_var)
+		if baro_var is not None:
+			ins.configure(baro_var=baro_var)
+		if gps_var is not None:
+			ins.configure(gps_var=gps_var)
+
 	def prepare(self):
 		""" prepare the C INS wrapper
 		"""
+		ins.init()
+		self.configure(
+			mag_var=numpy.array([0.1,0.1,10]),
+			gyro_var=numpy.array([1e-5,1e-5,1e-4]),
+			accel_var=numpy.array([1e-5,1e-5,1e-5]),
+			baro_var=0.1,
+			gps_var=numpy.array([1e-5,1e-5,10.0])
+			)
 
 	def predict(self, U=[0,0,0,0,0,0], dT = 1.0/666.0):
 		""" Perform the prediction step
@@ -84,7 +106,7 @@ def run_uavo_list(uavo_list):
 	baro = uavo_list.as_numpy_array(taulabs.uavo.UAVO_BaroAltitude)
 
 	STEPS = gyros['time'].shape[0]
-	history = numpy.zeros((STEPS,14))
+	history = numpy.zeros((STEPS,16))
 	times = numpy.zeros((STEPS,1))
 
 	steps = 0
@@ -132,7 +154,7 @@ def run_uavo_list(uavo_list):
 				sim.correction(baro=baro['Altitude'][baro_idx])
 				baro_idx = baro_idx + 1
 
-			history[steps,:] = ins.r_X.T
+			history[steps,:] = sim.state
 			times[steps] = t
 
 			steps = steps + 1
@@ -142,10 +164,10 @@ def run_uavo_list(uavo_list):
 
 				ax[0][0].cla()
 				ax[0][0].plot(times[0:steps],history[0:steps,0:3])
-				ax[0][0].plot(ned['times'],ned['North'],'.',ned['times'],ned['East'])
+				ax[0][0].plot(ned['time'],ned['North'],'.',ned['time'],ned['East'])
 				ax[0][1].cla()
 				ax[0][1].plot(times[0:steps],history[0:steps,3:6])
-				ax[0][0].plot(vel['times'],vel['North'],'.',vel['times'],vel['East'])
+				ax[0][0].plot(vel['time'],vel['North'],'.',vel['time'],vel['East'])
 				ax[1][0].cla()
 				ax[1][0].plot(times[0:steps],history[0:steps,6:10])
 				ax[1][1].cla()

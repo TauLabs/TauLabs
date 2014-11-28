@@ -147,7 +147,7 @@ prediction(PyObject* self, PyObject* args)
  *  - sensors - binary flags for which sensors should be used
  * @return state
  */
- static PyObject*
+static PyObject*
 correction(PyObject* self, PyObject* args)
 {
 	PyArrayObject *vec_z;
@@ -165,9 +165,70 @@ correction(PyObject* self, PyObject* args)
 	return pack_state(self);
 }
 
+/**
+ * configure the EKF paramters (e.g. variances)
+ * @params[in] self
+ * @params[in] args
+ *  - mag_var
+ *  - accel_var
+ *  - gyro_var
+ *  - baro_var
+ * @return nothing
+ */
+static PyObject*
+configure(PyObject* self, PyObject* args, PyObject *kwarg)
+{
+	static char *kwlist[] = {"mag_var", "accel_var", "gyro_var", "baro_var", "gps_var", NULL};
+
+	PyArrayObject *mag_var = NULL, *accel_var = NULL, *gyro_var = NULL, *gps_var = NULL;
+	float baro_var = 0.0f;
+
+	if (!PyArg_ParseTupleAndKeywords(args, kwarg, "|OOOfO", kwlist,
+		 &mag_var, &accel_var, &gyro_var, &baro_var, &gps_var)) {
+		return NULL;
+	}
+
+	if (mag_var) {
+		float mag[3];
+		parseFloatVec3(mag_var, mag);
+		//fprintf(stdout, "Received mag_var: %f\r\n", mag[2]);
+		INSSetMagVar(mag);
+	}
+
+	if (accel_var) {
+		float accel[3];
+		parseFloatVec3(accel_var, accel);
+		//fprintf(stdout, "Received accel_var: %f\r\n", accel[2]);
+		INSSetAccelVar(accel);
+	}
+
+	if (gyro_var) {
+		float gyro[3];
+		parseFloatVec3(gyro_var, gyro);
+		//fprintf(stdout, "Received gyro_var: %f\r\n", gyro[2]);
+		INSSetGyroVar(gyro);
+	}
+
+	if (baro_var != 0.0f) {
+		//fprintf(stdout, "Received baro_var: %f\r\n", baro_var);
+		INSSetBaroVar(baro_var);
+	}
+
+	if (gps_var) {
+		float gps[3];
+		parseFloatVec3(gps_var, gps);
+		//fprintf(stdout, "Received gps_var: %f %f %f\r\n", gps[0], gps[1], gps[2]);
+		INSSetPosVelVar(gps[0], gps[1], gps[2]);
+	}
+
+	return Py_None;
+}
+
 static PyObject*
 init(PyObject* self, PyObject* args)
 {
+	INSGPSInit();
+
 	const float mag_var[3] = {0.1f, 0.1f, 10.0f};
 	const float accel_var[3] = {3e-3f, 3e-3f, 3e-3f};
 	const float gyro_var[3] = {1e-5f, 1e-5f, 1e-4f};
@@ -189,6 +250,7 @@ static PyMethodDef InsMethods[] =
 	{"init", init, METH_VARARGS, "Reset INS state."},
 	{"prediction", prediction, METH_VARARGS, "Advance state 1 time step."},
 	{"correction", correction, METH_VARARGS, "Apply state correction based on measured sensors."},
+	{"configure", (PyCFunction)configure, METH_VARARGS|METH_KEYWORDS, "Configure EKF parameters."},
 	{NULL, NULL, 0, NULL}
 };
  
