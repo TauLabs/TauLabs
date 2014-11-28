@@ -21,7 +21,6 @@ int not_doublevector(PyArrayObject *vec)
 	}
 	return 0;
 }
- 
 
 /**
  * parseFloatVec3(vec_in, vec_out)
@@ -40,8 +39,7 @@ static bool parseFloatVecN(PyArrayObject *vec_in, float *vec_out, int N)
 		return false;
 
 	if (PyArray_DIM(vec_in,0) != N) {
-		PyErr_SetString(PyExc_ValueError, "Vector length incorrect.");
-              //sprintf("Expected %d elements but only received %d.")); //, N, PyArray_DIM(vec_in,0)));
+		PyErr_Format(PyExc_ValueError, "Vector length incorrect. Received %ld and expected %d", PyArray_DIM(vec_in,0), N);
 		return false;
 	}
 
@@ -222,7 +220,6 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 		float mag[3];
 		if (!parseFloatVec3(mag_var, mag))
 			return NULL;
-		fprintf(stdout, "Received mag_var: %f\r\n", mag[2]);
 		INSSetMagVar(mag);
 	}
 
@@ -230,7 +227,6 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 		float accel[3];
 		if (!parseFloatVec3(accel_var, accel))
 			return NULL;
-		fprintf(stdout, "Received accel_var: %f\r\n", accel[2]);
 		INSSetAccelVar(accel);
 	}
 
@@ -238,12 +234,10 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 		float gyro[3];
 		if (!parseFloatVec3(gyro_var, gyro))
 			return NULL;
-		fprintf(stdout, "Received gyro_var: %f\r\n", gyro[2]);
 		INSSetGyroVar(gyro);
 	}
 
 	if (baro_var != 0.0f) {
-		fprintf(stdout, "Received baro_var: %f\r\n", baro_var);
 		INSSetBaroVar(baro_var);
 	}
 
@@ -251,7 +245,6 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 		float gps[3];
 		if (!parseFloatVec3(gps_var, gps))
 			return NULL;
-		fprintf(stdout, "Received gps_var: %f %f %f\r\n", gps[0], gps[1], gps[2]);
 		INSSetPosVelVar(gps[0], gps[1], gps[2]);
 	}
 
@@ -305,6 +298,9 @@ static PyObject*
 init(PyObject* self, PyObject* args)
 {
 	INSGPSInit();
+
+	const float Be[] = {400, 0, 1600};
+	INSSetMagNorth(Be);
 
 	return pack_state(self);	
 }
