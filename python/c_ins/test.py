@@ -228,4 +228,12 @@ class TestSequenceFunctions(unittest.TestCase):
         self.assertState(state)
 
 if __name__ == '__main__':
-    unittest.main()
+    selected_test = None
+
+    if selected_test is not None:
+        VISUALIZE = True
+        suite = unittest.TestSuite()
+        suite.addTest(TestSequenceFunctions(selected_test))
+        unittest.TextTestRunner().run(suite)
+    else:
+        unittest.main()
