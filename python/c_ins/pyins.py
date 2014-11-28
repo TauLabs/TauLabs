@@ -7,6 +7,14 @@ from quaternions import *
 import numpy
 import ins
 
+# this is the set of (currently) recommend INS settings. modified from
+# https://raw.githubusercontent.com/wiki/TauLabs/TauLabs/files/htfpv-sparky-nav_20130527.uav
+default_mag_var = numpy.array([10.0, 10.0, 100.0])
+default_gyro_var = numpy.array([1e-5, 1e-5, 1e-4])
+default_accel_var = numpy.array([0.01, 0.01, 0.01])
+default_baro_var = 0.1
+default_gps_var=numpy.array([1e-3,1e-2,10])
+
 class PyINS:
 
 	GRAV = 9.805
@@ -41,11 +49,11 @@ class PyINS:
 		"""
 		ins.init()
 		self.configure(
-			mag_var=numpy.array([10.0,10.0,100.0]),
-			gyro_var=numpy.array([1e-5,1e-5,1e-4]),
-			accel_var=numpy.array([1e-5,1e-5,1e-5]),
-			baro_var=1e-2,
-			gps_var=numpy.array([1e-3,1e-2,1e-3])
+			mag_var=default_mag_var,
+			gyro_var=default_gyro_var,
+			accel_var=default_accel_var,
+			baro_var=default_baro_var,
+			gps_var=default_gps_var
 			)
 
 	def predict(self, gyros, accels, dT = 1.0/666.0):
