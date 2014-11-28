@@ -1,8 +1,8 @@
-from distutils.core import setup, Extension
+from distutils.core import setup, Extension, Command
 import numpy
 
 module1 = Extension('ins',
-	sources = ['insmodule.c', '../../flight/Libraries/insgps14state.c'],
+	sources = ['insmodule.c', '../../flight/Libraries/insgps13state.c'],
 	include_dirs=['../../flight/Libraries/inc','../../shared/api',numpy.get_include()])
  
 setup (name = 'PackageName',
