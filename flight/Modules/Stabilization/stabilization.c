@@ -47,7 +47,6 @@
 #include "cameradesired.h"
 #include "flightstatus.h"
 #include "gyros.h"
-#include "manualcontrolcommand.h"
 #include "ratedesired.h"
 #include "systemident.h"
 #include "stabilizationdesired.h"
@@ -110,9 +109,6 @@ uint8_t weak_leveling_max = 0;
 bool lowThrottleZeroIntegral;
 float vbar_decay = 0.991f;
 struct pid pids[PID_MAX];
-float tpa_threshold[MAX_AXES];
-float tpa_attenuation[MAX_AXES];
-bool use_tpa;
 
 // Private functions
 static void stabilizationTask(void* parameters);
@@ -185,8 +181,6 @@ static void stabilizationTask(void* parameters)
 	float *actuatorDesiredAxis = &actuatorDesired.Roll;
 	float *rateDesiredAxis = &rateDesired.Roll;
 	float horizonRateFraction = 0.0f;
-	float pidScale = 1.0f;
-	float throttle = 1.0f;
 
 	// Force refresh of all settings immediately before entering main task loop
 	SettingsUpdatedCb((UAVObjEvent *) NULL);
@@ -287,24 +281,12 @@ static void stabilizationTask(void* parameters)
 		static uint8_t previous_mode[MAX_AXES] = {255,255,255};
 		bool error = false;
 
-		// Get throttle for Throttle PID Attenuation
-		if (use_tpa)
-			ManualControlCommandThrottleGet(&throttle);
-
 		//Run the selected stabilization algorithm on each axis:
 		for(uint8_t i=0; i< MAX_AXES; i++)
 		{
 			// Check whether this axis mode needs to be reinitialized
 			bool reinit = (stabDesired.StabilizationMode[i] != previous_mode[i]);
 			previous_mode[i] = stabDesired.StabilizationMode[i];
-
-			// Check wheter we apply Throttle PID Attenuation
-			if (tpa_attenuation[i] > 0.0f && tpa_threshold[i] < throttle)
-			{
-				pidScale = 1.0f - tpa_attenuation[i] * (throttle - tpa_threshold[i]) / (1.0f - tpa_threshold[i]);
-			}
-			else
-				pidScale = 1.0f;
 
 			// Apply the selected control law
 			switch(stabDesired.StabilizationMode[i])
@@ -317,7 +299,7 @@ static void stabilizationTask(void* parameters)
 					rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
 
 					// Compute the inner loop
-					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT, pidScale);
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
@@ -333,7 +315,7 @@ static void stabilizationTask(void* parameters)
 					rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
 
 					// Compute the inner loop
-					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT, pidScale);
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
@@ -343,7 +325,7 @@ static void stabilizationTask(void* parameters)
 					rateDesiredAxis[i] = stabDesiredAxis[i];
 
 					// Run a virtual flybar stabilization algorithm on this axis
-					stabilization_virtual_flybar(gyro_filtered[i], rateDesiredAxis[i], &actuatorDesiredAxis[i], dT, reinit, i, &pids[PID_VBAR_ROLL + i], pidScale, &settings);
+					stabilization_virtual_flybar(gyro_filtered[i], rateDesiredAxis[i], &actuatorDesiredAxis[i], dT, reinit, i, &pids[PID_VBAR_ROLL + i], &settings);
 
 					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING:
@@ -356,7 +338,7 @@ static void stabilizationTask(void* parameters)
 
 					// Compute desired rate as input biased towards leveling
 					rateDesiredAxis[i] = stabDesiredAxis[i] + weak_leveling;
-					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT, pidScale);
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
@@ -378,7 +360,7 @@ static void stabilizationTask(void* parameters)
 
 					rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
 
-					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT, pidScale);
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
@@ -407,7 +389,7 @@ static void stabilizationTask(void* parameters)
 					rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
 
 					// Compute the inner loop
-					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT, pidScale);
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
@@ -490,7 +472,7 @@ static void stabilizationTask(void* parameters)
 						rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
 
 						// Compute the inner loop
-						actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT, pidScale);
+						actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
 						actuatorDesiredAxis[i] += ident_offsets[i];
 						actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 					} else {
@@ -498,7 +480,7 @@ static void stabilizationTask(void* parameters)
 						rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
 
 						// Compute the inner loop only for yaw
-						actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT, pidScale);
+						actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
 						actuatorDesiredAxis[i] += ident_offsets[i];
 						actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);						
 					}
@@ -551,7 +533,7 @@ static void stabilizationTask(void* parameters)
 									rateDesiredAxis[YAW] = pid_apply(&pids[PID_ATT_YAW], axis_lock_accum[YAW], dT);
 									rateDesiredAxis[YAW] = bound_sym(rateDesiredAxis[YAW], settings.MaximumRate[YAW]);
 
-									actuatorDesiredAxis[YAW] = pid_apply_setpoint(&pids[PID_RATE_YAW],  rateDesiredAxis[YAW],  gyro_filtered[YAW], dT, pidScale);
+									actuatorDesiredAxis[YAW] = pid_apply_setpoint(&pids[PID_RATE_YAW],  rateDesiredAxis[YAW],  gyro_filtered[YAW], dT);
 									actuatorDesiredAxis[YAW] = bound_sym(actuatorDesiredAxis[YAW],1.0f);
 
 									// Reset coordinated-flight integral
@@ -607,7 +589,7 @@ static void stabilizationTask(void* parameters)
 					rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.PoiMaximumRate[i]);
 
 					// Compute the inner loop
-					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT, pidScale);
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
@@ -784,22 +766,6 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 
 		// Compute time constant for vbar decay term based on a tau
 		vbar_decay = expf(-fakeDt / settings.VbarTau);
-
-		// Set the throttle PID attenuation parameters
-		tpa_attenuation[PID_RATE_ROLL] = settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_ATTENUATION] / 100.0f;
-		tpa_attenuation[PID_RATE_PITCH] = settings.RollRateTPA[STABILIZATIONSETTINGS_PITCHRATETPA_ATTENUATION] / 100.0f;
-		tpa_attenuation[PID_RATE_YAW] = settings.RollRateTPA[STABILIZATIONSETTINGS_YAWRATETPA_ATTENUATION] / 100.f;
-
-		if (tpa_attenuation[PID_RATE_ROLL] > 0.0f || tpa_attenuation[PID_RATE_PITCH] > 0.0f || tpa_attenuation[PID_RATE_YAW] > 0.0f)
-		{
-			use_tpa = true;
-			// scale thresholds from 0..100 range to -1..1 range
-			tpa_threshold[PID_RATE_ROLL] = (settings.RollRateTPA[STABILIZATIONSETTINGS_ROLLRATETPA_THRESHOLD] / 50.0f) - 1.0f;
-			tpa_threshold[PID_RATE_PITCH] = (settings.RollRateTPA[STABILIZATIONSETTINGS_PITCHRATETPA_THRESHOLD] / 50.0f) - 1.0f;
-			tpa_threshold[PID_RATE_YAW] = (settings.RollRateTPA[STABILIZATIONSETTINGS_YAWRATETPA_THRESHOLD] / 50.0f) - 1.0f;
-		}
-		else
-			use_tpa = false;
 	}
 }
 

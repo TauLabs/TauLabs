@@ -42,7 +42,7 @@ static float vbar_decay = 0.991f;
 //! Private methods
 static float bound(float val, float range);
 
-int stabilization_virtual_flybar(float gyro, float command, float *output, float dT, bool reinit, uint32_t axis, struct pid *pid, float pd_scale, StabilizationSettingsData *settings)
+int stabilization_virtual_flybar(float gyro, float command, float *output, float dT, bool reinit, uint32_t axis, struct pid *pid, StabilizationSettingsData *settings)
 {
 	float gyro_gain = 1.0f;
 
@@ -54,7 +54,7 @@ int stabilization_virtual_flybar(float gyro, float command, float *output, float
 	vbar_integral[axis] = bound(vbar_integral[axis], settings->VbarMaxAngle);
 
 	// Compute the normal PID controller output
-	float pid_out = pid_apply_setpoint(pid,  0,  gyro, dT, pd_scale);
+	float pid_out = pid_apply_setpoint(pid,  0,  gyro, dT);
 
 	// Command signal can indicate how much to disregard the gyro feedback (fast flips)
 	if (settings->VbarGyroSuppress > 0.0f) {

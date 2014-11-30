@@ -35,7 +35,7 @@
 #include "openpilot.h"
 #include "stabilizationsettings.h"
 
-int stabilization_virtual_flybar(float gyro, float command, float *output, float dT, bool reinit, uint32_t axis, struct pid *pid, float pd_scale, StabilizationSettingsData *settings);
+int stabilization_virtual_flybar(float gyro, float command, float *output, float dT, bool reinit, uint32_t axis, struct pid *pid, StabilizationSettingsData *settings);
 int stabilization_virtual_flybar_pirocomp(float z_gyro, float dT);
 
 #endif /* VIRTUALFLYBAR_H */

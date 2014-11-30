@@ -127,13 +127,12 @@ float pid_apply_antiwindup(struct pid *pid, const float err,
  * @param[in] setpoint The setpoint to use
  * @param[in] measured The measured value of output
  * @param[in] dT  The time step
- * @param[in] pd_scale Factor to scale Kp and Kd parameters with
  * @returns Output the computed controller value
  *
  * This version of apply uses setpoint weighting for the derivative component so the gain
  * on the gyro derivative can be different than the gain on the setpoint derivative
  */
-float pid_apply_setpoint(struct pid *pid, const float setpoint, const float measured, float dT, float pd_scale)
+float pid_apply_setpoint(struct pid *pid, const float setpoint, const float measured, float dT)
 {
 	float err = setpoint - measured;
 	
@@ -152,11 +151,11 @@ float pid_apply_setpoint(struct pid *pid, const float setpoint, const float meas
 	pid->lastErr = (deriv_gamma * setpoint - measured);
 	if(pid->d && dT)
 	{
-		dterm = pid->lastDer +  dT / ( dT + deriv_tau) * ((diff * pid->d * pd_scale / dT) - pid->lastDer);
+		dterm = pid->lastDer +  dT / ( dT + deriv_tau) * ((diff * pid->d / dT) - pid->lastDer);
 		pid->lastDer = dterm;            //   ^ set constant to 1/(2*pi*f_cutoff)
 	}	                                 //   7.9577e-3  means 20 Hz f_cutoff
  
-	return ((err * pid->p * pd_scale) + pid->iAccumulator / 1000.0f + dterm);
+	return ((err * pid->p) + pid->iAccumulator / 1000.0f + dterm);
 }
 
 /**
