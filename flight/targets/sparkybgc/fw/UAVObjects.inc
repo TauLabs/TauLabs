@@ -70,6 +70,7 @@ UAVOBJSRCFILENAMES += manualcontrolcommand
 UAVOBJSRCFILENAMES += manualcontrolsettings
 UAVOBJSRCFILENAMES += mixersettings
 UAVOBJSRCFILENAMES += mixerstatus
+UAVOBJSRCFILENAMES += mwratesettings
 UAVOBJSRCFILENAMES += nedaccel
 UAVOBJSRCFILENAMES += nedposition
 UAVOBJSRCFILENAMES += objectpersistence

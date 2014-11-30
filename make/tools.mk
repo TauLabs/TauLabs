@@ -36,6 +36,22 @@ ifdef LINUX
   endif
 endif
 
+# Set variables for Android SDK
+ifdef MACOSX
+  ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-macosx
+  ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-macosx.zip
+endif
+
+ifdef LINUX
+  ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-linux
+  ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
+endif
+
+ifdef WINDOWS
+  ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-windows
+  ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-windows.zip
+endif
+
 # Build openocd without FTDI (yes | no)
 OPENOCD_FTDI ?= yes
 
@@ -341,9 +357,7 @@ dfuutil_clean:
 	$(V1) [ ! -d "$(DFUUTIL_DIR)" ] || $(RM) -r "$(DFUUTIL_DIR)"
 
 # see http://developer.android.com/sdk/ for latest versions
-ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-linux
 .PHONY: android_sdk_install
-android_sdk_install: ANDROID_SDK_URL  := http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
 android_sdk_install: ANDROID_SDK_FILE := $(notdir $(ANDROID_SDK_URL))
 # order-only prereq on directory existance:
 android_sdk_install: | $(DL_DIR) $(TOOLS_DIR)
@@ -364,14 +378,14 @@ android_sdk_clean:
 .PHONY: android_sdk_update
 android_sdk_update:
 	$(V0) @echo " UPDATE       $(ANDROID_SDK_DIR)"
-	$(ANDROID_SDK_DIR)/tools/android update sdk --no-ui -t platform-tools,build-tools-20.0.0,android-14,addon-google_apis-google-14
+	$(ANDROID_SDK_DIR)/tools/android update sdk --no-ui --all -t platform-tools,build-tools-20.0.0,android-14,addon-google_apis-google-14
 
 # Set up Google Test (gtest) tools
-GTEST_DIR       := $(TOOLS_DIR)/gtest-1.6.0
+GTEST_DIR       := $(TOOLS_DIR)/gtest-1.7.0
 
 .PHONY: gtest_install
 gtest_install: | $(DL_DIR) $(TOOLS_DIR)
-gtest_install: GTEST_URL  := http://googletest.googlecode.com/files/gtest-1.6.0.zip
+gtest_install: GTEST_URL  := http://googletest.googlecode.com/files/gtest-1.7.0.zip
 gtest_install: GTEST_FILE := $(notdir $(GTEST_URL))
 gtest_install: gtest_clean
         # download the file unconditionally since google code gives back 404

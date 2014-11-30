@@ -41,7 +41,8 @@ HEADERS += calibration.h \
     textbubbleslider.h \
     vehicletrim.h \
     configmodulewidget.h \
-    configosdwidget.h
+    configosdwidget.h \
+    convertmwrate.h
 
 SOURCES += calibration.cpp \
     configplugin.cpp \
@@ -74,7 +75,8 @@ SOURCES += calibration.cpp \
     textbubbleslider.cpp \
     vehicletrim.cpp \
     configmodulewidget.cpp \
-    configosdwidget.cpp
+    configosdwidget.cpp \
+    convertmwrate.cpp
 
 FORMS += airframe.ui \
     ccpm.ui \
@@ -93,7 +95,8 @@ FORMS += airframe.ui \
     hwfieldselector.ui \
     modules.ui \
     osd.ui \
-    osdpage.ui
+    osdpage.ui \
+    convertmwrate.ui
 
 RESOURCES += configgadget.qrc
 

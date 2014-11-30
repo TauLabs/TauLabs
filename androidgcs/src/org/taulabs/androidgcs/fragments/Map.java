@@ -399,6 +399,7 @@ public class Map extends ObjectManagerFragment {
 			} else {
 				mPoiMarker.setPosition((new LatLng(poiLocation.getLatitudeE6() / 1e6, poiLocation.getLongitudeE6() / 1e6)));
 			}
+			mPoiMarker.setDraggable(true);
 		} else if (obj.getName().compareTo("PositionActual") == 0) {
 			uavLocation = getUavLocation();
 			LatLng loc = new LatLng(uavLocation.getLatitudeE6() / 1e6, uavLocation.getLongitudeE6() / 1e6);
@@ -496,6 +497,45 @@ public class Map extends ObjectManagerFragment {
 				pos.getField("End").setDouble(NED0, 0);
 				pos.getField("End").setDouble(NED1, 1);
 				pos.updated();
+			}
+			
+			if (arg0.equals(mPoiMarker)) {
+				if (DEBUG) Log.d(TAG, "POI Marker moved");
+				LatLng newPos = mPoiMarker.getPosition();
+				
+				// TODO: check only in position hold tablet mode
+
+				UAVObject poi = objMngr.getObject("PoiLocation");
+				if (poi == null)
+					return;
+
+				UAVObject home = objMngr.getObject("HomeLocation");
+				if (home == null)
+					return;
+
+				double home_lat, home_lon, home_alt;
+				home_lat = home.getField("Latitude").getDouble() / 10.0e6;
+				home_lon = home.getField("Longitude").getDouble() / 10.0e6;
+				home_alt = home.getField("Altitude").getDouble();
+
+				// Get the home coordinates
+				double T0, T1;
+				T0 = home_alt+6.378137E6;
+				T1 = Math.cos(home_lat * Math.PI / 180.0)*(home_alt+6.378137E6);
+
+				// Get the NED coordinates
+				double NED0, NED1;
+				NED0 = (newPos.latitude - home_lat) * Math.PI / 180.0 * T0;
+				NED1 = (newPos.longitude - home_lon) * Math.PI / 180.0 * T1;
+				
+				SharedPreferences settings = getActivity().getSharedPreferences("TabletOffset", 0);
+				int alt_offset = settings.getInt("alt_offset", 0);
+				
+				poi.getField("North").setDouble(NED0);
+				poi.getField("East").setDouble(NED1);
+				poi.getField("Down").setDouble(-alt_offset);
+				
+				poi.updated();
 			}
 		}
 

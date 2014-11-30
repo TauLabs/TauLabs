@@ -47,6 +47,9 @@ extern int32_t PIOS_Brushless_SetScale(uint8_t roll, uint8_t pitch, uint8_t yaw)
 //! Max acceleration
 extern int32_t PIOS_Brushless_SetMaxAcceleration(float roll, float pitch, float yaw);
 
+//! Lock or unlock the gimbal at the current position
+extern int32_t PIOS_Brushless_Lock(bool lock);
+
 #endif /* PIOS_BRUSHLESS_H */
 
 /**

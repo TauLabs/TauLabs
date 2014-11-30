@@ -89,13 +89,12 @@ public class TabletInformation {
 				return;
 			field.setValue(location.getLongitude() * 10e6 + lon_offset);
 
+			// Because the altitude measurement from phone GPS is so inaccurate, use
+			// the altitude offset only (which should make it track the ground level).
+			// some phones have built in pressure sensors, so later we can use that for
+			// a more accurate relative altitude.
 			field = obj.getField("Altitude");
-			if (field == null)
-				return;
-			if (location.hasAltitude())
-				field.setValue(alt_offset + location.getAltitude());
-			else
-				field.setValue("0");
+			field.setValue(alt_offset);
 
 			field = obj.getField("Connected");
 			if (field != null) {
