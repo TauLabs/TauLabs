@@ -51,9 +51,9 @@ Brain::Brain(void)
 
     // Define the bank of channels that are connected to a given timer
     channelBanks.resize(3);
-    channelBanks[0] = QVector<int> () << 1 << 4;
-    channelBanks[1] = QVector<int> () << 5 << 8;
-    channelBanks[2] = QVector<int> () << 9 << 10;
+    channelBanks[0] = QVector<int> () << 1 << 2 << 3 << 4; // TIM5 main outputs
+    channelBanks[1] = QVector<int> () << 5 << 6 << 7 << 8; // TIM8 on receiverport
+    channelBanks[2] = QVector<int> () << 9 << 10; // TIM12 on receiverport
 }
 
 Brain::~Brain()
