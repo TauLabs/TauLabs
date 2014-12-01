@@ -760,22 +760,40 @@ void PIOS_Board_Init(void) {
     /* Initalize the RFM22B radio COM device. */
 #if defined(PIOS_INCLUDE_RFM22B)
 	RFM22BStatusInitialize();
+	RFM22BStatusCreateInstance();
 
 	// Initialize out status object.
-	RFM22BStatusData tllinkStatus;
-	RFM22BStatusGet(&tllinkStatus);
-	tllinkStatus.BoardType     = bdinfo->board_type;
-	tllinkStatus.BoardRevision = bdinfo->board_rev;
+	RFM22BStatusData rfm22bstatus;
+	RFM22BStatusGet(&rfm22bstatus);
+	RFM22BStatusInstSet(1,&rfm22bstatus);
+
 
 	HwFreedomData hwFreedom;
 	HwFreedomGet(&hwFreedom);
 
-	bool ppm_mode    = hwFreedom.Radio == HWFREEDOM_RADIO_TELEMPPM || hwFreedom.Radio == HWFREEDOM_RADIO_PPM;
-	bool ppm_only    = hwFreedom.Radio == HWFREEDOM_RADIO_PPM;
-	bool is_oneway   = false; // does not matter for this side
+	// Initialize out status object.
+	rfm22bstatus.BoardType     = bdinfo->board_type;
+	rfm22bstatus.BoardRevision = bdinfo->board_rev;
 
-	if (hwFreedom.MaxRfPower != HWFREEDOM_MAXRFPOWER_0 &&
-		hwFreedom.Radio != HWFREEDOM_RADIO_DISABLED) {
+	if (hwFreedom.Radio == HWFREEDOM_RADIO_DISABLED || hwFreedom.MaxRfPower == HWFREEDOM_MAXRFPOWER_0) {
+
+			// When radio disabled, it is ok for init to fail. This allows boards without populating
+			// this component.
+			const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
+			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg) == 0) {
+				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
+			} else {
+				pios_rfm22b_id = 0;
+			}
+			rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
+
+	} else {
+
+		// always allow receiving PPM when radio is on
+		bool ppm_mode    = hwFreedom.Radio == HWFREEDOM_RADIO_TELEMPPM || hwFreedom.Radio == HWFREEDOM_RADIO_PPM;
+		bool ppm_only    = hwFreedom.Radio == HWFREEDOM_RADIO_PPM;
+		bool is_oneway   = hwFreedom.Radio == HWFREEDOM_RADIO_PPM; // Sparky2 can only receive PPM only
+
 		/* Configure the RFM22B device. */
 		const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
@@ -792,13 +810,13 @@ void PIOS_Board_Init(void) {
 		                  tx_buffer, PIOS_COM_RFM22B_RF_TX_BUF_LEN)) {
 			PIOS_Assert(0);
 		}
-		/* Set Telemetry to use RF if no other telemetry is configured (USB always overrides anyway) */
+
+		/* Set Telemetry to use RFM22b if no other telemetry is configured (USB always overrides anyway) */
 		if (!pios_com_telem_rf_id) {
 			pios_com_telem_rf_id = pios_com_rf_id;
 		}
-		tllinkStatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
+		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
 
-		// Set the RF data rate on the modem to ~2X the selected buad rate because the modem is half duplex.
 		enum rfm22b_datarate datarate = RFM22_datarate_64000;
 		switch (hwFreedom.MaxRfSpeed) {
 		case HWFREEDOM_MAXRFSPEED_9600:
@@ -868,12 +886,11 @@ void PIOS_Board_Init(void) {
 			}
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_RFM22B] = pios_rfm22brcvr_rcvr_id;
 		}
-#endif /* PIOS_INCLUDE_RFM22B_RCVR */
-	} else {
-		tllinkStatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
 	}
 
-	RFM22BStatusSet(&tllinkStatus);
+	RFM22BStatusInstSet(1,&rfm22bstatus);
+#endif /* PIOS_INCLUDE_RFM22B_RCVR */
+
 #endif /* PIOS_INCLUDE_RFM22B */
 
 	/* Configure input receiver USART port */
