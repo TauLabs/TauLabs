@@ -108,6 +108,8 @@
 #define RFM22B_DEFAULT_CHANNEL_SET       24
 #define RFM22B_PPM_ONLY_DATARATE         RFM22_datarate_9600
 #define RADIO_SYNC_PULSES_DISCONNECT     3
+// The maximum amount of time without activity before initiating a reset.
+#define PIOS_RFM22B_SUPERVISOR_TIMEOUT   150	// ms
 
 // this is too adjust the RF module so that it is on frequency
 #define OSC_LOAD_CAP                     0x7F	// cap = 12.5pf .. default
@@ -1195,6 +1197,12 @@ static void pios_rfm22_task(void *parameters)
 
 		// The main task for the radio must be serviced reliably every ms
 		curTime_ms = PIOS_Thread_Systime();
+
+		// Throw an error if it has been too long since the last ISR
+		if (pios_rfm22_time_difference_ms(lastEventTime_ms, curTime_ms) > PIOS_RFM22B_SUPERVISOR_TIMEOUT) {
+			lastEventTime_ms = PIOS_Thread_Systime();
+			rfm22_process_event(rfm22b_dev, RADIO_EVENT_ERROR);
+		}
 
 		// Change channels if necessary.
 		if (rfm22_changeChannel(rfm22b_dev)) {
