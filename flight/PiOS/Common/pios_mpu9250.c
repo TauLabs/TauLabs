@@ -776,7 +776,7 @@ static void PIOS_MPU9250_Task(void *parameters)
 		accel_data.z = - (int16_t)(mpu9250_rec_buf[IDX_ACCEL_ZOUT_H] << 8 | mpu9250_rec_buf[IDX_ACCEL_ZOUT_L]);
 
 		int16_t raw_temp = (int16_t)(mpu9250_rec_buf[IDX_TEMP_OUT_H] << 8 | mpu9250_rec_buf[IDX_TEMP_OUT_L]);
-		float temperature = 35.0f + ((float)raw_temp + 512.0f) / 340.0f;
+		float temperature = 21.0f + ((float)raw_temp) / 333.87f;
 
 		// Apply sensor scaling
 		float accel_scale = PIOS_MPU9250_GetAccelScale();
