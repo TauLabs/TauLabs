@@ -154,8 +154,8 @@ class StaticTestFunctions(unittest.TestCase):
         """ test convergence with biased accelerometers
         """
 
-        bias = -0.2
-        state, history, times = self.run_static(accel=[0,0,-PyINS.GRAV+bias], STEPS=50000)
+        bias = -0.20
+        state, history, times = self.run_static(accel=[0,0,-PyINS.GRAV+bias], STEPS=150000)
         self.assertState(state,bias=[0,0,0,0,0,bias])
 
     def test_gyro_bias(self):
