@@ -490,6 +490,51 @@ class SimulatedFlightTests(unittest.TestCase):
 
         self.assertState(sim.state, pos=model.get_pos(), vel=model.get_vel(), rpy=model.get_rpy(), bias=[0,0,0,0,0,0.2])
 
+
+    def test_bad_init_q(self):
+        """ test that while flying a circle the location converges with a bad initial attitude
+        """
+
+        sim = self.sim
+        model = self.model
+
+        dT = 1.0 / 666.0
+
+        STEPS= 60 * 666
+
+        numpy.random.seed(1)
+
+        ins.set_state(q=numpy.array([math.sqrt(2),math.sqrt(2),0,0]))
+
+        for k in range(STEPS):
+
+            model.fly_circle(dT=dT)
+
+            ng = numpy.random.randn(3,) * 1e-3
+            na = numpy.random.randn(3,) * 1e-3
+            np = numpy.random.randn(3,) * 1e-3
+            nv = numpy.random.randn(3,) * 1e-3
+            nm = numpy.random.randn(3,) * 10.0
+
+            # convert from rad/s to deg/s
+            gyro = model.get_gyro() / 180.0 * math.pi
+            accel = model.get_accel()
+
+            sim.predict(gyro+ng, accel+na, dT=dT)
+
+            pos = model.get_pos()
+
+            if k % 60 == 59:
+                sim.correction(pos=pos+np)
+            if k % 60 == 59:
+                sim.correction(vel=model.get_vel()+nv)
+            if k % 20 == 8:
+                sim.correction(baro=-pos[2]+np[2])
+            if k % 20 == 15:
+                sim.correction(mag=model.get_mag()+nm)
+
+        self.assertState(sim.state, pos=model.get_pos(), vel=model.get_vel(), rpy=model.get_rpy(), bias=[0,0,0,0,0,0])
+
 class ReplayFlightFunctions(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
