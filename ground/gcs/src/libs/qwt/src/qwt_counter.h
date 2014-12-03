@@ -11,7 +11,6 @@
 #define QWT_COUNTER_H
 
 #include "qwt_global.h"
-#include "qwt_double_range.h"
 #include <qwidget.h>
 
 /*!
@@ -22,52 +21,46 @@
   of the label which can be used to increment or decrement
   the counter's value.
 
-  A Counter has a range from a minimum value to a maximum value
-  and a step size. The range can be specified using
-  QwtDblRange::setRange().
-  The counter's value is an integer multiple of the step size.
-  The number of steps by which a button increments or decrements
-  the value can be specified using QwtCounter::setIncSteps().
-  The number of buttons can be changed with
-  QwtCounter::setNumButtons().
-
-  Holding the space bar down with focus on a button is the
-  fastest method to step through the counter values.
-  When the counter underflows/overflows, the focus is set
-  to the smallest up/down button and counting is disabled.
-  Counting is re-enabled on a button release event (mouse or
-  space bar).
+  A counter has a range from a minimum value to a maximum value
+  and a step size. When the wrapping property is set
+  the counter is circular.
+ 
+  The number of steps by which a button increments or decrements the value 
+  can be specified using setIncSteps(). The number of buttons can be 
+  changed with setNumButtons().
 
   Example:
 \code
-#include "../include/qwt_counter.h>
+#include <qwt_counter.h>
 
-QwtCounter *cnt;
+QwtCounter *counter = new QwtCounter(parent);
 
-cnt = new QwtCounter(parent, name);
+counter->setRange(0.0, 100.0);                  // From 0.0 to 100
+counter->setSingleStep( 1.0 );                  // Step size 1.0
+counter->setNumButtons(2);                      // Two buttons each side
+counter->setIncSteps(QwtCounter::Button1, 1);   // Button 1 increments 1 step
+counter->setIncSteps(QwtCounter::Button2, 20);  // Button 2 increments 20 steps
 
-cnt->setRange(0.0, 100.0, 1.0);             // From 0.0 to 100, step 1.0
-cnt->setNumButtons(2);                      // Two buttons each side
-cnt->setIncSteps(QwtCounter::Button1, 1);   // Button 1 increments 1 step
-cnt->setIncSteps(QwtCounter::Button2, 20);  // Button 2 increments 20 steps
-
-connect(cnt, SIGNAL(valueChanged(double)), my_class, SLOT(newValue(double)));
+connect(counter, SIGNAL(valueChanged(double)), myClass, SLOT(newValue(double)));
 \endcode
  */
 
-class QWT_EXPORT QwtCounter : public QWidget, public QwtDoubleRange
+class QWT_EXPORT QwtCounter : public QWidget
 {
     Q_OBJECT
 
+    Q_PROPERTY( double value READ value WRITE setValue )
+    Q_PROPERTY( double minimum READ minimum WRITE setMinimum )
+    Q_PROPERTY( double maximum READ maximum WRITE setMaximum )
+    Q_PROPERTY( double singleStep READ singleStep WRITE setSingleStep )
+
     Q_PROPERTY( int numButtons READ numButtons WRITE setNumButtons )
-    Q_PROPERTY( double basicstep READ step WRITE setStep )
-    Q_PROPERTY( double minValue READ minValue WRITE setMinValue )
-    Q_PROPERTY( double maxValue READ maxValue WRITE setMaxValue )
     Q_PROPERTY( int stepButton1 READ stepButton1 WRITE setStepButton1 )
     Q_PROPERTY( int stepButton2 READ stepButton2 WRITE setStepButton2 )
     Q_PROPERTY( int stepButton3 READ stepButton3 WRITE setStepButton3 )
-    Q_PROPERTY( double value READ value WRITE setValue )
-    Q_PROPERTY( bool editable READ editable WRITE setEditable )
+
+    Q_PROPERTY( bool readOnly READ isReadOnly WRITE setReadOnly )
+    Q_PROPERTY( bool wrapping READ wrapping WRITE setWrapping )
 
 public:
     //! Button index
@@ -89,8 +82,14 @@ public:
     explicit QwtCounter( QWidget *parent = NULL );
     virtual ~QwtCounter();
 
-    bool editable() const;
-    void setEditable( bool );
+    void setValid( bool );
+    bool isValid() const;
+
+    void setWrapping( bool );
+    bool wrapping() const;
+
+    bool isReadOnly() const;
+    void setReadOnly( bool );
 
     void setNumButtons( int n );
     int numButtons() const;
@@ -98,19 +97,18 @@ public:
     void setIncSteps( QwtCounter::Button btn, int nSteps );
     int incSteps( QwtCounter::Button btn ) const;
 
-    virtual void setValue( double );
     virtual QSize sizeHint() const;
 
-    // a set of dummies to help the designer
+    double singleStep() const;
+    void setSingleStep( double s );
 
-    double step() const;
-    void setStep( double s );
+    void setRange( double min, double max );
+    
+    double minimum() const;
+    void setMinimum( double min );
 
-    double minValue() const;
-    void setMinValue( double m );
-
-    double maxValue() const;
-    void setMaxValue( double m );
+    double maximum() const;
+    void setMaximum( double max );
 
     void setStepButton1( int nSteps );
     int stepButton1() const;
@@ -121,7 +119,11 @@ public:
     void setStepButton3( int nSteps );
     int stepButton3() const;
 
-    virtual double value() const;
+    double value() const;
+
+public Q_SLOTS:
+    void setValue( double );
+
 
 Q_SIGNALS:
     /*!
@@ -140,7 +142,6 @@ protected:
     virtual bool event( QEvent * );
     virtual void wheelEvent( QWheelEvent * );
     virtual void keyPressEvent( QKeyEvent * );
-    virtual void rangeChange();
 
 private Q_SLOTS:
     void btnReleased();
@@ -148,10 +149,10 @@ private Q_SLOTS:
     void textChanged();
 
 private:
+    void incrementValue( int numSteps );
     void initCounter();
     void updateButtons();
-    void showNum( double );
-    virtual void valueChange();
+    void showNumber( double );
 
     class PrivateData;
     PrivateData *d_data;

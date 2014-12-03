@@ -43,7 +43,12 @@ extern void PIOS_Board_Init(void);
 #define SEC_TO_MSEC(s) ((s) * 1000)
 #define SEC_TO_USEC(s) ((s) * 1000 * 1000)
 
+#if defined(BOOTLOADER_PAUSE_DELAY) // allow altering bootloader delay
+#define BL_DETECT_BREAK_TO_BL_TIMER MSEC_TO_USEC(BOOTLOADER_PAUSE_DELAY)
+#else
 #define BL_DETECT_BREAK_TO_BL_TIMER MSEC_TO_USEC(500)
+#endif
+
 #define BL_WAIT_FOR_DFU_TIMER SEC_TO_USEC(6)
 #define BL_RECOVER_FROM_FAULT_TIMER SEC_TO_USEC(10)
 

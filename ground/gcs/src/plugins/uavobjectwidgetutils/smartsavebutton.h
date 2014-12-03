@@ -49,12 +49,14 @@ public:
     void addButtons(QPushButton * save,QPushButton * apply);
     void setObjects(QList<UAVDataObject *>);
     void addObject(UAVDataObject *);
+    void addObject(UAVDataObject *, bool);
     void clearObjects();
     void removeObject(UAVDataObject *obj);
     void removeAllObjects();
     void addApplyButton(QPushButton *apply);
     void addSaveButton(QPushButton *save);
     void resetIcons();
+    void setNotMandatory(UAVDataObject *);
 signals:
     void preProcessOperations();
     void saveSuccessfull();
@@ -77,6 +79,7 @@ private:
     QEventLoop loop;
     QList<UAVDataObject *> objects;
     QMap<QPushButton *,buttonTypeEnum> buttonList;
+    QMap<UAVDataObject *, bool> mandatoryList;
 protected:
 public slots:
     void enableControls(bool value);

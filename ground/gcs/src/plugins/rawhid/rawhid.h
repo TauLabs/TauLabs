@@ -3,6 +3,7 @@
  *
  * @file       rawhid.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup RawHIDPlugin Raw HID Plugin
@@ -36,7 +37,7 @@
 #include <QByteArray>
 #include <coreplugin/iconnection.h>
 
-#include "pjrc_rawhid.h"
+#include "hidapi/hidapi.h"
 #include "usbmonitor.h"
 #include "usbdevice.h"
 
@@ -64,36 +65,19 @@ public:
     virtual void close();
     virtual bool isSequential() const;
 
-signals:
-	void closed();
-
-public slots:
-	void onDeviceUnplugged(int num);
-
 protected:
     virtual qint64 readData(char *data, qint64 maxSize);
     virtual qint64 writeData(const char *data, qint64 maxSize);
     virtual qint64 bytesAvailable() const;
     virtual qint64 bytesToWrite() const;
 
-    //! Callback from the read thread to open the device
-    bool openDevice();
-
-    //! Callback from teh read thread to close the device
-    bool closeDevice();
-
-    QString serialNumber;
-    USBDevice* deviceInfo;
-
-    int m_deviceNo;
-    pjrc_rawhid dev;
-    bool device_open;
+    USBDevice *m_deviceInfo;
+    hid_device *m_handle;
 
     RawHIDReadThread *m_readThread;
     RawHIDWriteThread *m_writeThread;
 
 	QMutex *m_mutex;
-    QMutex *m_startedMutex;
 };
 
 #endif // RAWHID_H

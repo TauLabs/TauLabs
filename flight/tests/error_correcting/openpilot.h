@@ -1,0 +1,1 @@
+#define RS_ECC_NPARITY 4

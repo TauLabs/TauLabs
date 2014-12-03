@@ -101,7 +101,9 @@ def main():
         elif name.endswith('_linux_i686.tar.xz'):
             label = "Linux 32-bit"
         elif name.endswith('_win32.exe'):
-            label = "Windows"
+            label = "Windows (portable)"
+        elif name.endswith('-install.exe'):
+            label = "Windows (installer)"
         elif name.endswith('.dmg'):
             label = "OSX"
         else:

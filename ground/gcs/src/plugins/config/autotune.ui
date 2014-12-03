@@ -357,7 +357,7 @@ p, li { white-space: pre-wrap; }
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
 &lt;ul&gt;
-&lt;li&gt;Decrease the damping slider to make your aircraft response more rapidly. Increase it for more stability.&lt;/li&gt; &lt;li&gt;Increasing the noise sensitivity slider will make your aircraft respond more rapidly, but will cause twitches due to nose.&lt;/li&gt;
+&lt;li&gt;Decrease the damping slider to make your aircraft response more rapidly. Increase it for more stability.&lt;/li&gt; &lt;li&gt;Increasing the noise sensitivity slider will make your aircraft respond more rapidly, but will cause twitches due to noise.&lt;/li&gt;
 &lt;li&gt;Default values should fly well.
   &lt;ul&gt;
    &lt;li&gt;Use damping 1.3 and noise sensitivity 0.8 for very smooth flight&lt;/li&gt;
