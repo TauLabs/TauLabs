@@ -165,6 +165,46 @@ class StaticTestFunctions(unittest.TestCase):
         state, history, times = self.run_static(gyro=[0.1,-0.05,0.06], STEPS=150000)
         self.assertState(state,bias=[0.1,-0.05,0.06,0,0,0])
 
+    def test_gyro_bias_xy_rate(self):
+        """ test gyro bias converges within 10% in a fixed time
+        """
+
+        TIME = 30 # seconds
+        FS = 666  # sampling rate
+        MAX_ERR = 0.1
+        BIAS = 10.0 * math.pi / 180.0
+
+        state, history, times = self.run_static(gyro=[BIAS,-BIAS,0], STEPS=TIME*FS)
+
+        self.assertAlmostEqual(state[10], BIAS, delta=BIAS*MAX_ERR)
+        self.assertAlmostEqual(state[11], -BIAS, delta=BIAS*MAX_ERR)
+
+    def test_gyro_bias_z_rate(self):
+        """ test gyro bias converges within 10% in a fixed time
+        """
+
+        TIME = 30 # seconds
+        FS = 666  # sampling rate
+        MAX_ERR = 0.1
+        BIAS = 10.0 * math.pi / 180.0
+
+        state, history, times = self.run_static(gyro=[0,0,BIAS], STEPS=TIME*FS)
+
+        self.assertAlmostEqual(state[12], BIAS, delta=BIAS*MAX_ERR)
+
+    def test_accel_bias_z_rate(self):
+        """ test gyro bias converges within 10% in a fixed time
+        """
+
+        TIME = 30 # seconds
+        FS = 666  # sampling rate
+        MAX_ERR = 0.1
+        BIAS = 1
+
+        state, history, times = self.run_static(accel=[0,0,-PyINS.GRAV+BIAS], STEPS=TIME*FS)
+
+        self.assertAlmostEqual(state[15], BIAS, delta=BIAS*MAX_ERR)
+
     def test_init_100m(self):
         """ test convergence to origin when initialized 100m away
         """
