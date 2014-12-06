@@ -45,7 +45,7 @@ CLEAN_FLIGHT := YES
 endif
 
 # Set up targets
-ALL_BOARDS        := coptercontrol pipxtreme revolution revomini sparky sparkybgc freedom quanton colibri flyingf3 flyingf4
+ALL_BOARDS        := coptercontrol pipxtreme revolution revomini sparky sparky2 sparkybgc freedom quanton colibri flyingf3 flyingf4
 ALL_BOARDS_BU     := coptercontrol pipxtreme
 FW_TARGETS        := $(addprefix fw_, $(ALL_BOARDS))
 FW_TARGETS_TOOLS  := $(addprefix fw_, $(ALL_BOARDS))
