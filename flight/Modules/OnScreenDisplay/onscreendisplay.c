@@ -101,6 +101,7 @@
 #include "font8x10.h"
 #include "WMMInternal.h"
 #include "logos.h"
+#include "mgrs.h"
 
 extern uint8_t PIOS_Board_Revision(void);
 
@@ -2231,7 +2232,22 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 			sprintf(tmp_str, "%0.5f", (double)gps_data.Longitude / 10000000.0);
 			write_string(tmp_str, page->GpsLonPosX, page->GpsLonPosY, 0, 0, TEXT_VA_TOP, (int)page->GpsLonAlign, 0, SIZE_TO_FONT[page->GpsLonFont]);
 		}
+
+		// MGRS location
+		if (page->GpsMgrs) {
+			tmp_int1 = Convert_Geodetic_To_MGRS((double)gps_data.Latitude * DEG2RAD / 10000000.0,
+												(double)gps_data.Longitude * DEG2RAD / 10000000.0, 5, tmp_str);
+			if (tmp_int1 == 0)
+				write_string(tmp_str, page->GpsMgrsPosX, page->GpsMgrsPosY, 0, 0, TEXT_VA_TOP, (int)page->GpsMgrsAlign, 0, SIZE_TO_FONT[page->GpsMgrsFont]);
+			else {
+				sprintf(tmp_str, "MGRS ERR: %d", tmp_int1);
+				write_string(tmp_str, page->GpsMgrsPosX, page->GpsMgrsPosY, 0, 0, TEXT_VA_TOP, (int)page->GpsMgrsAlign, 0, SIZE_TO_FONT[page->GpsMgrsFont]);
+			}
+		}
 	}
+
+
+
 
 	// Home distance (will be -1 if enabled but GPS is not enabled)
 	if (home_dist >= 0)

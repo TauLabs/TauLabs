@@ -82,6 +82,12 @@
 		<field name="GpsLonFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="GpsLonAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
 
+		<field name="GpsMgrs" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
+		<field name="GpsMgrsPosX" units="" type="int16" elements="1" defaultvalue="350"/>
+		<field name="GpsMgrsPosY" units="" type="int16" elements="1" defaultvalue="230"/>
+		<field name="GpsMgrsFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="GpsMgrsAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
+
 		<field name="HomeDistance" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="HomeDistancePosX" units="" type="int16" elements="1" defaultvalue="150"/>
 		<field name="HomeDistancePosY" units="" type="int16" elements="1" defaultvalue="210"/>

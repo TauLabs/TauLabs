@@ -68,6 +68,8 @@ PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(FLIGHTLIB)/math
+MGRSLIB = $(FLIGHTLIB)/mgrs
+MGRSLIBINC = $(FLIGHTLIB)/mgrs
 RSCODE = $(FLIGHTLIB)/rscode
 RSCODEINC = $(FLIGHTLIB)/rscode
 PIOSSTM32F4XX = $(PIOS)/STM32F4xx
@@ -122,6 +124,13 @@ SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 SRC += $(MATHLIB)/atmospheric_math.c
+
+## MGRS Library (needed by OSD)
+SRC += $(MGRSLIB)/mgrs.c
+SRC += $(MGRSLIB)/utm.c
+SRC += $(MGRSLIB)/ups.c
+SRC += $(MGRSLIB)/tranmerc.c
+SRC += $(MGRSLIB)/polarst.c
 
 ## PIOS Hardware (STM32F4xx)
 include $(PIOS)/STM32F4xx/library_fw.mk
@@ -185,6 +194,8 @@ EXTRAINCDIRS += $(CMSISDIR)
 EXTRAINCDIRS += $(BOOTINC)
 EXTRAINCDIRS += $(DEBUG_CM3_DIR_INC)
 EXTRAINCDIRS += $(MAVLINKINC)
+EXTRAINCDIRS += $(MGRSLIBINC)
+
 
 EXTRAINCDIRS += ${foreach MOD, ${MODULES} ${OPTMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 

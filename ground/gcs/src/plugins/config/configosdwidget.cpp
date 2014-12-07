@@ -446,6 +446,15 @@ void ConfigOsdWidget::setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UA
     addUAVObjectToWidgetRelation(name, "GpsLonFont", page->GpsLonFont);
     addUAVObjectToWidgetRelation(name, "GpsLonAlign", page->GpsLonAlign);
 
+    // GPS MGRS Location
+    addUAVObjectToWidgetRelation(name, "GpsMgrs", page->GpsMgrsEnabled);
+    page->GpsMgrsEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->GpsMgrsEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "GpsMgrsPosX", page->GpsMgrsX);
+    addUAVObjectToWidgetRelation(name, "GpsMgrsPosY", page->GpsMgrsY);
+    addUAVObjectToWidgetRelation(name, "GpsMgrsFont", page->GpsMgrsFont);
+    addUAVObjectToWidgetRelation(name, "GpsMgrsAlign", page->GpsMgrsAlign);
+
     // Home Distance
     addUAVObjectToWidgetRelation(name, "HomeDistance", page->HomeDistanceEnabled);
     page->HomeDistanceEnabled->setProperty(trueString.toLatin1(), "Enabled");
