@@ -336,7 +336,7 @@ int Check_Zone(char* MGRS, int* zone_exists)
   while (MGRS[i] == ' ')
     i++;  
   j = i;
-  while (isdigit(MGRS[i]))
+  while (isdigit((unsigned char)MGRS[i]))
     i++;
   num_digits = i - j;
   if (num_digits <= 2)
@@ -404,17 +404,37 @@ int Make_MGRS_String (char* MGRS,
 
   for (j=0;j<3;j++)
     MGRS[i++] = alphabet[Letters[j]];
+  
+  MGRS[i++] = ' '; // space
+
   divisor = pow (10.0, (5 - Precision));
   Easting = fmod (Easting, 100000.0);
   if (Easting >= 99999.5)
     Easting = 99999.0;
   east = (int)(Easting/divisor);
-  i += sprintf (MGRS+i, "%05d", east);
   Northing = fmod (Northing, 100000.0);
   if (Northing >= 99999.5)
     Northing = 99999.0;
   north = (int)(Northing/divisor);
-  i += sprintf (MGRS+i, "%05d", north);
+
+  switch (Precision){
+    case 5:
+      sprintf(MGRS+i, "%05d %05d", east, north);
+      break;
+    case 4:
+      sprintf(MGRS+i, "%04d %04d", east, north);
+      break;
+    case 3:
+      sprintf(MGRS+i, "%03d %03d", east, north);
+      break;
+    case 2:
+      sprintf(MGRS+i, "%02d %02d", east, north);
+      break;
+    case 1:
+      sprintf(MGRS+i, "%01d %01d", east, north);
+      break;
+  }
+  
   return (error_code);
 } /* Make_MGRS_String */
 
@@ -446,7 +466,7 @@ int Break_MGRS_String (char* MGRS,
   while (MGRS[i] == ' ')
     i++;  /* skip any leading blanks */
   j = i;
-  while (isdigit(MGRS[i]))
+  while (isdigit((unsigned char)MGRS[i]))
     i++;
   num_digits = i - j;
   if (num_digits <= 2)
@@ -466,26 +486,26 @@ int Break_MGRS_String (char* MGRS,
     error_code |= MGRS_STRING_ERROR;
   j = i;
 
-  while (isalpha(MGRS[i]))
+  while (isalpha((unsigned char)MGRS[i]))
     i++;
   num_letters = i - j;
   if (num_letters == 3)
   {
     /* get letters */
-    Letters[0] = (toupper(MGRS[j]) - (int)'A');
+    Letters[0] = (toupper((unsigned char)MGRS[j]) - (int)'A');
     if ((Letters[0] == LETTER_I) || (Letters[0] == LETTER_O))
       error_code |= MGRS_STRING_ERROR;
-    Letters[1] = (toupper(MGRS[j+1]) - (int)'A');
+    Letters[1] = (toupper((unsigned char)MGRS[j+1]) - (int)'A');
     if ((Letters[1] == LETTER_I) || (Letters[1] == LETTER_O))
       error_code |= MGRS_STRING_ERROR;
-    Letters[2] = (toupper(MGRS[j+2]) - (int)'A');
+    Letters[2] = (toupper((unsigned char)MGRS[j+2]) - (int)'A');
     if ((Letters[2] == LETTER_I) || (Letters[2] == LETTER_O))
       error_code |= MGRS_STRING_ERROR;
   }
   else
     error_code |= MGRS_STRING_ERROR;
   j = i;
-  while (isdigit(MGRS[i]))
+  while (isdigit((unsigned char)MGRS[i]))
     i++;
   num_digits = i - j;
   if ((num_digits <= 10) && (num_digits%2 == 0))

@@ -148,7 +148,7 @@ float convert_distance_divider;
 const char * dist_unit_long = METRIC_DIST_UNIT_LONG;
 const char * dist_unit_short = METRIC_DIST_UNIT_SHORT;
 const char digits[16] = "0123456789abcdef";
-
+char mgrs_str[20] = {0};
 
 
 float home_baro_altitude = 0;
@@ -2235,19 +2235,17 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 
 		// MGRS location
 		if (page->GpsMgrs) {
-			tmp_int1 = Convert_Geodetic_To_MGRS((double)gps_data.Latitude * DEG2RAD / 10000000.0,
-												(double)gps_data.Longitude * DEG2RAD / 10000000.0, 5, tmp_str);
-			if (tmp_int1 == 0)
-				write_string(tmp_str, page->GpsMgrsPosX, page->GpsMgrsPosY, 0, 0, TEXT_VA_TOP, (int)page->GpsMgrsAlign, 0, SIZE_TO_FONT[page->GpsMgrsFont]);
-			else {
-				sprintf(tmp_str, "MGRS ERR: %d", tmp_int1);
-				write_string(tmp_str, page->GpsMgrsPosX, page->GpsMgrsPosY, 0, 0, TEXT_VA_TOP, (int)page->GpsMgrsAlign, 0, SIZE_TO_FONT[page->GpsMgrsFont]);
+			if (frame_counter % 5 == 0)
+			{
+				// the conversion to MGRS is computationally expensive, so we update it a bit slower
+				tmp_int1 = Convert_Geodetic_To_MGRS((double)gps_data.Latitude * (double)DEG2RAD / 10000000.0,
+													(double)gps_data.Longitude * (double)DEG2RAD / 10000000.0, 5, mgrs_str);
+				if (tmp_int1 != 0)
+					sprintf(mgrs_str, "MGRS ERR: %d", tmp_int1);
 			}
+			write_string(mgrs_str, page->GpsMgrsPosX, page->GpsMgrsPosY, 0, 0, TEXT_VA_TOP, (int)page->GpsMgrsAlign, 0, SIZE_TO_FONT[page->GpsMgrsFont]);
 		}
 	}
-
-
-
 
 	// Home distance (will be -1 if enabled but GPS is not enabled)
 	if (home_dist >= 0)
