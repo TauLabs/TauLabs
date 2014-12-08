@@ -44,6 +44,7 @@
 #include "accels.h"
 #include "actuatordesired.h"
 #include "attitudeactual.h"
+#include "brushlessgimbalsettings.h"
 #include "cameradesired.h"
 #include "flightstatus.h"
 #include "gyros.h"
@@ -644,9 +645,20 @@ static void stabilizationTask(void* parameters)
 							error = circular_modulus_deg(angle - attitudeActual.Pitch);
 							break;
 						case ROLL:
-							// For ROLL POI mode we track the FC roll angle (scaled)
+						{
+							uint8_t roll_fraction = 0;
+#ifdef GIMBAL
+							if (BrushlessGimbalSettingsHandle()) {
+								BrushlessGimbalSettingsRollFractionGet(&roll_fraction);
+							}
+#endif /* GIMBAL */
+
+							// For ROLL POI mode we track the FC roll angle (scaled) to
+							// allow keeping some motion
 							CameraDesiredRollGet(&angle);
+							angle *= roll_fraction / 100.0f;
 							error = circular_modulus_deg(angle - attitudeActual.Roll);
+						}
 							break;
 						case YAW:
 							CameraDesiredBearingGet(&angle);
