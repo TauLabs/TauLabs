@@ -646,7 +646,8 @@ static void stabilizationTask(void* parameters)
 						case ROLL:
 							// For ROLL POI mode we track the FC roll angle (scaled)
 							CameraDesiredRollGet(&angle);
-							error = circular_modulus_deg(angle - attitudeActual.Pitch);
+							error = circular_modulus_deg(angle - attitudeActual.Roll);
+							break;
 						case YAW:
 							CameraDesiredBearingGet(&angle);
 							error = circular_modulus_deg(angle - attitudeActual.Yaw);
