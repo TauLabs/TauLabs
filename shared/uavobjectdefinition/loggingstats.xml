@@ -1,0 +1,19 @@
+<xml>
+    <object name="LoggingStats" singleinstance="true" settings="false">
+        <description>Information about logging</description>
+	<field name="BytesLogged" units="bytes" type="uint32" elements="1"/>
+	<field name="MinFileId" units="" type="uint16" elements="1"/>
+	<field name="MaxFileId" units="" type="uint16" elements="1"/>
+
+	<field name="Operation" units="" type="enum" elements="1" options="LOGGING, IDLE, DOWNLOAD, COMPLETE, ERROR"/>
+
+	<field name="FileRequest" units="" type="uint16" elements="1"/>
+	<field name="FileSectorNum" units="" type="uint16" elements="1"/>
+	<field name="FileSector" units="" type="uint8" elements="128"/>
+
+        <access gcs="readwrite" flight="readwrite"/>
+        <telemetrygcs acked="false" updatemode="manual" period="0"/>
+        <telemetryflight acked="false" updatemode="manual" period="1000"/>
+        <logging updatemode="manual" period="0"/>
+    </object>
+</xml>

@@ -478,6 +478,12 @@ void UploaderGadgetWidget::onBootloaderDetected()
                 case DFU_PARTITION_WAYPOINTS:
                     name = "Waypoints";
                     break;
+                case DFU_PARTITION_LOG:
+                    name = "Log";
+                    break;
+                case DFU_PARTITION_OTA:
+                    name = "OTA";
+                    break;
                 default:
                     name = QString::number(index);
                     break;

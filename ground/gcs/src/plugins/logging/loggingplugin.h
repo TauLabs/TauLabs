@@ -143,6 +143,7 @@ protected:
     LoggingConnection* logConnection;
 
 private slots:
+    void downloadLog();
     void toggleLogging();
     void startLogging(QString file);
     void stopLogging();

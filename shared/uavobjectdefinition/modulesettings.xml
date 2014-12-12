@@ -26,6 +26,7 @@
 				<elementname>PicoC</elementname>
 				<elementname>UAVOFrSkySPortBridge</elementname>
 				<elementname>Geofence</elementname>
+				<elementname>Logging</elementname>
 			</elementnames>
 		</field>
 
