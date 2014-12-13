@@ -245,7 +245,7 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 
 #ifdef PIOS_INCLUDE_DSM
 static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm_cfg, const struct pios_dsm_cfg *pios_dsm_cfg,
-		const struct pios_com_driver *pios_usart_com_driver,enum pios_dsm_proto *proto, 
+		const struct pios_com_driver *pios_usart_com_driver, 
 		ManualControlSettingsChannelGroupsOptions channelgroup,uint8_t *bind)
 {
 	uintptr_t pios_usart_dsm_id;
@@ -255,7 +255,7 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 	
 	uintptr_t pios_dsm_id;
 	if (PIOS_DSM_Init(&pios_dsm_id, pios_dsm_cfg, pios_usart_com_driver,
-			pios_usart_dsm_id, *proto, *bind)) {
+			pios_usart_dsm_id, *bind)) {
 		PIOS_Assert(0);
 	}
 	
@@ -573,28 +573,11 @@ void PIOS_Board_Init(void) {
 		case HWFREEDOM_MAINPORT_GPS:
 			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_RX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
-		case HWFREEDOM_MAINPORT_DSM2:
-		case HWFREEDOM_MAINPORT_DSMX10BIT:
-		case HWFREEDOM_MAINPORT_DSMX11BIT:
+		case HWFREEDOM_MAINPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 			{
-				enum pios_dsm_proto proto;
-				switch (hw_mainport) {
-				case HWFREEDOM_MAINPORT_DSM2:
-					proto = PIOS_DSM_PROTO_DSM2;
-					break;
-				case HWFREEDOM_MAINPORT_DSMX10BIT:
-					proto = PIOS_DSM_PROTO_DSMX10BIT;
-					break;
-				case HWFREEDOM_MAINPORT_DSMX11BIT:
-					proto = PIOS_DSM_PROTO_DSMX11BIT;
-					break;
-				default:
-					PIOS_Assert(0);
-					break;
-				}
 				PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_main_cfg, &pios_dsm_main_cfg,
-					&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
+					&pios_usart_com_driver, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
 			}
 #endif	/* PIOS_INCLUDE_DSM */
 			break;
@@ -680,30 +663,12 @@ void PIOS_Board_Init(void) {
 		case HWFREEDOM_FLEXIPORT_GPS:
 			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_RX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 			break;
-		case HWFREEDOM_FLEXIPORT_DSM2:
-		case HWFREEDOM_FLEXIPORT_DSMX10BIT:
-		case HWFREEDOM_FLEXIPORT_DSMX11BIT:
+		case HWFREEDOM_FLEXIPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 			{
-				enum pios_dsm_proto proto;
-				switch (hw_flexiport) {
-				case HWFREEDOM_FLEXIPORT_DSM2:
-					proto = PIOS_DSM_PROTO_DSM2;
-					break;
-				case HWFREEDOM_FLEXIPORT_DSMX10BIT:
-					proto = PIOS_DSM_PROTO_DSMX10BIT;
-					break;
-				case HWFREEDOM_FLEXIPORT_DSMX11BIT:
-					proto = PIOS_DSM_PROTO_DSMX11BIT;
-					break;
-				default:
-					PIOS_Assert(0);
-					break;
-				}
-
 			//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 			PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_flexi_cfg, &pios_dsm_flexi_cfg,
-				&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
+				&pios_usart_com_driver, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
 			}
 #endif	/* PIOS_INCLUDE_DSM */
 			break;
@@ -833,30 +798,12 @@ void PIOS_Board_Init(void) {
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
 		}
 			break;
-		case HWFREEDOM_RCVRPORT_DSM2:
-		case HWFREEDOM_RCVRPORT_DSMX10BIT:
-		case HWFREEDOM_RCVRPORT_DSMX11BIT:
+		case HWFREEDOM_RCVRPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 			{
-				enum pios_dsm_proto proto;
-				switch (hw_rcvrport) {
-				case HWFREEDOM_RCVRPORT_DSM2:
-					proto = PIOS_DSM_PROTO_DSM2;
-					break;
-				case HWFREEDOM_RCVRPORT_DSMX10BIT:
-					proto = PIOS_DSM_PROTO_DSMX10BIT;
-					break;
-				case HWFREEDOM_RCVRPORT_DSMX11BIT:
-					proto = PIOS_DSM_PROTO_DSMX11BIT;
-					break;
-				default:
-					PIOS_Assert(0);
-					break;
-				}
-
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_rcvr_cfg, &pios_dsm_rcvr_cfg,
-					&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
+					&pios_usart_com_driver, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
 			}
 #endif	/* PIOS_INCLUDE_DSM */
 			break;
