@@ -127,9 +127,7 @@ void ConnectionDiagram::setupGraphicsScene()
         case Core::IBoardType::INPUT_TYPE_SBUS:
             elementsToShow << "sbus";
             break;
-        case Core::IBoardType::INPUT_TYPE_DSMX10BIT:
-        case Core::IBoardType::INPUT_TYPE_DSMX11BIT:
-        case Core::IBoardType::INPUT_TYPE_DSM2:
+        case Core::IBoardType::INPUT_TYPE_DSM:
             elementsToShow << "satellite";
             break;
         case Core::IBoardType::INPUT_TYPE_HOTTSUMD:
