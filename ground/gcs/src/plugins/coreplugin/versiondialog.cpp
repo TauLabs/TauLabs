@@ -60,13 +60,11 @@ VersionDialog::VersionDialog(QWidget *parent)
     QGridLayout *layout = new QGridLayout(this);
     layout->setSizeConstraint(QLayout::SetFixedSize);
     QString versionName;
-    QString versionData;
+    QString versionHash;
 
-#ifdef GCS_REVISION_PRETTY_STR
-    versionData = QLatin1String(GCS_REVISION_PRETTY_STR);
+    QString versionData = QLatin1String(GCS_REVISION_PRETTY_STR);
     versionName = versionData.split("%@%").at(0);
-    versionData = versionData.split("%@%").at(1);
-#endif
+    versionHash = versionData.split("%@%").at(1);
 
     QString ideRev;
 #ifdef GCS_REVISION
@@ -95,7 +93,7 @@ VersionDialog::VersionDialog(QWidget *parent)
      uavoHashStr = tr("UAVO hash %1<br/>").arg(gcsUavoHashStr.left(8));
  #endif
      const QString version_name = tr("<h3><center>Tau Labs GCS<center></h3>"
-                                     "<h4><center>%1: %2</center></h4>").arg(versionName, revision);
+                                     "<h4><center>%1: %2</center></h4>").arg(versionName, versionHash);
      const QString version_description = tr(
         "Based on Qt %1 (%2 bit)<br/>"
         "<br/>"
