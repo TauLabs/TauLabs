@@ -896,7 +896,7 @@ $(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 #
 ##############################
 
-ALL_UNITTESTS := logfs i2c_vm misc_math sin_lookup coordinate_conversions error_correcting
+ALL_UNITTESTS := logfs i2c_vm misc_math sin_lookup coordinate_conversions error_correcting streamfs
 ALL_PYTHON_UNITTESTS := python_ut_test
 
 UT_OUT_DIR := $(BUILD_DIR)/unit_tests

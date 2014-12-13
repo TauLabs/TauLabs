@@ -37,6 +37,7 @@
 			<elementname>UAVOFrSKYSensorHubBridge</elementname>
 			<elementname>PicoC</elementname>
 			<elementname>OnScreenDisplay</elementname>
+			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
 		</elementnames>
 	</field>
@@ -76,6 +77,7 @@
 			<elementname>UAVOFrSKYSBridge</elementname>
 			<elementname>PicoC</elementname>
 			<elementname>OnScreenDisplay</elementname>
+			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
 		</elementnames>
 		<options>
@@ -119,6 +121,7 @@
 			<elementname>UAVOFrSKYSensorHubBridge</elementname>
 			<elementname>PicoC</elementname>
 			<elementname>OnScreenDisplay</elementname>
+			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
 		</elementnames>
 	</field> 
