@@ -1,13 +1,14 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotModules OpenPilot Modules
+ * @addtogroup auLabsModules Tau Labs Modules
  * @{
- * @addtogroup OSDgenModule osdgen Module
+ * @addtogroup OnScreenDisplay OSD Module
  * @brief Process OSD information
  * @{
  *
- * @file       osdgen.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
+ * @file       onscreendisplay.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010-2014.
  * @brief      OSD gen module, handles OSD draw. Parts from CL-OSD and SUPEROSD projects
  * @see        The GNU Public License (GPL) Version 3
  *

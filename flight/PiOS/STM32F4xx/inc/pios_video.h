@@ -3,12 +3,13 @@
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_VIDEO Code for OSD video generator
- * @brief OSD generator, Parts from CL-OSD and SUPEROSD project
+ * @brief Output video (black & white pixels) over SPI
  * @{
  *
  * @file       pios_video.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      OSD generator, Parts from CL-OSD and SUPEROSD projects
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010-2014.
+ * @brief      OSD gen module, handles OSD draw. Parts from CL-OSD and SUPEROSD projects
  * @see        The GNU Public License (GPL) Version 3
  *
  ******************************************************************************
