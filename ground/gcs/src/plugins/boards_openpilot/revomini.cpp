@@ -153,14 +153,8 @@ bool RevoMini::setInputOnPort(enum InputType type, int port_num)
         settings.FlexiPort = HwRevoMini::FLEXIPORT_TELEMETRY;
         settings.MainPort = HwRevoMini::MAINPORT_SBUS;
         break;
-    case INPUT_TYPE_DSM2:
-        settings.FlexiPort = HwRevoMini::FLEXIPORT_DSM2;
-        break;
-    case INPUT_TYPE_DSMX10BIT:
-        settings.FlexiPort = HwRevoMini::FLEXIPORT_DSMX10BIT;
-        break;
-    case INPUT_TYPE_DSMX11BIT:
-        settings.FlexiPort = HwRevoMini::FLEXIPORT_DSMX11BIT;
+    case INPUT_TYPE_DSM:
+        settings.FlexiPort = HwRevoMini::FLEXIPORT_DSM;
         break;
     default:
         return false;
@@ -192,12 +186,8 @@ enum Core::IBoardType::InputType RevoMini::getInputOnPort(int port_num)
     HwRevoMini::DataFields settings = hwRevoMini->getData();
 
     switch(settings.FlexiPort) {
-    case HwRevoMini::FLEXIPORT_DSM2:
-        return INPUT_TYPE_DSM2;
-    case HwRevoMini::FLEXIPORT_DSMX10BIT:
-        return INPUT_TYPE_DSMX10BIT;
-    case HwRevoMini::FLEXIPORT_DSMX11BIT:
-        return INPUT_TYPE_DSMX11BIT;
+    case HwRevoMini::FLEXIPORT_DSM:
+        return INPUT_TYPE_DSM;
     default:
         break;
     }

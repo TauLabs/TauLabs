@@ -149,14 +149,8 @@ bool CopterControl::setInputOnPort(enum InputType type, int port_num)
         settings.MainPort = HwCopterControl::MAINPORT_SBUS;
         settings.FlexiPort = HwCopterControl::FLEXIPORT_TELEMETRY;
         break;
-    case INPUT_TYPE_DSM2:
-        settings.FlexiPort = HwCopterControl::FLEXIPORT_DSM2;
-        break;
-    case INPUT_TYPE_DSMX10BIT:
-        settings.FlexiPort = HwCopterControl::FLEXIPORT_DSMX10BIT;
-        break;
-    case INPUT_TYPE_DSMX11BIT:
-        settings.FlexiPort = HwCopterControl::FLEXIPORT_DSMX11BIT;
+    case INPUT_TYPE_DSM:
+        settings.FlexiPort = HwCopterControl::FLEXIPORT_DSM;
         break;
     default:
         return false;
@@ -188,12 +182,8 @@ enum Core::IBoardType::InputType CopterControl::getInputOnPort(int port_num)
     HwCopterControl::DataFields settings = hwCopterControl->getData();
 
     switch(settings.FlexiPort) {
-    case HwCopterControl::FLEXIPORT_DSM2:
-        return INPUT_TYPE_DSM2;
-    case HwCopterControl::FLEXIPORT_DSMX10BIT:
-        return INPUT_TYPE_DSMX10BIT;
-    case HwCopterControl::FLEXIPORT_DSMX11BIT:
-        return INPUT_TYPE_DSMX11BIT;
+    case HwCopterControl::FLEXIPORT_DSM:
+        return INPUT_TYPE_DSM;
     default:
         break;
     }
