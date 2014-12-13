@@ -7,7 +7,9 @@
  * @{
  *
  * @file       pios_dsm_priv.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2014.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
+ *
  * @brief      Spektrum/JR DSMx satellite receiver private structures.
  * @see        The GNU Public License (GPL) Version 3
  *
