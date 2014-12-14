@@ -245,11 +245,13 @@ class INS14:
 
 		if pos is not None:
 			idx.extend((0,1))
-			Z.extend(pos[0:2])
+			Z.extend([[pos[0]]])
+			Z.extend([[pos[1]]])
 
 		if vel is not None:
 			idx.extend((3,4))
-			Z.extend(vel[0:2])
+			Z.extend([[vel[0]]])
+			Z.extend([[vel[1]]])
 
 		if mag is not None:
 
@@ -269,7 +271,7 @@ class INS14:
 				Rbh[2,1] = -k1*(q0*q1*2.0+q2*q3*2.0)
 				Rbh[2,2] = k1*k2*(q0*q0-q1*q1-q2*q2+q3*q3)
 
-				mag = (Rbh * numpy.matrix(mag))		
+				mag = (Rbh * mag)
 				Z.extend([[mag[0,0]],[mag[1,0]]])
 			else:
 				# Use full mag shape
@@ -282,6 +284,9 @@ class INS14:
 			Z.append(baro)
 
 		# construct appropriately sized predictions based on provided inputs
+		# this method of creating a matrix from a list is really ugly and
+		# sensitive to how the elements are formatted in the list to create
+		# the correct shape of the matrix
 		Z = numpy.matrix(Z)
 		Y = Y[idx]
 		H = H[idx,:]

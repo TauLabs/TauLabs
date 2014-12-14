@@ -51,6 +51,7 @@ class StaticTestFunctions(unittest.TestCase):
 
             sim.predict(gyro+ng, accel+na, dT=dT)
 
+            print `sim.state`
             history[k,:] = sim.state
             history_rpy[k,:] = quat_rpy(sim.state[6:10])
             times[k] = k * dT
@@ -590,7 +591,7 @@ class ReplayFlightFunctions(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    selected_test = None
+    selected_test = 'run_static'
 
     if selected_test is not None:
         VISUALIZE = True
