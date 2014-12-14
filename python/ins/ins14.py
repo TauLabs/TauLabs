@@ -5,6 +5,14 @@ from sympy.matrices import *
 from quaternions import *
 import numpy
 
+# this is the set of (currently) recommend INS settings. modified from
+# https://raw.githubusercontent.com/wiki/TauLabs/TauLabs/files/htfpv-sparky-nav_20130527.uav
+default_mag_var = numpy.array([10.0, 10.0, 100.0])
+default_gyro_var = numpy.array([1e-5, 1e-5, 1e-4])
+default_accel_var = numpy.array([0.01, 0.01, 0.01])
+default_baro_var = 0.1
+default_gps_var=numpy.array([1e-3,1e-2,10])
+
 class INS14:
 
 	GRAV = 9.81
@@ -110,6 +118,9 @@ class INS14:
 		self.l_H = []
 		self.l_Y = []
 
+		# state format used by common code
+		self.state = numpy.zeros((16))
+
 	def prepare(self):
 		""" Prepare to run data through the INS14
 
@@ -179,9 +190,25 @@ class INS14:
 		self.r_P[10:,:] = zeros(4,14)
 		self.r_P[:,10:] = zeros(14,4)
 
-	def predict(self, U=[0,0,0,0,0,0], dT = 1.0/666.0):
+	def configure(self, mag_var=None, gyro_var=None, accel_var=None, baro_var=None, gps_var=None):
+		""" configure the INS parameters """
+
+		if mag_var is not None:
+			ins.configure(mag_var=mag_var)
+		if gyro_var is not None:
+			ins.configure(gyro_var=gyro_var)
+		if accel_var is not None:
+			ins.configure(accel_var=accel_var)
+		if baro_var is not None:
+			ins.configure(baro_var=baro_var)
+		if gps_var is not None:
+			ins.configure(gps_var=gps_var)
+
+	def predict(self, gyros, accels, dT = 1.0/666.0):
 		""" Perform the prediction step
 		"""
+
+		U = numpy.concatenate((gyros, accels))
 
 		# fourth-order runga kuta state prediction
 		k1 = self.l_Xd(self.r_X.tolist(), U) 
@@ -200,6 +227,9 @@ class INS14:
 		#self.r_P = (eye(NUMX)+F*T)*Pplus*(eye(NUMX)+F*T)' + T^2*G*diag(Q)*G'
 		I = numpy.matrix(numpy.identity(14))
 		self.r_P = (I + f * dT) * P * (I + f * dT).T + (dT**2) * g * diag(self.Q) * g.T
+
+		self.state[0:14] = self.r_X[0:14].T
+		self.state[-1] = self.r_X[-1]
 
 	def correction(self, pos=None, vel=None, mag=None, baro=None):
 		""" Perform the INS correction based on the provided corrections
@@ -266,6 +296,9 @@ class INS14:
 		self.r_X = self.r_X + K*(Z-Y)
 
 		self.r_P = P - K*H*P;
+
+		self.state[0:14] = self.r_X[0:14].T
+		self.state[-1] = self.r_X[-1]
 
 def run_uavo_list(uavo_list):
 
@@ -377,7 +410,7 @@ def test():
 	for k in range(STEPS):
 		ROLL = 0.5
 		YAW  = 0.5
-		ins.predict(U=[0,0,YAW, 0,INS14.GRAV*sin(ROLL),-INS14.GRAV*cos(ROLL) - 0.1], dT=0.0015)
+		ins.predict([0,0,YAW], [0,INS14.GRAV*sin(ROLL),-INS14.GRAV*cos(ROLL) - 0.1], dT=0.0015)
 
 		history[k,:] = ins.r_X.T
 		times[k] = k * dT
