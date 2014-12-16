@@ -104,21 +104,31 @@ def run_uavo_list(uavo_list):
 	attitude = uavo_list.as_numpy_array(taulabs.uavo.UAVO_AttitudeActual)
 	gyros = uavo_list.as_numpy_array(taulabs.uavo.UAVO_Gyros)
 	accels = uavo_list.as_numpy_array(taulabs.uavo.UAVO_Accels)
-	ned = uavo_list.as_numpy_array(taulabs.uavo.UAVO_NEDPosition)
+	#ned = uavo_list.as_numpy_array(taulabs.uavo.UAVO_NEDPosition)
+	gps = uavo_list.as_numpy_array(taulabs.uavo.UAVO_GPSPosition)
 	vel = uavo_list.as_numpy_array(taulabs.uavo.UAVO_GPSVelocity)
 	mag = uavo_list.as_numpy_array(taulabs.uavo.UAVO_Magnetometer)
 	baro = uavo_list.as_numpy_array(taulabs.uavo.UAVO_BaroAltitude)
+
+	# set home location as first sample and linearize around that
+	lat0 = gps['Latitude'][0,0]
+	lon0 = gps['Longitude'][0,0]
+	alt0 = gps['Altitude'][0,0]
+
+	T = [alt0+6.378137E6, cos(lat0 / 10e6 * math.pi / 180.0)*(alt0+6.378137E6)]
 
 	STEPS = gyros['time'].size
 	history = numpy.zeros((STEPS,16))
 	history_rpy = numpy.zeros((STEPS,3))
 	times = numpy.zeros((STEPS,1))
 
+	ned_history = numpy.zeros((gps['Latitude'].size,3))
+
 	steps = 0
 	t = gyros['time'][0]
 	gyro_idx = 0
 	accel_idx = 0
-	ned_idx = 0
+	gps_idx = 0
 	vel_idx = 0
 	mag_idx = 0
 	baro_idx = 0
@@ -140,9 +150,13 @@ def run_uavo_list(uavo_list):
 		gyros_dat = gyros_dat / 180 * math.pi
 		sim.predict(gyros_dat,accels_dat,dT)
 
-		if (ned_idx < ned['time'].size) and (ned['time'][ned_idx] < t):
-			sim.correction(pos=[ned['North'][ned_idx,0], ned['East'][ned_idx,0], ned['Down'][ned_idx,0]])
-			ned_idx = ned_idx + 1
+		if (gps_idx < gps['time'].size) and (gps['time'][gps_idx] < t):
+			pos = [(gps['Latitude'][gps_idx,0] - lat0) / 10e6 * math.pi / 180.0 * T[0], (gps['Longitude'][gps_idx,0] - lon0)  / 10e6 * math.pi / 180.0 * T[1], -gps['Altitude'][gps_idx,0]]
+			sim.correction(pos=pos)
+			ned_history[gps_idx,0] = pos[0]
+			ned_history[gps_idx,1] = pos[1]
+			ned_history[gps_idx,2] = pos[2]
+			gps_idx = gps_idx + 1
 
 		if (vel_idx < vel['time'].size) and (vel['time'][vel_idx] < t):
 			sim.correction(vel=[vel['North'][vel_idx,0], vel['East'][vel_idx,0], vel['Down'][vel_idx,0]])
@@ -166,7 +180,7 @@ def run_uavo_list(uavo_list):
 	fig, ax = plt.subplots(2,3)
 
 	ax[0][0].cla()
-	ax[0][0].plot(ned['time'],ned['North'],'k',ned['time'],ned['East'],'k',ned['time'],ned['Down'],'k--', baro['time'], -baro['Altitude'],'k')
+	ax[0][0].plot(gps['time'],ned_history[:,0],'k',gps['time'],ned_history[:,1],'k',gps['time'],ned_history[:,2],'k--', baro['time'], -baro['Altitude'],'k')
 	ax[0][0].plot(times,history[:,0:3])
 	ax[0][0].set_title('Position')
 	plt.sca(ax[0][0])
