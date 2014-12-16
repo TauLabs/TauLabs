@@ -1,4 +1,5 @@
 from ins14 import INS14
+from pyins import PyINS
 import unittest
 
 from sympy import symbols, lambdify, sqrt
@@ -8,13 +9,19 @@ from sympy.matrices import *
 from quaternions import *
 import numpy
 import math
+import ins
 
 VISUALIZE = False
+
+C_IMP = True
 
 class StaticTestFunctions(unittest.TestCase):
 
     def setUp(self):
-        self.sim = INS14()
+        if C_IMP:
+            self.sim = PyINS()
+        else:
+            self.sim = INS14()
         self.sim.prepare()
 
     def run_static(self, accel=[0.0,0.0,-INS14.GRAV],
