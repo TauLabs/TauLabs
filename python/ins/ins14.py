@@ -132,17 +132,19 @@ class INS14:
 
 		Q = [default_gyro_var[0], default_gyro_var[1], default_gyro_var[2],
 		     default_accel_var[0], default_accel_var[1], default_accel_var[2],
-		     default_mag_var[0], default_mag_var[1], default_mag_var[2],
-		     5e-4]
+		     5e-7, 5e-7, 2e-6, 5e-4]
 		R = [default_gps_var[0], default_gps_var[0], default_gps_var[2], 
 		     default_gps_var[1], default_gps_var[1], default_gps_var[2],
 		     default_mag_var[0], default_mag_var[1], default_mag_var[2], default_baro_var]
 
 		self.r_X = numpy.matrix([0,0,0,0,0,0,1.0,0,0,0,0,0,0,0]).T
-		self.r_P = numpy.diagflat([25,25,25,5,5,5,1e-5,1e-5,1e-5,1e-9,1e-9,1e-9,1e-7,0])
+		self.r_P = numpy.diagflat([25,25,25,
+			                       5,5,5,
+			                       1e-5,1e-5,1e-5,1e-5,
+			                       1e-9,1e-9,1e-9,
+			                       1e-7])
 		self.R = numpy.diagflat(R)
 		self.Q = numpy.diagflat(Q)
-		print `self.Q.shape`
 
 		# the noise inputs to the system are not used in the prediction (or assume their mean of zero)
 		Xd = self.Xd
@@ -202,16 +204,34 @@ class INS14:
 	def configure(self, mag_var=None, gyro_var=None, accel_var=None, baro_var=None, gps_var=None):
 		""" configure the INS parameters """
 
+		Q = [default_gyro_var[0], default_gyro_var[1], default_gyro_var[2],
+		     default_accel_var[0], default_accel_var[1], default_accel_var[2],
+		     5e-7, 5e-7, 2e-6, 5e-4]
+		R = [default_gps_var[0], default_gps_var[0], default_gps_var[2], 
+		     default_gps_var[1], default_gps_var[1], default_gps_var[2],
+		     default_mag_var[0], default_mag_var[1], default_mag_var[2], default_baro_var]
+
 		if mag_var is not None:
-			ins.configure(mag_var=mag_var)
+			self.R[6,6] = mag_var[0]
+			self.R[7,7] = mag_var[1]
+			self.R[8,8] = mag_var[2]
 		if gyro_var is not None:
-			ins.configure(gyro_var=gyro_var)
+			self.Q[0,0] = gyro_var[0]
+			self.Q[1,1] = gyro_var[1]
+			self.Q[2,2] = gyro_var[2]
 		if accel_var is not None:
-			ins.configure(accel_var=accel_var)
+			self.Q[3,3] = accel_var[0]
+			self.Q[4,4] = accel_var[1]
+			self.Q[5,5] = accel_var[2]
 		if baro_var is not None:
-			ins.configure(baro_var=baro_var)
+			self.R[9,9] = baro_var
 		if gps_var is not None:
-			ins.configure(gps_var=gps_var)
+			self.R[0,0] = gps_var[0]
+			self.R[1,1] = gps_var[0]
+			self.R[3,3] = gps_var[1]
+			self.R[4,4] = gps_var[1]
+			self.R[2,2] = gps_var[2]
+			self.R[5,5] = gps_var[2]
 
 	def predict(self, gyros, accels, dT = 1.0/666.0):
 		""" Perform the prediction step
