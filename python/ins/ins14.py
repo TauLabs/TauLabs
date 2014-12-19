@@ -15,7 +15,7 @@ default_gps_var=numpy.array([1e-3,1e-2,10])
 
 class INS14:
 
-	GRAV = 9.81
+	GRAV = 9.805
 	MAG_HEADING = True # use the compass for heading only
 
 	def __init__(self):
@@ -79,9 +79,10 @@ class INS14:
 		F = Xd_nn.jacobian(X)
 		G = Xd.jacobian(n)
 
+
 		# Output equations.
 		#Be = MatrixSymbol('Be',3,1)                    # mag near home location
-		Be = Matrix([400, 0, 1400])
+		Be = Matrix([400, 0, 1600])
 		if INS14.MAG_HEADING:
 			# Project the mag vector to the body frame by only the rotational component
 			k1 = sqrt(power(q0**2 + q1**2 - q2**2 - q3**2,2) + power(q0*q3*2 +  q1*q2*2,2))
@@ -108,7 +109,7 @@ class INS14:
 		self.H = H
 
 		# These are populated in the prepare method
-		self.r_X = []
+		self.r_X = numpy.matrix([0,0,0,0,0,0,1.0,0,0,0,0,0,0,0]).T
 		self.r_P = []
 		self.Q = []
 		self.R = []
@@ -120,6 +121,8 @@ class INS14:
 
 		# state format used by common code
 		self.state = numpy.zeros((16))
+		self.state[0:14] = self.r_X[0:14].T
+		self.state[-1] = self.r_X[-1]
 
 	def prepare(self):
 		""" Prepare to run data through the INS14
@@ -257,6 +260,8 @@ class INS14:
 		I = numpy.matrix(numpy.identity(14))
 		self.r_P = (I + f * dT) * P * (I + f * dT).T + (dT**2) * g * diag(self.Q) * g.T
 
+		self.normalize()
+
 		self.state[0:14] = self.r_X[0:14].T
 		self.state[-1] = self.r_X[-1]
 
@@ -300,8 +305,10 @@ class INS14:
 				Rbh[2,1] = -k1*(q0*q1*2.0+q2*q3*2.0)
 				Rbh[2,2] = k1*k2*(q0*q0-q1*q1-q2*q2+q3*q3)
 
-				mag = (Rbh * mag)
-				Z.extend([[mag[0,0]],[mag[1,0]]])
+				print "Here: " + `Rbh.shape` + " " + `mag.shape`
+				print `Rbh.dot(mag).shape`
+				mag = Rbh.dot(mag)
+				Z.extend([[mag[0]],[mag[1]]])
 			else:
 				# Use full mag shape
 				Z.extend(mag[0:2])				
@@ -326,6 +333,8 @@ class INS14:
 		A = numpy.matrix(P*H.T)
 		B = numpy.matrix(H*P*H.T + R)
 		K = numpy.linalg.lstsq(B, A.T)[0].T
+
+		self.normalize()
 
 		self.r_X = self.r_X + K*(Z-Y)
 
