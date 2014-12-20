@@ -529,6 +529,26 @@ uint32_t PIOS_RFM22B_DeviceID(uint32_t rfm22b_id)
 }
 
 /**
+ * Returns module version of the RFM22B device
+ *
+ * @param[in] rfm22b_id The RFM22B device index.
+ * @return The unique device ID
+ */
+uint32_t PIOS_RFM22B_ModuleVersion(uint32_t rfb22b_id)
+{
+	struct pios_rfm22b_dev *rfm22b_dev = (struct pios_rfm22b_dev *)rfb22b_id;
+
+	if (!PIOS_RFM22B_Validate(rfm22b_dev)) {
+		return 0;
+	}
+
+	uint8_t device_type = rfm22_read(rfm22b_dev, RFM22_DEVICE_TYPE) & RFM22_DT_MASK;
+	uint8_t device_version = rfm22_read(rfm22b_dev, RFM22_DEVICE_VERSION) & RFM22_DV_MASK;
+
+	return (device_type << 8) | device_version;
+}
+
+/**
  * Indicate if the device is connected or not
  *
  * @param[in] rfm22b_dev device to set connection on

@@ -108,6 +108,7 @@ extern void PIOS_RFM22B_Config(uint32_t rfm22b_id,
 					 uint32_t coordinator_id, bool oneway,
 					 bool ppm_mode, bool ppm_only);
 extern uint32_t PIOS_RFM22B_DeviceID(uint32_t rfb22b_id);
+extern uint32_t PIOS_RFM22B_ModuleVersion(uint32_t rfb22b_id);
 extern void PIOS_RFM22B_GetStats(uint32_t rfm22b_id,
 				 struct rfm22b_stats *stats);
 extern bool PIOS_RFM22B_LinkStatus(uint32_t rfm22b_id);
