@@ -31,8 +31,6 @@ PfdQmlGadget::PfdQmlGadget(QString classId, PfdQmlGadgetWidget *widget, QWidget 
         IUAVGadget(classId, parent),
         m_widget(widget)
 {
-    m_container = NULL;
-    m_parent = parent;
 }
 
 PfdQmlGadget::~PfdQmlGadget()
