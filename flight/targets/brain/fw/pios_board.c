@@ -105,6 +105,18 @@ static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
 };
 #endif /* PIOS_INCLUDE_HMC5883 */
 
+#if defined(PIOS_INCLUDE_HMC5983_I2C)
+#include "pios_hmc5983.h"
+
+static const struct pios_hmc5983_cfg pios_hmc5983_external_cfg = {
+	.M_ODR = PIOS_HMC5983_ODR_75,
+	.Meas_Conf = PIOS_HMC5983_MEASCONF_NORMAL,
+	.Gain = PIOS_HMC5983_GAIN_1_9,
+	.Mode = PIOS_HMC5983_MODE_SINGLE,
+	.Orientation = PIOS_HMC5983_TOP_0DEG,
+};
+#endif /* PIOS_INCLUDE_HMC5983 */
+
 /**
  * Configuration for the MS5611 chip
  */
@@ -734,38 +746,66 @@ void PIOS_Board_Init(void) {
 		//if (PIOS_I2C_CheckClear(pios_i2c_flexi_id) != 0)
 		//	panic(6);
 
-#if defined(PIOS_INCLUDE_HMC5883)
 		uint8_t Magnetometer;
 		HwBrainMagnetometerGet(&Magnetometer);
 
-		if (Magnetometer == HWBRAIN_MAGNETOMETER_EXTERNALFLXPORT) {
-			// init sensor
-			if (PIOS_HMC5883_Init(pios_i2c_flexi_id, &pios_hmc5883_external_cfg) == 0) {
+		switch (Magnetometer) {
+			case HWBRAIN_MAGNETOMETER_FLXPORTHMC5883:
+#if defined(PIOS_INCLUDE_HMC5883)
+				if (!ext_mag_init_ok && (PIOS_HMC5883_Init(pios_i2c_flexi_id, &pios_hmc5883_external_cfg) == 0) && 0) {
+					if (PIOS_HMC5883_Test() == 0) {
+						// sensor configuration was successful: external mag is attached and powered
 
-				if (PIOS_HMC5883_Test() == 0) {
-					// sensor configuration was successful: external mag is attached and powered
+						// setup sensor orientation
+						uint8_t ExtMagOrientation;
+						HwBrainExtMagOrientationGet(&ExtMagOrientation);
 
-					// setup sensor orientation
-					uint8_t ExtMagOrientation;
-					HwBrainExtMagOrientationGet(&ExtMagOrientation);
-
-					enum pios_hmc5883_orientation hmc5883_orientation = \
-						(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP0DEGCW) ? PIOS_HMC5883_TOP_0DEG : \
-						(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP90DEGCW) ? PIOS_HMC5883_TOP_90DEG : \
-						(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP180DEGCW) ? PIOS_HMC5883_TOP_180DEG : \
-						(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP270DEGCW) ? PIOS_HMC5883_TOP_270DEG : \
-						(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM0DEGCW) ? PIOS_HMC5883_BOTTOM_0DEG : \
-						(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM90DEGCW) ? PIOS_HMC5883_BOTTOM_90DEG : \
-						(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM180DEGCW) ? PIOS_HMC5883_BOTTOM_180DEG : \
-						(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM270DEGCW) ? PIOS_HMC5883_BOTTOM_270DEG : \
-						pios_hmc5883_external_cfg.Default_Orientation;
-					PIOS_HMC5883_SetOrientation(hmc5883_orientation);
-					ext_mag_init_ok = true;
+						enum pios_hmc5883_orientation hmc5883_orientation = \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP0DEGCW) ? PIOS_HMC5883_TOP_0DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP90DEGCW) ? PIOS_HMC5883_TOP_90DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP180DEGCW) ? PIOS_HMC5883_TOP_180DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP270DEGCW) ? PIOS_HMC5883_TOP_270DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM0DEGCW) ? PIOS_HMC5883_BOTTOM_0DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM90DEGCW) ? PIOS_HMC5883_BOTTOM_90DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM180DEGCW) ? PIOS_HMC5883_BOTTOM_180DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM270DEGCW) ? PIOS_HMC5883_BOTTOM_270DEG : \
+							pios_hmc5883_external_cfg.Default_Orientation;
+						PIOS_HMC5883_SetOrientation(hmc5883_orientation);
+						ext_mag_init_ok = true;
+					}
 				}
-			}
-			use_internal_mag = false;
-		}
 #endif /* PIOS_INCLUDE_HMC5883 */
+				use_internal_mag = false;
+				break;
+			case HWBRAIN_MAGNETOMETER_FLXPORTHMC5983:
+#if defined(PIOS_INCLUDE_HMC5983_I2C)
+				if (PIOS_HMC5983_Init(pios_i2c_flexi_id, 0, &pios_hmc5983_external_cfg) == 0) {
+
+					if (PIOS_HMC5983_Test() == 0) {
+						// sensor configuration was successful: external mag is attached and powered
+
+						// setup sensor orientation
+						uint8_t ExtMagOrientation;
+						HwBrainExtMagOrientationGet(&ExtMagOrientation);
+
+						enum pios_hmc5983_orientation hmc5983_orientation = \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP0DEGCW) ? PIOS_HMC5983_TOP_0DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP90DEGCW) ? PIOS_HMC5983_TOP_90DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP180DEGCW) ? PIOS_HMC5983_TOP_180DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_TOP270DEGCW) ? PIOS_HMC5983_TOP_270DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM0DEGCW) ? PIOS_HMC5983_BOTTOM_0DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM90DEGCW) ? PIOS_HMC5983_BOTTOM_90DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM180DEGCW) ? PIOS_HMC5983_BOTTOM_180DEG : \
+							(ExtMagOrientation == HWBRAIN_EXTMAGORIENTATION_BOTTOM270DEGCW) ? PIOS_HMC5983_BOTTOM_270DEG : \
+							pios_hmc5983_external_cfg.Orientation;
+						PIOS_HMC5983_SetOrientation(hmc5983_orientation);
+						ext_mag_init_ok = true;
+					}
+				}
+#endif /* PIOS_INCLUDE_HMC5983_I2C */
+				use_internal_mag = false;
+				break;
+		}
 		break;
 #endif /* PIOS_INCLUDE_I2C */
 	case HWBRAIN_FLXPORT_GPS:

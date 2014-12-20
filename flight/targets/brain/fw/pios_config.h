@@ -61,6 +61,8 @@
 #define PIOS_MPU6050_ACCEL
 #define PIOS_INCLUDE_MPU9250_BRAIN
 #define PIOS_INCLUDE_HMC5883
+#define PIOS_INCLUDE_HMC5983_I2C
+
 #define FLASH_FREERTOS
 /* Com systems to include */
 #define PIOS_INCLUDE_COM
