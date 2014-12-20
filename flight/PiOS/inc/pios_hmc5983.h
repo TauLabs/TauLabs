@@ -35,6 +35,9 @@
 #include <pios.h>
 
 /* HMC5983 Addresses */
+#define PIOS_HMC5983_I2C_ADDR			0x1E
+#define PIOS_HMC5983_I2C_READ_ADDR		0x3D
+#define PIOS_HMC5983_I2C_WRITE_ADDR		0x3C
 #define PIOS_HMC5983_CONFIG_REG_A		(uint8_t)0x00
 #define PIOS_HMC5983_CONFIG_REG_B		(uint8_t)0x01
 #define PIOS_HMC5983_MODE_REG			(uint8_t)0x02
@@ -100,29 +103,41 @@
 #define PIOS_HMC5983_READ_MODE				0xC0
 #define PIOS_HMC5983_ENABLE_TEMP_SENSOR		0x80
 
-enum pios_hmc5983_orientation { // clockwise rotation from board forward
-	PIOS_HMC5983_TOP_0DEG    = 0x00,
-	PIOS_HMC5983_TOP_90DEG   = 0x01,
-	PIOS_HMC5983_TOP_180DEG  = 0x02,
-	PIOS_HMC5983_TOP_270DEG  = 0x03
+enum pios_hmc5983_orientation {
+	// clockwise rotation from board forward while looking at top side
+	// 0 degree is chip mark on upper left corner
+	PIOS_HMC5983_TOP_0DEG,
+	PIOS_HMC5983_TOP_90DEG,
+	PIOS_HMC5983_TOP_180DEG,
+	PIOS_HMC5983_TOP_270DEG,
+	// clockwise rotation from board forward while looking at bottom side
+	// 0 degree is chip mark on upper left corner
+	PIOS_HMC5983_BOTTOM_0DEG,
+	PIOS_HMC5983_BOTTOM_90DEG,
+	PIOS_HMC5983_BOTTOM_180DEG,
+	PIOS_HMC5983_BOTTOM_270DEG
 };
 
 struct pios_hmc5983_cfg {
-#ifdef PIOS_HMC5983_HAS_GPIOS
-	const struct pios_exti_cfg *exti_cfg; /* Pointer to the EXTI configuration */
-#endif
+	const struct pios_exti_cfg * exti_cfg; /* Pointer to the EXTI configuration */
 	uint8_t M_ODR;		/* OUTPUT DATA RATE --> here below the relative define (See datasheet page 11 for more details) */
 	uint8_t Meas_Conf;	/* Measurement Configuration,: Normal, positive bias, or negative bias --> here below the relative define */
 	uint8_t Gain;		/* Gain Configuration, select the full scale --> here below the relative define (See datasheet page 11 for more details) */
 	uint8_t Averaging;	/* Averaging configuration */
 	uint8_t Mode;
-	enum pios_hmc5983_orientation orientation;
+	enum pios_hmc5983_orientation Orientation;
 };
 
 /* Public Functions */
-extern int32_t PIOS_HMC5983_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_hmc5983_cfg *cfg);
-extern int32_t PIOS_HMC5983_Test(void);
+extern int32_t PIOS_HMC5983_Init(uint32_t spi_i2c_id, uint32_t slave_num, const struct pios_hmc5983_cfg *cfg);
 extern bool PIOS_HMC5983_IRQHandler(void);
+
+#if defined(PIOS_INCLUDE_HMC5983_I2C)
+extern int32_t PIOS_HMC5983_Test(void);
+extern int32_t PIOS_HMC5983_SetOrientation(enum pios_hmc5983_orientation orientation);
+#endif /* PIOS_INCLUDE_HMC5983_I2C */
+
+
 #endif /* PIOS_HMC5983_H */
 
 /**
