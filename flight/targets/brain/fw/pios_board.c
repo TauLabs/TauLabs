@@ -752,7 +752,7 @@ void PIOS_Board_Init(void) {
 		switch (Magnetometer) {
 			case HWBRAIN_MAGNETOMETER_FLXPORTHMC5883:
 #if defined(PIOS_INCLUDE_HMC5883)
-				if (!ext_mag_init_ok && (PIOS_HMC5883_Init(pios_i2c_flexi_id, &pios_hmc5883_external_cfg) == 0) && 0) {
+				if (PIOS_HMC5883_Init(pios_i2c_flexi_id, &pios_hmc5883_external_cfg) == 0) {
 					if (PIOS_HMC5883_Test() == 0) {
 						// sensor configuration was successful: external mag is attached and powered
 
