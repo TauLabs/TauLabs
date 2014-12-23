@@ -55,11 +55,22 @@ int PIOS_DSM_UnrollChannels(struct pios_dsm_state *state)
 		uint8_t channel_num = (word >> resolution) & 0x0f;
 		if (channel_num < PIOS_DSM_NUM_INPUTS) {
 			if (channel_log & (1 << channel_num)) {
-				/* Found duplicate! */
-				/* Update resolution and restart processing the current frame. */
+				/* Found duplicate. This should happen when in 11 bit */
+				/* mode and the data is 10 bits */
+				if (resolution == 10)
+					return -1;
 				resolution = 10;
 				return PIOS_DSM_UnrollChannels(state);
 			}
+
+			if ((channel_log & 0xFF) == 0x55) {
+				/* This pattern indicates 10 bit pattern */
+				if (resolution == 11)
+					return -1;
+				resolution = 11;
+				return PIOS_DSM_UnrollChannels(state);
+			}
+
 			state->channel_data[channel_num] = (word & mask);
 			/* keep track of this channel */
 			channel_log |= (1 << channel_num);
