@@ -1,6 +1,8 @@
-# List of the ChibiOS/RT SIMIA32 port files.
-PORTSRC = ${CHIBIOS}/os/ports/GCC/SIMIA32/chcore.c
+
+QPORTS_POSIX_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
+
+PORTSRC = $(QPORTS_POSIX_DIR)/chcore.c
 
 PORTASM = 
 
-PORTINC = ${CHIBIOS}/os/ports/GCC/SIMIA32
+PORTINC = $(QPORTS_POSIX_DIR)

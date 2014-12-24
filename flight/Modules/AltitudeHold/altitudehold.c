@@ -58,7 +58,13 @@
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
+
+#if defined(PIOS_ALTITUDEHOLD_STACK_SIZE)
+#define STACK_SIZE_BYTES PIOS_ALTITUDEHOLD_STACK_SIZE
+#else
 #define STACK_SIZE_BYTES 600
+#endif
+
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private variables

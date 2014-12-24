@@ -43,7 +43,11 @@
 #include <netinet/in.h>
 
 // Private constants
+#if defined(PIOS_VISUALIZATION_STACK_SIZE)
+#define STACK_SIZE_BYTES PIOS_VISUALIZATION_STACK_SIZE
+#else
 #define STACK_SIZE_BYTES 1540
+#endif
 #define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
 #define VISUALIZATION_PERIOD 20
 
