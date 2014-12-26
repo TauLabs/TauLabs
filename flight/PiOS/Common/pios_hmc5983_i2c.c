@@ -5,7 +5,7 @@
  * @addtogroup PIOS_HMC5983 HMC5983 Functions
  * @brief Deals with the hardware interface to the magnetometers
  * @{
- * @file       pios_hmc5983.c
+ * @file       pios_hmc5983_i2c.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      HMC5983 Magnetic Sensor Functions from AHRS
@@ -119,6 +119,7 @@ int32_t PIOS_HMC5983_Init(uint32_t i2c_id, uint32_t slave_num, const struct pios
 	dev->i2c_id = i2c_id;
 	dev->orientation = cfg->Orientation;
 
+#ifdef PIOS_HMC5983_HAS_GPIOS
 	/* check if we are using an irq line */
 	if (cfg->exti_cfg != NULL) {
 		PIOS_EXTI_Init(cfg->exti_cfg);
@@ -126,6 +127,12 @@ int32_t PIOS_HMC5983_Init(uint32_t i2c_id, uint32_t slave_num, const struct pios
 		dev->data_ready_sema = PIOS_Semaphore_Create();
 		PIOS_Assert(dev->data_ready_sema != NULL);
 	}
+	else {
+		dev->data_ready_sema = NULL;
+	}
+#else
+	dev->data_ready_sema = NULL;
+#endif /* PIOS_HMC5983_HAS_GPIOS */
 
 	if (PIOS_HMC5983_Config(cfg) != 0)
 		return -2;
@@ -530,7 +537,7 @@ static void PIOS_HMC5983_Task(void *parameters)
 	uint32_t now = PIOS_Thread_Systime();
 
 	while (1) {
-		if (dev->cfg->Mode == PIOS_HMC5983_MODE_CONTINUOUS) {
+		if ((dev->data_ready_sema != NULL) && (dev->cfg->Mode == PIOS_HMC5983_MODE_CONTINUOUS)) {
 			if (PIOS_Semaphore_Take(dev->data_ready_sema, PIOS_SEMAPHORE_TIMEOUT_MAX) != true) {
 				PIOS_Thread_Sleep(100);
 				continue;
