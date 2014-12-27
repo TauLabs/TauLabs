@@ -465,27 +465,9 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_GPS */
 		break;
-	case HWCOPTERCONTROL_MAINPORT_DSM2:
-	case HWCOPTERCONTROL_MAINPORT_DSMX10BIT:
-	case HWCOPTERCONTROL_MAINPORT_DSMX11BIT:
+	case HWCOPTERCONTROL_MAINPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 		{
-			enum pios_dsm_proto proto;
-			switch (hw_mainport) {
-			case HWCOPTERCONTROL_MAINPORT_DSM2:
-				proto = PIOS_DSM_PROTO_DSM2;
-				break;
-			case HWCOPTERCONTROL_MAINPORT_DSMX10BIT:
-				proto = PIOS_DSM_PROTO_DSMX10BIT;
-				break;
-			case HWCOPTERCONTROL_MAINPORT_DSMX11BIT:
-				proto = PIOS_DSM_PROTO_DSMX11BIT;
-				break;
-			default:
-				PIOS_Assert(0);
-				break;
-			}
-
 			uintptr_t pios_usart_dsm_id;
 			if (PIOS_USART_Init(&pios_usart_dsm_id, &pios_usart_dsm_main_cfg)) {
 				PIOS_Assert(0);
@@ -495,8 +477,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_DSM_Init(&pios_dsm_id,
 					  &pios_dsm_main_cfg,
 					  &pios_usart_com_driver,
-					  pios_usart_dsm_id,
-					  proto, 0)) {
+					  pios_usart_dsm_id, 0)) {
 				PIOS_Assert(0);
 			}
 
@@ -685,27 +666,9 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_GPS */
 		break;
-	case HWCOPTERCONTROL_FLEXIPORT_DSM2:
-	case HWCOPTERCONTROL_FLEXIPORT_DSMX10BIT:
-	case HWCOPTERCONTROL_FLEXIPORT_DSMX11BIT:
+	case HWCOPTERCONTROL_FLEXIPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 		{
-			enum pios_dsm_proto proto;
-			switch (hw_flexiport) {
-			case HWCOPTERCONTROL_FLEXIPORT_DSM2:
-				proto = PIOS_DSM_PROTO_DSM2;
-				break;
-			case HWCOPTERCONTROL_FLEXIPORT_DSMX10BIT:
-				proto = PIOS_DSM_PROTO_DSMX10BIT;
-				break;
-			case HWCOPTERCONTROL_FLEXIPORT_DSMX11BIT:
-				proto = PIOS_DSM_PROTO_DSMX11BIT;
-				break;
-			default:
-				PIOS_Assert(0);
-				break;
-			}
-
 			uintptr_t pios_usart_dsm_id;
 			if (PIOS_USART_Init(&pios_usart_dsm_id, &pios_usart_dsm_flexi_cfg)) {
 				PIOS_Assert(0);
@@ -715,8 +678,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_DSM_Init(&pios_dsm_id,
 					  &pios_dsm_flexi_cfg,
 					  &pios_usart_com_driver,
-					  pios_usart_dsm_id,
-					  proto, hw_DSMxBind)) {
+					  pios_usart_dsm_id, hw_DSMxBind)) {
 				PIOS_Assert(0);
 			}
 
