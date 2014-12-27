@@ -7,6 +7,10 @@
 #define DSM_DSM2_RES_MASK       0x0010
 #define DSM_2ND_FRAME_MASK      0x8000
 
+enum pios_dsm_dev_magic {
+	PIOS_DSM_DEV_MAGIC = 0x44534d78,
+};
+
 struct pios_dsm_state {
 	uint16_t channel_data[PIOS_DSM_NUM_INPUTS];
 	uint8_t received_data[DSM_FRAME_LENGTH];
@@ -20,6 +24,12 @@ struct pios_dsm_state {
 #endif
 };
 
+struct pios_dsm_dev {
+	enum pios_dsm_dev_magic magic;
+	const struct pios_dsm_cfg *cfg;
+	struct pios_dsm_state state;
+};
+
 int PIOS_DSM_Reset();
-int PIOS_DSM_UnrollChannels(struct pios_dsm_state *state);
+int PIOS_DSM_UnrollChannels(struct pios_dsm_dev *dsm_dev);
 int PIOS_DSM_GetResolution();

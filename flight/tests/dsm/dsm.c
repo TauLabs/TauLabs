@@ -21,8 +21,9 @@ int PIOS_DSM_GetResolution()
 /**
  * This is the code from the PIOS_DSM layer
  */
-int PIOS_DSM_UnrollChannels(struct pios_dsm_state *state)
+int PIOS_DSM_UnrollChannels(struct pios_dsm_dev *dsm_dev)
 {
+	struct pios_dsm_state *state = &(dsm_dev->state);
 	/* Fix resolution for detection. */
 	uint32_t channel_log = 0;
 
@@ -60,7 +61,7 @@ int PIOS_DSM_UnrollChannels(struct pios_dsm_state *state)
 				if (resolution == 10)
 					return -1;
 				resolution = 10;
-				return PIOS_DSM_UnrollChannels(state);
+				return PIOS_DSM_UnrollChannels(dsm_dev);
 			}
 
 			if ((channel_log & 0xFF) == 0x55) {
@@ -68,14 +69,14 @@ int PIOS_DSM_UnrollChannels(struct pios_dsm_state *state)
 				if (resolution == 11)
 					return -1;
 				resolution = 11;
-				return PIOS_DSM_UnrollChannels(state);
+				return PIOS_DSM_UnrollChannels(dsm_dev);
 			}
-
 			state->channel_data[channel_num] = (word & mask);
 			/* keep track of this channel */
 			channel_log |= (1 << channel_num);
 		}
 	}
+
 #ifdef DSM_LOST_FRAME_COUNTER
 	/* put lost frames counter into the last channel for debugging */
 	state->channel_data[PIOS_DSM_NUM_INPUTS-1] = state->frames_lost;
