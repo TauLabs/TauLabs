@@ -210,11 +210,12 @@ void PIOS_Servo_OneShot_Set(uint8_t servo, uint16_t position)
 		return;
 	}
 
-	/* Get and disable the timer */
 	const struct pios_tim_channel * chan = &servo_cfg->channels[servo];
+
+	/* stop the timer */
 	TIM_Cmd(chan->timer, DISABLE);
 
-	/* Update the position */
+	/* Update the position. */
 	switch(chan->timer_chan) {
 		case TIM_Channel_1:
 			TIM_SetCompare1(chan->timer, position);
@@ -246,7 +247,7 @@ void PIOS_Servo_OneShot_Update()
 	for (uint8_t i = 0; i < servo_cfg->num_channels; i++) {
 		const struct pios_tim_channel * chan = &servo_cfg->channels[i];
 
-		/* Look for a disabled timer whick is probably used by OneShot */
+		/* Look for a disabled timer which is probably used by OneShot */
 		if (!(chan->timer->CR1 & TIM_CR1_CEN)) {
 			/* Choose the correct prescaler value for the APB the timer is attached */
 			if (chan->timer==TIM6 || chan->timer==TIM7) {
@@ -258,10 +259,9 @@ void PIOS_Servo_OneShot_Update()
 				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / OneShotFrequency) - 1;
 			}
 
-			/* Initialize and enable it again. */
-			TIM_GenerateEvent(chan->timer, TIM_EventSource_Update);
-			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
+			/* enable it again and reinitialize it */
 			TIM_Cmd(chan->timer, ENABLE);
+			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
 		}
 	}
 }
