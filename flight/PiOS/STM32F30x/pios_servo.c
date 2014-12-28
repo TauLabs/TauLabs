@@ -254,9 +254,9 @@ void PIOS_Servo_OneShot_Update()
 				// These timers cannot be used here.
 				continue;
 			} else if (chan->timer==TIM2 || chan->timer==TIM3 || chan->timer==TIM4) {
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / OneShotFrequency) - 1;
+				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / OneShotFrequency) * 2 - 1;
 			} else {
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / OneShotFrequency) - 1;
+				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / OneShotFrequency) - 1;
 			}
 
 			/* enable it again and reinitialize it */
