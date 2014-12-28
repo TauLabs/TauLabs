@@ -268,7 +268,7 @@ struct hott_gps_message {
 	uint8_t ascii4;				// ASCII Free Character [4] (next to home distance)
 	uint8_t ascii5;				// ASCII Free Character [5] (next to home direction)
 	uint8_t ascii6;				// ASCII Free Character [6] (next to number of sats)
-	uint8_t version;			// version number (0=gps, 1=gyro, 255=multicopter)
+	uint8_t version;			// version number (0=gps, 1=gyro, 2=dgps, 255=multicopter)
 	uint8_t stop;				// stop byte
 	uint8_t checksum;			// Lower 8-bits of all bytes summed
 };

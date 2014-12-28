@@ -194,3 +194,75 @@ void PIOS_Servo_Set(uint8_t servo, uint16_t position)
 			break;
 	}
 }
+
+#if defined(PIOS_INCLUDE_ONESHOT)
+#define OneShotFrequency 12000000
+
+/**
+* Set servo position for OneShot
+* \param[in] Servo Servo number (0-num_channels)
+* \param[in] Position Servo position in 1/12 microseconds based on OneShotFrequency
+*/
+void PIOS_Servo_OneShot_Set(uint8_t servo, uint16_t position)
+{
+	/* Make sure servo exists */
+	if (!servo_cfg || servo >= servo_cfg->num_channels) {
+		return;
+	}
+
+	const struct pios_tim_channel * chan = &servo_cfg->channels[servo];
+
+	/* stop the timer */
+	TIM_Cmd(chan->timer, DISABLE);
+
+	/* Update the position */
+	switch(chan->timer_chan) {
+		case TIM_Channel_1:
+			TIM_SetCompare1(chan->timer, position);
+			break;
+		case TIM_Channel_2:
+			TIM_SetCompare2(chan->timer, position);
+			break;
+		case TIM_Channel_3:
+			TIM_SetCompare3(chan->timer, position);
+			break;
+		case TIM_Channel_4:
+			TIM_SetCompare4(chan->timer, position);
+			break;
+	}
+}
+
+/**
+* Update the timer for OneShot
+*/
+void PIOS_Servo_OneShot_Update()
+{
+	if (!servo_cfg) {
+		return;
+	}
+
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+	TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
+
+	for (uint8_t i = 0; i < servo_cfg->num_channels; i++) {
+		const struct pios_tim_channel * chan = &servo_cfg->channels[i];
+
+		/* Look for a disabled timer whick is probably used by OneShot */
+		if (!(chan->timer->CR1 & TIM_CR1_CEN)) {
+			/* Choose the correct prescaler value for the APB the timer is attached */
+			if (chan->timer==TIM6 || chan->timer==TIM7) {
+				// These timers cannot be used here.
+				continue;
+			} else if (chan->timer==TIM2 || chan->timer==TIM3 || chan->timer==TIM4) {
+				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / OneShotFrequency) * 2 - 1;
+			} else {
+				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / OneShotFrequency) - 1;
+			}
+
+			/* enable it again and reinitialize it */
+			TIM_Cmd(chan->timer, ENABLE);
+			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
+		}
+	}
+}
+#endif

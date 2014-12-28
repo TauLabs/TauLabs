@@ -262,6 +262,9 @@ uint16_t build_VARIO_message(struct hott_vario_message *msg) {
 	msg->ascii2 = 0;
 	msg->ascii3 = 0;
 
+	// version
+	msg->version = 2;
+
 	msg->checksum = calc_checksum((uint8_t *)msg, sizeof(*msg));
 	return sizeof(*msg);
 }
@@ -317,8 +320,10 @@ uint16_t build_GPS_message(struct hott_gps_message *msg) {
 			msg->gps_fix_char = '2';
 			break;
 		case GPSPOSITION_STATUS_FIX3D:
-		case GPSPOSITION_STATUS_DIFF3D:
 			msg->gps_fix_char = '3';
+			break;
+		case GPSPOSITION_STATUS_DIFF3D:
+			msg->gps_fix_char = 'D';
 			break;
 		default:
 			msg->gps_fix_char = 0;
@@ -359,6 +364,9 @@ uint16_t build_GPS_message(struct hott_gps_message *msg) {
 
 	// free display chararacter
 	msg->ascii4 = 0;
+
+	// version
+	msg->version = 2;
 
 	msg->checksum = calc_checksum((uint8_t *)msg, sizeof(*msg));
 	return sizeof(*msg);
