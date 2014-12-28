@@ -51,7 +51,7 @@ extern "C" {
 class DsmTest : public testing::Test {
 protected:
   virtual void SetUp() {
-    PIOS_DSM_Reset();
+    PIOS_DSM_Reset(&dev);
     state = &dev.state;
   }
 
@@ -95,7 +95,7 @@ TEST_F(DsmTest, Invalid) {
   pack_channels_10bit(channels, state, false);
   for (int i = 0; i < DSM_FRAME_LENGTH; i++)
     state->received_data[i] = 0;
-  EXPECT_EQ(-1, PIOS_DSM_UnrollChannels(&dev));
+  EXPECT_EQ(-2, PIOS_DSM_UnrollChannels(&dev));
 }
 
 TEST_F(DsmTest, DSM2_10BIT) {
@@ -103,7 +103,7 @@ TEST_F(DsmTest, DSM2_10BIT) {
   pack_channels_10bit(channels, state, false);
   EXPECT_EQ(0, PIOS_DSM_UnrollChannels(&dev));
 
-  EXPECT_EQ(10, PIOS_DSM_GetResolution());
+  EXPECT_EQ(10, PIOS_DSM_GetResolution(&dev));
   verify_channels(channels, state->channel_data);
 }
 
@@ -112,24 +112,27 @@ TEST_F(DsmTest, DSM2_11BIT) {
   pack_channels_11bit(channels, state, false);
   EXPECT_EQ(0, PIOS_DSM_UnrollChannels(&dev));
 
-  EXPECT_EQ(11, PIOS_DSM_GetResolution());
+  EXPECT_EQ(11, PIOS_DSM_GetResolution(&dev));
   verify_channels(channels, state->channel_data);
 }
 
-TEST_F(DsmTest, DSM2_11_10_11) {
+TEST_F(DsmTest, DSM2_10BIT_MISMATCH) {
+  // Once the resolution is detected as 11 bit, processing
+  // 10 bit frames should fail
+  dev.resolution = DSM_11BIT;
+
   uint16_t channels[DSM_CHANNELS_PER_FRAME] = {512, 513, 514, 515, 516, 517, 518};
-
-  pack_channels_11bit(channels, state, false);
-  EXPECT_EQ(0, PIOS_DSM_UnrollChannels(&dev));
-  EXPECT_EQ(11, PIOS_DSM_GetResolution());
-  verify_channels(channels, state->channel_data);
-
   pack_channels_10bit(channels, state, false);
-  EXPECT_EQ(0, PIOS_DSM_UnrollChannels(&dev));
-  EXPECT_EQ(10, PIOS_DSM_GetResolution());
-  verify_channels(channels, state->channel_data);
-
-  pack_channels_11bit(channels, state, false);
-  EXPECT_EQ(0, PIOS_DSM_UnrollChannels(&dev));
-  EXPECT_EQ(11, PIOS_DSM_GetResolution());
+  EXPECT_EQ(-1, PIOS_DSM_UnrollChannels(&dev));
 }
+
+TEST_F(DsmTest, DSM2_11BIT_MISMATCH) {
+  // Once the resolution is detected as 10 bit, processing
+  // 11 bit frames should fail
+  dev.resolution = DSM_10BIT;
+
+  uint16_t channels[DSM_CHANNELS_PER_FRAME] = {512, 513, 514, 515, 516, 517, 518};
+  pack_channels_11bit(channels, state, false);
+  EXPECT_EQ(-1, PIOS_DSM_UnrollChannels(&dev));
+}
+
