@@ -59,19 +59,20 @@ protected:
  }
  void pack_channels_10bit(uint16_t channels[DSM_CHANNELS_PER_FRAME], struct pios_dsm_state *state, bool frame);
  void pack_channels_11bit(uint16_t channels[DSM_CHANNELS_PER_FRAME], struct pios_dsm_state *state, bool frame);
- int validate_file(const char *fn, int resolution, int channels);
+ int validate_file(const char *fn, int resolution, int channels, bool skip);
  int get_packet(FILE *fid, uint8_t *buf);
  struct pios_dsm_state *state;
  struct pios_dsm_dev dev;
 };
 
-const int idx[] = {1,5,2,3,0,7,6,1,5,2,3,4,8,9};
+const int idx11[] = {1,5,2,3,0,7,6,1,5,2,3,4,8,9};
+const int idx10[] = {1,5,4,2,6,0,3,1,5,4,2,6,0,3};
 
 //! pack data into DSM2 10 bit packets
 void DsmTest::pack_channels_10bit(uint16_t channels[DSM_CHANNELS_PER_FRAME], struct pios_dsm_state *state, bool frame)
 {
   for (int i = 0; i < DSM_CHANNELS_PER_FRAME; i++) {
-    uint16_t j = idx[i + DSM_CHANNELS_PER_FRAME*frame];
+    uint16_t j = idx10[i + DSM_CHANNELS_PER_FRAME*frame];
     uint16_t val = channels[j];
     uint16_t word = ((frame & (i == 0)) ? 0x8000 : 0) | ((j & 0x000F) << 10) | (val & 0x03FF);
     state->received_data[2 + i * 2 + 1] = word & 0x00FF;
@@ -83,7 +84,7 @@ void DsmTest::pack_channels_10bit(uint16_t channels[DSM_CHANNELS_PER_FRAME], str
 void DsmTest::pack_channels_11bit(uint16_t channels[DSM_CHANNELS_PER_FRAME], struct pios_dsm_state *state, bool frame)
 {
   for (int i = 0; i < DSM_CHANNELS_PER_FRAME; i++) {
-    uint16_t j = idx[i + DSM_CHANNELS_PER_FRAME*frame];
+    uint16_t j = idx11[i + DSM_CHANNELS_PER_FRAME*frame];
     uint16_t val = channels[j];
     uint16_t word = ((frame  & (i == 0)) ? 0x8000 : 0) | ((j & 0x000F) << 11) | (val & 0x07FF);
     state->received_data[2 + i * 2 + 1] = word & 0x00FF;
@@ -143,7 +144,7 @@ int DsmTest::get_packet(FILE *fid, uint8_t *buf)
 }
 
 
-int DsmTest::validate_file(const char *fn, int resolution, int channels)
+int DsmTest::validate_file(const char *fn, int resolution, int channels, bool skip)
 {
   FILE *fid = fopen(fn, "r");
   char *line = NULL;
@@ -155,14 +156,22 @@ int DsmTest::validate_file(const char *fn, int resolution, int channels)
   const int MIN = (resolution == 11) ? 340 : 150;
   const int MAX = (resolution == 11) ? 2048 : 1024;
   if (resolution == 11)
-  // warm up parser
-  get_packet(fid, state->received_data);
-  PIOS_DSM_UnrollChannels(&dev);
-  //EXPECT_EQ(0, PIOS_DSM_UnrollChannels(&dev));
 
+  if (skip) {
+    // throw away a packet, test started on the other frame
+    get_packet(fid, state->received_data);
+  }
+
+  // warm up parser. this will not always pass the checks as
+  // an out odd packet might not correctly identify the
+  // protocol
   get_packet(fid, state->received_data);
   PIOS_DSM_UnrollChannels(&dev);
-  //EXPECT_EQ(0, PIOS_DSM_UnrollChannels(&dev));
+  
+  get_packet(fid, state->received_data);
+  EXPECT_EQ(0, PIOS_DSM_UnrollChannels(&dev));
+
+  EXPECT_EQ(resolution, PIOS_DSM_GetResolution(&dev));
 
   while(get_packet(fid, state->received_data) == 0) {
     EXPECT_EQ(0, PIOS_DSM_UnrollChannels(&dev));
@@ -198,46 +207,92 @@ int DsmTest::validate_file(const char *fn, int resolution, int channels)
   return 0;
 }
 
-TEST_F(DsmTest, DX7_DSM2) {
-
-  PIOS_DSM_Reset(&dev);
-  validate_file("DX7_11msDSM2.txt",11,8);
-
-  PIOS_DSM_Reset(&dev);
-  validate_file("DX7_22msDSM2.txt",11,8);
+TEST_F(DsmTest, DX7_DSM2_11ms_odd) {
+  validate_file("DX7_11msDSM2.txt",11,8,false);
 }
 
-TEST_F(DsmTest, DX7_DSMX) {
-  PIOS_DSM_Reset(&dev);
-  validate_file("DX7_11msDSMX.txt",11,8);
-
-  PIOS_DSM_Reset(&dev);
-  validate_file("DX7_22msDSMX.txt",11,8);
+TEST_F(DsmTest, DX7_DSM2_11ms_even) {
+  validate_file("DX7_11msDSM2.txt",11,8,true);
 }
 
-TEST_F(DsmTest, DX18_DSM2) {
-  PIOS_DSM_Reset(&dev);
-  validate_file("DX18_11msDSM2_2048res.txt",11,10);
+TEST_F(DsmTest, DX7_DSM2_22ms_odd) {
+  validate_file("DX7_22msDSM2.txt",11,8,false);
+}
+TEST_F(DsmTest, DX7_DSM2_22ms_even) {
+  validate_file("DX7_22msDSM2.txt",11,8,true);
+}
 
+TEST_F(DsmTest, DX7_DSMX_11ms_odd) {
+  validate_file("DX7_11msDSMX.txt",11,8,false);
+}
+
+TEST_F(DsmTest, DX7_DSMX_11ms_even) {
+  validate_file("DX7_11msDSMX.txt",11,8,true);
+}
+
+TEST_F(DsmTest, DX7_DSMX_22ms_odd) {
+  validate_file("DX7_22msDSMX.txt",11,8,false);
+}
+
+TEST_F(DsmTest, DX7_DSMX_22ms_even) {
+  validate_file("DX7_22msDSMX.txt",11,8,true);
+}
+
+TEST_F(DsmTest, DX18_DSM2_2048_odd) {
+  validate_file("DX18_11msDSM2_2048res.txt",11,10,false);
+}
+
+TEST_F(DsmTest, DX18_DSM2_2048_even) {
+  validate_file("DX18_11msDSM2_2048res.txt",11,10,true);
+}
+
+
+TEST_F(DsmTest, DX18_DSM2_1024_odd) {
   // Note: even though this file is named like it has 10 bit
   // resolution, it appears to differ in having 12 channels
-  PIOS_DSM_Reset(&dev);
-  validate_file("DX18_22msDSM2_1024res.txt",11,12);
-
-  // Note: we do not decode the XPlus channels but it is
-  // important to make sure they are handled appropriately
-  PIOS_DSM_Reset(&dev);
-  validate_file("DX18_22msDSM2_XPlus_1024res.txt",11,12);
+  validate_file("DX18_22msDSM2_1024res.txt",11,12,false);
 }
 
-TEST_F(DsmTest, DX18_DSMX) {
-  validate_file("DX18_22msDSMX.txt",11,12);
+TEST_F(DsmTest, DX18_DSM2_1024_even) {
+  // Note: even though this file is named like it has 10 bit
+  // resolution, it appears to differ in having 12 channels
+  validate_file("DX18_22msDSM2_1024res.txt",11,12,true);
+}
 
-  PIOS_DSM_Reset(&dev);
-  validate_file("DX18_11msDSMX.txt",11,10);
+TEST_F(DsmTest, DX18_DSM2_XPlus_1024_odd) {
+  // Note: we do not decode the XPlus channels but it is
+  // important to make sure they are handled appropriately
+  validate_file("DX18_22msDSM2_XPlus_1024res.txt",11,12,false);
+}
 
-  PIOS_DSM_Reset(&dev);
-  validate_file("DX18_22msDSMX_XPlus.txt",11,12);
+TEST_F(DsmTest, DX18_DSM2_XPlus_1024_even) {
+  // Note: we do not decode the XPlus channels but it is
+  // important to make sure they are handled appropriately
+  validate_file("DX18_22msDSM2_XPlus_1024res.txt",11,12,true);
+}
+
+TEST_F(DsmTest, DX18_DSMX_22ms_odd) {
+  validate_file("DX18_22msDSMX.txt",11,12,false);
+}
+
+TEST_F(DsmTest, DX18_DSMX_22ms_even) {
+  validate_file("DX18_22msDSMX.txt",11,12,true);
+}
+
+TEST_F(DsmTest, DX18_DSMX_11ms_odd) {
+  validate_file("DX18_11msDSMX.txt",11,10,false);
+}
+
+TEST_F(DsmTest, DX18_DSMX_11ms_even) {
+  validate_file("DX18_11msDSMX.txt",11,10,true);
+}
+
+TEST_F(DsmTest, DX18_DSMX_22ms_XPlus_odd) {
+  validate_file("DX18_22msDSMX_XPlus.txt",11,12,false);
+}
+
+TEST_F(DsmTest, DX18_DSMX_22ms_XPlus_even) {
+  validate_file("DX18_22msDSMX_XPlus.txt",11,12,true);
 }
 
 /**
