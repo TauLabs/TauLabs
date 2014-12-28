@@ -239,3 +239,39 @@ TEST_F(DsmTest, DX18_DSMX) {
   PIOS_DSM_Reset(&dev);
   validate_file("DX18_22msDSMX_XPlus.txt",11,12);
 }
+
+/**
+ * Test a file recorded using Sparky2 and a DX7
+ * that was bound with 4 pulses.
+ */
+TEST_F(DsmTest, DX7_DSM2_10BIT) {
+
+  FILE *fid = fopen("DX7_DSM2_10bit.dat", "r");
+
+  int c;
+  int i = 0;
+
+  while((c = fgetc(fid)) != EOF) {
+    state->received_data[i++] = c;
+
+    if (i >= DSM_FRAME_LENGTH) {
+      PIOS_DSM_UnrollChannels(&dev);
+      EXPECT_EQ(10, PIOS_DSM_GetResolution(&dev));
+      i = 0;
+
+      const uint8_t channels = 7;
+      const uint16_t MIN = 45;
+      const uint16_t MAX = 1024;
+
+      bool valid[PIOS_DSM_NUM_INPUTS];
+      for (int j = 0; j < PIOS_DSM_NUM_INPUTS; j++) {
+        // this file only has 7 channels
+        valid[j] = ((j >= channels) && dev.state.channel_data[j] == 0) ||
+                ((j < channels) && ((dev.state.channel_data[j] > MIN) && (dev.state.channel_data[j] <= MAX)));
+        EXPECT_TRUE(valid[j]);
+      }
+    }
+  }
+
+  fclose(fid);
+}
