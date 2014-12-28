@@ -1,5 +1,6 @@
 
 #include "stdint.h"
+#include "stdbool.h"
 
 #define PIOS_DSM_NUM_INPUTS     12
 #define DSM_CHANNELS_PER_FRAME  7
@@ -9,6 +10,10 @@
 
 enum pios_dsm_dev_magic {
 	PIOS_DSM_DEV_MAGIC = 0x44534d78,
+};
+
+enum dsm_resolution {
+	DSM_UNKNOWN, DSM_10BIT, DSM_11BIT
 };
 
 struct pios_dsm_state {
@@ -28,8 +33,9 @@ struct pios_dsm_dev {
 	enum pios_dsm_dev_magic magic;
 	const struct pios_dsm_cfg *cfg;
 	struct pios_dsm_state state;
+	enum dsm_resolution resolution;
 };
 
-int PIOS_DSM_Reset();
+int PIOS_DSM_Reset(struct pios_dsm_dev *dsm_dev);
 int PIOS_DSM_UnrollChannels(struct pios_dsm_dev *dsm_dev);
-int PIOS_DSM_GetResolution();
+int PIOS_DSM_GetResolution(struct pios_dsm_dev *dsm_dev);
