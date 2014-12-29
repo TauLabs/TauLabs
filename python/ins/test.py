@@ -1,4 +1,4 @@
-from ins14 import INS14
+from cins import CINS
 from pyins import PyINS
 import unittest
 
@@ -19,12 +19,12 @@ class StaticTestFunctions(unittest.TestCase):
 
     def setUp(self):
         if C_IMP:
-            self.sim = PyINS()
+            self.sim = CINS()
         else:
-            self.sim = INS14()
+            self.sim = PyINS()
         self.sim.prepare()
 
-    def run_static(self, accel=[0.0,0.0,-INS14.GRAV],
+    def run_static(self, accel=[0.0,0.0,-CINS.GRAV],
         gyro=[0.0,0.0,0.0], mag=[400,0,1600],
         pos=[0,0,0], vel=[0,0,0],
         noise=False, STEPS=200000):
@@ -596,7 +596,7 @@ class ReplayFlightFunctions(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    selected_test = 'run_static'
+    selected_test = None
 
     if selected_test is not None:
         VISUALIZE = True

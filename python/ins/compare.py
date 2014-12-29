@@ -1,4 +1,4 @@
-from ins14 import INS14
+from cins import CINS
 from pyins import PyINS
 import unittest
 
@@ -17,13 +17,13 @@ class CompareFunctions(unittest.TestCase):
 
     def setUp(self):
 
-        self.c_sim = PyINS()
-        self.py_sim = INS14()
+        self.c_sim = CINS()
+        self.py_sim = PyINS()
 
         self.c_sim.prepare()
         self.py_sim.prepare()
 
-    def run_static(self, accel=[0.0,0.0,-INS14.GRAV],
+    def run_static(self, accel=[0.0,0.0,-PyINS.GRAV],
         gyro=[0.0,0.0,0.0], mag=[400,0,1600],
         pos=[0,0,0], vel=[0,0,0],
         noise=False, STEPS=200000):
