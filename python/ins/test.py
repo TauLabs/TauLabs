@@ -172,10 +172,10 @@ class StaticTestFunctions(unittest.TestCase):
         self.assertState(state,bias=[0.1,-0.05,0.06,0,0,0])
 
     def test_gyro_bias_xy_rate(self):
-        """ test gyro bias converges within 10% in a fixed time
+        """ test gyro xy bias converges within 10% in a fixed time
         """
 
-        TIME = 30 # seconds
+        TIME = 10 # seconds
         FS = 666  # sampling rate
         MAX_ERR = 0.1
         BIAS = 10.0 * math.pi / 180.0
@@ -186,10 +186,10 @@ class StaticTestFunctions(unittest.TestCase):
         self.assertAlmostEqual(state[11], -BIAS, delta=BIAS*MAX_ERR)
 
     def test_gyro_bias_z_rate(self):
-        """ test gyro bias converges within 10% in a fixed time
+        """ test gyro z bias converges within 10% in a fixed time
         """
 
-        TIME = 30 # seconds
+        TIME = 10 # seconds
         FS = 666  # sampling rate
         MAX_ERR = 0.1
         BIAS = 10.0 * math.pi / 180.0
@@ -199,10 +199,10 @@ class StaticTestFunctions(unittest.TestCase):
         self.assertAlmostEqual(state[12], BIAS, delta=BIAS*MAX_ERR)
 
     def test_accel_bias_z_rate(self):
-        """ test gyro bias converges within 10% in a fixed time
+        """ test accel z bias converges within 10% in a fixed time
         """
 
-        TIME = 30 # seconds
+        TIME = 10 # seconds
         FS = 666  # sampling rate
         MAX_ERR = 0.1
         BIAS = 1
@@ -268,7 +268,10 @@ class StaticTestFunctions(unittest.TestCase):
 class SimulatedFlightTests(unittest.TestCase):
 
     def setUp(self):
-        self.sim = PyINS()
+        if C_IMP:
+            self.sim = CINS()
+        else:
+            self.sim = PyINS()
         self.sim.prepare()
 
         import simulation
