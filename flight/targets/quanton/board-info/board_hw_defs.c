@@ -570,13 +570,13 @@ void PIOS_I2C_internal_er_irq_handler(void)
 #include "pios_flashfs_logfs_priv.h"
 
 static const struct flashfs_logfs_cfg flashfs_settings_cfg = {
-	.fs_magic = 0x3bb141cf,
+	.fs_magic = 0x3b1b14cf,
 	.arena_size = 0x00004000,	/* 64 * slot size */
 	.slot_size = 0x00000100,	/* 256 bytes */
 };
 
 static const struct flashfs_logfs_cfg flashfs_waypoints_cfg = {
-	.fs_magic = 0x9a365a64,
+	.fs_magic = 0x93a566a4,
 	.arena_size = 0x00004000,	/* 64 * slot size */
 	.slot_size = 0x00000040,	/* 64 bytes */
 };
