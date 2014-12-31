@@ -83,6 +83,10 @@ def main():
                     sys.exit(2)
                 # Determine the git hash that this log file is based on
                 githash = fd.readline()[:-1]
+                if githash.find(':') != -1:
+                    import re
+                    githash = re.search(':(\w*)\W', githash).group(1)
+
                 print "Log file is based on git hash: %s" % githash
 
                 uavohash = fd.readline()
