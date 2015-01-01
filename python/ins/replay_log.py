@@ -82,6 +82,10 @@ class ReplayFlightFunctions():
         mag = uavo_list.as_numpy_array(taulabs.uavo.UAVO_Magnetometer)
         baro = uavo_list.as_numpy_array(taulabs.uavo.UAVO_BaroAltitude)
 
+        if gps.size == 0:
+            print "Unable to process flight. No GPS data"
+            return
+
         # set home location as first sample and linearize around that
         lat0 = gps['Latitude'][0,0]
         lon0 = gps['Longitude'][0,0]
