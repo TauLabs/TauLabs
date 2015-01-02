@@ -59,6 +59,7 @@ OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += PicoC
 OPTMODULES += Geofence
+OPTMODULES += Logging
 OPTMODULES += OnScreenDisplay
 
 # Paths
@@ -165,6 +166,7 @@ SRC += $(PIOSCOMMON)/pios_semaphore.c
 SRC += $(PIOSCOMMON)/pios_mutex.c
 SRC += $(PIOSCOMMON)/pios_thread.c
 SRC += $(PIOSCOMMON)/pios_queue.c
+SRC += $(PIOSCOMMON)/pios_streamfs.c
 
 include ./UAVObjects.inc
 SRC += $(UAVOBJSRC)
