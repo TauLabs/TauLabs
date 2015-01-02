@@ -28,6 +28,7 @@
 #define PIOS_FLASHFS_STREAMFS_PRIV_H_
 
 #include <stdint.h>
+#include "pios_flash.h"
 
 /**
  * Configuration for a streamfs filesystem

@@ -38,6 +38,12 @@ def main():
                         dest    = "githash",
                         help    = "override githash for UAVO XML definitions")
 
+    parser.add_argument("-v", "--viewer",
+                        action  = 'store_true',
+                        default = False,
+                        dest    = "viewer",
+                        help    = "launch the log viewer gui")
+
     parser.add_argument("sources",
                         nargs = "+",
                         help  = "list of log files for processing")
@@ -83,6 +89,10 @@ def main():
                     sys.exit(2)
                 # Determine the git hash that this log file is based on
                 githash = fd.readline()[:-1]
+                if githash.find(':') != -1:
+                    import re
+                    githash = re.search(':(\w*)\W', githash).group(1)
+
                 print "Log file is based on git hash: %s" % githash
 
                 uavohash = fd.readline()
@@ -192,14 +202,22 @@ def main():
         uavo_classes = [(t[0], t[1]) for t in taulabs.uavo.__dict__.iteritems() if 'UAVO_' in t[0]]
         user_module.__dict__.update(uavo_classes)
 
-        # Instantiate an ipython shell to interact with the log data.
-        import IPython
-        from IPython.frontend.terminal.embed import InteractiveShellEmbed
-        e = InteractiveShellEmbed(user_ns = user_ns, user_module = user_module)
-        e.enable_pylab(import_all = True)
-        e("Analyzing log file: %s" % src)
-
-
+        if args.viewer:
+            # Start the log viwer app
+            from PyQt4 import QtGui
+            from logviewer.gui import Window
+            app = QtGui.QApplication(sys.argv)
+            main = Window()
+            main.show()
+            main.plot(uavo_list, uavo_defs)
+            sys.exit(app.exec_())
+        else:
+            # Instantiate an ipython shell to interact with the log data.
+            import IPython
+            from IPython.frontend.terminal.embed import InteractiveShellEmbed
+            e = InteractiveShellEmbed(user_ns = user_ns, user_module = user_module)
+            e.enable_pylab(import_all = True)
+            e("Analyzing log file: %s" % src)
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":
     main()
