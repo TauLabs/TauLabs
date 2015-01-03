@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = Welcome
-QT += network qml quick quickwidgets
+QT += network qml quick
 CONFIG += plugin
 
 include(../../taulabsgcsplugin.pri)
