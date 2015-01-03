@@ -9,7 +9,6 @@ import argparse
 import errno
 
 from cins import CINS
-from pyins import PyINS
 import unittest
 
 from sympy import symbols, lambdify, sqrt
@@ -108,8 +107,6 @@ class ReplayFlightFunctions():
         vel_idx = 0
         mag_idx = 0
         baro_idx = 0
-        sim = PyINS()
-        sim.prepare()
 
         dT = numpy.mean(numpy.diff(gyros['time']))
 
@@ -151,22 +148,27 @@ class ReplayFlightFunctions():
         print "Plotting results"
        
         import matplotlib.pyplot as plt
-        fig, ax = plt.subplots(2,2,sharex=True)
+        fig, ax = plt.subplots(3,2,sharex=True)
         ax[0][0].cla()
-        ax[0][0].plot(gps['time'],ned_history[:,0],'--',label="NED North")
-        ax[0][0].plot(gps['time'],ned_history[:,1],'--',label="NED East")
-        ax[0][0].plot(gps['time'],ned_history[:,2],'--',label="NED Down"),
+        ax[0][0].plot(gps['time'],ned_history[:,0],'b--',label="NED North")
+        ax[0][0].plot(gps['time'],ned_history[:,1],'g--',label="NED East")
+        ax[0][0].plot(gps['time'],ned_history[:,2],'r--',label="NED Down"),
         ax[0][0].plot(baro['time'], -baro['Altitude'],'--',label="Baro")
-        ax[0][0].plot(times,history[:,0:3], label="Replay")
+        ax[0][0].plot(times,history[:,0],'b')
+        ax[0][0].plot(times,history[:,1],'g')
+        ax[0][0].plot(times,history[:,2],'r')
         ax[0][0].set_title('Position')
         plt.sca(ax[0][0])
         plt.ylabel('m')
         plt.legend()
 
         ax[0][1].cla()
-        ax[0][1].plot(vel['time'],vel['North'],'--',label="Onboard North")
-        ax[0][1].plot(vel['time'],vel['East'],'--',label="Onboard East")
-        ax[0][1].plot(times,history[:,3:6], label="Replay")
+        ax[0][1].plot(vel['time'],vel['North'],'b--',label="Onboard North")
+        ax[0][1].plot(vel['time'],vel['East'],'g--',label="Onboard East")
+        ax[0][1].plot(vel['time'],vel['Down'],'r--',label="Onboard Down")
+        ax[0][1].plot(times,history[:,3],'b',label="Replay")
+        ax[0][1].plot(times,history[:,4],'g',label="Replay")
+        ax[0][1].plot(times,history[:,5],'r',label="Replay")
         ax[0][1].set_title('Velocity')
         plt.sca(ax[0][1])
         plt.ylabel('m/s')
@@ -184,10 +186,22 @@ class ReplayFlightFunctions():
         plt.legend()
 
         ax[1][1].cla()
-        ax[1][1].plot(times,history[:,10:13]*180/3.1415,label="Gyro Bias")
-        ax[1][1].plot(times,history[:,-1],label="Z Bias")
-        ax[1][1].set_title('Biases')
+        from scipy.signal import convolve
+        na = uavo_list.as_numpy_array(taulabs.uavo.UAVO_NedAccel)
+        L = 100
+        ax[1][1].plot(na['time'],convolve(na['North'][:,0],numpy.ones((1+2*L)))[L:-L]/(2*L),'b',label="North")
+        ax[1][1].plot(na['time'],convolve(na['East'][:,0],numpy.ones((1+2*L)))[L:-L]/(2*L),'g',label="East")
+        ax[1][1].plot(na['time'],convolve(na['Down'][:,0],numpy.ones((1+2*L)))[L:-L]/(2*L),'r',label="Down")
         plt.sca(ax[1][1])
+        plt.ylabel('Bias (rad/s)')
+        plt.xlabel('Time (s)')
+        plt.legend()
+
+        ax[2][1].cla()
+        ax[2][1].plot(times,history[:,10:13]*180/3.1415,label="Gyro Bias")
+        ax[2][1].plot(times,history[:,-1],label="Z Bias")
+        ax[2][1].set_title('Biases')
+        plt.sca(ax[2][1])
         plt.ylabel('Bias (rad/s)')
         plt.xlabel('Time (s)')
         plt.legend()
