@@ -320,7 +320,7 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 
 #ifdef PIOS_INCLUDE_DSM
 static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm_cfg, const struct pios_dsm_cfg *pios_dsm_cfg, 
-		const struct pios_com_driver *pios_usart_com_driver,enum pios_dsm_proto *proto, 
+		const struct pios_com_driver *pios_usart_com_driver,
 		ManualControlSettingsChannelGroupsOptions channelgroup,uint8_t *bind)
 {
 	uintptr_t pios_usart_dsm_id;
@@ -330,7 +330,7 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 
 	uintptr_t pios_dsm_id;
 	if (PIOS_DSM_Init(&pios_dsm_id, pios_dsm_cfg, pios_usart_com_driver,
-			pios_usart_dsm_id, *proto, *bind)) {
+			pios_usart_dsm_id, *bind)) {
 		PIOS_Assert(0);
 	}
 
@@ -671,29 +671,12 @@ void PIOS_Board_Init(void) {
 			PIOS_Board_configure_com(&pios_usart_aux_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 			break;
 			
-		case HWREVOLUTION_AUXPORT_DSM2:
-		case HWREVOLUTION_AUXPORT_DSMX10BIT:
-		case HWREVOLUTION_AUXPORT_DSMX11BIT:
+		case HWREVOLUTION_AUXPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 			{
-				enum pios_dsm_proto proto;
-				switch (hw_auxport) {
-				case HWREVOLUTION_AUXPORT_DSM2:
-					proto = PIOS_DSM_PROTO_DSM2;
-					break;
-				case HWREVOLUTION_AUXPORT_DSMX10BIT:
-					proto = PIOS_DSM_PROTO_DSMX10BIT;
-					break;
-				case HWREVOLUTION_AUXPORT_DSMX11BIT:
-					proto = PIOS_DSM_PROTO_DSMX11BIT;
-					break;
-				default:
-					PIOS_Assert(0);
-					break;
-				}
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_aux_cfg, &pios_dsm_aux_cfg,
-					&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
+					&pios_usart_com_driver, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
 			}
 #endif	/* PIOS_INCLUDE_DSM */
 			break;
@@ -789,29 +772,12 @@ void PIOS_Board_Init(void) {
 #endif /* PIOS_INCLUDE_SBUS */
 			break;
 
-		case HWREVOLUTION_AUXSBUSPORT_DSM2:
-		case HWREVOLUTION_AUXSBUSPORT_DSMX10BIT:
-		case HWREVOLUTION_AUXSBUSPORT_DSMX11BIT:
+		case HWREVOLUTION_AUXSBUSPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 			{
-				enum pios_dsm_proto proto;
-				switch (hw_auxsbusport) {
-				case HWREVOLUTION_AUXSBUSPORT_DSM2:
-					proto = PIOS_DSM_PROTO_DSM2;
-					break;
-				case HWREVOLUTION_AUXSBUSPORT_DSMX10BIT:
-					proto = PIOS_DSM_PROTO_DSMX10BIT;
-					break;
-				case HWREVOLUTION_AUXSBUSPORT_DSMX11BIT:
-					proto = PIOS_DSM_PROTO_DSMX11BIT;
-					break;
-				default:
-					PIOS_Assert(0);
-					break;
-				}
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_auxsbus_cfg, &pios_dsm_auxsbus_cfg,
-					&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
+					&pios_usart_com_driver, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
 			}
 #endif	/* PIOS_INCLUDE_DSM */
 			break;
@@ -895,29 +861,12 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_I2C */
 			break;
 			
-		case HWREVOLUTION_FLEXIPORT_DSM2:
-		case HWREVOLUTION_FLEXIPORT_DSMX10BIT:
-		case HWREVOLUTION_FLEXIPORT_DSMX11BIT:
+		case HWREVOLUTION_FLEXIPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 			{
-				enum pios_dsm_proto proto;
-				switch (hw_flexiport) {
-				case HWREVOLUTION_FLEXIPORT_DSM2:
-					proto = PIOS_DSM_PROTO_DSM2;
-					break;
-				case HWREVOLUTION_FLEXIPORT_DSMX10BIT:
-					proto = PIOS_DSM_PROTO_DSMX10BIT;
-					break;
-				case HWREVOLUTION_FLEXIPORT_DSMX11BIT:
-					proto = PIOS_DSM_PROTO_DSMX11BIT;
-					break;
-				default:
-					PIOS_Assert(0);
-					break;
-				}
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_flexi_cfg, &pios_dsm_flexi_cfg,
-					&pios_usart_com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
+					&pios_usart_com_driver, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,&hw_DSMxBind);
 			}
 #endif	/* PIOS_INCLUDE_DSM */
 			break;
