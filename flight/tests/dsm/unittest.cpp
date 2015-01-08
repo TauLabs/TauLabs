@@ -135,7 +135,7 @@ int DsmTest::get_packet(FILE *fid, uint8_t *buf)
   uint8_t val;
 
   for (int i = 0; i < DSM_FRAME_LENGTH; i++) {
-    if (fscanf(fid, "%lf,%x,,", &t, (unsigned int*) &val) == 2) {
+    if (fscanf(fid, "%lf,%hhx,,", &t, &val) == 2) {
       buf[i] = val;
     } else
       return -1;
