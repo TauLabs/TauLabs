@@ -526,7 +526,7 @@ static int16_t scaleChannel(float value, int16_t max, int16_t min, int16_t neutr
 static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const MixerSettingsData * mixerSettings)
 {
 	/* grab only the parts that we are going to use */
-	int16_t Channel[ACTUATORCOMMAND_CHANNEL_NUMELEM];
+	uint16_t Channel[ACTUATORCOMMAND_CHANNEL_NUMELEM];
 	ActuatorCommandChannelGet(Channel);
 
 	const Mixer_t * mixers = (Mixer_t *)&mixerSettings->Mixer1Type; //pointer to array of mixers in UAVObjects
