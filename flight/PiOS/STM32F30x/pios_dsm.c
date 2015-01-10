@@ -7,8 +7,8 @@
  * @{
  *
  * @file       pios_dsm.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2014.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Code bind and read Spektrum/JR DSMx satellite receiver serial stream
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -53,6 +53,10 @@ const struct pios_rcvr_driver pios_dsm_rcvr_driver = {
 	.read = PIOS_DSM_Get,
 };
 
+enum dsm_resolution {
+	DSM_UNKNOWN, DSM_10BIT, DSM_11BIT
+};
+
 enum pios_dsm_dev_magic {
 	PIOS_DSM_DEV_MAGIC = 0x44534d78,
 };
@@ -73,8 +77,8 @@ struct pios_dsm_state {
 struct pios_dsm_dev {
 	enum pios_dsm_dev_magic magic;
 	const struct pios_dsm_cfg *cfg;
-	enum pios_dsm_proto proto;
 	struct pios_dsm_state state;
+	enum dsm_resolution resolution;
 };
 
 /* Allocate DSM device descriptor */
@@ -86,6 +90,7 @@ static struct pios_dsm_dev *PIOS_DSM_Alloc(void)
 	if (!dsm_dev)
 		return NULL;
 
+	dsm_dev->resolution = DSM_UNKNOWN;
 	dsm_dev->magic = PIOS_DSM_DEV_MAGIC;
 	return dsm_dev;
 }
@@ -152,14 +157,48 @@ static void PIOS_DSM_ResetState(struct pios_dsm_dev *dsm_dev)
 }
 
 /**
- * Check and unroll complete frame data.
- * \output 0 frame data accepted
- * \output -1 frame error found
+ * DSM packets expect to have sequential channel numbers but
+ * based on resolution they will be shifted by one position
  */
-static int PIOS_DSM_UnrollChannels(struct pios_dsm_dev *dsm_dev)
+enum dsm_resolution PIOS_DSM_DetectResolution(uint8_t *packet)
+{
+	uint8_t channel0, channel1;
+	uint16_t word0, word1;
+	bool bit_10, bit_11;
+
+	uint8_t *s = &packet[2];
+
+	// Check for 10 bit
+	word0 = ((uint16_t)s[0] << 8) | s[1];
+	word1 = ((uint16_t)s[2] << 8) | s[3];
+
+	// Don't detect on the second data packets
+	if (word0 & DSM_2ND_FRAME_MASK)
+		return DSM_UNKNOWN;
+
+	channel0 = (word0 >> 10) & 0x0f;
+	channel1 = (word1 >> 10) & 0x0f;
+	bit_10 = (channel0 == 1) && (channel1 == 5);
+
+	// Check for 11 bit
+	channel0 = (word0 >> 11) & 0x0f;
+	channel1 = (word1 >> 11) & 0x0f;
+	bit_11 = (channel0 == 1) && (channel1 == 5);
+
+	if (bit_10 && !bit_11)
+		return DSM_10BIT;
+	if (bit_11 && !bit_10)
+		return DSM_11BIT;
+	return DSM_UNKNOWN;
+}
+
+/**
+ * This is the code from the PIOS_DSM layer
+ */
+int PIOS_DSM_UnrollChannels(struct pios_dsm_dev *dsm_dev)
 {
 	struct pios_dsm_state *state = &(dsm_dev->state);
-	uint8_t resolution;
+	/* Fix resolution for detection. */
 
 #ifdef DSM_LOST_FRAME_COUNTER
 	/* increment the lost frame counter */
@@ -168,41 +207,21 @@ static int PIOS_DSM_UnrollChannels(struct pios_dsm_dev *dsm_dev)
 	state->frames_lost_last = frames_lost;
 #endif
 
-	/* check the frame type assuming master satellite stream */
-	uint8_t type = state->received_data[1];
-	switch (type) {
-	case 0x01:
-	case 0x02:
-	case 0x12:
-		/* DSM2, DSMJ stream */
-		if (dsm_dev->proto == PIOS_DSM_PROTO_DSM2) {
-			/* DSM2/DSMJ resolution is known from the header */
-			resolution = (type & DSM_DSM2_RES_MASK) ? 11 : 10;
-		} else {
-			/* DSMX resolution should explicitly be selected */
-			goto stream_error;
-		}
-		break;
-	case 0xA2:
-	case 0xB2:
-		/* DSMX stream */
-		if (dsm_dev->proto == PIOS_DSM_PROTO_DSMX10BIT) {
-			resolution = 10;
-		} else if (dsm_dev->proto == PIOS_DSM_PROTO_DSMX11BIT) {
-			resolution = 11;
-		} else {
-			/* DSMX resolution should explicitly be selected */
-			goto stream_error;
-		}
-		break;
-	default:
-		/* unknown yet data stream */
-		goto stream_error;
+	// If no stream type has yet been detected, then try to probe for it
+	// this should only happen once per power cycle
+	if (dsm_dev->resolution == DSM_UNKNOWN) {
+		dsm_dev->resolution = PIOS_DSM_DetectResolution(state->received_data);
 	}
+
+	/* Stream type still not detected */
+	if (dsm_dev->resolution == DSM_UNKNOWN) {
+		return -2;
+	}
+	uint8_t resolution = (dsm_dev->resolution == DSM_10BIT) ? 10 : 11;
+	uint16_t mask = (dsm_dev->resolution == DSM_10BIT) ? 0x03ff : 0x07ff;
 
 	/* unroll channels */
 	uint8_t *s = &(state->received_data[2]);
-	uint16_t mask = (resolution == 10) ? 0x03ff : 0x07ff;
 
 	for (int i = 0; i < DSM_CHANNELS_PER_FRAME; i++) {
 		uint16_t word = ((uint16_t)s[0] << 8) | s[1];
@@ -220,8 +239,7 @@ static int PIOS_DSM_UnrollChannels(struct pios_dsm_dev *dsm_dev)
 
 		/* extract and save the channel value */
 		uint8_t channel_num = (word >> resolution) & 0x0f;
-		if (channel_num < PIOS_DSM_NUM_INPUTS)
-			state->channel_data[channel_num] = (word & mask);
+		state->channel_data[channel_num] = (word & mask);
 	}
 
 #ifdef DSM_LOST_FRAME_COUNTER
@@ -264,7 +282,6 @@ int32_t PIOS_DSM_Init(uintptr_t *dsm_id,
 		      const struct pios_dsm_cfg *cfg,
 		      const struct pios_com_driver *driver,
 		      uintptr_t lower_id,
-		      enum pios_dsm_proto proto,
 		      uint8_t bind)
 {
 	PIOS_DEBUG_Assert(dsm_id);
@@ -279,7 +296,6 @@ int32_t PIOS_DSM_Init(uintptr_t *dsm_id,
 
 	/* Bind the configuration to the device instance */
 	dsm_dev->cfg = cfg;
-	dsm_dev->proto = proto;
 
 	/* Bind the receiver if requested */
 	if (bind)

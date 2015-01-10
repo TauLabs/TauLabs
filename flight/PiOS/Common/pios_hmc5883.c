@@ -126,6 +126,9 @@ int32_t PIOS_HMC5883_Init(uint32_t i2c_id, const struct pios_hmc5883_cfg *cfg)
 		dev->data_ready_sema = PIOS_Semaphore_Create();
 		PIOS_Assert(dev->data_ready_sema != NULL);
 	}
+	else {
+		dev->data_ready_sema = NULL;
+	}
 
 	if (PIOS_HMC5883_Config(cfg) != 0)
 		return -2;
@@ -514,7 +517,7 @@ static void PIOS_HMC5883_Task(void *parameters)
 	uint32_t now = PIOS_Thread_Systime();
 
 	while (1) {
-		if (dev->cfg->Mode == PIOS_HMC5883_MODE_CONTINUOUS) {
+		if ((dev->data_ready_sema != NULL) && (dev->cfg->Mode == PIOS_HMC5883_MODE_CONTINUOUS)) {
 			if (PIOS_Semaphore_Take(dev->data_ready_sema, PIOS_SEMAPHORE_TIMEOUT_MAX) != true) {
 				PIOS_Thread_Sleep(100);
 				continue;

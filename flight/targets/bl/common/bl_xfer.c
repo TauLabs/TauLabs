@@ -114,6 +114,16 @@ bool bl_xfer_read_start(struct xfer_state * xfer, const struct msg_xfer_start *x
 		PIOS_FLASH_get_partition_size(xfer->partition_id, &xfer->partition_size);
 		xfer->original_partition_offset = 0;
 		break;
+	case DFU_PARTITION_LOG:
+		PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_LOG, &xfer->partition_id);
+		PIOS_FLASH_get_partition_size(xfer->partition_id, &xfer->partition_size);
+		xfer->original_partition_offset = 0;
+		break;
+	case DFU_PARTITION_OTA:
+		PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_OTA, &xfer->partition_id);
+		PIOS_FLASH_get_partition_size(xfer->partition_id, &xfer->partition_size);
+		xfer->original_partition_offset = 0;
+		break;
 	default:
 		return false;
 	}
@@ -219,6 +229,24 @@ bool bl_xfer_write_start(struct xfer_state * xfer, const struct msg_xfer_start *
 		xfer->bytes_to_crc     = xfer->partition_size;
 		partition_needs_erase  = true;
 		break;
+	case DFU_PARTITION_LOG:
+		PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_LOG, &xfer->partition_id);
+		PIOS_FLASH_get_partition_size(xfer->partition_id, &xfer->partition_size);
+		xfer->original_partition_offset = 0;
+		xfer->crc              = ntohl(xfer_start->expected_crc);
+		xfer->check_crc        = true;
+		xfer->bytes_to_crc     = xfer->partition_size;
+		partition_needs_erase  = true;
+		break;
+	case DFU_PARTITION_OTA:
+		PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_OTA, &xfer->partition_id);
+		PIOS_FLASH_get_partition_size(xfer->partition_id, &xfer->partition_size);
+		xfer->original_partition_offset = 0;
+		xfer->crc              = ntohl(xfer_start->expected_crc);
+		xfer->check_crc        = true;
+		xfer->bytes_to_crc     = xfer->partition_size;
+		partition_needs_erase  = true;
+		break;
 	default:
 		return false;
 	}
@@ -305,6 +333,12 @@ bool bl_xfer_wipe_partition(const struct msg_wipe_partition *wipe_partition)
 	case DFU_PARTITION_WAYPOINTS:
 		flash_label = FLASH_PARTITION_LABEL_WAYPOINTS;
 		break;
+	case DFU_PARTITION_LOG:
+		flash_label = FLASH_PARTITION_LABEL_WAYPOINTS;
+		break;
+	case DFU_PARTITION_OTA:
+		flash_label = FLASH_PARTITION_LABEL_WAYPOINTS;
+		break;
 	default:
 		return false;
 	}
@@ -380,6 +414,20 @@ bool bl_xfer_send_capabilities_self(void)
 		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_WAYPOINTS] = htonl(partition_size);
 	} else {
 		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_WAYPOINTS] = 0;
+	}
+
+	if (PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_LOG, &partition_id) == 0) {
+		PIOS_FLASH_get_partition_size(partition_id, &partition_size);
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_LOG] = htonl(partition_size);
+	} else {
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_LOG] = 0;
+	}
+
+	if (PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_OTA, &partition_id) == 0) {
+		PIOS_FLASH_get_partition_size(partition_id, &partition_size);
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_OTA] = htonl(partition_size);
+	} else {
+		msg.v.cap_rep_specific.partition_sizes[DFU_PARTITION_OTA] = 0;
 	}
 #endif	/* BL_INCLUDE_CAP_EXTENSIONS */
 
