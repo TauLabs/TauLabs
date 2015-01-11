@@ -77,6 +77,7 @@
 #include "pios_queue.h"
 
 // Private constants
+
 #define STACK_SIZE_BYTES 2200
 #define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define FAILSAFE_TIMEOUT_MS 10
