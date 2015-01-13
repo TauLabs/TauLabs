@@ -22,7 +22,7 @@ Item {
         id: sitesModel
         ListElement { title: "Tau Labs Home"; link: "http://taulabs.org" }
         ListElement { title: "Tau Labs Wiki"; link: "https://github.com/TauLabs/TauLabs/wiki" }
-        ListElement { title: "Tau Labs Forums"; link: "https://groups.google.com/forum/#!forum/phoenixpilot" }
+        ListElement { title: "Tau Labs Forums"; link: "http://forum.taulabs.org" }
         ListElement { title: "Tau Labs Code"; link: "https://github.com/TauLabs/TauLabs" }
         ListElement { title: "Tau Labs Issues"; link: "https://github.com/TauLabs/TauLabs/issues" }
     }
