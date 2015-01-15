@@ -172,14 +172,8 @@ bool Sparky2::setInputOnPort(enum InputType type, int port_num)
     case INPUT_TYPE_SBUS:
         settings.RcvrPort = HwSparky2::RCVRPORT_SBUS;
         break;
-    case INPUT_TYPE_DSM2:
-        settings.RcvrPort = HwSparky2::RCVRPORT_DSM2;
-        break;
-    case INPUT_TYPE_DSMX10BIT:
-        settings.RcvrPort = HwSparky2::RCVRPORT_DSMX10BIT;
-        break;
-    case INPUT_TYPE_DSMX11BIT:
-        settings.RcvrPort = HwSparky2::RCVRPORT_DSMX11BIT;
+    case INPUT_TYPE_DSM:
+        settings.RcvrPort = HwSparky2::RCVRPORT_DSM;
         break;
     default:
         return false;
@@ -215,12 +209,8 @@ enum Core::IBoardType::InputType Sparky2::getInputOnPort(int port_num)
         return INPUT_TYPE_PPM;
     case HwSparky2::RCVRPORT_SBUS:
         return INPUT_TYPE_SBUS;
-    case HwSparky2::RCVRPORT_DSM2:
-        return INPUT_TYPE_DSM2;
-    case HwSparky2::RCVRPORT_DSMX10BIT:
-        return INPUT_TYPE_DSMX10BIT;
-    case HwSparky2::RCVRPORT_DSMX11BIT:
-        return INPUT_TYPE_DSMX11BIT;
+    case HwSparky2::RCVRPORT_DSM:
+        return INPUT_TYPE_DSM;
     default:
         return INPUT_TYPE_UNKNOWN;
     }
