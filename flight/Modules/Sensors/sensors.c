@@ -357,9 +357,12 @@ static void update_mags(struct pios_sensor_mag_data *mag)
  */
 static void update_baro(struct pios_sensor_baro_data *baro)
 {
-	if (isnan(baro->altitude) || isnan(baro->temperature) || isnan(baro->pressure))
+	if (isnan(baro->altitude) || isnan(baro->temperature) || isnan(baro->pressure)){
+		AlarmsSet(SYSTEMALARMS_ALARM_TEMPBARO, SYSTEMALARMS_ALARM_WARNING);
 		return;
-
+	}
+	
+	AlarmsSet(SYSTEMALARMS_ALARM_TEMPBARO, SYSTEMALARMS_ALARM_OK);
 	BaroAltitudeData baroAltitude;
 	baroAltitude.Temperature = baro->temperature;
 	baroAltitude.Pressure = baro->pressure;
