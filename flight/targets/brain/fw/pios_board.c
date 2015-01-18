@@ -159,6 +159,9 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_PICOC_RX_BUF_LEN 128
 #define PIOS_COM_PICOC_TX_BUF_LEN 128
 
+#define PIOS_COM_FRSKYSPORT_TX_BUF_LEN 16
+#define PIOS_COM_FRSKYSPORT_RX_BUF_LEN 16
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
@@ -179,6 +182,7 @@ uintptr_t pios_com_frsky_sensor_hub_id;
 uintptr_t pios_com_lighttelemetry_id;
 uintptr_t pios_com_picoc_id;
 uintptr_t pios_com_logging_id;
+uintptr_t pios_com_frsky_sport_id;
 
 
 uintptr_t pios_uavo_settings_fs_id;
@@ -715,6 +719,11 @@ void PIOS_Board_Init(void) {
 		PIOS_Board_configure_com(&pios_mainport_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
 		break;
+	case HWBRAIN_MAINPORT_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_mainport_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+		break;
 	}
 
 	/* Flx Port */
@@ -874,6 +883,11 @@ void PIOS_Board_Init(void) {
 		PIOS_Board_configure_com(&pios_flxport_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
 		break;
+	case HWBRAIN_FLXPORT_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_flxport_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+		break;
 	}
 
 
@@ -1017,6 +1031,11 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 			PIOS_Board_configure_com(&pios_rxportusart_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
+			break;
+		case HWBRAIN_RXPORTUSART_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_rxportusart_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
 			break;
 		}
 	}
