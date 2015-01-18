@@ -7,7 +7,9 @@
  * @{
  *
  * @file       pios_dsm_priv.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2014.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
+ *
  * @brief      Spektrum/JR DSMx satellite receiver private structures.
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -109,13 +111,6 @@
  */
 //#define DSM_LOST_FRAME_COUNTER
 
-/* DSM protocol variations */
-enum pios_dsm_proto {
-	PIOS_DSM_PROTO_DSM2,
-	PIOS_DSM_PROTO_DSMX10BIT,
-	PIOS_DSM_PROTO_DSMX11BIT,
-};
-
 /* DSM receiver instance configuration */
 struct pios_dsm_cfg {
 	struct stm32_gpio bind;
@@ -127,7 +122,6 @@ extern int32_t PIOS_DSM_Init(uintptr_t *dsm_id,
 			     const struct pios_dsm_cfg *cfg,
 			     const struct pios_com_driver *driver,
 			     uintptr_t lower_id,
-			     enum pios_dsm_proto proto,
 			     uint8_t bind);
 
 #endif /* PIOS_DSM_PRIV_H */

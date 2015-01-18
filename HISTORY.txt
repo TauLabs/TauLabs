@@ -1,4 +1,58 @@
-﻿Short summary of changes.  For a complete list see the git log.
+Short summary of changes.  For a complete list see the git log.
+
+- MWRate mode - a flight control mode very similar to that from MultiWii that allows extremely aggressive flying while being totally locked in
+- Improved behavior of altitude hold for takeoff and landing. Arming allowed in AH mode. It is now possible to have entire flights in Altitude Hold mode.
+- MWRate settings import from BaseFlight/CleanFlight. No need to retune when switching over.
+- DSM Resolution autodetection. Simplifies input configuration.
+- Removed feedforward from GCS. This is stage one of deprecating this feature which should not be used with modern ESCs.
+- Flight logging to flash support. Used for creating “black box” logs while flying.
+- Spektrum binding fix. This requires an updated boot loader and will not work on ports that support SBUS on F4 platforms (because of the inverter).
+
+2014-10-26 release
+- Team Black Sheet Gemini support. This runs a tiny little flight controller called Colibri, a derivative of Quanton, and provides an exciting ready to fly target for FPV and racing.
+- Improved autotuning algorithm. Now all the parameters of your control loop, including the derivative and the cutoff for the low pass filter are optimized. Two sliders provide easy control from smooth to aggressive tuning. Also easily share your settings to the forums for others. Video
+- ESC calibration wizard
+- FrSky SmartPort support
+- PicoC programming and debugging gadget. Easily write snippets of code that run on your flight controller (F4 targets only) and allow extending the functionality.
+- Session Management - only see the UAVO objects available on your flight controller, faster telemetry reconnects
+- Telemetry Manager improvements with confirmation that settings are stored and saved
+- Updated Uploader which allows backing up or overwriting the partitions in your flash. Create a complete snapshot of your UAV settings and firmware.
+- Updated GCS configuration screen. Get the Telemetry Scheduler and others by default.
+- Large internal overhaul of the RTOS API to allow upgrading to ChiBiOS
+
+2014-04-05 release
+Loiter mode. Smoothly move your position while in position hold.
+- RTH now has ascends to a safe altitude before returning home, hovers before landing
+Improved altitude estimation and altitude hold control. Ability to aggressively change altitude with exponential for smooth control too.
+- picoC scripting support
+- Improved position hold performance
+- Frksy telemetry support
+
+2013-12-12 release
+Numerous features and bug fixes since the last release, including:
+- Horizon mode
+- Exponential control for rate mode
+- Improved battery processing
+- Native MavLink output
+- HoTT telemetry and receiver support
+- Safety fixes
+- Setup wizard
+- Support for Sparky
+- Modules configuration tab
+- UI improvements
+- Altitude hold refactoring and baro accuracy
+- I2C code rework
+- Unified bootloader code
+- Gimbal and CANBus support
+
+2013-08-11 release
+- First Tau Labs release
+- improved failsafe handling code
+- fixing and reenabling the setup wizard
+- support for Sparky
+- adc support for quanton
+- bootloader updater for all platforms
+- support for MavLink output
 
 2013-05-24
 Support for new target Sparky 

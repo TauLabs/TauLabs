@@ -37,10 +37,10 @@ macx {
 linux-g++ {
     SOURCES += hidapi/hidapi_linux.c \
             usbmonitor_linux.cpp
-    LIBS += -lusb-1.0 -ludev
+    LIBS += -lusb-1.0 -ludev -lrt
 }
 linux-g++-64 {
     SOURCES += hidapi/hidapi_linux.c \
             usbmonitor_linux.cpp
-    LIBS += -lusb-1.0 -ludev
+    LIBS += -lusb-1.0 -ludev -lrt
 }
