@@ -97,6 +97,7 @@
 #include "waypointactive.h"
 
 #include "osd_utils.h"
+#include "osd_menu.h"
 #include "fonts.h"
 #include "font12x18.h"
 #include "font8x10.h"
@@ -138,7 +139,7 @@ const char IMPERIAL_DIST_UNIT_SHORT[] = "ft";
 
 // ****************
 // Private variables
-static uint16_t frame_counter = 0;
+uint16_t frame_counter = 0;
 static bool module_enabled = false;
 static struct pios_thread *taskHandle;
 struct pios_semaphore * onScreenDisplaySemaphore = NULL;
@@ -1380,6 +1381,9 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM3:
 				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM4:
 					render_user_page(&osd_page_settings);
+					break;
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_MENU:
+					render_osd_menu();
 					break;
 			}
 

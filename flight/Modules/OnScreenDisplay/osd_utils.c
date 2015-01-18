@@ -955,9 +955,10 @@ int fetch_font_info(uint8_t ch, int font, struct FontEntry *font_info, char *loo
  * @param       ch      character to write
  * @param       x       x coordinate (left)
  * @param       y       y coordinate (top)
+ * @param       flags   flags to write with
  * @param       font    font to use
  */
-void write_char16(char ch, int x, int y, int font)
+void write_char16(char ch, int x, int y, int flags, int font)
 {
 	int yy, row, xshift;
 	uint16_t and_mask, or_mask, levels;
@@ -995,8 +996,8 @@ void write_char16(char ch, int x, int y, int font)
 					write_word_misaligned_OR(draw_buffer_mask, font_mask12x18[row] << xshift, addr, wbit);
 					// level
 					levels   = font_frame12x18[row];
-					// if (!(flags & FONT_INVERT)) // data is normally inverted
-					levels   = ~levels;
+					if (!(flags & FONT_INVERT)) // data is normally inverted
+						levels   = ~levels;
 					or_mask  = font_mask12x18[row] << xshift;
 					and_mask = (font_mask12x18[row] & levels) << xshift;
 				} else {
@@ -1004,8 +1005,8 @@ void write_char16(char ch, int x, int y, int font)
 					write_word_misaligned_OR(draw_buffer_mask, font_mask8x10[row] << xshift, addr, wbit);
 					// level
 					levels   = font_frame8x10[row];
-					// if (!(flags & FONT_INVERT)) // data is normally inverted
-					levels   = ~levels;
+					if (!(flags & FONT_INVERT)) // data is normally inverted
+						levels   = ~levels;
 					or_mask  = font_mask8x10[row] << xshift;
 					and_mask = (font_mask8x10[row] & levels) << xshift;
 				}
@@ -1173,7 +1174,7 @@ void write_string(char *str, int x, int y, int xs, int ys, int va, int ha, int f
 				if (font_info.id < 2) {
 					write_char(*str, xx, yy, flags, font);
 				} else {
-					write_char16(*str, xx, yy, font);
+					write_char16(*str, xx, yy, flags, font);
 				}
 			}
 			xx += font_info.width + xs;

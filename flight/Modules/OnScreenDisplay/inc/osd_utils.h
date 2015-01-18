@@ -32,8 +32,9 @@
 #ifndef OSDUTILS_H
 #define OSDUTILS_H
 
+#include "openpilot.h"
 #include "fonts.h"
-
+#include "misc_math.h"
 
 // Size of an array (num items.)
 #define SIZEOF_ARRAY(x) (sizeof(x) / sizeof((x)[0]))
@@ -165,7 +166,7 @@ void write_word_misaligned_NAND(uint8_t *buff, uint16_t word, unsigned int addr,
 void write_word_misaligned_OR(uint8_t *buff, uint16_t word, unsigned int addr, unsigned int xoff);
 void write_word_misaligned_lm(uint16_t wordl, uint16_t wordm, unsigned int addr, unsigned int xoff, int lmode, int mmode);
 int fetch_font_info(uint8_t ch, int font, struct FontEntry *font_info, char *lookup);
-void write_char16(char ch, int x, int y, int font);
+void write_char16(char ch, int x, int y, int flags, int font);
 void write_char(char ch, int x, int y, int flags, int font);
 void calc_text_dimensions(char *str, struct FontEntry font, int xs, int ys, struct FontDimensions *dim);
 void write_string(char *str, int x, int y, int xs, int ys, int va, int ha, int flags, int font);
