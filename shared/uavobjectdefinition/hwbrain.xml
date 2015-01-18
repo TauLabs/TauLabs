@@ -9,9 +9,7 @@
 				<option>Disabled</option>
 				<option>GPS</option>
 				<option>S.Bus</option>
-				<option>DSM2</option>
-				<option>DSMX (10bit)</option>
-				<option>DSMX (11bit)</option>
+				<option>DSM</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
@@ -31,9 +29,7 @@
 				<option>Disabled</option>
                 <option>I2C</option>
 				<option>GPS</option>
-				<option>DSM2</option>
-				<option>DSMX (10bit)</option>
-				<option>DSMX (11bit)</option>
+				<option>DSM</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
@@ -52,9 +48,7 @@
 			<options>
 				<option>Disabled</option>
 				<option>GPS</option>
-				<option>DSM2</option>
-				<option>DSMX (10bit)</option>
-				<option>DSMX (11bit)</option>
+				<option>DSM</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
