@@ -88,7 +88,7 @@ QWidget* WelcomeMode::widget()
     if (!m_widget) {
         QQuickWidget *qWidget = new QQuickWidget(QUrl("qrc:/welcome/qml/main.qml"));
         qWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
-        qWidget->engine()->rootContext()->setContextProperty("welcomPlugin", this);
+        qWidget->engine()->rootContext()->setContextProperty("welcomePlugin", this);
         m_widget = qWidget;
     }
     return m_widget;
