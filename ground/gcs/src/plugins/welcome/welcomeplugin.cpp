@@ -55,7 +55,7 @@ WelcomePlugin::~WelcomePlugin()
 {
     if (m_welcomeMode) {
         removeObject(m_welcomeMode);
-        m_welcomeMode->deleteLater();
+        delete m_welcomeMode;
     }
 }
 
