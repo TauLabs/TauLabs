@@ -43,8 +43,7 @@
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
 #include <oplinkstatus.h>
-#include <oplinkreceiver.h>
-#include <pios_oplinkrcvr_priv.h>
+#include <pios_rfm22b_rcvr_priv.h>
 /**
  * Sensor configurations 
  */
@@ -248,17 +247,6 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
 	pios_rcvr_group_map[channelgroup] = pios_hsum_rcvr_id;
 }
 #endif
-
-static void PIOS_Board_PPM_callback(const int16_t *channels)
-{
-    uint8_t max_chan = (RFM22B_PPM_NUM_CHANNELS < OPLINKRECEIVER_CHANNEL_NUMELEM) ? RFM22B_PPM_NUM_CHANNELS : OPLINKRECEIVER_CHANNEL_NUMELEM;
-    OPLinkReceiverData opl_rcvr;
-
-    for (uint8_t i = 0; i < max_chan; ++i) {
-        opl_rcvr.Channel[i] = channels[i];
-    }
-    OPLinkReceiverSet(&opl_rcvr);
-}
 
 /**
  * Indicate a target-specific error code when a component fails to initialize
@@ -845,11 +833,6 @@ void PIOS_Board_Init(void) {
 		PIOS_RFM22B_SetChannelConfig(pios_rfm22b_id, datarate, hwSparky2.MinChannel, hwSparky2.MaxChannel, hwSparky2.ChannelSet, is_coordinator, is_oneway, ppm_mode, ppm_only);
 		PIOS_RFM22B_SetCoordinatorID(pios_rfm22b_id, hwSparky2.CoordID);
 
-		/* Set the PPM callback if we should be receiving PPM. */
-		if (ppm_mode) {
-			PIOS_RFM22B_SetPPMCallback(pios_rfm22b_id, PIOS_Board_PPM_callback);
-		}
-
 		/* Set the modem Tx poer level */
 		switch (hwSparky2.MaxRfPower) {
 		case HWSPARKY2_MAXRFPOWER_125:
@@ -998,16 +981,15 @@ void PIOS_Board_Init(void) {
 	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
-#if defined(PIOS_INCLUDE_OPLINKRCVR)
+#if defined(PIOS_INCLUDE_RFM22B_RCVR)
 	{
-		OPLinkReceiverInitialize();
-		uintptr_t pios_oplinkrcvr_id;
-		PIOS_OPLinkRCVR_Init(&pios_oplinkrcvr_id);
-		uintptr_t pios_oplinkrcvr_rcvr_id;
-		if (PIOS_RCVR_Init(&pios_oplinkrcvr_rcvr_id, &pios_oplinkrcvr_rcvr_driver, pios_oplinkrcvr_id)) {
+		uintptr_t pios_rfm22brcvr_id;
+		PIOS_RFM22B_Rcvr_Init(&pios_rfm22brcvr_id);
+		uintptr_t pios_rfm22brcvr_rcvr_id;
+		if (PIOS_RCVR_Init(&pios_rfm22brcvr_rcvr_id, &pios_rfm22b_rcvr_driver, pios_rfm22brcvr_id)) {
 			PIOS_Assert(0);
 		}
-		pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_OPLINK] = pios_oplinkrcvr_rcvr_id;
+		pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_OPLINK] = pios_rfm22brcvr_rcvr_id;
 	}
 #endif /* PIOS_INCLUDE_OPLINKRCVR */
 

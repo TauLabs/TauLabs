@@ -120,7 +120,7 @@ UAVOBJSRCFILENAMES += sessionmanaging
 
 #Support for radio module on RM
 UAVOBJSRCFILENAMES += oplinkstatus
-UAVOBJSRCFILENAMES += oplinkreceiver
+
 
 
 UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
