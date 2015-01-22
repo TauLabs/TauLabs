@@ -916,7 +916,7 @@ void PIOS_Board_Init(void) {
 			{
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_rcvr_cfg, &pios_dsm_rcvr_cfg,
-					&pios_usart_com_driver, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
+					&pios_usart_com_driver, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMRCVRPORT,&hw_DSMxBind);
 			}
 #endif	/* PIOS_INCLUDE_DSM */
 			break;
