@@ -696,6 +696,20 @@ uint32_t UAVTalkGetPacketObjId(UAVTalkConnection connectionHandle)
 }
 
 /**
+ * Get the object ID of the current packet.
+ * \param[in] connectionHandle UAVTalkConnection to be used
+ * \return The object ID, or 0 on error.
+ */
+uint32_t UAVTalkGetPacketInstId(UAVTalkConnection connectionHandle)
+{
+    UAVTalkConnectionData *connection;
+
+    CHECKCONHANDLE(connectionHandle, connection, return 0);
+
+    return connection->iproc.instId;
+}
+
+/**
  * Process an byte from the telemetry stream, sending the packet out the output stream when it's complete
  * This allows the interlieving of packets on an output UAVTalk stream, and is used by the OPLink device to
  * relay packets from an input com port to a different output com port without sending one packet in the middle

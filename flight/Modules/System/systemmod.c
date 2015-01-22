@@ -360,7 +360,7 @@ static void updateRfm22bStats() {
 
         // Update the RFM22BStatus UAVO
         RFM22BStatusData rfm22bStatus;
-        RFM22BStatusGet(&rfm22bStatus);
+        RFM22BStatusInstGet(1,&rfm22bStatus);
 
         if (pios_rfm22b_id) {
             // Get the other device stats.
@@ -402,7 +402,7 @@ static void updateRfm22bStats() {
         } else {
             rfm22bStatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
         }
-        RFM22BStatusSet(&rfm22bStatus);
+        RFM22BStatusInstSet(1,&rfm22bStatus);
 
 #endif /* if defined(PIOS_INCLUDE_RFM22B) */
 }

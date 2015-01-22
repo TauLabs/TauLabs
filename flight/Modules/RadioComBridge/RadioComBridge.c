@@ -662,12 +662,12 @@ static void ProcessTelemetryStream(UAVTalkConnection inConnectionHandle,
 		// We only want to unpack certain telemetry objects
 		uint32_t objId = UAVTalkGetPacketObjId(inConnectionHandle);
 		switch (objId) {
-		case RFM22BSTATUS_OBJID:
 		case HWTAULINK_OBJID:
 		case RFM22BRECEIVER_OBJID:
-		case MetaObjectId(RFM22BSTATUS_OBJID):
 		case MetaObjectId(HWTAULINK_OBJID):
 		case MetaObjectId(RFM22BRECEIVER_OBJID):
+		case MetaObjectId(RFM22BSTATUS_OBJID):
+
 			// These objects are received here and only here
 			UAVTalkReceiveObject(inConnectionHandle);
 			break;
@@ -686,6 +686,19 @@ static void ProcessTelemetryStream(UAVTalkConnection inConnectionHandle,
 				UAVTalkRelayPacket(inConnectionHandle, outConnectionHandle);
 			}
 
+			break;
+
+		case RFM22BSTATUS_OBJID:
+		{
+			uint32_t inst_id = UAVTalkGetPacketInstId(inConnectionHandle);
+			if (inst_id == 0) {
+				// dealing with local modem
+				UAVTalkReceiveObject(inConnectionHandle);
+			} else {
+				// for remote modem
+				UAVTalkRelayPacket(inConnectionHandle, outConnectionHandle);
+			}
+		}
 			break;
 		default:
 			// all other packets are transparently relayed to the remote modem
@@ -715,7 +728,6 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle,
 		// Similarly we only want to relay certain objects to the telemetry port
 		uint32_t objId = UAVTalkGetPacketObjId(inConnectionHandle);
 		switch (objId) {
-		case RFM22BSTATUS_OBJID:
 		case HWTAULINK_OBJID:
 		case MetaObjectId(RFM22BSTATUS_OBJID):
 		case MetaObjectId(HWTAULINK_OBJID):
@@ -732,6 +744,19 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle,
 			// some objects will send back a response to the remote modem
 			UAVTalkReceiveObject(inConnectionHandle);
 			break;
+		case RFM22BSTATUS_OBJID:
+		{
+			uint32_t inst_id = UAVTalkGetPacketInstId(inConnectionHandle);
+			if (inst_id == 0) {
+				// instance 0 is from modem. do not pass this version
+			} else {
+				// for remote modem
+				UAVTalkRelayPacket(inConnectionHandle, outConnectionHandle);
+			}
+
+		}
+			break;
+
 		default:
 			// all other packets are relayed to the telemetry port
 			UAVTalkRelayPacket(inConnectionHandle,

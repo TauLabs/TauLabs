@@ -1,5 +1,5 @@
 <xml>
-	<object name="RFM22BStatus" singleinstance="true" settings="false" category="System" priority="true">
+	<object name="RFM22BStatus" singleinstance="false" settings="false" category="System" priority="true">
 		<description>RFM22B link status.</description>
 		<field name="Description" units="" type="uint8" elements="40"/> 
 		<field name="CPUSerial" units="hex" type="uint8" elements="12" /> 
