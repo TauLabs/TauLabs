@@ -42,7 +42,8 @@
 #include "hwsparky2.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
-
+#include <oplinkreceiver.h>
+#include <pios_oplinkrcvr_priv.h>
 /**
  * Sensor configurations 
  */
@@ -889,6 +890,19 @@ void PIOS_Board_Init(void) {
 	}
 	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
 #endif	/* PIOS_INCLUDE_GCSRCVR */
+
+#if defined(PIOS_INCLUDE_OPLINKRCVR)
+	{
+		OPLinkReceiverInitialize();
+		uintptr_t pios_oplinkrcvr_id;
+		PIOS_OPLinkRCVR_Init(&pios_oplinkrcvr_id);
+		uintptr_t pios_oplinkrcvr_rcvr_id;
+		if (PIOS_RCVR_Init(&pios_oplinkrcvr_rcvr_id, &pios_oplinkrcvr_rcvr_driver, pios_oplinkrcvr_id)) {
+			PIOS_Assert(0);
+		}
+		pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_OPLINK] = pios_oplinkrcvr_rcvr_id;
+	}
+#endif /* PIOS_INCLUDE_OPLINKRCVR */
 
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
 	/* Set up the servo outputs */
