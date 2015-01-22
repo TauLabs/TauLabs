@@ -107,7 +107,7 @@ SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
 SRC += $(OPUAVSYNTHDIR)/oplinkstatus.c
 SRC += $(OPUAVSYNTHDIR)/taulinksettings.c
 SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
-SRC += $(OPUAVSYNTHDIR)/oplinkreceiver.c
+SRC += $(OPUAVSYNTHDIR)/rfm22breceiver.c
 SRC += $(OPUAVSYNTHDIR)/radiocombridgestats.c
 endif
 
