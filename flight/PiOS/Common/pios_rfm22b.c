@@ -406,6 +406,11 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 	rfm22b_dev->slave_num = slave_num;
 	rfm22b_dev->spi_id = spi_id;
 
+	// Before initializing everything, make sure device found
+	uint8_t device_type = rfm22_read(rfm22b_dev, RFM22_DEVICE_TYPE) & RFM22_DT_MASK;
+	if (device_type != 0x08)
+		return -1;
+
 	// Initialize our configuration parameters
 	rfm22b_dev->datarate = RFM22B_DEFAULT_RX_DATARATE;
 	rfm22b_dev->tx_power = RFM22B_DEFAULT_TX_POWER;
