@@ -778,6 +778,7 @@ void PIOS_Board_Init(void) {
     /* Initalize the RFM22B radio COM device. */
 #if defined(PIOS_INCLUDE_RFM22B)
 	RFM22BStatusInitialize();
+	RFM22BStatusCreateInstance();
 
 	// Initialize out status object.
 	RFM22BStatusData tllinkStatus;
