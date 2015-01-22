@@ -124,7 +124,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/systemsettings.h \
     $$UAVOBJECT_SYNTHETICS/tabletinfo.h \
     $$UAVOBJECT_SYNTHETICS/taskinfo.h \
-    $$UAVOBJECT_SYNTHETICS/tllinkstatus.h \
+    $$UAVOBJECT_SYNTHETICS/rfm22bstatus.h \
     $$UAVOBJECT_SYNTHETICS/trimangles.h \
     $$UAVOBJECT_SYNTHETICS/trimanglessettings.h \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.h \
@@ -240,7 +240,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/systemstats.cpp \
     $$UAVOBJECT_SYNTHETICS/tabletinfo.cpp \
     $$UAVOBJECT_SYNTHETICS/taskinfo.cpp \
-    $$UAVOBJECT_SYNTHETICS/tllinkstatus.cpp \
+    $$UAVOBJECT_SYNTHETICS/rfm22bstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/trimangles.cpp \
     $$UAVOBJECT_SYNTHETICS/trimanglessettings.cpp \
     $$UAVOBJECT_SYNTHETICS/txpidsettings.cpp \

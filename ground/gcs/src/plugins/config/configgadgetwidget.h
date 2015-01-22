@@ -55,7 +55,7 @@ public slots:
     void onAutopilotConnect();
     void onAutopilotDisconnect();
     void tabAboutToChange(int i,bool *);
-    void updateTLLinkStatus(UAVObject *object);
+    void updateRFM22BStatus(UAVObject *object);
     void onOPLinkDisconnect();
 
 signals:
