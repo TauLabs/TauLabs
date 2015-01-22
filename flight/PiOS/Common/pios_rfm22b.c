@@ -93,7 +93,6 @@
 
 #include <pios_spi_priv.h>
 #include <pios_rfm22b_priv.h>
-#include <pios_ppm_out.h>
 #include <ecc.h>
 
 /* Local Defines */
