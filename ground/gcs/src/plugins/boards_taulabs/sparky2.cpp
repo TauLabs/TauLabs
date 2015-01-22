@@ -32,6 +32,8 @@
 #include <extensionsystem/pluginmanager.h>
 
 #include "hwsparky2.h"
+#include "rfm22bstatus.h"
+
 
 /**
  * @brief Sparky2::Sparky2
