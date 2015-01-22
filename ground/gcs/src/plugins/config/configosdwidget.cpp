@@ -76,6 +76,10 @@ ConfigOsdWidget::ConfigOsdWidget(QWidget *parent) : ConfigTaskWidget(parent)
     addUAVObjectToWidgetRelation(osdSettingsName, "PageConfig", ui->osdPagePos5, 4);
     addUAVObjectToWidgetRelation(osdSettingsName, "PageConfig", ui->osdPagePos6, 5);
 
+    addUAVObjectToWidgetRelation(osdSettingsName, "DisableMenuWhenArmed", ui->cb_menu_disabled);
+    ui->cb_menu_disabled->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cb_menu_disabled->setProperty(falseString.toLatin1(), "Disabled");
+
     connect(ManualControlCommand::GetInstance(getObjectManager()),SIGNAL(objectUpdated(UAVObject*)),this,SLOT(movePageSlider()));
     connect(OnScreenDisplaySettings::GetInstance(getObjectManager()),SIGNAL(objectUpdated(UAVObject*)),this,SLOT(updatePositionSlider()));
 

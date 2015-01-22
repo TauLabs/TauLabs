@@ -555,10 +555,7 @@ channel value for each flight mode.</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QComboBox" name="cb_page_switch"/>
-              </item>
-              <item row="2" column="0">
+              <item row="3" column="0">
                <spacer name="verticalSpacer_2">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -570,6 +567,26 @@ channel value for each flight mode.</string>
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item row="1" column="1">
+               <widget class="QComboBox" name="cb_page_switch"/>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Disable Menu when Armed:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QCheckBox" name="cb_menu_disabled">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Disables the OSD menu when aircraft is armed. This is recommended, so the menu can't be entered accidentally when flying.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>

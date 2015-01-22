@@ -3,13 +3,12 @@
  * @addtogroup Tau Labs Modules
  * @{
  * @addtogroup OnScreenDisplay OSD Module
- * @brief Process OSD information
+ * @brief OSD Menu
  * @{
  *
- * @file       onscreendisplay.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010-2014.
- * @brief      OSD gen module, handles OSD draw. Parts from CL-OSD and SUPEROSD projects
+ * @file       osd_menu.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
+ * @brief      OSD Menu
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -28,12 +27,10 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+ 
+#ifndef OSDMENU_H
+#define OSDMENU_H
 
-#ifndef ONSCREENDISPLAY_H
-#define ONSCREENDISPLAY_H
+void render_osd_menu();
 
-#include "openpilot.h"
-
-int32_t OnScreenDisplayInitialize(void);
-
-#endif /* ONSCREENDISPLAY_H */
+#endif /* OSDMENU_H */
