@@ -7,8 +7,10 @@
  *
  * @file       RadioComBridge.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Bridges selected Com Port to the COM VCP emulated serial port
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @brief      Bridges from RFM22b comm channel to another PIOS_COM channel
+ *             has the ability to hook and process UAVO packets for the radio
+ *             board (e.g. TauLink)
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -129,7 +131,8 @@ static int32_t RadioComBridgeStart(void)
         OPLinkSettingsGet(&oplinkSettings);
 
         // Check if this is the coordinator modem
-        data->isCoordinator = (oplinkSettings.Coordinator == OPLINKSETTINGS_COORDINATOR_TRUE);
+        data->isCoordinator = taulinkSettings.Radio == TAULINKSETTINGS_RADIO_TELEMCOORD ||
+                              taulinkSettings.Radio == TAULINKSETTINGS_RADIO_TELEMCOORDPPM;
 
         // We will not parse/send UAVTalk if any ports are configured as Serial (except for over the USB HID port).
         data->parseUAVTalk  = ((oplinkSettings.MainPort != OPLINKSETTINGS_MAINPORT_SERIAL) &&

@@ -1,0 +1,32 @@
+<xml>
+	<object name="TauLinkSettings" singleinstance="true" settings="true" category="HardwareSettings">
+		<description>TauLink configurations options.</description>
+
+		<!-- select the function for the radio port -->
+		<!--  1. Telem - able to receive a telemetry connection from a coordinator -->
+		<!--  2. TelemCoord - establish a telemetry connection -->
+		<!--  3. TelemCoord+PPM - establish connection and send PPM packets regardless -->
+		<!--  4. PPM - send PPM packets with an established connection -->
+                <field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,TelemCoord,TelemCoord+PPM,PPM" defaultvalue="Disabled"/>
+		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
+		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
+
+		<!-- Function of the main serial port -->
+		<field name="MainPort" units="" type="enum" elements="1" options="Disabled,GPS,Telemetry,ComBridge" defaultvalue="Disabled"/>
+		<field name="PPMPort" units="" type="enum" elements="1" options="Disabled,PPM_IN,PPM_OUT,PPM_IN+PPM_OUT" defaultvalue="PPM_IN"/>
+		<field name="VCPPort" units="" type="enum" elements="1" options="Disabled,Telemetry,ComBridge" defaultvalue="Disabled"/>
+		<field name="ComSpeed" units="bps" type="enum" elements="1" options="4800,9600,19200,38400,57600,115200" defaultvalue="38400"/>
+
+		<!-- radio settings -->
+		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" options="9600,19200,32000,64000,100000,192000" defaultvalue="64000"/>
+		<field name="MaxRfPower" units="mW" type="enum" elements="1" options="0,1.25,1.6,3.16,6.3,12.6,25,50,100" defaultvalue="0"/>
+		<field name="MinChannel" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="MaxChannel" units="" type="uint8" elements="1" defaultvalue="250"/>
+		<field name="ChannelSet" units="" type="uint8" elements="1" defaultvalue="39"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>
