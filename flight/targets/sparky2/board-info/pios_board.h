@@ -85,6 +85,7 @@ TIM8  |           |           |           |
 //------------------------
 #define PIOS_LED_HEARTBEAT	0
 #define PIOS_LED_ALARM		1
+#define PIOS_LED_LINK 		2
 
 //------------------------
 // PIOS_WDG

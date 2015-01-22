@@ -58,6 +58,18 @@ static const struct pios_led pios_leds[] = {
 			},
 		},
 	},
+	[PIOS_LED_LINK] = {
+		.pin = {
+			.gpio = GPIOB,
+			.init = {
+				.GPIO_Pin   = GPIO_Pin_6,
+				.GPIO_Speed = GPIO_Speed_50MHz,
+				.GPIO_Mode  = GPIO_Mode_OUT,
+				.GPIO_OType = GPIO_OType_PP,
+				.GPIO_PuPd = GPIO_PuPd_UP
+			},
+		},
+	},
 };
 
 static const struct pios_led_cfg pios_led_cfg = {
