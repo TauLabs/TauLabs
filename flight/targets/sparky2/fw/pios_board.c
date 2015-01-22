@@ -808,7 +808,7 @@ void PIOS_Board_Init(void) {
 				break;
 			}
 			PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_rcvr_cfg, &pios_dsm_flexi_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMRCVRPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
