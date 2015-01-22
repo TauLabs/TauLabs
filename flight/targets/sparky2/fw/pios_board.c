@@ -797,8 +797,8 @@ void PIOS_Board_Init(void) {
 			const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg) == 0) {
 				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
-				rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
 			}
+			rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
 
 	} else {
 
