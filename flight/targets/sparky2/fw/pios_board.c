@@ -369,7 +369,7 @@ void PIOS_Board_Init(void) {
 	ModuleSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RFM22B)
-	OPLinkSettingsInitialize();
+	TauLinkSettingsInitialize();
 	OPLinkStatusInitialize();
 #endif /* PIOS_INCLUDE_RFM22B */
 
@@ -809,8 +809,8 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_RFM22B)
 
     /* Fetch the OPinkSettings object. */
-    OPLinkSettingsData oplinkSettings;
-    OPLinkSettingsGet(&oplinkSettings);
+    TauLinkSettingsData taulinkSettings;
+    TauLinkSettingsGet(&taulinkSettings);
 
     // Initialize out status object.
     OPLinkStatusData oplinkStatus;
