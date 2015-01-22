@@ -80,7 +80,6 @@
 #include "attitudeactual.h"
 #include "baroaltitude.h"
 #include "flightstatus.h"
-#include "flightstatus.h"
 #include "flightbatterystate.h"
 #include "gpsposition.h"
 #include "positionactual.h"
@@ -1263,6 +1262,7 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 	OnScreenDisplaySettingsData osd_settings;
 	OnScreenDisplayPageSettingsData osd_page_settings;
 
+	uint8_t arm_status;
 	uint8_t current_page = 0;
 	uint8_t last_page = -1;
 	float tmp;
@@ -1376,14 +1376,19 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 			switch (current_page) {
 				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_OFF:
 					break;
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_MENU:
+					FlightStatusArmedGet(&arm_status);
+					if ((arm_status == FLIGHTSTATUS_ARMED_DISARMED) ||
+						(osd_settings.DisableMenuWhenArmed == ONSCREENDISPLAYSETTINGS_DISABLEMENUWHENARMED_DISABLED)){
+							render_osd_menu();
+							break;
+					}
+					write_string("Menu Disabled", GRAPHICS_X_MIDDLE, 50, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 3);
 				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM1:
 				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM2:
 				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM3:
 				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_CUSTOM4:
 					render_user_page(&osd_page_settings);
-					break;
-				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_MENU:
-					render_osd_menu();
 					break;
 			}
 
