@@ -92,7 +92,7 @@ bool ConfigurePage::validatePage()
     quint8 minChannel = ui->sbMinChannel->value();
     quint8 maxChannel = ui->sbMaxChannel->value();
     enum Core::IBoardType::LinkMode linkMode;
-    linkMode = ui->cbLinkMode->currentData().value<Core::IBoardType::LinkMode>();
+    linkMode = (enum Core::IBoardType::LinkMode) ui->cbLinkMode->currentData().value<int>();
 
     getWizard()->setMaxBps(bps);
     getWizard()->setMaxRfPower(maxRfPower);
