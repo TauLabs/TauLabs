@@ -81,6 +81,7 @@ UAVOBJSRCFILENAMES += pathstatus
 UAVOBJSRCFILENAMES += poilocation
 UAVOBJSRCFILENAMES += positionactual
 UAVOBJSRCFILENAMES += ratedesired
+UAVOBJSRCFILENAMES += rfm22breceiver
 UAVOBJSRCFILENAMES += sonaraltitude
 UAVOBJSRCFILENAMES += stabilizationdesired
 UAVOBJSRCFILENAMES += stabilizationsettings

@@ -44,8 +44,7 @@
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
 #include <oplinkstatus.h>
-#include <oplinkreceiver.h>
-#include <pios_oplinkrcvr_priv.h>
+#include <pios_rfm22b_rcvr_priv.h>
 
 /**
  * Sensor configurations 
@@ -297,17 +296,6 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
 	pios_rcvr_group_map[channelgroup] = pios_hsum_rcvr_id;
 }
 #endif
-
-static void PIOS_Board_PPM_callback(const int16_t *channels)
-{
-    uint8_t max_chan = (RFM22B_PPM_NUM_CHANNELS < OPLINKRECEIVER_CHANNEL_NUMELEM) ? RFM22B_PPM_NUM_CHANNELS : OPLINKRECEIVER_CHANNEL_NUMELEM;
-    OPLinkReceiverData opl_rcvr;
-
-    for (uint8_t i = 0; i < max_chan; ++i) {
-        opl_rcvr.Channel[i] = channels[i];
-    }
-    OPLinkReceiverSet(&opl_rcvr);
-}
 
 /**
  * PIOS_Board_Init()
@@ -845,11 +833,6 @@ void PIOS_Board_Init(void) {
 		/* Set the radio configuration parameters. */
 		PIOS_RFM22B_SetChannelConfig(pios_rfm22b_id, datarate, hwRevoMini.MinChannel, hwRevoMini.MaxChannel, hwRevoMini.ChannelSet, is_coordinator, is_oneway, ppm_mode, ppm_only);
 		PIOS_RFM22B_SetCoordinatorID(pios_rfm22b_id, hwRevoMini.CoordID);
-
-		/* Set the PPM callback if we should be receiving PPM. */
-		if (ppm_mode) {
-			PIOS_RFM22B_SetPPMCallback(pios_rfm22b_id, PIOS_Board_PPM_callback);
-		}
 
 		/* Set the modem Tx poer level */
 		switch (hwRevoMini.MaxRfPower) {
