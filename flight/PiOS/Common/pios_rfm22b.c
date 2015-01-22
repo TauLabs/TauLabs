@@ -2199,6 +2199,12 @@ static enum pios_radio_event radio_receivePacket(struct pios_rfm22b_dev
 		    RFM22B_PPM_NUM_CHANNELS +
 		    (radio_dev->ppm_only_mode ? 2 : 1);
 
+#if defined(PIOS_LED_LINK)
+	    // if we have a link LED and are expecting PPM, that is the most
+	    // important thing to know, so use the LED to indicate that.
+		PIOS_LED_Toggle(PIOS_LED_LINK);
+#endif /* PIOS_LED_LINK */
+
 		// Ensure the packet it long enough
 		if (data_len < ppm_len) {
 			good_packet = false;
