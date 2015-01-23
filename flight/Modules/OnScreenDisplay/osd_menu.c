@@ -875,7 +875,7 @@ void main_menu(void)
 				write_string("PID - Attitude", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
 				break;
 			case FSM_STATE_MAIN_PIDMWRATE:
-				write_string("PID - RateMW", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+				write_string("PID - MWRate", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
 				break;
 			case FSM_STATE_MAIN_TPA:
 				write_string("Throttle PID Attenuation", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
@@ -1255,7 +1255,7 @@ void pidmwrate_menu(void)
 	char tmp_str[100] = {0};
 	uint8_t rate;
 
-	draw_menu_title("PID RateMW");
+	draw_menu_title("PID MWRate");
 
 	for (int i = 0; i < 3; i++) {
 		data_changed = false;
