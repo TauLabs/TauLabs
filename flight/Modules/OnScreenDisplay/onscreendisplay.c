@@ -919,6 +919,10 @@ void showVideoType(int16_t x, int16_t y)
 	}
 }
 
+
+const char * HOME_LABELS[] = {"", "Home: "};
+const char * RSSI_LABELS[] = {"", "RSSI: "};
+
 void render_user_page(OnScreenDisplayPageSettingsData * page)
 {
 	char tmp_str[100] = { 0 };
@@ -1087,9 +1091,9 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	{
 		tmp = home_dist * convert_distance;
 		if (tmp < convert_distance_divider)
-			sprintf(tmp_str, "Home: %d%s", (int)tmp, dist_unit_short);
+			sprintf(tmp_str, "%s%d%s", HOME_LABELS[page->HomeDistanceShowText], (int)tmp, dist_unit_short);
 		else
-			sprintf(tmp_str, "Home: %0.2f%s", (double)(tmp / convert_distance_divider), dist_unit_long);
+			sprintf(tmp_str, "%s%0.2f%s", HOME_LABELS[page->HomeDistanceShowText], (double)(tmp / convert_distance_divider), dist_unit_long);
 
 		write_string(tmp_str, page->HomeDistancePosX, page->HomeDistancePosY, 0, 0, TEXT_VA_TOP, (int)page->HomeDistanceAlign, 0, SIZE_TO_FONT[page->HomeDistanceFont]);
 	}
@@ -1097,7 +1101,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	// RSSI
 	if (page->Rssi) {
 		ManualControlCommandRssiGet(&tmp_int16);
-		sprintf(tmp_str, "RSSI:%3d", tmp_int16);
+		sprintf(tmp_str, "%s%3d", RSSI_LABELS[page->RssiShowText], tmp_int16);
 		write_string(tmp_str, page->RssiPosX, page->RssiPosY, 0, 0, TEXT_VA_TOP, (int)page->RssiAlign, 0, SIZE_TO_FONT[page->RssiFont]);
 	}
 
