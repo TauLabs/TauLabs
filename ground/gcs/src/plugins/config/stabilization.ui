@@ -16867,7 +16867,7 @@ border-radius: 5;</string>
        <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>This mode attempts to replicate the feel of the control loop used in MultiWii / baseflight. The units are different for the settings, but you can use the calculate button below to translate from one system to the other. To use this, make sure one of your flight modes (selected in the input configuration page) corresponds to MWRate.</string>
+          <string>This mode attempts to replicate the feel of the control loop used in MultiWii / baseflight. The units are different for the settings, but you can use the calculate button below to translate from one system to the other. To use this, you use a Stabilization# flight mode with the roll and pitch (optionally yaw) axes set to MWRate (selected in the input configuration page).</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
