@@ -93,6 +93,7 @@
 		<field name="HomeDistancePosY" units="" type="int16" elements="1" defaultvalue="210"/>
 		<field name="HomeDistanceFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="HomeDistanceAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
+		<field name="HomeDistanceShowText" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 
 		<field name="Map" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
 		<field name="MapCenterMode" units="" type="enum" elements="1" options="UAV,Home" defaultvalue="UAV"/>
@@ -108,7 +109,7 @@
 		<field name="RssiPosY" units="" type="int16" elements="1" defaultvalue="195"/>
 		<field name="RssiFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="RssiAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
-
+		<field name="RssiShowText" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		
 		<field name="SpeedScale" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="SpeedScaleAlign" units="" type="enum" elements="1" options="Left,Right" defaultvalue="Left"/>
