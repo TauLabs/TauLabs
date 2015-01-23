@@ -129,7 +129,7 @@ private:
     QMap<QString, unsigned int> expandedUavoItems;
 
     unsigned int updatePeriod;
-    void refreshViewOtpions();
+    void refreshViewOptions();
 };
 
 #endif /* UAVOBJECTBROWSERWIDGET_H_ */
