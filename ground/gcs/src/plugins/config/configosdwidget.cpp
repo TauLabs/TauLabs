@@ -467,6 +467,9 @@ void ConfigOsdWidget::setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UA
     addUAVObjectToWidgetRelation(name, "HomeDistancePosY", page->HomeDistanceY);
     addUAVObjectToWidgetRelation(name, "HomeDistanceFont", page->HomeDistanceFont);
     addUAVObjectToWidgetRelation(name, "HomeDistanceAlign", page->HomeDistanceAlign);
+    addUAVObjectToWidgetRelation(name, "HomeDistanceShowText", page->HomeDistanceShowText);
+    page->HomeDistanceShowText->setProperty(trueString.toLatin1(), "Enabled");
+    page->HomeDistanceShowText->setProperty(falseString.toLatin1(), "Disabled");
 
     // RSSI
     addUAVObjectToWidgetRelation(name, "Rssi", page->RssiEnabled);
@@ -493,6 +496,9 @@ void ConfigOsdWidget::setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UA
     addUAVObjectToWidgetRelation(name, "TimePosY", page->TimeY);
     addUAVObjectToWidgetRelation(name, "TimeFont", page->TimeFont);
     addUAVObjectToWidgetRelation(name, "TimeAlign", page->TimeAlign);
+    addUAVObjectToWidgetRelation(name, "RssiShowText", page->RssiShowText);
+    page->RssiShowText->setProperty(trueString.toLatin1(), "Enabled");
+    page->RssiShowText->setProperty(falseString.toLatin1(), "Disabled");
 
     // Map
     addUAVObjectToWidgetRelation(name, "Map", page->MapEnabled);
