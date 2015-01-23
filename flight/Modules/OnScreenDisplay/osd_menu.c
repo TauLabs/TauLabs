@@ -420,7 +420,7 @@ const static struct menu_fsm_transition menu_fsm[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_PIDRATE_SAVEEXIT] = {
 		.menu_fn = pidrate_menu,
 		.next_state = {
-			[FSM_EVENT_UP] = FSM_STATE_PIDRATE_YAWD,
+			[FSM_EVENT_UP] = FSM_STATE_PIDRATE_YAWILIMIT,
 			[FSM_EVENT_DOWN] = FSM_STATE_PIDRATE_EXIT,
 			[FSM_EVENT_RIGHT] = FSM_STATE_MAIN_PIDRATE,
 		},
