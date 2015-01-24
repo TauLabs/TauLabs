@@ -20,14 +20,14 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs;
+package com.brainfpv.androidgcs;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVObjectField;
+import com.brainfpv.androidgcs.drawer.NavDrawerActivityConfiguration;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVObjectField;
 
 import android.os.Bundle;
 import android.util.Log;

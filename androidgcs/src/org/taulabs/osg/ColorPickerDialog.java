@@ -1,4 +1,4 @@
-package org.taulabs.osg;
+package com.brainfpv.osg;
 
 import android.app.Dialog;
 import android.content.Context;

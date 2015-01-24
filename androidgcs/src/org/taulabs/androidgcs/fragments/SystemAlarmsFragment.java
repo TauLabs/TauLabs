@@ -21,14 +21,14 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs.fragments;
+package com.brainfpv.androidgcs.fragments;
 
 import java.util.List;
 
-import org.taulabs.androidgcs.R;
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVObjectField;
-import org.taulabs.uavtalk.UAVObjectManager;
+import com.brainfpv.androidgcs.R;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVObjectField;
+import com.brainfpv.uavtalk.UAVObjectManager;
 
 import android.os.Bundle;
 import android.util.Log;

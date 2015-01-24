@@ -1,4 +1,4 @@
-package org.taulabs.osg;
+package com.brainfpv.osg;
 
 public class osgNativeLib {
 

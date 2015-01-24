@@ -21,10 +21,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package org.taulabs.androidgcs;
+package com.brainfpv.androidgcs;
 
-import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
-import org.taulabs.androidgcs.fragments.PFD;
+import com.brainfpv.androidgcs.drawer.NavDrawerActivityConfiguration;
+import com.brainfpv.androidgcs.fragments.PFD;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;

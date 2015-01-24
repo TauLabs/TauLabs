@@ -1,4 +1,4 @@
-package org.taulabs.androidgcs.drawer;
+package com.brainfpv.androidgcs.drawer;
 
 public interface NavDrawerItem {
     public int getId();

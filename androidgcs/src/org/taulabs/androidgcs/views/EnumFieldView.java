@@ -1,4 +1,4 @@
-package org.taulabs.androidgcs.views;
+package com.brainfpv.androidgcs.views;
 /**
  ******************************************************************************
  * @file       EnumFieldView.java
@@ -25,8 +25,8 @@ package org.taulabs.androidgcs.views;
 
 import java.util.List;
 
-import org.taulabs.androidgcs.util.ObjectFieldMappable;
-import org.taulabs.uavtalk.UAVObjectField;
+import com.brainfpv.androidgcs.util.ObjectFieldMappable;
+import com.brainfpv.uavtalk.UAVObjectField;
 
 import android.content.Context;
 import android.util.AttributeSet;

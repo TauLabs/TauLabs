@@ -21,12 +21,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package org.taulabs.androidgcs;
+package com.brainfpv.androidgcs;
 
-import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
-import org.taulabs.androidgcs.util.SmartSave;
-import org.taulabs.androidgcs.views.ScrollBarView;
-import org.taulabs.uavtalk.UAVDataObject;
+import com.brainfpv.androidgcs.drawer.NavDrawerActivityConfiguration;
+import com.brainfpv.androidgcs.util.SmartSave;
+import com.brainfpv.androidgcs.views.ScrollBarView;
+import com.brainfpv.uavtalk.UAVDataObject;
 
 import android.os.Bundle;
 import android.util.Log;

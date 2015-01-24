@@ -1,4 +1,4 @@
-package org.taulabs.androidgcs.views;
+package com.brainfpv.androidgcs.views;
 /**
  ******************************************************************************
  * @file       ScrollBarView.java
@@ -23,8 +23,8 @@ package org.taulabs.androidgcs.views;
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-import org.taulabs.androidgcs.R;
-import org.taulabs.androidgcs.util.ObjectFieldMappable;
+import com.brainfpv.androidgcs.R;
+import com.brainfpv.androidgcs.util.ObjectFieldMappable;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -21,7 +21,7 @@
 
             <fragment
                 android:id="@+id/pfd"
-                android:name="org.taulabs.androidgcs.fragments.PFD"
+                android:name="com.brainfpv.androidgcs.fragments.PFD"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.33"
@@ -29,7 +29,7 @@
 
             <fragment
                 android:id="@+id/map"
-                android:name="org.taulabs.androidgcs.fragments.Map"
+                android:name="com.brainfpv.androidgcs.fragments.Map"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.66"

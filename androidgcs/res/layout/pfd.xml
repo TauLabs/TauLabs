@@ -4,14 +4,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <org.taulabs.androidgcs.views.AttitudeView
+    <com.brainfpv.androidgcs.views.AttitudeView
         android:id="@+id/attitude_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <org.taulabs.androidgcs.views.HeadingView
+    <com.brainfpv.androidgcs.views.HeadingView
         android:id="@+id/heading_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,14 +20,14 @@
         android:layout_marginTop="5dp" />
 
 
-    <org.taulabs.androidgcs.views.AltitudeView
+    <com.brainfpv.androidgcs.views.AltitudeView
         android:id="@+id/altitude_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/attitude_view"
         android:layout_centerVertical="true" />
     
-    <org.taulabs.androidgcs.views.FlightStatusView
+    <com.brainfpv.androidgcs.views.FlightStatusView
         android:id="@+id/flight_status_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         android:layout_marginBottom="5dp"
         android:layout_centerHorizontal="true" />
 
-    <org.taulabs.androidgcs.views.BatteryView
+    <com.brainfpv.androidgcs.views.BatteryView
         android:id="@+id/battery_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         android:layout_marginBottom="5dp"
         android:visibility="invisible" />
 
-    <org.taulabs.androidgcs.views.GpsView
+    <com.brainfpv.androidgcs.views.GpsView
         android:id="@+id/gps_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

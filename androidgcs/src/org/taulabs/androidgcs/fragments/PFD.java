@@ -21,17 +21,17 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package org.taulabs.androidgcs.fragments;
+package com.brainfpv.androidgcs.fragments;
 
-import org.taulabs.androidgcs.R;
-import org.taulabs.androidgcs.views.AltitudeView;
-import org.taulabs.androidgcs.views.AttitudeView;
-import org.taulabs.androidgcs.views.BatteryView;
-import org.taulabs.androidgcs.views.FlightStatusView;
-import org.taulabs.androidgcs.views.GpsView;
-import org.taulabs.androidgcs.views.HeadingView;
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVObjectManager;
+import com.brainfpv.androidgcs.R;
+import com.brainfpv.androidgcs.views.AltitudeView;
+import com.brainfpv.androidgcs.views.AttitudeView;
+import com.brainfpv.androidgcs.views.BatteryView;
+import com.brainfpv.androidgcs.views.FlightStatusView;
+import com.brainfpv.androidgcs.views.GpsView;
+import com.brainfpv.androidgcs.views.HeadingView;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVObjectManager;
 
 import android.app.Activity;
 import android.os.Bundle;

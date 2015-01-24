@@ -20,7 +20,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs;
+package com.brainfpv.androidgcs;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,11 +28,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
-import org.taulabs.osg.ColorPickerDialog;
-import org.taulabs.osg.EGLview;
-import org.taulabs.osg.osgNativeLib;
-import org.taulabs.uavtalk.UAVObject;
+import com.brainfpv.androidgcs.drawer.NavDrawerActivityConfiguration;
+import com.brainfpv.osg.ColorPickerDialog;
+import com.brainfpv.osg.EGLview;
+import com.brainfpv.osg.osgNativeLib;
+import com.brainfpv.uavtalk.UAVObject;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;

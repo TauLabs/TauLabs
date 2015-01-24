@@ -21,7 +21,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs.telemetry.tasks;
+package com.brainfpv.androidgcs.telemetry.tasks;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,10 +33,10 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVObjectField;
-import org.taulabs.uavtalk.UAVObjectManager;
-import org.taulabs.uavtalk.UAVTalk;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVObjectField;
+import com.brainfpv.uavtalk.UAVObjectManager;
+import com.brainfpv.uavtalk.UAVTalk;
 
 import android.content.Context;
 import android.os.Environment;

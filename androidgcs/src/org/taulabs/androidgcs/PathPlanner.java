@@ -21,7 +21,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package org.taulabs.androidgcs;
+package com.brainfpv.androidgcs;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,10 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import org.taulabs.androidgcs.R;
-import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
-import org.taulabs.uavtalk.UAVDataObject;
-import org.taulabs.uavtalk.UAVObjectField;
+import com.brainfpv.androidgcs.R;
+import com.brainfpv.androidgcs.drawer.NavDrawerActivityConfiguration;
+import com.brainfpv.uavtalk.UAVDataObject;
+import com.brainfpv.uavtalk.UAVObjectField;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

@@ -26,7 +26,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs;
+package com.brainfpv.androidgcs;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,26 +35,26 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
-import org.taulabs.androidgcs.drawer.NavDrawerActivityConfiguration;
-import org.taulabs.androidgcs.drawer.NavDrawerAdapter;
-import org.taulabs.androidgcs.drawer.NavDrawerItem;
-import org.taulabs.androidgcs.drawer.NavMenuActivity;
-import org.taulabs.androidgcs.drawer.NavMenuItem;
-import org.taulabs.androidgcs.drawer.NavMenuSection;
-import org.taulabs.androidgcs.fragments.ObjectManagerFragment;
-import org.taulabs.androidgcs.fragments.PFD;
-import org.taulabs.androidgcs.fragments.Map;
-import org.taulabs.androidgcs.fragments.SystemAlarmsFragment;
-import org.taulabs.androidgcs.telemetry.TelemetryService;
-import org.taulabs.androidgcs.telemetry.TelemetryService.ConnectionState;
-import org.taulabs.androidgcs.telemetry.TelemetryService.LocalBinder;
-import org.taulabs.androidgcs.telemetry.TelemetryService.TelemTask;
-import org.taulabs.androidgcs.views.AlarmsSummary;
-import org.taulabs.androidgcs.views.AlarmsSummary.AlarmsStatus;
-import org.taulabs.androidgcs.views.TelemetryStats;
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVObjectField;
-import org.taulabs.uavtalk.UAVObjectManager;
+import com.brainfpv.androidgcs.drawer.NavDrawerActivityConfiguration;
+import com.brainfpv.androidgcs.drawer.NavDrawerAdapter;
+import com.brainfpv.androidgcs.drawer.NavDrawerItem;
+import com.brainfpv.androidgcs.drawer.NavMenuActivity;
+import com.brainfpv.androidgcs.drawer.NavMenuItem;
+import com.brainfpv.androidgcs.drawer.NavMenuSection;
+import com.brainfpv.androidgcs.fragments.ObjectManagerFragment;
+import com.brainfpv.androidgcs.fragments.PFD;
+import com.brainfpv.androidgcs.fragments.Map;
+import com.brainfpv.androidgcs.fragments.SystemAlarmsFragment;
+import com.brainfpv.androidgcs.telemetry.TelemetryService;
+import com.brainfpv.androidgcs.telemetry.TelemetryService.ConnectionState;
+import com.brainfpv.androidgcs.telemetry.TelemetryService.LocalBinder;
+import com.brainfpv.androidgcs.telemetry.TelemetryService.TelemTask;
+import com.brainfpv.androidgcs.views.AlarmsSummary;
+import com.brainfpv.androidgcs.views.AlarmsSummary.AlarmsStatus;
+import com.brainfpv.androidgcs.views.TelemetryStats;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVObjectField;
+import com.brainfpv.uavtalk.UAVObjectManager;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -330,7 +330,7 @@ public abstract class ObjectManagerActivity extends Activity {
 
 		// Bind to the telemetry service (which will start it)
 		Intent intent = new Intent(getApplicationContext(),
-				org.taulabs.androidgcs.telemetry.TelemetryService.class);
+				com.brainfpv.androidgcs.telemetry.TelemetryService.class);
 		startService(intent);
 		if (DEBUG)
 			Log.d(TAG, "Attempting to bind: " + intent);

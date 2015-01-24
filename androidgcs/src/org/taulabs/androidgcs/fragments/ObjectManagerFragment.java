@@ -23,7 +23,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs.fragments;
+package com.brainfpv.androidgcs.fragments;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,9 +32,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
-import org.taulabs.androidgcs.ObjectManagerActivity;
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVObjectManager;
+import com.brainfpv.androidgcs.ObjectManagerActivity;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVObjectManager;
 
 import android.app.Activity;
 import android.app.Fragment;

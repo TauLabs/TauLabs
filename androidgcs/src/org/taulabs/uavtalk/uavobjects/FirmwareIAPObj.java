@@ -25,16 +25,16 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package org.taulabs.uavtalk.uavobjects;
+package com.brainfpv.uavtalk.uavobjects;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.taulabs.uavtalk.UAVDataObject;
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVObjectField;
-import org.taulabs.uavtalk.UAVObjectManager;
+import com.brainfpv.uavtalk.UAVDataObject;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVObjectField;
+import com.brainfpv.uavtalk.UAVObjectManager;
 
 /**
 Queries board for SN, model, revision, and sends reset command

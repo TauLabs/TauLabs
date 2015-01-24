@@ -21,7 +21,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs.telemetry;
+package com.brainfpv.androidgcs.telemetry;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,12 +29,12 @@ import java.io.OutputStream;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.taulabs.androidgcs.telemetry.tasks.AudioTask;
-import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
-import org.taulabs.androidgcs.telemetry.tasks.TabletInformation;
-import org.taulabs.uavtalk.UAVObjectManager;
-import org.taulabs.uavtalk.UAVTalk;
-import org.taulabs.uavtalk.uavobjects.TelemObjectsInitialize;
+import com.brainfpv.androidgcs.telemetry.tasks.AudioTask;
+import com.brainfpv.androidgcs.telemetry.tasks.LoggingTask;
+import com.brainfpv.androidgcs.telemetry.tasks.TabletInformation;
+import com.brainfpv.uavtalk.UAVObjectManager;
+import com.brainfpv.uavtalk.UAVTalk;
+import com.brainfpv.uavtalk.uavobjects.TelemObjectsInitialize;
 
 import android.content.Intent;
 import android.os.Handler;

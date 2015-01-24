@@ -24,7 +24,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs.telemetry;
+package com.brainfpv.androidgcs.telemetry;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,8 +35,8 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.taulabs.androidgcs.telemetry.tasks.LoggingTask;
-import org.taulabs.uavtalk.UAVObjectManager;
+import com.brainfpv.androidgcs.telemetry.tasks.LoggingTask;
+import com.brainfpv.uavtalk.UAVObjectManager;
 
 import android.app.Service;
 import android.content.Context;
@@ -64,12 +64,12 @@ public class TelemetryService extends Service {
 	public static boolean WARN = LOGLEVEL > 0;
 
 	// Intent category
-	public final static String INTENT_CATEGORY_GCS        = "org.taulabs.intent.category.GCS";
+	public final static String INTENT_CATEGORY_GCS        = "com.brainfpv.intent.category.GCS";
 
 	// Intent actions
-	public final static String INTENT_CHANNEL_OPENED      = "org.taulabs.intent.action.CHANNEL_OPENED";
-	public final static String INTENT_ACTION_CONNECTED    = "org.taulabs.intent.action.CONNECTED";
-	public final static String INTENT_ACTION_DISCONNECTED = "org.taulabs.intent.action.DISCONNECTED";
+	public final static String INTENT_CHANNEL_OPENED      = "com.brainfpv.intent.action.CHANNEL_OPENED";
+	public final static String INTENT_ACTION_CONNECTED    = "com.brainfpv.intent.action.CONNECTED";
+	public final static String INTENT_ACTION_DISCONNECTED = "com.brainfpv.intent.action.DISCONNECTED";
 
 	// Variables for local message handler thread
 	private Looper mServiceLooper;
@@ -488,7 +488,7 @@ public class TelemetryService extends Service {
 		DexClassLoader loader = new DexClassLoader(classpath, dexDir.getAbsolutePath(), null, getClassLoader());
 
 		try {
-			Class<?> initClass = loader.loadClass("org.taulabs.uavtalk.uavobjects.UAVObjectsInitialize");
+			Class<?> initClass = loader.loadClass("com.brainfpv.uavtalk.uavobjects.UAVObjectsInitialize");
 			Method initMethod = initClass.getMethod("register", UAVObjectManager.class);
 			initMethod.invoke(null, objMngr);
 		} catch (ClassNotFoundException e1) {

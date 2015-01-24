@@ -1,6 +1,6 @@
-package org.taulabs.androidgcs.drawer;
+package com.brainfpv.androidgcs.drawer;
 
-import org.taulabs.androidgcs.R;
+import com.brainfpv.androidgcs.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;

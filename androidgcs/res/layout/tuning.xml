@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:setting_attributes="http://schemas.android.com/apk/res/org.taulabs.androidgcs"
+    xmlns:setting_attributes="http://schemas.android.com/apk/res/com.brainfpv.androidgcs"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -23,56 +23,56 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <org.taulabs.androidgcs.views.ScrollBarView
+                <com.brainfpv.androidgcs.views.ScrollBarView
                     android:id="@+id/rollRateKp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     setting_attributes:max_value="0.01"
                     setting_attributes:setting_name="Roll Rate Kp" />
 
-                <org.taulabs.androidgcs.views.ScrollBarView
+                <com.brainfpv.androidgcs.views.ScrollBarView
                     android:id="@+id/pitchRateKp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     setting_attributes:max_value="0.01"
                     setting_attributes:setting_name="Pitch Rate Kp" />
 
-                <org.taulabs.androidgcs.views.ScrollBarView
+                <com.brainfpv.androidgcs.views.ScrollBarView
                     android:id="@+id/rollRateKi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     setting_attributes:max_value="0.05"
                     setting_attributes:setting_name="Roll Rate Ki" />
 
-                <org.taulabs.androidgcs.views.ScrollBarView
+                <com.brainfpv.androidgcs.views.ScrollBarView
                     android:id="@+id/pitchRateKi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     setting_attributes:max_value="0.05"
                     setting_attributes:setting_name="Pitch Rate Ki" />
 
-                <org.taulabs.androidgcs.views.ScrollBarView
+                <com.brainfpv.androidgcs.views.ScrollBarView
                     android:id="@+id/rollKp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     setting_attributes:max_value="5"
                     setting_attributes:setting_name="Roll Kp" />
 
-                <org.taulabs.androidgcs.views.ScrollBarView
+                <com.brainfpv.androidgcs.views.ScrollBarView
                     android:id="@+id/pitchKp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     setting_attributes:max_value="5"
                     setting_attributes:setting_name="Pitch Kp" />
 
-                <org.taulabs.androidgcs.views.ScrollBarView
+                <com.brainfpv.androidgcs.views.ScrollBarView
                     android:id="@+id/rollRateKd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     setting_attributes:max_value="0.001"
                     setting_attributes:setting_name="Roll Rate Kd" />
 
-                <org.taulabs.androidgcs.views.ScrollBarView
+                <com.brainfpv.androidgcs.views.ScrollBarView
                     android:id="@+id/pitchRateKd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

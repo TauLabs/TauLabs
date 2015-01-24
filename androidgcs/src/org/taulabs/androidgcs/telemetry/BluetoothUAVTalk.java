@@ -22,7 +22,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package org.taulabs.androidgcs.telemetry;
+package com.brainfpv.androidgcs.telemetry;
 
 import java.io.IOException;
 import java.util.Set;

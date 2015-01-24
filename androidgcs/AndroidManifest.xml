@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.taulabs.androidgcs" android:versionCode="24"
+	package="com.brainfpv.androidgcs" android:versionCode="24"
 	android:versionName="Phoenix">
 	<uses-sdk android:minSdkVersion="14" />
 
@@ -9,9 +9,9 @@
   		android:required="true"/>
 		
 	<permission
-          android:name="org.taulabs.androidgcs.permission.MAPS_RECEIVE"
+          android:name="com.brainfpv.androidgcs.permission.MAPS_RECEIVE"
           android:protectionLevel="signature"/>
-	<uses-permission android:name="org.taulabs.androidgcs.permission.MAPS_RECEIVE"/>
+	<uses-permission android:name="com.brainfpv.androidgcs.permission.MAPS_RECEIVE"/>
         	
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
@@ -30,7 +30,7 @@
 		<!-- for map overlay -->
 		<uses-library android:name="com.google.android.maps" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBaAV9pYtdvqFRlJ6psNH34GpDjejHoV8o"/>
+		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyDxT09AD3_PI6mr6-6HI7ciWXYx6Ww197U"/>
 		
 		<!-- Object browser - main activity at the moment -->
 		<activity android:name="MainActivity" android:label="@string/app_name">
@@ -78,13 +78,13 @@
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 			</intent-filter>
 			<intent-filter>
-				<action android:name="org.taulabs.intent.action.CONNECTED" />
-				<action android:name="org.taulabs.intent.action.DISCONNECTED" />
+				<action android:name="com.brainfpv.intent.action.CONNECTED" />
+				<action android:name="com.brainfpv.intent.action.DISCONNECTED" />
 			</intent-filter>
 			<meta-data android:name="android.appwidget.provider"
 				android:resource="@xml/telemetry_widget_info" />
 		</receiver>
 
-		<service android:name="org.taulabs.androidgcs.telemetry.TelemetryService"></service>
+		<service android:name="com.brainfpv.androidgcs.telemetry.TelemetryService"></service>
 	</application>
 </manifest>

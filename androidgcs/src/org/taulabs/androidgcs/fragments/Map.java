@@ -1,12 +1,12 @@
-package org.taulabs.androidgcs.fragments;
+package com.brainfpv.androidgcs.fragments;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.taulabs.androidgcs.R;
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVObjectField;
-import org.taulabs.uavtalk.UAVObjectManager;
+import com.brainfpv.androidgcs.R;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVObjectField;
+import com.brainfpv.uavtalk.UAVObjectManager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -152,12 +152,12 @@ public class Map extends ObjectManagerFragment {
 				}
 
 				// Get the position from bundle
-				double map_lat = savedInstanceState.getDouble("org.taulabs.map_lat", lla.latitude);
-				double map_lon = savedInstanceState.getDouble("org.taulabs.map_lon", lla.longitude);
+				double map_lat = savedInstanceState.getDouble("com.brainfpv.map_lat", lla.latitude);
+				double map_lon = savedInstanceState.getDouble("com.brainfpv.map_lon", lla.longitude);
 				
 				// Start with default and see if one is stored
 				float zoom = prefs.getFloat("map_zoom", 17);
-				zoom = (float) savedInstanceState.getDouble("org.taulabs.map_zoom", zoom);
+				zoom = (float) savedInstanceState.getDouble("com.brainfpv.map_zoom", zoom);
 				
 				// Move there
 				lla = new LatLng(map_lat, map_lon);
@@ -605,10 +605,10 @@ public class Map extends ObjectManagerFragment {
 		if (mMap != null) {
 			CameraPosition camPos = mMap.getCameraPosition();
 			LatLng lla = camPos.target;
-			outState.putDouble("org.taulabs.map_lat", lla.latitude);
-			outState.putDouble("org.taulabs.map_lon", lla.longitude);
-			outState.putDouble("org.taulabs.map_zoom", camPos.zoom);
-			outState.putDouble("org.taulabs.map_tilt", camPos.tilt);
+			outState.putDouble("com.brainfpv.map_lat", lla.latitude);
+			outState.putDouble("com.brainfpv.map_lon", lla.longitude);
+			outState.putDouble("com.brainfpv.map_zoom", camPos.zoom);
+			outState.putDouble("com.brainfpv.map_tilt", camPos.tilt);
 		}
 	}
 	

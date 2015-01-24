@@ -20,10 +20,10 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs;
+package com.brainfpv.androidgcs;
 
-import org.taulabs.androidgcs.R;
-import org.taulabs.androidgcs.telemetry.TelemetryService;
+import com.brainfpv.androidgcs.R;
+import com.brainfpv.androidgcs.telemetry.TelemetryService;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;

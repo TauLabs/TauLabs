@@ -22,7 +22,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs.telemetry;
+package com.brainfpv.androidgcs.telemetry;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,10 +37,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import junit.framework.Assert;
 
-import org.taulabs.uavtalk.UAVMetaObject;
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVObjectManager;
-import org.taulabs.uavtalk.UAVTalk;
+import com.brainfpv.uavtalk.UAVMetaObject;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVObjectManager;
+import com.brainfpv.uavtalk.UAVTalk;
 
 import android.os.Handler;
 import android.os.Looper;

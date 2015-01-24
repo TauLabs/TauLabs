@@ -1,4 +1,4 @@
-package org.taulabs.androidgcs.drawer;
+package com.brainfpv.androidgcs.drawer;
 
 public class NavMenuSection implements NavDrawerItem {
 

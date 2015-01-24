@@ -20,17 +20,17 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-package org.taulabs.androidgcs.fragments;
+package com.brainfpv.androidgcs.fragments;
 
 import java.util.List;
 import java.util.ListIterator;
 
-import org.taulabs.androidgcs.R;
-import org.taulabs.androidgcs.util.SmartSave;
-import org.taulabs.androidgcs.views.ObjectEditView;
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVObjectField;
-import org.taulabs.uavtalk.UAVObjectManager;
+import com.brainfpv.androidgcs.R;
+import com.brainfpv.androidgcs.util.SmartSave;
+import com.brainfpv.androidgcs.views.ObjectEditView;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVObjectField;
+import com.brainfpv.uavtalk.UAVObjectManager;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -50,10 +50,10 @@ public class ObjectEditor extends ObjectManagerFragment {
 
 	@Override
 	public void setArguments(Bundle b) {
-		objectName = b.getString("org.taulabs.androidgcs.ObjectName");
-		objectID = b.getLong("org.taulabs.androidgcs.ObjectId");
-		instID = b.getLong("org.taulabs.androidgcs.InstId");
-		updated = b.getBoolean("org.taulabs.androidgcs.updated", false);
+		objectName = b.getString("com.brainfpv.androidgcs.ObjectName");
+		objectID = b.getLong("com.brainfpv.androidgcs.ObjectId");
+		instID = b.getLong("com.brainfpv.androidgcs.InstId");
+		updated = b.getBoolean("com.brainfpv.androidgcs.updated", false);
 	}
 
 
@@ -137,10 +137,10 @@ public class ObjectEditor extends ObjectManagerFragment {
 	public void onSaveInstanceState (Bundle outState) {
 		super.onSaveInstanceState(outState);
 		
-		outState.putString("org.taulabs.androidgcs.ObjectName", objectName);
-		outState.putLong("org.taulabs.androidgcs.ObjectId", objectID);
-		outState.putLong("org.taulabs.androidgcs.InstId", instID);
-		outState.putBoolean("org.taulabs.androidgcs.updated", updated);
+		outState.putString("com.brainfpv.androidgcs.ObjectName", objectName);
+		outState.putLong("com.brainfpv.androidgcs.ObjectId", objectID);
+		outState.putLong("com.brainfpv.androidgcs.InstId", instID);
+		outState.putBoolean("com.brainfpv.androidgcs.updated", updated);
 	}
 	
 	@Override

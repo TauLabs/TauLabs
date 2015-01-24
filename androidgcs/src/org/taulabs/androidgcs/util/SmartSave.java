@@ -23,7 +23,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-package org.taulabs.androidgcs.util;
+package com.brainfpv.androidgcs.util;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,9 +34,9 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVObject.TransactionResult;
-import org.taulabs.uavtalk.UAVObjectManager;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVObject.TransactionResult;
+import com.brainfpv.uavtalk.UAVObjectManager;
 
 import android.app.Activity;
 import android.graphics.LightingColorFilter;

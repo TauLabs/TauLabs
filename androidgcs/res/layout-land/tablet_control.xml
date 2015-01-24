@@ -14,14 +14,14 @@
 
         <fragment
             android:id="@+id/pfd"
-            android:name="org.taulabs.androidgcs.fragments.PFD"
+            android:name="com.brainfpv.androidgcs.fragments.PFD"
             android:layout_width="0dp"
             android:layout_weight="0.7"
             android:layout_height="match_parent"  />
 
         <fragment
             android:id="@+id/map"
-            android:name="org.taulabs.androidgcs.fragments.Map"
+            android:name="com.brainfpv.androidgcs.fragments.Map"
             android:layout_width="0dp"
             android:layout_weight="1.2"
             android:layout_height="match_parent"
