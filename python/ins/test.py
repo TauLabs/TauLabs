@@ -77,7 +77,7 @@ class StaticTestFunctions(unittest.TestCase):
             from numpy import cos, sin
 
             import matplotlib.pyplot as plt
-            fig, ax = plt.subplots(2,2)
+            fig, ax = plt.subplots(2,2,sharex=True)
 
             k = STEPS
 
@@ -100,11 +100,13 @@ class StaticTestFunctions(unittest.TestCase):
             plt.xlabel('Time (s)')
             #plt.ylim(-1.1,1.1)
             ax[1][1].cla()
-            ax[1][1].plot(times[0:k:4],history[0:k:4,10:])
+            ax[1][1].plot(times[0:k:4],history[0:k:4,10:13],label="Gyro")
+            ax[1][1].plot(times[0:k:4],history[0:k:4,-1],label="Accel")
             ax[1][1].set_title('Biases')
             plt.sca(ax[1][1])
             plt.ylabel('Bias (rad/s)')
             plt.xlabel('Time (s)')
+            plt.legend()
 
             plt.suptitle(unittest.TestCase.shortDescription(self))
             plt.show()
