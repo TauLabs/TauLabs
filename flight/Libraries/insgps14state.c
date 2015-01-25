@@ -105,8 +105,8 @@ void INSGPSInit()		//pretty much just a place holder for now
 	P[0][0] = P[1][1] = P[2][2] = 25.0f;	// initial position variance (m^2)
 	P[3][3] = P[4][4] = P[5][5] = 5.0f;	// initial velocity variance (m/s)^2
 	P[6][6] = P[7][7] = P[8][8] = P[9][9] = 1e-5f;	// initial quaternion variance
-	P[10][10] = P[11][11] = P[12][12] = 1e-9f;	// initial gyro bias variance (rad/s)^2
-	P[13][13] = 1e-7f;	                        // initial accel bias variance (deg/s)^2
+	P[10][10] = P[11][11] = P[12][12] = 1e-6f;	// initial gyro bias variance (rad/s)^2
+	P[13][13] = 1e-5f;	                        // initial accel bias variance (deg/s)^2
 
 	X[0] = X[1] = X[2] = X[3] = X[4] = X[5] = 0.0f;	// initial pos and vel (m)
 	X[6] = 1.0f;
@@ -116,14 +116,14 @@ void INSGPSInit()		//pretty much just a place holder for now
 
 	Q[0] = Q[1] = Q[2] = 1e-5f;	    // gyro noise variance (rad/s)^2
 	Q[3] = Q[4] = Q[5] = 1e-5f;	    // accelerometer noise variance (m/s^2)^2
-	Q[6] = Q[7]        = 1e-4f;	    // gyro x and y bias random walk variance (rad/s^2)^2
-	Q[8]               = 5e-5f;	    // gyro z bias random walk variance (rad/s^2)^2
-	Q[9] = 5e-1f;	                // accel bias random walk variance (m/s^3)^2
+	Q[6] = Q[7]        = 1e-6f;	    // gyro x and y bias random walk variance (rad/s^2)^2
+	Q[8]               = 1e-6f;	    // gyro z bias random walk variance (rad/s^2)^2
+	Q[9] = 5e-4f;	                // accel bias random walk variance (m/s^3)^2
 
 	R[0] = R[1] = 0.004f;	// High freq GPS horizontal position noise variance (m^2)
 	R[2] = 0.036f;		// High freq GPS vertical position noise variance (m^2)
 	R[3] = R[4] = 0.004f;	// High freq GPS horizontal velocity noise variance (m/s)^2
-	R[5] = 100.0f;		// High freq GPS vertical velocity noise variance (m/s)^2
+	R[5] = 0.004f;		// High freq GPS vertical velocity noise variance (m/s)^2
 	R[6] = R[7] = R[8] = 0.005f;	// magnetometer unit vector noise variance
 	R[9] = .05f;		// High freq altimeter noise variance (m^2)
 }
