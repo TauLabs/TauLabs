@@ -77,9 +77,10 @@ class CINS:
 			Z[1] = pos[1]
 
 		if vel is not None:
-			sensors = sensors | 0x0018
+			sensors = sensors | 0x0038
 			Z[3] = vel[0]
 			Z[4] = vel[1]
+			Z[5] = vel[2]
 
 		if mag is not None:
 			sensors = sensors | 0x00C0
