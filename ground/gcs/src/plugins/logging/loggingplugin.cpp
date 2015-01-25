@@ -341,28 +341,28 @@ bool LoggingPlugin::initialize(const QStringList& args, QString *errMsg)
     Core::ActionContainer* ac = am->actionContainer(Core::Constants::M_TOOLS);
 
     // Command to start logging
-    cmd = am->registerAction(new QAction(this),
+    cmdLogging = am->registerAction(new QAction(this),
                                             "LoggingPlugin.Logging",
                                             QList<int>() <<
                                             Core::Constants::C_GLOBAL_ID);
-    cmd->setDefaultKeySequence(QKeySequence("Ctrl+L"));
-    cmd->action()->setText("Start logging...");
+    cmdLogging->setDefaultKeySequence(QKeySequence("Ctrl+L"));
+    cmdLogging->action()->setText("Start logging...");
 
     ac->menu()->addSeparator();
     ac->appendGroup("Logging");
-    ac->addAction(cmd, "Logging");
+    ac->addAction(cmdLogging, "Logging");
 
-    connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(toggleLogging()));
+    connect(cmdLogging->action(), SIGNAL(triggered(bool)), this, SLOT(toggleLogging()));
 
     // Command to downlaod log
-    cmd = am->registerAction(new QAction(this),
+    cmdDownload = am->registerAction(new QAction(this),
                                             "LoggingPlugin.Download",
                                             QList<int>() <<
                                             Core::Constants::C_GLOBAL_ID);
-    cmd->setDefaultKeySequence(QKeySequence("Ctrl+D"));
-    cmd->action()->setText("Download log...");
-    ac->addAction(cmd, "Logging");
-    connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(downloadLog()));
+    cmdDownload->setDefaultKeySequence(QKeySequence("Ctrl+D"));
+    cmdDownload->action()->setText("Download log...");
+    ac->addAction(cmdDownload, "Logging");
+    connect(cmdDownload->action(), SIGNAL(triggered(bool)), this, SLOT(downloadLog()));
 
 
     mf = new LoggingGadgetFactory(this);
@@ -397,13 +397,13 @@ void LoggingPlugin::toggleLogging()
             return;
 
         startLogging(fileName);
-        cmd->action()->setText(tr("Stop logging"));
+        cmdLogging->action()->setText(tr("Stop logging"));
 
     }
     else if(state == LOGGING)
     {
         stopLogging();
-        cmd->action()->setText(tr("Start logging..."));
+        cmdLogging->action()->setText(tr("Start logging..."));
     }
 }
 

@@ -62,6 +62,11 @@ extern struct streamfs_cfg streamfs_settings;
 int32_t PIOS_STREAMFS_Testing_Write(uintptr_t fs_id, uint8_t *data, uint32_t len);
 int32_t PIOS_STREAMFS_Testing_Read(uintptr_t fs_id, uint8_t *data, uint32_t len);
 
+// Define this method just to prevent warnings
+int32_t PIOS_DELAY_WaitmS(uint32_t mS) {
+  return mS;
+}
+
 }
 
 // To use a test fixture, derive a class from testing::Test.

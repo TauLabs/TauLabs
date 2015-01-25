@@ -153,7 +153,8 @@ private slots:
 
 private:
     LoggingGadgetFactory *mf;
-    Core::Command* cmd;
+    Core::Command* cmdLogging;
+    Core::Command* cmdDownload;
 
 };
 #endif /* LoggingPLUGIN_H_ */

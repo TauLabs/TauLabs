@@ -200,7 +200,7 @@ void ImportExportGadgetWidget::importConfiguration(const QString& fileName)
 void ImportExportGadgetWidget::on_helpButton_clicked()
 {
     qDebug() << "Show Help";
-    QDesktopServices::openUrl(QUrl("http://wiki.taulabs.org/OnlineHelp:-Import-Export"));
+    QDesktopServices::openUrl(QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Import-Export"));
 }
 
 

@@ -40,6 +40,7 @@
 #include "flightstatus.h"
 #include "gpsposition.h"
 #include "gpstime.h"
+#include "magnetometer.h"
 #include "loggingsettings.h"
 #include "loggingstats.h"
 
@@ -216,6 +217,7 @@ static void loggingTask(void *parameters)
 			UAVTalkSendObjectTimestamped(uavTalkCon, AttitudeActualHandle(), 0, false, 0);
 			UAVTalkSendObjectTimestamped(uavTalkCon, AccelsHandle(), 0, false, 0);
 			UAVTalkSendObjectTimestamped(uavTalkCon, GyrosHandle(), 0, false, 0);
+			UAVTalkSendObjectTimestamped(uavTalkCon, MagnetometerHandle(), 0, false, 0);
 
 			if ((i % 10) == 0) {
 				UAVTalkSendObjectTimestamped(uavTalkCon, BaroAltitudeHandle(), 0, false, 0);

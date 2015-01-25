@@ -218,7 +218,7 @@ void ConfigStabilizationWidget::applyMWRateConvertDialog()
         m_stabilization->MWRatePitchKp->setValue(dialog->getPitchKp());
         m_stabilization->MWRatePitchKi->setValue(dialog->getPitchKi());
         m_stabilization->MWRatePitchKd->setValue(dialog->getPitchKd());
-        m_stabilization->MWRateYawKp->setValue(dialog->getRollKp());
+        m_stabilization->MWRateYawKp->setValue(dialog->getYawKp());
         m_stabilization->MWRateYawKi->setValue(dialog->getYawKi());
         m_stabilization->MWRateYawKd->setValue(dialog->getYawKd());
     }

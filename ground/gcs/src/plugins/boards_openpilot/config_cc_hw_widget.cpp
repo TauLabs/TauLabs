@@ -143,7 +143,7 @@ void ConfigCCHWWidget::widgetsContentsChanged()
 
 void ConfigCCHWWidget::openHelp()
 {
-    QDesktopServices::openUrl( QUrl("http://wiki.taulabs.org/OnlineHelp:-Hardware-Settings", QUrl::StrictMode) );
+    QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Hardware-Settings", QUrl::StrictMode) );
 }
 
 /**
