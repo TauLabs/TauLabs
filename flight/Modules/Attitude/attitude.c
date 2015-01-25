@@ -1199,7 +1199,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
 	// GPS Velocity update
 	if (gps_vel_updated) { // only sets during outdoor mode
-		sensors |= HORIZ_VEL_SENSORS;
+		sensors |= HORIZ_VEL_SENSORS | VERT_VEL_SENSORS;
 
 		vel[0] = gpsVelData.North;
 		vel[1] = gpsVelData.East;
