@@ -283,9 +283,10 @@ class PyINS:
 			Z.extend([[pos[1]]])
 
 		if vel is not None:
-			idx.extend((3,4))
+			idx.extend((3,4,5))
 			Z.extend([[vel[0]]])
 			Z.extend([[vel[1]]])
+			Z.extend([[vel[2]]])
 
 		if mag is not None:
 
