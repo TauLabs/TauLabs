@@ -31,6 +31,7 @@
 #include "osd_utils.h"
 
 #include "flightstatus.h"
+#include "homelocation.h"
 #include "manualcontrolcommand.h"
 #include "manualcontrolsettings.h"
 #include "stabilizationsettings.h"
@@ -52,6 +53,7 @@ enum menu_fsm_state {
 	FSM_STATE_FAULT,            /*!< Invalid state transition occurred */
 	FSM_STATE_MAIN_FILTER,      /*!< Filter Settings */
 	FSM_STATE_MAIN_FMODE,       /*!< Flight Mode Settings */
+	FSM_STATE_MAIN_HOMELOC,     /*!< Home Location */
 	FSM_STATE_MAIN_PIDRATE,     /*!< PID Rate*/
 	FSM_STATE_MAIN_PIDATT,      /*!< PID Attitude*/
 	FSM_STATE_MAIN_PIDMWRATE,   /*!< PID RateMW*/
@@ -73,6 +75,10 @@ enum menu_fsm_state {
 	FSM_STATE_FMODE_6,         /*!< Flight Mode Position 6 */
 	FSM_STATE_FMODE_SAVEEXIT,  /*!< Save & Exit */
 	FSM_STATE_FMODE_EXIT,      /*!< Exit */
+/*------------------------------------------------------------------------------------------*/
+	FSM_STATE_HOMELOC_IDLE,    /*!< Dummy state with nothing selected */
+	FSM_STATE_HOMELOC_SET,     /*!< Set home location */
+	FSM_STATE_HOMELOC_EXIT,    /*!< Exit */
 /*------------------------------------------------------------------------------------------*/
 	FSM_STATE_PIDRATE_IDLE,       /*!< Dummy state with nothing selected */
 	FSM_STATE_PIDRATE_ROLLP,      /*!< Roll P Gain */
@@ -157,6 +163,7 @@ static enum menu_fsm_event current_event = FSM_EVENT_AUTO;
 static void main_menu(void);
 static void filter_menu(void);
 static void flightmode_menu(void);
+static void homeloc_menu(void);
 static void pidrate_menu(void);
 static void pidatt_menu(void);
 static void pidmwrate_menu(void);
@@ -177,14 +184,22 @@ const static struct menu_fsm_transition menu_fsm[FSM_STATE_NUM_STATES] = {
 		.menu_fn = main_menu,
 		.next_state = {
 			[FSM_EVENT_UP] = FSM_STATE_MAIN_FILTER,
-			[FSM_EVENT_DOWN] = FSM_STATE_MAIN_PIDRATE,
+			[FSM_EVENT_DOWN] = FSM_STATE_MAIN_HOMELOC,
 			[FSM_EVENT_RIGHT] = FSM_STATE_FMODE_IDLE,
+		},
+	},
+	[FSM_STATE_MAIN_HOMELOC] = {
+		.menu_fn = main_menu,
+		.next_state = {
+			[FSM_EVENT_UP] = FSM_STATE_MAIN_FMODE,
+			[FSM_EVENT_DOWN] = FSM_STATE_MAIN_PIDRATE,
+			[FSM_EVENT_RIGHT] = FSM_STATE_HOMELOC_IDLE,
 		},
 	},
 	[FSM_STATE_MAIN_PIDRATE] = {
 		.menu_fn = main_menu,
 		.next_state = {
-			[FSM_EVENT_UP] = FSM_STATE_MAIN_FMODE,
+			[FSM_EVENT_UP] = FSM_STATE_MAIN_HOMELOC,
 			[FSM_EVENT_DOWN] = FSM_STATE_MAIN_PIDATT,
 			[FSM_EVENT_RIGHT] = FSM_STATE_PIDRATE_IDLE,
 		},
@@ -323,6 +338,29 @@ const static struct menu_fsm_transition menu_fsm[FSM_STATE_NUM_STATES] = {
 			[FSM_EVENT_UP] = FSM_STATE_FMODE_SAVEEXIT,
 			[FSM_EVENT_DOWN] = FSM_STATE_FMODE_1,
 			[FSM_EVENT_RIGHT] = FSM_STATE_MAIN_FMODE,
+		},
+	},
+/*------------------------------------------------------------------------------------------*/
+	[FSM_STATE_HOMELOC_IDLE] = {
+		.menu_fn = homeloc_menu,
+		.next_state = {
+			[FSM_EVENT_UP] = FSM_STATE_HOMELOC_EXIT,
+			[FSM_EVENT_DOWN] = FSM_STATE_HOMELOC_SET,
+		},
+	},
+	[FSM_STATE_HOMELOC_SET] = {
+		.menu_fn = homeloc_menu,
+		.next_state = {
+			[FSM_EVENT_UP] = FSM_STATE_HOMELOC_EXIT,
+			[FSM_EVENT_DOWN] = FSM_STATE_HOMELOC_EXIT,
+		},
+	},
+	[FSM_STATE_HOMELOC_EXIT] = {
+		.menu_fn = homeloc_menu,
+		.next_state = {
+			[FSM_EVENT_UP] = FSM_STATE_HOMELOC_SET,
+			[FSM_EVENT_DOWN] = FSM_STATE_HOMELOC_SET,
+			[FSM_EVENT_RIGHT] = FSM_STATE_MAIN_HOMELOC,
 		},
 	},
 /*------------------------------------------------------------------------------------------*/
@@ -868,6 +906,9 @@ void main_menu(void)
 			case FSM_STATE_MAIN_FMODE:
 				write_string("Flight Modes", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
 				break;
+			case FSM_STATE_MAIN_HOMELOC:
+				write_string("Home Location", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+				break;
 			case FSM_STATE_MAIN_PIDRATE:
 				write_string("PID - Rate", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
 				break;
@@ -1071,6 +1112,46 @@ void flightmode_menu(void)
 		UAVObjSave(ManualControlSettingsHandle(), 0);
 	}
 }
+
+
+void homeloc_menu(void)
+{
+	int y_pos = MENU_LINE_Y;
+	char tmp_str[100] = {0};
+	HomeLocationData data;
+	uint8_t home_set;
+
+	draw_menu_title("Home Location");
+
+	HomeLocationSetGet(&home_set);
+	
+	if (home_set == HOMELOCATION_SET_TRUE) {
+		HomeLocationGet(&data);
+		sprintf(tmp_str, "Home: %0.5f %0.5f Alt: %0.1fm", (double)data.Latitude / 10000000.0, (double)data.Longitude / 10000000.0, (double)data.Altitude);
+		write_string(tmp_str, MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+	}
+	else {
+		write_string("Home: Not Set", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+	}
+
+	y_pos += MENU_LINE_SPACING;
+	write_string("Set to current location", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+	if (current_state == FSM_STATE_HOMELOC_SET) {
+		draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
+		if (current_event == FSM_EVENT_RIGHT) {
+			home_set = HOMELOCATION_SET_FALSE;
+			HomeLocationSetSet(&home_set);
+		}
+		
+	}
+
+	y_pos += MENU_LINE_SPACING;
+	write_string("Exit", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+	if (current_state == FSM_STATE_HOMELOC_EXIT) {
+		draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
+	}
+}
+
 
 void draw_hscale(int x1, int x2, int y, float val_min, float val_max, float val)
 {
