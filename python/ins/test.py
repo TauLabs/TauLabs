@@ -267,6 +267,192 @@ class StaticTestFunctions(unittest.TestCase):
         state, history, times = self.run_static(STEPS=50000, noise=True)
         self.assertState(state)
 
+class StepTestFunctions(unittest.TestCase):
+
+    def setUp(self):
+        if C_IMP:
+            self.sim = CINS()
+        else:
+            self.sim = PyINS()
+        self.sim.prepare()
+
+    def run_step(self, accel=[0.0,0.0,-CINS.GRAV],
+        gyro=[0.0,0.0,0.0], mag=[400,0,1600],
+        pos=[0,0,0], vel=[0,0,0],
+        noise=False, STEPS=200000,
+        CHANGE=6660*3):
+        """ simulate a static set of inputs and measurements
+        """
+
+        sim = self.sim
+
+        dT = 1.0 / 666.0
+
+        #numpy.random.seed(1)
+
+        history = numpy.zeros((STEPS,16))
+        history_rpy = numpy.zeros((STEPS,3))
+        times = numpy.zeros((STEPS,1))
+
+        for k in range(STEPS):
+            ng = numpy.zeros(3,)
+            na = numpy.zeros(3,)
+            np = numpy.zeros(3,)
+            nv = numpy.zeros(3,)
+            nm = numpy.zeros(3,)
+
+            if noise:
+                ng = numpy.random.randn(3,) * 1e-3
+                na = numpy.random.randn(3,) * 1e-3
+                np = numpy.random.randn(3,) * 1e-3
+                nv = numpy.random.randn(3,) * 1e-3
+                nm = numpy.random.randn(3,) * 10.0
+
+            if k < CHANGE:
+                sim.predict(ng, numpy.array([0,0,-CINS.GRAV])+na, dT=dT)
+            else:
+                sim.predict(gyro+ng, accel+na, dT=dT)
+
+            history[k,:] = sim.state
+            history_rpy[k,:] = quat_rpy(sim.state[6:10])
+            times[k] = k * dT
+
+            if True and k % 60 == 59:
+                sim.correction(pos=pos+np)
+
+            if True and k % 60 == 59:
+                sim.correction(vel=vel+nv)
+
+            if k % 20 == 8:
+                sim.correction(baro=-pos[2]+np[2])
+
+            if True and k % 20 == 15:
+                sim.correction(mag=mag+nm)
+
+        if VISUALIZE:
+            from numpy import cos, sin
+
+            import matplotlib.pyplot as plt
+            fig, ax = plt.subplots(2,2,sharex=True)
+
+            k = STEPS
+
+            ax[0][0].cla()
+            ax[0][0].plot(times[0:k:4],history[0:k:4,0:3])
+            ax[0][0].set_title('Position')
+            plt.sca(ax[0][0])
+            plt.ylabel('m')
+            ax[0][1].cla()
+            ax[0][1].plot(times[0:k:4],history[0:k:4,3:6])
+            ax[0][1].set_title('Velocity')
+            plt.sca(ax[0][1])
+            plt.ylabel('m/s')
+            #plt.ylim(-2,2)
+            ax[1][0].cla()
+            ax[1][0].plot(times[0:k:4],history_rpy[0:k:4,:])
+            ax[1][0].set_title('Attitude')
+            plt.sca(ax[1][0])
+            plt.ylabel('Angle (Deg)')
+            plt.xlabel('Time (s)')
+            #plt.ylim(-1.1,1.1)
+            ax[1][1].cla()
+            ax[1][1].plot(times[0:k:4],history[0:k:4,10:13],label="Gyro")
+            ax[1][1].plot(times[0:k:4],history[0:k:4,-1],label="Accel")
+            ax[1][1].set_title('Biases')
+            plt.sca(ax[1][1])
+            plt.ylabel('Bias (rad/s)')
+            plt.xlabel('Time (s)')
+            plt.legend()
+
+            plt.suptitle(unittest.TestCase.shortDescription(self))
+            plt.show()
+
+
+        return sim.state, history, times
+
+    def assertState(self, state, pos=[0,0,0], vel=[0,0,0], rpy=[0,0,0], bias=[0,0,0,0,0,0]):
+        """ check that the state is near a desired position
+        """
+
+        # check position
+        self.assertAlmostEqual(state[0],pos[0],places=1)
+        self.assertAlmostEqual(state[1],pos[1],places=1)
+        self.assertAlmostEqual(state[2],pos[2],places=1)
+
+        # check velocity
+        self.assertAlmostEqual(state[3],vel[0],places=1)
+        self.assertAlmostEqual(state[4],vel[1],places=1)
+        self.assertAlmostEqual(state[5],vel[2],places=1)
+
+        # check attitude (in degrees)
+        s_rpy = quat_rpy(state[6:10])
+        self.assertAlmostEqual(s_rpy[0],rpy[0],places=0)
+        self.assertAlmostEqual(s_rpy[1],rpy[1],places=0)
+        self.assertTrue(abs(math.fmod(s_rpy[2]-rpy[2],360)) < 1)
+
+        # check bias terms (gyros and accels)
+        self.assertAlmostEqual(state[10],bias[0],places=2)
+        self.assertAlmostEqual(state[11],bias[1],places=2)
+        self.assertAlmostEqual(state[12],bias[2],places=2)
+        self.assertAlmostEqual(state[13],bias[3],places=2)
+        self.assertAlmostEqual(state[14],bias[4],places=2)
+        self.assertAlmostEqual(state[15],bias[5],places=2)
+
+    def test_accel_bias(self):
+        """ test convergence with biased accelerometers
+        """
+
+        bias = -0.20
+        state, history, times = self.run_step(accel=[0,0,-PyINS.GRAV+bias], STEPS=90*666)
+        self.assertState(state,bias=[0,0,0,0,0,bias])
+
+    def test_gyro_bias(self):
+        """ test convergence with biased gyros
+        """
+
+        state, history, times = self.run_step(gyro=[0.1,-0.05,0.06], STEPS=90*666)
+        self.assertState(state,bias=[0.1,-0.05,0.06,0,0,0])
+
+    def test_gyro_bias_xy_rate(self):
+        """ test gyro xy bias converges within 10% in a fixed time
+        """
+
+        TIME = 90 # seconds
+        FS = 666  # sampling rate
+        MAX_ERR = 0.1
+        BIAS = 10.0 * math.pi / 180.0
+
+        state, history, times = self.run_step(gyro=[BIAS,-BIAS,0], STEPS=TIME*FS)
+
+        self.assertAlmostEqual(state[10], BIAS, delta=BIAS*MAX_ERR)
+        self.assertAlmostEqual(state[11], -BIAS, delta=BIAS*MAX_ERR)
+
+    def test_gyro_bias_z_rate(self):
+        """ test gyro z bias converges within 10% in a fixed time
+        """
+
+        TIME = 90 # seconds
+        FS = 666  # sampling rate
+        MAX_ERR = 0.1
+        BIAS = 10.0 * math.pi / 180.0
+
+        state, history, times = self.run_step(gyro=[0,0,BIAS], STEPS=TIME*FS)
+
+        self.assertAlmostEqual(state[12], BIAS, delta=BIAS*MAX_ERR)
+
+    def test_accel_bias_z_rate(self):
+        """ test accel z bias converges within 10% in a fixed time
+        """
+
+        TIME = 90 # seconds
+        FS = 666  # sampling rate
+        MAX_ERR = 0.1
+        BIAS = 1
+
+        state, history, times = self.run_step(accel=[0,0,-PyINS.GRAV+BIAS], STEPS=TIME*FS)
+
+        self.assertAlmostEqual(state[15], BIAS, delta=BIAS*MAX_ERR)
+
 class SimulatedFlightTests(unittest.TestCase):
 
     def setUp(self):
