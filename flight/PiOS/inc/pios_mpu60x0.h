@@ -14,19 +14,19 @@
  *
  ******************************************************************************
  */
-/* 
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or 
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
- * 
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
@@ -141,21 +141,21 @@ enum pios_mpu60x0_filter {
 };
 
 enum pios_mpu60x0_accel_range {
-	PIOS_MPU60X0_ACCEL_2G = 0x00,
-	PIOS_MPU60X0_ACCEL_4G = 0x08,
-	PIOS_MPU60X0_ACCEL_8G = 0x10,
+	PIOS_MPU60X0_ACCEL_2G  = 0x00,
+	PIOS_MPU60X0_ACCEL_4G  = 0x08,
+	PIOS_MPU60X0_ACCEL_8G  = 0x10,
 	PIOS_MPU60X0_ACCEL_16G = 0x18
 };
 
 enum pios_mpu60x0_orientation { // clockwise rotation from board forward
-	PIOS_MPU60X0_TOP_0DEG    = 0x00,
-	PIOS_MPU60X0_TOP_90DEG   = 0x01,
-	PIOS_MPU60X0_TOP_180DEG  = 0x02,
-	PIOS_MPU60X0_TOP_270DEG  = 0x03,
-	PIOS_MPU60X0_BOTTOM_0DEG  = 0x04,
+	PIOS_MPU60X0_TOP_0DEG      = 0x00,
+	PIOS_MPU60X0_TOP_90DEG     = 0x01,
+	PIOS_MPU60X0_TOP_180DEG    = 0x02,
+	PIOS_MPU60X0_TOP_270DEG    = 0x03,
+	PIOS_MPU60X0_BOTTOM_0DEG   = 0x04,
 	PIOS_MPU60X0_BOTTOM_90DEG  = 0x05,
-	PIOS_MPU60X0_BOTTOM_180DEG  = 0x06,
-	PIOS_MPU60X0_BOTTOM_270DEG  = 0x07,
+	PIOS_MPU60X0_BOTTOM_180DEG = 0x06,
+	PIOS_MPU60X0_BOTTOM_270DEG = 0x07,
 };
 
 struct pios_mpu60x0_data {
@@ -172,19 +172,19 @@ struct pios_mpu60x0_data {
 
 struct pios_mpu60x0_cfg {
 	const struct pios_exti_cfg *exti_cfg; /* Pointer to the EXTI configuration */
-
-	uint16_t default_samplerate;	/* Sample to use in Hz (See datasheet page 32 for more details) */
-	uint8_t interrupt_cfg;			/* Interrupt configuration (See datasheet page 35 for more details) */
-	uint8_t interrupt_en;			/* Interrupt configuration (See datasheet page 35 for more details) */
-	uint8_t User_ctl;				/* User control settings (See datasheet page 41 for more details)  */
-	uint8_t Pwr_mgmt_clk;			/* Power management and clock selection (See datasheet page 32 for more details) */
+	uint16_t default_samplerate;	      /* Sample to use in Hz (See datasheet page 32 for more details) */
+	uint8_t interrupt_cfg;			      /* Interrupt configuration (See datasheet page 35 for more details) */
+	uint8_t interrupt_en;			      /* Interrupt configuration (See datasheet page 35 for more details) */
+	uint8_t User_ctl;				      /* User control settings (See datasheet page 41 for more details)  */
+	uint8_t Pwr_mgmt_clk;			      /* Power management and clock selection (See datasheet page 32 for more details) */
 	enum pios_mpu60x0_filter default_filter;
 	enum pios_mpu60x0_orientation orientation;
+	uint8_t use_internal_mag;             /* Flag to indicate whether or not to use the internal mag on MPU9x50 devices */
 };
 
 #endif /* PIOS_MPU60X0_H */
 
-/** 
+/**
   * @}
   * @}
   */

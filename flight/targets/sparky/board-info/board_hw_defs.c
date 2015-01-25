@@ -5,13 +5,13 @@
  * @addtogroup Sparky Tau Labs Sparky support files
  * @{
  *
- * @file       board_hw_defs.c 
+ * @file       board_hw_defs.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Defines board specific static initializers for hardware for the
  *             Sparky board.
  * @see        The GNU Public License (GPL) Version 3
- * 
+ *
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
- 
+
 #include <pios_config.h>
 #include <pios_board_info.h>
 
@@ -94,12 +94,18 @@ static const struct pios_i2c_adapter_cfg pios_i2c_internal_cfg = {
   .remap = GPIO_AF_4,
   .init = {
     .I2C_Mode                = I2C_Mode_I2C,
-    .I2C_OwnAddress1         = 0,
+    .I2C_OwnAddress1         = 0x00,
     .I2C_Ack                 = I2C_Ack_Enable,
     .I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit,
     .I2C_DigitalFilter       = 0x00,
-    .I2C_AnalogFilter        = I2C_AnalogFilter_Enable,
-    .I2C_Timing              = 0x00310309,			//400kHz I2C @ 8MHz input -> PRESC=0x0, SCLDEL=0x3, SDADEL=0x1, SCLH=0x03, SCLL=0x09
+    .I2C_AnalogFilter        = I2C_AnalogFilter_Disable,
+    .I2C_Timing              = 0x20400D29,  // Generated from I2C_Timing_Configuration_V1.0.1.xls
+                                            // SYSCLK:          72 MHz
+                                            // Fast Mode:      400 kHz
+                                            // Rise Time:      100 nS
+                                            // Fall Time:       10 nS
+                                            // Analog Filter:  Disabled
+                                            // Digital Filter:   0
   },
   .transfer_timeout_ms = 50,
   .scl = {
@@ -108,8 +114,8 @@ static const struct pios_i2c_adapter_cfg pios_i2c_internal_cfg = {
 			.GPIO_Pin = GPIO_Pin_9,
             .GPIO_Mode  = GPIO_Mode_AF,
             .GPIO_Speed = GPIO_Speed_50MHz,
-            .GPIO_OType = GPIO_OType_PP,
-            .GPIO_PuPd  = GPIO_PuPd_NOPULL,
+            .GPIO_OType = GPIO_OType_OD,
+            .GPIO_PuPd  = GPIO_PuPd_UP,
     },
 	.pin_source = GPIO_PinSource9,
   },
@@ -119,8 +125,8 @@ static const struct pios_i2c_adapter_cfg pios_i2c_internal_cfg = {
 			.GPIO_Pin = GPIO_Pin_10,
             .GPIO_Mode  = GPIO_Mode_AF,
             .GPIO_Speed = GPIO_Speed_50MHz,
-            .GPIO_OType = GPIO_OType_PP,
-            .GPIO_PuPd  = GPIO_PuPd_NOPULL,
+            .GPIO_OType = GPIO_OType_OD,
+            .GPIO_PuPd  = GPIO_PuPd_UP,
     },
 	.pin_source = GPIO_PinSource10,
   },
@@ -157,8 +163,6 @@ void PIOS_I2C_internal_er_irq_handler(void)
   PIOS_I2C_ER_IRQ_Handler(pios_i2c_internal_id);
 }
 
-
-
 void PIOS_I2C_flexi_ev_irq_handler(void);
 void PIOS_I2C_flexi_er_irq_handler(void);
 void I2C1_EV_EXTI23_IRQHandler() __attribute__ ((alias ("PIOS_I2C_flexi_ev_irq_handler")));
@@ -169,12 +173,18 @@ static const struct pios_i2c_adapter_cfg pios_i2c_flexi_cfg = {
   .remap = GPIO_AF_4,
   .init = {
     .I2C_Mode                = I2C_Mode_I2C,
-    .I2C_OwnAddress1         = 0,
+    .I2C_OwnAddress1         = 0x00,
     .I2C_Ack                 = I2C_Ack_Enable,
     .I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit,
     .I2C_DigitalFilter       = 0x00,
-    .I2C_AnalogFilter        = I2C_AnalogFilter_Enable,
-    .I2C_Timing              = 0x00310309,			//400kHz I2C @ 8MHz input -> PRESC=0x0, SCLDEL=0x3, SDADEL=0x1, SCLH=0x03, SCLL=0x09
+    .I2C_AnalogFilter        = I2C_AnalogFilter_Disable,
+    .I2C_Timing              = 0x20400D29,  // Generated from I2C_Timing_Configuration_V1.0.1.xls
+                                            // SYSCLK:          72 MHz
+                                            // Fast Mode:      400 kHz
+                                            // Rise Time:      100 nS
+                                            // Fall Time:       10 nS
+                                            // Analog Filter:  Disabled
+                                            // Digital Filter:   0
   },
   .transfer_timeout_ms = 50,
   .scl = {
@@ -183,8 +193,8 @@ static const struct pios_i2c_adapter_cfg pios_i2c_flexi_cfg = {
 			.GPIO_Pin = GPIO_Pin_6,
             .GPIO_Mode  = GPIO_Mode_AF,
             .GPIO_Speed = GPIO_Speed_50MHz,
-            .GPIO_OType = GPIO_OType_PP,
-            .GPIO_PuPd  = GPIO_PuPd_NOPULL,
+            .GPIO_OType = GPIO_OType_OD,
+            .GPIO_PuPd  = GPIO_PuPd_UP,
     },
 	.pin_source = GPIO_PinSource6,
   },
@@ -194,8 +204,8 @@ static const struct pios_i2c_adapter_cfg pios_i2c_flexi_cfg = {
 			.GPIO_Pin = GPIO_Pin_7,
             .GPIO_Mode  = GPIO_Mode_AF,
             .GPIO_Speed = GPIO_Speed_50MHz,
-            .GPIO_OType = GPIO_OType_PP,
-            .GPIO_PuPd  = GPIO_PuPd_NOPULL,
+            .GPIO_OType = GPIO_OType_OD,
+            .GPIO_PuPd  = GPIO_PuPd_UP,
     },
 	.pin_source = GPIO_PinSource7,
   },
@@ -239,16 +249,16 @@ void PIOS_I2C_flexi_er_irq_handler(void)
 struct pios_can_cfg pios_can_cfg = {
 	.regs = CAN1,
 	.init = {
-  		.CAN_Prescaler = 16,   /*!< Specifies the length of a time quantum. 
+  		.CAN_Prescaler = 16,   /*!< Specifies the length of a time quantum.
                                  It ranges from 1 to 1024. */
   		.CAN_Mode = CAN_Mode_Normal,         /*!< Specifies the CAN operating mode.
                                  This parameter can be a value of @ref CAN_operating_mode */
-  		.CAN_SJW = CAN_SJW_1tq,          /*!< Specifies the maximum number of time quanta 
-                                 the CAN hardware is allowed to lengthen or 
+  		.CAN_SJW = CAN_SJW_1tq,          /*!< Specifies the maximum number of time quanta
+                                 the CAN hardware is allowed to lengthen or
                                  shorten a bit to perform resynchronization.
                                  This parameter can be a value of @ref CAN_synchronisation_jump_width */
-  		.CAN_BS1 = CAN_BS1_9tq,          /*!< Specifies the number of time quanta in Bit 
-                                 Segment 1. This parameter can be a value of 
+  		.CAN_BS1 = CAN_BS1_9tq,          /*!< Specifies the number of time quanta in Bit
+                                 Segment 1. This parameter can be a value of
                                  @ref CAN_time_quantum_in_bit_segment_1 */
   		.CAN_BS2 = CAN_BS2_8tq,          /*!< Specifies the number of time quanta in Bit Segment 2.
                                  This parameter can be a value of @ref CAN_time_quantum_in_bit_segment_2 */
@@ -256,7 +266,7 @@ struct pios_can_cfg pios_can_cfg = {
                                 This parameter can be set either to ENABLE or DISABLE. */
   		.CAN_ABOM = DISABLE,  /*!< Enable or disable the automatic bus-off management.
                                   This parameter can be set either to ENABLE or DISABLE. */
-  		.CAN_AWUM = DISABLE,  /*!< Enable or disable the automatic wake-up mode. 
+  		.CAN_AWUM = DISABLE,  /*!< Enable or disable the automatic wake-up mode.
                                   This parameter can be set either to ENABLE or DISABLE. */
   		.CAN_NART = ENABLE,  /*!< Enable or disable the non-automatic retransmission mode.
                                   This parameter can be set either to ENABLE or DISABLE. */
@@ -1460,7 +1470,7 @@ static const struct pios_usb_cfg pios_usb_main_cfg = {
 			.GPIO_OType = GPIO_OType_OD,
 			.GPIO_PuPd  = GPIO_PuPd_DOWN,
 		},
-	}	
+	}
 };
 
 const struct pios_usb_cfg * PIOS_BOARD_HW_DEFS_GetUsbCfg (uint32_t board_revision)

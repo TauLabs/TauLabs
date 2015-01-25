@@ -9,28 +9,28 @@
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
- * 
+ *
  *****************************************************************************/
-/* 
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or 
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
- * 
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 /* Pull in the board-specific static HW definitions.
  * Including .c files is a bit ugly but this allows all of
  * the HW definitions to be const and static to limit their
- * scope.  
+ * scope.
  *
  * NOTE: THIS IS THE ONLY PLACE THAT SHOULD EVER INCLUDE THIS FILE
  */
@@ -139,17 +139,33 @@ static const struct pios_exti_cfg pios_exti_mpu9150_cfg __exti_config = {
 	},
 };
 
-static const struct pios_mpu60x0_cfg pios_mpu9150_cfg = {
-	.exti_cfg = &pios_exti_mpu9150_cfg,
+static struct pios_mpu60x0_cfg pios_mpu9150_cfg = {
+	.exti_cfg           = &pios_exti_mpu9150_cfg,
 	.default_samplerate = 444,
-	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
-	.interrupt_en = PIOS_MPU60X0_INTEN_DATA_RDY,
-	.User_ctl = 0,
-	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
-	.default_filter = PIOS_MPU60X0_LOWPASS_256_HZ,
-	.orientation = PIOS_MPU60X0_TOP_180DEG
+	.interrupt_cfg      = PIOS_MPU60X0_INT_CLR_ANYRD,
+	.interrupt_en       = PIOS_MPU60X0_INTEN_DATA_RDY,
+	.User_ctl           = 0,
+	.Pwr_mgmt_clk       = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
+	.default_filter     = PIOS_MPU60X0_LOWPASS_256_HZ,
+	.orientation        = PIOS_MPU60X0_TOP_180DEG,
+	.use_internal_mag   = true
 };
 #endif /* PIOS_INCLUDE_MPU9150 */
+
+/**
+ * Configuration for the external HMC5883 chip
+ */
+#if defined(PIOS_INCLUDE_HMC5883)
+#include "pios_hmc5883_priv.h"
+static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
+	.exti_cfg            = NULL,
+	.M_ODR               = PIOS_HMC5883_ODR_75,
+	.Meas_Conf           = PIOS_HMC5883_MEASCONF_NORMAL,
+	.Gain                = PIOS_HMC5883_GAIN_1_9,
+	.Mode                = PIOS_HMC5883_MODE_SINGLE,
+	.Default_Orientation = PIOS_HMC5883_TOP_0DEG,
+};
+#endif /* PIOS_INCLUDE_HMC5883 */
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
@@ -173,7 +189,7 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
 #define PIOS_COM_MAVLINK_TX_BUF_LEN 32
-#define PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN 19 
+#define PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN 19
 
 #define PIOS_COM_HOTT_RX_BUF_LEN 16
 #define PIOS_COM_HOTT_TX_BUF_LEN 16
@@ -197,7 +213,7 @@ uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_com_hott_id;
 uintptr_t pios_com_frsky_sensor_hub_id;
-uintptr_t pios_com_lighttelemetry_id; 
+uintptr_t pios_com_lighttelemetry_id;
 uintptr_t pios_com_can_id;
 uintptr_t pios_com_frsky_sport_id;
 
@@ -277,13 +293,13 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
 	if (PIOS_USART_Init(&pios_usart_hsum_id, pios_usart_hsum_cfg)) {
 		PIOS_Assert(0);
 	}
-	
+
 	uintptr_t pios_hsum_id;
 	if (PIOS_HSUM_Init(&pios_hsum_id, pios_usart_com_driver,
 			  pios_usart_hsum_id, *proto)) {
 		PIOS_Assert(0);
 	}
-	
+
 	uintptr_t pios_hsum_rcvr_id;
 	if (PIOS_RCVR_Init(&pios_hsum_rcvr_id, &pios_hsum_rcvr_driver, pios_hsum_id)) {
 		PIOS_Assert(0);
@@ -294,14 +310,23 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
 
 /**
  * Indicate a target-specific error code when a component fails to initialize
- * 1 pulse - MPU9150 - no irq
- * 2 pulses - MPU9150 - failed configuration or task starting
- * 3 pulses - internal I2C bus locked
- * 4 pulses - external I2C bus locked
- * 5 pulses - flash
- * 6 pulses - CAN
+ *  1 pulse:  MPU9150 - MPU9160 failed configuration or task starting
+ *  2 pulses: MPU9150 - MPU9150 no irq
+ *  3 pulses: MPU6050 - PIOS_MPU6050_Init failed
+ *  4 pulses: MPU6050 - PIOS_MPU6050_Test failed
+ *  5 pulses: Flash   - PIOS_Flash_Internal_Init failed
+ *                    - PIOS_FLASHFS_Logfs_Init failed (settings)
+ *                    - PIOS_FLASHFS_Logfs_Init failed (waypoints)
+ *  6 pulses: I2C     - Internal I2C bus locked
+ *  7 pulses: I2C     - FlexiPort I2C bus locked
+ *  8 pulses: CAN     - PIOS_CAN_Init failed
+ *  9 pulses: CAN     - PIOS_COM_Init failed
+ * 10 pulses: MS5611  - PIOS_MS5611_Test failed
+ * 11 pulses: HMC5883 - PIOS_HMC5883_Init failed
+ * 12 pulses: HMC5883 - PIOS_HMC5883_Test failed
  */
-void panic(int32_t code) {
+
+ void panic(int32_t code) {
 	while(1){
 		for (int32_t i = 0; i < code; i++) {
 			PIOS_WDG_Clear();
@@ -342,16 +367,20 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_LED */
 
 #if defined(PIOS_INCLUDE_I2C)
+    RCC_I2CCLKConfig(RCC_I2C2CLK_SYSCLK);  // Switch I2C clock from HSI to SYSCLK.  I2C2 is the internal I2C port.
+                                           // Might be better to make this call in the beginning of PIOS_I2C_Init,
+                                           // but that would force changes into the other STM32F3 targets.
+
 	if (PIOS_I2C_Init(&pios_i2c_internal_id, &pios_i2c_internal_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
 	if (PIOS_I2C_CheckClear(pios_i2c_internal_id) != 0)
-		panic(3);
+		panic(6);
 #endif
 
 #if defined(PIOS_INCLUDE_CAN)
 	if (PIOS_CAN_Init(&pios_can_id, &pios_can_cfg) != 0)
-		panic(6);
+		panic(8);
 
 	uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_CAN_RX_BUF_LEN);
 	uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_CAN_TX_BUF_LEN);
@@ -360,7 +389,7 @@ void PIOS_Board_Init(void) {
 	if (PIOS_COM_Init(&pios_com_can_id, &pios_can_com_driver, pios_can_id,
 	                  rx_buffer, PIOS_COM_CAN_RX_BUF_LEN,
 	                  tx_buffer, PIOS_COM_CAN_TX_BUF_LEN))
-		panic(6);
+		panic(9);
 
 	pios_com_bridge_id = pios_com_can_id;
 #endif
@@ -590,6 +619,41 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_flexi_usart_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
+		break;
+	case HWSPARKY_FLEXIPORT_I2C:
+#if defined(PIOS_INCLUDE_I2C)
+        RCC_I2CCLKConfig(RCC_I2C1CLK_SYSCLK);  // Switch I2C clock from HSI to SYSCLK.  I2C1 is the external I2C port.
+                                               // Might be better to make this call in the beginning of PIOS_I2C_Init,
+                                               // but that would force changes into the other STM32F3 targets.
+
+		if (PIOS_I2C_Init(&pios_i2c_flexi_id, &pios_i2c_flexi_cfg)) {
+			PIOS_Assert(0);
+		}
+
+		if (PIOS_I2C_CheckClear(pios_i2c_flexi_id) != 0)
+			panic(7);
+
+#if defined(PIOS_INCLUDE_HMC5883)
+		{
+			uint8_t Magnetometer;
+			HwSparkyMagnetometerGet(&Magnetometer);
+
+			if (Magnetometer == HWSPARKY_MAGNETOMETER_EXTERNALI2CFLEXIPORT) {
+				// init sensor
+				pios_mpu9150_cfg.use_internal_mag = false;
+
+			    //I2C is slow, sensor init as well, reset watchdog to prevent reset here
+	            PIOS_WDG_Clear();
+
+	            if (PIOS_HMC5883_Init(pios_i2c_flexi_id, &pios_hmc5883_external_cfg) != 0)
+					panic(11);
+
+				if (PIOS_HMC5883_Test() != 0)
+					panic(12);
+			}
+		}
+#endif /* PIOS_INCLUDE_HMC5883 */
+#endif /* PIOS_INCLUDE_I2C */
 		break;
 	case HWSPARKY_FLEXIPORT_SBUS:
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
@@ -966,6 +1030,14 @@ void PIOS_Board_Init(void) {
 	{
 #endif /* PIOS_INCLUDE_MPU6050 */
 
+		uint8_t Magnetometer;
+	    HwSparkyMagnetometerGet(&Magnetometer);
+
+	    if (Magnetometer == HWSPARKY_MAGNETOMETER_INTERNAL)
+	        pios_mpu9150_cfg.use_internal_mag = true;
+	    else
+	        pios_mpu9150_cfg.use_internal_mag = false;
+
 		int retval;
 		retval = PIOS_MPU9150_Init(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW, &pios_mpu9150_cfg);
 		if (retval == -10)
@@ -1033,7 +1105,7 @@ void PIOS_Board_Init(void) {
 		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_4000) ? 4000 : \
 		    (hw_mpu9150_samplerate == HWSPARKY_MPU9150RATE_8000) ? 8000 : \
 		    pios_mpu9150_cfg.default_samplerate;
-		PIOS_MPU9150_SetSampleRate(mpu9150_samplerate);	
+		PIOS_MPU9150_SetSampleRate(mpu9150_samplerate);
 	}
 
 #endif /* PIOS_INCLUDE_MPU9150 */
@@ -1045,10 +1117,10 @@ void PIOS_Board_Init(void) {
 	if (mpu9150_found == false)
 #endif /* PIOS_INCLUDE_MPU9150 */
 	{
-		if (PIOS_MPU6050_Init(pios_i2c_internal_id, PIOS_MPU6050_I2C_ADD_A0_LOW, &pios_mpu6050_cfg) != 0)
-			panic(2);
+	    if (PIOS_MPU6050_Init(pios_i2c_internal_id, PIOS_MPU6050_I2C_ADD_A0_LOW, &pios_mpu6050_cfg) != 0)
+			panic(3);
 		if (PIOS_MPU6050_Test() != 0)
-			panic(2);
+			panic(4);
 
 		// To be safe map from UAVO enum to driver enum
 		uint8_t hw_gyro_range;
@@ -1091,10 +1163,39 @@ void PIOS_Board_Init(void) {
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
 	PIOS_WDG_Clear();
 
-#if defined(PIOS_INCLUDE_MS5611)
+#if defined(PIOS_INCLUDE_HMC5883)
+	{
+		uint8_t Magnetometer;
+		HwSparkyMagnetometerGet(&Magnetometer);
+
+		if (Magnetometer == HWSPARKY_MAGNETOMETER_EXTERNALI2CFLEXIPORT)
+		{
+			// setup sensor orientation
+			uint8_t ExtMagOrientation;
+			HwSparkyExtMagOrientationGet(&ExtMagOrientation);
+
+			enum pios_hmc5883_orientation hmc5883_orientation = \
+				(ExtMagOrientation == HWSPARKY_EXTMAGORIENTATION_TOP0DEGCW)      ? PIOS_HMC5883_TOP_0DEG      : \
+				(ExtMagOrientation == HWSPARKY_EXTMAGORIENTATION_TOP90DEGCW)     ? PIOS_HMC5883_TOP_90DEG     : \
+				(ExtMagOrientation == HWSPARKY_EXTMAGORIENTATION_TOP180DEGCW)    ? PIOS_HMC5883_TOP_180DEG    : \
+				(ExtMagOrientation == HWSPARKY_EXTMAGORIENTATION_TOP270DEGCW)    ? PIOS_HMC5883_TOP_270DEG    : \
+				(ExtMagOrientation == HWSPARKY_EXTMAGORIENTATION_BOTTOM0DEGCW)   ? PIOS_HMC5883_BOTTOM_0DEG   : \
+				(ExtMagOrientation == HWSPARKY_EXTMAGORIENTATION_BOTTOM90DEGCW)  ? PIOS_HMC5883_BOTTOM_90DEG  : \
+				(ExtMagOrientation == HWSPARKY_EXTMAGORIENTATION_BOTTOM180DEGCW) ? PIOS_HMC5883_BOTTOM_180DEG : \
+				(ExtMagOrientation == HWSPARKY_EXTMAGORIENTATION_BOTTOM270DEGCW) ? PIOS_HMC5883_BOTTOM_270DEG : \
+				pios_hmc5883_external_cfg.Default_Orientation;
+			PIOS_HMC5883_SetOrientation(hmc5883_orientation);
+		}
+	}
+#endif
+
+	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
+	PIOS_WDG_Clear();
+
+	#if defined(PIOS_INCLUDE_MS5611)
 	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_internal_id);
 	if (PIOS_MS5611_Test() != 0)
-		panic(4);
+		panic(10);
 #endif
 
 #if defined(PIOS_INCLUDE_GPIO)
