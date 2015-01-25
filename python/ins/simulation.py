@@ -19,6 +19,7 @@ class Simulation:
 		self.q = numpy.array([1.0, 0, 0,0])
 		self.pos = z3
 		self.vel = z3
+		self.vel[0] = -2.85
 
 		self.last_accel = z3
 		self.last_gyro = z3
@@ -105,15 +106,17 @@ if  __name__ =='__main__':
 	STEP = 100000
 
 	pos = numpy.zeros((STEP,3))
+	vel = numpy.zeros((STEP,3))
 	rpy = numpy.zeros((STEP,3))
 	t = numpy.zeros((STEP,))
 
 	for i in numpy.arange(STEP):
 		rpy[i,:] = quat_rpy(s.get_q())
 		pos[i,:] = s.get_pos()
+		vel[i,:] = s.get_vel()
 		t[i] = i / 500.0
 		s.fly_circle()
 
-	plt.plot(pos[:,0],pos[:,1])
+	plt.plot(vel[:,0],vel[:,1])
 	plt.draw()
 	plt.show()

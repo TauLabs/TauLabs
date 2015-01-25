@@ -86,19 +86,20 @@ class StaticTestFunctions(unittest.TestCase):
             ax[0][0].set_title('Position')
             plt.sca(ax[0][0])
             plt.ylabel('m')
+
             ax[0][1].cla()
             ax[0][1].plot(times[0:k:4],history[0:k:4,3:6])
             ax[0][1].set_title('Velocity')
             plt.sca(ax[0][1])
             plt.ylabel('m/s')
-            #plt.ylim(-2,2)
+
             ax[1][0].cla()
             ax[1][0].plot(times[0:k:4],history_rpy[0:k:4,:])
             ax[1][0].set_title('Attitude')
             plt.sca(ax[1][0])
             plt.ylabel('Angle (Deg)')
             plt.xlabel('Time (s)')
-            #plt.ylim(-1.1,1.1)
+
             ax[1][1].cla()
             ax[1][1].plot(times[0:k:4],history[0:k:4,10:13],label="Gyro")
             ax[1][1].plot(times[0:k:4],history[0:k:4,-1],label="Accel")
@@ -106,7 +107,7 @@ class StaticTestFunctions(unittest.TestCase):
             plt.sca(ax[1][1])
             plt.ylabel('Bias (rad/s)')
             plt.xlabel('Time (s)')
-            plt.legend()
+            #plt.legend()
 
             plt.suptitle(unittest.TestCase.shortDescription(self))
             plt.show()
@@ -204,7 +205,7 @@ class StaticTestFunctions(unittest.TestCase):
         """ test accel z bias converges within 10% in a fixed time
         """
 
-        TIME = 10 # seconds
+        TIME = 30 # seconds
         FS = 666  # sampling rate
         MAX_ERR = 0.1
         BIAS = 1
@@ -493,6 +494,47 @@ class SimulatedFlightTests(unittest.TestCase):
         self.assertAlmostEqual(state[14],bias[4],places=0)
         self.assertAlmostEqual(state[15],bias[5],places=1)
 
+    def plot(self, times, history, history_rpy, true_pos, true_vel, true_rpy):
+        from numpy import cos, sin
+
+        import matplotlib.pyplot as plt
+        fig, ax = plt.subplots(2,2,sharex=True)
+
+        k = times.size
+
+        ax[0][0].cla()
+        ax[0][0].plot(times[0:k:4],true_pos[0:k:4,:],'k--')
+        ax[0][0].plot(times[0:k:4],history[0:k:4,0:3])
+        ax[0][0].set_title('Position')
+        plt.sca(ax[0][0])
+        plt.ylabel('m')
+
+        ax[0][1].cla()
+        ax[0][1].plot(times[0:k:4],true_vel[0:k:4,:],'k--')
+        ax[0][1].plot(times[0:k:4],history[0:k:4,3:6])
+        ax[0][1].set_title('Velocity')
+        plt.sca(ax[0][1])
+        plt.ylabel('m/s')
+
+        ax[1][0].cla()
+        ax[1][0].plot(times[0:k:4],true_rpy[0:k:4,:],'k--')
+        ax[1][0].plot(times[0:k:4],history_rpy[0:k:4,:])
+        ax[1][0].set_title('Attitude')
+        plt.sca(ax[1][0])
+        plt.ylabel('Angle (Deg)')
+        plt.xlabel('Time (s)')
+
+        ax[1][1].cla()
+        ax[1][1].plot(times[0:k:4],history[0:k:4,10:13])
+        ax[1][1].plot(times[0:k:4],history[0:k:4,-1])
+        ax[1][1].set_title('Biases')
+        plt.sca(ax[1][1])
+        plt.ylabel('Bias (rad/s)')
+        plt.xlabel('Time (s)')
+
+        plt.suptitle(unittest.TestCase.shortDescription(self))
+        plt.show()
+
     def test_circle(self, STEPS=50000):
         """ test that the INS gets a good fit for a simulated flight of 
         circles
@@ -532,8 +574,6 @@ class SimulatedFlightTests(unittest.TestCase):
             gyro = model.get_gyro() / 180.0 * math.pi
             accel = model.get_accel()
 
-            accel = accel + numpy.array([0.0,0,0.1])
-            
             sim.predict(gyro+ng, accel+na, dT=dT)
 
             if True and k % 60 == 59:
@@ -552,49 +592,15 @@ class SimulatedFlightTests(unittest.TestCase):
             history_rpy[k,:] = quat_rpy(sim.state[6:10])
             times[k] = k * dT
 
-            numpy.testing.assert_almost_equal(sim.state[0:3], true_pos[k,:], decimal=0)
-            numpy.testing.assert_almost_equal(sim.state[3:6], true_vel[k,:], decimal=0)
-            # only test roll and pitch because of wraparound issues
-            numpy.testing.assert_almost_equal(history_rpy[k,0:2], true_rpy[k,0:2], decimal=1)
+            if k > 100:
+                numpy.testing.assert_almost_equal(sim.state[0:3], true_pos[k,:], decimal=0)
+                numpy.testing.assert_almost_equal(sim.state[3:6], true_vel[k,:], decimal=0)
+                # only test roll and pitch because of wraparound issues
+                numpy.testing.assert_almost_equal(history_rpy[k,0:2], true_rpy[k,0:2], decimal=1)
 
         if VISUALIZE:
-            from numpy import cos, sin
+            self.plot(times, history, history_rpy, true_pos, true_vel, true_rpy)
 
-            import matplotlib.pyplot as plt
-            fig, ax = plt.subplots(2,2)
-
-            k = STEPS
-
-            ax[0][0].cla()
-            ax[0][0].plot(times[0:k:4],true_pos[0:k:4,:],'k--')
-            ax[0][0].plot(times[0:k:4],history[0:k:4,0:3])
-            ax[0][0].set_title('Position')
-            plt.sca(ax[0][0])
-            plt.ylabel('m')
-            ax[0][1].cla()
-            ax[0][1].plot(times[0:k:4],true_vel[0:k:4,:],'k--')
-            ax[0][1].plot(times[0:k:4],history[0:k:4,3:6])
-            ax[0][1].set_title('Velocity')
-            plt.sca(ax[0][1])
-            plt.ylabel('m/s')
-            #plt.ylim(-2,2)
-            ax[1][0].cla()
-            ax[1][0].plot(times[0:k:4],true_rpy[0:k:4,:],'k--')
-            ax[1][0].plot(times[0:k:4],history_rpy[0:k:4,:])
-            ax[1][0].set_title('Attitude')
-            plt.sca(ax[1][0])
-            plt.ylabel('Angle (Deg)')
-            plt.xlabel('Time (s)')
-            #plt.ylim(-1.1,1.1)
-            ax[1][1].cla()
-            ax[1][1].plot(times[0:k:4],history[0:k:4,10:])
-            ax[1][1].set_title('Biases')
-            plt.sca(ax[1][1])
-            plt.ylabel('Bias (rad/s)')
-            plt.xlabel('Time (s)')
-
-            plt.suptitle(unittest.TestCase.shortDescription(self))
-            plt.show()
         return sim.state, history, times
 
     def test_gyro_bias_circle(self):
@@ -608,11 +614,24 @@ class SimulatedFlightTests(unittest.TestCase):
 
         dT = 1.0 / 666.0
 
+        history = numpy.zeros((STEPS,16))
+        history_rpy = numpy.zeros((STEPS,3))
+
+        true_pos = numpy.zeros((STEPS,3))
+        true_vel = numpy.zeros((STEPS,3))
+        true_rpy = numpy.zeros((STEPS,3))
+
+        times = numpy.zeros((STEPS,1))
+
         numpy.random.seed(1)
 
         for k in range(STEPS):
 
             model.fly_circle(dT=dT)
+
+            true_pos[k,:] = model.get_pos()
+            true_vel[k,:] = model.get_vel()
+            true_rpy[k,:] = model.get_rpy()
 
             ng = numpy.random.randn(3,) * 1e-3
             na = numpy.random.randn(3,) * 1e-3
@@ -640,6 +659,13 @@ class SimulatedFlightTests(unittest.TestCase):
             if k % 20 == 15:
                 sim.correction(mag=model.get_mag()+nm)
 
+            history[k,:] = sim.state
+            history_rpy[k,:] = quat_rpy(sim.state[6:10])
+            times[k] = k * dT
+
+        if VISUALIZE:
+            self.plot(times, history, history_rpy, true_pos, true_vel, true_rpy)
+
         self.assertState(sim.state, pos=model.get_pos(), vel=model.get_vel(), rpy=model.get_rpy(), bias=[0,0,0,0,0,0])
 
     def test_accel_bias_circle(self):
@@ -653,11 +679,24 @@ class SimulatedFlightTests(unittest.TestCase):
 
         dT = 1.0 / 666.0
 
+        history = numpy.zeros((STEPS,16))
+        history_rpy = numpy.zeros((STEPS,3))
+
+        true_pos = numpy.zeros((STEPS,3))
+        true_vel = numpy.zeros((STEPS,3))
+        true_rpy = numpy.zeros((STEPS,3))
+
+        times = numpy.zeros((STEPS,1))
+
         numpy.random.seed(1)
 
         for k in range(STEPS):
 
             model.fly_circle(dT=dT)
+
+            true_pos[k,:] = model.get_pos()
+            true_vel[k,:] = model.get_vel()
+            true_rpy[k,:] = model.get_rpy()
 
             ng = numpy.random.randn(3,) * 1e-3
             na = numpy.random.randn(3,) * 1e-3
@@ -685,6 +724,13 @@ class SimulatedFlightTests(unittest.TestCase):
             if k % 20 == 15:
                 sim.correction(mag=model.get_mag()+nm)
 
+            history[k,:] = sim.state
+            history_rpy[k,:] = quat_rpy(sim.state[6:10])
+            times[k] = k * dT
+
+        if VISUALIZE:
+            self.plot(times, history, history_rpy, true_pos, true_vel, true_rpy)
+
         self.assertState(sim.state, pos=model.get_pos(), vel=model.get_vel(), rpy=model.get_rpy(), bias=[0,0,0,0,0,0.2])
 
 
@@ -699,6 +745,15 @@ class SimulatedFlightTests(unittest.TestCase):
 
         STEPS= 60 * 666
 
+        history = numpy.zeros((STEPS,16))
+        history_rpy = numpy.zeros((STEPS,3))
+
+        true_pos = numpy.zeros((STEPS,3))
+        true_vel = numpy.zeros((STEPS,3))
+        true_rpy = numpy.zeros((STEPS,3))
+
+        times = numpy.zeros((STEPS,1))
+
         numpy.random.seed(1)
 
         ins.set_state(q=numpy.array([math.sqrt(2),math.sqrt(2),0,0]))
@@ -706,6 +761,10 @@ class SimulatedFlightTests(unittest.TestCase):
         for k in range(STEPS):
 
             model.fly_circle(dT=dT)
+
+            true_pos[k,:] = model.get_pos()
+            true_vel[k,:] = model.get_vel()
+            true_rpy[k,:] = model.get_rpy()
 
             ng = numpy.random.randn(3,) * 1e-3
             na = numpy.random.randn(3,) * 1e-3
@@ -729,6 +788,13 @@ class SimulatedFlightTests(unittest.TestCase):
                 sim.correction(baro=-pos[2]+np[2])
             if k % 20 == 15:
                 sim.correction(mag=model.get_mag()+nm)
+
+            history[k,:] = sim.state
+            history_rpy[k,:] = quat_rpy(sim.state[6:10])
+            times[k] = k * dT
+
+        if VISUALIZE:
+            self.plot(times, history, history_rpy, true_pos, true_vel, true_rpy)
 
         self.assertState(sim.state, pos=model.get_pos(), vel=model.get_vel(), rpy=model.get_rpy(), bias=[0,0,0,0,0,0])
 
