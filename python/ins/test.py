@@ -798,6 +798,72 @@ class SimulatedFlightTests(unittest.TestCase):
 
         self.assertState(sim.state, pos=model.get_pos(), vel=model.get_vel(), rpy=model.get_rpy(), bias=[0,0,0,0,0,0])
 
+    def rock_and_turn(self, STEPS=50000):
+        """ test the biases work when rocking and turning. this tests the
+            mag attitude compensation """
+
+        sim = self.sim
+        model = self.model
+
+        dT = 1.0 / 666.0
+
+        numpy.random.seed(1)
+
+        history = numpy.zeros((STEPS,16))
+        history_rpy = numpy.zeros((STEPS,3))
+
+        true_pos = numpy.zeros((STEPS,3))
+        true_vel = numpy.zeros((STEPS,3))
+        true_rpy = numpy.zeros((STEPS,3))
+
+        times = numpy.zeros((STEPS,1))
+
+        for k in range(STEPS):
+
+            model.rock_and_turn(dT=dT)
+
+            true_pos[k,:] = model.get_pos()
+            true_vel[k,:] = model.get_vel()
+            true_rpy[k,:] = model.get_rpy()
+
+            ng = numpy.random.randn(3,) * 1e-3
+            na = numpy.random.randn(3,) * 1e-3
+            np = numpy.random.randn(3,) * 1e-3
+            nv = numpy.random.randn(3,) * 1e-3
+            nm = numpy.random.randn(3,) * 10.0
+
+            # convert from rad/s to deg/s
+            gyro = model.get_gyro() / 180.0 * math.pi
+            accel = model.get_accel()
+
+            sim.predict(gyro+ng, accel+na, dT=dT)
+
+            if True and k % 60 == 59:
+                sim.correction(pos=true_pos[k,:]+np)
+
+            if True and k % 60 == 59:
+                sim.correction(vel=true_vel[k,:]+nv)
+
+            if k % 20 == 8:
+                sim.correction(baro=-true_pos[k,2]+np[2])
+
+            if True and k % 20 == 15:
+                sim.correction(mag=model.get_mag()+nm)
+
+            history[k,:] = sim.state
+            history_rpy[k,:] = quat_rpy(sim.state[6:10])
+            times[k] = k * dT
+
+            if k > 100:
+                numpy.testing.assert_almost_equal(sim.state[0:3], true_pos[k,:], decimal=0)
+                numpy.testing.assert_almost_equal(sim.state[3:6], true_vel[k,:], decimal=0)
+                # only test roll and pitch because of wraparound issues
+                numpy.testing.assert_almost_equal(history_rpy[k,0:2], true_rpy[k,0:2], decimal=1)
+
+        if VISUALIZE:
+            self.plot(times, history, history_rpy, true_pos, true_vel, true_rpy)
+
+        return sim.state, history, times
 
 if __name__ == '__main__':
     selected_test = None

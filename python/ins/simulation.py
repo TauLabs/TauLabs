@@ -59,6 +59,33 @@ class Simulation:
 
 		self.q = quat_norm(self.q)
 
+	def rock_and_turn(self, dT=1/500.0):
+		""" simulate yawing while rocking forward and backwards """
+
+		from numpy import sin, pi
+
+		accels = numpy.array([0.0,0.0,-GRAVITY])
+		gyros = numpy.array([0.0,0.0,5.0])
+
+		if self.T == 0:
+			self.vel[0] = 0
+
+		# take off and accelerate at first
+		if self.T < 5:
+			accels[0] = 0.0
+			accels[1] = 0
+			accels[2] = -GRAVITY + 0.5
+
+		# level off
+		if self.T > 20 and self.T < 25:
+			accels[2] = -GRAVITY - 0.5
+
+		if self.T > 30:
+			gyros[1] = gyros[1] + 10.0 * sin(self.T * 2 * pi * 0.1)
+
+		self.advance(gyros, accels, dT)
+		self.T = self.T + dT
+
 	def fly_circle(self, dT=1/500.0):
 		accels = numpy.array([0.0,1,-GRAVITY])
 		gyros = numpy.array([0,0,-20])
