@@ -367,9 +367,9 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 		Rbe_a[2][1] = -k1*(q0*q1*2.0f+q2*q3*2.0f);
 		Rbe_a[2][2] = k1*k2*(q0*q0-q1*q1-q2*q2+q3*q3);
 
-		Z[6] = Rbe_a[0][0]*mag_data[0] + Rbe_a[0][1]*mag_data[1] + Rbe_a[0][2]*mag_data[2] ;
-		Z[7] = Rbe_a[1][0]*mag_data[0] + Rbe_a[1][1]*mag_data[1] + Rbe_a[1][2]*mag_data[2] ;
-		Z[8] = Rbe_a[2][0]*mag_data[0] + Rbe_a[2][1]*mag_data[1] + Rbe_a[2][2]*mag_data[2] ;
+		Z[6] = Rbe_a[0][0]*mag_data[0] + Rbe_a[1][0]*mag_data[1] + Rbe_a[2][0]*mag_data[2] ;
+		Z[7] = Rbe_a[0][1]*mag_data[0] + Rbe_a[1][1]*mag_data[1] + Rbe_a[2][1]*mag_data[2] ;
+		Z[8] = Rbe_a[0][2]*mag_data[0] + Rbe_a[1][2]*mag_data[1] + Rbe_a[2][2]*mag_data[2] ;
 	}
 
 	// barometric altimeter in meters and in local NED frame
