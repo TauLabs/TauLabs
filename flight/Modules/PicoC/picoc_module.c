@@ -176,6 +176,8 @@ static void picocTask(void *parameters) {
 			switch (picocstatus.Command) {
 			case PICOCSTATUS_COMMAND_STARTSCRIPT:
 				// external start request
+				picocstatus.ExitValue = 0;
+				PicoCStatusExitValueSet(&picocstatus.ExitValue);
 				picocstatus.ExitValue = picoc(sourcebuffer, picocsettings.PicoCStackSize);
 				PicoCStatusExitValueSet(&picocstatus.ExitValue);
 				picocstatus.CommandError = 0;

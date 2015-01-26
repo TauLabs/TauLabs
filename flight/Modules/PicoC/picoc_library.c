@@ -924,7 +924,7 @@ void PlatformLibrarySetup_gpsposition(Picoc *pc)
 		"long Longitude;"
 		"unsigned char Status;"
 		"char Satellites;"
-	"}GPSPositionData;";
+	"} GPSPositionData;";
 #endif
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 
