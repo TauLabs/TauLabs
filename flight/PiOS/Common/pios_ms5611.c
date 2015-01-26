@@ -34,8 +34,6 @@
 
 #if defined(PIOS_INCLUDE_MS5611)
 
-#include "uavobjectmanager.h"
-#include "alarms.h"
 #include "pios_ms5611_priv.h"
 #include "pios_semaphore.h"
 #include "pios_thread.h"
@@ -376,18 +374,16 @@ int32_t PIOS_MS5611_Test()
 	if (PIOS_MS5611_Validate(dev) != 0)
 		return -1;
 
-	int32_t  read_adc_result = 0;
-
 	PIOS_MS5611_ClaimDevice();
 	PIOS_MS5611_StartADC(TEMPERATURE_CONV);
 	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay());
-	read_adc_result = PIOS_MS5611_ReadADC();
+	PIOS_MS5611_ReadADC();
 	PIOS_MS5611_ReleaseDevice();
 
 	PIOS_MS5611_ClaimDevice();
 	PIOS_MS5611_StartADC(PRESSURE_CONV);
 	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay());
-	read_adc_result = PIOS_MS5611_ReadADC();
+	PIOS_MS5611_ReadADC();
 	PIOS_MS5611_ReleaseDevice();
 
 	// check range for sanity according to datasheet
@@ -397,10 +393,6 @@ int32_t PIOS_MS5611_Test()
 		dev->pressure_unscaled > 120000)
 		return -1;
 
-	if (read_adc_result != 0) {
-		AlarmsSet(SYSTEMALARMS_ALARM_TEMPBARO, SYSTEMALARMS_ALARM_ERROR);
-	}
-
 	return 0;
 }
 
@@ -408,12 +400,10 @@ static void PIOS_MS5611_Task(void *parameters)
 {
 	// init this to 1 in order to force a temperature read on the first run
 	uint32_t temp_press_interleave_count = 1;
-	int32_t  read_adc_result = 0;
 
 	while (1) {
 
 		--temp_press_interleave_count;
-		read_adc_result = 0;
 
 		if (temp_press_interleave_count == 0)
 		{
@@ -421,7 +411,7 @@ static void PIOS_MS5611_Task(void *parameters)
 			PIOS_MS5611_ClaimDevice();
 			PIOS_MS5611_StartADC(TEMPERATURE_CONV);
 			PIOS_Thread_Sleep(PIOS_MS5611_GetDelay());
-			read_adc_result = PIOS_MS5611_ReadADC();
+			PIOS_MS5611_ReadADC();
 			PIOS_MS5611_ReleaseDevice();
 
 			temp_press_interleave_count = dev->cfg->temperature_interleaving;
@@ -433,7 +423,7 @@ static void PIOS_MS5611_Task(void *parameters)
 		PIOS_MS5611_ClaimDevice();
 		PIOS_MS5611_StartADC(PRESSURE_CONV);
 		PIOS_Thread_Sleep(PIOS_MS5611_GetDelay());
-		read_adc_result = PIOS_MS5611_ReadADC();
+		PIOS_MS5611_ReadADC();
 		PIOS_MS5611_ReleaseDevice();
 
 		// Compute the altitude from the pressure and temperature and send it out
@@ -442,11 +432,7 @@ static void PIOS_MS5611_Task(void *parameters)
 		data.pressure = ((float) dev->pressure_unscaled) / 1000.0f;
 		data.altitude = 44330.0f * (1.0f - powf(data.pressure / MS5611_P0, (1.0f / 5.255f)));
 
-		if (read_adc_result == 0) {
-			PIOS_Queue_Send(dev->queue, &data, 0);
-		} else {
-			AlarmsSet(SYSTEMALARMS_ALARM_TEMPBARO, SYSTEMALARMS_ALARM_ERROR);
-		}
+		PIOS_Queue_Send(dev->queue, &data, 0);
 	}
 }
 

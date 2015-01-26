@@ -33,8 +33,6 @@
 
 #if defined(PIOS_INCLUDE_BMP085)
 
-#include "uavobjectmanager.h"
-#include "alarms.h"
 #include "pios_bmp085_priv.h"
 #include "pios_semaphore.h"
 #include "pios_thread.h"
@@ -402,13 +400,12 @@ int32_t PIOS_BMP085_Test()
 
 	// TODO: Is there a better way to test this than just checking that pressure/temperature has changed?
 	int32_t cur_value = 0;
-	int32_t read_adc_result = 0;
 
 	PIOS_BMP085_ClaimDevice();
 	cur_value = dev->temperature_unscaled;
 	PIOS_BMP085_StartADC(TEMPERATURE_CONV);
 	PIOS_DELAY_WaitmS(5);
-	read_adc_result = PIOS_BMP085_ReadADC();
+	PIOS_BMP085_ReadADC();
 	PIOS_BMP085_ReleaseDevice();
 	if (cur_value == dev->temperature_unscaled)
 		return -1;
@@ -417,13 +414,8 @@ int32_t PIOS_BMP085_Test()
 	cur_value = dev->pressure_unscaled;
 	PIOS_BMP085_StartADC(PRESSURE_CONV);
 	PIOS_DELAY_WaitmS(26);
-	read_adc_result = PIOS_BMP085_ReadADC();
+	PIOS_BMP085_ReadADC();
 	PIOS_BMP085_ReleaseDevice();
-
-	if (read_adc_result != 0) {
-		AlarmsSet(SYSTEMALARMS_ALARM_TEMPBARO, SYSTEMALARMS_ALARM_ERROR);
-	}
-
 	if (cur_value == dev->pressure_unscaled)
 		return -1;
 
@@ -432,7 +424,6 @@ int32_t PIOS_BMP085_Test()
 static void PIOS_BMP085_Task(void *parameters)
 {
 	int32_t temp_press_interleave_count = dev->temperature_interleaving;
-	int32_t read_adc_result = 0;
 
 	while (1) {
 
@@ -443,7 +434,7 @@ static void PIOS_BMP085_Task(void *parameters)
 			PIOS_BMP085_ClaimDevice();
 			PIOS_BMP085_StartADC(TEMPERATURE_CONV);
 			PIOS_Thread_Sleep(5);
-			read_adc_result = PIOS_BMP085_ReadADC();
+			PIOS_BMP085_ReadADC();
 			PIOS_BMP085_ReleaseDevice();
 			temp_press_interleave_count = dev->temperature_interleaving;
 		}
@@ -451,7 +442,7 @@ static void PIOS_BMP085_Task(void *parameters)
 		PIOS_BMP085_ClaimDevice();
 		PIOS_BMP085_StartADC(PRESSURE_CONV);
 		PIOS_Thread_Sleep(PIOS_BMP085_GetDelay());
-		read_adc_result = PIOS_BMP085_ReadADC();
+		PIOS_BMP085_ReadADC();
 		PIOS_BMP085_ReleaseDevice();
 
 		// Compute the altitude from the pressure and temperature and send it out
@@ -460,11 +451,7 @@ static void PIOS_BMP085_Task(void *parameters)
 		data.pressure = ((float) dev->pressure_unscaled) / 1000.0f;
 		data.altitude = 44330.0f * (1.0f - powf(data.pressure / BMP085_P0, (1.0f / 5.255f)));
 
-		if (read_adc_result == 0) {
-			PIOS_Queue_Send(dev->queue, (void*)&data, 0);
-		} else {
-			AlarmsSet(SYSTEMALARMS_ALARM_TEMPBARO, SYSTEMALARMS_ALARM_ERROR);
-		}
+		PIOS_Queue_Send(dev->queue, (void*)&data, 0);
 	}
 }
 

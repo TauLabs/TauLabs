@@ -54,6 +54,8 @@
 #define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define SENSOR_PERIOD 6		// this allows sensor data to arrive as slow as 166Hz
 #define REQUIRED_GOOD_CYCLES 50
+#define MAX_TIME_BETWEEN_VALID_BARO_DATAS_MS 100*1000  // we allow a pause time of 100 ms between two valid
+                                                       // temperature/barometer dataa
 
 // Private types
 enum mag_calibration_algo {
@@ -167,6 +169,7 @@ static void SensorsTask(void *parameters)
 	// Main task loop
 	lastSysTime = PIOS_Thread_Systime();
 	uint32_t good_runs = 1;
+	uint32_t last_pios_sensor_update = PIOS_DELAY_GetRaw();
 
 	while (1) {
 		if (good_runs == 0) {
@@ -209,8 +212,18 @@ static void SensorsTask(void *parameters)
 		}
 
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_BARO);
-		if (queue != NULL && PIOS_Queue_Receive(queue, &baro, 0) != false) {
-			update_baro(&baro);
+		if (queue != NULL) {
+			if (PIOS_Queue_Receive(queue, &baro, 0) != false) {
+				// we can use the timeval because it contains the current time stamp (PIOS_DELAY_GetRaw())
+				last_pios_sensor_update = timeval;
+				update_baro(&baro);
+			}
+			// Check that we got valid sensor datas
+			uint32_t dT_baro_datas = PIOS_DELAY_DiffuS(last_pios_sensor_update);
+			// if the last valid sensor datas older than 100 ms report an error
+			if (dT_baro_datas > MAX_TIME_BETWEEN_VALID_BARO_DATAS_MS) {
+				AlarmsSet(SYSTEMALARMS_ALARM_TEMPBARO, SYSTEMALARMS_ALARM_ERROR);
+			}
 		}
 
 		if (good_runs > REQUIRED_GOOD_CYCLES)
