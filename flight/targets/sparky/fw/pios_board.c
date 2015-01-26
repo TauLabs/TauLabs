@@ -632,27 +632,6 @@ void PIOS_Board_Init(void) {
 
 		if (PIOS_I2C_CheckClear(pios_i2c_flexi_id) != 0)
 			panic(7);
-
-#if defined(PIOS_INCLUDE_HMC5883)
-		{
-			uint8_t Magnetometer;
-			HwSparkyMagnetometerGet(&Magnetometer);
-
-			if (Magnetometer == HWSPARKY_MAGNETOMETER_EXTERNALI2CFLEXIPORT) {
-				// init sensor
-				pios_mpu9150_cfg.use_internal_mag = false;
-
-			    //I2C is slow, sensor init as well, reset watchdog to prevent reset here
-	            PIOS_WDG_Clear();
-
-	            if (PIOS_HMC5883_Init(pios_i2c_flexi_id, &pios_hmc5883_external_cfg) != 0)
-					panic(11);
-
-				if (PIOS_HMC5883_Test() != 0)
-					panic(12);
-			}
-		}
-#endif /* PIOS_INCLUDE_HMC5883 */
 #endif /* PIOS_INCLUDE_I2C */
 		break;
 	case HWSPARKY_FLEXIPORT_SBUS:
@@ -1018,7 +997,6 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_PWM */
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(200);
-	PIOS_WDG_Clear();
 
 #if defined(PIOS_INCLUDE_MPU9150)
 #if defined(PIOS_INCLUDE_MPU6050)
@@ -1033,12 +1011,26 @@ void PIOS_Board_Init(void) {
 		uint8_t Magnetometer;
 	    HwSparkyMagnetometerGet(&Magnetometer);
 
-	    if (Magnetometer == HWSPARKY_MAGNETOMETER_INTERNAL)
+	    if ((Magnetometer == HWSPARKY_MAGNETOMETER_INTERNAL) || (hw_flexi != HWSPARKY_FLEXIPORT_I2C))
 	        pios_mpu9150_cfg.use_internal_mag = true;
-	    else
-	        pios_mpu9150_cfg.use_internal_mag = false;
 
-		int retval;
+	    if ((Magnetometer == HWSPARKY_MAGNETOMETER_EXTERNALI2CFLEXIPORT) && (hw_flexi == HWSPARKY_FLEXIPORT_I2C)){
+	        pios_mpu9150_cfg.use_internal_mag = false;
+#if defined(PIOS_INCLUDE_HMC5883)
+			//I2C is slow, sensor init as well, reset watchdog to prevent reset here
+		    PIOS_WDG_Clear();
+
+			if (PIOS_HMC5883_Init(pios_i2c_flexi_id, &pios_hmc5883_external_cfg) != 0)
+				panic(11);
+
+			if (PIOS_HMC5883_Test() != 0)
+				panic(12);
+#endif /* PIOS_INCLUDE_HMC5883 */
+		}
+
+		PIOS_WDG_Clear();
+
+        int retval;
 		retval = PIOS_MPU9150_Init(pios_i2c_internal_id, PIOS_MPU9150_I2C_ADD_A0_LOW, &pios_mpu9150_cfg);
 		if (retval == -10)
 			panic(1); // indicate missing IRQ separately
