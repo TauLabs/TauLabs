@@ -83,10 +83,10 @@ class CINS:
 			Z[5] = vel[2]
 
 		if mag is not None:
-			sensors = sensors | 0x00C0
+			sensors = sensors | 0x01C0
 			Z[6] = mag[0]
 			Z[7] = mag[1]
-			#Z[8] = mag[2]
+			Z[8] = mag[2]
 
 		if baro is not None:
 			sensors = sensors | 0x0200
