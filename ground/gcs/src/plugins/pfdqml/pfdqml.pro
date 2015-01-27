@@ -4,7 +4,6 @@ QT += svg
 QT += opengl
 QT += qml
 QT += quick
-QT += quickwidgets
 OSG {
     DEFINES += USE_OSG
 }
