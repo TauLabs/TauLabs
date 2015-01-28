@@ -29,7 +29,7 @@
 
 package org.taulabs.uavtalk.uavobjects;
 
-import org.taulabs.uavtalk.UAVObjectManager;
+import com.brainfpv.uavtalk.UAVObjectManager;
 
 public class UAVObjectsInitialize {
 	

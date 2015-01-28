@@ -34,10 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.taulabs.uavtalk.UAVObjectManager;
-import org.taulabs.uavtalk.UAVObject;
-import org.taulabs.uavtalk.UAVDataObject;
-import org.taulabs.uavtalk.UAVObjectField;
+import com.brainfpv.uavtalk.UAVObjectManager;
+import com.brainfpv.uavtalk.UAVObject;
+import com.brainfpv.uavtalk.UAVDataObject;
+import com.brainfpv.uavtalk.UAVObjectField;
 
 /**
 $(DESCRIPTION)

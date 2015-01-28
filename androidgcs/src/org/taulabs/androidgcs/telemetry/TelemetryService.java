@@ -488,7 +488,7 @@ public class TelemetryService extends Service {
 		DexClassLoader loader = new DexClassLoader(classpath, dexDir.getAbsolutePath(), null, getClassLoader());
 
 		try {
-			Class<?> initClass = loader.loadClass("com.brainfpv.uavtalk.uavobjects.UAVObjectsInitialize");
+			Class<?> initClass = loader.loadClass("org.taulabs.uavtalk.uavobjects.UAVObjectsInitialize");
 			Method initMethod = initClass.getMethod("register", UAVObjectManager.class);
 			initMethod.invoke(null, objMngr);
 		} catch (ClassNotFoundException e1) {
