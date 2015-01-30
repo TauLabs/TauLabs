@@ -34,11 +34,20 @@ public:
     PfdQmlGadget(QString classId, PfdQmlGadgetWidget *widget, QWidget *parent = 0);
     ~PfdQmlGadget();
 
-    QWidget *widget() { return m_widget; }
+    QWidget *widget() {
+        if(!m_container){
+            m_container = QWidget::createWindowContainer(m_widget, m_parent);
+            m_container->setMinimumSize(64, 64);
+            m_container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        }
+        return m_container;
+    }
 
     void loadConfiguration(IUAVGadgetConfiguration* config);
 
 private:
+    QWidget *m_container;
+    QWidget *m_parent;
     PfdQmlGadgetWidget *m_widget;
 };
 
