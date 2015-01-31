@@ -143,6 +143,7 @@ protected:
     LoggingConnection* logConnection;
 
 private slots:
+    void downloadLog();
     void toggleLogging();
     void startLogging(QString file);
     void stopLogging();
@@ -152,7 +153,8 @@ private slots:
 
 private:
     LoggingGadgetFactory *mf;
-    Core::Command* cmd;
+    Core::Command* cmdLogging;
+    Core::Command* cmdDownload;
 
 };
 #endif /* LoggingPLUGIN_H_ */

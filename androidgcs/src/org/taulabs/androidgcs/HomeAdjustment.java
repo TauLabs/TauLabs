@@ -27,6 +27,8 @@ import org.taulabs.uavtalk.UAVObject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -114,20 +116,26 @@ public class HomeAdjustment extends ObjectManagerActivity {
 	 */
 	public void poiToUAV(View v) {
 		UAVObject gps = objMngr.getObject("GPSPosition");
+		UAVObject position = objMngr.getObject("PositionActual");
 		UAVObject tablet = objMngr.getObject("TabletInfo");
-		UAVObject home = objMngr.getObject("HomeLocation");
 		
-		if (gps == null || tablet == null || home == null)
+		
+		if (gps == null || tablet == null || position == null) {
+			v.getBackground().setColorFilter(new LightingColorFilter(0x11111111, 0xFFFF0000));
 			return;
+		}
 
 		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Location current = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if (current == null) {
+			v.getBackground().setColorFilter(new LightingColorFilter(0x11111111, 0xFFFF0000));
+			return;
+		}
 		
 		// Altitude on the flight controller is always used as altitude
 		// plug geoid separation
-		double gps_altitude = gps.getField("Altitude").getDouble() +
-				gps.getField("GeoidSeparation").getDouble();
-		double alt_offset = gps_altitude - current.getLatitude();
+		double uav_altitude = -position.getField("Down").getDouble();
+		double alt_offset = uav_altitude;
 		
 		double lat_offset = gps.getField("Latitude").getDouble() - current.getLatitude() * 10e6;
 		double lon_offset = gps.getField("Longitude").getDouble() - current.getLongitude() * 10e6;
@@ -139,8 +147,9 @@ public class HomeAdjustment extends ObjectManagerActivity {
 		editor.putInt("alt_offset", (int) alt_offset);
 		editor.putInt("lat_offset", (int) lat_offset);
 		editor.putInt("lon_offset", (int) lon_offset);
-		editor.commit();		
+		editor.commit();
 		
+		v.getBackground().setColorFilter(new LightingColorFilter(0x11111111, 0xFF00FF00));
 	}
 
 	//! Verify the FC id disarmed

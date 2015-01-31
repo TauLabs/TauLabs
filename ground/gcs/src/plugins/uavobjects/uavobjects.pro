@@ -84,6 +84,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/inssettings.h \
     $$UAVOBJECT_SYNTHETICS/insstate.h \
     $$UAVOBJECT_SYNTHETICS/loitercommand.h \
+    $$UAVOBJECT_SYNTHETICS/loggingsettings.h \
+    $$UAVOBJECT_SYNTHETICS/loggingstats.h \
     $$UAVOBJECT_SYNTHETICS/magbias.h \
     $$UAVOBJECT_SYNTHETICS/magnetometer.h \
     $$UAVOBJECT_SYNTHETICS/manualcontrolsettings.h \
@@ -91,6 +93,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/mixersettings.h \
     $$UAVOBJECT_SYNTHETICS/mixerstatus.h \
     $$UAVOBJECT_SYNTHETICS/modulesettings.h \
+    $$UAVOBJECT_SYNTHETICS/mwratesettings.h \
     $$UAVOBJECT_SYNTHETICS/nedaccel.h \
     $$UAVOBJECT_SYNTHETICS/nedposition.h \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.h \
@@ -194,6 +197,8 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/inssettings.cpp \
     $$UAVOBJECT_SYNTHETICS/insstate.cpp \
     $$UAVOBJECT_SYNTHETICS/loitercommand.cpp \
+    $$UAVOBJECT_SYNTHETICS/loggingsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/loggingstats.cpp \
     $$UAVOBJECT_SYNTHETICS/magbias.cpp \
     $$UAVOBJECT_SYNTHETICS/magnetometer.cpp \
     $$UAVOBJECT_SYNTHETICS/manualcontrolsettings.cpp \
@@ -201,6 +206,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/mixersettings.cpp \
     $$UAVOBJECT_SYNTHETICS/mixerstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/modulesettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/mwratesettings.cpp \
     $$UAVOBJECT_SYNTHETICS/nedaccel.cpp \
     $$UAVOBJECT_SYNTHETICS/nedposition.cpp \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.cpp \

@@ -246,7 +246,7 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 
 #ifdef PIOS_INCLUDE_DSM
 static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm_cfg, const struct pios_dsm_cfg *pios_dsm_cfg,
-		const struct pios_com_driver *pios_usart_com_driver,enum pios_dsm_proto *proto,
+		const struct pios_com_driver *pios_usart_com_driver,
 		ManualControlSettingsChannelGroupsOptions channelgroup,uint8_t *bind)
 {
 	uintptr_t pios_usart_dsm_id;
@@ -256,7 +256,7 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 
 	uintptr_t pios_dsm_id;
 	if (PIOS_DSM_Init(&pios_dsm_id, pios_dsm_cfg, pios_usart_com_driver,
-			pios_usart_dsm_id, *proto, *bind)) {
+			pios_usart_dsm_id, *bind)) {
 		PIOS_Assert(0);
 	}
 
@@ -382,6 +382,10 @@ void PIOS_Board_Init(void) {
 	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_internal_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS) != 0)
 		panic(5);
 
+#if defined(ERASE_FLASH)
+	PIOS_FLASHFS_Format(pios_uavo_settings_fs_id);
+#endif
+
 #endif	/* PIOS_INCLUDE_FLASH */
 
 	/* Initialize the task monitor library */
@@ -402,14 +406,12 @@ void PIOS_Board_Init(void) {
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
 #endif
 
-#ifndef ERASE_FLASH
 	/* Initialize watchdog as early as possible to catch faults during init
 	 * but do it only if there is no debugger connected
 	 */
 	if ((CoreDebug->DHCSR & CoreDebug_DHCSR_C_DEBUGEN_Msk) == 0) {
 		PIOS_WDG_Init();
 	}
-#endif
 
 	/* Set up pulse timers */
 	//inputs
@@ -610,28 +612,11 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_SBUS */
 		break;
-	case HWSPARKY_FLEXIPORT_DSM2:
-	case HWSPARKY_FLEXIPORT_DSMX10BIT:
-	case HWSPARKY_FLEXIPORT_DSMX11BIT:
+	case HWSPARKY_FLEXIPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 		{
-			enum pios_dsm_proto proto;
-			switch (hw_flexi) {
-			case HWSPARKY_FLEXIPORT_DSM2:
-				proto = PIOS_DSM_PROTO_DSM2;
-				break;
-			case HWSPARKY_FLEXIPORT_DSMX10BIT:
-				proto = PIOS_DSM_PROTO_DSMX10BIT;
-				break;
-			case HWSPARKY_FLEXIPORT_DSMX11BIT:
-				proto = PIOS_DSM_PROTO_DSMX11BIT;
-				break;
-			default:
-				PIOS_Assert(0);
-				break;
-			}
 			PIOS_Board_configure_dsm(&pios_flexi_dsm_hsum_cfg, &pios_flexi_dsm_aux_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -715,28 +700,11 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_SBUS */
 		break;
-	case HWSPARKY_MAINPORT_DSM2:
-	case HWSPARKY_MAINPORT_DSMX10BIT:
-	case HWSPARKY_MAINPORT_DSMX11BIT:
+	case HWSPARKY_MAINPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 		{
-			enum pios_dsm_proto proto;
-			switch (hw_main) {
-			case HWSPARKY_MAINPORT_DSM2:
-				proto = PIOS_DSM_PROTO_DSM2;
-				break;
-			case HWSPARKY_MAINPORT_DSMX10BIT:
-				proto = PIOS_DSM_PROTO_DSMX10BIT;
-				break;
-			case HWSPARKY_MAINPORT_DSMX11BIT:
-				proto = PIOS_DSM_PROTO_DSMX11BIT;
-				break;
-			default:
-				PIOS_Assert(0);
-				break;
-			}
 			PIOS_Board_configure_dsm(&pios_main_dsm_hsum_cfg, &pios_main_dsm_aux_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -806,28 +774,11 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PPM */
 		break;
-	case HWSPARKY_RCVRPORT_DSM2:
-	case HWSPARKY_RCVRPORT_DSMX10BIT:
-	case HWSPARKY_RCVRPORT_DSMX11BIT:
+	case HWSPARKY_RCVRPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 		{
-			enum pios_dsm_proto proto;
-			switch (hw_rcvrport) {
-			case HWSPARKY_RCVRPORT_DSM2:
-				proto = PIOS_DSM_PROTO_DSM2;
-				break;
-			case HWSPARKY_RCVRPORT_DSMX10BIT:
-				proto = PIOS_DSM_PROTO_DSMX10BIT;
-				break;
-			case HWSPARKY_RCVRPORT_DSMX11BIT:
-				proto = PIOS_DSM_PROTO_DSMX11BIT;
-				break;
-			default:
-				PIOS_Assert(0);
-				break;
-			}
 			PIOS_Board_configure_dsm(&pios_rcvr_dsm_hsum_cfg, &pios_rcvr_dsm_aux_cfg, &pios_usart_com_driver,
-				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;

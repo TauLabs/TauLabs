@@ -40,7 +40,8 @@ HEADERS += calibration.h \
     tempcompcurve.h \
     textbubbleslider.h \
     vehicletrim.h \
-    configmodulewidget.h
+    configmodulewidget.h \
+    convertmwrate.h
 
 SOURCES += calibration.cpp \
     configplugin.cpp \
@@ -72,7 +73,8 @@ SOURCES += calibration.cpp \
     tempcompcurve.cpp \
     textbubbleslider.cpp \
     vehicletrim.cpp \
-    configmodulewidget.cpp
+    configmodulewidget.cpp \
+    convertmwrate.cpp
 
 FORMS += airframe.ui \
     ccpm.ui \
@@ -89,7 +91,8 @@ FORMS += airframe.ui \
     mixercurve.ui \
     autotune.ui \
     hwfieldselector.ui \
-    modules.ui
+    modules.ui \
+    convertmwrate.ui
 RESOURCES += configgadget.qrc
 
 

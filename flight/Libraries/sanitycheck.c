@@ -280,6 +280,7 @@ static int32_t check_safe_to_arm()
 			case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 			case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
 			case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
+			case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
 				break;
 			default:
 				// Any mode not specifically allowed prevents arming

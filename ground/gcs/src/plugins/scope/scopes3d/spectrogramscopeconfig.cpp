@@ -351,8 +351,8 @@ void SpectrogramScopeConfig::preparePlot(ScopeGadgetWidget *scopeGadgetWidget)
     scopeGadgetWidget->m_grid->enableY( false );
     scopeGadgetWidget->m_grid->enableXMin( false );
     scopeGadgetWidget->m_grid->enableYMin( false );
-    scopeGadgetWidget->m_grid->setMajPen(QPen(Qt::gray, 0, Qt::DashLine));
-    scopeGadgetWidget->m_grid->setMinPen(QPen(Qt::lightGray, 0, Qt::DotLine));
+    scopeGadgetWidget->m_grid->setMajorPen(QPen(Qt::gray, 0, Qt::DashLine));
+    scopeGadgetWidget->m_grid->setMinorPen(QPen(Qt::lightGray, 0, Qt::DotLine));
     scopeGadgetWidget->m_grid->setPen(QPen(Qt::darkGray, 1, Qt::DotLine));
     scopeGadgetWidget->m_grid->attach(scopeGadgetWidget);
 

@@ -53,6 +53,9 @@ private slots:
     void linkCheckBoxes(int value);
     void processLinkedWidgets(QWidget*);
     void applyRateLimits();
+
+    void showMWRateConvertDialog();
+    void applyMWRateConvertDialog();
 };
 
 #endif // ConfigStabilizationWidget_H

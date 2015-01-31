@@ -116,9 +116,6 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
 
     addUAVObjectToWidgetRelation("MixerSettings","Curve2Source",m_aircraft->customThrottle2Curve->getCBCurveSource());
 
-    ffTuningInProgress = false;
-    ffTuningPhase = false;
-
     //Generate lists of mixerTypeNames, mixerVectorNames, channelNames
     channelNames << "None";
     for (int i = 0; i < (int)ActuatorSettings::CHANNELADDR_NUMELEM; i++) {
@@ -225,11 +222,6 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     connect(m_aircraft->multirotorFrameType, SIGNAL(currentIndexChanged(int)), this, SLOT(doSetupAirframeUI(int)));
     connect(m_aircraft->groundVehicleType, SIGNAL(currentIndexChanged(int)), this, SLOT(doSetupAirframeUI(int)));
     //mdl connect(m_heli->m_ccpm->ccpmType, SIGNAL(currentIndexChanged(QString)), this, SLOT(setupAirframeUI(QString)));
-
-    //Connect the three feed forward test checkboxes
-    connect(m_aircraft->ffTestBox1, SIGNAL(clicked(bool)), this, SLOT(enableFFTest()));
-    connect(m_aircraft->ffTestBox2, SIGNAL(clicked(bool)), this, SLOT(enableFFTest()));
-    connect(m_aircraft->ffTestBox3, SIGNAL(clicked(bool)), this, SLOT(enableFFTest()));
 
     //Connect the multirotor motor reverse checkbox
     connect(m_aircraft->MultirotorRevMixercheckBox, SIGNAL(clicked(bool)), this, SLOT(reverseMultirotorMotor()));
@@ -425,68 +417,6 @@ void ConfigVehicleTypeWidget::toggleRudder2(int index)
     } else {
         m_aircraft->fwRudder2ChannelBox->setEnabled(false);
         m_aircraft->fwRudder2Label->setEnabled(false);
-    }
-}
-
-/////////////////////////////////////////////////////////
-/// Feed Forward Testing
-/////////////////////////////////////////////////////////
-/**
-  Enables and runs feed forward testing
-  */
-void ConfigVehicleTypeWidget::enableFFTest()
-{
-    // Role:
-    // - Check if all three checkboxes are checked
-    // - Every other timer event: toggle engine from 45% to 55%
-    // - Every other time event: send FF settings to flight FW
-    if (m_aircraft->ffTestBox1->isChecked() &&
-        m_aircraft->ffTestBox2->isChecked() &&
-        m_aircraft->ffTestBox3->isChecked()) {
-        if (!ffTuningInProgress)
-        {
-            // Initiate tuning:
-            UAVDataObject* obj = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("ManualControlCommand")));
-            UAVObject::Metadata mdata = obj->getMetadata();
-            accInitialData = mdata;
-            UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
-            obj->setMetadata(mdata);
-        }
-        // Depending on phase, either move actuator or send FF settings:
-        if (ffTuningPhase) {
-            // Send FF settings to the board
-            MixerSettings *mixerSettings = MixerSettings::GetInstance(getObjectManager());
-            Q_ASSERT(mixerSettings);
-
-            QPointer<VehicleConfig> vconfig = new VehicleConfig();
-
-            // Update feed forward settings
-            vconfig->setMixerValue(mixerSettings, "FeedForward", m_aircraft->feedForwardSlider->value() / 100.0);
-            vconfig->setMixerValue(mixerSettings, "AccelTime", m_aircraft->accelTime->value());
-            vconfig->setMixerValue(mixerSettings, "DecelTime", m_aircraft->decelTime->value());
-            vconfig->setMixerValue(mixerSettings, "MaxAccel", m_aircraft->maxAccelSlider->value());
-            mixerSettings->updated();
-        } else  {
-            // Toggle motor state
-            UAVDataObject* obj = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("ManualControlCommand")));
-            double value = obj->getField("Throttle")->getDouble();
-            double target = (value < 0.5) ? 0.55 : 0.45;
-            obj->getField("Throttle")->setValue(target);
-            obj->updated();
-        }
-        ffTuningPhase = !ffTuningPhase;
-        ffTuningInProgress = true;
-        QTimer::singleShot(1000, this, SLOT(enableFFTest()));
-    } else {
-        // - If no: disarm timer, restore actuatorcommand metadata
-        // Disarm!
-        if (ffTuningInProgress) {
-            ffTuningInProgress = false;
-            UAVDataObject* obj = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("ManualControlCommand")));
-            UAVObject::Metadata mdata = obj->getMetadata();
-            mdata = accInitialData; // Restore metadata
-            obj->setMetadata(mdata);
-        }
     }
 }
 
@@ -745,12 +675,6 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
                 QString::number(vconfig->getMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_YAW)));
         }
     }
-
-    // Update feed forward settings
-    m_aircraft->feedForwardSlider->setValue(vconfig->getMixerValue(mixerSettings,"FeedForward") * 100);
-    m_aircraft->accelTime->setValue(vconfig->getMixerValue(mixerSettings,"AccelTime"));
-    m_aircraft->decelTime->setValue(vconfig->getMixerValue(mixerSettings,"DecelTime"));
-    m_aircraft->maxAccelSlider->setValue(vconfig->getMixerValue(mixerSettings,"MaxAccel"));
 }
 
 
@@ -769,12 +693,6 @@ void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
     Q_ASSERT(mixerSettings);
 
     QPointer<VehicleConfig> vconfig = new VehicleConfig();
-
-    // Update feed forward settings
-    vconfig->setMixerValue(mixerSettings, "FeedForward", m_aircraft->feedForwardSlider->value() / 100.0);
-    vconfig->setMixerValue(mixerSettings, "AccelTime", m_aircraft->accelTime->value());
-    vconfig->setMixerValue(mixerSettings, "DecelTime", m_aircraft->decelTime->value());
-    vconfig->setMixerValue(mixerSettings, "MaxAccel", m_aircraft->maxAccelSlider->value());
 
     frameType = SystemSettings::AIRFRAMETYPE_CUSTOM; //Set airframe type default to "Custom"
 
@@ -853,7 +771,7 @@ void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
 void ConfigVehicleTypeWidget::openHelp()
 {
 
-    QDesktopServices::openUrl( QUrl("http://wiki.taulabs.org/OnlineHelp:-Vehicle-configuration", QUrl::StrictMode) );
+    QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Vehicle-configuration", QUrl::StrictMode) );
 }
 
 /**
@@ -1000,10 +918,6 @@ void ConfigVehicleTypeWidget::addToDirtyMonitor()
     addWidget(m_aircraft->groundVehicleThrottle1->getCurveWidget());
     addWidget(m_aircraft->groundVehicleThrottle2->getCurveWidget());
     addWidget(m_aircraft->groundVehicleType);
-    addWidget(m_aircraft->feedForwardSlider);
-    addWidget(m_aircraft->accelTime);
-    addWidget(m_aircraft->decelTime);
-    addWidget(m_aircraft->maxAccelSlider);
     addWidget(m_aircraft->multirotorFrameType);
     addWidget(m_aircraft->multiMotorChannelBox1);
     addWidget(m_aircraft->multiMotorChannelBox2);

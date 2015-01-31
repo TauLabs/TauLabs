@@ -7,9 +7,7 @@
 				<option>Disabled</option>
 				<option>PPM</option>
 				<option>S.Bus</option>
-				<option>DSM2</option>
-				<option>DSMX (10bit)</option>
-				<option>DSMX (11bit)</option>
+				<option>DSM</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 			</options>
@@ -23,9 +21,7 @@
 				<option>ComBridge</option>
 				<option>GPS</option>
 				<option>S.Bus</option>
-				<option>DSM2</option>
-				<option>DSMX (10bit)</option>
-				<option>DSMX (11bit)</option>
+				<option>DSM</option>
 				<option>MavLinkTX</option>
 				<option>MavLinkTX_GPS_RX</option>
 				<option>HoTT Telemetry</option>
@@ -43,9 +39,7 @@
 				<option>ComBridge</option>
 				<option>GPS</option>
 				<option>S.Bus</option>
-				<option>DSM2</option>
-				<option>DSMX (10bit)</option>
-				<option>DSMX (11bit)</option>
+				<option>DSM</option>
 				<option>MavLinkTX</option>
 				<option>MavLinkTX_GPS_RX</option>
 				<option>HoTT Telemetry</option>

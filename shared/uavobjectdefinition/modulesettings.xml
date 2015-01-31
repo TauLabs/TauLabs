@@ -20,13 +20,13 @@
 				<elementname>GenericI2CSensor</elementname>
 				<elementname>UAVOMavlinkBridge</elementname>
 				<elementname>UAVOLighttelemetryBridge</elementname>
-				<elementname>UAVORelay</elementname>
 				<elementname>VibrationAnalysis</elementname>
 				<elementname>UAVOHoTTBridge</elementname>
 				<elementname>UAVOFrSKYSensorHubBridge</elementname>
 				<elementname>PicoC</elementname>
 				<elementname>UAVOFrSkySPortBridge</elementname>
 				<elementname>Geofence</elementname>
+				<elementname>Logging</elementname>
 			</elementnames>
 		</field>
 

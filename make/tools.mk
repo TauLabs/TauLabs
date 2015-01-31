@@ -22,18 +22,30 @@ ifdef OPENOCD_FTDI
 endif
 
 # Set up QT toolchain
-ifdef MACOSX
-  QT_SDK_DIR := $(TOOLS_DIR)/Qt5.3.1
-else
-  QT_SDK_DIR := $(TOOLS_DIR)/Qt5.3.2
-endif
+QT_SDK_DIR := $(TOOLS_DIR)/Qt5.4.0
 
 ifdef LINUX
   ifdef AMD64
-    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.3/gcc_64/plugins
+    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.4/gcc_64/plugins
   else
-    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.3/gcc/plugins
+    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.4/gcc/plugins
   endif
+endif
+
+# Set variables for Android SDK
+ifdef MACOSX
+  ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-macosx
+  ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-macosx.zip
+endif
+
+ifdef LINUX
+  ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-linux
+  ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
+endif
+
+ifdef WINDOWS
+  ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-windows
+  ANDROID_SDK_URL := http://dl.google.com/android/android-sdk_r23.0.2-windows.zip
 endif
 
 # Build openocd without FTDI (yes | no)
@@ -45,23 +57,23 @@ OPENOCD_FTDI ?= yes
 ifdef LINUX
   ifdef AMD64
     # Linux 64-bit
-    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.3/5.3.2/qt-opensource-linux-x64-5.3.2.run
-    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.3/gcc_64/bin/qmake
+    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.4/5.4.0/qt-opensource-linux-x64-5.4.0.run
+    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.4/gcc_64/bin/qmake
   else
     # Linux 32-bit
-    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.3/5.3.2/qt-opensource-linux-x86-5.3.2.run
-    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.3/gcc/bin/qmake
+    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.4/5.4.0/qt-opensource-linux-x86-5.4.0.run
+    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.4/gcc/bin/qmake
   endif
 endif
 
 ifdef MACOSX
-  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.3/5.3.1/qt-opensource-mac-x64-clang-5.3.1.dmg
-  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.3/clang_64/bin/qmake
+  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.4/5.4.0/qt-opensource-mac-x64-clang-5.4.0.dmg
+  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.4/clang_64/bin/qmake
 endif
 
 ifdef WINDOWS
-  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.3/5.3.2/qt-opensource-windows-x86-mingw482_opengl-5.3.2.exe
-  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.3/mingw482_32/bin/qmake
+  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.4/5.4.0/qt-opensource-windows-x86-mingw491_opengl-5.4.0.exe
+  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.4/mingw491_32/bin/qmake
 endif
 
 qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
@@ -81,7 +93,7 @@ qt_sdk_install: qt_sdk_clean
 
 ifneq (,$(filter $(UNAME), Darwin))
 	$(V1) hdiutil attach -quiet -private -mountpoint /tmp/qt-installer "$(DL_DIR)/$(QT_SDK_FILE)" 
-	$(V1) /tmp/qt-installer/qt-opensource-mac-x64-clang-5.3.1.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.3.1
+	$(V1) /tmp/qt-installer/qt-opensource-mac-x64-clang-5.4.0.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.4.0
 	$(V1) hdiutil detach -quiet /tmp/qt-installer
 endif
  
@@ -92,7 +104,7 @@ ifneq (,$(filter $(UNAME), Linux))
 endif
 
 ifdef WINDOWS
-	$(V1) ./downloads/qt-opensource-windows-x86-mingw482_opengl-5.3.2.exe
+	$(V1) ./downloads/qt-opensource-windows-x86-mingw491_opengl-5.4.0.exe
 endif
 
 .PHONY: qt_sdk_clean
@@ -341,9 +353,7 @@ dfuutil_clean:
 	$(V1) [ ! -d "$(DFUUTIL_DIR)" ] || $(RM) -r "$(DFUUTIL_DIR)"
 
 # see http://developer.android.com/sdk/ for latest versions
-ANDROID_SDK_DIR := $(TOOLS_DIR)/android-sdk-linux
 .PHONY: android_sdk_install
-android_sdk_install: ANDROID_SDK_URL  := http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
 android_sdk_install: ANDROID_SDK_FILE := $(notdir $(ANDROID_SDK_URL))
 # order-only prereq on directory existance:
 android_sdk_install: | $(DL_DIR) $(TOOLS_DIR)
@@ -364,14 +374,14 @@ android_sdk_clean:
 .PHONY: android_sdk_update
 android_sdk_update:
 	$(V0) @echo " UPDATE       $(ANDROID_SDK_DIR)"
-	$(ANDROID_SDK_DIR)/tools/android update sdk --no-ui -t platform-tools,build-tools-20.0.0,android-14,addon-google_apis-google-14
+	$(ANDROID_SDK_DIR)/tools/android update sdk --no-ui --all -t platform-tools,build-tools-20.0.0,android-14,addon-google_apis-google-14
 
 # Set up Google Test (gtest) tools
-GTEST_DIR       := $(TOOLS_DIR)/gtest-1.6.0
+GTEST_DIR       := $(TOOLS_DIR)/gtest-1.7.0
 
 .PHONY: gtest_install
 gtest_install: | $(DL_DIR) $(TOOLS_DIR)
-gtest_install: GTEST_URL  := http://googletest.googlecode.com/files/gtest-1.6.0.zip
+gtest_install: GTEST_URL  := http://googletest.googlecode.com/files/gtest-1.7.0.zip
 gtest_install: GTEST_FILE := $(notdir $(GTEST_URL))
 gtest_install: gtest_clean
         # download the file unconditionally since google code gives back 404
@@ -502,7 +512,7 @@ ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
   QMAKE = $(QT_SDK_QMAKE_PATH)
 ifdef WINDOWS
   # Windows needs to be told where to find Qt libraries
-  export PATH := $(QT_SDK_DIR)/5.3/mingw482_32/bin:$(PATH) 
+  export PATH := $(QT_SDK_DIR)/5.4/mingw491_32/bin:$(PATH) 
 endif
 else
   # not installed, hope it's in the path...

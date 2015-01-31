@@ -30,6 +30,7 @@
 #include <uavobjectmanager.h>
 #include "uavobjectutil/uavobjectutilmanager.h"
 #include <extensionsystem/pluginmanager.h>
+#include "sparkybgcconfiguration.h"
 
 #include "hwsparkybgc.h"
 
@@ -147,14 +148,8 @@ bool SparkyBGC::setInputOnPort(enum InputType type, int port_num)
     case INPUT_TYPE_SBUS:
         settings.RcvrPort = HwSparkyBGC::RCVRPORT_SBUS;
         break;
-    case INPUT_TYPE_DSM2:
-        settings.RcvrPort = HwSparkyBGC::RCVRPORT_DSM2;
-        break;
-    case INPUT_TYPE_DSMX10BIT:
-        settings.RcvrPort = HwSparkyBGC::RCVRPORT_DSMX10BIT;
-        break;
-    case INPUT_TYPE_DSMX11BIT:
-        settings.RcvrPort = HwSparkyBGC::RCVRPORT_DSMX11BIT;
+    case INPUT_TYPE_DSM:
+        settings.RcvrPort = HwSparkyBGC::RCVRPORT_DSM;
         break;
     default:
         return false;
@@ -190,12 +185,8 @@ enum Core::IBoardType::InputType SparkyBGC::getInputOnPort(int port_num)
         return INPUT_TYPE_PPM;
     case HwSparkyBGC::RCVRPORT_SBUS:
         return INPUT_TYPE_SBUS;
-    case HwSparkyBGC::RCVRPORT_DSM2:
-        return INPUT_TYPE_DSM2;
-    case HwSparkyBGC::RCVRPORT_DSMX10BIT:
-        return INPUT_TYPE_DSMX10BIT;
-    case HwSparkyBGC::RCVRPORT_DSMX11BIT:
-        return INPUT_TYPE_DSMX11BIT;
+    case HwSparkyBGC::RCVRPORT_DSM:
+        return INPUT_TYPE_DSM;
     default:
         return INPUT_TYPE_UNKNOWN;
     }
@@ -224,4 +215,17 @@ int SparkyBGC::queryMaxGyroRate()
     default:
         return 500;
     }
+}
+
+/**
+ * @brief SparkyBGC::getBoardConfiguration create the custom configuration
+ * dialog for SparkyBGC.
+ * @param parent
+ * @param connected
+ * @return
+ */
+QWidget * SparkyBGC::getBoardConfiguration(QWidget *parent, bool connected)
+{
+    Q_UNUSED(connected);
+    return new SparkyBgcConfiguration(parent);
 }

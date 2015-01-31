@@ -365,6 +365,10 @@ bool PicoCGadgetWidget::waitForExecution()
             return true;
         sleep(100);
     }
+    QMessageBox::critical(0,
+                          tr("PicoC"),
+                          tr("PicoC module doesn't respond. Command timed out."),
+                          QMessageBox::Ok);
     return false;
 }
 

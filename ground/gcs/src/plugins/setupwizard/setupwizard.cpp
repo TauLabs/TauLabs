@@ -240,14 +240,8 @@ QString SetupWizard::getSummaryText()
     case Core::IBoardType::INPUT_TYPE_SBUS:
         summary.append(tr("Futaba S.Bus"));
         break;
-    case Core::IBoardType::INPUT_TYPE_DSM2:
-        summary.append(tr("Spektrum satellite (DSM2)"));
-        break;
-    case Core::IBoardType::INPUT_TYPE_DSMX10BIT:
-        summary.append(tr("Spektrum satellite (DSMX10BIT)"));
-        break;
-    case Core::IBoardType::INPUT_TYPE_DSMX11BIT:
-        summary.append(tr("Spektrum satellite (DSMX11BIT)"));
+    case Core::IBoardType::INPUT_TYPE_DSM:
+        summary.append(tr("Spektrum satellite (DSM)"));
         break;
     case Core::IBoardType::INPUT_TYPE_HOTTSUMD:
         summary.append(tr("Graupner HoTT (SUMD)"));

@@ -350,6 +350,12 @@ void SystemSync(struct ParseState *Parser, struct Value *ReturnValue, struct Val
 	}
 }
 
+/* unsigned long time(): returns actual systemtime as ms-value */
+void SystemTime(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->UnsignedLongInteger = PIOS_Thread_Systime();
+}
+
 /* int armed(): returns armed status */
 void SystemArmed(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
@@ -368,8 +374,56 @@ void SystemAccessLevelSet(struct ParseState *Parser, struct Value *ReturnValue, 
 /* void ChangeBaud(long): changes the speed of picoc serial port */
 void SystemChangeBaud(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	if ((PIOS_COM_PICOC) && (Param[0]->Val->LongInteger > 0) && (Param[0]->Val->LongInteger <=115200)) {
-		PIOS_COM_ChangeBaud(PIOS_COM_PICOC, Param[0]->Val->LongInteger);
+	if ((PIOS_COM_PICOC) && (Param[0]->Val->UnsignedLongInteger > 0)) {
+		PIOS_COM_ChangeBaud(PIOS_COM_PICOC, Param[0]->Val->UnsignedLongInteger);
+	}
+}
+/* long SendBuffer(unsigned char *,unsigned int): sends a buffer content to picoc serial port */
+void SystemSendBuffer(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if ((PIOS_COM_PICOC) && (Param[0]->Val->Pointer != NULL)) {
+		uint8_t *buffer = Param[0]->Val->Pointer;
+		uint16_t buf_len = Param[1]->Val->UnsignedInteger;
+		ReturnValue->Val->LongInteger = 0;
+		while (buf_len > 0) {
+			int32_t rc = PIOS_COM_SendBufferNonBlocking(PIOS_COM_PICOC, buffer, buf_len);
+			if (rc > 0) {
+				buf_len -= rc;
+				buffer += rc;
+				ReturnValue->Val->LongInteger += rc;
+			} else if (rc == 0) {
+				PIOS_Thread_Sleep(1);
+			} else {
+				ReturnValue->Val->LongInteger = rc;
+				return;
+			}
+		}
+	} else {
+		ReturnValue->Val->LongInteger = -1;
+	}
+}
+/* long ReceiveBuffer(unsigned char *,unsigned int,unsigned long): receives buffer from picoc serial port */
+void SystemReceiveBuffer(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if ((PIOS_COM_PICOC) && (Param[0]->Val->Pointer != NULL)) {
+		uint8_t *buffer = Param[0]->Val->Pointer;
+		uint16_t buf_len = Param[1]->Val->UnsignedInteger;
+		uint32_t timeout = Param[2]->Val->UnsignedLongInteger;
+		ReturnValue->Val->LongInteger = 0;
+		while (buf_len > 0) {
+			uint16_t rc = PIOS_COM_ReceiveBuffer(PIOS_COM_PICOC, buffer, buf_len, 0);
+			if (rc > 0) {
+				buf_len -= rc;
+				buffer += rc;
+				ReturnValue->Val->LongInteger += rc;
+			} else if (timeout-- > 0) {
+				PIOS_Thread_Sleep(1);
+			} else {
+				return;
+			}
+		}
+	} else {
+		ReturnValue->Val->LongInteger = -1;
 	}
 }
 #endif
@@ -485,10 +539,13 @@ struct LibraryFunction PlatformLibrary_system[] =
 {
 	{ SystemDelay,			"void delay(int);" },
 	{ SystemSync,			"void sync(int);" },
+	{ SystemTime,			"unsigned long time();" },
 	{ SystemArmed,			"int armed();" },
 	{ SystemAccessLevelSet,	"void AccessLevelSet(int);" },
 #ifdef PIOS_COM_PICOC
-	{ SystemChangeBaud,		"void ChangeBaud(long);" },
+	{ SystemChangeBaud,		"void ChangeBaud(unsigned long);" },
+	{ SystemSendBuffer,		"long SendBuffer(void *,unsigned int);" },
+	{ SystemReceiveBuffer,	"long ReceiveBuffer(void *,unsigned int,unsigned long);" },
 #endif
 	{ SystemTestValGet,		"int TestValGet();" },
 	{ SystemTestValSet,		"void TestValSet(int);" },
@@ -766,7 +823,7 @@ void FlightStatus_Get(struct ParseState *Parser, struct Value *ReturnValue, stru
 /* list of all library functions and their prototypes */
 struct LibraryFunction PlatformLibrary_flightstatus[] =
 {
-	{ FlightStatus_Get,	"void FlightStatusGet(FlightBatteryStateData *);" },
+	{ FlightStatus_Get,	"void FlightStatusGet(FlightStatusData *);" },
 	{ NULL, NULL }
 };
 
@@ -1049,6 +1106,156 @@ struct LibraryFunction PlatformLibrary_manualcontrol[] =
 
 
 /**
+ * pathdesired.h
+ */
+#include "pathdesired.h"
+
+/* library functions */
+#ifndef NO_FP
+void PathDesired_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	PathDesiredData data;
+	PathDesiredGet(&data);
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+		double Start[3];
+		double End[3];
+		double StartingVelocity;
+		double EndingVelocity;
+		double ModeParameters;
+		unsigned char Mode;
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->Start[0] = data.Start[0];
+	pdata->Start[1] = data.Start[1];
+	pdata->Start[2] = data.Start[2];
+	pdata->End[0] = data.End[0];
+	pdata->End[1] = data.End[1];
+	pdata->End[2] = data.End[2];
+	pdata->StartingVelocity = data.StartingVelocity;
+	pdata->EndingVelocity = data.EndingVelocity;
+	pdata->ModeParameters = data.ModeParameters;
+	pdata->Mode = data.Mode;
+}
+
+void PathDesired_Set(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	PathDesiredData data;
+	PathDesiredGet(&data);
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+		double Start[3];
+		double End[3];
+		double StartingVelocity;
+		double EndingVelocity;
+		double ModeParameters;
+		unsigned char Mode;
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	data.Start[0] = pdata->Start[0];
+	data.Start[1] = pdata->Start[1];
+	data.Start[2] = pdata->Start[2];
+	data.End[0] = pdata->End[0];
+	data.End[1] = pdata->End[1];
+	data.End[2] = pdata->End[2];
+	data.StartingVelocity = pdata->StartingVelocity;
+	data.EndingVelocity = pdata->EndingVelocity;
+	data.ModeParameters = pdata->ModeParameters;
+	data.Mode = pdata->Mode;
+
+	PathDesiredSet(&data);
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_pathdesired[] =
+{
+#ifndef NO_FP
+	{ PathDesired_Get,	"void PathDesiredGet(PathDesiredData *);" },
+	{ PathDesired_Set,	"void PathDesiredSet(PathDesiredData *);" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_pathdesired(Picoc *pc)
+{
+	const char *definition = "typedef struct {"
+		"float Start[3];"
+		"float End[3];"
+		"float StartingVelocity;"
+		"float EndingVelocity;"
+		"float ModeParameters;"
+		"unsigned char Mode;"
+	"} PathDesiredData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
+	if (PathDesiredHandle() == NULL)
+		ProgramFailNoParser(pc, "no pathdesired");
+}
+
+
+/**
+ * pathstatus.h
+ */
+#include "pathstatus.h"
+
+/* library functions */
+#ifndef NO_FP
+void PathStatus_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	PathStatusData data;
+	PathStatusGet(&data);
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+		double fractional_progress;
+		double error;
+		unsigned char Status;
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->fractional_progress = data.fractional_progress;
+	pdata->error = data.error;
+	pdata->Status = data.Status;
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_pathstatus[] =
+{
+#ifndef NO_FP
+	{ PathStatus_Get,	"void PathStatusGet(PathStatusData *);" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_pathstatus(Picoc *pc)
+{
+	const char *definition = "typedef struct {"
+		"float fractional_progress;"
+		"float error;"
+		"unsigned char Status;"
+	"} PathStatusData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
+	if (PathStatusHandle() == NULL)
+		ProgramFailNoParser(pc, "no pathstatus");
+}
+
+
+/**
  * positionactual.h
  */
 #include "positionactual.h"
@@ -1295,6 +1502,8 @@ void PlatformLibraryInit(Picoc *pc)
 	IncludeRegister(pc, "gyros.h", &PlatformLibrarySetup_gyros, &PlatformLibrary_gyros[0], NULL);
 	IncludeRegister(pc, "magnetometer.h", &PlatformLibrarySetup_magnetometer, &PlatformLibrary_magnetometer[0], NULL);
 	IncludeRegister(pc, "manualcontrol.h", NULL, &PlatformLibrary_manualcontrol[0], NULL);
+	IncludeRegister(pc, "pathdesired.h", &PlatformLibrarySetup_pathdesired, &PlatformLibrary_pathdesired[0], NULL);
+	IncludeRegister(pc, "pathstatus.h", &PlatformLibrarySetup_pathstatus, &PlatformLibrary_pathstatus[0], NULL);
 	IncludeRegister(pc, "positionactual.h", &PlatformLibrarySetup_positionactual, &PlatformLibrary_positionactual[0], NULL);
 #ifndef NO_FP
 	IncludeRegister(pc, "pid.h", &PlatformLibrarySetup_pid, &PlatformLibrary_pid[0], NULL);

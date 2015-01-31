@@ -32,5 +32,7 @@
         <file>images/pipx-normal.png</file>
         <file>images/swap.svg</file>
         <file>images/share-2-icon.png</file>
+        <file>images/modules_normal.png</file>
+        <file>images/modules_selected.png</file>
     </qresource>
 </RCC>

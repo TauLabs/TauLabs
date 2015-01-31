@@ -44,6 +44,8 @@
 #define PIOS_INCLUDE_FLASH
 #define PIOS_INCLUDE_FLASH_INTERNAL
 
+#define BOOTLOADER_PAUSE_DELAY 2
+
 #endif /* PIOS_CONFIG_H */
 
 /**
