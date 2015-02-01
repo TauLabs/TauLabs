@@ -34,8 +34,8 @@
 #include "lowpassfilter.h"
 #include "stabilizationdesired.h"
 
-PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
-    QQuickWidget(parent),
+PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWindow *parent) :
+    QQuickView(parent),
     m_openGLEnabled(false),
     m_terrainEnabled(false),
     m_actualPositionUsed(false),
@@ -52,8 +52,6 @@ PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWidget *parent) :
                        "AirspeedActual" <<
                        "Accels" <<
                        "VelocityDesired" <<
-                       "PositionDesired" <<
-                       "AttitudeHoldDesired" <<
                        "StabilizationDesired" <<
                        "PathDesired" <<
                        "HomeLocation" <<
@@ -181,7 +179,7 @@ void PfdQmlGadgetWidget::mouseReleaseEvent(QMouseEvent *event)
         setQmlFile(m_qmlFileName);
     }
 
-    QQuickWidget::mouseReleaseEvent(event);
+    QQuickView::mouseReleaseEvent(event);
 }
 
 void PfdQmlGadgetWidget::setLatitude(double arg)

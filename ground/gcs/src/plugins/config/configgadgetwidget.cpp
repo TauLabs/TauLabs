@@ -102,8 +102,8 @@ ConfigGadgetWidget::ConfigGadgetWidget(QWidget *parent) : QWidget(parent)
     ftw->insertTab(ConfigGadgetWidget::stabilization, qwd, *icon, QString("Stabilization"));
 
     icon = new QIcon();
-    icon->addFile(":/configgadget/images/autotune_normal.png", QSize(), QIcon::Normal, QIcon::Off);
-    icon->addFile(":/configgadget/images/autotune_selected.png", QSize(), QIcon::Selected, QIcon::Off);
+    icon->addFile(":/configgadget/images/modules_normal.png", QSize(), QIcon::Normal, QIcon::Off);
+    icon->addFile(":/configgadget/images/modules_selected.png", QSize(), QIcon::Selected, QIcon::Off);
     qwd = new ConfigModuleWidget(this);
     ftw->insertTab(ConfigGadgetWidget::modules, qwd, *icon, QString("Modules"));
 
