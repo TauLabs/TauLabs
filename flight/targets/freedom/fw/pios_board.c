@@ -309,10 +309,15 @@ void panic(int32_t code) {
 		for (int32_t i = 0; i < code; i++) {
 			PIOS_LED_Toggle(PIOS_LED_ALARM);
 			PIOS_DELAY_WaitmS(200);
+			PIOS_WDG_Clear();
 			PIOS_LED_Toggle(PIOS_LED_ALARM);
 			PIOS_DELAY_WaitmS(200);
+			PIOS_WDG_Clear();
 		}
-		PIOS_DELAY_WaitmS(500);
+		PIOS_DELAY_WaitmS(250);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(250);
+		PIOS_WDG_Clear();
 	}
 }
 
@@ -797,7 +802,7 @@ void PIOS_Board_Init(void) {
 		/* Configure the RFM22B device. */
 		const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
-			PIOS_Assert(0);
+			panic(6);
 		}
 
 		/* Configure the radio com interface */
@@ -808,7 +813,7 @@ void PIOS_Board_Init(void) {
 		if (PIOS_COM_Init(&pios_com_rf_id, &pios_rfm22b_com_driver, pios_rfm22b_id,
 		                  rx_buffer, PIOS_COM_RFM22B_RF_RX_BUF_LEN,
 		                  tx_buffer, PIOS_COM_RFM22B_RF_TX_BUF_LEN)) {
-			PIOS_Assert(0);
+			panic(6);
 		}
 
 		/* Set Telemetry to use RFM22b if no other telemetry is configured (USB always overrides anyway) */
@@ -882,7 +887,7 @@ void PIOS_Board_Init(void) {
 			PIOS_RFM22B_Rcvr_Init(&pios_rfm22brcvr_id, pios_rfm22b_id);
 			uintptr_t pios_rfm22brcvr_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_rfm22brcvr_rcvr_id, &pios_rfm22b_rcvr_driver, pios_rfm22brcvr_id)) {
-				PIOS_Assert(0);
+				panic(6);
 			}
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_RFM22B] = pios_rfm22brcvr_rcvr_id;
 		}
@@ -893,6 +898,8 @@ void PIOS_Board_Init(void) {
 
 #endif /* PIOS_INCLUDE_RFM22B */
 
+	PIOS_WDG_Clear();
+	
 	/* Configure input receiver USART port */
 	uint8_t hw_rcvrport;
 	HwFreedomRcvrPortGet(&hw_rcvrport);
