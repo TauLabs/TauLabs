@@ -30,6 +30,7 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # Set developer code and compile options
 # Set to YES for debugging
 DEBUG ?= NO
+ERASE_FLASH ?= NO
 
 # List of modules to include
 MODULES = Sensors
@@ -249,7 +250,9 @@ else
 CFLAGS += -Os
 endif
 
-
+ifeq ($(ERASE_FLASH), YES)
+CDEFS += -DERASE_FLASH
+endif
    
 # common architecture-specific flags from the device-specific library makefile
 CFLAGS += $(ARCHFLAGS)
