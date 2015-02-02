@@ -324,6 +324,10 @@ void PIOS_Board_Init(void) {
 		panic(1);
 #endif /* PIOS_INCLUDE_EXTERNAL_FLASH_WAYPOINTS */
 
+#if defined(ERASE_FLASH)
+	PIOS_FLASHFS_Format(pios_uavo_settings_fs_id);
+#endif
+
 #endif	/* PIOS_INCLUDE_FLASH */
 
 	/* Initialize the task monitor library */
