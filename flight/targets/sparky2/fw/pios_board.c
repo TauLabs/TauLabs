@@ -1053,18 +1053,30 @@ void PIOS_Board_Init(void) {
 	}
 
 	// the filter has to be set before rate else divisor calculation will fail
-	/*uint8_t hw_mpu9250_dlpf;
-	HwSparky2MPU9250DLPFGet(&hw_mpu9250_dlpf);
-	enum pios_mpu60x0_filter mpu9250_dlpf = \
-	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
-	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
-	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
-	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
-	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
-	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
-	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
-	    pios_mpu9250_cfg.default_filter;
-	PIOS_MPU9250_SetLPF(mpu9250_dlpf);*/
+	uint8_t hw_mpu9250_dlpf;
+	HwSparky2MPU9250GyroLPFGet(&hw_mpu9250_dlpf);
+	enum pios_mpu9250_gyro_filter mpu9250_gyro_lpf = \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250GYROLPF_250) ? PIOS_MPU9250_GYRO_LOWPASS_250_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250GYROLPF_184) ? PIOS_MPU9250_GYRO_LOWPASS_184_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250GYROLPF_92) ? PIOS_MPU9250_GYRO_LOWPASS_92_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250GYROLPF_41) ? PIOS_MPU9250_GYRO_LOWPASS_41_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250GYROLPF_20) ? PIOS_MPU9250_GYRO_LOWPASS_20_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250GYROLPF_10) ? PIOS_MPU9250_GYRO_LOWPASS_10_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250GYROLPF_5) ? PIOS_MPU9250_GYRO_LOWPASS_5_HZ : \
+	    pios_mpu9250_cfg.default_gyro_filter;
+	PIOS_MPU9250_SetGyroLPF(mpu9250_gyro_lpf);
+
+	HwSparky2MPU9250AccelLPFGet(&hw_mpu9250_dlpf);
+	enum pios_mpu9250_accel_filter mpu9250_accel_lpf = \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250ACCELLPF_460) ? PIOS_MPU9250_ACCEL_LOWPASS_460_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250ACCELLPF_184) ? PIOS_MPU9250_ACCEL_LOWPASS_184_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250ACCELLPF_92) ? PIOS_MPU9250_ACCEL_LOWPASS_92_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250ACCELLPF_41) ? PIOS_MPU9250_ACCEL_LOWPASS_41_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250ACCELLPF_20) ? PIOS_MPU9250_ACCEL_LOWPASS_20_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250ACCELLPF_10) ? PIOS_MPU9250_ACCEL_LOWPASS_10_HZ : \
+	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250ACCELLPF_5) ? PIOS_MPU9250_ACCEL_LOWPASS_5_HZ : \
+	    pios_mpu9250_cfg.default_accel_filter;
+	PIOS_MPU9250_SetGyroLPF(mpu9250_accel_lpf);
 
 	uint8_t hw_mpu9250_samplerate;
 	HwSparky2MPU9250RateGet(&hw_mpu9250_samplerate);
