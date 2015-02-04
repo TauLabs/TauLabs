@@ -1418,10 +1418,10 @@ const struct pios_servo_cfg pios_servo_cfg = {
 #if defined(PIOS_INCLUDE_PPM)
 /*
  * PPM Inputs
- * TIM3
+ * TIM8
  */
 static const struct pios_tim_channel pios_tim_rcvrport = {
-	.timer = TIM3,
+	.timer = TIM8,
 	.timer_chan = TIM_Channel_2,
 	.pin = {
 		.gpio = GPIOC,
@@ -1434,7 +1434,7 @@ static const struct pios_tim_channel pios_tim_rcvrport = {
 		},
 		.pin_source = GPIO_PinSource7,
 	},
-	.remap = GPIO_AF_TIM3,
+	.remap = GPIO_AF_TIM8,
 };
 
 #include <pios_ppm_priv.h>
