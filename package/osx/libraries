@@ -9,11 +9,11 @@ QMLDIR="${APP}/Contents/Resources/welcome"
 
 # macdeployqt will copy all the Qt5 binaries to the app bundle and relink as appropriate
 echo "Running \"${QT_DIR}/../bin/macdeployqt\" \"${APP}\" -verbose=2 -no-strip -always-overwrite -qmldir=\"$QMLDIR"\"
-macdeployqt "${APP}" -verbose=2 -no-strip -always-overwrite -qmldir="$QMLDIR"
+"${QT_DIR}/../bin/macdeployqt" "${APP}" -verbose=2 -no-strip -always-overwrite -qmldir="$QMLDIR"
 
 # Copy SDL files
 echo "Copying SDL"
-cp -r "$HOME/SDL/SDL.framework" "${APP}/Contents/Frameworks/"
+cp -r "/Library/Frameworks/SDL.framework" "${APP}/Contents/Frameworks/"
 
 echo "Changing package identification of SDL"
 install_name_tool -id \
