@@ -512,8 +512,8 @@ static bool arming_position(ManualControlCommandData * cmd, ManualControlSetting
 		return lowThrottle && cmd->Yaw > ARMED_THRESHOLD;
 	case MANUALCONTROLSETTINGS_ARMING_CORNERS:
 		return lowThrottle && (
-			(cmd->Yaw > ARMED_THRESHOLD && cmd->Roll < -ARMED_THRESHOLD) ||
-			(cmd->Yaw < -ARMED_THRESHOLD && cmd->Roll > ARMED_THRESHOLD) );
+			(cmd->Yaw > ARMED_THRESHOLD || cmd->Yaw < -ARMED_THRESHOLD) &&
+			(cmd->Roll > ARMED_THRESHOLD || cmd->Roll < -ARMED_THRESHOLD) );
 	case MANUALCONTROLSETTINGS_ARMING_SWITCH:
 		return cmd->ArmSwitch == MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
 	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE:
@@ -545,8 +545,8 @@ static bool disarming_position(ManualControlCommandData * cmd, ManualControlSett
 		return lowThrottle && cmd->Yaw < -ARMED_THRESHOLD;
 	case MANUALCONTROLSETTINGS_ARMING_CORNERS:
 		return lowThrottle && (
-			(cmd->Yaw > ARMED_THRESHOLD && cmd->Roll < -ARMED_THRESHOLD) ||
-			(cmd->Yaw < -ARMED_THRESHOLD && cmd->Roll > ARMED_THRESHOLD) );
+			(cmd->Yaw > ARMED_THRESHOLD || cmd->Yaw < -ARMED_THRESHOLD) &&
+			(cmd->Roll > ARMED_THRESHOLD || cmd->Roll < -ARMED_THRESHOLD) );
 	case MANUALCONTROLSETTINGS_ARMING_SWITCH:
 	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE:
 		return cmd->ArmSwitch != MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
