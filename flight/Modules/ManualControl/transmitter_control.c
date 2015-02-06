@@ -6,7 +6,7 @@
  * @{
  *
  * @file       transmitter_control.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      Handles R/C link and flight mode.
  *
