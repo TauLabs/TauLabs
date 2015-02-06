@@ -176,7 +176,7 @@ int32_t transmitter_control_update()
 	}
 
 	/* Update channel activity monitor */
-	if (flightStatus.Armed == ARM_STATE_DISARMED) {
+	if (flightStatus.Armed == FLIGHTSTATUS_ARMED_DISARMED) {
 		if (updateRcvrActivity(&activity_fsm)) {
 			/* Reset the aging timer because activity was detected */
 			lastActivityTime = lastSysTime;
