@@ -99,7 +99,7 @@ static void update_actuator_desired(ManualControlCommandData * cmd);
 static void update_stabilization_desired(ManualControlCommandData * cmd, ManualControlSettingsData * settings);
 static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightModeChanged);
 static void set_flight_mode();
-static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, float * scaled, bool valid);
+static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, bool valid);
 static void set_manual_control_error(SystemAlarmsManualControlOptions errorCode);
 static float scaleChannel(int16_t value, int16_t max, int16_t min, int16_t neutral);
 static uint32_t timeDifferenceMs(uint32_t start_time, uint32_t end_time);
@@ -338,6 +338,8 @@ int32_t transmitter_control_update()
 		cmd.Pitch          = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_PITCH];
 		cmd.Yaw            = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_YAW];
 		cmd.Throttle       = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE];
+		cmd.ArmSwitch      = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ARMING] > 0 ? 
+		                     MANUALCONTROLCOMMAND_ARMSWITCH_ARMED : MANUALCONTROLCOMMAND_ARMSWITCH_DISARMED;
 		flight_mode_value  = scaledChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE];
 
 		// Apply deadband for Roll/Pitch/Yaw stick inputs
@@ -381,7 +383,7 @@ int32_t transmitter_control_update()
 	// Process arming outside conditional so system will disarm when disconnected.  Notice this
 	// is processed in the _update method instead of _select method so the state system is always
 	// evalulated, even if not detected.
-	process_transmitter_events(&cmd, &settings, scaledChannel, valid_input_detected);
+	process_transmitter_events(&cmd, &settings, valid_input_detected);
 	
 	// Update cmd object
 	ManualControlCommandSet(&cmd);
@@ -491,8 +493,7 @@ static void set_armed_if_changed(uint8_t new_arm) {
 /**
  * Check sticks to determine if they are in the arming position
  */
-static bool arming_position(ManualControlCommandData * cmd, ManualControlSettingsData * settings,
-    float * scaled) {
+static bool arming_position(ManualControlCommandData * cmd, ManualControlSettingsData * settings) {
 
 	bool lowThrottle = cmd->Throttle <= 0;
 
@@ -513,6 +514,8 @@ static bool arming_position(ManualControlCommandData * cmd, ManualControlSetting
 		return lowThrottle && (
 			(cmd->Yaw > ARMED_THRESHOLD && cmd->Roll < -ARMED_THRESHOLD) ||
 			(cmd->Yaw < -ARMED_THRESHOLD && cmd->Roll > ARMED_THRESHOLD) );
+	case MANUALCONTROLSETTINGS_ARMING_SWITCH:
+		return cmd->ArmSwitch == MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
 	default:
 		return false;
 	}
@@ -521,8 +524,7 @@ static bool arming_position(ManualControlCommandData * cmd, ManualControlSetting
 /**
  * Check sticks to determine if they are in the disarmed position
  */
-static bool disarming_position(ManualControlCommandData * cmd, ManualControlSettingsData * settings,
-    float * scaled) {
+static bool disarming_position(ManualControlCommandData * cmd, ManualControlSettingsData * settings) {
 
 	bool lowThrottle = cmd->Throttle <= 0;
 
@@ -543,6 +545,8 @@ static bool disarming_position(ManualControlCommandData * cmd, ManualControlSett
 		return lowThrottle && (
 			(cmd->Yaw > ARMED_THRESHOLD && cmd->Roll < -ARMED_THRESHOLD) ||
 			(cmd->Yaw < -ARMED_THRESHOLD && cmd->Roll > ARMED_THRESHOLD) );
+	case MANUALCONTROLSETTINGS_ARMING_SWITCH:
+		return cmd->ArmSwitch != MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
 	default:
 		return false;
 	}
@@ -555,8 +559,7 @@ static bool disarming_position(ManualControlCommandData * cmd, ManualControlSett
  * @param[in] scaled The scaled channels, used for checking arming
  * @param[in] valid If the input data is valid (i.e. transmitter is transmitting)
  */
-static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings,
-    float * scaled, bool valid)
+static void process_transmitter_events(ManualControlCommandData * cmd, ManualControlSettingsData * settings, bool valid)
 {
 	static uint32_t armedDisarmStart;
 	bool lowThrottle = cmd->Throttle <= 0;
@@ -582,7 +585,7 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 			armedDisarmStart = lastSysTime;
 		}
 
-		bool arm = scaled[MANUALCONTROLCOMMAND_CHANNEL_ARMING] > 0;
+		bool arm = arming_position(cmd, settings);
 		if (arm)
 			set_armed_if_changed(FLIGHTSTATUS_ARMED_ARMED);
 		else
@@ -615,8 +618,8 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 		}
 
 		// Process inputs to determine if in an arm or disarm position
-		bool manualArm = arming_position(cmd, settings, scaled);
-		bool manualDisarm = disarming_position(cmd, settings, scaled);;
+		bool manualArm = arming_position(cmd, settings);
+		bool manualDisarm = disarming_position(cmd, settings);
 
 		switch(arm_state) {
 			case ARM_STATE_DISARMED:
