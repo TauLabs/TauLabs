@@ -516,6 +516,8 @@ static bool arming_position(ManualControlCommandData * cmd, ManualControlSetting
 			(cmd->Yaw < -ARMED_THRESHOLD && cmd->Roll > ARMED_THRESHOLD) );
 	case MANUALCONTROLSETTINGS_ARMING_SWITCH:
 		return cmd->ArmSwitch == MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
+	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE:
+		return lowThrottle && cmd->ArmSwitch == MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
 	default:
 		return false;
 	}
@@ -546,6 +548,7 @@ static bool disarming_position(ManualControlCommandData * cmd, ManualControlSett
 			(cmd->Yaw > ARMED_THRESHOLD && cmd->Roll < -ARMED_THRESHOLD) ||
 			(cmd->Yaw < -ARMED_THRESHOLD && cmd->Roll > ARMED_THRESHOLD) );
 	case MANUALCONTROLSETTINGS_ARMING_SWITCH:
+	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE:
 		return cmd->ArmSwitch != MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
 	default:
 		return false;
@@ -569,7 +572,8 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 
 	if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED) {
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
-	} else if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCH) {
+	} else if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCH ||
+		       settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE) {
 		// For the switch we look at valid instead of cmd->Connected because the later
 		// has a hysteresis loop which means we can arm quickly on invalid data and
 		// then it will time out. This might be very temporary glitches will start the
@@ -586,10 +590,13 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 		}
 
 		bool arm = arming_position(cmd, settings);
+		bool disarm = disarming_position(cmd, settings);
+
 		if (arm)
 			set_armed_if_changed(FLIGHTSTATUS_ARMED_ARMED);
-		else
+		else if (disarm)
 			set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
+
 	} else {
 		if (cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_FALSE)
 			lowThrottle = true;
