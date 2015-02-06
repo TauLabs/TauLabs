@@ -57,7 +57,6 @@
 #include "pios_usb_rctx.h"
 #endif	/* PIOS_INCLUDE_USB_RCTX */
 
-#define ARMED_TIME_MS      1000
 #define ARMED_THRESHOLD    0.50f
 //safe band to allow a bit of calibration error or trim offset (in microseconds)
 #define CONNECTION_OFFSET_THROTTLE 100
@@ -623,12 +622,19 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 				break;
 
 			case ARM_STATE_ARMING_MANUAL:
+			{
 				set_armed_if_changed(FLIGHTSTATUS_ARMED_ARMING);
 
-				if (manualArm && (timeDifferenceMs(armedDisarmStart, lastSysTime) > ARMED_TIME_MS))
+				uint16_t arm_time = (settings->ArmTime == MANUALCONTROLSETTINGS_ARMTIME_250) ? 250 : \
+					(settings->ArmTime == MANUALCONTROLSETTINGS_ARMTIME_500) ? 500 : \
+					(settings->ArmTime == MANUALCONTROLSETTINGS_ARMTIME_1000) ? 1000 : \
+					(settings->ArmTime == MANUALCONTROLSETTINGS_ARMTIME_2000) ? 2000 : 1000;
+
+				if (manualArm && (timeDifferenceMs(armedDisarmStart, lastSysTime) > arm_time))
 					arm_state = ARM_STATE_ARMED;
 				else if (!manualArm)
 					arm_state = ARM_STATE_DISARMED;
+			}
 				break;
 
 			case ARM_STATE_ARMED:
@@ -652,10 +658,17 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 				break;
 
 			case ARM_STATE_DISARMING_MANUAL:
-				if (manualDisarm &&(timeDifferenceMs(armedDisarmStart, lastSysTime) > ARMED_TIME_MS))
+			{
+				uint16_t disarm_time = (settings->DisarmTime == MANUALCONTROLSETTINGS_DISARMTIME_250) ? 250 : \
+					(settings->DisarmTime == MANUALCONTROLSETTINGS_DISARMTIME_500) ? 500 : \
+					(settings->DisarmTime == MANUALCONTROLSETTINGS_DISARMTIME_1000) ? 1000 : \
+					(settings->DisarmTime == MANUALCONTROLSETTINGS_DISARMTIME_2000) ? 2000 : 1000;
+
+				if (manualDisarm &&(timeDifferenceMs(armedDisarmStart, lastSysTime) > disarm_time))
 					arm_state = ARM_STATE_DISARMED;
 				else if (!manualDisarm)
 					arm_state = ARM_STATE_ARMED;
+			}
 				break;
 		}	// End Switch
 	}
