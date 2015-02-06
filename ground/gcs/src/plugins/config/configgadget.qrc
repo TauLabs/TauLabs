@@ -34,5 +34,7 @@
         <file>images/osd_selected.png</file>
         <file>images/osd_normal.png</file>
         <file>images/share-2-icon.png</file>
+        <file>images/modules_normal.png</file>
+        <file>images/modules_selected.png</file>
     </qresource>
 </RCC>

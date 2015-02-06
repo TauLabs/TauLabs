@@ -107,10 +107,10 @@ ConfigGadgetWidget::ConfigGadgetWidget(QWidget *parent) : QWidget(parent)
     icon->addFile(":/configgadget/images/osd_selected.png", QSize(), QIcon::Selected, QIcon::Off);
     qwd = new ConfigOsdWidget(this);
     ftw->insertTab(ConfigGadgetWidget::osd, qwd, *icon, QString("OSD"));
-    
+
     icon = new QIcon();
-    icon->addFile(":/configgadget/images/autotune_normal.png", QSize(), QIcon::Normal, QIcon::Off);
-    icon->addFile(":/configgadget/images/autotune_selected.png", QSize(), QIcon::Selected, QIcon::Off);
+    icon->addFile(":/configgadget/images/modules_normal.png", QSize(), QIcon::Normal, QIcon::Off);
+    icon->addFile(":/configgadget/images/modules_selected.png", QSize(), QIcon::Selected, QIcon::Off);
     qwd = new ConfigModuleWidget(this);
     ftw->insertTab(ConfigGadgetWidget::modules, qwd, *icon, QString("Modules"));
 
