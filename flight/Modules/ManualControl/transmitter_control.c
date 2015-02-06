@@ -490,6 +490,58 @@ static void set_armed_if_changed(uint8_t new_arm) {
 }
 
 /**
+ * Check sticks to determine if they are in the arming position
+ */
+static bool arming_position(ManualControlCommandData * cmd, ManualControlSettingsData * settings,
+    float * scaled) {
+
+	bool lowThrottle = cmd->Throttle <= 0;
+
+	switch(settings->Arming) {
+	case MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED:
+		return false;
+	case MANUALCONTROLSETTINGS_ARMING_ALWAYSARMED:
+		return true;
+	case MANUALCONTROLSETTINGS_ARMING_ROLLLEFT:
+		return lowThrottle && cmd->Roll < -ARMED_THRESHOLD;
+	case MANUALCONTROLSETTINGS_ARMING_ROLLRIGHT:
+		return lowThrottle && cmd->Roll > ARMED_THRESHOLD;
+	case MANUALCONTROLSETTINGS_ARMING_YAWLEFT:
+		return lowThrottle && cmd->Yaw < -ARMED_THRESHOLD;
+	case MANUALCONTROLSETTINGS_ARMING_YAWRIGHT:
+		return lowThrottle && cmd->Yaw > ARMED_THRESHOLD;
+	default:
+		return false;
+	}
+}
+
+/**
+ * Check sticks to determine if they are in the disarmed position
+ */
+static bool disarming_position(ManualControlCommandData * cmd, ManualControlSettingsData * settings,
+    float * scaled) {
+
+	bool lowThrottle = cmd->Throttle <= 0;
+
+	switch(settings->Arming) {
+	case MANUALCONTROLSETTINGS_ARMING_ALWAYSDISARMED:
+		return true;
+	case MANUALCONTROLSETTINGS_ARMING_ALWAYSARMED:
+		return false;
+	case MANUALCONTROLSETTINGS_ARMING_ROLLLEFT:
+		return lowThrottle && cmd->Roll > ARMED_THRESHOLD;
+	case MANUALCONTROLSETTINGS_ARMING_ROLLRIGHT:
+		return lowThrottle && cmd->Roll < -ARMED_THRESHOLD;
+	case MANUALCONTROLSETTINGS_ARMING_YAWLEFT:
+		return lowThrottle && cmd->Yaw > ARMED_THRESHOLD;
+	case MANUALCONTROLSETTINGS_ARMING_YAWRIGHT:
+		return lowThrottle && cmd->Yaw < -ARMED_THRESHOLD;
+	default:
+		return false;
+	}
+}
+
+/**
  * @brief Process the inputs and determine whether to arm or not
  * @param[in] cmd The manual control inputs
  * @param[in] settings Settings indicating the necessary position
@@ -555,25 +607,9 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 			return;
 		}
 
-		// When the configuration is not "Always armed" and no "Always disarmed",
-		// the state will not be changed when the throttle is not low
-		float armingInputLevel = 0;
-
-		// Calc channel see assumptions7
-		int8_t sign = ((settings->Arming-MANUALCONTROLSETTINGS_ARMING_ROLLLEFT)%2) ? -1 : 1;
-		switch ( (settings->Arming-MANUALCONTROLSETTINGS_ARMING_ROLLLEFT)/2 ) {
-			case ARMING_CHANNEL_ROLL:    armingInputLevel = sign * cmd->Roll;    break;
-			case ARMING_CHANNEL_PITCH:   armingInputLevel = sign * cmd->Pitch;   break;
-			case ARMING_CHANNEL_YAW:     armingInputLevel = sign * cmd->Yaw;     break;
-		}
-
-		bool manualArm = false;
-		bool manualDisarm = false;
-
-		if (armingInputLevel <= -ARMED_THRESHOLD)
-			manualArm = true;
-		else if (armingInputLevel >= +ARMED_THRESHOLD)
-			manualDisarm = true;
+		// Process inputs to determine if in an arm or disarm position
+		bool manualArm = arming_position(cmd, settings, scaled);
+		bool manualDisarm = disarming_position(cmd, settings, scaled);;
 
 		switch(arm_state) {
 			case ARM_STATE_DISARMED:
