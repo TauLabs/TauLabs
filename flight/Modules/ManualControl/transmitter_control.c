@@ -110,7 +110,7 @@ static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm);
 static void manual_control_settings_updated(UAVObjEvent * ev);
 static void set_loiter_command(ManualControlCommandData * cmd);
 
-#define assumptions (assumptions1 && assumptions3 && assumptions5 && assumptions7 && assumptions8 && assumptions_flightmode && assumptions_channelcount)
+#define assumptions (assumptions1 && assumptions3 && assumptions5 && assumptions_flightmode && assumptions_channelcount)
 
 //! Initialize the transmitter control mode
 int32_t transmitter_control_initialize()
@@ -509,6 +509,10 @@ static bool arming_position(ManualControlCommandData * cmd, ManualControlSetting
 		return lowThrottle && cmd->Yaw < -ARMED_THRESHOLD;
 	case MANUALCONTROLSETTINGS_ARMING_YAWRIGHT:
 		return lowThrottle && cmd->Yaw > ARMED_THRESHOLD;
+	case MANUALCONTROLSETTINGS_ARMING_CORNERS:
+		return lowThrottle && (
+			(cmd->Yaw > ARMED_THRESHOLD && cmd->Roll < -ARMED_THRESHOLD) ||
+			(cmd->Yaw < -ARMED_THRESHOLD && cmd->Roll > ARMED_THRESHOLD) );
 	default:
 		return false;
 	}
@@ -535,6 +539,10 @@ static bool disarming_position(ManualControlCommandData * cmd, ManualControlSett
 		return lowThrottle && cmd->Yaw > ARMED_THRESHOLD;
 	case MANUALCONTROLSETTINGS_ARMING_YAWRIGHT:
 		return lowThrottle && cmd->Yaw < -ARMED_THRESHOLD;
+	case MANUALCONTROLSETTINGS_ARMING_CORNERS:
+		return lowThrottle && (
+			(cmd->Yaw > ARMED_THRESHOLD && cmd->Roll < -ARMED_THRESHOLD) ||
+			(cmd->Yaw < -ARMED_THRESHOLD && cmd->Roll > ARMED_THRESHOLD) );
 	default:
 		return false;
 	}

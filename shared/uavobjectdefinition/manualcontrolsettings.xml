@@ -105,10 +105,9 @@
 				<option>Always Armed</option>
 				<option>Roll Left</option>
 				<option>Roll Right</option>
-				<option>Pitch Forward</option>
-				<option>Pitch Aft</option>
 				<option>Yaw Left</option>
 				<option>Yaw Right</option>
+				<option>Corners</option>
 				<option>Switch</option>
 			</options>
 		</field>
