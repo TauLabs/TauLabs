@@ -13,7 +13,7 @@ echo "Running \"${QT_DIR}/../bin/macdeployqt\" \"${APP}\" -verbose=2 -no-strip -
 
 # Copy SDL files
 echo "Copying SDL"
-cp -r "/Library/Frameworks/SDL.framework" "${APP}/Contents/Frameworks/"
+cp -r "$HOME/SDL/SDL.framework" "${APP}/Contents/Frameworks/"
 
 echo "Changing package identification of SDL"
 install_name_tool -id \
