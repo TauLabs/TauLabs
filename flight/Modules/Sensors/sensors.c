@@ -169,7 +169,8 @@ static void SensorsTask(void *parameters)
 	// Main task loop
 	lastSysTime = PIOS_Thread_Systime();
 	uint32_t good_runs = 1;
-	uint32_t last_pios_sensor_update = PIOS_DELAY_GetRaw();
+	uint32_t last_baro_update_time = PIOS_DELAY_GetRaw();
+	bool in_baro_alarm_state = false;
 
 	while (1) {
 		if (good_runs == 0) {
@@ -215,15 +216,25 @@ static void SensorsTask(void *parameters)
 		if (queue != NULL) {
 			if (PIOS_Queue_Receive(queue, &baro, 0) != false) {
 				// we can use the timeval because it contains the current time stamp (PIOS_DELAY_GetRaw())
-				last_pios_sensor_update = timeval;
+				last_baro_update_time = timeval;
 				update_baro(&baro);
+				// if we were in baro error state clear it.
+				// To avoid sending the clear signal all the time
+				// "in_baro_error_state" is used.
+				if (in_baro_alarm_state){
+					AlarmsClear(SYSTEMALARMS_ALARM_TEMPBARO);
+					in_baro_alarm_state = false;
+				}
+
 			}
 			// Check that we got valid sensor datas
-			uint32_t dT_baro_datas = PIOS_DELAY_DiffuS(last_pios_sensor_update);
+			uint32_t dT_baro_datas = PIOS_DELAY_DiffuS(last_baro_update_time);
 			// if the last valid sensor datas older than 100 ms report an error
 			if (dT_baro_datas > MAX_TIME_BETWEEN_VALID_BARO_DATAS_MS) {
 				AlarmsSet(SYSTEMALARMS_ALARM_TEMPBARO, SYSTEMALARMS_ALARM_ERROR);
+				in_baro_alarm_state = true;
 			}
+
 		}
 
 		if (good_runs > REQUIRED_GOOD_CYCLES)
