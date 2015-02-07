@@ -319,6 +319,13 @@ void PIOS_Board_Init(void) {
 
 	check_bor();
 
+	// Make sure all the PWM outputs are low
+	const struct pios_tim_channel * channels = pios_servo_cfg.channels;
+	uint8_t num_channels = pios_servo_cfg.num_channels;
+	for (int i = 0; i < num_channels; i++) {
+		GPIO_Init(channels[i].pin.gpio, (GPIO_InitTypeDef*) &channels[i].pin.init);
+	}
+
 	/* Delay system */
 	PIOS_DELAY_Init();
 
