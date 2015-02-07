@@ -221,18 +221,18 @@ static void SensorsTask(void *parameters)
 				// if we were in baro error state clear it.
 				// To avoid sending the clear signal all the time
 				// "in_baro_error_state" is used.
-				if (in_baro_alarm_state){
+				if (in_baro_alarm_state) {
 					AlarmsClear(SYSTEMALARMS_ALARM_TEMPBARO);
 					in_baro_alarm_state = false;
 				}
-
-			}
-			// Check that we got valid sensor datas
-			uint32_t dT_baro_datas = PIOS_DELAY_DiffuS(last_baro_update_time);
-			// if the last valid sensor datas older than 100 ms report an error
-			if (dT_baro_datas > MAX_TIME_BETWEEN_VALID_BARO_DATAS_MS) {
-				AlarmsSet(SYSTEMALARMS_ALARM_TEMPBARO, SYSTEMALARMS_ALARM_ERROR);
-				in_baro_alarm_state = true;
+			} else {
+				// Check that we got valid sensor datas
+				uint32_t dT_baro_datas = PIOS_DELAY_DiffuS(last_baro_update_time);
+				// if the last valid sensor datas older than 100 ms report an error
+				if (dT_baro_datas > MAX_TIME_BETWEEN_VALID_BARO_DATAS_MS) {
+					AlarmsSet(SYSTEMALARMS_ALARM_TEMPBARO, SYSTEMALARMS_ALARM_ERROR);
+					in_baro_alarm_state = true;
+				}
 			}
 
 		}
