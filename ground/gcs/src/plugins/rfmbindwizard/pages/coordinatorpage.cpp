@@ -93,13 +93,13 @@ bool CoordinatorPage::configureCoordinator()
 
     // Get the ID for this board and make it a coordinator
     quint32 rfmId = board->getRfmID();
-    board->setCoordID(0, getWizard()->getMaxBps(), getWizard()->getMaxRfPower());
 
     // Store the coordinator ID
     getWizard()->setCoordID(rfmId);
 
     board->setLinkMode(getWizard()->getLinkMode());
     board->setMinMaxChannel(getWizard()->getMinChannel(), getWizard()->getMaxChannel());
+    board->setCoordID(0, getWizard()->getMaxBps(), getWizard()->getMaxRfPower());
 
     m_coordinatorConfigured = true;
     ui->setCoordinator->setEnabled(false);
