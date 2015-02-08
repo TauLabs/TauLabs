@@ -402,6 +402,15 @@ void PIOS_Board_Init(void) {
 	PIOS_TIM_InitClock(&tim_10_cfg);
 	PIOS_TIM_InitClock(&tim_11_cfg);
 	PIOS_TIM_InitClock(&tim_12_cfg);
+
+	NVIC_InitTypeDef tim_8_up_irq = {
+		.NVIC_IRQChannel                   = TIM8_UP_TIM13_IRQn,
+		.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+		.NVIC_IRQChannelSubPriority        = 0,
+		.NVIC_IRQChannelCmd                = ENABLE,
+	};
+	NVIC_Init(&tim_8_up_irq);
+
 	/* IAP System Setup */
 	PIOS_IAP_Init();
 	uint16_t boot_count = PIOS_IAP_ReadBootCount();
