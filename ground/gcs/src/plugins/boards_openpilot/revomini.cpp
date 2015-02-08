@@ -56,6 +56,9 @@ RevoMini::RevoMini(void)
     channelBanks[1] = QVector<int> () << 3;
     channelBanks[2] = QVector<int> () << 4;
     channelBanks[3] = QVector<int> () << 5 << 6;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
 }
 
 RevoMini::~RevoMini()
@@ -114,6 +117,17 @@ QString RevoMini::getHwUAVO()
     return "HwRevoMini";
 }
 
+//! Get the settings object
+HwRevoMini * RevoMini::getSettings()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    HwRevoMini *hwRevoMini = HwRevoMini::GetInstance(uavoManager);
+    Q_ASSERT(hwRevoMini);
+
+    return hwRevoMini;
+}
 //! Determine if this board supports configuring the receiver
 bool RevoMini::isInputConfigurationSupported()
 {
@@ -262,21 +276,9 @@ quint32 RevoMini::getRfmID()
  */
 bool RevoMini::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
 {
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwRevoMini::DataFields settings = getSettings()->getData();
 
-    HwRevoMini *hwRevoMini = HwRevoMini::GetInstance(uavoManager);
-    Q_ASSERT(hwRevoMini);
-    HwRevoMini::DataFields settings = hwRevoMini->getData();
-
-    if (id == 0) {
-        // set as coordinator
-        settings.Radio = HwRevoMini::RADIO_TELEM;
-        settings.CoordID = 0;
-    } else {
-        settings.Radio = HwRevoMini::RADIO_TELEM;
-        settings.CoordID = id;
-    }
+    settings.CoordID = id;
 
     switch(baud_rate) {
     case 9600:
@@ -331,11 +333,42 @@ bool RevoMini::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
         break;
     }
 
-    hwRevoMini->setData(settings);
+    getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash(getSettings());
 
-    // save the settings
-    UAVObjectUtilManager* uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
-    uavoUtilManager->saveObjectToFlash(hwRevoMini);
+    return true;
+}
+
+
+//! Set the radio link mode
+bool RevoMini::setLinkMode(Core::IBoardType::LinkMode linkMode)
+{
+    HwRevoMini::DataFields settings = getSettings()->getData();
+
+    switch(linkMode) {
+    case Core::IBoardType::LINK_TELEM:
+        settings.Radio = HwRevoMini::RADIO_TELEM;
+        break;
+    case Core::IBoardType::LINK_TELEM_PPM:
+        settings.Radio = HwRevoMini::RADIO_TELEMPPM;
+        break;
+    case Core::IBoardType::LINK_PPM:
+        settings.Radio = HwRevoMini::RADIO_PPM;
+        break;
+    }
+
+    getSettings()->setData(settings);
+
+    return true;
+}
+
+//! Set the minimum and maximum channel index
+bool RevoMini::setMinMaxChannel(quint8 min, quint8 max)
+{
+    HwRevoMini::DataFields settings = getSettings()->getData();
+    settings.MinChannel = min;
+    settings.MaxChannel = max;
+    getSettings()->setData(settings);
 
     return true;
 }
