@@ -268,14 +268,7 @@ bool Sparky2::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
 {
     HwSparky2::DataFields settings = getSettings()->getData();
 
-    if (id == 0) {
-        // set as coordinator
-        settings.Radio = HwSparky2::RADIO_TELEM;
-        settings.CoordID = 0;
-    } else {
-        settings.Radio = HwSparky2::RADIO_TELEM;
-        settings.CoordID = id;
-    }
+    settings.CoordID = id;
 
     switch(baud_rate) {
     case 9600:
@@ -354,7 +347,6 @@ bool Sparky2::setLinkMode(Core::IBoardType::LinkMode linkMode)
     }
 
     getSettings()->setData(settings);
-    uavoUtilManager->saveObjectToFlash(getSettings());
 
     return true;
 }
@@ -366,7 +358,6 @@ bool Sparky2::setMinMaxChannel(quint8 min, quint8 max)
     settings.MinChannel = min;
     settings.MaxChannel = max;
     getSettings()->setData(settings);
-    uavoUtilManager->saveObjectToFlash(getSettings());
 
     return true;
 }
