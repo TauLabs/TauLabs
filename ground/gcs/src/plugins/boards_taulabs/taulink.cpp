@@ -144,14 +144,7 @@ bool TauLink::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
 {
     HwTauLink::DataFields settings = getSettings()->getData();
 
-    if (id == 0) {
-        // set as coordinator
-        settings.Radio = HwTauLink::RADIO_TELEM;
-        settings.CoordID = 0;
-    } else {
-        settings.Radio = HwTauLink::RADIO_TELEM;
-        settings.CoordID = id;
-    }
+    settings.CoordID = id;
 
     switch(baud_rate) {
     case 9600:
@@ -230,7 +223,6 @@ bool TauLink::setLinkMode(Core::IBoardType::LinkMode linkMode)
     }
 
     getSettings()->setData(settings);
-    uavoUtilManager->saveObjectToFlash(getSettings());
 
     return true;
 }
@@ -242,7 +234,6 @@ bool TauLink::setMinMaxChannel(quint8 min, quint8 max)
     settings.MinChannel = min;
     settings.MaxChannel = max;
     getSettings()->setData(settings);
-    uavoUtilManager->saveObjectToFlash(getSettings());
 
     return true;
 }
