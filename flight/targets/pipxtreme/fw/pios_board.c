@@ -313,21 +313,24 @@ void PIOS_Board_Init(void) {
     }
 
     // Initialize out status object.
-    RFM22BStatusData tllinkStatus;
-    RFM22BStatusGet(&tllinkStatus);
+    RFM22BStatusData rfm22bstatus;
+    RFM22BStatusGet(&rfm22bstatus);
 
-    tllinkStatus.BoardType     = bdinfo->board_type;
-    tllinkStatus.BoardRevision = bdinfo->board_rev;
+    rfm22bstatus.BoardType     = bdinfo->board_type;
+    rfm22bstatus.BoardRevision = bdinfo->board_rev;
 
     /* Initalize the RFM22B radio COM device. */
     if (hwTauLink.MaxRfPower != HWTAULINK_MAXRFPOWER_0) {
-        tllinkStatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
+        rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
 
         // Configure the RFM22B device
         const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
         if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
             PIOS_Assert(0);
         }
+
+        rfm22bstatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
+        rfm22bstatus.BoardRevision = PIOS_RFM22B_ModuleVersion(pios_rfm22b_id);
 
         // Configure the radio com interface
         uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_RFM22B_RF_RX_BUF_LEN);
@@ -400,11 +403,11 @@ void PIOS_Board_Init(void) {
         // Reinitilize the modem to affect te changes.
         PIOS_RFM22B_Reinit(pios_rfm22b_id);
     } else {
-        tllinkStatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
+        rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
     }
 
     // Update the object
-    RFM22BStatusSet(&tllinkStatus);
+    RFM22BStatusSet(&rfm22bstatus);
 
     // Update the com baud rate.
     uint32_t comBaud = 9600;
