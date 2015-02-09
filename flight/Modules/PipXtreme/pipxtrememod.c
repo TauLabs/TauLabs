@@ -143,8 +143,6 @@ static void systemTask(void *parameters)
 		if (pios_rfm22b_id) {
 			// Update the status
 			rfm22bStatus.HeapRemaining = PIOS_heap_get_free_size();
-			rfm22bStatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
-			rfm22bStatus.BoardRevision = PIOS_RFM22B_ModuleVersion(pios_rfm22b_id);
 			rfm22bStatus.RxGood = radio_stats.rx_good;
 			rfm22bStatus.RxCorrected = radio_stats.rx_corrected;
 			rfm22bStatus.RxErrors = radio_stats.rx_error;
