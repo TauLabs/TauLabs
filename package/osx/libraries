@@ -2,7 +2,8 @@
 
 APP="${1?}"
 PLUGINS="${APP}/Contents/Plugins"
-QT_DIR=$(otool -L "${APP}/Contents/MacOS/Tau Labs GCS"  | sed -n -e 's/\/QtCore\.framework.*//p' | sed -n -E 's:^.::p')
+#QT_DIR=$(otool -L "${APP}/Contents/MacOS/Tau Labs GCS"  | sed -n -e 's/\/QtCore\.framework.*//p' | sed -n -E 's:^.::p')
+QT_DIR="../tools/Qt5.4.0/5.4/clang_64/lib"
 
 # Specify a list of all the qml directories that need imports
 QMLDIR="${APP}/Contents/Resources/welcome"
@@ -10,6 +11,13 @@ QMLDIR="${APP}/Contents/Resources/welcome"
 # macdeployqt will copy all the Qt5 binaries to the app bundle and relink as appropriate
 echo "Running \"${QT_DIR}/../bin/macdeployqt\" \"${APP}\" -verbose=2 -no-strip -always-overwrite -qmldir=\"$QMLDIR"\"
 "${QT_DIR}/../bin/macdeployqt" "${APP}" -verbose=2 -no-strip -always-overwrite -qmldir="$QMLDIR"
+
+# For some reasom this symlink is still wrong..
+CWD=`pwd`
+cd "${APP}/Contents/Resources/qml/QtQuick/XmlListModel/"
+rm libqmlxmllistmodelplugin.dylib
+ln -s ../../../../Plugins/quick/libqmlxmllistmodelplugin.dylib
+cd ${CWD}
 
 # Copy SDL files
 echo "Copying SDL"
