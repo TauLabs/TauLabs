@@ -360,6 +360,11 @@ void PIOS_Board_Init(void) {
 		panic(1);
 	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS) != 0)
 		panic(1);
+
+#if defined(ERASE_FLASH)
+	PIOS_FLASHFS_Format(pios_uavo_settings_fs_id);
+#endif
+
 #endif	/* PIOS_INCLUDE_FLASH */
 
 	/* Initialize the task monitor library */

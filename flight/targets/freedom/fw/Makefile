@@ -31,7 +31,7 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # @groupbrief Set developer code and compile options
 # @optbrief Set to YES to compile for debugging
 DEBUG ?= NO
-
+ERASE_FLASH ?= NO
 
 # @endgroup Compile Options
 # List of modules to include
@@ -256,7 +256,9 @@ else
 CFLAGS += -Os
 endif
 
-
+ifeq ($(ERASE_FLASH), YES)
+CDEFS += -DERASE_FLASH
+endif
    
 # common architecture-specific flags from the device-specific library makefile
 CFLAGS += $(ARCHFLAGS)
