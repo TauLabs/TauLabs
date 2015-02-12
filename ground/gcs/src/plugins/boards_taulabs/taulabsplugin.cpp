@@ -1,11 +1,7 @@
 /**
  ******************************************************************************
  * @file       taulabsplugin.cpp
-<<<<<<< HEAD
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
-=======
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
->>>>>>> GCS: Add board plugin for taulabs
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -33,7 +29,7 @@
 #include "freedom.h"
 #include "sparky.h"
 #include "sparkybgc.h"
-#include <QtPlugin>
+#include "taulink.h"
 
 
 TauLabsPlugin::TauLabsPlugin()
@@ -67,6 +63,9 @@ void TauLabsPlugin::extensionsInitialized()
 
     Freedom* freedom = new Freedom();
     addAutoReleasedObject(freedom);
+
+    TauLink* taulink = new TauLink();
+    addAutoReleasedObject(taulink);
 }
 
 void TauLabsPlugin::shutdown()

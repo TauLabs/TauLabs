@@ -148,6 +148,7 @@ SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rfm22b.c
 SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
+SRC += $(PIOSCOMMON)/pios_rfm22b_rcvr.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_hsum.c
 SRC += $(PIOSCOMMON)/pios_sbus.c

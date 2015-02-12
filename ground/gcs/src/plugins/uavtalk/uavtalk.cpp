@@ -30,9 +30,10 @@
 #include <QDebug>
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/generalsettings.h>
+
 //#define UAVTALK_DEBUG
 #ifdef UAVTALK_DEBUG
-  #define UAVTALK_QXTLOG_DEBUG(...) qDebug(__VA_ARGS__)
+  #define UAVTALK_QXTLOG_DEBUG(...) qDebug() << __VA_ARGS__
 #else  // UAVTALK_DEBUG
   #define UAVTALK_QXTLOG_DEBUG(...)
 #endif	// UAVTALK_DEBUG
@@ -579,7 +580,7 @@ bool UAVTalk::receiveObject(quint8 type, quint32 objId, quint16 instId, quint8* 
             // could be unknown and got through CRC check...)
             if (obj != NULL)
             {
-                UAVTALK_QXTLOG_DEBUG(QString("[uavtalk.cpp  ] UAVObject name:%0").arg(aobj->getName()));
+                UAVTALK_QXTLOG_DEBUG(QString("[uavtalk.cpp  ] UAVObject name:%0").arg(obj->getName()));
                 emit ackReceived(obj);
             }
             else
