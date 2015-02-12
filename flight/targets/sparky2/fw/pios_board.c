@@ -393,14 +393,10 @@ void PIOS_Board_Init(void) {
 	TaskMonitorInitialize();
 
 	/* Set up pulse timers */
-	PIOS_TIM_InitClock(&tim_1_cfg);
 	PIOS_TIM_InitClock(&tim_3_cfg);
-	PIOS_TIM_InitClock(&tim_4_cfg);
 	PIOS_TIM_InitClock(&tim_5_cfg);
 	PIOS_TIM_InitClock(&tim_8_cfg);
 	PIOS_TIM_InitClock(&tim_9_cfg);
-	PIOS_TIM_InitClock(&tim_10_cfg);
-	PIOS_TIM_InitClock(&tim_11_cfg);
 	PIOS_TIM_InitClock(&tim_12_cfg);
 
 	NVIC_InitTypeDef tim_8_up_irq = {
