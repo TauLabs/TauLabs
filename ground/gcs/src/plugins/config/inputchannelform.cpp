@@ -69,21 +69,33 @@ void inputChannelForm::setName(QString &name)
   */
 void inputChannelForm::minMaxUpdated()
 {
-    bool reverse = (ui->channelMin->value() > ui->channelMax->value());
-    if(reverse) {
-        ui->channelNeutral->setMinimum(ui->channelMax->value());
-        ui->channelNeutral->setMaximum(ui->channelMin->value());
+    if (ui->channelMin->value() != ui->channelMax->value()) {
+        bool reverse = (ui->channelMin->value() > ui->channelMax->value());
+        if(reverse) {
+            ui->channelNeutral->setMinimum(ui->channelMax->value());
+            ui->channelNeutral->setMaximum(ui->channelMin->value());
 
-        // Set the QSlider groove colors so that the fill is on the side of the minimum value
-        ui->channelNeutral->setProperty("state", "inverted");
-    } else {
-        ui->channelNeutral->setMinimum(ui->channelMin->value());
-        ui->channelNeutral->setMaximum(ui->channelMax->value());
+            // Set the QSlider groove colors so that the fill is on the side of the minimum value
+            ui->channelNeutral->setProperty("state", "inverted");
+        } else {
+            ui->channelNeutral->setMinimum(ui->channelMin->value());
+            ui->channelNeutral->setMaximum(ui->channelMax->value());
 
-        // Set the QSlider groove colors so that the fill is on the side of the minimum value
-        ui->channelNeutral->setProperty("state", "normal");
+            // Set the QSlider groove colors so that the fill is on the side of the minimum value
+            ui->channelNeutral->setProperty("state", "normal");
+        }
+        ui->channelNeutral->setInvertedAppearance(reverse);
+
+        // make sure slider is enabled (can be removed when "else" below is removed)
+        ui->channelNeutral->setEnabled(true);
     }
-    ui->channelNeutral->setInvertedAppearance(reverse);
+    else {
+        // when the min and max is equal, disable this slider to prevent crash
+        // from Qt bug: https://bugreports.qt.io/browse/QTBUG-43398
+        ui->channelNeutral->setMinimum(ui->channelMin->value() - 1);
+        ui->channelNeutral->setMaximum(ui->channelMax->value() + 1);
+        ui->channelNeutral->setEnabled(false);
+    }
 
     // Force refresh of style sheet.
     ui->channelNeutral->setStyle(QApplication::style());
