@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_config.h 
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
  * @brief      Board specific options that modify PiOS capabilities
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -56,6 +56,7 @@
 #define PIOS_INCLUDE_EXTI
 #define PIOS_INCLUDE_RTC
 #define PIOS_INCLUDE_WDG
+#define PIOS_INCLUDE_ONESHOT
 
 /* Select the sensors to include */
 #define PIOS_INCLUDE_MS5611

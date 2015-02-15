@@ -12,7 +12,7 @@
  *
  * @file       actuator.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
  * @brief      Actuator module. Drives the actuators (servos, motors etc).
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -379,6 +379,9 @@ static void actuatorTask(void* parameters)
 		{
 			success &= set_channel(n, command.Channel[n], &actuatorSettings);
 		}
+#if defined(PIOS_INCLUDE_ONESHOT)
+		PIOS_Servo_OneShot_Update();
+#endif
 
 		if(!success) {
 			command.NumFailedUpdates++;
@@ -523,7 +526,7 @@ static int16_t scaleChannel(float value, int16_t max, int16_t min, int16_t neutr
 static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const MixerSettingsData * mixerSettings)
 {
 	/* grab only the parts that we are going to use */
-	int16_t Channel[ACTUATORCOMMAND_CHANNEL_NUMELEM];
+	uint16_t Channel[ACTUATORCOMMAND_CHANNEL_NUMELEM];
 	ActuatorCommandChannelGet(Channel);
 
 	const Mixer_t * mixers = (Mixer_t *)&mixerSettings->Mixer1Type; //pointer to array of mixers in UAVObjects
@@ -556,6 +559,9 @@ static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const Mix
 	{
 		set_channel(n, Channel[n], actuatorSettings);
 	}
+#if defined(PIOS_INCLUDE_ONESHOT)
+	PIOS_Servo_OneShot_Update();
+#endif
 
 	// Update output object's parts that we changed
 	ActuatorCommandChannelSet(Channel);
@@ -686,6 +692,11 @@ static bool set_channel(uint8_t mixer_channel, uint16_t value, const ActuatorSet
 		case ACTUATORSETTINGS_CHANNELTYPE_PWM:
 			PIOS_Servo_Set(actuatorSettings->ChannelAddr[mixer_channel], value);
 			return true;
+#if defined(PIOS_INCLUDE_ONESHOT)
+		case ACTUATORSETTINGS_CHANNELTYPE_ONESHOT:
+			PIOS_Servo_OneShot_Set(actuatorSettings->ChannelAddr[mixer_channel], value);
+			return true;
+#endif
 #if defined(PIOS_INCLUDE_I2C_ESC)
 		case ACTUATORSETTINGS_CHANNELTYPE_MK:
 			return PIOS_SetMKSpeed(actuatorSettings->ChannelAddr[mixer_channel],value);
