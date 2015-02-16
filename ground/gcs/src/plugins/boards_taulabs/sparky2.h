@@ -83,13 +83,8 @@ public:
      * be a coordinator.
      * @return true if successful or false if not
      */
-    virtual bool setCoordID(quint32 id, quint32 baud_rate = 0, float rf_power = -1);
-
-    //! Set the radio link mode
-    virtual bool setLinkMode(Core::IBoardType::LinkMode /* linkMode */);
-
-    //! Set the minimum and maximum channel index
-    virtual bool setMinMaxChannel(quint8 /* min */, quint8 /* max */);
+    virtual bool bindRadio(quint32 id, quint32 baud_rate, float rf_power,
+                           Core::IBoardType::LinkMode linkMode, quint8 min, quint8 max);
 
 private:
     UAVObjectUtilManager* uavoUtilManager;
