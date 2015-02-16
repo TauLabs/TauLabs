@@ -97,9 +97,8 @@ bool CoordinatorPage::configureCoordinator()
     // Store the coordinator ID
     getWizard()->setCoordID(rfmId);
 
-    board->setLinkMode(getWizard()->getLinkMode());
-    board->setMinMaxChannel(getWizard()->getMinChannel(), getWizard()->getMaxChannel());
-    board->setCoordID(0, getWizard()->getMaxBps(), getWizard()->getMaxRfPower());
+    board->bindRadio(0, getWizard()->getMaxBps(), getWizard()->getMaxRfPower(),
+                     getWizard()->getLinkMode(),getWizard()->getMinChannel(), getWizard()->getMaxChannel());
 
     m_coordinatorConfigured = true;
     ui->setCoordinator->setEnabled(false);

@@ -172,7 +172,8 @@ quint32 Freedom::getRfmID()
  * be a coordinator.
  * @return true if successful or false if not
  */
-bool Freedom::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
+bool Freedom::bindRadio(quint32 id, quint32 baud_rate, float rf_power,
+                        Core::IBoardType::LinkMode linkMode, quint8 min, quint8 max)
 {
     HwFreedom::DataFields settings = getSettings()->getData();
 
@@ -231,17 +232,6 @@ bool Freedom::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
         break;
     }
 
-    getSettings()->setData(settings);
-    uavoUtilManager->saveObjectToFlash(getSettings());
-
-    return true;
-}
-
-//! Set the radio link mode
-bool Freedom::setLinkMode(Core::IBoardType::LinkMode linkMode)
-{
-    HwFreedom::DataFields settings = getSettings()->getData();
-
     switch(linkMode) {
     case Core::IBoardType::LINK_TELEM:
         settings.Radio = HwFreedom::RADIO_TELEM;
@@ -254,18 +244,12 @@ bool Freedom::setLinkMode(Core::IBoardType::LinkMode linkMode)
         break;
     }
 
-    getSettings()->setData(settings);
-
-    return true;
-}
-
-//! Set the minimum and maximum channel index
-bool Freedom::setMinMaxChannel(quint8 min, quint8 max)
-{
-    HwFreedom::DataFields settings = getSettings()->getData();
     settings.MinChannel = min;
     settings.MaxChannel = max;
+
     getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash(getSettings());
 
     return true;
 }
+

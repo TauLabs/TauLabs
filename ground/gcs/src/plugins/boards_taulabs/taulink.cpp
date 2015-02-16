@@ -140,7 +140,7 @@ quint32 TauLink::getRfmID()
  * be a coordinator.
  * @return true if successful or false if not
  */
-bool TauLink::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
+bool TauLink::bindRadio(quint32 id, quint32 baud_rate, float rf_power, Core::IBoardType::LinkMode linkMode, quint8 min, quint8 max)
 {
     HwTauLink::DataFields settings = getSettings()->getData();
 
@@ -199,17 +199,6 @@ bool TauLink::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
         break;
     }
 
-    getSettings()->setData(settings);
-    uavoUtilManager->saveObjectToFlash( getSettings());
-
-    return true;
-}
-
-//! Set the radio link mode
-bool TauLink::setLinkMode(Core::IBoardType::LinkMode linkMode)
-{
-    HwTauLink::DataFields settings = getSettings()->getData();
-
     switch(linkMode) {
     case Core::IBoardType::LINK_TELEM:
         settings.Radio = HwTauLink::RADIO_TELEM;
@@ -222,18 +211,11 @@ bool TauLink::setLinkMode(Core::IBoardType::LinkMode linkMode)
         break;
     }
 
-    getSettings()->setData(settings);
-
-    return true;
-}
-
-//! Set the minimum and maximum channel index
-bool TauLink::setMinMaxChannel(quint8 min, quint8 max)
-{
-    HwTauLink::DataFields settings = getSettings()->getData();
     settings.MinChannel = min;
     settings.MaxChannel = max;
+
     getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash( getSettings());
 
     return true;
 }
