@@ -13,14 +13,16 @@ HEADERS += \
     freedom.h \
     sparky.h \
     sparkybgc.h \
-    sparkybgcconfiguration.h
+    sparkybgcconfiguration.h \
+    taulink.h
 
 SOURCES += \
     taulabsplugin.cpp \
     freedom.cpp \
     sparky.cpp \
     sparkybgc.cpp \
-    sparkybgcconfiguration.cpp
+    sparkybgcconfiguration.cpp \
+    taulink.cpp
 
 RESOURCES += \
     taulabs.qrc

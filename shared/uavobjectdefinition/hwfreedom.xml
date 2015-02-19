@@ -52,12 +52,25 @@
 				<option>HoTT SUMH</option>
 			</options>
 		</field>
-		<field name="RadioPort" units="function" type="enum" elements="1" options="Disabled,Telemetry" defaultvalue="Disabled"/>
 
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
 		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
 
 		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
+
+		<!-- select the function for the radio port -->
+		<!--  1. Telem - telemetry connection -->
+		<!--  2. Telem+PPM - telemetry and ppm -->
+		<!--  3. PPM - PPM only (one way connection) -->
+		<field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,Telem+PPM,PPM" defaultvalue="Disabled"/>
+		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
+		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
+
+		<!-- radio settings -->
+		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" options="9600,19200,32000,64000,100000,192000" defaultvalue="64000"/>
+		<field name="MaxRfPower" units="mW" type="enum" elements="1" options="0,1.25,1.6,3.16,6.3,12.6,25,50,100" defaultvalue="0"/>
+		<field name="MinChannel" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="MaxChannel" units="" type="uint8" elements="1" defaultvalue="250"/>
 
 		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
 		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>

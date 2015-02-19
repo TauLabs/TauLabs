@@ -37,7 +37,6 @@
 #include "configautotunewidget.h"
 #include "configcamerastabilizationwidget.h"
 #include "configtxpidwidget.h"
-#include "configpipxtremewidget.h"
 #include "configattitudewidget.h"
 #include "defaulthwsettingswidget.h"
 #include "uavobjectutilmanager.h"
@@ -148,20 +147,6 @@ ConfigGadgetWidget::ConfigGadgetWidget(QWidget *parent) : QWidget(parent)
 
     help = 0;
     connect(ftw,SIGNAL(currentAboutToShow(int,bool*)),this,SLOT(tabAboutToChange(int,bool*)));//,Qt::BlockingQueuedConnection);
-
-    // Connect to the PipXStatus object updates
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    oplinkStatusObj = dynamic_cast<UAVDataObject*>(objManager->getObject("OPLinkStatus"));
-    if (oplinkStatusObj != NULL ) {
-        connect(oplinkStatusObj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateOPLinkStatus(UAVObject*)));
-    } else {
-	qDebug() << "Error: Object is unknown (OPLinkStatus).";
-    }
-
-    // Create the timer that is used to timeout the connection to the OPLink.
-    oplinkTimeout = new QTimer(this);
-    connect(oplinkTimeout, SIGNAL(timeout()), this, SLOT(onOPLinkDisconnect()));
-    oplinkConnected = false;
 }
 
 ConfigGadgetWidget::~ConfigGadgetWidget()
@@ -254,11 +239,8 @@ void ConfigGadgetWidget::tabAboutToChange(int i, bool * proceed)
         return;
     }
 
-    // Check if widget is dirty (i.e. has unsaved changes), and if it does, then check if
-    // either an autopilot or a PipX/OPLink telemetry unit is connected.
-    if(wid->isDirty() &&
-            (wid->isAutopilotConnected()||
-             QString(wid->metaObject()->className()) == "ConfigPipXtremeWidget"))
+    // Check if widget is dirty (i.e. has unsaved changes)
+    if(wid->isDirty() && wid->isAutopilotConnected())
     {
         int ans=QMessageBox::warning(this,tr("Unsaved changes"),tr("The tab you are leaving has unsaved changes,"
                                                            "if you proceed they may be lost."
@@ -269,32 +251,4 @@ void ConfigGadgetWidget::tabAboutToChange(int i, bool * proceed)
             wid->setDirty(false);
         }
     }
-}
-
-/*!
-  \brief Called by updates to @OPLinkStatus
-  */
-void ConfigGadgetWidget::updateOPLinkStatus(UAVObject *)
-{
-    // Restart the disconnection timer.
-    oplinkTimeout->start(5000);
-    if (!oplinkConnected)
-    {
-        qDebug() << "ConfigGadgetWidget onOPLinkConnect";
-
-        QIcon *icon = new QIcon();
-        icon->addFile(":/configgadget/images/pipx-normal.png", QSize(), QIcon::Normal, QIcon::Off);
-        icon->addFile(":/configgadget/images/pipx-selected.png", QSize(), QIcon::Selected, QIcon::Off);
-
-        QWidget *qwd = new ConfigPipXtremeWidget(this);
-        ftw->insertTab(ConfigGadgetWidget::oplink, qwd, *icon, QString("OPLink"));
-        oplinkConnected = true;
-    }
-}
-
-void ConfigGadgetWidget::onOPLinkDisconnect() {
-	qDebug()<<"ConfigGadgetWidget onOPLinkDisconnect";
-	oplinkTimeout->stop();
-	ftw->removeTab(ConfigGadgetWidget::oplink);
-	oplinkConnected = false;
 }

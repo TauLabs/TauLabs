@@ -34,7 +34,6 @@
 
 #include <uavobjectmanager.h>
 #include <gcsreceiver.h>
-#include <oplinksettings.h>
 
 // Public defines / macros
 #define PHPacketSize(p) ((uint8_t*)(p->data) + p->header.data_size - (uint8_t*)p)
@@ -97,8 +96,6 @@ typedef struct {
 	uint32_t min_frequency;
 	uint32_t max_frequency;
 	uint8_t max_tx_power;
-	OPLinkSettingsOutputConnectionOptions port;
-	OPLinkSettingsComSpeedOptions com_speed;
 	uint8_t ecc[RS_ECC_NPARITY];
 } PHConnectionPacket, *PHConnectionPacketHandle;
 
