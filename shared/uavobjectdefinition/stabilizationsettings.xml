@@ -7,6 +7,7 @@
 	<field name="ManualRate" units="degrees/sec" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="150,150,150" limits="%BE:0:500,%BE:0:500,%BE:0:500"/>
 	<field name="MaximumRate" units="degrees/sec" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="300,300,300" limits="%BE:0:500,%BE:0:500,%BE:0:500"/>
 	<field name="RateExpo" units="%" type="uint8" elementnames="Roll,Pitch,Yaw" defaultvalue="0,0,0" limits="%BE:0:100,%BE:0:100,%BE:0:100"/>
+	<field name="HorizonExpo" units="%" type="uint8" elementnames="Roll,Pitch,Yaw" defaultvalue="30,30,30" limits="%BE:0:100,%BE:0:100,%BE:0:100"/>
 	<field name="PoiMaximumRate" units="degrees/sec" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="30,30,30" limits="%BE:0:500,%BE:0:500,%BE:0:500"/>
 
 	<field name="RollRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.002,0,0,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
