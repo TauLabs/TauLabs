@@ -500,7 +500,9 @@ static bool arming_position(ManualControlCommandData * cmd, ManualControlSetting
 	case MANUALCONTROLSETTINGS_ARMING_CORNERS:
 		return lowThrottle && (
 			(cmd->Yaw > ARMED_THRESHOLD || cmd->Yaw < -ARMED_THRESHOLD) &&
-			(cmd->Roll > ARMED_THRESHOLD || cmd->Roll < -ARMED_THRESHOLD) );
+			(cmd->Roll > ARMED_THRESHOLD || cmd->Roll < -ARMED_THRESHOLD) ) &&
+			(cmd->Pitch > ARMED_THRESHOLD);
+			// Note that pulling pitch stick down corresponds to positive values
 	case MANUALCONTROLSETTINGS_ARMING_SWITCH:
 		return cmd->ArmSwitch == MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
 	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE:
