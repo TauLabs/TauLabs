@@ -2,13 +2,13 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup FlyingF4 FlyingF4 support files
+ * @addtogroup QQFlying QQFlying support files
  * @{
  *
  * @file       board_hw_defs.c 
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Defines board specific static initializers for hardware for the
- *             FlyingF4 board.
+ *             QQFlying board.
  * @see        The GNU Public License (GPL) Version 3
  * 
  *****************************************************************************/

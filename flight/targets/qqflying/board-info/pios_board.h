@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup FlyingF4 FlyingF4 support files
+ * @addtogroup QQFlying QQFlying support files
  * @{
  *
  * @file       STM32F4xx_FlyingF4.c 

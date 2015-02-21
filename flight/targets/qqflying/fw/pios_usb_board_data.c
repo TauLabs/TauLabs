@@ -1,16 +1,15 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsBootloader Tau Labs Bootloaders
+ * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup FlyingF4BL FlyingF4 bootloader
+ * @addtogroup QQFlying QQFlying support files
  * @{
  *
- * @file       pios_usb_board_data.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       pios_usb_board_data.c 
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @brief      Board specific USB definitions
+ * @brief      Board specific USB specifications
  * @see        The GNU Public License (GPL) Version 3
- *
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -27,7 +26,6 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-
 #include "pios_usb_board_data.h" /* struct usb_*, USB_* */
 #include "pios_sys.h"		 /* PIOS_SYS_SerialNumberGet */
 #include "pios_usbhook.h"	 /* PIOS_USBHOOK_* */

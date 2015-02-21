@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @addtogroup FlyingF4BL FlyingF4 bootloader
+ * @addtogroup QQFlyingBL QQFlying bootloader
  * @{
  *
  * @file       pios_board.c

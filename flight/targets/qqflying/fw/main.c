@@ -2,10 +2,10 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup FlyingF4 FlyingF4 support files
+ * @addtogroup QQFlying QQFlying support files
  * @{
  *
- * @file       flyingf4.c 
+ * @file       qqflying.c 
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      Start FreeRTOS and the Modules.
  * @see        The GNU Public License (GPL) Version 3
