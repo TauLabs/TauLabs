@@ -104,9 +104,11 @@ endif
 ## UAVOBJECTS
 ifndef TESTAPP
 SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
-SRC += $(OPUAVSYNTHDIR)/oplinkstatus.c
-SRC += $(OPUAVSYNTHDIR)/oplinksettings.c
+SRC += $(OPUAVSYNTHDIR)/hwtaulink.c
+SRC += $(OPUAVSYNTHDIR)/rfm22bstatus.c
 SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
+SRC += $(OPUAVSYNTHDIR)/rfm22breceiver.c
+SRC += $(OPUAVSYNTHDIR)/radiocombridgestats.c
 endif
 
 ## PIOS Hardware (STM32F10x)

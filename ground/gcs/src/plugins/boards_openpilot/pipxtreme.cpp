@@ -28,6 +28,13 @@
 
 #include "pipxtreme.h"
 
+#include <uavobjectmanager.h>
+#include "uavobjectutil/uavobjectutilmanager.h"
+#include <extensionsystem/pluginmanager.h>
+
+#include "hwtaulink.h"
+#include "rfm22bstatus.h"
+
 /**
  * @brief PipXtreme::PipXtreme
  *  This is the PipXtreme radio modem definition
@@ -98,4 +105,56 @@ QPixmap PipXtreme::getBoardPicture()
 QString PipXtreme::getHwUAVO()
 {
     return "PipXtreme";
+}
+
+/**
+ * Get the RFM22b device ID this modem
+ * @return RFM22B device ID or 0 if not supported
+ */
+quint32 PipXtreme::getRfmID()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    // Modem has instance 0
+    RFM22BStatus *rfm22bStatus = RFM22BStatus::GetInstance(uavoManager,0);
+    Q_ASSERT(rfm22bStatus);
+    RFM22BStatus::DataFields rfm22b = rfm22bStatus->getData();
+
+    return rfm22b.DeviceID;
+}
+
+/**
+ * Set the coordinator ID. If set to zero this device will
+ * be a coordinator.
+ * @return true if successful or false if not
+ */
+bool PipXtreme::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
+{
+    Q_UNUSED(baud_rate);
+    Q_UNUSED(rf_power);
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    HwTauLink *hwTauLink = HwTauLink::GetInstance(uavoManager);
+    Q_ASSERT(hwTauLink);
+    HwTauLink::DataFields settings = hwTauLink->getData();
+
+    if (id == 0) {
+        // set as coordinator
+        settings.Radio = HwTauLink::RADIO_TELEM;
+        settings.CoordID = 0;
+    } else {
+        settings.Radio = HwTauLink::RADIO_TELEM;
+        settings.CoordID = id;
+    }
+
+    hwTauLink->setData(settings);
+
+    // save the settings
+    UAVObjectUtilManager* uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
+    uavoUtilManager->saveObjectToFlash(hwTauLink);
+
+    return true;
 }

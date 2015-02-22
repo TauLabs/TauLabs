@@ -42,8 +42,12 @@
 #include "hwfreedom.h"
 #include "modulesettings.h"
 #include "manualcontrolsettings.h"
+#include "rfm22bstatus.h"
+
 #include "pios_internal_adc_priv.h"
 #include "pios_adc_priv.h"
+#include "pios_rfm22b_priv.h"
+#include "pios_rfm22b_rcvr_priv.h"
 
 /**
  * Sensor configurations 
@@ -197,6 +201,7 @@ uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_overo_id;
 uintptr_t pios_com_mavlink_id;
+uintptr_t pios_com_rf_id;
 uintptr_t pios_com_hott_id;
 uintptr_t pios_com_frsky_sensor_hub_id;
 uintptr_t pios_com_lighttelemetry_id;
@@ -304,10 +309,15 @@ void panic(int32_t code) {
 		for (int32_t i = 0; i < code; i++) {
 			PIOS_LED_Toggle(PIOS_LED_ALARM);
 			PIOS_DELAY_WaitmS(200);
+			PIOS_WDG_Clear();
 			PIOS_LED_Toggle(PIOS_LED_ALARM);
 			PIOS_DELAY_WaitmS(200);
+			PIOS_WDG_Clear();
 		}
-		PIOS_DELAY_WaitmS(500);
+		PIOS_DELAY_WaitmS(250);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(250);
+		PIOS_WDG_Clear();
 	}
 }
 
@@ -756,35 +766,151 @@ void PIOS_Board_Init(void) {
 			break;
 	} /* 	hw_freedom_flexiport */
 
-	/* Initalize the RFM22B radio COM device. */
+
+    /* Initalize the RFM22B radio COM device. */
 #if defined(PIOS_INCLUDE_RFM22B)
-	uint8_t hwsettings_radioport;
-	HwFreedomRadioPortGet(&hwsettings_radioport);
-	switch (hwsettings_radioport) {
-		case HWFREEDOM_RADIOPORT_DISABLED:
+	RFM22BStatusInitialize();
+	RFM22BStatusCreateInstance();
+
+	// Initialize out status object.
+	RFM22BStatusData rfm22bstatus;
+	RFM22BStatusGet(&rfm22bstatus);
+	RFM22BStatusInstSet(1,&rfm22bstatus);
+
+
+	HwFreedomData hwFreedom;
+	HwFreedomGet(&hwFreedom);
+
+	// Initialize out status object.
+	rfm22bstatus.BoardType     = bdinfo->board_type;
+	rfm22bstatus.BoardRevision = bdinfo->board_rev;
+
+	if (hwFreedom.Radio == HWFREEDOM_RADIO_DISABLED || hwFreedom.MaxRfPower == HWFREEDOM_MAXRFPOWER_0) {
+
+			// When radio disabled, it is ok for init to fail. This allows boards without populating
+			// this component.
+			const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
+			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg) == 0) {
+				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
+				rfm22bstatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
+				rfm22bstatus.BoardRevision = PIOS_RFM22B_ModuleVersion(pios_rfm22b_id);
+			} else {
+				pios_rfm22b_id = 0;
+			}
+			rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
+
+	} else {
+
+		// always allow receiving PPM when radio is on
+		bool ppm_mode    = hwFreedom.Radio == HWFREEDOM_RADIO_TELEMPPM || hwFreedom.Radio == HWFREEDOM_RADIO_PPM;
+		bool ppm_only    = hwFreedom.Radio == HWFREEDOM_RADIO_PPM;
+		bool is_oneway   = hwFreedom.Radio == HWFREEDOM_RADIO_PPM; // Sparky2 can only receive PPM only
+
+		/* Configure the RFM22B device. */
+		const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
+		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
+			panic(6);
+		}
+
+		rfm22bstatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
+		rfm22bstatus.BoardRevision = PIOS_RFM22B_ModuleVersion(pios_rfm22b_id);
+
+
+		/* Configure the radio com interface */
+		uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_RFM22B_RF_RX_BUF_LEN);
+		uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_RFM22B_RF_TX_BUF_LEN);
+		PIOS_Assert(rx_buffer);
+		PIOS_Assert(tx_buffer);
+		if (PIOS_COM_Init(&pios_com_rf_id, &pios_rfm22b_com_driver, pios_rfm22b_id,
+		                  rx_buffer, PIOS_COM_RFM22B_RF_RX_BUF_LEN,
+		                  tx_buffer, PIOS_COM_RFM22B_RF_TX_BUF_LEN)) {
+			panic(6);
+		}
+
+		/* Set Telemetry to use RFM22b if no other telemetry is configured (USB always overrides anyway) */
+		if (!pios_com_telem_rf_id) {
+			pios_com_telem_rf_id = pios_com_rf_id;
+		}
+		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
+
+		enum rfm22b_datarate datarate = RFM22_datarate_64000;
+		switch (hwFreedom.MaxRfSpeed) {
+		case HWFREEDOM_MAXRFSPEED_9600:
+			datarate = RFM22_datarate_9600;
 			break;
-		case HWFREEDOM_RADIOPORT_TELEMETRY:
+		case HWFREEDOM_MAXRFSPEED_19200:
+			datarate = RFM22_datarate_19200;
+			break;
+		case HWFREEDOM_MAXRFSPEED_32000:
+			datarate = RFM22_datarate_32000;
+			break;
+		case HWFREEDOM_MAXRFSPEED_64000:
+			datarate = RFM22_datarate_64000;
+			break;
+		case HWFREEDOM_MAXRFSPEED_100000:
+			datarate = RFM22_datarate_100000;
+			break;
+		case HWFREEDOM_MAXRFSPEED_192000:
+			datarate = RFM22_datarate_192000;
+			break;
+		}
+
+		/* Set the radio configuration parameters. */
+		PIOS_RFM22B_Config(pios_rfm22b_id, datarate, hwFreedom.MinChannel, hwFreedom.MaxChannel, hwFreedom.CoordID, is_oneway, ppm_mode, ppm_only);
+
+		/* Set the modem Tx poer level */
+		switch (hwFreedom.MaxRfPower) {
+		case HWFREEDOM_MAXRFPOWER_125:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
+			break;
+		case HWFREEDOM_MAXRFPOWER_16:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_1);
+			break;
+		case HWFREEDOM_MAXRFPOWER_316:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_2);
+			break;
+		case HWFREEDOM_MAXRFPOWER_63:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_3);
+			break;
+		case HWFREEDOM_MAXRFPOWER_126:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_4);
+			break;
+		case HWFREEDOM_MAXRFPOWER_25:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_5);
+			break;
+		case HWFREEDOM_MAXRFPOWER_50:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_6);
+			break;
+		case HWFREEDOM_MAXRFPOWER_100:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_7);
+			break;
+		default:
+			// do nothing
+			break;
+		}
+
+		/* Reinitialize the modem. */
+		PIOS_RFM22B_Reinit(pios_rfm22b_id);
+
+#if defined(PIOS_INCLUDE_RFM22B_RCVR)
 		{
-			const struct pios_board_info * bdinfo = &pios_board_info_blob;
-			const struct pios_rfm22b_cfg *pios_rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
-			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, pios_rfm22b_cfg->slave_num, pios_rfm22b_cfg)) {
-				PIOS_Assert(0);
+			uintptr_t pios_rfm22brcvr_id;
+			PIOS_RFM22B_Rcvr_Init(&pios_rfm22brcvr_id, pios_rfm22b_id);
+			uintptr_t pios_rfm22brcvr_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_rfm22brcvr_rcvr_id, &pios_rfm22b_rcvr_driver, pios_rfm22brcvr_id)) {
+				panic(6);
 			}
-			uint8_t *rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_RFM22B_RF_RX_BUF_LEN);
-			uint8_t *tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_RFM22B_RF_TX_BUF_LEN);
-			PIOS_Assert(rx_buffer);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_telem_rf_id, &pios_rfm22b_com_driver, pios_rfm22b_id,
-					  rx_buffer, PIOS_COM_RFM22B_RF_RX_BUF_LEN,
-					  tx_buffer, PIOS_COM_RFM22B_RF_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
-			break;
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_RFM22B] = pios_rfm22brcvr_rcvr_id;
 		}
 	}
 
+	RFM22BStatusInstSet(1,&rfm22bstatus);
+#endif /* PIOS_INCLUDE_RFM22B_RCVR */
+
 #endif /* PIOS_INCLUDE_RFM22B */
 
+	PIOS_WDG_Clear();
+	
 	/* Configure input receiver USART port */
 	uint8_t hw_rcvrport;
 	HwFreedomRcvrPortGet(&hw_rcvrport);
@@ -808,7 +934,7 @@ void PIOS_Board_Init(void) {
 			{
 				//TODO: Define the various Channelgroup for Revo dsm inputs and handle here
 				PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_rcvr_cfg, &pios_dsm_rcvr_cfg,
-					&pios_usart_com_driver, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT,&hw_DSMxBind);
+					&pios_usart_com_driver, MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMRCVRPORT,&hw_DSMxBind);
 			}
 #endif	/* PIOS_INCLUDE_DSM */
 			break;

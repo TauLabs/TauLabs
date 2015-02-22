@@ -40,6 +40,10 @@
 #define PIOS_WDG_SENSORS         0x0010
 #define PIOS_WDG_AUTOTUNE        0x0020
 #define PIOS_WDG_OSDGEN          0x0030
+#define PIOS_WDG_PPMINPUT        0x0040
+#define PIOS_WDG_SERIALRX        0x0080
+#define PIOS_WDG_TELEMETRYTX     0x0100
+#define PIOS_WDG_TELEMETRYRX     0x0200
 
 uint16_t PIOS_WDG_Init();
 bool PIOS_WDG_RegisterFlag(uint16_t flag_requested);

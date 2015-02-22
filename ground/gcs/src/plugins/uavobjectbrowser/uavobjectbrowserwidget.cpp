@@ -545,6 +545,8 @@ void UAVObjectBrowserWidget::viewOptionsChangedSlot()
  */
 void UAVObjectBrowserWidget::enableUAVOBrowserButtons(bool enableState)
 {
+    // temporary hack until session management is fixed
+    enableState = true;
     m_browser->sendButton->setEnabled(enableState);
     m_browser->requestButton->setEnabled(enableState);
     m_browser->saveSDButton->setEnabled(enableState);

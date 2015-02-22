@@ -28,10 +28,9 @@
 #include "freedom.h"
 
 #include <uavobjectmanager.h>
-#include "uavobjectutil/uavobjectutilmanager.h"
 #include <extensionsystem/pluginmanager.h>
 
-#include "hwfreedom.h"
+#include "rfm22bstatus.h"
 
 /**
  * @brief Freedom::Freedom
@@ -51,8 +50,12 @@ Freedom::Freedom(void)
     // Define the bank of channels that are connected to a given timer
     channelBanks.resize(6);
     channelBanks[0] = QVector<int> () << 1 << 2;
-    channelBanks[1] = QVector<int> () << 3 << 4;
-    channelBanks[2] = QVector<int> () << 6 << 7;
+    channelBanks[1] = QVector<int> () << 3;
+    channelBanks[2] = QVector<int> () << 4 << 5;
+    channelBanks[3] = QVector<int> () << 6;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
 }
 
 Freedom::~Freedom()
@@ -110,6 +113,18 @@ QString Freedom::getHwUAVO()
     return "HwFreedom";
 }
 
+//! Get the settings object
+HwFreedom * Freedom::getSettings()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    HwFreedom *hwFreedom = HwFreedom::GetInstance(uavoManager);
+    Q_ASSERT(hwFreedom);
+
+    return hwFreedom;
+}
+
 int Freedom::queryMaxGyroRate()
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
@@ -133,4 +148,124 @@ int Freedom::queryMaxGyroRate()
     default:
         return 500;
     }
+}
+
+/**
+ * Get the RFM22b device ID this modem
+ * @return RFM22B device ID or 0 if not supported
+ */
+quint32 Freedom::getRfmID()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    // Flight controllers are instance 1
+    RFM22BStatus *rfm22bStatus = RFM22BStatus::GetInstance(uavoManager,1);
+    Q_ASSERT(rfm22bStatus);
+    RFM22BStatus::DataFields rfm22b = rfm22bStatus->getData();
+
+    return rfm22b.DeviceID;
+}
+
+/**
+ * Set the coordinator ID. If set to zero this device will
+ * be a coordinator.
+ * @return true if successful or false if not
+ */
+bool Freedom::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
+{
+    HwFreedom::DataFields settings = getSettings()->getData();
+
+    settings.CoordID = id;
+
+    switch(baud_rate) {
+    case 9600:
+        settings.MaxRfSpeed = HwFreedom::MAXRFSPEED_9600;
+        break;
+    case 19200:
+        settings.MaxRfSpeed = HwFreedom::MAXRFSPEED_19200;
+        break;
+    case 32000:
+        settings.MaxRfSpeed = HwFreedom::MAXRFSPEED_32000;
+        break;
+    case 64000:
+        settings.MaxRfSpeed = HwFreedom::MAXRFSPEED_64000;
+        break;
+    case 100000:
+        settings.MaxRfSpeed = HwFreedom::MAXRFSPEED_100000;
+        break;
+    case 192000:
+        settings.MaxRfSpeed = HwFreedom::MAXRFSPEED_192000;
+        break;
+    }
+
+    // Round to an integer to use a switch statement
+    quint32 rf_power_100 = rf_power * 100;
+    switch(rf_power_100) {
+    case 0:
+        settings.MaxRfPower = HwFreedom::MAXRFPOWER_0;
+        break;
+    case 125:
+        settings.MaxRfPower = HwFreedom::MAXRFPOWER_125;
+        break;
+    case 160:
+        settings.MaxRfPower = HwFreedom::MAXRFPOWER_16;
+        break;
+    case 316:
+        settings.MaxRfPower = HwFreedom::MAXRFPOWER_316;
+        break;
+    case 630:
+        settings.MaxRfPower = HwFreedom::MAXRFPOWER_63;
+        break;
+    case 1260:
+        settings.MaxRfPower = HwFreedom::MAXRFPOWER_126;
+        break;
+    case 2500:
+        settings.MaxRfPower = HwFreedom::MAXRFPOWER_25;
+        break;
+    case 5000:
+        settings.MaxRfPower = HwFreedom::MAXRFPOWER_50;
+        break;
+    case 10000:
+        settings.MaxRfPower = HwFreedom::MAXRFPOWER_100;
+        break;
+    }
+
+    getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash(getSettings());
+
+    return true;
+}
+
+//! Set the radio link mode
+bool Freedom::setLinkMode(Core::IBoardType::LinkMode linkMode)
+{
+    HwFreedom::DataFields settings = getSettings()->getData();
+
+    switch(linkMode) {
+    case Core::IBoardType::LINK_TELEM:
+        settings.Radio = HwFreedom::RADIO_TELEM;
+        break;
+    case Core::IBoardType::LINK_TELEM_PPM:
+        settings.Radio = HwFreedom::RADIO_TELEMPPM;
+        break;
+    case Core::IBoardType::LINK_PPM:
+        settings.Radio = HwFreedom::RADIO_PPM;
+        break;
+    }
+
+    getSettings()->setData(settings);
+
+    return true;
+}
+
+//! Set the minimum and maximum channel index
+bool Freedom::setMinMaxChannel(quint8 min, quint8 max)
+{
+    HwFreedom::DataFields settings = getSettings()->getData();
+    settings.MinChannel = min;
+    settings.MaxChannel = max;
+    getSettings()->setData(settings);
+
+    return true;
 }

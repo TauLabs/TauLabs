@@ -18,7 +18,6 @@ HEADERS += calibration.h \
     configinputwidget.h \
     configoutputwidget.h \
     configvehicletypewidget.h \
-    configpipxtremewidget.h \
     configstabilizationwidget.h \
     assertions.h \
     defaulthwsettingswidget.h \
@@ -55,7 +54,6 @@ SOURCES += calibration.cpp \
     configoutputwidget.cpp \
     configvehicletypewidget.cpp \
     configstabilizationwidget.cpp \
-    configpipxtremewidget.cpp \
     defaulthwsettingswidget.cpp \
     inputchannelform.cpp \
     configcamerastabilizationwidget.cpp \
@@ -89,7 +87,6 @@ FORMS += airframe.ui \
     outputchannelform.ui \
     attitude.ui \
     txpid.ui \
-    pipxtreme.ui \
     mixercurve.ui \
     autotune.ui \
     hwfieldselector.ui \

@@ -124,10 +124,14 @@ void inputChannelForm::groupUpdated()
     case ManualControlSettings::CHANNELGROUPS_PPM:
     case ManualControlSettings::CHANNELGROUPS_DSMMAINPORT:
     case ManualControlSettings::CHANNELGROUPS_DSMFLEXIPORT:
+    case ManualControlSettings::CHANNELGROUPS_DSMRCVRPORT:
         count = 12;
         break;
     case ManualControlSettings::CHANNELGROUPS_SBUS:
         count = 18;
+        break;
+    case ManualControlSettings::CHANNELGROUPS_RFM22B:
+        count = 8;
         break;
     case ManualControlSettings::CHANNELGROUPS_GCS:
         count = GCSReceiver::CHANNEL_NUMELEM;
