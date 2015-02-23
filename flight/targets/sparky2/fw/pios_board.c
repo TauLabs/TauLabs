@@ -946,7 +946,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uintptr_t pios_usart_sbus_id;
-			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart_dsm_hsum_rcvr_cfg)) {
+			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart_sbus_rcvr_cfg)) {
 				PIOS_Assert(0);
 			}
 			uintptr_t pios_sbus_id;
