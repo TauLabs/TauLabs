@@ -274,7 +274,8 @@ quint32 RevoMini::getRfmID()
  * be a coordinator.
  * @return true if successful or false if not
  */
-bool RevoMini::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
+bool RevoMini::bindRadio(quint32 id, quint32 baud_rate, float rf_power,
+                         Core::IBoardType::LinkMode linkMode, quint8 min, quint8 max)
 {
     HwRevoMini::DataFields settings = getSettings()->getData();
 
@@ -333,18 +334,6 @@ bool RevoMini::setCoordID(quint32 id, quint32 baud_rate, float rf_power)
         break;
     }
 
-    getSettings()->setData(settings);
-    uavoUtilManager->saveObjectToFlash(getSettings());
-
-    return true;
-}
-
-
-//! Set the radio link mode
-bool RevoMini::setLinkMode(Core::IBoardType::LinkMode linkMode)
-{
-    HwRevoMini::DataFields settings = getSettings()->getData();
-
     switch(linkMode) {
     case Core::IBoardType::LINK_TELEM:
         settings.Radio = HwRevoMini::RADIO_TELEM;
@@ -357,18 +346,11 @@ bool RevoMini::setLinkMode(Core::IBoardType::LinkMode linkMode)
         break;
     }
 
-    getSettings()->setData(settings);
-
-    return true;
-}
-
-//! Set the minimum and maximum channel index
-bool RevoMini::setMinMaxChannel(quint8 min, quint8 max)
-{
-    HwRevoMini::DataFields settings = getSettings()->getData();
     settings.MinChannel = min;
     settings.MaxChannel = max;
+
     getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash(getSettings());
 
     return true;
 }
