@@ -1,10 +1,6 @@
 <xml>
     <object name="MixerSettings" singleinstance="true" settings="true">
         <description>Settings for the @ref ActuatorModule that controls the channel assignments for the mixer based on AircraftType</description>
-        <field name="MaxAccel" units="units/sec" type="float" elements="1" defaultvalue="1000"/>
-        <field name="FeedForward" units="" type="float" elements="1" defaultvalue="0"/>
-        <field name="AccelTime" units="ms" type="float" elements="1" defaultvalue="0"/>
-        <field name="DecelTime" units="ms" type="float" elements="1" defaultvalue="0"/>
 	<field name="ThrottleCurve1" units="percent" type="float" elementnames="0,25,50,75,100" defaultvalue="0,0,0,0,0"/>
         <field name="Curve2Source" units="" type="enum" elements="1" defaultvalue="Throttle">
 		<options>

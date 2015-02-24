@@ -514,12 +514,6 @@ void VehicleConfigurationHelper::resetVehicleConfig()
     // Reset all vehicle data
     MixerSettings *mSettings = MixerSettings::GetInstance(m_uavoManager);
 
-    // Reset feed forward, accel times etc
-    mSettings->setFeedForward(0.0f);
-    mSettings->setMaxAccel(1000.0f);
-    mSettings->setAccelTime(0.0f);
-    mSettings->setDecelTime(0.0f);
-
     // Reset throttle curves
     QString throttlePattern = "ThrottleCurve%1";
     for (int i = 1; i <= 2; i++) {
