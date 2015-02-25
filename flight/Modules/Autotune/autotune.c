@@ -46,7 +46,7 @@
 #include "pios_thread.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 2000
+#define STACK_SIZE_BYTES 1500
 #define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
 
 #define AF_NUMX 13
