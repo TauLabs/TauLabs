@@ -172,7 +172,7 @@ static void usb2ComBridgeTask(void * parameters)
 static void updateSettings()
 {
 	if (usart_port) {
-/*
+
 		// Retrieve settings
 		uint8_t speed;
 		ModuleSettingsComUsbBridgeSpeedGet(&speed);
@@ -201,7 +201,7 @@ static void updateSettings()
 			PIOS_COM_ChangeBaud(usart_port, 115200);
 			break;
 		}
-*/
+
 	}
 }
 
