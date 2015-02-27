@@ -12,6 +12,7 @@
 
 		<!-- Function of the main serial port -->
 		<field name="MainPort" units="" type="enum" elements="1" options="Disabled,GPS,Telemetry,ComBridge" defaultvalue="Telemetry"/>
+		<field name="BTPort" units="" type="enum" elements="1" options="Disabled,Telemetry,ComBridge" defaultvalue="Telemetry"/>
 		<!-- Whenever port is on PPM_IN that data will be sent to remove side -->
 		<field name="PPMPort" units="" type="enum" elements="1" options="Disabled,PPM" defaultvalue="PPM"/>
 		<field name="VCPPort" units="" type="enum" elements="1" options="Disabled,Telemetry,DebugConsole,ComBridge" defaultvalue="Disabled"/>

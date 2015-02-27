@@ -60,9 +60,11 @@ uintptr_t pios_com_debug_id;
 uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_telem_vcp_id;
 uintptr_t pios_com_vcp_id;
+uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_telem_uart_main_id;
 uintptr_t pios_com_telem_uart_flexi_id;
 uintptr_t pios_com_telem_uart_telem_id;
+uintptr_t pios_com_telem_uart_bluetooth_id;
 uintptr_t pios_com_telemetry_id;
 #if defined(PIOS_INCLUDE_PPM)
 uintptr_t pios_ppm_rcvr_id;
@@ -209,6 +211,30 @@ void PIOS_Board_Init(void) {
     HwTauLinkData hwTauLink;
     HwTauLinkGet(&hwTauLink);
 
+    // Update the com baud rate.
+    uint32_t comBaud = 9600;
+    switch (hwTauLink.ComSpeed) {
+    case HWTAULINK_COMSPEED_4800:
+        comBaud = 4800;
+        break;
+    case HWTAULINK_COMSPEED_9600:
+        comBaud = 9600;
+        break;
+    case HWTAULINK_COMSPEED_19200:
+        comBaud = 19200;
+        break;
+    case HWTAULINK_COMSPEED_38400:
+        comBaud = 38400;
+        break;
+    case HWTAULINK_COMSPEED_57600:
+        comBaud = 57600;
+        break;
+    case HWTAULINK_COMSPEED_115200:
+        comBaud = 115200;
+        break;
+    }
+
+
     bool is_oneway   = hwTauLink.Radio == HWTAULINK_RADIO_PPM;
     bool ppm_only    = hwTauLink.Radio == HWTAULINK_RADIO_PPM;
     bool ppm_mode    = hwTauLink.Radio == HWTAULINK_RADIO_TELEMPPM || hwTauLink.Radio == HWTAULINK_RADIO_PPM;
@@ -243,6 +269,68 @@ void PIOS_Board_Init(void) {
     }
     case HWTAULINK_MAINPORT_DISABLED:
         break;
+    }
+
+    if (bdinfo->board_rev == TAULINK_VERSION_MODULE) {
+        // Configure the main serial port function
+        switch (hwTauLink.BTPort) {
+        case HWTAULINK_BTPORT_TELEMETRY:
+        {
+            // Note: if the main port is also on telemetry the bluetooth
+            // port will take precedence
+            uintptr_t pios_usart2_id;
+            if (PIOS_USART_Init(&pios_usart2_id, &pios_usart_bluetooth_cfg)) {
+                PIOS_Assert(0);
+            }
+            uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_RX_BUF_LEN);
+            uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_TX_BUF_LEN);
+            PIOS_Assert(rx_buffer);
+            PIOS_Assert(tx_buffer);
+            if (PIOS_COM_Init(&pios_com_telem_uart_bluetooth_id, &pios_usart_com_driver, pios_usart2_id,
+                                                rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
+                                                tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
+                PIOS_Assert(0);
+            }
+
+            PIOS_COM_ChangeBaud(pios_com_telem_uart_bluetooth_id, 9600);
+
+            // Note this doesn't actually send until RTOS is running
+            PIOS_COM_SendString(pios_com_telem_uart_bluetooth_id,"AT");
+            PIOS_COM_SendString(pios_com_telem_uart_bluetooth_id,"AT+NAMETauLink");
+            PIOS_COM_SendString(pios_com_telem_uart_bluetooth_id,"AT+PIN:000000");
+            PIOS_COM_SendString(pios_com_telem_uart_bluetooth_id,"AT+MODE1");
+            PIOS_COM_SendString(pios_com_telem_uart_bluetooth_id,"AT+SHOW1");
+            PIOS_COM_SendString(pios_com_telem_uart_bluetooth_id,"AT+RESET");
+            PIOS_COM_SendString(pios_com_telem_uart_bluetooth_id,"AT+BAUD4"); // 115200
+            //PIOS_COM_ChangeBaud(pios_com_telem_uart_bluetooth_id, 115200);
+            pios_com_telemetry_id = pios_com_telem_uart_bluetooth_id;
+        }
+            break;
+        case HWTAULINK_BTPORT_COMBRIDGE:
+        {
+            // Note: if the main port is also on telemetry the bluetooth
+            // port will take precedence
+            uintptr_t pios_usart2_id;
+            if (PIOS_USART_Init(&pios_usart2_id, &pios_usart_bluetooth_cfg)) {
+                PIOS_Assert(0);
+            }
+            uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_RX_BUF_LEN);
+            uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_TX_BUF_LEN);
+            PIOS_Assert(rx_buffer);
+            PIOS_Assert(tx_buffer);
+            if (PIOS_COM_Init(&pios_com_telem_uart_bluetooth_id, &pios_usart_com_driver, pios_usart2_id,
+                                                rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
+                                                tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
+                PIOS_Assert(0);
+            }
+            PIOS_COM_ChangeBaud(pios_com_telem_uart_bluetooth_id, comBaud);
+
+            pios_com_bridge_id = pios_com_telem_uart_bluetooth_id;
+        }
+            break;
+        case HWTAULINK_MAINPORT_DISABLED:
+            break;
+        }
     }
 
     // Configure the flexi port
@@ -409,28 +497,6 @@ void PIOS_Board_Init(void) {
     // Update the object
     RFM22BStatusSet(&rfm22bstatus);
 
-    // Update the com baud rate.
-    uint32_t comBaud = 9600;
-    switch (hwTauLink.ComSpeed) {
-    case HWTAULINK_COMSPEED_4800:
-        comBaud = 4800;
-        break;
-    case HWTAULINK_COMSPEED_9600:
-        comBaud = 9600;
-        break;
-    case HWTAULINK_COMSPEED_19200:
-        comBaud = 19200;
-        break;
-    case HWTAULINK_COMSPEED_38400:
-        comBaud = 38400;
-        break;
-    case HWTAULINK_COMSPEED_57600:
-        comBaud = 57600;
-        break;
-    case HWTAULINK_COMSPEED_115200:
-        comBaud = 115200;
-        break;
-    }
     if (PIOS_COM_TELEMETRY) {
         PIOS_COM_ChangeBaud(PIOS_COM_TELEMETRY, comBaud);
     }

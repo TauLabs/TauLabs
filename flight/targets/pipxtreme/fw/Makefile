@@ -53,8 +53,8 @@ USE_GPS ?= NO
 USE_I2C ?= YES
 
 # List of modules to include
-OPTMODULES = 
-MODULES = RadioComBridge
+MODULES += ComUsbBridge
+MODULES += RadioComBridge
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
@@ -87,7 +87,7 @@ RTOSPORTDIR = $(APPLIBDIR)/FreeRTOS/Source
 
 ifndef TESTAPP
 ## MODULES
-SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
+SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/PipXtreme/pipxtrememod.c
 SRC += main.c
