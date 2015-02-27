@@ -31,6 +31,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <board_hw_defs.c>
+#include <modulesettings.h>
 #include <hwtaulink.h>
 #include <rfm22bstatus.h>
 
@@ -292,7 +293,7 @@ void PIOS_Board_Init(void) {
                 PIOS_Assert(0);
             }
 
-            PIOS_COM_ChangeBaud(pios_com_telem_uart_bluetooth_id, 9600);
+            PIOS_COM_ChangeBaud(pios_com_telem_uart_bluetooth_id, comBaud);
 
             // Note this doesn't actually send until RTOS is running
             PIOS_COM_SendString(pios_com_telem_uart_bluetooth_id,"AT");
@@ -323,6 +324,36 @@ void PIOS_Board_Init(void) {
                                                 tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
                 PIOS_Assert(0);
             }
+
+            // Since we don't expose the ModuleSettings object from TauLink to the GCS
+            // we just map the baud rate from HwTauLink into this object
+            ModuleSettingsInitialize();
+            ModuleSettingsData moduleSettings;
+            ModuleSettingsGet(&moduleSettings);
+            switch(comBaud) {
+                case 4800:
+                    moduleSettings.ComUsbBridgeSpeed = MODULESETTINGS_COMUSBBRIDGESPEED_4800;
+                    break;
+                case 9600:
+                    moduleSettings.ComUsbBridgeSpeed = MODULESETTINGS_COMUSBBRIDGESPEED_9600;
+                    break;
+                case 19200:
+                    moduleSettings.ComUsbBridgeSpeed = MODULESETTINGS_COMUSBBRIDGESPEED_19200;
+                    break;
+                case 38400:
+                    moduleSettings.ComUsbBridgeSpeed = MODULESETTINGS_COMUSBBRIDGESPEED_38400;
+                    break;
+                case 57600:
+                    moduleSettings.ComUsbBridgeSpeed = MODULESETTINGS_COMUSBBRIDGESPEED_57600;
+                    break;
+                case 115200:
+                    moduleSettings.ComUsbBridgeSpeed = MODULESETTINGS_COMUSBBRIDGESPEED_115200;
+                    break;
+                default:
+                    moduleSettings.ComUsbBridgeSpeed = MODULESETTINGS_COMUSBBRIDGESPEED_9600;
+            }
+            ModuleSettingsSet(&moduleSettings);
+
             PIOS_COM_ChangeBaud(pios_com_telem_uart_bluetooth_id, comBaud);
 
             pios_com_bridge_id = pios_com_telem_uart_bluetooth_id;

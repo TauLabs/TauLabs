@@ -107,6 +107,7 @@ SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
 SRC += $(OPUAVSYNTHDIR)/hwtaulink.c
 SRC += $(OPUAVSYNTHDIR)/rfm22bstatus.c
 SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
+SRC += $(OPUAVSYNTHDIR)/modulesettings.c
 SRC += $(OPUAVSYNTHDIR)/rfm22breceiver.c
 SRC += $(OPUAVSYNTHDIR)/radiocombridgestats.c
 SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
