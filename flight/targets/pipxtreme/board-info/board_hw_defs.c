@@ -276,9 +276,45 @@ static const struct pios_exti_cfg pios_exti_rfm22b_cfg __exti_config = {
 
 #include <pios_rfm22b_priv.h>
 
-struct pios_rfm22b_cfg pios_rfm22b_pipx_cfg = {
+struct pios_rfm22b_cfg pios_rfm22b_taulink_cfg = {
 	.spi_cfg = &pios_spi_rfm22b_cfg,
 	.exti_cfg = &pios_exti_rfm22b_cfg,
+	.RFXtalCap = 0x7f,
+	.slave_num = 0,
+	.gpio_direction = GPIO0_TX_GPIO1_RX,
+};
+
+static const struct pios_exti_cfg pios_exti_rfm22b_cfg_module __exti_config = {
+	.vector = PIOS_RFM22_EXT_Int,
+	.line = EXTI_Line1,
+	.pin = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_1,
+			.GPIO_Mode = GPIO_Mode_IN_FLOATING,
+		},
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = EXTI1_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.exti = {
+		.init = {
+			.EXTI_Line = EXTI_Line1,
+			.EXTI_Mode = EXTI_Mode_Interrupt,
+			.EXTI_Trigger = EXTI_Trigger_Falling,
+			.EXTI_LineCmd = ENABLE,
+		},
+	},
+};
+
+struct pios_rfm22b_cfg pios_rfm22b_taulinkmodule_cfg = {
+	.spi_cfg = &pios_spi_rfm22b_cfg,
+	.exti_cfg = &pios_exti_rfm22b_cfg_module,
 	.RFXtalCap = 0x7f,
 	.slave_num = 0,
 	.gpio_direction = GPIO0_TX_GPIO1_RX,
@@ -287,7 +323,11 @@ struct pios_rfm22b_cfg pios_rfm22b_pipx_cfg = {
 //! Compatibility layer for various hardware revisions
 const struct pios_rfm22b_cfg * PIOS_BOARD_HW_DEFS_GetRfm22Cfg (uint32_t board_revision)
 {
-	return &pios_rfm22b_pipx_cfg;
+	if (board_revision == 0x01)
+		return &pios_rfm22b_taulink_cfg;
+	if (board_revision == 0x02)
+		return &pios_rfm22b_taulinkmodule_cfg;
+	return NULL;
 }
 
 #endif /* PIOS_INCLUDE_RFM22B */
@@ -472,6 +512,50 @@ static const struct pios_usart_cfg pios_usart_serial_cfg =
 		.init =
 		{
 			.GPIO_Pin = GPIO_Pin_9,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode = GPIO_Mode_AF_PP,
+		},
+	},
+};
+
+static const struct pios_usart_cfg pios_usart_bluetooth_cfg =
+{
+	.regs = USART2,
+	.init =
+	{
+		.USART_BaudRate = 9600,
+		.USART_WordLength = USART_WordLength_8b,
+		.USART_Parity = USART_Parity_No,
+		.USART_StopBits = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode = USART_Mode_Rx | USART_Mode_Tx,
+	},
+	.irq =
+	{
+		.init =
+		{
+			.NVIC_IRQChannel = USART2_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.rx =
+	{
+		.gpio = GPIOA,
+		.init =
+		{
+			.GPIO_Pin = GPIO_Pin_3,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode = GPIO_Mode_IPU,
+		},
+	},
+	.tx =
+	{
+		.gpio = GPIOA,
+		.init =
+		{
+			.GPIO_Pin = GPIO_Pin_2,
 			.GPIO_Speed = GPIO_Speed_2MHz,
 			.GPIO_Mode = GPIO_Mode_AF_PP,
 		},
