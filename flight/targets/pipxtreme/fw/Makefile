@@ -102,12 +102,15 @@ SRC += $(OPTESTS)/$(TESTAPP).c
 endif
 
 ## UAVOBJECTS
-UAVOBJSRCFILENAMES += gcsreceiver
-UAVOBJSRCFILENAMES += hwtaulink
-UAVOBJSRCFILENAMES += rfm22bstatus
-UAVOBJSRCFILENAMES += objectpersistence
-UAVOBJSRCFILENAMES += rfm22breceiver
-UAVOBJSRCFILENAMES += radiocombridgestats
+ifndef TESTAPP
+SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
+SRC += $(OPUAVSYNTHDIR)/hwtaulink.c
+SRC += $(OPUAVSYNTHDIR)/rfm22bstatus.c
+SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
+SRC += $(OPUAVSYNTHDIR)/modulesettings.c
+SRC += $(OPUAVSYNTHDIR)/rfm22breceiver.c
+SRC += $(OPUAVSYNTHDIR)/radiocombridgestats.c
+endif
 
 ## PIOS Hardware (STM32F10x)
 SRC += $(PIOSSTM32F10X)/pios_sys.c
