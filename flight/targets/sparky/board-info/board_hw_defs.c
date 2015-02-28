@@ -236,7 +236,7 @@ void PIOS_I2C_flexi_er_irq_handler(void)
 
 #if defined(PIOS_INCLUDE_CAN)
 #include "pios_can_priv.h"
-struct pios_can_cfg pios_can_cfg = {
+static const struct pios_can_cfg pios_can_cfg = {
 	.regs = CAN1,
 	.init = {
 		// To make it easy to use both F3 and F4 use the other APB1 bus rate
