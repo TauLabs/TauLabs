@@ -33,11 +33,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import com.polkapolka.bluetooth.le.BluetoothLeService;
 import com.polkapolka.bluetooth.le.SampleGattAttributes;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -51,6 +57,7 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
 
 	private final String TAG = BluetoothLowEnergyUAVTalk.class.getSimpleName();
 	public static final int LOGLEVEL = 4;
+	public static final boolean VERBOSE = LOGLEVEL > 3;
 	public static final boolean DEBUG = LOGLEVEL > 2;
 	public static final boolean WARN = LOGLEVEL > 1;
 	public static final boolean ERROR = LOGLEVEL > 0;
@@ -60,7 +67,6 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
 
     private String mDeviceName = "HMSoft";
     private String mDeviceAddress = "78:A5:04:3E:D6:08";
-    private BluetoothLeService mBluetoothLeService;
     private boolean mConnected = false;
     private BluetoothGattCharacteristic characteristicTX;
     private BluetoothGattCharacteristic characteristicRX;
@@ -84,16 +90,13 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
 	boolean attemptConnection() {
 		// Connect to the bluetooth low energy service
 
-		if (DEBUG) Log.d(TAG, "Attempting to connect to BT Le service");
-
-		telemService.registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-		
-		// Once the BT Le service connects it will automatically attempt to open device
-		Intent gattServiceIntent = new Intent(telemService, BluetoothLeService.class);
-        telemService.bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-
 		if( getConnected() )
 			return true;
+		
+		if (DEBUG) Log.d(TAG, "Attempting to connect to BT Le service");
+
+		initialize();
+		btleConnect(mDeviceAddress);
 		
 		return true;
 	}
@@ -101,87 +104,14 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
 	@Override
 	public void disconnect() {
 		super.disconnect();
-		mBluetoothLeService.disconnect();
-		telemService.unregisterReceiver(mGattUpdateReceiver);
-		telemService.unbindService(mServiceConnection);
-        mBluetoothLeService = null;
+		btleDisconnect();
+		close();
 	}
 	
 	@Override
 	public boolean getConnected() {
 		return mConnected;
 	}
-
-    // Code to manage Service lifecycle.
-    private final ServiceConnection mServiceConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-        	if (DEBUG) Log.d(TAG, "Service connected. Attempting to open device: " + mDeviceAddress);
-            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
-            if (!mBluetoothLeService.initialize()) {
-                Log.e(TAG, "Unable to initialize Bluetooth");
-                // TODO: throw failure code
-            }
-            // Automatically connects to the device upon successful start-up initialization.
-            mBluetoothLeService.connect(mDeviceAddress);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            mBluetoothLeService = null;
-        }
-    };
-
-    // Handles various events fired by the Service.
-    // ACTION_GATT_CONNECTED: connected to a GATT server.
-    // ACTION_GATT_DISCONNECTED: disconnected from a GATT server.
-    // ACTION_GATT_SERVICES_DISCOVERED: discovered GATT services.
-    // ACTION_DATA_AVAILABLE: received data from the device.  This can be a result of read
-    //                        or notification operations.
-    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-                mConnected = true;
-                
-                if (DEBUG) Log.d(TAG, "Device connected");
-
-        		telemService.toastMessage("Bluetooth device connected");
-
-        		inTalkStream = new TalkInputStream();
-        		outTalkStream = new TalkOutputStream();
-        		inStream = inTalkStream;
-        		outStream = outTalkStream;
-
-        		// Post message to call attempt succeeded on the parent class
-        		handler.post(new Runnable() {
-        			@Override
-        			public void run() {
-        				BluetoothLowEnergyUAVTalk.this.attemptSucceeded();
-        			}
-        		});
-        		        		
-        		// TODO: create inStream and outStream here
-        		
-                Log.d(TAG, "ACTION_GATT_CONNECTED");
-            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                mConnected = false;
-                
-                telemService.toastMessage("Bluetooth device disconnected");
-
-                Log.d(TAG, "ACTION_GATT_DISCONNECTED");
-            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                // Show all the supported services and characteristics on the user interface.
-                displayGattServices(mBluetoothLeService.getSupportedGattServices());
-            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-            	Log.d(TAG, "Data available");
-            	receiveData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
-            }
-        }
-    };
-
  
     // Demonstrates how to iterate through the supported GATT Services/Characteristics.
     // In this sample, we populate the data structure that is bound to the ExpandableListView
@@ -195,7 +125,6 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
         String unknownServiceString = "Unknown service";
         ArrayList<HashMap<String, String>> gattServiceData = new ArrayList<HashMap<String, String>>();
 
- 
         // Loops through available GATT Services.
         for (BluetoothGattService gattService : gattServices) {
             HashMap<String, String> currentServiceData = new HashMap<String, String>();
@@ -213,39 +142,277 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
             gattServiceData.add(currentServiceData);
 
      		// get characteristic when UUID matches RX/TX UUID
-            characteristicTX = gattService.getCharacteristic(BluetoothLeService.UUID_HM_RX_TX);
-            characteristicRX = gattService.getCharacteristic(BluetoothLeService.UUID_HM_RX_TX);
+            characteristicTX = gattService.getCharacteristic(UUID_HM_RX_TX);
+            characteristicRX = gattService.getCharacteristic(UUID_HM_RX_TX);
         }
         
     }
 
-    private static IntentFilter makeGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
-        return intentFilter;
-    }
-    
-
     private void writeData(byte[] tx) {
 		 if(mConnected && characteristicTX != null) {
+			Log.d(TAG, "Sending data: " + tx + " # bytes: " + tx.length);
+
 		    characteristicTX.setValue(tx);
-			mBluetoothLeService.writeCharacteristic(characteristicTX);
-			mBluetoothLeService.setCharacteristicNotification(characteristicRX,true);
+			writeCharacteristic(characteristicTX);
+			setCharacteristicNotification(characteristicRX,true);
+		 } else {
+			 Log.d(TAG, "Dropping data: " + mConnected + " " + characteristicTX);
 		 }
     }
     
     private void receiveData(String data) {
-    	if (DEBUG) Log.d(TAG, "Received data: " + data);
+    	//if (DEBUG) Log.d(TAG, "Received data: " + data);
+    	
     	inTalkStream.write(data.getBytes());
+    	inTalkStream.notify();
+    }
+    
+    /*********** Helper classes for bluetooth handling ***********/
+    
+    public final static String EXTRA_DATA =
+            "com.example.bluetooth.le.EXTRA_DATA";
+    public final static UUID UUID_HM_RX_TX =
+            UUID.fromString(SampleGattAttributes.HM_RX_TX);
+    
+    private BluetoothManager mBluetoothManager;
+    private BluetoothAdapter mBluetoothAdapter;
+    private String mBluetoothDeviceAddress;
+    private BluetoothGatt mBluetoothGatt;
+    private int mConnectionState = STATE_DISCONNECTED;
+    private static final int STATE_DISCONNECTED = 0;
+    private static final int STATE_CONNECTING = 1;
+    private static final int STATE_CONNECTED = 2;
+
+    // Implements callback methods for GATT events that the app cares about.  For example,
+    // connection change and services discovered.
+    private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            String intentAction;
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+
+                if (DEBUG) Log.d(TAG, "Device connected");
+                
+                // Attempts to discover services after successful connection.
+                if (VERBOSE) Log.i(TAG, "Attempting to start service discovery:" +
+                        mBluetoothGatt.discoverServices());
+
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                mConnected = false;
+                telemService.toastMessage("Bluetooth device disconnected");
+                if (DEBUG) Log.d(TAG, "ACTION_GATT_DISCONNECTED");
+            }
+        }
+
+        @Override
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+            	displayGattServices(getSupportedGattServices());
+
+        		telemService.toastMessage("Bluetooth device connected");
+
+            	mConnected = true;
+        		inTalkStream = new TalkInputStream();
+        		outTalkStream = new TalkOutputStream();
+        		inStream = inTalkStream;
+        		outStream = outTalkStream;
+
+        		// Post message to call attempt succeeded on the parent class
+        		handler.post(new Runnable() {
+        			@Override
+        			public void run() {
+        				BluetoothLowEnergyUAVTalk.this.attemptSucceeded();
+        			}
+        		});
+        		
+            } else {
+            	if (WARN) Log.w(TAG, "onServicesDiscovered received: " + status);
+            }
+        }
+
+        @Override
+        public void onCharacteristicRead(BluetoothGatt gatt,
+                                         BluetoothGattCharacteristic characteristic,
+                                         int status) {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+            	if (DEBUG) Log.d(TAG, "onCharacteristicRead: " + characteristic.toString());
+                // TODO: broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+            }
+        }
+
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt,
+                                            BluetoothGattCharacteristic characteristic) {
+        	if (DEBUG) Log.d(TAG, "onCharacteristicChanged: " + characteristic.toString());
+        	final byte[] data = characteristic.getValue();
+        	inTalkStream.write(data);
+        }
+    };
+
+
+    /**
+     * Initializes a reference to the local Bluetooth adapter.
+     *
+     * @return Return true if the initialization is successful.
+     */
+    public boolean initialize() {
+        // For API level 18 and above, get a reference to BluetoothAdapter through
+        // BluetoothManager.
+        if (mBluetoothManager == null) {
+            mBluetoothManager = (BluetoothManager) telemService.getSystemService(Context.BLUETOOTH_SERVICE);
+            if (mBluetoothManager == null) {
+            	if (ERROR) Log.e(TAG, "Unable to initialize BluetoothManager.");
+                return false;
+            }
+        }
+
+        mBluetoothAdapter = mBluetoothManager.getAdapter();
+        if (mBluetoothAdapter == null) {
+            if (ERROR) Log.e(TAG, "Unable to obtain a BluetoothAdapter.");
+            return false;
+        }
+
+        return true;
     }
 
+    /**
+     * Connects to the GATT server hosted on the Bluetooth LE device.
+     *
+     * @param address The device address of the destination device.
+     *
+     * @return Return true if the connection is initiated successfully. The connection result
+     *         is reported asynchronously through the
+     *         {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
+     *         callback.
+     */
+    public boolean btleConnect(final String address) {
+        if (mBluetoothAdapter == null || address == null) {
+            if (WARN) Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
+            return false;
+        }
+
+        // Previously connected device.  Try to reconnect.
+        if (mBluetoothDeviceAddress != null && address.equals(mBluetoothDeviceAddress)
+                && mBluetoothGatt != null) {
+            if (DEBUG) Log.d(TAG, "Trying to use an existing mBluetoothGatt for connection.");
+            if (mBluetoothGatt.connect()) {
+                mConnectionState = STATE_CONNECTING;
+                return true;
+            } else {
+                final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+                mBluetoothGatt = device.connectGatt(telemService, false, mGattCallback);
+                mBluetoothDeviceAddress = address;
+                return false;
+            }
+        }
+
+        final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+        if (device == null) {
+            if (WARN) Log.w(TAG, "Device not found.  Unable to connect.");
+            return false;
+        }
+        // We want to directly connect to the device, so we are setting the autoConnect
+        // parameter to false.
+        mBluetoothGatt = device.connectGatt(telemService, false, mGattCallback);
+        if (DEBUG) Log.d(TAG, "Trying to create a new connection.");
+        mBluetoothDeviceAddress = address;
+        mConnectionState = STATE_CONNECTING;
+        return true;
+    }
+
+    /**
+     * Disconnects an existing connection or cancel a pending connection. The disconnection result
+     * is reported asynchronously through the
+     * {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
+     * callback.
+     */
+    public void btleDisconnect() {
+        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+            if (WARN) Log.w(TAG, "BluetoothAdapter not initialized");
+            return;
+        }
+        mBluetoothGatt.disconnect();
+    }
+
+    /**
+     * After using a given BLE device, the app must call this method to ensure resources are
+     * released properly.
+     */
+    public void close() {
+        if (mBluetoothGatt == null) {
+            return;
+        }
+        mBluetoothGatt.close();
+        mBluetoothGatt = null;
+    }
+
+    /**
+     * Request a read on a given {@code BluetoothGattCharacteristic}. The read result is reported
+     * asynchronously through the {@code BluetoothGattCallback#onCharacteristicRead(android.bluetooth.BluetoothGatt, android.bluetooth.BluetoothGattCharacteristic, int)}
+     * callback.
+     *
+     * @param characteristic The characteristic to read from.
+     */
+    public void readCharacteristic(BluetoothGattCharacteristic characteristic) {
+        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+            if (WARN) Log.w(TAG, "BluetoothAdapter not initialized");
+            return;
+        }
+        mBluetoothGatt.readCharacteristic(characteristic);
+    }
+
+    /**
+     * Write to a given char
+     * @param characteristic The characteristic to write to
+     */
+	public void writeCharacteristic(BluetoothGattCharacteristic characteristic) {
+		if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+			if (WARN) Log.w(TAG, "BluetoothAdapter not initialized");
+			return;
+		}
+
+		mBluetoothGatt.writeCharacteristic(characteristic);
+	}   
+    
+    /**
+     * Enables or disables notification on a give characteristic.
+     *
+     * @param characteristic Characteristic to act on.
+     * @param enabled If true, enable notification.  False otherwise.
+     */
+    public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic,
+                                              boolean enabled) {
+        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+        	if (WARN) Log.w(TAG, "BluetoothAdapter not initialized");
+            return;
+        }
+        mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
+
+        // This is specific to Heart Rate Measurement.
+        if (UUID_HM_RX_TX.equals(characteristic.getUuid())) {
+            BluetoothGattDescriptor descriptor = characteristic.getDescriptor(
+                    UUID.fromString(SampleGattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
+            descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+            mBluetoothGatt.writeDescriptor(descriptor);
+        }
+    }
+
+    /**
+     * Retrieves a list of supported GATT services on the connected device. This should be
+     * invoked only after {@code BluetoothGatt#discoverServices()} completes successfully.
+     *
+     * @return A {@code List} of supported services.
+     */
+    public List<BluetoothGattService> getSupportedGattServices() {
+        if (mBluetoothGatt == null) return null;
+
+        return mBluetoothGatt.getServices();
+    }
+    
 	/*********** Helper classes for telemetry streams ************/
 
 	class TalkOutputStream extends OutputStream {
-
+		
 		@Override
 		public void write(int oneByte) throws IOException {
 			Log.d(TAG, "Writing byte");
@@ -298,7 +465,10 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
 		}
 
 		public void write(byte[] b) {
-			data.put(b);
+			synchronized(data) {
+				data.put(b);
+				data.notify();
+			}
 		}
 	};
 
