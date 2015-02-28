@@ -44,19 +44,13 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.util.Log;
 
 public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
 
 	private final String TAG = BluetoothLowEnergyUAVTalk.class.getSimpleName();
-	public static final int LOGLEVEL = 4;
+	public static final int LOGLEVEL = 1;
 	public static final boolean VERBOSE = LOGLEVEL > 3;
 	public static final boolean DEBUG = LOGLEVEL > 2;
 	public static final boolean WARN = LOGLEVEL > 1;
@@ -136,7 +130,7 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
             if(SampleGattAttributes.lookup(uuid, unknownServiceString) == "HM 10 Serial") { 
             	if (DEBUG) Log.d(TAG ,"Found serial service");
         	} else {  
-        		Log.e(TAG, "Unable to find the serial service for BT device");
+        		if (ERROR) Log.e(TAG, "Unable to find the serial service for BT device");
     		} 
             currentServiceData.put(LIST_UUID, uuid);
             gattServiceData.add(currentServiceData);
@@ -144,19 +138,20 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
      		// get characteristic when UUID matches RX/TX UUID
             characteristicTX = gattService.getCharacteristic(UUID_HM_RX_TX);
             characteristicRX = gattService.getCharacteristic(UUID_HM_RX_TX);
+            if (characteristicRX != null)
+                setCharacteristicNotification(characteristicRX,true);
         }
         
     }
 
     private void writeData(byte[] tx) {
 		 if(mConnected && characteristicTX != null) {
-			Log.d(TAG, "Sending data: " + tx + " # bytes: " + tx.length);
+			if (DEBUG) Log.d(TAG, "Sending data: " + tx + " # bytes: " + tx.length);
 
 		    characteristicTX.setValue(tx);
 			writeCharacteristic(characteristicTX);
-			setCharacteristicNotification(characteristicRX,true);
 		 } else {
-			 Log.d(TAG, "Dropping data: " + mConnected + " " + characteristicTX);
+			 if (ERROR) Log.e(TAG, "Invalid connection: " + mConnected + " " + characteristicTX);
 		 }
     }
     
@@ -188,14 +183,12 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            String intentAction;
             if (newState == BluetoothProfile.STATE_CONNECTED) {
 
                 if (DEBUG) Log.d(TAG, "Device connected");
                 
                 // Attempts to discover services after successful connection.
-                if (VERBOSE) Log.i(TAG, "Attempting to start service discovery:" +
-                        mBluetoothGatt.discoverServices());
+                mBluetoothGatt.discoverServices();
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 mConnected = false;
@@ -436,7 +429,7 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
 				for (int i = 0; i < n; i++)
 					send[i] = bytes[idx + i];
 
-				Log.d(TAG, "Sending " + n + " bytes starting at " + idx + " out of " + LEN);
+				if (DEBUG) Log.d(TAG, "Sending " + n + " bytes starting at " + idx + " out of " + LEN);
 
 				writeData(send);
 				idx = idx + n;
