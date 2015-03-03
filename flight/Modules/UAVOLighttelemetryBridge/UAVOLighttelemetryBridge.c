@@ -69,8 +69,8 @@
 // Private types
 
 // Private variables
+static bool module_enabled;
 static struct pios_thread *taskHandle;
-
 static uint32_t lighttelemetryPort;
 static uint8_t ltm_scheduler;
 static uint8_t ltm_slowrate;
@@ -84,13 +84,49 @@ static void send_LTM_Gframe();
 static void send_LTM_Aframe();
 static void send_LTM_Sframe();
 
+
 /**
- * Initialise the module, called on startup
+ * Initialise the module, called first on startup
+ * \returns 0 on success or -1 if initialisation failed
+ */
+int32_t uavoLighttelemetryBridgeInitialize()
+{
+	module_enabled = false;
+	
+	lighttelemetryPort = PIOS_COM_LIGHTTELEMETRY;
+	
+	if ( lighttelemetryPort )
+	{
+		uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM]; 
+		ModuleSettingsAdminStateGet(module_state); 
+						  
+		if ( module_state[MODULESETTINGS_ADMINSTATE_UAVOLIGHTTELEMETRYBRIDGE] == MODULESETTINGS_ADMINSTATE_ENABLED ) 
+		{ 
+			// Update telemetry settings
+			ltm_scheduler = 1;
+			updateSettings();
+			uint8_t speed;
+			ModuleSettingsLightTelemetrySpeedGet(&speed);
+			if (speed == MODULESETTINGS_LIGHTTELEMETRYSPEED_1200)
+				ltm_slowrate = 1;
+			else 
+				ltm_slowrate = 0;
+	
+			module_enabled = true; 
+			return 0;
+		}
+	}
+	
+	return -1;
+}
+
+/**
+ * Initialise the module, called on startup after Initialize
  * \returns 0 on success or -1 if initialisation failed
  */
 int32_t uavoLighttelemetryBridgeStart()
 {
-	if ( lighttelemetryPort )
+	if ( module_enabled )
 	{
 		taskHandle = PIOS_Thread_Create(uavoLighttelemetryBridgeTask, "uavoLighttelemetryBridge", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_UAVOLIGHTTELEMETRYBRIDGE, taskHandle);
@@ -100,28 +136,6 @@ int32_t uavoLighttelemetryBridgeStart()
 	return -1;
 }
 
-/**
- * Initialise the module, called on startup
- * \returns 0 on success or -1 if initialisation failed
- */
-int32_t uavoLighttelemetryBridgeInitialize()
-{
-	// Update telemetry settings
-	lighttelemetryPort = PIOS_COM_LIGHTTELEMETRY;
-	
-	if ( lighttelemetryPort )
-	{
-		ltm_scheduler = 1;
-		updateSettings();
-		uint8_t speed;
-		ModuleSettingsLightTelemetrySpeedGet(&speed);
-		if (speed == MODULESETTINGS_LIGHTTELEMETRYSPEED_1200)
-			ltm_slowrate = 1;
-		else 
-			ltm_slowrate = 0;
-	}
-	return 0;
-}
 MODULE_INITCALL(uavoLighttelemetryBridgeInitialize, uavoLighttelemetryBridgeStart);
 
 
