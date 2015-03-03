@@ -90,9 +90,14 @@ static void send_LTM_Sframe();
  */
 int32_t uavoLighttelemetryBridgeStart()
 {
-	taskHandle = PIOS_Thread_Create(uavoLighttelemetryBridgeTask, "uavoLighttelemetryBridge", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-	TaskMonitorAdd(TASKINFO_RUNNING_UAVOLIGHTTELEMETRYBRIDGE, taskHandle);
-	return 0;
+	if ( lighttelemetryPort )
+	{
+		taskHandle = PIOS_Thread_Create(uavoLighttelemetryBridgeTask, "uavoLighttelemetryBridge", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		TaskMonitorAdd(TASKINFO_RUNNING_UAVOLIGHTTELEMETRYBRIDGE, taskHandle);
+		return 0;
+	}
+	
+	return -1;
 }
 
 /**
@@ -103,14 +108,18 @@ int32_t uavoLighttelemetryBridgeInitialize()
 {
 	// Update telemetry settings
 	lighttelemetryPort = PIOS_COM_LIGHTTELEMETRY;
-	ltm_scheduler = 1;
-	updateSettings();
-	uint8_t speed;
-	ModuleSettingsLightTelemetrySpeedGet(&speed);
-	if (speed == MODULESETTINGS_LIGHTTELEMETRYSPEED_1200)
-		ltm_slowrate = 1;
-	else 
-		ltm_slowrate = 0;
+	
+	if ( lighttelemetryPort )
+	{
+		ltm_scheduler = 1;
+		updateSettings();
+		uint8_t speed;
+		ModuleSettingsLightTelemetrySpeedGet(&speed);
+		if (speed == MODULESETTINGS_LIGHTTELEMETRYSPEED_1200)
+			ltm_slowrate = 1;
+		else 
+			ltm_slowrate = 0;
+	}
 	return 0;
 }
 MODULE_INITCALL(uavoLighttelemetryBridgeInitialize, uavoLighttelemetryBridgeStart);
