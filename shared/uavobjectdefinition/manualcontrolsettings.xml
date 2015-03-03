@@ -108,13 +108,15 @@
 				<option>Always Armed</option>
 				<option>Roll Left</option>
 				<option>Roll Right</option>
-				<option>Pitch Forward</option>
-				<option>Pitch Aft</option>
 				<option>Yaw Left</option>
 				<option>Yaw Right</option>
+				<option>Corners</option>
 				<option>Switch</option>
+				<option>Switch+Throttle</option>
 			</options>
 		</field>
+		<field name="ArmTime" units="ms" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="1000"/>
+		<field name="DisarmTime" units="ms" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="1000"/>
  
 		<!-- Note these options should be identical to those in StabilizationDesired.StabilizationMode -->
 		<field name="Stabilization1Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
