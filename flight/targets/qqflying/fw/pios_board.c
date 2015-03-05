@@ -40,7 +40,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include "hwflyingf4.h"
+#include "hwqqflying.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
 
@@ -70,6 +70,17 @@ static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 	.temperature_interleaving = 1,
 };
 #endif /* PIOS_INCLUDE_MS5611 */
+
+/**
+ * Configuration for the BMP085 chip or BMP180 chip
+ */
+#if defined(PIOS_INCLUDE_BMP085)
+#include "pios_bmp085_priv.h"
+static const struct pios_bmp085_cfg pios_bmp085_cfg = {
+    .oversampling = BMP085_OSR_3,
+    .temperature_interleaving = 1,
+};
+#endif /* PIOS_INCLUDE_BMP085 */
 
 /**
  * Configuration for the MPU6050 chip
@@ -118,6 +129,64 @@ static const struct pios_mpu60x0_cfg pios_mpu6050_cfg = {
 	.orientation = PIOS_MPU60X0_TOP_180DEG
 };
 #endif /* PIOS_INCLUDE_MPU6050 */
+
+/**
+ * Configuration for the MPU9250 chip
+ */
+#if defined(PIOS_INCLUDE_MPU9250_SPI)
+#include "pios_mpu9250.h"
+	static const struct pios_exti_cfg pios_exti_mpu9250_cfg __exti_config = {
+		.vector = PIOS_MPU9250_IRQHandler,
+		.line = EXTI_Line0,
+		.pin = {
+			.gpio = GPIOE,
+			.init = {
+				.GPIO_Pin = GPIO_Pin_0,
+				.GPIO_Speed = GPIO_Speed_100MHz,
+				.GPIO_Mode = GPIO_Mode_IN,
+				.GPIO_OType = GPIO_OType_OD,
+				.GPIO_PuPd = GPIO_PuPd_NOPULL,
+			},
+		},
+		.irq = {
+			.init = {
+				.NVIC_IRQChannel = EXTI0_IRQn,
+				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
+				.NVIC_IRQChannelSubPriority = 0,
+				.NVIC_IRQChannelCmd = ENABLE,
+			},
+		},
+		.exti = {
+			.init = {
+				.EXTI_Line = EXTI_Line0, // matches above GPIO pin
+				.EXTI_Mode = EXTI_Mode_Interrupt,
+				.EXTI_Trigger = EXTI_Trigger_Rising,
+				.EXTI_LineCmd = ENABLE,
+			},
+		},
+	};
+
+	static const struct pios_mpu9250_cfg pios_mpu9250_intmag_cfg = {
+		.exti_cfg = &pios_exti_mpu9250_cfg,
+		.default_samplerate = 500,
+		.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
+		.use_magnetometer = true,
+		.default_gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_184_HZ,
+		.default_accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_184_HZ,
+		.orientation = PIOS_MPU9250_BOTTOM_270DEG,
+	};
+
+	static const struct pios_mpu9250_cfg pios_mpu9250_extmag_cfg = {
+		.exti_cfg = &pios_exti_mpu9250_cfg,
+		.default_samplerate = 500,
+		.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
+		.use_magnetometer = false,
+		.default_gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_184_HZ,
+		.default_accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_184_HZ,
+		.orientation = PIOS_MPU9250_BOTTOM_270DEG,
+	};
+#endif /* PIOS_INCLUDE_MPU9250 */
+
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
@@ -256,9 +325,9 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
 /**
  * Indicate a target-specific error code when a component fails to initialize
  * 1 pulse - flash chip
- * 2 pulses - MPU6050
+ * 2 pulses - MPU6050 / MPU9250
  * 3 pulses - HMC5883
- * 4 pulses - MS5611
+ * 4 pulses - MS5611 /BMP085/180
  * 5 pulses - gyro I2C bus locked
  * 6 pulses - mag/baro I2C bus locked
  */
@@ -302,6 +371,11 @@ void PIOS_Board_Init(void) {
 	PIOS_LED_Init(led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
 
+#if defined(PIOS_INCLUDE_SPI)
+	if (PIOS_SPI_Init(&pios_spi_gyro_accel_id, &pios_spi_gyro_accel_cfg)) {
+		PIOS_DEBUG_Assert(0);
+	}
+#endif
 
 #if defined(PIOS_INCLUDE_FLASH)
 	/* Inititialize all flash drivers */
@@ -340,7 +414,7 @@ void PIOS_Board_Init(void) {
 	/* Initialize the alarms library */
 	AlarmsInitialize();
 
-	HwFlyingF4Initialize();
+	HwQQFlyingInitialize();
 	ModuleSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
@@ -375,7 +449,7 @@ void PIOS_Board_Init(void) {
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
-		HwFlyingF4SetDefaults(HwFlyingF4Handle(), 0);
+		HwQQFlyingSetDefaults(HwQQFlyingHandle(), 0);
 		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
@@ -408,11 +482,11 @@ void PIOS_Board_Init(void) {
 
 	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
-	HwFlyingF4USB_VCPPortGet(&hw_usb_vcpport);
+	HwQQFlyingUSB_VCPPortGet(&hw_usb_vcpport);
 
 	if (!usb_cdc_present) {
 		/* Force VCP port function to disabled if we haven't advertised VCP in our USB descriptor */
-		hw_usb_vcpport = HWFLYINGF4_USB_VCPPORT_DISABLED;
+		hw_usb_vcpport = HWQQFLYING_USB_VCPPORT_DISABLED;
 	}
 
 	uintptr_t pios_usb_cdc_id;
@@ -421,9 +495,9 @@ void PIOS_Board_Init(void) {
 	}
 
 	switch (hw_usb_vcpport) {
-	case HWFLYINGF4_USB_VCPPORT_DISABLED:
+	case HWQQFLYING_USB_VCPPORT_DISABLED:
 		break;
-	case HWFLYINGF4_USB_VCPPORT_USBTELEMETRY:
+	case HWQQFLYING_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
@@ -438,7 +512,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWFLYINGF4_USB_VCPPORT_COMBRIDGE:
+	case HWQQFLYING_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
@@ -453,7 +527,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWFLYINGF4_USB_VCPPORT_DEBUGCONSOLE:
+	case HWQQFLYING_USB_VCPPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
@@ -468,7 +542,7 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWFLYINGF4_USB_VCPPORT_PICOC:
+	case HWQQFLYING_USB_VCPPORT_PICOC:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_RX_BUF_LEN);
@@ -489,11 +563,11 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
 	uint8_t hw_usb_hidport;
-	HwFlyingF4USB_HIDPortGet(&hw_usb_hidport);
+	HwQQFlyingUSB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hw_usb_hidport = HWFLYINGF4_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWQQFLYING_USB_HIDPORT_DISABLED;
 	}
 
 	uintptr_t pios_usb_hid_id;
@@ -502,9 +576,9 @@ void PIOS_Board_Init(void) {
 	}
 
 	switch (hw_usb_hidport) {
-	case HWFLYINGF4_USB_HIDPORT_DISABLED:
+	case HWQQFLYING_USB_HIDPORT_DISABLED:
 		break;
-	case HWFLYINGF4_USB_HIDPORT_USBTELEMETRY:
+	case HWQQFLYING_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
@@ -530,23 +604,23 @@ void PIOS_Board_Init(void) {
 
 	/* Configure the IO ports */
 	uint8_t hw_DSMxBind;
-	HwFlyingF4DSMxBindGet(&hw_DSMxBind);
+	HwQQFlyingDSMxBindGet(&hw_DSMxBind);
 
 	/* init sensor queue registration */
 	PIOS_SENSORS_Init();
 
 	/* UART1 Port */
 	uint8_t hw_uart1;
-	HwFlyingF4Uart1Get(&hw_uart1);
+	HwQQFlyingUart1Get(&hw_uart1);
 	switch (hw_uart1) {
-	case HWFLYINGF4_UART1_DISABLED:
+	case HWQQFLYING_UART1_DISABLED:
 		break;
-	case HWFLYINGF4_UART1_GPS:
+	case HWQQFLYING_UART1_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWFLYINGF4_UART1_SBUS:
+	case HWQQFLYING_UART1_SBUS:
 		//hardware signal inverter required
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
@@ -566,7 +640,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_SBUS */
 		break;
-	case HWFLYINGF4_UART1_DSM:
+	case HWQQFLYING_UART1_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart1_dsm_hsum_cfg, &pios_usart1_dsm_aux_cfg, &pios_usart_com_driver,
@@ -574,16 +648,16 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWFLYINGF4_UART1_HOTTSUMD:
-	case HWFLYINGF4_UART1_HOTTSUMH:
+	case HWQQFLYING_UART1_HOTTSUMD:
+	case HWQQFLYING_UART1_HOTTSUMH:
 #if defined(PIOS_INCLUDE_HSUM)
 		{
 			enum pios_hsum_proto proto;
 			switch (hw_uart1) {
-			case HWFLYINGF4_UART1_HOTTSUMD:
+			case HWQQFLYING_UART1_HOTTSUMD:
 				proto = PIOS_HSUM_PROTO_SUMD;
 				break;
-			case HWFLYINGF4_UART1_HOTTSUMH:
+			case HWQQFLYING_UART1_HOTTSUMH:
 				proto = PIOS_HSUM_PROTO_SUMH;
 				break;
 			default:
@@ -595,7 +669,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_HSUM */
 		break;
-	case HWFLYINGF4_UART1_PICOC:
+	case HWQQFLYING_UART1_PICOC:
 #if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
@@ -605,21 +679,21 @@ void PIOS_Board_Init(void) {
 
 	/* UART2 Port */
 	uint8_t hw_uart2;
-	HwFlyingF4Uart2Get(&hw_uart2);
+	HwQQFlyingUart2Get(&hw_uart2);
 	switch (hw_uart2) {
-	case HWFLYINGF4_UART2_DISABLED:
+	case HWQQFLYING_UART2_DISABLED:
 		break;
-	case HWFLYINGF4_UART2_TELEMETRY:
+	case HWQQFLYING_UART2_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWFLYINGF4_UART2_GPS:
+	case HWQQFLYING_UART2_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWFLYINGF4_UART2_DSM:
+	case HWQQFLYING_UART2_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart2_dsm_hsum_cfg, &pios_usart2_dsm_aux_cfg, &pios_usart_com_driver,
@@ -627,16 +701,16 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
-	case HWFLYINGF4_UART2_HOTTSUMD:
-	case HWFLYINGF4_UART2_HOTTSUMH:
+	case HWQQFLYING_UART2_HOTTSUMD:
+	case HWQQFLYING_UART2_HOTTSUMH:
 #if defined(PIOS_INCLUDE_HSUM)
 		{
 			enum pios_hsum_proto proto;
 			switch (hw_uart2) {
-			case HWFLYINGF4_UART2_HOTTSUMD:
+			case HWQQFLYING_UART2_HOTTSUMD:
 				proto = PIOS_HSUM_PROTO_SUMD;
 				break;
-			case HWFLYINGF4_UART2_HOTTSUMH:
+			case HWQQFLYING_UART2_HOTTSUMH:
 				proto = PIOS_HSUM_PROTO_SUMH;
 				break;
 			default:
@@ -648,43 +722,43 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_HSUM */
 		break;
-	case HWFLYINGF4_UART2_DEBUGCONSOLE:
+	case HWQQFLYING_UART2_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-	case HWFLYINGF4_UART2_COMBRIDGE:
+	case HWQQFLYING_UART2_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
 		break;
-	case HWFLYINGF4_UART2_MAVLINKTX:
+	case HWQQFLYING_UART2_MAVLINKTX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart2_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
-	case HWFLYINGF4_UART2_MAVLINKTX_GPS_RX:
+	case HWQQFLYING_UART2_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 		pios_com_mavlink_id = pios_com_gps_id;
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
-	case HWFLYINGF4_UART2_FRSKYSENSORHUB:
+	case HWQQFLYING_UART2_FRSKYSENSORHUB:
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
 #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 		break;
-	case HWFLYINGF4_UART2_LIGHTTELEMETRYTX:
+	case HWQQFLYING_UART2_LIGHTTELEMETRYTX:
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 		PIOS_Board_configure_com(&pios_usart2_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
 #endif  
 		break;
-	case HWFLYINGF4_UART2_PICOC:
+	case HWQQFLYING_UART2_PICOC:
 #if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
 		break;
-	case HWFLYINGF4_UART2_FRSKYSPORTTELEMETRY:
+	case HWQQFLYING_UART2_FRSKYSPORTTELEMETRY:
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
@@ -695,37 +769,37 @@ void PIOS_Board_Init(void) {
 
 	/* UART3 Port */
 	uint8_t hw_uart3;
-	HwFlyingF4Uart3Get(&hw_uart3);
+	HwQQFlyingUart3Get(&hw_uart3);
 	switch (hw_uart3) {
-	case HWFLYINGF4_UART3_DISABLED:
+	case HWQQFLYING_UART3_DISABLED:
 		break;
-	case HWFLYINGF4_UART3_TELEMETRY:
+	case HWQQFLYING_UART3_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
 #endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-	case HWFLYINGF4_UART3_GPS:
+	case HWQQFLYING_UART3_GPS:
 #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 #endif
 		break;
-	case HWFLYINGF4_UART3_DSM:
+	case HWQQFLYING_UART3_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart3_dsm_hsum_cfg, &pios_usart3_dsm_aux_cfg, &pios_usart_com_driver,
 				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
-	case HWFLYINGF4_UART3_HOTTSUMD:
-	case HWFLYINGF4_UART3_HOTTSUMH:
+	case HWQQFLYING_UART3_HOTTSUMD:
+	case HWQQFLYING_UART3_HOTTSUMH:
 #if defined(PIOS_INCLUDE_HSUM)
 		{
 			enum pios_hsum_proto proto;
 			switch (hw_uart3) {
-			case HWFLYINGF4_UART3_HOTTSUMD:
+			case HWQQFLYING_UART3_HOTTSUMD:
 				proto = PIOS_HSUM_PROTO_SUMD;
 				break;
-			case HWFLYINGF4_UART3_HOTTSUMH:
+			case HWQQFLYING_UART3_HOTTSUMH:
 				proto = PIOS_HSUM_PROTO_SUMH;
 				break;
 			default:
@@ -737,43 +811,43 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_HSUM */
 		break;
-	case HWFLYINGF4_UART3_DEBUGCONSOLE:
+	case HWQQFLYING_UART3_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-	case HWFLYINGF4_UART3_COMBRIDGE:
+	case HWQQFLYING_UART3_COMBRIDGE:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
 #endif
 		break;
-	case HWFLYINGF4_UART3_MAVLINKTX:
+	case HWQQFLYING_UART3_MAVLINKTX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
-	case HWFLYINGF4_UART3_MAVLINKTX_GPS_RX:
+	case HWQQFLYING_UART3_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 		pios_com_mavlink_id = pios_com_gps_id;
 #endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
-	case HWFLYINGF4_UART3_FRSKYSENSORHUB:
+	case HWQQFLYING_UART3_FRSKYSENSORHUB:
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
 #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 		break;
-	case HWFLYINGF4_UART3_LIGHTTELEMETRYTX:
+	case HWQQFLYING_UART3_LIGHTTELEMETRYTX:
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
 #endif  
 		break;
-	case HWFLYINGF4_UART3_PICOC:
+	case HWQQFLYING_UART3_PICOC:
 #if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
 #endif /* PIOS_INCLUDE_PICOC */
 		break;
-	case HWFLYINGF4_UART3_FRSKYSPORTTELEMETRY:
+	case HWQQFLYING_UART3_FRSKYSPORTTELEMETRY:
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
@@ -783,12 +857,12 @@ void PIOS_Board_Init(void) {
 
 	/* Configure the rcvr port */
 	uint8_t hw_rcvrport;
-	HwFlyingF4RcvrPortGet(&hw_rcvrport);
+	HwQQFlyingRcvrPortGet(&hw_rcvrport);
 
 	switch (hw_rcvrport) {
-	case HWFLYINGF4_RCVRPORT_DISABLED:
+	case HWQQFLYING_RCVRPORT_DISABLED:
 		break;
-	case HWFLYINGF4_RCVRPORT_PWM:
+	case HWQQFLYING_RCVRPORT_PWM:
 #if defined(PIOS_INCLUDE_PWM)
 		{
 			uintptr_t pios_pwm_id;
@@ -802,8 +876,8 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
-	case HWFLYINGF4_RCVRPORT_PPM:
-	case HWFLYINGF4_RCVRPORT_PPMOUTPUTS:
+	case HWQQFLYING_RCVRPORT_PPM:
+	case HWQQFLYING_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
 		{
 			uintptr_t pios_ppm_id;
@@ -817,7 +891,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PPM */
 		break;
-	case HWFLYINGF4_RCVRPORT_PPMPWM:
+	case HWQQFLYING_RCVRPORT_PPMPWM:
 		/* This is a combination of PPM and PWM inputs */
 #if defined(PIOS_INCLUDE_PPM)
 		{
@@ -860,16 +934,16 @@ void PIOS_Board_Init(void) {
 
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
 	switch (hw_rcvrport) {
-		case HWFLYINGF4_RCVRPORT_DISABLED:
-		case HWFLYINGF4_RCVRPORT_PWM:
-		case HWFLYINGF4_RCVRPORT_PPM:
+		case HWQQFLYING_RCVRPORT_DISABLED:
+		case HWQQFLYING_RCVRPORT_PWM:
+		case HWQQFLYING_RCVRPORT_PPM:
 			/* Set up the servo outputs */
 #ifdef PIOS_INCLUDE_SERVO
 			PIOS_Servo_Init(&pios_servo_cfg);
 #endif
 			break;
-		case HWFLYINGF4_RCVRPORT_PPMOUTPUTS:
-		case HWFLYINGF4_RCVRPORT_OUTPUTS:
+		case HWQQFLYING_RCVRPORT_PPMOUTPUTS:
+		case HWQQFLYING_RCVRPORT_OUTPUTS:
 #ifdef PIOS_INCLUDE_SERVO
 			PIOS_Servo_Init(&pios_servo_rcvr_cfg);
 #endif
@@ -900,64 +974,64 @@ void PIOS_Board_Init(void) {
 
 	// To be safe map from UAVO enum to driver enum
 	uint8_t hw_gyro_range;
-	HwFlyingF4GyroRangeGet(&hw_gyro_range);
+	HwQQFlyingGyroRangeGet(&hw_gyro_range);
 	switch(hw_gyro_range) {
-		case HWFLYINGF4_GYRORANGE_250:
+		case HWQQFLYING_GYRORANGE_250:
 			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
 			break;
-		case HWFLYINGF4_GYRORANGE_500:
+		case HWQQFLYING_GYRORANGE_500:
 			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 			break;
-		case HWFLYINGF4_GYRORANGE_1000:
+		case HWQQFLYING_GYRORANGE_1000:
 			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
 			break;
-		case HWFLYINGF4_GYRORANGE_2000:
+		case HWQQFLYING_GYRORANGE_2000:
 			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
 			break;
 	}
 
 	uint8_t hw_accel_range;
-	HwFlyingF4AccelRangeGet(&hw_accel_range);
+	HwQQFlyingAccelRangeGet(&hw_accel_range);
 	switch(hw_accel_range) {
-		case HWFLYINGF4_ACCELRANGE_2G:
+		case HWQQFLYING_ACCELRANGE_2G:
 			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
 			break;
-		case HWFLYINGF4_ACCELRANGE_4G:
+		case HWQQFLYING_ACCELRANGE_4G:
 			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
 			break;
-		case HWFLYINGF4_ACCELRANGE_8G:
+		case HWQQFLYING_ACCELRANGE_8G:
 			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 			break;
-		case HWFLYINGF4_ACCELRANGE_16G:
+		case HWQQFLYING_ACCELRANGE_16G:
 			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 			break;
 	}
 
 	// the filter has to be set before rate else divisor calculation will fail
 	uint8_t hw_mpu6050_dlpf;
-	HwFlyingF4MPU6050DLPFGet(&hw_mpu6050_dlpf);
+	HwQQFlyingMPU6050DLPFGet(&hw_mpu6050_dlpf);
 	enum pios_mpu60x0_filter mpu6050_dlpf = \
-	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
-	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
-	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
-	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
-	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
-	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
-	    (hw_mpu6050_dlpf == HWFLYINGF4_MPU6050DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
+	    (hw_mpu6050_dlpf == HWQQFLYING_MPU6050DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
+	    (hw_mpu6050_dlpf == HWQQFLYING_MPU6050DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
+	    (hw_mpu6050_dlpf == HWQQFLYING_MPU6050DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
+	    (hw_mpu6050_dlpf == HWQQFLYING_MPU6050DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
+	    (hw_mpu6050_dlpf == HWQQFLYING_MPU6050DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
+	    (hw_mpu6050_dlpf == HWQQFLYING_MPU6050DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
+	    (hw_mpu6050_dlpf == HWQQFLYING_MPU6050DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
 	    pios_mpu6050_cfg.default_filter;
 	PIOS_MPU6050_SetLPF(mpu6050_dlpf);
 
 	uint8_t hw_mpu6050_samplerate;
-	HwFlyingF4MPU6050RateGet(&hw_mpu6050_samplerate);
+	HwQQFlyingMPU6050RateGet(&hw_mpu6050_samplerate);
 	uint16_t mpu6050_samplerate = \
-	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_200) ? 200 : \
-	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_333) ? 333 : \
-	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_500) ? 500 : \
-	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_666) ? 666 : \
-	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_1000) ? 1000 : \
-	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_2000) ? 2000 : \
-	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_4000) ? 4000 : \
-	    (hw_mpu6050_samplerate == HWFLYINGF4_MPU6050RATE_8000) ? 8000 : \
+	    (hw_mpu6050_samplerate == HWQQFLYING_MPU6050RATE_200) ? 200 : \
+	    (hw_mpu6050_samplerate == HWQQFLYING_MPU6050RATE_333) ? 333 : \
+	    (hw_mpu6050_samplerate == HWQQFLYING_MPU6050RATE_500) ? 500 : \
+	    (hw_mpu6050_samplerate == HWQQFLYING_MPU6050RATE_666) ? 666 : \
+	    (hw_mpu6050_samplerate == HWQQFLYING_MPU6050RATE_1000) ? 1000 : \
+	    (hw_mpu6050_samplerate == HWQQFLYING_MPU6050RATE_2000) ? 2000 : \
+	    (hw_mpu6050_samplerate == HWQQFLYING_MPU6050RATE_4000) ? 4000 : \
+	    (hw_mpu6050_samplerate == HWQQFLYING_MPU6050RATE_8000) ? 8000 : \
 	    pios_mpu6050_cfg.default_samplerate;
 	PIOS_MPU6050_SetSampleRate(mpu6050_samplerate);
 	
@@ -968,12 +1042,12 @@ void PIOS_Board_Init(void) {
 	PIOS_DELAY_WaitmS(50);
 	PIOS_WDG_Clear();
 
+	uint8_t Magnetometer;
+	HwQQFlyingMagnetometerGet(&Magnetometer);
+
 #if defined(PIOS_INCLUDE_HMC5883)
 	{
-		uint8_t Magnetometer;
-		HwFlyingF4MagnetometerGet(&Magnetometer);
-
-		if (Magnetometer == HWFLYINGF4_MAGNETOMETER_EXTERNALI2C) {
+		if (Magnetometer == HWQQFLYING_MAGNETOMETER_EXTERNALI2C) {
 
 			if (PIOS_HMC5883_Init(pios_i2c_10dof_adapter_id, &pios_hmc5883_external_cfg) != 0)
 				panic(3);
@@ -982,17 +1056,17 @@ void PIOS_Board_Init(void) {
 
 			// setup sensor orientation
 			uint8_t ExtMagOrientation;
-			HwFlyingF4ExtMagOrientationGet(&ExtMagOrientation);
+			HwQQFlyingExtMagOrientationGet(&ExtMagOrientation);
 
 			enum pios_hmc5883_orientation hmc5883_orientation = \
-				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP0DEGCW) ? PIOS_HMC5883_TOP_0DEG : \
-				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP90DEGCW) ? PIOS_HMC5883_TOP_90DEG : \
-				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP180DEGCW) ? PIOS_HMC5883_TOP_180DEG : \
-				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_TOP270DEGCW) ? PIOS_HMC5883_TOP_270DEG : \
-				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM0DEGCW) ? PIOS_HMC5883_BOTTOM_0DEG : \
-				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM90DEGCW) ? PIOS_HMC5883_BOTTOM_90DEG : \
-				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM180DEGCW) ? PIOS_HMC5883_BOTTOM_180DEG : \
-				(ExtMagOrientation == HWFLYINGF4_EXTMAGORIENTATION_BOTTOM270DEGCW) ? PIOS_HMC5883_BOTTOM_270DEG : \
+				(ExtMagOrientation == HWQQFLYING_EXTMAGORIENTATION_TOP0DEGCW) ? PIOS_HMC5883_TOP_0DEG : \
+				(ExtMagOrientation == HWQQFLYING_EXTMAGORIENTATION_TOP90DEGCW) ? PIOS_HMC5883_TOP_90DEG : \
+				(ExtMagOrientation == HWQQFLYING_EXTMAGORIENTATION_TOP180DEGCW) ? PIOS_HMC5883_TOP_180DEG : \
+				(ExtMagOrientation == HWQQFLYING_EXTMAGORIENTATION_TOP270DEGCW) ? PIOS_HMC5883_TOP_270DEG : \
+				(ExtMagOrientation == HWQQFLYING_EXTMAGORIENTATION_BOTTOM0DEGCW) ? PIOS_HMC5883_BOTTOM_0DEG : \
+				(ExtMagOrientation == HWQQFLYING_EXTMAGORIENTATION_BOTTOM90DEGCW) ? PIOS_HMC5883_BOTTOM_90DEG : \
+				(ExtMagOrientation == HWQQFLYING_EXTMAGORIENTATION_BOTTOM180DEGCW) ? PIOS_HMC5883_BOTTOM_180DEG : \
+				(ExtMagOrientation == HWQQFLYING_EXTMAGORIENTATION_BOTTOM270DEGCW) ? PIOS_HMC5883_BOTTOM_270DEG : \
 				pios_hmc5883_external_cfg.Default_Orientation;
 			PIOS_HMC5883_SetOrientation(hmc5883_orientation);
 		}
@@ -1002,12 +1076,118 @@ void PIOS_Board_Init(void) {
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
 	PIOS_WDG_Clear();
 
+#if defined (PIOS_INCLUDE_MPU9250_SPI) && defined(PIOS_INCLUDE_SPI)
+	{
+		const struct pios_mpu9250_cfg *mpu9250_cfg;
+		if ( Magnetometer== HWQQFLYING_MAGNETOMETER_INTERNAL) {
+			mpu9250_cfg = &pios_mpu9250_intmag_cfg;
+		} else {
+			mpu9250_cfg = &pios_mpu9250_extmag_cfg;
+		}
+
+
+		if (PIOS_MPU9250_SPI_Init(pios_spi_gyro_accel_id, 1, mpu9250_cfg) != 0)
+			panic(2);
+
+		if (PIOS_MPU9250_Test() != 0)
+			panic(2);
+
+		uint8_t hw_gyro_range;
+		HwQQFlyingGyroRangeGet(&hw_gyro_range);
+		switch(hw_gyro_range) {
+		case HWQQFLYING_GYRORANGE_250:
+			PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
+			break;
+
+		case HWQQFLYING_GYRORANGE_500:
+			PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
+			break;
+
+		case HWQQFLYING_GYRORANGE_1000:
+			PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
+			break;
+
+		case HWQQFLYING_GYRORANGE_2000:
+			PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
+			break;
+		}
+
+		uint8_t hw_accel_range;
+		HwQQFlyingAccelRangeGet(&hw_accel_range);
+		switch(hw_accel_range) {
+		case HWQQFLYING_ACCELRANGE_2G:
+			PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
+			break;
+		case HWQQFLYING_ACCELRANGE_4G:
+			PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
+			break;
+		case HWQQFLYING_ACCELRANGE_8G:
+			PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
+			break;
+		case HWQQFLYING_ACCELRANGE_16G:
+			PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
+			break;
+		}
+		// the filter has to be set before rate else divisor calculation will fail
+
+		uint8_t hw_mpu9250_gyro_dlpf;
+		HwQQFlyingMPU9250DLPFGyroGet(&hw_mpu9250_gyro_dlpf);
+		enum pios_mpu9250_gyro_filter mpu9250_gyro_dlpf = \
+			(hw_mpu9250_gyro_dlpf == HWQQFLYING_MPU9250DLPFGYRO_184) ? PIOS_MPU9250_GYRO_LOWPASS_184_HZ : \
+			(hw_mpu9250_gyro_dlpf == HWQQFLYING_MPU9250DLPFGYRO_92) ? PIOS_MPU9250_GYRO_LOWPASS_92_HZ : \
+			(hw_mpu9250_gyro_dlpf == HWQQFLYING_MPU9250DLPFGYRO_41) ? PIOS_MPU9250_GYRO_LOWPASS_41_HZ : \
+			(hw_mpu9250_gyro_dlpf == HWQQFLYING_MPU9250DLPFGYRO_20) ? PIOS_MPU9250_GYRO_LOWPASS_20_HZ : \
+			(hw_mpu9250_gyro_dlpf == HWQQFLYING_MPU9250DLPFGYRO_10) ? PIOS_MPU9250_GYRO_LOWPASS_10_HZ : \
+			(hw_mpu9250_gyro_dlpf == HWQQFLYING_MPU9250DLPFGYRO_5) ? PIOS_MPU9250_GYRO_LOWPASS_5_HZ : \
+			mpu9250_cfg->default_gyro_filter;
+		PIOS_MPU9250_SetGyroLPF(mpu9250_gyro_dlpf);
+
+		uint8_t hw_mpu9250_accel_dlpf;
+		HwQQFlyingMPU9250DLPFAccelGet(&hw_mpu9250_accel_dlpf);
+		enum pios_mpu9250_accel_filter mpu9250_accel_dlpf = \
+			(hw_mpu9250_accel_dlpf == HWQQFLYING_MPU9250DLPFACCEL_460) ? PIOS_MPU9250_ACCEL_LOWPASS_460_HZ : \
+			(hw_mpu9250_accel_dlpf == HWQQFLYING_MPU9250DLPFACCEL_184) ? PIOS_MPU9250_ACCEL_LOWPASS_184_HZ : \
+			(hw_mpu9250_accel_dlpf == HWQQFLYING_MPU9250DLPFACCEL_92) ? PIOS_MPU9250_ACCEL_LOWPASS_92_HZ : \
+			(hw_mpu9250_accel_dlpf == HWQQFLYING_MPU9250DLPFACCEL_41) ? PIOS_MPU9250_ACCEL_LOWPASS_41_HZ : \
+			(hw_mpu9250_accel_dlpf == HWQQFLYING_MPU9250DLPFACCEL_20) ? PIOS_MPU9250_ACCEL_LOWPASS_20_HZ : \
+			(hw_mpu9250_accel_dlpf == HWQQFLYING_MPU9250DLPFACCEL_10) ? PIOS_MPU9250_ACCEL_LOWPASS_10_HZ : \
+			(hw_mpu9250_accel_dlpf == HWQQFLYING_MPU9250DLPFACCEL_5) ? PIOS_MPU9250_ACCEL_LOWPASS_5_HZ : \
+			mpu9250_cfg->default_accel_filter;
+		PIOS_MPU9250_SetAccelLPF(mpu9250_accel_dlpf);
+
+		uint8_t hw_mpu9250_samplerate;
+		HwQQFlyingMPU9250RateGet(&hw_mpu9250_samplerate);
+		uint16_t samplerate = mpu9250_cfg->default_samplerate;
+		samplerate = \
+			(samplerate == HWQQFLYING_MPU9250RATE_200) ? 200 : \
+			(samplerate == HWQQFLYING_MPU9250RATE_333) ? 333 : \
+			(samplerate == HWQQFLYING_MPU9250RATE_500) ? 500 : \
+			(samplerate == HWQQFLYING_MPU9250RATE_1000) ? 1000 : \
+			mpu9250_cfg->default_samplerate;
+		PIOS_MPU9250_SetSampleRate(samplerate);
+	}
+#endif
+
+	PIOS_WDG_Clear();
+	PIOS_DELAY_WaitmS(50);
+	PIOS_WDG_Clear();
+
 #if defined(PIOS_INCLUDE_MS5611)
 	if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_10dof_adapter_id) != 0)
 		panic(4);
 	if (PIOS_MS5611_Test() != 0)
 		panic(4);
 #endif
+
+	PIOS_WDG_Clear();
+
+#if defined(PIOS_INCLUDE_BMP085)
+	if (PIOS_BMP085_Init(&pios_bmp085_cfg, pios_i2c_10dof_adapter_id) != 0)
+		panic(4);
+	if (PIOS_BMP085_Test() != 0)
+		panic(4);
+#endif /* PIOS_INCLUDE_BMP085 */
+
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
 	PIOS_WDG_Clear();
