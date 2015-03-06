@@ -1118,9 +1118,12 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		tmp = home_dist * convert_distance;
 		if (tmp < convert_distance_divider)
 			sprintf(tmp_str, "%s%d%s", HOME_LABELS[page->HomeDistanceShowText], (int)tmp, dist_unit_short);
-		else
-			sprintf(tmp_str, "%s%0.2f%s", HOME_LABELS[page->HomeDistanceShowText], (double)(tmp / convert_distance_divider), dist_unit_long);
-
+		else {
+			if (page->HomeDistanceShowText)
+				sprintf(tmp_str, "Home: %0.2f%s", (double)(tmp / convert_distance_divider), dist_unit_long);
+			else
+				sprintf(tmp_str, "%0.2f%s", (double)(tmp / convert_distance_divider), dist_unit_long);
+		}
 		write_string(tmp_str, page->HomeDistancePosX, page->HomeDistancePosY, 0, 0, TEXT_VA_TOP, (int)page->HomeDistanceAlign, 0, SIZE_TO_FONT[page->HomeDistanceFont]);
 	}
 
