@@ -29,6 +29,7 @@
 #include "openpilot.h"
 #include "alarms.h"
 #include "pios_mutex.h"
+#include "pios_reset.h"
 
 // Private constants
 
@@ -48,6 +49,38 @@ int32_t AlarmsInitialize(void)
 	SystemAlarmsInitialize();
 	lock = PIOS_Mutex_Create();
 	PIOS_Assert(lock != NULL);
+
+	uint8_t reboot_reason = SYSTEMALARMS_REBOOTCAUSE_UNDEFINED;
+
+	switch (PIOS_RESET_GetResetReason()) {
+	case PIOS_RESET_FLAG_BROWNOUT: // Brownouts are not detected on STM32F1 or STM32F3
+		reboot_reason = SYSTEMALARMS_REBOOTCAUSE_BROWNOUT;
+		break;
+	case PIOS_RESET_FLAG_PIN:
+		reboot_reason = SYSTEMALARMS_REBOOTCAUSE_PINRESET;
+		break;
+	case PIOS_RESET_FLAG_POWERON:
+		reboot_reason = SYSTEMALARMS_REBOOTCAUSE_POWERONRESET;
+		break;
+	case PIOS_RESET_FLAG_SOFTWARE:
+		reboot_reason = SYSTEMALARMS_REBOOTCAUSE_SOFTWARERESET;
+		break;
+	case PIOS_RESET_FLAG_INDEPENDENT_WATCHDOG:
+		reboot_reason = SYSTEMALARMS_REBOOTCAUSE_INDEPENDENTWATCHDOG;
+		break;
+	case PIOS_RESET_FLAG_WINDOW_WATCHDOG:
+		reboot_reason = SYSTEMALARMS_REBOOTCAUSE_WINDOWWATCHDOG;
+		break;
+	case PIOS_RESET_FLAG_LOW_POWER:
+		reboot_reason = SYSTEMALARMS_REBOOTCAUSE_LOWPOWER;
+		break;
+	case PIOS_RESET_FLAG_UNDEFINED:
+		 reboot_reason = SYSTEMALARMS_REBOOTCAUSE_UNDEFINED;
+		break;
+	}
+
+	SystemAlarmsRebootCauseSet(&reboot_reason);
+
 	return 0;
 }
 
