@@ -240,6 +240,12 @@ extern uintptr_t pios_com_lighttelemetry_id;
 #define PIOS_DSM_NUM_INPUTS			12
 
 //-------------------------
+// Receiver HSUM input
+//-------------------------
+#define PIOS_HSUM_MAX_DEVS				2
+#define PIOS_HSUM_NUM_INPUTS			32
+
+//-------------------------
 // Receiver S.Bus input
 //-------------------------
 #define PIOS_SBUS_NUM_INPUTS			(16+2)

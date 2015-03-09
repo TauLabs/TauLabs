@@ -49,5 +49,8 @@
         <file>html/StateEstimation-PDOP-Too-High.html</file>
         <file>html/StateEstimation-Too-Few-Satellites.html</file>
         <file>html/StateEstimation-Undefined.html</file>
+	<file>html/TempBaro-Warning.html</file>
+	<file>html/TempBaro-Error.html</file>
+	<file>html/TempBaro-Critical.html</file>
     </qresource>
 </RCC>

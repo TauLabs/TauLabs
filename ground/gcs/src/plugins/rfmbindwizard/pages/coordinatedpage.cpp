@@ -106,14 +106,11 @@ bool CoordinatedPage::bindCoordinator()
     if (rfmId == getWizard()->getCoordID())
         return false;
 
-    board->setLinkMode(getWizard()->getLinkMode());
-    board->setMinMaxChannel(getWizard()->getMinChannel(), getWizard()->getMaxChannel());
-    board->setCoordID(getWizard()->getCoordID(), getWizard()->getMaxBps(), getWizard()->getMaxRfPower());
+    board->bindRadio(getWizard()->getCoordID(), getWizard()->getMaxBps(), getWizard()->getMaxRfPower(),
+                     getWizard()->getLinkMode(),getWizard()->getMinChannel(), getWizard()->getMaxChannel());
 
     m_coordinatorConfigured = true;
     ui->setCoordinator->setEnabled(false);
-
-    qDebug() << "Coordinator ID: " << rfmId;
 
     emit completeChanged();
     stopProbing();

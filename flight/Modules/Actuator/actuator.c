@@ -69,8 +69,6 @@
 static struct pios_queue *queue;
 static struct pios_thread *taskHandle;
 
-static float lastResult[MAX_MIX_ACTUATORS]={0,0,0,0,0,0,0,0};
-static float filterAccumulator[MAX_MIX_ACTUATORS]={0,0,0,0,0,0,0,0};
 // used to inform the actuator thread that actuator update rate is changed
 static volatile bool actuator_settings_updated;
 // used to inform the actuator thread that mixer settings are changed
@@ -303,8 +301,6 @@ static void actuatorTask(void* parameters)
 				if( !armed ||
 				   (!spinWhileArmed && !positiveThrottle))
 				{
-					filterAccumulator[ct] = 0;
-					lastResult[ct] = 0;
 					status[ct] = -1;  //force min throttle
 				}
 				// If armed meant to keep spinning,
@@ -400,7 +396,6 @@ static void actuatorTask(void* parameters)
 float ProcessMixer(const int index, const float curve1, const float curve2,
 		   const MixerSettingsData* mixerSettings, ActuatorDesiredData* desired, const float period)
 {
-	static float lastFilteredResult[MAX_MIX_ACTUATORS];
 	const Mixer_t * mixers = (Mixer_t *)&mixerSettings->Mixer1Type; //pointer to array of mixers in UAVObjects
 	const Mixer_t * mixer = &mixers[index];
 
@@ -410,49 +405,9 @@ float ProcessMixer(const int index, const float curve1, const float curve2,
 		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_PITCH] / 128.0f) * desired->Pitch) +
 		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_YAW] / 128.0f) * desired->Yaw);
 
-	if(mixer->type == MIXERSETTINGS_MIXER1TYPE_MOTOR)
+	if((mixer->type == MIXERSETTINGS_MIXER1TYPE_MOTOR) && (result < 0.0f))
 	{
-		if(result < 0.0f) //idle throttle
-		{
-			result = 0.0f;
-		}
-
-		//feed forward
-		float accumulator = filterAccumulator[index];
-		accumulator += (result - lastResult[index]) * mixerSettings->FeedForward;
-		lastResult[index] = result;
-		result += accumulator;
-		if(period !=0)
-		{
-			if(accumulator > 0.0f)
-			{
-				float filter = mixerSettings->AccelTime / period;
-				if(filter <1)
-				{
-					filter = 1;
-				}
-				accumulator -= accumulator / filter;
-			}else
-			{
-				float filter = mixerSettings->DecelTime / period;
-				if(filter <1)
-				{
-					filter = 1;
-				}
-				accumulator -= accumulator / filter;
-			}
-		}
-		filterAccumulator[index] = accumulator;
-		result += accumulator;
-
-		//acceleration limit
-		float dt = result - lastFilteredResult[index];
-		float maxDt = mixerSettings->MaxAccel * period;
-		if(dt > maxDt) //we are accelerating too hard
-		{
-			result = lastFilteredResult[index] + maxDt;
-		}
-		lastFilteredResult[index] = result;
+			result = 0.0f; //idle throttle
 	}
 
 	return(result);

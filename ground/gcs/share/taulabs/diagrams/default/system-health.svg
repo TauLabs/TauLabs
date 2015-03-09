@@ -14,7 +14,7 @@
    height="79.57505"
    id="svg3604"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="system-health.svg"
    inkscape:export-filename="C:\NoBackup\OpenPilot\mainboard-health.png"
    inkscape:export-xdpi="269.53"
@@ -690,13 +690,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="10.247587"
-     inkscape:cx="36.437167"
+     inkscape:cx="46.093027"
      inkscape:cy="31.153742"
-     inkscape:current-layer="foreground"
+     inkscape:current-layer="layer52"
      id="namedview3608"
      showgrid="false"
-     inkscape:window-width="1600"
-     inkscape:window-height="850"
+     inkscape:window-width="2264"
+     inkscape:window-height="1246"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -775,7 +775,7 @@
     <path
        style="fill:#332d2d;fill-opacity:1;stroke:#ffffff;stroke-width:0.51991701;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
        d="m 569.63025,355.2207 18.03638,0 0,8.06906 -18.03638,0 z"
-       id="Temp-Baro"
+       id="TempBaro"
        inkscape:connector-curvature="0" />
     <path
        style="fill:#332d2d;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
@@ -888,6 +888,72 @@
        d="m 515.23181,-375.95197 18.15321,0 0,8.12162 -18.15321,0 z"
        id="rect8567"
        inkscape:connector-curvature="0" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer50"
+     inkscape:label="TempBaro-OK"
+     style="display:none">
+    <path
+       style="fill:#04b629;fill-opacity:1;stroke:#ffffff;stroke-width:0.51991701;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline"
+       d="m 72.171655,10.939946 18.03638,0 0,8.06906 -18.03638,0 z"
+       id="TempBaro-OK"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     style="display:none"
+     inkscape:label="TempBaro-Uninitialised"
+     id="layer51"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       id="TempBaro-Uninitialised"
+       d="m 72.171655,10.939946 18.03638,0 0,8.06906 -18.03638,0 z"
+       style="fill:#808080;fill-opacity:1;stroke:#ffffff;stroke-width:0.51991701;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline" />
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="TempBaro-Error"
+     id="layer52"
+     inkscape:groupmode="layer">
+    <g
+       inkscape:label="#g3114"
+       transform="matrix(0.95499174,0,0,0.79527181,68.60176,10.180643)"
+       id="TempBaro-Error"
+       style="stroke:#cf0e0e;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline">
+      <path
+         inkscape:connector-curvature="0"
+         id="path9435-6"
+         d="M 3.9588091,1.7664579 22.097352,10.043968"
+         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path9437-3"
+         d="M 4.2467224,10.043968 22.025374,1.8384362"
+         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+  </g>
+  <g
+     style="display:none"
+     inkscape:label="TempBaro-Warning"
+     id="layer53"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       id="TempBaro-Warning"
+       d="m 72.171655,10.939946 18.03638,0 0,8.06906 -18.03638,0 z"
+       style="fill:#f1b907;fill-opacity:1;stroke:#ffffff;stroke-width:0.51991701;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline" />
+  </g>
+  <g
+     style="display:none"
+     inkscape:label="TempBaro-Critical"
+     id="layer54"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       id="TempBaro-Critical"
+       d="m 72.171655,10.939946 18.03638,0 0,8.06906 -18.03638,0 z"
+       style="fill:#cf0e0e;fill-opacity:1;stroke:#ffffff;stroke-width:0.51991701;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -3617,19 +3683,23 @@
       <path
          d="m 75.540604,66.013485 -0.41211,0 -0.285156,-0.810547 -1.257812,0 -0.285157,0.810547 -0.392578,0 1.058594,-2.908203 0.515625,0 1.058594,2.908203 m -0.816407,-1.142578 -0.509765,-1.427735 -0.511719,1.427735 1.021484,0"
          style="line-height:100%;fill:#ffffff"
-         id="path4440" />
+         id="path4440"
+         inkscape:connector-curvature="0" />
       <path
          d="m 75.423416,69.674813 -1.839844,0 0,-2.908203 0.386719,0 0,2.564453 1.453125,0 0,0.34375"
          style="line-height:100%;fill:#ffffff"
-         id="path4442" />
+         id="path4442"
+         inkscape:connector-curvature="0" />
       <path
          d="m 75.536697,70.607626 -1.039062,0 0,2.564453 -0.386719,0 0,-2.564453 -1.039062,0 0,-0.34375 2.464843,0 0,0.34375"
          style="line-height:100%;fill:#ffffff"
-         id="path4444" />
+         id="path4444"
+         inkscape:connector-curvature="0" />
       <path
          d="m 75.335526,76.997469 -0.386719,0 0,-1.423828 -1.451172,0 0,1.423828 -0.386719,0 0,-2.908203 0.386719,0 0,1.140625 1.451172,0 0,-1.140625 0.386719,0 0,2.908203"
          style="line-height:100%;fill:#ffffff"
-         id="path4446" />
+         id="path4446"
+         inkscape:connector-curvature="0" />
     </g>
   </g>
   <g

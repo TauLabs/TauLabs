@@ -214,15 +214,11 @@ public:
      * @param rf_power - the maximum radio power to use or -1 to leave unchanged
      * @return true if successful or false if not
      */
-    virtual bool setCoordID(quint32 /* id */, quint32 /*baud_rate*/ = 0, float /*rf_power*/ = -1) { return false; }
-
     enum LinkMode { LINK_TELEM, LINK_TELEM_PPM, LINK_PPM };
 
-    //! Set the radio link mode
-    virtual bool setLinkMode(LinkMode /* linkMode */) { return false; }
-
-    //! Set the minimum and maximum channel index
-    virtual bool setMinMaxChannel(quint8 /* min */, quint8 /* max */) { return false; }
+    virtual bool bindRadio(quint32 /*id*/, quint32 /*baud_rate*/, float /*rf_power*/,
+                           Core::IBoardType::LinkMode /*linkMode*/, quint8 /*min*/,
+                           quint8 /*max*/) { return false; }
 
     static QString getBoardNameFromID(int id);
 

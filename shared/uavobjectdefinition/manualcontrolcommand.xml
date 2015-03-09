@@ -9,6 +9,7 @@
         <field name="Rssi" units="%" type="int16" elements="1"/>
         <field name="RawRssi" units="" type="uint32" elements="1"/>
         <field name="Collective" units="%" type="float" elements="1"/>
+	<field name="ArmSwitch" units="" type="enum" elements="1" options="Disarmed,Armed" defaultvalue="Disarmed"/>
         <field name="Channel" units="us" type="uint16">
             <!-- Must match order in ManualControlSettings.ChannelGroups -->
             <elementnames>
