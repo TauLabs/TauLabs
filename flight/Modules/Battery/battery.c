@@ -119,11 +119,11 @@ static void batteryTask(void * parameters)
 			FlightBatterySettingsGet(&batterySettings);
 
 			voltageADCPin = batterySettings.VoltagePin;
-			if (voltageADCPin == FLIGHTBATTERYSETTINGS_VOLTAGEPIN_NONE)
+			if (!HAS_SENSOR(FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYVOLTAGE) || (voltageADCPin == FLIGHTBATTERYSETTINGS_VOLTAGEPIN_NONE))
 				voltageADCPin = -1;
 
 			currentADCPin = batterySettings.CurrentPin;
-			if (currentADCPin == FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE)
+			if (!HAS_SENSOR(FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYCURRENT) || (currentADCPin == FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE))
 				currentADCPin = -1;
 		}
 
@@ -157,28 +157,31 @@ static void batteryTask(void * parameters)
 			flightBatteryData.EstimatedFlightTime = 9999;
 
 		//generate alarms where needed...
-		if ((flightBatteryData.Voltage <= 0) && (flightBatteryData.Current <= 0)) {
+		if (((voltageADCPin >= 0) && (flightBatteryData.Voltage <= 0)) || ((currentADCPin >=0) && (flightBatteryData.Current <= 0))) {
 			//FIXME: There's no guarantee that a floating ADC will give 0. So this
 			// check might fail, even when there's nothing attached.
 			AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_ERROR);
 			AlarmsSet(SYSTEMALARMS_ALARM_FLIGHTTIME, SYSTEMALARMS_ALARM_ERROR);
 		} else {
-			// FIXME: should make the timer alarms user configurable
-			if (flightBatteryData.EstimatedFlightTime < 30)
+			if ((batterySettings.FlightTimeThresholds[FLIGHTBATTERYSETTINGS_FLIGHTTIMETHRESHOLDS_ALARM] > 0)
+				&& (flightBatteryData.EstimatedFlightTime < batterySettings.FlightTimeThresholds[FLIGHTBATTERYSETTINGS_FLIGHTTIMETHRESHOLDS_ALARM]))
 				AlarmsSet(SYSTEMALARMS_ALARM_FLIGHTTIME, SYSTEMALARMS_ALARM_CRITICAL);
-			else if (flightBatteryData.EstimatedFlightTime < 120)
+			else if ((batterySettings.FlightTimeThresholds[FLIGHTBATTERYSETTINGS_FLIGHTTIMETHRESHOLDS_WARNING] > 0)
+					 && (flightBatteryData.EstimatedFlightTime < batterySettings.FlightTimeThresholds[FLIGHTBATTERYSETTINGS_FLIGHTTIMETHRESHOLDS_WARNING]))
 				AlarmsSet(SYSTEMALARMS_ALARM_FLIGHTTIME, SYSTEMALARMS_ALARM_WARNING);
 			else
 				AlarmsClear(SYSTEMALARMS_ALARM_FLIGHTTIME);
 
 			// FIXME: should make the battery voltage detection dependent on battery type.
 			/*Not so sure. Some users will want to run their batteries harder than others, so it should be the user's choice. [KDS]*/
-			if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM])
-				AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_CRITICAL);
-			else if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_WARNING])
-				AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_WARNING);
-			else
-				AlarmsClear(SYSTEMALARMS_ALARM_BATTERY);
+			if (voltageADCPin >= 0) {
+				if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM])
+					AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_CRITICAL);
+				else if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_WARNING])
+					AlarmsSet(SYSTEMALARMS_ALARM_BATTERY, SYSTEMALARMS_ALARM_WARNING);
+				else
+					AlarmsClear(SYSTEMALARMS_ALARM_BATTERY);
+			}
 		}
 
 		FlightBatteryStateSet(&flightBatteryData);

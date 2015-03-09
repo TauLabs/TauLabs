@@ -112,9 +112,14 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationFactor", ui->sb_currentFactor, FlightBatterySettings::SENSORCALIBRATIONFACTOR_CURRENT);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationOffset", ui->sb_voltageOffSet, FlightBatterySettings::SENSORCALIBRATIONOFFSET_VOLTAGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationOffset", ui->sb_currentOffSet, FlightBatterySettings::SENSORCALIBRATIONOFFSET_CURRENT);
+    addUAVObjectToWidgetRelation(batterySettingsName, "FlightTimeThresholds", ui->sb_flightTimeAlarm, FlightBatterySettings::FLIGHTTIMETHRESHOLDS_ALARM);
+    addUAVObjectToWidgetRelation(batterySettingsName, "FlightTimeThresholds", ui->sb_flightTimeWarning, FlightBatterySettings::FLIGHTTIMETHRESHOLDS_WARNING);
 
     addUAVObjectToWidgetRelation(batteryStateName, "Voltage", ui->le_liveVoltageReading);
     addUAVObjectToWidgetRelation(batteryStateName, "Current", ui->le_liveCurrentReading);
+
+    addUAVObjectToWidgetRelation(batteryStateName, "ConsumedEnergy", ui->le_liveConsumedEnergy);
+    addUAVObjectToWidgetRelation(batteryStateName, "EstimatedFlightTime", ui->le_liveEstimatedFlightTime);
 
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "SampleRate", ui->sb_sampleRate);
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "FFTWindowSize", ui->cb_windowSize);
@@ -552,6 +557,7 @@ void ConfigModuleWidget::toggleVibrationTest()
     vibrationAnalysisSettings->setData(vibrationAnalysisSettingsData);
     vibrationAnalysisSettings->updated();
 }
+
 
 void ConfigModuleWidget::updateAirspeedUAVO(UAVObject *obj)
 {

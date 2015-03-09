@@ -189,7 +189,7 @@
          <property name="text">
           <string>Geofence</string>
          </property>
-        </widget>        
+        </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="cbUAVOFrSkySPortBridge">
@@ -417,35 +417,6 @@
         </layout>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2">
-         <property name="title">
-          <string>ADC Pins</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout_9">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_23">
-            <property name="text">
-             <string>Voltage Pin:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_24">
-            <property name="text">
-             <string>Current Pin:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QComboBox" name="cbVoltagePin"/>
-          </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="cbCurrentPin"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
         <widget class="QGroupBox" name="gb_measureVoltage">
          <property name="title">
           <string>Measure voltage</string>
@@ -463,7 +434,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="label_14">
             <property name="text">
-             <string>Live reading:</string>
+             <string>Live reading (V):</string>
             </property>
            </widget>
           </item>
@@ -474,14 +445,14 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="2" column="0">
            <widget class="QLabel" name="label_13">
             <property name="text">
              <string>Calibration factor:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
+          <item row="2" column="1">
            <widget class="QDoubleSpinBox" name="sb_voltageFactor">
             <property name="suffix">
              <string> mV/V</string>
@@ -497,14 +468,14 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
+          <item row="4" column="0">
            <widget class="QLabel" name="label_11">
             <property name="text">
              <string>Low voltage alarm:</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
+          <item row="4" column="1">
            <widget class="QDoubleSpinBox" name="sb_lowVoltageAlarm">
             <property name="suffix">
              <string>V</string>
@@ -517,14 +488,14 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
+          <item row="5" column="0">
            <widget class="QLabel" name="label_12">
             <property name="text">
              <string>Low voltage warning:</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
+          <item row="5" column="1">
            <widget class="QDoubleSpinBox" name="sb_lowVoltageWarning">
             <property name="suffix">
              <string>V</string>
@@ -537,14 +508,14 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
+          <item row="3" column="0">
            <widget class="QLabel" name="label_31">
             <property name="text">
-             <string>Calibration offset</string>
+             <string>Calibration offset:</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
+          <item row="3" column="1">
            <widget class="QDoubleSpinBox" name="sb_voltageOffSet">
             <property name="suffix">
              <string>V</string>
@@ -562,6 +533,16 @@
              <double>0.100000000000000</double>
             </property>
            </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_23">
+            <property name="text">
+             <string>Voltage Pin:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="cbVoltagePin"/>
           </item>
          </layout>
         </widget>
@@ -584,18 +565,18 @@
           <item row="0" column="0">
            <widget class="QLabel" name="label_9">
             <property name="text">
-             <string>Live reading:</string>
+             <string>Live reading (A):</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="5" column="0">
            <widget class="QLabel" name="label_8">
             <property name="text">
              <string>Calibration factor:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
+          <item row="5" column="1">
            <widget class="QDoubleSpinBox" name="sb_currentFactor">
             <property name="suffix">
              <string> mV/A</string>
@@ -618,14 +599,14 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
+          <item row="6" column="0">
            <widget class="QLabel" name="label_32">
             <property name="text">
-             <string>Calibration offset</string>
+             <string>Calibration offset:</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
+          <item row="6" column="1">
            <widget class="QDoubleSpinBox" name="sb_currentOffSet">
             <property name="suffix">
              <string>A</string>
@@ -641,6 +622,84 @@
             </property>
             <property name="singleStep">
              <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_24">
+            <property name="text">
+             <string>Current Pin:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QComboBox" name="cbCurrentPin"/>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="label_33">
+            <property name="text">
+             <string>Flight time alarm:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="label_35">
+            <property name="text">
+             <string>Flight time warning:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QSpinBox" name="sb_flightTimeAlarm">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Raise an alarm when the remaining flight time (calculated based on battery capacity and current consumed) is below this threshold. Set to 0s to disable.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="suffix">
+             <string>s</string>
+            </property>
+            <property name="maximum">
+             <number>255</number>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QSpinBox" name="sb_flightTimeWarning">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Issue a warning when the remaining flight time (calculated based on battery capacity and current consumed) is below this threshold. Set to 0s to disable.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="suffix">
+             <string>s</string>
+            </property>
+            <property name="maximum">
+             <number>255</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_36">
+            <property name="text">
+             <string>Consumed capacity (mAh):</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_37">
+            <property name="text">
+             <string>Remaining flight time (s):</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="le_liveConsumedEnergy">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="le_liveEstimatedFlightTime">
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -839,7 +898,6 @@
        </item>
       </layout>
      </widget>
-
      <widget class="QWidget" name="tabGeofence">
       <attribute name="title">
        <string>Geofence</string>
@@ -926,7 +984,6 @@
        </item>
       </layout>
      </widget>
-
      <widget class="QWidget" name="tabHoTTTelemetry">
       <attribute name="title">
        <string>HoTT Telemetry</string>
@@ -981,8 +1038,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>392</width>
-            <height>674</height>
+            <width>403</width>
+            <height>589</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -3010,6 +3067,7 @@ Apply or Save button afterwards.</string>
   </layout>
  </widget>
  <resources>
+  <include location="../coreplugin/core.qrc"/>
   <include location="../coreplugin/core.qrc"/>
  </resources>
  <connections/>
