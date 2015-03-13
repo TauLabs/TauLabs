@@ -206,10 +206,10 @@ SRC += $(OPUAVSYNTHDIR)/hwcoptercontrol.c
 SRC += $(OPUAVSYNTHDIR)/modulesettings.c
 SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
 SRC += $(OPUAVSYNTHDIR)/receiveractivity.c
-SRC += $(OPUAVSYNTHDIR)/relaytuningsettings.c
-SRC += $(OPUAVSYNTHDIR)/relaytuning.c
+SRC += $(OPUAVSYNTHDIR)/systemident.c
 SRC += $(OPUAVSYNTHDIR)/taskinfo.c
 SRC += $(OPUAVSYNTHDIR)/mixerstatus.c
+SRC += $(OPUAVSYNTHDIR)/mwratesettings.c
 SRC += $(OPUAVSYNTHDIR)/ratedesired.c
 SRC += $(OPUAVSYNTHDIR)/baroaltitude.c
 SRC += $(OPUAVSYNTHDIR)/txpidsettings.c
@@ -231,6 +231,7 @@ SRC += $(OPUAVSYNTHDIR)/trimanglessettings.c
 SRC += $(OPUAVSYNTHDIR)/trimangles.c
 SRC += $(OPUAVSYNTHDIR)/ubloxinfo.c
 SRC += $(OPUAVSYNTHDIR)/sessionmanaging.c
+
 
 endif
 
@@ -272,6 +273,10 @@ SRC += $(PIOSCOMMON)/printf-stdarg.c
 SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_heap.c
 SRC += $(PIOSCOMMON)/pios_semaphore.c
+SRC += $(PIOSCOMMON)/pios_mutex.c
+SRC += $(PIOSCOMMON)/pios_thread.c
+SRC += $(PIOSCOMMON)/pios_queue.c
+
 SRC += $(PIOSCOMMON)/pios_board_info.c
 
 
