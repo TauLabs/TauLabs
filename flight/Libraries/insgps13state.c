@@ -123,6 +123,18 @@ void INSGPSInit()		//pretty much just a place holder for now
 	R[9] = .25f;                    // High freq altimeter noise variance (m^2)
 }
 
+//! Set the current flight state
+void INSSetArmed(bool armed)
+{
+	return; 
+	// Speed up convergence of accel and gyro bias when not armed
+	if (armed) {
+		Q[8] = 2e-9f;
+	} else {
+		Q[8] = 2e-8f;
+	}
+}
+
 /**
  * Get the current state estimate (null input skips that get)
  * @param[out] pos The position in NED space (m)
