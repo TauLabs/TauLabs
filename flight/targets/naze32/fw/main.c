@@ -7,7 +7,7 @@
  *
  * @file       coptercontrol.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
  * @brief      Start FreeRTOS and the Modules.
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -29,13 +29,14 @@
  */
 
 
-/* OpenPilot Includes */
 #include "openpilot.h"
 #include "uavobjectsinit.h"
 #include "systemmod.h"
 
-/* Task Priorities */
-#define PRIORITY_TASK_HOOKS             (tskIDLE_PRIORITY + 3)
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#include "task.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
 /* Global Variables */
 
@@ -43,87 +44,73 @@
 extern void PIOS_Board_Init(void);
 extern void Stack_Change(void);
 
-/* Local Variables */
-#define INIT_TASK_PRIORITY	(tskIDLE_PRIORITY + configMAX_PRIORITIES - 1)	// max priority
-#define INIT_TASK_STACK		(640 / 4)
-static xTaskHandle initTaskHandle;
-
-/* Function Prototypes */
-static void initTask(void *parameters);
-
-/* Prototype of generated InitModules() function */
-extern void InitModules(void);
-
-/* board-info/system_stm32f10x.c */
-extern void SetSysClock(void);
-
 /**
 * Tau Labs Main function:
 *
 * Initialize PiOS<BR>
 * Create the "System" task (SystemModInitializein Modules/System/systemmod.c) <BR>
-* Start FreeRTOS Scheduler (vTaskStartScheduler)<BR>
+* Start FreeRTOS Scheduler (vTaskStartScheduler) (Now handled by caller)
 * If something goes wrong, blink LED1 and LED2 every 100ms
 *
 */
 int main()
 {
-	int	result;
-
 	/* NOTE: Do NOT modify the following start-up sequence */
 	/* Any new initialization functions should be added in OpenPilotInit() */
-	vPortInitialiseBlocks();
 
 	/* Brings up System using CMSIS functions, enables the LEDs. */
 	PIOS_SYS_Init();
 
-	// Configure the System clock frequency, HCLK, PCLK2 and PCLK1 prescalers
-	// Configure the Flash Latency cycles and enable prefetch buffer
-	SetSysClock();
-
-	/* use a FreeRTOS task to bring up the system so we can */
-	/* always rely on FreeRTOS primitive */
-	result = xTaskCreate(initTask, (const signed char *)"init",
-						 INIT_TASK_STACK, NULL, INIT_TASK_PRIORITY,
-						 &initTaskHandle);
-	PIOS_Assert(result == pdPASS);
-
-	/* swap the stack to use the IRQ stack */
-	Stack_Change();
-
-	/* Start the FreeRTOS scheduler */
-	vTaskStartScheduler();
-
-	/* If all is well we will never reach here as the scheduler will now be running. */
-	/* Do some PIOS_LED_HEARTBEAT to user that something bad just happened */
-	PIOS_LED_Off(PIOS_LED_HEARTBEAT); \
-	for(;;) { \
-		PIOS_LED_Toggle(PIOS_LED_HEARTBEAT); \
-		PIOS_DELAY_WaitmS(100); \
-	};
-
-	return 0;
-}
-/**
- * Initialisation task.
- *
- * Runs board and module initialisation, then terminates.
- */
-void
-initTask(void *parameters)
-{
-	/* board driver init */
+	/* Architecture dependant Hardware and
+	 * core subsystem initialisation
+	 * (see pios_board.c for your arch)
+	 * */
 	PIOS_Board_Init();
+	PIOS_WDG_Clear();
+#ifdef ERASE_FLASH
+	PIOS_Flash_Jedec_EraseChip();
+#if defined(PIOS_LED_HEARTBEAT)
+	PIOS_LED_Off(PIOS_LED_HEARTBEAT);
+#endif	/* PIOS_LED_HEARTBEAT */
+	while (1) ;
+#endif
 
 	/* Initialize modules */
 	MODULE_INITIALISE_ALL(PIOS_WDG_Clear);
 
-	/* terminate this task */
-	vTaskDelete(NULL);
+	/* swap the stack to use the IRQ stack */
+	Stack_Change();
+
+	/* Start the FreeRTOS scheduler, which should never return.
+	 *
+	 * NOTE: OpenPilot runs an operating system (FreeRTOS), which constantly calls 
+	 * (schedules) function files (modules). These functions never return from their
+	 * while loops, which explains why each module has a while(1){} segment. Thus, 
+	 * the OpenPilot software actually starts at the vTaskStartScheduler() function, 
+	 * even though this is somewhat obscure.
+	 *
+	 * In addition, there are many main() functions in the OpenPilot firmware source tree
+	 * This is because each main() refers to a separate hardware platform. Of course,
+	 * C only allows one main(), so only the relevant main() function is compiled when 
+	 * making a specific firmware.
+	 *
+	 */
+	vTaskStartScheduler();
+
+	/* If all is well we will never reach here as the scheduler will now be running. */
+
+	/* Do some indication to user that something bad just happened */
+	while (1) {
+#if defined(PIOS_LED_HEARTBEAT)
+		PIOS_LED_Toggle(PIOS_LED_HEARTBEAT);
+#endif	/* PIOS_LED_HEARTBEAT */
+		PIOS_DELAY_WaitmS(100);
+	}
+
+	return 0;
 }
 
 /**
  * @}
  * @}
  */
-
