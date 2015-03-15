@@ -5,17 +5,15 @@
         <field name="CurrentPin" units="" type="enum" elements="1" options="ADC0,ADC1,ADC2,ADC3,ADC4,ADC5,ADC6,ADC7,ADC8,NONE" defaultvalue="ADC0"/>
         <field name="VoltagePin" units="" type="enum" elements="1" options="ADC0,ADC1,ADC2,ADC3,ADC4,ADC5,ADC6,ADC7,ADC8,NONE" defaultvalue="ADC1"/>
 
-        <field name="Type" units="" type="enum" elements="1" options="LiPo,A123,LiCo,LiFeSO4,None" defaultvalue="LiPo"/>
         <field name="NbCells" units=""  type="uint8"  elements="1" defaultvalue="3"/>
         <field name="Capacity" units="mAh"  type="uint32"  elements="1" defaultvalue="2200"/>
 
         <field name="VoltageThresholds" units="V"  type="float" elementnames="Warning, Alarm" defaultvalue="9.8, 9.2"/>
           
-        <field name="SensorType" units="" type="enum" elementnames="BatteryCurrent,BatteryVoltage" options="Disabled,Enabled" defaultvalue="Enabled,Enabled"/>
         <field name="SensorCalibrationFactor" units="mV/U" type="float" elementnames="Voltage, Current" defaultvalue="63.69, 36.60"/>
         <field name="SensorCalibrationOffset" units="" type="float" elementnames="Voltage, Current" defaultvalue="0, 0"/>
 
-	<field name="FlightTimeThresholds" units="s"  type="uint8" elementnames="Warning, Alarm" defaultvalue="120, 30"/>
+        <field name="FlightTimeThresholds" units="s"  type="uint8" elementnames="Warning, Alarm" defaultvalue="120, 30"/>
 
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>

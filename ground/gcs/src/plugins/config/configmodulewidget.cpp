@@ -92,8 +92,11 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrSkySPortBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSPORTBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGeofence, ModuleSettings::ADMINSTATE_GEOFENCE);
 
-    addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
-    addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
+    // Connect the voltage and current checkboxes, such that the ADC pins are toggled and vice versa
+    connect(ui->gb_measureVoltage, SIGNAL(toggled(bool)), this, SLOT(toggleBatteryMonitoringPin()));
+    connect(ui->gb_measureCurrent, SIGNAL(toggled(bool)), this, SLOT(toggleBatteryMonitoringPin()));
+    connect(ui->cbVoltagePin, SIGNAL(currentIndexChanged(int)), this, SLOT(toggleBatteryMonitoringGb()));
+    connect(ui->cbCurrentPin, SIGNAL(currentIndexChanged(int)), this, SLOT(toggleBatteryMonitoringGb()));
 
     // Link the fields
     addUAVObjectToWidgetRelation(airspeedSettingsName, "GPSSamplePeriod_ms", ui->sb_gpsUpdateRate);
@@ -101,7 +104,6 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(airspeedSettingsName, "ZeroPoint", ui->sb_pitotZeroPoint);
     addUAVObjectToWidgetRelation(airspeedSettingsName, "AnalogPin", ui->cbAirspeedAnalog);
 
-    addUAVObjectToWidgetRelation(batterySettingsName, "Type", ui->cb_batteryType);
     addUAVObjectToWidgetRelation(batterySettingsName, "NbCells", ui->sb_numBatteryCells);
     addUAVObjectToWidgetRelation(batterySettingsName, "Capacity", ui->sb_batteryCapacity);
     addUAVObjectToWidgetRelation(batterySettingsName, "VoltagePin", ui->cbVoltagePin);
@@ -558,6 +560,33 @@ void ConfigModuleWidget::toggleVibrationTest()
     vibrationAnalysisSettings->updated();
 }
 
+/**
+ * @brief Toggle voltage and current pins depending on battery monitoring checkboxes
+ */
+void ConfigModuleWidget::toggleBatteryMonitoringPin()
+{
+    if (!ui->gb_measureVoltage->isChecked())
+        ui->cbVoltagePin->setCurrentIndex(ui->cbVoltagePin->findText("NONE"));
+
+    if (!ui->gb_measureCurrent->isChecked())
+        ui->cbCurrentPin->setCurrentIndex(ui->cbCurrentPin->findText("NONE"));
+}
+
+/**
+ * @brief Toggle battery monitoring checkboxes depending on voltage and current pins
+ */
+void ConfigModuleWidget::toggleBatteryMonitoringGb()
+{
+    if (ui->cbVoltagePin->currentText().compare("NONE") != 0)
+        ui->gb_measureVoltage->setChecked(true);
+    else
+        ui->gb_measureVoltage->setChecked(false);
+
+    if (ui->cbCurrentPin->currentText().compare("NONE") != 0)
+        ui->gb_measureCurrent->setChecked(true);
+    else
+        ui->gb_measureCurrent->setChecked(false);
+}
 
 void ConfigModuleWidget::updateAirspeedUAVO(UAVObject *obj)
 {
