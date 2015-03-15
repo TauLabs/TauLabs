@@ -174,7 +174,7 @@ static const struct pios_i2c_adapter_cfg pios_i2c_flexi_cfg = {
     .I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit,
     .I2C_DigitalFilter       = 0x00,
     .I2C_AnalogFilter        = I2C_AnalogFilter_Enable,
-    .I2C_Timing              = 0x00310309,			//400kHz I2C @ 8MHz input -> PRESC=0x0, SCLDEL=0x3, SDADEL=0x1, SCLH=0x03, SCLL=0x09
+    .I2C_Timing              = 0x70310309,			//50kHz I2C @ 8MHz input -> PRESC=0x7, SCLDEL=0x3, SDADEL=0x1, SCLH=0x03, SCLL=0x09
   },
   .transfer_timeout_ms = 50,
   .scl = {

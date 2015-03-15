@@ -236,9 +236,11 @@ static int32_t PIOS_MPU9150_Config(struct pios_mpu60x0_cfg const * cfg)
 	PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_STATUS2);
 	PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_XH);
 
-	// Trigger first measurement
-	if (PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01) != 0)
-		return -1;
+	if (dev->cfg->use_internal_mag == true) {
+		// Trigger first measurement
+		if (PIOS_MPU9150_Mag_SetReg(MPU9150_MAG_CNTR, 0x01) != 0)
+			return -1;
+	}
 
 	// Interrupt enable
 	PIOS_MPU9150_SetReg(PIOS_MPU60X0_INT_EN_REG, cfg->interrupt_en);
@@ -761,7 +763,7 @@ static void PIOS_MPU9150_Task(void *parameters)
 		PIOS_Queue_Send(dev->gyro_queue, &gyro_data, 0);
 
 		// Check for mag data ready.  Reading it clears this flag.
-		if (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_STATUS) > 0) {
+		if ((dev->cfg->use_internal_mag == true) && (PIOS_MPU9150_Mag_GetReg(MPU9150_MAG_STATUS) > 0)) {
 			struct pios_sensor_mag_data mag_data;
 			uint8_t mpu9150_mag_buffer[6];
 			if (PIOS_MPU9150_Mag_Read(MPU9150_MAG_XH, mpu9150_mag_buffer, sizeof(mpu9150_mag_buffer)) == 0) {
