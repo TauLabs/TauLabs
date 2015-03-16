@@ -634,7 +634,7 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_ARMED);
 
 		// Check for arming timeout if transmitter invalid
-		if (!valid) {
+		if (!valid || cmd->Throttle < 0) {
 			if ((settings->ArmedTimeout != 0) && (timeDifferenceMs(armedDisarmStart, lastSysTime) > settings->ArmedTimeout))
 				arm_state = ARM_STATE_DISARMED;
 		} else {
