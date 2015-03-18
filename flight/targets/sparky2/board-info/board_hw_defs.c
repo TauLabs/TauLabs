@@ -346,11 +346,11 @@ void PIOS_SPI_telem_flash_irq_handler(void)
 
 static const struct pios_exti_cfg pios_exti_rfm22b_cfg __exti_config = {
 	.vector = PIOS_RFM22_EXT_Int,
-	.line = EXTI_Line2,
+	.line = EXTI_Line7,
 	.pin = {
-		.gpio = GPIOD,
+		.gpio = GPIOB,
 		.init = {
-			.GPIO_Pin = GPIO_Pin_2,
+			.GPIO_Pin = GPIO_Pin_7,
 			.GPIO_Speed = GPIO_Speed_100MHz,
 			.GPIO_Mode = GPIO_Mode_IN,
 			.GPIO_OType = GPIO_OType_OD,
@@ -359,7 +359,7 @@ static const struct pios_exti_cfg pios_exti_rfm22b_cfg __exti_config = {
 	},
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel = EXTI2_IRQn,
+			.NVIC_IRQChannel = EXTI9_5_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
@@ -367,7 +367,7 @@ static const struct pios_exti_cfg pios_exti_rfm22b_cfg __exti_config = {
 	},
 	.exti = {
 		.init = {
-			.EXTI_Line = EXTI_Line2, // matches above GPIO pin
+			.EXTI_Line = EXTI_Line7, // matches above GPIO pin
 			.EXTI_Mode = EXTI_Mode_Interrupt,
 			.EXTI_Trigger = EXTI_Trigger_Falling,
 			.EXTI_LineCmd = ENABLE,
