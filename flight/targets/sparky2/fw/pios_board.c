@@ -284,6 +284,40 @@ static void panic(int32_t code) {
 	}
 }
 
+void set_vtx_channel(uint8_t chan)
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+	if (chan & 0x01) {
+		GPIO_SetBits(GPIOB, GPIO_Pin_12);
+	} else {
+		GPIO_ResetBits(GPIOB, GPIO_Pin_12);
+	}
+
+	if (chan & 0x02) {
+		GPIO_SetBits(GPIOB, GPIO_Pin_13);
+	} else {
+		GPIO_ResetBits(GPIOB, GPIO_Pin_13);
+	}
+
+	if (chan & 0x04) {
+		GPIO_SetBits(GPIOB, GPIO_Pin_14);
+	} else {
+		GPIO_ResetBits(GPIOB, GPIO_Pin_14);
+	}
+}
+
 /**
  * PIOS_Board_Init()
  * initializes all the core subsystems on this specific hardware
@@ -1131,6 +1165,7 @@ void PIOS_Board_Init(void) {
 	}
 #endif	/* PIOS_INCLUDE_FLASH */
 
+	set_vtx_channel(7);
 }
 
 /**
