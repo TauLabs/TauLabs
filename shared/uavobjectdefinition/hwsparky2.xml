@@ -78,6 +78,8 @@
 		<field name="MPU9250GyroLPF" units="Hz" type="enum" elements="1" options="250,184,92,41,20,10,5" defaultvalue="184"/>
 		<field name="MPU9250AccelLPF" units="Hz" type="enum" elements="1" options="460,184,92,41,20,10,5" defaultvalue="184"/>
 
+		<field name="VTX_Ch" units="Hz" type="enum" elements="1" options="1,2,3,4,5,6,7,8" defaultvalue="1"/>
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>
