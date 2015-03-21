@@ -320,6 +320,15 @@ static void update_gyros(struct pios_sensor_gyro_data *gyros)
 		gyrosData.x -= gyrosBias.x;
 		gyrosData.y -= gyrosBias.y;
 		gyrosData.z -= gyrosBias.z;
+
+		const float GYRO_BIAS_WARN = 10.0f;
+		if (fabsf(gyrosBias.x) > GYRO_BIAS_WARN ||
+			fabsf(gyrosBias.y) > GYRO_BIAS_WARN ||
+			fabsf(gyrosBias.z) > GYRO_BIAS_WARN) {
+			AlarmsSet(SYSTEMALARMS_ALARM_GYROBIAS, SYSTEMALARMS_ALARM_WARNING);
+		} else {
+			AlarmsClear(SYSTEMALARMS_ALARM_GYROBIAS);
+		}
 	}
 
 	GyrosSet(&gyrosData);
