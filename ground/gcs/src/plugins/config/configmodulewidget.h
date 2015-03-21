@@ -49,6 +49,8 @@ private slots:
     void updateAirspeedUAVO(UAVObject *);
     void updateAirspeedGroupbox(UAVObject *);
     void toggleVibrationTest();
+    void toggleBatteryMonitoringPin();
+    void toggleBatteryMonitoringGb();
 
     void recheckTabs();
     void objectUpdated(UAVObject * obj, bool success);
