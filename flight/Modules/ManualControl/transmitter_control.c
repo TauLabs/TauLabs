@@ -633,8 +633,20 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 	{
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_ARMED);
 
-		// Check for arming timeout if transmitter invalid
-		if (!valid) {
+		// Determine whether to disarm when throttle is low
+		uint8_t flight_mode;
+		FlightStatusFlightModeGet(&flight_mode);
+		bool autonomous_mode = flight_mode == FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL ||
+		                       flight_mode == FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD ||
+		                       flight_mode == FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME ||
+		                       flight_mode == FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER  ||
+		                       flight_mode == FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL;
+		bool check_throttle = settings->ArmTimeoutAutonomous == MANUALCONTROLSETTINGS_ARMTIMEOUTAUTONOMOUS_ENABLED ||
+			!autonomous_mode;
+		bool low_throttle = cmd->Throttle < 0;
+
+		// Check for arming timeout if transmitter invalid or throttle is low and checked
+		if (!valid || (low_throttle && check_throttle)) {
 			if ((settings->ArmedTimeout != 0) && (timeDifferenceMs(armedDisarmStart, lastSysTime) > settings->ArmedTimeout))
 				arm_state = ARM_STATE_DISARMED;
 		} else {
