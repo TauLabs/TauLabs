@@ -8,7 +8,7 @@
  * @brief      Source file for the World Magnetic Model
  *             This is a port of code available from the US NOAA.
  *
- *             The hard coded coefficients should be valid until 2015.
+ *             The hard coded coefficients should be valid until 2020.
  *
  *             Updated coeffs from ..
  *             http://www.ngdc.noaa.gov/geomag/WMM/wmm_ddownload.shtml
@@ -90,7 +90,7 @@ int WMM_Initialize()
 	MagneticModel.SecularVariationUsed = 0;
 	MagneticModel.epoch       = MAGNETIC_MODEL_EPOCH;
 
-	// Must be updated periodically. Last update expires in 2015
+	// Must be updated periodically. Last update expires in 2020
 
 	return 0;                       // OK
 }
