@@ -31,7 +31,7 @@
 #define PIOS_CONFIG_H
 
 /* Major features */
-#define PIOS_INCLUDE_FREERTOS
+#define PIOS_INCLUDE_CHIBIOS
 #define PIOS_INCLUDE_BL_HELPER
 
 /* Enable/Disable PiOS Modules */
@@ -115,7 +115,7 @@
 #define CPULOAD_LIMIT_CRITICAL		95
 
 /*
- * This has been calibrated 2013/03/11 using next @ 6d21c7a590619ebbc074e60cab5e134e65c9d32b.
+ * This has been calibrated 2014/03/01 using chibios @ fbd194c026098076bddd9e45
  * Calibration has been done by disabling the init task, breaking into debugger after
  * approximately after 60 seconds, then doing the following math:
  *
@@ -125,7 +125,7 @@
  * configuration like number of task priorities or similar changes.
  * A change in the cpu load calculation or the idle task handler will invalidate this as well.
  */
-#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (6984538)
+#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (9873737)
 
 #define REVOLUTION
 
