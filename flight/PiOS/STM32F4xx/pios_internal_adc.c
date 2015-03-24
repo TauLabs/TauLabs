@@ -5,26 +5,26 @@
  * @addtogroup   PIOS_ADC ADC Functions
  * @{
  *
- * @file       pios_adc.c  
+ * @file       pios_internal_adc.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Michael Smith Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @brief      STM32F4xx Internal ADC PIOS interface
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
-/* 
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or 
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
- * 
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
@@ -77,7 +77,7 @@ enum pios_adc_dev_magic {
 struct pios_internal_adc_dev {
 	const struct pios_internal_adc_cfg * cfg;
 	ADCCallback callback_function;
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 	struct pios_queue *data_queue;
 #endif
 	volatile int16_t *valid_data_buffer;
@@ -266,7 +266,7 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
 	pios_adc_dev->cfg = cfg;
 	pios_adc_dev->callback_function = NULL;
 	
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 	pios_adc_dev->data_queue = NULL;
 #endif
 
@@ -396,12 +396,12 @@ void accumulate(uint16_t *buffer, uint32_t count)
 		}
 	}
 	
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 	// XXX should do something with this
 	if (pios_adc_dev->data_queue) {
-		bool woken = false;
+//		bool woken = false;
 //		PIOS_Queue_Send_FromISR(adc_dev->data_queue, pios_adc_dev->downsampled_buffer, &woken);
-		portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
+//		portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
 	}
 
 #endif

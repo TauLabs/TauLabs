@@ -659,6 +659,10 @@ int32_t PIOS_SPI_Busy(uint32_t spi_id)
 
 void PIOS_SPI_IRQ_Handler(uint32_t spi_id)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	struct pios_spi_dev *spi_dev = (struct pios_spi_dev *)spi_id;
 
 	bool valid = PIOS_SPI_validate(spi_dev);
@@ -686,6 +690,10 @@ void PIOS_SPI_IRQ_Handler(uint32_t spi_id)
 		crc_val = SPI_GetCRC(spi_dev->cfg->regs, SPI_CRC_Rx);
 		spi_dev->callback(crc_ok, crc_val);
 	}
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 #endif

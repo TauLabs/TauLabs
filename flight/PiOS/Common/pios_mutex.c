@@ -27,8 +27,8 @@
 #include "pios.h"
 #include "pios_mutex.h"
 
-#if !defined(PIOS_INCLUDE_FREERTOS)
-#error "pios_mutex.c requires PIOS_INCLUDE_FREERTOS"
+#if !defined(PIOS_INCLUDE_FREERTOS) && !defined(PIOS_INCLUDE_CHIBIOS)
+#error "pios_mutex.c requires either PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_CHIBIOS"
 #endif
 
 #if defined(PIOS_INCLUDE_FREERTOS)
@@ -159,4 +159,134 @@ bool PIOS_Recursive_Mutex_Unlock(struct pios_recursive_mutex *mtx)
 	return xSemaphoreGiveRecursive((xSemaphoreHandle)mtx->mtx_handle) == pdTRUE;
 }
 
+#elif defined(PIOS_INCLUDE_CHIBIOS)
+
+/**
+ *
+ * @brief   Creates a non recursive mutex.
+ *
+ * @returns instance of @p struct pios_mutex or NULL on failure
+ *
+ */
+struct pios_mutex *PIOS_Mutex_Create(void)
+{
+	struct pios_mutex *mtx = PIOS_malloc(sizeof(struct pios_mutex));
+
+	if (mtx == NULL)
+		return NULL;
+
+	chMtxInit(&mtx->mtx);
+
+	return mtx;
+}
+
+/**
+ *
+ * @brief   Locks a non recursive mutex.
+ *
+ * @param[in] mtx          pointer to instance of @p struct pios_mutex
+ * @param[in] timeout_ms   timeout for acquiring the lock in milliseconds
+ *
+ * @returns true on success or false on timeout or failure
+ *
+ */
+bool PIOS_Mutex_Lock(struct pios_mutex *mtx, uint32_t timeout_ms)
+{
+	PIOS_Assert(mtx != NULL);
+
+	chMtxLock(&mtx->mtx);
+
+	return true;
+}
+
+/**
+ *
+ * @brief   Unlocks a non recursive mutex.
+ *
+ * @param[in] mtx          pointer to instance of @p struct pios_mutex
+ *
+ * @returns true on success or false on timeout or failure
+ *
+ */
+bool PIOS_Mutex_Unlock(struct pios_mutex *mtx)
+{
+	PIOS_Assert(mtx != NULL);
+
+	chMtxUnlock();
+
+	return true;
+}
+
+/**
+ *
+ * @brief   Creates a recursive mutex.
+ *
+ * @returns instance of @p struct pios_recursive mutex or NULL on failure
+ *
+ */
+struct pios_recursive_mutex *PIOS_Recursive_Mutex_Create(void)
+{
+	struct pios_recursive_mutex *mtx = PIOS_malloc(sizeof(struct pios_recursive_mutex));
+
+	if (mtx == NULL)
+		return NULL;
+
+	chMtxInit(&mtx->mtx);
+	mtx->count = 0;
+
+	return mtx;
+}
+
+/**
+ *
+ * @brief   Locks a recursive mutex.
+ *
+ * @param[in] mtx          pointer to instance of @p struct pios_recursive_mutex
+ * @param[in] timeout_ms   timeout for acquiring the lock in milliseconds
+ *
+ * @returns true on success or false on timeout or failure
+ *
+ */
+bool PIOS_Recursive_Mutex_Lock(struct pios_recursive_mutex *mtx, uint32_t timeout_ms)
+{
+	PIOS_Assert(mtx != NULL);
+
+	chSysLock();
+
+	if (chThdSelf() != mtx->mtx.m_owner)
+		chMtxLockS(&mtx->mtx);
+
+	++mtx->count;
+
+	chSysUnlock();
+
+	return true;
+}
+
+/**
+ *
+ * @brief   Unlocks a non recursive mutex.
+ *
+ * @param[in] mtx          pointer to instance of @p struct pios_mutex
+ *
+ * @returns true on success or false on timeout or failure
+ *
+ */
+bool PIOS_Recursive_Mutex_Unlock(struct pios_recursive_mutex *mtx)
+{
+	PIOS_Assert(mtx != NULL);
+
+	chSysLock();
+
+	--mtx->count;
+
+	if (mtx->count == 0)
+		chMtxUnlockS();
+
+	chSysUnlock();
+
+	return true;
+}
+
 #endif
+

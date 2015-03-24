@@ -457,12 +457,7 @@ static void updateStats()
 	// Get stats and update
 	SystemStatsGet(&stats);
 	stats.FlightTime = PIOS_Thread_Systime();
-#if defined(ARCH_POSIX) || defined(ARCH_WIN32)
-	// POSIX port of FreeRTOS doesn't have xPortGetFreeHeapSize()
-	stats.HeapRemaining = 10240;
-#else
 	stats.HeapRemaining = PIOS_heap_get_free_size();
-#endif
 
 	// Get Irq stack status
 	stats.IRQStackRemaining = GetFreeIrqStackSize();
@@ -604,6 +599,7 @@ void vApplicationIdleHook(void)
 /**
  * Called by the RTOS when a stack overflow is detected.
  */
+#if defined(PIOS_INCLUDE_FREERTOS)
 #define DEBUG_STACK_OVERFLOW 0
 void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
 {
@@ -614,6 +610,7 @@ void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
 	wait_here = true;
 #endif
 }
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
 /**
   * @}
