@@ -375,6 +375,10 @@ void PIOS_Board_Init(void) {
 	}
 #endif /* PIOS_INCLUDE_FLASH_JEDEC */
 
+#if defined(ERASE_FLASH)
+	PIOS_FLASHFS_Format(pios_uavo_settings_fs_id);
+#endif
+
 #endif	/* PIOS_INCLUDE_FLASH */
 
 	/* Initialize UAVObject libraries */

@@ -29,6 +29,7 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # Set developer code and compile options
 # Set to YES for debugging
 DEBUG ?= NO
+ERASE_FLASH ?= NO
 
 # List of modules to include
 MODULES = Sensors
@@ -109,6 +110,10 @@ SRC += $(OPUAVOBJ)/eventdispatcher.c
 ifeq ($(DEBUG),YES)
 SRC += $(DEBUG_CM3_DIR)/dcc_stdio.c
 SRC += $(DEBUG_CM3_DIR)/cm3_fault_handlers.c
+endif
+
+ifeq ($(ERASE_FLASH), YES)
+CDEFS += -DERASE_FLASH
 endif
 
 SRC += $(FLIGHTLIB)/paths.c
