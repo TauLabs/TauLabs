@@ -113,6 +113,8 @@ static void batteryTask(void * parameters)
 		FlightBatterySettingsData batterySettings;
 		float energyRemaining;
 
+		FlightBatteryStateGet(&flightBatteryData);
+
 		if (battery_settings_updated) {
 			battery_settings_updated = false;
 			FlightBatterySettingsGet(&batterySettings);
