@@ -206,6 +206,37 @@ void PIOS_Thread_Scheduler_Resume(void)
 #define ST2MS(n) (((((n) - 1UL) * 1000UL) / CH_FREQUENCY) + 1UL)
 
 /**
+ * Compute size that is at rounded up to the nearest
+ * multiple of 8
+ */ 
+static uint32_t ceil_size(uint32_t size)
+{
+	const uint32_t a = sizeof(stkalign_t);
+	size = size + (a - size % a);
+	return size;
+}
+/**
+ * ChibiOS stack expects alignment (both start and end)
+ * to 8 byte boundaries. This makes sure to allocate enough
+ * memory and return an address that has the requested size
+ * or more with these constraints.
+ */
+static uint8_t * align8_alloc(uint32_t size)
+{
+	// round size up to at nearest multiple of 8 + 4 bytes to guarantee
+	// sufficient size within. This is because PIOS_malloc only guarantees
+	// uintptr_t alignment which is 4 bytes.
+	size = size + sizeof(uintptr_t);
+	uint8_t *wap = PIOS_malloc(size);
+
+	// shift start point to nearest 8 byte boundary.
+	uint32_t pad = ((uint32_t) wap) % sizeof(stkalign_t);
+	wap = wap + pad;
+
+	return wap;
+}
+
+/**
  *
  * @brief   Creates a thread.
  *
@@ -224,7 +255,9 @@ struct pios_thread *PIOS_Thread_Create(void (*fp)(void *), const char *namep, si
 	if (thread == NULL)
 		return NULL;
 
-	uint8_t *wap = PIOS_malloc(stack_bytes);
+	// Use special functions to ensure ChibiOS stack requirements
+	stack_bytes = ceil_size(stack_bytes);
+	uint8_t *wap = align8_alloc(stack_bytes);
 	if (wap == NULL)
 	{
 		PIOS_free(thread);
