@@ -112,18 +112,23 @@ static const struct frsky_value_item frsky_value_items[] = {
 	{FRSKY_BATT_ID,        200,   frsky_encode_battery,    0}, // send battery voltage
 	{FRSKY_FUEL_ID,        200,   frsky_encode_fuel,       0}, // consumed battery energy
 	{FRSKY_RSSI_ID,        100,   frsky_encode_rssi,       0}, // send RSSI information
-	{FRSKY_SWR_ID,         500,   frsky_encode_swr,        0}, // send RSSI information
-	{FRSKY_GPS_COURSE_ID,  100,   frsky_encode_gps_course, 0}, // attitude yaw estimate
+	{FRSKY_SWR_ID,         100,   frsky_encode_swr,        0}, // send RSSI information
 	{FRSKY_ALT_ID,         100,   frsky_encode_altitude,   0}, // altitude estimate
 	{FRSKY_VARIO_ID,       100,   frsky_encode_vario,      0}, // vertical speed
-	{FRSKY_CURR_ID,        300,   frsky_encode_current,    0}, // battery current
+	{FRSKY_RPM_ID,         1500,  frsky_encode_rpm,        0}, // encodes flight status!
 	{FRSKY_CELLS_ID,       850,   frsky_encode_cells,      0}, // battery cells 1-2
 	{FRSKY_CELLS_ID,       850,   frsky_encode_cells,      1}, // battery cells 3-4
 	{FRSKY_CELLS_ID,       850,   frsky_encode_cells,      2}, // battery cells 5-6
 	{FRSKY_CELLS_ID,       850,   frsky_encode_cells,      3}, // battery cells 7-8
 	{FRSKY_CELLS_ID,       850,   frsky_encode_cells,      4}, // battery cells 9-10
 	{FRSKY_CELLS_ID,       850,   frsky_encode_cells,      5}, // battery cells 11-12
+};
+
+static const struct frsky_value_item frsky_value_items_unused[] = {
 	{FRSKY_T1_ID,          2000,  frsky_encode_t1,         0}, // baro temperature
+	{FRSKY_RSSI_ID,        100,   frsky_encode_rssi,       0}, // send RSSI information
+	{FRSKY_SWR_ID,         100,   frsky_encode_swr,        0}, // send RSSI information
+	{FRSKY_GPS_COURSE_ID,  100,   frsky_encode_gps_course, 0}, // attitude yaw estimate
 	{FRSKY_T2_ID,          1500,  frsky_encode_t2,         0}, // encodes GPS status!
 	{FRSKY_FUEL_ID,        600,   frsky_encode_fuel,       0}, // consumed battery energy
 	{FRSKY_ACCX_ID,        250,   frsky_encode_acc,        0}, // accX
@@ -135,7 +140,6 @@ static const struct frsky_value_item frsky_value_items[] = {
 	{FRSKY_GPS_SPEED_ID,   200,   frsky_encode_gps_speed,  0}, // gps speed
 	{FRSKY_GPS_TIME_ID,    8000,  frsky_encode_gps_time,   0}, // gps date
 	{FRSKY_GPS_TIME_ID,    2000,  frsky_encode_gps_time,   1}, // gps time
-	{FRSKY_RPM_ID,         1500,  frsky_encode_rpm,        0}, // encodes flight status!
 	{FRSKY_AIR_SPEED_ID,   100,   frsky_encode_airspeed,   0}, // airspeed
 };
 
@@ -832,7 +836,7 @@ static void uavoTaranisTask(void *parameters)
 		/*
 		*/
 
-		if (true) {
+		if (false) {
 			uint32_t value;
 
 			PIOS_Thread_Sleep(25);
@@ -857,13 +861,13 @@ static void uavoTaranisTask(void *parameters)
 
 		}
 
-		if (false) {
+		if (true) {
 
 			// for some reason, only first four messages are sent.
 			for (uint32_t i = 0; i < sizeof(frsky_value_items) / sizeof(frsky_value_items[0]); i++) {
 				frsky->scheduled_item = i;
 				frsky_send_scheduled_item();
-				PIOS_Thread_Sleep(25);
+				PIOS_Thread_Sleep(5);
 			}
 
 		}
