@@ -113,6 +113,7 @@ SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
 SRC += $(OPUAVSYNTHDIR)/modulesettings.c
 SRC += $(OPUAVSYNTHDIR)/rfm22breceiver.c
 SRC += $(OPUAVSYNTHDIR)/radiocombridgestats.c
+SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
 endif
 
 ## PIOS Hardware (STM32F10x)
