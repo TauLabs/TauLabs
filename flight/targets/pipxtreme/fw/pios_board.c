@@ -53,6 +53,8 @@
 #define PIOS_COM_BRIDGE_RX_BUF_LEN 65
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
+#define PIOS_COM_FRSKYSPORT_TX_BUF_LEN 16
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
@@ -66,6 +68,7 @@ uintptr_t pios_com_telem_uart_main_id;
 uintptr_t pios_com_telem_uart_flexi_id;
 uintptr_t pios_com_telem_uart_telem_id;
 uintptr_t pios_com_telem_uart_bluetooth_id;
+uintptr_t pios_com_frsky_sport_id;
 uintptr_t pios_com_telemetry_id;
 #if defined(PIOS_INCLUDE_PPM)
 uintptr_t pios_ppm_rcvr_id;
@@ -80,6 +83,39 @@ uint8_t *pios_uart_rx_buffer;
 uint8_t *pios_uart_tx_buffer;
 
 uintptr_t pios_uavo_settings_fs_id;
+
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
+        const struct pios_com_driver *com_driver, uintptr_t *pios_com_id)
+{
+    uintptr_t pios_usart_id;
+    if (PIOS_USART_Init(&pios_usart_id, usart_port_cfg)) {
+        PIOS_Assert(0);
+    }
+
+    uint8_t * rx_buffer;
+    if (rx_buf_len > 0) {
+        rx_buffer = (uint8_t *) PIOS_malloc(rx_buf_len);
+        PIOS_Assert(rx_buffer);
+    } else {
+        rx_buffer = NULL;
+    }
+
+    uint8_t * tx_buffer;
+    if (tx_buf_len > 0) {
+        tx_buffer = (uint8_t *) PIOS_malloc(tx_buf_len);
+        PIOS_Assert(tx_buffer);
+    } else {
+        tx_buffer = NULL;
+    }
+
+    if (PIOS_COM_Init(pios_com_id, com_driver, pios_usart_id,
+                rx_buffer, rx_buf_len,
+                tx_buffer, tx_buf_len)) {
+        PIOS_Assert(0);
+    }
+}
+#endif  /* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
 
 /**
  * PIOS_Board_Init()
@@ -368,6 +404,28 @@ void PIOS_Board_Init(void) {
     switch (hwTauLink.PPMPort) {
     case HWTAULINK_PPMPORT_PPM:
     {
+#if defined(PIOS_INCLUDE_PPM)
+        /* PPM input is configured on the coordinator modem and sent in the RFM22BReceiver UAVO. */
+        uintptr_t pios_ppm_id;
+        PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
+
+        if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
+            PIOS_Assert(0);
+        }
+
+#endif /* PIOS_INCLUDE_PPM */
+        break;
+    }
+    case HWTAULINK_PPMPORT_SPORT:
+#if defined(PIOS_INCLUDE_TARANIS_SPORT)
+        PIOS_Board_configure_com(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_TARANIS_SPORT */
+        break;
+    case HWTAULINK_PPMPORT_PPMSPORT:
+    {
+#if defined(PIOS_INCLUDE_TARANIS_SPORT)
+        PIOS_Board_configure_com(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_TARANIS_SPORT */
 #if defined(PIOS_INCLUDE_PPM)
         /* PPM input is configured on the coordinator modem and sent in the RFM22BReceiver UAVO. */
         uintptr_t pios_ppm_id;

@@ -598,6 +598,34 @@ static const struct pios_usart_cfg pios_usart_telem_flexi_cfg = {
   },
 };
 
+static const struct pios_usart_cfg pios_usart_sport_cfg = {
+  .regs  = USART3,
+  .init = {
+    .USART_BaudRate            = 57600,
+    .USART_WordLength          = USART_WordLength_8b,
+    .USART_Parity              = USART_Parity_No,
+    .USART_StopBits            = USART_StopBits_1,
+    .USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+    .USART_Mode                = USART_Mode_Tx,
+  },
+  .irq = {
+    .init    = {
+      .NVIC_IRQChannel                   = USART3_IRQn,
+      .NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+      .NVIC_IRQChannelSubPriority        = 0,
+      .NVIC_IRQChannelCmd                = ENABLE,
+    },
+  },
+  .tx   = {
+    .gpio = GPIOB,
+    .init = {
+      .GPIO_Pin   = GPIO_Pin_10,
+      .GPIO_Speed = GPIO_Speed_2MHz,
+      .GPIO_Mode  = GPIO_Mode_AF_PP,
+    },
+  },
+};
+
 #endif /* PIOS_INCLUDE_USART */
 
 #if defined(PIOS_INCLUDE_COM)
