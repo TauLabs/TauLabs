@@ -38,6 +38,8 @@
 #include "airspeedactual.h"
 #include "baroaltitude.h"
 #include "accels.h"
+#include "positionactual.h"
+#include "velocityactual.h"
 #include "flightstatus.h"
 #include "rfm22bstatus.h"
 #include "pios_thread.h"
@@ -67,6 +69,8 @@ static bool frsky_encode_airspeed(uint32_t *value, bool test_presence_only, uint
 
 #define FRSKY_POLL_REQUEST                 0x7e
 #define FRSKY_MINIMUM_POLL_INTERVAL        10000
+
+#define VOLT_RATIO (20)
 
 enum frsky_value_id {
 	FRSKY_ALT_ID = 0x0100,
@@ -104,14 +108,11 @@ struct frsky_value_item {
 };
 
 static const struct frsky_value_item frsky_value_items[] = {
-	{FRSKY_FUEL_ID,        200,   frsky_encode_fuel,       0}, // consumed battery energy
-	{FRSKY_BATT_ID,        200,   frsky_encode_battery,    0}, // send battery voltage
 	{FRSKY_CURR_ID,        300,   frsky_encode_current,    0}, // battery current
+	{FRSKY_BATT_ID,        200,   frsky_encode_battery,    0}, // send battery voltage
+	{FRSKY_FUEL_ID,        200,   frsky_encode_fuel,       0}, // consumed battery energy
 	{FRSKY_RSSI_ID,        100,   frsky_encode_rssi,       0}, // send RSSI information
 	{FRSKY_SWR_ID,         500,   frsky_encode_swr,        0}, // send RSSI information
-};
-
-static const struct frsky_value_item frsky_value_items2[] = {
 	{FRSKY_GPS_COURSE_ID,  100,   frsky_encode_gps_course, 0}, // attitude yaw estimate
 	{FRSKY_ALT_ID,         100,   frsky_encode_altitude,   0}, // altitude estimate
 	{FRSKY_VARIO_ID,       100,   frsky_encode_vario,      0}, // vertical speed
@@ -173,9 +174,21 @@ static struct frsky_sport_telemetry *frsky;
  */
 static bool frsky_encode_rssi(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	uint8_t link_qualtiy;
-	RFM22BStatusLinkQualityGet(&link_qualtiy);
-	*value = link_qualtiy;
+	uint8_t local_link_quality, local_link_connected;
+
+	RFM22BStatusLinkStateGet(&local_link_connected);
+	RFM22BStatusLinkQualityGet(&local_link_quality);
+
+	RFM22BStatusData rfm22bStatus;
+	RFM22BStatusInstGet(1, &rfm22bStatus);
+
+	if (local_link_connected == RFM22BSTATUS_LINKSTATE_CONNECTED) {
+		// report whichever link quality is worse
+		*value = (rfm22bStatus.LinkQuality < local_link_quality) ? rfm22bStatus.LinkQuality : local_link_quality;
+	} else {
+		*value = 0;
+	}
+
 	return true;
 }
 
@@ -189,7 +202,7 @@ static bool frsky_encode_battery(uint32_t *value, bool test_presence_only, uint3
 {
 	float voltage = 0;
 	FlightBatteryStateVoltageGet(&voltage);
-	*value = (uint8_t) (voltage * 20);
+	*value = (uint8_t) (voltage * VOLT_RATIO);
 
 	return true;
 }
@@ -203,7 +216,6 @@ static bool frsky_encode_battery(uint32_t *value, bool test_presence_only, uint3
  */
 static bool frsky_encode_altitude(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	/*
 	if (!frsky->use_baro_sensor || (PositionActualHandle() == NULL))
 		return false;
 
@@ -215,8 +227,7 @@ static bool frsky_encode_altitude(uint32_t *value, bool test_presence_only, uint
 	PositionActualDownGet(&down);
 	int32_t alt = (int32_t)(-down * 100.0f);
 	*value = (uint32_t) alt;
-	*/
-	*value = 43;
+
 	return true;
 }
 
@@ -255,7 +266,6 @@ static bool frsky_encode_gps_course(uint32_t *value, bool test_presence_only, ui
  */
 static bool frsky_encode_vario(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	/*
 	if (!frsky->use_baro_sensor || VelocityActualHandle() == NULL)
 		return false;
 
@@ -266,8 +276,6 @@ static bool frsky_encode_vario(uint32_t *value, bool test_presence_only, uint32_
 	VelocityActualDownGet(&down);
 	int32_t vspeed = (int32_t)(-down * 100.0f);
 	*value = (uint32_t) vspeed;
-	*/
-	*value = 43;
 
 	return true;
 }
@@ -328,7 +336,6 @@ static bool frsky_encode_cells(uint32_t *value, bool test_presence_only, uint32_
  */
 static bool frsky_encode_t1(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	/*
 	if (!frsky->use_baro_sensor)
 		return false;
 	if (test_presence_only)
@@ -338,8 +345,7 @@ static bool frsky_encode_t1(uint32_t *value, bool test_presence_only, uint32_t a
 	BaroAltitudeTemperatureGet(&temp);
 	int32_t t1 = (int32_t)temp;
 	*value = (uint32_t)t1;
-	*/
-	*value = (uint32_t) 14;
+
 	return true;
 }
 
@@ -605,7 +611,6 @@ static bool frsky_encode_gps_time(uint32_t *value, bool test_presence_only, uint
  */
 static bool frsky_encode_rpm(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	/*
 	if (FlightStatusHandle() == NULL)
 		return false;
 	if (test_presence_only)
@@ -616,8 +621,6 @@ static bool frsky_encode_rpm(uint32_t *value, bool test_presence_only, uint32_t 
 
 	*value = (flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED) ? 100 : 0;
 	*value += flight_status.FlightMode;
-	*/
-	*value = 43;
 
 	return true;
 }
@@ -782,12 +785,15 @@ static int32_t uavoTaranisInitialize(void)
 			memset(frsky, 0x00, sizeof(struct frsky_sport_telemetry));
 
 			FlightBatteryStateInitialize();
+			FlightStatusInitialize();
+			PositionActualInitialize();
+			VelocityActualInitialize();
 
 			frsky->com = sport_com;
 			frsky->scheduled_item = -1;
-			frsky->use_current_sensor = false;
+			frsky->use_current_sensor = true;
 			frsky->batt_cell_count = 1;
-			frsky->use_baro_sensor = false;
+			frsky->use_baro_sensor = true;
 			frsky->battery_settings.Capacity = 750;
 
 			uint8_t i;
@@ -827,15 +833,42 @@ static void uavoTaranisTask(void *parameters)
 		*/
 
 		if (true) {
+			uint32_t value;
+
+			PIOS_Thread_Sleep(25);
+			frsky_encode_current(&value, false, 0);
+			frsky_send_frame(FRSKY_CURR_ID, value);
+
+			PIOS_Thread_Sleep(25);
+			frsky_encode_battery(&value, false, 0);
+			frsky_send_frame(FRSKY_BATT_ID, value);
+
+			PIOS_Thread_Sleep(25);
+			frsky_encode_fuel(&value, false, 0);
+			frsky_send_frame(FRSKY_FUEL_ID, value);
+
+			PIOS_Thread_Sleep(25);
+			frsky_encode_rssi(&value, false, 0);
+			frsky_send_frame(FRSKY_RSSI_ID, value);
+
+			PIOS_Thread_Sleep(25);
+			frsky_encode_swr(&value, false, 0);
+			frsky_send_frame(FRSKY_SWR_ID, value);
+
+		}
+
+		if (false) {
 
 			// for some reason, only first four messages are sent.
-			for (uint32_t i = 0; i < sizeof(frsky_sensor_ids); i++) {
+			for (uint32_t i = 0; i < sizeof(frsky_value_items) / sizeof(frsky_value_items[0]); i++) {
 				frsky->scheduled_item = i;
 				frsky_send_scheduled_item();
 				PIOS_Thread_Sleep(25);
 			}
 
-		} else { 
+		}
+
+		if (false) { 
 
 			// fancier schedlued message sending. doesn't appear to work
 			// currently.
