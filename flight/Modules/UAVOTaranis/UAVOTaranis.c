@@ -39,6 +39,7 @@
 #include "baroaltitude.h"
 #include "accels.h"
 #include "flightstatus.h"
+#include "rfm22bstatus.h"
 #include "pios_thread.h"
 
 #if defined(PIOS_INCLUDE_TARANIS_SPORT)
@@ -172,7 +173,9 @@ static struct frsky_sport_telemetry *frsky;
  */
 static bool frsky_encode_rssi(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	*value = 250;
+	uint8_t link_qualtiy;
+	RFM22BStatusLinkQualityGet(&link_qualtiy);
+	*value = link_qualtiy;
 	return true;
 }
 
@@ -184,7 +187,10 @@ static bool frsky_encode_swr(uint32_t *value, bool test_presence_only, uint32_t 
 
 static bool frsky_encode_battery(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	*value = (uint8_t) 12.5f / 0.05f;
+	float voltage = 0;
+	FlightBatteryStateVoltageGet(&voltage);
+	*value = (uint8_t) (voltage * 20);
+
 	return true;
 }
 
@@ -275,14 +281,13 @@ static bool frsky_encode_vario(uint32_t *value, bool test_presence_only, uint32_
  */
 static bool frsky_encode_current(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	/*
 	if (!frsky->use_current_sensor)
 		return false;
 	if (test_presence_only)
 		return true;
-	*/
-	float current = 5.0f;
-	//FlightBatteryStateCurrentGet(&current);
+
+	float current = 0.0f;
+	FlightBatteryStateCurrentGet(&current);
 	int32_t current_frsky = (int32_t)(current * 10.0f);
 	*value = (uint32_t) current_frsky;
 
@@ -298,7 +303,6 @@ static bool frsky_encode_current(uint32_t *value, bool test_presence_only, uint3
  */
 static bool frsky_encode_cells(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	/*
 	if ((frsky->batt_cell_count == 0) || (frsky->batt_cell_count - 1) < (arg * 2))
 		return false;
 	if (test_presence_only)
@@ -311,8 +315,7 @@ static bool frsky_encode_cells(uint32_t *value, bool test_presence_only, uint32_
 	*value = ((cell_voltage & 0xfff) << 8) | ((arg * 2) & 0x0f) | ((frsky->batt_cell_count << 4) & 0xf0);
 	if (((int16_t)frsky->batt_cell_count - 1) >= (arg * 2 + 1))
 		*value |= ((cell_voltage & 0xfff) << 20);
-	*/
-	*value = 43;
+
 	return true;
 }
 
@@ -401,7 +404,6 @@ static bool frsky_encode_t2(uint32_t *value, bool test_presence_only, uint32_t a
  */
 static bool frsky_encode_fuel(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	/*
 	if (!frsky->use_current_sensor)
 		return false;
 	if (test_presence_only)
@@ -410,9 +412,8 @@ static bool frsky_encode_fuel(uint32_t *value, bool test_presence_only, uint32_t
 	uint32_t capacity = frsky->battery_settings.Capacity;
 	float consumed_mahs = 0;
 	FlightBatteryStateConsumedEnergyGet(&consumed_mahs);
-	*/
-	float fuel =  80.0f; //(uint32_t)(100.0f * (1.0f - consumed_mahs / capacity));
-	//fuel = bound_min_max(fuel, 0.0f, 100.0f);
+
+	float fuel =  (uint32_t)(100.0f * (1.0f - consumed_mahs / capacity));
 	*value = (uint32_t) fuel;
 
 	return true;
@@ -780,11 +781,14 @@ static int32_t uavoTaranisInitialize(void)
 		if (frsky != NULL) {
 			memset(frsky, 0x00, sizeof(struct frsky_sport_telemetry));
 
+			FlightBatteryStateInitialize();
+
 			frsky->com = sport_com;
 			frsky->scheduled_item = -1;
 			frsky->use_current_sensor = false;
-			frsky->batt_cell_count = 0;
+			frsky->batt_cell_count = 1;
 			frsky->use_baro_sensor = false;
+			frsky->battery_settings.Capacity = 750;
 
 			uint8_t i;
 			for (i = 0; i < NELEMENTS(frsky_value_items); i++)
