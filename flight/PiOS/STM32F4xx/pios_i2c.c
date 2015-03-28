@@ -8,7 +8,7 @@
  *
  * @file       pios_i2c.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      I2C Enable/Disable routines
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -868,6 +868,10 @@ int32_t PIOS_I2C_Transfer(uint32_t i2c_id, const struct pios_i2c_txn txn_list[],
 
 void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	struct pios_i2c_adapter *i2c_adapter = (struct pios_i2c_adapter *)i2c_id;
 
 	PIOS_Assert(PIOS_I2C_validate(i2c_adapter) == true)
@@ -954,11 +958,19 @@ void PIOS_I2C_EV_IRQ_Handler(uint32_t i2c_id)
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 	portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
-#endif
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	struct pios_i2c_adapter *i2c_adapter = (struct pios_i2c_adapter *)i2c_id;
 
 	bool valid = PIOS_I2C_validate(i2c_adapter);
@@ -1000,7 +1012,11 @@ void PIOS_I2C_ER_IRQ_Handler(uint32_t i2c_id)
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 	portEND_SWITCHING_ISR(woken ? pdTRUE : pdFALSE);
-#endif
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 #endif

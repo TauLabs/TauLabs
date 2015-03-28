@@ -3,12 +3,12 @@
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup   PIOS_OVERO OVERO Functions
- * @brief PIOS interface to read and write to overo 
+ * @brief PIOS interface to read and write to overo
  * @{
  *
  * @file       pios_overo.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Hardware Abstraction Layer for Overo communications
  * @see        The GNU Public License (GPL) Version 3
  * @notes
@@ -82,7 +82,7 @@ struct pios_overo_dev {
 	uintptr_t tx_out_context;
 };
 
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 //! Private methods
 static void PIOS_OVERO_WriteData(struct pios_overo_dev *overo_dev);
 static bool PIOS_OVERO_validate(struct pios_overo_dev * overo_dev);
@@ -144,6 +144,10 @@ static void PIOS_OVERO_WriteData(struct pios_overo_dev *overo_dev)
  */
 void PIOS_OVERO_DMA_irq_handler(uintptr_t overo_id)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	struct pios_overo_dev * overo_dev = (struct pios_overo_dev *) overo_id;
 	if(!PIOS_OVERO_validate(overo_dev))
 		return;
@@ -175,6 +179,10 @@ void PIOS_OVERO_DMA_irq_handler(uintptr_t overo_id)
 	PIOS_OVERO_WriteData(overo_dev);
 
 	overo_dev->packets++;
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 /**

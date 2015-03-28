@@ -45,11 +45,24 @@ struct pios_recursive_mutex
 	uintptr_t mtx_handle;
 };
 
-#endif
+#elif defined(PIOS_INCLUDE_CHIBIOS)
+
+struct pios_mutex
+{
+	Mutex mtx;
+};
+
+struct pios_recursive_mutex
+{
+	Mutex mtx;
+	uint32_t count;
+};
+
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 
 /*
  * The following functions implement the concept of a non-recursive mutex usable
- * with PIOS_INCLUDE_FREERTOS.
+ * with PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_CHIBIOS.
  *
  * Note that this is not the same as:
  * - binary semaphore
@@ -57,6 +70,7 @@ struct pios_recursive_mutex
  * - recursive mutex
  *
  * see FreeRTOS documentation for details: http://www.freertos.org/a00113.html
+ * see ChibiOS documentation for details: http://chibios.sourceforge.net/html/group__synchronization.html
  */
 
 struct pios_mutex *PIOS_Mutex_Create(void);
@@ -65,7 +79,7 @@ bool PIOS_Mutex_Unlock(struct pios_mutex *mtx);
 
 /*
  * The following functions implement the concept of a recursive mutex usable
- * with PIOS_INCLUDE_FREERTOS.
+ * with PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_CHIBIOS.
  *
  * Note that this is not the same as:
  * - binary semaphore
@@ -75,6 +89,7 @@ bool PIOS_Mutex_Unlock(struct pios_mutex *mtx);
  * Note that this implementation doesn't prevent priority inversion.
  *
  * see FreeRTOS documentation for details: http://www.freertos.org/a00113.html
+ * see ChibiOS documentation for details: http://chibios.sourceforge.net/html/group__synchronization.html
  */
 
 struct pios_recursive_mutex *PIOS_Recursive_Mutex_Create(void);

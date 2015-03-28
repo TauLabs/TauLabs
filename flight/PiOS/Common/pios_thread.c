@@ -27,8 +27,8 @@
 #include "pios.h"
 #include "pios_thread.h"
 
-#if !defined(PIOS_INCLUDE_FREERTOS)
-#error "pios_thread.c requires PIOS_INCLUDE_FREERTOS"
+#if !defined(PIOS_INCLUDE_FREERTOS) && !defined(PIOS_INCLUDE_CHIBIOS)
+#error "pios_thread.c requires PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_CHIBIOS"
 #endif
 
 #if defined(PIOS_INCLUDE_FREERTOS)
@@ -201,4 +201,223 @@ void PIOS_Thread_Scheduler_Resume(void)
 	xTaskResumeAll();
 }
 
-#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+#elif defined(PIOS_INCLUDE_CHIBIOS)
+
+#define ST2MS(n) (((((n) - 1UL) * 1000UL) / CH_FREQUENCY) + 1UL)
+
+/**
+ * Compute size that is at rounded up to the nearest
+ * multiple of 8
+ */ 
+static uint32_t ceil_size(uint32_t size)
+{
+	const uint32_t a = sizeof(stkalign_t);
+	size = size + (a - size % a);
+	return size;
+}
+/**
+ * ChibiOS stack expects alignment (both start and end)
+ * to 8 byte boundaries. This makes sure to allocate enough
+ * memory and return an address that has the requested size
+ * or more with these constraints.
+ */
+static uint8_t * align8_alloc(uint32_t size)
+{
+	// round size up to at nearest multiple of 8 + 4 bytes to guarantee
+	// sufficient size within. This is because PIOS_malloc only guarantees
+	// uintptr_t alignment which is 4 bytes.
+	size = size + sizeof(uintptr_t);
+	uint8_t *wap = PIOS_malloc(size);
+
+	// shift start point to nearest 8 byte boundary.
+	uint32_t pad = ((uint32_t) wap) % sizeof(stkalign_t);
+	wap = wap + pad;
+
+	return wap;
+}
+
+/**
+ *
+ * @brief   Creates a thread.
+ *
+ * @param[in] fp           pointer to thread function
+ * @param[in] namep        pointer to thread name
+ * @param[in] stack_bytes  stack size in bytes
+ * @param[in] argp         pointer to argument which will be passed to thread function
+ * @param[in] prio         thread priority
+ *
+ * @returns instance of @p struct pios_thread or NULL on failure
+ *
+ */
+struct pios_thread *PIOS_Thread_Create(void (*fp)(void *), const char *namep, size_t stack_bytes, void *argp, enum pios_thread_prio_e prio)
+{
+	struct pios_thread *thread = PIOS_malloc(sizeof(struct pios_thread));
+	if (thread == NULL)
+		return NULL;
+
+	// Use special functions to ensure ChibiOS stack requirements
+	stack_bytes = ceil_size(stack_bytes);
+	uint8_t *wap = align8_alloc(stack_bytes);
+	if (wap == NULL)
+	{
+		PIOS_free(thread);
+		return NULL;
+	}
+
+	thread->threadp = chThdCreateStatic(wap, stack_bytes, prio, (msg_t (*)(void *))fp, argp);
+	if (thread->threadp == NULL)
+	{
+		PIOS_free(thread);
+		PIOS_free(wap);
+		return NULL;
+	}
+
+#if CH_USE_REGISTRY
+	thread->threadp->p_name = namep;
+#endif /* CH_USE_REGISTRY */
+
+	return thread;
+}
+
+#if (CH_USE_WAITEXIT == TRUE)
+/**
+ *
+ * @brief   Destroys an instance of @p struct pios_thread.
+ *
+ * @param[in] threadp      pointer to instance of @p struct pios_thread
+ *
+ */
+void PIOS_Thread_Delete(struct pios_thread *threadp)
+{
+	if (threadp == NULL)
+	{
+		chThdExit(0);
+	}
+	else
+	{
+		chThdTerminate(threadp->threadp);
+		chThdWait(threadp->threadp);
+	}
+}
+#else
+#error "PIOS_Thread_Delete requires CH_USE_WAITEXIT to be defined TRUE"
+#endif /* (CH_USE_WAITEXIT == TRUE) */
+
+/**
+ *
+ * @brief   Returns the current system time.
+ *
+ * @returns current system time
+ *
+ */
+uint32_t PIOS_Thread_Systime(void)
+{
+	return (uint32_t)ST2MS(chTimeNow());
+}
+
+/**
+ *
+ * @brief   Suspends execution of current thread at least for specified time.
+ *
+ * @param[in] time_ms      time in milliseconds to suspend thread execution
+ *
+ */
+void PIOS_Thread_Sleep(uint32_t time_ms)
+{
+	if (time_ms == PIOS_THREAD_TIMEOUT_MAX)
+		chThdSleep(TIME_INFINITE);
+	else
+		chThdSleep(MS2ST(time_ms));
+}
+
+/**
+ *
+ * @brief   Suspends execution of current thread for a regular interval.
+ *
+ * @param[in] previous_ms  pointer to system time of last execution,
+ *                         must have been initialized with PIOS_Thread_Systime() on first invocation
+ * @param[in] increment_ms time of regular interval in milliseconds
+ *
+ */
+void PIOS_Thread_Sleep_Until(uint32_t *previous_ms, uint32_t increment_ms)
+{
+	systime_t future = MS2ST(*previous_ms) + MS2ST(increment_ms);
+	chSysLock();
+	systime_t now = chTimeNow();
+	int mustDelay =
+		now < MS2ST(*previous_ms) ?
+		(now < future && future < MS2ST(*previous_ms)) :
+		(now < future || future < MS2ST(*previous_ms));
+	if (mustDelay)
+		chThdSleepS(future - now);
+	chSysUnlock();
+	*previous_ms = ST2MS(future);
+}
+
+/**
+ *
+ * @brief   Returns stack usage of a thread.
+ *
+ * @param[in] threadp      pointer to instance of @p struct pios_thread
+ *
+ * @return stack usage in bytes
+ */
+uint32_t PIOS_Thread_Get_Stack_Usage(struct pios_thread *threadp)
+{
+#if CH_DBG_FILL_THREADS
+	uint32_t *stack = (uint32_t*)((size_t)threadp->threadp + sizeof(*threadp->threadp));
+	uint32_t *stklimit = stack;
+	while (*stack ==
+			((CH_STACK_FILL_VALUE << 24) |
+			(CH_STACK_FILL_VALUE << 16) |
+			(CH_STACK_FILL_VALUE << 8) |
+			(CH_STACK_FILL_VALUE << 0)))
+		++stack;
+	return (stack - stklimit) * 4;
+#else
+	return 0;
+#endif /* CH_DBG_FILL_THREADS */
+}
+
+/**
+ *
+ * @brief   Returns runtime of a thread.
+ *
+ * @param[in] threadp      pointer to instance of @p struct pios_thread
+ *
+ * @return runtime in milliseconds
+ *
+ */
+ uint32_t PIOS_Thread_Get_Runtime(struct pios_thread *threadp)
+{
+	chSysLock();
+
+	uint32_t result = threadp->threadp->ticks_total;
+	threadp->threadp->ticks_total = 0;
+
+	chSysUnlock();
+
+	return result;
+}
+
+/**
+ *
+ * @brief   Suspends execution of all threads.
+ *
+ */
+void PIOS_Thread_Scheduler_Suspend(void)
+{
+	chSysLock();
+}
+
+/**
+ *
+ * @brief   Resumes execution of all threads.
+ *
+ */
+void PIOS_Thread_Scheduler_Resume(void)
+{
+	chSysUnlock();
+}
+
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */

@@ -124,7 +124,7 @@ struct pios_hsum_dev {
 };
 
 /* Allocate HSUM device descriptor */
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 static struct pios_hsum_dev *PIOS_HSUM_Alloc(void)
 {
 	struct pios_hsum_dev *hsum_dev;

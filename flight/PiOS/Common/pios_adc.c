@@ -7,7 +7,7 @@
  *
  * @file       pios_adc.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Analog to Digital conversion routines
  * @see        The GNU Public License (GPL) Version 3
  *****************************************************************************/
@@ -41,7 +41,7 @@ struct pios_adc_dev {
 	const struct pios_adc_driver *driver;
 };
 
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 struct pios_adc_dev * pios_adc_dev;
 #else
 #error "PIOS_ADC only works with freeRTOS"
