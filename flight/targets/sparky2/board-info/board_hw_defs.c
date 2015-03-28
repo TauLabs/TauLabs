@@ -1606,6 +1606,21 @@ struct pios_can_cfg pios_can_cfg = {
 		},
 	},
 };
+
+//! Get flash whether to use external flash
+bool get_use_can(uint32_t board_revision)
+{
+	switch(board_revision) {
+	case SPARKY2_V2_0:
+		return true;
+	case BRUSHEDSPARKY_V0_1:
+		return false;
+	case BRUSHEDSPARKY_V0_2:
+		return false;
+	}
+
+	PIOS_Assert(0);
+}
 #endif /* PIOS_INCLUDE_CAN */
 
 /**
