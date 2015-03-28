@@ -76,7 +76,10 @@ void PIOS_Board_Init()
 	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
 
 	/* Register the partition table */
-	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
+	const struct pios_flash_partition * flash_partition_table;
+	uint32_t num_partitions;
+	flash_partition_table = PIOS_BOARD_HW_DEFS_GetPartitionTable(bdinfo->board_rev, &num_partitions);
+	PIOS_FLASH_register_partition_table(flash_partition_table, num_partitions);
 #endif	/* PIOS_INCLUDE_FLASH */
 
 #if defined(PIOS_INCLUDE_USB)

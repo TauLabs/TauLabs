@@ -350,9 +350,12 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_FLASH)
 	/* Inititialize all flash drivers */
 #if defined(PIOS_INCLUDE_FLASH_JEDEC)
-	if (PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_telem_flash_id, 1, &flash_m25p_cfg) != 0)
-		panic(1);
+	if (get_external_flash(bdinfo->board_rev)) {
+		if (PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_telem_flash_id, 1, &flash_m25p_cfg) != 0)
+			panic(1);
+	}
 #endif /* PIOS_INCLUDE_FLASH_JEDEC */
+
 	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
 
 	/* Register the partition table */
@@ -362,11 +365,13 @@ void PIOS_Board_Init(void) {
 	PIOS_FLASH_register_partition_table(flash_partition_table, num_partitions);
 
 	/* Mount all filesystems */
-	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS))
+	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, get_flashfs_settings_cfg(bdinfo->board_rev), FLASH_PARTITION_LABEL_SETTINGS))
 		panic(1);
 #if defined(PIOS_INCLUDE_FLASH_JEDEC)
-	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS) != 0)
-		panic(1);
+	if (get_external_flash(bdinfo->board_rev)) {
+		if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS) != 0)
+			panic(1);
+	}
 #endif /* PIOS_INCLUDE_FLASH_JEDEC */
 
 #endif	/* PIOS_INCLUDE_FLASH */
@@ -1113,15 +1118,17 @@ void PIOS_Board_Init(void) {
 #endif /* PIOS_INCLUDE_MPU9250_SPI */
 
 #if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
-	if ( PIOS_STREAMFS_Init(&streamfs_id, &streamfs_settings, FLASH_PARTITION_LABEL_LOG) != 0)
-		panic(8);
-		
-	const uint32_t LOG_BUF_LEN = 256;
-	uint8_t *log_rx_buffer = PIOS_malloc(LOG_BUF_LEN);
-	uint8_t *log_tx_buffer = PIOS_malloc(LOG_BUF_LEN);
-	if (PIOS_COM_Init(&pios_com_logging_id, &pios_streamfs_com_driver, streamfs_id,
-		log_rx_buffer, LOG_BUF_LEN, log_tx_buffer, LOG_BUF_LEN) != 0)
-		panic(9);
+	if (get_external_flash(bdinfo->board_rev)) {
+		if ( PIOS_STREAMFS_Init(&streamfs_id, &streamfs_settings, FLASH_PARTITION_LABEL_LOG) != 0)
+			panic(8);
+			
+		const uint32_t LOG_BUF_LEN = 256;
+		uint8_t *log_rx_buffer = PIOS_malloc(LOG_BUF_LEN);
+		uint8_t *log_tx_buffer = PIOS_malloc(LOG_BUF_LEN);
+		if (PIOS_COM_Init(&pios_com_logging_id, &pios_streamfs_com_driver, streamfs_id,
+			log_rx_buffer, LOG_BUF_LEN, log_tx_buffer, LOG_BUF_LEN) != 0)
+			panic(9);
+	}
 #endif	/* PIOS_INCLUDE_FLASH */
 
 }

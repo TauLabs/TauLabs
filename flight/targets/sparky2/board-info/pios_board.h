@@ -27,8 +27,10 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-
-#ifndef STM3210E_INS_H_
+// Define board variants
+#define SPARKY2_V2_0                  0x01
+#define BRUSHEDSPARKY_V0_1            0x21
+#define BRUSHEDSPARKY_V0_2            0x22
 
 #include <stdbool.h>
 
@@ -268,8 +270,6 @@ extern uint32_t pios_packet_handler;
 // ADC
 //-------------------------
 #define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
-
-#endif /* STM3210E_INS_H_ */
 
 /**
  * @}

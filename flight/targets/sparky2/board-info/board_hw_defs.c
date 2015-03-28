@@ -395,14 +395,21 @@ const struct pios_rfm22b_cfg * PIOS_BOARD_HW_DEFS_GetRfm22Cfg (uint32_t board_re
 #if defined(PIOS_INCLUDE_FLASH)
 #include "pios_flashfs_logfs_priv.h"
 
-static const struct flashfs_logfs_cfg flashfs_settings_cfg = {
+static const struct flashfs_logfs_cfg flashfs_settings_internal_cfg = {
 	.fs_magic      = 0x99abcedf,
 	.arena_size    = 0x00004000, /* 256 * slot size */
 	.slot_size     = 0x00000100, /* 256 bytes */
 };
 
+static const struct flashfs_logfs_cfg flashfs_settings_external_cfg = {
+	.fs_magic      = 0x77abcedf,
+	.arena_size    = 0x00010000, /* 256 * slot size */
+	.slot_size     = 0x00000100, /* 256 bytes */
+};
+
+
 static const struct flashfs_logfs_cfg flashfs_waypoints_cfg = {
-	.fs_magic      = 0x99abcecf,
+	.fs_magic      = 0x14abcecf,
 	.arena_size    = 0x00010000, /* 2048 * slot size */
 	.slot_size     = 0x00000040, /* 64 bytes */
 };
@@ -476,7 +483,7 @@ static const struct pios_flash_chip pios_flash_chip_external = {
 };
 #endif /* PIOS_INCLUDE_FLASH_JEDEC */
 
-static const struct pios_flash_partition pios_flash_partition_table[] = {
+static const struct pios_flash_partition pios_flash_partition_table_external[] = {
 #if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 	{
 		.label        = FLASH_PARTITION_LABEL_BL,
@@ -485,15 +492,6 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.last_sector  = 1,
 		.chip_offset  = 0,
 		.size         = (1 - 0 + 1) * FLASH_SECTOR_16KB,
-	},
-
-	{
-		.label        = FLASH_PARTITION_LABEL_SETTINGS,
-		.chip_desc    = &pios_flash_chip_internal,
-		.first_sector = 2,
-		.last_sector  = 3,
-		.chip_offset  = (2 * FLASH_SECTOR_16KB),
-		.size         = (3 - 2 + 1) * FLASH_SECTOR_16KB,
 	},
 
 	{
@@ -539,13 +537,39 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 #endif	/* PIOS_INCLUDE_FLASH_JEDEC */
 };
 
-const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32_t board_revision, uint32_t * num_partitions)
-{
-	PIOS_Assert(num_partitions);
+static const struct pios_flash_partition pios_flash_partition_table_internal[] = {
+#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
+	{
+		.label        = FLASH_PARTITION_LABEL_BL,
+		.chip_desc    = &pios_flash_chip_internal,
+		.first_sector = 0,
+		.last_sector  = 1,
+		.chip_offset  = 0,
+		.size         = (1 - 0 + 1) * FLASH_SECTOR_16KB,
+	},
 
-	*num_partitions = NELEMENTS(pios_flash_partition_table);
-	return pios_flash_partition_table;
-}
+	{
+		.label        = FLASH_PARTITION_LABEL_SETTINGS,
+		.chip_desc    = &pios_flash_chip_internal,
+		.first_sector = 2,
+		.last_sector  = 3,
+		.chip_offset  = (2 * FLASH_SECTOR_16KB),
+		.size         = (3 - 2 + 1) * FLASH_SECTOR_16KB,
+	},
+
+	{
+		.label        = FLASH_PARTITION_LABEL_FW,
+		.chip_desc    = &pios_flash_chip_internal,
+		.first_sector = 5,
+		.last_sector  = 7,
+		.chip_offset  = (4 * FLASH_SECTOR_16KB) + (1 * FLASH_SECTOR_64KB),
+		.size         = (7 - 5 + 1) * FLASH_SECTOR_128KB,
+	},
+
+	/* NOTE: sectors 8-11 of the internal flash are currently unallocated */
+
+#endif /* PIOS_INCLUDE_FLASH_INTERNAL */
+};
 
 #include "pios_streamfs_priv.h"
 const struct streamfs_cfg streamfs_settings = {
@@ -553,6 +577,56 @@ const struct streamfs_cfg streamfs_settings = {
 	.arena_size    = 0x00010000, /* 64 KB */
 	.write_size    = 0x00000100, /* 256 bytes */
 };
+
+//! Get the partition table
+const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32_t board_revision, uint32_t * num_partitions)
+{
+	PIOS_Assert(num_partitions);
+
+	switch(board_revision) {
+	case SPARKY2_V2_0:
+		*num_partitions = NELEMENTS(pios_flash_partition_table_external);
+		return pios_flash_partition_table_external;
+	case BRUSHEDSPARKY_V0_1:
+		*num_partitions = NELEMENTS(pios_flash_partition_table_internal);
+		return pios_flash_partition_table_internal;
+	case BRUSHEDSPARKY_V0_2:
+		*num_partitions = NELEMENTS(pios_flash_partition_table_internal);
+		return pios_flash_partition_table_internal;
+	}
+
+	PIOS_Assert(0);
+}
+
+//! Get the flashfs settings
+const struct flashfs_logfs_cfg * get_flashfs_settings_cfg(uint32_t board_revision)
+{
+	switch(board_revision) {
+	case SPARKY2_V2_0:
+		return &flashfs_settings_external_cfg;
+	case BRUSHEDSPARKY_V0_1:
+		return &flashfs_settings_internal_cfg;
+	case BRUSHEDSPARKY_V0_2:
+		return &flashfs_settings_internal_cfg;
+	}
+
+	PIOS_Assert(0);
+}
+
+//! Get flash whether to use external flash
+bool get_external_flash(uint32_t board_revision)
+{
+	switch(board_revision) {
+	case SPARKY2_V2_0:
+		return true;
+	case BRUSHEDSPARKY_V0_1:
+		return false;
+	case BRUSHEDSPARKY_V0_2:
+		return false;
+	}
+
+	PIOS_Assert(0);
+}
 
 #endif	/* PIOS_INCLUDE_FLASH */
 
