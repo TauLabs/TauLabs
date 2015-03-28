@@ -284,40 +284,6 @@ static void panic(int32_t code) {
 	}
 }
 
-void set_vtx_channel(uint8_t chan)
-{
-	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-	if (chan & 0x01) {
-		GPIO_SetBits(GPIOB, GPIO_Pin_12);
-	} else {
-		GPIO_ResetBits(GPIOB, GPIO_Pin_12);
-	}
-
-	if (chan & 0x02) {
-		GPIO_SetBits(GPIOB, GPIO_Pin_13);
-	} else {
-		GPIO_ResetBits(GPIOB, GPIO_Pin_13);
-	}
-
-	if (chan & 0x04) {
-		GPIO_SetBits(GPIOB, GPIO_Pin_14);
-	} else {
-		GPIO_ResetBits(GPIOB, GPIO_Pin_14);
-	}
-}
-
 /**
  * PIOS_Board_Init()
  * initializes all the core subsystems on this specific hardware
@@ -353,17 +319,18 @@ void PIOS_Board_Init(void) {
 
 	check_bor();
 
+	const struct pios_board_info * bdinfo = &pios_board_info_blob;
+
 	// Make sure all the PWM outputs are low
-	const struct pios_tim_channel * channels = pios_servo_cfg.channels;
-	uint8_t num_channels = pios_servo_cfg.num_channels;
+	const struct pios_servo_cfg * servo_cfg = get_servo_cfg(bdinfo->board_rev);
+	const struct pios_tim_channel * channels = servo_cfg->channels;
+	uint8_t num_channels = servo_cfg->num_channels;
 	for (int i = 0; i < num_channels; i++) {
 		GPIO_Init(channels[i].pin.gpio, (GPIO_InitTypeDef*) &channels[i].pin.init);
 	}
 
 	/* Delay system */
 	PIOS_DELAY_Init();
-
-	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 
 #if defined(PIOS_INCLUDE_LED)
 	const struct pios_led_cfg * led_cfg = PIOS_BOARD_HW_DEFS_GetLedCfg(bdinfo->board_rev);
@@ -1167,7 +1134,6 @@ void PIOS_Board_Init(void) {
 	}
 #endif	/* PIOS_INCLUDE_FLASH */
 
-	set_vtx_channel(7);
 }
 
 /**
