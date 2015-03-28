@@ -732,7 +732,7 @@ static const struct pios_usart_cfg pios_usart_main_cfg = {
 /*
  * S.Bus USART
  */
-static const struct pios_usart_cfg pios_usart_sbus_rcvr_cfg = {
+static const struct pios_usart_cfg pios_usart_sbus_rcvr_pc7_cfg = {
 	.regs = USART6,
 	.remap = GPIO_AF_USART6,
 	.init = {
@@ -763,6 +763,52 @@ static const struct pios_usart_cfg pios_usart_sbus_rcvr_cfg = {
 	},
 };
 
+static const struct pios_usart_cfg pios_usart_sbus_rcvr_pd2_cfg = {
+	.regs = UART5,
+	.remap = GPIO_AF_UART5,
+	.init = {
+		.USART_BaudRate            = 100000,
+		.USART_WordLength          = USART_WordLength_8b,
+		.USART_Parity              = USART_Parity_Even,
+		.USART_StopBits            = USART_StopBits_2,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode                = USART_Mode_Rx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = UART5_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		  },
+	},
+	.rx = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_2,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+	},
+};
+
+//! Get the SBUS configuration
+const struct pios_usart_cfg * get_sbus_rcvr_cfg(uint32_t board_revision)
+{
+	switch(board_revision) {
+	case SPARKY2_V2_0:
+		return &pios_usart_sbus_rcvr_pc7_cfg;
+	case BRUSHEDSPARKY_V0_1:
+		return &pios_usart_sbus_rcvr_pc7_cfg;
+	case BRUSHEDSPARKY_V0_2:
+		return &pios_usart_sbus_rcvr_pd2_cfg;
+	}
+
+	PIOS_Assert(0);
+}
+
 #endif	/* PIOS_INCLUDE_SBUS */
 
 // Need this defined regardless to be able to turn it off
@@ -782,6 +828,19 @@ static const struct pios_sbus_cfg pios_sbus_cfg = {
 	.gpio_inv_disable = Bit_RESET,
 };
 
+const struct pios_sbus_cfg * get_sbus_toggle(uint32_t board_revision)
+{
+	switch(board_revision) {
+	case SPARKY2_V2_0:
+		return &pios_sbus_cfg;
+	case BRUSHEDSPARKY_V0_1:
+		return &pios_sbus_cfg;
+	case BRUSHEDSPARKY_V0_2:
+		return NULL;
+	}
+
+	PIOS_Assert(0);
+}
 
 #ifdef PIOS_INCLUDE_COM_FLEXI
 /*

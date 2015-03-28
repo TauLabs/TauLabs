@@ -957,7 +957,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uintptr_t pios_usart_sbus_id;
-			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart_sbus_rcvr_cfg)) {
+			if (PIOS_USART_Init(&pios_usart_sbus_id, get_sbus_rcvr_cfg(bdinfo->board_rev))) {
 				PIOS_Assert(0);
 			}
 			uintptr_t pios_sbus_id;
@@ -976,9 +976,10 @@ void PIOS_Board_Init(void) {
 		break;
 	}
 
-	if (hw_rcvrport != HWSPARKY2_RCVRPORT_SBUS) {
-		GPIO_Init(pios_sbus_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_sbus_cfg.inv.init);
-		GPIO_WriteBit(pios_sbus_cfg.inv.gpio, pios_sbus_cfg.inv.init.GPIO_Pin, pios_sbus_cfg.gpio_inv_disable);
+	if (hw_rcvrport != HWSPARKY2_RCVRPORT_SBUS && get_sbus_toggle(bdinfo->board_rev)) {
+		const struct pios_sbus_cfg * sbus_cfg = get_sbus_toggle(bdinfo->board_rev);
+		GPIO_Init(sbus_cfg->inv.gpio, (GPIO_InitTypeDef*)&sbus_cfg->inv.init);
+		GPIO_WriteBit(sbus_cfg->inv.gpio, sbus_cfg->inv.init.GPIO_Pin, sbus_cfg->gpio_inv_disable);
 	}
 
 
