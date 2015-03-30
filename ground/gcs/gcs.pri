@@ -112,6 +112,10 @@ unix {
     CONFIG(debug, debug|release):MOC_DIR = $${OUT_PWD}/.moc/debug-shared
     CONFIG(release, debug|release):MOC_DIR = $${OUT_PWD}/.moc/release-shared
 
+    CONFIG(debug, debug|release) {
+        exists(/usr/bin/ccache):QMAKE_CXX="ccache g++"
+    }
+
     RCC_DIR = $${OUT_PWD}/.rcc
     UI_DIR = $${OUT_PWD}/.uic
 }
