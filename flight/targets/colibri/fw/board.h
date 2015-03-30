@@ -20,14 +20,14 @@
 #include "pios_chibios_transition_priv.h"
 
 /*
- * Setup for STMicroelectronics STM32F4-Discovery board.
+ * Setup for TBS Colibri.
  */
 
 /*
  * Board identifier.
  */
-#define BOARD_QUANTEC_QUANTON
-#define BOARD_NAME                  "quanton flight control"
+#define BOARD_TBS_COLIBRI
+#define BOARD_NAME                  "colibri flight control"
 
 
 /*
