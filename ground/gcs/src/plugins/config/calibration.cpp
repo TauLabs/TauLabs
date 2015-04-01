@@ -322,6 +322,12 @@ void Calibration::dataUpdated(UAVObject * obj) {
         // has been computed attempt to calculate the scale and bias
         // for the accel and optionally the mag.
         if(storeSixPointMeasurement(obj,6)) {
+            // Disconnect signals and set to IDLE before resetting
+            // the meta data to prevent coming here multiple times
+
+            calibration_state = IDLE;
+            disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
+
             // All data collected.  Disconnect and reset all UAVOs, and compute value
             connectSensor(GYRO, false);
             if (calibrateAccels)
@@ -330,11 +336,9 @@ void Calibration::dataUpdated(UAVObject * obj) {
                 connectSensor(MAG, false);
             setMetadata(originalMetaData);
 
-            calibration_state = IDLE;
             emit toggleControls(true);
             emit updatePlane(0);
             emit sixPointProgressChanged(0);
-            disconnect(&timer,SIGNAL(timeout()),this,SLOT(timeout()));
 
             // Do calculation
             int ret=computeScaleBias();
