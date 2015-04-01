@@ -195,9 +195,6 @@ void ConfigStabilizationWidget::applyRateLimits()
     m_stabilization->fullStickRateRoll->setMaximum(maxRate);
     m_stabilization->fullStickRatePitch->setMaximum(maxRate);
     m_stabilization->fullStickRateYaw->setMaximum(maxRate);
-    m_stabilization->maxRateAttRoll->setMaximum(maxRate);
-    m_stabilization->maxRateAttPitch->setMaximum(maxRate);
-    m_stabilization->maxRateAttYaw->setMaximum(maxRate);
 }
 
 void ConfigStabilizationWidget::showMWRateConvertDialog()
