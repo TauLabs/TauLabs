@@ -42,6 +42,8 @@ extern uint32_t PIOS_SYS_getCPUFlashSize(void);
 extern int32_t PIOS_SYS_SerialNumberGetBinary(uint8_t array[PIOS_SYS_SERIAL_NUM_BINARY_LEN]);
 extern int32_t PIOS_SYS_SerialNumberGet(char str[PIOS_SYS_SERIAL_NUM_ASCII_LEN+1]);
 
+extern void PIOS_SYS_Args(int argc, char *argv[]);
+
 #endif /* PIOS_SYS_H */
 
 /**

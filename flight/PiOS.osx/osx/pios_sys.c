@@ -34,6 +34,9 @@
 
 #if defined(PIOS_INCLUDE_SYS)
 
+void PIOS_SYS_Args(int argc, char *argv[]) {
+	(void) argc; (void) argv;
+}
 
 /**
 * Initialises all system peripherals
