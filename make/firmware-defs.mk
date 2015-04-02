@@ -1,11 +1,7 @@
 # Toolchain prefix (i.e arm-elf- -> arm-elf-gcc.exe)
 TCHAIN_PREFIX ?= arm-none-eabi-
 
-ifeq ($(wildcard /usr/bin/ccache),)
-	CCACHE=
-else
-	CCACHE=ccache
-endif
+CCACHE := $(shell which ccache)
 
 # Define toolchain component names.
 CC      = $(CCACHE) $(TCHAIN_PREFIX)gcc
