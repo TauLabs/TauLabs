@@ -36,6 +36,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 #include "fifo_buffer.h"
 
 struct pios_tcp_cfg {
