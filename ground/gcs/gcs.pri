@@ -112,6 +112,13 @@ unix {
     CONFIG(debug, debug|release):MOC_DIR = $${OUT_PWD}/.moc/debug-shared
     CONFIG(release, debug|release):MOC_DIR = $${OUT_PWD}/.moc/release-shared
 
+    CONFIG(debug, debug|release) {
+# Unfortunately this is ineffective on OSX, due to
+# https://bugreports.qt.io/browse/QTBUG-39417
+# Should probe paths once upstream defect resolved
+        exists(/usr/bin/ccache):QMAKE_CXX="ccache g++"
+    }
+
     RCC_DIR = $${OUT_PWD}/.rcc
     UI_DIR = $${OUT_PWD}/.uic
 }

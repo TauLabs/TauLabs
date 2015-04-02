@@ -1,9 +1,11 @@
 # Toolchain prefix (i.e arm-elf- -> arm-elf-gcc.exe)
 TCHAIN_PREFIX ?= arm-none-eabi-
 
+CCACHE := $(shell which ccache)
+
 # Define toolchain component names.
-CC      = $(TCHAIN_PREFIX)gcc
-CXX     = $(TCHAIN_PREFIX)g++
+CC      = $(CCACHE) $(TCHAIN_PREFIX)gcc
+CXX     = $(CCACHE) $(TCHAIN_PREFIX)g++
 AR      = $(TCHAIN_PREFIX)ar
 OBJCOPY = $(TCHAIN_PREFIX)objcopy
 OBJDUMP = $(TCHAIN_PREFIX)objdump
