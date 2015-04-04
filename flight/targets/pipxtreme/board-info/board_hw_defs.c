@@ -323,9 +323,9 @@ struct pios_rfm22b_cfg pios_rfm22b_taulinkmodule_cfg = {
 //! Compatibility layer for various hardware revisions
 const struct pios_rfm22b_cfg * PIOS_BOARD_HW_DEFS_GetRfm22Cfg (uint32_t board_revision)
 {
-	if (board_revision == 0x01)
+	if (board_revision == TAULINK_VERSION_STICK)
 		return &pios_rfm22b_taulink_cfg;
-	if (board_revision == 0x02)
+	if (board_revision == TAULINK_VERSION_MODULE)
 		return &pios_rfm22b_taulinkmodule_cfg;
 	return NULL;
 }
