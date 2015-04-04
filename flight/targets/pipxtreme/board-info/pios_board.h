@@ -31,6 +31,9 @@
 #ifndef STM32103CB_PIPXTREME_H_
 #define STM32103CB_PIPXTREME_H_
 
+#define TAULINK_VERSION_STICK 0x01
+#define TAULINK_VERSION_MODULE 0x02
+
 #define ADD_ONE_ADC
 
 //------------------------
