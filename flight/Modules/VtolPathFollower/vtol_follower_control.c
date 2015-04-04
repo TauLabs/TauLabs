@@ -96,6 +96,31 @@ static inline void vtol_limit_velocity(float *vels, float limit) {
 	}
 }
 
+/* "Real" deadbands are evil.  Control systems end up fighting the edge.
+ * You don't teach your integrator about emerging drift.  Discontinuities
+ * in your control inputs cause all kinds of neat stuff. */
+static inline float vtol_deadband(float in, float w, float b) {
+	/* So basically.. we want the function to be tangent to the
+	** linear sections-- have a slope of 1-- at -w and w.  In the
+	** middle we want a slope of b.   So the cube here does all the
+	** work b isn't doing. */
+	float m = cbrtf((1-b)/(3*powf(w,2)));
+
+	// Trust the compiler to skip this if we don't need it.
+	float r = powf(m*w, 3)+b*w;
+
+	// First get the nice linear bits -- outside the deadband-- out of
+	// the way.
+	if (in <= -w) {
+		return in+w-r;
+	} else if (in >= w) {
+		return in-w+r;
+	}
+
+
+	return powf(m*in, 3)+b*in;
+}
+
 /**
  * Compute desired velocity to follow the desired path from the current location.
  * @param[in] dT the time since last evaluation
@@ -110,10 +135,17 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 {
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
+
+	VelocityActualData velocityActual;
+	VelocityActualGet(&velocityActual);
+
+	// XXX parameterize	
+	const float cur_pos_ned[3] = {
+		positionActual.North + velocityActual.North * 0.7f, 
+		positionActual.East + velocityActual.East * 0.7f,
+		positionActual.Down };
 	
-	const float cur[3] = { positionActual.North, positionActual.East, positionActual.Down };
-	
-	path_progress(pathDesired, cur, progress);
+	path_progress(pathDesired, cur_pos_ned, progress);
 	
 	// Update the path status UAVO
 	PathStatusData pathStatus;
@@ -130,6 +162,10 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	float groundspeed = vtol_interpolate(progress->fractional_progress,
 	    pathDesired->StartingVelocity, pathDesired->EndingVelocity);
 
+	/* XXX MPL-- need to investigate, this is really unfortunate...
+	** we should not have this impulse for the last iteration on here
+	** where we command 0 speed.  Needs investigation of state mach what
+	** would be unconditionally safe */
 	if (progress->fractional_progress >= 1)
 		groundspeed = 0;
 
@@ -148,10 +184,12 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	 */
 	float groundscale = (guidanceSettings.VerticalVelMax - commands_ned[2]) * 4;
 
-	if (groundscale < 1) 
+	if (groundscale < 1)
 		groundspeed *= groundscale;
 	
-	float error_speed = progress->error * 
+	
+	// XXX parameterize
+	float error_speed = vtol_deadband(progress->error, 1.25, 0.1) * 
 	    guidanceSettings.HorizontalPosPI[VTOLPATHFOLLOWERSETTINGS_HORIZONTALPOSPI_KP];
 
 	/* Sum the desired path movement vector with the correction vector */
@@ -168,7 +206,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 
 	velocityDesired.North = commands_ned[0];
 	velocityDesired.East = commands_ned[1];
-	velocityDesired.Down = commands_ned[1];
+	velocityDesired.Down = commands_ned[2];
 
 	VelocityDesiredSet(&velocityDesired);
 
@@ -182,19 +220,42 @@ int32_t vtol_follower_control_simple(const float dT, const float *hold_pos_ned,
 	
 	PositionActualGet(&positionActual);
 	
-	const float cur_pos_ned[3] = { positionActual.North, positionActual.East, positionActual.Down };
+	VelocityActualData velocityActual;
+
+	VelocityActualGet(&velocityActual);
+
+	// XXX parameterize
+	/* Where would we be in .7 second at current rates? */	
+	const float cur_pos_ned[3] = {
+		positionActual.North + velocityActual.North * 0.7f, 
+		positionActual.East + velocityActual.East * 0.7f,
+		positionActual.Down };
 
 	float errors_ned[3];
-	float commands_ned[3];
 
 	vtol_calculate_distances(cur_pos_ned, hold_pos_ned, errors_ned, 0);
 
+	float horiz_error_mag = vtol_magnitude(errors_ned, 2);
+	float scale_horiz_error_mag;
+
+	if (horiz_error_mag > 0.00001f) {
+		// XXX parameterize... maybe
+		scale_horiz_error_mag = vtol_deadband(horiz_error_mag, 0.75, 0.25) / horiz_error_mag;
+	} else {
+		scale_horiz_error_mag = 0;
+	}
+
+	float damped_ned[2] = { errors_ned[0] * scale_horiz_error_mag,
+			errors_ned[1] * scale_horiz_error_mag };
+
+	float commands_ned[3];
+
 	// Compute desired north command velocity from position error
-	commands_ned[0] = pid_apply_antiwindup(&vtol_pids[NORTH_POSITION], errors_ned[0],
+	commands_ned[0] = pid_apply_antiwindup(&vtol_pids[NORTH_POSITION], damped_ned[0],
 	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
 
 	// Compute desired east command velocity from position error
-	commands_ned[1] = pid_apply_antiwindup(&vtol_pids[EAST_POSITION], errors_ned[1],
+	commands_ned[1] = pid_apply_antiwindup(&vtol_pids[EAST_POSITION], damped_ned[1],
 	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
 
 	if (!landing) {
