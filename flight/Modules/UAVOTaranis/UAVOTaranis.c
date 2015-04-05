@@ -189,6 +189,13 @@ static bool frsky_encode_rssi(uint32_t *value, bool test_presence_only, uint32_t
 	if (local_link_connected == RFM22BSTATUS_LINKSTATE_CONNECTED) {
 		// report whichever link quality is worse
 		*value = (rfm22bStatus.LinkQuality < local_link_quality) ? rfm22bStatus.LinkQuality : local_link_quality;
+		
+		// Rescale to values that match Taranis
+		if (*value < 64) {
+			*value = 0;
+		} else {
+			*value = (*value - 64) * 100 / 64;
+		}
 	} else {
 		*value = 0;
 	}
