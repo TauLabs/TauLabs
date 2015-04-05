@@ -175,11 +175,11 @@ int32_t PIOS_TCP_Init(uintptr_t *tcp_id, const struct pios_tcp_cfg * cfg)
 
 	int optval=1;
 
-        /* Allow reuse of address if you restart. */
-        setsockopt(tcp_dev->socket, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
+	/* Allow reuse of address if you restart. */
+	setsockopt(tcp_dev->socket, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
 
-        /* Also request low-latency (don't store up data to conserve packets */
-        setsockopt(tcp_dev->socket, IPPROTO_TCP, TCP_NODELAY, &optval, sizeof(optval));
+	/* Also request low-latency (don't store up data to conserve packets */
+	setsockopt(tcp_dev->socket, IPPROTO_TCP, TCP_NODELAY, &optval, sizeof(optval));
 
 	memset(&tcp_dev->server,0,sizeof(tcp_dev->server));
 	memset(&tcp_dev->client,0,sizeof(tcp_dev->client));

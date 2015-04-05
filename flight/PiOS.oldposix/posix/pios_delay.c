@@ -27,12 +27,15 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-
 /* Project Includes */
 #include "pios.h"
-#include "time.h"
 
 #if defined(PIOS_INCLUDE_DELAY)
+
+#ifdef __MACH__
+#include <mach/clock.h>
+#include <mach/mach.h>
+#endif
 
 /**
 * Initialises the Timer used by PIOS_DELAY functions<BR>
@@ -62,10 +65,10 @@ int32_t PIOS_DELAY_Init(void)
 */
 int32_t PIOS_DELAY_WaituS(uint32_t uS)
 {
-	struct timespec wait,rest;
+	static struct timespec wait,rest;
 	wait.tv_sec=0;
 	wait.tv_nsec=1000*uS;
-	while (!nanosleep(&wait,&rest)) {
+	while (nanosleep(&wait,&rest)!=0) {
 		wait=rest;
 	}
 
@@ -86,27 +89,69 @@ int32_t PIOS_DELAY_WaituS(uint32_t uS)
 */
 int32_t PIOS_DELAY_WaitmS(uint32_t mS)
 {
-	struct timespec wait,rest;
+	//for(int i = 0; i < mS; i++) {
+	//	PIOS_DELAY_WaituS(1000);
+	static struct timespec wait,rest;
 	wait.tv_sec=mS/1000;
 	wait.tv_nsec=(mS%1000)*1000000;
-	while (!nanosleep(&wait,&rest)) {
+	while (nanosleep(&wait,&rest)!=0) {
 		wait=rest;
 	}
+	//}
 
 	/* No error */
 	return 0;
 }
 
-uint32_t PIOS_DELAY_GetRaw()
+/**
+ * @brief Query the Delay timer for the current uS 
+ * @return A microsecond value
+ */
+uint32_t PIOS_DELAY_GetuS()
 {
-	uint32_t raw_us = clock();
-	return raw_us;
+	static struct timespec current;
+
+#ifdef __MACH__ // OS X does not have clock_gettime, use clock_get_time
+	clock_serv_t cclock;
+	mach_timespec_t mts;
+	host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);
+	clock_get_time(cclock, &mts);
+	mach_port_deallocate(mach_task_self(), cclock);
+	current.tv_sec = mts.tv_sec;
+	current.tv_nsec = mts.tv_nsec;
+#else
+	clock_gettime(CLOCK_REALTIME, &current);
+#endif	
+	return ((current.tv_sec * 1000000) + (current.tv_nsec / 1000));
 }
 
-uint32_t PIOS_DELAY_DiffuS(uint32_t ref)
+/**
+ * @brief Calculate time in microseconds since a previous time
+ * @param[in] t previous time
+ * @return time in us since previous time t.
+ */
+uint32_t PIOS_DELAY_GetuSSince(uint32_t t)
 {
-	uint32_t diff_clock = clock() - ref;
-	uint32_t diff_us = diff_clock; // (CLOCKS_PER_SEC / 1000);
-	return diff_us;
+	return (PIOS_DELAY_GetuS() - t);
 }
+
+/**
+ * @brief Get the raw delay timer, useful for timing
+ * @return Unitless value (uint32 wrap around)
+ */
+uint32_t PIOS_DELAY_GetRaw()
+{
+	return (PIOS_DELAY_GetuS());
+}
+
+/**
+ * @brief Compare to raw times to and convert to us 
+ * @return A microsecond value
+ */
+uint32_t PIOS_DELAY_DiffuS(uint32_t raw)
+{
+	return ( PIOS_DELAY_GetuS() - raw );
+}
+
+
 #endif

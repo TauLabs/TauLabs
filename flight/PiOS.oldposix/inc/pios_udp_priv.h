@@ -66,7 +66,7 @@ typedef struct {
   uint8_t tx_buffer[PIOS_UDP_RX_BUFFER_SIZE];
 } pios_udp_dev;
 
-extern int32_t PIOS_UDP_Init(uintptr_t * udp_id, const struct pios_udp_cfg * cfg);
+extern int32_t PIOS_UDP_Init(uint32_t * udp_id, const struct pios_udp_cfg * cfg);
 
 
 

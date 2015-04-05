@@ -3,7 +3,7 @@
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup   PIOS_IAP IAP Functions
- * @brief OSX SITL PIOS IAP Functions
+ * @brief POSIX SITL PIOS IAP Functions
  * @{
  *
  * @file       pios_iap.c

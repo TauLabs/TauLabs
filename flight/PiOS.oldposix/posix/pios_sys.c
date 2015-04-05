@@ -30,20 +30,84 @@
  */
 
 /* Project Includes */
+#define _GNU_SOURCE
 #include "pios.h"
 
 #if defined(PIOS_INCLUDE_SYS)
 
+static bool debug_fpe=false;
+
+static void Usage(char *cmdName) {
+	printf( "usage: %s [-f]\n"
+		"\n"
+		"\t-f\tEnables floating point exception trapping mode\n",
+		cmdName);
+
+	exit(1);
+}
+
 void PIOS_SYS_Args(int argc, char *argv[]) {
-	(void) argc; (void) argv;
+	int opt;
+
+	while ((opt = getopt(argc, argv, "f")) != -1) {
+		switch (opt) {
+			case 'f':
+				debug_fpe=true;
+				break;
+			default:
+				Usage(argv[0]);
+				break;
+		}
+	}
+
+	if (optind < argc) {
+		Usage(argv[0]);
+	}
 }
 
 /**
 * Initialises all system peripherals
 */
+#include <assert.h>		/* assert */
+#include <stdlib.h>		/* printf */
+#include <signal.h>		/* sigaction */
+#include <fenv.h>		/* PE_* */
+static void sigint_handler(int signum, siginfo_t *siginfo, void *ucontext)
+{
+	printf("\nSIGINT received.  Shutting down\n");
+	exit(0);
+}
+
+static void sigfpe_handler(int signum, siginfo_t *siginfo, void *ucontext)
+{
+	printf("\nSIGFPE received.  OMG!  Math Bug!  Run again with gdb to find your mistake.\n");
+	exit(0);
+}
+
 void PIOS_SYS_Init(void)
 {
+	struct sigaction sa_int = {
+		.sa_sigaction = sigint_handler,
+		.sa_flags = SA_SIGINFO,
+	};
 
+	int rc = sigaction(SIGINT, &sa_int, NULL);
+	assert(rc == 0);
+
+	if (debug_fpe) {
+		struct sigaction sa_fpe = {
+			.sa_sigaction = sigfpe_handler,
+			.sa_flags = SA_SIGINFO,
+		};
+
+		rc = sigaction(SIGFPE, &sa_fpe, NULL);
+		assert(rc == 0);
+
+		// Underflow is fairly harmless, do we even care in debug
+		// mode?
+		feenableexcept(FE_DIVBYZERO | FE_UNDERFLOW | FE_OVERFLOW |
+			FE_INVALID);
+	}
 }
 
 /**
