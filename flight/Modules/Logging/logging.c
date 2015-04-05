@@ -45,7 +45,7 @@
 #include "loggingstats.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 900
+#define STACK_SIZE_BYTES 1200
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private types
