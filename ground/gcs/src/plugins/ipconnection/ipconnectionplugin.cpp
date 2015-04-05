@@ -81,6 +81,15 @@ void IPConnection::onOpenDevice(QString HostName, int Port, bool UseTCP)
         ipSocket = new QUdpSocket(this);
     }
 
+    // Disable Nagle algorithm to try and get data promptly rather than
+    // minimize packets.
+    ipSocket->setSocketOption(QAbstractSocket::LowDelayOption, 1);
+
+    // Allow reuse of ports, so if we're running the simulator and GCS on
+    // the same host, and simulator crashes leaving ports in FIN_WAIT, we
+    // can restart simulator immediately.
+    ipSocket->bind(0, QAbstractSocket::ShareAddress);
+
     //do sanity check on hostname and port...
     if((HostName.length()==0)||(Port<1)){
         errorMsg = "Please configure Host and Port options before opening the connection";
