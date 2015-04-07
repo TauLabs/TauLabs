@@ -413,6 +413,7 @@ int32_t transmitter_control_select(bool reset_controller)
 	case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
 	case FLIGHTSTATUS_FLIGHTMODE_MWRATE:
 	case FLIGHTSTATUS_FLIGHTMODE_HORIZON:
+	case FLIGHTSTATUS_FLIGHTMODE_AXISLOCK:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
@@ -903,6 +904,10 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON,
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON,
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
+	const uint8_t AXISLOCK_SETTINGS[3] = {
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
 
 	const uint8_t * stab_settings;
 	FlightStatusData flightStatus;
@@ -922,6 +927,9 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_HORIZON:
 			stab_settings = HORIZON_SETTINGS;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_AXISLOCK:
+			stab_settings = AXISLOCK_SETTINGS;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 			stab_settings = settings->Stabilization1Settings;
