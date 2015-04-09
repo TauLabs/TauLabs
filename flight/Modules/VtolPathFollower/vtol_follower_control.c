@@ -61,11 +61,30 @@ struct pid vtol_pids[VTOL_PID_NUM];
 // Constants used in deadband calculation
 static float vtol_path_m=0, vtol_path_r=0, vtol_end_m=0, vtol_end_r=0;
 
+
+/**
+ * Interpolate values (groundspeeds, altitudes) over flight legs
+ * @param[in] fraction how far we are through the leg
+ * @param[in] beginVal the configured value for the beginning of the leg
+ * @param[in] endVal the configured value for the end of the leg
+ * @returns the interpolated value
+ *
+ * Simple linear interpolation with clipping to ends (fraction>=0, <=1).
+ */
 static float vtol_interpolate(const float fraction, const float beginVal,
 	const float endVal) {
 	return beginVal + (endVal - beginVal) * bound_min_max(fraction, 0, 1);
 }
 
+/**
+ * Calculate pythagorean magnitude of a vector.
+ * @param[in] v pointer to a float array
+ * @param[in] n length of the amount to take the magnitude of
+ * @returns Root of sum of squares of the vector
+ *
+ * Note that sometimes we only take the magnitude of the first 2 elements
+ * of a 3-vector to get the horizontal component.
+ */
 static float vtol_magnitude(const float *v, int n) {
 	float sum=0;
 
@@ -76,6 +95,13 @@ static float vtol_magnitude(const float *v, int n) {
 	return sqrtf(sum);
 }
 
+/**
+ * Subtract two 3-vectors, and optionally normalize to return an error value.
+ * @param[in] actual the measured process value
+ * @param[in] desired the setpoint of the system
+ * @param[out] the resultant error vector desired-actual
+ * @param[in] normalize True if it's desired to normalize the output vector
+ */
 static void vtol_calculate_distances(const float *actual,
 	const float *desired, float *out, bool normalize) {
 	out[0] = desired[0] - actual[0];
@@ -85,10 +111,22 @@ static void vtol_calculate_distances(const float *actual,
 	if (normalize) {
 		float mag=vtol_magnitude(out, 3);
 
-		out[0] /= mag;  out[1] /= mag;  out[2] /= mag;
+		if (mag == 0) {
+			/* Just pick a direction. */
+			out[0] = 1.0; out[1] = 0.0; out[2] = 0.0;
+		} else {
+			out[0] /= mag;  out[1] /= mag;  out[2] /= mag;
+		}
 	}
 }
 
+/**
+ * Clip a velocity 2-vector  while maintaining vector direction.
+ * @param[in,out] vels velocity to clip
+ * @param[in] limit desired limit magnitude.
+ *
+ * if mag(vels) > limit, vels=vels / mag(vels) * limit
+ */
 static void vtol_limit_velocity(float *vels, float limit) {
 	float mag=vtol_magnitude(vels, 2);	// only horiz component
 	float scale = mag / limit;
@@ -99,9 +137,20 @@ static void vtol_limit_velocity(float *vels, float limit) {
 	}
 }
 
-/* "Real" deadbands are evil.  Control systems end up fighting the edge.
+/**
+ * Apply a "cubic deadband" to the input.
+ * @param[in] in the value to deadband
+ * @param[in] w deadband width
+ * @param[in] b slope of deadband at in=0
+ * @param[in] m cubic weighting calculated by vtol_deadband_setup
+ * @param[in] r integrated response at in=w, calculated by vtol_deadband_setup
+ *
+ * "Real" deadbands are evil.  Control systems end up fighting the edge.
  * You don't teach your integrator about emerging drift.  Discontinuities
- * in your control inputs cause all kinds of neat stuff. */
+ * in your control inputs cause all kinds of neat stuff.  As a result this
+ * calculates a cubic function within the deadband which has a low slope
+ * within the middle, but unity slope at the edge.
+ */
 static float vtol_deadband(float in, float w, float b, float m, float r) {
 	// First get the nice linear bits -- outside the deadband-- out of
 	// the way.
@@ -115,6 +164,13 @@ static float vtol_deadband(float in, float w, float b, float m, float r) {
 	return powf(m*in, 3)+b*in;
 }
 
+/**
+ * Calculate the "cubic deadband" system parameters.
+ * @param[in] The width of the deadband
+ * @param[in] Slope of deadband at in=0, sane values between 0 and 1.
+ * @param[out] m cubic weighting of function
+ * @param[out] integrated response at in=w
+ */
 static void vtol_deadband_setup(float w, float b, float *m, float *r) {
 	/* So basically.. we want the function to be tangent to the
 	** linear sections-- have a slope of 1-- at -w and w.  In the
