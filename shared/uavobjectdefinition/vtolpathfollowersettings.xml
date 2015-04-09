@@ -7,6 +7,12 @@
 		<field name="HorizontalVelPID" units="deg/(m/s)" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="3,0,0,0"/>
 		<field name="VelocityFeedforward" units="deg/(m/s)" type="float" elements="1" defaultvalue="0"/>
 		<field name="ThrottleControl" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
+		<!-- 0.7 seconds seems like a good value in most cases -->
+		<field name="PositionFeedforward" units="s" type="float" elements="1" defaultvalue="0"/>
+		<field name="EndpointDeadbandWidth" units="m" type="float" elements="1" defaultvalue="0.75"/>
+		<field name="EndpointDeadbandCenterGain" units="" type="float" elements="1" defaultvalue="0.25"/>
+		<field name="PathDeadbandWidth" units="m" type="float" elements="1" defaultvalue="1.25"/>
+		<field name="PathDeadbandCenterGain" units="" type="float" elements="1" defaultvalue="0.1"/>
 		<field name="VelocityChangePrediction" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
 		<field name="MaxRollPitch" units="deg" type="float" elements="1" defaultvalue="20"/>
 
