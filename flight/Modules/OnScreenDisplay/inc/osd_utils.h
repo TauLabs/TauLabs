@@ -171,6 +171,7 @@ void write_char(char ch, int x, int y, int flags, int font);
 void calc_text_dimensions(char *str, struct FontEntry font, int xs, int ys, struct FontDimensions *dim);
 void write_string(char *str, int x, int y, int xs, int ys, int va, int ha, int flags, int font);
 
+void lla_to_ned(int32_t lat, int32_t lon, float alt, float *NED);
 #endif /* OSDUTILS_H */
 
 

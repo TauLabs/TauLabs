@@ -58,9 +58,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-77</y>
         <width>921</width>
-        <height>618</height>
+        <height>643</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -75,6 +75,13 @@
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0,0,0">
+            <item row="13" column="2">
+             <widget class="QSpinBox" name="GpsLonX">
+              <property name="maximum">
+               <number>360</number>
+              </property>
+             </widget>
+            </item>
             <item row="18" column="2">
              <widget class="QSpinBox" name="TimeX">
               <property name="maximum">
@@ -114,6 +121,13 @@
             </item>
             <item row="18" column="5">
              <widget class="QComboBox" name="TimeFont"/>
+            </item>
+            <item row="2" column="2">
+             <widget class="QSpinBox" name="AltitudeScaleX">
+              <property name="maximum">
+               <number>360</number>
+              </property>
+             </widget>
             </item>
             <item row="6" column="5">
              <widget class="QComboBox" name="BatteryCurrentFont"/>
@@ -182,10 +196,10 @@
               </property>
              </widget>
             </item>
-            <item row="13" column="2">
-             <widget class="QSpinBox" name="GpsLonX">
+            <item row="7" column="3">
+             <widget class="QSpinBox" name="BatteryConsumedY">
               <property name="maximum">
-               <number>360</number>
+               <number>265</number>
               </property>
              </widget>
             </item>
@@ -233,10 +247,10 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="2">
-             <widget class="QSpinBox" name="AltitudeScaleX">
-              <property name="maximum">
-               <number>360</number>
+            <item row="15" column="1">
+             <widget class="QCheckBox" name="HomeDistanceEnabled">
+              <property name="text">
+               <string/>
               </property>
              </widget>
             </item>
@@ -422,13 +436,6 @@
               </item>
              </layout>
             </item>
-            <item row="7" column="3">
-             <widget class="QSpinBox" name="BatteryConsumedY">
-              <property name="maximum">
-               <number>265</number>
-              </property>
-             </widget>
-            </item>
             <item row="6" column="2">
              <widget class="QSpinBox" name="BatteryCurrentX">
               <property name="maximum">
@@ -461,13 +468,6 @@
             </item>
             <item row="12" column="5">
              <widget class="QComboBox" name="GpsLatFont"/>
-            </item>
-            <item row="15" column="1">
-             <widget class="QCheckBox" name="HomeDistanceEnabled">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
             </item>
             <item row="13" column="1">
              <widget class="QCheckBox" name="GpsLonEnabled">
@@ -509,6 +509,13 @@
               </property>
              </widget>
             </item>
+            <item row="12" column="3">
+             <widget class="QSpinBox" name="GpsLatY">
+              <property name="maximum">
+               <number>265</number>
+              </property>
+             </widget>
+            </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_9">
               <property name="font">
@@ -540,17 +547,17 @@
               </item>
              </layout>
             </item>
-            <item row="12" column="3">
-             <widget class="QSpinBox" name="GpsLatY">
-              <property name="maximum">
-               <number>265</number>
-              </property>
-             </widget>
-            </item>
             <item row="17" column="1">
              <widget class="QCheckBox" name="SpeedScaleEnabled">
               <property name="text">
                <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="2">
+             <widget class="QSpinBox" name="GpsStatusX">
+              <property name="maximum">
+               <number>360</number>
               </property>
              </widget>
             </item>
@@ -571,13 +578,6 @@
               </property>
              </widget>
             </item>
-            <item row="11" column="2">
-             <widget class="QSpinBox" name="GpsStatusX">
-              <property name="maximum">
-               <number>360</number>
-              </property>
-             </widget>
-            </item>
             <item row="11" column="1">
              <widget class="QCheckBox" name="GpsStatusEnabled">
               <property name="text">
@@ -587,6 +587,13 @@
             </item>
             <item row="3" column="5">
              <widget class="QComboBox" name="ArmStatusFont"/>
+            </item>
+            <item row="1" column="3">
+             <widget class="QSpinBox" name="AlarmY">
+              <property name="maximum">
+               <number>265</number>
+              </property>
+             </widget>
             </item>
             <item row="9" column="4">
              <widget class="QComboBox" name="CpuAlign"/>
@@ -604,22 +611,15 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="3">
-             <widget class="QSpinBox" name="AlarmY">
-              <property name="maximum">
-               <number>265</number>
-              </property>
-             </widget>
-            </item>
-            <item row="10" column="5">
-             <widget class="QComboBox" name="FlightModeFont"/>
-            </item>
             <item row="3" column="2">
              <widget class="QSpinBox" name="ArmStatusX">
               <property name="maximum">
                <number>360</number>
               </property>
              </widget>
+            </item>
+            <item row="10" column="5">
+             <widget class="QComboBox" name="FlightModeFont"/>
             </item>
             <item row="0" column="6">
              <widget class="QLabel" name="label_7">
@@ -694,6 +694,13 @@
             <item row="1" column="4">
              <widget class="QComboBox" name="AlarmAlign"/>
             </item>
+            <item row="5" column="2">
+             <widget class="QSpinBox" name="BatteryVoltX">
+              <property name="maximum">
+               <number>360</number>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="5">
              <widget class="QComboBox" name="AlarmFont"/>
             </item>
@@ -710,18 +717,18 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="2">
-             <widget class="QSpinBox" name="BatteryVoltX">
-              <property name="maximum">
-               <number>360</number>
-              </property>
-             </widget>
-            </item>
             <item row="12" column="4">
              <widget class="QComboBox" name="GpsLatAlign"/>
             </item>
             <item row="5" column="5">
              <widget class="QComboBox" name="BatteryVoltFont"/>
+            </item>
+            <item row="8" column="3">
+             <widget class="QSpinBox" name="CompassY">
+              <property name="maximum">
+               <number>265</number>
+              </property>
+             </widget>
             </item>
             <item row="9" column="1">
              <widget class="QCheckBox" name="CpuEnabled">
@@ -740,13 +747,6 @@
               </property>
               <property name="text">
                <string>CPU Utilization</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="3">
-             <widget class="QSpinBox" name="CompassY">
-              <property name="maximum">
-               <number>265</number>
               </property>
              </widget>
             </item>
@@ -784,6 +784,13 @@
             <item row="7" column="5">
              <widget class="QComboBox" name="BatteryConsumedFont"/>
             </item>
+            <item row="1" column="2">
+             <widget class="QSpinBox" name="AlarmX">
+              <property name="maximum">
+               <number>360</number>
+              </property>
+             </widget>
+            </item>
             <item row="6" column="4">
              <widget class="QComboBox" name="BatteryCurrentAlign"/>
             </item>
@@ -797,13 +804,6 @@
               </property>
               <property name="text">
                <string>Item</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QSpinBox" name="AlarmX">
-              <property name="maximum">
-               <number>360</number>
               </property>
              </widget>
             </item>
@@ -846,6 +846,13 @@
               </property>
              </widget>
             </item>
+            <item row="14" column="3">
+             <widget class="QSpinBox" name="GpsMgrsY">
+              <property name="maximum">
+               <number>265</number>
+              </property>
+             </widget>
+            </item>
             <item row="14" column="1">
              <widget class="QCheckBox" name="GpsMgrsEnabled">
               <property name="text">
@@ -857,13 +864,6 @@
              <widget class="QSpinBox" name="GpsMgrsX">
               <property name="maximum">
                <number>360</number>
-              </property>
-             </widget>
-            </item>
-            <item row="14" column="3">
-             <widget class="QSpinBox" name="GpsMgrsY">
-              <property name="maximum">
-               <number>265</number>
               </property>
              </widget>
             </item>
@@ -905,7 +905,7 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="5">
+            <item row="2" column="5">
              <widget class="QSpinBox" name="mapHeightMeters">
               <property name="minimum">
                <number>100</number>
@@ -928,7 +928,7 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="2">
+            <item row="2" column="2">
              <widget class="QLabel" name="label_30">
               <property name="text">
                <string>Width meters</string>
@@ -965,7 +965,7 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="3">
+            <item row="2" column="3">
              <widget class="QSpinBox" name="mapWidthMeters">
               <property name="minimum">
                <number>100</number>
@@ -978,7 +978,7 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="4">
+            <item row="2" column="4">
              <widget class="QLabel" name="label_31">
               <property name="text">
                <string>Height meters</string>
@@ -992,14 +992,14 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="2">
+            <item row="3" column="2">
              <widget class="QLabel" name="label_32">
               <property name="text">
                <string>Width pixels</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="3">
+            <item row="3" column="3">
              <widget class="QSpinBox" name="mapWidthPixels">
               <property name="minimum">
                <number>50</number>
@@ -1009,7 +1009,7 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="5">
+            <item row="3" column="5">
              <widget class="QSpinBox" name="mapHeightPixels">
               <property name="minimum">
                <number>50</number>
@@ -1019,10 +1019,17 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="4">
+            <item row="3" column="4">
              <widget class="QLabel" name="label_33">
               <property name="text">
                <string>Height pixels</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="4">
+             <widget class="QCheckBox" name="mapShowTablet">
+              <property name="text">
+               <string>Show Tablet</string>
               </property>
              </widget>
             </item>
