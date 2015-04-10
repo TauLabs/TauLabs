@@ -511,6 +511,9 @@ void ConfigOsdWidget::setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UA
     addUAVObjectToWidgetRelation(name, "MapShowUavHome", page->mapShowUavHome);
     page->mapShowUavHome->setProperty(trueString.toLatin1(), "Enabled");
     page->mapShowUavHome->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "MapShowTablet", page->mapShowTablet);
+    page->mapShowTablet->setProperty(trueString.toLatin1(), "Enabled");
+    page->mapShowTablet->setProperty(falseString.toLatin1(), "Disabled");
     addUAVObjectToWidgetRelation(name, "MapWidthMeters", page->mapWidthMeters);
     addUAVObjectToWidgetRelation(name, "MapHeightMeters", page->mapHeightMeters);
     addUAVObjectToWidgetRelation(name, "MapWidthPixels", page->mapWidthPixels);

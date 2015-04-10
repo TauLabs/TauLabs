@@ -90,6 +90,7 @@
 #include "manualcontrolcommand.h"
 #include "systemalarms.h"
 #include "systemstats.h"
+#include "tabletinfo.h"
 #include "taskinfo.h"
 #include "velocityactual.h"
 #include "waypoint.h"
@@ -154,7 +155,6 @@ char mgrs_str[20] = {0};
 float home_baro_altitude = 0;
 static volatile bool osd_settings_updated = true;
 static volatile bool osd_page_updated = true;
-
 //                     small, normal, large
 const int SIZE_TO_FONT[3] = {2, 0, 3};
 
@@ -578,7 +578,30 @@ void draw_flight_mode(int x, int y, int xs, int ys, int va, int ha, int flags, i
 			write_string("PLAN", x, y, xs, ys, va, ha, flags, font);
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL:
-			write_string("TAB", x, y, xs, ys, va, ha, flags, font);
+			TabletInfoTabletModeDesiredGet(&mode);
+			switch (mode) {
+				case TABLETINFO_TABLETMODEDESIRED_POSITIONHOLD:
+					write_string("TAB PH", x, y, xs, ys, va, ha, flags, font);
+					break;
+				case TABLETINFO_TABLETMODEDESIRED_RETURNTOHOME:
+					write_string("TAB RTH", x, y, xs, ys, va, ha, flags, font);
+					break;
+				case TABLETINFO_TABLETMODEDESIRED_RETURNTOTABLET:
+					write_string("TAB RTT", x, y, xs, ys, va, ha, flags, font);
+					break;
+				case TABLETINFO_TABLETMODEDESIRED_PATHPLANNER:
+					write_string("TAB Path", x, y, xs, ys, va, ha, flags, font);
+					break;
+				case TABLETINFO_TABLETMODEDESIRED_FOLLOWME:
+					write_string("TAB FollowMe", x, y, xs, ys, va, ha, flags, font);
+					break;
+				case TABLETINFO_TABLETMODEDESIRED_LAND:
+					write_string("TAB Land", x, y, xs, ys, va, ha, flags, font);
+					break;
+				case TABLETINFO_TABLETMODEDESIRED_CAMERAPOI:
+					write_string("TAB POI", x, y, xs, ys, va, ha, flags, font);
+					break;
+			}
 			break;
 	}
 }
@@ -666,7 +689,7 @@ void draw_alarms(int x, int y, int xs, int ys, int va, int ha, int flags, int fo
 
 
 // map with home at center
-void draw_map_home_center(int width_px, int height_px, int width_m, int height_m, bool show_wp, bool show_home)
+void draw_map_home_center(int width_px, int height_px, int width_m, int height_m, bool show_wp, bool show_home, bool show_tablet)
 {
 	char tmp_str[10] = { 0 };
 	WaypointData waypoint;
@@ -704,6 +727,22 @@ void draw_map_home_center(int width_px, int height_px, int width_m, int height_m
 	// draw home
 	if (show_home) {
 		write_string("H", GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE - 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+	}
+
+	// Draw Tablet
+	if (show_tablet) {
+		TabletInfoData tabletInfo;
+		TabletInfoGet(&tabletInfo);
+		if (tabletInfo.Connected) {
+			float NED[3];
+			lla_to_ned(tabletInfo.Latitude, tabletInfo.Longitude, tabletInfo.Altitude, NED);
+
+			if ((fabs(NED[1]) < width_m / 2) && (fabs(NED[0]) < height_m / 2)) {
+				x = GRAPHICS_X_MIDDLE + scale_x * NED[1];
+				y = GRAPHICS_Y_MIDDLE - scale_y * NED[0];
+				write_string("x", x, y - 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+			}
+		}
 	}
 
 	// draw UAV position and orientation
@@ -756,7 +795,7 @@ void draw_map_home_center(int width_px, int height_px, int width_m, int height_m
 }
 
 // map with uav at center
-void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m, bool show_wp, bool show_uav)
+void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m, bool show_wp, bool show_uav, bool show_tablet)
 {
 	char tmp_str[10] = { 0 };
 	WaypointData waypoint;
@@ -857,6 +896,47 @@ void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m,
 		write_string("H", x, y- 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
 	}
 
+	// Draw Tablet
+	if (show_tablet) {
+		TabletInfoData tabletInfo;
+		TabletInfoGet(&tabletInfo);
+		if (tabletInfo.Connected) {
+			float NED[3];
+			lla_to_ned(tabletInfo.Latitude, tabletInfo.Longitude, tabletInfo.Altitude, NED);
+
+			// translation
+			p_east_draw2 = NED[1] - p_east;
+			p_north_draw2 = NED[0] - p_north;
+
+			// rotation
+			p_east_draw = cos_yaw * p_east_draw2 - sin_yaw * p_north_draw2;
+			p_north_draw = sin_yaw * p_east_draw2 + cos_yaw * p_north_draw2;
+
+			if ((2.0f * (float)fabs(p_north_draw) > height_m) || (2.0f * (float)fabs(p_east_draw) > width_m)) {
+				if (draw_outside) {
+					aspect_pos = p_north_draw / p_east_draw;
+					if ((float)fabs(aspect_pos) < aspect) {
+						// left or right of map
+						p_east_draw = sign(p_east_draw) * width_m / 2.f;
+						p_north_draw = p_east_draw * aspect_pos;
+					} else {
+						// above or below map
+						p_north_draw = sign(p_north_draw) * height_m / 2.f;
+						p_east_draw = p_north_draw / aspect_pos;
+					}
+					x = GRAPHICS_X_MIDDLE + p_east_draw * scale_x;
+					y = GRAPHICS_Y_MIDDLE - p_north_draw * scale_y;
+					write_string("x", x, y- 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+				}
+			} else {
+				// inside map
+				x = GRAPHICS_X_MIDDLE + p_east_draw * scale_x;
+				y = GRAPHICS_Y_MIDDLE - p_north_draw * scale_y;
+				write_string("x", x, y- 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+			}
+		}
+	}
+
 	// Draw UAV
 	if (show_uav) {
 		write_line_outlined(GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE, GRAPHICS_X_MIDDLE - 5, GRAPHICS_Y_MIDDLE + 9, 2, 0, 0, 1);
@@ -919,7 +999,6 @@ void showVideoType(int16_t x, int16_t y)
 	}
 }
 
-
 const char * HOME_LABELS[] = {"", "Home: "};
 const char * RSSI_LABELS[] = {"", "RSSI: "};
 
@@ -953,12 +1032,14 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		if (page->MapCenterMode == ONSCREENDISPLAYPAGESETTINGS_MAPCENTERMODE_UAV) {
 			draw_map_uav_center(page->MapWidthPixels, page->MapHeightPixels,
 								page->MapWidthMeters, page->MapHeightMeters,
-								page->MapShowWp, page->MapShowUavHome);
+								page->MapShowWp, page->MapShowUavHome,
+								page->MapShowTablet);
 
 		} else {
 			draw_map_home_center(page->MapWidthPixels, page->MapHeightPixels,
 								page->MapWidthMeters, page->MapHeightMeters,
-								page->MapShowWp, page->MapShowUavHome);
+								page->MapShowWp, page->MapShowUavHome,
+								page->MapShowTablet);
 		}
 	}
 
@@ -1199,20 +1280,15 @@ int32_t OnScreenDisplayStart(void)
 int32_t OnScreenDisplayInitialize(void)
 {
 	uint8_t osd_state;
-	
-	for (uint32_t i = 0; i < MODULESETTINGS_ADMINSTATE_NUMELEM; i++)
-		module_state[i] = MODULESETTINGS_ADMINSTATE_DISABLED;
 
-	// XXX fix this!
-//	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings2Data), "settings must be the same!");
-//	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings3Data), "settings must be the same!");
-//	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings4Data), "settings must be the same!");
+	ModuleSettingsAdminStateGet(module_state);
 
 	OnScreenDisplayPageSettingsInitialize();
 	OnScreenDisplayPageSettings2Initialize();
 	OnScreenDisplayPageSettings3Initialize();
 	OnScreenDisplayPageSettings4Initialize();
 
+	// initialize other objects that we access
 	AccessoryDesiredInitialize();
 	AirspeedActualInitialize();
 	AttitudeActualInitialize();
@@ -1228,8 +1304,11 @@ int32_t OnScreenDisplayInitialize(void)
 	ManualControlCommandInitialize();
 	SystemAlarmsInitialize();
 	SystemStatsInitialize();
+	TabletInfoInitialize();
+	TaskInfoInitialize();
 	VelocityActualInitialize();
 	WaypointInitialize();
+	WaypointActiveInitialize();
 
 	OnScreenDisplaySettingsOSDEnabledGet(&osd_state);
 	if (osd_state == ONSCREENDISPLAYSETTINGS_OSDENABLED_ENABLED) {
