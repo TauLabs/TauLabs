@@ -306,8 +306,11 @@ int DFUObject::JumpToApp(bool safeboot)
 {
     bl_messages message;
     message.flags_command = BL_MSG_JUMP_FW;
+
+    // 0x5afe must have the bytes flipped for consistency
+    // with how the bootloader process this.
     if(safeboot)
-        message.v.jump_fw.safe_word = 0x5afe;
+        message.v.jump_fw.safe_word = ntohs((quint16) 0x5afe);
     else
         message.v.jump_fw.safe_word = 0x0000;
     return SendData(message);

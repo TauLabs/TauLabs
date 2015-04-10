@@ -64,8 +64,13 @@ extern void InitModules(void);
  * If something goes wrong, blink LED1 and LED2 every 100ms
  *
  */
+#if defined(SIM_OSX) || defined(SIM_POSIX)
+int main(int argc, char *argv[]) {
+	PIOS_SYS_Args(argc, argv);
+#else
 int main()
 {
+#endif
 	/* NOTE: Do NOT modify the following start-up sequence */
 	/* Any new initialization functions should be added in OpenPilotInit() */
 	PIOS_heap_initialize_blocks();
