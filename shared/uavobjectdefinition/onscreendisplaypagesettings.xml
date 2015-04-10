@@ -15,7 +15,7 @@
 
 		<field name="ArmStatus" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="ArmStatusPosX" units="" type="int16" elements="1" defaultvalue="0"/>
-		<field name="ArmStatusPosY" units="" type="int16" elements="1" defaultvalue="14"/>
+		<field name="ArmStatusPosY" units="" type="int16" elements="1" defaultvalue="24"/>
 		<field name="ArmStatusFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="ArmStatusAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
 
@@ -54,20 +54,17 @@
 		<field name="CpuFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="CpuAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
 
-
 		<field name="FlightMode" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="FlightModePosX" units="" type="int16" elements="1" defaultvalue="0"/>
 		<field name="FlightModePosY" units="" type="int16" elements="1" defaultvalue="4"/>
 		<field name="FlightModeFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="FlightModeAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
-
 		
 		<field name="GpsStatus" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="GpsStatusPosX" units="" type="int16" elements="1" defaultvalue="0"/>
 		<field name="GpsStatusPosY" units="" type="int16" elements="1" defaultvalue="230"/>
 		<field name="GpsStatusFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="GpsStatusAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
-
 
 		<field name="GpsLat" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="GpsLatPosX" units="" type="int16" elements="1" defaultvalue="200"/>
@@ -99,6 +96,7 @@
 		<field name="MapCenterMode" units="" type="enum" elements="1" options="UAV,Home" defaultvalue="UAV"/>
 		<field name="MapShowWp" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
 		<field name="MapShowUavHome" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="MapShowTablet" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
 		<field name="MapWidthMeters" units="" type="int16" elements="1" defaultvalue="2000"/>
 		<field name="MapWidthPixels" units="" type="int16" elements="1" defaultvalue="180"/>
 		<field name="MapHeightMeters" units="" type="int16" elements="1" defaultvalue="2000"/>
