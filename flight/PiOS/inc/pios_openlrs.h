@@ -38,7 +38,7 @@ struct pios_openlrs_cfg {
   enum gpio_direction gpio_direction; /* Definition comes from pios_rfm22b.h */
 };
 
-extern int32_t PIOS_OpenLRS_Init(uint32_t * openlrs_id, uint32_t spi_id,
+extern int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
         uint32_t slave_num, const struct pios_openlrs_cfg *cfg);
 
 #endif /* PIOS_OPENLRS_H */
