@@ -62,7 +62,7 @@
 		<!--  1. Telem - telemetry connection -->
 		<!--  2. Telem+PPM - telemetry and ppm -->
 		<!--  3. PPM - PPM only (one way connection) -->
-		<field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,Telem+PPM,PPM" defaultvalue="Disabled"/>
+		<field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,Telem+PPM,PPM,OpenLRS" defaultvalue="Disabled"/>
 		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
 		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
 

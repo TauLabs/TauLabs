@@ -62,6 +62,7 @@
 /* Variables related to the RFM22B functionality */
 #define PIOS_INCLUDE_RFM22B
 #define PIOS_INCLUDE_RFM22B_COM
+#define PIOS_INCLUDE_OPENLRS
  
 /* Select the sensors to include */
 //#define PIOS_INCLUDE_MPU9250
@@ -97,6 +98,7 @@
 #define PIOS_INCLUDE_PWM
 #define PIOS_INCLUDE_GCSRCVR
 #define PIOS_INCLUDE_RFM22B_RCVR
+#define PIOS_INCLUDE_OPENLRS_RCVR
  
 #define PIOS_INCLUDE_FLASH
 #define PIOS_INCLUDE_FLASH_JEDEC
