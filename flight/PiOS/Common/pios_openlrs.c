@@ -221,14 +221,16 @@ static void init_rfm(struct pios_openlrs_dev *openlrs_dev, uint8_t isbind)
 	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_READY); // disable lbd, wakeup timer, use internal 32768,xton = 1; in ready mode
 	rfm22_write(openlrs_dev, 0x09, 0x7f);   // c = 12.5p
 	rfm22_write(openlrs_dev, 0x0a, 0x05);
-#ifdef SWAP_GPIOS
-	// TODO: take this from hardware configuration
-	rfm22_write(openlrs_dev, 0x0b, 0x15);    // gpio0 RX State
-	rfm22_write(openlrs_dev, 0x0c, 0x12);    // gpio1 TX State
-#else
-	rfm22_write(openlrs_dev, 0x0b, 0x12);    // gpio0 TX State
-	rfm22_write(openlrs_dev, 0x0c, 0x15);    // gpio1 RX State
-#endif
+	switch (openlrs_dev->cfg.gpio_direction) {
+	case GPIO0_TX_GPIO1_RX:
+		rfm22_write(openlrs_dev, 0x0b, 0x12);    // gpio0 TX State
+		rfm22_write(openlrs_dev, 0x0c, 0x15);    // gpio1 RX State
+		break;
+	case GPIO0_RX_GPIO1_TX:
+		rfm22_write(openlrs_dev, 0x0b, 0x15);    // gpio0 RX State
+		rfm22_write(openlrs_dev, 0x0c, 0x12);    // gpio1 TX State
+		break;
+	}
 #ifdef ANTENNA_DIVERSITY
 	rfm22_write(openlrs_dev, 0x0d, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?0x17:0xfd); // gpio 2 ant. sw 1 if diversity on else VDD
 #else
@@ -907,7 +909,7 @@ static struct pios_openlrs_dev * g_openlrs_dev;
  */
 int32_t PIOS_OpenLRS_Init(uint32_t * openlrs_id, uint32_t spi_id,
 			 uint32_t slave_num,
-			 const struct pios_rfm22b_cfg *cfg)
+			 const struct pios_openlrs_cfg *cfg)
 {
 	PIOS_DEBUG_Assert(rfm22b_id);
 	PIOS_DEBUG_Assert(cfg);

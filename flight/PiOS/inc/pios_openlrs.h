@@ -28,8 +28,20 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-// OpenLRS driver has no public API
+#ifndef PIOS_OPENLRS_H
+#define PIOS_OPENLRS_H
 
+/* Global Types */
+struct pios_openlrs_cfg {
+  const struct pios_spi_cfg *spi_cfg; /* Pointer to SPI interface configuration */
+  const struct pios_exti_cfg *exti_cfg; /* Pointer to the EXTI configuration */
+  enum gpio_direction gpio_direction; /* Definition comes from pios_rfm22b.h */
+};
+
+extern int32_t PIOS_OpenLRS_Init(uint32_t * openlrs_id, uint32_t spi_id,
+        uint32_t slave_num, const struct pios_openlrs_cfg *cfg);
+
+#endif /* PIOS_OPENLRS_H */
 /**
  * @}
  * @}
