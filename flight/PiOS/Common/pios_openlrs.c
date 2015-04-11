@@ -35,6 +35,7 @@
 #include <pios_thread.h>
 #include <pios_spi_priv.h>
 #include <pios_openlrs_priv.h>
+#include <pios_openlrs_rcvr_priv.h>
 
 #define STACK_SIZE_BYTES                 800
 #define TASK_PRIORITY                    PIOS_THREAD_PRIO_HIGHEST	// flight control relevant device driver (ppm link)
@@ -97,7 +98,6 @@ const struct rfm22_modem_regs bind_params =
 * OpenLRS data formatting utilities
 *****************************************************************************/
 
-
 static uint8_t getPacketSize(struct bind_data *bd)
 {
 	return pktsizes[(bd->flags & 0x07)];
@@ -129,7 +129,7 @@ static uint32_t getInterval(struct bind_data *bd)
 	return ret;
 }
 
-static void unpackChannels(uint8_t config, volatile uint16_t PPM[], uint8_t *p)
+static void unpackChannels(uint8_t config, int16_t PPM[], uint8_t *p)
 {
 	uint8_t i;
 	for (i=0; i<=(config/2); i++) { // 4ch packed in 5 bytes
@@ -176,9 +176,6 @@ static void delay(uint32_t time)
 #define RF22B_PWRSTATE_TX	    0x09
 
 #define RF22B_Rx_packet_received_interrupt   0x02
-
-// TODO: move into device structure
-uint8_t ItStatus1, ItStatus2;
 
 static void rfmSetChannel(struct pios_openlrs_dev *openlrs_dev, uint8_t ch)
 {
@@ -243,8 +240,8 @@ static void rfmSetCarrierFrequency(struct pios_openlrs_dev *openlrs_dev, uint32_
 static void init_rfm(struct pios_openlrs_dev *openlrs_dev, uint8_t isbind)
 {
 	rfm22_claimBus(openlrs_dev);
-	ItStatus1 = rfm22_read(openlrs_dev, 0x03);   // read status, clear interrupt
-	ItStatus2 = rfm22_read(openlrs_dev, 0x04);
+	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, 0x03);   // read status, clear interrupt
+	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, 0x04);
 	rfm22_write(openlrs_dev, 0x06, 0x00);    // disable interrupts
 	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_READY); // disable lbd, wakeup timer, use internal 32768,xton = 1; in ready mode
 	rfm22_write(openlrs_dev, 0x09, 0x7f);   // c = 12.5p
@@ -318,8 +315,8 @@ static void init_rfm(struct pios_openlrs_dev *openlrs_dev, uint8_t isbind)
 static void to_rx_mode(struct pios_openlrs_dev *openlrs_dev)
 {
 	rfm22_claimBus(openlrs_dev);
-	ItStatus1 = rfm22_read(openlrs_dev, 0x03);
-	ItStatus2 = rfm22_read(openlrs_dev, 0x04);
+	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, 0x03);
+	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, 0x04);
 	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_READY);
 	rfm22_releaseBus(openlrs_dev);
 	delay(10);
@@ -349,8 +346,8 @@ static void rx_reset(struct pios_openlrs_dev *openlrs_dev)
 	rfm22_claimBus(openlrs_dev);
 	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_RX);   // to rx mode
 	rfm22_write(openlrs_dev, 0x05, RF22B_Rx_packet_received_interrupt);
-	ItStatus1 = rfm22_read(openlrs_dev, 0x03);   //read the Interrupt Status1 register
-	ItStatus2 = rfm22_read(openlrs_dev, 0x04);
+	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, 0x03);   //read the Interrupt Status1 register
+	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, 0x04);
 	rfm22_releaseBus(openlrs_dev);
 }
 
@@ -367,8 +364,8 @@ static void tx_packet_async(struct pios_openlrs_dev *openlrs_dev, uint8_t* pkt, 
 	}
 
 	rfm22_write(openlrs_dev, 0x05, RF22B_PACKET_SENT_INTERRUPT);
-	ItStatus1 = rfm22_read(openlrs_dev, 0x03);	  //read the Interrupt Status1 register
-	ItStatus2 = rfm22_read(openlrs_dev, 0x04);
+	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, 0x03);	  //read the Interrupt Status1 register
+	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, 0x04);
 	tx_start = micros();
 	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_TX);	// to tx mode
 	rfm22_releaseBus(openlrs_dev);
@@ -453,8 +450,8 @@ uint8_t beaconGetRSSI()
 void beacon_send(bool static_tone)
 {
 	Green_LED_ON
-	ItStatus1 = rfm22_read(openlrs_dev, 0x03);   // read status, clear interrupt
-	ItStatus2 = rfm22_read(openlrs_dev, 0x04);
+	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, 0x03);   // read status, clear interrupt
+	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, 0x04);
 	rfm22_write(openlrs_dev, 0x06, 0x00);    // no wakeup up, lbd,
 	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_READY);      // disable lbd, wakeup timer, use internal 32768,xton = 1; in ready mode
 	rfm22_write(openlrs_dev, 0x09, 0x7f);  // (default) c = 12.5p
@@ -687,6 +684,14 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 		if ((openlrs_dev->rx_buf[0] & 0x3e) == 0x00) {
 			unpackChannels(openlrs_dev->bind_data.flags & 7, openlrs_dev->ppm, openlrs_dev->rx_buf + 1);
+
+			// Call the PPM received callback if it's available.
+			if (openlrs_dev->openlrs_rcvr_id) {
+#if defined(PIOS_INCLUDE_OPENLRS_RCVR)
+				PIOS_OpenLRS_Rcvr_UpdateChannels(openlrs_dev->openlrs_rcvr_id, openlrs_dev->ppm);
+#endif
+			}
+
 			//set_PPM_rssi();
 
 			/* I think this is failsafe related
@@ -907,6 +912,27 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	}
 }
 
+/*****************************************************************************
+* PPM Code
+*****************************************************************************/
+
+/**
+ * Register a OpenLRS_Rcvr interface to inform of PPM packets
+ *
+ * @param[in] rfm22b_dev     The RFM22B device ID.
+ * @param[in] rfm22b_rcvr_id The receiver device to inform of PPM packets
+ */
+void PIOS_OpenLRS_RegisterRcvr(uintptr_t openlrs_id, uintptr_t openlrs_rcvr_id)
+{
+	struct pios_openlrs_dev *openlrs_dev =
+	    (struct pios_openlrs_dev *)openlrs_id;
+
+	if (!pios_openlrs_validate(openlrs_dev)) {
+		return;
+	}
+
+	openlrs_dev->openlrs_rcvr_id = openlrs_rcvr_id;
+}
 
 /*****************************************************************************
 * Task and device setup

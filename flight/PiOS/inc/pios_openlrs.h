@@ -40,7 +40,7 @@ struct pios_openlrs_cfg {
 
 extern int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
         uint32_t slave_num, const struct pios_openlrs_cfg *cfg);
-
+extern void PIOS_OpenLRS_RegisterRcvr(uintptr_t openlrs_id, uintptr_t rfm22b_rcvr_id);
 #endif /* PIOS_OPENLRS_H */
 /**
  * @}
