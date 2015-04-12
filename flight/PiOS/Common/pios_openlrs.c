@@ -36,6 +36,10 @@
 #include <pios_spi_priv.h>
 #include <pios_openlrs_priv.h>
 #include <pios_openlrs_rcvr_priv.h>
+#include <taskmonitor.h>
+#include <taskinfo.h>
+
+#include "pios_rfm22b_regs.h"
 
 #define STACK_SIZE_BYTES                 800
 #define TASK_PRIORITY                    PIOS_THREAD_PRIO_HIGHEST	// flight control relevant device driver (ppm link)
@@ -170,20 +174,21 @@ static void delay(uint32_t time)
 #define NOP() __asm__ __volatile__("nop")
 
 #define RF22B_PWRSTATE_POWERDOWN    0x00
-#define RF22B_PWRSTATE_READY	    0x01
-#define RF22B_PACKET_SENT_INTERRUPT 0x04
-#define RF22B_PWRSTATE_RX	    0x05
-#define RF22B_PWRSTATE_TX	    0x09
+#define RF22B_PWRSTATE_READY	    RFM22_opfc1_xton
+#define RF22B_PWRSTATE_RX	        (RFM22_opfc1_rxon | RFM22_opfc1_xton)
+#define RF22B_PWRSTATE_TX	        (RFM22_opfc1_txon | RFM22_opfc1_xton)
 
-#define RF22B_Rx_packet_received_interrupt   0x02
+#define RF22B_PACKET_SENT_INTERRUPT          RFM22_ie1_enpksent
+#define RF22B_RX_PACKET_RECEIVED_IRQ         RFM22_ie1_enpkvalid
 
 static void rfmSetChannel(struct pios_openlrs_dev *openlrs_dev, uint8_t ch)
 {
+	DEBUG_PRINTF(3,"rfmSetChannel %d\r\n", ch);
 	uint8_t magicLSB = (openlrs_dev->bind_data.rf_magic & 0xff) ^ ch;
 	rfm22_claimBus(openlrs_dev);
-	rfm22_write(openlrs_dev, 0x79, openlrs_dev->bind_data.hopchannel[ch]);
-	rfm22_write(openlrs_dev, 0x3a + 3, magicLSB);
-	rfm22_write(openlrs_dev, 0x3f + 3, magicLSB);
+	rfm22_write(openlrs_dev, RFM22_frequency_hopping_channel_select, openlrs_dev->bind_data.hopchannel[ch]);
+	rfm22_write(openlrs_dev, RFM22_transmit_header3 + 3, magicLSB);
+	rfm22_write(openlrs_dev, RFM22_check_header3 + 3, magicLSB);
 	rfm22_releaseBus(openlrs_dev);
 }
 
@@ -199,27 +204,29 @@ static uint16_t rfmGetAFCC(struct pios_openlrs_dev *openlrs_dev)
 
 static void setModemRegs(struct pios_openlrs_dev *openlrs_dev, const struct rfm22_modem_regs* r)
 {
+	DEBUG_PRINTF(3,"setModemRegs\r\n");
 	rfm22_claimBus(openlrs_dev);
-	rfm22_write(openlrs_dev, 0x1c, r->r_1c);
-	rfm22_write(openlrs_dev, 0x1d, r->r_1d);
-	rfm22_write(openlrs_dev, 0x1e, r->r_1e);
-	rfm22_write(openlrs_dev, 0x20, r->r_20);
-	rfm22_write(openlrs_dev, 0x21, r->r_21);
-	rfm22_write(openlrs_dev, 0x22, r->r_22);
-	rfm22_write(openlrs_dev, 0x23, r->r_23);
-	rfm22_write(openlrs_dev, 0x24, r->r_24);
-	rfm22_write(openlrs_dev, 0x25, r->r_25);
-	rfm22_write(openlrs_dev, 0x2a, r->r_2a);
-	rfm22_write(openlrs_dev, 0x6e, r->r_6e);
-	rfm22_write(openlrs_dev, 0x6f, r->r_6f);
-	rfm22_write(openlrs_dev, 0x70, r->r_70);
-	rfm22_write(openlrs_dev, 0x71, r->r_71);
-	rfm22_write(openlrs_dev, 0x72, r->r_72);
+	rfm22_write(openlrs_dev, RFM22_if_filter_bandwidth, r->r_1c);
+	rfm22_write(openlrs_dev, RFM22_afc_loop_gearshift_override, r->r_1d);
+	rfm22_write(openlrs_dev, RFM22_afc_timing_control, r->r_1e);
+	rfm22_write(openlrs_dev, RFM22_clk_recovery_oversampling_ratio, r->r_20);
+	rfm22_write(openlrs_dev, RFM22_clk_recovery_offset2, r->r_21);
+	rfm22_write(openlrs_dev, RFM22_clk_recovery_offset1, r->r_22);
+	rfm22_write(openlrs_dev, RFM22_clk_recovery_offset0, r->r_23);
+	rfm22_write(openlrs_dev, RFM22_clk_recovery_timing_loop_gain1, r->r_24);
+	rfm22_write(openlrs_dev, RFM22_clk_recovery_timing_loop_gain0, r->r_25);
+	rfm22_write(openlrs_dev, RFM22_afc_limiter, r->r_2a);
+	rfm22_write(openlrs_dev, RFM22_tx_data_rate1, r->r_6e);
+	rfm22_write(openlrs_dev, RFM22_tx_data_rate0, r->r_6f);
+	rfm22_write(openlrs_dev, RFM22_modulation_mode_control1, r->r_70);
+	rfm22_write(openlrs_dev, RFM22_modulation_mode_control2, r->r_71);
+	rfm22_write(openlrs_dev, RFM22_frequency_deviation, r->r_72);
 	rfm22_releaseBus(openlrs_dev);
 }
 
 static void rfmSetCarrierFrequency(struct pios_openlrs_dev *openlrs_dev, uint32_t f)
 {
+	DEBUG_PRINTF(3,"rfmSetCarrierFrequency %d\r\n", f);
 	uint16_t fb, fc, hbsel;
 	if (f < 480000000) {
 		hbsel = 0;
@@ -231,37 +238,38 @@ static void rfmSetCarrierFrequency(struct pios_openlrs_dev *openlrs_dev, uint32_
 		fc = (f - (fb + 24) * 20000000) * 2 / 625;
 	}
 	rfm22_claimBus(openlrs_dev);
-	rfm22_write(openlrs_dev, 0x75, 0x40 + (hbsel ? 0x20 : 0) + (fb & 0x1f));
-	rfm22_write(openlrs_dev, 0x76, (fc >> 8));
-	rfm22_write(openlrs_dev, 0x77, (fc & 0xff));
+	rfm22_write(openlrs_dev, RFM22_frequency_band_select, RFM22_fbs_sbse + (hbsel ? RFM22_fbs_hbsel : 0) + (fb & RFM22_fb_mask));
+	rfm22_write(openlrs_dev, RFM22_nominal_carrier_frequency1, (fc >> 8));
+	rfm22_write(openlrs_dev, RFM22_nominal_carrier_frequency0, (fc & 0xff));
 	rfm22_releaseBus(openlrs_dev);
 }
 
 static void init_rfm(struct pios_openlrs_dev *openlrs_dev, uint8_t isbind)
 {
+	DEBUG_PRINTF(3,"init_rfm %d\r\n", isbind);
 	rfm22_claimBus(openlrs_dev);
-	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, 0x03);   // read status, clear interrupt
-	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, 0x04);
-	rfm22_write(openlrs_dev, 0x06, 0x00);    // disable interrupts
-	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_READY); // disable lbd, wakeup timer, use internal 32768,xton = 1; in ready mode
-	rfm22_write(openlrs_dev, 0x09, 0x7f);   // c = 12.5p
-	rfm22_write(openlrs_dev, 0x0a, 0x05);
+	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, RFM22_interrupt_status1);   // read status, clear interrupt
+	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, RFM22_interrupt_status2);
+	rfm22_write(openlrs_dev, RFM22_interrupt_enable2, 0x00);    // disable interrupts
+	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl1, RF22B_PWRSTATE_READY); // disable lbd, wakeup timer, use internal 32768,xton = 1; in ready mode
+	rfm22_write(openlrs_dev, RFM22_xtal_osc_load_cap, 0x7f);   // c = 12.5p
+	rfm22_write(openlrs_dev, RFM22_cpu_output_clk, 0x05);
 	switch (openlrs_dev->cfg.gpio_direction) {
 	case GPIO0_TX_GPIO1_RX:
-		rfm22_write(openlrs_dev, 0x0b, 0x12);    // gpio0 TX State
-		rfm22_write(openlrs_dev, 0x0c, 0x15);    // gpio1 RX State
+		rfm22_write(openlrs_dev, RFM22_gpio0_config, RFM22_gpio0_config_txstate);    // gpio0 TX State
+		rfm22_write(openlrs_dev, RFM22_gpio1_config, RFM22_gpio1_config_rxstate);    // gpio1 RX State
 		break;
 	case GPIO0_RX_GPIO1_TX:
-		rfm22_write(openlrs_dev, 0x0b, 0x15);    // gpio0 RX State
-		rfm22_write(openlrs_dev, 0x0c, 0x12);    // gpio1 TX State
+		rfm22_write(openlrs_dev, RFM22_gpio0_config, RFM22_gpio0_config_rxstate);    // gpio0 RX State
+		rfm22_write(openlrs_dev, RFM22_gpio1_config, RFM22_gpio1_config_txstate);    // gpio1 TX State
 		break;
 	}
 #ifdef ANTENNA_DIVERSITY
-	rfm22_write(openlrs_dev, 0x0d, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?0x17:0xfd); // gpio 2 ant. sw 1 if diversity on else VDD
+	rfm22_write(openlrs_dev, RFM22_gpio2_config, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?RFM22_gpio2_config_antswt1:0xfd); // gpio 2 ant. sw 1 if diversity on else VDD
 #else
-	rfm22_write(openlrs_dev, 0x0d, 0xfd);    // gpio 2 VDD
+	rfm22_write(openlrs_dev, RFM22_gpio2_config, 0xfd);    // gpio 2 VDD
 #endif
-	rfm22_write(openlrs_dev, 0x0e, 0x00);    // gpio    0, 1,2 NO OTHER FUNCTION.
+	rfm22_write(openlrs_dev, RFM22_io_port_config, RFM22_io_port_default);    // gpio    0, 1,2 NO OTHER FUNCTION.
 	rfm22_releaseBus(openlrs_dev);
 
 	if (isbind) {
@@ -272,40 +280,39 @@ static void init_rfm(struct pios_openlrs_dev *openlrs_dev, uint8_t isbind)
 
 	// Packet settings
 	rfm22_claimBus(openlrs_dev);
-	rfm22_write(openlrs_dev, 0x30, 0x8c);    // enable packet handler, msb first, enable crc,
-	rfm22_write(openlrs_dev, 0x32, 0x0f);    // no broadcast, check header bytes 3,2,1,0
-	rfm22_write(openlrs_dev, 0x33, 0x42);    // 4 byte header, 2 byte synch, variable pkt size
-	rfm22_write(openlrs_dev, 0x34, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?0x14:0x0a);    // 40 bit preamble, 80 with diversity
-	rfm22_write(openlrs_dev, 0x35, 0x2a);    // preath = 5 (20bits), rssioff = 2
-	rfm22_write(openlrs_dev, 0x36, 0x2d);    // synchronize word 3
-	rfm22_write(openlrs_dev, 0x37, 0xd4);    // synchronize word 2
-	rfm22_write(openlrs_dev, 0x38, 0x00);    // synch word 1 (not used)
-	rfm22_write(openlrs_dev, 0x39, 0x00);    // synch word 0 (not used)
+	rfm22_write(openlrs_dev, RFM22_data_access_control, 0x8c);    // enable packet handler, msb first, enable crc,
+	rfm22_write(openlrs_dev, RFM22_header_control1, 0x0f);    // no broadcast, check header bytes 3,2,1,0
+	rfm22_write(openlrs_dev, RFM22_header_control2, 0x42);    // 4 byte header, 2 byte synch, variable pkt size
+	rfm22_write(openlrs_dev, RFM22_preamble_length, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?0x14:0x0a);    // 40 bit preamble, 80 with diversity
+	rfm22_write(openlrs_dev, RFM22_preamble_detection_ctrl1, 0x2a);    // preath = 5 (20bits), rssioff = 2
+	rfm22_write(openlrs_dev, RFM22_sync_word3, 0x2d);    // synchronize word 3
+	rfm22_write(openlrs_dev, RFM22_sync_word2, 0xd4);    // synchronize word 2
+	rfm22_write(openlrs_dev, RFM22_sync_word1, 0x00);    // synch word 1 (not used)
+	rfm22_write(openlrs_dev, RFM22_sync_word0, 0x00);    // synch word 0 (not used)
 
 	uint32_t magic = isbind ? BIND_MAGIC : openlrs_dev->bind_data.rf_magic;
 	for (uint8_t i = 0; i < 4; i++) {
-		rfm22_write(openlrs_dev, 0x3a + i, (magic >> 24) & 0xff);   // tx header
-		rfm22_write(openlrs_dev, 0x3f + i, (magic >> 24) & 0xff);   // rx header
+		rfm22_write(openlrs_dev, RFM22_transmit_header3 + i, (magic >> 24) & 0xff);   // tx header
+		rfm22_write(openlrs_dev, RFM22_check_header3 + i, (magic >> 24) & 0xff);   // rx header
 		magic = magic << 8; // advance to next byte
 	}
 
-	rfm22_write(openlrs_dev, 0x43, 0xff);    // all the bit to be checked
-	rfm22_write(openlrs_dev, 0x44, 0xff);    // all the bit to be checked
-	rfm22_write(openlrs_dev, 0x45, 0xff);    // all the bit to be checked
-	rfm22_write(openlrs_dev, 0x46, 0xff);    // all the bit to be checked
+	rfm22_write(openlrs_dev, RFM22_header_enable3, 0xff);    // all the bit to be checked
+	rfm22_write(openlrs_dev, RFM22_header_enable2, 0xff);    // all the bit to be checked
+	rfm22_write(openlrs_dev, RFM22_header_enable1, 0xff);    // all the bit to be checked
+	rfm22_write(openlrs_dev, RFM22_header_enable0, 0xff);    // all the bit to be checked
 
 	if (isbind) {
-		rfm22_write(openlrs_dev, 0x6d, BINDING_POWER);
+		rfm22_write(openlrs_dev, RFM22_tx_power, BINDING_POWER);
 	} else {
-		rfm22_write(openlrs_dev, 0x6d, openlrs_dev->bind_data.rf_power);
+		rfm22_write(openlrs_dev, RFM22_tx_power, openlrs_dev->bind_data.rf_power);
 	}
 
-	rfm22_write(openlrs_dev, 0x79, 0);
+	rfm22_write(openlrs_dev, RFM22_frequency_hopping_channel_select, 0);
+	rfm22_write(openlrs_dev, RFM22_frequency_hopping_step_size, openlrs_dev->bind_data.rf_channel_spacing);   // channel spacing
 
-	rfm22_write(openlrs_dev, 0x7a, openlrs_dev->bind_data.rf_channel_spacing);   // channel spacing
-
-	rfm22_write(openlrs_dev, 0x73, 0x00);
-	rfm22_write(openlrs_dev, 0x74, 0x00);    // no offset
+	rfm22_write(openlrs_dev, RFM22_frequency_offset1, 0x00);
+	rfm22_write(openlrs_dev, RFM22_frequency_offset2, 0x00);    // no offset
 
 	rfm22_releaseBus(openlrs_dev);
 
@@ -314,10 +321,11 @@ static void init_rfm(struct pios_openlrs_dev *openlrs_dev, uint8_t isbind)
 
 static void to_rx_mode(struct pios_openlrs_dev *openlrs_dev)
 {
+	DEBUG_PRINTF(3,"to_rx_mode\r\n");
 	rfm22_claimBus(openlrs_dev);
-	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, 0x03);
-	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, 0x04);
-	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_READY);
+	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, RFM22_interrupt_status1);
+	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, RFM22_interrupt_status2);
+	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl1, RF22B_PWRSTATE_READY);
 	rfm22_releaseBus(openlrs_dev);
 	delay(10);
 	rx_reset(openlrs_dev);
@@ -326,28 +334,30 @@ static void to_rx_mode(struct pios_openlrs_dev *openlrs_dev)
 
 static void clearFIFO(struct pios_openlrs_dev *openlrs_dev)
 {
+	DEBUG_PRINTF(3,"clearFIFO\r\n");
 	rfm22_claimBus(openlrs_dev);
 	//clear FIFO, disable multipacket, enable diversity if needed
 #ifdef ANTENNA_DIVERSITY
-	rfm22_write(openlrs_dev, 0x08, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?0x83:0x03);
-	rfm22_write(openlrs_dev, 0x08, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?0x80:0x00);
+	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl2, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?0x83:0x03);
+	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl2, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?0x80:0x00);
 #else
-	rfm22_write(openlrs_dev, 0x08, 0x03);
-	rfm22_write(openlrs_dev, 0x08, 0x00);
+	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl2, 0x03);
+	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl2, 0x00);
 #endif
 	rfm22_releaseBus(openlrs_dev);
 }
 
 static void rx_reset(struct pios_openlrs_dev *openlrs_dev)
 {
-	rfm22_write_claim(openlrs_dev, 0x07, RF22B_PWRSTATE_READY);
-	rfm22_write_claim(openlrs_dev, 0x7e, 36);	 // threshold for rx almost full, interrupt when 1 byte received
+	DEBUG_PRINTF(3,"rx_reset\r\n");
+	rfm22_write_claim(openlrs_dev, RFM22_op_and_func_ctrl1, RF22B_PWRSTATE_READY);
+	rfm22_write_claim(openlrs_dev, RFM22_rx_fifo_control, 36);	 // threshold for rx almost full, interrupt when 1 byte received
 	clearFIFO(openlrs_dev);
 	rfm22_claimBus(openlrs_dev);
-	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_RX);   // to rx mode
-	rfm22_write(openlrs_dev, 0x05, RF22B_Rx_packet_received_interrupt);
-	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, 0x03);   //read the Interrupt Status1 register
-	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, 0x04);
+	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl1, RF22B_PWRSTATE_RX);   // to rx mode
+	rfm22_write(openlrs_dev, RFM22_interrupt_enable1, RF22B_RX_PACKET_RECEIVED_IRQ);
+	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, RFM22_interrupt_status1);   //read the Interrupt Status1 register
+	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, RFM22_interrupt_status2);
 	rfm22_releaseBus(openlrs_dev);
 }
 
@@ -357,17 +367,17 @@ uint32_t tx_start = 0;
 static void tx_packet_async(struct pios_openlrs_dev *openlrs_dev, uint8_t* pkt, uint8_t size)
 {
 	rfm22_claimBus(openlrs_dev);
-	rfm22_write(openlrs_dev, 0x3e, size);   // total tx size
+	rfm22_write(openlrs_dev, RFM22_transmit_packet_length, size);   // total tx size
 
 	for (uint8_t i = 0; i < size; i++) {
-		rfm22_write(openlrs_dev, 0x7f, pkt[i]);
+		rfm22_write(openlrs_dev, RFM22_fifo_access, pkt[i]);
 	}
 
-	rfm22_write(openlrs_dev, 0x05, RF22B_PACKET_SENT_INTERRUPT);
-	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, 0x03);	  //read the Interrupt Status1 register
-	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, 0x04);
+	rfm22_write(openlrs_dev, RFM22_interrupt_enable1, RF22B_PACKET_SENT_INTERRUPT);
+	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, RFM22_interrupt_status1);	  //read the Interrupt Status1 register
+	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, RFM22_interrupt_status2);
 	tx_start = micros();
-	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_TX);	// to tx mode
+	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl1, RF22B_PWRSTATE_TX);	// to tx mode
 	rfm22_releaseBus(openlrs_dev);
 
 	openlrs_dev->rf_mode = Transmit;
@@ -432,7 +442,7 @@ uint8_t beaconGetRSSI()
 	Green_LED_ON
 
 	rfmSetCarrierFrequency(rx_config.beacon_frequency);
-	rfm22_write(openlrs_dev, 0x79, 0); // ch 0 to avoid offset
+	rfm22_write(openlrs_dev, RFM22_frequency_hopping_channel_select, 0); // ch 0 to avoid offset
 	delay(1);
 	rssiSUM+=rfmGetRSSI();
 	delay(1);
@@ -542,16 +552,19 @@ static uint8_t smoothRSSI;
 static bool willhop;
 static uint32_t nextBeaconTimeMs;
 static uint32_t linkLossTimeMs;
+static uint32_t irqs;
 
 static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, uint32_t timeout)
 {
 	uint32_t start = millis();
 	uint8_t  rxb;
-	init_rfm(openlrs_dev, 1);
+	init_rfm(openlrs_dev, true);
 	// TODO: move openlrs_dev->rf_mode into dev structure
 	openlrs_dev->rf_mode = Receive;
 	to_rx_mode(openlrs_dev);
-	DEBUG_PRINTF(2,"Waiting bind\n");
+	DEBUG_PRINTF(2,"Waiting bind\r\n");
+
+	uint32_t i = 0;
 
 	while ((!timeout) || ((millis() - start) < timeout)) {
 		PIOS_Thread_Sleep(1);
@@ -560,9 +573,12 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
 #endif /* PIOS_WDG_RFM22B */
 
+		if (i++ % 1000 == 0) {
+			DEBUG_PRINTF(2,"RFM22b state: %d, IRQs: %d\r\n", openlrs_dev->rf_mode, irqs);
+		}
 		if (openlrs_dev->rf_mode == Received) {
 
-			DEBUG_PRINTF(2,"Got pkt\n");
+			DEBUG_PRINTF(2,"Got pkt\r\n");
 
 			// TODO: parse data packet (write command for that)
 			rfm22_claimBus(openlrs_dev);
@@ -601,15 +617,13 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 
 static void pios_openlrs_setup(struct pios_openlrs_dev *openlrs_dev, bool bind)
 {
-	DEBUG_PRINTF(2,"OpenLRSng RX starting ");
-	DEBUG_PRINTF(2," on HW ");
-	//DEBUG_PRINTF(2,BOARD_TYPE);
+	DEBUG_PRINTF(2,"OpenLRSng RX bind starting\r\n");
 
 	//setupRfmInterrupt();
 
 	bind = true;
 	if ( bind ) {
-		DEBUG_PRINTF(2, "Forcing bind\n");
+		DEBUG_PRINTF(2, "Forcing bind\r\n");
 
 		if (pios_openlrs_bind_receive(openlrs_dev, 0)) {
 			// TODO: save binding settings bindWriteEeprom();
@@ -647,7 +661,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 #endif /* PIOS_WDG_RFM22B */
 
 	if (rfm22_read(openlrs_dev, 0x0C) == 0) {     // detect the locked module and reboot
-		DEBUG_PRINTF(2,"RX hang");
+		DEBUG_PRINTF(2,"RX hang\r\n");
 		init_rfm(openlrs_dev, 0);
 		to_rx_mode(openlrs_dev);
 	}
@@ -940,7 +954,9 @@ void PIOS_OpenLRS_RegisterRcvr(uintptr_t openlrs_id, uintptr_t openlrs_rcvr_id)
 
 static void pios_openlrs_task(void *parameters);
 
+//! Global device handle, required for IRQ handler
 static struct pios_openlrs_dev * g_openlrs_dev;
+
 /**
  * Initialise an RFM22B device
  *
@@ -969,9 +985,9 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 	openlrs_dev->spi_id = spi_id;
 
 	// Before initializing everything, make sure device found
-	/*uint8_t device_type = rfm22_read(openlrs_dev, RFM22_DEVICE_TYPE) & RFM22_DT_MASK;
+	uint8_t device_type = rfm22_read(openlrs_dev, RFM22_DEVICE_TYPE) & RFM22_DT_MASK;
 	if (device_type != 0x08)
-		return -1;*/
+		return -1;
 
 	/*
 	// Initialize the com callbacks.
@@ -995,6 +1011,7 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 
 	// Start the driver task.  This task controls the radio state machine and removed all of the IO from the IRQ handler.
 	openlrs_dev->taskHandle = PIOS_Thread_Create(pios_openlrs_task, "PIOS_OpenLRS_Task", STACK_SIZE_BYTES, (void *)openlrs_dev, TASK_PRIORITY);
+	TaskMonitorAdd(TASKINFO_RUNNING_MODEMRX, openlrs_dev->taskHandle);
 
 	return 0;
 }
@@ -1029,6 +1046,15 @@ static void pios_openlrs_task(void *parameters)
 
 bool PIOS_OpenLRS_EXT_Int(void)
 {
+
+	irqs++;
+
+#if defined(PIOS_LED_LINK)
+	// if we have a link LED and are expecting PPM, that is the most
+	// important thing to know, so use the LED to indicate that.
+	PIOS_LED_Toggle(PIOS_LED_LINK);
+#endif /* PIOS_LED_LINK */
+
 	struct pios_openlrs_dev *openlrs_dev = g_openlrs_dev;
 	if (!pios_openlrs_validate(openlrs_dev))
 		return false;

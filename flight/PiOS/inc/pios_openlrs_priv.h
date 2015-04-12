@@ -110,6 +110,9 @@
 #  define BINDING_FREQUENCY 435000000 // Hz
 #endif
 
+#define RFM22_DEVICE_TYPE                         0x00  // R
+#define RFM22_DT_MASK                             0x1F
+ 
 struct bind_data {
   uint8_t version;
   uint32_t serial_baudrate;
