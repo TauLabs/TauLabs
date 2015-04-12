@@ -33,7 +33,7 @@
 
 #include "pios_openlrs.h"
 
-#define OPENLRSNG_VERSION 0x0383
+#define OPENLRSNG_VERSION 0x0382
  
 #define MAXHOPS      24
 #define OPENLRS_PPM_NUM_CHANNELS 16

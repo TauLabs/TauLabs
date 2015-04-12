@@ -264,11 +264,7 @@ static void init_rfm(struct pios_openlrs_dev *openlrs_dev, uint8_t isbind)
 		rfm22_write(openlrs_dev, RFM22_gpio1_config, RFM22_gpio1_config_txstate);    // gpio1 TX State
 		break;
 	}
-#ifdef ANTENNA_DIVERSITY
-	rfm22_write(openlrs_dev, RFM22_gpio2_config, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?RFM22_gpio2_config_antswt1:0xfd); // gpio 2 ant. sw 1 if diversity on else VDD
-#else
 	rfm22_write(openlrs_dev, RFM22_gpio2_config, 0xfd);    // gpio 2 VDD
-#endif
 	rfm22_write(openlrs_dev, RFM22_io_port_config, RFM22_io_port_default);    // gpio    0, 1,2 NO OTHER FUNCTION.
 	rfm22_releaseBus(openlrs_dev);
 
@@ -336,14 +332,8 @@ static void clearFIFO(struct pios_openlrs_dev *openlrs_dev)
 {
 	DEBUG_PRINTF(3,"clearFIFO\r\n");
 	rfm22_claimBus(openlrs_dev);
-	//clear FIFO, disable multipacket, enable diversity if needed
-#ifdef ANTENNA_DIVERSITY
-	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl2, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?0x83:0x03);
-	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl2, (openlrs_dev->bind_data.flags & DIVERSITY_ENABLED)?0x80:0x00);
-#else
 	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl2, 0x03);
 	rfm22_write(openlrs_dev, RFM22_op_and_func_ctrl2, 0x00);
-#endif
 	rfm22_releaseBus(openlrs_dev);
 }
 
@@ -615,11 +605,30 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 	return 0;
 }
 
+static void printVersion(uint16_t v)
+{
+	char ver[8];
+	ver[0] = '0' + ((v >> 8) & 0x0f);
+	ver[1] = '.';
+	ver[2] = '0' + ((v >> 4) & 0x0f);
+  	if (v & 0x0f) {
+    	ver[3] = '.';
+    	ver[4] = '0' + (v & 0x0f);
+    	ver[5] = '\r';
+    	ver[6] = '\n';
+    	ver[7] = '\0';
+    } else {
+    	ver[3] = '\r';
+    	ver[4] = '\n';
+    	ver[5] = '\0';
+    }
+    DEBUG_PRINTF(2, ver);
+}
+
 static void pios_openlrs_setup(struct pios_openlrs_dev *openlrs_dev, bool bind)
 {
 	DEBUG_PRINTF(2,"OpenLRSng RX bind starting\r\n");
-
-	//setupRfmInterrupt();
+	printVersion(OPENLRSNG_VERSION);
 
 	bind = true;
 	if ( bind ) {
