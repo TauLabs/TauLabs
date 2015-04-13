@@ -726,7 +726,6 @@ static void pios_openlrs_setup(struct pios_openlrs_dev *openlrs_dev, bool bind)
 	DEBUG_PRINTF(2,"OpenLRSng RX setup complete\r\n");
 }
 
-//static int loop_count = 0;
 static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 {
 	uint32_t timeUs, timeMs;
@@ -744,14 +743,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 	timeUs = micros();
 	
-	//if (loop_count++ % 1000 == 0) {
-		DEBUG_PRINTF(2,"pios_openlrs_rx_loop - state: %d, IRQs: %d\r\n", openlrs_dev->rf_mode, irqs);
-	//}
-
 	if (openlrs_dev->rf_mode == Received) {
-
-		DEBUG_PRINTF(2,"pios_openlrs_rx_loop -- packet received\r\n");
-
 		uint32_t timeTemp = micros();
 
 		// Read the packet from RFM22b
@@ -927,7 +919,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			// TODO: set_RSSI_output();
 			RSSI_sum = 0;
 			RSSI_count = 0;
+			DEBUG_PRINTF(2,"RSSI: %d\r\n", smoothRSSI);
 		}
+
 	}
 
 	if (openlrs_dev->link_acquired) {
@@ -1128,15 +1122,6 @@ static void pios_openlrs_task(void *parameters)
 
 	if (!pios_openlrs_validate(openlrs_dev)) {
 		return;
-	}
-
-	for (int i = 0; i < 5000; i++) {
-#if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
-		// Update the watchdog timer
-		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
-#endif /* PIOS_WDG_RFM22B */	
-
-		PIOS_Thread_Sleep(1);	
 	}
 
 	if (openlrs_dev->bind_data.version == BINDING_VERSION)
