@@ -44,7 +44,7 @@
 #include "pios_rfm22b_regs.h"
 
 #define STACK_SIZE_BYTES                 800
-#define TASK_PRIORITY                    PIOS_THREAD_PRIO_HIGHEST	// flight control relevant device driver (ppm link)
+#define TASK_PRIORITY                    PIOS_THREAD_PRIO_NORMAL
 
 
 static void rx_reset(struct pios_openlrs_dev *openlrs_dev);
@@ -248,7 +248,27 @@ static void rfmSetCarrierFrequency(struct pios_openlrs_dev *openlrs_dev, uint32_
 
 static void init_rfm(struct pios_openlrs_dev *openlrs_dev, uint8_t isbind)
 {
-	DEBUG_PRINTF(3,"init_rfm %d\r\n", isbind);
+	DEBUG_PRINTF(2,"init_rfm %d\r\n", isbind);
+
+	if (!isbind) {
+		DEBUG_PRINTF(2, "Binding settings:\r\n");
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  version: %d\r\n", openlrs_dev->bind_data.version);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  serial_baudrate: %d\r\n", openlrs_dev->bind_data.serial_baudrate);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  rf_frequency: %d\r\n", openlrs_dev->bind_data.rf_frequency);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  rf_power: %d\r\n", openlrs_dev->bind_data.rf_power);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  rf_channel_spacing: %d\r\n", openlrs_dev->bind_data.rf_channel_spacing);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  modem_params: %d\r\n", openlrs_dev->bind_data.modem_params);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  flags: %d\r\n", openlrs_dev->bind_data.flags);
+		PIOS_Thread_Sleep(10);
+	}
+
 	rfm22_claimBus(openlrs_dev);
 	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, RFM22_interrupt_status1);   // read status, clear interrupt
 	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, RFM22_interrupt_status2);
@@ -571,8 +591,12 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
 #endif /* PIOS_WDG_RFM22B */
 
-		if (i++ % 1000 == 0) {
+		if (i++ % 100 == 0) {
 			DEBUG_PRINTF(2,"RFM22b state: %d, IRQs: %d\r\n", openlrs_dev->rf_mode, irqs);
+
+#if defined(PIOS_LED_LINK)
+			PIOS_LED_Toggle(PIOS_LED_LINK);
+#endif /* PIOS_LED_LINK */
 		}
 		if (openlrs_dev->rf_mode == Received) {
 
@@ -628,6 +652,7 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 					for (uint32_t i = 0; i < OPENLRS_HOPCHANNEL_NUMELEM; i++)
 						binding.hopchannel[i] = openlrs_dev->bind_data.hopchannel[i];
 					OpenLRSSet(&binding);
+					UAVObjSave(OpenLRSHandle(), 0);
 
 #if defined(PIOS_LED_LINK)
 					PIOS_LED_Toggle(PIOS_LED_LINK);
@@ -668,7 +693,8 @@ static void printVersion(uint16_t v)
 
 static void pios_openlrs_setup(struct pios_openlrs_dev *openlrs_dev, bool bind)
 {
-	DEBUG_PRINTF(2,"OpenLRSng RX setup starting\r\n");
+	DEBUG_PRINTF(2,"OpenLRSng RX setup starting. Binding: %e\r\n", bind);
+	PIOS_Thread_Sleep(5);
 	printVersion(OPENLRSNG_VERSION);
 
 	if ( bind ) {
@@ -700,7 +726,7 @@ static void pios_openlrs_setup(struct pios_openlrs_dev *openlrs_dev, bool bind)
 	DEBUG_PRINTF(2,"OpenLRSng RX setup complete\r\n");
 }
 
-static int loop_count = 0;
+//static int loop_count = 0;
 static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 {
 	uint32_t timeUs, timeMs;
@@ -717,10 +743,10 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	}
 
 	timeUs = micros();
-
-	if (loop_count++ % 1000 == 0) {
+	
+	//if (loop_count++ % 1000 == 0) {
 		DEBUG_PRINTF(2,"pios_openlrs_rx_loop - state: %d, IRQs: %d\r\n", openlrs_dev->rf_mode, irqs);
-	}
+	//}
 
 	if (openlrs_dev->rf_mode == Received) {
 
@@ -1071,24 +1097,6 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 		openlrs_dev->bind_data.flags = binding.flags;
 		for (uint32_t i = 0; i < OPENLRS_HOPCHANNEL_NUMELEM; i++)
 			openlrs_dev->bind_data.hopchannel[i] = binding.hopchannel[i];
-
-		DEBUG_PRINTF(2, "Binding settings:\r\n");
-		PIOS_Thread_Sleep(10);
-		DEBUG_PRINTF(2, "  version: %d\r\n", openlrs_dev->bind_data.version);
-		PIOS_Thread_Sleep(10);
-		DEBUG_PRINTF(2, "  serial_baudrate: %d\r\n", openlrs_dev->bind_data.serial_baudrate);
-		PIOS_Thread_Sleep(10);
-		DEBUG_PRINTF(2, "  rf_frequency: %d\r\n", openlrs_dev->bind_data.rf_frequency);
-		PIOS_Thread_Sleep(10);
-		DEBUG_PRINTF(2, "  rf_power: %d\r\n", openlrs_dev->bind_data.rf_power);
-		PIOS_Thread_Sleep(10);
-		DEBUG_PRINTF(2, "  rf_channel_spacing: %d\r\n", openlrs_dev->bind_data.rf_channel_spacing);
-		PIOS_Thread_Sleep(10);
-		DEBUG_PRINTF(2, "  modem_params: %d\r\n", openlrs_dev->bind_data.modem_params);
-		PIOS_Thread_Sleep(10);
-		DEBUG_PRINTF(2, "  flags: %d\r\n", openlrs_dev->bind_data.flags);
-		PIOS_Thread_Sleep(10);
-
 	}
 
 	// Bind the configuration to the device instance
@@ -1136,6 +1144,8 @@ static void pios_openlrs_task(void *parameters)
 	else
 		pios_openlrs_setup(openlrs_dev, true);
 
+	DEBUG_PRINTF(2, "Setup complete\r\n");
+
 	while(1) {
 #if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
 		// Update the watchdog timer
@@ -1153,10 +1163,6 @@ bool PIOS_OpenLRS_EXT_Int(void)
 {
 
 	irqs++;
-
-#if defined(PIOS_LED_LINK)
-	PIOS_LED_Toggle(PIOS_LED_LINK);
-#endif /* PIOS_LED_LINK */
 
 	struct pios_openlrs_dev *openlrs_dev = g_openlrs_dev;
 	if (!pios_openlrs_validate(openlrs_dev))

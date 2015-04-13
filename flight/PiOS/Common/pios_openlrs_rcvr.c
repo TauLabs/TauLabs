@@ -150,6 +150,7 @@ int32_t PIOS_OpenLRS_Rcvr_UpdateChannels(uintptr_t openlrs_rcvr_id, int16_t * ch
  */
 static int32_t PIOS_OpenLRS_Rcvr_Get(uintptr_t openlrs_rcvr_id, uint8_t channel)
 {
+
 	if (channel >= OPENLRS_PPM_NUM_CHANNELS) {
 		/* channel is out of range */
 		return PIOS_RCVR_INVALID;
