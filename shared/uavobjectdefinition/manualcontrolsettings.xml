@@ -24,6 +24,7 @@
 				<option>DSM (RcvrPort)</option>
 				<option>S.Bus</option>
 				<option>RFM22B</option>
+				<option>OpenLRS</option>
 				<option>GCS</option>
 				<option>HoTT SUM</option>
 				<option>None</option>

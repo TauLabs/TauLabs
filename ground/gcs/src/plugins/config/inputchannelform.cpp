@@ -133,6 +133,9 @@ void inputChannelForm::groupUpdated()
     case ManualControlSettings::CHANNELGROUPS_RFM22B:
         count = 8;
         break;
+    case ManualControlSettings::CHANNELGROUPS_OPENLRS:
+        count = 8;
+        break;
     case ManualControlSettings::CHANNELGROUPS_GCS:
         count = GCSReceiver::CHANNEL_NUMELEM;
         break;
