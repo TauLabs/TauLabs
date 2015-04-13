@@ -39,6 +39,8 @@
 #include <taskmonitor.h>
 #include <taskinfo.h>
 
+#include "openlrs.h"
+
 #include "pios_rfm22b_regs.h"
 
 #define STACK_SIZE_BYTES                 800
@@ -544,6 +546,12 @@ static uint32_t nextBeaconTimeMs;
 static uint32_t linkLossTimeMs;
 static uint32_t irqs;
 
+#define ntohl(v) (				\
+	(((v) & 0xFF000000) >> 24) |		\
+	(((v) & 0x00FF0000) >>  8) |		\
+	(((v) & 0x0000FF00) <<  8) |		\
+	(((v) & 0x000000FF) << 24))
+
 static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, uint32_t timeout)
 {
 	uint32_t start = millis();
@@ -581,14 +589,47 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 				rfm22_deassertCs(openlrs_dev);
 				rfm22_releaseBus(openlrs_dev);
 
+				DEBUG_PRINTF(2, "Binding settings:\r\n");
+				PIOS_Thread_Sleep(10);
+				DEBUG_PRINTF(2, "  version: %d\r\n", openlrs_dev->bind_data.version);
+				PIOS_Thread_Sleep(10);
+				DEBUG_PRINTF(2, "  serial_baudrate: %d\r\n", openlrs_dev->bind_data.serial_baudrate);
+				PIOS_Thread_Sleep(10);
+				DEBUG_PRINTF(2, "  rf_frequency: %d\r\n", openlrs_dev->bind_data.rf_frequency);
+				PIOS_Thread_Sleep(10);
+				DEBUG_PRINTF(2, "  rf_power: %d\r\n", openlrs_dev->bind_data.rf_power);
+				PIOS_Thread_Sleep(10);
+				DEBUG_PRINTF(2, "  rf_channel_spacing: %d\r\n", openlrs_dev->bind_data.rf_channel_spacing);
+				PIOS_Thread_Sleep(10);
+				DEBUG_PRINTF(2, "  modem_params: %d\r\n", openlrs_dev->bind_data.modem_params);
+				PIOS_Thread_Sleep(10);
+				DEBUG_PRINTF(2, "  flags: %d\r\n", openlrs_dev->bind_data.flags);
+				PIOS_Thread_Sleep(10);
+
+				for (uint32_t i = 0; i < MAXHOPS; i++) {
+					DEBUG_PRINTF(2, "    hop channel: %d\r\n", openlrs_dev->bind_data.hopchannel[i]);
+					PIOS_Thread_Sleep(10);
+				}
+
 				if (openlrs_dev->bind_data.version == BINDING_VERSION) {
-					DEBUG_PRINTF(2,"data good\n");
+					DEBUG_PRINTF(2,"data good\r\n");
 					rxb = 'B';
 					tx_packet(openlrs_dev, &rxb, 1); // ACK that we got bound
 
+					OpenLRSData binding;
+					binding.version = openlrs_dev->bind_data.version;
+					binding.serial_baudrate = openlrs_dev->bind_data.serial_baudrate;
+					binding.rf_frequency = openlrs_dev->bind_data.rf_frequency;
+					binding.rf_magic = openlrs_dev->bind_data.rf_magic;
+					binding.rf_power = openlrs_dev->bind_data.rf_power;
+					binding.rf_channel_spacing = openlrs_dev->bind_data.rf_channel_spacing;
+					binding.modem_params = openlrs_dev->bind_data.modem_params;
+					binding.flags = openlrs_dev->bind_data.flags;
+					for (uint32_t i = 0; i < OPENLRS_HOPCHANNEL_NUMELEM; i++)
+						binding.hopchannel[i] = openlrs_dev->bind_data.hopchannel[i];
+					OpenLRSSet(&binding);
+
 #if defined(PIOS_LED_LINK)
-			// if we have a link LED and are expecting PPM, that is the most
-			// important thing to know, so use the LED to indicate that.
 					PIOS_LED_Toggle(PIOS_LED_LINK);
 #endif /* PIOS_LED_LINK */
 
@@ -627,20 +668,17 @@ static void printVersion(uint16_t v)
 
 static void pios_openlrs_setup(struct pios_openlrs_dev *openlrs_dev, bool bind)
 {
-	DEBUG_PRINTF(2,"OpenLRSng RX bind starting\r\n");
+	DEBUG_PRINTF(2,"OpenLRSng RX setup starting\r\n");
 	printVersion(OPENLRSNG_VERSION);
 
-	bind = true;
 	if ( bind ) {
-		DEBUG_PRINTF(2, "Forcing bind\r\n");
-
 		if (pios_openlrs_bind_receive(openlrs_dev, 0)) {
 			// TODO: save binding settings bindWriteEeprom();
-			DEBUG_PRINTF(2,"Saved bind data to EEPROM\n");
+			DEBUG_PRINTF(2,"Saved bind data to EEPROM (not really yet -- TODO)\r\n");
 		}
 	}
 
-	DEBUG_PRINTF(2,"Entering normal mode");
+	DEBUG_PRINTF(2,"Entering normal mode\r\n");
 
 	init_rfm(openlrs_dev, 0);   // Configure the RFM22B's registers for normal operation
 	openlrs_dev->rf_channel = 0;
@@ -658,8 +696,11 @@ static void pios_openlrs_setup(struct pios_openlrs_dev *openlrs_dev, bool bind)
 
 	openlrs_dev->link_acquired = 0;
 	lastPacketTimeUs = micros();
+
+	DEBUG_PRINTF(2,"OpenLRSng RX setup complete\r\n");
 }
 
+static int loop_count = 0;
 static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 {
 	uint32_t timeUs, timeMs;
@@ -677,7 +718,14 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 	timeUs = micros();
 
+	if (loop_count++ % 1000 == 0) {
+		DEBUG_PRINTF(2,"pios_openlrs_rx_loop - state: %d, IRQs: %d\r\n", openlrs_dev->rf_mode, irqs);
+	}
+
 	if (openlrs_dev->rf_mode == Received) {
+
+		DEBUG_PRINTF(2,"pios_openlrs_rx_loop -- packet received\r\n");
+
 		uint32_t timeTemp = micros();
 
 		// Read the packet from RFM22b
@@ -693,8 +741,6 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		lastAFCCvalue = rfmGetAFCC(openlrs_dev);
 
 #if defined(PIOS_LED_LINK)
-	    // if we have a link LED and are expecting PPM, that is the most
-	    // important thing to know, so use the LED to indicate that.
 		PIOS_LED_Toggle(PIOS_LED_LINK);
 #endif /* PIOS_LED_LINK */
 
@@ -841,6 +887,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	// sample RSSI when packet is in the 'air'
 	if ((numberOfLostPackets < 2) && (lastRSSITimeUs != lastPacketTimeUs) &&
 			(timeUs - lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) - 1500)) {
+
+		//DEBUG_PRINTF(3,"pios_openlrs_rx_loop -- measure RSSI\r\n");
+
 		lastRSSITimeUs = lastPacketTimeUs;
 		lastRSSIvalue = rfmGetRSSI(openlrs_dev); // Read the RSSI value
 		RSSI_sum += lastRSSIvalue;    // tally up for average
@@ -905,6 +954,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	} else {
 		// Waiting for first packet, hop slowly
 		if ((timeUs - lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * hopcount)) {
+			//DEBUG_PRINTF(3,"pios_openlrs_rx_loop - slow hop\r\n");
 			lastPacketTimeUs = timeUs;
 			willhop = 1;
 		}
@@ -1007,6 +1057,40 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 	// Initialzie the PPM callback.
 	openlrs_dev->openlrs_rcvr_id = 0;
 
+	OpenLRSInitialize();
+	OpenLRSData binding;
+	OpenLRSGet(&binding);
+	if (binding.version == BINDING_VERSION) {
+		openlrs_dev->bind_data.version = binding.version;
+		openlrs_dev->bind_data.serial_baudrate = binding.serial_baudrate;
+		openlrs_dev->bind_data.rf_frequency = binding.rf_frequency;
+		openlrs_dev->bind_data.rf_magic = binding.rf_magic;
+		openlrs_dev->bind_data.rf_power = binding.rf_power;
+		openlrs_dev->bind_data.rf_channel_spacing = binding.rf_channel_spacing;
+		openlrs_dev->bind_data.modem_params = binding.modem_params;
+		openlrs_dev->bind_data.flags = binding.flags;
+		for (uint32_t i = 0; i < OPENLRS_HOPCHANNEL_NUMELEM; i++)
+			openlrs_dev->bind_data.hopchannel[i] = binding.hopchannel[i];
+
+		DEBUG_PRINTF(2, "Binding settings:\r\n");
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  version: %d\r\n", openlrs_dev->bind_data.version);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  serial_baudrate: %d\r\n", openlrs_dev->bind_data.serial_baudrate);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  rf_frequency: %d\r\n", openlrs_dev->bind_data.rf_frequency);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  rf_power: %d\r\n", openlrs_dev->bind_data.rf_power);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  rf_channel_spacing: %d\r\n", openlrs_dev->bind_data.rf_channel_spacing);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  modem_params: %d\r\n", openlrs_dev->bind_data.modem_params);
+		PIOS_Thread_Sleep(10);
+		DEBUG_PRINTF(2, "  flags: %d\r\n", openlrs_dev->bind_data.flags);
+		PIOS_Thread_Sleep(10);
+
+	}
+
 	// Bind the configuration to the device instance
 	openlrs_dev->cfg = *cfg;
 
@@ -1038,9 +1122,19 @@ static void pios_openlrs_task(void *parameters)
 		return;
 	}
 
-	// This will configure hardware and attempt to bind if binding is unknown
-	// Currently binding every time
-	pios_openlrs_setup(openlrs_dev, true);
+	for (int i = 0; i < 5000; i++) {
+#if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
+		// Update the watchdog timer
+		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
+#endif /* PIOS_WDG_RFM22B */	
+
+		PIOS_Thread_Sleep(1);	
+	}
+
+	if (openlrs_dev->bind_data.version == BINDING_VERSION)
+		pios_openlrs_setup(openlrs_dev, false);
+	else
+		pios_openlrs_setup(openlrs_dev, true);
 
 	while(1) {
 #if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
@@ -1050,6 +1144,8 @@ static void pios_openlrs_task(void *parameters)
 
 		// Process incoming radio data.
 		pios_openlrs_rx_loop(openlrs_dev);
+
+		PIOS_Thread_Sleep(1);	
 	}
 }
 
@@ -1059,8 +1155,6 @@ bool PIOS_OpenLRS_EXT_Int(void)
 	irqs++;
 
 #if defined(PIOS_LED_LINK)
-	// if we have a link LED and are expecting PPM, that is the most
-	// important thing to know, so use the LED to indicate that.
 	PIOS_LED_Toggle(PIOS_LED_LINK);
 #endif /* PIOS_LED_LINK */
 

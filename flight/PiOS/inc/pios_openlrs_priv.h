@@ -123,7 +123,7 @@ struct bind_data {
   uint8_t hopchannel[MAXHOPS];
   uint8_t modem_params;
   uint8_t flags;
-};
+} __attribute__((packed));
 
 enum RF_MODE {
   Available, Transmit, Receive, Transmitted, Received,

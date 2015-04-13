@@ -1,0 +1,20 @@
+<xml>
+	<object name="OpenLRS" singleinstance="true" settings="true" category="HardwareSettings">
+		<description>Binding settings for OpenLRS</description>
+
+		<field name="version" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="serial_baudrate" units="" type="uint32" elements="1" defaultvalue="0"/>
+		<field name="rf_frequency" units="" type="uint32" elements="1" defaultvalue="0"/>
+		<field name="rf_magic" units="" type="uint32" elements="1" defaultvalue="0"/>
+		<field name="rf_power" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="rf_channel_spacing" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="hopchannel" units="" type="uint8" elements="24" defaultvalue="0"/>
+		<field name="modem_params" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="flags" units="" type="uint8" elements="1" defaultvalue="0"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+    </object>
+</xml>
