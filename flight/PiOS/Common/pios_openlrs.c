@@ -40,6 +40,7 @@
 #include <taskinfo.h>
 
 #include "openlrs.h"
+#include "flightstatus.h"
 
 #include "pios_rfm22b_regs.h"
 
@@ -434,51 +435,91 @@ uint8_t tx_done(struct pios_openlrs_dev *openlrs_dev)
 	return 0;
 }
 
-/* this is a cool feature of openlrs that will make it play a lost
-   model beacon 
-void beacon_tone(int16_t hz, int16_t len) //duration is now in half seconds.
+static void beacon_tone(struct pios_openlrs_dev *openlrs_dev, int16_t hz, int16_t len) //duration is now in half seconds.
 {
+	DEBUG_PRINTF(2,"beacon_tone: %d %d\r\n", hz, len*2);
 	int16_t d = 500000 / hz; // better resolution
+
+#if defined(PIOS_LED_LINK)
+	PIOS_LED_On(PIOS_LED_LINK);
+#endif /* PIOS_LED_LINK */
 
 	if (d < 1) {
 		d = 1;
 	}
 
-	int16_t cycles = (len * 500000 / d);
+	rfm22_claimBus(openlrs_dev);
 
+	GPIO_TypeDef* gpio = openlrs_dev->cfg.spi_cfg->mosi.gpio;
+	uint16_t pin_source = openlrs_dev->cfg.spi_cfg->mosi.init.GPIO_Pin;
+	uint8_t remap = openlrs_dev->cfg.spi_cfg->remap;
+
+	GPIO_InitTypeDef init = {
+		.GPIO_Speed = GPIO_Speed_50MHz,
+		.GPIO_Mode  = GPIO_Mode_OUT,
+		.GPIO_OType = GPIO_OType_PP,
+		.GPIO_PuPd = GPIO_PuPd_UP
+	};
+	init.GPIO_Pin = pin_source;
+
+	// Set MOSI to digital out for bit banging
+	GPIO_PinAFConfig(gpio, pin_source, 0);
+	GPIO_Init(gpio, &init);
+
+	uint32_t raw_time = PIOS_DELAY_GetRaw();
+	int16_t cycles = (len * 500000 / d);
 	for (int16_t i = 0; i < cycles; i++) {
-		SDI_on;
-		delayMicroseconds(d);
-		SDI_off;
-		delayMicroseconds(d);
+		GPIO_SetBits(gpio, pin_source);
+		PIOS_DELAY_WaituS(d);
+		GPIO_ResetBits(gpio, pin_source);
+		PIOS_DELAY_WaituS(d);
+
+		// Make sure to give other tasks time to do things
+		if (PIOS_DELAY_DiffuS(raw_time) > 10000) {
+			PIOS_Thread_Sleep(1);
+			raw_time = PIOS_DELAY_GetRaw();
+		}
 	}
+
+	GPIO_Init(gpio, (GPIO_InitTypeDef*) &openlrs_dev->cfg.spi_cfg->mosi.init);
+	GPIO_PinAFConfig(gpio, pin_source, remap);
+
+	rfm22_releaseBus(openlrs_dev);
+
+#if defined(PIOS_LED_LINK)
+	PIOS_LED_Off(PIOS_LED_LINK);
+#endif /* PIOS_LED_LINK */
+
+#if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
+		// Update the watchdog timer
+		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
+#endif /* PIOS_WDG_RFM22B */
+
 }
 
 
-uint8_t beaconGetRSSI()
+static uint8_t beaconGetRSSI(struct pios_openlrs_dev *openlrs_dev)
 {
 	uint16_t rssiSUM=0;
-	Green_LED_ON
 
-	rfmSetCarrierFrequency(rx_config.beacon_frequency);
-	rfm22_write(openlrs_dev, RFM22_frequency_hopping_channel_select, 0); // ch 0 to avoid offset
+	rfmSetCarrierFrequency(openlrs_dev, openlrs_dev->beacon_frequency);
+	rfm22_write_claim(openlrs_dev, RFM22_frequency_hopping_channel_select, 0); // ch 0 to avoid offset
 	delay(1);
-	rssiSUM+=rfmGetRSSI();
+	rssiSUM+=rfmGetRSSI(openlrs_dev);
 	delay(1);
-	rssiSUM+=rfmGetRSSI();
+	rssiSUM+=rfmGetRSSI(openlrs_dev);
 	delay(1);
-	rssiSUM+=rfmGetRSSI();
+	rssiSUM+=rfmGetRSSI(openlrs_dev);
 	delay(1);
-	rssiSUM+=rfmGetRSSI();
-
-	Green_LED_OFF
+	rssiSUM+=rfmGetRSSI(openlrs_dev);
 
 	return rssiSUM>>2;
 }
 
-void beacon_send(bool static_tone)
+static void beacon_send(struct pios_openlrs_dev *openlrs_dev, bool static_tone)
 {
-	Green_LED_ON
+	DEBUG_PRINTF(2,"beacon_send\r\n");
+	rfm22_claimBus(openlrs_dev);
 	openlrs_dev->it_status1 = rfm22_read(openlrs_dev, 0x03);   // read status, clear interrupt
 	openlrs_dev->it_status2 = rfm22_read(openlrs_dev, 0x04);
 	rfm22_write(openlrs_dev, 0x06, 0x00);    // no wakeup up, lbd,
@@ -503,53 +544,46 @@ void beacon_send(bool static_tone)
 
 	rfm22_write(openlrs_dev, 0x73, 0x00);
 	rfm22_write(openlrs_dev, 0x74, 0x00);    // no offset
+	rfm22_releaseBus(openlrs_dev);
 
-	rfmSetCarrierFrequency(rx_config.beacon_frequency);
+	rfmSetCarrierFrequency(openlrs_dev, openlrs_dev->beacon_frequency);
 
-	rfm22_write(openlrs_dev, 0x6d, 0x07);   // 7 set max power 100mW
+	rfm22_write_claim(openlrs_dev, 0x6d, 0x07);   // 7 set max power 100mW
 
 	delay(10);
-	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_TX);	// to tx mode
+	rfm22_write_claim(openlrs_dev, 0x07, RF22B_PWRSTATE_TX);	// to tx mode
 	delay(10);
 
 	if (static_tone) {
-	uint8_t i=0;
-	while (i++<20) {
-		beacon_tone(440,1);
-		watchdogReset();
-	}
+		uint8_t i=0;
+		while (i++<20) {
+			beacon_tone(openlrs_dev, 440, 1);
+		}
 	} else {
-	//close encounters tune
-	//  G, A, F, F(lower octave), C
-	//octave 3:  392  440  349  175   261
+		//close encounters tune
+		//  G, A, F, F(lower octave), C
+		//octave 3:  392  440  349  175   261
 
-	beacon_tone(392, 1);
-	watchdogReset();
+		beacon_tone(openlrs_dev, 392, 1);
 
-	rfm22_write(openlrs_dev, 0x6d, 0x05);	// 5 set mid power 25mW
-	delay(10);
-	beacon_tone(440,1);
-	watchdogReset();
+		rfm22_write(openlrs_dev, 0x6d, 0x05);	// 5 set mid power 25mW
+		delay(10);
+		beacon_tone(openlrs_dev, 440,1);
 
-	rfm22_write(openlrs_dev, 0x6d, 0x04);	// 4 set mid power 13mW
-	delay(10);
-	beacon_tone(349, 1);
-	watchdogReset();
+		rfm22_write(openlrs_dev, 0x6d, 0x04);	// 4 set mid power 13mW
+		delay(10);
+		beacon_tone(openlrs_dev, 349, 1);
 
-	rfm22_write(openlrs_dev, 0x6d, 0x02);	// 2 set min power 3mW
-	delay(10);
-	beacon_tone(175,1);
-	watchdogReset();
+		rfm22_write(openlrs_dev, 0x6d, 0x02);	// 2 set min power 3mW
+		delay(10);
+		beacon_tone(openlrs_dev, 175,1);
 
-	rfm22_write(openlrs_dev, 0x6d, 0x00);	// 0 set min power 1.3mW
-	delay(10);
-	beacon_tone(261, 2);
-	watchdogReset();
+		rfm22_write(openlrs_dev, 0x6d, 0x00);	// 0 set min power 1.3mW
+		delay(10);
+		beacon_tone(openlrs_dev, 261, 2);
 	}
-	rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_READY);
-	Green_LED_OFF
+	rfm22_write_claim(openlrs_dev, 0x07, RF22B_PWRSTATE_READY);
 }
-*/
 
 
 /*****************************************************************************
@@ -644,6 +678,9 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 					binding.flags = openlrs_dev->bind_data.flags;
 					for (uint32_t i = 0; i < OPENLRS_HOPCHANNEL_NUMELEM; i++)
 						binding.hopchannel[i] = openlrs_dev->bind_data.hopchannel[i];
+					binding.beacon_frequency = openlrs_dev->beacon_frequency;
+					binding.beacon_delay = openlrs_dev->beacon_delay;
+					binding.beacon_period = openlrs_dev->beacon_period;
 					OpenLRSSet(&binding);
 					UAVObjSave(OpenLRSHandle(), 0);
 
@@ -739,7 +776,6 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	uint8_t *tx_buf = openlrs_dev->tx_buf;  // convenient variable
 
 	if (openlrs_dev->rf_mode == Received) {
-		uint32_t timeTemp = micros();
 
 		// Read the packet from RFM22b
 		rfm22_claimBus(openlrs_dev);
@@ -757,7 +793,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		PIOS_LED_Toggle(PIOS_LED_LINK);
 #endif /* PIOS_LED_LINK */
 
-		openlrs_dev->lastPacketTimeUs = timeTemp; // used saved timestamp to avoid skew by I2C
+		openlrs_dev->lastPacketTimeUs = micros();
 		openlrs_dev->numberOfLostPackets = 0;
 		openlrs_dev->linkQuality <<= 1;
 		openlrs_dev->linkQuality |= 1;
@@ -809,10 +845,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 		// Flag to indicate ever got a link
 		openlrs_dev->link_acquired |= true;
-
-		/*failsafeActive = 0;
-		disablePWM = 0;
-		disablePPM = 0;*/
+		openlrs_dev->failsafeActive = 0;
 
 		if (openlrs_dev->bind_data.flags & TELEMETRY_MASK) {
 			if ((tx_buf[0] ^ openlrs_dev->rx_buf[0]) & 0x40) {
@@ -882,6 +915,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 	if (openlrs_dev->link_acquired) {
 		if ((openlrs_dev->numberOfLostPackets < openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) + 1000))) {
+			DEBUG_PRINTF(2,"Lost packet: %d\r\n", openlrs_dev->numberOfLostPackets);
 			// we lost packet, hop to next channel
 			openlrs_dev->linkQuality <<= 1;
 			openlrs_dev->willhop = 1;
@@ -892,10 +926,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			openlrs_dev->numberOfLostPackets++;
 			openlrs_dev->lastPacketTimeUs += getInterval(&openlrs_dev->bind_data);
 			openlrs_dev->willhop = 1;
-			// Red_LED_ON;
 			//updateLBeep(true);
 			// TODO: set_RSSI_output();
-		} else if ((openlrs_dev->numberOfLostPackets == openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount))) {
+		} else if ((openlrs_dev->numberOfLostPackets >= openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount))) {
 			// hop slowly to allow resync with TX
 			openlrs_dev->linkQuality = 0;
 			openlrs_dev->willhop = 1;
@@ -904,29 +937,33 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			openlrs_dev->lastPacketTimeUs = timeUs;
 		}
 
-		/* TODO: failsafe code. Important.
 		if (openlrs_dev->numberOfLostPackets) {
-			if (rx_config.failsafeDelay && (!failsafeActive) && ((timeMs - openlrs_dev->linkLossTimeMs) > delayInMs(rx_config.failsafeDelay))) {
-				failsafeActive = 1;
-				failsafeApply();
-				openlrs_dev->nextBeaconTimeMs = (timeMs + delayInMsLong(rx_config.beacon_deadtime)) | 1; //beacon activating...
-			}
-			if (rx_config.pwmStopDelay && (!disablePWM) && ((timeMs - openlrs_dev->linkLossTimeMs) > delayInMs(rx_config.pwmStopDelay))) {
-				disablePWM = 1;
-			}
-			if (rx_config.ppmStopDelay && (!disablePPM) && ((timeMs - openlrs_dev->linkLossTimeMs) > delayInMs(rx_config.ppmStopDelay))) {
-				disablePPM = 1;
+			if (openlrs_dev->failsafeDelay &&
+				!openlrs_dev->failsafeActive && 
+				((timeMs - openlrs_dev->linkLossTimeMs) > openlrs_dev->failsafeDelay))
+			{
+				DEBUG_PRINTF(2,"Failsafe activated: %d\r\n", openlrs_dev->linkLossTimeMs);
+				openlrs_dev->failsafeActive = 1;
+				//failsafeApply();
+				openlrs_dev->nextBeaconTimeMs = (timeMs + 1000UL * openlrs_dev->beacon_period) | 1; //beacon activating...
 			}
 
-			if ((rx_config.beacon_frequency) && (openlrs_dev->nextBeaconTimeMs) &&
+			if ((openlrs_dev->beacon_frequency) && (openlrs_dev->nextBeaconTimeMs) &&
 					((timeMs - openlrs_dev->nextBeaconTimeMs) < 0x80000000)) {
-				beacon_send((rx_config.flags & STATIC_BEACON));
-				init_rfm(openlrs_dev, 0);   // go back to normal RX
-				rx_reset();
-				openlrs_dev->nextBeaconTimeMs = (millis() +  (1000UL * rx_config.beacon_interval)) | 1; // avoid 0 in time
+
+				DEBUG_PRINTF(2,"Beacon time: %d\r\n", openlrs_dev->nextBeaconTimeMs);
+				// Only beacon when disarmed
+				uint8_t armed;
+				FlightStatusArmedGet(&armed);
+				if (armed == FLIGHTSTATUS_ARMED_DISARMED) {
+					beacon_send(openlrs_dev, false); // play cool tune
+					init_rfm(openlrs_dev, 0);   // go back to normal RX
+					rx_reset(openlrs_dev);
+					openlrs_dev->nextBeaconTimeMs = (timeMs +  1000UL * openlrs_dev->beacon_period) | 1; // avoid 0 in time
+				}
 			}
 		}
-		*/
+
 	} else {
 		// Waiting for first packet, hop slowly
 		if ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount)) {
@@ -943,18 +980,16 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			openlrs_dev->rf_channel = 0;
 		}
 
-		/*
-		if ((rx_config.beacon_frequency) && (openlrs_dev->nextBeaconTimeMs)) {
+		if ((openlrs_dev->beacon_frequency) && (openlrs_dev->nextBeaconTimeMs)) {
 			// Listen for RSSI on beacon channel briefly for 'trigger'
 			uint8_t brssi = beaconGetRSSI(openlrs_dev);
-			if (brssi > ((beaconRSSIavg>>2) + 20)) {
-				openlrs_dev->nextBeaconTimeMs = millis() + 1000L;
+			if (brssi > ((openlrs_dev->beacon_rssi_avg>>2) + 20)) {
+				openlrs_dev->nextBeaconTimeMs = timeMs + 1000L;
 			}
-			beaconRSSIavg = (beaconRSSIavg * 3 + brssi * 4) >> 2;
+			openlrs_dev->beacon_rssi_avg = (openlrs_dev->beacon_rssi_avg * 3 + brssi * 4) >> 2;
 
 			rfmSetCarrierFrequency(openlrs_dev, openlrs_dev->bind_data.rf_frequency);
 		}
-		*/
 
 		rfmSetChannel(openlrs_dev, openlrs_dev->rf_channel);
 		openlrs_dev->willhop = 0;
@@ -1046,6 +1081,14 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 		for (uint32_t i = 0; i < OPENLRS_HOPCHANNEL_NUMELEM; i++)
 			openlrs_dev->bind_data.hopchannel[i] = binding.hopchannel[i];
 	}
+
+	// Copy beacon settings over
+	openlrs_dev->beacon_frequency = binding.beacon_frequency;
+	openlrs_dev->beacon_delay = binding.beacon_delay;
+	openlrs_dev->beacon_period = binding.beacon_period;
+
+	// Hardcode failsafe delay
+	openlrs_dev->failsafeDelay = 200;
 
 	// Bind the configuration to the device instance
 	openlrs_dev->cfg = *cfg;

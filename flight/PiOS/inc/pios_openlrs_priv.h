@@ -165,6 +165,11 @@ struct pios_openlrs_dev {
   // Active bound information data
   struct bind_data bind_data;
 
+  // Beacon settings
+  uint32_t beacon_frequency;
+  uint8_t beacon_delay;
+  uint8_t beacon_period;
+
   enum RF_MODE rf_mode;
   uint32_t rf_channel;
 
@@ -188,6 +193,9 @@ struct pios_openlrs_dev {
   bool willhop;
   uint32_t nextBeaconTimeMs;
   uint32_t linkLossTimeMs;
+  bool failsafeActive;
+  uint32_t failsafeDelay;
+  uint32_t beacon_rssi_avg;
 };
 
 bool PIOS_OpenLRS_EXT_Int(void);
