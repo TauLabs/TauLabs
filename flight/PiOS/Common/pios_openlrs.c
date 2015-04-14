@@ -702,6 +702,7 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 	return 0;
 }
 
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 static void printVersion(uint16_t v)
 {
 	char ver[8];
@@ -721,12 +722,15 @@ static void printVersion(uint16_t v)
     }
     DEBUG_PRINTF(2, ver);
 }
+#endif
 
 static void pios_openlrs_setup(struct pios_openlrs_dev *openlrs_dev, bool bind)
 {
 	DEBUG_PRINTF(2,"OpenLRSng RX setup starting. Binding: %e\r\n", bind);
 	PIOS_Thread_Sleep(5);
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 	printVersion(OPENLRSNG_VERSION);
+#endif
 
 	if ( bind ) {
 		if (pios_openlrs_bind_receive(openlrs_dev, 0)) {
