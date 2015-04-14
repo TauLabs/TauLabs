@@ -145,10 +145,10 @@ struct pios_openlrs_dev {
   struct pios_thread *taskHandle;
 
   // The COM callback functions.
-  /*pios_com_callback rx_in_cb;
+  pios_com_callback rx_in_cb;
   uint32_t rx_in_context;
   pios_com_callback tx_out_cb;
-  uint32_t tx_out_context;*/
+  uint32_t tx_out_context;
 
   // The event queue handle
   struct pios_semaphore *sema_isr;
@@ -172,6 +172,7 @@ struct pios_openlrs_dev {
   uint8_t it_status2;
 
   uint8_t rx_buf[64];
+  uint8_t tx_buf[9];
 
   // Variables from OpenLRS for radio control
   uint8_t hopcount;

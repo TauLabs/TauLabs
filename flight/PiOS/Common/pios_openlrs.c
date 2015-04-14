@@ -154,6 +154,15 @@ static void unpackChannels(uint8_t config, int16_t PPM[], uint8_t *p)
 	}
 }
 
+static uint8_t countSetBits(uint16_t x)
+{
+	x  = x - ((x >> 1) & 0x5555);
+	x  = (x & 0x3333) + ((x >> 2) & 0x3333);
+	x  = x + (x >> 4);
+	x &= 0x0F0F;
+	return (x * 0x0101) >> 8;
+}
+
 static uint32_t micros()
 {
 	return PIOS_DELAY_GetuS();
@@ -411,8 +420,7 @@ static void tx_packet(struct pios_openlrs_dev *openlrs_dev, uint8_t* pkt, uint8_
 	}
 }
 
-/**
-uint8_t tx_done()
+uint8_t tx_done(struct pios_openlrs_dev *openlrs_dev)
 {
 	if (openlrs_dev->rf_mode == Transmitted) {
 		openlrs_dev->rf_mode = Available;
@@ -425,7 +433,6 @@ uint8_t tx_done()
 	}
 	return 0;
 }
-*/
 
 /* this is a cool feature of openlrs that will make it play a lost
    model beacon 
@@ -728,7 +735,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	}
 
 	timeUs = micros();
-	
+
+	uint8_t *tx_buf = openlrs_dev->tx_buf;  // convenient variable
+
 	if (openlrs_dev->rf_mode == Received) {
 		uint32_t timeTemp = micros();
 
@@ -783,25 +792,20 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			}
 			*/
 		} 
-
-		/* TODO: forward serial data ... somewhere?
 		else {
 			// something else than servo data...
 			if ((openlrs_dev->rx_buf[0] & 0x38) == 0x38) {
 				if ((openlrs_dev->rx_buf[0] ^ tx_buf[0]) & 0x80) {
 					// We got new data... (not retransmission)
-					uint8_t i;
 					tx_buf[0] ^= 0x80; // signal that we got it
-					if (rx_config.pinMapping[TXD_OUTPUT] == PINMAP_TXD) {
-						for (i = 0; i <= (openlrs_dev->rx_buf[0] & 7);) {
-							i++;
-							Serial.write(openlrs_dev->rx_buf[i]);
-						}
+					bool rx_need_yield;
+					uint8_t data_len = openlrs_dev->rx_buf[0] & 7;
+					if (openlrs_dev->rx_in_cb && (data_len > 0)) {
+						(openlrs_dev->rx_in_cb) (openlrs_dev->rx_in_context, &openlrs_dev->rx_buf[1], data_len, NULL, &rx_need_yield);
 					}
 				}
 			}
 		}
-		*/
 
 		// Flag to indicate ever got a link
 		openlrs_dev->link_acquired |= true;
@@ -810,70 +814,38 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		disablePWM = 0;
 		disablePPM = 0;*/
 
-		/* TODO: this is something about telemetry sending back to ground side
-		if (bind_data.flags & TELEMETRY_MASK) {
+		if (openlrs_dev->bind_data.flags & TELEMETRY_MASK) {
 			if ((tx_buf[0] ^ openlrs_dev->rx_buf[0]) & 0x40) {
 				// resend last message
 			} else {
 				tx_buf[0] &= 0xc0;
 				tx_buf[0] ^= 0x40; // swap sequence as we have new data
-				if (serial_head != serial_tail) {
-					uint8_t bytes = 0;
-					while ((bytes < 8) && (serial_head != serial_tail)) {
-						bytes++;
-						tx_buf[bytes] = serial_buffer[serial_head];
-						serial_head = (serial_head + 1) % SERIAL_BUFSIZE;
-					}
+
+				// Check for data on serial link
+				uint8_t bytes = 0;
+				// Append data from the com interface if applicable.
+				if (openlrs_dev->tx_out_cb) {
+					// Try to get some data to send
+					bool need_yield = false;
+					bytes = (openlrs_dev->tx_out_cb) (openlrs_dev->tx_out_context, &tx_buf[1], 8, NULL, &need_yield);
+				}
+
+				if (bytes > 0) {
 					tx_buf[0] |= (0x37 + bytes);
 				} else {
 					// tx_buf[0] lowest 6 bits left at 0
 					tx_buf[1] = openlrs_dev->lastRSSIvalue;
-
-					if (rx_config.pinMapping[ANALOG0_OUTPUT] == PINMAP_ANALOG) {
-						tx_buf[2] = analogRead(OUTPUT_PIN[ANALOG0_OUTPUT]) >> 2;
-#ifdef ANALOG0_OUTPUT_ALT
-					} else if (rx_config.pinMapping[ANALOG0_OUTPUT_ALT] == PINMAP_ANALOG) {
-						tx_buf[2] = analogRead(OUTPUT_PIN[ANALOG0_OUTPUT_ALT]) >> 2;
-#endif
-					} else {
-						tx_buf[2] = 0;
-					}
-
-					if (rx_config.pinMapping[ANALOG1_OUTPUT] == PINMAP_ANALOG) {
-						tx_buf[3] = analogRead(OUTPUT_PIN[ANALOG1_OUTPUT]) >> 2;
-#ifdef ANALOG1_OUTPUT_ALT
-					} else if (rx_config.pinMapping[ANALOG1_OUTPUT_ALT] == PINMAP_ANALOG) {
-						tx_buf[3] = analogRead(OUTPUT_PIN[ANALOG1_OUTPUT_ALT]) >> 2;
-#endif
-					} else {
-						tx_buf[3] = 0;
-					}
+					tx_buf[2] = 0; // these bytes carry analog info. package
+					tx_buf[3] = 0; // battery here
 					tx_buf[4] = (openlrs_dev->lastAFCCvalue >> 8);
 					tx_buf[5] = openlrs_dev->lastAFCCvalue & 0xff;
 					tx_buf[6] = countSetBits(openlrs_dev->linkQuality & 0x7fff);
 				}
 			}
-#ifdef TEST_NO_ACK_BY_CH1
-			if (PPM[0]<900) {
-				tx_packet_async(tx_buf, 9);
-				while(!tx_done()) {
-					checkSerial();
-				}
-			}
-#else
-			tx_packet_async(tx_buf, 9);
-			while(!tx_done()) {
-				checkSerial();
-			}
-#endif
 
-#ifdef TEST_HALT_RX_BY_CH2
-			if (PPM[1]>1013) {
-				fatalBlink(3);
-			}
-#endif
+			// This will block until sent
+			tx_packet(openlrs_dev, tx_buf, 9);
 		}
-		*/
 
 		// updateSwitches();
 
@@ -881,8 +853,6 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		rx_reset(openlrs_dev);
 
 		openlrs_dev->willhop = 1;
-
-		//Green_LED_OFF;
 	}
 
 	timeUs = micros();
@@ -1054,11 +1024,9 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 	if (device_type != 0x08)
 		return -1;
 
-	/*
 	// Initialize the com callbacks.
-	rfm22b_dev->rx_in_cb = NULL;
-	rfm22b_dev->tx_out_cb = NULL;
-	*/
+	openlrs_dev->rx_in_cb = NULL;
+	openlrs_dev->tx_out_cb = NULL;
 
 	// Initialzie the PPM callback.
 	openlrs_dev->openlrs_rcvr_id = 0;
