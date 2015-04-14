@@ -30,13 +30,15 @@
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 
+#include "actuatorcommand.h"
+
 #include <QDebug>
 
 VehicleConfig::VehicleConfig(QWidget *parent) : ConfigTaskWidget(parent)
 {
     //Generate lists of mixerTypeNames, mixerVectorNames, channelNames
     channelNames << "None";
-    for (int i = 0; i < (int)(VehicleConfig::CHANNEL_NUMELEM); i++) {
+    for (int i = 0; i < (int)(ActuatorCommand::CHANNEL_NUMELEM); i++) {
         mixerTypes << QString("Mixer%1Type").arg(i+1);
         mixerVectors << QString("Mixer%1Vector").arg(i+1);
         channelNames << QString("Channel%1").arg(i+1);
@@ -179,7 +181,7 @@ void VehicleConfig::resetMixerVector(UAVDataObject* mixer, int channel)
 // Disable all servo/motor mixers (but keep camera and accessory ones)
 void VehicleConfig::resetMixers(UAVDataObject *mixer)
 {
-    for (int channel = 0; channel < (int)VehicleConfig::CHANNEL_NUMELEM; channel++) {
+    for (int channel = 0; channel < (int)ActuatorCommand::CHANNEL_NUMELEM; channel++) {
         QString type = getMixerType(mixer, channel);
         if ((type == mixerTypeDescriptions[MixerSettings::MIXER1TYPE_DISABLED]) || (type == mixerTypeDescriptions[MixerSettings::MIXER1TYPE_MOTOR]) || (type == mixerTypeDescriptions[MixerSettings::MIXER1TYPE_SERVO])) {
             setMixerType(mixer, channel, MixerSettings::MIXER1TYPE_DISABLED);

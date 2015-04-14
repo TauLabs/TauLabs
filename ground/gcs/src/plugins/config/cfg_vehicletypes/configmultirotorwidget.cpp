@@ -37,6 +37,7 @@
 #include <math.h>
 #include <QMessageBox>
 
+#include "actuatorcommand.h"
 #include "mixersettings.h"
 
 const QString ConfigMultiRotorWidget::CHANNELBOXNAME = QString("multiMotorChannelBox");
@@ -283,7 +284,7 @@ QStringList ConfigMultiRotorWidget::getChannelDescriptions()
     QStringList channelDesc;
 
     // init a channel_numelem list of channel desc defaults
-    for (int i=0; i < (int)(ConfigMultiRotorWidget::CHANNEL_NUMELEM); i++)
+    for (int i=0; i < (int)(ActuatorCommand::CHANNEL_NUMELEM); i++)
     {
         channelDesc.append(QString("-"));
     }
@@ -292,23 +293,23 @@ QStringList ConfigMultiRotorWidget::getChannelDescriptions()
     GUIConfigDataUnion configData = GetConfigData();
     multiGUISettingsStruct multi = configData.multi;
 
-    if (multi.VTOLMotorN > 0 && multi.VTOLMotorN <= ConfigMultiRotorWidget::CHANNEL_NUMELEM)
+    if (multi.VTOLMotorN > 0 && multi.VTOLMotorN <= ActuatorCommand::CHANNEL_NUMELEM)
         channelDesc[multi.VTOLMotorN-1] = QString("VTOLMotorN");
-    if (multi.VTOLMotorNE > 0 && multi.VTOLMotorNE <= ConfigMultiRotorWidget::CHANNEL_NUMELEM)
+    if (multi.VTOLMotorNE > 0 && multi.VTOLMotorNE <= ActuatorCommand::CHANNEL_NUMELEM)
         channelDesc[multi.VTOLMotorNE-1] = QString("VTOLMotorNE");
-    if (multi.VTOLMotorNW > 0 && multi.VTOLMotorNW <= ConfigMultiRotorWidget::CHANNEL_NUMELEM)
+    if (multi.VTOLMotorNW > 0 && multi.VTOLMotorNW <= ActuatorCommand::CHANNEL_NUMELEM)
         channelDesc[multi.VTOLMotorNW-1] = QString("VTOLMotorNW");
-    if (multi.VTOLMotorS > 0 && multi.VTOLMotorS <= ConfigMultiRotorWidget::CHANNEL_NUMELEM)
+    if (multi.VTOLMotorS > 0 && multi.VTOLMotorS <= ActuatorCommand::CHANNEL_NUMELEM)
         channelDesc[multi.VTOLMotorS-1] = QString("VTOLMotorS");
-    if (multi.VTOLMotorSE > 0 && multi.VTOLMotorSE <= ConfigMultiRotorWidget::CHANNEL_NUMELEM)
+    if (multi.VTOLMotorSE > 0 && multi.VTOLMotorSE <= ActuatorCommand::CHANNEL_NUMELEM)
         channelDesc[multi.VTOLMotorSE-1] = QString("VTOLMotorSE");
-    if (multi.VTOLMotorSW > 0 && multi.VTOLMotorSW <= ConfigMultiRotorWidget::CHANNEL_NUMELEM)
+    if (multi.VTOLMotorSW > 0 && multi.VTOLMotorSW <= ActuatorCommand::CHANNEL_NUMELEM)
         channelDesc[multi.VTOLMotorSW-1] = QString("VTOLMotorSW");
-    if (multi.VTOLMotorW > 0 && multi.VTOLMotorW <= ConfigMultiRotorWidget::CHANNEL_NUMELEM)
+    if (multi.VTOLMotorW > 0 && multi.VTOLMotorW <= ActuatorCommand::CHANNEL_NUMELEM)
         channelDesc[multi.VTOLMotorW-1] = QString("VTOLMotorW");
-    if (multi.VTOLMotorE > 0 && multi.VTOLMotorE <= ConfigMultiRotorWidget::CHANNEL_NUMELEM)
+    if (multi.VTOLMotorE > 0 && multi.VTOLMotorE <= ActuatorCommand::CHANNEL_NUMELEM)
         channelDesc[multi.VTOLMotorE-1] = QString("VTOLMotorE");
-    if (multi.TRIYaw > 0 && multi.TRIYaw <= ConfigMultiRotorWidget::CHANNEL_NUMELEM)
+    if (multi.TRIYaw > 0 && multi.TRIYaw <= ActuatorCommand::CHANNEL_NUMELEM)
         channelDesc[multi.TRIYaw-1] = QString("Tri-Yaw");
 
     return channelDesc;

@@ -38,8 +38,8 @@
 #include <math.h>
 #include <QMessageBox>
 
-#include "mixersettings.h"
 #include "actuatorcommand.h"
+#include "mixersettings.h"
 
 ConfigCcpmWidget::ConfigCcpmWidget(QWidget *parent) : VehicleConfig(parent)
 {
@@ -223,7 +223,7 @@ QStringList ConfigCcpmWidget::getChannelDescriptions()
     QStringList channelDesc;
 
     // init a channel_numelem list of channel desc defaults
-    for (i=0; i < (int)(ConfigCcpmWidget::CHANNEL_NUMELEM); i++)
+    for (i=0; i < (int)(ActuatorCommand::CHANNEL_NUMELEM); i++)
     {
         channelDesc.append(QString("-"));
     }

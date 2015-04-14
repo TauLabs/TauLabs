@@ -24,6 +24,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#include "actuatorcommand.h"
 #include "configfixedwingwidget.h"
 #include "configvehicletypewidget.h"
 #include "mixersettings.h"
@@ -143,7 +144,7 @@ QStringList ConfigFixedWingWidget::getChannelDescriptions()
     QStringList channelDesc;
 
     // init a channel_numelem list of channel desc defaults
-    for (i=0; i < (int)(ConfigFixedWingWidget::CHANNEL_NUMELEM); i++)
+    for (i=0; i < (int)(ActuatorCommand::CHANNEL_NUMELEM); i++)
     {
         channelDesc.append(QString("-"));
     }
