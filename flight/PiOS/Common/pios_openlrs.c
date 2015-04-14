@@ -41,6 +41,7 @@
 
 #include "openlrs.h"
 #include "flightstatus.h"
+#include "flightbatterystate.h"
 
 #include "pios_rfm22b_regs.h"
 
@@ -868,8 +869,17 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 				} else {
 					// tx_buf[0] lowest 6 bits left at 0
 					tx_buf[1] = openlrs_dev->lastRSSIvalue;
-					tx_buf[2] = 0; // these bytes carry analog info. package
-					tx_buf[3] = 0; // battery here
+					if (FlightBatteryStateHandle()) {
+						FlightBatteryStateData bat;
+						FlightBatteryStateGet(&bat);
+						// FrSky protocol normally uses 3.3V at 255 but
+						// divider from display can be set internally
+						tx_buf[2] = (uint8_t) bat.Voltage / 25.0f * 255;
+						tx_buf[3] = (uint8_t) bat.Current / 60.0f * 255;
+					} else {
+						tx_buf[2] = 0; // these bytes carry analog info. package
+						tx_buf[3] = 0; // battery here
+					}
 					tx_buf[4] = (openlrs_dev->lastAFCCvalue >> 8);
 					tx_buf[5] = openlrs_dev->lastAFCCvalue & 0xff;
 					tx_buf[6] = countSetBits(openlrs_dev->linkQuality & 0x7fff);
