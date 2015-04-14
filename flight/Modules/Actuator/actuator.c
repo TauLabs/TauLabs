@@ -399,11 +399,11 @@ float ProcessMixer(const int index, const float curve1, const float curve2,
 	const Mixer_t * mixers = (Mixer_t *)&mixerSettings->Mixer1Type; //pointer to array of mixers in UAVObjects
 	const Mixer_t * mixer = &mixers[index];
 
-	float result = (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE1] / 128.0f) * curve1) +
-		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE2] / 128.0f) * curve2) +
-		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_ROLL] / 128.0f) * desired->Roll) +
-		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_PITCH] / 128.0f) * desired->Pitch) +
-		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_YAW] / 128.0f) * desired->Yaw);
+	float result = (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE1] * curve1) +
+	                ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE2] * curve2) +
+	                ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_ROLL] * desired->Roll) +
+	                ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_PITCH] * desired->Pitch) +
+	                ((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_YAW] * desired->Yaw)) / 128.0f;
 
 	if((mixer->type == MIXERSETTINGS_MIXER1TYPE_MOTOR) && (result < 0.0f))
 	{
