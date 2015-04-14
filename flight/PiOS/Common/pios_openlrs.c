@@ -551,20 +551,6 @@ void beacon_send(bool static_tone)
 
 // TODO: these should move into device structure, or deleted
 // if not useful to be reported via GCS
-static uint8_t hopcount;
-static uint32_t lastPacketTimeUs;
-static uint32_t numberOfLostPackets;
-static uint16_t lastAFCCvalue;
-static uint16_t linkQuality;
-static uint32_t lastRSSITimeUs;
-static uint8_t lastRSSIvalue;
-static uint16_t RSSI_sum;
-static uint8_t RSSI_count;
-static uint8_t smoothRSSI;
-static bool willhop;
-static uint32_t nextBeaconTimeMs;
-static uint32_t linkLossTimeMs;
-static uint32_t irqs;
 
 #define ntohl(v) (				\
 	(((v) & 0xFF000000) >> 24) |		\
@@ -592,7 +578,7 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 #endif /* PIOS_WDG_RFM22B */
 
 		if (i++ % 100 == 0) {
-			DEBUG_PRINTF(2,"RFM22b state: %d, IRQs: %d\r\n", openlrs_dev->rf_mode, irqs);
+			DEBUG_PRINTF(2,"Waiting bind\r\n");
 
 #if defined(PIOS_LED_LINK)
 			PIOS_LED_Toggle(PIOS_LED_LINK);
@@ -711,9 +697,9 @@ static void pios_openlrs_setup(struct pios_openlrs_dev *openlrs_dev, bool bind)
 	rfmSetChannel(openlrs_dev, openlrs_dev->rf_channel);
 
 	// Count hopchannels as we need it later
-	hopcount=0;
-	while ((hopcount < MAXHOPS) && (openlrs_dev->bind_data.hopchannel[hopcount] != 0)) {
-		hopcount++;
+	openlrs_dev->hopcount = 0;
+	while ((openlrs_dev->hopcount < MAXHOPS) && (openlrs_dev->bind_data.hopchannel[openlrs_dev->hopcount] != 0)) {
+		openlrs_dev->hopcount++;
 	}
 
 	//################### RX SYNC AT STARTUP #################
@@ -721,7 +707,7 @@ static void pios_openlrs_setup(struct pios_openlrs_dev *openlrs_dev, bool bind)
 	to_rx_mode(openlrs_dev);
 
 	openlrs_dev->link_acquired = 0;
-	lastPacketTimeUs = micros();
+	openlrs_dev->lastPacketTimeUs = micros();
 
 	DEBUG_PRINTF(2,"OpenLRSng RX setup complete\r\n");
 }
@@ -756,16 +742,16 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		rfm22_deassertCs(openlrs_dev);
 		rfm22_releaseBus(openlrs_dev);
 
-		lastAFCCvalue = rfmGetAFCC(openlrs_dev);
+		openlrs_dev->lastAFCCvalue = rfmGetAFCC(openlrs_dev);
 
 #if defined(PIOS_LED_LINK)
 		PIOS_LED_Toggle(PIOS_LED_LINK);
 #endif /* PIOS_LED_LINK */
 
-		lastPacketTimeUs = timeTemp; // used saved timestamp to avoid skew by I2C
-		numberOfLostPackets = 0;
-		linkQuality <<= 1;
-		linkQuality |= 1;
+		openlrs_dev->lastPacketTimeUs = timeTemp; // used saved timestamp to avoid skew by I2C
+		openlrs_dev->numberOfLostPackets = 0;
+		openlrs_dev->linkQuality <<= 1;
+		openlrs_dev->linkQuality |= 1;
 
 		// TODO: updateLBeep(false);
 
@@ -841,7 +827,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 					tx_buf[0] |= (0x37 + bytes);
 				} else {
 					// tx_buf[0] lowest 6 bits left at 0
-					tx_buf[1] = lastRSSIvalue;
+					tx_buf[1] = openlrs_dev->lastRSSIvalue;
 
 					if (rx_config.pinMapping[ANALOG0_OUTPUT] == PINMAP_ANALOG) {
 						tx_buf[2] = analogRead(OUTPUT_PIN[ANALOG0_OUTPUT]) >> 2;
@@ -862,9 +848,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 					} else {
 						tx_buf[3] = 0;
 					}
-					tx_buf[4] = (lastAFCCvalue >> 8);
-					tx_buf[5] = lastAFCCvalue & 0xff;
-					tx_buf[6] = countSetBits(linkQuality & 0x7fff);
+					tx_buf[4] = (openlrs_dev->lastAFCCvalue >> 8);
+					tx_buf[5] = openlrs_dev->lastAFCCvalue & 0xff;
+					tx_buf[6] = countSetBits(openlrs_dev->linkQuality & 0x7fff);
 				}
 			}
 #ifdef TEST_NO_ACK_BY_CH1
@@ -894,7 +880,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		openlrs_dev->rf_mode = Receive;
 		rx_reset(openlrs_dev);
 
-		willhop = 1;
+		openlrs_dev->willhop = 1;
 
 		//Green_LED_OFF;
 	}
@@ -903,84 +889,84 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	timeMs = millis();
 
 	// sample RSSI when packet is in the 'air'
-	if ((numberOfLostPackets < 2) && (lastRSSITimeUs != lastPacketTimeUs) &&
-			(timeUs - lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) - 1500)) {
+	if ((openlrs_dev->numberOfLostPackets < 2) && (openlrs_dev->lastRSSITimeUs != openlrs_dev->lastPacketTimeUs) &&
+			(timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) - 1500)) {
 
 		//DEBUG_PRINTF(3,"pios_openlrs_rx_loop -- measure RSSI\r\n");
 
-		lastRSSITimeUs = lastPacketTimeUs;
-		lastRSSIvalue = rfmGetRSSI(openlrs_dev); // Read the RSSI value
-		RSSI_sum += lastRSSIvalue;    // tally up for average
-		RSSI_count++;
+		openlrs_dev->lastRSSITimeUs = openlrs_dev->lastPacketTimeUs;
+		openlrs_dev->lastRSSIvalue = rfmGetRSSI(openlrs_dev); // Read the RSSI value
+		openlrs_dev->RSSI_sum += openlrs_dev->lastRSSIvalue;    // tally up for average
+		openlrs_dev->RSSI_count++;
 
-		if (RSSI_count > 8) {
-			RSSI_sum /= RSSI_count;
-			smoothRSSI = (((uint16_t)smoothRSSI * 3 + (uint16_t)RSSI_sum * 1) / 4);
+		if (openlrs_dev->RSSI_count > 8) {
+			openlrs_dev->RSSI_sum /= openlrs_dev->RSSI_count;
+			openlrs_dev->smoothRSSI = (((uint16_t)openlrs_dev->smoothRSSI * 3 + (uint16_t)openlrs_dev->RSSI_sum * 1) / 4);
 			// TODO: set_RSSI_output();
-			RSSI_sum = 0;
-			RSSI_count = 0;
-			DEBUG_PRINTF(2,"RSSI: %d\r\n", smoothRSSI);
+			openlrs_dev->RSSI_sum = 0;
+			openlrs_dev->RSSI_count = 0;
+			DEBUG_PRINTF(2,"RSSI: %d\r\n", openlrs_dev->smoothRSSI);
 		}
 
 	}
 
 	if (openlrs_dev->link_acquired) {
-		if ((numberOfLostPackets < hopcount) && ((timeUs - lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) + 1000))) {
+		if ((openlrs_dev->numberOfLostPackets < openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) + 1000))) {
 			// we lost packet, hop to next channel
-			linkQuality <<= 1;
-			willhop = 1;
-			if (numberOfLostPackets == 0) {
-				linkLossTimeMs = timeMs;
-				nextBeaconTimeMs = 0;
+			openlrs_dev->linkQuality <<= 1;
+			openlrs_dev->willhop = 1;
+			if (openlrs_dev->numberOfLostPackets == 0) {
+				openlrs_dev->linkLossTimeMs = timeMs;
+				openlrs_dev->nextBeaconTimeMs = 0;
 			}
-			numberOfLostPackets++;
-			lastPacketTimeUs += getInterval(&openlrs_dev->bind_data);
-			willhop = 1;
+			openlrs_dev->numberOfLostPackets++;
+			openlrs_dev->lastPacketTimeUs += getInterval(&openlrs_dev->bind_data);
+			openlrs_dev->willhop = 1;
 			// Red_LED_ON;
 			//updateLBeep(true);
 			// TODO: set_RSSI_output();
-		} else if ((numberOfLostPackets == hopcount) && ((timeUs - lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * hopcount))) {
+		} else if ((openlrs_dev->numberOfLostPackets == openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount))) {
 			// hop slowly to allow resync with TX
-			linkQuality = 0;
-			willhop = 1;
-			smoothRSSI = 0;
+			openlrs_dev->linkQuality = 0;
+			openlrs_dev->willhop = 1;
+			openlrs_dev->smoothRSSI = 0;
 			// TODO: set_RSSI_output();
-			lastPacketTimeUs = timeUs;
+			openlrs_dev->lastPacketTimeUs = timeUs;
 		}
 
 		/* TODO: failsafe code. Important.
-		if (numberOfLostPackets) {
-			if (rx_config.failsafeDelay && (!failsafeActive) && ((timeMs - linkLossTimeMs) > delayInMs(rx_config.failsafeDelay))) {
+		if (openlrs_dev->numberOfLostPackets) {
+			if (rx_config.failsafeDelay && (!failsafeActive) && ((timeMs - openlrs_dev->linkLossTimeMs) > delayInMs(rx_config.failsafeDelay))) {
 				failsafeActive = 1;
 				failsafeApply();
-				nextBeaconTimeMs = (timeMs + delayInMsLong(rx_config.beacon_deadtime)) | 1; //beacon activating...
+				openlrs_dev->nextBeaconTimeMs = (timeMs + delayInMsLong(rx_config.beacon_deadtime)) | 1; //beacon activating...
 			}
-			if (rx_config.pwmStopDelay && (!disablePWM) && ((timeMs - linkLossTimeMs) > delayInMs(rx_config.pwmStopDelay))) {
+			if (rx_config.pwmStopDelay && (!disablePWM) && ((timeMs - openlrs_dev->linkLossTimeMs) > delayInMs(rx_config.pwmStopDelay))) {
 				disablePWM = 1;
 			}
-			if (rx_config.ppmStopDelay && (!disablePPM) && ((timeMs - linkLossTimeMs) > delayInMs(rx_config.ppmStopDelay))) {
+			if (rx_config.ppmStopDelay && (!disablePPM) && ((timeMs - openlrs_dev->linkLossTimeMs) > delayInMs(rx_config.ppmStopDelay))) {
 				disablePPM = 1;
 			}
 
-			if ((rx_config.beacon_frequency) && (nextBeaconTimeMs) &&
-					((timeMs - nextBeaconTimeMs) < 0x80000000)) {
+			if ((rx_config.beacon_frequency) && (openlrs_dev->nextBeaconTimeMs) &&
+					((timeMs - openlrs_dev->nextBeaconTimeMs) < 0x80000000)) {
 				beacon_send((rx_config.flags & STATIC_BEACON));
 				init_rfm(openlrs_dev, 0);   // go back to normal RX
 				rx_reset();
-				nextBeaconTimeMs = (millis() +  (1000UL * rx_config.beacon_interval)) | 1; // avoid 0 in time
+				openlrs_dev->nextBeaconTimeMs = (millis() +  (1000UL * rx_config.beacon_interval)) | 1; // avoid 0 in time
 			}
 		}
 		*/
 	} else {
 		// Waiting for first packet, hop slowly
-		if ((timeUs - lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * hopcount)) {
+		if ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount)) {
 			//DEBUG_PRINTF(3,"pios_openlrs_rx_loop - slow hop\r\n");
-			lastPacketTimeUs = timeUs;
-			willhop = 1;
+			openlrs_dev->lastPacketTimeUs = timeUs;
+			openlrs_dev->willhop = 1;
 		}
 	}
 
-	if (willhop == 1) {
+	if (openlrs_dev->willhop == 1) {
 		openlrs_dev->rf_channel++;
 
 		if ((openlrs_dev->rf_channel == MAXHOPS) || (openlrs_dev->bind_data.hopchannel[openlrs_dev->rf_channel] == 0)) {
@@ -988,11 +974,11 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		}
 
 		/*
-		if ((rx_config.beacon_frequency) && (nextBeaconTimeMs)) {
+		if ((rx_config.beacon_frequency) && (openlrs_dev->nextBeaconTimeMs)) {
 			// Listen for RSSI on beacon channel briefly for 'trigger'
 			uint8_t brssi = beaconGetRSSI(openlrs_dev);
 			if (brssi > ((beaconRSSIavg>>2) + 20)) {
-				nextBeaconTimeMs = millis() + 1000L;
+				openlrs_dev->nextBeaconTimeMs = millis() + 1000L;
 			}
 			beaconRSSIavg = (beaconRSSIavg * 3 + brssi * 4) >> 2;
 
@@ -1001,7 +987,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		*/
 
 		rfmSetChannel(openlrs_dev, openlrs_dev->rf_channel);
-		willhop = 0;
+		openlrs_dev->willhop = 0;
 	}
 }
 
@@ -1146,9 +1132,6 @@ static void pios_openlrs_task(void *parameters)
 
 bool PIOS_OpenLRS_EXT_Int(void)
 {
-
-	irqs++;
-
 	struct pios_openlrs_dev *openlrs_dev = g_openlrs_dev;
 	if (!pios_openlrs_validate(openlrs_dev))
 		return false;

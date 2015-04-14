@@ -172,6 +172,21 @@ struct pios_openlrs_dev {
   uint8_t it_status2;
 
   uint8_t rx_buf[64];
+
+  // Variables from OpenLRS for radio control
+  uint8_t hopcount;
+  uint32_t lastPacketTimeUs;
+  uint32_t numberOfLostPackets;
+  uint16_t lastAFCCvalue;
+  uint16_t linkQuality;
+  uint32_t lastRSSITimeUs;
+  uint8_t lastRSSIvalue;
+  uint16_t RSSI_sum;
+  uint8_t RSSI_count;
+  uint8_t smoothRSSI;
+  bool willhop;
+  uint32_t nextBeaconTimeMs;
+  uint32_t linkLossTimeMs;
 };
 
 bool PIOS_OpenLRS_EXT_Int(void);
