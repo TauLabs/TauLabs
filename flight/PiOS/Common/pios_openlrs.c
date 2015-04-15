@@ -156,6 +156,27 @@ static void unpackChannels(uint8_t config, int16_t PPM[], uint8_t *p)
 	}
 }
 
+//! Apply the OpenLRS rescaling to the channels
+static void rescaleChannels(int16_t PPM[])
+{
+	for (uint32_t i = 0; i < OPENLRS_PPM_NUM_CHANNELS; i++) {
+		int16_t x = PPM[i];
+		int16_t ret;
+
+		if (x < 12) {
+			ret = 808 + x * 16;
+		} else if (x < 1012) {
+			ret = x + 988;
+		} else if (x < 1024) {
+			ret = 2000 + (x - 1011) * 16;
+		} else {
+			ret = 2192;
+		}
+
+		PPM[i] = ret;
+	}
+}
+
 static uint8_t countSetBits(uint16_t x)
 {
 	x  = x - ((x >> 1) & 0x5555);
@@ -807,6 +828,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 		if ((openlrs_dev->rx_buf[0] & 0x3e) == 0x00) {
 			unpackChannels(openlrs_dev->bind_data.flags & 7, openlrs_dev->ppm, openlrs_dev->rx_buf + 1);
+			rescaleChannels(openlrs_dev->ppm);
 
 			// Call the PPM received callback if it's available.
 			if (openlrs_dev->openlrs_rcvr_id) {
