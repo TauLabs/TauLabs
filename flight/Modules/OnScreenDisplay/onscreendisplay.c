@@ -740,7 +740,7 @@ void draw_map_home_center(int width_px, int height_px, int width_m, int height_m
 			if ((fabs(NED[1]) < width_m / 2) && (fabs(NED[0]) < height_m / 2)) {
 				x = GRAPHICS_X_MIDDLE + scale_x * NED[1];
 				y = GRAPHICS_Y_MIDDLE - scale_y * NED[0];
-				write_string("x", x, y - 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+				write_string("T", x, y - 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
 			}
 		}
 	}
@@ -926,13 +926,13 @@ void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m,
 					}
 					x = GRAPHICS_X_MIDDLE + p_east_draw * scale_x;
 					y = GRAPHICS_Y_MIDDLE - p_north_draw * scale_y;
-					write_string("x", x, y- 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+					write_string("T", x, y- 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
 				}
 			} else {
 				// inside map
 				x = GRAPHICS_X_MIDDLE + p_east_draw * scale_x;
 				y = GRAPHICS_Y_MIDDLE - p_north_draw * scale_y;
-				write_string("x", x, y- 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
+				write_string("T", x, y- 4, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 1);
 			}
 		}
 	}
