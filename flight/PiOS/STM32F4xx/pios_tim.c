@@ -433,6 +433,7 @@ static void PIOS_TIM_3_irq_handler (void)
 #endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
+#if !defined(PIOS_VIDEO_TIM4_COUNTER)
 void TIM4_IRQHandler(void) __attribute__ ((alias ("PIOS_TIM_4_irq_handler")));
 static void PIOS_TIM_4_irq_handler (void)
 {
@@ -446,6 +447,7 @@ static void PIOS_TIM_4_irq_handler (void)
 	CH_IRQ_EPILOGUE();
 #endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
+#endif /* PIOS_VIDEO_TIM4_COUNTER */
 
 void TIM5_IRQHandler(void) __attribute__ ((alias ("PIOS_TIM_5_irq_handler")));
 static void PIOS_TIM_5_irq_handler (void)

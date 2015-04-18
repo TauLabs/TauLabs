@@ -1,0 +1,128 @@
+<xml>
+	<object name="OnScreenDisplayPageSettings" singleinstance="true" settings="true">
+		<description>On Sreen Display Page Settings</description>
+		<field name="Alarm" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="AlarmPosX" units="" type="int16" elements="1" defaultvalue="0" />
+		<field name="AlarmPosY" units="" type="int16" elements="1" defaultvalue="220"/>
+		<field name="AlarmFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="AlarmAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
+
+		
+		<field name="AltitudeScale" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="AltitudeScaleAlign" units="" type="enum" elements="1" options="Left,Right" defaultvalue="Right"/>
+		<field name="AltitudeScalePos" units="" type="int16" elements="1" defaultvalue="350"/>
+		<field name="AltitudeScaleSource" units="" type="enum" elements="1" options="Baro,Nav" defaultvalue="Baro"/>
+
+		<field name="ArmStatus" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="ArmStatusPosX" units="" type="int16" elements="1" defaultvalue="0"/>
+		<field name="ArmStatusPosY" units="" type="int16" elements="1" defaultvalue="14"/>
+		<field name="ArmStatusFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="ArmStatusAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
+
+		
+		<field name="ArtificialHorizon" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		
+		<field name="BatteryVolt" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="BatteryVoltPosX" units="" type="int16" elements="1" defaultvalue="350"/>
+		<field name="BatteryVoltPosY" units="" type="int16" elements="1" defaultvalue="4"/>
+		<field name="BatteryVoltFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="BatteryVoltAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
+
+
+		<field name="BatteryCurrent" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="BatteryCurrentPosX" units="" type="int16" elements="1" defaultvalue="350"/>
+		<field name="BatteryCurrentPosY" units="" type="int16" elements="1" defaultvalue="14"/>
+		<field name="BatteryCurrentFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="BatteryCurrentAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
+
+		
+		<field name="BatteryConsumed" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="BatteryConsumedPosX" units="" type="int16" elements="1" defaultvalue="350"/>
+		<field name="BatteryConsumedPosY" units="" type="int16" elements="1" defaultvalue="24"/>
+		<field name="BatteryConsumedFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="BatteryConsumedAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
+
+		
+		<field name="Compass" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="CompassPos" units="" type="int16" elements="1" defaultvalue="15"/>
+		<field name="CompassHomeDir" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+
+
+		<field name="Cpu" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
+		<field name="CpuPosX" units="" type="int16" elements="1" defaultvalue="0"/>
+		<field name="CpuPosY" units="" type="int16" elements="1" defaultvalue="210"/>
+		<field name="CpuFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="CpuAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
+
+
+		<field name="FlightMode" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="FlightModePosX" units="" type="int16" elements="1" defaultvalue="0"/>
+		<field name="FlightModePosY" units="" type="int16" elements="1" defaultvalue="4"/>
+		<field name="FlightModeFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="FlightModeAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
+
+		
+		<field name="GpsStatus" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="GpsStatusPosX" units="" type="int16" elements="1" defaultvalue="0"/>
+		<field name="GpsStatusPosY" units="" type="int16" elements="1" defaultvalue="230"/>
+		<field name="GpsStatusFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="GpsStatusAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
+
+
+		<field name="GpsLat" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="GpsLatPosX" units="" type="int16" elements="1" defaultvalue="200"/>
+		<field name="GpsLatPosY" units="" type="int16" elements="1" defaultvalue="230"/>
+		<field name="GpsLatFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="GpsLatAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
+
+
+		<field name="GpsLon" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="GpsLonPosX" units="" type="int16" elements="1" defaultvalue="350"/>
+		<field name="GpsLonPosY" units="" type="int16" elements="1" defaultvalue="230"/>
+		<field name="GpsLonFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="GpsLonAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
+
+		<field name="GpsMgrs" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
+		<field name="GpsMgrsPosX" units="" type="int16" elements="1" defaultvalue="350"/>
+		<field name="GpsMgrsPosY" units="" type="int16" elements="1" defaultvalue="230"/>
+		<field name="GpsMgrsFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="GpsMgrsAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
+
+		<field name="HomeDistance" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="HomeDistancePosX" units="" type="int16" elements="1" defaultvalue="150"/>
+		<field name="HomeDistancePosY" units="" type="int16" elements="1" defaultvalue="210"/>
+		<field name="HomeDistanceFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="HomeDistanceAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
+
+		<field name="Map" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
+		<field name="MapCenterMode" units="" type="enum" elements="1" options="UAV,Home" defaultvalue="UAV"/>
+		<field name="MapShowWp" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
+		<field name="MapShowUavHome" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="MapWidthMeters" units="" type="int16" elements="1" defaultvalue="2000"/>
+		<field name="MapWidthPixels" units="" type="int16" elements="1" defaultvalue="180"/>
+		<field name="MapHeightMeters" units="" type="int16" elements="1" defaultvalue="2000"/>
+		<field name="MapHeightPixels" units="" type="int16" elements="1" defaultvalue="140"/>
+
+		<field name="Rssi" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="RssiPosX" units="" type="int16" elements="1" defaultvalue="150"/>
+		<field name="RssiPosY" units="" type="int16" elements="1" defaultvalue="195"/>
+		<field name="RssiFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="RssiAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
+
+		<field name="SpeedScale" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="SpeedScaleAlign" units="" type="enum" elements="1" options="Left,Right" defaultvalue="Left"/>
+		<field name="SpeedScalePos" units="" type="int16" elements="1" defaultvalue="0"/>
+		<field name="SpeedScaleSource" units="" type="enum" elements="1" options="GPS,Nav,Airspeed" defaultvalue="GPS"/>
+
+		<field name="Time" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="TimePosX" units="" type="int16" elements="1" defaultvalue="350"/>
+		<field name="TimePosY" units="" type="int16" elements="1" defaultvalue="220"/>
+		<field name="TimeFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="TimeAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
+
+	<access gcs="readwrite" flight="readwrite"/>
+	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+	<telemetryflight acked="true" updatemode="onchange" period="0"/>
+	<logging updatemode="manual" period="0"/>
+	</object>
+</xml>
