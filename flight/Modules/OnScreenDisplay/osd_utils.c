@@ -1199,7 +1199,7 @@ void write_string(char *str, int x, int y, int xs, int ys, int va, int ha, int f
  * @param  altitude
  * @param output
  */
-void lla_to_ned(int32_t lat, int32_t lon, float alt, float *NED)
+void lla_to_ned(int32_t lattitude, int32_t longitude, float altitude, float *NED)
 {
 	// TODO: Abstract out this code and also precompute the part based
 	// on home location.
@@ -1210,16 +1210,16 @@ void lla_to_ned(int32_t lat, int32_t lon, float alt, float *NED)
 	GPSPositionData gpsPosition;
 	GPSPositionGet(&gpsPosition);
 
-	lat = lat / 10.0e6f * DEG2RAD;
+	float lat = lattitude / 10.0e6f * DEG2RAD;
 
 	float T[3];
-	T[0] = alt+6.378137E6f;
-	T[1] = cosf(lat)*(alt+6.378137E6f);
+	T[0] = altitude + 6.378137E6f;
+	T[1] = cosf(lat) * (altitude + 6.378137E6f);
 	T[2] = -1.0f;
 
-	float dL[3] = {(lat - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
-		(lon - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-		(alt + gpsPosition.GeoidSeparation - homeLocation.Altitude)};
+	float dL[3] = {(lattitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
+				   (longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
+				   (altitude + gpsPosition.GeoidSeparation - homeLocation.Altitude)};
 
 	NED[0] = T[0] * dL[0];
 	NED[1] = T[1] * dL[1];
