@@ -155,18 +155,39 @@ static void PIOS_DSM_ResetState(struct pios_dsm_dev *dsm_dev)
 }
 
 /**
- * Detect DSM resolution based on transmitter information byte
- * Satellite RX must be bound as main RX (Odd number of binding pulses)
+ * DSM packets expect to have sequential channel numbers but
+ * based on resolution they will be shifted by one position
  */
 enum dsm_resolution PIOS_DSM_DetectResolution(uint8_t *packet)
 {
-	if (packet[1] == 0x00)           // Return DSM_UNKNOWN if transmitter information byte = 0
+	uint8_t channel0, channel1;
+	uint16_t word0, word1;
+	bool bit_10, bit_11;
+
+	uint8_t *s = &packet[2];
+
+	// Check for 10 bit
+	word0 = ((uint16_t)s[0] << 8) | s[1];
+	word1 = ((uint16_t)s[2] << 8) | s[3];
+
+	// Don't detect on the second data packets
+	if (word0 & DSM_2ND_FRAME_MASK)
 		return DSM_UNKNOWN;
-	
-	if ((packet[1] & 0x10) == 0x00)  // Check resolution bit in transmitter information byte
-		return DSM_10BIT;            // and set DSM resolution accordingly
-	else 
+
+	channel0 = (word0 >> 10) & 0x0f;
+	channel1 = (word1 >> 10) & 0x0f;
+	bit_10 = (channel0 == 1) && (channel1 == 5);
+
+	// Check for 11 bit
+	channel0 = (word0 >> 11) & 0x0f;
+	channel1 = (word1 >> 11) & 0x0f;
+	bit_11 = (channel0 == 1) && (channel1 == 5);
+
+	if (bit_10 && !bit_11)
+		return DSM_10BIT;
+	if (bit_11 && !bit_10)
 		return DSM_11BIT;
+	return DSM_UNKNOWN;
 }
 
 /**
