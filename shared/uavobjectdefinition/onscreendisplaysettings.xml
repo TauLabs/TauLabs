@@ -1,0 +1,21 @@
+<xml>
+	<object name="OnScreenDisplaySettings" singleinstance="true" settings="true">
+		<description>On Sreen Display Settings</description>
+		<field name="OSDEnabled" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="Units" units="" type="enum" elements="1" options="Metric,Imperial" defaultvalue="Metric"/>
+		<field name="PALWhite" units=""  type="uint8"  elements="1" defaultvalue="110"/>
+		<field name="PALBlack" units=""  type="uint8"  elements="1" defaultvalue="35"/>
+		<field name="NTSCWhite" units=""  type="uint8"  elements="1" defaultvalue="110"/>
+		<field name="NTSCBlack" units=""  type="uint8"  elements="1" defaultvalue="20"/>
+		<field name="XOffset" units=""  type="int8"  elements="1" defaultvalue="0"/>
+		<field name="YOffset" units=""  type="int8"  elements="1" defaultvalue="0"/>
+		<field name="NumPages" units=""  type="int8"  elements="1" defaultvalue="2"/>
+		<field name="PageSwitch" units=""  type="enum" elements="1" options="Accessory0,Accessory1,Accessory2" defaultvalue="Accessory0"/>
+		<field name="PageConfig" units="" type="enum" elements="6" options="Custom1,Custom2,Custom3,Custom4,Off"
+		       defaultvalue="Custom1,Custom1,Custom1,Custom1,Custom1,Custom1"/>
+	<access gcs="readwrite" flight="readwrite"/>
+	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+	<telemetryflight acked="true" updatemode="onchange" period="0"/>
+	<logging updatemode="manual" period="0"/>
+	</object>
+</xml>
