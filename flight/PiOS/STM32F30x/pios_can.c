@@ -215,6 +215,10 @@ static void PIOS_CAN_RegisterTxCallback(uintptr_t can_id, pios_com_callback tx_o
 //! The mapping of message types to CAN BUS StdID
 static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
 	[PIOS_CAN_GIMBAL] = 0x130,
+	[PIOS_CAN_ATTITUDE_ROLL_PITCH] = 0x185,
+	[PIOS_CAN_ATTITUDE_YAW] = 0x196,
+	[PIOS_CAN_BATTERY_VOLT] = 0x2A0,
+	[PIOS_CAN_BATTERY_CURR] = 0x2A1,
 };
 
 //! The mapping of message types to CAN BUS StdID
@@ -391,6 +395,18 @@ int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages msg_id, uint8_t *da
 	switch(msg_id) {
 	case PIOS_CAN_GIMBAL:
 		bytes = sizeof(struct pios_can_gimbal_message);
+		break;
+	case PIOS_CAN_ATTITUDE_ROLL_PITCH:
+		bytes = sizeof(struct pios_can_roll_pitch_message);
+		break;
+	case PIOS_CAN_ATTITUDE_YAW:
+		bytes = sizeof(struct pios_can_yaw_message);
+		break;
+	case PIOS_CAN_BATTERY_VOLT:
+		bytes = sizeof(struct pios_can_volt_message);
+		break;
+	case PIOS_CAN_BATTERY_CURR:
+		bytes = sizeof(struct pios_can_curr_message);
 		break;
 	default:
 		return -1;

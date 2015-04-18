@@ -42,6 +42,10 @@ enum pios_can_messages {
 	PIOS_CAN_BATTERY_CURR = 4,
 	PIOS_CAN_LAST = 10
 };
+// Note: new messages must be defined in both
+//    pios_can_message_stdid
+//    get_message_size
+// in pios_can.c
 
 //! Message to tell gimbal the desired setpoint and FC state
 struct pios_can_gimbal_message {
