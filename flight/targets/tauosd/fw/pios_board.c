@@ -310,15 +310,18 @@ void PIOS_Board_Init(void) {
 	if (PIOS_COM_Init(&pios_com_can_id, &pios_can_com_driver, pios_can_id,
 	                  rx_buffer, PIOS_COM_CAN_RX_BUF_LEN,
 	                  tx_buffer, PIOS_COM_CAN_TX_BUF_LEN))
-		panic(6);
+		panic(1);
 
 	pios_com_bridge_id = pios_com_can_id;
 #endif
 
 #if defined(PIOS_INCLUDE_FLASH)
+	/* This is required to write to flash, but should not be. Indicates something odd on power up */
+	FLASH_ClearFlag(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR|FLASH_FLAG_PGSERR);
+
 	/* Inititialize all flash drivers */
 	if (PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg) != 0)
-		panic(5);
+		panic(2);
 
 	/* Register the partition table */
 	const struct pios_flash_partition * flash_partition_table;
@@ -327,10 +330,9 @@ void PIOS_Board_Init(void) {
 	PIOS_FLASH_register_partition_table(flash_partition_table, num_partitions);
 
 	/* Mount all filesystems */
-	/*int32_t fail = PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS);
-	if (fail < 0) {
-		panic(-fail);
-	}*/
+	if (PIOS_FLASHFS_Logfs_Init(&pios_uavo_settings_fs_id, &flashfs_settings_cfg, FLASH_PARTITION_LABEL_SETTINGS) != 0) {
+		panic(2);
+	}
 
 #if defined(ERASE_FLASH)
 	PIOS_FLASHFS_Format(pios_uavo_settings_fs_id);

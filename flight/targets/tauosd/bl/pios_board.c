@@ -46,6 +46,9 @@ void PIOS_Board_Init()
 	/* Delay system */
 	PIOS_DELAY_Init();
 
+	/* This is required to write to flash, but should not be. Indicates something odd on power up */
+	FLASH_ClearFlag(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR|FLASH_FLAG_PGSERR);
+
 #if defined(PIOS_INCLUDE_LED)
 	PIOS_LED_Init(&pios_led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
