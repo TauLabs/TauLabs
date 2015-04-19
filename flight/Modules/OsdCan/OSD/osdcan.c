@@ -33,6 +33,8 @@
 #include "pios_can.h"
 
 #include "attitudeactual.h"
+#include "baroaltitude.h"
+#include "flightstatus.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -44,7 +46,10 @@
 // Private types
 
 // Private variables
-static struct pios_queue *queue;
+static struct pios_queue *queue_roll_pitch;
+static struct pios_queue *queue_yaw;
+static struct pios_queue *queue_altitude;
+static struct pios_queue *queue_flightstatus;
 static struct pios_thread *taskHandle;
 
 // Private functions
@@ -76,7 +81,10 @@ static int32_t OsdCanInitialize()
 	AttitudeActualInitialize();
 
 	// Create object queues
-	queue = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_ATTITUDE_ROLL_PITCH);
+	queue_roll_pitch = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_ATTITUDE_ROLL_PITCH);
+	queue_yaw = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_ATTITUDE_YAW);
+	queue_flightstatus = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_FLIGHTSTATUS);
+	queue_altitude = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_ALT);
 
 	return 0;
 }
@@ -92,12 +100,12 @@ static void osdCanTask(void* parameters)
 	while (1) {
 
 		struct pios_can_roll_pitch_message roll_pitch_message;
+		struct pios_can_yaw_message pios_can_yaw_message;
+		struct pios_can_flightstatus_message pios_can_flightstatus_message;
+		struct pios_can_alt_message pios_can_alt_message;
 
 		// Wait for queue message
-		if (PIOS_Queue_Receive(queue, &roll_pitch_message, 10) == true) {
-
-			PIOS_LED_Toggle(PIOS_LED_ALARM);
-
+		if (PIOS_Queue_Receive(queue_roll_pitch, &roll_pitch_message, 0) == true) {
 			AttitudeActualData attitudeActual;
 			AttitudeActualGet(&attitudeActual);
 			attitudeActual.Roll = roll_pitch_message.fc_roll;
@@ -105,6 +113,26 @@ static void osdCanTask(void* parameters)
 			AttitudeActualSet(&attitudeActual);
 		}
 
+		if (PIOS_Queue_Receive(queue_yaw, &pios_can_yaw_message, 0) == true) {
+			AttitudeActualData attitudeActual;
+			AttitudeActualGet(&attitudeActual);
+			attitudeActual.Yaw = pios_can_yaw_message.fc_yaw;
+			AttitudeActualSet(&attitudeActual);
+		}
+
+		if (PIOS_Queue_Receive(queue_altitude, &pios_can_alt_message, 0) == true) {
+			BaroAltitudeAltitudeSet(&pios_can_alt_message.fc_alt);
+		}
+
+		if (PIOS_Queue_Receive(queue_flightstatus, &pios_can_flightstatus_message, 0) == true) {
+			FlightStatusData flightStatus;
+			FlightStatusGet(&flightStatus);
+			flightStatus.FlightMode = pios_can_flightstatus_message.flight_mode;
+			flightStatus.Armed = pios_can_flightstatus_message.armed;
+			FlightStatusSet(&flightStatus);
+		}
+
+		PIOS_Thread_Sleep(1);
 	}
 
 }
