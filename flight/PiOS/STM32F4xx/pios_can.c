@@ -399,7 +399,7 @@ static void PIOS_CAN_RxGeneric(void)
 	PIOS_Assert(valid);
 
 	CanRxMsg RxMessage;
-	CAN_Receive(CAN1, CAN_FIFO1, &RxMessage);
+	CAN_Receive(can_dev->cfg->regs, CAN_FIFO1, &RxMessage);
 
 	bool rx_need_yield = false;
 	if (RxMessage.StdId == CAN_COM_ID) {
