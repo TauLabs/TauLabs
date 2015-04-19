@@ -20,15 +20,41 @@
 #include "inc/fonts.h"
 
 struct FontEntry fonts[NUM_FONTS + 1] = {
-{ 0,  8,  14, "Outlined8x14",
-	font_lookup_outlined8x14,
-	font_data_outlined8x14,
-	0 },
-{ 1,  8,  8,  "Outlined8x8",
-	font_lookup_outlined8x8,
-	font_data_outlined8x8,
-	FONT_UPPERCASE_ONLY },
-{ 2,  8,  10, "font8x10",    0,  0, 0 },
-{ 3,  12, 18, "font12x18",   0,  0, 0 },
-{ -1, -1, -1, "",            0,  0, 0 } // ends font table
+	{
+		.id = 0,
+		.width = 8,
+		.height = 14,
+		.name = "Outlined8x14",
+		.lookup = font_lookup_outlined8x14,
+		.data = font_data_outlined8x14,
+		.flags = 0
+	},
+	{
+		.id = 1,
+		.width = 8,
+		.height = 8,
+		.name = "Outlined8x8",
+		.lookup = font_lookup_outlined8x8,
+		.data = font_data_outlined8x8,
+		.flags = FONT_UPPERCASE_ONLY
+	},
+	{
+		.id = 2,
+		.width = 8,
+		.height = 10,
+		.name = "font8x10",
+		.lookup = 0,
+		.data = 0,
+		.flags = 0
+	},
+	{
+		.id = 3,
+		.width = 12,
+		.height = 18,
+		.name = "font12x18",
+		.lookup = 0,
+		.data = 0,
+		.flags = 0
+	},
+	{ -1, -1, -1, "",  0,  0, 0 } // ends font table
 };
