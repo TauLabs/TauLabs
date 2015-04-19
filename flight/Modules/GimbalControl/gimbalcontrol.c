@@ -106,9 +106,6 @@ MODULE_INITCALL(GimbalControlInitialize, GimbalControlStart)
 static void gimbalControlTask(void *parameters)
 {
 
-	BrushlessGimbalSettingsData settings;
-	BrushlessGimbalSettingsGet(&settings);
-
 	// Loop forever
 	while (1) {
 
@@ -121,7 +118,7 @@ static void gimbalControlTask(void *parameters)
 
 			cameraDesired.Declination = bgc_message.setpoint_pitch;
 			cameraDesired.Bearing = bgc_message.setpoint_yaw;
-			cameraDesired.Roll = bgc_message.fc_roll * settings.RollFraction / 100.0f;
+			cameraDesired.Roll = bgc_message.fc_roll;
 			cameraDesired.Pitch = bgc_message.fc_pitch;
 			cameraDesired.Yaw = bgc_message.fc_yaw;
 			CameraDesiredSet(&cameraDesired);

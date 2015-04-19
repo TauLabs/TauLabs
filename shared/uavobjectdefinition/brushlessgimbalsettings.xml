@@ -6,7 +6,7 @@
         <field name="SlewLimit" units="deg/s^2" type="uint16" elementnames="Roll,Pitch,Yaw" options="" defaultvalue="32000,32000,32000"/>
         <field name="Damping" units="deg/(deg/s)" type="float" elementnames="Roll,Pitch,Yaw" options="" defaultvalue="0.5"/>
         <field name="MaxAngle" units="degs" type="uint8" elementnames="Roll,Pitch,Yaw" options="" defaultvalue="35"/>
-        <field name="RollFraction" units="%" type="uint8" elements="1" defaultvalue="100"/>
+        <field name="RollFraction" units="%" type="uint8" elements="1" defaultvalue="0"/>
         <field name="PowerupSequence" units="" type="enum" options="FALSE,TRUE" elements="1" defaultvalue="TRUE"/>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
