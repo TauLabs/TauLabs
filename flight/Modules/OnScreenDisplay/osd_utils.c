@@ -931,6 +931,8 @@ void write_word_misaligned_lm(uint16_t wordl, uint16_t wordm, unsigned int addr,
 	write_word_misaligned(draw_buffer_mask, wordm, addr, xoff, mmode);
 }
 
+extern const struct FontEntry fonts[NUM_FONTS + 1];
+
 /**
  * fetch_font_info: Fetch font info structs.
  *
@@ -940,7 +942,7 @@ void write_word_misaligned_lm(uint16_t wordl, uint16_t wordm, unsigned int addr,
 int fetch_font_info(uint8_t ch, int font, struct FontEntry *font_info, char *lookup)
 {
 	// First locate the font struct.
-	if ((unsigned int)font > SIZEOF_ARRAY(fonts)) {
+	if (font > NUM_FONTS) {
 		return 0; // font does not exist, exit.
 	}
 	// Load the font info; IDs are always sequential.

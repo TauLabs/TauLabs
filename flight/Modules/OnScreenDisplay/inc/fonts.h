@@ -42,6 +42,4 @@ struct FontEntry {
     int flags;
 };
 
-extern struct FontEntry fonts[NUM_FONTS + 1];
-
 #endif // FONTS_H
