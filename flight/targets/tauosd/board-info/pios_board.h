@@ -78,7 +78,6 @@ TIM8  |           |           |           |
 //------------------------
 #define PIOS_LED_HEARTBEAT	0
 #define PIOS_LED_ALARM		1
-#define PIOS_LED_LINK 		2
 #define PIOS_LED_VIDEO      0
 
 //------------------------
@@ -104,49 +103,23 @@ extern uint32_t pios_i2c_flexiport_adapter_id;
 // See also pios_board.c
 //-------------------------
 extern uintptr_t pios_com_telem_rf_id;
-extern uintptr_t pios_com_gps_id;
 extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_bridge_id;
 extern uintptr_t pios_com_vcp_id;
-extern uintptr_t pios_com_mavlink_id;
-extern uintptr_t pios_com_hott_id;
-extern uintptr_t pios_com_frsky_sensor_hub_id;
-extern uintptr_t pios_com_lighttelemetry_id;
 extern uintptr_t pios_com_picoc_id;
 extern uintptr_t pios_com_debug_id;
 extern uintptr_t pios_com_logging_id;
 
-#define PIOS_COM_GPS                    (pios_com_gps_id)
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
 #define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
 #define PIOS_COM_BRIDGE                 (pios_com_bridge_id)
 #define PIOS_COM_VCP                    (pios_com_vcp_id)
-#define PIOS_COM_MAVLINK                (pios_com_mavlink_id)
-#define PIOS_COM_HOTT                   (pios_com_hott_id)
-#define PIOS_COM_FRSKY_SENSOR_HUB       (pios_com_frsky_sensor_hub_id)
-#define PIOS_COM_LIGHTTELEMETRY         (pios_com_lighttelemetry_id)
 #define PIOS_COM_PICOC                  (pios_com_picoc_id)
 #define PIOS_COM_DEBUG                  (pios_com_debug_id)
 #define PIOS_COM_LOGGING                (pios_com_logging_id)
 
 #define DEBUG_LEVEL 0
 #define DEBUG_PRINTF(level, ...) {if(level <= DEBUG_LEVEL && pios_com_debug_id > 0) { PIOS_COM_SendFormattedStringNonBlocking(pios_com_debug_id, __VA_ARGS__); }}
-
-#if defined(PIOS_INCLUDE_RFM22B)
-extern uint32_t pios_rfm22b_id;
-extern uint32_t pios_spi_telem_flash_id;
-#define PIOS_RFM22_SPI_PORT             (pios_spi_telem_flash_id)
-#endif /* PIOS_INCLUDE_RFM22B */
-
-//-------------------------
-// Packet Handler
-//-------------------------
-#define RS_ECC_NPARITY 4
-#define PIOS_PH_MAX_PACKET 255
-#define PIOS_PH_WIN_SIZE 3
-#define PIOS_PH_MAX_CONNECTIONS 1
-extern uint32_t pios_packet_handler;
-#define PIOS_PACKET_HANDLER (pios_packet_handler)
 
 //------------------------
 // TELEMETRY 
