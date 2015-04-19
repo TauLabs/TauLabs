@@ -84,7 +84,7 @@ struct pios_can_curr_message {
 
 //! Message to pass rssi information
 struct pios_can_rssi_message {
-	uint8_t rssi;
+	int16_t rssi;
 }  __attribute__((packed));
 
 //! Message to pass altitude information

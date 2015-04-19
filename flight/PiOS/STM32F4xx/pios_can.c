@@ -228,6 +228,7 @@ static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
 	[PIOS_CAN_BATTERY_CURR] = 0x2A1,
 	[PIOS_CAN_RSSI] = 0x2A2,
 	[PIOS_CAN_ALT] = 0x2A3,
+	[PIOS_CAN_FLIGHTSTATUS] = 0x2A4
 };
 
 static int32_t get_message_size(uint32_t msg_id) {
@@ -253,6 +254,9 @@ static int32_t get_message_size(uint32_t msg_id) {
 		break;
 	case PIOS_CAN_ALT:
 		bytes = sizeof(struct pios_can_alt_message);
+		break;
+	case PIOS_CAN_FLIGHTSTATUS:
+		bytes = sizeof(struct pios_can_flightstatus_message);
 		break;
 	default:
 		return -1;
