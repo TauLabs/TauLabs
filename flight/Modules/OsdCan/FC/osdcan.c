@@ -33,6 +33,11 @@
 #include "pios_can.h"
 
 #include "attitudeactual.h"
+#include "baroaltitude.h"
+#include "flightbatterystate.h"
+#include "flightstatus.h"
+#include "rfm22bstatus.h"
+
 
 //
 // Configuration
@@ -41,7 +46,7 @@
 #define LOAD_DELAY           7000
 
 // Private functions
-static void attitudeUpdated(UAVObjEvent* ev);
+static void objectUpdated(UAVObjEvent* ev);
 
 // Private variables
 static bool module_enabled;
@@ -56,6 +61,12 @@ int32_t OsdCanInitialize(void)
 
 	// TODO: setting to enable or disable
 
+	return -1;
+}
+
+/* stub: module has no module thread */
+int32_t OsdCanStart(void)
+{
 	if (module_enabled) {
 
 		AttitudeActualInitialize();
@@ -65,17 +76,15 @@ int32_t OsdCanInitialize(void)
 			.instId = 0,
 			.event = 0,
 		};
-		EventPeriodicCallbackCreate(&ev, attitudeUpdated, SAMPLE_PERIOD_MS);
+		EventPeriodicCallbackCreate(&ev, objectUpdated, SAMPLE_PERIOD_MS);
 
-		return 0;
+		//BaroAltitudeConnectCallback(objectUpdated);
+		//FlightBatteryStateConnectCallback(objectUpdated);
+		FlightStatusConnectCallback(objectUpdated);
+		//RFM22BStatusConnectCallback(objectUpdated);
+
 	}
 
-	return -1;
-}
-
-/* stub: module has no module thread */
-int32_t OsdCanStart(void)
-{
 	return 0;
 }
 
@@ -89,24 +98,81 @@ extern uintptr_t pios_can_id;
  * Periodic callback that processes changes in the attitude
  * and recalculates the desied gimbal angle.
  */
-static void attitudeUpdated(UAVObjEvent* ev)
+static void objectUpdated(UAVObjEvent* ev)
 {	
-	if (ev->obj != AttitudeActualHandle())
-		return;
-
 #if defined(PIOS_INCLUDE_CAN)
+	if (ev->obj == AttitudeActualHandle()) {
 
-	PIOS_LED_Toggle(PIOS_LED_LINK);
-	
-	AttitudeActualData attitude;
-	AttitudeActualGet(&attitude);
+		
+		AttitudeActualData attitude;
+		AttitudeActualGet(&attitude);
 
-	struct pios_can_roll_pitch_message pios_can_roll_pitch_message = {
-		.fc_roll = attitude.Roll,
-		.fc_pitch = attitude.Pitch
-	};
+		struct pios_can_roll_pitch_message pios_can_roll_pitch_message = {
+			.fc_roll = attitude.Roll,
+			.fc_pitch = attitude.Pitch
+		};
 
-	PIOS_CAN_TxData(pios_can_id, PIOS_CAN_ATTITUDE_ROLL_PITCH, (uint8_t *) &pios_can_roll_pitch_message);
+		PIOS_CAN_TxData(pios_can_id, PIOS_CAN_ATTITUDE_ROLL_PITCH, (uint8_t *) &pios_can_roll_pitch_message);
+
+		struct pios_can_yaw_message pios_can_yaw_message = {
+			.fc_yaw = attitude.Yaw,
+		};
+
+		PIOS_CAN_TxData(pios_can_id, PIOS_CAN_ATTITUDE_YAW, (uint8_t *) &pios_can_yaw_message);
+
+	} else if (ev->obj == FlightStatusHandle()) {
+
+		FlightStatusData flightStatus;
+		FlightStatusGet(&flightStatus);
+
+		struct pios_can_flightstatus_message flighstatus = {
+			.flight_mode = flightStatus.FlightMode,
+			.armed = flightStatus.Armed
+		};
+
+		PIOS_CAN_TxData(pios_can_id, PIOS_CAN_FLIGHTSTATUS, (uint8_t *) &flighstatus);
+
+	} else if (ev->obj == FlightBatteryStateHandle()) {
+
+		FlightBatteryStateData flightBattery;
+		FlightBatteryStateGet(&flightBattery);
+
+		struct pios_can_volt_message volt = {
+			.volt = flightBattery.Voltage
+		};
+
+		PIOS_CAN_TxData(pios_can_id, PIOS_CAN_BATTERY_VOLT, (uint8_t *) &volt);
+
+		struct pios_can_curr_message curr = {
+			.curr = flightBattery.Current,
+			.consumed = flightBattery.ConsumedEnergy
+		};
+
+		PIOS_CAN_TxData(pios_can_id, PIOS_CAN_BATTERY_CURR, (uint8_t *) &curr);
+
+	} else if (ev->obj == BaroAltitudeHandle()) {
+
+		float alt;
+		BaroAltitudeAltitudeGet(&alt);
+
+		struct pios_can_alt_message baro = {
+			.fc_alt = alt
+		};
+
+		PIOS_CAN_TxData(pios_can_id, PIOS_CAN_ALT, (uint8_t *) &baro);
+
+	} else if (ev->obj == RFM22BStatusHandle()) {
+
+		RFM22BStatusData rfm22b;
+		RFM22BStatusInstGet(1, &rfm22b);
+
+		struct pios_can_rssi_message rssi = {
+			.rssi = rfm22b.LinkQuality
+		};
+
+		PIOS_CAN_TxData(pios_can_id, PIOS_CAN_RSSI, (uint8_t *) &rssi);
+
+	}
 
 #endif /* PIOS_INCLUDE_CAN */
 
