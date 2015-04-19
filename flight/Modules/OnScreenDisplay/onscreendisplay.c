@@ -225,7 +225,7 @@ void drawBattery(uint16_t x, uint16_t y, uint8_t battery, uint16_t size)
 void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int height, int mintick_step, int majtick_step, int mintick_len, int majtick_len,
 							 int boundtick_len, __attribute__((unused)) int max_val, int flags)
 {
-	const int FONT_ID = 1;
+	const int FONT_ID = 0;
 	char temp[15];
 	struct FontEntry font_info;
 	struct FontDimensions dim;
@@ -381,7 +381,7 @@ void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int hei
 // #define COMPASS_FILLED_NUMBER
 void hud_draw_linear_compass(int v, int home_dir, int range, int width, int x, int y, int mintick_step, int majtick_step, int mintick_len, int majtick_len, __attribute__((unused)) int flags)
 {
-	const int FONT_ID = 1;
+	const int FONT_ID = 0;
 	v %= 360; // wrap, just in case.
 	struct FontEntry font_info;
 	int majtick_start = 0, majtick_end = 0, mintick_start = 0, mintick_end = 0, textoffset = 0;
@@ -472,7 +472,7 @@ void hud_draw_linear_compass(int v, int home_dir, int range, int width, int x, i
 	headingstr[1] = '0' + ((v / 10) % 10);
 	headingstr[2] = '0' + (v % 10);
 	headingstr[3] = 0;
-	fetch_font_info(0, FONT_ID, &font_info, NULL);
+	fetch_font_info(0, 3, &font_info, NULL);
 #ifdef COMPASS_SMALL_NUMBER
 	int rect_width = font_info.width * 3;
 #ifdef COMPASS_FILLED_NUMBER

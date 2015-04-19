@@ -19,7 +19,7 @@
 
 #include "inc/fonts.h"
 
-struct FontEntry fonts[NUM_FONTS + 1] = {
+const struct FontEntry fonts[NUM_FONTS + 1] = {
 	{
 		.id = 0,
 		.width = 8,
