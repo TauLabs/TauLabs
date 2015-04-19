@@ -40,7 +40,10 @@ enum pios_can_messages {
 	PIOS_CAN_ATTITUDE_YAW = 2,
 	PIOS_CAN_BATTERY_VOLT = 3,
 	PIOS_CAN_BATTERY_CURR = 4,
-	PIOS_CAN_LAST = 10
+	PIOS_CAN_RSSI = 5,
+	PIOS_CAN_ALT = 6,
+	PIOS_CAN_FLIGHTSTATUS = 7,
+	PIOS_CAN_LAST
 };
 // Note: new messages must be defined in both
 //    pios_can_message_stdid
@@ -70,12 +73,29 @@ struct pios_can_yaw_message {
 
 //! Message to pass attitude information
 struct pios_can_volt_message {
-	float batt_volt;
+	float volt;
 }  __attribute__((packed));
 
 //! Message to pass attitude information
 struct pios_can_curr_message {
-	float fc_curr;
+	float curr;
+	float consumed;
+}  __attribute__((packed));
+
+//! Message to pass rssi information
+struct pios_can_rssi_message {
+	uint8_t rssi;
+}  __attribute__((packed));
+
+//! Message to pass altitude information
+struct pios_can_alt_message {
+	float fc_alt;
+}  __attribute__((packed));
+
+//! Message to pass rssi information
+struct pios_can_flightstatus_message {
+	uint8_t flight_mode;
+	uint8_t armed;
 }  __attribute__((packed));
 
 //! Transmit a data message with a particular message ID
