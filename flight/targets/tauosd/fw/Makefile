@@ -35,6 +35,7 @@ ERASE_FLASH ?= NO
 MODULES += FirmwareIAP
 MODULES += Telemetry
 MODULES += OnScreenDisplay
+MODULES += OsdCan/OSD
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc

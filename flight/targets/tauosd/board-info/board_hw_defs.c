@@ -82,7 +82,7 @@ struct pios_can_cfg pios_can_cfg = {
 	.init = {
 		// To make it easy to use both F3 and F4 use the other APB1 bus rate
 		// divided by 2. This matches the baud rate across devices
-  		.CAN_Prescaler = 18-1,   /*!< Specifies the length of a time quantum. 
+  		.CAN_Prescaler = 21-1,   /*!< Specifies the length of a time quantum. 
                                  It ranges from 1 to 1024. */
   		.CAN_Mode = CAN_Mode_Normal,         /*!< Specifies the CAN operating mode.
                                  This parameter can be a value of @ref CAN_operating_mode */
@@ -133,7 +133,7 @@ struct pios_can_cfg pios_can_cfg = {
 	},
 	.rx_irq = {
 		.init = {
-			.NVIC_IRQChannel = CAN1_RX0_IRQn,
+			.NVIC_IRQChannel = CAN1_RX1_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
