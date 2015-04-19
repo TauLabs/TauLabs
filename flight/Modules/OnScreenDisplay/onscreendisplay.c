@@ -225,6 +225,7 @@ void drawBattery(uint16_t x, uint16_t y, uint8_t battery, uint16_t size)
 void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int height, int mintick_step, int majtick_step, int mintick_len, int majtick_len,
 							 int boundtick_len, __attribute__((unused)) int max_val, int flags)
 {
+	const int FONT_ID = 1;
 	char temp[15];
 	struct FontEntry font_info;
 	struct FontDimensions dim;
@@ -244,7 +245,7 @@ void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int hei
 		boundtick_end   = x - boundtick_len;
 	}
 	// Retrieve width of large font (font #0); from this calculate the x spacing.
-	fetch_font_info(0, 0, &font_info, NULL);
+	fetch_font_info(0, FONT_ID, &font_info, NULL);
 	int arrow_len      = (font_info.height / 2) + 1;
 	int text_x_spacing = (font_info.width / 2);
 	int max_text_y     = 0, text_length = 0;
@@ -340,9 +341,9 @@ void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int hei
 	}
 	// Draw the text.
 	if (halign == -1) {
-		write_string(temp, xx, y, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_LEFT, 0, 0);
+		write_string(temp, xx, y, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_LEFT, 0, FONT_ID);
 	} else {
-		write_string(temp, xx, y, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_RIGHT, 0, 0);
+		write_string(temp, xx, y, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_RIGHT, 0, FONT_ID);
 	}
 #ifdef VERTICAL_SCALE_BRUTE_FORCE_BLANK_OUT
 	// This is a bad brute force method destuctive to other things that maybe drawn underneath like e.g. the artificial horizon:
@@ -380,6 +381,7 @@ void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int hei
 // #define COMPASS_FILLED_NUMBER
 void hud_draw_linear_compass(int v, int home_dir, int range, int width, int x, int y, int mintick_step, int majtick_step, int mintick_len, int majtick_len, __attribute__((unused)) int flags)
 {
+	const int FONT_ID = 1;
 	v %= 360; // wrap, just in case.
 	struct FontEntry font_info;
 	int majtick_start = 0, majtick_end = 0, mintick_start = 0, mintick_end = 0, textoffset = 0;
@@ -470,7 +472,7 @@ void hud_draw_linear_compass(int v, int home_dir, int range, int width, int x, i
 	headingstr[1] = '0' + ((v / 10) % 10);
 	headingstr[2] = '0' + (v % 10);
 	headingstr[3] = 0;
-	fetch_font_info(0, 3, &font_info, NULL);
+	fetch_font_info(0, FONT_ID, &font_info, NULL);
 #ifdef COMPASS_SMALL_NUMBER
 	int rect_width = font_info.width * 3;
 #ifdef COMPASS_FILLED_NUMBER
@@ -479,7 +481,7 @@ void hud_draw_linear_compass(int v, int home_dir, int range, int width, int x, i
 	write_filled_rectangle_lm(x - (rect_width / 2), majtick_start - 7, rect_width, font_info.height, 0, 0);
 #endif
 	write_rectangle_outlined(x - (rect_width / 2), majtick_start - 7, rect_width, font_info.height, 0, 1);
-	write_string(headingstr, x + 1, majtick_start + textoffset - 5, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 1, 0);
+	write_string(headingstr, x + 1, majtick_start + textoffset - 5, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 1, FONT_ID);
 #else
 	int rect_width = (font_info.width + 1) * 3 + 2;
 #ifdef COMPASS_FILLED_NUMBER
@@ -488,7 +490,7 @@ void hud_draw_linear_compass(int v, int home_dir, int range, int width, int x, i
 	write_filled_rectangle_lm(x - (rect_width / 2), majtick_start + 2, rect_width, font_info.height + 2, 0, 0);
 #endif
 	write_rectangle_outlined(x - (rect_width / 2), majtick_start + 2, rect_width, font_info.height + 2, 0, 1);
-	write_string(headingstr, x + 1, majtick_start + textoffset + 2, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 1, 3);
+	write_string(headingstr, x + 1, majtick_start + textoffset + 2, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 1, FONT_ID);
 #endif
 }
 
