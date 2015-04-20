@@ -239,7 +239,27 @@ void check_bor()
     }
 }
 
+// Force the OSD to initialize for pass through
+static void blank_osd()
+{
+	GPIO_InitTypeDef init = {
+		.GPIO_Pin   = GPIO_Pin_6,
+		.GPIO_Speed = GPIO_Speed_50MHz,
+		.GPIO_Mode  = GPIO_Mode_OUT,
+		.GPIO_OType = GPIO_OType_PP,
+		.GPIO_PuPd = GPIO_PuPd_NOPULL
+	};
+	GPIO_Init(GPIOA, &init);
+	GPIO_ResetBits(GPIOA, GPIO_Pin_6);
+
+	init.GPIO_Pin = GPIO_Pin_14;
+	GPIO_Init(GPIOB, &init);
+	GPIO_ResetBits(GPIOA, GPIO_Pin_14);
+}
+
 void PIOS_Board_Init(void) {
+
+	blank_osd();
 
 	check_bor();
 
