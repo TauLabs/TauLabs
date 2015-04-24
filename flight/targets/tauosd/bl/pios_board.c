@@ -81,6 +81,8 @@ void PIOS_Board_Init()
 	}
 #endif	/* PIOS_INCLUDE_USB_HID && PIOS_INCLUDE_COM_MSG */
 
+	PIOS_USBHOOK_Activate();
+
 #endif	/* PIOS_INCLUDE_USB */
 }
 
