@@ -465,7 +465,6 @@ sigset_t xSignalToBlock;
 	/* Cleanup the mutexes */
 	pthread_mutex_destroy( &xSuspendResumeThreadMutex );
 	pthread_mutex_destroy( &xSwappingThreadMutex );
-	//vPortFree( (void *)pxThreads );
 
 	/* Should not get here! */
 	return 0;
@@ -897,7 +896,6 @@ portLONG lIndex;
 	
 	debug_printf("prvSetupSignalAndSchedulerPolicy\r\n");
 	
-	//pxThreads = ( xThreadState *)pvPortMalloc( sizeof( xThreadState ) * MAX_NUMBER_OF_TASKS );
 	for ( lIndex = 0; lIndex < MAX_NUMBER_OF_TASKS; lIndex++ )
 	{
 		pxThreads[ lIndex ].hThread = ( pthread_t )NULL;
@@ -935,9 +933,6 @@ xTaskHandle prvGetTaskHandle( pthread_t hThread )
 xTaskHandle hTask = NULL;
 portLONG lIndex;
 	
-	/* If not initialized yet */
-	//if( pxThreads  == NULL ) return NULL;
-	
 	for ( lIndex = 0; lIndex < MAX_NUMBER_OF_TASKS; lIndex++ )
 	{
 		if ( pxThreads[ lIndex ].hThread == hThread )
@@ -969,9 +964,6 @@ static void prvSetThreadStatus( pthread_t hThread, enum thread_status status )
 static enum thread_status prvGetThreadStatus( pthread_t hThread )
 {
 	portLONG lIndex;
-	
-	/* If not initialized yet */
-	//if( pxThreads  == NULL ) return DESTROYED;
 	
 	for ( lIndex = 0; lIndex < MAX_NUMBER_OF_TASKS; lIndex++ )
 	{
