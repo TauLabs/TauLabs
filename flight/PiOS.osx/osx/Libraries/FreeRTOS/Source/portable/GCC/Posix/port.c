@@ -465,7 +465,7 @@ sigset_t xSignalToBlock;
 	/* Cleanup the mutexes */
 	pthread_mutex_destroy( &xSuspendResumeThreadMutex );
 	pthread_mutex_destroy( &xSwappingThreadMutex );
-	vPortFree( (void *)pxThreads );
+	//vPortFree( (void *)pxThreads );
 
 	/* Should not get here! */
 	return 0;
@@ -936,7 +936,7 @@ xTaskHandle hTask = NULL;
 portLONG lIndex;
 	
 	/* If not initialized yet */
-	if( pxThreads  == NULL ) return NULL;
+	//if( pxThreads  == NULL ) return NULL;
 	
 	for ( lIndex = 0; lIndex < MAX_NUMBER_OF_TASKS; lIndex++ )
 	{
@@ -971,7 +971,7 @@ static enum thread_status prvGetThreadStatus( pthread_t hThread )
 	portLONG lIndex;
 	
 	/* If not initialized yet */
-	if( pxThreads  == NULL ) return DESTROYED;
+	//if( pxThreads  == NULL ) return DESTROYED;
 	
 	for ( lIndex = 0; lIndex < MAX_NUMBER_OF_TASKS; lIndex++ )
 	{

@@ -96,8 +96,10 @@ int sin_lookup_initialize()
 */
 float sin_lookup_deg(float angle)
 {
+#ifndef FLASH_TABLE
 	if (sin_table == NULL)
 		return 0;
+#endif
 
 	int i_ang = ((int32_t) angle) % 360;
 	if (i_ang >= 180)          // for 180 to 360 deg
