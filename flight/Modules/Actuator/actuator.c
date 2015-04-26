@@ -76,10 +76,10 @@ static volatile bool mixer_settings_updated;
 
 // Private functions
 static void actuatorTask(void* parameters);
-static int16_t scaleChannel(float value, int16_t max, int16_t min, int16_t neutral);
+static float scaleChannel(float value, float max, float min, float neutral);
 static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const MixerSettingsData * mixerSettings);
 static float MixerCurve(const float throttle, const float* curve, uint8_t elements);
-static bool set_channel(uint8_t mixer_channel, uint16_t value, const ActuatorSettingsData * actuatorSettings);
+static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettingsData * actuatorSettings);
 static void actuator_update_rate_if_changed(const ActuatorSettingsData * actuatorSettings, bool force_update);
 static void MixerSettingsUpdatedCb(UAVObjEvent * ev);
 static void ActuatorSettingsUpdatedCb(UAVObjEvent * ev);
@@ -283,7 +283,7 @@ static void actuatorTask(void* parameters)
 			if(mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_DISABLED) {
 				// Set to minimum if disabled.  This is not the same as saying PWM pulse = 0 us
 				status[ct] = -1;
-				command.Channel[ct] = 0;
+				command.Channel[ct] = 0.0f;
 				continue;
 			}
 
@@ -448,17 +448,17 @@ static float MixerCurve(const float throttle, const float* curve, uint8_t elemen
 /**
  * Convert channel from -1/+1 to servo pulse duration in microseconds
  */
-static int16_t scaleChannel(float value, int16_t max, int16_t min, int16_t neutral)
+static float scaleChannel(float value, float max, float min, float neutral)
 {
-	int16_t valueScaled;
+	float valueScaled;
 	// Scale
 	if ( value >= 0.0f)
 	{
-		valueScaled = (int16_t)(value*((float)(max-neutral))) + neutral;
+		valueScaled = value*(max-neutral) + neutral;
 	}
 	else
 	{
-		valueScaled = (int16_t)(value*((float)(neutral-min))) + neutral;
+		valueScaled = value*(neutral-min) + neutral;
 	}
 
 	if (max>min)
@@ -481,7 +481,7 @@ static int16_t scaleChannel(float value, int16_t max, int16_t min, int16_t neutr
 static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const MixerSettingsData * mixerSettings)
 {
 	/* grab only the parts that we are going to use */
-	uint16_t Channel[ACTUATORCOMMAND_CHANNEL_NUMELEM];
+	float Channel[ACTUATORCOMMAND_CHANNEL_NUMELEM];
 	ActuatorCommandChannelGet(Channel);
 
 	const Mixer_t * mixers = (Mixer_t *)&mixerSettings->Mixer1Type; //pointer to array of mixers in UAVObjects
@@ -500,7 +500,7 @@ static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const Mix
 		}
 		else
 		{
-			Channel[n] = 0;
+			Channel[n] = 0.0f;
 		}
 		
 		
@@ -522,14 +522,11 @@ static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const Mix
 	ActuatorCommandChannelSet(Channel);
 }
 
+static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettingsData * actuatorSettings)
+{
 #if defined(ARCH_POSIX) || defined(ARCH_WIN32)
-static bool set_channel(uint8_t mixer_channel, uint16_t value, const ActuatorSettingsData * actuatorSettings)
-{
 	return true;
-}
 #else
-static bool set_channel(uint8_t mixer_channel, uint16_t value, const ActuatorSettingsData * actuatorSettings)
-{
 	switch(actuatorSettings->ChannelType[mixer_channel]) {
 		case ACTUATORSETTINGS_CHANNELTYPE_PWMALARMBUZZER: 
                 case ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED:
