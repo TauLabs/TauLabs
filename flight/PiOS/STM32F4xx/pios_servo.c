@@ -203,7 +203,7 @@ void PIOS_Servo_Set(uint8_t servo, uint16_t position)
 * \param[in] Servo Servo number (0-num_channels)
 * \param[in] Position Servo position in 1/12 microseconds based on OneShotFrequency
 */
-void PIOS_Servo_OneShot_Set(uint8_t servo, uint16_t position)
+void PIOS_Servo_OneShot_Set(uint8_t servo, float position)
 {
 	/* Make sure servo exists */
 	if (!servo_cfg || servo >= servo_cfg->num_channels) {
@@ -211,6 +211,9 @@ void PIOS_Servo_OneShot_Set(uint8_t servo, uint16_t position)
 	}
 
 	const struct pios_tim_channel * chan = &servo_cfg->channels[servo];
+
+	/* recalculate the position value based on OneShotFrequency */
+	position = position * OneShotFrequency / 1000000;
 
 	/* stop the timer */
 	TIM_Cmd(chan->timer, DISABLE);
