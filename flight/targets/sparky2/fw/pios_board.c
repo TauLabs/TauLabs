@@ -99,7 +99,7 @@ static const struct pios_exti_cfg pios_exti_mpu9250_cfg __exti_config = {
 	},
 };
 
-static const struct pios_mpu9250_cfg pios_mpu9250_cfg = {
+static struct pios_mpu9250_cfg pios_mpu9250_cfg = {
 	.exti_cfg = &pios_exti_mpu9250_cfg,
 	.default_samplerate = 500,
 	.interrupt_cfg = PIOS_MPU60X0_INT_CLR_ANYRD,
@@ -110,6 +110,21 @@ static const struct pios_mpu9250_cfg pios_mpu9250_cfg = {
 	.orientation = PIOS_MPU9250_TOP_180DEG
 };
 #endif /* PIOS_INCLUDE_MPU9250_SPI */
+
+/**
+ * Configuration for the external HMC5883 chip
+ */
+#if defined(PIOS_INCLUDE_HMC5883)
+#include "pios_hmc5883_priv.h"
+static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
+	.exti_cfg            = NULL,
+	.M_ODR               = PIOS_HMC5883_ODR_75,
+	.Meas_Conf           = PIOS_HMC5883_MEASCONF_NORMAL,
+	.Gain                = PIOS_HMC5883_GAIN_1_9,
+	.Mode                = PIOS_HMC5883_MODE_SINGLE,
+	.Default_Orientation = PIOS_HMC5883_TOP_0DEG,
+};
+#endif /* PIOS_INCLUDE_HMC5883 */
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
@@ -266,6 +281,7 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
  * 1 pulse - flash chip
  * 2 pulses - MPU9250
  * 4 pulses - MS5611
+ * 6 pulses - external mag
  */
 static void panic(int32_t code) {
 	while(1){
@@ -756,6 +772,8 @@ void PIOS_Board_Init(void) {
 				if (PIOS_I2C_Init(&pios_i2c_flexiport_adapter_id, &pios_i2c_flexiport_adapter_cfg)) {
 					PIOS_Assert(0);
 				}
+				if (PIOS_I2C_CheckClear(pios_i2c_flexiport_adapter_id) != 0)
+					panic(6);
 			}
 #endif	/* PIOS_INCLUDE_I2C */
 			break;
@@ -1137,6 +1155,13 @@ void PIOS_Board_Init(void) {
 		panic(4);
 #endif
 
+	uint8_t Magnetometer;
+	HwSparky2MagnetometerGet(&Magnetometer);
+
+	if (Magnetometer != HWSPARKY2_MAGNETOMETER_INTERNAL)
+		pios_mpu9250_cfg.use_magnetometer = false;
+
+
 #if defined(PIOS_INCLUDE_MPU9250_SPI)
 	if (PIOS_MPU9250_SPI_Init(pios_spi_gyro_id, 0, &pios_mpu9250_cfg) != 0)
 		panic(2);
@@ -1213,6 +1238,46 @@ void PIOS_Board_Init(void) {
 	    pios_mpu9250_cfg.default_samplerate;
 	PIOS_MPU9250_SetSampleRate(mpu9250_samplerate);
 #endif /* PIOS_INCLUDE_MPU9250_SPI */
+
+
+	PIOS_WDG_Clear();
+
+#if defined(PIOS_INCLUDE_HMC5883)
+	{
+		uint8_t Magnetometer;
+		HwSparky2MagnetometerGet(&Magnetometer);
+
+		if (Magnetometer == HWSPARKY2_MAGNETOMETER_EXTERNALI2CFLEXIPORT)
+		{
+			if (PIOS_HMC5883_Init(pios_i2c_flexiport_adapter_id, &pios_hmc5883_external_cfg) != 0)
+				panic(6);
+			if (PIOS_HMC5883_Test() != 0)
+				panic(6);
+		} else if (Magnetometer == HWSPARKY2_MAGNETOMETER_EXTERNALAUXI2C) {
+			if (PIOS_HMC5883_Init(pios_i2c_mag_pressure_adapter_id, &pios_hmc5883_external_cfg) != 0)
+				panic(6);
+			if (PIOS_HMC5883_Test() != 0)
+				panic(6);
+		}
+
+		if (Magnetometer != HWSPARKY2_MAGNETOMETER_INTERNAL) {
+			// setup sensor orientation
+			uint8_t ExtMagOrientation;
+			HwSparky2ExtMagOrientationGet(&ExtMagOrientation);
+			enum pios_hmc5883_orientation hmc5883_orientation = \
+				(ExtMagOrientation == HWSPARKY2_EXTMAGORIENTATION_TOP0DEGCW)      ? PIOS_HMC5883_TOP_0DEG      : \
+				(ExtMagOrientation == HWSPARKY2_EXTMAGORIENTATION_TOP90DEGCW)     ? PIOS_HMC5883_TOP_90DEG     : \
+				(ExtMagOrientation == HWSPARKY2_EXTMAGORIENTATION_TOP180DEGCW)    ? PIOS_HMC5883_TOP_180DEG    : \
+				(ExtMagOrientation == HWSPARKY2_EXTMAGORIENTATION_TOP270DEGCW)    ? PIOS_HMC5883_TOP_270DEG    : \
+				(ExtMagOrientation == HWSPARKY2_EXTMAGORIENTATION_BOTTOM0DEGCW)   ? PIOS_HMC5883_BOTTOM_0DEG   : \
+				(ExtMagOrientation == HWSPARKY2_EXTMAGORIENTATION_BOTTOM90DEGCW)  ? PIOS_HMC5883_BOTTOM_90DEG  : \
+				(ExtMagOrientation == HWSPARKY2_EXTMAGORIENTATION_BOTTOM180DEGCW) ? PIOS_HMC5883_BOTTOM_180DEG : \
+				(ExtMagOrientation == HWSPARKY2_EXTMAGORIENTATION_BOTTOM270DEGCW) ? PIOS_HMC5883_BOTTOM_270DEG : \
+				pios_hmc5883_external_cfg.Default_Orientation;
+			PIOS_HMC5883_SetOrientation(hmc5883_orientation);
+		}
+	}
+#endif /* PIOS_INCLUDE_HMC5883 */
 
 #if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
 	if (get_external_flash(bdinfo->board_rev)) {

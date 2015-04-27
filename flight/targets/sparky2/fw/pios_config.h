@@ -72,6 +72,7 @@
 #define PIOS_INCLUDE_ETASV3
 #define PIOS_INCLUDE_MPXV5004
 #define PIOS_INCLUDE_MPXV7002
+#define PIOS_INCLUDE_HMC5883
 //#define PIOS_INCLUDE_HCSR04
 #define FLASH_FREERTOS
 /* Com systems to include */

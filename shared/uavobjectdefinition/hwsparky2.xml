@@ -80,6 +80,9 @@
 
 		<field name="VTX_Ch" units="Hz" type="enum" elements="1" options="1,2,3,4,5,6,7,8" defaultvalue="1"/>
 
+		<field name="Magnetometer" units="function" type="enum" elements="1" options="Internal,ExternalI2CFlexiPort,ExternalAuxI2C" defaultvalue="Internal"/>
+		<field name="ExtMagOrientation" units="function" type="enum" elements="1" options="Top0degCW,Top90degCW,Top180degCW,Top270degCW,Bottom0degCW,Bottom90degCW,Bottom180degCW,Bottom270degCW" defaultvalue="Top0degCW" />
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>
