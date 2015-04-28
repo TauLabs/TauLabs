@@ -791,7 +791,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
 #endif /* PIOS_WDG_RFM22B */
 
-	if (rfm22_read(openlrs_dev, 0x0C) == 0) {     // detect the locked module and reboot
+	if (rfm22_read_claim(openlrs_dev, 0x0C) == 0) {     // detect the locked module and reboot
 		DEBUG_PRINTF(2,"RX hang\r\n");
 		init_rfm(openlrs_dev, 0);
 		to_rx_mode(openlrs_dev);
