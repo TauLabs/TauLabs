@@ -1033,6 +1033,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		}
 
 		rfmSetChannel(openlrs_dev, openlrs_dev->rf_channel);
+		rx_reset(openlrs_dev);
 		openlrs_dev->willhop = 0;
 	}
 }
