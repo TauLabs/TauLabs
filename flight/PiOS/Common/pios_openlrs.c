@@ -1170,10 +1170,10 @@ static void pios_openlrs_task(void *parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
 #endif /* PIOS_WDG_RFM22B */
 
+		PIOS_Semaphore_Take(openlrs_dev->sema_isr, 50);
+
 		// Process incoming radio data.
 		pios_openlrs_rx_loop(openlrs_dev);
-
-		PIOS_Thread_Sleep(1);	
 	}
 }
 
@@ -1190,7 +1190,11 @@ bool PIOS_OpenLRS_EXT_Int(void)
 		openlrs_dev->rf_mode = Received;
 	}
 
-	return false; // no need to wake any thread
+	// Indicate to main task that an ISR occurred
+	bool woken = false;
+	PIOS_Semaphore_Give_FromISR(openlrs_dev->sema_isr, &woken);
+
+	return woken;
 }
 
 
