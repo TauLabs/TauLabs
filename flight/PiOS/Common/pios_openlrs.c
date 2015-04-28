@@ -981,9 +981,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 			if (openlrs_dev->failsafeDelay &&
 				!openlrs_dev->failsafeActive && 
-				((timeMs - openlrs_dev->linkLossTimeMs) > openlrs_dev->failsafeDelay))
+				((timeMs - openlrs_dev->linkLossTimeMs) > ((uint32_t) openlrs_dev->failsafeDelay * 1000)))
 			{
-				DEBUG_PRINTF(2,"Failsafe activated: %d\r\n", openlrs_dev->linkLossTimeMs);
+				DEBUG_PRINTF(2,"Failsafe activated: %d %d\r\n", timeMs, openlrs_dev->linkLossTimeMs);
 				openlrs_dev->failsafeActive = 1;
 				//failsafeApply();
 				openlrs_dev->nextBeaconTimeMs = (timeMs + 1000UL * openlrs_dev->beacon_period) | 1; //beacon activating...
