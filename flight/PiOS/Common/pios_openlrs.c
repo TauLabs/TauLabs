@@ -974,6 +974,11 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		}
 
 		if (openlrs_dev->numberOfLostPackets) {
+
+#if defined(PIOS_LED_LINK)
+			PIOS_LED_Off(PIOS_LED_LINK);
+#endif /* PIOS_LED_LINK */
+
 			if (openlrs_dev->failsafeDelay &&
 				!openlrs_dev->failsafeActive && 
 				((timeMs - openlrs_dev->linkLossTimeMs) > openlrs_dev->failsafeDelay))
