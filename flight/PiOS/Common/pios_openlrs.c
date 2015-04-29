@@ -784,6 +784,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	}
 
 	timeUs = micros();
+	timeMs = millis();
 
 	uint8_t *tx_buf = openlrs_dev->tx_buf;  // convenient variable
 
@@ -805,7 +806,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		PIOS_LED_Toggle(PIOS_LED_LINK);
 #endif /* PIOS_LED_LINK */
 
-		openlrs_dev->lastPacketTimeUs = micros();
+		openlrs_dev->lastPacketTimeUs = timeUs;
 		openlrs_dev->numberOfLostPackets = 0;
 		openlrs_dev->linkQuality <<= 1;
 		openlrs_dev->linkQuality |= 1;
@@ -910,9 +911,6 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		openlrs_dev->willhop = 1;
 	}
 
-	timeUs = micros();
-	timeMs = millis();
-
 	// sample RSSI when packet is in the 'air'
 	if ((openlrs_dev->numberOfLostPackets < 2) && (openlrs_dev->lastRSSITimeUs != openlrs_dev->lastPacketTimeUs) &&
 			(timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) - 1500)) {
@@ -921,18 +919,8 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 		openlrs_dev->lastRSSITimeUs = openlrs_dev->lastPacketTimeUs;
 		openlrs_dev->lastRSSIvalue = rfmGetRSSI(openlrs_dev); // Read the RSSI value
-		openlrs_dev->RSSI_sum += openlrs_dev->lastRSSIvalue;    // tally up for average
-		openlrs_dev->RSSI_count++;
 
-		if (openlrs_dev->RSSI_count > 8) {
-			openlrs_dev->RSSI_sum /= openlrs_dev->RSSI_count;
-			openlrs_dev->smoothRSSI = (((uint16_t)openlrs_dev->smoothRSSI * 3 + (uint16_t)openlrs_dev->RSSI_sum * 1) / 4);
-			// TODO: set_RSSI_output();
-			openlrs_dev->RSSI_sum = 0;
-			openlrs_dev->RSSI_count = 0;
-			DEBUG_PRINTF(2,"RSSI: %d\r\n", openlrs_dev->smoothRSSI);
-		}
-
+		DEBUG_PRINTF(2,"RSSI: %d\r\n", openlrs_dev->lastRSSIvalue);
 	}
 
 	if (openlrs_dev->link_acquired) {
@@ -954,7 +942,6 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			// hop slowly to allow resync with TX
 			openlrs_dev->linkQuality = 0;
 			openlrs_dev->willhop = 1;
-			openlrs_dev->smoothRSSI = 0;
 			// TODO: set_RSSI_output();
 			openlrs_dev->lastPacketTimeUs = timeUs;
 		}
@@ -1162,7 +1149,10 @@ static void pios_openlrs_task(void *parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
 #endif /* PIOS_WDG_RFM22B */
 
-		PIOS_Semaphore_Take(openlrs_dev->sema_isr, 50);
+		uint32_t time_till_measure_rssi_us  = (getInterval(&openlrs_dev->bind_data) - 1500) + openlrs_dev->lastPacketTimeUs - micros();
+		uint32_t delay = time_till_measure_rssi_us / 1000;
+		if (delay > 50) delay = 50;
+		PIOS_Semaphore_Take(openlrs_dev->sema_isr, delay);
 
 		// Process incoming radio data.
 		pios_openlrs_rx_loop(openlrs_dev);
