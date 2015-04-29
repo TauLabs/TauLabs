@@ -1151,7 +1151,8 @@ static void pios_openlrs_task(void *parameters)
 
 		uint32_t time_till_measure_rssi_us  = (getInterval(&openlrs_dev->bind_data) - 1500) + openlrs_dev->lastPacketTimeUs - micros();
 		uint32_t delay = time_till_measure_rssi_us / 1000;
-		if (delay > 50) delay = 50;
+		uint32_t max_delay = getInterval(&openlrs_dev->bind_data) / 2000;
+		if (delay > max_delay) delay = max_delay;
 		PIOS_Semaphore_Take(openlrs_dev->sema_isr, delay);
 
 		// Process incoming radio data.
