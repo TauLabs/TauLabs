@@ -430,31 +430,17 @@ static void tx_packet_async(struct pios_openlrs_dev *openlrs_dev, uint8_t* pkt, 
 static void tx_packet(struct pios_openlrs_dev *openlrs_dev, uint8_t* pkt, uint8_t size)
 {
 	tx_packet_async(openlrs_dev, pkt, size);
-	while ((openlrs_dev->rf_mode == Transmit) && ((micros() - tx_start) < 100000)) {
-		// TODO: handle timeout and watchdog
-		PIOS_Thread_Sleep(1);
+	PIOS_Semaphore_Take(openlrs_dev->sema_isr, 25);
+
 #if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
 		// Update the watchdog timer
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
 #endif /* PIOS_WDG_RFM22B */
-	}
-	if (openlrs_dev->rf_mode == Transmit) {
-		// TODO: error for TX Timeout
-	}
-}
 
-uint8_t tx_done(struct pios_openlrs_dev *openlrs_dev)
-{
-	if (openlrs_dev->rf_mode == Transmitted) {
-		openlrs_dev->rf_mode = Available;
-		return 1; // success
+	if (openlrs_dev->rf_mode == Transmit) {
+		DEBUG_PRINTF(2,"tx_packet timeout\r\n");
+		init_rfm(openlrs_dev, false); // reset modem
 	}
-	if ((openlrs_dev->rf_mode == Transmit) && ((micros() - tx_start) > 100000)) {
-		rfm22_write(openlrs_dev, 0x07, RF22B_PWRSTATE_READY);
-		openlrs_dev->rf_mode = Available;
-		return 2; // timeout
-	}
-	return 0;
 }
 
 static void beacon_tone(struct pios_openlrs_dev *openlrs_dev, int16_t hz, int16_t len) //duration is now in half seconds.
