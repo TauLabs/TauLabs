@@ -649,6 +649,11 @@ static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettin
 			PIOS_Servo_OneShot_Set(actuatorSettings->ChannelAddr[mixer_channel], value);
 			return true;
 #endif
+#if defined(PIOS_INCLUDE_HPWM)
+		case ACTUATORSETTINGS_CHANNELTYPE_HPWM:
+			PIOS_Servo_Hires_Set(actuatorSettings->ChannelAddr[mixer_channel], value);
+			return true;
+#endif
 #if defined(PIOS_INCLUDE_I2C_ESC)
 		case ACTUATORSETTINGS_CHANNELTYPE_MK:
 			return PIOS_SetMKSpeed(actuatorSettings->ChannelAddr[mixer_channel],value);

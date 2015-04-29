@@ -39,6 +39,9 @@
 
 static const struct pios_servo_cfg * servo_cfg;
 static uint8_t *output_timer_frequency_scaler;
+#if defined(PIOS_INCLUDE_HPWM)
+static uint16_t *output_channel_frequency;
+#endif
 
 /**
 * Initialise Servos
@@ -89,6 +92,15 @@ int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 		return -1;
 	}
 	memset(output_timer_frequency_scaler, 0, servo_cfg->num_channels * sizeof(typeof(output_timer_frequency_scaler)));
+
+#if defined(PIOS_INCLUDE_HPWM)
+	/* Allocate memory for frequency table */
+	output_channel_frequency = PIOS_malloc(servo_cfg->num_channels * sizeof(typeof(output_channel_frequency)));
+	if (output_channel_frequency == NULL) {
+		return -1;
+	}
+	memset(output_channel_frequency, 0, servo_cfg->num_channels * sizeof(typeof(output_channel_frequency)));
+#endif
 
 	return 0;
 }
@@ -145,6 +157,10 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 			for (uint8_t j=0; (j < servo_cfg->num_channels); j++) {
 				if (chan->timer == servo_cfg->channels[j].timer) {
 					output_timer_frequency_scaler[j] = output_timer_frequency_scaler[i];
+#if defined(PIOS_INCLUDE_HPWM)
+					/* save the frequency for these channels */
+					output_channel_frequency[j] = speeds[set];
+#endif
 				}
 			}
 
@@ -201,7 +217,7 @@ void PIOS_Servo_Set(uint8_t servo, uint16_t position)
 /**
 * Set servo position for OneShot
 * \param[in] Servo Servo number (0-num_channels)
-* \param[in] Position Servo position in 1/12 microseconds based on OneShotFrequency
+* \param[in] Position Servo position in microseconds based on OneShotFrequency
 */
 void PIOS_Servo_OneShot_Set(uint8_t servo, float position)
 {
@@ -250,7 +266,7 @@ void PIOS_Servo_OneShot_Update()
 	for (uint8_t i = 0; i < servo_cfg->num_channels; i++) {
 		const struct pios_tim_channel * chan = &servo_cfg->channels[i];
 
-		/* Look for a disabled timer which is probably used by OneShot */
+		/* Look for a disabled timer which is probably used by HiresPWM */
 		if (!(chan->timer->CR1 & TIM_CR1_CEN)) {
 			/* Choose the correct prescaler value for the APB the timer is attached */
 			if (chan->timer==TIM6 || chan->timer==TIM7) {
@@ -261,11 +277,60 @@ void PIOS_Servo_OneShot_Update()
 			} else {
 				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / OneShotFrequency) - 1;
 			}
+			/* if there is a frequency value, we can set it */
+			if (output_channel_frequency[i] > 0) {
+				TIM_TimeBaseStructure.TIM_Period = ((OneShotFrequency / output_channel_frequency[i]) - 1);
+			}
 
 			/* enable it again and reinitialize it */
 			TIM_Cmd(chan->timer, ENABLE);
 			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
 		}
+	}
+}
+#endif
+
+#if defined(PIOS_INCLUDE_HPWM)
+#define HiresFrequency 12000000
+#define HiresFlag 0x80
+
+/**
+* Set servo position for Hires PWM
+* \param[in] Servo Servo number (0-num_channels)
+* \param[in] Position Servo position in microseconds based on OneShotFrequency
+*/
+void PIOS_Servo_Hires_Set(uint8_t servo, float position)
+{
+	/* Make sure servo exists */
+	if (!servo_cfg || servo >= servo_cfg->num_channels) {
+		return;
+	}
+
+	const struct pios_tim_channel * chan = &servo_cfg->channels[servo];
+
+	/* recalculate the position value based on HiresFrequency */
+	position = position * HiresFrequency / 1000000;
+
+	/* change the timer to hires, if not already done and stop it in OneShot mode */
+	if (output_channel_frequency[servo] == 0 || output_timer_frequency_scaler[servo] != HiresFlag) {
+		output_timer_frequency_scaler[servo] = HiresFlag;
+		TIM_Cmd(chan->timer, DISABLE);
+	}
+
+	/* Update the position */
+	switch(chan->timer_chan) {
+		case TIM_Channel_1:
+			TIM_SetCompare1(chan->timer, position);
+			break;
+		case TIM_Channel_2:
+			TIM_SetCompare2(chan->timer, position);
+			break;
+		case TIM_Channel_3:
+			TIM_SetCompare3(chan->timer, position);
+			break;
+		case TIM_Channel_4:
+			TIM_SetCompare4(chan->timer, position);
+			break;
 	}
 }
 #endif
