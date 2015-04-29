@@ -36,6 +36,7 @@ extern void PIOS_Servo_SetHz(const uint16_t * update_rates, uint8_t banks);
 extern void PIOS_Servo_Set(uint8_t Servo, uint16_t Position);
 extern void PIOS_Servo_OneShot_Set(uint8_t servo, float position);
 extern void PIOS_Servo_OneShot_Update();
+extern void PIOS_Servo_Hires_Set(uint8_t servo, float position);
 
 #endif /* PIOS_SERVO_H */
 
