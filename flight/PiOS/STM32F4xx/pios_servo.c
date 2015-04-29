@@ -125,7 +125,6 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure = servo_cfg->tim_base_init;
 	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	//
 
 	uint8_t set = 0;
 
@@ -211,95 +210,16 @@ void PIOS_Servo_Set(uint8_t servo, uint16_t position)
 	}
 }
 
-#if defined(PIOS_INCLUDE_ONESHOT)
-#define OneShotFrequency 12000000
-
-/**
-* Set servo position for OneShot
-* \param[in] Servo Servo number (0-num_channels)
-* \param[in] Position Servo position in microseconds based on OneShotFrequency
-*/
-void PIOS_Servo_OneShot_Set(uint8_t servo, float position)
-{
-	/* Make sure servo exists */
-	if (!servo_cfg || servo >= servo_cfg->num_channels) {
-		return;
-	}
-
-	const struct pios_tim_channel * chan = &servo_cfg->channels[servo];
-
-	/* recalculate the position value based on OneShotFrequency */
-	position = position * OneShotFrequency / 1000000;
-
-	/* stop the timer */
-	TIM_Cmd(chan->timer, DISABLE);
-
-	/* Update the position */
-	switch(chan->timer_chan) {
-		case TIM_Channel_1:
-			TIM_SetCompare1(chan->timer, position);
-			break;
-		case TIM_Channel_2:
-			TIM_SetCompare2(chan->timer, position);
-			break;
-		case TIM_Channel_3:
-			TIM_SetCompare3(chan->timer, position);
-			break;
-		case TIM_Channel_4:
-			TIM_SetCompare4(chan->timer, position);
-			break;
-	}
-}
-
-/**
-* Update the timer for OneShot
-*/
-void PIOS_Servo_OneShot_Update()
-{
-	if (!servo_cfg) {
-		return;
-	}
-
-	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
-	TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
-
-	for (uint8_t i = 0; i < servo_cfg->num_channels; i++) {
-		const struct pios_tim_channel * chan = &servo_cfg->channels[i];
-
-		/* Look for a disabled timer which is probably used by HiresPWM */
-		if (!(chan->timer->CR1 & TIM_CR1_CEN)) {
-			/* Choose the correct prescaler value for the APB the timer is attached */
-			if (chan->timer==TIM6 || chan->timer==TIM7) {
-				// These timers cannot be used here.
-				continue;
-			} else if (chan->timer==TIM1 || chan->timer==TIM8 || chan->timer==TIM9 || chan->timer==TIM10 || chan->timer==TIM11 ) {
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / OneShotFrequency) - 1;
-			} else {
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / OneShotFrequency) - 1;
-			}
-			/* if there is a frequency value, we can set it */
-			if (output_channel_frequency[i] > 0) {
-				TIM_TimeBaseStructure.TIM_Period = ((OneShotFrequency / output_channel_frequency[i]) - 1);
-			}
-
-			/* enable it again and reinitialize it */
-			TIM_Cmd(chan->timer, ENABLE);
-			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
-		}
-	}
-}
-#endif
-
 #if defined(PIOS_INCLUDE_HPWM)
 #define HiresFrequency 12000000
 #define HiresFlag 0x80
 
 /**
-* Set servo position for Hires PWM
+* Set servo position for HPWM
 * \param[in] Servo Servo number (0-num_channels)
-* \param[in] Position Servo position in microseconds based on OneShotFrequency
+* \param[in] Position Servo position in microseconds
 */
-void PIOS_Servo_Hires_Set(uint8_t servo, float position)
+void PIOS_Servo_HPWM_Set(uint8_t servo, float position)
 {
 	/* Make sure servo exists */
 	if (!servo_cfg || servo >= servo_cfg->num_channels) {
@@ -311,7 +231,7 @@ void PIOS_Servo_Hires_Set(uint8_t servo, float position)
 	/* recalculate the position value based on HiresFrequency */
 	position = position * HiresFrequency / 1000000;
 
-	/* change the timer to hires, if not already done and stop it in OneShot mode */
+	/* stop the timer in OneShot mode or force a change of it to hires, if not already done. */
 	if (output_channel_frequency[servo] == 0 || output_timer_frequency_scaler[servo] != HiresFlag) {
 		output_timer_frequency_scaler[servo] = HiresFlag;
 		TIM_Cmd(chan->timer, DISABLE);
@@ -331,6 +251,44 @@ void PIOS_Servo_Hires_Set(uint8_t servo, float position)
 		case TIM_Channel_4:
 			TIM_SetCompare4(chan->timer, position);
 			break;
+	}
+}
+
+/**
+* Update the timer for HPWM/OneShot
+*/
+void PIOS_Servo_HPWM_Update()
+{
+	if (!servo_cfg) {
+		return;
+	}
+
+	for (uint8_t i = 0; i < servo_cfg->num_channels; i++) {
+		const struct pios_tim_channel * chan = &servo_cfg->channels[i];
+
+		/* Look for a disabled timer which is probably used by HPWM */
+		if (!(chan->timer->CR1 & TIM_CR1_CEN)) {
+			TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+			TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
+
+			/* Choose the correct prescaler value for the APB the timer is attached */
+			if (chan->timer==TIM6 || chan->timer==TIM7) {
+				// These timers cannot be used here.
+				continue;
+			} else if (chan->timer==TIM1 || chan->timer==TIM8 || chan->timer==TIM9 || chan->timer==TIM10 || chan->timer==TIM11 ) {
+				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / HiresFrequency) - 1;
+			} else {
+				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / HiresFrequency) - 1;
+			}
+			/* if there is a frequency value, we set it */
+			if (output_channel_frequency[i]) {
+				TIM_TimeBaseStructure.TIM_Period = ((HiresFrequency / output_channel_frequency[i]) - 1);
+			}
+
+			/* enable it again and reinitialize it */
+			TIM_Cmd(chan->timer, ENABLE);
+			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
+		}
 	}
 }
 #endif
