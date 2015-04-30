@@ -337,6 +337,36 @@ Leave at 50Hz for fixed wing.</string>
                   <string>400</string>
                  </property>
                 </item>
+                <item>
+                 <property name="text">
+                  <string>1000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>2000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>4000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>8000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>12000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>0</string>
+                 </property>
+                </item>
                </widget>
               </item>
               <item row="1" column="3">
@@ -393,6 +423,36 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>400</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>1000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>2000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>4000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>8000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>12000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>0</string>
                  </property>
                 </item>
                </widget>
@@ -463,6 +523,36 @@ Leave at 50Hz for fixed wing.</string>
                   <string>400</string>
                  </property>
                 </item>
+                <item>
+                 <property name="text">
+                  <string>1000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>2000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>4000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>8000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>12000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>0</string>
+                 </property>
+                </item>
                </widget>
               </item>
               <item row="1" column="5">
@@ -521,6 +611,36 @@ Leave at 50Hz for fixed wing.</string>
                   <string>400</string>
                  </property>
                 </item>
+                <item>
+                 <property name="text">
+                  <string>1000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>2000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>4000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>8000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>12000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>0</string>
+                 </property>
+                </item>
                </widget>
               </item>
               <item row="1" column="7">
@@ -576,6 +696,36 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>400</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>1000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>2000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>4000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>8000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>12000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>0</string>
                  </property>
                 </item>
                </widget>
@@ -636,6 +786,36 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>400</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>1000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>2000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>4000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>8000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>12000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>0</string>
                  </property>
                 </item>
                </widget>
