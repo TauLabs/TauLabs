@@ -8,7 +8,6 @@
  * @file       pios_px4flow.c
  * @author     Kenn Sebesta, Copyright (C) 2014
  * @brief      PX4Flow optical flow sensor
- * @see        The GNU Public License (GPL) Version 3
  *
  ******************************************************************************
  */
@@ -26,7 +25,7 @@
 #include "pios_queue.h"
 
 /* Private constants */
-#define PX4FLOW_TASK_PRIORITY        PIOS_THREAD_PRIO_HIGHEST
+#define PX4FLOW_TASK_PRIORITY        PIOS_THREAD_PRIO_HIGH
 #define PX4FLOW_TASK_STACK_BYTES     512
 #define PX4FLOW_SAMPLE_PERIOD_MS     5
 #define PIOS_PX4FLOW_MAX_DOWNSAMPLE  1
@@ -150,8 +149,9 @@ static int32_t PIOS_PX4Flow_Config(const struct pios_px4flow_cfg * cfg)
 }
 
 /**
- * @brief Read current X, Z, Y values (in that order)
- * \param[out] int16_t array of size 3 to store X, Z, and Y magnetometer readings
+ * @brief Read current optical flow and sonar rangefinding measurements
+ * \param[out] optical_flow_data Struct containing translational x-, y-, and z-axis velocity
+ * \param[out] rangefinder_data Struct containing sonar ranging measurement along z-axis
  * \return 0 for success or -1 for failure
  */
 static int32_t PIOS_PX4Flow_ReadData(struct pios_sensor_optical_flow_data *optical_flow_data, struct pios_sensor_sonar_data *sonar_data)
@@ -189,17 +189,17 @@ static int32_t PIOS_PX4Flow_ReadData(struct pios_sensor_optical_flow_data *optic
 	// Leaving this struct definition in as aid for future implementation
 	struct I2C_Integral_Frame
 	{
-		 uint16_t frame_count_since_last_readout; //number of flow measurements since last I2C readout [#frames]
-		 int16_t pixel_flow_x_integral; //accumulated flow in radians*10000 around x axis since last I2C readout [rad*10000]
-		 int16_t pixel_flow_y_integral; //accumulated flow in radians*10000 around y axis since last I2C readout [rad*10000]
-		 int16_t gyro_x_rate_integral; //accumulated gyro x rates in radians*10000 since last I2C readout [rad*10000]
-		 int16_t gyro_y_rate_integral; //accumulated gyro y rates in radians*10000 since last I2C readout [rad*10000]
-		 int16_t gyro_z_rate_integral; //accumulated gyro z rates in radians*10000 since last I2C readout [rad*10000]
-		 uint32_t integration_timespan; //accumulation timespan in microseconds since last I2C readout [microseconds]
-		 uint32_t sonar_timestamp; // time since last sonar update [microseconds]
-		 int16_t ground_distance_m1000; // Ground distance in meters*1000 [meters*1000]
-		 int16_t gyro_temperature; // Temperature * 100 in centi-degrees Celsius [degcelsius*100]
-		 uint8_t quality; // averaged quality of accumulated flow values [0:bad quality;255: max quality]
+		uint16_t frame_count_since_last_readout; //number of flow measurements since last I2C readout [#frames]
+		int16_t pixel_flow_x_integral; //accumulated flow in radians*10000 around x axis since last I2C readout [rad*10000]
+		int16_t pixel_flow_y_integral; //accumulated flow in radians*10000 around y axis since last I2C readout [rad*10000]
+		int16_t gyro_x_rate_integral; //accumulated gyro x rates in radians*10000 since last I2C readout [rad*10000]
+		int16_t gyro_y_rate_integral; //accumulated gyro y rates in radians*10000 since last I2C readout [rad*10000]
+		int16_t gyro_z_rate_integral; //accumulated gyro z rates in radians*10000 since last I2C readout [rad*10000]
+		uint32_t integration_timespan; //accumulation timespan in microseconds since last I2C readout [microseconds]
+		uint32_t sonar_timestamp; // time since last sonar update [microseconds]
+		int16_t ground_distance_m1000; // Ground distance in meters*1000 [meters*1000]
+		int16_t gyro_temperature; // Temperature * 100 in centi-degrees Celsius [degcelsius*100]
+		uint8_t quality; // averaged quality of accumulated flow values [0:bad quality;255: max quality]
 	} __attribute__((packed)) i2c_integral_frame;
 */
 	const struct pios_i2c_txn txn_list[] = {
