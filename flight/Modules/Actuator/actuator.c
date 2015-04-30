@@ -523,10 +523,12 @@ static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const Mix
 }
 
 static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettingsData * actuatorSettings)
-{
 #if defined(ARCH_POSIX) || defined(ARCH_WIN32)
+{
 	return true;
+}
 #else
+{
 	switch(actuatorSettings->ChannelType[mixer_channel]) {
 		case ACTUATORSETTINGS_CHANNELTYPE_PWMALARMBUZZER: 
                 case ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED:
