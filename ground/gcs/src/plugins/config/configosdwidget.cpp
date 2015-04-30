@@ -368,6 +368,7 @@ void ConfigOsdWidget::setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UA
     addUAVObjectToWidgetRelation(name, "ArtificialHorizon", page->ArtificialHorizonEnabled);
     page->ArtificialHorizonEnabled->setProperty(trueString.toLatin1(), "Enabled");
     page->ArtificialHorizonEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "ArtificialHorizonMaxPitch", page->ArtificialHorizonMaxPitch);
 
     // Battery Voltage
     addUAVObjectToWidgetRelation(name, "BatteryVolt", page->BatteryVoltEnabled);

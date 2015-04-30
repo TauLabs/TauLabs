@@ -382,6 +382,30 @@
               </property>
              </widget>
             </item>
+            <item row="4" column="6">
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QLabel" name="label_35">
+                <property name="text">
+                 <string>Max Pitch:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="ArtificialHorizonMaxPitch">
+                <property name="maximum">
+                  <number>255</number>
+                </property>
+                <property name="minimum">
+                 <number>10</number>
+                </property>
+                <property name="toolTip">
+                 <string>Sets the amount of forward pitch that results in the artificial horizon displaying at the top of the screen.</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
             <item row="6" column="3">
              <widget class="QSpinBox" name="BatteryCurrentY">
               <property name="maximum">
@@ -1073,6 +1097,7 @@
   <tabstop>ArmStatusAlign</tabstop>
   <tabstop>ArmStatusFont</tabstop>
   <tabstop>ArtificialHorizonEnabled</tabstop>
+  <tabstop>ArtificialHorizonMaxPitch</tabstop>
   <tabstop>BatteryVoltEnabled</tabstop>
   <tabstop>BatteryVoltX</tabstop>
   <tabstop>BatteryVoltY</tabstop>

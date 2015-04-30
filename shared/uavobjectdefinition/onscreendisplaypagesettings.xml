@@ -21,6 +21,7 @@
 
 		
 		<field name="ArtificialHorizon" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="ArtificialHorizonMaxPitch" units="deg" type="uint8" elements="1" defaultvalue="30"/>
 		
 		<field name="BatteryVolt" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="BatteryVoltPosX" units="" type="int16" elements="1" defaultvalue="350"/>
