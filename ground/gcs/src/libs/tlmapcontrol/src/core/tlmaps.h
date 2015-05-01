@@ -70,7 +70,7 @@ namespace core {
         QByteArray GetImageFromFile(const MapType::Types &type,const core::Point &pos,const int &zoom, double hScale, double vScale, QString userImageFileName, internals::PureProjection *projection);
         bool UseMemoryCache(){return useMemoryCache;}//TODO
         void setUseMemoryCache(const bool& value){useMemoryCache=value;}
-        void setLanguage(const LanguageType::Types& language){Language=language;}//TODO
+        void setLanguage(const LanguageType::Types& language);
         LanguageType::Types GetLanguage(){return Language;}//TODO
         AccessMode::Types GetAccessMode()const{return accessmode;}
         void setAccessMode(const AccessMode::Types& mode){accessmode=mode;}
@@ -88,6 +88,7 @@ namespace core {
         static TLMaps* m_pInstance;
         diagnostics diag;
         QMutex errorvars;
+        QMutex settingsProtect;
         quint8 lastZoom;
         int quadCoordRight;
         int quadCoordBottom;

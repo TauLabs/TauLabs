@@ -48,7 +48,7 @@ namespace core {
         RetryLoadTile(2),useMemoryCache(true),lastZoom(0),quadCoordRight(0),quadCoordBottom(0)
     {
         accessmode=AccessMode::ServerAndCache;
-        Language=LanguageType::PortuguesePortugal;
+        Language=LanguageType::autoDetect;
         LanguageStr=LanguageType().toShortString(Language);
         Cache::Instance();
 
@@ -288,6 +288,13 @@ namespace core {
         return ret;
     }
 
+    void TLMaps::setLanguage(const LanguageType::Types &language)
+    {
+        QMutexLocker locker(&settingsProtect);
+        Language = language;
+        LanguageStr=LanguageType().toShortString(Language);
+    }
+
 
     /**
      * @brief OPMaps::GetImageFromServer
@@ -298,7 +305,7 @@ namespace core {
      */
     QByteArray TLMaps::GetImageFromServer(const MapType::Types &type,const Point &pos,const int &zoom)
     {
-
+        QMutexLocker locker(&settingsProtect);
 #ifdef DEBUG_TIMINGS
         QTime time;
         time.restart();
