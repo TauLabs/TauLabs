@@ -11,7 +11,7 @@ class Telemetry():
 
 	def __init__(self, uavtalk):
 		self.uavtalk_parser = uavtalk
-		self.sock = 0
+		self.sock = None
 
 		# handy copy
 		self.uavo_defs = uavtalk.uavo_defs
@@ -19,18 +19,22 @@ class Telemetry():
 
 		self.uavo_list = taulabs.uavo_list.UAVOList(self.uavo_defs)
 
-	def open_network(self):
+	def open_network(self, host="127.0.0.1", port=9000):
 		""" Open a socket on localhost port 9000 """
 
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect(("127.0.0.1", 9000))
+		s.connect((host, port))
+
+#		s.setblocking(0)
+
 		self.sock = s
 
 	def close_network(self):
 		""" Close network socket """
 
-		s.sock.shutdown()
-		s.sock.close()
+		self.sock.shutdown()
+		self.sock.close()
+		self.sock=None
 
 	def serviceConnection(self):
 		"""
@@ -44,7 +48,7 @@ class Telemetry():
 			self.uavtalk_parser.processByte(ord(c))
 
 			if self.uavtalk_parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
-				obj  = self.uavtalk_parser.getLastReceivedObject(timestamp=round(time.time() * 1000))
+				obj  = self.uavtalk_parser.getLastReceivedObjectInstance(timestamp=round(time.time() * 1000))
 
 				if obj is not None:
 
@@ -52,6 +56,8 @@ class Telemetry():
 					# to store them all
 					updated_objects = updated_objects + 1
 					self.uavo_list.append(obj)
+
+					print obj
 
 					if obj.name == "FlightTelemetryStats":
 						# Handle the telemetry hanshaking

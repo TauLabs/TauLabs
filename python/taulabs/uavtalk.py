@@ -45,6 +45,12 @@ class UavTalk():
 			else:
 				return ('{0:08x}'.format(self.objId), self.rxBuffer, timestamp)
 
+	def getLastReceivedObjectInstance(self, timestamp=0):
+		t=self.getLastReceivedObject(timestamp)
+
+		if t:
+			return self.obj.instance_from_bytes(t[1], t[2])
+
 	def processByte(self, rxbyte):
 		"""
 		Process a byte from a telemetry stream. This implements a simple state machine

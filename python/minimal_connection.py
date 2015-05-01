@@ -33,13 +33,17 @@ def main():
     # Parse the command-line.
     args = parser.parse_args()
 
-    githash = "next"
+    githash = None
     if args.githash is not None:
         githash = args.githash
 
     import taulabs
     uavo_defs = taulabs.uavo_collection.UAVOCollection()
-    uavo_defs.from_git_hash(githash)
+    if githash:
+        uavo_defs.from_git_hash(githash)
+    else:
+        uavo_defs.from_uavo_xml_path("../shared/uavobjectdefinition")
+
     uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
 
     # Expose the UAVO types to the local workspace
