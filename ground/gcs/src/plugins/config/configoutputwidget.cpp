@@ -222,6 +222,10 @@ void ConfigOutputWidget::assignOutputChannels(UAVObject *obj)
 
         quint32 neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
         outputChannelForm->setNeutral(neutral);
+
+        // init type
+        quint16 type = actuatorSettingsData.ChannelType[outputChannelForm->index()];
+        outputChannelForm->setType(type);
     }
 }
 
@@ -440,14 +444,28 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
     Q_ASSERT(actuatorSettings);
     if(actuatorSettings) {
         ActuatorSettings::DataFields actuatorSettingsData = actuatorSettings->getData();
-
-        // Set channel ranges
         QList<OutputChannelForm*> outputChannelForms = findChildren<OutputChannelForm*>();
+
+        // generate a security requester for HPWM configuration
+        bool foundHPWM = false;
+        foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
+            foundHPWM |= (outputChannelForm->type() == ActuatorSettings::CHANNELTYPE_HPWM);
+
+        if (foundHPWM) {
+            QMessageBox mbox;
+            mbox.setText(QString(tr("There is a channel in HPWM mode.\nThis has influence to all channels which use the same frequency.\nAre you sure you want to apply this?")));
+            mbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            if (mbox.exec() != QMessageBox::Yes)
+                return;
+        }
+
+        // Set channel ranges and types
         foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
         {
             actuatorSettingsData.ChannelMax[outputChannelForm->index()] = outputChannelForm->max();
             actuatorSettingsData.ChannelMin[outputChannelForm->index()] = outputChannelForm->min();
             actuatorSettingsData.ChannelNeutral[outputChannelForm->index()] = outputChannelForm->neutral();
+            actuatorSettingsData.ChannelType[outputChannelForm->index()] = outputChannelForm->type();
         }
 
         // Set update rates
