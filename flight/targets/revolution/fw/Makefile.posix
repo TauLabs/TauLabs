@@ -253,7 +253,7 @@ EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES} ${PYMODULES}, $(OPMODULE
 ifeq ($(DEBUG),YES)
 CFLAGS += -O0
 CFLAGS += -DGENERAL_COV
-CFLAGS += -finstrument-functions -ffixed-r10
+#CFLAGS += -finstrument-functions -ffixed-r10
 
 # Turn on gcov support
 CFLAGS += -fprofile-arcs -ftest-coverage
@@ -344,11 +344,12 @@ CONLYFLAGS += $(CSTANDARD)
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
-LDFLAGS = -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections
+#LDFLAGS = -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections
 LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += -lm
-LDFLAGS += -lc -lgcc -lpthread -lrt
+LDFLAGS += -lc -lpthread 
+#-lgcc -lrt ??
 
 # To include simulation model
 LDFLAGS += -L$(OUTDIR) 
