@@ -44,7 +44,9 @@
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "homelocation.h"
+#include "opticalflow.h"
 #include "sensorsettings.h"
+#include "sonaraltitude.h"
 #include "inssettings.h"
 #include "magnetometer.h"
 #include "magbias.h"
@@ -72,6 +74,8 @@ static void update_accels(struct pios_sensor_accel_data *accel);
 static void update_gyros(struct pios_sensor_gyro_data *gyro);
 static void update_mags(struct pios_sensor_mag_data *mag);
 static void update_baro(struct pios_sensor_baro_data *baro);
+static void update_optical_flow(struct pios_sensor_optical_flow_data *optical_flow);
+static void update_sonar(struct pios_sensor_sonar_data *sonar);
 
 static void mag_calibration_prelemari(MagnetometerData *mag);
 static void mag_calibration_fix_length(MagnetometerData *mag);
@@ -131,6 +135,14 @@ static int32_t SensorsInitialize(void)
 	SensorSettingsInitialize();
 	INSSettingsInitialize();
 
+	if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_SONAR) != NULL ) {
+		SonarAltitudeInitialize();
+	}
+
+	if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_OPTICAL_FLOW) != NULL ) {
+		OpticalFlowInitialize();
+	}
+
 	rotate = 0;
 
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
@@ -154,7 +166,7 @@ static int32_t SensorsStart(void)
 	return 0;
 }
 
-MODULE_INITCALL(SensorsInitialize, SensorsStart)
+MODULE_INITCALL(SensorsInitialize, SensorsStart);
 
 
 /**
@@ -188,6 +200,8 @@ static void SensorsTask(void *parameters)
 		struct pios_sensor_accel_data accels;
 		struct pios_sensor_mag_data mags;
 		struct pios_sensor_baro_data baro;
+		struct pios_sensor_sonar_data sonar;
+		struct pios_sensor_optical_flow_data optical_flow;
 
 		uint32_t timeval = PIOS_DELAY_GetRaw();
 
@@ -233,6 +247,16 @@ static void SensorsTask(void *parameters)
 				}
 			}
 
+		}
+
+		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_OPTICAL_FLOW);
+		if (queue != NULL && PIOS_Queue_Receive(queue, &optical_flow, 0) != false) {
+			update_optical_flow(&optical_flow);
+		}
+
+		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_SONAR);
+		if (queue != NULL && PIOS_Queue_Receive(queue, &sonar, 0) != false) {
+			update_sonar(&sonar);
 		}
 
 		#if defined(AQ32)
@@ -405,6 +429,46 @@ static void update_baro(struct pios_sensor_baro_data *baro)
 	baroAltitude.Pressure = baro->pressure;
 	baroAltitude.Altitude = baro->altitude;
 	BaroAltitudeSet(&baroAltitude);
+}
+
+/*
+ * Update the optical flow uavo from the data from the optical flow queue
+ * @param [in] optical_flow raw optical flow data
+ */
+void update_optical_flow(struct pios_sensor_optical_flow_data *optical_flow)
+{
+	OpticalFlowData opticalFlow;
+
+	opticalFlow.x = optical_flow->x_dot;
+	opticalFlow.y = optical_flow->y_dot;
+	opticalFlow.z = optical_flow->z_dot;
+
+	opticalFlow.Quality = optical_flow->quality;
+
+	OpticalFlowSet(&opticalFlow);
+}
+
+/*
+ * Update the sonar uavo from the data from the sonar queue
+ * @param [in] sonar raw sonar data
+ */
+static void update_sonar(struct pios_sensor_sonar_data *sonar)
+{
+	SonarAltitudeData sonarAltitude;
+	SonarAltitudeGet(&sonarAltitude);
+
+	AttitudeActualData attitude;
+	AttitudeActualGet(&attitude);
+
+	sonarAltitude.Range = sonar->z;
+
+	if (sonar->z < 0) {
+		sonarAltitude.RangingStatus = SONARALTITUDE_RANGINGSTATUS_OUTOFRANGE;
+	} else {
+		sonarAltitude.RangingStatus = SONARALTITUDE_RANGINGSTATUS_INRANGE;
+	}
+
+	SonarAltitudeSet(&sonarAltitude);
 }
 
 /**

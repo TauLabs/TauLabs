@@ -58,6 +58,22 @@ struct pios_sensor_mag_data {
 	float z;
 };
 
+//! Pios sensor structure for generic mag data
+struct pios_sensor_optical_flow_data {
+	float x_dot;
+	float y_dot;
+	float z_dot;
+
+	uint8_t quality;
+};
+
+//! Pios sensor structure for generic mag data
+struct pios_sensor_sonar_data {
+	float x;
+	float y;
+	float z;
+};
+
 //! Pios sensor structure for generic baro data
 struct pios_sensor_baro_data {
 	float temperature;
@@ -72,6 +88,8 @@ enum pios_sensor_type
 	PIOS_SENSOR_GYRO,
 	PIOS_SENSOR_MAG,
 	PIOS_SENSOR_BARO,
+	PIOS_SENSOR_OPTICAL_FLOW,
+	PIOS_SENSOR_SONAR,
 	PIOS_SENSOR_LAST
 };
 
