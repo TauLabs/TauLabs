@@ -1,7 +1,9 @@
 <xml>
     <object name="SonarAltitude" singleinstance="true" settings="false">
         <description>The raw data from the ultrasound sonar sensor with altitude estimate.</description>
-        <field name="Altitude" units="m" type="float" elements="1"/>
+        <field name="Range" units="m" type="float" elements="1"/>
+        <field name="RangingStatus" units="" type="enum" elements="1" options="OutOfRange,InRange" defaultvalue="OutOfRange"/>
+
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="manual" period="0"/>
         <telemetryflight acked="false" updatemode="periodic" period="1000"/>

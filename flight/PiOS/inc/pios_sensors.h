@@ -67,11 +67,10 @@ struct pios_sensor_optical_flow_data {
 	uint8_t quality;
 };
 
-//! Pios sensor structure for generic mag data
+//! Pios sensor structure for generic sonar data
 struct pios_sensor_sonar_data {
-	float x;
-	float y;
-	float z;
+	float range;
+	uint8_t range_status;
 };
 
 //! Pios sensor structure for generic baro data

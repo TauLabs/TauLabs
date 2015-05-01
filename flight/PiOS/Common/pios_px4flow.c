@@ -225,9 +225,14 @@ static int32_t PIOS_PX4Flow_ReadData(struct pios_sensor_optical_flow_data *optic
 
 	// Only update sonar queue if data is fresh
 	if (i2c_frame.sonar_timestamp > 0) {
-		sonar_data->x = 0;
-		sonar_data->y = 0;
-		sonar_data->z = i2c_frame.ground_distance_m1000 / 1000.0f;
+		sonar_data->range = i2c_frame.ground_distance_m1000 / 1000.0f;
+
+		// If the range is less than 0, then set the range status to 0
+		if (sonar_data->range < 0) {
+			sonar_data->range_status = 0;
+		} else {
+			sonar_data->range_status = 1;
+		}
 
 		PIOS_Queue_Send(dev->sonar_queue, sonar_data, 0);
 	}

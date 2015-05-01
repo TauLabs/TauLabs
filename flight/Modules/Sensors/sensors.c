@@ -460,9 +460,9 @@ static void update_sonar(struct pios_sensor_sonar_data *sonar)
 	AttitudeActualData attitude;
 	AttitudeActualGet(&attitude);
 
-	sonarAltitude.Range = sonar->z;
+	sonarAltitude.Range = sonar->range;
 
-	if (sonar->z < 0) {
+	if (sonar->range_status == 0) {
 		sonarAltitude.RangingStatus = SONARALTITUDE_RANGINGSTATUS_OUTOFRANGE;
 	} else {
 		sonarAltitude.RangingStatus = SONARALTITUDE_RANGINGSTATUS_INRANGE;
