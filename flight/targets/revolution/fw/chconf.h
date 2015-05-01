@@ -447,7 +447,11 @@
 /**
  * @brief   Type of the realtime free counter value.
  */
+#ifndef SIM_POSIX
 typedef uint32_t halrtcnt_t;
+#else
+#include "hal_lld.h"
+#endif
 
 /**
  * @name    Macro Functions

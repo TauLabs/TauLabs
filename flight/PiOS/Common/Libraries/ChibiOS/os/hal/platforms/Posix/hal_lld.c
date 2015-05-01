@@ -60,17 +60,8 @@ CH_IRQ_HANDLER(port_tick_signal_handler);
 void hal_lld_init(void) {
 
   struct sigaction sigtick = {
-    .sa_flags = 0,
     .sa_handler = port_tick_signal_handler,
   };
-
-  /* Set timer signal to be auto masked when entering handler.
-   * On exit it will be automatically unmasked as well. */
-  if (sigemptyset(&sigtick.sa_mask) < 0)
-    port_halt();
-
-  if (sigaddset(&sigtick.sa_mask, PORT_TIMER_SIGNAL) < 0)
-    port_halt();
 
   if (sigaction(PORT_TIMER_SIGNAL, &sigtick, NULL) < 0)
     port_halt();

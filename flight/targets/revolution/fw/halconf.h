@@ -28,6 +28,11 @@
 #ifndef _HALCONF_H_
 #define _HALCONF_H_
 
+#ifdef SIM_POSIX
+// Hack
+#include <signal.h>
+#endif
+
 /**
  * @brief   Enables the TM subsystem.
  */

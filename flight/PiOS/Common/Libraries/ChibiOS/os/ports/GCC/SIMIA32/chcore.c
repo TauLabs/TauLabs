@@ -34,12 +34,13 @@
 #include "hal.h"
 
 #include <ucontext.h>
+#include <unistd.h>
 
 /*===========================================================================*/
 /* Port interrupt handlers.                                                  */
 /*===========================================================================*/
 
-CH_IRQ_HANDLER(port_tick_signal_handler) {
+void port_tick_signal_handler(int signo, siginfo_t *info, void *context) {
   CH_IRQ_PROLOGUE();
 
   chSysLockFromIsr();
@@ -52,16 +53,6 @@ CH_IRQ_HANDLER(port_tick_signal_handler) {
   if (chSchIsPreemptionRequired())
     chSchDoReschedule();
   dbg_check_unlock();
-}
-
-/*===========================================================================*/
-/* Port local functions.                                                     */
-/*===========================================================================*/
-
-static void _setcontext(void *arg) {
-  Thread *ntp = (Thread*)arg;
-  if (setcontext(&ntp->p_ctx.uc) < 0)
-    port_halt();
 }
 
 /*===========================================================================*/
@@ -80,11 +71,17 @@ void port_init(void) {
  * @details Usually this function just disables interrupts but may perform more
  *          actions.
  */
+
+static sigset_t saved;
+
 void port_lock(void) {
   sigset_t set;
-  if (sigfillset(&set) < 0)
+
+  if (sigemptyset(&set) < 0)
     port_halt();
-  if (sigprocmask(SIG_BLOCK, &set, NULL) > 0)
+  if (sigaddset(&set, PORT_TIMER_SIGNAL) < 0)
+    port_halt();
+  if (sigprocmask(SIG_BLOCK, &set, &saved) > 0)
     port_halt();
 }
 
@@ -94,10 +91,7 @@ void port_lock(void) {
  *          actions.
  */
 void port_unlock(void) {
-  sigset_t set;
-  if (sigfillset(&set) < 0)
-    port_halt();
-  if (sigprocmask(SIG_UNBLOCK, &set, NULL) > 0)
+  if (sigprocmask(SIG_UNBLOCK, &saved, NULL) > 0)
     port_halt();
 }
 
@@ -108,14 +102,6 @@ void port_unlock(void) {
  *          in its simplest form it is void.
  */
 void port_lock_from_isr(void) {
-    sigset_t set;
-    if (sigfillset(&set) < 0)
-      port_halt();
-    /* The timer signal is masked on entry of systick automatically. */
-    if (sigdelset(&set, PORT_TIMER_SIGNAL))
-      port_halt();
-    if (sigprocmask(SIG_BLOCK, &set, NULL) > 0)
-      port_halt();
 }
 
 /**
@@ -125,14 +111,6 @@ void port_lock_from_isr(void) {
  *          simplest form it is void.
  */
 void port_unlock_from_isr(void) {
-    sigset_t set;
-    if (sigfillset(&set) < 0)
-      port_halt();
-    /* The timer signal is unmasked on exit of systick automatically. */
-    if (sigdelset(&set, PORT_TIMER_SIGNAL))
-      port_halt();
-    if (sigprocmask(SIG_UNBLOCK, &set, NULL) > 0)
-      port_halt();
 }
 
 /**
@@ -163,6 +141,7 @@ void port_enable(void) {
  *          modes.
  */
 void port_wait_for_interrupt(void) {
+  usleep(20000);
 }
 
 /**
@@ -188,18 +167,7 @@ void port_halt(void) {
  * @param[in] otp       the thread to be switched out
  */
 void port_switch(Thread *ntp, Thread *otp) {
-  /* Create temporary context to perform swap. */
-  static uint8_t tempstack[PORT_INT_REQUIRED_STACK];
-  static ucontext_t tempctx;
-  if (getcontext(&tempctx) < 0)
-    port_halt();
-  tempctx.uc_stack.ss_sp = tempstack;
-  tempctx.uc_stack.ss_size = sizeof(tempstack);
-  tempctx.uc_stack.ss_flags = 0;
-  makecontext(&tempctx, (void(*)(void))_setcontext, 1, ntp);
-
-  /* Save running thread, jump to temporary context. */
-  if (swapcontext(&otp->p_ctx.uc, &tempctx) < 0)
+  if (swapcontext(&otp->p_ctx.uc, &ntp->p_ctx.uc) < 0)
     port_halt();
 }
 
@@ -208,16 +176,26 @@ void port_switch(Thread *ntp, Thread *otp) {
  * @details If the work function returns @p chThdExit() is automatically
  *          invoked.
  */
-void _port_thread_start(void) {
-  asm volatile ("push %ecx                                      \n\t"
-                "push %edx");
+void _port_thread_start(void (*func)(int), int arg) {
+  /* printf("starting %p - %d\n", func, arg); */
+
+  sigset_t set;
+
   chSysUnlock();
-  asm volatile ("pop %edx                                       \n\t"
-                "pop %ecx                                       \n\t"
-                "push %edx                                      \n\t"
-                "call *%ecx                                     \n\t"
-                "push %eax                                      \n\t"
-                "call chThdExit");
+
+  /* Ensure we respond to the timer signal, because we could have been made
+   * somewhere that didn't */
+
+  if (sigemptyset(&set) < 0)
+    port_halt();
+  if (sigaddset(&set, PORT_TIMER_SIGNAL) < 0)
+    port_halt();
+  if (sigprocmask(SIG_UNBLOCK, &set, NULL) > 0)
+    port_halt();
+
+  func(arg);
+
+  chThdExit(0);
 }
 
 /** @} */

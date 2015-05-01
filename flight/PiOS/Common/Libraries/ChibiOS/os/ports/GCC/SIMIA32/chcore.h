@@ -77,7 +77,7 @@
  *          @p extctx is known to be zero.
  */
 #if !defined(PORT_INT_REQUIRED_STACK) || defined(__DOXYGEN__)
-#define PORT_INT_REQUIRED_STACK         16384
+#define PORT_INT_REQUIRED_STACK        32768 
 #endif
 
 /**
@@ -196,9 +196,8 @@ struct context {
   tp->p_ctx.uc.uc_stack.ss_sp = workspace;                              \
   tp->p_ctx.uc.uc_stack.ss_size = wsize;                                \
   tp->p_ctx.uc.uc_stack.ss_flags = 0;                                   \
-  tp->p_ctx.uc.uc_mcontext.gregs[REG_ECX] = (uint32_t)pf;               \
-  tp->p_ctx.uc.uc_mcontext.gregs[REG_EDX] = (uint32_t)arg;              \
-  makecontext(&tp->p_ctx.uc, (void(*)(void))_port_thread_start, 0);     \
+  tp->p_ctx.uc.uc_link = NULL;						\
+  makecontext(&tp->p_ctx.uc, (void(*)(void))_port_thread_start, 2, pf, (void *)arg);     \
 }
 
 /**
@@ -257,7 +256,8 @@ extern "C" {
   void port_wait_for_interrupt(void);
   void port_halt(void);
   void port_switch(Thread *ntp, Thread *otp);
-  void _port_thread_start(void);
+
+  void _port_thread_start(void (*func)(int), int arg);
 #ifdef __cplusplus
 }
 #endif

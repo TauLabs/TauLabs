@@ -76,6 +76,7 @@ BLONLY_CDEFS += -DFW_DESC_SIZE=$(FW_DESC_SIZE)
 # Since we are simulating all this firmware the code needs to know what the BL would
 # normally contain
 CFLAGS += $(BLONLY_CDEFS)
+CFLAGS += -D_XOPEN_SOURCE
 
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
@@ -318,10 +319,11 @@ CFLAGS += -ffast-math
 CFLAGS += $(CDEFS)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
-CFLAGS += -fomit-frame-pointer
+#CFLAGS += -fomit-frame-pointer
 
 CFLAGS += -Wall
 CFLAGS += -Werror
+CFLAGS += -Wno-deprecated-declarations
 # Compiler flags to generate dependency files:
 CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
 
