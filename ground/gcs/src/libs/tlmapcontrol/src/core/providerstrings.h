@@ -29,7 +29,7 @@
 #define PROVIDERSTRINGS_H
 
 #include <QString>
-
+#include <QVector>
 
 namespace core {
     class ProviderStrings
@@ -79,6 +79,15 @@ namespace core {
         /// http://msdn.microsoft.com/en-us/library/bb924353.aspx
         /// </summary>
         QString BingMapsClientToken;
+
+        QVector<char> cryptKeyVector;
+        QString gAPIUrl;
+        QString gMapRegex;
+        QString gLabRegex;
+        QString gTerRegex;
+        QString gSatRegex;
+        QString encrypt(QString str);
+        QString decrypt(QString str);
     };
 
 }
