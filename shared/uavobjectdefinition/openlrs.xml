@@ -1,5 +1,5 @@
 <xml>
-	<object name="OpenLRS" singleinstance="true" settings="true" category="HardwareSettings">
+	<object name="OpenLRS" singleinstance="true" settings="true">
 		<description>Binding settings for OpenLRS</description>
 
 		<field name="version" units="" type="uint8" elements="1" defaultvalue="0"/>
