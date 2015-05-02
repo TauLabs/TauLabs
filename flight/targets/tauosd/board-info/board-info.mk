@@ -1,6 +1,5 @@
 BOARD_TYPE          := 0x05
 BOARD_REVISION      := 0x01
-# Previous version was 0x081, 0x082 introduces partition extensions and forced boot from bkp registers
 BOOTLOADER_VERSION  := 0x81
 HW_TYPE             := 0x00		# seems to be unused
 
