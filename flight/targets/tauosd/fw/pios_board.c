@@ -40,7 +40,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include "hwsparky.h"
+#include "hwtauosd.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
 #include "onscreendisplaysettings.h"
@@ -273,6 +273,67 @@ static void blank_osd()
 	GPIO_ResetBits(GPIOA, GPIO_Pin_14);
 }
 
+void set_vtx_channel(HwTauOsdVTX_ChOptions channel)
+{
+	uint8_t chan = 0;
+	switch (channel) {
+	case HWTAUOSD_VTX_CH_1:
+		chan = 0;
+		break;
+	case HWTAUOSD_VTX_CH_2:
+		chan = 1;
+		break;
+	case HWTAUOSD_VTX_CH_3:
+		chan = 2;
+		break;
+	case HWTAUOSD_VTX_CH_4:
+		chan = 3;
+		break;
+	case HWTAUOSD_VTX_CH_5:
+		chan = 4;
+		break;
+	case HWTAUOSD_VTX_CH_6:
+		chan = 5;
+		break;
+	case HWTAUOSD_VTX_CH_7:
+		chan = 6;
+		break;
+	case HWTAUOSD_VTX_CH_8:
+		chan = 7;
+		break;
+	}
+
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+	if (chan & 0x01) {
+		GPIO_SetBits(GPIOB, GPIO_Pin_11);
+	} else {
+		GPIO_ResetBits(GPIOB, GPIO_Pin_11);
+	}
+
+	if (chan & 0x02) {
+		GPIO_SetBits(GPIOB, GPIO_Pin_10);
+	} else {
+		GPIO_ResetBits(GPIOB, GPIO_Pin_10);
+	}
+
+	if (chan & 0x04) {
+		GPIO_SetBits(GPIOB, GPIO_Pin_2);
+	} else {
+		GPIO_ResetBits(GPIOB, GPIO_Pin_2);
+	}
+}
 void PIOS_Board_Init(void) {
 
 	blank_osd();
@@ -341,7 +402,7 @@ void PIOS_Board_Init(void) {
 	/* Initialize the alarms library */
 	AlarmsInitialize();
 
-	HwSparkyInitialize();
+	HwTauOsdInitialize();
 	ModuleSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
@@ -364,7 +425,7 @@ void PIOS_Board_Init(void) {
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
-		HwSparkySetDefaults(HwSparkyHandle(), 0);
+		HwTauOsdSetDefaults(HwTauOsdHandle(), 0);
 		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
@@ -397,17 +458,17 @@ void PIOS_Board_Init(void) {
 
 	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
-	HwSparkyUSB_VCPPortGet(&hw_usb_vcpport);
+	HwTauOsdUSB_VCPPortGet(&hw_usb_vcpport);
 
 	if (!usb_cdc_present) {
 		/* Force VCP port function to disabled if we haven't advertised VCP in our USB descriptor */
-		hw_usb_vcpport = HWSPARKY_USB_VCPPORT_DISABLED;
+		hw_usb_vcpport = HWTAUOSD_USB_VCPPORT_DISABLED;
 	}
 
 	switch (hw_usb_vcpport) {
-	case HWSPARKY_USB_VCPPORT_DISABLED:
+	case HWTAUOSD_USB_VCPPORT_DISABLED:
 		break;
-	case HWSPARKY_USB_VCPPORT_USBTELEMETRY:
+	case HWTAUOSD_USB_VCPPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uintptr_t pios_usb_cdc_id;
@@ -426,7 +487,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSPARKY_USB_VCPPORT_COMBRIDGE:
+	case HWTAUOSD_USB_VCPPORT_COMBRIDGE:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uintptr_t pios_usb_cdc_id;
@@ -445,7 +506,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_COM */
 		break;
-	case HWSPARKY_USB_VCPPORT_DEBUGCONSOLE:
+	case HWTAUOSD_USB_VCPPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
@@ -471,17 +532,17 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
 	uint8_t hw_usb_hidport;
-	HwSparkyUSB_HIDPortGet(&hw_usb_hidport);
+	HwTauOsdUSB_HIDPortGet(&hw_usb_hidport);
 
 	if (!usb_hid_present) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
-		hw_usb_hidport = HWSPARKY_USB_HIDPORT_DISABLED;
+		hw_usb_hidport = HWTAUOSD_USB_HIDPORT_DISABLED;
 	}
 
 	switch (hw_usb_hidport) {
-	case HWSPARKY_USB_HIDPORT_DISABLED:
+	case HWTAUOSD_USB_HIDPORT_DISABLED:
 		break;
-	case HWSPARKY_USB_HIDPORT_USBTELEMETRY:
+	case HWTAUOSD_USB_HIDPORT_USBTELEMETRY:
 #if defined(PIOS_INCLUDE_COM)
 		{
 			uintptr_t pios_usb_hid_id;
@@ -542,6 +603,10 @@ void PIOS_Board_Init(void) {
 #endif
 
 	video_input_select(0);
+
+	uint8_t channel;
+	HwTauOsdVTX_ChGet(&channel);
+	set_vtx_channel(channel);
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
 	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);
