@@ -35,6 +35,7 @@
 
 #include <ucontext.h>
 #include <unistd.h>
+#include <sys/select.h>
 
 /*===========================================================================*/
 /* Port interrupt handlers.                                                  */
@@ -141,7 +142,12 @@ void port_enable(void) {
  *          modes.
  */
 void port_wait_for_interrupt(void) {
-  usleep(20000);
+#if 0
+  // Does not seem to perform well enough in context switching...
+  struct timeval tv = { .tv_sec=5 };
+
+  select(1, NULL, NULL, NULL, &tv);
+#endif
 }
 
 /**
