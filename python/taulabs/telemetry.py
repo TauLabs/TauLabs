@@ -1,8 +1,9 @@
-
 import socket
 import taulabs
 import time
 import array
+import select
+import errno
 
 class Telemetry():
 	"""
@@ -17,6 +18,8 @@ class Telemetry():
 		self.uavo_defs = uavtalk.uavo_defs
 		self.gcs_telemetry = {v: k for k, v in self.uavo_defs.items() if v.meta['name']=="GCSTelemetryStats"}.items()[0][0]
 
+		self.recv_buf = ''
+
 		self.uavo_list = taulabs.uavo_list.UAVOList(self.uavo_defs)
 
 	def open_network(self, host="127.0.0.1", port=9000):
@@ -25,36 +28,30 @@ class Telemetry():
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.connect((host, port))
 
-#		s.setblocking(0)
+		s.setblocking(0)
 
 		self.sock = s
 
 	def close_network(self):
 		""" Close network socket """
 
-		self.sock.shutdown()
 		self.sock.close()
 		self.sock=None
 
-	def serviceConnection(self):
-		"""
-		Receive and parse data from a network connection and handle the basic
-		handshaking with the flight controller
-		"""
+	def __handleFrame(self, frame):
+		updated=0
 
-		updated_objects = 0
-
-		for c in self.__receive():
+		for c in frame:
 			self.uavtalk_parser.processByte(ord(c))
 
 			if self.uavtalk_parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
 				obj  = self.uavtalk_parser.getLastReceivedObjectInstance(timestamp=round(time.time() * 1000))
 
 				if obj is not None:
+					updated += 1
 
 					# TODO: insert code to handle interest updates here. Default behavior is simply
 					# to store them all
-					updated_objects = updated_objects + 1
 					self.uavo_list.append(obj)
 
 					print obj
@@ -81,6 +78,25 @@ class Telemetry():
 						packet = self.uavtalk_parser.sendSingleObject(send_obj)
 						self.__send(packet)
 
+		return updated
+
+
+	def serviceConnection(self, timeout=None):
+		"""
+		Receive and parse data from a network connection and handle the basic
+		handshaking with the flight controller
+		"""
+
+		if timeout is not None:
+			finishTime = time.time()+timeout
+		else:
+			finishTime = None
+
+		updated_objects = 0
+
+		for i in self.__receive(finishTime):
+			updated_objects += self.__handleFrame(i)
+
 		return updated_objects, self.uavo_list
 
 	def __send(self, msg):
@@ -93,17 +109,39 @@ class Telemetry():
 				raise RuntimeError("socket connection broken")
 			totalsent = totalsent + sent
 
-	def __receive(self):
+	def __receive(self, finishTime):
 		""" Fetch available data from TCP socket """
 
 		MSGLEN = 32
+		first=True
 
-		msg = ''
-		while len(msg) < MSGLEN:
-			chunk = self.sock.recv(MSGLEN-len(msg))
-			if chunk == '':
-				raise RuntimeError("socket connection broken")
-			msg = msg + chunk
-		return msg
+		while len(self.recv_buf) < MSGLEN:
+			now = time.time()
+			if finishTime is None: 
+				select.select([self.sock], [], [])
+			elif now < finishTime:
+				select.select([self.sock], [], [], finishTime-now)
+			else:
+				if not first:
+					return None
 
+			first=False
+
+			try:
+				chunk = self.sock.recv(1024)
+				if chunk == '':
+					raise RuntimeError("socket connection broken")
+
+				self.recv_buf=self.recv_buf + chunk
+			except socket.timeout:
+				pass
+			except socket.error,e:
+				if e.errno != errno.EAGAIN:
+					raise
+
+
+		ret=self.recv_buf[0:MSGLEN]
+		self.recv_buf=self.recv_buf[MSGLEN:]
+
+		return ret
 
