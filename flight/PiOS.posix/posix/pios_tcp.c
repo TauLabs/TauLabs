@@ -151,6 +151,10 @@ static void PIOS_TCP_RxTask(void *tcp_dev_n)
 
 			}
 
+			if (result == 0) {
+				break;
+			}
+
 			if (result == -1) {
 				if (error == EAGAIN)
 					PIOS_Thread_Sleep(1);
