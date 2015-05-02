@@ -40,11 +40,7 @@
 // Private constants
 #define OVEROSYNC_PACKET_SIZE 1024
 #define MAX_QUEUE_SIZE   40
-#if defined(PIOS_OVEROSYNC_STACK_SIZE)
-#define STACK_SIZE_BYTES PIOS_OVEROSYNC_STACK_SIZE
-#else
 #define STACK_SIZE_BYTES 512
-#endif
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private types

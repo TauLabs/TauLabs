@@ -56,11 +56,7 @@
 #include "coordinate_conversions.h"
 
 // Private constants
-#if defined(PIOS_SENSORS_STACK_SIZE)
-#define STACK_SIZE_BYTES PIOS_SENSORS_STACK_SIZE
-#else
 #define STACK_SIZE_BYTES 1540
-#endif
 #define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define SENSOR_PERIOD 2
 
