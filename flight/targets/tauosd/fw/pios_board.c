@@ -179,6 +179,22 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 }
 #endif	/* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
 
+void video_input_select(uint8_t ch) {
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+	if (ch) {
+		GPIO_SetBits(GPIOB, GPIO_Pin_15);
+	} else {
+		GPIO_ResetBits(GPIOB, GPIO_Pin_15);
+	}
+}
 
 /**
  * Indicate a target-specific error code when a component fails to initialize
@@ -524,6 +540,8 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_GPIO)
 	PIOS_GPIO_Init();
 #endif
+
+	video_input_select(0);
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
 	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);
