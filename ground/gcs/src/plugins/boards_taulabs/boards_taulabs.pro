@@ -14,7 +14,8 @@ HEADERS += \
     sparkybgc.h \
     sparkybgcconfiguration.h \
     sparky2.h \
-    taulink.h
+    taulink.h \
+    tauosd.h
 
 SOURCES += \
     taulabsplugin.cpp \
@@ -22,10 +23,14 @@ SOURCES += \
     sparkybgc.cpp \
     sparkybgcconfiguration.cpp \
     sparky2.cpp \
-    taulink.cpp
+    taulink.cpp \
+    tauosd.cpp
 
 RESOURCES += \
     taulabs.qrc
 
 FORMS += \
     sparkybgcconfiguration.ui
+
+DISTFILES += \
+    images/tauosd.png

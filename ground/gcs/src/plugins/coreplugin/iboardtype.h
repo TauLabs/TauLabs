@@ -78,7 +78,7 @@ public:
     //! Types of capabilities boards can support
     enum BoardCapabilities {BOARD_CAPABILITIES_GYROS, BOARD_CAPABILITIES_ACCELS,
                             BOARD_CAPABILITIES_MAGS, BOARD_CAPABILITIES_BAROS,
-                            BOARD_CAPABILITIES_RADIO};
+                            BOARD_CAPABILITIES_RADIO, BOARD_CAPABILITIES_OSD};
     /**
      * @brief Query capabilities of the board.
      * @return true if board supports the capability that is requested (from BoardCapabilities)
