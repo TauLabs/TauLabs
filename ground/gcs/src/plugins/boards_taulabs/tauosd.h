@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
- * @file       taulabsplugin.cpp
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @file       tauosd.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -24,53 +24,32 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#ifndef TAUOSD_H
+#define TAUOSD_H
 
-#include "taulabsplugin.h"
-#include "sparky.h"
-#include "sparky2.h"
-#include "sparkybgc.h"
-#include "taulink.h"
-#include "tauosd.h"
+#include "hwtauosd.h"
+#include <coreplugin/iboardtype.h>
+#include <uavobjectutil/uavobjectutilmanager.h>
 
-TauLabsPlugin::TauLabsPlugin()
+class IBoardType;
+
+class TauOsd : public Core::IBoardType
 {
-   // Do nothing
-}
+public:
+    TauOsd();
+    virtual ~TauOsd();
 
-TauLabsPlugin::~TauLabsPlugin()
-{
-   // Do nothing
-}
+    virtual QString shortName();
+    virtual QString boardDescription();
+    virtual bool queryCapabilities(BoardCapabilities capability);
+    virtual QStringList getSupportedProtocols();
+    virtual QPixmap getBoardPicture();
+    virtual QString getHwUAVO();
+    HwTauOsd *getSettings();
 
-bool TauLabsPlugin::initialize(const QStringList& args, QString *errMsg)
-{
-   Q_UNUSED(args);
-   Q_UNUSED(errMsg);
-   return true;
-}
+private:
+    UAVObjectUtilManager* uavoUtilManager;
+};
 
-void TauLabsPlugin::extensionsInitialized()
-{
-    /**
-     * Create the board objects here.
-     *
-     */
-    Sparky* sparky = new Sparky();
-    addAutoReleasedObject(sparky);
 
-    Sparky2* sparky2 = new Sparky2();
-    addAutoReleasedObject(sparky2);
-
-    SparkyBGC* sparkybgc = new SparkyBGC();
-    addAutoReleasedObject(sparkybgc);
-
-    TauLink* taulink = new TauLink();
-    addAutoReleasedObject(taulink);
-
-    TauOsd* tauosd = new TauOsd();
-    addAutoReleasedObject(tauosd);
-}
-
-void TauLabsPlugin::shutdown()
-{
-}
+#endif // TAUOSD_H
