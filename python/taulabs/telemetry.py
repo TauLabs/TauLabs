@@ -19,6 +19,7 @@ class Telemetry():
 		self.gcs_telemetry = {v: k for k, v in self.uavo_defs.items() if v.meta['name']=="GCSTelemetryStats"}.items()[0][0]
 
 		self.recv_buf = ''
+		self.send_buf = ''
 
 		self.uavo_list = taulabs.uavo_list.UAVOList(self.uavo_defs)
 
@@ -102,12 +103,51 @@ class Telemetry():
 	def __send(self, msg):
 		""" Send a string out the TCP socket """
 
-		totalsent = 0
-		while totalsent < len(msg):
-			sent = self.sock.send(msg[totalsent:])
-			if sent == 0:
-				raise RuntimeError("socket connection broken")
-			totalsent = totalsent + sent
+		self.send_buf += msg
+
+		self.__select(0)
+
+	# Call select and do one set of IO operations.
+	def __select(self, finishTime):
+		rdSet=[]
+		wrSet=[]
+
+		didStuff=False
+
+		if len(self.recv_buf) < 1024:
+			rdSet.append(self.sock)
+
+		if len(self.send_buf) > 0:
+			wrSet.append(self.sock)
+
+		now = time.time()
+		if finishTime is None: 
+			r,w,e = select.select(rdSet, wrSet, [])
+		else:
+			tm = finishTime-now
+			if tm < 0: tm=0
+
+			r,w,e = select.select(rdSet, wrSet, [], tm)
+
+		if r:
+			# Shouldn't throw an exception-- they just told us
+			# it was ready for read.
+			chunk = self.sock.recv(1024)
+			if chunk == '':
+				raise RuntimeError("socket closed")
+
+			self.recv_buf=self.recv_buf + chunk
+
+			didStuff=True
+
+		if w:
+			written = self.sock.send(self.send_buf)
+			self.send_buf = self.send_buf[written:]
+
+			didStuff=True
+
+		return didStuff
+
 
 	def __receive(self, finishTime):
 		""" Fetch available data from TCP socket """
@@ -115,30 +155,14 @@ class Telemetry():
 		MSGLEN = 32
 		first=True
 
-		while len(self.recv_buf) < MSGLEN:
-			now = time.time()
-			if finishTime is None: 
-				select.select([self.sock], [], [])
-			elif now < finishTime:
-				select.select([self.sock], [], [], finishTime-now)
-			else:
-				if not first:
-					return None
+		# Always do some minimal IO if possible
+		self.__select(0)
 
-			first=False
+		while (len(self.recv_buf) < MSGLEN) and self.__select(finishTime):
+			pass
 
-			try:
-				chunk = self.sock.recv(1024)
-				if chunk == '':
-					raise RuntimeError("socket connection broken")
-
-				self.recv_buf=self.recv_buf + chunk
-			except socket.timeout:
-				pass
-			except socket.error,e:
-				if e.errno != errno.EAGAIN:
-					raise
-
+		if len(self.recv_buf) < MSGLEN:
+			return None
 
 		ret=self.recv_buf[0:MSGLEN]
 		self.recv_buf=self.recv_buf[MSGLEN:]
