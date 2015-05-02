@@ -37,6 +37,7 @@
 #include "flightbatterystate.h"
 #include "flightstatus.h"
 #include "manualcontrolcommand.h"
+#include "modulesettings.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -59,6 +60,7 @@ static struct pios_thread *taskHandle;
 
 // Private functions
 static void osdCanTask(void* parameters);
+static void enable_battery_module();
 
 /**
  * @brief Module initialization
@@ -145,10 +147,12 @@ static void osdCanTask(void* parameters)
 		}
 
 		if (PIOS_Queue_Receive(queue_battery_volt, &pios_can_volt_message, 0) == true) {
+			enable_battery_module();
 			FlightBatteryStateVoltageSet(&pios_can_volt_message.volt);
 		}
 
 		if (PIOS_Queue_Receive(queue_battery_curr, &pios_can_curr_message, 0) == true) {
+			enable_battery_module();
 			FlightBatteryStateCurrentSet(&pios_can_curr_message.curr);
 			FlightBatteryStateConsumedEnergySet(&pios_can_curr_message.consumed);
 		}
@@ -158,6 +162,19 @@ static void osdCanTask(void* parameters)
 
 }
 
+//! Flag this module as enabled when we get the appropriate
+//! messages
+static void enable_battery_module()
+{
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+ 	ModuleSettingsAdminStateGet(module_state);
+
+ 	if (module_state[MODULESETTINGS_ADMINSTATE_BATTERY] != MODULESETTINGS_ADMINSTATE_ENABLED) {
+ 		module_state[MODULESETTINGS_ADMINSTATE_BATTERY] = MODULESETTINGS_ADMINSTATE_ENABLED;
+ 		ModuleSettingsAdminStateSet(module_state);
+ 	}
+
+}
 
 
 /**
