@@ -57,8 +57,8 @@ def main():
 
     telemetry.open_network()
 
-    while True:
-        telemetry.serviceConnection()
+    for obj in telemetry:
+        print obj
 
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":

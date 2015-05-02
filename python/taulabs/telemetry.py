@@ -5,12 +5,14 @@ import array
 import select
 import errno
 
+import threading
+
 class Telemetry():
 	"""
 	Provides a basic telemetry connection to a flight controller
 	"""
 
-	def __init__(self, uavtalk):
+	def __init__(self, uavtalk, serviceInIter=True, iterBlocks=True):
 		self.uavtalk_parser = uavtalk
 		self.sock = None
 
@@ -22,6 +24,40 @@ class Telemetry():
 		self.send_buf = ''
 
 		self.uavo_list = taulabs.uavo_list.UAVOList(self.uavo_defs)
+		self.cond = threading.Condition()
+
+		self.serviceInIter=serviceInIter
+		self.iterBlocks=iterBlocks
+		self.iterIdx=0
+
+	def __iter__(self):
+		self.cond.acquire()
+
+		while True:
+			if self.iterIdx < len(self.uavo_list):
+				self.cond.release()
+				yield self.uavo_list[self.iterIdx]
+				self.iterIdx += 1
+				self.cond.acquire()
+			elif self.iterBlocks and self.sock:
+				if self.serviceInIter:
+					self.cond.release()
+					self.serviceConnection()
+					self.cond.acquire()
+				else:
+					# wait for another thread to fill it in
+					self.cond.wait()
+			else:
+				if self.serviceInIter and self.sock:
+					# Do at least one non-blocking attempt
+					self.cond.release()
+					self.serviceConnection(0)
+					self.cond.acquire()
+
+				if self.iterIdx >= len(self.uavo_list):
+					break
+
+		self.cond.release()
 
 	def open_network(self, host="127.0.0.1", port=9000):
 		""" Open a socket on localhost port 9000 """
@@ -39,9 +75,31 @@ class Telemetry():
 		self.sock.close()
 		self.sock=None
 
-	def __handleFrame(self, frame):
-		updated=0
+	def __handleHandshake(self, obj):
+		if obj.name == "FlightTelemetryStats":
+			# Handle the telemetry hanshaking
 
+			(DISCONNECTED, HANDSHAKE_REQ, HANDSHAKE_ACK, CONNECTED) = (0,1,2,3)
+
+			if obj.Status == DISCONNECTED:
+				print "Disconnected"
+				# Request handshake
+				send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
+					self.gcs_telemetry.id, 0, 0, 0, 0, 0, HANDSHAKE_REQ])
+			elif obj.Status == HANDSHAKE_ACK:
+				print "Handshake ackd"
+				# Say connected
+				send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
+					self.gcs_telemetry.id, 0, 0, 0, 0, 0, CONNECTED])
+			elif obj.Status == CONNECTED:
+				print "Connected"
+				send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
+					self.gcs_telemetry.id, 0, 0, 0, 0, 0, CONNECTED])
+			packet = self.uavtalk_parser.sendSingleObject(send_obj)
+			self.__send(packet)
+
+
+	def __handleFrame(self, frame):
 		for c in frame:
 			self.uavtalk_parser.processByte(ord(c))
 
@@ -49,38 +107,13 @@ class Telemetry():
 				obj  = self.uavtalk_parser.getLastReceivedObjectInstance(timestamp=round(time.time() * 1000))
 
 				if obj is not None:
-					updated += 1
+					self.__handleHandshake(obj)
 
-					# TODO: insert code to handle interest updates here. Default behavior is simply
-					# to store them all
-					self.uavo_list.append(obj)
-
-					print obj
-
-					if obj.name == "FlightTelemetryStats":
-						# Handle the telemetry hanshaking
-
-						(DISCONNECTED, HANDSHAKE_REQ, HANDSHAKE_ACK, CONNECTED) = (0,1,2,3)
-
-						if obj.Status == DISCONNECTED:
-							print "Disconnected"
-							# Request handshake
-							send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
-								self.gcs_telemetry.id, 0, 0, 0, 0, 0, HANDSHAKE_REQ])
-						elif obj.Status == HANDSHAKE_ACK:
-							print "Handshake ackd"
-							# Say connected
-							send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
-								self.gcs_telemetry.id, 0, 0, 0, 0, 0, CONNECTED])
-						elif obj.Status == CONNECTED:
-							print "Connected"
-							send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
-								self.gcs_telemetry.id, 0, 0, 0, 0, 0, CONNECTED])
-						packet = self.uavtalk_parser.sendSingleObject(send_obj)
-						self.__send(packet)
-
-		return updated
-
+					with self.cond:
+						# keep everything in ram forever
+						# for now-- in case we wanna see
+						self.uavo_list.append(obj)
+						self.cond.notifyAll()
 
 	def serviceConnection(self, timeout=None):
 		"""
@@ -93,12 +126,8 @@ class Telemetry():
 		else:
 			finishTime = None
 
-		updated_objects = 0
-
 		for i in self.__receive(finishTime):
-			updated_objects += self.__handleFrame(i)
-
-		return updated_objects, self.uavo_list
+			self.__handleFrame(i)
 
 	def __send(self, msg):
 		""" Send a string out the TCP socket """
