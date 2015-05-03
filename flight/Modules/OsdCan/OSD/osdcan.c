@@ -36,6 +36,7 @@
 #include "baroaltitude.h"
 #include "flightbatterystate.h"
 #include "flightstatus.h"
+#include "gpsposition.h"
 #include "manualcontrolcommand.h"
 #include "modulesettings.h"
 
@@ -56,11 +57,15 @@ static struct pios_queue *queue_flightstatus;
 static struct pios_queue *queue_rssi;
 static struct pios_queue *queue_battery_volt;
 static struct pios_queue *queue_battery_curr;
+static struct pios_queue *queue_gps_latlon;
+static struct pios_queue *queue_gps_altspeed;
+static struct pios_queue *queue_gps_fix;
 static struct pios_thread *taskHandle;
 
 // Private functions
 static void osdCanTask(void* parameters);
 static void enable_battery_module();
+static void enable_gps_module();
 
 /**
  * @brief Module initialization
@@ -95,6 +100,9 @@ static int32_t OsdCanInitialize()
 	queue_rssi = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_RSSI);
 	queue_battery_volt = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_BATTERY_VOLT);
 	queue_battery_curr = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_BATTERY_CURR);
+	queue_gps_latlon = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_LATLON);
+	queue_gps_altspeed = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_ALTSPEED);
+	queue_gps_fix = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_FIX);
 
 	return 0;
 }
@@ -116,6 +124,9 @@ static void osdCanTask(void* parameters)
 		struct pios_can_rssi_message pios_can_rssi_message;
 		struct pios_can_volt_message pios_can_volt_message;
 		struct pios_can_curr_message pios_can_curr_message;
+		struct pios_can_gps_latlon pios_can_gps_latlon_message;
+		struct pios_can_gps_alt_speed pios_can_gps_alt_speed_message;
+		struct pios_can_gps_fix pios_can_gps_fix_message;
 
 		// Wait for queue message
 		if (PIOS_Queue_Receive(queue_roll_pitch, &roll_pitch_message, 0) == true) {
@@ -157,6 +168,34 @@ static void osdCanTask(void* parameters)
 			FlightBatteryStateConsumedEnergySet(&pios_can_curr_message.consumed);
 		}
 
+		if (PIOS_Queue_Receive(queue_gps_latlon, &pios_can_gps_latlon_message, 0) == true) {
+			enable_gps_module();
+			GPSPositionData gpsPosition;
+			GPSPositionGet(&gpsPosition);
+			gpsPosition.Latitude = pios_can_gps_latlon_message.lat;
+			gpsPosition.Longitude = pios_can_gps_latlon_message.lon;
+			GPSPositionSet(&gpsPosition);
+		}
+
+		if (PIOS_Queue_Receive(queue_gps_altspeed, &pios_can_gps_alt_speed_message, 0) == true) {
+			enable_gps_module();
+			GPSPositionData gpsPosition;
+			GPSPositionGet(&gpsPosition);
+			gpsPosition.Altitude = pios_can_gps_alt_speed_message.alt;
+			gpsPosition.Groundspeed = pios_can_gps_alt_speed_message.speed;
+			GPSPositionSet(&gpsPosition);
+		}
+
+		if (PIOS_Queue_Receive(queue_gps_fix, &pios_can_gps_fix_message, 0) == true) {
+			enable_gps_module();
+			GPSPositionData gpsPosition;
+			GPSPositionGet(&gpsPosition);
+			gpsPosition.PDOP = pios_can_gps_fix_message.pdop;
+			gpsPosition.Satellites = pios_can_gps_fix_message.sats;
+			gpsPosition.Status = pios_can_gps_fix_message.status;
+			GPSPositionSet(&gpsPosition);
+		}
+
 		PIOS_Thread_Sleep(1);
 	}
 
@@ -176,6 +215,19 @@ static void enable_battery_module()
 
 }
 
+//! Flag this module as enabled when we get the appropriate
+//! messages
+static void enable_gps_module()
+{
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+ 	ModuleSettingsAdminStateGet(module_state);
+
+ 	if (module_state[MODULESETTINGS_ADMINSTATE_GPS] != MODULESETTINGS_ADMINSTATE_ENABLED) {
+ 		module_state[MODULESETTINGS_ADMINSTATE_GPS] = MODULESETTINGS_ADMINSTATE_ENABLED;
+ 		ModuleSettingsAdminStateSet(module_state);
+ 	}
+
+}
 
 /**
  * @}
