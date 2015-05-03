@@ -7,23 +7,36 @@ import errno
 
 import threading
 
+import uavtalk, uavo_collection
+
 class Telemetry():
 	"""
 	Provides a basic telemetry connection to a flight controller
 	"""
 
-	def __init__(self, uavtalk, serviceInIter=True, iterBlocks=True):
-		self.uavtalk_parser = uavtalk
+	def __init__(self, uavo_defs=None, githash=None, serviceInIter=True,
+			iterBlocks=True):
 		self.sock = None
 
-		# handy copy
-		self.uavo_defs = uavtalk.uavo_defs
+		if uavo_defs is None:
+			uavo_defs = uavo_collection.UAVOCollection()
+
+			if githash:
+			    uavo_defs.from_git_hash(githash)
+			else:
+			    uavo_defs.from_uavo_xml_path("../shared/uavobjectdefinition")
+
+		self.uavo_defs = uavo_defs
+		self.uavtalk_parser = uavtalk.UavTalk(uavo_defs)
 		self.gcs_telemetry = {v: k for k, v in self.uavo_defs.items() if v.meta['name']=="GCSTelemetryStats"}.items()[0][0]
 
 		self.recv_buf = ''
 		self.send_buf = ''
 
 		self.uavo_list = taulabs.uavo_list.UAVOList(self.uavo_defs)
+
+		self.last_values = {}
+
 		self.cond = threading.Condition()
 
 		self.serviceInIter=serviceInIter
@@ -31,33 +44,31 @@ class Telemetry():
 		self.iterIdx=0
 
 	def __iter__(self):
-		self.cond.acquire()
 
-		while True:
-			if self.iterIdx < len(self.uavo_list):
-				self.cond.release()
-				yield self.uavo_list[self.iterIdx]
-				self.iterIdx += 1
-				self.cond.acquire()
-			elif self.iterBlocks and self.sock:
-				if self.serviceInIter:
+		with self.cond:
+			while True:
+				if self.iterIdx < len(self.uavo_list):
 					self.cond.release()
-					self.serviceConnection()
+					yield self.uavo_list[self.iterIdx]
+					self.iterIdx += 1
 					self.cond.acquire()
+				elif self.iterBlocks and self.sock:
+					if self.serviceInIter:
+						self.cond.release()
+						self.serviceConnection()
+						self.cond.acquire()
+					else:
+						# wait for another thread to fill it in
+						self.cond.wait()
 				else:
-					# wait for another thread to fill it in
-					self.cond.wait()
-			else:
-				if self.serviceInIter and self.sock:
-					# Do at least one non-blocking attempt
-					self.cond.release()
-					self.serviceConnection(0)
-					self.cond.acquire()
+					if self.serviceInIter and self.sock:
+						# Do at least one non-blocking attempt
+						self.cond.release()
+						self.serviceConnection(0)
+						self.cond.acquire()
 
-				if self.iterIdx >= len(self.uavo_list):
-					break
-
-		self.cond.release()
+					if self.iterIdx >= len(self.uavo_list):
+						break
 
 	def open_network(self, host="127.0.0.1", port=9000):
 		""" Open a socket on localhost port 9000 """
@@ -113,7 +124,31 @@ class Telemetry():
 						# keep everything in ram forever
 						# for now-- in case we wanna see
 						self.uavo_list.append(obj)
+						self.last_values[obj.name]=obj
 						self.cond.notifyAll()
+
+	def get_last_values(self):
+		with self.cond:
+			return self.last_values.copy()
+
+	def start_thread(self):
+		if self.serviceInIter:
+			raise
+
+		if not self.sock:
+			raise
+
+		from threading import Thread
+
+		def run():
+			while self.sock:
+				self.serviceConnection()	
+
+		t=Thread(target=run, name="telemetry svc thread")
+
+		t.daemon=True
+
+		t.start()
 
 	def serviceConnection(self, timeout=None):
 		"""

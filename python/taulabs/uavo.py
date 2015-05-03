@@ -52,10 +52,11 @@ class UAVO():
 
     def __build_class_of(self):
         from collections import namedtuple
-        fields = "name time uavo_id "
+	fields = ['name', 'time', 'uavo_id']
         if not self.meta['is_single_inst']:
-            fields += "inst_id "
-        fields += " ".join([f['name'] for f in self.fields]) + " "
+            fields.append("inst_id")
+
+	fields.extend([f['name'] for f in self.fields])
         self.tuple_class = namedtuple('UAVO_' + self.meta['name'], fields)
 
         # Make sure this new class is exposed in the module globals so that it can be pickled
@@ -170,7 +171,7 @@ class UAVO():
             'access'          : tree.find('object/access'),
             'logging'         : tree.find('object/logging'),
             'telemetrygcs'    : tree.find('object/telemetrygcs'),
-            'telemetryflight' : tree.find('object/telementryflight'),
+            'telemetryflight' : tree.find('object/telemetryflight'),
             }
 
         self.tree = tree

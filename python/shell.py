@@ -10,7 +10,7 @@ def main():
     # Load the UAVO xml files in the workspace
     import taulabs
     uavo_defs = taulabs.uavo_collection.UAVOCollection()
-    uavo_defs.from_uavo_xml_path('shared/uavobjectdefinition')
+    uavo_defs.from_uavo_xml_path('../shared/uavobjectdefinition')
 
     # Build a new module that will make up the global namespace for the
     # interactive shell.  This allows us to restrict what the ipython shell sees.
