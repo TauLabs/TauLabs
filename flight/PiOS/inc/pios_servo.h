@@ -33,9 +33,12 @@
 
 /* Public Functions */
 extern void PIOS_Servo_SetHz(const uint16_t * update_rates, uint8_t banks);
+#if defined(PIOS_INCLUDE_HPWM)
+extern void PIOS_Servo_Set(uint8_t servo, float position);
+extern void PIOS_Servo_Update();
+#else
 extern void PIOS_Servo_Set(uint8_t Servo, uint16_t Position);
-extern void PIOS_Servo_HPWM_Set(uint8_t servo, float position);
-extern void PIOS_Servo_HPWM_Update();
+#endif
 
 #endif /* PIOS_SERVO_H */
 

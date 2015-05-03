@@ -300,7 +300,9 @@
                 </property>
                 <property name="toolTip">
                  <string>Setup &quot;TurboPWM&quot; here: usual value is 400 Hz for multirotor airframes.
-Leave at 50Hz for fixed wing.</string>
+Leave at 50Hz for fixed wing.
+From 500Hz the channel switches to Hires.
+Zero enables OneShot and Hires.</string>
                 </property>
                 <item>
                  <property name="text">
@@ -388,7 +390,9 @@ Leave at 50Hz for fixed wing.</string>
                 </property>
                 <property name="toolTip">
                  <string>Setup &quot;TurboPWM&quot; here: usual value is 400 Hz for multirotor airframes.
-Leave at 50Hz for fixed wing.</string>
+Leave at 50Hz for fixed wing.
+From 500Hz the channel switches to Hires.
+Zero enables OneShot and Hires.</string>
                 </property>
                 <item>
                  <property name="text">
@@ -486,7 +490,9 @@ Leave at 50Hz for fixed wing.</string>
                 </property>
                 <property name="toolTip">
                  <string>Setup &quot;TurboPWM&quot; here: usual value is 400 Hz for multirotor airframes.
-Leave at 50Hz for fixed wing.</string>
+Leave at 50Hz for fixed wing.
+From 500Hz the channel switches to Hires.
+Zero enables OneShot and Hires.</string>
                 </property>
                 <item>
                  <property name="text">
@@ -574,7 +580,9 @@ Leave at 50Hz for fixed wing.</string>
                 </property>
                 <property name="toolTip">
                  <string>Setup &quot;TurboPWM&quot; here: usual value is 400 Hz for multirotor airframes.
-Leave at 50Hz for fixed wing.</string>
+Leave at 50Hz for fixed wing.
+From 500Hz the channel switches to Hires.
+Zero enables OneShot and Hires.</string>
                 </property>
                 <item>
                  <property name="text">

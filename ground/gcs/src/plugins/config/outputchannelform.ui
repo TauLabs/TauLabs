@@ -57,9 +57,7 @@
       </size>
      </property>
      <property name="toolTip">
-      <string>Set &quot;PWM&quot; simple pulse generation.
-Select &quot;HPWM&quot; for OneShot and better resolution at higher frequencies.
-For OneShot set the frequency to zero too.</string>
+      <string>Set the output type of this channel.</string>
      </property>
      <property name="autoFillBackground">
       <bool>false</bool>
@@ -67,11 +65,6 @@ For OneShot set the frequency to zero too.</string>
      <item>
       <property name="text">
        <string>PWM</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>HPWM</string>
       </property>
      </item>
      <item>

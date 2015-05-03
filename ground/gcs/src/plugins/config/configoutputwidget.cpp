@@ -446,19 +446,6 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
         ActuatorSettings::DataFields actuatorSettingsData = actuatorSettings->getData();
         QList<OutputChannelForm*> outputChannelForms = findChildren<OutputChannelForm*>();
 
-        // generate a security requester for HPWM configuration
-        bool foundHPWM = false;
-        foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
-            foundHPWM |= (outputChannelForm->type() == ActuatorSettings::CHANNELTYPE_HPWM);
-
-        if (foundHPWM) {
-            QMessageBox mbox;
-            mbox.setText(QString(tr("There is a channel in HPWM mode.\nThis has influence to all channels which use the same frequency.\nAre you sure you want to apply this?")));
-            mbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-            if (mbox.exec() != QMessageBox::Yes)
-                return;
-        }
-
         // Set channel ranges and types
         foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
         {
@@ -480,6 +467,21 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
             actuatorSettingsData.MotorsSpinWhileArmed = ActuatorSettings::MOTORSSPINWHILEARMED_TRUE;
         else
             actuatorSettingsData.MotorsSpinWhileArmed = ActuatorSettings::MOTORSSPINWHILEARMED_FALSE;
+
+        // generate a security requester for HPWM configuration
+        bool foundHPWM = false;
+
+        for (unsigned int i = 0; i < ActuatorSettings::CHANNELUPDATEFREQ_NUMELEM; i++) {
+            foundHPWM |= (actuatorSettingsData.ChannelUpdateFreq[i] == 0);
+            foundHPWM |= (actuatorSettingsData.ChannelUpdateFreq[i] >= 500);
+        }
+        if (foundHPWM) {
+            QMessageBox mbox;
+            mbox.setText(QString(tr("There is a channel in Hires PWM mode.\nThis has influence to all channels which use the same frequency.\nAre you sure you want to apply this?")));
+            mbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            if (mbox.exec() != QMessageBox::Yes)
+                return;
+        }
 
         // Apply settings
         actuatorSettings->setData(actuatorSettingsData);

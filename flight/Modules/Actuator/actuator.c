@@ -376,7 +376,7 @@ static void actuatorTask(void* parameters)
 			success &= set_channel(n, command.Channel[n], &actuatorSettings);
 		}
 #if defined(PIOS_INCLUDE_HPWM)
-		PIOS_Servo_HPWM_Update();
+		PIOS_Servo_Update();
 #endif
 
 		if(!success) {
@@ -515,7 +515,7 @@ static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const Mix
 		set_channel(n, Channel[n], actuatorSettings);
 	}
 #if defined(PIOS_INCLUDE_HPWM)
-	PIOS_Servo_HPWM_Update();
+	PIOS_Servo_Update();
 #endif
 
 	// Update output object's parts that we changed
@@ -646,17 +646,11 @@ static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettin
 		case ACTUATORSETTINGS_CHANNELTYPE_PWM:
 			PIOS_Servo_Set(actuatorSettings->ChannelAddr[mixer_channel], value);
 			return true;
-#if defined(PIOS_INCLUDE_HPWM)
-		case ACTUATORSETTINGS_CHANNELTYPE_HPWM:
-			PIOS_Servo_HPWM_Set(actuatorSettings->ChannelAddr[mixer_channel], value);
-			return true;
-#endif
 #if defined(PIOS_INCLUDE_I2C_ESC)
 		case ACTUATORSETTINGS_CHANNELTYPE_MK:
 			return PIOS_SetMKSpeed(actuatorSettings->ChannelAddr[mixer_channel],value);
 		case ACTUATORSETTINGS_CHANNELTYPE_ASTEC4:
 			return PIOS_SetAstec4Speed(actuatorSettings->ChannelAddr[mixer_channel],value);
-			break;
 #endif
 		default:
 			return false;

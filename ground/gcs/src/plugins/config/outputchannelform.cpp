@@ -380,7 +380,7 @@ void OutputChannelForm::updateMaxSpinboxValue(UAVObject *obj)
                 if (actuatorSettingsData.ChannelUpdateFreq[i] == 0)
                     return;
 
-                double maxPulseWidth = round(10000000.0 / actuatorSettingsData.ChannelUpdateFreq[i]);
+                double maxPulseWidth = ceil(1000000.0 / actuatorSettingsData.ChannelUpdateFreq[i]);
 
                 // Saturate at the UAVO's maximum value
                 if (maxPulseWidth > std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max())
