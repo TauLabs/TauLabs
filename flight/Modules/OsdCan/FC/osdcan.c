@@ -36,6 +36,8 @@
 #include "baroaltitude.h"
 #include "flightbatterystate.h"
 #include "flightstatus.h"
+#include "gpsposition.h"
+#include "modulesettings.h"
 #include "rfm22bstatus.h"
 
 
@@ -83,9 +85,16 @@ int32_t OsdCanStart(void)
 		};
 		EventPeriodicQueueCreate(&ev, queue, SAMPLE_PERIOD_MS);
 
+		// Only connect messages when modules are enabled
+		uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+		ModuleSettingsAdminStateGet(module_state);
+
 		FlightStatusConnectQueue(queue);
 		BaroAltitudeConnectQueue(queue);
-		if (FlightBatteryStateHandle())
+		if (GPSPositionHandle() && module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+			GPSPositionConnectQueue(queue);
+		}
+		if (FlightBatteryStateHandle() && module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED)
 			FlightBatteryStateConnectQueue(queue);
 		if (RFM22BStatusHandle())
 			RFM22BStatusConnectQueue(queue);
@@ -179,6 +188,35 @@ static void osdCanTask(void* parameters)
 			};
 
 			PIOS_CAN_TxData(pios_can_id, PIOS_CAN_ALT, (uint8_t *) &baro);
+
+		} else if (ev.obj == GPSPositionHandle()) {
+
+			GPSPositionData gps;
+			GPSPositionGet(&gps);
+
+			static uint32_t divider = 0;
+			if (divider % 3 == 0) {
+				struct pios_can_gps_latlon latlon = {
+					.lat  = gps.Latitude,
+					.lon = gps.Longitude,
+				};
+				PIOS_CAN_TxData(pios_can_id, PIOS_CAN_GPS_LATLON, (uint8_t *) &latlon);
+			} else if (divider % 3 == 1) {
+				struct pios_can_gps_alt_speed altspeed = {
+					.alt  = gps.Altitude,
+					.speed = gps.Groundspeed,
+				};
+				PIOS_CAN_TxData(pios_can_id, PIOS_CAN_GPS_ALTSPEED, (uint8_t *) &altspeed);
+			} else if (divider % 3 == 2) {
+				struct pios_can_gps_fix fix = {
+					.pdop  = gps.PDOP,
+					.sats = gps.Satellites,
+					.status = gps.Status,
+				};
+				PIOS_CAN_TxData(pios_can_id, PIOS_CAN_GPS_FIX, (uint8_t *) &fix);
+			}
+
+			divider++;
 
 		} else if (ev.obj == RFM22BStatusHandle()) {
 
