@@ -99,7 +99,6 @@ int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 	return 0;
 }
 
-
 /**
  * @brief PIOS_Servo_SetHz Sets the PWM output frequency. The default
  * resolution is 1us, but in the event that the frequency is so low that its
@@ -177,10 +176,9 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 
 #if defined(PIOS_INCLUDE_HPWM)
 			/* Set the HPWM flags */
-			output_timer_frequency_scaler[i] |= (speeds[set] == 0) ? (OneShotFlag) : 0;
+			output_timer_frequency_scaler[i] |= (speeds[set] == 0) ? OneShotFlag : 0;
 			output_timer_frequency_scaler[i] |= (output_timer_frequency == HiresFrequency) ? HiresFlag : 0;
 #endif
-
 			/* Configure frequency scaler for all channels that use the same timer */
 			for (uint8_t j=0; (j < servo_cfg->num_channels); j++) {
 				if (chan->timer == servo_cfg->channels[j].timer) {
@@ -274,7 +272,6 @@ void PIOS_Servo_Update()
 	if (!servo_cfg) {
 		return;
 	}
-
 
 	for (uint8_t i = 0; i < servo_cfg->num_channels; i++) {
 		const struct pios_tim_channel * chan = &servo_cfg->channels[i];
