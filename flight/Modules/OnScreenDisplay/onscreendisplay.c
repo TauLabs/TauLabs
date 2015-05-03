@@ -1163,6 +1163,10 @@ static void OnScreenPageUpdatedCb(UAVObjEvent * ev)
 	osd_page_updated = true;
 }
 
+void update_module_settings(UAVObjEvent *ev)
+{
+	ModuleSettingsAdminStateGet(module_state);
+}
 
 /**
  * Start the osd module
@@ -1175,6 +1179,8 @@ int32_t OnScreenDisplayStart(void)
 
 		taskHandle = PIOS_Thread_Create(onScreenDisplayTask, "OnScreenDisplay", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_ONSCREENDISPLAY, taskHandle);
+
+		ModuleSettingsConnectCallback(update_module_settings);
 
 #if defined(PIOS_INCLUDE_WDG) && defined(OSD_USE_WDG)
 		#error HERE
@@ -1192,9 +1198,10 @@ int32_t OnScreenDisplayStart(void)
 int32_t OnScreenDisplayInitialize(void)
 {
 	uint8_t osd_state;
-
-	ModuleSettingsAdminStateGet(module_state);
 	
+	for (uint32_t i = 0; i < MODULESETTINGS_ADMINSTATE_NUMELEM; i++)
+		module_state[i] = MODULESETTINGS_ADMINSTATE_DISABLED;
+
 	// XXX fix this!
 //	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings2Data), "settings must be the same!");
 //	STATIC_ASSERT(sizeof(OnScreenDisplayPageSettingsData) == sizeof(OnScreenDisplayPageSettings3Data), "settings must be the same!");
@@ -1255,6 +1262,8 @@ MODULE_INITCALL(OnScreenDisplayInitialize, OnScreenDisplayStart);
 #define INTRO_TIME 5000
 static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 {
+
+	ModuleSettingsAdminStateGet(module_state);
 
 	AccessoryDesiredData accessory;
 	OnScreenDisplaySettingsData osd_settings;
