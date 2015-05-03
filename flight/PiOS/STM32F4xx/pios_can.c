@@ -232,49 +232,38 @@ static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
 	[PIOS_CAN_GPS_LATLON] = 0x2B1,
 	[PIOS_CAN_GPS_ALTSPEED] = 0x2B2,
 	[PIOS_CAN_GPS_FIX] = 0x2B3,
+	[PIOS_CAN_GPS_VEL] = 0x2B4
 };
 
 static int32_t get_message_size(uint32_t msg_id) {
-	int32_t bytes = -1;
 	switch(msg_id) {
 	case PIOS_CAN_GIMBAL:
-		bytes = sizeof(struct pios_can_gimbal_message);
-		break;
+		return sizeof(struct pios_can_gimbal_message);
 	case PIOS_CAN_ATTITUDE_ROLL_PITCH:
-		bytes = sizeof(struct pios_can_roll_pitch_message);
-		break;
+		return sizeof(struct pios_can_roll_pitch_message);
 	case PIOS_CAN_ATTITUDE_YAW:
-		bytes = sizeof(struct pios_can_yaw_message);
-		break;
+		return sizeof(struct pios_can_yaw_message);
 	case PIOS_CAN_BATTERY_VOLT:
-		bytes = sizeof(struct pios_can_volt_message);
-		break;
+		return sizeof(struct pios_can_volt_message);
 	case PIOS_CAN_BATTERY_CURR:
-		bytes = sizeof(struct pios_can_curr_message);
-		break;
+		return sizeof(struct pios_can_curr_message);
 	case PIOS_CAN_RSSI:
-		bytes = sizeof(struct pios_can_rssi_message);
-		break;
+		return sizeof(struct pios_can_rssi_message);
 	case PIOS_CAN_ALT:
-		bytes = sizeof(struct pios_can_alt_message);
-		break;
+		return sizeof(struct pios_can_alt_message);
 	case PIOS_CAN_FLIGHTSTATUS:
-		bytes = sizeof(struct pios_can_flightstatus_message);
-		break;
+		return sizeof(struct pios_can_flightstatus_message);
 	case PIOS_CAN_GPS_LATLON:
-		bytes = sizeof(struct pios_can_gps_latlon);
-		break;
+		return sizeof(struct pios_can_gps_latlon);
 	case PIOS_CAN_GPS_ALTSPEED:
-		bytes = sizeof(struct pios_can_gps_alt_speed);
-		break;
+		return sizeof(struct pios_can_gps_alt_speed);
 	case PIOS_CAN_GPS_FIX:
-		bytes = sizeof(struct pios_can_gps_fix);
-		break;
+		return sizeof(struct pios_can_gps_fix);
+	case PIOS_CAN_GPS_VEL:
+		return sizeof(struct pios_can_gps_vel);
 	default:
 		return -1;
 	}
-
-	return bytes;
 }
 
 //! The mapping of message types to CAN BUS StdID
