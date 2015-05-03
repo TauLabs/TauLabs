@@ -228,7 +228,10 @@ static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
 	[PIOS_CAN_BATTERY_CURR] = 0x2A1,
 	[PIOS_CAN_RSSI] = 0x2A2,
 	[PIOS_CAN_ALT] = 0x2A3,
-	[PIOS_CAN_FLIGHTSTATUS] = 0x2A4
+	[PIOS_CAN_FLIGHTSTATUS] = 0x2A4,
+	[PIOS_CAN_GPS_LATLON] = 0x2B1,
+	[PIOS_CAN_GPS_ALTSPEED] = 0x2B2,
+	[PIOS_CAN_GPS_FIX] = 0x2B3,
 };
 
 static int32_t get_message_size(uint32_t msg_id) {
@@ -257,6 +260,15 @@ static int32_t get_message_size(uint32_t msg_id) {
 		break;
 	case PIOS_CAN_FLIGHTSTATUS:
 		bytes = sizeof(struct pios_can_flightstatus_message);
+		break;
+	case PIOS_CAN_GPS_LATLON:
+		bytes = sizeof(struct pios_can_gps_latlon);
+		break;
+	case PIOS_CAN_GPS_ALTSPEED:
+		bytes = sizeof(struct pios_can_gps_alt_speed);
+		break;
+	case PIOS_CAN_GPS_FIX:
+		bytes = sizeof(struct pios_can_gps_fix);
 		break;
 	default:
 		return -1;

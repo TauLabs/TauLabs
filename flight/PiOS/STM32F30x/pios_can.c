@@ -219,7 +219,56 @@ static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
 	[PIOS_CAN_ATTITUDE_YAW] = 0x196,
 	[PIOS_CAN_BATTERY_VOLT] = 0x2A0,
 	[PIOS_CAN_BATTERY_CURR] = 0x2A1,
+	[PIOS_CAN_RSSI] = 0x2A2,
+	[PIOS_CAN_ALT] = 0x2A3,
+	[PIOS_CAN_FLIGHTSTATUS] = 0x2A4,
+	[PIOS_CAN_GPS_LATLON] = 0x2B1,
+	[PIOS_CAN_GPS_ALTSPEED] = 0x2B2,
+	[PIOS_CAN_GPS_FIX] = 0x2B3,
 };
+
+static int32_t get_message_size(uint32_t msg_id) {
+	int32_t bytes = -1;
+	switch(msg_id) {
+	case PIOS_CAN_GIMBAL:
+		bytes = sizeof(struct pios_can_gimbal_message);
+		break;
+	case PIOS_CAN_ATTITUDE_ROLL_PITCH:
+		bytes = sizeof(struct pios_can_roll_pitch_message);
+		break;
+	case PIOS_CAN_ATTITUDE_YAW:
+		bytes = sizeof(struct pios_can_yaw_message);
+		break;
+	case PIOS_CAN_BATTERY_VOLT:
+		bytes = sizeof(struct pios_can_volt_message);
+		break;
+	case PIOS_CAN_BATTERY_CURR:
+		bytes = sizeof(struct pios_can_curr_message);
+		break;
+	case PIOS_CAN_RSSI:
+		bytes = sizeof(struct pios_can_rssi_message);
+		break;
+	case PIOS_CAN_ALT:
+		bytes = sizeof(struct pios_can_alt_message);
+		break;
+	case PIOS_CAN_FLIGHTSTATUS:
+		bytes = sizeof(struct pios_can_flightstatus_message);
+		break;
+	case PIOS_CAN_GPS_LATLON:
+		bytes = sizeof(struct pios_can_gps_latlon);
+		break;
+	case PIOS_CAN_GPS_ALTSPEED:
+		bytes = sizeof(struct pios_can_gps_alt_speed);
+		break;
+	case PIOS_CAN_GPS_FIX:
+		bytes = sizeof(struct pios_can_gps_fix);
+		break;
+	default:
+		return -1;
+	}
+
+	return bytes;
+}
 
 //! The mapping of message types to CAN BUS StdID
 static struct pios_queue *pios_can_queues[PIOS_CAN_LAST];
@@ -258,14 +307,9 @@ static bool process_received_message(CanRxMsg message)
 struct pios_queue * PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_messages msg_id)
 {
 	// Fetch the size of this message type or error if unknown
-	uint32_t bytes;
-	switch(msg_id) {
-	case PIOS_CAN_GIMBAL:
-		bytes = sizeof(struct pios_can_gimbal_message);
-		break;
-	default:
+	int32_t bytes = get_message_size(msg_id);
+	if (msg_id < 0)
 		return NULL;
-	}
 
 	// Return existing queue if created
 	if (pios_can_queues[msg_id] != NULL)
@@ -391,26 +435,9 @@ static void PIOS_CAN_TxGeneric(void)
 int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages msg_id, uint8_t *data)
 {
 	// Fetch the size of this message type or error if unknown
-	uint32_t bytes;
-	switch(msg_id) {
-	case PIOS_CAN_GIMBAL:
-		bytes = sizeof(struct pios_can_gimbal_message);
-		break;
-	case PIOS_CAN_ATTITUDE_ROLL_PITCH:
-		bytes = sizeof(struct pios_can_roll_pitch_message);
-		break;
-	case PIOS_CAN_ATTITUDE_YAW:
-		bytes = sizeof(struct pios_can_yaw_message);
-		break;
-	case PIOS_CAN_BATTERY_VOLT:
-		bytes = sizeof(struct pios_can_volt_message);
-		break;
-	case PIOS_CAN_BATTERY_CURR:
-		bytes = sizeof(struct pios_can_curr_message);
-		break;
-	default:
+	int32_t bytes = get_message_size(msg_id);
+	if (msg_id < 0)
 		return -1;
-	}
 
 	// Look up the CAN BUS Standard ID for this message type
 	uint32_t std_id = pios_can_message_stdid[msg_id];
@@ -420,7 +447,7 @@ int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages msg_id, uint8_t *da
 	msg.StdId = std_id & 0x7FF;
 	msg.ExtId = 0;
 	msg.IDE = CAN_ID_STD;
-	msg.RTR = CAN_RTR_DATA;			
+	msg.RTR = CAN_RTR_DATA;
 	msg.DLC = (bytes > 8) ? 8 : bytes;
 	memcpy(msg.Data, data, msg.DLC);
 	CAN_Transmit(can_dev->cfg->regs, &msg);

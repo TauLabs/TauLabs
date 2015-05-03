@@ -43,6 +43,9 @@ enum pios_can_messages {
 	PIOS_CAN_RSSI = 5,
 	PIOS_CAN_ALT = 6,
 	PIOS_CAN_FLIGHTSTATUS = 7,
+	PIOS_CAN_GPS_LATLON = 8,
+	PIOS_CAN_GPS_ALTSPEED = 9,
+	PIOS_CAN_GPS_FIX = 10,
 	PIOS_CAN_LAST
 };
 // Note: new messages must be defined in both
@@ -96,6 +99,24 @@ struct pios_can_alt_message {
 struct pios_can_flightstatus_message {
 	uint8_t flight_mode;
 	uint8_t armed;
+}  __attribute__((packed));
+
+//! Message to pass GPS lat and lon information
+struct pios_can_gps_latlon {
+	uint32_t lat;
+	uint32_t lon;
+}  __attribute__((packed));
+
+//! Message to pass GPS lat and lon information
+struct pios_can_gps_alt_speed {
+	float alt;
+	float speed;
+}  __attribute__((packed));
+
+struct pios_can_gps_fix {
+	float pdop;
+	uint8_t sats;
+	uint8_t status;
 }  __attribute__((packed));
 
 //! Transmit a data message with a particular message ID
