@@ -90,17 +90,20 @@ class UAVO():
         import struct
         import array
 
-        pack_field_values = array.array('c', ' ' * self.get_size_of_data())
         offset = 0
-        for f in self.fields:
-            fmt = '<' + f['elements'].__str__() + self.struct_element_map[f['type']]
-            if f['elements'] == 1:
-                struct.pack_into(fmt, pack_field_values, offset, getattr(data, f['name']))
-            else:
-                struct.pack_into(fmt, pack_field_values, offset, *getattr(data, f['name']))
-            offset = offset + struct.calcsize(fmt)
 
-        return pack_field_values
+	fmt='<'
+	fields=[]
+
+        for f in self.fields:
+            fmt += '%d%s'%(f['elements'], self.struct_element_map[f['type']])
+
+            if f['elements'] == 1:
+		fields.append(getattr(data, f['name']))
+            else:
+		fields.extend(getattr(data, f['name']))
+
+	return struct.pack(fmt, *fields)
 
     def instance_from_bytes(self, data, timestamp=None, timestamp_packet=False):
         import struct

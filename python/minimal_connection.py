@@ -47,8 +47,8 @@ def main():
 
     print "Found %d unique UAVO definitions" % len(uavo_defs)
 
-    print uavo.UAVO_SystemAlarms
-    print help(uavo.UAVO_SystemAlarms)
+#    print uavo.UAVO_SystemAlarms
+#    print help(uavo.UAVO_SystemAlarms)
 
 #    tStream = telemetry.Telemetry(uavo_defs)
 #    tStream.open_network()
@@ -67,7 +67,8 @@ def main():
 #		if k in settingsObjs]
 
     for obj in tStream:
-        print obj
+#        print obj
+	pass
 
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":
