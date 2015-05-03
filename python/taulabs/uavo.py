@@ -57,7 +57,13 @@ class UAVO():
             fields.append("inst_id")
 
 	fields.extend([f['name'] for f in self.fields])
-        self.tuple_class = namedtuple('UAVO_' + self.meta['name'], fields)
+
+	name = 'UAVO_' + self.meta['name']
+
+	class tmpClass(namedtuple(name, fields)):
+		pass
+
+        self.tuple_class = type(name, (tmpClass,), { "__slots__" : () })
 
         # Make sure this new class is exposed in the module globals so that it can be pickled
         globals()[self.tuple_class.__name__] = self.tuple_class

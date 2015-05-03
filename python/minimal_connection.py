@@ -47,8 +47,8 @@ def main():
 
     print "Found %d unique UAVO definitions" % len(uavo_defs)
 
-    #print uavo.UAVO_SystemAlarms
-    #print help(uavo.UAVO_SystemAlarms)
+    print uavo.UAVO_SystemAlarms
+    print help(uavo.UAVO_SystemAlarms)
 
 #    tStream = telemetry.Telemetry(uavo_defs)
 #    tStream.open_network()
@@ -57,17 +57,17 @@ def main():
     tStream.open_network()
     tStream.start_thread()
 
-    time.sleep(5.0)	 # XXX how to properly wait for everything
+#    time.sleep(5.0)	 # XXX how to properly wait for everything
 
-    settingsObjs = set(uavo_defs.get_settings_objects())
+#    settingsObjs = set(uavo_defs.get_settings_objects())
 
-    print settingsObjs
-    print tStream.get_last_values()
-    print [v for (k,v) in tStream.get_last_values().iteritems() 
-		if k in settingsObjs]
+#    print settingsObjs
+#    print tStream.get_last_values()
+#    print [v for (k,v) in tStream.get_last_values().iteritems() 
+#		if k in settingsObjs]
 
-#    for obj in tStream:
-#        print obj
+    for obj in tStream:
+        print obj
 
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":
