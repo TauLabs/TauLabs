@@ -37,6 +37,7 @@
 #include "flightbatterystate.h"
 #include "flightstatus.h"
 #include "gpsposition.h"
+#include "gpsvelocity.h"
 #include "manualcontrolcommand.h"
 #include "modulesettings.h"
 
@@ -60,6 +61,7 @@ static struct pios_queue *queue_battery_curr;
 static struct pios_queue *queue_gps_latlon;
 static struct pios_queue *queue_gps_altspeed;
 static struct pios_queue *queue_gps_fix;
+static struct pios_queue *queue_gps_vel;
 static struct pios_thread *taskHandle;
 
 // Private functions
@@ -103,6 +105,7 @@ static int32_t OsdCanInitialize()
 	queue_gps_latlon = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_LATLON);
 	queue_gps_altspeed = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_ALTSPEED);
 	queue_gps_fix = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_FIX);
+	queue_gps_vel = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_VEL);
 
 	return 0;
 }
@@ -127,6 +130,7 @@ static void osdCanTask(void* parameters)
 		struct pios_can_gps_latlon pios_can_gps_latlon_message;
 		struct pios_can_gps_alt_speed pios_can_gps_alt_speed_message;
 		struct pios_can_gps_fix pios_can_gps_fix_message;
+		struct pios_can_gps_vel pios_can_gps_vel_message;
 
 		// Wait for queue message
 		if (PIOS_Queue_Receive(queue_roll_pitch, &roll_pitch_message, 0) == true) {
@@ -194,6 +198,14 @@ static void osdCanTask(void* parameters)
 			gpsPosition.Satellites = pios_can_gps_fix_message.sats;
 			gpsPosition.Status = pios_can_gps_fix_message.status;
 			GPSPositionSet(&gpsPosition);
+		}
+
+		if (PIOS_Queue_Receive(queue_gps_vel, &pios_can_gps_vel_message, 0) == true) {
+			GPSVelocityData vel;
+			GPSVelocityGet(&vel);
+			vel.North = pios_can_gps_vel_message.north;
+			vel.East = pios_can_gps_vel_message.east;
+			GPSVelocitySet(&vel);
 		}
 
 		PIOS_Thread_Sleep(1);

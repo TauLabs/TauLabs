@@ -37,6 +37,7 @@
 #include "flightbatterystate.h"
 #include "flightstatus.h"
 #include "gpsposition.h"
+#include "gpsvelocity.h"
 #include "modulesettings.h"
 #include "rfm22bstatus.h"
 
@@ -93,6 +94,9 @@ int32_t OsdCanStart(void)
 		BaroAltitudeConnectQueue(queue);
 		if (GPSPositionHandle() && module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 			GPSPositionConnectQueue(queue);
+		}
+		if (GPSVelocityHandle() && module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+			GPSVelocityConnectQueue(queue);
 		}
 		if (FlightBatteryStateHandle() && module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED)
 			FlightBatteryStateConnectQueue(queue);
@@ -217,6 +221,15 @@ static void osdCanTask(void* parameters)
 			}
 
 			divider++;
+		} else if (ev.obj == GPSVelocityHandle()) {
+
+			GPSVelocityData gpsVel;
+			GPSVelocityGet(&gpsVel);
+			struct pios_can_gps_vel vel = {
+				.north = gpsVel.North,
+				.east = gpsVel.East
+			};
+			PIOS_CAN_TxData(pios_can_id, PIOS_CAN_GPS_VEL, (uint8_t *) &vel);
 
 		} else if (ev.obj == RFM22BStatusHandle()) {
 
