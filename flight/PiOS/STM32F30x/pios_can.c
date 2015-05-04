@@ -225,9 +225,9 @@ static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
 	[PIOS_CAN_GPS_LATLON] = 0x2B1,
 	[PIOS_CAN_GPS_ALTSPEED] = 0x2B2,
 	[PIOS_CAN_GPS_FIX] = 0x2B3,
-	[PIOS_CAN_GPS_VEL] = 0x2B4
+	[PIOS_CAN_GPS_VEL] = 0x2B4,
+	[PIOS_CAN_POS] = 0x2B5
 };
-
 
 static int32_t get_message_size(uint32_t msg_id) {
 	switch(msg_id) {
@@ -255,6 +255,8 @@ static int32_t get_message_size(uint32_t msg_id) {
 		return sizeof(struct pios_can_gps_fix);
 	case PIOS_CAN_GPS_VEL:
 		return sizeof(struct pios_can_gps_vel);
+	case PIOS_CAN_POS:
+		return sizeof(struct pios_can_pos);
 	default:
 		return -1;
 	}

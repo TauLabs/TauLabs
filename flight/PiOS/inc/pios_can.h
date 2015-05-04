@@ -47,6 +47,7 @@ enum pios_can_messages {
 	PIOS_CAN_GPS_ALTSPEED = 9,
 	PIOS_CAN_GPS_FIX = 10,
 	PIOS_CAN_GPS_VEL = 11,
+	PIOS_CAN_POS = 12,
 	PIOS_CAN_LAST
 };
 // Note: new messages must be defined in both
@@ -121,6 +122,11 @@ struct pios_can_gps_fix {
 }  __attribute__((packed));
 
 struct pios_can_gps_vel {
+	float north;
+	float east;
+}  __attribute__((packed));
+
+struct pios_can_pos {
 	float north;
 	float east;
 }  __attribute__((packed));
