@@ -39,6 +39,7 @@
 #include "gpsposition.h"
 #include "gpsvelocity.h"
 #include "modulesettings.h"
+#include "positionactual.h"
 #include "rfm22bstatus.h"
 
 
@@ -102,6 +103,7 @@ int32_t OsdCanStart(void)
 			FlightBatteryStateConnectQueue(queue);
 		if (RFM22BStatusHandle())
 			RFM22BStatusConnectQueue(queue);
+		PositionActualConnectQueue(queue);
 
 		taskHandle = PIOS_Thread_Create(osdCanTask, "OsdCan", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	}
@@ -230,6 +232,20 @@ static void osdCanTask(void* parameters)
 				.east = gpsVel.East
 			};
 			PIOS_CAN_TxData(pios_can_id, PIOS_CAN_GPS_VEL, (uint8_t *) &vel);
+
+		} else if (ev.obj == PositionActualHandle()) {
+
+			static uint32_t divider = 0;
+			if (divider++ % 100 != 0)
+				continue;
+
+			PositionActualData posActual;
+			PositionActualGet(&posActual);
+			struct pios_can_pos pos = {
+				.north = posActual.North,
+				.east = posActual.East
+			};
+			PIOS_CAN_TxData(pios_can_id, PIOS_CAN_POS, (uint8_t *) &pos);
 
 		} else if (ev.obj == RFM22BStatusHandle()) {
 
