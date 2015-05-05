@@ -47,8 +47,7 @@ class UAVOCollection(dict):
 
             f = t.extractfile(f_info)
 
-            u = uavo.UAVO()
-            u.from_xml(f)
+            u = uavo.UAVO(f)
 
             # add this uavo definition to our dictionary
             self.update([('{0:08x}'.format(u.id), u)])
@@ -59,8 +58,7 @@ class UAVOCollection(dict):
 
         for file_name in glob.glob(os.path.join(path, '*.xml')):
             with open(file_name, 'rU') as f:
-                u = uavo.UAVO()
-                u.from_xml(f)
+                u = uavo.UAVO(f)
 
                 # add this uavo definition to our dictionary
                 self.update([('{0:08x}'.format(u.id), u)])

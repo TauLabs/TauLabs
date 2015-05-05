@@ -9,6 +9,76 @@ def flatten(lst):
             result.append(element)
     return result
 
+class UAVTupleClass():
+    def bytes(self):
+	return self.packstruct.pack(*flatten(self[3:]))
+
+    @classmethod
+    def from_bytes(cls, data, timestamp=None, timestamp_packet=False):
+        import struct
+
+        if (timestamp == None) & (timestamp_packet == False):
+            raise ParameterError('Needs timestamp or a timestamp packet')
+        if (timestamp != None) & (timestamp_packet == True):
+            raise ParameterError('Either pass a timestamp or a timestamp packet, not both')
+
+        formats = []
+
+	uavo = cls.uavometa
+
+        # add format for instance-id IFF this is a multi-instance UAVO
+        if not uavo.meta['is_single_inst']:
+            # this is multi-instance so the optional instance-id is present
+            formats.append('<H')
+
+        # we are parsing the timestamp out of the main packet
+        if timestamp_packet:
+            formats.append('<H')
+
+        # add formats for each field
+        for f in uavo.fields:
+            formats.append('<' + f['elements'].__str__() + uavo.struct_element_map[f['type']])
+
+        #
+        # add the values
+        #
+
+        # unpack each field separately
+        unpack_field_values = []
+        offset = 0
+        for fmt in formats:
+            val = struct.unpack_from(fmt, data, offset)
+            if len(val) == 1:
+                # elevate the value outside of the tuple if there is exactly one value
+                val = val[0]
+            unpack_field_values.append(val)
+            offset += struct.calcsize(fmt)
+
+        field_values = []
+        field_values.append(uavo.meta['name'])
+
+        # This gets a bit awkward. The order of field_values must match the structure
+        # which for the intro header is name, timestamp, and id and then optionally
+        # instance ID. For the timestamped packets we must parse the instance ID and
+        # then the timestamp, so we will pop that out and shuffle the order. We also
+        # convert from ms to seconds here.
+
+        if timestamp != None:
+            field_values.append(timestamp / 1000.0) 
+        else:
+            if uavo.meta['is_single_inst']:
+                offset = 0
+            else:
+                offset = 1
+            field_values.append(unpack_field_values.pop(offset) / 1000.0)
+        field_values.append(uavo.id)
+
+        # add the remaining fields
+        field_values = field_values + unpack_field_values
+
+        return cls._make(field_values)
+
+
 class UAVO():
     type_enum_map = {
         'int8'    : 0,
@@ -54,121 +124,13 @@ class UAVO():
         'enum'    : 'B',
         }
 
-    def __init__(self):
+    def __init__(self, xml_file):
         self.fields = []
         self.meta = {}
         self.id = 0
 
 	self.hash = 0
 
-    def __build_class_of(self):
-        from collections import namedtuple
-	fields = ['name', 'time', 'uavo_id']
-        if not self.meta['is_single_inst']:
-            fields.append("inst_id")
-
-	fields.extend([f['name'] for f in self.fields])
-
-	name = 'UAVO_' + self.meta['name']
-
-	class tmpClass(namedtuple(name, fields)):
-		packform = self.get_packformat()
-
-		def bytes(self):
-			return struct.pack(self.packform, *flatten(self[3:]))
-		pass
-
-	# This is magic for two reasons.  First, we create the class to have
-	# the proper dynamic name.  Second, we override __slots__, so that
-	# child classes don't get a dict / keep all their namedtuple goodness
-        self.tuple_class = type(name, (tmpClass,), { "__slots__" : () })
-
-        # Make sure this new class is exposed in the module globals so that it can be pickled
-        globals()[self.tuple_class.__name__] = self.tuple_class
-
-    def get_size_of_data(self):
-        size = 0
-
-        if not self.meta['is_single_inst']:
-            # this is multi-instance so the optional instance-id is present
-            size += 2
-
-        for f in self.fields:
-            size += self.type_size_map[f['type']] * f['elements']
-
-        return size
-
-    def get_packformat(self):
-	fmt='<'
-
-        for f in self.fields:
-            fmt += '%d%s'%(f['elements'], self.struct_element_map[f['type']])
-
-	return fmt
-
-    def instance_from_bytes(self, data, timestamp=None, timestamp_packet=False):
-        import struct
-
-        if (timestamp == None) & (timestamp_packet == False):
-            raise ParameterError('Needs timestamp or a timestamp packet')
-        if (timestamp != None) & (timestamp_packet == True):
-            raise ParameterError('Either pass a timestamp or a timestamp packet, not both')
-
-        formats = []
-
-        # add format for instance-id IFF this is a multi-instance UAVO
-        if not self.meta['is_single_inst']:
-            # this is multi-instance so the optional instance-id is present
-            formats.append('<H')
-
-        # we are parsing the timestamp out of the main packet
-        if timestamp_packet:
-            formats.append('<H')
-
-        # add formats for each field
-        for f in self.fields:
-            formats.append('<' + f['elements'].__str__() + self.struct_element_map[f['type']])
-
-        #
-        # add the values
-        #
-
-        # unpack each field separately
-        unpack_field_values = []
-        offset = 0
-        for fmt in formats:
-            val = struct.unpack_from(fmt, data, offset)
-            if len(val) == 1:
-                # elevate the value outside of the tuple if there is exactly one value
-                val = val[0]
-            unpack_field_values.append(val)
-            offset += struct.calcsize(fmt)
-
-        field_values = []
-        field_values.append(self.meta['name'])
-
-        # This gets a bit awkward. The order of field_values must match the structure
-        # which for the intro header is name, timestamp, and id and then optionally
-        # instance ID. For the timestamped packets we must parse the instance ID and
-        # then the timestamp, so we will pop that out and shuffle the order. We also
-        # convert from ms to seconds here.
-
-        if timestamp != None:
-            field_values.append(timestamp / 1000.0) 
-        else:
-            if self.meta['is_single_inst']:
-                offset = 0
-            else:
-                offset = 1
-            field_values.append(unpack_field_values.pop(offset) / 1000.0)
-        field_values.append(self.id)
-
-        # add the remaining fields
-        field_values = field_values + unpack_field_values
-
-        return self.tuple_class._make(field_values)
-
-    def from_xml(self, xml_file):
         from lxml import etree
 
         tree = etree.parse(xml_file)
@@ -253,6 +215,52 @@ class UAVO():
         self.id = self._calculate_id()
 
         self.__build_class_of()
+
+    def __build_class_of(self):
+        from collections import namedtuple
+	fields = ['name', 'time', 'uavo_id']
+        if not self.meta['is_single_inst']:
+            fields.append("inst_id")
+
+	fields.extend([f['name'] for f in self.fields])
+
+	name = 'UAVO_' + self.meta['name']
+
+	class tmpClass(namedtuple(name, fields), UAVTupleClass):
+		packform = self.get_packformat()
+		packstruct = struct.Struct(packform)
+		uavometa = self
+
+	# This is magic for two reasons.  First, we create the class to have
+	# the proper dynamic name.  Second, we override __slots__, so that
+	# child classes don't get a dict / keep all their namedtuple goodness
+        self.tuple_class = type(name, (tmpClass,), { "__slots__" : () })
+
+        # Make sure this new class is exposed in the module globals so that it can be pickled
+        globals()[self.tuple_class.__name__] = self.tuple_class
+
+    def get_size_of_data(self):
+        size = 0
+
+        if not self.meta['is_single_inst']:
+            # this is multi-instance so the optional instance-id is present
+            size += 2
+
+        for f in self.fields:
+            size += self.type_size_map[f['type']] * f['elements']
+
+        return size
+
+    def get_packformat(self):
+	fmt='<'
+
+        for f in self.fields:
+            fmt += '%d%s'%(f['elements'], self.struct_element_map[f['type']])
+
+	return fmt
+
+    def instance_from_bytes(self, *args, **kwargs):
+	return self.tuple_class.from_bytes(*args, **kwargs)
 
     def __str__(self):
         return "%s(id='%08x') %s" % (self.meta['name'], self.id, " ".join([f['name'] for f in self.fields]))
