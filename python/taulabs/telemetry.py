@@ -27,8 +27,7 @@ class Telemetry():
 			    uavo_defs.from_uavo_xml_path("../shared/uavobjectdefinition")
 
 		self.uavo_defs = uavo_defs
-		self.uavtalk_parser = uavtalk.UavTalk(uavo_defs)
-		self.uavtalk_generator = self.uavtalk_parser.processStream()
+		self.uavtalk_generator = uavtalk.processStream(uavo_defs)
 
 		self.uavtalk_generator.send(None)
 
@@ -115,7 +114,7 @@ class Telemetry():
 				print "Connected"
 				send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
 					self.gcs_telemetry.id, 0, 0, 0, 0, 0, CONNECTED])
-			packet = self.uavtalk_parser.sendSingleObject(send_obj)
+			packet = uavtalk.sendSingleObject(send_obj)
 			self.__send(packet)
 
 
