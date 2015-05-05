@@ -284,7 +284,7 @@ class UavTalk():
 			length = struct.calcsize(uavo_hdr_fmt) + uavo_def.get_size_of_data()
 			hdr = struct.pack(uavo_hdr_fmt, UavTalk.SYNC_VAL, UavTalk.TYPE_OBJ | UavTalk.TYPE_VER, length, obj.uavo_id, obj.inst_id)
 
-		packet = hdr + uavo_def.bytes_from_instance(obj)
+		packet = hdr + obj.bytes()
 
 		cs = 0
 		for b in packet:

@@ -1,6 +1,15 @@
-class UAVO():
-    import struct
+import struct
 
+def flatten(lst):
+    result = []
+    for element in lst: 
+        if hasattr(element, '__iter__'):
+            result.extend(flatten(element))
+        else:
+            result.append(element)
+    return result
+
+class UAVO():
     type_enum_map = {
         'int8'    : 0,
         'int16'   : 1,
@@ -50,6 +59,8 @@ class UAVO():
         self.meta = {}
         self.id = 0
 
+	self.hash = 0
+
     def __build_class_of(self):
         from collections import namedtuple
 	fields = ['name', 'time', 'uavo_id']
@@ -61,8 +72,15 @@ class UAVO():
 	name = 'UAVO_' + self.meta['name']
 
 	class tmpClass(namedtuple(name, fields)):
+		packform = self.get_packformat()
+
+		def bytes(self):
+			return struct.pack(self.packform, *flatten(self[3:]))
 		pass
 
+	# This is magic for two reasons.  First, we create the class to have
+	# the proper dynamic name.  Second, we override __slots__, so that
+	# child classes don't get a dict / keep all their namedtuple goodness
         self.tuple_class = type(name, (tmpClass,), { "__slots__" : () })
 
         # Make sure this new class is exposed in the module globals so that it can be pickled
@@ -80,30 +98,13 @@ class UAVO():
 
         return size
 
-    def bytes_from_instance(self, data):
-        """
-        Return a string containing the contents of the data instance suitable for
-        inserting into a UAVTalk stream. The class this is called on determines
-        the UAVO type definition.
-        """
-
-        import struct
-        import array
-
-        offset = 0
-
+    def get_packformat(self):
 	fmt='<'
-	fields=[]
 
         for f in self.fields:
             fmt += '%d%s'%(f['elements'], self.struct_element_map[f['type']])
 
-            if f['elements'] == 1:
-		fields.append(getattr(data, f['name']))
-            else:
-		fields.extend(getattr(data, f['name']))
-
-	return struct.pack(fmt, *fields)
+	return fmt
 
     def instance_from_bytes(self, data, timestamp=None, timestamp_packet=False):
         import struct
@@ -259,25 +260,27 @@ class UAVO():
     def __repr__(self):
         return "%s(id='%08x', name=%r)" % (self.__class__, self.id, self.meta['name'])
 
-    def _update_hash_byte(self, value, prev_hash):
-        x = (prev_hash ^ ((prev_hash << 5) + (prev_hash >> 2) + value)) & 0x0FFFFFFFF
-        return x
+    def _update_hash_byte(self, value):
+        self.hash = (self.hash ^ ((self.hash << 5) + (self.hash >> 2) + value)) & 0x0FFFFFFFF
 
-    def _update_hash_string(self, string, prev_hash):
-        hash = prev_hash
+    def _update_hash_string(self, string):
         for c in string:
-            hash = self._update_hash_byte(ord(c), hash)
-        return (hash)
+            self._update_hash_byte(ord(c))
 
     def _calculate_id(self):
-        hash = self._update_hash_string(self.meta['name'], 0)
-        hash = self._update_hash_byte(self.meta['is_settings'], hash)
-        hash = self._update_hash_byte(self.meta['is_single_inst'], hash)
+	self.hash = 0
+
+        self._update_hash_string(self.meta['name'])
+        self._update_hash_byte(self.meta['is_settings'])
+        self._update_hash_byte(self.meta['is_single_inst'])
+
         for field in self.fields:
-            hash = self._update_hash_string(field['name'], hash)
-            hash = self._update_hash_byte(int(field['elements']), hash)
-            hash = self._update_hash_byte(field['type_val'], hash)
+            self._update_hash_string(field['name'])
+            self._update_hash_byte(int(field['elements']))
+            self._update_hash_byte(field['type_val'])
             if field['type'] == 'enum':
                 for option in field['options']:
-                    hash = self._update_hash_string(option, hash)
-        return (hash & 0x0FFFFFFFE)
+                    self._update_hash_string(option)
+
+	return self.hash & 0x0FFFFFFFE
+
