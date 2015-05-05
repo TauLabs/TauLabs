@@ -87,23 +87,22 @@ def processStream(uavo_defs):
 			obj = None
 		else:
 			obj = uavo_defs[uavo_key]
+
+		# Before there used to be code to handle instance offsetting
+		# here, but it looks like it moved (rightfully) into the object
 			
 		# Determine data length
 		if packetType == TYPE_OBJ_REQ or packetType == TYPE_ACK or packetType == TYPE_NACK:
 			objLength = 0
-			instanceLength = 0
 			timestampLength = 0
 		else:
 			if obj is not None:
 				# XXX sure looks like real instancelength is always 0??
-				instanceLength = 0
-				#instanceLength =  0 if obj.meta['is_single_inst'] else 2
 				timestampLength = 2 if packetType == TYPE_OBJ_TS or packetType == TYPE_OBJ_ACK_TS else 0
 				objLength = obj.get_size_of_data()
 
 			else:
 				# we don't know anything, so fudge to keep sync.
-				instanceLength = 0
 				timestampLength = 0
 				objLength = packetLen - headerFmt.size
 
@@ -114,11 +113,11 @@ def processStream(uavo_defs):
 			packetBytes=packetBytes[1:]
 			continue
 
-		# calcedSize, AKA instance id, timestamp, and obj data
+		# calcedSize, AKA timestamp, and obj data
 		# as appropriate, plus our current header
 		# also equivalent to the offset of the CRC in the packet
 
-		calcedSize = headerFmt.size + instanceLength + timestampLength + objLength
+		calcedSize = headerFmt.size + timestampLength + objLength
 
 		# Check the lengths match
 		if calcedSize != packetLen:
@@ -151,7 +150,7 @@ def processStream(uavo_defs):
 
 		# XXX timestamp
 		if obj is not None:
-			objInstance = obj.instance_from_bytes(packetBytes[headerFmt.size + instanceLength + timestampLength:calcedSize+1], 0)
+			objInstance = obj.instance_from_bytes(packetBytes[headerFmt.size + timestampLength:calcedSize+1], 0)
 
 			nextRecv = yield objInstance
 		else:
@@ -165,16 +164,11 @@ def sendSingleObject(obj):
 	"""
 
 	uavo_def = obj.uavometa
-
 	import struct
-	if uavo_def.meta['is_single_inst']:
-		uavo_hdr_fmt = "<BBHI"
-		length = struct.calcsize(uavo_hdr_fmt) + uavo_def.get_size_of_data()
-		hdr = struct.pack(uavo_hdr_fmt, SYNC_VAL, TYPE_OBJ | TYPE_VER,  length, obj.uavo_id)
-	else:
-		uavo_hdr_fmt = "<BBHIH"
-		length = struct.calcsize(uavo_hdr_fmt) + uavo_def.get_size_of_data()
-		hdr = struct.pack(uavo_hdr_fmt, SYNC_VAL, TYPE_OBJ | TYPE_VER, length, obj.uavo_id, obj.inst_id)
+
+	hdr = headerFmt.pack(SYNC_VAL, TYPE_OBJ | TYPE_VER,
+		headerFmt.size + uavo_def.get_size_of_data(),
+		obj.uavo_id)
 
 	packet = hdr + obj.bytes()
 
