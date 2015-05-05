@@ -28,6 +28,10 @@ class Telemetry():
 
 		self.uavo_defs = uavo_defs
 		self.uavtalk_parser = uavtalk.UavTalk(uavo_defs)
+		self.uavtalk_generator = self.uavtalk_parser.processStream()
+
+		self.uavtalk_generator.send(None)
+
 		self.gcs_telemetry = {v: k for k, v in self.uavo_defs.items() if v.meta['name']=="GCSTelemetryStats"}.items()[0][0]
 
 		self.recv_buf = ''
@@ -44,7 +48,6 @@ class Telemetry():
 		self.iterIdx=0
 
 	def __iter__(self):
-
 		with self.cond:
 			while True:
 				if self.iterIdx < len(self.uavo_list):
@@ -55,8 +58,11 @@ class Telemetry():
 				elif self.iterBlocks and self.sock:
 					if self.serviceInIter:
 						self.cond.release()
-						self.serviceConnection()
-						self.cond.acquire()
+
+						try:
+							self.serviceConnection()
+						finally:
+							self.cond.acquire()
 					else:
 						# wait for another thread to fill it in
 						self.cond.wait()
@@ -64,8 +70,11 @@ class Telemetry():
 					if self.serviceInIter and self.sock:
 						# Do at least one non-blocking attempt
 						self.cond.release()
-						self.serviceConnection(0)
-						self.cond.acquire()
+
+						try:
+							self.serviceConnection(0)
+						finally:
+							self.cond.acquire()
 
 					if self.iterIdx >= len(self.uavo_list):
 						break
@@ -110,22 +119,32 @@ class Telemetry():
 			self.__send(packet)
 
 
-	def __handleFrame(self, frame):
-		for c in frame:
-			self.uavtalk_parser.processByte(ord(c))
+	def __handleFrames(self, frames):
+		objs = []
 
-			if self.uavtalk_parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
-				obj  = self.uavtalk_parser.getLastReceivedObjectInstance(timestamp=round(time.time() * 1000))
+		obj = self.uavtalk_generator.send(frames)
 
-				if obj is not None:
-					self.__handleHandshake(obj)
+		while obj:
+			# XXX timestamping -- push down
+			#obj  = self.uavtalk_parser.getLastReceivedObjectInstance(timestamp=round(time.time() * 1000))
 
-					with self.cond:
-						# keep everything in ram forever
-						# for now-- in case we wanna see
-						self.uavo_list.append(obj)
-						self.last_values[obj.name]=obj
-						self.cond.notifyAll()
+			self.__handleHandshake(obj)
+
+			objs.append(obj)
+
+			obj = self.uavtalk_generator.send('')
+
+		# Only traverse the lock when we've processed everything in this
+		# batch.
+		with self.cond:
+			# keep everything in ram forever
+			# for now-- in case we wanna see
+			self.uavo_list.extend(objs)
+
+			for obj in objs:
+				self.last_values[obj.name]=obj
+
+			self.cond.notifyAll()
 
 	def get_last_values(self):
 		with self.cond:
@@ -161,8 +180,8 @@ class Telemetry():
 		else:
 			finishTime = None
 
-		for i in self.__receive(finishTime):
-			self.__handleFrame(i)
+		data=self.__receive(finishTime)
+		self.__handleFrames(data)
 
 	def __send(self, msg):
 		""" Send a string out the TCP socket """

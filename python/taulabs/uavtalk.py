@@ -1,3 +1,4 @@
+import struct
 
 class UavTalk():
 	"""
@@ -7,12 +8,14 @@ class UavTalk():
 	"""
 
 	# Constants used for UAVTalk parsing
-	(STATE_SYNC,STATE_TYPE,STATE_SIZE,STATE_OBJID,STATE_INSTID,STATE_TIMESTAMP,STATE_DATA,STATE_CS,STATE_COMPLETE,STATE_ERROR) = (0,1,2,3,4,5,6,7,8,9)
 	(MIN_HEADER_LENGTH, MAX_HEADER_LENGTH, MAX_PAYLOAD_LENGTH) = (8, 12, (256-12))
 	(SYNC_VAL) = (0x3C)
 	(TYPE_MASK, TYPE_VER) = (0x78, 0x20)
 	(TIMESTAMPED) = (0x80)
 	(TYPE_OBJ, TYPE_OBJ_REQ, TYPE_OBJ_ACK, TYPE_ACK, TYPE_NACK, TYPE_OBJ_TS, TYPE_OBJ_ACK_TS) = (0x00, 0x01, 0x02, 0x03, 0x04, 0x80, 0x82)
+
+	# sync(1) + type(1) + len(2) + objid(4) 
+	headerFmt = struct.Struct("<BBHL")
 
 	# CRC lookup table
 	crc_table = [
@@ -37,22 +40,10 @@ class UavTalk():
 	def __init__(self, uavo_defs):
 		self.uavo_defs = uavo_defs # The set of UAVO types to parse
 
-		self.state = UavTalk.STATE_COMPLETE
-		self.packetSize = 0
-		self.rxPacketLength = 0
-		self.rxCount = 0  # counts the number of bytes to receive in each state
-		self.type = 0
-		self.length = 0
-		self.instanceLength = 0
-		self.timestampLength = 0
-		self.timestamp = 0
-		self.rxBuffer = "" # needs to be some kind of byte array
-
+		# XXX timestamp wraparound
 		# These are used for accounting for timestamp wraparound
 		self.timestampBase = 0
 		self.lastTimestamp = 0
-
-		self.obj = None # stores the object type when found
 	
 	def getLastReceivedObject(self, timestamp=0):
 		"""
@@ -71,218 +62,126 @@ class UavTalk():
 		if t:
 			return self.obj.instance_from_bytes(t[1], t[2])
 
-	def processByte(self, rxbyte):
-		"""
-		Process a byte from a telemetry stream. This implements a simple state machine
-		to know which part of a UAVTalk packet this byte is and respond to it appropriately.
-		The result of this parsing can be accessed with getLastReceivedObject
-		"""
+	def processStream(self):
+		packetBytes=''
 
-		if self.state == UavTalk.STATE_ERROR or self.state == UavTalk.STATE_COMPLETE:
-			self.state = UavTalk.STATE_SYNC
-	
-		if self.rxPacketLength < 0xffff:
-			self.rxPacketLength = self.rxPacketLength + 1   # update packet byte count
-	
-		# Receive state machine
-		if self.state == UavTalk.STATE_SYNC:
-			if rxbyte != UavTalk.SYNC_VAL:
-				return
-			
-			# Initialize and update the CRC, then advance state machine
-			self.cs = 0
-			self.cs = self.__updateCRC(rxbyte)
-			self.rxPacketLength = 1
-			self.state = UavTalk.STATE_TYPE
+		while True:
+			while True:
+				# XXX Need to eat a char coming back around
+				# on error, else we'll try the same packet
+				# processing path!@!(
 
-		elif self.state == UavTalk.STATE_TYPE:
-			
-			# update the CRC
-			self.cs = self.__updateCRC(rxbyte)
-			
-			if (rxbyte & UavTalk.TYPE_MASK) != UavTalk.TYPE_VER:
-				self.state = UavTalk.STATE_ERROR
-				return
-			
-			# Store the type and advance the state machine
-			self.type = rxbyte & ~UavTalk.TYPE_MASK
-			self.packetSize = 0
-			self.state = UavTalk.STATE_SIZE
-			self.rxCount = 0
+				# XXX need to handle getting None-- indicating
+				# a shutdown-- from yield
 
-		elif self.state == UavTalk.STATE_SIZE:
-			
-			# update the CRC
-			self.cs = self.__updateCRC(rxbyte)
-			
-			if self.rxCount == 0:
-				# parse the first byte of the size
-				self.packetSize = self.packetSize + rxbyte
-				self.rxCount = self.rxCount + 1
-				return
+				# Ensure we have enough room for all the
+				# plain required fields to avoid duplicating
+				# this code lots.
+				# sync(1) + type(1) + len(2) + objid(4) 
 
-			self.packetSize = self.packetSize + (rxbyte << 8)
-			
-			
-			if self.packetSize < UavTalk.MIN_HEADER_LENGTH or self.packetSize > UavTalk.MAX_HEADER_LENGTH + UavTalk.MAX_PAYLOAD_LENGTH:
-				self.state = UavTalk.STATE_ERROR
-				return
-			
-			self.rxCount = 0
-			self.objId = 0
-			self.state = UavTalk.STATE_OBJID
+				if len(packetBytes) < self.headerFmt.size:
+					packetBytes += yield None
+					continue
 
-		elif self.state == UavTalk.STATE_OBJID:
-			
-			# update the CRC
-			self.cs = self.__updateCRC(rxbyte)
-			
-			self.objId = self.objId + (rxbyte << (8*self.rxCount))
-			self.rxCount = self.rxCount + 1
+				if packetBytes[0] == chr(UavTalk.SYNC_VAL):
+					break 	# Yay, possible sync!
 
-			if self.rxCount < 4:
-				# get all of the bytes in the ID
-				return
+				for i in xrange(len(packetBytes)):
+					if packetBytes[i] == chr(UavTalk.SYNC_VAL):
+						break
+
+				# Trim off irrelevant stuff, loop and try again
+				packetBytes=packetBytes[i:]
+
+			(sync, packetType, packetLen, objId) = self.headerFmt.unpack_from(packetBytes,0)
+
+			if (packetType & UavTalk.TYPE_MASK) != UavTalk.TYPE_VER:
+				print "badver"
+				packetBytes=packetBytes[1:]
+				continue	# go to top to look for sync
+		
+			packetType &= ~UavTalk.TYPE_MASK
+			
+			if packetLen < UavTalk.MIN_HEADER_LENGTH or packetLen > UavTalk.MAX_HEADER_LENGTH + UavTalk.MAX_PAYLOAD_LENGTH:
+				print "badlen"
+				packetBytes=packetBytes[1:]
+				continue
 			
 			# Search for object.
-			uavo_key = '{0:08x}'.format(self.objId)
+			uavo_key = '{0:08x}'.format(objId)
 			if not uavo_key in self.uavo_defs:
 				print "Unknown object 0x" + uavo_key
-				self.obj = None
+				obj = None
 			else:
-				self.obj = self.uavo_defs[uavo_key]
+				obj = self.uavo_defs[uavo_key]
 				
 			# Determine data length
-			if self.type == UavTalk.TYPE_OBJ_REQ or self.type == UavTalk.TYPE_ACK or self.type == UavTalk.TYPE_NACK:
-				self.length = 0
-				self.instanceLength = 0
+			if packetType == UavTalk.TYPE_OBJ_REQ or packetType == UavTalk.TYPE_ACK or packetType == UavTalk.TYPE_NACK:
+				objLength = 0
+				instanceLength = 0
+				timestampLength = 0
 			else:
-				if self.obj is not None:
-					self.instanceLength =  0 if self.obj.meta['is_single_inst'] else 2
-					self.timestampLength = 2 if self.type == UavTalk.TYPE_OBJ_TS or self.type == UavTalk.TYPE_OBJ_ACK_TS else 0
-					self.length = self.obj.get_size_of_data()
+				if obj is not None:
+					# XXX sure looks like real instancelength is always 0??
+					instanceLength = 0
+					#instanceLength =  0 if obj.meta['is_single_inst'] else 2
+					timestampLength = 2 if packetType == UavTalk.TYPE_OBJ_TS or packetType == UavTalk.TYPE_OBJ_ACK_TS else 0
+					objLength = obj.get_size_of_data()
 
 				else:
-					# We don't know if it's a multi-instance object, so just assume it's 0.
-					self.instanceLength = 0
-					self.length = self.packetSize - self.rxPacketLength
+					# we don't know anything, so fudge to keep sync.
+					instanceLength = 0
+					timestampLength = 0
+					objLength = packetLen - self.headerFmt.size
 
 			# Check length and determine next state
-			if self.length >= UavTalk.MAX_PAYLOAD_LENGTH:
-				self.state = UavTalk.STATE_ERROR
-				return
-			
+			if objLength >= UavTalk.MAX_PAYLOAD_LENGTH:
+				print "bad len-- bad xml?"
+				#should never happen; requires invalid uavo xml
+				packetBytes=packetBytes[1:]
+				continue
+
+			# calcedSize, AKA instance id, timestamp, and obj data
+			# as appropriate, plus our current header
+			# also equivalent to the offset of the CRC in the packet
+
+			calcedSize = self.headerFmt.size + instanceLength + timestampLength + objLength
+
 			# Check the lengths match
-			if (self.rxPacketLength + self.instanceLength + self.timestampLength + self.length) != self.packetSize:
+			if calcedSize != packetLen:
+				print "mismatched size id=%s %d vs %d, type %d"%(uavo_key,
+					calcedSize, packetLen, packetType)
+
+				packetBytes=packetBytes[1:]
+
 				# packet error - mismatched packet size
-				self.state = UavTalk.STATE_ERROR
-				return
-			
-			self.instId = 0
-			if self.type == UavTalk.TYPE_NACK:
-				# If this is a NACK, we skip to Checksum
-				self.state = UavTalk.STATE_CS
-			elif self.obj is not None and not self.obj.meta['is_single_inst']:
-				# Check if this is a single instance object (i.e. if the instance ID field is coming next)
-				self.state = UavTalk.STATE_INSTID
-			elif self.obj is not None and self.type & UavTalk.TIMESTAMPED:
-				# Check if this is a single instance and has a timestamp in it
-				self.timestamp = 0
-				self.state = UavTalk.STATE_TIMESTAMP
-			else:
-				# If there is a payload get it, otherwise receive checksum
-				if self.length > 0:
-					self.state = UavTalk.STATE_DATA
-				else:
-					self.state = UavTalk.STATE_CS
+				continue
 
-			self.rxCount = 0
-			self.rxBuffer = ""
-			
-		elif self.state == UavTalk.STATE_INSTID:
-			
-			# update the CRC
-			self.cs = self.__updateCRC(rxbyte)
-			
-			self.instId = self.instId + rxbyte << (8*self.rxCount)
-			self.rxCount = self.rxCount + 1
+			# OK, at this point we are seriously hoping to receive
+			# a packet.  Time for another loop to make sure we have
+			# enough data.
+			# +1 here is for CRC-8
+			while len(packetBytes) < calcedSize + 1:
+				packetBytes += yield None
 
-			if self.rxCount < 2:
-				# wait for both bytes
-				return
-			
-			self.rxCount = 0
-			
-			# If there is a timestamp, get it
-			if self.length > 0 and self.type & UAVTALK_TIMESTAMPED:
-				self.timestamp = 0
-				self.state = UavTalk.STATE_TIMESTAMP
-			elif self.length > 0:
-				# If there is a payload get it, otherwise receive checksum
-				self.state = UavTalk.STATE_DATA
-			else:
-				self.state = UavTalk.STATE_CS
-			
-		elif self.state == UavTalk.STATE_TIMESTAMP:
-
-			# update the CRC
-			self.cs = self.__updateCRC(rxbyte)
-
-			self.timestamp = self.timestamp + (rxbyte << (8*self.rxCount))
-			self.rxCount = self.rxCount + 1
-
-			if self.rxCount < 2:
-				# wait for both bytes
-				return
-
-			# Account for the 16 bit limitations of the timestamp
-			if self.timestamp < self.lastTimestamp:
-				self.timestampBase = self.timestampBase + 65536
-			self.lastTimestamp = self.timestamp
-			self.timestamp = self.timestamp + self.timestampBase
-
-			self.rxCount = 0
-
-			# If there is a payload get it, otherwise receive checksum
-			if self.length > 0:
-				self.state = UavTalk.STATE_DATA
-			else:
-				self.state = UavTalk.STATE_CS
-			
-		elif self.state == UavTalk.STATE_DATA:
-			
-			# update the CRC
-			self.cs = self.__updateCRC(rxbyte)
-			
-			self.rxBuffer += chr(rxbyte)
-			self.rxCount = self.rxCount + 1
-
-			if self.rxCount < self.length:
-				# wait for the rest of the bytes
-				return
-
-			self.state = UavTalk.STATE_CS
-			self.rxCount = 0
-
-			
-		elif self.state == UavTalk.STATE_CS:
+			cs = self.__calcCRC(packetBytes[0:calcedSize])
 			
 			# check the CRC byte
-			if rxbyte != self.cs:
-				print "Bad crc. Got " + hex(rxbyte) + " but predicted " + hex(self.cs)
-				self.state = UavTalk.STATE_ERROR
-				return
+
+			recvcs = ord(packetBytes[calcedSize])
+
+			if recvcs != cs:
+				print "Bad crc. Got " + hex(recvcs) + " but predicted " + hex(cs)
+
+				packetBytes = packetBytes[1:]
+				continue
+
+			# XXX timestamp
+			objInstance = obj.instance_from_bytes(packetBytes[self.headerFmt.size + instanceLength + timestampLength:calcedSize+1], 0)
+
+			nextRecv = yield objInstance
 			
-			if (self.rxPacketLength != (self.packetSize + 1)):
-			   	# packet error - mismatched packet size
-			   	print "Bad packet size"
-				self.state = UavTalk.STATE_ERROR
-				return
-			
-			self.state = UavTalk.STATE_COMPLETE
-			
-		else:
-			self.state = UavTalk.STATE_ERROR
+			packetBytes = packetBytes[calcedSize+1:] + nextRecv
 
 	def sendSingleObject(self, obj):
 		"""
@@ -303,22 +202,20 @@ class UavTalk():
 
 		packet = hdr + obj.bytes()
 
-		cs = 0
-		for b in packet:
-			cs = self.__updateCRC(ord(b), cs)
-
-		packet += chr(cs)
+		packet += chr(self.__calcCRC(packet))
 
 		return packet
 
-	def __updateCRC(self, byte, cs=None):
+	def __calcCRC(self, str):
 		"""
 		Calculate a CRC consistently with how they are computed on the firmware side
 		"""
 
-		if cs is None:
-			cs = self.cs
+		cs=0
 
-		return self.crc_table[cs ^ byte]
+		for c in str:
+			cs=self.crc_table[cs ^ ord(c)]
+
+		return cs
 
 	
