@@ -3,7 +3,7 @@
 
 #include "pios_board_info.h"
 
-#if defined(SIM_OSX)
+#if defined(SIM_POSIX)
 const struct pios_board_info pios_board_info_blob = {
 #else
 const struct pios_board_info __attribute__((__used__)) __attribute__((__section__(".boardinfo"))) pios_board_info_blob = {

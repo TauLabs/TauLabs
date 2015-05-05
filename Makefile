@@ -198,9 +198,7 @@ help:
 	@echo "   [Simulation]"
 	@echo "     sim_<os>_<board>     - Build host simulation firmware for <os> and <board>"
 	@echo "                            supported tuples are:"
-	@echo "                               sim_osx_revolution"
 	@echo "                               sim_posix_revolution"
-	@echo "                               sim_win32_revolution (broken)"
 	@echo "     sim_<os>_<board>_clean - Delete all build output for the simulation"
 	@echo
 	@echo "   [GCS]"
@@ -563,7 +561,7 @@ OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
 # $(2) = Unused
 # $(3) = Short name for board (e.g. CC)
-# $(4) = Host sim variant (e.g. posix, osx, win32)
+# $(4) = Host sim variant (e.g. posix)
 # $(5) = Build output type (e.g. elf, exe)
 define SIM_TEMPLATE
 .PHONY: sim_$(4)_$(1)
@@ -846,7 +844,7 @@ EF_BOARDS  := $(ALL_BOARDS)
 ifeq ($(UNAME), Linux)
 SIM_BOARDS := sim_posix_revolution
 else ifeq ($(UNAME), Darwin)
-SIM_BOARDS := sim_osx_revolution
+SIM_BOARDS := sim_posix_revolution
 else ifdef WINDOWS
 SIM_BOARDS := 
 else # unknown OS
@@ -899,9 +897,7 @@ $(foreach board, $(BL_BOARDS), $(eval $(call BL_TEMPLATE,$(board),$($(board)_cpu
 $(foreach board, $(EF_BOARDS), $(eval $(call EF_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
 # Expand the available simulator rules
-$(eval $(call SIM_TEMPLATE,revolution,Revolution,'revo',osx,elf))
 $(eval $(call SIM_TEMPLATE,revolution,Revolution,'revo',posix,elf))
-$(eval $(call SIM_TEMPLATE,openpilot,OpenPilot,'op  ',win32,exe))
 
 ##############################
 #

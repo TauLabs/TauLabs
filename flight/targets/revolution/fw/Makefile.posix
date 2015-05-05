@@ -109,12 +109,23 @@ PIOSPOSIX = $(PIOS)/posix
 PIOSCOMMON = $(ROOT_DIR)/flight/PiOS/Common
 PIOSBOARDS = $(PIOS)/Boards
 PIOSPOSIXLIB = $(PIOSPOSIX)/Libraries
+APPLIBDIR = $(PIOSPOSIX)/Libraries
+RTOSDIR = $(APPLIBDIR)/FreeRTOS
+RTOSSRCDIR = $(RTOSDIR)/Source
+RTOSINCDIR = $(RTOSSRCDIR)/include
+DOXYGENDIR = ../Doc/Doxygen
 FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
 SRC = 
 # optional component libraries
-include $(PIOSPOSIXLIB)/FreeRTOS/library.mk
+## RTOS and RTOS Portable
+SRC += $(RTOSSRCDIR)/list.c
+SRC += $(RTOSSRCDIR)/queue.c
+SRC += $(RTOSSRCDIR)/task.c
+SRC += $(RTOSSRCDIR)/timers.c
+SRC += $(RTOSSRCDIR)/portable/GCC/Posix/port.c
+SRC += $(RTOSSRCDIR)/portable/MemMang/heap_3.c
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -149,7 +160,7 @@ SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 
 ## PIOS Hardware (STM32F4xx)
-include $(PIOS)/posix/library.mk
+#include $(PIOS)/posix/library.mk
 
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_crc.c
@@ -209,6 +220,7 @@ CPPSRCARM =
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
 EXTRAINCDIRS  += $(SHAREDAPIDIR)
+EXTRAINCDIRS  += .
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
 EXTRAINCDIRS  += $(ROOT_DIR)/flight/PiOS/inc
@@ -224,6 +236,12 @@ EXTRAINCDIRS  += $(PIOSCOMMON)
 
 EXTRAINCDIRS  += $(CMSISDIR)
 EXTRAINCDIRS  += $(BOOTINC)
+
+EXTRAINCDIRS  += $(PIOSPOSIX)
+EXTRAINCDIRS  += $(RTOSINCDIR)
+#EXTRAINCDIRS  += $(APPLIBDIR)
+EXTRAINCDIRS  += $(RTOSSRCDIR)/portable/GCC/Posix
+
 EXTRAINCDIRS  += $(BOARD_INFO_DIR)
 
 EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES} ${PYMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
@@ -235,7 +253,7 @@ EXTRAINCDIRS += ${foreach MOD, ${OPTMODULES} ${MODULES} ${PYMODULES}, $(OPMODULE
 ifeq ($(DEBUG),YES)
 CFLAGS += -O0
 CFLAGS += -DGENERAL_COV
-CFLAGS += -finstrument-functions -ffixed-r10
+#CFLAGS += -finstrument-functions -ffixed-r10
 
 # Turn on gcov support
 CFLAGS += -fprofile-arcs -ftest-coverage
@@ -268,7 +286,6 @@ CDEFS += -DHSE_VALUE=$(OSCILLATOR_FREQ)
 CDEFS += -DSYSCLK_FREQ=$(SYSCLK_FREQ)
 CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
-CDEFS += -DSIM_POSIX
 
 # Make sure the build knows we're building a sim version
 CDEFS += -DSIM_POSIX
@@ -307,6 +324,7 @@ ifeq ($(DEBUG),YES)
 CFLAGS += -g$(DEBUGF)
 endif
 
+CFLAGS += -DARCH_POSIX
 CFLAGS += -ffast-math
 CFLAGS += $(CDEFS)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
@@ -326,11 +344,12 @@ CONLYFLAGS += $(CSTANDARD)
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
-LDFLAGS = -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections
+#LDFLAGS = -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections
 LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += -lm
-LDFLAGS += -lc -lgcc -lpthread -lrt
+LDFLAGS += -lc -lpthread 
+#-lgcc -lrt ??
 
 # To include simulation model
 LDFLAGS += -L$(OUTDIR) 
