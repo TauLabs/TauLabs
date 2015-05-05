@@ -61,14 +61,8 @@ struct pios_semaphore *PIOS_Semaphore_Create(void);
 bool PIOS_Semaphore_Take(struct pios_semaphore *sema, uint32_t timeout_ms);
 bool PIOS_Semaphore_Give(struct pios_semaphore *sema);
 
-/* Workaround for simulator version of FreeRTOS. */
-#if defined(PIOS_INCLUDE_FREERTOS) && (!defined(SIM_POSIX) && !defined(SIM_OSX))
-#define PIOS_Semaphore_Take_FromISR(x, y) (PIOS_Semaphore_Take((x), 0))
-#define PIOS_Semaphore_Give_FromISR(x, y) (PIOS_Semaphore_Give((x)))
-#else
 bool PIOS_Semaphore_Take_FromISR(struct pios_semaphore *sema, bool *woken);
 bool PIOS_Semaphore_Give_FromISR(struct pios_semaphore *sema, bool *woken);
-#endif /* defined(PIOS_INCLUDE_FREERTOS) && (!defined(SIM_POSIX) && !defined(SIM_OSX)) */
 
 #endif /* PIOS_SEMAPHORE_H_ */
 
