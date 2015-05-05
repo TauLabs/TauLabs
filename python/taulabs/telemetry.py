@@ -212,24 +212,20 @@ class Telemetry():
 
 		return didStuff
 
-
 	def __receive(self, finishTime):
 		""" Fetch available data from TCP socket """
-
-		MSGLEN = 32
-		first=True
 
 		# Always do some minimal IO if possible
 		self.__select(0)
 
-		while (len(self.recv_buf) < MSGLEN) and self.__select(finishTime):
+		while (len(self.recv_buf) < 1) and self.__select(finishTime):
 			pass
 
-		if len(self.recv_buf) < MSGLEN:
+		if len(self.recv_buf) < 1:
 			return None
 
-		ret=self.recv_buf[0:MSGLEN]
-		self.recv_buf=self.recv_buf[MSGLEN:]
+		ret=self.recv_buf
+		self.recv_buf=''
 
 		return ret
 

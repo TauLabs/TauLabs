@@ -269,10 +269,7 @@ class UavTalk():
 		Generates a string containing a UAVTalk packet describing this object
 		"""
 
-		uavo_key = '{0:08x}'.format(obj.uavo_id)
-		uavo_def = self.uavo_defs[uavo_key]
-
-		length = 4
+		uavo_def = obj.uavometa
 
 		import struct
 		if uavo_def.meta['is_single_inst']:
