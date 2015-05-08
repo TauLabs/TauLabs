@@ -169,8 +169,9 @@ def processStream(uavo_defs, useWallTime=False):
 			timestamp = int(time.time()*1000.0)
 
 		if obj is not None:
-			# should provide offset here. XXX
-			objInstance = obj.instance_from_bytes(packetBytes[headerFmt.size + timestampLength:calcedSize+1], timestamp)
+			objInstance = obj.instance_from_bytes(packetBytes,
+				timestamp,
+				startOffs = headerFmt.size + timestampLength) 
 
 			nextRecv = yield objInstance
 		else:

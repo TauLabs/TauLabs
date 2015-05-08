@@ -14,13 +14,8 @@ class UAVTupleClass():
 	return self.packstruct.pack(*flatten(self[3:]))
 
     @classmethod
-    def from_bytes(cls, data, timestamp=None, timestamp_packet=False):
+    def from_bytes(cls, data, timestamp, startOffs=0):
         import struct
-
-        if (timestamp == None) & (timestamp_packet == False):
-            raise ParameterError('Needs timestamp or a timestamp packet')
-        if (timestamp != None) & (timestamp_packet == True):
-            raise ParameterError('Either pass a timestamp or a timestamp packet, not both')
 
         formats = []
 
@@ -29,10 +24,6 @@ class UAVTupleClass():
         # add format for instance-id IFF this is a multi-instance UAVO
         if not uavo.meta['is_single_inst']:
             # this is multi-instance so the optional instance-id is present
-            formats.append('<H')
-
-        # we are parsing the timestamp out of the main packet
-        if timestamp_packet:
             formats.append('<H')
 
         # add formats for each field
@@ -45,7 +36,7 @@ class UAVTupleClass():
 
         # unpack each field separately
         unpack_field_values = []
-        offset = 0
+        offset = startOffs
         for fmt in formats:
             val = struct.unpack_from(fmt, data, offset)
             if len(val) == 1:
