@@ -58,16 +58,20 @@ def main():
         # Open the log file
         src = normalize_path(src)
         import cPickle as pickle
+
+        pickle_data_loaded = False
+
         try:
             pickle_name = src + '.pickle'
             pickle_fd = open(pickle_name, 'rb')
             githash = pickle.load(pickle_fd)
-            uavo_parsed = pickle.load(pickle_fd)
+            uavo_list = pickle.load(pickle_fd)
             pickle_fd.close()
-            print "Recovered %d log entries from git hash '%s' pickled log file '%s'" % (len(uavo_parsed), githash, pickle_name)
-            pickle_data_loaded = True
+            print "Recovered %d log entries from git hash '%s' pickled log file '%s'" % (len(uavo_list), githash, pickle_name)
+	    if uavo_list:
+		    pickle_data_loaded = True
         except:
-            pickle_data_loaded = False
+	    pass
 
         if not pickle_data_loaded:
             fd  = open(src, "rb")
@@ -105,23 +109,27 @@ def main():
         uavo_defs.from_git_hash(githash)
 
         print "Found %d unique UAVO definitions" % len(uavo_defs)
-        parser = taulabs.uavtalk.UavTalk(uavo_defs)
+        parser = taulabs.uavtalk.processStream(uavo_defs)
+	parser.send(None)
 
         base_time = None
+
+	packet_boundary = True
 
         if not pickle_data_loaded:
             print "Parsing using the LogFormat: " + `args.timestamped`
             print "Reading log file..."
-            uavo_parsed = []
+            uavo_list = []
             while fd:
-                try:
-                    if args.timestamped and parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
+                    if args.timestamped and packet_boundary:
                         # This logging format is somewhat of a hack and simply prepends additional
                         # information in front of each UAVTalk packet.  We look for this information
                         # whenever the parser has completed a packet. Note that there is no checksum
                         # applied to this information so it can be totally messed up, especially if 
                         # there is a frame shift error. The internal timestamping method of UAVTalk is
                         # a much better idea.
+
+			packet_boundary = False
 
                         from collections import namedtuple
                         LogHeader = namedtuple('LogHeader', 'time size')
@@ -142,41 +150,32 @@ def main():
                         if base_time is None:
                             base_time = log_hdr.time
 
+		    chr = fd.read(1)
 
-                    parser.processByte(ord(fd.read(1)))
+		    if chr == '':
+			print "End of file"
+			break
 
-                    if parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
-                        if args.timestamped:
-                            u  = parser.getLastReceivedObject(timestamp=log_hdr.time)
-                        else:
-                            u  = parser.getLastReceivedObject()
-                        if u is not None:
-                            uavo_parsed.append(u)
+                    obj = parser.send(chr)
 
-                except TypeError:
-                    print "End of file"
-                    break
+                    if obj is not None:
+# XXX ! get these timestamps plumbed down again.  kinda icky
+#                       if args.timestamped: loghdr.time...
+			packet_boundary = True
+                        uavo_list.append(obj)
+		    else:
+			packet_boundary = False
 
             fd.close()
 
-            print "Processed %d Log File Records" % len(uavo_parsed)
+            print "Processed %d Log File Records" % len(uavo_list)
 
             print "Writing pickled log file to '%s'" % pickle_name
             import cPickle as pickle
             pickle_fd = open(pickle_name, 'wb')
             pickle.dump(githash, pickle_fd)
-            pickle.dump(uavo_parsed, pickle_fd)
+            pickle.dump(uavo_list, pickle_fd)
             pickle_fd.close()
-
-        print "Converting log records into python objects"
-        uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
-        for obj_id, data, timestamp in uavo_parsed:
-            obj = uavo_defs[obj_id]
-            u = obj.instance_from_bytes(data, timestamp)
-            uavo_list.append(u)
-
-        # We're done with this (potentially very large) variable, delete it.
-        del uavo_parsed
 
         # Build a new module that will make up the global namespace for the
         # interactive shell.  This allows us to restrict what the ipython shell sees.

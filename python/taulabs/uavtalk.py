@@ -46,13 +46,14 @@ def processStream(uavo_defs, useWallTime=False):
 			# sync(1) + type(1) + len(2) + objid(4) 
 
 			if len(packetBytes) < headerFmt.size:
+				#print "waitingsync len=%d"%(len(packetBytes))
 				rx = yield None
 
 				if rx is None:
 					#end of stream, stopiteration
 					return
 
-				packetBytes += rx
+				packetBytes = packetBytes + rx
 				continue
 
 			if packetBytes[0] == chr(SYNC_VAL):
@@ -68,14 +69,14 @@ def processStream(uavo_defs, useWallTime=False):
 		(sync, packetType, packetLen, objId) = headerFmt.unpack_from(packetBytes,0)
 
 		if (packetType & TYPE_MASK) != TYPE_VER:
-			print "badver"
+			print "badver %x"%(packetType)
 			packetBytes=packetBytes[1:]
 			continue	# go to top to look for sync
 	
 		packetType &= ~ TYPE_MASK
 		
 		if packetLen < MIN_HEADER_LENGTH or packetLen > MAX_HEADER_LENGTH + MAX_PAYLOAD_LENGTH:
-			print "badlen"
+			print "badlen %d"%(packetLen)
 			packetBytes=packetBytes[1:]
 			continue
 		
