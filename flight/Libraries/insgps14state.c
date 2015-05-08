@@ -301,6 +301,27 @@ void INSSetMagNorth(const float B[3])
 	Be[2] = B[2];
 }
 
+void INSLimitBias()
+{
+	// The Z accel bias should never wander too much. This helps ensure the filter
+	// remains stable.
+	if (X[13] > 1.0f) {
+		X[13] = 1.0f;
+	} else if (X[13] < -1.0f) {
+		X[13] = -1.0f;
+	}
+
+	// Make sure no gyro bias gets to more than 10 deg / s. This should be more than
+	// enough for well behaving sensors.
+	const float GYRO_BIAS_LIMIT = 10 * DEG2RAD;
+	for (int i = 10; i < 13; i++) {
+		if (X[i] < -GYRO_BIAS_LIMIT)
+			X[i] = -GYRO_BIAS_LIMIT;
+		else if (X[i] > GYRO_BIAS_LIMIT)
+			X[i] = GYRO_BIAS_LIMIT;
+	}
+}
+
 void INSStatePrediction(const float gyro_data[3], const float accel_data[3], float dT)
 {
 	float U[6];
@@ -384,6 +405,8 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 	X[7] /= qmag;
 	X[8] /= qmag;
 	X[9] /= qmag;
+
+	INSLimitBias();
 }
 
 //  *************  CovariancePrediction *************
@@ -606,6 +629,8 @@ void SerialUpdate(float H[NUMV][NUMX], float R[NUMV], float Z[NUMV],
 
 		}
 	}
+
+	INSLimitBias();
 }
 
 //  *************  RungeKutta **********************
