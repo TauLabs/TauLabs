@@ -45,6 +45,7 @@
 #include "modulesettings.h"
 #include <rfm22bstatus.h>
 #include <pios_rfm22b_rcvr_priv.h>
+#include <pios_openlrs_rcvr_priv.h>
 
 /**
  * Sensor configurations 
@@ -784,7 +785,25 @@ void PIOS_Board_Init(void) {
 	rfm22bstatus.BoardType     = bdinfo->board_type;
 	rfm22bstatus.BoardRevision = bdinfo->board_rev;
 
-	if (hwRevoMini.Radio == HWREVOMINI_RADIO_DISABLED || hwRevoMini.MaxRfPower == HWREVOMINI_MAXRFPOWER_0) {
+	if (hwRevoMini.Radio == HWREVOMINI_RADIO_OPENLRS) {
+		uintptr_t openlrs_id;
+
+		const struct pios_openlrs_cfg *openlrs_cfg = PIOS_BOARD_HW_DEFS_GetOpenLRSCfg(bdinfo->board_rev);
+		PIOS_OpenLRS_Init(&openlrs_id, PIOS_RFM22_SPI_PORT, 0, openlrs_cfg);
+
+#if defined(PIOS_INCLUDE_OPENLRS_RCVR)
+		{
+			uintptr_t pios_rfm22brcvr_id;
+			PIOS_OpenLRS_Rcvr_Init(&pios_rfm22brcvr_id, openlrs_id);
+			uintptr_t pios_rfm22brcvr_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_rfm22brcvr_rcvr_id, &pios_openlrs_rcvr_driver, pios_rfm22brcvr_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_OPENLRS] = pios_rfm22brcvr_rcvr_id;
+		}
+#endif /* PIOS_INCLUDE_OPENLRS_RCVR */
+
+	} 	else if (hwRevoMini.Radio == HWREVOMINI_RADIO_DISABLED || hwRevoMini.MaxRfPower == HWREVOMINI_MAXRFPOWER_0) {
 
 			// When radio disabled, it is ok for init to fail. This allows boards without populating
 			// this component.
