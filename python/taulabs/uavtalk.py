@@ -11,6 +11,8 @@ import time
 # sync(1) + type(1) + len(2) + objid(4) 
 headerFmt = struct.Struct("<BBHL")
 
+wantHint = 1
+
 # CRC lookup table
 crc_table = [
 	0x00, 0x07, 0x0e, 0x09, 0x1c, 0x1b, 0x12, 0x15, 0x38, 0x3f, 0x36, 0x31, 0x24, 0x23, 0x2a, 0x2d,
@@ -32,6 +34,8 @@ crc_table = [
 ]
 
 def processStream(uavo_defs, useWallTime=False):
+	global wantHint
+
 	# These are used for accounting for timestamp wraparound
 	timestampBase = 0
 	lastTimestamp = 0
@@ -47,6 +51,8 @@ def processStream(uavo_defs, useWallTime=False):
 
 			if len(packetBytes) < headerFmt.size:
 				#print "waitingsync len=%d"%(len(packetBytes))
+				wantHint = headerFmt.size - len(packetBytes)
+
 				rx = yield None
 
 				if rx is None:
@@ -54,6 +60,7 @@ def processStream(uavo_defs, useWallTime=False):
 					return
 
 				packetBytes = packetBytes + rx
+
 				continue
 
 			if packetBytes[0] == chr(SYNC_VAL):
@@ -83,7 +90,7 @@ def processStream(uavo_defs, useWallTime=False):
 		# Search for object.
 		uavo_key = '{0:08x}'.format(objId)
 		if not uavo_key in uavo_defs:
-			print "Unknown object 0x" + uavo_key
+			#print "Unknown object 0x" + uavo_key
 			obj = None
 		else:
 			obj = uavo_defs[uavo_key]
@@ -133,6 +140,8 @@ def processStream(uavo_defs, useWallTime=False):
 		# enough data.
 		# +1 here is for CRC-8
 		while len(packetBytes) < calcedSize + 1:
+			wantHint = (calcedSize + 1) - len(packetBytes)
+
 			rx = yield None
 
 			if rx is None:
@@ -156,11 +165,11 @@ def processStream(uavo_defs, useWallTime=False):
 		if timestampLength:
 			# pull the timestamp from the packet
 			timestamp = struct.unpack_from('<H', packetBytes,
-				headerFmt.size)
+				headerFmt.size)[0]
 
 			# handle wraparound
 			if timestamp < lastTimestamp:
-				timestampBase = self.timestampBase + 65536
+				timestampBase = timestampBase + 65536
 			lastTimestamp = timestamp
 			timestamp += timestampBase
 		else:
@@ -173,6 +182,8 @@ def processStream(uavo_defs, useWallTime=False):
 			objInstance = obj.instance_from_bytes(packetBytes,
 				timestamp,
 				startOffs = headerFmt.size + timestampLength) 
+
+			wantHint = headerFmt.size
 
 			nextRecv = yield objInstance
 		else:

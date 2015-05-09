@@ -57,50 +57,34 @@ def main():
 
         # Open the log file
         src = normalize_path(src)
-        import cPickle as pickle
 
-        pickle_data_loaded = False
+        fd  = open(src, "rb")
 
-        try:
-            pickle_name = src + '.pickle'
-            pickle_fd = open(pickle_name, 'rb')
-            githash = pickle.load(pickle_fd)
-            uavo_list = pickle.load(pickle_fd)
-            pickle_fd.close()
-            print "Recovered %d log entries from git hash '%s' pickled log file '%s'" % (len(uavo_list), githash, pickle_name)
-	    if uavo_list:
-		    pickle_data_loaded = True
-        except:
-	    pass
+        if args.githash is not None:
+            githash = args.githash
+        else:
+            # If we specify the log header no need to attempt to parse it
 
-        if not pickle_data_loaded:
-            fd  = open(src, "rb")
+            # Check the header signature
+            #    First line is "Tau Labs git hash:"
+            #    Second line is the actual git hash
+            #    Third line is the UAVO hash
+            #    Fourth line is "##"
+            sig = fd.readline()
+            if sig != 'Tau Labs git hash:\n':
+                print "Source file does not have a recognized header signature"
+                print '|' + sig + '|'
+                sys.exit(2)
+            # Determine the git hash that this log file is based on
+            githash = fd.readline()[:-1]
+            if githash.find(':') != -1:
+                import re
+                githash = re.search(':(\w*)\W', githash).group(1)
 
-            if args.githash is not None:
-                githash = args.githash
-            else:
-                # If we specify the log header no need to attempt to parse it
+            print "Log file is based on git hash: %s" % githash
 
-                # Check the header signature
-                #    First line is "Tau Labs git hash:"
-                #    Second line is the actual git hash
-                #    Third line is the UAVO hash
-                #    Fourth line is "##"
-                sig = fd.readline()
-                if sig != 'Tau Labs git hash:\n':
-                    print "Source file does not have a recognized header signature"
-                    print '|' + sig + '|'
-                    sys.exit(2)
-                # Determine the git hash that this log file is based on
-                githash = fd.readline()[:-1]
-                if githash.find(':') != -1:
-                    import re
-                    githash = re.search(':(\w*)\W', githash).group(1)
-
-                print "Log file is based on git hash: %s" % githash
-
-                uavohash = fd.readline()
-                divider = fd.readline()
+            uavohash = fd.readline()
+            divider = fd.readline()
 
         print "Exporting UAVO XML files from git repo"
 
@@ -116,11 +100,14 @@ def main():
 
 	packet_boundary = True
 
-        if not pickle_data_loaded:
-            print "Parsing using the LogFormat: " + `args.timestamped`
-            print "Reading log file..."
-            uavo_list = []
-            while fd:
+        print "Parsing using the LogFormat: " + `args.timestamped`
+        print "Reading log file..."
+        uavo_list = []
+
+	from collections import namedtuple
+	LogHeader = namedtuple('LogHeader', 'time size')
+
+        while fd:
                     if args.timestamped and packet_boundary:
                         # This logging format is somewhat of a hack and simply prepends additional
                         # information in front of each UAVTalk packet.  We look for this information
@@ -130,9 +117,6 @@ def main():
                         # a much better idea.
 
 			packet_boundary = False
-
-                        from collections import namedtuple
-                        LogHeader = namedtuple('LogHeader', 'time size')
 
                         # Read the next log record header
                         log_hdr_fmt = "<IQ"
@@ -150,7 +134,7 @@ def main():
                         if base_time is None:
                             base_time = log_hdr.time
 
-		    chr = fd.read(1)
+		    chr = fd.read(taulabs.uavtalk.wantHint)
 
 		    if chr == '':
 			print "End of file"
@@ -166,16 +150,9 @@ def main():
 		    else:
 			packet_boundary = False
 
-            fd.close()
+        fd.close()
 
-            print "Processed %d Log File Records" % len(uavo_list)
-
-            print "Writing pickled log file to '%s'" % pickle_name
-            import cPickle as pickle
-            pickle_fd = open(pickle_name, 'wb')
-            pickle.dump(githash, pickle_fd)
-            pickle.dump(uavo_list, pickle_fd)
-            pickle_fd.close()
+        print "Processed %d Log File Records" % len(uavo_list)
 
         # Build a new module that will make up the global namespace for the
         # interactive shell.  This allows us to restrict what the ipython shell sees.
@@ -217,6 +194,9 @@ def main():
             e = InteractiveShellEmbed(user_ns = user_ns, user_module = user_module)
             e.enable_pylab(import_all = True)
             e("Analyzing log file: %s" % src)
+
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":
+    #import cProfile
+    #cProfile.run('main()')
     main()

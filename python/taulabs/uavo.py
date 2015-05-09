@@ -17,33 +17,26 @@ class UAVTupleClass():
     def from_bytes(cls, data, timestamp, startOffs=0):
         import struct
 
-        formats = []
-
 	uavo = cls.uavometa
 
-        # add format for instance-id IFF this is a multi-instance UAVO
-        if not uavo.meta['is_single_inst']:
-            # this is multi-instance so the optional instance-id is present
-            formats.append('<H')
-
-        # add formats for each field
-        for f in uavo.fields:
-            formats.append('<' + f['elements'].__str__() + uavo.struct_element_map[f['type']])
-
         #
-        # add the values
+	# add the values
         #
 
         # unpack each field separately
-        unpack_field_values = []
-        offset = startOffs
-        for fmt in formats:
-            val = struct.unpack_from(fmt, data, offset)
-            if len(val) == 1:
-                # elevate the value outside of the tuple if there is exactly one value
-                val = val[0]
-            unpack_field_values.append(val)
-            offset += struct.calcsize(fmt)
+	offset = startOffs
+
+	if not cls.flat:
+		unpack_field_values = []
+		for fmt in cls.formats:
+		    val = fmt.unpack_from(data, offset)
+		    if len(val) == 1:
+			# elevate the value outside of the tuple if there is exactly one value
+			val = val[0]
+		    unpack_field_values.append(val)
+		    offset += fmt.size
+	else:
+		unpack_field_values = cls.packstruct.unpack_from(data, offset)
 
         field_values = []
         field_values.append(uavo.meta['name'])
@@ -65,7 +58,7 @@ class UAVTupleClass():
         field_values.append(uavo.id)
 
         # add the remaining fields
-        field_values = field_values + unpack_field_values
+        field_values = tuple(field_values) + tuple(unpack_field_values)
 
         return cls._make(field_values)
 
@@ -217,9 +210,12 @@ class UAVO():
 
 	name = 'UAVO_' + self.meta['name']
 
+	self.form_packformat()
+
 	class tmpClass(namedtuple(name, fields), UAVTupleClass):
-		packform = self.get_packformat()
-		packstruct = struct.Struct(packform)
+		packstruct = self.fmt
+		formats = self.formats
+		flat = self.flat
 		uavometa = self
 
 	# This is magic for two reasons.  First, we create the class to have
@@ -242,13 +238,28 @@ class UAVO():
 
         return size
 
-    def get_packformat(self):
-	fmt='<'
+    def form_packformat(self):
+	formats=[]
 
+        # add format for instance-id IFF this is a multi-instance UAVO
+        if not self.meta['is_single_inst']:
+            # this is multi-instance so the optional instance-id is present
+            formats.append('H')
+
+	flat=True
+
+        # add formats for each field
         for f in self.fields:
-            fmt += '%d%s'%(f['elements'], self.struct_element_map[f['type']])
+	    if f['elements'] != 1:
+		flat=False
 
-	return fmt
+            formats.append('' + f['elements'].__str__() + self.struct_element_map[f['type']])
+
+	self.flat = flat
+
+	self.fmt = struct.Struct('<' + ''.join(formats))
+
+	self.formats = [ struct.Struct('<' + f) for f in formats ]
 
     def instance_from_bytes(self, *args, **kwargs):
 	return self.tuple_class.from_bytes(*args, **kwargs)
