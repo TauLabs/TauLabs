@@ -93,61 +93,31 @@ def main():
         uavo_defs.from_git_hash(githash)
 
         print "Found %d unique UAVO definitions" % len(uavo_defs)
-        parser = taulabs.uavtalk.processStream(uavo_defs)
+        parser = taulabs.uavtalk.processStream(uavo_defs,
+		logTimestamps=args.timestamped)
 	parser.send(None)
 
         base_time = None
-
-	packet_boundary = True
 
         print "Parsing using the LogFormat: " + `args.timestamped`
         print "Reading log file..."
         uavo_list = []
 
-        while fd:
-                    if args.timestamped and packet_boundary:
-                        # This logging format is somewhat of a hack and simply prepends additional
-                        # information in front of each UAVTalk packet.  We look for this information
-                        # whenever the parser has completed a packet. Note that there is no checksum
-                        # applied to this information so it can be totally messed up, especially if 
-                        # there is a frame shift error. The internal timestamping method of UAVTalk is
-                        # a much better idea.
+        while True:
+	    data = fd.read(128)
 
-			packet_boundary = False
+	    if data == '':
+		print "End of file"
+		break
 
-                        # Read the next log record header
-                        log_hdr_fmt = "<IQ"
-                        log_hdr_data = fd.read(struct.calcsize(log_hdr_fmt))
+	    obj = parser.send(data)
 
-                        # Check if we hit the end of the file
-                        if len(log_hdr_data) == 0:
-                            # Normal End of File (EOF) at a record boundary
-                            break
+	    while obj is not None:
+	        if not base_time:
+		    base_time = obj.time
 
-                        # Got a log record header.  Unpack it.
-
-			# time, id
-                        log_hdr = struct.unpack(log_hdr_fmt, log_hdr_data)
-
-                        # Set the baseline timestamp from the first record in the log file
-                        if base_time is None:
-                            base_time = log_hdr.time
-
-		    chr = fd.read(taulabs.uavtalk.wantHint)
-
-		    if chr == '':
-			print "End of file"
-			break
-
-                    obj = parser.send(chr)
-
-                    if obj is not None:
-                        if args.timestamped:
-				taulabs.uavtalk.forceTimestamp = log_hdr[0]
-			packet_boundary = True
-                        uavo_list.append(obj)
-		    else:
-			packet_boundary = False
+		uavo_list.append(obj)
+		obj = parser.send('')
 
         fd.close()
 

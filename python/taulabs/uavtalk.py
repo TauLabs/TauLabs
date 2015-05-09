@@ -10,8 +10,7 @@ import time
 
 # sync(1) + type(1) + len(2) + objid(4) 
 headerFmt = struct.Struct("<BBHL")
-wantHint = 1
-forceTimestamp = 0
+logHeaderFmt = struct.Struct("<IQ")
 
 # CRC lookup table
 crc_table = [
@@ -33,38 +32,46 @@ crc_table = [
 	0xde, 0xd9, 0xd0, 0xd7, 0xc2, 0xc5, 0xcc, 0xcb, 0xe6, 0xe1, 0xe8, 0xef, 0xfa, 0xfd, 0xf4, 0xf3
 ]
 
-def processStream(uavo_defs, useWallTime=False):
+def processStream(uavo_defs, useWallTime=False, logTimestamps=False):
 	global wantHint
 
 	# These are used for accounting for timestamp wraparound
 	timestampBase = 0
 	lastTimestamp = 0
 
+	received = 0
+
 	packetBytes=''
 
 	while True:
-		while True:
-			# Ensure we have enough room for all the
-			# plain required fields to avoid duplicating
-			# this code lots.
-			# sync(1) + type(1) + len(2) + objid(4) 
-
-			if len(packetBytes) < headerFmt.size:
-				#print "waitingsync len=%d"%(len(packetBytes))
-				wantHint = headerFmt.size - len(packetBytes)
-
+		if logTimestamps:
+			while len(packetBytes) < logHeaderFmt.size:
 				rx = yield None
 
 				if rx is None:
-					#end of stream, stopiteration
 					return
 
 				packetBytes = packetBytes + rx
 
-				continue
+			overrideTimestamp, logHdrLen = logHeaderFmt.unpack_from(packetBytes,0)
 
-			if packetBytes[0] == chr(SYNC_VAL):
-				break 	# Yay, possible sync!
+			packetBytes = packetBytes[logHeaderFmt.size:]
+
+		# Ensure we have enough room for all the
+		# plain required fields to avoid duplicating
+		# this code lots.
+		# sync(1) + type(1) + len(2) + objid(4) 
+
+		while (len(packetBytes) < headerFmt.size) or (packetBytes[0] != chr(SYNC_VAL)):
+			#print "waitingsync len=%d"%(len(packetBytes))
+
+			rx = yield None
+
+			if rx is None:
+				#end of stream, stopiteration
+				return
+
+			packetBytes = packetBytes + rx
 
 			for i in xrange(len(packetBytes)):
 				if packetBytes[i] == chr(SYNC_VAL):
@@ -140,8 +147,6 @@ def processStream(uavo_defs, useWallTime=False):
 		# enough data.
 		# +1 here is for CRC-8
 		while len(packetBytes) < calcedSize + 1:
-			wantHint = (calcedSize + 1) - len(packetBytes)
-
 			rx = yield None
 
 			if rx is None:
@@ -178,16 +183,17 @@ def processStream(uavo_defs, useWallTime=False):
 		if useWallTime:
 			timestamp = int(time.time()*1000.0)
 
-		# Need a better solution for this in the long term.
-		if forceTimestamp:
-			timestamp = forceTimestamp
+		if logTimestamps:
+			timestamp = overrideTimestamp
 
 		if obj is not None:
 			objInstance = obj.instance_from_bytes(packetBytes,
 				timestamp,
 				startOffs = headerFmt.size + timestampLength) 
 
-			wantHint = headerFmt.size
+			received += 1
+			if not (received % 20000):
+				print "received %d objs"%(received)
 
 			nextRecv = yield objInstance
 		else:
