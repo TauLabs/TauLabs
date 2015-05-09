@@ -45,11 +45,11 @@ extern void Stack_Change(void);
 
 /* Local Variables */
 #define INIT_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
-#if defined(SIM_POSIX) || defined(SIM_OSX)
+#if defined(SIM_POSIX) 
 #define INIT_TASK_STACK		32768
 #else
-#define INIT_TASK_STACK		1024											// XXX this seems excessive
-#endif /* defined(SIM_POSIX) || defined(SIM_OSX) */
+#define INIT_TASK_STACK		1024
+#endif /* defined(SIM_POSIX) */
 static struct pios_thread *initTaskHandle;
 
 /* Function Prototypes */
@@ -64,7 +64,7 @@ static void initTask(void *parameters);
  * If something goes wrong, blink LED1 and LED2 every 100ms
  *
  */
-#if defined(SIM_OSX) || defined(SIM_POSIX)
+#if defined(SIM_POSIX)
 int main(int argc, char *argv[]) {
 	PIOS_SYS_Args(argc, argv);
 #else
