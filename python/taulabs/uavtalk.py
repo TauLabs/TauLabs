@@ -10,8 +10,8 @@ import time
 
 # sync(1) + type(1) + len(2) + objid(4) 
 headerFmt = struct.Struct("<BBHL")
-
 wantHint = 1
+forceTimestamp = 0
 
 # CRC lookup table
 crc_table = [
@@ -177,6 +177,10 @@ def processStream(uavo_defs, useWallTime=False):
 
 		if useWallTime:
 			timestamp = int(time.time()*1000.0)
+
+		# Need a better solution for this in the long term.
+		if forceTimestamp:
+			timestamp = forceTimestamp
 
 		if obj is not None:
 			objInstance = obj.instance_from_bytes(packetBytes,

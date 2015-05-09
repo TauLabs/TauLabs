@@ -104,9 +104,6 @@ def main():
         print "Reading log file..."
         uavo_list = []
 
-	from collections import namedtuple
-	LogHeader = namedtuple('LogHeader', 'time size')
-
         while fd:
                     if args.timestamped and packet_boundary:
                         # This logging format is somewhat of a hack and simply prepends additional
@@ -128,7 +125,9 @@ def main():
                             break
 
                         # Got a log record header.  Unpack it.
-                        log_hdr = LogHeader._make(struct.unpack(log_hdr_fmt, log_hdr_data))
+
+			# time, id
+                        log_hdr = struct.unpack(log_hdr_fmt, log_hdr_data)
 
                         # Set the baseline timestamp from the first record in the log file
                         if base_time is None:
@@ -143,8 +142,8 @@ def main():
                     obj = parser.send(chr)
 
                     if obj is not None:
-# XXX ! get these timestamps plumbed down again.  kinda icky
-#                       if args.timestamped: loghdr.time...
+                        if args.timestamped:
+				taulabs.uavtalk.forceTimestamp = log_hdr[0]
 			packet_boundary = True
                         uavo_list.append(obj)
 		    else:
