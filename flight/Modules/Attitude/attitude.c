@@ -296,7 +296,7 @@ static void AttitudeTask(void *parameters)
 	bool first_run = true;
 	uint32_t last_algorithm;
 	bool     last_complementary;
-	set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
+	set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_UNDEFINED);
 
 	// Force settings update to make sure rotation loaded
 	settingsUpdatedCb(NULL);
