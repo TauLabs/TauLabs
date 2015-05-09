@@ -1,4 +1,5 @@
 import struct
+import time
 
 # Constants used for UAVTalk parsing
 (MIN_HEADER_LENGTH, MAX_HEADER_LENGTH, MAX_PAYLOAD_LENGTH) = (8, 12, (256-12))
@@ -30,8 +31,7 @@ crc_table = [
 	0xde, 0xd9, 0xd0, 0xd7, 0xc2, 0xc5, 0xcc, 0xcb, 0xe6, 0xe1, 0xe8, 0xef, 0xfa, 0xfd, 0xf4, 0xf3
 ]
 
-def processStream(uavo_defs):
-	# XXX timestamp wraparound
+def processStream(uavo_defs, useWallTime=False):
 	# These are used for accounting for timestamp wraparound
 	timestampBase = 0
 	lastTimestamp = 0
@@ -40,20 +40,19 @@ def processStream(uavo_defs):
 
 	while True:
 		while True:
-			# XXX Need to eat a char coming back around
-			# on error, else we'll try the same packet
-			# processing path!@!(
-
-			# XXX need to handle getting None-- indicating
-			# a shutdown-- from yield
-
 			# Ensure we have enough room for all the
 			# plain required fields to avoid duplicating
 			# this code lots.
 			# sync(1) + type(1) + len(2) + objid(4) 
 
 			if len(packetBytes) < headerFmt.size:
-				packetBytes += yield None
+				rx = yield None
+
+				if rx is None:
+					#end of stream, stopiteration
+					return
+
+				packetBytes += rx
 				continue
 
 			if packetBytes[0] == chr(SYNC_VAL):
@@ -97,10 +96,8 @@ def processStream(uavo_defs):
 			timestampLength = 0
 		else:
 			if obj is not None:
-				# XXX sure looks like real instancelength is always 0??
 				timestampLength = 2 if packetType == TYPE_OBJ_TS or packetType == TYPE_OBJ_ACK_TS else 0
 				objLength = obj.get_size_of_data()
-
 			else:
 				# we don't know anything, so fudge to keep sync.
 				timestampLength = 0
@@ -124,9 +121,10 @@ def processStream(uavo_defs):
 			print "mismatched size id=%s %d vs %d, type %d"%(uavo_key,
 				calcedSize, packetLen, packetType)
 
-			packetBytes=packetBytes[1:]
-
 			# packet error - mismatched packet size
+			# Consume a byte to try syncing right after where we
+			# did...
+			packetBytes=packetBytes[1:]
 			continue
 
 		# OK, at this point we are seriously hoping to receive
@@ -134,7 +132,13 @@ def processStream(uavo_defs):
 		# enough data.
 		# +1 here is for CRC-8
 		while len(packetBytes) < calcedSize + 1:
-			packetBytes += yield None
+			rx = yield None
+
+			if rx is None:
+				#end of stream, stopiteration
+				return
+
+			packetBytes += rx
 
 		cs = __calcCRC(packetBytes[0:calcedSize])
 		
@@ -147,16 +151,35 @@ def processStream(uavo_defs):
 
 			packetBytes = packetBytes[1:]
 			continue
+		
+		if timestampLength:
+			# pull the timestamp from the packet
+			timestamp = struct.unpack_from('<H', packetBytes,
+				headerFmt.size)
 
-		# XXX timestamp
+			# handle wraparound
+			if timestamp < lastTimestamp:
+				timestampBase = self.timestampBase + 65536
+			lastTimestamp = timestamp
+			timestamp += timestampBase
+		else:
+			timestamp = lastTimestamp
+
+		if useWallTime:
+			timestamp = int(time.time()*1000.0)
+
 		if obj is not None:
-			objInstance = obj.instance_from_bytes(packetBytes[headerFmt.size + timestampLength:calcedSize+1], 0)
+			# should provide offset here. XXX
+			objInstance = obj.instance_from_bytes(packetBytes[headerFmt.size + timestampLength:calcedSize+1], timestamp)
 
 			nextRecv = yield objInstance
 		else:
-			nextRecv = ''
+			nextRecv = None
 		
-		packetBytes = packetBytes[calcedSize+1:] + nextRecv
+		packetBytes = packetBytes[calcedSize+1:] 
+
+		if nextRecv is not None:
+			packetBytes += nextRecv
 
 def sendSingleObject(obj):
 	"""
@@ -164,7 +187,6 @@ def sendSingleObject(obj):
 	"""
 
 	uavo_def = obj.uavometa
-	import struct
 
 	hdr = headerFmt.pack(SYNC_VAL, TYPE_OBJ | TYPE_VER,
 		headerFmt.size + uavo_def.get_size_of_data(),

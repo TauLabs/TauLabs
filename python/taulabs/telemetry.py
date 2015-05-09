@@ -15,7 +15,7 @@ class Telemetry():
 	"""
 
 	def __init__(self, uavo_defs=None, githash=None, serviceInIter=True,
-			iterBlocks=True):
+			iterBlocks=True, useWallTime=True):
 		self.sock = None
 
 		if uavo_defs is None:
@@ -27,7 +27,8 @@ class Telemetry():
 			    uavo_defs.from_uavo_xml_path("../shared/uavobjectdefinition")
 
 		self.uavo_defs = uavo_defs
-		self.uavtalk_generator = uavtalk.processStream(uavo_defs)
+		self.uavtalk_generator = uavtalk.processStream(uavo_defs,
+			useWallTime=useWallTime)
 
 		self.uavtalk_generator.send(None)
 
@@ -124,9 +125,6 @@ class Telemetry():
 		obj = self.uavtalk_generator.send(frames)
 
 		while obj:
-			# XXX timestamping -- push down
-			#obj  = self.uavtalk_parser.getLastReceivedObjectInstance(timestamp=round(time.time() * 1000))
-
 			self.__handleHandshake(obj)
 
 			objs.append(obj)

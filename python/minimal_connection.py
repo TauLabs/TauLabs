@@ -57,8 +57,6 @@ def main():
 #    tStream.open_network()
 #    tStream.start_thread()
 
-#    time.sleep(5.0)	 # XXX how to properly wait for everything
-
 #    settingsObjs = set(uavo_defs.get_settings_objects())
 
 #    print settingsObjs
