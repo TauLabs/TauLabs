@@ -397,6 +397,15 @@ void ConfigOsdWidget::setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UA
     addUAVObjectToWidgetRelation(name, "BatteryConsumedFont", page->BatteryConsumedFont);
     addUAVObjectToWidgetRelation(name, "BatteryConsumedAlign", page->BatteryConsumedAlign);
 
+    // Climb rate
+    addUAVObjectToWidgetRelation(name, "ClimbRate", page->ClimbRateEnabled);
+    page->ClimbRateEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->ClimbRateEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "ClimbRatePosX", page->ClimbRateX);
+    addUAVObjectToWidgetRelation(name, "ClimbRatePosY", page->ClimbRateY);
+    addUAVObjectToWidgetRelation(name, "ClimbRateFont", page->ClimbRateFont);
+    addUAVObjectToWidgetRelation(name, "ClimbRateAlign", page->ClimbRateAlign);
+
     // Compass
     addUAVObjectToWidgetRelation(name, "Compass", page->CompassEnabled);
     page->CompassEnabled->setProperty(trueString.toLatin1(), "Enabled");
@@ -423,6 +432,15 @@ void ConfigOsdWidget::setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UA
     addUAVObjectToWidgetRelation(name, "FlightModePosY", page->FlightModeY);
     addUAVObjectToWidgetRelation(name, "FlightModeFont", page->FlightModeFont);
     addUAVObjectToWidgetRelation(name, "FlightModeAlign", page->FlightModeAlign);
+
+    // G force
+    addUAVObjectToWidgetRelation(name, "GForce", page->GForceEnabled);
+    page->GForceEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->GForceEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "GForcePosX", page->GForceX);
+    addUAVObjectToWidgetRelation(name, "GForcePosY", page->GForceY);
+    addUAVObjectToWidgetRelation(name, "GForceFont", page->GForceFont);
+    addUAVObjectToWidgetRelation(name, "GForceAlign", page->GForceAlign);
 
     // GPS Status
     addUAVObjectToWidgetRelation(name, "GpsStatus", page->GpsStatusEnabled);
