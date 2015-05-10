@@ -108,7 +108,7 @@ bool PIOS_Semaphore_Give(struct pios_semaphore *sema)
 }
 
 /* Workaround for simulator version of FreeRTOS. */
-#if !defined(SIM_POSIX) && !defined(SIM_OSX)
+#if !defined(SIM_POSIX)
 /**
  *
  * @brief   Takes binary semaphore from ISR context.
@@ -156,7 +156,7 @@ bool PIOS_Semaphore_Give_FromISR(struct pios_semaphore *sema, bool *woken)
 
 	return result;
 }
-#endif /* !defined(SIM_POSIX) && !defined(SIM_OSX) */
+#endif /* !defined(SIM_POSIX) */
 
 #elif defined(PIOS_INCLUDE_CHIBIOS)
 
@@ -341,7 +341,7 @@ bool PIOS_Semaphore_Give(struct pios_semaphore *sema)
 }
 
 /* Workaround for simulator version of FreeRTOS. */
-#if !defined(SIM_POSIX) && !defined(SIM_OSX)
+#if !defined(SIM_POSIX)
 /**
  *
  * @brief   Takes binary semaphore from ISR context.
@@ -397,6 +397,6 @@ bool PIOS_Semaphore_Give_FromISR(struct pios_semaphore *sema, bool *woken)
 
 	return result;
 }
-#endif /* !defined(SIM_POSIX) && !defined(SIM_OSX) */
+#endif /* !defined(SIM_POSIX) */
 
 #endif /* defined(PIOS_INCLUDE_IRQ) */

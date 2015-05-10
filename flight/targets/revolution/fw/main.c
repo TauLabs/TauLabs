@@ -28,7 +28,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-
 /* OpenPilot Includes */
 #include "openpilot.h"
 #include "uavobjectsinit.h"
@@ -46,14 +45,15 @@ extern void Stack_Change(void);
 
 /* Local Variables */
 #define INIT_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
-#define INIT_TASK_STACK		1024											// XXX this seems excessive
+#if defined(SIM_POSIX) 
+#define INIT_TASK_STACK		32768
+#else
+#define INIT_TASK_STACK		1024
+#endif /* defined(SIM_POSIX) */
 static struct pios_thread *initTaskHandle;
 
 /* Function Prototypes */
 static void initTask(void *parameters);
-
-/* Prototype of generated InitModules() function */
-extern void InitModules(void);
 
 /**
  * Tau Labs Main function:
@@ -64,7 +64,7 @@ extern void InitModules(void);
  * If something goes wrong, blink LED1 and LED2 every 100ms
  *
  */
-#if defined(SIM_OSX) || defined(SIM_POSIX)
+#if defined(SIM_POSIX)
 int main(int argc, char *argv[]) {
 	PIOS_SYS_Args(argc, argv);
 #else
@@ -75,14 +75,22 @@ int main()
 	/* Any new initialization functions should be added in OpenPilotInit() */
 	PIOS_heap_initialize_blocks();
 
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	halInit();
+	chSysInit();
+
+	boardInit();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	/* Brings up System using CMSIS functions, enables the LEDs. */
 	PIOS_SYS_Init();
-	
+
 	/* For Revolution we use a FreeRTOS task to bring up the system so we can */
 	/* always rely on FreeRTOS primitive */
 	initTaskHandle = PIOS_Thread_Create(initTask, "init", INIT_TASK_STACK, NULL, INIT_TASK_PRIORITY);
 	PIOS_Assert(initTaskHandle != NULL);
-	
+
+#if defined(PIOS_INCLUDE_FREERTOS)
 	/* Start the FreeRTOS scheduler */
 	vTaskStartScheduler();
 
@@ -93,16 +101,17 @@ int main()
 		PIOS_LED_Toggle(PIOS_LED_HEARTBEAT); \
 		PIOS_DELAY_WaitmS(100); \
 	};
-
+#elif defined(PIOS_INCLUDE_CHIBIOS)
+	PIOS_Thread_Sleep(PIOS_THREAD_TIMEOUT_MAX);
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 	return 0;
 }
 /**
- * Initialisation task.
+ * Initialization task.
  *
- * Runs board and module initialisation, then terminates.
+ * Runs board and module initialization, then terminates.
  */
-void
-initTask(void *parameters)
+void initTask(void *parameters)
 {
 	/* board driver init */
 	PIOS_Board_Init();
@@ -118,4 +127,3 @@ initTask(void *parameters)
  * @}
  * @}
  */
-

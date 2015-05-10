@@ -49,7 +49,13 @@ bool PIOS_heap_malloc_failed_p(void)
 
 void * PIOS_malloc(size_t size)
 {
+#if defined(PIOS_INCLUDE_FREERTOS)
 	void *buf = pvPortMalloc(size);
+#elif defined(PIOS_INCLUDE_CHIBIOS)
+	void *buf = chHeapAlloc(NULL, size);
+#else
+#error "pios_heap requires either PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_CHIBIOS"
+#endif
 
 	if (buf == NULL)
 		malloc_failed_hook();
@@ -64,7 +70,13 @@ void * PIOS_malloc_no_dma(size_t size)
 
 void PIOS_free(void * buf)
 {
+#if defined(PIOS_INCLUDE_FREERTOS)
 	vPortFree(buf);
+#elif defined(PIOS_INCLUDE_CHIBIOS)
+	chHeapFree(buf);
+#else
+#error "pios_heap requires either PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_CHIBIOS"
+#endif
 }
 
 void PIOS_heap_initialize_blocks(void)

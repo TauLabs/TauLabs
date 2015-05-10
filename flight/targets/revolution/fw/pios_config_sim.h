@@ -37,7 +37,7 @@
 #define PIOS_INCLUDE_SYS
 #define PIOS_INCLUDE_DELAY
 #define PIOS_INCLUDE_LED
-#define PIOS_INCLUDE_FREERTOS
+#define PIOS_INCLUDE_CHIBIOS
 #define PIOS_INCLUDE_COM
 //#define PIOS_INCLUDE_GPS
 #define PIOS_INCLUDE_IRQ
@@ -54,6 +54,7 @@
 
 #define PIOS_RCVR_MAX_CHANNELS			12
 #define PIOS_RCVR_MAX_DEVS              3
+#define PIOS_GCSRCVR_MAX_DEVS           3
 
 /* Defaults for Logging */
 #define LOG_FILENAME 			"PIOS.LOG"
@@ -66,7 +67,7 @@
 #define AUXUART_BAUDRATE		19200
 
 #define TELEM_QUEUE_SIZE                20
-#define PIOS_TELEM_STACK_SIZE           2048
+#define PIOS_TELEM_STACK_SIZE           PIOS_THREAD_STACK_SIZE_MIN
 
 /* Stabilization options */
 
