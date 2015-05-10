@@ -243,10 +243,16 @@ static void holdCurrentPosition()
 	PositionActualGet(&position);
 
 	PathDesiredData pathDesired;
+	pathDesired.Start[PATHDESIRED_START_NORTH] = position.North;
+	pathDesired.Start[PATHDESIRED_START_EAST] = position.East;
+	pathDesired.Start[PATHDESIRED_START_DOWN] = position.Down;
 	pathDesired.End[PATHDESIRED_END_NORTH] = position.North;
 	pathDesired.End[PATHDESIRED_END_EAST] = position.East;
 	pathDesired.End[PATHDESIRED_END_DOWN] = position.Down;
 	pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
+	pathDesired.StartingVelocity = 0;
+	pathDesired.EndingVelocity = 0;
+	pathDesired.ModeParameters = 0;
 	PathDesiredSet(&pathDesired);
 }
 
