@@ -44,6 +44,12 @@ def main():
                         dest    = "viewer",
                         help    = "launch the log viewer gui")
 
+    parser.add_argument("-d", "--dumptext",
+                        action = 'store_true',
+                        default = False,
+                        dest = "dumptext",
+                        help = "dump the log file in text")
+
     parser.add_argument("sources",
                         nargs = "+",
                         help  = "list of log files for processing")
@@ -156,6 +162,9 @@ def main():
             main.show()
             main.plot(uavo_list, uavo_defs)
             sys.exit(app.exec_())
+	elif args.dumptext:
+            for obj in uavo_list:
+                print obj
         else:
             # Instantiate an ipython shell to interact with the log data.
             import IPython
