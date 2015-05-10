@@ -81,6 +81,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	PathStatusData pathStatus;
 	PathStatusGet(&pathStatus);
 	pathStatus.fractional_progress = progress->fractional_progress;
+	pathStatus.error = progress->error;
 	if (pathStatus.fractional_progress < 1)
 		pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
 	else
