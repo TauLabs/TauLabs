@@ -74,6 +74,7 @@
 #include "physical_constants.h"
 #include "sin_lookup.h"
 
+#include "accels.h"
 #include "accessorydesired.h"
 #include "airspeedactual.h"
 #include "attitudeactual.h"
@@ -1095,6 +1096,13 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 			write_string(tmp_str, page->BatteryConsumedPosX, page->BatteryConsumedPosY, 0, 0, TEXT_VA_TOP, (int)page->BatteryConsumedAlign, 0, SIZE_TO_FONT[page->BatteryConsumedFont]);
 		}
 	}
+
+	// Climb rate
+	if (page->ClimbRate) {
+		VelocityActualDownGet(&tmp);
+		sprintf(tmp_str, "%0.1f", (double)(-1.f * convert_distance * tmp));
+		write_string(tmp_str, page->ClimbRatePosX, page->ClimbRatePosY, 0, 0, TEXT_VA_TOP, (int)page->ClimbRateAlign, 0, SIZE_TO_FONT[page->ClimbRateFont]);
+	}
 	
 	// Compass
 	if (page->Compass) {
@@ -1115,6 +1123,16 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	if (page->FlightMode) {
 		draw_flight_mode(page->FlightModePosX, page->FlightModePosY, 0, 0, TEXT_VA_TOP, (int)page->FlightModeAlign, 0, SIZE_TO_FONT[page->FlightModeFont]);
 	}
+
+	// G Force
+	if (page->GForce) {
+		AccelsData accelsData;
+		AccelsGet(&accelsData);
+		tmp = sqrtf(powf(accelsData.x, 2.f) + powf(accelsData.y, 2.f) + powf(accelsData.z, 2.f)) / 9.81f;
+		sprintf(tmp_str, "%0.1fG", (double)tmp);
+		write_string(tmp_str, page->GForcePosX, page->GForcePosY, 0, 0, TEXT_VA_TOP, (int)page->GForceAlign, 0, SIZE_TO_FONT[page->GForceFont]);
+	}
+
 
 	// GPS
 	if ((module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) &&

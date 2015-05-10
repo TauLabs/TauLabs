@@ -43,6 +43,11 @@
 		<field name="BatteryConsumedFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="BatteryConsumedAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
 
+		<field name="ClimbRate" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="ClimbRatePosX" units="" type="int16" elements="1" defaultvalue="50"/>
+		<field name="ClimbRatePosY" units="" type="int16" elements="1" defaultvalue="210"/>
+		<field name="ClimbRateFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="ClimbRateAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
 		
 		<field name="Compass" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="CompassPos" units="" type="int16" elements="1" defaultvalue="15"/>
@@ -55,12 +60,17 @@
 		<field name="CpuFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="CpuAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
 
-
 		<field name="FlightMode" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="FlightModePosX" units="" type="int16" elements="1" defaultvalue="0"/>
 		<field name="FlightModePosY" units="" type="int16" elements="1" defaultvalue="4"/>
 		<field name="FlightModeFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="FlightModeAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
+
+		<field name="GForce" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="GForcePosX" units="" type="int16" elements="1" defaultvalue="0"/>
+		<field name="GForcePosY" units="" type="int16" elements="1" defaultvalue="230"/>
+		<field name="GForceFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="GForceAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
 
 		<field name="GpsStatus" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="GpsStatusPosX" units="" type="int16" elements="1" defaultvalue="0"/>
