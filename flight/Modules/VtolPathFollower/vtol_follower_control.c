@@ -243,15 +243,6 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	}
 	PathStatusSet(&pathStatus);
 
-	/* Ensure that we don't fall terrifically behind requested alt.  If
-	 * we are requesting greater than 75% of VerticalVelMax, slow down
-	 * our groundspeed request to help.
-	 */
-	float groundscale = (guidanceSettings.VerticalVelMax - commands_ned[2]) * 4;
-
-	if (groundscale < 1)
-		groundspeed *= groundscale;
-	
 	float error_speed = vtol_deadband(progress->error,
 		guidanceSettings.PathDeadbandWidth,
 		guidanceSettings.PathDeadbandCenterGain,
