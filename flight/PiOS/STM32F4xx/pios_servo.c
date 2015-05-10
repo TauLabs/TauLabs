@@ -309,7 +309,7 @@ void PIOS_Servo_HPWM_Update()
 		if (output_channel_frequency[i] == 0) {
 			/* enable it again and reinitialize it */
 			TIM_Cmd(chan->timer, ENABLE);
-			TIM_SetCounter(chan->timer, 0);
+			TIM_GenerateEvent(chan->timer, TIM_EventSource_Update);
 		}
 	}
 }

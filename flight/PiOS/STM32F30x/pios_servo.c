@@ -267,28 +267,11 @@ void PIOS_Servo_HPWM_Update()
 	for (uint8_t i = 0; i < servo_cfg->num_channels; i++) {
 		const struct pios_tim_channel * chan = &servo_cfg->channels[i];
 
-		/* Look for a disabled timer which is probably used by HPWM */
+		/* Look for a disabled timer */
 		if (!(chan->timer->CR1 & TIM_CR1_CEN)) {
-			TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
-			TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
-
-			/* Choose the correct prescaler value for the APB the timer is attached */
-			if (chan->timer==TIM6 || chan->timer==TIM7) {
-				// These timers cannot be used here.
-				continue;
-			} else if (chan->timer==TIM2 || chan->timer==TIM3 || chan->timer==TIM4) {
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB1_CLOCK / HiresFrequency) * 2 - 1;
-			} else {
-				TIM_TimeBaseStructure.TIM_Prescaler = (PIOS_PERIPHERAL_APB2_CLOCK / HiresFrequency) - 1;
-			}
-			/* if there is a frequency value, we set it */
-			if (output_channel_frequency[i]) {
-				TIM_TimeBaseStructure.TIM_Period = ((HiresFrequency / output_channel_frequency[i]) - 1);
-			}
-
-			/* enable it again and reinitialize it */
+			/* enable it again and reset */
 			TIM_Cmd(chan->timer, ENABLE);
-			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
+			TIM_GenerateEvent(chan->timer, TIM_EventSource_Update);
 		}
 	}
 }
