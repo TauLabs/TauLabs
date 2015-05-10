@@ -280,7 +280,7 @@ void PIOS_Servo_Update()
 		if (!(chan->timer->CR1 & TIM_CR1_CEN)) {
 			/* enable it again and reset */
 			TIM_Cmd(chan->timer, ENABLE);
-			TIM_SetCounter(chan->timer, 0);
+			TIM_GenerateEvent(chan->timer, TIM_EventSource_Update);
 		}
 	}
 }
