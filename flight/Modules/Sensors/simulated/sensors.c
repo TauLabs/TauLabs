@@ -421,7 +421,7 @@ static void simulateModelQuadcopter()
 	}
 		
 	// Sensor feels gravity (when not acceleration in ned frame e.g. ned_accel[2] = 0)
-	ned_accel[2] -= 9.81;
+	ned_accel[2] -= GRAVITY;
 	
 	// Transform the accels back in to body frame
 	AccelsData accelsData; // Skip get as we set all the fields
