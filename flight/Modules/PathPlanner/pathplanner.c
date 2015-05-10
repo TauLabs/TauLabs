@@ -55,11 +55,10 @@ static struct pios_queue *queue;
 static PathPlannerSettingsData pathPlannerSettings;
 static WaypointActiveData waypointActive;
 static WaypointData waypoint;
-static bool path_status_updated;
+static bool path_completed;
 
 // Private functions
 static void advanceWaypoint();
-static void checkTerminationCondition();
 static void activateWaypoint(int idx);
 
 static void pathPlannerTask(void *parameters);
@@ -151,7 +150,9 @@ static void pathPlannerTask(void *parameters)
 
 	// Main thread loop
 	bool pathplanner_active = false;
-	path_status_updated = false;
+
+	pathStatusUpdated(NULL);
+	path_completed = false;
 
 	while (1)
 	{
@@ -183,8 +184,8 @@ static void pathPlannerTask(void *parameters)
 
 		/* This method determines if we have achieved the goal of the active */
 		/* waypoint */
-		if (path_status_updated)
-			checkTerminationCondition();
+		if (path_completed)
+			advanceWaypoint();
 
 		/* If advance waypoint takes a long time to calculate then it should */
 		/* be called from here when the active_waypoints does not equal the  */
@@ -215,21 +216,14 @@ static void waypointsUpdated(UAVObjEvent * ev)
  */
 static void pathStatusUpdated(UAVObjEvent * ev)
 {
-	path_status_updated = true;
-}
-
-/**
- * This method checks the current position against the active waypoint
- * to determine if it has been reached
- */
-static void checkTerminationCondition()
-{
-	PathStatusData pathStatus;
-	PathStatusGet(&pathStatus);
-	path_status_updated = false;
-
-	if (pathStatus.Status == PATHSTATUS_STATUS_COMPLETED)
-		advanceWaypoint();
+	static PathStatusStatusOptions last_path_status;
+	PathStatusStatusOptions this_path_status;
+	PathStatusStatusGet(&this_path_status);
+	if(last_path_status == PATHSTATUS_STATUS_INPROGRESS &&
+	   this_path_status == PATHSTATUS_STATUS_COMPLETED) {
+		path_completed = true;
+	}
+	last_path_status = this_path_status;
 }
 
 /**
@@ -302,13 +296,12 @@ static void advanceWaypoint()
 	waypointActive.Index++;
 
 	if (waypointActive.Index >= UAVObjGetNumInstances(WaypointHandle())) {
-		holdLastPosition();
+		holdLastPosition();	// This means last in path.
 	} else {
 		WaypointActiveSet(&waypointActive);
 	}
 
-	// Invalidate any pending path status updates
-	path_status_updated = false;
+	path_completed = false;
 }
 
 /**
@@ -389,7 +382,7 @@ static void activateWaypoint(int idx)
 	PathDesiredSet(&pathDesired);
 
 	// Invalidate any pending path status updates
-	path_status_updated = false;
+	path_completed = false;
 
 	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
 }
