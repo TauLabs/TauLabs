@@ -229,6 +229,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	PathStatusData pathStatus;
 	PathStatusGet(&pathStatus);
 	pathStatus.fractional_progress = progress->fractional_progress;
+	pathStatus.error = progress->error;
 
 	// Only if we are at the end, and above the end altitude, are we
 	// done.
