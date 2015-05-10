@@ -88,6 +88,7 @@ void path_progress(const PathDesiredData *pathDesired,
 			break;
 		case PATHDESIRED_MODE_FLYENDPOINT:
 		case PATHDESIRED_MODE_DRIVEENDPOINT:
+		case PATHDESIRED_MODE_HOLDPOSITION:
 		default:
 			// use the endpoint as default failsafe if called in unknown modes
 			return path_endpoint(start_point, end_point, cur_point, status);
