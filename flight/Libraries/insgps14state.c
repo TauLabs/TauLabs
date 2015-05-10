@@ -305,10 +305,10 @@ void INSLimitBias()
 {
 	// The Z accel bias should never wander too much. This helps ensure the filter
 	// remains stable.
-	if (X[13] > 1.0f) {
-		X[13] = 1.0f;
-	} else if (X[13] < -1.0f) {
-		X[13] = -1.0f;
+	if (X[13] > 0.1f) {
+		X[13] = 0.1f;
+	} else if (X[13] < -0.1f) {
+		X[13] = -0.1f;
 	}
 
 	// Make sure no gyro bias gets to more than 10 deg / s. This should be more than
