@@ -11,32 +11,33 @@ def flatten(lst):
 
 class UAVTupleClass():
     def bytes(self):
-	return self.packstruct.pack(*flatten(self[3:]))
+        return self.packstruct.pack(*flatten(self[3:]))
 
     @classmethod
     def from_bytes(cls, data, timestamp, startOffs=0):
         import struct
 
-	uavo = cls.uavometa
+        uavo = cls.uavometa
 
         #
-	# add the values
+        # add the values
         #
 
         # unpack each field separately
-	offset = startOffs
+        offset = startOffs
 
-	if not cls.flat:
-		unpack_field_values = []
-		for fmt in cls.formats:
-		    val = fmt.unpack_from(data, offset)
-		    if len(val) == 1:
-			# elevate the value outside of the tuple if there is exactly one value
-			val = val[0]
-		    unpack_field_values.append(val)
-		    offset += fmt.size
-	else:
-		unpack_field_values = cls.packstruct.unpack_from(data, offset)
+        if not cls.flat:
+            unpack_field_values = []
+            for fmt in cls.formats:
+                val = fmt.unpack_from(data, offset)
+                if len(val) == 1:
+                    # elevate the value outside of the tuple if there is
+                    # exactly one value
+                    val = val[0]
+                unpack_field_values.append(val)
+                offset += fmt.size
+        else:
+            unpack_field_values = cls.packstruct.unpack_from(data, offset)
 
         field_values = []
         field_values.append(uavo.meta['name'])
@@ -113,7 +114,7 @@ class UAVO():
         self.meta = {}
         self.id = 0
 
-	self.hash = 0
+        self.hash = 0
 
         from lxml import etree
 
@@ -202,25 +203,25 @@ class UAVO():
 
     def __build_class_of(self):
         from collections import namedtuple
-	fields = ['name', 'time', 'uavo_id']
+        fields = ['name', 'time', 'uavo_id']
         if not self.meta['is_single_inst']:
             fields.append("inst_id")
 
-	fields.extend([f['name'] for f in self.fields])
+        fields.extend([f['name'] for f in self.fields])
 
-	name = 'UAVO_' + self.meta['name']
+        name = 'UAVO_' + self.meta['name']
 
-	self.form_packformat()
+        self.form_packformat()
 
-	class tmpClass(namedtuple(name, fields), UAVTupleClass):
-		packstruct = self.fmt
-		formats = self.formats
-		flat = self.flat
-		uavometa = self
+        class tmpClass(namedtuple(name, fields), UAVTupleClass):
+            packstruct = self.fmt
+            formats = self.formats
+            flat = self.flat
+            uavometa = self
 
-	# This is magic for two reasons.  First, we create the class to have
-	# the proper dynamic name.  Second, we override __slots__, so that
-	# child classes don't get a dict / keep all their namedtuple goodness
+        # This is magic for two reasons.  First, we create the class to have
+        # the proper dynamic name.  Second, we override __slots__, so that
+        # child classes don't get a dict / keep all their namedtuple goodness
         self.tuple_class = type(name, (tmpClass,), { "__slots__" : () })
 
         # Make sure this new class is exposed in the module globals so that it can be pickled
@@ -239,30 +240,30 @@ class UAVO():
         return size
 
     def form_packformat(self):
-	formats=[]
+        formats=[]
 
         # add format for instance-id IFF this is a multi-instance UAVO
         if not self.meta['is_single_inst']:
             # this is multi-instance so the optional instance-id is present
             formats.append('H')
 
-	flat=True
+        flat=True
 
         # add formats for each field
         for f in self.fields:
-	    if f['elements'] != 1:
-		flat=False
+            if f['elements'] != 1:
+                flat=False
 
             formats.append('' + f['elements'].__str__() + self.struct_element_map[f['type']])
 
-	self.flat = flat
+        self.flat = flat
 
-	self.fmt = struct.Struct('<' + ''.join(formats))
+        self.fmt = struct.Struct('<' + ''.join(formats))
 
-	self.formats = [ struct.Struct('<' + f) for f in formats ]
+        self.formats = [ struct.Struct('<' + f) for f in formats ]
 
     def instance_from_bytes(self, *args, **kwargs):
-	return self.tuple_class.from_bytes(*args, **kwargs)
+        return self.tuple_class.from_bytes(*args, **kwargs)
 
     def __str__(self):
         return "%s(id='%08x') %s" % (self.meta['name'], self.id, " ".join([f['name'] for f in self.fields]))
@@ -278,7 +279,7 @@ class UAVO():
             self._update_hash_byte(ord(c))
 
     def _calculate_id(self):
-	self.hash = 0
+        self.hash = 0
 
         self._update_hash_string(self.meta['name'])
         self._update_hash_byte(self.meta['is_settings'])
@@ -292,5 +293,5 @@ class UAVO():
                 for option in field['options']:
                     self._update_hash_string(option)
 
-	return self.hash & 0x0FFFFFFFE
+        return self.hash & 0x0FFFFFFFE
 

@@ -94,8 +94,8 @@ def main():
 
         print "Found %d unique UAVO definitions" % len(uavo_defs)
         parser = taulabs.uavtalk.processStream(uavo_defs,
-		logTimestamps=args.timestamped)
-	parser.send(None)
+                logTimestamps=args.timestamped)
+        parser.send(None)
 
         base_time = None
 
@@ -104,20 +104,20 @@ def main():
         uavo_list = []
 
         while True:
-	    data = fd.read(128)
+            data = fd.read(128)
 
-	    if data == '':
-		print "End of file"
-		break
+            if data == '':
+                print "End of file"
+                break
 
-	    obj = parser.send(data)
+            obj = parser.send(data)
 
-	    while obj is not None:
-	        if not base_time:
-		    base_time = obj.time
+            while obj is not None:
+                if not base_time:
+                    base_time = obj.time
 
-		uavo_list.append(obj)
-		obj = parser.send('')
+                uavo_list.append(obj)
+                obj = parser.send('')
 
         fd.close()
 

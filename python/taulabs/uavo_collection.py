@@ -5,8 +5,8 @@ class UAVOCollection(dict):
         self.clear()
 
     def find_by_name(self, uavo_name):
-	if uavo_name[0:5]=='UAVO_':
-	    uavo_name=uavo_name[5:]
+        if uavo_name[0:5]=='UAVO_':
+            uavo_name=uavo_name[5:]
 
         for u in self.itervalues():
             if u.meta['name'] == uavo_name:
@@ -15,12 +15,12 @@ class UAVOCollection(dict):
         return None
 
     def get_data_objects(self):
-	return [ u.meta['name'] for u in self.itervalues()
-		if not u.meta['is_settings'] ]
+        return [ u.meta['name'] for u in self.itervalues()
+                if not u.meta['is_settings'] ]
 
     def get_settings_objects(self):
-	return [ u.meta['name'] for u in self.itervalues()
-		if u.meta['is_settings'] ]
+        return [ u.meta['name'] for u in self.itervalues()
+                if u.meta['is_settings'] ]
 
     def from_git_hash(self, githash):
         import subprocess
@@ -62,5 +62,3 @@ class UAVOCollection(dict):
 
                 # add this uavo definition to our dictionary
                 self.update([('{0:08x}'.format(u.id), u)])
-
-
