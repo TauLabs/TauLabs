@@ -289,7 +289,7 @@ static int32_t vtol_follower_control_accel(float dT)
 	
 	// Compute desired east command from velocity error
 	east_error = velocityDesired.East - velocityActual.East;
-	east_acceleration += pid_apply_antiwindup(&vtol_pids[NORTH_VELOCITY], east_error,
+	east_acceleration += pid_apply_antiwindup(&vtol_pids[EAST_VELOCITY], east_error,
 	    -MAX_ACCELERATION, MAX_ACCELERATION, dT) +
 	    velocityDesired.East * guidanceSettings.VelocityFeedforward +
 	    -nedAccel.East * guidanceSettings.HorizontalVelPID[VTOLPATHFOLLOWERSETTINGS_HORIZONTALVELPID_KD];
