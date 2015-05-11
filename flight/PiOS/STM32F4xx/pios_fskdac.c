@@ -43,20 +43,13 @@ static void PIOS_FSKDAC_RegisterTxCallback(uintptr_t fskdac_id, pios_com_callbac
 static void PIOS_FSKDAC_TxStart(uintptr_t fskdac_id, uint16_t tx_bytes_avail);
 static void PIOS_FSKDAC_RxStart(uintptr_t fskdac_id, uint16_t rx_bytes_avail);
 
-const struct pios_com_driver pios_usart_com_driver = {
+const struct pios_com_driver pios_fskdac_com_driver = {
 	.tx_start   = PIOS_FSKDAC_TxStart,
 	.bind_tx_cb = PIOS_FSKDAC_RegisterTxCallback,
 };
 
 enum pios_fskdac_dev_magic {
 	PIOS_FSKDAC_DEV_MAGIC = 0x1453834A,
-};
-
-//! Configuration structure for FSK DAC
-struct pios_fskdac_config {
-	struct stm32_dma dma;
-	struct pios_tim_channel tim;
-	TIM_TimeBaseInitTypeDef tim_base;
 };
 
 const struct pios_fskdac_config pios_fskdac_config = {
@@ -200,6 +193,8 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id, const struct pios_fskdac_cfg * c
 
 	/* Bind the configuration to the device instance */
 	fskdac_dev->cfg = cfg;
+
+	fskdac_dev->cfg = pios_fskdac_config;
 
 	GPIO_InitTypeDef gpio_init;
 	gpio_init.GPIO_Pin  = GPIO_Pin_4;
