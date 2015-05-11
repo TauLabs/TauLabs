@@ -187,9 +187,6 @@ struct pios_openlrs_dev {
   uint16_t linkQuality;
   uint32_t lastRSSITimeUs;
   uint8_t lastRSSIvalue;
-  uint16_t RSSI_sum;
-  uint8_t RSSI_count;
-  uint8_t smoothRSSI;
   bool willhop;
   uint32_t nextBeaconTimeMs;
   uint32_t linkLossTimeMs;
