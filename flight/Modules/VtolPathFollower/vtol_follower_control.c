@@ -61,6 +61,8 @@ struct pid vtol_pids[VTOL_PID_NUM];
 // Constants used in deadband calculation
 static float vtol_path_m=0, vtol_path_r=0, vtol_end_m=0, vtol_end_r=0;
 
+static int32_t vtol_follower_control_simple(const float dT,
+	const float *hold_pos_ned, bool landing);
 
 /**
  * Interpolate values (groundspeeds, altitudes) over flight legs
@@ -205,7 +207,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 		positionActual.East +
 		    velocityActual.East*guidanceSettings.PositionFeedforward,
 		positionActual.Down };
-	
+
 	path_progress(pathDesired, cur_pos_ned, progress);
 	
 	// Interpolate desired velocity and altitude along the path
@@ -224,7 +226,6 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	commands_ned[2] = pid_apply_antiwindup(&vtol_pids[DOWN_POSITION], downError,
 		-guidanceSettings.VerticalVelMax, guidanceSettings.VerticalVelMax, dT);
 
-
 	// Update the path status UAVO
 	PathStatusData pathStatus;
 	PathStatusGet(&pathStatus);
@@ -237,12 +238,13 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 		(downError < -guidanceSettings.EndpointRadius)) {
 		pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
 	} else {
-		// XXX MPL - consider returning in this case, to not hammer
-		// based on groundspeed=0 above-- but need to verify in all
-		// cases we'll go to a new plan leg after...
 		pathStatus.Status = PATHSTATUS_STATUS_COMPLETED;
 	}
 	PathStatusSet(&pathStatus);
+
+	if (groundspeed == 0) {
+		return vtol_follower_control_simple(dT, pathDesired->End, 0);
+	}
 
 	float error_speed = vtol_deadband(progress->error,
 		guidanceSettings.PathDeadbandWidth,
@@ -271,8 +273,8 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	return 0;
 }
 
-int32_t vtol_follower_control_simple(const float dT, const float *hold_pos_ned,
-	bool landing) {
+static int32_t vtol_follower_control_simple(const float dT,
+	const float *hold_pos_ned, bool landing) {
 	PositionActualData positionActual;
 	VelocityDesiredData velocityDesired;
 	
