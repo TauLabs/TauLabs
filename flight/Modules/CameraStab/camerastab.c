@@ -256,9 +256,6 @@ static void attitudeUpdated(UAVObjEvent* ev)
 			if (yaw < 0.0f)
 				yaw += 360.0f;
 
-			// Store the absolute declination relative to UAV
-			CameraDesiredDeclinationSet(&pitch);
-
 			// Only try and track objects more than 2 m away
 			if (distance > 2) {
 				switch (i) {
@@ -266,7 +263,8 @@ static void attitudeUpdated(UAVObjEvent* ev)
 					// Does not make sense to use position to control yaw
 					break;
 				case CAMERASTABSETTINGS_INPUT_PITCH:
-					// Sign for declination is opposite of the sign for pitch used below
+					// Store the absolute declination relative to UAV
+					CameraDesiredDeclinationSet(&pitch);
 					csd->inputs[CAMERASTABSETTINGS_INPUT_PITCH] = -pitch;
 					break;
 				case CAMERASTABSETTINGS_INPUT_YAW:
