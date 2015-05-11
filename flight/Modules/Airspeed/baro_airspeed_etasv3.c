@@ -64,10 +64,9 @@ void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, uint32_t *lastSy
 	AirspeedSettingsData airspeedSettingsData;
 	AirspeedSettingsGet(&airspeedSettingsData);
 
-	
 	//Check to see if airspeed sensor is returning baroAirspeedData
 	baroAirspeedData->SensorValue = PIOS_ETASV3_ReadAirspeed();
-	if (baroAirspeedData->SensorValue==-1) {
+	if (baroAirspeedData->SensorValue == -1) {
 		baroAirspeedData->BaroConnected = BAROAIRSPEED_BAROCONNECTED_FALSE;
 		baroAirspeedData->CalibratedAirspeed = 0;
 		return;
@@ -92,8 +91,8 @@ void baro_airspeedGetETASV3(BaroAirspeedData *baroAirspeedData, uint32_t *lastSy
 
 	//Compute airspeed
 	float calibratedAirspeed;
-	if (baroAirspeedData->SensorValue < airspeedSettingsData.ZeroPoint)
-		calibratedAirspeed = ETS_AIRSPEED_SCALE * sqrtf(airspeedSettingsData.ZeroPoint - baroAirspeedData->SensorValue);
+	if (baroAirspeedData->SensorValue > airspeedSettingsData.ZeroPoint)
+		calibratedAirspeed = ETS_AIRSPEED_SCALE * sqrtf(baroAirspeedData->SensorValue - airspeedSettingsData.ZeroPoint);
 	else
 		calibratedAirspeed = 0;
 
