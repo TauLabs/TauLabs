@@ -1013,8 +1013,16 @@ void PIOS_Board_Init(void) {
 			break;
 	case HWSPARKY2_RCVRPORT_DSM:
 #if defined(PIOS_INCLUDE_DSM)
-		PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_rcvr_cfg, &pios_dsm_flexi_cfg, &pios_usart_com_driver,
-			MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMRCVRPORT, &hw_DSMxBind);
+		switch (bdinfo->board_rev) {
+		case BRUSHEDSPARKY_V0_2:
+			break;
+		default:
+			hw_DSMxBind = 0; // Do not attempt to bind pulse through XOR
+			break;
+		}
+		PIOS_Board_configure_dsm(&pios_usart_dsm_hsum_rcvr_cfg, &pios_dsm_rcvr_cfg, &pios_usart_com_driver,
+		MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMRCVRPORT, &hw_DSMxBind);
+		break;
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
 	case HWSPARKY2_RCVRPORT_HOTTSUMD:

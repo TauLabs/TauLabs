@@ -1026,7 +1026,7 @@ static const struct pios_dsm_cfg pios_dsm_rcvr_cfg = {
 		.init = {
 			.GPIO_Pin   = GPIO_Pin_7,
 			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_IN,
+			.GPIO_Mode  = GPIO_Mode_OUT,
 			.GPIO_OType = GPIO_OType_PP,
 			.GPIO_PuPd  = GPIO_PuPd_NOPULL
 		},
