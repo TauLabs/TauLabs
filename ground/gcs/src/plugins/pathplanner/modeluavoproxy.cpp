@@ -205,12 +205,13 @@ void ModelUavoProxy::objectsToModel()
         myModel->insertRow(x);
 
         // Compute the coordinates in LLA
-        double NED[3] = {wpfields.Position[0], wpfields.Position[1], wpfields.Position[2]};
+        double NED[3] = {wpfields.Position[Waypoint::POSITION_NORTH], wpfields.Position[Waypoint::POSITION_EAST], wpfields.Position[Waypoint::POSITION_DOWN]};
         Utils::CoordinateConversions().NED2LLA_HomeLLA(homeLLA, NED, LLA);
 
         // Store the data
         myModel->setData(myModel->index(x,FlightDataModel::LATPOSITION), LLA[0]);
         myModel->setData(myModel->index(x,FlightDataModel::LNGPOSITION), LLA[1]);
+        myModel->setData(myModel->index(x,FlightDataModel::ALTITUDE), LLA[2]);
         myModel->setData(myModel->index(x,FlightDataModel::VELOCITY), wpfields.Velocity);
         myModel->setData(myModel->index(x,FlightDataModel::MODE), wpfields.Mode);
         myModel->setData(myModel->index(x,FlightDataModel::MODE_PARAMS), wpfields.ModeParameters);
