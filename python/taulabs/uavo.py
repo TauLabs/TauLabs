@@ -240,19 +240,19 @@ class UAVO():
         return size
 
     def form_packformat(self):
-        formats=[]
+        formats = []
 
         # add format for instance-id IFF this is a multi-instance UAVO
         if not self.meta['is_single_inst']:
             # this is multi-instance so the optional instance-id is present
             formats.append('H')
 
-        flat=True
+        flat = True
 
         # add formats for each field
         for f in self.fields:
             if f['elements'] != 1:
-                flat=False
+                flat = False
 
             formats.append('' + f['elements'].__str__() + self.struct_element_map[f['type']])
 

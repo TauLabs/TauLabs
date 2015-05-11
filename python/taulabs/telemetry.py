@@ -43,9 +43,9 @@ class Telemetry():
 
         self.cond = threading.Condition()
 
-        self.serviceInIter=serviceInIter
-        self.iterBlocks=iterBlocks
-        self.iterIdx=0
+        self.serviceInIter = serviceInIter
+        self.iterBlocks = iterBlocks
+        self.iterIdx = 0
 
     def __iter__(self):
         with self.cond:
@@ -93,7 +93,7 @@ class Telemetry():
         """ Close network socket """
 
         self.sock.close()
-        self.sock=None
+        self.sock = None
 
     def __handleHandshake(self, obj):
         if obj.name == "FlightTelemetryStats":
@@ -160,7 +160,7 @@ class Telemetry():
             while self.sock:
                 self.serviceConnection()    
 
-        t=Thread(target=run, name="telemetry svc thread")
+        t = Thread(target=run, name="telemetry svc thread")
 
         t.daemon=True
 
@@ -177,7 +177,7 @@ class Telemetry():
         else:
             finishTime = None
 
-        data=self.__receive(finishTime)
+        data = self.__receive(finishTime)
         self.__handleFrames(data)
 
     def __send(self, msg):
@@ -189,10 +189,10 @@ class Telemetry():
 
     # Call select and do one set of IO operations.
     def __select(self, finishTime):
-        rdSet=[]
-        wrSet=[]
+        rdSet = []
+        wrSet = []
 
-        didStuff=False
+        didStuff = False
 
         if len(self.recv_buf) < 1024:
             rdSet.append(self.sock)
@@ -216,15 +216,15 @@ class Telemetry():
             if chunk == '':
                 raise RuntimeError("socket closed")
 
-            self.recv_buf=self.recv_buf + chunk
+            self.recv_buf = self.recv_buf + chunk
 
-            didStuff=True
+            didStuff = True
 
         if w:
             written = self.sock.send(self.send_buf)
             self.send_buf = self.send_buf[written:]
 
-            didStuff=True
+            didStuff = True
 
         return didStuff
 

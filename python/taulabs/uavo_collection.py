@@ -6,7 +6,7 @@ class UAVOCollection(dict):
 
     def find_by_name(self, uavo_name):
         if uavo_name[0:5]=='UAVO_':
-            uavo_name=uavo_name[5:]
+            uavo_name = uavo_name[5:]
 
         for u in self.itervalues():
             if u.meta['name'] == uavo_name:

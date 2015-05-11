@@ -34,15 +34,13 @@ crc_table = [
 ]
 
 def processStream(uavo_defs, useWallTime=False, logTimestamps=False):
-    global wantHint
-
     # These are used for accounting for timestamp wraparound
     timestampBase = 0
     lastTimestamp = 0
 
     received = 0
 
-    packetBytes=''
+    packetBytes = ''
 
     while True:
         if logTimestamps:
@@ -140,7 +138,7 @@ def processStream(uavo_defs, useWallTime=False, logTimestamps=False):
             # packet error - mismatched packet size
             # Consume a byte to try syncing right after where we
             # did...
-            packetBytes=packetBytes[1:]
+            packetBytes = packetBytes[1:]
             continue
 
         # OK, at this point we are seriously hoping to receive
@@ -226,10 +224,10 @@ def __calcCRC(str):
     Calculate a CRC consistently with how they are computed on the firmware side
     """
 
-    cs=0
+    cs = 0
 
     for c in str:
-        cs=crc_table[cs ^ ord(c)]
+        cs = crc_table[cs ^ ord(c)]
 
     return cs
 
