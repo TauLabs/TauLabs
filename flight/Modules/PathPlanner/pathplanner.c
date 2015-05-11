@@ -207,8 +207,11 @@ static void waypointsUpdated(UAVObjEvent * ev)
 		return;
 
 	WaypointActiveGet(&waypointActive);
-	if(active_waypoint != waypointActive.Index)
+	if(active_waypoint != waypointActive.Index) {
+		active_waypoint = waypointActive.Index;
+
 		activateWaypoint(waypointActive.Index);
+	}
 }
 
 /**
@@ -216,14 +219,14 @@ static void waypointsUpdated(UAVObjEvent * ev)
  */
 static void pathStatusUpdated(UAVObjEvent * ev)
 {
-	static PathStatusStatusOptions last_path_status;
-	PathStatusStatusOptions this_path_status;
-	PathStatusStatusGet(&this_path_status);
-	if(last_path_status == PATHSTATUS_STATUS_INPROGRESS &&
-	   this_path_status == PATHSTATUS_STATUS_COMPLETED) {
+	PathStatusData pathStatus;
+
+	PathStatusGet(&pathStatus);
+
+	if ((pathStatus.Status == PATHSTATUS_STATUS_COMPLETED) &&
+			(pathStatus.Waypoint == active_waypoint)) {
 		path_completed = true;
 	}
-	last_path_status = this_path_status;
 }
 
 /**
@@ -247,6 +250,7 @@ static void holdCurrentPosition()
 	pathDesired.StartingVelocity = 5; // This will be the max velocity it uses to try and hold
 	pathDesired.EndingVelocity = 5;
 	pathDesired.ModeParameters = 0;
+	pathDesired.Waypoint = -1;
 	PathDesiredSet(&pathDesired);
 }
 
@@ -293,7 +297,7 @@ static void advanceWaypoint()
 	// conditional logic desired here.
 	// Note: In the case of conditional logic it is the responsibilty of the implementer
 	// to ensure all possible paths are valid.
-	waypointActive.Index++;
+	waypointActive.Index = previous_waypoint+1;
 
 	if (waypointActive.Index >= UAVObjGetNumInstances(WaypointHandle())) {
 		holdLastPosition();	// This means last in path.
@@ -314,9 +318,7 @@ static void advanceWaypoint()
  */
 static void activateWaypoint(int idx)
 {
-	active_waypoint = idx;
-
-	if (idx >= UAVObjGetNumInstances(WaypointHandle())) {
+	if ((idx >= UAVObjGetNumInstances(WaypointHandle())) || (idx < 0)) {
 		// Attempting to access invalid waypoint.  Fall back to position hold at current location
 		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);
 		holdCurrentPosition();
@@ -327,6 +329,8 @@ static void activateWaypoint(int idx)
 	WaypointInstGet(idx, &waypoint);
 
 	PathDesiredData pathDesired;
+
+	pathDesired.Waypoint = idx;
 
 	pathDesired.End[PATHDESIRED_END_NORTH] = waypoint.Position[WAYPOINT_POSITION_NORTH];
 	pathDesired.End[PATHDESIRED_END_EAST] = waypoint.Position[WAYPOINT_POSITION_EAST];
@@ -350,7 +354,7 @@ static void activateWaypoint(int idx)
 			break;
 		case WAYPOINT_MODE_LAND:
 			pathDesired.Mode = PATHDESIRED_MODE_LAND;
-			break;
+		break;
 		default:
 			holdCurrentPosition();
 			AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);

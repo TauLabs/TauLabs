@@ -6,6 +6,7 @@
 		<field name="End" units="m" type="float" elementnames="North,East,Down" default="0"/>
 		<field name="StartingVelocity" units="m/s" type="float" elements="1" default="0"/>
 		<field name="EndingVelocity" units="m/s" type="float" elements="1" default="0"/>
+		<field name="Waypoint" units="" type="int16" elements="1" default="-1"/>
 
 		<!-- Endpoint mode - move directly towards endpoint regardless of position -->
 		<!-- Straight Mode - move across linear path through Start towards the waypoint end, adjusting velocity - continue straight -->

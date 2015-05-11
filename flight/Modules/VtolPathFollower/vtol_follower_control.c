@@ -62,7 +62,7 @@ struct pid vtol_pids[VTOL_PID_NUM];
 static float vtol_path_m=0, vtol_path_r=0, vtol_end_m=0, vtol_end_r=0;
 
 static int32_t vtol_follower_control_simple(const float dT,
-	const float *hold_pos_ned, bool landing);
+	const float *hold_pos_ned, bool landing, bool update_status);
 
 /**
  * Interpolate values (groundspeeds, altitudes) over flight legs
@@ -231,6 +231,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	PathStatusGet(&pathStatus);
 	pathStatus.fractional_progress = progress->fractional_progress;
 	pathStatus.error = progress->error;
+	pathStatus.Waypoint = pathDesired->Waypoint;
 
 	// Only if we are at the end, and above the end altitude, are we
 	// done.
@@ -243,7 +244,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	PathStatusSet(&pathStatus);
 
 	if (groundspeed == 0) {
-		return vtol_follower_control_simple(dT, pathDesired->End, 0);
+		return vtol_follower_control_simple(dT, pathDesired->End, 0, 1);
 	}
 
 	float error_speed = vtol_deadband(progress->error,
@@ -274,7 +275,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 }
 
 static int32_t vtol_follower_control_simple(const float dT,
-	const float *hold_pos_ned, bool landing) {
+	const float *hold_pos_ned, bool landing, bool update_status) {
 	PositionActualData positionActual;
 	VelocityDesiredData velocityDesired;
 	
@@ -339,18 +340,20 @@ static int32_t vtol_follower_control_simple(const float dT,
 
 	VelocityDesiredSet(&velocityDesired);	
 
-	uint8_t path_status = PATHSTATUS_STATUS_INPROGRESS;
+	if (update_status) {
+		uint8_t path_status = PATHSTATUS_STATUS_INPROGRESS;
 
-	if (!landing) {
-		// Indicate whether we are in radius of this endpoint
-		// And at/above the altitude requested
-		if ((vtol_magnitude(errors_ned, 2) < guidanceSettings.EndpointRadius) &&
-		    (errors_ned[2] > -guidanceSettings.EndpointRadius)) {
-			path_status = PATHSTATUS_STATUS_COMPLETED;
-		}
-	}  // landing never terminates.
+		if (!landing) {
+			// Indicate whether we are in radius of this endpoint
+			// And at/above the altitude requested
+			if ((vtol_magnitude(errors_ned, 2) < guidanceSettings.EndpointRadius) &&
+			    (errors_ned[2] > -guidanceSettings.EndpointRadius)) {
+				path_status = PATHSTATUS_STATUS_COMPLETED;
+			}
+		}  // landing never terminates.
 
-	PathStatusStatusSet(&path_status);
+		PathStatusStatusSet(&path_status);
+	}
 
 	return 0;
 }
@@ -368,7 +371,7 @@ static int32_t vtol_follower_control_simple(const float dT,
  */
 int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned)
 {
-	return vtol_follower_control_simple(dT, hold_pos_ned, 0);
+	return vtol_follower_control_simple(dT, hold_pos_ned, 0, 1);
 }
 
 /**
@@ -384,7 +387,7 @@ int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned
 int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
 	bool *landed)
 {
-	return vtol_follower_control_simple(dT, hold_pos_ned, 1);
+	return vtol_follower_control_simple(dT, hold_pos_ned, 1, 1);
 }
 
 /**
