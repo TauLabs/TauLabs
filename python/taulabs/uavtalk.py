@@ -112,7 +112,7 @@ def processStream(uavo_defs, useWallTime=False, logTimestamps=False):
             timestampLength = 0
         else:
             if obj is not None:
-                timestampLength = 2 if packetType == TYPE_OBJ_TS or packetType == TYPE_OBJ_ACK_TS else 0
+                timestampLength = timestampFmt.size if packetType == TYPE_OBJ_TS or packetType == TYPE_OBJ_ACK_TS else 0
                 objLength = obj.get_size_of_data()
             else:
                 # we don't know anything, so fudge to keep sync.
@@ -170,8 +170,7 @@ def processStream(uavo_defs, useWallTime=False, logTimestamps=False):
         
         if timestampLength:
             # pull the timestamp from the packet
-            timestamp = struct.unpack_from('<H', packetBytes,
-                headerFmt.size)[0]
+	    timestamp = timestampFmt.unpack_from(packetBytes, headerFmt.size)[0]
 
             # handle wraparound
             if timestamp < lastTimestamp:
