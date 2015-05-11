@@ -11,6 +11,7 @@ import time
 # sync(1) + type(1) + len(2) + objid(4) 
 headerFmt = struct.Struct("<BBHL")
 logHeaderFmt = struct.Struct("<IQ")
+timestampFmt = struct.Struct("<H") 
 
 # CRC lookup table
 crc_table = [
@@ -78,20 +79,20 @@ def processStream(uavo_defs, useWallTime=False, logTimestamps=False):
                     break
 
             # Trim off irrelevant stuff, loop and try again
-            packetBytes=packetBytes[i:]
+            packetBytes = packetBytes[i:]
 
         (sync, packetType, packetLen, objId) = headerFmt.unpack_from(packetBytes,0)
 
         if (packetType & TYPE_MASK) != TYPE_VER:
             print "badver %x"%(packetType)
-            packetBytes=packetBytes[1:]
+            packetBytes = packetBytes[1:]
             continue    # go to top to look for sync
     
         packetType &= ~ TYPE_MASK
         
         if packetLen < MIN_HEADER_LENGTH or packetLen > MAX_HEADER_LENGTH + MAX_PAYLOAD_LENGTH:
             print "badlen %d"%(packetLen)
-            packetBytes=packetBytes[1:]
+            packetBytes = packetBytes[1:]
             continue
         
         # Search for object.
@@ -122,7 +123,7 @@ def processStream(uavo_defs, useWallTime=False, logTimestamps=False):
         if objLength >= MAX_PAYLOAD_LENGTH:
             print "bad len-- bad xml?"
             #should never happen; requires invalid uavo xml
-            packetBytes=packetBytes[1:]
+            packetBytes = packetBytes[1:]
             continue
 
         # calcedSize, AKA timestamp, and obj data

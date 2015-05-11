@@ -47,9 +47,6 @@ def main():
 
     print "Found %d unique UAVO definitions" % len(uavo_defs)
 
-#    print uavo.UAVO_SystemAlarms
-#    help(uavo.UAVO_SystemAlarms)
-
     tStream = telemetry.Telemetry(uavo_defs)
     tStream.open_network()
 
@@ -57,7 +54,6 @@ def main():
 #    tStream.open_network()
 #    tStream.start_thread()
 
-#    settingsObjs = set(uavo_defs.get_settings_objects())
 
 #    print settingsObjs
 #    print tStream.get_last_values()
