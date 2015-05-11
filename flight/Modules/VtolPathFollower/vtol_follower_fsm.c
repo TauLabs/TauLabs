@@ -452,6 +452,11 @@ static int32_t do_requested_path()
 		for (uint8_t i = 0; i < 3; i++)
 			vtol_hold_position_ned[i] = vtol_fsm_path_desired.End[i];
 		return do_land();
+	case PATHDESIRED_MODE_HOLDPOSITION:
+	case PATHDESIRED_MODE_FLYENDPOINT:
+		for (uint8_t i = 0; i < 3; i++)
+			vtol_hold_position_ned[i] = vtol_fsm_path_desired.End[i];
+		return do_hold();
 	default:
 		return do_path();
 	}

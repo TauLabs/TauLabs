@@ -239,7 +239,7 @@ static void checkTerminationCondition()
 static void holdCurrentPosition()
 {
 	// TODO: Define a separate error condition method which can select RTH versus PH
-		PositionActualData position;
+	PositionActualData position;
 	PositionActualGet(&position);
 
 	PathDesiredData pathDesired;
@@ -250,12 +250,40 @@ static void holdCurrentPosition()
 	pathDesired.End[PATHDESIRED_END_EAST] = position.East;
 	pathDesired.End[PATHDESIRED_END_DOWN] = position.Down;
 	pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
-	pathDesired.StartingVelocity = 0;
-	pathDesired.EndingVelocity = 0;
+	pathDesired.StartingVelocity = 5; // This will be the max velocity it uses to try and hold
+	pathDesired.EndingVelocity = 5;
 	pathDesired.ModeParameters = 0;
 	PathDesiredSet(&pathDesired);
 }
 
+/**
+ * Initial position hold at current position.  This is used at the end
+ * of a path or in the case of a problem.
+ */
+static void holdLastPosition()
+{
+	uint32_t idx = UAVObjGetNumInstances(WaypointHandle());
+
+	// Get the activated waypoint
+	WaypointData waypoint;
+	WaypointInstGet(idx, &waypoint);
+
+	PositionActualData position;
+	PositionActualGet(&position);
+
+	PathDesiredData pathDesired;
+	pathDesired.Start[PATHDESIRED_START_NORTH] = position.North;
+	pathDesired.Start[PATHDESIRED_START_EAST] = position.East;
+	pathDesired.Start[PATHDESIRED_START_DOWN] = position.Down;
+	pathDesired.End[PATHDESIRED_END_NORTH] = waypoint.Position[WAYPOINT_POSITION_NORTH];
+	pathDesired.End[PATHDESIRED_END_EAST] = waypoint.Position[WAYPOINT_POSITION_EAST];
+	pathDesired.End[PATHDESIRED_END_DOWN] = waypoint.Position[WAYPOINT_POSITION_DOWN];
+	pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
+	pathDesired.StartingVelocity = 5; // This will be the max velocity it uses to try and hold
+	pathDesired.EndingVelocity = 5;
+	pathDesired.ModeParameters = 0;
+	PathDesiredSet(&pathDesired);
+}
 /**
  * Increment the waypoint index which triggers the active waypoint method
  */
@@ -274,10 +302,7 @@ static void advanceWaypoint()
 	waypointActive.Index++;
 
 	if (waypointActive.Index >= UAVObjGetNumInstances(WaypointHandle())) {
-		holdCurrentPosition();
-
-		// Do not reset path_status_updated here to avoid this method constantly being called
-		return;
+		holdLastPosition();
 	} else {
 		WaypointActiveSet(&waypointActive);
 	}

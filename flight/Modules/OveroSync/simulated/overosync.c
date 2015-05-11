@@ -168,7 +168,7 @@ static void overoSyncTask(void *parameters)
 	uint32_t lastUpdateTime = PIOS_Thread_Systime();
 	uint32_t updateTime;
 	
-	fid = fopen("sim_log.opl", "w");
+	fid = fopen("sim_log.tll", "w");
 
 	// Loop forever
 	while (1) {
