@@ -196,10 +196,8 @@ help:
 	@echo "     ut_<test>_run        - Run test and dump TAP output to console"
 	@echo
 	@echo "   [Simulation]"
-	@echo "     sim_<os>_<board>     - Build host simulation firmware for <os> and <board>"
-	@echo "                            supported tuples are:"
-	@echo "                               sim_posix_revolution"
-	@echo "     sim_<os>_<board>_clean - Delete all build output for the simulation"
+	@echo "     simulation           - Build host simulation firmware
+	@echo "     simulation_clean     - Delete all build output for the simulation"
 	@echo
 	@echo "   [GCS]"
 	@echo "     gcs                  - Build the Ground Control System (GCS) application"
@@ -563,6 +561,10 @@ OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 # $(3) = Short name for board (e.g. CC)
 # $(4) = Host sim variant (e.g. posix)
 # $(5) = Build output type (e.g. elf, exe)
+
+.PHONY: simulation
+simulation: sim_posix_simulation
+
 define SIM_TEMPLATE
 .PHONY: sim_$(4)_$(1)
 sim_$(4)_$(1): sim_$(4)_$(1)_$(5)
@@ -842,9 +844,9 @@ EF_BOARDS  := $(ALL_BOARDS)
 
 # Sim targets are different for each host OS
 ifeq ($(UNAME), Linux)
-SIM_BOARDS := sim_posix_revolution
+SIM_BOARDS := sim_posix_simulation
 else ifeq ($(UNAME), Darwin)
-SIM_BOARDS := sim_posix_revolution
+SIM_BOARDS := sim_posix_simulation
 else ifdef WINDOWS
 SIM_BOARDS := 
 else # unknown OS
@@ -897,7 +899,7 @@ $(foreach board, $(BL_BOARDS), $(eval $(call BL_TEMPLATE,$(board),$($(board)_cpu
 $(foreach board, $(EF_BOARDS), $(eval $(call EF_TEMPLATE,$(board),$($(board)_friendly),$($(board)_short))))
 
 # Expand the available simulator rules
-$(eval $(call SIM_TEMPLATE,revolution,Revolution,'revo',posix,elf))
+$(eval $(call SIM_TEMPLATE,simulation,Simulation,'sim ',posix,elf))
 
 ##############################
 #
