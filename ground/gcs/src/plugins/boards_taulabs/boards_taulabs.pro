@@ -14,6 +14,7 @@ HEADERS += \
     sparky.h \
     sparkybgc.h \
     sparkybgcconfiguration.h \
+    sparky2.h \
     taulink.h
 
 SOURCES += \
@@ -22,6 +23,7 @@ SOURCES += \
     sparky.cpp \
     sparkybgc.cpp \
     sparkybgcconfiguration.cpp \
+    sparky2.cpp \
     taulink.cpp
 
 RESOURCES += \

@@ -1,0 +1,91 @@
+<xml>
+	<object name="HwSparky2" singleinstance="true" settings="true" category="HardwareSettings">
+		<description>Selection of optional hardware configurations.</description>
+
+		<field name="RcvrPort" units="function" type="enum" elements="1" defaultvalue="Disabled">
+		<options>
+			<option>Disabled</option>
+			<option>PPM</option>
+			<option>S.Bus</option>
+			<option>DSM</option>
+			<option>HoTT SUMD</option>
+			<option>HoTT SUMH</option>
+		</options>
+		</field>
+
+		<!-- Note that when either serial port is set to telemetry it will block the radio port -->
+
+		<field name="MainPort" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>GPS</option>
+				<option>DSM</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+				<option>HoTT Telemetry</option>
+				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
+			</options>
+		</field>
+		<field name="FlexiPort" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>GPS</option>
+				<option>I2C</option>
+				<option>DSM</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+				<option>HoTT Telemetry</option>
+				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
+			</options>
+		</field>
+
+		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
+		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
+
+		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
+
+		<!-- select the function for the radio port -->
+		<!--  1. Telem - telemetry connection -->
+		<!--  2. Telem+PPM - telemetry and ppm -->
+		<!--  3. PPM - PPM only (one way connection) -->
+		<field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,Telem+PPM,PPM,OpenLRS" defaultvalue="Disabled"/>
+		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
+		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
+
+		<!-- radio settings -->
+		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" options="9600,19200,32000,64000,100000,192000" defaultvalue="64000"/>
+		<field name="MaxRfPower" units="mW" type="enum" elements="1" options="0,1.25,1.6,3.16,6.3,12.6,25,50,100" defaultvalue="1.25"/>
+		<field name="MinChannel" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="MaxChannel" units="" type="uint8" elements="1" defaultvalue="250"/>
+
+		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="2000"/>
+		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
+		<field name="MPU9250Rate" units="Hz" type="enum" elements="1" options="200,250,333,500,1000" defaultvalue="500"/>
+		<field name="MPU9250GyroLPF" units="Hz" type="enum" elements="1" options="250,184,92,41,20,10,5" defaultvalue="184"/>
+		<field name="MPU9250AccelLPF" units="Hz" type="enum" elements="1" options="460,184,92,41,20,10,5" defaultvalue="184"/>
+
+		<field name="VTX_Ch" units="Hz" type="enum" elements="1" options="1,2,3,4,5,6,7,8" defaultvalue="1"/>
+
+		<field name="Magnetometer" units="function" type="enum" elements="1" options="Internal,ExternalI2CFlexiPort,ExternalAuxI2C" defaultvalue="Internal"/>
+		<field name="ExtMagOrientation" units="function" type="enum" elements="1" options="Top0degCW,Top90degCW,Top180degCW,Top270degCW,Bottom0degCW,Bottom90degCW,Bottom180degCW,Bottom270degCW" defaultvalue="Top0degCW" />
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+    </object>
+</xml>

@@ -13,7 +13,7 @@ endef
 VERNUM				:= 0.1.0
 VERSION_FULL		:= $(VERNUM)-$(PACKAGE_LBL)
 
-FLIGHT_FW			:= coptercontrol revolution sparky sparkybgc freedom revomini pipxtreme quanton flyingf3
+FLIGHT_FW			:= coptercontrol revolution sparky sparky2 sparkybgc freedom revomini pipxtreme quanton flyingf3
 
 DEB_BUILD_DIR		:= $(ROOT_DIR)/debian
 
