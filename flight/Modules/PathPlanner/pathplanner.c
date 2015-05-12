@@ -264,7 +264,7 @@ static void holdLastPosition()
 
 	// Get the activated waypoint
 	WaypointData waypoint;
-	WaypointInstGet(idx, &waypoint);
+	WaypointInstGet(idx-1, &waypoint);
 
 	PositionActualData position;
 	PositionActualGet(&position);
