@@ -53,7 +53,6 @@ OPTMODULES += PathPlanner
 OPTMODULES += VtolPathFollower
 OPTMODULES += FixedWingPathFollower
 OPTMODULES += GroundPathFollower
-OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
@@ -63,6 +62,10 @@ OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += UAVOFrSKYSPortBridge
 OPTMODULES += Geofence
+
+# The following modules are disabled in the default compile
+# to save memory.
+#OPTMODULES += VibrationAnalysis
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
