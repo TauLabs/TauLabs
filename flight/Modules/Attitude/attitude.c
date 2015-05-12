@@ -1053,11 +1053,11 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	      (gps_init_usable || !outdoor_mode)) {
 
 		INSGPSInit();
-		INSSetMagVar(insSettings.mag_var);
-		INSSetAccelVar(insSettings.accel_var);
-		INSSetGyroVar(insSettings.gyro_var);
-		INSSetBaroVar(insSettings.baro_var);
-		INSSetPosVelVar(insSettings.gps_var[INSSETTINGS_GPS_VAR_POS], insSettings.gps_var[INSSETTINGS_GPS_VAR_VEL], insSettings.gps_var[INSSETTINGS_GPS_VAR_VERTPOS]);
+		INSSetMagVar(insSettings.MagVar);
+		INSSetAccelVar(insSettings.AccelVar);
+		INSSetGyroVar(insSettings.GyroVar);
+		INSSetBaroVar(insSettings.BaroVar);
+		INSSetPosVelVar(insSettings.GpsVar[INSSETTINGS_GPSVAR_POS], insSettings.GpsVar[INSSETTINGS_GPSVAR_VEL], insSettings.GpsVar[INSSETTINGS_GPSVAR_VERTPOS]);
 
 		// Initialize the gyro bias from the settings
 		float gyro_bias[3] = {gyrosBias.x * DEG2RAD, gyrosBias.y * DEG2RAD, gyrosBias.z * DEG2RAD};
@@ -1425,10 +1425,10 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 	if (ev == NULL || ev->obj == INSSettingsHandle()) {
 		INSSettingsGet(&insSettings);
 		// In case INS currently running
-		INSSetMagVar(insSettings.mag_var);
-		INSSetAccelVar(insSettings.accel_var);
-		INSSetGyroVar(insSettings.gyro_var);
-		INSSetBaroVar(insSettings.baro_var);
+		INSSetMagVar(insSettings.MagVar);
+		INSSetAccelVar(insSettings.AccelVar);
+		INSSetGyroVar(insSettings.GyroVar);
+		INSSetBaroVar(insSettings.BaroVar);
 	}
 	if(ev == NULL || ev->obj == HomeLocationHandle()) {
 		uint8_t armed;
