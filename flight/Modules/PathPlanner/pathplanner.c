@@ -280,6 +280,7 @@ static void holdLastPosition()
 	pathDesired.StartingVelocity = 5; // This will be the max velocity it uses to try and hold
 	pathDesired.EndingVelocity = 5;
 	pathDesired.ModeParameters = 0;
+	pathDesired.Waypoint = -1;
 	PathDesiredSet(&pathDesired);
 }
 /**
