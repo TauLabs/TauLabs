@@ -9,6 +9,8 @@ import argparse
 import errno
 import code
 import struct
+import time
+from taulabs import uavo, telemetry, uavo_collection
 
 #-------------------------------------------------------------------------------
 USAGE = "%(prog)s"
@@ -33,28 +35,34 @@ def main():
     # Parse the command-line.
     args = parser.parse_args()
 
-    githash = "next"
+    githash = None
     if args.githash is not None:
         githash = args.githash
 
-    import taulabs
-    uavo_defs = taulabs.uavo_collection.UAVOCollection()
-    uavo_defs.from_git_hash(githash)
-    uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
-
-    # Expose the UAVO types to the local workspace
-    uavo_classes = [(t[0], t[1]) for t in taulabs.uavo.__dict__.iteritems() if 'UAVO_' in t[0]]
-    locals().update(uavo_classes)
+    uavo_defs = uavo_collection.UAVOCollection()
+    if githash:
+        uavo_defs.from_git_hash(githash)
+    else:
+        uavo_defs.from_uavo_xml_path("../shared/uavobjectdefinition")
 
     print "Found %d unique UAVO definitions" % len(uavo_defs)
 
-    parser = taulabs.uavtalk.UavTalk(uavo_defs)
-    telemetry = taulabs.telemetry.Telemetry(parser)
+    tStream = telemetry.Telemetry(uavo_defs)
+    tStream.open_network()
 
-    telemetry.open_network()
+#    tStream = telemetry.Telemetry(uavo_defs, serviceInIter=False)
+#    tStream.open_network()
+#    tStream.start_thread()
 
-    while True:
-        telemetry.serviceConnection()
+
+#    print settingsObjs
+#    print tStream.get_last_values()
+#    print [v for (k,v) in tStream.get_last_values().iteritems() 
+#                if k in settingsObjs]
+
+    for obj in tStream:
+        print obj
+        pass
 
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":

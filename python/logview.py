@@ -44,6 +44,12 @@ def main():
                         dest    = "viewer",
                         help    = "launch the log viewer gui")
 
+    parser.add_argument("-d", "--dumptext",
+                        action = 'store_true',
+                        default = False,
+                        dest = "dumptext",
+                        help = "dump the log file in text")
+
     parser.add_argument("sources",
                         nargs = "+",
                         help  = "list of log files for processing")
@@ -57,46 +63,34 @@ def main():
 
         # Open the log file
         src = normalize_path(src)
-        import cPickle as pickle
-        try:
-            pickle_name = src + '.pickle'
-            pickle_fd = open(pickle_name, 'rb')
-            githash = pickle.load(pickle_fd)
-            uavo_parsed = pickle.load(pickle_fd)
-            pickle_fd.close()
-            print "Recovered %d log entries from git hash '%s' pickled log file '%s'" % (len(uavo_parsed), githash, pickle_name)
-            pickle_data_loaded = True
-        except:
-            pickle_data_loaded = False
 
-        if not pickle_data_loaded:
-            fd  = open(src, "rb")
+        fd  = open(src, "rb")
 
-            if args.githash is not None:
-                githash = args.githash
-            else:
-                # If we specify the log header no need to attempt to parse it
+        if args.githash is not None:
+            githash = args.githash
+        else:
+            # If we specify the log header no need to attempt to parse it
 
-                # Check the header signature
-                #    First line is "Tau Labs git hash:"
-                #    Second line is the actual git hash
-                #    Third line is the UAVO hash
-                #    Fourth line is "##"
-                sig = fd.readline()
-                if sig != 'Tau Labs git hash:\n':
-                    print "Source file does not have a recognized header signature"
-                    print '|' + sig + '|'
-                    sys.exit(2)
-                # Determine the git hash that this log file is based on
-                githash = fd.readline()[:-1]
-                if githash.find(':') != -1:
-                    import re
-                    githash = re.search(':(\w*)\W', githash).group(1)
+            # Check the header signature
+            #    First line is "Tau Labs git hash:"
+            #    Second line is the actual git hash
+            #    Third line is the UAVO hash
+            #    Fourth line is "##"
+            sig = fd.readline()
+            if sig != 'Tau Labs git hash:\n':
+                print "Source file does not have a recognized header signature"
+                print '|' + sig + '|'
+                sys.exit(2)
+            # Determine the git hash that this log file is based on
+            githash = fd.readline()[:-1]
+            if githash.find(':') != -1:
+                import re
+                githash = re.search(':(\w*)\W', githash).group(1)
 
-                print "Log file is based on git hash: %s" % githash
+            print "Log file is based on git hash: %s" % githash
 
-                uavohash = fd.readline()
-                divider = fd.readline()
+            uavohash = fd.readline()
+            divider = fd.readline()
 
         print "Exporting UAVO XML files from git repo"
 
@@ -105,78 +99,35 @@ def main():
         uavo_defs.from_git_hash(githash)
 
         print "Found %d unique UAVO definitions" % len(uavo_defs)
-        parser = taulabs.uavtalk.UavTalk(uavo_defs)
+        parser = taulabs.uavtalk.processStream(uavo_defs,
+                logTimestamps=args.timestamped)
+        parser.send(None)
 
         base_time = None
 
-        if not pickle_data_loaded:
-            print "Parsing using the LogFormat: " + `args.timestamped`
-            print "Reading log file..."
-            uavo_parsed = []
-            while fd:
-                try:
-                    if args.timestamped and parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
-                        # This logging format is somewhat of a hack and simply prepends additional
-                        # information in front of each UAVTalk packet.  We look for this information
-                        # whenever the parser has completed a packet. Note that there is no checksum
-                        # applied to this information so it can be totally messed up, especially if 
-                        # there is a frame shift error. The internal timestamping method of UAVTalk is
-                        # a much better idea.
-
-                        from collections import namedtuple
-                        LogHeader = namedtuple('LogHeader', 'time size')
-
-                        # Read the next log record header
-                        log_hdr_fmt = "<IQ"
-                        log_hdr_data = fd.read(struct.calcsize(log_hdr_fmt))
-
-                        # Check if we hit the end of the file
-                        if len(log_hdr_data) == 0:
-                            # Normal End of File (EOF) at a record boundary
-                            break
-
-                        # Got a log record header.  Unpack it.
-                        log_hdr = LogHeader._make(struct.unpack(log_hdr_fmt, log_hdr_data))
-
-                        # Set the baseline timestamp from the first record in the log file
-                        if base_time is None:
-                            base_time = log_hdr.time
-
-
-                    parser.processByte(ord(fd.read(1)))
-
-                    if parser.state == taulabs.uavtalk.UavTalk.STATE_COMPLETE:
-                        if args.timestamped:
-                            u  = parser.getLastReceivedObject(timestamp=log_hdr.time)
-                        else:
-                            u  = parser.getLastReceivedObject()
-                        if u is not None:
-                            uavo_parsed.append(u)
-
-                except TypeError:
-                    print "End of file"
-                    break
-
-            fd.close()
-
-            print "Processed %d Log File Records" % len(uavo_parsed)
-
-            print "Writing pickled log file to '%s'" % pickle_name
-            import cPickle as pickle
-            pickle_fd = open(pickle_name, 'wb')
-            pickle.dump(githash, pickle_fd)
-            pickle.dump(uavo_parsed, pickle_fd)
-            pickle_fd.close()
-
-        print "Converting log records into python objects"
+        print "Parsing using the LogFormat: " + `args.timestamped`
+        print "Reading log file..."
         uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
-        for obj_id, data, timestamp in uavo_parsed:
-            obj = uavo_defs[obj_id]
-            u = obj.instance_from_bytes(data, timestamp)
-            uavo_list.append(u)
 
-        # We're done with this (potentially very large) variable, delete it.
-        del uavo_parsed
+        while True:
+            data = fd.read(128)
+
+            if data == '':
+                print "End of file"
+                break
+
+            obj = parser.send(data)
+
+            while obj is not None:
+                if not base_time:
+                    base_time = obj.time
+
+                uavo_list.append(obj)
+                obj = parser.send('')
+
+        fd.close()
+
+        print "Processed %d Log File Records" % len(uavo_list)
 
         # Build a new module that will make up the global namespace for the
         # interactive shell.  This allows us to restrict what the ipython shell sees.
@@ -211,6 +162,9 @@ def main():
             main.show()
             main.plot(uavo_list, uavo_defs)
             sys.exit(app.exec_())
+	elif args.dumptext:
+            for obj in uavo_list:
+                print obj
         else:
             # Instantiate an ipython shell to interact with the log data.
             import IPython
@@ -218,6 +172,9 @@ def main():
             e = InteractiveShellEmbed(user_ns = user_ns, user_module = user_module)
             e.enable_pylab(import_all = True)
             e("Analyzing log file: %s" % src)
+
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":
+    #import cProfile
+    #cProfile.run('main()')
     main()
