@@ -41,7 +41,7 @@ static const struct pios_servo_cfg * servo_cfg;
 static uint8_t *output_timer_frequency_scaler;
 #if defined(PIOS_INCLUDE_HPWM)
 #define HiresFrequency 12000000
-#define HiresMinPeriod 500
+#define HiresMinSpeed 500
 #define HiresFlag 0x80
 #define OneShotFlag 0x40
 #endif
@@ -133,7 +133,7 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 			output_timer_frequency_scaler[i] = 0; // Scaling applied to frequency in order to bring the period into unsigned 16-bit integer range
 
 #if defined(PIOS_INCLUDE_HPWM)
-			if (speeds[set] == 0 || speeds[set] >= HiresMinPeriod) {
+			if (speeds[set] == 0 || speeds[set] >= HiresMinSpeed) {
 				output_timer_frequency = HiresFrequency;
 			}
 #endif
