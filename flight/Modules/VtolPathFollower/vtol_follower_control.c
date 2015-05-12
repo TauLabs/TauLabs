@@ -201,6 +201,9 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	VelocityActualData velocityActual;
 	VelocityActualGet(&velocityActual);
 
+	PathStatusData pathStatus;
+	PathStatusGet(&pathStatus);
+
 	const float cur_pos_ned[3] = {
 		positionActual.North +
 		    velocityActual.North*guidanceSettings.PositionFeedforward,
@@ -209,43 +212,43 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 		positionActual.Down };
 
 	path_progress(pathDesired, cur_pos_ned, progress);
-	
-	// Interpolate desired velocity and altitude along the path
-	float groundspeed = vtol_interpolate(progress->fractional_progress,
-	    pathDesired->StartingVelocity, pathDesired->EndingVelocity);
 
-	if (progress->fractional_progress >= 1)
-		groundspeed = 0;
+	// Check if we have already completed this leg
+	bool current_leg_completed = 
+		(pathStatus.Status == PATHSTATUS_STATUS_COMPLETED) &&
+		(pathStatus.Waypoint == pathDesired->Waypoint);
 
-	float altitudeSetpoint = vtol_interpolate(progress->fractional_progress,
-	    pathDesired->Start[2], pathDesired->End[2]);
-
-	float commands_ned[3];
-
-	float downError = altitudeSetpoint - positionActual.Down;
-	commands_ned[2] = pid_apply_antiwindup(&vtol_pids[DOWN_POSITION], downError,
-		-guidanceSettings.VerticalVelMax, guidanceSettings.VerticalVelMax, dT);
-
-	// Update the path status UAVO
-	PathStatusData pathStatus;
-	PathStatusGet(&pathStatus);
 	pathStatus.fractional_progress = progress->fractional_progress;
 	pathStatus.error = progress->error;
 	pathStatus.Waypoint = pathDesired->Waypoint;
 
-	// Only if we are at the end, and above the end altitude, are we
-	// done.
-	if ((pathStatus.fractional_progress < 1) ||
-		(downError < -guidanceSettings.EndpointRadius)) {
-		pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
-	} else {
-		pathStatus.Status = PATHSTATUS_STATUS_COMPLETED;
-	}
-	PathStatusSet(&pathStatus);
+	// Determine if we hit criterion to finish this leg
+	const float altitudeSetpoint = vtol_interpolate(progress->fractional_progress,
+	    pathDesired->Start[2], pathDesired->End[2]);
+	const float downError = altitudeSetpoint - positionActual.Down;
+	// TODO: make optional and make separate parametric error
+	const bool criterion_altitude = downError > -guidanceSettings.EndpointRadius;
 
-	if (groundspeed == 0) {
-		return vtol_follower_control_simple(dT, pathDesired->End, 0, 1);
+	// If leg is completed signal this
+	if (current_leg_completed || pathStatus.fractional_progress > 1.0f) {
+
+		// Once we complete leg and hit altitude criterion signal this
+		// waypoint is done
+		if (criterion_altitude) {
+			pathStatus.Status = PATHSTATUS_STATUS_COMPLETED;
+			PathStatusSet(&pathStatus);
+		} else {
+			pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
+			PathStatusSet(&pathStatus);
+		}
+
+		// Wait here for new path segment
+		return vtol_follower_control_simple(dT, pathDesired->End, false, false);
 	}
+	
+	// Interpolate desired velocity and altitude along the path
+	float groundspeed = vtol_interpolate(progress->fractional_progress,
+	    pathDesired->StartingVelocity, pathDesired->EndingVelocity);
 
 	float error_speed = vtol_deadband(progress->error,
 		guidanceSettings.PathDeadbandWidth,
@@ -254,6 +257,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	    guidanceSettings.HorizontalPosPI[VTOLPATHFOLLOWERSETTINGS_HORIZONTALPOSPI_KP];
 
 	/* Sum the desired path movement vector with the correction vector */
+	float commands_ned[3];
 	commands_ned[0] = progress->path_direction[0] * groundspeed +
 	    progress->correction_direction[0] * error_speed;
 	
@@ -263,13 +267,18 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	/* Limit the total velocity based on the configured value. */
 	vtol_limit_velocity(commands_ned, guidanceSettings.HorizontalVelMax);
 
-	VelocityDesiredData velocityDesired;
+	commands_ned[2] = pid_apply_antiwindup(&vtol_pids[DOWN_POSITION], downError,
+		-guidanceSettings.VerticalVelMax, guidanceSettings.VerticalVelMax, dT);
 
+	VelocityDesiredData velocityDesired;
+	VelocityDesiredGet(&velocityDesired);
 	velocityDesired.North = commands_ned[0];
 	velocityDesired.East = commands_ned[1];
 	velocityDesired.Down = commands_ned[2];
-
 	VelocityDesiredSet(&velocityDesired);
+
+	pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
+	PathStatusSet(&pathStatus);
 
 	return 0;
 }
