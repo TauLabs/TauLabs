@@ -225,19 +225,23 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	pathStatus.error = progress->error;
 	pathStatus.Waypoint = pathDesired->Waypoint;
 
-	// Determine if we hit criterion to finish this leg
+	// Figure out how low (high) we should be and the error
 	const float altitudeSetpoint = vtol_interpolate(progress->fractional_progress,
 	    pathDesired->Start[2], pathDesired->End[2]);
 	const float downError = altitudeSetpoint - positionActual.Down;
-	// TODO: make optional and make separate parametric error
-	const bool criterion_altitude = downError > -guidanceSettings.EndpointRadius;
 
 	// If leg is completed signal this
 	if (current_leg_completed || pathStatus.fractional_progress > 1.0f) {
+		const bool criterion_altitude =
+			downError > -guidanceSettings.WaypointAltitudeTol;
 
 		// Once we complete leg and hit altitude criterion signal this
-		// waypoint is done
-		if (criterion_altitude) {
+		// waypoint is done.  Or if we're not controlling throttle,
+		// ignore height for completion.
+
+		// Waypoint heights are thus treated as crossing restrictions-
+		// cross this point at or above...
+		if (criterion_altitude || (!guidanceSettings.ThrottleControl)) {
 			pathStatus.Status = PATHSTATUS_STATUS_COMPLETED;
 			PathStatusSet(&pathStatus);
 		} else {

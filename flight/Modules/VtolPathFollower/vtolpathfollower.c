@@ -159,7 +159,6 @@ static void vtolPathFollowerTask(void *parameters)
 
 		// Continue collecting data if not enough time
 		PIOS_Thread_Sleep_Until(&lastUpdateTime, guidanceSettings.UpdatePeriod);
-		
 		static uint8_t last_flight_mode;
 		FlightStatusGet(&flightStatus);
 
