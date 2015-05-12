@@ -107,7 +107,7 @@ def main():
 
         print "Parsing using the LogFormat: " + `args.timestamped`
         print "Reading log file..."
-        uavo_list = []
+        uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
 
         while True:
             data = fd.read(128)
