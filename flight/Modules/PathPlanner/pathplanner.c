@@ -354,7 +354,7 @@ static void activateWaypoint(int idx)
 			break;
 		case WAYPOINT_MODE_LAND:
 			pathDesired.Mode = PATHDESIRED_MODE_LAND;
-		break;
+			break;
 		default:
 			holdCurrentPosition();
 			AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);

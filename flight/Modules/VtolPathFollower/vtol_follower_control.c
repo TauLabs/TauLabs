@@ -129,8 +129,9 @@ static void vtol_calculate_distances(const float *actual,
  *
  * if mag(vels) > limit, vels=vels / mag(vels) * limit
  */
-static void vtol_limit_velocity(float *vels, float limit) {
-	float mag=vtol_magnitude(vels, 2);	// only horiz component
+static void vtol_limit_velocity(float *vels, float limit)
+{
+	float mag = vtol_magnitude(vels, 2);	// only horiz component
 	float scale = mag / limit;
 
 	if (scale > 1) {
@@ -153,7 +154,8 @@ static void vtol_limit_velocity(float *vels, float limit) {
  * calculates a cubic function within the deadband which has a low slope
  * within the middle, but unity slope at the edge.
  */
-static float vtol_deadband(float in, float w, float b, float m, float r) {
+static float vtol_deadband(float in, float w, float b, float m, float r)
+{
 	// First get the nice linear bits -- outside the deadband-- out of
 	// the way.
 	if (in <= -w) {
@@ -173,7 +175,8 @@ static float vtol_deadband(float in, float w, float b, float m, float r) {
  * @param[out] m cubic weighting of function
  * @param[out] integrated response at in=w
  */
-static void vtol_deadband_setup(float w, float b, float *m, float *r) {
+static void vtol_deadband_setup(float w, float b, float *m, float *r)
+{
 	/* So basically.. we want the function to be tangent to the
 	** linear sections-- have a slope of 1-- at -w and w.  In the
 	** middle we want a slope of b.   So the cube here does all the
@@ -206,9 +209,9 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 
 	const float cur_pos_ned[3] = {
 		positionActual.North +
-		    velocityActual.North*guidanceSettings.PositionFeedforward,
+		    velocityActual.North * guidanceSettings.PositionFeedforward,
 		positionActual.East +
-		    velocityActual.East*guidanceSettings.PositionFeedforward,
+		    velocityActual.East * guidanceSettings.PositionFeedforward,
 		positionActual.Down };
 
 	path_progress(pathDesired, cur_pos_ned, progress);
@@ -283,6 +286,13 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	return 0;
 }
 
+/**
+ * Controller to maintain/seek a position and optionally descend.
+ * @param[in] dT time since last eval
+ * @param[in] hold_pos_ned a position to hold
+ * @param[in] landing whether to descend
+ * @param[in] update_status does this update path_status, or does somoene else?
+ */
 static int32_t vtol_follower_control_simple(const float dT,
 	const float *hold_pos_ned, bool landing, bool update_status) {
 	PositionActualData positionActual;
@@ -297,25 +307,34 @@ static int32_t vtol_follower_control_simple(const float dT,
 	/* Where would we be in ___ second at current rates? */	
 	const float cur_pos_ned[3] = {
 		positionActual.North +
-		    velocityActual.North*guidanceSettings.PositionFeedforward,
+		    velocityActual.North * guidanceSettings.PositionFeedforward,
 		positionActual.East +
-		    velocityActual.East*guidanceSettings.PositionFeedforward,
+		    velocityActual.East * guidanceSettings.PositionFeedforward,
 		positionActual.Down };
 
 	float errors_ned[3];
 
+	/* Calculate the difference between where we want to be and the
+	 * above position */
 	vtol_calculate_distances(cur_pos_ned, hold_pos_ned, errors_ned, 0);
 
 	float horiz_error_mag = vtol_magnitude(errors_ned, 2);
-	float scale_horiz_error_mag;
+	float scale_horiz_error_mag = 0;
 
+	/* Apply a cubic deadband; if we are already really close don't work
+	 * as hard to fix it as if we're far away.  Prevents chasing high
+	 * frequency noise in direction of correction.
+	 *
+	 * That is, when we're far, noise in estimated position mostly results
+	 * in noise/dither in how fast we go towards the target.  When we're
+	 * close, there's a large directional / hunting component.  This
+	 * attenuates that.
+	 */
 	if (horiz_error_mag > 0.00001f) {
 		scale_horiz_error_mag = vtol_deadband(horiz_error_mag,
 			guidanceSettings.EndpointDeadbandWidth,
 			guidanceSettings.EndpointDeadbandCenterGain,
 			vtol_end_m, vtol_end_r) / horiz_error_mag;
-	} else {
-		scale_horiz_error_mag = 0;
 	}
 
 	float damped_ne[2] = { errors_ned[0] * scale_horiz_error_mag,
@@ -380,7 +399,7 @@ static int32_t vtol_follower_control_simple(const float dT,
  */
 int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned)
 {
-	return vtol_follower_control_simple(dT, hold_pos_ned, 0, 1);
+	return vtol_follower_control_simple(dT, hold_pos_ned, false, true);
 }
 
 /**
@@ -396,7 +415,7 @@ int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned
 int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
 	bool *landed)
 {
-	return vtol_follower_control_simple(dT, hold_pos_ned, 1, 1);
+	return vtol_follower_control_simple(dT, hold_pos_ned, false, true);
 }
 
 /**
