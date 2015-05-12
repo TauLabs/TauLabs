@@ -87,7 +87,8 @@ static float vtol_interpolate(const float fraction, const float beginVal,
  * Note that sometimes we only take the magnitude of the first 2 elements
  * of a 3-vector to get the horizontal component.
  */
-static float vtol_magnitude(const float *v, int n) {
+static float vtol_magnitude(const float *v, int n)
+{
 	float sum=0;
 
 	for (int i=0; i<n; i++) {
@@ -105,7 +106,8 @@ static float vtol_magnitude(const float *v, int n) {
  * @param[in] normalize True if it's desired to normalize the output vector
  */
 static void vtol_calculate_distances(const float *actual,
-	const float *desired, float *out, bool normalize) {
+	const float *desired, float *out, bool normalize)
+{
 	out[0] = desired[0] - actual[0];
 	out[1] = desired[1] - actual[1];
 	out[2] = desired[2] - actual[2];
@@ -228,12 +230,14 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	// Figure out how low (high) we should be and the error
 	const float altitudeSetpoint = vtol_interpolate(progress->fractional_progress,
 	    pathDesired->Start[2], pathDesired->End[2]);
+
 	const float downError = altitudeSetpoint - positionActual.Down;
 
 	// If leg is completed signal this
 	if (current_leg_completed || pathStatus.fractional_progress > 1.0f) {
 		const bool criterion_altitude =
-			downError > -guidanceSettings.WaypointAltitudeTol;
+			(downError > -guidanceSettings.WaypointAltitudeTol) ||
+			(!guidanceSettings.ThrottleControl);
 
 		// Once we complete leg and hit altitude criterion signal this
 		// waypoint is done.  Or if we're not controlling throttle,
@@ -241,7 +245,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 
 		// Waypoint heights are thus treated as crossing restrictions-
 		// cross this point at or above...
-		if (criterion_altitude || (!guidanceSettings.ThrottleControl)) {
+		if (criterion_altitude) {
 			pathStatus.Status = PATHSTATUS_STATUS_COMPLETED;
 			PathStatusSet(&pathStatus);
 		} else {
@@ -376,10 +380,12 @@ static int32_t vtol_follower_control_simple(const float dT,
 		uint8_t path_status = PATHSTATUS_STATUS_INPROGRESS;
 
 		if (!landing) {
+			const bool criterion_altitude =
+				(errors_ned[2]> -guidanceSettings.WaypointAltitudeTol) || (!guidanceSettings.ThrottleControl);
+
 			// Indicate whether we are in radius of this endpoint
 			// And at/above the altitude requested
-			if ((vtol_magnitude(errors_ned, 2) < guidanceSettings.EndpointRadius) &&
-			    (errors_ned[2] > -guidanceSettings.EndpointRadius)) {
+			if ((vtol_magnitude(errors_ned, 2) < guidanceSettings.EndpointRadius) && criterion_altitude) {
 				path_status = PATHSTATUS_STATUS_COMPLETED;
 			}
 		}  // landing never terminates.
