@@ -19,10 +19,6 @@ DESC  = """
 """
 
 #-------------------------------------------------------------------------------
-def normalize_path(path):
-    return os.path.normpath(os.path.join(os.getcwd(), path))
-
-#-------------------------------------------------------------------------------
 def main():
     # Setup the command line arguments.
     parser = argparse.ArgumentParser(usage = USAGE, description = DESC)

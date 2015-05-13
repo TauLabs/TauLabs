@@ -1,3 +1,7 @@
+#!/usr/bin/python
+
+from numpy import *
+from matplotlib.pylab import *
 
 def mag_calibration(mag,gyros=None,LH=200,LV=500):
 	""" Calibrates the magnetometer data by fitting it to a sphere,
@@ -12,7 +16,6 @@ def mag_calibration(mag,gyros=None,LH=200,LV=500):
 		""" return the indicies in the magnetometer data when
 		the gyro indicates it is spinning on the z axis """
 
-		import numpy
 		import scipy.signal
 		from matplotlib.mlab import find
 
@@ -98,3 +101,16 @@ def mag_calibration(mag,gyros=None,LH=200,LV=500):
 	matplotlib.pyplot.plot(sqrt(cor_x**2+cor_y**2+cor_z**2))
 
 	return res, cor_x, cor_y, cor_z
+
+def main():
+	from taulabs import telemetry,uavo
+
+	uavo_list = telemetry.GetUavoBasedOnArgs()
+
+	print mag_calibration(uavo_list.as_numpy_array(uavo.UAVO_Magnetometer), uavo_list.as_numpy_array(uavo.UAVO_Gyros))
+
+	# Wait for user to close window.
+        matplotlib.pyplot.show()
+
+if __name__ == "__main__":
+	main()
