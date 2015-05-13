@@ -97,6 +97,8 @@ private:
 
     //! Get the current home location
     bool getHomeLocation(double *homeLLA) const;
+    //! Set the current home location
+    bool setHomeLocation(double *homeLLA);
 };
 
 #endif // FlightDataModel_H
