@@ -10,6 +10,8 @@ import errno
 import code
 import struct
 
+import taulabs.telemetry
+
 #-------------------------------------------------------------------------------
 USAGE = "%(prog)s [logfile...]"
 DESC  = """
@@ -64,70 +66,28 @@ def main():
         # Open the log file
         src = normalize_path(src)
 
-        fd  = open(src, "rb")
+        parseHeader = False
+        githash = None
 
         if args.githash is not None:
+            # If we specify the log header no need to attempt to parse it
             githash = args.githash
         else:
-            # If we specify the log header no need to attempt to parse it
-
-            # Check the header signature
-            #    First line is "Tau Labs git hash:"
-            #    Second line is the actual git hash
-            #    Third line is the UAVO hash
-            #    Fourth line is "##"
-            sig = fd.readline()
-            if sig != 'Tau Labs git hash:\n':
-                print "Source file does not have a recognized header signature"
-                print '|' + sig + '|'
-                sys.exit(2)
-            # Determine the git hash that this log file is based on
-            githash = fd.readline()[:-1]
-            if githash.find(':') != -1:
-                import re
-                githash = re.search(':(\w*)\W', githash).group(1)
-
-            print "Log file is based on git hash: %s" % githash
-
-            uavohash = fd.readline()
-            divider = fd.readline()
+            parseHeader = True
 
         print "Exporting UAVO XML files from git repo"
 
-        import taulabs
-        uavo_defs = taulabs.uavo_collection.UAVOCollection()
-        uavo_defs.from_git_hash(githash)
+        from taulabs import telemetry
 
-        print "Found %d unique UAVO definitions" % len(uavo_defs)
-        parser = taulabs.uavtalk.processStream(uavo_defs,
-                logTimestamps=args.timestamped)
-        parser.send(None)
+        uavo_list = telemetry.FileTelemetry(filename=src, parseHeader=parseHeader,
+            weirdTimestamps=args.timestamped)
 
-        base_time = None
+        print "Found %d unique UAVO definitions" % len(uavo_list.uavo_defs)
 
         print "Parsing using the LogFormat: " + `args.timestamped`
-        print "Reading log file..."
-        uavo_list = taulabs.uavo_list.UAVOList(uavo_defs)
 
-        while True:
-            data = fd.read(128)
-
-            if data == '':
-                print "End of file"
-                break
-
-            obj = parser.send(data)
-
-            while obj is not None:
-                if not base_time:
-                    base_time = obj.time
-
-                uavo_list.append(obj)
-                obj = parser.send('')
-
-        fd.close()
-
-        print "Processed %d Log File Records" % len(uavo_list)
+        # retrieve the time from the first object.. also guarantees we can parse
+	base_time = next(iter(uavo_list)).time
 
         # Build a new module that will make up the global namespace for the
         # interactive shell.  This allows us to restrict what the ipython shell sees.
@@ -144,7 +104,7 @@ def main():
             'base_time' : base_time,
             'log_file'  : src,
             'githash'   : githash,
-            'uavo_defs' : uavo_defs,
+            'uavo_defs' : uavo_list.uavo_defs,
             'uavo_list' : uavo_list,
             }
 

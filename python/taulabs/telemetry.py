@@ -9,33 +9,34 @@ import threading
 
 import uavtalk, uavo_collection
 
-class Telemetry():
+from abc import ABCMeta, abstractmethod
+
+class TelemetryBase():
     """
     Provides a basic telemetry connection to a flight controller
     """
 
-    def __init__(self, uavo_defs=None, githash=None, serviceInIter=True,
-            iterBlocks=True, useWallTime=True):
-        self.sock = None
+    # This is not a complete implemention / must subclass
+    __metaclass__ = ABCMeta
 
+    def __init__(self, uavo_defs=None, githash=None, serviceInIter=True,
+            iterBlocks=True, useWallTime=True, doHandshaking=False,
+	    weirdTimestamps=False):
         if uavo_defs is None:
             uavo_defs = uavo_collection.UAVOCollection()
 
             if githash:
                 uavo_defs.from_git_hash(githash)
             else:
-                uavo_defs.from_uavo_xml_path("../shared/uavobjectdefinition")
+                uavo_defs.from_uavo_xml_path("shared/uavobjectdefinition")
 
         self.uavo_defs = uavo_defs
         self.uavtalk_generator = uavtalk.processStream(uavo_defs,
-            useWallTime=useWallTime)
+            useWallTime=useWallTime, logTimestamps=weirdTimestamps)
 
         self.uavtalk_generator.send(None)
 
         self.gcs_telemetry = {v: k for k, v in self.uavo_defs.items() if v.meta['name']=="GCSTelemetryStats"}.items()[0][0]
-
-        self.recv_buf = ''
-        self.send_buf = ''
 
         self.uavo_list = taulabs.uavo_list.UAVOList(self.uavo_defs)
 
@@ -45,17 +46,49 @@ class Telemetry():
 
         self.serviceInIter = serviceInIter
         self.iterBlocks = iterBlocks
-        self.iterIdx = 0
+
+        self.doHandshaking = doHandshaking
+
+    def as_numpy_array(self, match_class): 
+        import numpy as np
+
+        # Find the subset of this list that is of the requested class 
+        filtered_list = filter(lambda x: isinstance(x, match_class), self) 
+ 
+        # Check for an empty list 
+        if filtered_list == []: 
+            return np.array([]) 
+ 
+        # Find the uavo definition associated with this UAVO type 
+        if not "{0:08x}".format(filtered_list[0].uavo_id) in self.uavo_defs: 
+            dtype = None 
+        else: 
+            uavo_def = self.uavo_defs["{0:08x}".format(filtered_list[0].uavo_id)] 
+            dtype  = [('name', 'S20'), ('time', 'double'), ('uavo_id', 'uint')] 
+ 
+            for f in uavo_def.fields: 
+                dtype += [(f['name'], '(' + `f['elements']` + ",)" + uavo_def.type_numpy_map[f['type']])] 
+ 
+        return np.array(filtered_list, dtype=dtype) 
 
     def __iter__(self):
+	iterIdx = 0
+
+        self.cond.acquire()
+
         with self.cond:
             while True:
-                if self.iterIdx < len(self.uavo_list):
+                if iterIdx < len(self.uavo_list):
+                    obj = self.uavo_list[iterIdx]
+
+                    iterIdx += 1
+
                     self.cond.release()
-                    yield self.uavo_list[self.iterIdx]
-                    self.iterIdx += 1
-                    self.cond.acquire()
-                elif self.iterBlocks and self.sock:
+                    try:
+                        yield obj
+                    finally:
+                        self.cond.acquire()
+                elif self.iterBlocks and not self._done():
                     if self.serviceInIter:
                         self.cond.release()
 
@@ -67,7 +100,8 @@ class Telemetry():
                         # wait for another thread to fill it in
                         self.cond.wait()
                 else:
-                    if self.serviceInIter and self.sock:
+                    # Don't really recommend this mode anymore/maybe remove
+                    if self.serviceInIter and not self._done():
                         # Do at least one non-blocking attempt
                         self.cond.release()
 
@@ -76,28 +110,12 @@ class Telemetry():
                         finally:
                             self.cond.acquire()
 
-                    if self.iterIdx >= len(self.uavo_list):
+                    if iterIdx >= len(self.uavo_list):
                         break
 
-    def open_network(self, host="127.0.0.1", port=9000):
-        """ Open a socket on localhost port 9000 """
-
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((host, port))
-
-        s.setblocking(0)
-
-        self.sock = s
-
-    def close_network(self):
-        """ Close network socket """
-
-        self.sock.close()
-        self.sock = None
-
-    def __handleHandshake(self, obj):
+    def _handleHandshake(self, obj):
         if obj.name == "FlightTelemetryStats":
-            # Handle the telemetry hanshaking
+            # Handle the telemetry handshaking
 
             (DISCONNECTED, HANDSHAKE_REQ, HANDSHAKE_ACK, CONNECTED) = (0,1,2,3)
 
@@ -116,16 +134,16 @@ class Telemetry():
                 send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
                     self.gcs_telemetry.id, 0, 0, 0, 0, 0, CONNECTED])
             packet = uavtalk.sendSingleObject(send_obj)
-            self.__send(packet)
+            self._send(packet)
 
-
-    def __handleFrames(self, frames):
+    def _handleFrames(self, frames):
         objs = []
 
         obj = self.uavtalk_generator.send(frames)
 
         while obj:
-            self.__handleHandshake(obj)
+            if self.doHandshaking:
+                self._handleHandshake(obj)
 
             objs.append(obj)
 
@@ -151,13 +169,13 @@ class Telemetry():
         if self.serviceInIter:
             raise
 
-        if not self.sock:
+        if self._done():
             raise
 
         from threading import Thread
 
         def run():
-            while self.sock:
+            while not self._done():
                 self.serviceConnection()    
 
         t = Thread(target=run, name="telemetry svc thread")
@@ -168,7 +186,7 @@ class Telemetry():
 
     def serviceConnection(self, timeout=None):
         """
-        Receive and parse data from a network connection and handle the basic
+        Receive and parse data from a connection and handle the basic
         handshaking with the flight controller
         """
 
@@ -177,18 +195,66 @@ class Telemetry():
         else:
             finishTime = None
 
-        data = self.__receive(finishTime)
-        self.__handleFrames(data)
+        data = self._receive(finishTime)
+        self._handleFrames(data)
 
-    def __send(self, msg):
-        """ Send a string out the TCP socket """
+    @abstractmethod
+    def _receive(self, finishTime):
+        return
 
-        self.send_buf += msg
+    # No implementation required, so not abstract
+    def _send(self, msg):
+	return
 
-        self.__select(0)
+    @abstractmethod
+    def _done(self):
+        return True
+
+class NetworkTelemetry(TelemetryBase):
+    def __init__(self, *args, **kwargs):
+        TelemetryBase.__init__(self, doHandshaking=True,
+                weirdTimestamps=False,  *args, **kwargs)
+
+        self.recv_buf = ''
+        self.send_buf = ''
+
+	self.sock = None
+
+    def open_network(self, host="127.0.0.1", port=9000):
+        """ Open a socket on localhost port 9000 """
+
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((host, port))
+
+        s.setblocking(0)
+
+        self.sock = s
+
+    def close_network(self):
+        """ Close network socket """
+
+        self.sock.close()
+        self.sock = None
+
+    def _receive(self, finishTime):
+        """ Fetch available data from TCP socket """
+
+        # Always do some minimal IO if possible
+        self._do_io(0)
+
+        while (len(self.recv_buf) < 1) and self.do_io(finishTime):
+            pass
+
+        if len(self.recv_buf) < 1:
+            return None
+
+        ret=self.recv_buf
+        self.recv_buf=''
+
+        return ret
 
     # Call select and do one set of IO operations.
-    def __select(self, finishTime):
+    def _do_io(self, finishTime):
         rdSet = []
         wrSet = []
 
@@ -228,20 +294,61 @@ class Telemetry():
 
         return didStuff
 
-    def __receive(self, finishTime):
+    def _send(self, msg):
+        """ Send a string out the TCP socket """
+
+        self.send_buf += msg
+
+        self._do_io(0)
+
+    def _done(self):
+        return self.sock is None
+
+class FileTelemetry(TelemetryBase):
+    def __init__(self, filename='sim_log.tll', parseHeader=False,
+             *args, **kwargs):
+        self.f = file(filename, 'r')
+
+        if parseHeader:
+            # Check the header signature
+            #    First line is "Tau Labs git hash:"
+            #    Second line is the actual git hash
+            #    Third line is the UAVO hash
+            #    Fourth line is "##"
+            sig = self.f.readline()
+            if sig != 'Tau Labs git hash:\n':
+                print "Source file does not have a recognized header signature"
+                print '|' + sig + '|'
+		raise IOError("no header signature")
+            # Determine the git hash that this log file is based on
+            githash = self.f.readline()[:-1]
+            if githash.find(':') != -1:
+                import re
+                githash = re.search(':(\w*)\W', githash).group(1)
+
+            print "Log file is based on git hash: %s" % githash
+
+            uavohash = self.f.readline()
+            divider = self.f.readline()
+
+            TelemetryBase.__init__(self, serviceInIter=False, iterBlocks=True,
+                doHandshaking=False, githash=githash, *args, **kwargs)
+        else:
+            TelemetryBase.__init__(self, serviceInIter=False, iterBlocks=True,
+                doHandshaking=False, *args, **kwargs)
+
+        self.done=False
+        self.start_thread()
+
+    def _receive(self, finishTime):
         """ Fetch available data from TCP socket """
 
-        # Always do some minimal IO if possible
-        self.__select(0)
+        buf = self.f.read(128)
 
-        while (len(self.recv_buf) < 1) and self.__select(finishTime):
-            pass
+        if buf == '':
+            self.done=True
 
-        if len(self.recv_buf) < 1:
-            return None
+        return buf
 
-        ret=self.recv_buf
-        self.recv_buf=''
-
-        return ret
-
+    def _done(self):
+        return self.done
