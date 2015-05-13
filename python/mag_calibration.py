@@ -103,14 +103,12 @@ def mag_calibration(mag,gyros=None,LH=200,LV=500):
 	return res, cor_x, cor_y, cor_z
 
 def main():
-	from taulabs import telemetry,uavo
-
-	uavo_list = telemetry.GetUavoBasedOnArgs()
-
-	print mag_calibration(uavo_list.as_numpy_array(uavo.UAVO_Magnetometer), uavo_list.as_numpy_array(uavo.UAVO_Gyros))
+	print mag_calibration(uavo_list.as_numpy_array(UAVO_Magnetometer), uavo_list.as_numpy_array(UAVO_Gyros))
 
 	# Wait for user to close window.
         matplotlib.pyplot.show()
 
 if __name__ == "__main__":
+        from taulabs.readbyargs import uavo_list
+	from taulabs.uavo import *
 	main()

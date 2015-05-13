@@ -362,7 +362,7 @@ def _normalize_path(path):
 
 def GetUavoBasedOnArgs(desc=None):
     # Setup the command line arguments.
-    # XXX USAGE, ETC
+    # XXX DESC, ETC
     import argparse
     parser = argparse.ArgumentParser()
 
