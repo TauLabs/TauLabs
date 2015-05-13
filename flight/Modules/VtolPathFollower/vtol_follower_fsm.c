@@ -80,7 +80,7 @@ enum vtol_fsm_event {
  * sets the nav mode and a default methods will farm it out to the appropriate
  * algorithm.
  */
-enum vtol_fsm_state_num {
+enum vtol_fsm_state {
 	FSM_STATE_FAULT,           /*!< Invalid state transition occurred */
 	FSM_STATE_INIT,            /*!< Starting state, normally auto transitions */
 	FSM_STATE_HOLDING,         /*!< Holding at current location */
@@ -95,11 +95,11 @@ enum vtol_fsm_state_num {
 };
 
 //! Structure for the FSM
-struct vtol_fsm_state {
+struct vtol_fsm_transition {
 	void (*entry_fn)();       /*!< Called when entering a state (i.e. activating a state) */
 	int32_t (*static_fn)();   /*!< Called while in a state to update nav and check termination */
 	uint32_t timeout;	  /*!< Timeout in milliseconds. 0=no timeout */
-	enum vtol_fsm_state_num next_state[FSM_EVENT_NUM_EVENTS];
+	enum vtol_fsm_state next_state[FSM_EVENT_NUM_EVENTS];
 };
 
 /**
@@ -144,7 +144,7 @@ static void hold_position(float north, float east, float down);
  * 1. enable holding at the current location
  * 2  TODO: if it leaves the hold region enable a nav mode
  */
-const static struct vtol_fsm_state fsm_hold_position[FSM_STATE_NUM_STATES] = {
+const static struct vtol_fsm_transition fsm_hold_position[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
 		.next_state = {
 			[FSM_EVENT_AUTO] = FSM_STATE_HOLDING,
@@ -166,7 +166,7 @@ const static struct vtol_fsm_state fsm_hold_position[FSM_STATE_NUM_STATES] = {
  * 2  TODO: the path planner should be able to utilize the goals of the
  *    follower so needs to be handled in the main module and not here.
  */
-const static struct vtol_fsm_state fsm_follow_path[FSM_STATE_NUM_STATES] = {
+const static struct vtol_fsm_transition fsm_follow_path[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
 		.next_state = {
 			[FSM_EVENT_AUTO] = FSM_STATE_FLYING_PATH,
@@ -190,7 +190,7 @@ const static struct vtol_fsm_state fsm_follow_path[FSM_STATE_NUM_STATES] = {
  * 5. descends to ground
  * 6. disarms the system
  */
-const static struct vtol_fsm_state fsm_land_home[FSM_STATE_NUM_STATES] = {
+const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
 		.next_state = {
 			[FSM_EVENT_AUTO] = FSM_STATE_PRE_RTH_HOLD,
@@ -267,11 +267,11 @@ void configure_timeout(int32_t ms)
  */
 
 //! The currently selected goal FSM
-const static struct vtol_fsm_state *current_goal;
+const static struct vtol_fsm_transition *current_goal;
 //! The current state within the goal fsm
-static enum vtol_fsm_state_num curr_state;
+static enum vtol_fsm_state curr_state;
 
-static int vtol_fsm_enter_state(enum vtol_fsm_state_num state)
+static int vtol_fsm_enter_state(enum vtol_fsm_state state)
 {
 	if (state != FSM_STATE_UNCHANGED) {
 		curr_state = state;
@@ -291,7 +291,7 @@ static int vtol_fsm_enter_state(enum vtol_fsm_state_num state)
 
 static int vtol_fsm_process_event(enum vtol_fsm_event event)
 {
-	enum vtol_fsm_state_num next = current_goal[curr_state].next_state[event];
+	enum vtol_fsm_state next = current_goal[curr_state].next_state[event];
 
 	/* Special if condition to not have to explicitly define auto
 	 * (don't do fault transitions on auto) */
@@ -314,7 +314,7 @@ static void vtol_fsm_process_auto()
  * Initialize the selected FSM
  * @param[in] goal The FSM to make active and initialize
  */
-static void vtol_fsm_fsm_init(const struct vtol_fsm_state *goal)
+static void vtol_fsm_fsm_init(const struct vtol_fsm_transition *goal)
 {
 	current_goal = goal;
 
@@ -339,6 +339,27 @@ static void vtol_fsm_inject_event(enum vtol_fsm_event event)
 	vtol_fsm_process_auto();
 }
 
+static bool timer_expired() {
+	/* If there's a timer... */
+	if (timer_expiration > 0) {
+		/* See if it expires. */
+
+		uint32_t now = PIOS_Thread_Systime();
+		uint32_t interval = timer_expiration - now;
+
+		/* If it has expired, this will wrap around and be a big
+		 * number.  Use a windowed scheme to detect this:
+		 * Assume we will run at least every 0x10000000 us
+		 * (3 days) and timeouts can't exceed 0xf0000000 us (46 days)
+		 */
+		if (interval > 0xf0000000) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 /**
  * vtol_fsm_static is called regularly and checks whether a timeout event has occurred
  * and also runs the static method on the current state.
@@ -350,29 +371,16 @@ static int32_t vtol_fsm_static()
 	VtolPathFollowerStatusFSM_StateSet((uint8_t *) &curr_state);
 
 	// If the current state has a static function, call it
-	if (current_goal[curr_state].static_fn)
+	if (current_goal[curr_state].static_fn) {
 		current_goal[curr_state].static_fn();
-	else {
+	} else {
 		int32_t ret_val;
 		if ((ret_val = do_default()) < 0)
 			return ret_val;
 	}
 
-	/* If there's a timer... */
-	if (timer_expiration > 0) {
-		/* See if it expires. */
-
-		uint32_t now = PIOS_Thread_Systime();
-		uint32_t interval = timer_expiration - now;
-
-		/* If it has expired, this will wrap around and be a big
-		 * number.  Use a windowed scheme to detect this:
-		 * Assume we will run at least every 0x10000000 us 
-		 * (3 days) and timeouts can't exceed 0xf0000000 us (46 days)
-		 */
-		if (interval > 0xf0000000) {
-			vtol_fsm_inject_event(FSM_EVENT_TIMEOUT);
-		} 
+	if (timer_expired()) {
+		vtol_fsm_inject_event(FSM_EVENT_TIMEOUT);
 	}
 
 	return 0;
@@ -418,8 +426,8 @@ static float vtol_hold_position_ned[3];
 /**
  * Update control values to stay at selected hold location.
  *
- * This method uses the vtol follower library to calculate the control values. The 
- * desired location is stored in @ref vtol_hold_position_ned.
+ * This method uses the vtol follower library to calculate the control values.
+ * Desired location is stored in @ref vtol_hold_position_ned.
  *
  * @return 0 if successful, <0 if failure
  */
@@ -440,8 +448,8 @@ static PathDesiredData vtol_fsm_path_desired;
 /**
  * Update control values to fly along a path.
  *
- * This method uses the vtol follower library to calculate the control values. The 
- * desired path is stored in @ref vtol_fsm_path_desired.
+ * This method uses the vtol follower library to calculate the control values.
+ * Desired path is stored in @ref vtol_fsm_path_desired.
  *
  * @return 0 if successful, <0 if failure
  */
@@ -473,7 +481,6 @@ static int32_t do_requested_path()
 	// Fetch the path desired from the path planner
 	PathDesiredGet(&vtol_fsm_path_desired);
 
-	// Most 
 	switch(vtol_fsm_path_desired.Mode) {
 	case PATHDESIRED_MODE_LAND:
 		for (uint8_t i = 0; i < 3; i++)
@@ -492,8 +499,8 @@ static int32_t do_requested_path()
 /**
  * Update control values to land at @ref vtol_hold_position_ned.
  *
- * This method uses the vtol follower library to calculate the control values. The 
- * desired landing location is stored in @ref vtol_hold_position_ned.
+ * This method uses the vtol follower library to calculate the control values.
+ * The desired landing location is stored in @ref vtol_hold_position_ned.
  *
  * @return 0 if successful, <0 if failure
  */

@@ -212,7 +212,7 @@ static void vtolPathFollowerTask(void *parameters)
 			StabilizationDesiredThrottleGet(&vtol_pids[DOWN_VELOCITY].iAccumulator);
 			// pid library scales up accumulator by 1000. Note the negative sign because this
 			// is the accumulation for down.
-			vtol_pids[DOWN_VELOCITY].iAccumulator *= -1000.0f; 
+			vtol_pids[DOWN_VELOCITY].iAccumulator *= -1000.0f;
 		}
 
 		AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);
