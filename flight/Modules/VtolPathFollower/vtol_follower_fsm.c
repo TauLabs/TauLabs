@@ -80,7 +80,7 @@ enum vtol_fsm_event {
  * sets the nav mode and a default methods will farm it out to the appropriate
  * algorithm.
  */
-enum vtol_fsm_state {
+enum vtol_fsm_state_num {
 	FSM_STATE_FAULT,           /*!< Invalid state transition occurred */
 	FSM_STATE_INIT,            /*!< Starting state, normally auto transitions */
 	FSM_STATE_HOLDING,         /*!< Holding at current location */
@@ -99,7 +99,7 @@ struct vtol_fsm_state {
 	void (*entry_fn)();       /*!< Called when entering a state (i.e. activating a state) */
 	int32_t (*static_fn)();   /*!< Called while in a state to update nav and check termination */
 	uint32_t timeout;	  /*!< Timeout in milliseconds. 0=no timeout */
-	enum vtol_fsm_state next_state[FSM_EVENT_NUM_EVENTS];
+	enum vtol_fsm_state_num next_state[FSM_EVENT_NUM_EVENTS];
 };
 
 /**
@@ -242,11 +242,18 @@ const static struct vtol_fsm_state fsm_land_home[FSM_STATE_NUM_STATES] = {
 //! Specifies a time since startup that the timeout fires.
 static uint32_t timer_expiration = 0;
 
+// TODO: Move time / expiration handling to a library
 void configure_timeout(int32_t ms)
 {
 	if (ms) {
 		uint32_t now = PIOS_Thread_Systime();
 		timer_expiration = ms+now;
+
+		// If we wrap and get very unlucky, make sure we still
+		// have a timer 1ms later.
+		if (timer_expiration == 0) {
+			timer_expiration++;
+		}
 	} else {
 		timer_expiration = 0;
 	}
@@ -262,7 +269,7 @@ void configure_timeout(int32_t ms)
 //! The currently selected goal FSM
 const static struct vtol_fsm_state *current_goal;
 //! The current state within the goal fsm
-static enum vtol_fsm_state curr_state;
+static enum vtol_fsm_state_num curr_state;
 
 /**
  * Process any sequence of automatic state transitions
@@ -359,7 +366,7 @@ static int32_t vtol_fsm_static()
 		/* See if it expires. */
 
 		uint32_t now = PIOS_Thread_Systime();
-		uint32_t interval = expiration - now;
+		uint32_t interval = timer_expiration - now;
 
 		/* If it has expired, this will wrap around and be a big
 		 * number.  Use a windowed scheme to detect this:
