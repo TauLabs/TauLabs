@@ -693,7 +693,7 @@ static void go_enable_fly_home()
 }
 
 /**
- * Enable holding at home location for 10 s at current altitude. Configures for hold.
+ * Descends to land.
  */
 static void go_enable_land_home()
 {
