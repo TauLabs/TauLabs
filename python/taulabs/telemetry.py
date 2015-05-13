@@ -30,6 +30,8 @@ class TelemetryBase():
             else:
                 uavo_defs.from_uavo_xml_path("shared/uavobjectdefinition")
 
+        self.githash = githash
+
         self.uavo_defs = uavo_defs
         self.uavtalk_generator = uavtalk.processStream(uavo_defs,
             useWallTime=useWallTime, logTimestamps=weirdTimestamps)
@@ -38,7 +40,7 @@ class TelemetryBase():
 
         self.gcs_telemetry = {v: k for k, v in self.uavo_defs.items() if v.meta['name']=="GCSTelemetryStats"}.items()[0][0]
 
-        self.uavo_list = taulabs.uavo_list.UAVOList(self.uavo_defs)
+        self.uavo_list = []
 
         self.last_values = {}
 
@@ -307,6 +309,7 @@ class NetworkTelemetry(TelemetryBase):
 class FileTelemetry(TelemetryBase):
     def __init__(self, filename='sim_log.tll', parseHeader=False,
              *args, **kwargs):
+        self.filename = filename
         self.f = file(filename, 'r')
 
         if parseHeader:
@@ -352,3 +355,50 @@ class FileTelemetry(TelemetryBase):
 
     def _done(self):
         return self.done
+
+def _normalize_path(path):
+    import os
+    return os.path.normpath(os.path.join(os.getcwd(), path))
+
+def GetUavoBasedOnArgs(desc=None):
+    # Setup the command line arguments.
+    # XXX USAGE, ETC
+    import argparse
+    parser = argparse.ArgumentParser()
+
+    # Log format indicates this log is using the old file format which
+    # embeds the timestamping information between the UAVTalk packet 
+    # instead of as part of the packet
+    parser.add_argument("-t", "--timestamped",
+                        action  = 'store_false',
+                        default = True,
+                        help    = "indicate that this is an overo log file or some format that has timestamps")
+
+    parser.add_argument("-g", "--githash",
+                        action  = "store",
+                        dest    = "githash",
+                        help    = "override githash for UAVO XML definitions")
+
+    parser.add_argument("source",
+                        help  = "log file for processing")
+
+    # Parse the command-line.
+    args = parser.parse_args()
+
+    # Open the log file
+    src = _normalize_path(args.source)
+
+    parseHeader = False
+    githash = None
+
+    if args.githash is not None:
+        # If we specify the log header no need to attempt to parse it
+        githash = args.githash
+    else:
+        parseHeader = True
+
+    from taulabs import telemetry
+
+    return telemetry.FileTelemetry(filename=src, parseHeader=parseHeader,
+        weirdTimestamps=args.timestamped)
+
