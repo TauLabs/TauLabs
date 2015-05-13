@@ -105,21 +105,20 @@ void INSGPSInit()		//pretty much just a place holder for now
 	P[0][0] = P[1][1] = P[2][2] = 25.0f;	// initial position variance (m^2)
 	P[3][3] = P[4][4] = P[5][5] = 5.0f;	// initial velocity variance (m/s)^2
 	P[6][6] = P[7][7] = P[8][8] = P[9][9] = 1e-5f;	// initial quaternion variance
-	P[10][10] = P[11][11] = P[12][12] = 1e-9f;	// initial gyro bias variance (rad/s)^2
-	P[13][13] = P[14][14] = P[15][15] = 1e-9f;	// initial accel bias variance (deg/s)^2
-	P[15][15] = 1e-5f;
+	P[10][10] = P[11][11] = P[12][12] = 1e-6f;	// initial gyro bias variance (rad/s)^2
+	P[13][13] = P[14][14] = P[15][15] = 1e-5f;	// initial accel bias variance (deg/s)^2
 
 	X[0] = X[1] = X[2] = X[3] = X[4] = X[5] = 0.0f;	// initial pos and vel (m)
 	X[6] = 1.0f;
-	X[7] = X[8] = X[9] = 0.0f;	// initial quaternion (level and North) (m/s)
+	X[7] = X[8] = X[9] = 0.0f;	    // initial quaternion (level and North) (m/s)
 	X[10] = X[11] = X[12] = 0.0f;	// initial gyro bias (rad/s)
 	X[13] = X[14] = X[15] = 0.0f;	// initial accel bias
 
-	Q[0] = Q[1] = Q[2] = 50e-4f;	// gyro noise variance (rad/s)^2
-	Q[3] = Q[4] = Q[5] = 0.00001f;	// accelerometer noise variance (m/s^2)^2
-	Q[6] = Q[7] = Q[8] = 2e-8f;	    // gyro bias random walk variance (rad/s^2)^2
-	Q[9] = Q[10] = 2e-9f;	        // accel bias random walk variance (m/s^3)^2
-	Q[11] = 1e-3f;
+	Q[0] = Q[1] = Q[2] = 1e-5f;	    // gyro noise variance (rad/s)^2
+	Q[3] = Q[4] = Q[5] = 1e-5f;	    // accelerometer noise variance (m/s^2)^2
+	Q[6] = Q[7]        = 1e-6f;	    // gyro x and y bias random walk variance (rad/s^2)^2
+	Q[8]               = 1e-6f;	    // gyro z bias random walk variance (rad/s^2)^2
+	Q[9] = Q[10] = Q[11] = 5e-4f;	                // accel bias random walk variance (m/s^3)^2
 
 	R[0] = R[1] = 0.004f;	// High freq GPS horizontal position noise variance (m^2)
 	R[2] = 0.036f;		// High freq GPS vertical position noise variance (m^2)
@@ -127,6 +126,21 @@ void INSGPSInit()		//pretty much just a place holder for now
 	R[5] = 100.0f;		// High freq GPS vertical velocity noise variance (m/s)^2
 	R[6] = R[7] = R[8] = 0.005f;	// magnetometer unit vector noise variance
 	R[9] = .05f;		// High freq altimeter noise variance (m^2)
+}
+
+//! Set the current flight state
+void INSSetArmed(bool armed)
+{
+	// Speed up convergence of accel and gyro bias when not armed
+	if (armed) {
+		Q[11] = 1e-5f;
+		Q[8] = 2e-4f;
+	} else {
+		Q[11] = 1e-2f;
+		Q[8] = 2e-8f;
+	}
+
+
 }
 
 
@@ -288,10 +302,9 @@ void INSSetBaroVar(const float baro_var)
 
 void INSSetMagNorth(const float B[3])
 {
-	float mag = sqrtf(B[0] * B[0] + B[1] * B[1] + B[2] * B[2]);
-	Be[0] = B[0] / mag;
-	Be[1] = B[1] / mag;
-	Be[2] = B[2] / mag;
+	Be[0] = B[0];
+	Be[1] = B[1];
+	Be[2] = B[2];
 }
 
 void INSStatePrediction(const float gyro_data[3], const float accel_data[3], float dT)
@@ -328,7 +341,7 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 		   float BaroAlt, uint16_t SensorsUsed)
 {
 	float Z[10], Y[10];
-	float Bmag, qmag;
+	float qmag;
 
 	// GPS Position in meters and in local NED frame
 	Z[0] = Pos[0];
@@ -340,13 +353,30 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 	Z[4] = Vel[1];
 	Z[5] = Vel[2];
 
-	// magnetometer data in any units (use unit vector) and in body frame
-	Bmag =
-	    sqrtf(mag_data[0] * mag_data[0] + mag_data[1] * mag_data[1] +
-		 mag_data[2] * mag_data[2]);
-	Z[6] = mag_data[0] / Bmag;
-	Z[7] = mag_data[1] / Bmag;
-	Z[8] = mag_data[2] / Bmag;
+	if (SensorsUsed & MAG_SENSORS) {
+		// magnetometer data in any units (use unit vector) and in body frame
+		float Rbe_a[3][3];
+		float q0 = X[6];
+		float q1 = X[7];
+		float q2 = X[8];
+		float q3 = X[9];
+		float k1 = 1.0f/sqrtf(powf(q0*q1*2.0f+q2*q3*2.0f,2.0f)+powf(q0*q0-q1*q1-q2*q2+q3*q3,2.0f));
+		float k2 = sqrtf(-powf(q0*q2*2.0f-q1*q3*2.0f,2.0f)+1.0f);
+
+		Rbe_a[0][0] = k2;
+		Rbe_a[0][1] = 0.0f;
+		Rbe_a[0][2] = q0*q2*-2.0f+q1*q3*2.0f;
+		Rbe_a[1][0] = k1*(q0*q1*2.0f+q2*q3*2.0f)*(q0*q2*2.0f-q1*q3*2.0f);
+		Rbe_a[1][1] = k1*(q0*q0-q1*q1-q2*q2+q3*q3);
+		Rbe_a[1][2] = k1*sqrtf(-powf(q0*q2*2.0f-q1*q3*2.0f,2.0f)+1.0f)*(q0*q1*2.0f+q2*q3*2.0f);
+		Rbe_a[2][0] = k1*(q0*q2*2.0f-q1*q3*2.0f)*(q0*q0-q1*q1-q2*q2+q3*q3);
+		Rbe_a[2][1] = -k1*(q0*q1*2.0f+q2*q3*2.0f);
+		Rbe_a[2][2] = k1*k2*(q0*q0-q1*q1-q2*q2+q3*q3);
+
+		Z[6] = Rbe_a[0][0]*mag_data[0] + Rbe_a[1][0]*mag_data[1] + Rbe_a[2][0]*mag_data[2] ;
+		Z[7] = Rbe_a[0][1]*mag_data[0] + Rbe_a[1][1]*mag_data[1] + Rbe_a[2][1]*mag_data[2] ;
+		Z[8] = Rbe_a[0][2]*mag_data[0] + Rbe_a[1][2]*mag_data[1] + Rbe_a[2][2]*mag_data[2] ;
+	}
 
 	// barometric altimeter in meters and in local NED frame
 	Z[9] = BaroAlt;
@@ -556,6 +586,7 @@ void CovariancePrediction(float F[NUMX][NUMX], float G[NUMX][NUMW],
 	P[14][14] = Q[10]*Tsq + D[14][14];
 	P[14][15] = P[15][14] = D[14][15];
 	P[15][15] = Q[11]*Tsq + D[15][15];
+
 
 }
 #endif
@@ -849,19 +880,13 @@ void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])
 	Y[4] = X[4];
 	Y[5] = X[5];
 
-	// Bb=Rbe*Be
-	Y[6] =
-	    (q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3) * Be[0] +
-	    2.0f * (q1 * q2 + q0 * q3) * Be[1] + 2.0f * (q1 * q3 -
-						   q0 * q2) * Be[2];
-	Y[7] =
-	    2.0f * (q1 * q2 - q0 * q3) * Be[0] + (q0 * q0 - q1 * q1 +
-					       q2 * q2 - q3 * q3) * Be[1] +
-	    2.0f * (q2 * q3 + q0 * q1) * Be[2];
-	Y[8] =
-	    2.0f * (q1 * q3 + q0 * q2) * Be[0] + 2.0f * (q2 * q3 -
-						   q0 * q1) * Be[1] +
-	    (q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3) * Be[2];
+	// Rotate Be by only the yaw heading
+	float r = sqrtf( powf(2*q0*q3 + 2*q1*q2, 2) + powf(q0*q0 + q1*q1 - q2*q2 - q3*q3, 2) );
+	float cP = (q0*q0 + q1*q1 - q2*q2 - q3*q3) / r;
+	float sP = (2*q0*q3 + 2*q1*q2) / r;    
+	Y[6] = Be[0] * cP + Be[1] * sP;
+	Y[7] = -Be[0] * sP + Be[1] * cP;
+	Y[8] = 0; // don't care
 
 	// Alt = -Pz
 	Y[9] = X[2] * -1.0f;
@@ -886,19 +911,30 @@ void LinearizeH(float X[NUMX], float Be[3], float H[NUMV][NUMX])
 	// dV/dV=I;  (expect velocity to measure the velocity)
 	H[3][3] = H[4][4] = H[5][5] = 1.0f;
 
-	// dBb/dq    (expected magnetometer readings)
-	H[6][6] = 2.0f * (q0 * Be[0] + q3 * Be[1] - q2 * Be[2]);
-	H[6][7] = 2.0f * (q1 * Be[0] + q2 * Be[1] + q3 * Be[2]);
-	H[6][8] = 2.0f * (-q2 * Be[0] + q1 * Be[1] - q0 * Be[2]);
-	H[6][9] = 2.0f * (-q3 * Be[0] + q0 * Be[1] + q1 * Be[2]);
-	H[7][6] = 2.0f * (-q3 * Be[0] + q0 * Be[1] + q1 * Be[2]);
-	H[7][7] = 2.0f * (q2 * Be[0] - q1 * Be[1] + q0 * Be[2]);
-	H[7][8] = 2.0f * (q1 * Be[0] + q2 * Be[1] + q3 * Be[2]);
-	H[7][9] = 2.0f * (-q0 * Be[0] - q3 * Be[1] + q2 * Be[2]);
-	H[8][6] = 2.0f * (q2 * Be[0] - q1 * Be[1] + q0 * Be[2]);
-	H[8][7] = 2.0f * (q3 * Be[0] - q0 * Be[1] - q1 * Be[2]);
-	H[8][8] = 2.0f * (q0 * Be[0] + q3 * Be[1] - q2 * Be[2]);
-	H[8][9] = 2.0f * (q1 * Be[0] + q2 * Be[1] + q3 * Be[2]);
+	// dBb/dq    (expected magnetometer readings in the horizontal plane)
+	// these equations were generated by Rhb(q)*Be which is the matrix that
+	// rotates the earth magnetic field into the horizontal plane, and then
+	// taking the partial derivative wrt each term in q. Maniuplated in
+	// matlab symbolic toolbox
+	float Be_0 = Be[0];
+	float Be_1 = Be[1];
+	float k1 = 1.0f/sqrtf(powf(q0*q3*2.0f+q1*q2*2.0f,2.0f)+powf(q0*q0+q1*q1-q2*q2-q3*q3,2.0f));
+	float k3 = 1.0f/powf(powf(q0*q3*2.0f+q1*q2*2.0f,2.0f)+powf(q0*q0+q1*q1-q2*q2-q3*q3,2.0f),3.0f/2.0f)*(q0*q0+q1*q1-q2*q2-q3*q3)*(1.0f/2.0f);
+	float k4 = (q0*q0+q1*q1-q2*q2-q3*q3)*4.0f;
+	float k5 = (q0*q3*2.0f+q1*q2*2.0f)*4.0f;
+	float k6 = 1.0f/powf(powf(q0*q3*2.0f+q1*q2*2.0f,2.0f)+powf(q0*q0+q1*q1-q2*q2-q3*q3,2.0f),3.0f/2.0f)*(q0*q3*2.0f+q1*q2*2.0f)*(1.0f/2.0f);
+
+	H[6][6] = Be_0*q0*k1*2.0f  + Be_1*q3*k1*2.0f - Be_0*(q0*k4+q3*k5)*k3 - Be_1*(q0*k4+q3*k5)*k6;
+	H[6][7] = Be_0*q1*k1*2.0f  + Be_1*q2*k1*2.0f - Be_0*(q1*k4+q2*k5)*k3 - Be_1*(q1*k4+q2*k5)*k6;
+	H[6][8] = Be_0*q2*k1*-2.0f + Be_1*q1*k1*2.0f + Be_0*(q2*k4-q1*k5)*k3 + Be_1*(q2*k4-q1*k5)*k6;
+	H[6][9] = Be_1*q0*k1*2.0f  - Be_0*q3*k1*2.0f + Be_0*(q3*k4-q0*k5)*k3 + Be_1*(q3*k4-q0*k5)*k6;
+	H[7][6] = Be_1*q0*k1*2.0f  - Be_0*q3*k1*2.0f - Be_1*(q0*k4+q3*k5)*k3 + Be_0*(q0*k4+q3*k5)*k6;
+	H[7][7] = Be_0*q2*k1*-2.0f + Be_1*q1*k1*2.0f - Be_1*(q1*k4+q2*k5)*k3 + Be_0*(q1*k4+q2*k5)*k6;
+	H[7][8] = Be_0*q1*k1*-2.0f - Be_1*q2*k1*2.0f + Be_1*(q2*k4-q1*k5)*k3 - Be_0*(q2*k4-q1*k5)*k6;
+	H[7][9] = Be_0*q0*k1*-2.0f - Be_1*q3*k1*2.0f + Be_1*(q3*k4-q0*k5)*k3 - Be_0*(q3*k4-q0*k5)*k6;
+	H[8][6] = 0.0f;
+	H[8][7] = 0.0f;
+	H[8][9] = 0.0f;
 
 	// dAlt/dPz = -1  (expected baro readings)
 	H[9][2] = -1.0f;

@@ -31,6 +31,7 @@
 #define INSGPS_H_
 
 #include "stdint.h"
+#include "stdbool.h"
 
 /**
   * @addtogroup Constants
