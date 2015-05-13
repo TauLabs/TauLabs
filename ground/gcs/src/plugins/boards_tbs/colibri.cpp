@@ -181,6 +181,10 @@ bool Colibri::setInputOnPort(enum InputType type, int port_num)
         settings.Uart2 = HwColibri::UART2_DSM;
         settings.RcvrPort = HwColibri::RCVRPORT_DISABLED;
         break;
+    case INPUT_TYPE_HOTTSUMD:
+        settings.Uart2 = HwColibri::UART2_HOTTSUMD;
+        settings.RcvrPort = HwColibri::RCVRPORT_DISABLED;
+        break;
     default:
         return false;
     }
@@ -218,6 +222,8 @@ enum Core::IBoardType::InputType Colibri::getInputOnPort(int port_num)
         return pwm_ppm_disabled ? INPUT_TYPE_SBUS : INPUT_TYPE_UNKNOWN;
     case HwColibri::UART2_DSM:
         return pwm_ppm_disabled ? INPUT_TYPE_DSM : INPUT_TYPE_UNKNOWN;
+    case HwColibri::UART2_HOTTSUMD:
+        return pwm_ppm_disabled ? INPUT_TYPE_HOTTSUMD : INPUT_TYPE_UNKNOWN;
     case HwColibri::UART2_DISABLED:
         switch(settings.RcvrPort) {
         case HwColibri::RCVRPORT_PPM:

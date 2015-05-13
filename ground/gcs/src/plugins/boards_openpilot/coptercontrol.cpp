@@ -152,6 +152,9 @@ bool CopterControl::setInputOnPort(enum InputType type, int port_num)
     case INPUT_TYPE_DSM:
         settings.FlexiPort = HwCopterControl::FLEXIPORT_DSM;
         break;
+    case INPUT_TYPE_HOTTSUMD:
+        settings.FlexiPort = HwCopterControl::FLEXIPORT_HOTTSUMD;
+        break;
     default:
         return false;
     }
@@ -184,6 +187,8 @@ enum Core::IBoardType::InputType CopterControl::getInputOnPort(int port_num)
     switch(settings.FlexiPort) {
     case HwCopterControl::FLEXIPORT_DSM:
         return INPUT_TYPE_DSM;
+    case HwCopterControl::FLEXIPORT_HOTTSUMD:
+        return INPUT_TYPE_HOTTSUMD;
     default:
         break;
     }
