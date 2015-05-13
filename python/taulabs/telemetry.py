@@ -9,6 +9,8 @@ import threading
 
 import uavtalk, uavo_collection
 
+import os
+
 from abc import ABCMeta, abstractmethod
 
 class TelemetryBase():
@@ -212,31 +214,17 @@ class TelemetryBase():
     def _done(self):
         return True
 
-class NetworkTelemetry(TelemetryBase):
-    def __init__(self, *args, **kwargs):
+class FDTelemetry(TelemetryBase):
+    # expects fd is set nonblocking
+    # intended for bidirectional comms.
+    def __init__(self, fd, *args, **kwargs):
         TelemetryBase.__init__(self, doHandshaking=True,
                 weirdTimestamps=False,  *args, **kwargs)
 
         self.recv_buf = ''
         self.send_buf = ''
 
-	self.sock = None
-
-    def open_network(self, host="127.0.0.1", port=9000):
-        """ Open a socket on localhost port 9000 """
-
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((host, port))
-
-        s.setblocking(0)
-
-        self.sock = s
-
-    def close_network(self):
-        """ Close network socket """
-
-        self.sock.close()
-        self.sock = None
+        self.fd = fd
 
     def _receive(self, finishTime):
         """ Fetch available data from TCP socket """
@@ -244,7 +232,7 @@ class NetworkTelemetry(TelemetryBase):
         # Always do some minimal IO if possible
         self._do_io(0)
 
-        while (len(self.recv_buf) < 1) and self.do_io(finishTime):
+        while (len(self.recv_buf) < 1) and self._do_io(finishTime):
             pass
 
         if len(self.recv_buf) < 1:
@@ -263,10 +251,10 @@ class NetworkTelemetry(TelemetryBase):
         didStuff = False
 
         if len(self.recv_buf) < 1024:
-            rdSet.append(self.sock)
+            rdSet.append(self.fd)
 
         if len(self.send_buf) > 0:
-            wrSet.append(self.sock)
+            wrSet.append(self.fd)
 
         now = time.time()
         if finishTime is None: 
@@ -280,17 +268,19 @@ class NetworkTelemetry(TelemetryBase):
         if r:
             # Shouldn't throw an exception-- they just told us
             # it was ready for read.
-            chunk = self.sock.recv(1024)
+            chunk = os.read(self.fd, 1024)
             if chunk == '':
-                raise RuntimeError("socket closed")
+                raise RuntimeError("stream closed")
 
             self.recv_buf = self.recv_buf + chunk
 
             didStuff = True
 
         if w:
-            written = self.sock.send(self.send_buf)
-            self.send_buf = self.send_buf[written:]
+            written = os.write(self.fd, self.send_buf)
+
+            if written > 0:
+                self.send_buf = self.send_buf[written:]
 
             didStuff = True
 
@@ -304,9 +294,21 @@ class NetworkTelemetry(TelemetryBase):
         self._do_io(0)
 
     def _done(self):
-        return self.sock is None
+        return self.fd is None
+
+class NetworkTelemetry(FDTelemetry):
+    def __init__(self, host="127.0.0.1", port=9000, *args, **kwargs):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((host, port))
+
+        s.setblocking(0)
+
+        self.sock = s
+
+        FDTelemetry.__init__(self, fd=s.fileno(), *args, **kwargs)
 
 class FileTelemetry(TelemetryBase):
+    # TODO accept file object
     def __init__(self, filename='sim_log.tll', parseHeader=False,
              *args, **kwargs):
         self.filename = filename
@@ -344,7 +346,7 @@ class FileTelemetry(TelemetryBase):
         self.start_thread()
 
     def _receive(self, finishTime):
-        """ Fetch available data from TCP socket """
+        """ Fetch available data from file """
 
         buf = self.f.read(128)
 

@@ -39,12 +39,11 @@ def main():
     if githash:
         uavo_defs.from_git_hash(githash)
     else:
-        uavo_defs.from_uavo_xml_path("../shared/uavobjectdefinition")
+        uavo_defs.from_uavo_xml_path("shared/uavobjectdefinition")
 
     print "Found %d unique UAVO definitions" % len(uavo_defs)
 
-    tStream = telemetry.NetworkTelemetry(uavo_defs)
-    tStream.open_network()
+    tStream = telemetry.NetworkTelemetry(uavo_defs=uavo_defs)
 
 #    tStream = telemetry.Telemetry(uavo_defs, serviceInIter=False)
 #    tStream.open_network()
@@ -57,8 +56,8 @@ def main():
 #                if k in settingsObjs]
 
     for obj in tStream:
-#        print obj
-        pass
+        print obj
+#        pass
 
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":
