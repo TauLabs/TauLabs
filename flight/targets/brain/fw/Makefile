@@ -2,9 +2,9 @@
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
 # @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
-# @addtogroup 
+# @addtogroup
 # @{
-# @addtogroup 
+# @addtogroup
 # @{
 # @brief Makefile to build firmware for the FlyingF4 board.
 ###############################################################################
@@ -34,7 +34,7 @@ ERASE_FLASH ?= NO
 
 # List of modules to include
 MODULES = Sensors
-MODULES += Attitude 
+MODULES += Attitude
 MODULES += Actuator
 MODULES += ManualControl
 MODULES += Stabilization
@@ -43,8 +43,8 @@ MODULES += Telemetry
 
 OPTMODULES += GPS
 OPTMODULES += PathPlanner
-OPTMODULES += AltitudeHold 
-OPTMODULES += VtolPathFollower 
+OPTMODULES += AltitudeHold
+OPTMODULES += VtolPathFollower
 OPTMODULES += FixedWingPathFollower
 OPTMODULES += GroundPathFollower
 OPTMODULES += CameraStab
@@ -90,8 +90,9 @@ FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 
+
 # optional component libraries
-include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
+include $(APPLIBDIR)/ChibiOS/library.mk
 #include $(PIOSCOMMONLIB)/dosfs/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
@@ -104,6 +105,7 @@ SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += main.c
+SRC += board.c
 SRC += pios_board.c
 SRC += pios_usb_board_data.c
 SRC += $(FLIGHTLIB)/alarms.c
@@ -140,7 +142,7 @@ SRC += $(MGRSLIB)/tranmerc.c
 SRC += $(MGRSLIB)/polarst.c
 
 ## PIOS Hardware (STM32F4xx)
-include $(PIOS)/STM32F4xx/library_fw.mk
+include $(PIOS)/STM32F4xx/library_chibios.mk
 # SRC += $(PIOS)/STM32F4xx/pios_video.c
 
 ## PIOS Hardware (Common)
@@ -237,7 +239,7 @@ CFLAGS += -Os
 endif
 
 
-   
+
 # common architecture-specific flags from the device-specific library makefile
 CFLAGS += $(ARCHFLAGS)
 CFLAGS += -DDIAGNOSTICS
@@ -252,7 +254,7 @@ CDEFS += -DUNALIGNED_SUPPORT_DISABLE
 
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
-CFLAGS += -DSTM32F4XX
+CDEFS += -DSTM32F40_41xxx
 
 # Debugging format.
 DEBUGF = dwarf-2
@@ -341,7 +343,7 @@ LDFLAGS += -lc -lgcc -lm
 LDFLAGS += -Wl,--warn-common
 LDFLAGS += -Wl,--fatal-warnings
 
-#Linker scripts                                                                                                                                                                                                              
-LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
+#Linker scripts
+LDFLAGS += -T memory.ld $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 include $(MAKE_INC_DIR)/firmware-common.mk

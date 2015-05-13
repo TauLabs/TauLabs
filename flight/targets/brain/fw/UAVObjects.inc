@@ -2,9 +2,9 @@
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2012.
 # @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
-# @addtogroup 
+# @addtogroup
 # @{
-# @addtogroup 
+# @addtogroup
 # @{
 # @brief Makefile to build UAVObject code for flying f4 board.
 ###############################################################################
