@@ -117,6 +117,7 @@ int32_t PathPlannerInitialize()
 
 		// Create object queue
 		queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+		FlightStatusConnectQueue(queue);
 
 		return 0;
 	}
@@ -157,7 +158,9 @@ static void pathPlannerTask(void *parameters)
 	while (1)
 	{
 
-		PIOS_Thread_Sleep(UPDATE_RATE_MS);
+		// Make sure when flight mode toggles, to immediately update the path
+		UAVObjEvent ev;
+		PIOS_Queue_Receive(queue, &ev, UPDATE_RATE_MS);
 
 		// When not running the path planner short circuit and wait
 		FlightStatusGet(&flightStatus);
