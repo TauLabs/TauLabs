@@ -95,9 +95,10 @@ enum vtol_fsm_state {
 };
 
 //! Structure for the FSM
-struct vtol_fsm_transition {
+struct vtol_fsm_state {
 	void (*entry_fn)();       /*!< Called when entering a state (i.e. activating a state) */
 	int32_t (*static_fn)();   /*!< Called while in a state to update nav and check termination */
+	uint32_t timeout;	  /*!< Timeout in milliseconds. 0=no timeout */
 	enum vtol_fsm_state next_state[FSM_EVENT_NUM_EVENTS];
 };
 
@@ -113,6 +114,8 @@ enum vtol_nav_mode {
 	VTOL_NAV_LAND,   /*!< Land at the desired location @ref do_land */
 	VTOL_NAV_IDLE    /*!< Nothing, no mode configured */
 };
+
+#define MILLI 1000
 
 // State transition methods, typically enabling for certain actions
 static void go_enable_hold_here(void);
@@ -133,7 +136,7 @@ static int32_t do_loiter(void);
 static int32_t do_ph_climb(void);
 
 // Utility functions
-static void configure_timeout(int32_t s);
+static void configure_timeout(int32_t ms);
 static void hold_position(float north, float east, float down);
 
 /**
@@ -141,7 +144,7 @@ static void hold_position(float north, float east, float down);
  * 1. enable holding at the current location
  * 2  TODO: if it leaves the hold region enable a nav mode
  */
-const static struct vtol_fsm_transition fsm_hold_position[FSM_STATE_NUM_STATES] = {
+const static struct vtol_fsm_state fsm_hold_position[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
 		.next_state = {
 			[FSM_EVENT_AUTO] = FSM_STATE_HOLDING,
@@ -163,7 +166,7 @@ const static struct vtol_fsm_transition fsm_hold_position[FSM_STATE_NUM_STATES] 
  * 2  TODO: the path planner should be able to utilize the goals of the
  *    follower so needs to be handled in the main module and not here.
  */
-const static struct vtol_fsm_transition fsm_follow_path[FSM_STATE_NUM_STATES] = {
+const static struct vtol_fsm_state fsm_follow_path[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
 		.next_state = {
 			[FSM_EVENT_AUTO] = FSM_STATE_FLYING_PATH,
@@ -187,7 +190,7 @@ const static struct vtol_fsm_transition fsm_follow_path[FSM_STATE_NUM_STATES] = 
  * 5. descends to ground
  * 6. disarms the system
  */
-const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
+const static struct vtol_fsm_state fsm_land_home[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
 		.next_state = {
 			[FSM_EVENT_AUTO] = FSM_STATE_PRE_RTH_HOLD,
@@ -195,6 +198,7 @@ const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	},
 	[FSM_STATE_PRE_RTH_HOLD] = {
 		.entry_fn = go_enable_pause_10s_here,
+		.timeout = 10 * MILLI,
 		.next_state = {
 			[FSM_EVENT_TIMEOUT] = FSM_STATE_PRE_RTH_RISE,
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_UNCHANGED,
@@ -204,6 +208,7 @@ const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_PRE_RTH_RISE] = {
 		.entry_fn = go_enable_rise_here,
 		.static_fn = do_ph_climb,
+		.timeout = 10 * MILLI,	/* Not sure this is good */
 		.next_state = {
 			[FSM_EVENT_TIMEOUT] = FSM_STATE_FLYING_PATH,
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_FLYING_PATH,
@@ -218,6 +223,7 @@ const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	},
 	[FSM_STATE_POST_RTH_HOLD] = {
 		.entry_fn = go_enable_pause_home_10s,
+		.timeout = 10 * MILLI,
 		.next_state = {
 			[FSM_EVENT_TIMEOUT] = FSM_STATE_LANDING,
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_UNCHANGED,
@@ -233,13 +239,17 @@ const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 
 };
 
-//! Tracks how many times the fsm_static has been called
-static uint32_t current_count, set_time_count, timer_duration = 0;
+//! Specifies a time since startup that the timeout fires.
+static uint32_t timer_expiration = 0;
 
-void configure_timeout(int32_t s)
+void configure_timeout(int32_t ms)
 {
-	set_time_count = current_count;
-	timer_duration = s;
+	if (ms) {
+		uint32_t now = PIOS_Thread_Systime();
+		timer_expiration = ms+now;
+	} else {
+		timer_expiration = 0;
+	}
 }
 
 /**
@@ -250,7 +260,7 @@ void configure_timeout(int32_t s)
  */
 
 //! The currently selected goal FSM
-const static struct vtol_fsm_transition *current_goal;
+const static struct vtol_fsm_state *current_goal;
 //! The current state within the goal fsm
 static enum vtol_fsm_state curr_state;
 
@@ -266,6 +276,8 @@ static void vtol_fsm_process_auto()
 		if (current_goal[curr_state].entry_fn) {
 			current_goal[curr_state].entry_fn();
 		}
+
+		configure_timeout(current_goal[curr_state].timeout);
 	}
 }
 
@@ -273,7 +285,7 @@ static void vtol_fsm_process_auto()
  * Initialize the selected FSM
  * @param[in] goal The FSM to make active and initialize
  */
-static void vtol_fsm_fsm_init(const struct vtol_fsm_transition *goal)
+static void vtol_fsm_fsm_init(const struct vtol_fsm_state *goal)
 {
 	current_goal = goal;
 	curr_state = FSM_STATE_INIT;
@@ -342,10 +354,21 @@ static int32_t vtol_fsm_static()
 			return ret_val;
 	}
 
-	current_count++;
+	/* If there's a timer... */
+	if (timer_expiration > 0) {
+		/* See if it expires. */
 
-	if ((timer_duration > 0) && ((current_count - set_time_count) * DT) > timer_duration) {
-		vtol_fsm_inject_event(FSM_EVENT_TIMEOUT);
+		uint32_t now = PIOS_Thread_Systime();
+		uint32_t interval = expiration - now;
+
+		/* If it has expired, this will wrap around and be a big
+		 * number.  Use a windowed scheme to detect this:
+		 * Assume we will run at least every 0x10000000 us 
+		 * (3 days) and timeouts can't exceed 0xf0000000 us (46 days)
+		 */
+		if (interval > 0xf0000000) {
+			vtol_fsm_inject_event(FSM_EVENT_TIMEOUT);
+		} 
 	}
 
 	return 0;
@@ -596,8 +619,6 @@ static void go_enable_hold_here()
 	PositionActualGet(&positionActual);
 
 	hold_position(positionActual.North, positionActual.East, positionActual.Down);
-
-	configure_timeout(0);
 }
 
 static void go_enable_fly_path()
@@ -619,8 +640,6 @@ static void go_enable_pause_10s_here()
 		positionActual.Down = -RTH_MIN_ALTITUDE;
 
 	hold_position(positionActual.North, positionActual.East, positionActual.Down);
-
-	configure_timeout(10);
 }
 
 
@@ -639,7 +658,6 @@ static void go_enable_rise_here()
 	// go straight to the next state
 	if (fabsf(down - vtol_hold_position_ned[2]) > RTH_ALT_ERROR) {
 		hold_position(vtol_hold_position_ned[0], vtol_hold_position_ned[1], down);
-		configure_timeout(10);
 	} else {
 		vtol_fsm_inject_event(FSM_EVENT_TIMEOUT);
 	}
@@ -655,8 +673,6 @@ static void go_enable_pause_home_10s()
 		down = -RTH_MIN_ALTITUDE;
 
 	hold_position(0, 0, down);
-
-	configure_timeout(10);
 }
 
 /**
@@ -688,8 +704,6 @@ static void go_enable_fly_home()
 	vtol_fsm_path_desired.ModeParameters = 0;
 
 	PathDesiredSet(&vtol_fsm_path_desired);
-
-	configure_timeout(0);
 }
 
 /**
@@ -702,8 +716,6 @@ static void go_enable_land_home()
 	vtol_hold_position_ned[0] = 0;
 	vtol_hold_position_ned[1] = 0;
 	vtol_hold_position_ned[2] = 0; // Has no affect
-
-	configure_timeout(0);
 }
 
 //! @}
