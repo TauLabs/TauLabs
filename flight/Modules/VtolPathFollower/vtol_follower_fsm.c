@@ -271,13 +271,10 @@ const static struct vtol_fsm_state *current_goal;
 //! The current state within the goal fsm
 static enum vtol_fsm_state_num curr_state;
 
-/**
- * Process any sequence of automatic state transitions
- */
-static void vtol_fsm_process_auto()
+static int vtol_fsm_enter_state(enum vtol_fsm_state_num state)
 {
-	while (current_goal[curr_state].next_state[FSM_EVENT_AUTO]) {
-		curr_state = current_goal[curr_state].next_state[FSM_EVENT_AUTO];
+	if (state != FSM_STATE_UNCHANGED) {
+		curr_state = state;
 
 		/* Call the entry function (if any) for the next state. */
 		if (current_goal[curr_state].entry_fn) {
@@ -285,7 +282,32 @@ static void vtol_fsm_process_auto()
 		}
 
 		configure_timeout(current_goal[curr_state].timeout);
+
+		return 1;
 	}
+
+	return 0;
+}
+
+static int vtol_fsm_process_event(enum vtol_fsm_event event)
+{
+	enum vtol_fsm_state_num next = current_goal[curr_state].next_state[event];
+
+	/* Special if condition to not have to explicitly define auto
+	 * (don't do fault transitions on auto) */
+	if ((event != FSM_EVENT_AUTO) || (next != FSM_STATE_FAULT)) {
+		return vtol_fsm_enter_state(next);
+	}
+
+	return 0;
+}
+
+/**
+ * Process any sequence of automatic state transitions
+ */
+static void vtol_fsm_process_auto()
+{
+	while (vtol_fsm_process_event(FSM_EVENT_AUTO));
 }
 
 /**
@@ -295,12 +317,8 @@ static void vtol_fsm_process_auto()
 static void vtol_fsm_fsm_init(const struct vtol_fsm_state *goal)
 {
 	current_goal = goal;
-	curr_state = FSM_STATE_INIT;
 
-	/* Call the entry function (if any) for the next state. */
-	if (current_goal[curr_state].entry_fn) {
-		current_goal[curr_state].entry_fn();
-	}
+	vtol_fsm_enter_state(FSM_STATE_INIT);
 
 	/* Process any AUTO transitions in the FSM */
 	vtol_fsm_process_auto();
@@ -315,32 +333,11 @@ static void vtol_fsm_fsm_init(const struct vtol_fsm_state *goal)
  */
 static void vtol_fsm_inject_event(enum vtol_fsm_event event)
 {
-	// No need for mutexes here since this is called in a single threaded manner
-
-	/*
-	 * The STATE_UNCHANGED indicates to ignore these events
-	 */
-	if (current_goal[curr_state].next_state[event] == FSM_STATE_UNCHANGED)
-		return;
-
-	/*
-	 * Move to the next state
-	 *
-	 * This is done prior to calling the new state's entry function to
-	 * guarantee that the entry function never depends on the previous
-	 * state.  This way, it cannot ever know what the previous state was.
-	 */
-	curr_state = current_goal[curr_state].next_state[event];
-
-	/* Call the entry function (if any) for the next state. */
-	if (current_goal[curr_state].entry_fn) {
-		current_goal[curr_state].entry_fn();
-	}
+	vtol_fsm_process_event(event);
 
 	/* Process any AUTO transitions in the FSM */
 	vtol_fsm_process_auto();
 }
-
 
 /**
  * vtol_fsm_static is called regularly and checks whether a timeout event has occurred
