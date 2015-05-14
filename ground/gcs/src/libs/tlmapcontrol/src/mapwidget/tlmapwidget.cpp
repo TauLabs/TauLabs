@@ -369,7 +369,7 @@ namespace mapcontrol
     {
         internals::PointLatLng mcoord;
         bool reloc=false;
-        if(mcoord==internals::PointLatLng(0,0))
+        if(coord==internals::PointLatLng(0,0))
         {
             mcoord=CurrentPosition();
             reloc=true;
