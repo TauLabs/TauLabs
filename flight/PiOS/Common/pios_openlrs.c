@@ -367,7 +367,7 @@ static void init_rfm(struct pios_openlrs_dev *openlrs_dev, uint8_t isbind)
 
 	rfm22_releaseBus(openlrs_dev);
 
-	rfmSetCarrierFrequency(openlrs_dev, isbind ? BINDING_FREQUENCY : openlrs_dev->bind_data.rf_frequency);
+	rfmSetCarrierFrequency(openlrs_dev, isbind ? openlrs_dev->rfm22b_frequency.binding_frequency : openlrs_dev->bind_data.rf_frequency);
 }
 
 static void to_rx_mode(struct pios_openlrs_dev *openlrs_dev)
