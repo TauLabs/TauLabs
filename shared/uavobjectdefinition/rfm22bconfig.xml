@@ -1,0 +1,11 @@
+<xml>
+	<object name="RFM22BConfig" singleinstance="true" settings="true">
+		<description>RFM22B Hardware Config</description>
+		<field name="LinkState" units="function" type="enum" elements="1" options="Disabled,Enabled,Disconnected,Connected" defaultvalue="Disabled"/>
+		<field name="Frequency" units="" type="enum" elements="1" options="433,868,915" defaultvalue="433"/>
+		<access gcs="readwrite" flight="readonly"/>
+		<telemetrygcs acked="false" updatemode="manual" period="0"/>
+		<telemetryflight acked="false" updatemode="throttled" period="500"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

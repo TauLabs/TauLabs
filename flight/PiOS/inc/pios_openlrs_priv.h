@@ -129,6 +129,13 @@ enum RF_MODE {
   Available, Transmit, Receive, Transmitted, Received,
 };
 
+struct rfm22b_frequency {
+  uint32_t min_rfm_frequency; 
+  uint32_t max_rfm_frequency;
+  uint32_t default_carrier_frequency;
+  uint32_t binding_frequency;
+} __attribute__((packed));
+
 enum pios_openlrs_dev_magic {
   PIOS_OPENLRS_DEV_MAGIC = 0x18c97ab6,
 };
@@ -193,6 +200,10 @@ struct pios_openlrs_dev {
   bool failsafeActive;
   uint32_t failsafeDelay;
   uint32_t beacon_rssi_avg;
+
+  // RFM22B frequency
+  struct rfm22b_frequency rfm22b_frequency;
+
 };
 
 bool PIOS_OpenLRS_EXT_Int(void);

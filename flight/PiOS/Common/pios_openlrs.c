@@ -42,6 +42,7 @@
 #include "openlrs.h"
 #include "flightstatus.h"
 #include "flightbatterystate.h"
+#include "rfm22bconfig.h"
 
 #include "pios_rfm22b_regs.h"
 
@@ -1081,7 +1082,34 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 	// Initialzie the PPM callback.
 	openlrs_dev->openlrs_rcvr_id = 0;
 
+	RFM22BConfigInitialize();
 	OpenLRSInitialize();
+	RFM22BConfigData rfm22bconfig;
+	RFM22BConfigGet(&rfm22bconfig);
+
+	if (rfm22bconfig.Frequency == RFM22BCONFIG_FREQUENCY_433 ) {
+		openlrs_dev->rfm22b_frequency.min_rfm_frequency = 413000000;
+		openlrs_dev->rfm22b_frequency.max_rfm_frequency = 463000000;
+		openlrs_dev->rfm22b_frequency.default_carrier_frequency = 435000000;
+		openlrs_dev->rfm22b_frequency.binding_frequency = 435000000;
+
+	}
+	else if (rfm22bconfig.Frequency == RFM22BCONFIG_FREQUENCY_868 ) {
+		openlrs_dev->rfm22b_frequency.min_rfm_frequency = 848000000;
+		openlrs_dev->rfm22b_frequency.max_rfm_frequency = 888000000;
+		openlrs_dev->rfm22b_frequency.default_carrier_frequency = 868000000;
+		openlrs_dev->rfm22b_frequency.binding_frequency = 868000000;
+
+	}
+	else if (rfm22bconfig.Frequency == RFM22BCONFIG_FREQUENCY_868 ) {
+		openlrs_dev->rfm22b_frequency.min_rfm_frequency = 895000000;
+		openlrs_dev->rfm22b_frequency.max_rfm_frequency = 935000000;
+		openlrs_dev->rfm22b_frequency.default_carrier_frequency = 915000000;
+		openlrs_dev->rfm22b_frequency.binding_frequency = 915000000;
+
+	};
+
+
 	OpenLRSData binding;
 	OpenLRSGet(&binding);
 	if (binding.version == BINDING_VERSION) {
