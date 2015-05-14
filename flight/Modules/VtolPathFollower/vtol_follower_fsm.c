@@ -136,7 +136,8 @@ static int32_t do_loiter(void);
 static int32_t do_ph_climb(void);
 
 // Utility functions
-static void configure_timeout(int32_t ms);
+static void vtol_fsm_timer_set(int32_t ms);
+static bool vtol_fsm_timer_expired();
 static void hold_position(float north, float east, float down);
 
 /**
@@ -239,25 +240,54 @@ const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 
 };
 
-//! Specifies a time since startup that the timeout fires.
-static uint32_t timer_expiration = 0;
+//! Specifies a time since startup in ms that the timeout fires.
+static uint32_t vtol_fsm_timer_expiration = 0;
 
-// TODO: Move time / expiration handling to a library
-void configure_timeout(int32_t ms)
+/**
+ * Sets up an interval timer that can be later checked for expiration.
+ * @param[in] ms Relative time in millseconds.  0 to cancel pending timer, if any
+ */
+static void vtol_fsm_timer_set(int32_t ms)
 {
 	if (ms) {
 		uint32_t now = PIOS_Thread_Systime();
-		timer_expiration = ms+now;
+		vtol_fsm_timer_expiration = ms+now;
 
 		// If we wrap and get very unlucky, make sure we still
 		// have a timer 1ms later.
-		if (timer_expiration == 0) {
-			timer_expiration++;
+		if (vtol_fsm_timer_expiration == 0) {
+			vtol_fsm_timer_expiration++;
 		}
 	} else {
-		timer_expiration = 0;
+		vtol_fsm_timer_expiration = 0;
 	}
 }
+
+/**
+ * Checks if there is a pending timer that has expired.
+ * @return True if expired.
+ */
+static bool vtol_fsm_timer_expired() {
+	/* If there's a timer... */
+	if (vtol_fsm_timer_expiration > 0) {
+		/* See if it expires. */
+
+		uint32_t now = PIOS_Thread_Systime();
+		uint32_t interval = vtol_fsm_timer_expiration - now;
+
+		/* If it has expired, this will wrap around and be a big
+		 * number.  Use a windowed scheme to detect this:
+		 * Assume we will run at least every 0x10000000 us
+		 * (3 days) and timeouts can't exceed 0xf0000000 us (46 days)
+		 */
+		if (interval > 0xf0000000) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 
 /**
  * @addtogroup VtolNavigationFsmMethods
@@ -271,6 +301,12 @@ const static struct vtol_fsm_transition *current_goal;
 //! The current state within the goal fsm
 static enum vtol_fsm_state curr_state;
 
+/**
+ * Enter a new state.  Reacts appropriately (e.g. does nothing) if you pass
+ * FSM_STATE_UNCHANGED.
+ * @param[in] state The desired state.
+ * @return true if there was a state transition, false otherwise.
+ */
 static int vtol_fsm_enter_state(enum vtol_fsm_state state)
 {
 	if (state != FSM_STATE_UNCHANGED) {
@@ -281,7 +317,9 @@ static int vtol_fsm_enter_state(enum vtol_fsm_state state)
 			current_goal[curr_state].entry_fn();
 		}
 
-		configure_timeout(current_goal[curr_state].timeout);
+		/* 0 disables any pending timeout, otherwise it's set to the
+		 * value for this state */
+		vtol_fsm_timer_set(current_goal[curr_state].timeout);
 
 		return 1;
 	}
@@ -289,7 +327,12 @@ static int vtol_fsm_enter_state(enum vtol_fsm_state state)
 	return 0;
 }
 
-static int vtol_fsm_process_event(enum vtol_fsm_event event)
+/**
+ * Update the state machine based on an event.
+ * @param[in] event The event in question
+ * @return true if there was a state transition, false otherwise.
+ */
+static bool vtol_fsm_process_event(enum vtol_fsm_event event)
 {
 	enum vtol_fsm_state next = current_goal[curr_state].next_state[event];
 
@@ -299,7 +342,7 @@ static int vtol_fsm_process_event(enum vtol_fsm_event event)
 		return vtol_fsm_enter_state(next);
 	}
 
-	return 0;
+	return false;
 }
 
 /**
@@ -330,6 +373,9 @@ static void vtol_fsm_fsm_init(const struct vtol_fsm_transition *goal)
  * This method will first update the current state @ref curr_state based on the
  * current state and the active @ref current_goal. When it enters a new state it
  * calls the appropriate entry_fn if it exists.
+ *
+ * This differs from vtol_fsm_process_event in that it handles auto transitions
+ * afterwards.
  */
 static void vtol_fsm_inject_event(enum vtol_fsm_event event)
 {
@@ -337,27 +383,6 @@ static void vtol_fsm_inject_event(enum vtol_fsm_event event)
 
 	/* Process any AUTO transitions in the FSM */
 	vtol_fsm_process_auto();
-}
-
-static bool timer_expired() {
-	/* If there's a timer... */
-	if (timer_expiration > 0) {
-		/* See if it expires. */
-
-		uint32_t now = PIOS_Thread_Systime();
-		uint32_t interval = timer_expiration - now;
-
-		/* If it has expired, this will wrap around and be a big
-		 * number.  Use a windowed scheme to detect this:
-		 * Assume we will run at least every 0x10000000 us
-		 * (3 days) and timeouts can't exceed 0xf0000000 us (46 days)
-		 */
-		if (interval > 0xf0000000) {
-			return true;
-		}
-	}
-
-	return false;
 }
 
 /**
@@ -379,7 +404,7 @@ static int32_t vtol_fsm_static()
 			return ret_val;
 	}
 
-	if (timer_expired()) {
+	if (vtol_fsm_timer_expired()) {
 		vtol_fsm_inject_event(FSM_EVENT_TIMEOUT);
 	}
 
