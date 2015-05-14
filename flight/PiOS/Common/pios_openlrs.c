@@ -647,6 +647,32 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 			      (uint8_t*) &openlrs_dev->bind_data, sizeof(struct bind_data), NULL);
 				rfm22_deassertCs(openlrs_dev);
 				rfm22_releaseBus(openlrs_dev);
+				
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
+				if(2 <= DEBUG_LEVEL && pios_com_debug_id > 0) {
+					DEBUG_PRINTF(2, "Binding settings:\r\n");
+					PIOS_Thread_Sleep(10);
+					DEBUG_PRINTF(2, "  version: %d\r\n", openlrs_dev->bind_data.version);
+					PIOS_Thread_Sleep(10);
+					DEBUG_PRINTF(2, "  serial_baudrate: %d\r\n", openlrs_dev->bind_data.serial_baudrate);
+					PIOS_Thread_Sleep(10);
+					DEBUG_PRINTF(2, "  rf_frequency: %d\r\n", openlrs_dev->bind_data.rf_frequency);
+					PIOS_Thread_Sleep(10);
+					DEBUG_PRINTF(2, "  rf_power: %d\r\n", openlrs_dev->bind_data.rf_power);
+					PIOS_Thread_Sleep(10);
+					DEBUG_PRINTF(2, "  rf_channel_spacing: %d\r\n", openlrs_dev->bind_data.rf_channel_spacing);
+					PIOS_Thread_Sleep(10);
+					DEBUG_PRINTF(2, "  modem_params: %d\r\n", openlrs_dev->bind_data.modem_params);
+					PIOS_Thread_Sleep(10);
+					DEBUG_PRINTF(2, "  flags: %d\r\n", openlrs_dev->bind_data.flags);
+					PIOS_Thread_Sleep(10);
+
+					for (uint32_t i = 0; i < MAXHOPS; i++) {
+						DEBUG_PRINTF(2, "    hop channel: %d\r\n", openlrs_dev->bind_data.hopchannel[i]);
+						PIOS_Thread_Sleep(10);
+					}
+				}
+#endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
 				if (openlrs_dev->bind_data.version == BINDING_VERSION) {
 					DEBUG_PRINTF(2,"data good\r\n");
@@ -679,28 +705,6 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 			} else {
 				rfm22_deassertCs(openlrs_dev);
 				rfm22_releaseBus(openlrs_dev);
-			}
-			
-			DEBUG_PRINTF(2, "Binding settings:\r\n");
-			PIOS_Thread_Sleep(10);
-			DEBUG_PRINTF(2, "  version: %d\r\n", openlrs_dev->bind_data.version);
-			PIOS_Thread_Sleep(10);
-			DEBUG_PRINTF(2, "  serial_baudrate: %d\r\n", openlrs_dev->bind_data.serial_baudrate);
-			PIOS_Thread_Sleep(10);
-			DEBUG_PRINTF(2, "  rf_frequency: %d\r\n", openlrs_dev->bind_data.rf_frequency);
-			PIOS_Thread_Sleep(10);
-			DEBUG_PRINTF(2, "  rf_power: %d\r\n", openlrs_dev->bind_data.rf_power);
-			PIOS_Thread_Sleep(10);
-			DEBUG_PRINTF(2, "  rf_channel_spacing: %d\r\n", openlrs_dev->bind_data.rf_channel_spacing);
-			PIOS_Thread_Sleep(10);
-			DEBUG_PRINTF(2, "  modem_params: %d\r\n", openlrs_dev->bind_data.modem_params);
-			PIOS_Thread_Sleep(10);
-			DEBUG_PRINTF(2, "  flags: %d\r\n", openlrs_dev->bind_data.flags);
-			PIOS_Thread_Sleep(10);
-
-			for (uint32_t i = 0; i < MAXHOPS; i++) {
-				DEBUG_PRINTF(2, "    hop channel: %d\r\n", openlrs_dev->bind_data.hopchannel[i]);
-				PIOS_Thread_Sleep(10);
 			}
 			
 			openlrs_dev->rf_mode = Receive;
