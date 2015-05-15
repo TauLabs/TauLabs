@@ -35,7 +35,6 @@
         <file>html/SystemConfiguration-Error-PathPlanner.html</file>
         <file>html/SystemConfiguration-Error-PositionHold.html</file>
         <file>html/SystemConfiguration-Error-Stabilization.html</file>
-        <file>html/SystemConfiguration-Error-VelocityControl.html</file>
         <file>html/SystemConfiguration-Undefined.html</file>
         <file>html/PathPlanner-Error.html</file>
         <file>html/PathPlanner-Critical.html</file>

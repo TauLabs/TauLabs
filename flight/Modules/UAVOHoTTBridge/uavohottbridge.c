@@ -612,7 +612,6 @@ void update_telemetrydata () {
 	const char *txt_stabilized3 = "Stabilized3";
 	const char *txt_autotune = "Autotune";
 	const char *txt_altitudehold = "AltitudeHold";
-	const char *txt_velocitycontrol = "VelocityCtrl";
 	const char *txt_positionhold = "PositionHold";
 	const char *txt_returntohome = "ReturnToHome";
 	const char *txt_pathplanner = "PathPlanner";
@@ -649,9 +648,6 @@ void update_telemetrydata () {
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
 			txt_flightmode = txt_altitudehold;
-			break;
-		case FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL:
-			txt_flightmode = txt_velocitycontrol;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
 			txt_flightmode = txt_positionhold;
