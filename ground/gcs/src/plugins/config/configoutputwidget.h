@@ -59,6 +59,13 @@ private:
     OutputChannelForm* getOutputChannelForm(const int index) const;
     int mccDataRate;
 
+    //! List of dropdowns for the timer rate
+    QList<QComboBox*> rateList;
+    //! List of dropdowns for the timer resolution
+    QList<QComboBox*> resList;
+    //! List of timer grouping labels
+    QList<QLabel*> lblList;
+
     UAVObject::Metadata accInitialData;
 
     bool wasItMe;
