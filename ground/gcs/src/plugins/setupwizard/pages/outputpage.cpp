@@ -45,7 +45,9 @@ OutputPage::~OutputPage()
 
 bool OutputPage::validatePage()
 {
-    if (ui->rapidESCButton->isChecked()) {
+    if (ui->oneShotButton->isChecked()) {
+        getWizard()->setESCType((SetupWizard::ESC_ONESHOT));
+    } else if (ui->rapidESCButton->isChecked()) {
         getWizard()->setESCType(SetupWizard::ESC_RAPID);
     } else {
         getWizard()->setESCType(SetupWizard::ESC_LEGACY);
