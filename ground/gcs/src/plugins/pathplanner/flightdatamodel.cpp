@@ -449,6 +449,17 @@ bool FlightDataModel::writeToFile(QString fileName)
     return true;
 }
 
+void FlightDataModel::showErrorDialog(char* title, char* message)
+{
+    QMessageBox msgBox;
+    msgBox.setText(tr(title));
+    msgBox.setInformativeText(tr(message));
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.exec();
+    return;
+
+}
+
 /**
  * @brief FlightDataModel::readFromFile Read into the model from a flight plan xml file
  * @param fileName The filename to parse
@@ -481,26 +492,14 @@ void FlightDataModel::readFromFile(QString fileName)
 
 
     if (root.isNull() || root.tagName() != "pathplan") {
-        QMessageBox msgBox;
-        msgBox.setText(tr("Wrong file contents"));
-        msgBox.setInformativeText(tr("This file does not contain a correct flight plan"));
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.exec();
-        return;
+        showErrorDialog("Wrong file contents", "This is not a TauLabs flight plan file");
     }
-
     PathPlanData * data=NULL;
 
     // First of all, find the Home location saved in the file
-
     QDomNodeList hlist = root.elementsByTagName("homelocation");
     if (hlist.length() != 1) {
-        QMessageBox msgBox;
-        msgBox.setText(tr("Wrong file contents"));
-        msgBox.setInformativeText(tr("This file does not contain a correct flight plan"));
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.exec();
-        return;
+        showErrorDialog("Wrong file contents", "File format is incorrect (missing home location)");
     }
 
     QDomNode homelocField = hlist.at(0).firstChild();
@@ -525,12 +524,7 @@ void FlightDataModel::readFromFile(QString fileName)
 
     hlist = root.elementsByTagName("waypoints");
     if (hlist.length() != 1) {
-        QMessageBox msgBox;
-        msgBox.setText(tr("Wrong file contents"));
-        msgBox.setInformativeText(tr("This file does not contain a correct flight plan"));
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.exec();
-        return;
+        showErrorDialog("Wrong file contents", "File format is incorrect (missing waypoints)");
     }
     QDomNode node = hlist.at(0).firstChild();
     while (!node.isNull()) {
