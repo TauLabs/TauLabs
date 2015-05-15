@@ -31,7 +31,7 @@
 #ifndef PIOS_SERVO_H
 #define PIOS_SERVO_H
 
-enum pwm_mode {PWM_MODE_1US, PWM_MODE_12US};
+enum pwm_mode {PWM_MODE_1US, PWM_MODE_80NS};
 
 /* Public Functions */
 extern void PIOS_Servo_SetMode(const uint16_t * update_rates, const enum pwm_mode *pwm_mdoe, uint8_t banks);

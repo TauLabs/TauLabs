@@ -2,7 +2,7 @@
     <object name="ActuatorSettings" singleinstance="true" settings="true">
         <description>Settings for the @ref ActuatorModule that controls the channel assignments for the mixer based on AircraftType</description>
         <field name="TimerUpdateFreq" units="Hz" type="uint16" elements="6" defaultvalue="50"/>
-        <field name="TimerPwmResolution" units="" type="enum" elements="6" options="1us,12us" defaultvalue="1us"/>
+        <field name="TimerPwmResolution" units="" type="enum" elements="6" options="1us,80ns" defaultvalue="1us"/>
         <field name="ChannelMax" units="us" type="uint16" elements="10" defaultvalue="2000"/>
         <field name="ChannelNeutral" units="us" type="uint16" elements="10" defaultvalue="1000"/>
         <field name="ChannelMin" units="us" type="uint16" elements="10" defaultvalue="1000"/>

@@ -145,7 +145,7 @@ void PIOS_Servo_SetMode(const uint16_t * speeds, const enum pwm_mode *pwm_mode, 
 			// channel resolution)
 			if (pwm_mode[set] == PWM_MODE_1US) {
 				clk_rate = 1000000; // Default output timer frequency in hertz
-			} else if (pwm_mode[set] == PWM_MODE_12US) {
+			} else if (pwm_mode[set] == PWM_MODE_80NS) {
 				clk_rate = 12000000; // Default output timer frequency in hertz
 			}
 
