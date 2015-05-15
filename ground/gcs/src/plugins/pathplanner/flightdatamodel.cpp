@@ -356,6 +356,7 @@ bool FlightDataModel::removeRows(int row, int count, const QModelIndex &/*parent
  */
 bool FlightDataModel::writeToFile(QString fileName)
 {
+    double homeLLA[3];
 
     QFile file(fileName);
 
@@ -365,33 +366,62 @@ bool FlightDataModel::writeToFile(QString fileName)
     }
     QDataStream out(&file);
     QDomDocument doc("PathPlan");
-    QDomElement root = doc.createElement("waypoints");
+
+    QDomElement root = doc.createElement("pathplan");
     doc.appendChild(root);
+
+    // First of all, we want the home location, because we are going to store the
+    // waypoints relative to the home location, so that the flight path can be
+    // loaded either absolute or relative to the home location
+    QDomElement homeloc = doc.createElement("homelocation");
+    root.appendChild(homeloc);
+    getHomeLocation(homeLLA);
+    QDomElement field = doc.createElement("field");
+    field.setAttribute("value", homeLLA[0]);
+    field.setAttribute("name", "latitude");
+    homeloc.appendChild(field);
+
+    field = doc.createElement("field");
+    field.setAttribute("value", homeLLA[1]);
+    field.setAttribute("name", "longitude");
+    homeloc.appendChild(field);
+
+    field = doc.createElement("field");
+    field.setAttribute("value", homeLLA[2]);
+    field.setAttribute("name", "altitude");
+    homeloc.appendChild(field);
+
+    QDomElement wpts = doc.createElement("waypoints");
+    root.appendChild(wpts);
 
     foreach(PathPlanData * obj,dataStorage)
     {
 
+        double NED[3];
+        double LLA[3] = {obj->latPosition, obj->lngPosition, obj->altitude};
+        Utils::CoordinateConversions().LLA2NED_HomeLLA(LLA, homeLLA, NED);
+
         QDomElement waypoint = doc.createElement("waypoint");
         waypoint.setAttribute("number",dataStorage.indexOf(obj));
-        root.appendChild(waypoint);
+        wpts.appendChild(waypoint);
         QDomElement field=doc.createElement("field");
         field.setAttribute("value",obj->wpDescription);
         field.setAttribute("name","description");
         waypoint.appendChild(field);
 
         field=doc.createElement("field");
-        field.setAttribute("value",obj->latPosition);
-        field.setAttribute("name","latitude");
+        field.setAttribute("value",NED[0]);
+        field.setAttribute("name","north");
         waypoint.appendChild(field);
 
         field=doc.createElement("field");
-        field.setAttribute("value",obj->lngPosition);
-        field.setAttribute("name","longitude");
+        field.setAttribute("value",NED[1]);
+        field.setAttribute("name","east");
         waypoint.appendChild(field);
 
         field=doc.createElement("field");
-        field.setAttribute("value",obj->altitude);
-        field.setAttribute("name","altitude");
+        field.setAttribute("value",NED[2]);
+        field.setAttribute("name","down");
         waypoint.appendChild(field);
 
         field=doc.createElement("field");
@@ -419,12 +449,26 @@ bool FlightDataModel::writeToFile(QString fileName)
     return true;
 }
 
+void FlightDataModel::showErrorDialog(char* title, char* message)
+{
+    QMessageBox msgBox;
+    msgBox.setText(tr(title));
+    msgBox.setInformativeText(tr(message));
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.exec();
+    return;
+
+}
+
 /**
  * @brief FlightDataModel::readFromFile Read into the model from a flight plan xml file
  * @param fileName The filename to parse
  */
 void FlightDataModel::readFromFile(QString fileName)
 {
+
+    double HomeLLA[3];
+
     removeRows(0,rowCount());
     QFile file(fileName);
     file.open(QIODevice::ReadOnly);
@@ -443,46 +487,80 @@ void FlightDataModel::readFromFile(QString fileName)
 
     QDomElement root = doc.documentElement();
 
-    if (root.isNull() || (root.tagName() != "waypoints")) {
-        QMessageBox msgBox;
-        msgBox.setText(tr("Wrong file contents"));
-        msgBox.setInformativeText(tr("This file does not contain correct UAVSettings"));
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.exec();
-        return;
+
+    // First of all, read in the Home Location and reset it:
+
+
+    if (root.isNull() || root.tagName() != "pathplan") {
+        showErrorDialog("Wrong file contents", "This is not a TauLabs flight plan file");
+    }
+    PathPlanData * data=NULL;
+
+    // First of all, find the Home location saved in the file
+    QDomNodeList hlist = root.elementsByTagName("homelocation");
+    if (hlist.length() != 1) {
+        showErrorDialog("Wrong file contents", "File format is incorrect (missing home location)");
     }
 
-    PathPlanData * data=NULL;
-    QDomNode node = root.firstChild();
+    QDomNode homelocField = hlist.at(0).firstChild();
+    while (!homelocField.isNull()) {
+        QDomElement field = homelocField.toElement();
+        if (field.tagName() == "field") {
+            if (field.attribute("name")=="latitude") {
+                HomeLLA[0] = field.attribute("value").toDouble();
+            } else if (field.attribute("name")=="longitude") {
+                HomeLLA[1] = field.attribute("value").toDouble();
+            } else if (field.attribute("name")=="altitude") {
+                HomeLLA[2] = field.attribute("value").toDouble();
+            }
+        }
+        homelocField = homelocField.nextSibling();
+    }
+
+    // For now, reset home location to the location in the file. Later we can see if we would
+    // rather ask the user whether to remap the flight plan to the current home location or use
+    // the one in the map
+    setHomeLocation(HomeLLA);
+
+    hlist = root.elementsByTagName("waypoints");
+    if (hlist.length() != 1) {
+        showErrorDialog("Wrong file contents", "File format is incorrect (missing waypoints)");
+    }
+    QDomNode node = hlist.at(0).firstChild();
     while (!node.isNull()) {
         QDomElement e = node.toElement();
         if (e.tagName() == "waypoint") {
             QDomNode fieldNode=e.firstChild();
-            data=new PathPlanData;
+            data = new PathPlanData;
+            double wpLLA[3];
+            double wpNED[3];
             while (!fieldNode.isNull()) {
                 QDomElement field = fieldNode.toElement();
                 if (field.tagName() == "field") {
-                    if(field.attribute("name")=="altitude")
-                        data->altitude=field.attribute("value").toDouble();
-                    else if(field.attribute("name")=="description")
+                    if(field.attribute("name") == "down")
+                        wpNED[2] = field.attribute("value").toDouble();
+                    else if(field.attribute("name") == "description")
                         data->wpDescription=field.attribute("value");
-                    else if(field.attribute("name")=="latitude")
-                        data->latPosition=field.attribute("value").toDouble();
-                    else if(field.attribute("name")=="longitude")
-                        data->lngPosition=field.attribute("value").toDouble();
-                    else if(field.attribute("name")=="altitude")
-                        data->altitude=field.attribute("value").toDouble();
-                    else if(field.attribute("name")=="velocity")
-                        data->velocity=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="mode")
+                    else if(field.attribute("name") == "north")
+                        wpNED[0] = field.attribute("value").toDouble();
+                    else if(field.attribute("name") == "east")
+                        wpNED[1] = field.attribute("value").toDouble();
+                    else if(field.attribute("name") == "velocity")
+                        data->velocity = field.attribute("value").toFloat();
+                    else if(field.attribute("name") == "mode")
                         data->mode=field.attribute("value").toInt();
-                    else if(field.attribute("name")=="mode_params")
-                        data->mode_params=field.attribute("value").toFloat();
-                    else if(field.attribute("name")=="is_locked")
-                        data->locked=field.attribute("value").toInt();
+                    else if(field.attribute("name") == "mode_params")
+                        data->mode_params = field.attribute("value").toFloat();
+                    else if(field.attribute("name") == "is_locked")
+                        data->locked = field.attribute("value").toInt();
                 }
                 fieldNode=fieldNode.nextSibling();
             }
+            Utils::CoordinateConversions().NED2LLA_HomeLLA(HomeLLA, wpNED, wpLLA);
+            data->latPosition = wpLLA[0];
+            data->lngPosition = wpLLA[1];
+            data->altitude = wpLLA[2];
+
         beginInsertRows(QModelIndex(),dataStorage.length(),dataStorage.length());
         dataStorage.append(data);
         endInsertRows();
@@ -501,6 +579,7 @@ void FlightDataModel::readFromFile(QString fileName)
 bool FlightDataModel::getHomeLocation(double *homeLLA) const
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    Q_ASSERT(pm);
     UAVObjectManager * objMngr = pm->getObject<UAVObjectManager>();
     Q_ASSERT(objMngr);
 
@@ -515,6 +594,34 @@ bool FlightDataModel::getHomeLocation(double *homeLLA) const
 
     return true;
 }
+
+/**
+ * @brief ModelUavoProxy::setHomeLocation Take care of scaling the home location UAVO to
+ * degrees (lat lon) and meters altitude
+ * @param [out] home A 3 element double array containing the desired home location
+ * @return True if successful, false otherwise
+ */
+bool FlightDataModel::setHomeLocation(double *homeLLA)
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    Q_ASSERT(pm);
+    UAVObjectManager * objMngr = pm->getObject<UAVObjectManager>();
+    Q_ASSERT(objMngr);
+
+    HomeLocation *home = HomeLocation::GetInstance(objMngr);
+    if (home == NULL)
+        return false;
+
+    HomeLocation::DataFields homeLocation = home->getData();
+    homeLocation.Latitude  = homeLLA[0]*1e7;
+    homeLocation.Longitude = homeLLA[1]*1e7;
+    homeLocation.Altitude  = homeLLA[2];
+
+    home->setData(homeLocation);
+
+    return true;
+}
+
 
 /**
  * @brief FlightDataModel::getNED Get hte NEW representation of a waypoint
