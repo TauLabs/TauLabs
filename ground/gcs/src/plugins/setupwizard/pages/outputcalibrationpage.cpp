@@ -152,6 +152,11 @@ void OutputCalibrationPage::startWizard()
 {
     ui->calibrationStack->setCurrentIndex(m_wizardIndexes[0]);
     setupVehicleHighlightedPart();
+
+    if (getWizard()->getESCType() == SetupWizard::ESC_ONESHOT) {
+        ui->motorNeutralSlider->setMinimum(125);
+        ui->motorNeutralSlider->setMaximum(140);
+    }
 }
 
 void OutputCalibrationPage::setupVehicleHighlightedPart()
@@ -261,7 +266,7 @@ void OutputCalibrationPage::on_motorNeutralButton_toggled(bool checked)
 {
     ui->motorNeutralButton->setText(checked ? tr("Stop") : tr("Start"));
     quint16 channel = getCurrentChannel();
-    onStartButtonToggle(ui->motorNeutralButton, channel, m_actuatorSettings[channel].channelNeutral, 1000, ui->motorNeutralSlider);
+    onStartButtonToggle(ui->motorNeutralButton, channel, m_actuatorSettings[channel].channelNeutral, m_actuatorSettings[channel].channelMin, ui->motorNeutralSlider);
 }
 
 void OutputCalibrationPage::onStartButtonToggle(QAbstractButton *button, quint16 channel, quint16 value, quint16 safeValue, QSlider *slider)
