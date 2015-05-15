@@ -18,7 +18,6 @@
 				<option>Stabilized3</option>
 				<option>Autotune</option>
 				<option>AltitudeHold</option>
-				<option>VelocityControl</option>
 				<option>PositionHold</option>
 				<option>ReturnToHome</option>
 				<option>PathPlanner</option>

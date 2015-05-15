@@ -296,9 +296,6 @@ QString SystemHealthGadgetWidget::getAlarmDescriptionFileName(const QString item
         case SystemAlarms::CONFIGERROR_ALTITUDEHOLD:
             alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-AltitudeHold.html");
         break;
-        case SystemAlarms::CONFIGERROR_VELOCITYCONTROL:
-            alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-VelocityControl.html");
-        break;
         case SystemAlarms::CONFIGERROR_POSITIONHOLD:
             alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-PositionHold.html");
         break;
