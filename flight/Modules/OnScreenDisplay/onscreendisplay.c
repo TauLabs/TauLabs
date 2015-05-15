@@ -550,6 +550,15 @@ void draw_flight_mode(int x, int y, int xs, int ys, int va, int ha, int flags, i
 		case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
 			write_string("LEVEL", x, y, xs, ys, va, ha, flags, font);
 			break;
+		case FLIGHTSTATUS_FLIGHTMODE_MWRATE:
+			write_string("MWRTE", x, y, xs, ys, va, ha, flags, font);
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_HORIZON:
+			write_string("HOR", x, y, xs, ys, va, ha, flags, font);
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_AXISLOCK:
+			write_string("ALCK", x, y, xs, ys, va, ha, flags, font);
+			break;
 		case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
 			write_string("VBAR", x, y, xs, ys, va, ha, flags, font);
 			break;
@@ -567,9 +576,6 @@ void draw_flight_mode(int x, int y, int xs, int ys, int va, int ha, int flags, i
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
 			write_string("AHLD", x, y, xs, ys, va, ha, flags, font);
-			break;
-		case FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL:
-			write_string("VCNT", x, y, xs, ys, va, ha, flags, font);
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
 			write_string("PHLD", x, y, xs, ys, va, ha, flags, font);
