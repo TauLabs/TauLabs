@@ -1,13 +1,11 @@
 /**
  ******************************************************************************
- * @addtogroup AHRS 
+ * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
- * @addtogroup INSGPS
- * @{
- * @brief INSGPS is a joint attitude and position estimation EKF
  *
  * @file       insgps.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Include file of the INSGPS exposed functionality.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -32,13 +30,17 @@
 #ifndef INSGPS_H_
 #define INSGPS_H_
 
+#include "stdint.h"
+
 /**
   * @addtogroup Constants
   * @{
   */
 #define POS_SENSORS 0x007
-#define HORIZ_SENSORS 0x018
-#define VERT_SENSORS  0x020
+#define HORIZ_POS_SENSORS 0x003
+#define VERT_POS_SENSORS 0x004
+#define HORIZ_VEL_SENSORS 0x018
+#define VERT_VEL_SENSORS  0x020
 #define MAG_SENSORS 0x1C0
 #define BARO_SENSOR 0x200
 
@@ -48,32 +50,48 @@
   * @}
   */
 
-//  Exposed Function Prototypes
+/****************************************************/
+/**  Main interface for running the filter         **/
+/****************************************************/
+
+//! Reset the internal state variables and variances
 void INSGPSInit();
-void INSStatePrediction(float gyro_data[3], float accel_data[3], float dT);
+
+//! Compute an update of the state estimate
+void INSStatePrediction(const float gyro_data[3], const float accel_data[3], float dT);
+
+//! Compute an update of the state covariance
 void INSCovariancePrediction(float dT);
 
-void INSSetPosVelVar(float PosVar, float VelVar);
-void INSSetGyroBias(float gyro_bias[3]);
-void INSSetAccelVar(float accel_var[3]);
-void INSSetGyroVar(float gyro_var[3]);
-void INSSetMagNorth(float B[3]);
-void INSSetMagVar(float scaled_mag_var[3]);
-void INSPosVelReset(float pos[3], float vel[3]);
+//! Correct the state and covariance estimate based on the sensors that were updated
+void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[3], float BaroAlt, uint16_t SensorsUsed);
 
-void MagCorrection(float mag_data[3]);
-void BaroCorrection(float baro);
-void GpsCorrection(float Pos[3], float Vel[3]);
-void MagVelBaroCorrection(float mag_data[3], float Vel[3], float BaroAlt);
-void FullCorrection(float mag_data[3], float Pos[3], float Vel[3],
-		    float BaroAlt);
-void GpsBaroCorrection(float Pos[3], float Vel[3], float BaroAlt);
-void GpsMagCorrection(float mag_data[3], float Pos[3], float Vel[2]);
-void VelBaroCorrection(float Vel[3], float BaroAlt);
+//! Get the current state estimate
+void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias, float *accel_bias);
+
+/****************************************************/
+/** These methods alter the behavior of the filter **/
+/****************************************************/
+
+void INSResetP(const float *PDiag);
+void INSSetState(const float pos[3], const float vel[3], const float q[4], const float gyro_bias[3], const float accel_bias[3]);
+void INSSetPosVelVar(float PosVar, float VelVar, float VertPosVar);
+void INSSetGyroBias(const float gyro_bias[3]);
+void INSSetAccelBias(const float gyro_bias[3]);
+void INSSetAccelVar(const float accel_var[3]);
+void INSSetGyroVar(const float gyro_var[3]);
+void INSSetMagNorth(const float B[3]);
+void INSSetMagVar(const float scaled_mag_var[3]);
+void INSSetBaroVar(float baro_var);
+void INSPosVelReset(const float pos[3], const float vel[3]);
+
+void INSGetVariance(float *p);
+
+uint16_t ins_get_num_states();
+
+#endif /* INSGPS_H_ */
 
 /**
  * @}
- * @}
  */
-
-#endif /* EKF_H_ */
+ 

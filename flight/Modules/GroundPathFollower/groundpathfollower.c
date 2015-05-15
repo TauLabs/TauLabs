@@ -267,6 +267,9 @@ static void updatePathVelocity()
 		pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
 	else
 		pathStatus.Status = PATHSTATUS_STATUS_COMPLETED;
+
+	pathStatus.Waypoint = pathDesired.Waypoint;
+
 	PathStatusSet(&pathStatus);
 
 	float groundspeed = pathDesired.StartingVelocity +
