@@ -186,7 +186,6 @@ void VehicleConfigurationHelper::applyActuatorConfiguration()
         QList<actuatorChannelSettings> actuatorSettings = m_configSource->getActuatorSettings();
         for (quint16 i = 0; i < ActuatorSettings::CHANNELMAX_NUMELEM; i++) {
             data.ChannelType[i]    = ActuatorSettings::CHANNELTYPE_PWM;
-            data.ChannelAddr[i]    = i;
             data.ChannelMin[i]     = actuatorSettings[i].channelMin;
             data.ChannelNeutral[i] = actuatorSettings[i].channelNeutral;
             data.ChannelMax[i]     = actuatorSettings[i].channelMax;
