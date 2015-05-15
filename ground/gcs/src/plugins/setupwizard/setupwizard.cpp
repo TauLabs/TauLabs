@@ -262,6 +262,9 @@ QString SetupWizard::getSummaryText()
     case ESC_RAPID:
         summary.append(tr("Rapid ESC (400 Hz)"));
         break;
+    case ESC_ONESHOT:
+        summary.append(tr("OneShot (PWMSync + 125-250us)"));
+        break;
     default:
         summary.append(tr("Unknown"));
     }
