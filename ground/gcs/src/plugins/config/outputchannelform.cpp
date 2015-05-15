@@ -39,6 +39,15 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
         m_inChannelTest(false)
 {
     ui.setupUi(this);
+
+
+    ActuatorSettings *actuatorSettings = ActuatorSettings::GetInstance(getObjectManager());
+    Q_ASSERT(actuatorSettings);
+    UAVObjectField *types = actuatorSettings->getField("ChannelType");
+    Q_ASSERT(types);
+    ui.actuatorType->clear();
+    ui.actuatorType->addItems(types->getOptions());
+
     if(!showLegend)
     {
         // Remove legend

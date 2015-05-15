@@ -66,6 +66,10 @@ private:
     //! List of timer grouping labels
     QList<QLabel*> lblList;
 
+    // For naming custom rates and OneShot
+    QString timerFreqToString(quint32) const;
+    quint32 timerStringToFreq(QString) const;
+
     UAVObject::Metadata accInitialData;
 
     bool wasItMe;

@@ -435,10 +435,12 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
                 lblList.at(i)->setText(banks.at(i));
                 QComboBox* ccmb = rateList.at(i);
                 ccmb->setEnabled(true);
-                if (ccmb->findText(QString::number(actuatorSettingsData.TimerUpdateFreq[i]))==-1) {
-                    ccmb->addItem(QString::number(actuatorSettingsData.TimerUpdateFreq[i]));
+
+                QString setting = timerFreqToString(actuatorSettingsData.TimerUpdateFreq[i]);
+                if (ccmb->findText(setting)==-1) {
+                    ccmb->addItem(setting);
                 }
-                ccmb->setCurrentIndex(ccmb->findText(QString::number(actuatorSettingsData.TimerUpdateFreq[i])));
+                ccmb->setCurrentIndex(ccmb->findText(setting));
 
                 QComboBox* res = resList.at(i);
                 res->setEnabled(true);
@@ -482,12 +484,12 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
         }
 
         // Set update rates
-        actuatorSettingsData.TimerUpdateFreq[0] = m_config->cb_outputRate1->currentText().toUInt();
-        actuatorSettingsData.TimerUpdateFreq[1] = m_config->cb_outputRate2->currentText().toUInt();
-        actuatorSettingsData.TimerUpdateFreq[2] = m_config->cb_outputRate3->currentText().toUInt();
-        actuatorSettingsData.TimerUpdateFreq[3] = m_config->cb_outputRate4->currentText().toUInt();
-        actuatorSettingsData.TimerUpdateFreq[4] = m_config->cb_outputRate5->currentText().toUInt();
-        actuatorSettingsData.TimerUpdateFreq[5] = m_config->cb_outputRate6->currentText().toUInt();
+        actuatorSettingsData.TimerUpdateFreq[0] = timerStringToFreq(m_config->cb_outputRate1->currentText());
+        actuatorSettingsData.TimerUpdateFreq[1] = timerStringToFreq(m_config->cb_outputRate2->currentText());
+        actuatorSettingsData.TimerUpdateFreq[2] = timerStringToFreq(m_config->cb_outputRate3->currentText());
+        actuatorSettingsData.TimerUpdateFreq[3] = timerStringToFreq(m_config->cb_outputRate4->currentText());
+        actuatorSettingsData.TimerUpdateFreq[4] = timerStringToFreq(m_config->cb_outputRate5->currentText());
+        actuatorSettingsData.TimerUpdateFreq[5] = timerStringToFreq(m_config->cb_outputRate6->currentText());
 
         // Set output resolution
         actuatorSettingsData.TimerPwmResolution[0] = m_config->cb_outputResolution1->currentIndex();
@@ -505,6 +507,18 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
         // Apply settings
         actuatorSettings->setData(actuatorSettingsData);
     }
+}
+
+QString ConfigOutputWidget::timerFreqToString(quint32 freq) const {
+    if (freq == 0)
+        return QString(tr("OneShot"));
+    return QString::number(freq);
+}
+
+quint32 ConfigOutputWidget::timerStringToFreq(QString str) const {
+    if (str.compare(QString(tr("OneShot"))) == 0)
+        return 0;
+    return str.toUInt();
 }
 
 void ConfigOutputWidget::openHelp()
