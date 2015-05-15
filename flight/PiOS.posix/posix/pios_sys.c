@@ -30,7 +30,10 @@
  */
 
 /* Project Includes */
+#if !defined(_GNU_SOURCE)
 #define _GNU_SOURCE
+#endif /* !defined(_GNU_SOURCE) */
+
 #include "pios.h"
 
 #if defined(PIOS_INCLUDE_SYS)

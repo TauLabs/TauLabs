@@ -164,6 +164,7 @@ int CoordinateConversions::NED2LLA_HomeECEF(double BaseECEF[3], double NED[3], d
 int CoordinateConversions::NED2LLA_HomeLLA(double homeLLA[3], double NED[3], double LLA[3])
 {
     double T[3];
+    // 6.378137E6 is the radius of the earth
     T[0] = homeLLA[2]+6.378137E6f * M_PI / 180.0;
     T[1] = cosf(homeLLA[0] * M_PI / 180.0)*(homeLLA[2]+6.378137E6f) * M_PI / 180.0;
     T[2] = -1.0f;

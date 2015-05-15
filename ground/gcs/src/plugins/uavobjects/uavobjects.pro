@@ -34,6 +34,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/airspeedactual.h \
     $$UAVOBJECT_SYNTHETICS/altitudeholddesired.h \
     $$UAVOBJECT_SYNTHETICS/altitudeholdsettings.h \
+    $$UAVOBJECT_SYNTHETICS/altitudeholdstate.h \
     $$UAVOBJECT_SYNTHETICS/attitudeactual.h \
     $$UAVOBJECT_SYNTHETICS/attitudesettings.h \
     $$UAVOBJECT_SYNTHETICS/attitudesimulated.h \
@@ -81,6 +82,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/hwbrain.h \
     $$UAVOBJECT_SYNTHETICS/hwsparkybgc.h \
     $$UAVOBJECT_SYNTHETICS/hwtaulink.h \
+    $$UAVOBJECT_SYNTHETICS/hwsparky2.h \
     $$UAVOBJECT_SYNTHETICS/i2cvm.h \
     $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.h \
     $$UAVOBJECT_SYNTHETICS/inssettings.h \
@@ -157,6 +159,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/airspeedactual.cpp \
     $$UAVOBJECT_SYNTHETICS/altitudeholddesired.cpp \
     $$UAVOBJECT_SYNTHETICS/altitudeholdsettings.cpp \
+    $$UAVOBJECT_SYNTHETICS/altitudeholdstate.cpp \
     $$UAVOBJECT_SYNTHETICS/attitudeactual.cpp \
     $$UAVOBJECT_SYNTHETICS/attitudesettings.cpp \
     $$UAVOBJECT_SYNTHETICS/attitudesimulated.cpp \
@@ -204,6 +207,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/hwbrain.cpp \
     $$UAVOBJECT_SYNTHETICS/hwsparkybgc.cpp \
     $$UAVOBJECT_SYNTHETICS/hwtaulink.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwsparky2.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cvm.cpp \
     $$UAVOBJECT_SYNTHETICS/i2cvmuserprogram.cpp \
     $$UAVOBJECT_SYNTHETICS/inssettings.cpp \

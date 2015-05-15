@@ -55,11 +55,10 @@ static struct pios_queue *queue;
 static PathPlannerSettingsData pathPlannerSettings;
 static WaypointActiveData waypointActive;
 static WaypointData waypoint;
-static bool path_status_updated;
+static bool path_completed;
 
 // Private functions
 static void advanceWaypoint();
-static void checkTerminationCondition();
 static void activateWaypoint(int idx);
 
 static void pathPlannerTask(void *parameters);
@@ -118,6 +117,7 @@ int32_t PathPlannerInitialize()
 
 		// Create object queue
 		queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+		FlightStatusConnectQueue(queue);
 
 		return 0;
 	}
@@ -151,12 +151,16 @@ static void pathPlannerTask(void *parameters)
 
 	// Main thread loop
 	bool pathplanner_active = false;
-	path_status_updated = false;
+
+	pathStatusUpdated(NULL);
+	path_completed = false;
 
 	while (1)
 	{
 
-		PIOS_Thread_Sleep(UPDATE_RATE_MS);
+		// Make sure when flight mode toggles, to immediately update the path
+		UAVObjEvent ev;
+		PIOS_Queue_Receive(queue, &ev, UPDATE_RATE_MS);
 
 		// When not running the path planner short circuit and wait
 		FlightStatusGet(&flightStatus);
@@ -183,8 +187,8 @@ static void pathPlannerTask(void *parameters)
 
 		/* This method determines if we have achieved the goal of the active */
 		/* waypoint */
-		if (path_status_updated)
-			checkTerminationCondition();
+		if (path_completed)
+			advanceWaypoint();
 
 		/* If advance waypoint takes a long time to calculate then it should */
 		/* be called from here when the active_waypoints does not equal the  */
@@ -206,8 +210,11 @@ static void waypointsUpdated(UAVObjEvent * ev)
 		return;
 
 	WaypointActiveGet(&waypointActive);
-	if(active_waypoint != waypointActive.Index)
+	if(active_waypoint != waypointActive.Index) {
+		active_waypoint = waypointActive.Index;
+
 		activateWaypoint(waypointActive.Index);
+	}
 }
 
 /**
@@ -215,21 +222,14 @@ static void waypointsUpdated(UAVObjEvent * ev)
  */
 static void pathStatusUpdated(UAVObjEvent * ev)
 {
-	path_status_updated = true;
-}
-
-/**
- * This method checks the current position against the active waypoint
- * to determine if it has been reached
- */
-static void checkTerminationCondition()
-{
 	PathStatusData pathStatus;
-	PathStatusGet(&pathStatus);
-	path_status_updated = false;
 
-	if (pathStatus.Status == PATHSTATUS_STATUS_COMPLETED)
-		advanceWaypoint();
+	PathStatusGet(&pathStatus);
+
+	if ((pathStatus.Status == PATHSTATUS_STATUS_COMPLETED) &&
+			(pathStatus.Waypoint == active_waypoint)) {
+		path_completed = true;
+	}
 }
 
 /**
@@ -239,17 +239,53 @@ static void checkTerminationCondition()
 static void holdCurrentPosition()
 {
 	// TODO: Define a separate error condition method which can select RTH versus PH
-		PositionActualData position;
+	PositionActualData position;
 	PositionActualGet(&position);
 
 	PathDesiredData pathDesired;
+	pathDesired.Start[PATHDESIRED_START_NORTH] = position.North;
+	pathDesired.Start[PATHDESIRED_START_EAST] = position.East;
+	pathDesired.Start[PATHDESIRED_START_DOWN] = position.Down;
 	pathDesired.End[PATHDESIRED_END_NORTH] = position.North;
 	pathDesired.End[PATHDESIRED_END_EAST] = position.East;
 	pathDesired.End[PATHDESIRED_END_DOWN] = position.Down;
 	pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
+	pathDesired.StartingVelocity = 5; // This will be the max velocity it uses to try and hold
+	pathDesired.EndingVelocity = 5;
+	pathDesired.ModeParameters = 0;
+	pathDesired.Waypoint = -1;
 	PathDesiredSet(&pathDesired);
 }
 
+/**
+ * Initial position hold at current position.  This is used at the end
+ * of a path or in the case of a problem.
+ */
+static void holdLastPosition()
+{
+	uint32_t idx = UAVObjGetNumInstances(WaypointHandle());
+
+	// Get the activated waypoint
+	WaypointData waypoint;
+	WaypointInstGet(idx-1, &waypoint);
+
+	PositionActualData position;
+	PositionActualGet(&position);
+
+	PathDesiredData pathDesired;
+	pathDesired.Start[PATHDESIRED_START_NORTH] = position.North;
+	pathDesired.Start[PATHDESIRED_START_EAST] = position.East;
+	pathDesired.Start[PATHDESIRED_START_DOWN] = position.Down;
+	pathDesired.End[PATHDESIRED_END_NORTH] = waypoint.Position[WAYPOINT_POSITION_NORTH];
+	pathDesired.End[PATHDESIRED_END_EAST] = waypoint.Position[WAYPOINT_POSITION_EAST];
+	pathDesired.End[PATHDESIRED_END_DOWN] = waypoint.Position[WAYPOINT_POSITION_DOWN];
+	pathDesired.Mode = PATHDESIRED_MODE_HOLDPOSITION;
+	pathDesired.StartingVelocity = 5; // This will be the max velocity it uses to try and hold
+	pathDesired.EndingVelocity = 5;
+	pathDesired.ModeParameters = 0;
+	pathDesired.Waypoint = -1;
+	PathDesiredSet(&pathDesired);
+}
 /**
  * Increment the waypoint index which triggers the active waypoint method
  */
@@ -265,19 +301,15 @@ static void advanceWaypoint()
 	// conditional logic desired here.
 	// Note: In the case of conditional logic it is the responsibilty of the implementer
 	// to ensure all possible paths are valid.
-	waypointActive.Index++;
+	waypointActive.Index = previous_waypoint+1;
 
 	if (waypointActive.Index >= UAVObjGetNumInstances(WaypointHandle())) {
-		holdCurrentPosition();
-
-		// Do not reset path_status_updated here to avoid this method constantly being called
-		return;
+		holdLastPosition();	// This means last in path.
 	} else {
 		WaypointActiveSet(&waypointActive);
 	}
 
-	// Invalidate any pending path status updates
-	path_status_updated = false;
+	path_completed = false;
 }
 
 /**
@@ -290,9 +322,7 @@ static void advanceWaypoint()
  */
 static void activateWaypoint(int idx)
 {
-	active_waypoint = idx;
-
-	if (idx >= UAVObjGetNumInstances(WaypointHandle())) {
+	if ((idx >= UAVObjGetNumInstances(WaypointHandle())) || (idx < 0)) {
 		// Attempting to access invalid waypoint.  Fall back to position hold at current location
 		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);
 		holdCurrentPosition();
@@ -303,6 +333,8 @@ static void activateWaypoint(int idx)
 	WaypointInstGet(idx, &waypoint);
 
 	PathDesiredData pathDesired;
+
+	pathDesired.Waypoint = idx;
 
 	pathDesired.End[PATHDESIRED_END_NORTH] = waypoint.Position[WAYPOINT_POSITION_NORTH];
 	pathDesired.End[PATHDESIRED_END_EAST] = waypoint.Position[WAYPOINT_POSITION_EAST];
@@ -358,7 +390,7 @@ static void activateWaypoint(int idx)
 	PathDesiredSet(&pathDesired);
 
 	// Invalidate any pending path status updates
-	path_status_updated = false;
+	path_completed = false;
 
 	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
 }
@@ -487,77 +519,94 @@ static void createPathBox()
 
 static void createPathLogo()
 {
-	float scale = 1;
-
 	// Draw O
 	WaypointData waypoint;
 	waypoint.Velocity = 5; // Since for now this isn't directional just set a mag
-	for(uint32_t i = 0; i < 20; i++) {
-		waypoint.Position[1] = scale * 30 * cosf(i / 19.0f * 2 * PI);
-		waypoint.Position[0] = scale * 50 * sinf(i / 19.0f * 2 * PI);
-		waypoint.Position[2] = -50;
-		waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
-		WaypointCreateInstance();
-	}
-
-	// Draw P
-	for(uint32_t i = 20; i < 35; i++) {
-		waypoint.Position[1] = scale * (55 + 20 * cosf(i / 10.0f * PI - PI / 2));
-		waypoint.Position[0] = scale * (25 + 25 * sinf(i / 10.0f * PI - PI / 2));
-		waypoint.Position[2] = -50;
-		waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
-		WaypointCreateInstance();
-	}
-
-	waypoint.Position[1] = scale * 35;
-	waypoint.Position[0] = scale * -50;
-	waypoint.Position[2] = -50;
 	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
-	WaypointCreateInstance();
-	WaypointInstSet(35, &waypoint);
+	waypoint.ModeParameters = 0;
+	waypoint.Position[2] = -20;
 
-	// Draw Box
-	waypoint.Position[1] = scale * 35;
-	waypoint.Position[0] = scale * -60;
-	waypoint.Position[2] = -30;
-	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
-	WaypointCreateInstance();
-	WaypointInstSet(36, &waypoint);
+	waypoint.Position[0] = 6.49;
+	waypoint.Position[1] = -9.52;
+	WaypointInstSet(0, &waypoint);
 
-	waypoint.Position[1] = scale * 85;
-	waypoint.Position[0] = scale * -60;
-	waypoint.Position[2] = -30;
-	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
+	waypoint.Position[0] = 6.32;
+	waypoint.Position[1] = -94.82;
 	WaypointCreateInstance();
-	WaypointInstSet(37, &waypoint);
+	WaypointInstSet(1, &waypoint);
 
-	waypoint.Position[1] = scale * 85;
-	waypoint.Position[0] = scale * 60;
-	waypoint.Position[2] = -30;
-	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
+	waypoint.Position[0] = 6.32;
+	waypoint.Position[1] = -77.13;
 	WaypointCreateInstance();
-	WaypointInstSet(38, &waypoint);
+	WaypointInstSet(2, &waypoint);
 
-	waypoint.Position[1] = scale * -40;
-	waypoint.Position[0] = scale * 60;
-	waypoint.Position[2] = -30;
-	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
+	waypoint.Position[0] = -17.04;
+	waypoint.Position[1] = -77.071;
 	WaypointCreateInstance();
-	WaypointInstSet(39, &waypoint);
+	WaypointInstSet(3, &waypoint);
 
-	waypoint.Position[1] = scale * -40;
-	waypoint.Position[0] = scale * -60;
-	waypoint.Position[2] = -30;
-	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
+	waypoint.Position[0] = -26.42;
+	waypoint.Position[1] = -69.30;
+	waypoint.Mode = WAYPOINT_MODE_FLYCIRCLELEFT;
+	waypoint.ModeParameters = 10;
 	WaypointCreateInstance();
-	WaypointInstSet(40, &waypoint);
+	WaypointInstSet(4, &waypoint);
 
-	waypoint.Position[1] = scale * 35;
-	waypoint.Position[0] = scale * -60;
-	waypoint.Position[2] = -30;
+	waypoint.Position[0] = -27.06;
+	waypoint.Position[1] = -59.58;
 	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
+	waypoint.ModeParameters = 0;
 	WaypointCreateInstance();
-	WaypointInstSet(41, &waypoint);
+	WaypointInstSet(5, &waypoint);
+
+	waypoint.Position[0] = -22.37;
+	waypoint.Position[1] = -51.81;
+	waypoint.Mode = WAYPOINT_MODE_FLYCIRCLELEFT;
+	waypoint.ModeParameters = 8;
+	WaypointCreateInstance();
+	WaypointInstSet(6, &waypoint);
+
+	waypoint.Position[0] = -4.25;
+	waypoint.Position[1] = -38.64;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
+	waypoint.ModeParameters = 0;
+	WaypointCreateInstance();
+	WaypointInstSet(7, &waypoint);
+
+	waypoint.Position[0] = 6.33;
+	waypoint.Position[1] = -45.74;
+	waypoint.Mode = WAYPOINT_MODE_FLYCIRCLELEFT;
+	waypoint.ModeParameters = 10;
+	WaypointCreateInstance();
+	WaypointInstSet(8, &waypoint);
+
+	waypoint.Position[0] = -5.11;
+	waypoint.Position[1] = -52.46;
+	waypoint.Mode = WAYPOINT_MODE_FLYCIRCLELEFT;
+	waypoint.ModeParameters = 10;
+	WaypointCreateInstance();
+	WaypointInstSet(9, &waypoint);
+
+	waypoint.Position[0] = -26.84;
+	waypoint.Position[1] = -41.45;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
+	waypoint.ModeParameters = 0;
+	WaypointCreateInstance();
+	WaypointInstSet(10, &waypoint);
+
+	waypoint.Position[0] = -18.11;
+	waypoint.Position[1] = -34.11;
+	waypoint.Mode = WAYPOINT_MODE_FLYCIRCLERIGHT;
+	waypoint.ModeParameters = 10;
+	WaypointCreateInstance();
+	WaypointInstSet(11, &waypoint);
+
+	waypoint.Position[0] = -10.65;
+	waypoint.Position[1] = -3.45;
+	waypoint.Mode = WAYPOINT_MODE_FLYVECTOR;
+	waypoint.ModeParameters = 0;
+	WaypointCreateInstance();
+	WaypointInstSet(12, &waypoint);
 
 }
 

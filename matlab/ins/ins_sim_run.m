@@ -125,7 +125,7 @@ for i = 1:length(Gyros.timestamp)-1000
         insgps_ml('INSSetState',[pos(1) pos(2) baro vel q1' -mean(Gyros.x(1:100) * pi / 180) -mean(Gyros.y(1:100) * pi / 180) 0]);
     elseif inited && i < 100
         insgps_ml('INSSetMagVar',[5 5 5]);
-        insgps_ml('INSSetPosVelVar',1 / 1000);
+%        insgps_ml('INSSetPosVelVar',1 / 1000);
         % zero bias
         %insgps_ml('INSSetState',[a(1:10,i)' 0 0 0]);
         %state = insgps_ml('INSFullCorrection',mag,pos,vel,baro);

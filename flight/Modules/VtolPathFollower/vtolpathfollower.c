@@ -39,6 +39,7 @@
 
 #include "acceldesired.h"
 #include "altitudeholdsettings.h"
+#include "altitudeholdstate.h"
 #include "modulesettings.h"
 #include "pathdesired.h"        // object that will be updated by the module
 #include "flightstatus.h"
@@ -60,6 +61,7 @@
 // Private variables
 static struct pios_thread *pathfollowerTaskHandle;
 static VtolPathFollowerSettingsData guidanceSettings;
+static struct pios_queue *queue;
 
 // Private functions
 static void vtolPathFollowerTask(void *parameters);
@@ -72,6 +74,10 @@ static bool module_enabled = false;
 int32_t VtolPathFollowerStart()
 {
 	if (module_enabled) {
+		// Create object queue
+		queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+		FlightStatusConnectQueue(queue);
+
 		// Start main task
 		pathfollowerTaskHandle = PIOS_Thread_Create(vtolPathFollowerTask, "VtolPathFollower", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_PATHFOLLOWER, pathfollowerTaskHandle);
@@ -104,6 +110,7 @@ int32_t VtolPathFollowerInitialize()
 
 	AccelDesiredInitialize();
 	AltitudeHoldSettingsInitialize();
+	AltitudeHoldStateInitialize();
 	PathDesiredInitialize();
 	PathStatusInitialize();
 	VelocityDesiredInitialize();
@@ -125,8 +132,6 @@ static void vtolPathFollowerTask(void *parameters)
 	SystemSettingsData systemSettings;
 	FlightStatusData flightStatus;
 
-	uint32_t lastUpdateTime;
-	
 	VtolPathFollowerSettingsConnectCallback(vtol_follower_control_settings_updated);
 	AltitudeHoldSettingsConnectCallback(vtol_follower_control_settings_updated);
 	vtol_follower_control_settings_updated(NULL);
@@ -134,7 +139,6 @@ static void vtolPathFollowerTask(void *parameters)
 	VtolPathFollowerSettingsGet(&guidanceSettings);
 	
 	// Main task loop
-	lastUpdateTime = PIOS_Thread_Systime();
 	while (1) {
 
 		SystemSettingsGet(&systemSettings);
@@ -157,8 +161,9 @@ static void vtolPathFollowerTask(void *parameters)
 			continue;
 		}
 
-		// Continue collecting data if not enough time
-		PIOS_Thread_Sleep_Until(&lastUpdateTime, guidanceSettings.UpdatePeriod);
+		// Make sure when flight mode toggles, to immediately update the path
+		UAVObjEvent ev;
+		PIOS_Queue_Receive(queue, &ev, guidanceSettings.UpdatePeriod);
 		
 		static uint8_t last_flight_mode;
 		FlightStatusGet(&flightStatus);
@@ -207,7 +212,7 @@ static void vtolPathFollowerTask(void *parameters)
 			StabilizationDesiredThrottleGet(&vtol_pids[DOWN_VELOCITY].iAccumulator);
 			// pid library scales up accumulator by 1000. Note the negative sign because this
 			// is the accumulation for down.
-			vtol_pids[DOWN_VELOCITY].iAccumulator *= -1000.0f; 
+			vtol_pids[DOWN_VELOCITY].iAccumulator *= -1000.0f;
 		}
 
 		AlarmsClear(SYSTEMALARMS_ALARM_PATHFOLLOWER);

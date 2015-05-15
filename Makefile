@@ -914,7 +914,7 @@ $(UT_OUT_DIR):
 	$(V1) mkdir -p $@
 
 .PHONY: all_ut
-all_ut: $(addsuffix _elf, $(addprefix ut_, $(ALL_UNITTESTS)))
+all_ut: $(addsuffix _elf, $(addprefix ut_, $(ALL_UNITTESTS))) $(ALL_PYTHON_UNITTESTS)
 
 # The all_ut_tap goal is a legacy alias for the all_ut_xml target so that Jenkins
 # can still build old branches.  This can be deleted in a few months when all
@@ -988,6 +988,14 @@ python_ut_test:
 	$(V0) @echo "  PYTHON_UT test.py"
 	$(V1) $(PYTHON) python/test.py
 
+.PHONY: python_ut_ins
+python_ut_ins:
+	$(V0) @echo "  PYTHON_UT ins/test.py"
+	$(V1) ( cd python/ins && \
+	  $(PYTHON) setup.py build_ext --inplace && \
+	  $(PYTHON) test.py \
+	)
+
 # Disable parallel make when the all_ut_run target is requested otherwise the TAP
 # output is interleaved with the rest of the make output.
 ifneq ($(strip $(filter all_ut_run,$(MAKECMDGOALS))),)
@@ -1004,7 +1012,7 @@ endif
 .PHONY: package
 package:
 	$(V1) cd $@ && $(MAKE) --no-print-directory $@
-	
+
 .PHONY: standalone
 standalone:
 	$(V1) cd package && $(MAKE) --no-print-directory $@

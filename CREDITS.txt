@@ -131,6 +131,10 @@ N: Matt Lipski
 E: mattlipski (plus) openpilot (at) gmail (dot) com
 D: Deluxe Dials Set artwork, (Artificial Horizon, Compass, Turn Indicator)
 
+N: Michael Lyle
+E: mplyle (at) gmail (dot) com
+D: Simulation, navigation, python API.  Misc code janitor.
+
 N: Les Newell
 E: les (dot) newell (at) fastmail (dot) co (dot) uk
 D: Advanced mixer matrix, SPI protocol based on UAVObjects, feedforward

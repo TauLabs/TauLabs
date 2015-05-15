@@ -208,7 +208,7 @@ Section "Firmware" InSecFirmware
 ; File /r "${PACKAGE_DIR}\${FIRMWARE_DIR}\*"
   SetOutPath "$INSTDIR\firmware"
   File "${PACKAGE_DIR}\${FIRMWARE_DIR}\fw_brain-${PACKAGE_LBL}.tlfw"
-SectionEnd
+ SectionEnd
 
 ; Copy utility files
 Section "-Utilities" InSecUtilities

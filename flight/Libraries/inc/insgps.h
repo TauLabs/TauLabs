@@ -31,6 +31,7 @@
 #define INSGPS_H_
 
 #include "stdint.h"
+#include "stdbool.h"
 
 /**
   * @addtogroup Constants
@@ -67,16 +68,20 @@ void INSCovariancePrediction(float dT);
 void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[3], float BaroAlt, uint16_t SensorsUsed);
 
 //! Get the current state estimate
-void INSGetState(float *pos, float *vel, float *attitude, float *bias);
+void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias, float *accel_bias);
+
+//! Set the current flight state
+void INSSetArmed(bool armed);
 
 /****************************************************/
 /** These methods alter the behavior of the filter **/
 /****************************************************/
 
-void INSResetP(const float PDiag[13]);
+void INSResetP(const float *PDiag);
 void INSSetState(const float pos[3], const float vel[3], const float q[4], const float gyro_bias[3], const float accel_bias[3]);
 void INSSetPosVelVar(float PosVar, float VelVar, float VertPosVar);
 void INSSetGyroBias(const float gyro_bias[3]);
+void INSSetAccelBias(const float gyro_bias[3]);
 void INSSetAccelVar(const float accel_var[3]);
 void INSSetGyroVar(const float gyro_var[3]);
 void INSSetMagNorth(const float B[3]);

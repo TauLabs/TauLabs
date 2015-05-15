@@ -32,9 +32,12 @@
 
 #if defined(PIOS_INCLUDE_TCP)
 
-#include <signal.h>
 #include <pios_tcp_priv.h>
 #include "pios_thread.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <errno.h>
 
 /* We need a list of TCP devices */
 
@@ -61,7 +64,7 @@ const struct pios_com_driver pios_tcp_com_driver = {
 };
 
 
-static pios_tcp_dev * find_tcp_dev_by_id (uint8_t tcp)
+static pios_tcp_dev * find_tcp_dev_by_id(uint8_t tcp)
 {
 	if (tcp >= pios_tcp_num_devices) {
 		/* Undefined UDP port for this board (see pios_board.c) */
@@ -74,75 +77,95 @@ static pios_tcp_dev * find_tcp_dev_by_id (uint8_t tcp)
 }
 
 /**
- * RxThread
+ * RxTask
  */
- 
 static void PIOS_TCP_RxTask(void *tcp_dev_n)
 {
-	bool rx_need_yield = false;
-
-	pios_tcp_dev *tcp_dev = (pios_tcp_dev *) tcp_dev_n;
-	while(1) {
-		
-		if (tcp_dev->rx_in_cb) {
-			char buffer[PIOS_TCP_RX_BUFFER_SIZE];
-			int received = fifoBuf_getData(&tcp_dev->rx_fifo, buffer, PIOS_TCP_RX_BUFFER_SIZE);
-			(void) (tcp_dev->rx_in_cb)(tcp_dev->rx_in_context, (uint8_t *) buffer, received, NULL, &rx_need_yield);
-
-			//fprintf(stderr, "Received %d\n", received);
-#if defined(PIOS_INCLUDE_FREERTOS)
-			// Not sure about this
-			if (rx_need_yield) {
-				taskYIELD();
-			}
-#endif	/* PIOS_INCLUDE_FREERTOS */
-			
-		} else
-			fifoBuf_clearData(&tcp_dev->rx_fifo);	
-		
-		PIOS_Thread_Sleep(1);
-	}
-}
-
-static void *PIOS_TCP_RxThread(void *tcp_dev_n)
-{
-	
-	/* needed because of FreeRTOS.posix scheduling */
-	sigset_t set;
-	sigfillset(&set);
-	sigprocmask(SIG_BLOCK, &set, NULL);
-	
-	pios_tcp_dev *tcp_dev = (pios_tcp_dev*) tcp_dev_n;
+	pios_tcp_dev *tcp_dev = (pios_tcp_dev*)tcp_dev_n;
 	
 	const int INCOMING_BUFFER_SIZE = 16;
 	char incoming_buffer[INCOMING_BUFFER_SIZE];
+	int error;
 	/**
 	 * com devices never get closed except by application "reboot"
 	 * we also never give up our mutex except for waiting
 	 */
-	while(1) {
+	while (1) {
 	
-		tcp_dev->socket_connection = accept(tcp_dev->socket, NULL, NULL);
-		if (0 > tcp_dev->socket_connection) {
+		do
+		{
+			/* Polling the fd has to be executed in thread suspended mode
+			 * to get a correct errno value. */
+			PIOS_Thread_Scheduler_Suspend();
+
+			tcp_dev->socket_connection = accept(tcp_dev->socket, NULL, NULL);
+			error = errno;
+
+			PIOS_Thread_Scheduler_Resume();
+
+			PIOS_Thread_Sleep(1);
+		} while (tcp_dev->socket_connection == -1 && (error == EINTR || error == EAGAIN));
+
+		if (tcp_dev->socket_connection < 0) {
+			int error = errno;
+			(void)error;
 			perror("Accept failed");
 			close(tcp_dev->socket);
 			exit(EXIT_FAILURE);
 		}
 		
+		/* Set socket nonblocking. */
+	    int flags;
+	    if ((flags = fcntl(tcp_dev->socket_connection, F_GETFL, 0)) == -1) {
+	    }
+	    if (fcntl(tcp_dev->socket_connection, F_SETFL, flags | O_NONBLOCK) == -1) {
+	    }
+
+
 		fprintf(stderr, "Connection accepted\n");
-		
-		int received;
-		do {
+
+		while (1) {
 			// Received is used to track the scoket whereas the dev variable is only updated when it can be
-			received = read(tcp_dev->socket_connection, incoming_buffer, INCOMING_BUFFER_SIZE);
+
+			/* Polling the fd has to be executed in thread suspended mode
+			 * to get a correct errno value. */
+			PIOS_Thread_Scheduler_Suspend();
+
+			int result = read(tcp_dev->socket_connection, incoming_buffer, INCOMING_BUFFER_SIZE);
+			error = errno;
+
+			PIOS_Thread_Scheduler_Resume();
 			
-			//while(fifoBuf_getFree(&tcp_dev->rx_fifo) < received);
-			
-			fifoBuf_putData(&tcp_dev->rx_fifo, incoming_buffer, received);
-		} while(received > 0);
+			if (result > 0 && tcp_dev->rx_in_cb) {
+
+				bool rx_need_yield = false;
+
+				tcp_dev->rx_in_cb(tcp_dev->rx_in_context, (uint8_t*)incoming_buffer, result, NULL, &rx_need_yield);
+
+	#if defined(PIOS_INCLUDE_FREERTOS)
+				// Not sure about this
+				if (rx_need_yield) {
+					taskYIELD();
+				}
+	#endif	/* PIOS_INCLUDE_FREERTOS */
+
+			}
+
+			if (result == 0) {
+				break;
+			}
+
+			if (result == -1) {
+				if (error == EAGAIN)
+					PIOS_Thread_Sleep(1);
+				else if (error == EINTR)
+					(void)error;
+				else
+					break;
+			}
+		}
 		
-		if (-1 == shutdown(tcp_dev->socket_connection, SHUT_RDWR))
-		{
+		if (shutdown(tcp_dev->socket_connection, SHUT_RDWR) == -1) {
 			//perror("can not shutdown socket");
 			//close(tcp_dev->socket_connection);
 			//exit(EXIT_FAILURE);
@@ -154,7 +177,7 @@ static void *PIOS_TCP_RxThread(void *tcp_dev_n)
 
 
 /**
- * Open UDP socket
+ * Open TCP socket
  */
 struct pios_thread *tcpRxTaskHandle;
 int32_t PIOS_TCP_Init(uintptr_t *tcp_id, const struct pios_tcp_cfg * cfg)
@@ -163,7 +186,6 @@ int32_t PIOS_TCP_Init(uintptr_t *tcp_id, const struct pios_tcp_cfg * cfg)
 	pios_tcp_dev *tcp_dev = &pios_tcp_devices[pios_tcp_num_devices];
 	
 	pios_tcp_num_devices++;
-	
 	
 	/* initialize */
 	tcp_dev->rx_in_cb = NULL;
@@ -181,12 +203,20 @@ int32_t PIOS_TCP_Init(uintptr_t *tcp_id, const struct pios_tcp_cfg * cfg)
         /* Also request low-latency (don't store up data to conserve packets */
         setsockopt(tcp_dev->socket, IPPROTO_TCP, TCP_NODELAY, &optval, sizeof(optval));
 
-	memset(&tcp_dev->server,0,sizeof(tcp_dev->server));
-	memset(&tcp_dev->client,0,sizeof(tcp_dev->client));
+	memset(&tcp_dev->server, 0, sizeof(tcp_dev->server));
+	memset(&tcp_dev->client, 0, sizeof(tcp_dev->client));
+
 	tcp_dev->server.sin_family = AF_INET;
 	tcp_dev->server.sin_addr.s_addr = INADDR_ANY; //inet_addr(tcp_dev->cfg->ip);
 	tcp_dev->server.sin_port = htons(tcp_dev->cfg->port);
-	int res= bind(tcp_dev->socket, (struct sockaddr *)&tcp_dev->server,sizeof(tcp_dev->server));
+
+	/* set socket options */
+    int value = 1;
+    if (setsockopt(tcp_dev->socket, SOL_SOCKET, SO_REUSEADDR, (char*)&value, sizeof(value)) == -1) {
+
+    }
+
+	int res= bind(tcp_dev->socket, (struct sockaddr*)&tcp_dev->server, sizeof(tcp_dev->server));
 	if (res == -1) {
 		perror("Binding socket failed\n");
 		exit(EXIT_FAILURE);
@@ -198,16 +228,19 @@ int32_t PIOS_TCP_Init(uintptr_t *tcp_id, const struct pios_tcp_cfg * cfg)
 		exit(EXIT_FAILURE);
 	}
 	
-	fifoBuf_init(&tcp_dev->rx_fifo, tcp_dev->rx_buffer, PIOS_TCP_RX_BUFFER_SIZE);
-	
-	pthread_create(&tcp_dev->rxThread, NULL, PIOS_TCP_RxThread, (void*)tcp_dev);
+	/* Set socket nonblocking. */
+    int flags;
+    if ((flags = fcntl(tcp_dev->socket, F_GETFL, 0)) == -1) {
+    }
+    if (fcntl(tcp_dev->socket, F_SETFL, flags | O_NONBLOCK) == -1) {
+    }
 
 	tcpRxTaskHandle = PIOS_Thread_Create(
-			PIOS_TCP_RxTask, "pios_tcp_rx", 4096, tcp_dev, 2);
+			PIOS_TCP_RxTask, "pios_tcp_rx", PIOS_THREAD_STACK_SIZE_MIN, tcp_dev, PIOS_THREAD_PRIO_HIGHEST);
 	
-	printf("udp dev %i - socket %i opened - result %i\n",pios_tcp_num_devices-1,tcp_dev->socket,res);
+	printf("tcp dev %i - socket %i opened - result %i\n", pios_tcp_num_devices - 1, tcp_dev->socket, res);
 	
-	*tcp_id = pios_tcp_num_devices-1;
+	*tcp_id = pios_tcp_num_devices - 1;
 	
 	return res;
 }
@@ -241,17 +274,17 @@ static void PIOS_TCP_TxStart(uintptr_t tcp_id, uint16_t tx_bytes_avail)
 	 * we send everything directly whenever notified of data to send (lazy!)
 	 */
 	if (tcp_dev->tx_out_cb) {
-		while (tx_bytes_avail>0) {
+		while (tx_bytes_avail > 0) {
 			bool tx_need_yield = false;
 			length = (tcp_dev->tx_out_cb)(tcp_dev->tx_out_context, tcp_dev->tx_buffer, PIOS_TCP_RX_BUFFER_SIZE, NULL, &tx_need_yield);
 			rem = length;
-			while (rem>0) {
+			while (rem > 0) {
 				ssize_t len = 0;
-				if(tcp_dev->socket_connection != 0) {
+				if (tcp_dev->socket_connection != 0) {
 					len = write(tcp_dev->socket_connection, tcp_dev->tx_buffer, length);
 				}
-				if (len<=0) {
-					rem=0;
+				if (len <= 0) {
+					rem = 0;
 				} else {
 					rem -= len;
 				}
@@ -265,7 +298,6 @@ static void PIOS_TCP_TxStart(uintptr_t tcp_id, uint16_t tx_bytes_avail)
 #endif	/* PIOS_INCLUDE_FREERTOS */
 		}
 	}
-	
 }
 
 static void PIOS_TCP_RegisterRxCallback(uintptr_t tcp_id, pios_com_callback rx_in_cb, uintptr_t context)

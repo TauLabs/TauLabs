@@ -93,7 +93,8 @@ static const struct pios_mpu60x0_cfg pios_mpu9150_cfg = {
 	.User_ctl = 0,
 	.Pwr_mgmt_clk = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
 	.default_filter = PIOS_MPU60X0_LOWPASS_256_HZ,
-	.orientation = PIOS_MPU60X0_TOP_90DEG
+	.orientation = PIOS_MPU60X0_TOP_90DEG,
+	.use_internal_mag = true
 };
 #endif /* PIOS_INCLUDE_MPU9150 */
 

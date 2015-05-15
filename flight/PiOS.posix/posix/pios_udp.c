@@ -154,7 +154,7 @@ int32_t PIOS_UDP_Init(uint32_t * udp_id, const struct pios_udp_cfg * cfg)
 
   /* Create transmit thread for this connection */
   udp_dev->rxThread = PIOS_Thread_Create(
-		  PIOS_TCP_RxTask, "pios_udp_rx", 4096, udp_dev, 2);
+		  PIOS_TCP_RxTask, "pios_udp_rx", PIOS_THREAD_STACK_SIZE_MIN, udp_dev, PIOS_THREAD_PRIO_NORMAL);
 
   printf("udp dev %i - socket %i opened - result %i\n",pios_udp_num_devices-1,udp_dev->socket,res);
 

@@ -53,7 +53,7 @@ int32_t TaskMonitorInitialize(void)
 #if defined(PIOS_INCLUDE_FREERTOS)
 	lastMonitorTime = portGET_RUN_TIME_COUNTER_VALUE();
 #elif defined(PIOS_INCLUDE_CHIBIOS)
-	lastMonitorTime = hal_lld_get_counter_value();
+	lastMonitorTime = halGetCounterValue();
 #endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 #endif
 	return 0;

@@ -30,51 +30,151 @@
  * @{
  */
 
-#include <stdlib.h>
-
 #include "ch.h"
 #include "hal.h"
 
-/**
- * Performs a context switch between two threads.
- * @param otp the thread to be switched out
- * @param ntp the thread to be switched in
- */
-__attribute__((used))
-static void __dummy(Thread *ntp, Thread *otp) {
-  (void)ntp; (void)otp;
+#include <ucontext.h>
+#include <unistd.h>
+#include <sys/select.h>
 
-  asm volatile (
-#if defined(WIN32)
-                ".globl @port_switch@8                          \n\t"
-                "@port_switch@8:"
-#elif defined(__APPLE__)
-                ".globl _port_switch                            \n\t"
-                "_port_switch:"
-#else
-                ".globl port_switch                             \n\t"
-                "port_switch:"
-#endif
-                "push    %ebp                                   \n\t"
-                "push    %esi                                   \n\t"
-                "push    %edi                                   \n\t"
-                "push    %ebx                                   \n\t"
-                "movl    %esp, 12(%edx)                         \n\t"
-                "movl    12(%ecx), %esp                         \n\t"
-                "pop     %ebx                                   \n\t"
-                "pop     %edi                                   \n\t"
-                "pop     %esi                                   \n\t"
-                "pop     %ebp                                   \n\t"
-                "ret");
+/*===========================================================================*/
+/* Port interrupt handlers.                                                  */
+/*===========================================================================*/
+
+void port_tick_signal_handler(int signo, siginfo_t *info, void *context) {
+  CH_IRQ_PROLOGUE();
+
+  chSysLockFromIsr();
+  chSysTimerHandlerI();
+  chSysUnlockFromIsr();
+
+  CH_IRQ_EPILOGUE();
+
+  dbg_check_lock();
+  if (chSchIsPreemptionRequired())
+    chSchDoReschedule();
+  dbg_check_unlock();
+}
+
+/*===========================================================================*/
+/* Port exported functions.                                                  */
+/*===========================================================================*/
+
+/**
+ * @brief   Port-related initialization code.
+ * @note    This function is usually empty.
+ */
+void port_init(void) {
 }
 
 /**
- * Halts the system. In this implementation it just exits the simulation.
+ * @brief   Kernel-lock action.
+ * @details Usually this function just disables interrupts but may perform more
+ *          actions.
  */
-__attribute__((fastcall))
-void port_halt(void) {
 
+static sigset_t saved;
+
+void port_lock(void) {
+  sigset_t set;
+
+  if (sigemptyset(&set) < 0)
+    port_halt();
+  if (sigaddset(&set, PORT_TIMER_SIGNAL) < 0)
+    port_halt();
+  if (sigprocmask(SIG_BLOCK, &set, &saved) > 0)
+    port_halt();
+}
+
+/**
+ * @brief   Kernel-unlock action.
+ * @details Usually this function just enables interrupts but may perform more
+ *          actions.
+ */
+void port_unlock(void) {
+  if (sigprocmask(SIG_UNBLOCK, &saved, NULL) > 0)
+    port_halt();
+}
+
+/**
+ * @brief   Kernel-lock action from an interrupt handler.
+ * @details This function is invoked before invoking I-class APIs from
+ *          interrupt handlers. The implementation is architecture dependent,
+ *          in its simplest form it is void.
+ */
+void port_lock_from_isr(void) {
+}
+
+/**
+ * @brief   Kernel-unlock action from an interrupt handler.
+ * @details This function is invoked after invoking I-class APIs from interrupt
+ *          handlers. The implementation is architecture dependent, in its
+ *          simplest form it is void.
+ */
+void port_unlock_from_isr(void) {
+}
+
+/**
+ * @brief   Disables all the interrupt sources.
+ * @note    Of course non-maskable interrupt sources are not included.
+ */
+void port_disable(void) {
+}
+
+/**
+ * @brief   Disables the interrupt sources below kernel-level priority.
+ * @note    Interrupt sources above kernel level remains enabled.
+ */
+void port_suspend(void) {
+}
+
+/**
+ * @brief   Enables all the interrupt sources.
+ */
+void port_enable(void) {
+}
+
+/**
+ * @brief   Enters an architecture-dependent IRQ-waiting mode.
+ * @details The function is meant to return when an interrupt becomes pending.
+ *          The simplest implementation is an empty function or macro but this
+ *          would not take advantage of architecture-specific power saving
+ *          modes.
+ */
+void port_wait_for_interrupt(void) {
+#if 0
+  // Does not seem to perform well enough in context switching...
+  struct timeval tv = { .tv_sec=5 };
+
+  select(1, NULL, NULL, NULL, &tv);
+#endif
+}
+
+/**
+ * @brief   Halts the system.
+ * @details This function is invoked by the operating system when an
+ *          unrecoverable error is detected (for example because a programming
+ *          error in the application code that triggers an assertion while in
+ *          debug mode).
+ */
+void port_halt(void) {
+  port_disable();
   exit(2);
+}
+
+/**
+ * @brief   Performs a context switch between two threads.
+ * @details This is the most critical code in any port, this function
+ *          is responsible for the context switch between 2 threads.
+ * @note    The implementation of this code affects <b>directly</b> the context
+ *          switch performance so optimize here as much as you can.
+ *
+ * @param[in] ntp       the thread to be switched in
+ * @param[in] otp       the thread to be switched out
+ */
+void port_switch(Thread *ntp, Thread *otp) {
+  if (swapcontext(&otp->p_ctx.uc, &ntp->p_ctx.uc) < 0)
+    port_halt();
 }
 
 /**
@@ -82,12 +182,26 @@ void port_halt(void) {
  * @details If the work function returns @p chThdExit() is automatically
  *          invoked.
  */
-__attribute__((cdecl, noreturn))
-void _port_thread_start(msg_t (*pf)(void *), void *p) {
+void _port_thread_start(void (*func)(int), int arg) {
+  /* printf("starting %p - %d\n", func, arg); */
+
+  sigset_t set;
 
   chSysUnlock();
-  chThdExit(pf(p));
-  while(1);
+
+  /* Ensure we respond to the timer signal, because we could have been made
+   * somewhere that didn't */
+
+  if (sigemptyset(&set) < 0)
+    port_halt();
+  if (sigaddset(&set, PORT_TIMER_SIGNAL) < 0)
+    port_halt();
+  if (sigprocmask(SIG_UNBLOCK, &set, NULL) > 0)
+    port_halt();
+
+  func(arg);
+
+  chThdExit(0);
 }
 
 /** @} */

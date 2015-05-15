@@ -411,6 +411,9 @@ int32_t transmitter_control_select(bool reset_controller)
 	case FLIGHTSTATUS_FLIGHTMODE_ACRO:
 	case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
 	case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
+	case FLIGHTSTATUS_FLIGHTMODE_MWRATE:
+	case FLIGHTSTATUS_FLIGHTMODE_HORIZON:
+	case FLIGHTSTATUS_FLIGHTMODE_AXISLOCK:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
 	case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
@@ -636,7 +639,7 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 		// Determine whether to disarm when throttle is low
 		uint8_t flight_mode;
 		FlightStatusFlightModeGet(&flight_mode);
-		bool autonomous_mode = flight_mode == FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL ||
+		bool autonomous_mode = 
 		                       flight_mode == FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD ||
 		                       flight_mode == FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME ||
 		                       flight_mode == FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER  ||
@@ -893,6 +896,18 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR,
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR,
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
+	const uint8_t MWRATE_SETTINGS[3] = {
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_MWRATE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_MWRATE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_MWRATE};
+	const uint8_t HORIZON_SETTINGS[3] = {
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
+	const uint8_t AXISLOCK_SETTINGS[3] = {
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
 
 	const uint8_t * stab_settings;
 	FlightStatusData flightStatus;
@@ -906,6 +921,15 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
 			stab_settings = VIRTUALBAR_SETTINGS;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_MWRATE:
+			stab_settings = MWRATE_SETTINGS;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_HORIZON:
+			stab_settings = HORIZON_SETTINGS;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_AXISLOCK:
+			stab_settings = AXISLOCK_SETTINGS;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 			stab_settings = settings->Stabilization1Settings;

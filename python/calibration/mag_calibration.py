@@ -60,27 +60,28 @@ def mag_calibration(mag,gyros=None,LH=200,LV=500):
 		cor_z = mag_z * x[2] - x[5]
 		l = sqrt(cor_x**2 + cor_y**2 + cor_z**2)
 		L0 = sqrt(LH**2 + LV**2)
-		spherical_error = mean((l - L0)**2)
+		spherical_error = numpy.mean((l - L0)**2)
 
 		# note that ideally the horizontal error would be calculated
 		# after correcting for attitude but that requires high temporal
 		# accuracy from attitude which we don't want to requires. this
 		# works well in practice.
 		lh = sqrt(cor_x**2 + cor_y**2)
-		horizontal_error = mean((lh - LH)**2)
+		err = (lh - LH)**2
+		horizontal_error = numpy.mean(err)
 
 		# weight both the spherical error and the horizontal error
 		# components equally
-		return spherical_error + horizontal_error
+		return spherical_error+horizontal_error
 
-	cons = ({'type': 'ineq', 'fun' : lambda x: numpy.array([x[0] - 0.01])},
-	        {'type': 'ineq', 'fun' : lambda x: numpy.array([x[1] - 0.01])},
-	        {'type': 'ineq', 'fun' : lambda x: numpy.array([x[2] - 0.01])})
+	cons = ({'type': 'ineq', 'fun' : lambda x: numpy.array([x[0] - 0.5])},
+	        {'type': 'ineq', 'fun' : lambda x: numpy.array([x[1] - 0.5])},
+	        {'type': 'ineq', 'fun' : lambda x: numpy.array([x[2] - 0.5])})
 	opts = {'xtol': 1e-8, 'disp': False, 'maxiter': 10000}
 
 	# method of COBYLA also works well
-	x0 = numpy.array([1, 1, 1, 0, 0, 0])
-	res = minimize(distortion, x0, method='Nelder-Mead', options=opts, constraints=cons)
+	x0 = numpy.array([1, 1, 1, numpy.mean(mag_x), numpy.mean(mag_y), numpy.mean(mag_z)])
+	res = minimize(distortion, x0, method='COBYLA', options=opts, constraints=cons)
 
 	x = res.x
 	cor_x = mag_x * x[0] - x[3]

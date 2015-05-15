@@ -43,7 +43,7 @@ struct pios_rfm22b_cfg {
 	const struct pios_spi_cfg *spi_cfg;	/* Pointer to SPI interface configuration */
 	const struct pios_exti_cfg *exti_cfg;	/* Pointer to the EXTI configuration */
 	uint8_t RFXtalCap;
-	uint8_t slave_num;
+	uint32_t slave_num;
 	enum gpio_direction gpio_direction;
 };
 

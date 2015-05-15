@@ -79,10 +79,6 @@ static bool PIOS_CAN_validate(struct pios_can_dev *can_dev)
 	return (can_dev->magic == PIOS_CAN_DEV_MAGIC);
 }
 
-#if !defined(PIOS_INCLUDE_FREERTOS)
-#error PIOS_CAN REQUIRES FREERTOS
-#endif
-
 static struct pios_can_dev *PIOS_CAN_alloc(void)
 {
 	struct pios_can_dev *can_dev;

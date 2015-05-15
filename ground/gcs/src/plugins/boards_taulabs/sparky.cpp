@@ -150,6 +150,9 @@ bool Sparky::setInputOnPort(enum InputType type, int port_num)
     case INPUT_TYPE_DSM:
         settings.RcvrPort = HwSparky::RCVRPORT_DSM;
         break;
+    case INPUT_TYPE_HOTTSUMD:
+        settings.RcvrPort = HwSparky::RCVRPORT_HOTTSUMD;
+        break;
     default:
         return false;
     }
@@ -186,6 +189,8 @@ enum Core::IBoardType::InputType Sparky::getInputOnPort(int port_num)
         return INPUT_TYPE_SBUS;
     case HwSparky::RCVRPORT_DSM:
         return INPUT_TYPE_DSM;
+    case HwSparky::RCVRPORT_HOTTSUMD:
+        return INPUT_TYPE_HOTTSUMD;
     default:
         return INPUT_TYPE_UNKNOWN;
     }

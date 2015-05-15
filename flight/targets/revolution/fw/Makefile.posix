@@ -76,6 +76,7 @@ BLONLY_CDEFS += -DFW_DESC_SIZE=$(FW_DESC_SIZE)
 # Since we are simulating all this firmware the code needs to know what the BL would
 # normally contain
 CFLAGS += $(BLONLY_CDEFS)
+CFLAGS += -D_XOPEN_SOURCE
 
 # List of modules to include
 MODULES += Actuator ManualControl Stabilization 
@@ -107,6 +108,7 @@ MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(MATHLIB)
 PIOSPOSIX = $(PIOS)/posix
 PIOSCOMMON = $(ROOT_DIR)/flight/PiOS/Common
+PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 PIOSBOARDS = $(PIOS)/Boards
 PIOSPOSIXLIB = $(PIOSPOSIX)/Libraries
 APPLIBDIR = $(PIOSPOSIX)/Libraries
@@ -118,14 +120,7 @@ FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
 FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
 SRC = 
-# optional component libraries
-## RTOS and RTOS Portable
-SRC += $(RTOSSRCDIR)/list.c
-SRC += $(RTOSSRCDIR)/queue.c
-SRC += $(RTOSSRCDIR)/task.c
-SRC += $(RTOSSRCDIR)/timers.c
-SRC += $(RTOSSRCDIR)/portable/GCC/Posix/port.c
-SRC += $(RTOSSRCDIR)/portable/MemMang/heap_3.c
+include $(PIOSPOSIXLIB)/ChibiOS/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -140,6 +135,7 @@ SRC += ${OUTDIR}/InitMods.c
 SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += main.c
 SRC += pios_board_sim.c
+SRC += board.c
 SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
@@ -149,7 +145,7 @@ SRC += $(OPUAVSYNTHDIR)/uavobjectsinit.c
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/WorldMagModel.c
-SRC += $(FLIGHTLIB)/insgps13state.c
+SRC += $(FLIGHTLIB)/insgps14state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(FLIGHTLIB)/paths.c
@@ -160,7 +156,7 @@ SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 
 ## PIOS Hardware (STM32F4xx)
-#include $(PIOS)/posix/library.mk
+include $(PIOS)/posix/library_chibios.mk
 
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_crc.c
@@ -274,7 +270,6 @@ CDEFS += -DARM_MATH_ROUNDING
 
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
-#CFLAGS += -DSTM32F4XX
 CFLAGS += -DMEM_SIZE=1024000000
 
 # Debugging format.
@@ -289,11 +284,6 @@ CDEFS += -DUSE_$(BOARD)
 
 # Make sure the build knows we're building a sim version
 CDEFS += -DSIM_POSIX
-
-# configure CMSIS DSP Library
-CDEFS += -DARM_MATH_SIM
-CDEFS += -DARM_MATH_MATRIX_CHECK
-CDEFS += -DARM_MATH_ROUNDING
 
 # Declare all non-optional modules as built-in to force inclusion
 get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
@@ -329,10 +319,11 @@ CFLAGS += -ffast-math
 CFLAGS += $(CDEFS)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS)) -I.
 
-CFLAGS += -fomit-frame-pointer
+#CFLAGS += -fomit-frame-pointer
 
 CFLAGS += -Wall
 CFLAGS += -Werror
+CFLAGS += -Wno-deprecated-declarations
 # Compiler flags to generate dependency files:
 CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
 
@@ -349,7 +340,6 @@ LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += -lm
 LDFLAGS += -lc -lpthread 
-#-lgcc -lrt ??
 
 # To include simulation model
 LDFLAGS += -L$(OUTDIR) 
@@ -394,18 +384,10 @@ $(eval $(call SIZE_TEMPLATE, $(OUTDIR)/$(TARGET).elf))
 
 # Create output files directory
 # all known MS Windows OS define the ComSpec environment variable
-ifdef ComSpec
-$(shell md $(subst /,\\,$(OUTDIR)) 2>NUL)
-else
 $(shell mkdir -p $(OUTDIR) 2>/dev/null)
-endif
 
 # Include the dependency files.
-ifdef ComSpec
--include $(shell md $(subst /,\\,$(OUTDIR))\dep 2>NUL) $(wildcard $(OUTDIR)/dep/*)
-else
 -include $(shell mkdir $(OUTDIR) 2>/dev/null) $(shell mkdir $(OUTDIR)/dep 2>/dev/null) $(wildcard $(OUTDIR)/dep/*)
-endif
 
 # Test if quotes are needed for the echo-command
 result = ${shell echo "test"}
