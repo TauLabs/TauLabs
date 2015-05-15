@@ -36,11 +36,15 @@
 #include "misc_math.h"
 
 /* Private Function Prototypes */
-
 static const struct pios_servo_cfg * servo_cfg;
+
+//! This is a soft divisor for ultra low frequency counters. Rarely used.
 static uint8_t *output_timer_frequency_scaler;
 #if defined(PIOS_INCLUDE_HPWM)
+//! The update rate for that channel. 0 if using synchronous updates.
 static uint16_t *output_channel_frequency;
+//! The counter rate for the channel, used to calculate compare values.
+static uint32_t *output_channel_clk_rate;  // The clock rate for that timer
 #endif
 
 /**
@@ -99,23 +103,31 @@ int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 	if (output_channel_frequency == NULL) {
 		return -1;
 	}
-	memset(output_channel_frequency, 0, servo_cfg->num_channels * sizeof(typeof(output_channel_frequency)));
+	memset(output_channel_frequency, 0, servo_cfg->num_channels * sizeof(typeof(output_channel_clk_rate)));
+
+	output_channel_clk_rate = PIOS_malloc(servo_cfg->num_channels * sizeof(typeof(output_channel_clk_rate)));
+	if (output_channel_clk_rate == NULL) {
+		return -1;
+	}
+	memset(output_channel_clk_rate, 0, servo_cfg->num_channels * sizeof(typeof(output_channel_clk_rate)));
 #endif
 
 	return 0;
 }
 
-
 /**
- * @brief PIOS_Servo_SetHz Sets the PWM output frequency. The default
- * resolution is 1us, but in the event that the frequency is so low that its
- * value would overflow the period register, the resolution is halved. In
- * the event that the frequency is so low that it overflows the prescaler
- * register, the resolution is left at the lowest possible value.
+ * @brief PIOS_Servo_SetMode Sets the PWM output frequency and resolution.
+ * A speed of 0 indicates Synchronous updates (e.g. OneShot), in which case
+ * the period is set to the maximal value. Otherwise the prescalar will be
+ * determined by the PWM mode to set the resolution, and the period will be
+ * calculated based on the speed. The information required to convert from us
+ * to compare value is cached for each channel (not timer) to facilitate 
+ * PIOS_Servo_Set and PIOS_SERVO_HPWM_Set.
  * @param speeds array of rates in Hz
+ * @param pwm_mode mode of the timer (1us to 1/12us)
  * @param banks maximum number of banks
  */
-void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
+void PIOS_Servo_SetMode(const uint16_t * speeds, const enum pwm_mode *pwm_mode, uint8_t banks)
 {
 	if (!servo_cfg) {
 		return;
@@ -132,34 +144,54 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 		const struct pios_tim_channel * chan = &servo_cfg->channels[i];
 
 		/* See if any previous channels use that same timer */
-		for (uint8_t j = 0; (j < i) && new; j++)
+		for (uint8_t j = 0; (j < i) && new; j++) {
 			new = new && (chan->timer != servo_cfg->channels[j].timer);
+		}
 
 		if (new) {
-			uint32_t output_timer_frequency = 1000000; // Default output timer frequency in hertz
-			output_timer_frequency_scaler[i] = 0; // Scaling applied to frequency in order to bring the period into unsigned 16-bit integer range
 
-			/* While the output frequency is so high that the period register overflows, reduce frequency by half */
-			while ((output_timer_frequency >> output_timer_frequency_scaler[i]) / speeds[set] - 1 > UINT16_MAX) {
-				output_timer_frequency_scaler[i]++;
+			uint32_t output_timer_frequency = 0;
 
-				// If the output frequency is so low that the prescaler register overflows, break
-				if (MAX(PIOS_PERIPHERAL_APB1_CLOCK, PIOS_PERIPHERAL_APB2_CLOCK) / (output_timer_frequency >> output_timer_frequency_scaler[i]) - 1 > UINT16_MAX) {
-					output_timer_frequency_scaler[i]--;
-					break;
-				}
+			// Based on PWM mode determine the desired output period (which sets the
+			// channel resolution)
+			if (pwm_mode[set] == PWM_MODE_1US) {
+				output_timer_frequency = 1000000; // Default output timer frequency in hertz
+			} else if (pwm_mode[set] == PWM_MODE_12US) {
+				output_timer_frequency = 12000000; // Default output timer frequency in hertz
 			}
 
-			/* Configure frequency scaler for all channels that use the same timer */
-			for (uint8_t j=0; (j < servo_cfg->num_channels); j++) {
-				if (chan->timer == servo_cfg->channels[j].timer) {
-					output_timer_frequency_scaler[j] = output_timer_frequency_scaler[i];
-#if defined(PIOS_INCLUDE_HPWM)
-					/* save the frequency for these channels */
-					output_channel_frequency[j] = speeds[set];
-#endif
+			if (speeds[set] == 0) {
+
+				// OneShot (i.e. synchronous updates). Do not want the timer periodic. This field
+				// is used as a flag in the update method for whether to rephase the timer. Set to
+				// 0 initially.
+				output_timer_frequency_scaler[set] = 0;
+
+				// Use a maximally long period because we don't want pulses actually repeating
+				// without new data arriving.
+				TIM_TimeBaseStructure.TIM_Period = 0xFFFF;
+
+			} else {
+
+				// To allow very slow PWM rates a secondary software scaling is potentially calculated
+				// this path is not normally doing anything. (e.g. even for 12 MHz output -- HPWM, with
+				// 400 Hz output the period is 30000 which does not overflow).
+				output_timer_frequency_scaler[set] = 0; // Scaling applied to frequency in order to bring the period into unsigned 16-bit integer range
+
+				/* While the output frequency is so high that the period register overflows, reduce frequency by half */
+				while ((output_timer_frequency >> output_timer_frequency_scaler[i]) / speeds[set] - 1 > UINT16_MAX) {
+					output_timer_frequency_scaler[set]++;
+
+					// If the output frequency is so low that the prescaler register overflows, break
+					if (MAX(PIOS_PERIPHERAL_APB1_CLOCK, PIOS_PERIPHERAL_APB2_CLOCK) / (output_timer_frequency >> output_timer_frequency_scaler[set]) - 1 > UINT16_MAX) {
+						output_timer_frequency_scaler[set]--;
+						break;
+					}
 				}
+
+				TIM_TimeBaseStructure.TIM_Period = (((output_timer_frequency >> output_timer_frequency_scaler[i]) / speeds[set]) - 1);
 			}
+
 
 			/* Choose the correct prescaler value for the APB the timer is attached */
 			// "The timer clock frequencies are automatically fixed by hardware. There are two cases:
@@ -182,13 +214,68 @@ void PIOS_Servo_SetHz(const uint16_t * speeds, uint8_t banks)
 					TIM_TimeBaseStructure.TIM_Prescaler = ((PIOS_PERIPHERAL_APB1_CLOCK*2) / (output_timer_frequency >> output_timer_frequency_scaler[i])) - 1;
 			}
 
-			TIM_TimeBaseStructure.TIM_Period = (((output_timer_frequency >> output_timer_frequency_scaler[i]) / speeds[set]) - 1);
-			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);
+			// Configure this timer appropriately.
+			TIM_TimeBaseInit(chan->timer, &TIM_TimeBaseStructure);	
+
+			/* Configure frequency scaler for all channels that use the same timer */
+			for (uint8_t j=0; (j < servo_cfg->num_channels); j++) {
+				if (chan->timer == servo_cfg->channels[j].timer) {
+					output_timer_frequency_scaler[j] = output_timer_frequency_scaler[i];
+#if defined(PIOS_INCLUDE_HPWM)
+					/* save the frequency for these channels */
+					output_channel_frequency[j] = speeds[set];
+					output_channel_clk_rate[j] = output_timer_frequency >> output_timer_frequency_scaler[set];
+#endif
+				}
+			}
+
 			set++;
 		}
 	}
 }
 
+/**
+* Set servo position for HPWM
+* \param[in] Servo Servo number (0-num_channels)
+* \param[in] Position Servo position in microseconds
+*/
+#if defined(PIOS_INCLUDE_HPWM)
+void PIOS_Servo_Set(uint8_t servo, float position)
+{
+	/* Make sure servo exists */
+	if (!servo_cfg || servo >= servo_cfg->num_channels) {
+		return;
+	}
+
+	const struct pios_tim_channel * chan = &servo_cfg->channels[servo];
+
+	/* recalculate the position value based on timer clock rate */
+	/* position is in us */
+	/* clk_rate is in count per second */
+	position = position * (output_channel_clk_rate[servo] / 1000000);
+
+	/* stop the timer in OneShot (Synchronous) mode */
+	if (output_channel_frequency[servo] == 0) {
+		TIM_Cmd(chan->timer, DISABLE);
+	}
+
+	/* Update the position */
+	switch(chan->timer_chan) {
+		case TIM_Channel_1:
+			TIM_SetCompare1(chan->timer, position);
+			break;
+		case TIM_Channel_2:
+			TIM_SetCompare2(chan->timer, position);
+			break;
+		case TIM_Channel_3:
+			TIM_SetCompare3(chan->timer, position);
+			break;
+		case TIM_Channel_4:
+			TIM_SetCompare4(chan->timer, position);
+			break;
+	}
+}
+#else
 /**
 * Set servo position
 * \param[in] Servo Servo number (0-num_channels)
@@ -218,55 +305,13 @@ void PIOS_Servo_Set(uint8_t servo, uint16_t position)
 			break;
 	}
 }
+#endif /* PIOS_INCLUDE_HPWM */
 
 #if defined(PIOS_INCLUDE_HPWM)
-#define HiresFrequency 12000000
-#define HiresFlag 0x80
-
-/**
-* Set servo position for HPWM
-* \param[in] Servo Servo number (0-num_channels)
-* \param[in] Position Servo position in microseconds
-*/
-void PIOS_Servo_HPWM_Set(uint8_t servo, float position)
-{
-	/* Make sure servo exists */
-	if (!servo_cfg || servo >= servo_cfg->num_channels) {
-		return;
-	}
-
-	const struct pios_tim_channel * chan = &servo_cfg->channels[servo];
-
-	/* recalculate the position value based on HiresFrequency */
-	position = position * HiresFrequency / 1000000;
-
-	/* stop the timer in OneShot mode or force a change of it to hires, if not already done. */
-	if (output_channel_frequency[servo] == 0 || output_timer_frequency_scaler[servo] != HiresFlag) {
-		output_timer_frequency_scaler[servo] = HiresFlag;
-		TIM_Cmd(chan->timer, DISABLE);
-	}
-
-	/* Update the position */
-	switch(chan->timer_chan) {
-		case TIM_Channel_1:
-			TIM_SetCompare1(chan->timer, position);
-			break;
-		case TIM_Channel_2:
-			TIM_SetCompare2(chan->timer, position);
-			break;
-		case TIM_Channel_3:
-			TIM_SetCompare3(chan->timer, position);
-			break;
-		case TIM_Channel_4:
-			TIM_SetCompare4(chan->timer, position);
-			break;
-	}
-}
-
 /**
 * Update the timer for HPWM/OneShot
 */
-void PIOS_Servo_HPWM_Update()
+void PIOS_Servo_Update()
 {
 	if (!servo_cfg) {
 		return;
@@ -275,12 +320,13 @@ void PIOS_Servo_HPWM_Update()
 	for (uint8_t i = 0; i < servo_cfg->num_channels; i++) {
 		const struct pios_tim_channel * chan = &servo_cfg->channels[i];
 
-		/* Look for a disabled timer */
-		if (!(chan->timer->CR1 & TIM_CR1_CEN)) {
-			/* enable it again and reset */
+		/* Check for channels that are using synchronous output */
+		if (output_channel_frequency[i] == 0) {
+			/* enable it again and reinitialize it */
 			TIM_Cmd(chan->timer, ENABLE);
 			TIM_GenerateEvent(chan->timer, TIM_EventSource_Update);
 		}
 	}
 }
-#endif
+
+#endif /* PIOS_INCLUDE_HPWM */

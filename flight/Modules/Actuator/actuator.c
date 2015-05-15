@@ -376,7 +376,7 @@ static void actuatorTask(void* parameters)
 			success &= set_channel(n, command.Channel[n], &actuatorSettings);
 		}
 #if defined(PIOS_INCLUDE_HPWM)
-		PIOS_Servo_HPWM_Update();
+		PIOS_Servo_Update();
 #endif
 
 		if(!success) {
@@ -514,8 +514,8 @@ static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const Mix
 	{
 		set_channel(n, Channel[n], actuatorSettings);
 	}
-#if defined(PIOS_INCLUDE_HPWM)
-	PIOS_Servo_HPWM_Update();
+#if defined(PIOS_INCLUDE_HPWM) // TODO: this is actually about the synchronous updating and not resolution
+	PIOS_Servo_Update();
 #endif
 
 	// Update output object's parts that we changed
@@ -646,13 +646,11 @@ static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettin
 		case ACTUATORSETTINGS_CHANNELTYPE_PWM:
 #if defined(PIOS_INCLUDE_HPWM)
 			// The HPWM method will convert from us to the appropriate settings
-			PIOS_Servo_HPWM_Set(actuatorSettings->ChannelAddr[mixer_channel], value);
-			return true;
+			PIOS_Servo_Set(actuatorSettings->ChannelAddr[mixer_channel], value);
 #else
 			PIOS_Servo_Set(actuatorSettings->ChannelAddr[mixer_channel], value);
-			return true;
-
 #endif
+			return true;
 #if defined(PIOS_INCLUDE_I2C_ESC)
 		case ACTUATORSETTINGS_CHANNELTYPE_MK:
 			return PIOS_SetMKSpeed(actuatorSettings->ChannelAddr[mixer_channel],value);
@@ -674,18 +672,18 @@ static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettin
  */
 static void actuator_update_rate_if_changed(const ActuatorSettingsData * actuatorSettings, bool force_update)
 {
-	static uint16_t prevChannelUpdateFreq[ACTUATORSETTINGS_CHANNELUPDATEFREQ_NUMELEM];
+	static uint16_t prevChannelUpdateFreq[ACTUATORSETTINGS_TIMERUPDATEFREQ_NUMELEM];
 
 	// check if the any rate setting is changed
 	if (force_update ||
 		memcmp (prevChannelUpdateFreq,
-			actuatorSettings->ChannelUpdateFreq,
+			actuatorSettings->TimerUpdateFreq,
 			sizeof(prevChannelUpdateFreq)) != 0) {
 		/* Something has changed, apply the settings to HW */
 		memcpy (prevChannelUpdateFreq,
-			actuatorSettings->ChannelUpdateFreq,
+			actuatorSettings->TimerUpdateFreq,
 			sizeof(prevChannelUpdateFreq));
-		PIOS_Servo_SetMode(actuatorSettings->TimerUpdateFreq, actuatorSettings->TimerPwmResolution, ACTUATORSETTINGS_TIMEPWMRESOLUTION_NUMELEM);
+		PIOS_Servo_SetMode(actuatorSettings->TimerUpdateFreq, actuatorSettings->TimerPwmResolution, ACTUATORSETTINGS_TIMERPWMRESOLUTION_NUMELEM);
 	}
 }
 
