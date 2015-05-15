@@ -579,6 +579,7 @@ void FlightDataModel::readFromFile(QString fileName)
 bool FlightDataModel::getHomeLocation(double *homeLLA) const
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    Q_ASSERT(pm);
     UAVObjectManager * objMngr = pm->getObject<UAVObjectManager>();
     Q_ASSERT(objMngr);
 
@@ -603,6 +604,7 @@ bool FlightDataModel::getHomeLocation(double *homeLLA) const
 bool FlightDataModel::setHomeLocation(double *homeLLA)
 {
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    Q_ASSERT(pm);
     UAVObjectManager * objMngr = pm->getObject<UAVObjectManager>();
     Q_ASSERT(objMngr);
 
