@@ -196,7 +196,7 @@ help:
 	@echo "     ut_<test>_run        - Run test and dump TAP output to console"
 	@echo
 	@echo "   [Simulation]"
-	@echo "     simulation           - Build host simulation firmware
+	@echo "     simulation           - Build host simulation firmware"
 	@echo "     simulation_clean     - Delete all build output for the simulation"
 	@echo
 	@echo "   [GCS]"
@@ -563,16 +563,16 @@ OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 # $(5) = Build output type (e.g. elf, exe)
 
 .PHONY: simulation
-simulation: sim_posix_simulation
+simulation: sim_posix
 
 define SIM_TEMPLATE
-.PHONY: sim_$(4)_$(1)
-sim_$(4)_$(1): sim_$(4)_$(1)_$(5)
+.PHONY: sim_$(4)
+sim_$(4): sim_$(4)_$(5)
 
-sim_$(4)_$(1)_%: TARGET=sim_$(4)_$(1)
-sim_$(4)_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
-sim_$(4)_$(1)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
-sim_$(4)_$(1)_%: uavobjects_flight
+sim_$(4)_%: TARGET=sim_$(4)_$(1)
+sim_$(4)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
+sim_$(4)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
+sim_$(4)_%: uavobjects_flight
 	$(V1) mkdir -p $$(OUTDIR)/dep
 	$(V1) cd $$(BOARD_ROOT_DIR)/fw && \
 		$$(MAKE) --no-print-directory \
@@ -601,10 +601,10 @@ sim_$(4)_$(1)_%: uavobjects_flight
 		\
 		$$*
 
-.PHONY: sim_$(4)_$(1)_clean
-sim_$(4)_$(1)_%: TARGET=sim_$(4)_$(1)
-sim_$(4)_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
-sim_$(4)_$(1)_clean:
+.PHONY: sim_$(4)_clean
+sim_$(4)_%: TARGET=sim_$(4)_$(1)
+sim_$(4)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
+sim_$(4)_clean:
 	$(V0) @echo " CLEAN      $$@"
 	$(V1) [ ! -d "$$(OUTDIR)" ] || $(RM) -r "$$(OUTDIR)"
 endef
@@ -844,9 +844,9 @@ EF_BOARDS  := $(ALL_BOARDS)
 
 # Sim targets are different for each host OS
 ifeq ($(UNAME), Linux)
-SIM_BOARDS := sim_posix_simulation
+SIM_BOARDS := sim_posix
 else ifeq ($(UNAME), Darwin)
-SIM_BOARDS := sim_posix_simulation
+SIM_BOARDS := sim_posix
 else ifdef WINDOWS
 SIM_BOARDS := 
 else # unknown OS
