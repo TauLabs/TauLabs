@@ -192,8 +192,8 @@ void VehicleConfigurationHelper::applyActuatorConfiguration()
 
         data.MotorsSpinWhileArmed = ActuatorSettings::MOTORSSPINWHILEARMED_FALSE;
 
-        for (quint16 i = 0; i < ActuatorSettings::CHANNELUPDATEFREQ_NUMELEM; i++) {
-            data.ChannelUpdateFreq[i] = LEGACY_ESC_FREQUENCE;
+        for (quint16 i = 0; i < ActuatorSettings::TIMERUPDATEFREQ_NUMELEM; i++) {
+            data.TimerUpdateFreq[i] = LEGACY_ESC_FREQUENCE;
         }
 
         qint16 updateFrequence = LEGACY_ESC_FREQUENCE;
@@ -211,14 +211,14 @@ void VehicleConfigurationHelper::applyActuatorConfiguration()
         // TOOD: vehicle specific sets of update frequencies
         switch (m_configSource->getVehicleSubType()) {
         case VehicleConfigurationSource::MULTI_ROTOR_TRI_Y:
-            data.ChannelUpdateFreq[0] = updateFrequence;
-            data.ChannelUpdateFreq[1] = updateFrequence;
+            data.TimerUpdateFreq[0] = updateFrequence;
+            data.TimerUpdateFreq[1] = updateFrequence;
             break;
         case VehicleConfigurationSource::MULTI_ROTOR_QUAD_X:
         case VehicleConfigurationSource::MULTI_ROTOR_QUAD_PLUS:
-            data.ChannelUpdateFreq[0] = updateFrequence;
-            data.ChannelUpdateFreq[1] = updateFrequence;
-            data.ChannelUpdateFreq[2] = updateFrequence;
+            data.TimerUpdateFreq[0] = updateFrequence;
+            data.TimerUpdateFreq[1] = updateFrequence;
+            data.TimerUpdateFreq[2] = updateFrequence;
             break;
         case VehicleConfigurationSource::MULTI_ROTOR_HEXA:
         case VehicleConfigurationSource::MULTI_ROTOR_HEXA_COAX_Y:
@@ -227,10 +227,10 @@ void VehicleConfigurationHelper::applyActuatorConfiguration()
         case VehicleConfigurationSource::MULTI_ROTOR_OCTO_COAX_X:
         case VehicleConfigurationSource::MULTI_ROTOR_OCTO_COAX_PLUS:
         case VehicleConfigurationSource::MULTI_ROTOR_OCTO_V:
-            data.ChannelUpdateFreq[0] = updateFrequence;
-            data.ChannelUpdateFreq[1] = updateFrequence;
-            data.ChannelUpdateFreq[2] = updateFrequence;
-            data.ChannelUpdateFreq[3] = updateFrequence;
+            data.TimerUpdateFreq[0] = updateFrequence;
+            data.TimerUpdateFreq[1] = updateFrequence;
+            data.TimerUpdateFreq[2] = updateFrequence;
+            data.TimerUpdateFreq[3] = updateFrequence;
             break;
         default:
             break;

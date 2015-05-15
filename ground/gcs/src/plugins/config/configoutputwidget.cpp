@@ -408,10 +408,10 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
                 lblList.at(i)->setText(banks.at(i));
                 QComboBox* ccmb = cmbList.at(i);
                 ccmb->setEnabled(true);
-                if (ccmb->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[i]))==-1) {
-                    ccmb->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[i]));
+                if (ccmb->findText(QString::number(actuatorSettingsData.TimerUpdateFreq[i]))==-1) {
+                    ccmb->addItem(QString::number(actuatorSettingsData.TimerUpdateFreq[i]));
                 }
-                ccmb->setCurrentIndex(ccmb->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[i])));
+                ccmb->setCurrentIndex(ccmb->findText(QString::number(actuatorSettingsData.TimerUpdateFreq[i])));
             }
         }
     }
@@ -451,12 +451,12 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
         }
 
         // Set update rates
-        actuatorSettingsData.ChannelUpdateFreq[0] = m_config->cb_outputRate1->currentText().toUInt();
-        actuatorSettingsData.ChannelUpdateFreq[1] = m_config->cb_outputRate2->currentText().toUInt();
-        actuatorSettingsData.ChannelUpdateFreq[2] = m_config->cb_outputRate3->currentText().toUInt();
-        actuatorSettingsData.ChannelUpdateFreq[3] = m_config->cb_outputRate4->currentText().toUInt();
-        actuatorSettingsData.ChannelUpdateFreq[4] = m_config->cb_outputRate5->currentText().toUInt();
-        actuatorSettingsData.ChannelUpdateFreq[5] = m_config->cb_outputRate6->currentText().toUInt();
+        actuatorSettingsData.TimerUpdateFreq[0] = m_config->cb_outputRate1->currentText().toUInt();
+        actuatorSettingsData.TimerUpdateFreq[1] = m_config->cb_outputRate2->currentText().toUInt();
+        actuatorSettingsData.TimerUpdateFreq[2] = m_config->cb_outputRate3->currentText().toUInt();
+        actuatorSettingsData.TimerUpdateFreq[3] = m_config->cb_outputRate4->currentText().toUInt();
+        actuatorSettingsData.TimerUpdateFreq[4] = m_config->cb_outputRate5->currentText().toUInt();
+        actuatorSettingsData.TimerUpdateFreq[5] = m_config->cb_outputRate6->currentText().toUInt();
 
         if(m_config->spinningArmed->isChecked() == true)
             actuatorSettingsData.MotorsSpinWhileArmed = ActuatorSettings::MOTORSSPINWHILEARMED_TRUE;
