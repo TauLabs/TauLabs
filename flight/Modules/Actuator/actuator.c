@@ -639,25 +639,18 @@ static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettin
                                     lastSysTime = thisSysTime;
                             }
 			}
-			PIOS_Servo_Set(actuatorSettings->ChannelAddr[mixer_channel],
+			PIOS_Servo_Set(mixer_channel,
 							buzzOn?actuatorSettings->ChannelMax[mixer_channel]:actuatorSettings->ChannelMin[mixer_channel]);
 			return true;
 		}
 		case ACTUATORSETTINGS_CHANNELTYPE_PWM:
 #if defined(PIOS_INCLUDE_HPWM)
 			// The HPWM method will convert from us to the appropriate settings
-			PIOS_Servo_Set(actuatorSettings->ChannelAddr[mixer_channel], value);
+			PIOS_Servo_Set(mixer_channel, value);
 #else
-			PIOS_Servo_Set(actuatorSettings->ChannelAddr[mixer_channel], value);
+			PIOS_Servo_Set(mixer_channel, value);
 #endif
 			return true;
-#if defined(PIOS_INCLUDE_I2C_ESC)
-		case ACTUATORSETTINGS_CHANNELTYPE_MK:
-			return PIOS_SetMKSpeed(actuatorSettings->ChannelAddr[mixer_channel],value);
-		case ACTUATORSETTINGS_CHANNELTYPE_ASTEC4:
-			return PIOS_SetAstec4Speed(actuatorSettings->ChannelAddr[mixer_channel],value);
-			break;
-#endif
 		default:
 			return false;
 	}

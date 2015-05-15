@@ -36,7 +36,6 @@
 #define PIOS_INCLUDE_DELAY
 #if defined(USE_I2C)
 #define PIOS_INCLUDE_I2C
-//#define PIOS_INCLUDE_I2C_ESC
 #endif
 #if defined(USE_PCF8591)
 #define PIOS_INCLUDE_PCF8591

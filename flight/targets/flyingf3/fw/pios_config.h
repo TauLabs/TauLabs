@@ -96,9 +96,6 @@
 #define PIOS_INCLUDE_FLASH_INTERNAL
 #define PIOS_INCLUDE_LOGFS_SETTINGS
 
-/* Other Interfaces */
-//#define PIOS_INCLUDE_I2C_ESC
-
 #define CAMERASTAB_POI_MODE
 
 /* Flags that alter behaviors - mostly to lower resources for CC */
