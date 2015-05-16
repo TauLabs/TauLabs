@@ -527,7 +527,7 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
             waypoints.appendChild(o);
 
             // If this waypoint was stop, then don't add anymore
-            UAVObjectField *field = obj->getField("Action");
+            UAVObjectField *field = obj->getField("Mode");
             Q_ASSERT(field);
             if(field && field->getValue().toString().compare("Stop") == 0)
                 break;
