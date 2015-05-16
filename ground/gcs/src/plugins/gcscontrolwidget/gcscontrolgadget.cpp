@@ -125,7 +125,7 @@ GCSControl* GCSControlGadget::getGcsControl() {
 void GCSControlGadget::manualControlCommandUpdated(UAVObject * obj) {
 
     // Not sending then show updates from transmitter
-    if (!enableSending)
+    if (enableSending)
         return;
 
     double roll = obj->getField("Roll")->getDouble();
