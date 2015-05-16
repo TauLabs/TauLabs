@@ -134,7 +134,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>795</width>
+            <width>811</width>
             <height>654</height>
            </rect>
           </property>
@@ -289,12 +289,7 @@ Leave at 50Hz for fixed wing.</string>
                 </property>
                 <item>
                  <property name="text">
-                  <string>SyncPwm</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>SyncPwm</string>
+                  <string>SyncPWM</string>
                  </property>
                 </item>
                 <item>
@@ -355,11 +350,6 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>12000</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>0</string>
                  </property>
                 </item>
                </widget>
@@ -388,7 +378,7 @@ Leave at 50Hz for fixed wing.</string>
                 </property>
                 <item>
                  <property name="text">
-                  <string>SyncPwm</string>
+                  <string>SyncPWM</string>
                  </property>
                 </item>
                 <item>
@@ -449,11 +439,6 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>12000</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>0</string>
                  </property>
                 </item>
                </widget>
@@ -574,7 +559,7 @@ Leave at 50Hz for fixed wing.</string>
                 </property>
                 <item>
                  <property name="text">
-                  <string>SyncPwm</string>
+                  <string>SyncPWM</string>
                  </property>
                 </item>
                 <item>
@@ -635,11 +620,6 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>12000</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>0</string>
                  </property>
                 </item>
                </widget>
@@ -716,7 +696,7 @@ Leave at 50Hz for fixed wing.</string>
                 </property>
                 <item>
                  <property name="text">
-                  <string>SyncPwm</string>
+                  <string>SyncPWM</string>
                  </property>
                 </item>
                 <item>
@@ -777,11 +757,6 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>12000</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>0</string>
                  </property>
                 </item>
                </widget>
@@ -866,7 +841,7 @@ Leave at 50Hz for fixed wing.</string>
                 </property>
                 <item>
                  <property name="text">
-                  <string>SyncPwm</string>
+                  <string>SyncPWM</string>
                  </property>
                 </item>
                 <item>
@@ -927,11 +902,6 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>12000</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>0</string>
                  </property>
                 </item>
                </widget>

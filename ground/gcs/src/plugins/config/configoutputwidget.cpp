@@ -511,12 +511,12 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
 
 QString ConfigOutputWidget::timerFreqToString(quint32 freq) const {
     if (freq == 0)
-        return QString(tr("OneShot"));
+        return QString(tr("SyncPWM"));
     return QString::number(freq);
 }
 
 quint32 ConfigOutputWidget::timerStringToFreq(QString str) const {
-    if (str.compare(QString(tr("OneShot"))) == 0)
+    if (str.compare(QString(tr("SyncPWM"))) == 0)
         return 0;
     return str.toUInt();
 }
