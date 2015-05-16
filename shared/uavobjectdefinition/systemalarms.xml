@@ -33,7 +33,6 @@
 				<option>Multirotor</option>
 				<option>AutoTune</option>
 				<option>AltitudeHold</option>
-				<option>VelocityControl</option>
 				<option>PositionHold</option>
 				<option>PathPlanner</option>
 				<option>NavFilter</option> <!-- the selected filter is not safe for navigation -->

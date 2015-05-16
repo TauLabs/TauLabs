@@ -639,7 +639,7 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 		// Determine whether to disarm when throttle is low
 		uint8_t flight_mode;
 		FlightStatusFlightModeGet(&flight_mode);
-		bool autonomous_mode = flight_mode == FLIGHTSTATUS_FLIGHTMODE_VELOCITYCONTROL ||
+		bool autonomous_mode = 
 		                       flight_mode == FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD ||
 		                       flight_mode == FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME ||
 		                       flight_mode == FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER  ||
