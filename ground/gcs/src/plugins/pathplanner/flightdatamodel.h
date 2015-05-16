@@ -101,7 +101,7 @@ private:
     bool setHomeLocation(double *homeLLA);
 
     //! Error box for file loading
-    void showErrorDialog(char *title, char *message);
+    void showErrorDialog(const char *title, const char *message);
 };
 
 #endif // FlightDataModel_H

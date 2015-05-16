@@ -449,7 +449,7 @@ bool FlightDataModel::writeToFile(QString fileName)
     return true;
 }
 
-void FlightDataModel::showErrorDialog(char* title, char* message)
+void FlightDataModel::showErrorDialog(const char* title, const char* message)
 {
     QMessageBox msgBox;
     msgBox.setText(tr(title));
@@ -476,12 +476,7 @@ void FlightDataModel::readFromFile(QString fileName)
     QByteArray array=file.readAll();
     QString error;
     if (!doc.setContent(array,&error)) {
-        QMessageBox msgBox;
-        msgBox.setText(tr("File Parsing Failed."));
-        msgBox.setInformativeText(QString(tr("This file is not a correct XML file:%0")).arg(error));
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.exec();
-        return;
+        showErrorDialog("File Parsing Failer", "This file is not a correct XML file");
     }
     file.close();
 
@@ -520,7 +515,9 @@ void FlightDataModel::readFromFile(QString fileName)
     // For now, reset home location to the location in the file. Later we can see if we would
     // rather ask the user whether to remap the flight plan to the current home location or use
     // the one in the map
-    setHomeLocation(HomeLLA);
+    if (!setHomeLocation(HomeLLA)) {
+        showErrorDialog("Home location error", "Home location coordinates invalid");
+    }
 
     hlist = root.elementsByTagName("waypoints");
     if (hlist.length() != 1) {
@@ -534,28 +531,45 @@ void FlightDataModel::readFromFile(QString fileName)
             data = new PathPlanData;
             double wpLLA[3];
             double wpNED[3];
+            int params = 0;
             while (!fieldNode.isNull()) {
                 QDomElement field = fieldNode.toElement();
                 if (field.tagName() == "field") {
-                    if(field.attribute("name") == "down")
+                    if(field.attribute("name") == "down") {
                         wpNED[2] = field.attribute("value").toDouble();
-                    else if(field.attribute("name") == "description")
+                        params++;
+                    } else if(field.attribute("name") == "description") {
                         data->wpDescription=field.attribute("value");
-                    else if(field.attribute("name") == "north")
+                        params++;
+                    } else if(field.attribute("name") == "north") {
                         wpNED[0] = field.attribute("value").toDouble();
-                    else if(field.attribute("name") == "east")
+                        params++;
+                    } else if(field.attribute("name") == "east") {
                         wpNED[1] = field.attribute("value").toDouble();
-                    else if(field.attribute("name") == "velocity")
+                        params++;
+                    } else if(field.attribute("name") == "velocity") {
                         data->velocity = field.attribute("value").toFloat();
-                    else if(field.attribute("name") == "mode")
+                        params++;
+                    } else if(field.attribute("name") == "mode") {
                         data->mode=field.attribute("value").toInt();
-                    else if(field.attribute("name") == "mode_params")
+                        params++;
+                    } else if(field.attribute("name") == "mode_params") {
                         data->mode_params = field.attribute("value").toFloat();
-                    else if(field.attribute("name") == "is_locked")
+                        params++;
+                    } else if(field.attribute("name") == "is_locked") {
                         data->locked = field.attribute("value").toInt();
+                        params++;
+                    }
                 }
                 fieldNode=fieldNode.nextSibling();
             }
+
+            // We can't really check everything in the file is fully consistent, but
+            // at least we can make sure we have the right number of fields
+            if (params < 8) {
+                showErrorDialog("Waypoint error", "Waypoint coordinates invalid");
+            }
+
             Utils::CoordinateConversions().NED2LLA_HomeLLA(HomeLLA, wpNED, wpLLA);
             data->latPosition = wpLLA[0];
             data->lngPosition = wpLLA[1];
@@ -610,6 +624,10 @@ bool FlightDataModel::setHomeLocation(double *homeLLA)
 
     HomeLocation *home = HomeLocation::GetInstance(objMngr);
     if (home == NULL)
+        return false;
+
+    // Check that home location is sensible
+    if (homeLLA[0] < -90 || homeLLA[0] > 90 || homeLLA[1] <  -180 || homeLLA[1] > 180)
         return false;
 
     HomeLocation::DataFields homeLocation = home->getData();
