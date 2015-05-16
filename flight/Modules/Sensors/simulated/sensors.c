@@ -485,6 +485,7 @@ static void simulateModelQuadcopter()
 		gpsPosition.Heading = 180 / M_PI * atan2f(vel[1] + gps_vel_drift[1],vel[0] + gps_vel_drift[0]);
 		gpsPosition.Satellites = 7;
 		gpsPosition.PDOP = 1;
+		gpsPosition.Accuracy = 3.0;
 		gpsPosition.Status = GPSPOSITION_STATUS_FIX3D;
 		GPSPositionSet(&gpsPosition);
 		last_gps_time = PIOS_DELAY_GetRaw();
@@ -498,6 +499,7 @@ static void simulateModelQuadcopter()
 		gpsVelocity.North = vel[0] + gps_vel_drift[0];
 		gpsVelocity.East = vel[1] + gps_vel_drift[1];
 		gpsVelocity.Down = vel[2] + gps_vel_drift[2];
+		gpsVelocity.Accuracy = 0.75;
 		GPSVelocitySet(&gpsVelocity);
 		last_gps_vel_time = PIOS_DELAY_GetRaw();
 	}
