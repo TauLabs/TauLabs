@@ -215,6 +215,7 @@ static void parse_ubx_nav_sol (const struct UBX_NAV_SOL *sol, GPSPositionData *G
 {
 	if (check_msgtracker(sol->iTOW, SOL_RECEIVED)) {
 		GpsPosition->Satellites = sol->numSV;
+		GpsPosition->Accuracy = sol->pAcc / 100.0;
 
 		if (sol->flags & STATUS_FLAGS_GPSFIX_OK) {
 			switch (sol->gpsFix) {
@@ -251,6 +252,7 @@ static void parse_ubx_nav_velned (const struct UBX_NAV_VELNED *velned, GPSPositi
 			GpsVelocity.North	= (float)velned->velN/100.0f;
 			GpsVelocity.East	= (float)velned->velE/100.0f;
 			GpsVelocity.Down	= (float)velned->velD/100.0f;
+			GpsVelocity.Accuracy	= (float)velned->sAcc/100.0f;
 			GPSVelocitySet(&GpsVelocity);
 			GpsPosition->Groundspeed = (float)velned->gSpeed * 0.01f;
 			GpsPosition->Heading = (float)velned->heading * 1.0e-5f;

@@ -42,7 +42,7 @@ Item {
         text: "GPS: " + GPSPosition.Satellites + "\nPDP: " + GPSPosition.PDOP.toFixed(2)
         color: "white"
         font.family: "Arial"
-        font.pixelSize: telemetry_status.height * 0.75
+        font.pixelSize: telemetry_status.height * 0.5
 
         visible: GPSPosition.Satellites > 0
 
