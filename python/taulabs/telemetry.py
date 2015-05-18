@@ -23,7 +23,7 @@ class TelemetryBase():
 
     def __init__(self, uavo_defs=None, githash=None, serviceInIter=True,
             iterBlocks=True, useWallTime=True, doHandshaking=False,
-	    weirdTimestamps=False):
+	    gcsTimestamps=False):
         if uavo_defs is None:
             uavo_defs = uavo_collection.UAVOCollection()
 
@@ -36,7 +36,7 @@ class TelemetryBase():
 
         self.uavo_defs = uavo_defs
         self.uavtalk_generator = uavtalk.processStream(uavo_defs,
-            useWallTime=useWallTime, logTimestamps=weirdTimestamps)
+            useWallTime=useWallTime, logTimestamps=gcsTimestamps)
 
         self.uavtalk_generator.send(None)
 
@@ -219,7 +219,7 @@ class FDTelemetry(TelemetryBase):
     # intended for bidirectional comms.
     def __init__(self, fd, *args, **kwargs):
         TelemetryBase.__init__(self, doHandshaking=True,
-                weirdTimestamps=False,  *args, **kwargs)
+                gcsTimestamps=False,  *args, **kwargs)
 
         self.recv_buf = ''
         self.send_buf = ''
@@ -238,8 +238,8 @@ class FDTelemetry(TelemetryBase):
         if len(self.recv_buf) < 1:
             return None
 
-        ret=self.recv_buf
-        self.recv_buf=''
+        ret = self.recv_buf
+        self.recv_buf = ''
 
         return ret
 
@@ -402,5 +402,5 @@ def GetUavoBasedOnArgs(desc=None):
     from taulabs import telemetry
 
     return telemetry.FileTelemetry(filename=src, parseHeader=parseHeader,
-        weirdTimestamps=args.timestamped)
+        gcsTimestamps=args.timestamped)
 

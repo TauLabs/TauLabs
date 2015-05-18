@@ -1,5 +1,6 @@
 #!/usr/bin/python -B
 
+import sys
 from taulabs import telemetry
 
 def main():

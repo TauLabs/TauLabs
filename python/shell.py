@@ -1,6 +1,6 @@
 #!/usr/bin/python -B
 
-from taulabs import telemetry,uavo
+from taulabs import telemetry, uavo
 
 #-------------------------------------------------------------------------------
 def main():
