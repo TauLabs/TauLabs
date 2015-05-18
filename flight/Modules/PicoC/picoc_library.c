@@ -620,6 +620,42 @@ void SystemI2CWrite(struct ParseState *Parser, struct Value *ReturnValue, struct
 }
 #endif
 
+#ifdef PIOS_INCLUDE_GPIO
+/* void int GPIOWrite(unsigned int, unsigned int): Writes/sets a general purpose output pin */
+/*(unsigned int pin_num, unsigned int command)*/
+/*unsigned int pin_num: Number of the defined GPIO pin from  target/board-info/pios_board.h; starting from 0*/
+/*unsigned int command: 0=reset_pin , 1=set_pin, 2=toggle_pin*/
+/*return value =1 if action succesfull, else =0*/
+void SystemGPIOWrite(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	uint8_t temp = 1;
+
+	if (Param[0]->Val->UnsignedInteger < PIOS_GPIO_NUM)
+	{
+		switch(Param[1]->Val->Integer) {
+			case 0:
+				PIOS_GPIO_Off(Param[0]->Val->UnsignedInteger);
+				break;
+			case 1:
+				PIOS_GPIO_On(Param[0]->Val->UnsignedInteger);
+				break;
+			case 2:
+				PIOS_GPIO_Toggle(Param[0]->Val->UnsignedInteger);
+				break;
+			default:
+				temp = 0;;
+		}
+		if (temp == 1)
+		{ ReturnValue->Val->Integer = 1; }
+		else
+		{ ReturnValue->Val->Integer = 0; }
+	}
+	else
+	{ ReturnValue->Val->Integer = 0; }
+}
+#endif
+
+
 /* list of all library functions and their prototypes */
 struct LibraryFunction PlatformLibrary_system[] =
 {
@@ -648,6 +684,9 @@ struct LibraryFunction PlatformLibrary_system[] =
 #ifdef PIOS_INCLUDE_I2C
 	{ SystemI2CRead,		"int i2c_read(unsigned char,unsigned char, void *,unsigned int);" },
 	{ SystemI2CWrite,		"int i2c_write(unsigned char,unsigned char, void *,unsigned int);" },
+#endif
+#ifdef PIOS_INCLUDE_GPIO
+	{ SystemGPIOWrite,		"int GPIOWrite(unsigned int, unsigned int);" },
 #endif
 	{ NULL, NULL }
 };
