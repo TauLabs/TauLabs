@@ -37,6 +37,7 @@
 				<option>PWM</option>
 				<option>PPM</option>
 				<option>ADC</option>
+				<option>FrSkyPWM</option>
 			</options>
 		</field>
 		<field name="RssiChannelNumber" units="channel" type="uint8" elements="1" defaultvalue="0"/>

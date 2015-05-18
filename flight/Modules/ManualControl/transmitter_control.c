@@ -57,6 +57,10 @@
 #include "pios_usb_rctx.h"
 #endif	/* PIOS_INCLUDE_USB_RCTX */
 
+#if defined(PIOS_INCLUDE_FRSKY_RSSI)
+#include "pios_frsky_rssi.h"
+#endif /* PIOS_INCLUDE_FRSKY_RSSI */
+
 #define ARMED_THRESHOLD    0.50f
 //safe band to allow a bit of calibration error or trim offset (in microseconds)
 #define CONNECTION_OFFSET_THROTTLE 100
@@ -205,6 +209,11 @@ int32_t transmitter_control_update()
 #if defined(PIOS_INCLUDE_ADC)
 			value = PIOS_ADC_GetChannelRaw(settings.RssiChannelNumber);
 #endif
+			break;
+		case MANUALCONTROLSETTINGS_RSSITYPE_FRSKYPWM:
+#if defined(PIOS_INCLUDE_FRSKY_RSSI)
+			value = PIOS_FrSkyRssi_Get();
+#endif /* PIOS_INCLUDE_FRSKY_RSSI */
 			break;
 		}
 		if(value < 0)
