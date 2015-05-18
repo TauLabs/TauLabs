@@ -224,6 +224,7 @@ void drawBattery(uint16_t x, uint16_t y, uint8_t battery, uint16_t size)
  */
 // #define VERTICAL_SCALE_BRUTE_FORCE_BLANK_OUT
 #define VERTICAL_SCALE_FILLED_NUMBER
+#define VSCALE_FONT 2
 void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int height, int mintick_step, int majtick_step, int mintick_len, int majtick_len,
 							 int boundtick_len, __attribute__((unused)) int max_val, int flags)
 {
@@ -246,7 +247,7 @@ void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int hei
 		boundtick_end   = x - boundtick_len;
 	}
 	// Retrieve width of large font (font #0); from this calculate the x spacing.
-	fetch_font_info(0, 0, &font_info, NULL);
+	fetch_font_info(0, VSCALE_FONT, &font_info, NULL);
 	int arrow_len      = (font_info.height / 2) + 1;
 	int text_x_spacing = (font_info.width / 2);
 	int max_text_y     = 0, text_length = 0;
@@ -297,7 +298,7 @@ void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int hei
 	// Generate the string for the value, as well as calculating its dimensions.
 	memset(temp, ' ', 10);
 	// my_itoa(v, temp);
-	sprintf(temp, "%d", v);
+	sprintf(temp, "%02d", v);
 	// TODO: add auto-sizing.
 	calc_text_dimensions(temp, font_info, 1, 0, &dim);
 	int xx = 0, i = 0;
@@ -307,44 +308,45 @@ void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int hei
 		xx = majtick_end - text_x_spacing;
 	}
 	y++;
+	uint8_t width =  dim.width + 4;
 	// Draw an arrow from the number to the point.
 	for (i = 0; i < arrow_len; i++) {
 		if (halign == -1) {
 			write_pixel_lm(xx - arrow_len + i, y - i - 1, 1, 1);
 			write_pixel_lm(xx - arrow_len + i, y + i - 1, 1, 1);
 #ifdef VERTICAL_SCALE_FILLED_NUMBER
-			write_hline_lm(xx + dim.width - 1, xx - arrow_len + i + 1, y - i - 1, 0, 1);
-			write_hline_lm(xx + dim.width - 1, xx - arrow_len + i + 1, y + i - 1, 0, 1);
+			write_hline_lm(xx + width - 1, xx - arrow_len + i + 1, y - i - 1, 0, 1);
+			write_hline_lm(xx + width - 1, xx - arrow_len + i + 1, y + i - 1, 0, 1);
 #else
-			write_hline_lm(xx + dim.width - 1, xx - arrow_len + i + 1, y - i - 1, 0, 0);
-			write_hline_lm(xx + dim.width - 1, xx - arrow_len + i + 1, y + i - 1, 0, 0);
+			write_hline_lm(xx + width - 1, xx - arrow_len + i + 1, y - i - 1, 0, 0);
+			write_hline_lm(xx + width - 1, xx - arrow_len + i + 1, y + i - 1, 0, 0);
 #endif
 		} else {
 			write_pixel_lm(xx + arrow_len - i, y - i - 1, 1, 1);
 			write_pixel_lm(xx + arrow_len - i, y + i - 1, 1, 1);
 #ifdef VERTICAL_SCALE_FILLED_NUMBER
-			write_hline_lm(xx - dim.width - 1, xx + arrow_len - i - 1, y - i - 1, 0, 1);
-			write_hline_lm(xx - dim.width - 1, xx + arrow_len - i - 1, y + i - 1, 0, 1);
+			write_hline_lm(xx - width - 1, xx + arrow_len - i - 1, y - i - 1, 0, 1);
+			write_hline_lm(xx - width - 1, xx + arrow_len - i - 1, y + i - 1, 0, 1);
 #else
-			write_hline_lm(xx - dim.width - 1, xx + arrow_len - i - 1, y - i - 1, 0, 0);
-			write_hline_lm(xx - dim.width - 1, xx + arrow_len - i - 1, y + i - 1, 0, 0);
+			write_hline_lm(xx - width - 1, xx + arrow_len - i - 1, y - i - 1, 0, 0);
+			write_hline_lm(xx - width - 1, xx + arrow_len - i - 1, y + i - 1, 0, 0);
 #endif
 		}
 	}
 	if (halign == -1) {
-		write_hline_lm(xx, xx + dim.width - 1, y - arrow_len, 1, 1);
-		write_hline_lm(xx, xx + dim.width - 1, y + arrow_len - 2, 1, 1);
-		write_vline_lm(xx + dim.width - 1, y - arrow_len, y + arrow_len - 2, 1, 1);
+		write_hline_lm(xx, xx + width -1, y - arrow_len, 1, 1);
+		write_hline_lm(xx, xx + width - 1, y + arrow_len - 2, 1, 1);
+		write_vline_lm(xx + width - 1, y - arrow_len, y + arrow_len - 2, 1, 1);
 	} else {
-		write_hline_lm(xx, xx - dim.width - 1, y - arrow_len, 1, 1);
-		write_hline_lm(xx, xx - dim.width - 1, y + arrow_len - 2, 1, 1);
-		write_vline_lm(xx - dim.width - 1, y - arrow_len, y + arrow_len - 2, 1, 1);
+		write_hline_lm(xx, xx - width - 1, y - arrow_len, 1, 1);
+		write_hline_lm(xx, xx - width - 1, y + arrow_len - 2, 1, 1);
+		write_vline_lm(xx - width - 1, y - arrow_len, y + arrow_len - 2, 1, 1);
 	}
 	// Draw the text.
 	if (halign == -1) {
-		write_string(temp, xx, y, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_LEFT, 0, 0);
+		write_string(temp, xx + width / 2, y, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, VSCALE_FONT);
 	} else {
-		write_string(temp, xx, y, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_RIGHT, 0, 0);
+		write_string(temp, xx - width / 2, y, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, VSCALE_FONT);
 	}
 #ifdef VERTICAL_SCALE_BRUTE_FORCE_BLANK_OUT
 	// This is a bad brute force method destuctive to other things that maybe drawn underneath like e.g. the artificial horizon:
