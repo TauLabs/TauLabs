@@ -39,11 +39,15 @@
 static const struct pios_servo_cfg * servo_cfg;
 
 //! The counter rate for the channel, used to calculate compare values.
-static uint32_t *output_channel_clk_rate;  // The clock rate for that timer
+static enum pwm_mode *output_channel_resolution;  // The clock rate for that timer
 #if defined(PIOS_INCLUDE_HPWM)
 //! The update rate for that channel. 0 if using synchronous updates.
 static uint16_t *output_channel_frequency;
 #endif
+
+/* Private constant definitions */
+#define PWM_MODE_1US_RATE   1000000
+#define PWM_MODE_80NS_RATE  12000000
 
 /**
 * Initialise Servos
@@ -87,18 +91,18 @@ int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 		TIM_Cmd(chan->timer, ENABLE);
 	}
 
-	output_channel_clk_rate = PIOS_malloc(servo_cfg->num_channels * sizeof(typeof(output_channel_clk_rate)));
-	if (output_channel_clk_rate == NULL) {
+	output_channel_resolution = PIOS_malloc(servo_cfg->num_channels * sizeof(typeof(output_channel_resolution)));
+	if (output_channel_resolution == NULL) {
 		return -1;
 	}
-	memset(output_channel_clk_rate, 0, servo_cfg->num_channels * sizeof(typeof(output_channel_clk_rate)));
+	memset(output_channel_resolution, 0, servo_cfg->num_channels * sizeof(typeof(output_channel_resolution)));
 #if defined(PIOS_INCLUDE_HPWM)
 	/* Allocate memory for frequency table */
 	output_channel_frequency = PIOS_malloc(servo_cfg->num_channels * sizeof(typeof(output_channel_frequency)));
 	if (output_channel_frequency == NULL) {
 		return -1;
 	}
-	memset(output_channel_frequency, 0, servo_cfg->num_channels * sizeof(typeof(output_channel_clk_rate)));
+	memset(output_channel_frequency, 0, servo_cfg->num_channels * sizeof(typeof(output_channel_frequency)));
 #endif
 
 	return 0;
@@ -144,9 +148,9 @@ void PIOS_Servo_SetMode(const uint16_t * speeds, const enum pwm_mode *pwm_mode, 
 			// Based on PWM mode determine the desired output period (which sets the
 			// channel resolution)
 			if (pwm_mode[set] == PWM_MODE_1US) {
-				clk_rate = 1000000; // Default output timer frequency in hertz
+				clk_rate = PWM_MODE_1US_RATE; // Default output timer frequency in hertz
 			} else if (pwm_mode[set] == PWM_MODE_80NS) {
-				clk_rate = 12000000; // Default output timer frequency in hertz
+				clk_rate = PWM_MODE_80NS_RATE; // Default output timer frequency in hertz
 			}
 
 			if (speeds[set] == 0) {
@@ -180,7 +184,7 @@ void PIOS_Servo_SetMode(const uint16_t * speeds, const enum pwm_mode *pwm_mode, 
 #if defined(PIOS_INCLUDE_HPWM)
 					/* save the frequency for these channels */
 					output_channel_frequency[j] = speeds[set];
-					output_channel_clk_rate[j] = clk_rate;
+					output_channel_resolution[j] = pwm_mode[set];
 #endif
 				}
 			}
@@ -206,9 +210,19 @@ void PIOS_Servo_Set(uint8_t servo, float position)
 	const struct pios_tim_channel * chan = &servo_cfg->channels[servo];
 
 	/* recalculate the position value based on timer clock rate */
-	/* position is in us */
-	/* clk_rate is in count per second */
-	position = position * (output_channel_clk_rate[servo] / 1000000);
+	/* position is in us. Note: if the set of channel resolutions */
+	/* stop all being multiples of 1MHz we might need to refactor */
+	/* the math a bit to preserve precision */
+	uint32_t us_to_count = 0;
+	switch(output_channel_resolution[servo]) {
+	case PWM_MODE_1US:
+		us_to_count = PWM_MODE_1US_RATE / 1000000;
+		break;
+	case PWM_MODE_80NS:
+		us_to_count = PWM_MODE_80NS_RATE / 1000000;
+		break;
+	}
+	position = position * us_to_count;
 
 	/* stop the timer in OneShot (Synchronous) mode */
 	if (output_channel_frequency[servo] == 0) {
