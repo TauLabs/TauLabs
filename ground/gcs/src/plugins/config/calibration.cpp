@@ -1053,13 +1053,13 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
         // Store the average accelerometer value in that position
         if (calibrateAccels) {
             // undo the board rotation that has been applied to the sensor values
-            double xyz[3] = {listMean(accel_accum_x), listMean(accel_accum_y), listMean(accel_accum_z)};
-            double xyz_body[3];
-            rotate_vector(boardRotationMatrix, xyz, xyz_body, true);
+            double accel_body[3] = {listMean(accel_accum_x), listMean(accel_accum_y), listMean(accel_accum_z)};
+            double accel_sensor[3];
+            rotate_vector(boardRotationMatrix, accel_body, accel_sensor, false);
 
-            accel_data_x[position] = xyz_body[0];
-            accel_data_y[position] = xyz_body[1];
-            accel_data_z[position] = xyz_body[2];
+            accel_data_x[position] = accel_sensor[0];
+            accel_data_y[position] = accel_sensor[1];
+            accel_data_z[position] = accel_sensor[2];
             accel_accum_x.clear();
             accel_accum_y.clear();
             accel_accum_z.clear();
@@ -1068,13 +1068,13 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
         // Store the average magnetometer value in that position
         if (calibrateMags) {
             // undo the board rotation that has been applied to the sensor values
-            double xyz[3] = {listMean(mag_accum_x), listMean(mag_accum_y), listMean(mag_accum_z)};
-            double xyz_body[3];
-            rotate_vector(boardRotationMatrix, xyz, xyz_body, true);
+            double mag_body[3] = {listMean(mag_accum_x), listMean(mag_accum_y), listMean(mag_accum_z)};
+            double mag_sensor[3];
+            rotate_vector(boardRotationMatrix, mag_body, mag_sensor, false);
 
-            mag_data_x[position] = xyz_body[0];
-            mag_data_y[position] = xyz_body[1];
-            mag_data_z[position] = xyz_body[2];
+            mag_data_x[position] = mag_sensor[0];
+            mag_data_y[position] = mag_sensor[1];
+            mag_data_z[position] = mag_sensor[2];
             mag_accum_x.clear();
             mag_accum_y.clear();
             mag_accum_z.clear();
@@ -1111,12 +1111,12 @@ bool Calibration::storeTempCalMeasurement(UAVObject * obj)
         Gyros *gyros = Gyros::GetInstance(getObjectManager());
         Q_ASSERT(gyros);
         Gyros::DataFields gyrosData = gyros->getData();
-        double xyz[3] = {gyrosData.x, gyrosData.y, gyrosData.z};
-        double xyz_body[3];
-        rotate_vector(boardRotationMatrix, xyz, xyz_body, true);
-        gyro_accum_x.append(xyz_body[0]);
-        gyro_accum_y.append(xyz_body[1]);
-        gyro_accum_z.append(xyz_body[2]);
+        double gyros_body[3] = {gyrosData.x, gyrosData.y, gyrosData.z};
+        double gyros_sensor[3];
+        rotate_vector(boardRotationMatrix, gyros_body, gyros_sensor, false);
+        gyro_accum_x.append(gyros_sensor[0]);
+        gyro_accum_y.append(gyros_sensor[1]);
+        gyro_accum_z.append(gyros_sensor[2]);
         gyro_accum_temp.append(gyrosData.temperature);
     }
 
