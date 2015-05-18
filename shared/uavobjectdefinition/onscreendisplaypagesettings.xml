@@ -43,7 +43,7 @@
 		<field name="BatteryConsumedAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
 
 		<field name="ClimbRate" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
-		<field name="ClimbRatePosX" units="" type="int16" elements="1" defaultvalue="50"/>
+		<field name="ClimbRatePosX" units="" type="int16" elements="1" defaultvalue="80"/>
 		<field name="ClimbRatePosY" units="" type="int16" elements="1" defaultvalue="210"/>
 		<field name="ClimbRateFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="ClimbRateAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
@@ -54,7 +54,7 @@
 
 		<field name="Cpu" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
 		<field name="CpuPosX" units="" type="int16" elements="1" defaultvalue="0"/>
-		<field name="CpuPosY" units="" type="int16" elements="1" defaultvalue="210"/>
+		<field name="CpuPosY" units="" type="int16" elements="1" defaultvalue="200"/>
 		<field name="CpuFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="CpuAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Left"/>
 
