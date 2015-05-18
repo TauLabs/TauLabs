@@ -109,6 +109,8 @@ def main():
         matplotlib.pyplot.show()
 
 if __name__ == "__main__":
+	import sys, os
+	sys.path.insert(1, os.path.dirname(sys.path[0]))
         from taulabs.readbyargs import uavo_list
 	from taulabs.uavo import *
 	main()
