@@ -23,7 +23,7 @@ class TelemetryBase():
 
     def __init__(self, uavo_defs=None, githash=None, serviceInIter=True,
             iterBlocks=True, useWallTime=True, doHandshaking=False,
-	    gcsTimestamps=False):
+            gcsTimestamps=False):
         if uavo_defs is None:
             uavo_defs = uavo_collection.UAVOCollection()
 
@@ -76,7 +76,7 @@ class TelemetryBase():
         return np.array(filtered_list, dtype=dtype) 
 
     def __iter__(self):
-	iterIdx = 0
+        iterIdx = 0
 
         self.cond.acquire()
 
@@ -208,7 +208,7 @@ class TelemetryBase():
 
     # No implementation required, so not abstract
     def _send(self, msg):
-	return
+        return
 
     @abstractmethod
     def _done(self):
@@ -324,7 +324,7 @@ class FileTelemetry(TelemetryBase):
             if sig != 'Tau Labs git hash:\n':
                 print "Source file does not have a recognized header signature"
                 print '|' + sig + '|'
-		raise IOError("no header signature")
+                raise IOError("no header signature")
             # Determine the git hash that this log file is based on
             githash = self.f.readline()[:-1]
             if githash.find(':') != -1:
