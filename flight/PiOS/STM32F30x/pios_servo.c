@@ -41,8 +41,8 @@ static const struct pios_servo_cfg * servo_cfg;
 //! The counter rate for the channel, used to calculate compare values.
 static enum pwm_mode *output_channel_resolution;  // The clock rate for that timer
 #if defined(PIOS_INCLUDE_HPWM)
-//! The update rate for that channel. 0 if using synchronous updates.
-static uint16_t *output_channel_frequency;
+enum SYNC_PWM {SYNC_PWM_FALSE, SYNC_PWM_TRUE};
+static enum SYNC_PWM *output_channel_mode;
 #endif
 
 /* Private constant definitions */
@@ -98,11 +98,11 @@ int32_t PIOS_Servo_Init(const struct pios_servo_cfg * cfg)
 	memset(output_channel_resolution, 0, servo_cfg->num_channels * sizeof(typeof(output_channel_resolution)));
 #if defined(PIOS_INCLUDE_HPWM)
 	/* Allocate memory for frequency table */
-	output_channel_frequency = PIOS_malloc(servo_cfg->num_channels * sizeof(typeof(output_channel_frequency)));
-	if (output_channel_frequency == NULL) {
+	output_channel_mode = PIOS_malloc(servo_cfg->num_channels * sizeof(typeof(output_channel_mode)));
+	if (output_channel_mode == NULL) {
 		return -1;
 	}
-	memset(output_channel_frequency, 0, servo_cfg->num_channels * sizeof(typeof(output_channel_frequency)));
+	memset(output_channel_mode, 0, servo_cfg->num_channels * sizeof(typeof(output_channel_mode)));
 #endif
 
 	return 0;
@@ -183,7 +183,7 @@ void PIOS_Servo_SetMode(const uint16_t * speeds, const enum pwm_mode *pwm_mode, 
 				if (chan->timer == servo_cfg->channels[j].timer) {
 #if defined(PIOS_INCLUDE_HPWM)
 					/* save the frequency for these channels */
-					output_channel_frequency[j] = speeds[set];
+					output_channel_mode[j] = (speeds[set] == 0) ? SYNC_PWM_TRUE : SYNC_PWM_FALSE;
 					output_channel_resolution[j] = pwm_mode[set];
 #endif
 				}
@@ -225,7 +225,7 @@ void PIOS_Servo_Set(uint8_t servo, float position)
 	position = position * us_to_count;
 
 	/* stop the timer in OneShot (Synchronous) mode */
-	if (output_channel_frequency[servo] == 0) {
+	if (output_channel_mode[servo] == SYNC_PWM_TRUE) {
 		TIM_Cmd(chan->timer, DISABLE);
 	}
 
@@ -298,7 +298,7 @@ void PIOS_Servo_Update()
 		/* Check for channels that are using synchronous output */
 		/* Look for a disabled timer using synchronous output */
 		if (!(chan->timer->CR1 & TIM_CR1_CEN) &&
-		     (output_channel_frequency[i] == 0)) {
+		     (output_channel_mode[i] == SYNC_PWM_TRUE)) {
 			/* enable it again and reinitialize it */
 			TIM_Cmd(chan->timer, ENABLE);
 			TIM_GenerateEvent(chan->timer, TIM_EventSource_Update);
