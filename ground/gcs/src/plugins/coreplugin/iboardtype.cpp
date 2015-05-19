@@ -11,41 +11,76 @@ QStringList IBoardType::queryChannelBanks()
 {
     QStringList banksStringList = QStringList();
 
-    foreach(QVector<qint32> channelBank, channelBanks) {
-        qint32 tmpChannel = -1;
-        qint32 lastWrittenChannel = -1;
+    foreach(QVector<qint32> channelBank, channelBanks) 
+	{
+        quint8 sequential = false;
         QString banksString;
 
-        for (int i=0; i<channelBank.size(); i++) {
-            quint8 channel = channelBank[i];
-            if (tmpChannel == -1) {
-                banksString.append(QString("%1").arg(channel));
-                lastWrittenChannel = channel;
-            } else if (channel == tmpChannel + 1) {
-                // At the end of the list, append the final number
-                if (i == channelBank.size()-1) {
-                    banksString.append(QString("-%1").arg(channel));
-                }
-            }
-            else {
-                if (lastWrittenChannel == tmpChannel) { // If we just wrote the tmpChannel value, write a comma and the new value
-                    banksString.append(QString(",%1").arg(channel));
-                }
-                else if (i < channelBank.size()-1) { // If this isn't the last element, add a comma
-                    banksString.append(QString("-%1,%2").arg(tmpChannel).arg(channel));
-                } else {
-                    banksString.append(QString("-%1").arg(channel));
-                }
-                lastWrittenChannel = channel;
-            }
-            tmpChannel = channel;
-        }
+		for (int i = 0; i < channelBank.size(); i++) 
+		{
+			if (i == 0)															 // First channel in bank
+			{
+				banksString.append(QString("%1").arg(channelBank[i]));
+				
+				if (channelBank.size() > 1)
+				{
+					if ((channelBank[i] + 1) == channelBank[i + 1])
+					{
+						banksString.append(QString("-"));							 // Next channel is sequential, add '-' to the string
+						sequential = true;
+					}
+					else
+					{
+						banksString.append(QString(","));							 // Next channel is not sequential, add ',' to the string
+						sequential = false;
+					}
+				}
+			}
+					
+			///////////////////////////
+				
+			else if (i == channelBank.size() - 1)								 // Last channel in bank
+				banksString.append(QString("%1").arg(channelBank[i]));
+					
+			///////////////////////////
+				
+			else																 // Mid channel(s) in bank
+			{
+				if (sequential)
+				{
+					if ((channelBank[i] + 1) == channelBank[i + 1])				 // Still sequential channels, nothing to add to string
+					{
+						sequential = true;
+					}
+					else
+					{
+						banksString.append(QString("%1,").arg(channelBank[i]));  // End of sequence, add channel and ',' to string
+						sequential = false;
+					}
+				}
+				else
+				{
+					banksString.append(QString("%1").arg(channelBank[i]));
 
-        // If there are no elements in the bank, print a hyphen
+					if ((channelBank[i] + 1) == channelBank[i + 1])
+					{
+						banksString.append(QString("-"));						 // Next channel is sequential, add '-' to the string
+						sequential = true;
+					}
+					else
+					{
+						banksString.append(QString(","));						 // Next channel is not sequential, add ',' to the string
+						sequential = false;
+					}
+				}
+			}
+		}
+		
+		// If there are no elements in the bank, print a hyphen
         if (banksString.isEmpty())
             banksString.append("-");
-
-        // Add string to list
+		
+		// Add string to list
         banksStringList << banksString;
     }
 
