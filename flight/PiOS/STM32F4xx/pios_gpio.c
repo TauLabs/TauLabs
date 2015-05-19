@@ -71,7 +71,7 @@ void PIOS_GPIO_Enable(uint8_t Pin)
 */
 void PIOS_GPIO_On(uint8_t Pin)
 {
-	GPIO_ResetBits(GPIO_PORT[Pin], GPIO_PIN[Pin]);
+	GPIO_SetBits(GPIO_PORT[Pin], GPIO_PIN[Pin]);
 }
 
 /**
@@ -80,7 +80,7 @@ void PIOS_GPIO_On(uint8_t Pin)
 */
 void PIOS_GPIO_Off(uint8_t Pin)
 {
-	GPIO_SetBits(GPIO_PORT[Pin], GPIO_PIN[Pin]);
+	GPIO_ResetBits(GPIO_PORT[Pin], GPIO_PIN[Pin]);
 }
 
 /**
