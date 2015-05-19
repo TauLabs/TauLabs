@@ -268,7 +268,6 @@ extern uintptr_t pios_com_debug_id;
 //-------------------------
 #define PIOS_GPIO_PORTS				{ GPIOA }
 #define PIOS_GPIO_PINS				{ GPIO_Pin_4 }
-#define PIOS_GPIO_CLKS				{ GPIO_Speed_2MHz }
 #define PIOS_GPIO_NUM				1
 
 #endif /* STM3210E_INS_H_ */
