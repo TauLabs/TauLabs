@@ -42,7 +42,7 @@
 #include "pios_semaphore.h"
 
 // How many frames until we redraw
-#define VSYNC_REDRAW_CNT 4
+#define VSYNC_REDRAW_CNT 1
 
 extern struct pios_semaphore * onScreenDisplaySemaphore;
 
