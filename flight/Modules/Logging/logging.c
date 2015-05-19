@@ -72,9 +72,10 @@ do {                                                                            
 
 // linked list entry for storing the last log times
 struct UAVOLogInfo {
-	struct UAVOLogInfo * next;
+	struct UAVOLogInfo *next;
 	UAVObjHandle obj;
 	uint32_t last_log;
+	uint16_t logging_period;
 } __attribute__((packed));
 
 // Private variables
@@ -82,7 +83,7 @@ static UAVTalkConnection uavTalkCon;
 static struct pios_thread *loggingTaskHandle;
 static bool module_enabled;
 static struct pios_queue *queue;
-static struct UAVOLogInfo * log_info;
+static struct UAVOLogInfo *log_info;
 
 // Private functions
 static void    loggingTask(void *parameters);
@@ -165,8 +166,7 @@ MODULE_INITCALL(LoggingInitialize, LoggingStart);
 static void loggingTask(void *parameters)
 {
 	UAVObjEvent ev;
-	UAVObjMetadata meta_data;
-	struct UAVOLogInfo * info;
+	struct UAVOLogInfo *info;
 	uint32_t time_now;
 
 	bool armed = false;
@@ -253,19 +253,14 @@ static void loggingTask(void *parameters)
 			if (!write_open)
 				continue;
 
-			// log the registred objects
+			// log the registered objects
 			if (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
-				if (UAVObjGetMetadata(ev.obj, &meta_data) < 0)
-					continue;
-
-				if (meta_data.loggingUpdatePeriod == 0)
-					continue;
 
 				// find log info entry and log the object if found
 				LL_FOREACH(log_info, info) {
 					if (info->obj == ev.obj) {
-						time_now = 	PIOS_Thread_Systime();
-						if (time_now - info->last_log > meta_data.loggingUpdatePeriod) {
+						time_now = PIOS_Thread_Systime();
+						if (time_now - info->last_log > info->logging_period) {
 							UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
 							info->last_log = time_now;
 						}
@@ -354,19 +349,29 @@ static int32_t send_data(uint8_t *data, int32_t length)
  */
 static void register_object(UAVObjHandle obj)
 {
+	// check whether we want to log this object
+	UAVObjMetadata meta_data;
+	if (UAVObjGetMetadata(obj, &meta_data) < 0)
+		return;
+
+	if (meta_data.loggingUpdatePeriod == 0)
+		return;
+
 	// register callback
 	int32_t eventMask;
-	eventMask = EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ | EV_UNPACKED;
+	eventMask = EV_UPDATED | EV_UNPACKED;
 	UAVObjConnectQueue(obj, queue, eventMask);
 
 	// create log info entry
-	struct UAVOLogInfo * info;
+	struct UAVOLogInfo *info;
 	info = (struct UAVOLogInfo *) PIOS_malloc_no_dma(sizeof(struct UAVOLogInfo));
 	if (info == NULL)
 		return;
 
 	info->obj = obj;
 	info->last_log = 0;
+	// store update period, so we don't have to fetch the metadata during logging
+	info->logging_period = meta_data.loggingUpdatePeriod;
 	LL_APPEND(log_info, info);
 }
 
