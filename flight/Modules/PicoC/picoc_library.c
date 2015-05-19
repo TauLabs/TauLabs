@@ -643,7 +643,7 @@ void SystemGPIOWrite(struct ParseState *Parser, struct Value *ReturnValue, struc
 				PIOS_GPIO_Toggle(Param[0]->Val->UnsignedInteger);
 				break;
 			default:
-				temp = 0;;
+				temp = 0;
 		}
 		if (temp == 1)
 		{ ReturnValue->Val->Integer = 1; }
