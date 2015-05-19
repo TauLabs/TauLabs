@@ -14,7 +14,42 @@
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
 		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>
 
-		<field name="VTX_Ch" units="Hz" type="enum" elements="1" options="1,2,3,4,5,6,7,8" defaultvalue="1"/>
+		<field name="VTX_Ch" units="Hz" type="enum" elements="1" defaultvalue="BoscamACh1">
+			<options>
+				<option>BoscamACh1 (5725)</option>
+				<option>BoscamACh2 (5745)</option>
+				<option>BoscamACh3 (5765)</option>
+				<option>BoscamACh4 (5785)</option>
+				<option>BoscamACh5 (5805)</option>
+				<option>BoscamACh6 (5825)</option>
+				<option>BoscamACh7 (5845)</option>
+				<option>BoscamACh8 (5865)</option>
+				<option>BoscamBCh1 (5733)</option>
+				<option>BoscamBCh2 (5752)</option>
+				<option>BoscamBCh3 (5771)</option>
+				<option>BoscamBCh4 (5790)</option>
+				<option>BoscamBCh5 (5809)</option>
+				<option>BoscamBCh6 (5828)</option>
+				<option>BoscamBCh7 (5847)</option>
+				<option>BoscamBCh8 (5866)</option>
+				<option>BoscamECh1 (5705)</option>
+				<option>BoscamECh2 (5685)</option>
+				<option>BoscamECh3 (5665)</option>
+				<option>BoscamECh4 (5645)</option>
+				<option>BoscamECh5 (5885)</option>
+				<option>BoscamECh6 (5905)</option>
+				<option>BoscamECh7 (5925)</option>
+				<option>BoscamECh8 (5945)</option>
+				<option>AirwaveCh1 (5740)</option>
+				<option>AirwaveCh2 (5760)</option>
+				<option>AirwaveCh3 (5780)</option>
+				<option>AirwaveCh4 (5800)</option>
+				<option>AirwaveCh5 (5820)</option>
+				<option>AirwaveCh6 (5840)</option>
+				<option>AirwaveCh7 (5860)</option>
+				<option>AirwaveCh8 (5860)</option>
+			</options>
+		</field>
 
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>

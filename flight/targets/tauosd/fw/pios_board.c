@@ -276,64 +276,187 @@ static void blank_osd()
 void set_vtx_channel(HwTauOsdVTX_ChOptions channel)
 {
 	uint8_t chan = 0;
+	uint8_t band = 0xFF; // Set to "A" band
+
 	switch (channel) {
-	case HWTAUOSD_VTX_CH_1:
+	case HWTAUOSD_VTX_CH_BOSCAMACH15725:
 		chan = 0;
-		break;
-	case HWTAUOSD_VTX_CH_2:
+		band = 0;
+	case HWTAUOSD_VTX_CH_BOSCAMACH25745:
 		chan = 1;
+		band = 0;
 		break;
-	case HWTAUOSD_VTX_CH_3:
+	case HWTAUOSD_VTX_CH_BOSCAMACH35765:
 		chan = 2;
+		band = 0;
 		break;
-	case HWTAUOSD_VTX_CH_4:
+	case HWTAUOSD_VTX_CH_BOSCAMACH45785:
 		chan = 3;
+		band = 0;
 		break;
-	case HWTAUOSD_VTX_CH_5:
+	case HWTAUOSD_VTX_CH_BOSCAMACH55805:
 		chan = 4;
+		band = 0;
 		break;
-	case HWTAUOSD_VTX_CH_6:
+	case HWTAUOSD_VTX_CH_BOSCAMACH65825:
 		chan = 5;
+		band = 0;
 		break;
-	case HWTAUOSD_VTX_CH_7:
+	case HWTAUOSD_VTX_CH_BOSCAMACH75845:
 		chan = 6;
+		band = 0;
 		break;
-	case HWTAUOSD_VTX_CH_8:
+	case HWTAUOSD_VTX_CH_BOSCAMACH85865:
 		chan = 7;
+		band = 0;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMBCH15733:
+		chan = 0;
+		band = 1;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMBCH25752:
+		chan = 1;
+		band = 1;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMBCH35771:
+		chan = 2;
+		band = 1;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMBCH45790:
+		chan = 3;
+		band = 1;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMBCH55809:
+		chan = 4;
+		band = 1;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMBCH65828:
+		chan = 5;
+		band = 1;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMBCH75847:
+		chan = 6;
+		band = 1;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMBCH85866:
+		chan = 7;
+		band = 1;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMECH15705:
+		chan = 0;
+		band = 2;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMECH25685:
+		chan = 1;
+		band = 2;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMECH35665:
+		chan = 2;
+		band = 2;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMECH45645:
+		chan = 3;
+		band = 2;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMECH55885:
+		chan = 4;
+		band = 2;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMECH65905:
+		chan = 5;
+		band = 2;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMECH75925:
+		chan = 6;
+		band = 2;
+		break;
+	case HWTAUOSD_VTX_CH_BOSCAMECH85945:
+		chan = 7;
+		band = 2;
+		break;
+	case HWTAUOSD_VTX_CH_AIRWAVECH15740:
+		chan = 0;
+		band = 3;
+		break;
+	case HWTAUOSD_VTX_CH_AIRWAVECH25760:
+		chan = 1;
+		band = 3;
+		break;
+	case HWTAUOSD_VTX_CH_AIRWAVECH35780:
+		chan = 2;
+		band = 3;
+		break;
+	case HWTAUOSD_VTX_CH_AIRWAVECH45800:
+		chan = 3;
+		band = 3;
+		break;
+	case HWTAUOSD_VTX_CH_AIRWAVECH55820:
+		chan = 4;
+		band = 3;
+		break;
+	case HWTAUOSD_VTX_CH_AIRWAVECH65840:
+		chan = 5;
+		band = 3;
+		break;
+	case HWTAUOSD_VTX_CH_AIRWAVECH75860:
+		chan = 6;
+		band = 3;
+		break;
+	case HWTAUOSD_VTX_CH_AIRWAVECH85860:
+		chan = 7;
+		band = 3;
 		break;
 	}
 
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_Init(GPIOD, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+	GPIO_Init(GPIOC, &GPIO_InitStructure);
 
 	if (chan & 0x01) {
-		GPIO_SetBits(GPIOB, GPIO_Pin_11);
+		GPIO_SetBits(GPIOB, GPIO_Pin_3);
 	} else {
-		GPIO_ResetBits(GPIOB, GPIO_Pin_11);
+		GPIO_ResetBits(GPIOB, GPIO_Pin_3);
 	}
 
 	if (chan & 0x02) {
-		GPIO_SetBits(GPIOB, GPIO_Pin_10);
+		GPIO_SetBits(GPIOD, GPIO_Pin_2);
 	} else {
-		GPIO_ResetBits(GPIOB, GPIO_Pin_10);
+		GPIO_ResetBits(GPIOD, GPIO_Pin_2);
 	}
 
 	if (chan & 0x04) {
-		GPIO_SetBits(GPIOB, GPIO_Pin_2);
+		GPIO_SetBits(GPIOC, GPIO_Pin_12);
 	} else {
-		GPIO_ResetBits(GPIOB, GPIO_Pin_2);
+		GPIO_ResetBits(GPIOC, GPIO_Pin_12);
+	}
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+
+	if (band & 0x01) {
+		GPIO_SetBits(GPIOB, GPIO_Pin_5);
+	} else {
+		GPIO_ResetBits(GPIOB, GPIO_Pin_5);
+	}
+
+	if (band & 0x02) {
+		GPIO_SetBits(GPIOB, GPIO_Pin_4);
+	} else {
+		GPIO_ResetBits(GPIOB, GPIO_Pin_4);
 	}
 }
+
 void PIOS_Board_Init(void) {
 
 	blank_osd();
@@ -604,9 +727,9 @@ void PIOS_Board_Init(void) {
 
 	video_input_select(0);
 
-	uint8_t channel;
-	HwTauOsdVTX_ChGet(&channel);
-	set_vtx_channel(channel);
+	uint8_t vtx_selection;
+	HwTauOsdVTX_ChGet(&vtx_selection);
+	set_vtx_channel(vtx_selection);
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
 	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);
