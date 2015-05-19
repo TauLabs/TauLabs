@@ -297,8 +297,7 @@ void PIOS_Servo_Update()
 
 		/* Check for channels that are using synchronous output */
 		/* Look for a disabled timer using synchronous output */
-		if (!(chan->timer->CR1 & TIM_CR1_CEN) &&
-		     (output_channel_mode[i] == SYNC_PWM_TRUE)) {
+		if (!(chan->timer->CR1 & TIM_CR1_CEN)) {
 			/* enable it again and reinitialize it */
 			TIM_Cmd(chan->timer, ENABLE);
 			TIM_GenerateEvent(chan->timer, TIM_EventSource_Update);
