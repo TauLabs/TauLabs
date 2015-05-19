@@ -14,6 +14,8 @@
 		<field name="PageConfig" units="" type="enum" elements="6" options="Custom1,Custom2,Custom3,Custom4,Menu,Off"
 		       defaultvalue="Custom1,Custom1,Custom1,Custom1,Custom1,Custom1"/>
 		<field name="DisableMenuWhenArmed" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
+		<field name="RssiWarnThreshold" units="" type="uint8" elements="1" defaultvalue="50"/>
+		<field name="CustomText" units="" type="uint8" elements="10" defaultvalue="        "/>
 	<access gcs="readwrite" flight="readwrite"/>
 	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 	<telemetryflight acked="true" updatemode="onchange" period="0"/>
