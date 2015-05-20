@@ -44,7 +44,7 @@ def main():
 #                if k in settingsObjs]
 
     for obj in tStream:
-        #print obj
+        print obj
         pass
 
 #-------------------------------------------------------------------------------

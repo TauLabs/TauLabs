@@ -341,8 +341,7 @@ class FDTelemetry(TelemetryBase):
 class NetworkTelemetry(FDTelemetry):
     """ TCP telemetry interface. """
     def __init__(self, host="127.0.0.1", port=9000, *args, **kwargs):
-
-        """ Instantiates a telemetry instance talking over TCP.
+        """ Creates a telemetry instance talking over TCP.
         
          - host: hostname to connect to (default localhost)
          - port: port number to communicate on (default 9000)
@@ -359,6 +358,28 @@ class NetworkTelemetry(FDTelemetry):
         self.sock = s
 
         FDTelemetry.__init__(self, fd=s.fileno(), *args, **kwargs)
+
+# TODO XXX : Plumb appropriate cleanup / file close for these classes
+
+class SerialTelemetry(FDTelemetry):
+    """ Serial telemetry interface """
+    def __init__(self, port="/dev/ttyUSB0", speed=115200, *args, **kwargs):
+        """ Creates telemetry instance talking over (real or virtual) serial port.
+        
+         - port: Serial port path
+         - speed: Baud rate (doesn't really matter for VCP, defaults 115200)
+
+        Meaningful parameters passed up to TelemetryBase include: githash,
+        service_in_iter, iter_blocks, use_walltime
+        
+        Requires the module pyserial to provide OS independance.
+        """
+
+        import serial
+
+        ser = serial.Serial(port, speed)
+
+        FDTelemetry.__init__(self, fd=ser.fileno(), *args, **kwargs)
 
 class FileTelemetry(TelemetryBase):
     """ Telemetry interface to data in a file """
@@ -428,7 +449,6 @@ def _normalize_path(path):
 def get_telemetry_by_args(desc="Process telemetry"):
     """ Parses command line to decide how to get a telemetry object. """
     # Setup the command line arguments.
-    # XXX DESC, ETC
     import argparse
     parser = argparse.ArgumentParser(description=desc)
 
