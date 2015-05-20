@@ -5,6 +5,5 @@ __all__ = ()
 
 from . import uavo
 from . import uavo_collection
-from . import uavo_list
 from . import uavtalk
 from . import telemetry
