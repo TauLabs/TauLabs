@@ -102,7 +102,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.h \
     $$UAVOBJECT_SYNTHETICS/oplinksettings.h \
     $$UAVOBJECT_SYNTHETICS/openlrs.h \
-	$$UAVOBJECT_SYNTHETICS/openlrsstatus.h \
+    $$UAVOBJECT_SYNTHETICS/openlrsstatus.h \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.h \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.h \
     $$UAVOBJECT_SYNTHETICS/pathdesired.h \
@@ -222,7 +222,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/objectpersistence.cpp \
     $$UAVOBJECT_SYNTHETICS/oplinksettings.cpp \
     $$UAVOBJECT_SYNTHETICS/openlrs.cpp \
-	$$UAVOBJECT_SYNTHETICS/openlrsstatus.cpp \
+    $$UAVOBJECT_SYNTHETICS/openlrsstatus.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncsettings.cpp \
     $$UAVOBJECT_SYNTHETICS/overosyncstats.cpp \
     $$UAVOBJECT_SYNTHETICS/pathdesired.cpp \
