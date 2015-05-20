@@ -1147,7 +1147,6 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 	openlrs_dev->beacon_delay = binding.beacon_delay;
 	openlrs_dev->beacon_period = binding.beacon_period;
 
-	// Hardcode failsafe delay
 	openlrs_dev->failsafeDelay = binding.failsafe_delay;
 
 	// Bind the configuration to the device instance
