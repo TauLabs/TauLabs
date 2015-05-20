@@ -40,7 +40,7 @@
 #include "gpsvelocity.h"
 #include "modulesettings.h"
 #include "positionactual.h"
-#include "rfm22bstatus.h"
+#include "manualcontrolcommand.h"
 
 
 //
@@ -93,6 +93,7 @@ int32_t OsdCanStart(void)
 
 		FlightStatusConnectQueue(queue);
 		BaroAltitudeConnectQueue(queue);
+		ManualControlCommandConnectQueue(queue);
 		if (GPSPositionHandle() && module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 			GPSPositionConnectQueue(queue);
 		}
@@ -101,8 +102,6 @@ int32_t OsdCanStart(void)
 		}
 		if (FlightBatteryStateHandle() && module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED)
 			FlightBatteryStateConnectQueue(queue);
-		if (RFM22BStatusHandle())
-			RFM22BStatusConnectQueue(queue);
 		PositionActualConnectQueue(queue);
 
 		taskHandle = PIOS_Thread_Create(osdCanTask, "OsdCan", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
@@ -247,13 +246,17 @@ static void osdCanTask(void* parameters)
 			};
 			PIOS_CAN_TxData(pios_can_id, PIOS_CAN_POS, (uint8_t *) &pos);
 
-		} else if (ev.obj == RFM22BStatusHandle()) {
+		} else if (ev.obj == ManualControlCommandHandle()) {
 
-			RFM22BStatusData rfm22b;
-			RFM22BStatusInstGet(1, &rfm22b);
+			static uint32_t divider = 0;
+			if (divider++ % 100 != 0)
+				continue;
+
+			int16_t rssi_val;
+			ManualControlCommandRssiGet(&rssi_val);
 
 			struct pios_can_rssi_message rssi = {
-				.rssi = rfm22b.LinkQuality
+				.rssi = rssi_val
 			};
 
 			PIOS_CAN_TxData(pios_can_id, PIOS_CAN_RSSI, (uint8_t *) &rssi);
