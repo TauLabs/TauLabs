@@ -1,3 +1,8 @@
+""" Implements the uavtalk protocol.
+
+Ordinarily one would use the methods exposed by the telemetry module instead of
+this interface."""
+
 import struct
 import time
 
@@ -7,6 +12,8 @@ import time
 (TYPE_MASK, TYPE_VER) = (0x78, 0x20)
 (TIMESTAMPED) = (0x80)
 (TYPE_OBJ, TYPE_OBJ_REQ, TYPE_OBJ_ACK, TYPE_ACK, TYPE_NACK, TYPE_OBJ_TS, TYPE_OBJ_ACK_TS) = (0x00, 0x01, 0x02, 0x03, 0x04, 0x80, 0x82)
+
+# Serialization of header elements
 
 # sync(1) + type(1) + len(2) + objid(4) 
 header_fmt = struct.Struct("<BBHL")
@@ -34,6 +41,14 @@ crc_table = [
 ]
 
 def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
+    """Generator function that parses uavotalk stream.
+    
+    You are expected to send more bytes, or '' to it, until EOF.  Then send
+    None.  After that, you may continue to receive objects back because of
+    buffering."""
+
+    # This could be made considerably faster if it kept an offset.
+
     # These are used for accounting for timestamp wraparound
     timestamp_base = 0
     last_timestamp = 0
@@ -201,9 +216,7 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             packet_bytes += next_recv
 
 def send_object(obj):
-    """
-    Generates a string containing a UAVTalk packet describing this object
-    """
+    """Generates a string containing a UAVTalk packet describing this object"""
 
     uavo_def = obj.uavometa
 

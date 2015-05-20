@@ -10,26 +10,37 @@ def flatten(lst):
     return result
 
 class UAVTupleClass():
+    """ This is the prototype for a class that contains a uav object. """
+
     @classmethod
     def _make_to_send(cls, *args):
+        """ Accepts all the uavo fields and creates an object.
+        
+        The object is dated as of the current time, and has the name and id
+        fields set properly.
+        """
+
         import time
         return cls(cls._name, round(time.time() * 1000), cls._id, *args)
 
     def bytes(self):
+        """ Serializes this object into a byte stream. """
         return self.packstruct.pack(*flatten(self[3:]))
 
     @classmethod
     def from_bytes(cls, data, timestamp, offset=0):
+        """ Deserializes and creates an instance of this object.
+        
+         - data: the data to deserialize
+         - timestamp: the timestamp to put on the object instance
+         - offset: an optional index into data where to begin deserialization
+        """
         import struct
 
-        uavo = cls.uavometa
-
-        #
-        # add the values
-        #
-
-        # unpack each field separately
         if not cls.flat:
+            # unpack each field separately.  This really just needs to be
+            # restructured in terms of the lower thing, and reformulate the
+            # tuple as appropriate.
             unpack_field_values = []
             for fmt in cls.formats:
                 val = fmt.unpack_from(data, offset)
@@ -43,7 +54,7 @@ class UAVTupleClass():
             unpack_field_values = cls.packstruct.unpack_from(data, offset)
 
         field_values = []
-        field_values.append(uavo.meta['name'])
+        field_values.append(cls._name)
 
         # This gets a bit awkward. The order of field_values must match the structure
         # which for the intro header is name, timestamp, and id and then optionally
@@ -54,18 +65,20 @@ class UAVTupleClass():
         if timestamp != None:
             field_values.append(timestamp / 1000.0) 
         else:
-            if uavo.meta['is_single_inst']:
+            if cls._single:
                 offset = 0
             else:
                 offset = 1
             field_values.append(unpack_field_values.pop(offset) / 1000.0)
-        field_values.append(uavo.id)
+        field_values.append(cls._id)
 
         # add the remaining fields
         field_values = tuple(field_values) + tuple(unpack_field_values)
 
         return cls._make(field_values)
 
+# Hopefully this class can be murdered in favor of a generator function and our
+# dynamically generated namedtuple child classes.  We're close.
 class UAVO():
     type_enum_map = {
         'int8'    : 0,
@@ -222,6 +235,7 @@ class UAVO():
             uavometa = self
             _name = name
             _id = self.id
+            _single = self.meta['is_single_inst']
 
         # This is magic for two reasons.  First, we create the class to have
         # the proper dynamic name.  Second, we override __slots__, so that

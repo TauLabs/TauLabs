@@ -1,3 +1,5 @@
+"""Interface to telemetry streams -- log, network, or serial."""
+
 import socket
 import time
 import array
@@ -14,22 +16,39 @@ from abc import ABCMeta, abstractmethod
 
 class TelemetryBase():
     """
-    Provides a basic telemetry connection to a flight controller
+    Basic (abstract) implementation of telemetry used by all stream types.
     """
 
     # This is not a complete implemention / must subclass
     __metaclass__ = ABCMeta
 
-    def __init__(self, uavo_defs=None, githash=None, service_in_iter=True,
+    def __init__(self, githash=None, service_in_iter=True,
             iter_blocks=True, use_walltime=True, do_handshaking=False,
             gcs_timestamps=False):
-        if uavo_defs is None:
-            uavo_defs = uavo_collection.UAVOCollection()
+        """Instantiates a telemetry instance.  Called only by derived classes.
+        
+         - githash: revision control id of the UAVO's used to communicate.
+             if unspecified, we use the version in this source tree.
+         - service_in_iter: whether the actual iterator should service the
+             connection/read the file.  If you don't specify this, you probably
+             want to call start_thread()
+         - iter_blocks: whether the iterator should block for new data.  Only
+             really meaningful for network/serial
+         - use_walltime: if true, automatically place current time into packets
+             received.
+         - do_handshaking: if true, indicates this is an interactive stream
+             where we should speak the UAVO_GCSTelemetryStats connection status
+             protocol.
+         - gcs_timestamps: if true, this means we are reading from a file with
+             the strange GCS timestamp protocol.
+        """
 
-            if githash:
-                uavo_defs.from_git_hash(githash)
-            else:
-                uavo_defs.from_uavo_xml_path("shared/uavobjectdefinition")
+        uavo_defs = uavo_collection.UAVOCollection()
+
+        if githash:
+            uavo_defs.from_git_hash(githash)
+        else:
+            uavo_defs.from_uavo_xml_path("shared/uavobjectdefinition")
 
         self.githash = githash
 
@@ -51,6 +70,11 @@ class TelemetryBase():
         self.do_handshaking = do_handshaking
 
     def as_numpy_array(self, match_class): 
+        """ Transforms all received instances of a given object to a numpy array.
+        
+        match_class: the UAVO_* class you'd like to match.
+        """
+
         import numpy as np
 
         # Find the subset of this list that is of the requested class 
@@ -73,6 +97,7 @@ class TelemetryBase():
         return np.array(filtered_list, dtype=dtype) 
 
     def __iter__(self):
+        """ Iterator service routine. """
         iterIdx = 0
 
         self.cond.acquire()
@@ -111,6 +136,9 @@ class TelemetryBase():
                         finally:
                             self.cond.acquire()
 
+                    # I think this should probably keep the index so that
+                    # new iterations pick up where we were.. XXX TODO
+                    # takes some thought as to what is "right"
                     if iterIdx >= len(self.uavo_list):
                         break
 
@@ -118,7 +146,7 @@ class TelemetryBase():
         return uavo.UAVO_GCSTelemetryStats._make_to_send(0, 0, 0, 0, 0, handshake)
 
     def __handle_handshake(self, obj):
-        if obj.name == "FlightTelemetryStats":
+        if obj.name == "UAVO_FlightTelemetryStats":
             # Handle the telemetry handshaking
 
             (DISCONNECTED, HANDSHAKE_REQ, HANDSHAKE_ACK, CONNECTED) = (0,1,2,3)
@@ -163,11 +191,14 @@ class TelemetryBase():
             self.cond.notifyAll()
 
     def get_last_values(self):
+        """ Returns the last instance of each kind of object received. """
         with self.cond:
             return self.last_values.copy()
 
     def start_thread(self):
+        """ Starts a separate thread to service this telemetry connection. """
         if self.service_in_iter:
+            # TODO sane exceptions here.
             raise
 
         if self._done():
@@ -212,9 +243,23 @@ class TelemetryBase():
         return True
 
 class FDTelemetry(TelemetryBase):
-    # expects fd is set nonblocking
-    # intended for bidirectional comms.
+    """
+    Implementation of bidirectional telemetry from a file descriptor.
+    
+    Intended for serial and network streams.
+    """
+
     def __init__(self, fd, *args, **kwargs):
+        """ Instantiates a telemetry instance on a given fd.
+        
+        Probably should only be called by derived classes.
+        
+         - fd: the file descriptor to perform telemetry operations upon
+        
+        Meaningful parameters passed up to TelemetryBase include: githash,
+        service_in_iter, iter_blocks, use_walltime
+        """
+
         TelemetryBase.__init__(self, do_handshaking=True,
                 gcs_timestamps=False,  *args, **kwargs)
 
@@ -224,7 +269,7 @@ class FDTelemetry(TelemetryBase):
         self.fd = fd
 
     def _receive(self, finish_time):
-        """ Fetch available data from TCP socket """
+        """ Fetch available data from file descriptor. """
 
         # Always do some minimal IO if possible
         self._do_io(0)
@@ -294,7 +339,18 @@ class FDTelemetry(TelemetryBase):
         return self.fd is None
 
 class NetworkTelemetry(FDTelemetry):
+    """ TCP telemetry interface. """
     def __init__(self, host="127.0.0.1", port=9000, *args, **kwargs):
+
+        """ Instantiates a telemetry instance talking over TCP.
+        
+         - host: hostname to connect to (default localhost)
+         - port: port number to communicate on (default 9000)
+
+        Meaningful parameters passed up to TelemetryBase include: githash,
+        service_in_iter, iter_blocks, use_walltime
+        """
+
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((host, port))
 
@@ -305,11 +361,21 @@ class NetworkTelemetry(FDTelemetry):
         FDTelemetry.__init__(self, fd=s.fileno(), *args, **kwargs)
 
 class FileTelemetry(TelemetryBase):
-    # TODO accept file object
-    def __init__(self, filename='sim_log.tll', parse_header=False,
+    """ Telemetry interface to data in a file """
+
+    def __init__(self, file_obj, parse_header=False,
              *args, **kwargs):
-        self.filename = filename
-        self.f = file(filename, 'r')
+        """ Instantiates a telemetry instance reading from a file.
+        
+         - file_obj: the file object to read from
+         - parse_header: whether to read a header like the GCS writes from the
+           file.
+
+        Meaningful parameters passed up to TelemetryBase include: githash,
+        service_in_iter, iter_blocks, use_walltime, gcs_timestamps
+        """
+
+        self.f = file_obj
 
         if parse_header:
             # Check the header signature
@@ -360,6 +426,7 @@ def _normalize_path(path):
     return os.path.normpath(os.path.join(os.getcwd(), path))
 
 def get_telemetry_by_args(desc="Process telemetry"):
+    """ Parses command line to decide how to get a telemetry object. """
     # Setup the command line arguments.
     # XXX DESC, ETC
     import argparse
@@ -398,6 +465,8 @@ def get_telemetry_by_args(desc="Process telemetry"):
 
     from taulabs import telemetry
 
-    return telemetry.FileTelemetry(filename=src, parse_header=parse_header,
+    file_obj = file(src, 'r')
+
+    return telemetry.FileTelemetry(file_obj, parse_header=parse_header,
         gcs_timestamps=args.timestamped)
 
