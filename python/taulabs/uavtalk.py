@@ -168,7 +168,7 @@ def processStream(uavo_defs, useWallTime=False, logTimestamps=False):
         
         if timestampLength:
             # pull the timestamp from the packet
-	    timestamp = timestampFmt.unpack_from(packetBytes, headerFmt.size)[0]
+            timestamp = timestampFmt.unpack_from(packetBytes, headerFmt.size)[0]
 
             # handle wraparound
             if timestamp < lastTimestamp:
