@@ -570,13 +570,10 @@ simulation: sim_posix
 sim_posix_revolution: sim_posix
 
 define SIM_TEMPLATE
-.PHONY: sim_$(4)
-sim_$(4): sim_$(4)_$(5)
-
-sim_$(4)_%: TARGET=sim_$(4)_$(1)
-sim_$(4)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
-sim_$(4)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
-sim_$(4)_%: uavobjects_flight
+sim_$(4): TARGET=sim_$(4)
+sim_$(4): OUTDIR=$(BUILD_DIR)/$$(TARGET)
+sim_$(4): BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
+sim_$(4): uavobjects_flight
 	$(V1) mkdir -p $$(OUTDIR)/dep
 	$(V1) cd $$(BOARD_ROOT_DIR)/fw && \
 		$$(MAKE) --no-print-directory \
@@ -606,8 +603,8 @@ sim_$(4)_%: uavobjects_flight
 		$$*
 
 .PHONY: sim_$(4)_clean
-sim_$(4)_%: TARGET=sim_$(4)_$(1)
-sim_$(4)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
+sim_$(4)_clean: TARGET=sim_$(4)
+sim_$(4)_clean: OUTDIR=$(BUILD_DIR)/$$(TARGET)
 sim_$(4)_clean:
 	$(V0) @echo " CLEAN      $$@"
 	$(V1) [ ! -d "$$(OUTDIR)" ] || $(RM) -r "$$(OUTDIR)"

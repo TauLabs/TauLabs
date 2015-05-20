@@ -23,6 +23,10 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #####
 
+# Default target.
+.PHONY: all
+all: elf
+
 override THUMB :=
 include $(MAKE_INC_DIR)/firmware-defs.mk
 include $(BOARD_INFO_DIR)/board-info.mk
@@ -365,10 +369,6 @@ ALLSRCBASE = $(notdir $(basename $(ALLSRC)))
 
 # Define all object files.
 ALLOBJ     = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE)))
-
-# Default target.
-.PHONY: all
-all: elf
 
 # Link: create ELF output file from object files.
 $(eval $(call LINK_TEMPLATE, $(OUTDIR)/$(TARGET).elf, $(ALLOBJ)))
