@@ -10,7 +10,7 @@
  * @{
  *
  * @file       pios_frsky_rssi.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -39,12 +39,7 @@
 #include "stm32f4xx_tim.h"
 #include "pios_tim_priv.h"
 
-#if defined(PIOS_INCLUDE_FREERTOS)
-#include "FreeRTOS.h"
-#endif /* defined(PIOS_INCLUDE_FREERTOS) */
-
-
-#include "pios_frsky_rssi.h"
+#include "pios_frsky_rssi_priv.h"
 
 static const struct pios_frsky_rssi_cfg * cfg = NULL;
 

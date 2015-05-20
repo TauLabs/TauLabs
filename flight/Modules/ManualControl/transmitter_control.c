@@ -199,8 +199,6 @@ int32_t transmitter_control_update()
 		switch (settings.RssiType) {
 		case MANUALCONTROLSETTINGS_RSSITYPE_PWM:
 			value = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM], settings.RssiChannelNumber);
-			if(settings.RssiPwmPeriod != 0)
-				value = (value) % (settings.RssiPwmPeriod);
 			break;
 		case MANUALCONTROLSETTINGS_RSSITYPE_PPM:
 			value = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM], settings.RssiChannelNumber);

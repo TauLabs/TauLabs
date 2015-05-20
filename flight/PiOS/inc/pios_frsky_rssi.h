@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_frsky_rssi.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -30,17 +30,6 @@
 #ifndef PIOS_FRSKY_RSSI_H
 #define PIOS_FRSKY_RSSI_H
 
-#include <pios_stm32.h>
-#include <stm32f4xx_tim.h>
-
-struct pios_frsky_rssi_cfg {
-	struct pios_tim_clock_cfg clock_cfg;
-	struct pios_tim_channel channels[2];
-	TIM_ICInitTypeDef ic1;
-	TIM_ICInitTypeDef ic2;
-};
-
-int32_t PIOS_FrSkyRssi_Init(const struct pios_frsky_rssi_cfg * cfg_in);
 uint16_t PIOS_FrSkyRssi_Get();
 
 #endif /* PIOS_FRSKY_RSSI_H */
