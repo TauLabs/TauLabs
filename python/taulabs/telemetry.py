@@ -24,7 +24,7 @@ class TelemetryBase():
 
     def __init__(self, githash=None, service_in_iter=True,
             iter_blocks=True, use_walltime=True, do_handshaking=False,
-            gcs_timestamps=False):
+            gcs_timestamps=False, name=None):
         """Instantiates a telemetry instance.  Called only by derived classes.
         
          - githash: revision control id of the UAVO's used to communicate.
@@ -41,6 +41,7 @@ class TelemetryBase():
              protocol.
          - gcs_timestamps: if true, this means we are reading from a file with
              the strange GCS timestamp protocol.
+         - name: a filename to store into .filename for legacy purposes
         """
 
         uavo_defs = uavo_collection.UAVOCollection()
@@ -68,6 +69,7 @@ class TelemetryBase():
         self.iter_blocks = iter_blocks
 
         self.do_handshaking = do_handshaking
+        self.filename = name
 
     def as_numpy_array(self, match_class): 
         """ Transforms all received instances of a given object to a numpy array.
@@ -363,7 +365,7 @@ class NetworkTelemetry(FDTelemetry):
 
 class SerialTelemetry(FDTelemetry):
     """ Serial telemetry interface """
-    def __init__(self, port="/dev/ttyUSB0", speed=115200, *args, **kwargs):
+    def __init__(self, port, speed=None, *args, **kwargs):
         """ Creates telemetry instance talking over (real or virtual) serial port.
         
          - port: Serial port path
@@ -376,6 +378,9 @@ class SerialTelemetry(FDTelemetry):
         """
 
         import serial
+
+        if speed is None:
+            speed=115200
 
         ser = serial.Serial(port, speed)
 
@@ -442,10 +447,6 @@ class FileTelemetry(TelemetryBase):
     def _done(self):
         return self.done
 
-def _normalize_path(path):
-    import os
-    return os.path.normpath(os.path.join(os.getcwd(), path))
-
 def get_telemetry_by_args(desc="Process telemetry"):
     """ Parses command line to decide how to get a telemetry object. """
     # Setup the command line arguments.
@@ -458,21 +459,29 @@ def get_telemetry_by_args(desc="Process telemetry"):
     parser.add_argument("-t", "--timestamped",
                         action  = 'store_false',
                         default = True,
-                        help    = "indicate that this is an overo log file or some format that has timestamps")
+                        help    = "indicate that this is not timestamped in GCS format")
 
     parser.add_argument("-g", "--githash",
                         action  = "store",
                         dest    = "githash",
                         help    = "override githash for UAVO XML definitions")
 
+    parser.add_argument("-s", "--serial",
+                        action  = "store_true",
+                        default = False,
+                        dest    = "serial",
+                        help    = "indicates that source is a serial port")
+
+    parser.add_argument("-b", "--baudrate",
+                        action  = "store",
+                        dest    = "baud",
+                        help    = "baud rate for serial communications")
+
     parser.add_argument("source",
-                        help  = "log file for processing")
+                        help  = "file, host:port, or serial port to get telemetry from")
 
     # Parse the command-line.
     args = parser.parse_args()
-
-    # Open the log file
-    src = _normalize_path(args.source)
 
     parse_header = False
     githash = None
@@ -481,12 +490,34 @@ def get_telemetry_by_args(desc="Process telemetry"):
         # If we specify the log header no need to attempt to parse it
         githash = args.githash
     else:
-        parse_header = True
+        parse_header = True # only for files
 
     from taulabs import telemetry
 
-    file_obj = file(src, 'r')
+    if args.serial:
+        return telemetry.SerialTelemetry(args.source, speed=args.baud)
 
-    return telemetry.FileTelemetry(file_obj, parse_header=parse_header,
-        gcs_timestamps=args.timestamped)
+    if args.baud is not None:
+	parser.print_help()
+        raise ValueError("Baud rates only apply to serial ports")
 
+    import os.path
+
+    if os.path.isfile(args.source):
+        file_obj = file(args.source, 'r')
+
+        t = telemetry.FileTelemetry(file_obj, parse_header=parse_header,
+            gcs_timestamps=args.timestamped, name=args.source)
+
+        return t
+
+    # OK, running out of options, time to try the network!
+    host,sep,port = args.source.partition(':')
+
+    print host
+
+    if sep != ':':
+        parser.print_help()
+        raise ValueError("Target doesn't exist and isn't a network address")
+
+    return telemetry.NetworkTelemetry(host=host, port=int(port), name=args.source)
