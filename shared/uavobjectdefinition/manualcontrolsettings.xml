@@ -37,6 +37,7 @@
 				<option>PWM</option>
 				<option>PPM</option>
 				<option>ADC</option>
+				<option>OpenLRS</option>
 				<option>FrSkyPWM</option>
 			</options>
 		</field>
