@@ -42,6 +42,7 @@
 #include "openlrs.h"
 #include "flightstatus.h"
 #include "flightbatterystate.h"
+#include "openlrsstatus.h"
 
 #include "pios_rfm22b_regs.h"
 
@@ -54,6 +55,7 @@ static void rfmSetCarrierFrequency(struct pios_openlrs_dev *openlrs_dev, uint32_
 static uint8_t rfmGetRSSI(struct pios_openlrs_dev *openlrs_dev);
 static void to_rx_mode(struct pios_openlrs_dev *openlrs_dev);
 static void tx_packet(struct pios_openlrs_dev *openlrs_dev, uint8_t* pkt, uint8_t size);
+static OpenLRSStatusData openlrs_status;
 
 static struct pios_openlrs_dev * pios_openlrs_alloc();
 static bool pios_openlrs_validate(struct pios_openlrs_dev *openlrs_dev);
@@ -865,6 +867,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		// Flag to indicate ever got a link
 		openlrs_dev->link_acquired |= true;
 		openlrs_dev->failsafeActive = 0;
+		openlrs_status.FailsafeActive = OPENLRSSTATUS_FAILSAFEACTIVE_INACTIVE;
 
 		if (openlrs_dev->bind_data.flags & TELEMETRY_MASK) {
 			if ((tx_buf[0] ^ openlrs_dev->rx_buf[0]) & 0x40) {
@@ -924,6 +927,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 		openlrs_dev->lastRSSITimeUs = openlrs_dev->lastPacketTimeUs;
 		openlrs_dev->lastRSSIvalue = rfmGetRSSI(openlrs_dev); // Read the RSSI value
+		openlrs_status.LastRSSI = openlrs_dev->lastRSSIvalue;
 
 		DEBUG_PRINTF(2,"RSSI: %d\r\n", openlrs_dev->lastRSSIvalue);
 	}
@@ -963,6 +967,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			{
 				DEBUG_PRINTF(2,"Failsafe activated: %d %d\r\n", timeMs, openlrs_dev->linkLossTimeMs);
 				openlrs_dev->failsafeActive = 1;
+				openlrs_status.FailsafeActive = OPENLRSSTATUS_FAILSAFEACTIVE_ACTIVE;
 				//failsafeApply();
 				openlrs_dev->nextBeaconTimeMs = (timeMs + 1000UL * openlrs_dev->beacon_period) | 1; //beacon activating...
 			}
@@ -1014,6 +1019,17 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		rx_reset(openlrs_dev);
 		openlrs_dev->willhop = 0;
 	}
+	
+	// Update UAVO
+	OpenLRSStatusSet(&openlrs_status);
+}
+
+uint8_t PIOS_OpenLRS_RSSI_Get(void)
+{
+	if(openlrs_status.FailsafeActive == OPENLRSSTATUS_FAILSAFEACTIVE_ACTIVE)
+		return 0;
+	else
+		return openlrs_status.LastRSSI;
 }
 
 /*****************************************************************************
@@ -1087,6 +1103,7 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 	openlrs_dev->openlrs_rcvr_id = 0;
 
 	OpenLRSInitialize();
+	OpenLRSStatusInitialize();
 	OpenLRSData binding;
 	OpenLRSGet(&binding);
 	if (binding.version == BINDING_VERSION) {
