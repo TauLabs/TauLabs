@@ -84,12 +84,13 @@ static struct pios_thread *loggingTaskHandle;
 static bool module_enabled;
 static struct pios_queue *queue;
 static struct UAVOLogInfo *log_info;
+LoggingSettingsData settings;
 
 // Private functions
 static void    loggingTask(void *parameters);
 static int32_t send_data(uint8_t *data, int32_t length);
 static void    register_object(UAVObjHandle obj);
-
+static void settingsUpdatedCb(UAVObjEvent * ev);
 
 // Local variables
 static uintptr_t logging_com_id;
@@ -131,6 +132,10 @@ int32_t LoggingInitialize(void)
 
 	LoggingStatsInitialize();
 	LoggingSettingsInitialize();
+
+	// Get settings a connect update callback
+	LoggingSettingsGet(&settings);
+	LoggingSettingsConnectCallback(settingsUpdatedCb);
 
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&send_data);
@@ -183,24 +188,16 @@ static void loggingTask(void *parameters)
 	loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
 	loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
 
-	LoggingSettingsData settings;
 	LoggingSettingsGet(&settings);
 
 	if (settings.LogBehavior == LOGGINGSETTINGS_LOGBEHAVIOR_LOGONSTART) {
-		if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
-			loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
-			write_open = false;
-		} else {
-			loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING;
-			write_open = true;
-		}
+		loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING;
 	} else {
 		loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
 	}
 
 	LoggingStatsSet(&loggingData);
 
-	int i = 0;
 	// Loop forever
 	while (1) {
 
@@ -224,47 +221,41 @@ static void loggingTask(void *parameters)
 			}
 		}
 
-
-		// If currently downloading a log, close the file
-		if (loggingData.Operation == LOGGINGSTATS_OPERATION_LOGGING && read_open) {
-			PIOS_STREAMFS_Close(streamfs_id);
-			read_open = false;
-		}
-
-		if (loggingData.Operation == LOGGINGSTATS_OPERATION_LOGGING && !write_open) {
-			if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
-				loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
-			} else {
-				write_open = true;
-			}
-			loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
-			loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
-			LoggingStatsSet(&loggingData);
-		} else if (loggingData.Operation != LOGGINGSTATS_OPERATION_LOGGING && write_open) {
-			PIOS_STREAMFS_Close(streamfs_id);
-			loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
-			loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
-			LoggingStatsSet(&loggingData);
-			write_open = false;
-		}
-
 		switch (loggingData.Operation) {
 		case LOGGINGSTATS_OPERATION_LOGGING:
-			if (!write_open)
-				continue;
+			// Close the file if it is open for reading
+			if (read_open) {
+				PIOS_STREAMFS_Close(streamfs_id);
+				read_open = false;
+			}
+			// Open the file if it is not open for writing
+			if (!write_open) {
+				if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
+					loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
+					continue;
+				} else {
+					write_open = true;
+				}
+				loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
+				loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
+				LoggingStatsSet(&loggingData);
+			}
 
-			// log the registered objects
-			if (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
+			// Log the registered objects. Use a loop so we can write multiple UAVOs
+			for (int ii = 0; ii < 16; ii++) {
+				if (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
 
-				// find log info entry and log the object if found
-				LL_FOREACH(log_info, info) {
-					if (info->obj == ev.obj) {
-						time_now = PIOS_Thread_Systime();
-						if (time_now - info->last_log > info->logging_period) {
-							UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
-							info->last_log = time_now;
+					// find log info entry and log the object if found
+					LL_FOREACH(log_info, info) {
+						if (info->obj == ev.obj) {
+							time_now = PIOS_Thread_Systime();
+							// logging_period == 1 means log every sample, so we can log faster than 1kHz
+							if (time_now - info->last_log > info->logging_period || info->logging_period == 1) {
+								UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
+								info->last_log = time_now;
+							}
+							break;
 						}
-						break;
 					}
 				}
 			}
@@ -318,10 +309,20 @@ static void loggingTask(void *parameters)
 				read_sector = loggingData.FileSectorNum;
 			}
 			LoggingStatsSet(&loggingData);
-
+			// fall-through to default case
+		default:
+			// Empty the queue when we are not logging. This also makes sure that we
+			// are not hogging the processor
+			PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX);
+			// Close the file if necessary
+			if (write_open) {
+				PIOS_STREAMFS_Close(streamfs_id);
+				loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
+				loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
+				LoggingStatsSet(&loggingData);
+				write_open = false;
+			}
 		}
-
-		i++;
 	}
 }
 
@@ -373,6 +374,13 @@ static void register_object(UAVObjHandle obj)
 	// store update period, so we don't have to fetch the metadata during logging
 	info->logging_period = meta_data.loggingUpdatePeriod;
 	LL_APPEND(log_info, info);
+}
+
+/** Callback to update settings
+ */
+static void settingsUpdatedCb(UAVObjEvent * ev)
+{
+	LoggingSettingsGet(&settings);
 }
 
 /**
