@@ -110,7 +110,7 @@ struct streamfs_state {
  * @brief Return the offset in flash of a particular slot within an arena
  * @return address of the requested slot
  */
-static uintptr_t streamfs_get_addr(const struct streamfs_state *streamfs, uint16_t arena_id, uint16_t arena_offset)
+static uintptr_t streamfs_get_addr(const struct streamfs_state *streamfs, uint32_t arena_id, uint16_t arena_offset)
 {
 	PIOS_Assert(arena_id < (streamfs->partition_size / streamfs->cfg->arena_size));
 	PIOS_Assert(arena_offset < streamfs->cfg->arena_size);
