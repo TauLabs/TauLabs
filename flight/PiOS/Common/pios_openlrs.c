@@ -816,8 +816,8 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 		openlrs_dev->lastPacketTimeUs = timeUs;
 		openlrs_dev->numberOfLostPackets = 0;
-		openlrs_dev->linkQuality <<= 1;
-		openlrs_dev->linkQuality |= 1;
+		openlrs_status.LinkQuality <<= 1;
+		openlrs_status.LinkQuality |= 1;
 
 		// TODO: updateLBeep(false);
 
@@ -867,7 +867,6 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 		// Flag to indicate ever got a link
 		openlrs_dev->link_acquired |= true;
-		openlrs_dev->failsafeActive = 0;
 		openlrs_status.FailsafeActive = OPENLRSSTATUS_FAILSAFEACTIVE_INACTIVE;
 
 		if (openlrs_dev->bind_data.flags & TELEMETRY_MASK) {
@@ -890,7 +889,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 					tx_buf[0] |= (0x37 + bytes);
 				} else {
 					// tx_buf[0] lowest 6 bits left at 0
-					tx_buf[1] = openlrs_dev->lastRSSIvalue;
+					tx_buf[1] = openlrs_status.LastRSSI;
 					if (FlightBatteryStateHandle()) {
 						FlightBatteryStateData bat;
 						FlightBatteryStateGet(&bat);
@@ -904,7 +903,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 					}
 					tx_buf[4] = (openlrs_dev->lastAFCCvalue >> 8);
 					tx_buf[5] = openlrs_dev->lastAFCCvalue & 0xff;
-					tx_buf[6] = countSetBits(openlrs_dev->linkQuality & 0x7fff);
+					tx_buf[6] = countSetBits(openlrs_status.LinkQuality & 0x7fff);
 				}
 			}
 
@@ -927,17 +926,16 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		//DEBUG_PRINTF(3,"pios_openlrs_rx_loop -- measure RSSI\r\n");
 
 		openlrs_dev->lastRSSITimeUs = openlrs_dev->lastPacketTimeUs;
-		openlrs_dev->lastRSSIvalue = rfmGetRSSI(openlrs_dev); // Read the RSSI value
-		openlrs_status.LastRSSI = openlrs_dev->lastRSSIvalue;
+		openlrs_status.LastRSSI = rfmGetRSSI(openlrs_dev); // Read the RSSI value
 
-		DEBUG_PRINTF(2,"RSSI: %d\r\n", openlrs_dev->lastRSSIvalue);
+		DEBUG_PRINTF(2,"RSSI: %d\r\n", openlrs_status.LastRSSI);
 	}
 
 	if (openlrs_dev->link_acquired) {
 		if ((openlrs_dev->numberOfLostPackets < openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) + 1000))) {
 			DEBUG_PRINTF(2,"Lost packet: %d\r\n", openlrs_dev->numberOfLostPackets);
 			// we lost packet, hop to next channel
-			openlrs_dev->linkQuality <<= 1;
+			openlrs_status.LinkQuality <<= 1;
 			openlrs_dev->willhop = 1;
 			if (openlrs_dev->numberOfLostPackets == 0) {
 				openlrs_dev->linkLossTimeMs = timeMs;
@@ -950,7 +948,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			// TODO: set_RSSI_output();
 		} else if ((openlrs_dev->numberOfLostPackets >= openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount))) {
 			// hop slowly to allow resync with TX
-			openlrs_dev->linkQuality = 0;
+			openlrs_status.LinkQuality = 0;
 			openlrs_dev->willhop = 1;
 			// TODO: set_RSSI_output();
 			openlrs_dev->lastPacketTimeUs = timeUs;
@@ -963,11 +961,10 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 #endif /* PIOS_LED_LINK */
 
 			if (openlrs_dev->failsafeDelay &&
-				!(openlrs_dev->failsafeActive) && 
+				(openlrs_status.FailsafeActive == OPENLRSSTATUS_FAILSAFEACTIVE_INACTIVE) && 
 				((timeMs - openlrs_dev->linkLossTimeMs) > ((uint32_t) openlrs_dev->failsafeDelay)))
 			{
 				DEBUG_PRINTF(2,"Failsafe activated: %d %d\r\n", timeMs, openlrs_dev->linkLossTimeMs);
-				openlrs_dev->failsafeActive = 1;
 				openlrs_status.FailsafeActive = OPENLRSSTATUS_FAILSAFEACTIVE_ACTIVE;
 				//failsafeApply();
 				openlrs_dev->nextBeaconTimeMs = (timeMs + 1000UL * openlrs_dev->beacon_period) | 1; //beacon activating...
@@ -1029,8 +1026,33 @@ uint8_t PIOS_OpenLRS_RSSI_Get(void)
 {
 	if(openlrs_status.FailsafeActive == OPENLRSSTATUS_FAILSAFEACTIVE_ACTIVE)
 		return 0;
-	else
-		return openlrs_status.LastRSSI;
+	else {
+		OpenLRSData openlrs_data;
+		OpenLRSGet(&openlrs_data);
+		
+		uint16_t LQ = openlrs_status.LinkQuality & 0x7fff;
+		// count number of 1s in LinkQuality
+		LQ  = LQ - ((LQ >> 1) & 0x5555);
+		LQ  = (LQ & 0x3333) + ((LQ >> 2) & 0x3333);
+		LQ  = LQ + (LQ >> 4);
+		LQ &= 0x0F0F;
+		LQ = (LQ * 0x0101) >> 8;
+		
+		switch(openlrs_data.RSSI_Type) {
+		case OPENLRS_RSSI_TYPE_COMBINED:
+			if ((uint8_t)LQ == 15) {
+				return (uint8_t)((openlrs_status.LastRSSI >> 1)+128);
+			} else {
+				return LQ * 9;
+			}
+		case OPENLRS_RSSI_TYPE_RSSI:
+			return openlrs_status.LastRSSI;
+		case OPENLRS_RSSI_TYPE_LINKQUALITY:
+			return (uint8_t)(LQ << 4);
+		default:
+			return 0;
+		}
+	}
 }
 
 /*****************************************************************************

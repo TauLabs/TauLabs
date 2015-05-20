@@ -2,6 +2,7 @@
 	<object name="OpenLRSStatus" singleinstance="true" settings="false">
 		<description>OpenLRS link status.</description>
 		<field name="LastRSSI" units="" type="uint8" elements="1"/>
+		<field name="LinkQuality" units="" type="uint16" elements="1"/>
 		<field name="FailsafeActive" units="function" type="enum" elements="1" options="Inactive,Active" defaultvalue="Inactive"/> 
 
 		<access gcs="readonly" flight="readwrite"/>
