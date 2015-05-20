@@ -15,7 +15,7 @@ QStringList IBoardType::queryChannelBanks()
         bool sequential = false;
         QString banksString;
 
-		for (int i = 0; i < channelBank.size(); i++) {
+		for (int i = 0; i < channelBank.size(); ++i) {
 			if (i == 0)	{														 // First channel in bank
 				banksString.append(QString("%1").arg(channelBank[i]));
 				
