@@ -565,6 +565,10 @@ OPUAVSYNTHDIR := $(BUILD_DIR)/uavobject-synthetics/flight
 .PHONY: simulation
 simulation: sim_posix
 
+# Legacy for people who were using the old target name
+.PHONY: sim_posix_revolution
+sim_posix_revolution: sim_posix
+
 define SIM_TEMPLATE
 .PHONY: sim_$(4)
 sim_$(4): sim_$(4)_$(5)
