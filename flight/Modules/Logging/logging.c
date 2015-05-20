@@ -200,11 +200,15 @@ static void loggingTask(void *parameters)
 
 	LoggingStatsSet(&loggingData);
 
-	int i = 0;
 	// Loop forever
 	while (1) {
 
 		LoggingStatsGet(&loggingData);
+
+		// Empty the queue when we are not logging. This also makes sure that we
+		// are not hogging the processor
+		if (loggingData.Operation != LOGGINGSTATS_OPERATION_LOGGING)
+			PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX);
 
 		// Check for change in armed state if logging on armed
 		LoggingSettingsGet(&settings);
@@ -320,8 +324,6 @@ static void loggingTask(void *parameters)
 			LoggingStatsSet(&loggingData);
 
 		}
-
-		i++;
 	}
 }
 
