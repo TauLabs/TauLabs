@@ -682,6 +682,7 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 					tx_packet(openlrs_dev, &rxb, 1); // ACK that we got bound
 
 					OpenLRSData binding;
+					OpenLRSGet(&binding);
 					binding.version = openlrs_dev->bind_data.version;
 					binding.serial_baudrate = openlrs_dev->bind_data.serial_baudrate;
 					binding.rf_frequency = openlrs_dev->bind_data.rf_frequency;
@@ -962,8 +963,8 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 #endif /* PIOS_LED_LINK */
 
 			if (openlrs_dev->failsafeDelay &&
-				!openlrs_dev->failsafeActive && 
-				((timeMs - openlrs_dev->linkLossTimeMs) > ((uint32_t) openlrs_dev->failsafeDelay * 1000)))
+				!(openlrs_dev->failsafeActive) && 
+				((timeMs - openlrs_dev->linkLossTimeMs) > ((uint32_t) openlrs_dev->failsafeDelay)))
 			{
 				DEBUG_PRINTF(2,"Failsafe activated: %d %d\r\n", timeMs, openlrs_dev->linkLossTimeMs);
 				openlrs_dev->failsafeActive = 1;
@@ -1125,7 +1126,7 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 	openlrs_dev->beacon_period = binding.beacon_period;
 
 	// Hardcode failsafe delay
-	openlrs_dev->failsafeDelay = 200;
+	openlrs_dev->failsafeDelay = binding.failsafe_delay;
 
 	// Bind the configuration to the device instance
 	openlrs_dev->cfg = *cfg;
