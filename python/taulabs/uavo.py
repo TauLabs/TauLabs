@@ -10,11 +10,16 @@ def flatten(lst):
     return result
 
 class UAVTupleClass():
+    @classmethod
+    def _make_to_send(cls, *args):
+        import time
+        return cls(cls._name, round(time.time() * 1000), cls._id, *args)
+
     def bytes(self):
         return self.packstruct.pack(*flatten(self[3:]))
 
     @classmethod
-    def from_bytes(cls, data, timestamp, startOffs=0):
+    def from_bytes(cls, data, timestamp, offset=0):
         import struct
 
         uavo = cls.uavometa
@@ -24,8 +29,6 @@ class UAVTupleClass():
         #
 
         # unpack each field separately
-        offset = startOffs
-
         if not cls.flat:
             unpack_field_values = []
             for fmt in cls.formats:
@@ -62,7 +65,6 @@ class UAVTupleClass():
         field_values = tuple(field_values) + tuple(unpack_field_values)
 
         return cls._make(field_values)
-
 
 class UAVO():
     type_enum_map = {
@@ -197,7 +199,7 @@ class UAVO():
         # Sort fields by size (bigger to smaller) to ensure alignment when packed
         self.fields.sort(key=lambda x: self.type_size_map[x['type']], reverse = True)
 
-        self.id = self._calculate_id()
+        self.id = self.__calculate_id()
 
         self.__build_class_of()
 
@@ -211,13 +213,15 @@ class UAVO():
 
         name = 'UAVO_' + self.meta['name']
 
-        self.form_packformat()
+        self.__form_packformat()
 
         class tmpClass(namedtuple(name, fields), UAVTupleClass):
             packstruct = self.fmt
             formats = self.formats
             flat = self.flat
             uavometa = self
+            _name = name
+            _id = self.id
 
         # This is magic for two reasons.  First, we create the class to have
         # the proper dynamic name.  Second, we override __slots__, so that
@@ -239,7 +243,7 @@ class UAVO():
 
         return size
 
-    def form_packformat(self):
+    def __form_packformat(self):
         formats = []
 
         # add format for instance-id IFF this is a multi-instance UAVO
@@ -271,27 +275,26 @@ class UAVO():
     def __repr__(self):
         return "%s(id='%08x', name=%r)" % (self.__class__, self.id, self.meta['name'])
 
-    def _update_hash_byte(self, value):
+    def __update_hash_byte(self, value):
         self.hash = (self.hash ^ ((self.hash << 5) + (self.hash >> 2) + value)) & 0x0FFFFFFFF
 
-    def _update_hash_string(self, string):
+    def __update_hash_string(self, string):
         for c in string:
-            self._update_hash_byte(ord(c))
+            self.__update_hash_byte(ord(c))
 
-    def _calculate_id(self):
+    def __calculate_id(self):
         self.hash = 0
 
-        self._update_hash_string(self.meta['name'])
-        self._update_hash_byte(self.meta['is_settings'])
-        self._update_hash_byte(self.meta['is_single_inst'])
+        self.__update_hash_string(self.meta['name'])
+        self.__update_hash_byte(self.meta['is_settings'])
+        self.__update_hash_byte(self.meta['is_single_inst'])
 
         for field in self.fields:
-            self._update_hash_string(field['name'])
-            self._update_hash_byte(int(field['elements']))
-            self._update_hash_byte(field['type_val'])
+            self.__update_hash_string(field['name'])
+            self.__update_hash_byte(int(field['elements']))
+            self.__update_hash_byte(field['type_val'])
             if field['type'] == 'enum':
                 for option in field['options']:
-                    self._update_hash_string(option)
+                    self.__update_hash_string(option)
 
         return self.hash & 0x0FFFFFFFE
-

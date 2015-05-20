@@ -1,5 +1,4 @@
 import socket
-import taulabs
 import time
 import array
 import select
@@ -7,7 +6,7 @@ import errno
 
 import threading
 
-import uavtalk, uavo_collection
+import uavtalk, uavo_collection, uavo
 
 import os
 
@@ -21,9 +20,9 @@ class TelemetryBase():
     # This is not a complete implemention / must subclass
     __metaclass__ = ABCMeta
 
-    def __init__(self, uavo_defs=None, githash=None, serviceInIter=True,
-            iterBlocks=True, useWallTime=True, doHandshaking=False,
-            gcsTimestamps=False):
+    def __init__(self, uavo_defs=None, githash=None, service_in_iter=True,
+            iter_blocks=True, use_walltime=True, do_handshaking=False,
+            gcs_timestamps=False):
         if uavo_defs is None:
             uavo_defs = uavo_collection.UAVOCollection()
 
@@ -35,12 +34,10 @@ class TelemetryBase():
         self.githash = githash
 
         self.uavo_defs = uavo_defs
-        self.uavtalk_generator = uavtalk.processStream(uavo_defs,
-            useWallTime=useWallTime, logTimestamps=gcsTimestamps)
+        self.uavtalk_generator = uavtalk.process_stream(uavo_defs,
+            use_walltime=use_walltime, gcs_timestamps=gcs_timestamps)
 
         self.uavtalk_generator.send(None)
-
-        self.gcs_telemetry = {v: k for k, v in self.uavo_defs.items() if v.meta['name']=="GCSTelemetryStats"}.items()[0][0]
 
         self.uavo_list = []
 
@@ -48,10 +45,10 @@ class TelemetryBase():
 
         self.cond = threading.Condition()
 
-        self.serviceInIter = serviceInIter
-        self.iterBlocks = iterBlocks
+        self.service_in_iter = service_in_iter
+        self.iter_blocks = iter_blocks
 
-        self.doHandshaking = doHandshaking
+        self.do_handshaking = do_handshaking
 
     def as_numpy_array(self, match_class): 
         import numpy as np
@@ -92,12 +89,12 @@ class TelemetryBase():
                         yield obj
                     finally:
                         self.cond.acquire()
-                elif self.iterBlocks and not self._done():
-                    if self.serviceInIter:
+                elif self.iter_blocks and not self._done():
+                    if self.service_in_iter:
                         self.cond.release()
 
                         try:
-                            self.serviceConnection()
+                            self.service_connection()
                         finally:
                             self.cond.acquire()
                     else:
@@ -105,49 +102,49 @@ class TelemetryBase():
                         self.cond.wait()
                 else:
                     # Don't really recommend this mode anymore/maybe remove
-                    if self.serviceInIter and not self._done():
+                    if self.service_in_iter and not self._done():
                         # Do at least one non-blocking attempt
                         self.cond.release()
 
                         try:
-                            self.serviceConnection(0)
+                            self.service_connection(0)
                         finally:
                             self.cond.acquire()
 
                     if iterIdx >= len(self.uavo_list):
                         break
 
-    def _handleHandshake(self, obj):
+    def __make_handshake(self, handshake):
+        return uavo.UAVO_GCSTelemetryStats._make_to_send(0, 0, 0, 0, 0, handshake)
+
+    def __handle_handshake(self, obj):
         if obj.name == "FlightTelemetryStats":
             # Handle the telemetry handshaking
 
             (DISCONNECTED, HANDSHAKE_REQ, HANDSHAKE_ACK, CONNECTED) = (0,1,2,3)
 
             if obj.Status == DISCONNECTED:
-                print "Disconnected"
                 # Request handshake
-                send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
-                    self.gcs_telemetry.id, 0, 0, 0, 0, 0, HANDSHAKE_REQ])
+                print "Disconnected"
+                send_obj = self.__make_handshake(HANDSHAKE_REQ)
             elif obj.Status == HANDSHAKE_ACK:
-                print "Handshake ackd"
                 # Say connected
-                send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
-                    self.gcs_telemetry.id, 0, 0, 0, 0, 0, CONNECTED])
+                print "Handshake ackd"
+                send_obj = self.__make_handshake(CONNECTED)
             elif obj.Status == CONNECTED:
                 print "Connected"
-                send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
-                    self.gcs_telemetry.id, 0, 0, 0, 0, 0, CONNECTED])
-            packet = uavtalk.sendSingleObject(send_obj)
-            self._send(packet)
+                send_obj = self.__make_handshake(CONNECTED)
 
-    def _handleFrames(self, frames):
+            self._send(uavtalk.send_object(send_obj))
+
+    def __handleFrames(self, frames):
         objs = []
 
         obj = self.uavtalk_generator.send(frames)
 
         while obj:
-            if self.doHandshaking:
-                self._handleHandshake(obj)
+            if self.do_handshaking:
+                self.__handle_handshake(obj)
 
             objs.append(obj)
 
@@ -170,7 +167,7 @@ class TelemetryBase():
             return self.last_values.copy()
 
     def start_thread(self):
-        if self.serviceInIter:
+        if self.service_in_iter:
             raise
 
         if self._done():
@@ -180,7 +177,7 @@ class TelemetryBase():
 
         def run():
             while not self._done():
-                self.serviceConnection()    
+                self.service_connection()    
 
         t = Thread(target=run, name="telemetry svc thread")
 
@@ -188,22 +185,22 @@ class TelemetryBase():
 
         t.start()
 
-    def serviceConnection(self, timeout=None):
+    def service_connection(self, timeout=None):
         """
         Receive and parse data from a connection and handle the basic
         handshaking with the flight controller
         """
 
         if timeout is not None:
-            finishTime = time.time()+timeout
+            finish_time = time.time()+timeout
         else:
-            finishTime = None
+            finish_time = None
 
-        data = self._receive(finishTime)
-        self._handleFrames(data)
+        data = self._receive(finish_time)
+        self.__handleFrames(data)
 
     @abstractmethod
-    def _receive(self, finishTime):
+    def _receive(self, finish_time):
         return
 
     # No implementation required, so not abstract
@@ -218,21 +215,21 @@ class FDTelemetry(TelemetryBase):
     # expects fd is set nonblocking
     # intended for bidirectional comms.
     def __init__(self, fd, *args, **kwargs):
-        TelemetryBase.__init__(self, doHandshaking=True,
-                gcsTimestamps=False,  *args, **kwargs)
+        TelemetryBase.__init__(self, do_handshaking=True,
+                gcs_timestamps=False,  *args, **kwargs)
 
         self.recv_buf = ''
         self.send_buf = ''
 
         self.fd = fd
 
-    def _receive(self, finishTime):
+    def _receive(self, finish_time):
         """ Fetch available data from TCP socket """
 
         # Always do some minimal IO if possible
         self._do_io(0)
 
-        while (len(self.recv_buf) < 1) and self._do_io(finishTime):
+        while (len(self.recv_buf) < 1) and self._do_io(finish_time):
             pass
 
         if len(self.recv_buf) < 1:
@@ -244,7 +241,7 @@ class FDTelemetry(TelemetryBase):
         return ret
 
     # Call select and do one set of IO operations.
-    def _do_io(self, finishTime):
+    def _do_io(self, finish_time):
         rdSet = []
         wrSet = []
 
@@ -257,10 +254,10 @@ class FDTelemetry(TelemetryBase):
             wrSet.append(self.fd)
 
         now = time.time()
-        if finishTime is None: 
+        if finish_time is None: 
             r,w,e = select.select(rdSet, wrSet, [])
         else:
-            tm = finishTime-now
+            tm = finish_time-now
             if tm < 0: tm=0
 
             r,w,e = select.select(rdSet, wrSet, [], tm)
@@ -309,12 +306,12 @@ class NetworkTelemetry(FDTelemetry):
 
 class FileTelemetry(TelemetryBase):
     # TODO accept file object
-    def __init__(self, filename='sim_log.tll', parseHeader=False,
+    def __init__(self, filename='sim_log.tll', parse_header=False,
              *args, **kwargs):
         self.filename = filename
         self.f = file(filename, 'r')
 
-        if parseHeader:
+        if parse_header:
             # Check the header signature
             #    First line is "Tau Labs git hash:"
             #    Second line is the actual git hash
@@ -336,16 +333,16 @@ class FileTelemetry(TelemetryBase):
             uavohash = self.f.readline()
             divider = self.f.readline()
 
-            TelemetryBase.__init__(self, serviceInIter=False, iterBlocks=True,
-                doHandshaking=False, githash=githash, *args, **kwargs)
+            TelemetryBase.__init__(self, service_in_iter=False, iter_blocks=True,
+                do_handshaking=False, githash=githash, *args, **kwargs)
         else:
-            TelemetryBase.__init__(self, serviceInIter=False, iterBlocks=True,
-                doHandshaking=False, *args, **kwargs)
+            TelemetryBase.__init__(self, service_in_iter=False, iter_blocks=True,
+                do_handshaking=False, *args, **kwargs)
 
         self.done=False
         self.start_thread()
 
-    def _receive(self, finishTime):
+    def _receive(self, finish_time):
         """ Fetch available data from file """
 
         buf = self.f.read(128)
@@ -362,11 +359,11 @@ def _normalize_path(path):
     import os
     return os.path.normpath(os.path.join(os.getcwd(), path))
 
-def GetUavoBasedOnArgs(desc=None):
+def get_telemetry_by_args(desc="Process telemetry"):
     # Setup the command line arguments.
     # XXX DESC, ETC
     import argparse
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=desc)
 
     # Log format indicates this log is using the old file format which
     # embeds the timestamping information between the UAVTalk packet 
@@ -390,17 +387,17 @@ def GetUavoBasedOnArgs(desc=None):
     # Open the log file
     src = _normalize_path(args.source)
 
-    parseHeader = False
+    parse_header = False
     githash = None
 
     if args.githash is not None:
         # If we specify the log header no need to attempt to parse it
         githash = args.githash
     else:
-        parseHeader = True
+        parse_header = True
 
     from taulabs import telemetry
 
-    return telemetry.FileTelemetry(filename=src, parseHeader=parseHeader,
-        gcsTimestamps=args.timestamped)
+    return telemetry.FileTelemetry(filename=src, parse_header=parse_header,
+        gcs_timestamps=args.timestamped)
 

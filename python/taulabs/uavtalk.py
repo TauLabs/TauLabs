@@ -9,9 +9,9 @@ import time
 (TYPE_OBJ, TYPE_OBJ_REQ, TYPE_OBJ_ACK, TYPE_ACK, TYPE_NACK, TYPE_OBJ_TS, TYPE_OBJ_ACK_TS) = (0x00, 0x01, 0x02, 0x03, 0x04, 0x80, 0x82)
 
 # sync(1) + type(1) + len(2) + objid(4) 
-headerFmt = struct.Struct("<BBHL")
-logHeaderFmt = struct.Struct("<IQ")
-timestampFmt = struct.Struct("<H") 
+header_fmt = struct.Struct("<BBHL")
+logheader_fmt = struct.Struct("<IQ")
+timestamp_fmt = struct.Struct("<H")
 
 # CRC lookup table
 crc_table = [
@@ -33,36 +33,36 @@ crc_table = [
     0xde, 0xd9, 0xd0, 0xd7, 0xc2, 0xc5, 0xcc, 0xcb, 0xe6, 0xe1, 0xe8, 0xef, 0xfa, 0xfd, 0xf4, 0xf3
 ]
 
-def processStream(uavo_defs, useWallTime=False, logTimestamps=False):
+def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
     # These are used for accounting for timestamp wraparound
-    timestampBase = 0
-    lastTimestamp = 0
+    timestamp_base = 0
+    last_timestamp = 0
 
     received = 0
 
-    packetBytes = ''
+    packet_bytes = ''
 
     while True:
-        if logTimestamps:
-            while len(packetBytes) < logHeaderFmt.size:
+        if gcs_timestamps:
+            while len(packet_bytes) < logheader_fmt.size:
                 rx = yield None
 
                 if rx is None:
                     return
 
-                packetBytes = packetBytes + rx
+                packet_bytes = packet_bytes + rx
 
-            overrideTimestamp, logHdrLen = logHeaderFmt.unpack_from(packetBytes,0)
+            overrideTimestamp, logHdrLen = logheader_fmt.unpack_from(packet_bytes,0)
 
-            packetBytes = packetBytes[logHeaderFmt.size:]
+            packet_bytes = packet_bytes[logheader_fmt.size:]
 
         # Ensure we have enough room for all the
         # plain required fields to avoid duplicating
         # this code lots.
         # sync(1) + type(1) + len(2) + objid(4) 
 
-        while (len(packetBytes) < headerFmt.size) or (packetBytes[0] != chr(SYNC_VAL)):
-            #print "waitingsync len=%d"%(len(packetBytes))
+        while (len(packet_bytes) < header_fmt.size) or (packet_bytes[0] != chr(SYNC_VAL)):
+            #print "waitingsync len=%d"%(len(packet_bytes))
 
             rx = yield None
 
@@ -70,27 +70,27 @@ def processStream(uavo_defs, useWallTime=False, logTimestamps=False):
                 #end of stream, stopiteration
                 return
 
-            packetBytes = packetBytes + rx
+            packet_bytes = packet_bytes + rx
 
-            for i in xrange(len(packetBytes)):
-                if packetBytes[i] == chr(SYNC_VAL):
+            for i in xrange(len(packet_bytes)):
+                if packet_bytes[i] == chr(SYNC_VAL):
                     break
 
             # Trim off irrelevant stuff, loop and try again
-            packetBytes = packetBytes[i:]
+            packet_bytes = packet_bytes[i:]
 
-        (sync, packetType, packetLen, objId) = headerFmt.unpack_from(packetBytes,0)
+        (sync, pack_type, pack_len, objId) = header_fmt.unpack_from(packet_bytes,0)
 
-        if (packetType & TYPE_MASK) != TYPE_VER:
-            print "badver %x"%(packetType)
-            packetBytes = packetBytes[1:]
+        if (pack_type & TYPE_MASK) != TYPE_VER:
+            print "badver %x"%(pack_type)
+            packet_bytes = packet_bytes[1:]
             continue    # go to top to look for sync
     
-        packetType &= ~ TYPE_MASK
+        pack_type &= ~ TYPE_MASK
         
-        if packetLen < MIN_HEADER_LENGTH or packetLen > MAX_HEADER_LENGTH + MAX_PAYLOAD_LENGTH:
-            print "badlen %d"%(packetLen)
-            packetBytes = packetBytes[1:]
+        if pack_len < MIN_HEADER_LENGTH or pack_len > MAX_HEADER_LENGTH + MAX_PAYLOAD_LENGTH:
+            print "badlen %d"%(pack_len)
+            packet_bytes = packet_bytes[1:]
             continue
         
         # Search for object.
@@ -105,121 +105,119 @@ def processStream(uavo_defs, useWallTime=False, logTimestamps=False):
         # here, but it looks like it moved (rightfully) into the object
             
         # Determine data length
-        if packetType == TYPE_OBJ_REQ or packetType == TYPE_ACK or packetType == TYPE_NACK:
-            objLength = 0
-            timestampLength = 0
+        if pack_type == TYPE_OBJ_REQ or pack_type == TYPE_ACK or pack_type == TYPE_NACK:
+            obj_len = 0
+            timestamp_len = 0
         else:
             if obj is not None:
-                timestampLength = timestampFmt.size if packetType == TYPE_OBJ_TS or packetType == TYPE_OBJ_ACK_TS else 0
-                objLength = obj.get_size_of_data()
+                timestamp_len = timestamp_fmt.size if pack_type == TYPE_OBJ_TS or pack_type == TYPE_OBJ_ACK_TS else 0
+                obj_len = obj.get_size_of_data()
             else:
                 # we don't know anything, so fudge to keep sync.
-                timestampLength = 0
-                objLength = packetLen - headerFmt.size
+                timestamp_len = 0
+                obj_len = pack_len - header_fmt.size
 
         # Check length and determine next state
-        if objLength >= MAX_PAYLOAD_LENGTH:
+        if obj_len >= MAX_PAYLOAD_LENGTH:
             print "bad len-- bad xml?"
             #should never happen; requires invalid uavo xml
-            packetBytes = packetBytes[1:]
+            packet_bytes = packet_bytes[1:]
             continue
 
-        # calcedSize, AKA timestamp, and obj data
+        # calc_size, AKA timestamp, and obj data
         # as appropriate, plus our current header
         # also equivalent to the offset of the CRC in the packet
 
-        calcedSize = headerFmt.size + timestampLength + objLength
+        calc_size = header_fmt.size + timestamp_len + obj_len
 
         # Check the lengths match
-        if calcedSize != packetLen:
+        if calc_size != pack_len:
             print "mismatched size id=%s %d vs %d, type %d"%(uavo_key,
-                calcedSize, packetLen, packetType)
+                calc_size, pack_len, pack_type)
 
             # packet error - mismatched packet size
             # Consume a byte to try syncing right after where we
             # did...
-            packetBytes = packetBytes[1:]
+            packet_bytes = packet_bytes[1:]
             continue
 
         # OK, at this point we are seriously hoping to receive
         # a packet.  Time for another loop to make sure we have
         # enough data.
         # +1 here is for CRC-8
-        while len(packetBytes) < calcedSize + 1:
+        while len(packet_bytes) < calc_size + 1:
             rx = yield None
 
             if rx is None:
                 #end of stream, stopiteration
                 return
 
-            packetBytes += rx
+            packet_bytes += rx
 
-        cs = __calcCRC(packetBytes[0:calcedSize])
-        
         # check the CRC byte
 
-        recvcs = ord(packetBytes[calcedSize])
+        cs = calcCRC(packet_bytes[0:calc_size])
+        recv_cs = packet_bytes[calc_size]
 
-        if recvcs != cs:
-            print "Bad crc. Got " + hex(recvcs) + " but predicted " + hex(cs)
+        if recv_cs != cs:
+            print "Bad crc. Got " + hex(recv_cs) + " but predicted " + hex(cs)
 
-            packetBytes = packetBytes[1:]
+            packet_bytes = packet_bytes[1:]
             continue
         
-        if timestampLength:
+        if timestamp_len:
             # pull the timestamp from the packet
-            timestamp = timestampFmt.unpack_from(packetBytes, headerFmt.size)[0]
+            timestamp = timestamp_fmt.unpack_from(packet_bytes, header_fmt.size)[0]
 
             # handle wraparound
-            if timestamp < lastTimestamp:
-                timestampBase = timestampBase + 65536
-            lastTimestamp = timestamp
-            timestamp += timestampBase
+            if timestamp < last_timestamp:
+                timestamp_base = timestamp_base + 65536
+            last_timestamp = timestamp
+            timestamp += timestamp_base
         else:
-            timestamp = lastTimestamp
+            timestamp = last_timestamp
 
-        if useWallTime:
+        if use_walltime:
             timestamp = int(time.time()*1000.0)
 
-        if logTimestamps:
+        if gcs_timestamps:
             timestamp = overrideTimestamp
 
         if obj is not None:
-            objInstance = obj.instance_from_bytes(packetBytes,
-                timestamp,
-                startOffs = headerFmt.size + timestampLength) 
+            objInstance = obj.instance_from_bytes(packet_bytes,
+                timestamp, offset=header_fmt.size + timestamp_len) 
 
             received += 1
             if not (received % 20000):
                 print "received %d objs"%(received)
 
-            nextRecv = yield objInstance
+            next_recv = yield objInstance
         else:
-            nextRecv = None
+            next_recv = None
         
-        packetBytes = packetBytes[calcedSize+1:] 
+        packet_bytes = packet_bytes[calc_size+1:] 
 
-        if nextRecv is not None:
-            packetBytes += nextRecv
+        if next_recv is not None:
+            packet_bytes += next_recv
 
-def sendSingleObject(obj):
+def send_object(obj):
     """
     Generates a string containing a UAVTalk packet describing this object
     """
 
     uavo_def = obj.uavometa
 
-    hdr = headerFmt.pack(SYNC_VAL, TYPE_OBJ | TYPE_VER,
-        headerFmt.size + uavo_def.get_size_of_data(),
+    hdr = header_fmt.pack(SYNC_VAL, TYPE_OBJ | TYPE_VER,
+        header_fmt.size + uavo_def.get_size_of_data(),
         obj.uavo_id)
 
     packet = hdr + obj.bytes()
 
-    packet += chr(__calcCRC(packet))
+    packet += calcCRC(packet)
 
     return packet
 
-def __calcCRC(str):
+def calcCRC(str):
     """
     Calculate a CRC consistently with how they are computed on the firmware side
     """
@@ -229,6 +227,6 @@ def __calcCRC(str):
     for c in str:
         cs = crc_table[cs ^ ord(c)]
 
-    return cs
+    return chr(cs)
 
-
+__all__ = [ "send_object", "process_stream" ]

@@ -56,8 +56,8 @@ def main():
 #                if k in settingsObjs]
 
     for obj in tStream:
-        print obj
-#        pass
+#        print obj
+        pass
 
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":
