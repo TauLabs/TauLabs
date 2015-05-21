@@ -222,6 +222,18 @@ static void loggingTask(void *parameters)
 		}
 
 		switch (loggingData.Operation) {
+		case LOGGINGSTATS_OPERATION_FORMAT:
+			// Format the file system
+			if (read_open  || write_open) {
+				PIOS_STREAMFS_Close(streamfs_id);
+				read_open = false;
+				write_open = false;
+			}
+
+			PIOS_STREAMFS_Format(streamfs_id);
+			loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
+			LoggingStatsSet(&loggingData);
+			break;
 		case LOGGINGSTATS_OPERATION_LOGGING:
 			// Close the file if it is open for reading
 			if (read_open) {
@@ -244,7 +256,6 @@ static void loggingTask(void *parameters)
 			// Log the registered objects. Use a loop so we can write multiple UAVOs
 			for (int ii = 0; ii < 16; ii++) {
 				if (PIOS_Queue_Receive(queue, &ev, PIOS_QUEUE_TIMEOUT_MAX) == true) {
-
 					// find log info entry and log the object if found
 					LL_FOREACH(log_info, info) {
 						if (info->obj == ev.obj) {
