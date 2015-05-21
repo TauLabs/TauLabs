@@ -213,8 +213,20 @@ static int32_t streamfs_new_sector(struct streamfs_state *streamfs)
 	streamfs->active_file_arena_offset = 0;
 	streamfs->active_file_segment++;
 
-	if (streamfs_erase_arena(streamfs, streamfs->active_file_arena) != 0) {
+	// Test whether the sector has already been erased by checking the footer
+	start_address = streamfs_get_addr(streamfs, streamfs->active_file_arena,
+			                          streamfs->cfg->arena_size - sizeof(footer));
+	if (PIOS_FLASH_read_data(streamfs->partition_id, start_address, (uint8_t *) &footer, sizeof(footer)) != 0) {
 		return -2;
+	}
+
+	for (int i=0; i < sizeof(footer); i++) {
+		if (((uint8_t*)&footer)[i] != 0xFF) {
+			if (streamfs_erase_arena(streamfs, streamfs->active_file_arena) != 0) {
+				return -3;
+			}
+			break;
+		}
 	}
 
 	return 0;

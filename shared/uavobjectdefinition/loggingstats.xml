@@ -5,7 +5,7 @@
 	<field name="MinFileId" units="" type="uint16" elements="1"/>
 	<field name="MaxFileId" units="" type="uint16" elements="1"/>
 
-	<field name="Operation" units="" type="enum" elements="1" options="LOGGING, IDLE, DOWNLOAD, COMPLETE, ERROR"/>
+	<field name="Operation" units="" type="enum" elements="1" options="LOGGING, IDLE, DOWNLOAD, COMPLETE, ERROR, FORMAT"/>
 
 	<field name="FileRequest" units="" type="uint16" elements="1"/>
 	<field name="FileSectorNum" units="" type="uint16" elements="1"/>
