@@ -56,7 +56,7 @@
 #define PIOS_INCLUDE_EXTI
 #define PIOS_INCLUDE_RTC
 #define PIOS_INCLUDE_WDG
-#define PIOS_INCLUDE_ONESHOT
+#define PIOS_INCLUDE_HPWM
 
 /* Select the sensors to include */
 #define PIOS_INCLUDE_MS5611

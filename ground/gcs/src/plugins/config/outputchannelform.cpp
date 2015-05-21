@@ -72,6 +72,7 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
     connect(ui.actuatorMin, SIGNAL(valueChanged(int)), this, SLOT(notifyFormChanged()));
     connect(ui.actuatorMax, SIGNAL(valueChanged(int)), this, SLOT(notifyFormChanged()));
     connect(ui.actuatorNeutral, SIGNAL(sliderReleased()), this, SLOT(notifyFormChanged()));
+    connect(ui.actuatorType, SIGNAL(currentIndexChanged(int)), this, SLOT(notifyFormChanged()));
 
     ui.actuatorLink->setChecked(false);
     connect(ui.actuatorLink, SIGNAL(toggled(bool)), this, SLOT(linkToggled(bool)));
@@ -108,12 +109,14 @@ void OutputChannelForm::enableChannelTest(bool state)
         ui.actuatorMin->setEnabled(false);
         ui.actuatorMax->setEnabled(false);
         ui.pb_reverseActuator->setEnabled(false);
+        ui.actuatorType->setEnabled(false);
     }
     else
     {
         ui.actuatorMin->setEnabled(true);
         ui.actuatorMax->setEnabled(true);
         ui.pb_reverseActuator->setEnabled(true);
+        ui.actuatorType->setEnabled(true);
     }
 }
 
@@ -189,6 +192,19 @@ void OutputChannelForm::setMinmax(int minimum, int maximum)
 void OutputChannelForm::setNeutral(int value)
 {
     ui.actuatorNeutral->setValue(value);
+}
+
+/**
+ * Set type of channel.
+ */
+void OutputChannelForm::setType(int value)
+{
+    ui.actuatorType->setCurrentIndex(value);
+}
+
+int OutputChannelForm::type() const
+{
+    return ui.actuatorType->currentIndex();
 }
 
 /**
@@ -361,7 +377,10 @@ void OutputChannelForm::updateMaxSpinboxValue(UAVObject *obj)
         foreach(qint32 channel, channelBank) {
             // ... and if there's a match, set the maximum values and return
             if (channel-1 == m_index) {
-                double maxPulseWidth = round(10000000.0 / actuatorSettingsData.ChannelUpdateFreq[i]);
+                if (actuatorSettingsData.ChannelUpdateFreq[i] == 0)
+                    return;
+
+                double maxPulseWidth = ceil(1000000.0 / actuatorSettingsData.ChannelUpdateFreq[i]);
 
                 // Saturate at the UAVO's maximum value
                 if (maxPulseWidth > std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max())
