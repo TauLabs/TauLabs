@@ -135,7 +135,7 @@ struct streamfs_footer {
  * @return 0 if success, < 0 on failure
  * @note Must be called while holding the flash transaction lock
  */
-static int32_t streamfs_erase_arena(const struct streamfs_state *streamfs, uint8_t arena_id)
+static int32_t streamfs_erase_arena(const struct streamfs_state *streamfs, uint32_t arena_id)
 {
 	uintptr_t arena_addr = streamfs_get_addr(streamfs, arena_id, 0);
 
@@ -155,9 +155,9 @@ static int32_t streamfs_erase_arena(const struct streamfs_state *streamfs, uint8
  */
 static int32_t streamfs_erase_all_arenas(const struct streamfs_state *streamfs)
 {
-	uint16_t num_arenas = streamfs->partition_size / streamfs->cfg->arena_size;
+	uint32_t num_arenas = streamfs->partition_size / streamfs->cfg->arena_size;
 
-	for (uint16_t arena = 0; arena < num_arenas; arena++) {
+	for (uint32_t arena = 0; arena < num_arenas; arena++) {
 		if (streamfs_erase_arena(streamfs, arena) != 0)
 			return -1;
 	}
