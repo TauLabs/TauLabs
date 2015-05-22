@@ -98,13 +98,13 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     }
 
     // RSSI
-    inputChannelForm * inpForm=new inputChannelForm(this, false,false);
+    inputChannelForm * inpForm=new inputChannelForm(this,false,false);
     m_config->channelSettings->layout()->addWidget(inpForm);
     QString name = "RSSI";
     inpForm->setName(name);
-    addUAVObjectToWidgetRelation("ManualControlSettings","RssiType",inpForm->ui->channelGroup, 0);
+    addUAVObjectToWidgetRelation("ManualControlSettings","RssiType",inpForm->ui->channelGroup,0);
     addUAVObjectToWidgetRelation("ManualControlSettings","RssiChannelNumber",inpForm->ui->channelNumber,0);
-    addUAVObjectToWidgetRelation("ManualControlSettings","RssiMin",inpForm->ui->channelMin, 0);
+    addUAVObjectToWidgetRelation("ManualControlSettings","RssiMin",inpForm->ui->channelMin,0);
     addUAVObjectToWidgetRelation("ManualControlSettings","RssiMax",inpForm->ui->channelMax,0);
     addUAVObjectToWidgetRelation("ManualControlCommand", "RawRssi", inpForm->ui->channelCurrent, 0);
 

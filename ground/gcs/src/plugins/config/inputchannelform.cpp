@@ -4,7 +4,7 @@
 #include "manualcontrolsettings.h"
 #include "gcsreceiver.h"
 
-inputChannelForm::inputChannelForm(QWidget *parent, bool showlegend, bool showSlider):
+inputChannelForm::inputChannelForm(QWidget *parent,bool showlegend,bool showSlider):
     ConfigTaskWidget(parent),
     ui(new Ui::inputChannelForm)
 {
