@@ -1814,6 +1814,72 @@ const struct pios_video_cfg pios_video_cfg = {
 
 #endif /* if defined(PIOS_INCLUDE_VIDEO) */
 
+#if defined(PIOS_INCLUDE_FRSKY_RSSI)
+#include "pios_frsky_rssi_priv.h"
+const TIM_TimeBaseInitTypeDef pios_frsky_rssi_time_base ={
+	.TIM_Prescaler = 0,
+	.TIM_ClockDivision = TIM_CKD_DIV1,
+	.TIM_CounterMode = TIM_CounterMode_Up,
+	.TIM_Period = 0xFFFF,
+	.TIM_RepetitionCounter = 0x0000,
+};
+
+
+const struct pios_frsky_rssi_cfg pios_frsky_rssi_cfg = {
+	.clock_cfg = {
+		.timer = TIM8,
+		.time_base_init = &pios_frsky_rssi_time_base,
+	},
+	.channels = {
+		{
+			.timer = TIM8,
+			.timer_chan = TIM_Channel_2,
+			.pin   = {
+				.gpio = GPIOC,
+				.init = {
+					.GPIO_Pin   = GPIO_Pin_7,
+					.GPIO_Speed = GPIO_Speed_100MHz,
+					.GPIO_Mode  = GPIO_Mode_AF,
+					.GPIO_OType = GPIO_OType_PP,
+					.GPIO_PuPd  = GPIO_PuPd_UP
+				},
+				.pin_source = GPIO_PinSource7,
+			},
+			.remap = GPIO_AF_TIM8,
+		},
+		{
+			.timer = TIM8,
+			.timer_chan = TIM_Channel_1,
+			.pin   = {
+				.gpio = GPIOC,
+				.init = {
+					.GPIO_Pin   = GPIO_Pin_7,
+					.GPIO_Speed = GPIO_Speed_100MHz,
+					.GPIO_Mode  = GPIO_Mode_AF,
+					.GPIO_OType = GPIO_OType_PP,
+					.GPIO_PuPd  = GPIO_PuPd_UP
+				},
+				.pin_source = GPIO_PinSource7,
+			},
+			.remap = GPIO_AF_TIM8,
+		},
+	},
+	.ic2 = {
+		.TIM_ICPolarity = TIM_ICPolarity_Falling,
+		.TIM_ICSelection = TIM_ICSelection_IndirectTI,
+		.TIM_ICPrescaler = TIM_ICPSC_DIV1,
+		.TIM_ICFilter = 0x0,
+	},
+	.ic1 = {
+		.TIM_ICPolarity = TIM_ICPolarity_Rising,
+		.TIM_ICSelection = TIM_ICSelection_DirectTI,
+		.TIM_ICPrescaler = TIM_ICPSC_DIV1,
+		.TIM_ICFilter = 0x0,
+	}
+};
+
+#endif /* PIOS_INCLUDE_FRSKY_RSSI */
+
 /**
  * @}
  * @}
