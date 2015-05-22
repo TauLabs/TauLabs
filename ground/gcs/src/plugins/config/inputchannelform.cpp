@@ -4,7 +4,7 @@
 #include "manualcontrolsettings.h"
 #include "gcsreceiver.h"
 
-inputChannelForm::inputChannelForm(QWidget *parent,bool showlegend) :
+inputChannelForm::inputChannelForm(QWidget *parent, bool showlegend, bool showSlider):
     ConfigTaskWidget(parent),
     ui(new Ui::inputChannelForm)
 {
@@ -19,12 +19,19 @@ inputChannelForm::inputChannelForm(QWidget *parent,bool showlegend) :
         layout()->removeWidget(ui->legend3);
         layout()->removeWidget(ui->legend4);
         layout()->removeWidget(ui->legend5);
+        layout()->removeWidget(ui->legend6);
         delete ui->legend0;
         delete ui->legend1;
         delete ui->legend2;
         delete ui->legend3;
         delete ui->legend4;
         delete ui->legend5;
+        delete ui->legend6;
+    }
+
+    if(!showSlider)
+    {
+        ui->channelNeutral->setHidden(true);
     }
 
     // Connect slots
