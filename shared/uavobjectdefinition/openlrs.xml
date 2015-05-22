@@ -17,6 +17,8 @@
 		<field name="beacon_delay" units="s" type="uint8" elements="1" defaultvalue="30"/>
 		<field name="beacon_period" units="s" type="uint8" elements="1" defaultvalue="15"/>
 
+		<field name="failsafe_delay" units="ms" type="uint32" elements="1" defaultvalue="1000"/>
+		<field name="RSSI_Type" units="function" type="enum" elements="1" options="Combined,RSSI,LinkQuality" defaultvalue="Combined"/> 
 
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
