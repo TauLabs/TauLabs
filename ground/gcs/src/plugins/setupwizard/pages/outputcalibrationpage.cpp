@@ -156,6 +156,8 @@ void OutputCalibrationPage::startWizard()
     if (getWizard()->getESCType() == SetupWizard::ESC_ONESHOT) {
         ui->motorNeutralSlider->setMinimum(125);
         ui->motorNeutralSlider->setMaximum(140);
+        ui->motorNeutralSlider->setPageStep(1);
+        ui->motorNeutralSlider->setSingleStep(1);
     }
 }
 
