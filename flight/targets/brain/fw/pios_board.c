@@ -128,6 +128,9 @@ static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 };
 #endif /* PIOS_INCLUDE_MS5611 */
 
+#if defined(PIOS_INCLUDE_FRSKY_RSSI)
+#include "pios_frsky_rssi_priv.h"
+#endif /* PIOS_INCLUDE_FRSKY_RSSI */
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
@@ -916,6 +919,11 @@ void PIOS_Board_Init(void) {
 	}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
+	case HWBRAIN_RXPORT_PPMFRSKY:
+		// special mode that enables PP, FrSky RSSI, and Sensor Hub
+#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_rxportusart_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
+#endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 	case HWBRAIN_RXPORT_PPM:
 	case HWBRAIN_RXPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
@@ -1061,7 +1069,7 @@ void PIOS_Board_Init(void) {
 	case HWBRAIN_RXPORT_PWM:
 	case HWBRAIN_RXPORT_PPM:
 	case HWBRAIN_RXPORT_PPMUART:
-		/* Set up the servo outputs */
+	/* Set up the servo outputs */
 #ifdef PIOS_INCLUDE_SERVO
 		PIOS_Servo_Init(&pios_servo_cfg);
 #endif
@@ -1076,6 +1084,14 @@ void PIOS_Board_Init(void) {
 		PIOS_Servo_Init(&pios_servo_rcvr_ppm_uart_out_cfg);
 #endif
 		break;
+	case HWBRAIN_RXPORT_PPMFRSKY:
+#ifdef PIOS_INCLUDE_SERVO
+		PIOS_Servo_Init(&pios_servo_cfg);
+#endif
+#if defined(PIOS_INCLUDE_FRSKY_RSSI)
+		PIOS_FrSkyRssi_Init(&pios_frsky_rssi_cfg);
+#endif /* PIOS_INCLUDE_FRSKY_RSSI */
+		break;
 	case HWBRAIN_RXPORT_OUTPUTS:
 #ifdef PIOS_INCLUDE_SERVO
 		PIOS_Servo_Init(&pios_servo_rcvr_all_cfg);
@@ -1085,6 +1101,7 @@ void PIOS_Board_Init(void) {
 #else
 	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
 #endif
+
 
 #if defined(PIOS_INCLUDE_GPIO)
 	PIOS_GPIO_Init();

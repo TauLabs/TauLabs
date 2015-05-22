@@ -37,12 +37,13 @@
 				<option>PWM</option>
 				<option>PPM</option>
 				<option>ADC</option>
+				<option>OpenLRS</option>
+				<option>FrSkyPWM</option>
 			</options>
 		</field>
 		<field name="RssiChannelNumber" units="channel" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="RssiMax" units="" type="int16" elements="1" defaultvalue="2000"/>
 		<field name="RssiMin" units="" type="int16" elements="1" defaultvalue="1000"/>
-		<field name="RssiPwmPeriod" units="us" type="int16" elements="1" defaultvalue="260"/>
 		
 		<field name="ChannelNumber" units="channel" type="uint8" defaultvalue="0">
 			<elementnames>

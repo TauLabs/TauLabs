@@ -42,6 +42,7 @@
 #include "openlrs.h"
 #include "flightstatus.h"
 #include "flightbatterystate.h"
+#include "openlrsstatus.h"
 
 #include "pios_rfm22b_regs.h"
 
@@ -54,6 +55,7 @@ static void rfmSetCarrierFrequency(struct pios_openlrs_dev *openlrs_dev, uint32_
 static uint8_t rfmGetRSSI(struct pios_openlrs_dev *openlrs_dev);
 static void to_rx_mode(struct pios_openlrs_dev *openlrs_dev);
 static void tx_packet(struct pios_openlrs_dev *openlrs_dev, uint8_t* pkt, uint8_t size);
+static OpenLRSStatusData openlrs_status;
 
 static struct pios_openlrs_dev * pios_openlrs_alloc();
 static bool pios_openlrs_validate(struct pios_openlrs_dev *openlrs_dev);
@@ -680,6 +682,7 @@ static uint8_t pios_openlrs_bind_receive(struct pios_openlrs_dev *openlrs_dev, u
 					tx_packet(openlrs_dev, &rxb, 1); // ACK that we got bound
 
 					OpenLRSData binding;
+					OpenLRSGet(&binding);
 					binding.version = openlrs_dev->bind_data.version;
 					binding.serial_baudrate = openlrs_dev->bind_data.serial_baudrate;
 					binding.rf_frequency = openlrs_dev->bind_data.rf_frequency;
@@ -813,8 +816,8 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 		openlrs_dev->lastPacketTimeUs = timeUs;
 		openlrs_dev->numberOfLostPackets = 0;
-		openlrs_dev->linkQuality <<= 1;
-		openlrs_dev->linkQuality |= 1;
+		openlrs_status.LinkQuality <<= 1;
+		openlrs_status.LinkQuality |= 1;
 
 		// TODO: updateLBeep(false);
 
@@ -864,7 +867,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 		// Flag to indicate ever got a link
 		openlrs_dev->link_acquired |= true;
-		openlrs_dev->failsafeActive = 0;
+		openlrs_status.FailsafeActive = OPENLRSSTATUS_FAILSAFEACTIVE_INACTIVE;
 
 		if (openlrs_dev->bind_data.flags & TELEMETRY_MASK) {
 			if ((tx_buf[0] ^ openlrs_dev->rx_buf[0]) & 0x40) {
@@ -886,7 +889,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 					tx_buf[0] |= (0x37 + bytes);
 				} else {
 					// tx_buf[0] lowest 6 bits left at 0
-					tx_buf[1] = openlrs_dev->lastRSSIvalue;
+					tx_buf[1] = openlrs_status.LastRSSI;
 					if (FlightBatteryStateHandle()) {
 						FlightBatteryStateData bat;
 						FlightBatteryStateGet(&bat);
@@ -900,7 +903,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 					}
 					tx_buf[4] = (openlrs_dev->lastAFCCvalue >> 8);
 					tx_buf[5] = openlrs_dev->lastAFCCvalue & 0xff;
-					tx_buf[6] = countSetBits(openlrs_dev->linkQuality & 0x7fff);
+					tx_buf[6] = countSetBits(openlrs_status.LinkQuality & 0x7fff);
 				}
 			}
 
@@ -923,16 +926,16 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		//DEBUG_PRINTF(3,"pios_openlrs_rx_loop -- measure RSSI\r\n");
 
 		openlrs_dev->lastRSSITimeUs = openlrs_dev->lastPacketTimeUs;
-		openlrs_dev->lastRSSIvalue = rfmGetRSSI(openlrs_dev); // Read the RSSI value
+		openlrs_status.LastRSSI = rfmGetRSSI(openlrs_dev); // Read the RSSI value
 
-		DEBUG_PRINTF(2,"RSSI: %d\r\n", openlrs_dev->lastRSSIvalue);
+		DEBUG_PRINTF(2,"RSSI: %d\r\n", openlrs_status.LastRSSI);
 	}
 
 	if (openlrs_dev->link_acquired) {
 		if ((openlrs_dev->numberOfLostPackets < openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) + 1000))) {
 			DEBUG_PRINTF(2,"Lost packet: %d\r\n", openlrs_dev->numberOfLostPackets);
 			// we lost packet, hop to next channel
-			openlrs_dev->linkQuality <<= 1;
+			openlrs_status.LinkQuality <<= 1;
 			openlrs_dev->willhop = 1;
 			if (openlrs_dev->numberOfLostPackets == 0) {
 				openlrs_dev->linkLossTimeMs = timeMs;
@@ -945,7 +948,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			// TODO: set_RSSI_output();
 		} else if ((openlrs_dev->numberOfLostPackets >= openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount))) {
 			// hop slowly to allow resync with TX
-			openlrs_dev->linkQuality = 0;
+			openlrs_status.LinkQuality = 0;
 			openlrs_dev->willhop = 1;
 			// TODO: set_RSSI_output();
 			openlrs_dev->lastPacketTimeUs = timeUs;
@@ -958,11 +961,11 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 #endif /* PIOS_LED_LINK */
 
 			if (openlrs_dev->failsafeDelay &&
-				!openlrs_dev->failsafeActive && 
-				((timeMs - openlrs_dev->linkLossTimeMs) > ((uint32_t) openlrs_dev->failsafeDelay * 1000)))
+				(openlrs_status.FailsafeActive == OPENLRSSTATUS_FAILSAFEACTIVE_INACTIVE) && 
+				((timeMs - openlrs_dev->linkLossTimeMs) > ((uint32_t) openlrs_dev->failsafeDelay)))
 			{
 				DEBUG_PRINTF(2,"Failsafe activated: %d %d\r\n", timeMs, openlrs_dev->linkLossTimeMs);
-				openlrs_dev->failsafeActive = 1;
+				openlrs_status.FailsafeActive = OPENLRSSTATUS_FAILSAFEACTIVE_ACTIVE;
 				//failsafeApply();
 				openlrs_dev->nextBeaconTimeMs = (timeMs + 1000UL * openlrs_dev->beacon_period) | 1; //beacon activating...
 			}
@@ -1013,6 +1016,42 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		rfmSetChannel(openlrs_dev, openlrs_dev->rf_channel);
 		rx_reset(openlrs_dev);
 		openlrs_dev->willhop = 0;
+	}
+	
+	// Update UAVO
+	OpenLRSStatusSet(&openlrs_status);
+}
+
+uint8_t PIOS_OpenLRS_RSSI_Get(void)
+{
+	if(openlrs_status.FailsafeActive == OPENLRSSTATUS_FAILSAFEACTIVE_ACTIVE)
+		return 0;
+	else {
+		OpenLRSData openlrs_data;
+		OpenLRSGet(&openlrs_data);
+		
+		uint16_t LQ = openlrs_status.LinkQuality & 0x7fff;
+		// count number of 1s in LinkQuality
+		LQ  = LQ - ((LQ >> 1) & 0x5555);
+		LQ  = (LQ & 0x3333) + ((LQ >> 2) & 0x3333);
+		LQ  = LQ + (LQ >> 4);
+		LQ &= 0x0F0F;
+		LQ = (LQ * 0x0101) >> 8;
+		
+		switch(openlrs_data.RSSI_Type) {
+		case OPENLRS_RSSI_TYPE_COMBINED:
+			if ((uint8_t)LQ == 15) {
+				return (uint8_t)((openlrs_status.LastRSSI >> 1)+128);
+			} else {
+				return LQ * 9;
+			}
+		case OPENLRS_RSSI_TYPE_RSSI:
+			return openlrs_status.LastRSSI;
+		case OPENLRS_RSSI_TYPE_LINKQUALITY:
+			return (uint8_t)(LQ << 4);
+		default:
+			return 0;
+		}
 	}
 }
 
@@ -1087,6 +1126,7 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 	openlrs_dev->openlrs_rcvr_id = 0;
 
 	OpenLRSInitialize();
+	OpenLRSStatusInitialize();
 	OpenLRSData binding;
 	OpenLRSGet(&binding);
 	if (binding.version == BINDING_VERSION) {
@@ -1107,8 +1147,7 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 	openlrs_dev->beacon_delay = binding.beacon_delay;
 	openlrs_dev->beacon_period = binding.beacon_period;
 
-	// Hardcode failsafe delay
-	openlrs_dev->failsafeDelay = 200;
+	openlrs_dev->failsafeDelay = binding.failsafe_delay;
 
 	// Bind the configuration to the device instance
 	openlrs_dev->cfg = *cfg;
