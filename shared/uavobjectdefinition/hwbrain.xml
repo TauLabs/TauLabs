@@ -72,6 +72,8 @@
 		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
         <field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
         <field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
+	<field name="MPURate" units="Hz" type="enum" elements="1" options="200,333,500,1000" defaultvalue="500"/>
+
 		<field name="AccelGyroLPF" units="Hz" type="enum" elements="1" options="20Hz,41Hz,92Hz,184Hz" defaultvalue="92Hz"/>
 
 

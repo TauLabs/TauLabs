@@ -1192,6 +1192,23 @@ void PIOS_Board_Init(void) {
 				PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 				break;
 		}
+
+		uint8_t mpu_rate;
+		HwBrainMPURateGet(&mpu_rate);
+		switch(mpu_rate) {
+			case HWBRAIN_MPURATE_200:
+				PIOS_MPU9250_SetSampleRate(200);
+				break;
+			case HWBRAIN_MPURATE_333:
+				PIOS_MPU9250_SetSampleRate(333);
+				break;
+			case HWBRAIN_MPURATE_500:
+				PIOS_MPU9250_SetSampleRate(500);
+				break;
+			case HWBRAIN_MPURATE_1000:
+				PIOS_MPU9250_SetSampleRate(1000);
+				break;
+		}
 	}
 #endif /* PIOS_INCLUDE_MPU9250_BRAIN */
 
