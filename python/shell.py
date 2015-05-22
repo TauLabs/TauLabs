@@ -1,4 +1,3 @@
-#!/usr/local/bin/python -B
 #!/usr/bin/python -B
 
 from taulabs import telemetry, uavo

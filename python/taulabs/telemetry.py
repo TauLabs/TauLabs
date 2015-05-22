@@ -225,7 +225,7 @@ class TelemetryBase():
         """
 
         if timeout is not None:
-            finish_time = time.time()+timeout
+            finish_time = time.time() + timeout
         else:
             finish_time = None
 
@@ -398,7 +398,7 @@ class FileTelemetry(TelemetryBase):
            file.
 
         Meaningful parameters passed up to TelemetryBase include: githash,
-        service_in_iter, iter_blocks, use_walltime, gcs_timestamps
+        service_in_iter, iter_blocks, gcs_timestamps
         """
 
         self.f = file_obj
@@ -426,10 +426,11 @@ class FileTelemetry(TelemetryBase):
             divider = self.f.readline()
 
             TelemetryBase.__init__(self, service_in_iter=False, iter_blocks=True,
-                do_handshaking=False, githash=githash, *args, **kwargs)
+                do_handshaking=False, githash=githash, use_walltime=False,
+                *args, **kwargs)
         else:
             TelemetryBase.__init__(self, service_in_iter=False, iter_blocks=True,
-                do_handshaking=False, *args, **kwargs)
+                do_handshaking=False, use_walltime=False, *args, **kwargs)
 
         self.done=False
         self.start_thread()
