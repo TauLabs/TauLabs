@@ -621,7 +621,7 @@ void SystemI2CWrite(struct ParseState *Parser, struct Value *ReturnValue, struct
 #endif
 
 #ifdef PIOS_INCLUDE_GPIO
-/* void int GPIOWrite(unsigned int, unsigned int): Writes/sets a general purpose output pin */
+/* void GPIOWrite(unsigned int, unsigned int): Writes/sets a general purpose output pin */
 /*(unsigned int pin_num, unsigned int command)*/
 /*unsigned int pin_num: Number of the defined GPIO pin from  target/board-info/pios_board.h; starting from 0*/
 /*unsigned int command: 0=reset_pin , 1=set_pin, 2=toggle_pin*/
