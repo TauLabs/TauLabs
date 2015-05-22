@@ -479,25 +479,6 @@ margin:1px;</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="10">
-    <widget class="QSpinBox" name="channelCurrent">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>25</height>
-      </size>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="buttonSymbols">
-      <enum>QAbstractSpinBox::NoButtons</enum>
-     </property>
-     <property name="maximum">
-      <number>65536</number>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="10">
     <widget class="QLabel" name="legend6">
      <property name="styleSheet">
@@ -527,6 +508,25 @@ margin:1px;</string>
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="2" column="10">
+    <widget class="QLabel" name="channelCurrent">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>80</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
