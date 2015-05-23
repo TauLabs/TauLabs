@@ -52,6 +52,8 @@ public slots:
     void setNeutral(int value);
     int neutral() const;
     void enableChannelTest(bool state);
+    void setType(int type);
+    int type() const;
 
 signals:
     void channelChanged(int index, int value);

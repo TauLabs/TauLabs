@@ -44,6 +44,7 @@ public:
     bool validatePage();
 
 private:
+    void setOneshotTimings();
     Ui::OutputPage *ui;
 };
 

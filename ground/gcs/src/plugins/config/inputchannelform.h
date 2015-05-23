@@ -12,7 +12,7 @@ class inputChannelForm : public ConfigTaskWidget
     Q_OBJECT
 
 public:
-    explicit inputChannelForm(QWidget *parent = 0,bool showlegend=false);
+    explicit inputChannelForm(QWidget *parent = 0,bool showlegend=false,bool showSlider=true);
     ~inputChannelForm();
     friend class ConfigInputWidget;
     void setName(QString &name);

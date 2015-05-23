@@ -50,12 +50,12 @@ Sparky::Sparky(void)
 
     // Define the bank of channels that are connected to a given timer
     channelBanks.resize(6);
-    channelBanks[0] = QVector<int> () << 1 << 2;
-    channelBanks[1] = QVector<int> () << 3;
-    channelBanks[2] = QVector<int> () << 4 << 7 << 9;
-    channelBanks[3] = QVector<int> () << 5;
-    channelBanks[4] = QVector<int> () << 6 << 10;
-    channelBanks[5] = QVector<int> () << 8;
+    channelBanks[0] = QVector<int> () << 1 << 2;      // TIM15
+    channelBanks[1] = QVector<int> () << 3;           // TIM1
+    channelBanks[2] = QVector<int> () << 4 << 7 << 9; // TIM3
+    channelBanks[3] = QVector<int> () << 5;           // TIM16
+    channelBanks[4] = QVector<int> () << 6 << 10;     // TIM2
+    channelBanks[5] = QVector<int> () << 8;           // TIM17
 }
 
 Sparky::~Sparky()
