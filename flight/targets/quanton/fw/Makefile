@@ -62,6 +62,7 @@ OPTMODULES += PicoC
 OPTMODULES += UAVOFrSKYSPortBridge
 OPTMODULES += Geofence
 OPTMODULES += Logging
+OPTMODULES += FlightStats
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc

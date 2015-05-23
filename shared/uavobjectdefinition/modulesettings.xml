@@ -27,6 +27,7 @@
 				<elementname>UAVOFrSkySPortBridge</elementname>
 				<elementname>Geofence</elementname>
 				<elementname>Logging</elementname>
+				<elementname>FlightStats</elementname>
 			</elementnames>
 		</field>
 
