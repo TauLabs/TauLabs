@@ -43,6 +43,7 @@ public:
 
     void setMinimum(int);
     void setMaximum(int);
+    void setHidden(bool);
 
 protected:
     void paintEvent ( QPaintEvent * event );
@@ -55,6 +56,7 @@ private:
     int maximumFontHeight;
     int slideHandleWidth;
     int slideHandleMargin;
+    bool hidden;
 
 };
 
