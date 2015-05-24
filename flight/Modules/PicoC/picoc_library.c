@@ -534,91 +534,6 @@ void SystemTxChannelValGet(struct ParseState *Parser, struct Value *ReturnValue,
 	ReturnValue->Val->Integer = PIOS_RCVR_Read(pios_rcvr_group_map[data.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE]], Param[0]->Val->Integer);
 }
 
-#ifdef PIOS_INCLUDE_I2C
-/* void int I2CRead(unsigned char,unsigned char, void *, unsigned int): read bytes from i2c slave */
-void SystemI2CRead(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	uint32_t i2c_adapter;
-	const struct pios_i2c_txn txn_list[] = {
-		{
-			.info = __func__,
-			.addr = Param[1]->Val->UnsignedCharacter,
-			.rw   = PIOS_I2C_TXN_READ,
-			.len  = Param[3]->Val->UnsignedInteger,
-			.buf  = Param[2]->Val->Pointer,
-		},
-	};
-
-	switch(Param[0]->Val->Integer) {
-#if defined(PIOS_I2C_ADAPTER_0)
-		case 0:
-			i2c_adapter = PIOS_I2C_ADAPTER_0;
-			break;
-#endif
-#if defined(PIOS_I2C_ADAPTER_1)
-		case 1:
-			i2c_adapter = PIOS_I2C_ADAPTER_1;
-			break;
-#endif
-#if defined(PIOS_I2C_ADAPTER_2)
-		case 2:
-			i2c_adapter = PIOS_I2C_ADAPTER_2;
-			break;
-#endif
-		default:
-			i2c_adapter = 0;
-	}
-
-	if ((i2c_adapter) && (Param[2]->Val->Pointer != NULL)) {
-		ReturnValue->Val->Integer = PIOS_I2C_Transfer(i2c_adapter, txn_list, NELEMENTS(txn_list));
-	}
-	else {
-		ReturnValue->Val->Integer = -1;
-	}
-}
-
-/* void int I2CWrite(unsigned char,unsigned char, void *, unsigned int): write bytes to i2c slave */
-void SystemI2CWrite(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
-{
-	uint32_t i2c_adapter;
-	const struct pios_i2c_txn txn_list[] = {
-		{
-			.info = __func__,
-			.addr = Param[1]->Val->UnsignedCharacter,
-			.rw   = PIOS_I2C_TXN_WRITE,
-			.len  = Param[3]->Val->UnsignedInteger,
-			.buf  = Param[2]->Val->Pointer,
-		},
-	};
-
-	switch(Param[0]->Val->Integer) {
-#if defined(PIOS_I2C_ADAPTER_0)
-		case 0:
-			i2c_adapter = PIOS_I2C_ADAPTER_0;
-			break;
-#endif
-#if defined(PIOS_I2C_ADAPTER_1)
-		case 1:
-			i2c_adapter = PIOS_I2C_ADAPTER_1;
-			break;
-#endif
-#if defined(PIOS_I2C_ADAPTER_2)
-		case 2:
-			i2c_adapter = PIOS_I2C_ADAPTER_2;
-			break;
-#endif
-		default:
-			i2c_adapter = 0;
-	}
-
-	if ((i2c_adapter) && (Param[2]->Val->Pointer != NULL)) {
-		ReturnValue->Val->Integer = PIOS_I2C_Transfer(i2c_adapter, txn_list, NELEMENTS(txn_list));
-	}
-	else {
-		ReturnValue->Val->Integer = -1;
-	}
-}
-#endif
 
 /* list of all library functions and their prototypes */
 struct LibraryFunction PlatformLibrary_system[] =
@@ -645,10 +560,6 @@ struct LibraryFunction PlatformLibrary_system[] =
 	{ SystemPWMInGet,		"int PWMInGet(int);" },
 #endif
 	{ SystemTxChannelValGet,"int TxChannelValGet(int);" },
-#ifdef PIOS_INCLUDE_I2C
-	{ SystemI2CRead,		"int i2c_read(unsigned char,unsigned char, void *,unsigned int);" },
-	{ SystemI2CWrite,		"int i2c_write(unsigned char,unsigned char, void *,unsigned int);" },
-#endif
 	{ NULL, NULL }
 };
 
@@ -710,6 +621,72 @@ void PlatformLibrarySetup_accels(Picoc *pc)
 }
 
 
+
+/***********************
+ * actuatordesired.h *
+ ***********************/
+#include "actuatordesired.h"
+
+// Very first getter I added: UNUSED for VTOL
+/* library functions */
+#ifndef NO_FP
+void ActuatorDesired_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	ActuatorDesiredData data;
+	ActuatorDesiredGet(&data);
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+		double Roll;
+		double Pitch;
+		double Yaw;
+		double Throttle;
+    	double UpdateTime;
+    	double NumLongUpdates;
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->Roll = data.Roll;
+	pdata->Pitch = data.Pitch;
+	pdata->Yaw = data.Yaw;
+	pdata->Throttle = data.Throttle;
+	pdata->UpdateTime = data.UpdateTime;
+	pdata->NumLongUpdates = data.NumLongUpdates;
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_actuatordesired[] =
+{
+#ifndef NO_FP
+	{ ActuatorDesired_Get,	"void ActuatorDesiredGet(ActuatorDesiredData *);" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_actuatordesired(Picoc *pc)
+{
+#ifndef NO_FP
+	const char *definition = "typedef struct {"
+		"float Roll;"
+		"float Pitch;"
+		"float Yaw;"
+		"float Throttle;"
+		"float UpdateTime;"
+		"float NumLongUpdates;"
+	"} ActuatorDesiredData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+#endif
+
+	if (ActuatorDesiredHandle() == NULL)
+		ProgramFailNoParser(pc, "no actuatordesired");
+}
+
+
+
 /**
  * attitudeactual.h
  */
@@ -763,7 +740,6 @@ void PlatformLibrarySetup_attitudeactual(Picoc *pc)
 		ProgramFailNoParser(pc, "no attitudeactual");
 }
 
-
 /**
  * baroaltitude.h
  */
@@ -791,6 +767,7 @@ void BaroAltitude_Get(struct ParseState *Parser, struct Value *ReturnValue, stru
 	pdata->Pressure = data.Pressure;
 }
 #endif
+
 
 /* list of all library functions and their prototypes */
 struct LibraryFunction PlatformLibrary_baroaltitude[] =
@@ -1014,7 +991,7 @@ void PlatformLibrarySetup_gpsposition(Picoc *pc)
 		"long Longitude;"
 		"unsigned char Status;"
 		"char Satellites;"
-	"} GPSPositionData;";
+	"}GPSPositionData;";
 #endif
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 
@@ -1397,6 +1374,588 @@ void PlatformLibrarySetup_positionactual(Picoc *pc)
 }
 
 
+/*******************
+ * txpidsettings.h *
+ *******************/
+#include "txpidsettings.h"
+
+// Getter/Setter for txpidsettings UAV object UNUSED for VTOL
+
+
+/* library functions */
+#ifndef NO_FP
+void TxPIDSettings_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	TxPIDSettingsData data;
+	TxPIDSettingsGet(&data);
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+		double ThrottleRange[2];
+    	double MinPID[3];
+    	double MaxPID[3];
+    	unsigned char UpdateMode;
+    	unsigned char Inputs[3];
+    	unsigned char PIDs[3];
+	} *pdata;
+	pdata = Param[0]->Val->Pointer;
+	pdata->ThrottleRange[0] = data.ThrottleRange[0];
+	pdata->ThrottleRange[1] = data.ThrottleRange[1];
+	pdata->MinPID[0]  = data.MinPID[0];
+	pdata->MinPID[1]  = data.MinPID[1];
+	pdata->MinPID[2]  = data.MinPID[2];
+	pdata->MaxPID[0]  = data.MaxPID[0];
+	pdata->MaxPID[1]  = data.MaxPID[1];
+	pdata->MaxPID[2]  = data.MaxPID[2];
+	pdata->UpdateMode = data.UpdateMode;
+	pdata->Inputs[0]  = data.Inputs[0];
+	pdata->Inputs[1]  = data.Inputs[1];
+	pdata->Inputs[2]  = data.Inputs[2];
+	pdata->PIDs[0]    = data.PIDs[0];
+	pdata->PIDs[1]    = data.PIDs[1];
+	pdata->PIDs[2]    = data.PIDs[2];
+}
+
+void TxPIDSettings_Set(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	TxPIDSettingsData data;
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+		double ThrottleRange[2];
+    	double MinPID[3];
+    	double MaxPID[3];
+    	unsigned char UpdateMode;
+    	unsigned char Inputs[3];
+    	unsigned char PIDs[3];
+	} *pdata;
+
+	pdata = Param[0]->Val->Pointer;
+	data.ThrottleRange[0] = pdata->ThrottleRange[0];
+	data.ThrottleRange[1] = pdata->ThrottleRange[1];
+	data.MinPID[0]  = pdata->MinPID[0];
+	data.MinPID[1]  = pdata->MinPID[1];
+	data.MinPID[2]  = pdata->MinPID[2];
+	data.MaxPID[0]  = pdata->MaxPID[0];
+	data.MaxPID[1]  = pdata->MaxPID[1];
+	data.MaxPID[2]  = pdata->MaxPID[2];
+	data.UpdateMode = pdata->UpdateMode;
+	data.Inputs[0]  = pdata->Inputs[0];
+	data.Inputs[1]  = pdata->Inputs[1];
+	data.Inputs[2]  = pdata->Inputs[2];
+	data.PIDs[0]    = pdata->PIDs[0];
+	data.PIDs[1]    = pdata->PIDs[1];
+	data.PIDs[2]    = pdata->PIDs[2];
+
+	TxPIDSettingsSet(&data);
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_txpidsettings[] =
+{
+#ifndef NO_FP
+	{ TxPIDSettings_Get,	"void TxPIDSettingsGet(TxPIDSettingsData *);" },
+	{ TxPIDSettings_Set,	"void TxPIDSettingsSet(TxPIDSettingsData *);" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_txpidsettings(Picoc *pc)
+{
+	const char *definition = "typedef struct {"
+		"float ThrottleRange[2];"
+		"float MinPID[3];"
+		"float MaxPID[3];"
+		"unsigned char UpdateMode;"
+		"unsigned char Inputs[3];"
+		"unsigned char PIDs[3];"
+	"} TxPIDSettingsData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
+	if (PositionActualHandle() == NULL)
+		ProgramFailNoParser(pc, "no txpidsettings");
+}
+
+/**************************
+ * Stabilization Settings *
+ *************************/
+#include "stabilizationsettings.h"
+
+// Getter/Setter for PID settings. Useful when switching from Hover to FFF (and vice versa)
+#ifndef NO_FP
+void StabilizationSettingsPID_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	StabilizationSettingsData data;
+	StabilizationSettingsGet(&data);
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+	    double RollRatePID[4];
+	    double PitchRatePID[4];
+	    double YawRatePID[4];
+	} *pdata;
+
+	pdata = Param[0]->Val->Pointer;
+	for(int i=0; i<4; i++){
+		pdata->RollRatePID[i]  = data.RollRatePID[i];
+		pdata->PitchRatePID[i] = data.PitchRatePID[i];
+		pdata->YawRatePID[i]   = data.YawRatePID[i];
+	}
+}
+
+
+void StabilizationSettingsPID_Set(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->Pointer == NULL)
+		return;
+
+	StabilizationSettingsData data;
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+	    double RollRatePID[4];
+	    double PitchRatePID[4];
+	    double YawRatePID[4];
+	} *pdata;
+
+	pdata = Param[0]->Val->Pointer;
+	for(int i=0; i<4; i++){
+		data.RollRatePID[i] = pdata->RollRatePID[i];
+		data.PitchRatePID[i] = pdata->PitchRatePID[i];
+		data.YawRatePID[i] = pdata->YawRatePID[i];
+	}
+	StabilizationSettingsSet(&data);
+}
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_stabilizationsettings[] =
+{
+#ifndef NO_FP
+	{ StabilizationSettingsPID_Get,	"void StabilizationPIDGet(StabilizationSettingsData *);" },
+	{ StabilizationSettingsPID_Set,	"void StabilizationPIDSet(StabilizationSettingsData *);" },
+#endif
+	{ NULL, NULL }
+};
+
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_stabilizationsettings(Picoc *pc)
+{
+	const char *definition = "typedef struct {"
+	    "double RollRatePID[4];"
+	    "float PitchRatePID[4];"
+	    "float YawRatePID[4];"
+	"} StabilizationSettingsData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
+	if (PositionActualHandle() == NULL)
+		ProgramFailNoParser(pc, "no stabilizationsettings");
+}
+
+
+/******************
+ * systemsettings *
+ *****************/
+#include "systemsettings.h"
+
+// Initially designed in order to switch from copter to flying wing mode but custom mode is more convenient: UNUSED
+void SystemSettings_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if(Param[0]->Val->Pointer == NULL)
+		return;
+	
+	SystemSettingsData data;
+	SystemSettingsGet(&data);
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+	    uint32_t AirframeCategorySpecificConfiguration[4];
+	    unsigned char AirframeType;
+	} *pdata;
+
+	pdata = Param[0]->Val->Pointer;
+	pdata->AirframeType = data.AirframeType;
+	for(int i=0; i<4; i++){
+		pdata->AirframeCategorySpecificConfiguration[i] = data.AirframeCategorySpecificConfiguration[i];
+	}
+
+}
+
+void SystemSettingsAirframeType_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	SystemSettingsData data;
+	SystemSettingsAirframeTypeGet(&data.AirframeType);
+	ReturnValue->Val->Integer = data.AirframeType;
+}
+
+
+void SystemSettings_Set(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if(Param[0]->Val->Pointer == NULL)
+		return;	
+	
+	// use the same struct like picoc. see below
+	struct mystruct {
+	    long AirframeCategorySpecificConfiguration[4];
+	    unsigned char AirframeType;
+	} *pdata;
+
+	SystemSettingsData data;
+	pdata = Param[0]->Val->Pointer;
+	data.AirframeType = pdata->AirframeType;
+	for (int i=0; i<4; i++)
+	{
+		data.AirframeCategorySpecificConfiguration[i] = pdata->AirframeCategorySpecificConfiguration[i];
+	}
+
+	SystemSettingsSet(&data);
+}
+
+void SystemSettingsAirframeType_Set(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	SystemSettingsData data;
+	data.AirframeType = Param[0]->Val->Integer;
+	SystemSettingsAirframeTypeSet(&data.AirframeType);
+}
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_systemsettings[] =
+{
+	{ SystemSettings_Get,	"void SystemSettingsGet(SystemSettingsData *);" },
+	{ SystemSettingsAirframeType_Get,	"int SystemSettingsAirframeTypeGet();" },
+	{ SystemSettings_Set,	"void SystemSettingsSet(SystemSettingsData *);" },
+	{ SystemSettingsAirframeType_Set,	"void SystemSettingsAirframeTypeSet(int);" },
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_systemsettings(Picoc *pc)
+{
+	const char *definition = "typedef struct {"
+	    "long AirframeCategorySpecificConfiguration[4];"
+	    "unsigned char AirframeType;"
+	"} SystemSettingsData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
+	if (PositionActualHandle() == NULL)
+		ProgramFailNoParser(pc, "no systemsettings");
+}
+
+
+/******************
+ * Mixer Settings *
+ *****************/
+#include "mixersettings.h"
+
+// Getter/Setter for the Mixer Settings. Useful when switching from Hover to FFF (and vice versa)
+#ifndef NO_FP
+void MixerSettings_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if(Param[0]->Val->Pointer == NULL)
+		return;	
+	
+	MixerSettingsData data;
+	MixerSettingsGet(&data);
+
+	// use the same struct like picoc. see below
+	struct mystruct {
+	    double ThrottleCurve1[5];
+	    double ThrottleCurve2[5];
+	    unsigned char Curve2Source;
+	    unsigned char Mixer1Type;
+	    int Mixer1Vector[5];
+	    unsigned char Mixer2Type;
+	    int Mixer2Vector[5];
+	    unsigned char Mixer3Type;
+	    int Mixer3Vector[5];
+	    unsigned char Mixer4Type;
+	    int Mixer4Vector[5];
+	    unsigned char Mixer5Type;
+	    int Mixer5Vector[5];
+	    unsigned char Mixer6Type;
+	    int Mixer6Vector[5];
+	    unsigned char Mixer7Type;
+	    int Mixer7Vector[5];
+	    unsigned char Mixer8Type;
+	    int Mixer8Vector[5];
+	    unsigned char Mixer9Type;
+	    int Mixer9Vector[5];
+	    unsigned char Mixer10Type;
+	    int Mixer10Vector[5];
+	} *pdata;
+
+	pdata = Param[0]->Val->Pointer;
+	for(int i=0; i<5; i++){
+		pdata->ThrottleCurve1[i] = data.ThrottleCurve1[i];
+		pdata->ThrottleCurve2[i] = data.ThrottleCurve2[i];
+		pdata->Mixer1Vector[i]   = data.Mixer1Vector[i];
+		pdata->Mixer2Vector[i]   = data.Mixer2Vector[i];
+		pdata->Mixer3Vector[i]   = data.Mixer3Vector[i];
+		pdata->Mixer4Vector[i]   = data.Mixer4Vector[i];
+		pdata->Mixer5Vector[i]   = data.Mixer5Vector[i];
+		pdata->Mixer6Vector[i]   = data.Mixer6Vector[i];
+		pdata->Mixer7Vector[i]   = data.Mixer7Vector[i];
+		pdata->Mixer8Vector[i]   = data.Mixer8Vector[i];
+		pdata->Mixer9Vector[i]   = data.Mixer9Vector[i];
+		pdata->Mixer10Vector[i]  = data.Mixer10Vector[i];
+	}
+	pdata->Curve2Source = data.Curve2Source;
+	pdata->Mixer1Type   = data.Mixer1Type;
+	pdata->Mixer2Type   = data.Mixer2Type;
+	pdata->Mixer3Type   = data.Mixer3Type;
+	pdata->Mixer4Type   = data.Mixer4Type;
+	pdata->Mixer5Type   = data.Mixer5Type;
+	pdata->Mixer6Type   = data.Mixer6Type;
+	pdata->Mixer7Type   = data.Mixer7Type;
+	pdata->Mixer8Type   = data.Mixer8Type;
+	pdata->Mixer9Type   = data.Mixer9Type;
+	pdata->Mixer10Type  = data.Mixer10Type;
+}	
+
+void MixerSettings_Set(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if(Param[0]->Val->Pointer == NULL)
+		return;	
+	
+	MixerSettingsData data;
+	// use the same struct like picoc. see below
+	struct mystruct {
+	    double ThrottleCurve1[5];
+	    double ThrottleCurve2[5];
+	    unsigned char Curve2Source;
+	    unsigned char Mixer1Type;
+	    int Mixer1Vector[5];
+	    unsigned char Mixer2Type;
+	    int Mixer2Vector[5];
+	    unsigned char Mixer3Type;
+	    int Mixer3Vector[5];
+	    unsigned char Mixer4Type;
+	    int Mixer4Vector[5];
+	    unsigned char Mixer5Type;
+	    int Mixer5Vector[5];
+	    unsigned char Mixer6Type;
+	    int Mixer6Vector[5];
+	    unsigned char Mixer7Type;
+	    int Mixer7Vector[5];
+	    unsigned char Mixer8Type;
+	    int Mixer8Vector[5];
+	    unsigned char Mixer9Type;
+	    int Mixer9Vector[5];
+	    unsigned char Mixer10Type;
+	    int Mixer10Vector[5];
+	} *pdata;
+
+	pdata = Param[0]->Val->Pointer;
+	for(int i=0; i<5; i++){
+		data.ThrottleCurve1[i] = pdata->ThrottleCurve1[i];
+		data.ThrottleCurve2[i] = pdata->ThrottleCurve2[i];
+		data.Mixer1Vector[i]   = pdata->Mixer1Vector[i]  ;
+		data.Mixer2Vector[i]   = pdata->Mixer2Vector[i]  ;
+		data.Mixer3Vector[i]   = pdata->Mixer3Vector[i]  ;
+		data.Mixer4Vector[i]   = pdata->Mixer4Vector[i]  ;
+		data.Mixer5Vector[i]   = pdata->Mixer5Vector[i]  ;
+		data.Mixer6Vector[i]   = pdata->Mixer6Vector[i]  ;
+		data.Mixer7Vector[i]   = pdata->Mixer7Vector[i]  ;
+		data.Mixer8Vector[i]   = pdata->Mixer8Vector[i]  ;
+		data.Mixer9Vector[i]   = pdata->Mixer9Vector[i]  ;
+		data.Mixer10Vector[i]  = pdata->Mixer10Vector[i] ;
+	}
+	data.Curve2Source = pdata->Curve2Source;
+	data.Mixer1Type   = pdata->Mixer1Type;
+	data.Mixer2Type   = pdata->Mixer2Type;
+	data.Mixer3Type   = pdata->Mixer3Type;
+	data.Mixer4Type   = pdata->Mixer4Type;
+	data.Mixer5Type   = pdata->Mixer5Type;
+	data.Mixer6Type   = pdata->Mixer6Type;
+	data.Mixer7Type   = pdata->Mixer7Type;
+	data.Mixer8Type   = pdata->Mixer8Type;
+	data.Mixer9Type   = pdata->Mixer9Type;
+	data.Mixer10Type  = pdata->Mixer10Type;
+
+	MixerSettingsSet(&data);
+}	
+#endif
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_mixersettings[] =
+{
+#ifndef NO_FP
+	{ MixerSettings_Get,	"void MixerSettingsGet(MixerSettingsData *);" },
+	{ MixerSettings_Set,	"void MixerSettingsSet(MixerSettingsData *);" },
+#endif
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_mixersettings(Picoc *pc)
+{
+	const char *definition = "typedef struct {"
+	    "double ThrottleCurve1[5];"
+	    "double ThrottleCurve2[5];"
+	    "unsigned char Curve2Source;"
+	    "unsigned char Mixer1Type;"
+	    "int Mixer1Vector[5];"
+	    "unsigned char Mixer2Type;"
+	    "int Mixer2Vector[5];"
+	    "unsigned char Mixer3Type;"
+	    "int Mixer3Vector[5];"
+	    "unsigned char Mixer4Type;"
+	    "int Mixer4Vector[5];"
+	    "unsigned char Mixer5Type;"
+	    "int Mixer5Vector[5];"
+	    "unsigned char Mixer6Type;"
+	    "int Mixer6Vector[5];"
+	    "unsigned char Mixer7Type;"
+	    "int Mixer7Vector[5];"
+	    "unsigned char Mixer8Type;"
+	    "int Mixer8Vector[5];"
+	    "unsigned char Mixer9Type;"
+	    "int Mixer9Vector[5];"
+	    "unsigned char Mixer10Type;"
+	    "int Mixer10Vector[5];"
+	"} MixerSettingsData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
+	if (PositionActualHandle() == NULL)
+		ProgramFailNoParser(pc, "no mixersettings");
+}
+
+
+/************************
+ * ManualControlCommand *
+ ***********************/
+#include "manualcontrolcommand.h"
+
+// Get Data from ManualControlCommand UAV Object (i.e RC input values)
+// More precisely, only the array of input channel values (in ms) 
+void ManualControlCommandChannels_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+
+	ManualControlCommandData data;	
+	ManualControlCommandChannelGet(&data.Channel[0]);
+
+	int *pdata = (int*)Param[0]->Val->Pointer;
+	for(int i=0; i<10; i++){
+		pdata[i]=data.Channel[i];
+	}
+}			
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_manualcontrolcommand[] =
+{
+	{ ManualControlCommandChannels_Get,	"void ManualControlCommandChannelsGet(int*);" },
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_manualcontrolcommand(Picoc *pc)
+{
+	const char *definition = "typedef struct {"
+	    "long Channel[10];"
+    "} ManualControlCommandData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
+	if (PositionActualHandle() == NULL)
+		ProgramFailNoParser(pc, "no manualcontrolcommand");
+}
+
+
+/******************
+ * PicoC Settings *
+ *****************/
+#include "picocsettings.h"
+
+// Get data from PicoC Settings UAV Object
+void PicoCSettings_Get(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if(Param[0]->Val->Pointer == NULL)
+		return;
+
+	PicoCSettingsData data;
+	PicoCSettingsGet(&data);
+
+	struct mystruct {
+	    double MaxFileSize;
+	    double TaskStackSize;
+	    double PicoCStackSize;
+	    unsigned char BootFileID;
+	    unsigned char Startup;
+	    unsigned char Source;
+	    unsigned char ComSpeed;
+	} *pdata;
+
+	pdata = Param[0]->Val->Pointer;
+	pdata->MaxFileSize = data.MaxFileSize;
+	pdata->TaskStackSize = data.TaskStackSize;
+	pdata->PicoCStackSize = data.PicoCStackSize;
+	pdata->BootFileID = data.BootFileID;
+	pdata->Startup = data.Startup;
+	pdata->Source = data.Source;
+	pdata->ComSpeed = data.ComSpeed;
+} 
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_picocsettings[] =
+{
+	{ PicoCSettings_Get,	"void PicoCSettingsGet(PicoCSettingsData*);" },
+	{ NULL, NULL }
+};
+
+/* this is called when the header file is included */
+void PlatformLibrarySetup_picocsettings(Picoc *pc)
+{
+	const char *definition = "typedef struct {"
+	    "double MaxFileSize;"
+	    "double TaskStackSize;"
+	    "double PicoCStackSize;"
+	    "unsigned char BootFileID;"
+	    "unsigned char Startup;"
+	    "unsigned char Source;"
+	    "unsigned char ComSpeed;"
+    "} PicoCSettingsData;";
+	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
+
+	if (PositionActualHandle() == NULL)
+		ProgramFailNoParser(pc, "no picocsettings");
+}
+
+
+/********************
+ * ActuatorSettings *
+ *******************/
+// Change the neutral value of an actuator   
+#include "actuatorsettings.h"
+void ActuatorSettingsNeutral_Set(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	uint16_t channel = Param[0]->Val->Integer;
+	uint16_t value = Param[1]->Val->Integer;
+
+	ActuatorSettingsData data;
+	ActuatorSettingsChannelNeutralGet(&data.ChannelNeutral[0]);
+
+	data.ChannelNeutral[channel-1] = value;
+	ActuatorSettingsChannelNeutralSet(&data.ChannelNeutral[0]);
+}
+
+/* list of all library functions and their prototypes */
+struct LibraryFunction PlatformLibrary_actuatorsettings[] =
+{	
+	{ActuatorSettingsNeutral_Set, "void ActuatorSettingsNeutralSet(int, int);"},
+	{ NULL, NULL }
+};
+
 /**
  * pid.h
  */
@@ -1582,6 +2141,18 @@ void PlatformLibraryInit(Picoc *pc)
 #ifndef NO_FP
 	IncludeRegister(pc, "math.h", &PlatformLibrarySetup_math, &PlatformLibrary_math[0], NULL);
 #endif
+
+	// adding personal libraries 	
+	IncludeRegister(pc, "actuatordesired.h", &PlatformLibrarySetup_actuatordesired, &PlatformLibrary_actuatordesired[0], NULL);
+	IncludeRegister(pc, "actuatorsettings.h", NULL, &PlatformLibrary_actuatorsettings[0], NULL);
+	IncludeRegister(pc, "txpidsettings.h", &PlatformLibrarySetup_txpidsettings, &PlatformLibrary_txpidsettings[0], NULL);
+	IncludeRegister(pc, "stabilizationsettings.h", &PlatformLibrarySetup_stabilizationsettings, &PlatformLibrary_stabilizationsettings[0], NULL);
+	IncludeRegister(pc, "systemsettings.h", &PlatformLibrarySetup_systemsettings, &PlatformLibrary_systemsettings[0], NULL);
+	IncludeRegister(pc, "mixersettings.h", &PlatformLibrarySetup_mixersettings, &PlatformLibrary_mixersettings[0], NULL);
+	IncludeRegister(pc, "manualcontrolcommand.h", &PlatformLibrarySetup_manualcontrolcommand, &PlatformLibrary_manualcontrolcommand[0], NULL);
+	IncludeRegister(pc, "picocsettings.h", &PlatformLibrarySetup_picocsettings, &PlatformLibrary_picocsettings[0], NULL);
+
+	// initialy include librairies  
 	IncludeRegister(pc, "system.h", NULL, &PlatformLibrary_system[0], NULL);
 	IncludeRegister(pc, "accels.h", &PlatformLibrarySetup_accels, &PlatformLibrary_accels[0], NULL);
 	IncludeRegister(pc, "attitudeactual.h", &PlatformLibrarySetup_attitudeactual, &PlatformLibrary_attitudeactual[0], NULL);
