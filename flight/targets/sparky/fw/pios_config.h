@@ -56,7 +56,7 @@
 #define PIOS_INCLUDE_EXTI
 #define PIOS_INCLUDE_RTC
 #define PIOS_INCLUDE_WDG
-#define PIOS_INCLUDE_ONESHOT
+#define PIOS_INCLUDE_HPWM
 
 /* Select the sensors to include */
 #define PIOS_INCLUDE_MS5611
@@ -97,9 +97,6 @@
 #define PIOS_INCLUDE_FLASH
 #define PIOS_INCLUDE_FLASH_INTERNAL
 #define PIOS_INCLUDE_LOGFS_SETTINGS
-
-/* Other Interfaces */
-//#define PIOS_INCLUDE_I2C_ESC
 
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */
