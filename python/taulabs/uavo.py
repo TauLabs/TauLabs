@@ -37,21 +37,7 @@ class UAVTupleClass():
         """
         import struct
 
-        if not cls.flat:
-            # unpack each field separately.  This really just needs to be
-            # restructured in terms of the lower thing, and reformulate the
-            # tuple as appropriate.
-            unpack_field_values = []
-            for fmt in cls.formats:
-                val = fmt.unpack_from(data, offset)
-                if len(val) == 1:
-                    # elevate the value outside of the tuple if there is
-                    # exactly one value
-                    val = val[0]
-                unpack_field_values.append(val)
-                offset += fmt.size
-        else:
-            unpack_field_values = cls.packstruct.unpack_from(data, offset)
+        unpack_field_values = cls.packstruct.unpack_from(data, offset)
 
         field_values = []
         field_values.append(cls._name)
@@ -66,14 +52,32 @@ class UAVTupleClass():
             field_values.append(timestamp / 1000.0) 
         else:
             if cls._single:
-                offset = 0
+                raw_ts = unpack_field_values.pop(0)
             else:
-                offset = 1
-            field_values.append(unpack_field_values.pop(offset) / 1000.0)
+                raw_ts = unpack_field_values.pop(1)
+
+            field_values.append(raw_ts / 1000.0)
+
         field_values.append(cls._id)
 
-        # add the remaining fields
-        field_values = tuple(field_values) + tuple(unpack_field_values)
+        # add the remaining fields.  If the thing should be nested, construct
+        # an appropriate tuple. 
+        if not cls.flat:
+            pos = 0
+
+            for n in cls.num_subelems:
+                if n == 1:
+                    field_values.append(unpack_field_values[pos])
+                else:
+                    field_values.append(tuple(unpack_field_values[pos:pos+n]))
+                pos += n
+
+            field_values = tuple(field_values) 
+        else:
+            # Short cut; nothing is nested
+            field_values = tuple(field_values) + tuple(unpack_field_values)
+
+        print field_values
 
         return cls._make(field_values)
 
@@ -230,7 +234,7 @@ class UAVO():
 
         class tmpClass(namedtuple(name, fields), UAVTupleClass):
             packstruct = self.fmt
-            formats = self.formats
+            num_subelems = self.num_subelems
             flat = self.flat
             uavometa = self
             _name = name
@@ -259,11 +263,13 @@ class UAVO():
 
     def __form_packformat(self):
         formats = []
+        num_subelems = []
 
         # add format for instance-id IFF this is a multi-instance UAVO
         if not self.meta['is_single_inst']:
             # this is multi-instance so the optional instance-id is present
             formats.append('H')
+            num_subelems.append(1)
 
         flat = True
 
@@ -272,13 +278,15 @@ class UAVO():
             if f['elements'] != 1:
                 flat = False
 
+            num_subelems.append(f['elements'])
+
             formats.append('' + f['elements'].__str__() + self.struct_element_map[f['type']])
 
         self.flat = flat
 
         self.fmt = struct.Struct('<' + ''.join(formats))
 
-        self.formats = [ struct.Struct('<' + f) for f in formats ]
+        self.num_subelems = num_subelems
 
     def instance_from_bytes(self, *args, **kwargs):
         return self.tuple_class.from_bytes(*args, **kwargs)
