@@ -88,11 +88,39 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObject("ActuatorSettings");
 
     // Associate the buttons with their UAVO fields
+    addWidget(m_config->cb_outputRate6);
+    addWidget(m_config->cb_outputRate5);
     addWidget(m_config->cb_outputRate4);
     addWidget(m_config->cb_outputRate3);
     addWidget(m_config->cb_outputRate2);
     addWidget(m_config->cb_outputRate1);
     addWidget(m_config->spinningArmed);
+
+    // Cache all the combo boxes and labels
+    lblList.clear();
+    lblList << m_config->chBank1 << m_config->chBank2 << m_config->chBank3 << m_config->chBank4
+               << m_config->chBank5 << m_config->chBank6;
+    rateList.clear();
+    rateList << m_config->cb_outputRate1 << m_config->cb_outputRate2 << m_config->cb_outputRate3
+               << m_config->cb_outputRate4 << m_config->cb_outputRate5 << m_config->cb_outputRate6;
+    resList.clear();
+    resList << m_config->cb_outputResolution1 << m_config->cb_outputResolution2 << m_config->cb_outputResolution3
+               << m_config->cb_outputResolution4 << m_config->cb_outputResolution5 << m_config->cb_outputResolution6;
+
+
+    // Get the list of output resolutions and assign to the resolution dropdowns
+    ActuatorSettings *actuatorSettings = ActuatorSettings::GetInstance(getObjectManager());
+    Q_ASSERT(actuatorSettings);
+    UAVObjectField *resolutions = actuatorSettings->getField("TimerPwmResolution");
+    Q_ASSERT(resolutions);
+
+    QList<QComboBox*>::iterator resIter;
+    for (resIter = resList.begin(); resIter != resList.end(); resIter++) {
+        QComboBox *res = *resIter;
+        res->clear();
+        res->addItems(resolutions->getOptions());
+        addWidget(res);
+    }
 
     disconnect(this, SLOT(refreshWidgetsValues(UAVObject*)));
 
@@ -222,6 +250,10 @@ void ConfigOutputWidget::assignOutputChannels(UAVObject *obj)
 
         quint32 neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
         outputChannelForm->setNeutral(neutral);
+
+        // init type
+        quint16 type = actuatorSettingsData.ChannelType[outputChannelForm->index()];
+        outputChannelForm->setType(type);
     }
 }
 
@@ -389,29 +421,30 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
         Core::IBoardType *board = utilMngr->getBoardType();
         if (board != NULL) {
             QStringList banks = board->queryChannelBanks();
-            QList<QLabel*> lblList;
-            lblList << m_config->chBank1 << m_config->chBank2 << m_config->chBank3 << m_config->chBank4
-                       << m_config->chBank5 << m_config->chBank6;
-            QList<QComboBox*> cmbList;
-            cmbList << m_config->cb_outputRate1 << m_config->cb_outputRate2 << m_config->cb_outputRate3
-                       << m_config->cb_outputRate4 << m_config->cb_outputRate5 << m_config->cb_outputRate6;
 
             // First reset & disable all channel fields/outputs, then repopulate (because
             // we might be for instance connecting various board types one after another)
             for (int i=0; i < 6; i++) {
                 lblList.at(i)->setText("-");
-                cmbList.at(i)->setEnabled(false);
+                rateList.at(i)->setEnabled(false);
+                resList.at(i)->setEnabled(false);
             }
 
             // Now repopulate based on board capabilities:
             for (int i=0; i < banks.length(); i++) {
                 lblList.at(i)->setText(banks.at(i));
-                QComboBox* ccmb = cmbList.at(i);
+                QComboBox* ccmb = rateList.at(i);
                 ccmb->setEnabled(true);
-                if (ccmb->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[i]))==-1) {
-                    ccmb->addItem(QString::number(actuatorSettingsData.ChannelUpdateFreq[i]));
+
+                QString setting = timerFreqToString(actuatorSettingsData.TimerUpdateFreq[i]);
+                if (ccmb->findText(setting)==-1) {
+                    ccmb->addItem(setting);
                 }
-                ccmb->setCurrentIndex(ccmb->findText(QString::number(actuatorSettingsData.ChannelUpdateFreq[i])));
+                ccmb->setCurrentIndex(ccmb->findText(setting));
+
+                QComboBox* res = resList.at(i);
+                res->setEnabled(true);
+                res->setCurrentIndex(actuatorSettingsData.TimerPwmResolution[i]);
             }
         }
     }
@@ -440,23 +473,31 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
     Q_ASSERT(actuatorSettings);
     if(actuatorSettings) {
         ActuatorSettings::DataFields actuatorSettingsData = actuatorSettings->getData();
-
-        // Set channel ranges
         QList<OutputChannelForm*> outputChannelForms = findChildren<OutputChannelForm*>();
+
         foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
         {
             actuatorSettingsData.ChannelMax[outputChannelForm->index()] = outputChannelForm->max();
             actuatorSettingsData.ChannelMin[outputChannelForm->index()] = outputChannelForm->min();
             actuatorSettingsData.ChannelNeutral[outputChannelForm->index()] = outputChannelForm->neutral();
+            actuatorSettingsData.ChannelType[outputChannelForm->index()] = outputChannelForm->type();
         }
 
         // Set update rates
-        actuatorSettingsData.ChannelUpdateFreq[0] = m_config->cb_outputRate1->currentText().toUInt();
-        actuatorSettingsData.ChannelUpdateFreq[1] = m_config->cb_outputRate2->currentText().toUInt();
-        actuatorSettingsData.ChannelUpdateFreq[2] = m_config->cb_outputRate3->currentText().toUInt();
-        actuatorSettingsData.ChannelUpdateFreq[3] = m_config->cb_outputRate4->currentText().toUInt();
-        actuatorSettingsData.ChannelUpdateFreq[4] = m_config->cb_outputRate5->currentText().toUInt();
-        actuatorSettingsData.ChannelUpdateFreq[5] = m_config->cb_outputRate6->currentText().toUInt();
+        actuatorSettingsData.TimerUpdateFreq[0] = timerStringToFreq(m_config->cb_outputRate1->currentText());
+        actuatorSettingsData.TimerUpdateFreq[1] = timerStringToFreq(m_config->cb_outputRate2->currentText());
+        actuatorSettingsData.TimerUpdateFreq[2] = timerStringToFreq(m_config->cb_outputRate3->currentText());
+        actuatorSettingsData.TimerUpdateFreq[3] = timerStringToFreq(m_config->cb_outputRate4->currentText());
+        actuatorSettingsData.TimerUpdateFreq[4] = timerStringToFreq(m_config->cb_outputRate5->currentText());
+        actuatorSettingsData.TimerUpdateFreq[5] = timerStringToFreq(m_config->cb_outputRate6->currentText());
+
+        // Set output resolution
+        actuatorSettingsData.TimerPwmResolution[0] = m_config->cb_outputResolution1->currentIndex();
+        actuatorSettingsData.TimerPwmResolution[1] = m_config->cb_outputResolution2->currentIndex();
+        actuatorSettingsData.TimerPwmResolution[2] = m_config->cb_outputResolution3->currentIndex();
+        actuatorSettingsData.TimerPwmResolution[3] = m_config->cb_outputResolution4->currentIndex();
+        actuatorSettingsData.TimerPwmResolution[4] = m_config->cb_outputResolution5->currentIndex();
+        actuatorSettingsData.TimerPwmResolution[5] = m_config->cb_outputResolution6->currentIndex();
 
         if(m_config->spinningArmed->isChecked() == true)
             actuatorSettingsData.MotorsSpinWhileArmed = ActuatorSettings::MOTORSSPINWHILEARMED_TRUE;
@@ -466,6 +507,18 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
         // Apply settings
         actuatorSettings->setData(actuatorSettingsData);
     }
+}
+
+QString ConfigOutputWidget::timerFreqToString(quint32 freq) const {
+    if (freq == 0)
+        return QString(tr("SyncPWM"));
+    return QString::number(freq);
+}
+
+quint32 ConfigOutputWidget::timerStringToFreq(QString str) const {
+    if (str.compare(QString(tr("SyncPWM"))) == 0)
+        return 0;
+    return str.toUInt();
 }
 
 void ConfigOutputWidget::openHelp()

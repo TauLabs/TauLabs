@@ -466,11 +466,11 @@ void SystemPWMFreqSet(struct ParseState *Parser, struct Value *ReturnValue, stru
 {
 	if (!security(1))
 		return;
-	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_CHANNELUPDATEFREQ_NUMELEM)) {
+	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_TIMERUPDATEFREQ_NUMELEM)) {
 		ActuatorSettingsData data;
-		ActuatorSettingsChannelUpdateFreqGet(data.ChannelUpdateFreq);
-		data.ChannelUpdateFreq[Param[0]->Val->Integer] = Param[1]->Val->UnsignedInteger;
-		ActuatorSettingsChannelUpdateFreqSet(data.ChannelUpdateFreq);
+		ActuatorSettingsTimerUpdateFreqGet(data.TimerUpdateFreq);
+		data.TimerUpdateFreq[Param[0]->Val->Integer] = Param[1]->Val->UnsignedInteger;
+		ActuatorSettingsTimerUpdateFreqSet(data.TimerUpdateFreq);
 	}
 }
 

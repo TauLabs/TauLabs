@@ -36,7 +36,6 @@
 #define PIOS_INCLUDE_DELAY
 #if defined(USE_I2C)
 #define PIOS_INCLUDE_I2C
-//#define PIOS_INCLUDE_I2C_ESC
 #endif
 #if defined(USE_PCF8591)
 #define PIOS_INCLUDE_PCF8591
@@ -45,7 +44,7 @@
 #define PIOS_INCLUDE_LED
 #define PIOS_INCLUDE_IAP
 #define PIOS_INCLUDE_TIM
-#define PIOS_INCLUDE_ONESHOT
+#define PIOS_INCLUDE_HPWM
 
 #define PIOS_INCLUDE_RCVR
 

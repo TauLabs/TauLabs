@@ -44,7 +44,7 @@
 #define PIOS_INCLUDE_LED
 #define PIOS_INCLUDE_IAP
 #define PIOS_INCLUDE_SERVO
-#define PIOS_INCLUDE_ONESHOT
+#define PIOS_INCLUDE_HPWM
 #define PIOS_INCLUDE_SPI
 #define PIOS_INCLUDE_SYS
 #define PIOS_INCLUDE_USART
@@ -57,7 +57,6 @@
 #define PIOS_INCLUDE_WDG
 #define PIOS_INCLUDE_CAN
 #define PIOS_INCLUDE_FASTHEAP
-#define PIOS_INCLUDE_ONESHOT
  
 /* Variables related to the RFM22B functionality */
 #define PIOS_INCLUDE_RFM22B
@@ -107,9 +106,6 @@
 #define PIOS_INCLUDE_LOGFS_SETTINGS
 
 #define PIOS_INCLUDE_DEBUG_CONSOLE
-
-/* Other Interfaces */
-//#define PIOS_INCLUDE_I2C_ESC
 
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */
