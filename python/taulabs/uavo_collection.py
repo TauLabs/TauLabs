@@ -50,7 +50,7 @@ class UAVOCollection(dict):
             u = uavo.UAVO(f)
 
             # add this uavo definition to our dictionary
-            self.update([('{0:08x}'.format(u.id), u)])
+            self.update([('{0:08x}'.format(u.uavo_id), u)])
 
     def from_uavo_xml_path(self, path):
         import os
@@ -61,4 +61,4 @@ class UAVOCollection(dict):
                 u = uavo.UAVO(f)
 
                 # add this uavo definition to our dictionary
-                self.update([('{0:08x}'.format(u.id), u)])
+                self.update([('{0:08x}'.format(u.uavo_id), u)])

@@ -77,8 +77,6 @@ class UAVTupleClass():
             # Short cut; nothing is nested
             field_values = tuple(field_values) + tuple(unpack_field_values)
 
-        print field_values
-
         return cls._make(field_values)
 
 # Hopefully this class can be deleted in favor of a generator function and our
@@ -205,7 +203,7 @@ class UAVO():
         # Sort fields by size (bigger to smaller) to ensure alignment when packed
         self.fields.sort(key=lambda x: struct.calcsize(self.struct_element_map[x['type']]), reverse = True)
 
-        self.id = self.__calculate_id()
+        self.uavo_id = self.__calculate_id()
 
         self.__build_class_of()
 
@@ -227,7 +225,7 @@ class UAVO():
             flat = self.flat
             uavometa = self
             _name = name
-            _id = self.id
+            _id = self.uavo_id
             _single = self.meta['is_single_inst']
 
         # This is magic for two reasons.  First, we create the class to have
