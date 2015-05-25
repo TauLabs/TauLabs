@@ -547,9 +547,20 @@ static int32_t do_land()
 static int32_t do_loiter()
 {
 	const float LOITER_LEASH = 4;
+	const float CMD_THRESHOLD = 0.5f;
+	const float MAX_SPEED = 3.0f; // m/s
 
-	LoiterCommandData loiterCommand;
-	LoiterCommandGet(&loiterCommand);
+	LoiterCommandData cmd;
+	LoiterCommandGet(&cmd);
+
+	float forward = (cmd.Pitch > CMD_THRESHOLD) ? cmd.Pitch - CMD_THRESHOLD :
+				(cmd.Pitch < -CMD_THRESHOLD) ? cmd.Pitch + CMD_THRESHOLD : 0;
+	// Note the negative - forward pitch is negative
+	forward *= -MAX_SPEED / (1.0f - CMD_THRESHOLD);
+
+	float right = (cmd.Roll > CMD_THRESHOLD) ? cmd.Roll - CMD_THRESHOLD :
+			      (cmd.Roll < -CMD_THRESHOLD) ? cmd.Roll + CMD_THRESHOLD : 0;
+	right *= MAX_SPEED / (1.0f - CMD_THRESHOLD);
 
 	float yaw;
 	AttitudeActualYawGet(&yaw);
@@ -559,12 +570,12 @@ static int32_t do_loiter()
 	float east_offset = 0;
 	float down_offset = 0;
 
-	if (loiterCommand.Frame == LOITERCOMMAND_FRAME_BODY) {
-		north_offset = (loiterCommand.Forward * cosf(yaw) - loiterCommand.Right * sinf(yaw)) * DT;
-		east_offset = (loiterCommand.Forward * sinf(yaw) + loiterCommand.Right * cosf(yaw)) * DT;
+	if (cmd.Frame == LOITERCOMMAND_FRAME_BODY) {
+		north_offset = (forward * cosf(yaw) - right * sinf(yaw)) * DT;
+		east_offset = (forward * sinf(yaw) + right * cosf(yaw)) * DT;
 	} else {
-		north_offset = loiterCommand.Forward * DT;
-		east_offset = loiterCommand.Right * DT;
+		north_offset = forward * DT;
+		east_offset = right * DT;
 	}
 
 	float new_north = vtol_hold_position_ned[0] + north_offset;
