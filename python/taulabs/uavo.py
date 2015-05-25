@@ -106,17 +106,6 @@ class UAVO():
         'enum'    : 'uint8',
         }
 
-    type_size_map = {
-        'int8'    : 1,
-        'int16'   : 2,
-        'int32'   : 4,
-        'uint8'   : 1,
-        'uint16'  : 2,
-        'uint32'  : 4,
-        'float'   : 4,
-        'enum'    : 1,
-        }
-
     struct_element_map = {
         'int8'    : 'b',
         'int16'   : 'h',
@@ -214,7 +203,7 @@ class UAVO():
             self.fields.append(info)
 
         # Sort fields by size (bigger to smaller) to ensure alignment when packed
-        self.fields.sort(key=lambda x: self.type_size_map[x['type']], reverse = True)
+        self.fields.sort(key=lambda x: struct.calcsize(self.struct_element_map[x['type']]), reverse = True)
 
         self.id = self.__calculate_id()
 
@@ -250,14 +239,7 @@ class UAVO():
         globals()[self.tuple_class.__name__] = self.tuple_class
 
     def get_size_of_data(self):
-        size = 0
-
-        if not self.meta['is_single_inst']:
-            # this is multi-instance so the optional instance-id is present
-            size += 2
-
-        for f in self.fields:
-            size += self.type_size_map[f['type']] * f['elements']
+        size = self.fmt.size
 
         return size
 
