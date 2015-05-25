@@ -71,6 +71,8 @@ class TelemetryBase():
         self.do_handshaking = do_handshaking
         self.filename = name
 
+        self.eof = False
+
     def as_numpy_array(self, match_class): 
         """ Transforms all received instances of a given object to a numpy array.
         
@@ -187,6 +189,9 @@ class TelemetryBase():
             # for now-- in case we wanna see
             self.uavo_list.extend(objs)
 
+            if frames == '':
+                self.eof=True
+
             for obj in objs:
                 self.last_values[obj.name]=obj
 
@@ -240,9 +245,9 @@ class TelemetryBase():
     def _send(self, msg):
         return
 
-    @abstractmethod
     def _done(self):
-        return True
+        with self.cond:
+            return self.eof
 
 class FDTelemetry(TelemetryBase):
     """
@@ -336,9 +341,6 @@ class FDTelemetry(TelemetryBase):
         self.send_buf += msg
 
         self._do_io(0)
-
-    def _done(self):
-        return self.fd is None
 
 class NetworkTelemetry(FDTelemetry):
     """ TCP telemetry interface. """
@@ -437,13 +439,7 @@ class FileTelemetry(TelemetryBase):
 
         buf = self.f.read(524288)   # 512k
 
-        if buf == '':
-            self.done=True
-
         return buf
-
-    def _done(self):
-        return self.done
 
 def get_telemetry_by_args(desc="Process telemetry"):
     """ Parses command line to decide how to get a telemetry object. """
