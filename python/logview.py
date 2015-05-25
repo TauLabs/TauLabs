@@ -4,10 +4,7 @@ import sys
 from taulabs import telemetry
 
 def main():
-    uavo_list = telemetry.GetUavoBasedOnArgs()
-
-    # retrieve the time from the first object.. also guarantees we can parse
-    base_time = next(iter(uavo_list)).time
+    uavo_list = telemetry.get_telemetry_by_args()
 
     # Start the log viwer app
     from PyQt4 import QtGui

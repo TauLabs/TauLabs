@@ -31,24 +31,12 @@ def main():
     # Parse the command-line.
     args = parser.parse_args()
 
-    githash = None
-    if args.githash is not None:
-        githash = args.githash
+    githash = args.githash
 
-    uavo_defs = uavo_collection.UAVOCollection()
-    if githash:
-        uavo_defs.from_git_hash(githash)
-    else:
-        uavo_defs.from_uavo_xml_path("shared/uavobjectdefinition")
+    tStream = telemetry.NetworkTelemetry()
 
-    print "Found %d unique UAVO definitions" % len(uavo_defs)
-
-    tStream = telemetry.NetworkTelemetry(uavo_defs=uavo_defs)
-
-#    tStream = telemetry.Telemetry(uavo_defs, serviceInIter=False)
-#    tStream.open_network()
+#    tStream = telemetry.NetworkTelemetry(serviceInIter=False)
 #    tStream.start_thread()
-
 
 #    print settingsObjs
 #    print tStream.get_last_values()
@@ -57,7 +45,7 @@ def main():
 
     for obj in tStream:
         print obj
-#        pass
+        pass
 
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":
