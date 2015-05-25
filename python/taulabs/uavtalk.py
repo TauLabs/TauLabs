@@ -6,6 +6,8 @@ this interface."""
 import struct
 import time
 
+__all__ = [ "send_object", "process_stream" ]
+
 # Constants used for UAVTalk parsing
 (MIN_HEADER_LENGTH, MAX_HEADER_LENGTH, MAX_PAYLOAD_LENGTH) = (8, 12, (256-12))
 (SYNC_VAL) = (0x3C)
@@ -241,5 +243,3 @@ def calcCRC(str):
         cs = crc_table[cs ^ ord(c)]
 
     return chr(cs)
-
-__all__ = [ "send_object", "process_stream" ]

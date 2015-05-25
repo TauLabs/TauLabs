@@ -77,7 +77,7 @@ class UAVTupleClass():
 
         return cls._make(field_values)
 
-# Hopefully this class can be murdered in favor of a generator function and our
+# Hopefully this class can be deleted in favor of a generator function and our
 # dynamically generated namedtuple child classes.  We're close.
 class UAVO():
     type_enum_map = {

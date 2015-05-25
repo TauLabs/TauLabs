@@ -40,7 +40,7 @@ class TelemetryBase():
              where we should speak the UAVO_GCSTelemetryStats connection status
              protocol.
          - gcs_timestamps: if true, this means we are reading from a file with
-             the strange GCS timestamp protocol.
+             the GCS timestamp protocol.
          - name: a filename to store into .filename for legacy purposes
         """
 
@@ -365,7 +365,7 @@ class NetworkTelemetry(FDTelemetry):
 
 class SerialTelemetry(FDTelemetry):
     """ Serial telemetry interface """
-    def __init__(self, port, speed=None, *args, **kwargs):
+    def __init__(self, port, speed=115200, *args, **kwargs):
         """ Creates telemetry instance talking over (real or virtual) serial port.
         
          - port: Serial port path
@@ -378,9 +378,6 @@ class SerialTelemetry(FDTelemetry):
         """
 
         import serial
-
-        if speed is None:
-            speed=115200
 
         ser = serial.Serial(port, speed)
 
@@ -499,7 +496,7 @@ def get_telemetry_by_args(desc="Process telemetry"):
         return telemetry.SerialTelemetry(args.source, speed=args.baud)
 
     if args.baud is not None:
-	parser.print_help()
+        parser.print_help()
         raise ValueError("Baud rates only apply to serial ports")
 
     import os.path
@@ -514,8 +511,6 @@ def get_telemetry_by_args(desc="Process telemetry"):
 
     # OK, running out of options, time to try the network!
     host,sep,port = args.source.partition(':')
-
-    print host
 
     if sep != ':':
         parser.print_help()
