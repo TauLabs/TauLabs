@@ -55,7 +55,7 @@
 #define PIOS_INCLUDE_RTC
 #define PIOS_INCLUDE_WDG
 #define PIOS_INCLUDE_FASTHEAP
-#define PIOS_INCLUDE_ONESHOT
+#define PIOS_INCLUDE_HPWM
 #define PIOS_INCLUDE_FRSKY_RSSI
 
 /* Select the sensors to include */

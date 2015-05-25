@@ -68,8 +68,9 @@ public:
     VehicleConfigurationHelper(VehicleConfigurationSource *configSource);
     bool setupVehicle(bool save = true);
     bool setupHardwareSettings(bool save = true);
-    static const qint16 LEGACY_ESC_FREQUENCE;
-    static const qint16 RAPID_ESC_FREQUENCE;
+    static const qint16 LEGACY_ESC_FREQUENCY;
+    static const qint16 RAPID_ESC_FREQUENCY;
+    static const qint16 ONESHOT_ESC_FREQUENCY;
 
 signals:
     void saveProgress(int total, int current, QString description);
