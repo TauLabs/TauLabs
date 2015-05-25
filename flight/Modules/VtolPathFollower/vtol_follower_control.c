@@ -496,6 +496,45 @@ static int32_t vtol_follower_control_accel(float dT)
 	return 0;
 }
 
+
+static float vtol_follower_control_altitude(float downCommand) {
+	AltitudeHoldStateData altitudeHoldState;
+	altitudeHoldState.VelocityDesired = downCommand;
+	altitudeHoldState.Integral = vtol_pids[DOWN_VELOCITY].iAccumulator / 1000.0f;
+	altitudeHoldState.AngleGain = 1.0f;
+
+	if (altitudeHoldSettings.AttitudeComp > 0) {
+		// Throttle desired is at this point the mount desired in the up direction, we can
+		// account for the attitude if desired
+		AttitudeActualData attitudeActual;
+		AttitudeActualGet(&attitudeActual);
+
+		// Project a unit vector pointing up into the body frame and
+		// get the z component
+		float fraction = attitudeActual.q1 * attitudeActual.q1 -
+				 attitudeActual.q2 * attitudeActual.q2 -
+				 attitudeActual.q3 * attitudeActual.q3 +
+				 attitudeActual.q4 * attitudeActual.q4;
+
+		// Add ability to scale up the amount of compensation to achieve
+		// level forward flight
+		fraction = powf(fraction, (float) altitudeHoldSettings.AttitudeComp / 100.0f);
+
+		// Dividing by the fraction remaining in the vertical projection will
+		// attempt to compensate for tilt. This acts like the thrust is linear
+		// with the output which isn't really true. If the fraction is starting
+		// to go negative we are inverted and should shut off throttle
+		downCommand = (fraction > 0.1f) ? (downCommand / fraction) : 0.0f;
+
+		altitudeHoldState.AngleGain = 1.0f / fraction;
+	}
+
+	altitudeHoldState.Throttle = downCommand;
+	AltitudeHoldStateSet(&altitudeHoldState);
+
+	return downCommand;
+}
+
 /**
  * Compute desired attitude from the desired velocity
  * @param[in] dT the time since last evaluation
@@ -511,7 +550,8 @@ int32_t vtol_follower_control_attitude(float dT)
 	AccelDesiredData accelDesired;
 	AccelDesiredGet(&accelDesired);
 
-	StabilizationDesiredData stabDesired;
+	StabilizationSettingsData stabSet;
+	StabilizationSettingsGet(&stabSet);
 
 	float northCommand = accelDesired.North;
 	float eastCommand = accelDesired.East;
@@ -522,6 +562,8 @@ int32_t vtol_follower_control_attitude(float dT)
 	float forward_accel_desired = -northCommand * cosf(yaw * DEG2RAD) + -eastCommand * sinf(yaw * DEG2RAD);
 	float right_accel_desired = -northCommand * sinf(yaw * DEG2RAD) + eastCommand * cosf(yaw * DEG2RAD);
 
+	StabilizationDesiredData stabDesired;
+
 	// Set the angle that would achieve the desired acceleration given the thrust is enough for a hover
 	stabDesired.Pitch = bound_min_max(RAD2DEG * atanf(forward_accel_desired / GRAVITY),
 	                   -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
@@ -531,73 +573,33 @@ int32_t vtol_follower_control_attitude(float dT)
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 
-
 	// Calculate the throttle setting or use pass through from transmitter
 	if (guidanceSettings.ThrottleControl == VTOLPATHFOLLOWERSETTINGS_THROTTLECONTROL_FALSE) {
 		ManualControlCommandThrottleGet(&stabDesired.Throttle);
 	} else {
-		float downCommand = accelDesired.Down;
-
-		AltitudeHoldStateData altitudeHoldState;
-		altitudeHoldState.VelocityDesired = downCommand;
-		altitudeHoldState.Integral = vtol_pids[DOWN_VELOCITY].iAccumulator / 1000.0f;
-		altitudeHoldState.AngleGain = 1.0f;
-
-		if (altitudeHoldSettings.AttitudeComp > 0) {
-			// Throttle desired is at this point the mount desired in the up direction, we can
-			// account for the attitude if desired
-			AttitudeActualData attitudeActual;
-			AttitudeActualGet(&attitudeActual);
-
-			// Project a unit vector pointing up into the body frame and
-			// get the z component
-			float fraction = attitudeActual.q1 * attitudeActual.q1 -
-			                 attitudeActual.q2 * attitudeActual.q2 -
-			                 attitudeActual.q3 * attitudeActual.q3 +
-			                 attitudeActual.q4 * attitudeActual.q4;
-
-			// Add ability to scale up the amount of compensation to achieve
-			// level forward flight
-			fraction = powf(fraction, (float) altitudeHoldSettings.AttitudeComp / 100.0f);
-
-			// Dividing by the fraction remaining in the vertical projection will
-			// attempt to compensate for tilt. This acts like the thrust is linear
-			// with the output which isn't really true. If the fraction is starting
-			// to go negative we are inverted and should shut off throttle
-			downCommand = (fraction > 0.1f) ? (downCommand / fraction) : 0.0f;
-
-			altitudeHoldState.AngleGain = 1.0f / fraction;
-		}
-
-		altitudeHoldState.Throttle = downCommand;
-		AltitudeHoldStateSet(&altitudeHoldState);
+		float downCommand = vtol_follower_control_altitude(accelDesired.Down);
 
 		stabDesired.Throttle = bound_min_max(downCommand, 0, 1);
 	}
 	
 	// Various ways to control the yaw that are essentially manual passthrough. However, because we do not have a fine
 	// grained mechanism of manual setting the yaw as it normally would we need to duplicate that code here
-	float manual_rate[STABILIZATIONSETTINGS_MANUALRATE_NUMELEM];
 	switch(guidanceSettings.YawMode) {
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_RATE:
 		/* This is awkward.  This allows the transmitter to control the yaw while flying navigation */
 		ManualControlCommandYawGet(&yaw);
-		StabilizationSettingsManualRateGet(manual_rate);
-		stabDesired.Yaw = manual_rate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;
+		stabDesired.Yaw = stabSet.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
 		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_AXISLOCK:
 		ManualControlCommandYawGet(&yaw);
-		StabilizationSettingsManualRateGet(manual_rate);
-		stabDesired.Yaw = manual_rate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;
+		stabDesired.Yaw = stabSet.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
 		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_ATTITUDE:
 	{
-		uint8_t yaw_max;
-		StabilizationSettingsYawMaxGet(&yaw_max);
 		ManualControlCommandYawGet(&yaw);
-		stabDesired.Yaw = yaw_max * yaw;
+		stabDesired.Yaw = stabSet.YawMax * yaw;
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	}
 		break;
