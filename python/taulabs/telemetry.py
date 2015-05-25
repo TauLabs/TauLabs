@@ -435,7 +435,7 @@ class FileTelemetry(TelemetryBase):
     def _receive(self, finish_time):
         """ Fetch available data from file """
 
-        buf = self.f.read(128)
+        buf = self.f.read(524288)   # 512k
 
         if buf == '':
             self.done=True

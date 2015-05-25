@@ -272,10 +272,10 @@ class UAVO():
         return self.tuple_class.from_bytes(*args, **kwargs)
 
     def __str__(self):
-        return "%s(id='%08x') %s" % (self.meta['name'], self.id, " ".join([f['name'] for f in self.fields]))
+        return "%s(id='%08x') %s" % (self.meta['name'], self._id, " ".join([f['name'] for f in self.fields]))
 
     def __repr__(self):
-        return "%s(id='%08x', name=%r)" % (self.__class__, self.id, self.meta['name'])
+        return "%s(id='%08x', name=%r)" % (self.__class__, self._id, self.meta['name'])
 
     def __update_hash_byte(self, value):
         self.hash = (self.hash ^ ((self.hash << 5) + (self.hash >> 2) + value)) & 0x0FFFFFFFF

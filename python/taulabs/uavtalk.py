@@ -57,29 +57,46 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
 
     received = 0
 
-    packet_bytes = ''
+    buf = ''
+    buf_offset = 0
+
+    pending_pieces = []
 
     while True:
+        # If we don't have data buffered, join up any chunks we've been given
+        # to ensure pending_pieces is empty for the rest of this loop.
+        #
+        # in other words, don't mix the pending_pieces drain model and the
+        # buffer concatenation model within a loop iteration.
+        #
+        # 10k chosen here to be bigger than any plausible uavo
+        if len(buf)-buf_offset < 10240:
+            pending_pieces.insert(0, buf[buf_offset:])
+            buf_offset = 0
+
+            buf = ''.join(pending_pieces)
+            pending_pieces = []
+
         if gcs_timestamps:
-            while len(packet_bytes) < logheader_fmt.size:
+            while len(buf) < logheader_fmt.size + buf_offset:
                 rx = yield None
 
                 if rx is None:
                     return
 
-                packet_bytes = packet_bytes + rx
+                buf = buf + rx
 
-            overrideTimestamp, logHdrLen = logheader_fmt.unpack_from(packet_bytes,0)
+            overrideTimestamp, logHdrLen = logheader_fmt.unpack_from(buf,buf_offset)
 
-            packet_bytes = packet_bytes[logheader_fmt.size:]
+            buf_offset += logheader_fmt.size
 
         # Ensure we have enough room for all the
         # plain required fields to avoid duplicating
         # this code lots.
         # sync(1) + type(1) + len(2) + objid(4) 
 
-        while (len(packet_bytes) < header_fmt.size) or (packet_bytes[0] != chr(SYNC_VAL)):
-            #print "waitingsync len=%d"%(len(packet_bytes))
+        while (len(buf) < header_fmt.size + buf_offset) or (buf[buf_offset] != chr(SYNC_VAL)):
+            #print "waitingsync len=%d, offset=%d"%(len(buf), buf_offset)
 
             rx = yield None
 
@@ -87,27 +104,27 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
                 #end of stream, stopiteration
                 return
 
-            packet_bytes = packet_bytes + rx
+            buf = buf + rx
 
-            for i in xrange(len(packet_bytes)):
-                if packet_bytes[i] == chr(SYNC_VAL):
+            for i in xrange(buf_offset, len(buf)):
+                if buf[i] == chr(SYNC_VAL):
                     break
 
             # Trim off irrelevant stuff, loop and try again
-            packet_bytes = packet_bytes[i:]
+            buf_offset = i
 
-        (sync, pack_type, pack_len, objId) = header_fmt.unpack_from(packet_bytes,0)
+        (sync, pack_type, pack_len, objId) = header_fmt.unpack_from(buf, buf_offset)
 
         if (pack_type & TYPE_MASK) != TYPE_VER:
             print "badver %x"%(pack_type)
-            packet_bytes = packet_bytes[1:]
+            buf_offset += 1
             continue    # go to top to look for sync
     
         pack_type &= ~ TYPE_MASK
         
         if pack_len < MIN_HEADER_LENGTH or pack_len > MAX_HEADER_LENGTH + MAX_PAYLOAD_LENGTH:
             print "badlen %d"%(pack_len)
-            packet_bytes = packet_bytes[1:]
+            buf_offset += 1
             continue
         
         # Search for object.
@@ -138,7 +155,7 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
         if obj_len >= MAX_PAYLOAD_LENGTH:
             print "bad len-- bad xml?"
             #should never happen; requires invalid uavo xml
-            packet_bytes = packet_bytes[1:]
+            buf_offset += 1
             continue
 
         # calc_size, AKA timestamp, and obj data
@@ -155,36 +172,37 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             # packet error - mismatched packet size
             # Consume a byte to try syncing right after where we
             # did...
-            packet_bytes = packet_bytes[1:]
+            buf_offset += 1
             continue
 
         # OK, at this point we are seriously hoping to receive
         # a packet.  Time for another loop to make sure we have
         # enough data.
         # +1 here is for CRC-8
-        while len(packet_bytes) < calc_size + 1:
+        while len(buf) < calc_size + 1 + buf_offset:
             rx = yield None
 
             if rx is None:
                 #end of stream, stopiteration
                 return
 
-            packet_bytes += rx
+            buf += rx
 
         # check the CRC byte
 
-        cs = calcCRC(packet_bytes[0:calc_size])
-        recv_cs = packet_bytes[calc_size]
+        cs = calcCRC(buf[buf_offset:calc_size+buf_offset])
+        recv_cs = buf[buf_offset+calc_size]
 
         if recv_cs != cs:
-            print "Bad crc. Got " + hex(recv_cs) + " but predicted " + hex(cs)
+            print "Bad crc. Got " + hex(ord(recv_cs)) + " but predicted " + hex(ord(cs))
 
-            packet_bytes = packet_bytes[1:]
+            buf_offset += 1
+
             continue
         
         if timestamp_len:
             # pull the timestamp from the packet
-            timestamp = timestamp_fmt.unpack_from(packet_bytes, header_fmt.size)[0]
+            timestamp = timestamp_fmt.unpack_from(buf, header_fmt.size)[0]
 
             # handle wraparound
             if timestamp < last_timestamp:
@@ -201,8 +219,8 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             timestamp = overrideTimestamp
 
         if obj is not None:
-            objInstance = obj.instance_from_bytes(packet_bytes,
-                timestamp, offset=header_fmt.size + timestamp_len) 
+            objInstance = obj.instance_from_bytes(buf,
+                timestamp, offset=header_fmt.size + timestamp_len + buf_offset) 
 
             received += 1
             if not (received % 20000):
@@ -211,11 +229,11 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             next_recv = yield objInstance
         else:
             next_recv = None
-        
-        packet_bytes = packet_bytes[calc_size+1:] 
 
-        if next_recv is not None:
-            packet_bytes += next_recv
+        buf_offset += calc_size + 1
+
+        if next_recv is not None and next_recv != '':
+            pending_pieces.append(next_recv)
 
 def send_object(obj):
     """Generates a string containing a UAVTalk packet describing this object"""
