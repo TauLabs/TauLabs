@@ -231,7 +231,16 @@
           <string>Page Switch Settings</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_4" rowstretch="0,0,0" columnstretch="0,0,1,0,1,0">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>12</number>
+          </property>
+          <property name="topMargin">
+           <number>12</number>
+          </property>
+          <property name="rightMargin">
+           <number>12</number>
+          </property>
+          <property name="bottomMargin">
            <number>12</number>
           </property>
           <item row="0" column="0" rowspan="3">
@@ -525,6 +534,50 @@ Setup the flight mode channel on the RC Input tab if you have not done so alread
                 </property>
                </widget>
               </item>
+              <item row="4" column="0">
+               <spacer name="verticalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_12">
+                <property name="text">
+                 <string>RSSI Warn Threshold</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QSpinBox" name="RssiWarnThreshold">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Threshold below which RSSI value will start blinking&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>Page Switch Function:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QComboBox" name="cb_page_switch"/>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Disable Menu when Armed:</string>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="1">
                <widget class="QSpinBox" name="sb_num_pages">
                 <property name="toolTip">
@@ -545,36 +598,6 @@ channel value for each flight mode.</string>
                 </property>
                 <property name="value">
                  <number>3</number>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_10">
-                <property name="text">
-                 <string>Page Switch Function:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <spacer name="verticalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="1" column="1">
-               <widget class="QComboBox" name="cb_page_switch"/>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_11">
-                <property name="text">
-                 <string>Disable Menu when Armed:</string>
                 </property>
                </widget>
               </item>

@@ -793,17 +793,24 @@ void write_line_outlined_dashed(int x0, int y0, int x1, int y1,
 		ystep = -1;
 	}
 	// Draw the outline.
+	int dot_cnt = 0;
+	int draw    = 1;
 	for (x = x0; x < x1; x++) {
-		if (steep) {
-			write_pixel_lm(y - 1, x, mmode, omode);
-			write_pixel_lm(y + 1, x, mmode, omode);
-			write_pixel_lm(y, x - 1, mmode, omode);
-			write_pixel_lm(y, x + 1, mmode, omode);
-		} else {
-			write_pixel_lm(x - 1, y, mmode, omode);
-			write_pixel_lm(x + 1, y, mmode, omode);
-			write_pixel_lm(x, y - 1, mmode, omode);
-			write_pixel_lm(x, y + 1, mmode, omode);
+		if (dots && !(dot_cnt++ % dots)) {
+			draw++;
+		}
+		if (draw % 2) {
+			if (steep) {
+				write_pixel_lm(y - 1, x, mmode, omode);
+				write_pixel_lm(y + 1, x, mmode, omode);
+				write_pixel_lm(y, x - 1, mmode, omode);
+				write_pixel_lm(y, x + 1, mmode, omode);
+			} else {
+				write_pixel_lm(x - 1, y, mmode, omode);
+				write_pixel_lm(x + 1, y, mmode, omode);
+				write_pixel_lm(x, y - 1, mmode, omode);
+				write_pixel_lm(x, y + 1, mmode, omode);
+			}
 		}
 		error -= deltay;
 		if (error < 0) {
@@ -814,8 +821,8 @@ void write_line_outlined_dashed(int x0, int y0, int x1, int y1,
 	// Now draw the innards.
 	error = deltax / 2;
 	y     = y0;
-	int dot_cnt = 0;
-	int draw    = 1;
+	dot_cnt = 0;
+	draw    = 1;
 	for (x = x0; x < x1; x++) {
 		if (dots && !(dot_cnt++ % dots)) {
 			draw++;
@@ -1158,6 +1165,17 @@ void write_string(char *str, int x, int y, int xs, int ys, int va, int ha, int f
 		yy = y - dim.height;
 		break;
 	}
+
+	// XXX the vertical alignment is not perfect for some reason..
+	switch (font_info.id) {
+		case 2:
+			yy += 1;
+			break;
+		case 3:
+			yy -= 3;
+			break;
+	}
+
 	switch (ha) {
 	case TEXT_HA_LEFT:
 		xx = x;
@@ -1187,6 +1205,59 @@ void write_string(char *str, int x, int y, int xs, int ys, int va, int ha, int f
 		}
 		str++;
 	}
+}
+
+/**
+ * Draw a polygon
+ *
+ */
+void draw_polygon(int16_t x, int16_t y, float angle, const point_t * points, uint8_t n_points, int mode, int mmode)
+{
+	float sin_angle, cos_angle;
+	int16_t x1, y1, x2, y2;
+
+	if (angle > 0) {
+		sin_angle    = sin_lookup_deg(angle);
+		cos_angle    = cos_lookup_deg(angle);
+	}
+	else {
+		sin_angle    = -1 * sin_lookup_deg(-1 * angle);
+		cos_angle    = cos_lookup_deg(-1 * angle);
+	}
+
+	x1 = roundf(cos_angle * points[0].x - sin_angle * points[0].y);
+	y1 = roundf(sin_angle * points[0].x + cos_angle * points[0].y);
+	x2 = 0; // so compiler doesn't give a warning
+	y2 = 0;
+
+	for (int i=0; i<n_points-1; i++)
+	{
+		x2 = roundf(cos_angle * points[i + 1].x - sin_angle * points[i + 1].y);
+		y2 = roundf(sin_angle * points[i + 1].x + cos_angle * points[i + 1].y);
+
+		write_line_outlined(x + x1, y + y1, x + x2, y + y2, 2, 2, mode, mmode);
+		x1 = x2;
+		y1 = y2;
+	}
+
+	x1 = roundf(cos_angle * points[0].x - sin_angle * points[0].y);
+	y1 = roundf(sin_angle * points[0].x + cos_angle * points[0].y);
+	write_line_outlined(x + x1, y + y1, x + x2, y + y2, 2, 2, mode, mmode);
+
+	for (int i=0; i<n_points-1; i++)
+	{
+		x2 = roundf(cos_angle * points[i + 1].x - sin_angle * points[i + 1].y);
+		y2 = roundf(sin_angle * points[i + 1].x + cos_angle * points[i + 1].y);
+
+		write_line(draw_buffer_level, x + x1, y + y1, x + x2, y + y2, 1);
+		x1 = x2;
+		y1 = y2;
+	}
+
+	x1 = roundf(cos_angle * points[0].x - sin_angle * points[0].y);
+	y1 = roundf(sin_angle * points[0].x + cos_angle * points[0].y);
+
+	write_line(draw_buffer_level, x + x1, y + y1, x + x2, y + y2, 1);
 }
 
 /**

@@ -135,6 +135,12 @@ struct FontDimensions {
 	int width, height;
 };
 
+// Structure for a point
+typedef struct {
+	int16_t x;
+	int16_t y;
+} point_t;
+
 void plotFourQuadrants(int32_t centerX, int32_t centerY, int32_t deltaX, int32_t deltaY);
 void ellipse(int centerX, int centerY, int horizontalRadius, int verticalRadius);
 void drawArrow(uint16_t x, uint16_t y, uint16_t angle, uint16_t size_quarter);
@@ -170,7 +176,7 @@ void write_char16(char ch, int x, int y, int flags, int font);
 void write_char(char ch, int x, int y, int flags, int font);
 void calc_text_dimensions(char *str, struct FontEntry font, int xs, int ys, struct FontDimensions *dim);
 void write_string(char *str, int x, int y, int xs, int ys, int va, int ha, int flags, int font);
-
+void draw_polygon(int16_t x, int16_t y, float angle, const point_t * points, uint8_t n_points, int mode, int mmode);
 void lla_to_ned(int32_t lat, int32_t lon, float alt, float *NED);
 #endif /* OSDUTILS_H */
 

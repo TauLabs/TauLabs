@@ -82,6 +82,7 @@
 #include "baroaltitude.h"
 #include "flightstatus.h"
 #include "flightbatterystate.h"
+#include "flightbatterysettings.h"
 #include "gpsposition.h"
 #include "positionactual.h"
 #include "gpstime.h"
@@ -103,7 +104,7 @@
 #include "font12x18.h"
 #include "font8x10.h"
 #include "WMMInternal.h"
-#include "logos.h"
+#include "images.h"
 #include "mgrs.h"
 
 extern uint8_t PIOS_Board_Revision(void);
@@ -131,6 +132,38 @@ const char METRIC_DIST_UNIT_SHORT[] = "m";
 const char IMPERIAL_DIST_UNIT_LONG[] = "M";
 const char IMPERIAL_DIST_UNIT_SHORT[] = "ft";
 
+
+const point_t HOME_ARROW[] = {
+	{
+		.x = 0,
+		.y = -10,
+	},
+	{
+		.x = 9,
+		.y = 1,
+	},
+	{
+		.x = 3,
+		.y = 1,
+	},
+	{
+		.x = 3,
+		.y = 8,
+	},
+	{
+		.x = -3,
+		.y = 8,
+	},
+	{
+		.x = -3,
+		.y = 1,
+	},
+	{
+		.x = -9,
+		.y = 1,
+	}
+};
+
 // Unit conversion constants
 #define MS_TO_KMH 3.6f
 #define MS_TO_MPH 2.23694f
@@ -157,8 +190,12 @@ char mgrs_str[20] = {0};
 float home_baro_altitude = 0;
 static volatile bool osd_settings_updated = true;
 static volatile bool osd_page_updated = true;
+static OnScreenDisplaySettingsData osd_settings;
+static bool blink;
+static AccelsData accelsDataAcc;
 //                     small, normal, large
 const int SIZE_TO_FONT[3] = {2, 0, 3};
+
 
 #ifdef DEBUG_TIMING
 static portTickType in_ticks  = 0;
@@ -176,34 +213,39 @@ void clearGraphics()
 
 void draw_image(uint16_t x, uint16_t y, const struct Image * image)
 {
-	x /= 8;  // column position in bytes
+	CHECK_COORDS(x + image->width, y + image->height);
 	uint8_t byte_width = image->width / 8;
+	uint8_t pixel_offset = x % 8;
+	uint8_t mask1 = 0xFF;
+	uint8_t mask2 = 0x00;
 
-	for (uint16_t xp = 0; xp < image->width / 8; xp++){
-		for (uint16_t yp = 0; yp < image->height; yp++){
-			draw_buffer_level[(y + yp) * BUFFER_WIDTH + xp + x] = image->level[yp * byte_width + xp];
-			draw_buffer_mask[(y + yp) * BUFFER_WIDTH + xp + x] = image->mask[yp * byte_width + xp];
+	if (pixel_offset > 0) {
+		for (uint8_t i=0; i<pixel_offset; i++) {
+			mask2 |= 0x01 << i;
+		}
+		mask1 = ~mask2;
+	}
+
+	for (uint16_t yp = 0; yp < image->height; yp++){
+		for (uint16_t xp = 0; xp < image->width / 8; xp++){
+			draw_buffer_level[(y + yp) * BUFFER_WIDTH + xp + x / 8] |= (image->level[yp * byte_width + xp] & mask1) >> pixel_offset;
+			draw_buffer_mask[(y + yp) * BUFFER_WIDTH + xp + x / 8] |= (image->mask[yp * byte_width + xp] & mask1) >> pixel_offset;
+			if (pixel_offset > 0) {
+				draw_buffer_level[(y + yp) * BUFFER_WIDTH + xp + x / 8 + 1] |= (image->level[yp * byte_width + xp] & mask2) << (8 - pixel_offset);
+				draw_buffer_mask[(y + yp) * BUFFER_WIDTH + xp + x / 8 + 1] |= (image->mask[yp * byte_width + xp] & mask2) << (8 - pixel_offset);
+			}
 		}
 	}
 }
 
 void drawBattery(uint16_t x, uint16_t y, uint8_t battery, uint16_t size)
 {
-	int i = 0;
-	int batteryLines;
-
-	write_rectangle_outlined((x) - 1, (y) - 1 + 2, size, size * 3, 0, 1);
-	write_vline_lm((x) - 1 + (size / 2 + size / 4) + 1, (y) - 2, (y) - 1 + 1, 0, 1);
-	write_vline_lm((x) - 1 + (size / 2 - size / 4) - 1, (y) - 2, (y) - 1 + 1, 0, 1);
-	write_hline_lm((x) - 1 + (size / 2 - size / 4), (x) - 1 + (size / 2 + size / 4), (y) - 2, 0, 1);
-	write_hline_lm((x) - 1 + (size / 2 - size / 4), (x) - 1 + (size / 2 + size / 4), (y) - 1, 1, 1);
-	write_hline_lm((x) - 1 + (size / 2 - size / 4), (x) - 1 + (size / 2 + size / 4), (y) - 1 + 1, 1, 1);
-
-	batteryLines = battery * (size * 3 - 2) / 100;
-	for (i = 0; i < batteryLines; i++) {
-		write_hline_lm((x) - 1, (x) - 1 + size, (y) - 1 + size * 3 - i, 1, 1);
-	}
+	write_rectangle_outlined(x - 2, y + 2, 2, size / 3 - 4, 0, 1);
+	write_rectangle_outlined(x, y, size, size / 3, 0, 1);
+	uint8_t charge_width =  battery * (size - 2) / 100;
+	write_filled_rectangle_lm(x + size - charge_width, y + 1, charge_width, size / 3, 1, 1);
 }
+
 
 /**
  * hud_draw_vertical_scale: Draw a vertical scale.
@@ -344,9 +386,9 @@ void hud_draw_vertical_scale(int v, int range, int halign, int x, int y, int hei
 	}
 	// Draw the text.
 	if (halign == -1) {
-		write_string(temp, xx + width / 2, y, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, VSCALE_FONT);
+		write_string(temp, xx + width / 2, y - 1, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, VSCALE_FONT);
 	} else {
-		write_string(temp, xx - width / 2, y, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, VSCALE_FONT);
+		write_string(temp, xx - width / 2, y - 1, 1, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, VSCALE_FONT);
 	}
 #ifdef VERTICAL_SCALE_BRUTE_FORCE_BLANK_OUT
 	// This is a bad brute force method destuctive to other things that maybe drawn underneath like e.g. the artificial horizon:
@@ -500,16 +542,22 @@ void hud_draw_linear_compass(int v, int home_dir, int range, int width, int x, i
 #define CENTER_BODY       3
 #define CENTER_WING       7
 #define CENTER_RUDDER     5
+#define PITCH_STEP       10
 void simple_artifical_horizon(float roll, float pitch, int16_t x, int16_t y, int16_t width, int16_t height,
-							  int8_t max_pitch)
+							  int8_t max_pitch, uint8_t n_pitch_steps)
 {
 	float sin_roll;
 	float cos_roll;
-	int16_t d_x; // delta x
-	int16_t d_y; // delta y
+	int16_t d_x, d_x2; // delta x
+	int16_t d_y, d_y2; // delta y
+	char tmp_str[5];
 
 	int16_t pp_x; // pitch point x
 	int16_t pp_y; // pitch point y
+	int16_t d_x_10, d_y_10, d_x_2, d_y_2;
+
+	int16_t pp_x2;
+	int16_t pp_y2;
 
 	if (roll > 0) {
 		sin_roll    = sin_lookup_deg(roll);
@@ -527,13 +575,45 @@ void simple_artifical_horizon(float roll, float pitch, int16_t x, int16_t y, int
 	// main horizon
 	d_x = cos_roll * width / 2;
 	d_y = sin_roll * width / 2;
-	write_line_outlined_dashed(pp_x - d_x, pp_y + d_y, pp_x + d_x, pp_y - d_y, 2, 2, 0, 1, 0);
+	write_line_outlined(pp_x - d_x, pp_y + d_y, pp_x - d_x / 3, pp_y + d_y / 3, 2, 2, 0, 1);
+	write_line_outlined(pp_x + d_x / 3, pp_y - d_y / 3, pp_x + d_x, pp_y - d_y, 2, 2, 0, 1);
 
-	// center mark
-	//write_circle_outlined(x, y, CENTER_BODY, 0, 0, 0, 1);
-	write_line_outlined(x - CENTER_WING - CENTER_BODY, y, x - CENTER_BODY, y, 2, 0, 0, 1);
-	write_line_outlined(x + 1 + CENTER_BODY, y, x + 1 + CENTER_BODY + CENTER_WING, y, 0, 2, 0, 1);
-	write_line_outlined(x, y - CENTER_RUDDER - CENTER_BODY, x, y - CENTER_BODY, 2, 0, 0, 1);
+
+	// 10 degree steps
+	d_x = 3 * d_x / 4;
+	d_y = 3 * d_y / 4;
+	d_x2 = 3 * d_x / 4;
+	d_y2 = 3 * d_y / 4;
+
+	d_x_10 = x * sin_roll * 10.f / (float)max_pitch;
+	d_y_10 = y * cos_roll * 10.f / (float)max_pitch;
+	d_x_2 = d_x_10 / 6;
+	d_y_2 = d_y_10 / 6;
+
+	for (int i=1; i<=n_pitch_steps; i++) {
+		sprintf(tmp_str, "%d", i * PITCH_STEP);
+
+		pp_x2 = pp_x - i * d_x_10;
+		pp_y2 = pp_y - i * d_y_10;;
+
+		write_line_outlined(pp_x2 - d_x2, pp_y2 + d_y2, pp_x2 + d_x2, pp_y2 - d_y2, 2, 2, 0, 1);
+		write_line_outlined(pp_x2 - d_x2, pp_y2 + d_y2, pp_x2 - d_x2 + d_x_2, pp_y2 + d_y2 + d_y_2, 2, 2, 0, 1);
+		write_line_outlined(pp_x2 + d_x2, pp_y2 - d_y2, pp_x2 + d_x2 + d_x_2, pp_y2 - d_y2 + d_y_2, 2, 2, 0, 1);
+
+		write_string(tmp_str, pp_x2 - d_x - 4, pp_y2 + d_y, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, 1);
+		write_string(tmp_str, pp_x2 + d_x + 4, pp_y2 - d_y, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, 1);
+
+		pp_x2 = pp_x + i * d_x_10;
+		pp_y2 = pp_y + i * d_y_10;;
+
+
+		write_line_outlined_dashed(pp_x2 - d_x2, pp_y2 + d_y2, pp_x2 + d_x2, pp_y2 - d_y2, 2, 2, 0, 1, 5);
+		write_line_outlined(pp_x2 - d_x2, pp_y2 + d_y2, pp_x2 - d_x2 - d_x_2, pp_y2 + d_y2 - d_y_2, 2, 2, 0, 1);
+		write_line_outlined(pp_x2 + d_x2, pp_y2 - d_y2, pp_x2 + d_x2 - d_x_2, pp_y2 - d_y2 - d_y_2, 2, 2, 0, 1);
+
+		write_string(tmp_str, pp_x2 - d_x - 4, pp_y2 + d_y, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, 1);
+		write_string(tmp_str, pp_x2 + d_x + 4, pp_y2 - d_y, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_CENTER, 0, 1);
+	}
 }
 
 void draw_flight_mode(int x, int y, int xs, int ys, int va, int ha, int flags, int font)
@@ -675,8 +755,7 @@ void draw_alarms(int x, int y, int xs, int ys, int va, int ha, int flags, int fo
 			if (str_pos + this_len + 2 >= sizeof(temp))
 				break;
 
-			if ((alarm.Alarm[ALL_ALRARMS[pos]] != SYSTEMALARMS_ALARM_WARNING)
-				&& (frame_counter % BLINK_INTERVAL_FRAMES < BLINK_INTERVAL_FRAMES / 2)){
+			if ((alarm.Alarm[ALL_ALRARMS[pos]] != SYSTEMALARMS_ALARM_WARNING) && !blink){
 				// for alarms, we blink
 				this_len += 1;
 				while (this_len > 0){
@@ -762,8 +841,7 @@ void draw_map_home_center(int width_px, int height_px, int width_m, int height_m
 
 	// decide wether the UAV is outside of the map range and where to draw it
 	if ((2.0f * (float)fabs(p_north) > height_m) || (2.0f * (float)fabs(p_east) > width_m)) {
-		draw_uav = frame_counter % BLINK_INTERVAL_FRAMES < BLINK_INTERVAL_FRAMES / 2;
-		if (draw_uav) {
+		if (blink) {
 			aspect = (float)width_m / (float)height_m;
 			aspect_pos = p_north / p_east;
 			if ((float)fabs(aspect_pos) < aspect) {
@@ -777,6 +855,10 @@ void draw_map_home_center(int width_px, int height_px, int width_m, int height_m
 			}
 			p_north_draw = GRAPHICS_Y_MIDDLE - p_north_draw * scale_y;
 			p_east_draw = GRAPHICS_X_MIDDLE + p_east_draw * scale_x;
+			draw_uav = true;
+		}
+		else {
+			draw_uav = false;
 		}
 	} else {
 		// inside map
@@ -814,7 +896,6 @@ void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m,
 	float scale_x, scale_y;
 	float p_north, p_east, p_north_draw, p_east_draw, p_north_draw2, p_east_draw2, yaw, aspect, aspect_pos, sin_yaw, cos_yaw;
 	int x, y;
-	bool draw_outside = frame_counter % BLINK_INTERVAL_FRAMES < BLINK_INTERVAL_FRAMES / 2;
 	bool draw_this_wp = false;
 
 	// scaling
@@ -851,7 +932,7 @@ void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m,
 
 			draw_this_wp = false;
 			if ((2.0f * (float)fabs(p_north_draw) > height_m) || (2.0f * (float)fabs(p_east_draw) > width_m)) {
-				if (draw_outside) {
+				if (blink) {
 					aspect_pos = p_north_draw / p_east_draw;
 					if ((float)fabs(aspect_pos) < aspect) {
 						// left or right of map
@@ -885,7 +966,7 @@ void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m,
 	p_north_draw = sin_yaw * -1 * p_east - cos_yaw * p_north;
 
 	if ((2.0f * (float)fabs(p_north_draw) > height_m) || (2.0f * (float)fabs(p_east_draw) > width_m)) {
-		if (draw_outside) {
+		if (blink) {
 			aspect_pos = p_north_draw / p_east_draw;
 			if ((float)fabs(aspect_pos) < aspect) {
 				// left or right of map
@@ -924,7 +1005,7 @@ void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m,
 			p_north_draw = sin_yaw * p_east_draw2 + cos_yaw * p_north_draw2;
 
 			if ((2.0f * (float)fabs(p_north_draw) > height_m) || (2.0f * (float)fabs(p_east_draw) > width_m)) {
-				if (draw_outside) {
+				if (blink) {
 					aspect_pos = p_north_draw / p_east_draw;
 					if ((float)fabs(aspect_pos) < aspect) {
 						// left or right of map
@@ -1013,7 +1094,6 @@ void showVideoType(int16_t x, int16_t y)
 }
 
 const char * HOME_LABELS[] = {"", "Home: "};
-const char * RSSI_LABELS[] = {"", "RSSI: "};
 
 void render_user_page(OnScreenDisplayPageSettingsData * page)
 {
@@ -1023,6 +1103,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	int home_dir = -1;
 	uint8_t tmp_uint8;
 	int16_t tmp_int16;
+	uint32_t tmp_uint32;
 	int tmp_int1, tmp_int2;
 
 	if (page == NULL)
@@ -1036,6 +1117,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		if (page->HomeDistance)
 			home_dist = (float)sqrt(tmp * tmp + tmp1 * tmp1) * convert_distance;
 
+		// XXX check HomeArrow
 		if (page->CompassHomeDir)
 			home_dir = (int)(atan2f(tmp1, tmp) * RAD2DEG) + 180;
 	}
@@ -1075,6 +1157,19 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		else
 			hud_draw_vertical_scale(tmp * convert_distance, 100, 1, page->AltitudeScalePos, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 10000, 0);
 	}
+
+	// Altitude Numeric
+	if (page->AltitudeNumeric) {
+		if (page->AltitudeNumericSource == ONSCREENDISPLAYPAGESETTINGS_ALTITUDENUMERICSOURCE_BARO) {
+			BaroAltitudeAltitudeGet(&tmp);
+			tmp -= home_baro_altitude;
+		} else {
+			PositionActualDownGet(&tmp);
+			tmp *= -1.0f;
+		}
+		sprintf(tmp_str, "%d", (int)(tmp * convert_distance));
+		write_string(tmp_str, page->AltitudeNumericPosX, page->AltitudeNumericPosY, 0, 0, TEXT_VA_TOP, (int)page->AltitudeNumericAlign, 0, SIZE_TO_FONT[page->AltitudeNumericFont]);
+	}
 	
 	// Arming Status
 	if (page->ArmStatus) {
@@ -1087,9 +1182,16 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	if (page->ArtificialHorizon) {
 		AttitudeActualRollGet(&tmp);
 		AttitudeActualPitchGet(&tmp1);
-		simple_artifical_horizon(tmp, tmp1, GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE, 150, 150, page->ArtificialHorizonMaxPitch);
+		simple_artifical_horizon(tmp, tmp1, GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE, 150, 150, page->ArtificialHorizonMaxPitch, page->ArtificialHorizonPitchSteps);
 	}
-	
+
+	// Center mark
+	if (page->CenterMark) {
+		write_line_outlined(GRAPHICS_X_MIDDLE - CENTER_WING - CENTER_BODY, GRAPHICS_Y_MIDDLE, GRAPHICS_X_MIDDLE - CENTER_BODY, GRAPHICS_Y_MIDDLE, 2, 0, 0, 1);
+		write_line_outlined(GRAPHICS_X_MIDDLE + 1 + CENTER_BODY, GRAPHICS_Y_MIDDLE, GRAPHICS_X_MIDDLE + 1 + CENTER_BODY + CENTER_WING, GRAPHICS_Y_MIDDLE, 0, 2, 0, 1);
+		write_line_outlined(GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE - CENTER_RUDDER - CENTER_BODY, GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE - CENTER_BODY, 2, 0, 0, 1);
+	}
+
 	// Battery
 	if (module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 		if (page->BatteryVolt) {
@@ -1107,6 +1209,12 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 			sprintf(tmp_str, "%0.0fmAh", (double)tmp);
 			write_string(tmp_str, page->BatteryConsumedPosX, page->BatteryConsumedPosY, 0, 0, TEXT_VA_TOP, (int)page->BatteryConsumedAlign, 0, SIZE_TO_FONT[page->BatteryConsumedFont]);
 		}
+
+		if (page->BatteryChargeState) {
+			FlightBatteryStateConsumedEnergyGet(&tmp);
+			FlightBatterySettingsCapacityGet(&tmp_uint32);
+			drawBattery(page->BatteryChargeStatePosX, page->BatteryChargeStatePosY, 100 - 100 * tmp / tmp_uint32, 24);
+		}
 	}
 
 	// Climb rate
@@ -1121,9 +1229,28 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		AttitudeActualYawGet(&tmp);
 		if (tmp < 0)
 			tmp += 360;
-		hud_draw_linear_compass(tmp, home_dir, 120, 180, GRAPHICS_X_MIDDLE, (int)page->CompassPos, 15, 30, 5, 8, 0);
+		if (page->CompassHomeDir) {
+			hud_draw_linear_compass(tmp, home_dir, 120, 180, GRAPHICS_X_MIDDLE, (int)page->CompassPos, 15, 30, 5, 8, 0);
+		}
+		else {
+			hud_draw_linear_compass(tmp, -1, 120, 180, GRAPHICS_X_MIDDLE, (int)page->CompassPos, 15, 30, 5, 8, 0);
+		}
 	}
-	
+
+	// Custom text
+	if (page->CustomText) {
+		write_string((char *)osd_settings.CustomText, page->CustomTextPosX, page->CustomTextPosY, 0, 0, TEXT_VA_TOP, (int)page->CustomTextAlign, 0, SIZE_TO_FONT[page->CustomTextFont]);
+	}
+
+	// Home arrow
+	if (page->HomeArrow) {
+		if (!page->Compass) {
+			AttitudeActualYawGet(&tmp);
+		}
+		tmp = fmodf(home_dir -tmp, 360.f);
+		draw_polygon(page->HomeArrowPosX, page->HomeArrowPosY, tmp, HOME_ARROW, NELEMENTS(HOME_ARROW), 0, 1);
+	}
+
 	// CPU utilization
 	if (page->Cpu) {
 		SystemStatsCPULoadGet(&tmp_uint8);
@@ -1140,7 +1267,12 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	if (page->GForce) {
 		AccelsData accelsData;
 		AccelsGet(&accelsData);
-		tmp = sqrtf(powf(accelsData.x, 2.f) + powf(accelsData.y, 2.f) + powf(accelsData.z, 2.f)) / 9.81f;
+		// apply low pass filter to reduce noise bias
+		accelsDataAcc.x = 0.8f * accelsDataAcc.x + 0.2f * accelsData.x;
+		accelsDataAcc.y = 0.8f * accelsDataAcc.y + 0.2f * accelsData.y;
+		accelsDataAcc.z = 0.8f * accelsDataAcc.z + 0.2f * accelsData.z;
+
+		tmp = sqrtf(powf(accelsDataAcc.x, 2.f) + powf(accelsDataAcc.y, 2.f) + powf(accelsDataAcc.z, 2.f)) / 9.81f;
 		sprintf(tmp_str, "%0.1fG", (double)tmp);
 		write_string(tmp_str, page->GForcePosX, page->GForcePosY, 0, 0, TEXT_VA_TOP, (int)page->GForceAlign, 0, SIZE_TO_FONT[page->GForceFont]);
 	}
@@ -1152,25 +1284,27 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		GPSPositionData gps_data;
 		GPSPositionGet(&gps_data);
 
+		draw_image(page->GpsStatusPosX, page->GpsStatusPosY - image_gps.height / 2, &image_gps);
+
 		if (page->GpsStatus) {
 			switch (gps_data.Status)
 			{
 				case GPSPOSITION_STATUS_NOFIX:
-					sprintf(tmp_str, "NOFIX");
+					sprintf(tmp_str, "NO");
 					break;
 				case GPSPOSITION_STATUS_FIX2D:
-					sprintf(tmp_str, "FIX:2D Sats: %d", (int)gps_data.Satellites);
+					sprintf(tmp_str, "2D %d %0.1f", (int)gps_data.Satellites, (double)gps_data.HDOP);
 					break;
 				case GPSPOSITION_STATUS_FIX3D:
-					sprintf(tmp_str, "FIX:3D Sats: %d", (int)gps_data.Satellites);
+					sprintf(tmp_str, "3D %d %0.1f", (int)gps_data.Satellites, (double)gps_data.HDOP);
 					break;
 				case GPSPOSITION_STATUS_DIFF3D:
-					sprintf(tmp_str, "FIX:D3D Sats: %d", (int)gps_data.Satellites);
+					sprintf(tmp_str, "D3D %d %0.1f", (int)gps_data.Satellites, (double)gps_data.HDOP);
 					break;
 				default:
 					sprintf(tmp_str, "NOGPS");
 			}
-			write_string(tmp_str, page->GpsStatusPosX, page->GpsStatusPosY, 0, 0, TEXT_VA_TOP, (int)page->GpsStatusAlign, 0, SIZE_TO_FONT[page->GpsStatusFont]);
+			write_string(tmp_str, page->GpsStatusPosX + image_gps.width -4, page->GpsStatusPosY, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_LEFT, 0, SIZE_TO_FONT[page->GpsStatusFont]);
 		}
 
 		if (page->GpsLat) {
@@ -1202,24 +1336,29 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	{
 		tmp = home_dist * convert_distance;
 		if (tmp < convert_distance_divider)
-			sprintf(tmp_str, "%s%d%s", HOME_LABELS[page->HomeDistanceShowText], (int)tmp, dist_unit_short);
+			sprintf(tmp_str, "%d%s", (int)tmp, dist_unit_short);
 		else {
-			if (page->HomeDistanceShowText)
-				sprintf(tmp_str, "Home: %0.2f%s", (double)(tmp / convert_distance_divider), dist_unit_long);
-			else
-				sprintf(tmp_str, "%0.2f%s", (double)(tmp / convert_distance_divider), dist_unit_long);
+			sprintf(tmp_str, "%0.2f%s", (double)(tmp / convert_distance_divider), dist_unit_long);
 		}
-		write_string(tmp_str, page->HomeDistancePosX, page->HomeDistancePosY, 0, 0, TEXT_VA_TOP, (int)page->HomeDistanceAlign, 0, SIZE_TO_FONT[page->HomeDistanceFont]);
+		if (page->HomeDistanceShowIcon) {
+			draw_image(page->HomeDistancePosX, page->HomeDistancePosY - image_home.height / 2, &image_home);
+		}
+		write_string(tmp_str, page->HomeDistancePosX + image_home.width - 4, page->HomeDistancePosY, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_LEFT, 0, SIZE_TO_FONT[page->HomeDistanceFont]);
 	}
 
 	// RSSI
 	if (page->Rssi) {
 		ManualControlCommandRssiGet(&tmp_int16);
-		sprintf(tmp_str, "%s%3d", RSSI_LABELS[page->RssiShowText], tmp_int16);
-		write_string(tmp_str, page->RssiPosX, page->RssiPosY, 0, 0, TEXT_VA_TOP, (int)page->RssiAlign, 0, SIZE_TO_FONT[page->RssiFont]);
+		if (tmp_int16 > osd_settings.RssiWarnThreshold || blink) {
+			sprintf(tmp_str, "%3d", tmp_int16);
+			if (page->RssiShowIcon) { // XXX rename
+				draw_image(page->RssiPosX, page->RssiPosY - image_rssi.height / 2, &image_rssi);
+			}
+			write_string(tmp_str, page->RssiPosX + image_rssi.width - 4, page->RssiPosY, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_LEFT, 0, SIZE_TO_FONT[page->RssiFont]);
+		}
 	}
 
-	// Speed
+	// Speed Scale
 	if (page->SpeedScale) {
 		tmp = 0.f;
 		switch (page->SpeedScaleSource)
@@ -1228,6 +1367,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 				VelocityActualNorthGet(&tmp);
 				VelocityActualEastGet(&tmp1);
 				tmp = sqrt(tmp * tmp + tmp1 * tmp1);
+				sprintf(tmp_str, "%s", "GND");
 				break;
 			case ONSCREENDISPLAYPAGESETTINGS_SPEEDSCALESOURCE_GPS:
 				if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
@@ -1235,16 +1375,48 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 					GPSVelocityEastGet(&tmp1);
 					tmp = sqrt(tmp * tmp + tmp1 * tmp1);
 				}
+				sprintf(tmp_str, "%s", "GND");
 				break;
 			case ONSCREENDISPLAYPAGESETTINGS_SPEEDSCALESOURCE_AIRSPEED:
 				if (module_state[MODULESETTINGS_ADMINSTATE_AIRSPEED] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 					AirspeedActualTrueAirspeedGet(&tmp);
 				}
+				sprintf(tmp_str, "%s", "AIR");
 		}
-		if (page->SpeedScaleAlign == ONSCREENDISPLAYPAGESETTINGS_SPEEDSCALEALIGN_LEFT)
+		if (page->SpeedScaleAlign == ONSCREENDISPLAYPAGESETTINGS_SPEEDSCALEALIGN_LEFT) {
 			hud_draw_vertical_scale(tmp * convert_speed, 30, -1,  page->SpeedScalePos, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 100, 0);
-		else
+			write_string(tmp_str, page->SpeedScalePos + 10, 200, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_LEFT, 0, 1);
+		}
+		else {
 			hud_draw_vertical_scale(tmp * convert_speed, 30, 1,  page->SpeedScalePos, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 100, 0);
+			write_string(tmp_str, page->SpeedScalePos - 30, 200, 0, 0, TEXT_VA_MIDDLE, TEXT_HA_LEFT, 0, 1);
+		}
+	}
+
+	// Speed Numeric
+	if (page->SpeedNumeric) {
+		tmp = 0.f;
+		switch (page->SpeedNumericSource)
+		{
+			case ONSCREENDISPLAYPAGESETTINGS_SPEEDNUMERICSOURCE_NAV:
+				VelocityActualNorthGet(&tmp);
+				VelocityActualEastGet(&tmp1);
+				tmp = sqrt(tmp * tmp + tmp1 * tmp1);
+				break;
+			case ONSCREENDISPLAYPAGESETTINGS_SPEEDNUMERICSOURCE_GPS:
+				if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+					GPSVelocityNorthGet(&tmp);
+					GPSVelocityEastGet(&tmp1);
+					tmp = sqrt(tmp * tmp + tmp1 * tmp1);
+				}
+				break;
+			case ONSCREENDISPLAYPAGESETTINGS_SPEEDNUMERICSOURCE_AIRSPEED:
+				if (module_state[MODULESETTINGS_ADMINSTATE_AIRSPEED] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+					AirspeedActualTrueAirspeedGet(&tmp);
+				}
+		}
+		sprintf(tmp_str, "%d", (int)(tmp * convert_speed));
+		write_string(tmp_str, page->SpeedNumericPosX, page->SpeedNumericPosY, 0, 0, (int)page->SpeedNumericAlign, TEXT_HA_LEFT, 0, SIZE_TO_FONT[page->SpeedNumericFont]);
 	}
 
 	// Time
@@ -1367,7 +1539,6 @@ MODULE_INITCALL(OnScreenDisplayInitialize, OnScreenDisplayStart);
 static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 {
 	AccessoryDesiredData accessory;
-	OnScreenDisplaySettingsData osd_settings;
 	OnScreenDisplayPageSettingsData osd_page_settings;
 
 	uint8_t arm_status;
@@ -1377,6 +1548,9 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 	
 	OnScreenDisplaySettingsGet(&osd_settings);
 	home_baro_altitude = 0.;
+
+	// clear accels data accumulator
+	memset(&accelsDataAcc, 0, sizeof(AccelsData));
 
 	// blank
 	while (PIOS_Thread_Systime() <= BLANK_TIME) {
@@ -1452,6 +1626,9 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 
 				osd_settings_updated = false;
 			}
+
+			// decide whether to show blinking elements
+			blink = frame_counter % BLINK_INTERVAL_FRAMES < BLINK_INTERVAL_FRAMES / 2;
 
 			if (frame_counter % 5 == 0) {
 				// determine current page to use
