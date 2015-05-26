@@ -1,3 +1,4 @@
+#!/usr/bin/python
 
 def video_overlay(pa,ned,pos_des,output_filename):
     # Generate video of the performance during loiter, this
@@ -99,7 +100,7 @@ def main():
         import sys, os
         sys.path.insert(1, os.path.dirname(sys.path[0]))
         from taulabs import telemetry
-        uavo_list = telemetry.GetUavoBasedOnArgs()
+        uavo_list = telemetry.get_telemetry_by_args()
         from taulabs.uavo import UAVO_PositionActual, UAVO_NEDPosition, UAVO_PathDesired
 
         pa = uavo_list.as_numpy_array(UAVO_PositionActual)
