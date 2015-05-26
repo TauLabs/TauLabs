@@ -219,7 +219,7 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             timestamp = overrideTimestamp
 
         if obj is not None:
-            objInstance = obj.instance_from_bytes(buf,
+            objInstance = obj.from_bytes(buf,
                 timestamp, offset=header_fmt.size + timestamp_len + buf_offset) 
 
             received += 1
@@ -238,10 +238,8 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
 def send_object(obj):
     """Generates a string containing a UAVTalk packet describing this object"""
 
-    uavo_def = obj.uavometa
-
     hdr = header_fmt.pack(SYNC_VAL, TYPE_OBJ | TYPE_VER,
-        header_fmt.size + uavo_def.get_size_of_data(),
+        header_fmt.size + obj.get_size_of_data(),
         obj.uavo_id)
 
     packet = hdr + obj.bytes()
