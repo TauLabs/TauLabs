@@ -387,18 +387,18 @@ void OutputChannelForm::updateMaxSpinboxValue(UAVObject *obj)
             // ... and if there's a match, set the maximum values and return
             if (channel-1 == m_index) {
                 if (actuatorSettingsData.TimerUpdateFreq[i] == 0)
-				{
-					// SyncPWM has been selected, limit values to maximum allowed by UAVO
-					ui.actuatorMin->setMaximum(std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max());
-					ui.actuatorMax->setMaximum(std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max());
+                {
+                    // SyncPWM has been selected, limit values to maximum allowed by UAVO
+                    ui.actuatorMin->setMaximum(std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max());
+                    ui.actuatorMax->setMaximum(std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max());
                     return;
-				}
+                }
 
-				double pwm_freq = 0;
-				if (actuatorSettingsData.TimerPwmResolution[i] == ActuatorSettings::TIMERPWMRESOLUTION_1MHZ)
-					pwm_freq = 1000000;
-				else if (actuatorSettingsData.TimerPwmResolution[i] == ActuatorSettings::TIMERPWMRESOLUTION_12MHZ)
-					pwm_freq = 12000000;
+                double pwm_freq = 0;
+                if (actuatorSettingsData.TimerPwmResolution[i] == ActuatorSettings::TIMERPWMRESOLUTION_1MHZ)
+                    pwm_freq = 1000000;
+                else if (actuatorSettingsData.TimerPwmResolution[i] == ActuatorSettings::TIMERPWMRESOLUTION_12MHZ)
+                    pwm_freq = 12000000;
                 double maxPulseWidth = round(pwm_freq / actuatorSettingsData.TimerUpdateFreq[i]);
 
                 // Saturate at the UAVO's maximum value
