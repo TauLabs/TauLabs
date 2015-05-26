@@ -137,11 +137,13 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
 
         # Before there used to be code to handle instance offsetting
         # here, but it looks like it moved (rightfully) into the object
-            
+
+
         # Determine data length
         if pack_type == TYPE_OBJ_REQ or pack_type == TYPE_ACK or pack_type == TYPE_NACK:
             obj_len = 0
             timestamp_len = 0
+            obj = None
         else:
             if obj is not None:
                 timestamp_len = timestamp_fmt.size if pack_type == TYPE_OBJ_TS or pack_type == TYPE_OBJ_ACK_TS else 0
@@ -240,9 +242,18 @@ def send_object(obj):
 
     hdr = header_fmt.pack(SYNC_VAL, TYPE_OBJ | TYPE_VER,
         header_fmt.size + obj.get_size_of_data(),
-        obj.uavo_id)
+        obj._id)
 
-    packet = hdr + obj.bytes()
+    packet = hdr + obj.to_bytes()
+
+    packet += calcCRC(packet)
+
+    return packet
+
+def request_object(obj):
+    """Makes a request for this object"""
+    packet = header_fmt.pack(SYNC_VAL, TYPE_OBJ_REQ | TYPE_VER,
+        header_fmt.size, obj._id)
 
     packet += calcCRC(packet)
 

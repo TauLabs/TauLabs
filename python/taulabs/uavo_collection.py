@@ -1,5 +1,7 @@
 import uavo
 
+import operator
+
 class UAVOCollection(dict):
     def __init__(self):
         self.clear()
@@ -13,6 +15,12 @@ class UAVOCollection(dict):
                 return u
 
         return None
+
+    def get_settings_objects(self):
+        objs = [ u for u in self.itervalues() if u._is_settings ]
+        objs.sort(key=operator.attrgetter('_name'))
+
+        return objs
 
     def from_git_hash(self, githash):
         import subprocess

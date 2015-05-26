@@ -23,13 +23,13 @@ class UAVTupleClass():
         import time
         return cls(cls._name, round(time.time() * 1000), cls._id, *args)
 
-    def bytes(self):
+    def to_bytes(self):
         """ Serializes this object into a byte stream. """
-        return self.packstruct.pack(*flatten(self[3:]))
+        return self._packstruct.pack(*flatten(self[3:]))
 
     @classmethod
     def get_size_of_data(cls):
-        return cls.packstruct.size
+        return cls._packstruct.size
 
     @classmethod
     def from_bytes(cls, data, timestamp, offset=0):
@@ -41,7 +41,7 @@ class UAVTupleClass():
         """
         import struct
 
-        unpack_field_values = cls.packstruct.unpack_from(data, offset)
+        unpack_field_values = cls._packstruct.unpack_from(data, offset)
 
         field_values = []
         field_values.append(cls._name)
@@ -262,13 +262,14 @@ def make_class(xml_file):
     name = 'UAVO_' + name
 
     class tmpClass(namedtuple(name, tuple_fields), UAVTupleClass):
-        packstruct = fmt
+        _packstruct = fmt
         _flat = is_flat
         _name = name
         _id = uavo_id
         _single = is_single_inst
         _num_subelems = num_subelems
         _dtype = dtype
+        _is_settings = is_settings
 
     # This is magic for two reasons.  First, we create the class to have
     # the proper dynamic name.  Second, we override __slots__, so that

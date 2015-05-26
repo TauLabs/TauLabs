@@ -159,7 +159,13 @@ class TelemetryBase():
 
             self._send(uavtalk.send_object(send_obj))
 
-    def __handleFrames(self, frames):
+    def request_object(self, obj):
+        if not self.do_handshaking:
+            raise ValueError("Can only request on handshaking/bidir sessions")
+
+        self._send(uavtalk.request_object(obj))
+
+    def __handle_frames(self, frames):
         objs = []
 
         obj = self.uavtalk_generator.send(frames)
@@ -183,7 +189,7 @@ class TelemetryBase():
                 self.eof=True
 
             for obj in objs:
-                self.last_values[obj.name]=obj
+                self.last_values[obj.__class__]=obj
 
             self.cond.notifyAll()
 
@@ -225,7 +231,7 @@ class TelemetryBase():
             finish_time = None
 
         data = self._receive(finish_time)
-        self.__handleFrames(data)
+        self.__handle_frames(data)
 
     @abstractmethod
     def _receive(self, finish_time):
