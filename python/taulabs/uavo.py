@@ -242,6 +242,14 @@ def make_class(xml_file):
 
     fmt = struct.Struct('<' + ''.join(formats))
 
+    ##### CALCULATE THE NUMPY TYPE ASSOCIATED WITH THIS CLASS ##### 
+
+    dtype  = [('name', 'S20'), ('time', 'double'), ('uavo_id', 'uint')]
+
+    for f in fields:
+        dtype += [(f['name'], '(' + `f['elements']` + ",)" + type_numpy_map[f['type']])]
+
+
     ##### DYNAMICALLY CREATE A CLASS TO CONTAIN THIS OBJECT #####
 
     from collections import namedtuple
@@ -260,6 +268,7 @@ def make_class(xml_file):
         _id = uavo_id
         _single = is_single_inst
         _num_subelems = num_subelems
+        _dtype = dtype
 
     # This is magic for two reasons.  First, we create the class to have
     # the proper dynamic name.  Second, we override __slots__, so that
