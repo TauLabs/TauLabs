@@ -62,8 +62,8 @@ struct pid vtol_pids[VTOL_PID_NUM];
 // Constants used in deadband calculation
 static float vtol_path_m=0, vtol_path_r=0, vtol_end_m=0, vtol_end_r=0;
 
-static int32_t vtol_follower_control_simple(const float dT,
-	const float *hold_pos_ned, bool landing, bool update_status);
+static int32_t vtol_follower_control_impl(const float dT,
+	const float *hold_pos_ned, float *err, bool landing, bool update_status);
 
 /**
  * Interpolate values (groundspeeds, altitudes) over flight legs
@@ -126,7 +126,7 @@ static void vtol_calculate_difference(const float *actual,
 }
 
 /**
- * Clip a velocity 2-vector  while maintaining vector direction.
+ * Clip a velocity 2-vector while maintaining vector direction.
  * @param[in,out] vels velocity to clip
  * @param[in] limit desired limit magnitude.
  *
@@ -255,7 +255,8 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 		}
 
 		// Wait here for new path segment
-		return vtol_follower_control_simple(dT, pathDesired->End, false, false);
+		return vtol_follower_control_impl(dT, pathDesired->End, NULL,
+				false, false);
 	}
 	
 	// Interpolate desired velocity and altitude along the path
@@ -302,8 +303,9 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
  * @param[in] landing whether to descend
  * @param[in] update_status does this update path_status, or does somoene else?
  */
-static int32_t vtol_follower_control_simple(const float dT,
-	const float *hold_pos_ned, bool landing, bool update_status) {
+static int32_t vtol_follower_control_impl(const float dT,
+	const float *hold_pos_ned, float *err, bool landing, bool update_status)
+{
 	PositionActualData positionActual;
 	VelocityDesiredData velocityDesired;
 	
@@ -330,12 +332,22 @@ static int32_t vtol_follower_control_simple(const float dT,
 	float horiz_error_mag = vtol_magnitude(errors_ned, 2);
 	float scale_horiz_error_mag = 0;
 
+	/* If the error is requested, send it out before applying deadbands
+	 * (but after feedforward).  Loiter uses the error to update the
+	 * desired position, and we don't want to water that down with a
+	 * deadband.  (It waters it down itself) */
+	if (err) {
+		err[0] = errors_ned[0];  err[1] = errors_ned[1];
+		err[2] = errors_ned[2];
+	}
+
 	/* Apply a cubic deadband; if we are already really close don't work
 	 * as hard to fix it as if we're far away.  Prevents chasing high
 	 * frequency noise in direction of correction.
 	 *
 	 * That is, when we're far, noise in estimated position mostly results
 	 * in noise/dither in how fast we go towards the target.  When we're
+	 * r
 	 * close, there's a large directional / hunting component.  This
 	 * attenuates that.
 	 */
@@ -408,9 +420,10 @@ static int32_t vtol_follower_control_simple(const float dT,
  * Takes in @ref PositionActual and compares it to @ref PositionDesired
  * and computes @ref VelocityDesired
  */
-int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned)
+int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned,
+		float *err)
 {
-	return vtol_follower_control_simple(dT, hold_pos_ned, false, true);
+	return vtol_follower_control_impl(dT, hold_pos_ned, err, false, true);
 }
 
 /**
@@ -426,7 +439,7 @@ int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned
 int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
 	bool *landed)
 {
-	return vtol_follower_control_simple(dT, hold_pos_ned, false, true);
+	return vtol_follower_control_impl(dT, hold_pos_ned, NULL, false, true);
 }
 
 /**
