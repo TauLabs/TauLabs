@@ -46,8 +46,8 @@ static enum SYNC_PWM *output_channel_mode;
 #endif
 
 /* Private constant definitions */
-#define PWM_MODE_1US_RATE   1000000
-#define PWM_MODE_80NS_RATE  12000000
+#define PWM_MODE_1MHZ_RATE   1000000
+#define PWM_MODE_12MHZ_RATE  12000000
 
 /**
 * Initialise Servos
@@ -147,10 +147,10 @@ void PIOS_Servo_SetMode(const uint16_t * speeds, const enum pwm_mode *pwm_mode, 
 
 			// Based on PWM mode determine the desired output period (which sets the
 			// channel resolution)
-			if (pwm_mode[set] == PWM_MODE_1US) {
-				clk_rate = PWM_MODE_1US_RATE; // Default output timer frequency in hertz
-			} else if (pwm_mode[set] == PWM_MODE_80NS) {
-				clk_rate = PWM_MODE_80NS_RATE; // Default output timer frequency in hertz
+			if (pwm_mode[set] == PWM_MODE_1MHZ) {
+				clk_rate = PWM_MODE_1MHZ_RATE; // Default output timer frequency in hertz
+			} else if (pwm_mode[set] == PWM_MODE_12MHZ) {
+				clk_rate = PWM_MODE_12MHZ_RATE; // Default output timer frequency in hertz
 			}
 
 			if (speeds[set] == 0) {
@@ -214,11 +214,11 @@ void PIOS_Servo_Set(uint8_t servo, float position)
 	/* the math a bit to preserve precision */
 	uint32_t us_to_count = 0;
 	switch(output_channel_resolution[servo]) {
-	case PWM_MODE_1US:
-		us_to_count = PWM_MODE_1US_RATE / 1000000;
+	case PWM_MODE_1MHZ:
+		us_to_count = PWM_MODE_1MHZ_RATE / 1000000;
 		break;
-	case PWM_MODE_80NS:
-		us_to_count = PWM_MODE_80NS_RATE / 1000000;
+	case PWM_MODE_12MHZ:
+		us_to_count = PWM_MODE_12MHZ_RATE / 1000000;
 		break;
 	}
 	position = position * us_to_count;

@@ -690,8 +690,8 @@ static void MixerSettingsUpdatedCb(UAVObjEvent * ev)
 	mixer_settings_updated = true;
 }
 
-#define OUTPUT_MODE_ASSUMPTIONS ( PWM_MODE_1US == ACTUATORSETTINGS_TIMERPWMRESOLUTION_1US ) && \
-                                ( PWM_MODE_80NS == ACTUATORSETTINGS_TIMERPWMRESOLUTION_80NS )
+#define OUTPUT_MODE_ASSUMPTIONS ( PWM_MODE_1MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_1MHZ ) && \
+                                ( PWM_MODE_12MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_12MHZ )
 #if !(OUTPUT_MODE_ASSUMPTIONS)
     #error "ActuatorSettings.TimerPwmResolution does not match PWM_MODE enum"
 #endif

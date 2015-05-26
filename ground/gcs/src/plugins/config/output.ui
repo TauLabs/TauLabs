@@ -924,7 +924,7 @@ Leave at 50Hz for fixed wing.</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Use 80ns resolution for faster timers for more precision.</string>
+                 <string>Use 12MHz resolution for faster timers for more precision.</string>
                 </property>
                </widget>
               </item>
@@ -946,7 +946,7 @@ Leave at 50Hz for fixed wing.</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Use 80ns resolution for faster timers for more precision.</string>
+                 <string>Use 12MHz resolution for faster timers for more precision.</string>
                 </property>
                </widget>
               </item>
@@ -968,7 +968,7 @@ Leave at 50Hz for fixed wing.</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Use 80ns resolution for faster timers for more precision.</string>
+                 <string>Use 12MHz resolution for faster timers for more precision.</string>
                 </property>
                </widget>
               </item>
@@ -990,7 +990,7 @@ Leave at 50Hz for fixed wing.</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Use 80ns resolution for faster timers for more precision.</string>
+                 <string>Use 12MHz resolution for faster timers for more precision.</string>
                 </property>
                </widget>
               </item>
@@ -1012,7 +1012,7 @@ Leave at 50Hz for fixed wing.</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Use 80ns resolution for faster timers for more precision.</string>
+                 <string>Use 12MHz resolution for faster timers for more precision.</string>
                 </property>
                </widget>
               </item>
@@ -1034,7 +1034,7 @@ Leave at 50Hz for fixed wing.</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Use 80ns resolution for faster timers for more precision.</string>
+                 <string>Use 12MHz resolution for faster timers for more precision.</string>
                 </property>
                </widget>
               </item>
