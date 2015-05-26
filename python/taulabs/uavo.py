@@ -117,7 +117,6 @@ class UAVO():
 
     def __init__(self, xml_file):
         self.fields = []
-        self.meta = {}
         self.id = 0
 
         self.hash = 0
@@ -140,11 +139,11 @@ class UAVO():
         self.tree = tree
         self.subs = subs
 
-        self.meta['name']           = subs['object'].get('name')
-        self.meta['is_single_inst'] = int((subs['object'].get('singleinstance') == 'true'))
-        self.meta['is_settings']    = int((subs['object'].get('settings') == 'true'))
+        self.name = subs['object'].get('name')
+        self.is_single_inst = int((subs['object'].get('singleinstance') == 'true'))
+        self.is_settings = int((subs['object'].get('settings') == 'true'))
 
-        self.meta['description']    = subs['description'].text
+        self.description = subs['description'].text
 
         import copy
         import re
@@ -210,12 +209,12 @@ class UAVO():
     def __build_class_of(self):
         from collections import namedtuple
         fields = ['name', 'time', 'uavo_id']
-        if not self.meta['is_single_inst']:
+        if not self.is_single_inst:
             fields.append("inst_id")
 
         fields.extend([f['name'] for f in self.fields])
 
-        name = 'UAVO_' + self.meta['name']
+        name = 'UAVO_' + self.name
 
         self.__form_packformat()
 
@@ -226,7 +225,7 @@ class UAVO():
             uavometa = self
             _name = name
             _id = self.uavo_id
-            _single = self.meta['is_single_inst']
+            _single = self.is_single_inst
 
         # This is magic for two reasons.  First, we create the class to have
         # the proper dynamic name.  Second, we override __slots__, so that
@@ -246,7 +245,7 @@ class UAVO():
         num_subelems = []
 
         # add format for instance-id IFF this is a multi-instance UAVO
-        if not self.meta['is_single_inst']:
+        if not self.is_single_inst:
             # this is multi-instance so the optional instance-id is present
             formats.append('H')
             num_subelems.append(1)
@@ -272,10 +271,10 @@ class UAVO():
         return self.tuple_class.from_bytes(*args, **kwargs)
 
     def __str__(self):
-        return "%s(id='%08x') %s" % (self.meta['name'], self._id, " ".join([f['name'] for f in self.fields]))
+        return "%s(id='%08x') %s" % (self.name, self._id, " ".join([f['name'] for f in self.fields]))
 
     def __repr__(self):
-        return "%s(id='%08x', name=%r)" % (self.__class__, self._id, self.meta['name'])
+        return "%s(id='%08x', name=%r)" % (self.__class__, self._id, self.name)
 
     def __update_hash_byte(self, value):
         self.hash = (self.hash ^ ((self.hash << 5) + (self.hash >> 2) + value)) & 0x0FFFFFFFF
@@ -287,9 +286,9 @@ class UAVO():
     def __calculate_id(self):
         self.hash = 0
 
-        self.__update_hash_string(self.meta['name'])
-        self.__update_hash_byte(self.meta['is_settings'])
-        self.__update_hash_byte(self.meta['is_single_inst'])
+        self.__update_hash_string(self.name)
+        self.__update_hash_byte(self.is_settings)
+        self.__update_hash_byte(self.is_single_inst)
 
         for field in self.fields:
             self.__update_hash_string(field['name'])
