@@ -102,19 +102,6 @@ struct vtol_fsm_transition {
 	enum vtol_fsm_state next_state[FSM_EVENT_NUM_EVENTS];
 };
 
-/**
- * Navigation modes that the states can enable. There is no one to one correspondence
- * between states and these navigation modes as some FSM might have multiple hold states
- * for example. When entering a hold state the FSM will configure the hold parameters and
- * then set the navgiation mode
- */
-enum vtol_nav_mode {
-	VTOL_NAV_HOLD,   /*!< Hold at the configured location @ref do_land*/
-	VTOL_NAV_PATH,   /*!< Fly the configured path @ref do_path*/
-	VTOL_NAV_LAND,   /*!< Land at the desired location @ref do_land */
-	VTOL_NAV_IDLE    /*!< Nothing, no mode configured */
-};
-
 #define MILLI 1000
 
 // State transition methods, typically enabling for certain actions
@@ -127,7 +114,6 @@ static void go_enable_fly_home(void);
 static void go_enable_land_home(void);
 
 // Methods that actually achieve the desired nav mode
-static int32_t do_default(void);
 static int32_t do_hold(void);
 static int32_t do_path(void);
 static int32_t do_requested_path(void);
@@ -199,6 +185,7 @@ const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	},
 	[FSM_STATE_PRE_RTH_HOLD] = {
 		.entry_fn = go_enable_pause_10s_here,
+		.static_fn = do_hold,
 		.timeout = 10 * MILLI,
 		.next_state = {
 			[FSM_EVENT_TIMEOUT] = FSM_STATE_PRE_RTH_RISE,
@@ -218,12 +205,14 @@ const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	},
 	[FSM_STATE_FLYING_PATH] = {
 		.entry_fn = go_enable_fly_home,
+		.static_fn = do_path,
 		.next_state = {
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_POST_RTH_HOLD,
 		},
 	},
 	[FSM_STATE_POST_RTH_HOLD] = {
 		.entry_fn = go_enable_pause_home_10s,
+		.static_fn = do_hold,
 		.timeout = 10 * MILLI,
 		.next_state = {
 			[FSM_EVENT_TIMEOUT] = FSM_STATE_LANDING,
@@ -233,6 +222,7 @@ const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	},
 	[FSM_STATE_LANDING] = {
 		.entry_fn = go_enable_land_home,
+		.static_fn = do_land,
 		.next_state = {
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_DISARM,
 		},
@@ -398,10 +388,6 @@ static int32_t vtol_fsm_static()
 	// If the current state has a static function, call it
 	if (current_goal[curr_state].static_fn) {
 		current_goal[curr_state].static_fn();
-	} else {
-		int32_t ret_val;
-		if ((ret_val = do_default()) < 0)
-			return ret_val;
 	}
 
 	if (vtol_fsm_timer_expired()) {
@@ -419,31 +405,6 @@ static int32_t vtol_fsm_static()
  * navigation action.
  * @{
  */
-
-//! The currently configured navigation mode. Used to sanity check configuration.
-static enum vtol_nav_mode vtol_nav_mode;
-
-/**
- * General methods which based on the selected @ref vtol_nav_mode calls the appropriate
- * specific method
- */
-static int32_t do_default()
-{
-	switch(vtol_nav_mode) {
-	case VTOL_NAV_HOLD:
-		return do_hold();
-	case VTOL_NAV_PATH:
-		return do_path();
-	case VTOL_NAV_LAND:
-		return do_land();
-		break;
-	default:
-		// TODO: error?
-		break;
-	}
-
-	return -1;
-}
 
 //! The setpoint for position hold relative to home in m
 static float vtol_hold_position_ned[3];
@@ -637,8 +598,6 @@ static int32_t do_ph_climb()
  */
 static void hold_position(float north, float east, float down)
 {
-	vtol_nav_mode = VTOL_NAV_HOLD;
-
 	vtol_hold_position_ned[0] = north;
 	vtol_hold_position_ned[1] = east;
 	vtol_hold_position_ned[2] = down;
@@ -670,7 +629,6 @@ static void go_enable_hold_here()
 
 static void go_enable_fly_path()
 {
-	vtol_nav_mode = VTOL_NAV_HOLD;
 }
 
 /**
@@ -688,7 +646,6 @@ static void go_enable_pause_10s_here()
 
 	hold_position(positionActual.North, positionActual.East, positionActual.Down);
 }
-
 
 /**
  * Stay at current location but rise to a minimal location.
@@ -727,8 +684,6 @@ static void go_enable_pause_home_10s()
  */
 static void go_enable_fly_home()
 {
-	vtol_nav_mode = VTOL_NAV_PATH;
-
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
 
@@ -758,8 +713,6 @@ static void go_enable_fly_home()
  */
 static void go_enable_land_home()
 {
-	vtol_nav_mode = VTOL_NAV_LAND;
-
 	vtol_hold_position_ned[0] = 0;
 	vtol_hold_position_ned[1] = 0;
 	vtol_hold_position_ned[2] = 0; // Has no affect
