@@ -2,7 +2,7 @@ import struct
 
 def flatten(lst):
     result = []
-    for element in lst: 
+    for element in lst:
         if hasattr(element, '__iter__'):
             result.extend(flatten(element))
         else:
@@ -53,7 +53,7 @@ class UAVTupleClass():
         # convert from ms to seconds here.
 
         if timestamp != None:
-            field_values.append(timestamp / 1000.0) 
+            field_values.append(timestamp / 1000.0)
         else:
             if cls._single:
                 raw_ts = unpack_field_values.pop(0)
@@ -65,7 +65,7 @@ class UAVTupleClass():
         field_values.append(cls._id)
 
         # add the remaining fields.  If the thing should be nested, construct
-        # an appropriate tuple. 
+        # an appropriate tuple.
         if not cls._flat:
             pos = 0
 
@@ -76,7 +76,7 @@ class UAVTupleClass():
                     field_values.append(tuple(unpack_field_values[pos:pos+n]))
                 pos += n
 
-            field_values = tuple(field_values) 
+            field_values = tuple(field_values)
         else:
             # Short cut; nothing is nested
             field_values = tuple(field_values) + tuple(unpack_field_values)

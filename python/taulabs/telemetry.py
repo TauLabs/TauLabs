@@ -73,7 +73,7 @@ class TelemetryBase():
 
         self.eof = False
 
-    def as_numpy_array(self, match_class): 
+    def as_numpy_array(self, match_class):
         """ Transforms all received instances of a given object to a numpy array.
         
         match_class: the UAVO_* class you'd like to match.
@@ -81,14 +81,14 @@ class TelemetryBase():
 
         import numpy as np
 
-        # Find the subset of this list that is of the requested class 
-        filtered_list = filter(lambda x: isinstance(x, match_class), self) 
+        # Find the subset of this list that is of the requested class
+        filtered_list = filter(lambda x: isinstance(x, match_class), self)
  
-        # Check for an empty list 
-        if filtered_list == []: 
-            return np.array([]) 
+        # Check for an empty list
+        if filtered_list == []:
+            return np.array([])
  
-        return np.array(filtered_list, dtype=match_class._dtype) 
+        return np.array(filtered_list, dtype=match_class._dtype)
 
     def __iter__(self):
         """ Iterator service routine. """
@@ -205,7 +205,7 @@ class TelemetryBase():
 
         def run():
             while not self._done():
-                self.service_connection()    
+                self.service_connection()
 
         t = Thread(target=run, name="telemetry svc thread")
 
@@ -296,7 +296,7 @@ class FDTelemetry(TelemetryBase):
             wrSet.append(self.fd)
 
         now = time.time()
-        if finish_time is None: 
+        if finish_time is None:
             r,w,e = select.select(rdSet, wrSet, [])
         else:
             tm = finish_time-now
@@ -438,7 +438,7 @@ def get_telemetry_by_args(desc="Process telemetry"):
     parser = argparse.ArgumentParser(description=desc)
 
     # Log format indicates this log is using the old file format which
-    # embeds the timestamping information between the UAVTalk packet 
+    # embeds the timestamping information between the UAVTalk packet
     # instead of as part of the packet
     parser.add_argument("-t", "--timestamped",
                         action  = 'store_false',

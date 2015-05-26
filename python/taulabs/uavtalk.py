@@ -17,7 +17,7 @@ __all__ = [ "send_object", "process_stream" ]
 
 # Serialization of header elements
 
-# sync(1) + type(1) + len(2) + objid(4) 
+# sync(1) + type(1) + len(2) + objid(4)
 header_fmt = struct.Struct("<BBHL")
 logheader_fmt = struct.Struct("<IQ")
 timestamp_fmt = struct.Struct("<H")
@@ -93,7 +93,7 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
         # Ensure we have enough room for all the
         # plain required fields to avoid duplicating
         # this code lots.
-        # sync(1) + type(1) + len(2) + objid(4) 
+        # sync(1) + type(1) + len(2) + objid(4)
 
         while (len(buf) < header_fmt.size + buf_offset) or (buf[buf_offset] != chr(SYNC_VAL)):
             #print "waitingsync len=%d, offset=%d"%(len(buf), buf_offset)
@@ -220,7 +220,7 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
 
         if obj is not None:
             objInstance = obj.from_bytes(buf,
-                timestamp, offset=header_fmt.size + timestamp_len + buf_offset) 
+                timestamp, offset=header_fmt.size + timestamp_len + buf_offset)
 
             received += 1
             if not (received % 20000):
