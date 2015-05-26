@@ -59,7 +59,7 @@ static void updateSettings();
 // ****************
 // Private constants
 
-#define GPS_TIMEOUT_MS                  500
+#define GPS_TIMEOUT_MS                  750
 #define GPS_COM_TIMEOUT_MS              100
 
 
@@ -187,7 +187,6 @@ MODULE_INITCALL(GPSInitialize, GPSStart);
 static void gpsTask(void *parameters)
 {
 	uint32_t xDelay = GPS_COM_TIMEOUT_MS;
-	uint32_t timeNowMs = PIOS_Thread_Systime();
 
 	GPSPositionData gpsposition;
 	uint8_t	gpsProtocol;
@@ -198,10 +197,7 @@ static void gpsTask(void *parameters)
 	gps_airspeed_initialize();
 #endif
 
-	timeOfLastUpdateMs = timeNowMs;
-	timeOfLastCommandMs = timeNowMs;
-
-
+reinit:
 #if !defined(PIOS_GPS_MINIMAL)
 	switch (gpsProtocol) {
 #if defined(PIOS_INCLUDE_GPS_UBX_PARSER)
@@ -234,6 +230,9 @@ static void gpsTask(void *parameters)
 	}
 #endif /* PIOS_GPS_MINIMAL */
 
+	timeOfLastUpdateMs = 0;
+	timeOfLastCommandMs = PIOS_Thread_Systime();
+
 	GPSPositionGet(&gpsposition);
 	// Loop forever
 	while (1)
@@ -261,20 +260,22 @@ static void gpsTask(void *parameters)
 			}
 
 			if (res == PARSER_COMPLETE) {
-				timeNowMs = PIOS_Thread_Systime();
-				timeOfLastUpdateMs = timeNowMs;
-				timeOfLastCommandMs = timeNowMs;
+				timeOfLastUpdateMs = PIOS_Thread_Systime();
 			}
 		}
 
 		// Check for GPS timeout
-		timeNowMs = PIOS_Thread_Systime();
+		uint32_t timeNowMs = PIOS_Thread_Systime();
 		if ((timeNowMs - timeOfLastUpdateMs) >= GPS_TIMEOUT_MS) {
 			// we have not received any valid GPS sentences for a while.
 			// either the GPS is not plugged in or a hardware problem or the GPS has locked up.
 			uint8_t status = GPSPOSITION_STATUS_NOGPS;
 			GPSPositionStatusSet(&status);
 			AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_ERROR);
+			/* Don't reinitialize too often. */
+			if ((timeNowMs - timeOfLastCommandMs) >= GPS_TIMEOUT_MS) {
+				goto reinit;
+			}
 		} else {
 			// we appear to be receiving GPS sentences OK, we've had an update
 			//criteria for GPS-OK taken from this post
