@@ -476,7 +476,7 @@ void FlightDataModel::readFromFile(QString fileName)
     QByteArray array=file.readAll();
     QString error;
     if (!doc.setContent(array,&error)) {
-        showErrorDialog("File Parsing Failer", "This file is not a correct XML file");
+        showErrorDialog("File Parsing Failure", "This file is not a correct XML file");
     }
     file.close();
 
