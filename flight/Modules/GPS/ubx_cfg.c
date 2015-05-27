@@ -166,7 +166,7 @@ static void ubx_cfg_set_mode(uintptr_t gps_port) {
         0x00,                  // length msb
         0b0000101,             // mask LSB (fixMode, dyn)
         0x00,                  // mask MSB (reserved)
-        0x06,                  // dynamic model (6 - airborne < 1g)
+        0x07,                  // dynamic model (7 - airborne < 2g)
         0x02,                  // fixmode (2 - 3D only)
         0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,
@@ -263,12 +263,22 @@ static void ubx_cfg_poll_version(uintptr_t gps_port) {
 
 //! Apply firmwaree version specific configuration tweaks
 static void ubx_cfg_version_specific(uintptr_t gps_port, uint8_t ver) {
-    if (ver > 6) {
-        // 10Hz for ver 7+
+    if (ver >= 8) {
+        // 10Hz for ver 8
+        // TODO: 5 Hz if using GLONASS
+        ubx_cfg_set_rate(gps_port, (uint16_t)100);
+    } else if (ver == 7) {
+        // 10Hz for ver 7
         ubx_cfg_set_rate(gps_port, (uint16_t)100);
 
-        // SBAS screwed up on v7 modules w/ v1 firmware
-        ubx_cfg_set_sbas(gps_port, 0);
+        // History: Code here used to disable SBAS.  A survey of other projects
+        // shows no evidence of a defect with SBAS on Neo-7 modules and there
+        // has been no vendor firmware update to improve / fix SBAS.  There is
+        // no documentation as to what any supposed Neo-7 SBAS defect is.
+        //
+        // This code has been left as a comment for now in case any anomalies
+        // are noticed in this area.
+        // ubx_cfg_set_sbas(gps_port, 0);
     } else if (ver == 6) {
         // 10Hz seems to work on 6
         ubx_cfg_set_rate(gps_port, (uint16_t)100);
@@ -354,6 +364,9 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
         ubx_cfg_version_specific(gps_port, floorf(ublox.swVersion));
     else
         ubx_cfg_version_specific(gps_port, 6);
+
+    // Enable satellite-based differential GPS.
+    ubx_cfg_set_sbas(gps_port, 1);
 }
 
 //! Make sure the GPS is set to the same baudrate as the port
