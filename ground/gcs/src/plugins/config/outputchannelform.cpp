@@ -407,7 +407,7 @@ void OutputChannelForm::updateMaxSpinboxValue(UAVObject *obj)
                     if (actuatorSettingsData.TimerPwmResolution[i] == ActuatorSettings::TIMERPWMRESOLUTION_1MHZ)
                         maxPulseWidth = 1000;
                     else if (actuatorSettingsData.TimerPwmResolution[i] == ActuatorSettings::TIMERPWMRESOLUTION_12MHZ)
-                        maxPulseWidth = 8000;
+                        maxPulseWidth = 12000;
                 }
                 
                 ui.actuatorMin->setMaximum(maxPulseWidth);
