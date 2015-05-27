@@ -19,10 +19,6 @@ DESC  = """
 """
 
 #-------------------------------------------------------------------------------
-def normalize_path(path):
-    return os.path.normpath(os.path.join(os.getcwd(), path))
-
-#-------------------------------------------------------------------------------
 def main():
     # Setup the command line arguments.
     parser = argparse.ArgumentParser(usage = USAGE, description = DESC)
@@ -35,25 +31,12 @@ def main():
     # Parse the command-line.
     args = parser.parse_args()
 
-    githash = None
-    if args.githash is not None:
-        githash = args.githash
+    githash = args.githash
 
-    uavo_defs = uavo_collection.UAVOCollection()
-    if githash:
-        uavo_defs.from_git_hash(githash)
-    else:
-        uavo_defs.from_uavo_xml_path("../shared/uavobjectdefinition")
+    tStream = telemetry.NetworkTelemetry()
 
-    print "Found %d unique UAVO definitions" % len(uavo_defs)
-
-    tStream = telemetry.Telemetry(uavo_defs)
-    tStream.open_network()
-
-#    tStream = telemetry.Telemetry(uavo_defs, serviceInIter=False)
-#    tStream.open_network()
+#    tStream = telemetry.NetworkTelemetry(serviceInIter=False)
 #    tStream.start_thread()
-
 
 #    print settingsObjs
 #    print tStream.get_last_values()

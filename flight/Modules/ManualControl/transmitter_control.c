@@ -57,6 +57,14 @@
 #include "pios_usb_rctx.h"
 #endif	/* PIOS_INCLUDE_USB_RCTX */
 
+#if defined(PIOS_INCLUDE_OPENLRS_RCVR)
+#include "pios_openlrs.h"
+#endif /* PIOS_INCLUDE_OPENLRS_RCVR */
+
+#if defined(PIOS_INCLUDE_FRSKY_RSSI)
+#include "pios_frsky_rssi.h"
+#endif /* PIOS_INCLUDE_FRSKY_RSSI */
+
 #define ARMED_THRESHOLD    0.50f
 //safe band to allow a bit of calibration error or trim offset (in microseconds)
 #define CONNECTION_OFFSET_THROTTLE 100
@@ -195,8 +203,6 @@ int32_t transmitter_control_update()
 		switch (settings.RssiType) {
 		case MANUALCONTROLSETTINGS_RSSITYPE_PWM:
 			value = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM], settings.RssiChannelNumber);
-			if(settings.RssiPwmPeriod != 0)
-				value = (value) % (settings.RssiPwmPeriod);
 			break;
 		case MANUALCONTROLSETTINGS_RSSITYPE_PPM:
 			value = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM], settings.RssiChannelNumber);
@@ -205,6 +211,16 @@ int32_t transmitter_control_update()
 #if defined(PIOS_INCLUDE_ADC)
 			value = PIOS_ADC_GetChannelRaw(settings.RssiChannelNumber);
 #endif
+			break;
+		case MANUALCONTROLSETTINGS_RSSITYPE_OPENLRS:
+#if defined(PIOS_INCLUDE_OPENLRS_RCVR)
+			value = PIOS_OpenLRS_RSSI_Get();
+#endif /* PIOS_INCLUDE_OPENLRS_RCVR */
+			break;
+		case MANUALCONTROLSETTINGS_RSSITYPE_FRSKYPWM:
+#if defined(PIOS_INCLUDE_FRSKY_RSSI)
+			value = PIOS_FrSkyRssi_Get();
+#endif /* PIOS_INCLUDE_FRSKY_RSSI */
 			break;
 		}
 		if(value < 0)

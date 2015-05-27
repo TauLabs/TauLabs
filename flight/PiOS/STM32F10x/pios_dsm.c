@@ -155,8 +155,12 @@ static void PIOS_DSM_ResetState(struct pios_dsm_dev *dsm_dev)
 }
 
 /**
- * DSM packets expect to have sequential channel numbers but
- * based on resolution they will be shifted by one position
+ * DSM Resolution Detection:
+ * Satellite RX should be bound as master RX (Odd number of binding pulses),
+ * then transmitter information byte will be used to determine DSM resolution.
+ * If bound as slave RX, routine will fall back to looking at channel order to
+ * determine DSM resolution.  It should be noted that the channel order method 
+ * does not work with all Spektrum system configurations.
  */
 enum dsm_resolution PIOS_DSM_DetectResolution(uint8_t *packet)
 {
@@ -164,30 +168,41 @@ enum dsm_resolution PIOS_DSM_DetectResolution(uint8_t *packet)
 	uint16_t word0, word1;
 	bool bit_10, bit_11;
 
-	uint8_t *s = &packet[2];
+	// Form data words
+	word0 = ((uint16_t)packet[2] << 8) | packet[3];
+	word1 = ((uint16_t)packet[4] << 8) | packet[5];
 
-	// Check for 10 bit
-	word0 = ((uint16_t)s[0] << 8) | s[1];
-	word1 = ((uint16_t)s[2] << 8) | s[3];
-
-	// Don't detect on the second data packets
+	// Can't detect on the second data packet
 	if (word0 & DSM_2ND_FRAME_MASK)
 		return DSM_UNKNOWN;
 
-	channel0 = (word0 >> 10) & 0x0f;
-	channel1 = (word1 >> 10) & 0x0f;
-	bit_10 = (channel0 == 1) && (channel1 == 5);
+	if (packet[1] != 0x00)								// If transmitter information byte != 0, master satellite
+	{
+		if ((packet[1] & DSM_RESOLUTION_MASK) == 0x00)	// Check resolution bit in transmitter information byte
+			return DSM_10BIT;							// and set DSM resolution accordingly
+		else 
+			return DSM_11BIT;
+	}
+	else												// Else slave satellite
+	{
+		// Check for 10 bit
+		channel0 = (word0 >> 10) & 0x0f;
+		channel1 = (word1 >> 10) & 0x0f;
+		bit_10 = (channel0 == 1) && (channel1 == 5);
 
-	// Check for 11 bit
-	channel0 = (word0 >> 11) & 0x0f;
-	channel1 = (word1 >> 11) & 0x0f;
-	bit_11 = (channel0 == 1) && (channel1 == 5);
+		// Check for 11 bit
+		channel0 = (word0 >> 11) & 0x0f;
+		channel1 = (word1 >> 11) & 0x0f;
+		bit_11 = (channel0 == 1) && (channel1 == 5);
 
-	if (bit_10 && !bit_11)
-		return DSM_10BIT;
-	if (bit_11 && !bit_10)
-		return DSM_11BIT;
-	return DSM_UNKNOWN;
+		if (bit_10 && !bit_11)
+			return DSM_10BIT;
+		
+		if (bit_11 && !bit_10)
+			return DSM_11BIT;
+		
+		return DSM_UNKNOWN;		
+	}
 }
 
 /**

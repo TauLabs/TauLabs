@@ -1,5 +1,6 @@
+"""Interface to telemetry streams -- log, network, or serial."""
+
 import socket
-import taulabs
 import time
 import array
 import select
@@ -7,117 +8,164 @@ import errno
 
 import threading
 
-import uavtalk, uavo_collection
+import uavtalk, uavo_collection, uavo
 
-class Telemetry():
+import os
+
+from abc import ABCMeta, abstractmethod
+
+class TelemetryBase():
     """
-    Provides a basic telemetry connection to a flight controller
+    Basic (abstract) implementation of telemetry used by all stream types.
     """
 
-    def __init__(self, uavo_defs=None, githash=None, serviceInIter=True,
-            iterBlocks=True, useWallTime=True):
-        self.sock = None
+    # This is not a complete implemention / must subclass
+    __metaclass__ = ABCMeta
 
-        if uavo_defs is None:
-            uavo_defs = uavo_collection.UAVOCollection()
+    def __init__(self, githash=None, service_in_iter=True,
+            iter_blocks=True, use_walltime=True, do_handshaking=False,
+            gcs_timestamps=False, name=None):
+        """Instantiates a telemetry instance.  Called only by derived classes.
+        
+         - githash: revision control id of the UAVO's used to communicate.
+             if unspecified, we use the version in this source tree.
+         - service_in_iter: whether the actual iterator should service the
+             connection/read the file.  If you don't specify this, you probably
+             want to call start_thread()
+         - iter_blocks: whether the iterator should block for new data.  Only
+             really meaningful for network/serial
+         - use_walltime: if true, automatically place current time into packets
+             received.
+         - do_handshaking: if true, indicates this is an interactive stream
+             where we should speak the UAVO_GCSTelemetryStats connection status
+             protocol.
+         - gcs_timestamps: if true, this means we are reading from a file with
+             the GCS timestamp protocol.
+         - name: a filename to store into .filename for legacy purposes
+        """
 
-            if githash:
-                uavo_defs.from_git_hash(githash)
-            else:
-                uavo_defs.from_uavo_xml_path("../shared/uavobjectdefinition")
+        uavo_defs = uavo_collection.UAVOCollection()
+
+        if githash:
+            uavo_defs.from_git_hash(githash)
+        else:
+            uavo_defs.from_uavo_xml_path("shared/uavobjectdefinition")
+
+        self.githash = githash
 
         self.uavo_defs = uavo_defs
-        self.uavtalk_generator = uavtalk.processStream(uavo_defs,
-            useWallTime=useWallTime)
+        self.uavtalk_generator = uavtalk.process_stream(uavo_defs,
+            use_walltime=use_walltime, gcs_timestamps=gcs_timestamps)
 
         self.uavtalk_generator.send(None)
 
-        self.gcs_telemetry = {v: k for k, v in self.uavo_defs.items() if v.meta['name']=="GCSTelemetryStats"}.items()[0][0]
-
-        self.recv_buf = ''
-        self.send_buf = ''
-
-        self.uavo_list = taulabs.uavo_list.UAVOList(self.uavo_defs)
+        self.uavo_list = []
 
         self.last_values = {}
 
         self.cond = threading.Condition()
 
-        self.serviceInIter = serviceInIter
-        self.iterBlocks = iterBlocks
-        self.iterIdx = 0
+        self.service_in_iter = service_in_iter
+        self.iter_blocks = iter_blocks
+
+        self.do_handshaking = do_handshaking
+        self.filename = name
+
+    def as_numpy_array(self, match_class): 
+        """ Transforms all received instances of a given object to a numpy array.
+        
+        match_class: the UAVO_* class you'd like to match.
+        """
+
+        import numpy as np
+
+        # Find the subset of this list that is of the requested class 
+        filtered_list = filter(lambda x: isinstance(x, match_class), self) 
+ 
+        # Check for an empty list 
+        if filtered_list == []: 
+            return np.array([]) 
+ 
+        # Find the uavo definition associated with this UAVO type 
+        if not "{0:08x}".format(filtered_list[0].uavo_id) in self.uavo_defs: 
+            dtype = None 
+        else: 
+            uavo_def = self.uavo_defs["{0:08x}".format(filtered_list[0].uavo_id)] 
+            dtype  = [('name', 'S20'), ('time', 'double'), ('uavo_id', 'uint')] 
+ 
+            for f in uavo_def.fields: 
+                dtype += [(f['name'], '(' + `f['elements']` + ",)" + uavo_def.type_numpy_map[f['type']])] 
+ 
+        return np.array(filtered_list, dtype=dtype) 
 
     def __iter__(self):
+        """ Iterator service routine. """
+        iterIdx = 0
+
+        self.cond.acquire()
+
         with self.cond:
             while True:
-                if self.iterIdx < len(self.uavo_list):
+                if iterIdx < len(self.uavo_list):
+                    obj = self.uavo_list[iterIdx]
+
+                    iterIdx += 1
+
                     self.cond.release()
-                    yield self.uavo_list[self.iterIdx]
-                    self.iterIdx += 1
-                    self.cond.acquire()
-                elif self.iterBlocks and self.sock:
-                    if self.serviceInIter:
+                    try:
+                        yield obj
+                    finally:
+                        self.cond.acquire()
+                elif self.iter_blocks and not self._done():
+                    if self.service_in_iter:
                         self.cond.release()
 
                         try:
-                            self.serviceConnection()
+                            self.service_connection()
                         finally:
                             self.cond.acquire()
                     else:
                         # wait for another thread to fill it in
                         self.cond.wait()
                 else:
-                    if self.serviceInIter and self.sock:
+                    # Don't really recommend this mode anymore/maybe remove
+                    if self.service_in_iter and not self._done():
                         # Do at least one non-blocking attempt
                         self.cond.release()
 
                         try:
-                            self.serviceConnection(0)
+                            self.service_connection(0)
                         finally:
                             self.cond.acquire()
 
-                    if self.iterIdx >= len(self.uavo_list):
+                    # I think this should probably keep the index so that
+                    # new iterations pick up where we were.. XXX TODO
+                    # takes some thought as to what is "right"
+                    if iterIdx >= len(self.uavo_list):
                         break
 
-    def open_network(self, host="127.0.0.1", port=9000):
-        """ Open a socket on localhost port 9000 """
+    def __make_handshake(self, handshake):
+        return uavo.UAVO_GCSTelemetryStats._make_to_send(0, 0, 0, 0, 0, handshake)
 
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((host, port))
-
-        s.setblocking(0)
-
-        self.sock = s
-
-    def close_network(self):
-        """ Close network socket """
-
-        self.sock.close()
-        self.sock = None
-
-    def __handleHandshake(self, obj):
-        if obj.name == "FlightTelemetryStats":
-            # Handle the telemetry hanshaking
+    def __handle_handshake(self, obj):
+        if obj.name == "UAVO_FlightTelemetryStats":
+            # Handle the telemetry handshaking
 
             (DISCONNECTED, HANDSHAKE_REQ, HANDSHAKE_ACK, CONNECTED) = (0,1,2,3)
 
             if obj.Status == DISCONNECTED:
-                print "Disconnected"
                 # Request handshake
-                send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
-                    self.gcs_telemetry.id, 0, 0, 0, 0, 0, HANDSHAKE_REQ])
+                print "Disconnected"
+                send_obj = self.__make_handshake(HANDSHAKE_REQ)
             elif obj.Status == HANDSHAKE_ACK:
-                print "Handshake ackd"
                 # Say connected
-                send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
-                    self.gcs_telemetry.id, 0, 0, 0, 0, 0, CONNECTED])
+                print "Handshake ackd"
+                send_obj = self.__make_handshake(CONNECTED)
             elif obj.Status == CONNECTED:
                 print "Connected"
-                send_obj = self.gcs_telemetry.tuple_class._make(["GCSTelemetryStats", round(time.time() * 1000), 
-                    self.gcs_telemetry.id, 0, 0, 0, 0, 0, CONNECTED])
-            packet = uavtalk.sendSingleObject(send_obj)
-            self.__send(packet)
+                send_obj = self.__make_handshake(CONNECTED)
 
+            self._send(uavtalk.send_object(send_obj))
 
     def __handleFrames(self, frames):
         objs = []
@@ -125,7 +173,8 @@ class Telemetry():
         obj = self.uavtalk_generator.send(frames)
 
         while obj:
-            self.__handleHandshake(obj)
+            if self.do_handshaking:
+                self.__handle_handshake(obj)
 
             objs.append(obj)
 
@@ -144,21 +193,24 @@ class Telemetry():
             self.cond.notifyAll()
 
     def get_last_values(self):
+        """ Returns the last instance of each kind of object received. """
         with self.cond:
             return self.last_values.copy()
 
     def start_thread(self):
-        if self.serviceInIter:
+        """ Starts a separate thread to service this telemetry connection. """
+        if self.service_in_iter:
+            # TODO sane exceptions here.
             raise
 
-        if not self.sock:
+        if self._done():
             raise
 
         from threading import Thread
 
         def run():
-            while self.sock:
-                self.serviceConnection()    
+            while not self._done():
+                self.service_connection()    
 
         t = Thread(target=run, name="telemetry svc thread")
 
@@ -166,45 +218,93 @@ class Telemetry():
 
         t.start()
 
-    def serviceConnection(self, timeout=None):
+    def service_connection(self, timeout=None):
         """
-        Receive and parse data from a network connection and handle the basic
+        Receive and parse data from a connection and handle the basic
         handshaking with the flight controller
         """
 
         if timeout is not None:
-            finishTime = time.time()+timeout
+            finish_time = time.time() + timeout
         else:
-            finishTime = None
+            finish_time = None
 
-        data = self.__receive(finishTime)
+        data = self._receive(finish_time)
         self.__handleFrames(data)
 
-    def __send(self, msg):
-        """ Send a string out the TCP socket """
+    @abstractmethod
+    def _receive(self, finish_time):
+        return
 
-        self.send_buf += msg
+    # No implementation required, so not abstract
+    def _send(self, msg):
+        return
 
-        self.__select(0)
+    @abstractmethod
+    def _done(self):
+        return True
+
+class FDTelemetry(TelemetryBase):
+    """
+    Implementation of bidirectional telemetry from a file descriptor.
+    
+    Intended for serial and network streams.
+    """
+
+    def __init__(self, fd, *args, **kwargs):
+        """ Instantiates a telemetry instance on a given fd.
+        
+        Probably should only be called by derived classes.
+        
+         - fd: the file descriptor to perform telemetry operations upon
+        
+        Meaningful parameters passed up to TelemetryBase include: githash,
+        service_in_iter, iter_blocks, use_walltime
+        """
+
+        TelemetryBase.__init__(self, do_handshaking=True,
+                gcs_timestamps=False,  *args, **kwargs)
+
+        self.recv_buf = ''
+        self.send_buf = ''
+
+        self.fd = fd
+
+    def _receive(self, finish_time):
+        """ Fetch available data from file descriptor. """
+
+        # Always do some minimal IO if possible
+        self._do_io(0)
+
+        while (len(self.recv_buf) < 1) and self._do_io(finish_time):
+            pass
+
+        if len(self.recv_buf) < 1:
+            return None
+
+        ret = self.recv_buf
+        self.recv_buf = ''
+
+        return ret
 
     # Call select and do one set of IO operations.
-    def __select(self, finishTime):
+    def _do_io(self, finish_time):
         rdSet = []
         wrSet = []
 
         didStuff = False
 
         if len(self.recv_buf) < 1024:
-            rdSet.append(self.sock)
+            rdSet.append(self.fd)
 
         if len(self.send_buf) > 0:
-            wrSet.append(self.sock)
+            wrSet.append(self.fd)
 
         now = time.time()
-        if finishTime is None: 
+        if finish_time is None: 
             r,w,e = select.select(rdSet, wrSet, [])
         else:
-            tm = finishTime-now
+            tm = finish_time-now
             if tm < 0: tm=0
 
             r,w,e = select.select(rdSet, wrSet, [], tm)
@@ -212,36 +312,208 @@ class Telemetry():
         if r:
             # Shouldn't throw an exception-- they just told us
             # it was ready for read.
-            chunk = self.sock.recv(1024)
+            chunk = os.read(self.fd, 1024)
             if chunk == '':
-                raise RuntimeError("socket closed")
+                raise RuntimeError("stream closed")
 
             self.recv_buf = self.recv_buf + chunk
 
             didStuff = True
 
         if w:
-            written = self.sock.send(self.send_buf)
-            self.send_buf = self.send_buf[written:]
+            written = os.write(self.fd, self.send_buf)
+
+            if written > 0:
+                self.send_buf = self.send_buf[written:]
 
             didStuff = True
 
         return didStuff
 
-    def __receive(self, finishTime):
-        """ Fetch available data from TCP socket """
+    def _send(self, msg):
+        """ Send a string out the TCP socket """
 
-        # Always do some minimal IO if possible
-        self.__select(0)
+        self.send_buf += msg
 
-        while (len(self.recv_buf) < 1) and self.__select(finishTime):
-            pass
+        self._do_io(0)
 
-        if len(self.recv_buf) < 1:
-            return None
+    def _done(self):
+        return self.fd is None
 
-        ret=self.recv_buf
-        self.recv_buf=''
+class NetworkTelemetry(FDTelemetry):
+    """ TCP telemetry interface. """
+    def __init__(self, host="127.0.0.1", port=9000, *args, **kwargs):
+        """ Creates a telemetry instance talking over TCP.
+        
+         - host: hostname to connect to (default localhost)
+         - port: port number to communicate on (default 9000)
 
-        return ret
+        Meaningful parameters passed up to TelemetryBase include: githash,
+        service_in_iter, iter_blocks, use_walltime
+        """
 
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((host, port))
+
+        s.setblocking(0)
+
+        self.sock = s
+
+        FDTelemetry.__init__(self, fd=s.fileno(), *args, **kwargs)
+
+# TODO XXX : Plumb appropriate cleanup / file close for these classes
+
+class SerialTelemetry(FDTelemetry):
+    """ Serial telemetry interface """
+    def __init__(self, port, speed=115200, *args, **kwargs):
+        """ Creates telemetry instance talking over (real or virtual) serial port.
+        
+         - port: Serial port path
+         - speed: Baud rate (doesn't really matter for VCP, defaults 115200)
+
+        Meaningful parameters passed up to TelemetryBase include: githash,
+        service_in_iter, iter_blocks, use_walltime
+        
+        Requires the module pyserial to provide OS independance.
+        """
+
+        import serial
+
+        ser = serial.Serial(port, speed)
+
+        FDTelemetry.__init__(self, fd=ser.fileno(), *args, **kwargs)
+
+class FileTelemetry(TelemetryBase):
+    """ Telemetry interface to data in a file """
+
+    def __init__(self, file_obj, parse_header=False,
+             *args, **kwargs):
+        """ Instantiates a telemetry instance reading from a file.
+        
+         - file_obj: the file object to read from
+         - parse_header: whether to read a header like the GCS writes from the
+           file.
+
+        Meaningful parameters passed up to TelemetryBase include: githash,
+        service_in_iter, iter_blocks, gcs_timestamps
+        """
+
+        self.f = file_obj
+
+        if parse_header:
+            # Check the header signature
+            #    First line is "Tau Labs git hash:"
+            #    Second line is the actual git hash
+            #    Third line is the UAVO hash
+            #    Fourth line is "##"
+            sig = self.f.readline()
+            if sig != 'Tau Labs git hash:\n':
+                print "Source file does not have a recognized header signature"
+                print '|' + sig + '|'
+                raise IOError("no header signature")
+            # Determine the git hash that this log file is based on
+            githash = self.f.readline()[:-1]
+            if githash.find(':') != -1:
+                import re
+                githash = re.search(':(\w*)\W', githash).group(1)
+
+            print "Log file is based on git hash: %s" % githash
+
+            uavohash = self.f.readline()
+            divider = self.f.readline()
+
+            TelemetryBase.__init__(self, service_in_iter=False, iter_blocks=True,
+                do_handshaking=False, githash=githash, use_walltime=False,
+                *args, **kwargs)
+        else:
+            TelemetryBase.__init__(self, service_in_iter=False, iter_blocks=True,
+                do_handshaking=False, use_walltime=False, *args, **kwargs)
+
+        self.done=False
+        self.start_thread()
+
+    def _receive(self, finish_time):
+        """ Fetch available data from file """
+
+        buf = self.f.read(128)
+
+        if buf == '':
+            self.done=True
+
+        return buf
+
+    def _done(self):
+        return self.done
+
+def get_telemetry_by_args(desc="Process telemetry"):
+    """ Parses command line to decide how to get a telemetry object. """
+    # Setup the command line arguments.
+    import argparse
+    parser = argparse.ArgumentParser(description=desc)
+
+    # Log format indicates this log is using the old file format which
+    # embeds the timestamping information between the UAVTalk packet 
+    # instead of as part of the packet
+    parser.add_argument("-t", "--timestamped",
+                        action  = 'store_false',
+                        default = True,
+                        help    = "indicate that this is not timestamped in GCS format")
+
+    parser.add_argument("-g", "--githash",
+                        action  = "store",
+                        dest    = "githash",
+                        help    = "override githash for UAVO XML definitions")
+
+    parser.add_argument("-s", "--serial",
+                        action  = "store_true",
+                        default = False,
+                        dest    = "serial",
+                        help    = "indicates that source is a serial port")
+
+    parser.add_argument("-b", "--baudrate",
+                        action  = "store",
+                        dest    = "baud",
+                        help    = "baud rate for serial communications")
+
+    parser.add_argument("source",
+                        help  = "file, host:port, or serial port to get telemetry from")
+
+    # Parse the command-line.
+    args = parser.parse_args()
+
+    parse_header = False
+    githash = None
+
+    if args.githash is not None:
+        # If we specify the log header no need to attempt to parse it
+        githash = args.githash
+    else:
+        parse_header = True # only for files
+
+    from taulabs import telemetry
+
+    if args.serial:
+        return telemetry.SerialTelemetry(args.source, speed=args.baud)
+
+    if args.baud is not None:
+        parser.print_help()
+        raise ValueError("Baud rates only apply to serial ports")
+
+    import os.path
+
+    if os.path.isfile(args.source):
+        file_obj = file(args.source, 'r')
+
+        t = telemetry.FileTelemetry(file_obj, parse_header=parse_header,
+            gcs_timestamps=args.timestamped, name=args.source)
+
+        return t
+
+    # OK, running out of options, time to try the network!
+    host,sep,port = args.source.partition(':')
+
+    if sep != ':':
+        parser.print_help()
+        raise ValueError("Target doesn't exist and isn't a network address")
+
+    return telemetry.NetworkTelemetry(host=host, port=int(port), name=args.source)
