@@ -81,9 +81,6 @@ static struct pios_thread *gpsTaskHandle;
 
 static char* gps_rx_buffer;
 
-static uint32_t timeOfLastCommandMs;
-static uint32_t timeOfLastUpdateMs;
-
 static struct GPS_RX_STATS gpsRxStats;
 
 // ****************
@@ -190,6 +187,9 @@ static void gpsTask(void *parameters)
 
 	GPSPositionData gpsposition;
 	uint8_t	gpsProtocol;
+
+	uint32_t timeOfLastUpdateMs;
+	uint32_t timeOfLastCommandMs;
 
 	ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
 
