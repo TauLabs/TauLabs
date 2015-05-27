@@ -270,15 +270,6 @@ static void ubx_cfg_version_specific(uintptr_t gps_port, uint8_t ver) {
     } else if (ver == 7) {
         // 10Hz for ver 7
         ubx_cfg_set_rate(gps_port, (uint16_t)100);
-
-        // History: Code here used to disable SBAS.  A survey of other projects
-        // shows no evidence of a defect with SBAS on Neo-7 modules and there
-        // has been no vendor firmware update to improve / fix SBAS.  There is
-        // no documentation as to what any supposed Neo-7 SBAS defect is.
-        //
-        // This code has been left as a comment for now in case any anomalies
-        // are noticed in this area.
-        // ubx_cfg_set_sbas(gps_port, 0);
     } else if (ver == 6) {
         // 10Hz seems to work on 6
         ubx_cfg_set_rate(gps_port, (uint16_t)100);
