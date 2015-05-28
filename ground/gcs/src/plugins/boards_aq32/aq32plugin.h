@@ -1,16 +1,13 @@
- /**
+/**
  ******************************************************************************
- * @addtogroup PIOS PIOS Core hardware abstraction layer
- * @{
- * @addtogroup   PIOS_USB USB Setup Functions
- * @brief PIOS interface for USB device driver
- * @{
+ * @file       aq32plugin.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
- * @file       pios_usb_priv.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      USB private definitions.
- * @see        The GNU Public License (GPL) Version 3
- *
+ * @addtogroup GCSPlugins GCS Plugins
+ * @{
+ * @addtogroup Boards_Aq32Plugin Aq32 boards support Plugin
+ * @{
+ * @brief Plugin to support aq32 board
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -27,25 +24,24 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#ifndef AQ32PLUGIN_H
+#define AQ32PLUGIN_H
 
-#ifndef PIOS_USB_PRIV_H
-#define PIOS_USB_PRIV_H
+#include <extensionsystem/iplugin.h>
 
-#include <pios.h>
-#include <pios_stm32.h>
+class Aq32Plugin : public ExtensionSystem::IPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "Aq32.plugins.Aq32" FILE "Aq32.json")
 
-struct pios_usb_cfg {
-	struct stm32_irq irq;
-	struct stm32_gpio vsense;
-	struct stm32_gpio disconnect;
+public:
+   Aq32Plugin();
+   ~Aq32Plugin();
+
+   void extensionsInitialized();
+   bool initialize(const QStringList & arguments, QString * errorString);
+   void shutdown();
+
 };
 
-extern int32_t PIOS_USB_Init(uintptr_t * usb_id, const struct pios_usb_cfg * cfg);
-
-#endif /* PIOS_USB_PRIV_H */
-
-/**
-  * @}
-  * @}
-  */
-
+#endif // AQ32PLUGIN_H

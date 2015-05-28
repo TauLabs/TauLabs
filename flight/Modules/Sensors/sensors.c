@@ -98,6 +98,10 @@ static float z_accel_offset = 0;
 static float Rsb[3][3] = {{0}}; //! Rotation matrix that transforms from the body frame to the sensor board frame
 static int8_t rotate = 0;
 
+#if defined (AQ32)
+// indicates whether the external mag works
+extern bool external_mag_fail;
+#endif
 //! Select the algorithm to try and null out the magnetometer bias error
 static enum mag_calibration_algo mag_calibration_algo = MAG_CALIBRATION_PRELEMARI;
 
@@ -230,10 +234,15 @@ static void SensorsTask(void *parameters)
 
 		}
 
+		#if defined(AQ32)
+		if ((good_runs > REQUIRED_GOOD_CYCLES) && !external_mag_fail)
+		#else
 		if (good_runs > REQUIRED_GOOD_CYCLES)
+		#endif
 			AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);
 		else
 			good_runs++;
+		
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 
 		// Check total time to get the sensors wasn't over the limit

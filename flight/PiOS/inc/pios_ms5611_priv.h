@@ -48,6 +48,9 @@ struct pios_ms5611_cfg {
 
 	//! How many samples of pressure for each temperature measurement
 	uint32_t temperature_interleaving;
+	
+	//! I2C address can either be 0x76 or 0x77
+	uint8_t use_0x76_address;
 };
 
 int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg * cfg, int32_t i2c_device);

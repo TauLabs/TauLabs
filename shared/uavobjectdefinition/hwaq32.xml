@@ -1,0 +1,103 @@
+<xml>
+	<object name="HwAQ32" singleinstance="true" settings="true" category="HardwareSettings">
+		<description>Selection of optional hardware configurations.</description>
+
+		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PPM,PWM,PPMPWM" defaultvalue="Disabled"/>
+
+		<field name="Uart1" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>DebugConsole</option>
+				<option>MavLinkTX</option>
+				<option>HoTT Telemetry</option>
+				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
+				<option>FrSKY SPort Telemetry</option>
+			</options>
+		</field>
+
+		<field name="Uart2" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>GPS</option>
+				<option>MavLinkTX_GPS_RX</option>
+			</options>
+		</field>
+
+		<field name="Uart3" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>GPS</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
+				<option>SBus</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+				<option>HoTT Telemetry</option>
+				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
+				<option>FrSKY Sport Telemetry</option>
+			</options>
+		</field>
+
+		<field name="Uart4" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>DSM</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+			</options>
+		</field>
+
+		<field name="Uart6" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>GPS</option>
+				<option>DSM</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+				<option>HoTT Telemetry</option>
+				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
+				<option>FrSKY Sport Telemetry</option>
+			</options>
+		</field>
+
+		<field name="ADCInputs" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>Enabled</option>
+			</options>
+		</field>
+		
+		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,Disabled" defaultvalue="USBTelemetry"/>
+		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
+
+		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
+
+		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
+		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
+		<field name="MPU6000Rate" units="" type="enum" elements="1" options="200,333,500,666,1000,2000,4000,8000" defaultvalue="666"/>
+		<field name="MPU6000DLPF" units="" type="enum" elements="1" options="256,188,98,42,20,10,5" defaultvalue="256"/>
+		
+		<field name="Magnetometer" units="function" type="enum" elements="1" options="Internal,External" defaultvalue="Internal"/>
+		<field name="ExtMagOrientation" units="function" type="enum" elements="1" options="Top0degCW,Top90degCW,Top180degCW,Top270degCW,Bottom0degCW,Bottom90degCW,Bottom180degCW,Bottom270degCW" defaultvalue="Top0degCW" />
+	
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>
