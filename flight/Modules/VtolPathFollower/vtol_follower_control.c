@@ -106,7 +106,7 @@ static float vtol_magnitude(const float *v, int n)
  * @param[out] the resultant error vector desired-actual
  * @param[in] normalize True if it's desired to normalize the output vector
  */
-static void vtol_calculate_distances(const float *actual,
+static void vtol_calculate_difference(const float *actual,
 	const float *desired, float *out, bool normalize)
 {
 	out[0] = desired[0] - actual[0];
@@ -114,9 +114,9 @@ static void vtol_calculate_distances(const float *actual,
 	out[2] = desired[2] - actual[2];
 
 	if (normalize) {
-		float mag=vtol_magnitude(out, 3);
+		float mag = vtol_magnitude(out, 3);
 
-		if (mag == 0) {
+		if (mag < 0.00001f) {
 			/* Just pick a direction. */
 			out[0] = 1.0; out[1] = 0.0; out[2] = 0.0;
 		} else {
@@ -246,7 +246,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 
 		// Waypoint heights are thus treated as crossing restrictions-
 		// cross this point at or above...
-		if (criterion_altitude) {
+		if (criterion_altitude || current_leg_completed) {
 			pathStatus.Status = PATHSTATUS_STATUS_COMPLETED;
 			PathStatusSet(&pathStatus);
 		} else {
@@ -325,7 +325,7 @@ static int32_t vtol_follower_control_simple(const float dT,
 
 	/* Calculate the difference between where we want to be and the
 	 * above position */
-	vtol_calculate_distances(cur_pos_ned, hold_pos_ned, errors_ned, 0);
+	vtol_calculate_difference(cur_pos_ned, hold_pos_ned, errors_ned, false);
 
 	float horiz_error_mag = vtol_magnitude(errors_ned, 2);
 	float scale_horiz_error_mag = 0;
