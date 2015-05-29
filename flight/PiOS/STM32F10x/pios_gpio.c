@@ -93,6 +93,15 @@ void PIOS_GPIO_Toggle(uint8_t Pin)
 	GPIO_PORT[Pin]->ODR ^= GPIO_PIN[Pin];
 }
 
+/**
+* Read Pin value
+* \param[in] Pin Pin Number
+*/
+uint8_t PIOS_GPIO_Read(uint8_t Pin)
+{
+	return GPIO_ReadInputDataBit(GPIO_PORT[Pin], GPIO_PIN[Pin]);
+}
+
 #endif
 
 /**
