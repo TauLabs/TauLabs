@@ -623,7 +623,7 @@ void SystemI2CWrite(struct ParseState *Parser, struct Value *ReturnValue, struct
 #ifdef PIOS_INCLUDE_GPIO
 /* void GPIOWrite(unsigned int, unsigned int): Writes/sets a general purpose output pin */
 /*(unsigned int pin_num, unsigned int command)*/
-/*unsigned int pin_num: Number of the defined GPIO pin from  target/board-info/pios_board.h; starting from 0*/
+/*unsigned int pin_num: Number of the defined GPIO pin from target/board-info/pios_board.h; starting from 0; user has to check if it is a input or output pin*/
 /*unsigned int command: 0=reset_pin , 1=set_pin, 2=toggle_pin*/
 void SystemGPIOWrite(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
@@ -640,6 +640,22 @@ void SystemGPIOWrite(struct ParseState *Parser, struct Value *ReturnValue, struc
 				PIOS_GPIO_Toggle(Param[0]->Val->UnsignedInteger);
 				break;
 		}
+	}
+}
+
+
+/* void int GPIORead(unsigned int): Reads the value of a general purpose input pin */
+/*(unsigned int pin_num)*/
+/*unsigned int pin_num: Number of the defined GPIO pin from target/board-info/pios_board.h; starting from 0; user has to check if it is a input or output pin*/
+void SystemGPIORead(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->UnsignedInteger < PIOS_GPIO_NUM)
+	{
+		ReturnValue->Val->Integer = PIOS_GPIO_Read(Param[0]->Val->UnsignedInteger);
+	}
+	else
+	{
+		ReturnValue->Val->Integer = -1;
 	}
 }
 #endif
@@ -676,6 +692,7 @@ struct LibraryFunction PlatformLibrary_system[] =
 #endif
 #ifdef PIOS_INCLUDE_GPIO
 	{ SystemGPIOWrite,		"void GPIOWrite(unsigned int, unsigned int);" },
+	{ SystemGPIORead,		"int GPIORead(unsigned int);" },
 #endif
 	{ NULL, NULL }
 };
