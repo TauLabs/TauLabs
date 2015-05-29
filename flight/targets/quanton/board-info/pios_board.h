@@ -266,9 +266,12 @@ extern uintptr_t pios_com_debug_id;
 //-------------------------
 // GPIO
 //-------------------------
-#define PIOS_GPIO_PORTS				{ GPIOA }
-#define PIOS_GPIO_PINS				{ GPIO_Pin_4 }
-#define PIOS_GPIO_NUM				1
+// [0]: Output-> Quanton Buzzer Pin, with active driver connected to GND
+// [1]: Output-> Quanton Battery Pin, take care of the voltage divider connected to this pin
+// [2]-[9]: Input-> Quanton PWN IN Pins 1-8, take care of the RcvrPort configuration in GCS and that the Pins are configured with a PullUp Resistor
+#define PIOS_GPIO_PORTS				{ GPIOA,      GPIOC,       GPIOA,       GPIOC,      GPIOC,      GPIOC,      GPIOA,       GPIOB,      GPIOA,      GPIOA }
+#define PIOS_GPIO_PINS				{ GPIO_Pin_4, GPIO_Pin_15, GPIO_Pin_10, GPIO_Pin_6, GPIO_Pin_7, GPIO_Pin_8, GPIO_Pin_15, GPIO_Pin_3, GPIO_Pin_0, GPIO_Pin_1 }
+#define PIOS_GPIO_NUM				10
 
 #endif /* STM3210E_INS_H_ */
 
