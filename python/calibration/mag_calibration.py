@@ -106,7 +106,7 @@ def main():
         import sys, os
         sys.path.insert(1, os.path.dirname(sys.path[0]))
         from taulabs import telemetry
-        uavo_list = telemetry.GetUavoBasedOnArgs()
+        uavo_list = telemetry.get_telemetry_by_args()
 	from taulabs.uavo import UAVO_Magnetometer, UAVO_Gyros
 
         print mag_calibration(uavo_list.as_numpy_array(UAVO_Magnetometer), uavo_list.as_numpy_array(UAVO_Gyros))

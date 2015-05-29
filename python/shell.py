@@ -4,7 +4,7 @@ from taulabs import telemetry, uavo
 
 #-------------------------------------------------------------------------------
 def main():
-    uavo_list = telemetry.GetUavoBasedOnArgs()
+    uavo_list = telemetry.get_telemetry_by_args()
 
     # retrieve the time from the first object.. also guarantees we can parse
     base_time = next(iter(uavo_list)).time
