@@ -237,21 +237,31 @@ static void stabilizationTask(void* parameters)
 		} trimmedAttitudeSetpoint;
 		
 		// Mux in level trim values, and saturate the trimmed attitude setpoint.
-		trimmedAttitudeSetpoint.Roll = bound_sym(stabDesired.Roll + trimAngles.Roll, settings.RollMax);
-		trimmedAttitudeSetpoint.Pitch = bound_sym(stabDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
+		trimmedAttitudeSetpoint.Roll = bound_min_max(
+			stabDesired.Roll + trimAngles.Roll,
+			-settings.RollMax + trimAngles.Roll,
+			 settings.RollMax + trimAngles.Roll);
+		trimmedAttitudeSetpoint.Pitch = bound_min_max(
+			stabDesired.Pitch + trimAngles.Pitch,
+			-settings.PitchMax + trimAngles.Pitch,
+			 settings.PitchMax + trimAngles.Pitch);
 		trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw;
 
 		// For horizon mode we need to compute the desire attitude from an unscaled value and apply the
 		// trim offset. Also track the stick with the most deflection to choose rate blending.
 		horizonRateFraction = 0.0f;
 		if (stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
-			trimmedAttitudeSetpoint.Roll = stabDesired.Roll * settings.RollMax;
-			trimmedAttitudeSetpoint.Roll = bound_sym(stabDesired.Roll + trimAngles.Roll, settings.RollMax);
+			trimmedAttitudeSetpoint.Roll = bound_min_max(
+				stabDesired.Roll * settings.RollMax + trimAngles.Roll,
+				-settings.RollMax + trimAngles.Roll,
+				 settings.RollMax + trimAngles.Roll);
 			horizonRateFraction = fabsf(stabDesired.Roll);
 		}
 		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
-			trimmedAttitudeSetpoint.Pitch = stabDesired.Pitch * settings.PitchMax;
-			trimmedAttitudeSetpoint.Pitch = bound_sym(stabDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
+			trimmedAttitudeSetpoint.Pitch = bound_min_max(
+				stabDesired.Pitch * settings.PitchMax + trimAngles.Pitch,
+				-settings.PitchMax + trimAngles.Pitch,
+				 settings.PitchMax + trimAngles.Pitch);
 			horizonRateFraction = MAX(horizonRateFraction, fabsf(stabDesired.Pitch));
 		}
 		if (stabDesired.StabilizationMode[YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
@@ -275,7 +285,7 @@ static void stabilizationTask(void* parameters)
 		horizonRateFraction = bound_sym(horizonRateFraction, HORIZON_MODE_MAX_BLEND) / HORIZON_MODE_MAX_BLEND;
 
 		// Calculate the errors in each axis. The local error is used in the following modes:
-		//  ATTITUDE, HORIZON, WEAKLEVELING, RELAYATTITUDE
+		//  ATTITUDE, HORIZON, WEAKLEVELING
 		float local_attitude_error[3];
 		local_attitude_error[0] = trimmedAttitudeSetpoint.Roll - attitudeActual.Roll;
 		local_attitude_error[1] = trimmedAttitudeSetpoint.Pitch - attitudeActual.Pitch;
