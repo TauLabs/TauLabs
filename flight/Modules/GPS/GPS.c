@@ -177,27 +177,9 @@ int32_t GPSInitialize(void)
 MODULE_INITCALL(GPSInitialize, GPSStart);
 
 // ****************
-/**
- * Main gps task. It does not return.
- */
 
-static void gpsTask(void *parameters)
+static void gpsConfigure(uint8_t gpsProtocol)
 {
-	uint32_t xDelay = GPS_COM_TIMEOUT_MS;
-
-	GPSPositionData gpsposition;
-	uint8_t	gpsProtocol;
-
-	uint32_t timeOfLastUpdateMs;
-	uint32_t timeOfLastCommandMs;
-
-	ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
-
-#if defined(PIOS_GPS_PROVIDES_AIRSPEED)
-	gps_airspeed_initialize();
-#endif
-
-reinit:
 #if !defined(PIOS_GPS_MINIMAL)
 	switch (gpsProtocol) {
 #if defined(PIOS_INCLUDE_GPS_UBX_PARSER)
@@ -225,18 +207,44 @@ reinit:
 				ubx_cfg_send_configuration(gpsPort, gps_rx_buffer);
 			}
 		}
-			break;
+		break;
 #endif
 	}
 #endif /* PIOS_GPS_MINIMAL */
+}
 
-	timeOfLastUpdateMs = 0;
-	timeOfLastCommandMs = PIOS_Thread_Systime();
+/**
+ * Main gps task. It does not return.
+ */
+
+static void gpsTask(void *parameters)
+{
+	GPSPositionData gpsposition;
+
+	uint32_t timeOfLastUpdateMs = 0;
+	uint32_t timeOfConfigAttemptMs = 0;
+
+	uint8_t	gpsProtocol;
+
+#ifdef PIOS_GPS_PROVIDES_AIRSPEED
+	gps_airspeed_initialize();
+#endif
 
 	GPSPositionGet(&gpsposition);
+
 	// Loop forever
-	while (1)
-	{
+	while (1) {
+		uint32_t xDelay = GPS_COM_TIMEOUT_MS;
+
+		uint32_t loopTimeMs = PIOS_Thread_Systime();
+
+		if (!timeOfConfigAttemptMs) {
+			ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
+
+			gpsConfigure(gpsProtocol);
+			timeOfConfigAttemptMs = loopTimeMs;
+		}
+
 		uint8_t c;
 
 		// This blocks the task until there is something on the buffer
@@ -262,19 +270,21 @@ reinit:
 			if (res == PARSER_COMPLETE) {
 				timeOfLastUpdateMs = PIOS_Thread_Systime();
 			}
+
+			xDelay = 0;	// For now on, don't block / wait,
+					// but consume what we can from the fifo
 		}
 
 		// Check for GPS timeout
-		uint32_t timeNowMs = PIOS_Thread_Systime();
-		if ((timeNowMs - timeOfLastUpdateMs) >= GPS_TIMEOUT_MS) {
+		if ((loopTimeMs - timeOfLastUpdateMs) >= GPS_TIMEOUT_MS) {
 			// we have not received any valid GPS sentences for a while.
 			// either the GPS is not plugged in or a hardware problem or the GPS has locked up.
 			uint8_t status = GPSPOSITION_STATUS_NOGPS;
 			GPSPositionStatusSet(&status);
 			AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_ERROR);
 			/* Don't reinitialize too often. */
-			if ((timeNowMs - timeOfLastCommandMs) >= GPS_TIMEOUT_MS) {
-				goto reinit;
+			if ((loopTimeMs - timeOfConfigAttemptMs) >= GPS_TIMEOUT_MS) {
+				timeOfConfigAttemptMs = 0; // reinit next loop
 			}
 		} else {
 			// we appear to be receiving GPS sentences OK, we've had an update
