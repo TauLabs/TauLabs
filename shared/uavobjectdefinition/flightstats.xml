@@ -6,7 +6,7 @@
 	<field name="MaxDistanceToHome" units="m" type="float" elements="1"/>
 	<field name="MaxAltitude" units="m" type="uint16" elements="1"/>
 	<field name="MaxClimbRate" units="m/s" type="float" elements="1"/>
-	<field name="MaxDescendRate" units="m/s" type="float" elements="1"/>
+	<field name="MaxDescentRate" units="m/s" type="float" elements="1"/>
 	<field name="MaxGroundSpeed" units="m/s" type="float" elements="1"/>
 	<field name="MaxAirSpeed" units="m/s" type="float" elements="1"/>
 	<field name="MaxRollRate" units="deg/s" type="uint16" elements="1"/>

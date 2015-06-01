@@ -230,8 +230,8 @@ static void collectStats(FlightStatsData *stats)
 	// Max climb rate
 	stats->MaxClimbRate = MAX(stats->MaxClimbRate, -1.f * velocityActual.Down);
 
-	// Max descend rate
-	stats->MaxDescendRate = MAX(stats->MaxDescendRate, velocityActual.Down);
+	// Max descent rate
+	stats->MaxDescentRate = MAX(stats->MaxDescentRate, velocityActual.Down);
 
 	// Max airspeed
 	if (AirspeedActualHandle()) {
