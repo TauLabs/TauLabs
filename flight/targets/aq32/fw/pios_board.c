@@ -83,14 +83,14 @@ static const struct pios_exti_cfg pios_exti_mpu6000_cfg __exti_config = {
 };
 
 static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
-	.exti_cfg           = &pios_exti_mpu6000_cfg,
-	.default_samplerate = 666,
-	.interrupt_cfg      = PIOS_MPU60X0_INT_CLR_ANYRD,
-	.interrupt_en       = PIOS_MPU60X0_INTEN_DATA_RDY,
-	.User_ctl           = PIOS_MPU60X0_USERCTL_DIS_I2C,
-	.Pwr_mgmt_clk       = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
-	.default_filter     = PIOS_MPU60X0_LOWPASS_256_HZ,
-	.orientation        = PIOS_MPU60X0_TOP_90DEG
+	.exti_cfg            = &pios_exti_mpu6000_cfg,
+	.default_samplerate  = 666,
+	.interrupt_cfg       = PIOS_MPU60X0_INT_CLR_ANYRD,
+	.interrupt_en        = PIOS_MPU60X0_INTEN_DATA_RDY,
+	.User_ctl            = PIOS_MPU60X0_USERCTL_DIS_I2C,
+	.Pwr_mgmt_clk        = PIOS_MPU60X0_PWRMGMT_PLL_Z_CLK,
+	.default_filter      = PIOS_MPU60X0_LOWPASS_256_HZ,
+	.orientation         = PIOS_MPU60X0_TOP_90DEG
 };
 #endif /* PIOS_INCLUDE_MPU6000 */
 
@@ -1174,7 +1174,8 @@ void PIOS_Board_Init(void) {
 	    (hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_8000) ? 8000 : \
 	    pios_mpu6000_cfg.default_samplerate;
 	PIOS_MPU6000_SetSampleRate(mpu6000_samplerate);
-    #endif
+
+	#endif
 
     ///////////////////////////////////////////////////////////////////////////
 
@@ -1198,7 +1199,7 @@ void PIOS_Board_Init(void) {
 				uint8_t ExtMagOrientation;
 				HwAQ32ExtMagOrientationGet(&ExtMagOrientation);
 
-				enum pios_hmc5883_orientation hmc5883_orientation = \
+				enum pios_hmc5883_orientation hmc5883_externalOrientation = \
 					(ExtMagOrientation == HWAQ32_EXTMAGORIENTATION_TOP0DEGCW)      ? PIOS_HMC5883_TOP_0DEG      : \
 					(ExtMagOrientation == HWAQ32_EXTMAGORIENTATION_TOP90DEGCW)     ? PIOS_HMC5883_TOP_90DEG     : \
 					(ExtMagOrientation == HWAQ32_EXTMAGORIENTATION_TOP180DEGCW)    ? PIOS_HMC5883_TOP_180DEG    : \
@@ -1208,7 +1209,7 @@ void PIOS_Board_Init(void) {
 					(ExtMagOrientation == HWAQ32_EXTMAGORIENTATION_BOTTOM180DEGCW) ? PIOS_HMC5883_BOTTOM_180DEG : \
 					(ExtMagOrientation == HWAQ32_EXTMAGORIENTATION_BOTTOM270DEGCW) ? PIOS_HMC5883_BOTTOM_270DEG : \
 					pios_hmc5883_external_cfg.Default_Orientation;
-				PIOS_HMC5883_SetOrientation(hmc5883_orientation);
+				PIOS_HMC5883_SetOrientation(hmc5883_externalOrientation);
 			}
 		}
 	}
@@ -1227,7 +1228,6 @@ void PIOS_Board_Init(void) {
 		if (PIOS_HMC5883_Test() != 0)
 			panic(7);
 	}
-
 
     #endif
 
