@@ -91,6 +91,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrskyBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrSkySPortBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSPORTBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGeofence, ModuleSettings::ADMINSTATE_GEOFENCE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbAutotune, ModuleSettings::ADMINSTATE_AUTOTUNE);
 
     // Connect the voltage and current checkboxes, such that the ADC pins are toggled and vice versa
     connect(ui->gb_measureVoltage, SIGNAL(toggled(bool)), this, SLOT(toggleBatteryMonitoringPin()));
@@ -364,6 +365,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     ui->cbGeofence->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbGeofence->setProperty(falseString.toLatin1(), "Disabled");
+
+    ui->cbAutotune->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbAutotune->setProperty(falseString.toLatin1(), "Disabled");
 
     ui->gb_measureVoltage->setProperty(trueString.toLatin1(), "Enabled");
     ui->gb_measureVoltage->setProperty(falseString.toLatin1(), "Disabled");
