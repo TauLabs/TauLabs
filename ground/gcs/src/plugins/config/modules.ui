@@ -192,6 +192,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="cbAutotune">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The autotune module enables automated tuning of PIDs from observed flight characteristics.  See the Autotune configuration tab for more information and to enable this module.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Autotune</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="cbUAVOFrSkySPortBridge">
          <property name="text">
           <string>FrSky S.PORT Telemetry</string>

@@ -91,6 +91,10 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrskyBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrSkySPortBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSPORTBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGeofence, ModuleSettings::ADMINSTATE_GEOFENCE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbAutotune, ModuleSettings::ADMINSTATE_AUTOTUNE);
+
+    // Don't allow this to be changed here, only in the autotune tab.
+    ui->cbAutotune->setDisabled(true);
 
     // Connect the voltage and current checkboxes, such that the ADC pins are toggled and vice versa
     connect(ui->gb_measureVoltage, SIGNAL(toggled(bool)), this, SLOT(toggleBatteryMonitoringPin()));
@@ -365,6 +369,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->cbGeofence->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbGeofence->setProperty(falseString.toLatin1(), "Disabled");
 
+    ui->cbAutotune->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbAutotune->setProperty(falseString.toLatin1(), "Disabled");
+
     ui->gb_measureVoltage->setProperty(trueString.toLatin1(), "Enabled");
     ui->gb_measureVoltage->setProperty(falseString.toLatin1(), "Disabled");
 
@@ -439,6 +446,10 @@ void ConfigModuleWidget::recheckTabs()
     obj = getObjectManager()->getObject(PicoCSettings::NAME);
     connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
     obj->requestUpdate();
+
+    // This requires re-evaluation so that board connection doesn't re-enable
+    // the field.
+    ui->cbAutotune->setDisabled(true);
 }
 
 //! Enable appropriate tab when objects are updated
