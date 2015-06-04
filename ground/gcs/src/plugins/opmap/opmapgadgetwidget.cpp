@@ -265,6 +265,18 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
         }
     }
 
+    // Update the home location if it is already set:
+    if (obum) {
+        bool set;
+        double LLA[3];
+        if (obum->getHomeLocation(set, LLA) == 0) {
+            if (LLA[0] != 0 && LLA[1] != 0 && LLA[2] != 0)
+                setHome(internals::PointLatLng(LLA[0], LLA[1]),LLA[2]);
+        }
+    }
+
+
+
     // **************
     // create the desired timers
 
