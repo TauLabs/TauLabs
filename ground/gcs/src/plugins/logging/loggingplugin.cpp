@@ -139,8 +139,9 @@ LoggingThread::~LoggingThread()
 bool LoggingThread::openFile(QString file, LoggingPlugin * parent)
 {
     logFile.setFileName(file);
-    logFile.open(QIODevice::WriteOnly);
-
+    if (!logFile.open(QIODevice::WriteOnly)) {
+        return false;
+    }
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
@@ -391,7 +392,7 @@ void LoggingPlugin::toggleLogging()
     {
 
         QString fileName = QFileDialog::getSaveFileName(NULL, tr("Start Log"),
-                                    tr("TauLabs-%0.tll").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm-ss")),
+                                    QDir::homePath() + QDir::separator() + tr("TauLabs-%0.tll").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm-ss")),
                                     tr("Tau Labs Log (*.tll)"));
         if (fileName.isEmpty())
             return;
