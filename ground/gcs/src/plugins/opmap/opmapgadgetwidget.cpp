@@ -98,8 +98,8 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     m_mouse_waypoint = NULL;
 
 	pm = NULL;
-	obm = NULL;
-	obum = NULL;
+    uavo_mgr = NULL;
+    uavo_util_mgr = NULL;
 
 	m_prev_tile_number = 0;
 
@@ -118,8 +118,8 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
 	pm = ExtensionSystem::PluginManager::instance();
 	if (pm)
 	{
-		obm = pm->getObject<UAVObjectManager>();
-		obum = pm->getObject<UAVObjectUtilManager>();
+        uavo_mgr = pm->getObject<UAVObjectManager>();
+        uavo_util_mgr = pm->getObject<UAVObjectUtilManager>();
 	}
 
 	// **************
@@ -247,9 +247,9 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     if (pm)
     {
         // Register for Home Location state changes
-        if (obm)
+        if (uavo_mgr)
         {
-			UAVDataObject *obj = dynamic_cast<UAVDataObject *>(obm->getObject(QString("HomeLocation")));
+            UAVDataObject *obj = dynamic_cast<UAVDataObject *>(uavo_mgr->getObject(QString("HomeLocation")));
             if (obj)
             {
 				connect(obj, SIGNAL(objectUpdated(UAVObject *)), this , SLOT(homePositionUpdated(UAVObject *)));
@@ -266,10 +266,10 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     }
 
     // Update the home location if it is already set:
-    if (obum) {
+    if (uavo_util_mgr) {
         bool set;
         double LLA[3];
-        if (obum->getHomeLocation(set, LLA) == 0) {
+        if (uavo_util_mgr->getHomeLocation(set, LLA) == 0) {
             if (LLA[0] != 0 && LLA[1] != 0 && LLA[2] != 0)
                 setHome(internals::PointLatLng(LLA[0], LLA[1]),LLA[2]);
         }
@@ -292,7 +292,7 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
     // **************
 
     // Connect windspeed update
-    WindVelocityActual *windVelocityActual = WindVelocityActual::GetInstance(obm);
+    WindVelocityActual *windVelocityActual = WindVelocityActual::GetInstance(uavo_mgr);
     connect(windVelocityActual, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateWindspeed(UAVObject *)));
 
     m_map->setFocus();
@@ -580,7 +580,7 @@ void OPMapGadgetWidget::updatePosition()
 
 	// *************
     // Load GPSPosition UAVO
-    GPSPosition *gpsPositionObj = GPSPosition::GetInstance(obm);
+    GPSPosition *gpsPositionObj = GPSPosition::GetInstance(uavo_mgr);
     Q_ASSERT(gpsPositionObj);
 
     GPSPosition::DataFields gpsPositionData = gpsPositionObj->getData();
@@ -595,10 +595,10 @@ void OPMapGadgetWidget::updatePosition()
 
     //**********************
     // get the current position and heading estimates
-    AttitudeActual *attitudeActualObj = AttitudeActual::GetInstance(obm);
-    PositionActual *positionActualObj = PositionActual::GetInstance(obm);
-    VelocityActual *velocityActualObj = VelocityActual::GetInstance(obm);
-    Gyros *gyrosObj = Gyros::GetInstance(obm);
+    AttitudeActual *attitudeActualObj = AttitudeActual::GetInstance(uavo_mgr);
+    PositionActual *positionActualObj = PositionActual::GetInstance(uavo_mgr);
+    VelocityActual *velocityActualObj = VelocityActual::GetInstance(uavo_mgr);
+    Gyros *gyrosObj = Gyros::GetInstance(uavo_mgr);
 
     Q_ASSERT(attitudeActualObj);
     Q_ASSERT(positionActualObj);
@@ -866,7 +866,7 @@ void OPMapGadgetWidget::onTelemetryConnect()
 {
 	m_telemetry_connected = true;
 
-	if (!obum) return;
+    if (!uavo_util_mgr) return;
 
 	bool set;
 	double LLA[3];
@@ -874,7 +874,7 @@ void OPMapGadgetWidget::onTelemetryConnect()
 	// ***********************
 	// fetch the home location
 
-	if (obum->getHomeLocation(set, LLA) < 0)
+    if (uavo_util_mgr->getHomeLocation(set, LLA) < 0)
 		return;	// error
 
     setHome(internals::PointLatLng(LLA[0], LLA[1]),LLA[2]);
@@ -896,10 +896,10 @@ void OPMapGadgetWidget::onTelemetryDisconnect()
 void OPMapGadgetWidget::homePositionUpdated(UAVObject *hp)
 {
     Q_UNUSED(hp);
-    if (!obum) return;
+    if (!uavo_util_mgr) return;
     bool set;
     double LLA[3];
-    if (obum->getHomeLocation(set, LLA) < 0)
+    if (uavo_util_mgr->getHomeLocation(set, LLA) < 0)
         return;	// error
     setHome(internals::PointLatLng(LLA[0], LLA[1]),LLA[2]);
 
@@ -2090,9 +2090,9 @@ bool OPMapGadgetWidget::getUAVPosition(double &latitude, double &longitude, doub
     double LLA[3];
     double homeLLA[3];
 
-    Q_ASSERT(obm != NULL);
+    Q_ASSERT(uavo_mgr != NULL);
 
-    HomeLocation *homeLocation = HomeLocation::GetInstance(obm);
+    HomeLocation *homeLocation = HomeLocation::GetInstance(uavo_mgr);
     Q_ASSERT(homeLocation != NULL);
     HomeLocation::DataFields homeLocationData = homeLocation->getData();
 
@@ -2100,7 +2100,7 @@ bool OPMapGadgetWidget::getUAVPosition(double &latitude, double &longitude, doub
     homeLLA[1] = homeLocationData.Longitude / 1e7;
     homeLLA[2] = homeLocationData.Altitude;
 
-    PositionActual *positionActual = PositionActual::GetInstance(obm);
+    PositionActual *positionActual = PositionActual::GetInstance(uavo_mgr);
     Q_ASSERT(positionActual != NULL);
     PositionActual::DataFields positionActualData = positionActual->getData();
 
@@ -2129,10 +2129,10 @@ bool OPMapGadgetWidget::getUAVPosition(double &latitude, double &longitude, doub
 
 double OPMapGadgetWidget::getUAV_Yaw()
 {
-	if (!obm)
+    if (!uavo_mgr)
 		return 0;
 
-	UAVObject *obj = dynamic_cast<UAVDataObject*>(obm->getObject(QString("AttitudeActual")));
+    UAVObject *obj = dynamic_cast<UAVDataObject*>(uavo_mgr->getObject(QString("AttitudeActual")));
 	double yaw = obj->getField(QString("Yaw"))->getDouble();
 
 	if (yaw != yaw) yaw = 0; // nan detection
@@ -2175,11 +2175,11 @@ void OPMapGadgetWidget::setMapFollowingMode()
 
 bool OPMapGadgetWidget::setHomeLocationObject()
 {
-	if (!obum)
+    if (!uavo_util_mgr)
 		return false;
 
 	double LLA[3] = {m_home_position.coord.Lat(), m_home_position.coord.Lng(), m_home_position.altitude};
-    return (obum->setHomeLocation(LLA, false) >= 0);
+    return (uavo_util_mgr->setHomeLocation(LLA, false) >= 0);
 }
 
 // *************************************************************************************
@@ -2231,7 +2231,7 @@ void OPMapGadgetWidget::updateWindspeed(UAVObject *obj)
 {
     Q_UNUSED(obj);
 
-    WindVelocityActual *windVelocityActual = WindVelocityActual::GetInstance(obm);
+    WindVelocityActual *windVelocityActual = WindVelocityActual::GetInstance(uavo_mgr);
     WindVelocityActual::DataFields windVelocityActualData;
     windVelocityActualData = windVelocityActual->getData();
 

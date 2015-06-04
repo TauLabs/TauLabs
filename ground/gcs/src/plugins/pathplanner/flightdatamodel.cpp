@@ -512,9 +512,9 @@ void FlightDataModel::readFromFile(QString fileName)
         homelocField = homelocField.nextSibling();
     }
 
-    // For now, reset home location to the location in the file. Later we can see if we would
-    // rather ask the user whether to remap the flight plan to the current home location or use
-    // the one in the map
+    // For now, reset home location to the location in the file.
+    // In a future revision, we should consider asking the user whether to remap the flight plan
+    // to the current home location or use the one in the flight plan
     if (!setHomeLocation(HomeLLA)) {
         showErrorDialog("Home location error", "Home location coordinates invalid");
     }
