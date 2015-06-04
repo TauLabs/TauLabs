@@ -194,7 +194,7 @@
        <item>
         <widget class="QCheckBox" name="cbAutotune">
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This enables the autotune module, which allows the autotune flight mode to gather information on flight characteristics.  See the Autotune configuration tab for more information.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The autotune module enables automated tuning of PIDs from observed flight characteristics.  See the Autotune configuration tab for more information and to enable this module.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
           <string>Autotune</string>
