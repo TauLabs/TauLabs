@@ -270,7 +270,7 @@ OPMapGadgetWidget::OPMapGadgetWidget(QWidget *parent) : QWidget(parent)
         bool set;
         double LLA[3];
         if (uavo_util_mgr->getHomeLocation(set, LLA) == 0) {
-            if (LLA[0] != 0 && LLA[1] != 0 && LLA[2] != 0)
+            if (set)
                 setHome(internals::PointLatLng(LLA[0], LLA[1]),LLA[2]);
         }
     }
