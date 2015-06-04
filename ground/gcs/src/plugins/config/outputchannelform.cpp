@@ -387,32 +387,28 @@ void OutputChannelForm::updateMaxSpinboxValue(UAVObject *obj)
             // ... and if there's a match, set the maximum values and return
             if (channel-1 == m_index) {
                 
-                double maxPulseWidth = 0;
+                double maxPulseWidth = 0, uavoMaxPulseWidth = 0;
+                
+                // Saturate at the UAVO's maximum value
+                uavoMaxPulseWidth = std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max();
+                
+                if (actuatorSettingsData.TimerPwmResolution[i] == ActuatorSettings::TIMERPWMRESOLUTION_12MHZ)
+                    uavoMaxPulseWidth = floor(uavoMaxPulseWidth / 12);
                 
                 if (actuatorSettingsData.TimerUpdateFreq[i] != 0)
                 {
-                    double pwm_freq = 0;
-                    if (actuatorSettingsData.TimerPwmResolution[i] == ActuatorSettings::TIMERPWMRESOLUTION_1MHZ)
-                        pwm_freq = 1000000;
-                    else if (actuatorSettingsData.TimerPwmResolution[i] == ActuatorSettings::TIMERPWMRESOLUTION_12MHZ)
-                        pwm_freq = 12000000;
-                    maxPulseWidth = round(pwm_freq / actuatorSettingsData.TimerUpdateFreq[i]);
+                    maxPulseWidth = floor(1000000 / actuatorSettingsData.TimerUpdateFreq[i]);
                     
-                    // Saturate at the UAVO's maximum value
-                    if (maxPulseWidth > std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max())
-                        maxPulseWidth = std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max();
+                    if (maxPulseWidth > uavoMaxPulseWidth)
+                        maxPulseWidth = uavoMaxPulseWidth;
                 } else {
                     // SyncPWM has been selected, the actual pulse limit is a function of sensor rate.
-                    // Simply limit to 1ms here to account for 1000Hz sensor rate.
-                    if (actuatorSettingsData.TimerPwmResolution[i] == ActuatorSettings::TIMERPWMRESOLUTION_1MHZ)
-                        maxPulseWidth = 1000;
-                    else if (actuatorSettingsData.TimerPwmResolution[i] == ActuatorSettings::TIMERPWMRESOLUTION_12MHZ)
-                        maxPulseWidth = 12000;
+                    maxPulseWidth = uavoMaxPulseWidth;
                 }
                 
                 ui.actuatorMin->setMaximum(maxPulseWidth);
                 ui.actuatorMax->setMaximum(maxPulseWidth);
-
+                
                 return;
             }
         }

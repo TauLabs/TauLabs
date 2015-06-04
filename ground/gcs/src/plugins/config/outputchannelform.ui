@@ -113,7 +113,7 @@
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="toolTip">
-      <string>Maximum PWM value, beware of not overdriving your servo.</string>
+      <string>Maximum PWM value in microseconds, beware of not overdriving your servo.</string>
      </property>
      <property name="maximum">
       <number>65535</number>
@@ -321,7 +321,7 @@ p, li { white-space: pre-wrap; }
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="toolTip">
-      <string>Minimum PWM value, beware of not overdriving your servo.</string>
+      <string>Minimum PWM value in microseconds, beware of not overdriving your servo.</string>
      </property>
      <property name="maximum">
       <number>65535</number>
