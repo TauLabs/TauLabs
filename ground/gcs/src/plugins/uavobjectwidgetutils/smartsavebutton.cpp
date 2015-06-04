@@ -119,7 +119,8 @@ void smartSaveButton::processOperation(QPushButton * button,bool save)
         }
         UAVObject::Metadata mdata= obj->getMetadata();
         if(UAVObject::GetGcsAccess(mdata)==UAVObject::ACCESS_READONLY && obj->isSettings()) {
-            failedUploads.append(obj->getName());
+            if(mandatoryList.value(obj, true))
+                failedUploads.append(obj->getName());
             continue;
         }
         upload_result = false;
