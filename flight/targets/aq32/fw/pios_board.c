@@ -1190,6 +1190,12 @@ void PIOS_Board_Init(void) {
 	{
 		use_internal_mag = false;
 			
+		if (PIOS_I2C_Init(&pios_i2c_external_id, &pios_i2c_external_cfg)) 
+			PIOS_DEBUG_Assert(0);
+		
+		if (PIOS_I2C_CheckClear(pios_i2c_external_id) != 0)
+			panic(11);
+    
 		if (PIOS_HMC5883_Init(pios_i2c_external_id, &pios_hmc5883_external_cfg) == 0) {
 			if (PIOS_HMC5883_Test() == 0) {
 				// External mag configuration was successful, external mag is attached and powered
