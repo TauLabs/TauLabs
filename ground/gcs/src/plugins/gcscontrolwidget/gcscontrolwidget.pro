@@ -1,7 +1,6 @@
 TEMPLATE = lib
 TARGET = GCSControlWidget
 QT += svg
-QT += opengl
 QT += network
 
 include(../../taulabsgcsplugin.pri) 

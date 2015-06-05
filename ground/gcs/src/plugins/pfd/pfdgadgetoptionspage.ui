@@ -80,22 +80,9 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QCheckBox" name="useOpenGL">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="text">
-            <string>Use OpenGL for rendering</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QCheckBox" name="hqText">
            <property name="text">
-            <string>High Quality text (OpenGL)</string>
+            <string>High Quality text</string>
            </property>
           </widget>
          </item>

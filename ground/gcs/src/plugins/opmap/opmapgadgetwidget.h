@@ -107,7 +107,6 @@ public:
     void setZoom(int zoom);
     void setPosition(QPointF pos);
     void setMapProvider(QString provider);
-    void setUseOpenGL(bool useOpenGL);
     void setShowTileGridLines(bool showTileGridLines);
     void setAccessMode(QString accessMode);
     void setUseMemoryCache(bool useMemoryCache);

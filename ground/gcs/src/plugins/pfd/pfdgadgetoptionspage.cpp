@@ -62,7 +62,6 @@ QWidget *PFDGadgetOptionsPage::createPage(QWidget *parent)
     options_page->svgSourceFile->setPromptDialogFilter(tr("SVG image (*.svg)"));
     options_page->svgSourceFile->setPromptDialogTitle(tr("Choose SVG image"));
     options_page->svgSourceFile->setPath(m_config->dialFile());
-    options_page->useOpenGL->setChecked(m_config->useOpenGL());
     options_page->hqText->setChecked(m_config->getHqFonts());
     options_page->smoothUpdates->setChecked(m_config->getBeSmooth());
 
@@ -78,7 +77,6 @@ QWidget *PFDGadgetOptionsPage::createPage(QWidget *parent)
 void PFDGadgetOptionsPage::apply()
 {
     m_config->setDialFile(options_page->svgSourceFile->path());
-    m_config->setUseOpenGL(options_page->useOpenGL->checkState());
     m_config->setHqFonts(options_page->hqText->checkState());
     m_config->setBeSmooth(options_page->smoothUpdates->checkState());
 }

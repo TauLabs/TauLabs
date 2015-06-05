@@ -32,7 +32,6 @@
 #include <iostream>
 #include <QDebug>
 #include <QPainter>
-#include <QtOpenGL/QGLWidget>
 #include <cmath>
 
 PFDGadgetWidget::PFDGadgetWidget(QWidget *parent) : QGraphicsView(parent),
@@ -93,17 +92,6 @@ void PFDGadgetWidget::setToolTipPrivate()
     UAVObject::Metadata mdata=attitudeObj->getMetadata();
     if(mdata.flightTelemetryUpdatePeriod!=updateRate)
         this->setToolTip("Current refresh rate:"+QString::number(mdata.flightTelemetryUpdatePeriod)+" miliseconds"+"\nIf you want to change it please edit the AttitudeActual metadata on the object browser.");
-}
-
-/*!
-  \brief Enables/Disables OpenGL
-  */
-void PFDGadgetWidget::enableOpenGL(bool flag) {
-    if (flag) {
-        setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
-    } else {
-        setViewport(new QWidget);
-    }
 }
 
 /*!

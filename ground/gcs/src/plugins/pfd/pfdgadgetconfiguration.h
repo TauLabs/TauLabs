@@ -41,13 +41,11 @@ public:
 
     //set dial configuration functions
     void setDialFile(QString dialFile){m_defaultDial=dialFile;}
-    void setUseOpenGL(bool flag) { useOpenGLFlag = flag; }
     void setHqFonts(bool flag) { hqFonts = flag; }
     void setBeSmooth(bool flag) { beSmooth = flag;}
 
     //get dial configuration functions
     QString dialFile() {return m_defaultDial;}
-    bool useOpenGL() { return useOpenGLFlag; }
     bool getHqFonts() { return hqFonts; }
     bool getBeSmooth() { return beSmooth; }
 
@@ -56,7 +54,6 @@ public:
 
 private:
     QString m_defaultDial; // The name of the dial's SVG source file
-    bool useOpenGLFlag;
     bool hqFonts;
     bool beSmooth;
 };

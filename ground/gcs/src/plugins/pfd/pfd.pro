@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = PFDGadget
 QT += svg
-QT += opengl
+QT += opengl 
 include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(pfd_dependencies.pri)

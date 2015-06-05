@@ -53,7 +53,6 @@ DialGadgetConfiguration::DialGadgetConfiguration(QString classId, QSettings* qSe
     needle1Move("Rotate"),
     needle2Move("Rotate"),
 	needle3Move("Rotate"),
-	useOpenGLFlag(false),
 	beSmooth(true)
 {
     //if a saved configuration exists load it
@@ -85,7 +84,6 @@ DialGadgetConfiguration::DialGadgetConfiguration(QString classId, QSettings* qSe
         needle2Move = qSettings->value("needle2Move").toString();
         needle3Move = qSettings->value("needle3Move").toString();
         font = qSettings->value("font").toString();
-		useOpenGLFlag = qSettings->value("useOpenGLFlag").toBool();
 		beSmooth = qSettings->value("beSmooth").toBool();
 	}
 }
@@ -122,7 +120,6 @@ IUAVGadgetConfiguration *DialGadgetConfiguration::clone()
     m->setN2Move(needle2Move);
     m->setN3Move(needle3Move);
     m->setFont(font);
-	m->useOpenGLFlag = useOpenGLFlag;
 	m->beSmooth = beSmooth;
 
     return m;
@@ -167,6 +164,5 @@ void DialGadgetConfiguration::saveConfig(QSettings* settings) const {
 
     settings->setValue("font", font);
 
-	settings->setValue("useOpenGLFlag", useOpenGLFlag);
 	settings->setValue("beSmooth", beSmooth);
 }

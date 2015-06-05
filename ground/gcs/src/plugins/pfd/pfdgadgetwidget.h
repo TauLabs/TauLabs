@@ -50,7 +50,6 @@ public:
    void paint();
    // Sets up needle/UAVObject connections:
    void connectNeedles();
-   void enableOpenGL(bool flag);
    void setHqFonts(bool flag) { hqFonts = flag; }
    void enableSmoothUpdates(bool flag) { beSmooth = flag; }
 
@@ -148,7 +147,7 @@ private:
 
    // Flag to check for pfd Error
    bool pfdError;
-   // Flag to enable better rendering of fonts in OpenGL
+   // Flag to enable better rendering of fonts
    bool hqFonts;
    bool beSmooth;
 
