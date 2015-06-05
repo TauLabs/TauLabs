@@ -59,6 +59,7 @@ static float initial_consumed_energy;
 static void flightStatsTask(void *parameters);
 static void settingsUpdatedCb(UAVObjEvent * ev);
 static bool isArmed();
+static void resetStats(FlightStatsData *stats);
 static void collectStats(FlightStatsData *stats);
 
 // Local variables
@@ -121,9 +122,10 @@ MODULE_INITCALL(FlightStatsModuleInitialize, FlightStatModuleStart);
 
 static void flightStatsTask(void *parameters)
 {
-	bool first_init = true;
 	FlightStatsData flightStatsData;
+	bool first_run = true;
 
+	resetStats(&flightStatsData);
 	flightStatsData.State = FLIGHTSTATS_STATE_IDLE;
 
 	// Loop forever
@@ -134,38 +136,39 @@ static void flightStatsTask(void *parameters)
 			case FLIGHTSTATS_STATE_IDLE:
 				if (isArmed()) {
 					switch (settings.StatsBehavior) {
-						case FLIGHTSTATSSETTINGS_STATSBEHAVIOR_RESETONBOOT:
-							if (first_init) {
-								flightStatsData.State = FLIGHTSTATS_STATE_RESET;
-							}
-							else {
-								flightStatsData.State = FLIGHTSTATS_STATE_INITIALIZING;
-							}
-							break;
-						case FLIGHTSTATSSETTINGS_STATSBEHAVIOR_RESETONARM:
-							flightStatsData.State = FLIGHTSTATS_STATE_RESET;
-							break;
+					case FLIGHTSTATSSETTINGS_STATSBEHAVIOR_RESETONBOOT:
+						flightStatsData.State = FLIGHTSTATS_STATE_COLLECTING;
+						break;
+					case FLIGHTSTATSSETTINGS_STATSBEHAVIOR_RESETONARM:
+						flightStatsData.State = FLIGHTSTATS_STATE_RESET;
+						break;
 					}
+					first_run = true;
 				}
 				break;
 			case FLIGHTSTATS_STATE_RESET:
-				memset((void*)&flightStatsData, 0, sizeof(flightStatsData));
-				flightStatsData.State = FLIGHTSTATS_STATE_INITIALIZING;
-				break;
-			case FLIGHTSTATS_STATE_INITIALIZING:
-				PositionActualGet(&lastPositionActual);
-				if (first_init || settings.StatsBehavior == FLIGHTSTATSSETTINGS_STATSBEHAVIOR_RESETONARM) {
-					if (FlightBatteryStateHandle()) {
-						float voltage;
-						FlightBatteryStateVoltageGet(&voltage);
-						flightStatsData.InitialBatteryVoltage = roundf(1000.f * voltage);
-						FlightBatteryStateConsumedEnergyGet(&initial_consumed_energy);
-					}
-					first_init = false;
-				}
+				resetStats(&flightStatsData);
 				flightStatsData.State = FLIGHTSTATS_STATE_COLLECTING;
 				break;
 			case FLIGHTSTATS_STATE_COLLECTING:
+				if (first_run) { // get some initial values
+					// initial position
+					PositionActualGet(&lastPositionActual);
+
+					// get the initial battery voltage and consumed energy
+					if (FlightBatteryStateHandle()) {
+						FlightBatteryStateConsumedEnergyGet(&initial_consumed_energy);
+
+						// only get the initial voltage if we reset on arm or if it is uninitialized
+						if ((settings.StatsBehavior == FLIGHTSTATSSETTINGS_STATSBEHAVIOR_RESETONARM)\
+							|| (flightStatsData.InitialBatteryVoltage == 0)){
+							float voltage;
+							FlightBatteryStateVoltageGet(&voltage);
+							flightStatsData.InitialBatteryVoltage = roundf(1000.f * voltage);
+						}
+					}
+					first_run = false;
+				}
 				collectStats(&flightStatsData);
 				if (!isArmed()) {
 					flightStatsData.State = FLIGHTSTATS_STATE_IDLE;
@@ -192,12 +195,16 @@ static bool isArmed()
 {
 	uint8_t arm_status;
 	FlightStatusArmedGet(&arm_status);
-	if (arm_status == FLIGHTSTATUS_ARMED_ARMED) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	return (arm_status == FLIGHTSTATUS_ARMED_ARMED);
+}
+
+/**
+ * Reset the statistics
+ */
+static void resetStats(FlightStatsData *stats)
+{
+	// reset everything
+	memset((void*)stats, 0, sizeof(FlightStatsData));
 }
 
 /**
@@ -249,7 +256,7 @@ static void collectStats(FlightStatsData *stats)
 	// Consumed energy
 	if (FlightBatteryStateHandle()) {
 		FlightBatteryStateConsumedEnergyGet(&tmp);
-		stats->ConsumedEnergy = tmp - initial_consumed_energy;
+		stats->ConsumedEnergy += (tmp - initial_consumed_energy);
 	}
 
 	// update things for next call
