@@ -242,7 +242,9 @@ static void gpsTask(void *parameters)
 			ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
 
 			gpsConfigure(gpsProtocol);
-			timeOfConfigAttemptMs = loopTimeMs;
+			timeOfConfigAttemptMs = PIOS_Thread_Systime();
+
+			continue;
 		}
 
 		uint8_t c;
@@ -268,7 +270,7 @@ static void gpsTask(void *parameters)
 			}
 
 			if (res == PARSER_COMPLETE) {
-				timeOfLastUpdateMs = PIOS_Thread_Systime();
+				timeOfLastUpdateMs = loopTimeMs;
 			}
 
 			xDelay = 0;	// For now on, don't block / wait,
