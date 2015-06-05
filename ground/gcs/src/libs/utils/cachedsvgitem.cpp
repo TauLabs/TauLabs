@@ -59,13 +59,6 @@ CachedSvgItem::~CachedSvgItem()
 
 void CachedSvgItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-#if defined(Q_OS_WIN)
-    // Disable this on windows because the default Qt5 doesn't ship with full OpenGL support
-    // https://bugreports.qt-project.org/browse/QTBUG-28715
-    // since this is only used for the PFD and the QML PFD is accelerated this is probably
-    // a non issue
-    QGraphicsSvgItem::paint(painter, option, widget);
-#else
     if (painter->paintEngine()->type() != QPaintEngine::OpenGL &&
             painter->paintEngine()->type() != QPaintEngine::OpenGL2) {
         //Fallback to direct painting
@@ -163,5 +156,4 @@ void CachedSvgItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     glDisable(GL_TEXTURE_2D);
 
     painter->endNativePainting();
-#endif
 }
