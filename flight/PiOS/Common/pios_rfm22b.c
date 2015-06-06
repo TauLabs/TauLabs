@@ -390,7 +390,8 @@ static bool init_requested;
  */
 int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 			 uint32_t slave_num,
-			 const struct pios_rfm22b_cfg *cfg)
+			 const struct pios_rfm22b_cfg *cfg,
+			 uint32_t base_freq)
 {
 	PIOS_DEBUG_Assert(rfm22b_id);
 	PIOS_DEBUG_Assert(cfg);

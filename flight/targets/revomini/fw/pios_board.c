@@ -785,11 +785,23 @@ void PIOS_Board_Init(void) {
 	rfm22bstatus.BoardType     = bdinfo->board_type;
 	rfm22bstatus.BoardRevision = bdinfo->board_rev;
 
+	int base_freq;
+
+	switch (hwRevoMini.RfBaseFrequency) {
+		case HWREVOMINI_RFBASEFREQUENCY_433:
+		default:
+			base_freq = 433000000;
+			break;
+		case HWREVOMINI_RFBASEFREQUENCY_915:
+			base_freq = 915000000;
+			break;
+	}
+
 	if (hwRevoMini.Radio == HWREVOMINI_RADIO_OPENLRS) {
 		uintptr_t openlrs_id;
 
 		const struct pios_openlrs_cfg *openlrs_cfg = PIOS_BOARD_HW_DEFS_GetOpenLRSCfg(bdinfo->board_rev);
-		PIOS_OpenLRS_Init(&openlrs_id, PIOS_RFM22_SPI_PORT, 0, openlrs_cfg);
+		PIOS_OpenLRS_Init(&openlrs_id, PIOS_RFM22_SPI_PORT, 0, openlrs_cfg, base_freq);
 
 #if defined(PIOS_INCLUDE_OPENLRS_RCVR)
 		{
@@ -808,7 +820,7 @@ void PIOS_Board_Init(void) {
 			// When radio disabled, it is ok for init to fail. This allows boards without populating
 			// this component.
 			const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
-			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg) == 0) {
+			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg, base_freq) == 0) {
 				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
 				rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
 				rfm22bstatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
@@ -827,7 +839,7 @@ void PIOS_Board_Init(void) {
 
 		/* Configure the RFM22B device. */
 		const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
-		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
+		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg, base_freq)) {
 			PIOS_Assert(0);
 		}
 
