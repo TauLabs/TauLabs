@@ -114,7 +114,9 @@
 				<option>Yaw Right</option>
 				<option>Corners</option>
 				<option>Switch</option>
+				<option>Switch+Time</option>
 				<option>Switch+Throttle</option>
+				<option>Switch+Throttle+Time</option>
 			</options>
 		</field>
 		<field name="ArmTime" units="ms" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="1000"/>
