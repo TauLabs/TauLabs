@@ -37,6 +37,7 @@
 		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" options="9600,19200,32000,64000,100000,192000" defaultvalue="64000"/>
 		<field name="MaxRfPower" units="mW" type="enum" elements="1" options="0,1.25,1.6,3.16,6.3,12.6,25,50,100" defaultvalue="1.25"/>
 		<field name="DSMxMode" units="mode" type="enum" elements="1" options="Autodetect,Force 10-bit,Force 11-bit,Bind 3 pulses,Bind 4 pulses,Bind 5 pulses,Bind 6 pulses,Bind 7 pulses,Bind 8 pulses,Bind 9 pulses,Bind 10 pulses" defaultvalue="Autodetect"/>
+		<field name="RfBand" units="MHz" type="enum" elements="1" options="BoardDefault,433,868,915" defaultvalue="BoardDefault"/>
 
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
