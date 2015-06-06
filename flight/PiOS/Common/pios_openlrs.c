@@ -1114,6 +1114,11 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 	openlrs_dev->slave_num = slave_num;
 	openlrs_dev->spi_id = spi_id;
 
+	// and the frequency
+	openlrs_dev->base_freq = base_freq;
+
+	// XXX TODO: Should enforce frequency ranges based on what's set here
+
 	// Before initializing everything, make sure device found
 	uint8_t device_type = rfm22_read(openlrs_dev, RFM22_DEVICE_TYPE) & RFM22_DT_MASK;
 	if (device_type != 0x08)
