@@ -181,6 +181,9 @@ struct pios_rfm22b_dev {
 	uint32_t spi_id;
 	uint32_t slave_num;
 
+	// The base frequency
+	uint32_t base_freq;
+
 	// Should this modem ack as a coordinator.
 	bool coordinator;
 

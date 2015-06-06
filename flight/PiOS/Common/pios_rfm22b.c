@@ -207,7 +207,7 @@ static enum pios_radio_event rfm22_timeout(struct pios_rfm22b_dev *rfm22b_dev);
 static enum pios_radio_event rfm22_error(struct pios_rfm22b_dev *rfm22b_dev);
 static enum pios_radio_event rfm22_fatal_error(struct pios_rfm22b_dev *rfm22b_dev);
 static void rfm22b_add_rx_status(struct pios_rfm22b_dev *rfm22b_dev, enum pios_rfm22b_rx_packet_status status);
-static void rfm22_setNominalCarrierFrequency(struct pios_rfm22b_dev *rfm22b_dev, uint8_t init_chan);
+static void rfm22_setNominalCarrierFrequency(struct pios_rfm22b_dev *rfm22b_dev, uint8_t init_chan, uint32_t frequency_hz);
 static bool rfm22_setFreqHopChannel(struct pios_rfm22b_dev *rfm22b_dev, uint8_t channel);
 static void rfm22_calculateLinkQuality(struct pios_rfm22b_dev *rfm22b_dev);
 static bool rfm22_setConnected(struct pios_rfm22b_dev *rfm22b_dev, bool);
@@ -407,6 +407,9 @@ int32_t PIOS_RFM22B_Init(uint32_t * rfm22b_id, uint32_t spi_id,
 	// Store the SPI handle
 	rfm22b_dev->slave_num = slave_num;
 	rfm22b_dev->spi_id = spi_id;
+
+	// And the rate
+	rfm22b_dev->base_freq = base_freq;
 
 	// Before initializing everything, make sure device found
 	uint8_t device_type = rfm22_read(rfm22b_dev, RFM22_DEVICE_TYPE) & RFM22_DT_MASK;
@@ -1545,7 +1548,7 @@ static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 	rfm22_releaseBus(rfm22b_dev);
 
 	// Initialize the frequency and datarate to te default.
-	rfm22_setNominalCarrierFrequency(rfm22b_dev, 0);
+	rfm22_setNominalCarrierFrequency(rfm22b_dev, 0, rfm22b_dev->base_freq);
 	pios_rfm22_setDatarate(rfm22b_dev);
 
 	return RADIO_EVENT_INITIALIZED;
@@ -1639,10 +1642,9 @@ static void pios_rfm22_setDatarate(struct pios_rfm22b_dev *rfm22b_dev)
  */
 static void rfm22_setNominalCarrierFrequency(struct pios_rfm22b_dev
 					     *rfm22b_dev,
-					     uint8_t init_chan)
+					     uint8_t init_chan,
+					     uint32_t frequency_hz)
 {
-	// Set the frequency channels to start at 430MHz
-	uint32_t frequency_hz = RFM22B_NOMINAL_CARRIER_FREQUENCY;
 	// The step size is 10MHz / 250 channels = 40khz, and the step size is specified in 10khz increments.
 	uint8_t freq_hop_step_size = 4;
 
