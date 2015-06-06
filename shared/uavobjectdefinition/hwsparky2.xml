@@ -67,6 +67,7 @@
 		<!-- radio settings -->
 		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" parent="HwShared.MaxRfSpeed" defaultvalue="64000"/>
 		<field name="MaxRfPower" units="mW" type="enum" elements="1" parent="HwShared.MaxRfPower"  defaultvalue="1.25"/>
+		<field name="RfBand" units="MHz" type="enum" elements="1" parent="HwShared.RfBand" defaultvalue="BoardDefault"/>
 		<field name="MinChannel" units="" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="MaxChannel" units="" type="uint8" elements="1" defaultvalue="250"/>
 

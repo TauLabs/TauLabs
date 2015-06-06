@@ -462,6 +462,7 @@ void PIOS_Board_Init(void) {
 	PIOS_HAL_ConfigureRFM22B(hwSparky2.Radio,
 			bdinfo->board_type, bdinfo->board_rev,
 			hwSparky2.MaxRfPower, hwSparky2.MaxRfSpeed,
+			hwSparky2.RfBand,
 			openlrs_cfg, rfm22b_cfg,
 			hwSparky2.MinChannel, hwSparky2.MaxChannel,
 			hwSparky2.CoordID, 1);
