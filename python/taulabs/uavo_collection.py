@@ -1,3 +1,10 @@
+"""
+UAVO collection interface.
+
+Copyright (C) 2014-2015 Tau Labs, http://taulabs.org
+Licensed under the GNU LGPL version 2.1 or any later version (see COPYING.LESSER)
+"""
+
 import uavo
 
 import operator

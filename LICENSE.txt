@@ -3,6 +3,9 @@ The OpenPilot code is licensed under the GPLv3, there are a few minor exceptions
 
 The full text of the GPLv3 can be read here: http://www.gnu.org/licenses/gpl-3.0.txt
 
+The python API code in the python/taulabs subtree is licensed under LGPLv2.1 or any later
+version.
+
 Artwork is licensed under the Creative Commons BY-SA v3 license. 
 
 Documentation including translations is also licensed under the Creative Commons BY-SA v3 license.
