@@ -1427,7 +1427,8 @@ Set to 0 to disable (recommended for soaring fixed wings).</string>
               <item>
                <widget class="QLabel" name="label_3">
                 <property name="text">
-                 <string>Airframe disarm is done by throttle off and opposite of above combination, except in the case of the switch option. For switch the throttle is ignored.</string>
+                 <string>Airframe disarm is done by throttle off and opposite of above combination, except in the case of the switch option. For switch only the throttle is ignored.
+Note: In switch configuration without delay, zeroing the gyros while arming is not possible.</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>

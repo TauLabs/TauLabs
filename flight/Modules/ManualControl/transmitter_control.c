@@ -523,10 +523,10 @@ static bool arming_position(ManualControlCommandData * cmd, ManualControlSetting
 			(cmd->Pitch > ARMED_THRESHOLD);
 			// Note that pulling pitch stick down corresponds to positive values
 	case MANUALCONTROLSETTINGS_ARMING_SWITCH:
-	case MANUALCONTROLSETTINGS_ARMING_SWITCHTIME:
+	case MANUALCONTROLSETTINGS_ARMING_SWITCHDELAY:
 		return cmd->ArmSwitch == MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
 	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE:
-	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLETIME:
+	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLEDELAY:
 		return lowThrottle && cmd->ArmSwitch == MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
 	default:
 		return false;
@@ -558,9 +558,9 @@ static bool disarming_position(ManualControlCommandData * cmd, ManualControlSett
 			(cmd->Yaw > ARMED_THRESHOLD || cmd->Yaw < -ARMED_THRESHOLD) &&
 			(cmd->Roll > ARMED_THRESHOLD || cmd->Roll < -ARMED_THRESHOLD) );
 	case MANUALCONTROLSETTINGS_ARMING_SWITCH:
-	case MANUALCONTROLSETTINGS_ARMING_SWITCHTIME:
+	case MANUALCONTROLSETTINGS_ARMING_SWITCHDELAY:
 	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE:
-	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLETIME:
+	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLEDELAY:
 		return cmd->ArmSwitch != MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
 	default:
 		return false;
@@ -678,9 +678,9 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 
   		bool disarm = disarming_position(cmd, settings) && valid;
 		if (disarm && (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCH ||
-				settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTIME ||
+				settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHDELAY ||
 				settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE ||
-				settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLETIME)) {
+				settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLEDELAY)) {
 			arm_state = ARM_STATE_DISARMED;
 		} else if (disarm) {
 			armedDisarmStart = lastSysTime;
