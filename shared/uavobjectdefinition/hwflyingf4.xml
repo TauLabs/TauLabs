@@ -54,6 +54,24 @@
 			</options>
 		</field>
 
+		<field name="Uart4" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>S.Bus</option>
+				<option>GPS</option>
+				<option>MavLinkTX_GPS_RX</option>
+			</options>
+		</field>
+	
+		<field name="Uart5" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>S.Bus</option>
+				<option>GPS</option>
+				<option>MavLinkTX_GPS_RX</option>
+			</options>
+		</field>	
+
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
 		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
 
