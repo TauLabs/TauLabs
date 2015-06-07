@@ -170,6 +170,8 @@ uintptr_t pios_com_frsky_sport_id;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
 
+uintptr_t pios_internal_adc_id = 0;
+
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
  */
@@ -1020,7 +1022,9 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_ADC)
-	PIOS_ADC_Init(&pios_adc_cfg);
+	uint32_t internal_adc_id;
+	PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg);
+	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);	
 #endif
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
