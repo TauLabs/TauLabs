@@ -49,8 +49,6 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
     None.  After that, you may continue to receive objects back because of
     buffering."""
 
-    # This could be made considerably faster if it kept an offset.
-
     # These are used for accounting for timestamp wraparound
     timestamp_base = 0
     last_timestamp = 0
@@ -63,14 +61,15 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
     pending_pieces = []
 
     while True:
-        # If we don't have data buffered, join up any chunks we've been given
-        # to ensure pending_pieces is empty for the rest of this loop.
+        # If we don't have sufficient data buffered, join up any chunks we've 
+        # been given to ensure pending_pieces is empty for the rest of this loop.
         #
         # in other words, don't mix the pending_pieces drain model and the
         # buffer concatenation model within a loop iteration.
         #
-        # 10k chosen here to be bigger than any plausible uavo
-        if len(buf)-buf_offset < 10240:
+        # 10k chosen here to be bigger than any plausible uavo; could calculate
+        # this instead from our known uav objects
+        if len(buf) - buf_offset < 10240:
             pending_pieces.insert(0, buf[buf_offset:])
             buf_offset = 0
 
@@ -134,10 +133,6 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             obj = None
         else:
             obj = uavo_defs[uavo_key]
-
-        # Before there used to be code to handle instance offsetting
-        # here, but it looks like it moved (rightfully) into the object
-
 
         # Determine data length
         if pack_type == TYPE_OBJ_REQ or pack_type == TYPE_ACK or pack_type == TYPE_NACK:
@@ -204,7 +199,7 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
         
         if timestamp_len:
             # pull the timestamp from the packet
-            timestamp = timestamp_fmt.unpack_from(buf, header_fmt.size)[0]
+            timestamp = timestamp_fmt.unpack_from(buf, header_fmt.size + buf_offset)[0]
 
             # handle wraparound
             if timestamp < last_timestamp:
