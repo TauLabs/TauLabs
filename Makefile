@@ -994,7 +994,7 @@ python_ut_test:
 .PHONY: python_ut_ins
 python_ut_ins:
 	$(V0) @echo "  PYTHON_UT ins/test.py"
-	$(V1) ( cd python/ins && \
+	$(V1) ( cd py-ins && \
 	  $(PYTHON) setup.py build_ext --inplace && \
 	  $(PYTHON) test.py \
 	)
