@@ -1845,32 +1845,6 @@
         </data>
       </default>
     </OPMapGadget>
-    <PFDGadget>
-      <raw>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <beSmooth>false</beSmooth>
-          <dialFile>%%DATAPATH%%pfd/default/pfd.svg</dialFile>
-          <hqFonts>false</hqFonts>
-          <useOpenGLFlag>false</useOpenGLFlag>
-        </data>
-      </raw>
-      <smooth>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <beSmooth>true</beSmooth>
-          <dialFile>%%DATAPATH%%pfd/default/pfd.svg</dialFile>
-          <hqFonts>false</hqFonts>
-          <useOpenGLFlag>false</useOpenGLFlag>
-        </data>
-      </smooth>
-    </PFDGadget>
     <PfdQmlGadget>
       <NoTerrain>
         <configInfo>
@@ -1889,23 +1863,6 @@
           <terrainEnabled>false</terrainEnabled>
         </data>
       </NoTerrain>
-      <Terrain>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <actualPositionUsed>false</actualPositionUsed>
-          <altitude>2000</altitude>
-          <cacheOnly>false</cacheOnly>
-          <earthFile>%%DATAPATH%%pfd/default/readymap.earth</earthFile>
-          <latitude>46.6715</latitude>
-          <longitude>10.1589</longitude>
-          <openGLEnabled>true</openGLEnabled>
-          <qmlFile>%%DATAPATH%%pfd/default/Pfd.qml</qmlFile>
-          <terrainEnabled>false</terrainEnabled>
-        </data>
-      </Terrain>
     </PfdQmlGadget>
     <QmlViewGadget>
       <default>
