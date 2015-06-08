@@ -56,7 +56,10 @@
 #include "pathdesired.h"
 #include "positionactual.h"
 #include "stabilizationdesired.h"
+#include "velocityactual.h"
 #include "vtolpathfollowerstatus.h"
+
+#include "misc_math.h"
 
 // Various navigation constants
 const static float RTH_MIN_ALTITUDE = 15.f;  //!< Hover at least 15 m above home */
@@ -128,8 +131,7 @@ static void hold_position(float north, float east, float down);
 
 /**
  * The state machine for landing at home does the following:
- * 1. enable holding at the current location
- * 2  TODO: if it leaves the hold region enable a nav mode
+ * enable holding at the current location
  */
 const static struct vtol_fsm_transition fsm_hold_position[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
@@ -149,9 +151,7 @@ const static struct vtol_fsm_transition fsm_hold_position[FSM_STATE_NUM_STATES] 
 
 /**
  * The state machine for following the Path Planner:
- * 1. enable following path segment
- * 2  TODO: the path planner should be able to utilize the goals of the
- *    follower so needs to be handled in the main module and not here.
+ * enable following path segment
  */
 const static struct vtol_fsm_transition fsm_follow_path[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
@@ -168,13 +168,14 @@ const static struct vtol_fsm_transition fsm_follow_path[FSM_STATE_NUM_STATES] = 
 		},
 	},
 };
+
 /**
  * The state machine for landing at home does the following:
  * 1. holds where currently at for 10 seconds
  * 2. ascend to minimum altitude
  * 3. flies to home at 2 m/s at either current altitude or 15 m above home
  * 4. holds above home for 10 seconds
- * 5. descends to ground
+ * 5. descends to ground (This step currently does not complete)
  * 6. disarms the system
  */
 const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
@@ -502,59 +503,119 @@ static int32_t do_land()
 	return 0;
 }
 
+static float loiter_deadband(float input) {
+	const float CMD_THRESHOLD = 0.2f;
+
+	if (input > CMD_THRESHOLD) {
+		input -= CMD_THRESHOLD;
+	} else if (input < -CMD_THRESHOLD) {
+		input += CMD_THRESHOLD;
+	} else {
+		input = 0;
+	}
+
+	input /= (1 - CMD_THRESHOLD);	// Normalize to -1 to 1 range.
+
+	// XXX TODO, explicitly tell output range
+
+	return input;
+}
+
+static void vector2_rotate(const float *original, float *out, float angle) {
+	angle *= DEG2RAD;
+
+	out[0] = original[0] * cosf(angle) - original[1] * sinf(angle);
+	out[1] = original[0] * sinf(angle) + original[1] * cosf(angle);
+}
+
 /**
  * Loiter at current position or transform requested movement
  */
 static int32_t do_loiter()
 {
-	const float LOITER_LEASH = 4;
-	const float CMD_THRESHOLD = 0.5f;
-	const float MAX_SPEED = 3.0f; // m/s
-
 	LoiterCommandData cmd;
 	LoiterCommandGet(&cmd);
 
-	float forward = (cmd.Pitch > CMD_THRESHOLD) ? cmd.Pitch - CMD_THRESHOLD :
-				(cmd.Pitch < -CMD_THRESHOLD) ? cmd.Pitch + CMD_THRESHOLD : 0;
-	// Note the negative - forward pitch is negative
-	forward *= -MAX_SPEED / (1.0f - CMD_THRESHOLD);
+	// XXX TODO reproject when we're not issuing body-centric commands
+	// TODO: do a combined deadband across axes / factor this in
+	float commands_rp[2] = {
+		loiter_deadband(cmd.Roll),
+		loiter_deadband(cmd.Pitch)
+	};
 
-	float right = (cmd.Roll > CMD_THRESHOLD) ? cmd.Roll - CMD_THRESHOLD :
-			      (cmd.Roll < -CMD_THRESHOLD) ? cmd.Roll + CMD_THRESHOLD : 0;
-	right *= MAX_SPEED / (1.0f - CMD_THRESHOLD);
+	float command_mag = vectorn_magnitude(commands_rp, 2);
 
-	float yaw;
-	AttitudeActualYawGet(&yaw);
-	yaw *= DEG2RAD;
+	// We only do a lot of work if our command has magnitude.
+	if (command_mag > 0.001f) {
+		float commands_ne[2];
 
-	float north_offset = 0;
-	float east_offset = 0;
-	float down_offset = 0;
+		float yaw;
+		AttitudeActualYawGet(&yaw);
 
-	if (cmd.Frame == LOITERCOMMAND_FRAME_BODY) {
-		north_offset = (forward * cosf(yaw) - right * sinf(yaw)) * DT;
-		east_offset = (forward * sinf(yaw) + right * cosf(yaw)) * DT;
-	} else {
-		north_offset = forward * DT;
-		east_offset = right * DT;
-	}
+		// 90 degrees here compensates for the above being in roll-pitch
+		// order vs. north-east (and where yaw is defined).
+		vector2_rotate(commands_rp, commands_ne, 90 + yaw);
 
-	float new_north = vtol_hold_position_ned[0] + north_offset;
-	float new_east = vtol_hold_position_ned[1] + east_offset;
-	PositionActualData positionActual;
-	PositionActualGet(&positionActual);
+		float commands_normalized_ne[2] = {
+			commands_ne[0] /= command_mag,
+			commands_ne[1] /= command_mag
+		};
 
-	const float cur_offset = sqrtf(powf(vtol_hold_position_ned[0] - positionActual.North, 2) +
-		                           powf(vtol_hold_position_ned[1] - positionActual.East, 2));
-	const float new_offset = sqrtf(powf(new_north - positionActual.North, 2) + powf(new_east - positionActual.East, 2));
-	if (new_offset < LOITER_LEASH || (new_offset < cur_offset)) {
-		// prevent moving set point too far from the current
-		// location. Ideally when there is a command input it would
-		// be added to the position controller instead of soley move
-		// the setpoint.
-		hold_position(vtol_hold_position_ned[0] + north_offset,
-			vtol_hold_position_ned[1] + east_offset,
-			vtol_hold_position_ned[2] + down_offset);
+		// At the corners, command_mag can reach 1.4.  Fix that.
+		if (command_mag > 1.0f) {
+			command_mag = 1.0f;
+		}
+
+		// Find our current position error
+		PositionActualData positionActual;
+		PositionActualGet(&positionActual);
+
+		VelocityActualData velocityActual;
+		VelocityActualGet(&velocityActual);
+
+		float cur_pos_ned[3] = { positionActual.North,
+			positionActual.East, positionActual.Down };
+
+		float total_poserr_ned[3];
+		vector3_distances(cur_pos_ned, vtol_hold_position_ned,
+				total_poserr_ned, false);
+
+		// find the portion of our current velocity vector parallel to
+		// cmd.
+		float parallel_sign =
+			velocityActual.North * commands_normalized_ne[0] +
+			velocityActual.East * commands_normalized_ne[1];
+
+		// Come up with a target velocity for us to fly the command
+		// at, considering our current momentum in that direction.
+		float target_vel = 1;
+
+		if (parallel_sign > 0) {
+			float parallel_mag = sqrtf(
+				powf(velocityActual.North * commands_normalized_ne[0], 2) +
+				powf(velocityActual.East * commands_normalized_ne[1], 2));
+
+			target_vel += parallel_mag;
+		}
+
+		target_vel *= command_mag;
+
+		// Feed the target velocity forward for our new desired position
+		vtol_hold_position_ned[0] = cur_pos_ned[0] +
+			commands_normalized_ne[0] * target_vel;
+		vtol_hold_position_ned[1] = cur_pos_ned[1] +
+			commands_normalized_ne[1] * target_vel;
+
+		// Now put a portion of the normalized error back in,
+		// prop to -stick pos
+		vtol_hold_position_ned[0] -= (1 - command_mag)
+			* total_poserr_ned[0] * -commands_normalized_ne[1];
+		vtol_hold_position_ned[1] -= (1 - command_mag)
+			* total_poserr_ned[1] * commands_normalized_ne[0];
+
+		hold_position(vtol_hold_position_ned[0],
+				vtol_hold_position_ned[1],
+				vtol_hold_position_ned[2]);
 	}
 
 	return do_hold();
