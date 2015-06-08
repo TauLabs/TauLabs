@@ -28,16 +28,8 @@ public:
     explicit PfdQmlGadgetConfiguration(QString classId, QSettings* qSettings = 0, QObject *parent = 0);
 
     void setQmlFile(const QString &fileName) { m_qmlFile=fileName; }
-    void setActualPositionUsed(bool flag) { m_actualPositionUsed = flag; }
-    void setLatitude(double value) { m_latitude = value; }
-    void setLongitude(double value) { m_longitude = value; }
-    void setAltitude(double value) { m_altitude = value; }
 
     QString qmlFile() const { return m_qmlFile; }
-    bool actualPositionUsed() const { return m_actualPositionUsed; }
-    double latitude() const { return m_latitude; }
-    double longitude() const { return m_longitude; }
-    double altitude() const { return m_altitude; }
     QVariantMap settings() const { return m_settings; }
 
     void saveConfig(QSettings* settings) const;
@@ -45,10 +37,6 @@ public:
 
 private:
     QString m_qmlFile;
-    bool m_actualPositionUsed;
-    double m_latitude;
-    double m_longitude;
-    double m_altitude;
 
     QVariantMap m_settings;
 };

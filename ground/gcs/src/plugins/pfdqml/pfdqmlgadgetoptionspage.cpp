@@ -47,13 +47,6 @@ QWidget *PfdQmlGadgetOptionsPage::createPage(QWidget *parent)
     options_page->qmlSourceFile->setPromptDialogTitle(tr("Choose QML file"));
     options_page->qmlSourceFile->setPath(m_config->qmlFile());
 
-    // Restore the contents from the settings:
-    options_page->useActualLocation->setChecked(m_config->actualPositionUsed());
-    options_page->usePredefinedLocation->setChecked(!m_config->actualPositionUsed());
-    options_page->latitude->setText(QString::number(m_config->latitude()));
-    options_page->longitude->setText(QString::number(m_config->longitude()));
-    options_page->altitude->setText(QString::number(m_config->altitude()));
-
     return optionsPageWidget;
 }
 
@@ -66,11 +59,6 @@ QWidget *PfdQmlGadgetOptionsPage::createPage(QWidget *parent)
 void PfdQmlGadgetOptionsPage::apply()
 {
     m_config->setQmlFile(options_page->qmlSourceFile->path());
-
-    m_config->setActualPositionUsed(options_page->useActualLocation->isChecked());
-    m_config->setLatitude(options_page->latitude->text().toDouble());
-    m_config->setLongitude(options_page->longitude->text().toDouble());
-    m_config->setAltitude(options_page->altitude->text().toDouble());
 }
 
 void PfdQmlGadgetOptionsPage::finish()

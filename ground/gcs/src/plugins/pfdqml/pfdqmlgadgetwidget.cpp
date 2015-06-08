@@ -30,11 +30,7 @@
 #include "stabilizationdesired.h"
 
 PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWindow *parent) :
-    QQuickView(parent),
-    m_actualPositionUsed(false),
-    m_latitude(46.671478),
-    m_longitude(10.158932),
-    m_altitude(2000)
+    QQuickView(parent)
 {
     setResizeMode(SizeRootObjectToView);
 
@@ -122,16 +118,6 @@ void PfdQmlGadgetWidget::setQmlFile(QString fn)
     }
 }
 
-//Switch between PositionActual UAVObject position
-//and pre-defined latitude/longitude/altitude properties
-void PfdQmlGadgetWidget::setActualPositionUsed(bool arg)
-{
-    if (m_actualPositionUsed != arg) {
-        m_actualPositionUsed = arg;
-        emit actualPositionUsedChanged(arg);
-    }
-}
-
 void PfdQmlGadgetWidget::setSettingsMap(const QVariantMap &settings)
 {
     engine()->rootContext()->setContextProperty("settings", settings);
@@ -146,29 +132,3 @@ void PfdQmlGadgetWidget::mouseReleaseEvent(QMouseEvent *event)
 
     QQuickView::mouseReleaseEvent(event);
 }
-
-void PfdQmlGadgetWidget::setLatitude(double arg)
-{
-    //not sure qFuzzyCompare is accurate enough for geo coordinates
-    if (m_latitude != arg) {
-        m_latitude = arg;
-        emit latitudeChanged(arg);
-    }
-}
-
-void PfdQmlGadgetWidget::setLongitude(double arg)
-{
-    if (m_longitude != arg) {
-        m_longitude = arg;
-        emit longitudeChanged(arg);
-    }
-}
-
-void PfdQmlGadgetWidget::setAltitude(double arg)
-{
-    if (!qFuzzyCompare(m_altitude,arg)) {
-        m_altitude = arg;
-        emit altitudeChanged(arg);
-    }
-}
-

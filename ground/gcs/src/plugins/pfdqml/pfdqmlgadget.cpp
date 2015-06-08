@@ -43,9 +43,5 @@ void PfdQmlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 {
     PfdQmlGadgetConfiguration *m = qobject_cast<PfdQmlGadgetConfiguration*>(config);
     m_widget->setQmlFile(m->qmlFile());
-    m_widget->setActualPositionUsed(m->actualPositionUsed());
-    m_widget->setLatitude(m->latitude());
-    m_widget->setLongitude(m->longitude());
-    m_widget->setAltitude(m->altitude());
     m_widget->setSettingsMap(m->settings());
 }
