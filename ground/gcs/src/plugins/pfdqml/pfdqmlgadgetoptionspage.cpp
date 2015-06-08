@@ -48,25 +48,11 @@ QWidget *PfdQmlGadgetOptionsPage::createPage(QWidget *parent)
     options_page->qmlSourceFile->setPath(m_config->qmlFile());
 
     // Restore the contents from the settings:
-    options_page->earthFile->setExpectedKind(Utils::PathChooser::File);
-    options_page->earthFile->setPromptDialogFilter(tr("OsgEarth (*.earth)"));
-    options_page->earthFile->setPromptDialogTitle(tr("Choose OsgEarth terrain file"));
-    options_page->earthFile->setPath(m_config->earthFile());
-
-    options_page->useOpenGL->setChecked(m_config->openGLEnabled());
-    options_page->showTerrain->setChecked(m_config->terrainEnabled());
-
     options_page->useActualLocation->setChecked(m_config->actualPositionUsed());
     options_page->usePredefinedLocation->setChecked(!m_config->actualPositionUsed());
     options_page->latitude->setText(QString::number(m_config->latitude()));
     options_page->longitude->setText(QString::number(m_config->longitude()));
     options_page->altitude->setText(QString::number(m_config->altitude()));
-    options_page->useOnlyCache->setChecked(m_config->cacheOnly());
-
-#ifndef USE_OSG
-    options_page->showTerrain->setChecked(false);
-    options_page->showTerrain->setVisible(false);
-#endif
 
     return optionsPageWidget;
 }
@@ -80,20 +66,11 @@ QWidget *PfdQmlGadgetOptionsPage::createPage(QWidget *parent)
 void PfdQmlGadgetOptionsPage::apply()
 {
     m_config->setQmlFile(options_page->qmlSourceFile->path());
-    m_config->setEarthFile(options_page->earthFile->path());
-    m_config->setOpenGLEnabled(options_page->useOpenGL->isChecked());
-
-#ifdef USE_OSG
-    m_config->setTerrainEnabled(options_page->showTerrain->isChecked());
-#else
-    m_config->setTerrainEnabled(false);
-#endif
 
     m_config->setActualPositionUsed(options_page->useActualLocation->isChecked());
     m_config->setLatitude(options_page->latitude->text().toDouble());
     m_config->setLongitude(options_page->longitude->text().toDouble());
     m_config->setAltitude(options_page->altitude->text().toDouble());
-    m_config->setCacheOnly(options_page->useOnlyCache->isChecked());
 }
 
 void PfdQmlGadgetOptionsPage::finish()

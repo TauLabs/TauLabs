@@ -19,25 +19,18 @@
 #include "uavobjectmanager.h"
 #include "uavobject.h"
 #include "utils/svgimageprovider.h"
-#ifdef USE_OSG
-#include "osgearth.h"
-#endif
 #include <QDebug>
 #include <QSvgRenderer>
-#include <QtOpenGL/QGLWidget>
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdir.h>
 #include <QMouseEvent>
 
 #include <QQmlEngine>
 #include <QQmlContext>
-#include "lowpassfilter.h"
 #include "stabilizationdesired.h"
 
 PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWindow *parent) :
     QQuickView(parent),
-    m_openGLEnabled(false),
-    m_terrainEnabled(false),
     m_actualPositionUsed(false),
     m_latitude(46.671478),
     m_longitude(10.158932),
@@ -70,11 +63,6 @@ PfdQmlGadgetWidget::PfdQmlGadgetWidget(QWindow *parent) :
 
     //to expose settings values
     engine()->rootContext()->setContextProperty("qmlWidget", this);
-#ifdef USE_OSG
-    qmlRegisterType<OsgEarthItem>("org.TauLabs", 1, 0, "OsgEarth");
-#endif
-    //qmlRegisterType<LowPassFilter>("org.TauLabs", 1, 0, "LowPassFilter");
-    //qmlRegisterUncreatableType<StabilizationDesired>("org.TauLabs", 1, 0, "StabilizationDesiredType","");
 }
 
 PfdQmlGadgetWidget::~PfdQmlGadgetWidget()
@@ -132,29 +120,6 @@ void PfdQmlGadgetWidget::setQmlFile(QString fn)
     foreach(const QQmlError &error, errors()) {
         qDebug() << error.description();
     }
-}
-
-void PfdQmlGadgetWidget::setEarthFile(QString arg)
-{
-    if (m_earthFile != arg) {
-        m_earthFile = arg;
-        emit earthFileChanged(arg);
-    }
-}
-
-void PfdQmlGadgetWidget::setTerrainEnabled(bool arg)
-{
-    bool wasEnabled = terrainEnabled();
-    m_terrainEnabled = arg;
-
-    if (wasEnabled != terrainEnabled())
-        emit terrainEnabledChanged(terrainEnabled());
-}
-
-void PfdQmlGadgetWidget::setOpenGLEnabled(bool arg)
-{
-    Q_UNUSED(arg);
-    setTerrainEnabled(m_terrainEnabled);
 }
 
 //Switch between PositionActual UAVObject position
