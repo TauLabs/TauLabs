@@ -1,13 +1,13 @@
 /**
  ******************************************************************************
- * @file       aq32.h
+ * @file       aq32.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_Aq32Plugin Aq32 boards support Plugin
+ * @addtogroup Boards_AeroQuadPlugin AeroQuad boards support Plugin
  * @{
- * @brief Plugin to support aq32 board
+ * @brief Plugin to support AeroQuad boards
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -24,6 +24,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+ 
 #ifndef AQ32_H
 #define AQ32_H
 

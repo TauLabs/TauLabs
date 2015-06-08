@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/aq32">
+    <qresource prefix="/aeroquad">
 	    <file>images/aq32.png</file>
 	</qresource>
 </RCC>

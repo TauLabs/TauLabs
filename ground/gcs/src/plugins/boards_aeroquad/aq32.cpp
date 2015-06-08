@@ -5,9 +5,9 @@
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
- * @addtogroup Boards_Aq32Plugin Aq32 boards support Plugin
+ * @addtogroup Boards_AeroQuadPlugin AeroQuad boards support Plugin
  * @{
- * @brief Plugin to support aq32 board
+ * @brief Plugin to support AeroQuad boards
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify

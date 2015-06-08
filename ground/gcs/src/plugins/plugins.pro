@@ -351,7 +351,7 @@ plugin_boards_stm.depends = plugin_uavobjects
 SUBDIRS += plugin_boards_stm
 
 # AeroQuad AQ32
-plugin_boards_aq32.subdir = boards_aq32
-plugin_boards_aq32.depends = plugin_coreplugin
-plugin_boards_aq32.depends = plugin_uavobjects
-SUBDIRS += plugin_boards_aq32
+plugin_boards_aeroquad.subdir = boards_aeroquad
+plugin_boards_aeroquad.depends = plugin_coreplugin
+plugin_boards_aeroquad.depends = plugin_uavobjects
+SUBDIRS += plugin_boards_aeroquad
