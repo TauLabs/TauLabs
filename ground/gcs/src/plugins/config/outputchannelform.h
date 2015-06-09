@@ -65,6 +65,8 @@ private:
     int m_index;
     bool m_inChannelTest;
 
+    void alignFields();
+
 private slots:
     void linkToggled(bool state);
     void reverseChannel();

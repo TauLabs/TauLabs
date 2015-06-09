@@ -115,6 +115,9 @@
      <property name="toolTip">
       <string>Maximum PWM value in microseconds, beware of not overdriving your servo.</string>
      </property>
+     <property name="suffix">
+      <string> us</string>
+     </property>
      <property name="maximum">
       <number>65535</number>
      </property>
@@ -323,6 +326,9 @@ p, li { white-space: pre-wrap; }
      <property name="toolTip">
       <string>Minimum PWM value in microseconds, beware of not overdriving your servo.</string>
      </property>
+     <property name="suffix">
+      <string> us</string>
+     </property>
      <property name="maximum">
       <number>65535</number>
      </property>
@@ -473,7 +479,7 @@ font:bold;
 margin:1px;</string>
      </property>
      <property name="text">
-      <string>Reverse</string>
+      <string>Rev</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

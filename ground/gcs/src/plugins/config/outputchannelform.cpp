@@ -216,6 +216,25 @@ int OutputChannelForm::type() const
     return ui.actuatorType->currentIndex();
 }
 
+void OutputChannelForm::alignFields()
+{
+    int actuatorWidth=0;
+
+    foreach(OutputChannelForm * form,parent()->findChildren<OutputChannelForm*>())
+    {
+        actuatorWidth = fmax(actuatorWidth, form->ui.actuatorMin->minimumSize().width());
+        actuatorWidth = fmax(actuatorWidth, form->ui.actuatorMin->sizeHint().width());
+        actuatorWidth = fmax(actuatorWidth, form->ui.actuatorMax->minimumSize().width());
+        actuatorWidth = fmax(actuatorWidth, form->ui.actuatorMax->sizeHint().width());
+    }
+
+    foreach(OutputChannelForm * form,parent()->findChildren<OutputChannelForm*>())
+    {
+        form->ui.actuatorMin->setMinimumSize(actuatorWidth, 0);
+        form->ui.actuatorMax->setMinimumSize(actuatorWidth, 0);
+    }
+}
+
 /**
  * Set the channel assignment label.
  */
@@ -408,6 +427,7 @@ void OutputChannelForm::updateMaxSpinboxValue(UAVObject *obj)
                 
                 ui.actuatorMin->setMaximum(maxPulseWidth);
                 ui.actuatorMax->setMaximum(maxPulseWidth);
+		alignFields();
                 
                 return;
             }
