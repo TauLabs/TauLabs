@@ -49,10 +49,14 @@
 #include "loggingstats.h"
 
 // Private constants
-#define MAX_QUEUE_SIZE   8
+#define MAX_QUEUE_SIZE 8
 #define MAX_SHARED_QUEUE_SIZE 64
 #define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
+
+// Threshold to decide whether a private queue is used for an UAVO type.
+// This is somewhat arbitrary; 50ms seems to be a good tradeoff between
+// memory requirements and logging performance.
 #define PRIVATE_QUEUE_THRESHOLD 50
 
 // Private types
@@ -151,7 +155,7 @@ int32_t LoggingStart(void)
 	// Process all registered objects and connect queue for updates
 	UAVObjIterate(&register_object);
 
-	// sort the list, so that entries with a private queue come first
+	// Sort the list, so that entries with smaller logging periods come first
 	LL_SORT(log_info, info_cmp);
 
 	// Start logging task
@@ -261,7 +265,10 @@ static void loggingTask(void *parameters)
 			while(PIOS_Queue_Receive(shared_queue, &ev, 0))
 			LL_FOREACH(log_info, info) {
 				if (info->queue == NULL){
-					break; // the list is sorted, so we can stop here
+					// The list is sorted based on the logging period, so we can stop as soon
+					// as we have an item without a private queue (as subsequent items won't 
+					// have a private queue either).
+					break;
 				}
 				while(PIOS_Queue_Receive(info->queue, &ev, 0)){};
 			}
@@ -270,24 +277,29 @@ static void loggingTask(void *parameters)
 			LoggingStatsSet(&loggingData);
 			break;
 		case LOGGINGSTATS_OPERATION_LOGGING:
-			// Log the objects registred to the shared queue
-			while (PIOS_Queue_Receive(shared_queue, &ev, 0) == true) {
-				UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
-			}
-
-			// Log the objects with private queues
-			for (int i=0; i<MAX_QUEUE_SIZE; i++){
-				LL_FOREACH(log_info, info) {
-					if (info->queue == NULL){
-						break; // the list is sorted, so we can stop here
-					}
-					if(PIOS_Queue_Receive(info->queue, &ev, 0) == true) {
-						UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
+			{
+				uint32_t now = PIOS_Thread_Systime();
+				// Log the objects with private queues
+				for (int i=0; i<MAX_QUEUE_SIZE; i++){
+					LL_FOREACH(log_info, info) {
+						if (info->queue == NULL){
+							break; // the list is sorted (see comment above)
+						}
+						if(PIOS_Queue_Receive(info->queue, &ev, 0) == true) {
+							UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
+						}
 					}
 				}
+
+				// Log the objects registred to the shared queue
+				while (PIOS_Queue_Receive(shared_queue, &ev, 0) == true) {
+					UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
+				}
+				LoggingStatsBytesLoggedSet(&written_bytes);
+
+				// The module tries to run at 1kHz
+				PIOS_Thread_Sleep_Until(&now, 1);
 			}
-			LoggingStatsBytesLoggedSet(&written_bytes);
-			PIOS_Thread_Sleep(1);
 			break;
 
 		case LOGGINGSTATS_OPERATION_DOWNLOAD:
@@ -371,11 +383,11 @@ static int32_t send_data(uint8_t *data, int32_t length)
 
 
 /**
- * Function for sorting linked list
+ * Function for sorting linked list based on logging period
  */
 static int info_cmp(struct UAVOLogInfo *info_1, struct UAVOLogInfo *info_2)
 {
-	return info_1->queue < info_2->queue;
+	return info_1->logging_period > info_2->logging_period;
 }
 
 /**
@@ -388,15 +400,20 @@ static void obj_updated_callback(UAVObjEvent * ev)
 	uint32_t now;
 
 	if (loggingData.Operation != LOGGINGSTATS_OPERATION_LOGGING){
+		// We are not logging, so all events are discarded
 		return;
 	}
 	LL_FOREACH(log_info, info) {
 		if (info->obj == ev->obj){
 			now = PIOS_Thread_Systime();
 			if (info->next_log <= now){
+				// compute the time of the next logging operation
 				while (info->next_log < now) {
 					info->next_log += info->logging_period;
 				};
+				// Ad the item to either the shared or the private queue
+				// Note: PIOS_Queue_Send() copies the object, so it isn't
+				// necessary to do the copy here.
 				if (info->queue == NULL){
 					PIOS_Queue_Send(shared_queue, ev, 0);
 				}
@@ -428,8 +445,9 @@ static void register_object(UAVObjHandle obj)
 	// create log info entry
 	struct UAVOLogInfo *info;
 	info = (struct UAVOLogInfo *) PIOS_malloc_no_dma(sizeof(struct UAVOLogInfo));
-	if (info == NULL)
+	if (info == NULL){
 		return;
+	}
 
 	info->obj = obj;
 	info->logging_period = meta_data.loggingUpdatePeriod;
@@ -437,6 +455,11 @@ static void register_object(UAVObjHandle obj)
 	if (meta_data.loggingUpdatePeriod <= PRIVATE_QUEUE_THRESHOLD){
 		// this object is logged frequently, so we use a private queue for it
 		queue =  PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+		if (queue == NULL){
+			// queue allocation failed
+			PIOS_free((void *)info );
+			return;
+		}
 		info->queue = queue;
 	}
 	else {
@@ -444,11 +467,9 @@ static void register_object(UAVObjHandle obj)
 		info->queue = NULL;
 	}
 
-	if (queue != NULL) {
-		int32_t event_mask = EV_UPDATED | EV_UNPACKED;
-		UAVObjConnectCallback(obj, obj_updated_callback, event_mask);
-		LL_APPEND(log_info, info);
-	}
+	int32_t event_mask = EV_UPDATED | EV_UNPACKED;
+	UAVObjConnectCallback(obj, obj_updated_callback, event_mask);
+	LL_APPEND(log_info, info);
 }
 
 /** Callback to update settings
