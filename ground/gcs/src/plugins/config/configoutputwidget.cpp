@@ -255,6 +255,8 @@ void ConfigOutputWidget::assignOutputChannels(UAVObject *obj)
         quint16 type = actuatorSettingsData.ChannelType[outputChannelForm->index()];
         outputChannelForm->setType(type);
     }
+
+    refreshWidgetRanges();
 }
 
 /**
@@ -455,15 +457,78 @@ void ConfigOutputWidget::refreshWidgetsValues(UAVObject * obj)
     {
         quint32 minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
         quint32 maxValue = actuatorSettingsData.ChannelMax[outputChannelForm->index()];
+
         outputChannelForm->setMinmax(minValue, maxValue);
 
         quint32 neutral = actuatorSettingsData.ChannelNeutral[outputChannelForm->index()];
         outputChannelForm->setNeutral(neutral);
     }
+
+    refreshWidgetRanges();
+}
+
+void ConfigOutputWidget::refreshWidgetRanges()
+{
+    QList<OutputChannelForm*> outputChannelForms = findChildren<OutputChannelForm*>();
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    Q_ASSERT(pm);
+    UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
+
+    if (utilMngr) {
+        Core::IBoardType *board = utilMngr->getBoardType();
+        if (board != NULL) {
+            QVector< QVector<qint32> > banks = board->getChannelBanks();
+
+            for (int i=0; i < banks.size() ; i++) {
+                QVector<int> bank = banks[i];
+
+                // Pull out the parameters relating to this bank, and
+                // calculate the maximum value.
+                //
+                QComboBox* ccmb = rateList.at(i);
+                quint32 timerFreq = timerStringToFreq(ccmb->currentText());
+
+                QComboBox* res = resList.at(i);
+                quint32 timerRes = res->currentIndex();
+
+                double maxPulseWidth = 0, uavoMaxPulseWidth = 0;
+
+                // Saturate at the UAVO's maximum value
+                uavoMaxPulseWidth = 65535;
+
+                if (timerRes == ActuatorSettings::TIMERPWMRESOLUTION_12MHZ)
+                    uavoMaxPulseWidth = uavoMaxPulseWidth / 12;
+
+                if (timerFreq != 0)
+                {
+                    maxPulseWidth = 1000000 / timerFreq;
+
+                    if (maxPulseWidth > uavoMaxPulseWidth)
+                        maxPulseWidth = uavoMaxPulseWidth;
+                } else {
+                    // SyncPWM has been selected, the actual pulse limit is a function of sensor rate.
+                    maxPulseWidth = uavoMaxPulseWidth;
+                }
+
+                // For each of the channels...
+                foreach (qint32 channel, bank) {
+                    // Find its form line and set the limit.
+                    foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
+                    {
+                        // Don't like the bogus index adjustments
+                        if (outputChannelForm->index() != channel-1) continue;
+
+                        outputChannelForm->updateMaxSpinboxValue(floor(maxPulseWidth));
+                    }
+                }
+            }
+        }
+    }
 }
 
 /**
-  * Sends the config to the board, without saving to the SD card (RC Output)
+ * Sends the config to the board, without saving to the SD card (RC Output)
   */
 void ConfigOutputWidget::updateObjectsFromWidgets()
 {
@@ -507,6 +572,8 @@ void ConfigOutputWidget::updateObjectsFromWidgets()
         // Apply settings
         actuatorSettings->setData(actuatorSettingsData);
     }
+
+    refreshWidgetRanges();
 }
 
 QString ConfigOutputWidget::timerFreqToString(quint32 freq) const {
@@ -523,7 +590,6 @@ quint32 ConfigOutputWidget::timerStringToFreq(QString str) const {
 
 void ConfigOutputWidget::openHelp()
 {
-
     QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Output-Configuration", QUrl::StrictMode) );
 }
 
