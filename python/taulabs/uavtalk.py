@@ -206,9 +206,19 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             timestamp = timestamp_fmt.unpack_from(buf, header_fmt.size + buf_offset)[0]
 
             # handle wraparound
+
+            # This is currently hacked because the ordering of instance id and
+            # time is messed up in this code-- hacked so at least timestamps
+            # don't jump.
             if timestamp < last_timestamp:
-                timestamp_base = timestamp_base + 65536
-            last_timestamp = timestamp
+                if timestamp > 200:
+                    timestamp_base = timestamp_base + 65536
+                    last_timestamp = timestamp
+                else:
+                    timestamp += 65536
+            else:
+                last_timestamp = timestamp
+
             timestamp += timestamp_base
         else:
             timestamp = last_timestamp
