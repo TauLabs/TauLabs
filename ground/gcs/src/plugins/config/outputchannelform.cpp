@@ -369,6 +369,8 @@ void OutputChannelForm::notifyFormChanged()
     if (!m_inChannelTest){
         emit formChanged();
     }
+
+    setChannelRange();
 }
 
 void OutputChannelForm::updateMaxSpinboxValue(int maxPulseWidth)
