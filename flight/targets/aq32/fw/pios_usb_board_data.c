@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsTargets Tau Labs Targets
+ * @addtogroup AeroQuadTargets AeroQuad Targets
  * @{
- * @addtogroup Quanton Quanton support files
+ * @addtogroup Aq32 Aq32 support files
  * @{
  *
  * @file       pios_usb_board_data.c
@@ -51,13 +51,17 @@ static const struct usb_string_langid usb_lang_id = {
 	.bLangID = htousbs(USB_LANGID_ENGLISH_US),
 };
 
-static const uint8_t usb_vendor_id[10] = {
+static const uint8_t usb_vendor_id[18] = {
 	sizeof(usb_vendor_id),
 	USB_DESC_TYPE_STRING,
 	'A', 0,
+	'e', 0,
+	'r', 0,
+	'o', 0,
 	'Q', 0,
-	'3', 0,
-	'2', 0,
+	'u', 0,
+	'a', 0,
+	'd', 0,
 };
 
 int32_t PIOS_USB_BOARD_DATA_Init(void)

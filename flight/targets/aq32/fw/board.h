@@ -26,8 +26,8 @@
 /*
  * Board identifier.
  */
-#define BOARD_QUANTEC_QUANTON
-#define BOARD_NAME                  "quanton flight control"
+#define BOARD_AEROQUAD_AQ32
+#define BOARD_NAME                  "aeroquad flight control"
 
 
 /*

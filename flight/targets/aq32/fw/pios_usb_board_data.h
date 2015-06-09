@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsTargets Tau Labs Targets
+ * @addtogroup AeroQuadTargets AeroQuad Targets
  * @{
- * @addtogroup Quanton Quanton support files
+ * @addtogroup Aq32 Aq32 support files
  * @{
  *
  * @file       pios_usb_board_data.h

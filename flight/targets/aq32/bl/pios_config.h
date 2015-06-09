@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @addtogroup QuantonBL Quanton bootloader
+ * @addtogroup Aq32BL Aq32 bootloader
  * @{
  *
  * @file       pios_config.h 

@@ -6,7 +6,7 @@
 # @{
 # @addtogroup 
 # @{
-# @brief Makefile to build firmware for the Quanton board.
+# @brief Makefile to build firmware for the Aq32 board.
 ###############################################################################
 #
 # This program is free software; you can redistribute it and/or modify

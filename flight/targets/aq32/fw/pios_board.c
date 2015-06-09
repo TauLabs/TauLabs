@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup MiscTargets Misc Targets
+ * @addtogroup AeroQuadTargets AeroQuad Targets
  * @{
  * @addtogroup AQ32 AQ32 support files
  * @{
@@ -43,8 +43,6 @@
 #include "hwaq32.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
-
-///////////////////////////////////////////////////////////////////////////////
 
 /**
  * Configuration for the MPU6000 chip
@@ -93,8 +91,6 @@ static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
 	.orientation         = PIOS_MPU60X0_TOP_90DEG
 };
 #endif /* PIOS_INCLUDE_MPU6000 */
-
-///////////////////////////////////////////////////////////////////////////////
 
 /**
  * Configuration for the HMC5883 chip
@@ -150,8 +146,6 @@ static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
 };
 #endif /* PIOS_INCLUDE_HMC5883 */
 
-///////////////////////////////////////////////////////////////////////////////
-
 /**
  * Configuration for the MS5611 chip
  */
@@ -163,8 +157,6 @@ static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 	.use_0x76_address         = true,
 };
 #endif /* PIOS_INCLUDE_MS5611 */
-
-///////////////////////////////////////////////////////////////////////////////
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
@@ -204,8 +196,6 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 uintptr_t pios_com_debug_id;
 #endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-///////////////////////////////////////////////////////////////////////////////
-
 bool external_mag_fail;
 
 uintptr_t pios_com_gps_id;
@@ -223,8 +213,6 @@ uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
 uintptr_t pios_internal_adc_id;
 uintptr_t pios_com_frsky_sport_id;
-
-///////////////////////////////////////////////////////////////////////////////
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -262,8 +250,6 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 }
 #endif	/* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
 
-///////////////////////////////////////////////////////////////////////////////
-
 #ifdef PIOS_INCLUDE_DSM
 static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm_cfg, const struct pios_dsm_cfg *pios_dsm_cfg,
 		const struct pios_com_driver *pios_usart_com_driver,
@@ -288,8 +274,6 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 }
 #endif
 
-///////////////////////////////////////////////////////////////////////////////
-
 #ifdef PIOS_INCLUDE_HSUM
 static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hsum_cfg,
 		const struct pios_com_driver *pios_usart_com_driver,enum pios_hsum_proto *proto,
@@ -313,8 +297,6 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
 	pios_rcvr_group_map[channelgroup] = pios_hsum_rcvr_id;
 }
 #endif
-
-///////////////////////////////////////////////////////////////////////////////
 
 /**
  * Indicate a target-specific error code when a component fails to initialize
@@ -354,8 +336,6 @@ void panic(int32_t code) {
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
 /**
  * PIOS_Board_Init()
  * initializes all the core subsystems on this specific hardware
@@ -373,17 +353,13 @@ void PIOS_Board_Init(void) {
 
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 
-    ///////////////////////////////////////////////////////////////////////////
-
     #if defined(PIOS_INCLUDE_LED)
 	const struct pios_led_cfg * led_cfg = PIOS_BOARD_HW_DEFS_GetLedCfg(bdinfo->board_rev);
 	PIOS_Assert(led_cfg);
 	PIOS_LED_Init(led_cfg);
     #endif	/* PIOS_INCLUDE_LED */
 
-    ///////////////////////////////////////////////////////////////////////////
-
-    #if defined(PIOS_INCLUDE_I2C)
+#if defined(PIOS_INCLUDE_I2C)
 	if (PIOS_I2C_Init(&pios_i2c_internal_id, &pios_i2c_internal_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
@@ -391,15 +367,11 @@ void PIOS_Board_Init(void) {
 		panic(8);
     #endif
 
-    ///////////////////////////////////////////////////////////////////////////
-
     #if defined(PIOS_INCLUDE_SPI)
 	if (PIOS_SPI_Init(&pios_spi_internal_id, &pios_spi_internal_cfg)) {
 		PIOS_Assert(0);
 	}
     #endif
-
-    ///////////////////////////////////////////////////////////////////////////
 
     #if defined(PIOS_INCLUDE_FLASH)
 	/* Initialize all flash drivers */
@@ -419,9 +391,7 @@ void PIOS_Board_Init(void) {
 	    panic(3);
     #endif	/* PIOS_INCLUDE_FLASH */
 
-    ///////////////////////////////////////////////////////////////////////////
-
-	/* Initialize the task monitor library */
+    /* Initialize the task monitor library */
 	TaskMonitorInitialize();
 
 	/* Initialize UAVObject libraries */
@@ -434,16 +404,12 @@ void PIOS_Board_Init(void) {
 	HwAQ32Initialize();
 	ModuleSettingsInitialize();
 
-    ///////////////////////////////////////////////////////////////////////////
-	
-	#if defined(PIOS_INCLUDE_RTC)
+    #if defined(PIOS_INCLUDE_RTC)
 	/* Initialize the real-time clock and its associated tick */
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
     #endif
 
-    ///////////////////////////////////////////////////////////////////////////
-	
-	#ifndef ERASE_FLASH
+    #ifndef ERASE_FLASH
 	/* Initialize watchdog as early as possible to catch faults during init
 	 * but do it only if there is no debugger connected
 	 */
@@ -451,8 +417,6 @@ void PIOS_Board_Init(void) {
 		PIOS_WDG_Init();
 	}
     #endif
-
-	///////////////////////////////////////////////////////////////////////////
 
 	/* Set up pulse timers */
 	
@@ -467,8 +431,6 @@ void PIOS_Board_Init(void) {
 	PIOS_TIM_InitClock(&tim_5_cfg);
 	PIOS_TIM_InitClock(&tim_8_cfg);
 
-	///////////////////////////////////////////////////////////////////////////
-	
 	/* IAP System Setup */
 	PIOS_IAP_Init();
 	uint16_t boot_count = PIOS_IAP_ReadBootCount();
@@ -482,9 +444,7 @@ void PIOS_Board_Init(void) {
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
-    ///////////////////////////////////////////////////////////////////////////
-
-	#if defined(PIOS_INCLUDE_USB)
+    #if defined(PIOS_INCLUDE_USB)
 	/* Initialize USB disconnect GPIO */
 	GPIO_Init(pios_usb_main_cfg.disconnect.gpio, (GPIO_InitTypeDef*)&pios_usb_main_cfg.disconnect.init);
 	GPIO_SetBits(pios_usb_main_cfg.disconnect.gpio, pios_usb_main_cfg.disconnect.init.GPIO_Pin);
@@ -509,14 +469,10 @@ void PIOS_Board_Init(void) {
 	usb_hid_present = true;
     #endif
 
-	///////////////////////////////////////////////////////////////////////////
-	
-	uintptr_t pios_usb_id;
+    uintptr_t pios_usb_id;
 	PIOS_USB_Init(&pios_usb_id, PIOS_BOARD_HW_DEFS_GetUsbCfg(bdinfo->board_rev));
 
-    ///////////////////////////////////////////////////////////////////////////
-
-	#if defined(PIOS_INCLUDE_USB_CDC)
+    #if defined(PIOS_INCLUDE_USB_CDC)
 
 	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
@@ -532,13 +488,11 @@ void PIOS_Board_Init(void) {
 		PIOS_Assert(0);
 	}
 
-	switch (hw_usb_vcpport)
-	{
+	switch (hw_usb_vcpport)	{
 	case HWAQ32_USB_VCPPORT_DISABLED:
 		break;
-
 	case HWAQ32_USB_VCPPORT_USBTELEMETRY:
-        #if defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
 			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
@@ -550,11 +504,10 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 			}
 		}
-        #endif	/* PIOS_INCLUDE_COM */
+#endif	/* PIOS_INCLUDE_COM */
 		break;
-
 	case HWAQ32_USB_VCPPORT_COMBRIDGE:
-        #if defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
 			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
@@ -566,12 +519,11 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 			}
 		}
-        #endif	/* PIOS_INCLUDE_COM */
+#endif	/* PIOS_INCLUDE_COM */
 		break;
-
 	case HWAQ32_USB_VCPPORT_DEBUGCONSOLE:
-        #if defined(PIOS_INCLUDE_COM)
-        #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
+#if defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 		{
 			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
 			PIOS_Assert(tx_buffer);
@@ -581,12 +533,11 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 			}
 		}
-        #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
-        #endif	/* PIOS_INCLUDE_COM */
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+#endif	/* PIOS_INCLUDE_COM */
 		break;
-
 	case HWAQ32_USB_VCPPORT_PICOC:
-        #if defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_RX_BUF_LEN);
 			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_TX_BUF_LEN);
@@ -598,14 +549,12 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 			}
 		}
-        #endif	/* PIOS_INCLUDE_COM */
+#endif	/* PIOS_INCLUDE_COM */
 		break;
 	}
-    #endif	/* PIOS_INCLUDE_USB_CDC */
+#endif	/* PIOS_INCLUDE_USB_CDC */
 
-    //////////////////////////////////////////////////////////////////////////
-
-	#if defined(PIOS_INCLUDE_USB_HID)
+#if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
 	uint8_t hw_usb_hidport;
 	HwAQ32USB_HIDPortGet(&hw_usb_hidport);
@@ -620,13 +569,11 @@ void PIOS_Board_Init(void) {
 		PIOS_Assert(0);
 	}
 
-	switch (hw_usb_hidport)
-	{
+	switch (hw_usb_hidport)	{
 	case HWAQ32_USB_HIDPORT_DISABLED:
 		break;
-
 	case HWAQ32_USB_HIDPORT_USBTELEMETRY:
-        #if defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_COM)
 		{
 			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
 			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
@@ -638,15 +585,12 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 			}
 		}
-        #endif	/* PIOS_INCLUDE_COM */
+#endif	/* PIOS_INCLUDE_COM */
 		break;
 	}
+#endif	/* PIOS_INCLUDE_USB_HID */
 
-    #endif	/* PIOS_INCLUDE_USB_HID */
-
-    ///////////////////////////////////////////////////////////////////////////
-
-	if (usb_hid_present || usb_cdc_present) {
+    if (usb_hid_present || usb_cdc_present) {
 		PIOS_USBHOOK_Activate();
 	}
     
@@ -660,10 +604,7 @@ void PIOS_Board_Init(void) {
 	GPIO_SetBits(pios_usb_main_cfg.disconnect.gpio, pios_usb_main_cfg.disconnect.init.GPIO_Pin);
 	
 	PIOS_WDG_Clear();
-	
 	#endif	/* PIOS_INCLUDE_USB */
-
-	///////////////////////////////////////////////////////////////////////////
 
 	/* Configure the IO ports */
 	uint8_t hw_DSMxBind;
@@ -677,138 +618,114 @@ void PIOS_Board_Init(void) {
 
 	HwAQ32Uart1Get(&hw_uart1);
 
-	switch (hw_uart1)
-	{
+	switch (hw_uart1) {
 	case HWAQ32_UART1_DISABLED:
 		break;
-
 	case HWAQ32_UART1_TELEMETRY:
-        #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
-        #endif /* PIOS_INCLUDE_TELEMETRY_RF */
+#endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-
 	case HWAQ32_UART1_DEBUGCONSOLE:
-        #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
-        #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-
 	case HWAQ32_UART1_MAVLINKTX:
-        #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart1_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
-        #endif	/* PIOS_INCLUDE_MAVLINK */
+#endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
-
 	case HWAQ32_UART1_HOTTTELEMETRY:
-        #if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
-        #endif /* PIOS_INCLUDE_HOTT */
+#endif /* PIOS_INCLUDE_HOTT */
 		break;
-
 	case HWAQ32_UART1_FRSKYSENSORHUB:
-        #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
-        #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
+#endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 		break;
-
 	case HWAQ32_UART1_LIGHTTELEMETRYTX:
-        #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
+#if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 		PIOS_Board_configure_com(&pios_usart1_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
-        #endif
+#endif
 		break;
-
 	case HWAQ32_UART1_PICOC:
-        #if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
-        #endif /* PIOS_INCLUDE_PICOC */
+#endif /* PIOS_INCLUDE_PICOC */
 		break;
-
 	case HWAQ32_UART1_FRSKYSPORTTELEMETRY:
-        #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
-        #endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
 		break;
 	}
-
-	///////////////////////////////////////////////////////////////////////////
 
 	/* UART2 Port */
 	uint8_t hw_uart2;
 
 	HwAQ32Uart2Get(&hw_uart2);
 
-	switch (hw_uart2)
-	{
+	switch (hw_uart2) {
 	case HWAQ32_UART2_DISABLED:
 		break;
-
 	case HWAQ32_UART2_GPS:
-        #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
-        #endif
+#endif
 		break;
-
 	case HWAQ32_UART2_MAVLINKTX_GPS_RX:
-        #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 		pios_com_mavlink_id = pios_com_gps_id;
-        #endif	/* PIOS_INCLUDE_MAVLINK */
+#endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
 	}
-
-	///////////////////////////////////////////////////////////////////////////
 
 	/* UART3 Port */
 	uint8_t hw_uart3;
 
 	HwAQ32Uart3Get(&hw_uart3);
 
-	switch (hw_uart3)
-	{
+	switch (hw_uart3) {
 	case HWAQ32_UART3_DISABLED:
 		break;
-
 	case HWAQ32_UART3_TELEMETRY:
-        #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
-        #endif /* PIOS_INCLUDE_TELEMETRY_RF */
+#endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-
 	case HWAQ32_UART3_GPS:
-        #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
-        #endif
+#endif
 		break;
-
 	case HWAQ32_UART3_DEBUGCONSOLE:
-        #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
-        #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-
 	case HWAQ32_UART3_COMBRIDGE:
-        #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
-        #endif
+#endif
 		break;
-
 	case HWAQ32_UART3_MAVLINKTX:
-        #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
-        #endif	/* PIOS_INCLUDE_MAVLINK */
+#endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
-
 	case HWAQ32_UART3_MAVLINKTX_GPS_RX:
-        #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 		pios_com_mavlink_id = pios_com_gps_id;
-        #endif	/* PIOS_INCLUDE_MAVLINK */
+#endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
-
 	case HWAQ32_UART3_SBUS:
 		//hardware signal inverter required
-        #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
+#if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
 		{
 			uintptr_t pios_usart_sbus_id;
 			if (PIOS_USART_Init(&pios_usart_sbus_id, &pios_usart3_sbus_cfg)) {
@@ -824,37 +741,32 @@ void PIOS_Board_Init(void) {
 			}
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = pios_sbus_rcvr_id;
 		}
-        #endif	/* PIOS_INCLUDE_SBUS */
+#endif	/* PIOS_INCLUDE_SBUS */
 		break;
-
 	case HWAQ32_UART3_HOTTTELEMETRY:
-        #if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
-        #endif /* PIOS_INCLUDE_HOTT */
+#endif /* PIOS_INCLUDE_HOTT */
 		break;
-
 	case HWAQ32_UART3_FRSKYSENSORHUB:
-        #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
-        #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
+#endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 		break;
-
 	case HWAQ32_UART3_LIGHTTELEMETRYTX:
-        #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
+#if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
-        #endif
+#endif
 		break;
-
 	case HWAQ32_UART3_PICOC:
-        #if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
-        #endif /* PIOS_INCLUDE_PICOC */
+#endif /* PIOS_INCLUDE_PICOC */
 		break;
-
 	case HWAQ32_UART3_FRSKYSPORTTELEMETRY:
-        #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
-        #endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
 		break;
 	}
 
@@ -863,30 +775,25 @@ void PIOS_Board_Init(void) {
 		GPIO_WriteBit(pios_usart3_sbus_aux_cfg.inv.gpio, pios_usart3_sbus_aux_cfg.inv.init.GPIO_Pin, pios_usart3_sbus_aux_cfg.gpio_inv_disable);
 	}
 
-	///////////////////////////////////////////////////////////////////////////
-
 	/* UART4 Port */
 	uint8_t hw_uart4;
 
 	HwAQ32Uart4Get(&hw_uart4);
 
-	switch (hw_uart4)
-	{
+	switch (hw_uart4) {
 	case HWAQ32_UART4_DISABLED:
 		break;
-
 	case HWAQ32_UART4_DSM:
-        #if defined(PIOS_INCLUDE_DSM)
+#if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart4_dsm_hsum_cfg, &pios_usart4_dsm_aux_cfg, &pios_usart_com_driver,
 				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
-        #endif	/* PIOS_INCLUDE_DSM */
+#endif	/* PIOS_INCLUDE_DSM */
 		break;
-
-	case HWAQ32_UART4_HOTTSUMD:
+    case HWAQ32_UART4_HOTTSUMD:
 	case HWAQ32_UART4_HOTTSUMH:
-        #if defined(PIOS_INCLUDE_HSUM)
+#if defined(PIOS_INCLUDE_HSUM)
 		{
 			enum pios_hsum_proto proto;
 			switch (hw_uart4) {
@@ -903,71 +810,60 @@ void PIOS_Board_Init(void) {
 			PIOS_Board_configure_hsum(&pios_usart4_dsm_hsum_cfg, &pios_usart_com_driver,
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
 		}
-        #endif	/* PIOS_INCLUDE_HSUM */
+#endif	/* PIOS_INCLUDE_HSUM */
 		break;
 	}
-
-	///////////////////////////////////////////////////////////////////////////
 
 	/* UART6 Port */
 	uint8_t hw_uart6;
 
 	HwAQ32Uart6Get(&hw_uart6);
 
-	switch (hw_uart6)
-	{
+	switch (hw_uart6) {
 	case HWAQ32_UART6_DISABLED:
 		break;
-
 	case HWAQ32_UART6_TELEMETRY:
-        #if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart6_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
-        #endif /* PIOS_INCLUDE_TELEMETRY_RF */
+#endif /* PIOS_INCLUDE_TELEMETRY_RF */
 		break;
-
 	case HWAQ32_UART6_GPS:
-        #if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart6_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
-        #endif
+#endif
 		break;
-
 	case HWAQ32_UART6_DSM:
-        #if defined(PIOS_INCLUDE_DSM)
+#if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart6_dsm_hsum_cfg, &pios_usart6_dsm_aux_cfg, &pios_usart_com_driver,
 				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
 		}
-        #endif	/* PIOS_INCLUDE_DSM */
+#endif	/* PIOS_INCLUDE_DSM */
 		break;
-
 	case HWAQ32_UART6_DEBUGCONSOLE:
-        #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart6_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_debug_id);
-        #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
+#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
-
 	case HWAQ32_UART6_COMBRIDGE:
-        #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart6_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_bridge_id);
-        #endif
+#endif
 		break;
-
 	case HWAQ32_UART6_MAVLINKTX:
-        #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK)
 		PIOS_Board_configure_com(&pios_usart6_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_mavlink_id);
-        #endif	/* PIOS_INCLUDE_MAVLINK */
+#endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
-
 	case HWAQ32_UART6_MAVLINKTX_GPS_RX:
-        #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM) && defined(PIOS_INCLUDE_MAVLINK) && defined(PIOS_INCLUDE_GPS)
 		PIOS_Board_configure_com(&pios_usart6_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
 		pios_com_mavlink_id = pios_com_gps_id;
-        #endif	/* PIOS_INCLUDE_MAVLINK */
+#endif	/* PIOS_INCLUDE_MAVLINK */
 		break;
-
 	case HWAQ32_UART6_HOTTSUMD:
 	case HWAQ32_UART6_HOTTSUMH:
-        #if defined(PIOS_INCLUDE_HSUM)
+#if defined(PIOS_INCLUDE_HSUM)
 		{
 			enum pios_hsum_proto proto;
 			switch (hw_uart6) {
@@ -986,39 +882,32 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_HSUM */
 		break;
-
 	case HWAQ32_UART6_HOTTTELEMETRY:
-        #if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart6_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_hott_id);
-        #endif /* PIOS_INCLUDE_HOTT */
+#endif /* PIOS_INCLUDE_HOTT */
 		break;
-
 	case HWAQ32_UART6_FRSKYSENSORHUB:
-        #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart6_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
-        #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
+#endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 		break;
-
-	case HWAQ32_UART6_LIGHTTELEMETRYTX:
-        #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
+    case HWAQ32_UART6_LIGHTTELEMETRYTX:
+#if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 		PIOS_Board_configure_com(&pios_usart6_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
-        #endif
+#endif
 		break;
-
 	case HWAQ32_UART6_PICOC:
-        #if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart6_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_picoc_id);
-        #endif /* PIOS_INCLUDE_PICOC */
+#endif /* PIOS_INCLUDE_PICOC */
 		break;
-
 	case HWAQ32_UART6_FRSKYSPORTTELEMETRY:
-        #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart6_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
-        #endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+#endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
 		break;
 	}
-
-	///////////////////////////////////////////////////////////////////////////
 
 	/* Configure the rcvr port */
 	uint8_t hw_rcvrport;
@@ -1027,57 +916,51 @@ void PIOS_Board_Init(void) {
 
 	HwAQ32RcvrPortGet(&hw_rcvrport);
 
-	switch (hw_rcvrport)
-	{
+	switch (hw_rcvrport) {
 	case HWAQ32_RCVRPORT_DISABLED:
 	    use_ppm = false;
 		use_pwm = false;
 		break;
-
 	case HWAQ32_RCVRPORT_PPM:
         use_ppm = true;
 		use_pwm = false;
 		break;
-
 	case HWAQ32_RCVRPORT_PWM:
  		use_ppm = false;
 		use_pwm = true;
 		break;
-
 	case HWAQ32_RCVRPORT_PPMPWM:
 	    use_ppm = true;
 		use_pwm = true;
 		break;
 	}
 
-    #if defined(PIOS_INCLUDE_PPM) && defined(PIOS_INCLUDE_PWM)
-	    if (use_ppm == true) {
-			uintptr_t pios_ppm_id;
-		    PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
+#if defined(PIOS_INCLUDE_PPM) && defined(PIOS_INCLUDE_PWM)
+	if (use_ppm == true) {
+		uintptr_t pios_ppm_id;
+		PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
 
-		    uintptr_t pios_ppm_rcvr_id;
-		    if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
-			    PIOS_Assert(0);
-		    }
-		    pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
-
+		uintptr_t pios_ppm_rcvr_id;
+		if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
+			PIOS_Assert(0);
 		}
+		pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
 
-		if (use_pwm == true) {
-		    uintptr_t pios_pwm_id;
-		    PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_cfg);
+	}
 
-		    uintptr_t pios_pwm_rcvr_id;
-		    if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
-			    PIOS_Assert(0);
-		    }
-		    pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
+	if (use_pwm == true) {
+		uintptr_t pios_pwm_id;
+		PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_cfg);
+
+		uintptr_t pios_pwm_rcvr_id;
+		if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
+			PIOS_Assert(0);
 		}
-	#endif  /* PIOS_INCLUDE_PPM && PIOS_INCLUDE_PWM */
+		pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
+	}
+#endif  /* PIOS_INCLUDE_PPM && PIOS_INCLUDE_PWM */
 
-	///////////////////////////////////////////////////////////////////////////
-
-    #if defined(PIOS_INCLUDE_GCSRCVR)
+#if defined(PIOS_INCLUDE_GCSRCVR)
 	GCSReceiverInitialize();
 	uintptr_t pios_gcsrcvr_id;
 	PIOS_GCSRCVR_Init(&pios_gcsrcvr_id);
@@ -1086,27 +969,21 @@ void PIOS_Board_Init(void) {
 		PIOS_Assert(0);
 	}
 	pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_GCS] = pios_gcsrcvr_rcvr_id;
-    #endif	/* PIOS_INCLUDE_GCSRCVR */
+#endif	/* PIOS_INCLUDE_GCSRCVR */
 
-    ///////////////////////////////////////////////////////////////////////////
-
-	#if defined(PIOS_INCLUDE_TIM) && defined(PIOS_INCLUDE_SERVO)
-	#ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
+#if defined(PIOS_INCLUDE_TIM) && defined(PIOS_INCLUDE_SERVO)
+#ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
 	PIOS_Servo_Init(&pios_servo_cfg);
-    #else
+#else
 	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
-    #endif
-	#endif
-
-	///////////////////////////////////////////////////////////////////////////
+#endif
+#endif
 
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(200);
 	PIOS_WDG_Clear();
 
-    ///////////////////////////////////////////////////////////////////////////
-
-    #if defined(PIOS_INCLUDE_MPU6000)
+#if defined(PIOS_INCLUDE_MPU6000)
 	if (PIOS_MPU6000_Init(pios_spi_internal_id, 0, &pios_mpu6000_cfg) != 0)
 		panic(4);
 	if (PIOS_MPU6000_Test() != 0)
@@ -1175,12 +1052,10 @@ void PIOS_Board_Init(void) {
 	    pios_mpu6000_cfg.default_samplerate;
 	PIOS_MPU6000_SetSampleRate(mpu6000_samplerate);
 
-	#endif
+#endif
 
-    ///////////////////////////////////////////////////////////////////////////
-
-	#if defined(PIOS_INCLUDE_I2C)
-    #if defined(PIOS_INCLUDE_HMC5883)
+#if defined(PIOS_INCLUDE_I2C)
+#if defined(PIOS_INCLUDE_HMC5883)
     PIOS_WDG_Clear();
 
     uint8_t Magnetometer;
@@ -1220,12 +1095,8 @@ void PIOS_Board_Init(void) {
 		}
 	}
 
-	///////////////////////////////////////////////////////////////////////////
-	
 	/* Set external mag fail flag if external mag fails to initialize */
 	external_mag_fail = !use_internal_mag && !external_mag_init_ok;
-	
-	///////////////////////////////////////////////////////////////////////////
 	
 	if ((Magnetometer == HWAQ32_MAGNETOMETER_INTERNAL) || external_mag_fail)
 	{
@@ -1235,46 +1106,36 @@ void PIOS_Board_Init(void) {
 			panic(7);
 	}
 
-    #endif
-
-	///////////////////////////////////////////////////////////////////////////
+#endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
 	PIOS_WDG_Clear();
 
-    #if defined(PIOS_INCLUDE_MS5611)
+#if defined(PIOS_INCLUDE_MS5611)
 	if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_internal_id) != 0)
 		panic(12);
 	if (PIOS_MS5611_Test() != 0)
 		panic(13);
-    #endif
-
-	///////////////////////////////////////////////////////////////////////////
+#endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
 	PIOS_WDG_Clear();
 
-    #endif	/* PIOS_INCLUDE_I2C */
+#endif	/* PIOS_INCLUDE_I2C */
 
-    ///////////////////////////////////////////////////////////////////////////
-
-    #if defined(PIOS_INCLUDE_GPIO)
+#if defined(PIOS_INCLUDE_GPIO)
 	PIOS_GPIO_Init();
-    #endif
+#endif
 
-    ///////////////////////////////////////////////////////////////////////////
-
-	#if defined(PIOS_INCLUDE_ADC)
+#if defined(PIOS_INCLUDE_ADC)
 	/* Configure the adc port(s) */
 	uint8_t hw_adcport;
 
 	HwAQ32ADCInputsGet(&hw_adcport);
 
-	switch (hw_adcport)
-	{
+	switch (hw_adcport)	{
 	case HWAQ32_ADCINPUTS_DISABLED:
 		break;
-
 	case HWAQ32_ADCINPUTS_ENABLED:
 	    {
 			uint32_t internal_adc_id;
@@ -1289,14 +1150,10 @@ void PIOS_Board_Init(void) {
 		}
         break;
 	}
-	#endif
-
-	///////////////////////////////////////////////////////////////////////////
+#endif
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
 	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);
-
-	///////////////////////////////////////////////////////////////////////////
 }
 
 /**

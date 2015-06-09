@@ -6,7 +6,7 @@
 # @{
 # @addtogroup 
 # @{
-# @brief Makefile to build UAVObject code for quanton flight control.
+# @brief Makefile to build UAVObject code for aq32 flight control.
 ###############################################################################
 #
 # This program is free software; you can redistribute it and/or modify

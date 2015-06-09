@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsTargets Tau Labs Targets
+ * @addtogroup AeroQuadTargets AeroQuad Targets
  * @{
- * @addtogroup aq32 aq32 support files
+ * @addtogroup Aq32 Aq32 support files
  * @{
  *
  * @file       pios_config.h
@@ -102,15 +102,15 @@
 #define CAMERASTAB_POI_MODE
 
 /* Alarm Thresholds */
-#define HEAP_LIMIT_WARNING		1000
-#define HEAP_LIMIT_CRITICAL		500
+#define HEAP_LIMIT_WARNING		    1000
+#define HEAP_LIMIT_CRITICAL		    500
 #define IRQSTACK_LIMIT_WARNING		150
 #define IRQSTACK_LIMIT_CRITICAL		80
 #define CPULOAD_LIMIT_WARNING		80
 #define CPULOAD_LIMIT_CRITICAL		95
 
 /*
- * This has been calibrated 2013/03/11 using next @ 6d21c7a590619ebbc074e60cab5e134e65c9d32b.
+ * This has been calibrated 2014/03/01 using chibios @ fbd194c026098076bddd9e45e147828000f39d89.
  * Calibration has been done by disabling the init task, breaking into debugger after
  * approximately after 60 seconds, then doing the following math:
  *
@@ -120,7 +120,7 @@
  * configuration like number of task priorities or similar changes.
  * A change in the cpu load calculation or the idle task handler will invalidate this as well.
  */
-#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (6984538)
+#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (9873737)
 
 #define REVOLUTION
 #define AQ32

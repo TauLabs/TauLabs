@@ -1,8 +1,8 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsTargets Tau Labs Targets
+ * @addtogroup AeroQuadTargets AeroQuad Targets
  * @{
- * @addtogroup aq32 aq32 support files
+ * @addtogroup Aq32 Aq32 support files
  * @{
  *
  * @file       main.c 

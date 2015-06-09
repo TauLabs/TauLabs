@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @addtogroup Aq32Targets Aq32 Targets
+ * @addtogroup AeroQuadTargets AeroQuad Targets
  * @{
  * @addtogroup Aq32 Aq32 support files
  * @{
@@ -30,8 +30,6 @@
 
 #include <pios_config.h>
 #include <pios_board_info.h>
-
-///////////////////////////////////////////////////////////////////////////////
 
 #if defined(PIOS_INCLUDE_LED)
 
@@ -78,8 +76,6 @@ const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revisio
 }
 
 #endif	/* PIOS_INCLUDE_LED */
-
-///////////////////////////////////////////////////////////////////////////////
 
 #if defined(PIOS_INCLUDE_SPI)
 #include <pios_spi_priv.h>
@@ -212,8 +208,6 @@ void PIOS_SPI_internal_irq_handler(void)
 
 #endif	/* PIOS_INCLUDE_SPI */
 
-///////////////////////////////////////////////////////////////////////////////
-
 #if defined(PIOS_INCLUDE_I2C)
 
 #include <pios_i2c_priv.h>
@@ -291,8 +285,6 @@ void PIOS_I2C_internal_er_irq_handler(void)
   PIOS_I2C_ER_IRQ_Handler(pios_i2c_internal_id);
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
 void PIOS_I2C_external_ev_irq_handler(void);
 void PIOS_I2C_external_er_irq_handler(void);
 
@@ -367,8 +359,6 @@ void PIOS_I2C_external_er_irq_handler(void)
 }
 
 #endif /* PIOS_INCLUDE_I2C */
-
-///////////////////////////////////////////////////////////////////////////////
 
 #if defined(PIOS_INCLUDE_FLASH)
 #include "pios_flashfs_logfs_priv.h"
@@ -472,13 +462,9 @@ const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32
 
 #endif	/* PIOS_INCLUDE_FLASH */
 
-///////////////////////////////////////////////////////////////////////////////
-
 #if defined(PIOS_INCLUDE_USART)
 
 #include "pios_usart_priv.h"
-
-///////////////////////////////////////////////////////////////////////////////
 
 #if defined(PIOS_INCLUDE_DSM)
 /*
@@ -514,8 +500,6 @@ static const struct pios_dsm_cfg pios_usart6_dsm_aux_cfg = {
 
 #endif	/* PIOS_INCLUDE_DSM */
 
-///////////////////////////////////////////////////////////////////////////////
-
 #if defined(PIOS_INCLUDE_HSUM)
 /*
  * Graupner HoTT SUMD/SUMH USART
@@ -523,8 +507,6 @@ static const struct pios_dsm_cfg pios_usart6_dsm_aux_cfg = {
 #include <pios_hsum_priv.h>
 
 #endif	/* PIOS_INCLUDE_HSUM */
-
-///////////////////////////////////////////////////////////////////////////////
 
 #if (defined(PIOS_INCLUDE_DSM) || defined(PIOS_INCLUDE_HSUM))
 /*
@@ -597,8 +579,6 @@ static const struct pios_usart_cfg pios_usart6_dsm_hsum_cfg = {
 
 #endif	/* PIOS_INCLUDE_DSM || PIOS_INCLUDE_HSUM */
 
-///////////////////////////////////////////////////////////////////////////////
-
 #if defined(PIOS_INCLUDE_SBUS)
 /*
  * S.Bus USART
@@ -653,8 +633,6 @@ static const struct pios_sbus_cfg pios_usart3_sbus_aux_cfg = {
 };
 
 #endif	/* PIOS_INCLUDE_SBUS */
-
-///////////////////////////////////////////////////////////////////////////////
 
 static const struct pios_usart_cfg pios_usart1_cfg = {
 	.regs = USART1,
@@ -862,15 +840,11 @@ static const struct pios_usart_cfg pios_usart6_cfg = {
 
 #endif  /* PIOS_INCLUDE_USART */
 
-///////////////////////////////////////////////////////////////////////////////
-
 #if defined(PIOS_INCLUDE_COM)
 
 #include "pios_com_priv.h"
 
 #endif	/* PIOS_INCLUDE_COM */
-
-///////////////////////////////////////////////////////////////////////////////
 
 #if defined(PIOS_INCLUDE_RTC)
 /*
@@ -901,8 +875,6 @@ void PIOS_RTC_IRQ_Handler (void)
 }
 
 #endif
-
-///////////////////////////////////////////////////////////////////////////////
 
 #include "pios_tim_priv.h"
 
@@ -1013,8 +985,6 @@ static const struct pios_tim_clock_cfg tim_8_cfg = {
 		},
 	},
 };
-
-///////////////////////////////////////////////////////////////////////////////
 
 /**
  * Pios servo configuration structures
@@ -1230,8 +1200,6 @@ static const struct pios_tim_channel pios_tim_output_pins[] = {
 	},
 };
 
-///////////////////////////////////////////////////////////////////////////////
-
 #if defined(PIOS_INCLUDE_SERVO) && defined(PIOS_INCLUDE_TIM)
 /*
  * Servo outputs
@@ -1254,8 +1222,6 @@ const struct pios_servo_cfg pios_servo_cfg = {
 };
 
 #endif	/* PIOS_INCLUDE_SERVO && PIOS_INCLUDE_TIM */
-
-///////////////////////////////////////////////////////////////////////////////
 
 #if defined(PIOS_INCLUDE_PWM) || defined(PIOS_INCLUDE_PPM)
 #include <pios_pwm_priv.h>
@@ -1309,8 +1275,6 @@ static const struct pios_tim_channel pios_tim_rangefinder_pwm[] = {
 
 #endif
 
-///////////////////////////////////////////////////////////////////////////////
-
 /*
  * PPM Input
  */
@@ -1331,8 +1295,6 @@ static const struct pios_ppm_cfg pios_ppm_cfg = {
 
 #endif //PPM
 
-///////////////////////////////////////////////////////////////////////////////
-
 #if defined(PIOS_INCLUDE_PWM)
 
 static const struct pios_pwm_cfg pios_pwm_cfg = {
@@ -1348,19 +1310,13 @@ static const struct pios_pwm_cfg pios_pwm_cfg = {
 
 #endif //PWM
 
-///////////////////////////////////////////////////////////////////////////////
-
 #if defined(PIOS_INCLUDE_GCSRCVR)
 #include "pios_gcsrcvr_priv.h"
 #endif	/* PIOS_INCLUDE_GCSRCVR */
 
-///////////////////////////////////////////////////////////////////////////////
-
 #if defined(PIOS_INCLUDE_RCVR)
 #include "pios_rcvr_priv.h"
 #endif /* PIOS_INCLUDE_RCVR */
-
-///////////////////////////////////////////////////////////////////////////////
 
 #if defined(PIOS_INCLUDE_USB)
 #include "pios_usb_priv.h"
@@ -1401,15 +1357,11 @@ const struct pios_usb_cfg * PIOS_BOARD_HW_DEFS_GetUsbCfg (uint32_t board_revisio
 
 #endif	/* PIOS_INCLUDE_USB */
 
-///////////////////////////////////////////////////////////////////////////////
-
 #if defined(PIOS_INCLUDE_COM_MSG)
 
 #include <pios_com_msg_priv.h>
 
 #endif /* PIOS_INCLUDE_COM_MSG */
-
-///////////////////////////////////////////////////////////////////////////////
 
 #if defined(PIOS_INCLUDE_USB_HID) && !defined(PIOS_INCLUDE_USB_CDC)
 #include <pios_usb_hid_priv.h>
@@ -1420,8 +1372,6 @@ const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
 	.data_tx_ep = 1,
 };
 #endif /* PIOS_INCLUDE_USB_HID && !PIOS_INCLUDE_USB_CDC */
-
-///////////////////////////////////////////////////////////////////////////////
 
 #if defined(PIOS_INCLUDE_USB_HID) && defined(PIOS_INCLUDE_USB_CDC)
 #include <pios_usb_cdc_priv.h>
@@ -1443,8 +1393,6 @@ const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
 	.data_tx_ep = 1,
 };
 #endif	/* PIOS_INCLUDE_USB_HID && PIOS_INCLUDE_USB_CDC */
-
-///////////////////////////////////////////////////////////////////////////////
 
 #if defined(PIOS_INCLUDE_ADC)
 #include "pios_adc_priv.h"
@@ -1486,8 +1434,6 @@ void PIOS_ADC_DMA_irq_handler(void)
 }
 
 #endif /* PIOS_INCLUDE_ADC */
-
-///////////////////////////////////////////////////////////////////////////////
 
 /**
  * @}

@@ -1,11 +1,11 @@
 /**
  ******************************************************************************
- * @addtogroup MiscTargets Misc Targets
+ * @addtogroup AeroQuadTargets AeroQuad Targets
  * @{
- * @addtogroup AQ32 AQ32 support files
+ * @addtogroup Aq32 Aq32 support files
  * @{
  *
- * @file       STM32F4xx_AQ32.c
+ * @file       STM32F4xx_Aq32.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Board specific defines for AQ32
  * @see        The GNU Public License (GPL) Version 3
