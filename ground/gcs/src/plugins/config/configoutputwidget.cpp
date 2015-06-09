@@ -120,6 +120,14 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
         res->clear();
         res->addItems(resolutions->getOptions());
         addWidget(res);
+        connect(res, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshWidgetRanges()));
+    }
+
+    QList<QComboBox*>::iterator rateIter;
+    for (rateIter = rateList.begin(); rateIter != rateList.end(); rateIter++) {
+        QComboBox *rate = *rateIter;
+
+        connect(rate, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshWidgetRanges()));
     }
 
     disconnect(this, SLOT(refreshWidgetsValues(UAVObject*)));
