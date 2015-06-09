@@ -783,6 +783,35 @@ void PIOS_Board_Init(void) {
 	}
 
 
+	/* UART4 Port */
+	uint8_t hw_uart4;
+	HwFlyingF4Uart4Get(&hw_uart4);
+	switch (hw_uart4) {
+	case HWFLYINGF4_UART4_DISABLED:
+		break;
+	case HWFLYINGF4_UART4_GPS:
+#if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
+#endif
+		break;
+	}
+
+	/* UART5 Port */
+	uint8_t hw_uart5;
+	HwFlyingF4Uart5Get(&hw_uart5);
+	switch (hw_uart5) {
+	case HWFLYINGF4_UART5_DISABLED:
+		break;
+	case HWFLYINGF4_UART5_GPS:
+#if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
+#endif
+		break;
+	}
+
+	
+	
+	
 	/* Configure the rcvr port */
 	uint8_t hw_rcvrport;
 	HwFlyingF4RcvrPortGet(&hw_rcvrport);
