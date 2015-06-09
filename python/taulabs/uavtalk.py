@@ -70,6 +70,7 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
         # 10k chosen here to be bigger than any plausible uavo; could calculate
         # this instead from our known uav objects
         if len(buf) - buf_offset < 10240:
+            #print "stitch pp=%d"%(len(pending_pieces))
             pending_pieces.insert(0, buf[buf_offset:])
             buf_offset = 0
 
@@ -97,17 +98,20 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
         while (len(buf) < header_fmt.size + buf_offset) or (buf[buf_offset] != chr(SYNC_VAL)):
             #print "waitingsync len=%d, offset=%d"%(len(buf), buf_offset)
 
-            rx = yield None
+            if len(buf) < header_fmt.size + 1 + buf_offset:
+                rx = yield None
 
-            if rx is None:
-                #end of stream, stopiteration
-                return
+                if rx is None:
+                    #end of stream, stopiteration
+                    return
 
-            buf = buf + rx
+                buf = buf + rx
 
             for i in xrange(buf_offset, len(buf)):
                 if buf[i] == chr(SYNC_VAL):
                     break
+
+            #print "skipping from %d to %d"%(buf_offset, i)
 
             # Trim off irrelevant stuff, loop and try again
             buf_offset = i
