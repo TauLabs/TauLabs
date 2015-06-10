@@ -229,6 +229,13 @@ void ModelUavoProxy::objectsToModel()
 
         // Get the waypoint data from the object manager and prepare a row in the internal model
         wpfields = wp->getData();
+
+        if (wpfields.Mode == Waypoint::MODE_INVALID)
+            break;
+
+        if (wpfields.Mode == Waypoint::MODE_STOP)
+            break;
+
         myModel->insertRow(x);
 
         // Compute the coordinates in LLA
