@@ -258,16 +258,14 @@ static void holdCurrentPosition()
 }
 
 /**
- * Initial position hold at current position.  This is used at the end
- * of a path or in the case of a problem.
+ * Hold position at a specified waypoint.  Used when we reach the end of valid
+ * waypoints.
  */
-static void holdLastPosition()
+static void holdPosition(uint32_t idx)
 {
-	uint32_t idx = UAVObjGetNumInstances(WaypointHandle());
-
-	// Get the activated waypoint
+	// Get the selected waypoint
 	WaypointData waypoint;
-	WaypointInstGet(idx-1, &waypoint);
+	WaypointInstGet(idx, &waypoint);
 
 	PositionActualData position;
 	PositionActualGet(&position);
@@ -286,6 +284,30 @@ static void holdLastPosition()
 	pathDesired.Waypoint = -1;
 	PathDesiredSet(&pathDesired);
 }
+
+static bool waypointValid(int32_t idx) {
+	if (idx < 0) return false;
+
+	if (idx >= UAVObjGetNumInstances(WaypointHandle())) {
+		return false;
+	}
+
+	// Get the activated waypoint
+	WaypointData waypoint;
+	WaypointInstGet(idx, &waypoint);
+
+	// Perhaps should fully validate here..
+	if (waypoint.Mode == WAYPOINT_MODE_INVALID) {
+		return false;
+	}
+
+	if (waypoint.Mode == WAYPOINT_MODE_STOP) {
+		return false;
+	}
+
+	return true;
+}
+
 /**
  * Increment the waypoint index which triggers the active waypoint method
  */
@@ -293,19 +315,20 @@ static void advanceWaypoint()
 {
 	WaypointActiveGet(&waypointActive);
 
-	// Store the currently active waypoint.  This is used in activeWaypoint to plot
-	// a waypoint from this (previous) waypoint to the newly selected one
-	previous_waypoint = waypointActive.Index;
-
 	// Default implementation simply jumps to the next possible waypoint.  Insert any
 	// conditional logic desired here.
 	// Note: In the case of conditional logic it is the responsibilty of the implementer
 	// to ensure all possible paths are valid.
-	waypointActive.Index = previous_waypoint+1;
+	
+	int32_t next_waypoint = waypointActive.Index + 1;
 
-	if (waypointActive.Index >= UAVObjGetNumInstances(WaypointHandle())) {
-		holdLastPosition();	// This means last in path.
+	if (!waypointValid(next_waypoint)) {
+		holdPosition(waypointActive.Index); // This means current waypoint
 	} else {
+		previous_waypoint = waypointActive.Index;
+
+		waypointActive.Index = next_waypoint;
+
 		WaypointActiveSet(&waypointActive);
 	}
 
@@ -322,7 +345,7 @@ static void advanceWaypoint()
  */
 static void activateWaypoint(int idx)
 {
-	if ((idx >= UAVObjGetNumInstances(WaypointHandle())) || (idx < 0)) {
+	if (!waypointValid(idx)) {
 		// Attempting to access invalid waypoint.  Fall back to position hold at current location
 		AlarmsSet(SYSTEMALARMS_ALARM_PATHPLANNER, SYSTEMALARMS_ALARM_ERROR);
 		holdCurrentPosition();
