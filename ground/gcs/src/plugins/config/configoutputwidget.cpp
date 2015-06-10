@@ -500,11 +500,13 @@ void ConfigOutputWidget::refreshWidgetRanges()
                 QComboBox* res = resList.at(i);
                 quint32 timerRes = res->currentIndex();
 
-                double maxPulseWidth = 0, uavoMaxPulseWidth = 0;
+                // First saturate at the timer period's maximum value.
+                double maxPulseWidth, timerPeriodUs = 65535;
 
-                // Saturate at the UAVO's maximum value
-                uavoMaxPulseWidth = 65535;
+                // Saturate at the UAVO's maximum valueV
+                timerPeriodUs = 65535;
 
+                // And adjust units into microseconds if 12MHz timer.
                 if (timerRes == ActuatorSettings::TIMERPWMRESOLUTION_12MHZ)
                     uavoMaxPulseWidth = uavoMaxPulseWidth / 12;
 
@@ -512,11 +514,14 @@ void ConfigOutputWidget::refreshWidgetRanges()
                 {
                     maxPulseWidth = 1000000 / timerFreq;
 
-                    if (maxPulseWidth > uavoMaxPulseWidth)
-                        maxPulseWidth = uavoMaxPulseWidth;
+                    // Should never happen, but here in case we ever have a
+                    // < 16Hz PWM mode.
+                    if (maxPulseWidth > timerPeriodUs)
+                        maxPulseWidth = timerPeriodUs;
                 } else {
-                    // SyncPWM has been selected, the actual pulse limit is a function of sensor rate.
-                    maxPulseWidth = uavoMaxPulseWidth;
+                    // SyncPWM has been selected, only the timer period
+                    // provides bounding
+                    maxPulseWidth = timerPeriodUs;
                 }
 
                 // For each of the channels...
