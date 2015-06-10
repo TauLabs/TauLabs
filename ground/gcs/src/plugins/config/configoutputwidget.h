@@ -85,9 +85,10 @@ private slots:
     void openHelp();
     void do_SetDirty();
     void assignOutputChannels(UAVObject *obj);
+    void refreshWidgetRanges();
 
 protected:
-        void enableControls(bool enable);
+    void enableControls(bool enable);
 };
 
 #endif

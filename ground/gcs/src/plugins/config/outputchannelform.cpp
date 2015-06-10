@@ -86,14 +86,6 @@ OutputChannelForm::OutputChannelForm(const int index, QWidget *parent, const boo
     ui.actuatorLink->setChecked(false);
     connect(ui.actuatorLink, SIGNAL(toggled(bool)), this, SLOT(linkToggled(bool)));
 
-    // Trigger when autopilot is connected
-    connect(this, SIGNAL(autoPilotConnected()), this, SLOT(onAutopilotConnect()));
-
-    // Get UAVObject and connect
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    connect(ActuatorSettings::GetInstance(objManager), SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateMaxSpinboxValue(UAVObject*)));
-
     disableMouseWheelEvents();
 }
 
@@ -138,7 +130,7 @@ void OutputChannelForm::linkToggled(bool state)
     Q_UNUSED(state)
 
     if (!m_inChannelTest)
-        return;	// we are not in Test Output mode
+        return; // we are not in Test Output mode
 
     // find the minimum slider value for the linked ones
     if (!parent()) return;
@@ -216,6 +208,25 @@ int OutputChannelForm::type() const
     return ui.actuatorType->currentIndex();
 }
 
+void OutputChannelForm::alignFields()
+{
+    int actuatorWidth=0;
+
+    foreach(OutputChannelForm * form,parent()->findChildren<OutputChannelForm*>())
+    {
+        actuatorWidth = fmax(actuatorWidth, form->ui.actuatorMin->minimumSize().width());
+        actuatorWidth = fmax(actuatorWidth, form->ui.actuatorMin->sizeHint().width());
+        actuatorWidth = fmax(actuatorWidth, form->ui.actuatorMax->minimumSize().width());
+        actuatorWidth = fmax(actuatorWidth, form->ui.actuatorMax->sizeHint().width());
+    }
+
+    foreach(OutputChannelForm * form,parent()->findChildren<OutputChannelForm*>())
+    {
+        form->ui.actuatorMin->setMinimumSize(actuatorWidth, 0);
+        form->ui.actuatorMax->setMinimumSize(actuatorWidth, 0);
+    }
+}
+
 /**
  * Set the channel assignment label.
  */
@@ -259,7 +270,7 @@ void OutputChannelForm::setChannelRange()
         // from Qt bug: https://bugreports.qt.io/browse/QTBUG-43398
         ui.actuatorNeutral->setRange(ui.actuatorMin->value()-1, ui.actuatorMin->value()+1);
         ui.actuatorNeutral->setEnabled(false);
-	setNeutral(ui.actuatorMin->value());
+        setNeutral(ui.actuatorMin->value());
     }
 
     // Force a full slider update
@@ -358,60 +369,14 @@ void OutputChannelForm::notifyFormChanged()
     if (!m_inChannelTest){
         emit formChanged();
     }
+
+    setChannelRange();
 }
 
-
-void OutputChannelForm::updateMaxSpinboxValue(UAVObject *obj)
+void OutputChannelForm::updateMaxSpinboxValue(int maxPulseWidth)
 {
-    Q_UNUSED(obj);
-
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
-    ActuatorSettings *actuatorSettings = ActuatorSettings::GetInstance(objManager);
-    ActuatorSettings::DataFields actuatorSettingsData = actuatorSettings->getData();
-
-    UAVObjectUtilManager* utilMngr = pm->getObject<UAVObjectUtilManager>();
-    Core::IBoardType *board = utilMngr->getBoardType();
-
-    // Check that a board is registered
-    if (board == NULL)
-        return;
-
-    QVector< QVector<qint32> > channelBanks = board->getChannelBanks();
-
-    for (int i=0; i<channelBanks.size(); i++) {
-        QVector<int> channelBank = channelBanks[i];
-
-        // Iterate over each channel...
-        foreach(qint32 channel, channelBank) {
-            // ... and if there's a match, set the maximum values and return
-            if (channel-1 == m_index) {
-                if (actuatorSettingsData.TimerUpdateFreq[i] == 0)
-                    return;
-
-                double maxPulseWidth = round(10000000.0 / actuatorSettingsData.TimerUpdateFreq[i]);
-
-                // Saturate at the UAVO's maximum value
-                if (maxPulseWidth > std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max())
-                    maxPulseWidth = std::numeric_limits<__typeof__(actuatorSettingsData.ChannelMax[0])>::max();
-
-                ui.actuatorMin->setMaximum(maxPulseWidth);
-                ui.actuatorMax->setMaximum(maxPulseWidth);
-
-                return;
-            }
-        }
-    }
-}
-
-
-/**
- * @brief OutputChannelForm::onAutopilotConnect Triggers a spinbox update. This resolves a race
- * condition by which the ActuatorSettings UAVO could be updated before the board manager
- * loaded the appropriate board settings
- */
-void OutputChannelForm::onAutopilotConnect()
-{
-    // Trigger an update
-    updateMaxSpinboxValue((UAVObject *)NULL);
+    ui.actuatorMin->setMaximum(maxPulseWidth);
+    ui.actuatorMax->setMaximum(maxPulseWidth);
+    setChannelRange();
+    alignFields();
 }
