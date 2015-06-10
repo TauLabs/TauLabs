@@ -69,16 +69,25 @@ bool ModelUavoProxy::modelToObjects()
     double LLA[3];
     getHomeLocation(homeLLA);
     bool newInstance;
-    for(int x=0;x<myModel->rowCount();++x)
+
+    // Get the number of existing waypoints
+    int instances = Waypoint::getNumInstances(objManager);
+    int x;
+
+    // Figure out the total amount of work to do.
+    int progressMax = myModel->rowCount();
+
+    if (instances > progressMax) {
+        progressMax = instances;
+    }
+
+    for(x=0;x<myModel->rowCount();++x)
     {
         newInstance = false;
-        Waypoint *wp = NULL;
-
-        // Get the number of existing waypoints
-        int instances = Waypoint::getNumInstances(objManager);
+        Waypoint *wp = NULL;    // Shadows above wp
 
         // Create new instances of waypoints if this is more than exist
-        if(x>instances-1)
+        if(x >= instances)
         {
             newInstance = true;
             wp=new Waypoint;
@@ -109,13 +118,12 @@ bool ModelUavoProxy::modelToObjects()
 
         if (robustUpdate(waypoint, x)) {
             qDebug() << "Successfully updated";
-            emit sendPathPlanToUavProgress(100 * (x + 1) / myModel->rowCount());
+            emit sendPathPlanToUavProgress(100 * (x + 1) / progressMax);
         }
         else {
             qDebug() << "Upload failed";
-            emit sendPathPlanToUavProgress(100 * (x + 1) / myModel->rowCount());
+            emit sendPathPlanToUavProgress(100 * (x + 1) / progressMax);
             return false;
-            break;
         }
         if(newInstance)
         {
@@ -124,6 +132,25 @@ bool ModelUavoProxy::modelToObjects()
             m_eventloop.exec();
         }
     }
+
+    for (; x < instances; x++) {
+        Waypoint *wp = Waypoint::GetInstance(objManager, x);
+                // shadows wp above
+        
+        Waypoint::DataFields waypoint = wp->getData();
+
+        waypoint.Mode = Waypoint::MODE_INVALID;
+        if (robustUpdate(waypoint, x)) {
+            qDebug() << "Successfully updated";
+            emit sendPathPlanToUavProgress(100 * (x + 1) / progressMax);
+        }
+        else {
+            qDebug() << "Upload failed";
+            emit sendPathPlanToUavProgress(100 * (x + 1) / progressMax);
+            return false;
+        }
+    }
+
     wp->setMetadata(initialMeta);
     return true;
 }
