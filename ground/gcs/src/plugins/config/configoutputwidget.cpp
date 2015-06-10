@@ -503,12 +503,12 @@ void ConfigOutputWidget::refreshWidgetRanges()
                 // First saturate at the timer period's maximum value.
                 double maxPulseWidth, timerPeriodUs = 65535;
 
-                // Saturate at the UAVO's maximum valueV
+                // Saturate at the UAVO's maximum value
                 timerPeriodUs = 65535;
 
                 // And adjust units into microseconds if 12MHz timer.
                 if (timerRes == ActuatorSettings::TIMERPWMRESOLUTION_12MHZ)
-                    uavoMaxPulseWidth = uavoMaxPulseWidth / 12;
+                    timerPeriodUs = timerPeriodUs / 12;
 
                 if (timerFreq != 0)
                 {
