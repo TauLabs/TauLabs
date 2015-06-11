@@ -1817,7 +1817,7 @@ const struct pios_video_cfg pios_video_cfg = {
 #if defined(PIOS_INCLUDE_FRSKY_RSSI)
 #include "pios_frsky_rssi_priv.h"
 const TIM_TimeBaseInitTypeDef pios_frsky_rssi_time_base ={
-	.TIM_Prescaler = 0,
+	.TIM_Prescaler = 5,
 	.TIM_ClockDivision = TIM_CKD_DIV1,
 	.TIM_CounterMode = TIM_CounterMode_Up,
 	.TIM_Period = 0xFFFF,
