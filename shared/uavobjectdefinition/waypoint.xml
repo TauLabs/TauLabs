@@ -10,14 +10,10 @@
 
 		<field name="Mode" units="" type="enum" elements="1">
 			<options>
-				<option>FlyEndpoint</option>
-				<option>FlyVector</option>
-				<option>FlyCircleRight</option>
-				<option>FlyCircleLeft</option>
-				<option>DriveEndpoint</option>
-				<option>DriveVector</option>
-				<option>DriveCircleLeft</option>
-				<option>DriveCircleRight</option>
+				<option>Endpoint</option>
+				<option>Vector</option>
+				<option>CircleRight</option>
+				<option>CircleLeft</option>
 				<option>HoldPosition</option>
 				<option>CirclePositionLeft</option>
 				<option>CirclePositionRight</option>
