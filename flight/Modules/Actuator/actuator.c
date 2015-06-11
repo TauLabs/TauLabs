@@ -167,12 +167,12 @@ static void actuatorTask(void* parameters)
 
 	/* Read initial values of ActuatorSettings */
 	ActuatorSettingsData actuatorSettings;
-	actuator_settings_updated = false;
+	actuator_settings_updated = true;
 	ActuatorSettingsGet(&actuatorSettings);
 
 	/* Read initial values of MixerSettings */
 	MixerSettingsData mixerSettings;
-	mixer_settings_updated = false;
+	mixer_settings_updated = true;
 	MixerSettingsGet(&mixerSettings);
 
 	/* Force an initial configuration of the actuator update rates */
