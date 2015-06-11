@@ -33,19 +33,24 @@ def main():
 
     githash = args.githash
 
-    tStream = telemetry.NetworkTelemetry()
+    tStream = telemetry.NetworkTelemetry(service_in_iter=False)
+    tStream.start_thread()
 
-#    tStream = telemetry.NetworkTelemetry(serviceInIter=False)
-#    tStream.start_thread()
+    settings_objects = tStream.uavo_defs.get_settings_objects()
 
-#    print settingsObjs
-#    print tStream.get_last_values()
-#    print [v for (k,v) in tStream.get_last_values().iteritems() 
-#                if k in settingsObjs]
+    # Need to actually control send rates and see when we're done.
+    for s in settings_objects:
+        tStream.request_object(s)
+        time.sleep(0.15)
 
-    for obj in tStream:
-        print obj
-        pass
+    time.sleep(2.5)
+
+    for s in settings_objects:
+        val = tStream.last_values.get(s)
+        if val is not None:
+            print val
+        else:
+            print "No instance of %s" % (s._name)
 
 #-------------------------------------------------------------------------------
 if __name__ == "__main__":

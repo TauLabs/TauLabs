@@ -54,6 +54,7 @@ public slots:
     void enableChannelTest(bool state);
     void setType(int type);
     int type() const;
+    void updateMaxSpinboxValue(int maxPulseWidth);
 
 signals:
     void channelChanged(int index, int value);
@@ -65,6 +66,8 @@ private:
     int m_index;
     bool m_inChannelTest;
 
+    void alignFields();
+
 private slots:
     void linkToggled(bool state);
     void reverseChannel();
@@ -72,8 +75,6 @@ private slots:
     void sendChannelTest(int value);
     void setChannelRange();
     void notifyFormChanged();
-    void updateMaxSpinboxValue(UAVObject*);
-    void onAutopilotConnect();
 };
 
 inline int OutputChannelForm::index() const

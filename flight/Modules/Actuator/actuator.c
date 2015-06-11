@@ -530,7 +530,7 @@ static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettin
 #else
 {
 	switch(actuatorSettings->ChannelType[mixer_channel]) {
-		case ACTUATORSETTINGS_CHANNELTYPE_PWMALARMBUZZER: 
+		case ACTUATORSETTINGS_CHANNELTYPE_PWMALARM: 
                 case ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED:
                 case ACTUATORSETTINGS_CHANNELTYPE_INFOLED:
                 {
@@ -546,7 +546,7 @@ static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettin
 			static uint32_t currInfoTuneState;
 
                         uint32_t newTune = 0;
-                        if(actuatorSettings->ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_PWMALARMBUZZER)
+                        if(actuatorSettings->ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_PWMALARM)
                         {
                             
                             // Decide what tune to play
@@ -617,7 +617,7 @@ static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettin
 			if (currBuzzTune||currArmingTune||currInfoTune) {
                             if(thisSysTime > lastSysTime)
                                 dT = thisSysTime - lastSysTime;
-                            if(actuatorSettings->ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_PWMALARMBUZZER)
+                            if(actuatorSettings->ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_PWMALARM)
                                 buzzOn = (currBuzzTuneState&1);	// Buzz when the LS bit is 1
                             else if(actuatorSettings->ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED)
                                 buzzOn = (currArmingTuneState&1);	
@@ -690,8 +690,8 @@ static void MixerSettingsUpdatedCb(UAVObjEvent * ev)
 	mixer_settings_updated = true;
 }
 
-#define OUTPUT_MODE_ASSUMPTIONS ( PWM_MODE_1US == ACTUATORSETTINGS_TIMERPWMRESOLUTION_1US ) && \
-                                ( PWM_MODE_80NS == ACTUATORSETTINGS_TIMERPWMRESOLUTION_80NS )
+#define OUTPUT_MODE_ASSUMPTIONS ( PWM_MODE_1MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_1MHZ ) && \
+                                ( PWM_MODE_12MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_12MHZ )
 #if !(OUTPUT_MODE_ASSUMPTIONS)
     #error "ActuatorSettings.TimerPwmResolution does not match PWM_MODE enum"
 #endif
