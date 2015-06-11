@@ -240,8 +240,8 @@ private:
     Ui::OPMap_Widget *m_widget;
     mapcontrol::TLMapWidget *m_map;
 	ExtensionSystem::PluginManager *pm;
-	UAVObjectManager *obm;
-	UAVObjectUtilManager *obum;
+	UAVObjectManager *uavo_mgr;
+	UAVObjectUtilManager *uavo_util_mgr;
 
     QStandardItemModel wayPoint_treeView_model;
     mapcontrol::WayPointItem *m_mouse_waypoint;

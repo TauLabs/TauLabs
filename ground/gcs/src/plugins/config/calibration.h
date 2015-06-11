@@ -208,7 +208,7 @@ private:
     static const int NON_SENSOR_UPDATE_PERIOD = 0;
     double MIN_TEMPERATURE_RANGE;
 
-    double initialBoardRotation[3];
+    double boardRotationMatrix[3][3];
     double initialAccelsScale[3];
     double initialAccelsBias[3];
     double initialMagsScale[3];

@@ -553,26 +553,19 @@ void Calibration::doStartLeveling() {
   */
 void Calibration::doStartSixPoint()
 {
-
-    // Save initial rotation settings
-    AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
-    Q_ASSERT(attitudeSettings);
-    AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
-
-    initialBoardRotation[0]=attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL];
-    initialBoardRotation[1]=attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH];
-    initialBoardRotation[2]=attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW];
-
-    //Set board rotation to (0,0,0)
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] =0;
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH]=0;
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW]  =0;
-    attitudeSettings->setData(attitudeSettingsData);
-
     // Save initial sensor settings
     SensorSettings * sensorSettings = SensorSettings::GetInstance(getObjectManager());
     Q_ASSERT(sensorSettings);
     SensorSettings::DataFields sensorSettingsData = sensorSettings->getData();
+
+    // Compute the board rotation matrix, so we can undo the rotation
+    AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
+    Q_ASSERT(attitudeSettings);
+    AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
+    double rpy[3] = { attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] * DEG2RAD / 100.0,
+                      attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] * DEG2RAD / 100.0,
+                      attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0};
+    Euler2R(rpy, boardRotationMatrix);
 
     // If calibrating the accelerometer, remove any scaling
     if (calibrateAccels) {
@@ -733,22 +726,20 @@ void Calibration::doStartTempCal()
     gyro_accum_z.clear();
     gyro_accum_temp.clear();
 
-    // Disable gyro sensor-frame rotation and bias correction to see raw data
+    // Disable gyro sensor bias correction to see raw data
     AttitudeSettings *attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
     Q_ASSERT(attitudeSettings);
     AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
-
-    initialBoardRotation[0] = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL];
-    initialBoardRotation[1] = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH];
-    initialBoardRotation[2] = attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW];
-
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = 0;
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH]= 0;
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW]  = 0;
     attitudeSettingsData.BiasCorrectGyro = AttitudeSettings::BIASCORRECTGYRO_FALSE;
 
     attitudeSettings->setData(attitudeSettingsData);
     attitudeSettings->updated();
+
+    // compute board rotation matrix
+    double rpy[3] = { attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] * DEG2RAD / 100.0,
+                      attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] * DEG2RAD / 100.0,
+                      attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] * DEG2RAD / 100.0};
+    Euler2R(rpy, boardRotationMatrix);
 
     calibration_state = GYRO_TEMP_CAL;
 
@@ -1061,9 +1052,14 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
 
         // Store the average accelerometer value in that position
         if (calibrateAccels) {
-            accel_data_x[position] = listMean(accel_accum_x);
-            accel_data_y[position] = listMean(accel_accum_y);
-            accel_data_z[position] = listMean(accel_accum_z);
+            // undo the board rotation that has been applied to the sensor values
+            double accel_body[3] = {listMean(accel_accum_x), listMean(accel_accum_y), listMean(accel_accum_z)};
+            double accel_sensor[3];
+            rotate_vector(boardRotationMatrix, accel_body, accel_sensor, false);
+
+            accel_data_x[position] = accel_sensor[0];
+            accel_data_y[position] = accel_sensor[1];
+            accel_data_z[position] = accel_sensor[2];
             accel_accum_x.clear();
             accel_accum_y.clear();
             accel_accum_z.clear();
@@ -1071,9 +1067,14 @@ bool Calibration::storeSixPointMeasurement(UAVObject * obj, int position)
 
         // Store the average magnetometer value in that position
         if (calibrateMags) {
-            mag_data_x[position] = listMean(mag_accum_x);
-            mag_data_y[position] = listMean(mag_accum_y);
-            mag_data_z[position] = listMean(mag_accum_z);
+            // undo the board rotation that has been applied to the sensor values
+            double mag_body[3] = {listMean(mag_accum_x), listMean(mag_accum_y), listMean(mag_accum_z)};
+            double mag_sensor[3];
+            rotate_vector(boardRotationMatrix, mag_body, mag_sensor, false);
+
+            mag_data_x[position] = mag_sensor[0];
+            mag_data_y[position] = mag_sensor[1];
+            mag_data_z[position] = mag_sensor[2];
             mag_accum_x.clear();
             mag_accum_y.clear();
             mag_accum_z.clear();
@@ -1110,9 +1111,12 @@ bool Calibration::storeTempCalMeasurement(UAVObject * obj)
         Gyros *gyros = Gyros::GetInstance(getObjectManager());
         Q_ASSERT(gyros);
         Gyros::DataFields gyrosData = gyros->getData();
-        gyro_accum_x.append(gyrosData.x);
-        gyro_accum_y.append(gyrosData.y);
-        gyro_accum_z.append(gyrosData.z);
+        double gyros_body[3] = {gyrosData.x, gyrosData.y, gyrosData.z};
+        double gyros_sensor[3];
+        rotate_vector(boardRotationMatrix, gyros_body, gyros_sensor, false);
+        gyro_accum_x.append(gyros_sensor[0]);
+        gyro_accum_y.append(gyros_sensor[1]);
+        gyro_accum_z.append(gyros_sensor[2]);
         gyro_accum_temp.append(gyrosData.temperature);
     }
 
@@ -1356,15 +1360,6 @@ int Calibration::computeScaleBias()
     Q_ASSERT(sensorSettings);
     SensorSettings::DataFields sensorSettingsData = sensorSettings->getData();
 
-    // Regardless of calibration result, set board rotations back to user settings
-    AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
-    Q_ASSERT(attitudeSettings);
-    AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = initialBoardRotation[0];
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = initialBoardRotation[1];
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] = initialBoardRotation[2];
-    attitudeSettings->setData(attitudeSettingsData);
-
     bool good_calibration = true;
 
     //Assign calibration data
@@ -1387,7 +1382,7 @@ int Calibration::computeScaleBias()
         sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Y] *= fabs(S[1]);
         sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Z] *= fabs(S[2]);
 
-        // Check the accel calibration is good
+        // Check the accel calibration is good (checks for NaN's)
         good_calibration &= sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_X] ==
                 sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_X];
         good_calibration &= sensorSettingsData.AccelScale[SensorSettings::ACCELSCALE_Y] ==
@@ -1448,7 +1443,7 @@ int Calibration::computeScaleBias()
         sensorSettingsData.MagScale[SensorSettings::MAGSCALE_Y] *= fabs(S[1]);
         sensorSettingsData.MagScale[SensorSettings::MAGSCALE_Z] *= fabs(S[2]);
 
-        // Check the mag calibration is good
+        // Check the mag calibration is good (checks for NaN's)
         good_calibration &= sensorSettingsData.MagBias[SensorSettings::MAGBIAS_X] ==
                 sensorSettingsData.MagBias[SensorSettings::MAGBIAS_X];
         good_calibration &= sensorSettingsData.MagBias[SensorSettings::MAGBIAS_Y] ==
@@ -1488,18 +1483,6 @@ int Calibration::computeScaleBias()
  */
 void Calibration::resetSensorCalibrationToOriginalValues()
 {
-    // Write original board rotation settings back to device
-    AttitudeSettings * attitudeSettings = AttitudeSettings::GetInstance(getObjectManager());
-    Q_ASSERT(attitudeSettings);
-    AttitudeSettings::DataFields attitudeSettingsData = attitudeSettings->getData();
-
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_ROLL] = initialBoardRotation[0];
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_PITCH] = initialBoardRotation[1];
-    attitudeSettingsData.BoardRotation[AttitudeSettings::BOARDROTATION_YAW] = initialBoardRotation[2];
-    attitudeSettings->setData(attitudeSettingsData);
-    attitudeSettings->updated();
-
-
     //Write the original accelerometer values back to the device
     SensorSettings * sensorSettings = SensorSettings::GetInstance(getObjectManager());
     Q_ASSERT(sensorSettings);

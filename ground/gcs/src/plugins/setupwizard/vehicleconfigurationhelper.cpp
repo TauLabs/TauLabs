@@ -202,15 +202,15 @@ void VehicleConfigurationHelper::applyActuatorConfiguration()
         switch (m_configSource->getESCType()) {
         case VehicleConfigurationSource::ESC_LEGACY:
             updateFrequency = LEGACY_ESC_FREQUENCY;
-            resolution = ActuatorSettings::TIMERPWMRESOLUTION_1US;
+            resolution = ActuatorSettings::TIMERPWMRESOLUTION_1MHZ;
             break;
         case VehicleConfigurationSource::ESC_RAPID:
             updateFrequency = RAPID_ESC_FREQUENCY;
-            resolution = ActuatorSettings::TIMERPWMRESOLUTION_1US;
+            resolution = ActuatorSettings::TIMERPWMRESOLUTION_1MHZ;
             break;
         case VehicleConfigurationSource::ESC_ONESHOT:
             updateFrequency = ONESHOT_ESC_FREQUENCY;
-            resolution = ActuatorSettings::TIMERPWMRESOLUTION_80NS;
+            resolution = ActuatorSettings::TIMERPWMRESOLUTION_12MHZ;
             break;
         default:
             break;

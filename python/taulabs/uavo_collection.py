@@ -1,5 +1,7 @@
 import uavo
 
+import operator
+
 class UAVOCollection(dict):
     def __init__(self):
         self.clear()
@@ -9,18 +11,16 @@ class UAVOCollection(dict):
             uavo_name = uavo_name[5:]
 
         for u in self.itervalues():
-            if u.meta['name'] == uavo_name:
-                return u.tuple_class
+            if u._name == uavo_name:
+                return u
 
         return None
 
-    def get_data_objects(self):
-        return [ u.meta['name'] for u in self.itervalues()
-                if not u.meta['is_settings'] ]
-
     def get_settings_objects(self):
-        return [ u.meta['name'] for u in self.itervalues()
-                if u.meta['is_settings'] ]
+        objs = [ u for u in self.itervalues() if u._is_settings ]
+        objs.sort(key=operator.attrgetter('_name'))
+
+        return objs
 
     def from_git_hash(self, githash):
         import subprocess
@@ -47,10 +47,10 @@ class UAVOCollection(dict):
 
             f = t.extractfile(f_info)
 
-            u = uavo.UAVO(f)
+            u = uavo.make_class(f)
 
             # add this uavo definition to our dictionary
-            self.update([('{0:08x}'.format(u.id), u)])
+            self.update([('{0:08x}'.format(u._id), u)])
 
     def from_uavo_xml_path(self, path):
         import os
@@ -58,7 +58,7 @@ class UAVOCollection(dict):
 
         for file_name in glob.glob(os.path.join(path, '*.xml')):
             with open(file_name, 'rU') as f:
-                u = uavo.UAVO(f)
+                u = uavo.make_class(f)
 
                 # add this uavo definition to our dictionary
-                self.update([('{0:08x}'.format(u.id), u)])
+                self.update([('{0:08x}'.format(u._id), u)])

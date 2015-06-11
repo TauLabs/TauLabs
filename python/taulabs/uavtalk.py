@@ -17,7 +17,7 @@ __all__ = [ "send_object", "process_stream" ]
 
 # Serialization of header elements
 
-# sync(1) + type(1) + len(2) + objid(4) 
+# sync(1) + type(1) + len(2) + objid(4)
 header_fmt = struct.Struct("<BBHL")
 logheader_fmt = struct.Struct("<IQ")
 timestamp_fmt = struct.Struct("<H")
@@ -49,65 +49,85 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
     None.  After that, you may continue to receive objects back because of
     buffering."""
 
-    # This could be made considerably faster if it kept an offset.
-
     # These are used for accounting for timestamp wraparound
     timestamp_base = 0
     last_timestamp = 0
 
     received = 0
 
-    packet_bytes = ''
+    buf = ''
+    buf_offset = 0
+
+    pending_pieces = []
 
     while True:
+        # If we don't have sufficient data buffered, join up any chunks we've 
+        # been given to ensure pending_pieces is empty for the rest of this loop.
+        #
+        # in other words, don't mix the pending_pieces drain model and the
+        # buffer concatenation model within a loop iteration.
+        #
+        # 10k chosen here to be bigger than any plausible uavo; could calculate
+        # this instead from our known uav objects
+        if len(buf) - buf_offset < 10240:
+            #print "stitch pp=%d"%(len(pending_pieces))
+            pending_pieces.insert(0, buf[buf_offset:])
+            buf_offset = 0
+
+            buf = ''.join(pending_pieces)
+            pending_pieces = []
+
         if gcs_timestamps:
-            while len(packet_bytes) < logheader_fmt.size:
+            while len(buf) < logheader_fmt.size + buf_offset:
                 rx = yield None
 
                 if rx is None:
                     return
 
-                packet_bytes = packet_bytes + rx
+                buf = buf + rx
 
-            overrideTimestamp, logHdrLen = logheader_fmt.unpack_from(packet_bytes,0)
+            overrideTimestamp, logHdrLen = logheader_fmt.unpack_from(buf,buf_offset)
 
-            packet_bytes = packet_bytes[logheader_fmt.size:]
+            buf_offset += logheader_fmt.size
 
         # Ensure we have enough room for all the
         # plain required fields to avoid duplicating
         # this code lots.
-        # sync(1) + type(1) + len(2) + objid(4) 
+        # sync(1) + type(1) + len(2) + objid(4)
 
-        while (len(packet_bytes) < header_fmt.size) or (packet_bytes[0] != chr(SYNC_VAL)):
-            #print "waitingsync len=%d"%(len(packet_bytes))
+        while (len(buf) < header_fmt.size + buf_offset) or (buf[buf_offset] != chr(SYNC_VAL)):
+            #print "waitingsync len=%d, offset=%d"%(len(buf), buf_offset)
 
-            rx = yield None
+            if len(buf) < header_fmt.size + 1 + buf_offset:
+                rx = yield None
 
-            if rx is None:
-                #end of stream, stopiteration
-                return
+                if rx is None:
+                    #end of stream, stopiteration
+                    return
 
-            packet_bytes = packet_bytes + rx
+                buf = buf + rx
 
-            for i in xrange(len(packet_bytes)):
-                if packet_bytes[i] == chr(SYNC_VAL):
+            for i in xrange(buf_offset, len(buf)):
+                if buf[i] == chr(SYNC_VAL):
                     break
 
-            # Trim off irrelevant stuff, loop and try again
-            packet_bytes = packet_bytes[i:]
+            #print "skipping from %d to %d"%(buf_offset, i)
 
-        (sync, pack_type, pack_len, objId) = header_fmt.unpack_from(packet_bytes,0)
+            # Trim off irrelevant stuff, loop and try again
+            buf_offset = i
+
+        (sync, pack_type, pack_len, objId) = header_fmt.unpack_from(buf, buf_offset)
 
         if (pack_type & TYPE_MASK) != TYPE_VER:
             print "badver %x"%(pack_type)
-            packet_bytes = packet_bytes[1:]
+            buf_offset += 1
             continue    # go to top to look for sync
     
         pack_type &= ~ TYPE_MASK
         
         if pack_len < MIN_HEADER_LENGTH or pack_len > MAX_HEADER_LENGTH + MAX_PAYLOAD_LENGTH:
             print "badlen %d"%(pack_len)
-            packet_bytes = packet_bytes[1:]
+            buf_offset += 1
             continue
         
         # Search for object.
@@ -118,13 +138,11 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
         else:
             obj = uavo_defs[uavo_key]
 
-        # Before there used to be code to handle instance offsetting
-        # here, but it looks like it moved (rightfully) into the object
-            
         # Determine data length
         if pack_type == TYPE_OBJ_REQ or pack_type == TYPE_ACK or pack_type == TYPE_NACK:
             obj_len = 0
             timestamp_len = 0
+            obj = None
         else:
             if obj is not None:
                 timestamp_len = timestamp_fmt.size if pack_type == TYPE_OBJ_TS or pack_type == TYPE_OBJ_ACK_TS else 0
@@ -138,7 +156,7 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
         if obj_len >= MAX_PAYLOAD_LENGTH:
             print "bad len-- bad xml?"
             #should never happen; requires invalid uavo xml
-            packet_bytes = packet_bytes[1:]
+            buf_offset += 1
             continue
 
         # calc_size, AKA timestamp, and obj data
@@ -155,41 +173,52 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             # packet error - mismatched packet size
             # Consume a byte to try syncing right after where we
             # did...
-            packet_bytes = packet_bytes[1:]
+            buf_offset += 1
             continue
 
         # OK, at this point we are seriously hoping to receive
         # a packet.  Time for another loop to make sure we have
         # enough data.
         # +1 here is for CRC-8
-        while len(packet_bytes) < calc_size + 1:
+        while len(buf) < calc_size + 1 + buf_offset:
             rx = yield None
 
             if rx is None:
                 #end of stream, stopiteration
                 return
 
-            packet_bytes += rx
+            buf += rx
 
         # check the CRC byte
 
-        cs = calcCRC(packet_bytes[0:calc_size])
-        recv_cs = packet_bytes[calc_size]
+        cs = calcCRC(buf[buf_offset:calc_size+buf_offset])
+        recv_cs = buf[buf_offset+calc_size]
 
         if recv_cs != cs:
-            print "Bad crc. Got " + hex(recv_cs) + " but predicted " + hex(cs)
+            print "Bad crc. Got " + hex(ord(recv_cs)) + " but predicted " + hex(ord(cs))
 
-            packet_bytes = packet_bytes[1:]
+            buf_offset += 1
+
             continue
         
         if timestamp_len:
             # pull the timestamp from the packet
-            timestamp = timestamp_fmt.unpack_from(packet_bytes, header_fmt.size)[0]
+            timestamp = timestamp_fmt.unpack_from(buf, header_fmt.size + buf_offset)[0]
 
             # handle wraparound
+
+            # This is currently hacked because the ordering of instance id and
+            # time is messed up in this code-- hacked so at least timestamps
+            # don't jump.
             if timestamp < last_timestamp:
-                timestamp_base = timestamp_base + 65536
-            last_timestamp = timestamp
+                if timestamp > 200:
+                    timestamp_base = timestamp_base + 65536
+                    last_timestamp = timestamp
+                else:
+                    timestamp += 65536
+            else:
+                last_timestamp = timestamp
+
             timestamp += timestamp_base
         else:
             timestamp = last_timestamp
@@ -201,8 +230,8 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             timestamp = overrideTimestamp
 
         if obj is not None:
-            objInstance = obj.instance_from_bytes(packet_bytes,
-                timestamp, offset=header_fmt.size + timestamp_len) 
+            objInstance = obj.from_bytes(buf,
+                timestamp, offset=header_fmt.size + timestamp_len + buf_offset)
 
             received += 1
             if not (received % 20000):
@@ -211,22 +240,29 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             next_recv = yield objInstance
         else:
             next_recv = None
-        
-        packet_bytes = packet_bytes[calc_size+1:] 
 
-        if next_recv is not None:
-            packet_bytes += next_recv
+        buf_offset += calc_size + 1
+
+        if next_recv is not None and next_recv != '':
+            pending_pieces.append(next_recv)
 
 def send_object(obj):
     """Generates a string containing a UAVTalk packet describing this object"""
 
-    uavo_def = obj.uavometa
-
     hdr = header_fmt.pack(SYNC_VAL, TYPE_OBJ | TYPE_VER,
-        header_fmt.size + uavo_def.get_size_of_data(),
-        obj.uavo_id)
+        header_fmt.size + obj.get_size_of_data(),
+        obj._id)
 
-    packet = hdr + obj.bytes()
+    packet = hdr + obj.to_bytes()
+
+    packet += calcCRC(packet)
+
+    return packet
+
+def request_object(obj):
+    """Makes a request for this object"""
+    packet = header_fmt.pack(SYNC_VAL, TYPE_OBJ_REQ | TYPE_VER,
+        header_fmt.size, obj._id)
 
     packet += calcCRC(packet)
 

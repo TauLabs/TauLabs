@@ -36,18 +36,20 @@ ConfigAutotuneWidget::ConfigAutotuneWidget(QWidget *parent) :
     connect(m_autotune->rateDamp, SIGNAL(valueChanged(int)), this, SLOT(recomputeStabilization()));
     connect(m_autotune->rateNoise, SIGNAL(valueChanged(int)), this, SLOT(recomputeStabilization()));
 
-    addUAVObject("ModuleSettings");
-    addWidget(m_autotune->enableAutoTune);
+    addUAVObject(ModuleSettings::NAME);
 
     SystemIdent *systemIdent = SystemIdent::GetInstance(getObjectManager());
-    Q_ASSERT(systemIdent);
-    if(systemIdent)
-        connect(systemIdent, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(recomputeStabilization()));
+
+    addWidget(m_autotune->enableAutoTune);
+
+    connect(systemIdent, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(recomputeStabilization()));
 
     // Connect the apply button for the stabilization settings
     connect(m_autotune->useComputedValues, SIGNAL(pressed()), this, SLOT(saveStabilization()));
 
     connect(m_autotune->shareDataPB, SIGNAL(pressed()),this, SLOT(onShareData()));
+
+    setNotMandatory(systemIdent->getName());
 }
 
 /**
