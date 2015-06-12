@@ -59,7 +59,7 @@ int32_t pathplanner_save_path(uint32_t path_id)
 		WaypointInstGet(i, &waypoint);
 
 		// Stop saving when get to invalid waypoint.  Nothing after or including is valid
-		if (waypoint.Mode == WAYPOINT_MODE_INVALID || waypoint.Mode == WAYPOINT_MODE_STOP)
+		if (waypoint.Mode == WAYPOINT_MODE_INVALID)
 			break;
 
 		retval = PIOS_FLASHFS_ObjSave(pios_waypoints_settings_fs_id, path_id, i, (uint8_t *) &waypoint, waypoint_size);
@@ -67,7 +67,7 @@ int32_t pathplanner_save_path(uint32_t path_id)
 	}
 
 	// Use an explicit indication of the end of path
-	waypoint.Mode = WAYPOINT_MODE_STOP;
+	waypoint.Mode = WAYPOINT_MODE_INVALID;
 	retval = PIOS_FLASHFS_ObjSave(pios_waypoints_settings_fs_id, path_id, ++last_save_id,
 	                              (uint8_t *) &waypoint, waypoint_size);
 
@@ -106,7 +106,7 @@ int32_t pathplanner_load_path(uint32_t path_id)
 		if (retval == 0) {
 
 			// Indicates end of path
-			if (waypoint.Mode == WAYPOINT_MODE_STOP)
+			if (waypoint.Mode == WAYPOINT_MODE_INVALID)
 				break;
 
 			// Loaded waypoint locally, store in UAVO manager

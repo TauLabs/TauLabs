@@ -233,9 +233,6 @@ void ModelUavoProxy::objectsToModel()
         if (wpfields.Mode == Waypoint::MODE_INVALID)
             break;
 
-        if (wpfields.Mode == Waypoint::MODE_STOP)
-            break;
-
         myModel->insertRow(x);
 
         // Compute the coordinates in LLA

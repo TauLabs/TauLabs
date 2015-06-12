@@ -45,14 +45,13 @@ FlightDataModel::FlightDataModel(QObject *parent) : QAbstractTableModel(parent)
     // model depends on run time properties and we might want to exclude certain modes
     // being presented later (e.g. driving on a multirotor)
     modeNames.clear();
+    modeNames.insert(Waypoint::MODE_VECTOR, tr("Vector"));
+    modeNames.insert(Waypoint::MODE_CIRCLELEFT, tr("Circle Left"));
+    modeNames.insert(Waypoint::MODE_CIRCLERIGHT, tr("Circle Right"));
+    modeNames.insert(Waypoint::MODE_ENDPOINT, tr("Endpoint"));
     modeNames.insert(Waypoint::MODE_CIRCLEPOSITIONLEFT, tr("Circle Position Left"));
     modeNames.insert(Waypoint::MODE_CIRCLEPOSITIONRIGHT, tr("Circle Position Right"));
-    modeNames.insert(Waypoint::MODE_CIRCLELEFT, tr("Fly Circle Left"));
-    modeNames.insert(Waypoint::MODE_CIRCLERIGHT, tr("Fly Circle Right"));
-    modeNames.insert(Waypoint::MODE_ENDPOINT, tr("Fly Endpoint"));
-    modeNames.insert(Waypoint::MODE_VECTOR, tr("Fly Vector"));
     modeNames.insert(Waypoint::MODE_LAND, tr("Land"));
-    modeNames.insert(Waypoint::MODE_STOP, tr("Stop"));
 }
 
 //! Return the number of waypoints

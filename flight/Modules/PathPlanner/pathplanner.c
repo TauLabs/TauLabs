@@ -301,10 +301,6 @@ static bool waypointValid(int32_t idx) {
 		return false;
 	}
 
-	if (waypoint.Mode == WAYPOINT_MODE_STOP) {
-		return false;
-	}
-
 	return true;
 }
 
