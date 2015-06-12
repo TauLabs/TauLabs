@@ -81,7 +81,7 @@ bool ModelUavoProxy::modelToObjects()
         progressMax = instances;
     }
 
-    for(x=0;x<myModel->rowCount();++x)
+    for(x=0; x<myModel->rowCount(); x++)
     {
         newInstance = false;
         Waypoint *wp = NULL;    // Shadows above wp
@@ -119,8 +119,7 @@ bool ModelUavoProxy::modelToObjects()
         if (robustUpdate(waypoint, x)) {
             qDebug() << "Successfully updated";
             emit sendPathPlanToUavProgress(100 * (x + 1) / progressMax);
-        }
-        else {
+        } else {
             qDebug() << "Upload failed";
             emit sendPathPlanToUavProgress(100 * (x + 1) / progressMax);
             return false;
@@ -133,6 +132,8 @@ bool ModelUavoProxy::modelToObjects()
         }
     }
 
+    /* Continue iterating over any instance indices that aren't needed to
+     * represent our model, and mark them invalid.  */
     for (; x < instances; x++) {
         Waypoint *wp = Waypoint::GetInstance(objManager, x);
                 // shadows wp above
@@ -143,8 +144,7 @@ bool ModelUavoProxy::modelToObjects()
         if (robustUpdate(waypoint, x)) {
             qDebug() << "Successfully updated";
             emit sendPathPlanToUavProgress(100 * (x + 1) / progressMax);
-        }
-        else {
+        } else {
             qDebug() << "Upload failed";
             emit sendPathPlanToUavProgress(100 * (x + 1) / progressMax);
             return false;
