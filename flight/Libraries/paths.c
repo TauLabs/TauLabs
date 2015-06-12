@@ -44,11 +44,11 @@ static void path_endpoint(const float * start_point, const float * end_point,
                           const float * cur_point, struct path_status * status);
 static void path_vector(const float * start_point, const float * end_point, 
                         const float * cur_point, struct path_status * status);
-static void path_circle(const float * center_point, const float radius, 
+static void path_circle(const float * center_point, float radius, 
                         const float * cur_point, struct path_status * status,
                         bool clockwise);
 static void path_curve(const float * start_point, const float * end_point,
-                       const float radius, const float * cur_point, 
+                       float radius, const float * cur_point, 
                        struct path_status * status, bool clockwise);
 
 /**
@@ -134,7 +134,6 @@ static void path_endpoint(const float *start_point,
 	// Compute direction to travel
 	status->path_direction[0] = diff_north / dist_diff;
 	status->path_direction[1] = diff_east / dist_diff;
-
 }
 
 /**
@@ -202,7 +201,7 @@ static void path_vector(const float *start_point,
  * @param[out] status Structure containing progress along path and deviation
  */
 static void path_circle(const float * center_point,
-                        const float radius,
+                        float radius,
                         const float * cur_point,
                         struct path_status * status, 
                         bool clockwise)
@@ -210,6 +209,10 @@ static void path_circle(const float * center_point,
 	float diff_north, diff_east;
 	float cradius;
 	float normal[2];
+
+	if (radius < 0.10f) {
+		radius = 0.10f;		// Never try a circle less than 10cm
+	}
 
 	// Current location relative to center
 	diff_north = cur_point[0] - center_point[0];
@@ -264,15 +267,37 @@ static void path_circle(const float * center_point,
  */
 static void path_curve(const float * start_point,
                        const float * end_point,
-                       const float radius,
+                       float radius,
                        const float * cur_point,
                        struct path_status *status,
                        bool clockwise)
 {
+	// OK for up to 10km
+	float min_radius = sqrtf(powf(start_point[0] - end_point[0], 2) +
+		powf(start_point[1] - end_point[1], 2)) / 2.0f + 0.01f;
+
+	if (fabsf(radius) < min_radius) {
+		// This was possibly floating point confusion.
+		// Add 5cm and .5% and call it good.
+		if (radius >= 0) {
+			radius += 0.05f;
+		} else {
+			radius -= 0.05f;
+		}
+
+		radius *= 1.005f;
+
+		if (fabsf(radius) < min_radius) {
+			// Whoops! Radius was not close.  Convert to (nearly)
+			// straight line.
+			radius=min_radius * 1000;
+		}
+	}
+
 	float diff_north, diff_east;
 	float path_north, path_east;
 	float cradius;
-	float normal[2];	
+	float normal[2];
 
 	// Compute the center of the circle connecting the two points as the intersection of two circles
 	// around the two points from
