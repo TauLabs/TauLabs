@@ -7,7 +7,7 @@
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @brief      Path calculation library with common API
- * 
+ *
  * Paths are represented by the structure @ref PathDesired and also take in
  * @ref PositionActual.  This library then computes the error from the path
  * which includes the vector tangent to the path at the closest location
@@ -40,15 +40,15 @@
 #include "pathdesired.h"
 
 // private functions
-static void path_endpoint(const float * start_point, const float * end_point, 
+static void path_endpoint(const float * start_point, const float * end_point,
                           const float * cur_point, struct path_status * status);
-static void path_vector(const float * start_point, const float * end_point, 
+static void path_vector(const float * start_point, const float * end_point,
                         const float * cur_point, struct path_status * status);
-static void path_circle(const float * center_point, float radius, 
+static void path_circle(const float * center_point, float radius,
                         const float * cur_point, struct path_status * status,
                         bool clockwise);
 static void path_curve(const float * start_point, const float * end_point,
-                       float radius, const float * cur_point, 
+                       float radius, const float * cur_point,
                        struct path_status * status, bool clockwise);
 
 /**
@@ -203,7 +203,7 @@ static void path_vector(const float *start_point,
 static void path_circle(const float * center_point,
                         float radius,
                         const float * cur_point,
-                        struct path_status * status, 
+                        struct path_status * status,
                         bool clockwise)
 {
 	float diff_north, diff_east;
