@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       flightdatamodel.cpp
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -104,13 +104,13 @@ QVariant FlightDataModel::data(const QModelIndex &index, int role) const
         case ALTITUDE:
             return row->altitude;
         case NED_NORTH:
-            NED = getNED(index.row());
+            NED = getNED(row);
             return NED.North;
         case NED_EAST:
-            NED = getNED(index.row());
+            NED = getNED(row);
             return NED.East;
         case NED_DOWN:
-            NED = getNED(index.row());
+            NED = getNED(row);
             return NED.Down;
         case VELOCITY:
             return row->velocity;
@@ -218,9 +218,9 @@ bool FlightDataModel::setData(const QModelIndex &index, const QVariant &value, i
             emit dataChanged(otherIndex,otherIndex);
             break;
         case NED_NORTH:
-            NED = getNED(index.row());
+            NED = getNED(row);
             NED.North = value.toDouble();
-            setNED(index.row(), NED);
+            setNED(row, NED);
             // Indicate this also changed the latitude
             otherIndex = this->index(index.row(), FlightDataModel::LATPOSITION);
             emit dataChanged(otherIndex,otherIndex);
@@ -228,7 +228,7 @@ bool FlightDataModel::setData(const QModelIndex &index, const QVariant &value, i
         case NED_EAST:
             NED = getNED(index.row());
             NED.East = value.toDouble();
-            setNED(index.row(), NED);
+            setNED(row, NED);
             // Indicate this also changed the longitude
             otherIndex = this->index(index.row(), FlightDataModel::LNGPOSITION);
             emit dataChanged(otherIndex,otherIndex);
@@ -236,7 +236,7 @@ bool FlightDataModel::setData(const QModelIndex &index, const QVariant &value, i
         case NED_DOWN:
             NED = getNED(index.row());
             NED.Down = value.toDouble();
-            setNED(index.row(), NED);
+            setNED(row, NED);
             // Indicate this also changed the altitude
             otherIndex = this->index(index.row(), FlightDataModel::ALTITUDE);
             emit dataChanged(otherIndex,otherIndex);
@@ -256,6 +256,8 @@ bool FlightDataModel::setData(const QModelIndex &index, const QVariant &value, i
         default:
             return false;
         }
+
+        fixupValidationErrors();
 
         emit dataChanged(index,index);
         return true;
@@ -340,6 +342,8 @@ bool FlightDataModel::removeRows(int row, int count, const QModelIndex &/*parent
         dataStorage.removeAt(row);
     }
     endRemoveRows();
+
+    fixupValidationErrors();
 
     return true;
 }
@@ -452,8 +456,118 @@ void FlightDataModel::showErrorDialog(const char* title, const char* message)
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.exec();
     return;
-
 }
+
+void FlightDataModel::pauseValidation(bool pausing) {
+    valPaused = pausing;
+
+    if (!pausing) {
+        fixupValidationErrors();
+    }
+}
+
+void FlightDataModel::fixupValidationErrors()
+{
+    struct FlightDataModel::NED prevNED;
+
+    // Skip validation when there's a download from firmware in process.
+    if (valPaused) { return; }
+
+    for (int i = 0; i < rowCount(); i++) {
+	PathPlanData * row = dataStorage.at(i);
+
+        bool dirty = false;
+
+        struct FlightDataModel::NED thisNED = getNED(row);
+
+        if (i == 0) {
+            row->mode        = Waypoint::MODE_VECTOR;
+            switch (row->mode) {
+		case Waypoint::MODE_CIRCLELEFT:
+		case Waypoint::MODE_CIRCLERIGHT:
+		    row->mode = Waypoint::MODE_VECTOR;
+
+		    showErrorDialog("Waypoint corrected",
+			    "First waypoint may not be the endpoint of an arc");
+                    dirty=true;
+
+		    break;
+		default:
+		    break;
+	    }
+
+        } else {
+	    double distance = sqrt(pow(thisNED.North - prevNED.North, 2) +
+		pow(thisNED.East - prevNED.East, 2));
+
+	    if (distance > 600) {
+		// If the distance is more than 600m, presume it's invalid.
+		// Distances larger than this begin to become problematic
+		// with local tangent plane approximation.
+
+		thisNED = prevNED;
+		setNED(row, thisNED);
+		distance = 0;
+
+		showErrorDialog("Waypoint corrected",
+		        "Over-long leg shortened.");
+
+                dirty=true;
+	    }
+
+	    switch (row->mode) {
+                case Waypoint::MODE_CIRCLELEFT:
+                case Waypoint::MODE_CIRCLERIGHT:
+                    if (row->mode_params < (distance / 2 + 0.1f)) {
+                        row->mode_params = distance / 2 + 0.2f;
+
+                        showErrorDialog("Waypoint corrected",
+                                "Radius of circle increased to minimum");
+
+                        dirty=true;
+                    } 
+
+                    break;
+                case Waypoint::MODE_CIRCLEPOSITIONLEFT:
+                case Waypoint::MODE_CIRCLEPOSITIONRIGHT:
+                    if (row->mode_params < 0.5f) {
+                        row->mode_params = 0.5f;
+
+                        showErrorDialog("Waypoint corrected",
+                                "Radius of circle increased to minimum");
+
+                        dirty=true;
+                    } else if (row->mode_params > 300) {
+                        row->mode_params = 300;
+
+                        showErrorDialog("Waypoint corrected",
+                                "Radius of circle decreased to maximum");
+
+                        dirty=true;
+
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (dirty) {
+                /* Let anyone listening know we changed it */
+                QModelIndex leftIndex, rightIndex;
+
+                leftIndex = this->index(i, LATPOSITION);
+                rightIndex = this->index(i, LASTCOLUMN-1);
+
+                emit dataChanged(leftIndex, rightIndex);
+            }
+        }
+
+	prevNED = thisNED;
+    }
+}
+    
 
 /**
  * @brief FlightDataModel::readFromFile Read into the model from a flight plan xml file
@@ -470,26 +584,30 @@ void FlightDataModel::readFromFile(QString fileName)
     QDomDocument doc("PathPlan");
     QByteArray array=file.readAll();
     QString error;
+
+    file.close();
+
     if (!doc.setContent(array,&error)) {
         showErrorDialog("File Parsing Failure", "This file is not a correct XML file");
+        return;
     }
-    file.close();
 
     QDomElement root = doc.documentElement();
 
-
     // First of all, read in the Home Location and reset it:
-
 
     if (root.isNull() || root.tagName() != "pathplan") {
         showErrorDialog("Wrong file contents", "This is not a TauLabs flight plan file");
+        return;
     }
+
     PathPlanData * data=NULL;
 
     // First of all, find the Home location saved in the file
     QDomNodeList hlist = root.elementsByTagName("homelocation");
     if (hlist.length() != 1) {
         showErrorDialog("Wrong file contents", "File format is incorrect (missing home location)");
+        return;
     }
 
     QDomNode homelocField = hlist.at(0).firstChild();
@@ -512,6 +630,7 @@ void FlightDataModel::readFromFile(QString fileName)
     // to the current home location or use the one in the flight plan
     if (!setHomeLocation(HomeLLA)) {
         showErrorDialog("Home location error", "Home location coordinates invalid");
+        return;
     }
 
     hlist = root.elementsByTagName("waypoints");
@@ -570,12 +689,14 @@ void FlightDataModel::readFromFile(QString fileName)
             data->lngPosition = wpLLA[1];
             data->altitude = wpLLA[2];
 
-        beginInsertRows(QModelIndex(),dataStorage.length(),dataStorage.length());
-        dataStorage.append(data);
-        endInsertRows();
+            beginInsertRows(QModelIndex(),dataStorage.length(),dataStorage.length());
+            dataStorage.append(data);
+            endInsertRows();
         }
         node=node.nextSibling();
     }
+
+    fixupValidationErrors();
 }
 
 
@@ -636,16 +757,10 @@ bool FlightDataModel::setHomeLocation(double *homeLLA)
 }
 
 
-/**
- * @brief FlightDataModel::getNED Get hte NEW representation of a waypoint
- * @param row Which waypoint to get
- * @return The NED structure
- */
-struct FlightDataModel::NED FlightDataModel::getNED(int index) const
+struct FlightDataModel::NED FlightDataModel::getNED(PathPlanData *row) const
 {
     double f_NED[3];
     double homeLLA[3];
-    PathPlanData * row = dataStorage.at(index);
     double LLA[3] = {row->latPosition, row->lngPosition, row->altitude};
 
     getHomeLocation(homeLLA);
@@ -660,16 +775,21 @@ struct FlightDataModel::NED FlightDataModel::getNED(int index) const
 }
 
 /**
- * @brief FlightDataModel::setNED Set a waypoint by the NED representation
- * @param row Which waypoint to set
- * @param NED The NED structure
- * @return True if successful
+ * @brief FlightDataModel::getNED Get the NED representation of a waypoint
+ * @param row Which waypoint to get
+ * @return The NED structure
  */
-bool FlightDataModel::setNED(int index, struct FlightDataModel::NED NED)
+struct FlightDataModel::NED FlightDataModel::getNED(int index) const
+{
+    PathPlanData * row = dataStorage.at(index);
+
+    return getNED(row);
+}
+
+bool FlightDataModel::setNED(PathPlanData *row, struct FlightDataModel::NED NED)
 {
     double homeLLA[3];
     double LLA[3];
-    PathPlanData * row = dataStorage.at(index);
     double f_NED[3] = {NED.North, NED.East, NED.Down};
 
     getHomeLocation(homeLLA);
@@ -680,6 +800,19 @@ bool FlightDataModel::setNED(int index, struct FlightDataModel::NED NED)
     row->altitude = LLA[2];
 
     return true;
+}
+
+/**
+ * @brief FlightDataModel::setNED Set a waypoint by the NED representation
+ * @param row Which waypoint to set
+ * @param NED The NED structure
+ * @return True if successful
+ */
+bool FlightDataModel::setNED(int index, struct FlightDataModel::NED NED)
+{
+    PathPlanData * row = dataStorage.at(index);
+
+    return setNED(row, NED);
 }
 
 /**
@@ -699,6 +832,8 @@ bool FlightDataModel::replaceData(FlightDataModel *newModel)
             setData(index(i,j), newModel->data(newModel->index(i, j), Qt::UserRole));
         }
     }
+
+    fixupValidationErrors();
 
     return true;
 }
