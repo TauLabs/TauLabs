@@ -37,6 +37,7 @@ extern void PIOS_GPIO_Enable(uint8_t Pin);
 extern void PIOS_GPIO_On(uint8_t Pin);
 extern void PIOS_GPIO_Off(uint8_t Pin);
 extern void PIOS_GPIO_Toggle(uint8_t Pin);
+extern uint8_t PIOS_GPIO_Read(uint8_t Pin);
 
 #endif /* PIOS_GPIO_H */
 

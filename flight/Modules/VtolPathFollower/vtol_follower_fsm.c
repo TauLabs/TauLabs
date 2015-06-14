@@ -512,7 +512,7 @@ static int32_t do_requested_path()
 			vtol_hold_position_ned[i] = vtol_fsm_path_desired.End[i];
 		return do_land();
 	case PATHDESIRED_MODE_HOLDPOSITION:
-	case PATHDESIRED_MODE_FLYENDPOINT:
+	case PATHDESIRED_MODE_ENDPOINT:
 		for (uint8_t i = 0; i < 3; i++)
 			vtol_hold_position_ned[i] = vtol_fsm_path_desired.End[i];
 		return do_hold();
@@ -641,7 +641,7 @@ static void hold_position(float north, float east, float down)
 	vtol_fsm_path_desired.End[2] = down;
 	vtol_fsm_path_desired.StartingVelocity = 0;
 	vtol_fsm_path_desired.EndingVelocity   = 0;
-	vtol_fsm_path_desired.Mode = PATHDESIRED_MODE_FLYENDPOINT;
+	vtol_fsm_path_desired.Mode = PATHDESIRED_MODE_ENDPOINT;
 	vtol_fsm_path_desired.ModeParameters = 0;
 	PathDesiredSet(&vtol_fsm_path_desired);
 }
@@ -736,7 +736,7 @@ static void go_enable_fly_home()
 	vtol_fsm_path_desired.StartingVelocity = RTH_VELOCITY;
 	vtol_fsm_path_desired.EndingVelocity = RTH_VELOCITY;
 
-	vtol_fsm_path_desired.Mode = PATHDESIRED_MODE_FLYVECTOR;
+	vtol_fsm_path_desired.Mode = PATHDESIRED_MODE_VECTOR;
 	vtol_fsm_path_desired.ModeParameters = 0;
 
 	PathDesiredSet(&vtol_fsm_path_desired);

@@ -107,14 +107,12 @@ bool PathFillet::processPath(FlightDataModel *model)
         {
         case Waypoint::MODE_CIRCLEPOSITIONRIGHT:
             return false;
-        case Waypoint::MODE_FLYCIRCLERIGHT:
-        case Waypoint::MODE_DRIVECIRCLERIGHT:
+        case Waypoint::MODE_CIRCLERIGHT:
             curvature = 1.0f/ModeParameters;
             break;
         case Waypoint::MODE_CIRCLEPOSITIONLEFT:
             return false;
-        case Waypoint::MODE_FLYCIRCLELEFT:
-        case Waypoint::MODE_DRIVECIRCLELEFT:
+        case Waypoint::MODE_CIRCLELEFT:
             curvature = -1.0f/ModeParameters;
             break;
         }
@@ -398,13 +396,13 @@ void PathFillet::setNewWaypoint(int index, float *pos, float velocity, float cur
         new_model->insertRow(index);
 
     // Convert from curvature representation to waypoint
-    quint8 mode = Waypoint::MODE_FLYVECTOR;
+    quint8 mode = Waypoint::MODE_VECTOR;
     float radius = 0;
     if (curvature > 0 && !isinf(curvature)) {
-        mode = Waypoint::MODE_FLYCIRCLERIGHT;
+        mode = Waypoint::MODE_CIRCLERIGHT;
         radius = 1.0 / curvature;
     } else if (curvature < 0 && !isinf(curvature)) {
-        mode = Waypoint::MODE_FLYCIRCLELEFT;
+        mode = Waypoint::MODE_CIRCLELEFT;
         radius = -1.0 / curvature;
     }
 

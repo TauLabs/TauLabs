@@ -1,7 +1,13 @@
-""" Implements the uavtalk protocol.
+"""
+Implements the uavtalk protocol.
+
+Copyright (C) 2014-2015 Tau Labs, http://taulabs.org
+Licensed under the GNU LGPL version 2.1 or any later version (see COPYING.LESSER)
+
 
 Ordinarily one would use the methods exposed by the telemetry module instead of
-this interface."""
+this interface.
+"""
 
 import struct
 import time
