@@ -545,6 +545,8 @@ static int32_t do_loiter()
 
 	float command_mag = vectorn_magnitude(commands_rp, 2);
 
+	// float attitude_adj[2] = { 0, 0 };
+
 	// We only do a lot of work if our command has magnitude.
 	if (command_mag > 0.001f) {
 		float commands_ne[2];
@@ -588,9 +590,11 @@ static int32_t do_loiter()
 
 		// Come up with a target velocity for us to fly the command
 		// at, considering our current momentum in that direction.
-		float target_vel = 1;
+		float target_vel = 2.5f;	// At full stick deflection
 
 		if (parallel_sign > 0) {
+			// Plus whatever current velocity we're making good in
+			// that direction..
 			float parallel_mag = sqrtf(
 				powf(velocityActual.North * commands_normalized_ne[0], 2) +
 				powf(velocityActual.East * commands_normalized_ne[1], 2));
@@ -601,17 +605,21 @@ static int32_t do_loiter()
 		target_vel *= command_mag;
 
 		// Feed the target velocity forward for our new desired position
+		// Note this implicitly implies 1 sec of feedforward.
 		vtol_hold_position_ned[0] = cur_pos_ned[0] +
 			commands_normalized_ne[0] * target_vel;
 		vtol_hold_position_ned[1] = cur_pos_ned[1] +
 			commands_normalized_ne[1] * target_vel;
 
-		// Now put a portion of the normalized error back in,
-		// prop to -stick pos
-		vtol_hold_position_ned[0] -= (1 - command_mag)
-			* total_poserr_ned[0] * -commands_normalized_ne[1];
-		vtol_hold_position_ned[1] -= (1 - command_mag)
-			* total_poserr_ned[1] * commands_normalized_ne[0];
+		// Now put a portion of the error back in.  At full stick
+		// deflection, decay error at time constant of a quarter second
+		// TODO: make more rigorous.
+		vtol_hold_position_ned[0] -= (1 - command_mag * 0.87f)
+			* total_poserr_ned[0];
+		vtol_hold_position_ned[1] -= (1 - command_mag * 0.87f) 
+			* total_poserr_ned[1];
+		
+		// And enable this as our hold position.
 
 		hold_position(vtol_hold_position_ned[0],
 				vtol_hold_position_ned[1],
