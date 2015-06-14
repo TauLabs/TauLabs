@@ -427,14 +427,21 @@ static float vtol_follower_control_altitude(float downCommand) {
 /**
  * Compute desired attitude from the desired velocity
  * @param[in] dT the time since last evaluation
+ * @param[in] att_adj an adjustment to the attitude for loiter mode
  *
  * Takes in @ref NedActual which has the acceleration in the
  * NED frame as the feedback term and then compares the
  * @ref VelocityActual against the @ref VelocityDesired
  */
-int32_t vtol_follower_control_attitude(float dT)
+int32_t vtol_follower_control_attitude(float dT, const float *att_adj)
 {
 	vtol_follower_control_accel(dT);
+
+	float default_adj[2] = {0,0};
+
+	if (!att_adj) {
+		att_adj = default_adj;
+	}
 
 	AccelDesiredData accelDesired;
 	AccelDesiredGet(&accelDesired);
@@ -455,9 +462,9 @@ int32_t vtol_follower_control_attitude(float dT)
 
 	// Set the angle that would achieve the desired acceleration given the thrust is enough for a hover
 	stabDesired.Pitch = bound_min_max(RAD2DEG * atanf(forward_accel_desired / GRAVITY),
-	                   -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
+	                   -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch) + att_adj[1];
 	stabDesired.Roll = bound_min_max(RAD2DEG * atanf(right_accel_desired / GRAVITY),
-	                   -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
+	                   -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch) + att_adj[0];
 	
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
