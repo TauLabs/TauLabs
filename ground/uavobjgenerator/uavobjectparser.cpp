@@ -170,12 +170,12 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
 
         // Process child elements (fields and metadata)
         QDomNode childNode = node.firstChild();
-        bool fieldFound = false;
-        bool accessFound = false;
-        bool telGCSFound = false;
-        bool telFlightFound = false;
-        bool logFound = false;
-        bool descriptionFound = false;
+        int fieldFound = 0;
+        int accessFound = 0;
+        int telGCSFound = 0;
+        int telFlightFound = 0;
+        int logFound = 0;
+        int descriptionFound = 0;
         while ( !childNode.isNull() ) {
             // Process element depending on its type
             if ( childNode.nodeName().compare(QString("field")) == 0 ) {
@@ -184,7 +184,7 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
                     return genErrorMsg(filename, status,
                             childNode.lineNumber(), childNode.columnNumber());
 
-                fieldFound = true;
+                fieldFound++;
             }
             else if ( childNode.nodeName().compare(QString("access")) == 0 ) {
                 QString status = processObjectAccess(childNode, info);
@@ -192,7 +192,7 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
                     return genErrorMsg(filename, status,
                             childNode.lineNumber(), childNode.columnNumber());
 
-                accessFound = true;
+                accessFound++;
             }
             else if ( childNode.nodeName().compare(QString("telemetrygcs")) == 0 ) {
                 QString status = processObjectMetadata(childNode, &info->gcsTelemetryUpdateMode,
@@ -201,7 +201,7 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
                     return genErrorMsg(filename, status,
                             childNode.lineNumber(), childNode.columnNumber());
 
-                telGCSFound = true;
+                telGCSFound++;
             }
             else if ( childNode.nodeName().compare(QString("telemetryflight")) == 0 ) {
                 QString status = processObjectMetadata(childNode, &info->flightTelemetryUpdateMode,
@@ -210,7 +210,7 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
                     return genErrorMsg(filename, status,
                             childNode.lineNumber(), childNode.columnNumber());
 
-                telFlightFound = true;
+                telFlightFound++;
             }
             else if ( childNode.nodeName().compare(QString("logging")) == 0 ) {
                 QString status = processObjectMetadata(childNode, &info->loggingUpdateMode,
@@ -219,7 +219,7 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
                     return genErrorMsg(filename, status,
                             childNode.lineNumber(), childNode.columnNumber());
 
-                logFound = true;
+                logFound++;
             }
             else if ( childNode.nodeName().compare(QString("description")) == 0 ) {
                 QString status = processObjectDescription(childNode, &info->description);
@@ -228,7 +228,7 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
                     return genErrorMsg(filename, status,
                             childNode.lineNumber(), childNode.columnNumber());
 
-                descriptionFound = true;
+                descriptionFound++;
             }
             else if (!childNode.isComment()) {
                 return genErrorMsg(filename, "Unknown object element",
@@ -246,28 +246,28 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
         qStableSort(info->fields.begin(), info->fields.end(), fieldTypeLessThan);
 
         // Make sure that required elements were found
-        if ( !fieldFound )
-            return genErrorMsg(filename, "field element is missing",
+        if ( fieldFound == 0)
+            return genErrorMsg(filename, "no field elements present",
                     node.lineNumber(), node.columnNumber());
 
-        if ( !accessFound )
-            return genErrorMsg(filename, "access element is missing",
+        if ( accessFound != 1 )
+            return genErrorMsg(filename, "missing or duplicate access element",
                     node.lineNumber(), node.columnNumber());
 
-        if ( !telGCSFound )
-            return genErrorMsg(filename, "telemetrygcs element is missing",
+        if ( telGCSFound != 1 )
+            return genErrorMsg(filename, "missing or duplicate telemetrygcs element",
                     node.lineNumber(), node.columnNumber());
 
-        if ( !telFlightFound )
-            return genErrorMsg(filename, "telemetryflight element is missing",
+        if ( telFlightFound != 1 )
+            return genErrorMsg(filename, "missing or duplicate telemetryflight element",
                     node.lineNumber(), node.columnNumber());
 
-        if ( !logFound )
-            return genErrorMsg(filename, "logging element is missing",
+        if ( logFound != 1 )
+            return genErrorMsg(filename, "missing or duplicate logging element",
                     node.lineNumber(), node.columnNumber());
 
-        if ( !descriptionFound )
-            return genErrorMsg(filename, "description element is missing",
+        if ( descriptionFound != 1 )
+            return genErrorMsg(filename, "missing or duplicate description element",
                     node.lineNumber(), node.columnNumber());
 
         // Calculate ID
