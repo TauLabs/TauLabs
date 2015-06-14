@@ -112,10 +112,8 @@ void WaypointDialog::setupModeWidgets()
     int mode = ui->cbMode->itemData(ui->cbMode->currentIndex()).toInt();
     switch(mode)
     {
-    case Waypoint::MODE_FLYCIRCLERIGHT:
-    case Waypoint::MODE_FLYCIRCLELEFT:
-    case Waypoint::MODE_DRIVECIRCLELEFT:
-    case Waypoint::MODE_DRIVECIRCLERIGHT:
+    case Waypoint::MODE_CIRCLERIGHT:
+    case Waypoint::MODE_CIRCLELEFT:
         ui->modeParams->setVisible(true);
         ui->modeParams->setText(tr("Radius"));
         ui->dsb_modeParams->setVisible(true);

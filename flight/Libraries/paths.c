@@ -68,16 +68,13 @@ void path_progress(const PathDesiredData *pathDesired,
 	float end_point[2] = {pathDesired->End[0],pathDesired->End[1]};
 
 	switch(mode) {
-		case PATHDESIRED_MODE_FLYVECTOR:
-		case PATHDESIRED_MODE_DRIVEVECTOR:
+		case PATHDESIRED_MODE_VECTOR:
 			return path_vector(start_point, end_point, cur_point, status);
 			break;
-		case PATHDESIRED_MODE_FLYCIRCLERIGHT:
-		case PATHDESIRED_MODE_DRIVECIRCLERIGHT:
+		case PATHDESIRED_MODE_CIRCLERIGHT:
 			return path_curve(start_point, end_point, pathDesired->ModeParameters, cur_point, status, 1);
 			break;
-		case PATHDESIRED_MODE_FLYCIRCLELEFT:
-		case PATHDESIRED_MODE_DRIVECIRCLELEFT:
+		case PATHDESIRED_MODE_CIRCLELEFT:
 			return path_curve(start_point, end_point, pathDesired->ModeParameters, cur_point, status, 0);
 			break;
 		case PATHDESIRED_MODE_CIRCLEPOSITIONLEFT:
@@ -86,8 +83,7 @@ void path_progress(const PathDesiredData *pathDesired,
 		case PATHDESIRED_MODE_CIRCLEPOSITIONRIGHT:
 			return path_circle(end_point, pathDesired->ModeParameters, cur_point, status, 1);
 			break;
-		case PATHDESIRED_MODE_FLYENDPOINT:
-		case PATHDESIRED_MODE_DRIVEENDPOINT:
+		case PATHDESIRED_MODE_ENDPOINT:
 		case PATHDESIRED_MODE_HOLDPOSITION:
 		default:
 			// use the endpoint as default failsafe if called in unknown modes

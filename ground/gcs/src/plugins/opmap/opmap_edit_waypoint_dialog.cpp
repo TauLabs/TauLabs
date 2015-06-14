@@ -89,14 +89,10 @@ void opmap_edit_waypoint_dialog::setupModeWidgets()
     MapDataDelegate::ModeOptions mode=(MapDataDelegate::ModeOptions)ui->cbMode->itemData(ui->cbMode->currentIndex()).toInt();
     switch(mode)
     {
-    case MapDataDelegate::MODE_FLYENDPOINT:
-    case MapDataDelegate::MODE_FLYVECTOR:
-    case MapDataDelegate::MODE_FLYCIRCLERIGHT:
-    case MapDataDelegate::MODE_FLYCIRCLELEFT:
-    case MapDataDelegate::MODE_DRIVEENDPOINT:
-    case MapDataDelegate::MODE_DRIVEVECTOR:
-    case MapDataDelegate::MODE_DRIVECIRCLELEFT:
-    case MapDataDelegate::MODE_DRIVECIRCLERIGHT:
+    case MapDataDelegate::MODE_ENDPOINT:
+    case MapDataDelegate::MODE_VECTOR:
+    case MapDataDelegate::MODE_CIRCLERIGHT:
+    case MapDataDelegate::MODE_CIRCLELEFT:
         ui->modeParams->setVisible(false);
         break;
     }
