@@ -198,6 +198,19 @@ void vector2_clip(float *vels, float limit)
 }
 
 /**
+ * Rotate a 2-vector by a specified angle.
+ * @param[in] original the input vector
+ * @param[out] out the rotated output vector
+ * @param[in] angle in degrees
+ */
+void vector2_rotate(const float *original, float *out, float angle) {
+	angle *= DEG2RAD;
+
+	out[0] = original[0] * cosf(angle) - original[1] * sinf(angle);
+	out[1] = original[0] * sinf(angle) + original[1] * cosf(angle);
+}
+
+/**
  * Apply a "cubic deadband" to the input.
  * @param[in] in the value to deadband
  * @param[in] w deadband width

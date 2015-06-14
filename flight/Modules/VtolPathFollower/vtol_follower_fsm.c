@@ -519,13 +519,6 @@ static float loiter_deadband(float input) {
 	return input;
 }
 
-static void vector2_rotate(const float *original, float *out, float angle) {
-	angle *= DEG2RAD;
-
-	out[0] = original[0] * cosf(angle) - original[1] * sinf(angle);
-	out[1] = original[0] * sinf(angle) + original[1] * cosf(angle);
-}
-
 /**
  * Loiter at current position or transform requested movement
  */
