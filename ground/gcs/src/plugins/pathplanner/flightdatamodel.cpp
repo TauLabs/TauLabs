@@ -41,6 +41,8 @@ QMap<int,QString> FlightDataModel::modeNames = QMap<int, QString>();
 //! Initialize an empty flight plan
 FlightDataModel::FlightDataModel(QObject *parent) : QAbstractTableModel(parent)
 {
+    valPaused = false;
+
     // This could be auto populated from the waypoint object but nothing else in the
     // model depends on run time properties and we might want to exclude certain modes
     // being presented later (e.g. driving on a multirotor)
@@ -468,103 +470,106 @@ void FlightDataModel::pauseValidation(bool pausing) {
 
 void FlightDataModel::fixupValidationErrors()
 {
-    struct FlightDataModel::NED prevNED;
+    struct FlightDataModel::NED prevNED = {};
 
     // Skip validation when there's a download from firmware in process.
     if (valPaused) { return; }
 
     for (int i = 0; i < rowCount(); i++) {
-	PathPlanData * row = dataStorage.at(i);
+        PathPlanData * row = dataStorage.at(i);
 
         bool dirty = false;
 
         struct FlightDataModel::NED thisNED = getNED(row);
 
         if (i == 0) {
-            row->mode        = Waypoint::MODE_VECTOR;
             switch (row->mode) {
-		case Waypoint::MODE_CIRCLELEFT:
-		case Waypoint::MODE_CIRCLERIGHT:
-		    row->mode = Waypoint::MODE_VECTOR;
-
-		    showErrorDialog("Waypoint corrected",
-			    "First waypoint may not be the endpoint of an arc");
-                    dirty=true;
-
-		    break;
-		default:
-		    break;
-	    }
-
-        } else {
-	    double distance = sqrt(pow(thisNED.North - prevNED.North, 2) +
-		pow(thisNED.East - prevNED.East, 2));
-
-	    if (distance > 600) {
-		// If the distance is more than 600m, presume it's invalid.
-		// Distances larger than this begin to become problematic
-		// with local tangent plane approximation.
-
-		thisNED = prevNED;
-		setNED(row, thisNED);
-		distance = 0;
-
-		showErrorDialog("Waypoint corrected",
-		        "Over-long leg shortened.");
-
-                dirty=true;
-	    }
-
-	    switch (row->mode) {
                 case Waypoint::MODE_CIRCLELEFT:
                 case Waypoint::MODE_CIRCLERIGHT:
-                    if (row->mode_params < (distance / 2 + 0.1f)) {
-                        row->mode_params = distance / 2 + 0.2f;
+                    row->mode = Waypoint::MODE_VECTOR;
 
-                        showErrorDialog("Waypoint corrected",
-                                "Radius of circle increased to minimum");
-
-                        dirty=true;
-                    } 
+                    showErrorDialog("Waypoint corrected",
+                            "First waypoint may not be the endpoint of an arc");
+                    dirty = true;
 
                     break;
-                case Waypoint::MODE_CIRCLEPOSITIONLEFT:
-                case Waypoint::MODE_CIRCLEPOSITIONRIGHT:
-                    if (row->mode_params < 0.5f) {
-                        row->mode_params = 0.5f;
-
-                        showErrorDialog("Waypoint corrected",
-                                "Radius of circle increased to minimum");
-
-                        dirty=true;
-                    } else if (row->mode_params > 300) {
-                        row->mode_params = 300;
-
-                        showErrorDialog("Waypoint corrected",
-                                "Radius of circle decreased to maximum");
-
-                        dirty=true;
-
-                    }
-
-                    break;
-
                 default:
                     break;
             }
-
-            if (dirty) {
-                /* Let anyone listening know we changed it */
-                QModelIndex leftIndex, rightIndex;
-
-                leftIndex = this->index(i, LATPOSITION);
-                rightIndex = this->index(i, LASTCOLUMN-1);
-
-                emit dataChanged(leftIndex, rightIndex);
-            }
         }
 
-	prevNED = thisNED;
+        double distance = sqrt(pow(thisNED.North - prevNED.North, 2) +
+                pow(thisNED.East - prevNED.East, 2));
+
+        if (distance > 600) {
+            // If the distance is more than 600m, presume it's invalid.
+            // Distances larger than this begin to become problematic
+            // with local tangent plane approximation.
+            //
+            // If this happens, move the location of this waypoint to the
+            // previous location.
+
+            thisNED = prevNED;
+            setNED(row, thisNED);
+            distance = 0;
+
+            showErrorDialog("Waypoint corrected",
+                    "Over-long leg shortened.");
+
+            dirty = true;
+        }
+
+        switch (row->mode) {
+            case Waypoint::MODE_CIRCLELEFT:
+            case Waypoint::MODE_CIRCLERIGHT:
+                if (row->mode_params < (distance / 2 + 0.1f)) {
+                    row->mode_params = distance / 2 + 0.2f;
+
+                    showErrorDialog("Waypoint corrected",
+                            "Radius of circle increased to minimum");
+
+                    dirty = true;
+                } 
+
+                break;
+            case Waypoint::MODE_CIRCLEPOSITIONLEFT:
+            case Waypoint::MODE_CIRCLEPOSITIONRIGHT:
+                if (row->mode_params < 0.5f) {
+                    row->mode_params = 0.5f;
+
+                    showErrorDialog("Waypoint corrected",
+                            "Radius of circle increased to minimum");
+
+                    dirty = true;
+                } else if (row->mode_params > 300) {
+                    row->mode_params = 300;
+
+                    showErrorDialog("Waypoint corrected",
+                            "Radius of circle decreased to maximum");
+
+                    dirty = true;
+
+                }
+
+                break;
+
+            default:
+                break;
+        }
+
+        if (dirty) {
+            /* Let anyone listening know we changed it - Fire an event for the 
+             * entire row being changed.  (Because changing NED changes lots of
+             * columns) */
+            QModelIndex leftIndex, rightIndex;
+
+            leftIndex = this->index(i, LATPOSITION);
+            rightIndex = this->index(i, LASTCOLUMN-1);
+
+            emit dataChanged(leftIndex, rightIndex);
+        }
+
+        prevNED = thisNED;
     }
 }
     
@@ -575,12 +580,15 @@ void FlightDataModel::fixupValidationErrors()
  */
 void FlightDataModel::readFromFile(QString fileName)
 {
-
     double HomeLLA[3];
 
     removeRows(0,rowCount());
     QFile file(fileName);
-    file.open(QIODevice::ReadOnly);
+    if (!file.open(QIODevice::ReadOnly)) {
+        showErrorDialog("Unable to open file", "Unable to open file");
+        return;
+    }
+
     QDomDocument doc("PathPlan");
     QByteArray array=file.readAll();
     QString error;
@@ -689,7 +697,7 @@ void FlightDataModel::readFromFile(QString fileName)
             data->lngPosition = wpLLA[1];
             data->altitude = wpLLA[2];
 
-            beginInsertRows(QModelIndex(),dataStorage.length(),dataStorage.length());
+            beginInsertRows(QModelIndex(), dataStorage.length(), dataStorage.length());
             dataStorage.append(data);
             endInsertRows();
         }

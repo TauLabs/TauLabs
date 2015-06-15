@@ -290,7 +290,7 @@ static void path_curve(const float * start_point,
 		if (fabsf(radius) < min_radius) {
 			// Whoops! Radius was not close.  Convert to (nearly)
 			// straight line.
-			radius=min_radius * 1000;
+			radius = min_radius * 1000;
 		}
 	}
 
