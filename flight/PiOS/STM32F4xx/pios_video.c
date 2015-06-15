@@ -95,7 +95,7 @@ uint8_t *draw_buffer_mask;
 uint8_t *disp_buffer_level;
 uint8_t *disp_buffer_mask;
 
-volatile uint16_t active_line = 500;
+volatile uint16_t active_line = 0;
 
 const struct pios_video_type_boundary *pios_video_type_boundary_act = &pios_video_type_boundary_pal;
 
@@ -127,7 +127,7 @@ bool PIOS_Vsync_ISR()
 	static uint16_t Vsync_update = 0;
 
 	// discard spurious vsync pulses (due to improper grounding), so we don't overload the CPU
-	if (active_line < pios_video_type_cfg_ntsc.graphics_hight_real - 10) {
+	if (active_line > 0 && active_line < pios_video_type_cfg_ntsc.graphics_hight_real - 10) {
 		return false;
 	}
 
