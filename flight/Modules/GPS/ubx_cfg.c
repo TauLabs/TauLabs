@@ -319,7 +319,10 @@ static void ubx_cfg_send_checksummed(uintptr_t gps_port,
  * Completely configure a UBX GPS with the messages we expect
  * in NAV5 mode at the appropriate rate.
  */
-void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
+void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer,
+		ModuleSettingsGPSConstellationOptions constellation,
+		ModuleSettingsGPSSBASConstellationOptions sbas_const,
+		ModuleSettingsGPSDynamicsModeOptions dyn_mode)
 {
     gps_rx_buffer = buffer;
 
