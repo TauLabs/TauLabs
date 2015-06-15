@@ -61,6 +61,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned, float *err);
 int32_t vtol_follower_control_attitude(const float dT, const float *att_adj);
 int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned, bool *landed);
+bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj);
 void vtol_follower_control_settings_updated(UAVObjEvent * ev);
 
 // Follower FSM public API methods

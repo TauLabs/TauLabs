@@ -52,7 +52,6 @@
 #include "vtol_follower_priv.h"
 
 #include "attitudeactual.h"
-#include "loitercommand.h"
 #include "pathdesired.h"
 #include "positionactual.h"
 #include "stabilizationdesired.h"
@@ -117,7 +116,7 @@ static void go_enable_fly_home(void);
 static void go_enable_land_home(void);
 
 // Methods that actually achieve the desired nav mode
-static int32_t do_hold(float *att_adj);
+static int32_t do_hold(void);
 static int32_t do_path(void);
 static int32_t do_requested_path(void);
 static int32_t do_land(void);
@@ -418,10 +417,10 @@ static float vtol_hold_position_ned[3];
  *
  * @return 0 if successful, <0 if failure
  */
-static int32_t do_hold(float *att_adj)
+static int32_t do_hold()
 {
 	if (vtol_follower_control_endpoint(DT, vtol_hold_position_ned, NULL) == 0) {
-		if (vtol_follower_control_attitude(DT, att_adj) == 0) {
+		if (vtol_follower_control_attitude(DT, NULL) == 0) {
 			return 0;
 		}
 	}
@@ -477,7 +476,7 @@ static int32_t do_requested_path()
 	case PATHDESIRED_MODE_ENDPOINT:
 		for (uint8_t i = 0; i < 3; i++)
 			vtol_hold_position_ned[i] = vtol_fsm_path_desired.End[i];
-		return do_hold(NULL);
+		return do_hold();
 	default:
 		return do_path();
 	}
@@ -503,126 +502,27 @@ static int32_t do_land()
 	return 0;
 }
 
-static float loiter_deadband(float input) {
-	const float CMD_THRESHOLD = 0.2f;
-
-	if (input > CMD_THRESHOLD) {
-		input -= CMD_THRESHOLD;
-	} else if (input < -CMD_THRESHOLD) {
-		input += CMD_THRESHOLD;
-	} else {
-		input = 0;
-	}
-
-	input /= (1 - CMD_THRESHOLD);	// Normalize to -1 to 1 range.
-
-	return input;
-}
-
 /**
  * Loiter at current position or transform requested movement
  */
 static int32_t do_loiter()
 {
-	LoiterCommandData cmd;
-	LoiterCommandGet(&cmd);
-
-	// XXX TODO reproject when we're not issuing body-centric commands
-	// TODO: do a combined deadband across axes / factor this in
-	float commands_rp[2] = {
-		loiter_deadband(cmd.Roll),
-		loiter_deadband(cmd.Pitch)
-	};
-
-	float command_mag = vectorn_magnitude(commands_rp, 2);
-
-	float attitude_adj[2] = { 0, 0 };
-
-	// We only do a lot of work if our command has magnitude.
-	if (command_mag > 0.001f) {
-		float commands_ne[2];
-
-		float yaw;
-		AttitudeActualYawGet(&yaw);
-
-		// 90 degrees here compensates for the above being in roll-pitch
-		// order vs. north-east (and where yaw is defined).
-		vector2_rotate(commands_rp, commands_ne, 90 + yaw);
-
-		float commands_normalized_ne[2] = {
-			commands_ne[0] /= command_mag,
-			commands_ne[1] /= command_mag
-		};
-
-		// At the corners, command_mag can reach 1.4.  Fix that.
-		if (command_mag > 1.0f) {
-			command_mag = 1.0f;
-		}
-
-		// Find our current position error
-		PositionActualData positionActual;
-		PositionActualGet(&positionActual);
-
-		VelocityActualData velocityActual;
-		VelocityActualGet(&velocityActual);
-
-		float cur_pos_ned[3] = { positionActual.North,
-			positionActual.East, positionActual.Down };
-
-		float total_poserr_ned[3];
-		vector3_distances(cur_pos_ned, vtol_hold_position_ned,
-				total_poserr_ned, false);
-
-		// find the portion of our current velocity vector parallel to
-		// cmd.
-		float parallel_sign =
-			velocityActual.North * commands_normalized_ne[0] +
-			velocityActual.East * commands_normalized_ne[1];
-
-		// Come up with a target velocity for us to fly the command
-		// at, considering our current momentum in that direction.
-		float target_vel = 3.0f * command_mag;
-
-		if (parallel_sign > 0) {
-			// Plus whatever current velocity we're making good in
-			// that direction..
-			float parallel_mag = sqrtf(
-				powf(velocityActual.North * commands_normalized_ne[0], 2) +
-				powf(velocityActual.East * commands_normalized_ne[1], 2));
-
-			target_vel += (0.25 + 0.75 * command_mag) * parallel_mag;
-		}
-
-		// Feed the target velocity forward for our new desired position
-		// Note this implicitly implies 1 sec of feedforward.
-		vtol_hold_position_ned[0] = cur_pos_ned[0] +
-			commands_normalized_ne[0] * target_vel;
-		vtol_hold_position_ned[1] = cur_pos_ned[1] +
-			commands_normalized_ne[1] * target_vel;
-
-		// Now put a portion of the error back in.  At full stick
-		// deflection, decay error at time constant of a quarter second.
-		// This is to keep our above command in even when someone
-		// lets go of the stick and it briefly flips to the other
-		// direction from bounce.
-		// TODO: make more rigorous.
-		vtol_hold_position_ned[0] -= (1 - command_mag * 0.87f)
-			* total_poserr_ned[0];
-		vtol_hold_position_ned[1] -= (1 - command_mag * 0.87f) 
-			* total_poserr_ned[1];
-		
-		// And enable this as our hold position.
+	float att_adj[2] = { 0, 0 };
+	if (vtol_follower_control_loiter(DT, vtol_hold_position_ned, att_adj)) {
+		// If we did something, enable this as our hold position.
 
 		hold_position(vtol_hold_position_ned[0],
 				vtol_hold_position_ned[1],
 				vtol_hold_position_ned[2]);
-
-		// Compute attitude feedforward
-		attitude_adj[0] = commands_rp[0] * 15.0f;
-		attitude_adj[1] = commands_rp[1] * 15.0f;
 	}
 
-	return do_hold(attitude_adj);
+	if (vtol_follower_control_endpoint(DT, vtol_hold_position_ned, NULL) == 0) {
+		if (vtol_follower_control_attitude(DT, att_adj) == 0) {
+			return 0;
+		}
+	}
+
+	return -1;
 }
 
 /**
@@ -635,7 +535,7 @@ static int32_t do_ph_climb()
 	float cur_down;
 	PositionActualDownGet(&cur_down);
 
-	int32_t ret_val = do_hold(NULL);
+	int32_t ret_val = do_hold();
 
 	const float err = fabsf(cur_down - vtol_hold_position_ned[2]);
 	if (err < RTH_ALT_ERROR) {
