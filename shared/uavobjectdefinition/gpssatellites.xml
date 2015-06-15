@@ -1,8 +1,8 @@
 <xml>
     <object name="GPSSatellites" singleinstance="true" settings="false">
         <description>Contains information about the GPS satellites in view from @ref GPSModule.</description>
-        <field name="SatsInView" units="" type="int8" elements="1"/>
-        <field name="PRN" units="" type="int8" elements="24"/>
+        <field name="SatsInView" units="" type="uint8" elements="1"/>
+        <field name="PRN" units="" type="uint8" elements="24"/>
         <field name="Elevation" units="degrees" type="float" elements="24"/>
         <field name="Azimuth" units="degrees" type="float" elements="24"/>
         <field name="SNR" units="" type="int8" elements="24"/>
