@@ -285,21 +285,21 @@ static void parse_ubx_nav_svinfo (const struct UBX_NAV_SVINFO *svinfo)
 	uint8_t chan;
 	GPSSatellitesData svdata;
 
-	svdata.SatsInView = 0;
+	svdata.SatsInView = svinfo->numCh;
+
 	for (chan = 0;
 	    (chan < svinfo->numCh) && (chan < GPSSATELLITES_PRN_NUMELEM);	
 	    chan++) {
-		svdata.Azimuth[chan] = (float)svinfo->sv[chan].azim;
-		svdata.Elevation[chan] = (float)svinfo->sv[chan].elev;
+		svdata.Azimuth[chan] = svinfo->sv[chan].azim;
+		svdata.Elevation[chan] = svinfo->sv[chan].elev;
 		svdata.PRN[chan] = svinfo->sv[chan].svid;
 		svdata.SNR[chan] = svinfo->sv[chan].cno;
-		svdata.SatsInView++;
 	}
 
 	// fill remaining slots (if any)
 	for (; chan < GPSSATELLITES_PRN_NUMELEM; chan++) {
-		svdata.Azimuth[chan] = (float)0.0f;
-		svdata.Elevation[chan] = (float)0.0f;
+		svdata.Azimuth[chan] = 0;
+		svdata.Elevation[chan] = 0;
 		svdata.PRN[chan] = 0;
 		svdata.SNR[chan] = 0;
 	}

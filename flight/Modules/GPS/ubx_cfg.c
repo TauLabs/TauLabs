@@ -401,7 +401,8 @@ static void ubx_cfg_set_constellation(uintptr_t gps_port,
         0
     };
 
-    ubx_cfg_send_checksummed(gps_port, msg, len);
+    // The 4 offset here is for the header.
+    ubx_cfg_send_checksummed(gps_port, msg, len + 4);
 }
 
 //! Apply firmware version specific configuration tweaks
