@@ -176,6 +176,7 @@ static void loggingTask(void *parameters)
 	bool armed = false;
 	bool write_open = false;
 	bool read_open = false;
+	uint32_t now = PIOS_Thread_Systime();
 	int32_t read_sector = 0;
 	uint8_t read_data[LOGGINGSTATS_FILESECTOR_NUMELEM];
 
@@ -278,7 +279,9 @@ static void loggingTask(void *parameters)
 			break;
 		case LOGGINGSTATS_OPERATION_LOGGING:
 			{
-				uint32_t now = PIOS_Thread_Systime();
+				// Sleep for 1ms between writing
+				PIOS_Thread_Sleep_Until(&now, 1);
+
 				// Log the objects with private queues
 				for (int i=0; i<MAX_QUEUE_SIZE; i++){
 					LL_FOREACH(log_info, info) {
@@ -297,8 +300,7 @@ static void loggingTask(void *parameters)
 				}
 				LoggingStatsBytesLoggedSet(&written_bytes);
 
-				// The module tries to run at 1kHz
-				PIOS_Thread_Sleep_Until(&now, 1);
+				now = PIOS_Thread_Systime();
 			}
 			break;
 
