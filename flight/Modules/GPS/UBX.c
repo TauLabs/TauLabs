@@ -7,7 +7,7 @@
  *
  * @file       UBX.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
  * @brief      Process UBX data
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -59,7 +59,7 @@ int parse_ubx_stream (uint8_t c, char *gps_rx_buffer, GPSPositionData *GpsData, 
 	};
 
 	static enum proto_states proto_state = START;
-	static uint8_t rx_count = 0;
+	static uint16_t rx_count = 0;
 	struct UBXPacket *ubx = (struct UBXPacket *)gps_rx_buffer;
 
 	switch (proto_state) {
@@ -282,18 +282,47 @@ static void parse_ubx_nav_timeutc (const struct UBX_NAV_TIMEUTC *timeutc)
 #if !defined(PIOS_GPS_MINIMAL)
 static void parse_ubx_nav_svinfo (const struct UBX_NAV_SVINFO *svinfo)
 {
-	uint8_t chan;
+	uint8_t chan = 0;
 	GPSSatellitesData svdata;
+
+	bool skipped=false;
 
 	svdata.SatsInView = svinfo->numCh;
 
-	for (chan = 0;
-	    (chan < svinfo->numCh) && (chan < GPSSATELLITES_PRN_NUMELEM);	
-	    chan++) {
-		svdata.Azimuth[chan] = svinfo->sv[chan].azim;
-		svdata.Elevation[chan] = svinfo->sv[chan].elev;
-		svdata.PRN[chan] = svinfo->sv[chan].svid;
-		svdata.SNR[chan] = svinfo->sv[chan].cno;
+	// Invalid.. too many channels to fit in message.
+	if (svinfo->numCh > MAX_SVS) return;
+
+	for (int i = 0;
+	    (i < svinfo->numCh) && (chan < GPSSATELLITES_PRN_NUMELEM);
+	    i++) {
+		// Prioritize putting info on satellites we're actually
+		// receiving first
+		if (!svinfo->sv[i].cno) {
+			skipped=true;
+			continue;
+		}
+
+		svdata.Azimuth[chan] 	= svinfo->sv[i].azim;
+		svdata.Elevation[chan] 	= svinfo->sv[i].elev;
+		svdata.PRN[chan] 	= svinfo->sv[i].svid;
+		svdata.SNR[chan] 	= svinfo->sv[i].cno;
+
+		chan++;
+	}
+
+	// Now fill any available slots with satellites we're not receiving.
+	if (skipped) {
+		for (int i = 0;
+		    (i < svinfo->numCh) && (chan < GPSSATELLITES_PRN_NUMELEM);	
+		    i++) {
+			if (!svinfo->sv[i].cno) {
+				svdata.Azimuth[chan] 	= svinfo->sv[i].azim;
+				svdata.Elevation[chan] 	= svinfo->sv[i].elev;
+				svdata.PRN[chan] 	= svinfo->sv[i].svid;
+				svdata.SNR[chan] 	= svinfo->sv[i].cno;
+				chan++;
+			}
+		}
 	}
 
 	// fill remaining slots (if any)

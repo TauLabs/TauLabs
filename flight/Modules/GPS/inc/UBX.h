@@ -184,7 +184,7 @@ struct UBX_NAV_SVINFO_SV {
 };
 
 // SV information message
-#define MAX_SVS	16
+#define MAX_SVS 	32
 
 struct UBX_NAV_SVINFO {
 	uint32_t	iTOW;         // GPS Millisecond Time of Week (ms)

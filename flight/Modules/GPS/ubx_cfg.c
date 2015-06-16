@@ -7,7 +7,7 @@
  * @{
  *
  * @file       ubx_cfg.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
  * @brief      Include file for UBX configuration
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -121,7 +121,7 @@
 #define UBLOX_GNSSID_GLONASS 6
 
 #define UBLOX_MAX_PAYLOAD   384
-#define UBLOX_WAIT_MS       20
+#define UBLOX_WAIT_MS       50
 
 uint8_t ubloxTxCK_A, ubloxTxCK_B;
 static char *gps_rx_buffer;
@@ -397,7 +397,7 @@ static void ubx_cfg_set_constellation(uintptr_t gps_port,
         0,               // reserved1
         1,               // flags, 1 here means enable
         0,
-        1,               // flags, sigcfgmask, GLONASS L1OF
+        1,               // flags, sigcfgmask, GLONASS L10F
         0
     };
 
@@ -518,7 +518,7 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer,
                 constellation, sbas_const);
 }
 
-//! Make sure the GPS is set to the same baudrate as the port
+//! Make sure the GPS is set to the same baud
 void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud_rate)
 {
     // UBX,41 msg

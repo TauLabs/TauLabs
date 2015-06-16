@@ -7,7 +7,7 @@ GpsSnrWidget::GpsSnrWidget(QWidget *parent) :
     setScene(scene);
 
     // Now create 'maxSatellites' satellite icons which we will move around on the map:
-    for (int i=0; i < MAX_SATTELITES;i++) {
+    for (int i=0; i < MAX_SATELLITES;i++) {
         satellites[i][0] = 0;
         satellites[i][1] = 0;
         satellites[i][2] = 0;
@@ -38,7 +38,7 @@ GpsSnrWidget::~GpsSnrWidget() {
 void GpsSnrWidget::showEvent(QShowEvent *event) {
     Q_UNUSED(event)
     scene->setSceneRect(0,0, this->viewport()->width(), this->viewport()->height());
-    for(int index = 0 ;index < MAX_SATTELITES ; index++) {
+    for(int index = 0 ;index < MAX_SATELLITES ; index++) {
         drawSat(index);
     }
 }
@@ -46,13 +46,13 @@ void GpsSnrWidget::showEvent(QShowEvent *event) {
 void GpsSnrWidget::resizeEvent(QResizeEvent* event) {
     Q_UNUSED(event);
     scene->setSceneRect(0,0, this->viewport()->width(), this->viewport()->height());
-    for(int index = 0 ;index < MAX_SATTELITES ; index++) {
+    for(int index = 0 ;index < MAX_SATELLITES ; index++) {
         drawSat(index);
     }
 }
 
 void GpsSnrWidget::updateSat(int index, int prn, int elevation, int azimuth, int snr) {
-    if (index >= MAX_SATTELITES) {
+    if (index >= MAX_SATELLITES) {
         // A bit of error checking never hurts.
         return;
     }
@@ -67,7 +67,7 @@ void GpsSnrWidget::updateSat(int index, int prn, int elevation, int azimuth, int
 }
 
 void GpsSnrWidget::drawSat(int index) {
-    if (index >= MAX_SATTELITES) {
+    if (index >= MAX_SATELLITES) {
         // A bit of error checking never hurts.
         return;
     }
@@ -85,7 +85,7 @@ void GpsSnrWidget::drawSat(int index) {
 
         // Casting to int rounds down, which is what I want.
         // Minus 2 to allow a pixel of white left and right.
-        int availableWidth = (int)((scene->width()-2) / MAX_SATTELITES);
+        int availableWidth = (int)((scene->width()-2) / MAX_SATELLITES);
 
         // 2 pixels, one on each side.
         qreal width = availableWidth - 2;
