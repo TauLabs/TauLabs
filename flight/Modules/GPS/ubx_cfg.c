@@ -91,7 +91,7 @@
 
 #define UBLOX_CFG_MSG       0x01
 #define UBLOX_CFG_TP        0x07
-#define UBLOX_CFG_RTATE     0x08
+#define UBLOX_CFG_RATE      0x08
 #define UBLOX_CFG_CFG       0x09
 #define UBLOX_CFG_SBAS      0x16
 #define UBLOX_CFG_NAV5      0x24
@@ -161,7 +161,7 @@ static void ubx_cfg_set_rate(uintptr_t gps_port, uint16_t ms) {
 
     const uint8_t msg[] = {
         UBLOX_CFG_CLASS,       // CFG
-        UBLOX_CFG_RTATE,       // RTATE
+        UBLOX_CFG_RATE,        // RATE
         0x06,                  // length lsb
         0x00,                  // length msb
         ms,                    // rate lsb
@@ -328,29 +328,30 @@ static void ubx_cfg_poll_version(uintptr_t gps_port) {
     ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
+#define MAX_CH_PER_CATEGORY 72
 static void ubx_cfg_set_constellation(uintptr_t gps_port, 
         ModuleSettingsGPSConstellationOptions constellation,
         ModuleSettingsGPSSBASConstellationOptions sbas_const) {
-    // Needs to handle 20 length for one constellation + SBAS, length 28 for
-    // second constellation (second constellation)
-    uint8_t len = 20;
-    uint8_t config_blks = 2;
-    uint8_t gnss_id = UBLOX_GNSSID_GPS;
-
+    // Do all this stuff upfront so we don't need to use ternary everywhere.
     uint8_t sbas_chan = 3;
+    bool enable_gps = true;
+    bool enable_glonass = false;
 
-    bool sbas_enabled = (sbas_const != MODULESETTINGS_GPSSBASCONSTELLATION_NONE);
+    uint8_t max_glonass_ch = 0;
+    uint8_t max_gps_ch = MAX_CH_PER_CATEGORY;
+    uint8_t min_gps_ch = 20;    // We have 72 channels, so always reserving
+                                // at least 20 for GPS is no big deal (if
+                                // enabled)
+
+    bool enable_sbas = (sbas_const != MODULESETTINGS_GPSSBASCONSTELLATION_NONE);
 
     // Don't save channels for SBAS when we're not using it.
-    if (!sbas_enabled) sbas_chan = 0;
+    if (!enable_sbas) sbas_chan = 0;
 
     switch (constellation) {
         case MODULESETTINGS_GPSCONSTELLATION_ALL:
-            len = 28;   // Defaults-- just send the glonass data too.
-            break;
         case MODULESETTINGS_GPSCONSTELLATION_GLONASS:
-            gnss_id = UBLOX_GNSSID_GLONASS;
-                        // Just send the first two blocks, only GLONASS const
+            enable_glonass = true;
             break;
         case MODULESETTINGS_GPSCONSTELLATION_GPS:
         default:
@@ -358,24 +359,28 @@ static void ubx_cfg_set_constellation(uintptr_t gps_port,
             break;
     }
 
-    // XXX TODO send configuration
+    if (enable_glonass) max_glonass_ch = MAX_CH_PER_CATEGORY;
+
+    if (enable_gps) {
+        max_gps_ch = 0;
+        min_gps_ch = 0;
+    }
+
     const uint8_t msg[] = {
         UBLOX_CFG_CLASS, // CFG
         UBLOX_CFG_GNSS,  // GNSS
-        len,             // length lsb
-        0x00,            // length msb
-        0,               // msgver = 0   offset=0
+        28,              // length lsb   4 + 8 x 3 = 28
+        0,               // length msb
+        0,               // msgver = 0 
         0,               // numTrkChHw (ro)
         0,               // numTrkChUse (ro)
-        config_blks,     // numConfigBlks -- 1 or 2 constellations?
+        3,               // 3 config blocks here
 
-        gnss_id,         // ID of first constellation
-        16,              // Minimum number of channels to reserve.  m8
-                         // has 72 channels, so saving 16 for GPS is no big
-                         // deal.
-        72,              // maximum number of channels used
+        UBLOX_GNSSID_GPS,     // Configuration for GPS
+        min_gps_ch,      // Minimum number of channels to reserve.
+        max_gps_ch,      // maximum number of channels used
         0,               // reserved1
-        1,               // flags, 1 here means enable
+        enable_gps,      // flags, 1 here means enable
         0,
         1,               // flags, sigcfgmask, 1 sane for all sat systems
         0,
@@ -384,25 +389,24 @@ static void ubx_cfg_set_constellation(uintptr_t gps_port,
         sbas_chan,       // How many to save for SBAS?
         sbas_chan,       // Maximum sbas channels
         0,               // reserved1
-        sbas_enabled,    // flags, 1 here means enable
+        enable_sbas,     // flags, 1 here means enable
         0,
         1,               // flags, sigcfgmask, SBAS L1CA
         0,
 
         // If this next one is used, it's always GLONASS.
-        UBLOX_GNSSID_GLONASS,
-        4,               // Minimum num channels reserved -- if enabled, always
-                         // save at least a few for glonass acquisition
-        72,              // Maximum sbas channels
+        UBLOX_GNSSID_GLONASS,	// GLONASS.
+        0,               // Minimum num channels reserved 
+        max_glonass_ch,  // Maximum sbas channels
         0,               // reserved1
-        1,               // flags, 1 here means enable
+        enable_glonass,  // flags, 1 here means enable
         0,
-        1,               // flags, sigcfgmask, GLONASS L10F
+        1,               // flags, sigcfgmask, GLONASS L1OF
         0
     };
 
     // The 4 offset here is for the header.
-    ubx_cfg_send_checksummed(gps_port, msg, len + 4);
+    ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
 //! Apply firmware version specific configuration tweaks
