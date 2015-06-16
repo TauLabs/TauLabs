@@ -361,7 +361,7 @@ static void ubx_cfg_set_constellation(uintptr_t gps_port,
 
     if (enable_glonass) max_glonass_ch = MAX_CH_PER_CATEGORY;
 
-    if (enable_gps) {
+    if (!enable_gps) {
         max_gps_ch = 0;
         min_gps_ch = 0;
     }
