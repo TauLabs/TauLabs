@@ -346,8 +346,9 @@ static void parse_ubx_mon_ver (const struct UBX_MON_VER *version_info)
 	ublox.swVersion = (version_info->swVersion[0] - '0') +
 		(version_info->swVersion[2] - '0') * 0.1f +
 		(version_info->swVersion[3] - '0') * 0.01f;
-	for (uint32_t i = 0; i < 8; i++) {
-		ublox.hwVersion[i] = version_info->hwVersion[i];
+	for (uint32_t i = 0; i < 4; i++) {
+		ublox.hwVersion = ublox.hwVersion * 10 +
+			version_info->hwVersion[i] - '0';
 	}
 	ublox.ParseErrors = parse_errors;
 	UBloxInfoSet(&ublox);
