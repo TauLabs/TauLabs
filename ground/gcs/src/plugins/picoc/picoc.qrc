@@ -9,5 +9,6 @@
         <file>images/up_rom.png</file>
         <file>images/trash.png</file>
         <file>images/execute.png</file>
+        <file>images/forward_alt.png</file>
     </qresource>
 </RCC>
