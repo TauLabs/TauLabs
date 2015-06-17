@@ -7,7 +7,7 @@ GpsSnrWidget::GpsSnrWidget(QWidget *parent) :
     setScene(scene);
 
     // Now create 'maxSatellites' satellite icons which we will move around on the map:
-    for (int i=0; i < MAX_SATELLITES;i++) {
+    for (int i = 0; i < MAX_SATELLITES; i++) {
         satellites[i][0] = 0;
         satellites[i][1] = 0;
         satellites[i][2] = 0;

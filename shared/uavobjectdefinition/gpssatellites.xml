@@ -5,10 +5,11 @@
         <field name="PRN" units="" type="uint8" elements="30"/>
         <field name="Elevation" units="degrees" type="int8" elements="30"/>
         <field name="Azimuth" units="degrees" type="int16" elements="30"/>
-        <field name="SNR" units="" type="int8" elements="30"/>
+        <!-- This is C/N0 - dB-Hz and not a conventional SNR -->
+        <field name="SNR" units="dB-Hz" type="int8" elements="30"/>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="manual" period="0"/>
         <telemetryflight acked="false" updatemode="periodic" period="10000"/>
         <logging updatemode="periodic" period="30000"/>
-	</object>
+    </object>
 </xml>
