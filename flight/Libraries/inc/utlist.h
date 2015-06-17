@@ -63,14 +63,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 #define LL_SORT(list, cmp)                             \
 do {                                                                             \
-  __typeof__(list) _ls_p, _ls_q, _ls_e, _ls_tail, _ls_oldhead;              \
+  __typeof__(list) _ls_p, _ls_q, _ls_e, _ls_tail;                                \
   int _ls_insize, _ls_nmerges, _ls_psize, _ls_qsize, _ls_i, _ls_looping;         \
   if (list) {                                                                    \
     _ls_insize = 1;                                                              \
     _ls_looping = 1;                                                             \
     while (_ls_looping) {                                                        \
       _ls_p = list;                                                              \
-      _ls_oldhead = list;                                                        \
       list = NULL;                                                               \
       _ls_tail = NULL;                                                           \
       _ls_nmerges = 0;                                                           \
