@@ -35,6 +35,7 @@
 #include "stabilizationsettings.h"
 #include <QWidget>
 #include <QTimer>
+#include <expocurve.h>
 
 
 class ConfigStabilizationWidget: public ConfigTaskWidget
@@ -56,6 +57,8 @@ private slots:
 
     void showMWRateConvertDialog();
     void applyMWRateConvertDialog();
+
+    void showExpoPlot();
 };
 
 #endif // ConfigStabilizationWidget_H
