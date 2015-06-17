@@ -160,6 +160,8 @@ void ExpoCurve::init(int lbl_mode,int horizon_transistion,int roll_value,int pit
             CurveCnt = 2;
             this->setAxisTitle(QwtPlot::yLeft, "horizon angle (deg)");
             this->setAxisTitle(QwtPlot::yRight, "horizon rate (deg/s)");
+
+            this->setToolTip(tr("This plot shows data only for the Horizon mode, not the Attitude mode.<br><br>For each axis there are 2 curves.<br>One for the 'Horizon Attitude' part (horizon angle) and in darker color one for the 'Horizon Rate' part (horizon rate).<br><br>The markers on the curves show the threshold point:<br><br>- For stick inputs above its purely the 'Horizon Rate' mode with expo scaling by the 'Expo Horizon'<br><br>- For stick inputs below there is a dynamic transistion from 'Horizon Attitude' to 'Horizon Rate' mode."));
             break;
     }
 
