@@ -49,6 +49,19 @@ public:
 private:
     Ui_StabilizationWidget *m_stabilization;
     QTimer * realtimeUpdates;
+
+    struct UpdateExpoFlags {
+      short RateRoll;
+      short RatePitch;
+      short RateYaw;
+      short HorizonAttitudeRoll;
+      short HorizonAttitudePitch;
+      short HorizonAttitudeYaw;
+      short HorizonRateRoll;
+      short HorizonRatePitch;
+      short HorizonRateYaw;
+    } update_exp;
+
 private slots:
     void realtimeUpdatesSlot(int);
     void linkCheckBoxes(int value);

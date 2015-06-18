@@ -133,17 +133,8 @@ ExpoCurve::ExpoCurve(QWidget *parent) :
  * @brief ExpoCurve::init //! Set label for the stick channels
  * @param lbl_mode 0: Label for rate mode, 1: Label for horizon mode
  * @param horizon_transitions 0: no marker, >0: % horizon transitions defined in /flight/Modules/Stabilization/stabilization.c
- * @param roll_value value for initial roll curve
- * @param pitch_value value for initial pitch curve
- * @param yaw_value value for initial yaw curve
- * @param roll_max max for initial roll curve
- * @param pitch_max max for initial pitch curve
- * @param yaw_max max for initial yaw curve
- * @param roll_max2 max for initial roll curve on second y-axis
- * @param pitch_max2 max for initial pitch curve on second y-axis
- * @param yaw_max2 max for initial yaw curve on second y-axis
  */
-void ExpoCurve::init(int lbl_mode, int h_transistion, int roll_value, int pitch_value, int yaw_value, int roll_max, int pitch_max, int yaw_max, int roll_max2, int pitch_max2, int yaw_max2)
+void ExpoCurve::init(int lbl_mode, int h_transistion)
 {
     switch (lbl_mode)
     {
@@ -197,17 +188,6 @@ void ExpoCurve::init(int lbl_mode, int h_transistion, int roll_value, int pitch_
     else {
         curve_cnt = 1;
     }
-
-    plotDataRoll(roll_value, roll_max, 1);
-    plotDataPitch(pitch_value, pitch_max, 1);
-    plotDataYaw(yaw_value, yaw_max, 1);
-
-    if ( curve_cnt == 2) {
-        plotDataRoll(roll_value, roll_max2, 2);
-        plotDataPitch(pitch_value, pitch_max2, 2);
-        plotDataYaw(yaw_value, yaw_max2, 2);
-    }
-
 }
 
 /**

@@ -59,7 +59,7 @@ public:
     } ExpoPlotElements_t;
 
     //! Set label for the stick channels
-    void init(int lbl_mode, int h_transistion, int roll_value, int pitch_value, int yaw_value, int roll_max, int pitch_max, int yaw_max, int roll_max2, int pitch_max2, int yaw_max2);
+    void init(int lbl_mode, int h_transistion);
 
     //! Show expo data for one of the stick channels
     void plotData(int value, int max, ExpoPlotElements_t &plot_elements, int mode);
