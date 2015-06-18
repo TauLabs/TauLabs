@@ -83,7 +83,7 @@ ConfigStabilizationWidget::ConfigStabilizationWidget(QWidget *parent) : ConfigTa
     int roll_max = m_stabilization->fullStickRateRoll->value();
     int pitch_max = m_stabilization->fullStickRatePitch->value();
     int yaw_max = m_stabilization->fullStickRateYaw->value();
-    m_stabilization->rateStickExpoPlot->init(0,0,roll_expo,pitch_expo,yaw_expo,roll_max,pitch_max,yaw_max,0,0,0);
+    m_stabilization->rateStickExpoPlot->init(0, 0, roll_expo, pitch_expo, yaw_expo, roll_max, pitch_max, yaw_max, 0, 0, 0);
 
     connect(m_stabilization->rateRollExpo, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
     connect(m_stabilization->ratePitchExpo, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
@@ -106,7 +106,7 @@ ConfigStabilizationWidget::ConfigStabilizationWidget(QWidget *parent) : ConfigTa
     yaw_max = m_stabilization->rateYawKp_3->value();
     /* The init value for horizontransisition of 85% / 0.85 as used in  here is copied/ the same as in the defined in /flight/Modules/Stabilization/stabilization.c
      * Please be aware of changes that are made there. */
-    m_stabilization->horizonStickExpoPlot->init(1,85,roll_expo,pitch_expo,yaw_expo,roll_max,pitch_max,yaw_max,roll_max2,pitch_max2,yaw_max2);
+    m_stabilization->horizonStickExpoPlot->init(1, 85, roll_expo, pitch_expo, yaw_expo, roll_max, pitch_max, yaw_max, roll_max2, pitch_max2, yaw_max2);
 
     connect(m_stabilization->horizonRollExpo, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
     connect(m_stabilization->horizonPitchExpo, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
@@ -266,52 +266,52 @@ void ConfigStabilizationWidget::showExpoPlot()
 {
 
     if(QObject* obj = sender()) {
-        if ( (obj==m_stabilization->horizonRollExpo) ) {
-           m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(),m_stabilization->rateRollKp_3->value(),1);
-           m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(),m_stabilization->fullStickRateRoll->value(),2);
+        if ( (obj == m_stabilization->horizonRollExpo) ) {
+           m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(), m_stabilization->rateRollKp_3->value(),1);
+           m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(), m_stabilization->fullStickRateRoll->value(),2);
         }
-        else if ( (obj==m_stabilization->rateRollKp_3) ) {
-            m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(),m_stabilization->rateRollKp_3->value(),1);
+        else if ( (obj == m_stabilization->rateRollKp_3) ) {
+            m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(), m_stabilization->rateRollKp_3->value(),1);
          }
 
-        else if ( (obj==m_stabilization->horizonPitchExpo) ) {
-           m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(),m_stabilization->ratePitchKp_4->value(),1);
-           m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(),m_stabilization->fullStickRatePitch->value(),2);
+        else if ( (obj == m_stabilization->horizonPitchExpo) ) {
+           m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(), m_stabilization->ratePitchKp_4->value(),1);
+           m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(), m_stabilization->fullStickRatePitch->value(),2);
         }
-        else if ( (obj==m_stabilization->ratePitchKp_4) ) {
-           m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(),m_stabilization->ratePitchKp_4->value(),1);
-        }
-
-        else if ( (obj==m_stabilization->horizonYawExpo) ) {
-           m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(),m_stabilization->rateYawKp_3->value(),1);
-           m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(),m_stabilization->fullStickRateYaw->value(),2);
-        }
-        else if ((obj==m_stabilization->rateYawKp_3) ) {
-           m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(),m_stabilization->rateYawKp_3->value(),1);
+        else if ( (obj == m_stabilization->ratePitchKp_4) ) {
+           m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(), m_stabilization->ratePitchKp_4->value(),1);
         }
 
-        else if ( (obj==m_stabilization->rateRollExpo) ) {
-           m_stabilization->rateStickExpoPlot->plotDataRoll(m_stabilization->rateRollExpo->value(),m_stabilization->fullStickRateRoll->value(),1);
+        else if ( (obj == m_stabilization->horizonYawExpo) ) {
+           m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(), m_stabilization->rateYawKp_3->value(),1);
+           m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(), m_stabilization->fullStickRateYaw->value(),2);
         }
-        else if ( (obj==m_stabilization->fullStickRateRoll) ) {
-           m_stabilization->rateStickExpoPlot->plotDataRoll(m_stabilization->rateRollExpo->value(),m_stabilization->fullStickRateRoll->value(),1);
-           m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(),m_stabilization->fullStickRateRoll->value(),2);
-        }
-
-        else if ( (obj==m_stabilization->ratePitchExpo) ) {
-           m_stabilization->rateStickExpoPlot->plotDataPitch(m_stabilization->ratePitchExpo->value(),m_stabilization->fullStickRatePitch->value(),1);
-        }
-        else if ( (obj==m_stabilization->fullStickRatePitch) ) {
-           m_stabilization->rateStickExpoPlot->plotDataPitch(m_stabilization->ratePitchExpo->value(),m_stabilization->fullStickRatePitch->value(),1);
-           m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(),m_stabilization->fullStickRatePitch->value(),2);
+        else if ((obj == m_stabilization->rateYawKp_3) ) {
+           m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(), m_stabilization->rateYawKp_3->value(),1);
         }
 
-        else if ( (obj==m_stabilization->rateYawExpo) ) {
-           m_stabilization->rateStickExpoPlot->plotDataYaw(m_stabilization->rateYawExpo->value(),m_stabilization->fullStickRateYaw->value(),1);
+        else if ( (obj == m_stabilization->rateRollExpo) ) {
+           m_stabilization->rateStickExpoPlot->plotDataRoll(m_stabilization->rateRollExpo->value(), m_stabilization->fullStickRateRoll->value(),1);
         }
-        else if ( (obj==m_stabilization->fullStickRateYaw) ) {
-           m_stabilization->rateStickExpoPlot->plotDataYaw(m_stabilization->rateYawExpo->value(),m_stabilization->fullStickRateYaw->value(),1);
-           m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(),m_stabilization->fullStickRateYaw->value(),2);
+        else if ( (obj == m_stabilization->fullStickRateRoll) ) {
+           m_stabilization->rateStickExpoPlot->plotDataRoll(m_stabilization->rateRollExpo->value(), m_stabilization->fullStickRateRoll->value(),1);
+           m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(), m_stabilization->fullStickRateRoll->value(),2);
+        }
+
+        else if ( (obj == m_stabilization->ratePitchExpo) ) {
+           m_stabilization->rateStickExpoPlot->plotDataPitch(m_stabilization->ratePitchExpo->value(), m_stabilization->fullStickRatePitch->value(),1);
+        }
+        else if ( (obj == m_stabilization->fullStickRatePitch) ) {
+           m_stabilization->rateStickExpoPlot->plotDataPitch(m_stabilization->ratePitchExpo->value(), m_stabilization->fullStickRatePitch->value(),1);
+           m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(), m_stabilization->fullStickRatePitch->value(),2);
+        }
+
+        else if ( (obj == m_stabilization->rateYawExpo) ) {
+           m_stabilization->rateStickExpoPlot->plotDataYaw(m_stabilization->rateYawExpo->value(), m_stabilization->fullStickRateYaw->value(),1);
+        }
+        else if ( (obj == m_stabilization->fullStickRateYaw) ) {
+           m_stabilization->rateStickExpoPlot->plotDataYaw(m_stabilization->rateYawExpo->value(), m_stabilization->fullStickRateYaw->value(),1);
+           m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(), m_stabilization->fullStickRateYaw->value(),2);
         }
     }
 }

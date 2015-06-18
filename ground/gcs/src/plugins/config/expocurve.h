@@ -49,8 +49,7 @@ class ExpoCurve : public QwtPlot
 public:
     explicit ExpoCurve(QWidget *parent = 0);
 
-    typedef struct ExpoPlotElements
-    {
+    typedef struct ExpoPlotElements {
       QwtPlotCurve Curve;
       QwtPlotMarker Mark;
       QwtPlotMarker Mark_;
@@ -60,7 +59,7 @@ public:
     } ExpoPlotElements_t;
 
     //! Set label for the stick channels
-    void init(int lbl_mode,int horizon_transistion,int roll_value,int pitch_value,int yaw_value,int roll_max,int pitch_max,int yaw_max,int roll_max2,int pitch_max2,int yaw_max2);
+    void init(int lbl_mode, int h_transistion, int roll_value, int pitch_value, int yaw_value, int roll_max, int pitch_max, int yaw_max, int roll_max2, int pitch_max2, int yaw_max2);
 
     //! Show expo data for one of the stick channels
     void plotData(int value, int max, ExpoPlotElements_t &plot_elements, int mode);
@@ -76,7 +75,7 @@ public slots:
     //! Show expo data for yaw
     void plotDataYaw(double value, int max, int mode);
 
-    //! En-/Disable a expo curve
+    //! Show/Hide a expo curve
     void showCurve(const QVariant & itemInfo, bool on, int index);
 
 signals:
@@ -85,20 +84,20 @@ public slots:
 
 private:
 
-    int STEPS;
-    int HorizonTransition;
-    int CurveCnt;
+    int steps;
+    int horizon_transition;
+    int curve_cnt;
     double *x_data;
     double *y_data;
 
-    ExpoPlotElements_t rollElements;
-    ExpoPlotElements_t pitchElements;
-    ExpoPlotElements_t yawElements;
+    ExpoPlotElements_t roll_elements;
+    ExpoPlotElements_t pitch_elements;
+    ExpoPlotElements_t yaw_elements;
 
     QMutex mutex;
 
     //! Inverse expo function
-    double invers_expo3(double y,int g);
+    double invers_expo3(double y, int g);
 };
 
 #endif // EXPOCURVE_H
