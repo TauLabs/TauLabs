@@ -297,7 +297,5 @@ void ExpoCurve::showCurve(const QVariant & itemInfo, bool on, int index)
     if (item)
         item->setVisible(!on);
 
-    mutex.lock();
     replot();
-    mutex.unlock();
 }

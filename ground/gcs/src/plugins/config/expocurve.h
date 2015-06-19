@@ -41,7 +41,6 @@
 #include "qwt/src/qwt_legend_label.h"
 #include "qwt/src/qwt_plot_marker.h"
 #include "qwt/src/qwt_symbol.h"
-#include <QMutexLocker>
 
 class ExpoCurve : public QwtPlot
 {
@@ -93,8 +92,6 @@ private:
     ExpoPlotElements_t roll_elements;
     ExpoPlotElements_t pitch_elements;
     ExpoPlotElements_t yaw_elements;
-
-    QMutex mutex;
 
     //! Inverse expo function
     double invers_expo3(double y, int g);
