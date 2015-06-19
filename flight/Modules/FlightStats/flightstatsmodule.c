@@ -54,6 +54,7 @@ static struct pios_thread *flightStatsTaskHandle;
 static FlightStatsSettingsData settings;
 static PositionActualData lastPositionActual;
 static float initial_consumed_energy;
+static float previous_consumed_energy;
 
 // Private functions
 static void flightStatsTask(void *parameters);
@@ -159,6 +160,15 @@ static void flightStatsTask(void *parameters)
 					if (FlightBatteryStateHandle()) {
 						FlightBatteryStateConsumedEnergyGet(&initial_consumed_energy);
 
+						// either start a new calculation of consumed energy, or combine with data
+						// from previous flight
+						if (settings.StatsBehavior == FLIGHTSTATSSETTINGS_STATSBEHAVIOR_RESETONARM) {
+							previous_consumed_energy = 0.f;
+						}
+						else {
+							previous_consumed_energy = flightStatsData.ConsumedEnergy;
+						}
+
 						// only get the initial voltage if we reset on arm or if it is uninitialized
 						if ((settings.StatsBehavior == FLIGHTSTATSSETTINGS_STATSBEHAVIOR_RESETONARM)\
 							|| (flightStatsData.InitialBatteryVoltage == 0)){
@@ -256,7 +266,7 @@ static void collectStats(FlightStatsData *stats)
 	// Consumed energy
 	if (FlightBatteryStateHandle()) {
 		FlightBatteryStateConsumedEnergyGet(&tmp);
-		stats->ConsumedEnergy += (tmp - initial_consumed_energy);
+		stats->ConsumedEnergy = previous_consumed_energy + tmp - initial_consumed_energy;
 	}
 
 	// update things for next call
