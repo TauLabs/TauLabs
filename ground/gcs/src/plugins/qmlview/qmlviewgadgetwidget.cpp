@@ -34,7 +34,6 @@
 
 #include <QDebug>
 #include <QSvgRenderer>
-#include <QtOpenGL/QGLWidget>
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdir.h>
 

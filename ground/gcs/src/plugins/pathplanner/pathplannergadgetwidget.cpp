@@ -84,6 +84,7 @@ void PathPlannerGadgetWidget::on_tbAdd_clicked()
 
 void PathPlannerGadgetWidget::on_tbDelete_clicked()
 {
+    // XXX: TODO: Should delete all selected rows
     ui->tableView->model()->removeRow(ui->tableView->selectionModel()->currentIndex().row());
 }
 

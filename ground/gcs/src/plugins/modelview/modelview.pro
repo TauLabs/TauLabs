@@ -24,3 +24,7 @@ FORMS += modelviewoptionspage.ui
 
 RESOURCES += \
     modelview.qrc
+
+win32 {
+    LIBS += -lopengl32
+}

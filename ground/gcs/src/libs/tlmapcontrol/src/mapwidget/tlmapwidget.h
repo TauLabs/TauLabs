@@ -35,7 +35,6 @@
 #include "../core/diagnostics.h"
 #include "configuration.h"
 #include <QObject>
-#include <QtOpenGL/QGLWidget>
 #include "waypointitem.h"
 #include "QtSvg/QGraphicsSvgItem"
 #include "uavitem.h"
@@ -238,9 +237,6 @@ namespace mapcontrol
 
         GeoCoderStatusCode::Types SetCurrentPositionByKeywords(QString const& keys){return map->SetCurrentPositionByKeywords(keys);}
 
-        bool UseOpenGL(){return useOpenGL;}
-        void SetUseOpenGL(bool const& value);
-
         MapType::Types GetMapType(){return map->core->GetMapType();}
         void SetMapType(MapType::Types const& value){map->lastimage=QImage(); map->core->SetMapType(value);}
         void SetUserImageHorizontalScale(double hScale){map->core->SetUserImageHorizontalScale(hScale);}
@@ -395,7 +391,6 @@ namespace mapcontrol
       private:
         internals::Core *core;
         MapGraphicItem *map;
-        bool useOpenGL;
         GeoCoderStatusCode x;
         MapType y;
         core::AccessMode xx;

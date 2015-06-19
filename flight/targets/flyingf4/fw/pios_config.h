@@ -35,7 +35,7 @@
 #define PIOS_INCLUDE_BL_HELPER
 
 /* Enable/Disable PiOS Modules */
-//#define PIOS_INCLUDE_ADC
+#define PIOS_INCLUDE_ADC
 #define PIOS_INCLUDE_DELAY
 #define PIOS_INCLUDE_I2C
 #define WDG_STATS_DIAGNOSTICS
@@ -94,6 +94,8 @@
 #define PIOS_INCLUDE_LOGFS_SETTINGS
 #define PIOS_INCLUDE_FLASH_JEDEC
 #define PIOS_INCLUDE_FLASH_INTERNAL
+
+//#define PIOS_INCLUDE_DEBUG_CONSOLE
 
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */

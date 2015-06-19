@@ -102,12 +102,6 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     connect(ui->cbVoltagePin, SIGNAL(currentIndexChanged(int)), this, SLOT(toggleBatteryMonitoringGb()));
     connect(ui->cbCurrentPin, SIGNAL(currentIndexChanged(int)), this, SLOT(toggleBatteryMonitoringGb()));
 
-    // Link the fields
-    addUAVObjectToWidgetRelation(airspeedSettingsName, "GPSSamplePeriod_ms", ui->sb_gpsUpdateRate);
-    addUAVObjectToWidgetRelation(airspeedSettingsName, "Scale", ui->sb_pitotScale);
-    addUAVObjectToWidgetRelation(airspeedSettingsName, "ZeroPoint", ui->sb_pitotZeroPoint);
-    addUAVObjectToWidgetRelation(airspeedSettingsName, "AnalogPin", ui->cbAirspeedAnalog);
-
     addUAVObjectToWidgetRelation(batterySettingsName, "NbCells", ui->sb_numBatteryCells);
     addUAVObjectToWidgetRelation(batterySettingsName, "Capacity", ui->sb_batteryCapacity);
     addUAVObjectToWidgetRelation(batterySettingsName, "VoltagePin", ui->cbVoltagePin);
@@ -312,11 +306,20 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(picoCSettingsName, "Source", ui->cb_picocSource);
     addUAVObjectToWidgetRelation(picoCSettingsName, "ComSpeed", ui->cb_picocComSpeed);
 
+    // Connect Airspeed Settings
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "AirspeedSensorType", ui->cb_airspeedSensorType);
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "GPSSamplePeriod_ms", ui->sb_gpsUpdateRate);
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "Scale", ui->sb_pitotScale);
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "ZeroPoint", ui->sb_pitotZeroPoint);
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "AnalogPin", ui->cbAirspeedAnalog);
+    connect(airspeedSettings, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAirspeedGroupbox(UAVObject *)));
+    connect(ui->gb_airspeedGPS, SIGNAL(clicked(bool)), this, SLOT(enableAirspeedTypeGPS(bool)));
+    connect(ui->gb_airspeedPitot, SIGNAL(clicked(bool)), this, SLOT(enableAirspeedTypePitot(bool)));
+
     //Help button
     addHelpButton(ui->inputHelp,"https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Modules");
 
-    // Connect any remaining widgets
-    connect(airspeedSettings, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAirspeedUAVO(UAVObject *)));
+    // Link the fields
     connect(ui->pb_startVibrationTest, SIGNAL(clicked()), this, SLOT(toggleVibrationTest()));
 
     // Set text properties for checkboxes. The second argument is the UAVO field that corresponds
@@ -599,11 +602,6 @@ void ConfigModuleWidget::toggleBatteryMonitoringGb()
         ui->gb_measureCurrent->setChecked(false);
 }
 
-void ConfigModuleWidget::updateAirspeedUAVO(UAVObject *obj)
-{
-    Q_UNUSED(obj);
-}
-
 /**
  * @brief ConfigModuleWidget::updateAirspeedGroupbox Updates groupbox when airspeed UAVO changes
  * @param obj
@@ -620,21 +618,46 @@ void ConfigModuleWidget::updateAirspeedGroupbox(UAVObject *obj)
     ui->gb_airspeedGPS->setChecked(false);
     ui->gb_airspeedPitot->setChecked(false);
 
-    switch (airspeedSettingsData.AirspeedSensorType) {
-    case AirspeedSettings::AIRSPEEDSENSORTYPE_GPSONLY:
+    if (airspeedSettingsData.AirspeedSensorType == AirspeedSettings::AIRSPEEDSENSORTYPE_GPSONLY) {
         ui->gb_airspeedGPS->setChecked(true);
-        break;
-    case AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004:
-        ui->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004);
-        ui->gb_airspeedPitot->setChecked(true);
-    case AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002:
-        ui->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002);
-        ui->gb_airspeedPitot->setChecked(true);
-    case AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3:
-        ui->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3);
-        ui->gb_airspeedPitot->setChecked(true);
-        break;
     }
+    else {
+         ui->gb_airspeedPitot->setChecked(true);
+    }
+}
+
+/**
+ * @brief ConfigModuleWidget::toggleAirspeedType Toggle the airspeed sensor type based on checkbox
+ * @param checked
+ */
+void ConfigModuleWidget::enableAirspeedTypeGPS(bool checked)
+{
+    if (checked){
+        AirspeedSettings *airspeedSettings;
+        airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
+        AirspeedSettings::DataFields airspeedSettingsData;
+        airspeedSettingsData = airspeedSettings->getData();
+        airspeedSettingsData.AirspeedSensorType = AirspeedSettings::AIRSPEEDSENSORTYPE_GPSONLY;
+        airspeedSettings->setData(airspeedSettingsData);
+    }
+
+}
+
+/**
+ * @brief ConfigModuleWidget::toggleAirspeedType Toggle the airspeed sensor type based on checkbox
+ * @param checked
+ */
+void ConfigModuleWidget::enableAirspeedTypePitot(bool checked)
+{
+    if (checked){
+        AirspeedSettings *airspeedSettings;
+        airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
+        AirspeedSettings::DataFields airspeedSettingsData;
+        airspeedSettingsData = airspeedSettings->getData();
+        airspeedSettingsData.AirspeedSensorType = AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3;
+        airspeedSettings->setData(airspeedSettingsData);
+    }
+
 }
 
 //! Enable or disable the battery tab

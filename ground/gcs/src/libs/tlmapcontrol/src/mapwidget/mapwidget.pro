@@ -48,7 +48,7 @@ HEADERS += mapgraphicitem.h \
     mapcircle.h \
     waypointcurve.h \
     tlmapwidget.h
-QT += opengl
+
 QT += network
 QT += sql
 QT += svg
