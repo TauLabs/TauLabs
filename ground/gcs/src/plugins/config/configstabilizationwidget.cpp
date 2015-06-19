@@ -98,15 +98,15 @@ ConfigStabilizationWidget::ConfigStabilizationWidget(QWidget *parent) : ConfigTa
 
 
     // set the flags for all Expo Plots, so that they get updatet after initialization
-    update_exp.RateRoll = 1;
-    update_exp.RatePitch = 1;
-    update_exp.RateYaw = 1;
-    update_exp.HorizonAttitudeRoll = 1;
-    update_exp.HorizonAttitudePitch = 1;
-    update_exp.HorizonAttitudeYaw = 1;
-    update_exp.HorizonRateRoll = 1;
-    update_exp.HorizonRatePitch = 1;
-    update_exp.HorizonRateYaw = 1;
+    update_exp.RateRoll = true;
+    update_exp.RatePitch = true;
+    update_exp.RateYaw = true;
+    update_exp.HorizonAttitudeRoll = true;
+    update_exp.HorizonAttitudePitch = true;
+    update_exp.HorizonAttitudeYaw = true;
+    update_exp.HorizonRateRoll = true;
+    update_exp.HorizonRatePitch = true;
+    update_exp.HorizonRateYaw = true;
 
     //  update the Expo Plots
     showExpoPlot();
@@ -265,46 +265,46 @@ void ConfigStabilizationWidget::showExpoPlot()
     // test if this function is called from a Signal of one of the edit fields in UI (Spin Boxes)
     if(QObject* obj = sender()) {
         // set the flags to update the plots that rely on the changed data
-        if ( (obj==m_stabilization->horizonRollExpo) || (obj==m_stabilization->rateRollKp_3) ) {
-           update_exp.HorizonAttitudeRoll = 1;
-           if ( (obj==m_stabilization->horizonRollExpo) ) {
-            update_exp.HorizonRateRoll = 1;
+        if ( (obj == m_stabilization->horizonRollExpo) || (obj == m_stabilization->rateRollKp_3) ) {
+           update_exp.HorizonAttitudeRoll = true;
+           if ( (obj == m_stabilization->horizonRollExpo) ) {
+            update_exp.HorizonRateRoll = true;
            }
         }
 
-        else if ( (obj==m_stabilization->horizonPitchExpo) || (obj==m_stabilization->ratePitchKp_4) ) {
-           update_exp.HorizonAttitudePitch = 1;
-           if ( (obj==m_stabilization->horizonPitchExpo) ) {
-            update_exp.HorizonRatePitch = 1;
+        else if ( (obj == m_stabilization->horizonPitchExpo) || (obj == m_stabilization->ratePitchKp_4) ) {
+           update_exp.HorizonAttitudePitch = true;
+           if ( (obj == m_stabilization->horizonPitchExpo) ) {
+            update_exp.HorizonRatePitch = true;
            }
         }
 
-        else if ( (obj==m_stabilization->horizonYawExpo) || (obj==m_stabilization->rateYawKp_3) ) {
-           update_exp.HorizonAttitudeYaw = 1;
-           if ( (obj==m_stabilization->horizonYawExpo) ) {
-            update_exp.HorizonRateYaw = 1;
+        else if ( (obj == m_stabilization->horizonYawExpo) || (obj == m_stabilization->rateYawKp_3) ) {
+           update_exp.HorizonAttitudeYaw = true;
+           if ( (obj == m_stabilization->horizonYawExpo) ) {
+            update_exp.HorizonRateYaw = true;
            }
         }
 
-        else if ( (obj==m_stabilization->rateRollExpo) || (obj==m_stabilization->fullStickRateRoll) ) {
-           update_exp.RateRoll = 1;
-           if ( (obj==m_stabilization->fullStickRateRoll) ) {
-            update_exp.HorizonRateRoll = 1;
+        else if ( (obj == m_stabilization->rateRollExpo) || (obj == m_stabilization->fullStickRateRoll) ) {
+           update_exp.RateRoll = true;
+           if ( (obj == m_stabilization->fullStickRateRoll) ) {
+            update_exp.HorizonRateRoll = true;
            }
         }
 
-        else if ( (obj==m_stabilization->ratePitchExpo) || (obj==m_stabilization->fullStickRatePitch) ) {
-           update_exp.RatePitch = 1;
-           if ( (obj==m_stabilization->fullStickRatePitch) ) {
-            update_exp.HorizonRatePitch = 1;
+        else if ( (obj == m_stabilization->ratePitchExpo) || (obj == m_stabilization->fullStickRatePitch) ) {
+           update_exp.RatePitch = true;
+           if ( (obj == m_stabilization->fullStickRatePitch) ) {
+            update_exp.HorizonRatePitch = true;
            }
         }
 
-        else if ( (obj==m_stabilization->rateYawExpo) || (obj==m_stabilization->fullStickRateYaw) ) {
-           update_exp.RateYaw = 1;
+        else if ( (obj == m_stabilization->rateYawExpo) || (obj == m_stabilization->fullStickRateYaw) ) {
+           update_exp.RateYaw = true;
 
-           if ( (obj==m_stabilization->fullStickRateYaw) ) {
-            update_exp.HorizonRateYaw = 1;
+           if ( (obj == m_stabilization->fullStickRateYaw) ) {
+            update_exp.HorizonRateYaw = true;
            }
         }
     }
@@ -312,41 +312,41 @@ void ConfigStabilizationWidget::showExpoPlot()
     // update the Plots with latest data if the correspopnding flag is set
     // Horizon Attitude Curves
     if (update_exp.HorizonAttitudeRoll) {
-      m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(),m_stabilization->rateRollKp_3->value(),1);
-      update_exp.HorizonAttitudeRoll = 0;
+      m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(), m_stabilization->rateRollKp_3->value(), 1);
+      update_exp.HorizonAttitudeRoll = false;
     }
     if (update_exp.HorizonAttitudePitch) {
-      m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(),m_stabilization->ratePitchKp_4->value(),1);
-      update_exp.HorizonAttitudePitch = 0;
+      m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(), m_stabilization->ratePitchKp_4->value(), 1);
+      update_exp.HorizonAttitudePitch = false;
     }
     if (update_exp.HorizonAttitudeYaw) {
-      m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(),m_stabilization->rateYawKp_3->value(),1);
-      update_exp.HorizonAttitudeYaw = 0;
+      m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(), m_stabilization->rateYawKp_3->value(), 1);
+      update_exp.HorizonAttitudeYaw = false;
     }
     // Horizon Rate Curves
     if (update_exp.HorizonRateRoll) {
-      m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(),m_stabilization->fullStickRateRoll->value(),2);
-      update_exp.HorizonRateRoll = 0;
+      m_stabilization->horizonStickExpoPlot->plotDataRoll(m_stabilization->horizonRollExpo->value(), m_stabilization->fullStickRateRoll->value(), 2);
+      update_exp.HorizonRateRoll = false;
     }
     if (update_exp.HorizonRatePitch) {
-      m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(),m_stabilization->fullStickRatePitch->value(),2);
-      update_exp.HorizonRatePitch = 0;
+      m_stabilization->horizonStickExpoPlot->plotDataPitch(m_stabilization->horizonPitchExpo->value(), m_stabilization->fullStickRatePitch->value(), 2);
+      update_exp.HorizonRatePitch = false;
     }
     if (update_exp.HorizonRateYaw) {
-      m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(),m_stabilization->fullStickRateYaw->value(),2);
-      update_exp.HorizonRateYaw = 0;
+      m_stabilization->horizonStickExpoPlot->plotDataYaw(m_stabilization->horizonYawExpo->value(), m_stabilization->fullStickRateYaw->value(), 2);
+      update_exp.HorizonRateYaw = false;
     }
     // Rate Curves
     if (update_exp.RateRoll) {
-      m_stabilization->rateStickExpoPlot->plotDataRoll(m_stabilization->rateRollExpo->value(),m_stabilization->fullStickRateRoll->value(),1);
-      update_exp.RateRoll = 0;
+      m_stabilization->rateStickExpoPlot->plotDataRoll(m_stabilization->rateRollExpo->value(), m_stabilization->fullStickRateRoll->value(), 1);
+      update_exp.RateRoll = false;
     }
     if (update_exp.RatePitch) {
-      m_stabilization->rateStickExpoPlot->plotDataPitch(m_stabilization->ratePitchExpo->value(),m_stabilization->fullStickRatePitch->value(),1);
-      update_exp.RatePitch = 0;
+      m_stabilization->rateStickExpoPlot->plotDataPitch(m_stabilization->ratePitchExpo->value(), m_stabilization->fullStickRatePitch->value(), 1);
+      update_exp.RatePitch = false;
     }
     if (update_exp.RateYaw) {
-      m_stabilization->rateStickExpoPlot->plotDataYaw(m_stabilization->rateYawExpo->value(),m_stabilization->fullStickRateYaw->value(),1);
-      update_exp.RateYaw = 0;
+      m_stabilization->rateStickExpoPlot->plotDataYaw(m_stabilization->rateYawExpo->value(), m_stabilization->fullStickRateYaw->value(), 1);
+      update_exp.RateYaw = false;
     }
 }

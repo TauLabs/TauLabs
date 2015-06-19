@@ -51,15 +51,15 @@ private:
     QTimer * realtimeUpdates;
 
     struct UpdateExpoFlags {
-      short RateRoll;
-      short RatePitch;
-      short RateYaw;
-      short HorizonAttitudeRoll;
-      short HorizonAttitudePitch;
-      short HorizonAttitudeYaw;
-      short HorizonRateRoll;
-      short HorizonRatePitch;
-      short HorizonRateYaw;
+      bool RateRoll;
+      bool RatePitch;
+      bool RateYaw;
+      bool HorizonAttitudeRoll;
+      bool HorizonAttitudePitch;
+      bool HorizonAttitudeYaw;
+      bool HorizonRateRoll;
+      bool HorizonRatePitch;
+      bool HorizonRateYaw;
     } update_exp;
 
 private slots:

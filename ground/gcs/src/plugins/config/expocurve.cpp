@@ -86,7 +86,7 @@ ExpoCurve::ExpoCurve(QWidget *parent) :
 
     // axis
     this->enableAxis(QwtPlot::yRight);
-    this->setAxisTitle(QwtPlot::xBottom, " normalized stick input");
+    this->setAxisTitle(QwtPlot::xBottom, tr(" normalized stick input"));
 
     steps = 1000;
     x_data =  new double[steps];
@@ -139,23 +139,23 @@ void ExpoCurve::init(int lbl_mode, int h_transistion)
     switch (lbl_mode)
     {
         case 0:
-            roll_elements.Curve.setTitle("Roll rate (deg/s)");
-            pitch_elements.Curve.setTitle("Pitch rate (deg/s)");
-            yaw_elements.Curve.setTitle("Yaw rate (deg/s)");
+            roll_elements.Curve.setTitle(tr("Roll rate (deg/s)"));
+            pitch_elements.Curve.setTitle(tr("Pitch rate (deg/s)"));
+            yaw_elements.Curve.setTitle(tr("Yaw rate (deg/s)"));
 
-            this->setAxisTitle(QwtPlot::yLeft, "rate (deg/s)");
-            this->setAxisTitle(QwtPlot::yRight, "rate (deg/s)");
+            this->setAxisTitle(QwtPlot::yLeft, tr("rate (deg/s)"));
+            this->setAxisTitle(QwtPlot::yRight, tr("rate (deg/s)"));
             break;
         case 1:
-            roll_elements.Curve.setTitle("Roll angle (deg)");
-            pitch_elements.Curve.setTitle("Pitch angle (deg)");
-            yaw_elements.Curve.setTitle("Yaw angle (deg)");
-            roll_elements.Curve2.setTitle("Roll rate (deg/s)");
-            pitch_elements.Curve2.setTitle("Pitch rate (deg/s)");
-            yaw_elements.Curve2.setTitle("Yaw rate (deg/s)");
+            roll_elements.Curve.setTitle(tr("Roll angle (deg)"));
+            pitch_elements.Curve.setTitle(tr("Pitch angle (deg)"));
+            yaw_elements.Curve.setTitle(tr("Yaw angle (deg)"));
+            roll_elements.Curve2.setTitle(tr("Roll rate (deg/s)"));
+            pitch_elements.Curve2.setTitle(tr("Pitch rate (deg/s)"));
+            yaw_elements.Curve2.setTitle(tr("Yaw rate (deg/s)"));
             curve_cnt = 2;
-            this->setAxisTitle(QwtPlot::yLeft, "horizon angle (deg)");
-            this->setAxisTitle(QwtPlot::yRight, "horizon rate (deg/s)");
+            this->setAxisTitle(QwtPlot::yLeft, tr("horizon angle (deg)"));
+            this->setAxisTitle(QwtPlot::yRight, tr("horizon rate (deg/s)"));
 
             this->setToolTip(tr("This plot shows data only for the Horizon mode, not the Attitude mode.<br><br>For each axis there are 2 curves.<br>One for the 'Horizon Attitude' part (horizon angle) and in darker color one for the 'Horizon Rate' part (horizon rate).<br><br>The markers on the curves show the threshold point:<br><br>- For stick inputs above its purely the 'Horizon Rate' mode with expo scaling by the 'Expo Horizon'<br><br>- For stick inputs below there is a dynamic transistion from 'Horizon Attitude' to 'Horizon Rate' mode."));
             break;
