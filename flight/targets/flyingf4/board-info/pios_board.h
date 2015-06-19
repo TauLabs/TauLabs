@@ -226,13 +226,13 @@ extern uintptr_t pios_com_debug_id;
 // PIOS_ADC_PinGet(0) = PC_11
 // PIOS_ADC_PinGet(1) = PC_12
 //-------------------------
-#define PIOS_DMA_PIN_CONFIG																	\
-{																							\
-	{ GPIOC,	GPIO_Pin_1,		ADC_Channel_11 },											\
-	{ GPIOC,	GPIO_Pin_2,		ADC_Channel_12 },											\
-	{ NULL,		0,				ADC_Channel_Vrefint },		/* Voltage reference */			\
-	{ NULL,		0,				ADC_Channel_TempSensor },	/* Temperature sensor */		\
-	{ GPIOC,	GPIO_Pin_1,		ADC_Channel_11 }											\
+#define PIOS_DMA_PIN_CONFIG                                                       \
+{                                                                                 \
+	{ GPIOC, GPIO_Pin_1,     ADC_Channel_11         },                            \
+	{ GPIOC, GPIO_Pin_2,     ADC_Channel_12         },                            \
+	{ NULL,  0,              ADC_Channel_Vrefint    },  /* Voltage reference */   \
+	{ NULL,  0,              ADC_Channel_TempSensor },  /* Temperature sensor */  \
+	{ GPIOC, GPIO_Pin_1,     ADC_Channel_11         }                             \
 }
 
 /* we have to do all this to satisfy the PIOS_ADC_MAX_SAMPLES define in pios_adc.h */
