@@ -1,12 +1,8 @@
 TEMPLATE = lib
 TARGET = PfdQml
 QT += svg
-QT += opengl
 QT += qml
 QT += quick
-OSG {
-    DEFINES += USE_OSG
-}
 
 include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
@@ -18,8 +14,7 @@ HEADERS += \
     pfdqmlgadgetwidget.h \
     pfdqmlgadgetfactory.h \
     pfdqmlgadgetconfiguration.h \
-    pfdqmlgadgetoptionspage.h \
-    lowpassfilter.h
+    pfdqmlgadgetoptionspage.h
 
 SOURCES += \
     pfdqmlplugin.cpp \
@@ -27,17 +22,7 @@ SOURCES += \
     pfdqmlgadgetfactory.cpp \
     pfdqmlgadgetwidget.cpp \
     pfdqmlgadgetconfiguration.cpp \
-    pfdqmlgadgetoptionspage.cpp \
-    lowpassfilter.cpp
-
-
-contains(DEFINES,USE_OSG) {
-    LIBS += -losg -losgUtil -losgViewer -losgQt -losgDB -lOpenThreads -losgGA
-    LIBS += -losgEarth -losgEarthFeatures -losgEarthUtil
-
-    HEADERS += osgearth.h
-    SOURCES += osgearth.cpp
-}
+    pfdqmlgadgetoptionspage.cpp
 
 OTHER_FILES += PfdQml.pluginspec \
     PfdQml.json

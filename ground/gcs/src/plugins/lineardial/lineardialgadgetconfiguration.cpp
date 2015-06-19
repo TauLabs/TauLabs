@@ -46,7 +46,6 @@ LineardialGadgetConfiguration::LineardialGadgetConfiguration(QString classId, QS
     greenMin(66),
     greenMax(100),
     factor(1.00),
-    useOpenGLFlag(false),
     decimalPlaces(0)
 {
     //if a saved configuration exists load it
@@ -66,7 +65,6 @@ LineardialGadgetConfiguration::LineardialGadgetConfiguration(QString classId, QS
         font = qSettings->value("font").toString();
         decimalPlaces = qSettings->value("decimalPlaces").toInt();
         factor = qSettings->value("factor").toDouble();
-		useOpenGLFlag = qSettings->value("useOpenGLFlag").toBool();
 	}
 }
 
@@ -91,7 +89,6 @@ IUAVGadgetConfiguration *LineardialGadgetConfiguration::clone()
     m->font = font;
     m->decimalPlaces = decimalPlaces;
     m->factor = factor;
-	m->useOpenGLFlag = useOpenGLFlag;
 
     return m;
 }
@@ -116,5 +113,4 @@ void LineardialGadgetConfiguration::saveConfig(QSettings* qSettings) const {
    qSettings->setValue("font", font);
    qSettings->setValue("decimalPlaces", decimalPlaces);
    qSettings->setValue("factor", factor);
-	qSettings->setValue("useOpenGLFlag", useOpenGLFlag);
 }

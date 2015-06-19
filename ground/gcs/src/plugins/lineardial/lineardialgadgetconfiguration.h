@@ -56,8 +56,6 @@ public:
     void setSourceDataObject(QString text) {sourceDataObject = text; }
     void setSourceObjField(QString text) { sourceObjectField = text; }
 
-	void setUseOpenGL(bool flag) { useOpenGLFlag = flag; }
-
     //get dial configuration functions
     QString getDialFile() {return dialFile;}
     double getMin() { return minValue;}
@@ -73,7 +71,6 @@ public:
     QString getFont() { return font;}
     int getDecimalPlaces() { return decimalPlaces; }
     double getFactor() { return factor; }
-	bool useOpenGL() { return useOpenGLFlag; }
 
     void saveConfig(QSettings* settings) const;
     IUAVGadgetConfiguration *clone();
@@ -101,7 +98,6 @@ private:
     double greenMax;
 
     double factor;
-	bool useOpenGLFlag;
 
     int decimalPlaces;
 };

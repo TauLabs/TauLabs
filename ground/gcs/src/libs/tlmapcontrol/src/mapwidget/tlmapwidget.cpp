@@ -250,16 +250,6 @@ namespace mapcontrol
         event->accept();
     }
 
-    void TLMapWidget::SetUseOpenGL(const bool &value)
-    {
-        useOpenGL=value;
-        if (useOpenGL)
-            setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers), this));
-        else
-            setViewport(new QWidget());
-        update();
-    }
-
     internals::PointLatLng TLMapWidget::currentMousePosition()
     {
         return currentmouseposition;

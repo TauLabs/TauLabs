@@ -45,7 +45,6 @@ class JoystickControl : public QGraphicsView
 public:
     explicit JoystickControl(QWidget *parent = 0);
     ~JoystickControl();
-    void enableOpenGL(bool flag);
     void paint();
 
 protected:

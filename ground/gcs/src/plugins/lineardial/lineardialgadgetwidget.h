@@ -46,7 +46,6 @@ class LineardialGadgetWidget : public QGraphicsView
 public:
     LineardialGadgetWidget(QWidget *parent = 0);
    ~LineardialGadgetWidget();
-   void enableOpenGL(bool flag);
    void setDialFile(QString dfn);
    void paint();
    void setRange(double min, double max) { minValue=min; maxValue=max;}

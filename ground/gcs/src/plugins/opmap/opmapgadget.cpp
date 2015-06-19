@@ -62,7 +62,6 @@ void OPMapGadget::loadConfiguration(IUAVGadgetConfiguration *config)
 {
     m_config = qobject_cast<OPMapGadgetConfiguration*>(config);
     m_widget->setMapProvider(m_config->mapProvider());
-    m_widget->setUseOpenGL(m_config->useOpenGL());
     m_widget->setShowTileGridLines(m_config->showTileGridLines());
     m_widget->setAccessMode(m_config->accessMode());
     m_widget->setUseMemoryCache(m_config->useMemoryCache());

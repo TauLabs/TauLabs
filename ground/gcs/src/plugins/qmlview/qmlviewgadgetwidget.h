@@ -52,7 +52,6 @@ public:
    void enableSmoothUpdates(bool flag) { beSmooth = flag; }
 
 private:
-   // Flag to enable better rendering of fonts in OpenGL
    bool beSmooth;
    QString m_fn;
 };
