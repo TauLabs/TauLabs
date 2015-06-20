@@ -180,32 +180,40 @@ MODULE_INITCALL(GPSInitialize, GPSStart);
 
 static void gpsConfigure(uint8_t gpsProtocol)
 {
+	ModuleSettingsGPSAutoConfigureOptions gpsAutoConfigure;
+	ModuleSettingsGPSAutoConfigureGet(&gpsAutoConfigure);
+
+	if (gpsAutoConfigure != MODULESETTINGS_GPSAUTOCONFIGURE_TRUE) {
+		return;
+	}
+
 #if !defined(PIOS_GPS_MINIMAL)
 	switch (gpsProtocol) {
 #if defined(PIOS_INCLUDE_GPS_UBX_PARSER)
 		case MODULESETTINGS_GPSDATAPROTOCOL_UBX:
 		{
-			uint8_t gpsAutoConfigure;
-			ModuleSettingsGPSAutoConfigureGet(&gpsAutoConfigure);
+			// Runs through a number of possible GPS baud rates to
+			// configure the ublox baud rate. This uses a NMEA string
+			// so could work for either UBX or NMEA actually. This is
+			// somewhat redundant with updateSettings below, but that
+			// is only called on startup and is not an issue.
 
-			if (gpsAutoConfigure == MODULESETTINGS_GPSAUTOCONFIGURE_TRUE) {
+			ModuleSettingsGPSSpeedOptions baud_rate;
+			ModuleSettingsGPSConstellationOptions constellation;
+			ModuleSettingsGPSSBASConstellationOptions sbas_const;
+			ModuleSettingsGPSDynamicsModeOptions dyn_mode;
 
-				// Wait for power to stabilize before talking to external devices
-				PIOS_Thread_Sleep(1000);
+			ModuleSettingsGPSSpeedGet(&baud_rate);
+			ModuleSettingsGPSConstellationGet(&constellation);
+			ModuleSettingsGPSSBASConstellationGet(&sbas_const);
+			ModuleSettingsGPSDynamicsModeGet(&dyn_mode);
 
-				// Runs through a number of possible GPS baud rates to
-				// configure the ublox baud rate. This uses a NMEA string
-				// so could work for either UBX or NMEA actually. This is
-				// somewhat redundant with updateSettings below, but that
-				// is only called on startup and is not an issue.
-				ModuleSettingsGPSSpeedOptions baud_rate;
-				ModuleSettingsGPSSpeedGet(&baud_rate);
-				ubx_cfg_set_baudrate(gpsPort, baud_rate);
+			ubx_cfg_set_baudrate(gpsPort, baud_rate);
 
-				PIOS_Thread_Sleep(1000);
+			PIOS_Thread_Sleep(1000);
 
-				ubx_cfg_send_configuration(gpsPort, gps_rx_buffer);
-			}
+			ubx_cfg_send_configuration(gpsPort, gps_rx_buffer,
+					constellation, sbas_const, dyn_mode);
 		}
 		break;
 #endif
@@ -232,12 +240,16 @@ static void gpsTask(void *parameters)
 
 	GPSPositionGet(&gpsposition);
 
+	// Wait for power to stabilize before talking to external devices
+	PIOS_Thread_Sleep(1000);
+
 	// Loop forever
 	while (1) {
 		uint32_t xDelay = GPS_COM_TIMEOUT_MS;
 
 		uint32_t loopTimeMs = PIOS_Thread_Systime();
 
+		// XXX TODO: also on modulesettings change..
 		if (!timeOfConfigAttemptMs) {
 			ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
 
