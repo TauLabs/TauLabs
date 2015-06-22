@@ -20,13 +20,6 @@
 
 #include "utils/pathutils.h"
 
-#ifdef USE_OSG
-#include <osgEarth/Registry>
-#include <osgEarth/Cache>
-#include <osgEarth/CachePolicy>
-#include <osgEarthDrivers/cache_filesystem/FileSystemCache>
-#endif
-
 PfdQmlGadget::PfdQmlGadget(QString classId, PfdQmlGadgetWidget *widget, QWidget *parent) :
         IUAVGadget(classId, parent),
         m_widget(widget)
@@ -49,29 +42,6 @@ PfdQmlGadget::~PfdQmlGadget()
 void PfdQmlGadget::loadConfiguration(IUAVGadgetConfiguration* config)
 {
     PfdQmlGadgetConfiguration *m = qobject_cast<PfdQmlGadgetConfiguration*>(config);
-    m_widget->setOpenGLEnabled(m->openGLEnabled());
     m_widget->setQmlFile(m->qmlFile());
-    m_widget->setEarthFile(m->earthFile());
-    m_widget->setTerrainEnabled(m->terrainEnabled());
-    m_widget->setActualPositionUsed(m->actualPositionUsed());
-    m_widget->setLatitude(m->latitude());
-    m_widget->setLongitude(m->longitude());
-    m_widget->setAltitude(m->altitude());
     m_widget->setSettingsMap(m->settings());
-
-#ifdef USE_OSG
-    //setup terrain caching
-    QString cacheDir = Utils::PathUtils().GetStoragePath()+QLatin1String("osgEarth_cache");
-    osgEarth::Drivers::FileSystemCacheOptions cacheOptions;
-    cacheOptions.rootPath() = cacheDir.toStdString();
-
-    osgEarth::Cache *cache = osgEarth::Drivers::CacheFactory::create(cacheOptions);
-    if (cache) {
-        osgEarth::CachePolicy policy = m->cacheOnly() ?
-                    osgEarth::CachePolicy::USAGE_CACHE_ONLY :
-                    osgEarth::CachePolicy::USAGE_READ_WRITE;
-        osgEarth::Registry::instance()->setDefaultCachePolicy(policy);
-        osgEarth::Registry::instance()->setCache(cache);
-    }
-#endif //USE_OSG
 }

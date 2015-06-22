@@ -125,6 +125,9 @@ private:
     QStringList accessModeStr;
     QStringList accessModeStrXML;
 
+    QString genErrorMsg(QString& fileName, QString errMsg, int errorLine, int errorCol);
+
+
     QString processObjectAttributes(QDomNode& node, ObjectInfo* info);
     QString processObjectFields(QDomNode& childNode, ObjectInfo* info);
     QString processObjectAccess(QDomNode& childNode, ObjectInfo* info);

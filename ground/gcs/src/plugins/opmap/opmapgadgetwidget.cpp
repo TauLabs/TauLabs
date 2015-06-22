@@ -1126,14 +1126,6 @@ void OPMapGadgetWidget::setAccessMode(QString accessMode)
     m_map->configuration->SetAccessMode(mapcontrol::Helper::AccessModeFromString(accessMode));
 }
 
-void OPMapGadgetWidget::setUseOpenGL(bool useOpenGL)
-{
-	if (!m_widget || !m_map)
-		return;
-
-    m_map->SetUseOpenGL(useOpenGL);
-}
-
 void OPMapGadgetWidget::setShowTileGridLines(bool showTileGridLines)
 {
 	if (!m_widget || !m_map)

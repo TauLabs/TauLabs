@@ -216,6 +216,8 @@ void ModelUavoProxy::objectsToModel()
     getHomeLocation(homeLLA);
     double LLA[3];
 
+    myModel->pauseValidation(true);
+
     myModel->removeRows(0,myModel->rowCount());
     for(int x=0; x < Waypoint::getNumInstances(objManager) ; ++x) {
         Waypoint * wp;
@@ -247,6 +249,8 @@ void ModelUavoProxy::objectsToModel()
         myModel->setData(myModel->index(x,FlightDataModel::MODE), wpfields.Mode);
         myModel->setData(myModel->index(x,FlightDataModel::MODE_PARAMS), wpfields.ModeParameters);
     }
+
+    myModel->pauseValidation(false);
 }
 
 /**

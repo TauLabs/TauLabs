@@ -156,6 +156,9 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_PICOC_RX_BUF_LEN 128
 #define PIOS_COM_PICOC_TX_BUF_LEN 128
 
+#define PIOS_COM_FRSKYSPORT_TX_BUF_LEN 16
+#define PIOS_COM_FRSKYSPORT_RX_BUF_LEN 16
+
 #define PIOS_COM_RFM22B_RF_RX_BUF_LEN 512
 #define PIOS_COM_RFM22B_RF_TX_BUF_LEN 512
 
@@ -176,6 +179,7 @@ uintptr_t pios_com_overo_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_com_hott_id;
 uintptr_t pios_com_frsky_sensor_hub_id;
+uintptr_t pios_com_frsky_sport_id;
 uintptr_t pios_com_lighttelemetry_id;
 uintptr_t pios_com_picoc_id;
 uintptr_t pios_com_logging_id;
@@ -745,6 +749,11 @@ void PIOS_Board_Init(void) {
             PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
 #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 		break;
+        case HWSPARKY2_MAINPORT_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_main_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
+		break;
 		case HWSPARKY2_MAINPORT_LIGHTTELEMETRYTX:
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 		PIOS_Board_configure_com(&pios_usart_main_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
@@ -837,6 +846,11 @@ void PIOS_Board_Init(void) {
         case HWSPARKY2_FLEXIPORT_FRSKYSENSORHUB:
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
             PIOS_Board_configure_com(&pios_usart_flexi_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
+#endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
+		break;
+        case HWSPARKY2_FLEXIPORT_FRSKYSPORTTELEMETRY:
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+			PIOS_Board_configure_com(&pios_usart_flexi_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 		break;
 		case HWSPARKY2_FLEXIPORT_LIGHTTELEMETRYTX:

@@ -47,7 +47,6 @@ class DialGadgetWidget : public QGraphicsView
 public:
     DialGadgetWidget(QWidget *parent = 0);
    ~DialGadgetWidget();
-   void enableOpenGL(bool flag);
    void enableSmoothUpdates(bool flag) { beSmooth = flag; }
    void setDialFile(QString dfn, QString bg, QString fg, QString n1, QString n2, QString n3,
                     QString n1Move, QString n2Move, QString n3Move);

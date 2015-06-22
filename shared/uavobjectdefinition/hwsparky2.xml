@@ -29,6 +29,7 @@
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
+				<option>FrSKY SPort Telemetry</option>
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
 			</options>
@@ -48,6 +49,7 @@
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
 				<option>FrSKY Sensor Hub</option>
+				<option>FrSKY SPort Telemetry</option>
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
 			</options>

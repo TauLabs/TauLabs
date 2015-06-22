@@ -104,6 +104,9 @@ float circular_modulus_rad(float err)
  * @param[in] x   input from [-1,1]
  * @param[in] g   sets the exponential amount [0,100]
  * @return  rescaled input
+ *
+ * This function is also used for the expo plot in GCS (config/stabilization/advanced).
+ * Please adapt changes here also to /ground/gcs/src/plugins/config/expocurve.cpp
  */
 float expo3(float x, int32_t g)
 {

@@ -97,7 +97,6 @@ QWidget *OPMapGadgetOptionsPage::createPage(QWidget *parent)
     m_page->latitudeSpinBox->setValue(m_config->latitude());
     m_page->longitudeSpinBox->setValue(m_config->longitude());
 
-    m_page->checkBoxUseOpenGL->setChecked(m_config->useOpenGL());
     m_page->checkBoxShowTileGridLines->setChecked(m_config->showTileGridLines());
 
     index = m_page->accessModeComboBox->findText(m_config->accessMode());
@@ -173,7 +172,6 @@ void OPMapGadgetOptionsPage::apply()
     m_config->setZoom(m_page->zoomSpinBox->value());
     m_config->setLatitude(m_page->latitudeSpinBox->value());
     m_config->setLongitude(m_page->longitudeSpinBox->value());
-    m_config->setUseOpenGL(m_page->checkBoxUseOpenGL->isChecked());
     m_config->setShowTileGridLines(m_page->checkBoxShowTileGridLines->isChecked());
     m_config->setAccessMode(m_page->accessModeComboBox->currentText());
     m_config->setUseMemoryCache(m_page->checkBoxUseMemoryCache->isChecked());

@@ -1,7 +1,6 @@
 TEMPLATE = lib
 TARGET = DialGadget
 QT += svg
-QT += opengl
 include(../../taulabsgcsplugin.pri)
 include(../../plugins/coreplugin/coreplugin.pri)
 include(dial_dependencies.pri)

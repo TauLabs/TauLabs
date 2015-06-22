@@ -36,7 +36,6 @@ OPMapGadgetConfiguration::OPMapGadgetConfiguration(QString classId,  QSettings* 
     m_defaultZoom(2),
     m_defaultLatitude(0),
     m_defaultLongitude(0),
-    m_useOpenGL(false),
     m_showTileGridLines(false),
     m_accessMode("ServerAndCache"),
     m_useMemoryCache(true),
@@ -55,7 +54,6 @@ OPMapGadgetConfiguration::OPMapGadgetConfiguration(QString classId,  QSettings* 
         int zoom = qSettings->value("defaultZoom").toInt();
         double latitude= qSettings->value("defaultLatitude").toDouble();
         double longitude= qSettings->value("defaultLongitude").toDouble();
-        bool useOpenGL= qSettings->value("useOpenGL").toBool();
         bool showTileGridLines= qSettings->value("showTileGridLines").toBool();
         QString accessMode= qSettings->value("accessMode").toString();
         bool useMemoryCache= qSettings->value("useMemoryCache").toBool();
@@ -77,7 +75,6 @@ OPMapGadgetConfiguration::OPMapGadgetConfiguration(QString classId,  QSettings* 
         m_defaultZoom = zoom;
         m_defaultLatitude = latitude;
         m_defaultLongitude = longitude;
-        m_useOpenGL = useOpenGL;
         m_showTileGridLines = showTileGridLines;
 		m_uavSymbol = uavSymbol;
 
@@ -107,13 +104,12 @@ IUAVGadgetConfiguration * OPMapGadgetConfiguration::clone()
     m->m_defaultZoom = m_defaultZoom;
     m->m_defaultLatitude = m_defaultLatitude;
     m->m_defaultLongitude = m_defaultLongitude;
-    m->m_useOpenGL = m_useOpenGL;
     m->m_showTileGridLines = m_showTileGridLines;
     m->m_accessMode = m_accessMode;
     m->m_useMemoryCache = m_useMemoryCache;
     m->m_cacheLocation = m_cacheLocation;
-	m->m_uavSymbol = m_uavSymbol;
-	m->m_maxUpdateRate = m_maxUpdateRate;
+    m->m_uavSymbol = m_uavSymbol;
+    m->m_maxUpdateRate = m_maxUpdateRate;
     m->m_opacity=m_opacity;
     m->m_userImageHorizontalScale=m_userImageHorizontalScale;
     m->m_userImageVerticalScale=m_userImageVerticalScale;
@@ -129,7 +125,6 @@ void OPMapGadgetConfiguration::saveConfig() const {
    m_settings->setValue("defaultZoom", m_defaultZoom);
    m_settings->setValue("defaultLatitude", m_defaultLatitude);
    m_settings->setValue("defaultLongitude", m_defaultLongitude);
-   m_settings->setValue("useOpenGL", m_useOpenGL);
    m_settings->setValue("showTileGridLines", m_showTileGridLines);
    m_settings->setValue("accessMode", m_accessMode);
    m_settings->setValue("useMemoryCache", m_useMemoryCache);
@@ -147,7 +142,6 @@ void OPMapGadgetConfiguration::saveConfig(QSettings* qSettings) const {
    qSettings->setValue("defaultZoom", m_defaultZoom);
    qSettings->setValue("defaultLatitude", m_defaultLatitude);
    qSettings->setValue("defaultLongitude", m_defaultLongitude);
-   qSettings->setValue("useOpenGL", m_useOpenGL);
    qSettings->setValue("showTileGridLines", m_showTileGridLines);
    qSettings->setValue("accessMode", m_accessMode);
    qSettings->setValue("useMemoryCache", m_useMemoryCache);

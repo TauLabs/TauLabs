@@ -24,8 +24,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include <QtXml/QDomDocument>
-
+#include <QTextStream>
 #include "uavobjectparser.h"
 
 /**
@@ -119,6 +118,26 @@ bool fieldTypeLessThan(const FieldInfo* f1, const FieldInfo* f2)
 }
 
 /**
+ * Returns a human-meaningful error message
+ * @param fileName The filename we found an error in
+ * @param errMsg A human readable description of what's wrong
+ * @param errorLine The line number where this problem occurred
+ * @param errorCol The column number
+ * @returns A formatted error string.
+ */
+QString UAVObjectParser::genErrorMsg(QString& fileName,
+        QString errMsg, int errorLine, int errorCol)
+{
+    QString result;
+
+    QTextStream ts(&result);
+
+    ts << fileName << ": " << errorLine << ":" << errorCol << ": " << errMsg;
+
+    return result;
+}
+
+/**
  * Parse supplied XML file
  * @param xml The xml text
  * @param filename The xml filename
@@ -126,10 +145,15 @@ bool fieldTypeLessThan(const FieldInfo* f1, const FieldInfo* f2)
  */
 QString UAVObjectParser::parseXML(QString& xml, QString& filename)
 {
+    QString errorMsg;
+    int errorLine;
+    int errorCol;
+
     // Create DOM document and parse it
     QDomDocument doc("UAVObjects");
-    bool parsed = doc.setContent(xml);
-    if (!parsed) return QString("Improperly formated XML file");
+    if (!doc.setContent(xml, &errorMsg, &errorLine, &errorCol)) {
+        return genErrorMsg(filename, errorMsg, errorLine, errorCol);
+    }
 
     // Read all objects contained in the XML file, creating an new ObjectInfo for each
     QDomElement docElement = doc.documentElement();
@@ -146,62 +170,69 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
 
         // Process child elements (fields and metadata)
         QDomNode childNode = node.firstChild();
-        bool fieldFound = false;
-        bool accessFound = false;
-        bool telGCSFound = false;
-        bool telFlightFound = false;
-        bool logFound = false;
-        bool descriptionFound = false;
+        int fieldFound = 0;
+        int accessFound = 0;
+        int telGCSFound = 0;
+        int telFlightFound = 0;
+        int logFound = 0;
+        int descriptionFound = 0;
         while ( !childNode.isNull() ) {
             // Process element depending on its type
             if ( childNode.nodeName().compare(QString("field")) == 0 ) {
                 QString status = processObjectFields(childNode, info);
                 if (!status.isNull())
-                    return status;
+                    return genErrorMsg(filename, status,
+                            childNode.lineNumber(), childNode.columnNumber());
 
-                fieldFound = true;
+                fieldFound++;
             }
             else if ( childNode.nodeName().compare(QString("access")) == 0 ) {
                 QString status = processObjectAccess(childNode, info);
                 if (!status.isNull())
-                    return status;
+                    return genErrorMsg(filename, status,
+                            childNode.lineNumber(), childNode.columnNumber());
 
-                accessFound = true;
+                accessFound++;
             }
             else if ( childNode.nodeName().compare(QString("telemetrygcs")) == 0 ) {
                 QString status = processObjectMetadata(childNode, &info->gcsTelemetryUpdateMode,
                                                        &info->gcsTelemetryUpdatePeriod, &info->gcsTelemetryAcked);
                 if (!status.isNull())
-                    return status;
+                    return genErrorMsg(filename, status,
+                            childNode.lineNumber(), childNode.columnNumber());
 
-                telGCSFound = true;
+                telGCSFound++;
             }
             else if ( childNode.nodeName().compare(QString("telemetryflight")) == 0 ) {
                 QString status = processObjectMetadata(childNode, &info->flightTelemetryUpdateMode,
                                                        &info->flightTelemetryUpdatePeriod, &info->flightTelemetryAcked);
                 if (!status.isNull())
-                    return status;
+                    return genErrorMsg(filename, status,
+                            childNode.lineNumber(), childNode.columnNumber());
 
-                telFlightFound = true;
+                telFlightFound++;
             }
             else if ( childNode.nodeName().compare(QString("logging")) == 0 ) {
                 QString status = processObjectMetadata(childNode, &info->loggingUpdateMode,
                                                        &info->loggingUpdatePeriod, NULL);
                 if (!status.isNull())
-                    return status;
+                    return genErrorMsg(filename, status,
+                            childNode.lineNumber(), childNode.columnNumber());
 
-                logFound = true;
+                logFound++;
             }
             else if ( childNode.nodeName().compare(QString("description")) == 0 ) {
                 QString status = processObjectDescription(childNode, &info->description);
 
                 if (!status.isNull())
-                    return status;
+                    return genErrorMsg(filename, status,
+                            childNode.lineNumber(), childNode.columnNumber());
 
-                descriptionFound = true;
+                descriptionFound++;
             }
             else if (!childNode.isComment()) {
-                return QString("Unknown object element");
+                return genErrorMsg(filename, "Unknown object element",
+                        childNode.lineNumber(), childNode.columnNumber());
             }
 
             // Get next element
@@ -215,24 +246,29 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
         qStableSort(info->fields.begin(), info->fields.end(), fieldTypeLessThan);
 
         // Make sure that required elements were found
-        if ( !fieldFound )
-            return QString("Object::field element is missing");
+        if ( fieldFound == 0)
+            return genErrorMsg(filename, "no field elements present",
+                    node.lineNumber(), node.columnNumber());
 
-        if ( !accessFound )
-            return QString("Object::access element is missing");
+        if ( accessFound != 1 )
+            return genErrorMsg(filename, "missing or duplicate access element",
+                    node.lineNumber(), node.columnNumber());
 
-        if ( !telGCSFound )
-            return QString("Object::telemetrygcs element is missing");
+        if ( telGCSFound != 1 )
+            return genErrorMsg(filename, "missing or duplicate telemetrygcs element",
+                    node.lineNumber(), node.columnNumber());
 
-        if ( !telFlightFound )
-            return QString("Object::telemetryflight element is missing");
+        if ( telFlightFound != 1 )
+            return genErrorMsg(filename, "missing or duplicate telemetryflight element",
+                    node.lineNumber(), node.columnNumber());
 
-        if ( !logFound )
-            return QString("Object::logging element is missing");
+        if ( logFound != 1 )
+            return genErrorMsg(filename, "missing or duplicate logging element",
+                    node.lineNumber(), node.columnNumber());
 
-        // TODO: Make into error once all objects updated
-        if ( !descriptionFound )
-            return QString("Object::description element is missing");
+        if ( descriptionFound != 1 )
+            return genErrorMsg(filename, "missing or duplicate description element",
+                    node.lineNumber(), node.columnNumber());
 
         // Calculate ID
         calculateID(info);
