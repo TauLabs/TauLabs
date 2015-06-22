@@ -220,12 +220,6 @@ def make_class(xml_file):
     formats = []
     num_subelems = []
 
-    # add format for instance-id IFF this is a multi-instance UAVO
-    #if not is_single_inst:
-    #    # this is multi-instance so the optional instance-id is present
-    #    formats.append('H')
-    #    num_subelems.append(1)
-
     is_flat = True
 
     # add formats for each field
