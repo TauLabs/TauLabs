@@ -27,6 +27,7 @@ __all__ = [ "send_object", "process_stream" ]
 header_fmt = struct.Struct("<BBHL")
 logheader_fmt = struct.Struct("<IQ")
 timestamp_fmt = struct.Struct("<H")
+instance_fmt = struct.Struct("<H")
 
 # CRC lookup table
 crc_table = [
@@ -158,6 +159,11 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
                 timestamp_len = 0
                 obj_len = pack_len - header_fmt.size
 
+        if obj is not None and not obj._single:
+            instance_len = 2
+        else:
+            instance_len = 0
+
         # Check length and determine next state
         if obj_len >= MAX_PAYLOAD_LENGTH:
             print "bad len-- bad xml?"
@@ -169,7 +175,7 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
         # as appropriate, plus our current header
         # also equivalent to the offset of the CRC in the packet
 
-        calc_size = header_fmt.size + timestamp_len + obj_len
+        calc_size = header_fmt.size + instance_len + timestamp_len + obj_len
 
         # Check the lengths match
         if calc_size != pack_len:
@@ -206,10 +212,15 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             buf_offset += 1
 
             continue
-        
+
+        if instance_len:
+            instance_id = instance_fmt.unpack_from(buf, header_fmt.size + buf_offset)[0]
+        else:
+            instance_id = None
+
         if timestamp_len:
             # pull the timestamp from the packet
-            timestamp = timestamp_fmt.unpack_from(buf, header_fmt.size + buf_offset)[0]
+            timestamp = timestamp_fmt.unpack_from(buf, header_fmt.size + instance_len + buf_offset)[0]
 
             # handle wraparound
 
@@ -236,9 +247,8 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             timestamp = overrideTimestamp
 
         if obj is not None:
-            objInstance = obj.from_bytes(buf,
-                timestamp, offset=header_fmt.size + timestamp_len + buf_offset)
-
+            offset = header_fmt.size + instance_len + timestamp_len + buf_offset
+            objInstance = obj.from_bytes(buf, timestamp, instance_id, offset=offset)
             received += 1
             if not (received % 20000):
                 print "received %d objs"%(received)
