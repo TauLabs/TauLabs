@@ -1,8 +1,8 @@
 <xml>
     <object name="UBloxInfo" singleinstance="true" settings="false">
         <description>UBlox specific information</description>
-        <field name="swVersion" units="" type="float" elements="1"/>
-        <field name="hwVersion" units="" type="uint8" elements="8"/>
+        <field name="swVersion" units="" type="uint32" elements="1"/>
+        <field name="hwVersion" units="" type="uint16" elements="1"/>
         <field name="ParseErrors" units="" type="uint32" elements="1"/>
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="manual" period="0"/>

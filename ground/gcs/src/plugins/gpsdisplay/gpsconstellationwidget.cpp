@@ -64,7 +64,7 @@ GpsConstellationWidget::GpsConstellationWidget(QWidget *parent) : QGraphicsView(
     setScene(scene);
 
     // Now create 'maxSatellites' satellite icons which we will move around on the map:
-    for (int i=0; i < MAX_SATTELITES;i++) {
+    for (int i = 0; i < MAX_SATELLITES; i++) {
         satellites[i][0] = 0;
         satellites[i][1] = 0;
         satellites[i][2] = 0;
@@ -112,7 +112,7 @@ void GpsConstellationWidget::resizeEvent(QResizeEvent* event)
 
 void GpsConstellationWidget::updateSat(int index, int prn, int elevation, int azimuth, int snr)
 {
-    if (index >= MAX_SATTELITES) {
+    if (index >= MAX_SATELLITES) {
         // A bit of error checking never hurts.
         return;
     }

@@ -41,7 +41,8 @@ HEADERS += calibration.h \
     vehicletrim.h \
     configmodulewidget.h \
     configosdwidget.h \
-    convertmwrate.h
+    convertmwrate.h \
+    expocurve.h
 
 SOURCES += calibration.cpp \
     configplugin.cpp \
@@ -74,7 +75,8 @@ SOURCES += calibration.cpp \
     vehicletrim.cpp \
     configmodulewidget.cpp \
     configosdwidget.cpp \
-    convertmwrate.cpp
+    convertmwrate.cpp \
+    expocurve.cpp
 
 FORMS += airframe.ui \
     ccpm.ui \

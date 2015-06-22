@@ -80,6 +80,8 @@
 #define COORDINATED_FLIGHT_MAX_YAW_THRESHOLD 0.05f
 
 //! Set the stick position that maximally transitions to rate
+// This value is also used for the expo plot in GCS (config/stabilization/advanced).
+// Please adapt changes here also to the init of the plots  in /ground/gcs/src/plugins/config/configstabilizationwidget.cpp
 #define HORIZON_MODE_MAX_BLEND               0.85f
 
 enum {
