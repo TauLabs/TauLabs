@@ -124,7 +124,7 @@ static void onScreenDisplayTask(void *parameters);
 #define STACK_SIZE_BYTES 2048
 #define TASK_PRIORITY    PIOS_THREAD_PRIO_LOW
 #define UPDATE_PERIOD    100
-#define BLINK_INTERVAL_FRAMES 6
+#define BLINK_INTERVAL_FRAMES 12
 
 const char METRIC_DIST_UNIT_LONG[] = "km";
 const char METRIC_DIST_UNIT_SHORT[] = "m";
@@ -198,8 +198,8 @@ const int SIZE_TO_FONT[3] = {2, 0, 3};
 
 
 #ifdef DEBUG_TIMING
-static portTickType in_ticks  = 0;
-static portTickType out_ticks = 0;
+static uint32_t in_ticks  = 0;
+static uint32_t out_ticks = 0;
 static uint16_t in_time  = 0;
 static uint16_t out_time = 0;
 #endif
@@ -1684,6 +1684,9 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 #ifdef DEBUG_TIMING
 			out_ticks = PIOS_Thread_Systime();
 			in_time   = out_ticks - in_ticks;
+			char tmp_str[50];
+			sprintf(tmp_str, "%03d %03d", (int)in_time, (int)out_time);
+			write_string(tmp_str, GRAPHICS_X_MIDDLE, GRAPHICS_Y_MIDDLE - 20, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 3);
 #endif
 		}
 	}
