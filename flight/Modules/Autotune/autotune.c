@@ -46,7 +46,7 @@
 #include "pios_thread.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 1600
+#define STACK_SIZE_BYTES 1504
 #define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
 
 #define AF_NUMX 13
@@ -323,7 +323,7 @@ static void AutotuneTask(void *parameters)
  * @param[in] the current control inputs (roll, pitch, yaw)
  * @param[in] the gyro measurements
  */
-static inline void af_predict(float X[AF_NUMX], float P[AF_NUMP], const float u_in[3], const float gyro[3], const float dT_s)
+__attribute__((always_inline)) static inline void af_predict(float X[AF_NUMX], float P[AF_NUMP], const float u_in[3], const float gyro[3], const float dT_s)
 {
 
 	const float Ts = dT_s;
