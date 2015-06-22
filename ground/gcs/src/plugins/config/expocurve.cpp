@@ -83,10 +83,9 @@ ExpoCurve::ExpoCurve(QWidget *parent) :
     m_legend->setPalette(pal);
 
     insertLegend(m_legend, QwtPlot::TopLegend);
+    // QwtPlot::insertLegend() changes the max columns attribute, so you have to set it to the desired number after the statement
+    m_legend->setMaxColumns(3);
 
-    // axis
-    this->enableAxis(QwtPlot::yRight);
-    this->setAxisTitle(QwtPlot::xBottom, tr(" normalized stick input"));
 
     steps = 1000;
     x_data =  new double[steps];
@@ -130,23 +129,40 @@ ExpoCurve::ExpoCurve(QWidget *parent) :
 }
 
 /**
- * @brief ExpoCurve::init //! Set label for the stick channels
- * @param lbl_mode 0: Label for rate mode, 1: Label for horizon mode
- * @param horizon_transitions 0: no marker, >0: % horizon transitions defined in /flight/Modules/Stabilization/stabilization.c
+ * @brief ExpoCurve::init Init labels, titels, horizin transition,...
+ * @param lbl_mode Chose the mode of this widget; RateCurve: for rate mode, HorizonCurve: for horizon mode
+ * @param horizon_transitions value for the horizon transition markers in the plot; 0: disabled, >0: horizon transitions in % horizon (should be the same as defined in /flight/Modules/Stabilization/stabilization.c)
  */
-void ExpoCurve::init(int lbl_mode, int h_transistion)
+void ExpoCurve::init(label_mode lbl_mode, int h_transistion)
 {
+    //  setup of the axis title
+    QwtText axis_title;
+
+    // get the default font
+    QFont axis_title_font = this->axisTitle(yLeft).font();
+    // and only change the font size
+    axis_title_font.setPointSize(10);
+    axis_title.setFont(axis_title_font);
+
+    this->enableAxis(QwtPlot::yRight);
+
+    axis_title.setText(tr(" normalized stick input"));
+    this->setAxisTitle(QwtPlot::xBottom, axis_title);
+
     switch (lbl_mode)
     {
-        case 0:
+        case RateCurve:
             roll_elements.Curve.setTitle(tr("Roll rate (deg/s)"));
             pitch_elements.Curve.setTitle(tr("Pitch rate (deg/s)"));
             yaw_elements.Curve.setTitle(tr("Yaw rate (deg/s)"));
 
-            this->setAxisTitle(QwtPlot::yLeft, tr("rate (deg/s)"));
-            this->setAxisTitle(QwtPlot::yRight, tr("rate (deg/s)"));
+            axis_title.setText(tr("rate (deg/s)"));
+            this->setAxisTitle(QwtPlot::yRight, axis_title);
+            this->setAxisTitle(QwtPlot::yLeft, axis_title);
+            curve_cnt = 1;
+
             break;
-        case 1:
+        case HorizonCurve:
             roll_elements.Curve.setTitle(tr("Roll angle (deg)"));
             pitch_elements.Curve.setTitle(tr("Pitch angle (deg)"));
             yaw_elements.Curve.setTitle(tr("Yaw angle (deg)"));
@@ -154,8 +170,11 @@ void ExpoCurve::init(int lbl_mode, int h_transistion)
             pitch_elements.Curve2.setTitle(tr("Pitch rate (deg/s)"));
             yaw_elements.Curve2.setTitle(tr("Yaw rate (deg/s)"));
             curve_cnt = 2;
-            this->setAxisTitle(QwtPlot::yLeft, tr("horizon angle (deg)"));
-            this->setAxisTitle(QwtPlot::yRight, tr("horizon rate (deg/s)"));
+
+            axis_title.setText(tr("horizon angle (deg)"));
+            this->setAxisTitle(QwtPlot::yLeft, axis_title);
+            axis_title.setText(tr("horizon rate (deg/s)"));
+            this->setAxisTitle(QwtPlot::yRight, axis_title);
 
             this->setToolTip(tr("This plot shows data only for the Horizon mode, not the Attitude mode.<br><br>For each axis there are 2 curves.<br>One for the 'Horizon Attitude' part (horizon angle) and in darker color one for the 'Horizon Rate' part (horizon rate).<br><br>The markers on the curves show the threshold point:<br><br>- For stick inputs above its purely the 'Horizon Rate' mode with expo scaling by the 'Expo Horizon'<br><br>- For stick inputs below there is a dynamic transistion from 'Horizon Attitude' to 'Horizon Rate' mode."));
             break;
@@ -164,29 +183,28 @@ void ExpoCurve::init(int lbl_mode, int h_transistion)
     horizon_transition = h_transistion;
 
     if (horizon_transition != 0) {
-        roll_elements.Mark.attach(this);
-        roll_elements.Mark_.attach(this);
-        pitch_elements.Mark.attach(this);
-        pitch_elements.Mark_.attach(this);
-        yaw_elements.Mark.attach(this);
-        yaw_elements.Mark_.attach(this);
+        if ( (curve_cnt == 1) || (curve_cnt == 2) ) {
+            roll_elements.Mark.attach(this);
+            roll_elements.Mark_.attach(this);
+            pitch_elements.Mark.attach(this);
+            pitch_elements.Mark_.attach(this);
+            yaw_elements.Mark.attach(this);
+            yaw_elements.Mark_.attach(this);
+        }
 
-        curve_cnt = 2;
+        if ( (curve_cnt == 2) ) {
+            //this->enableAxis(QwtPlot::yRight);
+            roll_elements.Curve2.attach(this);
+            pitch_elements.Curve2.attach(this);
+            yaw_elements.Curve2.attach(this);
 
-        //this->enableAxis(QwtPlot::yRight);
-        roll_elements.Curve2.attach(this);
-        pitch_elements.Curve2.attach(this);
-        yaw_elements.Curve2.attach(this);
-
-        roll_elements.Mark2.attach(this);
-        roll_elements.Mark2_.attach(this);
-        pitch_elements.Mark2.attach(this);
-        pitch_elements.Mark2_.attach(this);
-        yaw_elements.Mark2.attach(this);
-        yaw_elements.Mark2_.attach(this);
-    }
-    else {
-        curve_cnt = 1;
+            roll_elements.Mark2.attach(this);
+            roll_elements.Mark2_.attach(this);
+            pitch_elements.Mark2.attach(this);
+            pitch_elements.Mark2_.attach(this);
+            yaw_elements.Mark2.attach(this);
+            yaw_elements.Mark2_.attach(this);
+        }
     }
 }
 
@@ -194,12 +212,12 @@ void ExpoCurve::init(int lbl_mode, int h_transistion)
  * @brief ExpoCurve::plotData Show expo data for one of the stick channels
  * @param value The expo coefficient; sets the exponential amount [0,100]
  * @param curve The curve that has to be plot (roll,nick,yaw)
- * @param mark The horizon marker that has to be plot (roll,nick,yaw) if != 0
+ * @param mode  The mode chooses wich y-axis is used: Y_Right or Y_Left
  *
  * The math here is copied/ the same as in the expo3() function in /flight/Libraries/math/misc_math.c
  * Please be aware of changes that are made there.
  */
-void ExpoCurve::plotData(int value, int max, ExpoPlotElements_t &plot_elements, int mode)
+void ExpoCurve::plotData(int value, int max, ExpoPlotElements_t &plot_elements, axis_mode mode)
 {
     double marker_x;
     double marker_y;
@@ -208,11 +226,11 @@ void ExpoCurve::plotData(int value, int max, ExpoPlotElements_t &plot_elements, 
         y_data[i] = max * (x_data[i]  * ((100 - value) / 100.0) + pow(x_data[i], 3) * (value / 100.0));
     }
 
-    if (mode == 1) {
+    if (mode == Y_Left) {
         plot_elements.Curve.setSamples(x_data, y_data, steps);
         plot_elements.Curve.show();
     }
-    else if (mode == 2) {
+    else if (mode == Y_Right) {
         plot_elements.Curve2.setSamples(x_data, y_data, steps);
         plot_elements.Curve2.show();
     }
@@ -222,11 +240,11 @@ void ExpoCurve::plotData(int value, int max, ExpoPlotElements_t &plot_elements, 
         marker_y = max * horizon_transition / 100;
 
         // additional scaling (*0.985) of positive x marker position for better visual fit with the curve
-        if (mode == 1) {
+        if (mode == Y_Left) {
             plot_elements.Mark.setValue(marker_x * 0.985, marker_y);
             plot_elements.Mark_.setValue(-1 * marker_x, -1 * marker_y);
         }
-        else if (mode == 2) {
+        else if (mode == Y_Right) {
             plot_elements.Mark2.setValue(marker_x * 0.985, marker_y);
             plot_elements.Mark2_.setValue(-1 * marker_x, -1 * marker_y);
         }
@@ -241,28 +259,48 @@ void ExpoCurve::plotData(int value, int max, ExpoPlotElements_t &plot_elements, 
 
 }
 
-void ExpoCurve::plotDataRoll(double value, int max, int mode)
+/**
+ * @brief ExpoCurve::plotDataRoll public function to plot expo data for roll axis
+ * @param value The expo coefficient; sets the exponential amount [0,100]
+ * @param max   The max. scaling for the axis in physical units
+ * @param mode  The mode chooses wich y-axis is used: Y_Right or Y_Left
+ */
+void ExpoCurve::plotDataRoll(double value, int max, axis_mode mode)
 {
     plotData((int)value, max, this->roll_elements, mode);
 }
 
-void ExpoCurve::plotDataPitch(double value, int max, int mode)
+/**
+ * @brief ExpoCurve::plotDataPitch public function to plot expo data for pitch axis
+ * @param value The expo coefficient; sets the exponential amount [0,100]
+ * @param max   The max. scaling for the axis in physical units
+ * @param mode  The mode chooses wich y-axis is used: Y_Right or Y_Left
+ */
+void ExpoCurve::plotDataPitch(double value, int max, axis_mode mode)
 {
     plotData((int)value, max, this->pitch_elements, mode);
 }
 
-void ExpoCurve::plotDataYaw(double value, int max, int mode)
+/**
+ * @brief ExpoCurve::plotDataYaw public function to plot expo data for yaw axis
+ * @param value The expo coefficient; sets the exponential amount [0,100]
+ * @param max   The max. scaling for the axis in physical units
+ * @param mode  The mode chooses wich y-axis is used: Y_Right or Y_Left
+ */
+void ExpoCurve::plotDataYaw(double value, int max, axis_mode mode)
 {
     plotData((int)value, max, this->yaw_elements, mode);
 }
 
-// Inverse expo3 function from /flight
-// @param[in] y   expo output data from [-1,1]
-// @param[in] g   sets the exponential amount [0,100]
-// @return  rescaled expo output to input data
-//
-// The math: http://www.wolframalpha.com/input/?i=Solve%5By%3D%28%28g%2F100%29*x%5E3%2B%28%28100-g%29%2F100%29*x%29%2Cx%5D
-// e.g. y=0.85 expo = 50% : http://www.wolframalpha.com/input/?i=Solve%5B0.85%3D%28%2850%2F100%29*x%5E3%2B%28%28100-50%29%2F100%29*x%29%2Cx%5D
+/**
+ * @brief ExpoCurve::invers_expo3 Calcs the invers expo3 data
+ * @param y The expo output data from [-1,1]
+ * @param g Sets the exponential amount [0,100]
+ *
+ * The math here is done with help of: http://www.wolframalpha.com/input/?i=Solve%5By%3D%28%28g%2F100%29*x%5E3%2B%28%28100-g%29%2F100%29*x%29%2Cx%5D
+ * e.g. y=0.85 expo = 50% : http://www.wolframalpha.com/input/?i=Solve%5B0.85%3D%28%2850%2F100%29*x%5E3%2B%28%28100-50%29%2F100%29*x%29%2Cx%5D
+ * It is done for the expo3 implementation from /flight. Please be aware of changes that are made there.
+ */
 double ExpoCurve::invers_expo3(double y, int g)
 {
     double temp1;
@@ -283,19 +321,45 @@ double ExpoCurve::invers_expo3(double y, int g)
     }
 }
 
-// Slot function to show/hide a curve
+
 /**
- * @brief ExpoCurve::showCurve
- * @param itemInfo
- * @param on
- * @param index
+ * @brief ExpoCurve::showCurve The Slot function to show/hide a curve and the corresponding markers. Called from a "checked" Signal
+ * @param itemInfo Info for the item of the selected legend label
+ * @param on       True when the legend label is checked
+ * @param index    Index of the legend label in the list of widgets that are associated with the plot item; but not used here
  */
 void ExpoCurve::showCurve(const QVariant & itemInfo, bool on, int index)
 {
     Q_UNUSED(index);
     QwtPlotItem * item = QwtPlot::infoToItem(itemInfo);
-    if (item)
+    if (item) {
         item->setVisible(!on);
+
+        if (item == &this->roll_elements.Curve) {
+            this->roll_elements.Mark.setVisible(!on);
+            this->roll_elements.Mark_.setVisible(!on);
+        }
+        else if (item == &this->pitch_elements.Curve) {
+            this->pitch_elements.Mark.setVisible(!on);
+            this->pitch_elements.Mark_.setVisible(!on);
+        }
+        else if (item == &this->yaw_elements.Curve) {
+            this->yaw_elements.Mark.setVisible(!on);
+            this->yaw_elements.Mark_.setVisible(!on);
+        }
+        else if (item == &this->roll_elements.Curve2) {
+            this->roll_elements.Mark2.setVisible(!on);
+            this->roll_elements.Mark2_.setVisible(!on);
+        }
+        else if (item == &this->pitch_elements.Curve2) {
+            this->pitch_elements.Mark2.setVisible(!on);
+            this->pitch_elements.Mark2_.setVisible(!on);
+        }
+        else if (item == &this->yaw_elements.Curve2) {
+            this->yaw_elements.Mark2.setVisible(!on);
+            this->yaw_elements.Mark2_.setVisible(!on);
+        }
+    }
 
     replot();
 }

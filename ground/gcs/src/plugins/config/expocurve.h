@@ -57,24 +57,27 @@ public:
       QwtPlotMarker Mark2_;
     } ExpoPlotElements_t;
 
+    enum axis_mode {Y_Left, Y_Right};
+    enum label_mode {RateCurve, HorizonCurve};
+
     //! Set label for the stick channels
-    void init(int lbl_mode, int h_transistion);
+    void init(label_mode lbl_mode, int h_transistion);
 
     //! Show expo data for one of the stick channels
-    void plotData(int value, int max, ExpoPlotElements_t &plot_elements, int mode);
+    void plotData(int value, int max, ExpoPlotElements_t &plot_elements, axis_mode mode);
 
 public slots:
 
     //! Show expo data for roll
-    void plotDataRoll(double value, int max, int mode);
+    void plotDataRoll(double value, int max, axis_mode mode);
 
     //! Show expo data for pitch
-    void plotDataPitch(double value, int max, int mode);
+    void plotDataPitch(double value, int max, axis_mode mode);
 
     //! Show expo data for yaw
-    void plotDataYaw(double value, int max, int mode);
+    void plotDataYaw(double value, int max, axis_mode mode);
 
-    //! Show/Hide a expo curve
+    //! Show/Hide a expo curve and markers
     void showCurve(const QVariant & itemInfo, bool on, int index);
 
 signals:
