@@ -40,7 +40,8 @@ HEADERS += calibration.h \
     textbubbleslider.h \
     vehicletrim.h \
     configmodulewidget.h \
-    convertmwrate.h
+    convertmwrate.h \
+    expocurve.h
 
 SOURCES += calibration.cpp \
     configplugin.cpp \
@@ -72,7 +73,8 @@ SOURCES += calibration.cpp \
     textbubbleslider.cpp \
     vehicletrim.cpp \
     configmodulewidget.cpp \
-    convertmwrate.cpp
+    convertmwrate.cpp \
+    expocurve.cpp
 
 FORMS += airframe.ui \
     ccpm.ui \

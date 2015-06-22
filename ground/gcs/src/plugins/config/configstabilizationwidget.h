@@ -35,6 +35,7 @@
 #include "stabilizationsettings.h"
 #include <QWidget>
 #include <QTimer>
+#include <expocurve.h>
 
 
 class ConfigStabilizationWidget: public ConfigTaskWidget
@@ -48,6 +49,19 @@ public:
 private:
     Ui_StabilizationWidget *m_stabilization;
     QTimer * realtimeUpdates;
+
+    struct UpdateExpoFlags {
+      bool RateRoll;
+      bool RatePitch;
+      bool RateYaw;
+      bool HorizonAttitudeRoll;
+      bool HorizonAttitudePitch;
+      bool HorizonAttitudeYaw;
+      bool HorizonRateRoll;
+      bool HorizonRatePitch;
+      bool HorizonRateYaw;
+    } update_exp;
+
 private slots:
     void realtimeUpdatesSlot(int);
     void linkCheckBoxes(int value);
@@ -56,6 +70,8 @@ private slots:
 
     void showMWRateConvertDialog();
     void applyMWRateConvertDialog();
+
+    void showExpoPlot();
 };
 
 #endif // ConfigStabilizationWidget_H
