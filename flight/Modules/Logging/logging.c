@@ -30,23 +30,34 @@
 #include "openpilot.h"
 #include "modulesettings.h"
 #include "pios_thread.h"
+#include "timeutils.h"
+#include "uavobjectmanager.h"
 
 #include "pios_streamfs.h"
+#include <pios_board_info.h>
 
+#include "airspeedactual.h"
 #include "attitudeactual.h"
 #include "accels.h"
+#include "flightstatus.h"
 #include "gyros.h"
 #include "baroaltitude.h"
 #include "flightstatus.h"
 #include "gpsposition.h"
 #include "gpstime.h"
+#include "gpssatellites.h"
 #include "magnetometer.h"
+#include "positionactual.h"
 #include "loggingsettings.h"
 #include "loggingstats.h"
+#include "velocityactual.h"
+#include "waypoint.h"
+#include "waypointactive.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 1200
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
+const char DIGITS[16] = "0123456789abcdef";
 
 // Private types
 
@@ -54,10 +65,16 @@
 static UAVTalkConnection uavTalkCon;
 static struct pios_thread *loggingTaskHandle;
 static bool module_enabled;
+static bool flightstatus_updated = false;
+static bool waypoint_updated = false;
 
 // Private functions
 static void    loggingTask(void *parameters);
 static int32_t send_data(uint8_t *data, int32_t length);
+static void logSettings(UAVObjHandle obj);
+static void FlightStatusUpdatedCb(UAVObjEvent * ev);
+static void WaypointActiveUpdatedCb(UAVObjEvent * ev);
+static void writeHeader();
 
 // Local variables
 static uintptr_t logging_com_id;
@@ -130,10 +147,15 @@ static void loggingTask(void *parameters)
 	bool armed = false;
 	bool write_open = false;
 	bool read_open = false;
+	bool first_run = true;
 	int32_t read_sector = 0;
 	uint8_t read_data[LOGGINGSTATS_FILESECTOR_NUMELEM];
 
 	//PIOS_STREAMFS_Format(streamfs_id);
+
+	// Connect callbacks
+	FlightStatusConnectCallback(FlightStatusUpdatedCb);
+	WaypointActiveConnectCallback(WaypointActiveUpdatedCb);
 
 	LoggingStatsData loggingData;
 	LoggingStatsGet(&loggingData);
@@ -151,6 +173,7 @@ static void loggingTask(void *parameters)
 		} else {
 			loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING;
 			write_open = true;
+			first_run = true;
 		}
 	} else {
 		loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
@@ -162,7 +185,7 @@ static void loggingTask(void *parameters)
 	// Loop forever
 	while (1) {
 
-		// Do not update anything at more than 40 Hz
+		// Do not update anything at more than 50 Hz
 		PIOS_Thread_Sleep(20);
 
 		LoggingStatsGet(&loggingData);
@@ -214,18 +237,62 @@ static void loggingTask(void *parameters)
 			if (!write_open)
 				continue;
 
+			if (first_run){
+				// Write information at start of the log file
+				writeHeader();
+
+				// Log settings
+				if (settings.LogSettingsOnStart == LOGGINGSETTINGS_LOGSETTINGSONSTART_TRUE){
+					UAVObjIterate(&logSettings);
+				}
+
+				// Log some data objects that are unlikely to change during flight
+				// Waypoints
+				for (int i = 0; i < UAVObjGetNumInstances(WaypointHandle()); i++) {
+					UAVTalkSendObjectTimestamped(uavTalkCon, WaypointHandle(), i, false, 0);
+				}
+
+				// Trigger logging for objects that are logged on change
+				flightstatus_updated = true;
+				waypoint_updated = true;
+
+				first_run = false;
+			}
+
+			// Log objects on change
+			if (flightstatus_updated){
+				UAVTalkSendObjectTimestamped(uavTalkCon, FlightStatusHandle(), 0, false, 0);
+				flightstatus_updated = false;
+			}
+
+			if (waypoint_updated){
+				UAVTalkSendObjectTimestamped(uavTalkCon, WaypointActiveHandle(), 0, false, 0);
+				waypoint_updated = false;
+			}
+
+			// Log fast (~50Hz)
 			UAVTalkSendObjectTimestamped(uavTalkCon, AttitudeActualHandle(), 0, false, 0);
 			UAVTalkSendObjectTimestamped(uavTalkCon, AccelsHandle(), 0, false, 0);
 			UAVTalkSendObjectTimestamped(uavTalkCon, GyrosHandle(), 0, false, 0);
 			UAVTalkSendObjectTimestamped(uavTalkCon, MagnetometerHandle(), 0, false, 0);
 
+			// Log slower (~5Hz)
 			if ((i % 10) == 0) {
+				UAVTalkSendObjectTimestamped(uavTalkCon, AirspeedActualHandle(), 0, false, 0);
 				UAVTalkSendObjectTimestamped(uavTalkCon, BaroAltitudeHandle(), 0, false, 0);
 				UAVTalkSendObjectTimestamped(uavTalkCon, GPSPositionHandle(), 0, false, 0);
+				UAVTalkSendObjectTimestamped(uavTalkCon, PositionActualHandle(), 0, false, 0);
+				UAVTalkSendObjectTimestamped(uavTalkCon, VelocityActualHandle(), 0, false, 0);
 			}
 
+			// Log slow (~1Hz)
 			if ((i % 50) == 1) {
-				UAVTalkSendObjectTimestamped(uavTalkCon, GPSTimeHandle(), 0, false, 0);	
+				UAVTalkSendObjectTimestamped(uavTalkCon, GPSTimeHandle(), 0, false, 0);
+			}
+
+			// Log very slow (~0.1Hz)
+			if ((i % 500) == 2) {
+				UAVTalkSendObjectTimestamped(uavTalkCon, GPSSatellitesHandle(), 0, false, 0);
 			}
 
 			LoggingStatsBytesLoggedSet(&written_bytes);
@@ -283,6 +350,81 @@ static void loggingTask(void *parameters)
 
 		i++;
 	}
+}
+
+
+/**
+ * Log all settings objects
+ * \param[in] obj Object to log
+ */
+static void logSettings(UAVObjHandle obj)
+{
+	if (UAVObjIsSettings(obj)) {
+		UAVTalkSendObjectTimestamped(uavTalkCon, obj, 0, false, 0);
+	}
+}
+
+/**
+ * Write log file header
+ * see firmwareinfotemplate.c
+ */
+static void writeHeader()
+{
+	int pos;
+	char tmp_str[45];
+	char *info_str;
+	char this_char;
+	DateTimeT date_time;
+
+	const struct pios_board_info * bdinfo = &pios_board_info_blob;
+
+	sprintf(tmp_str, "%s\n", "Tau Labs git hash:");
+	send_data((uint8_t*)tmp_str, strlen(tmp_str));
+
+	// Commit tag name
+	info_str = (char*)(bdinfo->fw_base + bdinfo->fw_size + 14);
+	send_data((uint8_t*)info_str, strlen(info_str));
+
+	// Git commit hash
+	pos = 0;
+	tmp_str[pos++] = ':';
+	for (int i = 0; i < 4; i++){
+		this_char = *(char*)(bdinfo->fw_base + bdinfo->fw_size + 7 - i);
+		tmp_str[pos++] = DIGITS[(this_char & 0xF0) >> 4];
+		tmp_str[pos++] = DIGITS[(this_char & 0x0F)];
+	}
+	send_data((uint8_t*)tmp_str, pos);
+
+	// Date
+	date_from_timestamp(*(uint32_t *)(bdinfo->fw_base + bdinfo->fw_size + 8), &date_time);
+	sprintf(tmp_str, " %d%02d%02d\n", 1900 + date_time.year, date_time.mon + 1, date_time.mday);
+	send_data((uint8_t*)tmp_str, strlen(tmp_str));
+
+	// UAVO SHA1
+	pos = 0;
+	for (int i = 0; i < 20; i++){
+		this_char = *(char*)(bdinfo->fw_base + bdinfo->fw_size + 60 + i);
+		tmp_str[pos++] = DIGITS[(this_char & 0xF0) >> 4];
+		tmp_str[pos++] = DIGITS[(this_char & 0x0F)];
+	}
+	tmp_str[pos++] = '\n';
+	send_data((uint8_t*)tmp_str, pos);
+}
+
+/**
+ * Callback triggered when FlightStatus is updated
+ */
+static void FlightStatusUpdatedCb(UAVObjEvent * ev)
+{
+	flightstatus_updated = true;
+}
+
+/**
+ * Callback triggered when WaypointActive is updated
+ */
+static void WaypointActiveUpdatedCb(UAVObjEvent * ev)
+{
+	waypoint_updated = true;
 }
 
 /**

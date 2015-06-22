@@ -908,7 +908,7 @@ $(eval $(call SIM_TEMPLATE,simulation,Simulation,'sim ',posix,elf))
 #
 ##############################
 
-ALL_UNITTESTS := logfs i2c_vm misc_math sin_lookup coordinate_conversions error_correcting streamfs dsm
+ALL_UNITTESTS := logfs i2c_vm misc_math sin_lookup coordinate_conversions error_correcting streamfs dsm timeutils
 ALL_PYTHON_UNITTESTS := python_ut_test
 
 UT_OUT_DIR := $(BUILD_DIR)/unit_tests

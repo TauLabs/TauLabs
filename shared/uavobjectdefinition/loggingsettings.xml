@@ -2,6 +2,7 @@
 	<object name="LoggingSettings" singleinstance="true" settings="true">
 		<description>Settings for the logging module</description>
 		<field name="LogBehavior" units="" type="enum" options="LogOnStart,LogOnArm,LogOff" elements="1" defaultvalue="LogOnArm"/>
+		<field name="LogSettingsOnStart" units="" type="enum" options="True,False" elements="1" defaultvalue="True"/>
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>
