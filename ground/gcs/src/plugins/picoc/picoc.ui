@@ -311,7 +311,7 @@
        </property>
        <property name="icon">
         <iconset resource="picoc.qrc">
-         <normaloff>:/picoc/images/forward_alt.png</normaloff>:/picoc/images/forward_alt.png</iconset>
+         <normaloff>:/picoc/images/up_edit.png</normaloff>:/picoc/images/up_edit.png</iconset>
        </property>
        <property name="iconSize">
         <size>
