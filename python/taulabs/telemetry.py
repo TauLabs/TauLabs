@@ -54,7 +54,9 @@ class TelemetryBase():
         if githash:
             uavo_defs.from_git_hash(githash)
         else:
-            uavo_defs.from_uavo_xml_path("shared/uavobjectdefinition")
+            xml_path = os.path.join(os.path.dirname(__file__), "..", "..",
+                                    "shared", "uavobjectdefinition")
+            uavo_defs.from_uavo_xml_path(xml_path)
 
         self.githash = githash
 
