@@ -39,7 +39,7 @@ class UAVTupleClass():
         return cls._packstruct.size
 
     @classmethod
-    def from_bytes(cls, data, timestamp, offset=0):
+    def from_bytes(cls, data, timestamp, instance_id, offset=0):
         """ Deserializes and creates an instance of this object.
         
          - data: the data to deserialize
@@ -53,23 +53,13 @@ class UAVTupleClass():
         field_values = []
         field_values.append(cls._name)
 
-        # This gets a bit awkward. The order of field_values must match the structure
-        # which for the intro header is name, timestamp, and id and then optionally
-        # instance ID. For the timestamped packets we must parse the instance ID and
-        # then the timestamp, so we will pop that out and shuffle the order. We also
-        # convert from ms to seconds here.
-
-        if timestamp != None:
+        if timestamp is not None:
             field_values.append(timestamp / 1000.0)
-        else:
-            if cls._single:
-                raw_ts = unpack_field_values.pop(0)
-            else:
-                raw_ts = unpack_field_values.pop(1)
-
-            field_values.append(raw_ts / 1000.0)
 
         field_values.append(cls._id)
+
+        if instance_id is not None:
+            field_values.append(instance_id)
 
         # add the remaining fields.  If the thing should be nested, construct
         # an appropriate tuple.
@@ -230,12 +220,6 @@ def make_class(xml_file):
     formats = []
     num_subelems = []
 
-    # add format for instance-id IFF this is a multi-instance UAVO
-    if not is_single_inst:
-        # this is multi-instance so the optional instance-id is present
-        formats.append('H')
-        num_subelems.append(1)
-
     is_flat = True
 
     # add formats for each field
@@ -250,8 +234,10 @@ def make_class(xml_file):
     fmt = struct.Struct('<' + ''.join(formats))
 
     ##### CALCULATE THE NUMPY TYPE ASSOCIATED WITH THIS CLASS ##### 
-
     dtype  = [('name', 'S20'), ('time', 'double'), ('uavo_id', 'uint')]
+
+    if not is_single_inst:
+        dtype += ('inst_id', 'uint'),
 
     for f in fields:
         dtype += [(f['name'], '(' + `f['elements']` + ",)" + type_numpy_map[f['type']])]
