@@ -174,7 +174,7 @@ static struct streamfs_state *streamfs_alloc(void)
 {
 	struct streamfs_state *streamfs;
 
-	streamfs = (struct streamfs_state *)PIOS_malloc(sizeof(*streamfs));
+	streamfs = (struct streamfs_state *)PIOS_malloc_no_dma(sizeof(*streamfs));
 	if (!streamfs) return (NULL);
 
 	streamfs->magic = PIOS_FLASHFS_STREAMFS_DEV_MAGIC;
@@ -542,7 +542,7 @@ int32_t PIOS_STREAMFS_Init(uintptr_t *fs_id, const struct streamfs_cfg *cfg, enu
 		goto out_exit;
 	}
 
-	streamfs->com_buffer = (uint8_t *)PIOS_malloc(cfg->write_size);
+	streamfs->com_buffer = (uint8_t *)PIOS_malloc_no_dma(cfg->write_size);
 	if (!streamfs->com_buffer) {
 		PIOS_free(streamfs);
 		return -1;

@@ -52,7 +52,7 @@
  */
 struct pios_mutex *PIOS_Mutex_Create(void)
 {
-	struct pios_mutex *mtx = PIOS_malloc(sizeof(struct pios_mutex));
+	struct pios_mutex *mtx = PIOS_malloc_no_dma(sizeof(struct pios_mutex));
 
 	if (mtx == NULL)
 		return NULL;
@@ -110,7 +110,7 @@ bool PIOS_Mutex_Unlock(struct pios_mutex *mtx)
  */
 struct pios_recursive_mutex *PIOS_Recursive_Mutex_Create(void)
 {
-	struct pios_recursive_mutex *mtx = PIOS_malloc(sizeof(struct pios_recursive_mutex));
+	struct pios_recursive_mutex *mtx = PIOS_malloc_no_dma(sizeof(struct pios_recursive_mutex));
 
 	if (mtx == NULL)
 		return NULL;
@@ -170,7 +170,7 @@ bool PIOS_Recursive_Mutex_Unlock(struct pios_recursive_mutex *mtx)
  */
 struct pios_mutex *PIOS_Mutex_Create(void)
 {
-	struct pios_mutex *mtx = PIOS_malloc(sizeof(struct pios_mutex));
+	struct pios_mutex *mtx = PIOS_malloc_no_dma(sizeof(struct pios_mutex));
 
 	if (mtx == NULL)
 		return NULL;
@@ -226,7 +226,7 @@ bool PIOS_Mutex_Unlock(struct pios_mutex *mtx)
  */
 struct pios_recursive_mutex *PIOS_Recursive_Mutex_Create(void)
 {
-	struct pios_recursive_mutex *mtx = PIOS_malloc(sizeof(struct pios_recursive_mutex));
+	struct pios_recursive_mutex *mtx = PIOS_malloc_no_dma(sizeof(struct pios_recursive_mutex));
 
 	if (mtx == NULL)
 		return NULL;
