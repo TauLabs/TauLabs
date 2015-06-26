@@ -5,6 +5,7 @@
  *
  * @file       timeutils.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015
+ *             Free Software Foundation, Inc. (C) 1991-2015
  * @brief      Time conversion functions
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -28,72 +29,80 @@
 
 #include "timeutils.h"
 
+/* Test for leap year. Nonzero if YEAR is a leap year (every 4 years,
+ except every 100th isn't, and every 400th is). */
+# define __isleap(year) \
+ ((year) % 4 == 0 && ((year) % 100 != 0 || (year) % 400 == 0))
+
+/* How many days come before each month (0-12).  */
+static const uint16_t __mon_yday[2][13] = {
+	/* Normal years.  */
+	{0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365},
+	/* Leap years.  */
+	{0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366}
+};
+
+#define	SECS_PER_HOUR	(60 * 60)
+#define	SECS_PER_DAY	(SECS_PER_HOUR * 24)
+
 /**
  * Convert UNIX timestamp to date/time
- * Based on: http://stackoverflow.com/questions/21593692/convert-unix-timestamp-to-date-without-system-libs
- * NOTE: May not handle leap-seconds correctly
+ * Based on code from GNU C Library
  */
 void date_from_timestamp(uint32_t timestamp, DateTimeT *date_time)
 {
-	uint32_t minutes, hours;
-	uint16_t days, year, dayOfWeek;
-	uint8_t month;
+	uint16_t y;
+	int16_t days;
+	uint32_t rem;
 
-	/* calculate minutes */
-	minutes  = timestamp / 60;
-	timestamp -= minutes * 60;
-	/* calculate hours */
-	hours    = minutes / 60;
-	minutes -= hours   * 60;
-	/* calculate days */
-	days     = hours   / 24;
-	hours   -= days    * 24;
-
-	/* Unix time starts in 1970 on a Thursday */
-	year      = 1970;
-	dayOfWeek = 4;
-
-	while(1)
+	days = timestamp / SECS_PER_DAY;
+	rem = timestamp % SECS_PER_DAY;
+	while (rem < 0)
 	{
-		uint8_t leapYear = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
-		uint16_t daysInYear = leapYear ? 366 : 365;
-		if (days >= daysInYear)
-		{
-			dayOfWeek += leapYear ? 2 : 1;
-			days -= daysInYear;
-			if (dayOfWeek >= 7)
-				dayOfWeek -= 7;
-			++year;
-		}
-		else
-		{
-			dayOfWeek  += days;
-			dayOfWeek  %= 7;
-
-			/* calculate the month and day */
-			static const uint8_t daysInMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-			for(month = 0; month < 12; ++month)
-			{
-				uint8_t dim = daysInMonth[month];
-
-				/* add a day to feburary if this is a leap year */
-				if (month == 1 && leapYear)
-					++dim;
-
-				if (days >= dim)
-					days -= dim;
-				else
-					break;
-			}
-			break;
-		}
+		rem += SECS_PER_DAY;
+		--days;
 	}
+	while (rem >= SECS_PER_DAY)
+	{
+		rem -= SECS_PER_DAY;
+		++days;
+	}
+	date_time->hour = rem / SECS_PER_HOUR;
+	rem %= SECS_PER_HOUR;
+	date_time->min = rem / 60;
+	date_time->sec = rem % 60;
+	/* January 1, 1970 was a Thursday.  */
+	date_time->wday = (4 + days) % 7;
+	if (date_time->wday < 0){
+		date_time->wday += 7;
+	}
+	y = 1970;
 
-	date_time->sec  = timestamp;
-	date_time->min  = minutes;
-	date_time->hour = hours;
+#define DIV(a, b) ((a) / (b) - ((a) % (b) < 0))
+#define LEAPS_THRU_END_OF(y) (DIV (y, 4) - DIV (y, 100) + DIV (y, 400))
+
+	while (days < 0 || days >= (__isleap (y) ? 366 : 365))
+	{
+		/* Guess a corrected year, assuming 365 days per year.  */
+		uint16_t yg = y + days / 365 - (days % 365 < 0);
+
+		/* Adjust DAYS and Y to match the guessed year.  */
+		days -= ((yg - y) * 365
+				 + LEAPS_THRU_END_OF (yg - 1)
+				 - LEAPS_THRU_END_OF (y - 1));
+		y = yg;
+	}
+	date_time->year = y - 1900;
+	if (date_time->year != y - 1900)
+	{
+		/* The year cannot be represented due to overflow.  */
+		return;
+	}
+	const uint16_t *ip = __mon_yday[__isleap(y)];
+	for (y = 11; days < (uint16_t)ip[y]; --y){
+		continue;
+	}
+	days -= ip[y];
+	date_time->mon = y;
 	date_time->mday = days + 1;
-	date_time->mon = month;
-	date_time->year = year - 1900;
-	date_time->wday = dayOfWeek;
 }
