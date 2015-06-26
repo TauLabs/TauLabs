@@ -20,14 +20,14 @@
 #include "pios_chibios_transition_priv.h"
 
 /*
- * Setup for STMicroelectronics STM32F4-Discovery board.
+ * Setup for STMicroelectronics STM32F4 (sparky2)
  */
 
 /*
  * Board identifier.
  */
-#define BOARD_QUANTEC_QUANTON
-#define BOARD_NAME                  "quanton flight control"
+#define BOARD_SPARKY2
+#define BOARD_NAME                  "sparky2 flight control"
 
 
 /*
@@ -66,4 +66,3 @@ extern "C" {
 #endif /* _FROM_ASM_ */
 
 #endif /* _BOARD_H_ */
-
