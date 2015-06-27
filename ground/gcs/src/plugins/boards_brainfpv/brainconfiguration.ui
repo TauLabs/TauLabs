@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>798</width>
-    <height>551</height>
+    <height>578</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -284,8 +284,8 @@
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0,0,0">
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_6">
+       <item row="7" column="2">
+        <widget class="QLabel" name="label_16">
          <property name="font">
           <font>
            <weight>50</weight>
@@ -293,7 +293,7 @@
           </font>
          </property>
          <property name="text">
-          <string>USB HID Port</string>
+          <string>Accel LPF</string>
          </property>
         </widget>
        </item>
@@ -307,16 +307,10 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="font">
-          <font>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Magnetometer</string>
+       <item row="7" column="1">
+        <widget class="QComboBox" name="cmbGyroLpf">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Low-pass filter (LPF) cutoff frequency for gyro signals. Generally, the cutoff frequency should be as high as possible. Lowering the cutoff helps reducing noise caused by motor vibrations, but it can possibly decrease the responsiveness of the UAV. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -333,8 +327,8 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_10">
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_6">
          <property name="font">
           <font>
            <weight>50</weight>
@@ -342,12 +336,12 @@
           </font>
          </property>
          <property name="text">
-          <string>Gyro Range</string>
+          <string>USB HID Port</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QComboBox" name="cmbGyroRange">
+       <item row="4" column="3">
+        <widget class="QComboBox" name="cmbAccelRange">
          <property name="font">
           <font>
            <weight>50</weight>
@@ -369,18 +363,8 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="3">
-        <widget class="QComboBox" name="cmbExtMagOrientation">
-         <property name="font">
-          <font>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QLabel" name="label_7">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_8">
          <property name="font">
           <font>
            <weight>50</weight>
@@ -388,17 +372,7 @@
           </font>
          </property>
          <property name="text">
-          <string>USB VCP Port</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="3">
-        <widget class="QComboBox" name="cmbUsbVcpPort">
-         <property name="font">
-          <font>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
+          <string>Magnetometer</string>
          </property>
         </widget>
        </item>
@@ -415,31 +389,8 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="3">
-        <widget class="QComboBox" name="cmbAccelRange">
-         <property name="font">
-          <font>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="3">
-        <widget class="QSpinBox" name="sbDsmxBind">
-         <property name="font">
-          <font>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="maximum">
-          <number>255</number>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="2">
-        <widget class="QLabel" name="label_12">
+       <item row="2" column="2">
+        <widget class="QLabel" name="label_7">
          <property name="font">
           <font>
            <weight>50</weight>
@@ -447,33 +398,7 @@
           </font>
          </property>
          <property name="text">
-          <string>DSMX Bind</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_14">
-         <property name="font">
-          <font>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>MPU Rate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QComboBox" name="cmbMpuRate">
-         <property name="font">
-          <font>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sampling frequency for the gyros and accelerometers in Hz. A higher frequency is better, but will increase the CPU utilization. When SyncPWM is used, this is the frequency with which the ESCs are updated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>USB VCP Port</string>
          </property>
         </widget>
        </item>
@@ -490,8 +415,38 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="2">
-        <widget class="QLabel" name="label_16">
+       <item row="2" column="3">
+        <widget class="QComboBox" name="cmbUsbVcpPort">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QComboBox" name="cmbExtMagOrientation">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="cmbGyroRange">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_14">
          <property name="font">
           <font>
            <weight>50</weight>
@@ -499,14 +454,33 @@
           </font>
          </property>
          <property name="text">
-          <string>Accel LPF</string>
+          <string>MPU Rate</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
-        <widget class="QComboBox" name="cmbGyroLpf">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Gyro Range</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QComboBox" name="cmbMpuRate">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Low-pass filter (LPF) cutoff frequency for gyro signals. Generally, the cutoff frequency should be as high as possible. Lowering the cutoff helps reducing noise caused by motor vibrations, but it can possibly decrease the responsiveness of the UAV. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sampling frequency for the gyros and accelerometers in Hz. A higher frequency is better, but will increase the CPU utilization. When SyncPWM is used, this is the frequency with which the ESCs are updated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -514,6 +488,32 @@
         <widget class="QComboBox" name="cmbAccelLpf">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Low-pass filter (LPF) cutoff frequency for the accelerometer signals. Generally, the cutoff frequency should be as high as possible. Lowering the cutoff helps reducing noise caused by motor vibrations, but it can possibly decrease the responsiveness of the UAV. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>DSMX Bind</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QSpinBox" name="sbDsmxBind">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="maximum">
+          <number>255</number>
          </property>
         </widget>
        </item>
@@ -760,7 +760,6 @@ Beware of not locking yourself out!</string>
   <tabstop>cmbGyroRange</tabstop>
   <tabstop>cmbAccelRange</tabstop>
   <tabstop>cmbMpuRate</tabstop>
-  <tabstop>sbDsmxBind</tabstop>
   <tabstop>help</tabstop>
   <tabstop>applySettings</tabstop>
   <tabstop>saveSettings</tabstop>
