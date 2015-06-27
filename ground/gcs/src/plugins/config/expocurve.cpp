@@ -136,7 +136,7 @@ ExpoCurve::ExpoCurve(QWidget *parent) :
 
 /**
  * @brief ExpoCurve::init Init labels, titels, horizin transition,...
- * @param lbl_mode Chose the mode of this widget; RateCurve: for rate mode, HorizonCurve: for horizon mode
+ * @param lbl_mode Chose the mode of this widget; RateCurve: for rate mode, AttitudeCurve for Attitude mode, HorizonCurve: for horizon mode
  * @param horizon_transitions value for the horizon transition markers in the plot; 0: disabled, >0: horizon transitions in % horizon (should be the same as defined in /flight/Modules/Stabilization/stabilization.c)
  */
 void ExpoCurve::init(label_mode lbl_mode, int h_transistion)
@@ -163,6 +163,17 @@ void ExpoCurve::init(label_mode lbl_mode, int h_transistion)
             yaw_elements.Curve.setTitle(tr("Yaw rate (deg/s)"));
 
             axis_title.setText(tr("rate (deg/s)"));
+            this->setAxisTitle(QwtPlot::yRight, axis_title);
+            this->setAxisTitle(QwtPlot::yLeft, axis_title);
+            curve_cnt = 1;
+
+            break;
+        case AttitudeCurve:
+            roll_elements.Curve.setTitle(tr("Roll angle (deg)"));
+            pitch_elements.Curve.setTitle(tr("Pitch angle (deg)"));
+            yaw_elements.Curve.setTitle(tr("Yaw angle (deg)"));
+
+            axis_title.setText(tr("attitude angle (deg)"));
             this->setAxisTitle(QwtPlot::yRight, axis_title);
             this->setAxisTitle(QwtPlot::yLeft, axis_title);
             curve_cnt = 1;

@@ -58,7 +58,7 @@ public:
     } ExpoPlotElements_t;
 
     enum axis_mode {Y_Left, Y_Right};
-    enum label_mode {RateCurve, HorizonCurve};
+    enum label_mode {RateCurve, AttitudeCurve, HorizonCurve};
 
     //! Set label for the stick channels
     void init(label_mode lbl_mode, int h_transistion);
