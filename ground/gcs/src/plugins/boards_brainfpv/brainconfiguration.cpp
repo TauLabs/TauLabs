@@ -50,7 +50,9 @@ BrainConfiguration::BrainConfiguration(QWidget *parent) :
     addUAVObjectToWidgetRelation("HwBrain", "USB_VCPPort", ui->cmbUsbVcpPort);
     addUAVObjectToWidgetRelation("HwBrain", "GyroRange", ui->cmbGyroRange);
     addUAVObjectToWidgetRelation("HwBrain", "AccelRange", ui->cmbAccelRange);
-    addUAVObjectToWidgetRelation("HwBrain", "AccelGyroLPF", ui->cmbAccelGyroLpf);
+    addUAVObjectToWidgetRelation("HwBrain", "MPU9250Rate", ui->cmbMpuRate);
+    addUAVObjectToWidgetRelation("HwBrain", "MPU9250GyroLPF", ui->cmbGyroLpf);
+    addUAVObjectToWidgetRelation("HwBrain", "MPU9250AccelLPF", ui->cmbAccelLpf);
     addUAVObjectToWidgetRelation("HwBrain", "DSMxBind", ui->sbDsmxBind);
     
     // Load UAVObjects to widget relations from UI file

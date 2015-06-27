@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>788</width>
-    <height>530</height>
+    <width>798</width>
+    <height>551</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -460,12 +460,12 @@
           </font>
          </property>
          <property name="text">
-          <string>Accel / Gyro LPF</string>
+          <string>MPU Rate</string>
          </property>
         </widget>
        </item>
        <item row="6" column="1">
-        <widget class="QComboBox" name="cmbAccelGyroLpf">
+        <widget class="QComboBox" name="cmbMpuRate">
          <property name="font">
           <font>
            <weight>50</weight>
@@ -473,7 +473,47 @@
           </font>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Low-pass filter (LPF) cutoff frequency for the accelerometer and gyro signals. Generally, the cutoff frequency should be as high as possible. Lowering the cutoff helps reducing noise caused by motor vibrations, but it can possibly decrease the responsiveness of the UAV. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sampling frequency for the gyros and accelerometers in Hz. A higher frequency is better, but will increase the CPU utilization. When SyncPWM is used, this is the frequency with which the ESCs are updated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_15">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Gyro LPF</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2">
+        <widget class="QLabel" name="label_16">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Accel LPF</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QComboBox" name="cmbGyroLpf">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Low-pass filter (LPF) cutoff frequency for gyro signals. Generally, the cutoff frequency should be as high as possible. Lowering the cutoff helps reducing noise caused by motor vibrations, but it can possibly decrease the responsiveness of the UAV. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="3">
+        <widget class="QComboBox" name="cmbAccelLpf">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Low-pass filter (LPF) cutoff frequency for the accelerometer signals. Generally, the cutoff frequency should be as high as possible. Lowering the cutoff helps reducing noise caused by motor vibrations, but it can possibly decrease the responsiveness of the UAV. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -719,7 +759,7 @@ Beware of not locking yourself out!</string>
   <tabstop>cmbUsbVcpPort</tabstop>
   <tabstop>cmbGyroRange</tabstop>
   <tabstop>cmbAccelRange</tabstop>
-  <tabstop>cmbAccelGyroLpf</tabstop>
+  <tabstop>cmbMpuRate</tabstop>
   <tabstop>sbDsmxBind</tabstop>
   <tabstop>help</tabstop>
   <tabstop>applySettings</tabstop>

@@ -383,8 +383,6 @@ void PIOS_Board_Init(void) {
 	bool use_internal_mag = true;
 	bool ext_mag_init_ok = false;
 	bool use_rxport_usart = false;
-	enum pios_mpu9250_gyro_filter gyro_filter;
-	enum pios_mpu9250_accel_filter accel_filter;
 
 	/* Delay system */
 	PIOS_DELAY_Init();
@@ -1129,30 +1127,32 @@ void PIOS_Board_Init(void) {
 #else
 	{
 #endif /* PIOS_INCLUDE_MPU6050 */
-		uint8_t hw_accelgyrolpf;
-		HwBrainAccelGyroLPFGet(&hw_accelgyrolpf);
-		switch(hw_accelgyrolpf)
-		{
-			case HWBRAIN_ACCELGYROLPF_20HZ:
-				accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_20_HZ;
-				gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_20_HZ;
-				break;
-			case HWBRAIN_ACCELGYROLPF_41HZ:
-				accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_41_HZ;
-				gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_41_HZ;
-				break;
-			case HWBRAIN_ACCELGYROLPF_92HZ:
-				accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_92_HZ;
-				gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_92_HZ;
-				break;
-			default:
-				accel_filter = PIOS_MPU9250_ACCEL_LOWPASS_184_HZ;
-				gyro_filter = PIOS_MPU9250_GYRO_LOWPASS_184_HZ;
-		}
+		uint8_t hw_mpu9250_dlpf;
+		HwBrainMPU9250GyroLPFGet(&hw_mpu9250_dlpf);
+		enum pios_mpu9250_gyro_filter mpu9250_gyro_lpf = \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250GYROLPF_250) ? PIOS_MPU9250_GYRO_LOWPASS_250_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250GYROLPF_184) ? PIOS_MPU9250_GYRO_LOWPASS_184_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250GYROLPF_92) ? PIOS_MPU9250_GYRO_LOWPASS_92_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250GYROLPF_41) ? PIOS_MPU9250_GYRO_LOWPASS_41_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250GYROLPF_20) ? PIOS_MPU9250_GYRO_LOWPASS_20_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250GYROLPF_10) ? PIOS_MPU9250_GYRO_LOWPASS_10_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250GYROLPF_5) ? PIOS_MPU9250_GYRO_LOWPASS_5_HZ : \
+			PIOS_MPU9250_GYRO_LOWPASS_184_HZ;
+
+		HwBrainMPU9250AccelLPFGet(&hw_mpu9250_dlpf);
+		enum pios_mpu9250_accel_filter mpu9250_accel_lpf = \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250ACCELLPF_460) ? PIOS_MPU9250_ACCEL_LOWPASS_460_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250ACCELLPF_184) ? PIOS_MPU9250_ACCEL_LOWPASS_184_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250ACCELLPF_92) ? PIOS_MPU9250_ACCEL_LOWPASS_92_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250ACCELLPF_41) ? PIOS_MPU9250_ACCEL_LOWPASS_41_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250ACCELLPF_20) ? PIOS_MPU9250_ACCEL_LOWPASS_20_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250ACCELLPF_10) ? PIOS_MPU9250_ACCEL_LOWPASS_10_HZ : \
+			(hw_mpu9250_dlpf == HWBRAIN_MPU9250ACCELLPF_5) ? PIOS_MPU9250_ACCEL_LOWPASS_5_HZ : \
+			PIOS_MPU9250_ACCEL_LOWPASS_184_HZ;
 
 		int retval;
 		retval = PIOS_MPU9250_Init(pios_i2c_internal_id, PIOS_MPU9250_I2C_ADD_A0_LOW, use_internal_mag,
-									gyro_filter, accel_filter, &pios_mpu9250_cfg);
+									mpu9250_gyro_lpf, mpu9250_accel_lpf, &pios_mpu9250_cfg);
 		if (retval == -10)
 			panic(1); // indicate missing IRQ separately
 		if (retval != 0)
@@ -1194,18 +1194,21 @@ void PIOS_Board_Init(void) {
 		}
 
 		uint8_t mpu_rate;
-		HwBrainMPURateGet(&mpu_rate);
+		HwBrainMPU9250RateGet(&mpu_rate);
 		switch(mpu_rate) {
-			case HWBRAIN_MPURATE_200:
+			case HWBRAIN_MPU9250RATE_200:
 				PIOS_MPU9250_SetSampleRate(200);
 				break;
-			case HWBRAIN_MPURATE_333:
+			case HWBRAIN_MPU9250RATE_250:
+				PIOS_MPU9250_SetSampleRate(250);
+				break;
+			case HWBRAIN_MPU9250RATE_333:
 				PIOS_MPU9250_SetSampleRate(333);
 				break;
-			case HWBRAIN_MPURATE_500:
+			case HWBRAIN_MPU9250RATE_500:
 				PIOS_MPU9250_SetSampleRate(500);
 				break;
-			case HWBRAIN_MPURATE_1000:
+			case HWBRAIN_MPU9250RATE_1000:
 				PIOS_MPU9250_SetSampleRate(1000);
 				break;
 		}
