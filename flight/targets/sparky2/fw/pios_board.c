@@ -1239,7 +1239,7 @@ void PIOS_Board_Init(void) {
 	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250ACCELLPF_10) ? PIOS_MPU9250_ACCEL_LOWPASS_10_HZ : \
 	    (hw_mpu9250_dlpf == HWSPARKY2_MPU9250ACCELLPF_5) ? PIOS_MPU9250_ACCEL_LOWPASS_5_HZ : \
 	    pios_mpu9250_cfg.default_accel_filter;
-	PIOS_MPU9250_SetGyroLPF(mpu9250_accel_lpf);
+	PIOS_MPU9250_SetAccelLPF(mpu9250_accel_lpf);
 
 	uint8_t hw_mpu9250_samplerate;
 	HwSparky2MPU9250RateGet(&hw_mpu9250_samplerate);
