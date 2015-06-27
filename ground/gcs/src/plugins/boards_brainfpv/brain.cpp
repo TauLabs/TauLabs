@@ -147,6 +147,18 @@ bool Brain::setInputOnPort(enum InputType type, int port_num)
     case INPUT_TYPE_PWM:
         settings.RxPort = HwBrain::RXPORT_PWM;
         break;
+    case INPUT_TYPE_SBUS:
+        settings.MainPort = HwBrain::MAINPORT_SBUS;
+        break;
+    case INPUT_TYPE_DSM:
+        settings.MainPort = HwBrain::MAINPORT_DSM;
+        break;
+    case INPUT_TYPE_HOTTSUMD:
+        settings.MainPort = HwBrain::MAINPORT_HOTTSUMD;
+        break;
+    case INPUT_TYPE_HOTTSUMH:
+        settings.MainPort = HwBrain::MAINPORT_HOTTSUMH;
+        break;
     default:
         return false;
     }
@@ -176,14 +188,39 @@ enum Core::IBoardType::InputType Brain::getInputOnPort(int port_num)
 
     HwBrain::DataFields settings = hwBrain->getData();
 
-    switch(settings.RxPort) {
-    case HwBrain::RXPORT_PPM:
-        return INPUT_TYPE_PPM;
-    case HwBrain::RXPORT_PWM:
-        return INPUT_TYPE_PWM;
-    default:
-        return INPUT_TYPE_UNKNOWN;
+    switch(settings.MainPort) {
+        case HwBrain::MAINPORT_SBUS:
+            return INPUT_TYPE_SBUS;
+        case HwBrain::MAINPORT_DSM:
+            return INPUT_TYPE_DSM;
+        case HwBrain::MAINPORT_HOTTSUMD:
+            return INPUT_TYPE_HOTTSUMD;
+        case HwBrain::MAINPORT_HOTTSUMH:
+            return INPUT_TYPE_HOTTSUMH;
     }
+
+    switch(settings.FlxPort) {
+        case HwBrain::FLXPORT_DSM:
+            return INPUT_TYPE_DSM;
+        case HwBrain::FLXPORT_HOTTSUMD:
+            return INPUT_TYPE_HOTTSUMD;
+        case HwBrain::FLXPORT_HOTTSUMH:
+            return INPUT_TYPE_HOTTSUMH;
+    }
+
+    switch(settings.RxPort) {
+        case HwBrain::RXPORT_PPM:
+        case HwBrain::RXPORT_PPMPWM:
+        case HwBrain::RXPORT_PPMOUTPUTS:
+        case HwBrain::RXPORT_PPMUART:
+        case HwBrain::RXPORT_PPMUARTOUTPUTS:
+        case HwBrain::RXPORT_PPMFRSKY:
+            return INPUT_TYPE_PPM;
+        case HwBrain::RXPORT_PWM:
+            return INPUT_TYPE_PWM;
+    }
+
+    return INPUT_TYPE_UNKNOWN;
 }
 
 int Brain::queryMaxGyroRate()
