@@ -731,6 +731,11 @@ void PIOS_Board_Init(void) {
 		break;
 	}
 
+	if (hw_mainport != HWBRAIN_MAINPORT_SBUS) {
+		GPIO_Init(pios_mainport_sbus_aux_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_mainport_sbus_aux_cfg.inv.init);
+		GPIO_WriteBit(pios_mainport_sbus_aux_cfg.inv.gpio, pios_mainport_sbus_aux_cfg.inv.init.GPIO_Pin, pios_mainport_sbus_aux_cfg.gpio_inv_disable);
+	}
+
 	/* Flx Port */
 	uint8_t hw_flxport;
 	HwBrainFlxPortGet(&hw_flxport);
@@ -894,7 +899,6 @@ void PIOS_Board_Init(void) {
 #endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
 		break;
 	}
-
 
 	/* Configure the rcvr port */
 	uint8_t hw_rxport;
