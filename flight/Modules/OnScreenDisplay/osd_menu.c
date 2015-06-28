@@ -1123,26 +1123,31 @@ void homeloc_menu(void)
 
 	draw_menu_title("Home Location");
 
-	HomeLocationSetGet(&home_set);
-	
-	if (home_set == HOMELOCATION_SET_TRUE) {
-		HomeLocationGet(&data);
-		sprintf(tmp_str, "Home: %0.5f %0.5f Alt: %0.1fm", (double)data.Latitude / 10000000.0, (double)data.Longitude / 10000000.0, (double)data.Altitude);
-		write_string(tmp_str, MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+	if (HomeLocationHandle()){
+		HomeLocationSetGet(&home_set);
+
+		if (home_set == HOMELOCATION_SET_TRUE) {
+			HomeLocationGet(&data);
+			sprintf(tmp_str, "Home: %0.5f %0.5f Alt: %0.1fm", (double)data.Latitude / 10000000.0, (double)data.Longitude / 10000000.0, (double)data.Altitude);
+			write_string(tmp_str, MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+		}
+		else {
+			write_string("Home: Not Set", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+		}
+
+		y_pos += MENU_LINE_SPACING;
+		write_string("Set to current location", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+		if (current_state == FSM_STATE_HOMELOC_SET) {
+			draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
+			if (current_event == FSM_EVENT_RIGHT) {
+				home_set = HOMELOCATION_SET_FALSE;
+				HomeLocationSetSet(&home_set);
+			}
+
+		}
 	}
 	else {
-		write_string("Home: Not Set", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
-	}
-
-	y_pos += MENU_LINE_SPACING;
-	write_string("Set to current location", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
-	if (current_state == FSM_STATE_HOMELOC_SET) {
-		draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
-		if (current_event == FSM_EVENT_RIGHT) {
-			home_set = HOMELOCATION_SET_FALSE;
-			HomeLocationSetSet(&home_set);
-		}
-		
+		write_string("Home Location not available", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
 	}
 
 	y_pos += MENU_LINE_SPACING;

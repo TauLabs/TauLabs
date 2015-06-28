@@ -177,7 +177,6 @@ uint16_t frame_counter = 0;
 static bool module_enabled = false;
 static struct pios_thread *taskHandle;
 struct pios_semaphore * onScreenDisplaySemaphore = NULL;
-uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 float convert_speed;
 float convert_distance;
 float convert_distance_divider;
@@ -793,7 +792,7 @@ void draw_map_home_center(int width_px, int height_px, int width_m, int height_m
 	scale_y = (float)height_px / height_m;
 
 	// draw waypoints
-	if ((module_state[MODULESETTINGS_ADMINSTATE_PATHPLANNER] == MODULESETTINGS_ADMINSTATE_ENABLED) && show_wp) {
+	if (show_wp && WaypointHandle() && WaypointActiveHandle()) {
 		int num_wp = UAVObjGetNumInstances(WaypointHandle());
 		WaypointActiveGet(&waypoint_active);
 		for (int i=0; i < num_wp; i++) {
@@ -913,7 +912,7 @@ void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m,
 	cos_yaw = cos_lookup_deg(yaw);
 
 	// Draw waypoints
-	if ((module_state[MODULESETTINGS_ADMINSTATE_PATHPLANNER] == MODULESETTINGS_ADMINSTATE_ENABLED) && show_wp) {
+	if (show_wp && WaypointHandle() && WaypointActiveHandle()) {
 		int num_wp = UAVObjGetNumInstances(WaypointHandle());
 		WaypointActiveGet(&waypoint_active);
 		for (int i=0; i < num_wp; i++) {
@@ -1110,7 +1109,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		return;
 
 	// Get home distance and direction (only makes sense if GPS is enabled
-	if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED && (page->HomeDistance || page->CompassHomeDir)) {
+	if ((page->HomeDistance || page->CompassHomeDir) && PositionActualHandle() ) {
 		PositionActualNorthGet(&tmp);
 		PositionActualEastGet(&tmp1);
 
@@ -1123,7 +1122,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	}
 
 	// Draw Map
-	if (page->Map) {
+	if (page->Map && PositionActualHandle() ) {
 		if (page->MapCenterMode == ONSCREENDISPLAYPAGESETTINGS_MAPCENTERMODE_UAV) {
 			draw_map_uav_center(page->MapWidthPixels, page->MapHeightPixels,
 								page->MapWidthMeters, page->MapHeightMeters,
@@ -1148,9 +1147,11 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		if (page->AltitudeScaleSource == ONSCREENDISPLAYPAGESETTINGS_ALTITUDESCALESOURCE_BARO) {
 			BaroAltitudeAltitudeGet(&tmp);
 			tmp -= home_baro_altitude;
-		} else {
+		} else if (PositionActualHandle()){
 			PositionActualDownGet(&tmp);
 			tmp *= -1.0f;
+		} else {
+			tmp = 0.f;
 		}
 		if (page->AltitudeScaleAlign == ONSCREENDISPLAYPAGESETTINGS_ALTITUDESCALEALIGN_LEFT)
 			hud_draw_vertical_scale(tmp * convert_distance, 100, -1, page->AltitudeScalePos, GRAPHICS_Y_MIDDLE, 120, 10, 20, 5, 8, 11, 10000, 0);
@@ -1163,9 +1164,11 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		if (page->AltitudeNumericSource == ONSCREENDISPLAYPAGESETTINGS_ALTITUDENUMERICSOURCE_BARO) {
 			BaroAltitudeAltitudeGet(&tmp);
 			tmp -= home_baro_altitude;
-		} else {
+		} else if (PositionActualHandle()){
 			PositionActualDownGet(&tmp);
 			tmp *= -1.0f;
+		} else {
+			tmp = 0.f;
 		}
 		sprintf(tmp_str, "%d", (int)(tmp * convert_distance));
 		write_string(tmp_str, page->AltitudeNumericPosX, page->AltitudeNumericPosY, 0, 0, TEXT_VA_TOP, (int)page->AltitudeNumericAlign, 0, SIZE_TO_FONT[page->AltitudeNumericFont]);
@@ -1193,7 +1196,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	}
 
 	// Battery
-	if (module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+	if (FlightBatteryStateHandle()) {
 		if (page->BatteryVolt) {
 			FlightBatteryStateVoltageGet(&tmp);
 			sprintf(tmp_str, "%0.1fV", (double)tmp);
@@ -1218,7 +1221,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	}
 
 	// Climb rate
-	if (page->ClimbRate) {
+	if (page->ClimbRate && VelocityActualHandle()) {
 		VelocityActualDownGet(&tmp);
 		sprintf(tmp_str, "%0.1f", (double)(-1.f * convert_distance * tmp));
 		write_string(tmp_str, page->ClimbRatePosX, page->ClimbRatePosY, 0, 0, TEXT_VA_TOP, (int)page->ClimbRateAlign, 0, SIZE_TO_FONT[page->ClimbRateFont]);
@@ -1279,8 +1282,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 
 
 	// GPS
-	if ((module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) &&
-		(page->GpsStatus || page->GpsLat || page->GpsLon)) {
+	if (GPSPositionHandle() && (page->GpsStatus || page->GpsLat || page->GpsLon || page->GpsMgrs)) {
 		GPSPositionData gps_data;
 		GPSPositionGet(&gps_data);
 
@@ -1363,14 +1365,17 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		tmp = 0.f;
 		switch (page->SpeedScaleSource)
 		{
+			tmp = 0.f;
 			case ONSCREENDISPLAYPAGESETTINGS_SPEEDSCALESOURCE_NAV:
-				VelocityActualNorthGet(&tmp);
-				VelocityActualEastGet(&tmp1);
-				tmp = sqrt(tmp * tmp + tmp1 * tmp1);
+				if (VelocityActualHandle()) {
+					VelocityActualNorthGet(&tmp);
+					VelocityActualEastGet(&tmp1);
+					tmp = sqrt(tmp * tmp + tmp1 * tmp1);
+				}
 				sprintf(tmp_str, "%s", "GND");
 				break;
 			case ONSCREENDISPLAYPAGESETTINGS_SPEEDSCALESOURCE_GPS:
-				if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+				if (GPSVelocityHandle()) {
 					GPSVelocityNorthGet(&tmp);
 					GPSVelocityEastGet(&tmp1);
 					tmp = sqrt(tmp * tmp + tmp1 * tmp1);
@@ -1378,7 +1383,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 				sprintf(tmp_str, "%s", "GND");
 				break;
 			case ONSCREENDISPLAYPAGESETTINGS_SPEEDSCALESOURCE_AIRSPEED:
-				if (module_state[MODULESETTINGS_ADMINSTATE_AIRSPEED] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+				if (AirspeedActualHandle()) {
 					AirspeedActualTrueAirspeedGet(&tmp);
 				}
 				sprintf(tmp_str, "%s", "AIR");
@@ -1398,20 +1403,23 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		tmp = 0.f;
 		switch (page->SpeedNumericSource)
 		{
+			tmp = 0.f;
 			case ONSCREENDISPLAYPAGESETTINGS_SPEEDNUMERICSOURCE_NAV:
-				VelocityActualNorthGet(&tmp);
-				VelocityActualEastGet(&tmp1);
+				if (VelocityActualHandle()) {
+					VelocityActualNorthGet(&tmp);
+					VelocityActualEastGet(&tmp1);
+				}
 				tmp = sqrt(tmp * tmp + tmp1 * tmp1);
 				break;
 			case ONSCREENDISPLAYPAGESETTINGS_SPEEDNUMERICSOURCE_GPS:
-				if (module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+				if (GPSVelocityHandle()) {
 					GPSVelocityNorthGet(&tmp);
 					GPSVelocityEastGet(&tmp1);
 					tmp = sqrt(tmp * tmp + tmp1 * tmp1);
 				}
 				break;
 			case ONSCREENDISPLAYPAGESETTINGS_SPEEDNUMERICSOURCE_AIRSPEED:
-				if (module_state[MODULESETTINGS_ADMINSTATE_AIRSPEED] == MODULESETTINGS_ADMINSTATE_ENABLED) {
+				if (AirspeedActualHandle()) {
 					AirspeedActualTrueAirspeedGet(&tmp);
 				}
 		}
@@ -1479,42 +1487,21 @@ int32_t OnScreenDisplayInitialize(void)
 {
 	uint8_t osd_state;
 
-	ModuleSettingsAdminStateGet(module_state);
-
-	OnScreenDisplayPageSettingsInitialize();
-	OnScreenDisplayPageSettings2Initialize();
-	OnScreenDisplayPageSettings3Initialize();
-	OnScreenDisplayPageSettings4Initialize();
-
-	// initialize other objects that we access
-	AccessoryDesiredInitialize();
-	AirspeedActualInitialize();
-	AttitudeActualInitialize();
-	BaroAltitudeInitialize();
-	FlightStatusInitialize();
-	FlightBatteryStateInitialize();
-	GPSPositionInitialize();
-	PositionActualInitialize();
-	GPSTimeInitialize();
-	GPSSatellitesInitialize();
-	GPSVelocityInitialize();
-	HomeLocationInitialize();
-	ManualControlCommandInitialize();
-	SystemAlarmsInitialize();
-	SystemStatsInitialize();
-	TabletInfoInitialize();
-	TaskInfoInitialize();
-	VelocityActualInitialize();
-	WaypointInitialize();
-	WaypointActiveInitialize();
-
+	OnScreenDisplaySettingsInitialize();
 	OnScreenDisplaySettingsOSDEnabledGet(&osd_state);
+
+
 	if (osd_state == ONSCREENDISPLAYSETTINGS_OSDENABLED_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;
 		return 0;
 	}
+
+	OnScreenDisplayPageSettingsInitialize();
+	OnScreenDisplayPageSettings2Initialize();
+	OnScreenDisplayPageSettings3Initialize();
+	OnScreenDisplayPageSettings4Initialize();
 
 	/* Register callbacks for modified settings */
 	OnScreenDisplaySettingsConnectCallback(OnScreenSettingsUpdatedCb);
