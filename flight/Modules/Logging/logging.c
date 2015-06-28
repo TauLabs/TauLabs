@@ -163,7 +163,8 @@ static void loggingTask(void *parameters)
 
 	// Connect callbacks for UAVOs being logged on change
 	FlightStatusConnectCallback(FlightStatusUpdatedCb);
-	WaypointActiveConnectCallback(WaypointActiveUpdatedCb);
+	if (WaypointActiveHandle())
+		WaypointActiveConnectCallback(WaypointActiveUpdatedCb);
 
 	LoggingStatsData loggingData;
 	LoggingStatsGet(&loggingData);
