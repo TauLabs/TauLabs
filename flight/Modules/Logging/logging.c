@@ -207,6 +207,8 @@ static void loggingTask(void *parameters)
 			case LOGGINGSETTINGS_MAXLOGRATE_100:
 				PIOS_Thread_Sleep(10);
 				break;
+			default:
+				PIOS_Thread_Sleep(1000);
 		}
 
 		LoggingStatsGet(&loggingData);
