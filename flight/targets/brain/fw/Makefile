@@ -31,6 +31,7 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # Set to YES for debugging
 DEBUG ?= NO
 ERASE_FLASH ?= NO
+EMBED_BL_UPDATE ?= NO
 
 # List of modules to include
 MODULES = Sensors
@@ -120,6 +121,12 @@ endif
 
 ifeq ($(ERASE_FLASH), YES)
 CDEFS += -DERASE_FLASH
+endif
+
+ifeq ($(EMBED_BL_UPDATE), YES)
+CDEFS += -DEMBED_BL_UPDATE
+CDEFS += -DBU_PAYLOAD_FILE=$(ROOT_DIR)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
+SRC += $(ROOT_DIR)/flight/targets/bu/common/bu_payload.c
 endif
 
 SRC += $(FLIGHTLIB)/paths.c
