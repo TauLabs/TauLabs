@@ -142,7 +142,7 @@ int32_t ActuatorInitialize()
 
 	return 0;
 }
-MODULE_INITCALL(ActuatorInitialize, ActuatorStart)
+MODULE_INITCALL(ActuatorInitialize, ActuatorStart);
 
 /**
  * @brief Main Actuator module task
@@ -340,12 +340,23 @@ static void actuatorTask(void* parameters)
 				continue;
 			}
 
-			if((mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_MOTOR) || (mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_SERVO))
+			if((mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_MOTOR) || (mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_SERVO)) {
 				status[ct] = ProcessMixer(ct, curve1, curve2, &mixerSettings, &desired, dT);
-			else
+
+				// If a motor type, additional work to be done
+				if(mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_MOTOR) {
+					if (status[ct] > 0) {
+						// Apply curve fitting, mapping the input to the propeller output.
+						status[ct] = actuatorSettings.MotorInputOutputCurveFit[ACTUATORSETTINGS_MOTORINPUTOUTPUTCURVEFIT_A] *
+						      powf(status[ct], actuatorSettings.MotorInputOutputCurveFit[ACTUATORSETTINGS_MOTORINPUTOUTPUTCURVEFIT_B]);
+					} else {
+						 // Idle throttle
+						status[ct] = 0.0f;
+					}
+				}
+			} else {
 				status[ct] = -1;
-
-
+			}
 
 			// Motors have additional protection for when to be on
 			if(mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_MOTOR) {
@@ -454,11 +465,6 @@ float ProcessMixer(const int index, const float curve1, const float curve2,
 	                ((float)MixerEntry_t[index].vector[MIXERSETTINGS_MIXER1VECTOR_ROLL] * desired->Roll) +
 	                ((float)MixerEntry_t[index].vector[MIXERSETTINGS_MIXER1VECTOR_PITCH] * desired->Pitch) +
 	                ((float)MixerEntry_t[index].vector[MIXERSETTINGS_MIXER1VECTOR_YAW] * desired->Yaw)) * (1.0f / MULTIROTOR_MIXER_UPPER_BOUND);
-
-	if((MixerEntry_t[index].type == MIXERSETTINGS_MIXER1TYPE_MOTOR) && (result < 0.0f))
-	{
-			result = 0.0f; //idle throttle
-	}
 
 	return(result);
 }
