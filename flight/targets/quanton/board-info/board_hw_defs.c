@@ -1045,6 +1045,7 @@ static const struct pios_usart_cfg pios_usart2_exbus_cfg = {
 		},
 		.pin_source = GPIO_PinSource2,
 	},
+	.single_wire = true,
 };
 
 static const struct pios_usart_cfg pios_usart3_exbus_cfg = {
@@ -1077,6 +1078,7 @@ static const struct pios_usart_cfg pios_usart3_exbus_cfg = {
 		},
 		.pin_source = GPIO_PinSource10,
 	},
+	.single_wire = true,
 };
 
 static const struct pios_usart_cfg pios_usart4_exbus_cfg = {
@@ -1109,6 +1111,7 @@ static const struct pios_usart_cfg pios_usart4_exbus_cfg = {
 		},
 		.pin_source = GPIO_PinSource10,
 	},
+	.single_wire = true,
 };
 
 static const struct pios_usart_cfg pios_usart5_exbus_cfg = {
@@ -1141,6 +1144,7 @@ static const struct pios_usart_cfg pios_usart5_exbus_cfg = {
 		},
 		.pin_source = GPIO_PinSource12,
 	},
+	.single_wire = true,
 };
 
 #endif	/* PIOS_INCLUDE_EXBUS */
