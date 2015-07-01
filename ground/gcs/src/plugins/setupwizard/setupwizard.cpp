@@ -249,6 +249,9 @@ QString SetupWizard::getSummaryText()
     case Core::IBoardType::INPUT_TYPE_HOTTSUMH:
         summary.append(tr("Graupner HoTT (SUMH)"));
         break;
+    case Core::IBoardType::INPUT_TYPE_JETIEX:
+        summary.append(tr("Jeti EX Bus"));
+        break;
     default:
         summary.append(tr("Unknown"));
     }

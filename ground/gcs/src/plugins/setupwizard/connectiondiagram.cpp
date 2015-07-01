@@ -134,6 +134,9 @@ void ConnectionDiagram::setupGraphicsScene()
         case Core::IBoardType::INPUT_TYPE_HOTTSUMH:
             elementsToShow << "HoTT";
             break;
+        case Core::IBoardType::INPUT_TYPE_JETIEX:
+            elementsToShow << "EXBus";
+            break;
         default:
             break;
         }

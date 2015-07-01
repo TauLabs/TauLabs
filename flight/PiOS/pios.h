@@ -104,6 +104,7 @@
 #endif
 #include <pios_dsm.h>
 #include <pios_sbus.h>
+#include <pios_exbus.h>
 #include <pios_usb_hid.h>
 #include <pios_debug.h>
 #include <pios_gpio.h>
