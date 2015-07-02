@@ -385,6 +385,17 @@ void PicoCGadgetWidget::sleep(int msec)
 }
 
 /**
+* @brief PicoCGadgetWidget::on_tbTestValueSend_clicked  Send the Test Value
+ */
+void PicoCGadgetWidget::on_tbTestValueSend_clicked()
+{
+    // read TestValue from the SpinBox, send it to the UAVObject and update it
+    pcStatus->setTestValue(ui->sbTestValue->value());
+    pcStatus->updated();
+}
+
+
+/**
   * @}
   * @}
   */
