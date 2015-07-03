@@ -55,6 +55,8 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/flightplansettings.h \
     $$UAVOBJECT_SYNTHETICS/flightplancontrol.h \
     $$UAVOBJECT_SYNTHETICS/flightstatus.h \
+    $$UAVOBJECT_SYNTHETICS/flightstats.h \
+    $$UAVOBJECT_SYNTHETICS/flightstatssettings.h \
     $$UAVOBJECT_SYNTHETICS/flighttelemetrystats.h \
     $$UAVOBJECT_SYNTHETICS/gcsreceiver.h \
     $$UAVOBJECT_SYNTHETICS/gcstelemetrystats.h \
@@ -175,6 +177,8 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/flightplansettings.cpp \
     $$UAVOBJECT_SYNTHETICS/flightplancontrol.cpp \
     $$UAVOBJECT_SYNTHETICS/flightstatus.cpp \
+    $$UAVOBJECT_SYNTHETICS/flightstats.cpp \
+    $$UAVOBJECT_SYNTHETICS/flightstatssettings.cpp \
     $$UAVOBJECT_SYNTHETICS/flighttelemetrystats.cpp \
     $$UAVOBJECT_SYNTHETICS/gcsreceiver.cpp \
     $$UAVOBJECT_SYNTHETICS/gcstelemetrystats.cpp \

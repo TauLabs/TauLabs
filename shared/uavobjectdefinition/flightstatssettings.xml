@@ -1,0 +1,10 @@
+<xml>
+	<object name="FlightStatsSettings" singleinstance="true" settings="true">
+		<description>Settings for the FlightStats module</description>
+		<field name="StatsBehavior" units="" type="enum" options="ResetOnArm,ResetOnBoot" elements="1" defaultvalue="ResetOnArm"/>
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>
