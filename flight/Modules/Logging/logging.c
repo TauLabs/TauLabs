@@ -272,8 +272,10 @@ static void loggingTask(void *parameters)
 
 				// Log some data objects that are unlikely to change during flight
 				// Waypoints
-				for (int i = 0; i < UAVObjGetNumInstances(WaypointHandle()); i++) {
-					UAVTalkSendObjectTimestamped(uavTalkCon, WaypointHandle(), i, false, 0);
+				if (WaypointHandle()){
+					for (int i = 0; i < UAVObjGetNumInstances(WaypointHandle()); i++) {
+						UAVTalkSendObjectTimestamped(uavTalkCon, WaypointHandle(), i, false, 0);
+					}
 				}
 
 				// Trigger logging for objects that are logged on change
@@ -308,8 +310,9 @@ static void loggingTask(void *parameters)
 
 			// Log slower
 			if ((i % 10) == 1) {
-				UAVTalkSendObjectTimestamped(uavTalkCon, AirspeedActualHandle(), 0, false, 0);
 				UAVTalkSendObjectTimestamped(uavTalkCon, BaroAltitudeHandle(), 0, false, 0);
+				if (AirspeedActualHandle())
+					UAVTalkSendObjectTimestamped(uavTalkCon, AirspeedActualHandle(), 0, false, 0);
 				if (GPSPositionHandle())
 					UAVTalkSendObjectTimestamped(uavTalkCon, GPSPositionHandle(), 0, false, 0);
 				if (PositionActualHandle())
