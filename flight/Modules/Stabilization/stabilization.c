@@ -423,7 +423,7 @@ static void stabilizationTask(void* parameters)
 					if (reinit)
 						pids[PID_RATE_ROLL + i].iAccumulator = 0;
 
-					if(fabs(stabDesiredAxis[i]) > max_axislock_rate) {
+					if (fabsf(stabDesiredAxis[i]) > max_axislock_rate) {
 						// While getting strong commands act like rate mode
 						rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
 
