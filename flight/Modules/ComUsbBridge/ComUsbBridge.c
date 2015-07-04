@@ -63,9 +63,6 @@ static void updateSettings();
 static struct pios_thread *com2UsbBridgeTaskHandle;
 static struct pios_thread *usb2ComBridgeTaskHandle;
 
-static uint8_t * com2usb_buf;
-static uint8_t * usb2com_buf;
-
 static uint32_t usart_port;
 static uint32_t vcp_port;
 
@@ -120,11 +117,6 @@ static int32_t comUsbBridgeInitialize(void)
 #endif
 
 	if (module_enabled) {
-		com2usb_buf = PIOS_malloc(BRIDGE_BUF_LEN);
-		PIOS_Assert(com2usb_buf);
-		usb2com_buf = PIOS_malloc(BRIDGE_BUF_LEN);
-		PIOS_Assert(usb2com_buf);
-
 		updateSettings();
 	}
 
@@ -143,6 +135,8 @@ static void com2UsbBridgeTask(void *parameters)
 	while (1) {
 		uint32_t rx_bytes;
 
+		uint8_t com2usb_buf[BRIDGE_BUF_LEN];
+
 		rx_bytes = PIOS_COM_ReceiveBuffer(usart_port, com2usb_buf, BRIDGE_BUF_LEN, 500);
 		if (rx_bytes > 0) {
 			/* Bytes available to transfer */
@@ -160,6 +154,8 @@ static void usb2ComBridgeTask(void * parameters)
 	volatile uint32_t tx_errors = 0;
 	while (1) {
 		uint32_t rx_bytes;
+
+		uint8_t usb2com_buf[BRIDGE_BUF_LEN];
 
 		rx_bytes = PIOS_COM_ReceiveBuffer(vcp_port, usb2com_buf, BRIDGE_BUF_LEN, 500);
 		if (rx_bytes > 0) {
