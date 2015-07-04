@@ -310,7 +310,6 @@ SRC += $(STATEESTIMATIONLIB)/premerlani_gps.c
 SRC += $(STATEESTIMATIONLIB)/premerlani_dcm.c
 endif
 SRC += $(MATHLIB)/coordinate_conversions.c
-SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 
