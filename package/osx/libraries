@@ -19,6 +19,9 @@ echo "Running \"${QT_DIR}/../bin/macdeployqt\" \"${APP}\" -verbose=2 -no-strip -
 rm -f "${APP}/Contents/Resources/qml/QtQuick.2/libqtquick2plugin.dylib"
 cp "${APP}/Contents/Plugins/quick/libqtquick2plugin.dylib" "${APP}/Contents/Resources/qml/QtQuick.2/libqtquick2plugin.dylib"
 
+rm -f "${APP}/Contents/Resources/qml/QtQuick/XmlListModel/libqmlxmllistmodelplugin.dylib"
+cp "${APP}/Contents/Plugins/quick/libqmlxmllistmodelplugin.dylib" "${APP}/Contents/Resources/qml/QtQuick/XmlListModel/libqmlxmllistmodelplugin.dylib"
+
 # Copy SDL files
 echo "Copying SDL"
 cp -r "/Library/Frameworks/SDL.framework" "${APP}/Contents/Frameworks/"
