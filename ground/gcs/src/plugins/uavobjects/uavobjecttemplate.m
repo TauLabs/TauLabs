@@ -30,6 +30,7 @@ str4=[];
 str5=[];
 multipleInstanceLookup = zeros(0,2);
 overo = false;
+onboardLogger = true;
 
 fprintf('\n\n***Tau Labs log parser***\n\n');
 global crc_table;
@@ -99,8 +100,9 @@ buffer=fread(fid,Inf,'uchar=>uchar');
 
 bufferIdx=1;
 
-correctMsgByte=hex2dec('20');
 correctSyncByte=hex2dec('3C');
+correctMsgByte=hex2dec('20');
+timestampedMsgByte=hex2dec('80');
 unknownObjIDList=zeros(1,2);
 
 % Parse log file, entry by entry
@@ -124,10 +126,12 @@ lastTimestamp = 0;
 while bufferIdx < (length(buffer) - 20)
 	%% Read message header
 	% get sync field (0x3C, 1 byte)
-	if ~overo
-		sync = buffer(bufferIdx+12);
-	else
+	if onboardLogger
 		sync = buffer(bufferIdx);
+	elseif overo
+		sync = buffer(bufferIdx);
+	else
+		sync = buffer(bufferIdx+12);
 	end
 	
 	if sync ~= correctSyncByte
@@ -138,7 +142,55 @@ while bufferIdx < (length(buffer) - 20)
 		continue
 	end
 	
-	if ~overo
+	if overo
+		% For Overo logging the format is
+		% UAVTalk packet (with timestamped packet)
+		%     Sync val (0x3c)
+		%     Message type (1 byte, adds 0x80)
+		%     Length (2 bytes)
+		%     Object ID (4 bytes)
+		%     Instance ID (optional, 2 bytes)
+		%     Timestamp (2 bytes)
+		%     Data (variable length)
+		%     Checksum (1 byte)
+		
+		% Process header for overo
+		datasizeBufferIdx = bufferIdx + 2;
+		msgType = buffer(bufferIdx+1) - 128;
+		objID = typecast(buffer(bufferIdx+4:bufferIdx+ 4+4-1), 'uint32');
+		
+		singleInstance = multipleInstanceLookup(multipleInstanceLookup(:,1) == objID, 2);
+		if singleInstance
+			timestamp = double(typecast(buffer(bufferIdx+8:bufferIdx+10-1),'uint16'));
+		else
+			timestamp = double(typecast(buffer(bufferIdx+12:bufferIdx+14-1),'uint16'));
+		end
+		
+		% Advance buffer past header to where data is.  In the case of a
+		% multiple instance object this will be where the timstamp is but
+		% the parsing code will advance by two more.
+		bufferIdx = bufferIdx + 10;
+	elseif onboardLogger
+		% For onboard logging the format is as follows
+		% UAVTalk packet (always without timestamped packets)
+		%     Sync val (0x3c)
+		%     Message type (1 byte)
+		%     Length (2 bytes)
+		%     Object ID (4 bytes)
+		%     Instance ID (optional, 2 bytes)
+		%     Timestamp (optional, 2 bytes)
+		%     Data (variable length)
+		%     Checksum (1 byte)
+		
+		% Process header, if we are aligned
+		datasizeBufferIdx = bufferIdx; %Just grab the index. We'll do a typecast later, if necessary
+		msgType = buffer(bufferIdx+1); % get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
+		objID = typecast(buffer(bufferIdx+4:bufferIdx + 4+4-1), 'uint32'); % get obj id (quint32 4 bytes)
+		timestamp = 0; %double(typecast(buffer(bufferIdx:bufferIdx+4-1),'uint32'));
+		
+		% Advance buffer past header to where data is (or instance ID)
+		bufferIdx=bufferIdx + 8;
+	else
 		% For GCS logging the format is as follows
 		% 4 bytes timestamp (milliseconds)
 		% 8 bytes data size
@@ -150,47 +202,16 @@ while bufferIdx < (length(buffer) - 20)
 		%     Instance ID (optional, 2 bytes)
 		%     Data (variable length)
 		%     Checksum (1 byte)
-	
-		% Process header, if we are aligned        
+		
+		% Process header, if we are aligned
 		datasizeBufferIdx = bufferIdx; %Just grab the index. We'll do a typecast later, if necessary
-		datasizeLength = 4;
 		msgType = buffer(bufferIdx+13); % get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
 		objID = typecast(buffer(bufferIdx+16:bufferIdx+ 16+4-1), 'uint32'); % get obj id (quint32 4 bytes)
 		timestamp = double(typecast(buffer(bufferIdx:bufferIdx+4-1),'uint32'));
-
+		
 		% Advance buffer past header to where data is (or instance ID)
 		bufferIdx=bufferIdx + 20;
-	else
-		% For Overo logging the format is
-		% UAVTalk packet (with timestamped packet)
-		%     Sync val (0x3c)
-		%     Message type (1 byte, adds 0x80)
-		%     Length (2 bytes)
-		%     Object ID (4 bytes)
-		%     Instance ID (optional, 2 bytes)
-		%     Timestamp (2 bytes)
-		%     Data (variable length)
-		%     Checksum (1 byte)
-    
-		% Process header for overo
-		datasizeBufferIdx = bufferIdx + 2;
-		datasizeLength = 2;
-		msgType = buffer(bufferIdx+1) - 128;
-		objID = typecast(buffer(bufferIdx+4:bufferIdx+ 4+4-1), 'uint32');
-        
-		singleInstance = multipleInstanceLookup(multipleInstanceLookup(:,1) == objID, 2);
-		if singleInstance
-			timestamp = double(typecast(buffer(bufferIdx+8:bufferIdx+10-1),'uint16'));
-		else
-			timestamp = double(typecast(buffer(bufferIdx+12:bufferIdx+14-1),'uint16'));
-		end
-        
-		% Advance buffer past header to where data is.  In the case of a
-		% multiple instance object this will be where the timstamp is but
-		% the parsing code will advance by two more.
-		bufferIdx = bufferIdx + 10;
-
-    end
+	end
 
 	if timestamp < lastTimestamp
 		timestampAccumulator = timestampAccumulator + timestampWraparound;
@@ -199,10 +220,18 @@ while bufferIdx < (length(buffer) - 20)
 	timestamp = timestamp + timestampAccumulator;
 
 	%Check that message type is correct
-	if msgType ~= correctMsgByte
+	if bitand(msgType, 127) ~= correctMsgByte
 		wrongMessageByte = wrongMessageByte + 1;	
 		continue
 	end
+
+	%Check that message type is correct
+	if bitand(msgType, 128) == timestampedMsgByte
+		timestampedMsgOffset = 2;
+	else
+		timestampedMsgOffset = 0;
+	end
+
 	
 	if (isempty(objID))	%End of file
 		break;
