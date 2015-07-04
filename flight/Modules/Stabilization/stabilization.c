@@ -425,16 +425,19 @@ static void stabilizationTask(void* parameters)
 
 					if(fabs(stabDesiredAxis[i]) > max_axislock_rate) {
 						// While getting strong commands act like rate mode
-						rateDesiredAxis[i] = stabDesiredAxis[i];
+						rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
+
+						// Reset accumulator
 						axis_lock_accum[i] = 0;
 					} else {
-						// For weaker commands or no command simply attitude lock (almost) on no gyro change
+						// For weaker commands or no command simply lock (almost) on no gyro change
 						axis_lock_accum[i] += (stabDesiredAxis[i] - gyro_filtered[i]) * dT;
 						axis_lock_accum[i] = bound_sym(axis_lock_accum[i], max_axis_lock);
-						rateDesiredAxis[i] = pid_apply(&pids[PID_ATT_ROLL + i], axis_lock_accum[i], dT);
-					}
 
-					rateDesiredAxis[i] = bound_sym(rateDesiredAxis[i], settings.MaximumRate[i]);
+						// Compute the inner loop
+						float tmpRateDesired = pid_apply(&pids[PID_ATT_ROLL + i], axis_lock_accum[i], dT);
+						rateDesiredAxis[i] = bound_sym(tmpRateDesired, settings.MaximumRate[i]);
+					}
 
 					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
