@@ -692,7 +692,7 @@ void PIOS_Board_Init(void)
 		}
 
 		if (PIOS_I2C_CheckClear(pios_i2c_usart1_adapter_id) != 0)
-			panic(6);
+			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
 #if defined(PIOS_INCLUDE_HMC5883)
 		{
@@ -705,9 +705,9 @@ void PIOS_Board_Init(void)
 				if (PIOS_HMC5883_Init
 				    (pios_i2c_usart1_adapter_id,
 				     &pios_hmc5883_external_cfg) != 0)
-					panic(8);
+					AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 				if (PIOS_HMC5883_Test() != 0)
-					panic(8);
+					AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 			}
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */
@@ -1012,7 +1012,7 @@ void PIOS_Board_Init(void)
 			PIOS_Assert(0);
 		}
 		if (PIOS_I2C_CheckClear(pios_i2c_usart3_adapter_id) != 0)
-			panic(7);
+			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
 #if defined(PIOS_INCLUDE_HMC5883)
 		{
@@ -1025,9 +1025,9 @@ void PIOS_Board_Init(void)
 				if (PIOS_HMC5883_Init
 				    (pios_i2c_usart3_adapter_id,
 				     &pios_hmc5883_external_cfg) != 0)
-					panic(9);
+					AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 				if (PIOS_HMC5883_Test() != 0)
-					panic(9);
+					AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 			}
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */

@@ -920,14 +920,14 @@ void PIOS_Board_Init(void) {
 	}
 
 	if (PIOS_I2C_CheckClear(pios_i2c_10dof_adapter_id) != 0)
-		panic(5);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
 #if defined(PIOS_INCLUDE_MPU6050)
 
 	if (PIOS_MPU6050_Init(pios_i2c_10dof_adapter_id, PIOS_MPU6050_I2C_ADD_A0_LOW, &pios_mpu6050_cfg) != 0)
-		panic(2);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 	if (PIOS_MPU6050_Test() != 0)
-		panic(2);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
 	// To be safe map from UAVO enum to driver enum
 	uint8_t hw_gyro_range;
@@ -1007,9 +1007,9 @@ void PIOS_Board_Init(void) {
 		if (Magnetometer == HWFLYINGF4_MAGNETOMETER_EXTERNALI2C) {
 
 			if (PIOS_HMC5883_Init(pios_i2c_10dof_adapter_id, &pios_hmc5883_external_cfg) != 0)
-				panic(3);
+				AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 			if (PIOS_HMC5883_Test() != 0)
-				panic(3);
+				AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
 			// setup sensor orientation
 			uint8_t ExtMagOrientation;
@@ -1035,9 +1035,9 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_MS5611)
 	if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_10dof_adapter_id) != 0)
-		panic(4);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 	if (PIOS_MS5611_Test() != 0)
-		panic(4);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 #endif
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
