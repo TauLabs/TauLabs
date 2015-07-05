@@ -102,28 +102,34 @@ ExpoCurve::ExpoCurve(QWidget *parent) :
     //marker for horizon transition value
     QwtSymbol *sym1 = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::blue), QPen(Qt::blue), QSize(7, 7));
     roll_elements.Mark.setSymbol(sym1);
-    roll_elements.Mark_.setSymbol(sym1);
+    QwtSymbol *sym1_ = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::blue), QPen(Qt::blue), QSize(7, 7));
+    roll_elements.Mark_.setSymbol(sym1_);
     QwtSymbol *sym1_2 = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::darkBlue), QPen(Qt::darkBlue), QSize(7, 7));
     roll_elements.Mark2.setSymbol(sym1_2);
-    roll_elements.Mark2_.setSymbol(sym1_2);
+    QwtSymbol *sym1_2_ = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::darkBlue), QPen(Qt::darkBlue), QSize(7, 7));
+    roll_elements.Mark2_.setSymbol(sym1_2_);
     roll_elements.Mark2.setYAxis(QwtPlot::yRight);
     roll_elements.Mark2_.setYAxis(QwtPlot::yRight);
 
     QwtSymbol *sym2 = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::red), QPen(Qt::red), QSize(7, 7));
     pitch_elements.Mark.setSymbol(sym2);
-    pitch_elements.Mark_.setSymbol(sym2);
+    QwtSymbol *sym2_ = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::red), QPen(Qt::red), QSize(7, 7));
+    pitch_elements.Mark_.setSymbol(sym2_);
     QwtSymbol *sym2_2 = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::darkRed), QPen(Qt::darkRed), QSize(7, 7));
     pitch_elements.Mark2.setSymbol(sym2_2);
-    pitch_elements.Mark2_.setSymbol(sym2_2);
+    QwtSymbol *sym2_2_ = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::darkRed), QPen(Qt::darkRed), QSize(7, 7));
+    pitch_elements.Mark2_.setSymbol(sym2_2_);
     pitch_elements.Mark2.setYAxis(QwtPlot::yRight);
     pitch_elements.Mark2_.setYAxis(QwtPlot::yRight);
 
     QwtSymbol *sym3 = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::green), QPen(Qt::green), QSize(7, 7));
     yaw_elements.Mark.setSymbol(sym3);
-    yaw_elements.Mark_.setSymbol(sym3);
+    QwtSymbol *sym3_ = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::green), QPen(Qt::green), QSize(7, 7));
+    yaw_elements.Mark_.setSymbol(sym3_);
     QwtSymbol *sym3_2 = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::darkGreen), QPen(Qt::darkGreen), QSize(7, 7));
     yaw_elements.Mark2.setSymbol(sym3_2);
-    yaw_elements.Mark2_.setSymbol(sym3_2);
+    QwtSymbol *sym3_2_ = new QwtSymbol(QwtSymbol::Star1, QBrush(Qt::darkGreen), QPen(Qt::darkGreen), QSize(7, 7));
+    yaw_elements.Mark2_.setSymbol(sym3_2_);
     yaw_elements.Mark2.setYAxis(QwtPlot::yRight);
     yaw_elements.Mark2_.setYAxis(QwtPlot::yRight);
 }
