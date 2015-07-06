@@ -80,7 +80,6 @@ struct rcvr_activity_fsm {
 
 
 // Private variables
-static FlightStatusData           flightStatus;
 static ManualControlCommandData   cmd;
 static ManualControlSettingsData  settings;
 static uint8_t                    disconnected_count = 0;
@@ -171,7 +170,10 @@ int32_t transmitter_control_update()
 	}
 
 	/* Update channel activity monitor */
-	if (flightStatus.Armed == FLIGHTSTATUS_ARMED_DISARMED) {
+	uint8_t arm_status;
+	FlightStatusArmedGet(&arm_status);
+
+	if (arm_status == FLIGHTSTATUS_ARMED_DISARMED) {
 		if (updateRcvrActivity(&activity_fsm)) {
 			/* Reset the aging timer because activity was detected */
 			lastActivityTime = lastSysTime;
@@ -221,6 +223,11 @@ int32_t transmitter_control_update()
 #if defined(PIOS_INCLUDE_FRSKY_RSSI)
 			value = PIOS_FrSkyRssi_Get();
 #endif /* PIOS_INCLUDE_FRSKY_RSSI */
+			break;
+		case MANUALCONTROLSETTINGS_RSSITYPE_SBUS:
+#if defined(PIOS_INCLUDE_SBUS)
+			value = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS], settings.RssiChannelNumber);
+#endif /* PIOS_INCLUDE_SBUS */
 			break;
 		}
 		if(value < 0)
@@ -415,12 +422,14 @@ int32_t transmitter_control_select(bool reset_controller)
 	set_flight_mode();
 
 	ManualControlCommandGet(&cmd);
-	FlightStatusGet(&flightStatus);
+
+	uint8_t flightMode;
+	FlightStatusFlightModeGet(&flightMode);
 
 	// Depending on the mode update the Stabilization or Actuator objects
 	static uint8_t lastFlightMode = FLIGHTSTATUS_FLIGHTMODE_MANUAL;
 
-	switch(flightStatus.FlightMode) {
+	switch(flightMode) {
 	case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
 		update_actuator_desired(&cmd);
 		break;
@@ -440,7 +449,7 @@ int32_t transmitter_control_select(bool reset_controller)
 		// call anything else.  This just avoids errors.
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
-		altitude_hold_desired(&cmd, lastFlightMode != flightStatus.FlightMode);
+		altitude_hold_desired(&cmd, lastFlightMode != flightMode);
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
 		set_loiter_command(&cmd);
@@ -453,7 +462,7 @@ int32_t transmitter_control_select(bool reset_controller)
 		set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 		break;
 	}
-	lastFlightMode = flightStatus.FlightMode;
+	lastFlightMode = flightMode;
 
 	return 0;
 }
@@ -932,9 +941,11 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
 
 	const uint8_t * stab_settings;
-	FlightStatusData flightStatus;
-	FlightStatusGet(&flightStatus);
-	switch(flightStatus.FlightMode) {
+
+	uint8_t flightMode;
+
+	FlightStatusFlightModeGet(&flightMode);
+	switch(flightMode) {
 		case FLIGHTSTATUS_FLIGHTMODE_ACRO:
 			stab_settings = RATE_SETTINGS;
 			break;

@@ -12,12 +12,16 @@ QMLDIR="${APP}/Contents/Resources/welcome"
 echo "Running \"${QT_DIR}/../bin/macdeployqt\" \"${APP}\" -verbose=2 -no-strip -always-overwrite -qmldir=\"$QMLDIR"\"
 "${QT_DIR}/../bin/macdeployqt" "${APP}" -verbose=2 -no-strip -always-overwrite -qmldir="$QMLDIR"
 
-# For some reasom this symlink is still wrong..
-CWD=`pwd`
-cd "${APP}/Contents/Resources/qml/QtQuick/XmlListModel/"
-rm libqmlxmllistmodelplugin.dylib
-ln -s ../../../../Plugins/quick/libqmlxmllistmodelplugin.dylib
-cd ${CWD}
+# HACK/WORKAROUND: XXX TODO: QTBUG-42954
+# https://bugreports.qt.io/browse/QTBUG-42954
+# Fixed (supposedly) in QT 5.4.2
+# libqtquick2plugin is ending up as invalid symbolic link in macdeployqt.
+# fix up manually-- just copy lib, it's small.  (remove once we used fixed QT)
+rm -f "${APP}/Contents/Resources/qml/QtQuick.2/libqtquick2plugin.dylib"
+cp "${APP}/Contents/Plugins/quick/libqtquick2plugin.dylib" "${APP}/Contents/Resources/qml/QtQuick.2/libqtquick2plugin.dylib"
+
+rm -f "${APP}/Contents/Resources/qml/QtQuick/XmlListModel/libqmlxmllistmodelplugin.dylib"
+cp "${APP}/Contents/Plugins/quick/libqmlxmllistmodelplugin.dylib" "${APP}/Contents/Resources/qml/QtQuick/XmlListModel/libqmlxmllistmodelplugin.dylib"
 
 # Copy SDL files
 echo "Copying SDL"

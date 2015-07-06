@@ -36,6 +36,7 @@
 				<option>None</option>
 				<option>PWM</option>
 				<option>PPM</option>
+				<option>S.Bus</option>
 				<option>ADC</option>
 				<option>OpenLRS</option>
 				<option>FrSkyPWM</option>
