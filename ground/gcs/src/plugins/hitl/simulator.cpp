@@ -703,24 +703,24 @@ void Simulator::updateUAVOs(Output2Hardware out){
     }
 
 //    /*******************************/
-//    if (settings.sonarAltitude) {
-//        static QTime sonarAltTime = currentTime;
-//        if (sonarAltTime.msecsTo(currentTime) >= settings.sonarAltRate) {
-//            SonarAltitude::DataFields sonarAltData;
-//            sonarAltData = sonarAlt->getData();
+//    if (settings.rangefinderDistanceEnable) {
+//        static QTime rangefinderDistanceTime = currentTime;
+//        if (rangefinderDistanceTime.msecsTo(currentTime) >= settings.rangefinderDistanceRate) {
+//            RangefinderDistance::DataFields rangefinderDistanceData;
+//            rangefinderDistanceData = rangefinderDistance->getData();
 
-//            float sAlt = settings.sonarMaxAlt;
+//            float rDistance = settings.rangefinderMaxDistance;
 //            // 0.35 rad ~= 20 degree
-//            if ((agl < (sAlt * 2.0)) && (roll < 0.35) && (pitch < 0.35)) {
+//            if ((agl < (rDistance * 2.0)) && (roll < 0.35) && (pitch < 0.35)) {
 //                float x = agl * qTan(roll);
 //                float y = agl * qTan(pitch);
 //                float h = qSqrt(x*x + y*y + agl*agl);
-//                sAlt = qMin(h, sAlt);
+//                rDistance = qMin(h, rDistance);
 //            }
 
-//            sonarAltData.Altitude = sAlt;
-//            sonarAlt->setData(sonarAltData);
-//            sonarAltTime = currentTime;
+//            rangefinderDistanceData.Range = rDistance;
+//            rangefinderDistance->setData(rangefinderDistanceData);
+//            rangefinderDistanceTime = currentTime;
 //        }
 //    }
 

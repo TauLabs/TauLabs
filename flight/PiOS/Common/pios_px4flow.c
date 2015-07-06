@@ -41,7 +41,7 @@ struct px4flow_dev {
 	uint32_t i2c_id;
 	const struct pios_px4flow_cfg *cfg;
 	struct pios_queue *optical_flow_queue;
-	struct pios_queue *sonar_queue;
+	struct pios_queue *rangefinder_queue;
 	struct pios_thread *task;
 	struct pios_semaphore *data_ready_sema;
 	enum pios_px4flow_dev_magic magic;
@@ -67,8 +67,8 @@ static struct px4flow_dev * PIOS_PX4Flow_alloc(void)
 	px4flow_dev->magic = PIOS_PX4FLOW_DEV_MAGIC;
 	
 	px4flow_dev->optical_flow_queue = PIOS_Queue_Create(PIOS_PX4FLOW_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_optical_flow_data));
-	px4flow_dev->sonar_queue = PIOS_Queue_Create(PIOS_PX4FLOW_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_sonar_data));
-	if (px4flow_dev->optical_flow_queue == NULL || px4flow_dev->sonar_queue == NULL) {
+	px4flow_dev->rangefinder_queue = PIOS_Queue_Create(PIOS_PX4FLOW_MAX_DOWNSAMPLE, sizeof(struct pios_sensor_rangefinder_data));
+	if (px4flow_dev->optical_flow_queue == NULL || px4flow_dev->rangefinder_queue == NULL) {
 		PIOS_free(px4flow_dev);
 		return NULL;
 	}
@@ -109,7 +109,7 @@ int32_t PIOS_PX4Flow_Init(const struct pios_px4flow_cfg *cfg, const uint32_t i2c
 		return -2;
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_OPTICAL_FLOW, dev->optical_flow_queue);
-	PIOS_SENSORS_Register(PIOS_SENSOR_SONAR, dev->sonar_queue);
+	PIOS_SENSORS_Register(PIOS_SENSOR_RANGEFINDER, dev->rangefinder_queue);
 
 	dev->task = PIOS_Thread_Create(PIOS_PX4Flow_Task, "pios_px4flow", PX4FLOW_TASK_STACK_BYTES, NULL, PX4FLOW_TASK_PRIORITY);
 
@@ -154,7 +154,7 @@ static int32_t PIOS_PX4Flow_Config(const struct pios_px4flow_cfg * cfg)
  * \param[out] rangefinder_data Struct containing sonar ranging measurement along z-axis
  * \return 0 for success or -1 for failure
  */
-static int32_t PIOS_PX4Flow_ReadData(struct pios_sensor_optical_flow_data *optical_flow_data, struct pios_sensor_sonar_data *sonar_data)
+static int32_t PIOS_PX4Flow_ReadData(struct pios_sensor_optical_flow_data *optical_flow_data, struct pios_sensor_rangefinder_data *rangefinder_data)
 {
 	if (PIOS_PX4Flow_Validate(dev) != 0) {
 		return -1;
@@ -223,18 +223,18 @@ static int32_t PIOS_PX4Flow_ReadData(struct pios_sensor_optical_flow_data *optic
 	if (PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list)) != 0)
 		return -1;
 
-	// Only update sonar queue if data is fresh
+	// Only update rangefinder queue if data is fresh
 	if (i2c_frame.sonar_timestamp > 0) {
-		sonar_data->range = i2c_frame.ground_distance_m1000 / 1000.0f;
+		rangefinder_data->range = i2c_frame.ground_distance_m1000 / 1000.0f;
 
 		// If the range is less than 0, then set the range status to 0
-		if (sonar_data->range < 0) {
-			sonar_data->range_status = 0;
+		if (rangefinder_data->range < 0) {
+			rangefinder_data->range_status = 0;
 		} else {
-			sonar_data->range_status = 1;
+			rangefinder_data->range_status = 1;
 		}
 
-		PIOS_Queue_Send(dev->sonar_queue, sonar_data, 0);
+		PIOS_Queue_Send(dev->rangefinder_queue, rangefinder_data, 0);
 	}
 
 	/* Rotate the flow from the sensor frame into the body frame. It's not
@@ -273,8 +273,8 @@ static void PIOS_PX4Flow_Task(void *parameters)
 		PIOS_Thread_Sleep_Until(&now, PX4FLOW_SAMPLE_PERIOD_MS);
 
 		struct pios_sensor_optical_flow_data optical_flow_data;
-		struct pios_sensor_sonar_data sonar_data;
-		PIOS_PX4Flow_ReadData(&optical_flow_data, &sonar_data);
+		struct pios_sensor_rangefinder_data rangefinder_data;
+		PIOS_PX4Flow_ReadData(&optical_flow_data, &rangefinder_data);
 	}
 }
 

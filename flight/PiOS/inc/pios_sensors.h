@@ -67,8 +67,8 @@ struct pios_sensor_optical_flow_data {
 	uint8_t quality;
 };
 
-//! Pios sensor structure for generic sonar data
-struct pios_sensor_sonar_data {
+//! Pios sensor structure for generic rangefinder data
+struct pios_sensor_rangefinder_data {
 	float range;
 	uint8_t range_status;
 };
@@ -88,7 +88,7 @@ enum pios_sensor_type
 	PIOS_SENSOR_MAG,
 	PIOS_SENSOR_BARO,
 	PIOS_SENSOR_OPTICAL_FLOW,
-	PIOS_SENSOR_SONAR,
+	PIOS_SENSOR_RANGEFINDER,
 	PIOS_SENSOR_LAST
 };
 

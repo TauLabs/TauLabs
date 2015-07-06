@@ -46,7 +46,7 @@
 #include "homelocation.h"
 #include "opticalflow.h"
 #include "sensorsettings.h"
-#include "sonaraltitude.h"
+#include "rangefinderdistance.h"
 #include "inssettings.h"
 #include "magnetometer.h"
 #include "magbias.h"
@@ -75,7 +75,7 @@ static void update_gyros(struct pios_sensor_gyro_data *gyro);
 static void update_mags(struct pios_sensor_mag_data *mag);
 static void update_baro(struct pios_sensor_baro_data *baro);
 static void update_optical_flow(struct pios_sensor_optical_flow_data *optical_flow);
-static void update_sonar(struct pios_sensor_sonar_data *sonar);
+static void update_rangefinder(struct pios_sensor_rangefinder_data *rangefinder);
 
 static void mag_calibration_prelemari(MagnetometerData *mag);
 static void mag_calibration_fix_length(MagnetometerData *mag);
@@ -135,8 +135,8 @@ static int32_t SensorsInitialize(void)
 	SensorSettingsInitialize();
 	INSSettingsInitialize();
 
-	if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_SONAR) != NULL ) {
-		SonarAltitudeInitialize();
+	if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_RANGEFINDER) != NULL ) {
+		RangefinderDistanceInitialize();
 	}
 
 	if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_OPTICAL_FLOW) != NULL ) {
@@ -200,7 +200,7 @@ static void SensorsTask(void *parameters)
 		struct pios_sensor_accel_data accels;
 		struct pios_sensor_mag_data mags;
 		struct pios_sensor_baro_data baro;
-		struct pios_sensor_sonar_data sonar;
+		struct pios_sensor_rangefinder_data rangefinder;
 		struct pios_sensor_optical_flow_data optical_flow;
 
 		uint32_t timeval = PIOS_DELAY_GetRaw();
@@ -254,9 +254,9 @@ static void SensorsTask(void *parameters)
 			update_optical_flow(&optical_flow);
 		}
 
-		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_SONAR);
-		if (queue != NULL && PIOS_Queue_Receive(queue, &sonar, 0) != false) {
-			update_sonar(&sonar);
+		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_RANGEFINDER);
+		if (queue != NULL && PIOS_Queue_Receive(queue, &rangefinder, 0) != false) {
+			update_rangefinder(&rangefinder);
 		}
 
 		#if defined(AQ32)
@@ -449,26 +449,26 @@ void update_optical_flow(struct pios_sensor_optical_flow_data *optical_flow)
 }
 
 /*
- * Update the sonar uavo from the data from the sonar queue
- * @param [in] sonar raw sonar data
+ * Update the rangefinder uavo from the data from the rangefinder queue
+ * @param [in] rangefinder raw rangefinder data
  */
-static void update_sonar(struct pios_sensor_sonar_data *sonar)
+static void update_rangefinder(struct pios_sensor_rangefinder_data *rangefinder)
 {
-	SonarAltitudeData sonarAltitude;
-	SonarAltitudeGet(&sonarAltitude);
+	RangefinderDistanceData rangefinderAltitude;
+	RangefinderDistanceGet(&rangefinderAltitude);
 
 	AttitudeActualData attitude;
 	AttitudeActualGet(&attitude);
 
-	sonarAltitude.Range = sonar->range;
+	rangefinderAltitude.Range = rangefinder->range;
 
-	if (sonar->range_status == 0) {
-		sonarAltitude.RangingStatus = SONARALTITUDE_RANGINGSTATUS_OUTOFRANGE;
+	if (rangefinder->range_status == 0) {
+		rangefinderAltitude.RangingStatus = RANGEFINDERDISTANCE_RANGINGSTATUS_OUTOFRANGE;
 	} else {
-		sonarAltitude.RangingStatus = SONARALTITUDE_RANGINGSTATUS_INRANGE;
+		rangefinderAltitude.RangingStatus = RANGEFINDERDISTANCE_RANGINGSTATUS_INRANGE;
 	}
 
-	SonarAltitudeSet(&sonarAltitude);
+	RangefinderDistanceSet(&rangefinderAltitude);
 }
 
 /**
