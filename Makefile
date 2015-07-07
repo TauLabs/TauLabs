@@ -840,8 +840,8 @@ endef
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
 BL_BOARDS  := $(filter-out naze32, $(ALL_BOARDS))
-BU_BOARDS  := $(ALL_BOARDS)
-EF_BOARDS  := $(ALL_BOARDS)
+BU_BOARDS  := $(BL_BOARDS)
+EF_BOARDS  := $(filter-out naze32, $(ALL_BOARDS))
 
 # Sim targets are different for each host OS
 ifeq ($(UNAME), Linux)

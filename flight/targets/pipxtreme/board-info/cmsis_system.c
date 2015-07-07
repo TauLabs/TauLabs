@@ -175,6 +175,10 @@ __I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9}
 
 static void SetSysClock(void);
 
+// this is required for the system_rcc code because
+// of the clock rate switching in naze32
+uint32_t hse_value = 8000000;
+
 #ifdef SYSCLK_FREQ_HSE
   static void SetSysClockToHSE(void);
 #elif defined SYSCLK_FREQ_24MHz
