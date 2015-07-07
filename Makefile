@@ -839,7 +839,7 @@ endef
 
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
-BL_BOARDS  := $(ALL_BOARDS)
+BL_BOARDS  := $(filter-out naze32, $(ALL_BOARDS))
 BU_BOARDS  := $(ALL_BOARDS)
 EF_BOARDS  := $(ALL_BOARDS)
 
