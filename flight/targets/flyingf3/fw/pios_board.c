@@ -344,13 +344,13 @@ void PIOS_Board_Init(void) {
 		PIOS_DEBUG_Assert(0);
 	}
 	if (PIOS_I2C_CheckClear(pios_i2c_internal_id) != 0)
-		panic(3);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
 	if (PIOS_I2C_Init(&pios_i2c_external_id, &pios_i2c_external_cfg)) {
 		PIOS_DEBUG_Assert(0);
 	}
 	if (PIOS_I2C_CheckClear(pios_i2c_external_id) != 0)
-		panic(4);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 #endif
 
 #if defined(PIOS_INCLUDE_CAN)
@@ -1275,11 +1275,11 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_LSM303) && defined(PIOS_INCLUDE_I2C)
 	if (PIOS_LSM303_Init(pios_i2c_internal_id, &pios_lsm303_cfg) != 0)
-		panic(2);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 	if (PIOS_LSM303_Accel_Test() != 0)
-		panic(2);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 	if (PIOS_LSM303_Mag_Test() != 0)
-		panic(2);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
 	uint8_t hw_accel_range;
 	HwFlyingF3AccelRangeGet(&hw_accel_range);
@@ -1356,9 +1356,9 @@ void PIOS_Board_Init(void) {
 	case HWFLYINGF3_SHIELD_BMP085:
 #if defined(PIOS_INCLUDE_BMP085) && defined(PIOS_INCLUDE_I2C)
 	if (PIOS_BMP085_Init(&pios_bmp085_cfg, pios_i2c_external_id) != 0)
-		panic(5);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 	if (PIOS_BMP085_Test() != 0)
-		panic(5);
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 #endif /* PIOS_INCLUDE_BMP085 && PIOS_INCLUDE_I2C */
 		break;
 	case HWFLYINGF3_SHIELD_NONE:

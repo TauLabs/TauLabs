@@ -617,7 +617,7 @@ void PIOS_Board_Init(void) {
 			}
 
 			if (PIOS_I2C_CheckClear(pios_i2c_flexi_id) != 0)
-				panic(11);
+				AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 #endif /* PIOS_INCLUDE_I2C */
                break;
 	case HWSPARKY_FLEXIPORT_SBUS:
@@ -1097,9 +1097,9 @@ void PIOS_Board_Init(void) {
 				PIOS_WDG_Clear();
 
 				if (PIOS_HMC5883_Init(pios_i2c_flexi_id, &pios_hmc5883_external_cfg) != 0)
-					panic(11);
+					AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 				if (PIOS_HMC5883_Test() != 0)
-					panic(11);
+					AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 			}
 
 			enum pios_hmc5883_orientation hmc5883_orientation = \

@@ -782,7 +782,7 @@ void PIOS_Board_Init(void) {
 					PIOS_Assert(0);
 				}
 				if (PIOS_I2C_CheckClear(pios_i2c_flexiport_adapter_id) != 0)
-					panic(6);
+					AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 			}
 #endif	/* PIOS_INCLUDE_I2C */
 			break;
@@ -1264,14 +1264,14 @@ void PIOS_Board_Init(void) {
 		if (Magnetometer == HWSPARKY2_MAGNETOMETER_EXTERNALI2CFLEXIPORT)
 		{
 			if (PIOS_HMC5883_Init(pios_i2c_flexiport_adapter_id, &pios_hmc5883_external_cfg) != 0)
-				panic(6);
+				AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 			if (PIOS_HMC5883_Test() != 0)
-				panic(6);
+				AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 		} else if (Magnetometer == HWSPARKY2_MAGNETOMETER_EXTERNALAUXI2C) {
 			if (PIOS_HMC5883_Init(pios_i2c_mag_pressure_adapter_id, &pios_hmc5883_external_cfg) != 0)
-				panic(6);
+				AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 			if (PIOS_HMC5883_Test() != 0)
-				panic(6);
+				AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 		}
 
 		if (Magnetometer != HWSPARKY2_MAGNETOMETER_INTERNAL) {
