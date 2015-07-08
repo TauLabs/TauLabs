@@ -319,13 +319,25 @@ void PIOS_Board_Init(void) {
     rfm22bstatus.BoardType     = bdinfo->board_type;
     rfm22bstatus.BoardRevision = bdinfo->board_rev;
 
+    int base_freq;
+
+    switch (hwTauLink.RfBaseFrequency) {
+	    case HWTAULINK_RFBASEFREQUENCY_433:
+	    default:
+		    base_freq = 433000000;
+		    break;
+	    case HWTAULINK_RFBASEFREQUENCY_915:
+		    base_freq = 915000000;
+		    break;
+    }
+
     /* Initalize the RFM22B radio COM device. */
     if (hwTauLink.MaxRfPower != HWTAULINK_MAXRFPOWER_0) {
         rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
 
         // Configure the RFM22B device
         const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
-        if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
+        if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg, base_freq)) {
             PIOS_Assert(0);
         }
 

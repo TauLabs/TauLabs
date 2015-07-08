@@ -97,7 +97,8 @@ struct rfm22b_stats {
 /* Public Functions */
 extern int32_t PIOS_RFM22B_Init(uint32_t * rfb22b_id, uint32_t spi_id,
 				uint32_t slave_num,
-				const struct pios_rfm22b_cfg *cfg);
+				const struct pios_rfm22b_cfg *cfg,
+				uint32_t base_freq);
 extern void PIOS_RFM22B_Reinit(uint32_t rfb22b_id);
 extern void PIOS_RFM22B_SetTxPower(uint32_t rfm22b_id,
 				   enum rfm22b_tx_power tx_pwr);

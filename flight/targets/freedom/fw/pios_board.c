@@ -785,12 +785,24 @@ void PIOS_Board_Init(void) {
 	rfm22bstatus.BoardType     = bdinfo->board_type;
 	rfm22bstatus.BoardRevision = bdinfo->board_rev;
 
+	int base_freq;
+
+	switch (hwFreedom.RfBaseFrequency) {
+		case HWFREEDOM_RFBASEFREQUENCY_433:
+		default:
+			base_freq = 433000000;
+			break;
+		case HWFREEDOM_RFBASEFREQUENCY_915:
+			base_freq = 915000000;
+			break;
+	}
+
 	if (hwFreedom.Radio == HWFREEDOM_RADIO_DISABLED || hwFreedom.MaxRfPower == HWFREEDOM_MAXRFPOWER_0) {
 
 			// When radio disabled, it is ok for init to fail. This allows boards without populating
 			// this component.
 			const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
-			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg) == 0) {
+			if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg, base_freq) == 0) {
 				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
 				rfm22bstatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
 				rfm22bstatus.BoardRevision = PIOS_RFM22B_ModuleVersion(pios_rfm22b_id);
@@ -808,7 +820,7 @@ void PIOS_Board_Init(void) {
 
 		/* Configure the RFM22B device. */
 		const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
-		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
+		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg, base_freq)) {
 			panic(6);
 		}
 

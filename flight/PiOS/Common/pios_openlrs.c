@@ -1096,7 +1096,8 @@ static struct pios_openlrs_dev * g_openlrs_dev;
  */
 int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 			 uint32_t slave_num,
-			 const struct pios_openlrs_cfg *cfg)
+			 const struct pios_openlrs_cfg *cfg,
+			 uint32_t base_freq)
 {
 	PIOS_DEBUG_Assert(rfm22b_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -1112,6 +1113,11 @@ int32_t PIOS_OpenLRS_Init(uintptr_t * openlrs_id, uint32_t spi_id,
 	// Store the SPI handle
 	openlrs_dev->slave_num = slave_num;
 	openlrs_dev->spi_id = spi_id;
+
+	// and the frequency
+	openlrs_dev->base_freq = base_freq;
+
+	// XXX TODO: Should enforce frequency ranges based on what's set here
 
 	// Before initializing everything, make sure device found
 	uint8_t device_type = rfm22_read(openlrs_dev, RFM22_DEVICE_TYPE) & RFM22_DT_MASK;
