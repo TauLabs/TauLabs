@@ -8,11 +8,11 @@ OTHER_FILES += Naze.pluginspec
 
 HEADERS += \
     nazeplugin.h \
-    naze32.h
+    open_naze.h
 
 SOURCES += \
     nazeplugin.cpp \
-    naze32.cpp
+    open_naze.cpp
 
 RESOURCES += \
     naze.qrc

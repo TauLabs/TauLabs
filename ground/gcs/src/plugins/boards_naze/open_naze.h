@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       naze32.h
+ * @file       open_naze.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins

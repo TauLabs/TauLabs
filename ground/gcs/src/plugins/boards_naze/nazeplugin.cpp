@@ -27,7 +27,7 @@
  */
 
 #include "nazeplugin.h"
-#include "naze32.h"
+#include "open_naze.h"
 #include <QtPlugin>
 
 

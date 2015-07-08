@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  *
- * @file       naze32.cpp
+ * @file       open_naze.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
  *
  * @addtogroup GCSPlugins GCS Plugins
@@ -26,7 +26,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "naze32.h"
+#include "open_naze.h"
 
 #include <uavobjectmanager.h>
 #include "uavobjectutil/uavobjectutilmanager.h"
@@ -62,7 +62,7 @@ QString Naze::shortName()
 
 QString Naze::boardDescription()
 {
-    return QString("Naze32 flight controller by timecop");
+    return QString("Open Naze hardware by ReadError, based on Naze32 by timecop.");
 }
 
 //! Return which capabilities this board has
@@ -97,7 +97,7 @@ QStringList Naze::getSupportedProtocols()
 
 QPixmap Naze::getBoardPicture()
 {
-    return QPixmap(":/naze/images/naze32.png");
+    return QPixmap(":/naze/images/open_naze.png");
 }
 
 QString Naze::getHwUAVO()
