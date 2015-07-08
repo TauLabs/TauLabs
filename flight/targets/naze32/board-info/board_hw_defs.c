@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup CopterControl OpenPilot coptercontrol support files
+ * @addtogroup CopterControl OpenPilot naze support files
  * @{
  *
  * @file       board_hw_defs.c 

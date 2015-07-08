@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup CopterControl OpenPilot coptercontrol support files
+ * @addtogroup CopterControl OpenPilot naze support files
  * @{
  *
  * @file       pios_board.c
@@ -41,7 +41,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
-#include "hwcoptercontrol.h"
+#include "hwnaze.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
 
@@ -386,7 +386,7 @@ void PIOS_Board_Init(void) {
 	EventDispatcherInitialize();
 	UAVObjInitialize();
 
-	HwCopterControlInitialize();
+	HwNazeInitialize();
 	ModuleSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
@@ -426,7 +426,7 @@ void PIOS_Board_Init(void) {
 		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
 	} else {
 		/* Too many failed boot attempts, force hw config to defaults */
-		HwCopterControlSetDefaults(HwCopterControlHandle(), 0);
+		HwNazeSetDefaults(HwNazeHandle(), 0);
 		ModuleSettingsSetDefaults(ModuleSettingsHandle(),0);
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
@@ -439,12 +439,12 @@ void PIOS_Board_Init(void) {
 
 	/* Configure the rcvr port */
 	uint8_t hw_rcvrport;
-	HwCopterControlRcvrPortGet(&hw_rcvrport);
+	HwNazeRcvrPortGet(&hw_rcvrport);
 
 	switch (hw_rcvrport) {
-	case HWCOPTERCONTROL_RCVRPORT_DISABLED:
+	case HWNAZE_RCVRPORT_DISABLED:
 		break;
-	case HWCOPTERCONTROL_RCVRPORT_PWM:
+	case HWNAZE_RCVRPORT_PWM:
 #if defined(PIOS_INCLUDE_PWM)
 		{
 			uintptr_t pios_pwm_id;
@@ -458,8 +458,8 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
-	case HWCOPTERCONTROL_RCVRPORT_PPM:
-	case HWCOPTERCONTROL_RCVRPORT_PPMOUTPUTS:
+	case HWNAZE_RCVRPORT_PPM:
+	case HWNAZE_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
 		{
 			uintptr_t pios_ppm_id;
@@ -473,7 +473,7 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PPM */
 		break;
-	case HWCOPTERCONTROL_RCVRPORT_PPMPWM:
+	case HWNAZE_RCVRPORT_PPMPWM:
 		/* This is a combination of PPM and PWM inputs */
 #if defined(PIOS_INCLUDE_PPM)
 		{
@@ -519,14 +519,14 @@ void PIOS_Board_Init(void) {
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
 #ifdef PIOS_INCLUDE_SERVO
 	switch (hw_rcvrport) {
-		case HWCOPTERCONTROL_RCVRPORT_DISABLED:
-		case HWCOPTERCONTROL_RCVRPORT_PWM:
-		case HWCOPTERCONTROL_RCVRPORT_PPM:
-		case HWCOPTERCONTROL_RCVRPORT_PPMPWM:
+		case HWNAZE_RCVRPORT_DISABLED:
+		case HWNAZE_RCVRPORT_PWM:
+		case HWNAZE_RCVRPORT_PPM:
+		case HWNAZE_RCVRPORT_PPMPWM:
 			PIOS_Servo_Init(&pios_servo_cfg);
 			break;
-		case HWCOPTERCONTROL_RCVRPORT_PPMOUTPUTS:
-		case HWCOPTERCONTROL_RCVRPORT_OUTPUTS:
+		case HWNAZE_RCVRPORT_PPMOUTPUTS:
+		case HWNAZE_RCVRPORT_OUTPUTS:
 			PIOS_Servo_Init(&pios_servo_rcvr_cfg);
 			break;
 	}
@@ -558,35 +558,35 @@ void PIOS_Board_Init(void) {
 		panic(2);
 
 	uint8_t hw_gyro_range;
-	HwCopterControlGyroRangeGet(&hw_gyro_range);
+	HwNazeGyroRangeGet(&hw_gyro_range);
 	switch(hw_gyro_range) {
-		case HWCOPTERCONTROL_GYRORANGE_250:
+		case HWNAZE_GYRORANGE_250:
 			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
 			break;
-		case HWCOPTERCONTROL_GYRORANGE_500:
+		case HWNAZE_GYRORANGE_500:
 			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 			break;
-		case HWCOPTERCONTROL_GYRORANGE_1000:
+		case HWNAZE_GYRORANGE_1000:
 			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
 			break;
-		case HWCOPTERCONTROL_GYRORANGE_2000:
+		case HWNAZE_GYRORANGE_2000:
 			PIOS_MPU6050_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
 			break;
 	}
 
 	uint8_t hw_accel_range;
-	HwCopterControlAccelRangeGet(&hw_accel_range);
+	HwNazeAccelRangeGet(&hw_accel_range);
 	switch(hw_accel_range) {
-		case HWCOPTERCONTROL_ACCELRANGE_2G:
+		case HWNAZE_ACCELRANGE_2G:
 			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
 			break;
-		case HWCOPTERCONTROL_ACCELRANGE_4G:
+		case HWNAZE_ACCELRANGE_4G:
 			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
 			break;
-		case HWCOPTERCONTROL_ACCELRANGE_8G:
+		case HWNAZE_ACCELRANGE_8G:
 			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 			break;
-		case HWCOPTERCONTROL_ACCELRANGE_16G:
+		case HWNAZE_ACCELRANGE_16G:
 			PIOS_MPU6050_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 			break;
 	}

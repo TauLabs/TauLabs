@@ -77,6 +77,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/hwfreedom.h \
     $$UAVOBJECT_SYNTHETICS/hwflyingf3.h \
     $$UAVOBJECT_SYNTHETICS/hwflyingf4.h \
+    $$UAVOBJECT_SYNTHETICS/hwnaze.h \
     $$UAVOBJECT_SYNTHETICS/hwquanton.h \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.h \
     $$UAVOBJECT_SYNTHETICS/hwsparky.h \
@@ -198,6 +199,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/hwfreedom.cpp \
     $$UAVOBJECT_SYNTHETICS/hwflyingf3.cpp \
     $$UAVOBJECT_SYNTHETICS/hwflyingf4.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwnaze.cpp \
     $$UAVOBJECT_SYNTHETICS/hwquanton.cpp \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.cpp \
     $$UAVOBJECT_SYNTHETICS/hwsparky.cpp \

@@ -1,0 +1,21 @@
+<xml>
+	<object name="HwNaze" singleinstance="true" settings="true" category="HardwareSettings">
+		<description>Selection of optional hardware configurations.</description>
+
+		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PWM,PPM,PPM+PWM,PPM+Outputs,Outputs" defaultvalue="PPM"/>
+		<field name="MainPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,S.Bus,DSM,DebugConsole,ComBridge, MavLinkTX, MavLinkTX_GPS_RX, FrSKY Sensor Hub, LighttelemetryTx,HoTT SUMD,HoTT SUMH " defaultvalue="Telemetry"/>
+		<field name="FlexiPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,I2C,DSM,DebugConsole,ComBridge, MavLinkTX, FrSKY Sensor Hub, LighttelemetryTx,HoTT SUMD,HoTT SUMH" defaultvalue="Disabled"/>
+
+		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
+
+		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
+		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
+		<field name="MPU6000Rate" units="" type="enum" elements="1" options="200,333,500,666,1000,2000,4000,8000" defaultvalue="500"/>
+		<field name="MPU6000DLPF" units="" type="enum" elements="1" options="256,188,98,42,20,10,5" defaultvalue="256"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+    </object>
+</xml>

@@ -330,6 +330,12 @@ plugin_boards_quantec.depends = plugin_coreplugin
 plugin_boards_quantec.depends = plugin_uavobjects
 SUBDIRS += plugin_boards_quantec
 
+# Naze32
+plugin_boards_naze.subdir = boards_naze
+plugin_boards_naze.depends = plugin_coreplugin
+plugin_boards_naze.depends = plugin_uavobjects
+SUBDIRS += plugin_boards_naze
+
 # Team Black Sheep
 plugin_boards_tbs.subdir = boards_tbs
 plugin_boards_tbs.depends = plugin_coreplugin
