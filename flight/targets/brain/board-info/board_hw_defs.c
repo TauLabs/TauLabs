@@ -345,13 +345,11 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.label        = FLASH_PARTITION_LABEL_LOG,
 		.chip_desc    = &pios_flash_chip_external,
 		.first_sector = 32,
-		.last_sector  = 1023,
+		.last_sector  = 2047,
 		.chip_offset  = (32 * FLASH_SECTOR_4KB),
-		.size         = (1023 - 32 + 1) * FLASH_SECTOR_4KB,
+		.size         = (2047 - 32 + 1) * FLASH_SECTOR_4KB,
 	},
 #endif	/* PIOS_INCLUDE_FLASH_JEDEC */
-
-	/* NOTE sectros 1024..2047 currently unused */
 };
 
 const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32_t board_revision, uint32_t * num_partitions)
