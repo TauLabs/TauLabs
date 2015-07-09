@@ -107,12 +107,14 @@ public:
     // Functions
     UAVObjectParser();
     QString parseXML(QString& xml, QString& filename);
+    void calculateAllIds();
     int getNumObjects();
     QList<ObjectInfo*> getObjectInfo();
     QString getObjectName(int objIndex);
     quint32 getObjectID(int objIndex);
 
     ObjectInfo* getObjectByIndex(int objIndex);
+    ObjectInfo* getObjectByName(QString& name);
     int getNumBytes(int objIndex);
     QStringList all_units;
 

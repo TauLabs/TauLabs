@@ -63,9 +63,37 @@ QList<ObjectInfo*> UAVObjectParser::getObjectInfo()
     return objInfo;
 }
 
+void UAVObjectParser::calculateAllIds()
+{
+    foreach (ObjectInfo *item, objInfo) {
+        calculateID(item);
+    }
+}
+
+ObjectInfo* UAVObjectParser::getObjectByName(QString& name) {
+    foreach (ObjectInfo *item, objInfo) {
+        if (item->name == name) {
+            return item;
+        }
+    }
+    
+    return NULL;
+}
+
+
 ObjectInfo* UAVObjectParser::getObjectByIndex(int objIndex)
 {
-    return objInfo[objIndex];
+    ObjectInfo *ret = objInfo[objIndex];
+
+    if (ret != NULL) {
+        if (ret->id == 0) {
+            // Lazily calculate IDs on first retrieval.  This lets us have
+            // dependent objects that are fixed up after parse completes.
+            calculateID(ret);
+        }
+    }
+
+    return ret;
 }
 
 /**
@@ -73,7 +101,7 @@ ObjectInfo* UAVObjectParser::getObjectByIndex(int objIndex)
  */
 QString UAVObjectParser::getObjectName(int objIndex)
 {
-    ObjectInfo* info = objInfo[objIndex];
+    ObjectInfo* info = getObjectByIndex(objIndex);
     if (info == NULL)
         return QString();
 
@@ -85,7 +113,7 @@ QString UAVObjectParser::getObjectName(int objIndex)
  */
 quint32 UAVObjectParser::getObjectID(int objIndex)
 {
-    ObjectInfo* info = objInfo[objIndex];
+    ObjectInfo* info = getObjectByIndex(objIndex);
     if (info == NULL)
         return 0;
     return info->id;
@@ -96,7 +124,9 @@ quint32 UAVObjectParser::getObjectID(int objIndex)
  */
 int UAVObjectParser::getNumBytes(int objIndex)
 {    
-    ObjectInfo* info = objInfo[objIndex];
+    ObjectInfo* info = getObjectByIndex(objIndex);
+    if (info == NULL)
+        return 0;
     return info->numBytes;
 }
 
@@ -269,9 +299,6 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
         if ( descriptionFound != 1 )
             return genErrorMsg(filename, "missing or duplicate description element",
                     node.lineNumber(), node.columnNumber());
-
-        // Calculate ID
-        calculateID(info);
 
         // Calculate size
         calculateSize(info);

@@ -174,6 +174,9 @@ int main(int argc, char *argv[])
     // check for duplicate object ID's
     QList<quint32> objIDList;
     int numBytesTotal=0;
+
+    parser->calculateAllIds();
+
     for (int objidx = 0; objidx < parser->getNumObjects(); ++objidx) {
         quint32 id = parser->getObjectID(objidx);
         numBytesTotal+=parser->getNumBytes(objidx);
