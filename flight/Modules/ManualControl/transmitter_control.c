@@ -621,15 +621,22 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 	{
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
 
+		// last_arm used for detecting a rising edge to trigger switch arming
+		static bool last_arm = false;
 		bool arm = arming_position(cmd, settings) && valid;
 
 		if (arm && (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCH ||
 				settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE)) {
-			arm_state = ARM_STATE_ARMED;
+			if (!last_arm) {
+				armedDisarmStart = lastSysTime;
+				arm_state = ARM_STATE_ARMED;
+			}
 		} else if (arm) {
 			armedDisarmStart = lastSysTime;
 			arm_state = ARM_STATE_ARMING;
 		}
+
+		last_arm = arm;
 	}
 		break;
 
