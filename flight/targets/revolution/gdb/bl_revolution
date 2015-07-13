@@ -1,4 +1,0 @@
-define connect
-	target remote localhost:3333
-	file ./build/bl_revolution/bl_revolution.elf
-end
