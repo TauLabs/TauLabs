@@ -71,6 +71,10 @@
 #include <coreplugin/threadmanager.h>
 #include <math.h>
 
+using std::isnan;
+using std::isinf;
+
+
 IL2Simulator::IL2Simulator(const SimulatorSettings& params) :
     Simulator(params)
 {
