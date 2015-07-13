@@ -498,7 +498,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -6996,7 +6996,7 @@ border-radius: 5;</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-9</y>
+            <y>0</y>
             <width>1194</width>
             <height>709</height>
            </rect>
@@ -32080,6 +32080,8 @@ Useful if you have accidentally changed some settings.</string>
   <tabstop>saveStabilizationToRAM_6</tabstop>
   <tabstop>saveStabilizationToSD_6</tabstop>
   <tabstop>pushButton_23</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>checkBox_7</tabstop>
   <tabstop>pushButton_20</tabstop>
   <tabstop>horizontalSlider_76</tabstop>
   <tabstop>spinBox_7</tabstop>
@@ -32093,6 +32095,7 @@ Useful if you have accidentally changed some settings.</string>
   <tabstop>spinBox_9</tabstop>
   <tabstop>horizontalSlider_81</tabstop>
   <tabstop>spinBox_10</tabstop>
+  <tabstop>checkBox_8</tabstop>
   <tabstop>pushButton_22</tabstop>
   <tabstop>horizontalSlider_82</tabstop>
   <tabstop>spinBox_13</tabstop>
@@ -32107,8 +32110,8 @@ Useful if you have accidentally changed some settings.</string>
   <tabstop>horizontalSlider_87</tabstop>
   <tabstop>spinBox_20</tabstop>
   <tabstop>lowThrottleZeroIntegral_8</tabstop>
-  <tabstop>checkBox_7</tabstop>
-  <tabstop>checkBox_8</tabstop>
+  <tabstop>scrollArea_2</tabstop>
+  <tabstop>checkBox_3</tabstop>
   <tabstop>pushButton_4</tabstop>
   <tabstop>RateRollKp_2</tabstop>
   <tabstop>RatePitchKp</tabstop>
@@ -32119,7 +32122,14 @@ Useful if you have accidentally changed some settings.</string>
   <tabstop>RollRateKd</tabstop>
   <tabstop>PitchRateKd</tabstop>
   <tabstop>YawRateKd</tabstop>
-  <tabstop>scrollArea</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>fullStickRateRoll</tabstop>
+  <tabstop>fullStickRatePitch</tabstop>
+  <tabstop>fullStickRateYaw</tabstop>
+  <tabstop>rateRollExpo</tabstop>
+  <tabstop>ratePitchExpo</tabstop>
+  <tabstop>rateYawExpo</tabstop>
+  <tabstop>checkBox_2</tabstop>
   <tabstop>pushButton_2</tabstop>
   <tabstop>AttitudeRollKp</tabstop>
   <tabstop>AttitudePitchKp_2</tabstop>
@@ -32127,12 +32137,29 @@ Useful if you have accidentally changed some settings.</string>
   <tabstop>AttitudeRollKi</tabstop>
   <tabstop>AttitudePitchKi_2</tabstop>
   <tabstop>AttitudeYawKi</tabstop>
-  <tabstop>pushButton_3</tabstop>
-  <tabstop>fullStickRateRoll</tabstop>
-  <tabstop>fullStickRatePitch</tabstop>
-  <tabstop>fullStickRateYaw</tabstop>
-  <tabstop>checkBox_3</tabstop>
-  <tabstop>checkBox_2</tabstop>
+  <tabstop>pushButton_5</tabstop>
+  <tabstop>rateRollKp_3</tabstop>
+  <tabstop>ratePitchKp_4</tabstop>
+  <tabstop>rateYawKp_3</tabstop>
+  <tabstop>horizonRollExpo</tabstop>
+  <tabstop>horizonPitchExpo</tabstop>
+  <tabstop>horizonYawExpo</tabstop>
+  <tabstop>cb_linkMwRollPitch</tabstop>
+  <tabstop>pb_MWRateDefault</tabstop>
+  <tabstop>MWRateRollKp</tabstop>
+  <tabstop>MWRatePitchKp</tabstop>
+  <tabstop>MWRateYawKp</tabstop>
+  <tabstop>MWRateRollKi</tabstop>
+  <tabstop>MWRatePitchKi</tabstop>
+  <tabstop>MWRateYawKi</tabstop>
+  <tabstop>MWRateRollKd</tabstop>
+  <tabstop>MWRatePitchKd</tabstop>
+  <tabstop>MWRateYawKd</tabstop>
+  <tabstop>MWRateRollPitchRate</tabstop>
+  <tabstop>MWRateYawRate</tabstop>
+  <tabstop>calculateMW</tabstop>
+  <tabstop>scrollArea_3</tabstop>
+  <tabstop>pushButton_6</tabstop>
   <tabstop>WeakLevelingKp</tabstop>
   <tabstop>WeakLevelingRate</tabstop>
   <tabstop>MaAxisLock</tabstop>
@@ -32145,9 +32172,13 @@ Useful if you have accidentally changed some settings.</string>
   <tabstop>AttitudePitchILimit_2</tabstop>
   <tabstop>AttitudeYawILimit</tabstop>
   <tabstop>realTimeUpdates_6</tabstop>
-  <tabstop>scrollArea_3</tabstop>
+  <tabstop>RateRollKp_3</tabstop>
+  <tabstop>RatePitchKp_2</tabstop>
+  <tabstop>RateYawKp_2</tabstop>
+  <tabstop>RateRollKi_3</tabstop>
+  <tabstop>RatePitchKi_2</tabstop>
+  <tabstop>RateYawKi_2</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>scrollArea_2</tabstop>
  </tabstops>
  <resources>
   <include location="../coreplugin/core.qrc"/>
