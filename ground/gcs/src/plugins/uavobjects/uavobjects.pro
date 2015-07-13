@@ -202,6 +202,7 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/hwnaze.cpp \
     $$UAVOBJECT_SYNTHETICS/hwquanton.cpp \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.cpp \
+    $$UAVOBJECT_SYNTHETICS/hwshared.cpp \
     $$UAVOBJECT_SYNTHETICS/hwsparky.cpp \
     $$UAVOBJECT_SYNTHETICS/hwsparkybgc.cpp \
     $$UAVOBJECT_SYNTHETICS/hwtaulink.cpp \

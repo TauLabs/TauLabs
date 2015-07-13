@@ -12,7 +12,7 @@
 			 <option>Outputs</option>
 		</options>
 		</field>		
-		<field name="MainPort" units="function" type="enum" elements="1"  defaultvalue="Telemetry">
+		<field name="MainPort" units="function" type="enum" elements="1"  parent="HwShared.PortTypes" defaultvalue="Telemetry">
 			<options>
 				<option>Disabled</option>
 				<option>Telemetry</option>
@@ -32,7 +32,7 @@
 				<option>FrSKY SPort Telemetry</option>
 			</options>
 		</field>
-		<field name="FlexiPort" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+		<field name="FlexiPort" units="function" type="enum" elements="1" parent="HwShared.PortTypes" defaultvalue="Disabled">
 			<options>
 				<option>Disabled</option>
 				<option>Telemetry</option>
@@ -53,8 +53,8 @@
 			</options>
 		</field>
 
-		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
-		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
+		<field name="USB_HIDPort" units="function" type="enum" elements="1" parent="HwShared.USB_HIDPort" defaultvalue="USBTelemetry"/>
+		<field name="USB_VCPPort" units="function" type="enum" elements="1" parent="HwShared.USB_VCPPort" defaultvalue="Disabled"/>
 
 		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
 

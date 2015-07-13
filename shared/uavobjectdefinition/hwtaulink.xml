@@ -11,10 +11,10 @@
 		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
 
 		<!-- Function of the main serial port -->
-		<field name="MainPort" units="" type="enum" elements="1" options="Disabled,GPS,Telemetry,ComBridge" defaultvalue="Telemetry"/>
+		<field name="MainPort" units="" type="enum" elements="1" options="Disabled,GPS,Telemetry,ComBridge" parent="HwShared.PortTypes" defaultvalue="Telemetry"/>
 		<!-- Whenever port is on PPM_IN that data will be sent to remove side -->
 		<field name="PPMPort" units="" type="enum" elements="1" options="Disabled,PPM" defaultvalue="PPM"/>
-		<field name="VCPPort" units="" type="enum" elements="1" options="Disabled,Telemetry,DebugConsole,ComBridge" defaultvalue="Disabled"/>
+		<field name="VCPPort" units="" type="enum" elements="1" parent="HwShared.USB_VCPPort" defaultvalue="Disabled"/>
 		<field name="ComSpeed" units="bps" type="enum" elements="1" options="4800,9600,19200,38400,57600,115200" defaultvalue="38400"/>
 
 		<!-- radio settings -->
