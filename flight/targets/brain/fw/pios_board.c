@@ -45,6 +45,10 @@
 #include "manualcontrolsettings.h"
 #include "onscreendisplaysettings.h"
 
+/* The ADDRESSES of the _bu_payload_* symbols */
+extern const uint32_t _bu_payload_start;
+extern const uint32_t _bu_payload_end;
+extern const uint32_t _bu_payload_size;
 
 /**
  * Configuration for the MPU9250 chip
@@ -424,6 +428,43 @@ void PIOS_Board_Init(void) {
 #if defined(ERASE_FLASH)
 	PIOS_FLASHFS_Format(pios_uavo_settings_fs_id);
 #endif
+
+#if defined(EMBED_BL_UPDATE)
+	/* Update the bootloader if necessary */
+
+	uintptr_t bl_partition_id;
+	if (PIOS_FLASH_find_partition_id(FLASH_PARTITION_LABEL_BL, &bl_partition_id) != 0){
+		panic(2);
+	}
+
+	uint32_t bl_crc32 = PIOS_CRC32_updateCRC(0, (uint8_t *)0x08000000, _bu_payload_size);
+	uint32_t bl_new_crc32 = PIOS_CRC32_updateCRC(0, (uint8_t *)&_bu_payload_start, _bu_payload_size);
+
+	if (bl_new_crc32 != bl_crc32 ){
+		/* The bootloader needs to be updated */
+
+		/* Erase the partition */
+		PIOS_LED_On(PIOS_LED_ALARM);
+		PIOS_FLASH_start_transaction(bl_partition_id);
+		PIOS_FLASH_erase_partition(bl_partition_id);
+		PIOS_FLASH_end_transaction(bl_partition_id);
+
+		/* Write in the new bootloader */
+		PIOS_FLASH_start_transaction(bl_partition_id);
+		PIOS_FLASH_write_data(bl_partition_id, 0, (uint8_t *)&_bu_payload_start, _bu_payload_size);
+		PIOS_FLASH_end_transaction(bl_partition_id);
+		PIOS_LED_Off(PIOS_LED_ALARM);
+
+		/* Blink the LED to indicate BL update */
+		for (uint8_t i=0; i<10; i++){
+			PIOS_DELAY_WaitmS(50);
+			PIOS_LED_On(PIOS_LED_ALARM);
+			PIOS_DELAY_WaitmS(50);
+			PIOS_LED_Off(PIOS_LED_ALARM);
+		}
+	}
+#endif /* EMBED_BL_UPDATE */
+
 #endif	/* PIOS_INCLUDE_FLASH */
 
 	RCC_ClearFlag(); // The flags cleared after use
