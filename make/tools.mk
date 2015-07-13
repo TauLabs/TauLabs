@@ -73,7 +73,7 @@ endif
 
 ifdef WINDOWS
   qt_sdk_install: QT_SDK_URL  := http://download.qt.io/official_releases/qt/5.5/5.5.0/qt-opensource-windows-x86-mingw492-5.5.0.exe
-  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.5/mingw491_32/bin/qmake
+  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.5/mingw492_32/bin/qmake
 endif
 
 qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
@@ -104,7 +104,7 @@ ifneq (,$(filter $(UNAME), Linux))
 endif
 
 ifdef WINDOWS
-	$(V1) ./downloads/qt-opensource-windows-x86-mingw491_opengl-5.5.0.exe
+	$(V1) ./downloads/qt-opensource-windows-x86-mingw492-5.5.0.exe
 endif
 
 .PHONY: qt_sdk_clean
@@ -512,7 +512,7 @@ ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
   QMAKE = $(QT_SDK_QMAKE_PATH)
 ifdef WINDOWS
   # Windows needs to be told where to find Qt libraries
-  export PATH := $(QT_SDK_DIR)/5.5/mingw491_32/bin:$(PATH)
+  export PATH := $(QT_SDK_DIR)/5.5/mingw492_32/bin:$(PATH)
 endif
 else
   # not installed, hope it's in the path...
