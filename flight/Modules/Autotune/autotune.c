@@ -46,7 +46,7 @@
 #include "pios_thread.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 2000
+#define STACK_SIZE_BYTES 1504
 #define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
 
 #define AF_NUMX 13
@@ -107,6 +107,60 @@ int32_t AutotuneStart(void)
 
 MODULE_INITCALL(AutotuneInitialize, AutotuneStart)
 
+static void UpdateSystemIdent(const float *X, const float *noise,
+		float dT_s) {
+	SystemIdentData relay;
+	relay.Beta[SYSTEMIDENT_BETA_ROLL]    = X[6];
+	relay.Beta[SYSTEMIDENT_BETA_PITCH]   = X[7];
+	relay.Beta[SYSTEMIDENT_BETA_YAW]     = X[8];
+	relay.Bias[SYSTEMIDENT_BIAS_ROLL]    = X[10];
+	relay.Bias[SYSTEMIDENT_BIAS_PITCH]   = X[11];
+	relay.Bias[SYSTEMIDENT_BIAS_YAW]     = X[12];
+	relay.Tau                            = X[9];
+	if (noise) {
+		relay.Noise[SYSTEMIDENT_NOISE_ROLL]  = noise[0];
+		relay.Noise[SYSTEMIDENT_NOISE_PITCH] = noise[1];
+		relay.Noise[SYSTEMIDENT_NOISE_YAW]   = noise[2];
+	}
+	relay.Period = dT_s * 1000.0f;
+	SystemIdentSet(&relay);
+}
+
+static void UpdateStabilizationDesired(bool doingIdent) {
+	StabilizationDesiredData stabDesired;
+	StabilizationDesiredGet(&stabDesired);
+
+	uint8_t rollMax, pitchMax;
+
+	float manualRate[STABILIZATIONSETTINGS_MANUALRATE_NUMELEM];
+
+	StabilizationSettingsRollMaxGet(&rollMax);
+	StabilizationSettingsPitchMaxGet(&pitchMax);
+	StabilizationSettingsManualRateGet(manualRate);
+
+	ManualControlCommandRollGet(&stabDesired.Roll);
+	stabDesired.Roll *= rollMax;
+	ManualControlCommandPitchGet(&stabDesired.Pitch);
+	stabDesired.Pitch *= pitchMax;
+
+	ManualControlCommandYawGet(&stabDesired.Yaw);
+	stabDesired.Yaw *= manualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW];
+
+	if (doingIdent) {
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL]  = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
+	} else {
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL]  = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
+	}
+
+	ManualControlCommandThrottleGet(&stabDesired.Throttle);
+
+	StabilizationDesiredSet(&stabDesired);
+}
+
 /**
  * Module thread, should not return.
  */
@@ -135,7 +189,9 @@ static void AutotuneTask(void *parameters)
 		uint32_t diffTime;
 
 		const uint32_t PREPARE_TIME = 2000;
-		const uint32_t MEAURE_TIME = 60000;
+		const uint32_t MEASURE_TIME = 60000;
+
+		bool doingIdent = false;
 
 		FlightStatusData flightStatus;
 		FlightStatusGet(&flightStatus);
@@ -147,46 +203,21 @@ static void AutotuneTask(void *parameters)
 			continue;
 		}
 
-		StabilizationDesiredData stabDesired;
-		StabilizationDesiredGet(&stabDesired);
+		float throttle;
 
-		StabilizationSettingsData stabSettings;
-		StabilizationSettingsGet(&stabSettings);
-
-		ManualControlSettingsData manualSettings;
-		ManualControlSettingsGet(&manualSettings);
-
-		ManualControlCommandData manualControl;
-		ManualControlCommandGet(&manualControl);
-
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL]  = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-		stabDesired.Roll = manualControl.Roll * stabSettings.RollMax;
-		stabDesired.Pitch = manualControl.Pitch * stabSettings.PitchMax;
-
-		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
-		stabDesired.Yaw = manualControl.Yaw * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW];
-		stabDesired.Throttle = manualControl.Throttle;
-
+		ManualControlCommandThrottleGet(&throttle);
+				
 		switch(state) {
 			case AT_INIT:
 
 				lastUpdateTime = PIOS_Thread_Systime();
 
 				// Only start when armed and flying
-				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED && stabDesired.Throttle > 0) {
+				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED && throttle > 0) {
 
 					af_init(X,P);
 
-					SystemIdentData relay;
-					relay.Beta[SYSTEMIDENT_BETA_ROLL]   = X[6];
-					relay.Beta[SYSTEMIDENT_BETA_PITCH]  = X[7];
-					relay.Beta[SYSTEMIDENT_BETA_YAW]    = X[8];
-					relay.Bias[SYSTEMIDENT_BIAS_ROLL]   = X[10];
-					relay.Bias[SYSTEMIDENT_BIAS_PITCH]  = X[11];
-					relay.Bias[SYSTEMIDENT_BIAS_YAW]    = X[12];
-					relay.Tau                           = X[9];
-					SystemIdentSet(&relay);
+					UpdateSystemIdent(X, NULL, 0.0f);
 
 					state = AT_START;
 				}
@@ -211,21 +242,20 @@ static void AutotuneTask(void *parameters)
 
 				diffTime = PIOS_Thread_Systime() - lastUpdateTime;
 
-				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
-				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
-				stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_SYSTEMIDENT;
+				doingIdent = true;
 
 				// Update the system identification, but only when throttle is applied
 				// so bad values don't result when landing
-				if (stabDesired.Throttle > 0) {
-					GyrosData gyros;
-					GyrosGet(&gyros);
+				if (throttle > 0) {
+					float y[3];
+					GyrosxGet(y+0);
+					GyrosyGet(y+1);
+					GyroszGet(y+2);
 
-					ActuatorDesiredData desired;
-					ActuatorDesiredGet(&desired);
-
-					float y[3] = {gyros.x, gyros.y, gyros.z};
-					float u[3] = {desired.Roll, desired.Pitch, desired.Yaw};
+					float u[3];
+					ActuatorDesiredRollGet(u+0);
+					ActuatorDesiredPitchGet(u+1);
+					ActuatorDesiredYawGet(u+2);
 
 					float dT_s = PIOS_DELAY_DiffuS(last_time) * 1.0e-6f;
 
@@ -235,22 +265,10 @@ static void AutotuneTask(void *parameters)
 						noise[i] = NOISE_ALPHA * noise[i] + (1-NOISE_ALPHA) * (y[i] - X[i]) * (y[i] - X[i]);
 					}
 
-					SystemIdentData relay;
-					relay.Beta[SYSTEMIDENT_BETA_ROLL]    = X[6];
-					relay.Beta[SYSTEMIDENT_BETA_PITCH]   = X[7];
-					relay.Beta[SYSTEMIDENT_BETA_YAW]     = X[8];
-					relay.Bias[SYSTEMIDENT_BIAS_ROLL]    = X[10];
-					relay.Bias[SYSTEMIDENT_BIAS_PITCH]   = X[11];
-					relay.Bias[SYSTEMIDENT_BIAS_YAW]     = X[12];
-					relay.Tau                            = X[9];
-					relay.Noise[SYSTEMIDENT_NOISE_ROLL]  = noise[0];
-					relay.Noise[SYSTEMIDENT_NOISE_PITCH] = noise[1];
-					relay.Noise[SYSTEMIDENT_NOISE_YAW]   = noise[2];
-					relay.Period = dT_s * 1000.0f;
-					SystemIdentSet(&relay);
+					UpdateSystemIdent(X, noise, dT_s);
 				}
 
-				if (diffTime > MEAURE_TIME) { // Move on to next state
+				if (diffTime > MEASURE_TIME) { // Move on to next state
 					state = AT_FINISHED;
 					lastUpdateTime = PIOS_Thread_Systime();
 				}
@@ -262,7 +280,7 @@ static void AutotuneTask(void *parameters)
 			case AT_FINISHED:
 
 				// Wait until disarmed and landed before updating the settings
-				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_DISARMED && stabDesired.Throttle <= 0)
+				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_DISARMED && throttle <= 0)
 					state = AT_SET;
 
 				break;
@@ -282,7 +300,8 @@ static void AutotuneTask(void *parameters)
 				break;
 		}
 
-		StabilizationDesiredSet(&stabDesired);
+		// Update based on manual controls
+		UpdateStabilizationDesired(doingIdent);
 
 		PIOS_Thread_Sleep(DT_MS);
 	}
@@ -304,13 +323,13 @@ static void AutotuneTask(void *parameters)
  * @param[in] the current control inputs (roll, pitch, yaw)
  * @param[in] the gyro measurements
  */
-static void af_predict(float X[AF_NUMX], float P[AF_NUMP], const float u_in[3], const float gyro[3], const float dT_s)
+__attribute__((always_inline)) static inline void af_predict(float X[AF_NUMX], float P[AF_NUMP], const float u_in[3], const float gyro[3], const float dT_s)
 {
 
 	const float Ts = dT_s;
-	float Tsq = Ts * Ts;
-	float Tsq3 = Tsq * Ts;
-    float Tsq4 = Tsq * Tsq;
+	const float Tsq = Ts * Ts;
+	const float Tsq3 = Tsq * Ts;
+	const float Tsq4 = Tsq * Tsq;
 
 	// for convenience and clarity code below uses the named versions of
 	// the state variables
@@ -528,6 +547,7 @@ static void af_init(float X[AF_NUMX], float P[AF_NUMP])
 	X[10] = X[11] = X[12] = 0.0f; // zero bias
 
 	// P initialization
+	// Could zero this like: *P = *((float [AF_NUMP]){});
 	P[0] = q_init[0];
 	P[1] = q_init[1];
 	P[2] = q_init[2];

@@ -79,10 +79,6 @@ static bool PIOS_CAN_validate(struct pios_can_dev *can_dev)
 	return (can_dev->magic == PIOS_CAN_DEV_MAGIC);
 }
 
-#if !defined(PIOS_INCLUDE_FREERTOS)
-#error PIOS_CAN REQUIRES FREERTOS
-#endif
-
 static struct pios_can_dev *PIOS_CAN_alloc(void)
 {
 	struct pios_can_dev *can_dev;
@@ -293,29 +289,77 @@ struct pios_queue * PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_me
 // Rx handlers
 void CAN1_RX0_IRQHandler(void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_CAN_RxGeneric();
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 void CAN1_RX1_IRQHandler(void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_CAN_RxGeneric();
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 void CAN2_RX0_IRQHandler(void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_CAN_RxGeneric();
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 void CAN2_RX1_IRQHandler(void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_CAN_RxGeneric();
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 // Tx handlers
 void CAN1_TX_IRQHandler(void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_CAN_TxGeneric();
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 void CAN2_TX_IRQHandler(void)
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	PIOS_CAN_TxGeneric();
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 
 /**

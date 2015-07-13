@@ -387,6 +387,11 @@ void PIOS_Board_Init(void) {
 		panic(1);
 	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS) != 0)
 		panic(1);
+
+#if defined(ERASE_FLASH)
+	PIOS_FLASHFS_Format(pios_uavo_settings_fs_id);
+#endif
+
 #endif	/* PIOS_INCLUDE_FLASH */
 
 	/* Initialize the task monitor library */
@@ -1439,9 +1444,10 @@ void PIOS_Board_Init(void) {
 		panic(9);
 #endif /* PIOS_INCLUDE_FLASH */
 
-	//Set battery input pin to floating as long as it is unused
+	//Set battery input pin to output, because of the voltage divider usage as input is not useful
+	//Take care of the voltage divider connected to this pin
 	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;

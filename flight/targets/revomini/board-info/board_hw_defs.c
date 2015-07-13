@@ -427,6 +427,70 @@ const struct pios_rfm22b_cfg * PIOS_BOARD_HW_DEFS_GetRfm22Cfg (uint32_t board_re
 
 #endif /* PIOS_INCLUDE_RFM22B */
 
+#if defined(PIOS_INCLUDE_OPENLRS)
+
+#include <pios_openlrs_priv.h>
+
+static const struct pios_exti_cfg pios_exti_openlrs_cfg __exti_config = {
+	.vector = PIOS_OpenLRS_EXT_Int,
+	.line = EXTI_Line2,
+	.pin = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_2,
+			.GPIO_Speed = GPIO_Speed_100MHz,
+			.GPIO_Mode = GPIO_Mode_IN,
+			.GPIO_OType = GPIO_OType_OD,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL,
+		},
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = EXTI2_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.exti = {
+		.init = {
+			.EXTI_Line = EXTI_Line2, // matches above GPIO pin
+			.EXTI_Mode = EXTI_Mode_Interrupt,
+			.EXTI_Trigger = EXTI_Trigger_Falling,
+			.EXTI_LineCmd = ENABLE,
+		},
+	},
+};
+
+const struct pios_openlrs_cfg pios_openlrs_rm1_cfg = {
+	.spi_cfg = &pios_spi_telem_flash_cfg,
+	.exti_cfg = &pios_exti_openlrs_cfg,
+	.gpio_direction = GPIO0_RX_GPIO1_TX,
+};
+
+const struct pios_openlrs_cfg pios_openlrs_rm2_cfg = {
+	.spi_cfg = &pios_spi_telem_flash_cfg,
+	.exti_cfg = &pios_exti_openlrs_cfg,
+	.gpio_direction = GPIO0_TX_GPIO1_RX,
+};
+
+const struct pios_openlrs_cfg * PIOS_BOARD_HW_DEFS_GetOpenLRSCfg (uint32_t board_revision)
+{
+	switch(board_revision) {
+		case 2:
+			return &pios_openlrs_rm1_cfg;
+			break;
+		case 3:
+			return &pios_openlrs_rm2_cfg;
+			break;
+		default:
+			PIOS_DEBUG_Assert(0);
+	}
+	return NULL;
+}
+
+#endif /* PIOS_INCLUDE_OPENLRS */
+
 #endif /* PIOS_INCLUDE_SPI */
 
 #if defined(PIOS_INCLUDE_FLASH)
@@ -1030,9 +1094,7 @@ void PIOS_I2C_pressure_adapter_er_irq_handler(void);
 void PIOS_RTC_IRQ_Handler (void);
 void RTC_WKUP_IRQHandler() __attribute__ ((alias ("PIOS_RTC_IRQ_Handler")));
 static const struct pios_rtc_cfg pios_rtc_main_cfg = {
-	.clksrc = RCC_RTCCLKSource_HSE_Div16, // Divide 8 Mhz crystal down to 1
-	// For some reason it's acting like crystal is 16 Mhz.  This clock is then divided
-	// by another 16 to give a nominal 62.5 khz clock
+	.clksrc = RCC_RTCCLKSource_HSE_Div8, // Divide 8 Mhz crystal down to 1
 	.prescaler = 100, // Every 100 cycles gives 625 Hz
 	.irq = {
 		.init = {

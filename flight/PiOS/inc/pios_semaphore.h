@@ -37,20 +37,16 @@ struct pios_semaphore
 {
 #if defined(PIOS_INCLUDE_FREERTOS)
 	uintptr_t sema_handle;
-#else
+#elif defined(PIOS_INCLUDE_CHIBIOS)
+	BinarySemaphore sema;
+#elif defined(PIOS_INCLUDE_IRQ)
 	uint32_t sema_count;
-#endif
+#endif /* defined(PIOS_INCLUDE_IRQ) */
 };
-
-/* Workaround for simulator version of FreeRTOS. */
-#if defined(SIM_POSIX) || defined(SIM_OSX)
-#define PIOS_Semaphore_Take_FromISR(semap, wokenp) PIOS_Semaphore_Take(semap, 0)
-#define PIOS_Semaphore_Give_FromISR(semap, wokenp) PIOS_Semaphore_Give(semap)
-#endif /* defined(USE_SIM_POSIX) */
 
 /*
  * The following functions implement the concept of a binary semaphore usable
- * with and without PIOS_INCLUDE_FREERTOS.
+ * with PIOS_INCLUDE_FREERTOS, PIOS_INCLUDE_CHIBIOS or PIOS_INCLUDE_IRQ.
  *
  * Note that this is not the same as:
  * - counting semaphore
@@ -58,17 +54,15 @@ struct pios_semaphore
  * - recursive mutex
  *
  * see FreeRTOS documentation for details: http://www.freertos.org/a00113.html
+ * see ChibiOS documentation for details: http://chibios.sourceforge.net/html/group__synchronization.html
  */
 
 struct pios_semaphore *PIOS_Semaphore_Create(void);
 bool PIOS_Semaphore_Take(struct pios_semaphore *sema, uint32_t timeout_ms);
 bool PIOS_Semaphore_Give(struct pios_semaphore *sema);
 
-/* Workaround for simulator version of FreeRTOS. */
-#if !defined(SIM_POSIX) && !defined(SIM_OSX)
 bool PIOS_Semaphore_Take_FromISR(struct pios_semaphore *sema, bool *woken);
 bool PIOS_Semaphore_Give_FromISR(struct pios_semaphore *sema, bool *woken);
-#endif /* !defined(USE_SIM_POSIX) */
 
 #endif /* PIOS_SEMAPHORE_H_ */
 

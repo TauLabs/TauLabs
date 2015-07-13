@@ -45,6 +45,45 @@
      </property>
     </widget>
    </item>
+   <item row="1" column="2">
+    <widget class="QComboBox" name="actuatorType">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="toolTip">
+      <string>Set &quot;PWM&quot; simple pulse generation.</string>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <item>
+      <property name="text">
+       <string>PWM</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>PWM Alarm</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Arming LED</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Info LED</string>
+      </property>
+     </item>
+    </widget>
+   </item>
    <item row="1" column="8">
     <widget class="QPushButton" name="pb_reverseActuator">
      <property name="minimumSize">
@@ -74,14 +113,17 @@
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="toolTip">
-      <string>Maximum PWM value, beware of not overdriving your servo.</string>
+      <string>Maximum PWM value in microseconds, beware of not overdriving your servo.</string>
+     </property>
+     <property name="suffix">
+      <string> us</string>
      </property>
      <property name="maximum">
       <number>65535</number>
      </property>
     </widget>
    </item>
-   <item row="0" column="4">
+   <item row="0" column="5">
     <widget class="QLabel" name="legend2">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -181,7 +223,7 @@ margin:1px;</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="2">
+   <item row="0" column="3">
     <widget class="QLabel" name="legend1">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -217,7 +259,7 @@ margin:1px;</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="4">
+   <item row="1" column="5">
     <widget class="TextBubbleSlider" name="actuatorNeutral">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -254,7 +296,7 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </item>
-   <item row="1" column="5">
+   <item row="1" column="6">
     <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -270,7 +312,7 @@ p, li { white-space: pre-wrap; }
      </property>
     </spacer>
    </item>
-   <item row="1" column="2">
+   <item row="1" column="3">
     <widget class="QSpinBox" name="actuatorMin">
      <property name="minimumSize">
       <size>
@@ -282,7 +324,10 @@ p, li { white-space: pre-wrap; }
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="toolTip">
-      <string>Minimum PWM value, beware of not overdriving your servo.</string>
+      <string>Minimum PWM value in microseconds, beware of not overdriving your servo.</string>
+     </property>
+     <property name="suffix">
+      <string> us</string>
      </property>
      <property name="maximum">
       <number>65535</number>
@@ -353,7 +398,7 @@ margin:1px;</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="3">
+   <item row="1" column="4">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -434,7 +479,7 @@ font:bold;
 margin:1px;</string>
      </property>
      <property name="text">
-      <string>Reverse</string>
+      <string>Rev</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -474,6 +519,42 @@ margin:1px;</string>
      </property>
      <property name="text">
       <string>Link</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QLabel" name="legend7">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:reflect, x1:0.507, y1:0, x2:0.507, y2:0.772, stop:0.208955 rgba(74, 74, 74, 255), stop:0.78607 rgba(36, 36, 36, 255));
+color: rgb(255, 255, 255);
+border-radius: 5;
+font:bold;
+margin:1px;</string>
+     </property>
+     <property name="text">
+      <string>Type</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

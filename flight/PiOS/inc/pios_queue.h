@@ -33,17 +33,33 @@
 #include <stdbool.h>
 
 #if defined(PIOS_INCLUDE_FREERTOS)
+
 struct pios_queue
 {
 	uintptr_t queue_handle;
 };
+
+#elif defined(PIOS_INCLUDE_CHIBIOS)
+
+#include "ch.h"
+
+struct pios_queue
+{
+	Mailbox mb;
+	MemoryPool mp;
+	void *mpb;
+};
+
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
 /*
  * The following functions implement the concept of a queue usable
- * with PIOS_INCLUDE_FREERTOS.
+ * with PIOS_INCLUDE_FREERTOS or PIOS_INCLUDE_CHIBIOS.
  *
- * see FreeRTOS documentation for details: http://www.freertos.org/a00018.html
+ * for details see
+ * http://www.freertos.org/a00018.html
+ * http://chibios.sourceforge.net/html/group__mailboxes.html
+ *
  */
 
 struct pios_queue *PIOS_Queue_Create(size_t queue_length, size_t item_size);

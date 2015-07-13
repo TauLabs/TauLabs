@@ -210,13 +210,13 @@ static void groundPathFollowerTask(void *parameters)
 				}
 				break;
 			case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
-				if (pathDesired.Mode == PATHDESIRED_MODE_FLYENDPOINT ||
+				if (pathDesired.Mode == PATHDESIRED_MODE_ENDPOINT ||
 					pathDesired.Mode == PATHDESIRED_MODE_HOLDPOSITION) {
 					updateEndpointVelocity();
 					updateGroundDesiredAttitude();
-				} else if (pathDesired.Mode == PATHDESIRED_MODE_FLYVECTOR ||
-					pathDesired.Mode == PATHDESIRED_MODE_FLYCIRCLELEFT ||
-					pathDesired.Mode == PATHDESIRED_MODE_FLYCIRCLERIGHT) {
+				} else if (pathDesired.Mode == PATHDESIRED_MODE_VECTOR ||
+					pathDesired.Mode == PATHDESIRED_MODE_CIRCLELEFT ||
+					pathDesired.Mode == PATHDESIRED_MODE_CIRCLERIGHT) {
 					updatePathVelocity();
 					updateGroundDesiredAttitude();
 				} else {
@@ -267,6 +267,9 @@ static void updatePathVelocity()
 		pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
 	else
 		pathStatus.Status = PATHSTATUS_STATUS_COMPLETED;
+
+	pathStatus.Waypoint = pathDesired.Waypoint;
+
 	PathStatusSet(&pathStatus);
 
 	float groundspeed = pathDesired.StartingVelocity +

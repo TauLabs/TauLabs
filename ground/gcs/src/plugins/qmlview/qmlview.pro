@@ -1,7 +1,6 @@
 TEMPLATE = lib
 TARGET = QMLView
 QT += svg
-QT += opengl
 QT += qml
 QT += quick
 

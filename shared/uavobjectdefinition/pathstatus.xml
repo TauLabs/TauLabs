@@ -6,6 +6,8 @@
 		<field name="fractional_progress" units="" type="float" elements="1"/>
 		<field name="error" units="m" type="float" elements="1"/>
 
+		<field name="Waypoint" units="" type="int16" elements="1" default="-1"/>
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="false" updatemode="manual" period="0"/>
 		<telemetryflight acked="false" updatemode="onchange" period="0"/>

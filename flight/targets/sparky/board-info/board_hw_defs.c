@@ -174,7 +174,7 @@ static const struct pios_i2c_adapter_cfg pios_i2c_flexi_cfg = {
     .I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit,
     .I2C_DigitalFilter       = 0x00,
     .I2C_AnalogFilter        = I2C_AnalogFilter_Enable,
-    .I2C_Timing              = 0x00310309,			//400kHz I2C @ 8MHz input -> PRESC=0x0, SCLDEL=0x3, SDADEL=0x1, SCLH=0x03, SCLL=0x09
+    .I2C_Timing              = 0x70310309,			//50kHz I2C @ 8MHz input -> PRESC=0x7, SCLDEL=0x3, SDADEL=0x1, SCLH=0x03, SCLL=0x09
   },
   .transfer_timeout_ms = 50,
   .scl = {
@@ -236,7 +236,7 @@ void PIOS_I2C_flexi_er_irq_handler(void)
 
 #if defined(PIOS_INCLUDE_CAN)
 #include "pios_can_priv.h"
-struct pios_can_cfg pios_can_cfg = {
+static const struct pios_can_cfg pios_can_cfg = {
 	.regs = CAN1,
 	.init = {
 		// To make it easy to use both F3 and F4 use the other APB1 bus rate

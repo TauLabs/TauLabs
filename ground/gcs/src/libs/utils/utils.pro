@@ -55,7 +55,6 @@ SOURCES += reloadpromptutils.cpp \
     homelocationutil.cpp \
     mytabbedstackwidget.cpp \
     mytabwidget.cpp \
-    cachedsvgitem.cpp \
     svgimageprovider.cpp \
     phpbb.cpp \
     foruminteractionform.cpp
@@ -114,7 +113,6 @@ HEADERS += utils_global.h \
     homelocationutil.h \
     mytabbedstackwidget.h \
     mytabwidget.h \
-    cachedsvgitem.h \
     svgimageprovider.h \
     phpbb.h \
     foruminteractionform.h

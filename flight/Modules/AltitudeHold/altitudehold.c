@@ -48,6 +48,7 @@
 #include "attitudeactual.h"
 #include "altitudeholdsettings.h"
 #include "altitudeholddesired.h"
+#include "altitudeholdstate.h"
 #include "flightstatus.h"
 #include "stabilizationdesired.h"
 #include "positionactual.h"
@@ -58,7 +59,7 @@
 
 // Private constants
 #define MAX_QUEUE_SIZE 4
-#define STACK_SIZE_BYTES 540
+#define STACK_SIZE_BYTES 600
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private variables
@@ -106,6 +107,7 @@ int32_t AltitudeHoldInitialize()
 	if(module_enabled) {
 		AltitudeHoldSettingsInitialize();
 		AltitudeHoldDesiredInitialize();
+		AltitudeHoldStateInitialize();
 
 		// Create object queue
 		queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
@@ -160,6 +162,13 @@ static void altitudeHoldTask(void *parameters)
 				StabilizationDesiredThrottleGet(&velocity_pid.iAccumulator);
 				velocity_pid.iAccumulator *= 1000.0f; // pid library scales up accumulator by 1000
 				engaged = true;
+
+				// Make sure this uses a valid AltitudeHoldDesired. No delay is really required here
+				// because ManualControl sets AltitudeHoldDesired first before the FlightStatus, but
+				// this is just to be conservative at 1ms when engaging will not bother the pilot.
+				PIOS_Thread_Sleep(1);
+				AltitudeHoldDesiredGet(&altitudeHoldDesired);
+
 			} else if (flight_mode != FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD)
 				engaged = false;
 
@@ -200,6 +209,11 @@ static void altitudeHoldTask(void *parameters)
 			                    min_throttle, 1.0f, // positive limits since this is throttle
 			                    dt_s);
 
+			AltitudeHoldStateData altitudeHoldState;
+			altitudeHoldState.VelocityDesired = velocity_desired;
+			altitudeHoldState.Integral = velocity_pid.iAccumulator / 1000.0f;
+			altitudeHoldState.AngleGain = 1.0f;
+
 			if (altitudeHoldSettings.AttitudeComp > 0) {
 				// Throttle desired is at this point the mount desired in the up direction, we can
 				// account for the attitude if desired
@@ -222,7 +236,12 @@ static void altitudeHoldTask(void *parameters)
 				// with the output which isn't really true. If the fraction is starting
 				// to go negative we are inverted and should shut off throttle
 				throttle_desired = (fraction > 0.1f) ? (throttle_desired / fraction) : 0.0f;
+
+				altitudeHoldState.AngleGain = 1.0f / fraction;
 			}
+
+			altitudeHoldState.Throttle = throttle_desired;
+			AltitudeHoldStateSet(&altitudeHoldState);
 
 			StabilizationDesiredGet(&stabilizationDesired);
 			stabilizationDesired.Throttle = bound_min_max(throttle_desired, min_throttle, 1.0f);

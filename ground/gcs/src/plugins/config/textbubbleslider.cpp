@@ -40,6 +40,7 @@ TextBubbleSlider::TextBubbleSlider(QWidget *parent) :
     QSlider(parent)
 {
     construct();
+    hidden = false;
 }
 
 /**
@@ -52,6 +53,8 @@ TextBubbleSlider::TextBubbleSlider(QSlider *copySlider, QWidget *parent) :
     QSlider(parent)
 {
     construct();
+
+    hidden = false;
 
     // Copy settings
     setSizePolicy(copySlider->sizePolicy());
@@ -159,11 +162,25 @@ void TextBubbleSlider::setMaximum(int max)
 
 
 /**
+ * @brief Hide the slider by not painting it
+ * @param hidden
+ */
+void TextBubbleSlider::setHidden(bool h)
+{
+    hidden = h;
+}
+
+/**
  * @brief TextBubbleSlider::paintEvent Reimplements QSlider::paintEvent.
  * @param bob
  */
 void TextBubbleSlider::paintEvent(QPaintEvent *paintEvent)
 {
+    if (hidden)
+    {
+        return;
+    }
+
     // Pass paint event on to QSlider
     QSlider::paintEvent(paintEvent);
 

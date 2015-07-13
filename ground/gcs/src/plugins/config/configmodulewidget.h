@@ -46,9 +46,12 @@ public:
         ~ConfigModuleWidget();
 
 private slots:
-    void updateAirspeedUAVO(UAVObject *);
     void updateAirspeedGroupbox(UAVObject *);
+    void enableAirspeedTypeGPS(bool);
+    void enableAirspeedTypePitot(bool);
     void toggleVibrationTest();
+    void toggleBatteryMonitoringPin();
+    void toggleBatteryMonitoringGb();
 
     void recheckTabs();
     void objectUpdated(UAVObject * obj, bool success);

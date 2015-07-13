@@ -27,6 +27,7 @@
  */
 
 #include "revomini.h"
+#include "rfm22bstatus.h"
 
 #include <uavobjectmanager.h>
 #include "uavobjectutil/uavobjectutilmanager.h"
@@ -55,6 +56,9 @@ RevoMini::RevoMini(void)
     channelBanks[1] = QVector<int> () << 3;
     channelBanks[2] = QVector<int> () << 4;
     channelBanks[3] = QVector<int> () << 5 << 6;
+
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    uavoUtilManager = pm->getObject<UAVObjectUtilManager>();
 }
 
 RevoMini::~RevoMini()
@@ -113,6 +117,17 @@ QString RevoMini::getHwUAVO()
     return "HwRevoMini";
 }
 
+//! Get the settings object
+HwRevoMini * RevoMini::getSettings()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    HwRevoMini *hwRevoMini = HwRevoMini::GetInstance(uavoManager);
+    Q_ASSERT(hwRevoMini);
+
+    return hwRevoMini;
+}
 //! Determine if this board supports configuring the receiver
 bool RevoMini::isInputConfigurationSupported()
 {
@@ -156,6 +171,9 @@ bool RevoMini::setInputOnPort(enum InputType type, int port_num)
     case INPUT_TYPE_DSM:
         settings.FlexiPort = HwRevoMini::FLEXIPORT_DSM;
         break;
+    case INPUT_TYPE_HOTTSUMD:
+        settings.FlexiPort = HwRevoMini::FLEXIPORT_HOTTSUMD;
+        break;
     default:
         return false;
     }
@@ -188,6 +206,8 @@ enum Core::IBoardType::InputType RevoMini::getInputOnPort(int port_num)
     switch(settings.FlexiPort) {
     case HwRevoMini::FLEXIPORT_DSM:
         return INPUT_TYPE_DSM;
+    case HwRevoMini::FLEXIPORT_HOTTSUMD:
+        return INPUT_TYPE_HOTTSUMD;
     default:
         break;
     }
@@ -234,4 +254,108 @@ int RevoMini::queryMaxGyroRate()
     default:
         return 500;
     }
+}
+
+
+/**
+ * Get the RFM22b device ID this modem
+ * @return RFM22B device ID or 0 if not supported
+ */
+quint32 RevoMini::getRfmID()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+
+    // Flight controllers are instance 1
+    RFM22BStatus *rfm22bStatus = RFM22BStatus::GetInstance(uavoManager,1);
+    Q_ASSERT(rfm22bStatus);
+    RFM22BStatus::DataFields rfm22b = rfm22bStatus->getData();
+
+    return rfm22b.DeviceID;
+}
+
+/**
+ * Set the coordinator ID. If set to zero this device will
+ * be a coordinator.
+ * @return true if successful or false if not
+ */
+bool RevoMini::bindRadio(quint32 id, quint32 baud_rate, float rf_power,
+                         Core::IBoardType::LinkMode linkMode, quint8 min, quint8 max)
+{
+    HwRevoMini::DataFields settings = getSettings()->getData();
+
+    settings.CoordID = id;
+
+    switch(baud_rate) {
+    case 9600:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_9600;
+        break;
+    case 19200:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_19200;
+        break;
+    case 32000:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_32000;
+        break;
+    case 64000:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_64000;
+        break;
+    case 100000:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_100000;
+        break;
+    case 192000:
+        settings.MaxRfSpeed = HwRevoMini::MAXRFSPEED_192000;
+        break;
+    }
+
+    // Round to an integer to use a switch statement
+    quint32 rf_power_100 = rf_power * 100;
+    switch(rf_power_100) {
+    case 0:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_0;
+        break;
+    case 125:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_125;
+        break;
+    case 160:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_16;
+        break;
+    case 316:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_316;
+        break;
+    case 630:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_63;
+        break;
+    case 1260:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_126;
+        break;
+    case 2500:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_25;
+        break;
+    case 5000:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_50;
+        break;
+    case 10000:
+        settings.MaxRfPower = HwRevoMini::MAXRFPOWER_100;
+        break;
+    }
+
+    switch(linkMode) {
+    case Core::IBoardType::LINK_TELEM:
+        settings.Radio = HwRevoMini::RADIO_TELEM;
+        break;
+    case Core::IBoardType::LINK_TELEM_PPM:
+        settings.Radio = HwRevoMini::RADIO_TELEMPPM;
+        break;
+    case Core::IBoardType::LINK_PPM:
+        settings.Radio = HwRevoMini::RADIO_PPM;
+        break;
+    }
+
+    settings.MinChannel = min;
+    settings.MaxChannel = max;
+
+    getSettings()->setData(settings);
+    uavoUtilManager->saveObjectToFlash(getSettings());
+
+    return true;
 }

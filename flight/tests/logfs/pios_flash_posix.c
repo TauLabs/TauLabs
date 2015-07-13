@@ -4,7 +4,7 @@
 #include <string.h>		/* memset */
 
 #include <stdbool.h>
-#include "FreeRTOS.h"
+#include "pios_heap.h"
 #include "pios_flash_posix_priv.h"
 #include "pios_heap.h"
 

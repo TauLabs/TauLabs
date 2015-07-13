@@ -64,6 +64,7 @@ private slots:
     void on_tbEraseFromUAVROM_clicked();
     void on_tbStartScript_clicked();
     void updatePicoCStatus(UAVObject *);
+    void on_tbTestValueSend_clicked();
 };
 
 #endif /* PICOCGADGETWIDGET_H_ */

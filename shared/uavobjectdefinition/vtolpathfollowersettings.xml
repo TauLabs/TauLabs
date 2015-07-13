@@ -7,11 +7,20 @@
 		<field name="HorizontalVelPID" units="deg/(m/s)" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="3,0,0,0"/>
 		<field name="VelocityFeedforward" units="deg/(m/s)" type="float" elements="1" defaultvalue="0"/>
 		<field name="ThrottleControl" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
+		<!-- 0.4-0.6 seconds seems like a good value in most cases, this is conservative -->
+		<field name="PositionFeedforward" units="s" type="float" elements="1" defaultvalue="0.25"/>
+		<field name="EndpointDeadbandWidth" units="m" type="float" elements="1" defaultvalue="0.45"/>
+		<field name="EndpointDeadbandCenterGain" units="" type="float" elements="1" defaultvalue="0.3"/>
+		<field name="PathDeadbandWidth" units="m" type="float" elements="1" defaultvalue="1.25"/>
+		<field name="PathDeadbandCenterGain" units="" type="float" elements="1" defaultvalue="0.1"/>
 		<field name="VelocityChangePrediction" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
 		<field name="MaxRollPitch" units="deg" type="float" elements="1" defaultvalue="20"/>
 
-		<!-- The distance within the waypoint (horizontally) that should be achieved to mark completed -->
-		<field name="EndpointRadius" units="m" type="uint8" elements="1" defaultvalue="2"/>
+		<!-- The distance within the endpoint (horizontally) that should be achieved to mark completed -->
+		<field name="EndpointRadius" units="m" type="float" elements="1" defaultvalue="2.0"/>
+
+		<!-- The distance that we can be below a waypoint and still mark it as completed.  Silently ignored if ThrottleControl == false -->
+		<field name="WaypointAltitudeTol" units="m" type="float" elements="1" defaultvalue="2.0"/>
 	
 		<field name="UpdatePeriod" units="ms" type="int32" elements="1" defaultvalue="50"/>
 		<field name="YawMode" units="" type="enum" elements="1" options="Rate,AxisLock,Attitude,Path,POI" defaultvalue="AxisLock"/>

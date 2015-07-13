@@ -742,10 +742,9 @@ static int32_t uavoFrSKYSPortBridgeStart(void)
 
 	if (FlightBatterySettingsHandle() != NULL
 			&& FlightBatteryStateHandle() != NULL) {
-		uint8_t sensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_NUMELEM];
-		FlightBatterySettingsSensorTypeGet(sensorType);
-		if (sensorType[FLIGHTBATTERYSETTINGS_SENSORTYPE_BATTERYCURRENT]
-				== FLIGHTBATTERYSETTINGS_SENSORTYPE_ENABLED)
+		uint8_t currentPin;
+		FlightBatterySettingsCurrentPinGet(&currentPin);
+		if (currentPin != FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE)
 			frsky->use_current_sensor = true;
 		FlightBatterySettingsGet(&frsky->battery_settings);
 		frsky->batt_cell_count = frsky->battery_settings.NbCells;

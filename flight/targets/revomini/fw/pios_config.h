@@ -7,7 +7,7 @@
  *
  * @file       pios_config.h 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
  * @brief      Board specific options that modify PiOS capabilities
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -56,11 +56,13 @@
 #define PIOS_INCLUDE_RTC
 #define PIOS_INCLUDE_WDG
 #define PIOS_INCLUDE_FASTHEAP
+#define PIOS_INCLUDE_HPWM
 
 /* Variables related to the RFM22B functionality */
 #define PIOS_INCLUDE_RFM22B
 #define PIOS_INCLUDE_RFM22B_COM
- 
+#define PIOS_INCLUDE_OPENLRS
+
 /* Select the sensors to include */
 #define PIOS_INCLUDE_HMC5883
 #define PIOS_INCLUDE_MPU6000
@@ -95,16 +97,15 @@
 #define PIOS_INCLUDE_PPM
 #define PIOS_INCLUDE_PWM
 #define PIOS_INCLUDE_GCSRCVR
-
+#define PIOS_INCLUDE_RFM22B_RCVR
+#define PIOS_INCLUDE_OPENLRS_RCVR
+ 
 #define PIOS_INCLUDE_FLASH
 #define PIOS_INCLUDE_FLASH_JEDEC
 #define PIOS_INCLUDE_FLASH_INTERNAL
 #define PIOS_INCLUDE_LOGFS_SETTINGS
 
 //#define PIOS_INCLUDE_DEBUG_CONSOLE
-
-/* Other Interfaces */
-//#define PIOS_INCLUDE_I2C_ESC
 
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */

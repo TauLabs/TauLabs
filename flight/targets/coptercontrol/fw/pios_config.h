@@ -36,7 +36,6 @@
 #define PIOS_INCLUDE_DELAY
 #if defined(USE_I2C)
 #define PIOS_INCLUDE_I2C
-//#define PIOS_INCLUDE_I2C_ESC
 #endif
 #if defined(USE_PCF8591)
 #define PIOS_INCLUDE_PCF8591
@@ -45,11 +44,13 @@
 #define PIOS_INCLUDE_LED
 #define PIOS_INCLUDE_IAP
 #define PIOS_INCLUDE_TIM
+#define PIOS_INCLUDE_HPWM
 
 #define PIOS_INCLUDE_RCVR
 
 /* Supported receiver interfaces */
 #define PIOS_INCLUDE_DSM
+#define PIOS_INCLUDE_HSUM
 #define PIOS_INCLUDE_SBUS
 #define PIOS_INCLUDE_PPM
 #define PIOS_INCLUDE_PWM
@@ -103,13 +104,13 @@
 
 /* Task stack sizes */
 #define PIOS_ACTUATOR_STACK_SIZE        800
-#define PIOS_MANUAL_STACK_SIZE          600
+#define PIOS_MANUAL_STACK_SIZE          700
 #define PIOS_SYSTEM_STACK_SIZE          660
 #define PIOS_STABILIZATION_STACK_SIZE   624
 #define PIOS_TELEM_STACK_SIZE           500
 #define PIOS_EVENTDISPATCHER_STACK_SIZE 720
 #define PIOS_MAVLINK_STACK_SIZE         600
-#define PIOS_COMUSBBRIDGE_STACK_SIZE    280
+#define PIOS_COMUSBBRIDGE_STACK_SIZE    296
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 1995998
 
 // This can't be too high to stop eventdispatcher thread overflowing

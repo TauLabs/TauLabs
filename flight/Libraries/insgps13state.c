@@ -103,23 +103,36 @@ void INSGPSInit()		//pretty much just a place holder for now
 	P[0][0] = P[1][1] = P[2][2] = 25.0f;            // initial position variance (m^2)
 	P[3][3] = P[4][4] = P[5][5] = 5.0f;             // initial velocity variance (m/s)^2
 	P[6][6] = P[7][7] = P[8][8] = P[9][9] = 1e-5f;  // initial quaternion variance
-	P[10][10] = P[11][11] = P[12][12] = 1e-9f;      // initial gyro bias variance (rad/s)^2
+	P[10][10] = P[11][11] = P[12][12] = 1e-6f;      // initial gyro bias variance (rad/s)^2
 
 	X[0] = X[1] = X[2] = X[3] = X[4] = X[5] = 0.0f;	// initial pos and vel (m)
 	X[6] = 1.0f;
 	X[7] = X[8] = X[9] = 0.0f;	    // initial quaternion (level and North) (m/s)
 	X[10] = X[11] = X[12] = 0.0f;	// initial gyro bias (rad/s)
 
-	Q[0] = Q[1] = Q[2] = 50e-4f;	// gyro noise variance (rad/s)^2
-	Q[3] = Q[4] = Q[5] = 0.00001f;	// accelerometer noise variance (m/s^2)^2
-	Q[6] = Q[7] = Q[8] = 2e-8f;	    // gyro bias random walk variance (rad/s^2)^2
+	Q[0] = Q[1] = Q[2] = 1e-5f;	    // gyro noise variance (rad/s)^2
+	Q[3] = Q[4] = Q[5] = 1e-5f;	    // accelerometer noise variance (m/s^2)^2
+	Q[6] = Q[7]        = 1e-6f;	    // gyro x and y bias random walk variance (rad/s^2)^2
+	Q[8]               = 1e-6f;	    // gyro z bias random walk variance (rad/s^2)^2
 
 	R[0] = R[1] = 0.004f;	// High freq GPS horizontal position noise variance (m^2)
 	R[2] = 0.036f;          // High freq GPS vertical position noise variance (m^2)
 	R[3] = R[4] = 0.004f;   // High freq GPS horizontal velocity noise variance (m/s)^2
-	R[5] = 100.0f;          // High freq GPS vertical velocity noise variance (m/s)^2
+	R[5] = 0.004f;          // High freq GPS vertical velocity noise variance (m/s)^2
 	R[6] = R[7] = R[8] = 0.005f;    // magnetometer unit vector noise variance
 	R[9] = .25f;                    // High freq altimeter noise variance (m^2)
+}
+
+//! Set the current flight state
+void INSSetArmed(bool armed)
+{
+	return; 
+	// Speed up convergence of accel and gyro bias when not armed
+	if (armed) {
+		Q[8] = 2e-9f;
+	} else {
+		Q[8] = 2e-8f;
+	}
 }
 
 /**
@@ -129,7 +142,7 @@ void INSGPSInit()		//pretty much just a place holder for now
  * @param[out] attitude Quaternion representation of attitude
  * @param[out] gyros_bias Estimate of gyro bias (rad/s)
  */
-void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias)
+void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias, float *accel_bias)
 {
 	if (pos) {
 		pos[0] = X[0];
@@ -155,6 +168,12 @@ void INSGetState(float *pos, float *vel, float *attitude, float *gyro_bias)
 		gyro_bias[1] = X[11];
 		gyro_bias[2] = X[12];
 	}
+
+	if (accel_bias) {
+		accel_bias[0] = 0.0f;
+		accel_bias[1] = 0.0f;
+		accel_bias[2] = 0.0f;
+	}
 }
 
 /**
@@ -167,7 +186,7 @@ void INSGetVariance(float *var_out)
 		var_out[i] = P[i][i];
 }
 
-void INSResetP(const float PDiag[NUMX])
+void INSResetP(const float *PDiag)
 {
 	uint8_t i,j;
 
@@ -236,6 +255,11 @@ void INSSetGyroBias(const float gyro_bias[3])
 	X[12] = gyro_bias[2];
 }
 
+void INSSetAccelBias(const float accel_bias[3])
+{
+	// Does nothing for 13 state version
+}
+
 void INSSetAccelVar(const float accel_var[3])
 {
 	Q[3] = accel_var[0];
@@ -264,10 +288,9 @@ void INSSetBaroVar(const float baro_var)
 
 void INSSetMagNorth(const float B[3])
 {
-	float mag = sqrtf(B[0] * B[0] + B[1] * B[1] + B[2] * B[2]);
-	Be[0] = B[0] / mag;
-	Be[1] = B[1] / mag;
-	Be[2] = B[2] / mag;
+	Be[0] = B[0];
+	Be[1] = B[1];
+	Be[2] = B[2];
 }
 
 void INSStatePrediction(const float gyro_data[3], const float accel_data[3], float dT)
@@ -293,7 +316,6 @@ void INSStatePrediction(const float gyro_data[3], const float accel_data[3], flo
 	X[7] /= qmag;
 	X[8] /= qmag;
 	X[9] /= qmag;
-	//CovariancePrediction(F,G,Q,dT,P);
 }
 
 void INSCovariancePrediction(float dT)
@@ -305,7 +327,7 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 		   float BaroAlt, uint16_t SensorsUsed)
 {
 	float Z[10], Y[10];
-	float Bmag, qmag;
+	float qmag;
 
 	// GPS Position in meters and in local NED frame
 	Z[0] = Pos[0];
@@ -318,12 +340,9 @@ void INSCorrection(const float mag_data[3], const float Pos[3], const float Vel[
 	Z[5] = Vel[2];
 
 	// magnetometer data in any units (use unit vector) and in body frame
-	Bmag =
-	    sqrtf(mag_data[0] * mag_data[0] + mag_data[1] * mag_data[1] +
-		 mag_data[2] * mag_data[2]);
-	Z[6] = mag_data[0] / Bmag;
-	Z[7] = mag_data[1] / Bmag;
-	Z[8] = mag_data[2] / Bmag;
+	Z[6] = mag_data[0];
+	Z[7] = mag_data[1];
+	Z[8] = mag_data[2];
 
 	// barometric altimeter in meters and in local NED frame
 	Z[9] = BaroAlt;
@@ -1564,11 +1583,6 @@ static void LinearizeFG(float X[NUMX], float U[NUMU], float F[NUMX][NUMX],
 	G[9][0] = q2 / 2.0f;
 	G[9][1] = -q1 / 2.0f;
 	G[9][2] = -q0 / 2.0f;
-
-	// dwbias = random walk noise
-	G[10][6] = G[11][7] = G[12][8] = 1.0f;
-	// dabias = random walk noise
-	// G[13][9]=G[14][10]=G[15][11]=1;  // NO BIAS STATES ON ACCELS
 }
 
 static void MeasurementEq(float X[NUMX], float Be[3], float Y[NUMV])

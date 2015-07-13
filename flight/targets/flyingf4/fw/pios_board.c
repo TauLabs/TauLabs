@@ -170,6 +170,8 @@ uintptr_t pios_com_frsky_sport_id;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
 
+uintptr_t pios_internal_adc_id = 0;
+
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
  */
@@ -323,6 +325,10 @@ void PIOS_Board_Init(void) {
 	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_external_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS) != 0)
 		panic(1);
 #endif /* PIOS_INCLUDE_EXTERNAL_FLASH_WAYPOINTS */
+
+#if defined(ERASE_FLASH)
+	PIOS_FLASHFS_Format(pios_uavo_settings_fs_id);
+#endif
 
 #endif	/* PIOS_INCLUDE_FLASH */
 
@@ -777,6 +783,35 @@ void PIOS_Board_Init(void) {
 	}
 
 
+	/* UART4 Port */
+	uint8_t hw_uart4;
+	HwFlyingF4Uart4Get(&hw_uart4);
+	switch (hw_uart4) {
+	case HWFLYINGF4_UART4_DISABLED:
+		break;
+	case HWFLYINGF4_UART4_GPS:
+#if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
+#endif
+		break;
+	}
+
+	/* UART5 Port */
+	uint8_t hw_uart5;
+	HwFlyingF4Uart5Get(&hw_uart5);
+	switch (hw_uart5) {
+	case HWFLYINGF4_UART5_DISABLED:
+		break;
+	case HWFLYINGF4_UART5_GPS:
+#if defined(PIOS_INCLUDE_GPS) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_gps_id);
+#endif
+		break;
+	}
+
+	
+	
+	
 	/* Configure the rcvr port */
 	uint8_t hw_rcvrport;
 	HwFlyingF4RcvrPortGet(&hw_rcvrport);
@@ -1016,7 +1051,9 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_ADC)
-	PIOS_ADC_Init(&pios_adc_cfg);
+	uint32_t internal_adc_id;
+	PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg);
+	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);	
 #endif
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */

@@ -40,7 +40,7 @@ struct pios_adc_driver {
 	void (*init)(uint32_t id);
 	int32_t (*get_pin)(uint32_t id, uint32_t pin);
 	bool (*available)(uint32_t id, uint32_t device_pin);
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 	void (*set_queue)(uint32_t id, struct pios_queue *data_queue);
 #endif
 	uint8_t (*number_of_channels)(uint32_t id);
@@ -50,7 +50,7 @@ struct pios_adc_driver {
 /* Public Functions */
 extern int32_t PIOS_ADC_DevicePinGet(uintptr_t adc_id, uint32_t device_pin);
 extern bool PIOS_ADC_Available(uintptr_t adc_id, uint32_t device_pin);
-#if defined(PIOS_INCLUDE_FREERTOS)
+#if defined(PIOS_INCLUDE_FREERTOS) || defined(PIOS_INCLUDE_CHIBIOS)
 extern void PIOS_ADC_SetQueue(uintptr_t adc_id, struct pios_queue *data_queue);
 #endif
 extern int32_t PIOS_ADC_GetChannelRaw(uint32_t channel);

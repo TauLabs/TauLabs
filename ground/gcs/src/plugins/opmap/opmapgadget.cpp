@@ -62,7 +62,6 @@ void OPMapGadget::loadConfiguration(IUAVGadgetConfiguration *config)
 {
     m_config = qobject_cast<OPMapGadgetConfiguration*>(config);
     m_widget->setMapProvider(m_config->mapProvider());
-    m_widget->setUseOpenGL(m_config->useOpenGL());
     m_widget->setShowTileGridLines(m_config->showTileGridLines());
     m_widget->setAccessMode(m_config->accessMode());
     m_widget->setUseMemoryCache(m_config->useMemoryCache());
@@ -73,7 +72,6 @@ void OPMapGadget::loadConfiguration(IUAVGadgetConfiguration *config)
     m_widget->SetUavPic(m_config->uavSymbol());
     m_widget->setZoom(m_config->zoom());
     m_widget->setPosition(QPointF(m_config->longitude(), m_config->latitude()));
-    m_widget->setHomePosition(QPointF(m_config->longitude(), m_config->latitude()));
     m_widget->setOverlayOpacity(m_config->opacity());
     m_widget->setGeoCodingLanguage(m_config->geoLanguage());
 }

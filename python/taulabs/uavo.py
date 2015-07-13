@@ -1,273 +1,288 @@
-class UAVO():
-    import struct
+"""
+Implementation of UAV Object Types
 
-    type_enum_map = {
-        'int8'    : 0,
-        'int16'   : 1,
-        'int32'   : 2,
-        'uint8'   : 3,
-        'uint16'  : 4,
-        'uint32'  : 5,
-        'float'   : 6,
-        'enum'    : 7,
-        }
+Copyright (C) 2014-2015 Tau Labs, http://taulabs.org
+Licensed under the GNU LGPL version 2.1 or any later version (see COPYING.LESSER)
+"""
 
-    type_numpy_map = {
-        'int8'    : 'int8',
-        'int16'   : 'int16',
-        'int32'   : 'int32',
-        'uint8'   : 'uint8',
-        'uint16'  : 'uint16',
-        'uint32'  : 'uint32',
-        'float'   : 'float',
-        'enum'    : 'uint8',
-        }
+import struct
 
-    type_size_map = {
-        'int8'    : 1,
-        'int16'   : 2,
-        'int32'   : 4,
-        'uint8'   : 1,
-        'uint16'  : 2,
-        'uint32'  : 4,
-        'float'   : 4,
-        'enum'    : 1,
-        }
+def flatten(lst):
+    result = []
+    for element in lst:
+        if hasattr(element, '__iter__'):
+            result.extend(flatten(element))
+        else:
+            result.append(element)
+    return result
 
-    struct_element_map = {
-        'int8'    : 'b',
-        'int16'   : 'h',
-        'int32'   : 'i',
-        'uint8'   : 'B',
-        'uint16'  : 'H',
-        'uint32'  : 'I',
-        'float'   : 'f',
-        'enum'    : 'B',
-        }
+class UAVTupleClass():
+    """ This is the prototype for a class that contains a uav object. """
 
-    def __init__(self):
-        self.fields = []
-        self.meta = {}
-        self.id = 0
-
-    def __build_class_of(self):
-        from collections import namedtuple
-        fields = "name time uavo_id "
-        if not self.meta['is_single_inst']:
-            fields += "inst_id "
-        fields += " ".join([f['name'] for f in self.fields]) + " "
-        self.tuple_class = namedtuple('UAVO_' + self.meta['name'], fields)
-
-        # Make sure this new class is exposed in the module globals so that it can be pickled
-        globals()[self.tuple_class.__name__] = self.tuple_class
-
-    def get_size_of_data(self):
-        size = 0
-
-        if not self.meta['is_single_inst']:
-            # this is multi-instance so the optional instance-id is present
-            size += 2
-
-        for f in self.fields:
-            size += self.type_size_map[f['type']] * f['elements']
-
-        return size
-
-    def bytes_from_instance(self, data):
-        """
-        Return a string containing the contents of the data instance suitable for
-        inserting into a UAVTalk stream. The class this is called on determines
-        the UAVO type definition.
+    @classmethod
+    def _make_to_send(cls, *args):
+        """ Accepts all the uavo fields and creates an object.
+        
+        The object is dated as of the current time, and has the name and id
+        fields set properly.
         """
 
+        import time
+        return cls(cls._name, round(time.time() * 1000), cls._id, *args)
+
+    def to_bytes(self):
+        """ Serializes this object into a byte stream. """
+        return self._packstruct.pack(*flatten(self[3:]))
+
+    @classmethod
+    def get_size_of_data(cls):
+        return cls._packstruct.size
+
+    @classmethod
+    def from_bytes(cls, data, timestamp, instance_id, offset=0):
+        """ Deserializes and creates an instance of this object.
+        
+         - data: the data to deserialize
+         - timestamp: the timestamp to put on the object instance
+         - offset: an optional index into data where to begin deserialization
+        """
         import struct
-        import array
 
-        pack_field_values = array.array('c', ' ' * self.get_size_of_data())
-        offset = 0
-        for f in self.fields:
-            fmt = '<' + f['elements'].__str__() + self.struct_element_map[f['type']]
-            if f['elements'] == 1:
-                struct.pack_into(fmt, pack_field_values, offset, getattr(data, f['name']))
-            else:
-                struct.pack_into(fmt, pack_field_values, offset, *getattr(data, f['name']))
-            offset = offset + struct.calcsize(fmt)
-
-        return pack_field_values
-
-    def instance_from_bytes(self, data, timestamp=None, timestamp_packet=False):
-        import struct
-
-        if (timestamp == None) & (timestamp_packet == False):
-            raise ParameterError('Needs timestamp or a timestamp packet')
-        if (timestamp != None) & (timestamp_packet == True):
-            raise ParameterError('Either pass a timestamp or a timestamp packet, not both')
-
-        formats = []
-
-        # add format for instance-id IFF this is a multi-instance UAVO
-        if not self.meta['is_single_inst']:
-            # this is multi-instance so the optional instance-id is present
-            formats.append('<H')
-
-        # we are parsing the timestamp out of the main packet
-        if timestamp_packet:
-            formats.append('<H')
-
-        # add formats for each field
-        for f in self.fields:
-            formats.append('<' + f['elements'].__str__() + self.struct_element_map[f['type']])
-
-        #
-        # add the values
-        #
-
-        # unpack each field separately
-        unpack_field_values = []
-        offset = 0
-        for fmt in formats:
-            val = struct.unpack_from(fmt, data, offset)
-            if len(val) == 1:
-                # elevate the value outside of the tuple if there is exactly one value
-                val = val[0]
-            unpack_field_values.append(val)
-            offset += struct.calcsize(fmt)
+        unpack_field_values = cls._packstruct.unpack_from(data, offset)
 
         field_values = []
-        field_values.append(self.meta['name'])
+        field_values.append(cls._name)
 
-        # This gets a bit awkward. The order of field_values must match the structure
-        # which for the intro header is name, timestamp, and id and then optionally
-        # instance ID. For the timestamped packets we must parse the instance ID and
-        # then the timestamp, so we will pop that out and shuffle the order. We also
-        # convert from ms to seconds here.
+        if timestamp is not None:
+            field_values.append(timestamp / 1000.0)
 
-        if timestamp != None:
-            field_values.append(timestamp / 1000.0) 
-        else:
-            if self.meta['is_single_inst']:
-                offset = 0
-            else:
-                offset = 1
-            field_values.append(unpack_field_values.pop(offset) / 1000.0)
-        field_values.append(self.id)
+        field_values.append(cls._id)
 
-        # add the remaining fields
-        field_values = field_values + unpack_field_values
+        if instance_id is not None:
+            field_values.append(instance_id)
 
-        return self.tuple_class._make(field_values)
+        # add the remaining fields.  If the thing should be nested, construct
+        # an appropriate tuple.
+        if not cls._flat:
+            pos = 0
 
-    def from_xml(self, xml_file):
-        from lxml import etree
-
-        tree = etree.parse(xml_file)
-
-        subs = {
-            'tree'            : tree,
-            'object'          : tree.find('object'),
-            'fields'          : tree.findall('object/field'),
-            'description'     : tree.find('object/description'),
-            'access'          : tree.find('object/access'),
-            'logging'         : tree.find('object/logging'),
-            'telemetrygcs'    : tree.find('object/telemetrygcs'),
-            'telemetryflight' : tree.find('object/telementryflight'),
-            }
-
-        self.tree = tree
-        self.subs = subs
-
-        self.meta['name']           = subs['object'].get('name')
-        self.meta['is_single_inst'] = int((subs['object'].get('singleinstance') == 'true'))
-        self.meta['is_settings']    = int((subs['object'].get('settings') == 'true'))
-
-        self.meta['description']    = subs['description'].text
-
-        import copy
-        import re
-        for field in subs['fields']:
-            info = {}
-            # process typical attributes
-            for attr in ['name', 'units', 'type', 'elements', 'elementnames']:
-                info[attr] = field.get(attr)
-            if field.get('cloneof'):
-                # this is a clone of another field, find its data
-                cloneof_name = field.get('cloneof')
-                for i, field in enumerate(self.fields):
-                    if field['name'] == cloneof_name:
-                        clone_info = copy.deepcopy(field)
-                        break
-
-                # replace it with the new name
-                clone_info['name'] = info['name']
-                # use the expanded/substituted info instead of the stub
-                info = clone_info
-            else:
-                if info['elements'] != None:
-                    # we've got an inline "elements" attribute
-                    info['elementnames'] = []
-                    info['elements'] = int(field.get('elements'))
-                elif info['elementnames'] != None:
-                    # we've got an inline "elementnames" attribute
-                    info['elementnames'] = []
-                    info['elements'] = 0
-                    for elementname in field.get('elementnames').split(','):
-                        info['elementnames'].append(elementname.strip(' '))
-                        info['elements'] += 1
+            for n in cls._num_subelems:
+                if n == 1:
+                    field_values.append(unpack_field_values[pos])
                 else:
-                    # we must have one or more elementnames/elementname elements in this sub-tree
-                    info['elementnames'] = []
-                    info['elements'] = 0
-                    for elementname_text in [elementname.text for elementname in field.findall('elementnames/elementname')]:
-                        info['elementnames'].append(elementname_text)
-                        info['elements'] += 1
+                    field_values.append(tuple(unpack_field_values[pos:pos+n]))
+                pos += n
 
-                if info['type'] == 'enum':
-                    info['options'] = []
-                    if field.get('options'):
-                        # we've got an inline "options" attribute
-                        for option_text in field.get('options').split(','):
-                            info['options'].append(option_text.strip(' '))
-                    else:
-                        # we must have some 'option' elements in this sub-tree
-                        for option_text in [option.text for option in field.findall('options/option')]:
-                            info['options'].append(option_text)
+            field_values = tuple(field_values)
+        else:
+            # Short cut; nothing is nested
+            field_values = tuple(field_values) + tuple(unpack_field_values)
 
-                # convert type string to an int
-                info['type_val'] = self.type_enum_map[info['type']]
-            self.fields.append(info)
+        return cls._make(field_values)
 
-        # Sort fields by size (bigger to smaller) to ensure alignment when packed
-        self.fields.sort(key=lambda x: self.type_size_map[x['type']], reverse = True)
+type_enum_map = {
+    'int8'    : 0,
+    'int16'   : 1,
+    'int32'   : 2,
+    'uint8'   : 3,
+    'uint16'  : 4,
+    'uint32'  : 5,
+    'float'   : 6,
+    'enum'    : 7,
+    }
 
-        self.id = self._calculate_id()
+type_numpy_map = {
+    'int8'    : 'int8',
+    'int16'   : 'int16',
+    'int32'   : 'int32',
+    'uint8'   : 'uint8',
+    'uint16'  : 'uint16',
+    'uint32'  : 'uint32',
+    'float'   : 'float',
+    'enum'    : 'uint8',
+    }
 
-        self.__build_class_of()
+struct_element_map = {
+    'int8'    : 'b',
+    'int16'   : 'h',
+    'int32'   : 'i',
+    'uint8'   : 'B',
+    'uint16'  : 'H',
+    'uint32'  : 'I',
+    'float'   : 'f',
+    'enum'    : 'B',
+    }
 
-    def __str__(self):
-        return "%s(id='%08x') %s" % (self.meta['name'], self.id, " ".join([f['name'] for f in self.fields]))
+# This is a very long, scary method.  It parses an XML file describing
+# a UAVO and builds an implementation class.
+def make_class(xml_file):
+    fields = []
 
-    def __repr__(self):
-        return "%s(id='%08x', name=%r)" % (self.__class__, self.id, self.meta['name'])
+    ##### PARSE THE XML FILE INTO INTERNAL REPRESENTATIONS #####
 
-    def _update_hash_byte(self, value, prev_hash):
-        x = (prev_hash ^ ((prev_hash << 5) + (prev_hash >> 2) + value)) & 0x0FFFFFFFF
-        return x
+    from lxml import etree
 
-    def _update_hash_string(self, string, prev_hash):
-        hash = prev_hash
+    tree = etree.parse(xml_file)
+
+    subs = {
+        'tree'            : tree,
+        'object'          : tree.find('object'),
+        'fields'          : tree.findall('object/field'),
+        'description'     : tree.find('object/description'),
+        'access'          : tree.find('object/access'),
+        'logging'         : tree.find('object/logging'),
+        'telemetrygcs'    : tree.find('object/telemetrygcs'),
+        'telemetryflight' : tree.find('object/telemetryflight'),
+        }
+
+    name = subs['object'].get('name')
+    is_single_inst = int((subs['object'].get('singleinstance') == 'true'))
+    is_settings = int((subs['object'].get('settings') == 'true'))
+
+    description = subs['description'].text
+
+    ##### CONSTRUCT PROPER INTERNAL REPRESENTATION OF FIELD DATA #####
+
+    import copy
+    import re
+    for field in subs['fields']:
+        info = {}
+        # process typical attributes
+        for attr in ['name', 'units', 'type', 'elements', 'elementnames']:
+            info[attr] = field.get(attr)
+        if field.get('cloneof'):
+            # this is a clone of another field, find its data
+            cloneof_name = field.get('cloneof')
+            for i, field in enumerate(fields):
+                if field['name'] == cloneof_name:
+                    clone_info = copy.deepcopy(field)
+                    break
+
+            # replace it with the new name
+            clone_info['name'] = info['name']
+            # use the expanded/substituted info instead of the stub
+            info = clone_info
+        else:
+            if info['elements'] != None:
+                # we've got an inline "elements" attribute
+                info['elementnames'] = []
+                info['elements'] = int(field.get('elements'))
+            elif info['elementnames'] != None:
+                # we've got an inline "elementnames" attribute
+                info['elementnames'] = []
+                info['elements'] = 0
+                for elementname in field.get('elementnames').split(','):
+                    info['elementnames'].append(elementname.strip(' '))
+                    info['elements'] += 1
+            else:
+                # we must have one or more elementnames/elementname elements in this sub-tree
+                info['elementnames'] = []
+                info['elements'] = 0
+                for elementname_text in [elementname.text for elementname in field.findall('elementnames/elementname')]:
+                    info['elementnames'].append(elementname_text)
+                    info['elements'] += 1
+
+            if info['type'] == 'enum':
+                info['options'] = []
+                if field.get('options'):
+                    # we've got an inline "options" attribute
+                    for option_text in field.get('options').split(','):
+                        info['options'].append(option_text.strip(' '))
+                else:
+                    # we must have some 'option' elements in this sub-tree
+                    for option_text in [option.text for option in field.findall('options/option')]:
+                        info['options'].append(option_text)
+
+            # convert type string to an int
+            info['type_val'] = type_enum_map[info['type']]
+        fields.append(info)
+
+    # Sort fields by size (bigger to smaller) to ensure alignment when packed
+    fields.sort(key=lambda x: struct.calcsize(struct_element_map[x['type']]), reverse = True)
+
+    ##### CALCULATE THE APPROPRIATE UAVO ID #####
+    hash_calc = UAVOHash()
+
+    hash_calc.update_hash_string(name)
+    hash_calc.update_hash_byte(is_settings)
+    hash_calc.update_hash_byte(is_single_inst)
+
+    for field in fields:
+        hash_calc.update_hash_string(field['name'])
+        hash_calc.update_hash_byte(int(field['elements']))
+        hash_calc.update_hash_byte(field['type_val'])
+        if field['type'] == 'enum':
+            for option in field['options']:
+                hash_calc.update_hash_string(option)
+    uavo_id = hash_calc.get_hash()
+
+    ##### FORM A STRUCT TO PACK/UNPACK THIS UAVO'S CONTENT #####
+    formats = []
+    num_subelems = []
+
+    is_flat = True
+
+    # add formats for each field
+    for f in fields:
+        if f['elements'] != 1:
+            is_flat = False
+
+        num_subelems.append(f['elements'])
+
+        formats.append('' + f['elements'].__str__() + struct_element_map[f['type']])
+
+    fmt = struct.Struct('<' + ''.join(formats))
+
+    ##### CALCULATE THE NUMPY TYPE ASSOCIATED WITH THIS CLASS ##### 
+    dtype  = [('name', 'S20'), ('time', 'double'), ('uavo_id', 'uint')]
+
+    if not is_single_inst:
+        dtype += ('inst_id', 'uint'),
+
+    for f in fields:
+        dtype += [(f['name'], '(' + `f['elements']` + ",)" + type_numpy_map[f['type']])]
+
+
+    ##### DYNAMICALLY CREATE A CLASS TO CONTAIN THIS OBJECT #####
+
+    from collections import namedtuple
+    tuple_fields = ['name', 'time', 'uavo_id']
+    if not is_single_inst:
+        tuple_fields.append("inst_id")
+
+    tuple_fields.extend([f['name'] for f in fields])
+
+    name = 'UAVO_' + name
+
+    class tmpClass(namedtuple(name, tuple_fields), UAVTupleClass):
+        _packstruct = fmt
+        _flat = is_flat
+        _name = name
+        _id = uavo_id
+        _single = is_single_inst
+        _num_subelems = num_subelems
+        _dtype = dtype
+        _is_settings = is_settings
+
+    # This is magic for two reasons.  First, we create the class to have
+    # the proper dynamic name.  Second, we override __slots__, so that
+    # child classes don't get a dict / keep all their namedtuple goodness
+    tuple_class = type(name, (tmpClass,), { "__slots__" : () })
+
+    globals()[tuple_class.__name__] = tuple_class
+
+    return tuple_class
+
+class UAVOHash():
+    def __init__(self):
+        self.hval = 0
+
+    def update_hash_byte(self, value):
+        self.hval = (self.hval ^ ((self.hval << 5) + (self.hval >> 2) + value)) & 0x0FFFFFFFF
+
+    def update_hash_string(self, string):
         for c in string:
-            hash = self._update_hash_byte(ord(c), hash)
-        return (hash)
+            self.update_hash_byte(ord(c))
 
-    def _calculate_id(self):
-        hash = self._update_hash_string(self.meta['name'], 0)
-        hash = self._update_hash_byte(self.meta['is_settings'], hash)
-        hash = self._update_hash_byte(self.meta['is_single_inst'], hash)
-        for field in self.fields:
-            hash = self._update_hash_string(field['name'], hash)
-            hash = self._update_hash_byte(int(field['elements']), hash)
-            hash = self._update_hash_byte(field['type_val'], hash)
-            if field['type'] == 'enum':
-                for option in field['options']:
-                    hash = self._update_hash_string(option, hash)
-        return (hash & 0x0FFFFFFFE)
+    def get_hash(self):
+        return self.hval & 0x0FFFFFFFE

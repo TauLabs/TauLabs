@@ -35,7 +35,6 @@
         <file>html/SystemConfiguration-Error-PathPlanner.html</file>
         <file>html/SystemConfiguration-Error-PositionHold.html</file>
         <file>html/SystemConfiguration-Error-Stabilization.html</file>
-        <file>html/SystemConfiguration-Error-VelocityControl.html</file>
         <file>html/SystemConfiguration-Undefined.html</file>
         <file>html/PathPlanner-Error.html</file>
         <file>html/PathPlanner-Critical.html</file>
@@ -49,5 +48,8 @@
         <file>html/StateEstimation-PDOP-Too-High.html</file>
         <file>html/StateEstimation-Too-Few-Satellites.html</file>
         <file>html/StateEstimation-Undefined.html</file>
+	<file>html/TempBaro-Warning.html</file>
+	<file>html/TempBaro-Error.html</file>
+	<file>html/TempBaro-Critical.html</file>
     </qresource>
 </RCC>

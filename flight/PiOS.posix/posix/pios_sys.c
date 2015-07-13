@@ -30,11 +30,43 @@
  */
 
 /* Project Includes */
+#if !defined(_GNU_SOURCE)
 #define _GNU_SOURCE
+#endif /* !defined(_GNU_SOURCE) */
+
 #include "pios.h"
 
 #if defined(PIOS_INCLUDE_SYS)
 
+static bool debug_fpe=false;
+
+static void Usage(char *cmdName) {
+	printf( "usage: %s [-f]\n"
+		"\n"
+		"\t-f\tEnables floating point exception trapping mode\n",
+		cmdName);
+
+	exit(1);
+}
+
+void PIOS_SYS_Args(int argc, char *argv[]) {
+	int opt;
+
+	while ((opt = getopt(argc, argv, "f")) != -1) {
+		switch (opt) {
+			case 'f':
+				debug_fpe=true;
+				break;
+			default:
+				Usage(argv[0]);
+				break;
+		}
+	}
+
+	if (optind < argc) {
+		Usage(argv[0]);
+	}
+}
 
 /**
 * Initialises all system peripherals
@@ -65,15 +97,26 @@ void PIOS_SYS_Init(void)
 	int rc = sigaction(SIGINT, &sa_int, NULL);
 	assert(rc == 0);
 
-	struct sigaction sa_fpe = {
-		.sa_sigaction = sigfpe_handler,
-		.sa_flags = SA_SIGINFO,
-	};
+	if (debug_fpe) {
+		struct sigaction sa_fpe = {
+			.sa_sigaction = sigfpe_handler,
+			.sa_flags = SA_SIGINFO,
+		};
 
-	rc = sigaction(SIGFPE, &sa_fpe, NULL);
-	assert(rc == 0);
+		rc = sigaction(SIGFPE, &sa_fpe, NULL);
+		assert(rc == 0);
 
-	feenableexcept(FE_DIVBYZERO | FE_UNDERFLOW | FE_OVERFLOW | FE_INVALID);
+		// Underflow is fairly harmless, do we even care in debug
+		// mode?
+#ifndef __APPLE__
+		feenableexcept(FE_DIVBYZERO | FE_UNDERFLOW | FE_OVERFLOW |
+			FE_INVALID);
+#else
+		// XXX need the right magic
+		printf("UNABLE TO DBEUG FPE ON OSX!\n");
+		exit(1);
+#endif
+	}
 }
 
 /**

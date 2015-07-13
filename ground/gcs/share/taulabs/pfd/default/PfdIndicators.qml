@@ -39,12 +39,14 @@ Item {
     // GPS status text
     Text {
         id: gps_text
-        text: "GPS: " + GPSPosition.Satellites + "\nPDP: " + GPSPosition.PDOP.toFixed(2)
+        text: "GPS: " + GPSPosition.Satellites + "\nPDP: " + GPSPosition.PDOP.toFixed(2) + "\nACC: " + GPSPosition.Accuracy.toFixed(2)
         color: "white"
         font.family: "Arial"
-        font.pixelSize: telemetry_status.height * 0.75
+        font.pixelSize: telemetry_status.height * 0.55
 
-        visible: GPSPosition.Satellites > 0
+        // Non-float types are not properly getting exported to QML environment,
+        // so we can't do this (or print the satellite count above)
+        //visible: GPSPosition.Satellites > 0
 
         property variant scaledBounds: svgRenderer.scaledElementBounds("pfd.svg", "gps-txt")
         x: Math.floor(scaledBounds.x * sceneItem.width)
@@ -62,9 +64,7 @@ Item {
         color: "white"
         font.family: "Arial"
 
-        //I think it should be pixel size,
-        //but making it more consistent with C++ version instead
-        font.pointSize: scaledBounds.height * sceneItem.height
+        font.pixelSize: telemetry_status.height * .55
 
         visible: FlightBatteryState.Voltage > 0 || FlightBatteryState.Current > 0
 

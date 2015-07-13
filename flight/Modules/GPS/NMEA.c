@@ -765,6 +765,10 @@ static bool nmeaProcessGPGSA(GPSPositionData * GpsData, bool* gpsDataUpdated, ch
 	// next field: VDOP
 	GpsData->VDOP = NMEA_real_to_float(param[17]);
 
+	// NMEA doesn't have this.  Assume we have a nominally 5m accurate
+	// receiver and scale accordingly.
+	GpsData->Accuracy = GpsData->PDOP * 5.0f;
+
 	return true;
 }
 

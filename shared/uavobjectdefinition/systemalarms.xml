@@ -23,6 +23,8 @@
 				<elementname>GPS</elementname>
                 		<elementname>AltitudeHold</elementname>
 				<elementname>BootFault</elementname>
+				<elementname>TempBaro</elementname>
+				<elementname>GyroBias</elementname>
 			</elementnames>
 		</field>
 		<field name="ConfigError" units="" type="enum" elements="1" defaultvalue="None">
@@ -31,7 +33,6 @@
 				<option>Multirotor</option>
 				<option>AutoTune</option>
 				<option>AltitudeHold</option>
-				<option>VelocityControl</option>
 				<option>PositionHold</option>
 				<option>PathPlanner</option>
 				<option>NavFilter</option> <!-- the selected filter is not safe for navigation -->

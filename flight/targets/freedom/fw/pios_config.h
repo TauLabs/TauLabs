@@ -58,6 +58,7 @@
 
 /* Variables related to the RFM22B functionality */
 #define PIOS_INCLUDE_RFM22B
+#define PIOS_INCLUDE_RFM22B_COM
 #define RFM22_EXT_INT_USE
  
 /* Select the sensors to include */
@@ -96,14 +97,12 @@
 #define PIOS_INCLUDE_PPM
 #define PIOS_INCLUDE_PWM
 #define PIOS_INCLUDE_GCSRCVR
-
+#define PIOS_INCLUDE_RFM22B_RCVR
+ 
 #define PIOS_INCLUDE_FLASH
 #define PIOS_INCLUDE_LOGFS_SETTINGS
 #define PIOS_INCLUDE_FLASH_INTERNAL
 #define PIOS_INCLUDE_FLASH_JEDEC
-
-/* Other Interfaces */
-//#define PIOS_INCLUDE_I2C_ESC
 
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */

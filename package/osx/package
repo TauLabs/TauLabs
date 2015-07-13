@@ -17,7 +17,7 @@ VOL_NAME="Tau Labs"
 rm -f "${TEMP_FILE}"
 rm -f "${OUT_FILE}"
 
-hdiutil create -size 250M -type SPARSE -volname "${VOL_NAME}" -fs HFS+ "${TEMP_FILE}"
+hdiutil create -size 500M -type SPARSE -volname "${VOL_NAME}" -fs HFS+ "${TEMP_FILE}"
 
 device=$(hdiutil attach  "${TEMP_FILE}" | \
          egrep '^/dev/' | sed 1q | awk '{print $1}')
@@ -37,6 +37,8 @@ cp "${FW_DIR}/fw_revomini-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_pipxtreme-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_revolution-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
 cp "${FW_DIR}/fw_sparky-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_sparkybgc-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_sparky2-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
 
 cp "${BUILD_DIR}/matlab/LogConvert.m" "/Volumes/${VOL_NAME}/Utilities/LogConvert-${PACKAGE_LBL}.m"
 

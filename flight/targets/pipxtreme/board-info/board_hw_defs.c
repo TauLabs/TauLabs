@@ -22,9 +22,9 @@
 static const struct pios_led pios_leds[] = {
 	[PIOS_LED_USB] = {
 		.pin = {
-			.gpio = GPIOA,
+			.gpio = GPIOB,
 			.init = {
-				.GPIO_Pin   = GPIO_Pin_3,
+				.GPIO_Pin   = GPIO_Pin_4,
 				.GPIO_Mode  = GPIO_Mode_Out_PP,
 				.GPIO_Speed = GPIO_Speed_50MHz,
 			},

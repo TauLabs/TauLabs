@@ -30,8 +30,12 @@
 
 #include "stdint.h"
 #include "modulesettings.h"
- 
-void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer);
+
+void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer,
+		ModuleSettingsGPSConstellationOptions constellation,
+		ModuleSettingsGPSSBASConstellationOptions sbas_const,
+		ModuleSettingsGPSDynamicsModeOptions dyn_mode);
+
 void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud_rate);
 
 /**

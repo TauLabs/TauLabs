@@ -30,6 +30,7 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # Set developer code and compile options
 # Set to YES for debugging
 DEBUG ?= NO
+ERASE_FLASH ?= NO
 
 # List of modules to include
 MODULES = Sensors
@@ -59,6 +60,7 @@ OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += PicoC
 OPTMODULES += UAVOFrSKYSPortBridge
 OPTMODULES += Geofence
+OPTMODULES += FlightStats
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
@@ -110,10 +112,14 @@ SRC += $(DEBUG_CM3_DIR)/dcc_stdio.c
 SRC += $(DEBUG_CM3_DIR)/cm3_fault_handlers.c
 endif
 
+ifeq ($(ERASE_FLASH), YES)
+CDEFS += -DERASE_FLASH
+endif
+
 SRC += $(FLIGHTLIB)/paths.c
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/WorldMagModel.c
-SRC += $(FLIGHTLIB)/insgps13state.c
+SRC += $(FLIGHTLIB)/insgps14state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(MATHLIB)/coordinate_conversions.c

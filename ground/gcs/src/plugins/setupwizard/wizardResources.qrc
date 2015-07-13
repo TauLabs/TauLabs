@@ -22,12 +22,16 @@
         <file>resources/bttn-sat-up.png</file>
         <file>resources/bttn-sbus-down.png</file>
         <file>resources/bttn-sbus-up.png</file>
+        <file>resources/bttn-sumd-down.png</file>
+        <file>resources/bttn-sumd-up.png</file>
         <file>resources/bttn-txwizard-off.png</file>
         <file>resources/bttn-txwizard-on.png</file>
         <file>resources/bttn-calculate-down.png</file>
         <file>resources/bttn-calculate-up.png</file>
-        <file>resources/bttn-turbo-down.png</file>
         <file>resources/bttn-turbo-up.png</file>
+        <file>resources/bttn-turbo-down.png</file>
+        <file>resources/bttn-oneshot-up.png</file>
+        <file>resources/bttn-oneshot-down.png</file>
         <file>resources/multirotor-shapes.svg</file>
         <file>resources/bttn-illustration-down.png</file>
         <file>resources/bttn-illustration-up.png</file>

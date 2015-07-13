@@ -91,17 +91,17 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrskyBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrSkySPortBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSPORTBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGeofence, ModuleSettings::ADMINSTATE_GEOFENCE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbAutotune, ModuleSettings::ADMINSTATE_AUTOTUNE);
 
-    addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureVoltage, FlightBatterySettings::SENSORTYPE_BATTERYVOLTAGE);
-    addUAVObjectToWidgetRelation(batterySettingsName, "SensorType", ui->gb_measureCurrent, FlightBatterySettings::SENSORTYPE_BATTERYCURRENT);
+    // Don't allow this to be changed here, only in the autotune tab.
+    ui->cbAutotune->setDisabled(true);
 
-    // Link the fields
-    addUAVObjectToWidgetRelation(airspeedSettingsName, "GPSSamplePeriod_ms", ui->sb_gpsUpdateRate);
-    addUAVObjectToWidgetRelation(airspeedSettingsName, "Scale", ui->sb_pitotScale);
-    addUAVObjectToWidgetRelation(airspeedSettingsName, "ZeroPoint", ui->sb_pitotZeroPoint);
-    addUAVObjectToWidgetRelation(airspeedSettingsName, "AnalogPin", ui->cbAirspeedAnalog);
+    // Connect the voltage and current checkboxes, such that the ADC pins are toggled and vice versa
+    connect(ui->gb_measureVoltage, SIGNAL(toggled(bool)), this, SLOT(toggleBatteryMonitoringPin()));
+    connect(ui->gb_measureCurrent, SIGNAL(toggled(bool)), this, SLOT(toggleBatteryMonitoringPin()));
+    connect(ui->cbVoltagePin, SIGNAL(currentIndexChanged(int)), this, SLOT(toggleBatteryMonitoringGb()));
+    connect(ui->cbCurrentPin, SIGNAL(currentIndexChanged(int)), this, SLOT(toggleBatteryMonitoringGb()));
 
-    addUAVObjectToWidgetRelation(batterySettingsName, "Type", ui->cb_batteryType);
     addUAVObjectToWidgetRelation(batterySettingsName, "NbCells", ui->sb_numBatteryCells);
     addUAVObjectToWidgetRelation(batterySettingsName, "Capacity", ui->sb_batteryCapacity);
     addUAVObjectToWidgetRelation(batterySettingsName, "VoltagePin", ui->cbVoltagePin);
@@ -112,9 +112,14 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationFactor", ui->sb_currentFactor, FlightBatterySettings::SENSORCALIBRATIONFACTOR_CURRENT);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationOffset", ui->sb_voltageOffSet, FlightBatterySettings::SENSORCALIBRATIONOFFSET_VOLTAGE);
     addUAVObjectToWidgetRelation(batterySettingsName, "SensorCalibrationOffset", ui->sb_currentOffSet, FlightBatterySettings::SENSORCALIBRATIONOFFSET_CURRENT);
+    addUAVObjectToWidgetRelation(batterySettingsName, "FlightTimeThresholds", ui->sb_flightTimeAlarm, FlightBatterySettings::FLIGHTTIMETHRESHOLDS_ALARM);
+    addUAVObjectToWidgetRelation(batterySettingsName, "FlightTimeThresholds", ui->sb_flightTimeWarning, FlightBatterySettings::FLIGHTTIMETHRESHOLDS_WARNING);
 
     addUAVObjectToWidgetRelation(batteryStateName, "Voltage", ui->le_liveVoltageReading);
     addUAVObjectToWidgetRelation(batteryStateName, "Current", ui->le_liveCurrentReading);
+
+    addUAVObjectToWidgetRelation(batteryStateName, "ConsumedEnergy", ui->le_liveConsumedEnergy);
+    addUAVObjectToWidgetRelation(batteryStateName, "EstimatedFlightTime", ui->le_liveEstimatedFlightTime);
 
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "SampleRate", ui->sb_sampleRate);
     addUAVObjectToWidgetRelation(vibrationAnalysisSettingsName, "FFTWindowSize", ui->cb_windowSize);
@@ -301,11 +306,20 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(picoCSettingsName, "Source", ui->cb_picocSource);
     addUAVObjectToWidgetRelation(picoCSettingsName, "ComSpeed", ui->cb_picocComSpeed);
 
+    // Connect Airspeed Settings
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "AirspeedSensorType", ui->cb_airspeedSensorType);
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "GPSSamplePeriod_ms", ui->sb_gpsUpdateRate);
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "Scale", ui->sb_pitotScale);
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "ZeroPoint", ui->sb_pitotZeroPoint);
+    addUAVObjectToWidgetRelation(airspeedSettingsName, "AnalogPin", ui->cbAirspeedAnalog);
+    connect(airspeedSettings, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAirspeedGroupbox(UAVObject *)));
+    connect(ui->gb_airspeedGPS, SIGNAL(clicked(bool)), this, SLOT(enableAirspeedTypeGPS(bool)));
+    connect(ui->gb_airspeedPitot, SIGNAL(clicked(bool)), this, SLOT(enableAirspeedTypePitot(bool)));
+
     //Help button
     addHelpButton(ui->inputHelp,"https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Modules");
 
-    // Connect any remaining widgets
-    connect(airspeedSettings, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAirspeedUAVO(UAVObject *)));
+    // Link the fields
     connect(ui->pb_startVibrationTest, SIGNAL(clicked()), this, SLOT(toggleVibrationTest()));
 
     // Set text properties for checkboxes. The second argument is the UAVO field that corresponds
@@ -357,6 +371,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     ui->cbGeofence->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbGeofence->setProperty(falseString.toLatin1(), "Disabled");
+
+    ui->cbAutotune->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbAutotune->setProperty(falseString.toLatin1(), "Disabled");
 
     ui->gb_measureVoltage->setProperty(trueString.toLatin1(), "Enabled");
     ui->gb_measureVoltage->setProperty(falseString.toLatin1(), "Disabled");
@@ -432,6 +449,10 @@ void ConfigModuleWidget::recheckTabs()
     obj = getObjectManager()->getObject(PicoCSettings::NAME);
     connect(obj, SIGNAL(transactionCompleted(UAVObject*,bool)), this, SLOT(objectUpdated(UAVObject*,bool)), Qt::UniqueConnection);
     obj->requestUpdate();
+
+    // This requires re-evaluation so that board connection doesn't re-enable
+    // the field.
+    ui->cbAutotune->setDisabled(true);
 }
 
 //! Enable appropriate tab when objects are updated
@@ -553,9 +574,32 @@ void ConfigModuleWidget::toggleVibrationTest()
     vibrationAnalysisSettings->updated();
 }
 
-void ConfigModuleWidget::updateAirspeedUAVO(UAVObject *obj)
+/**
+ * @brief Toggle voltage and current pins depending on battery monitoring checkboxes
+ */
+void ConfigModuleWidget::toggleBatteryMonitoringPin()
 {
-    Q_UNUSED(obj);
+    if (!ui->gb_measureVoltage->isChecked())
+        ui->cbVoltagePin->setCurrentIndex(ui->cbVoltagePin->findText("NONE"));
+
+    if (!ui->gb_measureCurrent->isChecked())
+        ui->cbCurrentPin->setCurrentIndex(ui->cbCurrentPin->findText("NONE"));
+}
+
+/**
+ * @brief Toggle battery monitoring checkboxes depending on voltage and current pins
+ */
+void ConfigModuleWidget::toggleBatteryMonitoringGb()
+{
+    if (ui->cbVoltagePin->currentText().compare("NONE") != 0)
+        ui->gb_measureVoltage->setChecked(true);
+    else
+        ui->gb_measureVoltage->setChecked(false);
+
+    if (ui->cbCurrentPin->currentText().compare("NONE") != 0)
+        ui->gb_measureCurrent->setChecked(true);
+    else
+        ui->gb_measureCurrent->setChecked(false);
 }
 
 /**
@@ -574,21 +618,46 @@ void ConfigModuleWidget::updateAirspeedGroupbox(UAVObject *obj)
     ui->gb_airspeedGPS->setChecked(false);
     ui->gb_airspeedPitot->setChecked(false);
 
-    switch (airspeedSettingsData.AirspeedSensorType) {
-    case AirspeedSettings::AIRSPEEDSENSORTYPE_GPSONLY:
+    if (airspeedSettingsData.AirspeedSensorType == AirspeedSettings::AIRSPEEDSENSORTYPE_GPSONLY) {
         ui->gb_airspeedGPS->setChecked(true);
-        break;
-    case AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004:
-        ui->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004);
-        ui->gb_airspeedPitot->setChecked(true);
-    case AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002:
-        ui->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002);
-        ui->gb_airspeedPitot->setChecked(true);
-    case AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3:
-        ui->cb_pitotType->setCurrentIndex(AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3);
-        ui->gb_airspeedPitot->setChecked(true);
-        break;
     }
+    else {
+         ui->gb_airspeedPitot->setChecked(true);
+    }
+}
+
+/**
+ * @brief ConfigModuleWidget::toggleAirspeedType Toggle the airspeed sensor type based on checkbox
+ * @param checked
+ */
+void ConfigModuleWidget::enableAirspeedTypeGPS(bool checked)
+{
+    if (checked){
+        AirspeedSettings *airspeedSettings;
+        airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
+        AirspeedSettings::DataFields airspeedSettingsData;
+        airspeedSettingsData = airspeedSettings->getData();
+        airspeedSettingsData.AirspeedSensorType = AirspeedSettings::AIRSPEEDSENSORTYPE_GPSONLY;
+        airspeedSettings->setData(airspeedSettingsData);
+    }
+
+}
+
+/**
+ * @brief ConfigModuleWidget::toggleAirspeedType Toggle the airspeed sensor type based on checkbox
+ * @param checked
+ */
+void ConfigModuleWidget::enableAirspeedTypePitot(bool checked)
+{
+    if (checked){
+        AirspeedSettings *airspeedSettings;
+        airspeedSettings = AirspeedSettings::GetInstance(getObjectManager());
+        AirspeedSettings::DataFields airspeedSettingsData;
+        airspeedSettingsData = airspeedSettings->getData();
+        airspeedSettingsData.AirspeedSensorType = AirspeedSettings::AIRSPEEDSENSORTYPE_EAGLETREEAIRSPEEDV3;
+        airspeedSettings->setData(airspeedSettingsData);
+    }
+
 }
 
 //! Enable or disable the battery tab

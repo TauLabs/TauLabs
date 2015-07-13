@@ -81,16 +81,32 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     foreach (QString name, manualSettingsObj->getField("ChannelNumber")->getElementNames())
     {
         Q_ASSERT(index < ManualControlSettings::CHANNELGROUPS_NUMELEM);
-        inputChannelForm * inpForm=new inputChannelForm(this,index==0);
+        inputChannelForm * inpForm=new inputChannelForm(this,index==0,true);
         m_config->channelSettings->layout()->addWidget(inpForm); //Add the row to the UI
         inpForm->setName(name);
         addUAVObjectToWidgetRelation("ManualControlSettings","ChannelGroups",inpForm->ui->channelGroup,index);
         addUAVObjectToWidgetRelation("ManualControlSettings","ChannelNumber",inpForm->ui->channelNumber,index);
         addUAVObjectToWidgetRelation("ManualControlSettings","ChannelMin",inpForm->ui->channelMin,index);
-        addUAVObjectToWidgetRelation("ManualControlSettings","ChannelNeutral",inpForm->ui->channelNeutral,index);
         addUAVObjectToWidgetRelation("ManualControlSettings","ChannelMax",inpForm->ui->channelMax,index);
+        addUAVObjectToWidgetRelation("ManualControlSettings","ChannelNeutral",inpForm->ui->channelNeutral,index);
+
+        int index2 = manualCommandObj->getField("Channel")->getElementNames().indexOf(name);
+        if (index2 >= 0) {
+            addUAVObjectToWidgetRelation("ManualControlCommand", "Channel", inpForm->ui->channelCurrent, index2);
+        }
         ++index;
     }
+
+    // RSSI
+    inputChannelForm * inpForm=new inputChannelForm(this,false,false);
+    m_config->channelSettings->layout()->addWidget(inpForm);
+    QString name = "RSSI";
+    inpForm->setName(name);
+    addUAVObjectToWidgetRelation("ManualControlSettings","RssiType",inpForm->ui->channelGroup,0);
+    addUAVObjectToWidgetRelation("ManualControlSettings","RssiChannelNumber",inpForm->ui->channelNumber,0);
+    addUAVObjectToWidgetRelation("ManualControlSettings","RssiMin",inpForm->ui->channelMin,0);
+    addUAVObjectToWidgetRelation("ManualControlSettings","RssiMax",inpForm->ui->channelMax,0);
+    addUAVObjectToWidgetRelation("ManualControlCommand", "RawRssi", inpForm->ui->channelCurrent, 0);
 
     addUAVObjectToWidgetRelation("ManualControlSettings", "Deadband", m_config->deadband, 0, 0.01f);
 
@@ -959,9 +975,6 @@ void ConfigInputWidget::identifyLimits()
             // ratio between + and - range.
             manualSettingsData.ChannelNeutral[i] = manualSettingsData.ChannelMin[i] +
                     (manualSettingsData.ChannelMax[i] - manualSettingsData.ChannelMin[i]) * THROTTLE_NEUTRAL_FRACTION;
-        } else {
-            manualSettingsData.ChannelNeutral[i] =
-                    (manualSettingsData.ChannelMin[i] + manualSettingsData.ChannelMax[i]) * 0.5;
         }
     }
     manualSettingsObj->setData(manualSettingsData);

@@ -27,6 +27,7 @@
 				<elementname>UAVOFrSkySPortBridge</elementname>
 				<elementname>Geofence</elementname>
 				<elementname>Logging</elementname>
+				<elementname>FlightStats</elementname>
 			</elementnames>
 		</field>
 
@@ -58,6 +59,9 @@
 		</field>
 		<field name="GPSDataProtocol" units="" type="enum" elements="1" options="NMEA,UBX" defaultvalue="UBX"/>
 		<field name="GPSAutoConfigure" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="TRUE"/>
+		<field name="GPSConstellation" units="" type="enum" elements="1" options="All, GPS, GLONASS" defaultvalue="GPS"/>
+		<field name="GPSSBASConstellation" units="" type="enum" elements="1" options="All, WAAS, EGNOS, MSAS, GAGAN, None" defaultvalue="All"/>
+		<field name="GPSDynamicsMode" units="" type="enum" elements="1" options="Portable, Pedestrian, Automotive, Airborne1G, Airborne2G, Airborne4G" defaultvalue="Airborne2G"/>
 
 		<!-- ComUsbBridge Module Settings -->
 		<field name="ComUsbBridgeSpeed" units="bps" type="enum" elements="1" defaultvalue="57600">

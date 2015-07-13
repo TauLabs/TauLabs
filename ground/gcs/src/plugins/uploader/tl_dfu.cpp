@@ -306,8 +306,11 @@ int DFUObject::JumpToApp(bool safeboot)
 {
     bl_messages message;
     message.flags_command = BL_MSG_JUMP_FW;
+
+    // 0x5afe must have the bytes flipped for consistency
+    // with how the bootloader process this.
     if(safeboot)
-        message.v.jump_fw.safe_word = 0x5afe;
+        message.v.jump_fw.safe_word = ntohs((quint16) 0x5afe);
     else
         message.v.jump_fw.safe_word = 0x0000;
     return SendData(message);
@@ -635,7 +638,11 @@ quint32 DFUObject::CRCFromQBArray(QByteArray array, quint32 Size)
     }
 
     int maxSize = (array.length() > Size) ? Size : array.length();
-    quint32 t[Size / 4];
+    // Large firmwares require defining super large arrays,
+    // so better to malloc them. I did run into stack overflows here
+    // with devices with large firmwares (1MB) (E. Lafargue), hence
+    // this approach.
+    quint32 *t = (quint32*) malloc(Size);
     for(int x = 0; x < maxSize / 4;x++)
     {
         quint32 aux = 0;
@@ -648,7 +655,9 @@ quint32 DFUObject::CRCFromQBArray(QByteArray array, quint32 Size)
         aux += (char)array[x * 4 + 0] & 0xFF;
         t[x] = aux;
     }
-    return DFUObject::CRC32WideFast(0xFFFFFFFF, Size / 4, (quint32*)t);
+    quint32 crc = DFUObject::CRC32WideFast(0xFFFFFFFF, Size / 4, (quint32*)t);
+    free(t);
+    return crc;
 }
 
 /**

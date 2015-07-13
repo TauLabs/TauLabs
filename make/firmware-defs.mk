@@ -1,9 +1,23 @@
 # Toolchain prefix (i.e arm-elf- -> arm-elf-gcc.exe)
 TCHAIN_PREFIX ?= arm-none-eabi-
 
+CCACHE :=
+
+ifeq ($(FLIGHT_BUILD_CONF), debug)
+export DEBUG:=YES
+CCACHE := $(shell which ccache)
+else ifeq ($(FLIGHT_BUILD_CONF), default)
+# In the default case, keep the old "DEBUG"  variable handling
+CCACHE := $(shell which ccache)
+else ifeq ($(FLIGHT_BUILD_CONF), release)
+export DEBUG:=NO
+else
+$(error Only debug, release, or default allowed for FLIGHT_BUILD_CONF)
+endif
+
 # Define toolchain component names.
-CC      = $(TCHAIN_PREFIX)gcc
-CXX     = $(TCHAIN_PREFIX)g++
+CC      = $(CCACHE) $(TCHAIN_PREFIX)gcc
+CXX     = $(CCACHE) $(TCHAIN_PREFIX)g++
 AR      = $(TCHAIN_PREFIX)ar
 OBJCOPY = $(TCHAIN_PREFIX)objcopy
 OBJDUMP = $(TCHAIN_PREFIX)objdump

@@ -44,6 +44,7 @@
 #include "accels.h"
 #include "actuatordesired.h"
 #include "attitudeactual.h"
+#include "brushlessgimbalsettings.h"
 #include "cameradesired.h"
 #include "flightstatus.h"
 #include "gyros.h"
@@ -70,7 +71,7 @@
 #if defined(PIOS_STABILIZATION_STACK_SIZE)
 #define STACK_SIZE_BYTES PIOS_STABILIZATION_STACK_SIZE
 #else
-#define STACK_SIZE_BYTES 724
+#define STACK_SIZE_BYTES 800
 #endif
 
 #define TASK_PRIORITY PIOS_THREAD_PRIO_HIGHEST
@@ -79,6 +80,8 @@
 #define COORDINATED_FLIGHT_MAX_YAW_THRESHOLD 0.05f
 
 //! Set the stick position that maximally transitions to rate
+// This value is also used for the expo plot in GCS (config/stabilization/advanced).
+// Please adapt changes here also to the init of the plots  in /ground/gcs/src/plugins/config/configstabilizationwidget.cpp
 #define HORIZON_MODE_MAX_BLEND               0.85f
 
 enum {
@@ -236,21 +239,31 @@ static void stabilizationTask(void* parameters)
 		} trimmedAttitudeSetpoint;
 		
 		// Mux in level trim values, and saturate the trimmed attitude setpoint.
-		trimmedAttitudeSetpoint.Roll = bound_sym(stabDesired.Roll + trimAngles.Roll, settings.RollMax);
-		trimmedAttitudeSetpoint.Pitch = bound_sym(stabDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
+		trimmedAttitudeSetpoint.Roll = bound_min_max(
+			stabDesired.Roll + trimAngles.Roll,
+			-settings.RollMax + trimAngles.Roll,
+			 settings.RollMax + trimAngles.Roll);
+		trimmedAttitudeSetpoint.Pitch = bound_min_max(
+			stabDesired.Pitch + trimAngles.Pitch,
+			-settings.PitchMax + trimAngles.Pitch,
+			 settings.PitchMax + trimAngles.Pitch);
 		trimmedAttitudeSetpoint.Yaw = stabDesired.Yaw;
 
 		// For horizon mode we need to compute the desire attitude from an unscaled value and apply the
 		// trim offset. Also track the stick with the most deflection to choose rate blending.
 		horizonRateFraction = 0.0f;
 		if (stabDesired.StabilizationMode[ROLL] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
-			trimmedAttitudeSetpoint.Roll = stabDesired.Roll * settings.RollMax;
-			trimmedAttitudeSetpoint.Roll = bound_sym(stabDesired.Roll + trimAngles.Roll, settings.RollMax);
+			trimmedAttitudeSetpoint.Roll = bound_min_max(
+				stabDesired.Roll * settings.RollMax + trimAngles.Roll,
+				-settings.RollMax + trimAngles.Roll,
+				 settings.RollMax + trimAngles.Roll);
 			horizonRateFraction = fabsf(stabDesired.Roll);
 		}
 		if (stabDesired.StabilizationMode[PITCH] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
-			trimmedAttitudeSetpoint.Pitch = stabDesired.Pitch * settings.PitchMax;
-			trimmedAttitudeSetpoint.Pitch = bound_sym(stabDesired.Pitch + trimAngles.Pitch, settings.PitchMax);
+			trimmedAttitudeSetpoint.Pitch = bound_min_max(
+				stabDesired.Pitch * settings.PitchMax + trimAngles.Pitch,
+				-settings.PitchMax + trimAngles.Pitch,
+				 settings.PitchMax + trimAngles.Pitch);
 			horizonRateFraction = MAX(horizonRateFraction, fabsf(stabDesired.Pitch));
 		}
 		if (stabDesired.StabilizationMode[YAW] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) {
@@ -274,7 +287,7 @@ static void stabilizationTask(void* parameters)
 		horizonRateFraction = bound_sym(horizonRateFraction, HORIZON_MODE_MAX_BLEND) / HORIZON_MODE_MAX_BLEND;
 
 		// Calculate the errors in each axis. The local error is used in the following modes:
-		//  ATTITUDE, HORIZON, WEAKLEVELING, RELAYATTITUDE
+		//  ATTITUDE, HORIZON, WEAKLEVELING
 		float local_attitude_error[3];
 		local_attitude_error[0] = trimmedAttitudeSetpoint.Roll - attitudeActual.Roll;
 		local_attitude_error[1] = trimmedAttitudeSetpoint.Pitch - attitudeActual.Pitch;
@@ -391,7 +404,7 @@ static void stabilizationTask(void* parameters)
 					// Compute the outer loop for the attitude control
 					float rateDesiredAttitude = pid_apply(&pids[PID_ATT_ROLL + i], local_attitude_error[i], dT);
 					// Compute the desire rate for a rate control
-					float rateDesiredRate = expo3(raw_input[i], settings.RateExpo[i]) * settings.ManualRate[i];
+					float rateDesiredRate = raw_input[i] * settings.ManualRate[i];
 
 					// Blend from one rate to another. The maximum of all stick positions is used for the
 					// amount so that when one axis goes completely to rate the other one does too. This
@@ -644,9 +657,21 @@ static void stabilizationTask(void* parameters)
 							error = circular_modulus_deg(angle - attitudeActual.Pitch);
 							break;
 						case ROLL:
-							// For ROLL POI mode we track the FC roll angle (scaled)
+						{
+							uint8_t roll_fraction = 0;
+#ifdef GIMBAL
+							if (BrushlessGimbalSettingsHandle()) {
+								BrushlessGimbalSettingsRollFractionGet(&roll_fraction);
+							}
+#endif /* GIMBAL */
+
+							// For ROLL POI mode we track the FC roll angle (scaled) to
+							// allow keeping some motion
 							CameraDesiredRollGet(&angle);
-							error = circular_modulus_deg(angle - attitudeActual.Pitch);
+							angle *= roll_fraction / 100.0f;
+							error = circular_modulus_deg(angle - attitudeActual.Roll);
+						}
+							break;
 						case YAW:
 							CameraDesiredBearingGet(&angle);
 							error = circular_modulus_deg(angle - attitudeActual.Yaw);

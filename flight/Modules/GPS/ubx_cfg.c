@@ -7,7 +7,7 @@
  * @{
  *
  * @file       ubx_cfg.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
  * @brief      Include file for UBX configuration
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -91,19 +91,37 @@
 
 #define UBLOX_CFG_MSG       0x01
 #define UBLOX_CFG_TP        0x07
-#define UBLOX_CFG_RTATE     0x08
+#define UBLOX_CFG_RATE      0x08
 #define UBLOX_CFG_CFG       0x09
 #define UBLOX_CFG_SBAS      0x16
 #define UBLOX_CFG_NAV5      0x24
+#define UBLOX_CFG_GNSS      0x3E
 
 #define UBLOX_SBAS_AUTO     0x00000000
+// TODO: Reverify these constants-- seems they have more bits set than they
+// should.
 #define UBLOX_SBAS_WAAS     0x0004E004
 #define UBLOX_SBAS_EGNOS    0x00000851
 #define UBLOX_SBAS_MSAS     0x00020200
 #define UBLOX_SBAS_GAGAN    0x00000108
 
+#define UBLOX_DYN_PORTABLE   0
+#define UBLOX_DYN_STATIONARY 2
+#define UBLOX_DYN_PED        3
+#define UBLOX_DYN_AUTOMOTIVE 4
+#define UBLOX_DYN_SEA        5
+#define UBLOX_DYN_AIR1G      6
+#define UBLOX_DYN_AIR2G      7
+#define UBLOX_DYN_AIR4G      8
+
+#define UBLOX_GNSSID_GPS     0
+#define UBLOX_GNSSID_SBAS    1
+#define UBLOX_GNSSID_BEIDOU  3
+#define UBLOX_GNSSID_QZSS    5
+#define UBLOX_GNSSID_GLONASS 6
+
 #define UBLOX_MAX_PAYLOAD   384
-#define UBLOX_WAIT_MS       20
+#define UBLOX_WAIT_MS       50
 
 uint8_t ubloxTxCK_A, ubloxTxCK_B;
 static char *gps_rx_buffer;
@@ -143,7 +161,7 @@ static void ubx_cfg_set_rate(uintptr_t gps_port, uint16_t ms) {
 
     const uint8_t msg[] = {
         UBLOX_CFG_CLASS,       // CFG
-        UBLOX_CFG_RTATE,       // RTATE
+        UBLOX_CFG_RATE,        // RATE
         0x06,                  // length lsb
         0x00,                  // length msb
         ms,                    // rate lsb
@@ -157,7 +175,34 @@ static void ubx_cfg_set_rate(uintptr_t gps_port, uint16_t ms) {
 }
 
 //! Configure the navigation mode and minimum fix
-static void ubx_cfg_set_mode(uintptr_t gps_port) {
+static void ubx_cfg_set_mode(uintptr_t gps_port,
+        ModuleSettingsGPSDynamicsModeOptions dyn_mode) {
+    uint8_t dyn_const;
+
+    // Omitted: Stationary and at sea.  At sea assumes sea level, we basically
+    // never want that.
+
+    switch (dyn_mode) {
+        case MODULESETTINGS_GPSDYNAMICSMODE_PORTABLE:
+            dyn_const = UBLOX_DYN_PORTABLE;
+            break;
+        case MODULESETTINGS_GPSDYNAMICSMODE_PEDESTRIAN:
+            dyn_const = UBLOX_DYN_PED;
+            break;
+        case MODULESETTINGS_GPSDYNAMICSMODE_AUTOMOTIVE:
+            dyn_const = UBLOX_DYN_AUTOMOTIVE;
+            break;
+        case MODULESETTINGS_GPSDYNAMICSMODE_AIRBORNE1G:
+            dyn_const = UBLOX_DYN_AIR1G;
+            break;
+        case MODULESETTINGS_GPSDYNAMICSMODE_AIRBORNE2G:
+        default:
+            dyn_const = UBLOX_DYN_AIR2G;
+            break;
+        case MODULESETTINGS_GPSDYNAMICSMODE_AIRBORNE4G:
+            dyn_const = UBLOX_DYN_AIR4G;
+            break;
+    }
 
     const uint8_t msg[] = {
         UBLOX_CFG_CLASS,       // CFG
@@ -166,7 +211,7 @@ static void ubx_cfg_set_mode(uintptr_t gps_port) {
         0x00,                  // length msb
         0b0000101,             // mask LSB (fixMode, dyn)
         0x00,                  // mask MSB (reserved)
-        0x06,                  // dynamic model (6 - airborne < 1g)
+        dyn_const,             // dynamic model (7 - airborne < 2g)
         0x02,                  // fixmode (2 - 3D only)
         0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,
@@ -207,9 +252,31 @@ static void ubx_cfg_set_timepulse(uintptr_t gps_port) {
 }
 
 //! Enable or disable SBAS satellites
-static void ubx_cfg_set_sbas(uintptr_t gps_port, bool enable) {
-    // second bit of mode field is diffCorr
-    enable = (enable > 0);
+static void ubx_cfg_set_sbas(uintptr_t gps_port,
+        ModuleSettingsGPSSBASConstellationOptions sbas_const) {
+    bool enable = sbas_const != MODULESETTINGS_GPSSBASCONSTELLATION_NONE;
+
+    uint32_t sv_mask;
+
+    switch (sbas_const) {
+        case MODULESETTINGS_GPSSBASCONSTELLATION_WAAS:
+            sv_mask = UBLOX_SBAS_WAAS;
+            break;
+        case MODULESETTINGS_GPSSBASCONSTELLATION_EGNOS:
+            sv_mask = UBLOX_SBAS_EGNOS;
+            break;
+        case MODULESETTINGS_GPSSBASCONSTELLATION_MSAS:
+            sv_mask = UBLOX_SBAS_MSAS;
+            break;
+        case MODULESETTINGS_GPSSBASCONSTELLATION_GAGAN:
+            sv_mask = UBLOX_SBAS_GAGAN;
+            break;
+        case MODULESETTINGS_GPSSBASCONSTELLATION_ALL:
+        case MODULESETTINGS_GPSSBASCONSTELLATION_NONE:
+        default:
+            sv_mask = UBLOX_SBAS_AUTO;
+            break;
+    }
 
     const uint8_t msg[] = {
         UBLOX_CFG_CLASS, // CFG
@@ -220,10 +287,10 @@ static void ubx_cfg_set_sbas(uintptr_t gps_port, bool enable) {
         0b011,           // mode
         3,               // # SBAS tracking channels
         0,
-        UBLOX_SBAS_AUTO,
-        UBLOX_SBAS_AUTO >> 4,
-        UBLOX_SBAS_AUTO >> 8,
-        UBLOX_SBAS_AUTO >> 12,
+        sv_mask,
+        sv_mask >> 8,
+        sv_mask >> 16,
+        sv_mask >> 24,
     };
 
     ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
@@ -261,14 +328,108 @@ static void ubx_cfg_poll_version(uintptr_t gps_port) {
     ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
 }
 
-//! Apply firmwaree version specific configuration tweaks
-static void ubx_cfg_version_specific(uintptr_t gps_port, uint8_t ver) {
-    if (ver > 6) {
-        // 10Hz for ver 7+
-        ubx_cfg_set_rate(gps_port, (uint16_t)100);
+#define MAX_CH_PER_CATEGORY 16
+static void ubx_cfg_set_constellation(uintptr_t gps_port, 
+        ModuleSettingsGPSConstellationOptions constellation,
+        ModuleSettingsGPSSBASConstellationOptions sbas_const) {
+    // Do all this stuff upfront so we don't need to use ternary everywhere.
+    uint8_t sbas_chan = 3;
+    bool enable_gps = true;
+    bool enable_glonass = false;
 
-        // SBAS screwed up on v7 modules w/ v1 firmware
-        ubx_cfg_set_sbas(gps_port, 0);
+    uint8_t max_glonass_ch = 0;
+    uint8_t max_gps_ch = MAX_CH_PER_CATEGORY;
+    uint8_t min_gps_ch = 10;    // We have 32 channels, so always reserving
+                                // at least 10 for GPS is no big deal (if
+                                // enabled)
+
+    bool enable_sbas = (sbas_const != MODULESETTINGS_GPSSBASCONSTELLATION_NONE);
+
+    // Don't save channels for SBAS when we're not using it.
+    if (!enable_sbas) sbas_chan = 0;
+
+    switch (constellation) {
+        case MODULESETTINGS_GPSCONSTELLATION_GLONASS:
+	    enable_gps = false; // fall through
+        case MODULESETTINGS_GPSCONSTELLATION_ALL:
+            enable_glonass = true;
+            break;
+        case MODULESETTINGS_GPSCONSTELLATION_GPS:
+        default:
+            // Nothing to see here.  Defaults are good.
+            break;
+    }
+
+    if (enable_glonass) max_glonass_ch = MAX_CH_PER_CATEGORY;
+
+    if (!enable_gps) {
+        max_gps_ch = 0;
+        min_gps_ch = 0;
+    }
+
+    const uint8_t msg[] = {
+        UBLOX_CFG_CLASS, // CFG
+        UBLOX_CFG_GNSS,  // GNSS
+        28,              // length lsb   4 + 8 x 3 = 28
+        0,               // length msb
+        0,               // msgver = 0 
+        0,               // numTrkChHw (ro)
+        32,              // numTrkChUse
+        3,               // 3 config blocks here
+
+        UBLOX_GNSSID_GPS,     // Configuration for GPS
+        min_gps_ch,      // Minimum number of channels to reserve.
+        max_gps_ch,      // maximum number of channels used
+        0,               // reserved1
+        enable_gps,      // flags, 1 here means enable
+        0,
+        enable_gps,      // flags, sigcfgmask, 1 sane for all sat systems
+        enable_gps,	 // UNKNOWN-- but ucenter sets it?
+
+        UBLOX_GNSSID_SBAS, // This chunk is always for SBAS/DGPS
+        sbas_chan,       // How many to save for SBAS?
+        sbas_chan,       // Maximum sbas channels
+        0,               // reserved1
+        enable_sbas,     // flags, 1 here means enable
+        0,
+        enable_sbas,     // flags, sigcfgmask, SBAS L1CA
+        enable_sbas,
+
+        // If this next one is used, it's always GLONASS.
+        UBLOX_GNSSID_GLONASS,	// GLONASS.
+        0,               // Minimum num channels reserved 
+        max_glonass_ch,  // Maximum sbas channels
+        0,               // reserved1
+        enable_glonass,  // flags, 1 here means enable
+        0,
+        enable_glonass,  // flags, sigcfgmask, GLONASS L1OF
+        enable_glonass 
+    };
+
+    ubx_cfg_send_checksummed(gps_port, msg, sizeof(msg));
+}
+
+//! Apply firmware version specific configuration tweaks
+static void ubx_cfg_version_specific(uintptr_t gps_port, uint8_t ver,
+        ModuleSettingsGPSConstellationOptions constellation,
+        ModuleSettingsGPSSBASConstellationOptions sbas_const) {
+    // Enable satellite-based differential GPS.
+    ubx_cfg_set_sbas(gps_port, sbas_const);
+
+    if (ver >= 8) {
+        // 10Hz for ver 8, unless 'ALL' constellations in which case we
+        // are 5Hz
+        // TODO: Detect modules where we can ask for 18/10Hz instead
+        if (constellation == MODULESETTINGS_GPSCONSTELLATION_ALL) {
+            ubx_cfg_set_rate(gps_port, (uint16_t)200);
+        } else {
+            ubx_cfg_set_rate(gps_port, (uint16_t)100);
+        }
+
+        ubx_cfg_set_constellation(gps_port, constellation, sbas_const);
+    } else if (ver == 7) {
+        // 10Hz for ver 7
+        ubx_cfg_set_rate(gps_port, (uint16_t)100);
     } else if (ver == 6) {
         // 10Hz seems to work on 6
         ubx_cfg_set_rate(gps_port, (uint16_t)100);
@@ -318,7 +479,10 @@ static void ubx_cfg_send_checksummed(uintptr_t gps_port,
  * Completely configure a UBX GPS with the messages we expect
  * in NAV5 mode at the appropriate rate.
  */
-void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
+void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer,
+        ModuleSettingsGPSConstellationOptions constellation,
+        ModuleSettingsGPSSBASConstellationOptions sbas_const,
+        ModuleSettingsGPSDynamicsModeOptions dyn_mode)
 {
     gps_rx_buffer = buffer;
 
@@ -339,24 +503,26 @@ void ubx_cfg_send_configuration(uintptr_t gps_port, char *buffer)
         UBloxInfoGet(&ublox);
     } while (ublox.swVersion == 0 && i++ < 10);
 
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_VELNED, 1);	   // NAV-VELNED
-    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_POSLLH, 1);	   // NAV-POSLLH
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_VELNED, 1);    // NAV-VELNED
+    ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_POSLLH, 1);    // NAV-POSLLH
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SOL, 1);       // NAV-SOL
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_TIMEUTC, 5);   // NAV-TIMEUTC
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_DOP, 1);       // NAV-DOP
     ubx_cfg_enable_message(gps_port, UBLOX_NAV_CLASS, UBLOX_NAV_SVINFO, 5);    // NAV-SVINFO
 
-    ubx_cfg_set_mode(gps_port);						// 3D, airborne
+    ubx_cfg_set_mode(gps_port, dyn_mode);
 
     // Hardcoded version. The poll version method should fetch the
     // data but we need to link to that.
-    if (ublox.swVersion > 0)
-        ubx_cfg_version_specific(gps_port, floorf(ublox.swVersion));
+    if (ublox.hwVersion > 0)
+        ubx_cfg_version_specific(gps_port, floorf(ublox.hwVersion),
+                constellation, sbas_const);
     else
-        ubx_cfg_version_specific(gps_port, 6);
+        ubx_cfg_version_specific(gps_port, 6,
+                constellation, sbas_const);
 }
 
-//! Make sure the GPS is set to the same baudrate as the port
+//! Make sure the GPS is set to the same baud
 void ubx_cfg_set_baudrate(uintptr_t gps_port, ModuleSettingsGPSSpeedOptions baud_rate)
 {
     // UBX,41 msg

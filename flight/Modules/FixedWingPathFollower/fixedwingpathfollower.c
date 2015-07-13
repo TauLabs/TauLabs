@@ -269,10 +269,10 @@ static void pathfollowerTask(void *parameters)
 
 				PathDesiredGet(&pathDesired);
 				switch(pathDesired.Mode) {
-					case PATHDESIRED_MODE_FLYENDPOINT:
-					case PATHDESIRED_MODE_FLYVECTOR:
-					case PATHDESIRED_MODE_FLYCIRCLERIGHT:
-					case PATHDESIRED_MODE_FLYCIRCLELEFT:
+					case PATHDESIRED_MODE_ENDPOINT:
+					case PATHDESIRED_MODE_VECTOR:
+					case PATHDESIRED_MODE_CIRCLERIGHT:
+					case PATHDESIRED_MODE_CIRCLELEFT:
 						break;
 					default:
 						state = FW_FOLLOWER_ERR;
@@ -342,17 +342,13 @@ static void updatePathVelocity()
 	float groundspeed = 0;
 	float altitudeSetpoint = 0;
 	switch (pathDesired.Mode) {
-		case PATHDESIRED_MODE_FLYCIRCLERIGHT:
-		case PATHDESIRED_MODE_DRIVECIRCLERIGHT:
-		case PATHDESIRED_MODE_FLYCIRCLELEFT:
-		case PATHDESIRED_MODE_DRIVECIRCLELEFT:
+		case PATHDESIRED_MODE_CIRCLERIGHT:
+		case PATHDESIRED_MODE_CIRCLELEFT:
 			groundspeed = pathDesired.EndingVelocity;
 			altitudeSetpoint = pathDesired.End[2];
 			break;
-		case PATHDESIRED_MODE_FLYENDPOINT:
-		case PATHDESIRED_MODE_DRIVEENDPOINT:
-		case PATHDESIRED_MODE_FLYVECTOR:
-		case PATHDESIRED_MODE_DRIVEVECTOR:
+		case PATHDESIRED_MODE_ENDPOINT:
+		case PATHDESIRED_MODE_VECTOR:
 		default:
 			groundspeed = pathDesired.StartingVelocity + (pathDesired.EndingVelocity - pathDesired.StartingVelocity) *
 				bound_min_max(progress.fractional_progress,0,1);
@@ -387,6 +383,9 @@ static void updatePathVelocity()
 		pathStatus.Status = PATHSTATUS_STATUS_INPROGRESS;
 	else
 		pathStatus.Status = PATHSTATUS_STATUS_COMPLETED;
+
+	pathStatus.Waypoint = pathDesired.Waypoint;
+
 	VelocityDesiredSet(&velocityDesired);
 }
 

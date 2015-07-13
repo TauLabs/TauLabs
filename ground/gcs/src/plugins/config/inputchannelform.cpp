@@ -4,7 +4,7 @@
 #include "manualcontrolsettings.h"
 #include "gcsreceiver.h"
 
-inputChannelForm::inputChannelForm(QWidget *parent,bool showlegend) :
+inputChannelForm::inputChannelForm(QWidget *parent,bool showlegend,bool showSlider):
     ConfigTaskWidget(parent),
     ui(new Ui::inputChannelForm)
 {
@@ -19,12 +19,19 @@ inputChannelForm::inputChannelForm(QWidget *parent,bool showlegend) :
         layout()->removeWidget(ui->legend3);
         layout()->removeWidget(ui->legend4);
         layout()->removeWidget(ui->legend5);
+        layout()->removeWidget(ui->legend6);
         delete ui->legend0;
         delete ui->legend1;
         delete ui->legend2;
         delete ui->legend3;
         delete ui->legend4;
         delete ui->legend5;
+        delete ui->legend6;
+    }
+
+    if(!showSlider)
+    {
+        ui->channelNeutral->setHidden(true);
     }
 
     // Connect slots
@@ -69,21 +76,33 @@ void inputChannelForm::setName(QString &name)
   */
 void inputChannelForm::minMaxUpdated()
 {
-    bool reverse = (ui->channelMin->value() > ui->channelMax->value());
-    if(reverse) {
-        ui->channelNeutral->setMinimum(ui->channelMax->value());
-        ui->channelNeutral->setMaximum(ui->channelMin->value());
+    if (ui->channelMin->value() != ui->channelMax->value()) {
+        bool reverse = (ui->channelMin->value() > ui->channelMax->value());
+        if(reverse) {
+            ui->channelNeutral->setMinimum(ui->channelMax->value());
+            ui->channelNeutral->setMaximum(ui->channelMin->value());
 
-        // Set the QSlider groove colors so that the fill is on the side of the minimum value
-        ui->channelNeutral->setProperty("state", "inverted");
-    } else {
-        ui->channelNeutral->setMinimum(ui->channelMin->value());
-        ui->channelNeutral->setMaximum(ui->channelMax->value());
+            // Set the QSlider groove colors so that the fill is on the side of the minimum value
+            ui->channelNeutral->setProperty("state", "inverted");
+        } else {
+            ui->channelNeutral->setMinimum(ui->channelMin->value());
+            ui->channelNeutral->setMaximum(ui->channelMax->value());
 
-        // Set the QSlider groove colors so that the fill is on the side of the minimum value
-        ui->channelNeutral->setProperty("state", "normal");
+            // Set the QSlider groove colors so that the fill is on the side of the minimum value
+            ui->channelNeutral->setProperty("state", "normal");
+        }
+        ui->channelNeutral->setInvertedAppearance(reverse);
+
+        // make sure slider is enabled (can be removed when "else" below is removed)
+        ui->channelNeutral->setEnabled(true);
     }
-    ui->channelNeutral->setInvertedAppearance(reverse);
+    else {
+        // when the min and max is equal, disable this slider to prevent crash
+        // from Qt bug: https://bugreports.qt.io/browse/QTBUG-43398
+        ui->channelNeutral->setMinimum(ui->channelMin->value() - 1);
+        ui->channelNeutral->setMaximum(ui->channelMax->value() + 1);
+        ui->channelNeutral->setEnabled(false);
+    }
 
     // Force refresh of style sheet.
     ui->channelNeutral->setStyle(QApplication::style());
@@ -112,10 +131,17 @@ void inputChannelForm::groupUpdated()
     case ManualControlSettings::CHANNELGROUPS_PPM:
     case ManualControlSettings::CHANNELGROUPS_DSMMAINPORT:
     case ManualControlSettings::CHANNELGROUPS_DSMFLEXIPORT:
+    case ManualControlSettings::CHANNELGROUPS_DSMRCVRPORT:
         count = 12;
         break;
     case ManualControlSettings::CHANNELGROUPS_SBUS:
         count = 18;
+        break;
+    case ManualControlSettings::CHANNELGROUPS_RFM22B:
+        count = 8;
+        break;
+    case ManualControlSettings::CHANNELGROUPS_OPENLRS:
+        count = 8;
         break;
     case ManualControlSettings::CHANNELGROUPS_GCS:
         count = GCSReceiver::CHANNEL_NUMELEM;

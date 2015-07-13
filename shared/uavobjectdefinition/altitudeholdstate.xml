@@ -1,0 +1,13 @@
+<xml>
+    <object name="AltitudeHoldState" singleinstance="true" settings="false">
+        <description>Debugging information for the altitude hold module</description>
+        <field name="VelocityDesired" units="m/s" type="float" elements="1"/>
+        <field name="Integral" units="" type="float" elements="1"/>
+        <field name="AngleGain" units="" type="float" elements="1"/>
+        <field name="Throttle" units="" type="float" elements="1"/>
+        <access gcs="readwrite" flight="readwrite"/>
+        <telemetrygcs acked="false" updatemode="manual" period="0"/>
+        <telemetryflight acked="false" updatemode="periodic" period="0"/>
+        <logging updatemode="periodic" period="1000"/>
+    </object>
+</xml>

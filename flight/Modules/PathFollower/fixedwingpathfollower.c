@@ -471,7 +471,7 @@ uint8_t waypointFollowing(uint8_t flightMode, FixedWingPathFollowerSettingsCCDat
 	stabDesired.Roll = bound(rolllimit_neutral +
 				 rollCommand, rolllimit_min, rolllimit_max);
 
-#ifdef SIM_OSX
+#ifdef SIM_POSIX
 	fprintf(stderr, " headingError_R: %f, rollCommand: %f\n",
 		headingError_R, rollCommand);
 #endif
@@ -562,7 +562,7 @@ float followOrbit(float c[3], float rho, bool direction, float p[3], float psi,
 							       integral->
 							       circleError);
 
-#ifdef SIM_OSX
+#ifdef SIM_POSIX
 	fprintf(stderr,
 		"actual heading: %f, circle error: %f, circl integral: %f, heading command: %f",
 		psi, err_orbit, integral->circleError, psi_command);

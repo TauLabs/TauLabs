@@ -48,13 +48,13 @@ public slots:
 private slots:
 
 private:
-   static const int MAX_SATTELITES = 16;
-   int satellites[MAX_SATTELITES][4];
+   static const int MAX_SATELLITES = 32;
+   int satellites[MAX_SATELLITES][4];
    QGraphicsScene *scene;
    QSvgRenderer *renderer;
    QGraphicsSvgItem* world;
-   QGraphicsSvgItem* satIcons[MAX_SATTELITES];
-   QGraphicsSimpleTextItem* satTexts[MAX_SATTELITES];
+   QGraphicsSvgItem* satIcons[MAX_SATELLITES];
+   QGraphicsSimpleTextItem* satTexts[MAX_SATELLITES];
 
    QPointF polarToCoord(int elevation, int azimuth);
 

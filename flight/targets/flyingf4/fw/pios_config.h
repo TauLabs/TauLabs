@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_config.h 
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
  * @brief      Board specific options that modify PiOS capabilities
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -35,7 +35,7 @@
 #define PIOS_INCLUDE_BL_HELPER
 
 /* Enable/Disable PiOS Modules */
-//#define PIOS_INCLUDE_ADC
+#define PIOS_INCLUDE_ADC
 #define PIOS_INCLUDE_DELAY
 #define PIOS_INCLUDE_I2C
 #define WDG_STATS_DIAGNOSTICS
@@ -55,6 +55,7 @@
 #define PIOS_INCLUDE_RTC
 #define PIOS_INCLUDE_WDG
 #define PIOS_INCLUDE_FASTHEAP
+#define PIOS_INCLUDE_HPWM
 
 /* Select the sensors to include */
 #define PIOS_INCLUDE_HMC5883
@@ -94,8 +95,7 @@
 #define PIOS_INCLUDE_FLASH_JEDEC
 #define PIOS_INCLUDE_FLASH_INTERNAL
 
-/* Other Interfaces */
-//#define PIOS_INCLUDE_I2C_ESC
+//#define PIOS_INCLUDE_DEBUG_CONSOLE
 
 /* Flags that alter behaviors - mostly to lower resources for CC */
 #define PIOS_INCLUDE_INITCALL           /* Include init call structures */

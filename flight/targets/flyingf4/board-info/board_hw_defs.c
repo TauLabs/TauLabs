@@ -790,6 +790,71 @@ static const struct pios_usart_cfg pios_usart3_cfg = {
 
 /* uart 4 and 5 are RX only and available */
 
+static const struct pios_usart_cfg pios_usart4_cfg = {
+	.regs = UART4,
+	.remap = GPIO_AF_UART4,
+	.init = {
+		.USART_BaudRate = 57600,
+		.USART_WordLength = USART_WordLength_8b,
+		.USART_Parity = USART_Parity_No,
+		.USART_StopBits = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode = USART_Mode_Rx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = UART4_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.rx = {
+		.gpio = GPIOC,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_11,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+		.pin_source = GPIO_PinSource11,
+	},
+};
+
+static const struct pios_usart_cfg pios_usart5_cfg = {
+	.regs = UART5,
+	.remap = GPIO_AF_UART5,
+	.init = {
+		.USART_BaudRate = 57600,
+		.USART_WordLength = USART_WordLength_8b,
+		.USART_Parity = USART_Parity_No,
+		.USART_StopBits = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode = USART_Mode_Rx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = UART5_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.rx = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_2,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+		.pin_source = GPIO_PinSource2,
+	},
+};
+
+
 #endif  /* PIOS_INCLUDE_USART */
 
 #if defined(PIOS_INCLUDE_COM)
@@ -807,9 +872,7 @@ static const struct pios_usart_cfg pios_usart3_cfg = {
 void PIOS_RTC_IRQ_Handler (void);
 void RTC_WKUP_IRQHandler() __attribute__ ((alias ("PIOS_RTC_IRQ_Handler")));
 static const struct pios_rtc_cfg pios_rtc_main_cfg = {
-	.clksrc = RCC_RTCCLKSource_HSE_Div16, // Divide 8 Mhz crystal down to 1
-	// For some reason it's acting like crystal is 16 Mhz.  This clock is then divided
-	// by another 16 to give a nominal 62.5 khz clock
+	.clksrc = RCC_RTCCLKSource_HSE_Div8, // Divide 8 Mhz crystal down to 1
 	.prescaler = 100, // Every 100 cycles gives 625 Hz
 	.irq = {
 		.init = {
@@ -1685,6 +1748,48 @@ const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
 	.data_tx_ep = 1,
 };
 #endif	/* PIOS_INCLUDE_USB_HID && PIOS_INCLUDE_USB_CDC */
+
+#if defined(PIOS_INCLUDE_ADC)
+#include "pios_adc_priv.h"
+#include "pios_internal_adc_priv.h"
+
+static void PIOS_ADC_DMA_irq_handler(void);
+void DMA2_Stream4_IRQHandler(void) __attribute__((alias("PIOS_ADC_DMA_irq_handler")));
+struct pios_internal_adc_cfg pios_adc_cfg = {
+	.adc_dev_master = ADC1,
+	.dma = {
+		.irq = {
+			.flags = (DMA_FLAG_TCIF4 | DMA_FLAG_TEIF4 | DMA_FLAG_HTIF4),
+			.init = {
+				.NVIC_IRQChannel = DMA2_Stream4_IRQn,
+				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
+				.NVIC_IRQChannelSubPriority = 0,
+				.NVIC_IRQChannelCmd = ENABLE,
+			},
+		},
+		.rx = {
+			.channel = DMA2_Stream4,
+			.init = {
+				.DMA_Channel = DMA_Channel_0,
+				.DMA_PeripheralBaseAddr = (uint32_t)&ADC1->DR
+			},
+		}
+	},
+	.half_flag = DMA_IT_HTIF4,
+	.full_flag = DMA_IT_TCIF4,
+	
+};
+
+void PIOS_ADC_DMA_irq_handler(void)
+{
+	/* Call into the generic code to handle the IRQ for this specific device */
+	PIOS_INTERNAL_ADC_DMA_Handler();
+}
+
+#endif /* PIOS_INCLUDE_ADC */
+
+
+
 
 /**
  * @}

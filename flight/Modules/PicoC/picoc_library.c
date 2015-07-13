@@ -466,11 +466,11 @@ void SystemPWMFreqSet(struct ParseState *Parser, struct Value *ReturnValue, stru
 {
 	if (!security(1))
 		return;
-	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_CHANNELUPDATEFREQ_NUMELEM)) {
+	if ((Param[0]->Val->Integer >= 0) && (Param[0]->Val->Integer < ACTUATORSETTINGS_TIMERUPDATEFREQ_NUMELEM)) {
 		ActuatorSettingsData data;
-		ActuatorSettingsChannelUpdateFreqGet(data.ChannelUpdateFreq);
-		data.ChannelUpdateFreq[Param[0]->Val->Integer] = Param[1]->Val->UnsignedInteger;
-		ActuatorSettingsChannelUpdateFreqSet(data.ChannelUpdateFreq);
+		ActuatorSettingsTimerUpdateFreqGet(data.TimerUpdateFreq);
+		data.TimerUpdateFreq[Param[0]->Val->Integer] = Param[1]->Val->UnsignedInteger;
+		ActuatorSettingsTimerUpdateFreqSet(data.TimerUpdateFreq);
 	}
 }
 
@@ -534,6 +534,133 @@ void SystemTxChannelValGet(struct ParseState *Parser, struct Value *ReturnValue,
 	ReturnValue->Val->Integer = PIOS_RCVR_Read(pios_rcvr_group_map[data.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE]], Param[0]->Val->Integer);
 }
 
+#ifdef PIOS_INCLUDE_I2C
+/* void int I2CRead(unsigned char,unsigned char, void *, unsigned int): read bytes from i2c slave */
+void SystemI2CRead(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	uint32_t i2c_adapter;
+	const struct pios_i2c_txn txn_list[] = {
+		{
+			.info = __func__,
+			.addr = Param[1]->Val->UnsignedCharacter,
+			.rw   = PIOS_I2C_TXN_READ,
+			.len  = Param[3]->Val->UnsignedInteger,
+			.buf  = Param[2]->Val->Pointer,
+		},
+	};
+
+	switch(Param[0]->Val->Integer) {
+#if defined(PIOS_I2C_ADAPTER_0)
+		case 0:
+			i2c_adapter = PIOS_I2C_ADAPTER_0;
+			break;
+#endif
+#if defined(PIOS_I2C_ADAPTER_1)
+		case 1:
+			i2c_adapter = PIOS_I2C_ADAPTER_1;
+			break;
+#endif
+#if defined(PIOS_I2C_ADAPTER_2)
+		case 2:
+			i2c_adapter = PIOS_I2C_ADAPTER_2;
+			break;
+#endif
+		default:
+			i2c_adapter = 0;
+	}
+
+	if ((i2c_adapter) && (Param[2]->Val->Pointer != NULL)) {
+		ReturnValue->Val->Integer = PIOS_I2C_Transfer(i2c_adapter, txn_list, NELEMENTS(txn_list));
+	}
+	else {
+		ReturnValue->Val->Integer = -1;
+	}
+}
+
+/* void int I2CWrite(unsigned char,unsigned char, void *, unsigned int): write bytes to i2c slave */
+void SystemI2CWrite(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	uint32_t i2c_adapter;
+	const struct pios_i2c_txn txn_list[] = {
+		{
+			.info = __func__,
+			.addr = Param[1]->Val->UnsignedCharacter,
+			.rw   = PIOS_I2C_TXN_WRITE,
+			.len  = Param[3]->Val->UnsignedInteger,
+			.buf  = Param[2]->Val->Pointer,
+		},
+	};
+
+	switch(Param[0]->Val->Integer) {
+#if defined(PIOS_I2C_ADAPTER_0)
+		case 0:
+			i2c_adapter = PIOS_I2C_ADAPTER_0;
+			break;
+#endif
+#if defined(PIOS_I2C_ADAPTER_1)
+		case 1:
+			i2c_adapter = PIOS_I2C_ADAPTER_1;
+			break;
+#endif
+#if defined(PIOS_I2C_ADAPTER_2)
+		case 2:
+			i2c_adapter = PIOS_I2C_ADAPTER_2;
+			break;
+#endif
+		default:
+			i2c_adapter = 0;
+	}
+
+	if ((i2c_adapter) && (Param[2]->Val->Pointer != NULL)) {
+		ReturnValue->Val->Integer = PIOS_I2C_Transfer(i2c_adapter, txn_list, NELEMENTS(txn_list));
+	}
+	else {
+		ReturnValue->Val->Integer = -1;
+	}
+}
+#endif
+
+#ifdef PIOS_INCLUDE_GPIO
+/* void GPIOWrite(unsigned int, unsigned int): Writes/sets a general purpose output pin */
+/*(unsigned int pin_num, unsigned int command)*/
+/*unsigned int pin_num: Number of the defined GPIO pin from target/board-info/pios_board.h; starting from 0; user has to check if it is a input or output pin*/
+/*unsigned int command: 0=reset_pin , 1=set_pin, 2=toggle_pin*/
+void SystemGPIOWrite(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->UnsignedInteger < PIOS_GPIO_NUM)
+	{
+		switch(Param[1]->Val->Integer) {
+			case 0:
+				PIOS_GPIO_Off(Param[0]->Val->UnsignedInteger);
+				break;
+			case 1:
+				PIOS_GPIO_On(Param[0]->Val->UnsignedInteger);
+				break;
+			case 2:
+				PIOS_GPIO_Toggle(Param[0]->Val->UnsignedInteger);
+				break;
+		}
+	}
+}
+
+
+/* void int GPIORead(unsigned int): Reads the value of a general purpose input pin */
+/*(unsigned int pin_num)*/
+/*unsigned int pin_num: Number of the defined GPIO pin from target/board-info/pios_board.h; starting from 0; user has to check if it is a input or output pin*/
+void SystemGPIORead(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	if (Param[0]->Val->UnsignedInteger < PIOS_GPIO_NUM)
+	{
+		ReturnValue->Val->Integer = PIOS_GPIO_Read(Param[0]->Val->UnsignedInteger);
+	}
+	else
+	{
+		ReturnValue->Val->Integer = -1;
+	}
+}
+#endif
+
+
 /* list of all library functions and their prototypes */
 struct LibraryFunction PlatformLibrary_system[] =
 {
@@ -559,6 +686,14 @@ struct LibraryFunction PlatformLibrary_system[] =
 	{ SystemPWMInGet,		"int PWMInGet(int);" },
 #endif
 	{ SystemTxChannelValGet,"int TxChannelValGet(int);" },
+#ifdef PIOS_INCLUDE_I2C
+	{ SystemI2CRead,		"int i2c_read(unsigned char,unsigned char, void *,unsigned int);" },
+	{ SystemI2CWrite,		"int i2c_write(unsigned char,unsigned char, void *,unsigned int);" },
+#endif
+#ifdef PIOS_INCLUDE_GPIO
+	{ SystemGPIOWrite,		"void GPIOWrite(unsigned int, unsigned int);" },
+	{ SystemGPIORead,		"int GPIORead(unsigned int);" },
+#endif
 	{ NULL, NULL }
 };
 
@@ -924,7 +1059,7 @@ void PlatformLibrarySetup_gpsposition(Picoc *pc)
 		"long Longitude;"
 		"unsigned char Status;"
 		"char Satellites;"
-	"}GPSPositionData;";
+	"} GPSPositionData;";
 #endif
 	PicocParse(pc, "mylib", definition, strlen(definition), TRUE, TRUE, FALSE, FALSE);
 

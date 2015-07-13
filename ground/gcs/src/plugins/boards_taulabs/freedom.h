@@ -27,7 +27,9 @@
 #ifndef FREEDOM_H
 #define FREEDOM_H
 
+#include "hwfreedom.h"
 #include <coreplugin/iboardtype.h>
+#include <uavobjectutil/uavobjectutilmanager.h>
 
 class IBoardType;
 
@@ -44,6 +46,25 @@ public:
     virtual QPixmap getBoardPicture();
     virtual QString getHwUAVO();
     virtual int queryMaxGyroRate();
+
+    HwFreedom * getSettings();
+
+    /**
+     * Get the RFM22b device ID this modem
+     * @return RFM22B device ID or 0 if not supported
+     */
+    virtual quint32 getRfmID();
+
+    /**
+     * Set the coordinator ID. If set to zero this device will
+     * be a coordinator.
+     * @return true if successful or false if not
+     */
+    virtual bool bindRadio(quint32 id, quint32 baud_rate, float rf_power,
+                           Core::IBoardType::LinkMode linkMode, quint8 min, quint8 max);
+
+private:
+    UAVObjectUtilManager* uavoUtilManager;
 };
 
 

@@ -1,13 +1,18 @@
 <xml>
     <object name="ReceiverActivity" singleinstance="true" settings="false">
         <description>Monitors which receiver channels have been active within the last second.</description>
+
+	<!-- these options sholud match those in ReceiverActivity -->
 	<field name="ActiveGroup" units="Channel Group" type="enum" elements="1" defaultvalue="None">
 		<options>
 			<option>PWM</option>
 			<option>PPM</option>
 			<option>DSM (MainPort)</option>
 			<option>DSM (FlexiPort)</option>
+			<option>DSM (RcvrPort)</option>
 			<option>S.Bus</option>
+			<option>RFM22B</option>
+			<option>OpenLRS</option>
 			<option>GCS</option>
 			<option>HoTT SUM</option>
 			<option>None</option>

@@ -66,6 +66,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    void fixupValidationErrors();
 
     bool setData(const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
     Qt::ItemFlags flags(const QModelIndex & index) const ;
@@ -79,8 +80,13 @@ public:
     //! Replace a model data with another model
     bool replaceData(FlightDataModel *newModel);
 
+    //! Prevent validation/correction of data
+    void pauseValidation(bool pausing);
+
 private:
     QList<PathPlanData *> dataStorage;
+    
+    bool valPaused;
 
     //! NED representation of a location
     struct NED {
@@ -91,12 +97,19 @@ private:
 
     //! Get the NED representation of a waypoint
     struct FlightDataModel::NED getNED(int index) const;
+    struct FlightDataModel::NED getNED(PathPlanData *row) const;
 
     //! Set the NED representation of a waypoint
     bool setNED(int index, struct FlightDataModel::NED NED);
+    bool setNED(PathPlanData *row, struct FlightDataModel::NED NED);
 
     //! Get the current home location
     bool getHomeLocation(double *homeLLA) const;
+    //! Set the current home location
+    bool setHomeLocation(double *homeLLA);
+
+    //! Error box for file loading
+    void showErrorDialog(const char *title, const char *message);
 };
 
 #endif // FlightDataModel_H

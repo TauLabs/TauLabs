@@ -38,6 +38,7 @@
 			<elementname>PicoC</elementname>
 			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
+			<elementname>FlightStats</elementname>
 		</elementnames>
 	</field> 
 	<field name="Running" units="bool" type="enum">
@@ -77,6 +78,7 @@
 			<elementname>PicoC</elementname>
 			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
+			<elementname>FlightStats</elementname>
 		</elementnames>
 		<options>
 			<option>False</option>
@@ -120,6 +122,7 @@
 			<elementname>PicoC</elementname>
 			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
+			<elementname>FlightStats</elementname>
 		</elementnames>
 	</field> 
 	<access gcs="readwrite" flight="readwrite"/>
