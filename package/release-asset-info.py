@@ -67,12 +67,31 @@ def main():
         sys.exit(2)
     assets = assets_req.json()
 
+    # Compute the new label for each asset according to the suffix on the file name
+    for asset in assets:
+        name = asset['name']
+        if name.endswith('.apk'):
+            label = "Android"
+        elif name.endswith('_linux_amd64.tar.xz'):
+            label = "Linux 64-bit"
+        elif name.endswith('_linux_i686.tar.xz'):
+            label = "Linux 32-bit"
+        elif name.endswith('_win32.exe'):
+            label = "Windows (portable)"
+        elif name.endswith('-install.exe'):
+            label = "Windows (installer)"
+        elif name.endswith('.dmg'):
+            label = "OSX"
+        else:
+            label = name
+        asset['new_label'] = label
+
     # Display the available assets for the selected release
     print ""
     print "Available assets for selected release '{name:s}' ({id:d})".format(**selected_rel)
-    print "\t{0:8s} {1:20s} {2:s}".format("ID", "Current Label", "Name")
+    print "\t{0:8s} {1:20s} {2:s}".format("ID", "Current Label", "New Label", "Name")
     for asset in assets:
-        print "\t{id:8d} {label:20s} {name:s}".format(**asset)
+        print "\t{id:8d} {label:20s} {new_label:20s} {name:s}".format(**asset)
 
     # Should we fix the asset labels?
     if args.fixup_labels is False:
@@ -91,27 +110,11 @@ def main():
     if not prereqs_valid:
         sys.exit(2)
 
-    # Set the label for each asset according to the suffix on the file name
+    # Set the new label for each asset according to the suffix on the file name
     for asset in assets:
-        name = asset['name']
-        if name.endswith('.apk'):
-            label = "Android"
-        elif name.endswith('_linux_amd64.tar.xz'):
-            label = "Linux 64-bit"
-        elif name.endswith('_linux_i686.tar.xz'):
-            label = "Linux 32-bit"
-        elif name.endswith('_win32.exe'):
-            label = "Windows (portable)"
-        elif name.endswith('-install.exe'):
-            label = "Windows (installer)"
-        elif name.endswith('.dmg'):
-            label = "OSX"
-        else:
-            label = name
-
-        print "Setting label to '%s' for file named '%s'" % (label, name)
+        print "Setting label to '{new_label:s}' for file named '{name:s}'".format(**asset)
         patch_req = requests.patch(asset['url'],
-                                   data = json.dumps({ 'name' : name, 'label' : label }),
+                                   data = json.dumps({ 'name' : asset['name'], 'label' : asset['new_label'] }),
                                    auth=("", os.environ['GITHUB_TOKEN']))
         if patch_req.status_code == 200:
             print "\t%d OK" % (patch_req.status_code)
