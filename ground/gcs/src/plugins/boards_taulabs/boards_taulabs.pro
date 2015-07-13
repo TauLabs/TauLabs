@@ -10,7 +10,6 @@ OTHER_FILES += TauLabs.json
 
 HEADERS += \
     taulabsplugin.h \
-    freedom.h \
     sparky.h \
     sparkybgc.h \
     sparkybgcconfiguration.h \
@@ -19,7 +18,6 @@ HEADERS += \
 
 SOURCES += \
     taulabsplugin.cpp \
-    freedom.cpp \
     sparky.cpp \
     sparkybgc.cpp \
     sparkybgcconfiguration.cpp \
