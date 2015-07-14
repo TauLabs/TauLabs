@@ -99,13 +99,7 @@ ifeq ($(USE_BATTERY), YES)
 OPTMODULES += Battery
 endif
 # List of mandatory modules to include
-ifeq ($(NAVIGATION), YES)
-MODULES += State/naze32
-MODULES += PathFollower
-CFLAGS += -DNAVIGATION
-else
 MODULES += Attitude/naze32
-endif
 MODULES += Stabilization Actuator ManualControl FirmwareIAP
 # MODULES += PathFollower/coptercontrol
 # Telemetry must be last to grab the optional modules (why?)
