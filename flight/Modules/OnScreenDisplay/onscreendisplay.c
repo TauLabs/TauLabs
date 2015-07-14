@@ -564,14 +564,9 @@ void simple_artifical_horizon(float roll, float pitch, int16_t x, int16_t y, int
 	int16_t pp_x2;
 	int16_t pp_y2;
 
-	if (roll > 0) {
-		sin_roll    = sinf(roll);
-		cos_roll    = cosf(roll);
-	}
-	else {
-		sin_roll    = -1 * sinf(-1 * roll);
-		cos_roll    = cosf(-1 * roll);
-	}
+
+	sin_roll    = sinf(roll * (float)(M_PI / 180));
+	cos_roll    = cosf(roll * (float)(M_PI / 180));
 
 	// roll to pitch transformation
 	pp_x        = x * (1 + (sin_roll * pitch) / (float)max_pitch);
@@ -880,14 +875,14 @@ void draw_map_home_center(int width_px, int height_px, int width_m, int height_m
 		rot = yaw - 210;
 		if (rot < 0)
 			rot += 360;
-		x = p_east_draw + 10.f * sinf(rot);
-		y = p_north_draw - 10.f * cosf(rot);
+		x = p_east_draw + 10.f * sinf(rot * (float)(M_PI / 180));
+		y = p_north_draw - 10.f * cosf(rot * (float)(M_PI / 180));
 		write_line_outlined(p_east_draw, p_north_draw, x, y, 2, 0, 0, 1);
 		rot = yaw - 150;
 		if (rot < 0)
 			rot += 360;
-		x = p_east_draw + 10 * sinf(rot);
-		y = p_north_draw - 10 * cosf(rot);
+		x = p_east_draw + 10 * sinf(rot * (float)(M_PI / 180));
+		y = p_north_draw - 10 * cosf(rot * (float)(M_PI / 180));
 		write_line_outlined(p_east_draw, p_north_draw, x, y, 2, 0, 0, 1);
 	}
 }
@@ -914,8 +909,8 @@ void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m,
 	PositionActualEastGet(&p_east);
 	if (yaw < 0)
 		yaw += 360;
-	sin_yaw = sinf(yaw);
-	cos_yaw = cosf(yaw);
+	sin_yaw = sinf(yaw * (float)(M_PI / 180));
+	cos_yaw = cosf(yaw * (float)(M_PI / 180));
 
 	// Draw waypoints
 	if (show_wp && WaypointHandle() && WaypointActiveHandle()) {

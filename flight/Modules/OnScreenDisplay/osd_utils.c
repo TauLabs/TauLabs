@@ -125,8 +125,8 @@ void ellipse(int centerX, int centerY, int horizontalRadius, int verticalRadius)
 
 void drawArrow(uint16_t x, uint16_t y, uint16_t angle, uint16_t size_quarter)
 {
-	float sin_angle = sinf(angle);
-	float cos_angle = cosf(angle);
+	float sin_angle = sinf(angle * (float)(M_PI / 180));
+	float cos_angle = cosf(angle * (float)(M_PI / 180));
 	int16_t peak_x  = (int16_t)(sin_angle * size_quarter * 2);
 	int16_t peak_y  = (int16_t)(cos_angle * size_quarter * 2);
 	int16_t d_end_x = (int16_t)(cos_angle * size_quarter);
@@ -1215,14 +1215,8 @@ void draw_polygon(int16_t x, int16_t y, float angle, const point_t * points, uin
 	float sin_angle, cos_angle;
 	int16_t x1, y1, x2, y2;
 
-	if (angle > 0) {
-		sin_angle    = sinf(angle);
-		cos_angle    = cosf(angle);
-	}
-	else {
-		sin_angle    = -1 * sinf(-1 * angle);
-		cos_angle    = cosf(-1 * angle);
-	}
+	sin_angle    = sinf(angle * (float)(M_PI / 180));
+	cos_angle    = cosf(angle * (float)(M_PI / 180));
 
 	x1 = roundf(cos_angle * points[0].x - sin_angle * points[0].y);
 	y1 = roundf(sin_angle * points[0].x + cos_angle * points[0].y);
