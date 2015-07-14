@@ -34,7 +34,6 @@
 #include "pios_thread.h"
 
 #include "physical_constants.h"
-#include "sin_lookup.h"
 #include "misc_math.h"
 
 /* Private Function Prototypes */
