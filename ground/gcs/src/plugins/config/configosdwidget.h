@@ -75,6 +75,9 @@ private slots:
     void handle_button_3_1();
     void handle_button_3_2();
 
+    void setCustomText();
+    void getCustomText();
+
 private:
     void setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UAVObject * settings);
     void copyOsdPage(int to, int from);

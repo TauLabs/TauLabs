@@ -29,6 +29,7 @@
  */
 
 #include "osd_utils.h"
+#include "onscreendisplay.h"
 
 #include "flightstatus.h"
 #include "homelocation.h"
@@ -59,6 +60,7 @@ enum menu_fsm_state {
 	FSM_STATE_MAIN_PIDMWRATE,   /*!< PID RateMW*/
 	FSM_STATE_MAIN_TPA,         /*!< Throttle PID Attenuation */
 	FSM_STATE_MAIN_STICKLIMITS, /*!< Stick Range and Limits */
+	FSM_STATE_MAIN_STATS, /*!< Flight Stats */
 /*------------------------------------------------------------------------------------------*/
 	FSM_STATE_FILTER_IDLE,     /*!< Dummy state with nothing selected */
 	FSM_STATE_FILTER_ATT,      /*!< Attitude Filter */
@@ -147,6 +149,9 @@ enum menu_fsm_state {
 	FSM_STATE_STICKLIMITS_SAVEEXIT, /*!< Save & Exit */
 	FSM_STATE_STICKLIMITS_EXIT,     /*!< Exit */
 /*------------------------------------------------------------------------------------------*/
+	FSM_STATE_STATS_IDLE,           /*!< Dummy state with nothing selected */
+	FSM_STATE_STATS_EXIT,           /*!< Exit */
+/*------------------------------------------------------------------------------------------*/
 	FSM_STATE_NUM_STATES
 };
 
@@ -169,13 +174,14 @@ static void pidatt_menu(void);
 static void pidmwrate_menu(void);
 static void tpa_menu(void);
 static void sticklimits_menu(void);
+static void stats_menu(void);
 
 // The Menu FSM
 const static struct menu_fsm_transition menu_fsm[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_MAIN_FILTER] = {
 		.menu_fn = main_menu,
 		.next_state = {
-			[FSM_EVENT_UP] = FSM_STATE_MAIN_STICKLIMITS,
+			[FSM_EVENT_UP] = FSM_STATE_MAIN_STATS,
 			[FSM_EVENT_DOWN] = FSM_STATE_MAIN_FMODE,
 			[FSM_EVENT_RIGHT] = FSM_STATE_FILTER_IDLE,
 		},
@@ -232,8 +238,16 @@ const static struct menu_fsm_transition menu_fsm[FSM_STATE_NUM_STATES] = {
 		.menu_fn = main_menu,
 		.next_state = {
 			[FSM_EVENT_UP] = FSM_STATE_MAIN_TPA,
-			[FSM_EVENT_DOWN] = FSM_STATE_MAIN_FILTER,
+			[FSM_EVENT_DOWN] = FSM_STATE_MAIN_STATS,
 			[FSM_EVENT_RIGHT] = FSM_STATE_STICKLIMITS_IDLE,
+		},
+	},
+	[FSM_STATE_MAIN_STATS] = {
+		.menu_fn = main_menu,
+		.next_state = {
+			[FSM_EVENT_UP] = FSM_STATE_MAIN_STICKLIMITS,
+			[FSM_EVENT_DOWN] = FSM_STATE_MAIN_FILTER,
+			[FSM_EVENT_RIGHT] = FSM_STATE_STATS_IDLE,
 		},
 	},
 /*------------------------------------------------------------------------------------------*/
@@ -812,6 +826,22 @@ const static struct menu_fsm_transition menu_fsm[FSM_STATE_NUM_STATES] = {
 			[FSM_EVENT_RIGHT] = FSM_STATE_MAIN_STICKLIMITS,
 		},
 	},
+/*------------------------------------------------------------------------------------------*/
+	[FSM_STATE_STATS_IDLE] = {
+		.menu_fn = stats_menu,
+		.next_state = {
+			[FSM_EVENT_UP] = FSM_STATE_STATS_EXIT,
+			[FSM_EVENT_DOWN] = FSM_STATE_STATS_EXIT,
+		},
+	},
+	[FSM_STATE_STATS_EXIT] = {
+		.menu_fn = stats_menu,
+		.next_state = {
+			[FSM_EVENT_UP] = FSM_STATE_STATS_EXIT,
+			[FSM_EVENT_DOWN] = FSM_STATE_STATS_EXIT,
+			[FSM_EVENT_RIGHT] = FSM_STATE_MAIN_STATS,
+		},
+	},
 };
 
 
@@ -840,7 +870,7 @@ void render_osd_menu()
 {
 	uint8_t tmp;
 
-	if (frame_counter % 3 == 0) {
+	if (frame_counter % 6 == 0) {
 		current_event = get_controller_event();
 	}
 	else {
@@ -893,7 +923,7 @@ void main_menu(void)
 
 	draw_menu_title("Main Menu");
 
-	for (enum menu_fsm_state s=FSM_STATE_MAIN_FILTER; s <= FSM_STATE_MAIN_STICKLIMITS; s++) {
+	for (enum menu_fsm_state s=FSM_STATE_MAIN_FILTER; s <= FSM_STATE_MAIN_STATS; s++) {
 		if (s == current_state) {
 			draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
 		}
@@ -921,6 +951,9 @@ void main_menu(void)
 				break;
 			case FSM_STATE_MAIN_STICKLIMITS:
 				write_string("Stick Range and Limits", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+				break;
+			case FSM_STATE_MAIN_STATS:
+				write_string("Flight Statistics", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
 				break;
 			default:
 				break;
@@ -1178,7 +1211,7 @@ const char * pid_strings[] = {"P    ",
 void pidrate_menu(void)
 {
 	const float limits_low[] = {0.f, 0.f, 0.f, 0.f};
-	const float limits_high[] = {.01f, .01f, .01f, 1.f};
+	const float limits_high[] = {.01f, .02f, .01f, 1.f};
 	const float increments[] = {1e-4f, 1e-4f, 1e-4f, 1e-2f};
 	
 	float pid_arr[STABILIZATIONSETTINGS_ROLLRATEPID_NUMELEM];
@@ -1255,7 +1288,7 @@ const char * pid_strings_att[] = {"P    ",
 void pidatt_menu(void)
 {
 	const float limits_low[] = {0.f, 0.f, 0.f};
-	const float limits_high[] = {10.f, 10.f, 100.f};
+	const float limits_high[] = {20.f, 20.f, 100.f};
 	const float increments[] = {0.1f, 0.1f, 1.f};
 
 	float pid_arr[STABILIZATIONSETTINGS_ROLLPI_NUMELEM];
@@ -1633,6 +1666,15 @@ void sticklimits_menu(void)
 	y_pos += MENU_LINE_SPACING;
 	write_string("Exit", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
 	if (current_state == FSM_STATE_STICKLIMITS_EXIT) {
+		draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
+	}
+}
+
+void stats_menu()
+{
+	int y_pos = render_stats();
+	write_string("Exit", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+	if (current_state == FSM_STATE_STATS_EXIT) {
 		draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
 	}
 }

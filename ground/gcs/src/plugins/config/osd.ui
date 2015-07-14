@@ -534,7 +534,7 @@ Setup the flight mode channel on the RC Input tab if you have not done so alread
                 </property>
                </widget>
               </item>
-              <item row="4" column="0">
+              <item row="6" column="0">
                <spacer name="verticalSpacer_2">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -571,13 +571,6 @@ Setup the flight mode channel on the RC Input tab if you have not done so alread
               <item row="1" column="1">
                <widget class="QComboBox" name="cb_page_switch"/>
               </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_11">
-                <property name="text">
-                 <string>Disable Menu when Armed:</string>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="1">
                <widget class="QSpinBox" name="sb_num_pages">
                 <property name="toolTip">
@@ -601,6 +594,13 @@ channel value for each flight mode.</string>
                 </property>
                </widget>
               </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Disable Menu when Armed:</string>
+                </property>
+               </widget>
+              </item>
               <item row="2" column="1">
                <widget class="QCheckBox" name="cb_menu_disabled">
                 <property name="toolTip">
@@ -608,6 +608,34 @@ channel value for each flight mode.</string>
                 </property>
                 <property name="text">
                  <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QComboBox" name="cb_stats_duration">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The time for which flight statistics are displayed for when disarming. Note: The statistics can also be accessed using the page switch or the OSD menu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>Statistics Display Duration</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Custom Text</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QLineEdit" name="le_custom_text">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Text that is displayed in the OSD by the &amp;quot;Custom Text&amp;quot; element.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>

@@ -11,11 +11,12 @@
 		<field name="YOffset" units=""  type="int8"  elements="1" defaultvalue="0"/>
 		<field name="NumPages" units=""  type="int8"  elements="1" defaultvalue="2"/>
 		<field name="PageSwitch" units=""  type="enum" elements="1" options="Accessory0,Accessory1,Accessory2" defaultvalue="Accessory0"/>
-		<field name="PageConfig" units="" type="enum" elements="6" options="Custom1,Custom2,Custom3,Custom4,Menu,Off"
+		<field name="PageConfig" units="" type="enum" elements="6" options="Custom1,Custom2,Custom3,Custom4,Menu,Statistics,Off"
 		       defaultvalue="Custom1,Custom1,Custom1,Custom1,Custom1,Custom1"/>
 		<field name="DisableMenuWhenArmed" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Enabled"/>
 		<field name="RssiWarnThreshold" units="" type="uint8" elements="1" defaultvalue="50"/>
-		<field name="CustomText" units="" type="uint8" elements="10" defaultvalue="        "/>
+		<field name="CustomText" units="" type="uint8" elements="10" defaultvalue="66,114,97,105,110,70,80,86,0,0"/>
+		<field name="StatsDisplayDuration" units=""  type="enum" elements="1" options="Off,10s,20s,30s" defaultvalue="20s"/>
 	<access gcs="readwrite" flight="readwrite"/>
 	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 	<telemetryflight acked="true" updatemode="onchange" period="0"/>

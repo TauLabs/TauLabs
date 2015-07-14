@@ -52,6 +52,12 @@ ConfigOsdWidget::ConfigOsdWidget(QWidget *parent) : ConfigTaskWidget(parent)
     manualCommandObj = ManualControlCommand::GetInstance(getObjectManager());
     manualSettingsObj = ManualControlSettings::GetInstance(getObjectManager());
 
+    // connect signals to set/get custom OSD text
+    connect(ui->applyButton, SIGNAL(clicked()), this, SLOT(setCustomText()));
+    connect(ui->saveButton, SIGNAL(clicked()), this, SLOT(setCustomText()));
+    connect(ui->reloadButton, SIGNAL(clicked()), this, SLOT(getCustomText()));
+    connect(osdSettingsObj, SIGNAL(CustomText_0Changed(quint8)), this, SLOT(getCustomText()));
+
     // setup the OSD widgets
     QString osdSettingsName = osdSettingsObj->getName();
     addUAVObjectToWidgetRelation(osdSettingsName, "OSDEnabled", ui->cb_osd_enabled);
@@ -81,7 +87,7 @@ ConfigOsdWidget::ConfigOsdWidget(QWidget *parent) : ConfigTaskWidget(parent)
     ui->cb_menu_disabled->setProperty(falseString.toLatin1(), "Disabled");
 
     addUAVObjectToWidgetRelation(osdSettingsName, "RssiWarnThreshold", ui->RssiWarnThreshold);
-    //addUAVObjectToWidgetRelation(osdSettingsName, "CustomText", ui->CustomText);
+    addUAVObjectToWidgetRelation(osdSettingsName, "StatsDisplayDuration", ui->cb_stats_duration);
 
     connect(ManualControlCommand::GetInstance(getObjectManager()),SIGNAL(objectUpdated(UAVObject*)),this,SLOT(movePageSlider()));
     connect(OnScreenDisplaySettings::GetInstance(getObjectManager()),SIGNAL(objectUpdated(UAVObject*)),this,SLOT(updatePositionSlider()));
@@ -336,11 +342,37 @@ void ConfigOsdWidget::handle_button_3_2()
     copyOsdPage(3, 2);
 }
 
+void ConfigOsdWidget::setCustomText()
+{
+    const QString text = ui->le_custom_text->displayText();
+    int n_string = text.size();
+
+    for (int i=0; i<OnScreenDisplaySettings::CUSTOMTEXT_NUMELEM; i++){
+        if (i < n_string){
+            osdSettingsObj->setCustomText(i, (quint8)(text.data()[i].toLatin1()));
+        } else {
+            osdSettingsObj->setCustomText(i, 0);
+        }
+    }
+}
+
+void ConfigOsdWidget::getCustomText()
+{
+    char text[OnScreenDisplaySettings::CUSTOMTEXT_NUMELEM];
+
+    for (int i=0; i<OnScreenDisplaySettings::CUSTOMTEXT_NUMELEM; i++){
+        text[i] =  osdSettingsObj->getCustomText(i);
+    }
+    QString q_text = QString::fromLatin1(text, OnScreenDisplaySettings::CUSTOMTEXT_NUMELEM);
+    ui->le_custom_text->setText(q_text);
+}
+
+
 void ConfigOsdWidget::setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UAVObject * settings)
 {
     page->setupUi(page_widget);
     QString name = settings->getName();
-    
+
     // Alarms
     addUAVObjectToWidgetRelation(name, "Alarm", page->AlarmEnabled);
     page->AlarmEnabled->setProperty(trueString.toLatin1(), "Enabled");

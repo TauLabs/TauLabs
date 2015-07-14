@@ -83,6 +83,7 @@
 #include "flightstatus.h"
 #include "flightbatterystate.h"
 #include "flightbatterysettings.h"
+#include "flightstats.h"
 #include "gpsposition.h"
 #include "positionactual.h"
 #include "gpstime.h"
@@ -90,6 +91,8 @@
 #include "gpsvelocity.h"
 #include "homelocation.h"
 #include "manualcontrolcommand.h"
+#include "modulesettings.h"
+#include "stateestimation.h"
 #include "systemalarms.h"
 #include "systemstats.h"
 #include "tabletinfo.h"
@@ -128,10 +131,11 @@ static void onScreenDisplayTask(void *parameters);
 
 const char METRIC_DIST_UNIT_LONG[] = "km";
 const char METRIC_DIST_UNIT_SHORT[] = "m";
+const char METRIC_SPEED_UNIT[] = "km/h";
 
 const char IMPERIAL_DIST_UNIT_LONG[] = "M";
 const char IMPERIAL_DIST_UNIT_SHORT[] = "ft";
-
+const char IMPERIAL_SPEED_UNIT[] = "MPH";
 
 const point_t HOME_ARROW[] = {
 	{
@@ -170,11 +174,13 @@ const point_t HOME_ARROW[] = {
 #define M_TO_FEET 3.28084f
 
 
-
 // ****************
 // Private variables
 uint16_t frame_counter = 0;
 static bool module_enabled = false;
+static bool has_battery = false;
+static bool has_gps = false;
+static bool has_nav = false;
 static struct pios_thread *taskHandle;
 struct pios_semaphore * onScreenDisplaySemaphore = NULL;
 float convert_speed;
@@ -182,6 +188,7 @@ float convert_distance;
 float convert_distance_divider;
 const char * dist_unit_long = METRIC_DIST_UNIT_LONG;
 const char * dist_unit_short = METRIC_DIST_UNIT_SHORT;
+const char * speed_unit = METRIC_SPEED_UNIT;
 const char digits[16] = "0123456789abcdef";
 char mgrs_str[20] = {0};
 
@@ -1109,7 +1116,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		return;
 
 	// Get home distance and direction (only makes sense if GPS is enabled
-	if ((page->HomeDistance || page->CompassHomeDir) && PositionActualHandle() ) {
+	if (has_nav && (page->HomeDistance || page->CompassHomeDir) && PositionActualHandle() ) {
 		PositionActualNorthGet(&tmp);
 		PositionActualEastGet(&tmp1);
 
@@ -1122,7 +1129,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	}
 
 	// Draw Map
-	if (page->Map && PositionActualHandle() ) {
+	if (has_nav && page->Map && PositionActualHandle() ) {
 		if (page->MapCenterMode == ONSCREENDISPLAYPAGESETTINGS_MAPCENTERMODE_UAV) {
 			draw_map_uav_center(page->MapWidthPixels, page->MapHeightPixels,
 								page->MapWidthMeters, page->MapHeightMeters,
@@ -1196,7 +1203,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	}
 
 	// Battery
-	if (FlightBatteryStateHandle()) {
+	if (has_battery && FlightBatteryStateHandle()) {
 		if (page->BatteryVolt) {
 			FlightBatteryStateVoltageGet(&tmp);
 			sprintf(tmp_str, "%0.1fV", (double)tmp);
@@ -1242,11 +1249,13 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 
 	// Custom text
 	if (page->CustomText) {
-		write_string((char *)osd_settings.CustomText, page->CustomTextPosX, page->CustomTextPosY, 0, 0, TEXT_VA_TOP, (int)page->CustomTextAlign, 0, SIZE_TO_FONT[page->CustomTextFont]);
+		memcpy((void *)tmp_str, (void *)(osd_settings.CustomText), ONSCREENDISPLAYSETTINGS_CUSTOMTEXT_NUMELEM);
+		tmp_str[ONSCREENDISPLAYSETTINGS_CUSTOMTEXT_NUMELEM] = 0;
+		write_string(tmp_str, page->CustomTextPosX, page->CustomTextPosY, 0, 0, TEXT_VA_TOP, (int)page->CustomTextAlign, 0, SIZE_TO_FONT[page->CustomTextFont]);
 	}
 
 	// Home arrow
-	if (page->HomeArrow) {
+	if (has_nav && page->HomeArrow) {
 		if (!page->Compass) {
 			AttitudeActualYawGet(&tmp);
 		}
@@ -1282,7 +1291,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 
 
 	// GPS
-	if (GPSPositionHandle() && (page->GpsStatus || page->GpsLat || page->GpsLon || page->GpsMgrs)) {
+	if (has_gps && GPSPositionHandle() && (page->GpsStatus || page->GpsLat || page->GpsLon || page->GpsMgrs)) {
 		GPSPositionData gps_data;
 		GPSPositionGet(&gps_data);
 
@@ -1447,6 +1456,88 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 }
 
 
+#define STATS_LINE_SPACING 11
+#define STATS_LINE_Y 40
+#define STATS_LINE_X (GRAPHICS_LEFT + 10)
+#define STATS_FONT 2
+
+int render_stats()
+{
+	float tmp;
+	char tmp_str[100] = { 0 };
+	int y_pos = STATS_LINE_Y;
+	FlightStatsData stats;
+	FlightStatsGet(&stats);
+
+	write_string("Flight Statistics", GRAPHICS_X_MIDDLE, 10, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 3);
+
+	if (has_nav){
+		tmp = convert_distance * stats.DistanceTravelled;
+		if (tmp < convert_distance_divider)
+			sprintf(tmp_str, "Distance traveled:        %d %s", (int)tmp, dist_unit_short);
+		else {
+			sprintf(tmp_str, "Distance traveled:        %0.2f %s", (double)(tmp / convert_distance_divider), dist_unit_long);
+		}
+		write_string(tmp_str, STATS_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, STATS_FONT);
+		y_pos += STATS_LINE_SPACING;
+
+		tmp = convert_distance * stats.MaxDistanceToHome;
+		if (tmp < convert_distance_divider)
+			sprintf(tmp_str, "Maximum distance to home: %d %s", (int)tmp, dist_unit_short);
+		else {
+			sprintf(tmp_str, "Maximum distance to home: %0.2f %s", (double)(tmp / convert_distance_divider), dist_unit_long);
+		}
+		write_string(tmp_str, STATS_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, STATS_FONT);
+		y_pos += STATS_LINE_SPACING;
+
+		tmp = convert_distance * stats.MaxAltitude;
+		sprintf(tmp_str, "Maximum altitude:         %0.2f %s", (double)tmp, dist_unit_short);
+		write_string(tmp_str, STATS_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, STATS_FONT);
+		y_pos += 2 * STATS_LINE_SPACING;
+
+
+		tmp = convert_speed * stats.MaxGroundSpeed;
+		sprintf(tmp_str, "Maximum ground speed:     %0.2f %s", (double)tmp, speed_unit);
+		write_string(tmp_str, STATS_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, STATS_FONT);
+		y_pos += STATS_LINE_SPACING;
+	}
+
+	tmp = convert_distance * stats.MaxClimbRate;
+	sprintf(tmp_str, "Maximum climb rate:       %0.2f %s/s", (double)tmp, dist_unit_short);
+	write_string(tmp_str, STATS_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, STATS_FONT);
+	y_pos += STATS_LINE_SPACING;
+
+
+	tmp = convert_distance * stats.MaxDescentRate;
+	sprintf(tmp_str, "Maximum descent rate:     %0.2f %s/s", (double)tmp, dist_unit_short);
+	write_string(tmp_str, STATS_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, STATS_FONT);
+	y_pos += 2 * STATS_LINE_SPACING;
+
+	sprintf(tmp_str, "Maximum roll rate:        %d deg/s", stats.MaxRollRate);
+	write_string(tmp_str, STATS_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, STATS_FONT);
+	y_pos += STATS_LINE_SPACING;
+
+	sprintf(tmp_str, "Maximum pitch rate:       %d deg/s", stats.MaxPitchRate);
+	write_string(tmp_str, STATS_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, STATS_FONT);
+	y_pos += STATS_LINE_SPACING;
+
+	sprintf(tmp_str, "Maximum yaw rate:         %d deg/s", stats.MaxYawRate);
+	write_string(tmp_str, STATS_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, STATS_FONT);
+	y_pos += 2 * STATS_LINE_SPACING;
+
+	if (has_battery){
+		sprintf(tmp_str, "Consumed energy:          %d mAh", stats.ConsumedEnergy);
+		write_string(tmp_str, STATS_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, STATS_FONT);
+		y_pos += STATS_LINE_SPACING;
+
+		sprintf(tmp_str, "Initial battery voltage:  %0.1f V", (double)stats.InitialBatteryVoltage / 1000.);
+		write_string(tmp_str, STATS_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, STATS_FONT);
+		y_pos += STATS_LINE_SPACING;
+	}
+	return y_pos;
+}
+
+
 static void OnScreenSettingsUpdatedCb(UAVObjEvent * ev)
 {
 	osd_settings_updated = true;
@@ -1490,12 +1581,25 @@ int32_t OnScreenDisplayInitialize(void)
 	OnScreenDisplaySettingsInitialize();
 	OnScreenDisplaySettingsOSDEnabledGet(&osd_state);
 
-
 	if (osd_state == ONSCREENDISPLAYSETTINGS_OSDENABLED_ENABLED) {
 		module_enabled = true;
 	} else {
 		module_enabled = false;
 		return 0;
+	}
+
+	ModuleSettingsData module_settings;
+	ModuleSettingsGet(&module_settings);
+
+	has_gps = module_settings.AdminState[MODULESETTINGS_ADMINSTATE_GPS];
+	has_battery = module_settings.AdminState[MODULESETTINGS_ADMINSTATE_BATTERY];
+
+	uint8_t filter;
+	StateEstimationNavigationFilterGet(&filter);
+	if (filter != STATEESTIMATION_NAVIGATIONFILTER_NONE){
+		has_nav = true;
+	} else {
+		has_nav = false;
 	}
 
 	OnScreenDisplayPageSettingsInitialize();
@@ -1528,11 +1632,14 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 	AccessoryDesiredData accessory;
 	OnScreenDisplayPageSettingsData osd_page_settings;
 
+	uint32_t now;
+	uint32_t show_stats_until = 0;
 	uint8_t arm_status;
+	uint8_t last_arm_status = FLIGHTSTATUS_ARMED_DISARMED;
 	uint8_t current_page = 0;
 	uint8_t last_page = -1;
 	float tmp;
-	
+
 	OnScreenDisplaySettingsGet(&osd_settings);
 	home_baro_altitude = 0.;
 
@@ -1584,6 +1691,7 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 
 	while (1) {
 		if (PIOS_Semaphore_Take(onScreenDisplaySemaphore, LONG_TIME) == true) {
+			now = PIOS_Thread_Systime();
 #ifdef DEBUG_TIMING
 			in_ticks = PIOS_Thread_Systime();
 			out_time = in_ticks - out_ticks;
@@ -1602,6 +1710,7 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 					convert_speed = MS_TO_MPH;
 					dist_unit_long = IMPERIAL_DIST_UNIT_LONG;
 					dist_unit_short = IMPERIAL_DIST_UNIT_SHORT;
+					speed_unit = IMPERIAL_SPEED_UNIT;
 				}
 				else{
 					convert_distance = 1.f;
@@ -1609,6 +1718,7 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 					convert_speed = MS_TO_KMH;
 					dist_unit_long = METRIC_DIST_UNIT_LONG;
 					dist_unit_short = METRIC_DIST_UNIT_SHORT;
+					speed_unit = METRIC_SPEED_UNIT;
 				}
 
 				osd_settings_updated = false;
@@ -1644,12 +1754,38 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 				osd_page_updated = false;
 			}
 
+			// Show stats when we disarm
+			FlightStatusArmedGet(&arm_status);
+			if (arm_status == FLIGHTSTATUS_ARMED_DISARMED){
+				if (last_arm_status != FLIGHTSTATUS_ARMED_DISARMED){
+					switch (osd_settings.StatsDisplayDuration){
+						case ONSCREENDISPLAYSETTINGS_STATSDISPLAYDURATION_OFF:
+							show_stats_until = 0;
+							break;
+						case ONSCREENDISPLAYSETTINGS_STATSDISPLAYDURATION_10S:
+							show_stats_until = now + 10 * 1000;
+							break;
+						case ONSCREENDISPLAYSETTINGS_STATSDISPLAYDURATION_20S:
+							show_stats_until = now + 20 * 1000;
+							break;
+						case ONSCREENDISPLAYSETTINGS_STATSDISPLAYDURATION_30S:
+							show_stats_until = now + 30 * 1000;
+							break;
+					}
+				}
+				if (show_stats_until > now){
+					current_page = ONSCREENDISPLAYSETTINGS_PAGECONFIG_STATISTICS;
+				}
+			}
+
 			clearGraphics();
 			switch (current_page) {
 				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_OFF:
 					break;
+				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_STATISTICS:
+					render_stats();
+					break;
 				case ONSCREENDISPLAYSETTINGS_PAGECONFIG_MENU:
-					FlightStatusArmedGet(&arm_status);
 					if ((arm_status == FLIGHTSTATUS_ARMED_DISARMED) ||
 						(osd_settings.DisableMenuWhenArmed == ONSCREENDISPLAYSETTINGS_DISABLEMENUWHENARMED_DISABLED)){
 							render_osd_menu();
@@ -1668,6 +1804,7 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 
 			frame_counter++;
 			last_page = current_page;
+			last_arm_status = arm_status;
 #ifdef DEBUG_TIMING
 			out_ticks = PIOS_Thread_Systime();
 			in_time   = out_ticks - in_ticks;
