@@ -102,7 +102,7 @@
 /* OSD stuff */
 #define PIOS_VIDEO_TIM4_COUNTER
 #define PIOS_INCLUDE_VIDEO
-
+#define MODULE_FLIGHTSTATS_BUILTIN
 #define PIOS_INCLUDE_DEBUG_CONSOLE
 
 /* Other Interfaces */
