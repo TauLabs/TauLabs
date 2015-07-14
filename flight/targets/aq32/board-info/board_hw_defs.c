@@ -513,6 +513,38 @@ static const struct pios_dsm_cfg pios_usart6_dsm_aux_cfg = {
  * Spektrum/JR DSM or Graupner HoTT SUMD/SUMH USART
  */
 
+static const struct pios_usart_cfg pios_usart3_dsm_hsum_cfg = {
+	.regs = USART3,
+	.remap = GPIO_AF_USART3,
+	.init = {
+		.USART_BaudRate            = 115200,
+		.USART_WordLength          = USART_WordLength_8b,
+		.USART_Parity              = USART_Parity_No,
+		.USART_StopBits            = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode                = USART_Mode_Rx,
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel                   = USART3_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		},
+	},
+	.rx = {
+		.gpio = GPIOD,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_9,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+		.pin_source = GPIO_PinSource9,
+	},
+};
+
 static const struct pios_usart_cfg pios_usart4_dsm_hsum_cfg = {
 	.regs = UART4,
 	.remap = GPIO_AF_UART4,
@@ -793,6 +825,17 @@ static const struct pios_usart_cfg pios_usart4_cfg = {
 		},
 		.pin_source = GPIO_PinSource1,
 	},
+	.tx = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_0,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
+		},
+		.pin_source = GPIO_PinSource0,
+	},
 };
 
 static const struct pios_usart_cfg pios_usart6_cfg = {
@@ -998,12 +1041,10 @@ static const struct pios_tim_clock_cfg tim_8_cfg = {
 	4:  TIM2_CH2 (PB3)
 	5:  TIM3_CH1 (PB4)
 	6:  TIM3_CH2 (PB5)
-	7:  TIM5_CH1 (PA0)
-	8:  TIM5_CH3 (PA2)
-	9:  TIM1_CH1 (PE9)
-    10: TIM1_CH2 (PE11)
-	11: TIM1_CH3 (PE13)
-	12: TIM1_CH4 (PE14)
+	7:  TIM1_CH1 (PE9)
+    8:  TIM1_CH2 (PE11)
+	9:  TIM1_CH3 (PE13)
+	10: TIM1_CH4 (PE14)
  */
 static const struct pios_tim_channel pios_tim_output_pins[] = {
 	{
@@ -1103,38 +1144,6 @@ static const struct pios_tim_channel pios_tim_output_pins[] = {
 		},
 	},
 	{
-		.timer = TIM5,
-		.timer_chan = TIM_Channel_1,
-		.remap = GPIO_AF_TIM5,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin   = GPIO_Pin_0,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_NOPULL
-			},
-			.pin_source = GPIO_PinSource0,
-		},
-	},
-	{
-		.timer = TIM5,
-		.timer_chan = TIM_Channel_3,
-		.remap = GPIO_AF_TIM5,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin   = GPIO_Pin_2,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_NOPULL
-			},
-			.pin_source = GPIO_PinSource2,
-		},
-	},
-	{
 		.timer = TIM1,
 		.timer_chan = TIM_Channel_1,
 		.remap = GPIO_AF_TIM1,
@@ -1223,63 +1232,30 @@ const struct pios_servo_cfg pios_servo_cfg = {
 
 #endif	/* PIOS_INCLUDE_SERVO && PIOS_INCLUDE_TIM */
 
-#if defined(PIOS_INCLUDE_PWM) || defined(PIOS_INCLUDE_PPM)
-#include <pios_pwm_priv.h>
-
+#if defined(PIOS_INCLUDE_PPM)
+#include <pios_ppm_priv.h>
 /*
  * 	PPM INPUT
-	1:  TIM4_CH1  (PD12)
+	1:  TIM4_CH4  (PD15)
  */
 static const struct pios_tim_channel pios_tim_rcvrport_ppm[] = {
 	{
 		.timer = TIM4,
-		.timer_chan = TIM_Channel_1,
+		.timer_chan = TIM_Channel_4,
 		.remap = GPIO_AF_TIM4,
 		.pin = {
 			.gpio = GPIOD,
 			.init = {
-				.GPIO_Pin   = GPIO_Pin_12,
+				.GPIO_Pin   = GPIO_Pin_15,
 				.GPIO_Speed = GPIO_Speed_2MHz,
 				.GPIO_Mode  = GPIO_Mode_AF,
 				.GPIO_OType = GPIO_OType_PP,
 				.GPIO_PuPd  = GPIO_PuPd_UP
 			},
-			.pin_source = GPIO_PinSource12,
+			.pin_source = GPIO_PinSource15,
 		},
 	},
 };
-
-/*
- * 	PWM INPUT
-	1:  TIM4_CH2  (PD13)
- */
-static const struct pios_tim_channel pios_tim_rangefinder_pwm[] = {
-	{
-		.timer = TIM4,
-		.timer_chan = TIM_Channel_2,
-		.remap = GPIO_AF_TIM4,
-		.pin = {
-			.gpio = GPIOD,
-			.init = {
-				.GPIO_Pin   = GPIO_Pin_13,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AF,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource13,
-		},
-	},
-
-};
-
-#endif
-
-/*
- * PPM Input
- */
-#if defined(PIOS_INCLUDE_PPM)
-#include <pios_ppm_priv.h>
 
 static const struct pios_ppm_cfg pios_ppm_cfg = {
 	.tim_ic_init = {
@@ -1287,28 +1263,13 @@ static const struct pios_ppm_cfg pios_ppm_cfg = {
 		.TIM_ICSelection = TIM_ICSelection_DirectTI,
 		.TIM_ICPrescaler = TIM_ICPSC_DIV1,
 		.TIM_ICFilter    = 0x0,
-		.TIM_Channel     = TIM_Channel_1,
+		.TIM_Channel     = TIM_Channel_4,
 	},
 	.channels = pios_tim_rcvrport_ppm,
 	.num_channels = 1,
 };
 
 #endif //PPM
-
-#if defined(PIOS_INCLUDE_PWM)
-
-static const struct pios_pwm_cfg pios_pwm_cfg = {
-	.tim_ic_init = {
-		.TIM_ICPolarity  = TIM_ICPolarity_Rising,
-		.TIM_ICSelection = TIM_ICSelection_DirectTI,
-		.TIM_ICPrescaler = TIM_ICPSC_DIV1,
-		.TIM_ICFilter    = 0x0,
-	},
-	.channels = pios_tim_rangefinder_pwm,
-	.num_channels = 1,
-};
-
-#endif //PWM
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
 #include "pios_gcsrcvr_priv.h"

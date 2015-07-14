@@ -2,7 +2,7 @@
 	<object name="HwAQ32" singleinstance="true" settings="true" category="HardwareSettings">
 		<description>Selection of optional hardware configurations.</description>
 
-		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PPM,PWM,PPMPWM" defaultvalue="Disabled"/>
+		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PPM" defaultvalue="Disabled"/>
 
 		<field name="Uart1" units="function" type="enum" elements="1"  defaultvalue="Disabled">
 			<options>
@@ -31,11 +31,11 @@
 				<option>Disabled</option>
 				<option>Telemetry</option>
 				<option>GPS</option>
+				<option>S.BUS</option>
 				<option>DebugConsole</option>
 				<option>ComBridge</option>
 				<option>MavLinkTX</option>
 				<option>MavLinkTX_GPS_RX</option>
-				<option>SBus</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
@@ -49,9 +49,20 @@
 		<field name="Uart4" units="function" type="enum" elements="1"  defaultvalue="Disabled">
 			<options>
 				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>GPS</option>
 				<option>DSM</option>
+				<option>DebugConsole</option>
+				<option>ComBridge</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
+				<option>HoTT Telemetry</option>
+				<option>FrSKY Sensor Hub</option>
+				<option>LighttelemetryTx</option>
+				<option>PicoC</option>
+				<option>FrSKY Sport Telemetry</option>
 			</options>
 		</field>
 
