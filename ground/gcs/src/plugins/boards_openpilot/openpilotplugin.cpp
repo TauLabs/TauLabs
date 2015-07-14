@@ -29,7 +29,6 @@
 #include "openpilotplugin.h"
 #include "coptercontrol.h"
 #include "pipxtreme.h"
-#include "revolution.h"
 #include "revomini.h"
 #include <QtPlugin>
 
@@ -62,9 +61,6 @@ void OpenPilotPlugin::extensionsInitialized()
 
     PipXtreme* pipx = new PipXtreme();
     addAutoReleasedObject(pipx);
-
-    Revolution* revo = new Revolution();
-    addAutoReleasedObject(revo);
 
     RevoMini* rmini = new RevoMini();
     addAutoReleasedObject(rmini);
