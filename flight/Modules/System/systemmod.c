@@ -84,7 +84,7 @@ static bool stackOverflow;
 // Private functions
 static void objectUpdatedCb(UAVObjEvent * ev);
 
-#if (defined(COPTERCONTROL) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
+#if (defined(SMALLF1) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
 static void configurationUpdatedCb(UAVObjEvent * ev);
 #endif
 
@@ -169,7 +169,7 @@ static void systemTask(void *parameters)
 	// Listen for SettingPersistance object updates, connect a callback function
 	ObjectPersistenceConnectQueue(objectPersistenceQueue);
 
-#if (defined(COPTERCONTROL) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
+#if (defined(SMALLF1) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
 	// Run this initially to make sure the configuration is checked
 	configuration_check();
 
@@ -335,7 +335,7 @@ static void objectUpdatedCb(UAVObjEvent * ev)
 /**
  * Called whenever a critical configuration component changes
  */
-#if (defined(COPTERCONTROL) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
+#if (defined(SMALLF1) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
 static void configurationUpdatedCb(UAVObjEvent * ev)
 {
 	configuration_check();

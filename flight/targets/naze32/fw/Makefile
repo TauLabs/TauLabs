@@ -53,8 +53,6 @@ ENABLE_AUX_UART ?= NO
 
 # @endgroup Compile Options
 
-NAVIGATION ?= NO
-
 # @startgroup  Optional modules
 # @groupbrief Optional module and driver defaults
 USE_CAMERASTAB ?= YES
@@ -99,7 +97,7 @@ ifeq ($(USE_BATTERY), YES)
 OPTMODULES += Battery
 endif
 # List of mandatory modules to include
-MODULES += Attitude/naze32
+MODULES += Attitude/smallf1
 MODULES += Stabilization Actuator ManualControl FirmwareIAP
 # MODULES += PathFollower/coptercontrol
 # Telemetry must be last to grab the optional modules (why?)
@@ -279,11 +277,6 @@ SRC += $(PIOSCOMMON)/pios_board_info.c
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
-ifeq ($(NAVIGATION), YES)
-SRC += $(STATEESTIMATIONLIB)/ccc.c
-SRC += $(STATEESTIMATIONLIB)/premerlani_gps.c
-SRC += $(STATEESTIMATIONLIB)/premerlani_dcm.c
-endif
 SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c

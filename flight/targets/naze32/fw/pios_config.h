@@ -110,11 +110,7 @@
 /* PIOS Initcall infrastructure */
 #define PIOS_INCLUDE_INITCALL
 
-#define COPTERCONTROL
-// Conditional related to making CC run navigation
-#if defined(NAVGIATION)
-#define PIOS_GPS_PROVIDES_AIRSPEED
-#endif
+#define SMALLF1
 
 #endif /* PIOS_CONFIG_H */
 /**

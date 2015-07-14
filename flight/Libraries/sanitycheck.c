@@ -300,7 +300,7 @@ static int32_t check_safe_autonomous()
 	//   INSIndoor  |     INS          (unsafe)
 
 
-#if !defined(COPTERCONTROL)
+#if !defined(SMALLF1)
 	StateEstimationData stateEstimation;
 	StateEstimationGet(&stateEstimation);
 

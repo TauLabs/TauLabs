@@ -43,7 +43,7 @@
 #include "tabletinfo.h"
 #include "systemsettings.h"
 
-#if !defined(COPTERCONTROL)
+#if !defined(SMALLF1)
 
 //! Private methods
 static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED);

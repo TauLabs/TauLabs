@@ -53,8 +53,6 @@ ENABLE_AUX_UART ?= NO
 
 # @endgroup Compile Options
 
-NAVIGATION ?= NO
-
 # @startgroup  Optional modules
 # @groupbrief Optional module and driver defaults
 USE_CAMERASTAB ?= YES
@@ -114,13 +112,7 @@ ifeq ($(USE_BATTERY), YES)
 OPTMODULES += Battery
 endif
 # List of mandatory modules to include
-ifeq ($(NAVIGATION), YES)
-MODULES += State/coptercontrol
-MODULES += PathFollower
-CFLAGS += -DNAVIGATION
-else
-MODULES += Attitude/coptercontrol
-endif
+MODULES += Attitude/smallf1
 MODULES += Stabilization Actuator ManualControl FirmwareIAP
 # MODULES += PathFollower/coptercontrol
 # Telemetry must be last to grab the optional modules (why?)
