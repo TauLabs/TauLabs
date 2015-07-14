@@ -13,6 +13,7 @@ HEADERS += \
     openpilotplugin.h \
     coptercontrol.h \
     config_cc_hw_widget.h \
+    revomini.h \
     pipxtreme.h
 
 SOURCES += \
