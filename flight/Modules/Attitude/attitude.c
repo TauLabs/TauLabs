@@ -1057,6 +1057,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		INSSetAccelVar(insSettings.AccelVar);
 		INSSetGyroVar(insSettings.GyroVar);
 		INSSetBaroVar(insSettings.BaroVar);
+		/* This is more optimistic than in the actual flight loop, where
+		 * ublox accuracy data is added.  But that seems OK */
 		INSSetPosVelVar(insSettings.GpsVar[INSSETTINGS_GPSVAR_POS], insSettings.GpsVar[INSSETTINGS_GPSVAR_VEL], insSettings.GpsVar[INSSETTINGS_GPSVAR_VERTPOS]);
 
 		// Initialize the gyro bias from the settings
@@ -1206,6 +1208,32 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		vel[2] = gpsVelData.Down;
 
 		gps_vel_updated = false;
+	}
+
+	// If either vel or pos is updated, update the variances.
+	if (gps_updated || gps_vel_updated) {
+		// Typical good pos 'accuracy' values are 2.5-3.5.  Early
+		// flight is near 4.0.
+		// Typical bad pos 'accuracy' values are 10+
+		// The values here are fudged.  Basically, when GPS is
+		// "good" we'll have a lower variance than the nominal
+		// setting.  But from there it will increase really quickly.
+		// sqrt(.5) / 3.5 =~ 0.181f 
+		float pos_var = insSettings.GpsVar[INSSETTINGS_GPSVAR_POS] * 
+			(0.6f + powf(gpsData.Accuracy * 0.180f, 2));
+
+		// A good value of speed accuracy in flight is 0.35-0.5. 
+		// sqrt(.5) / .5 =~ 1.414
+		float speed_var = insSettings.GpsVar[INSSETTINGS_GPSVAR_VEL] *
+			(0.5f + powf(gpsVelData.Accuracy * 1.414f, 2));
+
+		float v_pos_var = insSettings.GpsVar[INSSETTINGS_GPSVAR_VERTPOS] +
+			(0.7f + powf(gpsData.Accuracy * 0.167f, 3.0));
+
+		// We trust the vertical much less as accuracy gets worse.
+		// cuberoot(.3)/4.0 =~ .167
+
+		INSSetPosVelVar(pos_var, speed_var, v_pos_var);
 	}
 
 	// Update fake position at 10 hz
@@ -1429,6 +1457,7 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		INSSetAccelVar(insSettings.AccelVar);
 		INSSetGyroVar(insSettings.GyroVar);
 		INSSetBaroVar(insSettings.BaroVar);
+		/* Don't set GPS variance here, because the flight loop does */
 	}
 	if(ev == NULL || ev->obj == HomeLocationHandle()) {
 		uint8_t armed;
