@@ -38,6 +38,8 @@ typedef BOOL(WINAPI*PProcessIdToSessionId)(DWORD,DWORD*);
 static PProcessIdToSessionId pProcessIdToSessionId = 0;
 #endif
 
+#include <QDataStream>
+
 #if defined(Q_OS_UNIX)
 #include <time.h>
 #include <unistd.h>
