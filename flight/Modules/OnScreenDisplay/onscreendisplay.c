@@ -513,14 +513,8 @@ void simple_artifical_horizon(float roll, float pitch, int16_t x, int16_t y, int
 	int16_t pp_x; // pitch point x
 	int16_t pp_y; // pitch point y
 
-	if (roll > 0) {
-		sin_roll    = sinf(roll * (float)(M_PI / 180));
-		cos_roll    = cosf(roll * (float)(M_PI / 180));
-	}
-	else {
-		sin_roll    = -1 * sinf(-1 * roll * (float)(M_PI / 180));
-		cos_roll    = cosf(-1 * roll * (float)(M_PI / 180));
-	}
+	sin_roll    = sinf(roll * (float)(M_PI / 180));
+	cos_roll    = cosf(roll * (float)(M_PI / 180));
 
 	// roll to pitch transformation
 	pp_x        = x * (1 + (sin_roll * pitch) / (float)max_pitch);
