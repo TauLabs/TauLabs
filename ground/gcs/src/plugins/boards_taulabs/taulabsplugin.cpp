@@ -26,7 +26,6 @@
  */
 
 #include "taulabsplugin.h"
-#include "freedom.h"
 #include "sparky.h"
 #include "sparky2.h"
 #include "sparkybgc.h"
@@ -64,9 +63,6 @@ void TauLabsPlugin::extensionsInitialized()
 
     SparkyBGC* sparkybgc = new SparkyBGC();
     addAutoReleasedObject(sparkybgc);
-
-    Freedom* freedom = new Freedom();
-    addAutoReleasedObject(freedom);
 
     TauLink* taulink = new TauLink();
     addAutoReleasedObject(taulink);
