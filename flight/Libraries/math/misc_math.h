@@ -67,7 +67,7 @@ void cubic_deadband_setup(float w, float b, float *m, float *r);
 #if defined (__clang__) // Clang can't turn off specific optimizations, so turn them all off. This is currently only useful when compiling the simulator with Clang
 bool IS_NOT_FINITE(float x) __attribute__((optnone()));
 #else
-bool IS_NOT_FINITE(float x) __attribute__((optimize("no-fast-math")));
+bool IS_NOT_FINITE(float x) __attribute__((optimize("no-finite-math-only")));
 #endif
 
 #endif /* MISC_MATH_H */
