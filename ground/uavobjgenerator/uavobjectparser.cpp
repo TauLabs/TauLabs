@@ -81,13 +81,10 @@ FieldInfo* UAVObjectParser::getFieldByName(QString &name, ObjectInfo **objRet) {
     QString objName = splitStr[0].trimmed();
     QString fieldName = splitStr[1].trimmed();
 
-    qDebug() << objName;
-
     // Pull out the object
     ObjectInfo *obj = getObjectByName(objName);
 
     if (!obj) {
-        qDebug() << "Missingobj";
         return NULL;
     }
 
@@ -107,26 +104,43 @@ FieldInfo* UAVObjectParser::getFieldByName(QString &name, ObjectInfo **objRet) {
     return NULL;
 }
 
+void UAVObjectParser::resolveFieldParent(ObjectInfo *item, FieldInfo *field)
+{
+    if (!field->parentName.isEmpty()) {
+        // There is a parent relationship we have to resolve here.
+        ObjectInfo *parentObj;
+        field->parent = getFieldByName(field->parentName,
+                &parentObj);
+
+        if (!field->parent) {
+            // XXX UHOH
+            qDebug() << field->parentName;
+            qDebug() << "UHOH!!";
+        }
+
+        // XXX Add to object parent list, if necessary.
+        (void) item;
+
+        // Make sure any upwards dependencies are resolved before using the
+        // field info.  This allows inheritance multiple levels deep.
+        resolveFieldParent(parentObj, field->parent);
+
+        // If the child had no options specified, take the list from
+        // the parent
+        if (field->options.isEmpty()) {
+            field->options.append(field->parent->options);
+        }
+    }
+}
+
 void UAVObjectParser::resolveParents()
 {
     foreach (ObjectInfo *item, objInfo) {
         foreach (FieldInfo *field, item->fields) {
-            if (!field->parent.isEmpty()) {
-                qDebug() << item->name << "." << field->name << " : " << field->parent;
-
-                // There is a parent relationship we have to resolve here.
-                ObjectInfo *parentObj;
-                FieldInfo *parentField = getFieldByName(field->parent,
-                        &parentObj);
-
-                if (!parentField) {
-                    // XXX UHOH
-                    qDebug() << "UHOH!!";
-                }
-
-                if (field->options.isEmpty()) {
-                    field->options.append(parentField->options);
-                }
+            // Because resolveFieldParent can recurse, make sure we've not
+            // set a parent here already.
+            if (!field->parent) {
+                resolveFieldParent(item, field);
             }
         }
     }
@@ -141,7 +155,6 @@ void UAVObjectParser::calculateAllIds()
 
 ObjectInfo* UAVObjectParser::getObjectByName(QString& name) {
     foreach (ObjectInfo *item, objInfo) {
-        qDebug() << item->name << name;
         if (item->name == name) {
             return item;
         }
@@ -260,7 +273,7 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
     QDomNode node = docElement.firstChild();
     while ( !node.isNull() ) {
         // Create new object entry
-        ObjectInfo* info = new ObjectInfo;
+        ObjectInfo* info = new ObjectInfo();
 
         info->filename=filename;
         // Process object attributes
@@ -518,7 +531,7 @@ QString UAVObjectParser::processObjectAccess(QDomNode& childNode, ObjectInfo* in
 QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* info)
 {
     // Create field
-    FieldInfo* field = new FieldInfo;
+    FieldInfo* field = new FieldInfo();
     // Get name attribute
     QDomNamedNodeMap elemAttributes = childNode.attributes();
     QDomNode elemAttr = elemAttributes.namedItem("name");
@@ -631,8 +644,7 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
     if (field->type == FIELDTYPE_ENUM) {
         elemAttr = elemAttributes.namedItem("parent");
         if (!elemAttr.isNull()) {
-            field->parent = elemAttr.nodeValue().trimmed();
-            qDebug() << field->parent;
+            field->parentName = elemAttr.nodeValue().trimmed();
         }
 
         // Look for options attribute
@@ -657,7 +669,7 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
 	        }
 	    }
         }
-        if ((field->options.isEmpty()) && (field->parent.isEmpty())) {
+        if ((field->options.isEmpty()) && (field->parentName.isEmpty())) {
             return QString("Object:field:options attribute/element is missing");
         }
     }

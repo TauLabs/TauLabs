@@ -47,7 +47,9 @@ typedef enum {
     FIELDTYPE_ENUM
 } FieldType;
 
-typedef struct {
+typedef struct FieldInfo_s FieldInfo;
+
+struct FieldInfo_s {
     QString name;
     QString units;
     FieldType type;
@@ -55,11 +57,13 @@ typedef struct {
     int numBytes;
     QStringList elementNames;
     QStringList options; // for enums only
-    QString parent;      // optional, for enums only
+    QString parentName;  // optional, for enums only
     bool defaultElementNames;
     QStringList defaultValues;
     QString limitValues;
-} FieldInfo;
+
+    FieldInfo *parent;
+};
 
 /**
  * Object update mode
@@ -77,8 +81,9 @@ typedef enum {
     ACCESS_READONLY = 1
 } AccessMode;
 
+typedef struct ObjectInfo_s ObjectInfo;
 
-typedef struct  {
+struct ObjectInfo_s {
     QString name;
     QString namelc; /** name in lowercase */
     QString filename;
@@ -99,7 +104,8 @@ typedef struct  {
     QString description; /** Description used for Doxygen **/
     QString category; /** Description used for Doxygen **/
     int numBytes;
-} ObjectInfo;
+    QList<ObjectInfo*> parents;
+};
 
 class UAVObjectParser
 {
@@ -133,7 +139,6 @@ private:
 
     QString genErrorMsg(QString& fileName, QString errMsg, int errorLine, int errorCol);
 
-
     QString processObjectAttributes(QDomNode& node, ObjectInfo* info);
     QString processObjectFields(QDomNode& childNode, ObjectInfo* info);
     QString processObjectAccess(QDomNode& childNode, ObjectInfo* info);
@@ -144,6 +149,7 @@ private:
     void calculateSize(ObjectInfo* info);
     quint32 updateHash(quint32 value, quint32 hash);
     quint32 updateHash(QString& value, quint32 hash);
+    void resolveFieldParent(ObjectInfo *item, FieldInfo *field);
 };
 
 #endif // UAVOBJECTPARSER_H
