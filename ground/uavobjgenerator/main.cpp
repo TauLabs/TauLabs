@@ -171,6 +171,9 @@ int main(int argc, char *argv[])
         return RETURN_ERR_XML;
     }
 
+    // resolve all references to parent objects
+    parser->resolveParents();
+
     // check for duplicate object ID's
     QList<quint32> objIDList;
     int numBytesTotal=0;

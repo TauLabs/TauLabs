@@ -55,6 +55,7 @@ typedef struct {
     int numBytes;
     QStringList elementNames;
     QStringList options; // for enums only
+    QString parent;      // optional, for enums only
     bool defaultElementNames;
     QStringList defaultValues;
     QString limitValues;
@@ -107,6 +108,7 @@ public:
     // Functions
     UAVObjectParser();
     QString parseXML(QString& xml, QString& filename);
+    void resolveParents();
     void calculateAllIds();
     int getNumObjects();
     QList<ObjectInfo*> getObjectInfo();
@@ -115,6 +117,8 @@ public:
 
     ObjectInfo* getObjectByIndex(int objIndex);
     ObjectInfo* getObjectByName(QString& name);
+    FieldInfo* getFieldByName(QString &name, ObjectInfo **objRet);
+
     int getNumBytes(int objIndex);
     QStringList all_units;
 

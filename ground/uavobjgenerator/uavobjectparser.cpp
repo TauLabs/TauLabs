@@ -3,6 +3,8 @@
  *
  * @file       uavobjectparser.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015
+ *
  * @brief      Parses XML files and extracts object information.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -24,6 +26,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <QtDebug>
 #include <QTextStream>
 #include "uavobjectparser.h"
 
@@ -63,6 +66,72 @@ QList<ObjectInfo*> UAVObjectParser::getObjectInfo()
     return objInfo;
 }
 
+FieldInfo* UAVObjectParser::getFieldByName(QString &name, ObjectInfo **objRet) {
+    if (objRet) {
+        *objRet = NULL;
+    }
+
+    // Split name into object and field name
+    QStringList splitStr = name.split(".");
+
+    if (splitStr.size() != 2) {
+        return NULL;
+    }
+
+    QString objName = splitStr[0].trimmed();
+    QString fieldName = splitStr[1].trimmed();
+
+    qDebug() << objName;
+
+    // Pull out the object
+    ObjectInfo *obj = getObjectByName(objName);
+
+    if (!obj) {
+        qDebug() << "Missingobj";
+        return NULL;
+    }
+
+    // Retrieve field info
+    foreach (FieldInfo *field, obj->fields) {
+        if (field->name == fieldName) {
+            // Got a match-- return it.
+            if (objRet) {
+                *objRet = obj;
+            }
+
+            return field;
+        }
+    }
+
+    // Didn't find it? Give up. (return neither obj nor field)
+    return NULL;
+}
+
+void UAVObjectParser::resolveParents()
+{
+    foreach (ObjectInfo *item, objInfo) {
+        foreach (FieldInfo *field, item->fields) {
+            if (!field->parent.isEmpty()) {
+                qDebug() << item->name << "." << field->name << " : " << field->parent;
+
+                // There is a parent relationship we have to resolve here.
+                ObjectInfo *parentObj;
+                FieldInfo *parentField = getFieldByName(field->parent,
+                        &parentObj);
+
+                if (!parentField) {
+                    // XXX UHOH
+                    qDebug() << "UHOH!!";
+                }
+
+                if (field->options.isEmpty()) {
+                    field->options.append(parentField->options);
+                }
+            }
+        }
+    }
+}
+
 void UAVObjectParser::calculateAllIds()
 {
     foreach (ObjectInfo *item, objInfo) {
@@ -72,6 +141,7 @@ void UAVObjectParser::calculateAllIds()
 
 ObjectInfo* UAVObjectParser::getObjectByName(QString& name) {
     foreach (ObjectInfo *item, objInfo) {
+        qDebug() << item->name << name;
         if (item->name == name) {
             return item;
         }
@@ -559,6 +629,11 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
     }
     // Get options attribute or child elements (only if an enum type)
     if (field->type == FIELDTYPE_ENUM) {
+        elemAttr = elemAttributes.namedItem("parent");
+        if (!elemAttr.isNull()) {
+            field->parent = elemAttr.nodeValue().trimmed();
+            qDebug() << field->parent;
+        }
 
         // Look for options attribute
         elemAttr = elemAttributes.namedItem("options");
@@ -582,7 +657,7 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
 	        }
 	    }
         }
-        if (field->options.length() == 0) {
+        if ((field->options.isEmpty()) && (field->parent.isEmpty())) {
             return QString("Object:field:options attribute/element is missing");
         }
     }
