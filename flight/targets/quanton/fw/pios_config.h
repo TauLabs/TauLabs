@@ -66,6 +66,7 @@
 #define PIOS_MPU6000_ACCEL
 #define PIOS_MPU6000_SIMPLE_INIT_SEQUENCE
 #define PIOS_INCLUDE_MS5611
+#define PIOS_INCLUDE_PX4FLOW
 #define FLASH_FREERTOS
 /* Com systems to include */
 #define PIOS_INCLUDE_COM

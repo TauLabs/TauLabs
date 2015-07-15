@@ -60,7 +60,7 @@
 #include "homelocation.h"
 #include "manualcontrolcommand.h"
 #include "positionactual.h"
-#include "sonaraltitude.h"
+#include "rangefinderdistance.h"
 #include "velocityactual.h"
 
 #include "utils/coordinateconversions.h"
