@@ -163,8 +163,7 @@ static void loggingTask(void *parameters)
 
 	// Connect callbacks for UAVOs being logged on change
 	FlightStatusConnectCallback(FlightStatusUpdatedCb);
-	if (WaypointActiveHandle())
-		WaypointActiveConnectCallback(WaypointActiveUpdatedCb);
+	WaypointActiveConnectCallback(WaypointActiveUpdatedCb);
 
 	LoggingStatsData loggingData;
 	LoggingStatsGet(&loggingData);
@@ -208,8 +207,6 @@ static void loggingTask(void *parameters)
 			case LOGGINGSETTINGS_MAXLOGRATE_100:
 				PIOS_Thread_Sleep(10);
 				break;
-			default:
-				PIOS_Thread_Sleep(1000);
 		}
 
 		LoggingStatsGet(&loggingData);
@@ -289,7 +286,7 @@ static void loggingTask(void *parameters)
 				flightstatus_updated = false;
 			}
 
-			if (waypoint_updated && WaypointActiveHandle()){
+			if (waypoint_updated){
 				UAVTalkSendObjectTimestamped(uavTalkCon, WaypointActiveHandle(), 0, false, 0);
 				waypoint_updated = false;
 			}
@@ -310,21 +307,18 @@ static void loggingTask(void *parameters)
 			if ((i % 10) == 1) {
 				UAVTalkSendObjectTimestamped(uavTalkCon, AirspeedActualHandle(), 0, false, 0);
 				UAVTalkSendObjectTimestamped(uavTalkCon, BaroAltitudeHandle(), 0, false, 0);
-				if (GPSPositionHandle())
-					UAVTalkSendObjectTimestamped(uavTalkCon, GPSPositionHandle(), 0, false, 0);
-				if (PositionActualHandle())
-					UAVTalkSendObjectTimestamped(uavTalkCon, PositionActualHandle(), 0, false, 0);
-				if (VelocityActualHandle())
-					UAVTalkSendObjectTimestamped(uavTalkCon, VelocityActualHandle(), 0, false, 0);
+				UAVTalkSendObjectTimestamped(uavTalkCon, GPSPositionHandle(), 0, false, 0);
+				UAVTalkSendObjectTimestamped(uavTalkCon, PositionActualHandle(), 0, false, 0);
+				UAVTalkSendObjectTimestamped(uavTalkCon, VelocityActualHandle(), 0, false, 0);
 			}
 
 			// Log slow
-			if ((i % 50) == 2 && GPSTimeHandle()) {
+			if ((i % 50) == 2) {
 				UAVTalkSendObjectTimestamped(uavTalkCon, GPSTimeHandle(), 0, false, 0);
 			}
 
 			// Log very slow
-			if ((i % 500) == 3 && GPSSatellitesHandle()) {
+			if ((i % 500) == 3) {
 				UAVTalkSendObjectTimestamped(uavTalkCon, GPSSatellitesHandle(), 0, false, 0);
 			}
 
