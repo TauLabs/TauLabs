@@ -34,8 +34,10 @@
 #include "uavobjectmanager.h"
 #include "utlist.h"
 #include "misc_math.h"
+#include "timeutils.h"
 
 #include "pios_streamfs.h"
+#include <pios_board_info.h>
 
 #include "attitudeactual.h"
 #include "accels.h"
@@ -53,6 +55,7 @@
 #define MAX_SHARED_QUEUE_SIZE 64
 #define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
+const char DIGITS[16] = "0123456789abcdef";
 
 // Threshold to decide whether a private queue is used for an UAVO type.
 // This is somewhat arbitrary; 50ms seems to be a good tradeoff between
@@ -84,6 +87,7 @@ static void    loggingTask(void *parameters);
 static int32_t send_data(uint8_t *data, int32_t length);
 static int info_cmp(struct UAVOLogInfo *info_1, struct UAVOLogInfo *info_2);
 static void register_object(UAVObjHandle obj);
+static void writeHeader();
 static void settingsUpdatedCb(UAVObjEvent * ev);
 
 // Local variables
@@ -249,6 +253,9 @@ static void loggingTask(void *parameters)
 				loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
 				loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
 				LoggingStatsSet(&loggingData);
+
+				// Write information at start of the log file
+				writeHeader();
 
 				// When the file is first created, traverse the linked list and
 				// log all UAVObjects, settings and data alike.
@@ -473,6 +480,57 @@ static void register_object(UAVObjHandle obj)
 	UAVObjConnectCallback(obj, obj_updated_callback, event_mask);
 	LL_APPEND(log_info, info);
 }
+
+
+/**
+ * Write log file header
+ * see firmwareinfotemplate.c
+ */
+static void writeHeader()
+{
+	int pos;
+#define STR_BUF_LEN 45
+	char tmp_str[STR_BUF_LEN];
+	char *info_str;
+	char this_char;
+	DateTimeT date_time;
+
+	const struct pios_board_info * bdinfo = &pios_board_info_blob;
+
+	// Header
+	#define LOG_HEADER "Tau Labs git hash:\n"
+	send_data((uint8_t *)LOG_HEADER, strlen(LOG_HEADER));
+
+	// Commit tag name
+	info_str = (char*)(bdinfo->fw_base + bdinfo->fw_size + 14);
+	send_data((uint8_t*)info_str, strlen(info_str));
+
+	// Git commit hash
+	pos = 0;
+	tmp_str[pos++] = ':';
+	for (int i = 0; i < 4; i++){
+		this_char = *(char*)(bdinfo->fw_base + bdinfo->fw_size + 7 - i);
+		tmp_str[pos++] = DIGITS[(this_char & 0xF0) >> 4];
+		tmp_str[pos++] = DIGITS[(this_char & 0x0F)];
+	}
+	send_data((uint8_t*)tmp_str, pos);
+
+	// Date
+	date_from_timestamp(*(uint32_t *)(bdinfo->fw_base + bdinfo->fw_size + 8), &date_time);
+	uint8_t len = snprintf(tmp_str, STR_BUF_LEN, " %d%02d%02d\n", 1900 + date_time.year, date_time.mon + 1, date_time.mday);
+	send_data((uint8_t*)tmp_str, len);
+
+	// UAVO SHA1
+	pos = 0;
+	for (int i = 0; i < 20; i++){
+		this_char = *(char*)(bdinfo->fw_base + bdinfo->fw_size + 60 + i);
+		tmp_str[pos++] = DIGITS[(this_char & 0xF0) >> 4];
+		tmp_str[pos++] = DIGITS[(this_char & 0x0F)];
+	}
+	tmp_str[pos++] = '\n';
+	send_data((uint8_t*)tmp_str, pos);
+}
+
 
 /** Callback to update settings
  */
