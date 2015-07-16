@@ -401,6 +401,32 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
     return QString();
 }
 
+quint32 UAVObjectParser::findOptionIndex(FieldInfo *field, quint32 inputIdx) {
+    if (!field->parent) {
+        return inputIdx;
+    }
+
+    // Walk up inheritance tree.
+    FieldInfo *root = field->parent;
+
+    while (root->parent) {
+        root = root->parent;
+    }
+
+    QString& optionName = field->options[inputIdx];
+
+    QStringList options = root->options;
+    for (int m = 0; m < options.length(); m++) {
+        if (optionName == options[m]) {
+            return m;
+        }
+    }
+
+    qDebug() << optionName;
+
+    abort();
+}
+
 /**
  * Calculate the unique object ID based on the object information.
  * The ID will change if the object definition changes, this is intentional
@@ -421,8 +447,20 @@ void UAVObjectParser::calculateID(ObjectInfo* info)
         hash = updateHash(info->fields[n]->type, hash);
         if(info->fields[n]->type == FIELDTYPE_ENUM) {
             QStringList options = info->fields[n]->options;
-            for (int m = 0; m < options.length(); m++)
+            quint32 nextIdx = 0;
+
+            for (int m = 0; m < options.length(); m++) {
+                quint32 idx = findOptionIndex(info->fields[n], m);
+
+                // Not contiguous options.  Update with next value.
+                if (idx != nextIdx) {
+                    hash = updateHash(idx, hash);
+                }
+
+                nextIdx = idx+1;
+
                 hash = updateHash(options[m], hash);
+            }
         }
     }
     // Done

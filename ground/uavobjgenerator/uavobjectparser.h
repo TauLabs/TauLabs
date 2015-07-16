@@ -125,6 +125,7 @@ public:
     ObjectInfo* getObjectByIndex(int objIndex);
     ObjectInfo* getObjectByName(QString& name);
     FieldInfo* getFieldByName(QString &name, ObjectInfo **objRet);
+    quint32 findOptionIndex(FieldInfo *field, quint32 inputIdx);
 
     int getNumBytes(int objIndex);
     QStringList all_units;

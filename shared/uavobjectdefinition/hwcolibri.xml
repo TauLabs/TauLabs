@@ -30,7 +30,7 @@
 				<option>Disabled</option>
 				<option>Telemetry</option>
 				<option>GPS</option>
-				<option>S.BUS</option>
+				<option>S.Bus</option>
 				<option>DSM</option>
 				<option>DebugConsole</option>
 				<option>ComBridge</option>
