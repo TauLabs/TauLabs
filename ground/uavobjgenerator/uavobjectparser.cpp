@@ -106,11 +106,16 @@ FieldInfo* UAVObjectParser::getFieldByName(QString &name, ObjectInfo **objRet) {
 
 void UAVObjectParser::resolveFieldParent(ObjectInfo *item, FieldInfo *field)
 {
+    if (field->parent) {
+        // We could have done this already because of how we recursively
+        // do stuff.
+        return;
+    }
+
     if (!field->parentName.isEmpty()) {
         // There is a parent relationship we have to resolve here.
-        ObjectInfo *parentObj;
         field->parent = getFieldByName(field->parentName,
-                &parentObj);
+                &field->parentObj);
 
         if (!field->parent) {
             // XXX UHOH
@@ -118,12 +123,12 @@ void UAVObjectParser::resolveFieldParent(ObjectInfo *item, FieldInfo *field)
             qDebug() << "UHOH!!";
         }
 
-        // XXX Add to object parent list, if necessary.
-        (void) item;
+        // Add to object parent set, if not present.
+        item->parents.insert(field->parentObj);
 
         // Make sure any upwards dependencies are resolved before using the
         // field info.  This allows inheritance multiple levels deep.
-        resolveFieldParent(parentObj, field->parent);
+        resolveFieldParent(field->parentObj, field->parent);
 
         // If the child had no options specified, take the list from
         // the parent
@@ -139,9 +144,7 @@ void UAVObjectParser::resolveParents()
         foreach (FieldInfo *field, item->fields) {
             // Because resolveFieldParent can recurse, make sure we've not
             // set a parent here already.
-            if (!field->parent) {
-                resolveFieldParent(item, field);
-            }
+            resolveFieldParent(item, field);
         }
     }
 }

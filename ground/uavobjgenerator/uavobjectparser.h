@@ -30,6 +30,7 @@
 #include <QString>
 #include <QStringList>
 #include <QList>
+#include <QSet>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QDomNode>
@@ -48,6 +49,7 @@ typedef enum {
 } FieldType;
 
 typedef struct FieldInfo_s FieldInfo;
+typedef struct ObjectInfo_s ObjectInfo;
 
 struct FieldInfo_s {
     QString name;
@@ -63,6 +65,7 @@ struct FieldInfo_s {
     QString limitValues;
 
     FieldInfo *parent;
+    ObjectInfo *parentObj;
 };
 
 /**
@@ -80,8 +83,6 @@ typedef enum {
     ACCESS_READWRITE = 0,
     ACCESS_READONLY = 1
 } AccessMode;
-
-typedef struct ObjectInfo_s ObjectInfo;
 
 struct ObjectInfo_s {
     QString name;
@@ -104,7 +105,7 @@ struct ObjectInfo_s {
     QString description; /** Description used for Doxygen **/
     QString category; /** Description used for Doxygen **/
     int numBytes;
-    QList<ObjectInfo*> parents;
+    QSet<ObjectInfo*> parents;
 };
 
 class UAVObjectParser
