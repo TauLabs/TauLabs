@@ -40,10 +40,10 @@
 /*
 Timer | Channel 1 | Channel 2 | Channel 3 | Channel 4
 ------+-----------+-----------+-----------+----------
-TIM1  |  Servo 4  |           |           |
-TIM2  |  RC In 5  |  RC In 6  |  Servo 6  |
-TIM3  |  Servo 5  |  RC In 2  |  RC In 3  |  RC In 4
-TIM4  |  RC In 1  |  Servo 3  |  Servo 2  |  Servo 1
+TIM1  |  Servo 1  |           |           |  Servo 2
+TIM2  |  RC In 1  |  RC In 2  |  RC In 3  |  RC In 4
+TIM3  |  RC In 5  |  RC In 6  |  RC In 7  |  RC In 8
+TIM4  |  Servo 3  |  Servo 4  |  Servo 5  |  Servo 6
 ------+-----------+-----------+-----------+----------
 */
 
@@ -175,7 +175,7 @@ extern uintptr_t pios_com_mavlink_id;
 #define PIOS_GPIO_CLKS				{  }
 #define PIOS_GPIO_NUM				0
 
-#endif /* STM32103CB_CC_H_ */
+#endif /* STM32103CB_NAZE32_H_ */
 
 /**
  * @}
