@@ -115,7 +115,7 @@ public:
     // Functions
     UAVObjectParser();
     QString parseXML(QString& xml, QString& filename);
-    void resolveParents();
+    QString resolveParents();
     void calculateAllIds();
     int getNumObjects();
     QList<ObjectInfo*> getObjectInfo();
@@ -125,7 +125,7 @@ public:
     ObjectInfo* getObjectByIndex(int objIndex);
     ObjectInfo* getObjectByName(QString& name);
     FieldInfo* getFieldByName(QString &name, ObjectInfo **objRet);
-    quint32 findOptionIndex(FieldInfo *field, quint32 inputIdx);
+    int findOptionIndex(FieldInfo *field, quint32 inputIdx);
 
     int getNumBytes(int objIndex);
     QStringList all_units;
@@ -151,7 +151,7 @@ private:
     void calculateSize(ObjectInfo* info);
     quint32 updateHash(quint32 value, quint32 hash);
     quint32 updateHash(QString& value, quint32 hash);
-    void resolveFieldParent(ObjectInfo *item, FieldInfo *field);
+    int resolveFieldParent(ObjectInfo *item, FieldInfo *field);
 };
 
 #endif // UAVOBJECTPARSER_H

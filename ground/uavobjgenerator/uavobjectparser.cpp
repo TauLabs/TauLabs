@@ -104,12 +104,12 @@ FieldInfo* UAVObjectParser::getFieldByName(QString &name, ObjectInfo **objRet) {
     return NULL;
 }
 
-void UAVObjectParser::resolveFieldParent(ObjectInfo *item, FieldInfo *field)
+int UAVObjectParser::resolveFieldParent(ObjectInfo *item, FieldInfo *field)
 {
     if (field->parent) {
         // We could have done this already because of how we recursively
         // do stuff.
-        return;
+        return 0;
     }
 
     if (!field->parentName.isEmpty()) {
@@ -118,9 +118,7 @@ void UAVObjectParser::resolveFieldParent(ObjectInfo *item, FieldInfo *field)
                 &field->parentObj);
 
         if (!field->parent) {
-            // XXX UHOH
-            qDebug() << field->parentName;
-            qDebug() << "UHOH!!";
+            return -1;
         }
 
         // Add to object parent set, if not present.
@@ -136,17 +134,34 @@ void UAVObjectParser::resolveFieldParent(ObjectInfo *item, FieldInfo *field)
             field->options.append(field->parent->options);
         }
     }
+
+    return 0;
 }
 
-void UAVObjectParser::resolveParents()
+QString UAVObjectParser::resolveParents()
 {
     foreach (ObjectInfo *item, objInfo) {
         foreach (FieldInfo *field, item->fields) {
             // Because resolveFieldParent can recurse, make sure we've not
             // set a parent here already.
-            resolveFieldParent(item, field);
+            if (resolveFieldParent(item, field) < 0) {
+                return QString("Invalid parent for %1.%2")
+                    .arg(item->name)
+                    .arg(field->name);
+            }
+
+            for (int n = 0; n < field->options.length(); n++) {
+                if (findOptionIndex(field, n) < 0) {
+                    return QString("Parent of %1.%2.%3 missing")
+                        .arg(item->name)
+                        .arg(field->name)
+                        .arg(field->options[n]);
+                }
+            }
         }
     }
+
+    return QString();
 }
 
 void UAVObjectParser::calculateAllIds()
@@ -401,7 +416,7 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
     return QString();
 }
 
-quint32 UAVObjectParser::findOptionIndex(FieldInfo *field, quint32 inputIdx) {
+int UAVObjectParser::findOptionIndex(FieldInfo *field, quint32 inputIdx) {
     if (!field->parent) {
         return inputIdx;
     }
@@ -422,9 +437,7 @@ quint32 UAVObjectParser::findOptionIndex(FieldInfo *field, quint32 inputIdx) {
         }
     }
 
-    qDebug() << optionName;
-
-    abort();
+    return -1;
 }
 
 /**
@@ -447,14 +460,16 @@ void UAVObjectParser::calculateID(ObjectInfo* info)
         hash = updateHash(info->fields[n]->type, hash);
         if(info->fields[n]->type == FIELDTYPE_ENUM) {
             QStringList options = info->fields[n]->options;
-            quint32 nextIdx = 0;
+            int nextIdx = 0;
 
             for (int m = 0; m < options.length(); m++) {
-                quint32 idx = findOptionIndex(info->fields[n], m);
+                int idx = findOptionIndex(info->fields[n], m);
+
+                if (idx < 0) abort();
 
                 // Not contiguous options.  Update with next value.
                 if (idx != nextIdx) {
-                    hash = updateHash(idx, hash);
+                    hash = updateHash((quint32) idx, hash);
                 }
 
                 nextIdx = idx+1;
