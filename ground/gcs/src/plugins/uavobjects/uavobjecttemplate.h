@@ -36,6 +36,8 @@
 #include "uavdataobject.h"
 #include "uavobjectmanager.h"
 
+$(PARENT_INCLUDES)
+
 class UAVOBJECTS_EXPORT $(NAME): public UAVDataObject
 {
     Q_OBJECT

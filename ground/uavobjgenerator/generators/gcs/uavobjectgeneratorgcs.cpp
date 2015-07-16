@@ -71,6 +71,22 @@ bool UAVObjectGeneratorGCS::generate(UAVObjectParser* parser,QString templatepat
     return true; // if we come here everything should be fine
 }
 
+QString UAVObjectGeneratorGCS::form_enum_name(const QString& objectName,
+        const QString& fieldName, const QString& option) {
+    QString s = "%3::%1_%2";
+
+    if (objectName.isEmpty()) {
+        s = "%1_%2";
+
+        return s.arg( fieldName.toUpper() )
+            .arg( option.toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), ""));
+    }
+
+    return s.arg( fieldName.toUpper() )
+        .arg( option.toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), ""))
+        .arg( objectName);
+}
+
 /**
  * Generate the GCS object files
  */
@@ -86,6 +102,15 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
     // Replace common tags
     replaceCommonTags(outInclude, info);
     replaceCommonTags(outCode, info);
+
+    // Replace the $(PARENT_INCLUDES) tag
+    QString parentIncludes;
+
+    foreach (ObjectInfo *parent, info->parents) {
+        parentIncludes.append( QString("#include <%1.h>\r\n").arg(parent->namelc));
+    }
+
+    outInclude.replace(QString("$(PARENT_INCLUDES)"), parentIncludes);
 
     // Replace the $(DATAFIELDS) tag
     QString type;
@@ -302,10 +327,18 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
             // Go through each option
             QStringList options = info->fields[n]->options;
             for (int m = 0; m < options.length(); ++m) {
-                QString s = (m != (options.length()-1)) ? "%1_%2=%3, " : "%1_%2=%3";
-                enums.append( s.arg( info->fields[n]->name.toUpper() )
-                               .arg( options[m].toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), "") )
-                               .arg(m) );
+                QString optionName = form_enum_name(QString(),
+                        info->fields[n]->name, options[m]);
+                QString value = QString::number(m);
+
+                if (info->fields[n]->parent) {
+                    value = form_enum_name(info->fields[n]->parentObj->name,
+                            info->fields[n]->parent->name, options[m]);
+                }
+
+                QString s = (m != (options.length()-1)) ? "%1=%2, " : "%1=%2";
+                enums.append( s.arg(optionName)
+                               .arg(value));
 
             }
             enums.append( QString(" } %1Options;\n")
@@ -321,9 +354,8 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
             for (int m = 0; m < elemNames.length(); ++m) {
                 QString s = (m != (elemNames.length()-1)) ? "%1_%2=%3, " : "%1_%2=%3";
                 enums.append( s.arg( info->fields[n]->name.toUpper() )
-                               .arg( elemNames[m].toUpper() )
-                               .arg(m) );
-
+                        .arg( elemNames[m].toUpper() )
+                        .arg(m) );
             }
             enums.append( QString(" } %1Elem;\n")
                           .arg( info->fields[n]->name ) );

@@ -80,6 +80,7 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/hwnaze.h \
     $$UAVOBJECT_SYNTHETICS/hwquanton.h \
     $$UAVOBJECT_SYNTHETICS/hwrevomini.h \
+    $$UAVOBJECT_SYNTHETICS/hwshared.h \
     $$UAVOBJECT_SYNTHETICS/hwsparky.h \
     $$UAVOBJECT_SYNTHETICS/hwsparkybgc.h \
     $$UAVOBJECT_SYNTHETICS/hwtaulink.h \
