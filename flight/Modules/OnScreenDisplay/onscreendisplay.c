@@ -1638,6 +1638,7 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 	uint8_t last_arm_status = FLIGHTSTATUS_ARMED_DISARMED;
 	uint8_t current_page = 0;
 	uint8_t last_page = -1;
+	uint8_t page_when_stats_enabled = 0;
 	float tmp;
 
 	OnScreenDisplaySettingsGet(&osd_settings);
@@ -1772,9 +1773,18 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 							show_stats_until = now + 30 * 1000;
 							break;
 					}
-				}
-				if (show_stats_until > now){
+					page_when_stats_enabled = current_page;
 					current_page = ONSCREENDISPLAYSETTINGS_PAGECONFIG_STATISTICS;
+				} else {
+					if (show_stats_until > now){
+						if (frame_counter % 5 == 0 && current_page != page_when_stats_enabled){
+							// toggling the page switch gets rid of the stats display
+							show_stats_until = 0;
+						}
+						else {
+							current_page = ONSCREENDISPLAYSETTINGS_PAGECONFIG_STATISTICS;
+						}
+					}
 				}
 			}
 
