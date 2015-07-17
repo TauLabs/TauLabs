@@ -92,6 +92,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrSkySPortBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSPORTBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGeofence, ModuleSettings::ADMINSTATE_GEOFENCE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbAutotune, ModuleSettings::ADMINSTATE_AUTOTUNE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbLogging, ModuleSettings::ADMINSTATE_LOGGING);
 
     // Don't allow this to be changed here, only in the autotune tab.
     ui->cbAutotune->setDisabled(true);
@@ -374,6 +375,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     ui->cbAutotune->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbAutotune->setProperty(falseString.toLatin1(), "Disabled");
+
+    ui->cbLogging->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbLogging->setProperty(falseString.toLatin1(), "Disabled");
 
     ui->gb_measureVoltage->setProperty(trueString.toLatin1(), "Enabled");
     ui->gb_measureVoltage->setProperty(falseString.toLatin1(), "Disabled");
