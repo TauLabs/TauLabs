@@ -1175,7 +1175,6 @@ void PIOS_Board_Init(void) {
 		uint8_t hw_mpu9250_dlpf;
 		HwBrainMPU9250GyroLPFGet(&hw_mpu9250_dlpf);
 		enum pios_mpu9250_gyro_filter mpu9250_gyro_lpf = \
-			(hw_mpu9250_dlpf == HWBRAIN_MPU9250GYROLPF_250) ? PIOS_MPU9250_GYRO_LOWPASS_250_HZ : \
 			(hw_mpu9250_dlpf == HWBRAIN_MPU9250GYROLPF_184) ? PIOS_MPU9250_GYRO_LOWPASS_184_HZ : \
 			(hw_mpu9250_dlpf == HWBRAIN_MPU9250GYROLPF_92) ? PIOS_MPU9250_GYRO_LOWPASS_92_HZ : \
 			(hw_mpu9250_dlpf == HWBRAIN_MPU9250GYROLPF_41) ? PIOS_MPU9250_GYRO_LOWPASS_41_HZ : \
