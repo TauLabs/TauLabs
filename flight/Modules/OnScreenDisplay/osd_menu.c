@@ -143,9 +143,12 @@ enum menu_fsm_state {
 	FSM_STATE_STICKLIMITS_ROLLR,    /*!< Roll full stick rate */
 	FSM_STATE_STICKLIMITS_PITCHR,   /*!< Pitch full stick rate */
 	FSM_STATE_STICKLIMITS_YAWR,     /*!< Yaw full stick rate */
-	FSM_STATE_STICKLIMITS_ROLLAR,   /*!< Roll full stick att rate */
-	FSM_STATE_STICKLIMITS_PITCHAR,  /*!< Pitch full stick att rate */
-	FSM_STATE_STICKLIMITS_YAWAR,    /*!< Yaw full stick att rate */
+	FSM_STATE_STICKLIMITS_ROLLEXR,  /*!< Roll expo rate */
+	FSM_STATE_STICKLIMITS_PITCHEXR, /*!< Pitch expo rate */
+	FSM_STATE_STICKLIMITS_YAWEXR,   /*!< Yaw expo rate */
+	FSM_STATE_STICKLIMITS_ROLLEXH,  /*!< Roll expo horizon */
+	FSM_STATE_STICKLIMITS_PITCHEXH, /*!< Pitch expo horizon */
+	FSM_STATE_STICKLIMITS_YAWEXH,   /*!< Yaw expo horizon */
 	FSM_STATE_STICKLIMITS_SAVEEXIT, /*!< Save & Exit */
 	FSM_STATE_STICKLIMITS_EXIT,     /*!< Exit */
 /*------------------------------------------------------------------------------------------*/
@@ -786,34 +789,55 @@ const static struct menu_fsm_transition menu_fsm[FSM_STATE_NUM_STATES] = {
 		.menu_fn = sticklimits_menu,
 		.next_state = {
 			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_PITCHR,
-			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_ROLLAR,
+			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_ROLLEXR,
 		},
 	},
-	[FSM_STATE_STICKLIMITS_ROLLAR] = {
+	[FSM_STATE_STICKLIMITS_ROLLEXR] = {
 		.menu_fn = sticklimits_menu,
 		.next_state = {
 			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_YAWR,
-			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_PITCHAR,
+			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_PITCHEXR,
 		},
 	},
-	[FSM_STATE_STICKLIMITS_PITCHAR] = {
+	[FSM_STATE_STICKLIMITS_PITCHEXR] = {
 		.menu_fn = sticklimits_menu,
 		.next_state = {
-			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_ROLLAR,
-			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_YAWAR,
+			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_ROLLEXR,
+			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_YAWEXR,
 		},
 	},
-	[FSM_STATE_STICKLIMITS_YAWAR] = {
+	[FSM_STATE_STICKLIMITS_YAWEXR] = {
 		.menu_fn = sticklimits_menu,
 		.next_state = {
-			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_PITCHAR,
+			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_PITCHEXR,
+			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_ROLLEXH,
+		},
+	},
+	[FSM_STATE_STICKLIMITS_ROLLEXH] = {
+		.menu_fn = sticklimits_menu,
+		.next_state = {
+			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_YAWEXR,
+			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_PITCHEXH,
+		},
+	},
+	[FSM_STATE_STICKLIMITS_PITCHEXH] = {
+		.menu_fn = sticklimits_menu,
+		.next_state = {
+			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_ROLLEXH,
+			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_YAWEXH,
+		},
+	},
+	[FSM_STATE_STICKLIMITS_YAWEXH] = {
+		.menu_fn = sticklimits_menu,
+		.next_state = {
+			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_PITCHEXH,
 			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_SAVEEXIT,
 		},
 	},
 	[FSM_STATE_STICKLIMITS_SAVEEXIT] = {
 		.menu_fn = sticklimits_menu,
 		.next_state = {
-			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_YAWAR,
+			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_YAWEXH,
 			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_EXIT,
 			[FSM_EVENT_RIGHT] = FSM_STATE_MAIN_STICKLIMITS,
 		},
@@ -859,6 +883,8 @@ enum menu_fsm_event get_controller_event()
 		return FSM_EVENT_DOWN;
 	if (roll < -1 * INPUT_THRESHOLD)
 		return FSM_EVENT_LEFT;
+	if (roll > INPUT_THRESHOLD)
+		return FSM_EVENT_RIGHT;
 	if (roll > INPUT_THRESHOLD)
 		return FSM_EVENT_RIGHT;
 
@@ -950,7 +976,7 @@ void main_menu(void)
 				write_string("Throttle PID Attenuation", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
 				break;
 			case FSM_STATE_MAIN_STICKLIMITS:
-				write_string("Stick Range and Limits", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+				write_string("Stick Limits and Expo", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
 				break;
 			case FSM_STATE_MAIN_STATS:
 				write_string("Flight Statistics", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
@@ -1212,7 +1238,7 @@ void pidrate_menu(void)
 {
 	const float limits_low[] = {0.f, 0.f, 0.f, 0.f};
 	const float limits_high[] = {.01f, .02f, .01f, 1.f};
-	const float increments[] = {1e-4f, 1e-4f, 1e-4f, 1e-2f};
+	const float increments[] = {1e-4f, 1e-4f, 1e-6f, 1e-2f};
 	
 	float pid_arr[STABILIZATIONSETTINGS_ROLLRATEPID_NUMELEM];
 	int y_pos = MENU_LINE_Y;
@@ -1236,7 +1262,7 @@ void pidrate_menu(void)
 				break;
 		}
 		for (int j = 0; j < 4; j++) {
-			sprintf(tmp_str, "%s %s: %0.4f", axis_strings[i], pid_strings[j], (double)pid_arr[j]);
+			sprintf(tmp_str, "%s %s: %0.6f", axis_strings[i], pid_strings[j], (double)pid_arr[j]);
 			write_string(tmp_str, MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
 			draw_hscale(180, GRAPHICS_RIGHT - 5, y_pos + 2, limits_low[j], limits_high[j], pid_arr[j]);
 			if (my_state == current_state) {
@@ -1550,16 +1576,16 @@ void tpa_menu(void)
 	}
 }
 
+#define MAX_STICK_RATE 1440
 void sticklimits_menu(void)
 {
 	uint8_t angle;
-	float rate_arr[STABILIZATIONSETTINGS_MANUALRATE_NUMELEM];
 	int y_pos = MENU_LINE_Y;
 	enum menu_fsm_state my_state = FSM_STATE_STICKLIMITS_ROLLA;
 	bool data_changed = false;
 	char tmp_str[100] = {0};
 
-	draw_menu_title("Stick Range and Limits");
+	draw_menu_title("Stick Limits and Expo");
 
 	// Full Stick Angle
 	for (int i = 0; i < 3; i++) {
@@ -1608,53 +1634,88 @@ void sticklimits_menu(void)
 	}
 
 	// Rate Limits
-	StabilizationSettingsManualRateGet(rate_arr);
-	data_changed = false;
-	for (int i = 0; i < 3; i++) {
-		sprintf(tmp_str, "Max Stick Rate %s:  %d", axis_strings[i], (int)rate_arr[i]);
-		write_string(tmp_str, MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
-		draw_hscale(225, GRAPHICS_RIGHT - 5, y_pos + 2, 0, 500, rate_arr[i]);
-		if (my_state == current_state) {
-			draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
-			if (current_event == FSM_EVENT_RIGHT) {
-				rate_arr[i] = MIN(rate_arr[i] + 1, 500);
-				data_changed = true;
+	{
+		float rate_arr[STABILIZATIONSETTINGS_MANUALRATE_NUMELEM];
+		StabilizationSettingsManualRateGet(rate_arr);
+		data_changed = false;
+		for (int i = 0; i < 3; i++) {
+			sprintf(tmp_str, "Max Stick Rate %s:  %d", axis_strings[i], (int)rate_arr[i]);
+			write_string(tmp_str, MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+			draw_hscale(225, GRAPHICS_RIGHT - 5, y_pos + 2, 0, MAX_STICK_RATE, rate_arr[i]);
+			if (my_state == current_state) {
+				draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
+				if (current_event == FSM_EVENT_RIGHT) {
+					rate_arr[i] = MIN(rate_arr[i] + 10, MAX_STICK_RATE);
+					data_changed = true;
+				}
+				if (current_event == FSM_EVENT_LEFT) {
+					rate_arr[i] = MAX(rate_arr[i] - 10, 0);
+					data_changed = true;
+				}
 			}
-			if (current_event == FSM_EVENT_LEFT) {
-				rate_arr[i] = MAX(rate_arr[i] - 1, 0);
-				data_changed = true;
-			}
-		}
-		my_state++;
-		y_pos += MENU_LINE_SPACING;
+			my_state++;
+			y_pos += MENU_LINE_SPACING;
 
-	}
-	if (data_changed)
-		StabilizationSettingsManualRateSet(rate_arr);
-
-	// Rate Limits Attitude
-	StabilizationSettingsMaximumRateGet(rate_arr);
-	data_changed = false;
-	for (int i = 0; i < 3; i++) {
-		sprintf(tmp_str, "Max Att. Rate %s:   %d", axis_strings[i], (int)rate_arr[i]);
-		write_string(tmp_str, MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
-		draw_hscale(225, GRAPHICS_RIGHT - 5, y_pos + 2, 0, 500, rate_arr[i]);
-		if (my_state == current_state) {
-			draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
-			if (current_event == FSM_EVENT_RIGHT) {
-				rate_arr[i] = MIN(rate_arr[i] + 1, 500);
-				data_changed = true;
-			}
-			if (current_event == FSM_EVENT_LEFT) {
-				rate_arr[i] = MAX(rate_arr[i] - 1, 0);
-				data_changed = true;
-			}
 		}
-		my_state++;
-		y_pos += MENU_LINE_SPACING;
+		if (data_changed)
+			StabilizationSettingsManualRateSet(rate_arr);
 	}
-	if (data_changed)
-		StabilizationSettingsMaximumRateSet(rate_arr);
+
+	// Rate Expo
+	{
+		uint8_t expo_arr[STABILIZATIONSETTINGS_RATEEXPO_NUMELEM];
+		StabilizationSettingsRateExpoGet(expo_arr);
+		data_changed = false;
+		for (int i = 0; i < 3; i++) {
+			sprintf(tmp_str, "Expo Rate %s:  %d", axis_strings[i], (int)expo_arr[i]);
+			write_string(tmp_str, MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+			draw_hscale(225, GRAPHICS_RIGHT - 5, y_pos + 2, 0, 100, expo_arr[i]);
+			if (my_state == current_state) {
+				draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
+				if (current_event == FSM_EVENT_RIGHT) {
+					expo_arr[i] = MIN(expo_arr[i] + 1, 100);
+					data_changed = true;
+				}
+				if (current_event == FSM_EVENT_LEFT) {
+					expo_arr[i] = MAX(expo_arr[i] - 1, 0);
+					data_changed = true;
+				}
+			}
+			my_state++;
+			y_pos += MENU_LINE_SPACING;
+
+		}
+		if (data_changed)
+			StabilizationSettingsRateExpoSet(expo_arr);
+	}
+
+	// Horizon Expo
+	{
+		uint8_t expo_arr[STABILIZATIONSETTINGS_HORIZONEXPO_NUMELEM];
+		StabilizationSettingsHorizonExpoGet(expo_arr);
+		data_changed = false;
+		for (int i = 0; i < 3; i++) {
+			sprintf(tmp_str, "Expo Horizon %s:  %d", axis_strings[i], (int)expo_arr[i]);
+			write_string(tmp_str, MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+			draw_hscale(225, GRAPHICS_RIGHT - 5, y_pos + 2, 0, 100, expo_arr[i]);
+			if (my_state == current_state) {
+				draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
+				if (current_event == FSM_EVENT_RIGHT) {
+					expo_arr[i] = MIN(expo_arr[i] + 1, 100);
+					data_changed = true;
+				}
+				if (current_event == FSM_EVENT_LEFT) {
+					expo_arr[i] = MAX(expo_arr[i] - 1, 0);
+					data_changed = true;
+				}
+			}
+			my_state++;
+			y_pos += MENU_LINE_SPACING;
+
+		}
+		if (data_changed)
+			StabilizationSettingsHorizonExpoSet(expo_arr);
+	}
 
 	write_string("Save and Exit", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
 	if (current_state == FSM_STATE_STICKLIMITS_SAVEEXIT) {
