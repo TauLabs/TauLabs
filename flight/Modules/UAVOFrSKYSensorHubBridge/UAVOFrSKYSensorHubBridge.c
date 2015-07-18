@@ -37,6 +37,7 @@
 #include "gpsposition.h"
 #include "airspeedactual.h"
 #include "baroaltitude.h"
+#include "homelocation.h"
 #include "accels.h"
 #include "flightstatus.h"
 #include "pios_thread.h"
@@ -51,8 +52,11 @@ static uint16_t frsky_pack_altitude(
 		float altitude,
 		uint8_t *serial_buf);
 
-static uint16_t frsky_pack_temperature(
+static uint16_t frsky_pack_temperature_01(
 		float temperature_01,
+		uint8_t *serial_buf);
+
+static uint16_t frsky_pack_temperature_02(
 		float temperature_02,
 		uint8_t *serial_buf);
 
@@ -338,16 +342,6 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 					altitude,
 					serial_buf + msg_length);
 
-			msg_length += frsky_pack_temperature(
-					baroAltitude.Temperature,
-					accels.temperature,
-					serial_buf + msg_length);
-
-			// No idea what could be used as RPM
-			msg_length += frsky_pack_rpm(
-					0,
-					serial_buf + msg_length);
-
 			msg_length += frsky_pack_stop(serial_buf + msg_length);
 
 			PIOS_COM_SendBuffer(frsky_port, serial_buf, msg_length);
@@ -400,9 +394,85 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 		if (frame_trigger(FRSKY_FRAME_GPS)) {
 			msg_length = 0;
 
-			if (GPSPositionHandle() != NULL ) {
+            /**
+             * Encodes ARM status and flight mode number as RPM value
+             * Since there is no RPM information in any UAVO available,
+             * we will intentionally misuse this item to encode other useful information.
+             * It will encode flight status as three-digit number as follow:
+             * most left digit encodes arm status (200=armed, 100=disarmed)
+             * two most right digits encode flight mode number (see FlightStatus UAVO FlightMode enum)
+             * To work properly on Taranis, you have to set Blades to "60" in telemetry setting
+             */
+            FlightStatusData flight_status;
+	        FlightStatusGet(&flight_status);
+
+	        uint16_t status = 0;
+			float hdop, vdop;
+
+			status = (flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED) ? 200 : 100;
+	        status += flight_status.FlightMode;
+
+        	msg_length += frsky_pack_rpm(status, serial_buf + msg_length);
+
+	        uint8_t hl_set = HOMELOCATION_SET_FALSE;
+	        
+			if (GPSPositionHandle() != NULL)
 				GPSPositionGet(&gpsPosData);
-			}
+
+			if (HomeLocationHandle() != NULL)
+		        HomeLocationSetGet(&hl_set);
+        
+		    /**
+             * Encode GPS status and visible satellites as T1 value
+             * We will intentionally misuse this item to encode other useful information.
+             * Right-most two digits encode visible satellite count, left-most digit has following meaning:
+             * 1 - no GPS connected
+             * 2 - no fix
+             * 3 - 2D fix
+             * 4 - 3D fix
+             * 5 - 3D fix and HomeLocation is SET - should be safe for navigation
+             */
+	        switch (gpsPosData.Status) {
+        	case GPSPOSITION_STATUS_NOGPS:
+        		status = 100;
+		        break;
+	        case GPSPOSITION_STATUS_NOFIX:
+		        status = 200;
+		        break;
+	        case GPSPOSITION_STATUS_FIX2D:
+		        status = 300;
+		        break;
+	        case GPSPOSITION_STATUS_FIX3D:
+	        case GPSPOSITION_STATUS_DIFF3D:
+		        if (hl_set == HOMELOCATION_SET_TRUE)
+			        status = 500;
+		        else
+			        status = 400;
+		        break;
+	        }
+	
+	        if (gpsPosData.Satellites > 0)
+		        status += gpsPosData.Satellites;
+
+	        msg_length += frsky_pack_temperature_01((float)status, serial_buf + msg_length);
+			
+		    /**
+             * Encode GPS HDOP and VDOP as T2 value
+             * We will intentionally misuse this item to encode other useful information.
+			 * VDOP in the upper 16 bits, max 256 (2.56 * 100)
+			 * HDOP in the lower 16 bits, max 256 (2.56 * 100)
+             */
+			hdop = gpsPosData.HDOP * 100.0f;
+			
+			if (hdop > 256.0f)
+				hdop = 256.0f;
+			
+			vdop = gpsPosData.VDOP * 100.0f;
+			
+			if (vdop > 256.0f)
+				vdop = 256.0f;
+			
+			msg_length += frsky_pack_temperature_02((vdop * 256 + hdop), serial_buf + msg_length);
 
 			if (gpsPosData.Status == GPSPOSITION_STATUS_FIX2D ||
 			    gpsPosData.Status == GPSPOSITION_STATUS_FIX3D) {
@@ -464,12 +534,11 @@ static uint16_t frsky_pack_altitude(float altitude, uint8_t *serial_buf)
 }
 
 /**
- * Writes temperatures to buffer
+ * Writes baro temperature to buffer
  * \return number of bytes written to the buffer
  */
-static uint16_t frsky_pack_temperature(
+static uint16_t frsky_pack_temperature_01(
 		float temperature_01,
-		float temperature_02,
 		uint8_t *serial_buf)
 {
 	uint8_t index = 0;
@@ -477,7 +546,20 @@ static uint16_t frsky_pack_temperature(
 	int16_t temperature = lroundf(temperature_01);
 	frsky_serialize_value(FRSKY_TEMPERATURE_1, (uint8_t*)&temperature, serial_buf, &index);
 
-	temperature = lroundf(temperature_02);
+	return index;
+}
+
+/**
+ * Writes accel temperature to buffer
+ * \return number of bytes written to the buffer
+ */
+static uint16_t frsky_pack_temperature_02(
+		float temperature_02,
+		uint8_t *serial_buf)
+{
+	uint8_t index = 0;
+
+	int16_t temperature = lroundf(temperature_02);
 	frsky_serialize_value(FRSKY_TEMPERATURE_2, (uint8_t*)&temperature, serial_buf, &index);
 
 	return index;
@@ -555,9 +637,7 @@ static uint16_t frsky_pack_fas(
  * Writes rpm value to buffer
  * \return number of bytes written to the buffer
  */
-static uint16_t frsky_pack_rpm(
-		uint16_t rpm,
-		uint8_t *serial_buf)
+static uint16_t frsky_pack_rpm(uint16_t rpm, uint8_t *serial_buf)
 {
 	uint8_t index = 0;
 
