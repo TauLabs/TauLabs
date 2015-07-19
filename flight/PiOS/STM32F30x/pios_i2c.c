@@ -318,14 +318,12 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 	/* ESC */
 	
     retry_count_clk = 0;
-	while (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) == Bit_RESET && 
-	      (retry_count_clk++ < MAX_I2C_RETRY_COUNT)) {
+    while (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) == Bit_RESET && (retry_count_clk++ < MAX_I2C_RETRY_COUNT)) {
         retry_count = 0;
 		/* Set clock high and wait for any clock stretching to finish. */
 		GPIO_SetBits(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin);
-		while (GPIO_ReadInputDataBit(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin) == Bit_RESET && 
-		      (retry_count++ < MAX_I2C_RETRY_COUNT))
-			PIOS_DELAY_WaituS(1);
+		while (GPIO_ReadInputDataBit(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin) == Bit_RESET && (retry_count++ < MAX_I2C_RETRY_COUNT))
+            PIOS_DELAY_WaituS(1);
 			
 		PIOS_DELAY_WaituS(2);
 		
@@ -350,15 +348,13 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 	GPIO_SetBits(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin);
 	GPIO_SetBits(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin);
 	
-	retry_count = 0;
-	while (GPIO_ReadInputDataBit(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin) == Bit_RESET && 
-	      (retry_count++ < MAX_I2C_RETRY_COUNT))
-	    PIOS_DELAY_WaituS(1);
+    retry_count = 0;
+    while (GPIO_ReadInputDataBit(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin) == Bit_RESET && (retry_count++ < MAX_I2C_RETRY_COUNT))
+        PIOS_DELAY_WaituS(1);
 		
 	/* Wait for data to be high */
-	retry_count = 0;
-	while (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) != Bit_SET &&
-	      (retry_count++ < MAX_I2C_RETRY_COUNT))
+    retry_count = 0;
+    while (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) != Bit_SET && (retry_count++ < MAX_I2C_RETRY_COUNT))
         PIOS_DELAY_WaituS(1);
 
 	/* Bus signals are guaranteed to be high (ie. free) after this point */
