@@ -28,10 +28,7 @@
 #ifndef _HALCONF_H_
 #define _HALCONF_H_
 
-#ifdef SIM_POSIX
-// Hack
-#include <signal.h>
-#endif
+#include "mcuconf.h"
 
 /**
  * @brief   Enables the TM subsystem.
@@ -288,21 +285,6 @@
  */
 #if !defined(SERIAL_BUFFERS_SIZE) || defined(__DOXYGEN__)
 #define SERIAL_BUFFERS_SIZE         16
-#endif
-
-/*===========================================================================*/
-/* SERIAL_USB driver related settings.                                       */
-/*===========================================================================*/
-
-/**
- * @brief   Serial over USB buffers size.
- * @details Configuration parameter, the buffer size must be a multiple of
- *          the USB data endpoint maximum packet size.
- * @note    The default is 256 bytes for both the transmission and receive
- *          buffers.
- */
-#if !defined(SERIAL_USB_BUFFERS_SIZE) || defined(__DOXYGEN__)
-#define SERIAL_USB_BUFFERS_SIZE     256
 #endif
 
 /*===========================================================================*/

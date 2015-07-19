@@ -59,7 +59,6 @@
 // Math libraries
 #include "coordinate_conversions.h"
 #include "pid.h"
-#include "sin_lookup.h"
 #include "misc_math.h"
 
 // Includes for various stabilization algorithms
@@ -163,9 +162,6 @@ int32_t StabilizationInitialize()
 #if defined(RATEDESIRED_DIAGNOSTICS)
 	RateDesiredInitialize();
 #endif
-
-	// Code required for relay tuning
-	sin_lookup_initialize();
 
 	return 0;
 }

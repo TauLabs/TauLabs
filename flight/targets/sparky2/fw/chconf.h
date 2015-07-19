@@ -299,7 +299,7 @@
  * @note    Mutexes are recommended.
  */
 #if !defined(CH_USE_HEAP) || defined(__DOXYGEN__)
-#define CH_USE_HEAP                     TRUE
+#define CH_USE_HEAP                     FALSE
 #endif
 
 /**
@@ -313,7 +313,7 @@
  *          appropriate documentation.
  */
 #if !defined(CH_USE_MALLOC_HEAP) || defined(__DOXYGEN__)
-#define CH_USE_MALLOC_HEAP              TRUE
+#define CH_USE_MALLOC_HEAP              FALSE
 #endif
 
 /**
@@ -357,7 +357,7 @@
  * @note    The default is @p FALSE.
  */
 #if !defined(CH_DBG_SYSTEM_STATE_CHECK) || defined(__DOXYGEN__)
-#define CH_DBG_SYSTEM_STATE_CHECK       TRUE
+#define CH_DBG_SYSTEM_STATE_CHECK       FALSE
 #endif
 
 /**
@@ -368,7 +368,7 @@
  * @note    The default is @p FALSE.
  */
 #if !defined(CH_DBG_ENABLE_CHECKS) || defined(__DOXYGEN__)
-#define CH_DBG_ENABLE_CHECKS            TRUE
+#define CH_DBG_ENABLE_CHECKS            FALSE
 #endif
 
 /**
@@ -380,7 +380,7 @@
  * @note    The default is @p FALSE.
  */
 #if !defined(CH_DBG_ENABLE_ASSERTS) || defined(__DOXYGEN__)
-#define CH_DBG_ENABLE_ASSERTS           TRUE
+#define CH_DBG_ENABLE_ASSERTS           FALSE
 #endif
 
 /**
@@ -405,7 +405,7 @@
  *          @p panic_msg variable set to @p NULL.
  */
 #if !defined(CH_DBG_ENABLE_STACK_CHECK) || defined(__DOXYGEN__)
-#define CH_DBG_ENABLE_STACK_CHECK       FALSE
+#define CH_DBG_ENABLE_STACK_CHECK       TRUE
 #endif
 
 /**
@@ -417,7 +417,7 @@
  * @note    The default is @p FALSE.
  */
 #if !defined(CH_DBG_FILL_THREADS) || defined(__DOXYGEN__)
-#define CH_DBG_FILL_THREADS             FALSE
+#define CH_DBG_FILL_THREADS             TRUE
 #endif
 
 /**
@@ -447,11 +447,7 @@
 /**
  * @brief   Type of the realtime free counter value.
  */
-#ifndef SIM_POSIX
 typedef uint32_t halrtcnt_t;
-#else
-#include "hal_lld.h"
-#endif
 
 /**
  * @name    Macro Functions
@@ -470,7 +466,17 @@ typedef uint32_t halrtcnt_t;
  */
 #define halGetCounterValue() hal_lld_get_counter_value()
 
-halrtcnt_t hal_lld_get_counter_value(void);
+/**
+ * @brief   Returns the current value of the system free running counter.
+ * @note    This service is implemented by returning the content of the
+ *          DWT_CYCCNT register.
+ *
+ * @return              The value of the system free running counter of
+ *                      type halrtcnt_t.
+ *
+ * @notapi
+ */
+#define hal_lld_get_counter_value()         DWT_CYCCNT
 
 /**
  * @brief   Threads descriptor structure extension.
