@@ -549,6 +549,8 @@ static float loiter_deadband(float input) {
  * @param[in,out] hold_pos the hold position
  * @param[out] att_adj an adjustment to be made to attitude for responsiveness.
  */
+
+#define COMMAND_DECAY_ALPHA 0.96f
 bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 	LoiterCommandData cmd;
 	LoiterCommandGet(&cmd);
@@ -561,38 +563,29 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 	};
 
 	float command_mag = vectorn_magnitude(commands_rp, 2);
+	float normalized_command_mag = command_mag;
 
-	// We only do a lot of work if our command has magnitude.
-	if (command_mag < 0.001f) {
-		att_adj[0] = 0;  att_adj[1] = 0;
-		return false;
+	if (command_mag > 1.0f) {
+		normalized_command_mag = 1.0f;
 	}
 
-	float commands_ne[2];
+	static float historic_mag = 0.0f;
 
-	float yaw;
-	AttitudeActualYawGet(&yaw);
+	historic_mag *= COMMAND_DECAY_ALPHA;
 
-	// 90 degrees here compensates for the above being in roll-pitch
-	// order vs. north-east (and where yaw is defined).
-	vector2_rotate(commands_rp, commands_ne, 90 + yaw);
+	if (normalized_command_mag > historic_mag) {
+		historic_mag = normalized_command_mag;
+	}
 
-	float commands_normalized_ne[2] = {
-		commands_ne[0] /= command_mag,
-		commands_ne[1] /= command_mag
-	};
-
-	// At the corners, command_mag can reach 1.4.  Fix that.
-	if (command_mag > 1.0f) {
-		command_mag = 1.0f;
+	// We only do a lot of work if our command has magnitude.
+	if (historic_mag < 0.001f) {
+		att_adj[0] = 0;  att_adj[1] = 0;
+		return true;
 	}
 
 	// Find our current position error
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
-
-	VelocityActualData velocityActual;
-	VelocityActualGet(&velocityActual);
 
 	float cur_pos_ned[3] = { positionActual.North,
 		positionActual.East, positionActual.Down };
@@ -600,43 +593,57 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 	float total_poserr_ned[3];
 	vector3_distances(cur_pos_ned, hold_pos, total_poserr_ned, false);
 
-	// find the portion of our current velocity vector parallel to
-	// cmd.
-	float parallel_sign =
-		velocityActual.North * commands_normalized_ne[0] +
-		velocityActual.East * commands_normalized_ne[1];
+	if (command_mag > 0.001f) {
+		float commands_ne[2];
 
-	// Come up with a target velocity for us to fly the command
-	// at, considering our current momentum in that direction.
-	float target_vel = 3.5f * command_mag;
+		float yaw;
+		AttitudeActualYawGet(&yaw);
 
-	if (parallel_sign > 0) {
-		// Plus whatever current velocity we're making good in
-		// that direction..
-		float parallel_mag = sqrtf(
-			powf(velocityActual.North * commands_normalized_ne[0], 2) +
-			powf(velocityActual.East * commands_normalized_ne[1], 2));
+		// 90 degrees here compensates for the above being in roll-pitch
+		// order vs. north-east (and where yaw is defined).
+		vector2_rotate(commands_rp, commands_ne, 90 + yaw);
 
-		target_vel += (0.25f + 0.75f * command_mag) * parallel_mag;
+		float commands_normalized_ne[2] = {
+			commands_ne[0] /= command_mag,
+			commands_ne[1] /= command_mag
+		};
+
+		VelocityActualData velocityActual;
+		VelocityActualGet(&velocityActual);
+
+		// find the portion of our current velocity vector parallel to
+		// cmd.
+		float parallel_sign =
+			velocityActual.North * commands_normalized_ne[0] +
+			velocityActual.East * commands_normalized_ne[1];
+
+		// Come up with a target velocity for us to fly the command
+		// at, considering our current momentum in that direction.
+		float target_vel = 3.5f * command_mag;
+
+		if (parallel_sign > 0) {
+			// Plus whatever current velocity we're making good in
+			// that direction..
+			float parallel_mag = sqrtf(
+				powf(velocityActual.North * commands_normalized_ne[0], 2) +
+				powf(velocityActual.East * commands_normalized_ne[1], 2));
+
+			target_vel += (0.25f + 0.75f * command_mag) * parallel_mag;
+		}
+
+		// Feed the target velocity forward for our new desired position
+		// Note this implicitly implies 1.5 sec of feedforward.
+		hold_pos[0] = cur_pos_ned[0] +
+			commands_normalized_ne[0] * target_vel * 1.5f;
+		hold_pos[1] = cur_pos_ned[1] +
+			commands_normalized_ne[1] * target_vel * 1.5f;
 	}
-
-	// Feed the target velocity forward for our new desired position
-	// Note this implicitly implies 1.5 sec of feedforward.
-	hold_pos[0] = cur_pos_ned[0] +
-		commands_normalized_ne[0] * target_vel * 1.5f;
-	hold_pos[1] = cur_pos_ned[1] +
-		commands_normalized_ne[1] * target_vel * 1.5f;
 
 	// Now put a portion of the error back in.  At full stick
 	// deflection, decay error at time constant of a quarter second.
-	// This is to keep our above command in even when someone
-	// lets go of the stick and it briefly flips to the other
-	// direction from bounce.
 	// TODO: make more rigorous.
-	hold_pos[0] -= (1 - command_mag * 0.12f)
-		* total_poserr_ned[0];
-	hold_pos[1] -= (1 - command_mag * 0.12f) 
-		* total_poserr_ned[1];
+	hold_pos[0] -= (1 - command_mag * 0.12f) * total_poserr_ned[0];
+	hold_pos[1] -= (1 - command_mag * 0.12f) * total_poserr_ned[1];
 	
 	// Compute attitude feedforward
 	att_adj[0] = commands_rp[0] * 15.0f;
