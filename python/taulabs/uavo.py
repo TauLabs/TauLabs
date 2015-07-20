@@ -20,7 +20,7 @@ class UAVTupleClass():
     """ This is the prototype for a class that contains a uav object. """
 
     @classmethod
-    def _make_to_send(cls, *args):
+    def _make_to_send(cls, *args, **kwargs):
         """ Accepts all the uavo fields and creates an object.
         
         The object is dated as of the current time, and has the name and id
@@ -28,7 +28,7 @@ class UAVTupleClass():
         """
 
         import time
-        return cls(cls._name, round(time.time() * 1000), cls._id, *args)
+        return cls(cls._name, round(time.time() * 1000), cls._id, *args, **kwargs)
 
     def to_bytes(self):
         """ Serializes this object into a byte stream. """
