@@ -74,7 +74,6 @@ HEADERS += $$UAVOBJECT_SYNTHETICS/accels.h \
     $$UAVOBJECT_SYNTHETICS/hwcolibri.h \
     $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.h \
     $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.h \
-    $$UAVOBJECT_SYNTHETICS/hwfreedom.h \
     $$UAVOBJECT_SYNTHETICS/hwflyingf3.h \
     $$UAVOBJECT_SYNTHETICS/hwflyingf4.h \
     $$UAVOBJECT_SYNTHETICS/hwquanton.h \
@@ -195,7 +194,6 @@ SOURCES += $$UAVOBJECT_SYNTHETICS/accels.cpp \
     $$UAVOBJECT_SYNTHETICS/hwcolibri.cpp \
     $$UAVOBJECT_SYNTHETICS/hwcoptercontrol.cpp \
     $$UAVOBJECT_SYNTHETICS/hwdiscoveryf4.cpp \
-    $$UAVOBJECT_SYNTHETICS/hwfreedom.cpp \
     $$UAVOBJECT_SYNTHETICS/hwflyingf3.cpp \
     $$UAVOBJECT_SYNTHETICS/hwflyingf4.cpp \
     $$UAVOBJECT_SYNTHETICS/hwquanton.cpp \
