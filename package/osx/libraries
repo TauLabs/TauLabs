@@ -2,8 +2,8 @@
 
 APP="${1?}"
 PLUGINS="${APP}/Contents/Plugins"
-#QT_DIR=$(otool -L "${APP}/Contents/MacOS/Tau Labs GCS"  | sed -n -e 's/\/QtCore\.framework.*//p' | sed -n -E 's:^.::p')
-QT_DIR="../tools/Qt5.4.0/5.4/clang_64/lib"
+QT_DIR=$(otool -L "${APP}/Contents/MacOS/Tau Labs GCS"  | sed -n -e 's/\/QtCore\.framework.*//p' | sed -n -E 's:^.::p')
+#QT_DIR="../tools/Qt5.4.0/5.4/clang_64/lib"
 
 # Specify a list of all the qml directories that need imports
 QMLDIR="${APP}/Contents/Resources/welcome"
