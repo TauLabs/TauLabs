@@ -7,7 +7,7 @@ MCU                 := cortex-m3
 CHIP                := STM32F103CBT
 BOARD               := STM32103CB_Naze32
 MODEL               := MD
-MODEL_SUFFIX        := _CC
+MODEL_SUFFIX        := _NZ
 
 OPENOCD_JTAG_CONFIG := stlink-v2-norst.cfg
 OPENOCD_CONFIG      := stm32f1xx.stlink.cfg
