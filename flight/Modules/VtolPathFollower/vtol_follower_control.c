@@ -540,7 +540,7 @@ static float loiter_deadband(float input) {
 
 	input /= (1 - CMD_THRESHOLD);	// Normalize to -1 to 1 range.
 
-	return expo3(input, 40);	// And apply 40% expo
+	return input;
 }
 
 /**
@@ -606,18 +606,18 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 		velocityActual.North * commands_normalized_ne[0] +
 		velocityActual.East * commands_normalized_ne[1];
 
-	// Come up with a target "velocity" for us to fly the command
+	// Come up with a target velocity for us to fly the command
 	// at, considering our current momentum in that direction.
-	float target_vel = 3.0f * command_mag;
+	float target_vel = 3.5f * command_mag;
 
 	if (parallel_sign > 0) {
-		// Plus smooth with velocity we're making good in
+		// Plus whatever current velocity we're making good in
 		// that direction..
 		float parallel_mag = sqrtf(
 			powf(velocityActual.North * commands_normalized_ne[0], 2) +
 			powf(velocityActual.East * commands_normalized_ne[1], 2));
 
-		target_vel += (0.125f + 0.5f * command_mag) * parallel_mag;
+		target_vel += (0.25f + 0.75f * command_mag) * parallel_mag;
 	}
 
 	// Feed the target velocity forward for our new desired position
@@ -628,19 +628,19 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 		commands_normalized_ne[1] * target_vel * 1.5f;
 
 	// Now put a portion of the error back in.  At full stick
-	// deflection, decay error at time constant of 400ms.
+	// deflection, decay error at time constant of a quarter second.
 	// This is to keep our above command in even when someone
 	// lets go of the stick and it briefly flips to the other
 	// direction from bounce.
 	// TODO: make more rigorous.
-	hold_pos[0] -= (1 - command_mag * 0.09f)
+	hold_pos[0] -= (1 - command_mag * 0.12f)
 		* total_poserr_ned[0];
-	hold_pos[1] -= (1 - command_mag * 0.09f)
+	hold_pos[1] -= (1 - command_mag * 0.12f) 
 		* total_poserr_ned[1];
 	
 	// Compute attitude feedforward
-	att_adj[0] = commands_rp[0] * 9.0f;
-	att_adj[1] = commands_rp[1] * 9.0f;
+	att_adj[0] = commands_rp[0] * 15.0f;
+	att_adj[1] = commands_rp[1] * 15.0f;
 
 	return true;
 }
