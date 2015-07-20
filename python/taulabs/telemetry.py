@@ -444,7 +444,7 @@ class FileTelemetry(TelemetryBase):
 
         return buf
 
-def get_telemetry_by_args(desc="Process telemetry"):
+def get_telemetry_by_args(desc="Process telemetry", service_in_iter=True):
     """ Parses command line to decide how to get a telemetry object. """
     # Setup the command line arguments.
     import argparse
@@ -492,7 +492,8 @@ def get_telemetry_by_args(desc="Process telemetry"):
     from taulabs import telemetry
 
     if args.serial:
-        return telemetry.SerialTelemetry(args.source, speed=args.baud)
+        return telemetry.SerialTelemetry(args.source, speed=args.baud,
+                service_in_iter=service_in_iter)
 
     if args.baud is not None:
         parser.print_help()
@@ -504,7 +505,8 @@ def get_telemetry_by_args(desc="Process telemetry"):
         file_obj = file(args.source, 'r')
 
         t = telemetry.FileTelemetry(file_obj, parse_header=parse_header,
-            gcs_timestamps=args.timestamped, name=args.source)
+            gcs_timestamps=args.timestamped, name=args.source,
+            service_in_iter=service_in_iter)
 
         return t
 
@@ -515,4 +517,5 @@ def get_telemetry_by_args(desc="Process telemetry"):
         parser.print_help()
         raise ValueError("Target doesn't exist and isn't a network address")
 
-    return telemetry.NetworkTelemetry(host=host, port=int(port), name=args.source)
+    return telemetry.NetworkTelemetry(host=host, port=int(port), name=args.source,
+            service_in_iter=service_in_iter)
