@@ -33,6 +33,7 @@
  *  Header files
  ****************************************************************************************/
 #include <pios.h>
+#include <stdio.h>
 
 /*!
  * \brief	PIOS_IAP_Init - performs required initializations for iap module.
@@ -74,14 +75,17 @@ uint32_t	PIOS_Boot_CheckRequest( void )
  */
 void	PIOS_IAP_SetRequest1(void)
 {
+	printf("IAP SetRequest1\n");
 }
 
 void	PIOS_IAP_SetRequest2(void)
 {
+	printf("IAP SetRequest2\n");
 }
 
 void	PIOS_IAP_SetRequest3(void)
 {
+	printf("IAP SetRequest3\n");
 }
 
 void	PIOS_IAP_ClearRequest(void)
