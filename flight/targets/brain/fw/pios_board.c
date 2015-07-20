@@ -1111,6 +1111,7 @@ void PIOS_Board_Init(void) {
 	case HWBRAIN_RXPORT_DISABLED:
 	case HWBRAIN_RXPORT_PWM:
 	case HWBRAIN_RXPORT_PPM:
+	case HWBRAIN_RXPORT_UART:
 	case HWBRAIN_RXPORT_PPMUART:
 	/* Set up the servo outputs */
 #ifdef PIOS_INCLUDE_SERVO
