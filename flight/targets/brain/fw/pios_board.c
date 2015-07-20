@@ -1205,35 +1205,35 @@ void PIOS_Board_Init(void) {
 
 		// To be safe map from UAVO enum to driver enum
 		uint8_t hw_gyro_range;
-		HwBrainGyroRangeGet(&hw_gyro_range);
+		HwBrainGyroFullScaleGet(&hw_gyro_range);
 		switch(hw_gyro_range) {
-			case HWBRAIN_GYRORANGE_250:
+			case HWBRAIN_GYROFULLSCALE_250:
 				PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
 				break;
-			case HWBRAIN_GYRORANGE_500:
+			case HWBRAIN_GYROFULLSCALE_500:
 				PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
 				break;
-			case HWBRAIN_GYRORANGE_1000:
+			case HWBRAIN_GYROFULLSCALE_1000:
 				PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
 				break;
-			case HWBRAIN_GYRORANGE_2000:
+			case HWBRAIN_GYROFULLSCALE_2000:
 				PIOS_MPU9250_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
 				break;
 		}
 
 		uint8_t hw_accel_range;
-		HwBrainAccelRangeGet(&hw_accel_range);
+		HwBrainAccelFullScaleGet(&hw_accel_range);
 		switch(hw_accel_range) {
-			case HWBRAIN_ACCELRANGE_2G:
+			case HWBRAIN_ACCELFULLSCALE_2G:
 				PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
 				break;
-			case HWBRAIN_ACCELRANGE_4G:
+			case HWBRAIN_ACCELFULLSCALE_4G:
 				PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
 				break;
-			case HWBRAIN_ACCELRANGE_8G:
+			case HWBRAIN_ACCELFULLSCALE_8G:
 				PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
 				break;
-			case HWBRAIN_ACCELRANGE_16G:
+			case HWBRAIN_ACCELFULLSCALE_16G:
 				PIOS_MPU9250_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
 				break;
 		}

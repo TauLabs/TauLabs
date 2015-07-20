@@ -70,8 +70,8 @@
 	<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>
 
 	<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
-        <field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="2000"/>
-        <field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
+        <field name="GyroFullScale" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="2000"/>
+        <field name="AccelFullScale" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
 	<field name="MPU9250Rate" units="Hz" type="enum" elements="1" options="200,250,333,500,1000" defaultvalue="500"/>
 	<field name="MPU9250GyroLPF" units="Hz" type="enum" elements="1" options="184,92,41,20,10,5" defaultvalue="184"/>
 	<field name="MPU9250AccelLPF" units="Hz" type="enum" elements="1" options="460,184,92,41,20,10,5" defaultvalue="184"/>

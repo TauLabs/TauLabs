@@ -234,17 +234,17 @@ int Brain::queryMaxGyroRate()
 
     HwBrain::DataFields settings = hwBrain->getData();
 
-    switch(settings.GyroRange) {
-    case HwBrain::GYRORANGE_250:
+    switch(settings.GyroFullScale) {
+    case HwBrain::GYROFULLSCALE_250:
         return 250;
-    case HwBrain::GYRORANGE_500:
+    case HwBrain::GYROFULLSCALE_500:
         return 500;
-    case HwBrain::GYRORANGE_1000:
+    case HwBrain::GYROFULLSCALE_1000:
         return 1000;
-    case HwBrain::GYRORANGE_2000:
+    case HwBrain::GYROFULLSCALE_2000:
         return 2000;
     default:
-        return 500;
+        return 2000;
     }
 }
 
