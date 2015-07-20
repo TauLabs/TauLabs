@@ -146,6 +146,9 @@ class TelemetryBase():
     def __make_handshake(self, handshake):
         return uavo.UAVO_GCSTelemetryStats._make_to_send(0, 0, 0, 0, 0, handshake)
 
+    def send_object(self, obj):
+        self._send(uavtalk.send_object(obj))
+
     def __handle_handshake(self, obj):
         if obj.name == "UAVO_FlightTelemetryStats":
             # Handle the telemetry handshaking
@@ -164,7 +167,7 @@ class TelemetryBase():
                 print "Connected"
                 send_obj = self.__make_handshake(CONNECTED)
 
-            self._send(uavtalk.send_object(send_obj))
+            self.send_object(send_obj)
 
     def request_object(self, obj):
         if not self.do_handshaking:
@@ -444,7 +447,8 @@ class FileTelemetry(TelemetryBase):
 
         return buf
 
-def get_telemetry_by_args(desc="Process telemetry", service_in_iter=True):
+def get_telemetry_by_args(desc="Process telemetry", service_in_iter=True,
+        iter_blocks=True):
     """ Parses command line to decide how to get a telemetry object. """
     # Setup the command line arguments.
     import argparse
@@ -493,7 +497,7 @@ def get_telemetry_by_args(desc="Process telemetry", service_in_iter=True):
 
     if args.serial:
         return telemetry.SerialTelemetry(args.source, speed=args.baud,
-                service_in_iter=service_in_iter)
+                service_in_iter=service_in_iter, iter_blocks=iter_blocks)
 
     if args.baud is not None:
         parser.print_help()
@@ -506,7 +510,7 @@ def get_telemetry_by_args(desc="Process telemetry", service_in_iter=True):
 
         t = telemetry.FileTelemetry(file_obj, parse_header=parse_header,
             gcs_timestamps=args.timestamped, name=args.source,
-            service_in_iter=service_in_iter)
+            service_in_iter=service_in_iter, iter_blocks=iter_blocks)
 
         return t
 
@@ -518,4 +522,4 @@ def get_telemetry_by_args(desc="Process telemetry", service_in_iter=True):
         raise ValueError("Target doesn't exist and isn't a network address")
 
     return telemetry.NetworkTelemetry(host=host, port=int(port), name=args.source,
-            service_in_iter=service_in_iter)
+            service_in_iter=service_in_iter, iter_blocks=iter_blocks)
