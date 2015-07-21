@@ -13,6 +13,8 @@ def main():
 
     t.request_object(UAVO_FirmwareIAPObj)
 
+    time.sleep(0.9)
+
     for i in range(3):
         print magic_value
         f=UAVO_FirmwareIAPObj._make_to_send(Command=magic_value,

@@ -387,9 +387,9 @@ class SerialTelemetry(FDTelemetry):
 
         import serial
 
-        ser = serial.Serial(port, speed)
+        self.ser = serial.Serial(port, speed)
 
-        FDTelemetry.__init__(self, fd=ser.fileno(), *args, **kwargs)
+        FDTelemetry.__init__(self, fd=self.ser.fileno(), *args, **kwargs)
 
 class FileTelemetry(TelemetryBase):
     """ Telemetry interface to data in a file """
