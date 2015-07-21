@@ -63,6 +63,9 @@ struct pid vtol_pids[VTOL_PID_NUM];
 // Constants used in deadband calculation
 static float vtol_path_m=0, vtol_path_r=0, vtol_end_m=0, vtol_end_r=0;
 
+// Time constants converted to IIR parameter
+static float loiter_brakealpha=0.96f, loiter_errordecayalpha=0.88f;
+
 static int32_t vtol_follower_control_impl(const float dT,
 	const float *hold_pos_ned, float *err, bool landing, bool update_status);
 
@@ -550,8 +553,6 @@ static float loiter_deadband(float input) {
  * @param[out] att_adj an adjustment to be made to attitude for responsiveness.
  */
 
-// XXX TODO TUNE
-#define COMMAND_DECAY_ALPHA 0.96f
 bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 	LoiterCommandData cmd;
 	LoiterCommandGet(&cmd);
@@ -571,7 +572,7 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 
 	static float historic_mag = 0.0f;
 
-	historic_mag *= COMMAND_DECAY_ALPHA;
+	historic_mag *= loiter_brakealpha;
 
 	if (deadband_mag > historic_mag) {
 		historic_mag = deadband_mag;
@@ -642,14 +643,15 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 
 	// Now put a portion of the error back in.  At full stick
 	// deflection, decay error at specified time constant
-	// XXX TODO TUNE
-	hold_pos[0] -= (1 - historic_mag * 0.12f) * total_poserr_ned[0];
-	hold_pos[1] -= (1 - historic_mag * 0.12f) * total_poserr_ned[1];
+	float scaled_error_alpha = 1 - historic_mag * (1 - loiter_errordecayalpha);
+	hold_pos[0] -= scaled_error_alpha * total_poserr_ned[0];
+	hold_pos[1] -= scaled_error_alpha * total_poserr_ned[1];
 	
 	// Compute attitude feedforward
-	// XXX TODO TUNE
-	att_adj[0] = deadband_mag * commands_rp[0] * 15.0f;
-	att_adj[1] = deadband_mag * commands_rp[1] * 15.0f;
+	att_adj[0] = deadband_mag * commands_rp[0] *
+		guidanceSettings.LoiterAttitudeFeedthrough;
+	att_adj[1] = deadband_mag * commands_rp[1] *
+		guidanceSettings.LoiterAttitudeFeedthrough;
 
 	return true;
 }
@@ -697,6 +699,10 @@ void vtol_follower_control_settings_updated(UAVObjEvent * ev)
 	cubic_deadband_setup(guidanceSettings.PathDeadbandWidth,
 	    guidanceSettings.PathDeadbandCenterGain,
 	    &vtol_path_m, &vtol_path_r);
+
+	// calculate the loiter time constants.
+	loiter_brakealpha = expf(-(guidanceSettings.UpdatePeriod / 1000.0f) / guidanceSettings.LoiterBrakingTimeConstant);
+	loiter_errordecayalpha = expf(-(guidanceSettings.UpdatePeriod / 1000.0f) / guidanceSettings.LoiterErrorDecayConstant);
 }
 
 /**
