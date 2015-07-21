@@ -308,9 +308,9 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
  *  6 pulses: HMC5883 - PIOS_HMC5883_Init failed (internal)
  *  7 pulses: HMC5883 - PIOS_HMC5883_Test failed (internal)
  *  8 pulses: I2C     - Internal I2C bus locked
- *  9 pulses: HMC5883 - PIOS_HMC5883_Init failed
- * 10 pulses: HMC5883 - PIOS_HMC5883_Test failed
- * 11 pulses: I2C     - External I2C bus locked
+ *  9 Not Used
+ * 10 Not Used
+ * 11 Not Used
  * 12 pulses: MS5611  - PIOS_MS5611_Init failed
  * 13 pulses: MS5611  - PIOS_MS5611_Test failed
  * 14 pulses: ADC     - PIOS_INTERNAL_ADC_Init failed
@@ -345,19 +345,16 @@ void panic(int32_t code) {
 #include <pios_board_info.h>
 
 void PIOS_Board_Init(void) {
-	bool use_internal_mag     = true;
-	bool external_mag_init_ok = false;
-	
 	/* Delay system */
 	PIOS_DELAY_Init();
 
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 
-    #if defined(PIOS_INCLUDE_LED)
+#if defined(PIOS_INCLUDE_LED)
 	const struct pios_led_cfg * led_cfg = PIOS_BOARD_HW_DEFS_GetLedCfg(bdinfo->board_rev);
 	PIOS_Assert(led_cfg);
 	PIOS_LED_Init(led_cfg);
-    #endif	/* PIOS_INCLUDE_LED */
+#endif	/* PIOS_INCLUDE_LED */
 
 #if defined(PIOS_INCLUDE_I2C)
 	if (PIOS_I2C_Init(&pios_i2c_internal_id, &pios_i2c_internal_cfg)) {
@@ -365,15 +362,15 @@ void PIOS_Board_Init(void) {
 	}
 	if (PIOS_I2C_CheckClear(pios_i2c_internal_id) != 0)
 		panic(8);
-    #endif
+#endif
 
-    #if defined(PIOS_INCLUDE_SPI)
+#if defined(PIOS_INCLUDE_SPI)
 	if (PIOS_SPI_Init(&pios_spi_internal_id, &pios_spi_internal_cfg)) {
 		PIOS_Assert(0);
 	}
     #endif
 
-    #if defined(PIOS_INCLUDE_FLASH)
+#if defined(PIOS_INCLUDE_FLASH)
 	/* Initialize all flash drivers */
 	if (PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg) != 0)
 		panic(1);
@@ -389,9 +386,9 @@ void PIOS_Board_Init(void) {
 		panic(2);
 	if (PIOS_FLASHFS_Logfs_Init(&pios_waypoints_settings_fs_id, &flashfs_waypoints_cfg, FLASH_PARTITION_LABEL_WAYPOINTS) != 0)
 	    panic(3);
-    #endif	/* PIOS_INCLUDE_FLASH */
+#endif	/* PIOS_INCLUDE_FLASH */
 
-    /* Initialize the task monitor library */
+	/* Initialize the task monitor library */
 	TaskMonitorInitialize();
 
 	/* Initialize UAVObject libraries */
@@ -404,19 +401,19 @@ void PIOS_Board_Init(void) {
 	HwAQ32Initialize();
 	ModuleSettingsInitialize();
 
-    #if defined(PIOS_INCLUDE_RTC)
+#if defined(PIOS_INCLUDE_RTC)
 	/* Initialize the real-time clock and its associated tick */
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
-    #endif
+#endif
 
-    #ifndef ERASE_FLASH
+#ifndef ERASE_FLASH
 	/* Initialize watchdog as early as possible to catch faults during init
 	 * but do it only if there is no debugger connected
 	 */
 	if ((CoreDebug->DHCSR & CoreDebug_DHCSR_C_DEBUGEN_Msk) == 0) {
 		PIOS_WDG_Init();
 	}
-    #endif
+#endif
 
 	/* Set up pulse timers */
 	
@@ -444,7 +441,7 @@ void PIOS_Board_Init(void) {
 		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
 	}
 
-    #if defined(PIOS_INCLUDE_USB)
+#if defined(PIOS_INCLUDE_USB)
 	/* Initialize USB disconnect GPIO */
 	GPIO_Init(pios_usb_main_cfg.disconnect.gpio, (GPIO_InitTypeDef*)&pios_usb_main_cfg.disconnect.init);
 	GPIO_SetBits(pios_usb_main_cfg.disconnect.gpio, pios_usb_main_cfg.disconnect.init.GPIO_Pin);
@@ -456,23 +453,23 @@ void PIOS_Board_Init(void) {
 	bool usb_hid_present = false;
 	bool usb_cdc_present = false;
 
-    #if defined(PIOS_INCLUDE_USB_CDC)
+#if defined(PIOS_INCLUDE_USB_CDC)
 	if (PIOS_USB_DESC_HID_CDC_Init()) {
 		PIOS_Assert(0);
 	}
 	usb_hid_present = true;
 	usb_cdc_present = true;
-    #else
+#else
 	if (PIOS_USB_DESC_HID_ONLY_Init()) {
 		PIOS_Assert(0);
 	}
 	usb_hid_present = true;
-    #endif
+#endif
 
-    uintptr_t pios_usb_id;
+	uintptr_t pios_usb_id;
 	PIOS_USB_Init(&pios_usb_id, PIOS_BOARD_HW_DEFS_GetUsbCfg(bdinfo->board_rev));
 
-    #if defined(PIOS_INCLUDE_USB_CDC)
+#if defined(PIOS_INCLUDE_USB_CDC)
 
 	uint8_t hw_usb_vcpport;
 	/* Configure the USB VCP port */
@@ -593,7 +590,7 @@ void PIOS_Board_Init(void) {
     if (usb_hid_present || usb_cdc_present) {
 		PIOS_USBHOOK_Activate();
 	}
-    
+
 	/* Issue USB Disconnect Pulse */
 	PIOS_WDG_Clear();
 	
@@ -604,7 +601,7 @@ void PIOS_Board_Init(void) {
 	GPIO_SetBits(pios_usb_main_cfg.disconnect.gpio, pios_usb_main_cfg.disconnect.init.GPIO_Pin);
 	
 	PIOS_WDG_Clear();
-	#endif	/* PIOS_INCLUDE_USB */
+#endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure the IO ports */
 	uint8_t hw_DSMxBind;
@@ -774,11 +771,11 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWAQ32_UART3_FRSKYSENSORHUB:
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-    	GPIO_WriteBit(pios_usart3_sbus_aux_cfg.inv.gpio, pios_usart3_sbus_aux_cfg.inv.init.GPIO_Pin, pios_usart3_sbus_aux_cfg.gpio_inv_enable);
+		GPIO_WriteBit(pios_usart3_sbus_aux_cfg.inv.gpio, pios_usart3_sbus_aux_cfg.inv.init.GPIO_Pin, pios_usart3_sbus_aux_cfg.gpio_inv_enable);
 		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sensor_hub_id);
 #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 		break;
-    case HWAQ32_UART3_LIGHTTELEMETRYTX:
+	case HWAQ32_UART3_LIGHTTELEMETRYTX:
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_lighttelemetry_id);
 #endif
@@ -995,15 +992,15 @@ void PIOS_Board_Init(void) {
 		break;
 	case HWAQ32_RCVRPORT_PPM:
 #if defined(PIOS_INCLUDE_PPM)
-        {
+		{
 			uintptr_t pios_ppm_id;
-		    PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
+			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
 
 		    uintptr_t pios_ppm_rcvr_id;
 		    if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
-			    PIOS_Assert(0);
-		    }
-            pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
 		}
 #endif
 		break;
@@ -1077,53 +1074,56 @@ void PIOS_Board_Init(void) {
 	uint8_t hw_mpu6000_dlpf;
 	HwAQ32MPU6000DLPFGet(&hw_mpu6000_dlpf);
 	enum pios_mpu60x0_filter mpu6000_dlpf = \
-	    (hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
-	    (hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
-	    (hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_98)  ? PIOS_MPU60X0_LOWPASS_98_HZ  : \
-	    (hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_42)  ? PIOS_MPU60X0_LOWPASS_42_HZ  : \
-	    (hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_20)  ? PIOS_MPU60X0_LOWPASS_20_HZ  : \
-	    (hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_10)  ? PIOS_MPU60X0_LOWPASS_10_HZ  : \
-	    (hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_5)   ? PIOS_MPU60X0_LOWPASS_5_HZ   : \
-	    pios_mpu6000_cfg.default_filter;
+		(hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
+		(hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
+		(hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_98)  ? PIOS_MPU60X0_LOWPASS_98_HZ  : \
+		(hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_42)  ? PIOS_MPU60X0_LOWPASS_42_HZ  : \
+		(hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_20)  ? PIOS_MPU60X0_LOWPASS_20_HZ  : \
+		(hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_10)  ? PIOS_MPU60X0_LOWPASS_10_HZ  : \
+		(hw_mpu6000_dlpf == HWAQ32_MPU6000DLPF_5)   ? PIOS_MPU60X0_LOWPASS_5_HZ   : \
+		pios_mpu6000_cfg.default_filter;
 	PIOS_MPU6000_SetLPF(mpu6000_dlpf);
 
 	uint8_t hw_mpu6000_samplerate;
 	HwAQ32MPU6000RateGet(&hw_mpu6000_samplerate);
 	uint16_t mpu6000_samplerate = \
-	    (hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_200)  ?  200 : \
-	    (hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_333)  ?  333 : \
-	    (hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_500)  ?  500 : \
-	    (hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_666)  ?  666 : \
-	    (hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_1000) ? 1000 : \
-	    (hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_2000) ? 2000 : \
-	    (hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_4000) ? 4000 : \
-	    (hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_8000) ? 8000 : \
-	    pios_mpu6000_cfg.default_samplerate;
+		(hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_200)  ?  200 : \
+		(hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_333)  ?  333 : \
+		(hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_500)  ?  500 : \
+		(hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_666)  ?  666 : \
+		(hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_1000) ? 1000 : \
+		(hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_2000) ? 2000 : \
+		(hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_4000) ? 4000 : \
+		(hw_mpu6000_samplerate == HWAQ32_MPU6000RATE_8000) ? 8000 : \
+		pios_mpu6000_cfg.default_samplerate;
 	PIOS_MPU6000_SetSampleRate(mpu6000_samplerate);
 
 #endif
 
 #if defined(PIOS_INCLUDE_I2C)
 #if defined(PIOS_INCLUDE_HMC5883)
-    PIOS_WDG_Clear();
+	PIOS_WDG_Clear();
 
-    uint8_t Magnetometer;
+	uint8_t Magnetometer;
 	HwAQ32MagnetometerGet(&Magnetometer);
+	
+	external_mag_fail = false;
 
 	if (Magnetometer == HWAQ32_MAGNETOMETER_EXTERNAL)
 	{
-		use_internal_mag = false;
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_OK);
 			
-		if (PIOS_I2C_Init(&pios_i2c_external_id, &pios_i2c_external_cfg)) 
+		if (PIOS_I2C_Init(&pios_i2c_external_id, &pios_i2c_external_cfg)) {
 			PIOS_DEBUG_Assert(0);
+			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
+		}
 		
 		if (PIOS_I2C_CheckClear(pios_i2c_external_id) != 0)
-			panic(11);
+			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);;
     
 		if (PIOS_HMC5883_Init(pios_i2c_external_id, &pios_hmc5883_external_cfg) == 0) {
 			if (PIOS_HMC5883_Test() == 0) {
-				// External mag configuration was successful, external mag is attached and powered
-				external_mag_init_ok = true;
+				// External mag configuration was successful
 				
 				// setup sensor orientation
 				uint8_t ExtMagOrientation;
@@ -1141,13 +1141,14 @@ void PIOS_Board_Init(void) {
 					pios_hmc5883_external_cfg.Default_Orientation;
 				PIOS_HMC5883_SetOrientation(hmc5883_externalOrientation);
 			}
+			else
+				external_mag_fail = true;  // External HMC5883 Test Failed
 		}
+		else
+			external_mag_fail = true;  // External HMC5883 Init Failed
 	}
 
-	/* Set external mag fail flag if external mag fails to initialize */
-	external_mag_fail = !use_internal_mag && !external_mag_init_ok;
-	
-	if ((Magnetometer == HWAQ32_MAGNETOMETER_INTERNAL) || external_mag_fail)
+	if (Magnetometer == HWAQ32_MAGNETOMETER_INTERNAL)
 	{
 		if (PIOS_HMC5883_Init(pios_i2c_internal_id, &pios_hmc5883_internal_cfg) != 0)
 			panic(6);
@@ -1186,16 +1187,16 @@ void PIOS_Board_Init(void) {
 	case HWAQ32_ADCINPUTS_DISABLED:
 		break;
 	case HWAQ32_ADCINPUTS_ENABLED:
-	    {
+		{
 			uint32_t internal_adc_id;
 
-	        if (PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg) < 0) {
-		        PIOS_Assert(0);
-		        panic(14);
-	        }
+			if (PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg) < 0) {
+				PIOS_Assert(0);
+					panic(14);
+			}
 
-	        if (PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id) < 0)
-		        panic(15);
+			if (PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id) < 0)
+				panic(15);
 		}
         break;
 	}
