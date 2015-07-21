@@ -255,6 +255,18 @@ void cubic_deadband_setup(float w, float b, float *m, float *r)
 	*r = *m * powf(w, 3) + b * w;
 }
 
+
+/* NOTE: Interesting problem regarding NaN and Inf checks. The compile optimization --fast-math
+ * does many useful things, but it also removes the ability to check if a number is a Nan, even
+ * if the check is the classic `x == x`. Thus we need to add this back in, and we do it as a
+ * function which has the optimizations turned off.
+ *
+ * Souce: http://stackoverflow.com/questions/22931147/stdisinf-does-not-work-with-ffast-math-how-to-check-for-infinity
+ */
+bool IS_NOT_FINITE(float x) {
+	return (!isfinite(x));
+}
+
 /**
  * @}
  * @}

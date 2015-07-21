@@ -46,10 +46,16 @@
  * simple filter to smooth the altitude.
  */
 
-#include "pios.h"
 #include "openpilot.h"
+#include "pios.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
+#include "misc_math.h"
 #include "physical_constants.h"
+#include "coordinate_conversions.h"
+#include "WorldMagModel.h"
 
+// UAVOs
 #include "accels.h"
 #include "attitudeactual.h"
 #include "attitudesettings.h"
@@ -71,10 +77,6 @@
 #include "stateestimation.h"
 #include "systemalarms.h"
 #include "velocityactual.h"
-#include "coordinate_conversions.h"
-#include "WorldMagModel.h"
-#include "pios_thread.h"
-#include "pios_queue.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 2200
@@ -595,8 +597,9 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 		MagnetometerData mag;
 		MagnetometerGet(&mag);
 
-		// If the mag is producing bad data (NAN) don't use it (normally bad calibration)
-		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z) {
+		// Only use the magnetometer data if it is good, i.e. not NAN. A NAN would
+		// normally only arise due to a bad magnetometer calibration.
+		if  (!(IS_NOT_FINITE(mag.x) || IS_NOT_FINITE(mag.y) || IS_NOT_FINITE(mag.z))) {
 			float bmag = 1.0f;
 			float brot[3];
 			float Rbe[3][3];
@@ -676,9 +679,9 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 	cf_q[2] = cf_q[2] / qmag;
 	cf_q[3] = cf_q[3] / qmag;
 
-	// If quaternion has become inappropriately short or is nan reinit.
+	// If quaternion has become inappropriately short or has become Nan reinit.
 	// THIS SHOULD NEVER ACTUALLY HAPPEN
-	if((fabsf(qmag) < 1.0e-3f) || (qmag != qmag)) {
+	if((fabsf(qmag) < 1.0e-3f) || IS_NOT_FINITE(qmag)) {
 		cf_q[0] = 1;
 		cf_q[1] = 0;
 		cf_q[2] = 0;
@@ -1015,7 +1018,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		GPSVelocityGet(&gpsVelData);
 
 	// Discard mag if it has NAN (normally from bad calibration)
-	mag_updated &= (magData.x == magData.x && magData.y == magData.y && magData.z == magData.z);
+	mag_updated &= !(IS_NOT_FINITE(magData.x) || IS_NOT_FINITE(magData.y) || IS_NOT_FINITE(magData.z));
 
 	// Indoor mode will fall back to reasonable Be and that is ok. For outdoor make sure home
 	// Be is set and a good value
