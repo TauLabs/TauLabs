@@ -25,6 +25,13 @@
 		<field name="UpdatePeriod" units="ms" type="int32" elements="1" defaultvalue="50"/>
 		<field name="YawMode" units="" type="enum" elements="1" options="Rate,AxisLock,Attitude,Path,POI" defaultvalue="AxisLock"/>
 		<field name="LandingRate" units="m/s" type="float" elements="1" defaultvalue="0.5"/>
+
+		<!-- Loiter mode configuration -->
+		<field name="LoiterBrakingTimeConstant" units="s" type="float" elements="1" defaultvalue="1.25"/>
+		<field name="LoiterErrorDecayConstant" units="s" type="float" elements="1" defaultvalue="0.33"/>
+		<field name="LoiterLookaheadTimeConstant" units="s" type="float" elements="1" defaultvalue="1.25"/>
+		<field name="LoiterInitialMaxVel" units="m/s" type="float" elements="1" defaultvalue="3.5"/>
+		<field name="LoiterAttitudeFeedthrough" units="deg" type="float" elements="1" defaultvalue="12"/>
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>
