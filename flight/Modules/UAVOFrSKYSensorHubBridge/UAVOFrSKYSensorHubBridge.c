@@ -410,7 +410,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 			float hdop, vdop;
 
 			status = (flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED) ? 200 : 100;
-	        status += flight_status.FlightMode;
+			status += flight_status.FlightMode;
 
 			msg_length += frsky_pack_rpm(status, serial_buf + msg_length);
 
