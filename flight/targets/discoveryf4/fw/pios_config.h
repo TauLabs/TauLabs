@@ -103,9 +103,6 @@
  */
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (6984538)
 
-//This enables altitude hold in manualcontrol module
-//#define REVOLUTION
-
 #endif /* PIOS_CONFIG_H */
 /**
  * @}

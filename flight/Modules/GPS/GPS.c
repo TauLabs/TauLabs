@@ -127,32 +127,20 @@ int32_t GPSInitialize(void)
 	}
 #endif
 
-#if defined(REVOLUTION)
-	// These objects MUST be initialized for Revolution
-	// because the rest of the system expects to just
-	// attach to their queues
-	GPSPositionInitialize();
-	GPSVelocityInitialize();
-	GPSTimeInitialize();
-	GPSSatellitesInitialize();
-	HomeLocationInitialize();
-	UBloxInfoInitialize();
-	updateSettings();
-
-#else
 	if (gpsPort && module_enabled) {
 		GPSPositionInitialize();
 		GPSVelocityInitialize();
 #if !defined(PIOS_GPS_MINIMAL)
 		GPSTimeInitialize();
 		GPSSatellitesInitialize();
+		HomeLocationInitialize();
+		UBloxInfoInitialize();
 #endif
 #if defined(PIOS_GPS_PROVIDES_AIRSPEED)
 		AirspeedActualInitialize();
 #endif
 		updateSettings();
 	}
-#endif
 
 	if (gpsPort && module_enabled) {
 		ModuleSettingsGPSDataProtocolGet(&gpsProtocol);

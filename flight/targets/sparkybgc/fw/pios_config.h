@@ -115,9 +115,6 @@
 
 #define GIMBAL
 
-// This flag is needed to get the GPS objects defined which attitude requires
-#define REVOLUTION
-
 #endif /* PIOS_CONFIG_H */
 /**
  * @}
