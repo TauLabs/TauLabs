@@ -612,8 +612,8 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 
 		// Come up with a target velocity for us to fly the command
 		// at, considering our current momentum in that direction.
-		// XXX TODO TUNE
-		float target_vel = 3.5f * deadband_mag;
+		float target_vel = guidanceSettings.LoiterInitialMaxVel *
+			deadband_mag;
 
 		// Plus whatever current velocity we're making good in
 		// that direction..
@@ -632,16 +632,16 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 		}
 
 		// Feed the target velocity forward for our new desired position
-		// Note this implicitly implies 1.5 sec of feedforward.
-		// XXX TODO TUNE
 		hold_pos[0] = cur_pos_ned[0] +
-			commands_ne[0] * target_vel * 1.5f;
+			commands_ne[0] * target_vel *
+			guidanceSettings.LoiterLookaheadTimeConstant;
 		hold_pos[1] = cur_pos_ned[1] +
-			commands_ne[1] * target_vel * 1.5f;
+			commands_ne[1] * target_vel *
+			guidanceSettings.LoiterLookaheadTimeConstant;
 	}
 
 	// Now put a portion of the error back in.  At full stick
-	// deflection, decay error at time constant of a quarter second.
+	// deflection, decay error at specified time constant
 	// XXX TODO TUNE
 	hold_pos[0] -= (1 - historic_mag * 0.12f) * total_poserr_ned[0];
 	hold_pos[1] -= (1 - historic_mag * 0.12f) * total_poserr_ned[1];
