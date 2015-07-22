@@ -2,6 +2,8 @@ TEMPLATE = lib
 QT+=widgets
 TARGET = ScopeGadget
 DEFINES += SCOPE_LIBRARY
+DEFINES += QWT_DLL
+
 include(../../taulabsgcsplugin.pri)
 include (scope_dependencies.pri)
 HEADERS += scopeplugin.h \

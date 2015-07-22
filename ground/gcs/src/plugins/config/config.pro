@@ -1,8 +1,13 @@
 TEMPLATE = lib
 TARGET = Config
 DEFINES += CONFIG_LIBRARY
+DEFINES += QWT_DLL
+
 QT += svg
+
 include(config_dependencies.pri)
+LIBS *= -l$$qtLibraryName(Qwt)
+
 INCLUDEPATH *= ../../libs/eigen
 
 OTHER_FILES += Config.pluginspec \
