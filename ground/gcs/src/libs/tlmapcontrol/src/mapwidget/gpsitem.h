@@ -35,6 +35,7 @@
 #include <QtSvg/QSvgRenderer>
 #include "trailitem.h"
 #include "traillineitem.h"
+#include "../core/corecommon.h"
 
 namespace mapcontrol
 {
@@ -45,7 +46,7 @@ namespace mapcontrol
 *
 * @class UAVItem gpsitem.h "mapwidget/gpsitem.h"
 */
-    class GPSItem: public MapPointItem
+    class TLMAPWIDGET_EXPORT GPSItem: public MapPointItem
     {
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)

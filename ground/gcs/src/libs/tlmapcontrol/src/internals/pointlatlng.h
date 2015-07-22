@@ -6,7 +6,7 @@
 * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      
 * @see        The GNU Public License (GPL) Version 3
-* @defgroup   OPMapWidget
+* @defgroup   TLMapWidget
 * @{
 * 
 *****************************************************************************/
@@ -31,17 +31,15 @@
 #include <QHash>
 #include <QString>
 #include "sizelatlng.h"
- 
-namespace internals {
-struct PointLatLng
-{
-    //friend uint qHash(PointLatLng const& point);
-    friend bool operator==(PointLatLng const& lhs,PointLatLng const& rhs);
-    friend bool operator!=(PointLatLng const& left, PointLatLng const& right);
-    friend PointLatLng operator+(PointLatLng pt, SizeLatLng sz);
-    friend PointLatLng operator-(PointLatLng pt, SizeLatLng sz);
+#include "core/corecommon.h"
 
-   //TODO Sizelatlng friend PointLatLng operator+(PointLatLng pt, SizeLatLng sz);
+namespace internals {
+struct TLMAPWIDGET_EXPORT PointLatLng
+{
+    friend bool TLMAPWIDGET_EXPORT operator==(PointLatLng const& lhs,PointLatLng const& rhs);
+    friend bool TLMAPWIDGET_EXPORT operator!=(PointLatLng const& left, PointLatLng const& right);
+    friend PointLatLng TLMAPWIDGET_EXPORT operator+(PointLatLng pt, SizeLatLng sz);
+    friend PointLatLng TLMAPWIDGET_EXPORT operator-(PointLatLng pt, SizeLatLng sz);
 
    private:
     double lat;
@@ -49,7 +47,6 @@ struct PointLatLng
     bool empty;
    public:
     PointLatLng();
-
 
     static PointLatLng Empty;
 
@@ -87,10 +84,6 @@ struct PointLatLng
           empty=false;
       }
 
-
-
-
-
       static PointLatLng Add(PointLatLng const& pt, SizeLatLng const& sz)
       {
          return PointLatLng(pt.Lat() - sz.HeightLat(), pt.Lng() + sz.WidthLng());
@@ -119,13 +112,7 @@ struct PointLatLng
          return QString("{Lat=%1, Lng=%2}").arg(this->lat).arg(this->lng);
       }
 
-////      static PointLatLng()
-////      {
-////         Empty = new PointLatLng();
-////      }
    };
 
-
-//
 }
 #endif // POINTLATLNG_H

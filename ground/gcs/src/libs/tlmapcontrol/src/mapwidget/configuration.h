@@ -6,7 +6,7 @@
 * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      A class that centralizes most of the mapcontrol configurations
 * @see        The GNU Public License (GPL) Version 3
-* @defgroup   OPMapWidget
+* @defgroup   TLMapWidget
 * @{
 *
 *****************************************************************************/
@@ -33,9 +33,11 @@
 #include <QPen>
 #include <QString>
 #include <QFont>
-#include "../core/tlmaps.h"
-#include "../core/accessmode.h"
-#include "../core/cache.h"
+#include "core/tlmaps.h"
+#include "core/accessmode.h"
+#include "core/cache.h"
+#include "core/corecommon.h"
+
 namespace mapcontrol
 {
     
@@ -44,7 +46,7 @@ namespace mapcontrol
 *
 * @class Configuration configuration.h "configuration.h"
 */
-class Configuration
+class TLMAPWIDGET_EXPORT Configuration
 {
 public:
     Configuration();

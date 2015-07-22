@@ -6,7 +6,7 @@
 * @author     Tau Labs, http://taulabs.org Copyright (C) 2013.
 * @brief
 * @see        The GNU Public License (GPL) Version 3
-* @defgroup   OPMapWidget
+* @defgroup   TLMapWidget
 * @{
 * 
 *****************************************************************************/
@@ -26,6 +26,8 @@
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include "lks94projection.h"
 #include "../../../../shared/api/physical_constants.h"
 

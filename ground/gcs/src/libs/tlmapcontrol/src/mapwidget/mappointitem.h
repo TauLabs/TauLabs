@@ -37,11 +37,12 @@
 #include "../internals/pointlatlng.h"
 #include "mapgraphicitem.h"
 #include "physical_constants.h"
+#include "../core/corecommon.h"
 
 namespace mapcontrol
 {
 
-struct distBearingAltitude
+struct TLMAPWIDGET_EXPORT distBearingAltitude
 {
     double distance;
     double bearing;

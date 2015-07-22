@@ -33,9 +33,11 @@
 #include "mapripform.h"
 #include <QObject>
 #include <QMessageBox>
+#include "../core/corecommon.h"
+
 namespace mapcontrol
 {
-    class MapRipper:public QThread
+    class TLMAPWIDGET_EXPORT MapRipper:public QThread
     {
         Q_OBJECT
     public:

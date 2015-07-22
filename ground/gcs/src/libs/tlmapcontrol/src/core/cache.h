@@ -6,7 +6,7 @@
 * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      
 * @see        The GNU Public License (GPL) Version 3
-* @defgroup   OPMapWidget
+* @defgroup   TLMapWidget
 * @{
 * 
 *****************************************************************************/
@@ -30,9 +30,10 @@
 
 #include "pureimagecache.h"
 #include "debugheader.h"
+#include "corecommon.h"
 
 namespace core {
-    class Cache
+    class TLMAPWIDGET_EXPORT Cache
     {
     public:
         static Cache* Instance();

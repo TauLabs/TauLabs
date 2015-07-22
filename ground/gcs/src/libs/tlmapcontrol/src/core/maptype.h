@@ -6,7 +6,7 @@
 * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
 * @brief      
 * @see        The GNU Public License (GPL) Version 3
-* @defgroup   OPMapWidget
+* @defgroup   TLMapWidget
 * @{
 * 
 *****************************************************************************/
@@ -30,9 +30,10 @@
 #include <QMetaObject>
 #include <QMetaEnum>
 #include <QStringList>
+#include "core/corecommon.h"
 
 namespace core {
-    class MapType:public QObject
+    class TLMAPWIDGET_EXPORT MapType:public QObject
     {
         Q_OBJECT
         Q_ENUMS(Types)

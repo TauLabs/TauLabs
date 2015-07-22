@@ -30,11 +30,12 @@
 
 
 #include "mappointitem.h"
+#include "../core/corecommon.h"
 
 namespace mapcontrol
 {
 
-    class HomeItem:public MapPointItem
+    class TLMAPWIDGET_EXPORT HomeItem:public MapPointItem
     {
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)

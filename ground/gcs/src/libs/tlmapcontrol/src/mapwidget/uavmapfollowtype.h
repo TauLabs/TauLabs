@@ -32,8 +32,10 @@
 #include <QMetaObject>
 #include <QMetaEnum>
 #include <QStringList>
+#include "../core/corecommon.h"
+
 namespace mapcontrol {
-    class UAVMapFollowType:public QObject
+    class TLMAPWIDGET_EXPORT UAVMapFollowType:public QObject
     {
         Q_OBJECT
         Q_ENUMS(Types)

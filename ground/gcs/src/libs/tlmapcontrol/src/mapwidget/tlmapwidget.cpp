@@ -136,7 +136,7 @@ namespace mapcontrol
     }
 
     /**
-     * @brief OPMapWidget::WPCurveCreate Create a curve from one waypoint to another with specified radius
+     * @brief TLMapWidget::WPCurveCreate Create a curve from one waypoint to another with specified radius
      * @param start The starting waypoint
      * @param dest The ending waypoint
      * @param radius The radius to use connecting the two
@@ -540,7 +540,7 @@ namespace mapcontrol
 
     //////////////////////////////////////////////
     /**
-     * @brief OPMapWidget::SetShowCompassRose Shows the compass rose on the map.
+     * @brief TLMapWidget::SetShowCompassRose Shows the compass rose on the map.
      * @param value If true the compass rose is enabled. If false it is disabled.
      */
     void TLMapWidget::SetShowCompassRose(const bool &value)
@@ -565,7 +565,7 @@ namespace mapcontrol
     }
 
     /**
-     * @brief OPMapWidget::SetShowWindCompass Shows the compass rose on the map.
+     * @brief TLMapWidget::SetShowWindCompass Shows the compass rose on the map.
      * @param value If true the compass is enabled. If false it is disabled.
      */
     void TLMapWidget::SetShowWindCompass(const bool &value)

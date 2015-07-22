@@ -29,6 +29,7 @@
 #define WAYPOINTITEM_H
 
 #include "mappointitem.h"
+#include "../core/corecommon.h"
 
 namespace mapcontrol
 {
@@ -38,7 +39,7 @@ class HomeItem;
 *
 * @class WayPointItem waypointitem.h "waypointitem.h"
 */
-class WayPointItem: public MapPointItem
+class TLMAPWIDGET_EXPORT WayPointItem: public MapPointItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)

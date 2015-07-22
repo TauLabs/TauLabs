@@ -35,6 +35,7 @@
 #include "uavtrailtype.h"
 #include "trailitem.h"
 #include "traillineitem.h"
+#include "../core/corecommon.h"
 
 namespace mapcontrol
 {
@@ -45,7 +46,7 @@ namespace mapcontrol
 *
 * @class UAVItem uavitem.h "mapwidget/uavitem.h"
 */
-    class UAVItem: public MapPointItem
+    class TLMAPWIDGET_EXPORT UAVItem: public MapPointItem
     {
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)

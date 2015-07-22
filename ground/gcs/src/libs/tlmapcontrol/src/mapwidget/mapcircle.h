@@ -29,13 +29,14 @@
 #define MAPCIRCLE_H
 
 #include "mappointitem.h"
+#include "../core/corecommon.h"
 
 namespace mapcontrol
 {
 
 class HomeItem;
 
-class MapCircle: public QObject, public QGraphicsEllipseItem
+class TLMAPWIDGET_EXPORT MapCircle: public QObject, public QGraphicsEllipseItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)

@@ -28,6 +28,7 @@
 #define WAYPOINTCURVE_H
 
 #include "waypointitem.h"
+#include "../core/corecommon.h"
 
 namespace mapcontrol
 {
@@ -37,7 +38,7 @@ namespace mapcontrol
  * radius and direction of curvature.  It will display a red straight line if the
  * radius is insufficient to connect the two waypoints
  */
-class WayPointCurve:public QObject,public QGraphicsEllipseItem
+class TLMAPWIDGET_EXPORT WayPointCurve:public QObject,public QGraphicsEllipseItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)

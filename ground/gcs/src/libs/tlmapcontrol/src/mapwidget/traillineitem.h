@@ -34,11 +34,12 @@
 #include "../internals/pointlatlng.h"
 #include <QObject>
 #include "mapgraphicitem.h"
+#include "../core/corecommon.h"
 
 namespace mapcontrol
 {
 
-    class TrailLineItem:public QObject,public QGraphicsLineItem
+    class TLMAPWIDGET_EXPORT TrailLineItem:public QObject,public QGraphicsLineItem
     {
         Q_OBJECT
         Q_INTERFACES(QGraphicsItem)
