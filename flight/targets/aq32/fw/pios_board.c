@@ -417,17 +417,41 @@ void PIOS_Board_Init(void) {
 
 	/* Set up pulse timers */
 	
-	//Timers used for inputs (1, 4)
-	PIOS_TIM_InitClock(&tim_1_cfg);
+	//Timers used for inputs (4)
 	PIOS_TIM_InitClock(&tim_4_cfg);
 	
-	// Timers used for outputs (2, 3, 4, 5, 8)
+	// Timers used for outputs (2, 3, 8)
 	PIOS_TIM_InitClock(&tim_2_cfg);
 	PIOS_TIM_InitClock(&tim_3_cfg);
-	PIOS_TIM_InitClock(&tim_4_cfg);
-	PIOS_TIM_InitClock(&tim_5_cfg);
 	PIOS_TIM_InitClock(&tim_8_cfg);
+	
+	// Timer 1 Can be used for input or output
+	// Configure TIM_Period accordingly
+	
+	PIOS_TIM_InitClock(&tim_1_cfg);  // Baseline configuration
+	
+	TIM_TimeBaseInitTypeDef tim_1_time_base = {
+		.TIM_Prescaler         = (PIOS_PERIPHERAL_APB2_CLOCK / 1000000) - 1,
+		.TIM_ClockDivision     = TIM_CKD_DIV1,
+		.TIM_CounterMode       = TIM_CounterMode_Up,
+		.TIM_RepetitionCounter = 0x0000,
+	};
 
+	uint8_t hw_rcvrport;
+	HwAQ32RcvrPortGet(&hw_rcvrport);
+
+	switch (hw_rcvrport) {
+	case HWAQ32_RCVRPORT_DISABLED:
+	case HWAQ32_RCVRPORT_PPM:
+	    tim_1_time_base.TIM_Period = ((1000000 / PIOS_SERVO_UPDATE_HZ) - 1);  // Timer 1 configured for PWM outputs
+		break;
+	case HWAQ32_RCVRPORT_PWM:
+		tim_1_time_base.TIM_Period = 0xFFFF;  // Timer 1 configured for PWM inputs
+		break;
+	}	
+
+	TIM_TimeBaseInit(TIM1, &tim_1_time_base);
+	
 	/* IAP System Setup */
 	PIOS_IAP_Init();
 	uint16_t boot_count = PIOS_IAP_ReadBootCount();
@@ -983,26 +1007,35 @@ void PIOS_Board_Init(void) {
 	}
 
 	/* Configure the rcvr port */
-	uint8_t hw_rcvrport;
-
-	HwAQ32RcvrPortGet(&hw_rcvrport);
-
 	switch (hw_rcvrport) {
 	case HWAQ32_RCVRPORT_DISABLED:
-		break;
+	    break;
 	case HWAQ32_RCVRPORT_PPM:
 #if defined(PIOS_INCLUDE_PPM)
-		{
-			uintptr_t pios_ppm_id;
+		{uintptr_t pios_ppm_id;
 			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
 
-		    uintptr_t pios_ppm_rcvr_id;
-		    if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
+			uintptr_t pios_ppm_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
 				PIOS_Assert(0);
 			}
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
+#endif  /* PIOS_INCLUDE_PPM */
 		}
-#endif
+		break;
+	case HWAQ32_RCVRPORT_PWM:
+#if defined(PIOS_INCLUDE_PWM)
+		{
+			uintptr_t pios_pwm_id;
+			PIOS_PWM_Init(&pios_pwm_id, &pios_pwm_cfg);
+
+			uintptr_t pios_pwm_rcvr_id;
+			if (PIOS_RCVR_Init(&pios_pwm_rcvr_id, &pios_pwm_rcvr_driver, pios_pwm_id)) {
+				PIOS_Assert(0);
+			}
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM] = pios_pwm_rcvr_id;
+		}
+#endif	/* PIOS_INCLUDE_PWM */
 		break;
 	}
 
@@ -1019,7 +1052,15 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_TIM) && defined(PIOS_INCLUDE_SERVO)
 #ifndef PIOS_DEBUG_ENABLE_DEBUG_PINS
-	PIOS_Servo_Init(&pios_servo_cfg);
+	switch (hw_rcvrport) {
+	case HWAQ32_RCVRPORT_DISABLED:
+	case HWAQ32_RCVRPORT_PPM:
+		PIOS_Servo_Init(&pios_servo_cfg_ppm_rx);
+		break;
+	case HWAQ32_RCVRPORT_PWM:
+		PIOS_Servo_Init(&pios_servo_cfg_pwm_rx);
+		break;
+	}
 #else
 	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
 #endif

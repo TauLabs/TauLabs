@@ -2,7 +2,7 @@
 	<object name="HwAQ32" singleinstance="true" settings="true" category="HardwareSettings">
 		<description>Selection of optional hardware configurations.</description>
 
-		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PPM" defaultvalue="Disabled"/>
+		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PPM,PWM" defaultvalue="Disabled"/>
 
 		<field name="Uart1" units="function" type="enum" elements="1"  defaultvalue="Disabled">
 			<options>
