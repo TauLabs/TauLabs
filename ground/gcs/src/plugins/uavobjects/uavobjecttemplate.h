@@ -44,10 +44,17 @@ $(ENUMS)
 
 public:
     // Field structure
+#ifdef _MSC_VER
+#pragma pack(push, 1)
+__declspec(align(4)) typedef struct {
+$(DATAFIELDS)
+   } DataFields;
+#pragma pack(pop)
+#else
     typedef struct {
 $(DATAFIELDS)
     } __attribute__((packed)) __attribute__((aligned(4))) DataFields;
-
+#endif
     // Field information
 $(DATAFIELDINFO)
   
