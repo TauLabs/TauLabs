@@ -142,7 +142,7 @@ static const struct frsky_value_item frsky_value_items[] = {
 	{FRSKY_AIR_SPEED_ID,   100,   frsky_encode_airspeed,   0}, // airspeed
 };
 
-static const uint8_t frsky_sensor_ids[] = {0x1b, 0x0d, 0x34, 0x67};
+static const uint8_t frsky_sensor_ids[] = {0x1b};
 struct frsky_sport_telemetry {
 	struct pios_thread *task;
 	uintptr_t com;
