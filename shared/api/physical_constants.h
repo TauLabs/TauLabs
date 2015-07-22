@@ -41,6 +41,10 @@
 #define RAD2DEG (180.0f / PI)
 #endif
 
+#ifndef M_PI
+#define M_PI PI
+#endif
+
 // Temperature and pressure conversions
 #define CELSIUS2KELVIN     273.15f
 #define INCHES_MERCURY2KPA  3.386f
