@@ -44,6 +44,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include "worldmagmodel.h"
 
 #include <qglobal.h>
