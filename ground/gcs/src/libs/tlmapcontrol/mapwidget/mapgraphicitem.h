@@ -38,6 +38,7 @@
 #include <QBrush>
 #include <QFont>
 #include <QObject>
+#include "../core/corecommon.h"
 
 namespace mapcontrol
 {
@@ -48,7 +49,7 @@ namespace mapcontrol
     *
     * @class MapGraphicItem mapgraphicitem.h "mapgraphicitem.h"
     */
-    class MapGraphicItem:public QObject,public QGraphicsItem
+    class TLMAPWIDGET_EXPORT MapGraphicItem:public QObject,public QGraphicsItem
     {
         friend class mapcontrol::TLMapWidget;
         Q_OBJECT

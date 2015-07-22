@@ -27,7 +27,6 @@
 */
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
-//#include <point.h>
 #include "../core/size.h"
 #include "math.h"
 using namespace core;

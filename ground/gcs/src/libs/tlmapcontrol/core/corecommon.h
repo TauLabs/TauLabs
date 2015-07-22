@@ -1,0 +1,11 @@
+#ifndef CORECOMMON
+#define CORECOMMON
+
+#ifdef TLMAPWIDGET_LIBRARY
+    #define TLMAPWIDGET_EXPORT Q_DECL_EXPORT
+#else
+    #define TLMAPWIDGET_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // CORECOMMON
+

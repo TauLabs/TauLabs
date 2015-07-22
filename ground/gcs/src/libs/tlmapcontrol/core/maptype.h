@@ -30,7 +30,7 @@
 #include <QMetaObject>
 #include <QMetaEnum>
 #include <QStringList>
-#include "core/corecommon.h"
+#include "corecommon.h"
 
 namespace core {
     class TLMAPWIDGET_EXPORT MapType:public QObject

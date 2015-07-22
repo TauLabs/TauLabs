@@ -57,6 +57,7 @@
 #include <QDateTime>
 
 #include <QObject>
+#include "../core/corecommon.h"
 
 namespace mapcontrol
 {
@@ -66,7 +67,7 @@ namespace mapcontrol
 
 namespace internals {
 
-    class Core:public QObject,public QRunnable
+    class TLMAPWIDGET_EXPORT Core:public QObject,public QRunnable
     {
         Q_OBJECT
 
