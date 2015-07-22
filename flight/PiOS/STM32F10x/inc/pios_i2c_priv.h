@@ -3,7 +3,7 @@
  *
  * @file       pios_i2c_priv.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
  * @brief      I2C private definitions.
  * @see        The GNU Public License (GPL) Version 3
  *

@@ -6,7 +6,7 @@
  * @{
  *
  * @file       geofence_control.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
  * @brief      Geofence controller that is enabled when out of zone
  *
  * @see        The GNU Public License (GPL) Version 3

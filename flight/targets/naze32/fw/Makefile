@@ -1,12 +1,12 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
 # @addtogroup 
 # @{
 # @addtogroup 
 # @{
-# @brief Makefile to build firmware for the CopterControl board.
+# @brief Makefile to build firmware for the Naze family of boards.
 ###############################################################################
 #
 # This program is free software; you can redistribute it and/or modify

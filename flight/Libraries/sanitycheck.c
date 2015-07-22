@@ -3,7 +3,7 @@
  * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
  * @file       sanitycheck.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
  * @brief      Utilities to validate a flight configuration
  * @see        The GNU Public License (GPL) Version 3
  *
