@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup CopterControl OpenPilot naze support files
+ * @addtogroup Naze32 family support files
  * @{
  *
  * @file       main.c 

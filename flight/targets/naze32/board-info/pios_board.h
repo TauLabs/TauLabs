@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsTargets Tau Labs Targets
  * @{
- * @addtogroup Naze32 Tau Labs naze32 support files
+ * @addtogroup Naze32 family support files
  * @{
  *
  * @file       pios_board.h 
