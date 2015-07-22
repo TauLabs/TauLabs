@@ -84,7 +84,9 @@ static bool stackOverflow;
 // Private functions
 static void objectUpdatedCb(UAVObjEvent * ev);
 
+#ifndef NO_SENSORS
 static void configurationUpdatedCb(UAVObjEvent * ev);
+#endif
 
 static bool indicateError();
 static void updateStats();
@@ -167,6 +169,7 @@ static void systemTask(void *parameters)
 	// Listen for SettingPersistance object updates, connect a callback function
 	ObjectPersistenceConnectQueue(objectPersistenceQueue);
 
+#ifndef NO_SENSORS
 	// Run this initially to make sure the configuration is checked
 	configuration_check();
 
@@ -182,6 +185,7 @@ static void systemTask(void *parameters)
 #ifndef SMALLF1
 	if (StateEstimationHandle())
 		StateEstimationConnectCallback(configurationUpdatedCb);
+#endif
 #endif
 
 	// Main system loop
@@ -328,13 +332,16 @@ static void objectUpdatedCb(UAVObjEvent * ev)
 	}
 }
 
+#ifndef NO_SENSORS
 /**
  * Called whenever a critical configuration component changes
  */
+
 static void configurationUpdatedCb(UAVObjEvent * ev)
 {
 	configuration_check();
 }
+#endif
 
 /**
  * Called periodically to update the WDG statistics
