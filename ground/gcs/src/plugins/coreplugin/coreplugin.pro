@@ -5,7 +5,6 @@ DEFINES += CORE_LIBRARY
 QT += widgets
 QT += xml \
     network \
-    script \
     svg \
     sql
 include(../../taulabsgcsplugin.pri)
