@@ -100,7 +100,7 @@ endif
 ifneq (,$(filter $(UNAME), Linux))
         #installer is an executable, make it executable and run it
 	$(V1) chmod u+x "$(DL_DIR)/$(QT_SDK_FILE)"
-	$(V1) "$(DL_DIR)/$(QT_SDK_FILE)" -style cleanlooks
+	$(V1) "$(DL_DIR)/$(QT_SDK_FILE)"
 endif
 
 ifdef WINDOWS
