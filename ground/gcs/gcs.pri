@@ -133,3 +133,15 @@ win32 {
 	# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=52991
 	QMAKE_CXXFLAGS += -mno-ms-bitfields
 }
+
+unix {
+GEN_GCOV {
+QMAKE_CXXFLAGS += -g -Wall -fprofile-arcs -ftest-coverage -O0
+QMAKE_LFLAGS += -g -Wall -fprofile-arcs -ftest-coverage  -O0
+LIBS += \
+    -lgcov
+unix:OBJECTS_DIR = ./Build
+unix:MOC_DIR = ./Build
+unix:UI_DIR = ./Build
+}
+}
