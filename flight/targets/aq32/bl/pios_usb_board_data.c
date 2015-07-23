@@ -60,7 +60,7 @@ static const uint8_t usb_vendor_id[18] = {
 	'e', 0,
 	'r', 0,
 	'o', 0,
-    'Q', 0,
+	'Q', 0,
 	'u', 0,
 	'a', 0,
 	'd', 0,

@@ -425,33 +425,24 @@ void PIOS_Board_Init(void) {
 	PIOS_TIM_InitClock(&tim_3_cfg);
 	PIOS_TIM_InitClock(&tim_8_cfg);
 	
-	// Timer 1 Can be used for input or output
-	// Configure TIM_Period accordingly
+	// Timers used for inputs or outputs (1)
+	// Configure TIM_Period (ARR) accordingly
 	
-	PIOS_TIM_InitClock(&tim_1_cfg);  // Baseline configuration
+	PIOS_TIM_InitClock(&tim_1_cfg);
 	
-	TIM_TimeBaseInitTypeDef tim_1_time_base = {
-		.TIM_Prescaler         = (PIOS_PERIPHERAL_APB2_CLOCK / 1000000) - 1,
-		.TIM_ClockDivision     = TIM_CKD_DIV1,
-		.TIM_CounterMode       = TIM_CounterMode_Up,
-		.TIM_RepetitionCounter = 0x0000,
-	};
-
 	uint8_t hw_rcvrport;
 	HwAQ32RcvrPortGet(&hw_rcvrport);
 
 	switch (hw_rcvrport) {
 	case HWAQ32_RCVRPORT_DISABLED:
 	case HWAQ32_RCVRPORT_PPM:
-	    tim_1_time_base.TIM_Period = ((1000000 / PIOS_SERVO_UPDATE_HZ) - 1);  // Timer 1 configured for PWM outputs
+	    TIM1->ARR = ((1000000 / PIOS_SERVO_UPDATE_HZ) - 1);  // Timer 1 configured for PWM outputs
 		break;
 	case HWAQ32_RCVRPORT_PWM:
-		tim_1_time_base.TIM_Period = 0xFFFF;  // Timer 1 configured for PWM inputs
+		TIM1->ARR = 0xFFFF;  // Timer 1 configured for PWM inputs
 		break;
 	}	
 
-	TIM_TimeBaseInit(TIM1, &tim_1_time_base);
-	
 	/* IAP System Setup */
 	PIOS_IAP_Init();
 	uint16_t boot_count = PIOS_IAP_ReadBootCount();
@@ -520,8 +511,8 @@ void PIOS_Board_Init(void) {
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-						rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
-						tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
+							  rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
+							  tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
 				PIOS_Assert(0);
 			}
 		}
@@ -535,8 +526,8 @@ void PIOS_Board_Init(void) {
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_vcp_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-						rx_buffer, PIOS_COM_BRIDGE_RX_BUF_LEN,
-						tx_buffer, PIOS_COM_BRIDGE_TX_BUF_LEN)) {
+							  rx_buffer, PIOS_COM_BRIDGE_RX_BUF_LEN,
+							  tx_buffer, PIOS_COM_BRIDGE_TX_BUF_LEN)) {
 				PIOS_Assert(0);
 			}
 		}
@@ -549,8 +540,8 @@ void PIOS_Board_Init(void) {
 			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_debug_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-						NULL, 0,
-						tx_buffer, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN)) {
+							  NULL, 0,
+							  tx_buffer, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN)) {
 				PIOS_Assert(0);
 			}
 		}
@@ -565,8 +556,8 @@ void PIOS_Board_Init(void) {
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_picoc_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-						rx_buffer, PIOS_COM_PICOC_RX_BUF_LEN,
-						tx_buffer, PIOS_COM_PICOC_TX_BUF_LEN)) {
+							  rx_buffer, PIOS_COM_PICOC_RX_BUF_LEN,
+							tx_buffer, PIOS_COM_PICOC_TX_BUF_LEN)) {
 				PIOS_Assert(0);
 			}
 		}
@@ -601,8 +592,8 @@ void PIOS_Board_Init(void) {
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_hid_com_driver, pios_usb_hid_id,
-						rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
-						tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
+							  rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
+							  tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
 				PIOS_Assert(0);
 			}
 		}
@@ -611,7 +602,7 @@ void PIOS_Board_Init(void) {
 	}
 #endif	/* PIOS_INCLUDE_USB_HID */
 
-    if (usb_hid_present || usb_cdc_present) {
+	if (usb_hid_present || usb_cdc_present) {
 		PIOS_USBHOOK_Activate();
 	}
 
