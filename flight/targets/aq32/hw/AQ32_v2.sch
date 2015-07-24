@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.4">
+<eagle version="7.3.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -9376,7 +9376,7 @@ Source: http://www.vishay.com/docs/20008/dcrcw.pdf</description>
 <rectangle x1="-0.15" y1="-0.15" x2="0.15" y2="0.15" layer="21"/>
 </package>
 <package name="VMTA55">
-<description>&lt;b&gt;Bulk Metal® Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metalï¿½ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RNC55&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-5.08" y1="0" x2="-4.26" y2="0" width="0.6096" layer="51"/>
@@ -9393,7 +9393,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="3.2825" y1="-0.3048" x2="4.235" y2="0.3048" layer="21"/>
 </package>
 <package name="VMTB60">
-<description>&lt;b&gt;Bulk Metal® Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metalï¿½ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RNC60&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-6.35" y1="0" x2="-5.585" y2="0" width="0.6096" layer="51"/>
@@ -9410,7 +9410,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="4.6325" y1="-0.3048" x2="5.585" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA52">
-<description>&lt;b&gt;Bulk Metal® Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metalï¿½ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR52&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-15.24" y1="0" x2="-13.97" y2="0" width="0.6096" layer="51"/>
@@ -9429,7 +9429,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="12.5675" y1="-0.3048" x2="13.97" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA53">
-<description>&lt;b&gt;Bulk Metal® Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metalï¿½ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR53&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-12.065" y1="0" x2="-10.795" y2="0" width="0.6096" layer="51"/>
@@ -9448,7 +9448,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="9.8425" y1="-0.3048" x2="10.795" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA54">
-<description>&lt;b&gt;Bulk Metal® Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metalï¿½ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR54&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-12.065" y1="0" x2="-10.795" y2="0" width="0.6096" layer="51"/>
@@ -9467,7 +9467,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="9.8425" y1="-0.3048" x2="10.795" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA55">
-<description>&lt;b&gt;Bulk Metal® Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metalï¿½ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR55&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-8.255" y1="0" x2="-6.985" y2="0" width="0.6096" layer="51"/>
@@ -9486,7 +9486,7 @@ Source: VISHAY .. vta56.pdf</description>
 <rectangle x1="6.35" y1="-0.3048" x2="6.985" y2="0.3048" layer="21"/>
 </package>
 <package name="VTA56">
-<description>&lt;b&gt;Bulk Metal® Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
+<description>&lt;b&gt;Bulk Metalï¿½ Foil Technology&lt;/b&gt;, Tubular Axial Lead Resistors, Meets or Exceeds MIL-R-39005 Requirements&lt;p&gt;
 MIL SIZE RBR56&lt;br&gt;
 Source: VISHAY .. vta56.pdf</description>
 <wire x1="-6.35" y1="0" x2="-5.08" y2="0" width="0.6096" layer="51"/>
@@ -19521,7 +19521,7 @@ Standard 0603 ceramic capacitor, and 0.1" leaded capacitor.</description>
 <part name="GND36" library="SparkFun" deviceset="GND" device=""/>
 <part name="SUPPLY1" library="supply2" deviceset="V+" device="" value="VDD"/>
 <part name="GND37" library="SparkFun" deviceset="GND" device=""/>
-<part name="C8" library="SparkFun" deviceset="CAP" device="0402" value="0.1µF"/>
+<part name="C8" library="SparkFun" deviceset="CAP" device="0402" value="0.1ï¿½F"/>
 <part name="GND39" library="SparkFun" deviceset="GND" device=""/>
 <part name="C15" library="SparkFun" deviceset="CAP" device="0402" value="0.1uF"/>
 <part name="GND17" library="SparkFun" deviceset="GND" device=""/>
@@ -19673,6 +19673,7 @@ R37 and R38
 if using SPI</text>
 <text x="142.24" y="86.36" size="1.778" layer="91">For F1 use R54 0ohm
 For F4 use C54 2.2uF</text>
+<text x="208.28" y="17.78" size="2.54" layer="94">Licensed As: CC-BY-SA</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
