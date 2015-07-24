@@ -127,7 +127,6 @@ static const struct pios_spi_cfg pios_spi_sdCard_cfg = {
 				.DMA_MemoryDataSize     = DMA_MemoryDataSize_Byte,
 				.DMA_Mode               = DMA_Mode_Normal,
 				.DMA_Priority           = DMA_Priority_Medium,
-				//TODO: Enable FIFO
 				.DMA_FIFOMode           = DMA_FIFOMode_Disable,
 				.DMA_FIFOThreshold      = DMA_FIFOThreshold_Full,
 				.DMA_MemoryBurst        = DMA_MemoryBurst_Single,
@@ -253,7 +252,6 @@ static const struct pios_spi_cfg pios_spi_external_cfg = {
 				.DMA_MemoryDataSize     = DMA_MemoryDataSize_Byte,
 				.DMA_Mode               = DMA_Mode_Normal,
 				.DMA_Priority           = DMA_Priority_Medium,
-				//TODO: Enable FIFO
 				.DMA_FIFOMode           = DMA_FIFOMode_Disable,
 				.DMA_FIFOThreshold      = DMA_FIFOThreshold_Full,
 				.DMA_MemoryBurst        = DMA_MemoryBurst_Single,
@@ -379,7 +377,6 @@ static const struct pios_spi_cfg pios_spi_internal_cfg = {
 				.DMA_MemoryDataSize     = DMA_MemoryDataSize_Byte,
 				.DMA_Mode               = DMA_Mode_Normal,
 				.DMA_Priority           = DMA_Priority_Medium,
-				//TODO: Enable FIFO
 				.DMA_FIFOMode           = DMA_FIFOMode_Disable,
 				.DMA_FIFOThreshold      = DMA_FIFOThreshold_Full,
 				.DMA_MemoryBurst        = DMA_MemoryBurst_Single,
