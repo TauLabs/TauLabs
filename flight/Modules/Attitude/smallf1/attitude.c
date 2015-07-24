@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup AttitudeModuleCC Copter Control Attitude Estimation
+ * @addtogroup AttitudeModuleSmallF1 Attitude estimation for small F1 boards
  * @{
  * @brief      Minimal code for attitude estimation with integrated sensors
  *
@@ -13,8 +13,8 @@
  *
  * @file       attitude.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
- * @brief      Update attitude for CC(3D)
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
+ * @brief      Update attitude for F1 targets
  *
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -47,7 +47,6 @@
 #include "manualcontrolcommand.h"
 #include "coordinate_conversions.h"
 #include <pios_board_info.h>
-#include "pios_thread.h"
 #include "pios_queue.h"
  
 // Private constants
@@ -73,10 +72,17 @@ static SensorSettingsData sensorSettings;
 static void AttitudeTask(void *parameters);
 
 static float gyro_correct_int[3] = {0,0,0};
+
+#ifdef COPTERCONTROL
 static struct pios_queue *gyro_queue;
 
 static int32_t updateSensors(AccelsData *, GyrosData *);
-static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData);
+#define ADXL345_ACCEL_SCALE  (GRAVITY * 0.004f)
+/* 0.004f is gravity / LSB */
+
+#endif
+
+static int32_t updateSensorsDigital(AccelsData * accelsData, GyrosData * gyrosData);
 static void updateAttitude(AccelsData *, GyrosData *);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
 static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * accelsData);
@@ -115,9 +121,6 @@ static volatile bool trim_requested = false;
 static volatile int32_t trim_accels[3];
 static volatile int32_t trim_samples;
 static int32_t const MAX_TRIM_FLIGHT_SAMPLES = 65535;
-
-#define ADXL345_ACCEL_SCALE  (GRAVITY * 0.004f)
-/* 0.004f is gravity / LSB */
 
 /**
  * Initialise the module, called on startup
@@ -184,15 +187,16 @@ MODULE_INITCALL(AttitudeInitialize, AttitudeStart)
 static void AttitudeTask(void *parameters)
 {
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
-	
+
+#ifdef COPTERCONTROL
 	// Set critical error and wait until the accel is producing data
 	while(PIOS_ADXL345_FifoElements() == 0) {
 		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_CRITICAL);
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
 	}
-	
+
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
-	
+
 	bool cc3d = bdinfo->board_rev == 0x02;
 
 	if (!cc3d) {
@@ -205,7 +209,8 @@ static void AttitudeTask(void *parameters)
 		PIOS_SENSORS_SetMaxGyro(500);
 #endif
 	}
-
+#endif
+	
 	// Force settings update to make sure rotation loaded
 	settingsUpdatedCb(AttitudeSettingsHandle());
 	
@@ -286,10 +291,14 @@ static void AttitudeTask(void *parameters)
 		GyrosData gyros;
 		int32_t retval = 0;
 
+#ifdef COPTERCONTROL
 		if (cc3d)
-			retval = updateSensorsCC3D(&accels, &gyros);
+			retval = updateSensorsDigital(&accels, &gyros);
 		else
 			retval = updateSensors(&accels, &gyros);
+#else
+		retval = updateSensorsDigital(&accels, &gyros);
+#endif
 
 		// During power on set to angle from accel
 		if (complimentary_filter_status == CF_POWERON) {
@@ -314,6 +323,7 @@ static void AttitudeTask(void *parameters)
 	}
 }
 
+#ifdef COPTERCONTROL
 /**
  * Get an update from the sensors
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
@@ -323,7 +333,7 @@ static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
 {
 	struct pios_adxl345_data accel_data;
 	float gyro[4];
-	
+
 	// Only wait the time for two nominal updates before setting an alarm
 	if (PIOS_Queue_Receive(gyro_queue, (void * const) gyro, PIOS_INTERNAL_ADC_UPDATE_RATE * 2) == false) {
 		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR);
@@ -337,14 +347,14 @@ static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
 	// No accel data available
 	if(PIOS_ADXL345_FifoElements() == 0)
 		return -1;
-	
+
 	// Convert the ADC data into the standard normalized format
 	struct pios_sensor_gyro_data gyros;
 	gyros.temperature = gyro[0];
 	gyros.x = -(gyro[1] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
 	gyros.y = (gyro[2] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
 	gyros.z = -(gyro[3] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
-	
+
 	// Convert the ADXL345 data into the standard normalized format
 	int32_t x = 0;
 	int32_t y = 0;
@@ -360,7 +370,7 @@ static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
 	} while ( (i < 32) && (samples_remaining > 0) );
 
 	struct pios_sensor_accel_data accels;
-	
+
 	accels.x = ((float) x / i) * ADXL345_ACCEL_SCALE;
 	accels.y = ((float) y / i) * ADXL345_ACCEL_SCALE;
 	accels.z = ((float) z / i) * ADXL345_ACCEL_SCALE;
@@ -368,23 +378,22 @@ static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
 	// Apply rotation / calibration and assign to the UAVO
 	update_gyros(&gyros, gyrosData);
 	update_accels(&accels, accelsData);
-	
-	update_trimming(accelsData);
 
-		
+	update_trimming(accelsData);
 
 	GyrosSet(gyrosData);
 	AccelsSet(accelsData);
 
 	return 0;
 }
+#endif
 
 /**
  * Get an update from the sensors
  * @param[in] attitudeRaw Populate the UAVO instead of saving right here
  * @return 0 if successfull, -1 if not
  */
-static int32_t updateSensorsCC3D(AccelsData * accelsData, GyrosData * gyrosData)
+static int32_t updateSensorsDigital(AccelsData * accelsData, GyrosData * gyrosData)
 {
 	struct pios_sensor_gyro_data gyros;
 	struct pios_sensor_accel_data accels;

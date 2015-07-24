@@ -6,7 +6,7 @@
  * @{
  *
  * @file       tablet_control.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
  * @brief      Use tablet for control source
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -43,7 +43,7 @@
 #include "tabletinfo.h"
 #include "systemsettings.h"
 
-#if !defined(COPTERCONTROL)
+#if !defined(SMALLF1)
 
 //! Private methods
 static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED);
