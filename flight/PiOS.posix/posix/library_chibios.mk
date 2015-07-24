@@ -19,6 +19,5 @@ PIOS_DEVLIB			:=	$(dir $(lastword $(MAKEFILE_LIST)))
 #
 # Compiler options implied by posix
 #
-ARCHFLAGS			+= -DARCH_POSIX
+ARCHFLAGS			+= -DARCH_POSIX -pthread
 ARCHFLAGS			+= -D_GNU_SOURCE
-ARCHFLAGS			+= -m32
