@@ -464,13 +464,13 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 			 */
 			hdop = gpsPosData.HDOP * 100.0f;
 			
-			if (hdop > 256.0f)
-				hdop = 256.0f;
+			if (hdop > 255.0f)
+				hdop = 255.0f;
 			
 			vdop = gpsPosData.VDOP * 100.0f;
 			
-			if (vdop > 256.0f)
-				vdop = 256.0f;
+			if (vdop > 255.0f)
+				vdop = 255.0f;
 			
 			msg_length += frsky_pack_temperature_02((vdop * 256 + hdop), serial_buf + msg_length);
 
