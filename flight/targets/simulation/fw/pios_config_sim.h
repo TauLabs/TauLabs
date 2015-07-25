@@ -80,8 +80,6 @@
 
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 9959
 
-#define REVOLUTION
-
 // Enable POI tracking mode for camera stabilization
 #define CAMERASTAB_POI_MODE
 

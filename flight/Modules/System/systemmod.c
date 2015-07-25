@@ -84,7 +84,7 @@ static bool stackOverflow;
 // Private functions
 static void objectUpdatedCb(UAVObjEvent * ev);
 
-#if (defined(SMALLF1) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
+#ifndef NO_SENSORS
 static void configurationUpdatedCb(UAVObjEvent * ev);
 #endif
 
@@ -169,7 +169,7 @@ static void systemTask(void *parameters)
 	// Listen for SettingPersistance object updates, connect a callback function
 	ObjectPersistenceConnectQueue(objectPersistenceQueue);
 
-#if (defined(SMALLF1) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
+#ifndef NO_SENSORS
 	// Run this initially to make sure the configuration is checked
 	configuration_check();
 
@@ -182,10 +182,10 @@ static void systemTask(void *parameters)
 		ManualControlSettingsConnectCallback(configurationUpdatedCb);
 	if (FlightStatusHandle())
 		FlightStatusConnectCallback(configurationUpdatedCb);
-#endif
-#if (defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
+#ifndef SMALLF1
 	if (StateEstimationHandle())
 		StateEstimationConnectCallback(configurationUpdatedCb);
+#endif
 #endif
 
 	// Main system loop
@@ -332,10 +332,11 @@ static void objectUpdatedCb(UAVObjEvent * ev)
 	}
 }
 
+#ifndef NO_SENSORS
 /**
  * Called whenever a critical configuration component changes
  */
-#if (defined(SMALLF1) || defined(REVOLUTION) || defined(SIM_OSX)) && ! (defined(SIM_POSIX))
+
 static void configurationUpdatedCb(UAVObjEvent * ev)
 {
 	configuration_check();
