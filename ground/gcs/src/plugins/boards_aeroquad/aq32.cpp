@@ -41,8 +41,8 @@ AQ32::AQ32(void)
 {
     // Initialize our USB Structure definition here:
     USBInfo board;
-    board.vendorID  = 0x0FDA;
-    board.productID = 0x0100;
+    board.vendorID  = 0x20a0;
+    board.productID = 0x4284;
 
     setUSBInfo(board);
 
