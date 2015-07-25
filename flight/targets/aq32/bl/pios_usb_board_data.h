@@ -1,14 +1,14 @@
- /**
+/**
  ******************************************************************************
- * @addtogroup PIOS PIOS Core hardware abstraction layer
+ * @addtogroup TauLabsBootloader Tau Labs Bootloaders
  * @{
- * @addtogroup   PIOS_USB USB Setup Functions
- * @brief PIOS interface for USB device driver
+ * @addtogroup Aq32BL Aq32 bootloader
  * @{
  *
- * @file       pios_usb_priv.h
+ * @file       pios_usb_board_data.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      USB private definitions.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Board specific USB definitions
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -28,24 +28,28 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef PIOS_USB_PRIV_H
-#define PIOS_USB_PRIV_H
+#ifndef PIOS_USB_BOARD_DATA_H
+#define PIOS_USB_BOARD_DATA_H
 
-#include <pios.h>
-#include <pios_stm32.h>
+#define PIOS_USB_BOARD_HID_DATA_LENGTH 64
 
-struct pios_usb_cfg {
-	struct stm32_irq irq;
-	struct stm32_gpio vsense;
-	struct stm32_gpio disconnect;
-};
+#define PIOS_USB_BOARD_EP_NUM 2
 
-extern int32_t PIOS_USB_Init(uintptr_t * usb_id, const struct pios_usb_cfg * cfg);
+#include "pios_usb_defs.h" 	/* struct usb_* */
 
-#endif /* PIOS_USB_PRIV_H */
+#define PIOS_USB_BOARD_VENDOR_ID  0x20a0
+#define PIOS_USB_BOARD_PRODUCT_ID 0x4284
+#define PIOS_USB_BOARD_DEVICE_VER USB_OP_DEVICE_VER(0, USB_OP_BOARD_MODE_BL)
+#define PIOS_USB_BOARD_SN_SUFFIX "+BL"
 
-/**
-  * @}
-  * @}
-  */
+/*
+ * The bootloader uses a simplified report structure
+ *   BL: <REPORT_ID><DATA>...<DATA>
+ *   FW: <REPORT_ID><LENGTH><DATA>...<DATA>
+ * This define changes the behaviour in pios_usb_hid.c
+ */
+#define PIOS_USB_BOARD_BL_HID_HAS_NO_LENGTH_BYTE
+
+#endif	/* PIOS_USB_BOARD_DATA_H */
+
 
