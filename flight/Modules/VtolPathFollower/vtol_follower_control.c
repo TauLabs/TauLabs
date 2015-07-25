@@ -543,6 +543,13 @@ static float loiter_deadband(float input) {
 
 	input /= (1 - CMD_THRESHOLD);	// Normalize to -1 to 1 range.
 
+	/* Confine to desired range */
+	if (input > 1.0f) {
+		input = 1.0f;
+	} else if (input < -1.0f) {
+		input = -1.0f;
+	}
+
 	return expo3(input, 40);	// And apply 40% expo
 }
 
@@ -566,10 +573,6 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 	float command_mag = vectorn_magnitude(commands_rp, 2);
 	float deadband_mag = loiter_deadband(command_mag);
 
-	if (deadband_mag > 1.0f) {
-		deadband_mag = 1.0f;
-	}
-
 	static float historic_mag = 0.0f;
 
 	historic_mag *= loiter_brakealpha;
@@ -586,8 +589,14 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 
 	// Normalize our command magnitude.  Command vectors from this
 	// point are normalized.
-	commands_rp[0] /= command_mag;
-	commands_rp[1] /= command_mag;
+	if (command_mag > 0.001f) {
+		commands_rp[0] /= command_mag;
+		commands_rp[1] /= command_mag;
+	} else {
+		// Just pick a direction
+		commands_rp[0] = 0.0f;
+		commands_rp[1] = -1.0f;
+	}
 
 	// Find our current position error
 	PositionActualData positionActual;
