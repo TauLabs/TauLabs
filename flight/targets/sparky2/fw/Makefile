@@ -60,6 +60,7 @@ OPTMODULES += UAVORelay
 OPTMODULES += Airspeed/revolution
 OPTMODULES += UAVOHoTTBridge
 OPTMODULES += UAVOFrSKYSensorHubBridge
+OPTMODULES += UAVOFrSKYSPortBridge
 OPTMODULES += PicoC
 OPTMODULES += Logging
 OPTMODULES += FlightStats
