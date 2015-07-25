@@ -57,8 +57,6 @@ isEmpty(GCS_BUILD_TREE) {
 }
 GCS_APP_PATH = $$GCS_BUILD_TREE/bin
 macx {
-#    QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
-#    QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
     GCS_APP_TARGET   = "Tau Labs GCS"
     GCS_LIBRARY_PATH = $$GCS_APP_PATH/$${GCS_APP_TARGET}.app/Contents/Plugins
     GCS_PLUGIN_PATH  = $$GCS_LIBRARY_PATH
