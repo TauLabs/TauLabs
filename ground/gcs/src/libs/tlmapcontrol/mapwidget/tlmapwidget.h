@@ -176,7 +176,6 @@ namespace mapcontrol
         */
         TLMapWidget(QWidget *parent=0,Configuration *config=new Configuration);
         ~TLMapWidget();
-        internals::PointLatLng pointkkkkkkkkkkkkkkkkk;
         /**
         * @brief Returns true if map is showing gridlines
         *
@@ -389,7 +388,6 @@ namespace mapcontrol
         void setSelectedWP(QList<WayPointItem *> list);
 
         void setWindVelocity(double windVelocity_NED[3]);
-        internals::PointLatLng dummy() {return internals::PointLatLng();}
       private:
         internals::Core *core;
         MapGraphicItem *map;
