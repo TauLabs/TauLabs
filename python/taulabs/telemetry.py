@@ -509,8 +509,7 @@ def get_telemetry_by_args(desc="Process telemetry", service_in_iter=True,
         file_obj = file(args.source, 'r')
 
         t = telemetry.FileTelemetry(file_obj, parse_header=parse_header,
-            gcs_timestamps=args.timestamped, name=args.source,
-            service_in_iter=service_in_iter, iter_blocks=iter_blocks)
+            gcs_timestamps=args.timestamped, name=args.source)
 
         return t
 
