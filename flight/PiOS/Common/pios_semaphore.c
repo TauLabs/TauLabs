@@ -272,7 +272,7 @@ bool PIOS_Semaphore_Give_FromISR(struct pios_semaphore *sema, bool *woken)
  */
 struct pios_semaphore *PIOS_Semaphore_Create(void)
 {
-	struct pios_semaphore *sema = PIOS_malloc_no_dma(sizeof(struct pios_semaphore));
+	struct pios_semaphore *sema = PIOS_malloc(sizeof(struct pios_semaphore));
 
 	if (sema == NULL)
 		return NULL;

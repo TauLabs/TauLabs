@@ -56,7 +56,7 @@ static void updateAck(UAVTalkConnectionData *connection, UAVObjHandle obj, uint1
 UAVTalkConnection UAVTalkInitialize(UAVTalkOutputStream outputStream)
 {
 	// allocate object
-	UAVTalkConnectionData * connection = PIOS_malloc_no_dma(sizeof(UAVTalkConnectionData));
+	UAVTalkConnectionData * connection = PIOS_malloc(sizeof(UAVTalkConnectionData));
 	if (!connection) return 0;
 	connection->canari = UAVTALK_CANARI;
 	connection->iproc.rxPacketLength = 0;
