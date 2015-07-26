@@ -127,7 +127,11 @@ int32_t GPSInitialize(void)
 	}
 #endif
 
+	// These things are only conditional on small F1 targets.
+	// Expected to be always present otherwise.
+#ifdef SMALLF1
 	if (gpsPort && module_enabled) {
+#endif
 		GPSPositionInitialize();
 		GPSVelocityInitialize();
 #if !defined(PIOS_GPS_MINIMAL)
@@ -140,7 +144,9 @@ int32_t GPSInitialize(void)
 		AirspeedActualInitialize();
 #endif
 		updateSettings();
+#ifdef SMALLF1
 	}
+#endif
 
 	if (gpsPort && module_enabled) {
 		ModuleSettingsGPSDataProtocolGet(&gpsProtocol);
