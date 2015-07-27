@@ -32,6 +32,8 @@
 #include <QDebug>
 #include <math.h>
 
+#include <physical_constants.h>
+
 #define RAD2DEG (180.0/M_PI)
 #define DEG2RAD (M_PI/180.0)
 
