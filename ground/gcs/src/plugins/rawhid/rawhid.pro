@@ -27,6 +27,9 @@ win32 {
         usbmonitor_win.cpp
     LIBS += -lhid \
         -lsetupapi
+        win32-msvc* {
+            LIBS += -lUser32
+        }
 }
 macx { 
     SOURCES += usbmonitor_mac.cpp \
