@@ -2,6 +2,7 @@ TEMPLATE = lib
 TARGET = Utils
 
 !win32-msvc*:QMAKE_CXXFLAGS += -Wno-sign-compare
+win32: QMAKE_CXXFLAGS_RELEASE -= -Zc:strictStrings
 
 QT += gui \
     network \
