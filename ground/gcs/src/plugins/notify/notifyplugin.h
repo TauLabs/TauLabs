@@ -38,15 +38,13 @@
 #include "notificationitem.h"
 
 #include <QSettings>
-#include <phonon/MediaObject>
-#include <phonon/Path>
-#include <phonon/AudioOutput>
-#include <phonon/Global>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 class NotifyPluginOptionsPage;
 
 typedef struct {
-	Phonon::MediaObject* mo;
+	QMediaPlayer* mo;
 	NotificationItem* notify;
 	bool firstPlay;
 } PhononObject, *pPhononObject;
@@ -55,7 +53,7 @@ typedef struct {
 class SoundNotifyPlugin : public Core::IConfigurablePlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "AboveGroundLabs.plugins.NotifyPlugin" FILE "NotifyPlugin.json")
+    Q_PLUGIN_METADATA(IID "TauLabs.plugins.NotifyPlugin" FILE "NotifyPlugin.json")
 public:
     SoundNotifyPlugin();
     ~SoundNotifyPlugin();
@@ -89,7 +87,7 @@ private slots:
     void on_arrived_Notification(UAVObject *object);
     void on_timerRepeated_Notification(void);
     void on_expiredTimer_Notification(void);
-    void stateChanged(Phonon::State newstate, Phonon::State oldstate);
+    void stateChanged(QMediaPlayer::State newstate);
 
 private:
     bool enableSound;
@@ -105,6 +103,7 @@ private:
     PhononObject phonon;
     NotifyPluginOptionsPage* mop;
     TelemetryManager* telMngr;
+    QMediaPlaylist *playlist;
 }; 
 
 #endif // SOUNDNOTIFYPLUGIN_H
