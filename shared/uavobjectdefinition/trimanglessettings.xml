@@ -3,9 +3,10 @@
         <description>The trim angle required for the UAV to fly straight and level.</description>
         <field name="Roll" units="degrees" type="float" elements="1" defaultvalue="0"/>
         <field name="Pitch" units="degrees" type="float" elements="1" defaultvalue="0"/>
+
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="onchange" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>
-        <logging updatemode="manual" period="0"/>
+        <logging updatemode="manual" period="1"/>
     </object>
 </xml>

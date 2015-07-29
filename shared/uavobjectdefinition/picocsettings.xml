@@ -31,9 +31,10 @@
 				<option>115200</option>
 			</options>
 		</field>
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>
-		<logging updatemode="manual" period="0"/>
+		<logging updatemode="manual" period="1"/>
 	</object>
 </xml>
