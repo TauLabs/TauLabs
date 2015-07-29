@@ -116,5 +116,9 @@ UAVOBJSRCFILENAMES += trimangles
 UAVOBJSRCFILENAMES += trimanglessettings
 UAVOBJSRCFILENAMES += sessionmanaging
 
+# Include this in the simulator so that we can edit a representative inherited
+# obj for dev test.
+UAVOBJSRCFILENAMES += hwsparky
+
 UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
 UAVOBJDEFINE = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )

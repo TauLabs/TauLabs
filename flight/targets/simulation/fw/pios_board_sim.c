@@ -41,6 +41,7 @@
 #include "gpsposition.h"
 #include "gyros.h"
 #include "gyrosbias.h"
+#include "hwsparky.h"
 #include "magnetometer.h"
 #include "manualcontrolsettings.h"
 
@@ -165,6 +166,9 @@ void PIOS_Board_Init(void) {
 	GyrosInitialize();
 	GyrosBiasInitialize();
 
+	/* Initialize the sparky object, because developers use this for dev
+	 * test. */
+	HwSparkyInitialize();
 #if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_TELEMETRY_RF) && 1
 	{
