@@ -260,6 +260,9 @@ int main(int argc, char **argv)
 
     QString locale = QLocale::system().name();
 
+    QString leftSide;
+    if(leftSide == "de") locale = locale.left(2);
+
     // Must be done before any QSettings class is created
     QSettings::setPath(XmlConfig::XmlSettingsFormat, QSettings::SystemScope,
             QCoreApplication::applicationDirPath()+QLatin1String(SHARE_PATH));
