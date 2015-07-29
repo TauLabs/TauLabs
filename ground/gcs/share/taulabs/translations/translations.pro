@@ -1,6 +1,6 @@
 include(../../../gcs.pri)
 
-LANGUAGES = de de_DE es fr ru zh_CN
+LANGUAGES = de es fr ru zh_CN
 
 # var, prepend, append
 defineReplace(prependAll) {
