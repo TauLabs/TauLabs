@@ -41,10 +41,10 @@ UAVMetaObject::UAVMetaObject(quint32 objID, const QString& name, UAVObject *pare
     QStringList modesBitField;
     modesBitField << tr("FlightReadOnly") << tr("GCSReadOnly") << tr("FlightTelemetryAcked") << tr("GCSTelemetryAcked") << tr("FlightUpdatePeriodic") << tr("FlightUpdateOnChange") << tr("GCSUpdatePeriodic") << tr("GCSUpdateOnChange");
     QList<UAVObjectField*> fields;    
-    fields.append( new UAVObjectField(tr("Modes"), tr("boolean"), UAVObjectField::BITFIELD, modesBitField, QStringList()) );
-    fields.append( new UAVObjectField(tr("Flight Telemetry Update Period"), tr("ms"), UAVObjectField::UINT16, 1, QStringList()) );
-    fields.append( new UAVObjectField(tr("GCS Telemetry Update Period"), tr("ms"), UAVObjectField::UINT16, 1, QStringList()) );
-    fields.append( new UAVObjectField(tr("Logging Update Period"), tr("ms"), UAVObjectField::UINT16, 1, QStringList()) );
+    fields.append( new UAVObjectField(tr("Modes"), tr("boolean"), UAVObjectField::BITFIELD, modesBitField, QStringList(), QList<int>() ) );
+    fields.append( new UAVObjectField(tr("Flight Telemetry Update Period"), tr("ms"), UAVObjectField::UINT16, 1, QStringList(), QList<int>() ) );
+    fields.append( new UAVObjectField(tr("GCS Telemetry Update Period"), tr("ms"), UAVObjectField::UINT16, 1, QStringList(), QList<int>() ) );
+    fields.append( new UAVObjectField(tr("Logging Update Period"), tr("ms"), UAVObjectField::UINT16, 1, QStringList(), QList<int>() ) );
     // Initialize parent
     UAVObject::initialize(0);
     UAVObject::initializeFields(fields, (quint8*)&parentMetadata, sizeof(Metadata));
