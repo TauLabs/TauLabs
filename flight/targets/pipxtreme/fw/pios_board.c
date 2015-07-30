@@ -268,7 +268,7 @@ void PIOS_Board_Init(void) {
 
 	// Configure the USB VCP port
 	switch (hwTauLink.VCPPort) {
-		case HWTAULINK_VCPPORT_TELEMETRY:
+		case HWTAULINK_VCPPORT_USBTELEMETRY:
 			PIOS_COM_TELEMETRY = pios_com_telem_vcp_id;
 			break;
 		case HWTAULINK_VCPPORT_COMBRIDGE:

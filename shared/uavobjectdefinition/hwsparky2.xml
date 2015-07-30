@@ -64,13 +64,13 @@
 		<!--  1. Telem - telemetry connection -->
 		<!--  2. Telem+PPM - telemetry and ppm -->
 		<!--  3. PPM - PPM only (one way connection) -->
-		<field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,Telem+PPM,PPM,OpenLRS" defaultvalue="Disabled"/>
+		<field name="Radio" units="" type="enum" elements="1" parent="HwShared.RadioPort" defaultvalue="Disabled"/>
 		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
 		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
 
 		<!-- radio settings -->
-		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" options="9600,19200,32000,64000,100000,192000" defaultvalue="64000"/>
-		<field name="MaxRfPower" units="mW" type="enum" elements="1" options="0,1.25,1.6,3.16,6.3,12.6,25,50,100" defaultvalue="1.25"/>
+		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" parent="HwShared.MaxRfSpeed" defaultvalue="64000"/>
+		<field name="MaxRfPower" units="mW" type="enum" elements="1" parent="HwShared.MaxRfPower"  defaultvalue="1.25"/>
 		<field name="MinChannel" units="" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="MaxChannel" units="" type="uint8" elements="1" defaultvalue="250"/>
 
