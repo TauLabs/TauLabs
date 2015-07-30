@@ -44,6 +44,13 @@
 #define MPU6000_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
 #define MPU6000_TASK_STACK		484
 
+#ifdef PIOS_MPU6000_SPI_HIGH_SPEED
+#define MPU6000_SPI_HIGH_SPEED              PIOS_MPU6000_SPI_HIGH_SPEED
+#else
+#define MPU6000_SPI_HIGH_SPEED              21100000	// slightly higher then 21MHz so that it is really 21MHz after prescaler calculations
+#endif
+#define MPU6000_SPI_LOW_SPEED               1000000
+
 /* Global Variables */
 
 enum pios_mpu6000_dev_magic {
@@ -76,8 +83,8 @@ static struct mpu6000_dev *pios_mpu6000_dev;
 static struct mpu6000_dev *PIOS_MPU6000_alloc(void);
 static int32_t PIOS_MPU6000_Validate(struct mpu6000_dev *dev);
 static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg *cfg);
-static int32_t PIOS_MPU6000_ClaimBus();
-static int32_t PIOS_MPU6000_ReleaseBus();
+static int32_t PIOS_MPU6000_ClaimBus(bool lowspeed);
+static int32_t PIOS_MPU6000_ReleaseBus(bool lowspeed);
 static int32_t PIOS_MPU6000_SetReg(uint8_t address, uint8_t buffer);
 static int32_t PIOS_MPU6000_GetReg(uint8_t address);
 static void PIOS_MPU6000_Task(void *parameters);
@@ -157,9 +164,9 @@ int32_t PIOS_MPU6000_Init(uint32_t spi_id, uint32_t slave_num, const struct pios
 	pios_mpu6000_dev->cfg = cfg;
 
 	/* Configure the MPU6000 Sensor */
-	PIOS_SPI_SetClockSpeed(pios_mpu6000_dev->spi_id, 100000);
+	PIOS_SPI_SetClockSpeed(pios_mpu6000_dev->spi_id, MPU6000_SPI_LOW_SPEED);
 	PIOS_MPU6000_Config(cfg);
-	PIOS_SPI_SetClockSpeed(pios_mpu6000_dev->spi_id, 3000000);
+	PIOS_SPI_SetClockSpeed(pios_mpu6000_dev->spi_id, MPU6000_SPI_HIGH_SPEED);
 
 	pios_mpu6000_dev->threadp = PIOS_Thread_Create(
 			PIOS_MPU6000_Task, "pios_mpu6000", MPU6000_TASK_STACK, NULL, MPU6000_TASK_PRIORITY);
@@ -230,9 +237,9 @@ static void PIOS_MPU6000_Config(const struct pios_mpu60x0_cfg *cfg)
 	 * on all different targets.
 	 */
 
-	PIOS_MPU6000_ClaimBus();
+	PIOS_MPU6000_ClaimBus(true);
 	PIOS_DELAY_WaitmS(1);
-	PIOS_MPU6000_ReleaseBus();
+	PIOS_MPU6000_ReleaseBus(true);
 	PIOS_DELAY_WaitmS(10);
 
 	// Reset chip
@@ -369,9 +376,10 @@ void PIOS_MPU6000_SetLPF(enum pios_mpu60x0_filter filter)
 
 /**
  * @brief Claim the SPI bus for the accel communications and select this chip
+ * \param[in] flag controls if low speed access for control registers should be used
  * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
  */
-static int32_t PIOS_MPU6000_ClaimBus()
+static int32_t PIOS_MPU6000_ClaimBus(bool lowspeed)
 {
 	if (PIOS_MPU6000_Validate(pios_mpu6000_dev) != 0)
 		return -1;
@@ -379,20 +387,27 @@ static int32_t PIOS_MPU6000_ClaimBus()
 	if (PIOS_SPI_ClaimBus(pios_mpu6000_dev->spi_id) != 0)
 		return -2;
 
+	if (lowspeed)
+			PIOS_SPI_SetClockSpeed(pios_mpu6000_dev->spi_id, MPU6000_SPI_LOW_SPEED);
+
 	PIOS_SPI_RC_PinSet(pios_mpu6000_dev->spi_id, pios_mpu6000_dev->slave_num, 0);
 	return 0;
 }
 
 /**
  * @brief Release the SPI bus for the accel communications and end the transaction
+ * \param[in] must be true when bus was claimed in lowspeed mode
  * @return 0 if successful
  */
-static int32_t PIOS_MPU6000_ReleaseBus()
+static int32_t PIOS_MPU6000_ReleaseBus(bool lowspeed)
 {
 	if (PIOS_MPU6000_Validate(pios_mpu6000_dev) != 0)
 		return -1;
 
 	PIOS_SPI_RC_PinSet(pios_mpu6000_dev->spi_id, pios_mpu6000_dev->slave_num, 1);
+
+	if (lowspeed)
+		PIOS_SPI_SetClockSpeed(pios_mpu6000_dev->spi_id, MPU6000_SPI_HIGH_SPEED);
 
 	return PIOS_SPI_ReleaseBus(pios_mpu6000_dev->spi_id);
 }
@@ -406,13 +421,13 @@ static int32_t PIOS_MPU6000_GetReg(uint8_t reg)
 {
 	uint8_t data;
 
-	if (PIOS_MPU6000_ClaimBus() != 0)
+	if (PIOS_MPU6000_ClaimBus(true) != 0)
 		return -1;
 
 	PIOS_SPI_TransferByte(pios_mpu6000_dev->spi_id, (0x80 | reg)); // request byte
 	data = PIOS_SPI_TransferByte(pios_mpu6000_dev->spi_id, 0);     // receive response
 
-	PIOS_MPU6000_ReleaseBus();
+	PIOS_MPU6000_ReleaseBus(true);
 	return data;
 }
 
@@ -426,20 +441,20 @@ static int32_t PIOS_MPU6000_GetReg(uint8_t reg)
  */
 static int32_t PIOS_MPU6000_SetReg(uint8_t reg, uint8_t data)
 {
-	if (PIOS_MPU6000_ClaimBus() != 0)
+	if (PIOS_MPU6000_ClaimBus(true) != 0)
 		return -1;
 
 	if (PIOS_SPI_TransferByte(pios_mpu6000_dev->spi_id, 0x7f & reg) != 0) {
-		PIOS_MPU6000_ReleaseBus();
+		PIOS_MPU6000_ReleaseBus(true);
 		return -2;
 	}
 
 	if (PIOS_SPI_TransferByte(pios_mpu6000_dev->spi_id, data) != 0) {
-		PIOS_MPU6000_ReleaseBus();
+		PIOS_MPU6000_ReleaseBus(true);
 		return -3;
 	}
 
-	PIOS_MPU6000_ReleaseBus();
+	PIOS_MPU6000_ReleaseBus(true);
 
 	return 0;
 }
@@ -563,15 +578,16 @@ static void PIOS_MPU6000_Task(void *parameters)
 		uint8_t mpu6000_send_buf[BUFFER_SIZE] = { PIOS_MPU60X0_ACCEL_X_OUT_MSB | 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		uint8_t mpu6000_rec_buf[BUFFER_SIZE];
 
-		if (PIOS_MPU6000_ClaimBus() != 0)
+		// claim bus in high speed mode
+		if (PIOS_MPU6000_ClaimBus(false) != 0)
 			continue;
 
 		if (PIOS_SPI_TransferBlock(pios_mpu6000_dev->spi_id, mpu6000_send_buf, mpu6000_rec_buf, sizeof(mpu6000_send_buf), NULL) < 0) {
-			PIOS_MPU6000_ReleaseBus();
+			PIOS_MPU6000_ReleaseBus(false);
 			continue;
 		}
 
-		PIOS_MPU6000_ReleaseBus();
+		PIOS_MPU6000_ReleaseBus(false);
 
 		// Rotate the sensor to OP convention.  The datasheet defines X as towards the right
 		// and Y as forward.  OP convention transposes this.  Also the Z is defined negatively
