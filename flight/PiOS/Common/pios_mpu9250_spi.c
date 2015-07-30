@@ -50,7 +50,7 @@
 #ifdef PIOS_MPU9250_SPI_HIGH_SPEED
 #define MPU9250_SPI_HIGH_SPEED              PIOS_MPU9250_SPI_HIGH_SPEED
 #else
-#define MPU9250_SPI_HIGH_SPEED              20000000
+#define MPU9250_SPI_HIGH_SPEED              21100000	// slightly higher then 21MHz so that it is really 21MHz after prescaler calculations
 #endif
 #define MPU9250_SPI_LOW_SPEED               300000
 
