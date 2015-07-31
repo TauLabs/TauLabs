@@ -27,6 +27,7 @@
 #include "customsplash.h"
 #include <QStyleOptionProgressBarV2>
 #include <QPainter>
+#include <QCoreApplication>
 #include <QDebug>
 
 #define PROGRESS_BAR_WIDTH  100
@@ -104,6 +105,8 @@ void CustomSplash::showMessage(const QString &message, int alignment, const QCol
     }
     settings.setValue(QString::number(message_number),time.elapsed());
     ++message_number;
+
+    QCoreApplication::processEvents();
 }
 /**
  * @brief Closes the splashscreen
