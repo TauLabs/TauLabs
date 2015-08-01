@@ -40,6 +40,9 @@
 #include "homelocation.h"
 #include "accels.h"
 #include "flightstatus.h"
+#include "nedaccel.h"
+#include "velocityactual.h"
+#include "attitudeactual.h"
 #include "pios_thread.h"
 
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB)
@@ -252,8 +255,8 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 	FlightBatteryStateData batState;
 	GPSPositionData gpsPosData;
 	BaroAltitudeData baroAltitude;
-	AccelsData accels;
 	FlightStatusData flightStatus;
+	float accX = 0, accY = 0, accZ = 0;
 
 	if (FlightBatterySettingsHandle() != NULL )
 		FlightBatterySettingsGet(&batSettings);
@@ -292,15 +295,6 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 		batState.Voltage = 0;
 	}
 
-	if (AccelsHandle() != NULL )
-		AccelsGet(&accels);
-	else {
-		accels.x = 0.0;
-		accels.y = 0.0;
-		accels.z = 0.0;
-		accels.temperature = 0.0;
-	}
-
 	uint8_t last_armed = FLIGHTSTATUS_ARMED_DISARMED;
 	float altitude_offset = 0.0f;
 
@@ -315,14 +309,56 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 
 		if (frame_trigger(FRSKY_FRAME_VARIO)) {
 			msg_length = 0;
-			
-			if (AccelsHandle() != NULL)
-				AccelsGet(&accels);
+
+			uint8_t accelDataSettings;
+			ModuleSettingsFrskyAccelDataGet(&accelDataSettings);
+			switch(accelDataSettings) {
+			case MODULESETTINGS_FRSKYACCELDATA_ACCELS: {
+				if (AccelsHandle() != NULL) {
+					AccelsxGet(&accX);
+					AccelsyGet(&accY);
+					AccelszGet(&accZ);
+				}
+				break;
+			}
+
+			case MODULESETTINGS_FRSKYACCELDATA_NEDACCELS: {
+				if (NedAccelHandle() != NULL) {
+					NedAccelNorthGet(&accX);
+					NedAccelEastGet(&accY);
+					NedAccelDownGet(&accZ);
+				}
+				break;
+			}
+			case MODULESETTINGS_FRSKYACCELDATA_NEDVELOCITY: {
+				if (VelocityActualHandle() != NULL) {
+					VelocityActualNorthGet(&accX);
+					VelocityActualEastGet(&accY);
+					VelocityActualDownGet(&accZ);
+					accX *= GRAVITY / 10.0f;
+					accY *= GRAVITY / 10.0f;
+					accZ *= GRAVITY / 10.0f;
+				}
+				break;
+			}
+
+			case MODULESETTINGS_FRSKYACCELDATA_ATTITUDEANGLES: {
+				if (AttitudeActualHandle() != NULL) {
+					AttitudeActualRollGet(&accX);
+					AttitudeActualPitchGet(&accY);
+					AttitudeActualYawGet(&accZ);
+					accX *= GRAVITY / 10.0f;
+					accY *= GRAVITY / 10.0f;
+					accZ *= GRAVITY / 10.0f;
+				}
+				break;
+			}
+			}
 
 			msg_length += frsky_pack_accel(
-					accels.x,
-					accels.y,
-					accels.z,
+					accX,
+					accY,
+					accZ,
 					serial_buf + msg_length);
 
 			if (BaroAltitudeHandle() != NULL)

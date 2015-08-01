@@ -50,6 +50,9 @@
 #include "accels.h"
 #include "flightstatus.h"
 #include "airspeedactual.h"
+#include "nedaccel.h"
+#include "velocityactual.h"
+#include "attitudeactual.h"
 #include "pios_thread.h"
 
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
@@ -129,9 +132,9 @@ static const struct frsky_value_item frsky_value_items[] = {
 	{FRSKY_T1_ID,          2000,  frsky_encode_t1,         0}, // baro temperature
 	{FRSKY_T2_ID,          1500,  frsky_encode_t2,         0}, // encodes GPS status!
 	{FRSKY_FUEL_ID,        600,   frsky_encode_fuel,       0}, // consumed battery energy
-	{FRSKY_ACCX_ID,        250,   frsky_encode_acc,        0}, // accX
-	{FRSKY_ACCY_ID,        250,   frsky_encode_acc,        1}, // accY
-	{FRSKY_ACCZ_ID,        250,   frsky_encode_acc,        2}, // accZ
+	{FRSKY_ACCX_ID,        100,   frsky_encode_acc,        0}, // accX
+	{FRSKY_ACCY_ID,        100,   frsky_encode_acc,        1}, // accY
+	{FRSKY_ACCZ_ID,        100,   frsky_encode_acc,        2}, // accZ
 	{FRSKY_GPS_LON_LAT_ID, 100,   frsky_encode_gps_coord,  0}, // lattitude
 	{FRSKY_GPS_LON_LAT_ID, 100,   frsky_encode_gps_coord,  1}, // longitude
 	{FRSKY_GPS_ALT_ID,     750,   frsky_encode_gps_alt,    0}, // gps altitude
@@ -397,7 +400,7 @@ static bool frsky_encode_fuel(uint32_t *value, bool test_presence_only, uint32_t
 }
 
 /**
- * Encode accelerometer values
+ * Encode configured values
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
  * @param[in] arg argument specified in frsky_value_items[]; 0=X, 1=Y, 2=Z
@@ -405,26 +408,101 @@ static bool frsky_encode_fuel(uint32_t *value, bool test_presence_only, uint32_t
  */
 static bool frsky_encode_acc(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	if (AccelsHandle() == NULL)
-		return false;
-	if (test_presence_only)
-		return true;
+	uint8_t accelDataSettings;
+	ModuleSettingsFrskyAccelDataGet(&accelDataSettings);
 
 	float acc = 0;
-	switch (arg) {
-	case 0:
-		AccelsxGet(&acc);
-		break;
-	case 1:
-		AccelsyGet(&acc);
-		break;
-	case 2:
-		AccelszGet(&acc);
+	switch(accelDataSettings) {
+	case MODULESETTINGS_FRSKYACCELDATA_ACCELS: {
+		if (AccelsHandle() == NULL)
+			return false;
+		else if (test_presence_only)
+			return true;
+
+		switch (arg) {
+		case 0:
+			AccelsxGet(&acc);
+			break;
+		case 1:
+			AccelsyGet(&acc);
+			break;
+		case 2:
+			AccelszGet(&acc);
+			break;
+		}
+
+		acc /= GRAVITY;
+		acc *= 100.0f;
 		break;
 	}
 
-	acc /= GRAVITY;
-	acc *= 100.0f;
+	case MODULESETTINGS_FRSKYACCELDATA_NEDACCELS: {
+		if (NedAccelHandle() == NULL)
+			return false;
+		else if (test_presence_only)
+			return true;
+
+		switch (arg) {
+		case 0:
+			NedAccelNorthGet(&acc);
+			break;
+		case 1:
+			NedAccelEastGet(&acc);
+			break;
+		case 2:
+			NedAccelDownGet(&acc);
+			break;
+		}
+
+		acc /= GRAVITY;
+		acc *= 100.0f;
+		break;
+	}
+
+	case MODULESETTINGS_FRSKYACCELDATA_NEDVELOCITY: {
+		if (VelocityActualHandle() == NULL)
+			return false;
+		else if (test_presence_only)
+			return true;
+
+		switch (arg) {
+		case 0:
+			VelocityActualNorthGet(&acc);
+			break;
+		case 1:
+			VelocityActualEastGet(&acc);
+			break;
+		case 2:
+			VelocityActualDownGet(&acc);
+			break;
+		}
+
+		acc *= 100.0f;
+		break;
+	}
+
+	case MODULESETTINGS_FRSKYACCELDATA_ATTITUDEANGLES: {
+		if (AttitudeActualHandle() == NULL)
+			return false;
+		else if (test_presence_only)
+			return true;
+
+		switch (arg) {
+		case 0:
+			AttitudeActualRollGet(&acc);
+			break;
+		case 1:
+			AttitudeActualPitchGet(&acc);
+			break;
+		case 2:
+			AttitudeActualYawGet(&acc);
+			break;
+		}
+
+		acc *= 100.0f;
+		break;
+	}
+	}
 
 	int32_t frsky_acc = (int32_t) acc;
 	*value = (uint32_t) frsky_acc;
