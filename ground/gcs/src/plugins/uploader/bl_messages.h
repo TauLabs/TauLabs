@@ -28,6 +28,14 @@
 #ifndef BL_MESSAGES_H_
 #define BL_MESSAGES_H_
 
+#ifndef PACK
+#ifdef _MSC_VER
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop) )
+#else
+#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+#endif /* _MSC_VER */
+#endif /* PACK */
+
 namespace tl_dfu {
 
 #define BL_INCLUDE_CAP_EXTENSIONS
@@ -35,7 +43,6 @@ namespace tl_dfu {
 #define uint8_t quint8
 #define uint16_t quint16
 #define uint32_t quint32
-
 
 /* Note:
  *   Writes are from PC -> FC
@@ -145,12 +152,12 @@ struct msg_op_end {
 	/* No subfields */
 };
 
-struct msg_xfer_start {
+PACK(struct msg_xfer_start {
 	uint32_t packets_in_transfer;
 	uint8_t label;
 	uint8_t words_in_last_packet;
 	uint32_t expected_crc; /* only used in writes */
-}__attribute__((packed));
+});
 
 #define XFER_BYTES_PER_PACKET 56
 struct msg_xfer_cont {
@@ -171,7 +178,7 @@ struct msg_wipe_partition {
 	uint8_t label;
 };
 
-union msg_contents {
+PACK(union msg_contents {
     struct msg_capabilities_req cap_req;
     struct msg_capabilities_rep_all cap_rep_all;
     struct msg_capabilities_rep_specific cap_rep_specific;
@@ -186,13 +193,13 @@ union msg_contents {
     struct msg_status_rep status_rep;
     struct msg_wipe_partition wipe_partition;
     uint8_t pad[62];
-} __attribute__((aligned(1)));
+});
 
-struct bl_messages {
+PACK(struct bl_messages {
     uint8_t flags_command;
 
     union msg_contents v;
-} __attribute__((packed));
+});
 
 } /* namespace tl_dfu */
 
