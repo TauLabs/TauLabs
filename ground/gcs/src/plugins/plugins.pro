@@ -233,12 +233,6 @@ KML {
     SUBDIRS += plugin_gcscontrolwidget
 }
 
-# Antenna tracker
-plugin_antennatrack.subdir = antennatrack
-plugin_antennatrack.depends = plugin_coreplugin
-plugin_antennatrack.depends += plugin_uavobjects
-SUBDIRS += plugin_antennatrack
-
 # UAV Object Utility plugin
 plugin_uavobjectutil.subdir = uavobjectutil
 plugin_uavobjectutil.depends = plugin_coreplugin
