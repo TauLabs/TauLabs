@@ -108,6 +108,7 @@ static StabilizationSettingsData settings;
 static TrimAnglesData trimAngles;
 static struct pios_queue *queue;
 float gyro_alpha = 0;
+static float dT = 0;
 float axis_lock_accum[3] = {0,0,0};
 uint8_t max_axis_lock = 0;
 uint8_t max_axislock_rate = 0;
@@ -202,8 +203,6 @@ static void stabilizationTask(void* parameters)
 	while(1) {
 		iteration++;
 
-		float dT;
-		
 		PIOS_WDG_UpdateFlag(PIOS_WDG_STABILIZATION);
 		
 		// Wait until the AttitudeRaw object is updated, if a timeout then go to failsafe
@@ -944,10 +943,11 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		// update rates on OP (~300 Hz) and CC (~475 Hz) is negligible for this
 		// calculation
 		const float fakeDt = 0.0025f;
+
 		if(settings.GyroTau < 0.0001f)
 			gyro_alpha = 0;   // not trusting this to resolve to 0
 		else
-			gyro_alpha = expf(-fakeDt  / settings.GyroTau);
+			gyro_alpha = (1 / (1 +  ((2.0f * (float)(M_PI) * dT) / settings.GyroTau) ));
 
 		// Compute time constant for vbar decay term based on a tau
 		vbar_decay = expf(-fakeDt / settings.VbarTau);
