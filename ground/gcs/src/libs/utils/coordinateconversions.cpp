@@ -34,9 +34,6 @@
 
 #include <physical_constants.h>
 
-#define RAD2DEG (180.0/M_PI)
-#define DEG2RAD (M_PI/180.0)
-
 namespace Utils {
 
 const double CoordinateConversions::R_EQUATOR = 6378137.0;
