@@ -321,7 +321,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 				}
 				break;
 			}
-
+#ifndef SMALLF1
 			case MODULESETTINGS_FRSKYACCELDATA_NEDACCELS: {
 				if (NedAccelHandle() != NULL) {
 					NedAccelNorthGet(&accX);
@@ -341,7 +341,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 				}
 				break;
 			}
-
+#endif
 			case MODULESETTINGS_FRSKYACCELDATA_ATTITUDEANGLES: {
 				if (AttitudeActualHandle() != NULL) {
 					AttitudeActualRollGet(&accX);
