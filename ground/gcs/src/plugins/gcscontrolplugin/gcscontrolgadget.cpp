@@ -24,6 +24,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#include "gcscontrol.h"
 #include "gcscontrolgadget.h"
 #include "gcscontrolgadgetwidget.h"
 #include "gcscontrolgadgetconfiguration.h"
@@ -54,7 +55,7 @@ GCSControlGadget::GCSControlGadget(QString classId, GCSControlGadgetWidget *widg
     joystickTime.start();
 
 #if defined(USE_SDL)
-    GCSControlWidgetPlugin *pl = dynamic_cast<GCSControlWidgetPlugin*>(plugin);
+    GCSControl *pl = dynamic_cast<GCSControl*>(plugin);
     connect(pl->sdlGamepad,SIGNAL(gamepads(quint8)),this,SLOT(gamepads(quint8)));
     connect(pl->sdlGamepad,SIGNAL(buttonState(ButtonNumber,bool)),this,SLOT(buttonState(ButtonNumber,bool)));
     connect(pl->sdlGamepad,SIGNAL(axesValues(QListInt16)),this,SLOT(axesValues(QListInt16)));

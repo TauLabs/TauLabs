@@ -46,6 +46,10 @@ public:
     void extensionsInitialized();
     bool initialize(const QStringList & arguments, QString *errorString);
     void shutdown();
+
+#if defined(USE_SDL)
+    SDLGamepad *sdlGamepad;
+#endif
 public slots:
     bool beginGCSControl();
     bool endGCSControl();
@@ -55,6 +59,7 @@ public slots:
     bool setPitch(float value);
     bool setYaw(float value);
     bool setChannel(quint8 channel, float value);
+
 private:
     ManualControlSettings *manControlSettingsUAVO;
     GCSReceiver *m_gcsReceiver;
@@ -63,10 +68,6 @@ private:
     ManualControlSettings::Metadata metaBackup;
     bool hasControl;
     QTimer receiverActivity;
-
-#if defined(USE_SDL)
-    SDLGamepad *sdlGamepad;
-#endif
 
     GCSControlGadgetFactory *mf;
 private slots:
