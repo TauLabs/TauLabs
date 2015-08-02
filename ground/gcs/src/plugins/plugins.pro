@@ -225,12 +225,6 @@ KML {
     plugin_gcscontrolplugin.depends = plugin_coreplugin
     plugin_gcscontrolplugin.depends += plugin_uavobjects
     SUBDIRS += plugin_gcscontrolplugin
-
-    plugin_gcscontrolwidget.subdir = gcscontrolwidget
-    plugin_gcscontrolwidget.depends = plugin_coreplugin
-    plugin_gcscontrolwidget.depends += plugin_uavobjects
-    plugin_gcscontrolwidget.depends += plugin_gcscontrolplugin
-    SUBDIRS += plugin_gcscontrolwidget
 }
 
 # UAV Object Utility plugin

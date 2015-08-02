@@ -35,6 +35,7 @@
 #include "gcsreceiver.h"
 #include "extensionsystem/pluginmanager.h"
 #include "QTimer"
+#include "gcscontrolgadgetfactory.h"
 
 class GCSCONTROLSHARED_EXPORT GCSControl : public ExtensionSystem::IPlugin {
     Q_OBJECT
@@ -62,6 +63,12 @@ private:
     ManualControlSettings::Metadata metaBackup;
     bool hasControl;
     QTimer receiverActivity;
+
+#if defined(USE_SDL)
+    SDLGamepad *sdlGamepad;
+#endif
+
+    GCSControlGadgetFactory *mf;
 private slots:
     void objectsUpdated(UAVObject *);
     void receiverActivitySlot();
