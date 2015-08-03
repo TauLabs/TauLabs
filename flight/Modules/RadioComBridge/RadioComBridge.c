@@ -45,6 +45,13 @@
 #include <pios_eeprom.h>
 #endif
 
+// these objects are parsed locally for relaying to taranis
+#include "flightbatterystate.h"
+#include "flightstatus.h"
+#include "positionactual.h"
+#include "velocityactual.h"
+#include "baroaltitude.h"
+
 #include "pios_thread.h"
 #include "pios_queue.h"
 
@@ -703,12 +710,25 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle,
 			// some objects will send back a response to the remote modem
 			UAVTalkReceiveObject(inConnectionHandle);
 			break;
+		case FLIGHTBATTERYSTATE_OBJID:
+		case FLIGHTSTATUS_OBJID:
+		case POSITIONACTUAL_OBJID:
+		case VELOCITYACTUAL_OBJID:
+		case BAROALTITUDE_OBJID:
+
+			// process the battery voltage locally for relaying to taranis
+			UAVTalkReceiveObject(inConnectionHandle);
+			UAVTalkRelayPacket(inConnectionHandle, outConnectionHandle);
+			break;
 		case RFM22BSTATUS_OBJID:
 		{
 			uint32_t inst_id = UAVTalkGetPacketInstId(inConnectionHandle);
 			if (inst_id == 0) {
 				// instance 0 is from modem. do not pass this version
 			} else {
+				// process the remote link state locally for relaying to taranis
+				UAVTalkReceiveObject(inConnectionHandle);
+
 				// for remote modem
 				UAVTalkRelayPacket(inConnectionHandle, outConnectionHandle);
 			}
