@@ -87,20 +87,28 @@ ConfigStabilizationWidget::ConfigStabilizationWidget(QWidget *parent) : ConfigTa
     connect(m_stabilization->fullStickRatePitch, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
     connect(m_stabilization->fullStickRateYaw, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
 
+    m_stabilization->attitudeStickExpoPlot->init(ExpoCurve::AttitudeCurve, 0);
+    connect(m_stabilization->attitudeRollExpo, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
+    connect(m_stabilization->attitudePitchExpo, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
+    connect(m_stabilization->attitudeYawExpo, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
+    connect(m_stabilization->rateRollKp_3, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
+    connect(m_stabilization->ratePitchKp_4, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
+    connect(m_stabilization->rateYawKp_3, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
+
     /* The init value for horizontransisition of 85% / 0.85 as used in  here is copied/ the same as in the defined in /flight/Modules/Stabilization/stabilization.c
      * Please be aware of changes that are made there. */
     m_stabilization->horizonStickExpoPlot->init(ExpoCurve::HorizonCurve, 85);
     connect(m_stabilization->horizonRollExpo, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
     connect(m_stabilization->horizonPitchExpo, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
     connect(m_stabilization->horizonYawExpo, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
-    connect(m_stabilization->rateRollKp_3, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
-    connect(m_stabilization->ratePitchKp_4, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
-    connect(m_stabilization->rateYawKp_3, SIGNAL(valueChanged(double)), this, SLOT(showExpoPlot()));
 
     // set the flags for all Expo Plots, so that they get updatet after initialization
     update_exp.RateRoll = true;
     update_exp.RatePitch = true;
     update_exp.RateYaw = true;
+    update_exp.AttitudeRoll = true;
+    update_exp.AttitudePitch = true;
+    update_exp.AttitudeYaw = true;
     update_exp.HorizonAttitudeRoll = true;
     update_exp.HorizonAttitudePitch = true;
     update_exp.HorizonAttitudeYaw = true;
@@ -274,6 +282,9 @@ void ConfigStabilizationWidget::showExpoPlot()
            if ( (obj == m_stabilization->horizonRollExpo) ) {
             update_exp.HorizonRateRoll = true;
            }
+           if ( (obj == m_stabilization->rateRollKp_3) ) {
+            update_exp.AttitudeRoll = true;
+           }
         }
 
         else if ( (obj == m_stabilization->horizonPitchExpo) || (obj == m_stabilization->ratePitchKp_4) ) {
@@ -281,12 +292,18 @@ void ConfigStabilizationWidget::showExpoPlot()
            if ( (obj == m_stabilization->horizonPitchExpo) ) {
             update_exp.HorizonRatePitch = true;
            }
+           if ( (obj == m_stabilization->ratePitchKp_4) ) {
+               update_exp.AttitudePitch = true;
+           }
         }
 
         else if ( (obj == m_stabilization->horizonYawExpo) || (obj == m_stabilization->rateYawKp_3) ) {
            update_exp.HorizonAttitudeYaw = true;
            if ( (obj == m_stabilization->horizonYawExpo) ) {
             update_exp.HorizonRateYaw = true;
+           }
+           if ( (obj == m_stabilization->rateYawKp_3) ) {
+            update_exp.AttitudeYaw = true;
            }
         }
 
@@ -310,6 +327,17 @@ void ConfigStabilizationWidget::showExpoPlot()
            if ( (obj == m_stabilization->fullStickRateYaw) ) {
             update_exp.HorizonRateYaw = true;
            }
+        }
+        else if ( (obj == m_stabilization->attitudeRollExpo) ) {
+           update_exp.AttitudeRoll = true;
+        }
+
+        else if ( (obj == m_stabilization->attitudePitchExpo) ) {
+           update_exp.AttitudePitch = true;
+        }
+
+        else if ( (obj == m_stabilization->attitudeYawExpo) ) {
+           update_exp.AttitudeYaw = true;
         }
     }
 
@@ -351,6 +379,19 @@ void ConfigStabilizationWidget::showExpoPlot()
     }
     if (update_exp.RateYaw) {
       m_stabilization->rateStickExpoPlot->plotDataYaw(m_stabilization->rateYawExpo->value(), m_stabilization->fullStickRateYaw->value(), ExpoCurve::Y_Left);
+      update_exp.RateYaw = false;
+    }
+    // Attitude Curves
+    if (update_exp.AttitudeRoll) {
+      m_stabilization->attitudeStickExpoPlot->plotDataRoll(m_stabilization->attitudeRollExpo->value(), m_stabilization->rateRollKp_3->value(), ExpoCurve::Y_Left);
+      update_exp.RateRoll = false;
+    }
+    if (update_exp.AttitudePitch) {
+      m_stabilization->attitudeStickExpoPlot->plotDataPitch(m_stabilization->attitudePitchExpo->value(), m_stabilization->ratePitchKp_4->value(), ExpoCurve::Y_Left);
+      update_exp.RatePitch = false;
+    }
+    if (update_exp.AttitudeYaw) {
+      m_stabilization->attitudeStickExpoPlot->plotDataYaw(m_stabilization->attitudeYawExpo->value(), m_stabilization->rateYawKp_3->value(), ExpoCurve::Y_Left);
       update_exp.RateYaw = false;
     }
 }
