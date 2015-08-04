@@ -47,7 +47,7 @@
 #ifdef PIOS_MPU6000_SPI_HIGH_SPEED
 #define MPU6000_SPI_HIGH_SPEED              PIOS_MPU6000_SPI_HIGH_SPEED
 #else
-#define MPU6000_SPI_HIGH_SPEED              21100000	// slightly higher then 21MHz so that it is really 21MHz after prescaler calculations
+#define MPU6000_SPI_HIGH_SPEED              20000000	// should result in 10.5MHz clock on F4 targets like Quanton, and 18MHz on F1 targets like CC3D
 #endif
 #define MPU6000_SPI_LOW_SPEED               1000000
 

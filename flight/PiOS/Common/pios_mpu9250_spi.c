@@ -50,7 +50,7 @@
 #ifdef PIOS_MPU9250_SPI_HIGH_SPEED
 #define MPU9250_SPI_HIGH_SPEED              PIOS_MPU9250_SPI_HIGH_SPEED
 #else
-#define MPU9250_SPI_HIGH_SPEED              21100000	// slightly higher then 21MHz so that it is really 21MHz after prescaler calculations
+#define MPU9250_SPI_HIGH_SPEED              20000000	// should result in 10.5MHz clock on F4 targets like Sparky2
 #endif
 #define MPU9250_SPI_LOW_SPEED               300000
 
