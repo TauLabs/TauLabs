@@ -14,7 +14,8 @@ Item {
         elementName: "gcstelemetry-"+statusName
         sceneSize: sceneItem.sceneSize
 
-        property string statusName : ["Disconnected","HandshakeReq","HandshakeAck","Connected"][GCSTelemetryStats.Status]
+        // charCodeAt is a workaround for QT bug 37241
+        property string statusName : ["Disconnected","HandshakeReq","HandshakeAck","Connected"][GCSTelemetryStats.Status.charCodeAt(0)]
 
         // Force refresh of the arrow image when elementName changes
         onElementNameChanged: { generateSource() }
