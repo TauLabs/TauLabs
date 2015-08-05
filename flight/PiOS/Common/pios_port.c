@@ -5,6 +5,7 @@
 #include <pios_rcvr_priv.h>
 #include <pios_openlrs_rcvr_priv.h>
 #include <pios_rfm22b_rcvr_priv.h>
+#include <pios_hsum_priv.h>
 
 #include <manualcontrolsettings.h>
 
@@ -66,10 +67,10 @@ void PIOS_HAL_panic(uint32_t led_id, int32_t code) {
         while(1){
                 for (int32_t i = 0; i < code; i++) {
                         PIOS_WDG_Clear();
-                        PIOS_LED_Toggle(PIOS_LED_ALARM);
+                        PIOS_LED_Toggle(led_id);
                         PIOS_DELAY_WaitmS(200);
                         PIOS_WDG_Clear();
-                        PIOS_LED_Toggle(PIOS_LED_ALARM);
+                        PIOS_LED_Toggle(led_id);
                         PIOS_DELAY_WaitmS(200);
                 }
                 PIOS_DELAY_WaitmS(200);
@@ -142,7 +143,7 @@ static void PIOS_HAL_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm_c
 #endif
 
 #ifdef PIOS_INCLUDE_HSUM
-static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hsum_cfg,
+static void PIOS_HAL_configure_hsum(const struct pios_usart_cfg *pios_usart_hsum_cfg,
                 const struct pios_com_driver *pios_usart_com_driver,enum pios_hsum_proto *proto,
                 ManualControlSettingsChannelGroupsOptions channelgroup)
 {
@@ -251,9 +252,9 @@ void PIOS_HAL_configure_port(HwSharedPortTypesOptions port_type,
 		case HWSHARED_PORTTYPES_HOTTSUMD:
 		case HWSHARED_PORTTYPES_HOTTSUMH:
 #if defined(PIOS_INCLUDE_HSUM)
-			{
+			if (usart_dsm_hsum_cfg) { 
 				enum pios_hsum_proto proto;
-				switch (hw_flexiport) {
+				switch (port_type) {
 					case HWSHARED_PORTTYPES_HOTTSUMD:
 						proto = PIOS_HSUM_PROTO_SUMD;
 						break;
@@ -264,8 +265,7 @@ void PIOS_HAL_configure_port(HwSharedPortTypesOptions port_type,
 						PIOS_Assert(0);
 						break;
 				}
-				if (usart_dsm_hsum_cfg) {
-					PIOS_HAL_configure_hsum(usart_dsm_hsum_cfg, com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
+				PIOS_HAL_configure_hsum(usart_dsm_hsum_cfg, com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
 			}
 #endif  /* PIOS_INCLUDE_HSUM */
 			break;
