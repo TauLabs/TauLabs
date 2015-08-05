@@ -108,7 +108,9 @@ static StabilizationSettingsData settings;
 static TrimAnglesData trimAngles;
 static struct pios_queue *queue;
 float gyro_alpha = 0;
+static float gyro_alpha_temp = 0;
 static float dT = 0;
+static float dT_filtered = 0;
 float axis_lock_accum[3] = {0,0,0};
 uint8_t max_axis_lock = 0;
 uint8_t max_axislock_rate = 0;
@@ -218,6 +220,15 @@ static void stabilizationTask(void* parameters)
 		dT = PIOS_DELAY_DiffuS(timeval) * 1.0e-6f;
 		timeval = PIOS_DELAY_GetRaw();
 		
+		// exponential moving averaging (EMA) of dT to reduce jitter; ~200points
+		// to have more or less equivalent noise reduction to a normal N point moving averaging:  alpha = 2 / (N + 1)
+		dT_filtered = 0.01f * dT + (1.0f - 0.01f) * dT_filtered;
+
+		if (gyro_alpha_temp  < 0.0001f) // not trusting this to resolve to 0
+			gyro_alpha = 0;   // Gyro LPF should be disabled
+		else
+			gyro_alpha = expf(-gyro_alpha_temp * dT_filtered);
+
 		FlightStatusGet(&flightStatus);
 		StabilizationDesiredGet(&stabDesired);
 		AttitudeActualGet(&attitudeActual);
@@ -940,14 +951,19 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		// The dT has some jitter iteration to iteration that we don't want to
 		// make thie result unpredictable.  Still, it's nicer to specify the constant
 		// based on a time (in ms) rather than a fixed multiplier.  The error between
-		// update rates on OP (~300 Hz) and CC (~475 Hz) is negligible for this
-		// calculation
+		// update rates on OP (~300 Hz) and CC (~475 Hz) is negligible for this calculation
+		//fakeDt now only used for vbar_decay, for gyro filter now a real, but filtered, dT is used
 		const float fakeDt = 0.0025f;
 
-		if(settings.GyroTau < 0.0001f)
-			gyro_alpha = 0;   // not trusting this to resolve to 0
+		if (settings.GyroCutoff < 0.0001f)
+			gyro_alpha_temp = 0;   // not trusting this to resolve to 0; disable LPF when GyroCutoff = 0
+		else if ( (dT > 0) && (settings.GyroCutoff > (0.45f / dT)) ) { // disable LPF when GyroCutoff > 90% of F_nyquist (= Fs/2 = 1/(2*dT)); using here not the filtered dT, because this is at the start to low
+			gyro_alpha_temp = 0;
+			StabilizationSettingsGyroCutoffSet(&gyro_alpha_temp); // Set GyroCutoff to 0 to signalize in GCS, that it is disabled
+		}
 		else
-			gyro_alpha = (1 / (1 +  ((2.0f * (float)(M_PI) * dT) / settings.GyroTau) ));
+			gyro_alpha_temp = 2.0f * (float)(M_PI) * settings.GyroCutoff;
+
 
 		// Compute time constant for vbar decay term based on a tau
 		vbar_decay = expf(-fakeDt / settings.VbarTau);
