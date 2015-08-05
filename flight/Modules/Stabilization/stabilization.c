@@ -100,6 +100,12 @@ enum {
 	PID_MAX
 };
 
+enum {
+	GYRO_LPF_DISABLED  = 0,
+	GYRO_LPF_ENABLED,
+	GYRO_LPF_ENABLED_UPDATE,
+		};
+
 
 // Private variables
 static struct pios_thread *taskHandle;
@@ -108,7 +114,7 @@ static StabilizationSettingsData settings;
 static TrimAnglesData trimAngles;
 static struct pios_queue *queue;
 float gyro_alpha = 0;
-static float gyro_filter_enabled = 0;
+static uint8_t gyro_filter_enabled = 0;
 static float dT = 0;
 static float dT_filtered = 0;
 float axis_lock_accum[3] = {0,0,0};
@@ -200,7 +206,7 @@ static void stabilizationTask(void* parameters)
 	const uint32_t SYSTEM_IDENT_PERIOD = 75;
 	uint32_t system_ident_timeval = PIOS_DELAY_GetRaw();
 
-	uint16_t dT_filter_iteration = 1e3;
+	uint16_t dT_filter_iteration = 1001;
 
 	// Main task loop
 	zero_pids();
@@ -225,20 +231,20 @@ static void stabilizationTask(void* parameters)
 		// exponential moving averaging (EMA) of dT to reduce jitter; ~200points
 		// to have more or less equivalent noise reduction to a normal N point moving averaging:  alpha = 2 / (N + 1)
 		// run it only at the beginning for the first samples, to reduce CPU load, and the value should converge to a constant value
-		if (dT_filter_iteration-- > 1) {
+		if (dT_filter_iteration-- > 2) {
 			dT_filtered = 0.01f * dT + (1.0f - 0.01f) * dT_filtered;
 
-			if (gyro_filter_enabled  < 0.0001f) // not trusting this to resolve to 0
+			if (gyro_filter_enabled  == GYRO_LPF_DISABLED)
 				gyro_alpha = 0;   // Gyro LPF should be disabled
 			else
 				gyro_alpha = expf(-2.0f * (float)(M_PI) * settings.GyroCutoff * dT_filtered);
 		}
 
 
-		// new calculation of gyro_alpha when cutoff requency has changed, and dt_filtered is already calculated
-		if ( (gyro_filter_enabled  > 1.0001f) && (dT_filter_iteration == 1) ) {
+		// new calculation of gyro_alpha when cutoff frequency has changed, and dt_filtered is already calculated
+		if ( (gyro_filter_enabled  == GYRO_LPF_ENABLED_UPDATE) && (dT_filter_iteration == 1) ) {
 			gyro_alpha = expf(-2.0f * (float)(M_PI) * settings.GyroCutoff * dT_filtered);
-			gyro_filter_enabled = 1.0f;
+			gyro_filter_enabled = GYRO_LPF_ENABLED;
 		}
 
 		FlightStatusGet(&flightStatus);
@@ -315,7 +321,7 @@ static void stabilizationTask(void* parameters)
 		local_attitude_error[2] = circular_modulus_deg(local_attitude_error[2]);
 
 		static float gyro_filtered[3];
-		if (gyro_alpha < 0.0001f) {	// not trusting this to resolve to 0
+		if (gyro_filter_enabled  == GYRO_LPF_DISABLED) {
 			gyro_filtered[0] = gyrosData.x;
 			gyro_filtered[1] = gyrosData.y;
 			gyro_filtered[2] = gyrosData.z;
@@ -976,14 +982,17 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		//fakeDt now only used for vbar_decay, for gyro filter now a real, but filtered, dT is used
 		const float fakeDt = 0.0025f;
 
-		if (settings.GyroCutoff < 0.0001f)
-			gyro_filter_enabled = 0;   // not trusting this to resolve to 0; disable LPF when GyroCutoff = 0
-		else if ( (dT > 0) && (settings.GyroCutoff > (0.45f / dT)) ) { // disable LPF when GyroCutoff > 90% of F_nyquist (= Fs/2 = 1/(2*dT)); using here not the filtered dT, because this is at the start to low
-			gyro_filter_enabled = 0;
-			StabilizationSettingsGyroCutoffSet(&gyro_filter_enabled); // Set GyroCutoff to 0 to signalize in GCS, that it is disabled
+		if (settings.GyroCutoff < 0.0001f) {	// not trusting this to resolve to 0; disable LPF when GyroCutoff = 0
+			gyro_filter_enabled = GYRO_LPF_DISABLED;
+			settings.GyroCutoff = 0;
+		}
+		else if ( (dT > 0) && (settings.GyroCutoff > (0.45f / dT)) ) {	// disable LPF when GyroCutoff > 90% of F_nyquist (= Fs/2 = 1/(2*dT)); using here not the filtered dT, because this is at the start to low
+			gyro_filter_enabled = GYRO_LPF_DISABLED;
+			settings.GyroCutoff = 0;
+			StabilizationSettingsGyroCutoffSet(&settings.GyroCutoff); // Set GyroCutoff to 0 to signalize in GCS, that it is disabled
 		}
 		else
-			gyro_filter_enabled = 2; // indicating that the gyro LPF is enabled, but the Cutoff parameter has changed, so the recalculation is needed
+			gyro_filter_enabled = GYRO_LPF_ENABLED_UPDATE; // indicating that the gyro LPF is enabled, but the Cutoff parameter has changed, so the recalculation is needed
 
 
 		// Compute time constant for vbar decay term based on a tau
