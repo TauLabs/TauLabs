@@ -30,7 +30,7 @@
 	<field name="VbarPiroComp" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
 	<field name="VbarMaxAngle" units="deg" type="uint8" elements="1" defaultvalue="10"/>
 
-	<field name="GyroTau" units="" type="float" elements="1" defaultvalue="0.019"/>
+	<field name="GyroCutoff" units="Hz" type="float" elements="1" defaultvalue="40.6"/>
 	<field name="DerivativeCutoff" units="Hz" type="uint8" elements="1" defaultvalue="20"/>
 	<field name="DerivativeGamma" units="" type="float" elements="1" defaultvalue="1"/>
 
