@@ -616,8 +616,8 @@ void PIOS_HAL_configure_RFM22B(HwSharedRadioPortOptions radio_type,
 			}
 			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_RFM22B] = pios_rfm22brcvr_rcvr_id;
 		}
-	}
 #endif /* PIOS_INCLUDE_RFM22B_RCVR */
+	}
 
 	RFM22BStatusInstSet(1,&rfm22bstatus);
 }
