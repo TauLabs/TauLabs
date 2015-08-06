@@ -7,7 +7,7 @@
  *
  * @file       pios_board.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -32,49 +32,12 @@
 #include <openpilot.h>
 #include <board_hw_defs.c>
 #include <hwtaulink.h>
+#include <pios_port.h>
 #include <rfm22bstatus.h>
 
-#define PIOS_COM_TELEM_RX_BUF_LEN 256
-#define PIOS_COM_TELEM_TX_BUF_LEN 256
-
-#define PIOS_COM_TELEM_USB_RX_BUF_LEN 256
-#define PIOS_COM_TELEM_USB_TX_BUF_LEN 256
-
-#define PIOS_COM_TELEM_VCP_RX_BUF_LEN 256
-#define PIOS_COM_TELEM_VCP_TX_BUF_LEN 256
-
-#define PIOS_COM_RFM22B_RF_RX_BUF_LEN 256
-#define PIOS_COM_RFM22B_RF_TX_BUF_LEN 256
-
-#define PIOS_COM_RFM22B_RF_RX_BUF_LEN 256
-#define PIOS_COM_RFM22B_RF_TX_BUF_LEN 256
-
-#define PIOS_COM_BRIDGE_RX_BUF_LEN 65
-#define PIOS_COM_BRIDGE_TX_BUF_LEN 12
-
-#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-#define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-uintptr_t pios_com_debug_id;
-#endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
-
-uintptr_t pios_com_telem_usb_id;
-uintptr_t pios_com_telem_vcp_id;
-uintptr_t pios_com_vcp_id;
-uintptr_t pios_com_telem_uart_main_id;
-uintptr_t pios_com_telem_uart_flexi_id;
-uintptr_t pios_com_telem_uart_telem_id;
-uintptr_t pios_com_telemetry_id;
 #if defined(PIOS_INCLUDE_PPM)
 uintptr_t pios_ppm_rcvr_id;
 #endif
-#if defined(PIOS_INCLUDE_RFM22B)
-uint32_t pios_rfm22b_id;
-uintptr_t pios_com_rfm22b_id;
-uintptr_t pios_com_radio_id;
-#endif
-
-uint8_t *pios_uart_rx_buffer;
-uint8_t *pios_uart_tx_buffer;
 
 uintptr_t pios_uavo_settings_fs_id;
 
@@ -146,6 +109,10 @@ void PIOS_Board_Init(void) {
 	/* Initialize board specific USB data */
 	PIOS_USB_BOARD_DATA_Init();
 
+	// Configure the main port
+	HwTauLinkData hwTauLink;
+	HwTauLinkGet(&hwTauLink);
+
 	/* Flags to determine if various USB interfaces are advertised */
 	bool usb_cdc_present = false;
 
@@ -164,86 +131,23 @@ void PIOS_Board_Init(void) {
 	uintptr_t pios_usb_id;
 	PIOS_USB_Init(&pios_usb_id, &pios_usb_main_cfg);
 
-	/* Configure the USB HID port */
-	{
-		uintptr_t pios_usb_hid_id;
-		if (PIOS_USB_HID_Init(&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {
-			PIOS_Assert(0);
-		}
-		uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-		uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
-		PIOS_Assert(rx_buffer);
-		PIOS_Assert(tx_buffer);
-		if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_hid_com_driver, pios_usb_hid_id,
-					rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
-					tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
-			PIOS_Assert(0);
-		}
-	}
+	PIOS_HAL_configure_HID(HWSHARED_USB_HIDPORT_USBTELEMETRY,
+			pios_usb_id, &pios_usb_hid_cfg);
 
 	/* Configure the USB virtual com port (VCP) */
 #if defined(PIOS_INCLUDE_USB_CDC)
 	if (usb_cdc_present)
 	{
-		uintptr_t pios_usb_cdc_id;
-		if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
-			PIOS_Assert(0);
-		}
-		uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_VCP_RX_BUF_LEN);
-		uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_VCP_TX_BUF_LEN);
-		PIOS_Assert(rx_buffer);
-		PIOS_Assert(tx_buffer);
-		if (PIOS_COM_Init(&pios_com_telem_vcp_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-					rx_buffer, PIOS_COM_TELEM_VCP_RX_BUF_LEN,
-					tx_buffer, PIOS_COM_TELEM_VCP_TX_BUF_LEN)) {
-			PIOS_Assert(0);
-		}
+		PIOS_HAL_configure_CDC(hwTauLink.VCPPort, pios_usb_id,
+				&pios_usb_cdc_cfg);
 	}
 #endif
 
-	/* Allocate the uart buffers. */
-	pios_uart_rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_RX_BUF_LEN);
-	pios_uart_tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_TX_BUF_LEN);
-
-	// Configure the main port
-	HwTauLinkData hwTauLink;
-	HwTauLinkGet(&hwTauLink);
-
-	bool is_oneway   = hwTauLink.Radio == HWTAULINK_RADIO_PPM;
-	bool ppm_only    = hwTauLink.Radio == HWTAULINK_RADIO_PPM;
-	bool ppm_mode    = hwTauLink.Radio == HWTAULINK_RADIO_TELEMPPM || hwTauLink.Radio == HWTAULINK_RADIO_PPM;
-
-	// Configure the main serial port function
-	switch (hwTauLink.MainPort) {
-		case HWTAULINK_MAINPORT_TELEMETRY:
-		case HWTAULINK_MAINPORT_COMBRIDGE:
-			{
-				/* Configure the main port for uart serial */
-#ifndef PIOS_RFM22B_DEBUG_ON_TELEM
-				{
-					uintptr_t pios_usart1_id;
-					if (PIOS_USART_Init(&pios_usart1_id, &pios_usart_serial_cfg)) {
-						PIOS_Assert(0);
-					}
-					uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_RX_BUF_LEN);
-					uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_TX_BUF_LEN);
-					PIOS_Assert(rx_buffer);
-					PIOS_Assert(tx_buffer);
-					if (PIOS_COM_Init(&pios_com_telem_uart_telem_id, &pios_usart_com_driver, pios_usart1_id,
-								rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
-								tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
-						PIOS_Assert(0);
-					}
-
-					pios_com_telemetry_id = pios_com_telem_uart_telem_id;
-				}
-
-#endif
-				break;
-			}
-		case HWTAULINK_MAINPORT_DISABLED:
-			break;
-	}
+	PIOS_HAL_configure_port(hwTauLink.MainPort,
+			&pios_usart_serial_cfg, &pios_usart_com_driver,
+			/* no I2C, DSM, HSUM, SBUS, etc. */
+			NULL, NULL, NULL, PIOS_LED_ALARM,
+			NULL, NULL, 0, NULL, NULL, false);
 
 	// Configure the flexi port
 	switch (hwTauLink.PPMPort) {
@@ -266,148 +170,13 @@ void PIOS_Board_Init(void) {
 			break;
 	}
 
-	// Configure the USB VCP port
-	switch (hwTauLink.VCPPort) {
-		case HWTAULINK_VCPPORT_USBTELEMETRY:
-			PIOS_COM_TELEMETRY = pios_com_telem_vcp_id;
-			break;
-		case HWTAULINK_VCPPORT_COMBRIDGE:
-#if defined(PIOS_INCLUDE_COM)
-			{
-				uintptr_t pios_usb_cdc_id;
-				if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
-					PIOS_Assert(0);
-				}
-				uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
-				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
-				PIOS_Assert(rx_buffer);
-				PIOS_Assert(tx_buffer);
-				if (PIOS_COM_Init(&pios_com_vcp_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-							rx_buffer, PIOS_COM_BRIDGE_RX_BUF_LEN,
-							tx_buffer, PIOS_COM_BRIDGE_TX_BUF_LEN)) {
-					PIOS_Assert(0);
-				}
-			}
-#endif  /* PIOS_INCLUDE_COM */
-			break;
-		case HWTAULINK_VCPPORT_DEBUGCONSOLE:
-#if defined(PIOS_INCLUDE_COM)
-#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-			{
-				uintptr_t pios_usb_cdc_id;
-				if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
-					PIOS_Assert(0);
-				}
-				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
-				PIOS_Assert(tx_buffer);
-				if (PIOS_COM_Init(&pios_com_debug_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-							NULL, 0,
-							tx_buffer, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN)) {
-					PIOS_Assert(0);
-				}
-			}
-#endif  /* PIOS_INCLUDE_DEBUG_CONSOLE */
-#endif  /* PIOS_INCLUDE_COM */
-		case HWTAULINK_VCPPORT_DISABLED:
-			break;
-	}
+	const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 
-	// Initialize out status object.
-	RFM22BStatusData rfm22bstatus;
-	RFM22BStatusGet(&rfm22bstatus);
-
-	rfm22bstatus.BoardType     = bdinfo->board_type;
-	rfm22bstatus.BoardRevision = bdinfo->board_rev;
-
-	/* Initalize the RFM22B radio COM device. */
-	if (hwTauLink.MaxRfPower != HWTAULINK_MAXRFPOWER_0) {
-		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
-
-		// Configure the RFM22B device
-		const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
-		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
-			PIOS_Assert(0);
-		}
-
-		rfm22bstatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
-		rfm22bstatus.BoardRevision = PIOS_RFM22B_ModuleVersion(pios_rfm22b_id);
-
-		// Configure the radio com interface
-		uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_RFM22B_RF_RX_BUF_LEN);
-		uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_RFM22B_RF_TX_BUF_LEN);
-		PIOS_Assert(rx_buffer);
-		PIOS_Assert(tx_buffer);
-		if (PIOS_COM_Init(&pios_com_rfm22b_id, &pios_rfm22b_com_driver, pios_rfm22b_id,
-					rx_buffer, PIOS_COM_RFM22B_RF_RX_BUF_LEN,
-					tx_buffer, PIOS_COM_RFM22B_RF_TX_BUF_LEN)) {
-			PIOS_Assert(0);
-		}
-
-		// Set the RF data rate on the modem to ~2X the selected buad rate because the modem is half duplex.
-		enum rfm22b_datarate datarate = RFM22_datarate_64000;
-		switch (hwTauLink.MaxRfSpeed) {
-			case HWTAULINK_MAXRFSPEED_9600:
-				datarate = RFM22_datarate_9600;
-				break;
-			case HWTAULINK_MAXRFSPEED_19200:
-				datarate = RFM22_datarate_19200;
-				break;
-			case HWTAULINK_MAXRFSPEED_32000:
-				datarate = RFM22_datarate_32000;
-				break;
-			case HWTAULINK_MAXRFSPEED_64000:
-				datarate = RFM22_datarate_64000;
-				break;
-			case HWTAULINK_MAXRFSPEED_100000:
-				datarate = RFM22_datarate_100000;
-				break;
-			case HWTAULINK_MAXRFSPEED_192000:
-				datarate = RFM22_datarate_192000;
-				break;
-		}
-
-		/* Set the modem Tx poer level */
-		switch (hwTauLink.MaxRfPower) {
-			case HWTAULINK_MAXRFPOWER_125:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
-				break;
-			case HWTAULINK_MAXRFPOWER_16:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_1);
-				break;
-			case HWTAULINK_MAXRFPOWER_316:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_2);
-				break;
-			case HWTAULINK_MAXRFPOWER_63:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_3);
-				break;
-			case HWTAULINK_MAXRFPOWER_126:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_4);
-				break;
-			case HWTAULINK_MAXRFPOWER_25:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_5);
-				break;
-			case HWTAULINK_MAXRFPOWER_50:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_6);
-				break;
-			case HWTAULINK_MAXRFPOWER_100:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_7);
-				break;
-			default:
-				// do nothing
-				break;
-		}
-
-		// Set the radio configuration parameters.
-		PIOS_RFM22B_Config(pios_rfm22b_id, datarate, hwTauLink.MinChannel, hwTauLink.MaxChannel, hwTauLink.CoordID, is_oneway, ppm_mode, ppm_only);
-
-		// Reinitilize the modem to affect te changes.
-		PIOS_RFM22B_Reinit(pios_rfm22b_id);
-	} else {
-		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
-	}
-
-	// Update the object
-	RFM22BStatusSet(&rfm22bstatus);
+	PIOS_HAL_configure_RFM22B(hwTauLink.Radio, bdinfo->board_type,
+			bdinfo->board_rev, hwTauLink.MaxRfPower,
+			hwTauLink.MaxRfSpeed, NULL, rfm22b_cfg,
+			hwTauLink.MinChannel, hwTauLink.MaxChannel,
+			hwTauLink.CoordID);
 
 	// Update the com baud rate.
 	uint32_t comBaud = 9600;
@@ -431,6 +200,7 @@ void PIOS_Board_Init(void) {
 			comBaud = 115200;
 			break;
 	}
+
 	if (PIOS_COM_TELEMETRY) {
 		PIOS_COM_ChangeBaud(PIOS_COM_TELEMETRY, comBaud);
 	}

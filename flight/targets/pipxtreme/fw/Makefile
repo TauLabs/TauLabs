@@ -156,6 +156,7 @@ SRC += $(PIOSCOMMON)/pios_semaphore.c
 SRC += $(PIOSCOMMON)/pios_mutex.c
 SRC += $(PIOSCOMMON)/pios_thread.c
 SRC += $(PIOSCOMMON)/pios_queue.c
+SRC += $(PIOSCOMMON)/pios_port.c
 
 
 ## Libraries for flight calculations
