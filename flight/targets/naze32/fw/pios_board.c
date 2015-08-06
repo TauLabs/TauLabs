@@ -213,7 +213,7 @@ static /*const*/ struct pios_mpu60x0_cfg pios_mpu6050_cfg = {
 
 /**
  * One slot per selectable receiver group.
- *  eg. PWM, PPM, GCS, DSMMAINPORT, DSMFLEXIPORT, SBUS
+ *  eg. PWM, PPM, GCS, DSM, DSM, SBUS
  * NOTE: No slot in this map for NONE.
  */
 uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
