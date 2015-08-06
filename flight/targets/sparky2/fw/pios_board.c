@@ -127,38 +127,11 @@ static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
 };
 #endif /* PIOS_INCLUDE_HMC5883 */
 
-/* One slot per selectable receiver group.
- *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
- * NOTE: No slot in this map for NONE.
- */
-uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
-
-#define PIOS_COM_TELEM_RF_RX_BUF_LEN 512
-#define PIOS_COM_TELEM_RF_TX_BUF_LEN 512
-
-#define PIOS_COM_TELEM_USB_RX_BUF_LEN 65
-#define PIOS_COM_TELEM_USB_TX_BUF_LEN 65
-
-#define PIOS_COM_RFM22B_RF_RX_BUF_LEN 512
-#define PIOS_COM_RFM22B_RF_TX_BUF_LEN 512
-
-#define PIOS_COM_PICOC_RX_BUF_LEN 128
-#define PIOS_COM_PICOC_TX_BUF_LEN 128
-
-#define PIOS_COM_BRIDGE_RX_BUF_LEN 65
-#define PIOS_COM_BRIDGE_TX_BUF_LEN 12
-
 #define PIOS_COM_CAN_RX_BUF_LEN 256
 #define PIOS_COM_CAN_TX_BUF_LEN 256
 
-#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-#define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-uintptr_t pios_com_debug_id;
-#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
-
 uintptr_t pios_com_logging_id;
 uintptr_t pios_com_can_id;
-uint32_t pios_rfm22b_id;
 uintptr_t pios_internal_adc_id = 0;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;

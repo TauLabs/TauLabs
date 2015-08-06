@@ -9,8 +9,9 @@
 
 #include <manualcontrolsettings.h>
 
-extern uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
+uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
+uint32_t pios_rfm22b_id;
 uintptr_t pios_com_gps_id;
 uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_bridge_id;
@@ -25,12 +26,9 @@ uintptr_t pios_com_rf_id;
 uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_telem_rf_id;
 
-
-
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-// PENDING FACTOR VCP STUFF INTO HERE
-//uintptr_t pios_com_debug_id;
+uintptr_t pios_com_debug_id;
 #endif  /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
 #define PIOS_COM_TELEM_RF_RX_BUF_LEN 512
@@ -215,6 +213,7 @@ void PIOS_HAL_configure_port(HwSharedPortTypesOptions port_type,
 			break;
 		case HWSHARED_PORTTYPES_TELEMETRY:
 			PIOS_HAL_configure_com(usart_port_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, com_driver, &port_driver_id);
+			// Name of this should change XXX
 			target = &pios_com_telem_rf_id;
 			break;
 		case HWSHARED_PORTTYPES_GPS:
@@ -480,11 +479,11 @@ void PIOS_HAL_configure_RFM22B(HwSharedRadioPortOptions radio_type,
 	rfm22bstatus.BoardRevision = board_rev;
 
 	if (radio_type == HWSHARED_RADIOPORT_OPENLRS) {
+#if defined(PIOS_INCLUDE_OPENLRS_RCVR)
 		uintptr_t openlrs_id;
 
 		PIOS_OpenLRS_Init(&openlrs_id, PIOS_RFM22_SPI_PORT, 0, openlrs_cfg);
 
-#if defined(PIOS_INCLUDE_OPENLRS_RCVR)
 		{
 			uintptr_t pios_rfm22brcvr_id;
 			PIOS_OpenLRS_Rcvr_Init(&pios_rfm22brcvr_id, openlrs_id);
@@ -536,10 +535,12 @@ void PIOS_HAL_configure_RFM22B(HwSharedRadioPortOptions radio_type,
 			PIOS_Assert(0);
 		}
 
+#ifndef PIOS_NO_TELEM_ON_RF
 		/* Set Telemetry to use RFM22b if no other telemetry is configured (USB always overrides anyway) */
 		if (!pios_com_telem_rf_id) {
 			pios_com_telem_rf_id = pios_com_rf_id;
 		}
+#endif
 		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
 		
 		// XXX TODO: Factor these datarate and power switches

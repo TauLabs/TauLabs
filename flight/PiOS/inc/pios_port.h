@@ -13,6 +13,12 @@
 #include <pios_openlrs_priv.h>
 #include <pios_rfm22b_priv.h>
 
+/* One slot per selectable receiver group.
+ *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
+ * NOTE: No slot in this map for NONE.
+ */
+extern uintptr_t pios_rcvr_group_map[];
+
 void PIOS_HAL_panic(uint32_t led_id, int32_t code);
 void PIOS_HAL_configure_port(HwSharedPortTypesOptions port_type,
 		const struct pios_usart_cfg *usart_port_cfg,
