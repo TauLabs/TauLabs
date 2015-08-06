@@ -8,7 +8,7 @@
  *
  * @file       pios_dsm.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2014.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014-2015
  * @brief      Code bind and read Spektrum/JR DSMx satellite receiver serial stream
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -34,6 +34,10 @@
 #include "pios_dsm_priv.h"
 
 #if defined(PIOS_INCLUDE_DSM)
+
+#if !defined(PIOS_INCLUDE_RTC)
+#error PIOS_INCLUDE_RTC must be used to use DSM
+#endif
 
 /* Forward Declarations */
 static int32_t PIOS_DSM_Get(uintptr_t rcvr_id, uint8_t channel);
@@ -102,10 +106,12 @@ static void PIOS_DSM_Bind(struct pios_dsm_dev *dsm_dev, uint8_t bind)
 {
 	const struct pios_dsm_cfg *cfg = dsm_dev->cfg;
 
-	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Pin = cfg->bind.init.GPIO_Pin;
-	GPIO_InitStructure.GPIO_Speed = cfg->bind.init.GPIO_Speed;
+	GPIO_InitTypeDef GPIO_InitStructure = cfg->bind.init;
+#ifdef SMALLF1
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+#else
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+#endif
 
 	/* just to limit bind pulses */
 	if (bind > 10)
