@@ -49,7 +49,7 @@ extern void PIOS_MPU6000_SetSampleRate(uint16_t samplerate_hz);
 extern void PIOS_MPU6000_SetLPF(enum pios_mpu60x0_filter filter);
 extern bool PIOS_MPU6000_IRQHandler(void);
 
-extern void PIOS_MPU6000_SetGyroSubSamling(uint8_t *gyro_subsampling);
+extern void PIOS_MPU6000_SetGyroDownSamling(uint8_t *gyro_downsampling);
 
 #endif /* PIOS_MPU6000_H */
 

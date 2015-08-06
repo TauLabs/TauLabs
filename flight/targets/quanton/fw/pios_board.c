@@ -1363,9 +1363,9 @@ void PIOS_Board_Init(void) {
 	    pios_mpu6000_cfg.default_samplerate;
 	PIOS_MPU6000_SetSampleRate(mpu6000_samplerate);
 
-	uint8_t hw_gyro_subsampling[2];
-	HwQuantonGyroSubSamplingGet(&hw_gyro_subsampling[0]);
-	PIOS_MPU6000_SetGyroSubSamling(&hw_gyro_subsampling[0]);
+	uint8_t hw_gyro_downsampling[4];
+	HwQuantonGyroDownSamplingGet(&hw_gyro_downsampling[0]);
+	PIOS_MPU6000_SetGyroDownSamling(&hw_gyro_downsampling[0]);
 
 #endif
 
