@@ -464,8 +464,7 @@ void PIOS_Board_Init(void) {
 			&pios_usart_com_driver, NULL, NULL, NULL,
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_main_cfg, &pios_dsm_main_cfg,
-			MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, 0,
-			NULL, NULL, false);
+			0, NULL, NULL, false);
 
 	/* Configure FlexiPort */
 	uint8_t hw_flexiport;
@@ -477,7 +476,6 @@ void PIOS_Board_Init(void) {
 			&pios_i2c_flexiport_adapter_cfg, NULL,
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_flexi_cfg, &pios_dsm_flexi_cfg,
-			MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
 			hw_DSMxBind, NULL, NULL, false);
 
 #if defined(PIOS_INCLUDE_RFM22B)
@@ -513,7 +511,6 @@ void PIOS_Board_Init(void) {
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_rcvr_cfg,
 			&pios_dsm_rcvr_cfg,
-			MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
 			hw_DSMxBind, get_sbus_rcvr_cfg(bdinfo->board_rev),
 			&pios_sbus_cfg, get_sbus_toggle(bdinfo->board_rev));
 

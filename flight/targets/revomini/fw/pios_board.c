@@ -337,7 +337,6 @@ void PIOS_Board_Init(void) {
 	PIOS_HAL_configure_port(hw_mainport, &pios_usart_main_cfg,
 			&pios_usart_com_driver, NULL, NULL, NULL, PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_main_cfg, &pios_dsm_main_cfg,
-			MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
 			0 /* No bind on main port */, &pios_usart_sbus_main_cfg,
 			&pios_sbus_cfg, true);
 
@@ -349,7 +348,6 @@ void PIOS_Board_Init(void) {
 			&pios_usart_com_driver, &pios_i2c_flexiport_adapter_id,
 			&pios_i2c_flexiport_adapter_cfg, NULL, PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_flexi_cfg, &pios_dsm_flexi_cfg,
-			MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
 			hw_DSMxBind, NULL, NULL, false);
 
 	HwRevoMiniData hwRevoMini;

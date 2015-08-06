@@ -119,7 +119,6 @@ static void PIOS_HAL_configure_com (const struct pios_usart_cfg *usart_port_cfg,
 static void PIOS_HAL_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm_cfg,
                 const struct pios_dsm_cfg *pios_dsm_cfg,
                 const struct pios_com_driver *pios_usart_com_driver,
-                ManualControlSettingsChannelGroupsOptions channelgroup,
 		int bind)
 {
         uintptr_t pios_usart_dsm_id;
@@ -137,7 +136,7 @@ static void PIOS_HAL_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm_c
         if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
                 PIOS_Assert(0);
         }
-        pios_rcvr_group_map[channelgroup] = pios_dsm_rcvr_id;
+        pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM] = pios_dsm_rcvr_id;
 }
 
 #endif
@@ -176,7 +175,6 @@ void PIOS_HAL_configure_port(HwSharedPortTypesOptions port_type,
 /* TODO: future work to factor most of these away */
 	const struct pios_usart_cfg *usart_dsm_hsum_cfg,
 	const struct pios_dsm_cfg *dsm_cfg,
-	uintptr_t dsm_channelgroup,
 	int dsm_bind,
 	const struct pios_usart_cfg *sbus_rcvr_cfg,
 	const struct pios_sbus_cfg *sbus_cfg,
@@ -226,7 +224,7 @@ void PIOS_HAL_configure_port(HwSharedPortTypesOptions port_type,
 		case HWSHARED_PORTTYPES_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 			if (dsm_cfg && usart_dsm_hsum_cfg) {
-				PIOS_HAL_configure_dsm(usart_dsm_hsum_cfg, dsm_cfg, com_driver, dsm_channelgroup, dsm_bind);
+				PIOS_HAL_configure_dsm(usart_dsm_hsum_cfg, dsm_cfg, com_driver, dsm_bind);
 			}
 #endif  /* PIOS_INCLUDE_DSM */
 			break;
