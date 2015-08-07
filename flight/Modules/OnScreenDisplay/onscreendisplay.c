@@ -1291,6 +1291,9 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 
 		draw_image(page->GpsStatusPosX, page->GpsStatusPosY - image_gps.height / 2, &image_gps);
 
+		uint8_t pdop_1 = gps_data.PDOP;
+		uint8_t pdop_2 = roundf(10 * (gps_data.PDOP - pdop_1));
+
 		if (page->GpsStatus) {
 			switch (gps_data.Status)
 			{
@@ -1298,13 +1301,13 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 					sprintf(tmp_str, "NO");
 					break;
 				case GPSPOSITION_STATUS_FIX2D:
-					sprintf(tmp_str, "2D %d %0.1f", (int)gps_data.Satellites, (double)gps_data.HDOP);
+					sprintf(tmp_str, "2D %d %d.%d", (int)gps_data.Satellites, (int)pdop_1, pdop_2);
 					break;
 				case GPSPOSITION_STATUS_FIX3D:
-					sprintf(tmp_str, "3D %d %0.1f", (int)gps_data.Satellites, (double)gps_data.HDOP);
+					sprintf(tmp_str, "3D %d %d.%d", (int)gps_data.Satellites, (int)pdop_1, pdop_2);
 					break;
 				case GPSPOSITION_STATUS_DIFF3D:
-					sprintf(tmp_str, "D3D %d %0.1f", (int)gps_data.Satellites, (double)gps_data.HDOP);
+					sprintf(tmp_str, "3D %d %d.%d", (int)gps_data.Satellites, (int)pdop_1, pdop_2);
 					break;
 				default:
 					sprintf(tmp_str, "NOGPS");
