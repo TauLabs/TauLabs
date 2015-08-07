@@ -320,10 +320,6 @@ int32_t PIOS_MPU9250_SetSampleRate(uint16_t samplerate_hz)
 		// the sample rate divisor cannot be used in this case..
 		return 0;
 
-	if ((dev->accel_filter == PIOS_MPU9250_ACCEL_LOWPASS_460_HZ) || (dev->accel_filter == PIOS_MPU9250_ACCEL_LOWPASS_3600_HZ))
-		// the sample rate divisor cannot be used in this case..
-		return 0;
-
 	// limit samplerate to filter frequency
 	if (samplerate_hz > filter_frequency)
 		samplerate_hz = filter_frequency;
