@@ -46,6 +46,7 @@
 
 // for XML object
 #include <QDomDocument>
+#include <QXmlQuery>
 
 // for file dialog and error messages
 #include <QFileDialog>
@@ -337,7 +338,39 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
         }
     }
 
-    return doc.toString(4);
+    // This sorts the XML <object> children's <name=".."> attribute by alphabetical order. This
+    // is particularly helpful when comparing *.uav files to each other.
+    QString preliminaryXMLDoc = doc.toString(4);
+    QString alphabetizedXMLDoc;
+
+    QString xmlAlpheticalSorter(" \
+        <xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"> \
+          <xsl:output method=\"xml\" indent=\"yes\" omit-xml-declaration=\"no\"/> \
+          <xsl:strip-space elements=\"*\"/> \
+          \
+          <xsl:template match=\"@* | node()\"> \
+            <xsl:copy> \
+              <xsl:apply-templates select=\"@* | node()\"/> \
+            </xsl:copy> \
+          </xsl:template> \
+          \
+          <xsl:template match=\"settings\"> \
+            <xsl:copy> \
+              <xsl:apply-templates select=\"@*\" /> \
+              <xsl:apply-templates select=\"object\"> \
+                <xsl:sort select=\"@name\" data-type=\"text\"/> \
+              </xsl:apply-templates> \
+            </xsl:copy> \
+          </xsl:template> \
+        </xsl:stylesheet> \
+    ");
+
+    QXmlQuery query(QXmlQuery::XSLT20);
+    query.setFocus(preliminaryXMLDoc);
+    query.setQuery(xmlAlpheticalSorter);
+    query.evaluateTo(&alphabetizedXMLDoc);
+
+    return alphabetizedXMLDoc;
 }
 
 // Slot called by the menu manager on user action
