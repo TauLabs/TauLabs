@@ -45,6 +45,8 @@
 
 	<field name="CoordinatedFlightYawPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="0,0.1,0.5" limits="%BE:0:1,%BE:0:1, "/>
 
+	<field name="RatePiroComp" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
+
 	<access gcs="readwrite" flight="readwrite"/>
 	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 	<telemetryflight acked="true" updatemode="onchange" period="0"/>
