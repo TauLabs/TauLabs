@@ -28,6 +28,7 @@
 #include "gcscontrolgadgetoptionspage.h"
 #include "gcscontrolgadgetconfiguration.h"
 #include "ui_gcscontrolgadgetoptionspage.h"
+#include "gcscontrol.h"
 
 #include <QFileDialog>
 #include <QtAlgorithms>
@@ -40,7 +41,7 @@ GCSControlGadgetOptionsPage::GCSControlGadgetOptionsPage(GCSControlGadgetConfigu
     options_page = NULL;
 
 #if defined(USE_SDL)
-    sdlGamepad = dynamic_cast<GCSControlWidgetPlugin*>(parent)->sdlGamepad;
+    sdlGamepad = dynamic_cast<GCSControl*>(parent)->sdlGamepad;
 #endif
 }
 
