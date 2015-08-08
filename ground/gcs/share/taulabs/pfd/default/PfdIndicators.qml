@@ -40,14 +40,13 @@ Item {
     // GPS status text
     Text {
         id: gps_text
-        text: "GPS: " + GPSPosition.Satellites + "\nPDP: " + GPSPosition.PDOP.toFixed(2) + "\nACC: " + GPSPosition.Accuracy.toFixed(2)
+        text: "GPS: " + GPSPosition.Satellites.charCodeAt(0) + "\nPDP: " + GPSPosition.PDOP.toFixed(2) + "\nACC: " + GPSPosition.Accuracy.toFixed(2)
         color: "white"
         font.family: "Arial"
         font.pixelSize: telemetry_status.height * 0.55
 
-        // Non-float types are not properly getting exported to QML environment,
-        // so we can't do this (or print the satellite count above)
-        //visible: GPSPosition.Satellites > 0
+        // charCodeAt to work around QTBUG-37241.
+        visible: GPSPosition.Satellites.charCodeAt(0) > 0
 
         property variant scaledBounds: svgRenderer.scaledElementBounds("pfd.svg", "gps-txt")
         x: Math.floor(scaledBounds.x * sceneItem.width)
