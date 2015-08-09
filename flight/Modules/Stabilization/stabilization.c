@@ -301,13 +301,13 @@ static void stabilizationTask(void* parameters)
 		static uint8_t previous_mode[MAX_AXES] = {255,255,255};
 		bool error = false;
 
+
 		//Run the selected stabilization algorithm on each axis:
 		for(uint8_t i=0; i< MAX_AXES; i++)
 		{
 			// Check whether this axis mode needs to be reinitialized
 			bool reinit = (stabDesired.StabilizationMode[i] != previous_mode[i]);
 			previous_mode[i] = stabDesired.StabilizationMode[i];
-
 			// Apply the selected control law
 			switch(stabDesired.StabilizationMode[i])
 			{
@@ -324,7 +324,35 @@ static void stabilizationTask(void* parameters)
 
 					break;
 
-				case STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE:
+			case STABILIZATIONDESIRED_STABILIZATIONMODE_ACRO:
+					// this implementation is based on the Openpilot/Librepilot Acro+ flightmode
+					// and our existing rate & MWRate flightmodes
+					if(reinit)
+							pids[PID_RATE_ROLL + i].iAccumulator = 0;
+
+					// The unscaled input (-1,1)
+					float *raw_input = &stabDesired.Roll;
+
+					// The factor for gyro suppression / mixing raw stick input into the output; scaled by raw stick input
+					float factor = fabsf(raw_input[i]) * settings.AcroInsanityFactor;
+
+					// Store to rate desired variable for storing to UAVO
+					rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
+
+					// Zero integral for aggressive maneuvers, like it is done for MWRate
+					if ((i < 2 && fabsf(gyro_filtered[i]) > 150.0f) ||
+											(i == 0 && fabsf(raw_input[i]) > 0.2f)) {
+							pids[PID_RATE_ROLL + i].iAccumulator = 0;
+							pids[PID_RATE_ROLL + i].i = 0;
+							}
+
+					// Compute the inner loop
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],	 rateDesiredAxis[i],	gyro_filtered[i], dT);
+					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
+					actuatorDesiredAxis[i] = factor * raw_input[i] + (1.0f - factor) * actuatorDesiredAxis[i];
+
+					break;
+      case STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE:
 					if(reinit) {
 						pids[PID_ATT_ROLL + i].iAccumulator = 0;
 						pids[PID_RATE_ROLL + i].iAccumulator = 0;
@@ -389,9 +417,6 @@ static void stabilizationTask(void* parameters)
 					if(reinit) {
 						pids[PID_RATE_ROLL + i].iAccumulator = 0;
 					}
-
-					// The unscaled input (-1,1)
-					float *raw_input = &stabDesired.Roll;
 
 					// Do not allow outer loop integral to wind up in this mode since the controller
 					// is often disengaged.

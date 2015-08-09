@@ -45,6 +45,8 @@
 
 	<field name="CoordinatedFlightYawPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="0,0.1,0.5" limits="%BE:0:1,%BE:0:1, "/>
 
+	<field name="AcroInsanityFactor" units="percent" type="float" elements="1" defaultvalue="40" limits="%BE:0:100"/>
+  
 	<access gcs="readwrite" flight="readwrite"/>
 	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 	<telemetryflight acked="true" updatemode="onchange" period="0"/>
