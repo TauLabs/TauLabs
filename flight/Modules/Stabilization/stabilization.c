@@ -231,21 +231,19 @@ static void stabilizationTask(void* parameters)
 		// exponential moving averaging (EMA) of dT to reduce jitter; ~200points
 		// to have more or less equivalent noise reduction to a normal N point moving averaging:  alpha = 2 / (N + 1)
 		// run it only at the beginning for the first samples, to reduce CPU load, and the value should converge to a constant value
-		if (dT_filter_iteration-- > 2) {
+		if (dT_filter_iteration >= 1) {
+			dT_filter_iteration--;
 			dT_filtered = 0.01f * dT + (1.0f - 0.01f) * dT_filtered;
-
-			if (gyro_filter_enabled  == GYRO_LPF_DISABLED)
-				gyro_alpha = 0;   // Gyro LPF should be disabled
-			else
-				gyro_alpha = expf(-2.0f * (float)(M_PI) * settings.GyroCutoff * dT_filtered);
 		}
 
 
-		// new calculation of gyro_alpha when cutoff frequency has changed, and dt_filtered is already calculated
-		if ( (gyro_filter_enabled  == GYRO_LPF_ENABLED_UPDATE) && (dT_filter_iteration == 1) ) {
+		// new calculation of gyro_alpha when cutoff frequency has changed, or dt_filtered is not already completly calculated
+		if ( (gyro_filter_enabled  == GYRO_LPF_ENABLED_UPDATE) || (dT_filter_iteration > 0) ) {
 			gyro_alpha = expf(-2.0f * (float)(M_PI) * settings.GyroCutoff * dT_filtered);
 			gyro_filter_enabled = GYRO_LPF_ENABLED;
 		}
+		else
+			gyro_filter_enabled = GYRO_LPF_DISABLED;
 
 		FlightStatusGet(&flightStatus);
 		StabilizationDesiredGet(&stabDesired);
@@ -982,7 +980,10 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		//fakeDt now only used for vbar_decay, for gyro filter now a real, but filtered, dT is used
 		const float fakeDt = 0.0025f;
 
-		if (settings.GyroCutoff < 0.0001f) {	// not trusting this to resolve to 0; disable LPF when GyroCutoff = 0
+		//TODO: if the infrastructure for alarms will be more advanced in the future,
+		//      we should assert a alarm here when GyroCutoff > 90% of F_nyquist and LPF gets disabled
+
+		if (settings.GyroCutoff < 1.0f) {	// disable LPF when GyroCutoff < 1.0 Hz
 			gyro_filter_enabled = GYRO_LPF_DISABLED;
 			settings.GyroCutoff = 0;
 		}
