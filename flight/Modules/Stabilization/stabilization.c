@@ -58,11 +58,13 @@
 
 // Math libraries
 #include "coordinate_conversions.h"
+#include "physical_constants.h"
 #include "pid.h"
 #include "misc_math.h"
 
 // Includes for various stabilization algorithms
 #include "virtualflybar.h"
+#include "rate.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 1
@@ -312,16 +314,17 @@ static void stabilizationTask(void* parameters)
 			switch(stabDesired.StabilizationMode[i])
 			{
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_RATE:
-					if(reinit)
-						pids[PID_RATE_ROLL + i].iAccumulator = 0;
+					rateDesiredAxis[i] = stabDesiredAxis[i];
 
-					// Store to rate desired variable for storing to UAVO
-					rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
-
-					// Compute the inner loop
-					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_RATE_ROLL + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
-					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
-
+					// Run a gyro rate stabilization algorithm on this axis
+					stabilization_rate(gyro_filtered[i],
+									   rateDesiredAxis[i],
+									   &actuatorDesiredAxis[i],
+									   dT,
+									   reinit,
+									   i,
+									   &pids[PID_RATE_ROLL + i],
+									   &settings);
 					break;
 
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE:
@@ -696,6 +699,27 @@ static void stabilizationTask(void* parameters)
 			}
 		}
 
+		if (settings.RatePiroComp == STABILIZATIONSETTINGS_RATEPIROCOMP_TRUE &&
+        pids[PID_RATE_ROLL + 0].iLim > 1e-3f &&
+        pids[PID_RATE_ROLL + 1].iLim > 1e-3f) {
+        float angleYaw = gyro_filtered[2] * DEG2RAD * dT;
+        float sinYaw = sinf(angleYaw);
+        float cosYaw = cosf(angleYaw);
+        float rollAccumulator = pids[PID_RATE_ROLL + 0].iAccumulator / pids[PID_RATE_ROLL + 0].iLim;
+        float pitchAccumulator = pids[PID_RATE_ROLL + 1].iAccumulator / pids[PID_RATE_ROLL + 1].iLim;
+
+        // Rotate em for magic
+        pids[PID_RATE_ROLL + 0].iAccumulator =
+            pids[PID_RATE_ROLL + 0].iLim *
+            (cosYaw * rollAccumulator -
+             sinYaw * pitchAccumulator);
+
+        pids[PID_RATE_ROLL + 1].iAccumulator =
+            pids[PID_RATE_ROLL + 1].iLim *
+            (cosYaw * pitchAccumulator +
+             sinYaw * rollAccumulator);
+    }
+
 		if (settings.VbarPiroComp == STABILIZATIONSETTINGS_VBARPIROCOMP_TRUE)
 			stabilization_virtual_flybar_pirocomp(gyro_filtered[2], dT);
 
@@ -731,8 +755,6 @@ static void stabilizationTask(void* parameters)
 			AlarmsClear(SYSTEMALARMS_ALARM_STABILIZATION);
 	}
 }
-
-
 /**
  * Clear the accumulators and derivatives for all the axes
  */
