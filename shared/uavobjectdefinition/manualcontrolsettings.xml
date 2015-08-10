@@ -124,9 +124,9 @@
 		<field name="DisarmTime" units="ms" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="1000"/>
  
 		<!-- Note these options should be identical to those in StabilizationDesired.StabilizationMode -->
-		<field name="Stabilization1Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
-		<field name="Stabilization2Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
-		<field name="Stabilization3Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
+		<field name="Stabilization1Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Acro,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
+		<field name="Stabilization2Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Acro,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
+		<field name="Stabilization3Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Acro,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
 
 		<!-- Note these options values should be identical to those defined in FlightMode -->
 		<field name="FlightModeNumber" units="" type="uint8" elements="1" defaultvalue="3"/>
