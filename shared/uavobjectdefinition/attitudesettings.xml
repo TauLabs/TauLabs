@@ -4,7 +4,7 @@
         <field name="BoardRotation" units="deg*100" type="int16" elementnames="Roll,Pitch,Yaw" defaultvalue="0,0,0"/>
         <field name="MagKp" units="channel" type="float" elements="1" defaultvalue="0.05"/>
         <field name="MagKi" units="channel" type="float" elements="1" defaultvalue="0.0001"/>
-        <field name="AccelKp" units="channel" type="float" elements="1" defaultvalue="0.05"/>
+        <field name="AccelKp" units="channel" type="float" elements="1" defaultvalue="0.035"/>
         <field name="AccelKi" units="channel" type="float" elements="1" defaultvalue="0.0001"/>
         <field name="AccelTau" units="" type="float" elements="1" defaultvalue="0.1"/>
         <field name="VertPositionTau" units="" type="float" elements="1" defaultvalue="2"/>
