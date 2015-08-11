@@ -32,7 +32,7 @@
 #include <openpilot.h>
 #include <board_hw_defs.c>
 #include <hwtaulink.h>
-#include <pios_port.h>
+#include <pios_hal.h>
 #include <rfm22bstatus.h>
 
 #if defined(PIOS_INCLUDE_PPM)

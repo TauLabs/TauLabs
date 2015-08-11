@@ -1,5 +1,5 @@
-#ifndef PIOS_PORT_H
-#define PIOS_PORT_H
+#ifndef PIOS_HAL_H
+#define PIOS_HAL_H
 
 #include <uavobjectmanager.h> /* XXX TODO */
 #include <hwshared.h>

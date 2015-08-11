@@ -37,7 +37,7 @@
 #include "board_hw_defs.c"
 
 #include <pios.h>
-#include <pios_port.h>
+#include <pios_hal.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 #include "hwsparky2.h"

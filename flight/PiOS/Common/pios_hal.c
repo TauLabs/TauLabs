@@ -1,5 +1,30 @@
+/**
+ ******************************************************************************
+ * @file       pios_hal.c
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015
+ * @addtogroup PIOS PIOS Core hardware abstraction layer
+ * @{
+ * @addtogroup PIOS_HAL Hardware abstraction layer files
+ * @{
+ * @brief Code to initialize ports/devices for multiple targets
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
 #include <pios.h>
-#include <pios_port.h>
+#include <pios_hal.h>
 
 #include <pios_com_priv.h>
 #include <pios_rcvr_priv.h>
@@ -11,19 +36,46 @@
 
 uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
+#if defined(PIOS_INCLUDE_RFM22B)
 uint32_t pios_rfm22b_id;
-uintptr_t pios_com_gps_id;
-uintptr_t pios_com_vcp_id;
-uintptr_t pios_com_bridge_id;
-uintptr_t pios_com_overo_id;
-uintptr_t pios_com_mavlink_id;
-uintptr_t pios_com_hott_id;
-uintptr_t pios_com_frsky_sensor_hub_id;
-uintptr_t pios_com_frsky_sport_id;
-uintptr_t pios_com_lighttelemetry_id;
-uintptr_t pios_com_picoc_id;
 uintptr_t pios_com_rf_id;
+#endif
+
+uintptr_t pios_com_gps_id;
+uintptr_t pios_com_bridge_id;
+
+#if defined(PIOS_INCLUDE_MAVLINK)
+uintptr_t pios_com_mavlink_id;
+#endif
+
+#if defined(PIOS_INCLUDE_HOTT) 
+uintptr_t pios_com_hott_id;
+#endif
+
+#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB)
+uintptr_t pios_com_frsky_sensor_hub_id;
+#endif
+
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
+uintptr_t pios_com_frsky_sport_id;
+#endif
+
+#if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
+uintptr_t pios_com_lighttelemetry_id;
+#endif
+
+#if defined(PIOS_INCLUDE_PICOC)
+uintptr_t pios_com_picoc_id;
+#endif
+
+#if defined(PIOS_INCLUDE_USB_HID) || defined(PIOS_INCLUDE_USB_CDC)
 uintptr_t pios_com_telem_usb_id;
+#endif
+
+#if defined(PIOS_INCLUDE_USB_CDC)
+uintptr_t pios_com_vcp_id;
+#endif
+
 uintptr_t pios_com_telem_rf_id;
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
@@ -398,7 +450,7 @@ void PIOS_HAL_configure_CDC(HwSharedUSB_VCPPortOptions port_type,
 #endif  /* PIOS_INCLUDE_COM */
 			break;
 		case HWSHARED_USB_VCPPORT_PICOC:
-#if defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 			{
 				uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_RX_BUF_LEN);
 				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_TX_BUF_LEN);
@@ -410,7 +462,7 @@ void PIOS_HAL_configure_CDC(HwSharedUSB_VCPPortOptions port_type,
 					PIOS_Assert(0);
 				}
 			}
-#endif  /* PIOS_INCLUDE_COM */
+#endif  /* PIOS_INCLUDE_PICOC */
 			break;
 	}
 }
