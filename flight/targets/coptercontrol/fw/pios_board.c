@@ -856,11 +856,13 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
 	case HWCOPTERCONTROL_RCVRPORT_PPM:
+	case HWCOPTERCONTROL_RCVRPORT_PPMONPIN8:
 	case HWCOPTERCONTROL_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
 		{
 			uintptr_t pios_ppm_id;
-			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
+			PIOS_PPM_Init(&pios_ppm_id,
+					(hw_rcvrport == HWCOPTERCONTROL_RCVRPORT_PPMONPIN8) ? &pios_ppm_pin8_cfg : &pios_ppm_cfg);
 
 			uintptr_t pios_ppm_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
@@ -918,6 +920,7 @@ void PIOS_Board_Init(void) {
 		case HWCOPTERCONTROL_RCVRPORT_DISABLED:
 		case HWCOPTERCONTROL_RCVRPORT_PWM:
 		case HWCOPTERCONTROL_RCVRPORT_PPM:
+		case HWCOPTERCONTROL_RCVRPORT_PPMONPIN8:
 		case HWCOPTERCONTROL_RCVRPORT_PPMPWM:
 			PIOS_Servo_Init(&pios_servo_cfg);
 			break;
