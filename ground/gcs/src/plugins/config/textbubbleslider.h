@@ -29,7 +29,7 @@
 #define TEXTBUBBLESLIDER_H
 
 #include <QSlider>
-#include <QtDesigner/QDesignerExportWidget>
+#include <QtUiPlugin/QDesignerExportWidget>
 
 class TextBubbleSlider : public QSlider
 {
