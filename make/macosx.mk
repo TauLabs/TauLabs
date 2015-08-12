@@ -38,6 +38,6 @@ endif
 export PYTHON
 
 
-QT_SPEC=macx-g++
+QT_SPEC ?= macx-g++
 
 UAVOBJGENERATOR="$(BUILD_DIR)/ground/uavobjgenerator/uavobjgenerator"
