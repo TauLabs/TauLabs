@@ -9,7 +9,7 @@
 # misc tools
 RM=rm
 
-QT_SPEC=linux-g++
+QT_SPEC ?= linux-g++
 
 # Check for and find Python 2
 
