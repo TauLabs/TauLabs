@@ -867,7 +867,7 @@ static void *read_thread(void *param)
 }
 
 
-hid_device * HID_API_EXPORT hid_open_path(const char *path)
+HID_API_EXPORT hid_device * hid_open_path(const char *path)
 {
 	hid_device *dev = NULL;
 
