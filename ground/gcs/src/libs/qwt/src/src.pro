@@ -42,12 +42,6 @@ CONFIG(lib_bundle) {
     FRAMEWORK_HEADERS.path = Headers
     QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
 }
-else {
-
-    headers.files  = $${HEADERS}
-    headers.path   = $${QWT_INSTALL_HEADERS}
-    INSTALLS += headers
-}
 
 contains(QWT_CONFIG, QwtPkgConfig) {
 
