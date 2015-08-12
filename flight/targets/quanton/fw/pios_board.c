@@ -43,8 +43,6 @@
 #include "hwquanton.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
-#include "opticalflowsettings.h"
-
 
 /**
  * Sensor configurations
@@ -110,18 +108,6 @@ static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 	.temperature_interleaving = 1,
 };
 #endif /* PIOS_INCLUDE_MS5611 */
-
-/**
- * Configuration for the PX4Flow
- */
-#if defined(PIOS_INCLUDE_PX4FLOW)
-#include "pios_px4flow_priv.h"
-static struct pios_px4flow_cfg pios_px4flow_cfg = {
-	.rotation.roll_D100  = 0, // in [deg * 100]
-	.rotation.pitch_D100 = 0, // in [deg * 100]
-	.rotation.yaw_D100   = 0, // in [deg * 100]
-};
-#endif /* PIOS_INCLUDE_PX4FLOW */
 
 /**
  * Configuration for the MPU6000 chip
@@ -226,6 +212,7 @@ uintptr_t pios_internal_adc_id;
 uintptr_t pios_com_frsky_sport_id;
 
 uintptr_t streamfs_id;
+uintptr_t external_i2c_adapter_id = 0;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -418,7 +405,6 @@ void PIOS_Board_Init(void) {
 
 	HwQuantonInitialize();
 	ModuleSettingsInitialize();
-	OpticalFlowSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
 	/* Initialize the real-time clock and its associated tick */
@@ -639,6 +625,8 @@ void PIOS_Board_Init(void) {
 		if (PIOS_I2C_CheckClear(pios_i2c_usart1_adapter_id) != 0)
 			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
+		external_i2c_adapter_id = pios_i2c_usart1_adapter_id;
+
 #if defined(PIOS_INCLUDE_HMC5883)
 		{
 			uint8_t Magnetometer;
@@ -654,18 +642,6 @@ void PIOS_Board_Init(void) {
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */
 
-  #if defined(PIOS_INCLUDE_PX4FLOW)
-		OpticalFlowSettingsData opticalFlowSettings;
-		OpticalFlowSettingsGet(&opticalFlowSettings);
-		if (opticalFlowSettings.SensorType == OPTICALFLOWSETTINGS_SENSORTYPE_PX4FLOW) {
-			pios_px4flow_cfg.rotation.roll_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_ROLL];
-			pios_px4flow_cfg.rotation.pitch_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_PITCH];
-			pios_px4flow_cfg.rotation.yaw_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_YAW];
-			if (PIOS_PX4Flow_Init(&pios_px4flow_cfg, pios_i2c_usart1_adapter_id) != 0) {
-				panic(10);
-			}
-		}
-  #endif /* PIOS_INCLUDE_PX4FLOW */
 #endif /* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART1_DSM:
@@ -887,6 +863,8 @@ void PIOS_Board_Init(void) {
 		if (PIOS_I2C_CheckClear(pios_i2c_usart3_adapter_id) != 0)
 			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
+		external_i2c_adapter_id = pios_i2c_usart3_adapter_id;
+
 #if defined(PIOS_INCLUDE_HMC5883)
 		{
 			uint8_t Magnetometer;
@@ -901,20 +879,6 @@ void PIOS_Board_Init(void) {
 			}
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */
-
-  #if defined(PIOS_INCLUDE_PX4FLOW)
-		OpticalFlowSettingsData opticalFlowSettings;
-		OpticalFlowSettingsGet(&opticalFlowSettings);
-		if (opticalFlowSettings.SensorType == OPTICALFLOWSETTINGS_SENSORTYPE_PX4FLOW) {
-			pios_px4flow_cfg.rotation.roll_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_ROLL];
-			pios_px4flow_cfg.rotation.pitch_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_PITCH];
-			pios_px4flow_cfg.rotation.yaw_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_YAW];
-			if (PIOS_PX4Flow_Init(&pios_px4flow_cfg, pios_i2c_usart3_adapter_id) != 0) {
-				panic(10);
-			}
-		}
-  #endif /* PIOS_INCLUDE_PX4FLOW */
-
 
 #endif	/* PIOS_INCLUDE_I2C */
 		break;

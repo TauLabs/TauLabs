@@ -36,6 +36,11 @@
 #include "pios_queue.h"
 #include "misc_math.h"
 
+#if defined(PIOS_INCLUDE_PX4FLOW)
+#include "pios_px4flow_priv.h"
+extern uintptr_t external_i2c_adapter_id;
+#endif /* PIOS_INCLUDE_PX4FLOW */
+
 // UAVOs
 #include "accels.h"
 #include "attitudeactual.h"
@@ -44,6 +49,7 @@
 #include "gyros.h"
 #include "gyrosbias.h"
 #include "homelocation.h"
+#include "opticalflowsettings.h"
 #include "opticalflow.h"
 #include "sensorsettings.h"
 #include "rangefinderdistance.h"
@@ -135,12 +141,31 @@ static int32_t SensorsInitialize(void)
 	SensorSettingsInitialize();
 	INSSettingsInitialize();
 
-	if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_RANGEFINDER) != NULL ) {
-		RangefinderDistanceInitialize();
+	OpticalFlowSettingsInitialize();
+	OpticalFlowSettingsData opticalFlowSettings;
+	OpticalFlowSettingsGet(&opticalFlowSettings);
+	switch (opticalFlowSettings.SensorType ){
+		case OPTICALFLOWSETTINGS_SENSORTYPE_PX4FLOW:
+#if defined(PIOS_INCLUDE_PX4FLOW)
+		{
+			struct pios_px4flow_cfg pios_px4flow_cfg;
+			pios_px4flow_cfg.rotation.roll_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_ROLL];
+			pios_px4flow_cfg.rotation.pitch_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_PITCH];
+			pios_px4flow_cfg.rotation.yaw_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_YAW];
+			if (PIOS_PX4Flow_Init(&pios_px4flow_cfg, external_i2c_adapter_id) != 0) {
+				// set alarm
+			}
+		}
+#endif /* PIOS_INCLUDE_PX4FLOW */
+		break;
 	}
 
 	if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_OPTICAL_FLOW) != NULL ) {
 		OpticalFlowInitialize();
+	}
+
+	if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_RANGEFINDER) != NULL ) {
+		RangefinderDistanceInitialize();
 	}
 
 	rotate = 0;
