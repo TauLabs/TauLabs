@@ -470,7 +470,7 @@ void FlightDataModel::pauseValidation(bool pausing) {
 
 void FlightDataModel::fixupValidationErrors()
 {
-    struct FlightDataModel::NED prevNED = {};
+    struct FlightDataModel::NED prevNED = {0.0, 0.0, 0.0};
 
     // Skip validation when there's a download from firmware in process.
     if (valPaused) { return; }
