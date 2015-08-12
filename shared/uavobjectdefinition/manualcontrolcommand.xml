@@ -25,9 +25,10 @@
                 <elementname>Arming</elementname>
             </elementnames>
         </field>
+
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="manual" period="0"/>
         <telemetryflight acked="false" updatemode="periodic" period="2000"/>
-        <logging updatemode="manual" period="0"/>
+        <logging updatemode="manual" period="500"/>
     </object>
 </xml>
