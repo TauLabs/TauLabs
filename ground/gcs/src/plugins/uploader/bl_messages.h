@@ -92,6 +92,10 @@ enum bl_commands {
  * Note: These enum values MUST NOT be changed or backward
  *       compatibility will be broken
  */
+
+#ifdef _MSC_VER
+#pragma pack(push,1)
+#endif
 enum dfu_partition_label {
     DFU_PARTITION_FW,
     DFU_PARTITION_DESC,
@@ -100,7 +104,12 @@ enum dfu_partition_label {
     DFU_PARTITION_WAYPOINTS,
     DFU_PARTITION_LOG,
     DFU_PARTITION_OTA,
+#ifdef _MSC_VER
+}
+#pragma pack(pop)
+#else
 }__attribute__((packed));
+#endif
 
 struct msg_capabilities_req {
 	uint8_t unused[4];
