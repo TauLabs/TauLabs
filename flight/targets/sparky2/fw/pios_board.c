@@ -464,7 +464,7 @@ void PIOS_Board_Init(void) {
 			hwSparky2.MaxRfPower, hwSparky2.MaxRfSpeed,
 			openlrs_cfg, rfm22b_cfg,
 			hwSparky2.MinChannel, hwSparky2.MaxChannel,
-			hwSparky2.CoordID);
+			hwSparky2.CoordID, 1);
 
 #endif /* PIOS_INCLUDE_RFM22B */
 

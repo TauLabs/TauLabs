@@ -517,7 +517,8 @@ void PIOS_HAL_configure_RFM22B(HwSharedRadioPortOptions radio_type,
 		HwSharedMaxRfSpeedOptions max_speed,
 		const struct pios_openlrs_cfg *openlrs_cfg,
 		const struct pios_rfm22b_cfg *rfm22b_cfg,
-		uint8_t min_chan, uint8_t max_chan, uint32_t coord_id) {
+		uint8_t min_chan, uint8_t max_chan, uint32_t coord_id,
+		int status_inst) {
 	/* Initalize the RFM22B radio COM device. */
 	RFM22BStatusInitialize();
 	RFM22BStatusCreateInstance();
@@ -670,6 +671,6 @@ void PIOS_HAL_configure_RFM22B(HwSharedRadioPortOptions radio_type,
 #endif /* PIOS_INCLUDE_RFM22B_RCVR */
 	}
 
-	RFM22BStatusInstSet(1,&rfm22bstatus);
+	RFM22BStatusInstSet(status_inst, &rfm22bstatus);
 }
 #endif /* PIOS_INCLUDE_RFM22B */

@@ -89,8 +89,9 @@ void PIOS_Board_Init(void) {
 	PIOS_RTC_Init(&pios_rtc_main_cfg);
 #endif /* PIOS_INCLUDE_RTC */
 
-#if defined(PIOS_INCLUDE_RFM22B)
 	HwTauLinkInitialize();
+
+#if defined(PIOS_INCLUDE_RFM22B)
 	RFM22BStatusInitialize();
 #endif /* PIOS_INCLUDE_RFM22B */
 
@@ -176,7 +177,7 @@ void PIOS_Board_Init(void) {
 			bdinfo->board_rev, hwTauLink.MaxRfPower,
 			hwTauLink.MaxRfSpeed, NULL, rfm22b_cfg,
 			hwTauLink.MinChannel, hwTauLink.MaxChannel,
-			hwTauLink.CoordID);
+			hwTauLink.CoordID, 0);
 
 	// Update the com baud rate.
 	uint32_t comBaud = 9600;

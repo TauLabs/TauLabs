@@ -50,6 +50,7 @@ void PIOS_HAL_configure_RFM22B(HwSharedRadioPortOptions radio_type,
                 HwSharedMaxRfSpeedOptions max_speed,
                 const struct pios_openlrs_cfg *openlrs_cfg,
                 const struct pios_rfm22b_cfg *rfm22b_cfg,
-                uint8_t min_chan, uint8_t max_chan, uint32_t coord_id);
+                uint8_t min_chan, uint8_t max_chan, uint32_t coord_id,
+		int status_inst);
 
 #endif
