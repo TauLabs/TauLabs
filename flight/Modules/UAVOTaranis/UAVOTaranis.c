@@ -339,76 +339,87 @@ static bool frsky_encode_cells(uint32_t *value, bool test_presence_only, uint32_
 }
 
 /**
- * Encode temperature of barosensor as T1
+ * Encode GPS status as T1 value
+ * Right-most two digits means visible satellite count, left-most digit has following meaning:
+ * 1 - no GPS connected
+ * 2 - no fix
+ * 3 - 2D fix
+ * 4 - 3D fix
+ * 5 - 3D fix and HomeLocation is SET - should be safe for navigation
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
  * @param[in] arg argument specified in frsky_value_items[]
- * @returns true when value succesfully encoded or presence test passed
+ * @returns true when value successfully encoded or presence test passed
  */
 static bool frsky_encode_t1(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	if (!frsky->use_baro_sensor)
+	if (GPSPositionHandle() == NULL)
 		return false;
+	
 	if (test_presence_only)
 		return true;
+	
+	uint8_t hl_set = HOMELOCATION_SET_FALSE;
+	
+	if (HomeLocationHandle())
+		HomeLocationSetGet(&hl_set);
 
-	float temp = 0;
-	BaroAltitudeTemperatureGet(&temp);
-	int32_t t1 = (int32_t)temp;
+	int32_t t1 = 0;
+	switch (frsky->gps_position.Status) {
+	case GPSPOSITION_STATUS_NOGPS:
+		t1 = 100;
+		break;
+	case GPSPOSITION_STATUS_NOFIX:
+		t1 = 200;
+		break;
+	case GPSPOSITION_STATUS_FIX2D:
+		t1 = 300;
+		break;
+	case GPSPOSITION_STATUS_FIX3D:
+	case GPSPOSITION_STATUS_DIFF3D:
+		if (hl_set == HOMELOCATION_SET_TRUE)
+			t1 = 500;
+		else
+			t1 = 400;
+		break;
+	}
+	if (frsky->gps_position.Satellites > 0)
+		t1 += frsky->gps_position.Satellites;
+
 	*value = (uint32_t)t1;
 
 	return true;
 }
 
 /**
- * Encode GPS status as T2 value
- * Right-most two digits means visible satellite count, left-most digit has following meaning:
- * 0 - no GPS connected
- * 1 - no fix
- * 2 - 2D fix
- * 3 - 3D fix
- * 4 - 3D fix and HomeLocation is SET - should be safe for navigation
+ * Encode GPS hDop and vDop as T2
+ * Bits 0-7  = hDop * 100, max 255 (hDop = 2.55)
+ * Bits 8-15 = vDop * 100, max 255 (vDop = 2.55)
  * @param[out] value encoded value
  * @param[in] test_presence_only true when function should only test for availability of this value
  * @param[in] arg argument specified in frsky_value_items[]
- * @returns true when value succesfully encoded or presence test passed
+ * @returns true when value successfully encoded or presence test passed
  */
 static bool frsky_encode_t2(uint32_t *value, bool test_presence_only, uint32_t arg)
 {
-	/*
 	if (GPSPositionHandle() == NULL)
 		return false;
+
 	if (test_presence_only)
 		return true;
-	uint8_t hl_set = HOMELOCATION_SET_FALSE;
-	if (HomeLocationHandle())
-		HomeLocationSetGet(&hl_set);
 
-	int32_t t2 = 0;
-	switch (frsky->gps_position.Status) {
-	case GPSPOSITION_STATUS_NOGPS:
-		t2 = 0;
-		break;
-	case GPSPOSITION_STATUS_NOFIX:
-		t2 = 100;
-		break;
-	case GPSPOSITION_STATUS_FIX2D:
-		t2 = 200;
-		break;
-	case GPSPOSITION_STATUS_FIX3D:
-	case GPSPOSITION_STATUS_DIFF3D:
-		if (hl_set == HOMELOCATION_SET_TRUE)
-			t2 = 400;
-		else
-			t2 = 300;
-		break;
-	}
-	if (frsky->gps_position.Satellites > 0)
-		t2 += frsky->gps_position.Satellites;
+	uint32_t hdop = (uint32_t)(frsky->gps_position.HDOP * 100.0f);
 
-	*value = (uint32_t)t2;
-	*/
-	*value = (uint32_t) 14;
+	if (hdop > 255)
+		hdop = 255;
+			
+	uint32_t vdop = (uint32_t)(frsky->gps_position.VDOP * 100.0f);
+			
+	if (vdop > 255)
+		vdop = 255;
+	
+	*value = 256 * vdop + hdop;
+
 	return true;
 }
 
@@ -630,7 +641,7 @@ static bool frsky_encode_rpm(uint32_t *value, bool test_presence_only, uint32_t 
 	FlightStatusData flight_status;
 	FlightStatusGet(&flight_status);
 
-	*value = (flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED) ? 100 : 0;
+	*value = (flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED) ? 200 : 100;
 	*value += flight_status.FlightMode;
 
 	return true;
