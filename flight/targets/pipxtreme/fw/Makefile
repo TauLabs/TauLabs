@@ -177,6 +177,7 @@ SRC += $(FLIGHTLIB)/aes.c
 SRC += $(FLIGHTLIB)/rscode/rs.c
 SRC += $(FLIGHTLIB)/rscode/berlekamp.c
 SRC += $(FLIGHTLIB)/rscode/galois.c
+SRC += $(FLIGHTLIB)/frsky_packing.c
 SRC += $(MATHLIB)/misc_math.c
 
 ## CMSIS for STM32
