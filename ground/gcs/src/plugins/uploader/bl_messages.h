@@ -28,6 +28,14 @@
 #ifndef BL_MESSAGES_H_
 #define BL_MESSAGES_H_
 
+#ifndef PACK
+#ifdef _MSC_VER
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop) )
+#else
+#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+#endif /* _MSC_VER */
+#endif /* PACK */
+
 namespace tl_dfu {
 
 #define BL_INCLUDE_CAP_EXTENSIONS
@@ -35,7 +43,6 @@ namespace tl_dfu {
 #define uint8_t quint8
 #define uint16_t quint16
 #define uint32_t quint32
-
 
 /* Note:
  *   Writes are from PC -> FC
@@ -85,103 +92,6 @@ enum bl_commands {
  * Note: These enum values MUST NOT be changed or backward
  *       compatibility will be broken
  */
-#ifdef _MSC_VER
-#pragma pack(push,1)
-enum dfu_partition_label {
-    DFU_PARTITION_FW,
-    DFU_PARTITION_DESC,
-    DFU_PARTITION_BL,
-    DFU_PARTITION_SETTINGS,
-    DFU_PARTITION_WAYPOINTS,
-    DFU_PARTITION_LOG,
-    DFU_PARTITION_OTA,
-};
-
-struct bl_messages {
-    uint8_t flags_command;
-
-__declspec(align(1)) union {
-        struct msg_capabilities_req {
-            uint8_t unused[4];
-            uint8_t device_number;
-        } cap_req;
-
-        struct msg_capabilities_rep_all {
-            uint8_t unused[4];
-            uint16_t number_of_devices;
-            uint16_t wrflags;
-        } cap_rep_all;
-
-        struct msg_capabilities_rep_specific {
-            uint32_t fw_size;
-            uint8_t device_number;
-            uint8_t bl_version;
-            uint8_t desc_size;
-            uint8_t board_rev;
-            uint32_t fw_crc;
-            uint16_t device_id;
-#if defined(BL_INCLUDE_CAP_EXTENSIONS)
-            /* Extensions to original protocol */
-#define BL_CAP_EXTENSION_MAGIC 0x3456
-            uint16_t cap_extension_magic;
-            uint32_t partition_sizes[10];
-#endif	/* BL_INCLUDE_CAP_EXTENSIONS */
-        } cap_rep_specific;
-
-        struct msg_enter_dfu {
-            uint8_t unused[4];
-            uint8_t device_number;
-        } enter_dfu;
-
-        struct msg_jump_fw {
-            uint8_t unused[4];
-            uint8_t unused2[2];
-            uint16_t safe_word;
-        } jump_fw;
-
-        struct msg_reset {
-            /* No subfields */
-        } reset;
-
-        struct msg_op_abort {
-            /* No subfields */
-        } op_abort;
-
-        struct msg_op_end {
-            /* No subfields */
-        } op_end;
-
-        struct msg_xfer_start {
-            uint32_t packets_in_transfer;
-            uint8_t label;
-            uint8_t words_in_last_packet;
-            uint32_t expected_crc; /* only used in writes */
-        }xfer_start;
-
-#define XFER_BYTES_PER_PACKET 56
-        struct msg_xfer_cont {
-            uint32_t current_packet_number;
-            uint8_t data[XFER_BYTES_PER_PACKET];
-        } xfer_cont;
-
-        struct msg_status_req {
-            /* No subfields */
-        } status_req;
-
-        struct msg_status_rep {
-            uint32_t unused;
-            uint8_t current_state;
-        } status_rep;
-
-        struct msg_wipe_partition {
-            uint8_t label;
-        } wipe_partition;
-
-        uint8_t pad[62];
-    } v;
-};
-#pragma pack(pop)
-#else
 enum dfu_partition_label {
     DFU_PARTITION_FW,
     DFU_PARTITION_DESC,
@@ -192,90 +102,105 @@ enum dfu_partition_label {
     DFU_PARTITION_OTA,
 }__attribute__((packed));
 
-struct bl_messages {
-    uint8_t flags_command;
+struct msg_capabilities_req {
+	uint8_t unused[4];
+	uint8_t device_number;
+};
 
-    union {
-        struct msg_capabilities_req {
-            uint8_t unused[4];
-            uint8_t device_number;
-        } cap_req;
+struct msg_capabilities_rep_all {
+	uint8_t unused[4];
+	uint16_t number_of_devices;
+	uint16_t wrflags;
+};
 
-        struct msg_capabilities_rep_all {
-            uint8_t unused[4];
-            uint16_t number_of_devices;
-            uint16_t wrflags;
-        } cap_rep_all;
-
-        struct msg_capabilities_rep_specific {
-            uint32_t fw_size;
-            uint8_t device_number;
-            uint8_t bl_version;
-            uint8_t desc_size;
-            uint8_t board_rev;
-            uint32_t fw_crc;
-            uint16_t device_id;
+struct msg_capabilities_rep_specific {
+	uint32_t fw_size;
+	uint8_t device_number;
+	uint8_t bl_version;
+	uint8_t desc_size;
+	uint8_t board_rev;
+	uint32_t fw_crc;
+	uint16_t device_id;
 #if defined(BL_INCLUDE_CAP_EXTENSIONS)
-            /* Extensions to original protocol */
+	/* Extensions to original protocol */
 #define BL_CAP_EXTENSION_MAGIC 0x3456
-            uint16_t cap_extension_magic;
-            uint32_t partition_sizes[10];
+	uint16_t cap_extension_magic;
+	uint32_t partition_sizes[10];
 #endif	/* BL_INCLUDE_CAP_EXTENSIONS */
-        } cap_rep_specific;
+};
 
-        struct msg_enter_dfu {
-            uint8_t unused[4];
-            uint8_t device_number;
-        } enter_dfu;
+struct msg_enter_dfu {
+	uint8_t unused[4];
+	uint8_t device_number;
+};
 
-        struct msg_jump_fw {
-            uint8_t unused[4];
-            uint8_t unused2[2];
-            uint16_t safe_word;
-        } jump_fw;
+struct msg_jump_fw {
+	uint8_t unused[4];
+	uint8_t unused2[2];
+	uint16_t safe_word;
+};
 
-        struct msg_reset {
-            /* No subfields */
-        } reset;
+struct msg_reset {
+	/* No subfields */
+};
 
-        struct msg_op_abort {
-            /* No subfields */
-        } op_abort;
+struct msg_op_abort {
+	/* No subfields */
+};
 
-        struct msg_op_end {
-            /* No subfields */
-        } op_end;
+struct msg_op_end {
+	/* No subfields */
+};
 
-        struct msg_xfer_start {
-            uint32_t packets_in_transfer;
-            uint8_t label;
-            uint8_t words_in_last_packet;
-            uint32_t expected_crc; /* only used in writes */
-        }__attribute__((packed)) xfer_start;
+PACK(struct msg_xfer_start {
+	uint32_t packets_in_transfer;
+	uint8_t label;
+	uint8_t words_in_last_packet;
+	uint32_t expected_crc; /* only used in writes */
+});
 
 #define XFER_BYTES_PER_PACKET 56
-        struct msg_xfer_cont {
-            uint32_t current_packet_number;
-            uint8_t data[XFER_BYTES_PER_PACKET];
-        } xfer_cont;
+struct msg_xfer_cont {
+	uint32_t current_packet_number;
+	uint8_t data[XFER_BYTES_PER_PACKET];
+};
 
-        struct msg_status_req {
-            /* No subfields */
-        } status_req;
+struct msg_status_req {
+	/* No subfields */
+};
 
-        struct msg_status_rep {
-            uint32_t unused;
-            uint8_t current_state;
-        } status_rep;
+struct msg_status_rep {
+	uint32_t unused;
+	uint8_t current_state;
+};
 
-        struct msg_wipe_partition {
-            uint8_t label;
-        } wipe_partition;
+struct msg_wipe_partition {
+	uint8_t label;
+};
 
-        uint8_t pad[62];
-    } __attribute__((aligned(1)))v;
-} __attribute__((packed));
-#endif
-}
+PACK(union msg_contents {
+    struct msg_capabilities_req cap_req;
+    struct msg_capabilities_rep_all cap_rep_all;
+    struct msg_capabilities_rep_specific cap_rep_specific;
+    struct msg_enter_dfu enter_dfu;
+    struct msg_jump_fw jump_fw;
+    struct msg_reset reset;
+    struct msg_op_abort op_abort;
+    struct msg_op_end op_end;
+    struct msg_xfer_start xfer_start;
+    struct msg_xfer_cont xfer_cont;
+    struct msg_status_req status_req;
+    struct msg_status_rep status_rep;
+    struct msg_wipe_partition wipe_partition;
+    uint8_t pad[62];
+});
+
+PACK(struct bl_messages {
+    uint8_t flags_command;
+
+    union msg_contents v;
+});
+
+} /* namespace tl_dfu */
 
 #endif // BL_MESSAGES_H
