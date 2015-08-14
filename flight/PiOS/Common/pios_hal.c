@@ -342,19 +342,19 @@ void PIOS_HAL_configure_port(HwSharedPortTypesOptions port_type,
 #endif          /* PIOS_INCLUDE_MAVLINK */
 			break;
 		case HWSHARED_PORTTYPES_HOTTTELEMETRY:
-#if defined(PIOS_INCLUDE_HOTT) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_HOTT)
 			PIOS_HAL_configure_com(usart_port_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, com_driver, &port_driver_id);
 			target = &pios_com_hott_id;
 #endif /* PIOS_INCLUDE_HOTT */
 			break;
 		case HWSHARED_PORTTYPES_FRSKYSENSORHUB:
-#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB)
 			PIOS_HAL_configure_com(usart_port_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, com_driver, &port_driver_id);
 			target = &pios_com_frsky_sensor_hub_id;
 #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 			break;
 		case HWSHARED_PORTTYPES_FRSKYSPORTTELEMETRY:
-#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
 			PIOS_HAL_configure_com(usart_port_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, com_driver, &port_driver_id);
 			target = &pios_com_frsky_sport_id;
 #endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
@@ -366,7 +366,7 @@ void PIOS_HAL_configure_port(HwSharedPortTypesOptions port_type,
 #endif 
 			break;
 		case HWSHARED_PORTTYPES_PICOC:
-#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_PICOC)
 			PIOS_HAL_configure_com(usart_port_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, com_driver, &port_driver_id);
 			target = &pios_com_picoc_id;
 #endif /* PIOS_INCLUDE_PICOC */
@@ -395,8 +395,6 @@ void PIOS_HAL_configure_CDC(HwSharedUSB_VCPPortOptions port_type,
 	uintptr_t pios_usb_cdc_id;
 
 	// TODO: Should we actually do this if disabled???
-	// TODO: Simplify-- enabling CDC doesn't make sense without INCLUDE_COM
-
 	if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, cdc_cfg, usb_id)) {
 		PIOS_Assert(0);
 	}
@@ -405,7 +403,6 @@ void PIOS_HAL_configure_CDC(HwSharedUSB_VCPPortOptions port_type,
 		case HWSHARED_USB_VCPPORT_DISABLED:
 			break;
 		case HWSHARED_USB_VCPPORT_USBTELEMETRY:
-#if defined(PIOS_INCLUDE_COM)
 			{
 				uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
 				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
@@ -417,10 +414,8 @@ void PIOS_HAL_configure_CDC(HwSharedUSB_VCPPortOptions port_type,
 					PIOS_Assert(0);
 				}
 			}
-#endif  /* PIOS_INCLUDE_COM */
 			break;
 		case HWSHARED_USB_VCPPORT_COMBRIDGE:
-#if defined(PIOS_INCLUDE_COM)
 			{
 				uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
 				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
@@ -432,10 +427,8 @@ void PIOS_HAL_configure_CDC(HwSharedUSB_VCPPortOptions port_type,
 					PIOS_Assert(0);
 				}
 			}
-#endif  /* PIOS_INCLUDE_COM */
 			break;
 		case HWSHARED_USB_VCPPORT_DEBUGCONSOLE:
-#if defined(PIOS_INCLUDE_COM)
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 			{
 				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
@@ -447,10 +440,9 @@ void PIOS_HAL_configure_CDC(HwSharedUSB_VCPPortOptions port_type,
 				}
 			}
 #endif  /* PIOS_INCLUDE_DEBUG_CONSOLE */
-#endif  /* PIOS_INCLUDE_COM */
 			break;
 		case HWSHARED_USB_VCPPORT_PICOC:
-#if defined(PIOS_INCLUDE_PICOC) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_PICOC)
 			{
 				uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_RX_BUF_LEN);
 				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_TX_BUF_LEN);
@@ -481,7 +473,6 @@ void PIOS_HAL_configure_HID(HwSharedUSB_HIDPortOptions port_type,
 		case HWSHARED_USB_HIDPORT_DISABLED:
 			break;
 		case HWSHARED_USB_HIDPORT_USBTELEMETRY:
-#if defined(PIOS_INCLUDE_COM)
 			{
 				uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
 				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
@@ -493,7 +484,6 @@ void PIOS_HAL_configure_HID(HwSharedUSB_HIDPortOptions port_type,
 					PIOS_Assert(0);
 				}
 			}
-#endif  /* PIOS_INCLUDE_COM */
 			break;
 		case HWSHARED_USB_HIDPORT_RCTRANSMITTER:
 #if defined(PIOS_INCLUDE_USB_RCTX)

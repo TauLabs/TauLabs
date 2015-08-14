@@ -19,6 +19,19 @@
  */
 extern uintptr_t pios_rcvr_group_map[];
 
+#if defined(PIOS_INCLUDE_SBUS) || defined(PIOS_INCLUDE_DSM) || defined(PIOS_INCLUDE_HOTT) || defined(PIOS_INCLUDE_GPS) || defined(PIOS_INCLUDE_RFM22B) || defined(PIOS_INCLUDE_USB_CDC) || defined(PIOS_INCLUDE_USB_HID) || defined(PIOS_INCLUDE_MAVLINK)
+
+#ifndef PIOS_INCLUDE_COM
+#error Options defined that require PIOS_INCLUDE_COM!
+#endif
+
+/* This one is a slight overreach; not all of the above requires this but close */
+#ifndef PIOS_INCLUDE_USART
+#error Options defined that require PIOS_INCLUDE_USART!
+#endif
+
+#endif
+
 void PIOS_HAL_panic(uint32_t led_id, int32_t code);
 void PIOS_HAL_configure_port(HwSharedPortTypesOptions port_type,
 		const struct pios_usart_cfg *usart_port_cfg,
