@@ -598,34 +598,10 @@ void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
 #endif
 		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
 		
-		// XXX TODO: Factor these datarate and power switches
-		// out.
-		enum rfm22b_datarate datarate;
-		switch (max_speed) {
-			case HWSHARED_MAXRFSPEED_9600:
-				datarate = RFM22_datarate_9600;
-				break;
-			case HWSHARED_MAXRFSPEED_19200:
-				datarate = RFM22_datarate_19200;
-				break;
-			case HWSHARED_MAXRFSPEED_32000:
-				datarate = RFM22_datarate_32000;
-				break;
-			default:
-			case HWSHARED_MAXRFSPEED_64000:
-				datarate = RFM22_datarate_64000;
-				break;
-			case HWSHARED_MAXRFSPEED_100000:
-				datarate = RFM22_datarate_100000;
-				break;
-			case HWSHARED_MAXRFSPEED_192000:
-				datarate = RFM22_datarate_192000;
-				break;
-		}
-
 		/* Set the radio configuration parameters. */
-		PIOS_RFM22B_Config(pios_rfm22b_id, datarate, min_chan, max_chan, coord_id, is_oneway, ppm_mode, ppm_only);
+		PIOS_RFM22B_Config(pios_rfm22b_id, max_speed, min_chan, max_chan, coord_id, is_oneway, ppm_mode, ppm_only);
 
+		// XXX TODO: Factor these power switches out.
 		/* Set the modem Tx poer level */
 		switch (max_power) {
 			case HWSHARED_MAXRFPOWER_125:
