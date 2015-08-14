@@ -132,6 +132,22 @@ void PIOS_HAL_Panic(uint32_t led_id, int32_t code) {
         }
 }
 
+static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value) {
+	if (target) {
+#if 0
+		if (*target) {
+		// TODO: catch configuration errors of duplicated channels here
+		}
+#endif
+
+		*target = value;
+	}
+}
+
+static void PIOS_HAL_SetReceiver(int receiverType, uintptr_t value) {
+	PIOS_HAL_SetTarget(pios_rcvr_group_map + receiverType, value);
+}
+
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 static void PIOS_HAL_ConfigureCom (const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
                 const struct pios_com_driver *com_driver, uintptr_t *pios_com_id)
@@ -166,27 +182,27 @@ static void PIOS_HAL_ConfigureCom (const struct pios_usart_cfg *usart_port_cfg, 
 #endif  /* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
 
 #ifdef PIOS_INCLUDE_DSM
-static void PIOS_HAL_ConfigureDSM(const struct pios_usart_cfg *pios_usart_dsm_cfg,
-                const struct pios_dsm_cfg *pios_dsm_cfg,
-                const struct pios_com_driver *pios_usart_com_driver,
+static void PIOS_HAL_ConfigureDSM(const struct pios_usart_cfg *usart_dsm_cfg,
+                const struct pios_dsm_cfg *dsm_cfg,
+                const struct pios_com_driver *usart_com_driver,
 		int bind)
 {
-        uintptr_t pios_usart_dsm_id;
-        if (PIOS_USART_Init(&pios_usart_dsm_id, pios_usart_dsm_cfg)) {
+        uintptr_t usart_dsm_id;
+        if (PIOS_USART_Init(&usart_dsm_id, usart_dsm_cfg)) {
                 PIOS_Assert(0);
         }
         
-        uintptr_t pios_dsm_id;
-        if (PIOS_DSM_Init(&pios_dsm_id, pios_dsm_cfg, pios_usart_com_driver,
-                        pios_usart_dsm_id, bind)) {
+        uintptr_t dsm_id;
+        if (PIOS_DSM_Init(&dsm_id, dsm_cfg, usart_com_driver,
+                        usart_dsm_id, bind)) {
                 PIOS_Assert(0);
         }
         
-        uintptr_t pios_dsm_rcvr_id;
-        if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
+        uintptr_t dsm_rcvr_id;
+        if (PIOS_RCVR_Init(&dsm_rcvr_id, &pios_dsm_rcvr_driver, dsm_id)) {
                 PIOS_Assert(0);
         }
-        pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM] = pios_dsm_rcvr_id;
+	PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, dsm_rcvr_id);
 }
 
 #endif
@@ -214,18 +230,6 @@ static void PIOS_HAL_ConfigureHSUM(const struct pios_usart_cfg *pios_usart_hsum_
         pios_rcvr_group_map[channelgroup] = pios_hsum_rcvr_id;
 }
 #endif
-
-static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value) {
-	if (target) {
-#if 0
-		if (*target) {
-		// TODO: catch configuration errors of duplicated channels here
-		}
-#endif
-
-		*target = value;
-	}
-}
 
 void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 	const struct pios_usart_cfg *usart_port_cfg, 
@@ -261,14 +265,15 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		case HWSHARED_PORTTYPES_PPM:
 #if defined(PIOS_INCLUDE_PPM)
 			if (ppm_cfg) { 
-				uintptr_t pios_ppm_id;
-				PIOS_PPM_Init(&pios_ppm_id, ppm_cfg);
+				uintptr_t ppm_id;
+				PIOS_PPM_Init(&ppm_id, ppm_cfg);
 
-				uintptr_t pios_ppm_rcvr_id;
-				if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
+				uintptr_t ppm_rcvr_id;
+				if (PIOS_RCVR_Init(&ppm_rcvr_id, &pios_ppm_rcvr_driver, ppm_id)) {
 					PIOS_Assert(0);
 				}
-				pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM] = pios_ppm_rcvr_id;
+
+				PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM, ppm_rcvr_id);
 			}
 #endif  /* PIOS_INCLUDE_PPM */
 			break;
@@ -306,6 +311,7 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 				if (PIOS_RCVR_Init(&sbus_rcvr_id, &pios_sbus_rcvr_driver, sbus_id)) {
 					PIOS_Assert(0);
 				}
+				PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS, sbus_rcvr_id);
 				pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = sbus_rcvr_id;
 			}
 #endif  /* PIOS_INCLUDE_SBUS */
@@ -534,13 +540,13 @@ void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
 		PIOS_OpenLRS_Init(&openlrs_id, PIOS_RFM22_SPI_PORT, 0, openlrs_cfg);
 
 		{
-			uintptr_t pios_rfm22brcvr_id;
-			PIOS_OpenLRS_Rcvr_Init(&pios_rfm22brcvr_id, openlrs_id);
-			uintptr_t pios_rfm22brcvr_rcvr_id;
-			if (PIOS_RCVR_Init(&pios_rfm22brcvr_rcvr_id, &pios_openlrs_rcvr_driver, pios_rfm22brcvr_id)) {
+			uintptr_t rfm22brcvr_id;
+			PIOS_OpenLRS_Rcvr_Init(&rfm22brcvr_id, openlrs_id);
+			uintptr_t rfm22brcvr_rcvr_id;
+			if (PIOS_RCVR_Init(&rfm22brcvr_rcvr_id, &pios_openlrs_rcvr_driver, rfm22brcvr_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_OPENLRS] = pios_rfm22brcvr_rcvr_id;
+			PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_OPENLRS, rfm22brcvr_rcvr_id);
 		}
 #endif /* PIOS_INCLUDE_OPENLRS_RCVR */
 	} else if (radio_type == HWSHARED_RADIOPORT_DISABLED ||
@@ -656,13 +662,13 @@ void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
 
 #if defined(PIOS_INCLUDE_RFM22B_RCVR)
 		{
-			uintptr_t pios_rfm22brcvr_id;
-			PIOS_RFM22B_Rcvr_Init(&pios_rfm22brcvr_id, pios_rfm22b_id);
-			uintptr_t pios_rfm22brcvr_rcvr_id;
-			if (PIOS_RCVR_Init(&pios_rfm22brcvr_rcvr_id, &pios_rfm22b_rcvr_driver, pios_rfm22brcvr_id)) {
+			uintptr_t rfm22brcvr_id;
+			PIOS_RFM22B_Rcvr_Init(&rfm22brcvr_id, pios_rfm22b_id);
+			uintptr_t rfm22brcvr_rcvr_id;
+			if (PIOS_RCVR_Init(&rfm22brcvr_rcvr_id, &pios_rfm22b_rcvr_driver, rfm22brcvr_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_RFM22B] = pios_rfm22brcvr_rcvr_id;
+			PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_RFM22B, rfm22brcvr_rcvr_id);
 		}
 #endif /* PIOS_INCLUDE_RFM22B_RCVR */
 	}
