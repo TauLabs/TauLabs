@@ -67,7 +67,7 @@ static float vtol_path_m=0, vtol_path_r=0, vtol_end_m=0, vtol_end_r=0;
 static float loiter_brakealpha=0.96f, loiter_errordecayalpha=0.88f;
 
 static int32_t vtol_follower_control_impl(const float dT,
-	const float *hold_pos_ned, float *err, bool landing, bool update_status);
+	const float *hold_pos_ned, bool landing, bool update_status);
 
 /**
  * Compute desired velocity to follow the desired path from the current location.
@@ -135,7 +135,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 		}
 
 		// Wait here for new path segment
-		return vtol_follower_control_impl(dT, pathDesired->End, NULL,
+		return vtol_follower_control_impl(dT, pathDesired->End,
 				false, false);
 	}
 	
@@ -184,7 +184,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
  * @param[in] update_status does this update path_status, or does somoene else?
  */
 static int32_t vtol_follower_control_impl(const float dT,
-	const float *hold_pos_ned, float *err, bool landing, bool update_status)
+	const float *hold_pos_ned, bool landing, bool update_status)
 {
 	PositionActualData positionActual;
 	VelocityDesiredData velocityDesired;
@@ -212,22 +212,12 @@ static int32_t vtol_follower_control_impl(const float dT,
 	float horiz_error_mag = vectorn_magnitude(errors_ned, 2);
 	float scale_horiz_error_mag = 0;
 
-	/* If the error is requested, send it out before applying deadbands
-	 * (but after feedforward).  Loiter uses the error to update the
-	 * desired position, and we don't want to water that down with a
-	 * deadband.  (It waters it down itself) */
-	if (err) {
-		err[0] = errors_ned[0];  err[1] = errors_ned[1];
-		err[2] = errors_ned[2];
-	}
-
 	/* Apply a cubic deadband; if we are already really close don't work
 	 * as hard to fix it as if we're far away.  Prevents chasing high
 	 * frequency noise in direction of correction.
 	 *
 	 * That is, when we're far, noise in estimated position mostly results
 	 * in noise/dither in how fast we go towards the target.  When we're
-	 * r
 	 * close, there's a large directional / hunting component.  This
 	 * attenuates that.
 	 */
@@ -300,10 +290,9 @@ static int32_t vtol_follower_control_impl(const float dT,
  * Takes in @ref PositionActual and compares it to @ref PositionDesired
  * and computes @ref VelocityDesired
  */
-int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned,
-		float *err)
+int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned)
 {
-	return vtol_follower_control_impl(dT, hold_pos_ned, err, false, true);
+	return vtol_follower_control_impl(dT, hold_pos_ned, false, true);
 }
 
 /**
@@ -319,7 +308,7 @@ int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned
 int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
 	bool *landed)
 {
-	return vtol_follower_control_impl(dT, hold_pos_ned, NULL, false, true);
+	return vtol_follower_control_impl(dT, hold_pos_ned, false, true);
 }
 
 /**
@@ -573,15 +562,19 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 	float command_mag = vectorn_magnitude(commands_rp, 2);
 	float deadband_mag = loiter_deadband(command_mag);
 
+	// Peak detect and decay of the past command magnitude
 	static float historic_mag = 0.0f;
 
+	// First reduce by decay constant
 	historic_mag *= loiter_brakealpha;
 
+	// If our current magnitude is greater than the result, increase it.
 	if (deadband_mag > historic_mag) {
 		historic_mag = deadband_mag;
 	}
 
-	// We only do a lot of work if our command has magnitude.
+	// And if we haven't had any significant command lately, bug out and
+	// do nothing.
 	if (historic_mag < 0.001f) {
 		att_adj[0] = 0;  att_adj[1] = 0;
 		return false;

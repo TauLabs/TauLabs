@@ -55,7 +55,6 @@
 #include "pathdesired.h"
 #include "positionactual.h"
 #include "stabilizationdesired.h"
-#include "velocityactual.h"
 #include "vtolpathfollowerstatus.h"
 
 #include "misc_math.h"
@@ -419,7 +418,7 @@ static float vtol_hold_position_ned[3];
  */
 static int32_t do_hold()
 {
-	if (vtol_follower_control_endpoint(DT, vtol_hold_position_ned, NULL) == 0) {
+	if (vtol_follower_control_endpoint(DT, vtol_hold_position_ned) == 0) {
 		if (vtol_follower_control_attitude(DT, NULL) == 0) {
 			return 0;
 		}
@@ -516,7 +515,7 @@ static int32_t do_loiter()
 				vtol_hold_position_ned[2]);
 	}
 
-	if (vtol_follower_control_endpoint(DT, vtol_hold_position_ned, NULL) == 0) {
+	if (vtol_follower_control_endpoint(DT, vtol_hold_position_ned) == 0) {
 		if (vtol_follower_control_attitude(DT, att_adj) == 0) {
 			return 0;
 		}
