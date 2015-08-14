@@ -297,7 +297,7 @@ void PIOS_Board_Init(void) {
 	/* Configure the USB VCP port */
 	HwRevoMiniUSB_VCPPortGet(&hw_usb_vcpport);
 
-	PIOS_HAL_configure_CDC(hw_usb_vcpport,
+	PIOS_HAL_ConfigureCDC(hw_usb_vcpport,
 			pios_usb_id, &pios_usb_cdc_cfg);
 #endif	/* PIOS_INCLUDE_USB_CDC */
 
@@ -311,7 +311,7 @@ void PIOS_Board_Init(void) {
 		hw_usb_hidport = HWREVOMINI_USB_HIDPORT_DISABLED;
 	}
 
-	PIOS_HAL_configure_HID(hw_usb_hidport, pios_usb_id, &pios_usb_hid_cfg);
+	PIOS_HAL_ConfigureHID(hw_usb_hidport, pios_usb_id, &pios_usb_hid_cfg);
 #endif	/* PIOS_INCLUDE_USB_HID */
 
 	if (usb_hid_present || usb_cdc_present) {
@@ -327,7 +327,7 @@ void PIOS_Board_Init(void) {
 	uint8_t hw_mainport;
 	HwRevoMiniMainPortGet(&hw_mainport);
 
-	PIOS_HAL_configure_port(hw_mainport, &pios_usart_main_cfg,
+	PIOS_HAL_ConfigurePort(hw_mainport, &pios_usart_main_cfg,
 			&pios_usart_com_driver, NULL, NULL, NULL, PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_main_cfg, &pios_dsm_main_cfg,
 			0 /* No bind on main port */, &pios_usart_sbus_main_cfg,
@@ -337,7 +337,7 @@ void PIOS_Board_Init(void) {
 	uint8_t hw_flexiport;
 	HwRevoMiniFlexiPortGet(&hw_flexiport);
 
-	PIOS_HAL_configure_port(hw_flexiport, &pios_usart_flexi_cfg,
+	PIOS_HAL_ConfigurePort(hw_flexiport, &pios_usart_flexi_cfg,
 			&pios_usart_com_driver, &pios_i2c_flexiport_adapter_id,
 			&pios_i2c_flexiport_adapter_cfg, NULL, PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_flexi_cfg, &pios_dsm_flexi_cfg,
@@ -350,7 +350,7 @@ void PIOS_Board_Init(void) {
 	const struct pios_openlrs_cfg *openlrs_cfg = PIOS_BOARD_HW_DEFS_GetOpenLRSCfg(bdinfo->board_rev);
 	const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 
-	PIOS_HAL_configure_RFM22B(hwRevoMini.Radio,
+	PIOS_HAL_ConfigureRFM22B(hwRevoMini.Radio,
 			bdinfo->board_type, bdinfo->board_rev,
 			hwRevoMini.MaxRfPower, hwRevoMini.MaxRfSpeed,
 			openlrs_cfg, rfm22b_cfg, hwRevoMini.MinChannel,

@@ -148,7 +148,7 @@ uintptr_t streamfs_id;
  * 6 pulses - external mag
  */
 static void panic(int32_t code) {
-	PIOS_HAL_panic(PIOS_LED_ALARM, code);
+	PIOS_HAL_Panic(PIOS_LED_ALARM, code);
 }
 
 void set_vtx_channel(HwSparky2VTX_ChOptions channel)
@@ -402,7 +402,7 @@ void PIOS_Board_Init(void) {
 		hw_usb_vcpport = HWSPARKY2_USB_VCPPORT_DISABLED;
 	}
 
-	PIOS_HAL_configure_CDC(hw_usb_vcpport, pios_usb_id, &pios_usb_cdc_cfg);
+	PIOS_HAL_ConfigureCDC(hw_usb_vcpport, pios_usb_id, &pios_usb_cdc_cfg);
 
 #endif	/* PIOS_INCLUDE_USB_CDC */
 
@@ -416,7 +416,7 @@ void PIOS_Board_Init(void) {
 		hw_usb_hidport = HWSPARKY2_USB_HIDPORT_DISABLED;
 	}
 
-	PIOS_HAL_configure_HID(hw_usb_hidport, pios_usb_id, &pios_usb_hid_cfg);
+	PIOS_HAL_ConfigureHID(hw_usb_hidport, pios_usb_id, &pios_usb_hid_cfg);
 
 #endif	/* PIOS_INCLUDE_USB_HID */
 
@@ -433,7 +433,7 @@ void PIOS_Board_Init(void) {
 	uint8_t hw_mainport;
 	HwSparky2MainPortGet(&hw_mainport);
 
-	PIOS_HAL_configure_port(hw_mainport, &pios_usart_main_cfg,
+	PIOS_HAL_ConfigurePort(hw_mainport, &pios_usart_main_cfg,
 			&pios_usart_com_driver, NULL, NULL, NULL,
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_main_cfg, &pios_dsm_main_cfg,
@@ -443,7 +443,7 @@ void PIOS_Board_Init(void) {
 	uint8_t hw_flexiport;
 	HwSparky2FlexiPortGet(&hw_flexiport);
 
-	PIOS_HAL_configure_port(hw_flexiport, &pios_usart_flexi_cfg,
+	PIOS_HAL_ConfigurePort(hw_flexiport, &pios_usart_flexi_cfg,
 			&pios_usart_com_driver,
 			&pios_i2c_flexiport_adapter_id,
 			&pios_i2c_flexiport_adapter_cfg, NULL,
@@ -459,7 +459,7 @@ void PIOS_Board_Init(void) {
 
 	const struct pios_openlrs_cfg *openlrs_cfg = PIOS_BOARD_HW_DEFS_GetOpenLRSCfg(bdinfo->board_rev);
 
-	PIOS_HAL_configure_RFM22B(hwSparky2.Radio,
+	PIOS_HAL_ConfigureRFM22B(hwSparky2.Radio,
 			bdinfo->board_type, bdinfo->board_rev,
 			hwSparky2.MaxRfPower, hwSparky2.MaxRfSpeed,
 			openlrs_cfg, rfm22b_cfg,
@@ -476,7 +476,7 @@ void PIOS_Board_Init(void) {
 		hw_DSMxBind = 0; /* Do not try to bind through XOR */
 	}
 
-	PIOS_HAL_configure_port(hw_rcvrport,
+	PIOS_HAL_ConfigurePort(hw_rcvrport,
 			NULL, /* XXX TODO: fix as part of DSM refactor */
 			&pios_usart_com_driver,
 			NULL, NULL,

@@ -32,8 +32,8 @@ extern uintptr_t pios_rcvr_group_map[];
 
 #endif
 
-void PIOS_HAL_panic(uint32_t led_id, int32_t code);
-void PIOS_HAL_configure_port(HwSharedPortTypesOptions port_type,
+void PIOS_HAL_Panic(uint32_t led_id, int32_t code);
+void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		const struct pios_usart_cfg *usart_port_cfg,
 		const struct pios_com_driver *com_driver,
 		uint32_t *i2c_id,
@@ -49,15 +49,15 @@ void PIOS_HAL_configure_port(HwSharedPortTypesOptions port_type,
 		bool sbus_toggle
 		);
 
-void PIOS_HAL_configure_CDC(HwSharedUSB_VCPPortOptions port_type,
+void PIOS_HAL_ConfigureCDC(HwSharedUSB_VCPPortOptions port_type,
 		uintptr_t usb_id,
 		const struct pios_usb_cdc_cfg *cdc_cfg);
 
-void PIOS_HAL_configure_HID(HwSharedUSB_HIDPortOptions port_type,
+void PIOS_HAL_ConfigureHID(HwSharedUSB_HIDPortOptions port_type,
 		uintptr_t usb_id,
 		const struct pios_usb_hid_cfg *hid_cfg);
 
-void PIOS_HAL_configure_RFM22B(HwSharedRadioPortOptions radio_type,
+void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
                 uint8_t board_type, uint8_t board_rev,
                 HwSharedMaxRfPowerOptions max_power,
                 HwSharedMaxRfSpeedOptions max_speed,

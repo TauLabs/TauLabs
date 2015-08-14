@@ -132,19 +132,19 @@ void PIOS_Board_Init(void) {
 	uintptr_t pios_usb_id;
 	PIOS_USB_Init(&pios_usb_id, &pios_usb_main_cfg);
 
-	PIOS_HAL_configure_HID(HWSHARED_USB_HIDPORT_USBTELEMETRY,
+	PIOS_HAL_ConfigureHID(HWSHARED_USB_HIDPORT_USBTELEMETRY,
 			pios_usb_id, &pios_usb_hid_cfg);
 
 	/* Configure the USB virtual com port (VCP) */
 #if defined(PIOS_INCLUDE_USB_CDC)
 	if (usb_cdc_present)
 	{
-		PIOS_HAL_configure_CDC(hwTauLink.VCPPort, pios_usb_id,
+		PIOS_HAL_ConfigureCDC(hwTauLink.VCPPort, pios_usb_id,
 				&pios_usb_cdc_cfg);
 	}
 #endif
 
-	PIOS_HAL_configure_port(hwTauLink.MainPort,
+	PIOS_HAL_ConfigurePort(hwTauLink.MainPort,
 			&pios_usart_serial_cfg, &pios_usart_com_driver,
 			/* no I2C, DSM, HSUM, SBUS, etc. */
 			NULL, NULL, NULL, PIOS_LED_ALARM,
@@ -173,7 +173,7 @@ void PIOS_Board_Init(void) {
 
 	const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 
-	PIOS_HAL_configure_RFM22B(hwTauLink.Radio, bdinfo->board_type,
+	PIOS_HAL_ConfigureRFM22B(hwTauLink.Radio, bdinfo->board_type,
 			bdinfo->board_rev, hwTauLink.MaxRfPower,
 			hwTauLink.MaxRfSpeed, NULL, rfm22b_cfg,
 			hwTauLink.MinChannel, hwTauLink.MaxChannel,
