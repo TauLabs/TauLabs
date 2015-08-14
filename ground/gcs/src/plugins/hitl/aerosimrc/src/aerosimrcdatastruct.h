@@ -38,9 +38,13 @@ const quint16 DBG_BUFFER_MAX_SIZE = 4096;
 #define OBSOLETE_MIT_CHECKBOX   (1 << 1)
 #define OBSOLETE_MIT_SEPARATOR  (1 << 7)
 
-#define PACK_STRUCT __attribute__((packed))
+#ifdef _MSC_VER
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop) )
+#else
+#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+#endif
 
-struct simToPlugin
+PACK(struct simToPlugin
 {
     quint16 structSize;
     float simTimeStep;
@@ -135,11 +139,11 @@ struct simToPlugin
     float accelZm;
     // ver 3.90
     quint32 OSDVideoBufSize;
-} PACK_STRUCT ;     // normal - 592, packed - 582 OK (3.81)
+}) ;     // normal - 592, packed - 582 OK (3.81)
                     // normal - ???, packed - 658 OK (3.83)
                     // normal - ???, packed - 662 OK (3.90)
 
-struct pluginToSim
+PACK(struct pluginToSim
 {
     quint16 structSize;
     const char *dbgInfoText;
@@ -183,24 +187,22 @@ struct pluginToSim
     qint16 newScreenH;
     qint16 newScreenX;
     qint16 newScreenY;
-} PACK_STRUCT ;     // normal 516, packed 507 OK (3.81)
+});                 // normal 516, packed 507 OK (3.81)
                     // normal ???, packed 515 OK (3.83 & 3.90)
 
-struct TPluginMenuItem
+PACK(struct TPluginMenuItem
 {
     quint32 OBSOLETE_eType;
     char *OBSOLETE_strName;
-} PACK_STRUCT ;
+});
 
-struct pluginInit
+PACK(struct pluginInit
 {
     quint32 nStructSize;
     char *OBSOLETE_strMenuTitle;
     TPluginMenuItem OBSOLETE_atMenuItem[MAX_DLL_USER_MENU_ITEMS];
     const char *strPluginFolder;
     const char *strOutputFolder;
-} PACK_STRUCT ;     // normal - 144, packed - 144 OK (3.81 & 3.83 & 3.90)
-
-#undef PACK_STRUCT
+});     // normal - 144, packed - 144 OK (3.81 & 3.83 & 3.90)
 
 #endif // AEROSIMRCDATASTRUCT_H

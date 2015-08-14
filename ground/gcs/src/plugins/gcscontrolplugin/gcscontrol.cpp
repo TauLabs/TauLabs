@@ -209,7 +209,7 @@ bool GCSControl::setChannel(quint8 channel, float value)
 
 void GCSControl::objectsUpdated(UAVObject *obj)
 {
-    qDebug()<<__PRETTY_FUNCTION__<<"Object"<<obj->getName()<<"changed outside this class";
+    qDebug()<< "GCSControl::objectsUpdated" <<"Object"<<obj->getName()<<"changed outside this class";
 }
 
 void GCSControl::receiverActivitySlot()

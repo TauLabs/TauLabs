@@ -52,9 +52,13 @@ equals(copydata, 1) {
         # Qt DLLs
         QT_DLLS = \
                   Qt5Core.dll \
-                  Qt5Network.dll \
-		  libgcc_s_dw2-1.dll \
-		  libstdc++-6.dll
+                  Qt5Network.dll
+        win32-g++ {
+                QT_DLLS += \
+                    libgcc_s_dw2-1.dll \
+                    libstdc++-6.dll
+        }
+
         for(dll, QT_DLLS) {
             data_copy.commands += $(COPY_FILE) $$targetPath(\"$$[QT_INSTALL_BINS]/$$dll\") $$targetPath(\"$$SIM_DIR/$$dll\") $$addNewline()
         }

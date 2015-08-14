@@ -26,7 +26,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include "coordinateconversions.h"
 #include <qglobal.h>
 #include <QDebug>
