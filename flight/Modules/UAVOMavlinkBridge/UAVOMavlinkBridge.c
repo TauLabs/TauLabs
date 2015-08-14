@@ -45,6 +45,8 @@
 #include "mavlink.h"
 #include "pios_thread.h"
 
+#include "custom_types.h"
+
 // ****************
 // Private functions
 
@@ -436,6 +438,46 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED)
 				armed_mode |= MAV_MODE_FLAG_SAFETY_ARMED;
 
+			uint8_t custom_mode = CUSTOM_MODE_STAB;
+
+			switch (flightStatus.FlightMode) {
+				case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
+				case FLIGHTSTATUS_FLIGHTMODE_MWRATE:
+				case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
+				case FLIGHTSTATUS_FLIGHTMODE_HORIZON:
+					/* Kinda a catch all */
+					custom_mode = CUSTOM_MODE_SPORT;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_ACRO:
+				case FLIGHTSTATUS_FLIGHTMODE_AXISLOCK:
+					custom_mode = CUSTOM_MODE_ACRO;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
+				case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
+				case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
+					/* May want these three to try and
+					 * infer based on roll axis */
+				case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
+					custom_mode = CUSTOM_MODE_STAB;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE:
+					custom_mode = CUSTOM_MODE_DRIFT;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
+					custom_mode = CUSTOM_MODE_ALTH;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
+					custom_mode = CUSTOM_MODE_RTL;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL:
+				case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+					custom_mode = CUSTOM_MODE_POSH;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+					custom_mode = CUSTOM_MODE_AUTO;
+					break;
+			}
+
 			mavlink_msg_heartbeat_pack(0, 200, &mavMsg,
 					// type Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
 					MAV_TYPE_GENERIC,
@@ -444,7 +486,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// base_mode System mode bitfield, see MAV_MODE_FLAGS ENUM in mavlink/include/mavlink_types.h
 					armed_mode,
 					// custom_mode A bitfield for use for autopilot-specific flags.
-					0,
+					custom_mode,
 					// system_status System status flag, see MAV_STATE ENUM
 					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);
