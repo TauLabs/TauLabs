@@ -12,6 +12,7 @@ SOURCES += main.cpp \
 
 include(../rpath.pri)
 include(../libs/utils/utils.pri)
+include(../libs/libcrashreporter-qt/libcrashreporter-qt.pri)
 
 HEADERS += customsplash.h
 
