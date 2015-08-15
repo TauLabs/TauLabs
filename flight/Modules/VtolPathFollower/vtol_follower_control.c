@@ -308,7 +308,7 @@ int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned
 int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
 	bool *landed)
 {
-	return vtol_follower_control_impl(dT, hold_pos_ned, false, true);
+	return vtol_follower_control_impl(dT, hold_pos_ned, true, true);
 }
 
 /**

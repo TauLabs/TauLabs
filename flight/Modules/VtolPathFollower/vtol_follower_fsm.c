@@ -666,8 +666,11 @@ static void go_enable_fly_home()
 	vtol_fsm_path_desired.End[0] = 0;
 	vtol_fsm_path_desired.End[1] = 0;
 	vtol_fsm_path_desired.End[2] = positionActual.Down;
-	if (vtol_fsm_path_desired.End[2] > -RTH_MIN_ALTITUDE)
+
+	if (positionActual.Down > -RTH_MIN_ALTITUDE) {
+		vtol_fsm_path_desired.Start[2] = -RTH_MIN_ALTITUDE;
 		vtol_fsm_path_desired.End[2] = -RTH_MIN_ALTITUDE;
+	}
 
 	vtol_fsm_path_desired.StartingVelocity = RTH_VELOCITY;
 	vtol_fsm_path_desired.EndingVelocity = RTH_VELOCITY;
@@ -685,7 +688,7 @@ static void go_enable_land_home()
 {
 	vtol_hold_position_ned[0] = 0;
 	vtol_hold_position_ned[1] = 0;
-	vtol_hold_position_ned[2] = 0; // Has no affect
+	vtol_hold_position_ned[2] = 0; // Has no effect
 }
 
 //! @}
