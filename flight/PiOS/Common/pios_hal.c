@@ -113,6 +113,11 @@ uintptr_t pios_com_debug_id;
 #define PIOS_COM_RFM22B_RF_RX_BUF_LEN 512
 #define PIOS_COM_RFM22B_RF_TX_BUF_LEN 512
 
+/**
+ * @brief Flash a blink code.
+ * @param[in] led_id The LED to blink
+ * @param[in] code Number of blinks to do in a row
+ */
 void PIOS_HAL_Panic(uint32_t led_id, int32_t code) {
         while(1){
                 for (int32_t i = 0; i < code; i++) {
@@ -132,6 +137,15 @@ void PIOS_HAL_Panic(uint32_t led_id, int32_t code) {
         }
 }
 
+/**
+ * @brief Bind a device instance to a role.
+ *
+ * This allows us to check for duplicates and to eventually do something
+ * intelligent baout them here.
+ *
+ * @param[out] target place dedicated for this role to store device id
+ * @param[in] value handle of the device to store into this role.
+ */
 static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value) {
 	if (target) {
 #if 0
@@ -144,16 +158,32 @@ static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value) {
 	}
 }
 
-static void PIOS_HAL_SetReceiver(int receiverType, uintptr_t value) {
-	PIOS_HAL_SetTarget(pios_rcvr_group_map + receiverType, value);
+/**
+ * @brief Assign a device instance into the receiver map
+ *
+ * @param[in] receiver_type the receiver type index from MANUALCONTROL
+ * @param[in] value handle of the device instance
+ */ 
+static void PIOS_HAL_SetReceiver(int receiver_type, uintptr_t value) {
+	PIOS_HAL_SetTarget(pios_rcvr_group_map + receiver_type, value);
 }
 
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-static void PIOS_HAL_ConfigureCom (const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
-                const struct pios_com_driver *com_driver, uintptr_t *pios_com_id)
+/**
+ * @brief Configures USART and COM subsystems, allocates buffers.
+ *
+ * @param[in] usart_port_cfg USART configuration
+ * @param[in] rx_buf_len receive buffer size
+ * @param[in] tx_buf_len transmit buffer size
+ * @param[in] com_driver communications driver
+ * @param[out] com_id id of the PIOS_Com instance
+ */
+static void PIOS_HAL_ConfigureCom (const struct pios_usart_cfg *usart_port_cfg,
+		size_t rx_buf_len, size_t tx_buf_len,
+                const struct pios_com_driver *com_driver, uintptr_t *com_id)
 {
-        uintptr_t pios_usart_id;
-        if (PIOS_USART_Init(&pios_usart_id, usart_port_cfg)) {
+        uintptr_t usart_id;
+        if (PIOS_USART_Init(&usart_id, usart_port_cfg)) {
                 PIOS_Assert(0);
         }
 
@@ -173,7 +203,7 @@ static void PIOS_HAL_ConfigureCom (const struct pios_usart_cfg *usart_port_cfg, 
                 tx_buffer = NULL;
         }
 
-        if (PIOS_COM_Init(pios_com_id, com_driver, pios_usart_id,
+        if (PIOS_COM_Init(com_id, com_driver, usart_id,
                                 rx_buffer, rx_buf_len,
                                 tx_buffer, tx_buf_len)) {
                 PIOS_Assert(0);
@@ -182,6 +212,14 @@ static void PIOS_HAL_ConfigureCom (const struct pios_usart_cfg *usart_port_cfg, 
 #endif  /* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
 
 #ifdef PIOS_INCLUDE_DSM
+/**
+ * @brief Configures a DSM receiver
+ *
+ * @param[in] usart_dsm_cfg Configuration for the USART for DSM mode.
+ * @param[in] dsm_cfg Configuration for DSM on this target
+ * @param[in] usart_com_driver The COM driver for this USART
+ * @param[in] bind A number of binding pulses to transmit on this port.
+ */
 static void PIOS_HAL_ConfigureDSM(const struct pios_usart_cfg *usart_dsm_cfg,
                 const struct pios_dsm_cfg *dsm_cfg,
                 const struct pios_com_driver *usart_com_driver,
@@ -208,29 +246,61 @@ static void PIOS_HAL_ConfigureDSM(const struct pios_usart_cfg *usart_dsm_cfg,
 #endif
 
 #ifdef PIOS_INCLUDE_HSUM
-static void PIOS_HAL_ConfigureHSUM(const struct pios_usart_cfg *pios_usart_hsum_cfg,
-                const struct pios_com_driver *pios_usart_com_driver,enum pios_hsum_proto *proto,
-                ManualControlSettingsChannelGroupsOptions channelgroup)
+/**
+ * @brief Configures a HSUM receiver
+ *
+ * @param[in] usart_hsum_cfg Configuration for the USART for DSM mode.
+ * @param[in] usart_com_driver The COM driver for this USART
+ * @param[in] proto SUMH/SUMD?
+ */
+static void PIOS_HAL_ConfigureHSUM(const struct pios_usart_cfg *usart_hsum_cfg,
+                const struct pios_com_driver *usart_com_driver,
+		enum pios_hsum_proto *proto)
 {
-        uintptr_t pios_usart_hsum_id;
-        if (PIOS_USART_Init(&pios_usart_hsum_id, pios_usart_hsum_cfg)) {
+        uintptr_t usart_hsum_id;
+        if (PIOS_USART_Init(&usart_hsum_id, usart_hsum_cfg)) {
                 PIOS_Assert(0);
         }
         
-        uintptr_t pios_hsum_id;
-        if (PIOS_HSUM_Init(&pios_hsum_id, pios_usart_com_driver,
-                           pios_usart_hsum_id, *proto)) {
+        uintptr_t hsum_id;
+        if (PIOS_HSUM_Init(&hsum_id, usart_com_driver,
+                           usart_hsum_id, *proto)) {
                 PIOS_Assert(0);
         }
         
-        uintptr_t pios_hsum_rcvr_id;
-        if (PIOS_RCVR_Init(&pios_hsum_rcvr_id, &pios_hsum_rcvr_driver, pios_hsum_id)) {
+        uintptr_t hsum_rcvr_id;
+        if (PIOS_RCVR_Init(&hsum_rcvr_id, &pios_hsum_rcvr_driver, hsum_id)) {
                 PIOS_Assert(0);
         }
-        pios_rcvr_group_map[channelgroup] = pios_hsum_rcvr_id;
+
+	PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM,
+			hsum_rcvr_id);
 }
 #endif
 
+/** @brief Configure a [flexi/main/rcvr/etc] port.
+ *
+ * Not all of these parameters will be defined for each port.  Caller may pass
+ * NULL but is responsible for ensuring illegal modes also do not exist in the
+ * target's UAVO definition.
+ *
+ * Hopefully more of these can be inferred with time and the arg list can
+ * greatly decrease in size.
+ *
+ * @param[in] port_type protocol to speak on this port
+ * @param[in] usart_port_cfg serial configuration for most modes on this
+ * @param[in] com_driver communications driver for serial on this port
+ * @param[out] i2c_id ID of I2C peripheral if operated in I2C mode
+ * @param[in] i2c_Cfg Adapter configuration/registers for I2C mode
+ * @param[in] ppm_cfg Configuration/registers for PPM mode
+ * @param[in] led_id LED to blink when there's panics
+ * @param[in] usart_dsm_hsum_cfg usart configuration for DSM/HSUM modes
+ * @param[in] dsm_cfg DSM configuration for this port
+ * @param[in] dsm_bind Number of DSM binding pulses to issue
+ * @param[in] sbus_rcvr_cfg usart configuration for SBUS modes
+ * @param[in] sbus_cfg SBUS configuration for this port
+ * @param[in] sbus_toggle Whether there is SBUS inverters to touch on this port
+ */
 void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 	const struct pios_usart_cfg *usart_port_cfg, 
 	const struct pios_com_driver *com_driver, 
@@ -331,7 +401,7 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 						PIOS_Assert(0);
 						break;
 				}
-				PIOS_HAL_ConfigureHSUM(usart_dsm_hsum_cfg, com_driver, &proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
+				PIOS_HAL_ConfigureHSUM(usart_dsm_hsum_cfg, com_driver, &proto);
 			}
 #endif  /* PIOS_INCLUDE_HSUM */
 			break;
@@ -400,6 +470,12 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 }
 
 #if defined(PIOS_INCLUDE_USB_CDC)
+/** @brief Configure USB CDC.
+ *
+ * @param[in] port_type The service provided over USB CDC communications
+ * @param[in] usb_id ID of the USB device
+ * @param[in] cdc_cfg Platform-specific CDC configuration
+ */
 void PIOS_HAL_ConfigureCDC(HwSharedUSB_VCPPortOptions port_type,
 		uintptr_t usb_id,
 		const struct pios_usb_cdc_cfg *cdc_cfg) {
@@ -472,9 +548,14 @@ void PIOS_HAL_ConfigureCDC(HwSharedUSB_VCPPortOptions port_type,
 #endif
 
 #if defined(PIOS_INCLUDE_USB_HID)
+/** @brief Configure USB HID.
+ *
+ * @param[in] port_type The service provided over USB HID communications
+ * @param[in] usb_id ID of the USB device
+ * @param[in] hid_cfg Platform-specific HID configuration
+ */
 void PIOS_HAL_ConfigureHID(HwSharedUSB_HIDPortOptions port_type,
-		uintptr_t usb_id,
-		const struct pios_usb_hid_cfg *hid_cfg) {
+		uintptr_t usb_id, const struct pios_usb_hid_cfg *hid_cfg) {
 	uintptr_t pios_usb_hid_id;
 	if (PIOS_USB_HID_Init(&pios_usb_hid_id, hid_cfg, usb_id)) {
 		PIOS_Assert(0);
@@ -512,6 +593,20 @@ void PIOS_HAL_ConfigureHID(HwSharedUSB_HIDPortOptions port_type,
 
 
 #if defined(PIOS_INCLUDE_RFM22B)
+/** @brief Configure RFM22B radio.
+ *
+ * @param[in] radio_type What goes over this radio link
+ * @param[in] board_type Target board type
+ * @param[in] board_rev Target board revision
+ * @param[in] max_power Maximum configured output power
+ * @param[in] max_speed Maximum configured speed
+ * @param[in] openlrs_cfg Configuration for radio in openlrs mode
+ * @param[in] rfm22b_cfg Configuration for radio in TauLink mode
+ * @param[in] min_chan Minimum channel id.
+ * @param[in] max_chan Maximum channel id
+ * @param[in] coord_id 0 if we are coordinator, else the coord's radio id.
+ * @param[in] status_inst Which instance number to save RFM22BStatus to
+ */
 void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
 		uint8_t board_type, uint8_t board_rev,
 		HwSharedMaxRfPowerOptions max_power,
