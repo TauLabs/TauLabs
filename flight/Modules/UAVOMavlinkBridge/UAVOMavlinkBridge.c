@@ -142,84 +142,27 @@ MODULE_INITCALL( uavoMavlinkBridgeInitialize, uavoMavlinkBridgeStart)
  */
 
 static void uavoMavlinkBridgeTask(void *parameters) {
-	FlightBatterySettingsData batSettings;
-	FlightBatteryStateData batState;
-	GPSPositionData gpsPosData;
-	ManualControlCommandData manualState;
-	AttitudeActualData attActual;
-	AirspeedActualData airspeedActual;
-	ActuatorDesiredData actDesired;
-	FlightStatusData flightStatus;
-	SystemStatsData systemStats;
-	HomeLocationData homeLocation;
-	BaroAltitudeData baroAltitude;
-
-	if (FlightBatterySettingsHandle() != NULL )
-		FlightBatterySettingsGet(&batSettings);
-	else {
-		batSettings.Capacity = 0;
-		batSettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_CURRENT] = 0;
-		batSettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_VOLTAGE] = 0;
-		batSettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_WARNING] = 0;
-		batSettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM] = 0;
-		batSettings.VoltagePin = FLIGHTBATTERYSETTINGS_VOLTAGEPIN_NONE;
-		batSettings.CurrentPin = FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE;
-	}
-
-	if (GPSPositionHandle() == NULL ){
-		gpsPosData.Altitude = 0;
-		gpsPosData.GeoidSeparation = 0;
-		gpsPosData.Groundspeed = 0;
-		gpsPosData.HDOP = 0;
-		gpsPosData.Heading = 0;
-		gpsPosData.Latitude = 0;
-		gpsPosData.Longitude = 0;
-		gpsPosData.PDOP = 0;
-		gpsPosData.Satellites = 0;
-		gpsPosData.Status = 0;
-		gpsPosData.VDOP = 0;
-	}
-
-	if (FlightBatteryStateHandle() == NULL ) {
-		batState.AvgCurrent = 0;
-		batState.BoardSupplyVoltage = 0;
-		batState.ConsumedEnergy = 0;
-		batState.Current = 0;
-		batState.EstimatedFlightTime = 0;
-		batState.PeakCurrent = 0;
-		batState.Voltage = 0;
-	}
-
-	if (AirspeedActualHandle() == NULL ) {
-		airspeedActual.CalibratedAirspeed = 0;
-		airspeedActual.TrueAirspeed = 0;
-		airspeedActual.alpha = 0;
-		airspeedActual.beta = 0;
-	}
-
-	if (HomeLocationHandle() == NULL ) {
-		homeLocation.Set=HOMELOCATION_SET_FALSE;
-		homeLocation.Latitude = 0;
-		homeLocation.Longitude = 0;
-		homeLocation.Altitude = 0;
-		homeLocation.Be[0] = 0;
-		homeLocation.Be[1] = 0;
-		homeLocation.Be[2] = 0;
-		homeLocation.GroundTemperature = (STANDARD_AIR_TEMPERATURE - CELSIUS2KELVIN) * 10;
-		homeLocation.SeaLevelPressure = STANDARD_AIR_SEA_LEVEL_PRESSURE/1000;
-	}
-
 	uint16_t msg_length;
 	uint32_t lastSysTime;
 	// Main task loop
 	lastSysTime = PIOS_Thread_Systime();
 
+	FlightBatterySettingsData batSettings = {};
+
+	if (FlightBatterySettingsHandle() != NULL )
+		FlightBatterySettingsGet(&batSettings);
+
+	SystemStatsData systemStats;
+
 	while (1) {
 		PIOS_Thread_Sleep_Until(&lastSysTime, 1000 / TASK_RATE_HZ);
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTENDED_STATUS)) {
+			FlightBatteryStateData batState = {};
+
 			if (FlightBatteryStateHandle() != NULL )
 				FlightBatteryStateGet(&batState);
+
 			SystemStatsGet(&systemStats);
 
 			int8_t battery_remaining = 0;
@@ -269,6 +212,9 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_RC_CHANNELS)) {
+			ManualControlCommandData manualState;
+			FlightStatusData flightStatus;
+
 			ManualControlCommandGet(&manualState);
 			FlightStatusGet(&flightStatus);
 			SystemStatsGet(&systemStats);
@@ -302,6 +248,10 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_POSITION)) {
+			GPSPositionData gpsPosData = {};
+			HomeLocationData homeLocation = {};
+			SystemStatsGet(&systemStats);
+
 			if (GPSPositionHandle() != NULL )
 				GPSPositionGet(&gpsPosData);
 			if (HomeLocationHandle() != NULL )
@@ -375,6 +325,9 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA1)) {
+			AttitudeActualData attActual;
+			SystemStatsData systemStats;
+
 			AttitudeActualGet(&attActual);
 			SystemStatsGet(&systemStats);
 
@@ -398,6 +351,13 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA2)) {
+			ActuatorDesiredData actDesired;
+			AttitudeActualData attActual;
+			AirspeedActualData airspeedActual = {};
+			GPSPositionData gpsPosData = {};
+			BaroAltitudeData baroAltitude = {};
+			FlightStatusData flightStatus;
+
 			if (AirspeedActualHandle() != NULL )
 				AirspeedActualGet(&airspeedActual);
 			if (GPSPositionHandle() != NULL )
@@ -406,6 +366,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 				BaroAltitudeGet(&baroAltitude);
 			ActuatorDesiredGet(&actDesired);
 			AttitudeActualGet(&attActual);
+			FlightStatusGet(&flightStatus);
 
 			float altitude = 0;
 			if (BaroAltitudeHandle() != NULL)
