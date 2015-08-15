@@ -76,7 +76,7 @@ uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_vcp_id;
 #endif
 
-uintptr_t pios_com_telem_rf_id;
+uintptr_t pios_com_telem_serial_id;
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
@@ -282,8 +282,7 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 			break;
 		case HWSHARED_PORTTYPES_TELEMETRY:
 			PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, com_driver, &port_driver_id);
-			// Name of this should change XXX
-			target = &pios_com_telem_rf_id;
+			target = &pios_com_telem_serial_id;
 			break;
 		case HWSHARED_PORTTYPES_GPS:
 			PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, com_driver, &port_driver_id);
@@ -592,8 +591,8 @@ void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
 
 #ifndef PIOS_NO_TELEM_ON_RF
 		/* Set Telemetry to use RFM22b if no other telemetry is configured (USB always overrides anyway) */
-		if (!pios_com_telem_rf_id) {
-			pios_com_telem_rf_id = pios_com_rf_id;
+		if (!pios_com_telem_serial_id) {
+			pios_com_telem_serial_id = pios_com_rf_id;
 		}
 #endif
 		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;

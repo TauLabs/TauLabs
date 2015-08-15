@@ -168,14 +168,14 @@ extern uint32_t pios_i2c_flexi_adapter_id;
 extern uintptr_t pios_com_telem_usb_id; 
 extern uintptr_t pios_com_vcp_id; 
 extern uintptr_t pios_com_radio_id; 
-extern uintptr_t pios_com_telem_rf_id; 		// POORLY NAMED
+extern uintptr_t pios_com_telem_serial_id;
 extern uintptr_t pios_com_rf_id;
 extern uintptr_t pios_com_telem_uart_telem_id; 
 extern uintptr_t pios_ppm_rcvr_id;
 extern uintptr_t pios_com_debug_id;
 #define PIOS_COM_TELEM_USB         (pios_com_telem_usb_id)
 #define PIOS_COM_TELEM_VCP         (pios_com_vcp_id)
-#define PIOS_COM_TELEMETRY         (pios_com_telem_rf_id)
+#define PIOS_COM_TELEMETRY         (pios_com_telem_serial_id)
 #define PIOS_COM_RFM22B            (pios_com_rf_id)
 #define PIOS_PPM_RECEIVER          (pios_ppm_rcvr_id)
 #define PIOS_COM_DEBUG             (pios_com_debug_id)
