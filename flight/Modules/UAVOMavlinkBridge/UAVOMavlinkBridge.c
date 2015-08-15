@@ -59,7 +59,7 @@ static bool stream_trigger(enum MAV_DATA_STREAM stream_num);
 #if defined(PIOS_MAVLINK_STACK_SIZE)
 #define STACK_SIZE_BYTES PIOS_MAVLINK_STACK_SIZE
 #else
-#define STACK_SIZE_BYTES 800
+#define STACK_SIZE_BYTES 696
 #endif
 
 #define TASK_PRIORITY               PIOS_THREAD_PRIO_LOW
