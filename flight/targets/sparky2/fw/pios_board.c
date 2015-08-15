@@ -523,7 +523,7 @@ void PIOS_Board_Init(void) {
 		                  tx_buffer, PIOS_COM_CAN_TX_BUF_LEN))
 			panic(6);
 
-		pios_com_bridge_id = pios_com_can_id;
+		/* pios_com_bridge_id = pios_com_can_id; */
 	}
 #endif
 
