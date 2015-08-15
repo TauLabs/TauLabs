@@ -51,6 +51,18 @@
 #include <QPixmap>
 #include "customsplash.h"
 #include <QBitmap>
+#include "libcrashreporter-qt/libcrashreporter-handler/Handler.h"
+
+#include "../../../../../build/ground/gcs/gcsversioninfo.h"
+#define STRINGIFY_INTERNAL(x) #x
+#define STRINGIFY(x) STRINGIFY_INTERNAL(x)
+
+#define USE_CRASHREPORTING
+#ifdef Q_OS_WIN
+#ifndef _MSC_VER
+#undef USE_CRASHREPORTING
+#endif
+#endif
 
 enum { OptionIndent = 4, DescriptionIndent = 24 };
 
@@ -187,7 +199,7 @@ static inline QStringList getPluginPaths()
     QDir rootDir = QApplication::applicationDirPath();
     rootDir.cdUp();
     const QString rootDirPath = rootDir.canonicalPath();
-    // 1) "plugins" (Win/Linux)
+    // 1) "plugins" (Win/Linux)GCS_REVISION_PRETTY
     QString pluginPath = rootDirPath;
     pluginPath += QLatin1Char('/');
     pluginPath += QLatin1String(GCS_LIBRARY_BASENAME);
@@ -257,6 +269,15 @@ int main(int argc, char **argv)
 #endif
 
     SharedTools::QtSingleApplication app((QLatin1String(appNameC)), argc, argv);
+
+#ifdef USE_CRASHREPORTING
+    const char * const GCS_REVISION_PRETTY_STR      =   STRINGIFY(GCS_REVISION_PRETTY);
+    QString dirName(GCS_REVISION_PRETTY_STR);
+    dirName = dirName.replace("%@%", "_");
+    dirName = QDir::tempPath() + QDir::separator() + "taulabsgcs_" + dirName;
+    QDir().mkdir(dirName);
+    new CrashReporter::Handler(dirName, true, "crashreporterapp");
+#endif
 
     QString locale = QLocale::system().name();
 
