@@ -543,7 +543,9 @@ static float loiter_deadband(float input) {
 }
 
 /**
- * Receives loiter commands and makes appropriate adjustments.
+ * Receives loiter commands and makes appropriate adjustments.  The updated
+ * position and calculated attitude are used in later stages of the control
+ * process.
  * @param[in] dT the time since last evaluation
  * @param[in,out] hold_pos the hold position
  * @param[out] att_adj an adjustment to be made to attitude for responsiveness.

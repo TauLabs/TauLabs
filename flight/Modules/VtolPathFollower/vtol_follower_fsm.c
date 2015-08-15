@@ -507,12 +507,18 @@ static int32_t do_land()
 static int32_t do_loiter()
 {
 	float att_adj[2] = { 0, 0 };
-	if (vtol_follower_control_loiter(DT, vtol_hold_position_ned, att_adj)) {
-		// If we did something, enable this as our hold position.
+	float hold_pos[3] = {
+		vtol_hold_position_ned[0],
+		vtol_hold_position_ned[1],
+		vtol_hold_position_ned[2]
+	};
 
-		hold_position(vtol_hold_position_ned[0],
-				vtol_hold_position_ned[1],
-				vtol_hold_position_ned[2]);
+	if (vtol_follower_control_loiter(DT, hold_pos, att_adj)) {
+		// If hold position changed, use it!
+		// We follow this conditional just to avoid unnecessarily
+		// spamming updates to the PositionDesired object.
+
+		hold_position(hold_pos[0], hold_pos[1], hold_pos[2]);
 	}
 
 	if (vtol_follower_control_endpoint(DT, vtol_hold_position_ned) == 0) {
