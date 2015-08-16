@@ -51,13 +51,9 @@
 
 #include "vtol_follower_priv.h"
 
-#include "attitudeactual.h"
 #include "pathdesired.h"
 #include "positionactual.h"
-#include "stabilizationdesired.h"
 #include "vtolpathfollowerstatus.h"
-
-#include "misc_math.h"
 
 // Various navigation constants
 const static float RTH_MIN_ALTITUDE = 15.f;  //!< Hover at least 15 m above home */
