@@ -54,7 +54,7 @@ struct TLMAPWIDGET_EXPORT distBearingAltitude
 *
 * @class MapPointItem mappointitem.h "mappointitem.h"
 */
-class MapPointItem: public QObject,public QGraphicsItem
+class TLMAPWIDGET_EXPORT MapPointItem: public QObject,public QGraphicsItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem)
