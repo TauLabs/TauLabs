@@ -77,6 +77,9 @@ p, li { white-space: pre-wrap; }
             <property name="text">
              <string>Ok send report</string>
             </property>
+            <property name="default">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item>
@@ -156,6 +159,9 @@ p, li { white-space: pre-wrap; }
            <widget class="QPushButton" name="pb_SendReport">
             <property name="text">
              <string>Send Report</string>
+            </property>
+            <property name="default">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
