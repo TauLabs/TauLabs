@@ -28,6 +28,14 @@
 				<option>None</option>
 			</options>
 		</field>
+
+		<field name="DSMResolutionMode" units="Resolution Mode" type="enum" elements="1" defaultvalue="Autodetect">
+			<options>
+				<option>Autodetect</option>
+				<option>Force 10-Bit</option>
+				<option>Force 11-Bit</option>
+			</options>
+		</field>
 		
 		<field name="RssiType" units="Rssi Type" type="enum" elements="1" defaultvalue="None">
 			<options>
