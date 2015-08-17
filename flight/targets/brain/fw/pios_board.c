@@ -174,7 +174,7 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 uintptr_t pios_com_debug_id;
 #endif /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
-bool brain_external_mag_fail;
+bool external_mag_fail;
 
 uintptr_t pios_com_gps_id;
 uintptr_t pios_com_telem_usb_id;
@@ -1296,7 +1296,7 @@ void PIOS_Board_Init(void) {
 #endif
 
 	// set variable so the Sensors task sets an alarm
-	brain_external_mag_fail = !use_internal_mag && !ext_mag_init_ok;
+	external_mag_fail = !use_internal_mag && !ext_mag_init_ok;
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
 	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);
