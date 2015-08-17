@@ -1,0 +1,38 @@
+#!/bin/bash
+parent_path=$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )
+cd "$parent_path"
+debugdir=../../build/ground/debugsymbols
+
+function moveSymbols()
+{
+  for symbol_file in $debugdir/*.sym
+  do
+      file_info=$(head -n1 $symbol_file)
+      IFS=' ' read -a splitlist <<< "${file_info}"
+      basefilename=${symbol_file:0:${#symbol_file} - 4}
+      dest_dir=$basefilename/${splitlist[3]}
+      mkdir -p $dest_dir
+      mv $symbol_file $dest_dir
+      echo "$symbol_file -> $dest_dir/$symbol_file"
+  done
+}
+
+function generateSymbols()
+{
+  filename=$(basename "$1")
+  debugfile="$debugdir/$filename.sym"
+  if [ ! -d "${debugdir}" ] ; then
+    echo "creating dir ${debugdir}"
+    mkdir -p "${debugdir}"
+  fi
+  echo "Generating symbols for $1, putting them in ${debugfile}"
+  dump_syms ${1} > ${debugfile}
+  echo "Striping debug information from $1"
+  strip --strip-debug --strip-unneeded "${1}"
+}
+
+interesting_files=$( find ../../build/ground -executable -type f -not -path "../../build/ground/gcs/share/*" )
+for file in $interesting_files; do
+    generateSymbols $file
+done
+moveSymbols
