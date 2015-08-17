@@ -293,6 +293,10 @@ static void i2c_adapter_fsm_init(struct pios_i2c_adapter *i2c_adapter)
 
 static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 {
+	uint8_t retry_count = 0;
+	uint8_t retry_count_clk = 0;
+	static const uint8_t MAX_I2C_RETRY_COUNT = 10;
+
 	/* Reset the I2C block */
 	I2C_DeInit(i2c_adapter->cfg->regs);
 
@@ -312,14 +316,17 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 	/* Check SDA line to determine if slave is asserting bus and clock out if so, this may  */
 	/* have to be repeated (due to further bus errors) but better than clocking 0xFF into an */
 	/* ESC */
-	//bool sda_hung = GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) == Bit_RESET;
-	while (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) == Bit_RESET) {
-
+	
+	retry_count_clk = 0;
+	while (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) == Bit_RESET && (retry_count_clk++ < MAX_I2C_RETRY_COUNT)) {
+		retry_count = 0;
 		/* Set clock high and wait for any clock stretching to finish. */
 		GPIO_SetBits(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin);
-		while (GPIO_ReadInputDataBit(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin) == Bit_RESET);
+		while (GPIO_ReadInputDataBit(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin) == Bit_RESET && (retry_count++ < MAX_I2C_RETRY_COUNT))
+			PIOS_DELAY_WaituS(1);
+			
 		PIOS_DELAY_WaituS(2);
-
+		
 		/* Set clock low */
 		GPIO_ResetBits(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin);
 		PIOS_DELAY_WaituS(2);
@@ -340,10 +347,15 @@ static void i2c_adapter_reset_bus(struct pios_i2c_adapter *i2c_adapter)
 	/* Set data and clock high and wait for any clock stretching to finish. */
 	GPIO_SetBits(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin);
 	GPIO_SetBits(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin);
-	while (GPIO_ReadInputDataBit(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin) == Bit_RESET);
+	
+	retry_count = 0;
+	while (GPIO_ReadInputDataBit(i2c_adapter->cfg->scl.gpio, i2c_adapter->cfg->scl.init.GPIO_Pin) == Bit_RESET && (retry_count++ < MAX_I2C_RETRY_COUNT))
+		PIOS_DELAY_WaituS(1);
+		
 	/* Wait for data to be high */
-	while (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) != Bit_SET);
-
+	retry_count = 0;
+	while (GPIO_ReadInputDataBit(i2c_adapter->cfg->sda.gpio, i2c_adapter->cfg->sda.init.GPIO_Pin) != Bit_SET && (retry_count++ < MAX_I2C_RETRY_COUNT))
+		PIOS_DELAY_WaituS(1);
 
 	/* Bus signals are guaranteed to be high (ie. free) after this point */
 	/* Initialize the GPIO pins to the peripheral function */

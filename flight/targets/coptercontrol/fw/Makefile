@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2009.
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
 # @addtogroup 
 # @{
 # @addtogroup 
@@ -52,8 +52,6 @@ ENABLE_DEBUG_PINS ?= NO
 ENABLE_AUX_UART ?= NO
 
 # @endgroup Compile Options
-
-NAVIGATION ?= NO
 
 # @startgroup  Optional modules
 # @groupbrief Optional module and driver defaults
@@ -114,13 +112,7 @@ ifeq ($(USE_BATTERY), YES)
 OPTMODULES += Battery
 endif
 # List of mandatory modules to include
-ifeq ($(NAVIGATION), YES)
-MODULES += State/coptercontrol
-MODULES += PathFollower
-CFLAGS += -DNAVIGATION
-else
-MODULES += Attitude/coptercontrol
-endif
+MODULES += Attitude/smallf1
 MODULES += Stabilization Actuator ManualControl FirmwareIAP
 # MODULES += PathFollower/coptercontrol
 # Telemetry must be last to grab the optional modules (why?)

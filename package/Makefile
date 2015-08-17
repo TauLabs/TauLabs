@@ -48,10 +48,15 @@ endif
 ALL_BOARDS        := brain
 ALL_BOARDS_BU     := brain
 
-FW_TARGETS        := $(addprefix fw_, $(ALL_BOARDS))
-FW_TARGETS_TOOLS  := $(addprefix fw_, $(ALL_BOARDS))
-BL_TARGETS        := $(addprefix bl_, $(ALL_BOARDS))
-BU_TARGETS        := $(addprefix bu_, $(ALL_BOARDS_BU))
+FW_BOARDS  := $(ALL_BOARDS)
+BL_BOARDS  := $(filter-out naze32, $(ALL_BOARDS))
+BU_BOARDS  := $(ALL_BOARDS_BU)
+EF_BOARDS  := $(filter-out naze32, $(ALL_BOARDS))
+
+FW_TARGETS        := $(addprefix fw_, $(FW_BOARDS))
+FW_TARGETS_TOOLS  := $(addprefix fw_, $(FW_BOARDS))
+BL_TARGETS        := $(addprefix bl_, $(BL_BOARDS))
+BU_TARGETS        := $(addprefix bu_, $(BU_BOARDS))
 
 help:
 	@echo

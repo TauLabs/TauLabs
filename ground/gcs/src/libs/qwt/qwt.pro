@@ -8,8 +8,6 @@
 ################################################################
 
 include( qwtconfig.pri )
-# include(../../../taulabslibrary.pri)
-
 TEMPLATE = subdirs
 CONFIG  += warn_off
 CONFIG  += ordered

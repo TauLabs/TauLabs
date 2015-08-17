@@ -20,20 +20,7 @@ DESC  = """
 
 #-------------------------------------------------------------------------------
 def main():
-    # Setup the command line arguments.
-    parser = argparse.ArgumentParser(usage = USAGE, description = DESC)
-
-    parser.add_argument("-g", "--githash",
-                        action  = "store",
-                        dest    = "githash",
-                        help    = "override githash for UAVO XML definitions")
-
-    # Parse the command-line.
-    args = parser.parse_args()
-
-    githash = args.githash
-
-    tStream = telemetry.NetworkTelemetry(service_in_iter=False)
+    tStream = telemetry.get_telemetry_by_args(service_in_iter=False)
     tStream.start_thread()
 
     settings_objects = tStream.uavo_defs.get_settings_objects()

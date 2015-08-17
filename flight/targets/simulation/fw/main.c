@@ -45,11 +45,7 @@ extern void Stack_Change(void);
 
 /* Local Variables */
 #define INIT_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
-#if defined(SIM_POSIX) 
-#define INIT_TASK_STACK		32768
-#else
-#define INIT_TASK_STACK		1024
-#endif /* defined(SIM_POSIX) */
+#define INIT_TASK_STACK		262144
 static struct pios_thread *initTaskHandle;
 
 /* Function Prototypes */

@@ -34,23 +34,6 @@
     <Welcome>100</Welcome>
   </ModePriorities>
   <UAVGadgetConfigurations>
-    <AntennaTrackGadget>
-      <default>
-        <configInfo>
-          <locked>false</locked>
-          <version>0.0.0</version>
-        </configInfo>
-        <data>
-          <connectionMode>Serial</connectionMode>
-          <defaultDataBits>8</defaultDataBits>
-          <defaultFlow>0</defaultFlow>
-          <defaultParity>0</defaultParity>
-          <defaultPort>Unknown</defaultPort>
-          <defaultSpeed>4800</defaultSpeed>
-          <defaultStopBits>1</defaultStopBits>
-        </data>
-      </default>
-    </AntennaTrackGadget>
     <ConfigGadget>
       <default>
         <configInfo>

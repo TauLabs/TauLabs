@@ -8,7 +8,7 @@
  *
  * @file       PIOS_MPU60X0.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
  * @brief      MPU60X0 3-axis gyor function headers
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -88,6 +88,7 @@
 #define PIOS_MPU60X0_INT_OPEN             0x40
 #define PIOS_MPU60X0_INT_LATCH_EN         0x20
 #define PIOS_MPU60X0_INT_CLR_ANYRD        0x10
+#define PIOS_MPU60X0_INT_I2C_BYPASS_EN    0x02	
 
 #define PIOS_MPU60X0_INTEN_OVERFLOW       0x10
 #define PIOS_MPU60X0_INTEN_DATA_RDY       0x01

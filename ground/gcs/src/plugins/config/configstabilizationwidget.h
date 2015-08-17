@@ -54,6 +54,9 @@ private:
       bool RateRoll;
       bool RatePitch;
       bool RateYaw;
+      bool AttitudeRoll;
+      bool AttitudePitch;
+      bool AttitudeYaw;
       bool HorizonAttitudeRoll;
       bool HorizonAttitudePitch;
       bool HorizonAttitudeYaw;

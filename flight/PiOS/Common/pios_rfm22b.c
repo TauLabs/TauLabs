@@ -1362,7 +1362,7 @@ static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 			break;
 		}
 		// Wait 1ms if not.
-		PIOS_DELAY_WaitmS(1);
+		PIOS_Thread_Sleep(1);
 	}
 
 	// ****************
@@ -1407,6 +1407,9 @@ static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 		// incorrect RF module version
 		return RADIO_EVENT_FATAL_ERROR;
 	}
+
+	PIOS_Thread_Sleep(1);
+
 	// calibrate our RF module to be exactly on frequency .. different for every module
 	rfm22_write(rfm22b_dev, RFM22_xtal_osc_load_cap, OSC_LOAD_CAP);
 
@@ -1446,6 +1449,8 @@ static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 	rfm22_write(rfm22b_dev, RFM22_gpio2_config,
 		    RFM22_gpio2_config_drv3 | RFM22_gpio2_config_cca);
 
+	PIOS_Thread_Sleep(1);
+
 	// FIFO mode, GFSK modulation
 	uint8_t fd_bit =
 	    rfm22_read(rfm22b_dev,
@@ -1478,6 +1483,8 @@ static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 	// set the RSSI threshold interrupt to about -90dBm
 	rfm22_write(rfm22b_dev, RFM22_rssi_threshold_clear_chan_indicator,
 		    (-90 + 122) * 2);
+
+	PIOS_Thread_Sleep(1);
 
 	// enable the internal Tx & Rx packet handlers (without CRC)
 	rfm22_write(rfm22b_dev, RFM22_data_access_control,
@@ -1518,6 +1525,8 @@ static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 		    RFM22_header_cntl2_synclen_3210 |
 		    ((TX_PREAMBLE_NIBBLES >> 8) & 0x01));
 
+	PIOS_Thread_Sleep(1);
+
 	// sync word
 	rfm22_write(rfm22b_dev, RFM22_sync_word3, SYNC_BYTE_1);
 	rfm22_write(rfm22b_dev, RFM22_sync_word2, SYNC_BYTE_2);
@@ -1542,6 +1551,8 @@ static enum pios_radio_event rfm22_init(struct pios_rfm22b_dev *rfm22b_dev)
 
 	// Release the bus
 	rfm22_releaseBus(rfm22b_dev);
+
+	PIOS_Thread_Sleep(1);
 
 	// Initialize the frequency and datarate to te default.
 	rfm22_setNominalCarrierFrequency(rfm22b_dev, 0);

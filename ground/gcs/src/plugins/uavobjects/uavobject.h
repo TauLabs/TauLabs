@@ -40,6 +40,12 @@
 #include <qglobal.h>
 #include "uavobjectfield.h"
 
+#ifdef _MSC_VER
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop) )
+#else
+#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+#endif
+
 #define UAVOBJ_ACCESS_SHIFT 0
 #define UAVOBJ_GCS_ACCESS_SHIFT 1
 #define UAVOBJ_TELEMETRY_ACKED_SHIFT 2
@@ -90,12 +96,12 @@ public:
      *    4-5    telemetryUpdateMode        Update mode used by the telemetry module (UAVObjUpdateMode)
      *    6-7    gcsTelemetryUpdateMode     Update mode used by the GCS (UAVObjUpdateMode)
      */
-     typedef struct {
+     PACK(typedef struct {
         quint8 flags; /** Defines flags for update and logging modes and whether an update should be ACK'd (bits defined above) */
         quint16 flightTelemetryUpdatePeriod; /** Update period used by the telemetry module (only if telemetry mode is PERIODIC) */
         quint16 gcsTelemetryUpdatePeriod; /** Update period used by the GCS (only if telemetry mode is PERIODIC) */
         quint16 loggingUpdatePeriod; /** Update period used by the logging module (only if logging mode is PERIODIC) */
-     } __attribute__((packed)) Metadata;
+     }) Metadata;
 
 
     UAVObject(quint32 objID, bool isSingleInst, const QString& name);
@@ -109,10 +115,6 @@ public:
     quint32 getNumBytes(); 
     qint32 pack(quint8* dataOut);
     qint32 unpack(const quint8* dataIn);
-    bool save();
-    bool save(QFile& file);
-    bool load();
-    bool load(QFile& file);
     virtual void setMetadata(const Metadata& mdata) = 0;
     virtual Metadata getMetadata() = 0;
     virtual Metadata getDefaultMetadata() = 0;

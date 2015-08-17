@@ -100,7 +100,12 @@ static int8_t rotate = 0;
 
 #if defined(BRAIN)
 // indicates whether the extrnal mag works
-extern bool brain_external_mag_fail;
+extern bool external_mag_fail;
+#endif
+
+#if defined (AQ32)
+// indicates whether the external mag works
+extern bool external_mag_fail;
 #endif
 
 //! Select the algorithm to try and null out the magnetometer bias error
@@ -235,14 +240,15 @@ static void SensorsTask(void *parameters)
 
 		}
 
-#if defined(BRAIN)
-		if ((good_runs > REQUIRED_GOOD_CYCLES) && !brain_external_mag_fail)
-#else
+		#if defined(AQ32) || defined(BRAIN)
+		if ((good_runs > REQUIRED_GOOD_CYCLES) && !external_mag_fail)
+		#else
 		if (good_runs > REQUIRED_GOOD_CYCLES)
-#endif
+		#endif
 			AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);
 		else
 			good_runs++;
+		
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SENSORS);
 
 		// Check total time to get the sensors wasn't over the limit

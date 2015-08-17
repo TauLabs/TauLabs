@@ -27,6 +27,10 @@
 #include "gcscontrol.h"
 #include <QDebug>
 #include <QtPlugin>
+#include "gcscontrolgadgetfactory.h"
+#if defined(USE_SDL)
+#include "sdlgamepad/sdlgamepad.h"
+#endif
 
 #define CHANNEL_MAX     2000
 #define CHANNEL_NEUTRAL 1500
@@ -66,6 +70,18 @@ bool GCSControl::initialize(const QStringList &arguments, QString *errorString)
 {
     Q_UNUSED(arguments);
     Q_UNUSED(errorString);
+
+#if defined(USE_SDL)
+    sdlGamepad = new SDLGamepad();
+    if(sdlGamepad->init()) {
+        sdlGamepad->start();
+        qRegisterMetaType<QListInt16>("QListInt16");
+        qRegisterMetaType<ButtonNumber>("ButtonNumber");
+    }
+#endif
+
+    mf = new GCSControlGadgetFactory(this);
+    addAutoReleasedObject(mf);
 
     // Add this plugin to plugin manager
     addObject(this);
@@ -193,7 +209,7 @@ bool GCSControl::setChannel(quint8 channel, float value)
 
 void GCSControl::objectsUpdated(UAVObject *obj)
 {
-    qDebug()<<__PRETTY_FUNCTION__<<"Object"<<obj->getName()<<"changed outside this class";
+    qDebug()<< "GCSControl::objectsUpdated" <<"Object"<<obj->getName()<<"changed outside this class";
 }
 
 void GCSControl::receiverActivitySlot()

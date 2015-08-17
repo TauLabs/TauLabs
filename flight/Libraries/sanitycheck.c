@@ -3,7 +3,7 @@
  * @addtogroup TauLabsLibraries Tau Labs Libraries
  * @{
  * @file       sanitycheck.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
  * @brief      Utilities to validate a flight configuration
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -300,7 +300,7 @@ static int32_t check_safe_autonomous()
 	//   INSIndoor  |     INS          (unsafe)
 
 
-#if !defined(COPTERCONTROL)
+#if !defined(SMALLF1)
 	StateEstimationData stateEstimation;
 	StateEstimationGet(&stateEstimation);
 

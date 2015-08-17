@@ -50,7 +50,11 @@ extern "C" {
 #endif
 
 #ifndef _ZLIB_H
+#ifdef _MSC_VER
+#include <QtZlib/zlib.h>
+#else
 #include "zlib.h"
+#endif
 #endif
 
 #ifndef _ZLIBIOAPI_H

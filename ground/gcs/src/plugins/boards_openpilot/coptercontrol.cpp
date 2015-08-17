@@ -143,7 +143,9 @@ bool CopterControl::setInputOnPort(enum InputType type, int port_num)
         settings.RcvrPort = HwCopterControl::RCVRPORT_PWM;
         break;
     case INPUT_TYPE_PPM:
-        settings.RcvrPort = HwCopterControl::RCVRPORT_PPM;
+	/* Break from the past; for new builds pick a default that will
+	 * work with OneShot/SyncPWM. */
+        settings.RcvrPort = HwCopterControl::RCVRPORT_PPMONPIN8;
         break;
     case INPUT_TYPE_SBUS:
         settings.MainPort = HwCopterControl::MAINPORT_SBUS;
@@ -201,6 +203,7 @@ enum Core::IBoardType::InputType CopterControl::getInputOnPort(int port_num)
     }
 
     switch(settings.RcvrPort) {
+    case HwCopterControl::RCVRPORT_PPMONPIN8:
     case HwCopterControl::RCVRPORT_PPM:
         return INPUT_TYPE_PPM;
     case HwCopterControl::RCVRPORT_PWM:
