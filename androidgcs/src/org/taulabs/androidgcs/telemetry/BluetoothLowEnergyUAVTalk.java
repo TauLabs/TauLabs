@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.polkapolka.bluetooth.le.SampleGattAttributes;
-
+import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -46,9 +46,11 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
 
 	private final String TAG = BluetoothLowEnergyUAVTalk.class.getSimpleName();
@@ -84,6 +86,13 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
 	boolean attemptConnection() {
 		// Connect to the bluetooth low energy service
 
+		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+		if (currentapiVersion < android.os.Build.VERSION_CODES.KITKAT){
+		    // prior versions did not support BTLE so we cannot do this
+			telemService.toastMessage("Android API does not support BTLE");
+			return false;
+		}
+		
 		if( getConnected() )
 			return true;
 		
@@ -253,9 +262,8 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
      * @return Return true if the initialization is successful.
      */
     public boolean initialize() {
-        // For API level 18 and above, get a reference to BluetoothAdapter through
-        // BluetoothManager.
-        if (mBluetoothManager == null) {
+
+    	if (mBluetoothManager == null) {
             mBluetoothManager = (BluetoothManager) telemService.getSystemService(Context.BLUETOOTH_SERVICE);
             if (mBluetoothManager == null) {
             	if (ERROR) Log.e(TAG, "Unable to initialize BluetoothManager.");
