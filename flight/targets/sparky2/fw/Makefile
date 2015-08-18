@@ -385,4 +385,7 @@ LDFLAGS += -Wl,--fatal-warnings
 LDFLAGS += -T memory.ld $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 include ./UAVObjects.inc
+
+UAVO_NAV = YES
+
 include $(MAKE_INC_DIR)/firmware-common.mk

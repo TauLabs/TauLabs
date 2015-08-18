@@ -27,36 +27,8 @@
 # (all architectures)
 
 UAVOBJSRCFILENAMES =
-UAVOBJSRCFILENAMES += insstate
-UAVOBJSRCFILENAMES += inssettings
 UAVOBJSRCFILENAMES += brushlessgimbalsettings
-UAVOBJSRCFILENAMES += gyrosbias
-UAVOBJSRCFILENAMES += magnetometer
-UAVOBJSRCFILENAMES += magbias
-UAVOBJSRCFILENAMES += baroairspeed
-UAVOBJSRCFILENAMES += airspeedsettings
-UAVOBJSRCFILENAMES += fixedwingpathfollowersettings
-UAVOBJSRCFILENAMES += flightplancontrol
-UAVOBJSRCFILENAMES += flightplansettings
-UAVOBJSRCFILENAMES += flightplanstatus
-UAVOBJSRCFILENAMES += gpssatellites
-UAVOBJSRCFILENAMES += gpstime
-UAVOBJSRCFILENAMES += loitercommand
-UAVOBJSRCFILENAMES += vtolpathfollowersettings
-UAVOBJSRCFILENAMES += vtolpathfollowerstatus
-UAVOBJSRCFILENAMES += nedaccel
-UAVOBJSRCFILENAMES += nedposition
-UAVOBJSRCFILENAMES += pathplannersettings
-UAVOBJSRCFILENAMES += stateestimation
-UAVOBJSRCFILENAMES += sonaraltitude
-UAVOBJSRCFILENAMES += velocitydesired
-UAVOBJSRCFILENAMES += vibrationanalysissettings
-UAVOBJSRCFILENAMES += vibrationanalysisoutput
 UAVOBJSRCFILENAMES += hwsparkybgc
-UAVOBJSRCFILENAMES += altitudeholdsettings
-UAVOBJSRCFILENAMES += altitudeholddesired
-UAVOBJSRCFILENAMES += waypoint
-UAVOBJSRCFILENAMES += waypointactive
 
 
 UAVOBJSRCFILENAMES += i2cvm

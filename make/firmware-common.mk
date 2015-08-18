@@ -59,9 +59,41 @@ UAVOBJSRCFILENAMES += trimanglessettings
 UAVOBJSRCFILENAMES += txpidsettings
 UAVOBJSRCFILENAMES += ubloxinfo
 UAVOBJSRCFILENAMES += velocityactual
-endif # UAVO_MINIMAL
 
-endif # NO_AUTO_UAVO
+ifeq ($(UAVO_NAV),YES)
+UAVOBJSRCFILENAMES += airspeedsettings
+UAVOBJSRCFILENAMES += altitudeholddesired
+UAVOBJSRCFILENAMES += altitudeholdsettings
+UAVOBJSRCFILENAMES += baroairspeed
+UAVOBJSRCFILENAMES += fixedwingpathfollowersettings
+UAVOBJSRCFILENAMES += flightplancontrol
+UAVOBJSRCFILENAMES += flightplansettings
+UAVOBJSRCFILENAMES += flightplanstatus
+UAVOBJSRCFILENAMES += gpssatellites
+UAVOBJSRCFILENAMES += gpstime
+UAVOBJSRCFILENAMES += gyrosbias
+UAVOBJSRCFILENAMES += inssettings
+UAVOBJSRCFILENAMES += insstate
+UAVOBJSRCFILENAMES += loitercommand
+UAVOBJSRCFILENAMES += magbias
+UAVOBJSRCFILENAMES += magnetometer
+UAVOBJSRCFILENAMES += nedaccel
+UAVOBJSRCFILENAMES += nedposition
+UAVOBJSRCFILENAMES += pathplannersettings
+UAVOBJSRCFILENAMES += sonaraltitude
+UAVOBJSRCFILENAMES += stateestimation
+UAVOBJSRCFILENAMES += velocitydesired
+UAVOBJSRCFILENAMES += vibrationanalysisoutput
+UAVOBJSRCFILENAMES += vibrationanalysissettings
+UAVOBJSRCFILENAMES += vtolpathfollowersettings
+UAVOBJSRCFILENAMES += vtolpathfollowerstatus
+UAVOBJSRCFILENAMES += waypoint
+UAVOBJSRCFILENAMES += waypointactive
+endif # UAVO_NAV
+
+endif # !UAVO_MINIMAL
+
+endif # !NO_AUTO_UAVO
 
 # Define programs and commands.
 REMOVE  = rm -f

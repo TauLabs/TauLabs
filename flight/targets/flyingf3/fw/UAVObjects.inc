@@ -29,40 +29,12 @@
 
 UAVOBJSRCFILENAMES =
 UAVOBJSRCFILENAMES += acceldesired
-UAVOBJSRCFILENAMES += inssettings
-UAVOBJSRCFILENAMES += gyrosbias
-UAVOBJSRCFILENAMES += magnetometer
-UAVOBJSRCFILENAMES += magbias
-UAVOBJSRCFILENAMES += baroairspeed
-UAVOBJSRCFILENAMES += airspeedsettings
-UAVOBJSRCFILENAMES += fixedwingpathfollowersettings
-UAVOBJSRCFILENAMES += flightplancontrol
-UAVOBJSRCFILENAMES += flightplansettings
-UAVOBJSRCFILENAMES += flightplanstatus
 UAVOBJSRCFILENAMES += geofencesettings
-UAVOBJSRCFILENAMES += gpssatellites
-UAVOBJSRCFILENAMES += gpstime
-UAVOBJSRCFILENAMES += vtolpathfollowersettings
-UAVOBJSRCFILENAMES += vtolpathfollowerstatus
-UAVOBJSRCFILENAMES += insstate
-UAVOBJSRCFILENAMES += nedaccel
-UAVOBJSRCFILENAMES += nedposition
-UAVOBJSRCFILENAMES += pathplannersettings
-UAVOBJSRCFILENAMES += sonaraltitude
-UAVOBJSRCFILENAMES += stateestimation
-UAVOBJSRCFILENAMES += velocitydesired
 UAVOBJSRCFILENAMES += hwflyingf3
-UAVOBJSRCFILENAMES += altitudeholdsettings
-UAVOBJSRCFILENAMES += altitudeholddesired
 UAVOBJSRCFILENAMES += altitudeholdstate
-UAVOBJSRCFILENAMES += waypoint
-UAVOBJSRCFILENAMES += waypointactive
 UAVOBJSRCFILENAMES += groundpathfollowersettings
 UAVOBJSRCFILENAMES += hottsettings
-UAVOBJSRCFILENAMES += loitercommand
 
 
 UAVOBJSRCFILENAMES += i2cvm
 UAVOBJSRCFILENAMES += i2cvmuserprogram
-UAVOBJSRCFILENAMES += vibrationanalysissettings
-UAVOBJSRCFILENAMES += vibrationanalysisoutput

@@ -387,5 +387,6 @@ ${OUTDIR}/InitMods.c: Makefile.posix
 include ./UAVObjects.inc
 
 BUILD_FWFILES=NO
+UAVO_NAV = YES
 
 include $(MAKE_INC_DIR)/firmware-common.mk

@@ -25,43 +25,15 @@
 
 UAVOBJSRCFILENAMES =
 UAVOBJSRCFILENAMES += acceldesired
-UAVOBJSRCFILENAMES += inssettings
-UAVOBJSRCFILENAMES += gyrosbias
-UAVOBJSRCFILENAMES += magnetometer
-UAVOBJSRCFILENAMES += magbias
-UAVOBJSRCFILENAMES += baroairspeed
-UAVOBJSRCFILENAMES += airspeedsettings
-UAVOBJSRCFILENAMES += fixedwingpathfollowersettings
-UAVOBJSRCFILENAMES += flightplancontrol
-UAVOBJSRCFILENAMES += flightplansettings
-UAVOBJSRCFILENAMES += flightplanstatus
 UAVOBJSRCFILENAMES += geofencesettings
-UAVOBJSRCFILENAMES += gpssatellites
-UAVOBJSRCFILENAMES += gpstime
 UAVOBJSRCFILENAMES += groundpathfollowersettings
-UAVOBJSRCFILENAMES += loitercommand
-UAVOBJSRCFILENAMES += vtolpathfollowersettings
-UAVOBJSRCFILENAMES += vtolpathfollowerstatus
-UAVOBJSRCFILENAMES += insstate
-UAVOBJSRCFILENAMES += nedaccel
-UAVOBJSRCFILENAMES += nedposition
 UAVOBJSRCFILENAMES += overosyncstats
 UAVOBJSRCFILENAMES += overosyncsettings
-UAVOBJSRCFILENAMES += pathplannersettings
-UAVOBJSRCFILENAMES += sonaraltitude
-UAVOBJSRCFILENAMES += stateestimation
-UAVOBJSRCFILENAMES += velocitydesired
-UAVOBJSRCFILENAMES += altitudeholdsettings
-UAVOBJSRCFILENAMES += altitudeholddesired
 UAVOBJSRCFILENAMES += altitudeholdstate
-UAVOBJSRCFILENAMES += waypoint
-UAVOBJSRCFILENAMES += waypointactive
 UAVOBJSRCFILENAMES += hottsettings
 UAVOBJSRCFILENAMES += picocsettings
 UAVOBJSRCFILENAMES += picocstatus
 
-UAVOBJSRCFILENAMES += vibrationanalysissettings
-UAVOBJSRCFILENAMES += vibrationanalysisoutput
 
 # Include this in the simulator so that we can edit a representative inherited
 # obj for dev test.
