@@ -1,3 +1,68 @@
+ifneq ($(NO_AUTO_UAVO),YES)
+
+# Common UAVOs to all targets:
+
+UAVOBJSRCFILENAMES += accels
+UAVOBJSRCFILENAMES += firmwareiapobj
+UAVOBJSRCFILENAMES += flightstatus
+UAVOBJSRCFILENAMES += flighttelemetrystats
+UAVOBJSRCFILENAMES += gcsreceiver
+UAVOBJSRCFILENAMES += gcstelemetrystats
+UAVOBJSRCFILENAMES += modulesettings
+UAVOBJSRCFILENAMES += objectpersistence
+UAVOBJSRCFILENAMES += receiveractivity
+UAVOBJSRCFILENAMES += sessionmanaging
+UAVOBJSRCFILENAMES += systemalarms
+UAVOBJSRCFILENAMES += systemsettings
+UAVOBJSRCFILENAMES += systemstats
+UAVOBJSRCFILENAMES += taskinfo
+UAVOBJSRCFILENAMES += watchdogstatus
+
+ifneq ($(UAVO_MINIMAL),YES)
+# On all non-discovery board targets:
+
+UAVOBJSRCFILENAMES += accessorydesired
+UAVOBJSRCFILENAMES += actuatorcommand
+UAVOBJSRCFILENAMES += actuatordesired
+UAVOBJSRCFILENAMES += actuatorsettings
+UAVOBJSRCFILENAMES += airspeedactual
+UAVOBJSRCFILENAMES += attitudeactual
+UAVOBJSRCFILENAMES += attitudesettings
+UAVOBJSRCFILENAMES += baroaltitude
+UAVOBJSRCFILENAMES += cameradesired
+UAVOBJSRCFILENAMES += camerastabsettings
+UAVOBJSRCFILENAMES += fixedwingairspeeds
+UAVOBJSRCFILENAMES += fixedwingpathfollowerstatus
+UAVOBJSRCFILENAMES += flightbatterysettings
+UAVOBJSRCFILENAMES += flightbatterystate
+UAVOBJSRCFILENAMES += gpsposition
+UAVOBJSRCFILENAMES += gpsvelocity
+UAVOBJSRCFILENAMES += gyros
+UAVOBJSRCFILENAMES += homelocation
+UAVOBJSRCFILENAMES += manualcontrolcommand
+UAVOBJSRCFILENAMES += manualcontrolsettings
+UAVOBJSRCFILENAMES += mixersettings
+UAVOBJSRCFILENAMES += mixerstatus
+UAVOBJSRCFILENAMES += mwratesettings
+UAVOBJSRCFILENAMES += pathdesired
+UAVOBJSRCFILENAMES += pathstatus
+UAVOBJSRCFILENAMES += poilocation
+UAVOBJSRCFILENAMES += positionactual
+UAVOBJSRCFILENAMES += ratedesired
+UAVOBJSRCFILENAMES += sensorsettings
+UAVOBJSRCFILENAMES += stabilizationdesired
+UAVOBJSRCFILENAMES += stabilizationsettings
+UAVOBJSRCFILENAMES += systemident
+UAVOBJSRCFILENAMES += tabletinfo
+UAVOBJSRCFILENAMES += trimangles
+UAVOBJSRCFILENAMES += trimanglessettings
+UAVOBJSRCFILENAMES += txpidsettings
+UAVOBJSRCFILENAMES += ubloxinfo
+UAVOBJSRCFILENAMES += velocityactual
+endif # UAVO_MINIMAL
+
+endif # NO_AUTO_UAVO
+
 # Define programs and commands.
 REMOVE  = rm -f
 

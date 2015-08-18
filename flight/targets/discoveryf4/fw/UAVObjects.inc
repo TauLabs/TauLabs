@@ -28,22 +28,7 @@
 # (all architectures)
 
 UAVOBJSRCFILENAMES =
-UAVOBJSRCFILENAMES += accels
-UAVOBJSRCFILENAMES += firmwareiapobj
-UAVOBJSRCFILENAMES += flighttelemetrystats
-UAVOBJSRCFILENAMES += gcstelemetrystats
 UAVOBJSRCFILENAMES += nedaccel
-UAVOBJSRCFILENAMES += objectpersistence
 UAVOBJSRCFILENAMES += overosyncstats
-UAVOBJSRCFILENAMES += systemalarms
-UAVOBJSRCFILENAMES += systemsettings
-UAVOBJSRCFILENAMES += systemstats
-UAVOBJSRCFILENAMES += taskinfo
-UAVOBJSRCFILENAMES += watchdogstatus
-UAVOBJSRCFILENAMES += flightstatus
-UAVOBJSRCFILENAMES += modulesettings
 UAVOBJSRCFILENAMES += hwdiscoveryf4
-UAVOBJSRCFILENAMES += receiveractivity
-UAVOBJSRCFILENAMES += gcsreceiver
 UAVOBJSRCFILENAMES += faultsettings
-UAVOBJSRCFILENAMES += sessionmanaging

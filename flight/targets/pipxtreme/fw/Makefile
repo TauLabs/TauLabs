@@ -102,14 +102,12 @@ SRC += $(OPTESTS)/$(TESTAPP).c
 endif
 
 ## UAVOBJECTS
-ifndef TESTAPP
-SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
-SRC += $(OPUAVSYNTHDIR)/hwtaulink.c
-SRC += $(OPUAVSYNTHDIR)/rfm22bstatus.c
-SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
-SRC += $(OPUAVSYNTHDIR)/rfm22breceiver.c
-SRC += $(OPUAVSYNTHDIR)/radiocombridgestats.c
-endif
+UAVOBJSRCFILENAMES += gcsreceiver
+UAVOBJSRCFILENAMES += hwtaulink
+UAVOBJSRCFILENAMES += rfm22bstatus
+UAVOBJSRCFILENAMES += objectpersistence
+UAVOBJSRCFILENAMES += rfm22breceiver
+UAVOBJSRCFILENAMES += radiocombridgestats
 
 ## PIOS Hardware (STM32F10x)
 SRC += $(PIOSSTM32F10X)/pios_sys.c
@@ -429,6 +427,8 @@ LDFLAGS += -Wl,--fatal-warnings
 # Set linker-script name depending on selected submodel name
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_memory.ld
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_sections.ld
+
+NO_AUTO_UAVO=YES
 
 include $(MAKE_INC_DIR)/firmware-common.mk
 
