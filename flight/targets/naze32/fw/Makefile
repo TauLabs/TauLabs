@@ -99,7 +99,6 @@ endif
 # List of mandatory modules to include
 MODULES += Attitude/smallf1
 MODULES += Stabilization Actuator ManualControl FirmwareIAP
-# MODULES += PathFollower/coptercontrol
 # Telemetry must be last to grab the optional modules (why?)
 MODULES += Telemetry
 
