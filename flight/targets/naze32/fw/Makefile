@@ -165,67 +165,6 @@ SRC += $(OPTESTS)/test_common.c
 SRC += $(OPTESTS)/$(TESTAPP).c
 endif
 
-## UAVOBJECTS
-ifndef TESTAPP
-SRC += $(OPUAVSYNTHDIR)/accessorydesired.c
-SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
-SRC += $(OPUAVSYNTHDIR)/gcstelemetrystats.c
-SRC += $(OPUAVSYNTHDIR)/flighttelemetrystats.c
-SRC += $(OPUAVSYNTHDIR)/faultsettings.c
-SRC += $(OPUAVSYNTHDIR)/flightstatus.c
-SRC += $(OPUAVSYNTHDIR)/systemstats.c
-SRC += $(OPUAVSYNTHDIR)/systemalarms.c
-SRC += $(OPUAVSYNTHDIR)/systemsettings.c
-SRC += $(OPUAVSYNTHDIR)/stabilizationdesired.c
-SRC += $(OPUAVSYNTHDIR)/stabilizationsettings.c
-SRC += $(OPUAVSYNTHDIR)/actuatorcommand.c
-SRC += $(OPUAVSYNTHDIR)/actuatordesired.c
-SRC += $(OPUAVSYNTHDIR)/actuatorsettings.c
-SRC += $(OPUAVSYNTHDIR)/accels.c
-SRC += $(OPUAVSYNTHDIR)/gyros.c
-SRC += $(OPUAVSYNTHDIR)/attitudeactual.c
-SRC += $(OPUAVSYNTHDIR)/manualcontrolcommand.c
-SRC += $(OPUAVSYNTHDIR)/watchdogstatus.c
-SRC += $(OPUAVSYNTHDIR)/manualcontrolsettings.c
-SRC += $(OPUAVSYNTHDIR)/mixersettings.c
-SRC += $(OPUAVSYNTHDIR)/firmwareiapobj.c
-SRC += $(OPUAVSYNTHDIR)/attitudesettings.c
-SRC += $(OPUAVSYNTHDIR)/camerastabsettings.c
-SRC += $(OPUAVSYNTHDIR)/cameradesired.c
-SRC += $(OPUAVSYNTHDIR)/gpsposition.c
-SRC += $(OPUAVSYNTHDIR)/gpsvelocity.c
-SRC += $(OPUAVSYNTHDIR)/hwnaze.c
-SRC += $(OPUAVSYNTHDIR)/modulesettings.c
-SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
-SRC += $(OPUAVSYNTHDIR)/receiveractivity.c
-SRC += $(OPUAVSYNTHDIR)/systemident.c
-SRC += $(OPUAVSYNTHDIR)/taskinfo.c
-SRC += $(OPUAVSYNTHDIR)/mixerstatus.c
-SRC += $(OPUAVSYNTHDIR)/mwratesettings.c
-SRC += $(OPUAVSYNTHDIR)/ratedesired.c
-SRC += $(OPUAVSYNTHDIR)/baroaltitude.c
-SRC += $(OPUAVSYNTHDIR)/txpidsettings.c
-SRC += $(OPUAVSYNTHDIR)/fixedwingairspeeds.c
-SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowerstatus.c
-SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowersettingscc.c
-SRC += $(OPUAVSYNTHDIR)/pathstatus.c
-SRC += $(OPUAVSYNTHDIR)/pathdesired.c
-SRC += $(OPUAVSYNTHDIR)/homelocation.c
-SRC += $(OPUAVSYNTHDIR)/poilocation.c
-SRC += $(OPUAVSYNTHDIR)/positionactual.c
-SRC += $(OPUAVSYNTHDIR)/tabletinfo.c
-SRC += $(OPUAVSYNTHDIR)/velocityactual.c
-SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
-SRC += $(OPUAVSYNTHDIR)/sensorsettings.c
-SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
-SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
-SRC += $(OPUAVSYNTHDIR)/trimanglessettings.c
-SRC += $(OPUAVSYNTHDIR)/trimangles.c
-SRC += $(OPUAVSYNTHDIR)/ubloxinfo.c
-SRC += $(OPUAVSYNTHDIR)/sessionmanaging.c
-
-
-endif
 
 ## PIOS Hardware (STM32F10x)
 SRC += $(PIOSSTM32F10X)/pios_sys.c
@@ -578,4 +517,5 @@ LDFLAGS += -Wl,--fatal-warnings
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_memory.ld
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_sections.ld
 
+include ./UAVObjects.inc
 include $(MAKE_INC_DIR)/firmware-common.mk
