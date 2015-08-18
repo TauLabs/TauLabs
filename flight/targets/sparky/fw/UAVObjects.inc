@@ -1,6 +1,6 @@
 ###############################################################################
 # @file       Makefile
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
 # @addtogroup 
 # @{
 # @addtogroup 
