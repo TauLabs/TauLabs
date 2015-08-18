@@ -28,6 +28,5 @@
 # (all architectures)
 
 UAVOBJSRCFILENAMES =
-UAVOBJSRCFILENAMES += nedaccel
 UAVOBJSRCFILENAMES += hwdiscoveryf4
 UAVOBJSRCFILENAMES += faultsettings
