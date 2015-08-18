@@ -17,7 +17,11 @@ DEPFILES   = $(addprefix $(OUTDIR)/dep/, $(addsuffix .o.d, $(ALLSRCBASE)))
 # Default target.
 all: gccversion build
 
-build: elf hex bin lss sym
+build: elf
+
+ifneq ($(BUILD_FWFILES), NO)
+build: hex bin lss sym
+endif
 
 # Link: create ELF output file from object files.
 $(eval $(call LINK_TEMPLATE, $(OUTDIR)/$(TARGET).elf, $(ALLOBJ)))
