@@ -54,7 +54,6 @@
 #include "velocityactual.h"
 #include "flightstatus.h"
 #include "rfm22bstatus.h"
-#include "pios_thread.h"
 
 #if defined(PIOS_INCLUDE_TARANIS_SPORT)
 

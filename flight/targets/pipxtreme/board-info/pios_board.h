@@ -172,18 +172,20 @@ extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_vcp_id; 
 extern uintptr_t pios_com_radio_id; 
 extern uintptr_t pios_com_telem_serial_id;
+extern uintptr_t pios_com_bridge_id;
 extern uintptr_t pios_com_rf_id;
 extern uintptr_t pios_com_telem_uart_telem_id; 
 extern uintptr_t pios_ppm_rcvr_id;
 extern uintptr_t pios_com_debug_id;
 extern uintptr_t pios_com_frsky_sport_id;
 #define PIOS_COM_TELEM_USB         (pios_com_telem_usb_id)
-#define PIOS_COM_TELEM_VCP         (pios_com_vcp_id)
+#define PIOS_COM_VCP               (pios_com_vcp_id)
 #define PIOS_COM_TELEMETRY         (pios_com_telem_serial_id)
+#define PIOS_COM_BRIDGE            (pios_com_bridge_id)
 #define PIOS_COM_RFM22B            (pios_com_rf_id)
 #define PIOS_PPM_RECEIVER          (pios_ppm_rcvr_id)
 #define PIOS_COM_DEBUG             (pios_com_debug_id)
-#define PIOS_COM_FRSKY_SPORT            (pios_com_frsky_sport_id)
+#define PIOS_COM_FRSKY_SPORT       (pios_com_frsky_sport_id)
 
 #define DEBUG_LEVEL 0
 #define DEBUG_PRINTF(level, ...) {if(level <= DEBUG_LEVEL && PIOS_COM_DEBUG > 0) { PIOS_COM_SendFormattedStringNonBlocking(PIOS_COM_DEBUG, __VA_ARGS__); }}
