@@ -1,2 +1,1 @@
-UAVOBJSRCFILENAMES += faultsettings
 UAVOBJSRCFILENAMES += hwcoptercontrol
