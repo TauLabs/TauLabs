@@ -106,9 +106,6 @@ SRC += $(PIOSCOMMON)/pios_thread.c
 SRC += $(PIOSCOMMON)/pios_queue.c
 
 
-include ./UAVObjects.inc
-SRC += $(UAVOBJSRC)
-
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
@@ -263,7 +260,9 @@ LDFLAGS += -lc -lgcc -lm
 LDFLAGS += -Wl,--warn-common
 LDFLAGS += -Wl,--fatal-warnings
 
-#Linker scripts                                                                                                                                                                                                              
+# Linker scripts
 LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
+include ./UAVObjects.inc
 include $(MAKE_INC_DIR)/firmware-common.mk
+

@@ -1,6 +1,8 @@
 # Define programs and commands.
 REMOVE  = rm -f
 
+SRC += $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
+
 # List of all source files.
 ALLSRC     =  $(ASRC) $(SRC) $(CPPSRC)
 # List of all source files without directory and file-extension.

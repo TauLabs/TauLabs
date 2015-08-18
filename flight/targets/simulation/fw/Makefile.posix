@@ -192,15 +192,6 @@ EXTRAINCDIRS += $(PIOSCOMMON)/inc
 ## PIOS Hardware (Common)
 SRC += $(PIOSPOSIX)/../../tests/logfs/pios_flash_posix.c
 
-include ./UAVObjects.inc
-
-UAVOBJSRCFILENAMES += attitudesimulated
-UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
-UAVOBJDEFINE = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )
-
-SRC += $(UAVOBJSRC)
-CFLAGS_UAVOBJECTS = $(UAVOBJDEFINE)
-
 # List C source files here which must be compiled in ARM-Mode (no -mthumb).
 # use file-extension c for "c-only"-files
 ## just for testing, timer.c could be compiled in thumb-mode too
@@ -359,6 +350,9 @@ $(OUTDIR)/sim_firmwareinfo.c: $(ROOT_DIR)/make/templates/firmwareinfotemplate_si
 		--type=9 \
 		--revision=1 \
 		--uavodir=$(ROOT_DIR)/shared/uavobjectdefinition
+
+include ./UAVObjects.inc
+SRC += $(UAVOBJSRC)
 
 # List of all source files.
 SRC       += $(OUTDIR)/sim_firmwareinfo.c
