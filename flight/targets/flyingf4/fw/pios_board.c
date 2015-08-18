@@ -164,7 +164,6 @@ uintptr_t pios_com_mavlink_id;
 uintptr_t pios_com_frsky_sensor_hub_id;
 uintptr_t pios_com_lighttelemetry_id;
 uintptr_t pios_com_picoc_id;
-uintptr_t pios_com_overo_id;
 uintptr_t pios_com_frsky_sport_id;
 
 uintptr_t pios_uavo_settings_fs_id;
