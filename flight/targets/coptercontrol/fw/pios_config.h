@@ -110,7 +110,7 @@
 #define PIOS_TELEM_STACK_SIZE           500
 #define PIOS_EVENTDISPATCHER_STACK_SIZE 720
 #define PIOS_MAVLINK_STACK_SIZE         600
-#define PIOS_COMUSBBRIDGE_STACK_SIZE    296
+#define PIOS_COMUSBBRIDGE_STACK_SIZE    480
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 1995998
 
 // This can't be too high to stop eventdispatcher thread overflowing

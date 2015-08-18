@@ -29,7 +29,7 @@
 #include <QtEndian>
 #include <QDebug>
 
-UAVObjectField::UAVObjectField(const QString& name, const QString& units, FieldType type, quint32 numElements, const QStringList& options, const QString &limits)
+UAVObjectField::UAVObjectField(const QString& name, const QString& units, FieldType type, quint32 numElements, const QStringList& options, const QList<int>& indices, const QString &limits)
 {
     QStringList elementNames;
     // Set element names
@@ -38,22 +38,23 @@ UAVObjectField::UAVObjectField(const QString& name, const QString& units, FieldT
         elementNames.append(QString("%1").arg(n));
     }
     // Initialize
-    constructorInitialize(name, units, type, elementNames, options,limits);
+    constructorInitialize(name, units, type, elementNames, options, indices, limits);
 
 }
 
-UAVObjectField::UAVObjectField(const QString& name, const QString& units, FieldType type, const QStringList& elementNames, const QStringList& options, const QString &limits)
+UAVObjectField::UAVObjectField(const QString& name, const QString& units, FieldType type, const QStringList& elementNames, const QStringList& options, const QList<int>& indices, const QString &limits)
 {
-    constructorInitialize(name, units, type, elementNames, options,limits);
+    constructorInitialize(name, units, type, elementNames, options, indices, limits);
 }
 
-void UAVObjectField::constructorInitialize(const QString& name, const QString& units, FieldType type, const QStringList& elementNames, const QStringList& options,const QString &limits)
+void UAVObjectField::constructorInitialize(const QString& name, const QString& units, FieldType type, const QStringList& elementNames, const QStringList& options, const QList<int>& indices, const QString &limits)
 {
     // Copy params
     this->name = name;
     this->units = units;
     this->type = type;
     this->options = options;
+    this->indices = indices;
     this->numElements = elementNames.length();
     this->offset = 0;
     this->data = NULL;
@@ -88,7 +89,8 @@ void UAVObjectField::constructorInitialize(const QString& name, const QString& u
         break;
     case BITFIELD:
         numBytesPerElement = sizeof(quint8);
-        this->options = QStringList()<<tr("0")<<tr("1");
+        this->options = QStringList() << tr("0") << tr("1");
+        this->indices = QList<int>() << 0 << 1;
         break;
     case STRING:
         numBytesPerElement = sizeof(quint8);
@@ -313,6 +315,9 @@ bool UAVObjectField::isWithinLimits(QVariant var,quint32 index, int board)
                 return true;
                 break;
             case ENUM:
+		    // OK, I think this is OK with parents.  Because we'll
+		    // consider the limit to mean "as ordered in this object".
+		    // So no need to map to underlying types.  
                     if(!(options.indexOf(var.toString())>=options.indexOf(struc.values.at(0).toString()) && options.indexOf(var.toString())<=options.indexOf(struc.values.at(1).toString())))
                         return false;
                 return true;
@@ -877,12 +882,14 @@ QVariant UAVObjectField::getValue(quint32 index)
     {
         quint8 tmpenum;
         memcpy(&tmpenum, &data[offset + numBytesPerElement*index], numBytesPerElement);
-        //            Q_ASSERT((tmpenum < options.length()) && (tmpenum >= 0)); // catch bad enum settings
-        if(tmpenum >= options.length()) {
-            qDebug() << "Invalid value for" << name;
-            return QVariant( QString("Bad Value") );
-        }
-        return QVariant( options[tmpenum] );
+	// Too slow?
+	for (int i = 0; i < indices.length(); i++) {
+	    if (tmpenum == indices[i]) {
+		return QVariant( options[i] );
+	    }
+	}
+
+	return QVariant( QString("Bad Value") );
         break;
     }
     case BITFIELD:
@@ -1007,6 +1014,9 @@ void UAVObjectField::setValue(const QVariant& value, quint32 index)
         {
             qint8 tmpenum = options.indexOf( value.toString() );
             Q_ASSERT(tmpenum >= 0); // To catch any programming errors where we set invalid values
+
+	    tmpenum = indices[tmpenum];
+
             memcpy(&data[offset + numBytesPerElement*index], &tmpenum, numBytesPerElement);
             break;
         }

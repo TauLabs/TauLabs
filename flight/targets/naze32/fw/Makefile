@@ -239,7 +239,6 @@ SRC += $(PIOSSTM32F10X)/pios_i2c_alt.c
 SRC += $(PIOSSTM32F10X)/pios_spi.c
 SRC += $(PIOSSTM32F10X)/pios_ppm.c
 SRC += $(PIOSSTM32F10X)/pios_pwm.c
-SRC += $(PIOSSTM32F10X)/pios_dsm.c
 SRC += $(PIOSSTM32F10X)/pios_debug.c
 SRC += $(PIOSSTM32F10X)/pios_gpio.c
 SRC += $(PIOSSTM32F10X)/pios_exti.c
@@ -253,6 +252,7 @@ SRC += $(PIOSSTM32F10X)/pios_flash_internal.c
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_delay.c
 SRC += $(PIOSCOMMON)/pios_crc.c
+SRC += $(PIOSCOMMON)/pios_dsm.c
 SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/pios_flash_jedec.c
 SRC += $(PIOSCOMMON)/pios_ms5611.c

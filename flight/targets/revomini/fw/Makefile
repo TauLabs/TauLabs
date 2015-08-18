@@ -145,6 +145,7 @@ SRC += $(PIOSCOMMON)/pios_hmc5883.c
 SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
+SRC += $(PIOSCOMMON)/pios_dsm.c
 SRC += $(PIOSCOMMON)/pios_openlrs.c
 SRC += $(PIOSCOMMON)/pios_openlrs_rcvr.c
 SRC += $(PIOSCOMMON)/pios_rfm22b.c
@@ -167,6 +168,7 @@ SRC += $(PIOSCOMMON)/pios_semaphore.c
 SRC += $(PIOSCOMMON)/pios_mutex.c
 SRC += $(PIOSCOMMON)/pios_thread.c
 SRC += $(PIOSCOMMON)/pios_queue.c
+SRC += $(PIOSCOMMON)/pios_hal.c
 
 
 include ./UAVObjects.inc

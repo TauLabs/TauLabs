@@ -50,7 +50,7 @@ static void updateSettings();
 #if defined(PIOS_COMUSBBRIDGE_STACK_SIZE)
 #define STACK_SIZE_BYTES PIOS_COMUSBBRIDGE_STACK_SIZE
 #else
-#define STACK_SIZE_BYTES 384
+#define STACK_SIZE_BYTES 480
 #endif
 
 #define TASK_PRIORITY                   PIOS_THREAD_PRIO_LOW

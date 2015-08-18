@@ -643,7 +643,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_flexi_dsm_hsum_cfg, &pios_flexi_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -731,7 +731,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_main_dsm_hsum_cfg, &pios_main_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -805,7 +805,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_rcvr_dsm_hsum_cfg, &pios_rcvr_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMRCVRPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;

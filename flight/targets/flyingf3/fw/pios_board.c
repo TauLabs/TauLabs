@@ -620,7 +620,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart1_dsm_hsum_cfg, &pios_usart1_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -729,7 +729,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart2_dsm_hsum_cfg, &pios_usart2_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -837,7 +837,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart3_dsm_hsum_cfg, &pios_usart3_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -945,7 +945,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart4_dsm_hsum_cfg, &pios_usart4_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -1053,7 +1053,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart5_dsm_hsum_cfg, &pios_usart5_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxBind);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
