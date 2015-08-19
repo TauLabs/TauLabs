@@ -80,8 +80,14 @@ static void update_accels(struct pios_sensor_accel_data *accel);
 static void update_gyros(struct pios_sensor_gyro_data *gyro);
 static void update_mags(struct pios_sensor_mag_data *mag);
 static void update_baro(struct pios_sensor_baro_data *baro);
+
+#if defined (PIOS_INCLUDE_OPTICALFLOW)
 static void update_optical_flow(struct pios_sensor_optical_flow_data *optical_flow);
+#endif /* PIOS_INCLUDE_OPTICALFLOW */
+
+#if defined (PIOS_INCLUDE_RANGEFINDER)
 static void update_rangefinder(struct pios_sensor_rangefinder_data *rangefinder);
+#endif /* PIOS_INCLUDE_RANGEFINDER */
 
 static void mag_calibration_prelemari(MagnetometerData *mag);
 static void mag_calibration_fix_length(MagnetometerData *mag);
@@ -141,6 +147,7 @@ static int32_t SensorsInitialize(void)
 	SensorSettingsInitialize();
 	INSSettingsInitialize();
 
+#if defined (PIOS_INCLUDE_OPTICALFLOW)
 	OpticalFlowSettingsInitialize();
 	OpticalFlowSettingsData opticalFlowSettings;
 	OpticalFlowSettingsGet(&opticalFlowSettings);
@@ -163,10 +170,13 @@ static int32_t SensorsInitialize(void)
 	if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_OPTICAL_FLOW) != NULL ) {
 		OpticalFlowInitialize();
 	}
+#endif /* PIOS_INCLUDE_OPTICALFLOW */
 
+#if defined (PIOS_INCLUDE_RANGEFINDER)
 	if (PIOS_SENSORS_GetQueue(PIOS_SENSOR_RANGEFINDER) != NULL ) {
 		RangefinderDistanceInitialize();
 	}
+#endif /* PIOS_INCLUDE_RANGEFINDER */
 
 	rotate = 0;
 
@@ -225,8 +235,6 @@ static void SensorsTask(void *parameters)
 		struct pios_sensor_accel_data accels;
 		struct pios_sensor_mag_data mags;
 		struct pios_sensor_baro_data baro;
-		struct pios_sensor_rangefinder_data rangefinder;
-		struct pios_sensor_optical_flow_data optical_flow;
 
 		uint32_t timeval = PIOS_DELAY_GetRaw();
 
@@ -274,15 +282,21 @@ static void SensorsTask(void *parameters)
 
 		}
 
+#if defined(PIOS_INCLUDE_OPTICALFLOW)
+		struct pios_sensor_optical_flow_data optical_flow;
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_OPTICAL_FLOW);
 		if (queue != NULL && PIOS_Queue_Receive(queue, &optical_flow, 0) != false) {
 			update_optical_flow(&optical_flow);
 		}
+#endif /* PIOS_INCLUDE_OPTICALFLOW */
 
+#if defined(PIOS_INCLUDE_RANGEFINDER)
+		struct pios_sensor_rangefinder_data rangefinder;
 		queue = PIOS_SENSORS_GetQueue(PIOS_SENSOR_RANGEFINDER);
 		if (queue != NULL && PIOS_Queue_Receive(queue, &rangefinder, 0) != false) {
 			update_rangefinder(&rangefinder);
 		}
+#endif /* PIOS_INCLUDE_RANGEFINDER */
 
 		#if defined(AQ32)
 		if ((good_runs > REQUIRED_GOOD_CYCLES) && !external_mag_fail)
@@ -460,6 +474,7 @@ static void update_baro(struct pios_sensor_baro_data *baro)
  * Update the optical flow uavo from the data from the optical flow queue
  * @param [in] optical_flow raw optical flow data
  */
+#if defined (PIOS_INCLUDE_OPTICALFLOW)
 void update_optical_flow(struct pios_sensor_optical_flow_data *optical_flow)
 {
 	OpticalFlowData opticalFlow;
@@ -472,11 +487,13 @@ void update_optical_flow(struct pios_sensor_optical_flow_data *optical_flow)
 
 	OpticalFlowSet(&opticalFlow);
 }
+#endif /* PIOS_INCLUDE_OPTICALFLOW */
 
 /*
  * Update the rangefinder uavo from the data from the rangefinder queue
  * @param [in] rangefinder raw rangefinder data
  */
+#if defined (PIOS_INCLUDE_RANGEFINDER)
 static void update_rangefinder(struct pios_sensor_rangefinder_data *rangefinder)
 {
 	RangefinderDistanceData rangefinderAltitude;
@@ -495,6 +512,7 @@ static void update_rangefinder(struct pios_sensor_rangefinder_data *rangefinder)
 
 	RangefinderDistanceSet(&rangefinderAltitude);
 }
+#endif /* PIOS_INCLUDE_RANGEFINDER */
 
 /**
  * Compute the bias expected from temperature variation for each gyro
