@@ -1129,6 +1129,10 @@ void PIOS_Board_Init(void) {
 		pios_mpu6000_cfg.default_samplerate;
 	PIOS_MPU6000_SetSampleRate(mpu6000_samplerate);
 
+	uint8_t hw_gyro_downsampling[4];
+	HwAQ32GyroDownSamplingGet(&hw_gyro_downsampling[0]);
+	PIOS_MPU6000_SetGyroDownSamling(&hw_gyro_downsampling[0]);
+
 #endif
 
 #if defined(PIOS_INCLUDE_I2C)

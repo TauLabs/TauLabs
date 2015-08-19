@@ -77,6 +77,7 @@
 		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
 		<field name="MPU6000Rate" units="" type="enum" elements="1" options="200,333,500,666,1000,2000,4000,8000" defaultvalue="666"/>
 		<field name="MPU6000DLPF" units="" type="enum" elements="1" options="256,188,98,42,20,10,5" defaultvalue="256"/>
+		<field name="GyroDownSampling" units="" type="uint8" elementnames="Drop,LPF,LPF_Order,LPF_DDelay" defaultvalue="1,1,0,1" limits="%BE:1:255,%BE:1:255,%BE:0:3,%BE:1:2"/>
 
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
