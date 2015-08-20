@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       mainwindow.cpp
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015
  * @addtogroup crashreporterapp
  * @{
  * @addtogroup MainWindow
@@ -35,8 +35,8 @@
 #include "utils/phpbb.h"
 #include <QMessageBox>
 
-#define FORUM_SHARING_FORUM 18
-#define FORUM_SHARING_THREAD 816
+#define FORUM_SHARING_FORUM 26
+#define FORUM_SHARING_THREAD 830
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
