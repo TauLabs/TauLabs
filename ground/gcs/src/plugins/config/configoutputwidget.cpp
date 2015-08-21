@@ -340,8 +340,11 @@ void ConfigOutputWidget::startESCCalibration()
 
     QMessageBox mbox;
     mbox.setText(QString(tr("Starting ESC calibration.<br/><b>Please remove all propellers and disconnect battery from ESCs.</b>")));
-    mbox.setStandardButtons(QMessageBox::Ok);
-    mbox.exec();
+    mbox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    mbox.setDefaultButton(QMessageBox::Cancel);
+    QMessageBox::StandardButton butt;
+    
+    if (mbox.exec() != QMessageBox::Ok) return;
 
     // Get access to actuator command (for setting actual value)
     ActuatorCommand * actuatorCommand = ActuatorCommand::GetInstance(getObjectManager());
@@ -379,21 +382,24 @@ void ConfigOutputWidget::startESCCalibration()
     mbox.setText(QString(tr("Motors outputs were increased to maximum. "
                             "Reconnect the battery and wait for notification from ESCs that they recognized high throttle position.<br/>"
                             "<b>Immediately after that proceed to next step.</b>")));
-    mbox.exec();
+    if (mbox.exec() == QMessageBox::Ok) {
+        // Decrease output for all motors
+        for (unsigned int i = 0; i < ActuatorCommand::CHANNEL_NUMELEM; i++)
+        {
+            // Check if the output channel was selected
+            if (!channelsToCalibrate[i])
+                continue;
 
-    // Decrease output for all motors
-    for (unsigned int i = 0; i < ActuatorCommand::CHANNEL_NUMELEM; i++)
-    {
-        // Check if the output channel was selected
-        if (!channelsToCalibrate[i])
-            continue;
+            actuatorCommandFields.Channel[i] = actuatorSettingsData.ChannelMin[i];
+        }
+        actuatorCommand->setData(actuatorCommandFields);
 
-        actuatorCommandFields.Channel[i] = actuatorSettingsData.ChannelMin[i];
+
+        mbox.setStandardButtons(QMessageBox::Ok);
+        mbox.setDefaultButton(QMessageBox::Ok);
+        mbox.setText(QString(tr("Motors outputs were decreased to minimum.<br/>Wait for notification from ESCs that calibration is finished.")));
+        mbox.exec();
     }
-    actuatorCommand->setData(actuatorCommandFields);
-
-    mbox.setText(QString(tr("Motors outputs were decreased to minimum.<br/>Wait for notification from ESCs that calibration is finished.")));
-    mbox.exec();
 
     // Restore metadata
     actuatorCommand->setMetadata(accInitialData);
