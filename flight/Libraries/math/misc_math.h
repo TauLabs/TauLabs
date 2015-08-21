@@ -53,6 +53,16 @@ float circular_modulus_rad(float err);
 //! Approximation an exponential scale curve
 float expo3(float x, int32_t g);
 
+float interpolate_value(const float fraction, const float beginVal,
+			const float endVal);
+float vectorn_magnitude(const float *v, int n);
+float vector3_distances(const float *actual,
+		        const float *desired, float *out, bool normalize);
+void vector2_clip(float *vels, float limit);
+void vector2_rotate(const float *original, float *out, float angle);
+float cubic_deadband(float in, float w, float b, float m, float r);
+void cubic_deadband_setup(float w, float b, float *m, float *r);
+
 #endif /* MISC_MATH_H */
 
 /**

@@ -97,8 +97,9 @@ int32_t tablet_control_select(bool reset_controller)
 
 			// Command to not move. This code is identical to that in manualcontrol
 			LoiterCommandData loiterCommand;
-			loiterCommand.Forward = 0;
-			loiterCommand.Right = 0;
+			loiterCommand.Pitch = 0;
+			loiterCommand.Roll = 0;
+			loiterCommand.Throttle = 0.5f;
 			loiterCommand.Frame = LOITERCOMMAND_FRAME_BODY;
 			LoiterCommandSet(&loiterCommand);
 

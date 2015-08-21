@@ -39,17 +39,15 @@
 #include "altitudeholdsettings.h"
 #include "altitudeholdstate.h" 
 #include "attitudeactual.h"
+#include "loitercommand.h"
 #include "pathdesired.h"        // object that will be updated by the module
 #include "positionactual.h"
 #include "manualcontrolcommand.h"
 #include "flightstatus.h"
-#include "gpsvelocity.h"
-#include "gpsposition.h"
 #include "nedaccel.h"
 #include "pathstatus.h"
 #include "stabilizationdesired.h"
 #include "stabilizationsettings.h"
-#include "systemsettings.h"
 #include "velocitydesired.h"
 #include "velocityactual.h"
 #include "vtolpathfollowersettings.h"
@@ -62,132 +60,11 @@ struct pid vtol_pids[VTOL_PID_NUM];
 // Constants used in deadband calculation
 static float vtol_path_m=0, vtol_path_r=0, vtol_end_m=0, vtol_end_r=0;
 
-static int32_t vtol_follower_control_simple(const float dT,
+// Time constants converted to IIR parameter
+static float loiter_brakealpha=0.96f, loiter_errordecayalpha=0.88f;
+
+static int32_t vtol_follower_control_impl(const float dT,
 	const float *hold_pos_ned, bool landing, bool update_status);
-
-/**
- * Interpolate values (groundspeeds, altitudes) over flight legs
- * @param[in] fraction how far we are through the leg
- * @param[in] beginVal the configured value for the beginning of the leg
- * @param[in] endVal the configured value for the end of the leg
- * @returns the interpolated value
- *
- * Simple linear interpolation with clipping to ends (fraction>=0, <=1).
- */
-static float vtol_interpolate(const float fraction, const float beginVal,
-	const float endVal) {
-	return beginVal + (endVal - beginVal) * bound_min_max(fraction, 0, 1);
-}
-
-/**
- * Calculate pythagorean magnitude of a vector.
- * @param[in] v pointer to a float array
- * @param[in] n length of the amount to take the magnitude of
- * @returns Root of sum of squares of the vector
- *
- * Note that sometimes we only take the magnitude of the first 2 elements
- * of a 3-vector to get the horizontal component.
- */
-static float vtol_magnitude(const float *v, int n)
-{
-	float sum=0;
-
-	for (int i=0; i<n; i++) {
-		sum += powf(v[i], 2);
-	}
-
-	return sqrtf(sum);
-}
-
-/**
- * Subtract two 3-vectors, and optionally normalize to return an error value.
- * @param[in] actual the measured process value
- * @param[in] desired the setpoint of the system
- * @param[out] the resultant error vector desired-actual
- * @param[in] normalize True if it's desired to normalize the output vector
- */
-static void vtol_calculate_difference(const float *actual,
-	const float *desired, float *out, bool normalize)
-{
-	out[0] = desired[0] - actual[0];
-	out[1] = desired[1] - actual[1];
-	out[2] = desired[2] - actual[2];
-
-	if (normalize) {
-		float mag = vtol_magnitude(out, 3);
-
-		if (mag < 0.00001f) {
-			/* Just pick a direction. */
-			out[0] = 1.0; out[1] = 0.0; out[2] = 0.0;
-		} else {
-			out[0] /= mag;  out[1] /= mag;  out[2] /= mag;
-		}
-	}
-}
-
-/**
- * Clip a velocity 2-vector  while maintaining vector direction.
- * @param[in,out] vels velocity to clip
- * @param[in] limit desired limit magnitude.
- *
- * if mag(vels) > limit, vels=vels / mag(vels) * limit
- */
-static void vtol_limit_velocity(float *vels, float limit)
-{
-	float mag = vtol_magnitude(vels, 2);	// only horiz component
-	float scale = mag / limit;
-
-	if (scale > 1) {
-		vels[0] /= mag;
-		vels[1] /= mag;
-	}
-}
-
-/**
- * Apply a "cubic deadband" to the input.
- * @param[in] in the value to deadband
- * @param[in] w deadband width
- * @param[in] b slope of deadband at in=0
- * @param[in] m cubic weighting calculated by vtol_deadband_setup
- * @param[in] r integrated response at in=w, calculated by vtol_deadband_setup
- *
- * "Real" deadbands are evil.  Control systems end up fighting the edge.
- * You don't teach your integrator about emerging drift.  Discontinuities
- * in your control inputs cause all kinds of neat stuff.  As a result this
- * calculates a cubic function within the deadband which has a low slope
- * within the middle, but unity slope at the edge.
- */
-static float vtol_deadband(float in, float w, float b, float m, float r)
-{
-	// First get the nice linear bits -- outside the deadband-- out of
-	// the way.
-	if (in <= -w) {
-		return in+w-r;
-	} else if (in >= w) {
-		return in-w+r;
-	}
-
-
-	return powf(m*in, 3)+b*in;
-}
-
-/**
- * Calculate the "cubic deadband" system parameters.
- * @param[in] The width of the deadband
- * @param[in] Slope of deadband at in=0, sane values between 0 and 1.
- * @param[out] m cubic weighting of function
- * @param[out] integrated response at in=w
- */
-static void vtol_deadband_setup(float w, float b, float *m, float *r)
-{
-	/* So basically.. we want the function to be tangent to the
-	** linear sections-- have a slope of 1-- at -w and w.  In the
-	** middle we want a slope of b.   So the cube here does all the
-	** work b isn't doing. */
-	*m = cbrtf((1-b)/(3*powf(w,2)));
-
-	*r = powf(*m*w, 3)+b*w;
-}
 
 /**
  * Compute desired velocity to follow the desired path from the current location.
@@ -229,7 +106,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	pathStatus.Waypoint = pathDesired->Waypoint;
 
 	// Figure out how low (high) we should be and the error
-	const float altitudeSetpoint = vtol_interpolate(progress->fractional_progress,
+	const float altitudeSetpoint = interpolate_value(progress->fractional_progress,
 	    pathDesired->Start[2], pathDesired->End[2]);
 
 	const float downError = altitudeSetpoint - positionActual.Down;
@@ -255,14 +132,15 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 		}
 
 		// Wait here for new path segment
-		return vtol_follower_control_simple(dT, pathDesired->End, false, false);
+		return vtol_follower_control_impl(dT, pathDesired->End,
+				false, false);
 	}
 	
 	// Interpolate desired velocity and altitude along the path
-	float groundspeed = vtol_interpolate(progress->fractional_progress,
+	float groundspeed = interpolate_value(progress->fractional_progress,
 	    pathDesired->StartingVelocity, pathDesired->EndingVelocity);
 
-	float error_speed = vtol_deadband(progress->error,
+	float error_speed = cubic_deadband(progress->error,
 		guidanceSettings.PathDeadbandWidth,
 		guidanceSettings.PathDeadbandCenterGain,
 		vtol_path_m, vtol_path_r) *
@@ -277,7 +155,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 	    progress->correction_direction[1] * error_speed;
 
 	/* Limit the total velocity based on the configured value. */
-	vtol_limit_velocity(commands_ned, guidanceSettings.HorizontalVelMax);
+	vector2_clip(commands_ned, guidanceSettings.HorizontalVelMax);
 
 	commands_ned[2] = pid_apply_antiwindup(&vtol_pids[DOWN_POSITION], downError,
 		-guidanceSettings.VerticalVelMax, guidanceSettings.VerticalVelMax, dT);
@@ -302,8 +180,9 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
  * @param[in] landing whether to descend
  * @param[in] update_status does this update path_status, or does somoene else?
  */
-static int32_t vtol_follower_control_simple(const float dT,
-	const float *hold_pos_ned, bool landing, bool update_status) {
+static int32_t vtol_follower_control_impl(const float dT,
+	const float *hold_pos_ned, bool landing, bool update_status)
+{
 	PositionActualData positionActual;
 	VelocityDesiredData velocityDesired;
 	
@@ -325,9 +204,9 @@ static int32_t vtol_follower_control_simple(const float dT,
 
 	/* Calculate the difference between where we want to be and the
 	 * above position */
-	vtol_calculate_difference(cur_pos_ned, hold_pos_ned, errors_ned, false);
+	vector3_distances(cur_pos_ned, hold_pos_ned, errors_ned, false);
 
-	float horiz_error_mag = vtol_magnitude(errors_ned, 2);
+	float horiz_error_mag = vectorn_magnitude(errors_ned, 2);
 	float scale_horiz_error_mag = 0;
 
 	/* Apply a cubic deadband; if we are already really close don't work
@@ -340,7 +219,7 @@ static int32_t vtol_follower_control_simple(const float dT,
 	 * attenuates that.
 	 */
 	if (horiz_error_mag > 0.00001f) {
-		scale_horiz_error_mag = vtol_deadband(horiz_error_mag,
+		scale_horiz_error_mag = cubic_deadband(horiz_error_mag,
 			guidanceSettings.EndpointDeadbandWidth,
 			guidanceSettings.EndpointDeadbandCenterGain,
 			vtol_end_m, vtol_end_r) / horiz_error_mag;
@@ -369,7 +248,7 @@ static int32_t vtol_follower_control_simple(const float dT,
 	}
 	
 	// Limit the maximum horizontal velocity any direction (not north and east separately)
-	vtol_limit_velocity(commands_ned, guidanceSettings.HorizontalVelMax);
+	vector2_clip(commands_ned, guidanceSettings.HorizontalVelMax);
 
 	velocityDesired.North = commands_ned[0];
 	velocityDesired.East = commands_ned[1];
@@ -386,7 +265,7 @@ static int32_t vtol_follower_control_simple(const float dT,
 
 			// Indicate whether we are in radius of this endpoint
 			// And at/above the altitude requested
-			if ((vtol_magnitude(errors_ned, 2) < guidanceSettings.EndpointRadius) && criterion_altitude) {
+			if ((vectorn_magnitude(errors_ned, 2) < guidanceSettings.EndpointRadius) && criterion_altitude) {
 				path_status = PATHSTATUS_STATUS_COMPLETED;
 			}
 		}  // landing never terminates.
@@ -410,7 +289,7 @@ static int32_t vtol_follower_control_simple(const float dT,
  */
 int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned)
 {
-	return vtol_follower_control_simple(dT, hold_pos_ned, false, true);
+	return vtol_follower_control_impl(dT, hold_pos_ned, false, true);
 }
 
 /**
@@ -426,7 +305,7 @@ int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned
 int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
 	bool *landed)
 {
-	return vtol_follower_control_simple(dT, hold_pos_ned, false, true);
+	return vtol_follower_control_impl(dT, hold_pos_ned, true, true);
 }
 
 /**
@@ -496,22 +375,69 @@ static int32_t vtol_follower_control_accel(float dT)
 	return 0;
 }
 
+
+static float vtol_follower_control_altitude(float downCommand) {
+	AltitudeHoldStateData altitudeHoldState;
+	altitudeHoldState.VelocityDesired = downCommand;
+	altitudeHoldState.Integral = vtol_pids[DOWN_VELOCITY].iAccumulator / 1000.0f;
+	altitudeHoldState.AngleGain = 1.0f;
+
+	if (altitudeHoldSettings.AttitudeComp > 0) {
+		// Throttle desired is at this point the mount desired in the up direction, we can
+		// account for the attitude if desired
+		AttitudeActualData attitudeActual;
+		AttitudeActualGet(&attitudeActual);
+
+		// Project a unit vector pointing up into the body frame and
+		// get the z component
+		float fraction = attitudeActual.q1 * attitudeActual.q1 -
+				 attitudeActual.q2 * attitudeActual.q2 -
+				 attitudeActual.q3 * attitudeActual.q3 +
+				 attitudeActual.q4 * attitudeActual.q4;
+
+		// Add ability to scale up the amount of compensation to achieve
+		// level forward flight
+		fraction = powf(fraction, (float) altitudeHoldSettings.AttitudeComp / 100.0f);
+
+		// Dividing by the fraction remaining in the vertical projection will
+		// attempt to compensate for tilt. This acts like the thrust is linear
+		// with the output which isn't really true. If the fraction is starting
+		// to go negative we are inverted and should shut off throttle
+		downCommand = (fraction > 0.1f) ? (downCommand / fraction) : 0.0f;
+
+		altitudeHoldState.AngleGain = 1.0f / fraction;
+	}
+
+	altitudeHoldState.Throttle = downCommand;
+	AltitudeHoldStateSet(&altitudeHoldState);
+
+	return downCommand;
+}
+
 /**
  * Compute desired attitude from the desired velocity
  * @param[in] dT the time since last evaluation
+ * @param[in] att_adj an adjustment to the attitude for loiter mode
  *
  * Takes in @ref NedActual which has the acceleration in the
  * NED frame as the feedback term and then compares the
  * @ref VelocityActual against the @ref VelocityDesired
  */
-int32_t vtol_follower_control_attitude(float dT)
+int32_t vtol_follower_control_attitude(float dT, const float *att_adj)
 {
 	vtol_follower_control_accel(dT);
+
+	float default_adj[2] = {0,0};
+
+	if (!att_adj) {
+		att_adj = default_adj;
+	}
 
 	AccelDesiredData accelDesired;
 	AccelDesiredGet(&accelDesired);
 
-	StabilizationDesiredData stabDesired;
+	StabilizationSettingsData stabSet;
+	StabilizationSettingsGet(&stabSet);
 
 	float northCommand = accelDesired.North;
 	float eastCommand = accelDesired.East;
@@ -522,82 +448,46 @@ int32_t vtol_follower_control_attitude(float dT)
 	float forward_accel_desired = -northCommand * cosf(yaw * DEG2RAD) + -eastCommand * sinf(yaw * DEG2RAD);
 	float right_accel_desired = -northCommand * sinf(yaw * DEG2RAD) + eastCommand * cosf(yaw * DEG2RAD);
 
+	StabilizationDesiredData stabDesired;
+
 	// Set the angle that would achieve the desired acceleration given the thrust is enough for a hover
-	stabDesired.Pitch = bound_min_max(RAD2DEG * atanf(forward_accel_desired / GRAVITY),
-	                   -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
-	stabDesired.Roll = bound_min_max(RAD2DEG * atanf(right_accel_desired / GRAVITY),
-	                   -guidanceSettings.MaxRollPitch, guidanceSettings.MaxRollPitch);
+	stabDesired.Pitch = bound_sym(RAD2DEG * atanf(forward_accel_desired / GRAVITY), guidanceSettings.MaxRollPitch) + att_adj[1];
+	stabDesired.Roll = bound_sym(RAD2DEG * atanf(right_accel_desired / GRAVITY), guidanceSettings.MaxRollPitch) + att_adj[0];
+
+	// Re-bound based on maximum attitude settings
+	stabDesired.Pitch = bound_sym(stabDesired.Pitch, stabSet.PitchMax);
+	stabDesired.Roll = bound_sym(stabDesired.Roll, stabSet.RollMax);
 	
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
-
 
 	// Calculate the throttle setting or use pass through from transmitter
 	if (guidanceSettings.ThrottleControl == VTOLPATHFOLLOWERSETTINGS_THROTTLECONTROL_FALSE) {
 		ManualControlCommandThrottleGet(&stabDesired.Throttle);
 	} else {
-		float downCommand = accelDesired.Down;
-
-		AltitudeHoldStateData altitudeHoldState;
-		altitudeHoldState.VelocityDesired = downCommand;
-		altitudeHoldState.Integral = vtol_pids[DOWN_VELOCITY].iAccumulator / 1000.0f;
-		altitudeHoldState.AngleGain = 1.0f;
-
-		if (altitudeHoldSettings.AttitudeComp > 0) {
-			// Throttle desired is at this point the mount desired in the up direction, we can
-			// account for the attitude if desired
-			AttitudeActualData attitudeActual;
-			AttitudeActualGet(&attitudeActual);
-
-			// Project a unit vector pointing up into the body frame and
-			// get the z component
-			float fraction = attitudeActual.q1 * attitudeActual.q1 -
-			                 attitudeActual.q2 * attitudeActual.q2 -
-			                 attitudeActual.q3 * attitudeActual.q3 +
-			                 attitudeActual.q4 * attitudeActual.q4;
-
-			// Add ability to scale up the amount of compensation to achieve
-			// level forward flight
-			fraction = powf(fraction, (float) altitudeHoldSettings.AttitudeComp / 100.0f);
-
-			// Dividing by the fraction remaining in the vertical projection will
-			// attempt to compensate for tilt. This acts like the thrust is linear
-			// with the output which isn't really true. If the fraction is starting
-			// to go negative we are inverted and should shut off throttle
-			downCommand = (fraction > 0.1f) ? (downCommand / fraction) : 0.0f;
-
-			altitudeHoldState.AngleGain = 1.0f / fraction;
-		}
-
-		altitudeHoldState.Throttle = downCommand;
-		AltitudeHoldStateSet(&altitudeHoldState);
+		float downCommand = vtol_follower_control_altitude(accelDesired.Down);
 
 		stabDesired.Throttle = bound_min_max(downCommand, 0, 1);
 	}
 	
 	// Various ways to control the yaw that are essentially manual passthrough. However, because we do not have a fine
 	// grained mechanism of manual setting the yaw as it normally would we need to duplicate that code here
-	float manual_rate[STABILIZATIONSETTINGS_MANUALRATE_NUMELEM];
 	switch(guidanceSettings.YawMode) {
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_RATE:
 		/* This is awkward.  This allows the transmitter to control the yaw while flying navigation */
 		ManualControlCommandYawGet(&yaw);
-		StabilizationSettingsManualRateGet(manual_rate);
-		stabDesired.Yaw = manual_rate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;
+		stabDesired.Yaw = stabSet.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_RATE;
 		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_AXISLOCK:
 		ManualControlCommandYawGet(&yaw);
-		StabilizationSettingsManualRateGet(manual_rate);
-		stabDesired.Yaw = manual_rate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;
+		stabDesired.Yaw = stabSet.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] * yaw;
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK;
 		break;
 	case VTOLPATHFOLLOWERSETTINGS_YAWMODE_ATTITUDE:
 	{
-		uint8_t yaw_max;
-		StabilizationSettingsYawMaxGet(&yaw_max);
 		ManualControlCommandYawGet(&yaw);
-		stabDesired.Yaw = yaw_max * yaw;
+		stabDesired.Yaw = stabSet.YawMax * yaw;
 		stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_YAW] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	}
 		break;
@@ -625,6 +515,148 @@ int32_t vtol_follower_control_attitude(float dT)
 	StabilizationDesiredSet(&stabDesired);
 
 	return 0;
+}
+
+
+static float loiter_deadband(float input) {
+	const float CMD_THRESHOLD = 0.2f;
+
+	if (input > CMD_THRESHOLD) {
+		input -= CMD_THRESHOLD;
+	} else if (input < -CMD_THRESHOLD) {
+		input += CMD_THRESHOLD;
+	} else {
+		input = 0;
+	}
+
+	input /= (1 - CMD_THRESHOLD);	// Normalize to -1 to 1 range.
+
+	/* Confine to desired range */
+	if (input > 1.0f) {
+		input = 1.0f;
+	} else if (input < -1.0f) {
+		input = -1.0f;
+	}
+
+	return expo3(input, 40);	// And apply 40% expo
+}
+
+/**
+ * Receives loiter commands and makes appropriate adjustments.  The updated
+ * position and calculated attitude are used in later stages of the control
+ * process.
+ * @param[in] dT the time since last evaluation
+ * @param[in,out] hold_pos the hold position
+ * @param[out] att_adj an adjustment to be made to attitude for responsiveness.
+ */
+
+bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
+	LoiterCommandData cmd;
+	LoiterCommandGet(&cmd);
+
+	// XXX TODO reproject when we're not issuing body-centric commands
+	float commands_rp[2] = {
+		cmd.Roll,
+		cmd.Pitch
+	};
+
+	float command_mag = vectorn_magnitude(commands_rp, 2);
+	float deadband_mag = loiter_deadband(command_mag);
+
+	// Peak detect and decay of the past command magnitude
+	static float historic_mag = 0.0f;
+
+	// First reduce by decay constant
+	historic_mag *= loiter_brakealpha;
+
+	// If our current magnitude is greater than the result, increase it.
+	if (deadband_mag > historic_mag) {
+		historic_mag = deadband_mag;
+	}
+
+	// And if we haven't had any significant command lately, bug out and
+	// do nothing.
+	if (historic_mag < 0.001f) {
+		att_adj[0] = 0;  att_adj[1] = 0;
+		return false;
+	}
+
+	// Normalize our command magnitude.  Command vectors from this
+	// point are normalized.
+	if (command_mag > 0.001f) {
+		commands_rp[0] /= command_mag;
+		commands_rp[1] /= command_mag;
+	} else {
+		// Just pick a direction
+		commands_rp[0] = 0.0f;
+		commands_rp[1] = -1.0f;
+	}
+
+	// Find our current position error
+	PositionActualData positionActual;
+	PositionActualGet(&positionActual);
+
+	float cur_pos_ned[3] = { positionActual.North,
+		positionActual.East, positionActual.Down };
+
+	float total_poserr_ned[3];
+	vector3_distances(cur_pos_ned, hold_pos, total_poserr_ned, false);
+
+	if (deadband_mag > 0.001f) {
+		float yaw;
+		AttitudeActualYawGet(&yaw);
+
+		float commands_ne[2];
+		// 90 degrees here compensates for the above being in roll-pitch
+		// order vs. north-east (and where yaw is defined).
+		vector2_rotate(commands_rp, commands_ne, 90 + yaw);
+
+		VelocityActualData velocityActual;
+		VelocityActualGet(&velocityActual);
+
+		// Come up with a target velocity for us to fly the command
+		// at, considering our current momentum in that direction.
+		float target_vel = guidanceSettings.LoiterInitialMaxVel *
+			deadband_mag;
+
+		// Plus whatever current velocity we're making good in
+		// that direction..
+		// find the portion of our current velocity vector parallel to
+		// cmd.
+		float parallel_sign =
+			velocityActual.North * commands_ne[0] +
+			velocityActual.East  * commands_ne[1];
+
+		if (parallel_sign > 0) {
+			float parallel_mag = sqrtf(
+				powf(velocityActual.North * commands_ne[0], 2) +
+				powf(velocityActual.East * commands_ne[1], 2));
+
+			target_vel += deadband_mag * parallel_mag;
+		}
+
+		// Feed the target velocity forward for our new desired position
+		hold_pos[0] = cur_pos_ned[0] +
+			commands_ne[0] * target_vel *
+			guidanceSettings.LoiterLookaheadTimeConstant;
+		hold_pos[1] = cur_pos_ned[1] +
+			commands_ne[1] * target_vel *
+			guidanceSettings.LoiterLookaheadTimeConstant;
+	}
+
+	// Now put a portion of the error back in.  At full stick
+	// deflection, decay error at specified time constant
+	float scaled_error_alpha = 1 - historic_mag * (1 - loiter_errordecayalpha);
+	hold_pos[0] -= scaled_error_alpha * total_poserr_ned[0];
+	hold_pos[1] -= scaled_error_alpha * total_poserr_ned[1];
+	
+	// Compute attitude feedforward
+	att_adj[0] = deadband_mag * commands_rp[0] *
+		guidanceSettings.LoiterAttitudeFeedthrough;
+	att_adj[1] = deadband_mag * commands_rp[1] *
+		guidanceSettings.LoiterAttitudeFeedthrough;
+
+	return true;
 }
 
 void vtol_follower_control_settings_updated(UAVObjEvent * ev)
@@ -663,14 +695,17 @@ void vtol_follower_control_settings_updated(UAVObjEvent * ev)
 	              0, 1);  // Note the ILimit here is 1 because we use this offset to set the throttle offset
 
 	// Calculate the constants used in the deadband calculation
-	vtol_deadband_setup(guidanceSettings.EndpointDeadbandWidth,
+	cubic_deadband_setup(guidanceSettings.EndpointDeadbandWidth,
 	    guidanceSettings.EndpointDeadbandCenterGain,
 	    &vtol_end_m, &vtol_end_r);
 
-	vtol_deadband_setup(guidanceSettings.PathDeadbandWidth,
+	cubic_deadband_setup(guidanceSettings.PathDeadbandWidth,
 	    guidanceSettings.PathDeadbandCenterGain,
 	    &vtol_path_m, &vtol_path_r);
 
+	// calculate the loiter time constants.
+	loiter_brakealpha = expf(-(guidanceSettings.UpdatePeriod / 1000.0f) / guidanceSettings.LoiterBrakingTimeConstant);
+	loiter_errordecayalpha = expf(-(guidanceSettings.UpdatePeriod / 1000.0f) / guidanceSettings.LoiterErrorDecayConstant);
 }
 
 /**
