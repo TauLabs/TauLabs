@@ -32,6 +32,9 @@
 		<field name="LoiterLookaheadTimeConstant" units="s" type="float" elements="1" defaultvalue="1.25"/>
 		<field name="LoiterInitialMaxVel" units="m/s" type="float" elements="1" defaultvalue="3.5"/>
 		<field name="LoiterAttitudeFeedthrough" units="deg" type="float" elements="1" defaultvalue="15"/>
+		<!-- Silently ignored if ThrottleControl is false -->
+		<field name="LoiterAllowAltControl" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>

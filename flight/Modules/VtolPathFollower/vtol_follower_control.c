@@ -579,12 +579,14 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj,
 	float command_mag = vectorn_magnitude(commands_rp, 2);
 	float deadband_mag = loiter_deadband(command_mag, CMD_THRESHOLD);
 
-	// Inverted because we want units in "Down" frame
-	float down_cmd = -loiter_deadband(cmd.Throttle, CMD_ALT_THRESHOLD);
-	
-	// XXX TODO set down_cmd to 0 if we are not allowing end-user
-	// control of altitude
+	float down_cmd = 0;
 
+	if (guidanceSettings.ThrottleControl && 
+			guidanceSettings.LoiterAllowAltControl) {
+		// Inverted because we want units in "Down" frame
+		down_cmd = -loiter_deadband(cmd.Throttle, CMD_ALT_THRESHOLD);
+	}
+	
 	// Peak detect and decay of the past command magnitude
 	static float historic_mag = 0.0f;
 
