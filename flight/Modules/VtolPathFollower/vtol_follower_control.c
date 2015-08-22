@@ -177,7 +177,8 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
  * Controller to maintain/seek a position and optionally descend.
  * @param[in] dT time since last eval
  * @param[in] hold_pos_ned a position to hold
- * @param[in] landing whether to descend
+ * @param[in] alt_rate if not 0, a requested descent/climb rate that overrides
+ * hold_pos_ned
  * @param[in] update_status does this update path_status, or does somoene else?
  */
 static int32_t vtol_follower_control_impl(const float dT,
@@ -268,7 +269,9 @@ static int32_t vtol_follower_control_impl(const float dT,
 			if ((vectorn_magnitude(errors_ned, 2) < guidanceSettings.EndpointRadius) && criterion_altitude) {
 				path_status = PATHSTATUS_STATUS_COMPLETED;
 			}
-		}  // landing never terminates.
+		}
+		// Otherwise, we're not done-- we're in autoland or someone
+		// upstream is explicitly trimming our altitude
 
 		PathStatusStatusSet(&path_status);
 	}
