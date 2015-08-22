@@ -509,7 +509,9 @@ static int32_t do_loiter()
 		vtol_hold_position_ned[2]
 	};
 
-	if (vtol_follower_control_loiter(DT, hold_pos, att_adj)) {
+	float alt_adj = 0;
+
+	if (vtol_follower_control_loiter(DT, hold_pos, att_adj, &alt_adj)) {
 		// If hold position changed, use it!
 		// We follow this conditional just to avoid unnecessarily
 		// spamming updates to the PositionDesired object.
@@ -517,7 +519,8 @@ static int32_t do_loiter()
 		hold_position(hold_pos[0], hold_pos[1], hold_pos[2]);
 	}
 
-	if (vtol_follower_control_endpoint(DT, vtol_hold_position_ned) == 0) {
+	if (vtol_follower_control_altrate(DT, vtol_hold_position_ned,
+				alt_adj) == 0) {
 		if (vtol_follower_control_attitude(DT, att_adj) == 0) {
 			return 0;
 		}
