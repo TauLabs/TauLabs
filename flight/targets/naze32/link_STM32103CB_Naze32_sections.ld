@@ -71,13 +71,6 @@ SECTIONS
     _sidata = .;
 
     /*
-     */
-    .fw_version_blob :
-    {
-        KEEP(*(.fw_version_blob))
-    } > VERSION
-
-    /*
      * This stack is used both as the initial sp during early init as well as ultimately
      * being used as the STM32's MSP (Main Stack Pointer) which is the same stack that
      * is used for _all_ interrupt handlers.  The end of this stack should be placed

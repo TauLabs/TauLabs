@@ -141,9 +141,12 @@ $(1).firmwareinfo.c: $(1) $(ROOT_DIR)/make/templates/firmwareinfotemplate.c FORC
 
 $(eval $(call COMPILE_C_TEMPLATE, $(1).firmwareinfo.c))
 
+# Hack to place Naze firmware info at correct location in flash TODO: fix properly
+ifeq (,$(findstring naze32,$(TARGET)))
 $(OUTDIR)/$(notdir $(basename $(1))).tlfw : $(1) $(1).firmwareinfo.bin
 	@echo $(MSG_TLFIRMWARE) $$(call toprel, $$@)
 	$(V1) cat $(1) $(1).firmwareinfo.bin > $$@
+endif
 endef
 
 # Assemble: create object files from assembler source files.
