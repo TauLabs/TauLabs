@@ -587,7 +587,10 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj,
 	if (guidanceSettings.ThrottleControl && 
 			guidanceSettings.LoiterAllowAltControl) {
 		// Inverted because we want units in "Down" frame
-		down_cmd = -loiter_deadband(cmd.Throttle, CMD_ALT_THRESHOLD);
+		// Doubled to recenter to 1 to -1 scale from 0-1.
+		// loiter_deadband clips appropriately.
+		down_cmd = loiter_deadband(1 - (cmd.Throttle * 2),
+				CMD_ALT_THRESHOLD);
 	}
 	
 	// Peak detect and decay of the past command magnitude
