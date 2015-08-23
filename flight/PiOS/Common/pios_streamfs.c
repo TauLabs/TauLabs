@@ -542,7 +542,7 @@ int32_t PIOS_STREAMFS_Init(uintptr_t *fs_id, const struct streamfs_cfg *cfg, enu
 		goto out_exit;
 	}
 
-	streamfs->com_buffer = (uint8_t *)PIOS_malloc_no_dma(cfg->write_size);
+	streamfs->com_buffer = (uint8_t *)PIOS_malloc(cfg->write_size);
 	if (!streamfs->com_buffer) {
 		PIOS_free(streamfs);
 		return -1;
