@@ -32,6 +32,10 @@ extern uintptr_t pios_rcvr_group_map[];
 
 #endif
 
+void PIOS_HAL_ConfigureCom(const struct pios_usart_cfg *usart_port_cfg,
+		size_t rx_buf_len, size_t tx_buf_len,
+		const struct pios_com_driver *com_driver, uintptr_t *com_id);
+
 void PIOS_HAL_Panic(uint32_t led_id, int32_t code);
 void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		const struct pios_usart_cfg *usart_port_cfg,

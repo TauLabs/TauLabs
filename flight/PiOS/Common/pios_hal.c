@@ -178,7 +178,7 @@ static void PIOS_HAL_SetReceiver(int receiver_type, uintptr_t value) {
  * @param[in] com_driver communications driver
  * @param[out] com_id id of the PIOS_Com instance
  */
-static void PIOS_HAL_ConfigureCom (const struct pios_usart_cfg *usart_port_cfg,
+void PIOS_HAL_ConfigureCom(const struct pios_usart_cfg *usart_port_cfg,
 		size_t rx_buf_len, size_t tx_buf_len,
                 const struct pios_com_driver *com_driver, uintptr_t *com_id)
 {
