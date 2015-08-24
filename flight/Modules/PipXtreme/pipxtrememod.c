@@ -39,7 +39,6 @@
 
 #include <pios_rfm22b.h>
 #include <pios_board_info.h>
-#include <oplinksettings.h>
 #include "systemmod.h"
 #include "pios_thread.h"
 
