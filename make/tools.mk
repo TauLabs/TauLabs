@@ -124,7 +124,7 @@ ifdef MACOSX
 endif
 
 ifdef WINDOWS
-  arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.9/4.9-2015-q1-update/+download/gcc-arm-none-eabi-4_9-2015q1-20150306-win32.zip 
+  arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.9/4.9-2015-q1-update/+download/gcc-arm-none-eabi-4_9-2015q1-20150306-win32.zip
 endif
 
 arm_sdk_install: ARM_SDK_FILE := $(notdir $(ARM_SDK_URL))
