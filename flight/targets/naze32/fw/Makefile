@@ -60,7 +60,6 @@ USE_GPS ?= NO
 USE_TXPID ?= YES
 USE_ALTITUDE ?= NO
 USE_AUTOTUNE ?= YES
-TEST_FAULTS ?= NO
 USE_UAVOMAVLINKBRIDGE ?= YES
 USE_UAVOLIGHTTELEMETRYBRIDGE ?= YES
 USE_UAVOFRSKYSENSORHUBBRIDGE ?= YES
@@ -81,9 +80,6 @@ endif
 ifeq ($(USE_ALTITUDE), YES)
 OPTMODULES += Altitude
 endif
-ifeq ($(TEST_FAULTS), YES)
-OPTMODULES += Fault
-endif
 ifeq ($(USE_AUTOTUNE), YES)
 OPTMODULES += Autotune
 endif
@@ -99,7 +95,6 @@ endif
 # List of mandatory modules to include
 MODULES += Attitude/smallf1
 MODULES += Stabilization Actuator ManualControl FirmwareIAP
-# MODULES += PathFollower/coptercontrol
 # Telemetry must be last to grab the optional modules (why?)
 MODULES += Telemetry
 
@@ -165,67 +160,6 @@ SRC += $(OPTESTS)/test_common.c
 SRC += $(OPTESTS)/$(TESTAPP).c
 endif
 
-## UAVOBJECTS
-ifndef TESTAPP
-SRC += $(OPUAVSYNTHDIR)/accessorydesired.c
-SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
-SRC += $(OPUAVSYNTHDIR)/gcstelemetrystats.c
-SRC += $(OPUAVSYNTHDIR)/flighttelemetrystats.c
-SRC += $(OPUAVSYNTHDIR)/faultsettings.c
-SRC += $(OPUAVSYNTHDIR)/flightstatus.c
-SRC += $(OPUAVSYNTHDIR)/systemstats.c
-SRC += $(OPUAVSYNTHDIR)/systemalarms.c
-SRC += $(OPUAVSYNTHDIR)/systemsettings.c
-SRC += $(OPUAVSYNTHDIR)/stabilizationdesired.c
-SRC += $(OPUAVSYNTHDIR)/stabilizationsettings.c
-SRC += $(OPUAVSYNTHDIR)/actuatorcommand.c
-SRC += $(OPUAVSYNTHDIR)/actuatordesired.c
-SRC += $(OPUAVSYNTHDIR)/actuatorsettings.c
-SRC += $(OPUAVSYNTHDIR)/accels.c
-SRC += $(OPUAVSYNTHDIR)/gyros.c
-SRC += $(OPUAVSYNTHDIR)/attitudeactual.c
-SRC += $(OPUAVSYNTHDIR)/manualcontrolcommand.c
-SRC += $(OPUAVSYNTHDIR)/watchdogstatus.c
-SRC += $(OPUAVSYNTHDIR)/manualcontrolsettings.c
-SRC += $(OPUAVSYNTHDIR)/mixersettings.c
-SRC += $(OPUAVSYNTHDIR)/firmwareiapobj.c
-SRC += $(OPUAVSYNTHDIR)/attitudesettings.c
-SRC += $(OPUAVSYNTHDIR)/camerastabsettings.c
-SRC += $(OPUAVSYNTHDIR)/cameradesired.c
-SRC += $(OPUAVSYNTHDIR)/gpsposition.c
-SRC += $(OPUAVSYNTHDIR)/gpsvelocity.c
-SRC += $(OPUAVSYNTHDIR)/hwnaze.c
-SRC += $(OPUAVSYNTHDIR)/modulesettings.c
-SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
-SRC += $(OPUAVSYNTHDIR)/receiveractivity.c
-SRC += $(OPUAVSYNTHDIR)/systemident.c
-SRC += $(OPUAVSYNTHDIR)/taskinfo.c
-SRC += $(OPUAVSYNTHDIR)/mixerstatus.c
-SRC += $(OPUAVSYNTHDIR)/mwratesettings.c
-SRC += $(OPUAVSYNTHDIR)/ratedesired.c
-SRC += $(OPUAVSYNTHDIR)/baroaltitude.c
-SRC += $(OPUAVSYNTHDIR)/txpidsettings.c
-SRC += $(OPUAVSYNTHDIR)/fixedwingairspeeds.c
-SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowerstatus.c
-SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowersettingscc.c
-SRC += $(OPUAVSYNTHDIR)/pathstatus.c
-SRC += $(OPUAVSYNTHDIR)/pathdesired.c
-SRC += $(OPUAVSYNTHDIR)/homelocation.c
-SRC += $(OPUAVSYNTHDIR)/poilocation.c
-SRC += $(OPUAVSYNTHDIR)/positionactual.c
-SRC += $(OPUAVSYNTHDIR)/tabletinfo.c
-SRC += $(OPUAVSYNTHDIR)/velocityactual.c
-SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
-SRC += $(OPUAVSYNTHDIR)/sensorsettings.c
-SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
-SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
-SRC += $(OPUAVSYNTHDIR)/trimanglessettings.c
-SRC += $(OPUAVSYNTHDIR)/trimangles.c
-SRC += $(OPUAVSYNTHDIR)/ubloxinfo.c
-SRC += $(OPUAVSYNTHDIR)/sessionmanaging.c
-
-
-endif
 
 ## PIOS Hardware (STM32F10x)
 SRC += $(PIOSSTM32F10X)/pios_sys.c
@@ -578,143 +512,5 @@ LDFLAGS += -Wl,--fatal-warnings
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_memory.ld
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_sections.ld
 
-# Define programs and commands.
-REMOVE  = rm -f
-
-# List of all source files.
-ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC)
-# List of all source files without directory and file-extension.
-ALLSRCBASE = $(notdir $(basename $(ALLSRC)))
-
-# Define all object files.
-ALLOBJ     = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE)))
-
-# Define all listing files (used for make clean).
-LSTFILES   = $(addprefix $(OUTDIR)/, $(addsuffix .lst, $(ALLSRCBASE)))
-# Define all depedency-files (used for make clean).
-DEPFILES   = $(addprefix $(OUTDIR)/dep/, $(addsuffix .o.d, $(ALLSRCBASE)))
-
-# Default target.
-all: build
-
-ifeq ($(LOADFORMAT),ihex)
-build: elf hex lss sym
-else
-ifeq ($(LOADFORMAT),binary)
-build: elf bin lss sym
-else
-ifeq ($(LOADFORMAT),both)
-build: elf hex bin lss sym
-else
-$(error "$(MSG_FORMATERROR) $(FORMAT)")
-endif
-endif
-endif
-
-# Generate code for PyMite
-#$(OUTDIR)/pmlib_img.c $(OUTDIR)/pmlib_nat.c $(OUTDIR)/pmlibusr_img.c $(OUTDIR)/pmlibusr_nat.c $(OUTDIR)/pmfeatures.h: $(wildcard $(PYMITELIB)/*.py) $(wildcard $(PYMITEPLAT)/*.py) $(wildcard $(FLIGHTPLANLIB)/*.py) $(wildcard $(FLIGHTPLANS)/*.py)
-#	@echo $(MSG_PYMITEINIT) $(call toprel, $@)
-#	@$(PYTHON) $(PYMITETOOLS)/pmImgCreator.py -f $(PYMITEPLAT)/pmfeatures.py -c -s --memspace=flash -o $(OUTDIR)/pmlib_img.c --native-file=$(OUTDIR)/pmlib_nat.c $(PYMITELIB)/list.py $(PYMITELIB)/dict.py $(PYMITELIB)/__bi.py $(PYMITELIB)/sys.py $(PYMITELIB)/string.py $(wildcard $(FLIGHTPLANLIB)/*.py)
-#	@$(PYTHON) $(PYMITETOOLS)/pmGenPmFeatures.py $(PYMITEPLAT)/pmfeatures.py > $(OUTDIR)/pmfeatures.h
-#	@$(PYTHON) $(PYMITETOOLS)/pmImgCreator.py -f $(PYMITEPLAT)/pmfeatures.py -c -u -o $(OUTDIR)/pmlibusr_img.c --native-file=$(OUTDIR)/pmlibusr_nat.c $(FLIGHTPLANS)/test.py
-
-# Link: create ELF output file from object files.
-$(eval $(call LINK_TEMPLATE, $(OUTDIR)/$(TARGET).elf, $(ALLOBJ)))
-
-# Assemble: create object files from assembler source files.
-$(foreach src, $(ASRC), $(eval $(call ASSEMBLE_TEMPLATE, $(src))))
-
-# Assemble: create object files from assembler source files. ARM-only
-$(foreach src, $(ASRCARM), $(eval $(call ASSEMBLE_ARM_TEMPLATE, $(src))))
-
-# Compile: create object files from C source files.
-$(foreach src, $(SRC), $(eval $(call COMPILE_C_TEMPLATE, $(src))))
-
-# Compile: create object files from C source files. ARM-only
-$(foreach src, $(SRCARM), $(eval $(call COMPILE_C_ARM_TEMPLATE, $(src))))
-
-# Compile: create object files from C++ source files.
-$(foreach src, $(CPPSRC), $(eval $(call COMPILE_CPP_TEMPLATE, $(src))))
-
-# Compile: create object files from C++ source files. ARM-only
-$(foreach src, $(CPPSRCARM), $(eval $(call COMPILE_CPP_ARM_TEMPLATE, $(src))))
-
-# Compile: create assembler files from C source files. ARM/Thumb
-$(eval $(call PARTIAL_COMPILE_TEMPLATE, SRC))
-
-# Compile: create assembler files from C source files. ARM only
-$(eval $(call PARTIAL_COMPILE_ARM_TEMPLATE, SRCARM))
-
-$(OUTDIR)/$(TARGET).bin.o: $(OUTDIR)/$(TARGET).bin
-
-$(eval $(call TLFW_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(BOARD_TYPE),$(BOARD_REVISION)))
-
-# Add jtag targets (program and wipe)
-$(eval $(call JTAG_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(FW_BANK_BASE),$(FW_BANK_SIZE),$(OPENOCD_JTAG_CONFIG),$(OPENOCD_CONFIG)))
-
-.PHONY: elf lss sym hex bin bino tlfw
-elf: $(OUTDIR)/$(TARGET).elf
-lss: $(OUTDIR)/$(TARGET).lss
-sym: $(OUTDIR)/$(TARGET).sym
-hex: $(OUTDIR)/$(TARGET).hex
-bin: $(OUTDIR)/$(TARGET).bin
-bino: $(OUTDIR)/$(TARGET).bin.o
-tlfw: $(OUTDIR)/$(TARGET).tlfw
-
-# Display sizes of sections.
-$(eval $(call SIZE_TEMPLATE, $(OUTDIR)/$(TARGET).elf))
-
-# Generate Doxygen documents
-docs:
-	doxygen  $(DOXYGENDIR)/doxygen.cfg
-
-# Install: install binary file with prefix/suffix into install directory
-install: $(OUTDIR)/$(TARGET).tlfw
-ifneq ($(INSTALL_DIR),)
-	@echo $(MSG_INSTALLING) $(call toprel, $<)
-	$(V1) mkdir -p $(INSTALL_DIR)
-	$(V1) $(INSTALL) $< $(INSTALL_DIR)/$(INSTALL_PFX)$(TARGET)$(INSTALL_SFX).tlfw
-else
-	$(error INSTALL_DIR must be specified for $@)
-endif
-
-# Target: clean project.
-clean: clean_list
-
-clean_list :
-	@echo $(MSG_CLEANING)
-	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).map
-	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).elf
-	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).hex
-	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).bin
-	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).sym
-	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).lss
-	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).bin.o
-	$(V1) $(REMOVE) $(wildcard $(OUTDIR)/*.c)
-	$(V1) $(REMOVE) $(wildcard $(OUTDIR)/*.h)
-	$(V1) $(REMOVE) $(ALLOBJ)
-	$(V1) $(REMOVE) $(LSTFILES)
-	$(V1) $(REMOVE) $(DEPFILES)
-	$(V1) $(REMOVE) $(SRC:.c=.s)
-	$(V1) $(REMOVE) $(SRCARM:.c=.s)
-	$(V1) $(REMOVE) $(CPPSRC:.cpp=.s)
-	$(V1) $(REMOVE) $(CPPSRCARM:.cpp=.s)
-
-
-# Create output files directory
-# all known MS Windows OS define the ComSpec environment variable
-ifdef ComSpec
-$(shell md $(subst /,\\,$(OUTDIR)) 2>NUL)
-else
-$(shell mkdir -p $(OUTDIR) 2>/dev/null)
-endif
-
-# Include the dependency files.
-ifdef ComSpec
--include $(shell md $(subst /,\\,$(OUTDIR))\dep 2>NUL) $(wildcard $(OUTDIR)/dep/*)
-else
--include $(shell mkdir -p $(OUTDIR) 2>/dev/null) $(shell mkdir $(OUTDIR)/dep 2>/dev/null) $(wildcard $(OUTDIR)/dep/*)
-endif
-
-# Listing of phony targets.
-.PHONY : all build clean clean_list install
+include ./UAVObjects.inc
+include $(MAKE_INC_DIR)/firmware-common.mk

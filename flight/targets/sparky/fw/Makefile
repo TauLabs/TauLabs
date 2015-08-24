@@ -153,9 +153,6 @@ SRC += $(PIOSCOMMON)/pios_thread.c
 SRC += $(PIOSCOMMON)/pios_queue.c
 
 
-include ./UAVObjects.inc
-SRC += $(UAVOBJSRC)
-
 # List C++ source files here.
 # use file-extension .cpp for C++-files (not .C)
 CPPSRC =
@@ -324,5 +321,8 @@ LDFLAGS += -Wl,--fatal-warnings
 #Linker scripts
 LDFLAGS += -T memory.ld $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
-include $(MAKE_INC_DIR)/firmware-common.mk
+include ./UAVObjects.inc
 
+UAVO_NAV = YES
+
+include $(MAKE_INC_DIR)/firmware-common.mk

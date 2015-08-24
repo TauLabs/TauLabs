@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       Makefile
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2012.
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
 # @addtogroup 
 # @{
 # @addtogroup 
@@ -29,101 +29,15 @@
 
 UAVOBJSRCFILENAMES =
 UAVOBJSRCFILENAMES += acceldesired
-UAVOBJSRCFILENAMES += accessorydesired
-UAVOBJSRCFILENAMES += actuatorcommand
-UAVOBJSRCFILENAMES += actuatordesired
-UAVOBJSRCFILENAMES += actuatorsettings
 UAVOBJSRCFILENAMES += altitudeholdstate
-UAVOBJSRCFILENAMES += attitudesettings
-UAVOBJSRCFILENAMES += inssettings
-UAVOBJSRCFILENAMES += attitudeactual
-UAVOBJSRCFILENAMES += gyros
-UAVOBJSRCFILENAMES += gyrosbias
-UAVOBJSRCFILENAMES += sensorsettings
-UAVOBJSRCFILENAMES += accels
-UAVOBJSRCFILENAMES += magnetometer
-UAVOBJSRCFILENAMES += magbias
-UAVOBJSRCFILENAMES += baroaltitude
-UAVOBJSRCFILENAMES += baroairspeed
-UAVOBJSRCFILENAMES += airspeedsettings
-UAVOBJSRCFILENAMES += airspeedactual
-UAVOBJSRCFILENAMES += fixedwingairspeeds
-UAVOBJSRCFILENAMES += fixedwingpathfollowersettings
-UAVOBJSRCFILENAMES += fixedwingpathfollowerstatus
-UAVOBJSRCFILENAMES += flightbatterysettings
-UAVOBJSRCFILENAMES += firmwareiapobj
-UAVOBJSRCFILENAMES += flightbatterystate
-UAVOBJSRCFILENAMES += flightplancontrol
-UAVOBJSRCFILENAMES += flightplansettings
-UAVOBJSRCFILENAMES += flightplanstatus
-UAVOBJSRCFILENAMES += flighttelemetrystats
-UAVOBJSRCFILENAMES += gcstelemetrystats
-UAVOBJSRCFILENAMES += gcsreceiver
 UAVOBJSRCFILENAMES += geofencesettings
-UAVOBJSRCFILENAMES += gpsposition
-UAVOBJSRCFILENAMES += gpssatellites
-UAVOBJSRCFILENAMES += gpstime
-UAVOBJSRCFILENAMES += gpsvelocity
 UAVOBJSRCFILENAMES += groundpathfollowersettings
 UAVOBJSRCFILENAMES += loggingsettings
 UAVOBJSRCFILENAMES += loggingstats
-UAVOBJSRCFILENAMES += loitercommand
-UAVOBJSRCFILENAMES += vtolpathfollowersettings
-UAVOBJSRCFILENAMES += vtolpathfollowerstatus
-UAVOBJSRCFILENAMES += homelocation
-UAVOBJSRCFILENAMES += insstate
-UAVOBJSRCFILENAMES += manualcontrolcommand
-UAVOBJSRCFILENAMES += manualcontrolsettings
-UAVOBJSRCFILENAMES += mixersettings
-UAVOBJSRCFILENAMES += mixerstatus
-UAVOBJSRCFILENAMES += mwratesettings
-UAVOBJSRCFILENAMES += nedaccel
-UAVOBJSRCFILENAMES += nedposition
-UAVOBJSRCFILENAMES += objectpersistence
-UAVOBJSRCFILENAMES += overosyncstats
-UAVOBJSRCFILENAMES += overosyncsettings
-UAVOBJSRCFILENAMES += pathdesired
-UAVOBJSRCFILENAMES += pathplannersettings
-UAVOBJSRCFILENAMES += pathstatus
-UAVOBJSRCFILENAMES += poilocation
-UAVOBJSRCFILENAMES += positionactual
-UAVOBJSRCFILENAMES += ratedesired
-UAVOBJSRCFILENAMES += sonaraltitude
-UAVOBJSRCFILENAMES += stabilizationdesired
-UAVOBJSRCFILENAMES += stabilizationsettings
-UAVOBJSRCFILENAMES += stateestimation
-UAVOBJSRCFILENAMES += systemalarms
-UAVOBJSRCFILENAMES += systemident
-UAVOBJSRCFILENAMES += systemsettings
-UAVOBJSRCFILENAMES += systemstats
-UAVOBJSRCFILENAMES += tabletinfo
-UAVOBJSRCFILENAMES += taskinfo
-UAVOBJSRCFILENAMES += velocityactual
-UAVOBJSRCFILENAMES += velocitydesired
-UAVOBJSRCFILENAMES += watchdogstatus
-UAVOBJSRCFILENAMES += flightstatus
 UAVOBJSRCFILENAMES += hwcolibri
-UAVOBJSRCFILENAMES += modulesettings
-UAVOBJSRCFILENAMES += receiveractivity
-UAVOBJSRCFILENAMES += cameradesired
-UAVOBJSRCFILENAMES += camerastabsettings
-UAVOBJSRCFILENAMES += altitudeholdsettings
-UAVOBJSRCFILENAMES += altitudeholddesired
-UAVOBJSRCFILENAMES += waypoint
-UAVOBJSRCFILENAMES += waypointactive
-UAVOBJSRCFILENAMES += ubloxinfo
 UAVOBJSRCFILENAMES += hottsettings
 UAVOBJSRCFILENAMES += picocsettings
 UAVOBJSRCFILENAMES += picocstatus
 
-UAVOBJSRCFILENAMES += txpidsettings
 
-UAVOBJSRCFILENAMES += vibrationanalysissettings
-UAVOBJSRCFILENAMES += vibrationanalysisoutput
-UAVOBJSRCFILENAMES += trimangles
-UAVOBJSRCFILENAMES += trimanglessettings
 
-UAVOBJSRCFILENAMES += sessionmanaging
-
-UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
-UAVOBJDEFINE = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )

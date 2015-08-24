@@ -171,9 +171,6 @@ SRC += $(PIOSCOMMON)/pios_queue.c
 SRC += $(PIOSCOMMON)/pios_hal.c
 
 
-include ./UAVObjects.inc
-SRC += $(UAVOBJSRC)
-
 # List C source files here which must be compiled in ARM-Mode (no -mthumb).
 # use file-extension c for "c-only"-files
 ## just for testing, timer.c could be compiled in thumb-mode too
@@ -378,5 +375,9 @@ LDFLAGS += -Wl,--fatal-warnings
 
 #Linker scripts                                                                                                                                                                                                              
 LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
+
+include ./UAVObjects.inc
+
+UAVO_NAV = YES
 
 include $(MAKE_INC_DIR)/firmware-common.mk
