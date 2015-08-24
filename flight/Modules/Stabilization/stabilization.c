@@ -100,14 +100,12 @@ enum {
 	PID_MAX
 };
 
-
 // Private variables
 static struct pios_thread *taskHandle;
 static MWRateSettingsData mwrate_settings;
 static StabilizationSettingsData settings;
 static TrimAnglesData trimAngles;
 static struct pios_queue *queue;
-float gyro_alpha = 0;
 float axis_lock_accum[3] = {0,0,0};
 uint8_t max_axis_lock = 0;
 uint8_t max_axislock_rate = 0;
@@ -115,7 +113,10 @@ float weak_leveling_kp = 0;
 uint8_t weak_leveling_max = 0;
 bool lowThrottleZeroIntegral;
 float vbar_decay = 0.991f;
+float gyro_alpha = 0.6;
 struct pid pids[PID_MAX];
+
+volatile bool gyro_filter_updated = false;
 
 // Private functions
 static void stabilizationTask(void* parameters);
@@ -197,13 +198,13 @@ static void stabilizationTask(void* parameters)
 	const uint32_t SYSTEM_IDENT_PERIOD = 75;
 	uint32_t system_ident_timeval = PIOS_DELAY_GetRaw();
 
+	float dT_filtered = 0;
+
 	// Main task loop
 	zero_pids();
 	while(1) {
 		iteration++;
 
-		float dT;
-		
 		PIOS_WDG_UpdateFlag(PIOS_WDG_STABILIZATION);
 		
 		// Wait until the AttitudeRaw object is updated, if a timeout then go to failsafe
@@ -213,12 +214,41 @@ static void stabilizationTask(void* parameters)
 			continue;
 		}
 		
-
 		calculate_pids();
 
-		dT = PIOS_DELAY_DiffuS(timeval) * 1.0e-6f;
+		float dT = PIOS_DELAY_DiffuS(timeval) * 1.0e-6f;
 		timeval = PIOS_DELAY_GetRaw();
 		
+		// exponential moving averaging (EMA) of dT to reduce jitter; ~200points
+		// to have more or less equivalent noise reduction to a normal N point moving averaging:  alpha = 2 / (N + 1)
+		// run it only at the beginning for the first samples, to reduce CPU load, and the value should converge to a constant value
+
+		if (iteration < 100) {
+			dT_filtered = dT;
+		} else if (iteration < 2000) {
+			dT_filtered = 0.01f * dT + (1.0f - 0.01f) * dT_filtered;
+		} else if (iteration == 2000) {
+			gyro_filter_updated = true;
+		}
+
+		if (gyro_filter_updated) {
+			if (settings.GyroCutoff < 1.0f) {
+				gyro_alpha = 0;
+			} else {
+				gyro_alpha = expf(-2.0f * (float)(M_PI) *
+						settings.GyroCutoff * dT_filtered);
+			}
+
+			// Compute time constant for vbar decay term
+			if (settings.VbarTau < 0.001f) {
+				vbar_decay = 0;
+			} else {
+				vbar_decay = expf(-dT_filtered / settings.VbarTau);
+			}
+
+			gyro_filter_updated = false;
+		}
+
 		FlightStatusGet(&flightStatus);
 		StabilizationDesiredGet(&stabDesired);
 		AttitudeActualGet(&attitudeActual);
@@ -938,19 +968,7 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		// Whether to zero the PID integrals while throttle is low
 		lowThrottleZeroIntegral = settings.LowThrottleZeroIntegral == STABILIZATIONSETTINGS_LOWTHROTTLEZEROINTEGRAL_TRUE;
 
-		// The dT has some jitter iteration to iteration that we don't want to
-		// make thie result unpredictable.  Still, it's nicer to specify the constant
-		// based on a time (in ms) rather than a fixed multiplier.  The error between
-		// update rates on OP (~300 Hz) and CC (~475 Hz) is negligible for this
-		// calculation
-		const float fakeDt = 0.0025f;
-		if(settings.GyroTau < 0.0001f)
-			gyro_alpha = 0;   // not trusting this to resolve to 0
-		else
-			gyro_alpha = expf(-fakeDt  / settings.GyroTau);
-
-		// Compute time constant for vbar decay term based on a tau
-		vbar_decay = expf(-fakeDt / settings.VbarTau);
+		gyro_filter_updated = true;
 	}
 
 	if (ev == NULL || ev->obj == MWRateSettingsHandle()) {

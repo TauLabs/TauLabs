@@ -264,8 +264,8 @@ static void updatePIDs(UAVObjEvent* ev)
 			case TXPIDSETTINGS_PIDS_YAWATTITUDEILIMIT:
 				needsUpdate |= update(&stab.YawPI[STABILIZATIONSETTINGS_YAWPI_ILIMIT], value);
 				break;
-			case TXPIDSETTINGS_PIDS_GYROTAU:
-				needsUpdate |= update(&stab.GyroTau, value);
+			case TXPIDSETTINGS_PIDS_GYROCUTOFF:
+				needsUpdate |= update(&stab.GyroCutoff, value);
 				break;
 			case TXPIDSETTINGS_PIDS_ROLLVBARSENSITIVITY: 
 				needsUpdate |= update(&stab.VbarSensitivity[STABILIZATIONSETTINGS_VBARSENSITIVITY_ROLL], value);
