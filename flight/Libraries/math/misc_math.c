@@ -234,7 +234,7 @@ float cubic_deadband(float in, float w, float b, float m, float r)
 		return in-w+r;
 	}
 
-	return powf(m*in, 3)+b*in;
+	return m * powf(in, 3) + b * in;
 }
 
 /**
@@ -252,7 +252,7 @@ void cubic_deadband_setup(float w, float b, float *m, float *r)
 	 ** work b isn't doing. */
 	*m = cbrtf((1-b)/(3*powf(w,2)));
 
-	*r = powf(*m*w, 3)+b*w;
+	*r = *m * powf(w, 3) + b * w;
 }
 
 /**
