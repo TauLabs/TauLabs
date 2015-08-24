@@ -64,7 +64,7 @@ static float vtol_path_m=0, vtol_path_r=0, vtol_end_m=0, vtol_end_r=0;
 static float loiter_brakealpha=0.96f, loiter_errordecayalpha=0.88f;
 
 static int32_t vtol_follower_control_impl(const float dT,
-	const float *hold_pos_ned, bool landing, bool update_status);
+	const float *hold_pos_ned, float alt_rate, bool update_status);
 
 /**
  * Compute desired velocity to follow the desired path from the current location.
@@ -133,7 +133,7 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
 
 		// Wait here for new path segment
 		return vtol_follower_control_impl(dT, pathDesired->End,
-				false, false);
+				0, false);
 	}
 	
 	// Interpolate desired velocity and altitude along the path
@@ -177,11 +177,12 @@ int32_t vtol_follower_control_path(const float dT, const PathDesiredData *pathDe
  * Controller to maintain/seek a position and optionally descend.
  * @param[in] dT time since last eval
  * @param[in] hold_pos_ned a position to hold
- * @param[in] landing whether to descend
+ * @param[in] alt_rate if not 0, a requested descent/climb rate that overrides
+ * hold_pos_ned
  * @param[in] update_status does this update path_status, or does somoene else?
  */
 static int32_t vtol_follower_control_impl(const float dT,
-	const float *hold_pos_ned, bool landing, bool update_status)
+	const float *hold_pos_ned, float alt_rate, bool update_status)
 {
 	PositionActualData positionActual;
 	VelocityDesiredData velocityDesired;
@@ -238,13 +239,13 @@ static int32_t vtol_follower_control_impl(const float dT,
 	commands_ned[1] = pid_apply_antiwindup(&vtol_pids[EAST_POSITION], damped_ne[1],
 	    -guidanceSettings.HorizontalVelMax, guidanceSettings.HorizontalVelMax, dT);
 
-	if (!landing) {
+	if (fabsf(alt_rate) < 0.001f) {
 		// Compute desired down comand velocity from the position difference
 		commands_ned[2] = pid_apply_antiwindup(&vtol_pids[DOWN_POSITION], errors_ned[2],
 		    -guidanceSettings.VerticalVelMax, guidanceSettings.VerticalVelMax, dT);
 	} else {
-		// Just use the landing rate.
-		commands_ned[2] = guidanceSettings.LandingRate;
+		// Just use the commanded rate
+		commands_ned[2] = alt_rate;
 	}
 	
 	// Limit the maximum horizontal velocity any direction (not north and east separately)
@@ -259,7 +260,7 @@ static int32_t vtol_follower_control_impl(const float dT,
 	if (update_status) {
 		uint8_t path_status = PATHSTATUS_STATUS_INPROGRESS;
 
-		if (!landing) {
+		if (fabsf(alt_rate) < 0.001f) {
 			const bool criterion_altitude =
 				(errors_ned[2]> -guidanceSettings.WaypointAltitudeTol) || (!guidanceSettings.ThrottleControl);
 
@@ -268,7 +269,9 @@ static int32_t vtol_follower_control_impl(const float dT,
 			if ((vectorn_magnitude(errors_ned, 2) < guidanceSettings.EndpointRadius) && criterion_altitude) {
 				path_status = PATHSTATUS_STATUS_COMPLETED;
 			}
-		}  // landing never terminates.
+		}
+		// Otherwise, we're not done-- we're in autoland or someone
+		// upstream is explicitly trimming our altitude
 
 		PathStatusStatusSet(&path_status);
 	}
@@ -289,15 +292,14 @@ static int32_t vtol_follower_control_impl(const float dT,
  */
 int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned)
 {
-	return vtol_follower_control_impl(dT, hold_pos_ned, false, true);
+	return vtol_follower_control_impl(dT, hold_pos_ned, 0, true);
 }
 
 /**
  * Control algorithm to land at a fixed location
  * @param[in] dT the time since last evaluation
- * @param[in] ned The position to attempt to land over (down ignored)
- * @param[in] land_velocity The speed to descend
- * @param[out] landed True once throttle low and velocity at zero
+ * @param[in] hold_pos_ned The position to attempt to land over (down ignored)
+ * @param[out] landed True once throttle low and velocity at zero (UNIMPL)
  *
  * Takes in @ref PositionActual and compares it to the hold position
  * and computes @ref VelocityDesired
@@ -305,7 +307,22 @@ int32_t vtol_follower_control_endpoint(const float dT, const float *hold_pos_ned
 int32_t vtol_follower_control_land(const float dT, const float *hold_pos_ned,
 	bool *landed)
 {
-	return vtol_follower_control_impl(dT, hold_pos_ned, true, true);
+	return vtol_follower_control_impl(dT, hold_pos_ned, 
+			guidanceSettings.LandingRate, true);
+}
+
+/**
+ * Control algorithm for loitering-- allow control of altitude rate.
+ * @param[in] dT time since last evaluation
+ * @param[in] hold_pos_ned The position to control for.
+ * @param[in] alt_adj If 0, holds at altitude in hold_pos_ned.  Otherwise,
+ * a rate in meters per second to descend.
+ */
+int32_t vtol_follower_control_altrate(const float dT,
+		const float *hold_pos_ned, float alt_adj)
+{
+	return vtol_follower_control_impl(dT, hold_pos_ned,
+			alt_adj, true);
 }
 
 /**
@@ -517,19 +534,16 @@ int32_t vtol_follower_control_attitude(float dT, const float *att_adj)
 	return 0;
 }
 
-
-static float loiter_deadband(float input) {
-	const float CMD_THRESHOLD = 0.2f;
-
-	if (input > CMD_THRESHOLD) {
-		input -= CMD_THRESHOLD;
-	} else if (input < -CMD_THRESHOLD) {
-		input += CMD_THRESHOLD;
+static float loiter_deadband(float input, float threshold, float expoPercent) {
+	if (input > threshold) {
+		input -= threshold;
+	} else if (input < -threshold) {
+		input += threshold;
 	} else {
 		input = 0;
 	}
 
-	input /= (1 - CMD_THRESHOLD);	// Normalize to -1 to 1 range.
+	input /= (1 - threshold);	// Normalize to -1 to 1 range.
 
 	/* Confine to desired range */
 	if (input > 1.0f) {
@@ -538,7 +552,7 @@ static float loiter_deadband(float input) {
 		input = -1.0f;
 	}
 
-	return expo3(input, 40);	// And apply 40% expo
+	return expo3(input, expoPercent);
 }
 
 /**
@@ -548,9 +562,11 @@ static float loiter_deadband(float input) {
  * @param[in] dT the time since last evaluation
  * @param[in,out] hold_pos the hold position
  * @param[out] att_adj an adjustment to be made to attitude for responsiveness.
+ * @param[out] alt_adj a requested descent (negative for climb) rate
  */
 
-bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
+bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj,
+		float *alt_adj) {
 	LoiterCommandData cmd;
 	LoiterCommandGet(&cmd);
 
@@ -560,11 +576,28 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 		cmd.Pitch
 	};
 
-	float command_mag = vectorn_magnitude(commands_rp, 2);
-	float deadband_mag = loiter_deadband(command_mag);
+	const float CMD_THRESHOLD = 0.2f;
 
+	float command_mag = vectorn_magnitude(commands_rp, 2);
+	float deadband_mag = loiter_deadband(command_mag, CMD_THRESHOLD, 40);
+
+	float down_cmd = 0;
+
+	if (guidanceSettings.ThrottleControl && 
+			guidanceSettings.LoiterAllowAltControl) {
+		// Inverted because we want units in "Down" frame
+		// Doubled to recenter to 1 to -1 scale from 0-1.
+		// loiter_deadband clips appropriately.
+		down_cmd = loiter_deadband(1 - (cmd.Throttle * 2),
+				altitudeHoldSettings.Deadband / 100.0f,
+				altitudeHoldSettings.Expo);
+	}
+	
 	// Peak detect and decay of the past command magnitude
 	static float historic_mag = 0.0f;
+
+	// Initialize altitude command
+	*alt_adj = 0;
 
 	// First reduce by decay constant
 	historic_mag *= loiter_brakealpha;
@@ -576,14 +609,14 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 
 	// And if we haven't had any significant command lately, bug out and
 	// do nothing.
-	if (historic_mag < 0.001f) {
+	if ((historic_mag < 0.001f) && (fabsf(down_cmd) < 0.001f)) {
 		att_adj[0] = 0;  att_adj[1] = 0;
 		return false;
 	}
 
 	// Normalize our command magnitude.  Command vectors from this
 	// point are normalized.
-	if (command_mag > 0.001f) {
+	if (command_mag >= 0.001f) {
 		commands_rp[0] /= command_mag;
 		commands_rp[1] /= command_mag;
 	} else {
@@ -602,7 +635,7 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 	float total_poserr_ned[3];
 	vector3_distances(cur_pos_ned, hold_pos, total_poserr_ned, false);
 
-	if (deadband_mag > 0.001f) {
+	if (deadband_mag >= 0.001f) {
 		float yaw;
 		AttitudeActualYawGet(&yaw);
 
@@ -655,6 +688,17 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj) {
 		guidanceSettings.LoiterAttitudeFeedthrough;
 	att_adj[1] = deadband_mag * commands_rp[1] *
 		guidanceSettings.LoiterAttitudeFeedthrough;
+
+	// If we are being commanded to climb or descend...
+	if (fabsf(down_cmd) >= 0.001f) {
+		// Forgive all altitude error so when position controller comes
+		// back we do something sane
+
+		hold_pos[2] = cur_pos_ned[2];
+
+		// and output an adjustment for velocity control use */
+		*alt_adj = down_cmd * guidanceSettings.VerticalVelMax;
+	}
 
 	return true;
 }
