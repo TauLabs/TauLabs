@@ -534,7 +534,7 @@ int32_t vtol_follower_control_attitude(float dT, const float *att_adj)
 	return 0;
 }
 
-static float loiter_deadband(float input, float threshold) {
+static float loiter_deadband(float input, float threshold, float expoPercent) {
 	if (input > threshold) {
 		input -= threshold;
 	} else if (input < -threshold) {
@@ -552,7 +552,7 @@ static float loiter_deadband(float input, float threshold) {
 		input = -1.0f;
 	}
 
-	return expo3(input, 40);	// And apply 40% expo
+	return expo3(input, expoPercent);
 }
 
 /**
@@ -577,10 +577,9 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj,
 	};
 
 	const float CMD_THRESHOLD = 0.2f;
-	const float CMD_ALT_THRESHOLD = 0.4f;
 
 	float command_mag = vectorn_magnitude(commands_rp, 2);
-	float deadband_mag = loiter_deadband(command_mag, CMD_THRESHOLD);
+	float deadband_mag = loiter_deadband(command_mag, CMD_THRESHOLD, 40);
 
 	float down_cmd = 0;
 
@@ -590,7 +589,8 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj,
 		// Doubled to recenter to 1 to -1 scale from 0-1.
 		// loiter_deadband clips appropriately.
 		down_cmd = loiter_deadband(1 - (cmd.Throttle * 2),
-				CMD_ALT_THRESHOLD);
+				altitudeHoldSettings.Deadband / 100.0f,
+				altitudeHoldSettings.Expo);
 	}
 	
 	// Peak detect and decay of the past command magnitude
