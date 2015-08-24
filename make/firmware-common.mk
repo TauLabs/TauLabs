@@ -100,6 +100,8 @@ REMOVE  = rm -f
 
 SRC += $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
 
+CFLAGS += $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )
+
 # List of all source files.
 ALLSRC     =  $(ASRC) $(SRC) $(CPPSRC)
 # List of all source files without directory and file-extension.
