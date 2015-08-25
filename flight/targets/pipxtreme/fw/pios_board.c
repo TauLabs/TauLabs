@@ -49,39 +49,6 @@ uintptr_t pios_uavo_settings_fs_id;
 #define PIOS_COM_RFM22B_RF_TX_BUF_LEN 256
 #define PIOS_COM_FRSKYSPORT_TX_BUF_LEN 16
 
-#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
-        const struct pios_com_driver *com_driver, uintptr_t *pios_com_id)
-{
-    uintptr_t pios_usart_id;
-    if (PIOS_USART_Init(&pios_usart_id, usart_port_cfg)) {
-        PIOS_Assert(0);
-    }
-
-    uint8_t * rx_buffer;
-    if (rx_buf_len > 0) {
-        rx_buffer = (uint8_t *) PIOS_malloc(rx_buf_len);
-        PIOS_Assert(rx_buffer);
-    } else {
-        rx_buffer = NULL;
-    }
-
-    uint8_t * tx_buffer;
-    if (tx_buf_len > 0) {
-        tx_buffer = (uint8_t *) PIOS_malloc(tx_buf_len);
-        PIOS_Assert(tx_buffer);
-    } else {
-        tx_buffer = NULL;
-    }
-
-    if (PIOS_COM_Init(pios_com_id, com_driver, pios_usart_id,
-                rx_buffer, rx_buf_len,
-                tx_buffer, tx_buf_len)) {
-        PIOS_Assert(0);
-    }
-}
-#endif  /* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
-
 /**
  * PIOS_Board_Init()
  * initializes all the core subsystems on this specific hardware
@@ -327,13 +294,13 @@ void PIOS_Board_Init(void) {
     }
     case HWTAULINK_PPMPORT_SPORT:
 #if defined(PIOS_INCLUDE_TARANIS_SPORT)
-        PIOS_Board_configure_com(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+        PIOS_HAL_ConfigureCom(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_TARANIS_SPORT */
         break;
     case HWTAULINK_PPMPORT_PPMSPORT:
     {
 #if defined(PIOS_INCLUDE_TARANIS_SPORT)
-        PIOS_Board_configure_com(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+        PIOS_HAL_ConfigureCom(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_TARANIS_SPORT */
 #if defined(PIOS_INCLUDE_PPM)
         /* PPM input is configured on the coordinator modem and sent in the RFM22BReceiver UAVO. */
