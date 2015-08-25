@@ -39,6 +39,7 @@
 #include "board_hw_defs.c"
 
 #include <pios.h>
+#include <pios_hal.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 #include "hwnaze.h"
@@ -211,83 +212,14 @@ static /*const*/ struct pios_mpu60x0_cfg pios_mpu6050_cfg = {
 };
 #endif /* PIOS_INCLUDE_MPU6050 */
 
-/**
- * One slot per selectable receiver group.
- *  eg. PWM, PPM, GCS, DSM, DSM, SBUS
- * NOTE: No slot in this map for NONE.
- */
-uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
-
 #define PIOS_COM_TELEM_RF_RX_BUF_LEN 32
 #define PIOS_COM_TELEM_RF_TX_BUF_LEN 12
 
-#define PIOS_COM_GPS_RX_BUF_LEN 32
-#define PIOS_COM_GPS_TX_BUF_LEN 16
-
-//#define PIOS_COM_BRIDGE_RX_BUF_LEN 65
-//#define PIOS_COM_BRIDGE_TX_BUF_LEN 12
-
-//#define PIOS_COM_MAVLINK_TX_BUF_LEN 32
-//#define PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN 19
-
-
-
-//#define PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN 128
-
-#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-#define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-uintptr_t pios_com_debug_id;
-#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
-
-
-uintptr_t pios_com_gps_id;
-uintptr_t pios_com_telem_rf_id;
-uintptr_t pios_com_bridge_id;
-uintptr_t pios_com_mavlink_id;
-uintptr_t pios_com_frsky_sensor_hub_id;
 uintptr_t pios_com_lighttelemetry_id;
 
 uintptr_t pios_uavo_settings_fs_id;
 
 uintptr_t pios_internal_adc_id;
-
-
-/*
- * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
- */
-#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
-		const struct pios_com_driver *com_driver, uintptr_t *pios_com_id)
-{
-	uintptr_t pios_usart_id;
-	if (PIOS_USART_Init(&pios_usart_id, usart_port_cfg)) {
-		PIOS_Assert(0);
-	}
-
-	uint8_t * rx_buffer;
-	if (rx_buf_len > 0) {
-		rx_buffer = (uint8_t *) PIOS_malloc(rx_buf_len);
-		PIOS_Assert(rx_buffer);
-	} else {
-		rx_buffer = NULL;
-	}
-
-	uint8_t * tx_buffer;
-	if (tx_buf_len > 0) {
-		tx_buffer = (uint8_t *) PIOS_malloc(tx_buf_len);
-		PIOS_Assert(tx_buffer);
-	} else {
-		tx_buffer = NULL;
-	}
-
-	if (PIOS_COM_Init(pios_com_id, com_driver, pios_usart_id,
-				rx_buffer, rx_buf_len,
-				tx_buffer, tx_buf_len)) {
-		PIOS_Assert(0);
-	}
-}
-#endif	/* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
-
 
 /**
  * Indicate a target-specific error code when a component fails to initialize
@@ -299,22 +231,7 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
  * 6 pulses - hmc5883l
  */
 void panic(int32_t code) {
-	while(1){
-		for (int32_t i = 0; i < code; i++) {
-			PIOS_WDG_Clear();
-			PIOS_LED_Toggle(PIOS_LED_ALARM);
-			PIOS_DELAY_WaitmS(200);
-			PIOS_WDG_Clear();
-			PIOS_LED_Toggle(PIOS_LED_ALARM);
-			PIOS_DELAY_WaitmS(200);
-		}
-		PIOS_WDG_Clear();
-		PIOS_DELAY_WaitmS(200);
-		PIOS_WDG_Clear();
-		PIOS_DELAY_WaitmS(200);
-		PIOS_WDG_Clear();
-		PIOS_DELAY_WaitmS(100);
-	}
+	PIOS_HAL_Panic(PIOS_LED_ALARM, code);
 }
 
 /**
@@ -433,9 +350,9 @@ void PIOS_Board_Init(void) {
 
 
 	/* UART1 Port */
-#if defined(PIOS_INCLUDE_TELEMETRY_RF) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-        PIOS_Board_configure_com(&pios_main_usart_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_rf_id);
-#endif /* PIOS_INCLUDE_TELEMETRY_RF */
+#if defined(PIOS_INCLUDE_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+        PIOS_HAL_ConfigureCom(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_serial_id);
+#endif /* PIOS_INCLUDE_TELEMETRY */
 
 	/* Configure the rcvr port */
 	uint8_t hw_rcvrport;
@@ -458,6 +375,25 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
+	case HWNAZE_RCVRPORT_PPMSERIAL:
+		{
+			uint8_t hw_rcvrserial;
+			HwNazeRcvrSerialGet(&hw_rcvrserial);
+			uint8_t hw_DSMxBind;
+			HwNazeDSMxBindGet(&hw_DSMxBind);
+			PIOS_HAL_ConfigurePort(hw_rcvrserial, 
+					&pios_usart_rcvrserial_cfg,
+					&pios_usart_com_driver,
+					NULL, NULL, NULL,
+					PIOS_LED_ALARM,
+					&pios_usart_dsm_hsum_rcvrserial_cfg,
+					&pios_dsm_rcvrserial_cfg,
+					hw_DSMxBind,
+					NULL, NULL, false);
+		}
+
+		// Fall through to set up PPM.
+
 	case HWNAZE_RCVRPORT_PPM:
 	case HWNAZE_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
@@ -523,6 +459,7 @@ void PIOS_Board_Init(void) {
 		case HWNAZE_RCVRPORT_PWM:
 		case HWNAZE_RCVRPORT_PPM:
 		case HWNAZE_RCVRPORT_PPMPWM:
+		case HWNAZE_RCVRPORT_PPMSERIAL:
 			PIOS_Servo_Init(&pios_servo_cfg);
 			break;
 		case HWNAZE_RCVRPORT_PPMOUTPUTS:
@@ -616,7 +553,7 @@ void PIOS_Board_Init(void) {
 #endif
 
 	/* Make sure we have at least one telemetry link configured or else fail initialization */
-	PIOS_Assert(pios_com_telem_rf_id);
+	PIOS_Assert(pios_com_telem_serial_id);
 }
 
 /**

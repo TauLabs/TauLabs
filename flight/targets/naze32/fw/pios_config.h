@@ -40,22 +40,24 @@
 #define PIOS_INCLUDE_LED
 #define PIOS_INCLUDE_IAP
 #define PIOS_INCLUDE_TIM
+#define PIOS_INCLUDE_HPWM
 
 #define PIOS_INCLUDE_RCVR
 
 /* Supported receiver interfaces */
-//#define PIOS_INCLUDE_DSM
+#define PIOS_INCLUDE_DSM
+#define PIOS_INCLUDE_HSUM
 //#define PIOS_INCLUDE_SBUS
 #define PIOS_INCLUDE_PPM
 #define PIOS_INCLUDE_PWM
 #define PIOS_INCLUDE_GCSRCVR
 
 /* Supported USART-based PIOS modules */
-#define PIOS_INCLUDE_TELEMETRY_RF
-//#define PIOS_INCLUDE_GPS
-//#define PIOS_GPS_MINIMAL
-//#define PIOS_INCLUDE_GPS_NMEA_PARSER /* Include the NMEA protocol parser */
-//#define PIOS_INCLUDE_GPS_UBX_PARSER  /* Include the UBX protocol parser */
+#define PIOS_INCLUDE_TELEMETRY
+#define PIOS_INCLUDE_GPS
+#define PIOS_GPS_MINIMAL
+#define PIOS_INCLUDE_GPS_NMEA_PARSER /* Include the NMEA protocol parser */
+#define PIOS_INCLUDE_GPS_UBX_PARSER  /* Include the UBX protocol parser */
 #define PIOS_INCLUDE_MAVLINK
 
 #define PIOS_INCLUDE_SERVO
@@ -100,8 +102,8 @@
 #define PIOS_STABILIZATION_STACK_SIZE   624
 #define PIOS_TELEM_STACK_SIZE           500
 #define PIOS_EVENTDISPATCHER_STACK_SIZE 720
-#define PIOS_MAVLINK_STACK_SIZE         600
-#define PIOS_COMUSBBRIDGE_STACK_SIZE    296
+#define PIOS_MAVLINK_STACK_SIZE         496
+#define PIOS_COMUSBBRIDGE_STACK_SIZE    480
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 1995998
 
 // This can't be too high to stop eventdispatcher thread overflowing

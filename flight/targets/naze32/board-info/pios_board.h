@@ -93,13 +93,13 @@ TIM4  |  Servo 3  |  Servo 4  |  Servo 5  |  Servo 6
 //
 // See also pios_board.c
 //-------------------------
-extern uintptr_t pios_com_telem_rf_id;
+extern uintptr_t pios_com_telem_serial_id;
 extern uintptr_t pios_com_gps_id;
 extern uintptr_t pios_com_bridge_id;
 extern uintptr_t pios_com_mavlink_id;
 
 #define PIOS_COM_GPS                    (pios_com_gps_id)
-#define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
+#define PIOS_COM_TELEM_RF               (pios_com_telem_serial_id)
 #define PIOS_COM_BRIDGE                 (pios_com_bridge_id)
 #define PIOS_COM_MAVLINK                (pios_com_mavlink_id)
 
@@ -150,6 +150,13 @@ extern uintptr_t pios_com_mavlink_id;
 // Receiver DSM input
 //-------------------------
 #define PIOS_DSM_NUM_INPUTS				12
+
+//-------------------------
+// Receiver HSUM input
+//-------------------------
+#define PIOS_HSUM_MAX_DEVS				2
+#define PIOS_HSUM_NUM_INPUTS				32
+
 
 //-------------------------
 // Servo outputs
