@@ -34,6 +34,8 @@
 
 #include <manualcontrolsettings.h>
 
+#include <sanitycheck.h>
+
 uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 
 #if defined(PIOS_INCLUDE_RFM22B)
@@ -148,9 +150,9 @@ void PIOS_HAL_Panic(uint32_t led_id, int32_t code) {
  */
 static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value) {
 	if (target) {
-#if 0
+#ifndef PIOS_NO_ALARMS
 		if (*target) {
-		// TODO: catch configuration errors of duplicated channels here
+			set_config_error(SYSTEMALARMS_CONFIGERROR_DUPLICATEPORTCFG);
 		}
 #endif
 
