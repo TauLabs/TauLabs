@@ -31,6 +31,7 @@
         <file>html/Telemetry-Error.html</file>
         <file>html/SystemConfiguration-Error-AltitudeHold.html</file>
         <file>html/SystemConfiguration-Error-AutoTune.html</file>
+        <file>html/SystemConfiguration-Error-DuplicatePortCfg.html</file>
         <file>html/SystemConfiguration-Error-Multirotor.html</file>
         <file>html/SystemConfiguration-Error-PathPlanner.html</file>
         <file>html/SystemConfiguration-Error-PositionHold.html</file>
