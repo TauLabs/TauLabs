@@ -53,8 +53,9 @@ USE_GPS ?= NO
 USE_I2C ?= YES
 
 # List of modules to include
-OPTMODULES = 
-MODULES = RadioComBridge
+MODULES += ComUsbBridge
+MODULES += RadioComBridge
+MODULES += UAVOTaranis
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
@@ -66,6 +67,8 @@ PIOSINC = $(PIOS)/inc
 PIOSSTM32F10X = $(PIOS)/STM32F10x
 PIOSCOMMON = $(PIOS)/Common
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
+MATHLIB = $(FLIGHTLIB)/math
+MATHLIBINC = $(FLIGHTLIB)/math
 APPLIBDIR = $(PIOSSTM32F10X)/Libraries
 STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F10x_StdPeriph_Driver
@@ -87,7 +90,7 @@ RTOSPORTDIR = $(APPLIBDIR)/FreeRTOS/Source
 
 ifndef TESTAPP
 ## MODULES
-SRC += ${foreach MOD, ${MODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
+SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/PipXtreme/pipxtrememod.c
 SRC += main.c
@@ -102,12 +105,21 @@ SRC += $(OPTESTS)/$(TESTAPP).c
 endif
 
 ## UAVOBJECTS
-UAVOBJSRCFILENAMES += gcsreceiver
-UAVOBJSRCFILENAMES += hwtaulink
-UAVOBJSRCFILENAMES += rfm22bstatus
-UAVOBJSRCFILENAMES += objectpersistence
-UAVOBJSRCFILENAMES += rfm22breceiver
-UAVOBJSRCFILENAMES += radiocombridgestats
+ifndef TESTAPP
+SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
+SRC += $(OPUAVSYNTHDIR)/hwtaulink.c
+SRC += $(OPUAVSYNTHDIR)/rfm22bstatus.c
+SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
+SRC += $(OPUAVSYNTHDIR)/modulesettings.c
+SRC += $(OPUAVSYNTHDIR)/rfm22breceiver.c
+SRC += $(OPUAVSYNTHDIR)/radiocombridgestats.c
+
+SRC += $(OPUAVSYNTHDIR)/baroaltitude.c
+SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
+SRC += $(OPUAVSYNTHDIR)/flightstatus.c
+SRC += $(OPUAVSYNTHDIR)/positionactual.c
+SRC += $(OPUAVSYNTHDIR)/velocityactual.c
+endif
 
 ## PIOS Hardware (STM32F10x)
 SRC += $(PIOSSTM32F10X)/pios_sys.c
@@ -165,6 +177,8 @@ SRC += $(FLIGHTLIB)/aes.c
 SRC += $(FLIGHTLIB)/rscode/rs.c
 SRC += $(FLIGHTLIB)/rscode/berlekamp.c
 SRC += $(FLIGHTLIB)/rscode/galois.c
+SRC += $(FLIGHTLIB)/frsky_packing.c
+SRC += $(MATHLIB)/misc_math.c
 
 ## CMSIS for STM32
 include $(PIOSCOMMONLIB)/CMSIS3/library.mk
@@ -241,6 +255,7 @@ EXTRAINCDIRS  += $(OPUAVOBJINC)
 EXTRAINCDIRS  += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS  += $(PIOS)
 EXTRAINCDIRS  += $(PIOSINC)
+EXTRAINCDIRS  += $(MATHLIBINC)
 EXTRAINCDIRS  += $(FLIGHTLIBINC)
 EXTRAINCDIRS  += $(RSCODEINC)
 EXTRAINCDIRS  += $(PIOSSTM32F10X)
