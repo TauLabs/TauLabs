@@ -346,10 +346,11 @@ void set_config_error(SystemAlarmsConfigErrorOptions error_code)
 
 	static bool sticky = false;
 
+	/* Once a sticky error occurs, never change the error code */
+	if (sticky) return;
+
 	switch (error_code) {
 	case SYSTEMALARMS_CONFIGERROR_NONE:
-		if (sticky) return;
-
 		severity = SYSTEMALARMS_ALARM_OK;
 		break;
 	default:
