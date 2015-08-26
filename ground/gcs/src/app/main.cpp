@@ -202,7 +202,7 @@ static inline QStringList getPluginPaths()
     QDir rootDir = QApplication::applicationDirPath();
     rootDir.cdUp();
     const QString rootDirPath = rootDir.canonicalPath();
-    // 1) "plugins" (Win/Linux)GCS_REVISION_PRETTY
+    // 1) "plugins" (Win/Linux)
     QString pluginPath = rootDirPath;
     pluginPath += QLatin1Char('/');
     pluginPath += QLatin1String(GCS_LIBRARY_BASENAME);
