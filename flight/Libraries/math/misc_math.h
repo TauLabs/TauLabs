@@ -32,6 +32,7 @@
 #define MISC_MATH_H
 
 #include "stdint.h"
+#include "stdbool.h"
 
 // Max/Min macros. Taken from http://stackoverflow.com/questions/3437404/min-and-max-in-c
 #define MAX(a, b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a > _b ? _a : _b; })
@@ -62,6 +63,12 @@ void vector2_clip(float *vels, float limit);
 void vector2_rotate(const float *original, float *out, float angle);
 float cubic_deadband(float in, float w, float b, float m, float r);
 void cubic_deadband_setup(float w, float b, float *m, float *r);
+
+#if defined (__clang__) // Clang can't turn off specific optimizations, so turn them all off. This is currently only useful when compiling the simulator with Clang
+bool IS_NOT_FINITE(float x) __attribute__((optnone()));
+#else
+bool IS_NOT_FINITE(float x) __attribute__((optimize("no-finite-math-only")));
+#endif
 
 #endif /* MISC_MATH_H */
 
