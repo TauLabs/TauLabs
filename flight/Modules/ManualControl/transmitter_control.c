@@ -808,14 +808,8 @@ static bool updateRcvrActivityCompare(uintptr_t rcvr_id, struct rcvr_activity_fs
 			case MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_PPM;
 				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT:
-				group = RECEIVERACTIVITY_ACTIVEGROUP_DSMMAINPORT;
-				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT:
-				group = RECEIVERACTIVITY_ACTIVEGROUP_DSMFLEXIPORT;
-				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMRCVRPORT:
-				group = RECEIVERACTIVITY_ACTIVEGROUP_DSMRCVRPORT;
+			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM:
+				group = RECEIVERACTIVITY_ACTIVEGROUP_DSM;
 				break;
 			case MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_SBUS;
@@ -1107,20 +1101,12 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 
 static void set_loiter_command(ManualControlCommandData *cmd)
 {
-	const float CMD_THRESHOLD = 0.5f;
-	const float MAX_SPEED     = 3.0f; // m/s
-
 	LoiterCommandData loiterCommand;
-	loiterCommand.Forward = (cmd->Pitch > CMD_THRESHOLD) ? cmd->Pitch - CMD_THRESHOLD :
-	                        (cmd->Pitch < -CMD_THRESHOLD) ? cmd->Pitch + CMD_THRESHOLD :
-	                        0;
-	// Note the negative - forward pitch is negative
-	loiterCommand.Forward *= -MAX_SPEED / (1.0f - CMD_THRESHOLD);
 
-	loiterCommand.Right = (cmd->Roll > CMD_THRESHOLD) ? cmd->Roll - CMD_THRESHOLD :
-	                      (cmd->Roll < -CMD_THRESHOLD) ? cmd->Roll + CMD_THRESHOLD :
-	                      0;
-	loiterCommand.Right *= MAX_SPEED / (1.0f - CMD_THRESHOLD);
+	loiterCommand.Pitch = cmd->Pitch;
+	loiterCommand.Roll = cmd->Roll;
+
+	loiterCommand.Throttle = cmd->Throttle;
 
 	loiterCommand.Frame = LOITERCOMMAND_FRAME_BODY;
 

@@ -652,7 +652,7 @@ static const struct pios_tim_channel pios_tim_servoport_rcvrport_pins[] = {
 
 #include "pios_usart_priv.h"
 
-static const struct pios_usart_cfg pios_main_usart_cfg = {
+static const struct pios_usart_cfg pios_usart_main_cfg = {
 	.regs  = USART1,
 	.init = {
 		.USART_BaudRate            = 57600,
@@ -687,6 +687,93 @@ static const struct pios_usart_cfg pios_main_usart_cfg = {
 		},
 	},
 };
+
+static const struct pios_usart_cfg pios_usart_rcvrserial_cfg = {
+	.regs  = USART2,
+	.init = {
+		.USART_BaudRate            = 57600,
+		.USART_WordLength          = USART_WordLength_8b,
+		.USART_Parity              = USART_Parity_No,
+		.USART_StopBits            = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode                = USART_Mode_Rx | USART_Mode_Tx,
+	},
+	.irq = {
+		.init    = {
+			.NVIC_IRQChannel                   = USART2_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		},
+	},
+	.rx   = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_3,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_IPU,
+		},
+	},
+	.tx   = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_2,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF_PP,
+		},
+	},
+};
+
+static const struct pios_usart_cfg pios_usart_dsm_hsum_rcvrserial_cfg = {
+	.regs  = USART2,
+	.init = {
+		.USART_BaudRate            = 115200,
+		.USART_WordLength          = USART_WordLength_8b,
+		.USART_Parity              = USART_Parity_No,
+		.USART_StopBits            = USART_StopBits_1,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode                = USART_Mode_Rx,
+	},
+	.irq = {
+		.init    = {
+			.NVIC_IRQChannel                   = USART2_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_MID,
+			.NVIC_IRQChannelSubPriority        = 0,
+			.NVIC_IRQChannelCmd                = ENABLE,
+		},
+	},
+	.rx   = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_3,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_IPU,
+		},
+	},
+	.tx   = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_2,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_AF_PP,
+		},
+	},
+};
+
+#if defined(PIOS_INCLUDE_DSM)
+#include <pios_dsm_priv.h>
+
+static const struct pios_dsm_cfg pios_dsm_rcvrserial_cfg = {
+	.bind = {
+		.gpio = GPIOA,
+		.init = {
+			.GPIO_Pin   = GPIO_Pin_2,
+			.GPIO_Speed = GPIO_Speed_2MHz,
+			.GPIO_Mode  = GPIO_Mode_Out_PP
+		},
+	},
+};
+#endif
 
 #endif  /* PIOS_INCLUDE_USART */
 

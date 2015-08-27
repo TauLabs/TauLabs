@@ -34,6 +34,7 @@
 #include "physical_constants.h"
 #include "pios_thread.h"
 #include "pios_queue.h"
+#include "misc_math.h"
 
 // UAVOs
 #include "accels.h"
@@ -398,7 +399,8 @@ static void update_mags(struct pios_sensor_mag_data *mag)
  */
 static void update_baro(struct pios_sensor_baro_data *baro)
 {
-	if (isnan(baro->altitude) || isnan(baro->temperature) || isnan(baro->pressure)){
+	// Check for Nan or infinity
+	if (IS_NOT_FINITE(baro->altitude) || IS_NOT_FINITE(baro->temperature) || IS_NOT_FINITE(baro->pressure)) {
 		AlarmsSet(SYSTEMALARMS_ALARM_TEMPBARO, SYSTEMALARMS_ALARM_WARNING);
 		return;
 	}

@@ -200,7 +200,6 @@ uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_telem_rf_id;
 uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_bridge_id;
-uintptr_t pios_com_overo_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_com_hott_id;
 uintptr_t pios_com_frsky_sensor_hub_id;
@@ -720,7 +719,7 @@ void PIOS_Board_Init(void)
 			PIOS_Board_configure_dsm(&pios_usart1_dsm_hsum_cfg,
 						 &pios_usart1_dsm_aux_cfg,
 						 &pios_usart_com_driver,
-						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,
+						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
 						 &hw_DSMxBind);
 		}
 #endif /* PIOS_INCLUDE_DSM */
@@ -876,7 +875,7 @@ void PIOS_Board_Init(void)
 			PIOS_Board_configure_dsm(&pios_usart2_dsm_hsum_cfg,
 						 &pios_usart2_dsm_aux_cfg,
 						 &pios_usart_com_driver,
-						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,
+						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
 						 &hw_DSMxBind);
 		}
 #endif /* PIOS_INCLUDE_DSM */
@@ -1039,7 +1038,7 @@ void PIOS_Board_Init(void)
 			PIOS_Board_configure_dsm(&pios_usart3_dsm_hsum_cfg,
 						 &pios_usart3_dsm_aux_cfg,
 						 &pios_usart_com_driver,
-						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,
+						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
 						 &hw_DSMxBind);
 		}
 #endif /* PIOS_INCLUDE_DSM */
@@ -1168,7 +1167,7 @@ void PIOS_Board_Init(void)
 			PIOS_Board_configure_dsm(&pios_usart4_dsm_hsum_cfg,
 						 &pios_usart4_dsm_aux_cfg,
 						 &pios_usart_com_driver,
-						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT,
+						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
 						 &hw_DSMxBind);
 		}
 #endif /* PIOS_INCLUDE_DSM */

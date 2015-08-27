@@ -299,6 +299,9 @@ QString SystemHealthGadgetWidget::getAlarmDescriptionFileName(const QString item
         case SystemAlarms::CONFIGERROR_POSITIONHOLD:
             alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-PositionHold.html");
         break;
+        case SystemAlarms::CONFIGERROR_DUPLICATEPORTCFG:
+            alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-DuplicatePortCfg.html");
+        break;
         case SystemAlarms::CONFIGERROR_PATHPLANNER:
             alarmDescriptionFileName = QString(":/systemhealth/html/SystemConfiguration-Error-PathPlanner.html");
         break;

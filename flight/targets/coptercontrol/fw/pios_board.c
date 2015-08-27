@@ -47,7 +47,7 @@
 
 
 /* One slot per selectable receiver group.
- *  eg. PWM, PPM, GCS, DSMMAINPORT, DSMFLEXIPORT, SBUS
+ *  eg. PWM, PPM, GCS, DSM, DSM, SBUS
  * NOTE: No slot in this map for NONE.
  */
 uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
@@ -485,7 +485,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT] = pios_dsm_rcvr_id;
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM] = pios_dsm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -712,7 +712,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT] = pios_dsm_rcvr_id;
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM] = pios_dsm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;

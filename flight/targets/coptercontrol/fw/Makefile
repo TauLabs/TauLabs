@@ -62,7 +62,6 @@ USE_TXPID ?= YES
 USE_I2C ?= NO
 USE_ALTITUDE ?= NO
 USE_AUTOTUNE ?= YES
-TEST_FAULTS ?= NO
 USE_UAVOMAVLINKBRIDGE ?= YES
 USE_UAVOLIGHTTELEMETRYBRIDGE ?= NO
 USE_UAVOFRSKYSENSORHUBBRIDGE ?= YES
@@ -96,9 +95,6 @@ else
 $(error "Altitude module (USE_ALTITUDE=YES) requires i2c (USE_I2C=YES)")
 endif
 endif
-ifeq ($(TEST_FAULTS), YES)
-OPTMODULES += Fault
-endif
 ifeq ($(USE_AUTOTUNE), YES)
 OPTMODULES += Autotune
 endif
@@ -114,7 +110,6 @@ endif
 # List of mandatory modules to include
 MODULES += Attitude/smallf1
 MODULES += Stabilization Actuator ManualControl FirmwareIAP
-# MODULES += PathFollower/coptercontrol
 # Telemetry must be last to grab the optional modules (why?)
 MODULES += Telemetry
 
@@ -170,67 +165,6 @@ SRC += $(OPTESTS)/test_common.c
 SRC += $(OPTESTS)/$(TESTAPP).c
 endif
 
-## UAVOBJECTS
-ifndef TESTAPP
-SRC += $(OPUAVSYNTHDIR)/accessorydesired.c
-SRC += $(OPUAVSYNTHDIR)/objectpersistence.c
-SRC += $(OPUAVSYNTHDIR)/gcstelemetrystats.c
-SRC += $(OPUAVSYNTHDIR)/flighttelemetrystats.c
-SRC += $(OPUAVSYNTHDIR)/faultsettings.c
-SRC += $(OPUAVSYNTHDIR)/flightstatus.c
-SRC += $(OPUAVSYNTHDIR)/systemstats.c
-SRC += $(OPUAVSYNTHDIR)/systemalarms.c
-SRC += $(OPUAVSYNTHDIR)/systemsettings.c
-SRC += $(OPUAVSYNTHDIR)/stabilizationdesired.c
-SRC += $(OPUAVSYNTHDIR)/stabilizationsettings.c
-SRC += $(OPUAVSYNTHDIR)/actuatorcommand.c
-SRC += $(OPUAVSYNTHDIR)/actuatordesired.c
-SRC += $(OPUAVSYNTHDIR)/actuatorsettings.c
-SRC += $(OPUAVSYNTHDIR)/accels.c
-SRC += $(OPUAVSYNTHDIR)/gyros.c
-SRC += $(OPUAVSYNTHDIR)/attitudeactual.c
-SRC += $(OPUAVSYNTHDIR)/manualcontrolcommand.c
-SRC += $(OPUAVSYNTHDIR)/watchdogstatus.c
-SRC += $(OPUAVSYNTHDIR)/manualcontrolsettings.c
-SRC += $(OPUAVSYNTHDIR)/mixersettings.c
-SRC += $(OPUAVSYNTHDIR)/firmwareiapobj.c
-SRC += $(OPUAVSYNTHDIR)/attitudesettings.c
-SRC += $(OPUAVSYNTHDIR)/camerastabsettings.c
-SRC += $(OPUAVSYNTHDIR)/cameradesired.c
-SRC += $(OPUAVSYNTHDIR)/gpsposition.c
-SRC += $(OPUAVSYNTHDIR)/gpsvelocity.c
-SRC += $(OPUAVSYNTHDIR)/hwcoptercontrol.c
-SRC += $(OPUAVSYNTHDIR)/modulesettings.c
-SRC += $(OPUAVSYNTHDIR)/gcsreceiver.c
-SRC += $(OPUAVSYNTHDIR)/receiveractivity.c
-SRC += $(OPUAVSYNTHDIR)/systemident.c
-SRC += $(OPUAVSYNTHDIR)/taskinfo.c
-SRC += $(OPUAVSYNTHDIR)/mixerstatus.c
-SRC += $(OPUAVSYNTHDIR)/mwratesettings.c
-SRC += $(OPUAVSYNTHDIR)/ratedesired.c
-SRC += $(OPUAVSYNTHDIR)/baroaltitude.c
-SRC += $(OPUAVSYNTHDIR)/txpidsettings.c
-SRC += $(OPUAVSYNTHDIR)/fixedwingairspeeds.c
-SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowerstatus.c
-SRC += $(OPUAVSYNTHDIR)/fixedwingpathfollowersettingscc.c
-SRC += $(OPUAVSYNTHDIR)/pathstatus.c
-SRC += $(OPUAVSYNTHDIR)/pathdesired.c
-SRC += $(OPUAVSYNTHDIR)/homelocation.c
-SRC += $(OPUAVSYNTHDIR)/poilocation.c
-SRC += $(OPUAVSYNTHDIR)/positionactual.c
-SRC += $(OPUAVSYNTHDIR)/tabletinfo.c
-SRC += $(OPUAVSYNTHDIR)/velocityactual.c
-SRC += $(OPUAVSYNTHDIR)/airspeedactual.c
-SRC += $(OPUAVSYNTHDIR)/sensorsettings.c
-SRC += $(OPUAVSYNTHDIR)/flightbatterystate.c
-SRC += $(OPUAVSYNTHDIR)/flightbatterysettings.c
-SRC += $(OPUAVSYNTHDIR)/trimanglessettings.c
-SRC += $(OPUAVSYNTHDIR)/trimangles.c
-SRC += $(OPUAVSYNTHDIR)/ubloxinfo.c
-SRC += $(OPUAVSYNTHDIR)/sessionmanaging.c
-
-endif
-
 ## PIOS Hardware (STM32F10x)
 SRC += $(PIOSSTM32F10X)/pios_sys.c
 SRC += $(PIOSSTM32F10X)/pios_led.c
@@ -242,7 +176,6 @@ SRC += $(PIOSSTM32F10X)/pios_i2c.c
 SRC += $(PIOSSTM32F10X)/pios_spi.c
 SRC += $(PIOSSTM32F10X)/pios_ppm.c
 SRC += $(PIOSSTM32F10X)/pios_pwm.c
-SRC += $(PIOSSTM32F10X)/pios_dsm.c
 SRC += $(PIOSSTM32F10X)/pios_debug.c
 SRC += $(PIOSSTM32F10X)/pios_gpio.c
 SRC += $(PIOSSTM32F10X)/pios_exti.c
@@ -272,6 +205,7 @@ SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
 SRC += $(PIOSCOMMON)/pios_flash_jedec.c
 SRC += $(PIOSCOMMON)/pios_adxl345.c
+SRC += $(PIOSCOMMON)/pios_dsm.c
 SRC += $(PIOSCOMMON)/pios_mpu6000.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
@@ -590,5 +524,6 @@ LDFLAGS += -Wl,--fatal-warnings
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_memory.ld
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_sections.ld
 
+include ./UAVObjects.inc
 include $(MAKE_INC_DIR)/firmware-common.mk
 

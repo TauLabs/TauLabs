@@ -97,6 +97,14 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
     return true; // if we come here everything should be fine
 }
 
+QString UAVObjectGeneratorFlight::form_enum_name(QString& objName,
+        QString &fieldName, QString &option) {
+    QString s = "%1_%2_%3";
+
+    return s.arg( objName.toUpper() )
+            .arg( fieldName.toUpper() )
+            .arg( option.toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), ""));
+}
 
 /**
  * Generate the Flight object files
@@ -113,6 +121,15 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
     // Replace common tags
     replaceCommonTags(outInclude, info);
     replaceCommonTags(outCode, info);
+
+    // Replace the $(PARENT_INCLUDES) tag
+    QString parentIncludes;
+
+    foreach (ObjectInfo *parent, info->parents) {
+        parentIncludes.append( QString("#include <%1.h>\r\n").arg(parent->namelc));
+    }
+
+    outInclude.replace(QString("$(PARENT_INCLUDES)"), parentIncludes);
 
     // Replace the $(DATAFIELDS) tag
     QString type;
@@ -147,12 +164,20 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
             // Go through each option
             QStringList options = info->fields[n]->options;
             for (int m = 0; m < options.length(); ++m) {
-                QString s = (m == (options.length()-1)) ? "%1_%2_%3=%4" : "%1_%2_%3=%4, ";
+                QString optionName = form_enum_name(info->name,
+                        info->fields[n]->name, options[m]);
+                QString value = QString::number(m);
+
+                if (info->fields[n]->parent) {
+                    value = form_enum_name(info->fields[n]->parentObj->name,
+                            info->fields[n]->parent->name, options[m]);
+                }
+
+                QString s = (m == (options.length()-1)) ? "%1=%2" : "%1=%2, ";
+
                 enums.append( s
-                                .arg( info->name.toUpper() )
-                                .arg( info->fields[n]->name.toUpper() )
-                                .arg( options[m].toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), "") )
-                                .arg(m) );
+                                .arg( optionName )
+                                .arg( value ) );
 
             }
             enums.append( QString(" }  __attribute__((packed)) %1%2Options;\r\n")

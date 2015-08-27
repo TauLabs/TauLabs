@@ -388,7 +388,7 @@ void VehicleConfigurationHelper::applyManualControlDefaults()
         channelType = ManualControlSettings::CHANNELGROUPS_SBUS;
         break;
     case Core::IBoardType::INPUT_TYPE_DSM:
-        channelType = ManualControlSettings::CHANNELGROUPS_DSMMAINPORT;
+        channelType = ManualControlSettings::CHANNELGROUPS_DSM;
         break;
     case Core::IBoardType::INPUT_TYPE_HOTTSUMD:
     case Core::IBoardType::INPUT_TYPE_HOTTSUMH:

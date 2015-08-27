@@ -1,7 +1,7 @@
 ###############################################################################
 # @file       UAVObjects.inc
 # @author     The OpenPilot Team, http://www.openpilot.org, Copyright (C) 2011.
-# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+# @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
 # @addtogroup 
 # @{
 # @addtogroup 
@@ -28,25 +28,4 @@
 # (all architectures)
 
 UAVOBJSRCFILENAMES =
-UAVOBJSRCFILENAMES += accels
-UAVOBJSRCFILENAMES += firmwareiapobj
-UAVOBJSRCFILENAMES += flighttelemetrystats
-UAVOBJSRCFILENAMES += gcstelemetrystats
-UAVOBJSRCFILENAMES += nedaccel
-UAVOBJSRCFILENAMES += objectpersistence
-UAVOBJSRCFILENAMES += overosyncstats
-UAVOBJSRCFILENAMES += systemalarms
-UAVOBJSRCFILENAMES += systemsettings
-UAVOBJSRCFILENAMES += systemstats
-UAVOBJSRCFILENAMES += taskinfo
-UAVOBJSRCFILENAMES += watchdogstatus
-UAVOBJSRCFILENAMES += flightstatus
-UAVOBJSRCFILENAMES += modulesettings
 UAVOBJSRCFILENAMES += hwdiscoveryf4
-UAVOBJSRCFILENAMES += receiveractivity
-UAVOBJSRCFILENAMES += gcsreceiver
-UAVOBJSRCFILENAMES += faultsettings
-UAVOBJSRCFILENAMES += sessionmanaging
-
-UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
-UAVOBJDEFINE = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )

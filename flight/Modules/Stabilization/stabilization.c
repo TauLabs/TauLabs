@@ -100,23 +100,12 @@ enum {
 	PID_MAX
 };
 
-enum {
-	GYRO_LPF_DISABLED  = 0,
-	GYRO_LPF_ENABLED,
-	GYRO_LPF_ENABLED_UPDATE,
-		};
-
-
 // Private variables
 static struct pios_thread *taskHandle;
 static MWRateSettingsData mwrate_settings;
 static StabilizationSettingsData settings;
 static TrimAnglesData trimAngles;
 static struct pios_queue *queue;
-float gyro_alpha = 0;
-static uint8_t gyro_filter_enabled = 0;
-static float dT = 0;
-static float dT_filtered = 0;
 float axis_lock_accum[3] = {0,0,0};
 uint8_t max_axis_lock = 0;
 uint8_t max_axislock_rate = 0;
@@ -124,7 +113,10 @@ float weak_leveling_kp = 0;
 uint8_t weak_leveling_max = 0;
 bool lowThrottleZeroIntegral;
 float vbar_decay = 0.991f;
+float gyro_alpha = 0.6;
 struct pid pids[PID_MAX];
+
+volatile bool gyro_filter_updated = false;
 
 // Private functions
 static void stabilizationTask(void* parameters);
@@ -206,7 +198,7 @@ static void stabilizationTask(void* parameters)
 	const uint32_t SYSTEM_IDENT_PERIOD = 75;
 	uint32_t system_ident_timeval = PIOS_DELAY_GetRaw();
 
-	uint16_t dT_filter_iteration = 1001;
+	float dT_filtered = 0;
 
 	// Main task loop
 	zero_pids();
@@ -222,28 +214,40 @@ static void stabilizationTask(void* parameters)
 			continue;
 		}
 		
-
 		calculate_pids();
 
-		dT = PIOS_DELAY_DiffuS(timeval) * 1.0e-6f;
+		float dT = PIOS_DELAY_DiffuS(timeval) * 1.0e-6f;
 		timeval = PIOS_DELAY_GetRaw();
 		
 		// exponential moving averaging (EMA) of dT to reduce jitter; ~200points
 		// to have more or less equivalent noise reduction to a normal N point moving averaging:  alpha = 2 / (N + 1)
 		// run it only at the beginning for the first samples, to reduce CPU load, and the value should converge to a constant value
-		if (dT_filter_iteration >= 1) {
-			dT_filter_iteration--;
+
+		if (iteration < 100) {
+			dT_filtered = dT;
+		} else if (iteration < 2000) {
 			dT_filtered = 0.01f * dT + (1.0f - 0.01f) * dT_filtered;
+		} else if (iteration == 2000) {
+			gyro_filter_updated = true;
 		}
 
+		if (gyro_filter_updated) {
+			if (settings.GyroCutoff < 1.0f) {
+				gyro_alpha = 0;
+			} else {
+				gyro_alpha = expf(-2.0f * (float)(M_PI) *
+						settings.GyroCutoff * dT_filtered);
+			}
 
-		// new calculation of gyro_alpha when cutoff frequency has changed, or dt_filtered is not already completly calculated
-		if ( (gyro_filter_enabled  == GYRO_LPF_ENABLED_UPDATE) || (dT_filter_iteration > 0) ) {
-			gyro_alpha = expf(-2.0f * (float)(M_PI) * settings.GyroCutoff * dT_filtered);
-			gyro_filter_enabled = GYRO_LPF_ENABLED;
+			// Compute time constant for vbar decay term
+			if (settings.VbarTau < 0.001f) {
+				vbar_decay = 0;
+			} else {
+				vbar_decay = expf(-dT_filtered / settings.VbarTau);
+			}
+
+			gyro_filter_updated = false;
 		}
-		else
-			gyro_filter_enabled = GYRO_LPF_DISABLED;
 
 		FlightStatusGet(&flightStatus);
 		StabilizationDesiredGet(&stabDesired);
@@ -319,18 +323,9 @@ static void stabilizationTask(void* parameters)
 		local_attitude_error[2] = circular_modulus_deg(local_attitude_error[2]);
 
 		static float gyro_filtered[3];
-		if (gyro_filter_enabled  == GYRO_LPF_DISABLED) {
-			gyro_filtered[0] = gyrosData.x;
-			gyro_filtered[1] = gyrosData.y;
-			gyro_filtered[2] = gyrosData.z;
-		}
-		else {
-			gyro_filtered[0] = gyro_filtered[0] * gyro_alpha + gyrosData.x * (1 - gyro_alpha);
-			gyro_filtered[1] = gyro_filtered[1] * gyro_alpha + gyrosData.y * (1 - gyro_alpha);
-			gyro_filtered[2] = gyro_filtered[2] * gyro_alpha + gyrosData.z * (1 - gyro_alpha);
-		}
-
-
+		gyro_filtered[0] = gyro_filtered[0] * gyro_alpha + gyrosData.x * (1 - gyro_alpha);
+		gyro_filtered[1] = gyro_filtered[1] * gyro_alpha + gyrosData.y * (1 - gyro_alpha);
+		gyro_filtered[2] = gyro_filtered[2] * gyro_alpha + gyrosData.z * (1 - gyro_alpha);
 
 		// A flag to track which stabilization mode each axis is in
 		static uint8_t previous_mode[MAX_AXES] = {255,255,255};
@@ -973,31 +968,7 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 		// Whether to zero the PID integrals while throttle is low
 		lowThrottleZeroIntegral = settings.LowThrottleZeroIntegral == STABILIZATIONSETTINGS_LOWTHROTTLEZEROINTEGRAL_TRUE;
 
-		// The dT has some jitter iteration to iteration that we don't want to
-		// make thie result unpredictable.  Still, it's nicer to specify the constant
-		// based on a time (in ms) rather than a fixed multiplier.  The error between
-		// update rates on OP (~300 Hz) and CC (~475 Hz) is negligible for this calculation
-		//fakeDt now only used for vbar_decay, for gyro filter now a real, but filtered, dT is used
-		const float fakeDt = 0.0025f;
-
-		//TODO: if the infrastructure for alarms will be more advanced in the future,
-		//      we should assert a alarm here when GyroCutoff > 90% of F_nyquist and LPF gets disabled
-
-		if (settings.GyroCutoff < 1.0f) {	// disable LPF when GyroCutoff < 1.0 Hz
-			gyro_filter_enabled = GYRO_LPF_DISABLED;
-			settings.GyroCutoff = 0;
-		}
-		else if ( (dT > 0) && (settings.GyroCutoff > (0.45f / dT)) ) {	// disable LPF when GyroCutoff > 90% of F_nyquist (= Fs/2 = 1/(2*dT)); using here not the filtered dT, because this is at the start to low
-			gyro_filter_enabled = GYRO_LPF_DISABLED;
-			settings.GyroCutoff = 0;
-			StabilizationSettingsGyroCutoffSet(&settings.GyroCutoff); // Set GyroCutoff to 0 to signalize in GCS, that it is disabled
-		}
-		else
-			gyro_filter_enabled = GYRO_LPF_ENABLED_UPDATE; // indicating that the gyro LPF is enabled, but the Cutoff parameter has changed, so the recalculation is needed
-
-
-		// Compute time constant for vbar decay term based on a tau
-		vbar_decay = expf(-fakeDt / settings.VbarTau);
+		gyro_filter_updated = true;
 	}
 
 	if (ev == NULL || ev->obj == MWRateSettingsHandle()) {

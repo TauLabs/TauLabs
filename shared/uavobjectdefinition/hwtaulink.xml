@@ -6,20 +6,21 @@
 		<!--  1. Telem - telemetry connection -->
 		<!--  2. Telem+PPM - telemetry and ppm -->
 		<!--  3. PPM - PPM only (one way connection) -->
-		<field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,Telem+PPM,PPM" defaultvalue="Disabled"/>
+		<field name="Radio" units="" type="enum" elements="1" options="Disabled,Telem,Telem+PPM,PPM" parent="HwShared.RadioPort" defaultvalue="Disabled"/>
 		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
 		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
 
 		<!-- Function of the main serial port -->
-		<field name="MainPort" units="" type="enum" elements="1" options="Disabled,GPS,Telemetry,ComBridge" defaultvalue="Telemetry"/>
+		<field name="MainPort" units="" type="enum" elements="1" options="Disabled,GPS,Telemetry,ComBridge" parent="HwShared.PortTypes" defaultvalue="Telemetry"/>
+		<field name="BTPort" units="" type="enum" elements="1" options="Disabled,Telemetry,ComBridge" defaultvalue="Telemetry"/>
 		<!-- Whenever port is on PPM_IN that data will be sent to remove side -->
-		<field name="PPMPort" units="" type="enum" elements="1" options="Disabled,PPM" defaultvalue="PPM"/>
-		<field name="VCPPort" units="" type="enum" elements="1" options="Disabled,Telemetry,DebugConsole,ComBridge" defaultvalue="Disabled"/>
-		<field name="ComSpeed" units="bps" type="enum" elements="1" options="4800,9600,19200,38400,57600,115200" defaultvalue="38400"/>
+		<field name="PPMPort" units="" type="enum" elements="1" options="Disabled,PPM,SPORT,PPM+SPORT" defaultvalue="PPM+SPORT"/>
+		<field name="VCPPort" units="" type="enum" elements="1" parent="HwShared.USB_VCPPort" defaultvalue="Disabled"/>
+		<field name="ComSpeed" units="bps" type="enum" elements="1" options="4800,9600,19200,38400,57600,115200" defaultvalue="57600"/>
 
 		<!-- radio settings -->
-		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" options="9600,19200,32000,64000,100000,192000" defaultvalue="64000"/>
-		<field name="MaxRfPower" units="mW" type="enum" elements="1" options="0,1.25,1.6,3.16,6.3,12.6,25,50,100" defaultvalue="3.16"/>
+		<field name="MaxRfSpeed" units="bps" type="enum" elements="1" parent="HwShared.MaxRfSpeed" defaultvalue="64000"/>
+		<field name="MaxRfPower" units="mW" type="enum" elements="1" parent="HwShared.MaxRfPower" defaultvalue="3.16"/>
 		<field name="MinChannel" units="" type="uint8" elements="1" defaultvalue="0"/>
 		<field name="MaxChannel" units="" type="uint8" elements="1" defaultvalue="250"/>
 

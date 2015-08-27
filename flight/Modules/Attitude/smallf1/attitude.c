@@ -87,7 +87,6 @@ static void updateAttitude(AccelsData *, GyrosData *);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
 static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * accelsData);
 static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData);
-static void update_trimming(AccelsData * accelsData);
 static void updateTemperatureComp(float temperature, float *temp_bias);
 
 //! Compute the mean gyro accumulated and assign the bias
@@ -115,12 +114,6 @@ static bool bias_correct_gyro = true;
 static bool accumulating_gyro = false;
 static uint32_t accumulated_gyro_samples = 0;
 static float accumulated_gyro[3];
-
-// For running trim flights
-static volatile bool trim_requested = false;
-static volatile int32_t trim_accels[3];
-static volatile int32_t trim_samples;
-static int32_t const MAX_TRIM_FLIGHT_SAMPLES = 65535;
 
 /**
  * Initialise the module, called on startup
@@ -170,8 +163,6 @@ int32_t AttitudeInitialize(void)
 	for(uint8_t i = 0; i < 3; i++)
 		for(uint8_t j = 0; j < 3; j++)
 			Rsb[i][j] = 0;
-	
-	trim_requested = false;
 	
 	AttitudeSettingsConnectCallback(&settingsUpdatedCb);
 	SensorSettingsConnectCallback(&settingsUpdatedCb);
@@ -379,8 +370,6 @@ static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
 	update_gyros(&gyros, gyrosData);
 	update_accels(&accels, accelsData);
 
-	update_trimming(accelsData);
-
 	GyrosSet(gyrosData);
 	AccelsSet(accelsData);
 
@@ -416,8 +405,6 @@ static int32_t updateSensorsDigital(AccelsData * accelsData, GyrosData * gyrosDa
 	// Update gyros after the accels since the rest of the code expects
 	// the accels to be available first
 	update_gyros(&gyros, gyrosData);
-
-	update_trimming(accelsData);
 
 	GyrosSet(gyrosData);
 	AccelsSet(accelsData);
@@ -549,31 +536,6 @@ static void accumulate_gyro(float gyros_out[3])
 	accumulated_gyro[0] += gyros_out[0];
 	accumulated_gyro[1] += gyros_out[1];
 	accumulated_gyro[2] += gyros_out[2];
-}
-
-/**
- * @brief If requested accumulate accel values to calculate level
- * @param[in] accelsData the scaled and normalized accels
- */
-static void update_trimming(AccelsData * accelsData)
-{
-	if (trim_requested) {
-		if (trim_samples >= MAX_TRIM_FLIGHT_SAMPLES) {
-			trim_requested = false;
-		} else {
-			uint8_t armed;
-			float throttle;
-			FlightStatusArmedGet(&armed);
-			ManualControlCommandThrottleGet(&throttle);  // Until flight status indicates airborne
-			if ((armed == FLIGHTSTATUS_ARMED_ARMED) && (throttle > 0)) {
-				trim_samples++;
-				// Store the digitally scaled version since that is what we use for bias
-				trim_accels[0] += accelsData->x;
-				trim_accels[1] += accelsData->y;
-				trim_accels[2] += accelsData->z;
-			}
-		}
-	}
 }
 
 static inline void apply_accel_filter(const float * raw, float * filtered)
@@ -781,52 +743,6 @@ static void settingsUpdatedCb(UAVObjEvent * objEv) {
 		RPY2Quaternion(rpy, rotationQuat);
 		Quaternion2R(rotationQuat, Rsb);
 		rotate = 1;
-	}
-	
-	if (attitudeSettings.TrimFlight == ATTITUDESETTINGS_TRIMFLIGHT_START) {
-		trim_accels[0] = 0;
-		trim_accels[1] = 0;
-		trim_accels[2] = 0;
-		trim_samples = 0;
-		trim_requested = true;
-	} else if (attitudeSettings.TrimFlight == ATTITUDESETTINGS_TRIMFLIGHT_LOAD) {
-		trim_requested = false;
-
-		// Get sensor data  mean 
-		float a_body[3] = { trim_accels[0] / trim_samples,
-			trim_accels[1] / trim_samples,
-			trim_accels[2] / trim_samples
-		};
-
-		// Inverse rotation of sensor data, from body frame into sensor frame
-		float a_sensor[3];
-		rot_mult(Rsb, a_body, a_sensor, false);
-
-		// Temporary variables
-		float psi, theta, phi;
-
-		psi = attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_YAW] * DEG2RAD / 100.0f;
-
-		float cP = cosf(psi);
-		float sP = sinf(psi);
-
-		// In case psi is too small, we have to use a different equation to solve for theta
-		if (fabsf(psi) > PI / 2)
-			theta = atanf((a_sensor[1] + cP * (sP * a_sensor[0] -
-					 cP * a_sensor[1])) / (sP * a_sensor[2]));
-		else
-			theta = atanf((a_sensor[0] - sP * (sP * a_sensor[0] -
-					 cP * a_sensor[1])) / (cP * a_sensor[2]));
-
-		phi = atan2f((sP * a_sensor[0] - cP * a_sensor[1]) / GRAVITY,
-			   (a_sensor[2] / cosf(theta) / GRAVITY));
-
-		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_ROLL] = phi * RAD2DEG * 100.0f;
-		attitudeSettings.BoardRotation[ATTITUDESETTINGS_BOARDROTATION_PITCH] = theta * RAD2DEG * 100.0f;
-
-		attitudeSettings.TrimFlight = ATTITUDESETTINGS_TRIMFLIGHT_NORMAL;
-		AttitudeSettingsSet(&attitudeSettings);
-
 	}
 }
 /**

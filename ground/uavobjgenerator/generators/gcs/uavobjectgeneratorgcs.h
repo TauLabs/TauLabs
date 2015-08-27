@@ -38,6 +38,8 @@ public:
 
 private:
     bool process_object(ObjectInfo* info);
+    QString form_enum_name(const QString& objectName,
+            const QString& fieldName, const QString& option);
 
     QString gcsCodeTemplate,gcsIncludeTemplate;
     QStringList fieldTypeStrCPP,fieldTypeStrCPPClass;
