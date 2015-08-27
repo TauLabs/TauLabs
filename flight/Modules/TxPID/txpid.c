@@ -48,6 +48,7 @@
 #include "accessorydesired.h"
 #include "manualcontrolcommand.h"
 #include "stabilizationsettings.h"
+#include "vtolpathfollowersettings.h"
 #include "flightstatus.h"
 #include "modulesettings.h"
 
@@ -127,7 +128,7 @@ int32_t TxPIDInitialize(void)
 	return -1;
 }
 
-MODULE_INITCALL(TxPIDInitialize, NULL)
+MODULE_INITCALL(TxPIDInitialize, NULL);
 
 /**
  * Update PIDs callback function
@@ -151,9 +152,17 @@ static void updatePIDs(UAVObjEvent* ev)
 
 	StabilizationSettingsData stab;
 	StabilizationSettingsGet(&stab);
+
+	VtolPathFollowerSettingsData vtolPathFollowerSettingsData;
+	// Check to make sure the settings UAVObject has been instantiated
+	if (VtolPathFollowerSettingsHandle()) {
+		VtolPathFollowerSettingsGet(&vtolPathFollowerSettingsData);
+	}
+
 	AccessoryDesiredData accessory;
 
 	uint8_t stabilizationSettingsNeedsUpdate = 0;
+	uint8_t vtolPathFollowerSettingsNeedsUpdate = 0;
 
 	// Loop through every enabled instance
 	for (uint8_t i = 0; i < TXPIDSETTINGS_PIDS_NUMELEM; i++) {
@@ -320,6 +329,24 @@ static void updatePIDs(UAVObjEvent* ev)
 			case TXPIDSETTINGS_PIDS_YAWVBARKD:
 				stabilizationSettingsNeedsUpdate |= update(&stab.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KD], value);
 				break;
+			case TXPIDSETTINGS_PIDS_HORIZONTALPOSKP:
+				vtolPathFollowerSettingsNeedsUpdate |= update(&vtolPathFollowerSettingsData.HorizontalPosPI[VTOLPATHFOLLOWERSETTINGS_HORIZONTALPOSPI_KP], value);
+				break;
+			case TXPIDSETTINGS_PIDS_HORIZONTALPOSKI:
+				vtolPathFollowerSettingsNeedsUpdate |= update(&vtolPathFollowerSettingsData.HorizontalPosPI[VTOLPATHFOLLOWERSETTINGS_HORIZONTALPOSPI_KI], value);
+				break;
+			case TXPIDSETTINGS_PIDS_HORIZONTALPOSILIMIT:
+				vtolPathFollowerSettingsNeedsUpdate |= update(&vtolPathFollowerSettingsData.HorizontalPosPI[VTOLPATHFOLLOWERSETTINGS_HORIZONTALPOSPI_ILIMIT], value);
+				break;
+			case TXPIDSETTINGS_PIDS_HORIZONTALVELKP:
+				vtolPathFollowerSettingsNeedsUpdate |= update(&vtolPathFollowerSettingsData.HorizontalVelPID[VTOLPATHFOLLOWERSETTINGS_HORIZONTALVELPID_KP], value);
+				break;
+			case TXPIDSETTINGS_PIDS_HORIZONTALVELKI:
+				vtolPathFollowerSettingsNeedsUpdate |= update(&vtolPathFollowerSettingsData.HorizontalVelPID[VTOLPATHFOLLOWERSETTINGS_HORIZONTALVELPID_KI], value);
+				break;
+			case TXPIDSETTINGS_PIDS_HORIZONTALVELKD:
+				vtolPathFollowerSettingsNeedsUpdate |= update(&vtolPathFollowerSettingsData.HorizontalVelPID[VTOLPATHFOLLOWERSETTINGS_HORIZONTALVELPID_KD], value);
+				break;
 			default:
 				PIOS_Assert(0);
 			}
@@ -329,6 +356,12 @@ static void updatePIDs(UAVObjEvent* ev)
 	// Update UAVOs, if necessary
 	if (stabilizationSettingsNeedsUpdate) {
 		StabilizationSettingsSet(&stab);
+	}
+	if (vtolPathFollowerSettingsNeedsUpdate) {
+		// Check to make sure the settings UAVObject has been instantiated
+		if (VtolPathFollowerSettingsHandle()) {
+			VtolPathFollowerSettingsSet(&vtolPathFollowerSettingsData);
+		}
 	}
 }
 
