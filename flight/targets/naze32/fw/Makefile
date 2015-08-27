@@ -56,12 +56,12 @@ ENABLE_AUX_UART ?= NO
 # @startgroup  Optional modules
 # @groupbrief Optional module and driver defaults
 USE_CAMERASTAB ?= YES
-USE_GPS ?= NO
+USE_GPS ?= YES
 USE_TXPID ?= YES
 USE_ALTITUDE ?= NO
 USE_AUTOTUNE ?= YES
 USE_UAVOMAVLINKBRIDGE ?= YES
-USE_UAVOLIGHTTELEMETRYBRIDGE ?= YES
+USE_UAVOLIGHTTELEMETRYBRIDGE ?= NO
 USE_UAVOFRSKYSENSORHUBBRIDGE ?= YES
 USE_BATTERY ?= NO
 # @endgroup  Optional modules
@@ -193,6 +193,7 @@ SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_mpu6050.c
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
+SRC += $(PIOSCOMMON)/pios_hsum.c
 SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_gcsrcvr.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
@@ -203,6 +204,7 @@ SRC += $(PIOSCOMMON)/pios_semaphore.c
 SRC += $(PIOSCOMMON)/pios_mutex.c
 SRC += $(PIOSCOMMON)/pios_thread.c
 SRC += $(PIOSCOMMON)/pios_queue.c
+SRC += $(PIOSCOMMON)/pios_hal.c
 
 SRC += $(PIOSCOMMON)/pios_board_info.c
 

@@ -10,8 +10,8 @@
 #include <pios_i2c_priv.h>
 #include <pios_usb_cdc_priv.h>
 #include <pios_usb_hid_priv.h>
-#include <pios_openlrs_priv.h>
 #include <pios_rfm22b_priv.h>
+#include <pios_openlrs_priv.h>
 
 /* One slot per selectable receiver group.
  *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
