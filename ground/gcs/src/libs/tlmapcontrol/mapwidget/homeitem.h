@@ -60,7 +60,6 @@ namespace mapcontrol
         TLMapWidget* mapwidget;
         QPixmap pic;
         core::Point localposition;
-        internals::PointLatLng coord;
         bool showsafearea;
         bool toggleRefresh;
         int safearea;
