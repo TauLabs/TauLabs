@@ -27,7 +27,10 @@
 #ifndef SANITYCHECK_H
 #define SANITYCHECK_H
 
+#include "systemalarms.h"
+
 extern int32_t configuration_check();
+void set_config_error(SystemAlarmsConfigErrorOptions error_code);
 
 #endif /* SANITYCHECK_H */
 
