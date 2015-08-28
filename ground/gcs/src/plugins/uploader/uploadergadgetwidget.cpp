@@ -1341,10 +1341,7 @@ void UploaderGadgetWidget::setUploaderStatus(const uploader::UploaderStatus &val
     case uploader::CONNECTED_TO_TELEMETRY:
         m_widget->rescueButton->setVisible(false);
         m_widget->openButton->setVisible(true);
-        if(conMngr->getCurrentDevice().connection->shortName() == "USB")
-            m_widget->haltButton->setVisible(true);
-        else
-            m_widget->haltButton->setVisible(false);
+        m_widget->haltButton->setVisible(true);
         m_widget->bootButton->setVisible(false);
         m_widget->safeBootButton->setVisible(false);
         m_widget->resetButton->setVisible(true);
