@@ -32,6 +32,7 @@
 /* Project Includes */
 #include "pios.h"
 #include "pios_dsm_priv.h"
+#include "manualcontrolsettings.h"
 
 #if defined(PIOS_INCLUDE_DSM)
 
@@ -229,7 +230,24 @@ int PIOS_DSM_UnrollChannels(struct pios_dsm_dev *dsm_dev)
 	// If no stream type has yet been detected, then try to probe for it
 	// this should only happen once per power cycle
 	if (dsm_dev->resolution == DSM_UNKNOWN) {
-		dsm_dev->resolution = PIOS_DSM_DetectResolution(state->received_data);
+
+		// check user settings to determine which resolution mode to use
+		uint8_t dsm_resolution_mode;
+		ManualControlSettingsDSMResolutionModeGet( &dsm_resolution_mode );
+
+		switch( dsm_resolution_mode )
+		{
+		case MANUALCONTROLSETTINGS_DSMRESOLUTIONMODE_AUTODETECT:
+			dsm_dev->resolution = PIOS_DSM_DetectResolution(state->received_data);
+			break;
+		case MANUALCONTROLSETTINGS_DSMRESOLUTIONMODE_FORCE10BIT:
+			dsm_dev->resolution = DSM_10BIT;
+			break;
+		case MANUALCONTROLSETTINGS_DSMRESOLUTIONMODE_FORCE11BIT:
+			dsm_dev->resolution = DSM_11BIT;
+			break;
+		}
+
 	}
 
 	/* Stream type still not detected */
