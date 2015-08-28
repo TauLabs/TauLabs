@@ -48,7 +48,10 @@
 #include "accessorydesired.h"
 #include "manualcontrolcommand.h"
 #include "stabilizationsettings.h"
+#ifdef UAVOBJ_INIT_vtolpathfollowersettings
 #include "vtolpathfollowersettings.h"
+#endif
+
 #include "flightstatus.h"
 #include "modulesettings.h"
 
@@ -71,7 +74,7 @@
 
 // Private functions
 static void updatePIDs(UAVObjEvent* ev);
-static uint8_t update(float *var, float val);
+static bool update(float *var, float val);
 static float scale(float val, float inMin, float inMax, float outMin, float outMax);
 
 /**
@@ -153,16 +156,19 @@ static void updatePIDs(UAVObjEvent* ev)
 	StabilizationSettingsData stab;
 	StabilizationSettingsGet(&stab);
 
+#ifdef UAVOBJ_INIT_vtolpathfollowersettings
 	VtolPathFollowerSettingsData vtolPathFollowerSettingsData;
 	// Check to make sure the settings UAVObject has been instantiated
 	if (VtolPathFollowerSettingsHandle()) {
 		VtolPathFollowerSettingsGet(&vtolPathFollowerSettingsData);
 	}
 
+	bool vtolPathFollowerSettingsNeedsUpdate = false;
+#endif
+
 	AccessoryDesiredData accessory;
 
-	uint8_t stabilizationSettingsNeedsUpdate = 0;
-	uint8_t vtolPathFollowerSettingsNeedsUpdate = 0;
+	bool stabilizationSettingsNeedsUpdate = false;
 
 	// Loop through every enabled instance
 	for (uint8_t i = 0; i < TXPIDSETTINGS_PIDS_NUMELEM; i++) {
@@ -329,6 +335,7 @@ static void updatePIDs(UAVObjEvent* ev)
 			case TXPIDSETTINGS_PIDS_YAWVBARKD:
 				stabilizationSettingsNeedsUpdate |= update(&stab.VbarYawPID[STABILIZATIONSETTINGS_VBARYAWPID_KD], value);
 				break;
+#ifdef UAVOBJ_INIT_vtolpathfollowersettings
 			case TXPIDSETTINGS_PIDS_HORIZONTALPOSKP:
 				vtolPathFollowerSettingsNeedsUpdate |= update(&vtolPathFollowerSettingsData.HorizontalPosPI[VTOLPATHFOLLOWERSETTINGS_HORIZONTALPOSPI_KP], value);
 				break;
@@ -347,8 +354,12 @@ static void updatePIDs(UAVObjEvent* ev)
 			case TXPIDSETTINGS_PIDS_HORIZONTALVELKD:
 				vtolPathFollowerSettingsNeedsUpdate |= update(&vtolPathFollowerSettingsData.HorizontalVelPID[VTOLPATHFOLLOWERSETTINGS_HORIZONTALVELPID_KD], value);
 				break;
+#endif /* UAVOBJ_INIT_vtolpathfollowersettings */
 			default:
-				PIOS_Assert(0);
+				// Previously this would assert.  But now the
+				// object may be missing and it's not worth a
+				// crash.
+				break;
 			}
 		}
 	}
@@ -357,12 +368,15 @@ static void updatePIDs(UAVObjEvent* ev)
 	if (stabilizationSettingsNeedsUpdate) {
 		StabilizationSettingsSet(&stab);
 	}
+
+#ifdef UAVOBJ_INIT_vtolpathfollowersettings
 	if (vtolPathFollowerSettingsNeedsUpdate) {
 		// Check to make sure the settings UAVObject has been instantiated
 		if (VtolPathFollowerSettingsHandle()) {
 			VtolPathFollowerSettingsSet(&vtolPathFollowerSettingsData);
 		}
 	}
+#endif
 }
 
 /**
@@ -399,13 +413,13 @@ static float scale(float val, float inMin, float inMax, float outMin, float outM
  * Updates var using val if needed.
  * \returns 1 if updated, 0 otherwise
  */
-static uint8_t update(float *var, float val)
+static bool update(float *var, float val)
 {
 	if (*var != val) {
 		*var = val;
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
 /**
