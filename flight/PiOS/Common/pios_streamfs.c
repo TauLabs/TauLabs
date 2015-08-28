@@ -174,7 +174,7 @@ static struct streamfs_state *streamfs_alloc(void)
 {
 	struct streamfs_state *streamfs;
 
-	streamfs = (struct streamfs_state *)PIOS_malloc_no_dma(sizeof(*streamfs));
+	streamfs = (struct streamfs_state *)PIOS_malloc(sizeof(*streamfs));
 	if (!streamfs) return (NULL);
 
 	streamfs->magic = PIOS_FLASHFS_STREAMFS_DEV_MAGIC;
