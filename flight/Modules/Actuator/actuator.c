@@ -78,7 +78,9 @@ static volatile bool mixer_settings_updated;
 static void actuatorTask(void* parameters);
 static float scaleChannel(float value, float max, float min, float neutral);
 static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const MixerSettingsData * mixerSettings);
-static float MixerCurve(const float throttle, const float* curve, uint8_t elements);
+static float MixerCurve(const float input, const float* curve, uint8_t elements, const float input_min, const float input_max);
+static float ThrottleCurve(const float input, const float* curve, uint8_t elements);
+static float CollectiveCurve(const float input, const float* curve, uint8_t elements);
 static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettingsData * actuatorSettings);
 static void actuator_update_rate_if_changed(const ActuatorSettingsData * actuatorSettings, bool force_update);
 static void MixerSettingsUpdatedCb(UAVObjEvent * ev);
@@ -239,29 +241,28 @@ static void actuatorTask(void* parameters)
 		bool positiveThrottle = desired.Throttle >= 0.00f;
 		bool spinWhileArmed = actuatorSettings.MotorsSpinWhileArmed == ACTUATORSETTINGS_MOTORSSPINWHILEARMED_TRUE;
 
-		float curve1 = MixerCurve(desired.Throttle,mixerSettings.ThrottleCurve1,MIXERSETTINGS_THROTTLECURVE1_NUMELEM);
-		
+		float curve1 = ThrottleCurve(desired.Throttle,mixerSettings.ThrottleCurve1,MIXERSETTINGS_THROTTLECURVE1_NUMELEM);
+
 		//The source for the secondary curve is selectable
 		float curve2 = 0;
 		AccessoryDesiredData accessory;
 		switch(mixerSettings.Curve2Source) {
 			case MIXERSETTINGS_CURVE2SOURCE_THROTTLE:
-				curve2 = MixerCurve(desired.Throttle,mixerSettings.ThrottleCurve2,MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
+				curve2 = ThrottleCurve(desired.Throttle,mixerSettings.ThrottleCurve2,MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_ROLL:
-				curve2 = MixerCurve(desired.Roll,mixerSettings.ThrottleCurve2,MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
+				curve2 = ThrottleCurve(desired.Roll,mixerSettings.ThrottleCurve2,MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_PITCH:
-				curve2 = MixerCurve(desired.Pitch,mixerSettings.ThrottleCurve2,
+				curve2 = ThrottleCurve(desired.Pitch,mixerSettings.ThrottleCurve2,
 				MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_YAW:
-				curve2 = MixerCurve(desired.Yaw,mixerSettings.ThrottleCurve2,MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
+				curve2 = ThrottleCurve(desired.Yaw,mixerSettings.ThrottleCurve2,MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_COLLECTIVE:
 				ManualControlCommandCollectiveGet(&curve2);
-				curve2 = MixerCurve(curve2,mixerSettings.ThrottleCurve2,
-				MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
+				curve2 = CollectiveCurve(curve2,mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY0:
 			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY1:
@@ -270,7 +271,7 @@ static void actuatorTask(void* parameters)
 			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY4:
 			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY5:
 				if(AccessoryDesiredInstGet(mixerSettings.Curve2Source - MIXERSETTINGS_CURVE2SOURCE_ACCESSORY0,&accessory) == 0)
-					curve2 = MixerCurve(accessory.AccessoryVal,mixerSettings.ThrottleCurve2,MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
+					curve2 = ThrottleCurve(accessory.AccessoryVal,mixerSettings.ThrottleCurve2,MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				else
 					curve2 = 0;
 				break;
@@ -413,35 +414,54 @@ float ProcessMixer(const int index, const float curve1, const float curve2,
 	return(result);
 }
 
-
 /**
- *Interpolate a throttle curve. Throttle input should be in the range 0 to 1.
- *Output is in the range 0 to 1.
+ * Interpolate a mixer curve. Input is assumed to be in the range [0,1] unless otherwise specified.
+ * Output range is defined by the curve vector
+ * curve is defined in N intervals connecting N+1 points
+ * throttle curve assumes input is [0,1]
+ * this means that the throttle channel neutral value is nearly the same as its min value
+ * this is convenient for throttle, since the neutral value is used as a failsafe and would thus shut off the motor
+ * however, this makes no sense for collective, since the collective neutral point is not the min point for most vehicles with collective pitch
+ * instead, we need to accept input in [-1,1] so that the neutral point may be set arbitrarily within the typical channel input range, which is [-1,1]
  */
-static float MixerCurve(const float throttle, const float* curve, uint8_t elements)
+static float MixerCurve( float const input, float const * curve, uint8_t elements, const float input_min, const float input_max )
 {
-	float scale = throttle * (float) (elements - 1);
+	// shift our input [min,max] into the typical range [0,1]
+	float scale = ( ( input - input_min ) / ( input_max - input_min ) ) * (float) (elements - 1);
+	// select a starting bin via truncation
 	int idx1 = scale;
-	scale -= (float)idx1; //remainder
-	if(curve[0] < -1)
-	{
-		return(throttle);
-	}
-	if (idx1 < 0)
+	// save the offset from the starting bin for linear interpolation
+	scale -= (float)idx1;
+	// if the starting bin is below the first bin
+	if( idx1 < 0 )
 	{
 		idx1 = 0; //clamp to lowest entry in table
 		scale = 0;
 	}
+	// select an ending bin (linear interpolation occurs between starting and ending bins)
 	int idx2 = idx1 + 1;
-	if(idx2 >= elements)
+	// if the ending bin bin is above the last bin
+	if( idx2 >= elements )
 	{
 		idx2 = elements -1; //clamp to highest entry in table
-		if(idx1 >= elements)
+		// if the starting bin is above the last bin
+		if( idx1 >= elements )
 		{
-			idx1 = elements -1;
+			// we no longer do interpolation; instead, we just select the max point on the curve
+			return curve[elements-1];
 		}
 	}
 	return curve[idx1] * (1.0f - scale) + curve[idx2] * scale;
+}
+
+static float ThrottleCurve( float const input, float const * curve, uint8_t elements )
+{
+	return MixerCurve( input, curve, elements, 0.0f, 1.0f );
+}
+
+static float CollectiveCurve( float const input, float const * curve, uint8_t elements )
+{
+	return MixerCurve( input, curve, elements, -1.0f, 1.0f );
 }
 
 
