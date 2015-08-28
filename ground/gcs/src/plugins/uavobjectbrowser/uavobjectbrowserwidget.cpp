@@ -342,7 +342,12 @@ void UAVObjectBrowserWidget::sendUpdate()
 {
     this->setFocus();
     ObjectTreeItem *objItem = findCurrentObjectTreeItem();
-    Q_ASSERT(objItem);
+
+    // This occurs when the selected item is not inside a UAVObject
+    if (objItem == NULL) {
+       return;
+    }
+
     UAVDataObject * dataObj=qobject_cast<UAVDataObject *>(objItem->object());
     if(dataObj && dataObj->isSettings())
         objItem->setUpdatedOnly(true);
@@ -362,7 +367,12 @@ void UAVObjectBrowserWidget::sendUpdate()
 void UAVObjectBrowserWidget::requestUpdate()
 {
     ObjectTreeItem *objItem = findCurrentObjectTreeItem();
-    Q_ASSERT(objItem);
+
+    // This occurs when the selected item is not inside a UAVObject
+    if (objItem == NULL) {
+       return;
+    }
+
     UAVObject *obj = objItem->object();
     Q_ASSERT(obj);
     obj->requestUpdate();
@@ -409,7 +419,12 @@ void UAVObjectBrowserWidget::saveObject()
     sendUpdate();
     // Save object
     ObjectTreeItem *objItem = findCurrentObjectTreeItem();
-    Q_ASSERT(objItem);
+
+    // This occurs when the selected item is not inside a UAVObject
+    if (objItem == NULL) {
+       return;
+    }
+
     UAVDataObject * dataObj=qobject_cast<UAVDataObject *>(objItem->object());
     if(dataObj && dataObj->isSettings())
         objItem->setUpdatedOnly(false);
@@ -429,7 +444,12 @@ void UAVObjectBrowserWidget::loadObject()
 {
     // Load object
     ObjectTreeItem *objItem = findCurrentObjectTreeItem();
-    Q_ASSERT(objItem);
+
+    // This occurs when the selected item is not inside a UAVObject
+    if (objItem == NULL) {
+       return;
+    }
+
     UAVObject *obj = objItem->object();
     Q_ASSERT(obj);
     updateObjectPersistance(ObjectPersistence::OPERATION_LOAD, obj);
@@ -447,7 +467,12 @@ void UAVObjectBrowserWidget::loadObject()
 void UAVObjectBrowserWidget::eraseObject()
 {
     ObjectTreeItem *objItem = findCurrentObjectTreeItem();
-    Q_ASSERT(objItem);
+
+    // This occurs when the selected item is not inside a UAVObject
+    if (objItem == NULL) {
+       return;
+    }
+
     UAVObject *obj = objItem->object();
     Q_ASSERT(obj);
     updateObjectPersistance(ObjectPersistence::OPERATION_DELETE, obj);
