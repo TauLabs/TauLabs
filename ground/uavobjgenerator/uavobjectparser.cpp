@@ -404,6 +404,15 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
         // Calculate size
         calculateSize(info);
 
+        /**
+         * The maximum size of UAVOs is limited by the FlashFS filesystem in the flight code
+         * The flash slot size is 256 bytes which is comprised of the FlashFS header (12 bytes)
+         * and the UAVO. This leaves a maximum of 244 bytes for the UAVO.
+         */
+        if(info->numBytes > 244)
+            return genErrorMsg(filename, QString("total object size(%1 bytes) exceeds maximum limit (244 bytes)")
+                    .arg(QString::number(info->numBytes)), 0, 0);
+
         // Add object
         objInfo.append(info);
 
