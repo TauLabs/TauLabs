@@ -149,6 +149,7 @@ enum menu_fsm_state {
 	FSM_STATE_STICKLIMITS_ROLLEXH,  /*!< Roll expo horizon */
 	FSM_STATE_STICKLIMITS_PITCHEXH, /*!< Pitch expo horizon */
 	FSM_STATE_STICKLIMITS_YAWEXH,   /*!< Yaw expo horizon */
+	FSM_STATE_STICKLIMITS_ACROINSANITYFACTOR, /*!< Acro insanity factor for AcroPlus */
 	FSM_STATE_STICKLIMITS_SAVEEXIT, /*!< Save & Exit */
 	FSM_STATE_STICKLIMITS_EXIT,     /*!< Exit */
 /*------------------------------------------------------------------------------------------*/
@@ -831,6 +832,13 @@ const static struct menu_fsm_transition menu_fsm[FSM_STATE_NUM_STATES] = {
 		.menu_fn = sticklimits_menu,
 		.next_state = {
 			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_PITCHEXH,
+			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_ACROINSANITYFACTOR,
+		},
+	},
+	[FSM_STATE_STICKLIMITS_ACROINSANITYFACTOR] = {
+		.menu_fn = sticklimits_menu,
+		.next_state = {
+			[FSM_EVENT_UP] = FSM_STATE_STICKLIMITS_YAWEXH,
 			[FSM_EVENT_DOWN] = FSM_STATE_STICKLIMITS_SAVEEXIT,
 		},
 	},
@@ -1084,6 +1092,7 @@ void flightmode_menu(void)
 	const char* fmode_strings[] = {
 		[MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_MANUAL] = "Manual",
 		[MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_ACRO] = "Acro",
+		[MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_ACROPLUS] = "AcroPlus",
 		[MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_LEVELING] = "Leveling",
 		[MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_MWRATE] = "MW Rate",
 		[MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_HORIZON] = "Horizon",
@@ -1715,6 +1724,32 @@ void sticklimits_menu(void)
 		}
 		if (data_changed)
 			StabilizationSettingsHorizonExpoSet(expo_arr);
+	}
+
+	// Acro Insanity Factor
+	{
+			float factor;
+			StabilizationSettingsAcroInsanityFactorGet(&factor);
+			data_changed = false;
+			sprintf(tmp_str, "Acro Insanity Factor: %0.6f", (double)factor);
+			write_string(tmp_str, MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
+			draw_hscale(225, GRAPHICS_RIGHT - 5, y_pos + 2, 0, 100, factor);
+			if (my_state == current_state) {
+				draw_selected_icon(MENU_LINE_X - 4, y_pos + 4);
+				if (current_event == FSM_EVENT_RIGHT) {
+					factor = MIN(factor + 1, 100);
+					data_changed = true;
+				}
+				if (current_event == FSM_EVENT_LEFT) {
+					factor = MAX(factor - 1, 0);
+					data_changed = true;
+				}
+			}
+			my_state++;
+			y_pos += MENU_LINE_SPACING;
+
+		if (data_changed)
+			StabilizationSettingsAcroInsanityFactorSet(&factor);
 	}
 
 	write_string("Save and Exit", MENU_LINE_X, y_pos, 0, 0, TEXT_VA_TOP, TEXT_HA_LEFT, 0, MENU_FONT);
