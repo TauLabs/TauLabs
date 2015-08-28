@@ -1171,12 +1171,21 @@ void UploaderGadgetWidget::onResetButtonClick()
         }
         timeout.stop();
     }
-    setUploaderStatus(uploader::BOOTING);
-    conMngr->disconnectDevice();
-    timeout.start(200);
-    loop.exec();
-    conMngr->suspendPolling();
-    bootTimeoutTimer.start();
+    if(conMngr->getCurrentDevice().connection->shortName() == "USB")
+    {
+        setUploaderStatus(uploader::BOOTING);
+        conMngr->disconnectDevice();
+        timeout.start(200);
+        loop.exec();
+        conMngr->suspendPolling();
+        bootTimeoutTimer.start();
+    }
+    else
+    {
+        setUploaderStatus(uploader::DISCONNECTED);
+        conMngr->disconnectDevice();
+    }
+
     return;
 }
 
@@ -1235,11 +1244,19 @@ void UploaderGadgetWidget::onHaltButtonClick()
         }
         timeout.stop();
     }
-    conMngr->disconnectDevice();
-    timeout.start(200);
-    loop.exec();
-    conMngr->suspendPolling();
-    onRescueTimer(true);
+    if(conMngr->getCurrentDevice().connection->shortName() == "USB")
+    {
+        conMngr->disconnectDevice();
+        timeout.start(200);
+        loop.exec();
+        conMngr->suspendPolling();
+        onRescueTimer(true);
+    }
+    else
+    {
+        setUploaderStatus(uploader::DISCONNECTED);
+        conMngr->disconnectDevice();
+    }
     return;
 }
 
