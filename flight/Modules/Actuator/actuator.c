@@ -248,16 +248,16 @@ static void actuatorTask(void* parameters)
 		AccessoryDesiredData accessory;
 		switch(mixerSettings.Curve2Source) {
 			case MIXERSETTINGS_CURVE2SOURCE_THROTTLE:
-				curve2 = ThrottleCurve(desired.Throttle, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
+				curve2 = CollectiveCurve(desired.Throttle, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_ROLL:
-				curve2 = ThrottleCurve(desired.Roll, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
+				curve2 = CollectiveCurve(desired.Roll, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_PITCH:
-				curve2 = ThrottleCurve(desired.Pitch, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
+				curve2 = CollectiveCurve(desired.Pitch, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_YAW:
-				curve2 = ThrottleCurve(desired.Yaw, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
+				curve2 = CollectiveCurve(desired.Yaw, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				break;
 			case MIXERSETTINGS_CURVE2SOURCE_COLLECTIVE:
 				ManualControlCommandCollectiveGet(&curve2);
@@ -270,7 +270,7 @@ static void actuatorTask(void* parameters)
 			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY4:
 			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY5:
 				if(AccessoryDesiredInstGet(mixerSettings.Curve2Source - MIXERSETTINGS_CURVE2SOURCE_ACCESSORY0,&accessory) == 0)
-					curve2 = ThrottleCurve(accessory.AccessoryVal, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
+					curve2 = CollectiveCurve(accessory.AccessoryVal, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 				else
 					curve2 = 0;
 				break;
