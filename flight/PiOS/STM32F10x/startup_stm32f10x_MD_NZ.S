@@ -90,7 +90,7 @@ Reset_Handler:
   mov r1, 0x0100 // DBP
   str r1, [r0]
 
-  mov r2, 0
+  mov r2, 0  // used to blank backup registers after read
   ldr r3, =MAGIC_1
   ldr r4, =MAGIC_2
 
@@ -102,7 +102,6 @@ Reset_Handler:
   bne InitStack
 
 /* check (and clear) magic word 2 */
-  //ldr r0, =BKP_DR2
   ldr r1, [r0, #4] // BKP_DR2
   str r2, [r0, #4] // BKP_DR2
   cmp r1, r4
