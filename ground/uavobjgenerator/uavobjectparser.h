@@ -36,6 +36,13 @@
 #include <QDomNode>
 #include <QByteArray>
 
+/**
+ * The maximum size of UAVOs is limited by the FlashFS filesystem in the flight code
+ * The flash slot size is 256 bytes which is comprised of the FlashFS header (12 bytes)
+ * and the UAVO. This leaves a maximum of 244 bytes for the UAVO.
+ */
+#define UAVO_MAX_SIZE 244
+
 // Types
 typedef enum {
     FIELDTYPE_INT8 = 0,
