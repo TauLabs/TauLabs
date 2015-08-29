@@ -32,7 +32,8 @@
 /* Project Includes */
 #include "pios.h"
 #include "pios_dsm_priv.h"
-#include "manualcontrolsettings.h"
+#include <uavobjectmanager.h>
+#include <manualcontrolsettings.h>
 
 #if defined(PIOS_INCLUDE_DSM)
 
