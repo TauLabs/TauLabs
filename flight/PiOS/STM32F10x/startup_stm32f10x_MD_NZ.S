@@ -90,7 +90,7 @@ Reset_Handler:
   mov r1, 0x0100 // DBP
   str r1, [r0]
 
-  mov r2, 0
+  mov r2, 0  // used to blank backup registers after read
   ldr r3, =MAGIC_1
   ldr r4, =MAGIC_2
 
@@ -102,12 +102,48 @@ Reset_Handler:
   bne InitStack
 
 /* check (and clear) magic word 2 */
-  //ldr r0, =BKP_DR2
   ldr r1, [r0, #4] // BKP_DR2
   str r2, [r0, #4] // BKP_DR2
   cmp r1, r4
-  beq EnterDFU
+  bne InitStack
 
+EnterDFU:
+
+.equ  RCC_APB2ENR,  0x40021018
+.equ  AFIO_MAPR,    0x40010004
+.equ  GPIOB,        0x40010C00
+.equ  GPIO_LED_CFG, 0x44422444 // PB 3 & 4 = O/P
+.equ  GPIO_LED_PINS,0x00000018
+.equ  ST_BOOTLOADER,0x1FFFF000
+
+/*
+ * First set the green and red LEDs on
+ * to indicate bootloader mode to user,
+ * then jump to STMicro bootloader
+*/
+
+/* enable GPIOB and AFIO clocks */
+  ldr r0, =RCC_APB2ENR
+  mov r1, 0x00000009
+  str r1, [r0]
+
+/* remap JTAG pins to GPIOs */
+  ldr r0, =AFIO_MAPR
+  mov r1, 0x02000000 // JTAG disabled, SWD enabled
+  str r1, [r0]
+
+/* set LEDs as low outputs */
+  ldr r0, =GPIOB
+  ldr r1, =GPIO_LED_CFG
+  str r1, [r0, #0] // GPIOB_CRL
+  ldr r1, =GPIO_LED_PINS
+  str r1, [r0, #20] // GPIOB_BRR
+
+/* branch to STMicro bootloader in ROM */
+  ldr r0, =ST_BOOTLOADER
+  ldr sp, [r0, #0]
+  ldr r0, [r0, #4]
+  bx  r0
 
 InitStack:
 /*
@@ -183,42 +219,6 @@ LoopFillZerobss:
 /* will never return here */
   bx  lr
 
-.equ  RCC_APB2ENR,  0x40021018
-.equ  AFIO_MAPR,    0x40010004
-.equ  GPIOB,        0x40010C00
-.equ  GPIO_LED_CFG, 0x44422444 // PB 3 & 4 = O/P
-.equ  GPIO_LED_PINS,0x00000018
-.equ  ST_BOOTLOADER,0x1FFFF000
-
-EnterDFU:
-/*
- * First set the green and red LEDs on
- * to indicate bootloader mode to user,
- * then jump to STMicro bootloader
-*/
-
-/* enable GPIOB and AFIO clocks */
-  ldr r0, =RCC_APB2ENR
-  mov r1, 0x00000009
-  str r1, [r0]
-
-/* remap JTAG pins to GPIOs */
-  ldr r0, =AFIO_MAPR
-  mov r1, 0x02000000 // JTAG disabled, SWD enabled
-  str r1, [r0]
-
-/* set LEDs as low outputs */
-  ldr r0, =GPIOB
-  ldr r1, =GPIO_LED_CFG
-  str r1, [r0, #0] // GPIOB_CRL
-  ldr r1, =GPIO_LED_PINS
-  str r1, [r0, #20] // GPIOB_BRR
-
-/* branch to STMicro bootloader in ROM */
-  ldr r0, =ST_BOOTLOADER // ST DFU bootloader address
-  ldr sp, [r0, #0]
-  ldr r0, [r0, #4]
-  bx  r0
 .size  Reset_Handler, .-Reset_Handler
 
 /**
