@@ -16,17 +16,6 @@ pushd "${QT_SDK_BIN_PATH}"
 
 popd
 
-# HACK/WORKAROUND: XXX TODO: QTBUG-42954
-# https://bugreports.qt.io/browse/QTBUG-42954
-# Fixed (supposedly) in QT 5.4.2
-# libqtquick2plugin is ending up as invalid symbolic link in macdeployqt.
-# fix up manually-- just copy lib, it's small.  (remove once we used fixed QT)
-rm -f "${APP}/Contents/Resources/qml/QtQuick.2/libqtquick2plugin.dylib"
-cp "${APP}/Contents/Plugins/quick/libqtquick2plugin.dylib" "${APP}/Contents/Resources/qml/QtQuick.2/libqtquick2plugin.dylib"
-
-rm -f "${APP}/Contents/Resources/qml/QtQuick/XmlListModel/libqmlxmllistmodelplugin.dylib"
-cp "${APP}/Contents/Plugins/quick/libqmlxmllistmodelplugin.dylib" "${APP}/Contents/Resources/qml/QtQuick/XmlListModel/libqmlxmllistmodelplugin.dylib"
-
 # Copy SDL files
 echo "Copying SDL"
 cp -r "/Library/Frameworks/SDL.framework" "${APP}/Contents/Frameworks/"
