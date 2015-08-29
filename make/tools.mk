@@ -69,6 +69,8 @@ endif
 ifdef MACOSX
   qt_sdk_install: QT_SDK_URL  := http://download.qt.io/official_releases/qt/5.5/5.5.0/qt-opensource-mac-x64-clang-5.5.0.dmg
   QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.5/clang_64/bin/qmake
+
+  export QT_SDK_BIN_PATH := $(QT_SDK_DIR)/5.5/clang_64/bin
 endif
 
 ifdef WINDOWS
