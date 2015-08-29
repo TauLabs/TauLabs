@@ -86,7 +86,7 @@ PAYLOAD_FILE = $(ROOT_DIR)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
 # -U options for C here.
 CDEFS += -DMEM_SIZE=$(FW_BANK_SIZE)
 CDEFS += -DUSE_$(BOARD)
-CDEFS += -DBU_PAYLOAD_FILE="$(PAYLOAD_FILE)"
+CDEFS += -DBU_PAYLOAD_FILE=$(PAYLOAD_FILE)
 
 # This exists to prevent ccache from caching compilation results when the file
 # has changed.  md5sum is used on linux and Windows; cksum is used on mac.
