@@ -81,7 +81,7 @@ static struct pios_adc_dev *PIOS_ADC_Allocate(void)
 {
 	struct pios_adc_dev *adc_dev;
 
-	adc_dev = (struct pios_adc_dev *)PIOS_malloc_no_dma(sizeof(*adc_dev));
+	adc_dev = (struct pios_adc_dev *)PIOS_malloc(sizeof(*adc_dev));
 	if (!adc_dev)
 		return (NULL );
 

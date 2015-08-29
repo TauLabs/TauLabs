@@ -404,6 +404,11 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
         // Calculate size
         calculateSize(info);
 
+        // Check size against max allowed
+        if(info->numBytes > UAVO_MAX_SIZE)
+            return genErrorMsg(filename, QString("total object size(%1 bytes) exceeds maximum limit (%2 bytes)")
+                    .arg(QString::number(info->numBytes), QString::number(UAVO_MAX_SIZE)), 0, 0);
+
         // Add object
         objInfo.append(info);
 

@@ -516,3 +516,12 @@ LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_sections.ld
 
 include ./UAVObjects.inc
 include $(MAKE_INC_DIR)/firmware-common.mk
+
+# Hack to place firmware info at correct location in flash
+$(OUTDIR)/$(TARGET).padded.bin: FW_DESC_BASE := $(shell echo $$(($(FW_BANK_BASE)+$(FW_BANK_SIZE)-$(FW_DESC_SIZE))))
+$(OUTDIR)/$(TARGET).padded.bin: $(OUTDIR)/$(TARGET).elf
+	$(V1) $(OBJCOPY) --pad-to=$(FW_DESC_BASE) -O binary $< $@
+
+$(OUTDIR)/$(TARGET).tlfw: $(OUTDIR)/$(TARGET).padded.bin $(OUTDIR)/$(TARGET).bin.firmwareinfo.bin
+	@echo $(MSG_TLFIRMWARE) $(call toprel, $@)
+	$(V1) cat $^ > $@

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -e -v
 
 APP="${1?}"
 PLUGINS="${APP}/Contents/Plugins"
@@ -9,43 +9,25 @@ QT_DIR=$(otool -L "${APP}/Contents/MacOS/Tau Labs GCS"  | sed -n -e 's/\/QtCore\
 QMLDIR="${APP}/Contents/Resources/welcome"
 
 # macdeployqt will copy all the Qt5 binaries to the app bundle and relink as appropriate
-echo "Running \"${QT_DIR}/../bin/macdeployqt\" \"${APP}\" -verbose=2 -no-strip -always-overwrite -qmldir=\"$QMLDIR"\"
-"${QT_DIR}/../bin/macdeployqt" "${APP}" -verbose=2 -no-strip -always-overwrite -qmldir="$QMLDIR"
 
-# HACK/WORKAROUND: XXX TODO: QTBUG-42954
-# https://bugreports.qt.io/browse/QTBUG-42954
-# Fixed (supposedly) in QT 5.4.2
-# libqtquick2plugin is ending up as invalid symbolic link in macdeployqt.
-# fix up manually-- just copy lib, it's small.  (remove once we used fixed QT)
-rm -f "${APP}/Contents/Resources/qml/QtQuick.2/libqtquick2plugin.dylib"
-cp "${APP}/Contents/Plugins/quick/libqtquick2plugin.dylib" "${APP}/Contents/Resources/qml/QtQuick.2/libqtquick2plugin.dylib"
+#pushd/popd: workaround QTBUG-46404 -- need to be next to macdeployqt's path
 
-rm -f "${APP}/Contents/Resources/qml/QtQuick/XmlListModel/libqmlxmllistmodelplugin.dylib"
-cp "${APP}/Contents/Plugins/quick/libqmlxmllistmodelplugin.dylib" "${APP}/Contents/Resources/qml/QtQuick/XmlListModel/libqmlxmllistmodelplugin.dylib"
+pushd "${QT_SDK_BIN_PATH}"
+
+./macdeployqt "${APP}" -verbose=2 -no-strip -always-overwrite -qmldir="$QMLDIR"
+
+popd
 
 # Copy SDL files
 echo "Copying SDL"
 cp -r "$HOME/SDL/SDL.framework" "${APP}/Contents/Frameworks/"
 
+# these are optional
 echo "Changing package identification of SDL"
 install_name_tool -id \
        @executable_path/../Frameworks/SDL.framework/SDL \
-       "${APP}/Contents/Frameworks/SDL.framework/SDL"
+       "${APP}/Contents/Frameworks/SDL.framework/SDL" || true
 install_name_tool -change \
        @rpath/SDL.framework/Versions/A/SDL \
        "@executable_path/../Frameworks/SDL.framework/SDL" \
-       "${APP}/Contents/Plugins/libsdlgamepad.1.dylib"
-
-# Copy OSG files
-OSG_EXTRA="libosgViewer.90.dylib"
-echo "Copying OSG libraries"
-for f in ${OSG_EXTRA}
-do
-	echo "Copying library ${f}
-	cp /usr/local/lib/{$f} "${APP}/Contents/Plugins/${f}"
-	echo "Changing package identification of ${f}
-	install_name_tool -id \
-		@executable_path/../Frameworks/SDL.framework/Versions/A/SDL \
-		"${APP}/Contents/Frameworks/SDL.framework/Versions/A/SDL"
-done
-
+       "${APP}/Contents/Plugins/libsdlgamepad.1.dylib" || true
