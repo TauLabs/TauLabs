@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "convertint8.js" as CInt8
 
 Item {
     id: sceneItem
@@ -14,8 +15,7 @@ Item {
         elementName: "gcstelemetry-"+statusName
         sceneSize: sceneItem.sceneSize
 
-        // charCodeAt is a workaround for QT bug 37241
-        property string statusName : ["Disconnected","HandshakeReq","HandshakeAck","Connected"][GCSTelemetryStats.Status.charCodeAt(0)]
+        property string statusName : ["Disconnected","HandshakeReq","HandshakeAck","Connected"][CInt8.ConvertInt8(GCSTelemetryStats.Status)]
 
         // Force refresh of the arrow image when elementName changes
         onElementNameChanged: { generateSource() }
@@ -40,13 +40,12 @@ Item {
     // GPS status text
     Text {
         id: gps_text
-        text: "GPS: " + GPSPosition.Satellites.charCodeAt(0) + "\nPDP: " + GPSPosition.PDOP.toFixed(2) + "\nACC: " + GPSPosition.Accuracy.toFixed(2)
+        text: "GPS: " + CInt8.ConvertInt8(GPSPosition.Satellites) + "\nPDP: " + GPSPosition.PDOP.toFixed(2) + "\nACC: " + GPSPosition.Accuracy.toFixed(2)
         color: "white"
         font.family: "Arial"
         font.pixelSize: telemetry_status.height * 0.55
 
-        // charCodeAt to work around QTBUG-37241.
-        visible: GPSPosition.Satellites.charCodeAt(0) > 0
+        visible: CInt8.ConvertInt8(GPSPosition.Satellites)
 
         property variant scaledBounds: svgRenderer.scaledElementBounds("pfd.svg", "gps-txt")
         x: Math.floor(scaledBounds.x * sceneItem.width)
