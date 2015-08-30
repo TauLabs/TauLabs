@@ -258,7 +258,7 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg
 				     const struct pios_com_driver
 				     *pios_usart_com_driver,
 				     ManualControlSettingsChannelGroupsOptions
-				     channelgroup, uint8_t * bind)
+				     channelgroup, HwColibriDSMxModeOptions * mode)
 {
 	uintptr_t pios_usart_dsm_id;
 	if (PIOS_USART_Init(&pios_usart_dsm_id, pios_usart_dsm_cfg)) {
@@ -268,7 +268,7 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg
 	uintptr_t pios_dsm_id;
 	if (PIOS_DSM_Init
 	    (&pios_dsm_id, pios_dsm_cfg, pios_usart_com_driver,
-	     pios_usart_dsm_id, *bind)) {
+	     pios_usart_dsm_id, *mode)) {
 		PIOS_Assert(0);
 	}
 
@@ -652,8 +652,8 @@ void PIOS_Board_Init(void)
 #endif /* PIOS_INCLUDE_USB */
 
 	/* Configure the IO ports */
-	uint8_t hw_DSMxBind;
-	HwColibriDSMxBindGet(&hw_DSMxBind);
+	HwColibriDSMxModeOptions hw_DSMxMode;
+	HwColibriDSMxModeGet(&hw_DSMxMode);
 
 	/* init sensor queue registration */
 	PIOS_SENSORS_Init();
@@ -720,7 +720,7 @@ void PIOS_Board_Init(void)
 						 &pios_usart1_dsm_aux_cfg,
 						 &pios_usart_com_driver,
 						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
-						 &hw_DSMxBind);
+						 &hw_DSMxMode);
 		}
 #endif /* PIOS_INCLUDE_DSM */
 		break;
@@ -876,7 +876,7 @@ void PIOS_Board_Init(void)
 						 &pios_usart2_dsm_aux_cfg,
 						 &pios_usart_com_driver,
 						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
-						 &hw_DSMxBind);
+						 &hw_DSMxMode);
 		}
 #endif /* PIOS_INCLUDE_DSM */
 		break;
@@ -1039,7 +1039,7 @@ void PIOS_Board_Init(void)
 						 &pios_usart3_dsm_aux_cfg,
 						 &pios_usart_com_driver,
 						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
-						 &hw_DSMxBind);
+						 &hw_DSMxMode);
 		}
 #endif /* PIOS_INCLUDE_DSM */
 		break;
@@ -1168,7 +1168,7 @@ void PIOS_Board_Init(void)
 						 &pios_usart4_dsm_aux_cfg,
 						 &pios_usart_com_driver,
 						 MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM,
-						 &hw_DSMxBind);
+						 &hw_DSMxMode);
 		}
 #endif /* PIOS_INCLUDE_DSM */
 		break;
