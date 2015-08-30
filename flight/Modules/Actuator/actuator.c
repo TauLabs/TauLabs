@@ -435,10 +435,10 @@ static float MixerCurve(float const input, float const * curve, uint8_t num_poin
 	// save the offset from the starting bin for linear interpolation
 	scale -= (float)idx1;
 	// if the starting bin is below the first bin
-	if (idx1 < 0) {
+	if (idx1 < 0 || scale < 0.0f) {
 		//clamp to lowest entry in table
 		idx1 = 0;
-		scale = 0;
+		scale = 0.0f;
 	}
 	// select an ending bin (linear interpolation occurs between starting and ending bins)
 	int idx2 = idx1 + 1;
