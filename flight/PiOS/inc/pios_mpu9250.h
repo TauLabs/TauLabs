@@ -87,6 +87,7 @@ extern int32_t PIOS_MPU9250_SetSampleRate(uint16_t samplerate_hz);
 extern void PIOS_MPU9250_SetGyroLPF(enum pios_mpu9250_gyro_filter filter);
 extern void PIOS_MPU9250_SetAccelLPF(enum pios_mpu9250_accel_filter filter);
 extern bool PIOS_MPU9250_IRQHandler(void);
+extern void PIOS_MPU9250_SetGyroDownSamling(const uint8_t *gyro_downsampling);
 
 #endif /* PIOS_MPU69250_H */
 

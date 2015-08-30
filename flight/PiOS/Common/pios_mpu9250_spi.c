@@ -40,6 +40,22 @@
 #include "pios_thread.h"
 #include "pios_queue.h"
 
+// Math libraries
+#include "misc_math.h"
+#include "cic.h"
+
+/* Private macros */
+#define RAW_ACCEL_X  (accel_data_temp.x / TaskAllSubSamplesCnt)
+#define RAW_ACCEL_Y  (accel_data_temp.y / TaskAllSubSamplesCnt)
+#define RAW_ACCEL_Z  (accel_data_temp.z / TaskAllSubSamplesCnt)
+#define RAW_GYRO_X   (cic_get_decimation_output(&gyro_filter_xyz[X1]) / gyro_lpf_gain)
+#define RAW_GYRO_Y   (cic_get_decimation_output(&gyro_filter_xyz[Y1]) / gyro_lpf_gain)
+#define RAW_GYRO_Z   (cic_get_decimation_output(&gyro_filter_xyz[Z1]) / gyro_lpf_gain)
+#define RAW_MAG_X    (mag_data_temp.x)
+#define RAW_MAG_Y    (mag_data_temp.y)
+#define RAW_MAG_Z    (mag_data_temp.z)
+#define RAW_TEMP     (raw_temp / TaskAllSubSamplesCnt)
+
 /* Private constants */
 #define MPU9250_TASK_PRIORITY    PIOS_THREAD_PRIO_HIGHEST
 #define MPU9250_TASK_STACK_BYTES 512
@@ -70,6 +86,20 @@
 #define AK8963_CNTL2_SRST                   0x01
 #define AK8963_MODE_CONTINUOUS_FAST_16B     0x16
 
+// Private variables
+struct gyro_downsampling_dev {
+	uint8_t Drop;
+	uint8_t LPF;
+	uint8_t LPF_Order;
+	uint8_t LPF_DDelay;
+}gyro_downsampling_settings = { .Drop = 1, .LPF = 1, .LPF_Order = 0, .LPF_DDelay = 1 }; // Init with no down-sampling
+
+enum {X1 = 0, Y1, Z1, AXES_SIZE};
+
+static struct cic_filter_data gyro_filter_xyz[3];
+
+float gyro_lpf_gain = 1;
+
 /* Global Variables */
 
 enum pios_mpu9250_dev_magic {
@@ -90,6 +120,7 @@ struct mpu9250_dev {
 	enum pios_mpu9250_gyro_filter gyro_filter;
 	enum pios_mpu9250_accel_filter accel_filter;
 	enum pios_mpu9250_dev_magic magic;
+	uint16_t gyro_samplerate_hz;
 };
 
 //! Global structure for this device device
@@ -519,6 +550,8 @@ int32_t PIOS_MPU9250_SetSampleRate(uint16_t samplerate_hz)
 	if (divisor > 0xff)
 		divisor = 0xff;
 
+	dev->gyro_samplerate_hz = (uint16_t)(filter_frequency / (divisor + 1));
+
 	return PIOS_MPU9250_WriteReg(PIOS_MPU60X0_SMPLRT_DIV_REG, (uint8_t)divisor);
 }
 
@@ -594,20 +627,38 @@ bool PIOS_MPU9250_IRQHandler(void)
 
 	bool need_yield = false;
 
-	PIOS_Semaphore_Give_FromISR(dev->data_ready_sema, &need_yield);
+	static uint8_t IRQGyroSubSamplesCnt = 0; // definition & init of the gyro down-sampling counter, "Drop"
+
+	if (++IRQGyroSubSamplesCnt >= gyro_downsampling_settings.Drop) {
+
+		IRQGyroSubSamplesCnt = 0; // reset of the gyro downsampling counter
+
+		PIOS_Semaphore_Give_FromISR(dev->data_ready_sema, &need_yield);
+	}
+
 
 	return need_yield;
 }
 
 static void PIOS_MPU9250_Task(void *parameters)
 {
+		// definition & init of the down-sampling counter variables
+		static uint8_t TaskGyroSubSamplesCnt = 0; // "LPF"
+		static uint8_t TaskAllSubSamplesCnt  = 0;
+		static uint8_t TaskMagSubSamplesCnt  = 0;
+
+		const uint8_t *mpu9250_send_buf;
+		uint8_t *mpu9250_rec_buf;
+
+		uint8_t transfer_size = 0;
+
 	while (1) {
 		//Wait for data ready interrupt
 		if (PIOS_Semaphore_Take(dev->data_ready_sema, PIOS_SEMAPHORE_TIMEOUT_MAX) != true)
 			continue;
 
 		enum {
-			IDX_REG = 0,
+			IDX_SPI_DUMMY_BYTE = 0,
 			IDX_ACCEL_XOUT_H,
 			IDX_ACCEL_XOUT_L,
 			IDX_ACCEL_YOUT_H,
@@ -633,164 +684,301 @@ static void PIOS_MPU9250_Task(void *parameters)
 			BUFFER_SIZE,
 		};
 
-		uint8_t mpu9250_rec_buf[BUFFER_SIZE];
-		uint8_t mpu9250_tx_buf[BUFFER_SIZE] = {PIOS_MPU60X0_ACCEL_X_OUT_MSB | 0x80, 0, 0, 0, 0, 0,
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		enum {
+			IDX2_SPI_DUMMY_BYTE = 0,
+			IDX2_GYRO_XOUT_H,
+			IDX2_GYRO_XOUT_L,
+			IDX2_GYRO_YOUT_H,
+			IDX2_GYRO_YOUT_L,
+			IDX2_GYRO_ZOUT_H,
+			IDX2_GYRO_ZOUT_L,
+			BUFFER2_SIZE,
+		};
 
-		uint8_t transfer_size = (dev->cfg->use_magnetometer) ? BUFFER_SIZE : BUFFER_SIZE - 8;
+		// buffer for sampling all data
+		const uint8_t mpu9250_send_all_buf[BUFFER_SIZE] = {PIOS_MPU60X0_ACCEL_X_OUT_MSB | 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		uint8_t mpu9250_rec_all_buf[BUFFER_SIZE];
+
+		// buffer for sampling only gyro data
+		const uint8_t mpu9250_send_gyro_buf[BUFFER2_SIZE] = { PIOS_MPU60X0_GYRO_X_OUT_MSB | 0x80 };
+		uint8_t mpu9250_rec_gyro_buf[BUFFER2_SIZE];
+
+		static bool AllSamplingFlg = false; // flag that indicates that all data should be sampled
+		static bool DoOutputFlg    = false;   // flag that indicates that we have to compute an new output at the down sampled frequency
+
+		//  get all data & compute an output at the down sampled frequency
+		if (++TaskGyroSubSamplesCnt >= gyro_downsampling_settings.LPF) {
+			DoOutputFlg = true;
+			AllSamplingFlg = true;
+		}
+
+		// when all data should be sampled because we have to compute new output data, or we don't won't to miss new accel data
+		if ((AllSamplingFlg == true) || ((dev->gyro_samplerate_hz >= 1000) && ((dev->gyro_samplerate_hz / TaskGyroSubSamplesCnt) <= 1000))) {
+			AllSamplingFlg = true;
+
+			mpu9250_send_buf = &mpu9250_send_all_buf[0];
+			mpu9250_rec_buf = &mpu9250_rec_all_buf[0];
+			transfer_size = sizeof(mpu9250_send_all_buf);
+
+			transfer_size = (dev->cfg->use_magnetometer) ? transfer_size : transfer_size - 8;
+
+			TaskAllSubSamplesCnt++;
+		}
+		// otherwise sample only gyro data at high speed
+		else {
+			mpu9250_send_buf= &mpu9250_send_gyro_buf[0];
+			mpu9250_rec_buf = &mpu9250_rec_gyro_buf[0];
+			transfer_size = sizeof(mpu9250_send_gyro_buf);
+		}
+
 		// claim bus in high speed mode
 		if (PIOS_MPU9250_ClaimBus(false) != 0)
 			continue;
 
-		if (PIOS_SPI_TransferBlock(dev->spi_id, mpu9250_tx_buf, mpu9250_rec_buf, transfer_size, 0) < 0) {
+		if (PIOS_SPI_TransferBlock(dev->spi_id, mpu9250_send_buf, mpu9250_rec_buf, transfer_size, 0) < 0) {
 			PIOS_MPU9250_ReleaseBus(false);
 			continue;
 		}
 
 		PIOS_MPU9250_ReleaseBus(false);
 
-		struct pios_sensor_accel_data accel_data;
-		struct pios_sensor_gyro_data gyro_data;
-		struct pios_sensor_mag_data mag_data;
+		static struct pios_sensor_accel_data accel_data;
+		static struct pios_sensor_gyro_data gyro_data;
+		static struct pios_sensor_mag_data mag_data;
 
-		float accel_x = (int16_t)(mpu9250_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu9250_rec_buf[IDX_ACCEL_XOUT_L]);
-		float accel_y = (int16_t)(mpu9250_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu9250_rec_buf[IDX_ACCEL_YOUT_L]);
-		float accel_z = (int16_t)(mpu9250_rec_buf[IDX_ACCEL_ZOUT_H] << 8 | mpu9250_rec_buf[IDX_ACCEL_ZOUT_L]);
-		float gyro_x = (int16_t)(mpu9250_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu9250_rec_buf[IDX_GYRO_XOUT_L]);
-		float gyro_y = (int16_t)(mpu9250_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu9250_rec_buf[IDX_GYRO_YOUT_L]);
-		float gyro_z = (int16_t)(mpu9250_rec_buf[IDX_GYRO_ZOUT_H] << 8 | mpu9250_rec_buf[IDX_GYRO_ZOUT_L]);
-		float mag_x = (int16_t)(mpu9250_rec_buf[IDX_MAG_XOUT_H] << 8 | mpu9250_rec_buf[IDX_MAG_XOUT_L]);
-		float mag_y = (int16_t)(mpu9250_rec_buf[IDX_MAG_YOUT_H] << 8 | mpu9250_rec_buf[IDX_MAG_YOUT_L]);
-		float mag_z = (int16_t)(mpu9250_rec_buf[IDX_MAG_ZOUT_H] << 8 | mpu9250_rec_buf[IDX_MAG_ZOUT_L]);
+		static struct pios_sensor_accel_data accel_data_temp;
+		static struct pios_sensor_mag_data mag_data_temp;
 
-		// Rotate the sensor to TL convention.  The datasheet defines X as towards the right
-		// and Y as forward. TL convention transposes this.  Also the Z is defined negatively
-		// to our convention. This is true for accels and gyros. Magnetometer corresponds TL convention.
-		switch (dev->cfg->orientation) {
-		case PIOS_MPU9250_TOP_0DEG:
-			accel_data.y = accel_x;
-			accel_data.x = accel_y;
-			accel_data.z = -accel_z;
-			gyro_data.y  = gyro_x;
-			gyro_data.x  = gyro_y;
-			gyro_data.z  = -gyro_z;
-			mag_data.x   = mag_x;
-			mag_data.y   = mag_y;
-			mag_data.z   = mag_z;
-			break;
-		case PIOS_MPU9250_TOP_90DEG:
-			accel_data.y = -accel_y;
-			accel_data.x = accel_x;
-			accel_data.z = -accel_z;
-			gyro_data.y  = -gyro_y;
-			gyro_data.x  = gyro_x;
-			gyro_data.z  = -gyro_z;
-			mag_data.x   = -mag_y;
-			mag_data.y   = mag_x;
-			mag_data.z   = mag_z;
-			break;
-		case PIOS_MPU9250_TOP_180DEG:
-			accel_data.y = -accel_x;
-			accel_data.x = -accel_y;
-			accel_data.z = -accel_z;
-			gyro_data.y  = -gyro_x;
-			gyro_data.x  = -gyro_y;
-			gyro_data.z  = -gyro_z;
-			mag_data.x   = -mag_x;
-			mag_data.y   = -mag_y;
-			mag_data.z   = mag_z;
+		static int32_t raw_temp = 0;
 
-			break;
-		case PIOS_MPU9250_TOP_270DEG:
-			accel_data.y = accel_y;
-			accel_data.x = -accel_x;
-			accel_data.z = -accel_z;
-			gyro_data.y  = gyro_y;
-			gyro_data.x  = -gyro_x;
-			gyro_data.z  = -gyro_z;
-			mag_data.x   = mag_y;
-			mag_data.y   = -mag_x;
-			mag_data.z   = mag_z;
-			break;
-		case PIOS_MPU9250_BOTTOM_0DEG:
-			accel_data.y = -accel_x;
-			accel_data.x = accel_y;
-			accel_data.z = accel_z;
-			gyro_data.y  = -gyro_x;
-			gyro_data.x  = gyro_y;
-			gyro_data.z  = gyro_z;
-			mag_data.x   = mag_x;
-			mag_data.y   = -mag_y;
-			mag_data.z   = -mag_z;
-			break;
+		// reset the variables, where the data is directly needed for the output queue and no CIC filtering (moving average) is applied  //TODO
+		if (TaskGyroSubSamplesCnt == 1) {
+			if (gyro_downsampling_settings.LPF_Order == 0) {
+				gyro_filter_xyz[X1].integrateState0 = 0.0;
+				gyro_filter_xyz[Y1].integrateState0 = 0.0;
+				gyro_filter_xyz[Z1].integrateState0 = 0.0;
+			}
+			accel_data_temp.x = 0.0;
+			accel_data_temp.y = 0.0;
+			accel_data_temp.z = 0.0;
 
-		case PIOS_MPU9250_BOTTOM_90DEG:
-			accel_data.y = -accel_y;
-			accel_data.x = -accel_x;
-			accel_data.z = accel_z;
-			gyro_data.y  = -gyro_y;
-			gyro_data.x  = -gyro_x;
-			gyro_data.z  = gyro_z;
-			mag_data.x   = -mag_y;
-			mag_data.y   = -mag_x;
-			mag_data.z   = -mag_z;
-			break;
+			mag_data_temp.x = 0.0;
+			mag_data_temp.y = 0.0;
+			mag_data_temp.z = 0.0;
 
-		case PIOS_MPU9250_BOTTOM_180DEG:
-			accel_data.y = accel_x;
-			accel_data.x = -accel_y;
-			accel_data.z = accel_z;
-			gyro_data.y  = gyro_x;
-			gyro_data.x  = -gyro_y;
-			gyro_data.z  = gyro_z;
-			mag_data.x   = -mag_x;
-			mag_data.y   = mag_y;
-			mag_data.z   = -mag_z;
-			break;
+			raw_temp = 0.0;
+		}
 
-		case PIOS_MPU9250_BOTTOM_270DEG:
-			accel_data.y = accel_y;
-			accel_data.x = accel_x;
-			gyro_data.y  = gyro_y;
-			gyro_data.x  = gyro_x;
-			gyro_data.z  = gyro_z;
-			accel_data.z = accel_z;
-			mag_data.x   = mag_y;
-			mag_data.y   = mag_x;
-			mag_data.z   = -mag_z;
-			break;
+		// data conversion & 1st order CIC and boxcar (order = 0) integration
+		if (AllSamplingFlg == true) {
+			accel_data_temp.x                   += (int16_t)(mpu9250_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu9250_rec_buf[IDX_ACCEL_XOUT_L]);
+			accel_data_temp.y                   += (int16_t)(mpu9250_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu9250_rec_buf[IDX_ACCEL_YOUT_L]);
+			accel_data_temp.z                   += (int16_t)(mpu9250_rec_buf[IDX_ACCEL_ZOUT_H] << 8 | mpu9250_rec_buf[IDX_ACCEL_ZOUT_L]);
+			gyro_filter_xyz[X1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu9250_rec_buf[IDX_GYRO_XOUT_L]);
+			gyro_filter_xyz[Y1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu9250_rec_buf[IDX_GYRO_YOUT_L]);
+			gyro_filter_xyz[Z1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX_GYRO_ZOUT_H] << 8 | mpu9250_rec_buf[IDX_GYRO_ZOUT_L]);
+
+			if (dev->cfg->use_magnetometer) {
+				uint8_t st1 = mpu9250_rec_buf[IDX_MAG_ST1];
+				if (st1 & AK8963_ST1_DRDY) {
+					mag_data_temp.x                     += (int16_t)(mpu9250_rec_buf[IDX_MAG_XOUT_H] << 8 | mpu9250_rec_buf[IDX_MAG_XOUT_L]);
+					mag_data_temp.y                     += (int16_t)(mpu9250_rec_buf[IDX_MAG_YOUT_H] << 8 | mpu9250_rec_buf[IDX_MAG_YOUT_L]);
+					mag_data_temp.z                     += (int16_t)(mpu9250_rec_buf[IDX_MAG_ZOUT_H] << 8 | mpu9250_rec_buf[IDX_MAG_ZOUT_L]);
+
+					TaskMagSubSamplesCnt++;
+				}
+			}
+
+			raw_temp                            += (int16_t)(mpu9250_rec_buf[IDX_TEMP_OUT_H] << 8 | mpu9250_rec_buf[IDX_TEMP_OUT_L]);
+
+			AllSamplingFlg = false;
+		}
+		else {
+			gyro_filter_xyz[X1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX2_GYRO_XOUT_H] << 8 | mpu9250_rec_buf[IDX2_GYRO_XOUT_L]);
+			gyro_filter_xyz[Y1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX2_GYRO_YOUT_H] << 8 | mpu9250_rec_buf[IDX2_GYRO_YOUT_L]);
+			gyro_filter_xyz[Z1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX2_GYRO_ZOUT_H] << 8 | mpu9250_rec_buf[IDX2_GYRO_ZOUT_L]);
 
 		}
 
-		int16_t raw_temp = (int16_t)(mpu9250_rec_buf[IDX_TEMP_OUT_H] << 8 | mpu9250_rec_buf[IDX_TEMP_OUT_L]);
-		float temperature = 21.0f + ((float)raw_temp) / 333.87f;
+		// 1st order CIC and boxcar (order = 0) integration already done in the conversion above
+		// for the higher order integration stages and all axes:
+		for(uint8_t i=0; i< AXES_SIZE; i++) {
+			if (gyro_downsampling_settings.LPF_Order > 1)
+				cic_apply_higher_order_int_stage(&gyro_filter_xyz[i]);
+		}
 
-		// Apply sensor scaling
-		float accel_scale = PIOS_MPU9250_GetAccelScale();
-		accel_data.x *= accel_scale;
-		accel_data.y *= accel_scale;
-		accel_data.z *= accel_scale;
-		accel_data.temperature = temperature;
 
-		float gyro_scale = PIOS_MPU9250_GetGyroScale();
-		gyro_data.x *= gyro_scale;
-		gyro_data.y *= gyro_scale;
-		gyro_data.z *= gyro_scale;
-		gyro_data.temperature = temperature;
+		// frequency decimation
+		if (DoOutputFlg == true) {
 
-		PIOS_Queue_Send(dev->accel_queue, &accel_data, 0);
-		PIOS_Queue_Send(dev->gyro_queue, &gyro_data, 0);
-
-		if (dev->cfg->use_magnetometer) {
-			uint8_t st1 = mpu9250_rec_buf[IDX_MAG_ST1];
-			if (st1 & AK8963_ST1_DRDY) {
-				mag_data.x *= 1.5f;
-				mag_data.y *= 1.5f;
-				mag_data.z *= 1.5f;
-				PIOS_Queue_Send(dev->mag_queue, &mag_data, 0);
+			// CIC comb stage
+			for(uint8_t i=0; i< AXES_SIZE; i++) {
+				if (gyro_downsampling_settings.LPF_Order > 0) // only for CIC filter, not for boxcar
+					cic_apply_comb_stage(&gyro_filter_xyz[i]);
 			}
+
+			// Rotate the sensor to TL convention.  The datasheet defines X as towards the right
+			// and Y as forward. TL convention transposes this.  Also the Z is defined negatively
+			// to our convention. This is true for accels and gyros. Magnetometer corresponds TL convention.
+			switch (dev->cfg->orientation) {
+			case PIOS_MPU9250_TOP_0DEG:
+				accel_data.y = RAW_ACCEL_X;
+				accel_data.x = RAW_ACCEL_Y;
+				accel_data.z = -RAW_ACCEL_Z;
+				gyro_data.y  = RAW_GYRO_X;
+				gyro_data.x  = RAW_GYRO_Y;
+				gyro_data.z  = -RAW_GYRO_Z;
+				mag_data.x   = RAW_MAG_X;
+				mag_data.y   = RAW_MAG_Y;
+				mag_data.z   = RAW_MAG_Z;
+				break;
+			case PIOS_MPU9250_TOP_90DEG:
+				accel_data.y = -RAW_ACCEL_Y;
+				accel_data.x = RAW_ACCEL_X;
+				accel_data.z = -RAW_ACCEL_Z;
+				gyro_data.y  = -RAW_GYRO_Y;
+				gyro_data.x  = RAW_GYRO_X;
+				gyro_data.z  = -RAW_GYRO_Z;
+				mag_data.x   = -RAW_MAG_Y;
+				mag_data.y   = RAW_MAG_X;
+				mag_data.z   = RAW_MAG_Z;
+				break;
+			case PIOS_MPU9250_TOP_180DEG:
+				accel_data.y = -RAW_ACCEL_X;
+				accel_data.x = -RAW_ACCEL_Y;
+				accel_data.z = -RAW_ACCEL_Z;
+				gyro_data.y  = -RAW_GYRO_X;
+				gyro_data.x  = -RAW_GYRO_Y;
+				gyro_data.z  = -RAW_GYRO_Z;
+				mag_data.x   = -RAW_MAG_X;
+				mag_data.y   = -RAW_MAG_Y;
+				mag_data.z   = RAW_MAG_Z;
+
+				break;
+			case PIOS_MPU9250_TOP_270DEG:
+				accel_data.y = RAW_ACCEL_Y;
+				accel_data.x = -RAW_ACCEL_X;
+				accel_data.z = -RAW_ACCEL_Z;
+				gyro_data.y  = RAW_GYRO_Y;
+				gyro_data.x  = -RAW_GYRO_X;
+				gyro_data.z  = -RAW_GYRO_Z;
+				mag_data.x   = RAW_MAG_Y;
+				mag_data.y   = -RAW_MAG_X;
+				mag_data.z   = RAW_MAG_Z;
+				break;
+			case PIOS_MPU9250_BOTTOM_0DEG:
+				accel_data.y = -RAW_ACCEL_X;
+				accel_data.x = RAW_ACCEL_Y;
+				accel_data.z = RAW_ACCEL_Z;
+				gyro_data.y  = -RAW_GYRO_X;
+				gyro_data.x  = RAW_GYRO_Y;
+				gyro_data.z  = RAW_GYRO_Z;
+				mag_data.x   = RAW_MAG_X;
+				mag_data.y   = -RAW_MAG_Y;
+				mag_data.z   = -RAW_MAG_Z;
+				break;
+
+			case PIOS_MPU9250_BOTTOM_90DEG:
+				accel_data.y = -RAW_ACCEL_Y;
+				accel_data.x = -RAW_ACCEL_X;
+				accel_data.z = RAW_ACCEL_Z;
+				gyro_data.y  = -RAW_GYRO_Y;
+				gyro_data.x  = -RAW_GYRO_X;
+				gyro_data.z  = RAW_GYRO_Z;
+				mag_data.x   = -RAW_MAG_Y;
+				mag_data.y   = -RAW_MAG_X;
+				mag_data.z   = -RAW_MAG_Z;
+				break;
+
+			case PIOS_MPU9250_BOTTOM_180DEG:
+				accel_data.y = RAW_ACCEL_X;
+				accel_data.x = -RAW_ACCEL_Y;
+				accel_data.z = RAW_ACCEL_Z;
+				gyro_data.y  = RAW_GYRO_X;
+				gyro_data.x  = -RAW_GYRO_Y;
+				gyro_data.z  = RAW_GYRO_Z;
+				mag_data.x   = -RAW_MAG_X;
+				mag_data.y   = RAW_MAG_Y;
+				mag_data.z   = -RAW_MAG_Z;
+				break;
+
+			case PIOS_MPU9250_BOTTOM_270DEG:
+				accel_data.y = RAW_ACCEL_Y;
+				accel_data.x = RAW_ACCEL_X;
+				gyro_data.y  = RAW_GYRO_Y;
+				gyro_data.x  = RAW_GYRO_X;
+				gyro_data.z  = RAW_GYRO_Z;
+				accel_data.z = RAW_ACCEL_Z;
+				mag_data.x   = RAW_MAG_Y;
+				mag_data.y   = RAW_MAG_X;
+				mag_data.z   = -RAW_MAG_Z;
+				break;
+
+			}
+
+			// Apply sensor scaling
+			float temperature = 21.0f + ((float)RAW_TEMP) / 333.87f;
+
+			// Apply sensor scaling
+			float accel_scale = PIOS_MPU9250_GetAccelScale();
+			accel_data.x *= accel_scale;
+			accel_data.y *= accel_scale;
+			accel_data.z *= accel_scale;
+			accel_data.temperature = temperature;
+
+			float gyro_scale = PIOS_MPU9250_GetGyroScale();
+			gyro_data.x *= gyro_scale;
+			gyro_data.y *= gyro_scale;
+			gyro_data.z *= gyro_scale;
+			gyro_data.temperature = temperature;
+
+			// reset of the down-sampling variables
+			TaskGyroSubSamplesCnt = 0;
+			TaskAllSubSamplesCnt = 0;
+			DoOutputFlg = false;
+
+			PIOS_Queue_Send(dev->accel_queue, &accel_data, 0);
+			PIOS_Queue_Send(dev->gyro_queue, &gyro_data, 0);
+
+			if (dev->cfg->use_magnetometer) {
+				if (TaskMagSubSamplesCnt > 0) {
+					mag_data.x = mag_data.x * 1.5f / TaskMagSubSamplesCnt;
+					mag_data.y = mag_data.y * 1.5f / TaskMagSubSamplesCnt;
+					mag_data.z = mag_data.z * 1.5f / TaskMagSubSamplesCnt;
+
+					// reset of the down-sampling variables
+					TaskMagSubSamplesCnt = 0;
+
+					PIOS_Queue_Send(dev->mag_queue, &mag_data, 0);
+				}
+			}
+			TaskMagSubSamplesCnt = 0;
 		}
 	}
+}
+
+/**
+ * Set the gyro down-sampling settings and store it locally for fast access without the overhead of importing a UAV Object
+ */
+void PIOS_MPU9250_SetGyroDownSamling(const uint8_t *gyro_downsampling)
+{
+	// get the unchecked data
+	gyro_downsampling_settings.Drop = bound_min_max(gyro_downsampling[0], 1, 255);
+	gyro_downsampling_settings.LPF = gyro_downsampling[1];
+	gyro_downsampling_settings.LPF_Order = gyro_downsampling[2];
+	gyro_downsampling_settings.LPF_DDelay = gyro_downsampling[3];
+
+	for(uint8_t i=0; i< AXES_SIZE; i++) {
+			cic_configure(&gyro_filter_xyz[i], gyro_downsampling_settings.LPF_Order, gyro_downsampling_settings.LPF_DDelay, gyro_downsampling_settings.LPF);
+	}
+
+	// if something was not in the limits,  it is corrected during the configure above
+	gyro_downsampling_settings.LPF        = gyro_filter_xyz[0].filter_decimation;
+	gyro_downsampling_settings.LPF_Order  = gyro_filter_xyz[0].filter_order;
+	gyro_downsampling_settings.LPF_DDelay = gyro_filter_xyz[0].filter_ddelay;
+
+
+	gyro_lpf_gain = cic_get_gain(&gyro_filter_xyz[0]);
 }
 
 #endif

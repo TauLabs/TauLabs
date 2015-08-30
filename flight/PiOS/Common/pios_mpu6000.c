@@ -623,7 +623,7 @@ static void PIOS_MPU6000_Task(void *parameters)
 	const uint8_t *mpu6000_send_buf;
 	uint8_t *mpu6000_rec_buf;
 
-	uint8_t buf_size = 0;
+	uint8_t transfer_size = 0;
 
 	while (1) {
 		//Wait for data ready interrupt
@@ -685,7 +685,7 @@ static void PIOS_MPU6000_Task(void *parameters)
 
 			mpu6000_send_buf = &mpu6000_send_all_buf[0];
 			mpu6000_rec_buf = &mpu6000_rec_all_buf[0];
-			buf_size = sizeof(mpu6000_send_all_buf);
+			transfer_size = sizeof(mpu6000_send_all_buf);
 
 			TaskAllSubSamplesCnt++;
 		}
@@ -693,19 +693,19 @@ static void PIOS_MPU6000_Task(void *parameters)
 		else {
 			mpu6000_send_buf = &mpu6000_send_gyro_buf[0];
 			mpu6000_rec_buf = &mpu6000_rec_gyro_buf[0];
-			buf_size = sizeof(mpu6000_send_gyro_buf);
+			transfer_size = sizeof(mpu6000_send_gyro_buf);
 		}
 #else // #ifndef SMALLF1
 		mpu6000_send_buf = &mpu6000_send_all_buf[0];
 		mpu6000_rec_buf = &mpu6000_rec_all_buf[0];
-		buf_size = sizeof(mpu6000_send_all_buf);
+		transfer_size = sizeof(mpu6000_send_all_buf);
 #endif
 
 		// claim bus in high speed mode
 		if (PIOS_MPU6000_ClaimBus(false) != 0)
 			continue;
 
-		if (PIOS_SPI_TransferBlock(pios_mpu6000_dev->spi_id, mpu6000_send_buf, mpu6000_rec_buf, buf_size, NULL) < 0) {
+		if (PIOS_SPI_TransferBlock(pios_mpu6000_dev->spi_id, mpu6000_send_buf, mpu6000_rec_buf, transfer_size, NULL) < 0) {
 			PIOS_MPU6000_ReleaseBus(false);
 			continue;
 		}
