@@ -35,6 +35,7 @@
 #include <QDebug>
 #include <QEventLoop>
 #include <QTimer>
+#include <QRegularExpression>
 #include <objectpersistence.h>
 
 #include "firmwareiapobj.h"
@@ -703,7 +704,10 @@ bool UAVObjectUtilManager::descriptionToStructure(QByteArray desc, deviceDescrip
        struc.fwHash=desc.mid(40,20);
        struc.uavoHash.clear();
        struc.uavoHash=desc.mid(60,20);
-       if (struc.gitTag.startsWith("RELEASE",Qt::CaseSensitive))
+
+       // The git tag format used for releases is yyyymmdd
+       QRegularExpression certifiedPattern("^20[0-9]{6}$");
+       if (certifiedPattern.match(struc.gitTag).hasMatch())
            struc.certified = true;
        else
            struc.certified = false;
