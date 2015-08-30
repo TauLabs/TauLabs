@@ -31,6 +31,7 @@
 #ifndef MISC_MATH_H
 #define MISC_MATH_H
 
+#include <math.h>
 #include "stdint.h"
 #include "stdbool.h"
 
