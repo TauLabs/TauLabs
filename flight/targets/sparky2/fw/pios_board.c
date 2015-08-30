@@ -426,8 +426,8 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure IO ports */
-	uint8_t hw_DSMxBind;
-	HwSparky2DSMxBindGet(&hw_DSMxBind);
+	HwSparky2DSMxModeOptions hw_DSMxMode;
+	HwSparky2DSMxModeGet(&hw_DSMxMode);
 	
 	/* Configure main USART port */
 	uint8_t hw_mainport;
@@ -437,7 +437,7 @@ void PIOS_Board_Init(void) {
 			&pios_usart_com_driver, NULL, NULL, NULL,
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_main_cfg, &pios_dsm_main_cfg,
-			0, NULL, NULL, false);
+			hw_DSMxMode, NULL, NULL, false);
 
 	/* Configure FlexiPort */
 	uint8_t hw_flexiport;
@@ -449,7 +449,7 @@ void PIOS_Board_Init(void) {
 			&pios_i2c_flexiport_adapter_cfg, NULL,
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_flexi_cfg, &pios_dsm_flexi_cfg,
-			hw_DSMxBind, NULL, NULL, false);
+			hw_DSMxMode, NULL, NULL, false);
 
 #if defined(PIOS_INCLUDE_RFM22B)
 	HwSparky2Data hwSparky2;
@@ -472,8 +472,8 @@ void PIOS_Board_Init(void) {
 	uint8_t hw_rcvrport;
 	HwSparky2RcvrPortGet(&hw_rcvrport);
 
-	if (bdinfo->board_rev != BRUSHEDSPARKY_V0_2) {
-		hw_DSMxBind = 0; /* Do not try to bind through XOR */
+	if (bdinfo->board_rev != BRUSHEDSPARKY_V0_2 && hw_DSMxMode >= HWSPARKY2_DSMXMODE_BIND3PULSES) {
+		hw_DSMxMode = HWSPARKY2_DSMXMODE_AUTODETECT; /* Do not try to bind through XOR */
 	}
 
 	PIOS_HAL_ConfigurePort(hw_rcvrport,
@@ -484,7 +484,7 @@ void PIOS_Board_Init(void) {
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_rcvr_cfg,
 			&pios_dsm_rcvr_cfg,
-			hw_DSMxBind, get_sbus_rcvr_cfg(bdinfo->board_rev),
+			hw_DSMxMode, get_sbus_rcvr_cfg(bdinfo->board_rev),
 			&pios_sbus_cfg, get_sbus_toggle(bdinfo->board_rev));
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
