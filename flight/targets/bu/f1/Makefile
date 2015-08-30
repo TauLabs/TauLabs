@@ -115,7 +115,7 @@ CDEFS = -DSTM32F10X_$(MODEL)
 #CDEFS += -DHSE_VALUE=$(OSCILLATOR_FREQ)
 CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
-CDEFS += -DBU_PAYLOAD_FILE="$(PAYLOAD_FILE)"
+CDEFS += -DBU_PAYLOAD_FILE=$(PAYLOAD_FILE)
 
 # Place project-specific -D and/or -U options for 
 # Assembler with preprocessor here.
