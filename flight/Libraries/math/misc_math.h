@@ -64,11 +64,22 @@ void vector2_rotate(const float *original, float *out, float angle);
 float cubic_deadband(float in, float w, float b, float m, float r);
 void cubic_deadband_setup(float w, float b, float *m, float *r);
 
+/* NOTE: Interesting problem regarding NaN and Inf checks. The compile optimization --fast-math
+ * does many useful things, but it also removes the ability to check if a number is a Nan, even
+ * if the check is the classic `x == x`. Thus we need to add this back in, and we do it as a
+ * function which has the optimizations turned off.
+ *
+ * Souce: http://stackoverflow.com/questions/22931147/stdisinf-does-not-work-with-ffast-math-how-to-check-for-infinity
+ */
 #if defined (__clang__) // Clang can't turn off specific optimizations, so turn them all off. This is currently only useful when compiling the simulator with Clang
-bool IS_NOT_FINITE(float x) __attribute__((optnone()));
+static inline bool IS_NOT_FINITE(float x) __attribute__((optnone()));
 #else
-bool IS_NOT_FINITE(float x) __attribute__((optimize("no-finite-math-only")));
+static inline bool IS_NOT_FINITE(float x) __attribute__((optimize("no-finite-math-only")));
 #endif
+
+static inline bool IS_NOT_FINITE(float x) {
+	return (!isfinite(x));
+}
 
 #endif /* MISC_MATH_H */
 
