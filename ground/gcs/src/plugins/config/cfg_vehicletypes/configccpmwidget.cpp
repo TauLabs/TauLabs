@@ -1091,6 +1091,14 @@ void ConfigCcpmWidget::SwashLvlStartButtonPressed()
             oldSwashLvlConfiguration.ServoChannels[1]=m_ccpm->ccpmServoXChannel->currentIndex();
             oldSwashLvlConfiguration.ServoChannels[2]=m_ccpm->ccpmServoYChannel->currentIndex();
             oldSwashLvlConfiguration.ServoChannels[3]=m_ccpm->ccpmServoZChannel->currentIndex();
+
+            // all the channel spinboxes have "None" as index zero; thus, all channels will be off by 1
+            for (uint8_t i = 0; i < CCPM_MAX_SWASH_SERVOS; ++i )
+            {
+                // if a channel is selected, shift its value into the correct range [0,N-1] instead of [1,N]
+                if (oldSwashLvlConfiguration.ServoChannels[i] > 0) oldSwashLvlConfiguration.ServoChannels[i] --;
+            }
+
             //if servos are used
             oldSwashLvlConfiguration.Used[0]=((m_ccpm->ccpmServoWChannel->currentIndex()>0)&&(m_ccpm->ccpmServoWChannel->isEnabled()));
             oldSwashLvlConfiguration.Used[1]=((m_ccpm->ccpmServoXChannel->currentIndex()>0)&&(m_ccpm->ccpmServoXChannel->isEnabled()));
