@@ -774,8 +774,8 @@ static void PIOS_MPU6000_Task(void *parameters)
 			}
 #endif // #ifndef SMALLF1
 
-			// Rotate the sensor to OP convention.  The datasheet defines X as towards the right
-			// and Y as forward.  OP convention transposes this.  Also the Z is defined negatively to our convention
+			// Rotate the sensor to TL convention.  The datasheet defines X as towards the right
+			// and Y as forward.  TL convention transposes this.  Also the Z is defined negatively to our convention
 			switch (pios_mpu6000_dev->cfg->orientation) {
 			case PIOS_MPU60X0_TOP_0DEG:
 				accel_data.y = RAW_ACCEL_X;

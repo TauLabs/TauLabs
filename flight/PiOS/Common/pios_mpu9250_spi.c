@@ -51,9 +51,9 @@
 #define RAW_GYRO_X   (cic_get_decimation_output(&gyro_filter_xyz[X1]) / gyro_lpf_gain)
 #define RAW_GYRO_Y   (cic_get_decimation_output(&gyro_filter_xyz[Y1]) / gyro_lpf_gain)
 #define RAW_GYRO_Z   (cic_get_decimation_output(&gyro_filter_xyz[Z1]) / gyro_lpf_gain)
-#define RAW_MAG_X    (mag_data_temp.x)
-#define RAW_MAG_Y    (mag_data_temp.y)
-#define RAW_MAG_Z    (mag_data_temp.z)
+#define RAW_MAG_X    (mag_data_temp.x / TaskAllSubSamplesCnt)
+#define RAW_MAG_Y    (mag_data_temp.y / TaskAllSubSamplesCnt)
+#define RAW_MAG_Z    (mag_data_temp.z / TaskAllSubSamplesCnt)
 #define RAW_TEMP     (raw_temp / TaskAllSubSamplesCnt)
 
 /* Private constants */
