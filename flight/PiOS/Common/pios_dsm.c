@@ -319,6 +319,11 @@ int32_t PIOS_DSM_Init(uintptr_t *dsm_id,
 	uint8_t num_pulses = 0;
 
 	// check user settings to determine which resolution mode to use
+	// if invalid mode selected, bail
+	if (mode > HWSHARED_DSMXMODE_BIND10PULSES)
+		return -1;
+
+	// set resolution or bind mode depending on user selection
 	switch (mode)
 	{
 	case HWSHARED_DSMXMODE_AUTODETECT:
@@ -340,8 +345,6 @@ int32_t PIOS_DSM_Init(uintptr_t *dsm_id,
 	case HWSHARED_DSMXMODE_BIND10PULSES:
 		num_pulses = 3 + mode - HWSHARED_DSMXMODE_BIND3PULSES;
 		break;
-	default:
-		return -1;
 	}
 
 	/* Bind the receiver if requested */
