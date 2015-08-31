@@ -1091,11 +1091,20 @@ void ConfigCcpmWidget::SwashLvlStartButtonPressed()
             oldSwashLvlConfiguration.ServoChannels[1]=m_ccpm->ccpmServoXChannel->currentIndex();
             oldSwashLvlConfiguration.ServoChannels[2]=m_ccpm->ccpmServoYChannel->currentIndex();
             oldSwashLvlConfiguration.ServoChannels[3]=m_ccpm->ccpmServoZChannel->currentIndex();
+
             //if servos are used
-            oldSwashLvlConfiguration.Used[0]=((m_ccpm->ccpmServoWChannel->currentIndex()>0)&&(m_ccpm->ccpmServoWChannel->isEnabled()));
-            oldSwashLvlConfiguration.Used[1]=((m_ccpm->ccpmServoXChannel->currentIndex()>0)&&(m_ccpm->ccpmServoXChannel->isEnabled()));
-            oldSwashLvlConfiguration.Used[2]=((m_ccpm->ccpmServoYChannel->currentIndex()>0)&&(m_ccpm->ccpmServoYChannel->isEnabled()));
-            oldSwashLvlConfiguration.Used[3]=((m_ccpm->ccpmServoZChannel->currentIndex()>0)&&(m_ccpm->ccpmServoZChannel->isEnabled()));
+            oldSwashLvlConfiguration.Used[0]=(m_ccpm->ccpmServoWChannel->currentIndex()>0);
+            oldSwashLvlConfiguration.Used[1]=(m_ccpm->ccpmServoXChannel->currentIndex()>0);
+            oldSwashLvlConfiguration.Used[2]=(m_ccpm->ccpmServoYChannel->currentIndex()>0);
+            oldSwashLvlConfiguration.Used[3]=(m_ccpm->ccpmServoZChannel->currentIndex()>0);
+
+            // all the channel spinboxes have "None" as index zero; thus, all channels will be off by 1
+            for (uint8_t i = 0; i < CCPM_MAX_SWASH_SERVOS; ++i )
+            {
+                // if a channel is selected, shift its value into the correct range [0,N-1] instead of [1,N]
+                if (oldSwashLvlConfiguration.ServoChannels[i] > 0) oldSwashLvlConfiguration.ServoChannels[i] --;
+            }
+
             //min,neutral,max values for the servos
             for (i=0;i<CCPM_MAX_SWASH_SERVOS;i++)
             {
@@ -1427,6 +1436,10 @@ void ConfigCcpmWidget::setSwashplateLevel(int percent)
     ActuatorCommand::DataFields actuatorCommandData = actuatorCommand->getData();
 
     for (i=0;i<CCPM_MAX_SWASH_SERVOS;i++) {
+        // don't do anything for unused channels (set to "None")
+        if (newSwashLvlConfiguration.Used[i] == 0)
+            continue;
+
         if (level==0)
             value = newSwashLvlConfiguration.Neutral[i];
         else if (level > 0)
@@ -1457,6 +1470,10 @@ void ConfigCcpmWidget::SwashLvlSpinBoxChanged(int value)
     ActuatorCommand::DataFields actuatorCommandData = actuatorCommand->getData();
 
     for (i = 0; i < CCPM_MAX_SWASH_SERVOS; i++) {
+        // don't do anything for unused channels (set to "None")
+        if (newSwashLvlConfiguration.Used[i] == 0)
+            continue;
+
         value = SwashLvlSpinBoxes[i]->value();
 
         switch (SwashLvlState)
