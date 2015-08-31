@@ -26,7 +26,7 @@
 
 #include "phpbb.h"
 
-#define TIMEOUT 10000
+#define TIMEOUT 60000
 
 namespace Utils {
 
