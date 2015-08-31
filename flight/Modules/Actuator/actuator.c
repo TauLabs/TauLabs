@@ -429,7 +429,7 @@ float ProcessMixer(const int index, const float curve1, const float curve2,
 static float MixerCurve(float const input, float const * curve, uint8_t num_points, const float input_min, const float input_max)
 {
 	// shift our input [min,max] into the typical range [0,1]
-	float scale = fmax( (input - input_min) / (input_max - input_min), 0) * (float) (num_points - 1);
+	float scale = fmaxf( (input - input_min) / (input_max - input_min), 0.0f) * (float) (num_points - 1);
 	// select a starting bin via truncation
 	int idx1 = scale;
 	// save the offset from the starting bin for linear interpolation
