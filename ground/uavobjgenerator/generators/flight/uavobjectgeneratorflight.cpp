@@ -184,17 +184,43 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
                           .arg( info->name )
                           .arg( info->fields[n]->name ) );
 
-            // find topmost parent and get the length of its options field
+            // find topmost parent to get the length of its options field
             FieldInfo_s * topmost_parent = info->fields[n];
             while (topmost_parent->parent) {
                 topmost_parent = topmost_parent->parent;
             }
 
-            enums.append(QString("/* Max value of any options in topmost parent of field %1 */\r\n").arg(info->fields[n]->name));
-            enums.append( QString("#define %1_%2_MAXOPTVAL %3\r\n")
+            enums.append(QString("/* Max value of any option in topmost parent %2 of field %1 */\r\n").arg(info->fields[n]->name).arg(topmost_parent->name));
+            enums.append( QString("#define %1_%2_GLOBAL_MAXOPTVAL %3\r\n")
                           .arg( info->name.toUpper() )
                           .arg( info->fields[n]->name.toUpper() )
                           .arg( topmost_parent->options.length() - 1 ) );
+
+            // find largest value in this option vector
+            int max_optval = 0;
+            for (int m = 0; m < info->fields[n]->options.length(); ++m) {
+                for (int l = 0; l < topmost_parent->options.length(); ++l) {
+                    if (topmost_parent->options[l] == info->fields[n]->options[m])
+                        max_optval = max(max_optval, l);
+                }
+            }
+
+            enums.append(QString("/* Max value of any option in field %1 */\r\n").arg(info->fields[n]->name));
+            enums.append( QString("#define %1_%2_MAXOPTVAL %3\r\n")
+                          .arg( info->name.toUpper() )
+                          .arg( info->fields[n]->name.toUpper() )
+                          .arg( max_optval ) );
+
+            /* Validate, for enums only */
+            if (info->fields[n]->type == FIELDTYPE_ENUM) {
+                enums.append(QString("/* Ensure field %1 contains valid data */\r\n").arg(info->fields[n]->name));
+                enums.append(QString("static inline bool %2%3IsValid( %1 Current%3 ) { return Current%3 < %4_%5_MAXOPTVAL; }\r\n")
+                            .arg( fieldTypeStrC[info->fields[n]->type] )
+                            .arg( info->name )
+                            .arg( info->fields[n]->name )
+                            .arg( info->name.toUpper() )
+                            .arg( info->fields[n]->name.toUpper() ));
+            }
         }
         // Generate element names (only if field has more than one element)
         if (info->fields[n]->numElements > 1 && !info->fields[n]->defaultElementNames)
