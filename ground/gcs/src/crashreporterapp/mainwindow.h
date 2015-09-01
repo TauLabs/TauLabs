@@ -52,6 +52,7 @@ private slots:
     void onOkSend();
     void onSendReport();
     void onCancelSend();
+    void onUploadProgress(qint64, qint64);
 };
 
 #endif // MAINWINDOW_H
