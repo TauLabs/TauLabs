@@ -102,7 +102,7 @@ static bool PIOS_DSM_Validate(struct pios_dsm_dev *dsm_dev)
 }
 
 /* Try to bind DSMx satellite using specified number of pulses */
-static void PIOS_DSM_Bind(struct pios_dsm_dev *dsm_dev, uint8_t bind)
+static void PIOS_DSM_Bind(struct pios_dsm_dev *dsm_dev, uint8_t num_pulses)
 {
 	const struct pios_dsm_cfg *cfg = dsm_dev->cfg;
 
@@ -114,8 +114,8 @@ static void PIOS_DSM_Bind(struct pios_dsm_dev *dsm_dev, uint8_t bind)
 #endif
 
 	/* just to limit bind pulses */
-	if (bind > 10)
-		bind = 10;
+	if (num_pulses > 10)
+		num_pulses = 10;
 
 	GPIO_Init(cfg->bind.gpio, (GPIO_InitTypeDef*)&cfg->bind.init);
 
@@ -125,7 +125,7 @@ static void PIOS_DSM_Bind(struct pios_dsm_dev *dsm_dev, uint8_t bind)
 	/* on CC works up to 140ms, guess bind window is around 20-140ms after power up */
 	while (((float) PIOS_DELAY_GetRaw() / (float) PIOS_SYSCLK) < 0.02f);
 
-	for (int i = 0; i < bind ; i++) {
+	for (int i = 0; i < num_pulses ; i++) {
 		/* RX line, drive low for 120us */
 		GPIO_ResetBits(cfg->bind.gpio, cfg->bind.init.GPIO_Pin);
 		PIOS_DELAY_WaituS(120);
@@ -301,7 +301,7 @@ int32_t PIOS_DSM_Init(uintptr_t *dsm_id,
 		      const struct pios_dsm_cfg *cfg,
 		      const struct pios_com_driver *driver,
 		      uintptr_t lower_id,
-		      uint8_t bind)
+		      HwSharedDSMxModeOptions mode)
 {
 	PIOS_DEBUG_Assert(dsm_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -316,9 +316,40 @@ int32_t PIOS_DSM_Init(uintptr_t *dsm_id,
 	/* Bind the configuration to the device instance */
 	dsm_dev->cfg = cfg;
 
+	uint8_t num_pulses = 0;
+
+	// check user settings to determine which resolution mode to use
+	// if invalid mode selected, bail
+	if (mode > HWSHARED_DSMXMODE_BIND10PULSES)
+		return -1;
+
+	// set resolution or bind mode depending on user selection
+	switch (mode)
+	{
+	case HWSHARED_DSMXMODE_AUTODETECT:
+		dsm_dev->resolution = DSM_UNKNOWN;
+		break;
+	case HWSHARED_DSMXMODE_FORCE10BIT:
+		dsm_dev->resolution = DSM_10BIT;
+		break;
+	case HWSHARED_DSMXMODE_FORCE11BIT:
+		dsm_dev->resolution = DSM_11BIT;
+		break;
+	case HWSHARED_DSMXMODE_BIND3PULSES:
+	case HWSHARED_DSMXMODE_BIND4PULSES:
+	case HWSHARED_DSMXMODE_BIND5PULSES:
+	case HWSHARED_DSMXMODE_BIND6PULSES:
+	case HWSHARED_DSMXMODE_BIND7PULSES:
+	case HWSHARED_DSMXMODE_BIND8PULSES:
+	case HWSHARED_DSMXMODE_BIND9PULSES:
+	case HWSHARED_DSMXMODE_BIND10PULSES:
+		num_pulses = 3 + mode - HWSHARED_DSMXMODE_BIND3PULSES;
+		break;
+	}
+
 	/* Bind the receiver if requested */
-	if (bind)
-		PIOS_DSM_Bind(dsm_dev, bind);
+	if (num_pulses > 0)
+		PIOS_DSM_Bind(dsm_dev, num_pulses);
 
 	PIOS_DSM_ResetState(dsm_dev);
 

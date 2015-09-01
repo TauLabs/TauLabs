@@ -379,8 +379,8 @@ void PIOS_Board_Init(void) {
 		{
 			uint8_t hw_rcvrserial;
 			HwNazeRcvrSerialGet(&hw_rcvrserial);
-			uint8_t hw_DSMxBind;
-			HwNazeDSMxBindGet(&hw_DSMxBind);
+			HwNazeDSMxModeOptions hw_DSMxMode;
+			HwNazeDSMxModeGet(&hw_DSMxMode);
 			PIOS_HAL_ConfigurePort(hw_rcvrserial, 
 					&pios_usart_rcvrserial_cfg,
 					&pios_usart_com_driver,
@@ -388,7 +388,7 @@ void PIOS_Board_Init(void) {
 					PIOS_LED_ALARM,
 					&pios_usart_dsm_hsum_rcvrserial_cfg,
 					&pios_dsm_rcvrserial_cfg,
-					hw_DSMxBind,
+					hw_DSMxMode,
 					NULL, NULL, false);
 		}
 

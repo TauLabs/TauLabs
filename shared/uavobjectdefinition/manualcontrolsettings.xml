@@ -28,7 +28,7 @@
 				<option>None</option>
 			</options>
 		</field>
-		
+
 		<field name="RssiType" units="Rssi Type" type="enum" elements="1" defaultvalue="None">
 			<options>
 				<option>None</option>
