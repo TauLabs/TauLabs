@@ -184,11 +184,17 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
                           .arg( info->name )
                           .arg( info->fields[n]->name ) );
 
-            enums.append(QString("/* Number of options for field %1 */\r\n").arg(info->fields[n]->name));
-            enums.append( QString("#define %1_%2_NUMOPTS %3\r\n")
+            // find topmost parent and get the length of its options field
+            FieldInfo_s * topmost_parent = info->fields[n];
+            while (topmost_parent->parent) {
+                topmost_parent = topmost_parent->parent;
+            }
+
+            enums.append(QString("/* Max value of any options in topmost parent of field %1 */\r\n").arg(info->fields[n]->name));
+            enums.append( QString("#define %1_%2_MAXOPTVAL %3\r\n")
                           .arg( info->name.toUpper() )
                           .arg( info->fields[n]->name.toUpper() )
-                          .arg( info->fields[n]->options.length() ) );
+                          .arg( topmost_parent->options.length() - 1 ) );
         }
         // Generate element names (only if field has more than one element)
         if (info->fields[n]->numElements > 1 && !info->fields[n]->defaultElementNames)
