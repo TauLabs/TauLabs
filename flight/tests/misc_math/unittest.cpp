@@ -289,3 +289,63 @@ TEST_F(Vector2Clip, TestScale) {
     ASSERT_NEAR(test_vec_outside[1], sqrt(2)/2*limit, eps);
   }
 };
+
+// Test fixture for linear_interpolate()
+class LinearInterpolate : public MiscMath {
+protected:
+  virtual void SetUp() {
+  }
+
+  virtual void TearDown() {
+  }
+};
+
+TEST_F(LinearInterpolate, ThrottleCurve1to1) {
+  float const range_min = 0.0f;
+  float const range_max = 1.0f;
+  uint8_t const curve_numpts = 5;
+  float const curve[5] = { 0.0f, 0.25f, 0.5f, 0.75f, 1.0f };
+
+  // 21 points in range
+  for (size_t i = 0; i <= 20; ++i) {
+    float const input = i * 0.05f;
+    EXPECT_EQ(input, linear_interpolate(input, curve, curve_numpts, range_min, range_max));
+  }
+
+  // 10 points below min range
+  for (size_t i = 1; i <= 10; ++i) {
+    float const input = range_min - i * 0.1f;
+    EXPECT_EQ(range_min, linear_interpolate(input, curve, curve_numpts, range_min, range_max));
+  }
+
+  // 10 points above max range
+  for (size_t i = 1; i <= 10; ++i) {
+    float const input = range_max + i * 0.1f;
+    EXPECT_EQ(range_max, linear_interpolate(input, curve, curve_numpts, range_min, range_max));
+  }
+};
+
+TEST_F(LinearInterpolate, CollectiveCurve1to1) {
+  float const range_min = -1.0f;
+  float const range_max = 1.0f;
+  uint8_t const curve_numpts = 5;
+  float const curve[5] = { -1.0f, -0.5f, 0.0f, 0.5f, 1.0f };
+
+  // 21 points in range
+  for (size_t i = 0; i <= 20; ++i) {
+    float const input = i * 0.1f - 1.0f;
+    EXPECT_EQ(input, linear_interpolate(input, curve, curve_numpts, range_min, range_max));
+  }
+
+  // 10 points below min range
+  for (size_t i = 1; i <= 10; ++i) {
+    float const input = range_min - i * 0.1f;
+    EXPECT_EQ(range_min, linear_interpolate(input, curve, curve_numpts, range_min, range_max));
+  }
+
+  // 10 points above max range
+  for (size_t i = 1; i <= 10; ++i) {
+    float const input = range_max + i * 0.1f;
+    EXPECT_EQ(range_max, linear_interpolate(input, curve, curve_numpts, range_min, range_max));
+  }
+};
