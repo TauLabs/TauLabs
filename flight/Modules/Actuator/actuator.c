@@ -48,6 +48,7 @@
 #include "manualcontrolcommand.h"
 #include "pios_thread.h"
 #include "pios_queue.h"
+#include "misc_math.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -78,7 +79,6 @@ static volatile bool mixer_settings_updated;
 static void actuatorTask(void* parameters);
 static float scaleChannel(float value, float max, float min, float neutral);
 static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const MixerSettingsData * mixerSettings);
-static float MixerCurve(const float input, const float* curve, uint8_t num_points, const float input_min, const float input_max);
 static float ThrottleCurve(const float input, const float* curve, uint8_t num_points);
 static float CollectiveCurve(const float input, const float* curve, uint8_t num_points);
 static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettingsData * actuatorSettings);
@@ -414,42 +414,6 @@ float ProcessMixer(const int index, const float curve1, const float curve2,
 }
 
 /**
- * Interpolate a mixer curve
- *
- * output range is defined by the curve vector
- * curve is defined in N intervals connecting N+1 points
- *
- * @param input the input value, in [input_min,input_max]
- * @param curve the array of points in the curve
- * @param num_points the number of points in the curve
- * @param input_min the lower range of the input values
- * @param input_max the upper range of the input values
- * @return the output value, in [0,1]
- */
-static float MixerCurve(float const input, float const * curve, uint8_t num_points, const float input_min, const float input_max)
-{
-	// shift our input [min,max] into the typical range [0,1]
-	float scale = fmaxf( (input - input_min) / (input_max - input_min), 0.0f) * (float) (num_points - 1);
-	// select a starting bin via truncation
-	int idx1 = scale;
-	// save the offset from the starting bin for linear interpolation
-	scale -= (float)idx1;
-	// select an ending bin (linear interpolation occurs between starting and ending bins)
-	int idx2 = idx1 + 1;
-	// if the ending bin bin is above the last bin
-	if (idx2 >= num_points) {
-		//clamp to highest entry in table
-		idx2 = num_points -1;
-		// if the starting bin is above the last bin
-		if (idx1 >= num_points) {
-			// we no longer do interpolation; instead, we just select the max point on the curve
-			return curve[num_points-1];
-		}
-	}
-	return curve[idx1] * (1.0f - scale) + curve[idx2] * scale;
-}
-
-/**
  * Interpolate a throttle curve
  *
  * throttle curve assumes input is [0,1]
@@ -463,7 +427,7 @@ static float MixerCurve(float const input, float const * curve, uint8_t num_poin
  */
 static float ThrottleCurve(float const input, float const * curve, uint8_t num_points)
 {
-	return MixerCurve(input, curve, num_points, 0.0f, 1.0f);
+	return linear_interpolate(input, curve, num_points, 0.0f, 1.0f);
 }
 
 /**
@@ -478,7 +442,7 @@ static float ThrottleCurve(float const input, float const * curve, uint8_t num_p
  */
 static float CollectiveCurve(float const input, float const * curve, uint8_t num_points)
 {
-	return MixerCurve(input, curve, num_points, -1.0f, 1.0f);
+	return linear_interpolate(input, curve, num_points, -1.0f, 1.0f);
 }
 
 
