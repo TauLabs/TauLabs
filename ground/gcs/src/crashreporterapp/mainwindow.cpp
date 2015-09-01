@@ -89,9 +89,11 @@ void MainWindow::onOkSend()
 
 void MainWindow::onSendReport()
 {
+    ui->stackedWidget->setCurrentIndex(2);
     Utils::PHPBB php("http://forum.taulabs.org", this);
     if (!php.login(ui->le_Username->text(), ui->le_Password->text())) {
        QMessageBox::warning(this, tr("Forum login"), tr("Forum login failed, probably wrong username or password"));
+       ui->stackedWidget->setCurrentIndex(1);
        return;
     }
     QList<Utils::PHPBB::fileAttachment> list;
@@ -105,15 +107,28 @@ void MainWindow::onSendReport()
     idTxt = idTxt.split("/").last();
     fileAttach.fileTypeSpec = "application/vnd.tcpdump.pcap";
     list.append(fileAttach);
-    if(php.postReply(FORUM_SHARING_FORUM, FORUM_SHARING_THREAD, "Crash report for " + idTxt, ui->te_Description->toPlainText(), list)) {
+    connect(&php, SIGNAL(uploadProgress(qint64,qint64)), SLOT(onUploadProgress(qint64,qint64)));
+    if(php.postReply(FORUM_SHARING_FORUM, FORUM_SHARING_THREAD, "",  "Crash report for " + idTxt + "\n" + ui->te_Description->toPlainText(), list)) {
         QMessageBox::information(this, tr("Crash report sent"), tr("Thank you!"));
+        ui->stackedWidget->setCurrentIndex(0);
         this->close();
     } else {
         QMessageBox::warning(this, tr("Could not send the crash report"), tr("Ooops, something went wrong"));
+        ui->stackedWidget->setCurrentIndex(0);
     }
 }
 
 void MainWindow::onCancelSend()
 {
     ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::onUploadProgress(qint64 progress, qint64 total)
+{
+    if(total == 0)
+        return;
+    ui->uploadLabel->setText("Uploading");
+    ui->progressLabel->setText(QString("Uploaded %0 of %1 bytes").arg(progress).arg(total));
+    int p = (progress * 100) / total;
+    ui->progressBar->setValue(p);
 }
