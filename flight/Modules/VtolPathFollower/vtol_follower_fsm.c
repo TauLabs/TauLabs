@@ -57,7 +57,7 @@
 
 // Various navigation constants
 const static float RTH_MIN_ALTITUDE = 15.f;  //!< Hover at least 15 m above home */
-const static float RTH_VELOCITY     = 2.5f;  //!< Return home at 2.5 m/s */
+const static float RTH_VELOCITY     = 3.0f;  //!< Return home at 3.0 m/s */
 const static float RTH_ALT_ERROR    = 1.0f;  //!< The altitude to come within for RTH */
 const static float DT               = 0.05f; // TODO: make the self monitored
 
