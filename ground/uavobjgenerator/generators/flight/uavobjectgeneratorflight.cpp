@@ -183,6 +183,12 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
             enums.append( QString(" }  __attribute__((packed)) %1%2Options;\r\n")
                           .arg( info->name )
                           .arg( info->fields[n]->name ) );
+
+            enums.append(QString("/* Number of options for field %1 */\r\n").arg(info->fields[n]->name));
+            enums.append( QString("#define %1_%2_NUMOPTS %3\r\n")
+                          .arg( info->name.toUpper() )
+                          .arg( info->fields[n]->name.toUpper() )
+                          .arg( info->fields[n]->options.length() ) );
         }
         // Generate element names (only if field has more than one element)
         if (info->fields[n]->numElements > 1 && !info->fields[n]->defaultElementNames)
