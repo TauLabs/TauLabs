@@ -160,7 +160,6 @@ static void altitudeHoldTask(void *parameters)
 			if (flight_mode == FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD && !engaged) {
 				// Copy the current throttle as a starting point for integral
 				StabilizationDesiredThrottleGet(&velocity_pid.iAccumulator);
-				velocity_pid.iAccumulator *= 1000.0f; // pid library scales up accumulator by 1000
 				engaged = true;
 
 				// Make sure this uses a valid AltitudeHoldDesired. No delay is really required here
@@ -211,7 +210,7 @@ static void altitudeHoldTask(void *parameters)
 
 			AltitudeHoldStateData altitudeHoldState;
 			altitudeHoldState.VelocityDesired = velocity_desired;
-			altitudeHoldState.Integral = velocity_pid.iAccumulator / 1000.0f;
+			altitudeHoldState.Integral = velocity_pid.iAccumulator;
 			altitudeHoldState.AngleGain = 1.0f;
 
 			if (altitudeHoldSettings.AttitudeComp > 0) {
