@@ -76,6 +76,8 @@ private:
     QList<replyFields> fields;
     QNetworkRequest request;
     QString host;
+signals:
+    void uploadProgress(qint64,qint64);
 };
 
 }
