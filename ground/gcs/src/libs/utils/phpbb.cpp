@@ -120,7 +120,7 @@ bool PHPBB::postReply(int forumID, int threadID, QString subject, QString messag
     creation_index2 = secrets.indexOf('"', creation_index1 + 1);
     QString formToken = secrets.mid(creation_index1 + 1, creation_index2 - creation_index1 -1 );
 
-    QTimer::singleShot(2000, &loop, SLOT(quit()));
+    QTimer::singleShot(10000, &loop, SLOT(quit()));
     loop.exec();
 
     addField("form_token", formToken);
@@ -134,6 +134,7 @@ bool PHPBB::postReply(int forumID, int threadID, QString subject, QString messag
 
     QTimer::singleShot(TIMEOUT, &loop, SLOT(quit()));
     reply = postData(host + QString("/posting.php?mode=reply&f=%0&t=%1").arg(forumID).arg(threadID));
+    connect(reply, SIGNAL(uploadProgress(qint64,qint64)), SIGNAL(uploadProgress(qint64,qint64)));
     connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
     if (reply->error() != QNetworkReply::NoError)
