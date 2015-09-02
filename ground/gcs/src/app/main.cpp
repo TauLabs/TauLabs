@@ -54,8 +54,6 @@
 #include "libcrashreporter-qt/libcrashreporter-handler/Handler.h"
 
 #include "../../../../../build/ground/gcs/gcsversioninfo.h"
-#define STRINGIFY_INTERNAL(x) #x
-#define STRINGIFY(x) STRINGIFY_INTERNAL(x)
 
 #define USE_CRASHREPORTING
 #ifdef Q_OS_WIN
@@ -274,8 +272,7 @@ int main(int argc, char **argv)
     SharedTools::QtSingleApplication app((QLatin1String(appNameC)), argc, argv);
 
 #ifdef USE_CRASHREPORTING
-    const char * const GCS_REVISION_PRETTY_STR      =   STRINGIFY(GCS_REVISION_PRETTY);
-    QString dirName(GCS_REVISION_PRETTY_STR);
+    QString dirName(GCS_REVISION_PRETTY);
     dirName = dirName.replace("%@%", "_");
     dirName = QDir::tempPath() + QDir::separator() + "taulabsgcs_" + dirName;
     QDir().mkdir(dirName);

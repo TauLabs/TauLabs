@@ -33,35 +33,22 @@
 namespace Core {
 namespace Constants {
 
-#define GCS_VERSION_MAJOR 0
-#define GCS_VERSION_MINOR 1
-#define GCS_VERSION_RELEASE 0
-const char * const GCS_VERSION_TYPE = "Beta";
-const char * const GCS_VERSION_CODENAME = "Phoenix";
-
-#define STRINGIFY_INTERNAL(x) #x
-#define STRINGIFY(x) STRINGIFY_INTERNAL(x)
-
-#define GCS_VERSION STRINGIFY(GCS_VERSION_MAJOR) \
-    "." STRINGIFY(GCS_VERSION_MINOR) \
-    "." STRINGIFY(GCS_VERSION_RELEASE)
-
 const char * const GCS_NAME              = "Tau Labs GCS";
-const char * const GCS_VERSION_LONG      = GCS_VERSION;
 const char * const GCS_AUTHOR            = "Tau Labs";
 const char t []                          = __DATE__;
 const char * const GCS_YEAR              = t + 7;
 
 const char * const GCS_HELP              = "http://github.com/TauLabs";
 #ifdef GCS_REVISION
-const char * const GCS_REVISION_STR      = STRINGIFY(GCS_REVISION);
-const char * const UAVOSHA1_STR          = STRINGIFY(UAVO_HASH);
+const char * const GCS_REVISION_STR      = GCS_REVISION;
+const char * const UAVOSHA1_STR          = UAVO_HASH_STR;
 #else
 const char * const GCS_REVISION_STR      = "";
 const char * const UAVOSHA1_STR          = "";
 #endif
+const char * const GCS_VERSION_LONG      = GCS_REVISION_STR;
 #ifdef GCS_REVISION_PRETTY
-const char * const GCS_REVISION_PRETTY_STR      = STRINGIFY(GCS_REVISION_PRETTY);
+const char * const GCS_REVISION_PRETTY_STR      = GCS_REVISION_PRETTY;
 #else
 const char * const GCS_REVISION_PRETTY_STR      = "";
 #endif
