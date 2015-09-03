@@ -4,7 +4,7 @@
  * @file       main.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
  * @brief      Main() file
  * @see        The GNU Public License (GPL) Version 3
  * @defgroup   app GCS main application group
@@ -42,6 +42,7 @@
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QTranslator>
 #include <QtCore/QSettings>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QVariant>
 
 #include <QMessageBox>
@@ -274,6 +275,10 @@ int main(int argc, char **argv)
 #ifdef USE_CRASHREPORTING
     QString dirName(GCS_REVISION_PRETTY);
     dirName = dirName.replace("%@%", "_");
+
+    // Limit to boring characters
+    dirName = dirName.replace(QRegularExpression("[^A-Za-z0-9.]+"), "_");
+
     dirName = QDir::tempPath() + QDir::separator() + "taulabsgcs_" + dirName;
     QDir().mkdir(dirName);
     new CrashReporter::Handler(dirName, true, "crashreporterapp");
