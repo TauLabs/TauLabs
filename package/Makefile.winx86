@@ -21,7 +21,7 @@ win_package: standalone package_flight package_matlab
 	$(V1) echo "  http://www.scratchpaper.com"
 	$(NSIS_CMD) $(NSIS_OPTS) $(NSIS_SCRIPT)
 
-gcs: uavobjects_gcs
+gcs: uavobjects
 	$(V1) $(MAKE) -C $(ROOT_DIR) GCS_BUILD_CONF=release $@
 
 ground_package: | win_package
