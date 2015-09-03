@@ -337,6 +337,9 @@ endif
 CDEFS += -DEE_BANK_BASE=$(EE_BANK_BASE)
 CDEFS += -DEE_BANK_SIZE=$(EE_BANK_SIZE)
 
+CDEFS += -DPIOS_COM_TELEM_USB_RX_BUF_LEN=256
+CDEFS += -DPIOS_COM_TELEM_USB_TX_BUF_LEN=256
+
 # Declare all non-optional modules as built-in to force inclusion
 CDEFS += $(foreach MOD, $(notdir $(MODULES)), -DMODULE_$(MOD)_BUILTIN)
 
