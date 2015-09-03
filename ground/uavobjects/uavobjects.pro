@@ -38,10 +38,10 @@ win32|unix {
 win32 {
     # Windows sometimes remembers working directory changed from Makefile, sometimes not.
     # That's why pushd/popd is used here - to make sure that we know current directory.
+    uavobjects.commands += rm -rf ../../uavobjects-synthetics $$addNewline()
     uavobjects.commands += -$(MKDIR) -p $$targetPath(../../uavobject-synthetics) $$addNewline()
     uavobjects.commands += pushd $$targetPath(../../uavobject-synthetics) &&
     uavobjects.commands += $$targetPath(../ground/uavobjgenerator/$${BUILD_CONFIG}/uavobjgenerator)
-    uavobjects.commands +=   -gcs -flight -matlab
     uavobjects.commands +=   $$targetPath(../../shared/uavobjectdefinition)
     uavobjects.commands +=   $$targetPath(../..) &&
     uavobjects.commands += popd $$addNewline()
@@ -53,11 +53,12 @@ win32 {
 }
 
 !win32 {
+    uavobjects.commands += rm -rf ../../uavobjects-synthetics $$addNewline()
     uavobjects.commands += $(MKDIR) -p ../../uavobject-synthetics $$addNewline()
 
     uavobjects.commands += cd ../../uavobject-synthetics &&
     uavobjects.commands += ../ground/uavobjgenerator/uavobjgenerator
-    uavobjects.commands += -gcs -flight -matlab ../../shared/uavobjectdefinition ../.. &&
+    uavobjects.commands += ../../shared/uavobjectdefinition ../.. &&
 
     uavobjects.commands += cd ../ground/gcs &&
     uavobjects.commands += $(QMAKE) ../../../ground/gcs/gcs.pro
