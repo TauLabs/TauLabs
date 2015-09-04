@@ -43,6 +43,7 @@
 #include "hwquanton.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
+#include "opticalflowsettings.h"
 
 
 /**
@@ -109,6 +110,18 @@ static const struct pios_ms5611_cfg pios_ms5611_cfg = {
 	.temperature_interleaving = 1,
 };
 #endif /* PIOS_INCLUDE_MS5611 */
+
+/**
+ * Configuration for the PX4Flow
+ */
+#if defined(PIOS_INCLUDE_PX4FLOW)
+#include "pios_px4flow_priv.h"
+static struct pios_px4flow_cfg pios_px4flow_cfg = {
+	.rotation.roll_D100  = 0, // in [deg * 100]
+	.rotation.pitch_D100 = 0, // in [deg * 100]
+	.rotation.yaw_D100   = 0, // in [deg * 100]
+};
+#endif /* PIOS_INCLUDE_PX4FLOW */
 
 /**
  * Configuration for the MPU6000 chip
@@ -405,6 +418,7 @@ void PIOS_Board_Init(void) {
 
 	HwQuantonInitialize();
 	ModuleSettingsInitialize();
+	OpticalFlowSettingsInitialize();
 
 #if defined(PIOS_INCLUDE_RTC)
 	/* Initialize the real-time clock and its associated tick */
@@ -639,6 +653,19 @@ void PIOS_Board_Init(void) {
 			}
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */
+
+  #if defined(PIOS_INCLUDE_PX4FLOW)
+		OpticalFlowSettingsData opticalFlowSettings;
+		OpticalFlowSettingsGet(&opticalFlowSettings);
+		if (opticalFlowSettings.SensorType == OPTICALFLOWSETTINGS_SENSORTYPE_PX4FLOW) {
+			pios_px4flow_cfg.rotation.roll_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_ROLL];
+			pios_px4flow_cfg.rotation.pitch_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_PITCH];
+			pios_px4flow_cfg.rotation.yaw_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_YAW];
+			if (PIOS_PX4Flow_Init(&pios_px4flow_cfg, pios_i2c_usart1_adapter_id) != 0) {
+				panic(10);
+			}
+		}
+  #endif /* PIOS_INCLUDE_PX4FLOW */
 #endif /* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART1_DSM:
@@ -874,6 +901,21 @@ void PIOS_Board_Init(void) {
 			}
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */
+
+  #if defined(PIOS_INCLUDE_PX4FLOW)
+		OpticalFlowSettingsData opticalFlowSettings;
+		OpticalFlowSettingsGet(&opticalFlowSettings);
+		if (opticalFlowSettings.SensorType == OPTICALFLOWSETTINGS_SENSORTYPE_PX4FLOW) {
+			pios_px4flow_cfg.rotation.roll_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_ROLL];
+			pios_px4flow_cfg.rotation.pitch_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_PITCH];
+			pios_px4flow_cfg.rotation.yaw_D100 = opticalFlowSettings.SensorRotation[OPTICALFLOWSETTINGS_SENSORROTATION_YAW];
+			if (PIOS_PX4Flow_Init(&pios_px4flow_cfg, pios_i2c_usart3_adapter_id) != 0) {
+				panic(10);
+			}
+		}
+  #endif /* PIOS_INCLUDE_PX4FLOW */
+
+
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART3_DSM:
