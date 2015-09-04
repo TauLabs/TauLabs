@@ -91,10 +91,9 @@ float ProcessMixer(const int index, const float curve1, const float curve2,
 		   const float period);
 
 //this structure allows easy access to the UAVObjects for one mixer.
-MixerSettingsData *tmp;
 typedef struct {
-	typeof(tmp->Mixer1Type) type;
-	typeof(tmp->Mixer1Vector[0]) *vector;
+	typeof(((MixerSettingsData *) NULL)->Mixer1Type) type;
+	typeof(((MixerSettingsData *) NULL)->Mixer1Vector[0]) *vector;
 } MixerTable;
 
 MixerTable MixerEntry_t[ACTUATORCOMMAND_CHANNEL_NUMELEM];
