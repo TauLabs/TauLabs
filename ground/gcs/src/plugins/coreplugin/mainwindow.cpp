@@ -133,8 +133,6 @@ MainWindow::MainWindow() :
     // keep this in sync with main() in app/main.cpp
     m_settings = new QSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
                              QLatin1String("TauLabs"), QLatin1String("TauLabs_config.autosave"), this);
-    m_globalSettings = new QSettings(XmlConfig::XmlSettingsFormat, QSettings::SystemScope,
-                                 QLatin1String("TauLabs"), QLatin1String("TauLabs_config.autosave"), this);
     m_settingsDatabase = new SettingsDatabase(QFileInfo(m_settings->fileName()).path(),
                                             QLatin1String("TauLabs_config"),
                                             this);
