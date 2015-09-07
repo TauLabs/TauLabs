@@ -62,6 +62,7 @@
 #define TASK_PRIORITY PIOS_THREAD_PRIO_HIGHEST
 #define FAILSAFE_TIMEOUT_MS 100
 #define MAX_MIX_ACTUATORS ACTUATORCOMMAND_CHANNEL_NUMELEM
+#define MULTIROTOR_MIXER_UPPER_BOUND 128
 
 // Private types
 
@@ -453,7 +454,7 @@ float ProcessMixer(const int index, const float curve1, const float curve2,
 	                ((float)MixerEntry_t[index].vector[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE2] * curve2) +
 	                ((float)MixerEntry_t[index].vector[MIXERSETTINGS_MIXER1VECTOR_ROLL] * desired->Roll) +
 	                ((float)MixerEntry_t[index].vector[MIXERSETTINGS_MIXER1VECTOR_PITCH] * desired->Pitch) +
-	                ((float)MixerEntry_t[index].vector[MIXERSETTINGS_MIXER1VECTOR_YAW] * desired->Yaw)) / 128.0f
+	                ((float)MixerEntry_t[index].vector[MIXERSETTINGS_MIXER1VECTOR_YAW] * desired->Yaw)) * (1.0f / MULTIROTOR_MIXER_UPPER_BOUND);
 
 	if((MixerEntry_t[index].type == MIXERSETTINGS_MIXER1TYPE_MOTOR) && (result < 0.0f))
 	{

@@ -63,8 +63,8 @@ QWidget *SpinBoxDelegate::createEditor(QWidget *parent,
     const QModelIndex &/* index */) const
 {
     QSpinBox *editor = new QSpinBox(parent);
-    editor->setMinimum(-127);
-    editor->setMaximum(127);
+    editor->setMinimum(-VehicleConfig::mixerRange);
+    editor->setMaximum(VehicleConfig::mixerRange);
 
     return editor;
 }

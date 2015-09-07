@@ -653,13 +653,13 @@ void ConfigCcpmWidget::UpdateMixer()
                 //Generate the mixer vector
                 if (i==0)
                 {//main motor-engine
-                    m_ccpm->ccpmAdvancedSettingsTable->item(i,1)->setText(QString("%1").arg(127));//ThrottleCurve1
+                    m_ccpm->ccpmAdvancedSettingsTable->item(i,1)->setText(QString("%1").arg(mixerRange));//ThrottleCurve1
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,2)->setText(QString("%1").arg(0));//ThrottleCurve2
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,3)->setText(QString("%1").arg(0));//Roll
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,4)->setText(QString("%1").arg(0));//Pitch
 
                     if (TypeText.compare(QString::fromUtf8("Coax 2 Servo 90º"), Qt::CaseInsensitive)==0)
-                        m_ccpm->ccpmAdvancedSettingsTable->item(i,5)->setText(QString("%1").arg(-127));//Yaw
+                        m_ccpm->ccpmAdvancedSettingsTable->item(i,5)->setText(QString("%1").arg(-mixerRange));//Yaw
                     else
                         m_ccpm->ccpmAdvancedSettingsTable->item(i,5)->setText(QString("%1").arg(0));//Yaw
 
@@ -668,12 +668,12 @@ void ConfigCcpmWidget::UpdateMixer()
                 {//tailrotor --or-- counter-clockwise motor
                     if (TypeText.compare(QString::fromUtf8("Coax 2 Servo 90º"), Qt::CaseInsensitive)==0)
                     {
-                        m_ccpm->ccpmAdvancedSettingsTable->item(i,1)->setText(QString("%1").arg(127));//ThrottleCurve1
-                        m_ccpm->ccpmAdvancedSettingsTable->item(i,5)->setText(QString("%1").arg(127));//Yaw
+                        m_ccpm->ccpmAdvancedSettingsTable->item(i,1)->setText(QString("%1").arg(mixerRange));//ThrottleCurve1
+                        m_ccpm->ccpmAdvancedSettingsTable->item(i,5)->setText(QString("%1").arg(mixerRange));//Yaw
                     }
                     else{
                         m_ccpm->ccpmAdvancedSettingsTable->item(i,1)->setText(QString("%1").arg(0));//ThrottleCurve1
-                        m_ccpm->ccpmAdvancedSettingsTable->item(i,5)->setText(QString("%1").arg(127));//Yaw
+                        m_ccpm->ccpmAdvancedSettingsTable->item(i,5)->setText(QString("%1").arg(mixerRange));//Yaw
                     }
 
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,2)->setText(QString("%1").arg(0));//ThrottleCurve2
@@ -684,9 +684,9 @@ void ConfigCcpmWidget::UpdateMixer()
                 if (i>1)
                 {//Swashplate
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,1)->setText(QString("%1").arg(0));//ThrottleCurve1
-                    m_ccpm->ccpmAdvancedSettingsTable->item(i,2)->setText(QString("%1").arg((int)(127.0*CollectiveConstant)));//ThrottleCurve2
-                    m_ccpm->ccpmAdvancedSettingsTable->item(i,3)->setText(QString("%1").arg((int)(127.0*(RollConstant)*sin((180+config.heli.CorrectionAngle + ThisAngle[i])*DEG2RAD))));//Roll
-                    m_ccpm->ccpmAdvancedSettingsTable->item(i,4)->setText(QString("%1").arg((int)(127.0*(PitchConstant)*cos((config.heli.CorrectionAngle + ThisAngle[i])*DEG2RAD))));//Pitch
+                    m_ccpm->ccpmAdvancedSettingsTable->item(i,2)->setText(QString("%1").arg((int)(mixerRange * CollectiveConstant))); //ThrottleCurve2
+                    m_ccpm->ccpmAdvancedSettingsTable->item(i,3)->setText(QString("%1").arg((int)(mixerRange * RollConstant * sin((180 + config.heli.CorrectionAngle + ThisAngle[i])*DEG2RAD)))); //Roll
+                    m_ccpm->ccpmAdvancedSettingsTable->item(i,4)->setText(QString("%1").arg((int)(mixerRange * PitchConstant * cos((config.heli.CorrectionAngle + ThisAngle[i])*DEG2RAD)))); //Pitch
                     m_ccpm->ccpmAdvancedSettingsTable->item(i,5)->setText(QString("%1").arg(0));//Yaw
 
                 }
@@ -917,17 +917,18 @@ void ConfigCcpmWidget::setMixer()
     UpdateMixer();
 
     // Set up some helper pointers
-    qint8 * mixers[8] = {mixerSettingsData.Mixer1Vector,
-                         mixerSettingsData.Mixer2Vector,
-                         mixerSettingsData.Mixer3Vector,
-                         mixerSettingsData.Mixer4Vector,
-                         mixerSettingsData.Mixer5Vector,
-                         mixerSettingsData.Mixer6Vector,
-                         mixerSettingsData.Mixer7Vector,
-                         mixerSettingsData.Mixer8Vector
+    decltype(&mixerSettingsData.Mixer1Vector[0]) mixers[8] = {
+        mixerSettingsData.Mixer1Vector,
+        mixerSettingsData.Mixer2Vector,
+        mixerSettingsData.Mixer3Vector,
+        mixerSettingsData.Mixer4Vector,
+        mixerSettingsData.Mixer5Vector,
+        mixerSettingsData.Mixer6Vector,
+        mixerSettingsData.Mixer7Vector,
+        mixerSettingsData.Mixer8Vector
     };
 
-    quint8 * mixerTypes[8] = {
+    decltype(&mixerSettingsData.Mixer1Type) mixerTypes[8] = {
         &mixerSettingsData.Mixer1Type,
         &mixerSettingsData.Mixer2Type,
         &mixerSettingsData.Mixer3Type,

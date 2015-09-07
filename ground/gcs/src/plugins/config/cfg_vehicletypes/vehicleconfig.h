@@ -143,6 +143,8 @@ class VehicleConfig: public ConfigTaskWidget
         QStringList mixerVectors;
         QStringList mixerTypeDescriptions;
 
+        static constexpr double mixerRange = 127.0;
+
     private:
 
         static UAVObjectManager* getUAVObjectManager();
