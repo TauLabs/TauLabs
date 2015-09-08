@@ -53,7 +53,7 @@ BrainConfiguration::BrainConfiguration(QWidget *parent) :
     addUAVObjectToWidgetRelation("HwBrain", "MPU9250Rate", ui->cmbMpuRate);
     addUAVObjectToWidgetRelation("HwBrain", "MPU9250GyroLPF", ui->cmbGyroLpf);
     addUAVObjectToWidgetRelation("HwBrain", "MPU9250AccelLPF", ui->cmbAccelLpf);
-    addUAVObjectToWidgetRelation("HwBrain", "DSMxBind", ui->sbDsmxBind);
+	addUAVObjectToWidgetRelation("HwBrain", "DSMxMode", ui->cbDsmxMode);
     
     // Load UAVObjects to widget relations from UI file
     // using objrelation dynamic property

@@ -69,7 +69,7 @@
 	<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
 	<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>
 
-	<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
+	<field name="DSMxMode" units="mode"  type="enum"  elements="1" parent="HwShared.DSMxMode" defaultvalue="Autodetect"/>
         <field name="GyroFullScale" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="2000"/>
         <field name="AccelFullScale" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
 	<field name="MPU9250Rate" units="Hz" type="enum" elements="1" options="200,250,333,500,1000" defaultvalue="500"/>
