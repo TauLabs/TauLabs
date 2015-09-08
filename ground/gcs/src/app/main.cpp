@@ -263,12 +263,17 @@ int main(int argc, char **argv)
     // Must be done before any QSettings class is created
     QSettings::setPath(XmlConfig::XmlSettingsFormat, QSettings::SystemScope,
             QCoreApplication::applicationDirPath()+QLatin1String(SHARE_PATH));
-    // keep this in sync with the MainWindow ctor in coreplugin/mainwindow.cpp
-    QSettings settings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                                 QLatin1String("TauLabs"), QLatin1String("TauLabs_config"));
 
-    overrideSettings(settings, argc, argv);
-    locale = settings.value("General/OverrideLanguage", locale).toString();
+    // Scope this so that we are guaranteed that the QSettings file is closed immediately. This
+    // prevents corruption.
+    {
+        // keep this in sync with the MainWindow ctor in coreplugin/mainwindow.cpp
+        QSettings settings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
+                           QLatin1String("TauLabs"), QLatin1String("TauLabs_config"));
+
+        overrideSettings(settings, argc, argv);
+        locale = settings.value("General/OverrideLanguage", locale).toString();
+    }
 
     QTranslator translator;
     QTranslator qtTranslator;

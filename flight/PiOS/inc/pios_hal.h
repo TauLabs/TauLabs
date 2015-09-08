@@ -47,7 +47,7 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		/* TODO: future work to factor most of these away */
 		const struct pios_usart_cfg *usart_dsm_hsum_cfg,
 		const struct pios_dsm_cfg *dsm_cfg,
-		int dsm_bind,
+		HwSharedDSMxModeOptions dsm_mode,
 		const struct pios_usart_cfg *sbus_rcvr_cfg,
 		const struct pios_sbus_cfg *sbus_cfg,
 		bool sbus_toggle

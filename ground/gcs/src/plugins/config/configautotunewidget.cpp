@@ -19,7 +19,7 @@
 #include "extensionsystem/pluginmanager.h"
 #include <QMessageBox>
 
-#define FORUM_SHARING_FORUM     17
+#define FORUM_SHARING_FORUM     27
 #define FORUM_SHARING_THREAD    268
 
 ConfigAutotuneWidget::ConfigAutotuneWidget(QWidget *parent) :

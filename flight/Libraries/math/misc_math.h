@@ -31,6 +31,7 @@
 #ifndef MISC_MATH_H
 #define MISC_MATH_H
 
+#include <math.h>
 #include "stdint.h"
 #include "stdbool.h"
 
@@ -64,11 +65,16 @@ void vector2_rotate(const float *original, float *out, float angle);
 float cubic_deadband(float in, float w, float b, float m, float r);
 void cubic_deadband_setup(float w, float b, float *m, float *r);
 
-#if defined (__clang__) // Clang can't turn off specific optimizations, so turn them all off. This is currently only useful when compiling the simulator with Clang
-bool IS_NOT_FINITE(float x) __attribute__((optnone()));
-#else
-bool IS_NOT_FINITE(float x) __attribute__((optimize("no-finite-math-only")));
-#endif
+/* Note--- current compiler chain has been verified to produce proper call
+ * to fpclassify even when compiling with -ffast-math / -ffinite-math.
+ * Previous attempts were made here to limit scope of disabling those
+ * optimizations to this function, but were infectious and increased
+ * stack usage across unrelated code because of compiler limitations.
+ * See TL issue #1879.
+ */
+static inline bool IS_NOT_FINITE(float x) {
+	return (!isfinite(x));
+}
 
 #endif /* MISC_MATH_H */
 

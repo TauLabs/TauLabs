@@ -103,14 +103,6 @@ MainWindow::MainWindow() :
     m_uniqueIDManager(new UniqueIDManager()),
     m_globalContext(QList<int>() << Constants::C_GLOBAL_ID),
     m_additionalContexts(m_globalContext),
-    // keep this in sync with main() in app/main.cpp
-    m_settings(new QSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                             QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this)),
-    m_globalSettings(new QSettings(XmlConfig::XmlSettingsFormat, QSettings::SystemScope,
-                                 QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this)),
-    m_settingsDatabase(new SettingsDatabase(QFileInfo(m_settings->fileName()).path(),
-                                            QLatin1String("TauLabs_config"),
-                                            this)),
     m_dontSaveSettings(false),
     m_actionManager(new ActionManagerPrivate(this)),
     m_variableManager(new VariableManager(this)),
@@ -138,6 +130,29 @@ MainWindow::MainWindow() :
 #endif /* Q_OS_MAC */
     m_toggleFullScreenAction(0)
 {
+    // keep this in sync with main() in app/main.cpp
+    m_settings = new QSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
+                             QLatin1String("TauLabs"), QLatin1String("TauLabs_config.autosave"), this);
+    m_settingsDatabase = new SettingsDatabase(QFileInfo(m_settings->fileName()).path(),
+                                            QLatin1String("TauLabs_config"),
+                                            this);
+
+    // Copy original settings file to working settings. Do this in scope so that
+    // we are guaranteed that the originalSettings file is closed. This prevents corruption
+    // since the QSettings being used are copies of the original file.
+    {
+        QSettings originalSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
+                                   QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this);
+
+        // There is no copy constructor for QSettings, so we have to do it manually
+        m_settings->clear();
+        QStringList keys = originalSettings.allKeys();
+        for( QStringList::iterator i = keys.begin(); i != keys.end(); i++ )
+        {
+            m_settings->setValue( *i, originalSettings.value( *i ) );
+        }
+    }
+
     setWindowTitle(QLatin1String(Core::Constants::GCS_NAME));
     if (!Utils::HostOsInfo::isMacHost())
         QApplication::setWindowIcon(QIcon(Core::Constants::ICON_TAULABS));
@@ -235,6 +250,23 @@ MainWindow::~MainWindow()
     m_generalSettings = 0;
     delete m_workspaceSettings;
     m_workspaceSettings = 0;
+
+    // Copy working settings back to original settings file. Do this in scope so that
+    // we are guaranteed that the originalSettings file is closed. This minimizes the risk
+    // of corruption since the QSettings are saved (almost) atomically.
+    {
+        QSettings originalSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
+                                   QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this);
+
+        // There is no copy constructor for QSettings, so we have to do it manually
+        originalSettings.clear();
+        QStringList keys = m_settings->allKeys();
+        for( QStringList::iterator i = keys.begin(); i != keys.end(); i++ )
+        {
+            originalSettings.setValue( *i, m_settings->value( *i ) );
+        }
+    }
+
     delete m_settings;
     m_settings = 0;
     delete m_uniqueIDManager;
@@ -1302,8 +1334,17 @@ void MainWindow::saveSettings(IConfigurablePlugin* plugin, QSettings* qs)
 
 void MainWindow::deleteSettings()
 {
+    // Clear the in-memory settings
     m_settings->clear();
     m_settings->sync();
+
+    // Clear the on-disk settings
+    QSettings originalSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
+                               QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this);
+    originalSettings.clear();
+    originalSettings.sync();
+
+    // Don't save the settings when exiting
     m_dontSaveSettings = true;
 }
 

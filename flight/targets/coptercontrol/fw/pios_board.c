@@ -397,8 +397,8 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure the main IO port */
-	uint8_t hw_DSMxBind;
-	HwCopterControlDSMxBindGet(&hw_DSMxBind);
+	HwCopterControlDSMxModeOptions hw_DSMxMode;
+	HwCopterControlDSMxModeGet(&hw_DSMxMode);
 	uint8_t hw_mainport;
 	HwCopterControlMainPortGet(&hw_mainport);
 
@@ -473,11 +473,15 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 			}
 
+			if (hw_DSMxMode >= HWCOPTERCONTROL_DSMXMODE_BIND3PULSES) {
+				hw_DSMxMode = HWCOPTERCONTROL_DSMXMODE_AUTODETECT; /* Do not try to bind through XOR */
+			}
+
 			uintptr_t pios_dsm_id;
 			if (PIOS_DSM_Init(&pios_dsm_id,
 					  &pios_dsm_main_cfg,
 					  &pios_usart_com_driver,
-					  pios_usart_dsm_id, 0)) {
+					  pios_usart_dsm_id, hw_DSMxMode)) {
 				PIOS_Assert(0);
 			}
 
@@ -704,7 +708,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_DSM_Init(&pios_dsm_id,
 					  &pios_dsm_flexi_cfg,
 					  &pios_usart_com_driver,
-					  pios_usart_dsm_id, hw_DSMxBind)) {
+					  pios_usart_dsm_id, hw_DSMxMode)) {
 				PIOS_Assert(0);
 			}
 

@@ -320,8 +320,8 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure IO ports */
-	uint8_t hw_DSMxBind;
-	HwRevoMiniDSMxBindGet(&hw_DSMxBind);
+	HwRevoMiniDSMxModeOptions hw_DSMxMode;
+	HwRevoMiniDSMxModeGet(&hw_DSMxMode);
 	
 	/* Configure main USART port */
 	uint8_t hw_mainport;
@@ -330,7 +330,7 @@ void PIOS_Board_Init(void) {
 	PIOS_HAL_ConfigurePort(hw_mainport, &pios_usart_main_cfg,
 			&pios_usart_com_driver, NULL, NULL, NULL, PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_main_cfg, &pios_dsm_main_cfg,
-			0 /* No bind on main port */, &pios_usart_sbus_main_cfg,
+			hw_DSMxMode >= HWREVOMINI_DSMXMODE_BIND3PULSES ? HWREVOMINI_DSMXMODE_AUTODETECT : hw_DSMxMode /* No bind on main port */, &pios_usart_sbus_main_cfg,
 			&pios_sbus_cfg, true);
 
 	/* Configure FlexiPort */
@@ -341,7 +341,7 @@ void PIOS_Board_Init(void) {
 			&pios_usart_com_driver, &pios_i2c_flexiport_adapter_id,
 			&pios_i2c_flexiport_adapter_cfg, NULL, PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_flexi_cfg, &pios_dsm_flexi_cfg,
-			hw_DSMxBind, NULL, NULL, false);
+			hw_DSMxMode, NULL, NULL, false);
 
 	HwRevoMiniData hwRevoMini;
 	HwRevoMiniGet(&hwRevoMini);

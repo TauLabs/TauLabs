@@ -85,35 +85,81 @@ uintptr_t pios_com_telem_serial_id;
 uintptr_t pios_com_debug_id;
 #endif  /* PIOS_INCLUDE_DEBUG_CONSOLE */
 
+#ifndef PIOS_COM_TELEM_RF_RX_BUF_LEN
 #define PIOS_COM_TELEM_RF_RX_BUF_LEN 512
+#endif
+
+#ifndef PIOS_COM_TELEM_RF_TX_BUF_LEN
 #define PIOS_COM_TELEM_RF_TX_BUF_LEN 512
+#endif
 
+#ifndef PIOS_COM_GPS_RX_BUF_LEN
 #define PIOS_COM_GPS_RX_BUF_LEN 32
+#endif
+
+#ifndef PIOS_COM_GPS_TX_BUF_LEN
 #define PIOS_COM_GPS_TX_BUF_LEN 16
+#endif
 
+#ifndef PIOS_COM_TELEM_USB_RX_BUF_LEN
 #define PIOS_COM_TELEM_USB_RX_BUF_LEN 65
+#endif
+
+#ifndef PIOS_COM_TELEM_USB_TX_BUF_LEN
 #define PIOS_COM_TELEM_USB_TX_BUF_LEN 65
+#endif
 
+#ifndef PIOS_COM_BRIDGE_RX_BUF_LEN
 #define PIOS_COM_BRIDGE_RX_BUF_LEN 65
+#endif
+
+#ifndef PIOS_COM_BRIDGE_TX_BUF_LEN
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
+#endif
 
+#ifndef PIOS_COM_MAVLINK_TX_BUF_LEN
 #define PIOS_COM_MAVLINK_TX_BUF_LEN 128
+#endif
 
+#ifndef PIOS_COM_HOTT_RX_BUF_LEN
 #define PIOS_COM_HOTT_RX_BUF_LEN 16
+#endif
+
+#ifndef PIOS_COM_HOTT_TX_BUF_LEN
 #define PIOS_COM_HOTT_TX_BUF_LEN 16
+#endif
 
+#ifndef PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN
 #define PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN 128
+#endif
 
+#ifndef PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN
 #define PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN 19
+#endif
 
+#ifndef PIOS_COM_PICOC_RX_BUF_LEN
 #define PIOS_COM_PICOC_RX_BUF_LEN 128
+#endif
+
+#ifndef PIOS_COM_PICOC_TX_BUF_LEN
 #define PIOS_COM_PICOC_TX_BUF_LEN 128
+#endif
 
+#ifndef PIOS_COM_FRSKYSPORT_TX_BUF_LEN
 #define PIOS_COM_FRSKYSPORT_TX_BUF_LEN 16
-#define PIOS_COM_FRSKYSPORT_RX_BUF_LEN 16
+#endif
 
+#ifndef PIOS_COM_FRSKYSPORT_RX_BUF_LEN
+#define PIOS_COM_FRSKYSPORT_RX_BUF_LEN 16
+#endif
+
+#ifndef PIOS_COM_RFM22B_RF_RX_BUF_LEN
 #define PIOS_COM_RFM22B_RF_RX_BUF_LEN 512
+#endif
+
+#ifndef PIOS_COM_RFM22B_RF_TX_BUF_LEN
 #define PIOS_COM_RFM22B_RF_TX_BUF_LEN 512
+#endif
 
 /**
  * @brief Flash a blink code.
@@ -220,12 +266,12 @@ void PIOS_HAL_ConfigureCom(const struct pios_usart_cfg *usart_port_cfg,
  * @param[in] usart_dsm_cfg Configuration for the USART for DSM mode.
  * @param[in] dsm_cfg Configuration for DSM on this target
  * @param[in] usart_com_driver The COM driver for this USART
- * @param[in] bind A number of binding pulses to transmit on this port.
+ * @param[in] mode Mode in which to operate DSM driver; encapsulates binding
  */
 static void PIOS_HAL_ConfigureDSM(const struct pios_usart_cfg *usart_dsm_cfg,
-                const struct pios_dsm_cfg *dsm_cfg,
-                const struct pios_com_driver *usart_com_driver,
-		int bind)
+	const struct pios_dsm_cfg *dsm_cfg,
+	const struct pios_com_driver *usart_com_driver,
+	HwSharedDSMxModeOptions mode)
 {
         uintptr_t usart_dsm_id;
         if (PIOS_USART_Init(&usart_dsm_id, usart_dsm_cfg)) {
@@ -234,7 +280,7 @@ static void PIOS_HAL_ConfigureDSM(const struct pios_usart_cfg *usart_dsm_cfg,
         
         uintptr_t dsm_id;
         if (PIOS_DSM_Init(&dsm_id, dsm_cfg, usart_com_driver,
-                        usart_dsm_id, bind)) {
+                        usart_dsm_id, mode)) {
                 PIOS_Assert(0);
         }
         
@@ -298,7 +344,7 @@ static void PIOS_HAL_ConfigureHSUM(const struct pios_usart_cfg *usart_hsum_cfg,
  * @param[in] led_id LED to blink when there's panics
  * @param[in] usart_dsm_hsum_cfg usart configuration for DSM/HSUM modes
  * @param[in] dsm_cfg DSM configuration for this port
- * @param[in] dsm_bind Number of DSM binding pulses to issue
+ * @param[in] dsm_mode Mode in which to operate DSM driver; encapsulates binding
  * @param[in] sbus_rcvr_cfg usart configuration for SBUS modes
  * @param[in] sbus_cfg SBUS configuration for this port
  * @param[in] sbus_toggle Whether there is SBUS inverters to touch on this port
@@ -313,7 +359,7 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 /* TODO: future work to factor most of these away */
 	const struct pios_usart_cfg *usart_dsm_hsum_cfg,
 	const struct pios_dsm_cfg *dsm_cfg,
-	int dsm_bind,
+	HwSharedDSMxModeOptions dsm_mode,
 	const struct pios_usart_cfg *sbus_rcvr_cfg,
 	const struct pios_sbus_cfg *sbus_cfg,
 	bool sbus_toggle
@@ -363,7 +409,7 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		case HWSHARED_PORTTYPES_DSM:
 #if defined(PIOS_INCLUDE_DSM)
 			if (dsm_cfg && usart_dsm_hsum_cfg) {
-				PIOS_HAL_ConfigureDSM(usart_dsm_hsum_cfg, dsm_cfg, com_driver, dsm_bind);
+				PIOS_HAL_ConfigureDSM(usart_dsm_hsum_cfg, dsm_cfg, com_driver, dsm_mode);
 			}
 #endif  /* PIOS_INCLUDE_DSM */
 			break;
