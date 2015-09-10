@@ -57,11 +57,7 @@ void date_from_timestamp(uint32_t timestamp, DateTimeT *date_time)
 
 	days = timestamp / SECS_PER_DAY;
 	rem = timestamp % SECS_PER_DAY;
-	while (rem >= SECS_PER_DAY)
-	{
-		rem -= SECS_PER_DAY;
-		++days;
-	}
+
 	date_time->hour = rem / SECS_PER_HOUR;
 	rem %= SECS_PER_HOUR;
 	date_time->min = rem / 60;
