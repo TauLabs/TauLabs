@@ -51,8 +51,6 @@
 #include "loggingstats.h"
 
 // Private constants
-#define MAX_QUEUE_SIZE 8
-#define MAX_SHARED_QUEUE_SIZE 64
 #define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 const char DIGITS[16] = "0123456789abcdef";
@@ -61,6 +59,10 @@ const char DIGITS[16] = "0123456789abcdef";
 // This is somewhat arbitrary; 50ms seems to be a good tradeoff between
 // memory requirements and logging performance.
 #define PRIVATE_QUEUE_THRESHOLD 50
+
+#define LOGGING_PERIOD_MS 10
+#define SHARED_QUEUE_SIZE 64
+#define PRIVATE_QUEUE_SIZE 2
 
 // Private types
 
@@ -151,7 +153,7 @@ int32_t LoggingStart(void)
 	}
 
 	// create shared queue
-	shared_queue = PIOS_Queue_Create(MAX_SHARED_QUEUE_SIZE, sizeof(UAVObjEvent));
+	shared_queue = PIOS_Queue_Create(SHARED_QUEUE_SIZE, sizeof(UAVObjEvent));
 	if (!shared_queue){
 		return -1;
 	}
@@ -287,10 +289,10 @@ static void loggingTask(void *parameters)
 		case LOGGINGSTATS_OPERATION_LOGGING:
 			{
 				// Sleep for 1ms between writing
-				PIOS_Thread_Sleep_Until(&now, 1);
+				PIOS_Thread_Sleep_Until(&now, LOGGING_PERIOD_MS);
 
 				// Log the objects with private queues
-				for (int i=0; i<MAX_QUEUE_SIZE; i++){
+				for (int i=0; i<PRIVATE_QUEUE_SIZE; i++){
 					LL_FOREACH(log_info, info) {
 						if (info->queue == NULL){
 							break; // the list is sorted (see comment above)
@@ -459,11 +461,12 @@ static void register_object(UAVObjHandle obj)
 	}
 
 	info->obj = obj;
-	info->logging_period = meta_data.loggingUpdatePeriod;
+	// nothing can be logged faster than the logging period
+	info->logging_period = MAX(meta_data.loggingUpdatePeriod, LOGGING_PERIOD_MS);
 
-	if (meta_data.loggingUpdatePeriod <= PRIVATE_QUEUE_THRESHOLD){
-		// this object is logged frequently, so we use a private queue for it
-		queue =  PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
+	if (meta_data.loggingUpdatePeriod <= PRIVATE_QUEUE_THRESHOLD && !UAVObjIsSettings(obj)){
+		// this data object is logged frequently: use a private queue
+		queue =  PIOS_Queue_Create(PRIVATE_QUEUE_SIZE, sizeof(UAVObjEvent));
 		if (queue == NULL){
 			// queue allocation failed
 			PIOS_free((void *)info );
@@ -472,6 +475,7 @@ static void register_object(UAVObjHandle obj)
 		info->queue = queue;
 	}
 	else {
+		// this is slowly logged data object or a settings object: use shared queue
 		queue = shared_queue;
 		info->queue = NULL;
 	}
