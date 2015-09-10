@@ -39,14 +39,7 @@
 #include "pios_streamfs.h"
 #include <pios_board_info.h>
 
-#include "attitudeactual.h"
-#include "accels.h"
-#include "gyros.h"
-#include "baroaltitude.h"
 #include "flightstatus.h"
-#include "gpsposition.h"
-#include "gpstime.h"
-#include "magnetometer.h"
 #include "loggingsettings.h"
 #include "loggingstats.h"
 
@@ -289,7 +282,7 @@ static void loggingTask(void *parameters)
 			break;
 		case LOGGINGSTATS_OPERATION_LOGGING:
 			{
-				// Sleep for 1ms between writing
+				// Sleep between writing
 				PIOS_Thread_Sleep_Until(&now, LOGGING_PERIOD_MS);
 
 				// Log the objects with private queues
