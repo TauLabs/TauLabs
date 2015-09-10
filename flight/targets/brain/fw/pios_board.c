@@ -702,7 +702,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_HSUM)
 	{
 		enum pios_hsum_proto proto;
-		switch (hw_uart1) {
+		switch (hw_mainport) {
 		case HWBRAIN_MAINPORT_HOTTSUMD:
 			proto = PIOS_HSUM_PROTO_SUMD;
 			break;
@@ -808,7 +808,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_HSUM)
 	{
 		enum pios_hsum_proto proto;
-		switch (hw_uart1) {
+		switch (hw_flxport) {
 		case HWBRAIN_FLXPORT_HOTTSUMD:
 			proto = PIOS_HSUM_PROTO_SUMD;
 			break;
@@ -961,7 +961,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_HSUM)
 		{
 			enum pios_hsum_proto proto;
-			switch (hw_uart1) {
+			switch (hw_rxportusart) {
 			case HWBRAIN_RXPORTUSART_HOTTSUMD:
 				proto = PIOS_HSUM_PROTO_SUMD;
 				break;
