@@ -83,6 +83,7 @@ SRC += $(DEBUG_CM3_DIR)/cm3_fault_handlers.c
 
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
+SRC += $(MATHLIB)/misc_math.c
 
 ## PIOS Hardware (STM32F4xx)
 include $(PIOS)/STM32F4xx/library_fw.mk
