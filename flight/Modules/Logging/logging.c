@@ -161,7 +161,8 @@ int32_t LoggingStart(void)
 	// Process all registered objects and connect queue for updates
 	UAVObjIterate(&register_object);
 
-	// Sort the list, so that entries with smaller logging periods come first
+	// Sort the list, so that entries with smaller logging periods and objects
+	// with private queues come first
 	LL_SORT(log_info, info_cmp);
 
 	// Start logging task
@@ -274,7 +275,7 @@ static void loggingTask(void *parameters)
 			// Empty the queues
 			while(PIOS_Queue_Receive(shared_queue, &ev, 0))
 			LL_FOREACH(log_info, info) {
-				if (info->queue == NULL){
+				if (info->queue == shared_queue){
 					// The list is sorted based on the logging period, so we can stop as soon
 					// as we have an item without a private queue (as subsequent items won't 
 					// have a private queue either).
@@ -294,7 +295,7 @@ static void loggingTask(void *parameters)
 				// Log the objects with private queues
 				for (int i=0; i<PRIVATE_QUEUE_SIZE; i++){
 					LL_FOREACH(log_info, info) {
-						if (info->queue == NULL){
+						if (info->queue == shared_queue){
 							break; // the list is sorted (see comment above)
 						}
 						if(PIOS_Queue_Receive(info->queue, &ev, 0) == true) {
@@ -394,10 +395,18 @@ static int32_t send_data(uint8_t *data, int32_t length)
 
 
 /**
- * Function for sorting linked list based on logging period
+ * Function for sorting linked list based on logging period and makes
+ * sure that objects with private queues come first.
  */
 static int info_cmp(struct UAVOLogInfo *info_1, struct UAVOLogInfo *info_2)
 {
+	if ((info_1->queue == shared_queue) && (info_2->queue != shared_queue)){
+		return true;
+	}
+	if ((info_1->queue != shared_queue) && (info_2->queue == shared_queue)){
+		return false;
+	}
+
 	return info_1->logging_period > info_2->logging_period;
 }
 
@@ -425,12 +434,7 @@ static void obj_updated_callback(UAVObjEvent * ev)
 				// Ad the item to either the shared or the private queue
 				// Note: PIOS_Queue_Send() copies the object, so it isn't
 				// necessary to do the copy here.
-				if (info->queue == NULL){
-					PIOS_Queue_Send(shared_queue, ev, 0);
-				}
-				else {
-					PIOS_Queue_Send(info->queue, ev, 0);
-				}
+				PIOS_Queue_Send(info->queue, ev, 0);
 			}
 			return;
 		}
@@ -469,15 +473,14 @@ static void register_object(UAVObjHandle obj)
 		queue =  PIOS_Queue_Create(PRIVATE_QUEUE_SIZE, sizeof(UAVObjEvent));
 		if (queue == NULL){
 			// queue allocation failed
-			PIOS_free((void *)info );
+			PIOS_free((void *)info);
 			return;
 		}
 		info->queue = queue;
 	}
 	else {
 		// this is slowly logged data object or a settings object: use shared queue
-		queue = shared_queue;
-		info->queue = NULL;
+		info->queue = shared_queue;
 	}
 
 	int32_t event_mask = EV_UPDATED | EV_UNPACKED;
