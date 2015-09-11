@@ -448,12 +448,38 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 			MagnetometerGet(&magData);
 		}
 
-		float RPY[3];
+		/* Initialization is tricky. We're using two reference vectors, one which
+		 * is the Earth's gravitational field and the other the Earth's magnetic field
+		 * While we know that gravity is always almost perfectly straight down, and
+		 * thus has trivially large x and y components, the magnetic field has
+		 * components in all directions. Toward the equator the Z component is small,
+		 * but toward the poles it grows very quickly. For instance, near Boston, USA,
+		 * the magnetic field strength is stronger in the Z direction than the X and
+		 * Y combined.
+		 *
+		 * The upshot is that while we can initialize roll and pitch from the gravity
+		 * field alone, we cannot get yaw without taking into account the vehicle's
+		 * roll and pitch.
+		 */
+		float RPY_D[3];
+
 		float theta = atan2f(accelsData.x, -accelsData.z);
-		RPY[1] = theta * RAD2DEG;
-		RPY[0] = atan2f(-accelsData.y, -accelsData.z / cosf(theta)) * RAD2DEG;
-		RPY[2] = atan2f(-magData.y, magData.x) * RAD2DEG;
-		RPY2Quaternion(RPY, cf_q);
+		RPY_D[1] = theta * RAD2DEG;
+		RPY_D[0] = atan2f(-accelsData.y, -accelsData.z / cosf(theta)) * RAD2DEG;
+
+		// See above note about why we rotate the magnetic field before continuing.
+		float RPY_R[3] = {RPY_D[0] * DEG2RAD, RPY_D[1] * DEG2RAD, 0};
+		float Rbe[3][3];
+		float mag_body_frame[3]  = {magData.x, magData.y, magData.z};
+		float mag_earth_frame[3];
+		Euler2R(RPY_R, Rbe);
+		rot_mult(Rbe, mag_body_frame, mag_earth_frame, true);
+
+		// Now that we have the magnetic field in the Earth frame, extract yaw.
+		RPY_D[2] = atan2f(-mag_earth_frame[1], mag_earth_frame[0]) * RAD2DEG;
+
+		// Convert Euler angles into quaternion
+		RPY2Quaternion(RPY_D, cf_q);
 
 		complementary_filter_state.initialization = CF_POWERON;
 		complementary_filter_state.reset_timeval = PIOS_DELAY_GetRaw();
