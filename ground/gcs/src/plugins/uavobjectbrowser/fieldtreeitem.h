@@ -90,6 +90,11 @@ public:
     }
     void apply() {
         int value = data(dataColumn).toInt();
+        if (value == -1) {
+            qDebug() << "Warning, UAVO browser field is outside range. This should never happen!";
+            Q_ASSERT(0);
+            return;
+        }
         QStringList options = m_field->getOptions();
         m_field->setValue(options[value], m_index);
         setChanged(false);
