@@ -52,7 +52,7 @@
  */
 struct pios_queue *PIOS_Queue_Create(size_t queue_length, size_t item_size)
 {
-	struct pios_queue *queuep = PIOS_malloc(sizeof(struct pios_queue));
+	struct pios_queue *queuep = PIOS_malloc_no_dma(sizeof(struct pios_queue));
 
 	if (queuep == NULL)
 		return NULL;
@@ -147,12 +147,12 @@ bool PIOS_Queue_Receive(struct pios_queue *queuep, void *itemp, uint32_t timeout
  */
 struct pios_queue *PIOS_Queue_Create(size_t queue_length, size_t item_size)
 {
-	struct pios_queue *queuep = PIOS_malloc(sizeof(struct pios_queue));
+	struct pios_queue *queuep = PIOS_malloc_no_dma(sizeof(struct pios_queue));
 	if (queuep == NULL)
 		return NULL;
 
 	/* Create the memory pool. */
-	queuep->mpb = PIOS_malloc(item_size * (queue_length + PIOS_QUEUE_MAX_WAITERS));
+	queuep->mpb = PIOS_malloc_no_dma(item_size * (queue_length + PIOS_QUEUE_MAX_WAITERS));
 	if (queuep->mpb == NULL) {
 		PIOS_free(queuep);
 		return NULL;
@@ -161,7 +161,7 @@ struct pios_queue *PIOS_Queue_Create(size_t queue_length, size_t item_size)
 	chPoolLoadArray(&queuep->mp, queuep->mpb, queue_length + PIOS_QUEUE_MAX_WAITERS);
 
 	/* Create the mailbox. */
-	msg_t *mb_buf = PIOS_malloc(sizeof(msg_t) * queue_length);
+	msg_t *mb_buf = PIOS_malloc_no_dma(sizeof(msg_t) * queue_length);
 	chMBInit(&queuep->mb, mb_buf, queue_length);
 
 	return queuep;
