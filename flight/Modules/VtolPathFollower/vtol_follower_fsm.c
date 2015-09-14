@@ -53,11 +53,11 @@
 
 #include "pathdesired.h"
 #include "positionactual.h"
+#include "vtolpathfollowersettings.h"
 #include "vtolpathfollowerstatus.h"
 
 // Various navigation constants
 const static float RTH_MIN_ALTITUDE = 15.f;  //!< Hover at least 15 m above home */
-const static float RTH_VELOCITY     = 3.0f;  //!< Return home at 3.0 m/s */
 const static float RTH_ALT_ERROR    = 1.0f;  //!< The altitude to come within for RTH */
 const static float DT               = 0.05f; // TODO: make the self monitored
 
@@ -671,8 +671,11 @@ static void go_enable_fly_home()
 		vtol_fsm_path_desired.End[2] = -RTH_MIN_ALTITUDE;
 	}
 
-	vtol_fsm_path_desired.StartingVelocity = RTH_VELOCITY;
-	vtol_fsm_path_desired.EndingVelocity = RTH_VELOCITY;
+	float rth_vel = 3.0f;
+	VtolPathFollowerSettingsReturnToHomeVelGet(&rth_vel);
+
+	vtol_fsm_path_desired.StartingVelocity = rth_vel;
+	vtol_fsm_path_desired.EndingVelocity = rth_vel;
 
 	vtol_fsm_path_desired.Mode = PATHDESIRED_MODE_VECTOR;
 	vtol_fsm_path_desired.ModeParameters = 0;
