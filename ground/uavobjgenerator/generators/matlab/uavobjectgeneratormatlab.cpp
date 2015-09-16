@@ -124,7 +124,9 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     matlabSwitchCode.append("\t\tcase " + objectTableName.toUpper() + "_OBJID\n");
     matlabSwitchCode.append("\t\t\t" + tableIdxName + " = " + tableIdxName +" + 1;\n");
     matlabSwitchCode.append("\t\t\t" + objectTableName + "FidIdx(" + tableIdxName + ") = bufferIdx; %#ok<*AGROW>\n");
-    matlabSwitchCode.append("\t\t\t" + objectTableName + ".timestamp(" + tableIdxName + ") = timestamp; %#ok<*AGROW>\n");
+    matlabSwitchCode.append("\t\t\tif ~onboardLogger\n");
+    matlabSwitchCode.append("\t\t\t\t" + objectTableName + ".timestamp(" + tableIdxName + ") = timestamp; %#ok<*AGROW>\n");
+    matlabSwitchCode.append("\t\t\tend\n");
     matlabSwitchCode.append("\t\t\tbufferIdx=bufferIdx + " +  objectTableName.toUpper() + "_NUMBYTES + timestampedMsgOffset + 1; %+1 is for CRC\n");
     if(!info->isSingleInst){
         matlabSwitchCode.append("\t\t\tbufferIdx = bufferIdx + 2; %An extra two bytes for the instance ID\n");
@@ -155,9 +157,11 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
                           ", " + objectName + "FidIdx  + instanceIdOffset + 2-1)), 'uint16'))';\n");
         currentIdx+=2;
     }
+    allocationFields.append("\tif onboardLogger\n");
     allocationFields.append("\t" + objectName + ".timestamp = " +
                       "double(typecast(buffer(mcolon(" + objectName + "FidIdx" +
                       ", 1+" + objectName + "FidIdx)), 'uint16'))';\n");
+    allocationFields.append("\tend\n");
 
     for (int n = 0; n < info->fields.length(); ++n) {
         // Determine variable type

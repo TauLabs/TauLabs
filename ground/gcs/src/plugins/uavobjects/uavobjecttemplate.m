@@ -186,7 +186,6 @@ while bufferIdx < (length(buffer) - 20)
 		datasizeBufferIdx = bufferIdx; %Just grab the index. We'll do a typecast later, if necessary
 		msgType = buffer(bufferIdx+1); % get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
 		objID = typecast(buffer(bufferIdx+4:bufferIdx + 4+4-1), 'uint32'); % get obj id (quint32 4 bytes)
-		timestamp = 0; %double(typecast(buffer(bufferIdx:bufferIdx+4-1),'uint32'));
 		
 		% Advance buffer past header to where data is (or instance ID)
 		bufferIdx=bufferIdx + 8;
@@ -213,11 +212,13 @@ while bufferIdx < (length(buffer) - 20)
 		bufferIdx=bufferIdx + 20;
 	end
 
-	if timestamp < lastTimestamp
-		timestampAccumulator = timestampAccumulator + timestampWraparound;
+	if ~onboardLogger
+		if timestamp < lastTimestamp
+			timestampAccumulator = timestampAccumulator + timestampWraparound;
+		end
+		lastTimestamp = timestamp;
+		timestamp = timestamp + timestampAccumulator;
 	end
-	lastTimestamp = timestamp;    
-	timestamp = timestamp + timestampAccumulator;
 
 	%Check that message type is correct
 	if bitand(msgType, 127) ~= correctMsgByte
