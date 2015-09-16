@@ -65,11 +65,15 @@ qmfiles.path = /share/taulabs/translations
 qmfiles.CONFIG += no_check_exist
 INSTALLS += qmfiles
 
+QTSYSTRANS = qt qtbase qtscript qtquick1 qtmultimedia qtxmlpatterns
+
 #========= begin block copying qt_*.qm files ==========
 defineReplace(QtQmExists) {
     for(lang,$$1) {
-        qm_file = $$[QT_INSTALL_TRANSLATIONS]/qt_$${lang}.qm
-        exists($$qm_file) : result += $$qm_file
+        for(transbase,QTSYSTRANS) {
+            qm_file = $$[QT_INSTALL_TRANSLATIONS]/$${transbase}_$${lang}.qm
+            exists($$qm_file) : result += $$qm_file
+        }
     }
     return($$result)
 }
