@@ -11,7 +11,7 @@
 # build-arch and build-indep targets  by Bill Allombert 2001
 
 # Uncomment this to turn on verbose mode.
-# export DH_VERBOSE=1
+export DH_VERBOSE=1
 
 # This has to be exported to make some magic below work.
 export DH_OPTIONS=-v
@@ -19,13 +19,12 @@ export DH_OPTIONS=-v
 #%:
 #	dh $@ 
 
-PACKAGE_DIR	= $(shell cat build/package_dir)
-
 clean:
 	dh_testdir
 	dh_testroot
 	dh_clean
- 
+build:
+	#DO NOTHING
 install:
 	dh_testdir
 	dh_testroot
@@ -33,27 +32,21 @@ install:
 	dh_installdirs
 	dh_installudev --priority=45
 	# Add here commands to install the package into debian/<packagename>
-	cp -arp build/ground/gcs/bin   debian/taulabs/usr/local/TauLabs
-	cp -arp build/ground/gcs/lib   debian/taulabs/usr/local/TauLabs
-	cp -arp build/ground/gcs/share debian/taulabs/usr/local/TauLabs
-	cp -arp build/ground/gcs/gcsversioninfo.h debian/taulabs/usr/local/TauLabs
-	cp -arp package/linux/taulabs.desktop debian/taulabs/usr/share/applications
-	cp -arp package/linux/taulabs.png     debian/taulabs/usr/share/pixmaps
-	cp -arp package/linux/taulabs_menu.png  debian/taulabs/usr/share/pixmaps
-	cp -arp package/linux/taulabs_menu.menu debian/taulabs/etc/xdg/menus/applications-merged
-	cp -arp package/linux/taulabs_menu.directory debian/taulabs/usr/share/desktop-directories
-ifdef PACKAGE_DIR
-	cp -a $(PACKAGE_DIR)/*.tlfw debian/taulabs/usr/local/TauLabs/firmware/
-else
-	$(error PACKAGE_DIR not defined! $(PACKAGE_DIR))
-endif
-	ln -s /usr/local/TauLabs/bin/taulabsgcs.bin `pwd`/debian/taulabs/usr/bin/taulabs-gcs
-	rm -rf debian/taulabs/usr/local/TauLabs/share/taulabs/sounds/sounds
-	rm -rf debian/taulabs/usr/local/TauLabs/share/taulabs/pfd/pfd
-	rm -rf debian/taulabs/usr/local/TauLabs/share/taulabs/models/models
-	rm -rf debian/taulabs/usr/local/TauLabs/share/taulabs/mapicons/mapicons
-	rm -rf debian/taulabs/usr/local/TauLabs/share/taulabs/dials/dials
-	rm -rf debian/taulabs/usr/local/TauLabs/share/taulabs/diagrams/diagrams
+	cp -arp <BIN_ROOT>/bin   <TARGET_ROOT>/taulabs/usr/local/TauLabs
+	cp -arp <BIN_ROOT>/lib   <TARGET_ROOT>/taulabs/usr/local/TauLabs
+	cp -arp <BIN_ROOT>/share <TARGET_ROOT>/taulabs/usr/local/TauLabs
+	cp -arp <PROJECT_ROOT>/package/linux/taulabs.desktop <TARGET_ROOT>/taulabs/usr/share/applications
+	cp -arp <PROJECT_ROOT>/package/linux/taulabs.png <TARGET_ROOT>/taulabs/usr/share/pixmaps
+	cp -arp <PROJECT_ROOT>/package/linux/taulabs_menu.png <TARGET_ROOT>/taulabs/usr/share/pixmaps
+	cp -arp <PROJECT_ROOT>/package/linux/taulabs_menu.menu <TARGET_ROOT>/taulabs/etc/xdg/menus/applications-merged
+	cp -arp <PROJECT_ROOT>/package/linux/taulabs_menu.directory debian/taulabs/usr/share/desktop-directories
+	ln -s /usr/local/TauLabs/bin/taulabsgcs <TARGET_ROOT>/taulabs/usr/bin/taulabsgcs
+	rm -rf <TARGET_ROOT>/taulabs/usr/local/TauLabs/share/taulabs/sounds/sounds
+	rm -rf <TARGET_ROOT>/taulabs/usr/local/TauLabs/share/taulabs/pfd/pfd
+	rm -rf <TARGET_ROOT>/taulabs/usr/local/TauLabs/share/taulabs/models/models
+	rm -rf <TARGET_ROOT>/taulabs/usr/local/TauLabs/share/taulabs/mapicons/mapicons
+	rm -rf <TARGET_ROOT>/taulabs/usr/local/TauLabs/share/taulabs/dials/dials
+	rm -rf <TARGET_ROOT>/taulabs/usr/local/TauLabs/share/taulabs/diagrams/diagrams
 
 
 # Build architecture-independent files here.
