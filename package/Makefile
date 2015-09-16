@@ -68,8 +68,8 @@ help:
 	@echo "   Here is a summary of the available targets:"
 	@echo
 	@echo "   [Packaging]"
-	@echo "     package        - Build and package the OpenPilot distributable"
-	@echo "     package_flight - Build and package the OpenPilot flight firmware only"
+	@echo "     package        - Build and package the Tau Labs distributable"
+	@echo "     package_flight - Build and package the Tau Labs flight firmware only"
 	@echo
 	@echo "   Notes:"
 	@echo "     - package will be placed in $(PACKAGE_DIR)"
@@ -112,13 +112,13 @@ endif
 endef
 
 # Firmware
-$(eval $(call INSTALL_TEMPLATE,all_fw,uavobjects,$(FW_DIR),,-$(PACKAGE_LBL),,,$(FW_TARGETS),install))
+$(eval $(call INSTALL_TEMPLATE,all_fw,uavobjects,$(FW_DIR),,$(PACKAGE_LBL),,,$(FW_TARGETS),install))
 
 # Bootloaders (change 'install' to 'bin' if you don't want to install bootloaders)
-$(eval $(call INSTALL_TEMPLATE,all_bl,uavobjects,$(BL_DIR),,-$(PACKAGE_LBL),,,$(BL_TARGETS),install))
+$(eval $(call INSTALL_TEMPLATE,all_bl,uavobjects,$(BL_DIR),,$(PACKAGE_LBL),,,$(BL_TARGETS),install))
 
 # Bootloader updaters
-$(eval $(call INSTALL_TEMPLATE,all_bu,all_bl,$(BU_DIR),,-$(PACKAGE_LBL),,,$(BU_TARGETS),install))
+$(eval $(call INSTALL_TEMPLATE,all_bu,all_bl,$(BU_DIR),,$(PACKAGE_LBL),,,$(BU_TARGETS),install))
 
 # Order-only dependencies
 package_flight: | all_fw all_bu
@@ -135,7 +135,7 @@ package: | package_flight package_ground package_matlab
 # and it depends on flight firmware images
 ground_package: | tlfw_resource
 
-tlfw_resource: | all_fw
+tlfw_resource: | all_fw all_bu
 
 # Decide on a verbosity level based on the V= parameter
 export AT := @
@@ -165,6 +165,7 @@ endif
 
 toprel = $(subst $(realpath $(ROOT_DIR))/,,$(abspath $(1)))
 TLFW_FILES := $(foreach fw_targ, $(FW_TARGETS), $(call toprel, $(BUILD_DIR)/$(fw_targ)/$(fw_targ).tlfw))
+TLFW_FILES += $(foreach bu_targ, $(BU_TARGETS), $(call toprel, $(BUILD_DIR)/$(bu_targ)/$(bu_targ).tlfw))
 TLFW_CONTENTS := \
 <!DOCTYPE RCC><RCC version="1.0"> \
  <qresource> \
@@ -179,6 +180,8 @@ tlfw_resource:
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@/build
 	$(V1) echo '$(TLFW_CONTENTS)' > $(BUILD_DIR)/ground/$@/tlfw_resource.qrc
 	$(V1) $(foreach fw_targ, $(FW_TARGETS), mkdir -p $(BUILD_DIR)/ground/$@/build/$(fw_targ);)
-	$(V1)$(foreach fw_targ, $(FW_TARGETS), cp $(BUILD_DIR)/$(fw_targ)/$(fw_targ).tlfw $(BUILD_DIR)/ground/$@/build/$(fw_targ)/;)
+	$(V1) $(foreach bu_targ, $(BU_TARGETS), mkdir -p $(BUILD_DIR)/ground/$@/build/$(bu_targ);)
+	$(V1) $(foreach fw_targ, $(FW_TARGETS), cp $(BUILD_DIR)/$(fw_targ)/$(fw_targ).tlfw $(BUILD_DIR)/ground/$@/build/$(fw_targ)/;)
+	$(V1) $(foreach bu_targ, $(BU_TARGETS), cp $(BUILD_DIR)/$(bu_targ)/$(bu_targ).tlfw $(BUILD_DIR)/ground/$@/build/$(bu_targ)/;)
 
 include $(WHEREAMI)/Makefile.$(PLATFORM)
