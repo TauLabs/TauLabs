@@ -158,9 +158,9 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
         currentIdx+=2;
     }
     allocationFields.append("\tif onboardLogger\n");
-    allocationFields.append("\t" + objectName + ".timestamp = " +
-                      "double(typecast(buffer(mcolon(" + objectName + "FidIdx" +
-                      ", 1+" + objectName + "FidIdx)), 'uint16'))';\n");
+    allocationFields.append("\t\t" + objectName + ".timestamp = " +
+                      "time_unwrap(double(typecast(buffer(mcolon(" + objectName + "FidIdx" +
+                      ", 1+" + objectName + "FidIdx)), 'uint16'))', 2^16);\n");
     allocationFields.append("\tend\n");
 
     for (int n = 0; n < info->fields.length(); ++n) {

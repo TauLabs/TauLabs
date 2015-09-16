@@ -388,3 +388,16 @@ function out=mcolon(inStart, inFinish)
 		out(idx:idx+diffIn(i))=inStart(i):inFinish(i);
 		idx=idx+diffIn(i)+1;
 	end
+
+function unwrapped_time = time_unwrap(x, T)
+%% Unwraps the time when a subsequent sample is earlier in time than the
+% prior sample. Note that this can only capture one wrapping period. If
+% there are multiple wrapping periods hidden inside the data, this will not
+% return an appropriately unwrapped timestamp.
+	unwrapped_time = x;
+	time_diff = diff(x) < 0;
+	for i=1:length(time_diff)
+		if time_diff(i) == true
+			unwrapped_time(i+1:end) = unwrapped_time(i+1:end) + T;
+		end
+	end
