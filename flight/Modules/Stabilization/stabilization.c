@@ -439,7 +439,7 @@ static void stabilizationTask(void* parameters)
 						axis_lock_accum[i] = bound_sym(axis_lock_accum[i], max_axis_lock);
 
 						// Compute the inner loop
-						float tmpRateDesired = pid_apply(&pids[PID_ATT_ROLL + i], axis_lock_accum[i], dT);
+						float tmpRateDesired = pid_apply(&pids[PID_GROUP_ATT + i], axis_lock_accum[i], dT);
 						rateDesiredAxis[i] = bound_sym(tmpRateDesired, settings.MaximumRate[i]);
 					}
 
