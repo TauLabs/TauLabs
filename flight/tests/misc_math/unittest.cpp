@@ -259,7 +259,8 @@ TEST_F(Vector2Clip, TestScale) {
     float test_vec_null[2] = {0, 0};
     float test_vec_within[2] = {limit/2, limit/2};
     float test_vec_edge_numerically_stable[2] = {limit, 0};
-    float test_vec_edge_numerically_unstable[2] = {sqrt(2)/2*limit, sqrt(2)/2*limit};
+    float test_vec_edge_numerically_unstable[2] =
+        {(float) (sqrt(2)/2*limit), (float) (sqrt(2)/2*limit)};
     float test_vec_outside[2] = {limit, limit};
 
     // Test for 0 vector
