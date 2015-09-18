@@ -192,8 +192,8 @@ void vector2_clip(float *vels, float limit)
 	float scale = mag / limit;
 
 	if (scale > 1) {
-		vels[0] /= mag;
-		vels[1] /= mag;
+		vels[0] /= scale;
+		vels[1] /= scale;
 	}
 }
 
