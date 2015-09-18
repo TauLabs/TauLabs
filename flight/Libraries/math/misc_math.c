@@ -189,11 +189,11 @@ float vector3_distances(const float *actual,
 void vector2_clip(float *vels, float limit)
 {
 	float mag = vectorn_magnitude(vels, 2);    // only horiz component
-	float scale = mag / limit;
 
-	if (scale > 1) {
-		vels[0] /= scale;
-		vels[1] /= scale;
+	if (mag > limit && mag != 0) {
+		float scale = limit / mag;
+		vels[0] *= scale;
+		vels[1] *= scale;
 	}
 }
 
