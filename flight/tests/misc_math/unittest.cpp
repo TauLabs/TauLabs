@@ -237,3 +237,55 @@ TEST_F(CircularModulusDeg, SweepError) {
     ASSERT_NEAR(error, circular_modulus_deg(error + 1080), eps);
   }
 };
+
+// Test fixture for vector2_clip()
+class Vector2Clip : public MiscMath {
+protected:
+  virtual void SetUp() {
+  }
+
+  virtual void TearDown() {
+  }
+};
+
+TEST_F(Vector2Clip, TestScale) {
+  float eps = 0.000001f;
+
+  // Choose a non-integer limit
+  for (int i=0; i<3; i++) {
+    // Change the limit on each interation. This tests limit < 1, limit = 1, and limit > 1.
+    float limit = 0.5*i;
+
+    float test_vec_null[2] = {0, 0};
+    float test_vec_within[2] = {limit/2, limit/2};
+    float test_vec_edge_numerically_stable[2] = {limit, 0};
+    float test_vec_edge_numerically_unstable[2] =
+        {(float) (sqrt(2)/2*limit), (float) (sqrt(2)/2*limit)};
+    float test_vec_outside[2] = {limit, limit};
+
+    // Test for 0 vector
+    vector2_clip(test_vec_null, limit);
+    ASSERT_NEAR(test_vec_null[0], 0, eps);
+    ASSERT_NEAR(test_vec_null[1], 0, eps);
+
+    // Test for vector within limits
+    vector2_clip(test_vec_within, limit);
+    EXPECT_EQ(test_vec_within[0], limit/2);
+    EXPECT_EQ(test_vec_within[1], limit/2);
+
+    // Test for vector numerically identically at limits
+    vector2_clip(test_vec_edge_numerically_stable, limit);
+    EXPECT_EQ(test_vec_edge_numerically_stable[0], limit);
+    EXPECT_EQ(test_vec_edge_numerically_stable[1], 0.0f);
+
+    // Test for vector identically at limits, but suffering from numerical imprecision
+    vector2_clip(test_vec_edge_numerically_unstable, limit);
+    ASSERT_NEAR(test_vec_edge_numerically_unstable[0], sqrt(2)/2*limit, eps);
+    ASSERT_NEAR(test_vec_edge_numerically_unstable[1], sqrt(2)/2*limit, eps);
+
+    // Test for vector outside limits
+    vector2_clip(test_vec_outside, limit);
+    ASSERT_NEAR(test_vec_outside[0], sqrt(2)/2*limit, eps);
+    ASSERT_NEAR(test_vec_outside[1], sqrt(2)/2*limit, eps);
+  }
+};
