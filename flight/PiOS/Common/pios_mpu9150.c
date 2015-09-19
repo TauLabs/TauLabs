@@ -775,38 +775,38 @@ static void PIOS_MPU9150_Task(void *parameters)
 					break;
 				case PIOS_MPU60X0_TOP_90DEG:
 					mag_data.y = (int16_t)  (mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
-					mag_data.x = (int16_t) -(mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
+					mag_data.x = -1.0f * (int16_t)(mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
 					mag_data.z = (int16_t) (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
 					break;
 				case PIOS_MPU60X0_TOP_180DEG:
-					mag_data.x = (int16_t) -(mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
-					mag_data.y = (int16_t) -(mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
+					mag_data.x = -1.0f * (int16_t)(mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
+					mag_data.y = -1.0f * (int16_t)(mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
 					mag_data.z = (int16_t) (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
 					break;
 				case PIOS_MPU60X0_TOP_270DEG:
-					mag_data.y = (int16_t) -(mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
+					mag_data.y = -1.0f * (int16_t)(mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
 					mag_data.x = (int16_t)  (mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
 					mag_data.z = (int16_t) (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
 					break;
 				case PIOS_MPU60X0_BOTTOM_0DEG:
 					mag_data.x = (int16_t) (mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
-					mag_data.y = (int16_t) - (mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
-					mag_data.z = (int16_t) - (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
+					mag_data.y = -1.0f * (int16_t) (mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
+					mag_data.z = -1.0f * (int16_t) (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
 					break;
 				case PIOS_MPU60X0_BOTTOM_90DEG:
-					mag_data.y = (int16_t) - (mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
-					mag_data.x = (int16_t) - (mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
-					mag_data.z = (int16_t) - (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
+					mag_data.y = -1.0f * (int16_t) (mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
+					mag_data.x = -1.0f * (int16_t) (mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
+					mag_data.z = -1.0f * (int16_t) (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
 					break;
 				case PIOS_MPU60X0_BOTTOM_180DEG:
-					mag_data.x = (int16_t) - (mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
+					mag_data.x = -1.0f * (int16_t) (mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
 					mag_data.y = (int16_t)   (mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
-					mag_data.z = (int16_t) - (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
+					mag_data.z = -1.0f * (int16_t) (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
 					break;
 				case PIOS_MPU60X0_BOTTOM_270DEG:
 					mag_data.y = (int16_t)   (mpu9150_mag_buffer[1] << 0x08 | mpu9150_mag_buffer[0]);
 					mag_data.x = (int16_t)   (mpu9150_mag_buffer[3] << 0x08 | mpu9150_mag_buffer[2]);
-					mag_data.z = (int16_t) - (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
+					mag_data.z = -1.0f * (int16_t) (mpu9150_mag_buffer[5] << 0x08 | mpu9150_mag_buffer[4]);
 					break;
 				}
 

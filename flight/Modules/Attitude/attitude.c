@@ -1025,7 +1025,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	mag_updated &= !outdoor_mode || (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]);
 
 	// A more stringent requirement for GPS to initialize the filter
-	bool gps_init_usable = gps_updated & (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
+	bool gps_init_usable = gps_updated && (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	// Set user-friendly alarms appropriately based on state
 	if (ins_state == INS_INIT) {
