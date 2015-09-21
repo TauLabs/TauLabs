@@ -338,35 +338,74 @@ QString UAVSettingsImportExportFactory::createXMLDocument(const enum storedData 
         }
     }
 
-    // This sorts the XML <object> children's <name=".."> attribute by alphabetical order. This
-    // is particularly helpful when comparing *.uav files to each other.
+    // This sorts the XML <object> children's <name=".."> attribute by alphabetical order,
+    // as well as sorting all attributes by alphabetical order (see note below for
+    // special circumstances around sorting attributes. This is particularly helpful when
+    // comparing *.uav files to each other.
     QString preliminaryXMLDoc = doc.toString(4);
+    QString alphabetizedAttributesXMLDoc;
     QString alphabetizedXMLDoc;
 
-    QString xmlAlpheticalSorter(" \
-        <xsl:stylesheet version=\"2.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"> \
-          <xsl:output method=\"xml\" indent=\"yes\" omit-xml-declaration=\"no\"/> \
-          <xsl:strip-space elements=\"*\"/> \
-          \
-          <xsl:template match=\"@* | node()\"> \
-            <xsl:copy> \
-              <xsl:apply-templates select=\"@* | node()\"/> \
-            </xsl:copy> \
-          </xsl:template> \
-          \
-          <xsl:template match=\"settings\"> \
-            <xsl:copy> \
-              <xsl:apply-templates select=\"@*\" /> \
-              <xsl:apply-templates select=\"object\"> \
-                <xsl:sort select=\"@name\" data-type=\"text\"/> \
-              </xsl:apply-templates> \
-            </xsl:copy> \
-          </xsl:template> \
-        </xsl:stylesheet> \
-    ");
+    // (New C++11 "raw string literal" string format.)
+    // This sorts all attributes by alphabetical order. This is *not* guaranteed to
+    // work. In fact, it is guaranteed *not* to work in all conditions. See
+    // http://stackoverflow.com/questions/1429991/using-xsl-to-sort-attributes.
+    // However, it seems to work so far and there's no expectation it will change
+    // in Qt's near future.
+    QString xmlAttributeSorter = R"(
+        <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+          <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+          <xsl:template match="*">
+            <xsl:copy>
+              <xsl:apply-templates select="@*">
+                <xsl:sort select="name() "/>
+              </xsl:apply-templates>
+              <xsl:apply-templates/>
+            </xsl:copy>
+          </xsl:template>
+          <xsl:template match="@*|comment()|processing-instruction() ">
+            <xsl:copy />
+          </xsl:template>
+        </xsl:stylesheet>
+    )";
 
+    // (New C++11 "raw string literal" string format.)
+    // This XSLT template sorts all children by alphabetical order. This is guaranteed
+    // to work (unlike the attribute sorting).
+    QString xmlAlpheticalSorter = R"(
+        <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+          <xsl:output method="xml" indent="yes" omit-xml-declaration="no"/>
+          <xsl:strip-space elements="*"/>
+
+          <xsl:template match="@* | node() ">
+            <xsl:copy>
+              <xsl:apply-templates select="@* | node() "/>
+            </xsl:copy>
+          </xsl:template>
+
+          <xsl:template match="settings">
+            <xsl:copy>
+              <xsl:apply-templates select="@*" />
+              <xsl:apply-templates select="object">
+                <xsl:sort select="@name" data-type="text"/>
+
+              </xsl:apply-templates>
+            </xsl:copy>
+          </xsl:template>
+
+        </xsl:stylesheet>
+    )";
+
+    // Generate query and set to XSLT v2.0
     QXmlQuery query(QXmlQuery::XSLT20);
+
+    // First sort attributes...
     query.setFocus(preliminaryXMLDoc);
+    query.setQuery(xmlAttributeSorter);
+    query.evaluateTo(&alphabetizedAttributesXMLDoc);
+
+    // Then sort children.
+    query.setFocus(alphabetizedAttributesXMLDoc);
     query.setQuery(xmlAlpheticalSorter);
     query.evaluateTo(&alphabetizedXMLDoc);
 
