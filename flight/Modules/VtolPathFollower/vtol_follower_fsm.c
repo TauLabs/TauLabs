@@ -671,6 +671,8 @@ static void go_enable_fly_home()
 		vtol_fsm_path_desired.End[2] = -RTH_MIN_ALTITUDE;
 	}
 
+	/* Paranoia: set to 3.0f just in case calls below fail.  TODO: change
+	 * UAVO semantics to be guaranteed to either succeed or crash */
 	float rth_vel = 3.0f;
 	VtolPathFollowerSettingsReturnToHomeVelGet(&rth_vel);
 
