@@ -424,7 +424,9 @@ static int32_t do_hold()
 }
 
 //! The configured path desired. Uses the @ref PathDesired structure
-static PathDesiredData vtol_fsm_path_desired;
+static PathDesiredData vtol_fsm_path_desired = {
+	.Waypoint = 8000	// Unlikely to clash with pathplanner
+};
 
 /**
  * Update control values to fly along a path.
@@ -582,6 +584,9 @@ static void hold_position(float north, float east, float down)
 	vtol_fsm_path_desired.EndingVelocity   = 0;
 	vtol_fsm_path_desired.Mode = PATHDESIRED_MODE_ENDPOINT;
 	vtol_fsm_path_desired.ModeParameters = 0;
+
+	vtol_fsm_path_desired.Waypoint++;
+
 	PathDesiredSet(&vtol_fsm_path_desired);
 }
 
@@ -676,6 +681,13 @@ static void go_enable_fly_home()
 
 	vtol_fsm_path_desired.Mode = PATHDESIRED_MODE_VECTOR;
 	vtol_fsm_path_desired.ModeParameters = 0;
+
+	/* It's necessary that this increment so that we don't end up
+	 * latching completion status. Wraparound, etc, is OK.
+	 * This is for compatibility with the waypoint handshaking in the
+	 * path planner.
+	 */
+	vtol_fsm_path_desired.Waypoint++;
 
 	PathDesiredSet(&vtol_fsm_path_desired);
 }
