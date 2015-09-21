@@ -113,6 +113,8 @@ void FlightLogDownload::updateReceived()
         loggingStats->updated();
         ui->sectorLabel->setText(QString::number(logging.FileSectorNum));
         qDebug() << "Requesting sector num: " << logging.FileSectorNum;
+
+        ui->lb_operationStatus->setText("Downloading...");
         break;
     case LoggingStats::OPERATION_COMPLETE:
     {
@@ -127,6 +129,7 @@ void FlightLogDownload::updateReceived()
         logFile->write(log);
         logFile->close();
 
+        ui->lb_operationStatus->setText("Download complete.");
         break;
     }
     case LoggingStats::OPERATION_ERROR:
@@ -136,6 +139,7 @@ void FlightLogDownload::updateReceived()
         UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_MANUAL);
         loggingStats->setMetadata(mdata);
 
+        ui->lb_operationStatus->setText("Download error.");
         break;
     default:
         qDebug() << "Unhandled";
