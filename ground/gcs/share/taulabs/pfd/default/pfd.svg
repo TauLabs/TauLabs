@@ -4052,6 +4052,26 @@
     </g>
     <g
        inkscape:groupmode="layer"
+       id="layer34"
+       inkscape:label="unfiltered-compass-bearing"
+       style="display:inline"
+       sodipodi:insensitive="true">
+      <g
+         transform="translate(230.4171,-2.5493514)"
+         style="display:inline"
+         id="unfiltered-compass-bearing"
+         inkscape:label="#g8509">
+        <rect
+           style="fill:#ff0000;fill-opacity:1;stroke:none;display:inline"
+           id="rect3967-7"
+           width="3"
+           height="37.5"
+           x="191.92456"
+           y="21.661144" />
+      </g>
+    </g>
+    <g
+       inkscape:groupmode="layer"
        id="layer33"
        inkscape:label="homewaypoint"
        style="display:inline"
