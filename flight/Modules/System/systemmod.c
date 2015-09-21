@@ -347,12 +347,16 @@ static void configurationUpdatedCb(UAVObjEvent * ev)
  * Called periodically to update the WDG statistics
  */
 #if defined(WDG_STATS_DIAGNOSTICS)
+static WatchdogStatusData watchdogStatus;
 static void updateWDGstats() 
 {
-	WatchdogStatusData watchdogStatus;
-	watchdogStatus.BootupFlags = PIOS_WDG_GetBootupFlags();
-	watchdogStatus.ActiveFlags = PIOS_WDG_GetActiveFlags();
-	WatchdogStatusSet(&watchdogStatus);
+	// Only update if something has changed
+	if (watchdogStatus.ActiveFlags != PIOS_WDG_GetActiveFlags() ||
+	    watchdogStatus.BootupFlags != PIOS_WDG_GetBootupFlags()) {
+		watchdogStatus.BootupFlags = PIOS_WDG_GetBootupFlags();
+		watchdogStatus.ActiveFlags = PIOS_WDG_GetActiveFlags();
+		WatchdogStatusSet(&watchdogStatus);
+	}
 }
 #endif
 
