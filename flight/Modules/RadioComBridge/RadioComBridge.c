@@ -40,7 +40,6 @@
 #include "hwtaulink.h"
 #include <uavtalk_priv.h>
 #include <pios_rfm22b.h>
-#include <ecc.h>
 #if defined(PIOS_INCLUDE_FLASH_EEPROM)
 #include <pios_eeprom.h>
 #endif

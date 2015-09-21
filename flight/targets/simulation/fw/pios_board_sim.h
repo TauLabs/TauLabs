@@ -67,7 +67,6 @@ extern uintptr_t pios_com_spectrum_id;
 #define PIOS_GCSRCVR_TIMEOUT_MS 200
 /**
  * glue macros for file IO
- * STM32 uses DOSFS for file IO
  */
 #define PIOS_FOPEN_READ(filename,file)	(file=fopen((char*)filename,"r"))==NULL
 
