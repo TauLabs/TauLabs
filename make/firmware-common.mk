@@ -139,7 +139,15 @@ $(eval $(call PARTIAL_COMPILE_TEMPLATE, SRC))
 
 $(OUTDIR)/$(TARGET).bin.o: $(OUTDIR)/$(TARGET).bin
 
-$(eval $(call TLFW_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(BOARD_TYPE),$(BOARD_REVISION)))
+# Allows the bin to be padded up to the firmware description blob base
+# Required for boards which don't use the TL bootloader to put
+# the blob at the correct location
+ifdef PAD_TLFW_FW_DESC
+FW_DESC_BASE := $(shell echo $$(($(FW_BANK_BASE)+$(FW_BANK_SIZE)-$(FW_DESC_SIZE))))
+else 
+FW_DESC_BASE = 0
+endif
+$(eval $(call TLFW_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(BOARD_TYPE),$(BOARD_REVISION),$(FW_DESC_BASE)))
 
 # Add jtag targets (program and wipe)
 $(eval $(call JTAG_TEMPLATE,$(OUTDIR)/$(TARGET).bin,$(FW_BANK_BASE),$(FW_BANK_SIZE),$(OPENOCD_JTAG_CONFIG),$(OPENOCD_CONFIG)))
@@ -179,6 +187,7 @@ clean_list :
 	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).elf
 	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).hex
 	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).bin
+	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).padded.bin
 	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).sym
 	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).lss
 	$(V1) $(REMOVE) $(OUTDIR)/$(TARGET).bin.o

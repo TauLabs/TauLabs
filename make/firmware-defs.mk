@@ -125,6 +125,7 @@ endef
 #  $(1) = path to bin file
 #  $(2) = boardtype in hex
 #  $(3) = board revision in hex
+#  $(4) = address to pad firmware bin before appending info blob
 define TLFW_TEMPLATE
 FORCE:
 
@@ -141,12 +142,16 @@ $(1).firmwareinfo.c: $(1) $(ROOT_DIR)/make/templates/firmwareinfotemplate.c FORC
 
 $(eval $(call COMPILE_C_TEMPLATE, $(1).firmwareinfo.c))
 
-# Hack to place Naze firmware info at correct location in flash TODO: fix properly
-ifeq (,$(findstring naze32,$(TARGET)))
-$(OUTDIR)/$(notdir $(basename $(1))).tlfw : $(1) $(1).firmwareinfo.bin
+# This pads the bin up to the firmware description blob base
+# Required for boards which don't use the TL bootloader to put
+# the blob at the correct location, if pad location($(4)) is
+# less than bin length this is ineffective
+%.padded.bin: %.elf
+	$(V1) $(OBJCOPY) --pad-to=$(4) -O binary $$< $$@
+
+$(OUTDIR)/$(notdir $(basename $(1))).tlfw: $(1:.bin=.padded.bin) $(1).firmwareinfo.bin
 	@echo $(MSG_TLFIRMWARE) $$(call toprel, $$@)
-	$(V1) cat $(1) $(1).firmwareinfo.bin > $$@
-endif
+	$(V1) cat $$^ > $$@
 endef
 
 # Assemble: create object files from assembler source files.
