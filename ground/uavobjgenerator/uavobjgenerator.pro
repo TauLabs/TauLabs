@@ -5,14 +5,14 @@ QT += xml
 QT -= gui
 
 macx {
-    QMAKE_CFLAGS_X86_64 += -mmacosx-version-min=10.7
-    QMAKE_CXXFLAGS_X86_64 = $$QMAKE_CFLAGS_X86_64
+    QMAKE_MACOSX_DEPLOYMENT_TARGET=10.9
 }
 
 cache()
 
 TARGET = uavobjgenerator
 CONFIG += console
+CONFIG += c++11
 CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
