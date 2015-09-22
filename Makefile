@@ -308,8 +308,7 @@ UAVOBJ_XML_DIR := $(ROOT_DIR)/shared/uavobjectdefinition
 UAVOBJ_OUT_DIR := $(BUILD_DIR)/uavobject-synthetics
 
 uavobjects: uavobjgenerator
-	$(V1) rm -rf "$(UAVOBJ_OUT_DIR)"
-	$(V1) mkdir $(UAVOBJ_OUT_DIR)
+	$(V1) mkdir -p $(UAVOBJ_OUT_DIR)
 	$(V1) ( cd $(UAVOBJ_OUT_DIR) && \
 	  $(UAVOBJGENERATOR) $(UAVOBJ_XML_DIR) $(ROOT_DIR) ; \
 	)
