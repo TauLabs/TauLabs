@@ -1072,8 +1072,14 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		altitudeHoldDesired.Altitude = -current_down;
 		altitudeHoldDesired.ClimbRate = 0;
 	} else {
-		uint8_t altitude_hold_expo, altitude_hold_maxrate, altitude_hold_deadband;
-		AltitudeHoldSettingsMaxRateGet(&altitude_hold_maxrate);
+		uint8_t altitude_hold_expo;
+		uint8_t altitude_hold_maxrate10;
+		uint8_t altitude_hold_deadband;
+		AltitudeHoldSettingsMaxRateGet(&altitude_hold_maxrate10);
+
+		// Scale altitude hold rate
+		float altitude_hold_maxrate = altitude_hold_maxrate10 * 0.1f;
+
 		AltitudeHoldSettingsExpoGet(&altitude_hold_expo);
 		AltitudeHoldSettingsDeadbandGet(&altitude_hold_deadband);
 
