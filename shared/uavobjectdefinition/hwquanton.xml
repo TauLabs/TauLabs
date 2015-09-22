@@ -4,7 +4,7 @@
 
 		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PWM,PWM+ADC,PPM,PPM+ADC,PPM+PWM,PPM+PWM+ADC,PPM+Outputs,PPM+Outputs+ADC,Outputs,Outputs+ADC" defaultvalue="PWM"/>
 
-		<field name="Uart1" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+		<field name="Uart1" units="function" type="enum" elements="1" parent="HwShared.PortTypes" defaultvalue="Disabled">
 			<options>
 				<option>Disabled</option>
 				<option>Telemetry</option>
@@ -25,12 +25,12 @@
 			</options>
 		</field>
 
-		<field name="Uart2" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+		<field name="Uart2" units="function" type="enum" elements="1" parent="HwShared.PortTypes" defaultvalue="Disabled">
 			<options>
 				<option>Disabled</option>
 				<option>Telemetry</option>
 				<option>GPS</option>
-				<option>S.BUS</option>
+				<option>S.Bus</option>
 				<option>DSM</option>
 				<option>DebugConsole</option>
 				<option>ComBridge</option>
@@ -46,7 +46,7 @@
 			</options>
 		</field>
 
-		<field name="Uart3" units="function" type="enum" elements="1"  defaultvalue="Disabled">
+		<field name="Uart3" units="function" type="enum" elements="1" parent="HwShared.PortTypes" defaultvalue="Disabled">
 			<options>
 				<option>Disabled</option>
 				<option>Telemetry</option>
@@ -67,7 +67,7 @@
 			</options>
 		</field>
 
-		<field name="Uart4" units="function" type="enum" elements="1"  defaultvalue="Telemetry">
+		<field name="Uart4" units="function" type="enum" elements="1" parent="HwShared.PortTypes" defaultvalue="Telemetry">
 			<options>
 				<option>Disabled</option>
 				<option>Telemetry</option>
@@ -87,7 +87,7 @@
 			</options>
 		</field>
 
-		<field name="Uart5" units="function" type="enum" elements="1"  defaultvalue="GPS">
+		<field name="Uart5" units="function" type="enum" elements="1" parent="HwShared.PortTypes" defaultvalue="GPS">
 			<options>
 				<option>Disabled</option>
 				<option>Telemetry</option>
@@ -107,10 +107,10 @@
 			</options>
 		</field>
 
-		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
-		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
+		<field name="USB_HIDPort" units="function" type="enum" elements="1" parent="HwShared.USB_HIDPort" defaultvalue="USBTelemetry"/>
+		<field name="USB_VCPPort" units="function" type="enum" elements="1" parent="HwShared.USB_VCPPort" defaultvalue="Disabled"/>
 
-		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
+		<field name="DSMxMode" units="mode" type="enum" elements="1" parent="HwShared.DSMxMode" defaultvalue="Autodetect"/>
 
 		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
 		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
@@ -118,7 +118,7 @@
 		<field name="MPU6000DLPF" units="" type="enum" elements="1" options="256,188,98,42,20,10,5" defaultvalue="256"/>
 		
 		<field name="Magnetometer" units="function" type="enum" elements="1" options="Disabled,Internal,ExternalI2CUart1,ExternalI2CUart3" defaultvalue="Internal"/>
-		<field name="ExtMagOrientation" units="function" type="enum" elements="1" options="Top0degCW,Top90degCW,Top180degCW,Top270degCW,Bottom0degCW,Bottom90degCW,Bottom180degCW,Bottom270degCW" defaultvalue="Top0degCW" />
+		<field name="ExtMagOrientation" units="function" type="enum" elements="1" parent="HwShared.MagOrientation" defaultvalue="Top0degCW" />
 	
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>

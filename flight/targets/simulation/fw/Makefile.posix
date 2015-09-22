@@ -155,7 +155,6 @@ SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(FLIGHTLIB)/paths.c
 
 SRC += $(MATHLIB)/coordinate_conversions.c
-SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
 
@@ -192,15 +191,6 @@ EXTRAINCDIRS += $(PIOSCOMMON)/inc
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSPOSIX)/../../tests/logfs/pios_flash_posix.c
-
-include ./UAVObjects.inc
-
-UAVOBJSRCFILENAMES += attitudesimulated
-UAVOBJSRC = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
-UAVOBJDEFINE = $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )
-
-SRC += $(UAVOBJSRC)
-CFLAGS_UAVOBJECTS = $(UAVOBJDEFINE)
 
 # List C source files here which must be compiled in ARM-Mode (no -mthumb).
 # use file-extension c for "c-only"-files
@@ -361,20 +351,9 @@ $(OUTDIR)/sim_firmwareinfo.c: $(ROOT_DIR)/make/templates/firmwareinfotemplate_si
 		--revision=1 \
 		--uavodir=$(ROOT_DIR)/shared/uavobjectdefinition
 
+
 # List of all source files.
 SRC       += $(OUTDIR)/sim_firmwareinfo.c
-ALLSRC     = $(ASRCARM) $(ASRC) $(SRCARM) $(SRC) $(CPPSRCARM) $(CPPSRC)
-# List of all source files without directory and file-extension.
-ALLSRCBASE = $(notdir $(basename $(ALLSRC)))
-
-# Define all object files.
-ALLOBJ     = $(addprefix $(OUTDIR)/, $(addsuffix .o, $(ALLSRCBASE)))
-
-# Link: create ELF output file from object files.
-$(eval $(call LINK_TEMPLATE, $(OUTDIR)/$(TARGET).elf, $(ALLOBJ)))
-
-# Compile: create object files from C source files.
-$(foreach src, $(SRC), $(eval $(call COMPILE_C_TEMPLATE, $(src))))
 
 .PHONY: elf
 elf: $(OUTDIR)/$(TARGET).elf
@@ -382,14 +361,6 @@ elf: $(OUTDIR)/$(TARGET).elf
 # Display sizes of sections.
 $(eval $(call SIZE_TEMPLATE, $(OUTDIR)/$(TARGET).elf))
 
-# Create output files directory
-# all known MS Windows OS define the ComSpec environment variable
-$(shell mkdir -p $(OUTDIR) 2>/dev/null)
-
-# Include the dependency files.
--include $(shell mkdir $(OUTDIR) 2>/dev/null) $(shell mkdir $(OUTDIR)/dep 2>/dev/null) $(wildcard $(OUTDIR)/dep/*)
-
-# Test if quotes are needed for the echo-command
 result = ${shell echo "test"}
 ifeq (${result}, test)
 	quote = '
@@ -413,3 +384,9 @@ ${OUTDIR}/InitMods.c: Makefile.posix
 	@echo ${quote}${foreach MOD, ${MOD_GEN}, ${MOD}Start();}${quote}  >> ${OUTDIR}/InitMods.c
 	@echo ${quote}}${quote} >> ${OUTDIR}/InitMods.c
 
+include ./UAVObjects.inc
+
+BUILD_FWFILES=NO
+UAVO_NAV = YES
+
+include $(MAKE_INC_DIR)/firmware-common.mk

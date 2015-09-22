@@ -45,6 +45,8 @@
 #include "mavlink.h"
 #include "pios_thread.h"
 
+#include "custom_types.h"
+
 // ****************
 // Private functions
 
@@ -57,7 +59,7 @@ static bool stream_trigger(enum MAV_DATA_STREAM stream_num);
 #if defined(PIOS_MAVLINK_STACK_SIZE)
 #define STACK_SIZE_BYTES PIOS_MAVLINK_STACK_SIZE
 #else
-#define STACK_SIZE_BYTES 800
+#define STACK_SIZE_BYTES 696
 #endif
 
 #define TASK_PRIORITY               PIOS_THREAD_PRIO_LOW
@@ -140,84 +142,27 @@ MODULE_INITCALL( uavoMavlinkBridgeInitialize, uavoMavlinkBridgeStart)
  */
 
 static void uavoMavlinkBridgeTask(void *parameters) {
-	FlightBatterySettingsData batSettings;
-	FlightBatteryStateData batState;
-	GPSPositionData gpsPosData;
-	ManualControlCommandData manualState;
-	AttitudeActualData attActual;
-	AirspeedActualData airspeedActual;
-	ActuatorDesiredData actDesired;
-	FlightStatusData flightStatus;
-	SystemStatsData systemStats;
-	HomeLocationData homeLocation;
-	BaroAltitudeData baroAltitude;
-
-	if (FlightBatterySettingsHandle() != NULL )
-		FlightBatterySettingsGet(&batSettings);
-	else {
-		batSettings.Capacity = 0;
-		batSettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_CURRENT] = 0;
-		batSettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_VOLTAGE] = 0;
-		batSettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_WARNING] = 0;
-		batSettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM] = 0;
-		batSettings.VoltagePin = FLIGHTBATTERYSETTINGS_VOLTAGEPIN_NONE;
-		batSettings.CurrentPin = FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE;
-	}
-
-	if (GPSPositionHandle() == NULL ){
-		gpsPosData.Altitude = 0;
-		gpsPosData.GeoidSeparation = 0;
-		gpsPosData.Groundspeed = 0;
-		gpsPosData.HDOP = 0;
-		gpsPosData.Heading = 0;
-		gpsPosData.Latitude = 0;
-		gpsPosData.Longitude = 0;
-		gpsPosData.PDOP = 0;
-		gpsPosData.Satellites = 0;
-		gpsPosData.Status = 0;
-		gpsPosData.VDOP = 0;
-	}
-
-	if (FlightBatteryStateHandle() == NULL ) {
-		batState.AvgCurrent = 0;
-		batState.BoardSupplyVoltage = 0;
-		batState.ConsumedEnergy = 0;
-		batState.Current = 0;
-		batState.EstimatedFlightTime = 0;
-		batState.PeakCurrent = 0;
-		batState.Voltage = 0;
-	}
-
-	if (AirspeedActualHandle() == NULL ) {
-		airspeedActual.CalibratedAirspeed = 0;
-		airspeedActual.TrueAirspeed = 0;
-		airspeedActual.alpha = 0;
-		airspeedActual.beta = 0;
-	}
-
-	if (HomeLocationHandle() == NULL ) {
-		homeLocation.Set=HOMELOCATION_SET_FALSE;
-		homeLocation.Latitude = 0;
-		homeLocation.Longitude = 0;
-		homeLocation.Altitude = 0;
-		homeLocation.Be[0] = 0;
-		homeLocation.Be[1] = 0;
-		homeLocation.Be[2] = 0;
-		homeLocation.GroundTemperature = (STANDARD_AIR_TEMPERATURE - CELSIUS2KELVIN) * 10;
-		homeLocation.SeaLevelPressure = STANDARD_AIR_SEA_LEVEL_PRESSURE/1000;
-	}
-
 	uint16_t msg_length;
 	uint32_t lastSysTime;
 	// Main task loop
 	lastSysTime = PIOS_Thread_Systime();
 
+	FlightBatterySettingsData batSettings = {};
+
+	if (FlightBatterySettingsHandle() != NULL )
+		FlightBatterySettingsGet(&batSettings);
+
+	SystemStatsData systemStats;
+
 	while (1) {
 		PIOS_Thread_Sleep_Until(&lastSysTime, 1000 / TASK_RATE_HZ);
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTENDED_STATUS)) {
+			FlightBatteryStateData batState = {};
+
 			if (FlightBatteryStateHandle() != NULL )
 				FlightBatteryStateGet(&batState);
+
 			SystemStatsGet(&systemStats);
 
 			int8_t battery_remaining = 0;
@@ -267,6 +212,9 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_RC_CHANNELS)) {
+			ManualControlCommandData manualState;
+			FlightStatusData flightStatus;
+
 			ManualControlCommandGet(&manualState);
 			FlightStatusGet(&flightStatus);
 			SystemStatsGet(&systemStats);
@@ -300,6 +248,10 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_POSITION)) {
+			GPSPositionData gpsPosData = {};
+			HomeLocationData homeLocation = {};
+			SystemStatsGet(&systemStats);
+
 			if (GPSPositionHandle() != NULL )
 				GPSPositionGet(&gpsPosData);
 			if (HomeLocationHandle() != NULL )
@@ -373,6 +325,9 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA1)) {
+			AttitudeActualData attActual;
+			SystemStatsData systemStats;
+
 			AttitudeActualGet(&attActual);
 			SystemStatsGet(&systemStats);
 
@@ -396,6 +351,13 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA2)) {
+			ActuatorDesiredData actDesired;
+			AttitudeActualData attActual;
+			AirspeedActualData airspeedActual = {};
+			GPSPositionData gpsPosData = {};
+			BaroAltitudeData baroAltitude = {};
+			FlightStatusData flightStatus;
+
 			if (AirspeedActualHandle() != NULL )
 				AirspeedActualGet(&airspeedActual);
 			if (GPSPositionHandle() != NULL )
@@ -404,6 +366,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 				BaroAltitudeGet(&baroAltitude);
 			ActuatorDesiredGet(&actDesired);
 			AttitudeActualGet(&attActual);
+			FlightStatusGet(&flightStatus);
 
 			float altitude = 0;
 			if (BaroAltitudeHandle() != NULL)
@@ -436,6 +399,46 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 			if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED)
 				armed_mode |= MAV_MODE_FLAG_SAFETY_ARMED;
 
+			uint8_t custom_mode = CUSTOM_MODE_STAB;
+
+			switch (flightStatus.FlightMode) {
+				case FLIGHTSTATUS_FLIGHTMODE_MANUAL:
+				case FLIGHTSTATUS_FLIGHTMODE_MWRATE:
+				case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
+				case FLIGHTSTATUS_FLIGHTMODE_HORIZON:
+					/* Kinda a catch all */
+					custom_mode = CUSTOM_MODE_SPORT;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_ACRO:
+				case FLIGHTSTATUS_FLIGHTMODE_AXISLOCK:
+					custom_mode = CUSTOM_MODE_ACRO;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
+				case FLIGHTSTATUS_FLIGHTMODE_STABILIZED2:
+				case FLIGHTSTATUS_FLIGHTMODE_STABILIZED3:
+					/* May want these three to try and
+					 * infer based on roll axis */
+				case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
+					custom_mode = CUSTOM_MODE_STAB;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE:
+					custom_mode = CUSTOM_MODE_DRIFT;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD:
+					custom_mode = CUSTOM_MODE_ALTH;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME:
+					custom_mode = CUSTOM_MODE_RTL;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_TABLETCONTROL:
+				case FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD:
+					custom_mode = CUSTOM_MODE_POSH;
+					break;
+				case FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER:
+					custom_mode = CUSTOM_MODE_AUTO;
+					break;
+			}
+
 			mavlink_msg_heartbeat_pack(0, 200, &mavMsg,
 					// type Type of the MAV (quadrotor, helicopter, etc., up to 15 types, defined in MAV_TYPE ENUM)
 					MAV_TYPE_GENERIC,
@@ -444,7 +447,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 					// base_mode System mode bitfield, see MAV_MODE_FLAGS ENUM in mavlink/include/mavlink_types.h
 					armed_mode,
 					// custom_mode A bitfield for use for autopilot-specific flags.
-					0,
+					custom_mode,
 					// system_status System status flag, see MAV_STATE ENUM
 					0);
 			msg_length = mavlink_msg_to_send_buffer(serial_buf, &mavMsg);

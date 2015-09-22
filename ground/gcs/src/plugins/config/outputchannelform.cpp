@@ -330,9 +330,6 @@ void OutputChannelForm::sendChannelTest(int value)
     if (!ob)
         return;
 
-    if (ui.actuatorMin->value() > ui.actuatorMax->value())
-            value = ui.actuatorMin->value() - value + ui.actuatorMax->value();	// the channel is reversed
-
     if (ui.actuatorLink->checkState() && parent())
     {	// the channel is linked to other channels
         QList<OutputChannelForm*> outputChannelForms = parent()->findChildren<OutputChannelForm*>();

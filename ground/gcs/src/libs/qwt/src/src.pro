@@ -13,7 +13,7 @@ TEMPLATE = lib
 TARGET = Qwt
 DEFINES += QWT_LIBRARY
 QT += printsupport
-QMAKE_CXXFLAGS += -Wno-sign-compare
+!win32-msvc*:QMAKE_CXXFLAGS += -Wno-sign-compare
 
 include(../../../taulabslibrary.pri)
 include( ../qwtconfig.pri )
@@ -41,12 +41,6 @@ CONFIG(lib_bundle) {
     FRAMEWORK_HEADERS.files = $${HEADERS}
     FRAMEWORK_HEADERS.path = Headers
     QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
-}
-else {
-
-    headers.files  = $${HEADERS}
-    headers.path   = $${QWT_INSTALL_HEADERS}
-    INSTALLS += headers
 }
 
 contains(QWT_CONFIG, QwtPkgConfig) {

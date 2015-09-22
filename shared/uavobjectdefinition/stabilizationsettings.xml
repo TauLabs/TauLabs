@@ -7,15 +7,16 @@
 	<field name="ManualRate" units="degrees/sec" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="150,150,150" limits="%BE:0:500,%BE:0:500,%BE:0:500"/>
 	<field name="MaximumRate" units="degrees/sec" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="300,300,300" limits="%BE:0:500,%BE:0:500,%BE:0:500"/>
 	<field name="RateExpo" units="%" type="uint8" elementnames="Roll,Pitch,Yaw" defaultvalue="0,0,0" limits="%BE:0:100,%BE:0:100,%BE:0:100"/>
+	<field name="AttitudeExpo" units="%" type="uint8" elementnames="Roll,Pitch,Yaw" defaultvalue="0,0,0" limits="%BE:0:100,%BE:0:100,%BE:0:100"/>
 	<field name="HorizonExpo" units="%" type="uint8" elementnames="Roll,Pitch,Yaw" defaultvalue="30,30,30" limits="%BE:0:100,%BE:0:100,%BE:0:100"/>
 	<field name="PoiMaximumRate" units="degrees/sec" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="30,30,30" limits="%BE:0:500,%BE:0:500,%BE:0:500"/>
 
 	<field name="RollRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.002,0.0015,0,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
 	<field name="PitchRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.002,0.0015,0,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
 	<field name="YawRatePID" units="" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="0.0035,0.0035,0,0.3" limits="%BE:0:0.01,%BE:0:0.01,, "/>
-	<field name="RollPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2,0,50" limits="%BE:0:10,%BE:0:10,"/>
-	<field name="PitchPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2,0,50" limits="%BE:0:10,%BE:0:10,"/>
-	<field name="YawPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2,0,50" limits="%BE:0:10,%BE:0:10,"/>
+	<field name="RollPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2.5,0,50" limits="%BE:0:10,%BE:0:10,"/>
+	<field name="PitchPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2.5,0,50" limits="%BE:0:10,%BE:0:10,"/>
+	<field name="YawPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="2.5,0,50" limits="%BE:0:10,%BE:0:10,"/>
 
 	<field name="RollRateTPA" units="" type="uint8" elementnames="Threshold,Attenuation" defaultvalue="75,0" limits="%BE:0:100,%BE:0:100"/>
 	<field name="PitchRateTPA" units="" type="uint8" elementnames="Threshold,Attenuation" defaultvalue="75,0" limits="%BE:0:100,%BE:0:100"/>
@@ -30,7 +31,7 @@
 	<field name="VbarPiroComp" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
 	<field name="VbarMaxAngle" units="deg" type="uint8" elements="1" defaultvalue="10"/>
 
-	<field name="GyroTau" units="" type="float" elements="1" defaultvalue="0.005"/>
+	<field name="GyroCutoff" units="Hz" type="float" elements="1" defaultvalue="55.0"/>
 	<field name="DerivativeCutoff" units="Hz" type="uint8" elements="1" defaultvalue="20"/>
 	<field name="DerivativeGamma" units="" type="float" elements="1" defaultvalue="1"/>
 
@@ -44,6 +45,8 @@
 
 	<field name="CoordinatedFlightYawPI" units="" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="0,0.1,0.5" limits="%BE:0:1,%BE:0:1, "/>
 
+	<field name="AcroInsanityFactor" units="percent" type="float" elements="1" defaultvalue="40" limits="%BE:0:100"/>
+  
 	<access gcs="readwrite" flight="readwrite"/>
 	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 	<telemetryflight acked="true" updatemode="onchange" period="0"/>

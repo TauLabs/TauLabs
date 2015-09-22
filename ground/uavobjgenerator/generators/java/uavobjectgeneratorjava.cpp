@@ -150,55 +150,6 @@ bool UAVObjectGeneratorJava::process_object(ObjectInfo* info)
     }
     outCode.replace(QString("$(FIELDSINIT)"), finit);
 
-    // Replace the $(DATAFIELDINFO) tag
-    QString name;
-    QString enums;
-    for (int n = 0; n < info->fields.length(); ++n)
-    {
-        enums.append(QString("    // Field %1 information\n").arg(info->fields[n]->name));
-        // Only for enum types
-        if (info->fields[n]->type == FIELDTYPE_ENUM)
-        {
-            enums.append(QString("    /* Enumeration options for field %1 */\n").arg(info->fields[n]->name));
-            enums.append("    typedef enum { ");
-            // Go through each option
-            QStringList options = info->fields[n]->options;
-            for (int m = 0; m < options.length(); ++m) {
-                QString s = (m != (options.length()-1)) ? "%1_%2=%3, " : "%1_%2=%3";
-                enums.append( s.arg( info->fields[n]->name.toUpper() )
-                               .arg( options[m].toUpper().replace(QRegExp(ENUM_SPECIAL_CHARS), "") )
-                               .arg(m) );
-
-            }
-            enums.append( QString(" } %1Options;\n")
-                          .arg( info->fields[n]->name ) );
-        }
-        // Generate element names (only if field has more than one element)
-        if (info->fields[n]->numElements > 1 && !info->fields[n]->defaultElementNames) {
-            enums.append(QString("    /* Array element names for field %1 */\n").arg(info->fields[n]->name));
-            enums.append("    typedef enum { ");
-            // Go through the element names
-            QStringList elemNames = info->fields[n]->elementNames;
-            for (int m = 0; m < elemNames.length(); ++m) {
-                QString s = (m != (elemNames.length()-1)) ? "%1_%2=%3, " : "%1_%2=%3";
-                enums.append( s.arg( info->fields[n]->name.toUpper() )
-                               .arg( elemNames[m].toUpper() )
-                               .arg(m) );
-
-            }
-            enums.append( QString(" } %1Elem;\n")
-                          .arg( info->fields[n]->name ) );
-        }
-        // Generate array information
-        if (info->fields[n]->numElements > 1) {
-            enums.append(QString("    /* Number of elements for field %1 */\n").arg(info->fields[n]->name));
-            enums.append( QString("    static const quint32 %1_NUMELEM = %2;\n")
-                          .arg( info->fields[n]->name.toUpper() )
-                          .arg( info->fields[n]->numElements ) );
-        }
-    }
-    outInclude.replace(QString("$(DATAFIELDINFO)"), enums);
-
     // Replace the $(INITFIELDS) tag
     QString initfields;
     for (int n = 0; n < info->fields.length(); ++n)

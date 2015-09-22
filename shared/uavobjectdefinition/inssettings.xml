@@ -6,7 +6,7 @@
 		<field name="AccelVar" units="(m/s)^2" type="float" elementnames="X,Y,Z" defaultvalue="0.003"/>
 		<field name="GyroVar" units="(deg/s)^2" type="float" elementnames="X,Y,Z" defaultvalue="0.00001,0.00001,0.0001"/>
 		<field name="MagVar" units="mGau^2" type="float" elementnames="X,Y,Z" defaultvalue="10,10,100"/>
-		<field name="GpsVar" units="m^2" type="float" elementnames="Pos,Vel,VertPos" defaultvalue="0.001,0.01,10"/>
+		<field name="GpsVar" units="m^2" type="float" elementnames="Pos,Vel,VertPos" defaultvalue="0.001,0.01,0.5"/>
 		<field name="BaroVar" units="m^2" type="float" elements="1" defaultvalue="0.01"/>
 
 		<!-- Features for the INS -->

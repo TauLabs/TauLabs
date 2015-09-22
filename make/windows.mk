@@ -18,7 +18,7 @@ RM=rm
 PYTHON := python
 export PYTHON
 
-QT_SPEC := win32-g++
+QT_SPEC ?= win32-g++
 
 # this might need to switch on debug/release
 UAVOBJGENERATOR := "$(BUILD_DIR)/ground/uavobjgenerator/debug/uavobjgenerator.exe"

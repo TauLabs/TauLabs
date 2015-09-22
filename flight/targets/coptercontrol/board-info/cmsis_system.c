@@ -201,6 +201,10 @@ static void SetSysClock(void);
   * @{
   */
 
+// this is required for the system_rcc code because
+// of the clock rate switching in naze32
+uint32_t hse_value = 8000000;
+
 /**
   * @brief  Setup the microcontroller system
   *         Initialize the Embedded Flash Interface, the PLL and update the 

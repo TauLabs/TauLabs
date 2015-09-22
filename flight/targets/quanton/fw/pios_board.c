@@ -201,7 +201,6 @@ uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_telem_rf_id;
 uintptr_t pios_com_vcp_id;
 uintptr_t pios_com_bridge_id;
-uintptr_t pios_com_overo_id;
 uintptr_t pios_com_mavlink_id;
 uintptr_t pios_com_hott_id;
 uintptr_t pios_com_frsky_sensor_hub_id;
@@ -254,7 +253,7 @@ static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cf
 #ifdef PIOS_INCLUDE_DSM
 static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm_cfg, const struct pios_dsm_cfg *pios_dsm_cfg,
 		const struct pios_com_driver *pios_usart_com_driver,
-		ManualControlSettingsChannelGroupsOptions channelgroup,uint8_t *bind)
+		ManualControlSettingsChannelGroupsOptions channelgroup,HwQuantonDSMxModeOptions *mode)
 {
 	uintptr_t pios_usart_dsm_id;
 	if (PIOS_USART_Init(&pios_usart_dsm_id, pios_usart_dsm_cfg)) {
@@ -263,7 +262,7 @@ static void PIOS_Board_configure_dsm(const struct pios_usart_cfg *pios_usart_dsm
 
 	uintptr_t pios_dsm_id;
 	if (PIOS_DSM_Init(&pios_dsm_id, pios_dsm_cfg, pios_usart_com_driver,
-			pios_usart_dsm_id, *bind)) {
+			pios_usart_dsm_id, *mode)) {
 		PIOS_Assert(0);
 	}
 
@@ -595,8 +594,8 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure the IO ports */
-	uint8_t hw_DSMxBind;
-	HwQuantonDSMxBindGet(&hw_DSMxBind);
+	HwQuantonDSMxModeOptions hw_DSMxMode;
+	HwQuantonDSMxModeGet(&hw_DSMxMode);
 
 	/* init sensor queue registration */
 	PIOS_SENSORS_Init();
@@ -624,7 +623,7 @@ void PIOS_Board_Init(void) {
 		}
 
 		if (PIOS_I2C_CheckClear(pios_i2c_usart1_adapter_id) != 0)
-			panic(6);
+			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
 #if defined(PIOS_INCLUDE_HMC5883)
 		{
@@ -634,9 +633,9 @@ void PIOS_Board_Init(void) {
 			if (Magnetometer == HWQUANTON_MAGNETOMETER_EXTERNALI2CUART1) {
 				// init sensor
 				if (PIOS_HMC5883_Init(pios_i2c_usart1_adapter_id, &pios_hmc5883_external_cfg) != 0)
-					panic(8);
+					AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 				if (PIOS_HMC5883_Test() != 0)
-					panic(8);
+					AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 			}
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */
@@ -646,7 +645,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart1_dsm_hsum_cfg, &pios_usart1_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxMode);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -759,7 +758,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart2_dsm_hsum_cfg, &pios_usart2_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxMode);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -859,7 +858,7 @@ void PIOS_Board_Init(void) {
 			PIOS_Assert(0);
 		}
 		if (PIOS_I2C_CheckClear(pios_i2c_usart3_adapter_id) != 0)
-			panic(7);
+			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
 #if defined(PIOS_INCLUDE_HMC5883)
 		{
@@ -869,9 +868,9 @@ void PIOS_Board_Init(void) {
 			if (Magnetometer == HWQUANTON_MAGNETOMETER_EXTERNALI2CUART3) {
 				// init sensor
 				if (PIOS_HMC5883_Init(pios_i2c_usart3_adapter_id, &pios_hmc5883_external_cfg) != 0)
-					panic(9);
+					AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 				if (PIOS_HMC5883_Test() != 0)
-					panic(9);
+					AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 			}
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */
@@ -881,7 +880,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart3_dsm_hsum_cfg, &pios_usart3_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxMode);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -974,7 +973,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart4_dsm_hsum_cfg, &pios_usart4_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxMode);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -1067,7 +1066,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_DSM)
 		{
 			PIOS_Board_configure_dsm(&pios_usart5_dsm_hsum_cfg, &pios_usart5_dsm_aux_cfg, &pios_usart_com_driver,
-				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT, &hw_DSMxBind);
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, &hw_DSMxMode);
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;

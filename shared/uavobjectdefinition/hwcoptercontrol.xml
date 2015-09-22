@@ -2,14 +2,14 @@
 	<object name="HwCopterControl" singleinstance="true" settings="true" category="HardwareSettings">
 		<description>Selection of optional hardware configurations.</description>
 
-		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PWM,PPM,PPM+PWM,PPM+Outputs,Outputs" defaultvalue="PWM"/>
-		<field name="MainPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,S.Bus,DSM,DebugConsole,ComBridge, MavLinkTX, MavLinkTX_GPS_RX, FrSKY Sensor Hub, LighttelemetryTx,HoTT SUMD,HoTT SUMH " defaultvalue="Disabled"/>
-		<field name="FlexiPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,I2C,DSM,DebugConsole,ComBridge, MavLinkTX, FrSKY Sensor Hub, LighttelemetryTx,HoTT SUMD,HoTT SUMH" defaultvalue="Disabled"/>
+		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PWM,PPM,PPM on pin 8,PPM+PWM,PPM+Outputs,Outputs" defaultvalue="PWM"/>
+		<field name="MainPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,S.Bus,DSM,DebugConsole,ComBridge, MavLinkTX, MavLinkTX_GPS_RX, FrSKY Sensor Hub, LighttelemetryTx,HoTT SUMD,HoTT SUMH" parent="HwShared.PortTypes" defaultvalue="Disabled"/>
+		<field name="FlexiPort" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,I2C,DSM,DebugConsole,ComBridge, MavLinkTX, FrSKY Sensor Hub, LighttelemetryTx,HoTT SUMD,HoTT SUMH" parent="HwShared.PortTypes" defaultvalue="Disabled"/>
 
-		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
-		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>
+		<field name="USB_HIDPort" units="function" type="enum" elements="1" parent="HwShared.USB_HIDPort" defaultvalue="USBTelemetry"/>
+		<field name="USB_VCPPort" units="function" type="enum" elements="1" parent="HwShared.USB_VCPPort" defaultvalue="Disabled"/>
 
-		<field name="DSMxBind" units=""  type="uint8"  elements="1" defaultvalue="0"/>
+		<field name="DSMxMode" units="mode" type="enum" elements="1" parent="HwShared.DSMxMode" defaultvalue="Autodetect"/>
 
 		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
 		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>

@@ -102,13 +102,20 @@ EXTRAINCDIRS  += $(BUCOMMONDIR)
 # Path to Linker-Scripts
 LINKERSCRIPTPATH = $(PIOSSTM32F10X)
 
+
+PAYLOAD_FILE = $(ROOT_DIR)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
+
 # Place project-specific -D (define) and/or 
 # -U options for C here.
+#
+# This exists to prevent ccache from caching compilation results when the file
+# has changed.  md5sum is used on linux and Windows; cksum is used on mac.
+CDEFS += -DBU_HASH=$(shell md5sum "$(PAYLOAD_FILE)" 2>/dev/null | cut -d ' ' -f 1 || cksum "$(PAYLOAD_FILE)" | cut -d ' ' -f 1)
 CDEFS = -DSTM32F10X_$(MODEL)
 #CDEFS += -DHSE_VALUE=$(OSCILLATOR_FREQ)
 CDEFS += -DUSE_STDPERIPH_DRIVER
 CDEFS += -DUSE_$(BOARD)
-CDEFS += -DBU_PAYLOAD_FILE=$(ROOT_DIR)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
+CDEFS += -DBU_PAYLOAD_FILE=$(PAYLOAD_FILE)
 
 # Place project-specific -D and/or -U options for 
 # Assembler with preprocessor here.

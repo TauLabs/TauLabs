@@ -225,19 +225,7 @@ KML {
     plugin_gcscontrolplugin.depends = plugin_coreplugin
     plugin_gcscontrolplugin.depends += plugin_uavobjects
     SUBDIRS += plugin_gcscontrolplugin
-
-    plugin_gcscontrolwidget.subdir = gcscontrolwidget
-    plugin_gcscontrolwidget.depends = plugin_coreplugin
-    plugin_gcscontrolwidget.depends += plugin_uavobjects
-    plugin_gcscontrolwidget.depends += plugin_gcscontrolplugin
-    SUBDIRS += plugin_gcscontrolwidget
 }
-
-# Antenna tracker
-plugin_antennatrack.subdir = antennatrack
-plugin_antennatrack.depends = plugin_coreplugin
-plugin_antennatrack.depends += plugin_uavobjects
-SUBDIRS += plugin_antennatrack
 
 # UAV Object Utility plugin
 plugin_uavobjectutil.subdir = uavobjectutil
@@ -330,6 +318,12 @@ plugin_boards_quantec.depends = plugin_coreplugin
 plugin_boards_quantec.depends = plugin_uavobjects
 SUBDIRS += plugin_boards_quantec
 
+# Naze32
+plugin_boards_naze.subdir = boards_naze
+plugin_boards_naze.depends = plugin_coreplugin
+plugin_boards_naze.depends = plugin_uavobjects
+SUBDIRS += plugin_boards_naze
+
 # Team Black Sheep
 plugin_boards_tbs.subdir = boards_tbs
 plugin_boards_tbs.depends = plugin_coreplugin
@@ -343,3 +337,9 @@ plugin_boards_stm.subdir = boards_stm
 plugin_boards_stm.depends = plugin_coreplugin
 plugin_boards_stm.depends = plugin_uavobjects
 SUBDIRS += plugin_boards_stm
+
+# AeroQuad AQ32
+plugin_boards_aeroquad.subdir = boards_aeroquad
+plugin_boards_aeroquad.depends = plugin_coreplugin
+plugin_boards_aeroquad.depends = plugin_uavobjects
+SUBDIRS += plugin_boards_aeroquad

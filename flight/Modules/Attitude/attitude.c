@@ -46,10 +46,16 @@
  * simple filter to smooth the altitude.
  */
 
-#include "pios.h"
 #include "openpilot.h"
+#include "pios.h"
+#include "pios_thread.h"
+#include "pios_queue.h"
+#include "misc_math.h"
 #include "physical_constants.h"
+#include "coordinate_conversions.h"
+#include "WorldMagModel.h"
 
+// UAVOs
 #include "accels.h"
 #include "attitudeactual.h"
 #include "attitudesettings.h"
@@ -71,10 +77,6 @@
 #include "stateestimation.h"
 #include "systemalarms.h"
 #include "velocityactual.h"
-#include "coordinate_conversions.h"
-#include "WorldMagModel.h"
-#include "pios_thread.h"
-#include "pios_queue.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 2200
@@ -595,8 +597,9 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 		MagnetometerData mag;
 		MagnetometerGet(&mag);
 
-		// If the mag is producing bad data (NAN) don't use it (normally bad calibration)
-		if  (mag.x == mag.x && mag.y == mag.y && mag.z == mag.z) {
+		// Only use the magnetometer data if it is good, i.e. not NAN. A NAN would
+		// normally only arise due to a bad magnetometer calibration.
+		if  (!(IS_NOT_FINITE(mag.x) || IS_NOT_FINITE(mag.y) || IS_NOT_FINITE(mag.z))) {
 			float bmag = 1.0f;
 			float brot[3];
 			float Rbe[3][3];
@@ -676,9 +679,9 @@ static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool 
 	cf_q[2] = cf_q[2] / qmag;
 	cf_q[3] = cf_q[3] / qmag;
 
-	// If quaternion has become inappropriately short or is nan reinit.
+	// If quaternion has become inappropriately short or has become Nan reinit.
 	// THIS SHOULD NEVER ACTUALLY HAPPEN
-	if((fabsf(qmag) < 1.0e-3f) || (qmag != qmag)) {
+	if((fabsf(qmag) < 1.0e-3f) || IS_NOT_FINITE(qmag)) {
 		cf_q[0] = 1;
 		cf_q[1] = 0;
 		cf_q[2] = 0;
@@ -1015,14 +1018,14 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		GPSVelocityGet(&gpsVelData);
 
 	// Discard mag if it has NAN (normally from bad calibration)
-	mag_updated &= (magData.x == magData.x && magData.y == magData.y && magData.z == magData.z);
+	mag_updated &= !(IS_NOT_FINITE(magData.x) || IS_NOT_FINITE(magData.y) || IS_NOT_FINITE(magData.z));
 
 	// Indoor mode will fall back to reasonable Be and that is ok. For outdoor make sure home
 	// Be is set and a good value
 	mag_updated &= !outdoor_mode || (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]);
 
 	// A more stringent requirement for GPS to initialize the filter
-	bool gps_init_usable = gps_updated & (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
+	bool gps_init_usable = gps_updated && (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	// Set user-friendly alarms appropriately based on state
 	if (ins_state == INS_INIT) {
@@ -1057,6 +1060,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		INSSetAccelVar(insSettings.AccelVar);
 		INSSetGyroVar(insSettings.GyroVar);
 		INSSetBaroVar(insSettings.BaroVar);
+		/* This is more optimistic than in the actual flight loop, where
+		 * ublox accuracy data is added.  But that seems OK */
 		INSSetPosVelVar(insSettings.GpsVar[INSSETTINGS_GPSVAR_POS], insSettings.GpsVar[INSSETTINGS_GPSVAR_VEL], insSettings.GpsVar[INSSETTINGS_GPSVAR_VERTPOS]);
 
 		// Initialize the gyro bias from the settings
@@ -1206,6 +1211,32 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		vel[2] = gpsVelData.Down;
 
 		gps_vel_updated = false;
+	}
+
+	// If either vel or pos is updated, update the variances.
+	if (gps_updated || gps_vel_updated) {
+		// Typical good pos 'accuracy' values are 2.5-3.5.  Early
+		// flight is near 4.0.
+		// Typical bad pos 'accuracy' values are 10+
+		// The values here are fudged.  Basically, when GPS is
+		// "good" we'll have a lower variance than the nominal
+		// setting.  But from there it will increase really quickly.
+		// sqrt(.5) / 3.5 =~ 0.181f 
+		float pos_var = insSettings.GpsVar[INSSETTINGS_GPSVAR_POS] * 
+			(0.6f + powf(gpsData.Accuracy * 0.180f, 2));
+
+		// A good value of speed accuracy in flight is 0.35-0.5. 
+		// sqrt(.5) / .5 =~ 1.414
+		float speed_var = insSettings.GpsVar[INSSETTINGS_GPSVAR_VEL] *
+			(0.5f + powf(gpsVelData.Accuracy * 1.414f, 2));
+
+		float v_pos_var = insSettings.GpsVar[INSSETTINGS_GPSVAR_VERTPOS] +
+			(0.7f + powf(gpsData.Accuracy * 0.167f, 3.0));
+
+		// We trust the vertical much less as accuracy gets worse.
+		// cuberoot(.3)/4.0 =~ .167
+
+		INSSetPosVelVar(pos_var, speed_var, v_pos_var);
 	}
 
 	// Update fake position at 10 hz
@@ -1429,6 +1460,7 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		INSSetAccelVar(insSettings.AccelVar);
 		INSSetGyroVar(insSettings.GyroVar);
 		INSSetBaroVar(insSettings.BaroVar);
+		/* Don't set GPS variance here, because the flight loop does */
 	}
 	if(ev == NULL || ev->obj == HomeLocationHandle()) {
 		uint8_t armed;

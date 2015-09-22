@@ -27,6 +27,12 @@
 #ifndef GUIVEHICLECONFIG_H
 #define GUIVEHICLECONFIG_H
 
+#ifdef _MSC_VER
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop) )
+#else
+#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+#endif
+
 #include "../uavobjectwidgetutils/configtaskwidget.h"
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
@@ -34,7 +40,7 @@
 #include "mixersettings.h"
 #include "systemsettings.h"
 
-typedef struct {
+PACK(typedef struct {
     uint VTOLMotorN:4;
     uint VTOLMotorS:4;
     uint VTOLMotorE:4;
@@ -47,9 +53,9 @@ typedef struct {
     quint32 padding:28;         //64bits
     quint32 padding1;
     quint32 padding2;       //128bits
-} __attribute__((packed))  multiGUISettingsStruct;
+})  multiGUISettingsStruct;
 
-typedef struct {
+PACK(typedef struct {
     uint SwashplateType:3;
     uint FirstServoIndex:2;
     uint CorrectionAngle:9;
@@ -67,9 +73,9 @@ typedef struct {
     uint Tail:4;       //65bits
     quint32 padding:31;  //96bits
     quint32 padding1;  //128bits
-} __attribute__((packed))  heliGUISettingsStruct;
+})  heliGUISettingsStruct;
 
-typedef struct {
+PACK(typedef struct {
     uint FixedWingThrottle:4;
     uint FixedWingRoll1:4;
     uint FixedWingRoll2:4;
@@ -81,9 +87,9 @@ typedef struct {
     quint32 padding1;
     quint32 padding2;
     quint32 padding3;       //128bits
-} __attribute__((packed))  fixedGUISettingsStruct;
+})  fixedGUISettingsStruct;
 
-typedef struct {
+PACK(typedef struct {
     uint GroundVehicleThrottle1:4;
     uint GroundVehicleThrottle2:4;
     uint GroundVehicleSteering1:4;
@@ -92,7 +98,7 @@ typedef struct {
     quint32 padding1;
     quint32 padding2;
     quint32 padding3;       //128bits
-} __attribute__((packed))  groundGUISettingsStruct;
+})  groundGUISettingsStruct;
 
 typedef union
 {

@@ -171,9 +171,20 @@ int main(int argc, char *argv[])
         return RETURN_ERR_XML;
     }
 
+    // resolve all references to parent objects
+    QString res = parser->resolveParents();
+
+    if (!res.isEmpty()) {
+        cout << "Error: " << res.toStdString() << endl;
+        return RETURN_ERR_XML;
+    }
+
     // check for duplicate object ID's
     QList<quint32> objIDList;
     int numBytesTotal=0;
+
+    parser->calculateAllIds();
+
     for (int objidx = 0; objidx < parser->getNumObjects(); ++objidx) {
         quint32 id = parser->getObjectID(objidx);
         numBytesTotal+=parser->getNumBytes(objidx);

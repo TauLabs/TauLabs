@@ -31,6 +31,9 @@
 #ifndef STM32103CB_PIPXTREME_H_
 #define STM32103CB_PIPXTREME_H_
 
+#define TAULINK_VERSION_STICK 0x01
+#define TAULINK_VERSION_MODULE 0x02
+
 #define ADD_ONE_ADC
 
 //------------------------
@@ -165,24 +168,24 @@ extern uint32_t pios_i2c_flexi_adapter_id;
 //
 // See also pios_board.c
 //-------------------------
-extern uintptr_t pios_com_telem_usb_id;
-extern uintptr_t pios_com_telem_vcp_id;
-extern uintptr_t pios_com_telem_uart_telem_id;
-extern uintptr_t pios_com_telem_uart_main_id;
-extern uintptr_t pios_com_telemetry_id;
-extern uintptr_t pios_com_rfm22b_id;
-extern uintptr_t pios_com_radio_id;
+extern uintptr_t pios_com_telem_usb_id; 
+extern uintptr_t pios_com_vcp_id; 
+extern uintptr_t pios_com_radio_id; 
+extern uintptr_t pios_com_telem_serial_id;
+extern uintptr_t pios_com_bridge_id;
+extern uintptr_t pios_com_rf_id;
+extern uintptr_t pios_com_telem_uart_telem_id; 
 extern uintptr_t pios_ppm_rcvr_id;
 extern uintptr_t pios_com_debug_id;
+extern uintptr_t pios_com_frsky_sport_id;
 #define PIOS_COM_TELEM_USB         (pios_com_telem_usb_id)
-#define PIOS_COM_TELEM_VCP         (pios_com_telem_vcp_id)
-#define PIOS_COM_TELEM_UART_FLEXI  (pios_com_telem_uart_flexi_id)
-#define PIOS_COM_TELEM_UART_TELEM  (pios_com_telem_uart_main_id)
-#define PIOS_COM_TELEMETRY         (pios_com_telemetry_id)
-#define PIOS_COM_RFM22B            (pios_com_rfm22b_id)
-#define PIOS_COM_RADIO             (pios_com_radio_id)
+#define PIOS_COM_VCP               (pios_com_vcp_id)
+#define PIOS_COM_TELEMETRY         (pios_com_telem_serial_id)
+#define PIOS_COM_BRIDGE            (pios_com_bridge_id)
+#define PIOS_COM_RFM22B            (pios_com_rf_id)
 #define PIOS_PPM_RECEIVER          (pios_ppm_rcvr_id)
 #define PIOS_COM_DEBUG             (pios_com_debug_id)
+#define PIOS_COM_FRSKY_SPORT       (pios_com_frsky_sport_id)
 
 #define DEBUG_LEVEL 0
 #define DEBUG_PRINTF(level, ...) {if(level <= DEBUG_LEVEL && PIOS_COM_DEBUG > 0) { PIOS_COM_SendFormattedStringNonBlocking(PIOS_COM_DEBUG, __VA_ARGS__); }}

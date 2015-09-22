@@ -39,6 +39,7 @@
 #include <QSize>
 #include <QPoint>
 #include <QtCore/QUrl>
+#include <QDataStream>
 
 #define NUM_PREFIX "arr_"
 

@@ -19,9 +19,7 @@
 			<options>
 				<option>PWM</option>
 				<option>PPM</option>
-				<option>DSM (MainPort)</option>
-				<option>DSM (FlexiPort)</option>
-				<option>DSM (RcvrPort)</option>
+				<option>DSM</option>
 				<option>S.Bus</option>
 				<option>RFM22B</option>
 				<option>OpenLRS</option>
@@ -30,7 +28,7 @@
 				<option>None</option>
 			</options>
 		</field>
-		
+
 		<field name="RssiType" units="Rssi Type" type="enum" elements="1" defaultvalue="None">
 			<options>
 				<option>None</option>
@@ -124,13 +122,13 @@
 		<field name="DisarmTime" units="ms" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="1000"/>
  
 		<!-- Note these options should be identical to those in StabilizationDesired.StabilizationMode -->
-		<field name="Stabilization1Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
-		<field name="Stabilization2Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
-		<field name="Stabilization3Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight" defaultvalue="Attitude,Attitude,Rate"/>
+		<field name="Stabilization1Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight,AcroPlus" defaultvalue="Attitude,Attitude,Rate"/>
+		<field name="Stabilization2Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight,AcroPlus" defaultvalue="Attitude,Attitude,Rate"/>
+		<field name="Stabilization3Settings" units="" type="enum" elementnames="Roll,Pitch,Yaw" options="None,Rate,Attitude,AxisLock,WeakLeveling,VirtualBar,Horizon,MWRate,SystemIdent,POI,CoordinatedFlight,AcroPlus" defaultvalue="Attitude,Attitude,Rate"/>
 
 		<!-- Note these options values should be identical to those defined in FlightMode -->
 		<field name="FlightModeNumber" units="" type="uint8" elements="1" defaultvalue="3"/>
-		<field name="FlightModePosition" units="" type="enum" elements="6" options="Manual,Acro,Leveling,MWRate,Horizon,AxisLock,VirtualBar,Stabilized1,Stabilized2,Stabilized3,Autotune,AltitudeHold,PositionHold,ReturnToHome,PathPlanner,TabletControl" defaultvalue="Manual,Stabilized1,Stabilized2,Stabilized3,ReturnToHome,PositionHold"/>
+		<field name="FlightModePosition" units="" type="enum" elements="6" options="Manual,Acro,Leveling,MWRate,Horizon,AxisLock,VirtualBar,Stabilized1,Stabilized2,Stabilized3,Autotune,AltitudeHold,PositionHold,ReturnToHome,PathPlanner,TabletControl,AcroPlus" defaultvalue="Manual,Stabilized1,Stabilized2,Stabilized3,ReturnToHome,PositionHold"/>
 
 		<!-- This option prevents timing out arming when disabled and in autonomous modes.
                      It is enabled by default for additional safety to prevent flyaways -->

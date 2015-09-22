@@ -100,7 +100,7 @@ int32_t GPSStart(void)
 			return 0;
 		}
 
-		AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_CRITICAL);
+		AlarmsSet(SYSTEMALARMS_ALARM_GPS, SYSTEMALARMS_ALARM_ERROR);
 	}
 	return -1;
 }
@@ -127,30 +127,24 @@ int32_t GPSInitialize(void)
 	}
 #endif
 
-#if defined(REVOLUTION)
-	// These objects MUST be initialized for Revolution
-	// because the rest of the system expects to just
-	// attach to their queues
-	GPSPositionInitialize();
-	GPSVelocityInitialize();
-	GPSTimeInitialize();
-	GPSSatellitesInitialize();
-	HomeLocationInitialize();
-	UBloxInfoInitialize();
-	updateSettings();
-
-#else
+	// These things are only conditional on small F1 targets.
+	// Expected to be always present otherwise.
+#ifdef SMALLF1
 	if (gpsPort && module_enabled) {
+#endif
 		GPSPositionInitialize();
 		GPSVelocityInitialize();
 #if !defined(PIOS_GPS_MINIMAL)
 		GPSTimeInitialize();
 		GPSSatellitesInitialize();
+		HomeLocationInitialize();
+		UBloxInfoInitialize();
 #endif
 #if defined(PIOS_GPS_PROVIDES_AIRSPEED)
 		AirspeedActualInitialize();
 #endif
 		updateSettings();
+#ifdef SMALLF1
 	}
 #endif
 

@@ -21,6 +21,7 @@ isEmpty($$PYTHON_LOCAL) {
 !debug_and_release|build_pass {
     ROOT_DIR              = $$GCS_SOURCE_TREE/../..
     VERSION_INFO_HEADER   = $$GCS_BUILD_TREE/gcsversioninfo.h
+win32-msvc*:write_file($$VERSION_INFO_HEADER)
     VERSION_INFO_SCRIPT   = $$ROOT_DIR/make/scripts/version-info.py
     VERSION_INFO_TEMPLATE = $$ROOT_DIR/make/templates/gcsversioninfotemplate.h
     VERSION_INFO_COMMAND  = $$PYTHON_LOCAL \"$$VERSION_INFO_SCRIPT\"
@@ -35,7 +36,7 @@ isEmpty($$PYTHON_LOCAL) {
                                     --outfile=\"$$VERSION_INFO_HEADER\"
     version_info.depends = FORCE
     QMAKE_EXTRA_TARGETS += version_info
-
+    PRE_TARGETDEPS += $$VERSION_INFO_HEADER
     # Hook version_info target in between qmake's Makefile update and
     # the actual project target
     version_info_hook.depends = version_info

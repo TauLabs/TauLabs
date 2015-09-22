@@ -3,6 +3,8 @@
  *
  * @file       uavobjectparser.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015
+ *
  * @brief      Parses XML files and extracts object information.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -24,6 +26,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <QtDebug>
 #include <QTextStream>
 #include "uavobjectparser.h"
 
@@ -63,9 +66,135 @@ QList<ObjectInfo*> UAVObjectParser::getObjectInfo()
     return objInfo;
 }
 
+FieldInfo* UAVObjectParser::getFieldByName(QString &name, ObjectInfo **objRet) {
+    if (objRet) {
+        *objRet = NULL;
+    }
+
+    // Split name into object and field name
+    QStringList splitStr = name.split(".");
+
+    if (splitStr.size() != 2) {
+        return NULL;
+    }
+
+    QString objName = splitStr[0].trimmed();
+    QString fieldName = splitStr[1].trimmed();
+
+    // Pull out the object
+    ObjectInfo *obj = getObjectByName(objName);
+
+    if (!obj) {
+        return NULL;
+    }
+
+    // Retrieve field info
+    foreach (FieldInfo *field, obj->fields) {
+        if (field->name == fieldName) {
+            // Got a match-- return it.
+            if (objRet) {
+                *objRet = obj;
+            }
+
+            return field;
+        }
+    }
+
+    // Didn't find it? Give up. (return neither obj nor field)
+    return NULL;
+}
+
+int UAVObjectParser::resolveFieldParent(ObjectInfo *item, FieldInfo *field)
+{
+    if (field->parent) {
+        // We could have done this already because of how we recursively
+        // do stuff.
+        return 0;
+    }
+
+    if (!field->parentName.isEmpty()) {
+        // There is a parent relationship we have to resolve here.
+        field->parent = getFieldByName(field->parentName,
+                &field->parentObj);
+
+        if (!field->parent) {
+            return -1;
+        }
+
+        // Add to object parent set, if not present.
+        item->parents.insert(field->parentObj);
+
+        // Make sure any upwards dependencies are resolved before using the
+        // field info.  This allows inheritance multiple levels deep.
+        resolveFieldParent(field->parentObj, field->parent);
+
+        // If the child had no options specified, take the list from
+        // the parent
+        if (field->options.isEmpty()) {
+            field->options.append(field->parent->options);
+        }
+    }
+
+    return 0;
+}
+
+QString UAVObjectParser::resolveParents()
+{
+    foreach (ObjectInfo *item, objInfo) {
+        foreach (FieldInfo *field, item->fields) {
+            // Because resolveFieldParent can recurse, make sure we've not
+            // set a parent here already.
+            if (resolveFieldParent(item, field) < 0) {
+                return QString("Invalid parent for %1.%2")
+                    .arg(item->name)
+                    .arg(field->name);
+            }
+
+            for (int n = 0; n < field->options.length(); n++) {
+                if (findOptionIndex(field, n) < 0) {
+                    return QString("Parent of %1.%2.%3 missing")
+                        .arg(item->name)
+                        .arg(field->name)
+                        .arg(field->options[n]);
+                }
+            }
+        }
+    }
+
+    return QString();
+}
+
+void UAVObjectParser::calculateAllIds()
+{
+    foreach (ObjectInfo *item, objInfo) {
+        calculateID(item);
+    }
+}
+
+ObjectInfo* UAVObjectParser::getObjectByName(QString& name) {
+    foreach (ObjectInfo *item, objInfo) {
+        if (item->name == name) {
+            return item;
+        }
+    }
+    
+    return NULL;
+}
+
+
 ObjectInfo* UAVObjectParser::getObjectByIndex(int objIndex)
 {
-    return objInfo[objIndex];
+    ObjectInfo *ret = objInfo[objIndex];
+
+    if (ret != NULL) {
+        if (ret->id == 0) {
+            // Lazily calculate IDs on first retrieval.  This lets us have
+            // dependent objects that are fixed up after parse completes.
+            calculateID(ret);
+        }
+    }
+
+    return ret;
 }
 
 /**
@@ -73,7 +202,7 @@ ObjectInfo* UAVObjectParser::getObjectByIndex(int objIndex)
  */
 QString UAVObjectParser::getObjectName(int objIndex)
 {
-    ObjectInfo* info = objInfo[objIndex];
+    ObjectInfo* info = getObjectByIndex(objIndex);
     if (info == NULL)
         return QString();
 
@@ -85,7 +214,7 @@ QString UAVObjectParser::getObjectName(int objIndex)
  */
 quint32 UAVObjectParser::getObjectID(int objIndex)
 {
-    ObjectInfo* info = objInfo[objIndex];
+    ObjectInfo* info = getObjectByIndex(objIndex);
     if (info == NULL)
         return 0;
     return info->id;
@@ -96,7 +225,9 @@ quint32 UAVObjectParser::getObjectID(int objIndex)
  */
 int UAVObjectParser::getNumBytes(int objIndex)
 {    
-    ObjectInfo* info = objInfo[objIndex];
+    ObjectInfo* info = getObjectByIndex(objIndex);
+    if (info == NULL)
+        return 0;
     return info->numBytes;
 }
 
@@ -160,7 +291,7 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
     QDomNode node = docElement.firstChild();
     while ( !node.isNull() ) {
         // Create new object entry
-        ObjectInfo* info = new ObjectInfo;
+        ObjectInfo* info = new ObjectInfo();
 
         info->filename=filename;
         // Process object attributes
@@ -270,11 +401,13 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
             return genErrorMsg(filename, "missing or duplicate description element",
                     node.lineNumber(), node.columnNumber());
 
-        // Calculate ID
-        calculateID(info);
-
         // Calculate size
         calculateSize(info);
+
+        // Check size against max allowed
+        if(info->numBytes > UAVO_MAX_SIZE)
+            return genErrorMsg(filename, QString("total object size(%1 bytes) exceeds maximum limit (%2 bytes)")
+                    .arg(QString::number(info->numBytes), QString::number(UAVO_MAX_SIZE)), 0, 0);
 
         // Add object
         objInfo.append(info);
@@ -286,6 +419,30 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
     all_units.removeDuplicates();
     // Done, return null string
     return QString();
+}
+
+int UAVObjectParser::findOptionIndex(FieldInfo *field, quint32 inputIdx) {
+    if (!field->parent) {
+        return inputIdx;
+    }
+
+    // Walk up inheritance tree.
+    FieldInfo *root = field->parent;
+
+    while (root->parent) {
+        root = root->parent;
+    }
+
+    QString& optionName = field->options[inputIdx];
+
+    QStringList options = root->options;
+    for (int m = 0; m < options.length(); m++) {
+        if (optionName == options[m]) {
+            return m;
+        }
+    }
+
+    return -1;
 }
 
 /**
@@ -308,8 +465,22 @@ void UAVObjectParser::calculateID(ObjectInfo* info)
         hash = updateHash(info->fields[n]->type, hash);
         if(info->fields[n]->type == FIELDTYPE_ENUM) {
             QStringList options = info->fields[n]->options;
-            for (int m = 0; m < options.length(); m++)
+            int nextIdx = 0;
+
+            for (int m = 0; m < options.length(); m++) {
+                int idx = findOptionIndex(info->fields[n], m);
+
+                if (idx < 0) abort();
+
+                // Not contiguous options.  Update with next value.
+                if (idx != nextIdx) {
+                    hash = updateHash((quint32) idx, hash);
+                }
+
+                nextIdx = idx+1;
+
                 hash = updateHash(options[m], hash);
+            }
         }
     }
     // Done
@@ -421,7 +592,7 @@ QString UAVObjectParser::processObjectAccess(QDomNode& childNode, ObjectInfo* in
 QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* info)
 {
     // Create field
-    FieldInfo* field = new FieldInfo;
+    FieldInfo* field = new FieldInfo();
     // Get name attribute
     QDomNamedNodeMap elemAttributes = childNode.attributes();
     QDomNode elemAttr = elemAttributes.namedItem("name");
@@ -532,6 +703,10 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
     }
     // Get options attribute or child elements (only if an enum type)
     if (field->type == FIELDTYPE_ENUM) {
+        elemAttr = elemAttributes.namedItem("parent");
+        if (!elemAttr.isNull()) {
+            field->parentName = elemAttr.nodeValue().trimmed();
+        }
 
         // Look for options attribute
         elemAttr = elemAttributes.namedItem("options");
@@ -555,7 +730,7 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
 	        }
 	    }
         }
-        if (field->options.length() == 0) {
+        if ((field->options.isEmpty()) && (field->parentName.isEmpty())) {
             return QString("Object:field:options attribute/element is missing");
         }
     }

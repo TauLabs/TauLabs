@@ -504,7 +504,8 @@ INSTALLS += include_lib3ds include_glext include_quazip include_glc_maths includ
 INSTALLS += include_glc_scengraph include_glc_geometry include_glc_shading include_glc_viewport
 INSTALLS += include_glc_3dwidget include_glc_glu
 
-INSTALLS += target
+# workaround to avoid target being added a second time due to ../../taulabslibrary.pri
+!contains(INSTALLS,target):INSTALLS += target
 INSTALLS +=include
 
 OTHER_FILES += \

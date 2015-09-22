@@ -326,11 +326,10 @@ bool RawHID::open(OpenMode mode)
 {
     QMutexLocker locker(m_mutex);
 
-    int res;
     hid_device *handle;
 
     // Initialize the hidapi library (safe to call multiple times)
-    res = hid_init();
+    hid_init();
 
     // Open the device using the VID, PID
     handle = hid_open(m_deviceInfo->getVendorID(), m_deviceInfo->getProductID(), NULL);

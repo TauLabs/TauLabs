@@ -45,6 +45,13 @@
 #include <pios_eeprom.h>
 #endif
 
+// these objects are parsed locally for relaying to taranis
+#include "flightbatterystate.h"
+#include "flightstatus.h"
+#include "positionactual.h"
+#include "velocityactual.h"
+#include "baroaltitude.h"
+
 #include "pios_thread.h"
 #include "pios_queue.h"
 
@@ -217,7 +224,6 @@ static int32_t RadioComBridgeInitialize(void)
 	data->radioTxRetries = 0;
 
 	data->parseUAVTalk = true;
-	PIOS_COM_RADIO = PIOS_COM_RFM22B;
 
 	return 0;
 }
@@ -379,10 +385,10 @@ static void radioRxTask( __attribute__ ((unused))
 #ifdef PIOS_INCLUDE_WDG
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RADIORX);
 #endif
-		if (PIOS_COM_RADIO) {
+		if (PIOS_COM_RFM22B) {
 			uint8_t serial_data[1];
 			uint16_t bytes_to_process =
-			    PIOS_COM_ReceiveBuffer(PIOS_COM_RADIO,
+			    PIOS_COM_ReceiveBuffer(PIOS_COM_RFM22B,
 						   serial_data,
 						   sizeof(serial_data),
 						   MAX_PORT_DELAY);
@@ -505,7 +511,7 @@ static void serialRxTask( __attribute__ ((unused))
 #ifdef PIOS_INCLUDE_WDG
 		PIOS_WDG_UpdateFlag(PIOS_WDG_SERIALRX);
 #endif
-		if (inputPort && PIOS_COM_RADIO) {
+		if (inputPort && PIOS_COM_RFM22B) {
 			// Receive some data.
 			uint16_t bytes_to_process =
 			    PIOS_COM_ReceiveBuffer(inputPort,
@@ -523,7 +529,7 @@ static void serialRxTask( __attribute__ ((unused))
 				while (count-- > 0 && ret < -1) {
 					ret =
 					    PIOS_COM_SendBufferNonBlocking
-					    (PIOS_COM_RADIO,
+					    (PIOS_COM_RFM22B,
 					     data->serialRxBuf,
 					     bytes_to_process);
 				}
@@ -582,7 +588,7 @@ static int32_t RadioSendHandler(uint8_t * buf, int32_t length)
 	if (!data->parseUAVTalk) {
 		return length;
 	}
-	uint32_t outputPort = PIOS_COM_RADIO;
+	uint32_t outputPort = PIOS_COM_RFM22B;
 
 	// Don't send any data unless the radio port is available.
 	if (outputPort && PIOS_COM_Available(outputPort)) {
@@ -703,12 +709,25 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle,
 			// some objects will send back a response to the remote modem
 			UAVTalkReceiveObject(inConnectionHandle);
 			break;
+		case FLIGHTBATTERYSTATE_OBJID:
+		case FLIGHTSTATUS_OBJID:
+		case POSITIONACTUAL_OBJID:
+		case VELOCITYACTUAL_OBJID:
+		case BAROALTITUDE_OBJID:
+
+			// process the battery voltage locally for relaying to taranis
+			UAVTalkReceiveObject(inConnectionHandle);
+			UAVTalkRelayPacket(inConnectionHandle, outConnectionHandle);
+			break;
 		case RFM22BSTATUS_OBJID:
 		{
 			uint32_t inst_id = UAVTalkGetPacketInstId(inConnectionHandle);
 			if (inst_id == 0) {
 				// instance 0 is from modem. do not pass this version
 			} else {
+				// process the remote link state locally for relaying to taranis
+				UAVTalkReceiveObject(inConnectionHandle);
+
 				// for remote modem
 				UAVTalkRelayPacket(inConnectionHandle, outConnectionHandle);
 			}

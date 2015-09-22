@@ -32,7 +32,7 @@
 #define PIOS_CONFIG_H
 
 /* Major features */
-#define PIOS_INCLUDE_FREERTOS
+#define PIOS_INCLUDE_CHIBIOS
 #define PIOS_INCLUDE_BL_HELPER
 
 /* Enable/Disable PiOS Modules */
@@ -89,6 +89,7 @@
 #define PIOS_INCLUDE_SESSION_MANAGEMENT
 //#define PIOS_INCLUDE_LIGHTTELEMETRY
 #define PIOS_INCLUDE_PICOC
+#define PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY
 
 /* Supported receiver interfaces */
 #define PIOS_INCLUDE_RCVR
@@ -133,9 +134,7 @@
  * configuration like number of task priorities or similar changes.
  * A change in the cpu load calculation or the idle task handler will invalidate this as well.
  */
-#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (6984538)
-
-#define REVOLUTION
+#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (9873737)
 
 #endif /* PIOS_CONFIG_H */
 /**

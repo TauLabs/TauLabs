@@ -47,7 +47,7 @@
 
 
 /* One slot per selectable receiver group.
- *  eg. PWM, PPM, GCS, DSMMAINPORT, DSMFLEXIPORT, SBUS
+ *  eg. PWM, PPM, GCS, DSM, DSM, SBUS
  * NOTE: No slot in this map for NONE.
  */
 uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
@@ -397,8 +397,8 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure the main IO port */
-	uint8_t hw_DSMxBind;
-	HwCopterControlDSMxBindGet(&hw_DSMxBind);
+	HwCopterControlDSMxModeOptions hw_DSMxMode;
+	HwCopterControlDSMxModeGet(&hw_DSMxMode);
 	uint8_t hw_mainport;
 	HwCopterControlMainPortGet(&hw_mainport);
 
@@ -473,11 +473,15 @@ void PIOS_Board_Init(void) {
 				PIOS_Assert(0);
 			}
 
+			if (hw_DSMxMode >= HWCOPTERCONTROL_DSMXMODE_BIND3PULSES) {
+				hw_DSMxMode = HWCOPTERCONTROL_DSMXMODE_AUTODETECT; /* Do not try to bind through XOR */
+			}
+
 			uintptr_t pios_dsm_id;
 			if (PIOS_DSM_Init(&pios_dsm_id,
 					  &pios_dsm_main_cfg,
 					  &pios_usart_com_driver,
-					  pios_usart_dsm_id, 0)) {
+					  pios_usart_dsm_id, hw_DSMxMode)) {
 				PIOS_Assert(0);
 			}
 
@@ -485,7 +489,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT] = pios_dsm_rcvr_id;
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM] = pios_dsm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -704,7 +708,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_DSM_Init(&pios_dsm_id,
 					  &pios_dsm_flexi_cfg,
 					  &pios_usart_com_driver,
-					  pios_usart_dsm_id, hw_DSMxBind)) {
+					  pios_usart_dsm_id, hw_DSMxMode)) {
 				PIOS_Assert(0);
 			}
 
@@ -712,7 +716,7 @@ void PIOS_Board_Init(void) {
 			if (PIOS_RCVR_Init(&pios_dsm_rcvr_id, &pios_dsm_rcvr_driver, pios_dsm_id)) {
 				PIOS_Assert(0);
 			}
-			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT] = pios_dsm_rcvr_id;
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM] = pios_dsm_rcvr_id;
 		}
 #endif	/* PIOS_INCLUDE_DSM */
 		break;
@@ -856,11 +860,13 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
 	case HWCOPTERCONTROL_RCVRPORT_PPM:
+	case HWCOPTERCONTROL_RCVRPORT_PPMONPIN8:
 	case HWCOPTERCONTROL_RCVRPORT_PPMOUTPUTS:
 #if defined(PIOS_INCLUDE_PPM)
 		{
 			uintptr_t pios_ppm_id;
-			PIOS_PPM_Init(&pios_ppm_id, &pios_ppm_cfg);
+			PIOS_PPM_Init(&pios_ppm_id,
+					(hw_rcvrport == HWCOPTERCONTROL_RCVRPORT_PPMONPIN8) ? &pios_ppm_pin8_cfg : &pios_ppm_cfg);
 
 			uintptr_t pios_ppm_rcvr_id;
 			if (PIOS_RCVR_Init(&pios_ppm_rcvr_id, &pios_ppm_rcvr_driver, pios_ppm_id)) {
@@ -918,6 +924,7 @@ void PIOS_Board_Init(void) {
 		case HWCOPTERCONTROL_RCVRPORT_DISABLED:
 		case HWCOPTERCONTROL_RCVRPORT_PWM:
 		case HWCOPTERCONTROL_RCVRPORT_PPM:
+		case HWCOPTERCONTROL_RCVRPORT_PPMONPIN8:
 		case HWCOPTERCONTROL_RCVRPORT_PPMPWM:
 			PIOS_Servo_Init(&pios_servo_cfg);
 			break;

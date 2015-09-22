@@ -124,7 +124,7 @@ int32_t transmitter_control_initialize()
 	ManualControlSettingsInitialize();
 
 	// Both the gimbal and coptercontrol do not support loitering
-#if !defined(COPTERCONTROL) && !defined(GIMBAL)
+#if !defined(SMALLF1) && !defined(GIMBAL)
 	LoiterCommandInitialize();
 #endif
 
@@ -434,6 +434,7 @@ int32_t transmitter_control_select(bool reset_controller)
 		update_actuator_desired(&cmd);
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_ACRO:
+	case FLIGHTSTATUS_FLIGHTMODE_ACROPLUS:      
 	case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
 	case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
 	case FLIGHTSTATUS_FLIGHTMODE_MWRATE:
@@ -808,14 +809,8 @@ static bool updateRcvrActivityCompare(uintptr_t rcvr_id, struct rcvr_activity_fs
 			case MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_PPM;
 				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMMAINPORT:
-				group = RECEIVERACTIVITY_ACTIVEGROUP_DSMMAINPORT;
-				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMFLEXIPORT:
-				group = RECEIVERACTIVITY_ACTIVEGROUP_DSMFLEXIPORT;
-				break;
-			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSMRCVRPORT:
-				group = RECEIVERACTIVITY_ACTIVEGROUP_DSMRCVRPORT;
+			case MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM:
+				group = RECEIVERACTIVITY_ACTIVEGROUP_DSM;
 				break;
 			case MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_SBUS;
@@ -946,6 +941,9 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK,
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK,
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK};
+  const uint8_t ACROPLUS_SETTINGS[3] = {  STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS,
+                                          STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS,
+                                          STABILIZATIONDESIRED_STABILIZATIONMODE_RATE};
 
 	const uint8_t * stab_settings;
 
@@ -955,6 +953,9 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	switch(flightMode) {
 		case FLIGHTSTATUS_FLIGHTMODE_ACRO:
 			stab_settings = RATE_SETTINGS;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_ACROPLUS:
+			stab_settings = ACROPLUS_SETTINGS;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
 			stab_settings = ATTITUDE_SETTINGS;
@@ -995,8 +996,9 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 
 	stabilization.Roll = (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Roll :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL]:
-	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Roll * stabSettings.RollMax :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? expo3(cmd->Roll, stabSettings.AttitudeExpo[STABILIZATIONSETTINGS_ATTITUDEEXPO_ROLL]) * stabSettings.RollMax :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Roll :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? expo3(cmd->Roll, stabSettings.HorizonExpo[STABILIZATIONSETTINGS_HORIZONEXPO_ROLL]) :
@@ -1007,8 +1009,9 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 
 	stabilization.Pitch = (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Pitch :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
-	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Pitch * stabSettings.PitchMax :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? expo3(cmd->Pitch, stabSettings.AttitudeExpo[STABILIZATIONSETTINGS_ATTITUDEEXPO_PITCH]) * stabSettings.PitchMax :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Pitch :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? expo3(cmd->Pitch, stabSettings.HorizonExpo[STABILIZATIONSETTINGS_HORIZONEXPO_PITCH]):
@@ -1019,8 +1022,9 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 
 	stabilization.Yaw = (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Yaw :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
-	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? cmd->Yaw * stabSettings.YawMax :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? expo3(cmd->Yaw, stabSettings.AttitudeExpo[STABILIZATIONSETTINGS_ATTITUDEEXPO_YAW]) * stabSettings.YawMax :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR) ? cmd->Yaw :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_HORIZON) ? expo3(cmd->Yaw, stabSettings.HorizonExpo[STABILIZATIONSETTINGS_HORIZONEXPO_YAW]) :
@@ -1033,7 +1037,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	StabilizationDesiredSet(&stabilization);
 }
 
-#if !defined(COPTERCONTROL) && !defined(GIMBAL)
+#if !defined(SMALLF1) && !defined(GIMBAL)
 
 /**
  * @brief Update the altitude desired to current altitude when
@@ -1107,20 +1111,12 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 
 static void set_loiter_command(ManualControlCommandData *cmd)
 {
-	const float CMD_THRESHOLD = 0.5f;
-	const float MAX_SPEED     = 3.0f; // m/s
-
 	LoiterCommandData loiterCommand;
-	loiterCommand.Forward = (cmd->Pitch > CMD_THRESHOLD) ? cmd->Pitch - CMD_THRESHOLD :
-	                        (cmd->Pitch < -CMD_THRESHOLD) ? cmd->Pitch + CMD_THRESHOLD :
-	                        0;
-	// Note the negative - forward pitch is negative
-	loiterCommand.Forward *= -MAX_SPEED / (1.0f - CMD_THRESHOLD);
 
-	loiterCommand.Right = (cmd->Roll > CMD_THRESHOLD) ? cmd->Roll - CMD_THRESHOLD :
-	                      (cmd->Roll < -CMD_THRESHOLD) ? cmd->Roll + CMD_THRESHOLD :
-	                      0;
-	loiterCommand.Right *= MAX_SPEED / (1.0f - CMD_THRESHOLD);
+	loiterCommand.Pitch = cmd->Pitch;
+	loiterCommand.Roll = cmd->Roll;
+
+	loiterCommand.Throttle = cmd->Throttle;
 
 	loiterCommand.Frame = LOITERCOMMAND_FRAME_BODY;
 
@@ -1139,7 +1135,7 @@ static void set_loiter_command(ManualControlCommandData *cmd)
 	set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_PATHFOLLOWER);
 }
 
-#endif /* !defined(COPTERCONTROL) && !defined(GIMBAL) */
+#endif /* !defined(SMALLF1) && !defined(GIMBAL) */
 
 /**
  * Convert channel from servo pulse duration (microseconds) to scaled -1/+1 range.

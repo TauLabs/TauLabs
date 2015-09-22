@@ -30,10 +30,18 @@
 #include <QString>
 #include <QStringList>
 #include <QList>
+#include <QSet>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QDomNode>
 #include <QByteArray>
+
+/**
+ * The maximum size of UAVOs is limited by the FlashFS filesystem in the flight code
+ * The flash slot size is 256 bytes which is comprised of the FlashFS header (12 bytes)
+ * and the UAVO. This leaves a maximum of 244 bytes for the UAVO.
+ */
+#define UAVO_MAX_SIZE 244
 
 // Types
 typedef enum {
@@ -47,7 +55,10 @@ typedef enum {
     FIELDTYPE_ENUM
 } FieldType;
 
-typedef struct {
+typedef struct FieldInfo_s FieldInfo;
+typedef struct ObjectInfo_s ObjectInfo;
+
+struct FieldInfo_s {
     QString name;
     QString units;
     FieldType type;
@@ -55,10 +66,14 @@ typedef struct {
     int numBytes;
     QStringList elementNames;
     QStringList options; // for enums only
+    QString parentName;  // optional, for enums only
     bool defaultElementNames;
     QStringList defaultValues;
     QString limitValues;
-} FieldInfo;
+
+    FieldInfo *parent;
+    ObjectInfo *parentObj;
+};
 
 /**
  * Object update mode
@@ -76,8 +91,7 @@ typedef enum {
     ACCESS_READONLY = 1
 } AccessMode;
 
-
-typedef struct  {
+struct ObjectInfo_s {
     QString name;
     QString namelc; /** name in lowercase */
     QString filename;
@@ -98,7 +112,8 @@ typedef struct  {
     QString description; /** Description used for Doxygen **/
     QString category; /** Description used for Doxygen **/
     int numBytes;
-} ObjectInfo;
+    QSet<ObjectInfo*> parents;
+};
 
 class UAVObjectParser
 {
@@ -107,12 +122,18 @@ public:
     // Functions
     UAVObjectParser();
     QString parseXML(QString& xml, QString& filename);
+    QString resolveParents();
+    void calculateAllIds();
     int getNumObjects();
     QList<ObjectInfo*> getObjectInfo();
     QString getObjectName(int objIndex);
     quint32 getObjectID(int objIndex);
 
     ObjectInfo* getObjectByIndex(int objIndex);
+    ObjectInfo* getObjectByName(QString& name);
+    FieldInfo* getFieldByName(QString &name, ObjectInfo **objRet);
+    int findOptionIndex(FieldInfo *field, quint32 inputIdx);
+
     int getNumBytes(int objIndex);
     QStringList all_units;
 
@@ -127,7 +148,6 @@ private:
 
     QString genErrorMsg(QString& fileName, QString errMsg, int errorLine, int errorCol);
 
-
     QString processObjectAttributes(QDomNode& node, ObjectInfo* info);
     QString processObjectFields(QDomNode& childNode, ObjectInfo* info);
     QString processObjectAccess(QDomNode& childNode, ObjectInfo* info);
@@ -138,6 +158,7 @@ private:
     void calculateSize(ObjectInfo* info);
     quint32 updateHash(quint32 value, quint32 hash);
     quint32 updateHash(QString& value, quint32 hash);
+    int resolveFieldParent(ObjectInfo *item, FieldInfo *field);
 };
 
 #endif // UAVOBJECTPARSER_H

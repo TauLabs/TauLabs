@@ -104,7 +104,7 @@ extern uint32_t pios_i2c_flexiport_adapter_id;
 //
 // See also pios_board.c
 //-------------------------
-extern uintptr_t pios_com_telem_rf_id;
+extern uintptr_t pios_com_telem_serial_id;
 extern uintptr_t pios_com_gps_id;
 extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_bridge_id;
@@ -116,10 +116,11 @@ extern uintptr_t pios_com_lighttelemetry_id;
 extern uintptr_t pios_com_picoc_id;
 extern uintptr_t pios_com_debug_id;
 extern uintptr_t pios_com_logging_id;
+extern uintptr_t pios_com_frsky_sport_id;
 
 #define PIOS_COM_GPS                    (pios_com_gps_id)
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
-#define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
+#define PIOS_COM_TELEM_RF               (pios_com_telem_serial_id)
 #define PIOS_COM_BRIDGE                 (pios_com_bridge_id)
 #define PIOS_COM_VCP                    (pios_com_vcp_id)
 #define PIOS_COM_MAVLINK                (pios_com_mavlink_id)
@@ -129,6 +130,7 @@ extern uintptr_t pios_com_logging_id;
 #define PIOS_COM_PICOC                  (pios_com_picoc_id)
 #define PIOS_COM_DEBUG                  (pios_com_debug_id)
 #define PIOS_COM_LOGGING                (pios_com_logging_id)
+#define PIOS_COM_FRSKY_SPORT            (pios_com_frsky_sport_id)
 
 #define DEBUG_LEVEL 0
 #define DEBUG_PRINTF(level, ...) {if(level <= DEBUG_LEVEL && pios_com_debug_id > 0) { PIOS_COM_SendFormattedStringNonBlocking(pios_com_debug_id, __VA_ARGS__); }}

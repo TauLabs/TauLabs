@@ -37,6 +37,10 @@
 #include <pios_stm32.h>
 #include <pios_usart_priv.h>
 
+// for HwSharedDSMxModeOptions
+#include <uavobjectmanager.h>
+#include <hwshared.h>
+
 /*
  * Currently known DSMx (DSM2, DSMJ, DSMX) satellite serial port settings:
  *  115200bps serial stream, 8 bits, no parity, 1 stop bit
@@ -122,7 +126,7 @@ extern int32_t PIOS_DSM_Init(uintptr_t *dsm_id,
 			     const struct pios_dsm_cfg *cfg,
 			     const struct pios_com_driver *driver,
 			     uintptr_t lower_id,
-			     uint8_t bind);
+			     HwSharedDSMxModeOptions mode);
 
 #endif /* PIOS_DSM_PRIV_H */
 

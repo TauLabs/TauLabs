@@ -1,11 +1,7 @@
 /**
  ******************************************************************************
  * @file       taulabsplugin.h
-<<<<<<< HEAD
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
-=======
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
->>>>>>> GCS: Add board plugin for taulabs
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{

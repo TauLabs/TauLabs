@@ -22,13 +22,13 @@ ifdef OPENOCD_FTDI
 endif
 
 # Set up QT toolchain
-QT_SDK_DIR := $(TOOLS_DIR)/Qt5.4.1
+QT_SDK_DIR := $(TOOLS_DIR)/Qt5.5.0
 
 ifdef LINUX
   ifdef AMD64
-    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.4/gcc_64/plugins
+    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.5/gcc_64/plugins
   else
-    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.4/gcc/plugins
+    QT_PLUGINS_DIR = $(QT_SDK_DIR)/5.5/gcc/plugins
   endif
 endif
 
@@ -57,23 +57,25 @@ OPENOCD_FTDI ?= yes
 ifdef LINUX
   ifdef AMD64
     # Linux 64-bit
-    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.4/5.4.1/qt-opensource-linux-x64-5.4.1.run
-    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.4/gcc_64/bin/qmake
+    qt_sdk_install: QT_SDK_URL := http://download.qt.io/official_releases/qt/5.5/5.5.0/qt-opensource-linux-x64-5.5.0-2.run
+    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.5/gcc_64/bin/qmake
   else
     # Linux 32-bit
-    qt_sdk_install: QT_SDK_URL := http://download.qt-project.org/official_releases/qt/5.4/5.4.1/qt-opensource-linux-x86-5.4.1.run
-    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.4/gcc/bin/qmake
+    qt_sdk_install: QT_SDK_URL := http://download.qt.io/official_releases/qt/5.5/5.5.0/qt-opensource-linux-x86-5.5.0.run
+    QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.5/gcc/bin/qmake
   endif
 endif
 
 ifdef MACOSX
-  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.4/5.4.1/qt-opensource-mac-x64-clang-5.4.1.dmg
-  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.4/clang_64/bin/qmake
+  qt_sdk_install: QT_SDK_URL  := http://download.qt.io/official_releases/qt/5.5/5.5.0/qt-opensource-mac-x64-clang-5.5.0.dmg
+  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.5/clang_64/bin/qmake
+
+  export QT_SDK_BIN_PATH := $(QT_SDK_DIR)/5.5/clang_64/bin
 endif
 
 ifdef WINDOWS
-  qt_sdk_install: QT_SDK_URL  := http://download.qt-project.org/official_releases/qt/5.4/5.4.1/qt-opensource-windows-x86-mingw491_opengl-5.4.1.exe
-  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.4/mingw491_32/bin/qmake
+  qt_sdk_install: QT_SDK_URL  := http://download.qt.io/official_releases/qt/5.5/5.5.0/qt-opensource-windows-x86-mingw492-5.5.0.exe
+  QT_SDK_QMAKE_PATH := $(QT_SDK_DIR)/5.5/mingw492_32/bin/qmake
 endif
 
 qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
@@ -93,18 +95,18 @@ qt_sdk_install: qt_sdk_clean
 
 ifneq (,$(filter $(UNAME), Darwin))
 	$(V1) hdiutil attach -quiet -private -mountpoint /tmp/qt-installer "$(DL_DIR)/$(QT_SDK_FILE)" 
-	$(V1) /tmp/qt-installer/qt-opensource-mac-x64-clang-5.4.1.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.4.1
+	$(V1) /tmp/qt-installer/qt-opensource-mac-x64-clang-5.5.0.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.5.0
 	$(V1) hdiutil detach -quiet /tmp/qt-installer
 endif
- 
+
 ifneq (,$(filter $(UNAME), Linux))
         #installer is an executable, make it executable and run it
 	$(V1) chmod u+x "$(DL_DIR)/$(QT_SDK_FILE)"
-	$(V1) "$(DL_DIR)/$(QT_SDK_FILE)" -style cleanlooks
+	$(V1) "$(DL_DIR)/$(QT_SDK_FILE)"
 endif
 
 ifdef WINDOWS
-	$(V1) ./downloads/qt-opensource-windows-x86-mingw491_opengl-5.4.1.exe
+	$(V1) ./downloads/qt-opensource-windows-x86-mingw492-5.5.0.exe
 endif
 
 .PHONY: qt_sdk_clean
@@ -124,18 +126,23 @@ ifdef MACOSX
 endif
 
 ifdef WINDOWS
-  arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.9/4.9-2015-q1-update/+download/gcc-arm-none-eabi-4_9-2015q1-20150306-win32.zip 
+  arm_sdk_install: ARM_SDK_URL  := https://launchpad.net/gcc-arm-embedded/4.9/4.9-2015-q1-update/+download/gcc-arm-none-eabi-4_9-2015q1-20150306-win32.zip
 endif
 
 arm_sdk_install: ARM_SDK_FILE := $(notdir $(ARM_SDK_URL))
 # order-only prereq on directory existance:
 arm_sdk_install: | $(DL_DIR) $(TOOLS_DIR)
 arm_sdk_install: arm_sdk_clean
+ifneq ($(OSFAMILY), windows)
         # download the source only if it's newer than what we already have
 	$(V1) wget --no-check-certificate -N -P "$(DL_DIR)" "$(ARM_SDK_URL)"
 
         # binary only release so just extract it
 	$(V1) tar -C $(TOOLS_DIR) -xjf "$(DL_DIR)/$(ARM_SDK_FILE)"
+else
+	$(V1) curl -L -k -o "$(DL_DIR)/$(ARM_SDK_FILE)" "$(ARM_SDK_URL)"
+	$(V1) unzip -q -d $(ARM_SDK_DIR) "$(DL_DIR)/$(ARM_SDK_FILE)"
+endif
 
 .PHONY: arm_sdk_clean
 arm_sdk_clean:
@@ -512,7 +519,7 @@ ifeq ($(shell [ -d "$(QT_SDK_DIR)" ] && echo "exists"), exists)
   QMAKE = $(QT_SDK_QMAKE_PATH)
 ifdef WINDOWS
   # Windows needs to be told where to find Qt libraries
-  export PATH := $(QT_SDK_DIR)/5.4/mingw491_32/bin:$(PATH) 
+  export PATH := $(QT_SDK_DIR)/5.5/mingw492_32/bin:$(PATH)
 endif
 else
   # not installed, hope it's in the path...
@@ -522,6 +529,9 @@ endif
 ifeq ($(shell [ -d "$(ARM_SDK_DIR)" ] && echo "exists"), exists)
   ARM_SDK_PREFIX := $(ARM_SDK_DIR)/bin/arm-none-eabi-
 else
+  ifneq ($(MAKECMDGOALS),arm_sdk_install)
+    $(info **WARNING** ARM-SDK not in $(ARM_SDK_DIR)  Please run 'make arm_sdk_install')
+  endif
   # not installed, hope it's in the path...
   ARM_SDK_PREFIX ?= arm-none-eabi-
 endif
@@ -556,7 +566,7 @@ endif
 # OPENSSL download URL
 ifdef WINDOWS
   openssl_install: OPENSSL_URL  := http://slproweb.com/download/Win32OpenSSL-1_0_2c.exe
-  
+
 openssl_install: OPENSSL_FILE := $(notdir $(OPENSSL_URL))
 OPENSSL_DIR = $(TOOLS_DIR)/win32openssl
 # order-only prereq on directory existance:

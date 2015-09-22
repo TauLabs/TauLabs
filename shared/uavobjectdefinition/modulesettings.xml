@@ -92,6 +92,8 @@
 		<!-- LightTelemetry Module Settings -->
 		<field name="LightTelemetrySpeed" units="bps" type="enum" elements="1" options="1200,2400,4800,9600,19200,38400,57600,115200" defaultvalue="2400"/>
 
+		<!-- FrSky telemetry Module Settings -->
+		<field name="FrskyAccelData" units="" type="enum" elements="1" options="Accels,NEDAccels, NEDVelocity, AttitudeAngles" defaultvalue="Accels"/>
 
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>

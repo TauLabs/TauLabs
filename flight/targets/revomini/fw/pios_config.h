@@ -86,7 +86,7 @@
 #define PIOS_INCLUDE_FRSKY_SENSOR_HUB
 #define PIOS_INCLUDE_SESSION_MANAGEMENT
 #define PIOS_INCLUDE_LIGHTTELEMETRY
-//#define PIOS_INCLUDE_PICOC
+#define PIOS_INCLUDE_PICOC
 #define PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY
 
 /* Supported receiver interfaces */
@@ -133,8 +133,6 @@
  * A change in the cpu load calculation or the idle task handler will invalidate this as well.
  */
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (6984538)
-
-#define REVOLUTION
 
 #endif /* PIOS_CONFIG_H */
 /**

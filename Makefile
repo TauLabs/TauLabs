@@ -839,9 +839,9 @@ endef
 
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)
-BL_BOARDS  := $(ALL_BOARDS)
-BU_BOARDS  := $(ALL_BOARDS)
-EF_BOARDS  := $(ALL_BOARDS)
+BL_BOARDS  := $(filter-out naze32, $(ALL_BOARDS))
+BU_BOARDS  := $(BL_BOARDS)
+EF_BOARDS  := $(filter-out naze32, $(ALL_BOARDS))
 
 # Sim targets are different for each host OS
 ifeq ($(UNAME), Linux)
@@ -908,7 +908,7 @@ $(eval $(call SIM_TEMPLATE,simulation,Simulation,'sim ',posix,elf))
 #
 ##############################
 
-ALL_UNITTESTS := logfs i2c_vm misc_math sin_lookup coordinate_conversions error_correcting streamfs dsm timeutils
+ALL_UNITTESTS := logfs i2c_vm misc_math coordinate_conversions error_correcting streamfs dsm timeutils
 ALL_PYTHON_UNITTESTS := python_ut_test
 
 UT_OUT_DIR := $(BUILD_DIR)/unit_tests

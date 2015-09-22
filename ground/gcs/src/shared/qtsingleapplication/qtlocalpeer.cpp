@@ -30,6 +30,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QTime>
+#include <QDataStream>
 
 #if defined(Q_OS_WIN)
 #include <QtCore/QLibrary>
@@ -37,6 +38,8 @@
 typedef BOOL(WINAPI*PProcessIdToSessionId)(DWORD,DWORD*);
 static PProcessIdToSessionId pProcessIdToSessionId = 0;
 #endif
+
+#include <QDataStream>
 
 #if defined(Q_OS_UNIX)
 #include <time.h>

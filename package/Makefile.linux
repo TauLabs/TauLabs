@@ -13,7 +13,7 @@ endef
 VERNUM				:= 0.1.0
 VERSION_FULL		:= $(VERNUM)-$(PACKAGE_LBL)
 
-FLIGHT_FW			:= coptercontrol revolution sparky sparky2 sparkybgc freedom revomini pipxtreme quanton flyingf3
+FLIGHT_FW			:= coptercontrol sparky sparky2 sparkybgc revomini pipxtreme quanton flyingf3 naze32 aq32
 
 DEB_BUILD_DIR		:= $(ROOT_DIR)/debian
 
@@ -40,7 +40,7 @@ ALL_DEB_FILES += $(foreach f, $(DEB_MACHINE_FILES), $(DEB_BUILD_DIR)/$(f))
 
 DEB_PACKAGE_NAME	:= taulabs_$(VERSION_FULL)_$(DEB_PLATFORM)
 
-QT_PLUGINS_USED		:=imageformats platforms sqldrivers
+QT_PLUGINS_USED		:= imageformats platforms sqldrivers xcbglintegrations
 
 standalone: gcs
 	@echo $@ starting
@@ -50,6 +50,7 @@ standalone: gcs
 	$(V1)cp -v -R $(QT_PLUGINS_DIR)/platforms $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins/
 	$(V1) mkdir -p "$(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins/sqldrivers"
 	$(V1)cp -v -R $(QT_PLUGINS_DIR)/sqldrivers/libqsqlite.so $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins/sqldrivers
+	$(V1)cp -v -R $(QT_PLUGINS_DIR)/xcbglintegrations $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qtplugins/
 	$(V1) mkdir -p "$(ROOT_DIR)/build/ground/gcs/lib/taulabs/qml"
 	$(V1)cp -v -R $(QT_PLUGINS_DIR)/../qml/QtQuick.2 $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qml/
 	$(V1)cp -v -R $(QT_PLUGINS_DIR)/../qml/QtQuick $(ROOT_DIR)/build/ground/gcs/lib/taulabs/qml/

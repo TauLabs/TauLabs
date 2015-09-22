@@ -126,8 +126,6 @@
  */
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (2175780)
 
-#define REVOLUTION
-
 #define CAMERASTAB_POI_MODE
 
 #endif /* PIOS_CONFIG_H */

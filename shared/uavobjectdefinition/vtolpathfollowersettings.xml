@@ -4,11 +4,11 @@
 		<field name="HorizontalVelMax" units="m/s" type="uint16" elements="1" defaultvalue="10"/>
 		<field name="VerticalVelMax" units="m/s" type="uint16" elements="1" defaultvalue="2"/>
 		<field name="HorizontalPosPI" units="(m/s)/m" type="float" elementnames="Kp,Ki,ILimit" defaultvalue="1,0,2"/>
-		<field name="HorizontalVelPID" units="deg/(m/s)" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="3,0,0,0"/>
+		<field name="HorizontalVelPID" units="deg/(m/s)" type="float" elementnames="Kp,Ki,Kd,ILimit" defaultvalue="2.6,0.4,0,5.0"/>
 		<field name="VelocityFeedforward" units="deg/(m/s)" type="float" elements="1" defaultvalue="0"/>
 		<field name="ThrottleControl" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
 		<!-- 0.4-0.6 seconds seems like a good value in most cases, this is conservative -->
-		<field name="PositionFeedforward" units="s" type="float" elements="1" defaultvalue="0.25"/>
+		<field name="PositionFeedforward" units="s" type="float" elements="1" defaultvalue="0.45"/>
 		<field name="EndpointDeadbandWidth" units="m" type="float" elements="1" defaultvalue="0.45"/>
 		<field name="EndpointDeadbandCenterGain" units="" type="float" elements="1" defaultvalue="0.3"/>
 		<field name="PathDeadbandWidth" units="m" type="float" elements="1" defaultvalue="1.25"/>
@@ -25,6 +25,16 @@
 		<field name="UpdatePeriod" units="ms" type="int32" elements="1" defaultvalue="50"/>
 		<field name="YawMode" units="" type="enum" elements="1" options="Rate,AxisLock,Attitude,Path,POI" defaultvalue="AxisLock"/>
 		<field name="LandingRate" units="m/s" type="float" elements="1" defaultvalue="0.5"/>
+
+		<!-- Loiter mode configuration -->
+		<field name="LoiterBrakingTimeConstant" units="s" type="float" elements="1" defaultvalue="1.25"/>
+		<field name="LoiterErrorDecayConstant" units="s" type="float" elements="1" defaultvalue="0.33"/>
+		<field name="LoiterLookaheadTimeConstant" units="s" type="float" elements="1" defaultvalue="1.25"/>
+		<field name="LoiterInitialMaxVel" units="m/s" type="float" elements="1" defaultvalue="3.5"/>
+		<field name="LoiterAttitudeFeedthrough" units="deg" type="float" elements="1" defaultvalue="15"/>
+		<!-- Silently ignored if ThrottleControl is false -->
+		<field name="LoiterAllowAltControl" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>

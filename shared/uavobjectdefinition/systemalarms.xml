@@ -35,6 +35,7 @@
 				<option>AltitudeHold</option>
 				<option>PositionHold</option>
 				<option>PathPlanner</option>
+				<option>DuplicatePortCfg</option>
 				<option>NavFilter</option> <!-- the selected filter is not safe for navigation -->
 				<option>UnsafeToArm</option>
 				<option>Undefined</option>

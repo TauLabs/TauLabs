@@ -33,6 +33,7 @@
 #define PIOS_RFM22B_H
 
 #include <uavobjectmanager.h>
+#include <hwshared.h>
 
 /* Constant definitions */
 enum gpio_direction { GPIO0_TX_GPIO1_RX, GPIO0_RX_GPIO1_TX };
@@ -56,18 +57,6 @@ enum rfm22b_tx_power {
 	RFM22_tx_pwr_txpow_5 = 0x05,	// +14dBm .. 25mW
 	RFM22_tx_pwr_txpow_6 = 0x06,	// +17dBm .. 50mW
 	RFM22_tx_pwr_txpow_7 = 0x07	// +20dBm .. 100mW
-};
-
-enum rfm22b_datarate {
-	RFM22_datarate_9600 = 0,
-	RFM22_datarate_19200 = 1,
-	RFM22_datarate_32000 = 2,
-	RFM22_datarate_57600 = 3,
-	RFM22_datarate_64000 = 4,
-	RFM22_datarate_100000 = 5,
-	RFM22_datarate_128000 = 6,
-	RFM22_datarate_192000 = 7,
-	RFM22_datarate_256000 = 8,
 };
 
 typedef enum {
@@ -102,7 +91,7 @@ extern void PIOS_RFM22B_Reinit(uint32_t rfb22b_id);
 extern void PIOS_RFM22B_SetTxPower(uint32_t rfm22b_id,
 				   enum rfm22b_tx_power tx_pwr);
 extern void PIOS_RFM22B_Config(uint32_t rfm22b_id,
-					 enum rfm22b_datarate datarate,
+					 HwSharedMaxRfSpeedOptions datarate,
 					 uint8_t min_chan,
 					 uint8_t max_chan,
 					 uint32_t coordinator_id, bool oneway,
