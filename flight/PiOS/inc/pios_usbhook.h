@@ -37,7 +37,7 @@
 #include "pios_usb_defs.h"	/* usb_setup_request */
 
 struct pios_usbhook_descriptor {
-	const uint8_t * descriptor;
+	uint8_t * descriptor;
 	uint16_t length;
 };
 
@@ -48,9 +48,9 @@ enum usb_string_desc {
 	USB_STRING_DESC_SERIAL  = 3,
 } __attribute__((packed));
 
-extern void PIOS_USBHOOK_RegisterDevice(const uint8_t * desc, uint16_t desc_size);
-extern void PIOS_USBHOOK_RegisterConfig(uint8_t config_id, const uint8_t * desc, uint16_t desc_size);
-extern void PIOS_USBHOOK_RegisterString(enum usb_string_desc string_id, const uint8_t * desc, uint16_t desc_size);
+extern void PIOS_USBHOOK_RegisterDevice(uint8_t * desc, uint16_t desc_size);
+extern void PIOS_USBHOOK_RegisterConfig(uint8_t config_id, uint8_t * desc, uint16_t desc_size);
+extern void PIOS_USBHOOK_RegisterString(enum usb_string_desc string_id, uint8_t * desc, uint16_t desc_size);
 
 struct pios_usb_ifops {
   void (*init)(uintptr_t context);
@@ -68,9 +68,9 @@ extern void PIOS_USBHOOK_RegisterEpOutCallback(uint8_t epnum, uint16_t max_len, 
 extern void PIOS_USBHOOK_DeRegisterEpInCallback(uint8_t epnum);
 extern void PIOS_USBHOOK_DeRegisterEpOutCallback(uint8_t epnum);
 
-extern void PIOS_USBHOOK_CtrlTx(const uint8_t *buf, uint16_t len);
+extern void PIOS_USBHOOK_CtrlTx(uint8_t *buf, uint16_t len);
 extern void PIOS_USBHOOK_CtrlRx(uint8_t *buf, uint16_t len);
-extern void PIOS_USBHOOK_EndpointTx(uint8_t epnum, const uint8_t *buf, uint16_t len);
+extern void PIOS_USBHOOK_EndpointTx(uint8_t epnum, uint8_t *buf, uint16_t len);
 extern void PIOS_USBHOOK_EndpointRx(uint8_t epnum, uint8_t *buf, uint16_t len);
 extern void PIOS_USBHOOK_Activate(void);
 extern void PIOS_USBHOOK_Deactivate(void);

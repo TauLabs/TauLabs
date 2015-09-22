@@ -152,7 +152,7 @@ out_fail:
 
 static struct pios_usbhook_descriptor hid_desc;
 
-void PIOS_USB_HID_RegisterHidDescriptor(const uint8_t * desc, uint16_t length)
+void PIOS_USB_HID_RegisterHidDescriptor(uint8_t * desc, uint16_t length)
 {
 	hid_desc.descriptor = desc;
 	hid_desc.length     = length;
@@ -160,7 +160,7 @@ void PIOS_USB_HID_RegisterHidDescriptor(const uint8_t * desc, uint16_t length)
 
 static struct pios_usbhook_descriptor hid_report_desc;
 
-void PIOS_USB_HID_RegisterHidReport(const uint8_t * desc, uint16_t length)
+void PIOS_USB_HID_RegisterHidReport(uint8_t * desc, uint16_t length)
 {
 	hid_report_desc.descriptor = desc;
 	hid_report_desc.length     = length;

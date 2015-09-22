@@ -49,7 +49,7 @@
  */
 static struct pios_usbhook_descriptor Device_Descriptor;
 
-void PIOS_USBHOOK_RegisterDevice(const uint8_t * desc, uint16_t length)
+void PIOS_USBHOOK_RegisterDevice(uint8_t * desc, uint16_t length)
 {
 	Device_Descriptor.descriptor = desc;
 	Device_Descriptor.length     = length;
@@ -57,7 +57,7 @@ void PIOS_USBHOOK_RegisterDevice(const uint8_t * desc, uint16_t length)
 
 static struct pios_usbhook_descriptor String_Descriptor[4];
 
-void PIOS_USBHOOK_RegisterString(enum usb_string_desc string_id, const uint8_t * desc, uint16_t desc_size)
+void PIOS_USBHOOK_RegisterString(enum usb_string_desc string_id, uint8_t * desc, uint16_t desc_size)
 {
 	if (string_id < NELEMENTS(String_Descriptor)) {
 		String_Descriptor[string_id].descriptor = desc;
@@ -67,7 +67,7 @@ void PIOS_USBHOOK_RegisterString(enum usb_string_desc string_id, const uint8_t *
 
 static struct pios_usbhook_descriptor Config_Descriptor;
 
-void PIOS_USBHOOK_RegisterConfig(uint8_t config_id, const uint8_t * desc, uint16_t desc_size)
+void PIOS_USBHOOK_RegisterConfig(uint8_t config_id, uint8_t * desc, uint16_t desc_size)
 {
 	Config_Descriptor.descriptor = desc;
 	Config_Descriptor.length     = desc_size;
@@ -199,7 +199,7 @@ extern void PIOS_USBHOOK_DeRegisterEpOutCallback(uint8_t epnum)
 	DCD_EP_Close(&pios_usb_otg_core_handle, epnum);
 }
 
-void PIOS_USBHOOK_CtrlTx(const uint8_t *buf, uint16_t len)
+void PIOS_USBHOOK_CtrlTx(uint8_t *buf, uint16_t len)
 {
 	USBD_CtlSendData(&pios_usb_otg_core_handle, buf, len);
 }
@@ -209,7 +209,7 @@ void PIOS_USBHOOK_CtrlRx(uint8_t *buf, uint16_t len)
 	USBD_CtlPrepareRx(&pios_usb_otg_core_handle, buf, len);
 }
 
-void PIOS_USBHOOK_EndpointTx(uint8_t epnum, const uint8_t *buf, uint16_t len)
+void PIOS_USBHOOK_EndpointTx(uint8_t epnum, uint8_t *buf, uint16_t len)
 {
 	if (pios_usb_otg_core_handle.dev.device_status == USB_OTG_CONFIGURED) {
 		DCD_EP_Tx(&pios_usb_otg_core_handle, epnum, buf, len);
@@ -225,42 +225,42 @@ void PIOS_USBHOOK_EndpointRx(uint8_t epnum, uint8_t *buf, uint16_t len)
  * Device level hooks into STM USB library
  */
 
-static const uint8_t * PIOS_USBHOOK_DEV_GetDeviceDescriptor(uint8_t speed, uint16_t *length)
+static uint8_t * PIOS_USBHOOK_DEV_GetDeviceDescriptor(uint8_t speed, uint16_t *length)
 {
 	*length = Device_Descriptor.length;
 	return Device_Descriptor.descriptor;
 }
 
-static const uint8_t * PIOS_USBHOOK_DEV_GetLangIDStrDescriptor(uint8_t speed, uint16_t *length)
+static uint8_t * PIOS_USBHOOK_DEV_GetLangIDStrDescriptor(uint8_t speed, uint16_t *length)
 {
 	*length = String_Descriptor[USB_STRING_DESC_LANG].length;
 	return String_Descriptor[USB_STRING_DESC_LANG].descriptor;
 }
 
-static const uint8_t * PIOS_USBHOOK_DEV_GetManufacturerStrDescriptor(uint8_t speed, uint16_t *length)
+static uint8_t * PIOS_USBHOOK_DEV_GetManufacturerStrDescriptor(uint8_t speed, uint16_t *length)
 {
 	*length = String_Descriptor[USB_STRING_DESC_VENDOR].length;
 	return String_Descriptor[USB_STRING_DESC_VENDOR].descriptor;
 }
 
-static const uint8_t * PIOS_USBHOOK_DEV_GetProductStrDescriptor(uint8_t speed, uint16_t *length)
+static uint8_t * PIOS_USBHOOK_DEV_GetProductStrDescriptor(uint8_t speed, uint16_t *length)
 {
 	*length = String_Descriptor[USB_STRING_DESC_PRODUCT].length;
 	return String_Descriptor[USB_STRING_DESC_PRODUCT].descriptor;
 }
 
-static const uint8_t * PIOS_USBHOOK_DEV_GetSerialStrDescriptor(uint8_t speed, uint16_t *length)
+static uint8_t * PIOS_USBHOOK_DEV_GetSerialStrDescriptor(uint8_t speed, uint16_t *length)
 {
 	*length = String_Descriptor[USB_STRING_DESC_SERIAL].length;
 	return String_Descriptor[USB_STRING_DESC_SERIAL].descriptor;
 }
 
-static const uint8_t * PIOS_USBHOOK_DEV_GetConfigurationStrDescriptor(uint8_t speed, uint16_t *length)
+static uint8_t * PIOS_USBHOOK_DEV_GetConfigurationStrDescriptor(uint8_t speed, uint16_t *length)
 {
 	return NULL;
 }
 
-static const uint8_t * PIOS_USBHOOK_DEV_GetInterfaceStrDescriptor(uint8_t speed, uint16_t *length)
+static uint8_t * PIOS_USBHOOK_DEV_GetInterfaceStrDescriptor(uint8_t speed, uint16_t *length)
 {
 	return NULL;
 }
@@ -450,7 +450,7 @@ static uint8_t PIOS_USBHOOK_CLASS_IsoOUTIncomplete(void *pdev)
 	return USBD_OK;
 }
 
-static const uint8_t * PIOS_USBHOOK_CLASS_GetConfigDescriptor(uint8_t speed, uint16_t *length)
+static uint8_t * PIOS_USBHOOK_CLASS_GetConfigDescriptor(uint8_t speed, uint16_t *length)
 {
 	*length = Config_Descriptor.length;
 	return Config_Descriptor.descriptor;
