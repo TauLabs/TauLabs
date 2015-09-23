@@ -457,8 +457,8 @@ $$(UAVO_COLLECTION_DIR)/$(1)/uavohash: $$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml
 # Generate the java uavobjects for this UAVO collection
 $$(UAVO_COLLECTION_DIR)/$(1)/java-build/java: $$(UAVO_COLLECTION_DIR)/$(1)/uavohash uavobjgenerator
 	$$(V0) @echo " UAVOJAVA  $(1)   " $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
-	$$(V1) mkdir -p $$@
 	$$(V1) ( \
+		mkdir -p $$(UAVO_COLLECTION_DIR)/$(1)/java-build && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/java-build && \
 		$$(UAVOBJGENERATOR) -java $$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition $$(ROOT_DIR) ; \
 	)
