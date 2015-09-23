@@ -43,7 +43,7 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
     flightIncludeTemplate = readFile( flightCodePath.absoluteFilePath("inc/uavobjecttemplate.h") );
     flightInitTemplate = readFile( flightCodePath.absoluteFilePath("uavobjectsinittemplate.c") );
     flightInitIncludeTemplate = readFile( flightCodePath.absoluteFilePath("inc/uavobjectsinittemplate.h") );
-    flightVersionTemplate = readFile( flightCodePath.absoluteFilePath("inc/uavovertemplate.h") );
+    flightVersionTemplate = readFile( flightCodePath.absoluteFilePath("inc/uavoversiontemplate.h") );
 
     if ( flightCodeTemplate.isNull() || flightIncludeTemplate.isNull() || flightInitTemplate.isNull()) {
             cerr << "Error: Could not open flight template files." << endl;
@@ -87,7 +87,7 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
     // Write the flight object initialization header
     flightVersionTemplate.replace( QString("$(UAVOHASH)"), 
 		    QString("0x%1").arg(parser->getUavoHash(), 16, 16, QChar('0')));
-    res = writeFileIfDiffrent( flightOutputPath.absolutePath() + "/uavover.h",
+    res = writeFileIfDiffrent( flightOutputPath.absolutePath() + "/uavoversion.h",
                      flightVersionTemplate );
     if (!res) {
         cout << "Error: Could not write flight object ver header file" << endl;

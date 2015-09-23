@@ -36,7 +36,7 @@
 #include "uavdataobject.h"
 #include "uavobjectmanager.h"
 
-#include "uavogcsver.h"
+#include "uavogcsversion.h"
 
 $(PARENT_INCLUDES)
 
