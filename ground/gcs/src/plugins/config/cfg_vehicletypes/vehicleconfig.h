@@ -143,8 +143,6 @@ class VehicleConfig: public ConfigTaskWidget
         QStringList mixerVectors;
         QStringList mixerTypeDescriptions;
 
-        static const quint32 CHANNEL_NUMELEM = 10;
-
     private:
 
         static UAVObjectManager* getUAVObjectManager();

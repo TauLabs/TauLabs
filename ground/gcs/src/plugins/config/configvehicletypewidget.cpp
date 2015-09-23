@@ -42,6 +42,7 @@
 
 #include "systemsettings.h"
 #include "mixersettings.h"
+#include "actuatorcommand.h"
 #include "actuatorsettings.h"
 #include "vehicletrim.h"
 #include <extensionsystem/pluginmanager.h>
@@ -185,14 +186,14 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     UAVDataObject* obj = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
     UAVObjectField* field = obj->getField(QString("Mixer1Type"));
     QStringList list = field->getOptions();
-    for (int i=0; i<(int)(VehicleConfig::CHANNEL_NUMELEM); i++) {
+    for (int i=0; i<(int)(ActuatorCommand::CHANNEL_NUMELEM); i++) {
         QComboBox* qb = new QComboBox(m_aircraft->customMixerTable);
         qb->addItems(list);
         m_aircraft->customMixerTable->setCellWidget(0,i,qb);
     }
 
     SpinBoxDelegate *sbd = new SpinBoxDelegate();
-    for (int i=1; i<(int)(VehicleConfig::CHANNEL_NUMELEM); i++) {
+    for (int i=1; i<(int)(ActuatorCommand::CHANNEL_NUMELEM); i++) {
         m_aircraft->customMixerTable->setItemDelegateForRow(i, sbd);
     }
 
@@ -314,7 +315,7 @@ QStringList ConfigVehicleTypeWidget::getChannelDescriptions()
 
         default:
         {
-            for (i=0; i < (int)(VehicleConfig::CHANNEL_NUMELEM); i++)
+            for (i=0; i < (int)(ActuatorCommand::CHANNEL_NUMELEM); i++)
                 channelDesc.append(QString("-"));
         }
         break;
@@ -340,7 +341,7 @@ void ConfigVehicleTypeWidget::switchAirframeType(int index)
         break;
     case AIRFRAME_CUSTOM:
         m_aircraft->customMixerTable->resizeColumnsToContents();
-        for (int i=0;i<(int)(VehicleConfig::CHANNEL_NUMELEM);i++) {
+        for (int i=0;i<(int)(ActuatorCommand::CHANNEL_NUMELEM);i++) {
             m_aircraft->customMixerTable->setColumnWidth(i,(m_aircraft->customMixerTable->width()-
                                                             m_aircraft->customMixerTable->verticalHeader()->width())/10);
         }
@@ -364,7 +365,7 @@ void ConfigVehicleTypeWidget::showEvent(QShowEvent *event)
     // the result is usually a ahrsbargraph that is way too small.
     m_aircraft->quadShape->fitInView(quad, Qt::KeepAspectRatio);
     m_aircraft->customMixerTable->resizeColumnsToContents();
-    for (int i=0;i<(int)(VehicleConfig::CHANNEL_NUMELEM);i++) {
+    for (int i=0;i<(int)(ActuatorCommand::CHANNEL_NUMELEM);i++) {
         m_aircraft->customMixerTable->setColumnWidth(i,(m_aircraft->customMixerTable->width()-
                                                         m_aircraft->customMixerTable->verticalHeader()->width())/ 10);
     }
@@ -379,7 +380,7 @@ void ConfigVehicleTypeWidget::resizeEvent(QResizeEvent* event)
     m_aircraft->quadShape->fitInView(quad, Qt::KeepAspectRatio);
     // Make the custom table columns autostretch:
     m_aircraft->customMixerTable->resizeColumnsToContents();
-    for (int i=0;i<(int)(VehicleConfig::CHANNEL_NUMELEM);i++) {
+    for (int i=0;i<(int)(ActuatorCommand::CHANNEL_NUMELEM);i++) {
         m_aircraft->customMixerTable->setColumnWidth(i,(m_aircraft->customMixerTable->width()-
                                                         m_aircraft->customMixerTable->verticalHeader()->width())/ 10);
     }
@@ -652,7 +653,7 @@ void ConfigVehicleTypeWidget::updateCustomAirframeUI()
     }
 
     // Update the mixer table:
-    for (int channel=0; channel<(int)(VehicleConfig::CHANNEL_NUMELEM); channel++) {
+    for (int channel=0; channel<(int)(ActuatorCommand::CHANNEL_NUMELEM); channel++) {
         UAVObjectField* field = mixerSettings->getField(mixerTypes.at(channel));
         if (field)
         {
@@ -713,7 +714,7 @@ void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
         vconfig->setThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, m_aircraft->customThrottle2Curve->getCurve());
 
         // Update the table:
-        for (int channel=0; channel<(int)(VehicleConfig::CHANNEL_NUMELEM); channel++) {
+        for (int channel=0; channel<(int)(ActuatorCommand::CHANNEL_NUMELEM); channel++) {
             QComboBox* q = (QComboBox*)m_aircraft->customMixerTable->cellWidget(0,channel);
             if(q->currentText()=="Disabled")
                 vconfig->setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_DISABLED);
