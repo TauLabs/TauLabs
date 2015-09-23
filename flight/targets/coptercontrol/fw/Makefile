@@ -238,7 +238,6 @@ endif
 SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
-SRC += $(MATHLIB)/cic.c
 
 ## CMSIS for STM32
 include $(PIOSCOMMONLIB)/CMSIS3/library.mk
