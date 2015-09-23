@@ -42,9 +42,9 @@ bool UAVObjectGeneratorGCS::generate(UAVObjectParser* parser,QString templatepat
     gcsCodeTemplate = readFile( gcsCodePath.absoluteFilePath("uavobjecttemplate.cpp") );
     gcsIncludeTemplate = readFile( gcsCodePath.absoluteFilePath("uavobjecttemplate.h") );
     QString gcsInitTemplate = readFile( gcsCodePath.absoluteFilePath("uavobjectsinittemplate.cpp") );
-    QString gcsVerTemplate = readFile( gcsCodePath.absoluteFilePath("uavogcsvertemplate.h") );
+    QString gcsVersionTemplate = readFile( gcsCodePath.absoluteFilePath("uavogcsversiontemplate.h") );
 
-    if (gcsCodeTemplate.isEmpty() || gcsIncludeTemplate.isEmpty() || gcsInitTemplate.isEmpty() || gcsVerTemplate.isEmpty()) {
+    if (gcsCodeTemplate.isEmpty() || gcsIncludeTemplate.isEmpty() || gcsInitTemplate.isEmpty() || gcsVersionTemplate.isEmpty()) {
         std::cerr << "Problem reading gcs code templates" << endl;
         return false;
     }
@@ -69,9 +69,9 @@ bool UAVObjectGeneratorGCS::generate(UAVObjectParser* parser,QString templatepat
         return false;
     }
 
-    gcsVerTemplate.replace( QString("$(UAVOHASH)"), 
+    gcsVersionTemplate.replace( QString("$(UAVOHASH)"), 
                 QString("0x%1").arg(parser->getUavoHash(), 16, 16, QChar('0')));
-    res = writeFileIfDiffrent( gcsOutputPath.absolutePath() + "/uavogcsver.h", gcsVerTemplate );
+    res = writeFileIfDiffrent( gcsOutputPath.absolutePath() + "/uavogcsversion.h", gcsVersionTemplate );
     if (!res) {
         cout << "Error: Could not write output files" << endl;
         return false;
