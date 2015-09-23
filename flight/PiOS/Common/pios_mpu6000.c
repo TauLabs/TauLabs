@@ -47,6 +47,8 @@
 #endif
 
 /* Private macros */
+#define PACK_SENSOR_VALUE16(h_byte, l_byte) ((float)((int16_t)(mpu6000_rec_buf[h_byte] << 8 | mpu6000_rec_buf[l_byte])))
+
 #ifndef SMALLF1
 #define RAW_ACCEL_X  (accel_data_temp.x / TaskAllSubSamplesCnt)
 #define RAW_ACCEL_Y  (accel_data_temp.y / TaskAllSubSamplesCnt)
@@ -56,13 +58,13 @@
 #define RAW_GYRO_Z   (cic_get_decimation_output(&gyro_filter_xyz[Z1]) / gyro_lpf_gain)
 #define RAW_TEMP     (raw_temp / TaskAllSubSamplesCnt)
 #else
-#define RAW_ACCEL_X  ((int16_t)(mpu6000_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_XOUT_L]))
-#define RAW_ACCEL_Y  ((int16_t)(mpu6000_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_YOUT_L]))
-#define RAW_ACCEL_Z  ((int16_t)(mpu6000_rec_buf[IDX_ACCEL_ZOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_ZOUT_L]))
-#define RAW_GYRO_X   ((int16_t)(mpu6000_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_XOUT_L]))
-#define RAW_GYRO_Y   ((int16_t)(mpu6000_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_YOUT_L]))
-#define RAW_GYRO_Z   ((int16_t)(mpu6000_rec_buf[IDX_GYRO_ZOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_ZOUT_L]))
-#define RAW_TEMP     ((int16_t)(mpu6000_rec_buf[IDX_TEMP_OUT_H] << 8 | mpu6000_rec_buf[IDX_TEMP_OUT_L]))
+#define RAW_ACCEL_X PACK_SENSOR_VALUE16(IDX_ACCEL_XOUT_H, IDX_ACCEL_XOUT_L)
+#define RAW_ACCEL_Y PACK_SENSOR_VALUE16(IDX_ACCEL_YOUT_H, IDX_ACCEL_YOUT_L)
+#define RAW_ACCEL_Z PACK_SENSOR_VALUE16(IDX_ACCEL_ZOUT_H, IDX_ACCEL_ZOUT_L)
+#define RAW_GYRO_X  PACK_SENSOR_VALUE16(IDX_GYRO_XOUT_H, IDX_GYRO_XOUT_L)
+#define RAW_GYRO_Y  PACK_SENSOR_VALUE16(IDX_GYRO_YOUT_H, IDX_GYRO_YOUT_L)
+#define RAW_GYRO_Z  PACK_SENSOR_VALUE16(IDX_GYRO_ZOUT_H, IDX_GYRO_ZOUT_L)
+#define RAW_TEMP    PACK_SENSOR_VALUE16(IDX_TEMP_OUT_H, IDX_TEMP_OUT_L)
 #endif
 
 
@@ -71,7 +73,7 @@
 #define MPU6000_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
 
 #ifndef SMALLF1
-#define MPU6000_TASK_STACK		488
+#define MPU6000_TASK_STACK		512 // seems to need higher value for the CIC filtering; 488 seems also to work, but to be safe using 512, the same as MPU9250
 #else
 #define MPU6000_TASK_STACK		484
 #endif
@@ -739,20 +741,20 @@ static void PIOS_MPU6000_Task(void *parameters)
 
 		// data conversion & 1st order CIC and boxcar (order = 0) integration
 		if (AllSamplingFlg == true) {
-			accel_data_temp.x                        += (int16_t)(mpu6000_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_XOUT_L]);
-			accel_data_temp.y                        += (int16_t)(mpu6000_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_YOUT_L]);
-			accel_data_temp.z                        += (int16_t)(mpu6000_rec_buf[IDX_ACCEL_ZOUT_H] << 8 | mpu6000_rec_buf[IDX_ACCEL_ZOUT_L]);
-			gyro_filter_xyz[X1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_XOUT_L]);
-			gyro_filter_xyz[Y1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_YOUT_L]);
-			gyro_filter_xyz[Z1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX_GYRO_ZOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_ZOUT_L]);
-			raw_temp                            += (int16_t)(mpu6000_rec_buf[IDX_TEMP_OUT_H] << 8 | mpu6000_rec_buf[IDX_TEMP_OUT_L]);
+			accel_data_temp.x                   += PACK_SENSOR_VALUE16(IDX_ACCEL_XOUT_H, IDX_ACCEL_XOUT_L);
+			accel_data_temp.y                   += PACK_SENSOR_VALUE16(IDX_ACCEL_YOUT_H, IDX_ACCEL_YOUT_L);
+			accel_data_temp.z                   += PACK_SENSOR_VALUE16(IDX_ACCEL_ZOUT_H, IDX_ACCEL_ZOUT_L);
+			gyro_filter_xyz[X1].integrateState0 += PACK_SENSOR_VALUE16(IDX_GYRO_XOUT_H, IDX_GYRO_XOUT_L);
+			gyro_filter_xyz[Y1].integrateState0 += PACK_SENSOR_VALUE16(IDX_GYRO_YOUT_H, IDX_GYRO_YOUT_L);
+			gyro_filter_xyz[Z1].integrateState0 += PACK_SENSOR_VALUE16(IDX_GYRO_ZOUT_H, IDX_GYRO_ZOUT_L);
+			raw_temp                            += PACK_SENSOR_VALUE16(IDX_TEMP_OUT_H, IDX_TEMP_OUT_L);
 
 			AllSamplingFlg = false;
 		}
 		else {
-			gyro_filter_xyz[X1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX2_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX2_GYRO_XOUT_L]);
-			gyro_filter_xyz[Y1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX2_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX2_GYRO_YOUT_L]);
-			gyro_filter_xyz[Z1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX2_GYRO_ZOUT_H] << 8 | mpu6000_rec_buf[IDX2_GYRO_ZOUT_L]);
+			gyro_filter_xyz[X1].integrateState0 += PACK_SENSOR_VALUE16(IDX2_GYRO_XOUT_H, IDX2_GYRO_XOUT_L);
+			gyro_filter_xyz[Y1].integrateState0 += PACK_SENSOR_VALUE16(IDX2_GYRO_YOUT_H, IDX2_GYRO_YOUT_L);
+			gyro_filter_xyz[Z1].integrateState0 += PACK_SENSOR_VALUE16(IDX2_GYRO_ZOUT_H, IDX2_GYRO_ZOUT_L);
 
 		}
 
@@ -892,17 +894,17 @@ static void PIOS_MPU6000_Task(void *parameters)
 
 		// data conversion & 1st order CIC and boxcar (order = 0) integration
 		if (AllSamplingFlg == true) {
-			gyro_filter_xyz[X1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_XOUT_L]);
-			gyro_filter_xyz[Y1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_YOUT_L]);
-			gyro_filter_xyz[Z1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX_GYRO_ZOUT_H] << 8 | mpu6000_rec_buf[IDX_GYRO_ZOUT_L]);
-			raw_temp                            += (int16_t)(mpu6000_rec_buf[IDX_TEMP_OUT_H] << 8 | mpu6000_rec_buf[IDX_TEMP_OUT_L]);
+			gyro_filter_xyz[X1].integrateState0 += PACK_SENSOR_VALUE16(IDX_GYRO_XOUT_H, IDX_GYRO_XOUT_L);
+			gyro_filter_xyz[Y1].integrateState0 += PACK_SENSOR_VALUE16(IDX_GYRO_YOUT_H, IDX_GYRO_YOUT_L);
+			gyro_filter_xyz[Z1].integrateState0 += PACK_SENSOR_VALUE16(IDX_GYRO_ZOUT_H, IDX_GYRO_ZOUT_L);
+			raw_temp                            += PACK_SENSOR_VALUE16(IDX_TEMP_OUT_H, IDX_TEMP_OUT_L);
 
 			AllSamplingFlg = false;
 		}
 		else {
-			gyro_filter_xyz[X1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX2_GYRO_XOUT_H] << 8 | mpu6000_rec_buf[IDX2_GYRO_XOUT_L]);
-			gyro_filter_xyz[Y1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX2_GYRO_YOUT_H] << 8 | mpu6000_rec_buf[IDX2_GYRO_YOUT_L]);
-			gyro_filter_xyz[Z1].integrateState0 += (int16_t)(mpu6000_rec_buf[IDX2_GYRO_ZOUT_H] << 8 | mpu6000_rec_buf[IDX2_GYRO_ZOUT_L]);
+			gyro_filter_xyz[X1].integrateState0 += PACK_SENSOR_VALUE16(IDX2_GYRO_XOUT_H, IDX2_GYRO_XOUT_L);
+			gyro_filter_xyz[Y1].integrateState0 += PACK_SENSOR_VALUE16(IDX2_GYRO_YOUT_H, IDX2_GYRO_YOUT_L);
+			gyro_filter_xyz[Z1].integrateState0 += PACK_SENSOR_VALUE16(IDX2_GYRO_ZOUT_H, IDX2_GYRO_ZOUT_L);
 
 		}
 

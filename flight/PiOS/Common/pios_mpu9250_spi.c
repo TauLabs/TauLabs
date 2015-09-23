@@ -45,6 +45,8 @@
 #include "cic.h"
 
 /* Private macros */
+#define PACK_SENSOR_VALUE16(h_byte, l_byte) ((float)((int16_t)(mpu9250_rec_buf[h_byte] << 8 | mpu9250_rec_buf[l_byte])))
+
 #define RAW_ACCEL_X  (accel_data_temp.x / TaskAllSubSamplesCnt)
 #define RAW_ACCEL_Y  (accel_data_temp.y / TaskAllSubSamplesCnt)
 #define RAW_ACCEL_Z  (accel_data_temp.z / TaskAllSubSamplesCnt)
@@ -771,32 +773,32 @@ static void PIOS_MPU9250_Task(void *parameters)
 
 		// data conversion & 1st order CIC and boxcar (order = 0) integration
 		if (AllSamplingFlg == true) {
-			accel_data_temp.x                   += (int16_t)(mpu9250_rec_buf[IDX_ACCEL_XOUT_H] << 8 | mpu9250_rec_buf[IDX_ACCEL_XOUT_L]);
-			accel_data_temp.y                   += (int16_t)(mpu9250_rec_buf[IDX_ACCEL_YOUT_H] << 8 | mpu9250_rec_buf[IDX_ACCEL_YOUT_L]);
-			accel_data_temp.z                   += (int16_t)(mpu9250_rec_buf[IDX_ACCEL_ZOUT_H] << 8 | mpu9250_rec_buf[IDX_ACCEL_ZOUT_L]);
-			gyro_filter_xyz[X1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX_GYRO_XOUT_H] << 8 | mpu9250_rec_buf[IDX_GYRO_XOUT_L]);
-			gyro_filter_xyz[Y1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX_GYRO_YOUT_H] << 8 | mpu9250_rec_buf[IDX_GYRO_YOUT_L]);
-			gyro_filter_xyz[Z1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX_GYRO_ZOUT_H] << 8 | mpu9250_rec_buf[IDX_GYRO_ZOUT_L]);
+			accel_data_temp.x                   += PACK_SENSOR_VALUE16(IDX_ACCEL_XOUT_H, IDX_ACCEL_XOUT_L);
+			accel_data_temp.y                   += PACK_SENSOR_VALUE16(IDX_ACCEL_YOUT_H, IDX_ACCEL_YOUT_L);
+			accel_data_temp.z                   += PACK_SENSOR_VALUE16(IDX_ACCEL_ZOUT_H, IDX_ACCEL_ZOUT_L);
+			gyro_filter_xyz[X1].integrateState0 += PACK_SENSOR_VALUE16(IDX_GYRO_XOUT_H, IDX_GYRO_XOUT_L);
+			gyro_filter_xyz[Y1].integrateState0 += PACK_SENSOR_VALUE16(IDX_GYRO_YOUT_H, IDX_GYRO_YOUT_L);
+			gyro_filter_xyz[Z1].integrateState0 += PACK_SENSOR_VALUE16(IDX_GYRO_ZOUT_H, IDX_GYRO_ZOUT_L);
 
 			if (dev->cfg->use_magnetometer) {
 				uint8_t st1 = mpu9250_rec_buf[IDX_MAG_ST1];
 				if (st1 & AK8963_ST1_DRDY) {
-					mag_data_temp.x                     += (int16_t)(mpu9250_rec_buf[IDX_MAG_XOUT_H] << 8 | mpu9250_rec_buf[IDX_MAG_XOUT_L]);
-					mag_data_temp.y                     += (int16_t)(mpu9250_rec_buf[IDX_MAG_YOUT_H] << 8 | mpu9250_rec_buf[IDX_MAG_YOUT_L]);
-					mag_data_temp.z                     += (int16_t)(mpu9250_rec_buf[IDX_MAG_ZOUT_H] << 8 | mpu9250_rec_buf[IDX_MAG_ZOUT_L]);
+					mag_data_temp.x             += PACK_SENSOR_VALUE16(IDX_MAG_XOUT_H, IDX_MAG_XOUT_L);
+					mag_data_temp.y             += PACK_SENSOR_VALUE16(IDX_MAG_YOUT_H, IDX_MAG_YOUT_L);
+					mag_data_temp.z             += PACK_SENSOR_VALUE16(IDX_MAG_ZOUT_H, IDX_MAG_ZOUT_L);
 
 					TaskMagSubSamplesCnt++;
 				}
 			}
 
-			raw_temp                            += (int16_t)(mpu9250_rec_buf[IDX_TEMP_OUT_H] << 8 | mpu9250_rec_buf[IDX_TEMP_OUT_L]);
+			raw_temp                            += PACK_SENSOR_VALUE16(IDX_TEMP_OUT_H, IDX_TEMP_OUT_L);
 
 			AllSamplingFlg = false;
 		}
 		else {
-			gyro_filter_xyz[X1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX2_GYRO_XOUT_H] << 8 | mpu9250_rec_buf[IDX2_GYRO_XOUT_L]);
-			gyro_filter_xyz[Y1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX2_GYRO_YOUT_H] << 8 | mpu9250_rec_buf[IDX2_GYRO_YOUT_L]);
-			gyro_filter_xyz[Z1].integrateState0 += (int16_t)(mpu9250_rec_buf[IDX2_GYRO_ZOUT_H] << 8 | mpu9250_rec_buf[IDX2_GYRO_ZOUT_L]);
+			gyro_filter_xyz[X1].integrateState0 += PACK_SENSOR_VALUE16(IDX2_GYRO_XOUT_H, IDX2_GYRO_XOUT_L);
+			gyro_filter_xyz[Y1].integrateState0 += PACK_SENSOR_VALUE16(IDX2_GYRO_YOUT_H, IDX2_GYRO_YOUT_L);
+			gyro_filter_xyz[Z1].integrateState0 += PACK_SENSOR_VALUE16(IDX2_GYRO_ZOUT_H, IDX2_GYRO_ZOUT_L);
 
 		}
 
