@@ -163,6 +163,7 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
             enums.append("typedef enum { ");
             // Go through each option
             QStringList options = info->fields[n]->options;
+            bool const has_parent = info->fields[n]->parent != NULL;
             for (int m = 0; m < options.length(); ++m) {
                 QString optionName = form_enum_name(info->name,
                         info->fields[n]->name, options[m]);
@@ -173,13 +174,18 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
                             info->fields[n]->parent->name, options[m]);
                 }
 
-                QString s = (m == (options.length()-1)) ? "%1=%2" : "%1=%2, ";
+                // only need to add comma if this is a root options list and this isn't the last option
+                QString s = (!has_parent && m == (options.length()-1)) ? "%1=%2" : "%1=%2, ";
 
                 enums.append( s
                                 .arg( optionName )
                                 .arg( value ) );
 
             }
+
+            // if this is a child options list, add special enum value to prevent using switch() statements on the generated enum (use root enum instead)
+            if (has_parent) enums.append( QString("%1=%2").arg( form_enum_name(info->name, info->fields[n]->name, QString("DONTSWITCHONCHILDENUMS") ) ).arg( 255 ) );
+
             enums.append( QString(" }  __attribute__((packed)) %1%2Options;\r\n")
                           .arg( info->name )
                           .arg( info->fields[n]->name ) );
