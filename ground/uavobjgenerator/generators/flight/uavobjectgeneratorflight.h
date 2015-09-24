@@ -40,7 +40,7 @@ public:
 
 private:
     bool process_object(ObjectInfo* info);
-    QString form_enum_name(QString& objName, QString &fieldName, QString &option);
+    QString form_enum_name(const QString& objName, const QString &fieldName, const QString &option);
 
 };
 
