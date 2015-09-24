@@ -67,8 +67,6 @@ PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(FLIGHTLIB)/math
-RSCODE = $(FLIGHTLIB)/rscode
-RSCODEINC = $(FLIGHTLIB)/rscode
 PIOSSTM32F30X = $(PIOS)/STM32F30x
 PIOSCOMMON = $(PIOS)/Common
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
@@ -84,7 +82,6 @@ MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 
 # optional component libraries
 include $(APPLIBDIR)/ChibiOS/library.mk
-#include $(PIOSCOMMONLIB)/dosfs/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 # List C source files here. (C dependencies are automatically generated.)

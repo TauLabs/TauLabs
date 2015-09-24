@@ -135,7 +135,6 @@ STMSPDINCDIR = $(STMSPDDIR)/inc
 STMUSBSRCDIR = $(STMUSBDIR)/src
 STMUSBINCDIR = $(STMUSBDIR)/inc
 CMSISDIR  = $(STMLIBDIR)/CMSIS/Core/CM3
-DOSFSDIR  = $(APPLIBDIR)/dosfs
 MSDDIR  = $(APPLIBDIR)/msd
 RTOSDIR = $(PIOSCOMMON)/Libraries/FreeRTOS
 RTOSSRCDIR = $(RTOSDIR)/Source
@@ -279,18 +278,6 @@ SRC += $(RTOSSRCDIR)/tasks.c
 ## RTOS Portable
 SRC += $(RTOSPORTDIR)/portable/GCC/ARM_CM3/port.c
 
-## Dosfs file system
-#SRC += $(DOSFSDIR)/dosfs.c
-#SRC += $(DOSFSDIR)/dfs_sdcard.c
-
-## Mass Storage Device
-#SRC += $(MSDDIR)/msd.c
-#SRC += $(MSDDIR)/msd_bot.c
-#SRC += $(MSDDIR)/msd_desc.c
-#SRC += $(MSDDIR)/msd_memory.c
-#SRC += $(MSDDIR)/msd_scsi.c
-#SRC += $(MSDDIR)/msd_scsi_data.c
-
 # List C source files here which must be compiled in ARM-Mode (no -mthumb).
 # use file-extension c for "c-only"-files
 ## just for testing, timer.c could be compiled in thumb-mode too
@@ -337,7 +324,6 @@ EXTRAINCDIRS  += $(BOARD_INFO_DIR)
 EXTRAINCDIRS  += $(STMSPDINCDIR)
 EXTRAINCDIRS  += $(STMUSBINCDIR)
 EXTRAINCDIRS  += $(CMSISDIR)
-EXTRAINCDIRS  += $(DOSFSDIR)
 EXTRAINCDIRS  += $(MSDDIR)
 EXTRAINCDIRS  += $(RTOSINCDIR)
 EXTRAINCDIRS  += $(APPLIBDIR)
