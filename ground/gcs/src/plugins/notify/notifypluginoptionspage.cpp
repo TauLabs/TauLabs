@@ -44,6 +44,7 @@
 #include <QBuffer>
 #include <QSpinBox>
 #include <QLineEdit>
+#include <QMediaPlayer>
 
 #include "notifyplugin.h"
 #include "notifyitemdelegate.h"
@@ -130,19 +131,16 @@ void NotifyPluginOptionsPage::finish()
     disconnect(_optionsPage->UAVObjectField, SIGNAL(currentIndexChanged(QString)),
                this, SLOT(on_changedIndex_UAVField(QString)));
 
-    disconnect(_testSound.data(),SIGNAL(stateChanged(Phonon::State,Phonon::State)),
-               this,SLOT(on_changed_playButtonText(Phonon::State,Phonon::State)));
+    disconnect(_testSound, SIGNAL(stateChanged(QMediaPlayer::State)),
+               this, SLOT(on_changed_playButtonText(QMediaPlayer::State)));
     if (_testSound) {
         _testSound->stop();
-        _testSound->clear();
     }
 }
 
 void NotifyPluginOptionsPage::initButtons()
 {
     _optionsPage->chkEnableSound->setChecked(_owner->getEnableSound());
-    connect(_optionsPage->chkEnableSound, SIGNAL(toggled(bool)),
-            this, SLOT(on_toggled_checkEnableSound(bool)));
 
     _optionsPage->buttonModify->setEnabled(false);
     _optionsPage->buttonDelete->setEnabled(false);
@@ -159,10 +157,9 @@ void NotifyPluginOptionsPage::initButtons()
 
 void NotifyPluginOptionsPage::initPhononPlayer()
 {
-    _testSound.reset(Phonon::createPlayer(Phonon::NotificationCategory));
-    connect(_testSound.data(),SIGNAL(stateChanged(Phonon::State,Phonon::State)),
-        this,SLOT(on_changed_playButtonText(Phonon::State,Phonon::State)));
-    connect(_testSound.data(), SIGNAL(finished(void)), this, SLOT(on_FinishedPlaying(void)));
+    _testSound = new QMediaPlayer;
+    connect(_testSound,SIGNAL(stateChanged(QMediaPlayer::State)),
+        this,SLOT(on_changed_playButtonText(QMediaPlayer::State)));
 }
 
 void NotifyPluginOptionsPage::initRulesTable()
@@ -395,7 +392,7 @@ void NotifyPluginOptionsPage::updateConfigView(NotificationItem* notification)
     }
 
     // Fills the combo boxes for the UAVObjects
-    QVector< QVector<UAVDataObject*> > objList = _objManager.getDataObjects();
+    QVector< QVector<UAVDataObject*> > objList = _objManager.getDataObjectsVector();
     foreach (QVector<UAVDataObject*> list, objList) {
         foreach (UAVDataObject* obj, list) {
             _optionsPage->UAVObject->addItem(obj->getName());
@@ -517,15 +514,15 @@ void NotifyPluginOptionsPage::on_changedIndex_soundLanguage(int index)
 }
 
 
-void  NotifyPluginOptionsPage::on_changed_playButtonText(Phonon::State newstate, Phonon::State /* oldstate */)
+void NotifyPluginOptionsPage::on_changed_playButtonText(QMediaPlayer::State newstate)
 {
     //Q_ASSERT(Phonon::ErrorState != newstate);
 
-    if (newstate  == Phonon::PausedState || newstate  == Phonon::StoppedState) {
+    if (newstate  == QMediaPlayer::PausedState || newstate  == QMediaPlayer::StoppedState) {
         _optionsPage->buttonPlayNotification->setText("Play");
         _optionsPage->buttonPlayNotification->setIcon(QPixmap(":/notify/images/play.png"));
     } else {
-        if (newstate  == Phonon::PlayingState) {
+        if (newstate  == QMediaPlayer::PlayingState) {
             _optionsPage->buttonPlayNotification->setText("Stop");
             _optionsPage->buttonPlayNotification->setIcon(QPixmap(":/notify/images/stop.png"));
         }
@@ -560,9 +557,11 @@ void NotifyPluginOptionsPage::on_clicked_buttonSoundFolder(const QString& path)
 void NotifyPluginOptionsPage::on_clicked_buttonTestSoundNotification()
 {
     NotificationItem* notification = NULL;
+
+    playlist = new QMediaPlaylist;
     qNotifyDebug() << "on_buttonTestSoundNotification_clicked";
     Q_ASSERT(-1 != _notifyRulesSelection->currentIndex().row());
-    _testSound->clearQueue();
+    _testSound->stop();
     notification = _privListNotifications.at(_notifyRulesSelection->currentIndex().row());
     QStringList sequence = notification->toSoundList();
     if (sequence.isEmpty()) {
@@ -571,8 +570,9 @@ void NotifyPluginOptionsPage::on_clicked_buttonTestSoundNotification()
     }
     foreach(QString item, sequence) {
         qNotifyDebug() << item;
-        _testSound->enqueue(Phonon::MediaSource(item));
+        playlist->addMedia(QUrl::fromLocalFile(item));
     }
+    _testSound->setPlaylist(playlist);
     _testSound->play();
 }
 
@@ -630,14 +630,5 @@ void NotifyPluginOptionsPage::on_clicked_buttonModifyNotification()
 
 void  NotifyPluginOptionsPage::on_FinishedPlaying()
 {
-    _testSound->clear();
-}
-
-void NotifyPluginOptionsPage::on_toggled_checkEnableSound(bool state)
-{
-    bool state1 = 1^state;
-
-    QList<Phonon::Path> listOutputs = _testSound->outputPaths();
-    Phonon::AudioOutput * audioOutput = (Phonon::AudioOutput*)listOutputs.last().sink();
-    audioOutput->setMuted(state1);
+    _testSound->stop();
 }
