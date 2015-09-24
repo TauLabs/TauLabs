@@ -97,8 +97,8 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
     return true; // if we come here everything should be fine
 }
 
-QString UAVObjectGeneratorFlight::form_enum_name(QString& objName,
-        QString &fieldName, QString &option) {
+QString UAVObjectGeneratorFlight::form_enum_name(const QString& objName,
+        const QString &fieldName, const QString &option) {
     QString s = "%1_%2_%3";
 
     return s.arg( objName.toUpper() )
