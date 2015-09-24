@@ -572,8 +572,7 @@ OPENSSL_DIR = $(TOOLS_DIR)/win32openssl
 # order-only prereq on directory existance:
 openssl_install : | $(DL_DIR) $(TOOLS_DIR)
 openssl_install: openssl_clean
-        # download the instalatopn file only if it's newer than what we already have
-	$(V1) wget -N -P "$(DL_DIR)" "$(OPENSSL_URL)"
+	$(V1) curl -L -k -o "$(DL_DIR)/$(OPENSSL_FILE)" "$(OPENSSL_URL)"
 	$(V1) ./downloads/$(OPENSSL_FILE) /DIR=$(OPENSSL_DIR) /silent
 else
 openssl_install:
