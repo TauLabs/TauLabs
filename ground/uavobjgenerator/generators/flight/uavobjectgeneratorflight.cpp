@@ -97,8 +97,8 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
     return true; // if we come here everything should be fine
 }
 
-QString UAVObjectGeneratorFlight::form_enum_name(QString& objName,
-        QString &fieldName, QString &option) {
+QString UAVObjectGeneratorFlight::form_enum_name(const QString& objName,
+        const QString &fieldName, const QString &option) {
     QString s = "%1_%2_%3";
 
     return s.arg( objName.toUpper() )
@@ -163,6 +163,7 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
             enums.append("typedef enum { ");
             // Go through each option
             QStringList options = info->fields[n]->options;
+            bool const has_parent = info->fields[n]->parent != NULL;
             for (int m = 0; m < options.length(); ++m) {
                 QString optionName = form_enum_name(info->name,
                         info->fields[n]->name, options[m]);
@@ -173,16 +174,59 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
                             info->fields[n]->parent->name, options[m]);
                 }
 
-                QString s = (m == (options.length()-1)) ? "%1=%2" : "%1=%2, ";
+                // only need to add comma if this is a root options list and this isn't the last option
+                QString s = (!has_parent && m == (options.length()-1)) ? "%1=%2" : "%1=%2, ";
 
                 enums.append( s
                                 .arg( optionName )
                                 .arg( value ) );
 
             }
+
+            // if this is a child options list, add special enum value to prevent using switch() statements on the generated enum (use root enum instead)
+            if (has_parent) enums.append( QString("%1=%2").arg( form_enum_name(info->name, info->fields[n]->name, QString("DONTSWITCHONCHILDENUMS") ) ).arg( 255 ) );
+
             enums.append( QString(" }  __attribute__((packed)) %1%2Options;\r\n")
                           .arg( info->name )
                           .arg( info->fields[n]->name ) );
+
+            // find topmost parent to get the length of its options field
+            FieldInfo_s * topmost_parent = info->fields[n];
+            while (topmost_parent->parent) {
+                topmost_parent = topmost_parent->parent;
+            }
+
+            enums.append(QString("/* Max value of any option in topmost parent %2 of field %1 */\r\n").arg(info->fields[n]->name).arg(topmost_parent->name));
+            enums.append( QString("#define %1_%2_GLOBAL_MAXOPTVAL %3\r\n")
+                          .arg( info->name.toUpper() )
+                          .arg( info->fields[n]->name.toUpper() )
+                          .arg( topmost_parent->options.length() - 1 ) );
+
+            // find largest value in this option vector
+            int max_optval = 0;
+            for (int m = 0; m < info->fields[n]->options.length(); ++m) {
+                for (int l = 0; l < topmost_parent->options.length(); ++l) {
+                    if (topmost_parent->options[l] == info->fields[n]->options[m])
+                        max_optval = max(max_optval, l);
+                }
+            }
+
+            enums.append(QString("/* Max value of any option in field %1 */\r\n").arg(info->fields[n]->name));
+            enums.append( QString("#define %1_%2_MAXOPTVAL %3\r\n")
+                          .arg( info->name.toUpper() )
+                          .arg( info->fields[n]->name.toUpper() )
+                          .arg( max_optval ) );
+
+            /* Validate, for enums only */
+            if (info->fields[n]->type == FIELDTYPE_ENUM) {
+                enums.append(QString("/* Ensure field %1 contains valid data */\r\n").arg(info->fields[n]->name));
+                enums.append(QString("static inline bool %2%3IsValid( %1 Current%3 ) { return Current%3 < %4_%5_MAXOPTVAL; }\r\n")
+                            .arg( fieldTypeStrC[info->fields[n]->type] )
+                            .arg( info->name )
+                            .arg( info->fields[n]->name )
+                            .arg( info->name.toUpper() )
+                            .arg( info->fields[n]->name.toUpper() ));
+            }
         }
         // Generate element names (only if field has more than one element)
         if (info->fields[n]->numElements > 1 && !info->fields[n]->defaultElementNames)
