@@ -1083,8 +1083,10 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		AltitudeHoldSettingsExpoGet(&altitude_hold_expo);
 		AltitudeHoldSettingsDeadbandGet(&altitude_hold_deadband);
 
-		const float DEADBAND_HIGH = 0.50f + altitude_hold_deadband * 0.01f;
-		const float DEADBAND_LOW = 0.50f - altitude_hold_deadband * 0.01f;
+		const float DEADBAND_HIGH = 0.50f +
+			(altitude_hold_deadband / 2.0f) * 0.01f;
+		const float DEADBAND_LOW = 0.50f -
+			(altitude_hold_deadband / 2.0f) * 0.01f;
 
 		float climb_rate = 0.0f;
 		if (cmd->Throttle > DEADBAND_HIGH) {
