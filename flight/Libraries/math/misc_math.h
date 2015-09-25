@@ -77,6 +77,8 @@ static inline bool IS_NOT_FINITE(float x) {
 	return (!isfinite(x));
 }
 
+// Generate random integer
+uint16_t randomize_int(uint16_t max_val);
 #endif /* MISC_MATH_H */
 
 /**

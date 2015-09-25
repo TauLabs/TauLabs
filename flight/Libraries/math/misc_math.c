@@ -293,6 +293,23 @@ float linear_interpolate(float const input, float const * curve, uint8_t num_poi
 
 
 
+/* Return a pseudorandom integer from 0 to max_val
+ * Based on the Park-Miller-Carta Pseudo-Random Number Generator
+ * http://www.firstpr.com.au/dsp/rand31/
+ */
+uint16_t randomize_int(uint16_t max_val)
+{
+	static uint32_t seed = 1;
+	uint32_t hi, lo;
+	lo = 16807 * (seed & 0xFFFF);
+	hi = 16807 * (seed >> 16);
+	lo += (hi & 0x7FFF) << 16;
+	lo += hi >> 15;
+	if (lo > 0x7FFFFFFF) lo -= 0x7FFFFFFF;
+	seed = lo;
+	return (uint16_t)( ((float)max_val * (float)lo) / (float)0x7FFFFFFF );
+}
+
 /**
  * @}
  * @}

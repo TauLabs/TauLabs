@@ -6,9 +6,10 @@
         <field name="CalibratedAirspeed" units="m/s" type="float" elements="1"/>
         <field name="GPSAirspeed" units="m/s" type="float" elements="1"/>
         <field name="TrueAirspeed" units="m/s" type="float" elements="1"/>
+		
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="manual" period="0"/>
         <telemetryflight acked="false" updatemode="periodic" period="1000"/>
-        <logging updatemode="manual" period="0"/>
+        <logging updatemode="manual" period="100"/>
     </object>
 </xml>

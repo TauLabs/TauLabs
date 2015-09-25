@@ -33,6 +33,7 @@
 #include "pios_mutex.h"
 #include "pios_thread.h"
 #include "pios_queue.h"
+#include "misc_math.h"
 
 // Private constants
 #if defined(PIOS_EVENTDISAPTCHER_QUEUE)
@@ -85,8 +86,6 @@ static int32_t processPeriodicUpdates();
 static void eventTask();
 static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
 static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
-static uint16_t randomizePeriod(uint16_t periodMs);
-
 
 /**
  * Initialize the dispatcher
@@ -239,7 +238,7 @@ static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, stru
 	objEntry->evInfo.cb = cb;
 	objEntry->evInfo.queue = queue;
     objEntry->updatePeriodMs = periodMs;
-    objEntry->timeToNextUpdateMs = randomizePeriod(periodMs); // avoid bunching of updates
+    objEntry->timeToNextUpdateMs = randomize_int(periodMs); // avoid bunching of updates
     // Add to list
     LL_APPEND(objList, objEntry);
 	// Release lock
@@ -271,7 +270,7 @@ static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, stru
 		{
 			// Object found, update period
 			objEntry->updatePeriodMs = periodMs;
-			objEntry->timeToNextUpdateMs = randomizePeriod(periodMs); // avoid bunching of updates
+			objEntry->timeToNextUpdateMs = randomize_int(periodMs); // avoid bunching of updates
 			// Release lock
 			PIOS_Recursive_Mutex_Unlock(mutex);
 			return 0;
@@ -381,24 +380,6 @@ static int32_t processPeriodicUpdates()
     // Done
     PIOS_Recursive_Mutex_Unlock(mutex);
     return timeToNextUpdate;
-}
-
-/**
- * Return a psedorandom integer from 0 to periodMs
- * Based on the Park-Miller-Carta Pseudo-Random Number Generator
- * http://www.firstpr.com.au/dsp/rand31/
- */
-static uint16_t randomizePeriod(uint16_t periodMs)
-{
-	static uint32_t seed = 1;
-	uint32_t hi, lo;
-	lo = 16807 * (seed & 0xFFFF);
-	hi = 16807 * (seed >> 16);
-	lo += (hi & 0x7FFF) << 16;
-	lo += hi >> 15;
-	if (lo > 0x7FFFFFFF) lo -= 0x7FFFFFFF;
-	seed = lo;
-	return (uint16_t)( ((float)periodMs * (float)lo) / (float)0x7FFFFFFF );
 }
 
 /**

@@ -8,9 +8,10 @@
 	<field name="AvgCurrent" units="A" type="float"  elements="1" defaultvalue="0.0"/>
 	<field name="ConsumedEnergy" units="mAh" type="float" elements="1" defaultvalue="0.0"/>           
  	<field name="EstimatedFlightTime" units="sec"  type="float"  elements="1" defaultvalue="0.0"/>
+	
         <access gcs="readonly" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="manual" period="0"/>
         <telemetryflight acked="false" updatemode="periodic" period="1000"/>
-        <logging updatemode="manual" period="0"/>
+        <logging updatemode="manual" period="500"/>
     </object>
 </xml>

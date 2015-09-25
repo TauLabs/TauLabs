@@ -30,55 +30,60 @@
 #include "openpilot.h"
 #include "modulesettings.h"
 #include "pios_thread.h"
-#include "timeutils.h"
+#include "pios_queue.h"
 #include "uavobjectmanager.h"
+#include "utlist.h"
+#include "misc_math.h"
+#include "timeutils.h"
 
 #include "pios_streamfs.h"
 #include <pios_board_info.h>
 
-#include "airspeedactual.h"
-#include "attitudeactual.h"
-#include "accels.h"
-#include "actuatorcommand.h"
 #include "flightstatus.h"
-#include "gyros.h"
-#include "baroaltitude.h"
-#include "flightstatus.h"
-#include "gpsposition.h"
-#include "gpstime.h"
-#include "gpssatellites.h"
-#include "magnetometer.h"
-#include "manualcontrolcommand.h"
-#include "positionactual.h"
 #include "loggingsettings.h"
 #include "loggingstats.h"
-#include "velocityactual.h"
-#include "waypoint.h"
-#include "waypointactive.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 1200
+#define STACK_SIZE_BYTES 1000
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 const char DIGITS[16] = "0123456789abcdef";
 
+// Threshold to decide whether a private queue is used for an UAVO type.
+// This is somewhat arbitrary; 50ms seems to be a good tradeoff between
+// memory requirements and logging performance.
+#define PRIVATE_QUEUE_THRESHOLD 50
+
+#define LOGGING_PERIOD_MS 10
+#define SHARED_QUEUE_SIZE 64
+#define PRIVATE_QUEUE_SIZE 2
+
 // Private types
+
+// linked list entry for storing the last log times
+struct UAVOLogInfo {
+	struct UAVOLogInfo *next;
+	UAVObjHandle obj;
+	uint16_t logging_period;
+	uint32_t next_log;
+	struct pios_queue *queue;
+} __attribute__((packed));
 
 // Private variables
 static UAVTalkConnection uavTalkCon;
 static struct pios_thread *loggingTaskHandle;
 static bool module_enabled;
+static struct UAVOLogInfo *log_info;
 static LoggingSettingsData settings;
-static bool flightstatus_updated = false;
-static bool waypoint_updated = false;
+static LoggingStatsData loggingData;
+struct pios_queue *shared_queue;
 
 // Private functions
 static void    loggingTask(void *parameters);
 static int32_t send_data(uint8_t *data, int32_t length);
-static void logSettings(UAVObjHandle obj);
-static void SettingsUpdatedCb(UAVObjEvent * ev);
-static void FlightStatusUpdatedCb(UAVObjEvent * ev);
-static void WaypointActiveUpdatedCb(UAVObjEvent * ev);
+static int info_cmp(struct UAVOLogInfo *info_1, struct UAVOLogInfo *info_2);
+static void register_object(UAVObjHandle obj);
 static void writeHeader();
+static void settingsUpdatedCb(UAVObjEvent * ev);
 
 // Local variables
 static uintptr_t logging_com_id;
@@ -118,6 +123,10 @@ int32_t LoggingInitialize(void)
 	LoggingStatsInitialize();
 	LoggingSettingsInitialize();
 
+	// Get settings a connect update callback
+	LoggingSettingsGet(&settings);
+	LoggingSettingsConnectCallback(settingsUpdatedCb);
+
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&send_data);
 
@@ -136,6 +145,19 @@ int32_t LoggingStart(void)
 		return -1;
 	}
 
+	// create shared queue
+	shared_queue = PIOS_Queue_Create(SHARED_QUEUE_SIZE, sizeof(UAVObjEvent));
+	if (!shared_queue){
+		return -1;
+	}
+
+	// Process all registered objects and connect queue for updates
+	UAVObjIterate(&register_object);
+
+	// Sort the list, so that entries with smaller logging periods and objects
+	// with private queues come first
+	LL_SORT(log_info, info_cmp);
+
 	// Start logging task
 	loggingTaskHandle = PIOS_Thread_Create(loggingTask, "Logging", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
@@ -148,81 +170,46 @@ MODULE_INITCALL(LoggingInitialize, LoggingStart);
 
 static void loggingTask(void *parameters)
 {
+	UAVObjEvent ev;
+	struct UAVOLogInfo *info;
+
 	bool armed = false;
 	bool write_open = false;
 	bool read_open = false;
-	bool first_run = true;
+	uint32_t now = PIOS_Thread_Systime();
 	int32_t read_sector = 0;
 	uint8_t read_data[LOGGINGSTATS_FILESECTOR_NUMELEM];
 
 	//PIOS_STREAMFS_Format(streamfs_id);
 
-	// Get settings and connect callback
-	LoggingSettingsGet(&settings);
-	LoggingSettingsConnectCallback(SettingsUpdatedCb);
-
-	// Connect callbacks for UAVOs being logged on change
-	FlightStatusConnectCallback(FlightStatusUpdatedCb);
-	if (WaypointActiveHandle())
-		WaypointActiveConnectCallback(WaypointActiveUpdatedCb);
-
-	LoggingStatsData loggingData;
 	LoggingStatsGet(&loggingData);
 	loggingData.BytesLogged = 0;
 	loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
 	loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
 
+	LoggingSettingsGet(&settings);
+
 	if (settings.LogBehavior == LOGGINGSETTINGS_LOGBEHAVIOR_LOGONSTART) {
-		if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
-			loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
-			write_open = false;
-		} else {
-			loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING;
-			write_open = true;
-			first_run = true;
-		}
+		loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING_INITIALIZING;
 	} else {
 		loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
 	}
 
 	LoggingStatsSet(&loggingData);
 
-	int i = 0;
 	// Loop forever
 	while (1) {
-
-		// Sleep for some time depending on logging rate
-		switch(settings.MaxLogRate){
-			case LOGGINGSETTINGS_MAXLOGRATE_5:
-				PIOS_Thread_Sleep(200);
-				break;
-			case LOGGINGSETTINGS_MAXLOGRATE_10:
-				PIOS_Thread_Sleep(100);
-				break;
-			case LOGGINGSETTINGS_MAXLOGRATE_25:
-				PIOS_Thread_Sleep(40);
-				break;
-			case LOGGINGSETTINGS_MAXLOGRATE_50:
-				PIOS_Thread_Sleep(20);
-				break;
-			case LOGGINGSETTINGS_MAXLOGRATE_100:
-				PIOS_Thread_Sleep(10);
-				break;
-			default:
-				PIOS_Thread_Sleep(1000);
-		}
 
 		LoggingStatsGet(&loggingData);
 
 		// Check for change in armed state if logging on armed
-
 		if (settings.LogBehavior == LOGGINGSETTINGS_LOGBEHAVIOR_LOGONARM) {
 			FlightStatusData flightStatus;
 			FlightStatusGet(&flightStatus);
 
 			if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED && !armed) {
 				// Start logging because just armed
-				loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING;
+				loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING_INITIALIZING;
 				armed = true;
 				LoggingStatsSet(&loggingData);
 			} else if (flightStatus.Armed == FLIGHTSTATUS_ARMED_DISARMED && armed) {
@@ -232,107 +219,92 @@ static void loggingTask(void *parameters)
 			}
 		}
 
-
-		// If currently downloading a log, close the file
-		if (loggingData.Operation == LOGGINGSTATS_OPERATION_LOGGING && read_open) {
-			PIOS_STREAMFS_Close(streamfs_id);
-			read_open = false;
-		}
-
-		if (loggingData.Operation == LOGGINGSTATS_OPERATION_LOGGING && !write_open) {
-			if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
-				loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
-			} else {
-				write_open = true;
-			}
-			loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
-			loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
-			LoggingStatsSet(&loggingData);
-		} else if (loggingData.Operation != LOGGINGSTATS_OPERATION_LOGGING && write_open) {
-			PIOS_STREAMFS_Close(streamfs_id);
-			loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
-			loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
-			LoggingStatsSet(&loggingData);
-			write_open = false;
-		}
-
 		switch (loggingData.Operation) {
-		case LOGGINGSTATS_OPERATION_LOGGING:
-			if (!write_open)
-				continue;
+		case LOGGINGSTATS_OPERATION_FORMAT:
+			// Format the file system
+			if (read_open  || write_open) {
+				PIOS_STREAMFS_Close(streamfs_id);
+				read_open = false;
+				write_open = false;
+			}
 
-			if (first_run){
+			PIOS_STREAMFS_Format(streamfs_id);
+			loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
+			LoggingStatsSet(&loggingData);
+			break;
+		case LOGGINGSTATS_OPERATION_LOGGING_INITIALIZING:
+			// Close the file if it is open for reading
+			if (read_open) {
+				PIOS_STREAMFS_Close(streamfs_id);
+				read_open = false;
+			}
+			// Open the file if it is not open for writing
+			if (!write_open) {
+				if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
+					loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
+					continue;
+				} else {
+					write_open = true;
+				}
+				loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
+				loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
+				LoggingStatsSet(&loggingData);
+
 				// Write information at start of the log file
 				writeHeader();
 
-				// Log settings
-				if (settings.LogSettingsOnStart == LOGGINGSETTINGS_LOGSETTINGSONSTART_TRUE){
-					UAVObjIterate(&logSettings);
+				// When the file is first created, traverse the linked list and
+				// log all UAVObjects, settings and data alike.
+				LL_FOREACH(log_info, info) {
+					// Iterate over all instances.
+					uint16_t numInstances = UAVObjGetNumInstances(info->obj);
+					for (int instId=0; instId<numInstances; instId++) {
+						UAVTalkSendObjectTimestamped(uavTalkCon, info->obj, instId, false, 0);
+					}
+					// use a random offset, so that not all objects are logged at the same time
+					info->next_log =  PIOS_Thread_Systime() + randomize_int(info->logging_period);
 				}
+			}
+			// Empty the queues
+			while(PIOS_Queue_Receive(shared_queue, &ev, 0))
+			LL_FOREACH(log_info, info) {
+				if (info->queue == shared_queue){
+					// The list is sorted based on the logging period, so we can stop as soon
+					// as we have an item without a private queue (as subsequent items won't 
+					// have a private queue either).
+					break;
+				}
+				while(PIOS_Queue_Receive(info->queue, &ev, 0)){};
+			}
+			LoggingStatsBytesLoggedSet(&written_bytes);
+			loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING;
+			LoggingStatsSet(&loggingData);
+			break;
+		case LOGGINGSTATS_OPERATION_LOGGING:
+			{
+				// Sleep between writing
+				PIOS_Thread_Sleep_Until(&now, LOGGING_PERIOD_MS);
 
-				// Log some data objects that are unlikely to change during flight
-				// Waypoints
-				if (WaypointHandle()){
-					for (int i = 0; i < UAVObjGetNumInstances(WaypointHandle()); i++) {
-						UAVTalkSendObjectTimestamped(uavTalkCon, WaypointHandle(), i, false, 0);
+				// Log the objects with private queues
+				for (int i=0; i<PRIVATE_QUEUE_SIZE; i++){
+					LL_FOREACH(log_info, info) {
+						if (info->queue == shared_queue){
+							break; // the list is sorted (see comment above)
+						}
+						if(PIOS_Queue_Receive(info->queue, &ev, 0) == true) {
+							UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
+						}
 					}
 				}
 
-				// Trigger logging for objects that are logged on change
-				flightstatus_updated = true;
-				waypoint_updated = true;
+				// Log the objects registred to the shared queue
+				while (PIOS_Queue_Receive(shared_queue, &ev, 0) == true) {
+					UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
+				}
+				LoggingStatsBytesLoggedSet(&written_bytes);
 
-				first_run = false;
+				now = PIOS_Thread_Systime();
 			}
-
-			// Log objects on change
-			if (flightstatus_updated){
-				UAVTalkSendObjectTimestamped(uavTalkCon, FlightStatusHandle(), 0, false, 0);
-				flightstatus_updated = false;
-			}
-
-			if (waypoint_updated && WaypointActiveHandle()){
-				UAVTalkSendObjectTimestamped(uavTalkCon, WaypointActiveHandle(), 0, false, 0);
-				waypoint_updated = false;
-			}
-
-			// Log very fast
-			UAVTalkSendObjectTimestamped(uavTalkCon, AccelsHandle(), 0, false, 0);
-			UAVTalkSendObjectTimestamped(uavTalkCon, GyrosHandle(), 0, false, 0);
-
-			// Log a bit slower
-			if ((i % 2) == 0) {
-				UAVTalkSendObjectTimestamped(uavTalkCon, AttitudeActualHandle(), 0, false, 0);
-				UAVTalkSendObjectTimestamped(uavTalkCon, MagnetometerHandle(), 0, false, 0);
-				UAVTalkSendObjectTimestamped(uavTalkCon, ManualControlCommandHandle(), 0, false, 0);
-				UAVTalkSendObjectTimestamped(uavTalkCon, ActuatorCommandHandle(), 0, false, 0);
-			}
-
-			// Log slower
-			if ((i % 10) == 1) {
-				UAVTalkSendObjectTimestamped(uavTalkCon, BaroAltitudeHandle(), 0, false, 0);
-				if (AirspeedActualHandle())
-					UAVTalkSendObjectTimestamped(uavTalkCon, AirspeedActualHandle(), 0, false, 0);
-				if (GPSPositionHandle())
-					UAVTalkSendObjectTimestamped(uavTalkCon, GPSPositionHandle(), 0, false, 0);
-				if (PositionActualHandle())
-					UAVTalkSendObjectTimestamped(uavTalkCon, PositionActualHandle(), 0, false, 0);
-				if (VelocityActualHandle())
-					UAVTalkSendObjectTimestamped(uavTalkCon, VelocityActualHandle(), 0, false, 0);
-			}
-
-			// Log slow
-			if ((i % 50) == 2 && GPSTimeHandle()) {
-				UAVTalkSendObjectTimestamped(uavTalkCon, GPSTimeHandle(), 0, false, 0);
-			}
-
-			// Log very slow
-			if ((i % 500) == 3 && GPSSatellitesHandle()) {
-				UAVTalkSendObjectTimestamped(uavTalkCon, GPSSatellitesHandle(), 0, false, 0);
-			}
-
-			LoggingStatsBytesLoggedSet(&written_bytes);
-
 			break;
 
 		case LOGGINGSTATS_OPERATION_DOWNLOAD:
@@ -381,24 +353,134 @@ static void loggingTask(void *parameters)
 				read_sector = loggingData.FileSectorNum;
 			}
 			LoggingStatsSet(&loggingData);
-
+			// fall-through to default case
+		default:
+			//  Makes sure that we are not hogging the processor
+			PIOS_Thread_Sleep(10);
+			// Close the file if necessary
+			if (write_open) {
+				PIOS_STREAMFS_Close(streamfs_id);
+				loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
+				loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
+				LoggingStatsSet(&loggingData);
+				write_open = false;
+			}
 		}
-
-		i++;
 	}
+}
+
+/**
+ * Forward data from UAVTalk out the serial port
+ * \param[in] data Data buffer to send
+ * \param[in] length Length of buffer
+ * \return -1 on failure
+ * \return number of bytes transmitted on success
+ */
+static int32_t send_data(uint8_t *data, int32_t length)
+{
+	if( PIOS_COM_SendBuffer(logging_com_id, data, length) < 0)
+		return -1;
+
+	written_bytes += length;
+
+	return length;
 }
 
 
 /**
- * Log all settings objects
- * \param[in] obj Object to log
+ * Function for sorting linked list based on logging period and makes
+ * sure that objects with private queues come first.
  */
-static void logSettings(UAVObjHandle obj)
+static int info_cmp(struct UAVOLogInfo *info_1, struct UAVOLogInfo *info_2)
 {
-	if (UAVObjIsSettings(obj)) {
-		UAVTalkSendObjectTimestamped(uavTalkCon, obj, 0, false, 0);
+	if ((info_1->queue == shared_queue) && (info_2->queue != shared_queue)){
+		return true;
+	}
+	if ((info_1->queue != shared_queue) && (info_2->queue == shared_queue)){
+		return false;
+	}
+
+	return info_1->logging_period > info_2->logging_period;
+}
+
+/**
+ * @brief Callback for adding an object to the logging queue
+ * @param ev the event
+ */
+static void obj_updated_callback(UAVObjEvent * ev)
+{
+	struct UAVOLogInfo *info;
+	uint32_t now;
+
+	if (loggingData.Operation != LOGGINGSTATS_OPERATION_LOGGING){
+		// We are not logging, so all events are discarded
+		return;
+	}
+	LL_FOREACH(log_info, info) {
+		if (info->obj == ev->obj){
+			now = PIOS_Thread_Systime();
+			if (info->next_log <= now){
+				// compute the time of the next logging operation
+				while (info->next_log < now) {
+					info->next_log += info->logging_period;
+				};
+				// Ad the item to either the shared or the private queue
+				// Note: PIOS_Queue_Send() copies the object, so it isn't
+				// necessary to do the copy here.
+				PIOS_Queue_Send(info->queue, ev, 0);
+			}
+			return;
+		}
 	}
 }
+
+/**
+ * Register a new object, adds object to local list and connects the update callback
+ * \param[in] obj Object to connect
+ */
+static void register_object(UAVObjHandle obj)
+{
+	struct pios_queue *queue;
+
+	// check whether we want to log this object
+	UAVObjMetadata meta_data;
+	if (UAVObjGetMetadata(obj, &meta_data) < 0)
+		return;
+
+	if (meta_data.loggingUpdatePeriod == 0)
+		return;
+
+	// create log info entry
+	struct UAVOLogInfo *info;
+	info = (struct UAVOLogInfo *) PIOS_malloc_no_dma(sizeof(struct UAVOLogInfo));
+	if (info == NULL){
+		return;
+	}
+
+	info->obj = obj;
+	// nothing can be logged faster than the logging period
+	info->logging_period = MAX(meta_data.loggingUpdatePeriod, LOGGING_PERIOD_MS);
+
+	if (meta_data.loggingUpdatePeriod <= PRIVATE_QUEUE_THRESHOLD && !UAVObjIsSettings(obj)){
+		// this data object is logged frequently: use a private queue
+		queue =  PIOS_Queue_Create(PRIVATE_QUEUE_SIZE, sizeof(UAVObjEvent));
+		if (queue == NULL){
+			// queue allocation failed
+			PIOS_free((void *)info);
+			return;
+		}
+		info->queue = queue;
+	}
+	else {
+		// this is slowly logged data object or a settings object: use shared queue
+		info->queue = shared_queue;
+	}
+
+	int32_t event_mask = EV_UPDATED | EV_UNPACKED;
+	UAVObjConnectCallback(obj, obj_updated_callback, event_mask);
+	LL_APPEND(log_info, info);
+}
+
 
 /**
  * Write log file header
@@ -449,46 +531,12 @@ static void writeHeader()
 	send_data((uint8_t*)tmp_str, pos);
 }
 
-/**
- * Callback triggered when the module settings are updated
+
+/** Callback to update settings
  */
-static void SettingsUpdatedCb(UAVObjEvent * ev)
+static void settingsUpdatedCb(UAVObjEvent * ev)
 {
 	LoggingSettingsGet(&settings);
-}
-
-
-/**
- * Callback triggered when FlightStatus is updated
- */
-static void FlightStatusUpdatedCb(UAVObjEvent * ev)
-{
-	flightstatus_updated = true;
-}
-
-/**
- * Callback triggered when WaypointActive is updated
- */
-static void WaypointActiveUpdatedCb(UAVObjEvent * ev)
-{
-	waypoint_updated = true;
-}
-
-/**
- * Forward data from UAVTalk out the serial port
- * \param[in] data Data buffer to send
- * \param[in] length Length of buffer
- * \return -1 on failure
- * \return number of bytes transmitted on success
- */
-static int32_t send_data(uint8_t *data, int32_t length)
-{
-	if( PIOS_COM_SendBuffer(logging_com_id, data, length) < 0)
-		return -1;
-
-	written_bytes += length;
-
-	return length;
 }
 
 /**

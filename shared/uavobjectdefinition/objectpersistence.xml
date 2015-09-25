@@ -5,9 +5,10 @@
         <field name="Selection" units="" type="enum" elements="1" options="SingleObject,AllSettings,AllMetaObjects,AllObjects"/>
         <field name="ObjectID" units="" type="uint32" elements="1"/>
         <field name="InstanceID" units="" type="uint32" elements="1"/>
+
         <access gcs="readwrite" flight="readwrite"/>
         <telemetrygcs acked="true" updatemode="manual" period="0"/>
         <telemetryflight acked="true" updatemode="onchange" period="0"/>
-        <logging updatemode="manual" period="0"/>
+        <logging updatemode="manual" period="1"/>
     </object>
 </xml>
