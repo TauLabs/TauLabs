@@ -29,6 +29,8 @@
 #include <QStringList>
 #include <iostream>
 
+#include <unistd.h>	/* For symlink(2) */
+
 #include "generators/java/uavobjectgeneratorjava.h"
 #include "generators/flight/uavobjectgeneratorflight.h"
 #include "generators/gcs/uavobjectgeneratorgcs.h"
@@ -248,8 +250,14 @@ int main(int argc, char *argv[])
     QDir dir(outputpath);
     QFileInfoList files = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
     foreach (QFileInfo file, files) {
+#ifdef Q_OS_WIN
+	QDir dir;
+        dir.rmpath(file.fileName());
+        dir.rename(file.absoluteFilePath(), file.fileName());
+#else
         QFile::remove(file.fileName());
         QFile::link(file.absoluteFilePath(), file.fileName());
+#endif
     }
 
     return RETURN_OK;
