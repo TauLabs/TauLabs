@@ -290,39 +290,39 @@ bool ConfigFixedWingWidget::setupFrameFixedWing(SystemSettings::AirframeTypeOpti
     //motor
     int channel = m_aircraft->fwEngineChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_MOTOR);
-    setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_THROTTLECURVE1, 127);
+    setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_THROTTLECURVE1, mixerRange);
 
     //rudder
     channel = m_aircraft->fwRudder1ChannelBox->currentIndex()-1;
     if (channel > -1) {
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, 127);
+        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
 
         channel = m_aircraft->fwRudder2ChannelBox->currentIndex()-1;
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, 127);
+        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
     }
 
     //ailerons
     channel = m_aircraft->fwAileron1ChannelBox->currentIndex()-1;
     if (channel > -1) {
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, 127);
+        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, mixerRange);
 
         channel = m_aircraft->fwAileron2ChannelBox->currentIndex()-1;
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, 127);
+        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, mixerRange);
     }
 
     //elevators
     channel = m_aircraft->fwElevator1ChannelBox->currentIndex()-1;
     if (channel > -1) {
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_PITCH, 127);
+        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_PITCH, mixerRange);
 
         channel = m_aircraft->fwElevator2ChannelBox->currentIndex()-1;
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_PITCH, 127);
+        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_PITCH, mixerRange);
     }
 
     m_aircraft->fwStatusLabel->setText("Mixer generated");
@@ -370,31 +370,31 @@ bool ConfigFixedWingWidget::setupFrameElevon(SystemSettings::AirframeTypeOptions
     //motor
     int channel = m_aircraft->fwEngineChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_MOTOR);
-    setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_THROTTLECURVE1, 127);
+    setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_THROTTLECURVE1, mixerRange);
 
     //rudders
     channel = m_aircraft->fwRudder1ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, 127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
 
     channel = m_aircraft->fwRudder2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -mixerRange);
 
     //ailerons
     channel = m_aircraft->fwAileron1ChannelBox->currentIndex()-1;
     if (channel > -1) {
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        value = (double)(m_aircraft->elevonSlider2->value()*1.27);
+        value = (double)(m_aircraft->elevonSlider2->value()*(mixerRange/100.0));
         setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_PITCH, value);
-        value = (double)(m_aircraft->elevonSlider1->value()*1.27);
+        value = (double)(m_aircraft->elevonSlider1->value()*(mixerRange/100.0));
         setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, value);
 
         channel = m_aircraft->fwAileron2ChannelBox->currentIndex()-1;
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        value = (double)(m_aircraft->elevonSlider2->value()*1.27);
+        value = (double)(m_aircraft->elevonSlider2->value()*(mixerRange/100.0));
         setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_PITCH, value);
-        value = (double)(m_aircraft->elevonSlider1->value()*1.27);
+        value = (double)(m_aircraft->elevonSlider1->value()*(mixerRange/100.0));
         setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, -value);
     }
 
@@ -442,42 +442,42 @@ bool ConfigFixedWingWidget::setupFrameVtail(SystemSettings::AirframeTypeOptions 
     //motor
     int channel = m_aircraft->fwEngineChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_MOTOR);
-    setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_THROTTLECURVE1, 127);
+    setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_THROTTLECURVE1, mixerRange);
 
     //rudders
     channel = m_aircraft->fwRudder1ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, 127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
 
     channel = m_aircraft->fwRudder2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -mixerRange);
 
     //ailerons
     channel = m_aircraft->fwAileron1ChannelBox->currentIndex()-1;
     if (channel > -1) {
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, 127);
+        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, mixerRange);
 
         channel = m_aircraft->fwAileron2ChannelBox->currentIndex()-1;
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, -127);
+        setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, -mixerRange);
     }
 
     //vtail
     channel = m_aircraft->fwElevator1ChannelBox->currentIndex()-1;
     if (channel > -1) {
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        value = (double)(m_aircraft->elevonSlider2->value()*1.27);
+        value = (double)(m_aircraft->elevonSlider2->value()*(mixerRange/100.0));
         setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_PITCH, value);
-        value = (double)(m_aircraft->elevonSlider1->value()*1.27);
+        value = (double)(m_aircraft->elevonSlider1->value()*(mixerRange/100.0));
         setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, value);
 
         channel = m_aircraft->fwElevator2ChannelBox->currentIndex()-1;
         setMixerType(mixerSettings,channel,MixerSettings::MIXER1TYPE_SERVO);
-        value = (double)(m_aircraft->elevonSlider2->value()*1.27);
+        value = (double)(m_aircraft->elevonSlider2->value()*(mixerRange/100.0));
         setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_PITCH, value);
-        value = (double)(m_aircraft->elevonSlider1->value()*1.27);
+        value = (double)(m_aircraft->elevonSlider1->value()*(mixerRange/100.0));
         setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -value);
     }
 
