@@ -5,7 +5,7 @@
         <field name="VelocityKp" units="throttle/m" type="float" elements="1" defaultvalue="0.3"/>
         <field name="VelocityKi" units="throttle/m/s" type="float" elements="1" defaultvalue="0.3"/>
         <field name="AttitudeComp" units="%" type="uint16" elements="1" defaultvalue="100"/>
-        <field name="MaxRate" units="dm/s" type="uint8" elements="1" defaultvalue="40"/>
+        <field name="MaxClimbRate" units="dm/s" type="uint8" elements="1" defaultvalue="40"/>
         <field name="Expo" units="" type="uint8" elements="1" defaultvalue="40"/>
         <field name="Deadband" units="%" type="uint8" elements="1" defaultvalue="30"/>
         <access gcs="readwrite" flight="readwrite"/>
