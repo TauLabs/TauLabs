@@ -276,7 +276,8 @@ int main(int argc, char **argv)
     QString dirName(GCS_REVISION_PRETTY);
     dirName = dirName.replace("%@%", "_");
 
-    // Limit to boring characters
+    // Limit to alphanumerics plus dots, because this will be a filename
+    // component.
     dirName = dirName.replace(QRegularExpression("[^A-Za-z0-9.]+"), "_");
 
     dirName = QDir::tempPath() + QDir::separator() + "taulabsgcs_" + dirName;
