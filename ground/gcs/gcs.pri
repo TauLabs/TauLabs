@@ -129,8 +129,13 @@ linux-g++* {
 }
 
 win32 {
-	# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=52991
-	QMAKE_CXXFLAGS += -mno-ms-bitfields
+    # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=52991
+    QMAKE_CXXFLAGS += -mno-ms-bitfields
+    RELEASE_WITH_SYMBOLS {
+        QMAKE_CFLAGS_RELEASE += -Zi
+        QMAKE_CXXFLAGS_RELEASE += -Zi
+        QMAKE_LFLAGS_RELEASE += /DEBUG /OPT:REF
+    }
 }
 
 unix {

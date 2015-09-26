@@ -3,5 +3,6 @@ CONFIG   += ordered
 
 SUBDIRS = \
     libs \
+    plugins \
     app \
-    plugins
+    crashreporterapp

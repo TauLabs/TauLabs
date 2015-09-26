@@ -36,7 +36,7 @@
 #include <QTimer>
 #include <QEventLoop>
 #include "utils_global.h"
-
+#include <QFile>
 
 namespace Utils {
 
@@ -51,17 +51,33 @@ public:
         QString title;
         QString text;
     };
+    struct fileAttachment
+    {
+        QString fileName;
+        QString fileComment;
+        QString fileTypeSpec;
+        QByteArray fileData;
+    };
+    struct replyFields
+    {
+        QString fieldName;
+        QString fieldValue;
+        fileAttachment attachment;
+    };
+
     PHPBB(QString host, QObject * parent = 0);
     QNetworkReply *postData(QString url);
-    bool postReply(int forumID, int threadID, QString subject, QString message);
+    bool postReply(int forumID, int threadID, QString subject, QString message, QList<fileAttachment> attachments = QList<fileAttachment>());
     QList<forumPost> getAllPosts(int forumID, int threadID);
     bool login(QString username, QString password);
-    void addField(QString name, QString value);
+    void addField(QString name, QString value, fileAttachment attachment = fileAttachment());
     ~PHPBB();
 private:
-    QMap<QString, QString> fields;
+    QList<replyFields> fields;
     QNetworkRequest request;
     QString host;
+signals:
+    void uploadProgress(qint64,qint64);
 };
 
 }

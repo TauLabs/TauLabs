@@ -24,16 +24,11 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "uavobjectgeneratormatlab.h"
-#include "../../../gcs/src/plugins/coreplugin/coreconstants.h"
-
 
 using namespace std;
 
 
 bool UAVObjectGeneratorMatlab::generate(UAVObjectParser* parser,QString templatepath,QString outputpath) {
-
-    QString gcsRevision = QString::fromLatin1(Core::Constants::GCS_REVISION_STR);
-
     fieldTypeStrMatlab << "int8" << "int16" << "int32"
         << "uint8" << "uint16" << "uint32" << "single" << "uint8";
     fieldSizeStrMatlab << "1" << "2" << "4"
@@ -56,7 +51,6 @@ bool UAVObjectGeneratorMatlab::generate(UAVObjectParser* parser,QString template
         process_object(info, numBytes);
     }
 
-    matlabCodeTemplate.replace( QString("$(GCSREVISION)"), gcsRevision);
     matlabCodeTemplate.replace( QString("$(INSTANTIATIONCODE)"), matlabInstantiationCode);
     matlabCodeTemplate.replace( QString("$(SWITCHCODE)"), matlabSwitchCode);
     matlabCodeTemplate.replace( QString("$(CLEANUPCODE)"), matlabCleanupCode);

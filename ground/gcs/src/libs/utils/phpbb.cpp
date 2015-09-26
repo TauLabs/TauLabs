@@ -26,7 +26,7 @@
 
 #include "phpbb.h"
 
-#define TIMEOUT 10000
+#define TIMEOUT 60000
 
 namespace Utils {
 
@@ -38,8 +38,12 @@ PHPBB::PHPBB(QString host, QObject *parent):QNetworkAccessManager(parent), host(
 }
 
 
-void PHPBB::addField(QString name, QString value) {
-    fields.insert(name, value);
+void PHPBB::addField(QString name, QString value, fileAttachment attachment) {
+    replyFields reply;
+    reply.fieldName = name;
+    reply.fieldValue = value;
+    reply.attachment = attachment;
+    fields.append(reply);
 }
 
 PHPBB::~PHPBB()
@@ -60,17 +64,29 @@ QNetworkReply *PHPBB::postData(QString url) {
     QByteArray bond = boundary.toLatin1();
     QByteArray send;
     bool first = true;
-    foreach (QString name, fields.keys()) {
+    foreach (replyFields field, fields) {
         send.append(bond);
         if (first) {
             boundary = crlf + boundary;
             bond = boundary.toLatin1();
             first = false;
         }
-        send.append(QString("Content-Disposition: form-data; name=\"" + name + "\"" + crlf).toLatin1());
-        send.append(QString("Content-Transfer-Encoding: 8bit" + crlf).toLatin1());
-        send.append(crlf.toLatin1());
-        send.append(fields.value(name).toUtf8());
+        if(field.attachment.fileName.isEmpty()) {
+            send.append(QString("Content-Disposition: form-data; name=\"" + field.fieldName + "\"" + crlf).toLatin1());
+            send.append(QString("Content-Transfer-Encoding: 8bit" + crlf).toLatin1());
+            send.append(crlf.toLatin1());
+            send.append(field.fieldValue.toUtf8());
+        }
+        else {
+            send.append(QString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"" + field.attachment.fileName + "\"" + crlf).toLatin1());
+            send.append(QString("Content-Type: " + field.attachment.fileTypeSpec + crlf).toLatin1());
+            send.append(crlf.toLatin1());
+            send.append(field.attachment.fileData);
+            send.append(bond);
+            send.append(QString("Content-Disposition: form-data; name=\"filecomment\"" + crlf).toLatin1());
+            send.append(crlf.toLatin1());
+            send.append(field.attachment.fileComment.toLatin1());
+        }
     }
     send.append(endBoundary.toLatin1());
 
@@ -82,7 +98,7 @@ QNetworkReply *PHPBB::postData(QString url) {
     return this->post(request, send);
 }
 
-bool PHPBB::postReply(int forumID, int threadID, QString subject, QString message)
+bool PHPBB::postReply(int forumID, int threadID, QString subject, QString message, QList<fileAttachment> attachments)
 {
     addField("post", "Submit");
     QEventLoop loop;
@@ -104,17 +120,21 @@ bool PHPBB::postReply(int forumID, int threadID, QString subject, QString messag
     creation_index2 = secrets.indexOf('"', creation_index1 + 1);
     QString formToken = secrets.mid(creation_index1 + 1, creation_index2 - creation_index1 -1 );
 
-    QTimer::singleShot(2000, &loop, SLOT(quit()));
+    QTimer::singleShot(10000, &loop, SLOT(quit()));
     loop.exec();
 
     addField("form_token", formToken);
     addField("creation_time", creationTime);
     addField("subject", subject);
     addField("message", message);
+    foreach (fileAttachment attach, attachments) {
+        addField("", "", attach);
+    }
     addField("post", "Submit");
 
     QTimer::singleShot(TIMEOUT, &loop, SLOT(quit()));
     reply = postData(host + QString("/posting.php?mode=reply&f=%0&t=%1").arg(forumID).arg(threadID));
+    connect(reply, SIGNAL(uploadProgress(qint64,qint64)), SIGNAL(uploadProgress(qint64,qint64)));
     connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
     if (reply->error() != QNetworkReply::NoError)
