@@ -600,6 +600,15 @@ void ConfigOsdWidget::setupOsdPage(Ui::OsdPage * page, QWidget * page_widget, UA
     addUAVObjectToWidgetRelation(name, "TimeFont", page->TimeFont);
     addUAVObjectToWidgetRelation(name, "TimeAlign", page->TimeAlign);
 
+    // Throttle
+    addUAVObjectToWidgetRelation(name, "Throttle", page->ThrottleEnabled);
+    page->ThrottleEnabled->setProperty(trueString.toLatin1(), "Enabled");
+    page->ThrottleEnabled->setProperty(falseString.toLatin1(), "Disabled");
+    addUAVObjectToWidgetRelation(name, "ThrottlePosX", page->ThrottleX);
+    addUAVObjectToWidgetRelation(name, "ThrottlePosY", page->ThrottleY);
+    addUAVObjectToWidgetRelation(name, "ThrottleFont", page->ThrottleFont);
+    addUAVObjectToWidgetRelation(name, "ThrottleAlign", page->ThrottleAlign);
+
     // Map
     addUAVObjectToWidgetRelation(name, "Map", page->MapEnabled);
     page->MapEnabled->setProperty(trueString.toLatin1(), "Enabled");

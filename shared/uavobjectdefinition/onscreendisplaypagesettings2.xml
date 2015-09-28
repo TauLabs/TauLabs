@@ -155,6 +155,12 @@
 		<field name="TimeFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
 		<field name="TimeAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
 
+		<field name="Throttle" units="" type="enum" elements="1" options="Disabled,Enabled" defaultvalue="Disabled"/>
+		<field name="ThrottlePosX" units="" type="int16" elements="1" defaultvalue="300"/>
+		<field name="ThrottlePosY" units="" type="int16" elements="1" defaultvalue="220"/>
+		<field name="ThrottleFont" units="" type="enum" elements="1" options="Small,Normal,Large" defaultvalue="Small"/>
+		<field name="ThrottleAlign" units="" type="enum" elements="1" options="Left,Center,Right" defaultvalue="Right"/>
+
 	<access gcs="readwrite" flight="readwrite"/>
 	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 	<telemetryflight acked="true" updatemode="onchange" period="0"/>

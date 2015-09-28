@@ -1453,6 +1453,18 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 		}
 		write_string(tmp_str, page->TimePosX, page->TimePosY, 0, 0, TEXT_VA_TOP, (int)page->TimeAlign, 0, SIZE_TO_FONT[page->TimeFont]);
 	}
+
+	// Throttle
+	if (page->Throttle){
+		ManualControlCommandThrottleGet(&tmp);
+		if (tmp < 0){
+			tmp = 0;
+		}
+
+		sprintf(tmp_str, "%d", (int)(100 * tmp + 0.5f));
+
+		write_string(tmp_str, page->ThrottlePosX, page->ThrottlePosY, 0, 0, TEXT_VA_TOP, (int)page->ThrottleAlign, 0, SIZE_TO_FONT[page->ThrottleFont]);
+	}
 }
 
 
