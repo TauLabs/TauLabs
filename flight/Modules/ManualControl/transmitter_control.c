@@ -1074,11 +1074,14 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 	} else {
 		uint8_t altitude_hold_expo;
 		uint8_t altitude_hold_maxclimbrate10;
+		uint8_t altitude_hold_maxdescentrate10;
 		uint8_t altitude_hold_deadband;
 		AltitudeHoldSettingsMaxClimbRateGet(&altitude_hold_maxclimbrate10);
+		AltitudeHoldSettingsMaxDescentRateGet(&altitude_hold_maxdescentrate10);
 
 		// Scale altitude hold rate
 		float altitude_hold_maxclimbrate = altitude_hold_maxclimbrate10 * 0.1f;
+		float altitude_hold_maxdescentrate = altitude_hold_maxdescentrate10 * 0.1f;
 
 		AltitudeHoldSettingsExpoGet(&altitude_hold_expo);
 		AltitudeHoldSettingsDeadbandGet(&altitude_hold_deadband);
@@ -1092,9 +1095,9 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		if (cmd->Throttle > DEADBAND_HIGH) {
 			climb_rate = expo3((cmd->Throttle - DEADBAND_HIGH) / (1.0f - DEADBAND_HIGH), altitude_hold_expo) *
 		                         altitude_hold_maxclimbrate;
-		} else if (cmd->Throttle < DEADBAND_LOW && altitude_hold_maxclimbrate > MIN_CLIMB_RATE) {
+		} else if (cmd->Throttle < DEADBAND_LOW && altitude_hold_maxdescentrate > MIN_CLIMB_RATE) {
 			climb_rate = ((cmd->Throttle < 0) ? DEADBAND_LOW : DEADBAND_LOW - cmd->Throttle) / DEADBAND_LOW;
-			climb_rate = -expo3(climb_rate, altitude_hold_expo) * altitude_hold_maxclimbrate;
+			climb_rate = -expo3(climb_rate, altitude_hold_expo) * altitude_hold_maxdescentrate;
 		}
 
 		// When throttle is negative tell the module that we are in landing mode
