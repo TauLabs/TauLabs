@@ -1,0 +1,41 @@
+# bashrc for TauLabs development on Windows
+# Michael Lyle - 2015
+
+QT_VERSION_FULL=5.5.0
+QT_VERSION=`echo "$QT_VERSION_FULL" | cut -d '.' -f1-2`
+QT_BASEDIR="/C/Qt"
+
+if [ -d "$QT_BASEDIR/Qt$QT_VERSION_FULL" ] ; then
+  QT_BASEDIR="$QT_BASEDIR/Qt$QT_VERSION_FULL"
+fi
+
+QT_MINGWVER="mingw492_32"
+
+test_and_add_to_path ()
+{
+  if which $2 >/dev/null 2>&1 ; then
+    return
+  fi
+
+  if [ -f "$1/$2" ] ; then
+    PATH=$PATH\:$1
+  fi
+}
+
+test_and_add_to_path "$QT_BASEDIR/$QT_VERSION/$QT_MINGWVER/bin" "qmake.exe"
+test_and_add_to_path "$QT_BASEDIR/Tools/$QT_MINGWVER/bin" "gcc.exe"
+test_and_add_to_path "/C/Python27" "python.exe"
+test_and_add_to_path "/C/OpenOCD/0.4.0/bin/" "openocd.exe"
+test_and_add_to_path "/C/Program Files/NSIS/Unicode" "makensis.exe"
+test_and_add_to_path "/C/Program Files (x86)/NSIS/Unicode" "makensis.exe"
+
+
+if ! which make >/dev/null 2>&1 ; then
+  alias make=mingw32-make
+fi
+
+
+#-call :which UNSIS         "%ProgramFiles%\NSIS\Unicode"  makensis.exe
+
+#echo $PATH
+
