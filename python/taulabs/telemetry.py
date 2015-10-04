@@ -80,7 +80,7 @@ class TelemetryBase():
 
         self.eof = False
 
-    def as_numpy_array(self, match_class):
+    def as_numpy_array(self, match_class, filter_cond=None):
         """ Transforms all received instances of a given object to a numpy array.
         
         match_class: the UAVO_* class you'd like to match.
@@ -91,6 +91,10 @@ class TelemetryBase():
         # Find the subset of this list that is of the requested class
         filtered_list = filter(lambda x: isinstance(x, match_class), self)
  
+        # Perform any additional requested filtering
+        if filter_cond is not None:
+            filtered_list = filter(filter_cond, filtered_list)
+
         # Check for an empty list
         if filtered_list == []:
             return np.array([])
