@@ -45,6 +45,8 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
@@ -59,8 +61,6 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
 
-    private String mDeviceName = "HMSoft";
-    private String mDeviceAddress = "78:A5:04:3E:D6:08";
     private boolean mConnected = false;
     private BluetoothGattCharacteristic characteristicTX;
     private BluetoothGattCharacteristic characteristicRX;
@@ -90,6 +90,10 @@ public class BluetoothLowEnergyUAVTalk extends TelemetryTask {
 		if (DEBUG) Log.d(TAG, "Attempting to connect to BT Le service");
 
 		initialize();
+
+	    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(telemService);
+	    String mDeviceAddress = prefs.getString("bluetooth_mac","");
+		if (DEBUG) Log.d(TAG, "Attempting to connect to device: " + mDeviceAddress);
 		btleConnect(mDeviceAddress);
 		
 		return true;
