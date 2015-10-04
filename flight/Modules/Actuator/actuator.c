@@ -71,10 +71,8 @@
 static struct pios_queue *queue;
 static struct pios_thread *taskHandle;
 
-// used to inform the actuator thread that actuator update rate is changed
-static volatile bool actuator_settings_updated;
-// used to inform the actuator thread that mixer settings are changed
-static volatile bool mixer_settings_updated;
+// used to inform the actuator thread that actuator / mixer settings are updated
+static volatile bool settings_updated;
 
 // The actual mixer settings data, pulled at the top of the actuator thread
 MixerSettingsData mixerSettings;
@@ -90,8 +88,7 @@ static float ThrottleCurve(const float input, const float* curve, uint8_t num_po
 static float CollectiveCurve(const float input, const float* curve, uint8_t num_points);
 static bool set_channel(uint8_t mixer_channel, float value);
 static void actuator_update_rate_if_changed(bool force_update);
-static void MixerSettingsUpdatedCb(UAVObjEvent * ev);
-static void ActuatorSettingsUpdatedCb(UAVObjEvent * ev);
+static void SettingsUpdatedCb(UAVObjEvent * ev);
 float ProcessMixer(const int index, const float curve1, const float curve2,
 		   ActuatorDesiredData *desired);
 static float MixChannel(int ct, ActuatorDesiredData *desired,
@@ -122,11 +119,11 @@ int32_t ActuatorInitialize()
 {
 	// Register for notification of changes to ActuatorSettings
 	ActuatorSettingsInitialize();
-	ActuatorSettingsConnectCallback(ActuatorSettingsUpdatedCb);
+	ActuatorSettingsConnectCallback(SettingsUpdatedCb);
 
 	// Register for notification of changes to MixerSettings
 	MixerSettingsInitialize();
-	MixerSettingsConnectCallback(MixerSettingsUpdatedCb);
+	MixerSettingsConnectCallback(SettingsUpdatedCb);
 
 	// Listen for ActuatorDesired updates (Primary input to this module)
 	ActuatorDesiredInitialize();
@@ -199,10 +196,9 @@ float GetCurve2Source(ActuatorDesiredData *desired, MixerSettingsCurve2SourceOpt
  */
 static void actuatorTask(void* parameters)
 {
-	UAVObjEvent ev;
 	uint32_t lastSysTime;
-	uint32_t thisSysTime;
 	float dT = 0.0f;
+	bool first = true;
 
 	ActuatorCommandData command;
 	ActuatorDesiredData desired;
@@ -210,18 +206,7 @@ static void actuatorTask(void* parameters)
 	FlightStatusData flightStatus;
 
 	/* Read initial values of ActuatorSettings */
-	actuator_settings_updated = true;
-	ActuatorSettingsGet(&actuatorSettings);
-
-	/* Read initial values of MixerSettings */
-	mixer_settings_updated = true;
-	MixerSettingsGet(&mixerSettings);
-
-	/* Force an initial configuration of the actuator update rates */
-	actuator_update_rate_if_changed(true);
-
-	// Go to the neutral (failsafe) values until an ActuatorDesired update is received
-	setFailsafe();
+	settings_updated = true;
 
 	// Main task loop
 	lastSysTime = PIOS_Thread_Systime();
@@ -229,19 +214,24 @@ static void actuatorTask(void* parameters)
 	{
 		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
 
-		// Wait until the ActuatorDesired object is updated
-		bool rc = PIOS_Queue_Receive(queue, &ev, FAILSAFE_TIMEOUT_MS);
+		bool rc=false;
+
+		// If it's our first iteration, fall down to getting the
+		// config and enabling failsafe.
+		if (!first) {
+			UAVObjEvent ev;
+			// Wait until the ActuatorDesired object is updated
+			rc = PIOS_Queue_Receive(queue, &ev, FAILSAFE_TIMEOUT_MS);
+		} else {
+			first=false;
+		}
 
 		/* Process settings updated events even in timeout case so we always act on the latest settings */
-		if (actuator_settings_updated) {
-			actuator_settings_updated = false;
+		if (settings_updated) {
+			settings_updated = false;
 			ActuatorSettingsGet(&actuatorSettings);
 			actuator_update_rate_if_changed(false);
-		}
-		if (mixer_settings_updated) {
-			mixer_settings_updated = false;
 			MixerSettingsGet(&mixerSettings);
-
 		}
 
 		if (rc != true) {
@@ -251,7 +241,7 @@ static void actuatorTask(void* parameters)
 		}
 
 		// Check how long since last update
-		thisSysTime = PIOS_Thread_Systime();
+		uint32_t thisSysTime = PIOS_Thread_Systime();
 		if(thisSysTime > lastSysTime) // reuse dt in case of wraparound
 			dT = (thisSysTime - lastSysTime) / 1000.0f;
 		lastSysTime = thisSysTime;
@@ -639,14 +629,9 @@ static void actuator_update_rate_if_changed(bool force_update)
 	}
 }
 
-static void ActuatorSettingsUpdatedCb(UAVObjEvent * ev)
+static void SettingsUpdatedCb(UAVObjEvent * ev)
 {
-	actuator_settings_updated = true;
-}
-
-static void MixerSettingsUpdatedCb(UAVObjEvent * ev)
-{
-	mixer_settings_updated = true;
+	settings_updated = true;
 }
 
 static float MixChannel(int ct, ActuatorDesiredData *desired,
