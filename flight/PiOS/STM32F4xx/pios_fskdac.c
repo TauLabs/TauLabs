@@ -65,8 +65,6 @@ struct pios_fskdac_dev {
 	enum BYTE_TX_STATE tx_state;
 	uint8_t cur_byte;
 
-	pios_com_callback rx_in_cb;
-	uintptr_t rx_in_context;
 	pios_com_callback tx_out_cb;
 	uintptr_t tx_out_context;
 };
@@ -153,15 +151,15 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id, const struct pios_fskdac_config 
 	gpio_init.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOA, &gpio_init);
 
-	// TODO: move into board_hw_defs and cfg structure
 	TIM_TimeBaseInitTypeDef TIM6_TimeBase;
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
 
+	// TODO: move into board_hw_defs and cfg structure
 	TIM_TimeBaseStructInit(&TIM6_TimeBase); 
-	TIM6_TimeBase.TIM_Period        = (uint16_t)PIOS_PERIPHERAL_APB1_CLOCK / (5000 * 128);
+	TIM6_TimeBase.TIM_Period        = (PIOS_PERIPHERAL_APB1_CLOCK / (5000 * SAMPLES_PER_BIT));
 	TIM6_TimeBase.TIM_Prescaler     = 0;
 	TIM6_TimeBase.TIM_ClockDivision = 0;
 	TIM6_TimeBase.TIM_CounterMode   = TIM_CounterMode_Up;
@@ -170,36 +168,43 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id, const struct pios_fskdac_config 
 	TIM_Cmd(TIM6, ENABLE);
 
 	DAC_InitTypeDef DAC_INIT;
+	DAC_StructInit(&DAC_INIT);
+	DAC_DeInit();
 	DAC_INIT.DAC_Trigger        = DAC_Trigger_T6_TRGO;
 	DAC_INIT.DAC_WaveGeneration = DAC_WaveGeneration_None;
 	DAC_INIT.DAC_OutputBuffer   = DAC_OutputBuffer_Enable;
 	DAC_Init(DAC_Channel_1, &DAC_INIT);
 
 	DMA_DeInit(DMA1_Stream5);
-	DMA_InitTypeDef DMA_INIT;
-	DMA_INIT.DMA_Channel            = DMA_Channel_7;
-	DMA_INIT.DMA_PeripheralBaseAddr = (uint32_t)DAC_DHR12R1_ADDR;
-	DMA_INIT.DMA_Memory0BaseAddr    = (uint32_t)&SPACE_SAMPLES[0];
-	DMA_INIT.DMA_DIR                = DMA_DIR_MemoryToPeripheral;
-	DMA_INIT.DMA_BufferSize         = SAMPLES_PER_BIT;
-	DMA_INIT.DMA_PeripheralInc      = DMA_PeripheralInc_Disable;
-	DMA_INIT.DMA_MemoryInc          = DMA_MemoryInc_Enable;
-	DMA_INIT.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
-	DMA_INIT.DMA_MemoryDataSize     = DMA_MemoryDataSize_HalfWord;
-	DMA_INIT.DMA_Mode               = DMA_Mode_Circular;
-	DMA_INIT.DMA_Priority           = DMA_Priority_High;
-	DMA_INIT.DMA_FIFOMode           = DMA_FIFOMode_Disable;
-	DMA_INIT.DMA_FIFOThreshold      = DMA_FIFOThreshold_HalfFull;
-	DMA_INIT.DMA_MemoryBurst        = DMA_MemoryBurst_Single;
-	DMA_INIT.DMA_PeripheralBurst    = DMA_PeripheralBurst_Single;
-	DMA_Init(DMA1_Stream5, &DMA_INIT);
+	DMA_InitTypeDef DMA_InitStructure;	
+	DMA_InitStructure.DMA_Channel = DMA_Channel_7;  
+	DMA_InitStructure.DMA_PeripheralBaseAddr = 0x40007408; // DAC1 12R register
+	DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)&MARK_SAMPLES[0];
+	DMA_InitStructure.DMA_BufferSize = SAMPLES_PER_BIT;
+	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
+	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+	DMA_InitStructure.DMA_DIR = DMA_DIR_MemoryToPeripheral;
+	DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+	DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+	DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+	DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;         
+	DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_HalfFull;
+	DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
+	DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+	DMA_Init(DMA1_Stream5, &DMA_InitStructure);    
 
-	DMA_DoubleBufferModeConfig(fskdac_dev->cfg->dma.tx.channel, (uint32_t)&MARK_SAMPLES[0], DMA_Memory_0);
-	DMA_DoubleBufferModeCmd(fskdac_dev->cfg->dma.tx.channel, ENABLE);
-	DMA_ITConfig(fskdac_dev->cfg->dma.tx.channel, DMA_IT_TC, ENABLE);
+	//DMA_DoubleBufferModeConfig(fskdac_dev->cfg->dma.tx.channel, (uint32_t)&MARK_SAMPLES[0], DMA_Memory_0);
+	//DMA_DoubleBufferModeCmd(fskdac_dev->cfg->dma.tx.channel, ENABLE);
+	//DMA_ITConfig(fskdac_dev->cfg->dma.tx.channel, DMA_IT_TC, ENABLE);
 
+	/* Enable DMA1_Stream5 */
 	DMA_Cmd(DMA1_Stream5, ENABLE);
+
+	/* Enable DAC Channel1 */
 	DAC_Cmd(DAC_Channel_1, ENABLE);
+
+	/* Enable DMA for DAC Channel1 */
 	DAC_DMACmd(DAC_Channel_1, ENABLE);
 
 	return 0;
