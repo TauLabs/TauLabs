@@ -45,6 +45,8 @@
 #include "modulesettings.h"
 #include <rfm22bstatus.h>
 #include <rfm22breceiver.h>
+//#include <pios_fskdac_priv.h>
+#include <pios_dacbeep_priv.h>
 #include <pios_rfm22b_rcvr_priv.h>
 #include <pios_openlrs_rcvr_priv.h>
 
@@ -139,6 +141,8 @@ uintptr_t pios_waypoints_settings_fs_id;
 uintptr_t pios_can_id;
 
 uintptr_t streamfs_id;
+
+uintptr_t dacbeep_handle;
 
 /**
  * Indicate a target-specific error code when a component fails to initialize
@@ -683,6 +687,12 @@ void PIOS_Board_Init(void) {
 
 	PIOS_SENSORS_Init();
 
+#if defined(PIOS_INCLUDE_DAC_BEEPS)
+	uintptr_t dacbeep_id;
+	PIOS_DACBEEP_Init(&dacbeep_id, &pios_fskdac_config);
+	dacbeep_handle = dacbeep_id;
+#endif /* PIOS_INCLUDE_DAC_BEEPS */
+
 #if defined(PIOS_INCLUDE_ADC)
 	uint32_t internal_adc_id;
 	PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg);
@@ -691,6 +701,11 @@ void PIOS_Board_Init(void) {
         // configure the pullup for PA8 (inhibit pullups from current/sonar shared pin)
         GPIO_Init(pios_current_sonar_pin.gpio, &pios_current_sonar_pin.init);
 #endif
+
+#if defined(PIOS_INCLUDE_FSK)
+    uintptr_t fskdac_com_id;
+	PIOS_FSKDAC_Init(&fskdac_com_id, &pios_fskdac_config);
+#endif /* PIOS_INCLUDE_FSK */
 
 #if defined(PIOS_INCLUDE_MS5611)
 	if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_mag_pressure_adapter_id) != 0)
