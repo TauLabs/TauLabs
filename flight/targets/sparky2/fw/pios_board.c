@@ -46,6 +46,7 @@
 #include <rfm22bstatus.h>
 #include <rfm22breceiver.h>
 #include <pios_dacbeep_priv.h>
+#include <pios_fskdac_priv.h>
 #include <pios_rfm22b_rcvr_priv.h>
 #include <pios_openlrs_rcvr_priv.h>
 
