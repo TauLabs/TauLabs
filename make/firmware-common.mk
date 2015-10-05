@@ -101,6 +101,10 @@ endif # !NO_AUTO_UAVO
 # Define programs and commands.
 REMOVE  = rm -f
 
+ifeq ($(BUILD_UAVO), YES)
+SRC += $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
+endif
+
 CFLAGS += $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )
 
 # List of all source files.

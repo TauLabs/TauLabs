@@ -388,5 +388,7 @@ include ./UAVObjects.inc
 
 BUILD_FWFILES=NO
 UAVO_NAV = YES
+BUILD_UAVO = YES
+
 
 include $(MAKE_INC_DIR)/firmware-common.mk
