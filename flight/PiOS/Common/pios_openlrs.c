@@ -101,6 +101,8 @@ static const uint8_t OUT_FF[64] = {
 
 const uint8_t default_hop_list[] = {DEFAULT_HOPLIST};
 
+const uint32_t packet_advance_time_us = 1500;
+
 const struct rfm22_modem_regs bind_params =
 { 9600, 0x05, 0x40, 0x0a, 0xa1, 0x20, 0x4e, 0xa5, 0x00, 0x20, 0x24, 0x4e, 0xa5, 0x2c, 0x23, 0x30 };
 
@@ -794,9 +796,13 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	timeUs = micros();
 	timeMs = millis();
 
+	DEBUG_PRINTF(2,"Time: %d\r\n", timeUs);
+
 	uint8_t *tx_buf = openlrs_dev->tx_buf;  // convenient variable
 
 	if (openlrs_dev->rf_mode == Received) {
+
+		DEBUG_PRINTF(2,"Packet Received. Dt=%d\r\n", timeUs-openlrs_dev->lastPacketTimeUs);
 
 		// Read the packet from RFM22b
 		rfm22_claimBus(openlrs_dev);
@@ -919,20 +925,8 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		openlrs_dev->willhop = 1;
 	}
 
-	// sample RSSI when packet is in the 'air'
-	if ((openlrs_dev->numberOfLostPackets < 2) && (openlrs_dev->lastRSSITimeUs != openlrs_dev->lastPacketTimeUs) &&
-			(timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) - 1500)) {
-
-		//DEBUG_PRINTF(3,"pios_openlrs_rx_loop -- measure RSSI\r\n");
-
-		openlrs_dev->lastRSSITimeUs = openlrs_dev->lastPacketTimeUs;
-		openlrs_status.LastRSSI = rfmGetRSSI(openlrs_dev); // Read the RSSI value
-
-		DEBUG_PRINTF(2,"RSSI: %d\r\n", openlrs_status.LastRSSI);
-	}
-
 	if (openlrs_dev->link_acquired) {
-		if ((openlrs_dev->numberOfLostPackets < openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) + 1000))) {
+		if ((openlrs_dev->numberOfLostPackets < openlrs_dev->hopcount) && (PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) + 1000))) {
 			DEBUG_PRINTF(2,"Lost packet: %d\r\n", openlrs_dev->numberOfLostPackets);
 			// we lost packet, hop to next channel
 			openlrs_status.LinkQuality <<= 1;
@@ -946,7 +940,8 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			openlrs_dev->willhop = 1;
 			//updateLBeep(true);
 			// TODO: set_RSSI_output();
-		} else if ((openlrs_dev->numberOfLostPackets >= openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount))) {
+		} else if ((openlrs_dev->numberOfLostPackets >= openlrs_dev->hopcount) && (PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount))) {
+			DEBUG_PRINTF(2,"Trying to resync\r\n");
 			// hop slowly to allow resync with TX
 			openlrs_status.LinkQuality = 0;
 			openlrs_dev->willhop = 1;
@@ -988,8 +983,8 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 	} else {
 		// Waiting for first packet, hop slowly
-		if ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount)) {
-			//DEBUG_PRINTF(3,"pios_openlrs_rx_loop - slow hop\r\n");
+		if (PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount)) {
+			DEBUG_PRINTF(3,"Trying to get first packet\r\n");
 			openlrs_dev->lastPacketTimeUs = timeUs;
 			openlrs_dev->willhop = 1;
 		}
@@ -1193,14 +1188,39 @@ static void pios_openlrs_task(void *parameters)
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
 #endif /* PIOS_WDG_RFM22B */
 
-		uint32_t time_till_measure_rssi_us  = (getInterval(&openlrs_dev->bind_data) - 1500) + openlrs_dev->lastPacketTimeUs - micros();
+		// Determine 
+		uint32_t time_since_packet_us = PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs); // How long we have been thinking since receiving packet
+		uint32_t time_till_measure_rssi_us  = (getInterval(&openlrs_dev->bind_data) - packet_advance_time_us) - time_since_packet_us;
 		uint32_t delay = time_till_measure_rssi_us / 1000;
-		uint32_t max_delay = getInterval(&openlrs_dev->bind_data) / 2000;
+
+		// Maximum delay based on packet time, ISR should fire before this
+		const uint32_t max_delay = getInterval(&openlrs_dev->bind_data) / 1000;
 		if (delay > max_delay) delay = max_delay;
-		PIOS_Semaphore_Take(openlrs_dev->sema_isr, delay);
+
+		// If we already got RSSI for this packet no need to schedule early
+		if (openlrs_dev->lastRSSITimeUs == openlrs_dev->lastPacketTimeUs) {
+			delay = max_delay;
+		}
+
+		if (PIOS_Semaphore_Take(openlrs_dev->sema_isr, delay) == FALSE) {
+			DEBUG_PRINTF(3, "ISR Timeout %d %d %d %d\r\n", delay, getInterval(&openlrs_dev->bind_data), time_till_measure_rssi_us, time_since_packet_us);
+
+			// sample RSSI when packet is in the 'air'
+			if ((openlrs_dev->numberOfLostPackets < 2) && (openlrs_dev->lastRSSITimeUs != openlrs_dev->lastPacketTimeUs)) {
+
+				openlrs_dev->lastRSSITimeUs = openlrs_dev->lastPacketTimeUs;
+				openlrs_status.LastRSSI = rfmGetRSSI(openlrs_dev); // Read the RSSI value
+
+				DEBUG_PRINTF(2,"RSSI: %d\r\n", openlrs_status.LastRSSI);
+			}
+		} else {
+			DEBUG_PRINTF(3, "ISR %d %d %d %d\r\n", delay, getInterval(&openlrs_dev->bind_data), time_till_measure_rssi_us, time_since_packet_us);
+		}
 
 		// Process incoming radio data.
 		pios_openlrs_rx_loop(openlrs_dev);
+
+		DEBUG_PRINTF(3, "Processing time %d\r\n", PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs));
 	}
 }
 
