@@ -46,5 +46,6 @@ struct pios_fskdac_config {
 };
 
 extern int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id, const struct pios_fskdac_config * cfg);
+extern void PIOS_FSKDAC_DMA_irq_handler();
 
 #endif /* PIOS_FSKDADC_PRIV_H */
