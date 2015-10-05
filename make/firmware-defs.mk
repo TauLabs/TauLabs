@@ -294,3 +294,4 @@ $(OUTDIR)/$(1).gcov: $(OUTDIR)/$$(basename $(1)).gcda
 	  $(GCOV) $(1) 2>&1 > /dev/null ; \
 	)
 endef
+

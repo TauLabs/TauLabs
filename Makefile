@@ -9,7 +9,7 @@ include $(CURDIR)/make/system-id.mk
 
 # configure some directories that are relative to wherever ROOT_DIR is located
 TOOLS_DIR := $(ROOT_DIR)/tools
-BUILD_DIR := $(ROOT_DIR)/build
+export BUILD_DIR := $(ROOT_DIR)/build
 DL_DIR := $(ROOT_DIR)/downloads
 
 # import macros that are OS specific
@@ -612,7 +612,7 @@ fw_$(1): fw_$(1)_tlfw
 fw_$(1)_%: TARGET=fw_$(1)
 fw_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
 fw_$(1)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
-fw_$(1)_%: uavobjects
+fw_$(1)_%: uavobjects_armsoftfp uavobjects_armhardfp
 	$(V1) mkdir -p $$(OUTDIR)/dep
 	$(V1) cd $$(BOARD_ROOT_DIR)/fw && \
 		$$(MAKE) -r --no-print-directory \
@@ -812,6 +812,56 @@ endif
 ifneq ($(word 2,$(MAKECMDGOALS)),)
 export ENABLE_MSG_EXTRA := yes
 endif
+
+uavobjects_armsoftfp: TARGET=uavobjects_armsoftfp
+uavobjects_armsoftfp: OUTDIR=$(BUILD_DIR)/$(TARGET)
+uavobjects_armsoftfp: uavobjects
+	$(V1) mkdir -p $(OUTDIR)/dep
+	$(V1) cd $(ROOT_DIR)/flight/uavobjectlib && \
+		$(MAKE) -r --no-print-directory \
+		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
+		REMOVE_CMD="$(RM)" \
+		\
+		MAKE_INC_DIR=$(MAKE_INC_DIR) \
+		ROOT_DIR=$(ROOT_DIR) \
+		TARGET=$(TARGET) \
+		OUTDIR=$(OUTDIR) \
+		\
+		PIOS=$(PIOS) \
+		FLIGHTLIB=$(FLIGHTLIB) \
+		OPMODULEDIR=$(OPMODULEDIR) \
+		OPUAVOBJ=$(OPUAVOBJ) \
+		OPUAVTALK=$(OPUAVTALK) \
+		DOXYGENDIR=$(DOXYGENDIR) \
+		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		SHAREDAPIDIR=$(SHAREDAPIDIR) \
+		\
+		$@
+
+uavobjects_armhardfp: TARGET=uavobjects_armhardfp
+uavobjects_armhardfp: OUTDIR=$(BUILD_DIR)/$(TARGET)
+uavobjects_armhardfp: uavobjects
+	$(V1) mkdir -p $(OUTDIR)/dep
+	$(V1) cd $(ROOT_DIR)/flight/uavobjectlib && \
+		$(MAKE) -r --no-print-directory \
+		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
+		REMOVE_CMD="$(RM)" \
+		\
+		MAKE_INC_DIR=$(MAKE_INC_DIR) \
+		ROOT_DIR=$(ROOT_DIR) \
+		TARGET=$(TARGET) \
+		OUTDIR=$(OUTDIR) \
+		\
+		PIOS=$(PIOS) \
+		FLIGHTLIB=$(FLIGHTLIB) \
+		OPMODULEDIR=$(OPMODULEDIR) \
+		OPUAVOBJ=$(OPUAVOBJ) \
+		OPUAVTALK=$(OPUAVTALK) \
+		DOXYGENDIR=$(DOXYGENDIR) \
+		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		SHAREDAPIDIR=$(SHAREDAPIDIR) \
+		\
+		$@
 
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
 define BOARD_PHONY_TEMPLATE

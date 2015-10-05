@@ -12,6 +12,7 @@ CDEFS				+= -DSTM32F30X
 CDEFS				+= -DHSE_VALUE=$(OSCILLATOR_FREQ)
 CDEFS 				+= -DUSE_STDPERIPH_DRIVER
 ARCHFLAGS			+= -mcpu=cortex-m4 -march=armv7e-m -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+FLOATABI			= hard
 
 #
 # PIOS device library source and includes

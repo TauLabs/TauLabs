@@ -34,7 +34,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "openpilot.h"
+#include <string.h>
+#include "uavobjectmanager.h"
 #include "$(NAMELC).h"
 
 // Private variables
