@@ -442,7 +442,7 @@ static void tx_packet(struct pios_openlrs_dev *openlrs_dev, uint8_t* pkt, uint8_
 #endif /* PIOS_WDG_RFM22B */
 
 	if (openlrs_dev->rf_mode == Transmit) {
-		DEBUG_PRINTF(2,"tx_packet timeout\r\n");
+		DEBUG_PRINTF(2,"OLRS ERR: tx_packet timeout\r\n");
 		init_rfm(openlrs_dev, false); // reset modem
 	}
 }
@@ -788,7 +788,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 #endif /* PIOS_WDG_RFM22B */
 
 	if (rfm22_read_claim(openlrs_dev, 0x0C) == 0) {     // detect the locked module and reboot
-		DEBUG_PRINTF(2,"RX hang\r\n");
+		DEBUG_PRINTF(2,"OLRS ERR: RX hang\r\n");
 		init_rfm(openlrs_dev, 0);
 		to_rx_mode(openlrs_dev);
 	}
@@ -825,9 +825,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		openlrs_status.LinkQuality <<= 1;
 		openlrs_status.LinkQuality |= 1;
 
-		// TODO: updateLBeep(false);
-
 		if ((openlrs_dev->rx_buf[0] & 0x3e) == 0x00) {
+			// This flag indicates receiving PPM data
+
 			unpackChannels(openlrs_dev->bind_data.flags & 7, openlrs_dev->ppm, openlrs_dev->rx_buf + 1);
 			rescaleChannels(openlrs_dev->ppm);
 
@@ -837,27 +837,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 				PIOS_OpenLRS_Rcvr_UpdateChannels(openlrs_dev->openlrs_rcvr_id, openlrs_dev->ppm);
 #endif
 			}
-
-			//set_PPM_rssi();
-
-			/* I think this is failsafe related
-			if (openlrs_dev->rx_buf[0] & 0x01) {
-				if (!fs_saved) {
-					for (int16_t i = 0; i < PPM_CHANNELS; i++) {
-						if (!(failsafePPM[i] & 0x1000)) {
-							failsafePPM[i] = servoBits2Us(PPM[i]);
-						}
-					}
-					failsafeSave();
-					fs_saved = 1;
-				}
-			} else if (fs_saved) {
-				fs_saved = 0;
-			}
-			*/
 		} 
-		else {
-			// something else than servo data...
+		else { 
+			// Not PPM data. Push into serial RX buffer.
 			if ((openlrs_dev->rx_buf[0] & 0x38) == 0x38) {
 				if ((openlrs_dev->rx_buf[0] ^ tx_buf[0]) & 0x80) {
 					// We got new data... (not retransmission)
@@ -875,6 +857,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		openlrs_dev->link_acquired |= true;
 		openlrs_status.FailsafeActive = OPENLRSSTATUS_FAILSAFEACTIVE_INACTIVE;
 
+		// When telemetry is enabled we ack packets and send info about FC back
 		if (openlrs_dev->bind_data.flags & TELEMETRY_MASK) {
 			if ((tx_buf[0] ^ openlrs_dev->rx_buf[0]) & 0x40) {
 				// resend last message
@@ -917,8 +900,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			tx_packet(openlrs_dev, tx_buf, 9);
 		}
 
-		// updateSwitches();
-
+		// Once a packet has been processed, flip back into receiving mode
 		openlrs_dev->rf_mode = Receive;
 		rx_reset(openlrs_dev);
 
@@ -926,8 +908,10 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	}
 
 	if (openlrs_dev->link_acquired) {
+		// For missing packets to be properly trigger a well timed channel hop, this method should be called fairly close (but not sooner)
+		// than 1ms after the packet was expected to trigger this path
 		if ((openlrs_dev->numberOfLostPackets < openlrs_dev->hopcount) && (PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) + 1000))) {
-			DEBUG_PRINTF(2,"Lost packet: %d\r\n", openlrs_dev->numberOfLostPackets);
+			DEBUG_PRINTF(2,"OLRS WARN: Lost packet: %d\r\n", openlrs_dev->numberOfLostPackets);
 			// we lost packet, hop to next channel
 			openlrs_status.LinkQuality <<= 1;
 			openlrs_dev->willhop = 1;
@@ -938,14 +922,11 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			openlrs_dev->numberOfLostPackets++;
 			openlrs_dev->lastPacketTimeUs += getInterval(&openlrs_dev->bind_data);
 			openlrs_dev->willhop = 1;
-			//updateLBeep(true);
-			// TODO: set_RSSI_output();
 		} else if ((openlrs_dev->numberOfLostPackets >= openlrs_dev->hopcount) && (PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount))) {
-			DEBUG_PRINTF(2,"Trying to resync\r\n");
+			DEBUG_PRINTF(2,"ORLS WARN: Trying to resync\r\n");
 			// hop slowly to allow resync with TX
 			openlrs_status.LinkQuality = 0;
 			openlrs_dev->willhop = 1;
-			// TODO: set_RSSI_output();
 			openlrs_dev->lastPacketTimeUs = timeUs;
 		}
 
