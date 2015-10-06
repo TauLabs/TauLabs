@@ -406,34 +406,6 @@ gtest_clean:
 	$(V0) @echo " CLEAN        $(GTEST_DIR)"
 	$(V1) [ ! -d "$(GTEST_DIR)" ] || $(RM) -rf "$(GTEST_DIR)"
 
-.PHONY: gui_install
-MAKE_GUI_DIR := $(TOOLS_DIR)/make_gui/
-MAKE_GUI_SOURCE_DIR := $(ROOT_DIR)/shared/make_gui
-gui_install:
-	$(V1) mkdir -p "$(MAKE_GUI_DIR)/build"
-	$(V1) ( cd "$(MAKE_GUI_DIR)/build" && \
-	  $(QMAKE) $(MAKE_GUI_SOURCE_DIR)/make_gui.pro -spec $(QT_SPEC) && \
-	  $(MAKE) -w ; \
-	)
-	$(V1) [ ! -d "$(MAKE_GUI_DIR)/build" ] || $(RM) -rf "$(MAKE_GUI_DIR)/build"
-
-.PHONY: gui_clean
-gui_clean:
-	$(V0) @echo " CLEAN        $(MAKE_GUI_DIR)"
-	$(V1) [ ! -d "$(MAKE_GUI_DIR)" ] || $(RM) -rf "$(MAKE_GUI_DIR)"
-
-.PHONY: gui
-gui:
-ifeq ($(shell [ -d "$(MAKE_GUI_DIR)" ] && echo "exists"), exists)
-ifeq ($(UNAME), Darwin)
-	$(MAKE_GUI_DIR)gui.app/Contents/MacOS/gui
-else
-	$(MAKE_GUI_DIR)gui
-endif
-else
-	 @echo "make gui not installed, run make gui_install"
-endif
-
 
 # Set up astyle tools
 ASTYLE_DIR := $(TOOLS_DIR)/astyle
