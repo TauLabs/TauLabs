@@ -23,6 +23,7 @@
 <!-- These last couple are special cases, really.  le sigh -->
 				<option>I2C</option>
 				<option>PPM</option>
+				<option>PWM</option>
 			</options>
 		</field>
 

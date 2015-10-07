@@ -7,6 +7,7 @@
 #include <pios_sbus_priv.h>
 #include <pios_dsm_priv.h>
 #include <pios_ppm_priv.h>
+#include <pios_pwm_priv.h>
 #include <pios_i2c_priv.h>
 #include <pios_usb_cdc_priv.h>
 #include <pios_usb_hid_priv.h>
@@ -46,6 +47,7 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		uint32_t *i2c_id,
 		const struct pios_i2c_adapter_cfg *i2c_cfg,
 		const struct pios_ppm_cfg *ppm_cfg,
+		const struct pios_pwm_cfg *pwm_cfg,
 		uint32_t led_id,
 		/* TODO: future work to factor most of these away */
 		const struct pios_usart_cfg *usart_dsm_hsum_cfg,
