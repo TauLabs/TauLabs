@@ -370,7 +370,8 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 	uintptr_t port_driver_id;
 	uintptr_t *target=NULL, *target2=NULL;;
 
-    GPIO_Init(sbus_cfg->inv.gpio, (GPIO_InitTypeDef*)&sbus_cfg->inv.init);
+    if (sbus_toggle)
+		GPIO_Init(sbus_cfg->inv.gpio, (GPIO_InitTypeDef*)&sbus_cfg->inv.init);
 
     switch (port_type) {
 		case HWSHARED_PORTTYPES_I2C:
