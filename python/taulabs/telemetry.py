@@ -30,8 +30,8 @@ class TelemetryBase():
     def __init__(self, githash=None, service_in_iter=True,
             iter_blocks=True, use_walltime=True, do_handshaking=False,
             gcs_timestamps=False, name=None):
+
         """Instantiates a telemetry instance.  Called only by derived classes.
-        
          - githash: revision control id of the UAVO's used to communicate.
              if unspecified, we use the version in this source tree.
          - service_in_iter: whether the actual iterator should service the
@@ -82,7 +82,7 @@ class TelemetryBase():
 
     def as_numpy_array(self, match_class, filter_cond=None):
         """ Transforms all received instances of a given object to a numpy array.
-        
+
         match_class: the UAVO_* class you'd like to match.
         """
 
@@ -90,7 +90,7 @@ class TelemetryBase():
 
         # Find the subset of this list that is of the requested class
         filtered_list = filter(lambda x: isinstance(x, match_class), self)
- 
+
         # Perform any additional requested filtering
         if filter_cond is not None:
             filtered_list = filter(filter_cond, filtered_list)
@@ -98,7 +98,7 @@ class TelemetryBase():
         # Check for an empty list
         if filtered_list == []:
             return np.array([])
- 
+
         return np.array(filtered_list, dtype=match_class._dtype)
 
     def __iter__(self):
@@ -262,17 +262,17 @@ class TelemetryBase():
 class FDTelemetry(TelemetryBase):
     """
     Implementation of bidirectional telemetry from a file descriptor.
-    
+
     Intended for serial and network streams.
     """
 
     def __init__(self, fd, *args, **kwargs):
         """ Instantiates a telemetry instance on a given fd.
-        
+
         Probably should only be called by derived classes.
-        
+
          - fd: the file descriptor to perform telemetry operations upon
-        
+
         Meaningful parameters passed up to TelemetryBase include: githash,
         service_in_iter, iter_blocks, use_walltime
         """
@@ -327,13 +327,19 @@ class FDTelemetry(TelemetryBase):
         if r:
             # Shouldn't throw an exception-- they just told us
             # it was ready for read.
-            chunk = os.read(self.fd, 1024)
-            if chunk == '':
-                raise RuntimeError("stream closed")
+            try:
+                chunk = os.read(self.fd, 1024)
+                if chunk == '':
+                    raise RuntimeError("stream closed")
 
-            self.recv_buf = self.recv_buf + chunk
+                self.recv_buf = self.recv_buf + chunk
 
-            didStuff = True
+                didStuff = True
+            except OSError as err:
+                # For some reason, we sometimes get a
+                # "Resource temporarily unavailable" error
+                if err.errno != 11:
+                    raise err
 
         if w:
             written = os.write(self.fd, self.send_buf)
@@ -356,7 +362,7 @@ class NetworkTelemetry(FDTelemetry):
     """ TCP telemetry interface. """
     def __init__(self, host="127.0.0.1", port=9000, *args, **kwargs):
         """ Creates a telemetry instance talking over TCP.
-        
+
          - host: hostname to connect to (default localhost)
          - port: port number to communicate on (default 9000)
 
@@ -379,13 +385,13 @@ class SerialTelemetry(FDTelemetry):
     """ Serial telemetry interface """
     def __init__(self, port, speed=115200, *args, **kwargs):
         """ Creates telemetry instance talking over (real or virtual) serial port.
-        
+
          - port: Serial port path
          - speed: Baud rate (doesn't really matter for VCP, defaults 115200)
 
         Meaningful parameters passed up to TelemetryBase include: githash,
         service_in_iter, iter_blocks, use_walltime
-        
+
         Requires the module pyserial to provide OS independance.
         """
 
@@ -401,7 +407,7 @@ class FileTelemetry(TelemetryBase):
     def __init__(self, file_obj, parse_header=False,
              *args, **kwargs):
         """ Instantiates a telemetry instance reading from a file.
-        
+
          - file_obj: the file object to read from
          - parse_header: whether to read a header like the GCS writes from the
            file.

@@ -6,6 +6,10 @@ Licensed under the GNU LGPL version 2.1 or any later version (see COPYING.LESSER
 """
 
 import struct
+import re
+import warnings
+
+RE_SPECIAL_CHARS = re.compile('[\\.\\-\\s\\+/\\(\\)]')
 
 def flatten(lst):
     result = []
@@ -16,13 +20,14 @@ def flatten(lst):
             result.append(element)
     return result
 
+
 class UAVTupleClass():
     """ This is the prototype for a class that contains a uav object. """
 
     @classmethod
     def _make_to_send(cls, *args, **kwargs):
         """ Accepts all the uavo fields and creates an object.
-        
+
         The object is dated as of the current time, and has the name and id
         fields set properly.
         """
@@ -41,7 +46,7 @@ class UAVTupleClass():
     @classmethod
     def from_bytes(cls, data, timestamp, instance_id, offset=0):
         """ Deserializes and creates an instance of this object.
-        
+
          - data: the data to deserialize
          - timestamp: the timestamp to put on the object instance
          - offset: an optional index into data where to begin deserialization
@@ -79,6 +84,29 @@ class UAVTupleClass():
             field_values = tuple(field_values) + tuple(unpack_field_values)
 
         return cls._make(field_values)
+
+    def __repr__(self):
+        """ String representation of the contents """
+        rep = self.__class__.__name__ + '('
+        for field in self._fields:
+            field_value = getattr(self, field)
+            # Show ENUMs in a fancy way (string and value)
+            if hasattr(self, 'ENUM_' + field):
+                if not isinstance(field_value, tuple):
+                    field_value = (field_value,)
+                value_str = ''
+                this_enum = getattr(self, 'ENUM_' + field)
+                for ii, v in enumerate(field_value):
+                    value_str += '%s(%d)' % (this_enum.reverse_mapping[v], v)
+                    if ii < len(field_value) - 1:
+                        value_str += ', '
+                if len(field_value) > 1:
+                    value_str = '(%s)' % value_str
+            else:
+                value_str = str(field_value)
+            rep += '%s=%s, ' % (field, value_str)
+        rep = rep[:-2] + ')'
+        return rep
 
 type_enum_map = {
     'int8'    : 0,
@@ -148,7 +176,8 @@ def make_class(xml_file):
     for field in subs['fields']:
         info = {}
         # process typical attributes
-        for attr in ['name', 'units', 'type', 'elements', 'elementnames']:
+        for attr in ['name', 'units', 'type', 'elements', 'elementnames',
+                     'parent', 'defaultvalue']:
             info[attr] = field.get(attr)
         if field.get('cloneof'):
             # this is a clone of another field, find its data
@@ -163,16 +192,16 @@ def make_class(xml_file):
             # use the expanded/substituted info instead of the stub
             info = clone_info
         else:
-            if info['elements'] != None:
+            if info['elements'] is not None:
                 # we've got an inline "elements" attribute
                 info['elementnames'] = []
                 info['elements'] = int(field.get('elements'))
-            elif info['elementnames'] != None:
+            elif info['elementnames'] is not None:
                 # we've got an inline "elementnames" attribute
                 info['elementnames'] = []
                 info['elements'] = 0
                 for elementname in field.get('elementnames').split(','):
-                    info['elementnames'].append(elementname.strip(' '))
+                    info['elementnames'].append(RE_SPECIAL_CHARS.sub('', elementname))
                     info['elements'] += 1
             else:
                 # we must have one or more elementnames/elementname elements in this sub-tree
@@ -183,18 +212,64 @@ def make_class(xml_file):
                     info['elements'] += 1
 
             if info['type'] == 'enum':
-                info['options'] = []
+                info['options'] = {}
                 if field.get('options'):
                     # we've got an inline "options" attribute
-                    for option_text in field.get('options').split(','):
-                        info['options'].append(option_text.strip(' '))
+                    for ii, option_text in enumerate(field.get('options').split(',')):
+                        option_text = RE_SPECIAL_CHARS.sub('', option_text)
+                        info['options'][option_text] = ii
                 else:
                     # we must have some 'option' elements in this sub-tree
-                    for option_text in [option.text for option in field.findall('options/option')]:
-                        info['options'].append(option_text)
+                    for ii, option_text in enumerate([option.text
+                            for option in field.findall('options/option')]):
+                        option_text = RE_SPECIAL_CHARS.sub('', option_text)
+                        info['options'][option_text] = ii
 
             # convert type string to an int
             info['type_val'] = type_enum_map[info['type']]
+
+            # Get parent
+            if info['parent'] is not None:
+                parent_name = info['parent'].split('.')
+                field_name = RE_SPECIAL_CHARS.sub('', parent_name[1])
+                try:
+                    parent_class = globals()['UAVO_' + parent_name[0]]
+                    parent_options = getattr(parent_class, 'ENUM_' + field_name)
+                    if len(info['options']) == 0:
+                        for k, v in parent_options.reverse_mapping.iteritems():
+                            info['options'][v] = k
+                    else:
+                        info['options'] = {k: getattr(parent_options, k)
+                                           for k in info['options'].iterkeys()}
+                except Exception as err:
+                    print err
+                    raise err
+
+            # Add default values
+            if info['defaultvalue'] is not None:
+                if info['type'] == 'enum':
+                    try:
+                        values = tuple(info['options'][RE_SPECIAL_CHARS.sub('', v)]
+                                       for v in info['defaultvalue'].split(','))
+                    except KeyError:
+                        warnings.warn('Invalid default value: %s.%s has no option %s'
+                                      % (name, info['name'], info['defaultvalue']))
+                        values = (0,)
+                else:  # float or int
+                    values = tuple(float(v) for v in info['defaultvalue'].split(','))
+                    if info['type'] != float:
+                        values = tuple(int(v) for v in values)
+
+                if len(values) == 1:
+                    values = values[0]
+                info['defaultvalue'] = values
+            else:
+                # Use 0 as the default
+                info['defaultvalue'] = 0
+
+            if info['elements'] > 1 and not isinstance(info['defaultvalue'], tuple):
+                info['defaultvalue'] = (info['defaultvalue'],) * info['elements']
+
         fields.append(info)
 
     # Sort fields by size (bigger to smaller) to ensure alignment when packed
@@ -233,7 +308,7 @@ def make_class(xml_file):
 
     fmt = struct.Struct('<' + ''.join(formats))
 
-    ##### CALCULATE THE NUMPY TYPE ASSOCIATED WITH THIS CLASS ##### 
+    ##### CALCULATE THE NUMPY TYPE ASSOCIATED WITH THIS CLASS #####
     dtype  = [('name', 'S20'), ('time', 'double'), ('uavo_id', 'uint')]
 
     if not is_single_inst:
@@ -254,7 +329,7 @@ def make_class(xml_file):
 
     name = 'UAVO_' + name
 
-    class tmpClass(namedtuple(name, tuple_fields), UAVTupleClass):
+    class tmpClass(UAVTupleClass, namedtuple(name, tuple_fields)):
         _packstruct = fmt
         _flat = is_flat
         _name = name
@@ -269,9 +344,24 @@ def make_class(xml_file):
     # child classes don't get a dict / keep all their namedtuple goodness
     tuple_class = type(name, (tmpClass,), { "__slots__" : () })
 
+    # Set the default values for the constructor
+    defaults = [name, 0, uavo_id]
+    defaults.extend(f['defaultvalue'] for f in fields)
+    tuple_class.__new__.__defaults__ = tuple(defaults)
+
+    # Add enums
+    for field in fields:
+        if field['type'] == 'enum':
+            enum_name = 'ENUM_' + field['name']
+            enum = field['options']
+            enum['reverse_mapping'] = dict((value, key) for key, value in enum.iteritems())
+            enum = type(enum_name, (), enum)
+            setattr(tuple_class, enum_name, enum)
+
     globals()[tuple_class.__name__] = tuple_class
 
     return tuple_class
+
 
 class UAVOHash():
     def __init__(self):
