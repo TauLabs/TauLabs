@@ -441,7 +441,13 @@ void PIOS_Board_Init(void) {
             &pios_usart3_sbus_cfg,               // sbus_rcvr_cfg
             &pios_usart3_sbus_aux_cfg,           // sbus_cfg                
             true);                               // sbus_toggle
-    
+			
+	if (hw_uart3 == HWAQ32_UART3_FRSKYSENSORHUB)
+	{
+		GPIO_Init(pios_usart3_sbus_aux_cfg.inv.gpio, (GPIO_InitTypeDef*)&pios_usart3_sbus_aux_cfg.inv.init);
+		GPIO_WriteBit(pios_usart3_sbus_aux_cfg.inv.gpio, pios_usart3_sbus_aux_cfg.inv.init.GPIO_Pin, pios_usart3_sbus_aux_cfg.gpio_inv_enable);
+	}
+		   
     /* UART4 Port */
     uint8_t hw_uart4;
     HwAQ32Uart4Get(&hw_uart4);

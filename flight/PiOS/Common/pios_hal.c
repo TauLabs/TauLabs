@@ -370,9 +370,6 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 	uintptr_t port_driver_id;
 	uintptr_t *target=NULL, *target2=NULL;;
 
-    if (sbus_toggle)
-		GPIO_Init(sbus_cfg->inv.gpio, (GPIO_InitTypeDef*)&sbus_cfg->inv.init);
-
     switch (port_type) {
 		case HWSHARED_PORTTYPES_I2C:
 #if defined(PIOS_INCLUDE_I2C)
@@ -507,8 +504,6 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB)
 			PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, com_driver, &port_driver_id);
 			target = &pios_com_frsky_sensor_hub_id;
-			if (sbus_toggle)
-				GPIO_WriteBit(sbus_cfg->inv.gpio, sbus_cfg->inv.init.GPIO_Pin, sbus_cfg->gpio_inv_enable);
 #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 			break;
 		case HWSHARED_PORTTYPES_FRSKYSPORTTELEMETRY:
@@ -531,9 +526,11 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 			break;
         } /* port_type */
 
-        if (port_type != HWSHARED_PORTTYPES_SBUS && port_type!= HWSHARED_PORTTYPES_FRSKYSENSORHUB && sbus_toggle)
+        if (port_type != HWSHARED_PORTTYPES_SBUS && sbus_toggle) {
+                GPIO_Init(sbus_cfg->inv.gpio, (GPIO_InitTypeDef*)&sbus_cfg->inv.init);
                 GPIO_WriteBit(sbus_cfg->inv.gpio, sbus_cfg->inv.init.GPIO_Pin, sbus_cfg->gpio_inv_disable);
-
+        }
+		
 	PIOS_HAL_SetTarget(target, port_driver_id);
 	PIOS_HAL_SetTarget(target2, port_driver_id);
 }
