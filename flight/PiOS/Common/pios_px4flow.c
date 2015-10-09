@@ -223,6 +223,13 @@ static int32_t PIOS_PX4Flow_ReadData(struct pios_sensor_optical_flow_data *optic
 	if (PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list)) != 0)
 		return -1;
 
+
+	// PX4Flow docs state that `quality` is an int16, but that it only takes values
+	// from 0..255. This provides a useful check for corruption.
+	if (i2c_frame.qual < 0 || i2c_frame.qual > 255) {
+		return -1;
+	}
+
 	// Only update rangefinder queue if data is fresh
 	if (i2c_frame.sonar_timestamp > 0) {
 		rangefinder_data->range = i2c_frame.ground_distance_m1000 / 1000.0f;
