@@ -8,6 +8,8 @@ Licensed under the GNU LGPL version 2.1 or any later version (see COPYING.LESSER
 import struct
 import re
 import warnings
+import copy
+from collections import namedtuple, OrderedDict
 
 RE_SPECIAL_CHARS = re.compile('[\\.\\-\\s\\+/\\(\\)]')
 
@@ -90,18 +92,21 @@ class UAVTupleClass():
         rep = self.__class__.__name__ + '('
         for field in self._fields:
             field_value = getattr(self, field)
+
             # Show ENUMs in a fancy way (string and value)
-            if hasattr(self, 'ENUM_' + field):
+            if hasattr(self, 'ENUMR_' + field):
                 if not isinstance(field_value, tuple):
                     field_value = (field_value,)
                 value_str = ''
-                this_enum = getattr(self, 'ENUM_' + field)
+                this_enum = getattr(self, 'ENUMR_' + field)
                 for ii, v in enumerate(field_value):
-                    value_str += '%s(%d)' % (this_enum.reverse_mapping[v], v)
+                    value_str += '%s(%d)' % (this_enum[v], v)
                     if ii < len(field_value) - 1:
                         value_str += ', '
                 if len(field_value) > 1:
                     value_str = '(%s)' % value_str
+            elif field == 'uavo_id':
+                value_str = '0x%X' % field_value
             else:
                 value_str = str(field_value)
             rep += '%s=%s, ' % (field, value_str)
@@ -170,9 +175,6 @@ def make_class(xml_file):
     description = subs['description'].text
 
     ##### CONSTRUCT PROPER INTERNAL REPRESENTATION OF FIELD DATA #####
-
-    import copy
-    import re
     for field in subs['fields']:
         info = {}
         # process typical attributes
@@ -212,35 +214,33 @@ def make_class(xml_file):
                     info['elements'] += 1
 
             if info['type'] == 'enum':
-                info['options'] = {}
+                info['options'] = OrderedDict()
                 if field.get('options'):
                     # we've got an inline "options" attribute
                     for ii, option_text in enumerate(field.get('options').split(',')):
-                        option_text = RE_SPECIAL_CHARS.sub('', option_text)
-                        info['options'][option_text] = ii
+                        info['options'][option_text.strip()] = ii
                 else:
                     # we must have some 'option' elements in this sub-tree
                     for ii, option_text in enumerate([option.text
                             for option in field.findall('options/option')]):
-                        option_text = RE_SPECIAL_CHARS.sub('', option_text)
-                        info['options'][option_text] = ii
+                        info['options'][option_text.strip()] = ii
 
             # convert type string to an int
             info['type_val'] = type_enum_map[info['type']]
 
             # Get parent
             if info['parent'] is not None:
-                parent_name = info['parent'].split('.')
-                field_name = RE_SPECIAL_CHARS.sub('', parent_name[1])
+                parent_name, field_name = info['parent'].split('.')
                 try:
-                    parent_class = globals()['UAVO_' + parent_name[0]]
-                    parent_options = getattr(parent_class, 'ENUM_' + field_name)
+                    parent_class = globals()['UAVO_' + parent_name]
                     if len(info['options']) == 0:
-                        for k, v in parent_options.reverse_mapping.iteritems():
+                        parent_options = getattr(parent_class, 'ENUMR_' + field_name)
+                        for k, v in sorted(parent_options.iteritems(), key=lambda x: x[0]):
                             info['options'][v] = k
                     else:
-                        info['options'] = {k: getattr(parent_options, k)
-                                           for k in info['options'].iterkeys()}
+                        parent_options = getattr(parent_class, 'ENUM_' + field_name)
+                        for k in info['options'].iterkeys():
+                            info['options'][k] = parent_options[k]
                 except Exception as err:
                     print err
                     raise err
@@ -249,7 +249,7 @@ def make_class(xml_file):
             if info['defaultvalue'] is not None:
                 if info['type'] == 'enum':
                     try:
-                        values = tuple(info['options'][RE_SPECIAL_CHARS.sub('', v)]
+                        values = tuple(info['options'][v.strip()]
                                        for v in info['defaultvalue'].split(','))
                     except KeyError:
                         warnings.warn('Invalid default value: %s.%s has no option %s'
@@ -287,8 +287,12 @@ def make_class(xml_file):
         hash_calc.update_hash_byte(int(field['elements']))
         hash_calc.update_hash_byte(field['type_val'])
         if field['type'] == 'enum':
-            for option in field['options']:
+            next_idx = 0
+            for option, idx in field['options'].iteritems():
+                if idx != next_idx:
+                    hash_calc.update_hash_byte(idx)
                 hash_calc.update_hash_string(option)
+                next_idx = idx + 1
     uavo_id = hash_calc.get_hash()
 
     ##### FORM A STRUCT TO PACK/UNPACK THIS UAVO'S CONTENT #####
@@ -319,8 +323,6 @@ def make_class(xml_file):
 
 
     ##### DYNAMICALLY CREATE A CLASS TO CONTAIN THIS OBJECT #####
-
-    from collections import namedtuple
     tuple_fields = ['name', 'time', 'uavo_id']
     if not is_single_inst:
         tuple_fields.append("inst_id")
@@ -352,11 +354,11 @@ def make_class(xml_file):
     # Add enums
     for field in fields:
         if field['type'] == 'enum':
-            enum_name = 'ENUM_' + field['name']
             enum = field['options']
-            enum['reverse_mapping'] = dict((value, key) for key, value in enum.iteritems())
-            enum = type(enum_name, (), enum)
-            setattr(tuple_class, enum_name, enum)
+            mapping = dict((key, value) for key, value in enum.iteritems())
+            reverse_mapping = dict((value, key) for key, value in enum.iteritems())
+            setattr(tuple_class, 'ENUM_' + field['name'], mapping)
+            setattr(tuple_class, 'ENUMR_' + field['name'], reverse_mapping)
 
     globals()[tuple_class.__name__] = tuple_class
 
