@@ -327,6 +327,7 @@ class FDTelemetry(TelemetryBase):
         if r:
             # Shouldn't throw an exception-- they just told us
             # it was ready for read.
+            # TODO: Figure out why read sometimes fails when using sockets
             try:
                 chunk = os.read(self.fd, 1024)
                 if chunk == '':
