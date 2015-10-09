@@ -54,8 +54,15 @@ typedef void* InstanceHandle;
 struct ObjectEventEntry {
 	struct pios_queue         *queue;
 	UAVObjEventCallback       cb;
-	uint8_t                   eventMask;
+	uint8_t                   hasThrottle : 1;
+	uint8_t                   eventMask : 7;
 	struct ObjectEventEntry * next;
+};
+
+struct ObjectEventEntryThrottled {
+	struct ObjectEventEntry   entry;
+
+	uint32_t                  interval, due;
 };
 
 /*
@@ -157,7 +164,8 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 static InstanceHandle createInstance(struct UAVOData * obj, uint16_t instId);
 static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId);
 static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
-			UAVObjEventCallback cb, uint8_t eventMask);
+			UAVObjEventCallback cb, uint8_t eventMask,
+			uint32_t interval);
 static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 			UAVObjEventCallback cb);
 
@@ -1498,19 +1506,26 @@ int8_t UAVObjReadOnly(UAVObjHandle obj_handle)
  * \param[in] obj The object handle
  * \param[in] queue The event queue
  * \param[in] eventMask The event mask, if EV_MASK_ALL_UPDATES then all events are enabled (e.g. EV_UPDATED | EV_UPDATED_MANUAL)
+ * \param[in] interval The interval at which to throttle updates; 0 is unthrottled
  * \return 0 if success or -1 if failure
  */
-int32_t UAVObjConnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue,
-			uint8_t eventMask)
+int32_t UAVObjConnectQueueThrottle(UAVObjHandle obj_handle,
+		struct pios_queue *queue, uint8_t eventMask, uint32_t interval)
 {
 	PIOS_Assert(obj_handle);
 	PIOS_Assert(queue);
 	int32_t res;
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	res = connectObj(obj_handle, queue, 0, eventMask);
+	res = connectObj(obj_handle, queue, 0, eventMask, interval);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 	return res;
 }
+
+int32_t UAVObjConnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue,
+		uint8_t eventMask) {
+	return UAVObjConnectQueueThrottle(obj_handle, queue, eventMask, 0);
+}
+
 
 /**
  * Disconnect an event queue from the object.
@@ -1543,7 +1558,7 @@ int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb,
 	PIOS_Assert(obj_handle);
 	int32_t res;
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	res = connectObj(obj_handle, 0, cb, eventMask);
+	res = connectObj(obj_handle, 0, cb, eventMask, 0);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 	return res;
 }
@@ -1651,6 +1666,15 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 	LL_FOREACH(obj->next_event, event) {
 		if (event->eventMask == 0
 			|| (event->eventMask & triggered_event) != 0) {
+			if (event->hasThrottle) {
+#if 0
+				struct ObjectEventEntryThrottled *throtInfo =
+					(struct ObjectEventEntryThrottled *) event;
+#endif
+
+				// XXX TODO: Check throttling
+			}
+
 			// Send to queue if a valid queue is registered
 			if (event->queue) {
 				// will not block
@@ -1777,9 +1801,11 @@ static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId)
  * \return 0 if success or -1 if failure
  */
 static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
-			UAVObjEventCallback cb, uint8_t eventMask)
+			UAVObjEventCallback cb, uint8_t eventMask,
+			uint32_t interval)
 {
 	struct ObjectEventEntry *event;
+	struct ObjectEventEntryThrottled *throttled;
 	struct UAVOBase *obj;
 
 	// Check that the queue is not already connected, if it is simply update event mask
@@ -1792,14 +1818,29 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 		}
 	}
 
+	int mallocSize = sizeof(*event);
+
+	if (interval) {
+		mallocSize = sizeof(*throttled);
+	}
+
 	// Add queue to list
-	event =	(struct ObjectEventEntry *) PIOS_malloc_no_dma(sizeof(struct ObjectEventEntry));
+	event =	(struct ObjectEventEntry *) PIOS_malloc_no_dma(mallocSize);
 	if (event == NULL) {
 		return -1;
 	}
 	event->queue = queue;
 	event->cb = cb;
 	event->eventMask = eventMask;
+
+	if (interval) {
+		event->hasThrottle = 1;
+		throttled = (struct ObjectEventEntryThrottled *) event;
+
+		throttled->interval = interval;
+		/* XXX TODO throttled->due = ... */
+	}
+
 	LL_APPEND(obj->next_event, event);
 
 	// Done
