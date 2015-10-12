@@ -827,6 +827,9 @@ static bool updateRcvrActivityCompare(uintptr_t rcvr_id, struct rcvr_activity_fs
 			case MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM:
 				group = RECEIVERACTIVITY_ACTIVEGROUP_HOTTSUM;
 				break;
+			case MANUALCONTROLSETTINGS_CHANNELGROUPS_JETIEX:
+				group = RECEIVERACTIVITY_ACTIVEGROUP_JETIEX;
+				break;
 			default:
 				set_manual_control_error(SYSTEMALARMS_MANUALCONTROL_UNDEFINED);
 				group = RECEIVERACTIVITY_ACTIVEGROUP_PWM;

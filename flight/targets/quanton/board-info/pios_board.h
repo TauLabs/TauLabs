@@ -217,6 +217,12 @@ extern uintptr_t pios_com_debug_id;
 #define PIOS_HSUM_NUM_INPUTS			32
 
 //-------------------------
+// Receiver EXBUS input
+//-------------------------
+#define PIOS_EXBUS_MAX_DEVS				2
+#define PIOS_EXBUS_NUM_INPUTS			16
+
+//-------------------------
 // Receiver S.Bus input
 //-------------------------
 #define PIOS_SBUS_NUM_INPUTS			(16+2)

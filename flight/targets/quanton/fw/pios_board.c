@@ -298,6 +298,30 @@ static void PIOS_Board_configure_hsum(const struct pios_usart_cfg *pios_usart_hs
 }
 #endif
 
+#ifdef PIOS_INCLUDE_EXBUS
+static void PIOS_Board_configure_exbus(const struct pios_usart_cfg *pios_usart_exbus_cfg,
+		const struct pios_com_driver *pios_usart_com_driver,
+		ManualControlSettingsChannelGroupsOptions channelgroup)
+{
+	uintptr_t pios_usart_exbus_id;
+	if (PIOS_USART_Init(&pios_usart_exbus_id, pios_usart_exbus_cfg)) {
+		PIOS_Assert(0);
+	}
+
+	uintptr_t pios_exbus_id;
+	if (PIOS_EXBUS_Init(&pios_exbus_id, pios_usart_com_driver,
+			pios_usart_exbus_id)) {
+		PIOS_Assert(0);
+	}
+
+	uintptr_t pios_exbus_rcvr_id;
+	if (PIOS_RCVR_Init(&pios_exbus_rcvr_id, &pios_exbus_rcvr_driver, pios_exbus_id)) {
+		PIOS_Assert(0);
+	}
+	pios_rcvr_group_map[channelgroup] = pios_exbus_rcvr_id;
+}
+#endif
+
 /**
  * Indicate a target-specific error code when a component fails to initialize
  * 1 pulse - flash chip
@@ -669,6 +693,14 @@ void PIOS_Board_Init(void) {
 				&proto, MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM);
 		}
 #endif	/* PIOS_INCLUDE_HSUM */
+		break;
+	case HWQUANTON_UART1_JETIEXBUS:
+#if defined(PIOS_INCLUDE_EXBUS)
+		{
+			PIOS_Board_configure_exbus(&pios_usart1_exbus_cfg, &pios_usart_com_driver,
+				MANUALCONTROLSETTINGS_CHANNELGROUPS_JETIEX);
+		}
+#endif	/* PIOS_INCLUDE_EXBUS */
 		break;
 	case HWQUANTON_UART1_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)

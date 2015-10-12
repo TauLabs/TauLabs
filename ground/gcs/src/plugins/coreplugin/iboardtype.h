@@ -165,6 +165,7 @@ public:
         INPUT_TYPE_SBUS,
         INPUT_TYPE_HOTTSUMD,
         INPUT_TYPE_HOTTSUMH,
+        INPUT_TYPE_JETIEX,
         INPUT_TYPE_UNKNOWN
     };
 

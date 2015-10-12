@@ -394,6 +394,9 @@ void VehicleConfigurationHelper::applyManualControlDefaults()
     case Core::IBoardType::INPUT_TYPE_HOTTSUMH:
         channelType = ManualControlSettings::CHANNELGROUPS_HOTTSUM;
         break;
+    case Core::IBoardType::INPUT_TYPE_JETIEX:
+        channelType = ManualControlSettings::CHANNELGROUPS_JETIEX;
+        break;
     default:
         break;
     }
