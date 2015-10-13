@@ -13,7 +13,6 @@
  * @file       actuator.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2015
- * @author     dRonin, http://dronin.org, Copyright (C) 2015.
  * @brief      Actuator module. Drives the actuators (servos, motors etc).
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -761,11 +760,11 @@ static int8_t *get_mixer_vec(int idx)
 	}
 }
 
-#define OUTPUT_MODE_ASSUMPTIONS ( PWM_MODE_1MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_1MHZ ) && \
-	( PWM_MODE_12MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_12MHZ )
-#if !(OUTPUT_MODE_ASSUMPTIONS)
-    #error "ActuatorSettings.TimerPwmResolution does not match PWM_MODE enum"
-#endif
+#define OUTPUT_MODE_ASSUMPTIONS ( ( (int) PWM_MODE_1MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_1MHZ ) && \
+	( (int) PWM_MODE_12MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_12MHZ ) )
+
+DONT_BUILD_IF(!OUTPUT_MODE_ASSUMPTIONS, OutputModeAssumptions);
+
 /**
  * @}
  * @}

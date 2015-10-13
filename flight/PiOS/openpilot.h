@@ -44,6 +44,8 @@
 /* Global Functions */
 void OpenPilotInit(void);
 
+#define DONT_BUILD_IF(COND,MSG) typedef char static_assertion_##MSG[(COND)?-1:1]
+
 #endif /* OPENPILOT_H */
 
 /**
