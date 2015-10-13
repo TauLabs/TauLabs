@@ -198,7 +198,6 @@ static void actuator_task(void* parameters)
 {
 	uint32_t lastSysTime;
 	float dT = 0.0f;
-	bool first = true;
 
 	ActuatorCommandData command;
 	ActuatorDesiredData desired;
@@ -210,22 +209,10 @@ static void actuator_task(void* parameters)
 
 	// Main task loop
 	lastSysTime = PIOS_Thread_Systime();
+
+	bool rc = false;
+
 	while (1) {
-		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
-
-		bool rc = false;
-
-		// If it's our first iteration, fall down to getting the
-		// config and enabling failsafe.
-		if (!first) {
-			UAVObjEvent ev;
-			// Wait until the ActuatorDesired object is updated
-			rc = PIOS_Queue_Receive(queue, &ev, FAILSAFE_TIMEOUT_MS);
-		} else {
-			first = false;
-		}
-
-		/* Process settings updated events even in timeout case so we always act on the latest settings */
 		if (settings_updated) {
 			settings_updated = false;
 			ActuatorSettingsGet(&actuatorSettings);
@@ -234,8 +221,21 @@ static void actuator_task(void* parameters)
 		}
 
 		if (rc != true) {
-			/* Update of ActuatorDesired timed out.  Go to failsafe */
+			/* Update of ActuatorDesired timed out,
+			 * or first iteration.  Go to failsafe */
 			set_failsafe();
+		}
+
+		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
+
+		UAVObjEvent ev;
+
+		// Wait until the ActuatorDesired object is updated
+		rc = PIOS_Queue_Receive(queue, &ev, FAILSAFE_TIMEOUT_MS);
+
+		/* If we timed out, go to top of loop, which sets failsafe
+		 * and waits again. */
+		if (rc != true) {
 			continue;
 		}
 
