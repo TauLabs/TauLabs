@@ -180,6 +180,7 @@ SRC += $(PIOSPOSIX)/pios_led.c
 SRC += $(PIOSPOSIX)/pios_wdg.c
 SRC += $(PIOSPOSIX)/pios_bl_helper.c
 SRC += $(PIOSPOSIX)/pios_iap.c
+SRC += $(PIOSPOSIX)/pios_reset.c
 SRC += $(PIOSPOSIX)/pios_servo.c
 SRC += $(PIOSPOSIX)/pios_sys.c
 SRC += $(PIOSPOSIX)/pios_tcp.c

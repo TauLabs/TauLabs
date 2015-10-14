@@ -68,6 +68,19 @@
 			</options>
 		</field>
 
+		<field name="RebootCause" units="" type="enum" elements="1" defaultvalue="Undefined">
+			<options>
+				<option>Brown out</option>
+				<option>Pin reset</option>
+				<option>Power on reset</option>
+				<option>Software reset</option>
+				<option>Independent watchdog</option>
+				<option>Window watchdog</option>
+				<option>Low power</option>
+				<option>Undefined</option>
+			</options>
+		</field>
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>
