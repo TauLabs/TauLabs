@@ -135,6 +135,9 @@ public:
     int findOptionIndex(FieldInfo *field, quint32 inputIdx);
 
     int getNumBytes(int objIndex);
+
+    quint64 getUavoHash();
+
     QStringList all_units;
 
 private:
@@ -145,6 +148,7 @@ private:
     QStringList updateModeStrXML;
     QStringList accessModeStr;
     QStringList accessModeStrXML;
+    quint64 uavoHash;
 
     QString genErrorMsg(QString& fileName, QString errMsg, int errorLine, int errorCol);
 

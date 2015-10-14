@@ -36,6 +36,8 @@
 #include "uavdataobject.h"
 #include "uavobjectmanager.h"
 
+#include "uavogcsversion.h"
+
 $(PARENT_INCLUDES)
 
 class UAVOBJECTS_EXPORT $(NAME): public UAVDataObject
