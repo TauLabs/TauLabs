@@ -44,7 +44,6 @@
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
 
-
 /**
  * Sensor configurations
  */
@@ -213,6 +212,7 @@ uintptr_t pios_internal_adc_id;
 uintptr_t pios_com_frsky_sport_id;
 
 uintptr_t streamfs_id;
+uintptr_t external_i2c_adapter_id = 0;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -625,6 +625,8 @@ void PIOS_Board_Init(void) {
 		if (PIOS_I2C_CheckClear(pios_i2c_usart1_adapter_id) != 0)
 			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
+		external_i2c_adapter_id = pios_i2c_usart1_adapter_id;
+
 #if defined(PIOS_INCLUDE_HMC5883)
 		{
 			uint8_t Magnetometer;
@@ -639,6 +641,7 @@ void PIOS_Board_Init(void) {
 			}
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */
+
 #endif /* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART1_DSM:
@@ -860,6 +863,8 @@ void PIOS_Board_Init(void) {
 		if (PIOS_I2C_CheckClear(pios_i2c_usart3_adapter_id) != 0)
 			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
+		external_i2c_adapter_id = pios_i2c_usart3_adapter_id;
+
 #if defined(PIOS_INCLUDE_HMC5883)
 		{
 			uint8_t Magnetometer;
@@ -874,6 +879,7 @@ void PIOS_Board_Init(void) {
 			}
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */
+
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART3_DSM:

@@ -38,6 +38,8 @@ UAVOBJSRCFILENAMES += loggingstats
 UAVOBJSRCFILENAMES += hwquanton
 UAVOBJSRCFILENAMES += altitudeholdstate
 UAVOBJSRCFILENAMES += hottsettings
+UAVOBJSRCFILENAMES += opticalflow
+UAVOBJSRCFILENAMES += opticalflowsettings
 UAVOBJSRCFILENAMES += picocsettings
 UAVOBJSRCFILENAMES += picocstatus
 
