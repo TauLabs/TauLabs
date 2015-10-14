@@ -80,6 +80,7 @@ static uint32_t idleCounterClear;
 static struct pios_thread *systemTaskHandle;
 static struct pios_queue *objectPersistenceQueue;
 static bool stackOverflow;
+static uint8_t stackOverflowedName[SYSTEMALARMS_STACKOVERFLOWCODE_NUMELEM];
 
 // Private functions
 static void objectUpdatedCb(UAVObjEvent * ev);
@@ -537,6 +538,7 @@ static void updateSystemAlarms()
 	// Check for stack overflow
 	if (stackOverflow) {
 		AlarmsSet(SYSTEMALARMS_ALARM_STACKOVERFLOW, SYSTEMALARMS_ALARM_CRITICAL);
+		SystemAlarmsStackOverflowCodeSet(stackOverflowedName);
 	} else {
 		AlarmsClear(SYSTEMALARMS_ALARM_STACKOVERFLOW);
 	}
@@ -609,6 +611,9 @@ void vApplicationIdleHook(void)
 void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
 {
 	stackOverflow = true;
+	for (int i=0; i< SYSTEMALARMS_STACKOVERFLOWCODE_NUMELEM; i++) {
+		stackOverflowedName[i] = pcTaskName[i];
+	}
 #if DEBUG_STACK_OVERFLOW
 	static volatile bool wait_here = true;
 	while(wait_here);
