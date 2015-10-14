@@ -50,7 +50,7 @@ uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_mavlink_id;
 #endif
 
-#if defined(PIOS_INCLUDE_HOTT) 
+#if defined(PIOS_INCLUDE_HOTT)
 uintptr_t pios_com_hott_id;
 #endif
 
@@ -166,23 +166,24 @@ uintptr_t pios_com_debug_id;
  * @param[in] led_id The LED to blink
  * @param[in] code Number of blinks to do in a row
  */
-void PIOS_HAL_Panic(uint32_t led_id, int32_t code) {
-        while(1){
-                for (int32_t i = 0; i < code; i++) {
-                        PIOS_WDG_Clear();
-                        PIOS_LED_Toggle(led_id);
-                        PIOS_DELAY_WaitmS(200);
-                        PIOS_WDG_Clear();
-                        PIOS_LED_Toggle(led_id);
-                        PIOS_DELAY_WaitmS(200);
-                }
-                PIOS_DELAY_WaitmS(200);
-                PIOS_WDG_Clear();
-                PIOS_DELAY_WaitmS(200);
-                PIOS_WDG_Clear();
-                PIOS_DELAY_WaitmS(100);
-                PIOS_WDG_Clear();
-        }
+void PIOS_HAL_Panic(uint32_t led_id, int32_t code)
+{
+	while (1) {
+		for (int32_t i = 0; i < code; i++) {
+			PIOS_WDG_Clear();
+			PIOS_LED_Toggle(led_id);
+			PIOS_DELAY_WaitmS(200);
+			PIOS_WDG_Clear();
+			PIOS_LED_Toggle(led_id);
+			PIOS_DELAY_WaitmS(200);
+		}
+		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(200);
+		PIOS_WDG_Clear();
+		PIOS_DELAY_WaitmS(100);
+		PIOS_WDG_Clear();
+	}
 }
 
 /**
@@ -194,7 +195,8 @@ void PIOS_HAL_Panic(uint32_t led_id, int32_t code) {
  * @param[out] target place dedicated for this role to store device id
  * @param[in] value handle of the device to store into this role.
  */
-static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value) {
+static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value)
+{
 	if (target) {
 #ifndef PIOS_NO_ALARMS
 		if (*target) {
@@ -211,8 +213,9 @@ static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value) {
  *
  * @param[in] receiver_type the receiver type index from MANUALCONTROL
  * @param[in] value handle of the device instance
- */ 
-static void PIOS_HAL_SetReceiver(int receiver_type, uintptr_t value) {
+ */
+static void PIOS_HAL_SetReceiver(int receiver_type, uintptr_t value)
+{
 	PIOS_HAL_SetTarget(pios_rcvr_group_map + receiver_type, value);
 }
 
@@ -228,34 +231,34 @@ static void PIOS_HAL_SetReceiver(int receiver_type, uintptr_t value) {
  */
 void PIOS_HAL_ConfigureCom(const struct pios_usart_cfg *usart_port_cfg,
 		size_t rx_buf_len, size_t tx_buf_len,
-                const struct pios_com_driver *com_driver, uintptr_t *com_id)
+		const struct pios_com_driver *com_driver, uintptr_t *com_id)
 {
-        uintptr_t usart_id;
-        if (PIOS_USART_Init(&usart_id, usart_port_cfg)) {
-                PIOS_Assert(0);
-        }
+	uintptr_t usart_id;
+	if (PIOS_USART_Init(&usart_id, usart_port_cfg)) {
+		PIOS_Assert(0);
+	}
 
-        uint8_t * rx_buffer;
-        if (rx_buf_len > 0) {
-                rx_buffer = (uint8_t *) PIOS_malloc(rx_buf_len);
-                PIOS_Assert(rx_buffer);
-        } else {
-                rx_buffer = NULL;
-        }
+	uint8_t * rx_buffer;
+	if (rx_buf_len > 0) {
+		rx_buffer = (uint8_t *) PIOS_malloc(rx_buf_len);
+		PIOS_Assert(rx_buffer);
+	} else {
+		rx_buffer = NULL;
+	}
 
-        uint8_t * tx_buffer;
-        if (tx_buf_len > 0) {
-                tx_buffer = (uint8_t *) PIOS_malloc(tx_buf_len);
-                PIOS_Assert(tx_buffer);
-        } else {
-                tx_buffer = NULL;
-        }
+	uint8_t * tx_buffer;
+	if (tx_buf_len > 0) {
+		tx_buffer = (uint8_t *) PIOS_malloc(tx_buf_len);
+		PIOS_Assert(tx_buffer);
+	} else {
+		tx_buffer = NULL;
+	}
 
-        if (PIOS_COM_Init(com_id, com_driver, usart_id,
-                                rx_buffer, rx_buf_len,
-                                tx_buffer, tx_buf_len)) {
-                PIOS_Assert(0);
-        }
+	if (PIOS_COM_Init(com_id, com_driver, usart_id,
+				rx_buffer, rx_buf_len,
+				tx_buffer, tx_buf_len)) {
+		PIOS_Assert(0);
+	}
 }
 #endif  /* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
 
@@ -269,25 +272,25 @@ void PIOS_HAL_ConfigureCom(const struct pios_usart_cfg *usart_port_cfg,
  * @param[in] mode Mode in which to operate DSM driver; encapsulates binding
  */
 static void PIOS_HAL_ConfigureDSM(const struct pios_usart_cfg *usart_dsm_cfg,
-	const struct pios_dsm_cfg *dsm_cfg,
-	const struct pios_com_driver *usart_com_driver,
-	HwSharedDSMxModeOptions mode)
+		const struct pios_dsm_cfg *dsm_cfg,
+		const struct pios_com_driver *usart_com_driver,
+		HwSharedDSMxModeOptions mode)
 {
-        uintptr_t usart_dsm_id;
-        if (PIOS_USART_Init(&usart_dsm_id, usart_dsm_cfg)) {
-                PIOS_Assert(0);
-        }
-        
-        uintptr_t dsm_id;
-        if (PIOS_DSM_Init(&dsm_id, dsm_cfg, usart_com_driver,
-                        usart_dsm_id, mode)) {
-                PIOS_Assert(0);
-        }
-        
-        uintptr_t dsm_rcvr_id;
-        if (PIOS_RCVR_Init(&dsm_rcvr_id, &pios_dsm_rcvr_driver, dsm_id)) {
-                PIOS_Assert(0);
-        }
+	uintptr_t usart_dsm_id;
+	if (PIOS_USART_Init(&usart_dsm_id, usart_dsm_cfg)) {
+		PIOS_Assert(0);
+	}
+
+	uintptr_t dsm_id;
+	if (PIOS_DSM_Init(&dsm_id, dsm_cfg, usart_com_driver,
+				usart_dsm_id, mode)) {
+		PIOS_Assert(0);
+	}
+
+	uintptr_t dsm_rcvr_id;
+	if (PIOS_RCVR_Init(&dsm_rcvr_id, &pios_dsm_rcvr_driver, dsm_id)) {
+		PIOS_Assert(0);
+	}
 	PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_DSM, dsm_rcvr_id);
 }
 
@@ -302,24 +305,24 @@ static void PIOS_HAL_ConfigureDSM(const struct pios_usart_cfg *usart_dsm_cfg,
  * @param[in] proto SUMH/SUMD?
  */
 static void PIOS_HAL_ConfigureHSUM(const struct pios_usart_cfg *usart_hsum_cfg,
-                const struct pios_com_driver *usart_com_driver,
+		const struct pios_com_driver *usart_com_driver,
 		enum pios_hsum_proto *proto)
 {
-        uintptr_t usart_hsum_id;
-        if (PIOS_USART_Init(&usart_hsum_id, usart_hsum_cfg)) {
-                PIOS_Assert(0);
-        }
-        
-        uintptr_t hsum_id;
-        if (PIOS_HSUM_Init(&hsum_id, usart_com_driver,
-                           usart_hsum_id, *proto)) {
-                PIOS_Assert(0);
-        }
-        
-        uintptr_t hsum_rcvr_id;
-        if (PIOS_RCVR_Init(&hsum_rcvr_id, &pios_hsum_rcvr_driver, hsum_id)) {
-                PIOS_Assert(0);
-        }
+	uintptr_t usart_hsum_id;
+	if (PIOS_USART_Init(&usart_hsum_id, usart_hsum_cfg)) {
+		PIOS_Assert(0);
+	}
+
+	uintptr_t hsum_id;
+	if (PIOS_HSUM_Init(&hsum_id, usart_com_driver,
+				usart_hsum_id, *proto)) {
+		PIOS_Assert(0);
+	}
+
+	uintptr_t hsum_rcvr_id;
+	if (PIOS_RCVR_Init(&hsum_rcvr_id, &pios_hsum_rcvr_driver, hsum_id)) {
+		PIOS_Assert(0);
+	}
 
 	PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_HOTTSUM,
 			hsum_rcvr_id);
@@ -351,186 +354,187 @@ static void PIOS_HAL_ConfigureHSUM(const struct pios_usart_cfg *usart_hsum_cfg,
  * @param[in] sbus_toggle Whether there is SBUS inverters to touch on this port
  */
 void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
-	const struct pios_usart_cfg *usart_port_cfg, 
-	const struct pios_com_driver *com_driver, 
-	uint32_t *i2c_id,
-	const struct pios_i2c_adapter_cfg *i2c_cfg,
-	const struct pios_ppm_cfg *ppm_cfg,
-	const struct pios_pwm_cfg *pwm_cfg,
-	uint32_t led_id,
+		const struct pios_usart_cfg *usart_port_cfg,
+		const struct pios_com_driver *com_driver,
+		uint32_t *i2c_id,
+		const struct pios_i2c_adapter_cfg *i2c_cfg,
+		const struct pios_ppm_cfg *ppm_cfg,
+		const struct pios_pwm_cfg *pwm_cfg,
+		uint32_t led_id,
 /* TODO: future work to factor most of these away */
-	const struct pios_usart_cfg *usart_dsm_hsum_cfg,
-	const struct pios_dsm_cfg *dsm_cfg,
-	HwSharedDSMxModeOptions dsm_mode,
-	const struct pios_usart_cfg *sbus_rcvr_cfg,
-	const struct pios_sbus_cfg *sbus_cfg,
-	bool sbus_toggle
-	)
+		const struct pios_usart_cfg *usart_dsm_hsum_cfg,
+		const struct pios_dsm_cfg *dsm_cfg,
+		HwSharedDSMxModeOptions dsm_mode,
+		const struct pios_usart_cfg *sbus_rcvr_cfg,
+		const struct pios_sbus_cfg *sbus_cfg,
+		bool sbus_toggle
+		)
 {
 	uintptr_t port_driver_id;
-	uintptr_t *target=NULL, *target2=NULL;;
+	uintptr_t *target = NULL, *target2 = NULL;;
 
-    switch (port_type) {
-		case HWSHARED_PORTTYPES_I2C:
+	switch (port_type) {
+	case HWSHARED_PORTTYPES_I2C:
 #if defined(PIOS_INCLUDE_I2C)
-			if (i2c_id && i2c_cfg) {
-				if (PIOS_I2C_Init(i2c_id, i2c_cfg)) {
-					PIOS_Assert(0);
-				}
-				if (PIOS_I2C_CheckClear(*i2c_id) != 0)
-					PIOS_HAL_Panic(led_id, 6);
+		if (i2c_id && i2c_cfg) {
+			if (PIOS_I2C_Init(i2c_id, i2c_cfg)) {
+				PIOS_Assert(0);
 			}
+			if (PIOS_I2C_CheckClear(*i2c_id) != 0)
+				PIOS_HAL_Panic(led_id, 6);
+		}
 #endif  /* PIOS_INCLUDE_I2C */
-			break;
-		case HWSHARED_PORTTYPES_PPM:
+		break;
+	case HWSHARED_PORTTYPES_PPM:
 #if defined(PIOS_INCLUDE_PPM)
-			if (ppm_cfg) { 
-				uintptr_t ppm_id;
-				PIOS_PPM_Init(&ppm_id, ppm_cfg);
+		if (ppm_cfg) {
+			uintptr_t ppm_id;
+			PIOS_PPM_Init(&ppm_id, ppm_cfg);
 
-				uintptr_t ppm_rcvr_id;
-				if (PIOS_RCVR_Init(&ppm_rcvr_id, &pios_ppm_rcvr_driver, ppm_id)) {
-					PIOS_Assert(0);
-				}
-
-				PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM, ppm_rcvr_id);
+			uintptr_t ppm_rcvr_id;
+			if (PIOS_RCVR_Init(&ppm_rcvr_id, &pios_ppm_rcvr_driver, ppm_id)) {
+				PIOS_Assert(0);
 			}
+
+			PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_PPM, ppm_rcvr_id);
+		}
 #endif  /* PIOS_INCLUDE_PPM */
-			break;
+		break;
 
-		case HWSHARED_PORTTYPES_PWM:
+	case HWSHARED_PORTTYPES_PWM:
 #if defined(PIOS_INCLUDE_PWM)
-			if (pwm_cfg) { 
-				uintptr_t pwm_id;
-				PIOS_PWM_Init(&pwm_id, pwm_cfg);
+		if (pwm_cfg) {
+			uintptr_t pwm_id;
+			PIOS_PWM_Init(&pwm_id, pwm_cfg);
 
-				uintptr_t pwm_rcvr_id;
-				if (PIOS_RCVR_Init(&pwm_rcvr_id, &pios_pwm_rcvr_driver, pwm_id)) {
-					PIOS_Assert(0);
-				}
-
-				PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM, pwm_rcvr_id);
+			uintptr_t pwm_rcvr_id;
+			if (PIOS_RCVR_Init(&pwm_rcvr_id, &pios_pwm_rcvr_driver, pwm_id)) {
+				PIOS_Assert(0);
 			}
+
+			PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_PWM, pwm_rcvr_id);
+		}
 #endif  /* PIOS_INCLUDE_PWM */
-			break;
+		break;
 
-		case HWSHARED_PORTTYPES_DISABLED:
-			break;
-		case HWSHARED_PORTTYPES_TELEMETRY:
-			PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, com_driver, &port_driver_id);
-			target = &pios_com_telem_serial_id;
-			break;
-		case HWSHARED_PORTTYPES_GPS:
-			PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, com_driver, &port_driver_id);
-			target = &pios_com_gps_id;
-			break;
-		case HWSHARED_PORTTYPES_DSM:
+	case HWSHARED_PORTTYPES_DISABLED:
+		break;
+	case HWSHARED_PORTTYPES_TELEMETRY:
+		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, com_driver, &port_driver_id);
+		target = &pios_com_telem_serial_id;
+		break;
+	case HWSHARED_PORTTYPES_GPS:
+		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, com_driver, &port_driver_id);
+		target = &pios_com_gps_id;
+		break;
+	case HWSHARED_PORTTYPES_DSM:
 #if defined(PIOS_INCLUDE_DSM)
-			if (dsm_cfg && usart_dsm_hsum_cfg) {
-				PIOS_HAL_ConfigureDSM(usart_dsm_hsum_cfg, dsm_cfg, com_driver, dsm_mode);
-			}
+		if (dsm_cfg && usart_dsm_hsum_cfg) {
+			PIOS_HAL_ConfigureDSM(usart_dsm_hsum_cfg, dsm_cfg, com_driver, dsm_mode);
+		}
 #endif  /* PIOS_INCLUDE_DSM */
-			break;
-		case HWSHARED_PORTTYPES_SBUS:
+		break;
+	case HWSHARED_PORTTYPES_SBUS:
 #if defined(PIOS_INCLUDE_SBUS) && defined(PIOS_INCLUDE_USART)
-			if (sbus_cfg && sbus_rcvr_cfg) {
-				uintptr_t usart_sbus_id;
-				if (PIOS_USART_Init(&usart_sbus_id, sbus_rcvr_cfg)) {
-					PIOS_Assert(0);
-				}
-				uintptr_t sbus_id;
-				if (PIOS_SBus_Init(&sbus_id, sbus_cfg, com_driver, usart_sbus_id)) {
-					PIOS_Assert(0);
-				}
-				uintptr_t sbus_rcvr_id;
-				if (PIOS_RCVR_Init(&sbus_rcvr_id, &pios_sbus_rcvr_driver, sbus_id)) {
-					PIOS_Assert(0);
-				}
-				PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS, sbus_rcvr_id);
-				pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = sbus_rcvr_id;
+		if (sbus_cfg && sbus_rcvr_cfg) {
+			uintptr_t usart_sbus_id;
+			if (PIOS_USART_Init(&usart_sbus_id, sbus_rcvr_cfg)) {
+				PIOS_Assert(0);
 			}
+			uintptr_t sbus_id;
+			if (PIOS_SBus_Init(&sbus_id, sbus_cfg, com_driver, usart_sbus_id)) {
+				PIOS_Assert(0);
+			}
+			uintptr_t sbus_rcvr_id;
+			if (PIOS_RCVR_Init(&sbus_rcvr_id, &pios_sbus_rcvr_driver, sbus_id)) {
+				PIOS_Assert(0);
+			}
+			PIOS_HAL_SetReceiver(MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS, sbus_rcvr_id);
+			pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS] = sbus_rcvr_id;
+		}
 #endif  /* PIOS_INCLUDE_SBUS */
-			break;
-		case HWSHARED_PORTTYPES_HOTTSUMD:
-		case HWSHARED_PORTTYPES_HOTTSUMH:
+		break;
+	case HWSHARED_PORTTYPES_HOTTSUMD:
+	case HWSHARED_PORTTYPES_HOTTSUMH:
 #if defined(PIOS_INCLUDE_HSUM)
-			if (usart_dsm_hsum_cfg) { 
-				enum pios_hsum_proto proto;
-				switch (port_type) {
-					case HWSHARED_PORTTYPES_HOTTSUMD:
-						proto = PIOS_HSUM_PROTO_SUMD;
-						break;
-					case HWSHARED_PORTTYPES_HOTTSUMH:
-						proto = PIOS_HSUM_PROTO_SUMH;
-						break;
-					default:
-						PIOS_Assert(0);
-						break;
-				}
-				PIOS_HAL_ConfigureHSUM(usart_dsm_hsum_cfg, com_driver, &proto);
+		if (usart_dsm_hsum_cfg) {
+			enum pios_hsum_proto proto;
+			switch (port_type) {
+			case HWSHARED_PORTTYPES_HOTTSUMD:
+				proto = PIOS_HSUM_PROTO_SUMD;
+				break;
+			case HWSHARED_PORTTYPES_HOTTSUMH:
+				proto = PIOS_HSUM_PROTO_SUMH;
+				break;
+			default:
+				PIOS_Assert(0);
+				break;
 			}
+			PIOS_HAL_ConfigureHSUM(usart_dsm_hsum_cfg, com_driver, &proto);
+		}
 #endif  /* PIOS_INCLUDE_HSUM */
-			break;
-		case HWSHARED_PORTTYPES_DEBUGCONSOLE:
+		break;
+	case HWSHARED_PORTTYPES_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-			PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, com_driver, &port_driver_id);
-			target = &pios_com_debug_id;
+		PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, com_driver, &port_driver_id);
+		target = &pios_com_debug_id;
 #endif  /* PIOS_INCLUDE_DEBUG_CONSOLE */
-			break;
-		case HWSHARED_PORTTYPES_COMBRIDGE:
-			PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, com_driver, &port_driver_id);
-			target = &pios_com_bridge_id;
-			break;
-		case HWSHARED_PORTTYPES_MAVLINKTX:
+		break;
+	case HWSHARED_PORTTYPES_COMBRIDGE:
+		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, com_driver, &port_driver_id);
+		target = &pios_com_bridge_id;
+		break;
+	case HWSHARED_PORTTYPES_MAVLINKTX:
 #if defined(PIOS_INCLUDE_MAVLINK)
-			PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, com_driver, &port_driver_id);
-			target = &pios_com_mavlink_id;
+		PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, com_driver, &port_driver_id);
+		target = &pios_com_mavlink_id;
 #endif          /* PIOS_INCLUDE_MAVLINK */
-			break;
-		case HWSHARED_PORTTYPES_MAVLINKTX_GPS_RX:
+		break;
+	case HWSHARED_PORTTYPES_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_MAVLINK)
-			PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, com_driver, &port_driver_id);
-			target = &pios_com_mavlink_id;
-			target2 = &pios_com_gps_id;
+		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, com_driver, &port_driver_id);
+		target = &pios_com_mavlink_id;
+		target2 = &pios_com_gps_id;
 #endif          /* PIOS_INCLUDE_MAVLINK */
-			break;
-		case HWSHARED_PORTTYPES_HOTTTELEMETRY:
+		break;
+	case HWSHARED_PORTTYPES_HOTTTELEMETRY:
 #if defined(PIOS_INCLUDE_HOTT)
-			PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, com_driver, &port_driver_id);
-			target = &pios_com_hott_id;
+		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, com_driver, &port_driver_id);
+		target = &pios_com_hott_id;
 #endif /* PIOS_INCLUDE_HOTT */
-			break;
-		case HWSHARED_PORTTYPES_FRSKYSENSORHUB:
+		break;
+	case HWSHARED_PORTTYPES_FRSKYSENSORHUB:
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB)
-			PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, com_driver, &port_driver_id);
-			target = &pios_com_frsky_sensor_hub_id;
+		PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, com_driver, &port_driver_id);
+		target = &pios_com_frsky_sensor_hub_id;
 #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
-			break;
-		case HWSHARED_PORTTYPES_FRSKYSPORTTELEMETRY:
+		break;
+	case HWSHARED_PORTTYPES_FRSKYSPORTTELEMETRY:
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
-			PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, com_driver, &port_driver_id);
-			target = &pios_com_frsky_sport_id;
+		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, com_driver,
+				&port_driver_id);
+		target = &pios_com_frsky_sport_id;
 #endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
-			break;
-		case HWSHARED_PORTTYPES_LIGHTTELEMETRYTX:
+		break;
+	case HWSHARED_PORTTYPES_LIGHTTELEMETRYTX:
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
-			PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, com_driver, &port_driver_id);
-			target = &pios_com_lighttelemetry_id;
-#endif 
-			break;
-		case HWSHARED_PORTTYPES_PICOC:
+		PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, com_driver, &port_driver_id);
+		target = &pios_com_lighttelemetry_id;
+#endif
+		break;
+	case HWSHARED_PORTTYPES_PICOC:
 #if defined(PIOS_INCLUDE_PICOC)
-			PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, com_driver, &port_driver_id);
-			target = &pios_com_picoc_id;
+		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, com_driver, &port_driver_id);
+		target = &pios_com_picoc_id;
 #endif /* PIOS_INCLUDE_PICOC */
-			break;
-        } /* port_type */
+		break;
+	} /* port_type */
 
-        if (port_type != HWSHARED_PORTTYPES_SBUS && sbus_toggle) {
-                GPIO_Init(sbus_cfg->inv.gpio, (GPIO_InitTypeDef*)&sbus_cfg->inv.init);
-                GPIO_WriteBit(sbus_cfg->inv.gpio, sbus_cfg->inv.init.GPIO_Pin, sbus_cfg->gpio_inv_disable);
-        }
-		
+	if (port_type != HWSHARED_PORTTYPES_SBUS && sbus_toggle) {
+		GPIO_Init(sbus_cfg->inv.gpio, (GPIO_InitTypeDef*)&sbus_cfg->inv.init);
+		GPIO_WriteBit(sbus_cfg->inv.gpio, sbus_cfg->inv.init.GPIO_Pin, sbus_cfg->gpio_inv_disable);
+	}
+
 	PIOS_HAL_SetTarget(target, port_driver_id);
 	PIOS_HAL_SetTarget(target2, port_driver_id);
 }
@@ -544,7 +548,8 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
  */
 void PIOS_HAL_ConfigureCDC(HwSharedUSB_VCPPortOptions port_type,
 		uintptr_t usb_id,
-		const struct pios_usb_cdc_cfg *cdc_cfg) {
+		const struct pios_usb_cdc_cfg *cdc_cfg)
+{
 	uintptr_t pios_usb_cdc_id;
 
 	// TODO: Should we actually do this if disabled???
@@ -553,62 +558,62 @@ void PIOS_HAL_ConfigureCDC(HwSharedUSB_VCPPortOptions port_type,
 	}
 
 	switch (port_type) {
-		case HWSHARED_USB_VCPPORT_DISABLED:
-			break;
-		case HWSHARED_USB_VCPPORT_USBTELEMETRY:
-			{
-				uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
-				PIOS_Assert(rx_buffer);
-				PIOS_Assert(tx_buffer);
-				if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-							rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
-							tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
-					PIOS_Assert(0);
-				}
-			}
-			break;
-		case HWSHARED_USB_VCPPORT_COMBRIDGE:
-			{
-				uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
-				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
-				PIOS_Assert(rx_buffer);
-				PIOS_Assert(tx_buffer);
-				if (PIOS_COM_Init(&pios_com_vcp_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-							rx_buffer, PIOS_COM_BRIDGE_RX_BUF_LEN,
-							tx_buffer, PIOS_COM_BRIDGE_TX_BUF_LEN)) {
-					PIOS_Assert(0);
-				}
-			}
-			break;
-		case HWSHARED_USB_VCPPORT_DEBUGCONSOLE:
+	case HWSHARED_USB_VCPPORT_DISABLED:
+		break;
+	case HWSHARED_USB_VCPPORT_USBTELEMETRY:
+	{
+		uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
+		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
+		PIOS_Assert(rx_buffer);
+		PIOS_Assert(tx_buffer);
+		if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
+						rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
+						tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
+			PIOS_Assert(0);
+		}
+	}
+	break;
+	case HWSHARED_USB_VCPPORT_COMBRIDGE:
+	{
+		uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
+		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
+		PIOS_Assert(rx_buffer);
+		PIOS_Assert(tx_buffer);
+		if (PIOS_COM_Init(&pios_com_vcp_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
+						rx_buffer, PIOS_COM_BRIDGE_RX_BUF_LEN,
+						tx_buffer, PIOS_COM_BRIDGE_TX_BUF_LEN)) {
+			PIOS_Assert(0);
+		}
+	}
+	break;
+	case HWSHARED_USB_VCPPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-			{
-				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
-				PIOS_Assert(tx_buffer);
-				if (PIOS_COM_Init(&pios_com_debug_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-							NULL, 0,
-							tx_buffer, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN)) {
-					PIOS_Assert(0);
-				}
+		{
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
+			PIOS_Assert(tx_buffer);
+			if (PIOS_COM_Init(&pios_com_debug_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
+						NULL, 0,
+						tx_buffer, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN)) {
+				PIOS_Assert(0);
 			}
+		}
 #endif  /* PIOS_INCLUDE_DEBUG_CONSOLE */
-			break;
-		case HWSHARED_USB_VCPPORT_PICOC:
+		break;
+	case HWSHARED_USB_VCPPORT_PICOC:
 #if defined(PIOS_INCLUDE_PICOC)
-			{
-				uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_RX_BUF_LEN);
-				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_TX_BUF_LEN);
-				PIOS_Assert(rx_buffer);
-				PIOS_Assert(tx_buffer);
-				if (PIOS_COM_Init(&pios_com_picoc_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-							rx_buffer, PIOS_COM_PICOC_RX_BUF_LEN,
-							tx_buffer, PIOS_COM_PICOC_TX_BUF_LEN)) {
-					PIOS_Assert(0);
-				}
+		{
+			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_RX_BUF_LEN);
+			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_TX_BUF_LEN);
+			PIOS_Assert(rx_buffer);
+			PIOS_Assert(tx_buffer);
+			if (PIOS_COM_Init(&pios_com_picoc_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
+						rx_buffer, PIOS_COM_PICOC_RX_BUF_LEN,
+						tx_buffer, PIOS_COM_PICOC_TX_BUF_LEN)) {
+				PIOS_Assert(0);
 			}
+		}
 #endif  /* PIOS_INCLUDE_PICOC */
-			break;
+		break;
 	}
 }
 #endif
@@ -621,42 +626,42 @@ void PIOS_HAL_ConfigureCDC(HwSharedUSB_VCPPortOptions port_type,
  * @param[in] hid_cfg Platform-specific HID configuration
  */
 void PIOS_HAL_ConfigureHID(HwSharedUSB_HIDPortOptions port_type,
-		uintptr_t usb_id, const struct pios_usb_hid_cfg *hid_cfg) {
+		uintptr_t usb_id, const struct pios_usb_hid_cfg *hid_cfg)
+{
 	uintptr_t pios_usb_hid_id;
 	if (PIOS_USB_HID_Init(&pios_usb_hid_id, hid_cfg, usb_id)) {
 		PIOS_Assert(0);
 	}
 
 	switch (port_type) {
-		case HWSHARED_USB_HIDPORT_DISABLED:
-			break;
-		case HWSHARED_USB_HIDPORT_USBTELEMETRY:
-			{
-				uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-				uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
-				PIOS_Assert(rx_buffer);
-				PIOS_Assert(tx_buffer);
-				if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_hid_com_driver, pios_usb_hid_id,
-							rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
-							tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
-					PIOS_Assert(0);
-				}
-			}
-			break;
-		case HWSHARED_USB_HIDPORT_RCTRANSMITTER:
+	case HWSHARED_USB_HIDPORT_DISABLED:
+		break;
+	case HWSHARED_USB_HIDPORT_USBTELEMETRY:
+	{
+		uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
+		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
+		PIOS_Assert(rx_buffer);
+		PIOS_Assert(tx_buffer);
+		if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_hid_com_driver, pios_usb_hid_id,
+						rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
+						tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
+			PIOS_Assert(0);
+		}
+	}
+	break;
+	case HWSHARED_USB_HIDPORT_RCTRANSMITTER:
 #if defined(PIOS_INCLUDE_USB_RCTX)
-			{
-				if (PIOS_USB_RCTX_Init(&pios_usb_rctx_id, &pios_usb_rctx_cfg, pios_usb_id)) {
-					PIOS_Assert(0);
-				}
+		{
+			if (PIOS_USB_RCTX_Init(&pios_usb_rctx_id, &pios_usb_rctx_cfg, pios_usb_id)) {
+				PIOS_Assert(0);
 			}
+		}
 #endif  /* PIOS_INCLUDE_USB_RCTX */
-			break;
+		break;
 
 	}
 }
 #endif  /* PIOS_INCLUDE_USB_HID */
-
 
 #if defined(PIOS_INCLUDE_RFM22B)
 /** @brief Configure RFM22B radio.
@@ -680,7 +685,8 @@ void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
 		const struct pios_openlrs_cfg *openlrs_cfg,
 		const struct pios_rfm22b_cfg *rfm22b_cfg,
 		uint8_t min_chan, uint8_t max_chan, uint32_t coord_id,
-		int status_inst) {
+		int status_inst)
+{
 	/* Initalize the RFM22B radio COM device. */
 	RFM22BStatusInitialize();
 	RFM22BStatusCreateInstance();
@@ -724,11 +730,11 @@ void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
 		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
 	} else {
 		// always allow receiving PPM when radio is on
-		bool ppm_mode    = radio_type == HWSHARED_RADIOPORT_TELEMPPM || 
-			radio_type == HWSHARED_RADIOPORT_PPM;
+		bool ppm_mode    = radio_type == HWSHARED_RADIOPORT_TELEMPPM ||
+				radio_type == HWSHARED_RADIOPORT_PPM;
 		bool ppm_only    = radio_type == HWSHARED_RADIOPORT_PPM;
 		bool is_oneway   = radio_type == HWSHARED_RADIOPORT_PPM;
-			// Sparky2 can only receive PPM only
+		// Sparky2 can only receive PPM only
 
 		/* Configure the RFM22B device. */
 		if (PIOS_RFM22B_Init(&pios_rfm22b_id, PIOS_RFM22_SPI_PORT, rfm22b_cfg->slave_num, rfm22b_cfg)) {
@@ -757,40 +763,40 @@ void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
 		}
 #endif
 		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
-		
+
 		/* Set the radio configuration parameters. */
 		PIOS_RFM22B_Config(pios_rfm22b_id, max_speed, min_chan, max_chan, coord_id, is_oneway, ppm_mode, ppm_only);
 
 		// XXX TODO: Factor these power switches out.
 		/* Set the modem Tx poer level */
 		switch (max_power) {
-			case HWSHARED_MAXRFPOWER_125:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
-				break;
-			case HWSHARED_MAXRFPOWER_16:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_1);
-				break;
-			case HWSHARED_MAXRFPOWER_316:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_2);
-				break;
-			case HWSHARED_MAXRFPOWER_63:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_3);
-				break;
-			case HWSHARED_MAXRFPOWER_126:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_4);
-				break;
-			case HWSHARED_MAXRFPOWER_25:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_5);
-				break;
-			case HWSHARED_MAXRFPOWER_50:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_6);
-				break;
-			case HWSHARED_MAXRFPOWER_100:
-				PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_7);
-				break;
-			default:
-				// do nothing
-				break;
+		case HWSHARED_MAXRFPOWER_125:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_0);
+			break;
+		case HWSHARED_MAXRFPOWER_16:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_1);
+			break;
+		case HWSHARED_MAXRFPOWER_316:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_2);
+			break;
+		case HWSHARED_MAXRFPOWER_63:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_3);
+			break;
+		case HWSHARED_MAXRFPOWER_126:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_4);
+			break;
+		case HWSHARED_MAXRFPOWER_25:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_5);
+			break;
+		case HWSHARED_MAXRFPOWER_50:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_6);
+			break;
+		case HWSHARED_MAXRFPOWER_100:
+			PIOS_RFM22B_SetTxPower(pios_rfm22b_id, RFM22_tx_pwr_txpow_7);
+			break;
+		default:
+			// do nothing
+			break;
 		}
 
 		/* Reinitialize the modem. */
