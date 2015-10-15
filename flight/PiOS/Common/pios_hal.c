@@ -51,6 +51,10 @@ uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_mavlink_id;
 #endif
 
+#if defined(PIOS_INCLUDE_MSP_BRIDGE)
+uintptr_t pios_com_msp_id;
+#endif
+
 #if defined(PIOS_INCLUDE_HOTT)
 uintptr_t pios_com_hott_id;
 #endif
@@ -120,6 +124,14 @@ uintptr_t pios_com_debug_id;
 
 #ifndef PIOS_COM_MAVLINK_TX_BUF_LEN
 #define PIOS_COM_MAVLINK_TX_BUF_LEN 128
+#endif
+
+#ifndef PIOS_COM_MSP_TX_BUF_LEN
+#define PIOS_COM_MSP_TX_BUF_LEN 128
+#endif
+
+#ifndef PIOS_COM_MSP_RX_BUF_LEN
+#define PIOS_COM_MSP_RX_BUF_LEN 64
 #endif
 
 #ifndef PIOS_COM_HOTT_RX_BUF_LEN
@@ -492,6 +504,12 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_mavlink_id;
 #endif          /* PIOS_INCLUDE_MAVLINK */
+		break;
+	case HWSHARED_PORTTYPES_MSP:
+#if defined(PIOS_INCLUDE_MSP_BRIDGE)
+		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_MSP_RX_BUF_LEN, PIOS_COM_MSP_TX_BUF_LEN, com_driver, &port_driver_id);
+		target = &pios_com_msp_id;
+#endif
 		break;
 	case HWSHARED_PORTTYPES_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_MAVLINK)

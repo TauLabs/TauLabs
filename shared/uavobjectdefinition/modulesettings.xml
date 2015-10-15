@@ -19,6 +19,7 @@
 				<elementname>GroundPathFollower</elementname>
 				<elementname>GenericI2CSensor</elementname>
 				<elementname>UAVOMavlinkBridge</elementname>
+				<elementname>UAVOMSPBridge</elementname>
 				<elementname>UAVOLighttelemetryBridge</elementname>
 				<elementname>VibrationAnalysis</elementname>
 				<elementname>UAVOHoTTBridge</elementname>
@@ -89,6 +90,7 @@
 		
 		<!-- Mavlink Module Settings -->
 		<field name="MavlinkSpeed" units="bps" type="enum" elements="1" options="2400,4800,9600,19200,38400,57600,115200" defaultvalue="57600"/>
+		<field name="MSPSpeed" units="bps" type="enum" elements="1" options="2400,4800,9600,19200,38400,57600,115200" defaultvalue="115200"/>
 		<!-- LightTelemetry Module Settings -->
 		<field name="LightTelemetrySpeed" units="bps" type="enum" elements="1" options="1200,2400,4800,9600,19200,38400,57600,115200" defaultvalue="2400"/>
 
