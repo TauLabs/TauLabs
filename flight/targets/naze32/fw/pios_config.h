@@ -59,6 +59,7 @@
 #define PIOS_INCLUDE_GPS_NMEA_PARSER /* Include the NMEA protocol parser */
 #define PIOS_INCLUDE_GPS_UBX_PARSER  /* Include the UBX protocol parser */
 #define PIOS_INCLUDE_MAVLINK
+#define PIOS_INCLUDE_MSP_BRIDGE
 
 #define PIOS_INCLUDE_SERVO
 #define PIOS_INCLUDE_HPWM
