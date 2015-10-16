@@ -100,7 +100,7 @@ class UAVTupleClass():
                 value_str = ''
                 this_enum = getattr(self, 'ENUMR_' + field)
                 for ii, v in enumerate(field_value):
-                    value_str += '%s(%d)' % (this_enum[v], v)
+                    value_str += '%s(%d)' % (this_enum.get(v, "UNKNOWN"), v)
                     if ii < len(field_value) - 1:
                         value_str += ', '
                 if len(field_value) > 1:
