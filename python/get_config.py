@@ -1,15 +1,16 @@
 #!/usr/bin/python -B
 
-# Insert the parent directory into the module import search path.
-import os
-import sys
-sys.path.insert(1, os.path.dirname(sys.path[0]))
-
 import argparse
 import errno
 import code
 import struct
 import time
+
+# Insert the parent directory into the module import search path.
+import os
+import sys
+sys.path.insert(1, os.path.dirname(sys.path[0]))
+
 from taulabs import uavo, telemetry, uavo_collection
 
 #-------------------------------------------------------------------------------

@@ -318,7 +318,7 @@ class BidirTelemetry(TelemetryBase):
         return ret
 
     def _send(self, msg):
-        """ Send a string out the TCP socket """
+        """ Send a string to the controller """
 
         self.send_buf += msg
 
