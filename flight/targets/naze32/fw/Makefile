@@ -135,8 +135,6 @@ PYMITEVM = $(PYMITE)/vm
 PYMITEINC = $(PYMITEVM)
 PYMITEINC += $(PYMITEPLAT)
 PYMITEINC += $(OUTDIR)
-FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
-FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
