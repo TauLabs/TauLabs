@@ -442,7 +442,6 @@ astyle_clean:
 # Set up uncrustify tools
 UNCRUSTIFY_DIR := $(TOOLS_DIR)/uncrustify-0.61
 UNCRUSTIFY_BUILD_DIR := $(DL_DIR)/uncrustify
-libusb_win_install: LIBUSB_WIN_FILE := libusb-win32-bin-1.2.6.0.zip
 
 .PHONY: uncrustify_install
 uncrustify_install: | $(DL_DIR) $(TOOLS_DIR)
@@ -451,7 +450,6 @@ uncrustify_install: UNCRUSTIFY_FILE := uncrustify-0.61.tar.gz
 uncrustify_install: UNCRUSTIFY_OPTIONS := prefix=$(UNCRUSTIFY_DIR)
 uncrustify_install: uncrustify_clean
 ifneq ($(OSFAMILY), windows)
-
 	$(V0) @echo " DOWNLOAD     $(UNCRUSTIFY_URL)"
 	$(V1) wget --no-check-certificate -N -P "$(DL_DIR)" "$(UNCRUSTIFY_URL)"
 else
@@ -477,7 +475,6 @@ uncrustify_clean:
 	$(V1) [ ! -d "$(UNCRUSTIFY_DIR)" ] || $(RM) -r "$(UNCRUSTIFY_DIR)"
 	$(V0) @echo " CLEAN        $(UNCRUSTIFY_BUILD_DIR)"
 	$(V1) [ ! -d "$(UNCRUSTIFY_BUILD_DIR)" ] || $(RM) -r "$(UNCRUSTIFY_BUILD_DIR)"
-
 
 # Set up libkml
 

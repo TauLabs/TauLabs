@@ -137,7 +137,8 @@ help:
 	@echo "     dfuutil_install      - Install the dfu-util tool for unbricking F4-based boards"
 	@echo "     android_sdk_install  - Install the Android SDK tools"
 	@echo "     gtest_install        - Install the google unit test suite"
-	@echo "     astyle_install       - Install the astyle code formatter"	
+	@echo "     astyle_install       - Install the astyle code formatter (deprecated)"
+	@echo "     uncrustify_install   - Install the uncrustify code formatter"
 	@echo "     openssl_install      - Install the openssl libraries on windows machines"	
 	@echo
 	@echo "   [Big Hammer]"
@@ -226,7 +227,9 @@ help:
 	@echo
 	@echo "   [Misc]"
 	@echo "     astyle_flight FILE=<name>   - Executes the astyle code formatter to reformat"
-	@echo "                                   a c source file according to the flight code style"
+	@echo "                                   a c source file (deprecated)"
+	@echo "     uncrustify_flight FILE=<name> - Executes uncrustify to reformat a c source"
+	@echo "                                     file according to the flight code style"
 	@echo
 	@echo "   Hint: Add V=1 to your command line to see verbose build output."
 	@echo
