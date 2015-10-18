@@ -1,5 +1,5 @@
 FLOATABI ?= soft
-UAVOBJLIB := $(BUILD_DIR)/uavobjects_arm$(FLOATABI)fp/libuavobject.a
+UAVOBJLIB := $(OUTDIR)/../uavobjects_arm$(FLOATABI)fp/libuavobject.a
 
 ifneq ($(NO_AUTO_UAVO),YES)
 

@@ -9,7 +9,7 @@ include $(CURDIR)/make/system-id.mk
 
 # configure some directories that are relative to wherever ROOT_DIR is located
 TOOLS_DIR := $(ROOT_DIR)/tools
-export BUILD_DIR := $(ROOT_DIR)/build
+BUILD_DIR := $(ROOT_DIR)/build
 DL_DIR := $(ROOT_DIR)/downloads
 
 # import macros that are OS specific
@@ -815,32 +815,11 @@ endif
 
 uavobjects_armsoftfp: TARGET=uavobjects_armsoftfp
 uavobjects_armsoftfp: OUTDIR=$(BUILD_DIR)/$(TARGET)
-uavobjects_armsoftfp: uavobjects
-	$(V1) mkdir -p $(OUTDIR)/dep
-	$(V1) cd $(ROOT_DIR)/flight/uavobjectlib && \
-		$(MAKE) -r --no-print-directory \
-		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
-		REMOVE_CMD="$(RM)" \
-		\
-		MAKE_INC_DIR=$(MAKE_INC_DIR) \
-		ROOT_DIR=$(ROOT_DIR) \
-		TARGET=$(TARGET) \
-		OUTDIR=$(OUTDIR) \
-		\
-		PIOS=$(PIOS) \
-		FLIGHTLIB=$(FLIGHTLIB) \
-		OPMODULEDIR=$(OPMODULEDIR) \
-		OPUAVOBJ=$(OPUAVOBJ) \
-		OPUAVTALK=$(OPUAVTALK) \
-		DOXYGENDIR=$(DOXYGENDIR) \
-		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
-		SHAREDAPIDIR=$(SHAREDAPIDIR) \
-		\
-		$@
 
 uavobjects_armhardfp: TARGET=uavobjects_armhardfp
 uavobjects_armhardfp: OUTDIR=$(BUILD_DIR)/$(TARGET)
-uavobjects_armhardfp: uavobjects
+
+uavobjects_%: uavobjects
 	$(V1) mkdir -p $(OUTDIR)/dep
 	$(V1) cd $(ROOT_DIR)/flight/uavobjectlib && \
 		$(MAKE) -r --no-print-directory \
@@ -852,14 +831,12 @@ uavobjects_armhardfp: uavobjects
 		TARGET=$(TARGET) \
 		OUTDIR=$(OUTDIR) \
 		\
-		PIOS=$(PIOS) \
 		FLIGHTLIB=$(FLIGHTLIB) \
-		OPMODULEDIR=$(OPMODULEDIR) \
+		PIOS=$(PIOS) \
 		OPUAVOBJ=$(OPUAVOBJ) \
 		OPUAVTALK=$(OPUAVTALK) \
 		DOXYGENDIR=$(DOXYGENDIR) \
 		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
-		SHAREDAPIDIR=$(SHAREDAPIDIR) \
 		\
 		$@
 
