@@ -446,6 +446,8 @@ class SerialTelemetry(BidirTelemetry):
 
     # Call select and do one set of IO operations.
     def _do_io(self, finish_time):
+        import serial
+
         did_stuff = False
 
         while not did_stuff:
@@ -455,7 +457,7 @@ class SerialTelemetry(BidirTelemetry):
                 if chunk != '':
                     did_stuff = True
                     self.recv_buf = self.recv_buf + chunk
-            except pyserial.serialutil.SerialException:
+            except serial.serialutil.SerialException:
                 # Ignore this; looks like a pyserial bug
                 pass
 
