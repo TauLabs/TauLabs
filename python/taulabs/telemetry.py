@@ -440,7 +440,7 @@ class SerialTelemetry(BidirTelemetry):
 
         import serial
 
-        self.ser = serial.Serial(port, speed, timeout=0, writeTimeout=0)
+        self.ser = serial.Serial(port, speed, timeout=0, writeTimeout=0.001)
 
         BidirTelemetry.__init__(self, *args, **kwargs)
 
