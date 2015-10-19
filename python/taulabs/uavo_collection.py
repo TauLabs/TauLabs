@@ -15,8 +15,8 @@ class UAVOCollection(dict):
         self.clear()
 
     def find_by_name(self, uavo_name):
-        if uavo_name[0:5]=='UAVO_':
-            uavo_name = uavo_name[5:]
+        if uavo_name[0:5]!='UAVO_':
+            uavo_name = 'UAVO_' + uavo_name
 
         for u in self.itervalues():
             if u._name == uavo_name:
@@ -65,7 +65,7 @@ class UAVOCollection(dict):
         for f_info in f_members:
             f = t.extractfile(f_info)
 
-            u = uavo.make_class(f)
+            u = uavo.make_class(self, f)
 
             # add this uavo definition to our dictionary
             self.update([('{0:08x}'.format(u._id), u)])
@@ -84,7 +84,7 @@ class UAVOCollection(dict):
 
         for file_name in file_names:
             with open(file_name, 'rU') as f:
-                u = uavo.make_class(f)
+                u = uavo.make_class(self, f)
 
                 # add this uavo definition to our dictionary
                 self.update([('{0:08x}'.format(u._id), u)])

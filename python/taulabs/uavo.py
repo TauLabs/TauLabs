@@ -100,7 +100,7 @@ class UAVTupleClass():
                 value_str = ''
                 this_enum = getattr(self, 'ENUMR_' + field)
                 for ii, v in enumerate(field_value):
-                    value_str += '%s(%d)' % (this_enum[v], v)
+                    value_str += '%s(%d)' % (this_enum.get(v, "UNKNOWN"), v)
                     if ii < len(field_value) - 1:
                         value_str += ', '
                 if len(field_value) > 1:
@@ -148,7 +148,7 @@ struct_element_map = {
 
 # This is a very long, scary method.  It parses an XML file describing
 # a UAVO and builds an implementation class.
-def make_class(xml_file):
+def make_class(collection, xml_file, update_globals=True):
     fields = []
 
     ##### PARSE THE XML FILE INTO INTERNAL REPRESENTATIONS #####
@@ -231,19 +231,15 @@ def make_class(xml_file):
             # Get parent
             if info['parent'] is not None:
                 parent_name, field_name = info['parent'].split('.')
-                try:
-                    parent_class = globals()['UAVO_' + parent_name]
-                    if len(info['options']) == 0:
-                        parent_options = getattr(parent_class, 'ENUMR_' + field_name)
-                        for k, v in sorted(parent_options.iteritems(), key=lambda x: x[0]):
-                            info['options'][v] = k
-                    else:
-                        parent_options = getattr(parent_class, 'ENUM_' + field_name)
-                        for k in info['options'].iterkeys():
-                            info['options'][k] = parent_options[k]
-                except Exception as err:
-                    print err
-                    raise err
+                parent_class = collection.find_by_name(parent_name)
+                if len(info['options']) == 0:
+                    parent_options = getattr(parent_class, 'ENUMR_' + field_name)
+                    for k, v in sorted(parent_options.iteritems(), key=lambda x: x[0]):
+                        info['options'][v] = k
+                else:
+                    parent_options = getattr(parent_class, 'ENUM_' + field_name)
+                    for k in info['options'].iterkeys():
+                        info['options'][k] = parent_options[k]
 
             # Add default values
             if info['defaultvalue'] is not None:
@@ -293,6 +289,7 @@ def make_class(xml_file):
                     hash_calc.update_hash_byte(idx)
                 hash_calc.update_hash_string(option)
                 next_idx = idx + 1
+
     uavo_id = hash_calc.get_hash()
 
     ##### FORM A STRUCT TO PACK/UNPACK THIS UAVO'S CONTENT #####
@@ -360,7 +357,9 @@ def make_class(xml_file):
             setattr(tuple_class, 'ENUM_' + field['name'], mapping)
             setattr(tuple_class, 'ENUMR_' + field['name'], reverse_mapping)
 
-    globals()[tuple_class.__name__] = tuple_class
+    if update_globals:
+        globals()[tuple_class.__name__] = tuple_class
+
 
     return tuple_class
 
