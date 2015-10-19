@@ -386,7 +386,7 @@ void PIOS_Board_Init(void) {
 			PIOS_HAL_ConfigurePort(hw_rcvrserial, 
 					&pios_usart_rcvrserial_cfg,
 					&pios_usart_com_driver,
-					NULL, NULL, NULL,
+					NULL, NULL, NULL, NULL,
 					PIOS_LED_ALARM,
 					&pios_usart_dsm_hsum_rcvrserial_cfg,
 					&pios_dsm_rcvrserial_cfg,
