@@ -83,7 +83,7 @@ static void writeHeader();
 // Local variables
 static uintptr_t logging_com_id;
 static uint32_t written_bytes;
-static bool destinationSPIflash;
+static bool destination_spi_flash;
 
 #if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
 // External variables
@@ -121,13 +121,13 @@ int32_t LoggingInitialize(void)
 	LoggingStatsInitialize();
 	LoggingSettingsInitialize();
 	
-	LoggingSettingsLogDestinationOptions logDestination;
-	LoggingSettingsLogDestinationGet(&logDestination);
+	LoggingSettingsLogDestinationOptions log_destination;
+	LoggingSettingsLogDestinationGet(&log_destination);
 	
-	if (logDestination == LOGGINGSETTINGS_LOGDESTINATION_SPIFLASH)
-		destinationSPIflash = true;
+	if (log_destination == LOGGINGSETTINGS_LOGDESTINATION_SPIFLASH)
+		destination_spi_flash = true;
 	else
-		destinationSPIflash = false;
+		destination_spi_flash = false;
 	
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&send_data);
@@ -183,7 +183,7 @@ static void loggingTask(void *parameters)
 	loggingData.BytesLogged = 0;
 	
 #if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
-	if (destinationSPIflash)
+	if (destination_spi_flash)
 	{
 		loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
 		loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
@@ -196,7 +196,7 @@ static void loggingTask(void *parameters)
 		first_run = true;
 
 #if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
-		if (destinationSPIflash)
+		if (destination_spi_flash)
 		{
 			if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) 
 			{
@@ -263,7 +263,7 @@ static void loggingTask(void *parameters)
 		///////////////////////////////////////////////////////////////////////
 		
 #if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
-		if (destinationSPIflash) {
+		if (destination_spi_flash) {
 			if (loggingData.Operation == LOGGINGSTATS_OPERATION_LOGGING && read_open) { // If currently downloading a log, close the file
 				PIOS_STREAMFS_Close(streamfs_id);
 				read_open = false;
@@ -275,7 +275,7 @@ static void loggingTask(void *parameters)
 			write_open = true;
 			
 #if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
-			if (destinationSPIflash) {
+			if (destination_spi_flash) {
 				if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
 					loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
 					write_open = false;
@@ -290,7 +290,7 @@ static void loggingTask(void *parameters)
 			write_open = false;
 			
 #if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
-			if (destinationSPIflash) {
+			if (destination_spi_flash) {
 				PIOS_STREAMFS_Close(streamfs_id);
 				loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
 				loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
@@ -380,7 +380,7 @@ static void loggingTask(void *parameters)
 
 		case LOGGINGSTATS_OPERATION_DOWNLOAD:
 #if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
-			if (destinationSPIflash)
+			if (destination_spi_flash)
 			{
 				if (!read_open) {
 					// Start reading
