@@ -93,6 +93,9 @@ typedef enum {
 	MSP_FILLBUF,
 	MSP_CHECKSUM,
 	MSP_DISCARD,
+	MSP_MAYBE_UAVTALK2,
+	MSP_MAYBE_UAVTALK3,
+	MSP_MAYBE_UAVTALK4,
 } msp_state;
 
 struct msp_settings {
@@ -128,6 +131,7 @@ struct msp_bridge {
 static bool module_enabled;
 extern uintptr_t pios_com_msp_id;
 static struct msp_bridge *msp;
+static struct pios_thread *task;
 static int32_t uavoMSPBridgeInitialize(void);
 static void uavoMSPBridgeTask(void *parameters);
 
@@ -349,12 +353,22 @@ static msp_state msp_state_discard(struct msp_bridge *m, uint8_t b)
 /**
  * Process incoming bytes from an MSP query thing.
  * @param[in] b received byte
+ * @return true if we should continue processing bytes
  */
-static void msp_receive_byte(struct msp_bridge *m, uint8_t b)
+static bool msp_receive_byte(struct msp_bridge *m, uint8_t b)
 {
-	switch (msp->_state) {
+	switch (m->_state) {
 	case MSP_IDLE:
-		m->_state = b == '$' ? MSP_HEADER_START : MSP_IDLE;
+		switch (b) {
+		case '<': // uavtalk matching with 0x3c 0x2x 0xxx 0x0x
+			m->_state = MSP_MAYBE_UAVTALK2;
+			break;
+		case '$':
+			m->_state = MSP_HEADER_START;
+			break;
+		default:
+			m->_state = MSP_IDLE;
+		}
 		break;
 	case MSP_HEADER_START:
 		m->_state = b == 'M' ? MSP_HEADER_M : MSP_IDLE;
@@ -377,7 +391,26 @@ static void msp_receive_byte(struct msp_bridge *m, uint8_t b)
 	case MSP_DISCARD:
 		m->_state = msp_state_discard(m, b);
 		break;
+	case MSP_MAYBE_UAVTALK2:
+		// e.g. 3c 20 1d 00
+		// second possible uavtalk byte
+		m->_state = (b&0xf0) == 0x20 ? MSP_MAYBE_UAVTALK3 : MSP_IDLE;
+		break;
+	case MSP_MAYBE_UAVTALK3:
+		// third possible uavtalk byte can be anything
+		m->_state = MSP_MAYBE_UAVTALK4;
+		break;
+	case MSP_MAYBE_UAVTALK4:
+		m->_state = MSP_IDLE;
+		// If this looks like the fourth possible uavtalk byte, we're done
+		if ((b & 0xf0) == 0) {
+			PIOS_COM_TELEM_RF = m->com;
+			return false;
+		}
+		break;
 	}
+
+	return true;
 }
 
 /**
@@ -402,7 +435,6 @@ static int32_t uavoMSPBridgeStart(void)
 			&& PIOS_SENSORS_GetQueue(PIOS_SENSOR_BARO) != NULL)
 		msp->msp_settings.use_baro_sensor = true;
 
-	struct pios_thread *task;
 	task = PIOS_Thread_Create(
 		uavoMSPBridgeTask, "uavoMSPBridge",
 		STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
@@ -451,8 +483,13 @@ static void uavoMSPBridgeTask(void *parameters)
 	while (1) {
 		uint8_t b = 0;
 		uint16_t count = PIOS_COM_ReceiveBuffer(msp->com, &b, 1, PIOS_QUEUE_TIMEOUT_MAX);
-		if (count)
-			msp_receive_byte(msp, b);
+		if (count) {
+			if (!msp_receive_byte(msp, b)) {
+				TaskMonitorRemove(TASKINFO_RUNNING_UAVOMSPBRIDGE);
+				PIOS_Thread_Delete(task);
+				return;
+			}
+		}
 	}
 }
 
