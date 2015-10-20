@@ -388,8 +388,8 @@ void PIOS_Board_Init(void) {
     HwAQ32DSMxModeOptions hw_DSMxMode;
     HwAQ32DSMxModeGet(&hw_DSMxMode);
 
-    LoggingSettingsLogDestinationOptions logDestination;
-    LoggingSettingsLogDestinationGet(&logDestination);
+    LoggingSettingsLogDestinationOptions log_destination;
+    LoggingSettingsLogDestinationGet(&log_destination);
     
     /* UART1 Port */
     uint8_t hw_uart1;
@@ -409,7 +409,7 @@ void PIOS_Board_Init(void) {
             NULL,                                // sbus_rcvr_cfg
             NULL,                                // sbus_cfg    
             false,                               // sbus_toggle
-            logDestination);                     // log_dest
+            log_destination);                     // log_dest
 
     /* UART2 Port */
     uint8_t hw_uart2;
@@ -429,7 +429,7 @@ void PIOS_Board_Init(void) {
             NULL,                                // sbus_rcvr_cfg
             NULL,                                // sbus_cfg    
             false,                               // sbus_toggle
-            logDestination);                     // log_dest
+            log_destination);                     // log_dest
 
     /* UART3 Port */
     uint8_t hw_uart3;
@@ -449,7 +449,7 @@ void PIOS_Board_Init(void) {
             &pios_usart3_sbus_cfg,               // sbus_rcvr_cfg
             &pios_usart3_sbus_aux_cfg,           // sbus_cfg                
             true,                                // sbus_toggle
-            logDestination);                     // log_dest
+            log_destination);                     // log_dest
             
     if (hw_uart3 == HWAQ32_UART3_FRSKYSENSORHUB)
     {
@@ -475,7 +475,7 @@ void PIOS_Board_Init(void) {
             NULL,                                // sbus_rcvr_cfg
             NULL,                                // sbus_cfg    
             false,                               // sbus_toggle
-            logDestination);                     // log_dest
+            log_destination);                     // log_dest
 
     /* UART6 Port */
     uint8_t hw_uart6;
@@ -495,7 +495,7 @@ void PIOS_Board_Init(void) {
             NULL,                                // sbus_rcvr_cfg
             NULL,                                // sbus_cfg    
             false,                               // sbus_toggle
-            logDestination);                     // log_dest
+            log_destination);                     // log_dest
 
     /* Configure the rcvr port */
     PIOS_HAL_ConfigurePort(hw_rcvrport,          // port type protocol
@@ -512,7 +512,7 @@ void PIOS_Board_Init(void) {
             NULL,                                // sbus_rcvr_cfg
             NULL,                                // sbus_cfg    
             false,                               // sbus_toggle
-            logDestination);                     // log_dest
+            log_destination);                     // log_dest
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
     GCSReceiverInitialize();
