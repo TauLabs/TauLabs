@@ -20,6 +20,7 @@
 				<option>FrSKY SPort Telemetry</option>
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
+				<option>OpenLog</option>
 <!-- These last couple are special cases, really.  le sigh -->
 				<option>I2C</option>
 				<option>PPM</option>

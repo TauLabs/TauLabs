@@ -32,6 +32,7 @@
 #include <pios_rfm22b_rcvr_priv.h>
 #include <pios_hsum_priv.h>
 
+#include <loggingsettings.h>
 #include <manualcontrolsettings.h>
 
 #include <sanitycheck.h>
@@ -153,6 +154,10 @@ uintptr_t pios_com_debug_id;
 #define PIOS_COM_FRSKYSPORT_RX_BUF_LEN 16
 #endif
 
+#ifndef PIOS_COM_OPENLOG_TX_BUF_LEN
+#define PIOS_COM_OPENLOG_TX_BUF_LEN 256
+#endif
+
 #ifndef PIOS_COM_RFM22B_RF_RX_BUF_LEN
 #define PIOS_COM_RFM22B_RF_RX_BUF_LEN 512
 #endif
@@ -166,8 +171,7 @@ uintptr_t pios_com_debug_id;
  * @param[in] led_id The LED to blink
  * @param[in] code Number of blinks to do in a row
  */
-void PIOS_HAL_Panic(uint32_t led_id, int32_t code)
-{
+void PIOS_HAL_Panic(uint32_t led_id, int32_t code) {
 	while (1) {
 		for (int32_t i = 0; i < code; i++) {
 			PIOS_WDG_Clear();
@@ -195,8 +199,7 @@ void PIOS_HAL_Panic(uint32_t led_id, int32_t code)
  * @param[out] target place dedicated for this role to store device id
  * @param[in] value handle of the device to store into this role.
  */
-static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value)
-{
+static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value) {
 	if (target) {
 #ifndef PIOS_NO_ALARMS
 		if (*target) {
@@ -214,8 +217,7 @@ static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value)
  * @param[in] receiver_type the receiver type index from MANUALCONTROL
  * @param[in] value handle of the device instance
  */
-static void PIOS_HAL_SetReceiver(int receiver_type, uintptr_t value)
-{
+static void PIOS_HAL_SetReceiver(int receiver_type, uintptr_t value) {
 	PIOS_HAL_SetTarget(pios_rcvr_group_map + receiver_type, value);
 }
 
@@ -352,6 +354,7 @@ static void PIOS_HAL_ConfigureHSUM(const struct pios_usart_cfg *usart_hsum_cfg,
  * @param[in] sbus_rcvr_cfg usart configuration for SBUS modes
  * @param[in] sbus_cfg SBUS configuration for this port
  * @param[in] sbus_toggle Whether there is SBUS inverters to touch on this port
+ * @param[in] log_dest Log file destination, SPIFlash or OpenLog
  */
 void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		const struct pios_usart_cfg *usart_port_cfg,
@@ -367,8 +370,8 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		HwSharedDSMxModeOptions dsm_mode,
 		const struct pios_usart_cfg *sbus_rcvr_cfg,
 		const struct pios_sbus_cfg *sbus_cfg,
-		bool sbus_toggle
-		)
+		bool sbus_toggle,
+		LoggingSettingsLogDestinationOptions log_dest)
 {
 	uintptr_t port_driver_id;
 	uintptr_t *target = NULL, *target2 = NULL;;
@@ -511,8 +514,7 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		break;
 	case HWSHARED_PORTTYPES_FRSKYSPORTTELEMETRY:
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
-		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, com_driver,
-				&port_driver_id);
+		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_frsky_sport_id;
 #endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
 		break;
@@ -528,6 +530,16 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		target = &pios_com_picoc_id;
 #endif /* PIOS_INCLUDE_PICOC */
 		break;
+	    case HWSHARED_PORTTYPES_OPENLOG:
+#if defined(PIOS_INCLUDE_OPENLOG)
+			if (log_dest == LOGGINGSETTINGS_LOGDESTINATION_OPENLOG) {
+				PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_OPENLOG_TX_BUF_LEN, com_driver, &port_driver_id);
+				target = &pios_com_logging_id;
+				PIOS_COM_ChangeBaud(port_driver_id, 115200);
+			}
+#endif /* PIOS_INCLUDE_OPENLOG */
+		break;
+
 	} /* port_type */
 
 	if (port_type != HWSHARED_PORTTYPES_SBUS && sbus_toggle) {

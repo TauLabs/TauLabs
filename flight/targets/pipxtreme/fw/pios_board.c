@@ -153,7 +153,7 @@ void PIOS_Board_Init(void) {
 	    &pios_usart_serial_cfg, &pios_usart_com_driver,
 	    /* no I2C, DSM, HSUM, SBUS, etc. */
 	    NULL, NULL, NULL, NULL, PIOS_LED_ALARM,
-	    NULL, NULL, 0, NULL, NULL, false);
+	    NULL, NULL, 0, NULL, NULL, false, 0);
 
 	// Update the com baud rate.
 	uint32_t comBaud = 9600;
