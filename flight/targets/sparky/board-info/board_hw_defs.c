@@ -565,6 +565,7 @@ static const struct pios_usart_cfg pios_main_dsm_hsum_cfg = {
 #endif	/* PIOS_INCLUDE_DSM || PIOS_INCLUDE_HSUM */
 
 #if defined(PIOS_INCLUDE_SBUS)
+
 /*
  * S.Bus USART
  */
@@ -683,6 +684,7 @@ static const struct pios_usart_cfg pios_main_sbus_cfg = {
 static const struct pios_sbus_cfg pios_main_sbus_aux_cfg = {
 	/* No inverter configuration, f3 uart subsystem already does this for us */
 };
+
 #endif	/* PIOS_INCLUDE_SBUS */
 
 #ifdef PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY
