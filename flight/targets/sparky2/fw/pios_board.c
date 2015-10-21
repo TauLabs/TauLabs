@@ -697,7 +697,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_FSK)
 	{
 		uintptr_t fskdac_com_id;
-		PIOS_FSKDAC_Init(&fskdac_com_id, &pios_fskdac_config);
+		PIOS_FSKDAC_Init(&fskdac_com_id);
 	}
 #endif /* PIOS_INCLUDE_FSK */
 		break;

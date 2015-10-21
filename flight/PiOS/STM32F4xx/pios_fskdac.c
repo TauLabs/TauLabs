@@ -188,14 +188,14 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id, const struct pios_fskdac_config 
 	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
 	DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
 	DMA_InitStructure.DMA_Priority = DMA_Priority_High;
-	DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;         
+	DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;
 	DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_HalfFull;
 	DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
 	DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
-	DMA_Init(DMA1_Stream5, &DMA_InitStructure);    
+	DMA_Init(DMA1_Stream5, &DMA_InitStructure);
 
-	//DMA_DoubleBufferModeConfig(fskdac_dev->cfg->dma.tx.channel, (uint32_t)&MARK_SAMPLES[0], DMA_Memory_0);
-	//DMA_DoubleBufferModeCmd(fskdac_dev->cfg->dma.tx.channel, ENABLE);
+	DMA_DoubleBufferModeConfig(fskdac_dev->cfg->dma.tx.channel, (uint32_t)&SPACE_SAMPLES[0], DMA_Memory_0);
+	DMA_DoubleBufferModeCmd(fskdac_dev->cfg->dma.tx.channel, ENABLE);
 	//DMA_ITConfig(fskdac_dev->cfg->dma.tx.channel, DMA_IT_TC, ENABLE);
 
 	/* Enable DMA1_Stream5 */
