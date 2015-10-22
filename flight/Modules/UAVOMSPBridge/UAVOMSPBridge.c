@@ -119,8 +119,6 @@ struct msp_bridge {
 	uint8_t _buf[MAX_MSP_CMD_LEN];
 };
 
-#define MSP_BAUDRATE                115200
-
 #if defined(PIOS_MSP_STACK_SIZE)
 #define STACK_SIZE_BYTES PIOS_MSP_STACK_SIZE
 #else
@@ -443,6 +441,39 @@ static int32_t uavoMSPBridgeStart(void)
 	return 0;
 }
 
+static void setMSPSpeed(struct msp_bridge *m)
+{
+	if (m->com) {
+		uint8_t speed;
+		ModuleSettingsMSPSpeedGet(&speed);
+
+		switch (speed) {
+		case MODULESETTINGS_MSPSPEED_2400:
+			PIOS_COM_ChangeBaud(m->com, 2400);
+			break;
+		case MODULESETTINGS_MSPSPEED_4800:
+			PIOS_COM_ChangeBaud(m->com, 4800);
+			break;
+		case MODULESETTINGS_MSPSPEED_9600:
+			PIOS_COM_ChangeBaud(m->com, 9600);
+			break;
+		case MODULESETTINGS_MSPSPEED_19200:
+			PIOS_COM_ChangeBaud(m->com, 19200);
+			break;
+		case MODULESETTINGS_MSPSPEED_38400:
+			PIOS_COM_ChangeBaud(m->com, 38400);
+			break;
+		case MODULESETTINGS_MSPSPEED_57600:
+			PIOS_COM_ChangeBaud(m->com, 57600);
+			break;
+		case MODULESETTINGS_MSPSPEED_115200:
+			PIOS_COM_ChangeBaud(m->com, 115200);
+			break;
+		}
+	}
+}
+
+
 /**
  * Module initialization routine
  * @return 0 when initialization was successful
@@ -461,7 +492,7 @@ static int32_t uavoMSPBridgeInitialize(void)
 
 			msp->com = pios_com_msp_id;
 
-			PIOS_COM_ChangeBaud(msp->com, MSP_BAUDRATE);
+			setMSPSpeed(msp);
 			module_enabled = true;
 			return 0;
 		}
