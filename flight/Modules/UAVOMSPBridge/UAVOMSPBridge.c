@@ -52,10 +52,6 @@
 
 #if defined(PIOS_INCLUDE_MSP_BRIDGE)
 
-#ifndef MAX_MSP_CMD_LEN
-#define MAX_MSP_CMD_LEN 16
-#endif
-
 #define MSP_SENSOR_ACC 1
 #define MSP_SENSOR_BARO 2
 #define MSP_SENSOR_MAG 4
@@ -99,11 +95,9 @@ typedef enum {
 } msp_state;
 
 struct msp_settings {
-	bool use_current_sensor;
-	uint8_t batt_cell_count;
-	bool use_baro_sensor;
-	FlightBatterySettingsData battery_settings;
-	GPSPositionData gps_position;
+	uint8_t batt_cell_count : 4;
+	bool use_current_sensor : 1;
+	bool use_baro_sensor : 1;
 };
 
 struct msp_bridge {
@@ -115,7 +109,10 @@ struct msp_bridge {
 	uint8_t _cmd_id;
 	uint8_t _cmd_i;
 	uint8_t _checksum;
-	uint8_t _buf[MAX_MSP_CMD_LEN];
+	union {
+		uint8_t data[0];
+		// Specific packed data structures go here.
+	} _cmd_data;
 };
 
 #if defined(PIOS_MSP_STACK_SIZE)
@@ -167,7 +164,7 @@ static msp_state msp_state_cmd(struct msp_bridge *m, uint8_t b)
 	m->_cmd_id = b;
 	m->_checksum ^= m->_cmd_id;
 
-	if (m->_cmd_size > MAX_MSP_CMD_LEN) {
+	if (m->_cmd_size > sizeof(m->_cmd_data)) {
 		// Too large a body.  Let's ignore it.
 		return MSP_DISCARD;
 	}
@@ -177,7 +174,7 @@ static msp_state msp_state_cmd(struct msp_bridge *m, uint8_t b)
 
 static msp_state msp_state_fill_buf(struct msp_bridge *m, uint8_t b)
 {
-	m->_buf[m->_cmd_i++] = b;
+	m->_cmd_data.data[m->_cmd_i++] = b;
 	m->_checksum ^= b;
 	return m->_cmd_i == m->_cmd_size ? MSP_CHECKSUM : MSP_FILLBUF;
 }
@@ -419,12 +416,13 @@ static int32_t uavoMSPBridgeStart(void)
 
 	if (FlightBatterySettingsHandle() != NULL
 			&& FlightBatteryStateHandle() != NULL) {
+		FlightBatterySettingsData battery_settings;
 		uint8_t currentPin;
 		FlightBatterySettingsCurrentPinGet(&currentPin);
 		if (currentPin != FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE)
 			msp->msp_settings.use_current_sensor = true;
-		FlightBatterySettingsGet(&msp->msp_settings.battery_settings);
-		msp->msp_settings.batt_cell_count = msp->msp_settings.battery_settings.NbCells;
+		FlightBatterySettingsGet(&battery_settings);
+		msp->msp_settings.batt_cell_count = battery_settings.NbCells;
 	}
 	if (BaroAltitudeHandle() != NULL
 			&& PIOS_SENSORS_GetQueue(PIOS_SENSOR_BARO) != NULL)
