@@ -221,6 +221,11 @@ uintptr_t pios_uavo_settings_fs_id;
 
 uintptr_t pios_internal_adc_id;
 
+#if defined(PIOS_INCLUDE_MSP_BRIDGE)
+extern uintptr_t pios_com_msp_id;
+#endif
+
+
 /**
  * Indicate a target-specific error code when a component fails to initialize
  * 1 pulse - MPU6050 - no irq
@@ -352,9 +357,23 @@ void PIOS_Board_Init(void) {
 
 
 	/* UART1 Port */
-#if defined(PIOS_INCLUDE_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-        PIOS_HAL_ConfigureCom(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_serial_id);
+#if (defined(PIOS_INCLUDE_TELEMETRY) || defined(PIOS_INCLUDE_MSP_BRIDGE)) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+	uint8_t hw_mainport;
+	HwNazeMainPortGet(&hw_mainport);
+
+	switch (hw_mainport) {
+	case HWNAZE_MAINPORT_TELEMETRY:
+#if defined(PIOS_INCLUDE_TELEMETRY)
+		PIOS_HAL_ConfigureCom(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_serial_id);
 #endif /* PIOS_INCLUDE_TELEMETRY */
+		break;
+	case HWNAZE_MAINPORT_MSP:
+#if defined(PIOS_INCLUDE_MSP_BRIDGE)
+		PIOS_HAL_ConfigureCom(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_msp_id);
+#endif /* PIOS_INCLUDE_MSP_BRIDGE */
+		break;
+	}
+#endif /* PIOS_INCLUDE_TELEMETRY || PIOS_INCLUDE_MSP_BRIDGE */
 
 	/* Configure the rcvr port */
 	uint8_t hw_rcvrport;
@@ -576,9 +595,6 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_GPIO)
 	PIOS_GPIO_Init();
 #endif
-
-	/* Make sure we have at least one telemetry link configured or else fail initialization */
-	PIOS_Assert(pios_com_telem_serial_id);
 }
 
 /**
