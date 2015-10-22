@@ -12,6 +12,8 @@
 #include <pios_usb_cdc_priv.h>
 #include <pios_usb_hid_priv.h>
 
+#include <loggingsettings.h>
+
 #if defined(PIOS_INCLUDE_RFM22B)
 #include <pios_rfm22b_priv.h>
 #include <pios_openlrs_priv.h>
@@ -55,8 +57,8 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		HwSharedDSMxModeOptions dsm_mode,
 		const struct pios_usart_cfg *sbus_rcvr_cfg,
 		const struct pios_sbus_cfg *sbus_cfg,
-		bool sbus_toggle
-		);
+		bool sbus_toggle,
+		LoggingSettingsLogDestinationOptions log_dest);
 
 void PIOS_HAL_ConfigureCDC(HwSharedUSB_VCPPortOptions port_type,
 		uintptr_t usb_id,

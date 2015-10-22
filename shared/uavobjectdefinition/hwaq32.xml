@@ -49,6 +49,7 @@
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
 				<option>FrSKY SPort Telemetry</option>
+				<option>OpenLog</option>
 			</options>
 		</field>
 
@@ -69,6 +70,7 @@
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
 				<option>FrSKY SPort Telemetry</option>
+				<option>OpenLog</option>
 			</options>
 		</field>
 
@@ -89,6 +91,7 @@
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
 				<option>FrSKY SPort Telemetry</option>
+				<option>OpenLog</option>
 			</options>
 		</field>
 

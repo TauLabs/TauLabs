@@ -83,9 +83,12 @@ static void writeHeader();
 // Local variables
 static uintptr_t logging_com_id;
 static uint32_t written_bytes;
+static bool destination_spi_flash;
 
+#if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
 // External variables
 extern uintptr_t streamfs_id;
+#endif
 
 /**
  * Initialise the Logging module
@@ -117,7 +120,15 @@ int32_t LoggingInitialize(void)
 
 	LoggingStatsInitialize();
 	LoggingSettingsInitialize();
-
+	
+	LoggingSettingsLogDestinationOptions log_destination;
+	LoggingSettingsLogDestinationGet(&log_destination);
+	
+	if (log_destination == LOGGINGSETTINGS_LOGDESTINATION_SPIFLASH)
+		destination_spi_flash = true;
+	else
+		destination_spi_flash = false;
+	
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&send_data);
 
@@ -150,12 +161,13 @@ static void loggingTask(void *parameters)
 {
 	bool armed = false;
 	bool write_open = false;
-	bool read_open = false;
 	bool first_run = true;
+	
+#if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
+	bool read_open = false;
 	int32_t read_sector = 0;
 	uint8_t read_data[LOGGINGSTATS_FILESECTOR_NUMELEM];
-
-	//PIOS_STREAMFS_Format(streamfs_id);
+#endif
 
 	// Get settings and connect callback
 	LoggingSettingsGet(&settings);
@@ -169,18 +181,32 @@ static void loggingTask(void *parameters)
 	LoggingStatsData loggingData;
 	LoggingStatsGet(&loggingData);
 	loggingData.BytesLogged = 0;
-	loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
-	loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
+	
+#if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
+	if (destination_spi_flash)
+	{
+		loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
+		loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
+	}
+#endif
 
 	if (settings.LogBehavior == LOGGINGSETTINGS_LOGBEHAVIOR_LOGONSTART) {
-		if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
-			loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
-			write_open = false;
-		} else {
-			loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING;
-			write_open = true;
-			first_run = true;
+		loggingData.Operation = LOGGINGSTATS_OPERATION_LOGGING;
+		write_open = true;
+		first_run = true;
+
+#if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
+		if (destination_spi_flash)
+		{
+			if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) 
+			{
+				loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
+				write_open = false;
+				first_run = false;
+			} 
 		}
+#endif
+
 	} else {
 		loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
 	}
@@ -188,8 +214,10 @@ static void loggingTask(void *parameters)
 	LoggingStatsSet(&loggingData);
 
 	int i = 0;
+
 	// Loop forever
-	while (1) {
+	while (1) 
+	{
 
 		// Sleep for some time depending on logging rate
 		switch(settings.MaxLogRate){
@@ -232,28 +260,43 @@ static void loggingTask(void *parameters)
 			}
 		}
 
-
-		// If currently downloading a log, close the file
-		if (loggingData.Operation == LOGGINGSTATS_OPERATION_LOGGING && read_open) {
-			PIOS_STREAMFS_Close(streamfs_id);
-			read_open = false;
+		///////////////////////////////////////////////////////////////////////
+		
+#if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
+		if (destination_spi_flash) {
+			if (loggingData.Operation == LOGGINGSTATS_OPERATION_LOGGING && read_open) { // If currently downloading a log, close the file
+				PIOS_STREAMFS_Close(streamfs_id);
+				read_open = false;
+			}
 		}
+#endif
 
 		if (loggingData.Operation == LOGGINGSTATS_OPERATION_LOGGING && !write_open) {
-			if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
-				loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
-			} else {
-				write_open = true;
+			write_open = true;
+			
+#if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
+			if (destination_spi_flash) {
+				if (PIOS_STREAMFS_OpenWrite(streamfs_id) != 0) {
+					loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
+					write_open = false;
+				} 
+			
+				loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
+				loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
+				LoggingStatsSet(&loggingData);
 			}
-			loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
-			loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
-			LoggingStatsSet(&loggingData);
+#endif
 		} else if (loggingData.Operation != LOGGINGSTATS_OPERATION_LOGGING && write_open) {
-			PIOS_STREAMFS_Close(streamfs_id);
-			loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
-			loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
-			LoggingStatsSet(&loggingData);
 			write_open = false;
+			
+#if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
+			if (destination_spi_flash) {
+				PIOS_STREAMFS_Close(streamfs_id);
+				loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
+				loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
+				LoggingStatsSet(&loggingData);
+			}
+#endif
 		}
 
 		switch (loggingData.Operation) {
@@ -336,54 +379,59 @@ static void loggingTask(void *parameters)
 			break;
 
 		case LOGGINGSTATS_OPERATION_DOWNLOAD:
-			if (!read_open) {
-				// Start reading
-				if (PIOS_STREAMFS_OpenRead(streamfs_id, loggingData.FileRequest) != 0) {
-					loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
-				} else {
-					read_open = true;
-					read_sector = -1;
+#if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
+			if (destination_spi_flash)
+			{
+				if (!read_open) {
+					// Start reading
+					if (PIOS_STREAMFS_OpenRead(streamfs_id, loggingData.FileRequest) != 0) {
+						loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
+					} else {
+						read_open = true;
+						read_sector = -1;
+					}
 				}
-			}
 
-			if (read_open && read_sector == loggingData.FileSectorNum) {
-				// Request received for same sector. Reupdate.
-				memcpy(loggingData.FileSector, read_data, LOGGINGSTATS_FILESECTOR_NUMELEM);
-				loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
-			} else if (read_open && (read_sector + 1) == loggingData.FileSectorNum) {
-				int32_t bytes_read = PIOS_COM_ReceiveBuffer(logging_com_id, read_data, LOGGINGSTATS_FILESECTOR_NUMELEM, 1);
-
-				if (bytes_read < 0 || bytes_read > LOGGINGSTATS_FILESECTOR_NUMELEM) {
-					// close on error
-					loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
-					PIOS_STREAMFS_Close(streamfs_id);
-					read_open = false;
-				} else if (bytes_read < LOGGINGSTATS_FILESECTOR_NUMELEM) {
-
-					// Check it has really run out of bytes by reading again
-					int32_t bytes_read2 = PIOS_COM_ReceiveBuffer(logging_com_id, &read_data[bytes_read], LOGGINGSTATS_FILESECTOR_NUMELEM - bytes_read, 1);
+				if (read_open && read_sector == loggingData.FileSectorNum) {
+					// Request received for same sector. Reupdate.
 					memcpy(loggingData.FileSector, read_data, LOGGINGSTATS_FILESECTOR_NUMELEM);
+					loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
+				} else if (read_open && (read_sector + 1) == loggingData.FileSectorNum) {
+					int32_t bytes_read = PIOS_COM_ReceiveBuffer(logging_com_id, read_data, LOGGINGSTATS_FILESECTOR_NUMELEM, 1);
 
-					if ((bytes_read + bytes_read2) < LOGGINGSTATS_FILESECTOR_NUMELEM) {
-						// indicate end of file
-						loggingData.Operation = LOGGINGSTATS_OPERATION_COMPLETE;
+					if (bytes_read < 0 || bytes_read > LOGGINGSTATS_FILESECTOR_NUMELEM) {
+						// close on error
+						loggingData.Operation = LOGGINGSTATS_OPERATION_ERROR;
 						PIOS_STREAMFS_Close(streamfs_id);
 						read_open = false;
+					} else if (bytes_read < LOGGINGSTATS_FILESECTOR_NUMELEM) {
+
+						// Check it has really run out of bytes by reading again
+						int32_t bytes_read2 = PIOS_COM_ReceiveBuffer(logging_com_id, &read_data[bytes_read], LOGGINGSTATS_FILESECTOR_NUMELEM - bytes_read, 1);
+						memcpy(loggingData.FileSector, read_data, LOGGINGSTATS_FILESECTOR_NUMELEM);
+
+						if ((bytes_read + bytes_read2) < LOGGINGSTATS_FILESECTOR_NUMELEM) {
+							// indicate end of file
+							loggingData.Operation = LOGGINGSTATS_OPERATION_COMPLETE;
+							PIOS_STREAMFS_Close(streamfs_id);
+							read_open = false;
+						} else {
+							// Indicate sent
+							loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
+						}
 					} else {
 						// Indicate sent
 						loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
+						memcpy(loggingData.FileSector, read_data, LOGGINGSTATS_FILESECTOR_NUMELEM);
 					}
-				} else {
-					// Indicate sent
-					loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
-					memcpy(loggingData.FileSector, read_data, LOGGINGSTATS_FILESECTOR_NUMELEM);
+					read_sector = loggingData.FileSectorNum;
 				}
-				read_sector = loggingData.FileSectorNum;
+				LoggingStatsSet(&loggingData);		
 			}
-			LoggingStatsSet(&loggingData);
-
+#endif
+			break;
 		}
-
+        
 		i++;
 	}
 }
