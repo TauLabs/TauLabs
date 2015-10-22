@@ -157,10 +157,6 @@ static void msp_send(struct msp_bridge *m, uint8_t cmd, uint8_t *data, size_t le
 
 static msp_state msp_state_size(struct msp_bridge *m, uint8_t b)
 {
-	if (b > MAX_MSP_CMD_LEN) {
-		// Too large a body, just go into idle and resync
-		return MSP_IDLE;
-	}
 	m->_cmd_size = b;
 	m->_checksum = b;
 	return MSP_HEADER_CMD;
@@ -172,6 +168,12 @@ static msp_state msp_state_cmd(struct msp_bridge *m, uint8_t b)
 	m->_cmd_id = b;
 	m->_checksum ^= m->_cmd_id;
 	m->_bufptr = m->_buf;
+
+	if (m->_cmd_size > MAX_MSP_CMD_LEN) {
+		// Too large a body.  Let's ignore it.
+		return MSP_DISCARD;
+	}
+
 	return m->_cmd_size == 0 ? MSP_CHECKSUM : MSP_FILLBUF;
 }
 
@@ -344,7 +346,7 @@ static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
 
 static msp_state msp_state_discard(struct msp_bridge *m, uint8_t b)
 {
-	return m->_cmd_i++ >= m->_cmd_size ? MSP_IDLE : MSP_DISCARD;
+	return m->_cmd_i++ == m->_cmd_size ? MSP_IDLE : MSP_DISCARD;
 }
 
 /**
