@@ -115,7 +115,6 @@ struct msp_bridge {
 	uint8_t _cmd_id;
 	uint8_t _cmd_i;
 	uint8_t _checksum;
-	uint8_t *_bufptr;
 	uint8_t _buf[MAX_MSP_CMD_LEN];
 };
 
@@ -167,7 +166,6 @@ static msp_state msp_state_cmd(struct msp_bridge *m, uint8_t b)
 	m->_cmd_i = 0;
 	m->_cmd_id = b;
 	m->_checksum ^= m->_cmd_id;
-	m->_bufptr = m->_buf;
 
 	if (m->_cmd_size > MAX_MSP_CMD_LEN) {
 		// Too large a body.  Let's ignore it.
@@ -179,9 +177,7 @@ static msp_state msp_state_cmd(struct msp_bridge *m, uint8_t b)
 
 static msp_state msp_state_fill_buf(struct msp_bridge *m, uint8_t b)
 {
-	*m->_bufptr = b;
-	m->_bufptr++;
-	m->_cmd_i++;
+	m->_buf[m->_cmd_i++] = b;
 	m->_checksum ^= b;
 	return m->_cmd_i == m->_cmd_size ? MSP_CHECKSUM : MSP_FILLBUF;
 }
