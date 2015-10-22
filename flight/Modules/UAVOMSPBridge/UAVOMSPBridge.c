@@ -131,7 +131,6 @@ struct msp_bridge {
 static bool module_enabled;
 extern uintptr_t pios_com_msp_id;
 static struct msp_bridge *msp;
-static struct pios_thread *task;
 static int32_t uavoMSPBridgeInitialize(void);
 static void uavoMSPBridgeTask(void *parameters);
 
@@ -435,7 +434,7 @@ static int32_t uavoMSPBridgeStart(void)
 			&& PIOS_SENSORS_GetQueue(PIOS_SENSOR_BARO) != NULL)
 		msp->msp_settings.use_baro_sensor = true;
 
-	task = PIOS_Thread_Create(
+	struct pios_thread *task = PIOS_Thread_Create(
 		uavoMSPBridgeTask, "uavoMSPBridge",
 		STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_UAVOMSPBRIDGE,
@@ -485,9 +484,11 @@ static void uavoMSPBridgeTask(void *parameters)
 		uint16_t count = PIOS_COM_ReceiveBuffer(msp->com, &b, 1, PIOS_QUEUE_TIMEOUT_MAX);
 		if (count) {
 			if (!msp_receive_byte(msp, b)) {
-				TaskMonitorRemove(TASKINFO_RUNNING_UAVOMSPBRIDGE);
-				PIOS_Thread_Delete(task);
-				return;
+				// Returning is considered risky here as
+				// that's unusual and this is an edge case.
+				while (1) {
+					PIOS_Thread_Sleep(60*1000);
+				}
 			}
 		}
 	}
