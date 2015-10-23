@@ -674,18 +674,9 @@ void PIOS_HAL_ConfigureHID(HwSharedUSB_HIDPortOptions port_type,
 		}
 	}
 	break;
-	case HWSHARED_USB_HIDPORT_RCTRANSMITTER:
-#if defined(PIOS_INCLUDE_USB_RCTX)
-		{
-			if (PIOS_USB_RCTX_Init(&pios_usb_rctx_id, &pios_usb_rctx_cfg, pios_usb_id)) {
-				PIOS_Assert(0);
-			}
-		}
-#endif  /* PIOS_INCLUDE_USB_RCTX */
-		break;
-
 	}
 }
+
 #endif  /* PIOS_INCLUDE_USB_HID */
 
 #if defined(PIOS_INCLUDE_RFM22B)

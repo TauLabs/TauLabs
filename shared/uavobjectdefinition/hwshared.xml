@@ -30,7 +30,7 @@
 		</field>
 
 		<field name="MagOrientation" units="function" type="enum" elements="1" options="Top0degCW,Top90degCW,Top180degCW,Top270degCW,Bottom0degCW,Bottom90degCW,Bottom180degCW,Bottom270degCW" defaultvalue="Top0degCW" />
-		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
+		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,Disabled" defaultvalue="USBTelemetry"/>
 		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,PicoC,Disabled" defaultvalue="Disabled"/>
 		<field name="RadioPort" units="" type="enum" elements="1" options="Disabled,Telem,Telem+PPM,PPM,OpenLRS" defaultvalue="Disabled"/>
 		<!-- these must match the ordering of options in the rfm22b module -->
