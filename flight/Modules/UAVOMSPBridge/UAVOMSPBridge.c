@@ -37,6 +37,7 @@
 #include "manualcontrolcommand.h"
 #include "attitudeactual.h"
 #include "airspeedactual.h"
+#include "actuatorsettings.h"
 #include "actuatordesired.h"
 #include "flightstatus.h"
 #include "systemstats.h"
@@ -326,21 +327,38 @@ static void _msp_send_channels(struct msp_bridge *m)
 	ManualControlCommandData manualState;
 	ManualControlCommandGet(&manualState);
 
+	// MSP RC order is Roll/Pitch/Yaw/Throttle/AUX1/AUX2/AUX3/AUX4
+	static const uint8_t channel_map[] = {
+		MANUALCONTROLCOMMAND_CHANNEL_ROLL,
+		MANUALCONTROLCOMMAND_CHANNEL_PITCH,
+		MANUALCONTROLCOMMAND_CHANNEL_YAW,
+		MANUALCONTROLCOMMAND_CHANNEL_THROTTLE,
+		MANUALCONTROLCOMMAND_CHANNEL_FLIGHTMODE,
+		MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY0,
+		MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY1,
+		MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY2,
+	};
+
 	union {
 		uint8_t buf[0];
 		uint16_t channels[8];
-	} data = {.channels = {
-			  manualState.Channel[MANUALCONTROLCOMMAND_CHANNEL_ROLL],
-			  manualState.Channel[MANUALCONTROLCOMMAND_CHANNEL_PITCH],
-			  manualState.Channel[MANUALCONTROLCOMMAND_CHANNEL_YAW],
-			  manualState.Channel[MANUALCONTROLCOMMAND_CHANNEL_THROTTLE],
-			  manualState.Channel[MANUALCONTROLCOMMAND_CHANNEL_FLIGHTMODE],
-			  manualState.Channel[MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY0],
-			  manualState.Channel[MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY1],
-			  manualState.Channel[MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY2],
-		  }
-	};
-	// Roll/Pitch/Yaw/Throttle/AUX1/AUX2/AUX3/AUX4
+	} data;
+
+	int throttle = manualState.Channel[MANUALCONTROLCOMMAND_CHANNEL_THROTTLE];
+	if (throttle > 500 && throttle < 3000) {
+		// Normal stuff.
+		for (int i = 0; i < 8; i++) {
+			data.channels[i] = manualState.Channel[channel_map[i]];
+		}
+	} else {
+		// Out of bound values indicate rc is not connected.
+		ActuatorSettingsData actuatorSettings;
+		ActuatorSettingsGet(&actuatorSettings);
+		for (int i = 0; i < 8; i++) {
+			data.channels[i] = actuatorSettings.ChannelNeutral[channel_map[i]];
+		}
+	}
+
 	msp_send(m, MSP_RC, data.buf, sizeof(data));
 }
 
