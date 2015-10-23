@@ -530,6 +530,29 @@ void PIOS_Board_Init(void) {
 			break;
 	}
 
+	// the filter has to be set before rate else divisor calculation will fail
+	uint8_t hw_mpu_dlpf;
+	HwNazeMPU6050DLPFGet(&hw_mpu_dlpf);
+	enum pios_mpu60x0_filter mpu_dlpf = \
+			    (hw_mpu_dlpf == HWNAZE_MPU6050DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
+			    (hw_mpu_dlpf == HWNAZE_MPU6050DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
+			    (hw_mpu_dlpf == HWNAZE_MPU6050DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
+			    (hw_mpu_dlpf == HWNAZE_MPU6050DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
+			    (hw_mpu_dlpf == HWNAZE_MPU6050DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
+			    (hw_mpu_dlpf == HWNAZE_MPU6050DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
+			    (hw_mpu_dlpf == HWNAZE_MPU6050DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
+			    pios_mpu6050_cfg.default_filter;
+	PIOS_MPU6050_SetLPF(mpu_dlpf);
+
+	uint8_t hw_mpu_samplerate;
+	HwNazeMPU6050RateGet(&hw_mpu_samplerate);
+	uint16_t mpu_samplerate = \
+			    (hw_mpu_samplerate == HWNAZE_MPU6050RATE_200) ? 200 : \
+			    (hw_mpu_samplerate == HWNAZE_MPU6050RATE_333) ? 333 : \
+			    (hw_mpu_samplerate == HWNAZE_MPU6050RATE_500) ? 500 : \
+			    pios_mpu6050_cfg.default_samplerate;
+	PIOS_MPU6050_SetSampleRate(mpu_samplerate);
+
 #endif /* PIOS_INCLUDE_MPU6050 */
 
 	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
