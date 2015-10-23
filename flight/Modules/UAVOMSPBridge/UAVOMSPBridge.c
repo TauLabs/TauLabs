@@ -81,6 +81,34 @@
 #define  MSP_CELLS      130 // FrSky SPort Telemtry
 
 typedef enum {
+	MSP_BOX_ARM,
+	MSP_BOX_ANGLE,
+	MSP_BOX_HORIZON,
+	MSP_BOX_BARO,
+	MSP_BOX_VARIO,
+	MSP_BOX_MAG,
+	MSP_BOX_GPSHOME,
+	MSP_BOX_GPSHOLD,
+	MSP_BOX_LAST,
+} msp_box_t;
+
+static struct {
+	msp_box_t mode;
+	uint8_t mwboxid;
+	FlightStatusFlightModeOptions tlmode;
+} msp_boxes[] = {
+	{ MSP_BOX_ARM, 0, 0 },
+	{ MSP_BOX_ANGLE, 1, FLIGHTSTATUS_FLIGHTMODE_LEVELING},
+	{ MSP_BOX_HORIZON, 2, FLIGHTSTATUS_FLIGHTMODE_HORIZON},
+	{ MSP_BOX_BARO, 3, FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD},
+	{ MSP_BOX_VARIO, 4, 0},
+	{ MSP_BOX_MAG, 5, 0},
+	{ MSP_BOX_GPSHOME, 10, FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME},
+	{ MSP_BOX_GPSHOLD, 11, FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD},
+	{ MSP_BOX_LAST, 0xff, 0},
+};
+
+typedef enum {
 	MSP_IDLE,
 	MSP_HEADER_START,
 	MSP_HEADER_M,
@@ -218,6 +246,20 @@ static void _msp_send_status(struct msp_bridge *m)
 	data.status.sensors = MSP_SENSOR_ACC; // TODO fill in
 	data.status.flags = 0;
 	data.status.setting = 0;
+
+	if (FlightStatusHandle() != NULL) {
+		FlightStatusData flight_status;
+		FlightStatusGet(&flight_status);
+
+		data.status.flags = flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED;
+
+		for (int i = 1; msp_boxes[i].mode != MSP_BOX_LAST; i++) {
+			if (flight_status.FlightMode == msp_boxes[i].tlmode) {
+				data.status.flags |= (1 << i);
+			}
+		}
+	}
+
 	msp_send(m, MSP_STATUS, data.buf, sizeof(data));
 }
 
@@ -302,6 +344,16 @@ static void _msp_send_channels(struct msp_bridge *m)
 	msp_send(m, MSP_RC, data.buf, sizeof(data));
 }
 
+static void _msp_send_boxids(struct msp_bridge *m) {
+	uint8_t boxes[MSP_BOX_LAST];
+	int len = 0;
+
+	for (int i = 0; msp_boxes[i].mode != MSP_BOX_LAST; i++) {
+		boxes[len++] = msp_boxes[i].mwboxid;
+	}
+	msp_send(m, MSP_BOXIDS, boxes, len);
+}
+
 static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
 {
 	if ((m->_checksum ^ b) != 0) {
@@ -333,6 +385,10 @@ static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
 		break;
 	case MSP_RC:
 		_msp_send_channels(m);
+		break;
+	case MSP_BOXIDS:
+		_msp_send_boxids(m);
+		break;
 	}
 	return MSP_IDLE;
 }
