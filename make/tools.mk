@@ -598,3 +598,23 @@ endif
 .PHONY: openssl_clean
 openssl_clean:
 	$(V1) [ ! -d "$(OPENSSL_DIR)" ] || $(RM) -rf $(OPENSSL_DIR)
+
+# ZIP download URL
+ifdef WINDOWS
+  zip_install: ZIP_URL  := http://stahlworks.com/dev/zip.exe
+
+zip_install: ZIP_FILE := $(notdir $(ZIP_URL))
+ZIP_DIR = $(TOOLS_DIR)/zip
+# order-only prereq on directory existance:
+zip_install : | $(DL_DIR) $(TOOLS_DIR)
+zip_install: zip_clean
+	$(V1) mkdir -p "$(ZIP_DIR)"
+	$(V1) curl -L -k -o "$(ZIP_DIR)/$(ZIP_FILE)" "$(ZIP_URL)"
+else
+zip_install:
+	$(V1) $(error THIS IS A WINDOWS ONLY TARGET)
+endif
+
+.PHONY: zip_clean
+zip_clean:
+	$(V1) [ ! -d "$(ZIP_DIR)" ] || $(RM) -rf $(ZIP_DIR)
