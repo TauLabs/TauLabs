@@ -857,6 +857,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		// Flag to indicate ever got a link
 		openlrs_dev->link_acquired |= true;
 		openlrs_status.FailsafeActive = OPENLRSSTATUS_FAILSAFEACTIVE_INACTIVE;
+		openlrs_dev->beacon_armed = false; // when receiving packets make sure beacon cannot emit
 
 		// When telemetry is enabled we ack packets and send info about FC back
 		if (openlrs_dev->bind_data.flags & TELEMETRY_MASK) {
@@ -950,6 +951,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			if ((openlrs_dev->beacon_frequency) && (openlrs_dev->nextBeaconTimeMs) &&
 					((timeMs - openlrs_dev->nextBeaconTimeMs) < 0x80000000)) {
 
+				// Indicate that the beacon is now active so we can trigger extra ones below
+				openlrs_dev->beacon_armed = true;
+
 				DEBUG_PRINTF(2,"Beacon time: %d\r\n", openlrs_dev->nextBeaconTimeMs);
 				// Only beacon when disarmed
 				uint8_t armed;
@@ -979,7 +983,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			openlrs_dev->rf_channel = 0;
 		}
 
-		if ((openlrs_dev->beacon_frequency) && (openlrs_dev->nextBeaconTimeMs)) {
+		if ((openlrs_dev->beacon_frequency) && (openlrs_dev->nextBeaconTimeMs) && openlrs_dev->beacon_armed) {
 			// Listen for RSSI on beacon channel briefly for 'trigger'
 			uint8_t brssi = beaconGetRSSI(openlrs_dev);
 			if (brssi > ((openlrs_dev->beacon_rssi_avg>>2) + 20)) {
