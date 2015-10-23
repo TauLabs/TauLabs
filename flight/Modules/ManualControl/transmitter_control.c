@@ -53,10 +53,6 @@
 
 #include "misc_math.h"
 
-#if defined(PIOS_INCLUDE_USB_RCTX)
-#include "pios_usb_rctx.h"
-#endif	/* PIOS_INCLUDE_USB_RCTX */
-
 #if defined(PIOS_INCLUDE_OPENLRS_RCVR)
 #include "pios_openlrs.h"
 #endif /* PIOS_INCLUDE_OPENLRS_RCVR */
@@ -397,17 +393,6 @@ int32_t transmitter_control_update()
 	
 	// Update cmd object
 	ManualControlCommandSet(&cmd);
-
-#if defined(PIOS_INCLUDE_USB_RCTX)
-	// Optionally make the hardware behave like a USB HID joystick
-	if (pios_usb_rctx_id) {
-		PIOS_USB_RCTX_Update(pios_usb_rctx_id,
-				cmd.Channel,
-				settings.ChannelMin,
-				settings.ChannelMax,
-				NELEMENTS(cmd.Channel));
-	}
-#endif	/* PIOS_INCLUDE_USB_RCTX */
 
 	return 0;
 }
