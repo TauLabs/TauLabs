@@ -92,6 +92,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOFrSkySPortBridge, ModuleSettings::ADMINSTATE_UAVOFRSKYSPORTBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGeofence, ModuleSettings::ADMINSTATE_GEOFENCE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbAutotune, ModuleSettings::ADMINSTATE_AUTOTUNE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOMSPBridge, ModuleSettings::ADMINSTATE_UAVOMSPBRIDGE);
 
     // Don't allow this to be changed here, only in the autotune tab.
     ui->cbAutotune->setDisabled(true);
@@ -380,6 +381,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     ui->gb_measureCurrent->setProperty(trueString.toLatin1(), "Enabled");
     ui->gb_measureCurrent->setProperty(falseString.toLatin1(), "Disabled");
+
+    ui->cbUAVOMSPBridge->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbUAVOMSPBridge->setProperty(falseString.toLatin1(), "Disabled");
 
     enableBatteryTab(false);
     enableAirspeedTab(false);
