@@ -130,8 +130,15 @@ static void batteryTask(void * parameters)
 
 		// handle voltage
 		if (voltageADCPin >= 0) {
-			flightBatteryData.Voltage = ((float) PIOS_ADC_GetChannelVolt(voltageADCPin)) / batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_VOLTAGE] * 1000.0f +
-							batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_VOLTAGE]; //in Volts
+			flightBatteryData.Voltage = (float)PIOS_ADC_GetChannelVolt(voltageADCPin);
+
+			// A negative result indicates an error (PIOS_ADC_GetChannelVolt returns -1 on error)
+			if(flightBatteryData.Voltage < 0.0f)
+				flightBatteryData.Voltage = 0.0f;
+
+			// scale to actual voltage
+			flightBatteryData.Voltage *= 1000.0f / batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_VOLTAGE];
+			flightBatteryData.Voltage += batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_VOLTAGE]; //in Volts
 
 			// generate alarms and warnings
 			if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM])
@@ -146,8 +153,16 @@ static void batteryTask(void * parameters)
 
 		// handle current
 		if (currentADCPin >= 0) {
-			flightBatteryData.Current = ((float) PIOS_ADC_GetChannelVolt(currentADCPin)) / batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_CURRENT] * 1000.0f +
-							batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_CURRENT]; //in Amps
+			flightBatteryData.Current = (float)PIOS_ADC_GetChannelVolt(currentADCPin);
+
+			// A negative result indicates an error (PIOS_ADC_GetChannelVolt returns -1 on error)
+			if(flightBatteryData.Current < 0.0f)
+				flightBatteryData.Current = 0.0f;
+
+			// scale to actual current
+			flightBatteryData.Current *= 1000.0f / batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_CURRENT];
+			flightBatteryData.Current += batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_CURRENT]; //in Amps
+
 			if (flightBatteryData.Current > flightBatteryData.PeakCurrent)
 				flightBatteryData.PeakCurrent = flightBatteryData.Current; //in Amps
 
