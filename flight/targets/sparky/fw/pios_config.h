@@ -128,6 +128,8 @@
 
 #define CAMERASTAB_POI_MODE
 
+#define PIOS_INCLUDE_FASTHEAP
+
 #endif /* PIOS_CONFIG_H */
 /**
  * @}
