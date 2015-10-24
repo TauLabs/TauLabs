@@ -226,6 +226,13 @@ bool ConfigAutotuneWidget::approveSettings(
                                                            "Do you still want to proceed?"), QMessageBox::Yes,QMessageBox::No);
         if (ans == QMessageBox::No)
             return false;
+    } else if (exp(systemIdentData.Tau) < 0.008) {
+
+        int ans = QMessageBox::warning(this,tr("Extreme values"),
+                                     tr("Your estimated response speed (tau) is faster than normal. This will result in large PID values. "
+                                                           "Do you still want to proceed?"), QMessageBox::Yes,QMessageBox::No);
+        if (ans == QMessageBox::No)
+            return false;
     }
 
     return true;
