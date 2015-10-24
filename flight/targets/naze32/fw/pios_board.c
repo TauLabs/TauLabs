@@ -410,7 +410,7 @@ void PIOS_Board_Init(void) {
 					&pios_usart_dsm_hsum_rcvrserial_cfg,
 					&pios_dsm_rcvrserial_cfg,
 					hw_DSMxMode,
-					NULL, NULL, false, 0);
+					NULL, NULL, false);
 		}
 
 		// Fall through to set up PPM.

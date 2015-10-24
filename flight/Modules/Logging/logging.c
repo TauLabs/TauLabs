@@ -97,9 +97,15 @@ extern uintptr_t streamfs_id;
  */
 int32_t LoggingInitialize(void)
 {
-	// TODO: make selectable
-	logging_com_id = PIOS_COM_LOGGING;
-
+	if (PIOS_COM_OPENLOG) {
+		logging_com_id = PIOS_COM_OPENLOG;
+		destination_spi_flash = false;
+	}
+	else if (PIOS_COM_SPIFLASH) {
+		logging_com_id = PIOS_COM_SPIFLASH;
+		destination_spi_flash = true;
+	}
+		
 #ifdef MODULE_Logging_BUILTIN
 	module_enabled = true;
 #else
@@ -120,15 +126,7 @@ int32_t LoggingInitialize(void)
 
 	LoggingStatsInitialize();
 	LoggingSettingsInitialize();
-	
-	LoggingSettingsLogDestinationOptions log_destination;
-	LoggingSettingsLogDestinationGet(&log_destination);
-	
-	if (log_destination == LOGGINGSETTINGS_LOGDESTINATION_SPIFLASH)
-		destination_spi_flash = true;
-	else
-		destination_spi_flash = false;
-	
+
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&send_data);
 

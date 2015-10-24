@@ -1,7 +1,6 @@
 <xml>
 	<object name="LoggingSettings" singleinstance="true" settings="true">
 		<description>Settings for the logging module</description>
-		<field name="LogDestination" units="" type="enum" options="SPIFlash,OpenLog" elements="1" defaultvalue="OpenLog"/>
 		<field name="LogBehavior" units="" type="enum" options="LogOnStart,LogOnArm,LogOff" elements="1" defaultvalue="LogOnArm"/>
 		<field name="LogSettingsOnStart" units="" type="enum" options="True,False" elements="1" defaultvalue="True"/>
 		<field name="MaxLogRate" units="Hz" type="enum" options="5,10,25,50,100" elements="1" defaultvalue="25"/>
