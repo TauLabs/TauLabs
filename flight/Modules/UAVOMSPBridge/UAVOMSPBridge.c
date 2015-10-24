@@ -316,7 +316,21 @@ static void _msp_send_comp_gps(struct msp_bridge *m)
 
 static void _msp_send_altitude(struct msp_bridge *m)
 {
-	// TODO
+	union {
+		uint8_t buf[0];
+		struct {
+			int32_t alt; // cm
+			uint16_t vario; // cm/s
+		} __attribute__((packed)) baro;
+	} data;
+
+	BaroAltitudeData baro;
+	if (BaroAltitudeHandle() != NULL)
+		BaroAltitudeGet(&baro);
+
+	data.baro.alt = (int32_t)roundf(baro.Altitude * 100.0f);
+
+	msp_send(m, MSP_ALTITUDE, data.buf, sizeof(data));
 }
 
 static void _msp_send_channels(struct msp_bridge *m)
