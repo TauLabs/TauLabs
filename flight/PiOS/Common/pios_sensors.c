@@ -58,6 +58,18 @@ int32_t PIOS_SENSORS_Register(enum pios_sensor_type type, struct pios_queue *que
 	return 0;
 }
 
+//! Checks if a sensor type is registered with the PIOS_SENSORS interface
+bool PIOS_SENSORS_IsRegistered(enum pios_sensor_type type)
+{
+	if(type >= PIOS_SENSOR_LAST)
+		return false;
+
+	if(queues[type] != NULL)
+		return true;
+
+	return false;
+}
+
 //! Get the data queue for a sensor type
 struct pios_queue *PIOS_SENSORS_GetQueue(enum pios_sensor_type type)
 {

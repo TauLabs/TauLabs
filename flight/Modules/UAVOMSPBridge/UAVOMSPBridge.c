@@ -44,6 +44,7 @@
 #include "homelocation.h"
 #include "baroaltitude.h"
 #include "pios_thread.h"
+#include "pios_sensors.h"
 
 #include "baroaltitude.h"
 #include "flightbatterysettings.h"
@@ -123,15 +124,8 @@ typedef enum {
 	MSP_MAYBE_UAVTALK4,
 } msp_state;
 
-struct msp_settings {
-	uint8_t batt_cell_count : 4;
-	bool use_current_sensor : 1;
-	bool use_baro_sensor : 1;
-};
-
 struct msp_bridge {
 	uintptr_t com;
-	struct msp_settings msp_settings;
 
 	msp_state _state;
 	uint8_t _cmd_size;
@@ -222,8 +216,8 @@ static void _msp_send_attitude(struct msp_bridge *m)
 
 	AttitudeActualGet(&attActual);
 
-	data.att.x = attActual.Roll * -10;
-	data.att.y = attActual.Pitch * 10;
+	data.att.x = attActual.Roll * 10;
+	data.att.y = attActual.Pitch * -10;
 	data.att.h = 0 * 10;
 
 	msp_send(m, MSP_ATTITUDE, data.buf, sizeof(data));
@@ -244,7 +238,10 @@ static void _msp_send_status(struct msp_bridge *m)
 	// TODO: https://github.com/TauLabs/TauLabs/blob/next/shared/uavobjectdefinition/actuatordesired.xml#L8
 	data.status.cycleTime = 0;
 	data.status.i2cErrors = 0;
-	data.status.sensors = MSP_SENSOR_ACC; // TODO fill in
+	data.status.sensors =
+		(PIOS_SENSORS_IsRegistered(PIOS_SENSOR_ACCEL) ? MSP_SENSOR_ACC : 0)
+		| (PIOS_SENSORS_IsRegistered(PIOS_SENSOR_BARO) ? MSP_SENSOR_BARO : 0)
+		| (PIOS_SENSORS_IsRegistered(PIOS_SENSOR_MAG) ? MSP_SENSOR_MAG : 0);
 	data.status.flags = 0;
 	data.status.setting = 0;
 
@@ -319,7 +316,21 @@ static void _msp_send_comp_gps(struct msp_bridge *m)
 
 static void _msp_send_altitude(struct msp_bridge *m)
 {
-	// TODO
+	union {
+		uint8_t buf[0];
+		struct {
+			int32_t alt; // cm
+			uint16_t vario; // cm/s
+		} __attribute__((packed)) baro;
+	} data;
+
+	BaroAltitudeData baro;
+	if (BaroAltitudeHandle() != NULL)
+		BaroAltitudeGet(&baro);
+
+	data.baro.alt = (int32_t)roundf(baro.Altitude * 100.0f);
+
+	msp_send(m, MSP_ALTITUDE, data.buf, sizeof(data));
 }
 
 static void _msp_send_channels(struct msp_bridge *m)
@@ -487,20 +498,6 @@ static int32_t uavoMSPBridgeStart(void)
 {
 	if (!module_enabled)
 		return -1;
-
-	if (FlightBatterySettingsHandle() != NULL
-			&& FlightBatteryStateHandle() != NULL) {
-		FlightBatterySettingsData battery_settings;
-		uint8_t currentPin;
-		FlightBatterySettingsCurrentPinGet(&currentPin);
-		if (currentPin != FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE)
-			msp->msp_settings.use_current_sensor = true;
-		FlightBatterySettingsGet(&battery_settings);
-		msp->msp_settings.batt_cell_count = battery_settings.NbCells;
-	}
-	if (BaroAltitudeHandle() != NULL
-			&& PIOS_SENSORS_GetQueue(PIOS_SENSOR_BARO) != NULL)
-		msp->msp_settings.use_baro_sensor = true;
 
 	struct pios_thread *task = PIOS_Thread_Create(
 		uavoMSPBridgeTask, "uavoMSPBridge",
