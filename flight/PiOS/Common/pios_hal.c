@@ -577,9 +577,10 @@ void PIOS_HAL_ConfigureCDC(HwSharedUSB_VCPPortOptions port_type,
 {
 	uintptr_t pios_usb_cdc_id;
 
-	// TODO: Should we actually do this if disabled???
-	if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, cdc_cfg, usb_id)) {
-		PIOS_Assert(0);
+	if (port_type != HWSHARED_USB_VCPPORT_DISABLED) {
+		if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, cdc_cfg, usb_id)) {
+			PIOS_Assert(0);
+		}
 	}
 
 	switch (port_type) {
