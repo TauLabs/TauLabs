@@ -55,6 +55,7 @@ OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
+OPTMODULES += UAVOMSPBridge
 OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += UAVORelay
 OPTMODULES += Airspeed/revolution

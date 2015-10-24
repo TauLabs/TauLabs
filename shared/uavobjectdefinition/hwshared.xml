@@ -13,6 +13,7 @@
 				<option>ComBridge</option>
 				<option>MavLinkTX</option>
 				<option>MavLinkTX_GPS_RX</option>
+				<option>MSP</option>
 				<option>HoTT SUMD</option>
 				<option>HoTT SUMH</option>
 				<option>HoTT Telemetry</option>
