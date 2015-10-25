@@ -178,15 +178,15 @@ static const uint8_t frsky_rates[] = {
 // ****************
 // Private variables
 
-static struct pios_thread *uavoFrSKYSensorHubBridgeTaskHandle;
+static struct {
+	struct pios_thread *task_handle;
 
-static uint32_t frsky_port;
+	uint32_t frsky_port;
 
-static bool module_enabled;
+	uint8_t frame_ticks[MAXSTREAMS];
 
-static uint8_t *frame_ticks;
-
-static uint8_t *serial_buf;
+	uint8_t serial_buf[FRSKY_MAX_PACKET_LEN];
+} *frsky_state;
 
 /**
  * Start the module
@@ -195,13 +195,13 @@ static uint8_t *serial_buf;
  */
 static int32_t uavoFrSKYSensorHubBridgeStart(void)
 {
-	if (module_enabled) {
+	if (frsky_state) {
 		// Start tasks
-		uavoFrSKYSensorHubBridgeTaskHandle = PIOS_Thread_Create(
+		frsky_state->task_handle = PIOS_Thread_Create(
 				uavoFrSKYSensorHubBridgeTask, "uavoFrSKYSensorHubBridge",
 				STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_UAVOFRSKYSBRIDGE,
-				uavoFrSKYSensorHubBridgeTaskHandle);
+				frsky_state->task_handle);
 		return 0;
 	}
 	return -1;
@@ -214,33 +214,31 @@ static int32_t uavoFrSKYSensorHubBridgeStart(void)
  */
 static int32_t uavoFrSKYSensorHubBridgeInitialize(void)
 {
-	frsky_port = PIOS_COM_FRSKY_SENSOR_HUB;
+	uintptr_t frsky_port = PIOS_COM_FRSKY_SENSOR_HUB;
 
 	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
 	ModuleSettingsAdminStateGet(module_state);
 
 	if (frsky_port && (module_state[MODULESETTINGS_ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE]
 					== MODULESETTINGS_ADMINSTATE_ENABLED)) {
-		PIOS_COM_ChangeBaud(frsky_port, FRSKY_BAUD_RATE);
+		frsky_state = PIOS_malloc(sizeof(*frsky_state));
 
-		serial_buf = PIOS_malloc(FRSKY_MAX_PACKET_LEN);
-		if (serial_buf == 0)
+		if (frsky_state == 0) {
 			return -1;
-
-		frame_ticks = PIOS_malloc(MAXSTREAMS);
-		if (frame_ticks == 0)
-			return -1;
-
-		for (int x = 0; x < MAXSTREAMS; ++x) {
-			frame_ticks[x] = (TASK_RATE_HZ / frsky_rates[x]);
 		}
 
-		module_enabled = true;
+		frsky_state->frsky_port = frsky_port;
+
+		PIOS_COM_ChangeBaud(frsky_port, FRSKY_BAUD_RATE);
+
+		for (int x = 0; x < MAXSTREAMS; ++x) {
+			frsky_state->frame_ticks[x] =
+				(TASK_RATE_HZ / frsky_rates[x]);
+		}
 
 		return 0;
 	}
 
-	module_enabled = false;
 
 	return -1;
 }
@@ -256,6 +254,9 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 	GPSPositionData gpsPosData;
 	BaroAltitudeData baroAltitude;
 	FlightStatusData flightStatus;
+
+	uint8_t *serial_buf = frsky_state->serial_buf;
+
 	float accX = 0, accY = 0, accZ = 0;
 
 	if (FlightBatterySettingsHandle() != NULL )
@@ -380,7 +381,8 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 
 			msg_length += frsky_pack_stop(serial_buf + msg_length);
 
-			PIOS_COM_SendBuffer(frsky_port, serial_buf, msg_length);
+			PIOS_COM_SendBuffer(frsky_state->frsky_port,
+					serial_buf, msg_length);
 		}
 
 		if (frame_trigger(FRSKY_FRAME_BATTERY)) {
@@ -424,7 +426,8 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 
 			msg_length += frsky_pack_stop(serial_buf + msg_length);
 
-			PIOS_COM_SendBuffer(frsky_port, serial_buf, msg_length);
+			PIOS_COM_SendBuffer(frsky_state->frsky_port,
+					serial_buf, msg_length);
 		}
 
 		if (frame_trigger(FRSKY_FRAME_GPS)) {
@@ -523,30 +526,31 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 
 			msg_length += frsky_pack_stop(serial_buf + msg_length);
 
-			PIOS_COM_SendBuffer(frsky_port, serial_buf, msg_length);
+			PIOS_COM_SendBuffer(frsky_state->frsky_port,
+					serial_buf, msg_length);
 		}
 	}
 }
 
 static bool frame_trigger(uint8_t frame_num)
 {
-	uint8_t rate = (uint8_t) frsky_rates[frame_num];
+	uint8_t rate = frsky_rates[frame_num];
 
 	if (rate == 0) {
 		return false;
 	}
 
-	if (frame_ticks[frame_num] == 0) {
+	if (frsky_state->frame_ticks[frame_num] == 0) {
 		// we're triggering now, setup the next trigger point
 		if (rate > TASK_RATE_HZ) {
 			rate = TASK_RATE_HZ;
 		}
-		frame_ticks[frame_num] = (TASK_RATE_HZ / rate);
+		frsky_state->frame_ticks[frame_num] = (TASK_RATE_HZ / rate);
 		return true;
 	}
 
 	// count down at 50Hz
-	frame_ticks[frame_num]--;
+	frsky_state->frame_ticks[frame_num]--;
 	return false;
 }
 
