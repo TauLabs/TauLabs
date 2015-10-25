@@ -40,6 +40,9 @@ ConfigAutotuneWidget::ConfigAutotuneWidget(QWidget *parent) :
 
     SystemIdent *systemIdent = SystemIdent::GetInstance(getObjectManager());
 
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    utilMngr = pm->getObject<UAVObjectUtilManager>();
+
     addWidget(m_autotune->enableAutoTune);
 
     connect(systemIdent, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(recomputeStabilization()));
@@ -121,7 +124,14 @@ void ConfigAutotuneWidget::onForumInteractionSet(int value)
        return;
     }
 
+    deviceDescriptorStruct firmware;
+    utilMngr->getBoardDescriptionStruct(firmware);
+
     QString message0 = tr(
+                "[b]Flight controller[/b]: %13\n"
+                "[b]Firmware tag[/b]: %14\n"
+                "[b]Firmware commit[/b]: [url=http://github.com/TauLabs/TauLabs/commit/%15]%15[/url]\n"
+                "[b]Firmware date[/b]: %16\n\n\n"
                 "[b]Aircraft description[/b]: %0\n\n\n"
                 "[b]Observations[/b]: %1\n\n\n"
                 "[b]Measured properties[/b]"
@@ -153,7 +163,11 @@ void ConfigAutotuneWidget::onForumInteractionSet(int value)
             .arg(m_autotune->measuredPitchGain->text()).arg(m_autotune->measuredPitchBias->text())
             .arg(m_autotune->pitchTau->text()).arg(m_autotune->measuredPitchNoise->text())
             .arg(m_autotune->lblDamp->text()).arg(m_autotune->lblNoise->text())
-            .arg(m_autotune->wn->text());
+            .arg(m_autotune->wn->text())
+            .arg(utilMngr->getBoardType()->shortName())
+            .arg(firmware.gitTag)
+            .arg(firmware.gitHash.left(7))
+            .arg(firmware.gitDate);
     QString message1 = tr(
                 "[b]\n\nComputed Values[/b]"
                 "[table][tr][td][/td]"
@@ -218,6 +232,13 @@ bool ConfigAutotuneWidget::approveSettings(
 
         int ans = QMessageBox::warning(this,tr("Extreme values"),
                                      tr("Your estimated response speed (tau) is slower than normal. This will result in large PID values. "
+                                                           "Do you still want to proceed?"), QMessageBox::Yes,QMessageBox::No);
+        if (ans == QMessageBox::No)
+            return false;
+    } else if (exp(systemIdentData.Tau) < 0.008) {
+
+        int ans = QMessageBox::warning(this,tr("Extreme values"),
+                                     tr("Your estimated response speed (tau) is faster than normal. This will result in large PID values. "
                                                            "Do you still want to proceed?"), QMessageBox::Yes,QMessageBox::No);
         if (ans == QMessageBox::No)
             return false;

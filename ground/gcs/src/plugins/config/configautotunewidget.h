@@ -47,6 +47,7 @@ public:
 private:
     Ui_AutotuneWidget *m_autotune;
     StabilizationSettings::DataFields stabSettings;
+    UAVObjectUtilManager* utilMngr;
 
     bool approveSettings(SystemIdent::DataFields systemIdentData);
     Utils::ForumInteractionForm *forumInteractionForm;
