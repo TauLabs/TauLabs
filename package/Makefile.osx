@@ -23,7 +23,7 @@ dmg: standalone package_flight package_matlab
 	FW_DIR="$(FW_DIR)" \
 	"$(ROOT_DIR)/package/osx/package"
 
-gcs: uavobjects_gcs
+gcs: uavobjects
 	$(V1) $(MAKE) -C $(ROOT_DIR) GCS_BUILD_CONF=release $@
 
 ground_package: | dmg

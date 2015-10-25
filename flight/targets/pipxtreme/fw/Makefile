@@ -427,6 +427,8 @@ ASFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 
 MATH_LIB = -lm
 
+LIBS += $(UAVOBJLIB)
+
 # Linker flags.
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file

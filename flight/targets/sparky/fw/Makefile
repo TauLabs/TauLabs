@@ -306,6 +306,8 @@ ASFLAGS += $(ADEFS)
 ASFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 ASFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 
+LIBS += $(UAVOBJLIB)
+
 # Linker flags.
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file

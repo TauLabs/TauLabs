@@ -39,6 +39,8 @@
 #define $(NAMEUC)_H
 
 #include "pios_queue.h"
+#include "uavoversion.h"
+
 $(PARENT_INCLUDES)
 
 // Object constants
