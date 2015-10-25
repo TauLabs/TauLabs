@@ -171,7 +171,19 @@ extern uintptr_t pios_com_mavlink_id;
 
 //-------------------------
 // ADC
+// ADC0 : PA4 ADC_IN4
+// ADC1 : PA5 ADC_IN5
+// ADC2 : PA1 ADC_IN1
+// ADC3 : PB1 ADC_IN9
 //-------------------------
+
+#if defined(PIOS_INCLUDE_ADC)
+extern uintptr_t pios_internal_adc_id;
+#define pios_internal_adc_id					(pios_internal_adc_id)
+#endif
+#define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES		1
+
+#define VREF_PLUS								3.3
 
 //-------------------------
 // GPIO

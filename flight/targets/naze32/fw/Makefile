@@ -64,7 +64,7 @@ USE_UAVOMAVLINKBRIDGE ?= YES
 USE_UAVOMSPBRIDGE ?= YES
 USE_UAVOLIGHTTELEMETRYBRIDGE ?= NO
 USE_UAVOFRSKYSENSORHUBBRIDGE ?= YES
-USE_BATTERY ?= NO
+USE_BATTERY ?= YES
 # @endgroup  Optional modules
 
 # List of optional modules to include
@@ -167,7 +167,7 @@ SRC += $(PIOSSTM32F10X)/pios_sys.c
 SRC += $(PIOSSTM32F10X)/pios_led.c
 SRC += $(PIOSSTM32F10X)/pios_usart.c
 SRC += $(PIOSSTM32F10X)/pios_irq.c
-#SRC += $(PIOSSTM32F10X)/pios_internal_adc.c
+SRC += $(PIOSSTM32F10X)/pios_internal_adc_light.c
 SRC += $(PIOSSTM32F10X)/pios_servo.c
 #SRC += $(PIOSSTM32F10X)/pios_i2c.c
 SRC += $(PIOSSTM32F10X)/pios_i2c_alt.c
@@ -199,7 +199,7 @@ SRC += $(PIOSCOMMON)/pios_hsum.c
 SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_gcsrcvr.c
 SRC += $(PIOSCOMMON)/printf-stdarg.c
-#SRC += $(PIOSCOMMON)/pios_adc.c
+SRC += $(PIOSCOMMON)/pios_adc.c
 SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_heap.c
 SRC += $(PIOSCOMMON)/pios_semaphore.c

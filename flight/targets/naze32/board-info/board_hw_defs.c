@@ -237,6 +237,37 @@ const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32
 
 #endif	/* PIOS_INCLUDE_FLASH */
 
+#if defined(PIOS_INCLUDE_ADC)
+#include "pios_adc_priv.h"
+#include "pios_internal_adc_priv.h"
+
+/**
+ * ADC0 : PA4 ADC_IN4
+ * ADC1 : PA5 ADC_IN5
+ * ADC2 : PA1 ADC_IN1
+ * ADC3 : PB1 ADC_IN9
+ */
+static /*const*/ struct pios_internal_adc_cfg internal_adc_cfg = {
+	.dma = {
+		.ahb_clk  = RCC_AHBPeriph_DMA1,
+		.rx = {
+			.channel = DMA1_Channel1,
+			.init    = {
+				.DMA_Priority           = DMA_Priority_High,
+			},
+		}
+	},
+	.number_of_used_pins = 4,
+	.adc_pins = (struct adc_pin[]){
+		{GPIOA, GPIO_Pin_4, ADC_Channel_4, true},  // VBat
+		{GPIOA, GPIO_Pin_5, ADC_Channel_5, true},  // ADC Pad
+		{GPIOA, GPIO_Pin_1, ADC_Channel_1, true},  // RC IN 2
+		{GPIOB, GPIO_Pin_1, ADC_Channel_9, true},  // RC IN 8
+	}
+};
+
+#endif /* PIOS_INCLUDE_ADC */
+
 #include "pios_tim_priv.h"
 
 static const TIM_TimeBaseInitTypeDef tim_1_2_3_4_time_base = {
