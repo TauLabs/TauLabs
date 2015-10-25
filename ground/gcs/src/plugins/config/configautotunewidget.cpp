@@ -124,8 +124,14 @@ void ConfigAutotuneWidget::onForumInteractionSet(int value)
        return;
     }
 
+    deviceDescriptorStruct firmware;
+    utilMngr->getBoardDescriptionStruct(firmware);
+
     QString message0 = tr(
                 "[b]Flight controller[/b]: %13\n"
+                "[b]Firmware tag[/b]: %14\n"
+                "[b]Firmware commit[/b]: [url=http://github.com/TauLabs/TauLabs/commit/%15]%15[/url]\n"
+                "[b]Firmware date[/b]: %16\n\n\n"
                 "[b]Aircraft description[/b]: %0\n\n\n"
                 "[b]Observations[/b]: %1\n\n\n"
                 "[b]Measured properties[/b]"
@@ -158,7 +164,10 @@ void ConfigAutotuneWidget::onForumInteractionSet(int value)
             .arg(m_autotune->pitchTau->text()).arg(m_autotune->measuredPitchNoise->text())
             .arg(m_autotune->lblDamp->text()).arg(m_autotune->lblNoise->text())
             .arg(m_autotune->wn->text())
-            .arg(utilMngr->getBoardType()->shortName());
+            .arg(utilMngr->getBoardType()->shortName())
+            .arg(firmware.gitTag)
+            .arg(firmware.gitHash.left(7))
+            .arg(firmware.gitDate);
     QString message1 = tr(
                 "[b]\n\nComputed Values[/b]"
                 "[table][tr][td][/td]"
