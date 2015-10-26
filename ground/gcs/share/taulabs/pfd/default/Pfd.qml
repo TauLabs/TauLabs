@@ -73,6 +73,7 @@ Rectangle {
                 id: pitch_scale
                 elementName: "pitch_scale"
                 scale:  pitch_scale.parent.height/Math.sin(pitch_scale.parent.fovX_D*Math.PI/180/2)*Math.sin(20*Math.PI/180) / (pitch_scale.height-2*pitch_scale.border)
+                sceneSize: background.sceneSize
 
                 smooth: true
                 border: 64 //sometimes numbers are excluded from bounding rect
@@ -91,8 +92,6 @@ Rectangle {
                         origin.y : pitch_scale.height/2
                     }
                 ]
-
-
             }
 
             SvgElementImage {
