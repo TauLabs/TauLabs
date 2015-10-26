@@ -33,6 +33,7 @@
 #include "systemalarms.h"
 #include <QtPlugin>
 #include <QMainWindow>
+#include <QErrorMessage>
 
 #include <QDebug>
 
@@ -49,7 +50,21 @@ void SysAlarmsMessagingPlugin::extensionsInitialized()
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
     SystemAlarms* obj = dynamic_cast<SystemAlarms*>(objManager->getObject(QString("SystemAlarms")));
-    connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAlarms(UAVObject*)));
+
+    // Test for a condition which occurs when the GCS has not been recompiled from clean, but the SystemAlarms UAVO has changed.
+    // Either
+    //   1: Recompile from clean
+    //   2: Change this file (sysalarmsmessagingplugin.cpp) and recompile
+    if(obj->getObjID() != SystemAlarms::OBJID) {
+        QString staleSystemAlarmsWarning = QString(tr("The SystemAlarms UAVO has changed. GCS MUST be recompiled from `clean`."));
+        QErrorMessage err;
+        err.showMessage(staleSystemAlarmsWarning);
+        err.exec();
+
+        return;
+    } else {
+        connect(obj, SIGNAL(objectUpdated(UAVObject*)), this, SLOT(updateAlarms(UAVObject*)));
+    }
 
 }
 
@@ -79,6 +94,7 @@ bool SysAlarmsMessagingPlugin::initialize(const QStringList &arguments, QString 
     }
     TelemetryManager* telMngr = pm->getObject<TelemetryManager>();
     connect(telMngr, SIGNAL(disconnected()), this, SLOT(onAutopilotDisconnect()));
+
     return true;
 }
 
@@ -89,8 +105,6 @@ bool SysAlarmsMessagingPlugin::initialize(const QStringList &arguments, QString 
  */
 void SysAlarmsMessagingPlugin::updateAlarms(UAVObject* systemAlarm)
 {
-    Q_ASSERT(systemAlarm->getObjID() == SystemAlarms::OBJID);
-
     foreach (UAVObjectField *field, systemAlarm->getFields()) {
         for (uint i = 0; i < field->getNumElements(); ++i) {
             QString element = field->getElementNames()[i];
