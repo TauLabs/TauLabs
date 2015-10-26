@@ -14,7 +14,7 @@
    height="79.57505"
    id="svg3604"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    sodipodi:docname="system-health.svg"
    inkscape:export-filename="C:\NoBackup\OpenPilot\mainboard-health.png"
    inkscape:export-xdpi="269.53"
@@ -689,19 +689,20 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="10.247587"
-     inkscape:cx="46.093027"
-     inkscape:cy="31.153742"
-     inkscape:current-layer="layer52"
+     inkscape:zoom="40.990348"
+     inkscape:cx="42.592795"
+     inkscape:cy="10.848176"
+     inkscape:current-layer="background"
      id="namedview3608"
      showgrid="false"
-     inkscape:window-width="2264"
-     inkscape:window-height="1246"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-width="2495"
+     inkscape:window-height="1416"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      showguides="true"
-     inkscape:guide-bbox="true">
+     inkscape:guide-bbox="true"
+     units="mm">
     <sodipodi:guide
        orientation="0,1"
        position="68.372091,-63.708224"
@@ -798,7 +799,7 @@
        id="Pwr-Sense"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#332d2d;fill-opacity:1;stroke:#ffffff;stroke-width:0.53585184;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
+       style="fill:#332d2d;fill-opacity:1;stroke:#ffffff;stroke-width:0.53503937;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        d="m 526.39636,406.95688 16.17991,0 0,15.0345 -16.17991,0 z"
        id="ADC"
        inkscape:connector-curvature="0" />
@@ -890,6 +891,63 @@
        inkscape:connector-curvature="0" />
   </g>
   <g
+     style="display:none"
+     inkscape:label="ADC-OK"
+     id="g4480"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       id="ADC-OK"
+       d="m 28.73073,62.67651 16.17991,0 0,15.0345 -16.17991,0 z"
+       style="fill:#04b629;fill-opacity:1;stroke:#ffffff;stroke-width:0.53503937;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g4460"
+     inkscape:label="ADC-Error"
+     style="display:none">
+    <g
+       style="stroke:#cf0e0e;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="ADC-Error"
+       transform="matrix(0.79634214,0,0,1.6454053,-0.69694862,8.7711933)"
+       inkscape:label="#ADC-Error">
+      <path
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="M 38.076545,33.292974 56.14311,41.28257"
+         id="path4464" />
+      <path
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         d="m 38.220502,41.354548 17.85063,-8.061574"
+         id="path4466"
+         inkscape:label="#path4088-8" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer49"
+     inkscape:label="ADC-Warning"
+     style="display:none">
+    <path
+       style="fill:#f1b907;fill-opacity:1;stroke:#ffffff;stroke-width:0.53503937;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m 28.73073,62.67651 16.17991,0 0,15.0345 -16.17991,0 z"
+       id="ADC-Warning"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     style="display:none"
+     inkscape:label="ADC-Critical"
+     id="g4456"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:connector-curvature="0"
+       id="ADC-Critical"
+       d="m 28.73073,62.67651 16.17991,0 0,15.0345 -16.17991,0 z"
+       style="fill:#cf0e0e;fill-opacity:1;stroke:#ffffff;stroke-width:0.53503937;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       inkscape:label="#ADC-Critical" />
+  </g>
+  <g
      inkscape:groupmode="layer"
      id="layer50"
      inkscape:label="TempBaro-OK"
@@ -912,7 +970,7 @@
        style="fill:#808080;fill-opacity:1;stroke:#ffffff;stroke-width:0.51991701;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline" />
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="TempBaro-Error"
      id="layer52"
      inkscape:groupmode="layer">
@@ -1061,12 +1119,14 @@
       <path
          id="path3156"
          d="M 38.076545,33.292974 56.14311,41.28257"
-         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         inkscape:connector-curvature="0" />
       <path
          inkscape:label="#path4088-8"
          id="path3158"
          d="m 38.220502,41.354548 17.85063,-8.061574"
-         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         inkscape:connector-curvature="0" />
     </g>
   </g>
   <g
@@ -3701,6 +3761,18 @@
          id="path4446"
          inkscape:connector-curvature="0" />
     </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g4468"
+     inkscape:label="ADC-Uninitialised"
+     style="display:none">
+    <path
+       inkscape:label="#ADC-Uninitialised"
+       style="fill:#808080;fill-opacity:0.89019608;stroke:#ffffff;stroke-width:0.53503937;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m 28.73073,62.67651 16.17991,0 0,15.0345 -16.17991,0 z"
+       id="ADC-Uninitialised"
+       inkscape:connector-curvature="0" />
   </g>
   <g
      inkscape:groupmode="layer"

@@ -29,6 +29,8 @@
         <file>html/Stabilization-Warning.html</file>
         <file>html/Stack-Critical.html</file>
         <file>html/Telemetry-Error.html</file>
+        <file>html/ADC-Critical.html</file>
+        <file>html/ADC-Warning.html</file>
         <file>html/SystemConfiguration-Error-AltitudeHold.html</file>
         <file>html/SystemConfiguration-Error-AutoTune.html</file>
         <file>html/SystemConfiguration-Error-DuplicatePortCfg.html</file>
