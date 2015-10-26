@@ -111,7 +111,6 @@ void PfdQmlGadgetWidget::setQmlFile(QString fn)
     engine()->rootContext()->setContextProperty("svgRenderer", svgProvider);
     engine()->setBaseUrl(QUrl::fromLocalFile(fn));
 
-    qDebug() << Q_FUNC_INFO << fn;
     setSource(QUrl::fromLocalFile(fn));
 
     foreach(const QQmlError &error, errors()) {
