@@ -23,7 +23,6 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "telemetryschedulergadgetconfiguration.h"
 #include "telemetryschedulergadgetfactory.h"
 #include "telemetryschedulergadgetwidget.h"
 #include "telemetryschedulergadget.h"
@@ -45,9 +44,4 @@ TelemetrySchedulerGadgetFactory::~TelemetrySchedulerGadgetFactory()
 IUAVGadget* TelemetrySchedulerGadgetFactory::createGadget(QWidget *parent) {
     TelemetrySchedulerGadgetWidget* gadgetWidget = new TelemetrySchedulerGadgetWidget(parent);
     return new TelemetrySchedulerGadget(QString("TelemetrySchedulerGadget"), gadgetWidget, parent);
-}
-
-IUAVGadgetConfiguration *TelemetrySchedulerGadgetFactory::createConfiguration(QSettings* qSettings)
-{
-    return new TelemetrySchedulerConfiguration(QString("TelemetrySchedulerGadget"), qSettings);
 }

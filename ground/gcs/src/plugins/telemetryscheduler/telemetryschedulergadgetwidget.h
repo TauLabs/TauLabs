@@ -38,8 +38,6 @@
 #include "extensionsystem/pluginmanager.h"
 #include "uavobject.h"
 
-#include "telemetryschedulergadgetconfiguration.h"
-
 class Ui_TelemetryScheduler;
 class Ui_Metadata_Dialog;
 class QFrozenTableViewWithCopyPaste;
@@ -53,7 +51,6 @@ public:
     TelemetrySchedulerGadgetWidget(QWidget *parent = 0);
     ~TelemetrySchedulerGadgetWidget();
 
-    void setConfig(TelemetrySchedulerConfiguration *val){m_config = val;}
 signals:
 
 protected slots:
@@ -88,7 +85,6 @@ private:
 
     Ui_TelemetryScheduler *m_telemetryeditor;
 
-    TelemetrySchedulerConfiguration *m_config;
     UAVObjectManager *objManager;
     QString filename;
 

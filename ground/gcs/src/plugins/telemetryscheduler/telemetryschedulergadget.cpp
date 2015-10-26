@@ -24,7 +24,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "telemetryschedulergadget.h"
-#include "telemetryschedulergadgetconfiguration.h"
 #include "telemetryschedulergadgetwidget.h"
 
 #include "extensionsystem/pluginmanager.h"
@@ -41,14 +40,4 @@ TelemetrySchedulerGadget::TelemetrySchedulerGadget(QString classId, TelemetrySch
 TelemetrySchedulerGadget::~TelemetrySchedulerGadget()
 {
     delete m_widget;
-}
-
-void TelemetrySchedulerGadget::loadConfiguration(IUAVGadgetConfiguration* config)
-{
-
-    TelemetrySchedulerConfiguration *tsgConfiguration = qobject_cast<TelemetrySchedulerConfiguration*>(config);
-    TelemetrySchedulerGadgetWidget* widget = qobject_cast<TelemetrySchedulerGadgetWidget*>(m_widget);
-
-    widget->setConfig(tsgConfiguration);
-
 }

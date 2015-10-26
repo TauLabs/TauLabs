@@ -47,7 +47,6 @@ public:
     QWidget *widget() { return m_widget; }
     QString contextHelpId() const { return QString(); }
 
-    void loadConfiguration(IUAVGadgetConfiguration* config);
 private:
     QWidget *m_widget;
     QList<int> m_context;
