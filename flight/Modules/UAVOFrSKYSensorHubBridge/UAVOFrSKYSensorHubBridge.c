@@ -186,7 +186,7 @@ static struct {
 	uint8_t frame_ticks[MAXSTREAMS];
 
 	uint8_t serial_buf[FRSKY_MAX_PACKET_LEN];
-} *frsky_state;
+} *shub_global;
 
 /**
  * Start the module
@@ -195,13 +195,13 @@ static struct {
  */
 static int32_t uavoFrSKYSensorHubBridgeStart(void)
 {
-	if (frsky_state) {
+	if (shub_global) {
 		// Start tasks
-		frsky_state->task_handle = PIOS_Thread_Create(
+		shub_global->task_handle = PIOS_Thread_Create(
 				uavoFrSKYSensorHubBridgeTask, "uavoFrSKYSensorHubBridge",
 				STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_UAVOFRSKYSBRIDGE,
-				frsky_state->task_handle);
+				shub_global->task_handle);
 		return 0;
 	}
 	return -1;
@@ -221,18 +221,18 @@ static int32_t uavoFrSKYSensorHubBridgeInitialize(void)
 
 	if (frsky_port && (module_state[MODULESETTINGS_ADMINSTATE_UAVOFRSKYSENSORHUBBRIDGE]
 					== MODULESETTINGS_ADMINSTATE_ENABLED)) {
-		frsky_state = PIOS_malloc(sizeof(*frsky_state));
+		shub_global = PIOS_malloc(sizeof(*shub_global));
 
-		if (frsky_state == 0) {
+		if (shub_global == 0) {
 			return -1;
 		}
 
-		frsky_state->frsky_port = frsky_port;
+		shub_global->frsky_port = frsky_port;
 
 		PIOS_COM_ChangeBaud(frsky_port, FRSKY_BAUD_RATE);
 
 		for (int x = 0; x < MAXSTREAMS; ++x) {
-			frsky_state->frame_ticks[x] =
+			shub_global->frame_ticks[x] =
 				(TASK_RATE_HZ / frsky_rates[x]);
 		}
 
@@ -254,8 +254,6 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 	GPSPositionData gpsPosData;
 	BaroAltitudeData baroAltitude;
 	FlightStatusData flightStatus;
-
-	uint8_t *serial_buf = frsky_state->serial_buf;
 
 	float accX = 0, accY = 0, accZ = 0;
 
@@ -360,7 +358,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 					accX,
 					accY,
 					accZ,
-					serial_buf + msg_length);
+					shub_global->serial_buf + msg_length);
 
 			if (BaroAltitudeHandle() != NULL)
 				BaroAltitudeGet(&baroAltitude);
@@ -377,12 +375,12 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 			float altitude = baroAltitude.Altitude - altitude_offset;
 			msg_length += frsky_pack_altitude(
 					altitude,
-					serial_buf + msg_length);
+					shub_global->serial_buf + msg_length);
 
-			msg_length += frsky_pack_stop(serial_buf + msg_length);
+			msg_length += frsky_pack_stop(shub_global->serial_buf + msg_length);
 
-			PIOS_COM_SendBuffer(frsky_state->frsky_port,
-					serial_buf, msg_length);
+			PIOS_COM_SendBuffer(shub_global->frsky_port,
+					shub_global->serial_buf, msg_length);
 		}
 
 		if (frame_trigger(FRSKY_FRAME_BATTERY)) {
@@ -408,26 +406,26 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 					msg_length += frsky_pack_cellvoltage(
 							i,
 							cell_v,
-							serial_buf + msg_length);
+							shub_global->serial_buf + msg_length);
 				}
 			}
 
 			msg_length += frsky_pack_fas(
 					voltage,
 					current,
-					serial_buf + msg_length);
+					shub_global->serial_buf + msg_length);
 
 			if (batSettings.Capacity > 0) {
 				float fuel = 1.0f - batState.ConsumedEnergy / batSettings.Capacity;
 				msg_length += frsky_pack_fuel(
 					fuel,
-					serial_buf + msg_length);
+					shub_global->serial_buf + msg_length);
 			}
 
-			msg_length += frsky_pack_stop(serial_buf + msg_length);
+			msg_length += frsky_pack_stop(shub_global->serial_buf + msg_length);
 
-			PIOS_COM_SendBuffer(frsky_state->frsky_port,
-					serial_buf, msg_length);
+			PIOS_COM_SendBuffer(shub_global->frsky_port,
+					shub_global->serial_buf, msg_length);
 		}
 
 		if (frame_trigger(FRSKY_FRAME_GPS)) {
@@ -451,7 +449,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 			status = (flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED) ? 200 : 100;
 			status += flight_status.FlightMode;
 
-			msg_length += frsky_pack_rpm(status, serial_buf + msg_length);
+			msg_length += frsky_pack_rpm(status, shub_global->serial_buf + msg_length);
 
 			uint8_t hl_set = HOMELOCATION_SET_FALSE;
 			
@@ -493,7 +491,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 			if (gpsPosData.Satellites > 0)
 				status += gpsPosData.Satellites;
 
-			msg_length += frsky_pack_temperature_01((float)status, serial_buf + msg_length);
+			msg_length += frsky_pack_temperature_01((float)status, shub_global->serial_buf + msg_length);
 			
 			/**
 			 * Encode GPS HDOP and VDOP as T2 value
@@ -511,7 +509,7 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 			if (vdop > 255.0f)
 				vdop = 255.0f;
 			
-			msg_length += frsky_pack_temperature_02((vdop * 256 + hdop), serial_buf + msg_length);
+			msg_length += frsky_pack_temperature_02((vdop * 256 + hdop), shub_global->serial_buf + msg_length);
 
 			if (gpsPosData.Status == GPSPOSITION_STATUS_FIX2D ||
 			    gpsPosData.Status == GPSPOSITION_STATUS_FIX3D) {
@@ -521,13 +519,13 @@ static void uavoFrSKYSensorHubBridgeTask(void *parameters)
 						gpsPosData.Longitude,
 						gpsPosData.Altitude,
 						gpsPosData.Groundspeed,
-						serial_buf + msg_length);
+						shub_global->serial_buf + msg_length);
 			}
 
-			msg_length += frsky_pack_stop(serial_buf + msg_length);
+			msg_length += frsky_pack_stop(shub_global->serial_buf + msg_length);
 
-			PIOS_COM_SendBuffer(frsky_state->frsky_port,
-					serial_buf, msg_length);
+			PIOS_COM_SendBuffer(shub_global->frsky_port,
+					shub_global->serial_buf, msg_length);
 		}
 	}
 }
@@ -540,17 +538,17 @@ static bool frame_trigger(uint8_t frame_num)
 		return false;
 	}
 
-	if (frsky_state->frame_ticks[frame_num] == 0) {
+	if (shub_global->frame_ticks[frame_num] == 0) {
 		// we're triggering now, setup the next trigger point
 		if (rate > TASK_RATE_HZ) {
 			rate = TASK_RATE_HZ;
 		}
-		frsky_state->frame_ticks[frame_num] = (TASK_RATE_HZ / rate);
+		shub_global->frame_ticks[frame_num] = (TASK_RATE_HZ / rate);
 		return true;
 	}
 
 	// count down at 50Hz
-	frsky_state->frame_ticks[frame_num]--;
+	shub_global->frame_ticks[frame_num]--;
 	return false;
 }
 
