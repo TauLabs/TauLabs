@@ -45,7 +45,6 @@ public:
     ~TelemetrySchedulerGadgetFactory();
 
     IUAVGadget *createGadget(QWidget *parent);
-    IUAVGadgetConfiguration *createConfiguration(QSettings* qSettings);
 };
 
 #endif // TELEMETRYSCHEDULERGADGETFACTORY_H_
