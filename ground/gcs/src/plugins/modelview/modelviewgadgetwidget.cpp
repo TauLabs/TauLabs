@@ -37,6 +37,11 @@
 
 #include <iostream>
 
+// Model 3d object and background image used when specific one isn't available
+const QString ModelViewGadgetWidget::fallbackAcFilename = QString(":/modelview/models/warning_sign.obj");
+const QString ModelViewGadgetWidget::fallbackBgFilename = QString(":/modelview/models/black.jpg");
+
+
 ModelViewGadgetWidget::ModelViewGadgetWidget(QWidget *parent)
     : QGLWidget(new GLC_Context(QGLFormat(QGL::SampleBuffers)), parent)
     , m_Light()
@@ -45,8 +50,8 @@ ModelViewGadgetWidget::ModelViewGadgetWidget(QWidget *parent)
     , m_MoverController()
     , m_ModelBoundingBox()
     , m_MotionTimer()
-    , acFilename()
-    , bgFilename()
+    , acFilename(fallbackAcFilename)
+    , bgFilename(fallbackBgFilename)
     , vboEnable(false)
 {
     connect(&m_GlView, SIGNAL(updateOpenGL()), this, SLOT(updateGL()));
@@ -81,7 +86,7 @@ void ModelViewGadgetWidget::setAcFilename(QString acf)
     if (QFile::exists(acf)) {
         acFilename = acf;
     } else {
-        acFilename = acf = ":/modelview/models/warning_sign.obj";
+        acFilename = acf = fallbackAcFilename;
         m_GlView.cameraHandle()->setFrontView(); // set to front camera to see/read the warning sign
     }
 }
@@ -92,7 +97,7 @@ void ModelViewGadgetWidget::setBgFilename(QString bgf)
         bgFilename = bgf;
     } else {
         qDebug() << "file " << bgf << " doesn't exists";
-        bgFilename = ":/modelview/models/black.jpg"; // will put a black background if there's no background
+        bgFilename = fallbackBgFilename; // will put a black background if there's no background
     }
 }
 
@@ -186,8 +191,8 @@ void ModelViewGadgetWidget::resizeGL(int width, int height)
 void ModelViewGadgetWidget::CreateScene()
 {
     // put a black background if the 3D model is invalid or if the background image is also invalid
-    if (acFilename == ":/modelview/models/warning_sign.obj" || !QFile::exists(bgFilename)) {
-        bgFilename = ":/modelview/models/black.jpg";
+    if (acFilename == fallbackAcFilename || !QFile::exists(bgFilename)) {
+        bgFilename = fallbackBgFilename;
     }
 
 
@@ -204,7 +209,7 @@ void ModelViewGadgetWidget::CreateScene()
             m_ModelBoundingBox = m_World.boundingBox();
             m_GlView.reframe(m_ModelBoundingBox); // center 3D model in the scene
         } else {
-            qDebug("ModelView: aircraft file not found.");
+            qDebug() << "ModelView: aircraft file not found:" << acFilename;
         }
     } catch(GLC_Exception e) {
         qDebug("ModelView: aircraft file loading failed.");
