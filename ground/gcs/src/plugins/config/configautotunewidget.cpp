@@ -126,6 +126,10 @@ void ConfigAutotuneWidget::onForumInteractionSet(int value)
 
     deviceDescriptorStruct firmware;
     utilMngr->getBoardDescriptionStruct(firmware);
+    Core::IBoardType* board = utilMngr->getBoardType();
+    QString boardName;
+    if (board)
+        boardName = board->shortName();
 
     QString message0 = tr(
                 "[b]Flight controller[/b]: %13\n"
@@ -164,7 +168,7 @@ void ConfigAutotuneWidget::onForumInteractionSet(int value)
             .arg(m_autotune->pitchTau->text()).arg(m_autotune->measuredPitchNoise->text())
             .arg(m_autotune->lblDamp->text()).arg(m_autotune->lblNoise->text())
             .arg(m_autotune->wn->text())
-            .arg(utilMngr->getBoardType()->shortName())
+            .arg(boardName)
             .arg(firmware.gitTag)
             .arg(firmware.gitHash.left(7))
             .arg(firmware.gitDate);
