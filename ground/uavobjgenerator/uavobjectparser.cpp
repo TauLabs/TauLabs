@@ -188,7 +188,7 @@ void UAVObjectParser::calculateAllIds()
      * account whitespace, etc.  It is not a cryptographically secure hash,
      * instead borrowing from the above shift-add-xor hash, but good enough.
      */
-    uint64_t hash=0;
+    quint64 hash=0;
 
     foreach (ObjectInfo *item, objInfo) {
         hash ^= (hash<<7) + (hash>>2) + item->id;

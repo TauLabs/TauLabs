@@ -29,7 +29,7 @@
 #include <QStringList>
 #include <iostream>
 
-#include <unistd.h>	/* For symlink(2) */
+//#include <unistd.h>	/* For symlink(2) */
 
 #include "generators/java/uavobjectgeneratorjava.h"
 #include "generators/flight/uavobjectgeneratorflight.h"
