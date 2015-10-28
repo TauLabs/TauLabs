@@ -318,7 +318,6 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
     while ( !node.isNull() ) {
         // Create new object entry
         ObjectInfo* info = new ObjectInfo();
-
         info->filename=filename;
         // Process object attributes
         QString status = processObjectAttributes(node, info);
@@ -619,6 +618,7 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
 {
     // Create field
     FieldInfo* field = new FieldInfo();
+    field->parent = NULL;
     // Get name attribute
     QDomNamedNodeMap elemAttributes = childNode.attributes();
     QDomNode elemAttr = elemAttributes.namedItem("name");
