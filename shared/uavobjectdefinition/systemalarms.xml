@@ -21,10 +21,11 @@
 				<elementname>FlightTime</elementname>
 				<elementname>I2C</elementname>
 				<elementname>GPS</elementname>
-                		<elementname>AltitudeHold</elementname>
+				<elementname>AltitudeHold</elementname>
 				<elementname>BootFault</elementname>
 				<elementname>TempBaro</elementname>
 				<elementname>GyroBias</elementname>
+				<elementname>ADC</elementname>
 			</elementnames>
 		</field>
 		<field name="ConfigError" units="" type="enum" elements="1" defaultvalue="None">
