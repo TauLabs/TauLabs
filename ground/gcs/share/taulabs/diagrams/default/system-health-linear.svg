@@ -794,9 +794,9 @@
      borderopacity="1"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="29.658296"
-     inkscape:cx="398.27372"
-     inkscape:cy="3.2225689"
+     inkscape:zoom="14.829148"
+     inkscape:cx="393.98687"
+     inkscape:cy="17.164075"
      inkscape:current-layer="background"
      id="namedview3608"
      showgrid="true"
@@ -948,7 +948,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1887,6 +1887,14 @@
        width="18.153212"
        id="AltitudeHold-Critical"
        style="fill:#cf0e0e;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
+    <rect
+       inkscape:label="#ADC-Critical"
+       style="fill:#cf0e0e;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="ADC-Critical"
+       width="18.153212"
+       height="8.1216154"
+       x="292.16443"
+       y="1.637876" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -2051,6 +2059,15 @@
        height="8.1216154"
        x="271.98669"
        y="-9.7494841"
+       transform="scale(1,-1)" />
+    <rect
+       inkscape:label="#ADC-Uninitialised"
+       style="fill:#808080;fill-opacity:0.89019608;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="ADC-Uninitialised"
+       width="18.153212"
+       height="8.1216154"
+       x="292.16443"
+       y="-9.759491"
        transform="scale(1,-1)" />
   </g>
   <g
@@ -2881,7 +2898,7 @@
     <g
        id="nolink"
        inkscape:label="#g26918"
-       transform="matrix(1.1127398,0,0,1.0054496,-44.731371,-1.5405607)">
+       transform="matrix(1.1708677,0,0,1.0054496,-68.233606,-1.5405607)">
       <rect
          style="fill:#453e3e;fill-opacity:0.86363639;fill-rule:evenodd;stroke:#000000;stroke-width:0.73494369;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          id="rect3370"
