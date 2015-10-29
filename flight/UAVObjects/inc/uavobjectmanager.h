@@ -92,7 +92,7 @@ typedef enum {
 	EV_UPDATED_MANUAL = 0x04, /** Object update event manually generated */
 	EV_UPDATED_PERIODIC = 0x08, /** Object update from periodic event */
 	EV_UPDATE_REQ = 0x10, /** Request to update object data */
-	EV_UPDATED_THROTTLED_DIRTY = 0x80 /** Indicates a throttled object has been updated but not sent **/
+	EV_UPDATED_THROTTLED_DIRTY = 0x20 /** Indicates a throttled object has been updated but not sent **/
 } UAVObjEventType;
 
 /**
@@ -199,7 +199,9 @@ void UAVObjSetTelemetryGcsUpdateMode(UAVObjMetadata* dataOut, UAVObjUpdateMode v
 int8_t UAVObjReadOnly(UAVObjHandle obj);
 int32_t UAVObjConnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue, uint8_t eventMask);
 int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue);
+int32_t UAVObjConnectQueueThrottled(UAVObjHandle obj_handle, struct pios_queue *queue, uint8_t eventMask, uint16_t interval);
 int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb, uint8_t eventMask);
+int32_t UAVObjConnectCallbackThrottled(UAVObjHandle obj_handle, UAVObjEventCallback cb, uint8_t eventMask, uint16_t interval);
 int32_t UAVObjDisconnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb);
 void UAVObjRequestUpdate(UAVObjHandle obj);
 void UAVObjRequestInstanceUpdate(UAVObjHandle obj_handle, uint16_t instId);

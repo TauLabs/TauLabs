@@ -34,6 +34,7 @@
 #include "pios_heap.h"		/* PIOS_malloc_no_dma */
 #include "pios_mutex.h"
 #include "pios_queue.h"
+#include "misc_math.h"
 
 extern uintptr_t pios_uavo_settings_fs_id;
 
@@ -62,7 +63,8 @@ struct ObjectEventEntry {
 struct ObjectEventEntryThrottled {
 	struct ObjectEventEntry   entry;
 
-	uint32_t                  interval, due;
+	uint32_t                  due;
+	uint16_t                  interval;
 };
 
 /*
@@ -165,7 +167,7 @@ static InstanceHandle createInstance(struct UAVOData * obj, uint16_t instId);
 static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId);
 static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 			UAVObjEventCallback cb, uint8_t eventMask,
-			uint32_t interval);
+			uint16_t interval);
 static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 			UAVObjEventCallback cb);
 
@@ -1509,8 +1511,8 @@ int8_t UAVObjReadOnly(UAVObjHandle obj_handle)
  * \param[in] interval The interval at which to throttle updates; 0 is unthrottled
  * \return 0 if success or -1 if failure
  */
-int32_t UAVObjConnectQueueThrottle(UAVObjHandle obj_handle,
-		struct pios_queue *queue, uint8_t eventMask, uint32_t interval)
+int32_t UAVObjConnectQueueThrottled(UAVObjHandle obj_handle,
+		struct pios_queue *queue, uint8_t eventMask, uint16_t interval)
 {
 	PIOS_Assert(obj_handle);
 	PIOS_Assert(queue);
@@ -1523,7 +1525,7 @@ int32_t UAVObjConnectQueueThrottle(UAVObjHandle obj_handle,
 
 int32_t UAVObjConnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue,
 		uint8_t eventMask) {
-	return UAVObjConnectQueueThrottle(obj_handle, queue, eventMask, 0);
+	return UAVObjConnectQueueThrottled(obj_handle, queue, eventMask, 0);
 }
 
 
@@ -1544,23 +1546,31 @@ int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue)
 	return res;
 }
 
+
 /**
  * Connect an event callback to the object, if the callback is already connected then the event mask is only updated.
  * The supplied callback will be invoked on all events matching the event mask.
  * \param[in] obj The object handle
  * \param[in] cb The event callback
  * \param[in] eventMask The event mask, if EV_MASK_ALL_UPDATES then all events are enabled (e.g. EV_UPDATED | EV_UPDATED_MANUAL)
+ * \param[in] interval The interval at which to throttle updates; 0 is unthrottled
  * \return 0 if success or -1 if failure
  */
-int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb,
-			uint8_t eventMask)
+int32_t UAVObjConnectCallbackThrottled(UAVObjHandle obj_handle, UAVObjEventCallback cb,
+			uint8_t eventMask, uint16_t interval)
 {
 	PIOS_Assert(obj_handle);
 	int32_t res;
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	res = connectObj(obj_handle, 0, cb, eventMask, 0);
+	res = connectObj(obj_handle, 0, cb, eventMask, interval);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 	return res;
+}
+
+int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb,
+			uint8_t eventMask)
+{
+	return UAVObjConnectCallbackThrottled(obj_handle, cb, eventMask, 0);
 }
 
 /**
@@ -1667,12 +1677,16 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 		if (event->eventMask == 0
 			|| (event->eventMask & triggered_event) != 0) {
 			if (event->hasThrottle) {
-#if 0
 				struct ObjectEventEntryThrottled *throtInfo =
 					(struct ObjectEventEntryThrottled *) event;
-#endif
 
-				// XXX TODO: Check throttling
+				uint32_t now = PIOS_Thread_Systime();
+				if (throtInfo->due > now){
+					continue;
+				}
+
+				// Set time for next callback
+				throtInfo->due += ((now - throtInfo->due) / throtInfo->interval + 1) * throtInfo->interval;
 			}
 
 			// Send to queue if a valid queue is registered
@@ -1798,11 +1812,12 @@ static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId)
  * \param[in] queue The event queue
  * \param[in] cb The event callback
  * \param[in] eventMask The event mask, if EV_MASK_ALL_UPDATES then all events are enabled (e.g. EV_UPDATED | EV_UPDATED_MANUAL)
+ * \param[in] interval The interval at which to throttle updates; 0 is unthrottled
  * \return 0 if success or -1 if failure
  */
 static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 			UAVObjEventCallback cb, uint8_t eventMask,
-			uint32_t interval)
+			uint16_t interval)
 {
 	struct ObjectEventEntry *event;
 	struct ObjectEventEntryThrottled *throttled;
@@ -1812,9 +1827,30 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 	obj = (struct UAVOBase *) obj_handle;
 	LL_FOREACH(obj->next_event, event) {
 		if (event->queue == queue && event->cb == cb) {
-			// Already connected, update event mask and return
+			// Already connected, update event mask and throttling (if possible)
 			event->eventMask = eventMask;
-			return 0;
+			if (event->hasThrottle) {
+				if (interval == 0) {
+					event->hasThrottle = 0;
+				}
+				else {
+					throttled = (struct ObjectEventEntryThrottled *) event;
+					throttled->interval = interval;
+				}
+				return 0;
+			}
+			else {
+				if (interval == 0) {
+					// We don't need to do anything
+					return 0;
+				}
+				else {
+					// We are changing the callback from unthrottled to throttled,
+					// need to allocate a new event (not ideal, as it leaks memory)
+					LL_DELETE(obj->next_event, event);
+					break;
+				}
+			}
 		}
 	}
 
@@ -1832,13 +1868,14 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 	event->queue = queue;
 	event->cb = cb;
 	event->eventMask = eventMask;
+	event->hasThrottle = 0;
 
 	if (interval) {
 		event->hasThrottle = 1;
 		throttled = (struct ObjectEventEntryThrottled *) event;
 
 		throttled->interval = interval;
-		/* XXX TODO throttled->due = ... */
+		throttled->due = PIOS_Thread_Systime() + randomize_int(throttled->interval);
 	}
 
 	LL_APPEND(obj->next_event, event);
