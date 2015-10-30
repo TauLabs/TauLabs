@@ -169,6 +169,7 @@ help:
 	@echo "     fw_<board>_clean     - Remove firmware for <board>"
 	@echo "     fw_<board>_program   - Use OpenOCD + SWD/JTAG to write firmware to <board>"
 	@echo "     fw_<board>_wipe      - Use OpenOCD + SWD/JTAG to wipe entire firmware section on <board>"
+	@echo "     fw_<board>_debug     - Use OpenOCD + SWD/JTAG to setup a GDB server on <board>"
 	@echo
 	@echo "   [Bootloader]"
 	@echo "     bl_<board>           - Build bootloader for <board>"
