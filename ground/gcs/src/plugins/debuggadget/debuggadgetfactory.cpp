@@ -28,6 +28,7 @@
 #include "debuggadgetwidget.h"
 #include "debuggadget.h"
 #include <coreplugin/iuavgadget.h>
+#include <QTextStream>
 
 void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
@@ -38,12 +39,15 @@ void customMessageHandler(QtMsgType type, const QMessageLogContext &context, con
         break;
     case QtWarningMsg:
         debugengine::getInstance()->writeWarning(msg);
+        QTextStream(stderr) << "[Warning] " << msg << endl;
         break;
     case QtCriticalMsg:
         debugengine::getInstance()->writeCritical(msg);
+        QTextStream(stderr) << "[Critical] " << msg << endl;
         break;
     case QtFatalMsg:
         debugengine::getInstance()->writeFatal(msg);
+        QTextStream(stderr) << "[FATAL] " << msg << endl;
     default:
         debugengine::getInstance()->writeDebug(msg);
     }
