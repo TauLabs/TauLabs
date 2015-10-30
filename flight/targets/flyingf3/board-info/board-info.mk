@@ -10,7 +10,7 @@ BOARD               := STM32F30x_FLYINGF3
 MODEL               := HD
 MODEL_SUFFIX        := 
 
-OPENOCD_JTAG_CONFIG := stlink-v2.cfg
+OPENOCD_JTAG_CONFIG ?= stlink-v2.cfg
 OPENOCD_CONFIG      := stm32f3x.cfg
 
 # Note: These must match the values in link_$(BOARD)_memory.ld

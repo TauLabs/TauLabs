@@ -10,7 +10,7 @@ BOARD               := STM32F4xx_QUANTON
 MODEL               := HD
 MODEL_SUFFIX        := 
 
-OPENOCD_JTAG_CONFIG := stlink-v2.cfg
+OPENOCD_JTAG_CONFIG ?= stlink-v2.cfg
 OPENOCD_CONFIG      := stm32f4x.cfg
 
 # Note: These must match the values in link_$(BOARD)_memory.ld

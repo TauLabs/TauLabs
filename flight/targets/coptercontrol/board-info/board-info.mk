@@ -10,7 +10,7 @@ BOARD               := STM32103CB_CC_Rev1
 MODEL               := MD
 MODEL_SUFFIX        := _CC
 
-OPENOCD_JTAG_CONFIG := stlink-v2.cfg
+OPENOCD_JTAG_CONFIG ?= stlink-v2.cfg
 OPENOCD_CONFIG      := stm32f1x.cfg
 
 # Note: These must match the values in link_$(BOARD)_memory.ld
