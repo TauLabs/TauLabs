@@ -65,6 +65,7 @@ void vector2_rotate(const float *original, float *out, float angle);
 float cubic_deadband(float in, float w, float b, float m, float r);
 void cubic_deadband_setup(float w, float b, float *m, float *r);
 float linear_interpolate(float const input, float const * curve, uint8_t num_points, const float input_min, const float input_max);
+uint16_t randomize_int(uint16_t interval);
 
 /* Note--- current compiler chain has been verified to produce proper call
  * to fpclassify even when compiling with -ffast-math / -ffinite-math.
