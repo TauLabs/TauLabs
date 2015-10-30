@@ -1089,7 +1089,6 @@ void QFrozenTableViewWithCopyPaste::init()
                                    "color: #FF0000;"
                                    "background-color: #8EDE21;"
                                    "selection-background-color: #999}"); //for demo purposes
-    frozenTableView->setSelectionModel(selectionModel());
     for(int row=1; row<model()->rowCount(); row++)
           frozenTableView->setRowHidden(row, true);
 
