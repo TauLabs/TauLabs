@@ -260,11 +260,11 @@ OPENOCD_BUILD_DIR := $(DL_DIR)/openocd-build
 
 openocd_install: | $(DL_DIR) $(TOOLS_DIR)
 openocd_install: OPENOCD_URL     := git://git.code.sf.net/p/openocd/code
-openocd_install: OPENOCD_REV     := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
+openocd_install: OPENOCD_TAG     := v0.9.0
 openocd_install: OPENOCD_OPTIONS := --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-buspirate --enable-stlink
 
 ifeq ($(OPENOCD_FTDI), yes)
-openocd_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_libftdi
+openocd_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ftdi
 endif
 
 ifeq ($(UNAME), Darwin)
@@ -279,14 +279,7 @@ openocd_install: openocd_clean
 	$(V1) git clone --no-checkout $(OPENOCD_URL) "$(OPENOCD_BUILD_DIR)"
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
-	  git checkout -q $(OPENOCD_REV) ; \
-	)
-
-        # apply patches
-	$(V0) @echo " PATCH        $(OPENOCD_DIR)"
-	$(V1) ( \
-	  cd $(OPENOCD_BUILD_DIR) ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0003-freertos-cm4f-fpu-support.patch ; \
+	  git checkout -q tags/$(OPENOCD_TAG) ; \
 	)
 
         # build and install
