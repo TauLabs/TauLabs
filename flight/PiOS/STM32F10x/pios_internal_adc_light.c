@@ -5,7 +5,7 @@
  * @addtogroup PIOS_ADC STM32F103 ADC1 Functions
  * @{
  *
- * @file       pios_internal_adc.c
+ * @file       pios_internal_adc_light.c
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015
  * @brief      STM32F10x internal ADC PIOS interface
  * @see        The GNU Public License (GPL) Version 3
@@ -30,9 +30,11 @@
 
 #if defined(PIOS_INCLUDE_ADC)
 
-static void PIOS_INTERNAL_ADC_PinConfig(uint32_t internal_adc_id);
+static int32_t PIOS_INTERNAL_ADC_PinConfig(uint32_t internal_adc_id);
 static void PIOS_INTERNAL_DMAConfig(uint32_t internal_adc_id);
-int32_t PIOS_INTERNAL_ADC_Init(uint32_t *internal_adc_id, const struct pios_internal_adc_cfg *cfg);
+int32_t PIOS_INTERNAL_ADC_LIGHT_Init(uint32_t *internal_adc_id,
+		const struct pios_internal_adc_cfg *cfg,
+		uint16_t number_of_used_pins);
 static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id);
 static bool PIOS_INTERNAL_ADC_Available(uint32_t internal_adc_id, uint32_t pin);
 static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin);
@@ -53,7 +55,8 @@ enum pios_internal_adc_dev_magic {
 };
 
 struct pios_internal_adc_dev {
-	const struct pios_internal_adc_cfg * cfg;
+	const struct pios_internal_adc_cfg *cfg;
+	uint16_t number_of_used_pins;
 	uint16_t dma_transfer_size;
 	volatile uint16_t *raw_data_buffer;
 	enum pios_internal_adc_dev_magic magic;
@@ -65,7 +68,7 @@ struct pios_internal_adc_dev {
  */
 static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev * dev)
 {
-	if (dev == NULL )
+	if(dev == NULL)
 		return false;
 
 	return (dev->magic == PIOS_INTERNAL_ADC_DEV_MAGIC);
@@ -77,7 +80,7 @@ static bool PIOS_INTERNAL_ADC_validate(struct pios_internal_adc_dev * dev)
 static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate()
 {
 	struct pios_internal_adc_dev *adc_dev = (struct pios_internal_adc_dev *)PIOS_malloc(sizeof(*adc_dev));
-	if (!adc_dev)
+	if(!adc_dev)
 		return (NULL );
 	adc_dev->magic = PIOS_INTERNAL_ADC_DEV_MAGIC;
 	return (adc_dev);
@@ -87,24 +90,30 @@ static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate()
  * @brief Configures the pins used on the ADC device
  * \param[in] handle to the ADC device
  */
-static void PIOS_INTERNAL_ADC_PinConfig(uint32_t internal_adc_id)
+static int32_t PIOS_INTERNAL_ADC_PinConfig(uint32_t internal_adc_id)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
-	if (!PIOS_INTERNAL_ADC_validate(adc_dev)) {
-		return;
+	if(!PIOS_INTERNAL_ADC_validate(adc_dev)) {
+		return -1;
 	}
+
 	/* Setup analog pins */
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_StructInit(&GPIO_InitStructure);
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
 
-	for (int32_t i = 0; i < adc_dev->cfg->number_of_used_pins; i++) {
-		if (adc_dev->cfg->adc_pins[i].port == NULL )
+	for(int32_t i = 0; i < adc_dev->number_of_used_pins; i++) {
+		if(adc_dev->cfg->adc_pins[i].port == NULL )
 			continue;
+		// This driver only supports ADC1
+		if(!adc_dev->cfg->adc_pins[i].is_master_channel)
+			return -2;
 		GPIO_InitStructure.GPIO_Pin = adc_dev->cfg->adc_pins[i].pin;
 		GPIO_Init(adc_dev->cfg->adc_pins[i].port, (GPIO_InitTypeDef*) &GPIO_InitStructure);
 	}
+
+	return 0;
 }
 /**
  * @brief Configures the DMA used on the ADC device
@@ -113,7 +122,7 @@ static void PIOS_INTERNAL_ADC_PinConfig(uint32_t internal_adc_id)
 static void PIOS_INTERNAL_DMAConfig(uint32_t internal_adc_id)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
-	if (!PIOS_INTERNAL_ADC_validate(adc_dev)) {
+	if(!PIOS_INTERNAL_ADC_validate(adc_dev)) {
 		return;
 	}
 
@@ -127,7 +136,7 @@ static void PIOS_INTERNAL_DMAConfig(uint32_t internal_adc_id)
 
 	DMA_InitTypeDef DMAInit = adc_dev->cfg->dma.rx.init;
 
-	DMAInit.DMA_PeripheralBaseAddr = (uint32_t) &ADC1->DR;
+	DMAInit.DMA_PeripheralBaseAddr = (uint32_t) &adc_dev->cfg->adc_dev_master->DR;
 	DMAInit.DMA_MemoryBaseAddr = (uint32_t) adc_dev->raw_data_buffer;
 	DMAInit.DMA_BufferSize = adc_dev->dma_transfer_size;
 	DMAInit.DMA_DIR = DMA_DIR_PeripheralSRC;
@@ -151,13 +160,16 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
 
-	ADC_DeInit(ADC1);
+	ADC_DeInit(adc_dev->cfg->adc_dev_master);
 
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+	if(adc_dev->cfg->adc_dev_master == ADC1)
+		RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+	else
+		return;
 
 	RCC_ADCCLKConfig(RCC_PCLK2_Div8);
 
-	for (int32_t i = 0; i < adc_dev->cfg->number_of_used_pins; i++) {
+	for(int32_t i = 0; i < adc_dev->number_of_used_pins; i++) {
 		ADC_RegularChannelConfig(ADC1, adc_dev->cfg->adc_pins[i].adc_channel,
 					 i + 1, ADC_SampleTime_239Cycles5);
 	}
@@ -170,47 +182,55 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
 	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
 	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
 	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-	ADC_InitStructure.ADC_NbrOfChannel = adc_dev->cfg->number_of_used_pins;
+	ADC_InitStructure.ADC_NbrOfChannel = adc_dev->number_of_used_pins;
 
-	ADC_Init(ADC1, &ADC_InitStructure);
+	ADC_Init(adc_dev->cfg->adc_dev_master, &ADC_InitStructure);
 
-	ADC_Cmd(ADC1, ENABLE);
+	ADC_Cmd(adc_dev->cfg->adc_dev_master, ENABLE);
 
 	PIOS_DELAY_WaituS(10);
-	ADC_ResetCalibration(ADC1);
-	while(ADC_GetResetCalibrationStatus(ADC1));
-	ADC_StartCalibration(ADC1);
-	while (ADC_GetCalibrationStatus(ADC1));
+	ADC_ResetCalibration(adc_dev->cfg->adc_dev_master);
+	while(ADC_GetResetCalibrationStatus(adc_dev->cfg->adc_dev_master));
+	ADC_StartCalibration(adc_dev->cfg->adc_dev_master);
+	while (ADC_GetCalibrationStatus(adc_dev->cfg->adc_dev_master));
 
 	/* Enable ADC->DMA request */
-	ADC_DMACmd(ADC1, ENABLE);
+	ADC_DMACmd(adc_dev->cfg->adc_dev_master, ENABLE);
 
 	PIOS_DELAY_WaituS(10);
-	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+	ADC_SoftwareStartConvCmd(adc_dev->cfg->adc_dev_master, ENABLE);
 }
 
 /**
  * @brief Init the ADC.
  */
-int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_internal_adc_cfg * cfg)
+int32_t PIOS_INTERNAL_ADC_LIGHT_Init(uint32_t *internal_adc_id, 
+		const struct pios_internal_adc_cfg *cfg, 
+		uint16_t number_of_used_pins)
 {
 	PIOS_DEBUG_Assert(internal_adc_id); PIOS_DEBUG_Assert(cfg);
 
+	// Only ADC1 is supported by this driver
+	if(cfg->adc_dev_master != ADC1)
+		return -2;
+
 	struct pios_internal_adc_dev * adc_dev;
 	adc_dev = PIOS_INTERNAL_ADC_Allocate();
-	if (adc_dev == NULL )
+	if(adc_dev == NULL )
 		return -1;
 	adc_dev->cfg = cfg;
+	adc_dev->number_of_used_pins = number_of_used_pins;
 
 	*internal_adc_id = (uint32_t) adc_dev;
 
 	// DMA transfer size in units defined by DMA_PeripheralDataSize, 32bits for dual mode and 16bits for single mode
-	adc_dev->dma_transfer_size = adc_dev->cfg->number_of_used_pins;
+	adc_dev->dma_transfer_size = adc_dev->number_of_used_pins;
 	adc_dev->raw_data_buffer = PIOS_malloc(adc_dev->dma_transfer_size * sizeof(uint16_t));
 	if (adc_dev->raw_data_buffer == NULL )
 		return -1;
 
-	PIOS_INTERNAL_ADC_PinConfig((uint32_t) adc_dev);
+	if(PIOS_INTERNAL_ADC_PinConfig((uint32_t) adc_dev) != 0)
+		return -3;
 
 	PIOS_INTERNAL_DMAConfig((uint32_t) adc_dev);
 
@@ -228,7 +248,7 @@ static bool PIOS_INTERNAL_ADC_Available(uint32_t internal_adc_id, uint32_t pin)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
 	/* Check if pin exists */
-	if (pin >= adc_dev->cfg->number_of_used_pins) {
+	if(pin >= adc_dev->number_of_used_pins) {
 		return false;
 	}
 	return true;
@@ -242,9 +262,9 @@ static bool PIOS_INTERNAL_ADC_Available(uint32_t internal_adc_id, uint32_t pin)
 static uint8_t PIOS_INTERNAL_ADC_NumberOfChannels(uint32_t internal_adc_id)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
-	if (!PIOS_INTERNAL_ADC_validate(adc_dev))
+	if(!PIOS_INTERNAL_ADC_validate(adc_dev))
 		return 0;
-	return adc_dev->cfg->number_of_used_pins;
+	return adc_dev->number_of_used_pins;
 
 }
 
@@ -259,7 +279,7 @@ static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
 
 	/* Check if pin exists */
-	if (pin >= adc_dev->cfg->number_of_used_pins) {
+	if(pin >= adc_dev->number_of_used_pins) {
 		return -1;
 	}
 
@@ -275,7 +295,7 @@ static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 static float PIOS_INTERNAL_ADC_LSB_Voltage(uint32_t internal_adc_id)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
-	if (!PIOS_INTERNAL_ADC_validate(adc_dev)) {
+	if(!PIOS_INTERNAL_ADC_validate(adc_dev)) {
 		return 0;
 	}
         return VREF_PLUS / (((uint32_t)1 << 12) - 1);

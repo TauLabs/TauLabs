@@ -239,7 +239,7 @@ const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32
 
 #if defined(PIOS_INCLUDE_ADC)
 #include "pios_adc_priv.h"
-#include "pios_internal_adc_priv.h"
+#include "pios_internal_adc_light_priv.h"
 
 /**
  * ADC0 : PA4 ADC_IN4
@@ -247,7 +247,7 @@ const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32
  * ADC2 : PA1 ADC_IN1
  * ADC3 : PB1 ADC_IN9
  */
-static /*const*/ struct pios_internal_adc_cfg internal_adc_cfg = {
+static const struct pios_internal_adc_cfg internal_adc_cfg = {
 	.dma = {
 		.ahb_clk  = RCC_AHBPeriph_DMA1,
 		.rx = {
@@ -257,7 +257,8 @@ static /*const*/ struct pios_internal_adc_cfg internal_adc_cfg = {
 			},
 		}
 	},
-	.number_of_used_pins = 4,
+	.number_of_used_pins = 4, // this is the max number, can be reduced at runtime (due to port config)
+	.adc_dev_master = ADC1,
 	.adc_pins = (struct adc_pin[]){
 		{GPIOA, GPIO_Pin_4, ADC_Channel_4, true},  // VBat
 		{GPIOA, GPIO_Pin_5, ADC_Channel_5, true},  // ADC Pad

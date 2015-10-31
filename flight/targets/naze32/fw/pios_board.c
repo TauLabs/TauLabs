@@ -505,8 +505,7 @@ void PIOS_Board_Init(void) {
 			break;
 		}
 		uint32_t internal_adc_id;
-		internal_adc_cfg.number_of_used_pins = number_of_adc_pins;
-		PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg);
+		PIOS_INTERNAL_ADC_LIGHT_Init(&internal_adc_id, &internal_adc_cfg, number_of_adc_pins);
 		PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
 	}
 #endif /* PIOS_INCLUDE_ADC */
