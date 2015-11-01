@@ -216,9 +216,11 @@ static void _msp_send_attitude(struct msp_bridge *m)
 
 	AttitudeActualGet(&attActual);
 
+	// Roll and Pitch are in 10ths of a degree.
 	data.att.x = attActual.Roll * 10;
 	data.att.y = attActual.Pitch * -10;
-	data.att.h = 0 * 10;
+	// Yaw is just -180 -> 180
+	data.att.h = attActual.Yaw;
 
 	msp_send(m, MSP_ATTITUDE, data.buf, sizeof(data));
 }
