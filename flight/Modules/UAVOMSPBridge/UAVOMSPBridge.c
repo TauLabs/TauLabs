@@ -35,6 +35,7 @@
 #include "flightbatterystate.h"
 #include "gpsposition.h"
 #include "manualcontrolcommand.h"
+#include "manualcontrolsettings.h"
 #include "attitudeactual.h"
 #include "airspeedactual.h"
 #include "actuatorsettings.h"
@@ -125,6 +126,7 @@ typedef enum {
 } msp_state;
 
 struct msp_bridge {
+	ManualControlSettingsData cmdSettings;
 	uintptr_t com;
 
 	msp_state _state;
@@ -146,6 +148,7 @@ struct msp_bridge {
 #define TASK_PRIORITY               PIOS_THREAD_PRIO_LOW
 
 static bool module_enabled;
+static volatile bool cmd_settings_updated = true;
 extern uintptr_t pios_com_msp_id;
 static struct msp_bridge *msp;
 static int32_t uavoMSPBridgeInitialize(void);
@@ -335,42 +338,54 @@ static void _msp_send_altitude(struct msp_bridge *m)
 	msp_send(m, MSP_ALTITUDE, data.buf, sizeof(data));
 }
 
+static uint16_t _msp_scale_rc(struct msp_bridge *m,
+			      ManualControlCommandData manualState,
+			      int channel_num)
+{
+	int val = manualState.Channel[channel_num];
+	int min = m->cmdSettings.ChannelMin[channel_num];
+	int max = m->cmdSettings.ChannelMax[channel_num];
+	int idle = m->cmdSettings.ChannelNeutral[channel_num];
+
+	// Min and max may be reversed.
+	if (min > max) {
+		int tmp = min;
+		min = max;
+		max = tmp;
+	}
+	// If the value is outside of the given range, return the
+	// neutral value.
+	if (val < min || val > max) {
+		return idle;
+	}
+
+	return (((val - min) * 1000) / (max - min)) + 1000;
+}
+
+// MSP RC order is Roll/Pitch/Yaw/Throttle/AUX1/AUX2/AUX3/AUX4
 static void _msp_send_channels(struct msp_bridge *m)
 {
 	ManualControlCommandData manualState;
 	ManualControlCommandGet(&manualState);
-
-	// MSP RC order is Roll/Pitch/Yaw/Throttle/AUX1/AUX2/AUX3/AUX4
-	static const uint8_t channel_map[] = {
-		MANUALCONTROLCOMMAND_CHANNEL_ROLL,
-		MANUALCONTROLCOMMAND_CHANNEL_PITCH,
-		MANUALCONTROLCOMMAND_CHANNEL_YAW,
-		MANUALCONTROLCOMMAND_CHANNEL_THROTTLE,
-		MANUALCONTROLCOMMAND_CHANNEL_FLIGHTMODE,
-		MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY0,
-		MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY1,
-		MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY2,
-	};
+	if (cmd_settings_updated) {
+		cmd_settings_updated = false;
+		ManualControlSettingsGet(&m->cmdSettings);
+	}
 
 	union {
 		uint8_t buf[0];
 		uint16_t channels[8];
-	} data;
-
-	int throttle = manualState.Channel[MANUALCONTROLCOMMAND_CHANNEL_THROTTLE];
-	if (throttle > 500 && throttle < 3000) {
-		// Normal stuff.
-		for (int i = 0; i < 8; i++) {
-			data.channels[i] = manualState.Channel[channel_map[i]];
-		}
-	} else {
-		// Out of bound values indicate rc is not connected.
-		ActuatorSettingsData actuatorSettings;
-		ActuatorSettingsGet(&actuatorSettings);
-		for (int i = 0; i < 8; i++) {
-			data.channels[i] = actuatorSettings.ChannelNeutral[channel_map[i]];
-		}
-	}
+	} data = {
+		.channels = {
+			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_ROLL),
+			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_PITCH),
+			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_YAW),
+			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_THROTTLE),
+			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_FLIGHTMODE),
+			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY0),
+			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY1),
+			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY2),
+		}};
 
 	msp_send(m, MSP_RC, data.buf, sizeof(data));
 }
@@ -542,6 +557,10 @@ static void setMSPSpeed(struct msp_bridge *m)
 	}
 }
 
+static void _msp_cmd_settings_update_cb(UAVObjEvent * ev)
+{
+	cmd_settings_updated = true;
+}
 
 /**
  * Module initialization routine
@@ -562,6 +581,8 @@ static int32_t uavoMSPBridgeInitialize(void)
 			msp->com = pios_com_msp_id;
 
 			setMSPSpeed(msp);
+			ManualControlSettingsConnectCallback(_msp_cmd_settings_update_cb);
+
 			module_enabled = true;
 			return 0;
 		}
