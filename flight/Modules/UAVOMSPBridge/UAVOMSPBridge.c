@@ -288,12 +288,13 @@ static void _msp_send_analog(struct msp_bridge *m)
 		FlightBatterySettingsGet(&batSettings);
 	}
 
-	// TODO:  Verify these with a board that has working power stuff
 	if (batSettings.VoltagePin != FLIGHTBATTERYSETTINGS_VOLTAGEPIN_NONE)
 		data.status.vbat = (uint8_t)lroundf(batState.Voltage * 10);
 
-	if (batSettings.CurrentPin != FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE)
+	if (batSettings.CurrentPin != FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE) {
 		data.status.current = lroundf(batState.Current * 100);
+		data.status.powerMeterSum = lroundf(batState.ConsumedEnergy);
+	}
 
 	ManualControlCommandData manualState;
 	ManualControlCommandGet(&manualState);
