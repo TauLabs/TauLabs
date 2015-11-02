@@ -35,7 +35,7 @@
 #include "flightbatterystate.h"
 #include "gpsposition.h"
 #include "manualcontrolcommand.h"
-#include "manualcontrolsettings.h"
+#include "accessorydesired.h"
 #include "attitudeactual.h"
 #include "airspeedactual.h"
 #include "actuatorsettings.h"
@@ -126,7 +126,6 @@ typedef enum {
 } msp_state;
 
 struct msp_bridge {
-	ManualControlSettingsData cmdSettings;
 	uintptr_t com;
 
 	msp_state _state;
@@ -148,7 +147,6 @@ struct msp_bridge {
 #define TASK_PRIORITY               PIOS_THREAD_PRIO_LOW
 
 static bool module_enabled;
-static volatile bool cmd_settings_updated = true;
 extern uintptr_t pios_com_msp_id;
 static struct msp_bridge *msp;
 static int32_t uavoMSPBridgeInitialize(void);
@@ -339,54 +337,46 @@ static void _msp_send_altitude(struct msp_bridge *m)
 	msp_send(m, MSP_ALTITUDE, data.buf, sizeof(data));
 }
 
-static uint16_t _msp_scale_rc(struct msp_bridge *m,
-			      ManualControlCommandData manualState,
-			      int channel_num)
-{
-	int val = manualState.Channel[channel_num];
-	int min = m->cmdSettings.ChannelMin[channel_num];
-	int max = m->cmdSettings.ChannelMax[channel_num];
-	int idle = m->cmdSettings.ChannelNeutral[channel_num];
+// Scale stick values whose input range is -1 to 1 to MSP's expected
+// PWM range of 1000-2000.
+static uint16_t _msp_scale_rc(float percent) {
+	return percent*500 + 1500;
+}
 
-	// Min and max may be reversed.
-	if (min > max) {
-		int tmp = min;
-		min = max;
-		max = tmp;
-	}
-	// If the value is outside of the given range, return the
-	// neutral value.
-	if (val < min || val > max) {
-		return idle;
-	}
-
-	return (((val - min) * 1000) / (max - min)) + 1000;
+// Throttle maps to 1100-1900 and a bit differently as -1 == 1000 and
+// then jumps immediately to 0 -> 1 for the rest of the range.  MWOSD
+// can learn ranges as wide as they are sent, but defaults to
+// 1100-1900 so the throttle indicator will vary for the same stick
+// position unless we send it what it wants right away.
+static uint16_t _msp_scale_rc_thr(float percent) {
+	return percent <= 0 ? 1100 : percent*800 + 1100;
 }
 
 // MSP RC order is Roll/Pitch/Yaw/Throttle/AUX1/AUX2/AUX3/AUX4
 static void _msp_send_channels(struct msp_bridge *m)
 {
+	AccessoryDesiredData acc0, acc1, acc2;
 	ManualControlCommandData manualState;
 	ManualControlCommandGet(&manualState);
-	if (cmd_settings_updated) {
-		cmd_settings_updated = false;
-		ManualControlSettingsGet(&m->cmdSettings);
-	}
+	AccessoryDesiredInstGet(0, &acc0);
+	AccessoryDesiredInstGet(1, &acc1);
+	AccessoryDesiredInstGet(2, &acc2);
 
 	union {
 		uint8_t buf[0];
 		uint16_t channels[8];
 	} data = {
 		.channels = {
-			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_ROLL),
-			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_PITCH),
-			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_YAW),
-			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_THROTTLE),
-			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_FLIGHTMODE),
-			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY0),
-			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY1),
-			_msp_scale_rc(m, manualState, MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY2),
-		}};
+			_msp_scale_rc(manualState.Roll),
+			_msp_scale_rc(manualState.Pitch * -1), // TL pitch is backwards
+			_msp_scale_rc(manualState.Yaw),
+			_msp_scale_rc_thr(manualState.Throttle),
+			_msp_scale_rc(acc0.AccessoryVal),
+			_msp_scale_rc(acc1.AccessoryVal),
+			_msp_scale_rc(acc2.AccessoryVal),
+			1000, // no aux4
+		}
+	};
 
 	msp_send(m, MSP_RC, data.buf, sizeof(data));
 }
@@ -558,11 +548,6 @@ static void setMSPSpeed(struct msp_bridge *m)
 	}
 }
 
-static void _msp_cmd_settings_update_cb(UAVObjEvent * ev)
-{
-	cmd_settings_updated = true;
-}
-
 /**
  * Module initialization routine
  * @return 0 when initialization was successful
@@ -582,7 +567,6 @@ static int32_t uavoMSPBridgeInitialize(void)
 			msp->com = pios_com_msp_id;
 
 			setMSPSpeed(msp);
-			ManualControlSettingsConnectCallback(_msp_cmd_settings_update_cb);
 
 			module_enabled = true;
 			return 0;
