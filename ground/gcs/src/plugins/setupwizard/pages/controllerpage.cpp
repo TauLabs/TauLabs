@@ -75,7 +75,12 @@ void ControllerPage::initializePage()
 
 bool ControllerPage::isComplete() const
 {
-    return (getControllerType() != NULL) &&
+    Core::IBoardType* type = getControllerType();
+
+    if (type == NULL)
+        return false;
+
+    return !type->isUSBSupported() ||
            m_connectionManager->getCurrentDevice().getConName().startsWith("USB:", Qt::CaseInsensitive);
 }
 
