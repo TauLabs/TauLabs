@@ -43,7 +43,7 @@ Naze::Naze(void)
     boardType = 0xA0;
 
     // Define the bank of channels that are connected to a given timer
-    channelBanks.resize(6);
+    channelBanks.resize(4);
     channelBanks[0] = QVector<int> () << 1 << 2; // T1
     channelBanks[1] = QVector<int> () << 3 << 4 << 5 << 6; // T4
     channelBanks[2] = QVector<int> () << 7 << 8 << 9 << 10; // T2
@@ -57,7 +57,7 @@ Naze::~Naze()
 
 QString Naze::shortName()
 {
-    return QString("naze");
+    return QString("Naze");
 }
 
 QString Naze::boardDescription()
