@@ -69,5 +69,6 @@ NO_AUTO_UAVO = YES
 include $(MAKE_INC_DIR)/firmware-common.mk
 
 $(OUTDIR)/libuavobject.a: $(ALLOBJ)
-	$(AR) rs $@ $?
+	@echo $(MSG_AR) $(call toprel, $@)
+	$(V1) $(AR) crs $@ $?
 
