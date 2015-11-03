@@ -143,7 +143,7 @@ class VehicleConfig: public ConfigTaskWidget
         QStringList mixerVectors;
         QStringList mixerTypeDescriptions;
 
-        static constexpr double mixerRange = 127.0;
+        const static double mixerRange;
 
     private:
 
@@ -159,5 +159,4 @@ class VehicleConfig: public ConfigTaskWidget
 protected:
 
 };
-
 #endif // GUIVEHICLECONFIG_H

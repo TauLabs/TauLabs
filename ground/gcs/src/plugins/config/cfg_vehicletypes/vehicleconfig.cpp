@@ -34,6 +34,8 @@
 
 #include <QDebug>
 
+const double VehicleConfig::mixerRange = 127.0;
+
 VehicleConfig::VehicleConfig(QWidget *parent) : ConfigTaskWidget(parent)
 {
     //Generate lists of mixerTypeNames, mixerVectorNames, channelNames
