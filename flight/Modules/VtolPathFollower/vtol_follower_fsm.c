@@ -606,17 +606,29 @@ static void go_enable_fly_path()
 }
 
 /**
- * Enable holding position at current location for 10 s. Uses a minimum altitude for
- * the vertical altitude. Configures for hold.
+ * Enable holding position at current location for 10 s. 
  */
 static void go_enable_pause_10s_here()
 {
 	PositionActualData positionActual;
 	PositionActualGet(&positionActual);
 
-	// Make sure we return at a minimum of 15 m above home
-	if (positionActual.Down > -RTH_MIN_ALTITUDE)
-		positionActual.Down = -RTH_MIN_ALTITUDE;
+	// Previously this would climb all the way to the minimum altitude
+	// immediately.  IMO this doesn't match the intent of the initial RTH
+	// pause (rise is in the next state).  It has also caused issues
+	// when a burst of full throttle from the combined effect of altitude
+	// error and the impulse from application of the mode destabilized
+	// flaky quads.
+	//
+	// On the other hand, if we're too low, it's advantageous to rise
+	// at least a small amount immediately.  It's also good to not set our
+	// hold position too low from any immediate altimeter error.
+	// So climb 1.5m right away. -mpl
+
+	if (positionActual.Down > -RTH_MIN_ALTITUDE) {
+		positionActual.Down = fmaxf(-RTH_MIN_ALTITUDE,
+				positionActual.Down - 1.5f);
+	}
 
 	hold_position(positionActual.North, positionActual.East, positionActual.Down);
 }
