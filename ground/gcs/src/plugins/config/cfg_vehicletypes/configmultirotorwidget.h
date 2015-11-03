@@ -69,6 +69,7 @@ private:
     virtual void ResetActuators(GUIConfigDataUnion* configData);
     static QStringList getChannelDescriptions();
     static const QString CHANNELBOXNAME;
+    static const QString CHANNELLABELNAME;
     void setYawMixLevel(int);
 
     void drawAirframe(SystemSettings::AirframeTypeOptions multiRotorType);
