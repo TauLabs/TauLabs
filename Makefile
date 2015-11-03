@@ -5,7 +5,7 @@ WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 ROOT_DIR := $(realpath $(WHEREAMI)/ )
 
 # import macros common to all supported build systems
-include $(CURDIR)/make/system-id.mk
+include $(ROOT_DIR)/make/system-id.mk
 
 # configure some directories that are relative to wherever ROOT_DIR is located
 TOOLS_DIR := $(ROOT_DIR)/tools
@@ -257,6 +257,8 @@ $(BUILD_DIR):
 #
 ##############################
 
+GMAKE?=$(MAKE) --no-print-directory -w 
+
 .PHONY: all_ground
 all_ground: gcs
 
@@ -274,7 +276,7 @@ gcs:  uavobjects
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
 	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
 	  PYTHON=$(PYTHON) $(QMAKE) $(ROOT_DIR)/ground/gcs/gcs.pro -spec $(QT_SPEC) -r CONFIG+="$(GCS_BUILD_CONF) $(GCS_SILENT)" $(GCS_QMAKE_OPTS) && \
-	  $(MAKE) -w ; \
+	  $(GMAKE) ; \
 	)
 
 # Workaround for qmake bug that prevents copying the application icon
@@ -303,7 +305,7 @@ uavobjgenerator:
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
 	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
 	  PYTHON=$(PYTHON) $(QMAKE) $(ROOT_DIR)/ground/uavobjgenerator/uavobjgenerator.pro -spec $(QT_SPEC) -r CONFIG+="debug $(UAVOGEN_SILENT)" && \
-	  $(MAKE) --no-print-directory -w ; \
+	  $(GMAKE); \
 	)
 
 UAVOBJ_XML_DIR := $(ROOT_DIR)/shared/uavobjectdefinition
