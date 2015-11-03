@@ -93,9 +93,11 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGeofence, ModuleSettings::ADMINSTATE_GEOFENCE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbAutotune, ModuleSettings::ADMINSTATE_AUTOTUNE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOMSPBridge, ModuleSettings::ADMINSTATE_UAVOMSPBRIDGE);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbTxPid, ModuleSettings::ADMINSTATE_TXPID);
 
-    // Don't allow this to be changed here, only in the autotune tab.
+    // Don't allow these to be changed here, only in the respective tabs.
     ui->cbAutotune->setDisabled(true);
+    ui->cbTxPid->setDisabled(true);
 
     // Connect the voltage and current checkboxes, such that the ADC pins are toggled and vice versa
     connect(ui->gb_measureVoltage, SIGNAL(toggled(bool)), this, SLOT(toggleBatteryMonitoringPin()));
@@ -385,6 +387,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->cbUAVOMSPBridge->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbUAVOMSPBridge->setProperty(falseString.toLatin1(), "Disabled");
 
+    ui->cbTxPid->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbTxPid->setProperty(falseString.toLatin1(), "Disabled");
+
     enableBatteryTab(false);
     enableAirspeedTab(false);
     enableVibrationTab(false);
@@ -455,8 +460,9 @@ void ConfigModuleWidget::recheckTabs()
     obj->requestUpdate();
 
     // This requires re-evaluation so that board connection doesn't re-enable
-    // the field.
+    // the fields.
     ui->cbAutotune->setDisabled(true);
+    ui->cbTxPid->setDisabled(true);
 }
 
 //! Enable appropriate tab when objects are updated
