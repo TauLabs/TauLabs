@@ -35,6 +35,7 @@
 #include "flightbatterystate.h"
 #include "gpsposition.h"
 #include "manualcontrolcommand.h"
+#include "accessorydesired.h"
 #include "attitudeactual.h"
 #include "airspeedactual.h"
 #include "actuatorsettings.h"
@@ -127,15 +128,15 @@ typedef enum {
 struct msp_bridge {
 	uintptr_t com;
 
-	msp_state _state;
-	uint8_t _cmd_size;
-	uint8_t _cmd_id;
-	uint8_t _cmd_i;
-	uint8_t _checksum;
+	msp_state state;
+	uint8_t cmd_size;
+	uint8_t cmd_id;
+	uint8_t cmd_i;
+	uint8_t checksum;
 	union {
 		uint8_t data[0];
 		// Specific packed data structures go here.
-	} _cmd_data;
+	} cmd_data;
 };
 
 #if defined(PIOS_MSP_STACK_SIZE)
@@ -176,33 +177,33 @@ static void msp_send(struct msp_bridge *m, uint8_t cmd, uint8_t *data, size_t le
 
 static msp_state msp_state_size(struct msp_bridge *m, uint8_t b)
 {
-	m->_cmd_size = b;
-	m->_checksum = b;
+	m->cmd_size = b;
+	m->checksum = b;
 	return MSP_HEADER_CMD;
 }
 
 static msp_state msp_state_cmd(struct msp_bridge *m, uint8_t b)
 {
-	m->_cmd_i = 0;
-	m->_cmd_id = b;
-	m->_checksum ^= m->_cmd_id;
+	m->cmd_i = 0;
+	m->cmd_id = b;
+	m->checksum ^= m->cmd_id;
 
-	if (m->_cmd_size > sizeof(m->_cmd_data)) {
+	if (m->cmd_size > sizeof(m->cmd_data)) {
 		// Too large a body.  Let's ignore it.
 		return MSP_DISCARD;
 	}
 
-	return m->_cmd_size == 0 ? MSP_CHECKSUM : MSP_FILLBUF;
+	return m->cmd_size == 0 ? MSP_CHECKSUM : MSP_FILLBUF;
 }
 
 static msp_state msp_state_fill_buf(struct msp_bridge *m, uint8_t b)
 {
-	m->_cmd_data.data[m->_cmd_i++] = b;
-	m->_checksum ^= b;
-	return m->_cmd_i == m->_cmd_size ? MSP_CHECKSUM : MSP_FILLBUF;
+	m->cmd_data.data[m->cmd_i++] = b;
+	m->checksum ^= b;
+	return m->cmd_i == m->cmd_size ? MSP_CHECKSUM : MSP_FILLBUF;
 }
 
-static void _msp_send_attitude(struct msp_bridge *m)
+static void msp_send_attitude(struct msp_bridge *m)
 {
 	union {
 		uint8_t buf[0];
@@ -216,14 +217,16 @@ static void _msp_send_attitude(struct msp_bridge *m)
 
 	AttitudeActualGet(&attActual);
 
+	// Roll and Pitch are in 10ths of a degree.
 	data.att.x = attActual.Roll * 10;
 	data.att.y = attActual.Pitch * -10;
-	data.att.h = 0 * 10;
+	// Yaw is just -180 -> 180
+	data.att.h = attActual.Yaw;
 
 	msp_send(m, MSP_ATTITUDE, data.buf, sizeof(data));
 }
 
-static void _msp_send_status(struct msp_bridge *m)
+static void msp_send_status(struct msp_bridge *m)
 {
 	union {
 		uint8_t buf[0];
@@ -261,7 +264,7 @@ static void _msp_send_status(struct msp_bridge *m)
 	msp_send(m, MSP_STATUS, data.buf, sizeof(data));
 }
 
-static void _msp_send_analog(struct msp_bridge *m)
+static void msp_send_analog(struct msp_bridge *m)
 {
 	union {
 		uint8_t buf[0];
@@ -283,12 +286,13 @@ static void _msp_send_analog(struct msp_bridge *m)
 		FlightBatterySettingsGet(&batSettings);
 	}
 
-	// TODO:  Verify these with a board that has working power stuff
 	if (batSettings.VoltagePin != FLIGHTBATTERYSETTINGS_VOLTAGEPIN_NONE)
 		data.status.vbat = (uint8_t)lroundf(batState.Voltage * 10);
 
-	if (batSettings.CurrentPin != FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE)
-		data.status.current = lroundf(batState.Current * 10);
+	if (batSettings.CurrentPin != FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE) {
+		data.status.current = lroundf(batState.Current * 100);
+		data.status.powerMeterSum = lroundf(batState.ConsumedEnergy);
+	}
 
 	ManualControlCommandData manualState;
 	ManualControlCommandGet(&manualState);
@@ -299,22 +303,22 @@ static void _msp_send_analog(struct msp_bridge *m)
 	msp_send(m, MSP_ANALOG, data.buf, sizeof(data));
 }
 
-static void _msp_send_ident(struct msp_bridge *m)
+static void msp_send_ident(struct msp_bridge *m)
 {
 	// TODO
 }
 
-static void _msp_send_raw_gps(struct msp_bridge *m)
+static void msp_send_raw_gps(struct msp_bridge *m)
 {
 	// TODO
 }
 
-static void _msp_send_comp_gps(struct msp_bridge *m)
+static void msp_send_comp_gps(struct msp_bridge *m)
 {
 	// TODO
 }
 
-static void _msp_send_altitude(struct msp_bridge *m)
+static void msp_send_altitude(struct msp_bridge *m)
 {
 	union {
 		uint8_t buf[0];
@@ -333,47 +337,51 @@ static void _msp_send_altitude(struct msp_bridge *m)
 	msp_send(m, MSP_ALTITUDE, data.buf, sizeof(data));
 }
 
-static void _msp_send_channels(struct msp_bridge *m)
+// Scale stick values whose input range is -1 to 1 to MSP's expected
+// PWM range of 1000-2000.
+static uint16_t msp_scale_rc(float percent) {
+	return percent*500 + 1500;
+}
+
+// Throttle maps to 1100-1900 and a bit differently as -1 == 1000 and
+// then jumps immediately to 0 -> 1 for the rest of the range.  MWOSD
+// can learn ranges as wide as they are sent, but defaults to
+// 1100-1900 so the throttle indicator will vary for the same stick
+// position unless we send it what it wants right away.
+static uint16_t msp_scale_rc_thr(float percent) {
+	return percent <= 0 ? 1100 : percent*800 + 1100;
+}
+
+// MSP RC order is Roll/Pitch/Yaw/Throttle/AUX1/AUX2/AUX3/AUX4
+static void msp_send_channels(struct msp_bridge *m)
 {
+	AccessoryDesiredData acc0, acc1, acc2;
 	ManualControlCommandData manualState;
 	ManualControlCommandGet(&manualState);
-
-	// MSP RC order is Roll/Pitch/Yaw/Throttle/AUX1/AUX2/AUX3/AUX4
-	static const uint8_t channel_map[] = {
-		MANUALCONTROLCOMMAND_CHANNEL_ROLL,
-		MANUALCONTROLCOMMAND_CHANNEL_PITCH,
-		MANUALCONTROLCOMMAND_CHANNEL_YAW,
-		MANUALCONTROLCOMMAND_CHANNEL_THROTTLE,
-		MANUALCONTROLCOMMAND_CHANNEL_FLIGHTMODE,
-		MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY0,
-		MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY1,
-		MANUALCONTROLCOMMAND_CHANNEL_ACCESSORY2,
-	};
+	AccessoryDesiredInstGet(0, &acc0);
+	AccessoryDesiredInstGet(1, &acc1);
+	AccessoryDesiredInstGet(2, &acc2);
 
 	union {
 		uint8_t buf[0];
 		uint16_t channels[8];
-	} data;
-
-	int throttle = manualState.Channel[MANUALCONTROLCOMMAND_CHANNEL_THROTTLE];
-	if (throttle > 500 && throttle < 3000) {
-		// Normal stuff.
-		for (int i = 0; i < 8; i++) {
-			data.channels[i] = manualState.Channel[channel_map[i]];
+	} data = {
+		.channels = {
+			msp_scale_rc(manualState.Roll),
+			msp_scale_rc(manualState.Pitch * -1), // TL pitch is backwards
+			msp_scale_rc(manualState.Yaw),
+			msp_scale_rc_thr(manualState.Throttle),
+			msp_scale_rc(acc0.AccessoryVal),
+			msp_scale_rc(acc1.AccessoryVal),
+			msp_scale_rc(acc2.AccessoryVal),
+			1000, // no aux4
 		}
-	} else {
-		// Out of bound values indicate rc is not connected.
-		ActuatorSettingsData actuatorSettings;
-		ActuatorSettingsGet(&actuatorSettings);
-		for (int i = 0; i < 8; i++) {
-			data.channels[i] = actuatorSettings.ChannelNeutral[channel_map[i]];
-		}
-	}
+	};
 
 	msp_send(m, MSP_RC, data.buf, sizeof(data));
 }
 
-static void _msp_send_boxids(struct msp_bridge *m) {
+static void msp_send_boxids(struct msp_bridge *m) {
 	uint8_t boxes[MSP_BOX_LAST];
 	int len = 0;
 
@@ -385,38 +393,38 @@ static void _msp_send_boxids(struct msp_bridge *m) {
 
 static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
 {
-	if ((m->_checksum ^ b) != 0) {
+	if ((m->checksum ^ b) != 0) {
 		return MSP_IDLE;
 	}
 
 	// Respond to interesting things.
-	switch (m->_cmd_id) {
+	switch (m->cmd_id) {
 	case MSP_IDENT:
-		_msp_send_ident(m);
+		msp_send_ident(m);
 		break;
 	case MSP_RAW_GPS:
-		_msp_send_raw_gps(m);
+		msp_send_raw_gps(m);
 		break;
 	case MSP_COMP_GPS:
-		_msp_send_comp_gps(m);
+		msp_send_comp_gps(m);
 		break;
 	case MSP_ALTITUDE:
-		_msp_send_altitude(m);
+		msp_send_altitude(m);
 		break;
 	case MSP_ATTITUDE:
-		_msp_send_attitude(m);
+		msp_send_attitude(m);
 		break;
 	case MSP_STATUS:
-		_msp_send_status(m);
+		msp_send_status(m);
 		break;
 	case MSP_ANALOG:
-		_msp_send_analog(m);
+		msp_send_analog(m);
 		break;
 	case MSP_RC:
-		_msp_send_channels(m);
+		msp_send_channels(m);
 		break;
 	case MSP_BOXIDS:
-		_msp_send_boxids(m);
+		msp_send_boxids(m);
 		break;
 	}
 	return MSP_IDLE;
@@ -424,7 +432,7 @@ static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
 
 static msp_state msp_state_discard(struct msp_bridge *m, uint8_t b)
 {
-	return m->_cmd_i++ == m->_cmd_size ? MSP_IDLE : MSP_DISCARD;
+	return m->cmd_i++ == m->cmd_size ? MSP_IDLE : MSP_DISCARD;
 }
 
 /**
@@ -434,51 +442,51 @@ static msp_state msp_state_discard(struct msp_bridge *m, uint8_t b)
  */
 static bool msp_receive_byte(struct msp_bridge *m, uint8_t b)
 {
-	switch (m->_state) {
+	switch (m->state) {
 	case MSP_IDLE:
 		switch (b) {
 		case '<': // uavtalk matching with 0x3c 0x2x 0xxx 0x0x
-			m->_state = MSP_MAYBE_UAVTALK2;
+			m->state = MSP_MAYBE_UAVTALK2;
 			break;
 		case '$':
-			m->_state = MSP_HEADER_START;
+			m->state = MSP_HEADER_START;
 			break;
 		default:
-			m->_state = MSP_IDLE;
+			m->state = MSP_IDLE;
 		}
 		break;
 	case MSP_HEADER_START:
-		m->_state = b == 'M' ? MSP_HEADER_M : MSP_IDLE;
+		m->state = b == 'M' ? MSP_HEADER_M : MSP_IDLE;
 		break;
 	case MSP_HEADER_M:
-		m->_state = b == '<' ? MSP_HEADER_SIZE : MSP_IDLE;
+		m->state = b == '<' ? MSP_HEADER_SIZE : MSP_IDLE;
 		break;
 	case MSP_HEADER_SIZE:
-		m->_state = msp_state_size(m, b);
+		m->state = msp_state_size(m, b);
 		break;
 	case MSP_HEADER_CMD:
-		m->_state = msp_state_cmd(m, b);
+		m->state = msp_state_cmd(m, b);
 		break;
 	case MSP_FILLBUF:
-		m->_state = msp_state_fill_buf(m, b);
+		m->state = msp_state_fill_buf(m, b);
 		break;
 	case MSP_CHECKSUM:
-		m->_state = msp_state_checksum(m, b);
+		m->state = msp_state_checksum(m, b);
 		break;
 	case MSP_DISCARD:
-		m->_state = msp_state_discard(m, b);
+		m->state = msp_state_discard(m, b);
 		break;
 	case MSP_MAYBE_UAVTALK2:
 		// e.g. 3c 20 1d 00
 		// second possible uavtalk byte
-		m->_state = (b&0xf0) == 0x20 ? MSP_MAYBE_UAVTALK3 : MSP_IDLE;
+		m->state = (b&0xf0) == 0x20 ? MSP_MAYBE_UAVTALK3 : MSP_IDLE;
 		break;
 	case MSP_MAYBE_UAVTALK3:
 		// third possible uavtalk byte can be anything
-		m->_state = MSP_MAYBE_UAVTALK4;
+		m->state = MSP_MAYBE_UAVTALK4;
 		break;
 	case MSP_MAYBE_UAVTALK4:
-		m->_state = MSP_IDLE;
+		m->state = MSP_IDLE;
 		// If this looks like the fourth possible uavtalk byte, we're done
 		if ((b & 0xf0) == 0) {
 			PIOS_COM_TELEM_RF = m->com;
@@ -540,7 +548,6 @@ static void setMSPSpeed(struct msp_bridge *m)
 	}
 }
 
-
 /**
  * Module initialization routine
  * @return 0 when initialization was successful
@@ -560,6 +567,7 @@ static int32_t uavoMSPBridgeInitialize(void)
 			msp->com = pios_com_msp_id;
 
 			setMSPSpeed(msp);
+
 			module_enabled = true;
 			return 0;
 		}
